@@ -874,13 +874,13 @@ node scripts/list-specs.js --topics
 | 概要 | L8 |
 | ドキュメント構成 | L15 |
 | REST API エンドポイント一覧 | L25 |
-| エンドポイント命名規則 | L211 |
-| UBM-Hyogo Admin Sync API（03a） | L232 |
-| UBM-Hyogo Member Self-Service API（04b） | L283 |
-| Admin Dashboard Attendance Analytics API（UT-02A follow-up 002） | L309 |
-| Desktop IPC API サマリー | L323 |
-| 変更履歴 | L354 |
-| 関連ドキュメント | L371 |
+| エンドポイント命名規則 | L212 |
+| UBM-Hyogo Admin Sync API（03a） | L233 |
+| UBM-Hyogo Member Self-Service API（04b） | L284 |
+| Admin Dashboard Attendance Analytics API（UT-02A follow-up 002） | L310 |
+| Desktop IPC API サマリー | L324 |
+| 変更履歴 | L355 |
+| 関連ドキュメント | L372 |
 
 ### references/api-internal-chunk-search.md
 
@@ -976,7 +976,6 @@ node scripts/list-specs.js --topics
 | エラーハンドリング | L232 |
 | Conversation DB 初期化パターン | L263 |
 | UBM-Hyogo Schema Sync Contract（03a） | L265 |
-| ベクトル検索実装（DiskANN） | L375 |
 | ベクトル検索実装（DiskANN） | L385 |
 
 ### references/database-implementation-details.md
@@ -1097,20 +1096,13 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 1. 全体構成 | L16 |
 | 2. AdminSidebar | L51 |
-| 3. /admin（Dashboard） | L83 |
-| 4. /admin/members | L118 |
-| 5. /admin/tags | L216 |
-| 6. /admin/schema | L271 |
-| 7. /admin/meetings | L326 |
-| 8. 共通の Server/Client 契約 | L395 |
-| 9. 不変条件サマリ（admin UI） | L413 |
 | 3. /admin（Dashboard） | L77 |
 | 4. /admin/members | L112 |
 | 5. /admin/tags | L205 |
 | 6. /admin/schema | L260 |
-| 7. /admin/meetings | L314 |
-| 8. 共通の Server/Client 契約 | L383 |
-| 9. 不変条件サマリ（admin UI） | L401 |
+| 7. /admin/meetings | L315 |
+| 8. 共通の Server/Client 契約 | L384 |
+| 9. 不変条件サマリ（admin UI） | L402 |
 
 ### references/ui-ux-advanced.md
 
@@ -2100,6 +2092,15 @@ node scripts/list-specs.js --topics
 | implementation source-of-truth | L45 |
 | scope notes | L59 |
 
+### references/workflow-07c-followup-002-attendance-visual-smoke-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Canonical Workflow | L7 |
+| Implementation Artifacts | L16 |
+| Evidence Artifacts | L31 |
+| Boundaries | L50 |
+
 ### references/workflow-2b-admin-identity-conflicts-spec-artifact-inventory.md
 
 | セクション | 行 |
@@ -2249,6 +2250,16 @@ node scripts/list-specs.js --topics
 | 3. SKILL.md 入口導線 | L80 |
 | 4. 関連ファイル | L86 |
 | 変更履歴 | L93 |
+
+### references/workflow-i01-toastprovider-root-mount-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Metadata | L3 |
+| Implementation | L12 |
+| Evidence | L20 |
+| System Sync | L30 |
+| Runtime Boundary | L41 |
 
 ### references/workflow-issue-106-admin-member-notes-repository-task-spec-artifact-inventory.md
 
@@ -2639,35 +2650,6 @@ node scripts/list-specs.js --topics
 |------------|----|
 | User Gate | L22 |
 
-### references/workflow-issue-666-fetch-public-service-binding-regression-artifact-inventory.md
-
-| セクション | 行 |
-|------------|----|
-| State | L20 |
-
-### references/workflow-issue-667-stage3b-mock-api-fixture-coverage-artifact-inventory.md
-
-| セクション | 行 |
-|------------|----|
-| Workflow Artifacts | L12 |
-| Implementation Artifacts | L22 |
-| Canonical reference set | L35 |
-| New SSOT introduced | L46 |
-| Cross-link | L51 |
-| Boundary | L63 |
-
-### references/workflow-issue-668-paths-filter-shell-prelude-artifact-inventory.md
-
-| セクション | 行 |
-|------------|----|
-| メタ情報 | L3 |
-| Current Facts | L14 |
-| Implementation Targets | L33 |
-| Phase Outputs | L46 |
-| Skill 反映先 | L55 |
-| task-specification-creator 反映 | L68 |
-| Verification Commands | L75 |
-
 ### references/workflow-issue-718-legacy-cf-token-revocation-artifact-inventory.md
 
 | セクション | 行 |
@@ -2737,13 +2719,6 @@ node scripts/list-specs.js --topics
 | 検出した未タスク（更新: 2026-03-17） | L127 |
 | 関連ドキュメント | L137 |
 | 変更履歴 | L148 |
-
-### references/workflow-serial-05-step-02-identity-conflicts-merge-artifact-inventory.md
-
-| セクション | 行 |
-|------------|----|
-| Primary files | L10 |
-| Evidence | L20 |
 
 ### references/workflow-serial-05-step-03-schema-diff-resolve-artifact-inventory.md
 
@@ -3273,6 +3248,12 @@ node scripts/list-specs.js --topics
 | Current Canonical Set | L12 |
 | Open Follow-ups | L25 |
 
+### references/workflow-task-issue-299-schema-questions-fallback-retirement-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Gate boundary | L14 |
+
 ### references/workflow-task-issue-346-08a-canonical-workflow-tree-restore-artifact-inventory.md
 
 | セクション | 行 |
@@ -3437,6 +3418,19 @@ node scripts/list-specs.js --topics
 | 自走禁止項目（本タスクで実行しないこと） | L90 |
 | Skill Feedback（Phase 12 反映） | L101 |
 | 関連リソース | L109 |
+
+### references/workflow-ut-07a-01-member-tags-assign-cleanup-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Metadata | L3 |
+| Workflow Artifacts | L15 |
+| Contract Summary | L24 |
+| Runtime Boundary | L36 |
+| Code Artifacts | L41 |
+| Implementation Guide Pointers | L49 |
+| Unassigned Task Trace | L59 |
+| Lessons Learned | L68 |
 
 ### references/workflow-ut-07b-fu-01-schema-alias-backfill-queue-cron-split-artifact-inventory.md
 
@@ -3985,20 +3979,6 @@ node scripts/list-specs.js --topics
 
 | セクション | 行 |
 |------------|----|
-| 概要 | L8 |
-| 管理場所の判断フロー | L20 |
-| Cloudflare Secrets（ランタイム） | L37 |
-| GitHub Secrets / Variables（CI/CD 用） | L103 |
-| web-cd staging / production Environment Secret provisioning（followup-002 / 2026-05-14） | L196 |
-| wrangler.toml の環境別設定 | L230 |
-| ローカル開発での設定 | L262 |
-| Cloudflare CLI ラッパー: `scripts/cf.sh`（UT-06 派生 / 2026-04-27） | L301 |
-| セキュリティ原則 | L333 |
-| Cloudflare API Token の作成手順 | L344 |
-| Cloudflare API Token 90 日 rotation runbook（Issue #407 / 2026-05-06） | L359 |
-| UT-27: GitHub Secrets / Variables 同期運用（2026-04-29） | L470 |
-| U-FIX-CF-ACCT-01-DERIV-02: Cloudflare deploy token split | L522 |
-| 変更履歴 | L541 |
 | 概要 | L11 |
 | 管理場所の判断フロー | L23 |
 | Cloudflare Secrets（ランタイム） | L40 |
@@ -4186,6 +4166,17 @@ node scripts/list-specs.js --topics
 | 利用順序 | L13 |
 | 関連ドキュメント | L18 |
 
+### references/gate-c-external-mutation-pattern.md
+
+| セクション | 行 |
+|------------|----|
+| 適用条件 | L7 |
+| 必須メタデータ | L17 |
+| 実行フロー | L32 |
+| Redaction Contract | L50 |
+| 関連 references | L63 |
+| 適用事例 | L70 |
+
 ### references/gate-metadata.md
 
 | セクション | 行 |
@@ -4255,15 +4246,15 @@ node scripts/list-specs.js --topics
 
 | セクション | 行 |
 |------------|----|
-| 概要 | L22 |
-| 使い方 | L30 |
-| Current Alias Overrides（個別互換行） | L37 |
-| Family Summary | L78 |
-| Detailed Register | L99 |
-| Section Extract Register (2026-03-17) | L280 |
-| 500-Line Split Register (2026-03-16) | L291 |
-| Fragment Migration Register (2026-04-28) | L313 |
-| Task Root Path Drift Register (2026-04-30 追記) | L340 |
+| 概要 | L23 |
+| 使い方 | L31 |
+| Current Alias Overrides（個別互換行） | L38 |
+| Family Summary | L83 |
+| Detailed Register | L104 |
+| Section Extract Register (2026-03-17) | L285 |
+| 500-Line Split Register (2026-03-16) | L296 |
+| Fragment Migration Register (2026-04-28) | L318 |
+| Task Root Path Drift Register (2026-04-30 追記) | L345 |
 
 ### references/lessons-fetch-service-binding-testing.md
 
@@ -4543,6 +4534,7 @@ node scripts/list-specs.js --topics
 | L-07A-005: admin client 契約は UI 実装タスクの stale 記述を同 wave で直す | L19 |
 | L-07A-006: API / web の body drift は shared schema SSOT へ寄せる | L23 |
 | L-07A-007: package script の test 引数は対象ファイル選択を保証しない | L30 |
+| L-07A-008: stale 起票前提と current topology が乖離したら「削除」ではなく「境界明確化」へ再解釈する | L37 |
 
 ### references/lessons-learned-07b-schema-alias-assignment-2026-04.md
 
@@ -6737,22 +6729,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L1407 |
-| フェーズ構造（概要） | L1416 |
-| 品質ゲート（概要） | L1447 |
-| 出力テンプレート | L1458 |
-| 実行時のコマンド・エージェント・スキル | L1481 |
-| 昇格パターン集 | L1505 |
-| Current Active / Spec Created Tasks | L1507 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L1650 |
-| ドキュメント構成 | L1443 |
-| フェーズ構造（概要） | L1452 |
-| 品質ゲート（概要） | L1483 |
-| 出力テンプレート | L1494 |
-| 実行時のコマンド・エージェント・スキル | L1517 |
-| 昇格パターン集 | L1541 |
-| Current Active / Spec Created Tasks | L1543 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L1689 |
+| ドキュメント構成 | L1390 |
+| フェーズ構造（概要） | L1399 |
+| 品質ゲート（概要） | L1430 |
+| 出力テンプレート | L1441 |
+| 実行時のコマンド・エージェント・スキル | L1464 |
+| 昇格パターン集 | L1488 |
+| Current Active / Spec Created Tasks | L1490 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L1633 |
 
 ### references/task-workflow-backlog-part2.md
 
