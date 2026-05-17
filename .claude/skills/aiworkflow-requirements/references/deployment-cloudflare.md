@@ -84,6 +84,21 @@ u-04 (`docs/30-workflows/completed-tasks/u-04-serial-sheets-to-d1-sync-implement
 
 ---
 
+## Cloudflare Alert Policy IaC（UT-17 follow-up 004 / 006）
+
+Cloudflare Notification Policy は Dashboard 手作業ではなく `infra/cloudflare-alerts/`
+配下の JSON 宣言と `bash scripts/cf.sh alerts {list,diff,apply}` を正本経路とする。
+2026-05-16 時点の repo 宣言は 5 category / 7 policy で、KV 追加分は
+`workers-kv-writes-per-day` と `workers-kv-stored-bytes` の 2 件。
+
+KV 2 policy は Workers KV account quota guard であり、namespace filter は持たない。
+初期値は `enabled:false`。Cloudflare apply、Slack staging delivery smoke、
+5 営業日 baseline 後の `enabled:true` 判断、commit / push / PR は user-gated。
+`infra/cloudflare-alerts/schema/policy.schema.json` は `billing_usage_alert` のままで足りるため
+UT-17 follow-up 006 では verified unchanged。
+
+---
+
 ## D1 Backup Long-Term Storage（UT-06-FU-E / 2026-05-01）
 
 UT-06 Phase 12 UNASSIGNED-E は `docs/30-workflows/ut-06-followup-E-d1-backup-long-term-storage/` で `spec_created` / docs-only / NON_VISUAL workflow として formalize した。現 wave は仕様書と validator 用 placeholder のみで、runtime 実装は Phase 13 ユーザー承認後の別 PR に分離する。

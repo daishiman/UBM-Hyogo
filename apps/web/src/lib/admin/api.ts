@@ -17,6 +17,7 @@ export interface AdminMutationErr {
   ok: false;
   status: number;
   error: string;
+  data?: unknown;
 }
 export type AdminMutationResult<T = unknown> = AdminMutationOk<T> | AdminMutationErr;
 
@@ -50,7 +51,7 @@ async function call<T>(
       typeof data === "object" && data !== null && "error" in data
         ? String((data as { error: unknown }).error)
         : `HTTP ${res.status}`;
-    return { ok: false, status: res.status, error: err };
+    return { ok: false, status: res.status, error: err, data };
   }
   return { ok: true, status: res.status, data: data as T };
 }

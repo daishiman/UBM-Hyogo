@@ -1,0 +1,14 @@
+{
+  "$schema": "../schema/policy.schema.json",
+  "name": "workers-kv-stored-bytes",
+  "description": "Workers KV stored data 80% of free-tier (TTL leak detection)",
+  "alert_type": "billing_usage_alert",
+  "enabled": false,
+  "conditions": {
+    "metric": "workers_kv_stored_data_bytes",
+    "percentage": 0.8
+  },
+  "mechanisms": {
+    "webhooks": [{ "name": "ut-17-relay" }]
+  }
+}
