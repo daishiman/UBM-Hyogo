@@ -87,6 +87,18 @@ docs-only / NON_VISUAL、または legacy umbrella close-out では、Part 1 は
   - 当該 task の実装差分として再分類し、Phase 11 local evidence と system spec を同期する
   - task 外の隣接 diff として `system-spec-update-summary.md` / `unassigned-task-detection.md` / compliance check に分離記録し、task primary deliverable の PASS 根拠に混ぜない
 - **docs-only 隣接コード差分検出（Phase 12 entry checklist 必須）**: Phase 12 着手の最初の手で `git status --porcelain apps/ packages/ 2>/dev/null` および `git diff --name-only main...HEAD -- 'apps/**' 'packages/**'` を実行し、結果を `documentation-changelog.md` 冒頭の「entry checklist」セクションに**生出力ごと**転記する。1 件以上 hit した場合は上記 2 分岐（再分類 / 分離記録）のどちらかを `phase12-task-spec-compliance-check.md` に明記し、未記録のまま PASS にしない。0 件の場合も「`apps/` `packages/` dirty diff 0 件確認済」と明示記録する。
+- **infra / scripts / tests fixture 実装差分 gate**: task の implementation targets が `infra/` / `scripts/` / `.github/` / `tests/fixtures/` / runbook を含む場合、`apps/` / `packages/` が 0 件でも pre-code と判定しない。Phase 12 entry で `git status --porcelain infra scripts .github tests docs/30-workflows/runbooks 2>/dev/null` と `git diff --name-only main...HEAD -- 'infra/**' 'scripts/**' '.github/**' 'tests/**' 'docs/30-workflows/runbooks/**'` を確認し、hit した実装差分を `implemented_local_runtime_pending` などへ再分類する。`infra/` policy / workflow / shell wrapper / fixture 差分があるのに `spec_created` / "No Code Changes" で閉じることは禁止。
+
+  Phase 12 close 前の dirty diff 確認用 grep（コマンド逐語）:
+
+  ```bash
+  # Phase 12 close 前の dirty diff 確認（apps/ 0 件でも以下が hit したら spec_created クローズ不可）
+  git status --porcelain -- \
+    infra/ scripts/ .github/ tests/fixtures/ docs/30-workflows/runbooks/
+
+  # 期待: hit 0 件 → spec_created で close 可
+  # hit あり → IMPLEMENTED_LOCAL_RUNTIME_PENDING に再分類
+  ```
 - **docs-only final deliverable state gate（matrix / report 単一生成型）**: `final_deliverable` や Phase 5 成果物が物理生成済みの場合、`index.md` / `artifacts.json` / `outputs/artifacts.json` / `outputs/phase-11/*` / `outputs/phase-12/*` / aiworkflow indexes に `planned` / `future` / `not generated` / `no impl yet` を残してはならない。生成済み成果物を採用するなら root state を `implemented_local_evidence_captured` または `completed` 系へ同一 wave で統一し、Phase 5/7/9 の deterministic evidence を実ファイルとして保存する。まだ未生成として閉じるなら `final_deliverable` 実体を差分に含めない。両者の混在は Phase 12 FAIL。
 - **`required_at` wording gate**: 成果物 inventory は `required_at` / `planned` / `generated` / `completed` を明示し、`planned final deliverable` と `generated evidence` を同じ行で混ぜない。Phase 12 close-out 前に `rg -n "planned|future|not generated|no impl yet" <workflow-root>` を実行し、hit した行を generated/completed 状態と矛盾しない表現へ補正する。
 - UI spec / token spec では `token-sized` / `09b-token-value` / `token-mix` のような placeholder token を PASS させない。HEX / `oklch()` / `px` / `bg-[` gate に加え、placeholder token grep 0 と §99 必須項目の content check を Phase 11/12 evidence に含める。
@@ -95,20 +107,20 @@ docs-only / NON_VISUAL、または legacy umbrella close-out では、Part 1 は
 
 #### 同サイクル `spec_created` → `implemented-local` 再分類 + 状態語彙選択（UT-02A FU-003 反映）
 
-`spec_created` として起票されたタスクでも、同一サイクル内で `apps/` / `packages/` 配下のコードに変更が入った場合は、Phase 12 close-out 前に **同サイクル `implemented-local` 再分類** を行う。古い `spec_created` 表記を残したまま Phase 11/12 を PASS にしない。
+`spec_created` として起票されたタスクでも、同一サイクル内で `apps/` / `packages/` / `infra/` / `scripts/` / `.github/` / `tests/fixtures/` など task implementation targets 配下に変更が入った場合は、Phase 12 close-out 前に **同サイクル `implemented-local` 再分類** を行う。古い `spec_created` 表記を残したまま Phase 11/12 を PASS にしない。
 
 | サイクル状態 | 状態語彙 | 適用条件 | Phase 11 evidence |
 | --- | --- | --- | --- |
-| pre-code（仕様だけ完成、`apps/` / `packages/` に diff なし） | `CONTRACT_READY_IMPLEMENTATION_PENDING` | `git diff --name-only main...HEAD` の対象が `docs/` / `.claude/` のみ | NON_VISUAL evidence template / spec contract のみ |
-| local-evidence + runtime-pending（コードあり、ローカル PASS 5 点取得済み、staging/production runtime 未実走） | `PASS_BOUNDARY_SYNCED_RUNTIME_PENDING` | `apps/` or `packages/` に diff あり、かつ `outputs/phase-11/evidence/{typecheck,lint,test,build,grep-gate}.log` が揃う | local PASS 5 点セット（後述）+ runtime pending 明示 |
-| local-implementation + evidence-pending（コードあり、ローカル PASS 5 点または visual evidence が未取得） | `IMPLEMENTED_LOCAL_RUNTIME_PENDING` | `apps/` or `packages/` に diff あり、実装は採用するが Phase 11 evidence が未完了 | 欠けている evidence file / screenshot / axe / coverage を明示 |
+| pre-code（仕様だけ完成、implementation target に diff なし） | `CONTRACT_READY_IMPLEMENTATION_PENDING` | `git diff --name-only main...HEAD` の対象が `docs/` / `.claude/` のみで、主成果物が未生成 | NON_VISUAL evidence template / spec contract のみ |
+| local-evidence + runtime-pending（コード / infra / script / fixture あり、ローカル PASS 取得済み、staging/production runtime 未実走） | `PASS_BOUNDARY_SYNCED_RUNTIME_PENDING` | implementation target に diff あり、かつ対象に応じた local evidence が揃う | local PASS セット + runtime pending 明示 |
+| local-implementation + evidence-pending（コード / infra / script / fixture あり、ローカル PASS または visual evidence が未取得） | `IMPLEMENTED_LOCAL_RUNTIME_PENDING` | implementation target に diff あり、実装は採用するが Phase 11 evidence が未完了 | 欠けている evidence file / screenshot / axe / coverage を明示 |
 | runtime PASS | `PASS` | staging/production curl / smoke / migration apply が実走済み | runtime evidence + local PASS |
 
 **選択ルール**:
 
 - pre-code に local PASS が無いまま `PASS_BOUNDARY_SYNCED_RUNTIME_PENDING` を使ってはならない。pre-code は必ず `CONTRACT_READY_IMPLEMENTATION_PENDING`。
 - local PASS 5 点が揃っていないのに `PASS_BOUNDARY_SYNCED_RUNTIME_PENDING` を使ってはならない。揃っていない場合は何が欠けているかを `manual-test-result.md` に記録し、該当語彙の格下げを行う。
-- `apps/` / `packages/` dirty diff があるのに root `workflow_state` / aiworkflow index / Phase 12 summary を `spec_created` のまま残してはならない。実装を採用するなら `implemented-local` に昇格し、runtime 証跡未取得なら `IMPLEMENTED_LOCAL_RUNTIME_PENDING` を使う。
+- implementation target dirty diff があるのに root `workflow_state` / aiworkflow index / Phase 12 summary を `spec_created` のまま残してはならない。実装を採用するなら `implemented-local` に昇格し、runtime 証跡未取得なら `IMPLEMENTED_LOCAL_RUNTIME_PENDING` を使う。
 - 隣接ルール: `v2026.05.05-09a-A-staging-deploy-smoke-execution`（`PASS_BOUNDARY_SYNCED_RUNTIME_PENDING` 導入）、`v2026.05.05-issue379-stale-current-no-code`（`verified_current_no_code_change` で `CONTRACT_READY_IMPLEMENTATION_PENDING` の対極を提示）と整合する。ローカル実装が入った瞬間に stale-current 系の `verified_current_no_code_change` は使えない。
 - 再分類した時点で `artifacts.json` / `outputs/artifacts.json` / `index.md` / `phase-*.md` の `workflow_state` 注記、`taskType`、`implementation_mode` を同 wave で書き換える。`spec_created` 文字列を `rg -F "spec_created" outputs/` で 0 件にしてから Phase 12 を閉じる。
 - Phase 12 は `main.md` を含む 7 成果物を実体確認し、root / outputs `artifacts.json` の Phase status と outputs list を同値にする。成果物があるのに `pending` のまま残す状態は FAIL。
