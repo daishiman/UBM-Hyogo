@@ -17,24 +17,24 @@
       {
         "gate_id": "Gate-A",
         "status": "passed",
-        "passed_at": "2026-05-15",
-        "evidence_path": "docs/30-workflows/task-issue-299-schema-questions-fallback-retirement-001/index.md",
+        "passed_at": "2026-05-15T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/task-issue-299-schema-questions-fallback-retirement-001/index.md",
         "approver": "daishiman",
         "notes": "spec_review: Phase 1-13 specification created. Issue #299 remains open and PR wording must use Refs #299 only."
       },
       {
         "gate_id": "Gate-B",
         "status": "passed",
-        "passed_at": "2026-05-15",
-        "evidence_path": "docs/30-workflows/task-issue-299-schema-questions-fallback-retirement-001/outputs/phase-11/coverage-evidence.md",
+        "passed_at": "2026-05-15T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/task-issue-299-schema-questions-fallback-retirement-001/outputs/phase-11/coverage-evidence.md",
         "approver": "daishiman",
         "notes": "coverage_gate: production 0 rows / staging 0 rows (production と同一 D1 binding) を 2026-05-15 16:00 JST 帯に確認。"
       },
       {
         "gate_id": "Gate-C",
         "status": "passed",
-        "passed_at": "2026-05-15",
-        "evidence_path": "docs/30-workflows/task-issue-299-schema-questions-fallback-retirement-001/outputs/phase-11/test-results.md",
+        "passed_at": "2026-05-15T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/task-issue-299-schema-questions-fallback-retirement-001/outputs/phase-11/test-results.md",
         "approver": "CODEOWNERS:apps-api",
         "notes": "implementation_validation: focused unit test 6/6 PASS, tsc -p apps/api PASS, target file static grep 0 件確認。"
       },
@@ -42,7 +42,7 @@
         "gate_id": "Gate-D",
         "status": "pending",
         "passed_at": null,
-        "evidence_path": "docs/30-workflows/task-issue-299-schema-questions-fallback-retirement-001/phase-13.md",
+        "evidence_path": "docs/30-workflows/completed-tasks/task-issue-299-schema-questions-fallback-retirement-001/phase-13.md",
         "approver": "daishiman",
         "notes": "pr_approval: commit, push, PR creation, and any Issue mutation are blocked until explicit user approval."
       }
