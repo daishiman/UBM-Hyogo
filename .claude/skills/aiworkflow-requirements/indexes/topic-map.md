@@ -5074,24 +5074,6 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 5-minute Checklist | L15 |
 
-### references/lessons-learned-issue-667-stage3b-mock-api-fixture-coverage-2026-05.md
-
-| セクション | 行 |
-|------------|----|
-| L-667-001: workflow 名 discovery 義務 — 仕様起草前に grep 必須 | L7 |
-| L-667-002: contracts topology を Phase 1 で確定する | L17 |
-| L-667-003: `implemented_local_runtime_pending` state の必要性 | L30 |
-| L-667-004: dispatcher 順序 grep gate | L41 |
-| Cross-link | L52 |
-
-### references/lessons-learned-issue-668-paths-filter-shell-prelude-2026-05.md
-
-| セクション | 行 |
-|------------|----|
-| 概要 | L7 |
-| 苦戦箇所 | L11 |
-| 後続タスクへの適用 | L48 |
-
 ### references/lessons-learned-issue-747-vitest-esbuild-node-arch-2026-05.md
 
 | セクション | 行 |
@@ -6761,14 +6743,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L1473 |
-| フェーズ構造（概要） | L1482 |
-| 品質ゲート（概要） | L1513 |
-| 出力テンプレート | L1524 |
-| 実行時のコマンド・エージェント・スキル | L1547 |
-| 昇格パターン集 | L1571 |
-| Current Active / Spec Created Tasks | L1573 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L1720 |
+| ドキュメント構成 | L1456 |
+| フェーズ構造（概要） | L1465 |
+| 品質ゲート（概要） | L1496 |
+| 出力テンプレート | L1507 |
+| 実行時のコマンド・エージェント・スキル | L1530 |
+| 昇格パターン集 | L1554 |
+| Current Active / Spec Created Tasks | L1556 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L1702 |
 
 ### references/task-workflow-backlog-part2.md
 
