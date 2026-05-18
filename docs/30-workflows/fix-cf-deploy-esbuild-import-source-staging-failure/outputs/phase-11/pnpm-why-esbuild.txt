@@ -1,1 +1,0 @@
-esbuild@0.27.3 is the single resolved version after `mise exec -- pnpm install --force`.
