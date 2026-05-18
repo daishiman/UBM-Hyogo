@@ -3,6 +3,34 @@
   "workflow": "fix-ci-cache-and-cf-token-pr795",
   "implementation_mode": "new",
   "task_type": "NON_VISUAL",
+  "metadata": {
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-05-18T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/fix-ci-cache-and-cf-token-pr795/tasks/task-02-cf-api-token-staging-secret-fix/phase-12.md",
+        "approver": "daishiman",
+        "notes": "spec_review: backend-ci deploy-staging step-level env.CLOUDFLARE_API_TOKEN injection"
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "passed",
+        "passed_at": "2026-05-18T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/fix-ci-cache-and-cf-token-pr795/tasks/task-02-cf-api-token-staging-secret-fix/phase-12.md",
+        "approver": "daishiman",
+        "notes": "implementation_review: .github/workflows/backend-ci.yml + scripts/__tests__/workflow-env-scope.test.sh"
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/fix-ci-cache-and-cf-token-pr795/tasks/task-02-cf-api-token-staging-secret-fix/phase-11.md",
+        "approver": "daishiman",
+        "notes": "external_ops: GitHub environment secret CLOUDFLARE_API_TOKEN registration + deploy-staging green run on dev"
+      }
+    ]
+  },
   "phases": {
     "phase-1": { "status": "completed", "owner": "workflow-root", "source": "outputs/phase-1/phase-1.md" },
     "phase-2": { "status": "completed", "owner": "workflow-root", "source": "outputs/phase-2/phase-2.md" },

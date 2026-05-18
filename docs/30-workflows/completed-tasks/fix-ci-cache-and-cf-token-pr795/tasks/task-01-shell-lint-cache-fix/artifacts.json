@@ -3,6 +3,34 @@
   "workflow": "fix-ci-cache-and-cf-token-pr795",
   "implementation_mode": "new",
   "task_type": "NON_VISUAL",
+  "metadata": {
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-05-18T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/fix-ci-cache-and-cf-token-pr795/tasks/task-01-shell-lint-cache-fix/phase-12.md",
+        "approver": "daishiman",
+        "notes": "spec_review: setup-project composite cache input + workflow-shell-lint cache: '' opt-out"
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "passed",
+        "passed_at": "2026-05-18T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/fix-ci-cache-and-cf-token-pr795/tasks/task-01-shell-lint-cache-fix/phase-12.md",
+        "approver": "daishiman",
+        "notes": "implementation_review: .github/actions/setup-project/action.yml + .github/workflows/ci.yml"
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/fix-ci-cache-and-cf-token-pr795/tasks/task-01-shell-lint-cache-fix/phase-11.md",
+        "approver": "daishiman",
+        "notes": "external_ops: workflow-shell-lint green run on dev"
+      }
+    ]
+  },
   "phases": {
     "phase-1": { "status": "completed", "path": "../../outputs/phase-1/phase-1.md" },
     "phase-2": { "status": "completed", "path": "../../outputs/phase-2/phase-2.md" },

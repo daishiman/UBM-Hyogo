@@ -3,6 +3,34 @@
   "mirrors": "../artifacts.json",
   "note": "Root and outputs artifacts are kept in parity for Phase 12 compliance.",
   "workflow_state": "implemented_local_evidence_captured",
+  "metadata": {
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-05-18T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/fix-ci-cache-and-cf-token-pr795/outputs/phase-12/main.md",
+        "approver": "daishiman",
+        "notes": "spec_review (mirrored from root artifacts.json)"
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "passed",
+        "passed_at": "2026-05-18T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/fix-ci-cache-and-cf-token-pr795/outputs/phase-12/implementation-guide.md",
+        "approver": "daishiman",
+        "notes": "implementation_review (mirrored from root artifacts.json)"
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/fix-ci-cache-and-cf-token-pr795/outputs/phase-11/evidence.md",
+        "approver": "daishiman",
+        "notes": "external_ops pending GitHub Actions runtime evidence"
+      }
+    ]
+  },
   "phase12": {
     "status": "completed",
     "outputs": [
