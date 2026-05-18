@@ -38,6 +38,32 @@
     "parent_evidence": [
       "docs/30-workflows/task-709-visual-baseline-runtime-capture/outputs/phase-11/evidence/visual-full-stability.md",
       "docs/30-workflows/task-709-visual-baseline-runtime-capture/outputs/phase-11/evidence/user-approval-marker.md"
+    ],
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-05-17T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/task-761-visual-full-required-status-check/index.md",
+        "approver": "daishiman",
+        "notes": "spec_review: Phase 1-13 spec finalized for visual-full required status check (dev / main 8 contexts)"
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "passed",
+        "passed_at": "2026-05-17T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/task-761-visual-full-required-status-check/outputs/phase-12/implementation-guide.md",
+        "approver": "daishiman",
+        "notes": "validator_green: Phase 12 implementation-guide + read-only protection-before snapshots captured under Phase 11 evidence"
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "passed",
+        "passed_at": "2026-05-17T12:49:39Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/task-761-visual-full-required-status-check/outputs/phase-13/user-approval-task-761-visual-full-required-status-check-20260517T124939Z.md",
+        "approver": "daishiman",
+        "notes": "runtime_user_gate: user-approval marker recorded; dev/main protection-after mutation evidence + manual-test-result captured under Phase 11"
+      }
     ]
   },
   "source_issue": "https://github.com/daishiman/UBM-Hyogo/issues/761",

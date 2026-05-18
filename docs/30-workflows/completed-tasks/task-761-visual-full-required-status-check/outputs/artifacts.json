@@ -21,7 +21,33 @@
       "outputs/phase-11/evidence/manual-test-result.md",
       "outputs/phase-13/user-approval-task-761-visual-full-required-status-check-20260517T124939Z.md"
     ],
-    "source_unassigned_task": "docs/30-workflows/unassigned-task/task-709-fu-branch-protection-required-check.md"
+    "source_unassigned_task": "docs/30-workflows/unassigned-task/task-709-fu-branch-protection-required-check.md",
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-05-17T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/task-761-visual-full-required-status-check/index.md",
+        "approver": "daishiman",
+        "notes": "spec_review: parity mirror of ../artifacts.json Gate-A"
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "passed",
+        "passed_at": "2026-05-17T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/task-761-visual-full-required-status-check/outputs/phase-12/implementation-guide.md",
+        "approver": "daishiman",
+        "notes": "validator_green: parity mirror of ../artifacts.json Gate-B"
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "passed",
+        "passed_at": "2026-05-17T12:49:39Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/task-761-visual-full-required-status-check/outputs/phase-13/user-approval-task-761-visual-full-required-status-check-20260517T124939Z.md",
+        "approver": "daishiman",
+        "notes": "runtime_user_gate: parity mirror of ../artifacts.json Gate-C"
+      }
+    ]
   },
   "outputs": {
     "phase-1": ["phase-1/phase-1.md"],
