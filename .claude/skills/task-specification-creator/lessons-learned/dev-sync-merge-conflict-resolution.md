@@ -113,5 +113,19 @@
 - Why: `page.route()` は browser network のみ intercept する仕様。Next.js server component から発する fetch は browser を経由しないため intercept 不能。fixture 整合性は server-side mock-api 側にも必要。
 - 詳細は aiworkflow-requirements 配下の L-DEVSYNC-016 を参照。
 
-### SP-DEVSYNC-017: 共通の正本リンク
-- 詳細は [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] （aiworkflow-requirements 配下、L-DEVSYNC-001..017）を参照。
+### SP-DEVSYNC-018: 新規タスク root/outputs `artifacts.json` には `metadata.gates` を必ず付与（2026-05-18 追加）
+
+- 症状: 新規 task workflow root を作成して PR を出すと、`verify-gate-metadata` workflow の `validate` ジョブが `[ERROR] <task>/artifacts.json: metadata.gates absent on changed artifacts.json` で fail。validator (`scripts/gate-metadata/validate.ts`) は `--require-gates-for-changed` に列挙された artifacts.json に対してのみ ERROR を出すため、既存 task の WARN は無視されるが新規 task は必ず ERROR になる。
+- 解消（task spec 生成時の絶対ルール）:
+  1. **root** `artifacts.json` と **outputs/** `artifacts.json` の **両方** の `metadata` に `gates` 配列を追加する（artifacts parity 不変条件）
+  2. 最低 3 件: Gate-A (spec_review) / Gate-B (implementation_review) / Gate-C (external_ops)。`status` は `passed` / `pending` / `failed` / `waived`、`passed` のときは `passed_at: "YYYY-MM-DDTHH:MM:SSZ"` 必須・`pending` のときは `passed_at: null` 必須
+  3. `gate_id` は `^Gate-[A-Z](-[A-Z0-9]+)*$` 正規表現に一致（例: `Gate-A`、`Gate-B-API`）
+  4. `evidence_path` は repo-root 相対 POSIX path で、`status=passed` の場合 CI が物理実在を検査する。`outputs/phase-3/design.md` (Gate-A) / `outputs/phase-10/ac-verification.md` (Gate-B) / `outputs/phase-13/diff-to-pr.md` (Gate-C) を default にする
+  5. `approver` は `^(CODEOWNERS:[A-Za-z0-9._/-]+|[A-Za-z0-9](?:[A-Za-z0-9-]{0,37}[A-Za-z0-9])?)$`（GitHub username 形式または `CODEOWNERS:<path>`）
+- ローカル事前検証: `mise exec -- pnpm gate-metadata:validate -- --require-gates-for-changed <root>/artifacts.json <root>/outputs/artifacts.json` で `ERROR: 0` を確認する
+- Schema 正本: `packages/shared/src/gate-metadata/schema.ts` の `GateEntrySchema` / `GatesArraySchema`
+- Why: 新規 task では `git diff` で必ず両 artifacts.json が変更扱いになるため、`metadata.gates` 不在は merge 直前まで気付かず PR DIRTY / CI fail のリードタイム要因になる。spec 生成テンプレート段階で 3-gate skeleton を埋め込むことで recurring fail を抑止する。
+- 詳細は aiworkflow-requirements 配下の L-DEVSYNC-018 を参照。
+
+### SP-DEVSYNC-019: 共通の正本リンク
+- 詳細は [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] （aiworkflow-requirements 配下、L-DEVSYNC-001..018）を参照。
