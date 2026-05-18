@@ -1,6 +1,21 @@
 // TC-U-09 / TC-U-10 / TC-A-06
 import { afterEach, describe, it, expect, vi } from "vitest";
 import { render, screen, fireEvent, waitFor, act, cleanup } from "@testing-library/react";
+
+const navigationMock = vi.hoisted(() => {
+  const callOrder: string[] = [];
+  return {
+    callOrder,
+    refresh: vi.fn(() => {
+      callOrder.push("refresh");
+    }),
+  };
+});
+
+vi.mock("next/navigation", () => ({
+  useRouter: () => ({ refresh: navigationMock.refresh }),
+}));
+
 import { DeleteRequestDialog } from "./DeleteRequestDialog";
 
 const mockFetch = (status: number, body: object) => {
@@ -14,6 +29,8 @@ const mockFetch = (status: number, body: object) => {
 
 afterEach(() => {
   cleanup();
+  navigationMock.callOrder.length = 0;
+  navigationMock.refresh.mockClear();
   vi.restoreAllMocks();
 });
 
@@ -82,5 +99,66 @@ describe("DeleteRequestDialog", () => {
       fireEvent.click(screen.getByTestId("delete-submit"));
     });
     await waitFor(() => expect(onSubmitted).toHaveBeenCalledTimes(1));
+  });
+
+  it("submit 成功時に refresh → onSubmitted → onClose の順で発火する", async () => {
+    mockFetch(202, {
+      queueId: "q1",
+      type: "delete_request",
+      status: "pending",
+      createdAt: "now",
+    });
+    const onSubmitted = vi.fn(() => {
+      navigationMock.callOrder.push("onSubmitted");
+    });
+    const onClose = vi.fn(() => {
+      navigationMock.callOrder.push("onClose");
+    });
+    render(
+      <DeleteRequestDialog
+        open={true}
+        onClose={onClose}
+        onSubmitted={onSubmitted}
+      />,
+    );
+    fireEvent.click(screen.getByTestId("delete-confirm-checkbox"));
+    await act(async () => {
+      fireEvent.click(screen.getByTestId("delete-submit"));
+    });
+    await waitFor(() => {
+      expect(navigationMock.callOrder).toEqual([
+        "refresh",
+        "onSubmitted",
+        "onClose",
+      ]);
+    });
+  });
+
+  it("409 duplicate pending 時も refresh → onSubmitted の順で発火し、閉じない", async () => {
+    mockFetch(409, { error: "DUPLICATE_PENDING_REQUEST" });
+    const onSubmitted = vi.fn(() => {
+      navigationMock.callOrder.push("onSubmitted");
+    });
+    const onClose = vi.fn(() => {
+      navigationMock.callOrder.push("onClose");
+    });
+    render(
+      <DeleteRequestDialog
+        open={true}
+        onClose={onClose}
+        onSubmitted={onSubmitted}
+      />,
+    );
+    fireEvent.click(screen.getByTestId("delete-confirm-checkbox"));
+    await act(async () => {
+      fireEvent.click(screen.getByTestId("delete-submit"));
+    });
+    await waitFor(() => {
+      expect(navigationMock.callOrder).toEqual(["refresh", "onSubmitted"]);
+    });
+    expect(onClose).not.toHaveBeenCalled();
+    expect(onSubmitted).toHaveBeenCalledWith(
+      expect.objectContaining({ type: "delete_request", status: "pending" }),
+    );
   });
 });

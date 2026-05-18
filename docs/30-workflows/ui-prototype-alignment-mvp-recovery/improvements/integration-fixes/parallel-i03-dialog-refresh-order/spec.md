@@ -70,7 +70,7 @@ if (res.ok) {
 }
 ```
 
-`else` / `catch` 分岐は変更しない（spec の race condition 対象は成功 path のみ）。
+`DUPLICATE_PENDING_REQUEST` 分岐は旧 parent refresh と同じ再取得を維持するため、`onSubmitted` 前に `router.refresh()` を発火する。その他 `else` / `catch` 分岐は変更しない。
 
 ### DeleteRequestDialog.tsx
 
@@ -145,13 +145,13 @@ mise exec -- pnpm -F "@ubm-hyogo/web" test -- --run profile/_components
 
 ## DoD
 
-- [ ] `VisibilityRequestDialog.tsx` で `router.refresh() → onSubmitted → onClose` の順
-- [ ] `DeleteRequestDialog.tsx` 同上
-- [ ] `RequestActionPanel.tsx` の `onSubmitted` から `router.refresh()` 撤去
-- [ ] 各 dialog component spec で順序 assertion PASS
-- [ ] `RequestActionPanel.component.spec.tsx` で refresh が parent から発火しないこと確認
-- [ ] `pnpm typecheck` / `pnpm lint` PASS
-- [ ] dev で profile 操作 → mutation 成功 → banner 即時更新を目視
+- [x] `VisibilityRequestDialog.tsx` で `router.refresh() → onSubmitted → onClose` の順
+- [x] `DeleteRequestDialog.tsx` 同上
+- [x] `RequestActionPanel.tsx` の `onSubmitted` から `router.refresh()` 撤去
+- [x] 各 dialog component spec で順序 assertion completed
+- [x] `RequestActionPanel.component.spec.tsx` で refresh が parent から発火しないこと確認
+- [x] `pnpm typecheck` / `pnpm lint` completed
+- [x] dev 目視は NON_VISUAL 判定により waive。副作用順序は component spec の callOrder assertion を正本 evidence とする
 
 ## リスク
 
@@ -159,7 +159,7 @@ mise exec -- pnpm -F "@ubm-hyogo/web" test -- --run profile/_components
 |--------|------|
 | `router.refresh()` を 2 重発火（dialog + parent） | `RequestActionPanel.tsx` から確実に撤去。test で assert |
 | `useRouter` を server component から呼び出す場合 | dialog は既に client component（`"use client"` directive あり）のため問題なし |
-| catch 分岐で refresh が必要なケース | 現状 spec / UI 設計では成功時のみ refresh。catch では error toast のみで refresh 不要 |
+| duplicate pending 分岐で refresh が落ちるケース | dialog 側で `refresh -> onSubmitted` を保証。catch では error toast のみで refresh 不要 |
 
 ## 並列性
 
@@ -170,6 +170,6 @@ mise exec -- pnpm -F "@ubm-hyogo/web" test -- --run profile/_components
 
 このタスクは canonical workflow root へ昇格するか、in-place fix で完結するかをここで明示する。
 
-- **status**: pending
-- **canonical_workflow**: null（in-place fix で完結予定）
-- **判断**: 編集は dialog 2 件 + parent 1 件の呼び出し順序入れ替えのみ。p-02 spec の race condition 解消が目的で実装規模が小さいため、Phase 1-13 のフル昇格は不要と判断。本 spec.md を発注書として in-place fix で完結させる。実装中に dialog API 設計変更が必要になった場合は canonical workflow root へ昇格させ `artifacts.json` を更新する。
+- **status**: completed
+- **canonical_workflow**: `docs/30-workflows/parallel-i03-dialog-refresh-order/`
+- **判断**: 2026-05-17 の実行 cycle で canonical workflow root へ昇格し、dialog 2 件 + parent 1 件の呼び出し順序入れ替えを実装済み。success path の `router.refresh() → onSubmitted → onClose()` と duplicate pending path の `router.refresh() → onSubmitted()` は component spec の `callOrder` assertion で evidence 化し、Phase 12 strict 7 outputs と aiworkflow-requirements sync に接続した。Phase 13 commit / push / PR は user approval gate のため未実行。
