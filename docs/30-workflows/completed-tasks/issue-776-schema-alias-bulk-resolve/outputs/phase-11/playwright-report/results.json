@@ -1,0 +1,427 @@
+{
+  "config": {
+    "configFile": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260518-162335-wt-13/apps/web/playwright.config.ts",
+    "rootDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260518-162335-wt-13/apps/web/playwright/tests",
+    "forbidOnly": false,
+    "fullyParallel": true,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260518-162335-wt-13/docs/30-workflows/issue-776-schema-alias-bulk-resolve/outputs/phase-11/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "desktop-chromium",
+        "name": "desktop-chromium",
+        "testDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260518-162335-wt-13/apps/web/playwright/tests",
+        "testIgnore": [
+          "/visual\\/.*\\.spec\\.ts$/",
+          "/visual-full\\/.*\\.spec\\.ts$/",
+          "/full-smoke\\.spec\\.ts$/",
+          "**/admin-identity-conflicts.spec.ts",
+          "**/admin-requests.spec.ts",
+          "**/admin-schema-conflicts-audit.spec.ts",
+          "**/admin-member-delete.spec.ts"
+        ],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 60000
+      },
+      {
+        "outputDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260518-162335-wt-13/docs/30-workflows/issue-776-schema-alias-bulk-resolve/outputs/phase-11/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "smoke-chromium",
+        "name": "smoke-chromium",
+        "testDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260518-162335-wt-13/apps/web/playwright/tests",
+        "testIgnore": [
+          "**/admin-identity-conflicts.spec.ts",
+          "**/admin-requests.spec.ts",
+          "**/admin-schema-conflicts-audit.spec.ts",
+          "**/admin-member-delete.spec.ts"
+        ],
+        "testMatch": [
+          "/full-smoke\\.spec\\.ts$/"
+        ],
+        "timeout": 60000
+      },
+      {
+        "outputDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260518-162335-wt-13/docs/30-workflows/issue-776-schema-alias-bulk-resolve/outputs/phase-11/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "visual-chromium",
+        "name": "visual-chromium",
+        "testDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260518-162335-wt-13/apps/web/playwright/tests",
+        "testIgnore": [
+          "**/admin-identity-conflicts.spec.ts",
+          "**/admin-requests.spec.ts",
+          "**/admin-schema-conflicts-audit.spec.ts",
+          "**/admin-member-delete.spec.ts"
+        ],
+        "testMatch": [
+          "/visual\\/.*\\.spec\\.ts$/"
+        ],
+        "timeout": 60000
+      },
+      {
+        "outputDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260518-162335-wt-13/docs/30-workflows/issue-776-schema-alias-bulk-resolve/outputs/phase-11/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "desktop-firefox",
+        "name": "desktop-firefox",
+        "testDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260518-162335-wt-13/apps/web/playwright/tests",
+        "testIgnore": [
+          "/visual\\/.*\\.spec\\.ts$/",
+          "/visual-full\\/.*\\.spec\\.ts$/",
+          "/full-smoke\\.spec\\.ts$/",
+          "**/admin-identity-conflicts.spec.ts",
+          "**/admin-requests.spec.ts",
+          "**/admin-schema-conflicts-audit.spec.ts",
+          "**/admin-member-delete.spec.ts"
+        ],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 60000
+      },
+      {
+        "outputDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260518-162335-wt-13/docs/30-workflows/issue-776-schema-alias-bulk-resolve/outputs/phase-11/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "mobile-webkit",
+        "name": "mobile-webkit",
+        "testDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260518-162335-wt-13/apps/web/playwright/tests",
+        "testIgnore": [
+          "/visual\\/.*\\.spec\\.ts$/",
+          "/visual-full\\/.*\\.spec\\.ts$/",
+          "/full-smoke\\.spec\\.ts$/",
+          "/admin-pages\\.spec\\.ts$/",
+          "/admin-tags-resolve-drawer\\.spec\\.ts$/",
+          "**/admin-identity-conflicts.spec.ts",
+          "**/admin-requests.spec.ts",
+          "**/admin-schema-conflicts-audit.spec.ts",
+          "**/admin-member-delete.spec.ts"
+        ],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 60000
+      },
+      {
+        "outputDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260518-162335-wt-13/docs/30-workflows/issue-776-schema-alias-bulk-resolve/outputs/phase-11/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "visual-full-chromium-desktop",
+        "name": "visual-full-chromium-desktop",
+        "testDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260518-162335-wt-13/apps/web/playwright/tests/visual-full",
+        "testIgnore": [
+          "**/admin-identity-conflicts.spec.ts",
+          "**/admin-requests.spec.ts",
+          "**/admin-schema-conflicts-audit.spec.ts",
+          "**/admin-member-delete.spec.ts"
+        ],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 60000
+      },
+      {
+        "outputDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260518-162335-wt-13/docs/30-workflows/issue-776-schema-alias-bulk-resolve/outputs/phase-11/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "visual-full-chromium-tablet",
+        "name": "visual-full-chromium-tablet",
+        "testDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260518-162335-wt-13/apps/web/playwright/tests/visual-full",
+        "testIgnore": [
+          "**/admin-identity-conflicts.spec.ts",
+          "**/admin-requests.spec.ts",
+          "**/admin-schema-conflicts-audit.spec.ts",
+          "**/admin-member-delete.spec.ts"
+        ],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 60000
+      },
+      {
+        "outputDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260518-162335-wt-13/docs/30-workflows/issue-776-schema-alias-bulk-resolve/outputs/phase-11/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "visual-full-chromium-mobile",
+        "name": "visual-full-chromium-mobile",
+        "testDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260518-162335-wt-13/apps/web/playwright/tests/visual-full",
+        "testIgnore": [
+          "**/admin-identity-conflicts.spec.ts",
+          "**/admin-requests.spec.ts",
+          "**/admin-schema-conflicts-audit.spec.ts",
+          "**/admin-member-delete.spec.ts"
+        ],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 60000
+      },
+      {
+        "outputDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260518-162335-wt-13/docs/30-workflows/issue-776-schema-alias-bulk-resolve/outputs/phase-11/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "staging",
+        "name": "staging",
+        "testDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260518-162335-wt-13/apps/web/playwright/tests",
+        "testIgnore": [
+          "**/admin-identity-conflicts.spec.ts",
+          "**/admin-requests.spec.ts",
+          "**/admin-schema-conflicts-audit.spec.ts",
+          "**/admin-member-delete.spec.ts"
+        ],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 60000
+      },
+      {
+        "outputDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260518-162335-wt-13/docs/30-workflows/issue-776-schema-alias-bulk-resolve/outputs/phase-11/test-results",
+        "repeatEach": 1,
+        "retries": 2,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "staging-smoke",
+        "name": "staging-smoke",
+        "testDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260518-162335-wt-13/apps/web/tests/e2e",
+        "testIgnore": [
+          "**/admin-identity-conflicts.spec.ts",
+          "**/admin-requests.spec.ts",
+          "**/admin-schema-conflicts-audit.spec.ts",
+          "**/admin-member-delete.spec.ts"
+        ],
+        "testMatch": [
+          "/staging-smoke\\.spec\\.ts$/"
+        ],
+        "timeout": 60000
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "html",
+        {
+          "outputFolder": "../../docs/30-workflows/issue-776-schema-alias-bulk-resolve/outputs/phase-11/playwright-report/html",
+          "open": "never"
+        }
+      ],
+      [
+        "json",
+        {
+          "outputFile": "../../docs/30-workflows/issue-776-schema-alias-bulk-resolve/outputs/phase-11/playwright-report/results.json"
+        }
+      ],
+      [
+        "list",
+        null
+      ],
+      [
+        "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260518-162335-wt-13/node_modules/monocart-reporter/lib/index.js",
+        {
+          "name": "UBM-Hyogo E2E",
+          "outputFile": "../../docs/30-workflows/issue-776-schema-alias-bulk-resolve/outputs/phase-11/monocart/index.html",
+          "coverage": {
+            "outputDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260518-162335-wt-13/apps/web/coverage",
+            "reports": [
+              [
+                "v8",
+                {
+                  "outputDir": "coverage/v8"
+                }
+              ],
+              "json-summary",
+              [
+                "lcovonly",
+                {
+                  "outputFile": "coverage/lcov.info"
+                }
+              ]
+            ]
+          }
+        }
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.59.1",
+    "workers": 1,
+    "webServer": null
+  },
+  "suites": [
+    {
+      "title": "issue776-schema-bulk-resolve.spec.ts",
+      "file": "issue776-schema-bulk-resolve.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "Issue #776 schema alias bulk resolve evidence",
+          "file": "issue776-schema-bulk-resolve.spec.ts",
+          "line": 31,
+          "column": 6,
+          "specs": [
+            {
+              "title": "desktop screenshots and perf/a11y logs",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "desktop-chromium",
+                  "projectName": "desktop-chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 7895,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-05-18T10:09:34.308Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "1fb9a9554f4393974771-a698a6826bda34137d85",
+              "file": "issue776-schema-bulk-resolve.spec.ts",
+              "line": 32,
+              "column": 3
+            },
+            {
+              "title": "desktop partial failure screenshot",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "desktop-chromium",
+                  "projectName": "desktop-chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 1827,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-05-18T10:09:42.496Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "1fb9a9554f4393974771-9eddff1285667e5322d1",
+              "file": "issue776-schema-bulk-resolve.spec.ts",
+              "line": 98,
+              "column": 3
+            },
+            {
+              "title": "mobile select and modal screenshots",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "desktop-chromium",
+                  "projectName": "desktop-chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 1922,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-05-18T10:09:44.329Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "1fb9a9554f4393974771-19384cfda7161549acaf",
+              "file": "issue776-schema-bulk-resolve.spec.ts",
+              "line": 126,
+              "column": 3
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-05-18T10:09:24.633Z",
+    "duration": 24158.896,
+    "expected": 3,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  }
+}

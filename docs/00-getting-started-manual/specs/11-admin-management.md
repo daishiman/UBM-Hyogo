@@ -158,6 +158,14 @@ UI は `responseEmailMasked` だけを表示し、merge reason に含まれる e
 
 管理 UI は stableKey を直接固定せず、API の 409 / 422 境界を `role="alert"` で分けて表示する。409 `stable_key_collision` は `existingStableKey`、422 body validation は `existingQuestionIds` を保持して表示する。HTTP 202 `backfill_cpu_budget_exhausted` は失敗ではなく再試行可能 status として扱う。`recommendedStableKeys` の多言語 label 比較は UT-07B alias recommendation i18n で `NFKC + trim + whitespace 圧縮` として実装済みで、UI/API response shape は変えない。大規模 back-fill の retryable contract は `UT-07B-schema-alias-hardening-001` で扱う。
 
+### bulk resolve（Issue #776）
+
+`/admin/schema` には single inline edit と並走する **bulk resolve mode** を備える。トグル button (`aria-pressed`) で bulk mode を有効化すると、`unresolved` / `changed` カテゴリの行のみに checkbox が描画される（`added` / `removed` 行は対象外）。カテゴリヘッダの「全選択」checkbox と行 checkbox で複数 diff を選択し、「Bulk Resolve 確定」button から確認 modal を開く。modal では各行の stableKey を個別編集 / 推奨採用 / 全行に推奨を一括適用でき、「確定」で `POST /admin/schema/aliases` を **client-side bounded fan-out（concurrency 8、入力順で結果集計）** により逐次実行する。
+
+bulk endpoint は新設せず、既存 API endpoint surface のみを使用する（CLAUDE.md 不変条件1）。partial failure（一部行が 409 / 422 / network エラー）の場合は失敗行だけを modal に残し、行ごとに `role="alert"` で errorMessage を表示する。HTTP 202 `backfill_cpu_budget_exhausted` を受けた行は失敗扱いにせず `submitStatus="retryable"` として再開可能行のまま modal に残す。全行成功時は modal を閉じ、`router.refresh()` で一覧を再取得する。
+
+選択上限は **50 件** とし、51 件以上を選択した場合は `role="alert"` で警告を出して確定を不可にする。modal は既存 `Modal` primitive（focus trap / Esc close 内蔵）を再利用し、`isSubmitting=true` の間は確定 / キャンセル / Esc を一律無視する。色は OKLch design token (`apps/web/src/styles/tokens.css`) のみを使用し、HEX 直書きや `bg-[#xxx]` は禁止（`verify-design-tokens` gate）。
+
 ## tag assignment queue（UT-02A / 07a）
 
 Forms 同期から発生する tag candidate は `tag_assignment_queue` に投入し、管理者が `/admin/tags/queue` で確認する。`GET /admin/tags/queue?status=dlq` は retry 上限超過行を表示できる。通常の確認結果は `POST /admin/tags/queue/:queueId/resolve` で `resolved` / `rejected` に進める。

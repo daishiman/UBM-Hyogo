@@ -46,13 +46,14 @@
 
 ## Phase 11 evidence file inventory
 
-| ファイル | 状態 | 用途 |
+| Classification | Path | Status |
 | --- | --- | --- |
-| `outputs/phase-11/evidence.md` | ✅（計画書） | Phase 11 取得計画 / canonical path / PASS 5 点セット手順 |
-| `outputs/phase-11/evidence/{typecheck,lint,test,build,grep-gate}.log` | captured / EXIT_CODE=0 | local 5 点 evidence |
-| `outputs/phase-11/screenshots/admin-schema-diff-list.png` | placeholder 検出 / runtime_pending | 実 PNG ではないため PASS evidence ではない |
-| `outputs/phase-11/screenshots/{admin-schema-diff-empty,admin-schema-diff-resolve-form,admin-schema-diff-error}.png` | runtime_pending | Cloudflare Workers + auth + D1 fixture 前提で取得 |
-| `outputs/phase-11/manifest.json` | captured | `pass=false`, `verdict=PASS_BOUNDARY_SYNCED_RUNTIME_PENDING` |
+| Phase 11 取得計画 / canonical path / PASS 5 点セット手順 | `outputs/phase-11/evidence.md` | present |
+| local 5 点 evidence manifest | `outputs/phase-11/manifest.json` | present |
+| admin-schema-diff-list screenshot (runtime pending) | `outputs/phase-11/screenshots/admin-schema-diff-list.png` | pending |
+| admin-schema-diff-empty screenshot (runtime pending) | `outputs/phase-11/screenshots/admin-schema-diff-empty.png` | pending |
+| admin-schema-diff-resolve-form screenshot (runtime pending) | `outputs/phase-11/screenshots/admin-schema-diff-resolve-form.png` | pending |
+| admin-schema-diff-error screenshot (runtime pending) | `outputs/phase-11/screenshots/admin-schema-diff-error.png` | pending |
 
 local evidence は captured 済みだが、VISUAL runtime screenshot は未完了。したがって completed / PASS 単独ではなく `implemented-local-runtime-pending / PASS_BOUNDARY_SYNCED_RUNTIME_PENDING` として close-out する。
 

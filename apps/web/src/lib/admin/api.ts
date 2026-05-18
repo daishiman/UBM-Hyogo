@@ -114,6 +114,116 @@ export const postSchemaAlias = (body: {
 }): Promise<AdminMutationResult<SchemaAliasApplyBody>> =>
   call<SchemaAliasApplyBody>(`/schema/aliases`, "POST", body);
 
+// Issue #776: schema alias bulk resolve — client-side bounded fan-out helper.
+// 不変条件: 既存 endpoint surface (POST /admin/schema/aliases) のみを使用する。
+// `postSchemaAlias` / `isSchemaAliasRetryableContinuation` を変更せず薄い wrapper として共存する。
+
+export interface SchemaAliasBulkRowResult {
+  diffId: string;
+  questionId: string;
+  status: "success" | "retryable" | "error";
+  data?: SchemaAliasApplyBody;
+  error?: {
+    kind: "conflict" | "invalid" | "retryable" | "network" | "other";
+    message: string;
+    httpStatus?: number;
+  };
+}
+
+export interface SchemaAliasBulkOptions {
+  onRowResult?: (result: SchemaAliasBulkRowResult, index: number) => void;
+}
+
+async function runWithConcurrency<T, R>(
+  items: ReadonlyArray<T>,
+  limit: number,
+  fn: (item: T, index: number) => Promise<R>,
+): Promise<R[]> {
+  if (items.length === 0) return [];
+  const effectiveLimit = Math.max(1, Math.min(limit, items.length));
+  const results = new Array<R>(items.length);
+  let nextIndex = 0;
+  const workers: Promise<void>[] = [];
+  for (let w = 0; w < effectiveLimit; w++) {
+    workers.push(
+      (async () => {
+        while (true) {
+          const current = nextIndex++;
+          if (current >= items.length) return;
+          results[current] = await fn(items[current], current);
+        }
+      })(),
+    );
+  }
+  await Promise.all(workers);
+  return results;
+}
+
+export const postSchemaAliasBulk = async (
+  rows: ReadonlyArray<{ diffId: string; questionId: string; stableKey: string }>,
+  options: SchemaAliasBulkOptions = {},
+): Promise<{ results: SchemaAliasBulkRowResult[] }> => {
+  if (rows.length === 0) return { results: [] };
+  const results = await runWithConcurrency(rows, 8, async (row, index) => {
+    let result: SchemaAliasBulkRowResult;
+    try {
+      const r = await postSchemaAlias({
+        diffId: row.diffId,
+        questionId: row.questionId,
+        stableKey: row.stableKey.trim(),
+      });
+      if (isSchemaAliasRetryableContinuation(r)) {
+        result = {
+          diffId: row.diffId,
+          questionId: row.questionId,
+          status: "retryable" as const,
+          data: r.data,
+          error: {
+            kind: "retryable" as const,
+            message: "Back-fill can continue from the last processed row.",
+            httpStatus: 202,
+          },
+        };
+      } else if (r.ok) {
+        result = {
+          diffId: row.diffId,
+          questionId: row.questionId,
+          status: "success" as const,
+          data: r.data,
+        };
+      } else {
+        const kind: "conflict" | "invalid" | "network" | "other" =
+          r.status === 409
+            ? "conflict"
+            : r.status === 422
+              ? "invalid"
+              : r.status === 0
+                ? "network"
+                : "other";
+        result = {
+          diffId: row.diffId,
+          questionId: row.questionId,
+          status: "error" as const,
+          error: { kind, message: r.error ?? "", httpStatus: r.status },
+        };
+      }
+    } catch (e) {
+      result = {
+        diffId: row.diffId,
+        questionId: row.questionId,
+        status: "error" as const,
+        error: {
+          kind: "network" as const,
+          message: e instanceof Error ? e.message : String(e),
+        },
+      };
+    }
+    options.onRowResult?.(result, index);
+    return result;
+  });
+  return { results };
+};
+
 export const isSchemaAliasRetryableContinuation = (
   r: AdminMutationResult<SchemaAliasApplyBody>,
 ): r is AdminMutationOk<SchemaAliasApplySuccessBody> => {

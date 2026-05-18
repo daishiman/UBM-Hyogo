@@ -2722,6 +2722,14 @@ node scripts/list-specs.js --topics
 
 ### references/workflow-issue-748-jest-axe-primitive-a11y-integration-artifact-inventory.md
 
+### references/workflow-issue-776-schema-alias-bulk-resolve-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Workflow Artifacts | L11 |
+| Implementation Targets | L35 |
+| Runtime Boundary | L49 |
+
 ### references/workflow-light-theme-contrast-regression-guard.md
 
 | セクション | 行 |
@@ -5251,6 +5259,19 @@ node scripts/list-specs.js --topics
 | L-I747-005: closed Issue でも `Refs #<n>` で後付け canonical workflow を建てる | L43 |
 | L-I747-006: parent repository `node_modules` cleanup は AI が自動実行しない | L51 |
 
+### references/lessons-learned-issue-776-schema-alias-bulk-resolve-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| L-ISSUE-776-001: API 不変条件下では client-side bounded fan-out を選ぶ | L5 |
+| L-ISSUE-776-002: bulk と single の state は完全に分離する | L11 |
+| L-ISSUE-776-003: partial failure は first-class behavior として扱う | L15 |
+| L-ISSUE-776-004: `202 backfill_cpu_budget_exhausted` は failure ではなく retryable continuation | L19 |
+| L-ISSUE-776-005: validation rule は単一ファイルに集約する | L32 |
+| L-ISSUE-776-006: Phase 11 evidence は local 単独でも canonical 構成を満たす | L36 |
+| L-ISSUE-776-007: source unassigned task は Phase 12 で必ず consumed 化 | L40 |
+| クロスリファレンス | L44 |
+
 ### references/lessons-learned-issue359-production-d1-apply-2026-05.md
 
 | セクション | 行 |
@@ -6932,14 +6953,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L1607 |
-| フェーズ構造（概要） | L1616 |
-| 品質ゲート（概要） | L1647 |
-| 出力テンプレート | L1658 |
-| 実行時のコマンド・エージェント・スキル | L1681 |
-| 昇格パターン集 | L1705 |
-| Current Active / Spec Created Tasks | L1707 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L1857 |
+| ドキュメント構成 | L1621 |
+| フェーズ構造（概要） | L1630 |
+| 品質ゲート（概要） | L1661 |
+| 出力テンプレート | L1672 |
+| 実行時のコマンド・エージェント・スキル | L1695 |
+| 昇格パターン集 | L1719 |
+| Current Active / Spec Created Tasks | L1721 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L1871 |
 
 ### references/task-workflow-backlog-part2.md
 

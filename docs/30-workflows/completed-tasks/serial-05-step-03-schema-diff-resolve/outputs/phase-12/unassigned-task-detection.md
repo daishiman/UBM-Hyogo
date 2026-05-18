@@ -30,7 +30,7 @@
 
 将来的に独立タスク化を検討する候補。本 step では着手しない。
 
-- alias bulk resolve（複数 diff を一括処理）
+- alias bulk resolve（複数 diff を一括処理） — consumed by `docs/30-workflows/issue-776-schema-alias-bulk-resolve/` (Issue #776)
 - diff history view（resolve 履歴の閲覧 UI）
 - alias rollback / undo
 - admin notification（diff 発生時の通知）

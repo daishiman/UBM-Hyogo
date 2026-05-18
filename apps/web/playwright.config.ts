@@ -22,6 +22,9 @@ const isTask13LoginSmoke =
 const isTask17AdminEvidence =
   process.env.PLAYWRIGHT_EVIDENCE_TASK === 'task-17-admin-schema-conflicts-audit' ||
   process.argv.some((arg) => arg.includes('admin-schema-conflicts-audit.spec.ts'))
+const isIssue776SchemaBulkEvidence =
+  process.env.PLAYWRIGHT_EVIDENCE_TASK === 'issue-776-schema-alias-bulk-resolve' ||
+  process.argv.some((arg) => arg.includes('issue776-schema-bulk-resolve.spec.ts'))
 const isTask10Followup002Evidence =
   process.env.PLAYWRIGHT_EVIDENCE_TASK === 'task-10-followup-002' ||
   process.argv.some((arg) => arg.includes('ui-primitives-visual.spec.ts'))
@@ -55,16 +58,18 @@ const EVIDENCE_DIR =
               : isTask13LoginSmoke
                 ? '../../docs/30-workflows/task-13-login-rebuild/outputs/phase-11/evidence'
                 : isTask17AdminEvidence
-                  ? '../../docs/30-workflows/task-17-admin-schema-conflicts-audit/outputs/phase-11/evidence'
-                  : isTask10Followup002Evidence
-                    ? '../../docs/30-workflows/completed-tasks/task-10-followup-002-runtime-visual-axe-evidence/outputs/phase-11/evidence'
-                    : isAttendanceVisualSmoke
-                      ? '../../docs/30-workflows/07c-followup-002-attendance-visual-smoke/outputs/phase-11'
-                      : isTask18FullVisualEvidence
-                        ? '../../docs/30-workflows/task-18-fu-full-visual-regression-suite/outputs/phase-11/evidence'
-                        : isTask18RegressionGate
-                          ? '../../docs/30-workflows/task-18-w7-verify-tokens-and-playwright-smoke/outputs/phase-11/evidence'
-                          : '../../docs/30-workflows/completed-tasks/08b-A-playwright-e2e-full-execution/outputs/phase-11/evidence')
+                ? '../../docs/30-workflows/task-17-admin-schema-conflicts-audit/outputs/phase-11/evidence'
+                  : isIssue776SchemaBulkEvidence
+                    ? '../../docs/30-workflows/issue-776-schema-alias-bulk-resolve/outputs/phase-11'
+                    : isTask10Followup002Evidence
+                      ? '../../docs/30-workflows/completed-tasks/task-10-followup-002-runtime-visual-axe-evidence/outputs/phase-11/evidence'
+                      : isAttendanceVisualSmoke
+                        ? '../../docs/30-workflows/07c-followup-002-attendance-visual-smoke/outputs/phase-11'
+                        : isTask18FullVisualEvidence
+                          ? '../../docs/30-workflows/task-18-fu-full-visual-regression-suite/outputs/phase-11/evidence'
+                          : isTask18RegressionGate
+                            ? '../../docs/30-workflows/task-18-w7-verify-tokens-and-playwright-smoke/outputs/phase-11/evidence'
+                            : '../../docs/30-workflows/completed-tasks/08b-A-playwright-e2e-full-execution/outputs/phase-11/evidence')
 
 const shouldStartLocalServer = !isStagingSmoke
 const localBaseURL = process.env.PLAYWRIGHT_BASE_URL || 'http://localhost:3000'
@@ -230,11 +235,13 @@ export default defineConfig({
                   ? `${localEnv} PLAYWRIGHT_ADMIN_MEMBER_DELETE_FIXTURE=1 pnpm --filter @ubm-hyogo/web dev:webpack`
                   : isTask17AdminEvidence
                     ? `${localEnv} PLAYWRIGHT_ADMIN_IDENTITY_CONFLICTS_FIXTURE=1 PLAYWRIGHT_TASK17_ADMIN_FIXTURE=1 pnpm --filter @ubm-hyogo/web dev:webpack`
-                    : isTask10Followup002Evidence
-                      ? `${localEnv} ENABLE_PRIMITIVES_HARNESS=1 pnpm --filter @ubm-hyogo/web dev:webpack`
-                      : isTask18RegressionGate
-                        ? `${localEnv} PLAYWRIGHT_ADMIN_REQUESTS_FIXTURE=1 PLAYWRIGHT_ADMIN_IDENTITY_CONFLICTS_FIXTURE=1 PLAYWRIGHT_TASK17_ADMIN_FIXTURE=1 pnpm --filter @ubm-hyogo/web dev:webpack`
-                        : `${localEnv} pnpm --filter @ubm-hyogo/web dev:webpack`,
+                    : isIssue776SchemaBulkEvidence
+                      ? `${localEnv} PLAYWRIGHT_ISSUE776_SCHEMA_BULK_FIXTURE=1 pnpm --filter @ubm-hyogo/web dev:webpack`
+                      : isTask10Followup002Evidence
+                        ? `${localEnv} ENABLE_PRIMITIVES_HARNESS=1 pnpm --filter @ubm-hyogo/web dev:webpack`
+                        : isTask18RegressionGate
+                          ? `${localEnv} PLAYWRIGHT_ADMIN_REQUESTS_FIXTURE=1 PLAYWRIGHT_ADMIN_IDENTITY_CONFLICTS_FIXTURE=1 PLAYWRIGHT_TASK17_ADMIN_FIXTURE=1 pnpm --filter @ubm-hyogo/web dev:webpack`
+                          : `${localEnv} pnpm --filter @ubm-hyogo/web dev:webpack`,
             url: localServerReadyURL,
             reuseExistingServer: !process.env.CI,
             timeout: isAttendanceVisualSmoke ? 180_000 : 120_000,
