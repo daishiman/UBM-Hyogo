@@ -1,0 +1,43 @@
+{
+  "taskId": "UT-CICD-DRIFT-IMPL-WORKFLOW-LINT-GATE",
+  "workflowDir": "docs/30-workflows/completed-tasks/issue-290-workflow-lint-gate",
+  "schemaVersion": "1.0.0",
+  "evidence": [
+    {
+      "id": "actionlint-all-workflows",
+      "kind": "lint",
+      "path": "outputs/phase-11/smoke-log.md",
+      "command": "./actionlint -color .github/workflows/*.yml",
+      "acquiredBy": "implementation_cycle",
+      "requiredForCloseout": true,
+      "notes": "SM1 recorded exit 0 for the current 32 .yml workflow files."
+    },
+    {
+      "id": "observation-lint-local-reproduction",
+      "kind": "test",
+      "path": "outputs/phase-11/smoke-log.md",
+      "command": "pnpm observation:lint",
+      "acquiredBy": "implementation_cycle",
+      "requiredForCloseout": true,
+      "notes": "SM2 recorded shell syntax, shell unit, shellcheck, and all-workflows actionlint exit 0."
+    },
+    {
+      "id": "phase12-artifact-precheck",
+      "kind": "grep-gate",
+      "path": "outputs/phase-11/smoke-log.md",
+      "command": "cmp -s artifacts.json outputs/artifacts.json && find outputs/phase-12 -maxdepth 1 -type f",
+      "acquiredBy": "implementation_cycle",
+      "requiredForCloseout": true,
+      "notes": "SM3 recorded artifact mirror parity and strict file existence checks."
+    },
+    {
+      "id": "runtime-github-actions-boundary",
+      "kind": "runtime-observation",
+      "path": "outputs/phase-11/smoke-log.md",
+      "command": "GitHub Actions workflow-shell-lint after user-approved commit/push/PR",
+      "acquiredBy": "post_merge",
+      "requiredForCloseout": false,
+      "notes": "SM4 is intentionally runtime_pending because external GitHub Actions evidence requires user approval."
+    }
+  ]
+}

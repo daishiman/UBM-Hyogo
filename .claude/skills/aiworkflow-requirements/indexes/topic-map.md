@@ -2312,6 +2312,16 @@ node scripts/list-specs.js --topics
 | Branch-level deletion check | L101 |
 | Downstream task: issue-195-sync-jobs-contract-schema-consolidation-001（2026-05-04） | L105 |
 
+### references/workflow-issue-290-workflow-lint-gate-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Metadata | L3 |
+| Current facts | L15 |
+| Same-cycle shellcheck cleanup | L28 |
+| Phase outputs | L39 |
+| Runtime boundary | L50 |
+
 ### references/workflow-issue-295-tag-queue-resolve-race-smoke-artifact-inventory.md
 
 ### references/workflow-issue-300-direct-stable-key-update-guard-artifact-inventory.md
@@ -3435,6 +3445,15 @@ node scripts/list-specs.js --topics
 | 参照される実装ファイル（spec_created のため変更は伴わない） | L74 |
 | Follow-up 未タスク | L81 |
 | Validation Chain（spec_created） | L90 |
+
+### references/workflow-ui-prototype-design-system-foundation-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Summary | L3 |
+| Canonical Sources | L14 |
+| Workflow Outputs | L36 |
+| Implementation Boundary | L51 |
 
 ### references/workflow-ui-ux-visual-baseline-drift.md
 
@@ -4856,6 +4875,15 @@ node scripts/list-specs.js --topics
 | OP-ISSUE195FU002-2: current canonical deletion 検知の運用 | L80 |
 | 再確認・適用記録: issue-195-sync-jobs-contract-schema-consolidation-001（2026-05-04） | L89 |
 
+### references/lessons-learned-issue-290-workflow-lint-gate-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| L-290-001: allowlist actionlint scope drifts | L3 |
+| L-290-002: yamllint is not a free quality gain | L7 |
+| L-290-003: local and CI scopes must be one contract | L11 |
+| L-290-004: runtime PASS and local PASS are separate | L15 |
+
 ### references/lessons-learned-issue-325-test-suffix-rename-migration-2026-05.md
 
 | セクション | 行 |
@@ -5779,8 +5807,8 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 概要 | L3 |
 | 仕様書インデックス | L7 |
-| 利用順序 | L112 |
-| 関連ドキュメント | L117 |
+| 利用順序 | L113 |
+| 関連ドキュメント | L118 |
 
 ### references/llm-embedding.md
 
@@ -6912,6 +6940,14 @@ node scripts/list-specs.js --topics
 | 昇格パターン集 | L1677 |
 | Current Active / Spec Created Tasks | L1679 |
 | UT-17 followup-003 alert-relay weekly healthcheck cron | L1830 |
+| ドキュメント構成 | L1607 |
+| フェーズ構造（概要） | L1616 |
+| 品質ゲート（概要） | L1647 |
+| 出力テンプレート | L1658 |
+| 実行時のコマンド・エージェント・スキル | L1681 |
+| 昇格パターン集 | L1705 |
+| Current Active / Spec Created Tasks | L1707 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L1857 |
 
 ### references/task-workflow-backlog-part2.md
 

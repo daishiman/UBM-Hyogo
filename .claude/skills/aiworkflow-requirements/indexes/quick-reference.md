@@ -16,6 +16,19 @@
 
 ---
 
+### UI Prototype Design System Foundation（2026-05-18）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/ui-prototype-design-system-foundation/` |
+| 状態 | `spec_created / implementation / VISUAL` |
+| prototype coverage SSOT | `docs/30-workflows/ui-prototype-design-system-foundation/PROTOTYPE-COVERAGE.md` |
+| strict Phase 12 | `outputs/phase-12/{main.md,implementation-guide.md,system-spec-update-summary.md,documentation-changelog.md,unassigned-task-detection.md,skill-feedback-report.md,phase12-task-spec-compliance-check.md}` |
+| source inventory | `claude-design-prototype/{app.jsx,data.jsx,icons.jsx,index.html,pages-admin.jsx,pages-member.jsx,pages-public.jsx,primitives.jsx,styles.css}` + `specs/09a..09h` |
+| current app path rule | `apps/web/app/**` is canonical; `/login`, `/profile`, `/privacy`, `/terms` remain root app paths |
+| implementation boundary | no new API endpoint / D1 schema / Google Form change; minimal `apps/web` AppShell / selector hooks added; full 19-route binding and visual evidence remain user-gated work |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-ui-prototype-design-system-foundation-artifact-inventory.md` |
+
 ### Issue #749 Primitive Adoption Tracker（2026-05-17）
 
 | 目的 | 参照先 |
@@ -518,6 +531,23 @@
 | inventory | `references/workflow-issue-526-ci-actionlint-shellcheck-gate-artifact-inventory.md` |
 | lessons | `references/lessons-learned-issue-526-ci-actionlint-shellcheck-gate-2026-05.md` |
 | 境界 | reminder workflow の schedule / workflow_dispatch / Issue 作成副作用は変更しない。runtime CI evidence、branch protection PUT、commit / push / PR は user approval 後 |
+
+### Issue #290 workflow lint gate（2026-05-17）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-290-workflow-lint-gate/` |
+| 状態 | `implemented_local_evidence_captured / implementation / NON_VISUAL / PASS_BOUNDARY_SYNCED_RUNTIME_PENDING / Phase 13 pending_user_approval` |
+| CI owner | `.github/workflows/ci.yml` |
+| dedicated job | `workflow-shell-lint` |
+| required context path | 既存 required context `ci` 内で `pnpm observation:lint` を実行 |
+| local command | `pnpm observation:lint` |
+| lint対象 | `.github/workflows/*.yml`（現行 32 件） |
+| runbook | `docs/30-workflows/runbooks/workflow-lint-local-recovery.md` |
+| source unassigned | `docs/30-workflows/completed-tasks/ut-cicd-drift-impl-workflow-lint-gate.md` consumed |
+| inventory | `references/workflow-issue-290-workflow-lint-gate-artifact-inventory.md` |
+| lessons | `references/lessons-learned-issue-290-workflow-lint-gate-2026-05.md` |
+| 境界 | branch protection 変更、commit / push / PR、GitHub Actions runtime evidence は user approval 後 |
 
 ### Issue #520 Slack Incident Channel Webhook Provisioning（2026-05-07）
 

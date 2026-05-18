@@ -10,8 +10,8 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { readonly children: ReactNode }) {
   return (
-    <html lang="ja">
-      <body>
+    <html lang="ja" data-theme="warm">
+      <body data-shell="root">
         <ToastProvider>{children}</ToastProvider>
       </body>
     </html>
