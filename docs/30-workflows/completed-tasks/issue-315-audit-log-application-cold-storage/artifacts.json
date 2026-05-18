@@ -1,0 +1,91 @@
+{
+  "task_name": "issue-315-audit-log-application-cold-storage",
+  "task_path": "docs/30-workflows/issue-315-audit-log-application-cold-storage",
+  "github_issue": 315,
+  "github_issue_state": "CLOSED",
+  "wave": 1,
+  "execution_mode": "sequential_with_user_gated_mutation",
+  "depends_on": [
+    "issue-514-cf-audit-logs-cold-storage-r2-export"
+  ],
+  "blocks": [],
+  "created_at": "2026-05-18T00:00:00+09:00",
+  "lastUpdated": "2026-05-18T00:00:00+09:00",
+  "status": "implemented_local_evidence_captured",
+  "metadata": {
+    "taskType": "implementation",
+    "docs_only": false,
+    "visualEvidence": "NON_VISUAL",
+    "workflow_state": "implemented_local_evidence_captured",
+    "implementation_status": "implementation_complete_pending_pr",
+    "runtime_boundary": "PASS_BOUNDARY_SYNCED_RUNTIME_PENDING",
+    "implementationCategory": "standard",
+    "scope": "application_audit_log_cold_storage_r2_object_lock",
+    "domain": "cloudflare_d1_r2_workers_github_actions",
+    "recovered_from_unassigned": "docs/30-workflows/completed-tasks/task-07c-audit-log-external-siem.md",
+    "issue_state_at_recovery": "closed",
+    "issue_reference_mode": "refs_only",
+    "governance_mutation_user_gate": true,
+    "read_only_evidence_allowed_pre_gate": [
+      "bash scripts/cf.sh whoami",
+      "bash scripts/cf.sh d1 migrations list ubm-hyogo-db-prod --env production",
+      "bash scripts/cf.sh d1 list",
+      "bash scripts/cf.sh r2 bucket list",
+      "rg -n 'audit_log|UBM_AUDIT' apps/api scripts wrangler.toml"
+    ],
+    "mutation_commands": [
+      "bash scripts/cf.sh d1 migrations apply ubm-hyogo-db-prod --env production",
+      "bash scripts/cf.sh deploy --config apps/api/wrangler.toml --env production",
+      "bash scripts/cf.sh r2 bucket create ubm-audit-cold-storage-app-prod --object-lock-enabled"
+    ],
+    "user_approval_marker": "outputs/phase-13/user-approval-issue-315-<timestamp>.md",
+    "planned_read_only_evidence_files": [
+      "outputs/phase-1/existing-cf-audit-log-inventory.md",
+      "outputs/phase-1/acceptance-criteria.md",
+      "outputs/phase-11/main.md",
+      "outputs/phase-11/evidence-ledger.md",
+      "outputs/phase-11/d1-export-dry-run.log",
+      "outputs/phase-11/r2-put-dry-run.log",
+      "outputs/phase-11/redact-grep-gate.log",
+      "outputs/phase-11/restore-drill.log"
+    ],
+    "planned_mutation_evidence_files": [
+      "outputs/phase-13/user-approval-issue-315-<timestamp>.md",
+      "outputs/phase-11/r2-bucket-create-after.log",
+      "outputs/phase-11/d1-migrations-apply-after.log",
+      "outputs/phase-11/deploy-api-prod-after.log"
+    ]
+  },
+  "phases": [
+    {"phase": 1, "name": "requirements", "file": "phase-1-requirements.md", "status": "completed", "outputs": ["outputs/phase-1/acceptance-criteria.md"], "depends_on_phases": [], "user_approval_required": false},
+    {"phase": 2, "name": "design", "file": "phase-2-design.md", "status": "completed", "outputs": [], "depends_on_phases": [1], "user_approval_required": false},
+    {"phase": 3, "name": "design-review", "file": "phase-3-design-review.md", "status": "completed", "outputs": [], "depends_on_phases": [2], "user_approval_required": false},
+    {"phase": 4, "name": "test-plan", "file": "phase-4-test-plan.md", "status": "completed", "outputs": [], "depends_on_phases": [3], "user_approval_required": false},
+    {"phase": 5, "name": "implementation", "file": "phase-5-implementation.md", "status": "completed", "outputs": ["outputs/phase-5/implementation-diff.md"], "depends_on_phases": [4], "user_approval_required": false},
+    {"phase": 6, "name": "test-additions", "file": "phase-6-test-additions.md", "status": "completed", "outputs": [], "depends_on_phases": [5], "user_approval_required": false},
+    {"phase": 7, "name": "coverage", "file": "phase-7-coverage.md", "status": "completed", "outputs": [], "depends_on_phases": [6], "user_approval_required": false},
+    {"phase": 8, "name": "refactor", "file": "phase-8-refactor.md", "status": "completed", "outputs": [], "depends_on_phases": [7], "user_approval_required": false},
+    {"phase": 9, "name": "qa", "file": "phase-9-qa.md", "status": "completed", "outputs": ["outputs/phase-9/qa-summary.md"], "depends_on_phases": [8], "user_approval_required": false},
+    {"phase": 10, "name": "final-review", "file": "phase-10-final-review.md", "status": "completed", "outputs": [], "depends_on_phases": [9], "user_approval_required": true},
+    {"phase": 11, "name": "manual-test", "file": "phase-11-manual-test.md", "status": "local_evidence_captured_runtime_pending", "outputs": ["outputs/phase-11/main.md", "outputs/phase-11/evidence-ledger.md", "outputs/phase-11/d1-export-dry-run.log", "outputs/phase-11/r2-put-dry-run.log", "outputs/phase-11/redact-grep-gate.log", "outputs/phase-11/restore-drill.log"], "depends_on_phases": [10], "user_approval_required": true},
+    {"phase": 12, "name": "documentation", "file": "phase-12-documentation.md", "status": "completed", "outputs": ["outputs/phase-12/main.md", "outputs/phase-12/implementation-guide.md", "outputs/phase-12/phase12-task-spec-compliance-check.md", "outputs/phase-12/system-spec-update-summary.md", "outputs/phase-12/skill-feedback-report.md", "outputs/phase-12/unassigned-task-detection.md", "outputs/phase-12/documentation-changelog.md"], "depends_on_phases": [11], "user_approval_required": false},
+    {"phase": 13, "name": "pr", "file": "phase-13-pr.md", "status": "pending_user_approval", "outputs": [], "depends_on_phases": [12], "user_approval_required": true}
+  ],
+  "specs_referenced": [
+    "docs/30-workflows/completed-tasks/task-07c-audit-log-external-siem.md",
+    "docs/30-workflows/completed-tasks/issue-514-cf-audit-logs-cold-storage-r2-export/",
+    "apps/api/src/repository/auditLog.ts",
+    "apps/api/migrations/0015_add_audit_export_manifest.sql",
+    "apps/api/wrangler.toml",
+    ".claude/skills/task-specification-creator/references/closed-issue-canonical-workflow-recovery.md",
+    ".claude/skills/task-specification-creator/references/non-visual-irreversible-task-rules.md"
+  ],
+  "secrets_introduced": [],
+  "invariants_touched": [
+    "D1 direct access limited to apps/api and user-gated scripts/audit-log exporter",
+    "Cloudflare CLI via scripts/cf.sh only",
+    "R2 export contains masked data only; raw never leaves D1",
+    "R2 Object Lock COMPLIANCE mode irreversible within retention window",
+    "Phase 13 commit / PR push requires explicit user approval"
+  ]
+}

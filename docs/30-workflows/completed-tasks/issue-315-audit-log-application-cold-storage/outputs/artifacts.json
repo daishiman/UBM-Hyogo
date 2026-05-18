@@ -1,0 +1,31 @@
+{
+  "task_name": "issue-315-audit-log-application-cold-storage",
+  "task_path": "docs/30-workflows/issue-315-audit-log-application-cold-storage",
+  "wave": 1,
+  "created_at": "2026-05-18T00:00:00+09:00",
+  "lastUpdated": "2026-05-18T00:00:00+09:00",
+  "status": "implemented_local_evidence_captured",
+  "metadata": {
+    "taskType": "implementation",
+    "visualEvidence": "NON_VISUAL",
+    "workflow_state": "implemented_local_evidence_captured",
+    "implementation_status": "implementation_complete_pending_pr",
+    "runtime_boundary": "PASS_BOUNDARY_SYNCED_RUNTIME_PENDING",
+    "parity_with_root_artifacts": "outputs ledger は root artifacts.json と同一の phase status / existing outputs list を持つ。存在しない planned-only outputs は列挙しない"
+  },
+  "phases": [
+    {"phase": 1, "name": "requirements", "file": "phase-1-requirements.md", "status": "completed", "outputs": ["phase-1/acceptance-criteria.md"], "depends_on_phases": [], "user_approval_required": false},
+    {"phase": 2, "name": "design", "file": "phase-2-design.md", "status": "completed", "outputs": [], "depends_on_phases": [1], "user_approval_required": false},
+    {"phase": 3, "name": "design-review", "file": "phase-3-design-review.md", "status": "completed", "outputs": [], "depends_on_phases": [2], "user_approval_required": false},
+    {"phase": 4, "name": "test-plan", "file": "phase-4-test-plan.md", "status": "completed", "outputs": [], "depends_on_phases": [3], "user_approval_required": false},
+    {"phase": 5, "name": "implementation", "file": "phase-5-implementation.md", "status": "completed", "outputs": ["phase-5/implementation-diff.md"], "depends_on_phases": [4], "user_approval_required": false},
+    {"phase": 6, "name": "test-additions", "file": "phase-6-test-additions.md", "status": "completed", "outputs": [], "depends_on_phases": [5], "user_approval_required": false},
+    {"phase": 7, "name": "coverage", "file": "phase-7-coverage.md", "status": "completed", "outputs": [], "depends_on_phases": [6], "user_approval_required": false},
+    {"phase": 8, "name": "refactor", "file": "phase-8-refactor.md", "status": "completed", "outputs": [], "depends_on_phases": [7], "user_approval_required": false},
+    {"phase": 9, "name": "qa", "file": "phase-9-qa.md", "status": "completed", "outputs": ["phase-9/qa-summary.md"], "depends_on_phases": [8], "user_approval_required": false},
+    {"phase": 10, "name": "final-review", "file": "phase-10-final-review.md", "status": "completed", "outputs": [], "depends_on_phases": [9], "user_approval_required": true},
+    {"phase": 11, "name": "manual-test", "file": "phase-11-manual-test.md", "status": "local_evidence_captured_runtime_pending", "outputs": ["phase-11/main.md", "phase-11/evidence-ledger.md", "phase-11/d1-export-dry-run.log", "phase-11/r2-put-dry-run.log", "phase-11/redact-grep-gate.log", "phase-11/restore-drill.log"], "depends_on_phases": [10], "user_approval_required": true},
+    {"phase": 12, "name": "documentation", "file": "phase-12-documentation.md", "status": "completed", "outputs": ["phase-12/main.md", "phase-12/implementation-guide.md", "phase-12/phase12-task-spec-compliance-check.md", "phase-12/system-spec-update-summary.md", "phase-12/skill-feedback-report.md", "phase-12/unassigned-task-detection.md", "phase-12/documentation-changelog.md"], "depends_on_phases": [11], "user_approval_required": false},
+    {"phase": 13, "name": "pr", "file": "phase-13-pr.md", "status": "pending_user_approval", "outputs": [], "depends_on_phases": [12], "user_approval_required": true}
+  ]
+}
