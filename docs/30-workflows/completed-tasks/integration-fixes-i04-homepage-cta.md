@@ -10,20 +10,21 @@
 | 対象機能     | 公開トップページ (`/`) の CTA section (`CallToActionCTA` dark variant)                          |
 | 優先度       | 中                                                                                              |
 | 見積もり規模 | 小規模                                                                                          |
-| ステータス   | pending                                                                                         |
+| ステータス   | resolved                                                                                        |
 | 発見元       | improvements 接続検証 (integration-fixes index.md §2 i04) / parallel-06-public-pages DoD 未達   |
 | 発見日       | 2026-05-16                                                                                      |
 
 ## Canonical Workflow Status
 
 - 親 workflow: `docs/30-workflows/ui-prototype-alignment-mvp-recovery/improvements/integration-fixes/`
-- 親タスク状態: `spec_ready_implementation_pending`
+- 親タスク状態: `completed`
 - 関連 spec (正本): `docs/30-workflows/ui-prototype-alignment-mvp-recovery/improvements/integration-fixes/parallel-i04-homepage-cta/spec.md`
 - 親 index: `docs/30-workflows/ui-prototype-alignment-mvp-recovery/improvements/integration-fixes/index.md`
 - 関連 PR / 検証元: parallel-06-public-pages 単独 merge 後の接続検証 (improvements 接続検証 evidence i04)
+- canonical workflow: `docs/30-workflows/integration-fixes-i04-homepage-cta-implementation/`
 - 関連実装 (現状):
-  - `apps/web/app/page.tsx` — HomePage entry。MemberGrid section までは prototype 移植済みだが CTA section が欠落
-  - `apps/web/src/components/public/` — `CallToActionCTA.tsx` 未作成
+  - `apps/web/app/page.tsx` — HomePage entry。MemberGrid section 後に `CallToActionCTA` を mount 済み
+  - `apps/web/src/components/public/CallToActionCTA.tsx` — dark variant CTA component 作成済み
   - `docs/00-getting-started-manual/claude-design-prototype/pages-public.jsx:136-149` — "FOR MEMBERS" ダーク variant section の正本
 
 ---
@@ -52,6 +53,17 @@ UI prototype alignment / MVP recovery の parallel-06-public-pages にて、`doc
 ---
 
 ## 2. 何を達成するか（What）
+
+### 2.0 解決状況（2026-05-17）
+
+本タスクは `docs/30-workflows/integration-fixes-i04-homepage-cta-implementation/` で resolved。
+
+- `CallToActionCTA` component 作成済み
+- `FORM_RESPONDER_URL` 定数作成済み
+- HomePage 末尾へ mount 済み
+- `/register` / `/login` の responder URL 直書きを同定数へ集約済み
+- component + constants focused tests PASS
+- Phase 11 screenshots 3 件保存済み
 
 ### 2.1 目的
 
