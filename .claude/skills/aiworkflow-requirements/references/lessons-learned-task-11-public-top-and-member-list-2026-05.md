@@ -213,6 +213,34 @@ task-11 で `public-top-and-list.spec.ts` を新設する際、firefox / mobile 
 
 ---
 
+## L-T11-007: prototype JSX 単一ファイル長時の bottom section 見落とし対策
+
+### 状況
+
+parallel-06-public-pages の HomePage 移植 (task-11 期) で `docs/00-getting-started-manual/claude-design-prototype/pages-public.jsx` (~150 行) から hero / featured-members section を移植したが、bottom 側 (line 136-149) の "FOR MEMBERS" dark variant CTA section が見落とされた。improvements/integration-fixes index.md §2 i04 として後追い検出され、別タスク `integration-fixes-i04-homepage-cta` で `apps/web/src/components/public/CallToActionCTA.tsx` を新設する形で解消した (2026-05-17 resolved)。
+
+### 原因
+
+- prototype JSX が単一ファイルで長く、上から読み下す移植順序のため bottom 側に到達する前に「移植完了」と判断
+- dark variant CTA は hero / featured-members と視覚的に独立しており「別ページ要素」と誤認しやすい
+- parallel-06 spec section 2.1 で section 構成が列挙されていたが、移植後の section 単位 DOM diff 検証が運用化されていなかった
+
+### 判断 / 採用解
+
+- `apps/web/src/components/public/CallToActionCTA.tsx` を component 化、`apps/web/app/page.tsx` で MemberGrid section 後に mount
+- `responderUrl` 重複防止のため `apps/web/src/lib/constants/form.ts` を新設し `FORM_RESPONDER_URL` を SSOT 化。`/register` / `/login` の直書きも同定数参照に集約 (L-T11-007 副産物)
+- external link は `target="_blank"` + `rel="noopener noreferrer"` 必須
+- 横展開: prototype 移植 spec を作成する Phase 2 で prototype JSX section を行番号付きで全列挙し、本番側 component / mount 位置の対応表 + 落とし穴チェックリストを成果物化する運用ルールを task-specification-creator (`phase-template-core.md`) に組み込む
+
+### 再発防止 / 将来適用パターン
+
+- prototype 移植系 task では Phase 2 で source-section-inventory / component-mapping-table / migration-risks の 3 成果物を必須化
+- bottom / nested / conditional render の section は明示チェック対象に含める
+- Phase 11 AC に「prototype section 全数と本番 mount 数が一致」を入れる
+- 並行して `FORM_RESPONDER_URL` のような外部 URL は frontend constants SSOT を `apps/web/src/lib/constants/` に集約する原則を [[ui-ux-forms]] に正本化
+
+---
+
 ## 横断教訓
 
 - **責務分離の徹底**: route segment colocation 廃止（L-T11-001）/ section composite と primitive 分離（L-T11-002）/ API adapter 層新設（L-T11-003）はすべて「再利用可能性の境界線」を明示する同質の判断

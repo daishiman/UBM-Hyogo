@@ -47,6 +47,9 @@ outputs/post-release-dashboard/**
 # task workflow root 配下の outputs/phase-11/*.log は tracked にする）
 !docs/30-workflows/**/outputs/phase-11/*.log
 !docs/30-workflows/**/outputs/phase-11/**/*.log
+# Phase 11 evidence logs ディレクトリ全体（axe.json 等の non-log 拡張子も tracked にする / L-DEVSYNC-014 拡張）
+!docs/30-workflows/**/outputs/phase-11/logs/
+!docs/30-workflows/**/outputs/phase-11/logs/**
 
 # Environment
 .env

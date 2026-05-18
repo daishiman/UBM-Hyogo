@@ -98,7 +98,7 @@
 | 目的 | 参照先 |
 | --- | --- |
 | workflow root | `docs/30-workflows/parallel-01-navigation-admin-wayfinding/` |
-| 状態 | `implemented_local_runtime_pending / implementation / VISUAL` |
+| 状態 | `implemented_local_evidence_captured / implementation / VISUAL` |
 | scope | AdminSidebar home link + MemberDrawer tags link |
 | implementation | `apps/web/src/components/layout/AdminSidebar.tsx`, `apps/web/src/features/admin/components/_members/MemberDrawer.tsx` |
 | tests | `apps/web/src/components/layout/__tests__/AdminSidebar.component.spec.tsx`, `apps/web/src/features/admin/components/__tests__/MemberDrawer.spec.tsx` |
@@ -106,16 +106,16 @@
 | runtime boundary | real authenticated screenshots and staging smoke remain runtime pending |
 | source | `docs/30-workflows/ui-prototype-alignment-mvp-recovery/improvements/parallel-01-navigation/spec.md` |
 
-### fix-wrangler-esbuild-import-source-error（2026-05-15）
+### fix-cf-deploy-esbuild-import-source-staging-failure（2026-05-17）
 
 | 目的 | 参照先 |
 | --- | --- |
-| workflow root | `docs/30-workflows/completed-tasks/fix-wrangler-esbuild-import-source-error/` |
-| 状態 | `verified / implementation / NON_VISUAL / PASS_BOUNDARY_SYNCED_RUNTIME_PENDING` |
+| workflow root | `docs/30-workflows/fix-cf-deploy-esbuild-import-source-staging-failure/` |
+| 状態 | `implemented_local_evidence_captured / implementation / NON_VISUAL / PASS_BOUNDARY_SYNCED_RUNTIME_PENDING` |
 | root cause | `wrangler@4.85.0` requires `esbuild@0.27.3`, but root `pnpm.overrides.esbuild` pinned all esbuild resolution to `0.25.4` |
 | implementation targets | `package.json`, `pnpm-lock.yaml`, `scripts/cf.sh` |
 | evidence | `outputs/phase-11/main.md`, `outputs/phase-12/phase12-task-spec-compliance-check.md` |
-| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-fix-wrangler-esbuild-import-source-error-artifact-inventory.md` |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-fix-cf-deploy-esbuild-import-source-staging-failure-artifact-inventory.md` |
 | user gate | GitHub Actions deploy-staging / runtime smoke / commit / push / PR |
 
 ### Issue #638 CLOUDFLARE_PAGES_PROJECT GitHub Variable deletion（2026-05-14）
@@ -162,7 +162,7 @@
 | 目的 | 参照先 |
 | --- | --- |
 | workflow root | `docs/30-workflows/task-18-fu-full-visual-regression-suite/` |
-| 状態 | `implemented_local_runtime_pending / implementation / VISUAL` |
+| 状態 | `implemented_local_evidence_captured / implementation / VISUAL` |
 | upstream | `docs/30-workflows/completed-tasks/task-18-w7-verify-tokens-and-playwright-smoke/` |
 | route contract | W7 17 URL set: public 6 / member 2 / admin 8 / not-found 1 |
 | target visual scope | 17 routes x desktop/tablet/mobile = 51 baselines |
@@ -315,6 +315,20 @@
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-task-16-admin-tags-meetings-requests-artifact-inventory.md` |
 | user gate | runtime screenshots / staging smoke / commit / push / PR |
 
+### Admin tags queue resolver drawer（2026-05-17）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/admin-tags-queue-resolver-drawer/` |
+| 状態 | `implemented_local_evidence_captured / implementation / VISUAL` |
+| source spec | `docs/30-workflows/ui-prototype-alignment-mvp-recovery/improvements/serial-05-admin-mutation-ui/step-04-tags-assignment/spec.md`（`_components` 新規前提は superseded） |
+| implementation targets | `apps/web/src/components/admin/TagQueuePanel.tsx`, `TagsQueueResolveDrawer.tsx`, `_tagQueueStatus.ts`, `apps/web/src/features/admin/hooks/useAdminMutation.ts`, `apps/web/src/lib/admin/server-fetch.ts`, `apps/web/playwright/tests/admin-tags-resolve-drawer.spec.ts`, `apps/web/src/styles/tokens.css` |
+| API boundary | browser/BFF path `/api/admin/tags/queue/:queueId/resolve` -> upstream `/admin/tags/queue/:queueId/resolve`; no API/D1/schema change |
+| UI contract | `TagQueuePanel` は list/filter/trigger、`TagsQueueResolveDrawer` は dialog/focus trap/ESC/return focus/schema validation/terminal submit block |
+| evidence | `outputs/phase-12/phase12-task-spec-compliance-check.md`; local Vitest PASS; Phase 11 VISUAL screenshots 5 PNG; axe violations 0 |
+| lessons | `references/lessons-learned-admin-tags-queue-resolver-drawer-2026-05.md` |
+| user gate | staging smoke, commit, push, PR |
+
 ### Issue #630 authenticated /profile LHCI a11y（2026-05-13）
 
 | 目的 | 参照先 |
@@ -361,6 +375,21 @@
 | downstream | task-18 regression smoke / verify-design-tokens |
 | evidence boundary | Phase 12 strict 7, artifacts parity, apps/web implementation, focused tests, and local screenshot evidence are present. Staging smoke, production-equivalent runtime evidence, commit, push, and PR remain user-gated |
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-task-13-login-rebuild-artifact-inventory.md` |
+
+### parallel-i03 profile request dialog refresh order（2026-05-17）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/parallel-i03-dialog-refresh-order/` |
+| 状態 | `implemented_local_evidence_captured / implementation / NON_VISUAL` |
+| route scope | `/profile` |
+| implementation targets | `apps/web/app/profile/_components/{VisibilityRequestDialog,DeleteRequestDialog,RequestActionPanel}.tsx` |
+| contract | dialog success / 409 duplicate-pending 両分岐とも `router.refresh() -> onSubmitted(res.accepted) -> onClose()` |
+| parent boundary | `RequestActionPanel` does not call `router.refresh()` in `onSubmitted` |
+| evidence | `outputs/phase-11/visual-verification-skip.md`, `outputs/phase-12/phase12-task-spec-compliance-check.md` |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-parallel-i03-dialog-refresh-order-artifact-inventory.md` |
+| lessons-learned | `.claude/skills/aiworkflow-requirements/references/lessons-learned-parallel-i03-dialog-refresh-order-2026-05.md`（L-PARALLEL-I03-001..005） |
+| user gate | commit / push / PR |
 
 ### CI Pipeline Recovery Web CD And Runtime Smoke（2026-05-09）
 
@@ -557,7 +586,7 @@
 | 新規追加 | `Card / Badge / Sidebar / Stat / EmptyState / Banner` |
 | 維持 | `Chip / Switch / Segmented / Textarea / Search / Drawer / Modal / Toast / KVList / LinkPills` |
 | local evidence | typecheck / lint / focused test / coverage / next build PASS |
-| blocker | 当時は follow-up 001 で `pnpm.overrides.esbuild = 0.25.4` により `build:cloudflare` PASS。2026-05-15 の `fix-wrangler-esbuild-import-source-error` で wrangler 4.85.0 経路を優先し、現在の root override 正本は `0.27.3` |
+| blocker | 当時は follow-up 001 で `pnpm.overrides.esbuild = 0.25.4` により `build:cloudflare` PASS。2026-05-17 の `fix-cf-deploy-esbuild-import-source-staging-failure` で wrangler 4.85.0 経路を優先し、現在の root override 正本は `0.27.3` |
 | downstream | task-11..17 は `@/components/ui` から import |
 | evidence | `outputs/phase-12/phase12-task-spec-compliance-check.md`、`outputs/phase-11/evidence/screenshots/task10-ui-primitives-runtime.png`、`outputs/phase-11/evidence/axe-report.json` |
 | follow-up 001 | `docs/30-workflows/task-10-followup-001-opennext-esbuild-mismatch/`、`references/workflow-task-10-followup-001-opennext-esbuild-mismatch-artifact-inventory.md`、`lessons-learned/lessons-learned-task-10-followup-001-opennext-esbuild-mismatch-2026-05.md` |
