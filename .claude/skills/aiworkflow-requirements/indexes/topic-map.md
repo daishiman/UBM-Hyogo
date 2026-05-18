@@ -2303,6 +2303,18 @@ node scripts/list-specs.js --topics
 | Branch-level deletion check | L101 |
 | Downstream task: issue-195-sync-jobs-contract-schema-consolidation-001（2026-05-04） | L105 |
 
+### references/workflow-issue-256-e2e-coverage-baseline-runbook-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Canonical Workflow | L3 |
+| Canonical Paths | L9 |
+| Implementation Targets | L23 |
+| Classification | L35 |
+| Runtime Boundary | L41 |
+| Consumed / Superseded Trace | L47 |
+| Lessons Learned | L53 |
+
 ### references/workflow-issue-295-tag-queue-resolve-race-smoke-artifact-inventory.md
 
 ### references/workflow-issue-300-direct-stable-key-update-guard-artifact-inventory.md
@@ -6821,14 +6833,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L1502 |
-| フェーズ構造（概要） | L1511 |
-| 品質ゲート（概要） | L1542 |
-| 出力テンプレート | L1553 |
-| 実行時のコマンド・エージェント・スキル | L1576 |
-| 昇格パターン集 | L1600 |
-| Current Active / Spec Created Tasks | L1602 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L1752 |
+| ドキュメント構成 | L1516 |
+| フェーズ構造（概要） | L1525 |
+| 品質ゲート（概要） | L1556 |
+| 出力テンプレート | L1567 |
+| 実行時のコマンド・エージェント・スキル | L1590 |
+| 昇格パターン集 | L1614 |
+| Current Active / Spec Created Tasks | L1616 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L1766 |
 
 ### references/task-workflow-backlog-part2.md
 

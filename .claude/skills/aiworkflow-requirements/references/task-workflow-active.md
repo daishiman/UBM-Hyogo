@@ -8,6 +8,20 @@
 
 本ドキュメントは、複雑なタスクを単一責務の原則に基づいて分解し、各サブタスクに最適なスラッシュコマンド・エージェント・スキルの組み合わせを選定するためのガイドラインを定義する。
 
+### Issue #256 E2E coverage baseline runbook（2026-05-18）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / NON_VISUAL / implementation_complete_pending_pr` |
+| 成果物 | `docs/30-workflows/issue-256-e2e-coverage-baseline-runbook/` |
+| Issue | #256 CLOSED。PR 文脈は `Refs #256` のみ |
+| source unassigned | `docs/30-workflows/unassigned-task/task-e2e-playwright-coverage-001.md` partial_fix |
+| 目的 | apps/web route coverage blind spot を `coverage.exclude` ratio baseline、soft warn workflow、fallback metric runbook、smoke SLA runbook で可視化する |
+| implementation targets | `scripts/measure-coverage-exclude-ratio.ts`, `scripts/__tests__/measure-coverage-exclude-ratio.spec.ts`, `.github/workflows/verify-coverage-exclude-ratio.yml`, `vitest.config.ts`, `docs/30-workflows/runbooks/e2e-coverage-fallback-metric.md`, `docs/30-workflows/runbooks/playwright-smoke-19-route-sla.md` |
+| evidence | `outputs/phase-7/coverage-exclude-ratio.json` (`37 / 80 = 46.3% warn`), `outputs/phase-9/qa-result.md`, `outputs/phase-11/manual-test-result.md`, `outputs/phase-12/phase12-task-spec-compliance-check.md` |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-256-e2e-coverage-baseline-runbook-artifact-inventory.md` |
+| user gate | commit / push / PR / issue mutation |
+
 ### Issue #730 Phase 11 evidence existence validator（2026-05-17）
 
 | 項目 | 値 |

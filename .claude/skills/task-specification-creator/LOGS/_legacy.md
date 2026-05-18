@@ -2722,3 +2722,7 @@ AC-1〜AC-6 全達成。Phase 10 判定: PASS（MINOR 0件）
 
 - Promoted Issue #717 review feedback: when primary-source revalidation proves an implementation path is unsupported, Phase 1-13 must be resynced so stale executable claims (`id-token: write`, deploy logs, rollback rehearsals, missing evidence paths) are not left as current-cycle DoD.
 - Future staging proof / production cutover must be formalized separately and legacy token revocation remains blocked until production cutover + observation.
+# 2026-05-18 issue-256-e2e-coverage-baseline-runbook
+
+- Applied Phase 11 evidence existence and Phase 12 strict 7 compliance rules to `docs/30-workflows/issue-256-e2e-coverage-baseline-runbook/`.
+- Confirmed CLOSED Issue PR wording uses `Refs #256` instead of close keywords.

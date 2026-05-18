@@ -1,0 +1,73 @@
+name: verify-coverage-exclude-ratio
+
+on:
+  pull_request:
+    branches:
+      - dev
+      - main
+    paths:
+      - "apps/web/app/**"
+      - "docs/30-workflows/runbooks/e2e-coverage-fallback-metric.md"
+      - "package.json"
+      - "scripts/measure-coverage-exclude-ratio.ts"
+      - "scripts/__tests__/measure-coverage-exclude-ratio.spec.ts"
+      - "vitest.config.ts"
+      - ".github/workflows/verify-coverage-exclude-ratio.yml"
+
+permissions:
+  contents: read
+  pull-requests: read
+  issues: write
+
+jobs:
+  measure:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: jdx/mise-action@v2
+
+      - run: mise exec -- pnpm install --frozen-lockfile
+
+      - id: measure
+        run: |
+          mise exec -- pnpm coverage:measure-exclude-ratio --out coverage-exclude-ratio.json
+          echo "ratio=$(jq -r .ratio coverage-exclude-ratio.json)" >> "$GITHUB_OUTPUT"
+          echo "status=$(jq -r .status coverage-exclude-ratio.json)" >> "$GITHUB_OUTPUT"
+
+      - if: steps.measure.outputs.status == 'warn'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const marker = '<!-- coverage-exclude-ratio -->';
+            const ratio = Number('${{ steps.measure.outputs.ratio }}');
+            const pct = (ratio * 100).toFixed(1);
+            const body = `${marker}\ncoverage.exclude ratio for \`apps/web/app\` is ${pct}% (threshold: 30%). See \`docs/30-workflows/runbooks/e2e-coverage-fallback-metric.md\`.`;
+            const comments = await github.paginate(github.rest.issues.listComments, {
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              per_page: 100,
+            });
+            const existing = comments.find((comment) => comment.body?.includes(marker));
+            if (existing) {
+              await github.rest.issues.updateComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                comment_id: existing.id,
+                body,
+              });
+            } else {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number,
+                body,
+              });
+            }
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: coverage-exclude-ratio
+          path: coverage-exclude-ratio.json
