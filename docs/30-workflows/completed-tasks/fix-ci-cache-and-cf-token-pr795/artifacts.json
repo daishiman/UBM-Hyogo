@@ -9,7 +9,33 @@
     "implementation_status": "implementation_complete_runtime_pending",
     "relatedPr": "#795",
     "branch": "feat/ci-cache-and-cf-token-fix-spec",
-    "canonicalRoot": "docs/30-workflows/fix-ci-cache-and-cf-token-pr795"
+    "canonicalRoot": "docs/30-workflows/completed-tasks/fix-ci-cache-and-cf-token-pr795",
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-05-18T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/fix-ci-cache-and-cf-token-pr795/outputs/phase-12/main.md",
+        "approver": "daishiman",
+        "notes": "spec_review: Phase 1-13 spec completed for task-01 (shell-lint cache) and task-02 (CF API token env injection)"
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "passed",
+        "passed_at": "2026-05-18T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/fix-ci-cache-and-cf-token-pr795/outputs/phase-12/implementation-guide.md",
+        "approver": "daishiman",
+        "notes": "implementation_review: setup-project composite cache input + backend-ci deploy-staging step-level env.CLOUDFLARE_API_TOKEN"
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/fix-ci-cache-and-cf-token-pr795/outputs/phase-11/evidence.md",
+        "approver": "daishiman",
+        "notes": "external_ops: GitHub environment secret (CLOUDFLARE_API_TOKEN) confirmation + dev push GitHub Actions runtime green evidence"
+      }
+    ]
   },
   "phases": [
     {
