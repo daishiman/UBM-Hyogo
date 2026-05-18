@@ -2312,6 +2312,16 @@ node scripts/list-specs.js --topics
 | Branch-level deletion check | L101 |
 | Downstream task: issue-195-sync-jobs-contract-schema-consolidation-001（2026-05-04） | L105 |
 
+### references/workflow-issue-290-workflow-lint-gate-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Metadata | L3 |
+| Current facts | L15 |
+| Same-cycle shellcheck cleanup | L28 |
+| Phase outputs | L39 |
+| Runtime boundary | L50 |
+
 ### references/workflow-issue-295-tag-queue-resolve-race-smoke-artifact-inventory.md
 
 ### references/workflow-issue-300-direct-stable-key-update-guard-artifact-inventory.md
@@ -3445,6 +3455,15 @@ node scripts/list-specs.js --topics
 | Follow-up 未タスク | L81 |
 | Validation Chain（spec_created） | L90 |
 
+### references/workflow-ui-prototype-design-system-foundation-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Summary | L3 |
+| Canonical Sources | L14 |
+| Workflow Outputs | L36 |
+| Implementation Boundary | L51 |
+
 ### references/workflow-ui-ux-visual-baseline-drift.md
 
 | セクション | 行 |
@@ -4075,19 +4094,21 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 概要 | L10 |
 | ワークフロー構成 | L38 |
-| CI ワークフロー要件（PR 時） | L66 |
-| キャッシュ戦略 | L102 |
-| 並列実行の活用 | L125 |
-| CD ワークフロー要件（dev / main マージ時） | L181 |
-| Backend ワークフロー要件（dev / main マージ時） | L211 |
-| モニタリングとアラート | L237 |
-| GitHub Secrets の要件 | L271 |
-| Issue #638 CLOUDFLARE_PAGES_PROJECT deletion current state | L299 |
-| UT-27: GitHub Secrets / Variables 配置決定（2026-04-29） | L321 |
-| Workflow lint scope の不変条件（CI recovery / 2026-05-09） | L343 |
-| Failure cascade 抑止 pattern（CI recovery / 2026-05-09） | L354 |
-| Post-release dashboard automation (Issue #351 / 2026-05-05) | L375 |
-| post-release-30day-auto-summary | L412 |
+| CI ワークフロー要件（PR 時） | L68 |
+| キャッシュ戦略 | L104 |
+| 並列実行の活用 | L127 |
+| CD ワークフロー要件（dev / main マージ時） | L183 |
+| Backend ワークフロー要件（dev / main マージ時） | L213 |
+| モニタリングとアラート | L239 |
+| GitHub Secrets の要件 | L273 |
+| Issue #638 CLOUDFLARE_PAGES_PROJECT deletion current state | L301 |
+| UT-27: GitHub Secrets / Variables 配置決定（2026-04-29） | L323 |
+| Workflow lint scope の不変条件（CI recovery / 2026-05-09） | L345 |
+| setup-project cache input 不変条件（PR #795 residual CI recovery / 2026-05-18） | L356 |
+| Failure cascade 抑止 pattern（CI recovery / 2026-05-09） | L366 |
+| Lessons learned (PR #795 由来 / 2026-05-18) | L387 |
+| Post-release dashboard automation (Issue #351 / 2026-05-05) | L393 |
+| post-release-30day-auto-summary | L430 |
 
 ### references/deployment-history.md
 
@@ -4111,8 +4132,8 @@ node scripts/list-specs.js --topics
 | Cloudflare API Token の作成手順 | L384 |
 | Cloudflare API Token 90 日 rotation runbook（Issue #407 / 2026-05-06） | L399 |
 | UT-27: GitHub Secrets / Variables 同期運用（2026-04-29） | L510 |
-| U-FIX-CF-ACCT-01-DERIV-02: Cloudflare deploy token split | L562 |
-| 変更履歴 | L582 |
+| U-FIX-CF-ACCT-01-DERIV-02: Cloudflare deploy token split | L559 |
+| 変更履歴 | L581 |
 
 ### references/deployment.md
 
@@ -4243,7 +4264,7 @@ node scripts/list-specs.js --topics
 | チーム開発での運用 | L377 |
 | 必須環境変数一覧 | L416 |
 | CI/CD環境（GitHub Secrets / Variables）（UT-27 追加 2026-04-29） | L477 |
-| 関連ドキュメント | L498 |
+| 関連ドキュメント | L500 |
 
 ### references/error-handling-core.md
 
@@ -4865,6 +4886,15 @@ node scripts/list-specs.js --topics
 | OP-ISSUE195FU002-1: 同一 wave 同期の漏れ無し基準（governance docs-only 版） | L69 |
 | OP-ISSUE195FU002-2: current canonical deletion 検知の運用 | L80 |
 | 再確認・適用記録: issue-195-sync-jobs-contract-schema-consolidation-001（2026-05-04） | L89 |
+
+### references/lessons-learned-issue-290-workflow-lint-gate-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| L-290-001: allowlist actionlint scope drifts | L3 |
+| L-290-002: yamllint is not a free quality gain | L7 |
+| L-290-003: local and CI scopes must be one contract | L11 |
+| L-290-004: runtime PASS and local PASS are separate | L15 |
 
 ### references/lessons-learned-issue-325-test-suffix-rename-migration-2026-05.md
 
@@ -5789,8 +5819,8 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 概要 | L3 |
 | 仕様書インデックス | L7 |
-| 利用順序 | L112 |
-| 関連ドキュメント | L117 |
+| 利用順序 | L113 |
+| 関連ドキュメント | L118 |
 
 ### references/llm-embedding.md
 
@@ -6914,14 +6944,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L1581 |
-| フェーズ構造（概要） | L1590 |
-| 品質ゲート（概要） | L1621 |
-| 出力テンプレート | L1632 |
-| 実行時のコマンド・エージェント・スキル | L1655 |
-| 昇格パターン集 | L1679 |
-| Current Active / Spec Created Tasks | L1681 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L1831 |
+| ドキュメント構成 | L1620 |
+| フェーズ構造（概要） | L1629 |
+| 品質ゲート（概要） | L1660 |
+| 出力テンプレート | L1671 |
+| 実行時のコマンド・エージェント・スキル | L1694 |
+| 昇格パターン集 | L1718 |
+| Current Active / Spec Created Tasks | L1720 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L1870 |
 
 ### references/task-workflow-backlog-part2.md
 
