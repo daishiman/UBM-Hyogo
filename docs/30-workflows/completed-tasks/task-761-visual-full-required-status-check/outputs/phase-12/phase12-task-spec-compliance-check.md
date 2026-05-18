@@ -27,17 +27,17 @@
 
 ## Phase 11 evidence file inventory
 
-| Evidence | Verdict |
-| --- | --- |
-| `dev-protection-before.json.md` | captured |
-| `main-protection-before.json.md` | captured |
-| `pull-request-trigger-natural-firing.md` | captured |
-| `user-approval-marker.md` | captured; timestamped Phase 13 marker also present |
-| `dev-protection-after.json.md` | captured |
-| `main-protection-after.json.md` | captured |
-| `rollback-put-payload.md` | completed as remove-contexts rollback draft |
-| `manual-test-result.md` | captured |
-| `ui-sanity-visual-review.md` | completed |
+| Classification | Path | Status |
+| --- | --- | --- |
+| dev branch protection before | `outputs/phase-11/evidence/dev-protection-before.json.md` | present |
+| main branch protection before | `outputs/phase-11/evidence/main-protection-before.json.md` | present |
+| pull request trigger natural firing | `outputs/phase-11/evidence/pull-request-trigger-natural-firing.md` | present |
+| user approval marker | `outputs/phase-11/evidence/user-approval-marker.md` | present |
+| dev branch protection after | `outputs/phase-11/evidence/dev-protection-after.json.md` | present |
+| main branch protection after | `outputs/phase-11/evidence/main-protection-after.json.md` | present |
+| rollback PUT payload | `outputs/phase-11/evidence/rollback-put-payload.md` | present |
+| manual test result | `outputs/phase-11/evidence/manual-test-result.md` | present |
+| ui sanity visual review | `outputs/phase-11/evidence/ui-sanity-visual-review.md` | present |
 
 ## Phase 12 strict 7 file inventory
 
