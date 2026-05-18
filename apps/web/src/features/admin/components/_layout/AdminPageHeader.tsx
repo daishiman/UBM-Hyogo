@@ -1,5 +1,6 @@
 // task-15: admin 共通 page header（breadcrumb + title + action slot）
 import type { ReactNode } from "react";
+import { Breadcrumb } from "../../../../components/admin/Breadcrumb";
 
 export interface AdminPageHeaderProps {
   readonly title: string;
@@ -12,21 +13,7 @@ export function AdminPageHeader({ title, description, breadcrumbs, actions }: Ad
   return (
     <header className="flex flex-col gap-2 border-b border-[var(--ubm-color-border-default)] pb-4">
       {breadcrumbs && breadcrumbs.length > 0 ? (
-        <nav aria-label="パンくず">
-          <ol className="flex flex-wrap gap-1 text-sm text-[var(--ubm-color-text-muted)]">
-            {breadcrumbs.map((b, i) => (
-              <li key={`${b.label}-${i}`} className="after:px-1 after:content-['/'] last:after:content-none">
-                {b.href ? (
-                  <a href={b.href} className="hover:underline">
-                    {b.label}
-                  </a>
-                ) : (
-                  <span>{b.label}</span>
-                )}
-              </li>
-            ))}
-          </ol>
-        </nav>
+        <Breadcrumb items={breadcrumbs} className="text-sm text-[var(--ubm-color-text-muted)]" />
       ) : null}
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div>

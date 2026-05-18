@@ -8,6 +8,7 @@
 
 本ドキュメントは、複雑なタスクを単一責務の原則に基づいて分解し、各サブタスクに最適なスラッシュコマンド・エージェント・スキルの組み合わせを選定するためのガイドラインを定義する。
 
+### Issue #749 Primitive Adoption Tracker（2026-05-17）
 ### Issue #747 Vitest esbuild arch & worktree isolation（2026-05-17）
 
 | 項目 | 値 |
@@ -53,6 +54,16 @@
 
 | 項目 | 値 |
 | --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / VISUAL_RUNTIME_PENDING / Phase 12 strict 7 present` |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-749-primitive-adoption-tracker/` |
+| source | Issue #749 CLOSED。PR 文脈は `Refs #749` のみ |
+| parent / route SSOT | `docs/30-workflows/completed-tasks/ui-prototype-alignment-mvp-recovery/SCOPE.md` |
+| 目的 | completed SCOPE の 19 routes x 6 primitive 採用を `outputs/adoption-tracker.md` と `verify-primitive-adoption` gate で機械検証可能にする |
+| implementation targets | `apps/web/src/components/admin/{MeetingPanel,AuditLogPanel,TagQueuePanel,SchemaDiffPanel,RequestQueuePanel,IdentityConflictRow}.tsx`, `apps/web/src/components/public/DensityToggle.client.tsx`, `apps/web/app/(admin)/admin/**/page.tsx`, `scripts/verify-primitive-adoption.sh`, `.github/workflows/verify-primitive-adoption.yml` |
+| same-cycle sync | `CLAUDE.md` 不変条件 9 / 10、quick-reference、resource-map、task-workflow-active、changelog、LOGS |
+| evidence boundary | `apps/web` implementation、Phase 11 grep/typecheck/focused tests、Phase 12 strict 7 は captured。runtime screenshot、branch protection PUT、commit、push、PR は user-gated |
+### i02-admin-error-type-unify（2026-05-17）
+
 | ステータス | `implemented_local_evidence_captured / implementation / NON_VISUAL / Phase 12 strict 7 present / completed-tasks moved` |
 | 成果物 | `docs/30-workflows/completed-tasks/i02-admin-error-type-unify/` |
 | source | `docs/30-workflows/completed-tasks/integration-fixes-i02-admin-error-type-unify.md` consumed |

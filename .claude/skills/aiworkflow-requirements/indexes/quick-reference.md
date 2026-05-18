@@ -16,6 +16,20 @@
 
 ---
 
+### Issue #749 Primitive Adoption Tracker（2026-05-17）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-749-primitive-adoption-tracker/` |
+| 状態 | `implemented_local_evidence_captured / implementation / VISUAL_RUNTIME_PENDING / standard` |
+| source | Issue #749 CLOSED / PR 文脈は `Refs #749` のみ |
+| route SSOT | `docs/30-workflows/completed-tasks/ui-prototype-alignment-mvp-recovery/SCOPE.md`（19 routes） |
+| scope | 19 routes x 6 primitive（FormField / EmptyState / Pagination / Icon / Breadcrumb / useAdminMutation）採用 tracker |
+| same-cycle policy sync | `CLAUDE.md` 不変条件 9 / 10 に admin FormField と canonical useAdminMutation を追記 |
+| evidence boundary | `apps/web` implementation、Phase 11 grep/typecheck/focused tests、Phase 12 strict 7 は captured。runtime screenshot、commit、push、PR は user-gated |
+
+### UT-07A-FU-01 memberTags.assignTagsToMember cleanup（2026-05-15）
+### i02-admin-error-type-unify（2026-05-17）
 ### Issue #747 Vitest esbuild arch & worktree isolation（2026-05-17）
 
 | 目的 | 参照先 |

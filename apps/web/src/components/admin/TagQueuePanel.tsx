@@ -3,6 +3,7 @@
 // 不変条件 #13: tag 直接更新 endpoint なし。queue resolve POST のみ。
 import { useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
+import { EmptyState } from "../ui/EmptyState";
 import { TagsQueueResolveDrawer } from "./TagsQueueResolveDrawer";
 
 export type TagQueueStatus = "queued" | "reviewing" | "resolved" | "rejected" | "dlq";
@@ -85,7 +86,11 @@ export function TagQueuePanel({ initial, filter, focusMemberId }: Props) {
         style={{ display: "grid", gridTemplateColumns: "1fr 2fr", gap: 12 }}
       >
         <ul aria-label="キュー一覧" data-testid="admin-tag-queue-list">
-          {items.length === 0 && <li>該当するキューはありません</li>}
+          {items.length === 0 && (
+            <li>
+              <EmptyState title="該当するキューはありません" />
+            </li>
+          )}
           {items.map((it) => (
             <li key={it.queueId}>
               <button
@@ -102,7 +107,7 @@ export function TagQueuePanel({ initial, filter, focusMemberId }: Props) {
         </ul>
 
         <div aria-label="レビューパネル" data-testid="admin-tag-review-panel">
-          {!current && <p>左のキューから項目を選択してください。</p>}
+          {!current && <EmptyState title="左のキューから項目を選択してください。" />}
           {current && (
             <article>
               <h2>queue: {current.queueId}</h2>

@@ -1,6 +1,8 @@
 // task-15: 会員管理テーブル本体（sort / select / row action）
 "use client";
 import type { AdminMemberListView } from "@ubm-hyogo/shared";
+import { EmptyState } from "../../../../components/ui/EmptyState";
+import { Pagination } from "../../../../components/ui/Pagination";
 
 type Member = AdminMemberListView["members"][number];
 
@@ -43,12 +45,7 @@ export function MembersTable({
 }: MembersTableProps) {
   if (items.length === 0) {
     return (
-      <div
-        role="status"
-        className="ui-card rounded-[var(--ubm-radius-md)] border border-dashed border-[var(--ubm-color-border-default)] bg-[var(--ubm-color-surface-panel)] p-8 text-center text-sm text-[var(--ubm-color-text-muted)]"
-      >
-        該当する会員はいません
-      </div>
+      <EmptyState title="該当する会員はいません" />
     );
   }
 
@@ -125,24 +122,17 @@ export function MembersTable({
         <span>
           {total} 件中 {Math.min(total, (page - 1) * pageSize + 1)}–{Math.min(total, page * pageSize)} 件目
         </span>
-        <div className="flex gap-2">
-          <button
-            type="button"
-            className="rounded border border-[var(--ubm-color-border-default)] px-2 py-1 disabled:opacity-50"
-            disabled={page <= 1}
-            onClick={() => onPageChange(page - 1)}
-          >
-            前へ
-          </button>
-          <button
-            type="button"
-            className="rounded border border-[var(--ubm-color-border-default)] px-2 py-1 disabled:opacity-50"
-            disabled={page >= totalPages}
-            onClick={() => onPageChange(page + 1)}
-          >
-            次へ
-          </button>
-        </div>
+        <Pagination
+          current={page}
+          total={total}
+          pageSize={pageSize}
+          hasPrev={page > 1}
+          hasNext={page < totalPages}
+          onPrev={() => onPageChange(page - 1)}
+          onNext={() => onPageChange(page + 1)}
+          prevAriaLabel="前へ"
+          nextAriaLabel="次へ"
+        />
       </nav>
     </div>
   );
