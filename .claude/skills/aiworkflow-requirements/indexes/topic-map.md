@@ -2724,6 +2724,12 @@ node scripts/list-specs.js --topics
 
 ### references/workflow-issue-762-cf-oidc-staging-proof-prod-cutover-artifact-inventory.md
 
+### references/workflow-issue-769-root-error-focus-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| State | L16 |
+
 ### references/workflow-light-theme-contrast-regression-guard.md
 
 | セクション | 行 |
@@ -6946,14 +6952,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L1634 |
-| フェーズ構造（概要） | L1643 |
-| 品質ゲート（概要） | L1674 |
-| 出力テンプレート | L1685 |
-| 実行時のコマンド・エージェント・スキル | L1708 |
-| 昇格パターン集 | L1732 |
-| Current Active / Spec Created Tasks | L1734 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L1885 |
+| ドキュメント構成 | L1648 |
+| フェーズ構造（概要） | L1657 |
+| 品質ゲート（概要） | L1688 |
+| 出力テンプレート | L1699 |
+| 実行時のコマンド・エージェント・スキル | L1722 |
+| 昇格パターン集 | L1746 |
+| Current Active / Spec Created Tasks | L1748 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L1899 |
 
 ### references/task-workflow-backlog-part2.md
 
