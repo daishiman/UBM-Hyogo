@@ -36,7 +36,6 @@ concurrency:
 jobs:
   fetch-and-analyze:
     runs-on: ubuntu-latest
-    environment: production
     timeout-minutes: 10
     env:
       CF_AUDIT_CLASSIFIER: ${{ vars.CF_AUDIT_CLASSIFIER || 'threshold' }}

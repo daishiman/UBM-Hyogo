@@ -48,9 +48,7 @@ export function FormField({ name, label, error, helper, required, className, chi
       <label htmlFor={actualInputId} className="ui-form-field__label">
         {label}
         {required ? (
-          <span aria-hidden="true" className="ui-form-field__required">
-            *
-          </span>
+          <span aria-hidden="true" className="ui-form-field__required" />
         ) : null}
       </label>
       {child}

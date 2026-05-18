@@ -31,7 +31,7 @@ read_only_evidence_allowed_pre_gate:
 user_approval_marker: docs/30-workflows/issue-718-legacy-cf-token-revocation/outputs/phase-13/user-approval-issue-718-<timestamp>.md
 dependencies:
   - issue-640-oidc-cf-token-cutover (staging/production runtime evidence)
-  - issue-640-followup-001-oidc-full-migration (任意・OIDC 移行後に実行する場合は前提となる)
+  - issue-717-followup-001-production-oidc-cutover (Cloudflare OIDC support が確認され、staging proof / production cutover / observation が完了していること)
 ```
 
 | 項目 | 内容 |
@@ -74,6 +74,10 @@ Issue #640 では `web-cd.yml` / `backend-ci.yml` の Cloudflare deploy credenti
 3. 1Password（ローカル運用 / `scripts/cf.sh` の env 注入元・正本）
 
 Issue #640 本体ではこの物理失効は意図的にスコープ外とし、本 follow-up task に分離した。
+
+### 1.1.1 2026-05-16 状態同期
+
+本 follow-up は `docs/30-workflows/issue-718-legacy-cf-token-revocation/` に昇格済み。backend-ci の `CF_TOKEN_D1_*` / `CF_TOKEN_WORKERS_*` 切替と regression gate 追加は local 実装済みだが、Cloudflare token revoke、GitHub Secrets mutation、1Password mutation、commit、push、PR は explicit user approval 後のみ実行する。完了扱いは Phase 11 revocation evidence 取得後に限定する。
 
 ### 1.2 問題点・課題
 
@@ -350,8 +354,8 @@ git diff .claude/skills/aiworkflow-requirements/references/deployment-secrets-ma
 
 ### 補足事項
 
-- 本 task は `issue-640-followup-001-oidc-full-migration` と直列依存ではない。OIDC 完全移行を待たずに、step-scoped fine-grained token の安定運用が確認できた段階で実行可能。
-- ただし OIDC 完全移行を先に実施した場合、legacy token の参照は構造的にゼロになるため、本 task の Phase 1 inventory が単純化される。
+- 2026-05-16 Issue #717 revalidation により、Cloudflare Workers GitHub Actions / `wrangler-action` の supported OIDC deploy path は未確認。`web-cd.yml` は current rollback path として `CLOUDFLARE_API_TOKEN` を維持する。
+- したがって web-cd deploy token の physical revocation は、公式 support 確認後の staging proof、production cutover、observation window が完了するまで blocked とする。OIDC 未対応のまま revocation する場合は、repository-wide inventory が rollback dependency 0 件を証明し、別途 operator approval を取得すること。
 - revocation コマンドの具体名は本仕様書には焼き込まない（operator-approved 経路として `bash scripts/cf.sh` 系ラッパー or Cloudflare dashboard 手操作のいずれかを許容）。
 - 1Password 正本との整合は最終確認のみ行い、vault 構造変更や item 再設計は別 issue で扱う。
 - Phase 13 の commit / PR はユーザー承認ゲートであり、本タスクの作成時点では実行しない。

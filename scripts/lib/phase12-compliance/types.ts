@@ -23,6 +23,6 @@ export type ComplianceCheckResult =
   | {
       ok: false;
       rootPath: string;
-      reason: "missing-file" | "missing-heading" | "parse-error";
+      reason: "missing-file" | "missing-heading" | "missing-evidence" | "parse-error";
       details: string;
     };

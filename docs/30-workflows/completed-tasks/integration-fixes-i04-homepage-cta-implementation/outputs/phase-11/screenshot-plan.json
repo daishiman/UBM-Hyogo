@@ -1,0 +1,27 @@
+{
+  "mode": "VISUAL",
+  "taskId": "integration-fixes-i04-homepage-cta-implementation",
+  "captures": [
+    {
+      "name": "homepage-call-to-action-cta-desktop.png",
+      "route": "/",
+      "viewport": { "width": 1280, "height": 800 },
+      "selector": "[data-component=\"call-to-action-cta\"]",
+      "tc": "TC-V01"
+    },
+    {
+      "name": "homepage-call-to-action-cta-mobile.png",
+      "route": "/",
+      "viewport": { "width": 390, "height": 844 },
+      "selector": "[data-component=\"call-to-action-cta\"]",
+      "tc": "TC-V02"
+    },
+    {
+      "name": "homepage-full-with-cta-desktop.png",
+      "route": "/",
+      "viewport": { "width": 1280, "height": 800 },
+      "selector": "main[data-page=\"home\"]",
+      "tc": "TC-V03"
+    }
+  ]
+}
