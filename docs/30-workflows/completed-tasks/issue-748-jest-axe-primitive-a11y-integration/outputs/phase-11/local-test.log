@@ -1,0 +1,17 @@
+[33mThe CJS build of Vite's Node API is deprecated. See https://vite.dev/guide/troubleshooting.html#vite-cjs-node-api-deprecated for more details.[39m
+
+ RUN  v2.1.9 /Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260517-020052-wt-15
+
+ ✓ apps/web/src/components/ui/__tests__/parallel09-primitives.component.spec.tsx (26 tests) 7606ms
+   ✓ FormField (G9-1) > error 時に aria-invalid と aria-describedby を入力に注入する 3014ms
+   ✓ Pagination (G9-3) > disabled state で onNext/onPrev が発火しない 381ms
+   ✓ Breadcrumb (G9-5) > 最終項目は aria-current=page、href 未指定なら span で描画する 355ms
+   ✓ a11y(FormField) > has no axe violations 1351ms
+   ✓ a11y(FormField (error)) > has no axe violations 603ms
+   ✓ a11y(EmptyState) > has no axe violations 700ms
+
+ Test Files  1 passed (1)
+      Tests  26 passed (26)
+   Start at  06:53:25
+   Duration  35.22s (transform 3.89s, setup 0ms, collect 7.04s, tests 7.61s, environment 8.74s, prepare 2.23s)
+
