@@ -1,0 +1,310 @@
+
+> @ubm-hyogo/web@0.1.0 test /Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260517-020052-wt-15/apps/web
+> vitest run --passWithNoTests --root=../.. --config=vitest.config.ts apps/web
+
+[33mThe CJS build of Vite's Node API is deprecated. See https://vite.dev/guide/troubleshooting.html#vite-cjs-node-api-deprecated for more details.[39m
+
+ RUN  v2.1.9 /Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260517-020052-wt-15
+
+ ✓ apps/web/src/lib/admin/__tests__/api.spec.ts (19 tests) 729ms
+stdout | apps/web/src/lib/fetch/public.spec.ts > fetchPublic > service-binding 経路: env.API_SERVICE.fetch を使う
+{ transport: 'service-binding', path: '/health', status: 200 }
+
+stdout | apps/web/src/lib/fetch/public.spec.ts > fetchPublic > PUBLIC_API_BASE_URL を使った外向き fetch
+{ transport: 'http-fallback', path: '/v1/foo', status: 200 }
+
+stdout | apps/web/src/lib/fetch/public.spec.ts > fetchPublic > getCloudflareContext throw 時 process.env を fallback として使う
+{ transport: 'http-fallback', path: '/v1/bar', status: 200 }
+
+stdout | apps/web/src/lib/fetch/public.spec.ts > fetchPublic > process.env.PUBLIC_API_BASE_URL があれば Cloudflare env より優先する
+{ transport: 'http-fallback', path: '/v1/baz', status: 200 }
+
+stdout | apps/web/src/lib/fetch/public.spec.ts > fetchPublic > PUBLIC_API_BASE_URL 未指定なら DEFAULT_BASE_URL
+{ transport: 'http-fallback', path: '/x', status: 200 }
+
+stdout | apps/web/src/lib/fetch/public.spec.ts > fetchPublic > revalidate と headers を上書きできる
+{ transport: 'service-binding', path: '/x', status: 200 }
+
+stdout | apps/web/src/lib/fetch/public.spec.ts > fetchPublic > 非 2xx でエラー throw
+{ transport: 'http-fallback', path: '/oops', status: 500 }
+
+stdout | apps/web/src/lib/fetch/public.spec.ts > fetchPublicOrNotFound > 200 で JSON を返す
+{ transport: 'http-fallback', path: '/v1/x', status: 200 }
+
+stdout | apps/web/src/lib/fetch/public.spec.ts > fetchPublicOrNotFound > 404 で FetchPublicNotFoundError
+{ transport: 'http-fallback', path: '/v1/missing', status: 404 }
+
+stdout | apps/web/src/lib/fetch/public.spec.ts > fetchPublicOrNotFound > 5xx で 通常 Error
+{ transport: 'http-fallback', path: '/v1/x', status: 503 }
+
+stdout | apps/web/src/lib/fetch/public.spec.ts > fetchPublicOrNotFound > revalidate オプションを伝搬する
+{ transport: 'service-binding', path: '/v1/x', status: 200 }
+
+stdout | apps/web/src/lib/fetch/public.spec.ts > getServiceBinding env guard regression (AC-R-01..R-05) > [AC-R-02] production context: PUBLIC_API_BASE_URL 明示でも service binding が呼ばれる
+{ transport: 'service-binding', path: '/health', status: 200 }
+
+stdout | apps/web/src/lib/fetch/public.spec.ts > getServiceBinding env guard regression (AC-R-01..R-05) > [AC-R-03] CI without Playwright flag: PUBLIC_API_BASE_URL 明示でも service binding が呼ばれる
+{ transport: 'service-binding', path: '/health', status: 200 }
+
+stdout | apps/web/src/lib/fetch/public.spec.ts > getServiceBinding env guard regression (AC-R-01..R-05) > [AC-R-01] NODE_ENV=test: PUBLIC_API_BASE_URL 明示で global.fetch が呼ばれる
+{ transport: 'http-fallback', path: '/health', status: 200 }
+
+stdout | apps/web/src/lib/fetch/public.spec.ts > getServiceBinding env guard regression (AC-R-01..R-05) > [edge-1] staging: PUBLIC_API_BASE_URL 未設定なら service binding が呼ばれる
+{ transport: 'service-binding', path: '/health', status: 200 }
+
+stdout | apps/web/src/lib/fetch/public.spec.ts > getServiceBinding env guard regression (AC-R-01..R-05) > [edge-2] local dev: service binding 不在で global.fetch が呼ばれる
+{ transport: 'http-fallback', path: '/health', status: 200 }
+
+stdout | apps/web/src/lib/fetch/public.spec.ts > getServiceBinding env guard regression (AC-R-01..R-05) > [edge-3] PLAYWRIGHT_TEST=1: PUBLIC_API_BASE_URL 明示で global.fetch が呼ばれる
+{ transport: 'http-fallback', path: '/health', status: 200 }
+
+ ✓ apps/web/src/lib/fetch/public.spec.ts (18 tests) 795ms
+ ✓ apps/web/src/lib/auth.spec.ts (40 tests) 2456ms
+   ✓ buildAuthConfig > getAuth > dynamic import で AuthRuntime を返し、二回目は cache される 1585ms
+   ✓ buildAuthConfig > jwt encode/decode > encode は secret を文字列化して shared encodeAuthSessionJwt を呼ぶ 356ms
+ ✓ apps/web/src/components/admin/__tests__/IdentityConflictRow.spec.tsx (9 tests) 5842ms
+   ✓ IdentityConflictRow > idle 段階で merge / dismiss ボタンと conflict メタを表示する 1827ms
+   ✓ IdentityConflictRow > merge → 確認1 → 次へ で確認2 (理由入力) に進み、空理由は実行不可 992ms
+   ✓ IdentityConflictRow > merge 実行で trigger に { targetMemberId, reason } を送る (happy) 1118ms
+   ✓ IdentityConflictRow > merge-confirm キャンセルで idle に戻り、reason はリセットされる 870ms
+ ✓ apps/web/src/components/admin/__tests__/SchemaDiffPanel.component.spec.tsx (11 tests) 7218ms
+   ✓ SchemaDiffPanel > happy: 4 ペインに分類して見出しと total を表示する 1325ms
+   ✓ SchemaDiffPanel > mutation 成功: 割当→postSchemaAlias 呼出、toast/refresh、form クローズ 2946ms
+   ✓ SchemaDiffPanel > mutation 失敗 (authz-fail): 403 forbidden で role=alert、form は閉じない 421ms
+   ✓ SchemaDiffPanel > UI-02 retryable continuation: status で「Back-fill 再試行可能」と補助文を表示し、form は開いたまま 500ms
+   ✓ SchemaDiffPanel > UI-04 409 conflict: alert で「他の操作と競合」を含む 490ms
+   ✓ SchemaDiffPanel > UI-05 retryable 後に再 submit→200 success: retryable label が消え success label が出る 719ms
+   ✓ SchemaDiffPanel > 「閉じる」ボタンで form がクローズされる 390ms
+ ✓ apps/web/src/components/admin/__tests__/AuditLogPanel.component.spec.tsx (39 tests) 5639ms
+   ✓ AuditLogPanel > renders collapsed summaries and no edit/delete/rerun actions 2770ms
+   ✓ AuditLogPanel > renders empty and error states 319ms
+   ✓ AuditLogPanel — render 分岐 > maskedBefore のみあるケース 362ms
+   ✓ AuditLogPanel — render 分岐 > masked* なしで beforeJson/afterJson にフォールバック 310ms
+   ✓ AuditLogPanel — render 分岐 > targetType/targetId が null のときは - を表示 394ms
+   ✓ AuditLogPanel — render 分岐 > parseError がある場合に警告文を表示 388ms
+ ✓ apps/web/src/components/admin/__tests__/TagQueuePanel.component.spec.tsx (14 tests) 7057ms
+   ✓ TagQueuePanel > happy: items 複数 + 先頭が初期選択 → review pane に詳細表示 3466ms
+   ✓ TagQueuePanel > mutation confirmed: resolveTagQueue 呼出 + resolved toast 570ms
+   ✓ TagQueuePanel > authz-fail: confirmed 時に 403 → 「承認に失敗: forbidden」toast / refresh は呼ばれない 344ms
+   ✓ TagQueuePanel > フィルタボタン押下で router.push が status / memberId を含む URL を呼ぶ 478ms
+   ✓ TagQueuePanel > focusMemberId なしで「すべて」を押すと query なし URL に遷移 383ms
+   ✓ TagQueuePanel > status=rejected の item も confirmed/rejected が disabled 326ms
+ ✓ apps/web/src/components/admin/__tests__/MeetingPanel.component.spec.tsx (17 tests) 7589ms
+   ✓ MeetingPanel.filterCandidates > 既存 attendance を初期状態から disabled にする 3447ms
+   ✓ MeetingPanel — empty / mutation / authz > empty: meetings.items=[] かつ candidates=[] でフォームと 0 件のみ表示 347ms
+   ✓ MeetingPanel — empty / mutation / authz > createMeeting 成功: 引数が正しく入力をクリアして toast 表示 548ms
+   ✓ MeetingPanel — empty / mutation / authz > addAttendance その他エラー: 登録に失敗 toast 604ms
+   ✓ MeetingPanel — empty / mutation / authz > removeAttendance 成功: 出席者リストから削除 726ms
+   ✓ MeetingPanel — empty / mutation / authz > removeAttendance 失敗: 削除に失敗 toast 363ms
+   ✓ MeetingPanel — empty / mutation / authz > 削除 button は deletedAt 付き updateMeeting を呼ぶ 316ms
+ ✓ apps/web/src/components/ui/__tests__/parallel09-primitives.component.spec.tsx (26 tests) 6488ms
+   ✓ FormField (G9-1) > error 時に aria-invalid と aria-describedby を入力に注入する 1655ms
+   ✓ EmptyState (G9-2) > 4 props (icon/title/description/action) を受け付ける 315ms
+   ✓ Breadcrumb (G9-5) > nav[aria-label=breadcrumb] + ol で描画する 317ms
+   ✓ a11y(FormField) > has no axe violations 1259ms
+   ✓ a11y(EmptyState) > has no axe violations 590ms
+   ✓ a11y(Icon (labelled)) > has no axe violations 401ms
+   ✓ a11y(Breadcrumb) > has no axe violations 465ms
+ ✓ apps/web/src/__tests__/static-invariants.runtime.spec.ts (5 tests) 2399ms
+   ✓ static invariants / 06b > S-03: apps/web 全体に '/no-access' リテラルが現れない 1686ms
+ ✓ apps/web/src/components/ui/__tests__/primitives.component.spec.tsx (26 tests) 4491ms
+   ✓ Avatar > hue is deterministic for same memberId 785ms
+   ✓ Avatar > has aria-label 1159ms
+   ✓ Segmented > has role=radiogroup 369ms
+ ✓ apps/web/src/features/admin/hooks/__tests__/useAdminMutation.spec.ts (9 tests) 1077ms
+   ✓ useAdminMutation > TC-01: success path calls fetch / onSuccess / router.refresh / toast 354ms
+   ✓ useAdminMutation > TC-05: PATCH method sends correct verb 302ms
+ ✓ apps/web/src/lib/api/me-requests.spec.ts (15 tests) 360ms
+ ✓ apps/web/src/__tests__/tokens.runtime.spec.ts (9 tests) 43ms
+ ✓ apps/web/src/lib/fetch/authed.spec.ts (13 tests) 546ms
+ ✓ apps/web/app/profile/_components/RequestActionPanel.component.spec.tsx (10 tests) 1013ms
+   ✓ RequestActionPanel > TC-U-01: publishState=public → 公開停止ボタン表示 / 再公開非表示 417ms
+   ✓ RequestActionPanel > 公開停止ボタン押下で dialog open 327ms
+ ✓ apps/web/app/__tests__/error.component.spec.tsx (10 tests) 2488ms
+   ✓ RouteError > TC-U-01: dev mode で stack を表示する > renders <pre> with stack content 345ms
+   ✓ RouteError > TC-U-05: reset ボタンクリックで reset prop が呼ばれる > invokes reset once on click 1362ms
+ ✓ apps/web/app/profile/_components/VisibilityRequestDialog.component.spec.tsx (7 tests) 3532ms
+   ✓ VisibilityRequestDialog > TC-U-05: open=false で dom 出ない / open=true で role=dialog 出現 1060ms
+   ✓ VisibilityRequestDialog > TC-A-02: Tab focus を dialog 内で循環させる 484ms
+   ✓ VisibilityRequestDialog > TC-U-07: reason > 500 文字で submit が disabled 541ms
+   ✓ VisibilityRequestDialog > TC-U-08: 202 → onSubmitted 呼ばれて onClose する 342ms
+   ✓ VisibilityRequestDialog > 409 → エラー banner を出す（onClose しない） 414ms
+   ✓ VisibilityRequestDialog > network error は retry CTA を出す 479ms
+stdout | apps/web/src/lib/api/__tests__/public.spec.ts > public api wrapper > getStats: schema strict parse を経由する
+{ transport: 'http-fallback', path: '/public/stats', status: 200 }
+
+stdout | apps/web/src/lib/api/__tests__/public.spec.ts > public api wrapper > getStats: 不正な schema は throw する
+{ transport: 'http-fallback', path: '/public/stats', status: 200 }
+
+stdout | apps/web/src/lib/api/__tests__/public.spec.ts > public api wrapper > listMembers: 既定値を query に乗せず公開 endpoint を叩く
+{ transport: 'http-fallback', path: '/public/members', status: 200 }
+
+stdout | apps/web/src/lib/api/__tests__/public.spec.ts > public api wrapper > listMembers: q / density / tag を query に展開する
+{ transport: 'http-fallback', path: '/public/members', status: 200 }
+
+stdout | apps/web/src/lib/api/__tests__/public.spec.ts > public api wrapper > getMemberProfile: 404 を FetchPublicNotFoundError に変換する
+{
+  transport: 'http-fallback',
+  path: '/public/members/missing',
+  status: 404
+}
+
+stdout | apps/web/src/lib/api/__tests__/public.spec.ts > public api wrapper > getFormPreview: strict parse OK
+{
+  transport: 'http-fallback',
+  path: '/public/form-preview',
+  status: 200
+}
+
+ ✓ apps/web/src/lib/api/__tests__/public.spec.ts (6 tests) 378ms
+ ✓ apps/web/src/lib/auth/verify-magic-link.spec.ts (15 tests) 223ms
+ ✓ apps/web/app/api/auth/callback/email/route.route.spec.ts (11 tests) 909ms
+   ✓ GET /api/auth/callback/email > AC-1: token+email 揃いでも 404 を返さない (verify success → signIn 到達) 502ms
+ ✓ apps/web/src/lib/auth/magic-link-client.spec.ts (11 tests) 698ms
+ ✓ apps/web/src/components/public/__tests__/MemberDetailSections.component.spec.tsx (5 tests) 1344ms
+   ✓ MemberDetailSections > renders section heading and rows for visible fields (TC-U-01) 634ms
+   ✓ MemberDetailSections > excludes url kind from KVList (TC-U-03) 334ms
+ ✓ apps/web/src/components/admin/__tests__/RequestQueuePanel.component.spec.tsx (6 tests) 4253ms
+   ✓ RequestQueuePanel > TC-21: 初期表示で pending 一覧と type タブを描画 1461ms
+   ✓ RequestQueuePanel > TC-22: 承認ボタンで confirmation modal が開く 909ms
+   ✓ RequestQueuePanel > TC-23: delete_request 承認で破壊的操作の警告が出る 405ms
+   ✓ RequestQueuePanel > TC-25: 409 エラー時は他 admin 処理済メッセージを表示 799ms
+   ✓ RequestQueuePanel > TC-26: nextCursor があれば次ページへ遷移できる 653ms
+ ✓ apps/web/src/lib/__tests__/logger.spec.ts (8 tests) 367ms
+ ✓ apps/web/src/lib/url/__tests__/members-search.spec.ts (11 tests) 329ms
+ ✓ apps/web/src/features/admin/components/__tests__/MembersTable.spec.tsx (6 tests) 4644ms
+   ✓ MembersTable > TC-MT-02: 3 行描画 662ms
+   ✓ MembersTable > TC-MT-04: 氏名 button click 1008ms
+   ✓ MembersTable > a11y violations 0 2425ms
+ ✓ apps/web/app/api/me/[...path]/route.route.spec.ts (3 tests) 458ms
+ ✓ apps/web/src/lib/api/__tests__/me-requests-client.spec.ts (7 tests) 407ms
+ ✓ apps/web/app/login/_components/MagicLinkForm.component.spec.tsx (2 tests) 2591ms
+   ✓ MagicLinkForm cooldown / U-03 > submit 後 60s cooldown でカウントダウンし 0 で再有効化 2202ms
+   ✓ MagicLinkForm cooldown / U-03 > 送信失敗時は local error ではなく URL query state=error に遷移する 387ms
+ ✓ apps/web/src/lib/__tests__/env.spec.ts (10 tests) 228ms
+ ✓ apps/web/app/api/me/delete-request/route.route.spec.ts (5 tests) 343ms
+ ✓ apps/web/src/components/public/__tests__/FormPreviewSections.component.spec.tsx (3 tests) 982ms
+   ✓ FormPreviewSections > groups fields by sectionKey and shows visibility label / required badge (happy) 652ms
+ ✓ apps/web/app/login/_components/__tests__/LoginPanel.component.spec.tsx (7 tests) 2937ms
+   ✓ LoginPanel / 6 状態 > input: form / Google ボタン / register リンクが出る 2206ms
+ ✓ apps/web/app/api/me/visibility-request/route.route.spec.ts (4 tests) 104ms
+ ✓ apps/web/app/profile/_components/__tests__/VisibilityRequest.component.spec.tsx (4 tests) 1874ms
+   ✓ VisibilityRequest > public → 公開停止申請を成功させる 1434ms
+ ✓ apps/web/src/lib/__tests__/useAdminMutation.spec.tsx (4 tests) 890ms
+   ✓ useAdminMutation (G9-8/9) > 正常系: mutationFn を呼び onSuccess が発火する 565ms
+ ✓ apps/web/src/lib/url/login-query.spec.ts (16 tests) 294ms
+ ✓ apps/web/src/features/admin/components/__tests__/BulkActionBar.spec.tsx (5 tests) 3616ms
+   ✓ BulkActionBar > TC-BAB-02: publish click でシリアル呼出 2405ms
+   ✓ BulkActionBar > a11y violations 0 605ms
+ ✓ apps/web/src/components/ui/__tests__/task10-contract.component.spec.tsx (3 tests) 1453ms
+   ✓ task-10 ui primitive contract > keeps className merge and accessibility surfaces available 1334ms
+ ✓ apps/web/src/components/public/__tests__/MemberCard.component.spec.tsx (3 tests) 988ms
+   ✓ MemberCard > renders all member fields and link to detail page (happy) 939ms
+ ✓ apps/web/app/profile/_components/DeleteRequestDialog.component.spec.tsx (4 tests) 1345ms
+   ✓ DeleteRequestDialog > TC-U-09: チェック未入力で submit が disabled 382ms
+   ✓ DeleteRequestDialog > TC-U-10: 不可逆性文言が出ている / submit が aria-describedby で説明される 365ms
+   ✓ DeleteRequestDialog > チェック後に submit 有効化 → 202 で onSubmitted 300ms
+ ✓ apps/web/app/profile/_components/__tests__/DeleteRequest.component.spec.tsx (3 tests) 2153ms
+   ✓ DeleteRequest > 退会申請を成功させ accepted 表示 1472ms
+   ✓ DeleteRequest > 409 を二重申請メッセージで表示 523ms
+ ✓ apps/web/src/features/admin/components/__tests__/MembersFilters.spec.tsx (6 tests) 4605ms
+   ✓ MembersFilters > TC-MF-01: zone select 変更で onChange 発火 802ms
+   ✓ MembersFilters > TC-MF-04: 自由検索は onBlur で確定 390ms
+   ✓ MembersFilters > TC-MF-05: loading=true で「更新中…」表示 1313ms
+   ✓ MembersFilters > a11y violations 0 1775ms
+ ✓ apps/web/src/components/public/__tests__/MemberTable.spec.tsx (3 tests) 2597ms
+   ✓ MemberTable > ヘッダ行 5 列と各 item の行をレンダーする 2557ms
+ ✓ apps/web/src/lib/__tests__/boundary.spec.ts (3 tests) 10937ms
+   ✓ AC-3 / AC-4: data access boundary > apps/web から D1Database を import すると boundary lint が error 2337ms
+   ✓ AC-3 / AC-4: data access boundary > apps/web から apps/api を import すると boundary lint が error 3517ms
+   ✓ AC-3 / AC-4: data access boundary > 通常コードでは boundary lint が pass する 5078ms
+ ✓ apps/web/src/lib/session.spec.ts (7 tests) 12ms
+ ✓ apps/web/src/components/layout/__tests__/AdminSidebar.component.spec.tsx (4 tests) 2172ms
+   ✓ AdminSidebar > 管理メニュー nav が aria-label 付きで存在する (accessibility) 743ms
+   ✓ AdminSidebar > 10 件のリンクをラベルと href の組で全件レンダーする 1191ms
+ ✓ apps/web/src/components/public/__tests__/MemberFilters.client.spec.tsx (3 tests) 1714ms
+   ✓ MemberFilters > Search / 2 つの Select / Segmented / DensityToggle をレンダーする 1061ms
+   ✓ MemberFilters > tag が指定済みの場合 active-tags リストを描画し × ボタンで削除できる 392ms
+ ✓ apps/web/app/profile/_components/PublicVisibilityBanner.component.spec.tsx (6 tests) 566ms
+   ✓ PublicVisibilityBanner DOM > data-region と aria-label を持つ section を描画する 552ms
+ ✓ apps/web/src/features/admin/components/__tests__/KpiGrid.spec.tsx (5 tests) 2836ms
+   ✓ KpiGrid > TC-KG-01: 4 セルが描画される 942ms
+   ✓ KpiGrid > a11y violations 0 1687ms
+ ✓ apps/web/src/features/admin/components/__tests__/MemberDrawer.spec.tsx (1 test) 1216ms
+   ✓ MemberDrawer > 会員ごとのタグ管理リンクを percent-encoded href で表示する 1206ms
+ ✓ apps/web/src/components/public/__tests__/MemberLinks.component.spec.tsx (3 tests) 753ms
+   ✓ MemberLinks > extracts only url kind fields (TC-U-05) 631ms
+ ✓ apps/web/src/components/public/__tests__/ProfileHero.component.spec.tsx (3 tests) 2435ms
+   ✓ ProfileHero > renders all fields and badges when zone and membershipType present (happy) 2241ms
+ ✓ apps/web/src/components/feedback/__tests__/EmptyState.component.spec.tsx (3 tests) 2073ms
+   ✓ EmptyState > renders title, description and reset link with default label (happy) 1590ms
+ ✓ apps/web/src/components/public/__tests__/Stats.component.spec.tsx (3 tests) 1353ms
+   ✓ Stats > renders 4 anchored stat tiles 1170ms
+ ✓ apps/web/src/components/public/__tests__/DensityToggle.client.spec.tsx (3 tests) 2083ms
+   ✓ DensityToggle > 3 種の radio を radiogroup として描画し value で選択状態を反映する 1407ms
+   ✓ DensityToggle > comfy 選択時は density param を削除して /members に replace する 347ms
+   ✓ DensityToggle > dense 選択時は density=dense を URL に付与する 326ms
+stdout | apps/web/scripts/__tests__/lhci-auth-storage.spec.ts > lhci-auth-storage > writes a storage state with authjs.session-token cookie
+[lhci-auth-storage] wrote /var/folders/35/t3gvbkdd2w55yk8csmzskzrw0000gn/T/lhci-auth-2GX8Qy/storage.json
+
+ ✓ apps/web/scripts/__tests__/lhci-auth-storage.spec.ts (2 tests) 120ms
+ ✓ apps/web/src/components/ui/Toast.spec.tsx (3 tests) 1745ms
+   ✓ Toast variants > default variant は role=status に出る 1472ms
+ ✓ apps/web/src/test-utils/fetch-mock.spec.ts (5 tests) 43ms
+ ✓ apps/web/src/components/public/__tests__/Hero.component.spec.tsx (3 tests) 740ms
+   ✓ Hero > renders title, subtitle and both CTAs (happy) 585ms
+ ✓ apps/web/src/lib/auth/oauth-client.spec.ts (5 tests) 116ms
+ ✓ apps/web/app/login/_components/__tests__/LoginCard.component.spec.tsx (5 tests) 1808ms
+   ✓ LoginCard > title prop を h1 として描画する 1273ms
+   ✓ LoginCard > footerSlot が描画される 333ms
+ ↓ apps/web/src/__tests__/build-output.runtime.spec.ts (1 test | 1 skipped)
+ ✓ apps/web/src/components/public/__tests__/Timeline.component.spec.tsx (3 tests) 1646ms
+   ✓ Timeline > renders entries in given order with time[dateTime] (happy) 1046ms
+ ✓ apps/web/src/__tests__/instrumentation-client.runtime.spec.ts (2 tests) 244ms
+ ✓ apps/web/src/lib/admin/dashboard-ui.spec.ts (4 tests) 25ms
+ ✓ apps/web/src/lib/url/login-redirect.spec.ts (8 tests) 51ms
+ ✓ apps/web/src/components/auth/__tests__/SignOutButton.component.spec.tsx (3 tests) 1506ms
+   ✓ SignOutButton > calls Auth.js signOut with the default login redirect 498ms
+   ✓ SignOutButton > uses custom label and redirectTo when provided 934ms
+ ✓ apps/web/src/components/public/__tests__/MemberGrid.spec.tsx (3 tests) 1624ms
+   ✓ MemberGrid > items 件数分の li を density 属性付きでレンダーする (comfy) 1383ms
+ ✓ apps/web/app/profile/_components/RequestErrorMessage.component.spec.tsx (9 tests) 2573ms
+   ✓ RequestErrorMessage > renders alert with non-empty text for DUPLICATE_PENDING_REQUEST 997ms
+   ✓ RequestErrorMessage > renders alert with non-empty text for INVALID_REQUEST 357ms
+   ✓ RequestErrorMessage > NETWORK: retry ボタンを表示し onRetry を呼ぶ 608ms
+ ✓ apps/web/src/components/public/__tests__/RegisterCallout.component.spec.tsx (3 tests) 895ms
+   ✓ RegisterCallout > renders external CTA pointing to responderUrl (TC-U-09) 789ms
+ ✓ apps/web/src/components/public/__tests__/MemberActivity.component.spec.tsx (2 tests) 406ms
+ ✓ apps/web/src/features/admin/components/__tests__/RecentActionsTable.spec.tsx (4 tests) 1388ms
+   ✓ RecentActionsTable > TC-RAT-01: items=[] で empty メッセージ 519ms
+   ✓ RecentActionsTable > TC-RAT-03: 監査ログリンク 320ms
+   ✓ RecentActionsTable > a11y violations 0 325ms
+ ✓ apps/web/src/components/public/__tests__/ZoneIntro.spec.tsx (2 tests) 806ms
+   ✓ ZoneIntro > セクション見出しと 3 ゾーンカードをレンダーする 743ms
+ ✓ apps/web/src/components/public/__tests__/PublicHeader.spec.tsx (2 tests) 842ms
+   ✓ PublicHeader > 3 件のナビ項目をラベルと href の組で全件レンダーする 565ms
+ ✓ apps/web/src/components/public/__tests__/PublicFooter.spec.tsx (2 tests) 723ms
+   ✓ PublicFooter > プライバシー / 利用規約リンクと copyright をレンダーする 657ms
+ ✓ apps/web/app/profile/_components/RequestPendingBanner.component.spec.tsx (3 tests) 1925ms
+   ✓ RequestPendingBanner > visibility_request 文言 + role=status + aria-live=polite 1614ms
+ ✓ apps/web/src/components/legal/__tests__/LegalProse.component.spec.tsx (2 tests) 380ms
+ ✓ apps/web/src/lib/url/login-state.spec.ts (2 tests) 396ms
+ ✓ apps/web/src/components/public/__tests__/MemberTags.component.spec.tsx (2 tests) 593ms
+   ✓ MemberTags > renders one badge per tag 511ms
+ ✓ apps/web/src/lib/__tests__/sentry-capture.spec.ts (5 tests) 745ms
+   ✓ sentry capture wrapper (server runtime) > T-04: captureMessage が server runtime 経路で呼ばれる 513ms
+ ✓ apps/web/src/lib/tones.spec.ts (7 tests) 5ms
+ ✓ apps/web/src/components/layout/__tests__/MemberHeader.spec.tsx (1 test) 1793ms
+   ✓ MemberHeader > マイページリンクとログアウトボタンをレンダーする 1792ms
+ ✓ apps/web/app/(admin)/admin/audit/page.page.spec.ts (2 tests) 81ms
+ ✓ apps/web/src/lib/__tests__/is-browser.spec.ts (3 tests) 30ms
+ ✓ apps/web/src/lib/__tests__/logger.runtime.spec.ts (2 tests) 151ms
+ ✓ apps/web/src/lib/__tests__/is-browser.node.spec.ts (2 tests) 9ms
+ ✓ apps/web/src/__tests__/instrumentation.runtime.spec.ts (2 tests) 2050ms
+   ✓ instrumentation register() guard > T-07: 2 回呼び出しても Sentry.init が 1 回しか呼ばれない 1793ms
+
+ Test Files  88 passed | 1 skipped (89)
+      Tests  615 passed | 1 skipped (616)
+   Start at  08:05:25
+   Duration  161.91s (transform 29.60s, setup 0ms, collect 148.41s, tests 154.38s, environment 431.15s, prepare 102.40s)
+

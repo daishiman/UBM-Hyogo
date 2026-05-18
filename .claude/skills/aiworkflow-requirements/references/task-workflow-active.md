@@ -8,6 +8,33 @@
 
 本ドキュメントは、複雑なタスクを単一責務の原則に基づいて分解し、各サブタスクに最適なスラッシュコマンド・エージェント・スキルの組み合わせを選定するためのガイドラインを定義する。
 
+### Issue #747 Vitest esbuild arch & worktree isolation（2026-05-17）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_runtime_blocked_node_arch / implementation / NON_VISUAL / PARTIAL_LOCAL_EVIDENCE_NODE_ARCH_BLOCKED` |
+| 成果物 | `docs/30-workflows/issue-747-vitest-esbuild-arch-and-worktree-isolation/` |
+| source | Issue #747 CLOSED / `docs/30-workflows/unassigned-task/parallel-09-followup-002-vitest-esbuild-version-alignment.md` consumed |
+| 目的 | focused Vitest 2 spec の起動 blocker を、Node arch / worktree topology / esbuild version parity の3層で検出・復旧する |
+| 実装 | `scripts/verify-node-arch.mjs`, `scripts/verify-worktree-node-modules-isolation.mjs`, `scripts/verify-esbuild-version.mjs`, root `package.json` scripts + `esbuild@0.27.3`, `pnpm-lock.yaml`, `lefthook.yml`, `.github/workflows/verify-esbuild.yml`, `.mise.toml`, `CLAUDE.md` runbook link |
+| evidence | focused Vitest 2 specs, worktree isolation, and esbuild version parity pass locally; `verify:node-arch` fails on this Rosetta/x64 Node and remains the active runtime blocker |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-747-vitest-esbuild-arch-and-worktree-isolation-artifact-inventory.md` |
+| user gate | arm64 Node reinstall on local host, commit, push, PR, GitHub Actions runtime evidence, parent repository `node_modules` cleanup |
+
+### Issue #748 jest-axe primitive a11y integration（2026-05-17）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / NON_VISUAL / Phase 12 strict 7 present` |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-748-jest-axe-primitive-a11y-integration/` |
+| Issue | #748 CLOSED。PR 文脈は `Refs #748` |
+| source | `docs/30-workflows/completed-tasks/parallel-09-followup-003-jest-axe-real-a11y-integration.md` consumed |
+| 目的 | parallel-09 primitive 5 種に real `jest-axe` component test を統合し、proxy assertion だけの a11y gate を解消する |
+| implementation targets | `apps/web/src/test/axe.ts`, `apps/web/src/components/ui/__tests__/parallel09-primitives.component.spec.tsx` |
+| evidence | `outputs/phase-11/local-test.log`, `typecheck.log`, `lint.log`; Phase 12 strict 7 |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-748-jest-axe-primitive-a11y-integration-artifact-inventory.md` |
+| user gate | commit / push / PR / issue mutation |
+
 ### Issue #730 Phase 11 evidence existence validator（2026-05-17）
 
 | 項目 | 値 |
