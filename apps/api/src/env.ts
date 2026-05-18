@@ -25,6 +25,14 @@ export interface Env extends SyncEnv, ResponseSyncEnv {
   // 03b-followup-006: per-sync write cap 連続到達検知の event emit 先
   readonly SYNC_ALERTS?: AnalyticsEngineDataset;
 
+  // wrangler.toml [[r2_buckets]] binding = "UBM_AUDIT_COLD_STORAGE"
+  // Issue #514: Cloudflare audit log cold storage.
+  readonly UBM_AUDIT_COLD_STORAGE?: R2Bucket;
+
+  // wrangler.toml [[r2_buckets]] binding = "UBM_AUDIT_APP_COLD_STORAGE"
+  // Issue #315: application audit_log cold storage.
+  readonly UBM_AUDIT_APP_COLD_STORAGE?: R2Bucket;
+
   // wrangler.toml [[queues.producers]] binding = "SCHEMA_ALIAS_BACKFILL_QUEUE"
   // UT-07B-FU-01: schema alias back-fill 継続 job の enqueue 先
   readonly SCHEMA_ALIAS_BACKFILL_QUEUE?: Queue<unknown>;

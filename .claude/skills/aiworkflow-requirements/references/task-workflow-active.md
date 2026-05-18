@@ -1256,6 +1256,17 @@
 | 正本同期 | `references/observability-monitoring.md` / `references/deployment-secrets-management.md` / `docs/00-getting-started-manual/specs/15-infrastructure-runbook.md` / `references/lessons-learned-issue-514-cf-audit-logs-cold-storage-r2-export-2026-05.md` |
 | 苦戦知見 | `references/lessons-learned-issue-514-cf-audit-logs-cold-storage-r2-export-2026-05.md` (L-ISSUE514-001..007: artifacts mirror parity / Phase 11 10 screenshots, Phase 12 strict 7 outputs / `PASS_BOUNDARY_SYNCED_RUNTIME_PENDING` 語彙 / G1-G4 gate sequence / monthly→daily cadence 補正 / source schema 整合 + r2_etag / 6-category redaction guard) |
 
+### Issue #315 application audit_log cold storage（2026-05-18）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / NON_VISUAL / PASS_BOUNDARY_SYNCED_RUNTIME_PENDING` |
+| 成果物 | `docs/30-workflows/issue-315-audit-log-application-cold-storage/` |
+| 実装 | `apps/api/migrations/0018_add_audit_log_export_manifest.sql`, `apps/api/src/lib/audit/redact.ts`, `apps/api/src/repository/auditLog.ts`, `scripts/audit-log/export-to-r2.ts`, `.github/workflows/audit-log-cold-storage.yml` |
+| R2 binding | `UBM_AUDIT_APP_COLD_STORAGE` |
+| manifest | `audit_log_export_manifest`、`(yyyy, mm, dd)` UNIQUE、`pending -> completed/failed`、`r2_etag` / `sha256` |
+| gate | production D1 apply / R2 Object Lock bucket create / deploy / non-dry-run export / restore drill / commit / push / PR は user-gated |
+
 
 ### parallel-10-auth-session-handling（2026-05-15）
 
