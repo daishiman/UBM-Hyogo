@@ -186,6 +186,40 @@
 - 事例: 2026-05-18 fix/cf-deploy-esbuild-import-source-staging-failure dev sync で本ルール適用、pre-push gate 全 PASS（`coverage-guard` / `gate-metadata-guard` / `indexes-drift-guard` / `phase12-compliance-guard` / `verify-esbuild`）の上 push 成功。
 
 
+## L-DEVSYNC-018: 新規 task の root/outputs `artifacts.json` には `metadata.gates` を生成時から付与（2026-05-18 追加）
+
+- 症状: 2026-05-18 `feat/ut-cicd-drift-verify-indexes-trigger-recovery-sop` の PR #796 で、`origin/dev` 取り込み後に `verify-gate-metadata` workflow が `[ERROR] docs/30-workflows/completed-tasks/ut-cicd-drift-impl-verify-indexes-trigger/artifacts.json: metadata.gates absent on changed artifacts.json`（root と outputs 2 件）で fail。新規 task で root/outputs artifacts.json が **両方** changed file となるため、`--require-gates-for-changed` 引数経由で validator は ERROR を出す（既存 task は WARN だけで素通り）。
+- Validator 仕様 (`scripts/gate-metadata/validate.ts`):
+  - `metadata.gates` 未設定 → require=true なら ERROR、false なら WARN（skip）
+  - `metadata.gates` は `GatesArraySchema` (`packages/shared/src/gate-metadata/schema.ts`) で zod 検証
+  - `gate_id` regex: `^Gate-[A-Z](-[A-Z0-9]+)*$`
+  - `status`: `pending | passed | failed | waived`
+  - `passed_at`: ISO 8601 datetime with offset、`status=passed` のとき非 null 必須・それ以外 null 必須
+  - `evidence_path`: repo-root 相対 POSIX path、`..` を含まないこと、`status=passed` のとき物理実在検査
+  - `approver`: GitHub username 形式 (`^[A-Za-z0-9](?:[A-Za-z0-9-]{0,37}[A-Za-z0-9])?$`) または `CODEOWNERS:<path>`
+- 解消（spec_created 段階の正本テンプレート）:
+  ```json
+  "metadata": {
+    "...": "...",
+    "gates": [
+      { "gate_id": "Gate-A", "status": "passed",  "passed_at": "<spec_review_ISO>",       "evidence_path": "<root>/outputs/phase-3/design.md",          "approver": "<gh-username>", "notes": "spec_review" },
+      { "gate_id": "Gate-B", "status": "pending", "passed_at": null,                       "evidence_path": "<root>/outputs/phase-10/ac-verification.md", "approver": "<gh-username>", "notes": "implementation_review" },
+      { "gate_id": "Gate-C", "status": "pending", "passed_at": null,                       "evidence_path": "<root>/outputs/phase-13/diff-to-pr.md",     "approver": "<gh-username>", "notes": "external_ops" }
+    ]
+  }
+  ```
+- **artifacts parity 不変条件**: root `artifacts.json` と `outputs/artifacts.json` の **両方** に同一 `gates` 配列を持たせる（root/output artifacts parity gate と整合）。
+- ローカル事前検証:
+  ```bash
+  mise exec -- pnpm gate-metadata:validate -- \
+    --require-gates-for-changed <root>/artifacts.json <root>/outputs/artifacts.json
+  # 期待: ERROR: 0
+  ```
+- Why: 新規 task では `artifacts.json` 2 件が常に changed-file セットに入り `--require-gates-for-changed` のスコープに乗る。spec_created 段階で gates 配列を埋めておけば、後段 PR で必ず発生する `verify-gate-metadata` failure を recurring fail の 1 種として撲滅できる。
+- 適用判断: task-specification-creator skill の Phase 12 template と新規 task root artifacts.json 生成スクリプト両方に SP-DEVSYNC-018 として組み込む。
+- 事例: 2026-05-18 `feat/ut-cicd-drift-verify-indexes-trigger-recovery-sop` で本ルール適用、Gate-A passed (Phase 3 design) / Gate-B passed (Phase 10 ac-verification) / Gate-C pending (Phase 13 diff-to-pr) を root + outputs 両方に付与し、ローカル `gate-metadata:validate` で `OK: 216 WARN: 341 ERROR: 0` を確認した上で push。
+
+
 ## 適用範囲
 - task-specification-creator skill: 本 Lessons Learned は SKILL.md / changelog / references の conflict 解消にもそのまま適用される。Phase 12 で `artifacts.json` を出力する際は L-DEVSYNC-006 の status enum / passed_at / approver / evidence_path を必ず満たす。L-DEVSYNC-008 の "最新 N 件" 規約、L-DEVSYNC-011 の fact migration 判定、L-DEVSYNC-012 の追記型衝突両側採用ルールはいずれも `task-specification-creator/SKILL.md` / 配下 references / changelog 衝突に適用する。L-DEVSYNC-015 の native binary version bump 二段復旧は dev sync prompt の自律修復に組み込む。
 - aiworkflow-requirements skill: indexes 再生成は本 skill 配下で完結する。L-DEVSYNC-012 適用後は必ず `pnpm indexes:rebuild` を実行し JSON validity を検証する。
