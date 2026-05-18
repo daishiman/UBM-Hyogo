@@ -14,20 +14,17 @@
 Root `artifacts.json` uses `metadata.workflow_state: implemented_local_evidence_captured`, `metadata.taskType: implementation`, and `metadata.visualEvidence: VISUAL`. Phase 1-12 are `completed`; Phase 13 is `blocked_pending_user_approval`.
 
 ## Phase 11 evidence file inventory
-- `outputs/phase-11/evidence/typecheck.log`
-- `outputs/phase-11/evidence/lint.log`
-- `outputs/phase-11/evidence/test.log`
-- `outputs/phase-11/evidence/build.log`
-- `outputs/phase-11/evidence/grep-gate.log`
-- `outputs/phase-11/evidence/curl-sitemap.xml`
-- `outputs/phase-11/evidence/curl-sitemap.txt`
-- `outputs/phase-11/evidence/curl-robots.txt`
-- `outputs/phase-11/evidence/curl-home-meta.txt`
-- `outputs/phase-11/evidence/curl-members-meta.txt`
-- `outputs/phase-11/evidence/curl-register-meta.txt`
-- `outputs/phase-11/evidence/playwright-smoke.log`
-- `outputs/phase-11/evidence/og-image-file.log`
-- `outputs/phase-11/screenshots/og-image.png`
+| Path | Status | Note |
+| --- | --- | --- |
+| `outputs/phase-11/evidence/typecheck.log` | present | pnpm typecheck output |
+| `outputs/phase-11/evidence/lint.log` | present | pnpm lint output |
+| `outputs/phase-11/evidence/test.log` | present | unit test output |
+| `outputs/phase-11/evidence/build.log` | present | next build output |
+| `outputs/phase-11/evidence/grep-gate.log` | present | grep gate output |
+| `outputs/phase-11/evidence/playwright-smoke.log` | present | playwright smoke output |
+| `outputs/phase-11/evidence/og-image-file.log` | present | og image file metadata |
+| `outputs/phase-11/evidence/phase12-compliance-verify.log` | present | phase12 verify output |
+| `outputs/phase-11/screenshots/og-image.png` | present | rendered og image |
 
 ## Phase 12 strict 7 file inventory
 - `main.md`
