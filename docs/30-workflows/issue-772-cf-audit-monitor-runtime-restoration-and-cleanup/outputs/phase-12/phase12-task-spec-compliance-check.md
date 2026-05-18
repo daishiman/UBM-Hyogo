@@ -1,43 +1,86 @@
 # Phase 12 task-spec compliance check
 
-`task-specification-creator` skill の strict compliance gate に対する自己点検結果。
+`task-specification-creator` skill の strict compliance gate に対する自己点検結果。canonical heading SSOT (`.claude/skills/task-specification-creator/references/phase12-compliance-check-template.md`) の Required Sections 1..9 に対応する。
 
-## チェック一覧
-
-| Check | 判定 | 根拠 |
-| --- | --- | --- |
-| 全 Phase ファイル存在 (01-13) | PASS | `docs/30-workflows/issue-772-.../phase-01.md` 〜 `phase-13.md` 13 ファイル配置 |
-| 実装区分明記 | PASS | index.md / 全 phase 冒頭に `[実装区分: 実装仕様書]` |
-| 実装区分判定根拠明記 | PASS | index.md / phase-01.md に判定根拠記述 |
-| CONST_005 必須項目（変更対象ファイル） | PASS | phase-02.md「変更対象ファイル一覧」 |
-| CONST_005 必須項目（関数シグネチャ） | PASS（代替記述） | docs / yaml only のため `gh secret/api` コマンド shape を Phase 02 / 06 に明記 |
-| CONST_005 必須項目（入出力・副作用） | PASS | phase-02.md「入力・出力・副作用」 |
-| CONST_005 必須項目（テスト方針） | PASS | phase-07.md（unit N/A + runtime test 定義） |
-| CONST_005 必須項目（実行コマンド） | PASS | phase-06.md / implementation-guide.md |
-| CONST_005 必須項目（DoD） | PASS | 各 phase「完了条件」 |
-| CONST_007（1 サイクル完了） | PASS | external mutation のみ user-gated、先送り無し |
-| Phase 12 中学生レベル概念説明 | PASS | phase-12.md |
-| 7 必須 output（main / implementation-guide / system-spec-update-summary / documentation-changelog / unassigned-task-detection / skill-feedback-report / phase12-task-spec-compliance-check） | PASS | `outputs/phase-12/` 配下に 7 ファイル配置 |
-| fold-state sync 計画 | PASS | unassigned-task-detection.md |
-| root / outputs artifacts parity | PASS_BOUNDARY_SYNCED_RUNTIME_PENDING | `cmp -s artifacts.json outputs/artifacts.json` で full mirror 一致を確認する。root が編集正本、outputs 側は Phase evidence mirror として同値維持する。 |
-| Phase 13 declared outputs physical existence | PASS_BOUNDARY_SYNCED_RUNTIME_PENDING | `outputs/phase-13/pr-summary.md` / `outputs/phase-13/post-cleanup-secret-inventory.md` を placeholder として物理配置。実 PR / cleanup evidence は user-gated。 |
-| aiworkflow-requirements same-wave sync | PASS_BOUNDARY_SYNCED_RUNTIME_PENDING | runbook ADR addendum、resource-map / quick-reference / task-workflow-active、artifact inventory、lessons、changelog、LOGS を更新 |
-| task-specification-creator skill feedback promotion | PASS_BOUNDARY_SYNCED_RUNTIME_PENDING | `phase12-skill-feedback-promotion.md` / `SKILL-changelog.md` / `SKILL.md` に Issue #772 知見を反映 |
-| ブランチ戦略 | PASS | `feat/issue-772-cf-audit-monitor-runtime-restoration` から `dev` への PR を Phase 13 で計画 |
-| secret value 非記録 | PASS | 全 placeholder で value 記録なし、`op read` 動的注入のみ |
-| CLOSED Issue reopen 禁止 | PASS | fold-state sync で対応 |
-
-## 残課題
-
-| 項目 | 状態 |
-| --- | --- |
-| Runtime evidence (RT-1 / RT-2 / RT-4) | runtime_pending（user-gated） |
-| skill changelog / lessons-learned 生成 | completed_same_wave |
-| inventory after / cleanup no-op evidence | runtime 達成後（Phase 13） |
-| PR 作成 | user-gated（Phase 13） |
-
-## 総合判定
+## Summary verdict
 
 **local spec compliance: PASS_BOUNDARY_SYNCED_RUNTIME_PENDING**
 
-runtime gate は user-gated。Phase 12 strict 7、root/output artifacts full parity、Phase 13 placeholder、system spec / skill feedback same-wave sync は配置完了。
+Phase 12 strict 7、root/output artifacts full parity、Phase 13 placeholder、system spec / skill feedback same-wave sync は配置完了。runtime evidence (RT-1 / RT-2 / RT-4) と PR は user-gated。
+
+## Changed-files classification
+
+| Classification | Path | 説明 |
+| --- | --- | --- |
+| workflow root | docs/30-workflows/issue-772-cf-audit-monitor-runtime-restoration-and-cleanup/{index,phase-01..13,artifacts.json}.md | spec / fold-state |
+| workflow outputs | docs/30-workflows/issue-772-.../outputs/{phase-11,phase-12,phase-13,artifacts.json} | strict 7 mirror |
+| skill update | .claude/skills/aiworkflow-requirements/{SKILL.md,SKILL-changelog.md,LOGS/_legacy.md,indexes/*,references/task-workflow-active.md} | same-wave sync |
+| skill update | .claude/skills/task-specification-creator/{SKILL.md,SKILL-changelog.md} | skill feedback promotion |
+| runtime config | (user-gated) GitHub repo secrets / variables / workflow dispatch | external mutation |
+
+## `workflow_state` and phase status consistency
+
+- root `artifacts.json`: `workflow_state: runtime_pending`
+- outputs `artifacts.json`: `workflow_state: runtime_pending`（root と full mirror）
+- phase status: phase-01..12 は spec-complete、phase-13 placeholder、Phase 11 runtime evidence のみ user-gated で pending
+- 整合性: 全 phase ファイルの「[実装区分: 実装仕様書]」と `runtime_pending` declaration は一致
+
+## Phase 11 evidence file inventory
+
+| Classification | Path | Status |
+| --- | --- | --- |
+| manual test result | outputs/phase-11/visual-verification-skip.md | present |
+| manual test result | outputs/phase-11/workflow-dispatch-dryrun.md | present |
+| runtime evidence (placeholder) | outputs/phase-11/runtime-evidence | pending |
+
+runtime hourly success log / inventory snapshot / dispatch confirmation は user-gated workflow dispatch 完了後に `outputs/phase-11/runtime-evidence/` 配下へ追加配置する設計。
+
+## Phase 12 strict 7 file inventory
+
+| Classification | Path | Status |
+| --- | --- | --- |
+| strict 7 | outputs/phase-12/main.md | present |
+| strict 7 | outputs/phase-12/implementation-guide.md | present |
+| strict 7 | outputs/phase-12/system-spec-update-summary.md | present |
+| strict 7 | outputs/phase-12/documentation-changelog.md | present |
+| strict 7 | outputs/phase-12/unassigned-task-detection.md | present |
+| strict 7 | outputs/phase-12/skill-feedback-report.md | present |
+| strict 7 | outputs/phase-12/phase12-task-spec-compliance-check.md | present |
+
+## Skill/reference/system spec same-wave sync
+
+| Target | 状態 | 根拠 |
+| --- | --- | --- |
+| aiworkflow-requirements SKILL / changelog / LOGS | PASS_BOUNDARY_SYNCED_RUNTIME_PENDING | Issue #772 entry を SKILL.md / SKILL-changelog.md / LOGS/_legacy.md に追加 |
+| aiworkflow-requirements indexes | PASS | quick-reference / resource-map / topic-map / keywords.json で cross-link |
+| aiworkflow-requirements references/task-workflow-active.md | PASS_BOUNDARY_SYNCED_RUNTIME_PENDING | active workflow entry を反映 |
+| task-specification-creator skill feedback | PASS_BOUNDARY_SYNCED_RUNTIME_PENDING | `outputs/phase-12/skill-feedback-report.md` で promotion を提案 |
+| system spec (runbook addendum) | PASS_BOUNDARY_SYNCED_RUNTIME_PENDING | `outputs/phase-12/system-spec-update-summary.md` に集約 |
+
+## Runtime or user-gated boundary
+
+| Boundary 項目 | 状態 | 備考 |
+| --- | --- | --- |
+| GitHub repo secrets / variables 配置 | user-gated | external mutation |
+| `cf-audit-log-monitor.yml` workflow dispatch | user-gated | secret 配置後に 1 回手動 trigger |
+| six hourly successes 観測 | runtime_pending | dispatch 後 6 サイクル必要 |
+| rollback file delete | user-gated | runtime 達成後に Phase 13 で実行 |
+| commit / push / PR | user-gated | branch-sync flow + PR creation prompt |
+
+## Archive/delete stale-reference gate
+
+- 削除済み root: なし（本 wave は新規 spec 作成、既存削除なし）
+- consumed trace: `docs/30-workflows/issue-772-cf-audit-monitor-cleanup/` follow-up は本 root へ `superseded_by` で集約済み
+- live inventory hit: なし（`rg 'issue-772-cf-audit-monitor-cleanup' .claude/skills docs/30-workflows` の結果は本 root への canonical 参照のみ）
+- stale-reference gate: PASS
+
+## Four-condition verdict
+
+| Condition | 判定 | 根拠 |
+| --- | --- | --- |
+| (1) spec / output 物理配置 | PASS | strict 7 + Phase 13 placeholders + artifacts parity 完了 |
+| (2) phase status と workflow_state 整合 | PASS | `runtime_pending` と全 phase 仕様文書整合 |
+| (3) skill / system spec same-wave sync | PASS | 上記 §6 のとおり配置完了 |
+| (4) runtime / user-gated boundary 明示 | PASS_BOUNDARY_SYNCED_RUNTIME_PENDING | runtime evidence pending を §4 / §7 で明示分離 |
+
+**最終判定**: PASS_BOUNDARY_SYNCED_RUNTIME_PENDING（local spec 完了 / runtime 残）
