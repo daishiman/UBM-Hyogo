@@ -8,7 +8,11 @@
 | --- | --- |
 | 0 | 本 step のスコープ内で新規に検出された未割当タスクはない |
 
-`unassigned-task/` 配下から consume するエントリも 0 件。
+`unassigned-task/` 配下から consume するエントリは Issue #775 recovery workflow で 1 件処理済み。
+
+| Source | Status | Canonical workflow | Consumed at |
+| --- | --- | --- | --- |
+| `docs/30-workflows/completed-tasks/serial-05-step-03-followup-001-runtime-evidence-completion.md` | `consumed` | `docs/30-workflows/completed-tasks/issue-775-serial-05-step-03-runtime-evidence-completion/` | `2026-05-18` |
 
 ## 2. Coverage layer 表
 
@@ -37,4 +41,4 @@
 
 ## 4. 判定
 
-`unassigned-task-detection = 0 件 / coverage 整合 / 後続候補は別 task で個別判断`。CI gate 上の 0 件 verdict として記録。
+`unassigned-task-detection = 新規 0 件 / Issue #775 runtime evidence follow-up consumed 1 件 / coverage 整合 / 後続候補は別 task で個別判断`。CI gate 上の verdict として記録。

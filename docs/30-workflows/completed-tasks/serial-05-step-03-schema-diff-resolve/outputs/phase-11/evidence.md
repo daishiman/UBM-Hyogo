@@ -12,12 +12,21 @@ outputs/phase-11/
 │   ├── test.log
 │   ├── build.log
 │   ├── grep-gate.log
-│   └── e2e.log              # 任意（smoke 取得時）
+│   ├── e2e.log              # 任意（smoke 取得時）
+│   └── playwright.log       # Issue #775 runtime evidence completion
 ├── screenshots/
-│   ├── admin-schema-diff-list.png         # 通常時 (diff > 0)
-│   ├── admin-schema-diff-empty.png        # 縮退時 / 0 件
-│   ├── admin-schema-diff-resolve-form.png # form open
-│   └── admin-schema-diff-error.png        # 422 toast
+│   ├── admin-schema-diff-list.placeholder.txt # legacy placeholder; not PASS screenshot evidence
+│   ├── admin-schema-diff-added-desktop.png
+│   ├── admin-schema-diff-added-mobile.png
+│   ├── admin-schema-diff-changed-desktop.png
+│   ├── admin-schema-diff-changed-mobile.png
+│   ├── admin-schema-diff-removed-desktop.png
+│   ├── admin-schema-diff-removed-mobile.png
+│   ├── admin-schema-diff-unresolved-desktop.png
+│   ├── admin-schema-diff-unresolved-mobile.png
+│   ├── admin-schema-diff-resolve-success.png
+│   ├── admin-schema-diff-resolve-409.png
+│   └── admin-schema-diff-resolve-422.png
 └── manifest.json
 ```
 
@@ -73,10 +82,9 @@ bash scripts/with-env.sh mise exec -- pnpm --filter @ubm/web dev
 Playwright もしくは手動でフルページスクリーンショットを取得し `outputs/phase-11/screenshots/*.png` に保存。
 
 ```bash
-# Playwright 例
-mise exec -- pnpm exec playwright screenshot \
-  --full-page http://localhost:3000/admin/schema \
-  docs/30-workflows/serial-05-step-03-schema-diff-resolve/outputs/phase-11/screenshots/admin-schema-diff-list.png
+# Issue #775 実行コマンド
+mise exec -- pnpm --filter @ubm-hyogo/web exec playwright test \
+  --config=playwright.admin-schema-diff.config.ts
 ```
 
 ## 4. Canonical evidence manifest
@@ -95,18 +103,30 @@ mise exec -- pnpm exec playwright screenshot \
     "build": "evidence/build.log",
     "grep_gate": "evidence/grep-gate.log"
   },
-  "screenshots": [
-    "screenshots/admin-schema-diff-list.png",
-    "screenshots/admin-schema-diff-empty.png",
-    "screenshots/admin-schema-diff-resolve-form.png",
-    "screenshots/admin-schema-diff-error.png"
-  ],
-  "captured_at": "<ISO8601>",
-  "pass": false,
-  "verdict": "PASS_BOUNDARY_SYNCED_RUNTIME_PENDING"
+  "screenshots": {
+    "status": "completed",
+    "captured": [
+      "screenshots/admin-schema-diff-added-desktop.png",
+      "screenshots/admin-schema-diff-added-mobile.png",
+      "screenshots/admin-schema-diff-changed-desktop.png",
+      "screenshots/admin-schema-diff-changed-mobile.png",
+      "screenshots/admin-schema-diff-removed-desktop.png",
+      "screenshots/admin-schema-diff-removed-mobile.png",
+      "screenshots/admin-schema-diff-unresolved-desktop.png",
+      "screenshots/admin-schema-diff-unresolved-mobile.png",
+      "screenshots/admin-schema-diff-resolve-success.png",
+      "screenshots/admin-schema-diff-resolve-409.png",
+      "screenshots/admin-schema-diff-resolve-422.png"
+    ],
+    "legacy_placeholder": "screenshots/admin-schema-diff-list.placeholder.txt",
+    "pending": []
+  },
+  "captured_at": "2026-05-18T15:38:00+09:00",
+  "pass": true,
+  "verdict": "PASS"
 }
 ```
 
 ## 5. PR 本文反映
 
-Phase 13 PR 本文の Test plan に上記 5 点セット + screenshot 参照を埋め込む（`outputs/phase-11/screenshots/` 相対 path）。
+Phase 13 PR 本文の Test plan に上記 5 点セット + 11 valid PNG screenshot 参照を埋め込む（`outputs/phase-11/screenshots/` 相対 path）。legacy placeholder text は screenshot 証跡として扱わない。

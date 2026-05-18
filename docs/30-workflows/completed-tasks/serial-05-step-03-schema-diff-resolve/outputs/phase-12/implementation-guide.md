@@ -161,6 +161,6 @@ Evidence (5 点セット, `outputs/phase-11/evidence/`):
 - `lint.log` EXIT_CODE=0
 - `test.log` Tests 31 passed（focused: `SchemaDiffPanel.component.spec.tsx` + `api.spec.ts`）EXIT_CODE=0
 - `build.log` `pnpm --filter @ubm-hyogo/web build`（OpenNext workers bundle）
-- `grep-gate.log` match 0 件（HEX / `bg-[#xxx]` / `text-[#xxx]` / `process.env.*` 直接参照なし）
+- `grep-gate.log` EXIT_CODE=0（changed production files の新規違反 0 件。既存 `server-fetch.ts` fallback baseline は明示記録）
 
-Screenshots: `outputs/phase-11/manifest.json` の `screenshots.status="runtime_pending"`。Cloudflare Workers + auth + D1 binding が前提で本ローカル単発実行では取得不可、staging runtime / Playwright smoke 経路で取得する。
+Screenshots: Issue #775 recovery workflow で `outputs/phase-11/manifest.json` の `screenshots.status="completed"` に昇格済み。11 PNG は fixture-backed local runtime evidence として取得し、legacy `admin-schema-diff-list.placeholder.txt` は PASS screenshot inventory から除外する。real D1 / staging smoke はこの PASS 境界の外側で、commit / push / PR と同じく user-gated。
