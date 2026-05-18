@@ -186,6 +186,22 @@
 - 事例: 2026-05-18 fix/cf-deploy-esbuild-import-source-staging-failure dev sync で本ルール適用、pre-push gate 全 PASS（`coverage-guard` / `gate-metadata-guard` / `indexes-drift-guard` / `phase12-compliance-guard` / `verify-esbuild`）の上 push 成功。
 
 
+## L-DEVSYNC-016: actionlint workflow scope の HEAD explicit list vs dev glob 収束
+- 症状: feature ブランチが `package.json#observation:lint` / `.github/workflows/ci.yml` の actionlint 引数に**新規 workflow YAML を explicit 追加**したのと並行して、dev 側が**同引数を `.github/workflows/*.yml` glob に置換**した結果、3-way diff が両側完全置換型の content conflict として残る (`pnpm sync:resolve` では未処理)。
+- 解消: **dev 側の glob 版を採用**。glob は HEAD 側が追加した workflow も自動カバーするため意味的損失なし。HEAD 側 explicit list を残すと dev 側が今後追加する workflow を漏らす逆 regression が発生するため不可。
+- 適用範囲: actionlint / shellcheck / yamllint 等の **lint scope 拡張系**（explicit allowlist → glob）一般。HEAD 側に semantic 追加（特殊な permission・gate 等）がある場合のみ glob 採用後に再適用を検討。
+- Why: solo dev 運用で feature ブランチが「個別 workflow を追加して同時に lint 対象にする」パターンと、dev で「全部対象化する glob 化」パターンが同 wave で重なると、explicit 採用は時限爆弾化する（次回 sync で再度同じ衝突）。glob 採用は冪等。
+- How to apply: `pnpm sync:resolve` の unhandled WARN に `package.json` / `.github/workflows/ci.yml` が出たら **dev 側の lint glob を採用**。`<<<<<<< HEAD` 側に explicit-list patch があっても破棄。
+- 事例: 2026-05-18 feat/issue-762-cf-oidc-staging-proof-prod-cutover-spec dev sync で適用、`oidc-observation-window.yml` は dev glob で自動カバーされ regression なし。
+
+## L-DEVSYNC-017: references/deployment-gha.md version table の両側 row 追加
+- 症状: `deployment-gha.md` の最新更新 version 表に HEAD/dev が**異なる version 番号で別々の行**を追加（HEAD: `2.7.0` Issue #762、dev: `2.6.1` PR #795）。`pnpm sync:resolve` は SKILL.md / topic-map.md には union 解決を適用するが `references/deployment-gha.md` は対象外なので残る。
+- 解消: 両 row を保持し、**version 番号順（新→旧、または日付順）にソート**して挿入。HEAD 側 `2.7.0` の方が新しい場合、dev `2.6.1` を `2.7.1` 相当の dev-sync entry にリラベルして上位に挿入し、HEAD `2.7.0` をその下に配置すると semver 単調性が保てる。
+- 適用範囲: SKILL changelog 表に準ずる append-only 表全般（`references/*.md` の各 version table）。
+- Why: append-only 表に semantic 衝突は存在せず両側保持が正解。version 番号の単調性破れは merge commit 以降の participants に混乱を招くため、sync wave 側を minor bump（`+0.0.1`）して整合させる。
+- How to apply: `pnpm sync:resolve` unhandled list に `references/deployment-gha.md` 等の references 配下が出たら、conflict block の両 row を保持し、自版番号体系の単調性を保つようリラベル。
+- 事例: 2026-05-18 feat/issue-762 dev sync、`2.7.0` (HEAD) + `2.6.1` (dev) → `2.7.1` (dev-sync) + `2.7.0` (HEAD) 順で union。
+
 ## L-DEVSYNC-018: 新規 task の root/outputs `artifacts.json` には `metadata.gates` を生成時から付与（2026-05-18 追加）
 
 - 症状: 2026-05-18 `feat/ut-cicd-drift-verify-indexes-trigger-recovery-sop` の PR #796 で、`origin/dev` 取り込み後に `verify-gate-metadata` workflow が `[ERROR] docs/30-workflows/completed-tasks/ut-cicd-drift-impl-verify-indexes-trigger/artifacts.json: metadata.gates absent on changed artifacts.json`（root と outputs 2 件）で fail。新規 task で root/outputs artifacts.json が **両方** changed file となるため、`--require-gates-for-changed` 引数経由で validator は ERROR を出す（既存 task は WARN だけで素通り）。
@@ -221,5 +237,5 @@
 
 
 ## 適用範囲
-- task-specification-creator skill: 本 Lessons Learned は SKILL.md / changelog / references の conflict 解消にもそのまま適用される。Phase 12 で `artifacts.json` を出力する際は L-DEVSYNC-006 の status enum / passed_at / approver / evidence_path を必ず満たす。L-DEVSYNC-008 の "最新 N 件" 規約、L-DEVSYNC-011 の fact migration 判定、L-DEVSYNC-012 の追記型衝突両側採用ルールはいずれも `task-specification-creator/SKILL.md` / 配下 references / changelog 衝突に適用する。L-DEVSYNC-015 の native binary version bump 二段復旧は dev sync prompt の自律修復に組み込む。
+- task-specification-creator skill: 本 Lessons Learned は SKILL.md / changelog / references の conflict 解消にもそのまま適用される。Phase 12 で `artifacts.json` を出力する際は L-DEVSYNC-006 の status enum / passed_at / approver / evidence_path を必ず満たす。L-DEVSYNC-008 の "最新 N 件" 規約、L-DEVSYNC-011 の fact migration 判定、L-DEVSYNC-012 の追記型衝突両側採用ルールはいずれも `task-specification-creator/SKILL.md` / 配下 references / changelog 衝突に適用する。L-DEVSYNC-015 の native binary version bump 二段復旧は dev sync prompt の自律修復に組み込む。L-DEVSYNC-016 (lint scope glob 収束) / L-DEVSYNC-017 (version table 両側 row 保持) は workflow YAML / `references/*-gha.md` / `deployment-secrets-management.md` 等の lint-config 系・version-table 系 conflict にも適用する。
 - aiworkflow-requirements skill: indexes 再生成は本 skill 配下で完結する。L-DEVSYNC-012 適用後は必ず `pnpm indexes:rebuild` を実行し JSON validity を検証する。
