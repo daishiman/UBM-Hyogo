@@ -75,6 +75,10 @@ Issue #640 では `web-cd.yml` / `backend-ci.yml` の Cloudflare deploy credenti
 
 Issue #640 本体ではこの物理失効は意図的にスコープ外とし、本 follow-up task に分離した。
 
+### 1.1.1 2026-05-16 状態同期
+
+本 follow-up は `docs/30-workflows/issue-718-legacy-cf-token-revocation/` に昇格済み。backend-ci の `CF_TOKEN_D1_*` / `CF_TOKEN_WORKERS_*` 切替と regression gate 追加は local 実装済みだが、Cloudflare token revoke、GitHub Secrets mutation、1Password mutation、commit、push、PR は explicit user approval 後のみ実行する。完了扱いは Phase 11 revocation evidence 取得後に限定する。
+
 ### 1.2 問題点・課題
 
 - legacy token を残したままだと、漏洩時の blast radius（Workers Scripts:Edit / D1:Edit / Pages:Edit を含む広域 Account scope）が縮小しない。
