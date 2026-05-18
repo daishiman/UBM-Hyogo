@@ -53,10 +53,17 @@ pre-push:
   commands:
     verify-esbuild:
       tags: [test, env]
+      # mise 管理 node を明示利用（Volta / nvm の shim が PATH 先頭にあっても
+      # arm64 native node が選ばれるようにする。Refs: issue #747 §4）
       run: |
-        node scripts/verify-node-arch.mjs && \
-        node scripts/verify-worktree-node-modules-isolation.mjs && \
-        node scripts/verify-esbuild-version.mjs
+        if command -v mise >/dev/null 2>&1; then
+          NODE_BIN="mise exec -- node"
+        else
+          NODE_BIN="node"
+        fi
+        $NODE_BIN scripts/verify-node-arch.mjs && \
+        $NODE_BIN scripts/verify-worktree-node-modules-isolation.mjs && \
+        $NODE_BIN scripts/verify-esbuild-version.mjs
       skip:
         - merge
         - rebase
