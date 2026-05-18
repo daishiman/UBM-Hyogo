@@ -14,6 +14,7 @@
 | `passed_at` 形式 | `"2026-05-15"` (date only) | `"2026-05-15T00:00:00+09:00"` (ISO datetime + offset 必須) |
 | `passed_at` 整合性 | `status=pending` で `passed_at` に値が入っている | `status=passed` のときのみ非 null、それ以外は `null` |
 | `metadata.gates` 欠落 | 新規 artifacts.json で `gates` 配列を書き忘れ | Gate-A / Gate-B 等を最低 1 件配置 |
+| `metadata.gates` 欠落（PR の changed files） | ローカル `pnpm gate-metadata:validate` は **WARN/skip** で通るが、CI は `--require-gates-for-changed` 付きで **ERROR** に格上げ | push 前に必ず `pnpm gate-metadata:validate --require-gates-for-changed <changed-artifacts.json...>` を実行する |
 | `evidence_path` 不在 | 既に削除/移動した phase ファイルを指している | `existsSync()` が true になる現存 file path |
 
 **修正パターン**:
@@ -113,4 +114,5 @@ bash scripts/verify-pr-ready.sh
 2. `verify:phase12-compliance` の JSON 出力で `reason` を確認
    - `missing-heading` → §4 canonical 9 headings
    - `missing-evidence` → §2 (table 形式) または §3 (path 解決) または §5 (unassigned-task 配置)
-3. 修正後 `bash scripts/verify-pr-ready.sh` を再実行し全 PASS を確認してから push
+3. `indexes:rebuild drift` → `.claude/skills/aiworkflow-requirements/indexes/` 配下の再生成差分を `git add` & commit（sync-merge 直後は `task-workflow-active.md` の `merge=union` で行数が増減し `topic-map.md` の見出し L 番号が drift する構造的事象。再生成→コミットが正規復旧手順）
+4. 修正後 `bash scripts/verify-pr-ready.sh` を再実行し全 PASS を確認してから push

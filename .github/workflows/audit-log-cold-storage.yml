@@ -39,9 +39,9 @@ jobs:
           TARGET_DATE: ${{ inputs.target_date || '' }}
         run: |
           set -euo pipefail
-          args="--env production"
-          if [ "${DRY_RUN}" = "true" ]; then args="$args --dry-run"; fi
-          if [ "${DRY_RUN}" != "true" ]; then args="$args --apply"; fi
-          if [ -n "${TARGET_DATE}" ]; then args="$args --target-date ${TARGET_DATE}"; fi
-          echo "audit-log cold storage export args: $args"
-          CF_SH_SKIP_WITH_ENV=1 mise exec -- pnpm exec tsx scripts/audit-log/export-to-r2.ts $args
+          args=(--env production)
+          if [ "${DRY_RUN}" = "true" ]; then args+=(--dry-run); fi
+          if [ "${DRY_RUN}" != "true" ]; then args+=(--apply); fi
+          if [ -n "${TARGET_DATE}" ]; then args+=(--target-date "${TARGET_DATE}"); fi
+          echo "audit-log cold storage export args: ${args[*]}"
+          CF_SH_SKIP_WITH_ENV=1 mise exec -- pnpm exec tsx scripts/audit-log/export-to-r2.ts "${args[@]}"

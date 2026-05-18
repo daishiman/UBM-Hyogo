@@ -105,5 +105,5 @@ find docs/30-workflows/completed-tasks/ut-cicd-drift-impl-observability-matrix-s
 ## 委譲先 / 関連
 
 - 起点: `docs/30-workflows/completed-tasks/ut-cicd-drift-impl-observability-matrix-sync/`
-- 関連: `docs/30-workflows/unassigned-task/UT-CICD-DRIFT-IMPL-WORKFLOW-LINT-GATE.md`
+- 関連: `docs/30-workflows/unassigned-task/ut-cicd-drift-impl-workflow-lint-gate.md`
 - 関連: `.claude/skills/task-specification-creator/references/phase-12-documentation-guide.md`
