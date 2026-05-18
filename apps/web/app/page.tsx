@@ -2,7 +2,10 @@
 // 不変条件 #5 (D1 直接アクセス禁止): 全データは /public API 経由。
 // revalidate: stats=60s, members=30s。
 
+import type { Metadata } from "next";
 import { connection } from "next/server";
+
+import { buildPageMetadata } from "@/lib/seo/site-metadata";
 
 import { Hero } from "../src/components/public/Hero";
 import { MemberGrid } from "../src/components/public/MemberGrid";
@@ -19,6 +22,12 @@ import {
 
 // stats=60s revalidate (AC-9)
 export const revalidate = 60;
+
+export const metadata: Metadata = buildPageMetadata({
+  title: "ホーム",
+  description: "UBM 兵庫支部会の活動紹介、メンバーディレクトリ、参加案内",
+  path: "/",
+});
 
 export default async function HomePage() {
   await connection();

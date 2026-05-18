@@ -1,5 +1,21 @@
 # クイックリファレンス
 
+## Issue #274 public pages OGP / sitemap / robots（2026-05-17）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/issue-274-public-pages-ogp-sitemap-robots/` |
+| 状態 | `implemented_local_evidence_captured / implementation / VISUAL / Phase 13 blocked_pending_user_approval` |
+| issue | #274 OPEN; PR should use `Refs #274`; commit / push / PR / Issue mutation are user-gated |
+| scope | public routes `/`, `/members`, `/members/[id]`, `/register`; sitemap / robots / root OG image / page metadata |
+| sitemap contract | `/public/members?limit=100&page=N` paginated until `pagination.hasNext === false`; list item shape is top-level `memberId` / `fullName` |
+| playwright target | `apps/web/playwright/tests/public-metadata.spec.ts` |
+| evidence | `outputs/phase-11/evidence/*`, `outputs/phase-11/screenshots/og-image.png`; typecheck/lint/test/build/curl/Playwright PASS |
+| source consumed | `docs/30-workflows/unassigned-task/task-06a-followup-002-ogp-sitemap.md`, `docs/30-workflows/unassigned-task/task-11-followup-002-public-og-sitemap-robots.md` |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-274-public-pages-ogp-sitemap-robots-artifact-inventory.md` |
+| lessons | `.claude/skills/aiworkflow-requirements/references/lessons-learned-issue-274-public-pages-ogp-sitemap-robots-2026-05.md`（L-274-001..006: site URL SSOT / sitemap degraded mode / robots env-branch / OG edge runtime / consumed trace / issue-NNN namespace 規約） |
+| user gate | implementation, runtime evidence, commit, push, PR |
+
 ## Issue #324 shared package type contracts（2026-05-15）
 
 | 項目 | 値 |

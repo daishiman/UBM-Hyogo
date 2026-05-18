@@ -3,9 +3,12 @@
 // 不変条件 #2: consent キーは publicConsent / rulesConsent
 // 不変条件 #7: 外部 link 遷移（target="_blank"）。iframe 不採用
 
+import type { Metadata } from "next";
 import type { z } from "zod";
 
 import { FormPreviewViewZ } from "@ubm-hyogo/shared";
+
+import { buildPageMetadata } from "@/lib/seo/site-metadata";
 
 import { FormPreviewSections } from "../../../src/components/public/FormPreviewSections";
 import { RegisterCallout } from "../../../src/components/public/RegisterCallout";
@@ -18,6 +21,13 @@ const FALLBACK_RESPONDER_URL =
 
 export const dynamic = "force-dynamic";
 export const revalidate = 600;
+
+export const metadata: Metadata = buildPageMetadata({
+  title: "入会案内",
+  description:
+    "UBM 兵庫支部会への入会フォーム案内。Google Form に遷移します",
+  path: "/register",
+});
 
 export default async function RegisterPage() {
   let preview: FormPreviewView | null = null;

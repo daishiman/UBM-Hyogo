@@ -3,7 +3,10 @@
 // 不変条件 #5: public API 経由のみ
 // 不変条件 #8: density / sort / tag / q / zone / status は URL query 正本
 
+import type { Metadata } from "next";
 import { connection } from "next/server";
+
+import { buildPageMetadata } from "@/lib/seo/site-metadata";
 
 import { EmptyState } from "../../../src/components/feedback/EmptyState";
 import { MemberFilters } from "../../../src/components/public/MemberFilters.client";
@@ -20,6 +23,13 @@ import {
 
 // members=30s revalidate (AC-9)
 export const revalidate = 30;
+
+export const metadata: Metadata = buildPageMetadata({
+  title: "メンバー一覧",
+  description:
+    "UBM 兵庫支部会のメンバー紹介。職種・拠点・関心領域から探せます",
+  path: "/members",
+});
 
 interface MembersPageProps {
   // Next.js 16 では searchParams は Promise になっている
