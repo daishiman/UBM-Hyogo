@@ -132,6 +132,18 @@
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-fix-cf-deploy-esbuild-import-source-staging-failure-artifact-inventory.md` |
 | user gate | GitHub Actions deploy-staging / runtime smoke / commit / push / PR |
 
+### PR #795 residual CI cache / Cloudflare token recovery（2026-05-18）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/fix-ci-cache-and-cf-token-pr795/` |
+| 状態 | `implemented_local_evidence_captured / implementation / NON_VISUAL / PASS_BOUNDARY_SYNCED_RUNTIME_PENDING` |
+| task-01 | `setup-project.cache` input を追加し、`workflow-shell-lint` の `install: 'false'` caller は `cache: ''` で setup-node pnpm cache を無効化 |
+| task-02 | backend-ci D1 / Workers scoped secrets (`CF_TOKEN_D1_*`, `CF_TOKEN_WORKERS_*`) を `with.apiToken` と step-level `env.CLOUDFLARE_API_TOKEN` の両方へ同値注入。独立 fallback ではない |
+| implementation targets | `.github/actions/setup-project/action.yml`, `.github/workflows/ci.yml`, `.github/workflows/backend-ci.yml`, `scripts/__tests__/workflow-env-scope.test.sh` |
+| evidence | `outputs/phase-11/evidence.md`, `outputs/phase-12/phase12-task-spec-compliance-check.md` |
+| user gate | GitHub environment secret confirmation / GitHub Actions runtime evidence / commit / push / PR |
+
 ### Issue #638 CLOUDFLARE_PAGES_PROJECT GitHub Variable deletion（2026-05-14）
 
 | 目的 | 参照先 |
@@ -532,6 +544,23 @@
 | lessons | `references/lessons-learned-issue-526-ci-actionlint-shellcheck-gate-2026-05.md` |
 | 境界 | reminder workflow の schedule / workflow_dispatch / Issue 作成副作用は変更しない。runtime CI evidence、branch protection PUT、commit / push / PR は user approval 後 |
 
+### Issue #290 workflow lint gate（2026-05-17）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-290-workflow-lint-gate/` |
+| 状態 | `implemented_local_evidence_captured / implementation / NON_VISUAL / PASS_BOUNDARY_SYNCED_RUNTIME_PENDING / Phase 13 pending_user_approval` |
+| CI owner | `.github/workflows/ci.yml` |
+| dedicated job | `workflow-shell-lint` |
+| required context path | 既存 required context `ci` 内で `pnpm observation:lint` を実行 |
+| local command | `pnpm observation:lint` |
+| lint対象 | `.github/workflows/*.yml`（現行 32 件） |
+| runbook | `docs/30-workflows/runbooks/workflow-lint-local-recovery.md` |
+| source unassigned | `docs/30-workflows/completed-tasks/ut-cicd-drift-impl-workflow-lint-gate.md` consumed |
+| inventory | `references/workflow-issue-290-workflow-lint-gate-artifact-inventory.md` |
+| lessons | `references/lessons-learned-issue-290-workflow-lint-gate-2026-05.md` |
+| 境界 | branch protection 変更、commit / push / PR、GitHub Actions runtime evidence は user approval 後 |
+
 ### Issue #520 Slack Incident Channel Webhook Provisioning（2026-05-07）
 
 | 目的 | 参照先 |
@@ -803,7 +832,7 @@
 | 状態 | `implemented-local / implementation / runtime evidence pending_user_approval / NON_VISUAL / Phase 12 strict outputs present / runtime evidence pending_user_approval` |
 | primary IdP | AWS STS（GitHub OIDC federation） |
 | workflow inventory | `.github/workflows/web-cd.yml`, `.github/workflows/backend-ci.yml`, `.github/workflows/d1-migration-verify.yml` |
-| current token references | Issue #718 以降 `backend-ci.yml` uses `CF_TOKEN_D1_*` / `CF_TOKEN_WORKERS_*`; `d1-migration-verify.yml` still uses `CLOUDFLARE_API_TOKEN_STAGING` until its runtime cutover. `web-cd.yml` uses environment-scoped `CLOUDFLARE_API_TOKEN` after task-01 web-cd secret alignment. |
+| current token references | Issue #718 以降 `backend-ci.yml` uses `CF_TOKEN_D1_*` / `CF_TOKEN_WORKERS_*`; `d1-migration-verify.yml` は 2026-05-16 以降 `secrets.CLOUDFLARE_API_TOKEN` に統一済み。`web-cd.yml` uses environment-scoped `CLOUDFLARE_API_TOKEN` after task-01 web-cd secret alignment. |
 | approval gates | G1 trust policy / G2 staging cutover / G3 production cutover / G4 long-lived token revoke |
 | close-out evidence | `outputs/phase-12/phase12-task-spec-compliance-check.md` |
 | runtime evidence | `outputs/phase-11/main.md` + `manual-smoke-log.md` + `link-checklist.md` are RUNTIME_PENDING placeholder ledgers. deploy / revoke are未実行 |
@@ -2666,6 +2695,18 @@ packages/
 | 検出コマンド | `pnpm indexes:rebuild` を CI 上で実行し、続けて `git diff --exit-code -- .claude/skills/aiworkflow-requirements/indexes` で drift 判定（非ゼロ exit で fail） |
 | Node / pnpm 固定 | Node 24（`.mise.toml`） / pnpm 10.33.2（`package.json` `packageManager`）。CI も同バージョンを `mise` 経由で利用 |
 | ローカル再生成 | `mise exec -- pnpm indexes:rebuild`（post-merge から廃止された自動再生成の正規後継経路） |
+
+### Indexes Drift Recovery SOP 早見（UT-CICD-DRIFT-IMPL-VERIFY-INDEXES-TRIGGER / 2026-05-17）
+
+| 観点 | 値 / 参照先 |
+| --- | --- |
+| canonical task root | `docs/30-workflows/completed-tasks/ut-cicd-drift-impl-verify-indexes-trigger/` |
+| runbook | `docs/00-getting-started-manual/lefthook-operations.md`（§skill indexes drift gate — trigger 条件と復旧 SOP） |
+| hook 導線 | `lefthook.yml` `pre-push.indexes-drift-guard.fail_text` |
+| 通常復旧 | `mise exec -- pnpm indexes:rebuild` → `git status .claude/skills/aiworkflow-requirements/indexes` → index diff commit → push |
+| CI fail 復旧 | `git pull --rebase` 後に通常復旧を実施 |
+| 禁止 | `indexes/*.json` 手編集 / 復旧目的の `--no-verify` |
+| 継続 follow-up | `U-VIDX-01`（Actions smoke / branch protection）、`U-VIDX-02`（other skill indexes ADR） |
 | branch protection 連携 | `main` / `dev` の `required_status_checks` 候補として `verify-indexes-up-to-date` を登録（solo 運用ポリシー: レビュー必須化はせず CI gate で品質担保） |
 | トリガー | `pull_request`（push / merge 経路で indexes drift を pre-merge ブロック） |
 | 失敗時の対処 | ローカルで `pnpm indexes:rebuild` を実行 → 差分をコミット → 再 push（ジェネレータ `scripts/generate-index.js` が正本） |
@@ -2797,7 +2838,7 @@ UT-17 Cloudflare Notifications → alert-relay → Slack 経路を、既存 API 
 | workflow root | `docs/30-workflows/issue-627-composite-setup-action/` |
 | status | `implemented_local_runtime_pending / implementation / NON_VISUAL / CI infra` |
 | composite contract | `.github/actions/setup-project/action.yml` implemented locally. Checkout is caller-owned; action owns Node / pnpm or mise setup plus optional install. |
-| input vocabulary | `setup-strategy: node-setup | mise`, `install: 'true' | 'false'`, `node-version`, `pnpm-version`, `working-directory` |
+| input vocabulary | `setup-strategy: node-setup | mise`, `install: 'true' | 'false'`, `node-version`, `pnpm-version`, `working-directory`, `cache` (`node-setup` path; default `'pnpm'`; `install: 'false'` callers use `''`) |
 | required contexts preserved | `ci`, `coverage-gate`, `lighthouse-ci`, `e2e-tests-coverage-gate`, `build-test`, `workflow-shell-lint` |
 | evidence boundary | Local static checks passed; GitHub Actions runtime evidence is `runtime_pending` until user-approved commit / push / draft PR. |
 | closed issue rule | Issue #627 is CLOSED; PR text must use `Refs #627` only. |

@@ -45,7 +45,6 @@ jobs:
         run: |
           set +e
           VISUAL_BASELINE_STATUS_FAIL_ON_STALE=0 bash scripts/visual-baseline-status.sh > /tmp/baseline-status.txt 2>&1
-          rc=$?
           cat /tmp/baseline-status.txt
           if grep -q "STALE:" /tmp/baseline-status.txt; then
             echo "stale=true" >> "$GITHUB_OUTPUT"
