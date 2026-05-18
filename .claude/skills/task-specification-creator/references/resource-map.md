@@ -75,6 +75,8 @@
 | [patterns-workflow-generation.md](patterns-workflow-generation.md) | workflow 設計時 | phase / lane / artifact パターン |
 | [patterns-validation-and-audit.md](patterns-validation-and-audit.md) | validator 失敗時 | line budget、mirror、audit パターン |
 | [patterns-phase12-sync.md](patterns-phase12-sync.md) | Phase 12 失敗時 | implementation guide、spec sync、未タスク化パターン |
+| [patterns-parallel-sub-workflow.md](patterns-parallel-sub-workflow.md) | `parallel-NN-*` / `serial-NN-*` を持つ workflow 設計時 | root / sub 二重 artifacts.json / `sub_workflow` フィールド / Phase 11-12 outputs parity / 命名規約 / VISUAL_ON_EXECUTION の sub→serial 集約 |
+| [patterns-prototype-driven-css.md](patterns-prototype-driven-css.md) | プロトタイプ → `apps/web` CSS 移植系タスクの仕様作成時 | Phase 5 設計（`@layer components` 末尾追加 / data-attr selector）/ `tokens.css` 色責務と `globals.css` rhythm 責務の SRP / HEX 直書き禁止と `verify-design-tokens` CI gate |
 
 ### logs and archives
 
@@ -175,3 +177,4 @@
 | 2026-04-27 | UT-08 monitoring-alert-design を `spec_created` NON_VISUAL workflow 例として追加 |
 | 2026-05-02 | `lessons-learned/` セクションを resource-map に追加し、shell script + redaction タスク向け lesson を登録 |
 | 2026-05-16 | Issue #718 legacy CF token revocation を契機に `references/closed-issue-canonical-workflow-recovery.md` を新設し supporting guides に登録。あわせて `changelog/20260516-issue718-closed-canonical-recovery-and-governance-yaml.md` を追加（CLOSED Issue で canonical workflow root が欠落していた場合の後付け生成 / `status: consumed` 保全 / governance YAML フロントマター 4 フィールド契約） |
+| 2026-05-18 | `ui-prototype-design-system-foundation/parallel-01-globals-css-rhythm` 知見から `references/patterns-parallel-sub-workflow.md`（root / sub artifacts.json 二重構造、`sub_workflow` フィールド、Phase 11-12 outputs parity、`parallel-NN-*` / `serial-NN-*` 命名、VISUAL_ON_EXECUTION の sub→serial 集約）と `references/patterns-prototype-driven-css.md`（プロトタイプ SSOT 移植 Phase 5 設計、`tokens.css` 色責務 と `globals.css` rhythm 責務の SRP、HEX 直書き禁止と `verify-design-tokens` CI gate）を新設し pattern family に登録 |

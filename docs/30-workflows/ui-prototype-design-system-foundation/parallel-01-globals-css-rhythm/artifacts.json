@@ -1,0 +1,53 @@
+{
+  "workflow_id": "ui-prototype-design-system-foundation",
+  "sub_workflow": "parallel-01-globals-css-rhythm",
+  "metadata": {
+    "workflow_state": "runtime_pending",
+    "taskType": "implementation",
+    "visualEvidence": "VISUAL_ON_EXECUTION",
+    "implementation_status": "local_css_selectors_added",
+    "runtime_boundary": "serial-07 visual evidence pending"
+  },
+  "phases": [
+    { "phase": 1, "status": "completed" },
+    { "phase": 2, "status": "completed" },
+    { "phase": 3, "status": "completed" },
+    { "phase": 4, "status": "completed" },
+    { "phase": 5, "status": "completed" },
+    { "phase": 6, "status": "completed" },
+    { "phase": 7, "status": "completed" },
+    { "phase": 8, "status": "completed" },
+    { "phase": 9, "status": "completed" },
+    { "phase": 10, "status": "completed" },
+    { "phase": 11, "status": "completed" },
+    { "phase": 12, "status": "completed" },
+    { "phase": 13, "status": "pending_user_approval" }
+  ],
+  "outputs": {
+    "phase_11": [
+      "outputs/phase-11/main.md",
+      "outputs/phase-11/manual-smoke-log.md",
+      "outputs/phase-11/link-checklist.md",
+      "outputs/phase-11/typecheck.log",
+      "outputs/phase-11/lint.log",
+      "outputs/phase-11/build.log",
+      "outputs/phase-11/grep-hex.txt",
+      "outputs/phase-11/grep-arbitrary-tailwind.txt",
+      "outputs/phase-11/section-presence.txt",
+      "outputs/phase-11/grep-selectors.txt",
+      "outputs/phase-11/admin-shell-width.txt",
+      "outputs/phase-11/verify-design-tokens.log",
+      "outputs/phase-11/verify-pr-ready.log",
+      "outputs/phase-11/globals-css-diff.patch"
+    ],
+    "phase_12": [
+      "outputs/phase-12/main.md",
+      "outputs/phase-12/implementation-guide.md",
+      "outputs/phase-12/system-spec-update-summary.md",
+      "outputs/phase-12/documentation-changelog.md",
+      "outputs/phase-12/unassigned-task-detection.md",
+      "outputs/phase-12/skill-feedback-report.md",
+      "outputs/phase-12/phase12-task-spec-compliance-check.md"
+    ]
+  }
+}

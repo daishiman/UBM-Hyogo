@@ -6,6 +6,13 @@
     "visualEvidence": "VISUAL",
     "implementation_mode": "greenfield-foundation",
     "prototype_coverage": "PROTOTYPE-COVERAGE.md",
+    "sub_workflows": {
+      "parallel-01-globals-css-rhythm": {
+        "status": "runtime_pending",
+        "implementation_status": "local_css_selectors_added",
+        "runtime_boundary": "serial-07 visual evidence pending"
+      }
+    },
     "gates": [
       {
         "gate_id": "Gate-A",
