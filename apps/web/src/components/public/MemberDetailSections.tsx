@@ -37,6 +37,7 @@ export function MemberDetailSections({ sections }: MemberDetailSectionsProps) {
                   key={field.stableKey}
                   className="kv-row"
                   data-stable-key={field.stableKey}
+                  data-visibility={field.visibility}
                 >
                   <dt className="kv-label">{field.label}</dt>
                   <dd className="kv-value">{renderValue(field.value)}</dd>

@@ -342,14 +342,14 @@ UT-27 (`docs/30-workflows/completed-tasks/ut-27-github-secrets-variables-deploym
 
 ## Workflow lint scope の不変条件（CI recovery / 2026-05-09）
 
-`.github/workflows/ci.yml` の `workflow-shell-lint` job が呼び出す actionlint は、対象 workflow を継続的に拡張する。Issue #526 時点では `post-release-observation-reminder.yml` と `ci.yml` の 2 file だったが、2026-05-09 CI recovery wave で `web-cd.yml` と `runtime-smoke-staging.yml` を追加した。新規 workflow を `.github/workflows/` に追加する場合、actionlint 対象 list へ同時に追記することを必須とし、未掲載のまま PR を出した場合は `workflow-shell-lint` が fail する設計にする。
+`.github/workflows/ci.yml` の `workflow-shell-lint` job が呼び出す actionlint は、`.github/workflows/*.yml` を glob で全件検査する。Issue #526 時点の限定列挙と 2026-05-09 CI recovery wave の追記運用は、Issue #290 で全 32 workflow を対象にする glob gate へ昇格した。新規 workflow を `.github/workflows/` に追加した場合、同じ glob に自動包含される。
 
 | 観点 | 正本 |
 | --- | --- |
 | actionlint runner | `.github/workflows/ci.yml` の `workflow-shell-lint` job 内 actionlint step |
-| 対象 workflow（2026-05-09 時点） | `ci.yml`, `post-release-observation-reminder.yml`, `web-cd.yml`, `runtime-smoke-staging.yml` |
-| 拡張ルール | `.github/workflows/` への workflow 追加と同時に actionlint 対象に追記する |
-| shellcheck 対象 | `scripts/observation/*.sh`, `scripts/observation/test/*.sh`, 加えて recovery wave で `scripts/smoke/provision-staging-secrets.sh` を追加対象とする |
+| 対象 workflow（Issue #290 / 2026-05-17 時点） | `.github/workflows/*.yml`（現行 32 件） |
+| 拡張ルール | `.github/workflows/` への workflow 追加は glob に自動包含。allowlist 追記運用へ戻さない |
+| shellcheck 対象 | `scripts/observation/*.sh`, `scripts/observation/test/*.sh`, `scripts/redaction-check.sh`, `scripts/__tests__/*.sh`。`scripts/smoke/provision-staging-secrets.sh` は現行 Issue #290 scope 外であり、この invariant には含めない |
 
 ## Failure cascade 抑止 pattern（CI recovery / 2026-05-09）
 

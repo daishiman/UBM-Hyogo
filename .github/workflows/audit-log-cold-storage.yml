@@ -1,0 +1,47 @@
+# Issue #315: application audit_log cold storage daily export
+# cf-audit-log-cold-storage.yml (0 2 * * *) と時間帯分離し 0 3 * * * (JST 12:00) で実行。
+name: audit-log-cold-storage
+
+on:
+  schedule:
+    - cron: '0 3 * * *'
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: 'Skip R2 PUT and manifest writes'
+        type: boolean
+        default: true
+      target_date:
+        description: 'Target date (YYYY-MM-DD UTC). Default: previous UTC day'
+        type: string
+        required: false
+
+permissions:
+  contents: read
+
+concurrency:
+  group: audit-log-cold-storage
+  cancel-in-progress: false
+
+jobs:
+  export:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: jdx/mise-action@v2
+      - name: Install deps
+        run: mise exec -- pnpm install --frozen-lockfile
+      - name: Export application audit_log to R2
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CF_AUDIT_R2_TOKEN_PROD }}
+          DRY_RUN: ${{ github.event_name == 'schedule' && 'false' || inputs.dry_run || 'true' }}
+          TARGET_DATE: ${{ inputs.target_date || '' }}
+        run: |
+          set -euo pipefail
+          args=(--env production)
+          if [ "${DRY_RUN}" = "true" ]; then args+=(--dry-run); fi
+          if [ "${DRY_RUN}" != "true" ]; then args+=(--apply); fi
+          if [ -n "${TARGET_DATE}" ]; then args+=(--target-date "${TARGET_DATE}"); fi
+          echo "audit-log cold storage export args: ${args[*]}"
+          CF_SH_SKIP_WITH_ENV=1 mise exec -- pnpm exec tsx scripts/audit-log/export-to-r2.ts "${args[@]}"

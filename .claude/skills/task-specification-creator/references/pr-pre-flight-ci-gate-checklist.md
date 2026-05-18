@@ -113,4 +113,5 @@ bash scripts/verify-pr-ready.sh
 2. `verify:phase12-compliance` の JSON 出力で `reason` を確認
    - `missing-heading` → §4 canonical 9 headings
    - `missing-evidence` → §2 (table 形式) または §3 (path 解決) または §5 (unassigned-task 配置)
-3. 修正後 `bash scripts/verify-pr-ready.sh` を再実行し全 PASS を確認してから push
+3. `indexes:rebuild drift` → `.claude/skills/aiworkflow-requirements/indexes/` 配下の再生成差分を `git add` & commit（sync-merge 直後は `task-workflow-active.md` の `merge=union` で行数が増減し `topic-map.md` の見出し L 番号が drift する構造的事象。再生成→コミットが正規復旧手順）
+4. 修正後 `bash scripts/verify-pr-ready.sh` を再実行し全 PASS を確認してから push
