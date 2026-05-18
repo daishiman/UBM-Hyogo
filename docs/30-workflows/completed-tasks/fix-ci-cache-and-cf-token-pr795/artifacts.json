@@ -1,0 +1,147 @@
+{
+  "schemaVersion": 1,
+  "taskId": "fix-ci-cache-and-cf-token-pr795",
+  "title": "PR795 residual CI cache and Cloudflare token recovery",
+  "metadata": {
+    "taskType": "implementation",
+    "visualEvidence": "NON_VISUAL",
+    "workflow_state": "implemented_local_evidence_captured",
+    "implementation_status": "implementation_complete_runtime_pending",
+    "relatedPr": "#795",
+    "branch": "feat/ci-cache-and-cf-token-fix-spec",
+    "canonicalRoot": "docs/30-workflows/fix-ci-cache-and-cf-token-pr795"
+  },
+  "phases": [
+    {
+      "phase": 1,
+      "name": "要件定義",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-1/phase-1.md"
+      ]
+    },
+    {
+      "phase": 2,
+      "name": "設計",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-2/phase-2.md"
+      ]
+    },
+    {
+      "phase": 3,
+      "name": "設計レビュー",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-3/phase-3.md"
+      ]
+    },
+    {
+      "phase": 4,
+      "name": "テスト方針",
+      "status": "completed",
+      "outputs": [
+        "tasks/task-01-shell-lint-cache-fix/phase-4.md",
+        "tasks/task-02-cf-api-token-staging-secret-fix/phase-4.md"
+      ]
+    },
+    {
+      "phase": 5,
+      "name": "実装",
+      "status": "completed",
+      "outputs": [
+        "tasks/task-01-shell-lint-cache-fix/phase-5.md",
+        "tasks/task-02-cf-api-token-staging-secret-fix/phase-5.md"
+      ]
+    },
+    {
+      "phase": 6,
+      "name": "テスト拡充",
+      "status": "completed",
+      "outputs": [
+        "tasks/task-01-shell-lint-cache-fix/phase-6.md",
+        "tasks/task-02-cf-api-token-staging-secret-fix/phase-6.md"
+      ]
+    },
+    {
+      "phase": 7,
+      "name": "カバレッジ確認",
+      "status": "completed",
+      "outputs": [
+        "tasks/task-01-shell-lint-cache-fix/phase-7.md",
+        "tasks/task-02-cf-api-token-staging-secret-fix/phase-7.md"
+      ]
+    },
+    {
+      "phase": 8,
+      "name": "リファクタリング",
+      "status": "completed",
+      "outputs": [
+        "tasks/task-01-shell-lint-cache-fix/phase-8.md",
+        "tasks/task-02-cf-api-token-staging-secret-fix/phase-8.md"
+      ]
+    },
+    {
+      "phase": 9,
+      "name": "品質保証",
+      "status": "completed",
+      "outputs": [
+        "tasks/task-01-shell-lint-cache-fix/phase-9.md",
+        "tasks/task-02-cf-api-token-staging-secret-fix/phase-9.md"
+      ]
+    },
+    {
+      "phase": 10,
+      "name": "最終レビュー",
+      "status": "completed",
+      "outputs": [
+        "tasks/task-01-shell-lint-cache-fix/phase-10.md",
+        "tasks/task-02-cf-api-token-staging-secret-fix/phase-10.md"
+      ]
+    },
+    {
+      "phase": 11,
+      "name": "NON_VISUAL evidence",
+      "status": "runtime_pending",
+      "outputs": [
+        "outputs/phase-11/evidence.md"
+      ]
+    },
+    {
+      "phase": 12,
+      "name": "正本同期",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-12/main.md",
+        "outputs/phase-12/implementation-guide.md",
+        "outputs/phase-12/system-spec-update-summary.md",
+        "outputs/phase-12/documentation-changelog.md",
+        "outputs/phase-12/unassigned-task-detection.md",
+        "outputs/phase-12/skill-feedback-report.md",
+        "outputs/phase-12/phase12-task-spec-compliance-check.md"
+      ]
+    },
+    {
+      "phase": 13,
+      "name": "PR作成",
+      "status": "blocked",
+      "outputs": [
+        "tasks/task-01-shell-lint-cache-fix/phase-13.md",
+        "tasks/task-02-cf-api-token-staging-secret-fix/phase-13.md"
+      ]
+    }
+  ],
+  "implementedFiles": [
+    ".github/actions/setup-project/action.yml",
+    ".github/workflows/ci.yml",
+    ".github/workflows/backend-ci.yml",
+    "scripts/__tests__/workflow-env-scope.test.sh"
+  ],
+  "externalOpsPending": [
+    "GitHub environment secret value confirmation",
+    "dev push GitHub Actions runtime evidence",
+    "commit",
+    "push",
+    "PR"
+  ]
+}

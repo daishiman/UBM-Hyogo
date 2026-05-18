@@ -1,0 +1,18 @@
+{
+  "schemaVersion": 1,
+  "mirrors": "../artifacts.json",
+  "note": "Root and outputs artifacts are kept in parity for Phase 12 compliance.",
+  "workflow_state": "implemented_local_evidence_captured",
+  "phase12": {
+    "status": "completed",
+    "outputs": [
+      "phase-12/main.md",
+      "phase-12/implementation-guide.md",
+      "phase-12/system-spec-update-summary.md",
+      "phase-12/documentation-changelog.md",
+      "phase-12/unassigned-task-detection.md",
+      "phase-12/skill-feedback-report.md",
+      "phase-12/phase12-task-spec-compliance-check.md"
+    ]
+  }
+}

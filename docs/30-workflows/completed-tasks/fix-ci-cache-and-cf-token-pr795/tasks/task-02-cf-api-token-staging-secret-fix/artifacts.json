@@ -1,0 +1,28 @@
+{
+  "task_id": "task-02-cf-api-token-staging-secret-fix",
+  "workflow": "fix-ci-cache-and-cf-token-pr795",
+  "implementation_mode": "new",
+  "task_type": "NON_VISUAL",
+  "phases": {
+    "phase-1": { "status": "completed", "owner": "workflow-root", "source": "outputs/phase-1/phase-1.md" },
+    "phase-2": { "status": "completed", "owner": "workflow-root", "source": "outputs/phase-2/phase-2.md" },
+    "phase-3": { "status": "completed", "owner": "workflow-root", "source": "outputs/phase-3/phase-3.md" },
+    "phase-4": { "status": "completed", "file": "phase-4.md" },
+    "phase-5": { "status": "completed", "file": "phase-5.md" },
+    "phase-6": { "status": "completed", "file": "phase-6.md" },
+    "phase-7": { "status": "completed", "file": "phase-7.md" },
+    "phase-8": { "status": "completed", "file": "phase-8.md" },
+    "phase-9": { "status": "completed", "file": "phase-9.md" },
+    "phase-10": { "status": "completed", "file": "phase-10.md" },
+    "phase-11": { "status": "runtime_pending", "file": "phase-11.md", "evidence_required": true, "non_visual": true },
+    "phase-12": { "status": "completed", "file": "phase-12.md" },
+    "phase-13": { "status": "blocked", "file": "phase-13.md" }
+  },
+  "changed_files": [".github/workflows/backend-ci.yml", "scripts/__tests__/workflow-env-scope.test.sh"],
+  "required_secrets": [
+    { "name": "CF_TOKEN_D1_STAGING", "scope": "environment:staging", "op_reference": "op://Cloudflare/UBM-Hyogo-D1-Staging/token" },
+    { "name": "CF_TOKEN_WORKERS_STAGING", "scope": "environment:staging", "op_reference": "op://Cloudflare/UBM-Hyogo-Workers-Staging/token" },
+    { "name": "CF_TOKEN_D1_PRODUCTION", "scope": "environment:production", "op_reference": "operator-only" },
+    { "name": "CF_TOKEN_WORKERS_PRODUCTION", "scope": "environment:production", "op_reference": "operator-only" }
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "task_id": "task-01-shell-lint-cache-fix",
+  "workflow": "fix-ci-cache-and-cf-token-pr795",
+  "implementation_mode": "new",
+  "task_type": "NON_VISUAL",
+  "phases": {
+    "phase-1": { "status": "completed", "path": "../../outputs/phase-1/phase-1.md" },
+    "phase-2": { "status": "completed", "path": "../../outputs/phase-2/phase-2.md" },
+    "phase-3": { "status": "completed", "path": "../../outputs/phase-3/phase-3.md" },
+    "phase-4": { "status": "completed", "path": "phase-4.md" },
+    "phase-5": { "status": "completed", "path": "phase-5.md" },
+    "phase-6": { "status": "completed", "path": "phase-6.md" },
+    "phase-7": { "status": "completed", "path": "phase-7.md" },
+    "phase-8": { "status": "completed", "path": "phase-8.md" },
+    "phase-9": { "status": "completed", "path": "phase-9.md" },
+    "phase-10": { "status": "completed", "path": "phase-10.md" },
+    "phase-11": { "status": "runtime_pending", "path": "phase-11.md" },
+    "phase-12": { "status": "completed", "path": "phase-12.md" },
+    "phase-13": { "status": "blocked", "path": "phase-13.md" }
+  },
+  "changed_files": [
+    ".github/actions/setup-project/action.yml",
+    ".github/workflows/ci.yml"
+  ],
+  "dod": [
+    "workflow-shell-lint job が green",
+    "Path Validation Error annotation 0 件",
+    "他 caller への副作用なし (default cache: 'pnpm' で後方互換)",
+    "actionlint 構文検証 clean"
+  ]
+}

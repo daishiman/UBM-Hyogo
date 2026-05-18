@@ -4615,6 +4615,7 @@
     ],
     "Lessons": [
       "audit-correlation.md",
+      "deployment-gha.md",
       "lessons-fetch-service-binding-testing.md",
       "lessons-learned-02c-fixture-prod-build-exclusion-2026-05.md",
       "lessons-learned-03a-parallel-forms-schema-sync.md",
@@ -4745,6 +4746,7 @@
       "audit-correlation.md",
       "auth-google-oauth-cf-integration.md",
       "claude-code-settings-hierarchy.md",
+      "deployment-gha.md",
       "lessons-learned-03a-stablekey-literal-lint-enforcement-2026-05.md",
       "lessons-learned-03b-followup-005-sync-jobs-design-spec-2026-05.md",
       "lessons-learned-03b-response-sync-2026-04.md",
@@ -5220,6 +5222,7 @@
     ],
     "不変条件": [
       "branch-protection-desired-state-manifest.md",
+      "deployment-gha.md",
       "lessons-learned-02c-fixture-prod-build-exclusion-2026-05.md",
       "lessons-learned-docs-only-lifecycle.md",
       "lessons-learned-ut-gov-004-branch-protection-context-sync.md",
@@ -6410,6 +6413,7 @@
     ],
     "由来": [
       "csrf-state-parameter.md",
+      "deployment-gha.md",
       "lessons-learned-coverage-80-enforcement-2026-04.md",
       "lessons-learned-issue-346-08a-canonical-workflow-tree-restore-2026-05.md",
       "lessons-learned-issue-379-schema-diff-current-green-2026-05.md",
@@ -7468,7 +7472,8 @@
       "deployment-cloudflare-opennext-workers.md"
     ],
     "cache": [
-      "deployment-cloudflare-opennext-workers.md"
+      "deployment-cloudflare-opennext-workers.md",
+      "deployment-gha.md"
     ],
     "任意採用": [
       "deployment-cloudflare-opennext-workers.md"
@@ -8066,6 +8071,23 @@
       "workflow-06c-B-admin-members-artifact-inventory.md",
       "workflow-06c-C-admin-tags-artifact-inventory.md",
       "workflow-task-06-ui-ux-contract-rewrite-artifact-inventory.md"
+    ],
+    "setup": [
+      "deployment-gha.md",
+      "lessons-learned-task-09-w3-tailwind-v4-setup-2026-05.md",
+      "ui-history-integration.md",
+      "workflow-task-09-w3-par-tailwind-v4-setup-artifact-inventory.md"
+    ],
+    "project": [
+      "deployment-gha.md",
+      "lessons-learned-task-11-public-top-and-member-list-2026-05.md",
+      "lessons-learned-task-18-w7-verify-tokens-and-playwright-smoke-2026-05.md"
+    ],
+    "input": [
+      "deployment-gha.md"
+    ],
+    "residual": [
+      "deployment-gha.md"
     ],
     "Failure": [
       "deployment-gha.md",
@@ -15990,11 +16012,6 @@
       "workflow-task-08-w2-design-tokens-doc-artifact-inventory.md",
       "workflow-task-09-w3-par-tailwind-v4-setup-artifact-inventory.md"
     ],
-    "setup": [
-      "lessons-learned-task-09-w3-tailwind-v4-setup-2026-05.md",
-      "ui-history-integration.md",
-      "workflow-task-09-w3-par-tailwind-v4-setup-artifact-inventory.md"
-    ],
     "公開トップ": [
       "lessons-learned-task-11-public-top-and-member-list-2026-05.md"
     ],
@@ -16085,10 +16102,6 @@
     ],
     "単独": [
       "lessons-learned-task-11-public-top-and-member-list-2026-05.md"
-    ],
-    "project": [
-      "lessons-learned-task-11-public-top-and-member-list-2026-05.md",
-      "lessons-learned-task-18-w7-verify-tokens-and-playwright-smoke-2026-05.md"
     ],
     "に絞り込み": [
       "lessons-learned-task-11-public-top-and-member-list-2026-05.md"
