@@ -9,7 +9,33 @@
     "visualEvidence": "NON_VISUAL",
     "issue": "Refs #748",
     "created": "2026-05-17",
-    "updated": "2026-05-17"
+    "updated": "2026-05-18",
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-05-17T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-748-jest-axe-primitive-a11y-integration/outputs/phase-03.md",
+        "approver": "local",
+        "notes": "spec_review: Phase 1-13 spec completed (NON_VISUAL implementation)"
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "passed",
+        "passed_at": "2026-05-17T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-748-jest-axe-primitive-a11y-integration/outputs/phase-12/implementation-guide.md",
+        "approver": "local",
+        "notes": "implementation_review: jest-axe real a11y integration on parallel-09 primitives; local test/typecheck/lint PASS"
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-748-jest-axe-primitive-a11y-integration/outputs/phase-13.md",
+        "approver": "daishiman",
+        "notes": "external_ops: commit / push / PR require user approval"
+      }
+    ]
   },
   "phases": [
     { "phase": 1, "status": "completed", "path": "outputs/phase-01.md" },

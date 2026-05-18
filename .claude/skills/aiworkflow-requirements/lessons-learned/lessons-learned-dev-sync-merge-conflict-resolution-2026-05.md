@@ -110,6 +110,20 @@
 - 事例: 2026-05-17 feat/issue-720-cf-audit-monitor-env-protection-fix dev sync。conflict 4 件すべて両側採用で解消、`pnpm indexes:rebuild` で keywords.json と topic-map.md を deterministic 再生成、JSON validity 確認 PASS。
 - 事例（補強・2026-05-18 feat/issue-748-jest-axe-primitive-a11y-integration dev sync）: conflict 5 件 — `references/task-workflow-active.md`（HEAD: Issue #748 entry / dev: Issue #730 + i02-admin-error-type-unify entries）と `indexes/{keywords.json, quick-reference.md, resource-map.md, topic-map.md}`。`task-workflow-active.md` は本ルール（追記型 SSOT 両側採用、順序 HEAD→dev）で連結解消、indexes 4 件は L-DEVSYNC-002 通り `git checkout --theirs` で incoming 採用後 `pnpm indexes:rebuild` で deterministic 再生成。dev sync workflow が「L-DEVSYNC-012（両側採用） + L-DEVSYNC-002（indexes は再生成）」の二本柱で機械的解消可能であることを再確認。
 
+## L-DEVSYNC-013: 「task 作成漏れ」起因の CI 失敗は merge 後 push でも検出されない盲点（2026-05-18 追加）
+
+- 症状: 2026-05-18 feat/issue-748-jest-axe-primitive-a11y-integration の dev sync push で CI が `verify-phase12-compliance` と `verify-gate-metadata` の 2 件で fail。原因は dev sync ではなく**task 作成時点で**:
+  - `outputs/phase-12/phase12-task-spec-compliance-check.md` の見出しが canonical 9（`## Summary verdict` / `## Changed-files classification` / …）と一致せず独自命名（`## 1. Verdict` / `## 2. Strict 7 Output Existence` / …）になっていた
+  - `artifacts.json` と `outputs/artifacts.json` の `metadata.gates` 配列が欠落していた
+- 盲点: pre-push の `gate-metadata-guard` は「push 範囲に merge commit を含む場合は全スキップ」設計だったため、sync-merge 経由 push では検出不能。Phase 12 compliance 側に至っては pre-push hook 自体が存在しなかった。結果として task 作成時の漏れが PR で初めて顕在化し、毎タスク同じ修正を繰り返す再発パターンになっていた。
+- 恒久対応（同 push で実装）:
+  1. **`scripts/hooks/gate-metadata-guard.sh` 強化**: merge commit 含む push でも全スキップせず `git log --no-merges --name-only "$BASE..HEAD" -- '**/artifacts.json'` で feature 由来の非マージコミット差分のみを評価対象にする。sync-merge で引き込まれた他タスク artifacts.json は除外、本ブランチ生成の artifacts.json は必ず検証される。
+  2. **`scripts/hooks/phase12-compliance-guard.sh` 新設 + `lefthook.yml` 登録**: `verify-phase12-compliance` を pre-push で先行実行。`outputs/phase-12/phase12-task-spec-compliance-check.md` / `outputs/phase-12/main.md` / `artifacts.json` のいずれかが feature 由来 commit で変更されていれば走る。失敗時は canonical 9 heading SSOT (`.claude/skills/task-specification-creator/references/phase12-compliance-check-template.md`) と修正コマンドを表示。
+  3. **task-specification-creator skill 側 lessons-learned**: 「task 作成時に canonical schema を逸脱しない」「artifacts.json は metadata.gates 必須」を再強化（SP-DEVSYNC-012）。
+- 適用判断: pre-push 強化は破壊的変更ではなく既存 CI 失敗を pre-push で前倒すだけなので常時有効でよい。merge commit 含む push でも feature 由来差分のみ評価するため sync-merge 誤判定の懸念もない。
+- Why: 同じ CI 失敗を毎タスク繰り返す recurring pattern は「task 作成時にテンプレートを使わない」ことが根本原因。テンプレート遵守を pre-push gate で機械的に強制し、PR 到達前に修正させる。
+- How to apply: 既存 task の retroactive 修正手順 — `outputs/phase-12/phase12-task-spec-compliance-check.md` を canonical 9 heading に書き換え、両 `artifacts.json` に `metadata.gates` 配列（Gate-A spec_review / Gate-B implementation_review / Gate-C external_ops の 3 件、`status` / `passed_at` / `evidence_path` / `approver` / `notes` 必須）を追加。`pnpm verify:phase12-compliance` と `pnpm gate-metadata:validate` がローカルで通ることを確認してから commit / push。
+
 ## 適用範囲
 - task-specification-creator skill: 本 Lessons Learned は SKILL.md / changelog / references の conflict 解消にもそのまま適用される。Phase 12 で `artifacts.json` を出力する際は L-DEVSYNC-006 の status enum / passed_at / approver / evidence_path を必ず満たす。L-DEVSYNC-008 の "最新 N 件" 規約、L-DEVSYNC-011 の fact migration 判定、L-DEVSYNC-012 の追記型衝突両側採用ルールはいずれも `task-specification-creator/SKILL.md` / 配下 references / changelog 衝突に適用する。
 - aiworkflow-requirements skill: indexes 再生成は本 skill 配下で完結する。L-DEVSYNC-012 適用後は必ず `pnpm indexes:rebuild` を実行し JSON validity を検証する。
