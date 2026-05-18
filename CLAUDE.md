@@ -227,10 +227,11 @@ git には `post-fetch` hook が存在しないため、`git fetch` 後にリモ
 2. `git fetch origin dev` を実行し、ローカル `dev` を `origin/dev` にfast-forward同期する。
 3. 作業ブランチに戻り、`dev` をマージする。
 4. コンフリクトがあれば以下の方針で自律解消し、`git add` と `git commit` まで行う。
-5. 品質検証は次の3コマンドだけを実行する。
+5. 品質検証は次の4コマンドだけを実行する。
    - `pnpm install --force`
    - `pnpm typecheck`
    - `pnpm lint`
+   - `bash scripts/verify-pr-ready.sh`（docs-only gate の pre-flight。`verify:phase12-compliance` / `gate-metadata:validate` / `indexes:rebuild` drift を一括検証。失敗パターンは `.claude/skills/task-specification-creator/references/pr-pre-flight-ci-gate-checklist.md` を参照）
 6. 品質検証が失敗した場合は最大3回まで自動修復し、修復差分をコミットする。
 7. `git status --porcelain` で未コミット変更を確認し、残っている変更は `git add -A` で全件含めてコミットする。
 8. `git diff dev...HEAD --name-only` でPRに入るファイル一覧を取得し、PR本文作成時に漏れなし確認として扱う。
@@ -251,6 +252,7 @@ git には `post-fetch` hook が存在しないため、`git fetch` 後にリモ
 - `pnpm install --force` 失敗時は依存状態とlockfileの不整合を疑い、最小限の再生成で復旧する。
 - `pnpm typecheck` 失敗時は、unused import、null許容、型注釈漏れ、export/import不整合など明白な型不整合を最小差分で修正する。
 - `pnpm lint` 失敗時は、まず `pnpm lint --fix` を試し、残る違反だけを手修正する。
+- `bash scripts/verify-pr-ready.sh` 失敗時は `.claude/skills/task-specification-creator/references/pr-pre-flight-ci-gate-checklist.md` の §1〜§5 を参照し、`gate-metadata:validate`（artifacts.json zod schema）→ `verify:phase12-compliance`（canonical 9 headings / Phase 11 evidence 表 / workflow root scan）→ `indexes:rebuild` drift の順で原因切り分け＋修正してから再実行する。
 - テストコード実行は、ユーザーが明示しない限りこのPR作成フローでは行わない。
 
 ### PR作成前チェック

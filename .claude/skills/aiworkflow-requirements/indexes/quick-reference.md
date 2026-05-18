@@ -16,6 +16,18 @@
 
 ---
 
+### parallel-09 UX cross-cutting primitives visual evidence（Issue #746 / 2026-05-17）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/parallel-09-ux-cross-cutting/` |
+| recovery root | `docs/30-workflows/issue-746-parallel-09-playwright-visual-evidence-completion/` |
+| 状態 | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION` |
+| source | Issue #746 CLOSED / `docs/30-workflows/unassigned-task/parallel-09-followup-001-playwright-visual-evidence-completion.md` consumed |
+| implementation | `apps/web/playwright/tests/visual/parallel-09-primitives.spec.ts` completed-tasks evidence path + `PARALLEL09_EVIDENCE_DIR` override |
+| evidence | `docs/30-workflows/completed-tasks/parallel-09-ux-cross-cutting/outputs/phase-11/screenshots/*.png` (12), Issue #746 `outputs/phase-11/playwright-run.txt` |
+| user gate | commit / push / PR / issue mutation / staging-production smoke |
+
 ### UT-07B alias recommendation i18n（2026-05-17）
 
 | 目的 | 参照先 |
