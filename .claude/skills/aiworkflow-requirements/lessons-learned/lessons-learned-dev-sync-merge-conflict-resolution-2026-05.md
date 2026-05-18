@@ -111,6 +111,7 @@
 - 事例（補強・2026-05-18 feat/issue-748-jest-axe-primitive-a11y-integration dev sync）: conflict 5 件 — `references/task-workflow-active.md`（HEAD: Issue #748 entry / dev: Issue #730 + i02-admin-error-type-unify entries）と `indexes/{keywords.json, quick-reference.md, resource-map.md, topic-map.md}`。`task-workflow-active.md` は本ルール（追記型 SSOT 両側採用、順序 HEAD→dev）で連結解消、indexes 4 件は L-DEVSYNC-002 通り `git checkout --theirs` で incoming 採用後 `pnpm indexes:rebuild` で deterministic 再生成。dev sync workflow が「L-DEVSYNC-012（両側採用） + L-DEVSYNC-002（indexes は再生成）」の二本柱で機械的解消可能であることを再確認。
 - 追加事例（番号衝突リナンバー・2026-05-18 feat/admin-tags-queue-resolver-drawer-mvp-recovery dev sync）: skill lessons-learned 2 件の conflict のうち、`task-specification-creator/lessons-learned/dev-sync-merge-conflict-resolution.md` で HEAD 側「### SP-DEVSYNC-013: 共通の正本リンク」と dev 側「### SP-DEVSYNC-013: Phase 11 evidence `.log`」が**同一節 ID を別 semantic に使用**していた（典型的な番号衝突）。両側採用ルールは保ちつつ、HEAD 側の正本リンク節を **SP-DEVSYNC-014 にリナンバー**して末尾に配置、dev 側の SP-DEVSYNC-012 / SP-DEVSYNC-013 を先に置く順序で解消。番号衝突時のルール: 「後から追加された側 (dev 側) の番号を優先採用し、HEAD 側の既存番号は次の空き番号へ繰り上げる。本文や [[link]] 参照は破壊しない」。L-DEVSYNC-012 本体には影響なし、衝突時のサブルールとして本事例で正本化。
 - 追加事例（2026-05-18 `feat/parallel-i03-dialog-refresh-order` dev sync）: conflict 2 件 — `indexes/topic-map.md`（HEAD: parallel-i03 dialog refresh order entry / dev: 各 sync wave で追記済 entry の独立追記）と `indexes/keywords.json`（同種派生衝突）。`pnpm sync:resolve` を 1 回実行するだけで自動解消 — topic-map.md は union resolver で連結、keywords.json は `--ours` + `pnpm indexes:rebuild` で deterministic 再生成。手動介入ゼロで完了。L-DEVSYNC-012（追記型 SSOT 両側採用）と L-DEVSYNC-002（indexes 再生成）が `scripts/sync/resolve-skill-merge-conflicts.sh` に統合済で、層 2 resolver が想定通り動作することを再確認。
+- 追加事例（2026-05-18 `feat/ut-cicd-drift-verify-indexes-trigger-recovery-sop` dev sync）: conflict 2 件 — `.claude/skills/aiworkflow-requirements/SKILL.md` と `indexes/topic-map.md`。`pnpm sync:resolve` で両方 union 解消（手動編集ゼロ）後、merge commit を作成。merge commit 直後の `git status` で `indexes/topic-map.md` 1 件の drift が残ったため `pnpm indexes:rebuild` を 1 回実行して deterministic 再生成 → 単独 `chore(skills): rebuild aiworkflow indexes after dev sync merge` コミットで吸収。`pnpm typecheck` / `pnpm lint` は drift 解消後に PASS。L-DEVSYNC-002 + L-DEVSYNC-012 の二本柱 + 「sync:resolve 後の indexes:rebuild 確認」が安定運用パターンであることを再確認。
 - 追加事例: 2026-05-17 `feat/issue-746-parallel-09-playwright-visual-evidence` dev sync で 7 ファイル衝突（`aiworkflow-requirements/SKILL.md` / `indexes/quick-reference.md` / `indexes/resource-map.md` / `LOGS/_legacy.md` / `references/legacy-ordinal-family-register.md` / `task-specification-creator/SKILL.md` / `SKILL-changelog.md`）。すべて HEAD（Issue #746 parallel-09 visual evidence completion 行）+ dev 側（i02 / ut-07b / issue-720 / issue-730 系の追加行）の独立追加であり、本 L-DEVSYNC-012 ルールに従い両側採用（HEAD→dev 時系列順）で機械的に解消。base section の `||||||| <hash>` は破棄。`quick-reference.md` ではセクション見出し自体が更新されていた（旧: UT-07A-FU-01 → 新: UT-07B alias recommendation i18n）ため、本文に合致する dev 側見出しを採用し HEAD の parallel-09 セクションを上に挿入。
 
 ## L-DEVSYNC-010: 新規 playwright spec と mock API fixture の同時追加義務
@@ -193,6 +194,40 @@
 - Why: LOGS は append-only な追記型ファイルで、両側の entry を保持するのが正解（L-DEVSYNC-012 の追記型衝突両側採用ルール準拠）。resolver が LOGS を対象外にしている理由は、entry 順序（時系列・logical order）が文脈依存で機械判定できないため。
 - How to apply: dev sync prompt 自律判断ルール B（コンフリクト解消方針）に「LOGS/_legacy.md / changelog 等の追記型 markdown は両側 entry を保持して union、重複 entry のみ除去」を追加。`pnpm sync:resolve` 完走後 `git diff --diff-filter=U --name-only` を確認し、LOGS-only なら自動継続、それ以外が残っていたら従来通り手動解消の最終レポート対象。
 
+## L-DEVSYNC-019: 新規 task の root/outputs `artifacts.json` には `metadata.gates` を生成時から付与（2026-05-18 追加）
+
+- 症状: 2026-05-18 `feat/ut-cicd-drift-verify-indexes-trigger-recovery-sop` の PR #796 で、`origin/dev` 取り込み後に `verify-gate-metadata` workflow が `[ERROR] docs/30-workflows/completed-tasks/ut-cicd-drift-impl-verify-indexes-trigger/artifacts.json: metadata.gates absent on changed artifacts.json`（root と outputs 2 件）で fail。新規 task で root/outputs artifacts.json が **両方** changed file となるため、`--require-gates-for-changed` 引数経由で validator は ERROR を出す（既存 task は WARN だけで素通り）。
+- Validator 仕様 (`scripts/gate-metadata/validate.ts`):
+  - `metadata.gates` 未設定 → require=true なら ERROR、false なら WARN（skip）
+  - `metadata.gates` は `GatesArraySchema` (`packages/shared/src/gate-metadata/schema.ts`) で zod 検証
+  - `gate_id` regex: `^Gate-[A-Z](-[A-Z0-9]+)*$`
+  - `status`: `pending | passed | failed | waived`
+  - `passed_at`: ISO 8601 datetime with offset、`status=passed` のとき非 null 必須・それ以外 null 必須
+  - `evidence_path`: repo-root 相対 POSIX path、`..` を含まないこと、`status=passed` のとき物理実在検査
+  - `approver`: GitHub username 形式 (`^[A-Za-z0-9](?:[A-Za-z0-9-]{0,37}[A-Za-z0-9])?$`) または `CODEOWNERS:<path>`
+- 解消（spec_created 段階の正本テンプレート）:
+  ```json
+  "metadata": {
+    "...": "...",
+    "gates": [
+      { "gate_id": "Gate-A", "status": "passed",  "passed_at": "<spec_review_ISO>",       "evidence_path": "<root>/outputs/phase-3/design.md",          "approver": "<gh-username>", "notes": "spec_review" },
+      { "gate_id": "Gate-B", "status": "pending", "passed_at": null,                       "evidence_path": "<root>/outputs/phase-10/ac-verification.md", "approver": "<gh-username>", "notes": "implementation_review" },
+      { "gate_id": "Gate-C", "status": "pending", "passed_at": null,                       "evidence_path": "<root>/outputs/phase-13/diff-to-pr.md",     "approver": "<gh-username>", "notes": "external_ops" }
+    ]
+  }
+  ```
+- **artifacts parity 不変条件**: root `artifacts.json` と `outputs/artifacts.json` の **両方** に同一 `gates` 配列を持たせる（root/output artifacts parity gate と整合）。
+- ローカル事前検証:
+  ```bash
+  mise exec -- pnpm gate-metadata:validate -- \
+    --require-gates-for-changed <root>/artifacts.json <root>/outputs/artifacts.json
+  # 期待: ERROR: 0
+  ```
+- Why: 新規 task では `artifacts.json` 2 件が常に changed-file セットに入り `--require-gates-for-changed` のスコープに乗る。spec_created 段階で gates 配列を埋めておけば、後段 PR で必ず発生する `verify-gate-metadata` failure を recurring fail の 1 種として撲滅できる。
+- 適用判断: task-specification-creator skill の Phase 12 template と新規 task root artifacts.json 生成スクリプト両方に SP-DEVSYNC-018 として組み込む。
+- 事例: 2026-05-18 `feat/ut-cicd-drift-verify-indexes-trigger-recovery-sop` で本ルール適用、Gate-A passed (Phase 3 design) / Gate-B passed (Phase 10 ac-verification) / Gate-C pending (Phase 13 diff-to-pr) を root + outputs 両方に付与し、ローカル `gate-metadata:validate` で `OK: 216 WARN: 341 ERROR: 0` を確認した上で push。
+
+
 ## 適用範囲
-- task-specification-creator skill: 本 Lessons Learned は SKILL.md / changelog / references の conflict 解消にもそのまま適用される。Phase 12 で `artifacts.json` を出力する際は L-DEVSYNC-006 の status enum / passed_at / approver / evidence_path を必ず満たす。L-DEVSYNC-008 の "最新 N 件" 規約、L-DEVSYNC-011 の fact migration 判定、L-DEVSYNC-012 の追記型衝突両側採用ルールはいずれも `task-specification-creator/SKILL.md` / 配下 references / changelog 衝突に適用する。L-DEVSYNC-015 の native binary version bump 二段復旧、L-DEVSYNC-018 の resolver 対象外ファイル手動 union は dev sync prompt の自律修復に組み込む。
+- task-specification-creator skill: 本 Lessons Learned は SKILL.md / changelog / references の conflict 解消にもそのまま適用される。Phase 12 で `artifacts.json` を出力する際は L-DEVSYNC-006 の status enum / passed_at / approver / evidence_path を必ず満たす。L-DEVSYNC-008 の "最新 N 件" 規約、L-DEVSYNC-011 の fact migration 判定、L-DEVSYNC-012 の追記型衝突両側採用ルールはいずれも `task-specification-creator/SKILL.md` / 配下 references / changelog 衝突に適用する。L-DEVSYNC-015 の native binary version bump 二段復旧、L-DEVSYNC-018 の resolver 対象外ファイル手動 union は dev sync prompt の自律修復に組み込む。L-DEVSYNC-019 の root/outputs `artifacts.json` への `metadata.gates` 生成時付与は task-specification-creator skill Phase 12 template に組み込む。
 - aiworkflow-requirements skill: indexes 再生成は本 skill 配下で完結する。L-DEVSYNC-012 適用後は必ず `pnpm indexes:rebuild` を実行し JSON validity を検証する。L-DEVSYNC-018 は本 skill 配下 `LOGS/_legacy.md` の自律 union 解消に直接適用される。
