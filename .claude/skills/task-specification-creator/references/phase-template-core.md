@@ -112,6 +112,13 @@ Phase 1、Phase 2、Phase 3。
 - D1 / API / repository 系タスクでは、Phase 2 で `apps/api/migrations/*.sql` と repository contract を grep 照合し、「仕様書記述 vs 実 DB」の対応表を必須セクション化する。存在しないカラム前提を設計本文へ持ち込まない。
 - HTTP 202 / retryable / resumable workflow では、Phase 2 で **continuation visibility** を必須セクション化する。retry target が API list / queue row / documented operator command のどれから再発見できるか、完了状態へ収束する条件、Phase 4 の検証ケースを同じ表に書く。
 - UI prototype alignment のように prototype 掲載画面と未掲載派生画面が混在する docs-only task では、Phase 2 で **派生ルール正本転記計画** を必須セクション化する。派生元参照、転記方式（全文 / 抜粋 + link / link のみ）、派生注記の固定形、新 primitive 生成可否、prototype JSX の扱い（literal JSX / 構造 contract / link only）を表に固定し、Phase 11 AC で検証できる数値に落とす。
+- **UI Prototype JSX Section Inventory Checklist【prototype 移植 task 必須】**（UBM-Hyogo i04 / L-T11-007 知見）: prototype JSX ファイル (例: `claude-design-prototype/pages-public.jsx`) を本番 component / page に移植する task では、Phase 2 で以下の 3 成果物を必須化し bottom / nested / conditional render の section 見落としを防ぐ。Phase 11 AC は「prototype section 全数と本番 mount 数が一致」を数値で検証する。
+  
+  | 責務 | 実行方法 | 出力成果物 |
+  | --- | --- | --- |
+  | JSX section 列挙 | prototype JSX を `rg -n "^\s*(<[A-Z]|export\|function|return\s*\()" <file>` で行番号付き抽出し全 section をリスト化 | `source-section-inventory.md` |
+  | 本番側対応 mapping | 各 section を現行本番の component / mount point (route file + 行) へ表化。未移植 section を明示 | `component-mapping-table.md` |
+  | 落とし穴 checklist | bottom section / nested section / dark variant 等の視覚独立 section / conditional render を明示チェック | `migration-risks.md` |
 - **既存実装検査ゲート【follow-up タスク必須】**（Issue #560 L-560-001 / L-560-004 知見）: 既存 workaround の hardening / formalize 系 follow-up タスクでは、Phase 2 で `rg --files <target dir>` により対象スクリプト・実装ファイル・physical output path を必ず洗い出し、「既存実装あり / 部分実装あり / greenfield」のいずれかに分類してから Phase 3 の `RED` / `spec_created` / `existing-hardening` ラベルを確定する。greenfield 前提の wording を既存実装ありの follow-up に持ち込まない。RED の意味は「ファイル不在」ではなく「既存コードが新規 AC を満たさない」こと。
 - **CI workflow 実在確認ゲート**（Issue #560 L-560-003 知見）: CI gate を伴うタスクでは、Phase 2 で `rg --files .github/workflows` により実在する workflow file を列挙し、owner workflow を 1 つに固定してから Phase 3 へ進める。`pr-build.yml` のような generic placeholder を spec に残置しない。複数 workflow に跨る場合は dependency matrix の owner / co-owner 列でどの workflow が canonical CI gate 責務を持つかを明示する。
 

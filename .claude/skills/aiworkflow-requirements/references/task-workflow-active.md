@@ -8,6 +8,19 @@
 
 本ドキュメントは、複雑なタスクを単一責務の原則に基づいて分解し、各サブタスクに最適なスラッシュコマンド・エージェント・スキルの組み合わせを選定するためのガイドラインを定義する。
 
+### Issue #747 Vitest esbuild arch & worktree isolation（2026-05-17）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_runtime_blocked_node_arch / implementation / NON_VISUAL / PARTIAL_LOCAL_EVIDENCE_NODE_ARCH_BLOCKED` |
+| 成果物 | `docs/30-workflows/issue-747-vitest-esbuild-arch-and-worktree-isolation/` |
+| source | Issue #747 CLOSED / `docs/30-workflows/unassigned-task/parallel-09-followup-002-vitest-esbuild-version-alignment.md` consumed |
+| 目的 | focused Vitest 2 spec の起動 blocker を、Node arch / worktree topology / esbuild version parity の3層で検出・復旧する |
+| 実装 | `scripts/verify-node-arch.mjs`, `scripts/verify-worktree-node-modules-isolation.mjs`, `scripts/verify-esbuild-version.mjs`, root `package.json` scripts + `esbuild@0.27.3`, `pnpm-lock.yaml`, `lefthook.yml`, `.github/workflows/verify-esbuild.yml`, `.mise.toml`, `CLAUDE.md` runbook link |
+| evidence | focused Vitest 2 specs, worktree isolation, and esbuild version parity pass locally; `verify:node-arch` fails on this Rosetta/x64 Node and remains the active runtime blocker |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-747-vitest-esbuild-arch-and-worktree-isolation-artifact-inventory.md` |
+| user gate | arm64 Node reinstall on local host, commit, push, PR, GitHub Actions runtime evidence, parent repository `node_modules` cleanup |
+
 ### Issue #748 jest-axe primitive a11y integration（2026-05-17）
 
 | 項目 | 値 |
@@ -75,6 +88,20 @@
 | API boundary | 既存 `GET /admin/schema/diff` / `POST /admin/schema/aliases` を利用。新 endpoint / D1 schema / env gate 追加なし |
 | UI contract | 4 ペイン table semantics、stableKey regex `/^[a-zA-Z][a-zA-Z0-9_]*$/`、row select 後 input focus、409 `existingStableKey` / 422 `existingQuestionIds` 表示、202 retryable status、queued/resolved 日本語 label |
 | evidence | `docs/30-workflows/serial-05-step-03-schema-diff-resolve/outputs/phase-11/evidence/`, `docs/30-workflows/serial-05-step-03-schema-diff-resolve/outputs/phase-12/phase12-task-spec-compliance-check.md` |
+| user gate | runtime screenshots、staging smoke、commit、push、PR |
+
+### admin-tags-queue-resolver-drawer（2026-05-17）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / VISUAL / local tests passed / Phase 12 strict 7 present` |
+| 成果物 | `docs/30-workflows/completed-tasks/admin-tags-queue-resolver-drawer/` |
+| source | `docs/30-workflows/ui-prototype-alignment-mvp-recovery/improvements/serial-05-admin-mutation-ui/step-04-tags-assignment/spec.md` |
+| 目的 | `/admin/tags` の既存 `TagQueuePanel` から resolve UI を `TagsQueueResolveDrawer` として抽出し、a11y drawer pattern、schema validation、`useAdminMutation` 経由 mutation に再設計する |
+| implementation targets | `apps/web/src/components/admin/TagQueuePanel.tsx`, `apps/web/src/components/admin/TagsQueueResolveDrawer.tsx`, `apps/web/src/components/admin/_tagQueueStatus.ts`, `apps/web/src/features/admin/hooks/useAdminMutation.ts`, `apps/web/src/lib/admin/server-fetch.ts`, `apps/web/playwright/tests/admin-tags-resolve-drawer.spec.ts`, `apps/web/src/styles/tokens.css` |
+| API boundary | 既存 upstream `POST /admin/tags/queue/:queueId/resolve` のみ。browser path は `/api/admin/tags/queue/:queueId/resolve`。新 endpoint / D1 schema / shared schema 変更なし |
+| evidence | `docs/30-workflows/completed-tasks/admin-tags-queue-resolver-drawer/outputs/phase-12/phase12-task-spec-compliance-check.md`; local Vitest 626 passed / 1 skipped; Phase 11 screenshots 5 PNG; axe violations 0 |
+| lessons | `references/lessons-learned-admin-tags-queue-resolver-drawer-2026-05.md` |
 | user gate | runtime screenshots、staging smoke、commit、push、PR |
 
 ### UT-07A-04 member_tags assigned_via_queue_id decision（2026-05-16）
@@ -170,17 +197,17 @@
 | Phase 12 | strict files present under `outputs/phase-12/`; `implementation-guide-part2.md` は root artifacts 由来の追加成果物 |
 | user gate | production/staging runtime summary evidence / commit / push / PR |
 
-### fix-wrangler-esbuild-import-source-error（2026-05-15）
+### fix-cf-deploy-esbuild-import-source-staging-failure（2026-05-17）
 
 | 項目 | 値 |
 | --- | --- |
-| ステータス | `verified / implementation / NON_VISUAL / PASS_BOUNDARY_SYNCED_RUNTIME_PENDING / Phase 12 strict 7 present` |
-| 成果物 | `docs/30-workflows/completed-tasks/fix-wrangler-esbuild-import-source-error/` |
+| ステータス | `implemented_local_evidence_captured / implementation / NON_VISUAL / PASS_BOUNDARY_SYNCED_RUNTIME_PENDING / Phase 12 strict 7 present` |
+| 成果物 | `docs/30-workflows/fix-cf-deploy-esbuild-import-source-staging-failure/` |
 | 目的 | `wrangler@4.85.0` が要求する `esbuild@0.27.3` と root `pnpm.overrides.esbuild=0.25.4` の不整合を解消し、Cloudflare deploy build error `"import-source" is not a valid feature name` を修復する |
 | implementation targets | `package.json`, `pnpm-lock.yaml`, `scripts/cf.sh` |
 | evidence | `outputs/phase-11/main.md`, `outputs/phase-11/manual-smoke-log.md`, `outputs/phase-12/phase12-task-spec-compliance-check.md` |
-| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-fix-wrangler-esbuild-import-source-error-artifact-inventory.md` |
-| local verification | `pnpm install --frozen-lockfile=false`, `pnpm why esbuild`, `pnpm exec esbuild --version`, `build:cloudflare`, `apps/api wrangler deploy --dry-run` |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-fix-cf-deploy-esbuild-import-source-staging-failure-artifact-inventory.md` |
+| local verification | `mise exec -- pnpm install --force`, `pnpm why esbuild`, `pnpm exec esbuild --version`, `mise exec -- pnpm --filter @ubm-hyogo/web build:cloudflare`, `bash scripts/cf.sh deploy --config apps/api/wrangler.toml --dry-run --outdir /tmp/api-bundle` |
 | user gate | GitHub Actions deploy-staging, runtime smoke, commit, push, PR |
 
 ### Issue #667 Stage 3b mock API fixture coverage（2026-05-14）
@@ -496,6 +523,20 @@
 | 下流 | task-18 regression smoke / verify-design-tokens |
 | evidence boundary | Phase 12 strict 7 + artifacts parity + Phase 11 deterministic evidence は present。apps/web implementation は local reflected。authenticated screenshot / visual runtime evidence / staging deploy / production smoke / commit / push / PR は user approval 後 |
 | artifact inventory | `references/workflow-task-14-my-profile-and-requests-artifact-inventory.md` |
+
+### parallel-i03 profile request dialog refresh order（2026-05-17）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | implemented_local_evidence_captured / implementation / NON_VISUAL / Phase 13 pending_user_approval |
+| 成果物 | `docs/30-workflows/parallel-i03-dialog-refresh-order/` |
+| 目的 | profile request dialog の success path を `router.refresh() -> onSubmitted -> onClose()` に固定し、unmount 後 refresh race と parent 側二重発火を排除する |
+| 実装対象 | `apps/web/app/profile/_components/VisibilityRequestDialog.tsx`, `DeleteRequestDialog.tsx`, `RequestActionPanel.tsx` |
+| test evidence | dialog 2 件の `callOrder` assertion と parent `router.refresh` 非発火 assertion |
+| source spec | `docs/30-workflows/ui-prototype-alignment-mvp-recovery/improvements/integration-fixes/parallel-i03-dialog-refresh-order/spec.md` |
+| artifact inventory | `references/workflow-parallel-i03-dialog-refresh-order-artifact-inventory.md` |
+| lessons-learned | `references/lessons-learned-parallel-i03-dialog-refresh-order-2026-05.md`（L-PARALLEL-I03-001..005: refresh 順序契約 / 409 分岐漏れ gate / `vi.hoisted` callOrder pattern / 親 spec の子 dialog inline mock / completed-tasks path drift） |
+| user gate | commit / push / PR |
 
 ### E2E Quality Uplift Stage 0-3（2026-05-09）
 

@@ -222,4 +222,8 @@ pnpm e2e:smoke
 ---
 
 **Updated**: 2026-05-15
-**Status**: Ready for implementation
+**Status**: Superseded for implementation planning
+
+## 13. superseded trace（2026-05-17）
+
+Current topology では `apps/web/src/components/admin/TagQueuePanel.tsx` が既に queue list と inline review pane を持つため、本 spec の `_components/TagsQueueList.tsx` 新規追加前提は採用しない。後続実装は `docs/30-workflows/completed-tasks/admin-tags-queue-resolver-drawer/` を canonical workflow root とし、`TagQueuePanel` hardening + `TagsQueueResolveDrawer` 抽出 + `useAdminMutation` 経由化として進める。
