@@ -78,7 +78,7 @@ jobs:
             "repos/${GITHUB_REPOSITORY}/actions/workflows/cf-audit-log-monitor.yml/runs?created=>${SINCE}&per_page=100" \
             --jq '.workflow_runs[] | [.id, .html_url] | @tsv' > run-ids.tsv
           cut -f1,2 run-ids.tsv > "$RUN_URLS"
-          while IFS=$'\t' read -r RID RUN_URL; do
+          while IFS=$'\t' read -r RID _RUN_URL; do
             [ -z "$RID" ] && continue
             ARTIFACT_ID=$(gh api "repos/${GITHUB_REPOSITORY}/actions/runs/${RID}/artifacts" \
               --jq '.artifacts[] | select(.name | startswith("hourly-snapshot-")) | .id' | head -1)

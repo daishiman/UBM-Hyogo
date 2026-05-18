@@ -39,7 +39,7 @@ jobs:
 
       - name: Wait for server
         run: |
-          for i in {1..60}; do
+          for _ in {1..60}; do
             curl -fsS http://localhost:3000 >/dev/null && exit 0
             sleep 1
           done
@@ -84,7 +84,7 @@ jobs:
       - name: Wait for authenticated profile mock API
         if: steps.auth-secret-gate.outputs.available == 'true'
         run: |
-          for i in {1..30}; do
+          for _ in {1..30}; do
             curl -fsS http://127.0.0.1:8787/health >/dev/null && exit 0
             sleep 1
           done

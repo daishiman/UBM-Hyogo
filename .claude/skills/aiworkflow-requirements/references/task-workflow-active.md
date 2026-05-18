@@ -8,6 +8,20 @@
 
 本ドキュメントは、複雑なタスクを単一責務の原則に基づいて分解し、各サブタスクに最適なスラッシュコマンド・エージェント・スキルの組み合わせを選定するためのガイドラインを定義する。
 
+### UI Prototype Design System Foundation（2026-05-18）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `spec_created / implementation / VISUAL / Phase 12 strict 7 present` |
+| 成果物 | `docs/30-workflows/ui-prototype-design-system-foundation/` |
+| prototype coverage | `docs/30-workflows/ui-prototype-design-system-foundation/PROTOTYPE-COVERAGE.md` |
+| 目的 | 凍結プロトタイプと 09a-09h の情報を、現行 `apps/web/app/**` 物理配置へ反映できる design system foundation workflow として整理する |
+| source | `docs/00-getting-started-manual/claude-design-prototype/**`, `docs/00-getting-started-manual/specs/09a..09h-*.md`, parent `docs/30-workflows/ui-prototype-alignment-mvp-recovery/` |
+| boundary | 新規 API endpoint / D1 schema / Google Form 仕様変更なし。`/login` / `/profile` / `/privacy` / `/terms` は root app path を維持 |
+| evidence | root / outputs `artifacts.json` parity, Phase 12 strict 7, 30-method compact evidence in `PROTOTYPE-COVERAGE.md` |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-ui-prototype-design-system-foundation-artifact-inventory.md` |
+| user gate | code implementation, visual screenshots, commit, push, PR |
+
 ### Issue #749 Primitive Adoption Tracker（2026-05-17）
 ### Issue #747 Vitest esbuild arch & worktree isolation（2026-05-17）
 
@@ -821,6 +835,20 @@
 | merge gate | 既存 required context `ci` 内で `pnpm observation:lint` を実行。dedicated `workflow-shell-lint` job は見やすい分離証跡で、required context 追加は user-gated |
 | 境界 | Reminder workflow の schedule / workflow_dispatch / Issue 作成副作用は変更しない。GitHub Actions runtime evidence、branch protection PUT、commit、push、PR は user approval 後 |
 | Issue 取扱 | #526 / #350 CLOSED 維持。PR 文脈では `Refs #526, Refs #350` のみ |
+
+### Issue #290 workflow lint gate（2026-05-17）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | implemented_local_evidence_captured / implementation / NON_VISUAL / PASS_BOUNDARY_SYNCED_RUNTIME_PENDING / Phase 13 pending_user_approval |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-290-workflow-lint-gate/` |
+| Artifact inventory | `references/workflow-issue-290-workflow-lint-gate-artifact-inventory.md` |
+| Lessons | `references/lessons-learned-issue-290-workflow-lint-gate-2026-05.md` |
+| 実装対象 | `.github/workflows/ci.yml`, `package.json`, `docs/30-workflows/runbooks/workflow-lint-local-recovery.md` |
+| lint対象 | `.github/workflows/*.yml`（現行 32 件） |
+| merge gate | 既存 required context `ci` 内で `pnpm observation:lint` を実行。dedicated `workflow-shell-lint` job も同じ glob scope。required context 追加は user-gated |
+| 境界 | yamllint は不採用。branch protection 変更、GitHub Actions runtime evidence、commit、push、PR は user approval 後 |
+| Issue 取扱 | Issue #290 / parent UT-CICD-DRIFT。PR 文脈では `Refs #290, Refs UT-CICD-DRIFT` |
 
 ### UI prototype alignment / MVP recovery task-20 screen blueprints public/member（2026-05-07）
 

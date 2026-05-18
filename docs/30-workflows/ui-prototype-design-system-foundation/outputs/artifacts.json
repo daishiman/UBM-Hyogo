@@ -1,0 +1,62 @@
+{
+  "workflow_id": "ui-prototype-design-system-foundation",
+  "metadata": {
+    "workflow_state": "spec_created",
+    "taskType": "implementation",
+    "visualEvidence": "VISUAL",
+    "implementation_mode": "greenfield-foundation",
+    "prototype_coverage": "PROTOTYPE-COVERAGE.md",
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-05-18T00:00:00Z",
+        "evidence_path": "docs/30-workflows/ui-prototype-design-system-foundation/outputs/phase-12/main.md",
+        "approver": "daishiman",
+        "notes": "spec_review: Phase 1-13 spec readiness (parallel-01..04 / serial-00 / serial-05..07)"
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/ui-prototype-design-system-foundation/outputs/phase-12/implementation-guide.md",
+        "approver": "daishiman",
+        "notes": "implementation_review: full 19-route binding + Playwright visual evidence pending"
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/ui-prototype-design-system-foundation/serial-07-regression-evidence/phase-11-evidence-inventory.md",
+        "approver": "daishiman",
+        "notes": "external_ops: runtime screenshots / PR / merge"
+      }
+    ]
+  },
+  "phases": [
+    { "phase": 1, "status": "spec_created" },
+    { "phase": 2, "status": "spec_created" },
+    { "phase": 3, "status": "spec_created" },
+    { "phase": 4, "status": "spec_created" },
+    { "phase": 5, "status": "spec_created" },
+    { "phase": 6, "status": "spec_created" },
+    { "phase": 7, "status": "spec_created" },
+    { "phase": 8, "status": "spec_created" },
+    { "phase": 9, "status": "spec_created" },
+    { "phase": 10, "status": "spec_created" },
+    { "phase": 11, "status": "spec_created" },
+    { "phase": 12, "status": "spec_created" },
+    { "phase": 13, "status": "pending_user_approval" }
+  ],
+  "outputs": {
+    "phase_12": [
+      "outputs/phase-12/main.md",
+      "outputs/phase-12/implementation-guide.md",
+      "outputs/phase-12/system-spec-update-summary.md",
+      "outputs/phase-12/documentation-changelog.md",
+      "outputs/phase-12/unassigned-task-detection.md",
+      "outputs/phase-12/skill-feedback-report.md",
+      "outputs/phase-12/phase12-task-spec-compliance-check.md"
+    ]
+  }
+}
