@@ -9,7 +9,7 @@
 利用されているか** は単体マージ時点では検証されない。
 
 本ワークフローは、コード実体での依存接続検証（実 grep / file read）で検出された 7 件の未接続/部分接続を
-管理する。2026-05-16 時点では i01 のみ `docs/30-workflows/completed-tasks/i01-toastprovider-root-mount/` で実装完了し、i02〜i07 は本 index 配下の active integration-fix spec として残る。
+管理する。2026-05-18 時点では i01 / i04 / i05 が実装済みで、i02 / i03 / i06 / i07 は本 index 配下の active integration-fix spec として残る。
 
 ## 2. 検出結果（接続検証 evidence）
 
@@ -19,7 +19,7 @@
 | i02 | `useAdminMutation` が独自 `AdminMutationHttpError` を定義し `FetchAuthedError` / `AuthRequiredError` と乖離 | p-08 ↔ p-10 | `apps/web/src/features/admin/hooks/useAdminMutation.ts:58` で独自 class 定義 / `apps/web/src/lib/fetch/authed.ts:17,24` に既存 error class |
 | i03 | dialog の `router.refresh()` 呼び出し位置が spec と乖離（close 後発火リスク） | p-02 spec 違反 | `RequestActionPanel.tsx:57` で `refresh()` を onSubmitted callback に置く実装。spec は dialog 内で close 前 |
 | i04 | (完了) `CallToActionCTA` を HomePage に実装済み | p-06 DoD 達成 | `apps/web/app/page.tsx` が `CallToActionCTA` を mount、`apps/web/src/components/public/CallToActionCTA.tsx` 作成済み、Phase 11 screenshot 3 件保存 |
-| i05 | `/login/loading.tsx` 未作成 + `/login/error.tsx` の focus 管理 / Card layout 未適用 | p-07 DoD 未達 | `apps/web/app/login/loading.tsx` 不在 / `error.tsx` は `useRef` / `tabIndex` なし |
+| i05 | (完了) `/login/loading.tsx` 新規作成 + `/login/error.tsx` の focus 管理 / alert 強化を実装済み | p-07 DoD line 141, 142 達成 | `apps/web/app/login/loading.tsx` が `role=status` / `aria-busy=true` / `aria-live=polite`、`error.tsx` が `useRef` / `tabIndex={-1}` / `aria-live=assertive` |
 | i06 | root `error.tsx` の h1 自動 focus 未実装 | p-07 spec 4.3 未達 | `apps/web/app/error.tsx` で `useRef` / `headingRef.current?.focus()` なし |
 | i07 | `/profile/loading.tsx` が簡素テキストのみで OKLch skeleton 未適用 | p-07 spec 4.5 未達 | `apps/web/app/profile/loading.tsx` は `<p aria-live="polite">読み込み中…</p>` のみ |
 
@@ -78,7 +78,7 @@ integration-fixes/
 | i02 | spec_ready_implementation_pending | `parallel-i02-admin-error-type-unify/spec.md` / `docs/30-workflows/unassigned-task/integration-fixes-i02-admin-error-type-unify.md` |
 | i03 | spec_ready_implementation_pending | `parallel-i03-dialog-refresh-order/spec.md` / `docs/30-workflows/unassigned-task/integration-fixes-i03-dialog-refresh-order.md` |
 | i04 | completed locally | `docs/30-workflows/integration-fixes-i04-homepage-cta-implementation/` / `parallel-i04-homepage-cta/spec.md` / `docs/30-workflows/unassigned-task/integration-fixes-i04-homepage-cta.md` |
-| i05 | spec_ready_implementation_pending | `parallel-i05-login-loading-and-error-focus/spec.md` / `docs/30-workflows/unassigned-task/integration-fixes-i05-login-loading-and-error-focus.md` |
+| i05 | implemented_local_evidence_captured | `docs/30-workflows/parallel-i05-login-loading-and-error-focus/` / `parallel-i05-login-loading-and-error-focus/spec.md` / `docs/30-workflows/unassigned-task/integration-fixes-i05-login-loading-and-error-focus.md`（consumed） |
 | i06 | spec_ready_implementation_pending | `parallel-i06-root-error-focus/spec.md` / `docs/30-workflows/unassigned-task/integration-fixes-i06-root-error-focus.md` |
 | i07 | spec_ready_implementation_pending | `parallel-i07-profile-loading-skeleton/spec.md` / `docs/30-workflows/unassigned-task/integration-fixes-i07-profile-loading-skeleton.md` |
 
