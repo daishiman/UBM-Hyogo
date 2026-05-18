@@ -21,6 +21,20 @@
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-747-vitest-esbuild-arch-and-worktree-isolation-artifact-inventory.md` |
 | user gate | arm64 Node reinstall on local host, commit, push, PR, GitHub Actions runtime evidence, parent repository `node_modules` cleanup |
 
+### Issue #776 schema alias bulk resolve UI（2026-05-18）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / VISUAL / staging_pending` |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-776-schema-alias-bulk-resolve/` |
+| source | Issue #776 CLOSED / `docs/30-workflows/unassigned-task/serial-05-step-03-followup-002-schema-alias-bulk-resolve.md` consumed |
+| parent | `docs/30-workflows/completed-tasks/serial-05-step-03-schema-diff-resolve/` |
+| 目的 | `/admin/schema` の既存 `SchemaDiffPanel` に bulk selection / batch confirm modal / partial failure recovery を追加 |
+| design decision | 新規 API endpoint は作らず、既存 `POST /admin/schema/aliases` を `postSchemaAliasBulk` から bounded fan-out で呼ぶ。`202 backfill_cpu_budget_exhausted` は retryable continuation として modal に残す |
+| implementation targets | `apps/web/src/components/admin/SchemaDiffPanel.tsx`, `SchemaDiffBulkResolveModal.tsx`, `schemaAliasValidation.ts`, `hooks/useSchemaDiffBulkSelection.ts`, `apps/web/src/lib/admin/api.ts`, `apps/web/src/lib/admin/server-fetch.ts`, `apps/web/playwright/tests/issue776-schema-bulk-resolve.spec.ts` |
+| evidence boundary | focused Vitest, typecheck, local Playwright screenshots/perf/a11y evidence are present. Staging smoke, commit, push, and PR remain user-gated |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-776-schema-alias-bulk-resolve-artifact-inventory.md` |
+
 ### Issue #748 jest-axe primitive a11y integration（2026-05-17）
 
 | 項目 | 値 |

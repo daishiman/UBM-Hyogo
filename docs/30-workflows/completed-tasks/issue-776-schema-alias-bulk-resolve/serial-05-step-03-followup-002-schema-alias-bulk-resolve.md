@@ -10,7 +10,7 @@
 | 対象機能     | `/admin/schema` の diff resolve 運用フロー（複数 diff の bulk alias resolve）                    |
 | 優先度       | 中                                                                                              |
 | 見積もり規模 | 中規模                                                                                          |
-| ステータス   | pending                                                                                         |
+| ステータス   | consumed                                                                                         |
 | 発見元       | serial-05 step-03 Phase 12 後続候補                                                              |
 | 発見日       | 2026-05-17                                                                                      |
 
@@ -119,7 +119,7 @@ bulk endpoint 採用時は D1 transaction 境界が論点:
 
 - **全件 transaction**: 1 件でも 409 / 422 で全件 rollback。simple だが admin から見ると「29 件成功するはずが 1 件のせいで全て巻き戻る」体験。
 - **per-row commit**: 各 alias を独立 commit。部分成功を許容、失敗分のみ再操作可能。実装複雑度が上がり、API response shape も `{ results: [{ diffId, status, error? }] }` に変更。
-- **既存 endpoint loop**: client 側で `Promise.allSettled` し、結果集計を UI で表示。API 変更なしだが N 件 HTTP 往復のコストが残る。
+- **既存 endpoint loop**: client 側で bounded fan-out し、行ごとの進捗と最終結果集計を UI で表示。API 変更なしだが N 件 HTTP 往復のコストが残る。
 
 推奨は per-row commit + 結果集計レスポンス。Phase 1 でトレードオフ表を作成し、`docs/00-getting-started-manual/specs/01-api-schema.md` の API contract に明文化する。
 
@@ -195,3 +195,7 @@ bulk endpoint 採用時は D1 transaction 境界が論点:
 - `api_contract_decided`: bulk endpoint 採否・transaction 境界・response shape が確定し API spec 更新済み
 - `implemented_local_runtime_pending`: UI / API 実装完了、Phase 11 evidence 未取得
 - `completed`: AC-1〜AC-10 全件充足、親 workflow Phase 12 detection が consumed 更新済み
+
+## Consumed Trace
+
+本タスクは `docs/30-workflows/issue-776-schema-alias-bulk-resolve/` に昇格済み。Issue #776 は CLOSED のまま扱い、PR 文脈では `Refs #776` を使う。実装・runtime evidence・commit・push・PR は昇格先 workflow の Phase 4-13 で扱う。

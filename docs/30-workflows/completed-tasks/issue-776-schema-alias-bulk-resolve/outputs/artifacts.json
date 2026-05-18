@@ -1,0 +1,231 @@
+{
+  "task_name": "issue-776-schema-alias-bulk-resolve",
+  "task_path": "docs/30-workflows/completed-tasks/issue-776-schema-alias-bulk-resolve",
+  "wave": null,
+  "execution_mode": "implemented-local-evidence-captured",
+  "depends_on": [
+    "docs/30-workflows/completed-tasks/serial-05-step-03-schema-diff-resolve/",
+    "docs/30-workflows/unassigned-task/serial-05-step-03-followup-002-schema-alias-bulk-resolve.md",
+    "parallel-09 UX primitives"
+  ],
+  "blocks": [
+    "serial-05-step-03-followup-003-schema-diff-history-view",
+    "serial-05-step-03-followup-004-alias-rollback-undo"
+  ],
+  "created_at": "2026-05-18T00:00:00+09:00",
+  "status": "implemented_local_evidence_captured",
+  "metadata": {
+    "taskType": "implementation",
+    "visualEvidence": "VISUAL",
+    "workflow_state": "implemented_local_evidence_captured",
+    "implementation_status": "IMPLEMENTED_LOCAL_EVIDENCE_CAPTURED",
+    "evidence_state": "local_visual_evidence_captured_staging_pending",
+    "implementation_mode": "feature-extension-existing-api-client-fanout",
+    "source_issue": "https://github.com/daishiman/UBM-Hyogo/issues/776",
+    "source_unassigned_task": "docs/30-workflows/unassigned-task/serial-05-step-03-followup-002-schema-alias-bulk-resolve.md",
+    "parent_workflow": "docs/30-workflows/completed-tasks/serial-05-step-03-schema-diff-resolve/",
+    "pr_base": "dev",
+    "governance_mutation_user_gate": false,
+    "artifact_mirror": "root artifacts.json and outputs/artifacts.json are byte-identical",
+    "actual_read_only_evidence_files": [],
+    "actual_mutation_evidence_files": [
+      "outputs/phase-11/bulk-select-desktop-1280.png",
+      "outputs/phase-11/bulk-modal-desktop-1280.png",
+      "outputs/phase-11/bulk-partial-failure-desktop-1280.png",
+      "outputs/phase-11/bulk-success-desktop-1280.png",
+      "outputs/phase-11/bulk-select-mobile-375.png",
+      "outputs/phase-11/bulk-modal-mobile-375.png",
+      "outputs/phase-11/perf-30rows.md",
+      "outputs/phase-11/a11y-manual-check.md",
+      "outputs/phase-11/phase11-capture-metadata.json"
+    ],
+    "planned_visual_evidence_files": [
+      "outputs/phase-11/bulk-select-desktop-1280.png",
+      "outputs/phase-11/bulk-modal-desktop-1280.png",
+      "outputs/phase-11/bulk-partial-failure-desktop-1280.png",
+      "outputs/phase-11/bulk-success-desktop-1280.png",
+      "outputs/phase-11/bulk-select-mobile-375.png",
+      "outputs/phase-11/bulk-modal-mobile-375.png",
+      "outputs/phase-11/perf-30rows.md",
+      "outputs/phase-11/a11y-manual-check.md"
+    ],
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-05-18T00:00:00+09:00",
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-776-schema-alias-bulk-resolve/index.md",
+        "approver": "daishiman",
+        "notes": "spec_review: Phase 1-13 implementation specification created for schema alias bulk resolve UI"
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "passed",
+        "passed_at": "2026-05-18T00:00:00+09:00",
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-776-schema-alias-bulk-resolve/outputs/phase-12/phase12-task-spec-compliance-check.md",
+        "approver": "daishiman",
+        "notes": "validator_green: Phase 12 strict 7 outputs present; implementation/runtime evidence remains pending"
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "passed",
+        "passed_at": "2026-05-18T19:09:24+09:00",
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-776-schema-alias-bulk-resolve/outputs/phase-11/",
+        "approver": "daishiman",
+        "notes": "local Playwright fixture visual evidence captured; staging smoke, commit, push, and PR remain user-gated"
+      }
+    ]
+  },
+  "phases": [
+    {
+      "phase": 1,
+      "name": "Requirements",
+      "file": "phase-01-requirements.md",
+      "status": "completed",
+      "outputs": [
+        "phase-01-requirements.md"
+      ]
+    },
+    {
+      "phase": 2,
+      "name": "Design",
+      "file": "phase-02-design.md",
+      "status": "completed",
+      "outputs": [
+        "phase-02-design.md"
+      ]
+    },
+    {
+      "phase": 3,
+      "name": "Design Review",
+      "file": "phase-03-design-review.md",
+      "status": "completed",
+      "outputs": [
+        "phase-03-design-review.md"
+      ]
+    },
+    {
+      "phase": 4,
+      "name": "Test Creation",
+      "file": "phase-04-test-creation.md",
+      "status": "completed",
+      "outputs": [
+        "phase-04-test-creation.md"
+      ]
+    },
+    {
+      "phase": 5,
+      "name": "Implementation Plan",
+      "file": "phase-05-implementation.md",
+      "status": "completed",
+      "outputs": [
+        "phase-05-implementation.md"
+      ]
+    },
+    {
+      "phase": 6,
+      "name": "Test Expansion",
+      "file": "phase-06-test-expansion.md",
+      "status": "completed",
+      "outputs": [
+        "phase-06-test-expansion.md"
+      ]
+    },
+    {
+      "phase": 7,
+      "name": "Coverage Check",
+      "file": "phase-07-coverage-check.md",
+      "status": "completed",
+      "outputs": [
+        "phase-07-coverage-check.md"
+      ]
+    },
+    {
+      "phase": 8,
+      "name": "Refactoring",
+      "file": "phase-08-refactoring.md",
+      "status": "completed",
+      "outputs": [
+        "phase-08-refactoring.md"
+      ]
+    },
+    {
+      "phase": 9,
+      "name": "Quality Assurance",
+      "file": "phase-09-quality-assurance.md",
+      "status": "completed",
+      "outputs": [
+        "phase-09-quality-assurance.md"
+      ]
+    },
+    {
+      "phase": 10,
+      "name": "Final Review",
+      "file": "phase-10-final-review.md",
+      "status": "completed",
+      "outputs": [
+        "phase-10-final-review.md"
+      ]
+    },
+    {
+      "phase": 11,
+      "name": "Manual Test / Evidence Plan",
+      "file": "phase-11-manual-test.md",
+      "status": "completed_local_evidence_captured",
+      "outputs": [
+        "phase-11-manual-test.md",
+        "outputs/phase-11/bulk-select-desktop-1280.png",
+        "outputs/phase-11/bulk-modal-desktop-1280.png",
+        "outputs/phase-11/bulk-partial-failure-desktop-1280.png",
+        "outputs/phase-11/bulk-success-desktop-1280.png",
+        "outputs/phase-11/bulk-select-mobile-375.png",
+        "outputs/phase-11/bulk-modal-mobile-375.png",
+        "outputs/phase-11/perf-30rows.md",
+        "outputs/phase-11/a11y-manual-check.md",
+        "outputs/phase-11/phase11-capture-metadata.json"
+      ]
+    },
+    {
+      "phase": 12,
+      "name": "Phase 12 strict 7",
+      "file": "outputs/phase-12/main.md",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-12/main.md",
+        "outputs/phase-12/implementation-guide.md",
+        "outputs/phase-12/system-spec-update-summary.md",
+        "outputs/phase-12/documentation-changelog.md",
+        "outputs/phase-12/unassigned-task-detection.md",
+        "outputs/phase-12/skill-feedback-report.md",
+        "outputs/phase-12/phase12-task-spec-compliance-check.md"
+      ]
+    },
+    {
+      "phase": 13,
+      "name": "PR Creation",
+      "file": "phase-13-pr-creation.md",
+      "status": "pending_user_approval",
+      "outputs": [
+        "phase-13-pr-creation.md"
+      ],
+      "user_approval_required": true
+    }
+  ],
+  "mutation_commands": {
+    "typecheck": "mise exec -- pnpm typecheck",
+    "lint": "mise exec -- pnpm lint",
+    "test": "mise exec -- pnpm --filter @ubm-hyogo/web test -- SchemaDiffBulkResolveModal SchemaDiffPanel useSchemaDiffBulkSelection api.spec",
+    "build": "mise exec -- pnpm --filter @ubm-hyogo/web build",
+    "design_tokens": "mise exec -- pnpm verify-design-tokens",
+    "phase12_compliance": "mise exec -- pnpm verify:phase12-compliance",
+    "visual_evidence": "PLAYWRIGHT_EVIDENCE_TASK=issue-776-schema-alias-bulk-resolve mise exec -- pnpm --filter @ubm-hyogo/web exec playwright test playwright/tests/issue776-schema-bulk-resolve.spec.ts --project=desktop-chromium"
+  },
+  "invariants": [
+    "既存 API endpoint surface のみ使用",
+    "postSchemaAlias / useAdminMutation の既存 contract を破壊しない",
+    "D1 schema / API route は変更しない",
+    "design token (OKLch) のみ・HEX 禁止",
+    "env access は getEnv()/getPublicEnv() 経由",
+    "*.spec.tsx / *.spec.ts のみ・*.test.* 禁止"
+  ]
+}

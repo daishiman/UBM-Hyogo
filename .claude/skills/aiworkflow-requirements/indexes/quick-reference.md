@@ -28,6 +28,20 @@
 | evidence boundary | focused Vitest 2 specs, worktree isolation, and esbuild version parity pass locally; `verify:node-arch` blocks because local Node is x64; CI / commit / push / PR remain user-gated |
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-747-vitest-esbuild-arch-and-worktree-isolation-artifact-inventory.md` |
 
+### Issue #776 schema alias bulk resolve UI（2026-05-18）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-776-schema-alias-bulk-resolve/` |
+| 状態 | `implemented_local_evidence_captured / implementation / VISUAL / staging_pending` |
+| source | Issue #776 CLOSED / `docs/30-workflows/unassigned-task/serial-05-step-03-followup-002-schema-alias-bulk-resolve.md` consumed |
+| parent | `docs/30-workflows/completed-tasks/serial-05-step-03-schema-diff-resolve/` |
+| contract | Existing `POST /admin/schema/aliases` only; `postSchemaAliasBulk` uses bounded fan-out, row-level progress, `success / retryable / error` result states |
+| retryable boundary | `202 backfill_cpu_budget_exhausted` remains retryable continuation in the modal, not a failure |
+| implementation | `apps/web/src/components/admin/SchemaDiffPanel.tsx`, `SchemaDiffBulkResolveModal.tsx`, `schemaAliasValidation.ts`, `hooks/useSchemaDiffBulkSelection.ts`, `apps/web/src/lib/admin/api.ts`, `apps/web/playwright/tests/issue776-schema-bulk-resolve.spec.ts` |
+| evidence | focused Vitest/typecheck PASS; `outputs/phase-11/bulk-*.png`, `perf-30rows.md`, `a11y-manual-check.md`; `outputs/phase-12/phase12-task-spec-compliance-check.md` |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-776-schema-alias-bulk-resolve-artifact-inventory.md` |
+
 ### UT-07A-FU-01 memberTags.assignTagsToMember cleanup（2026-05-15）
 ### parallel-09 UX cross-cutting primitives visual evidence（Issue #746 / 2026-05-17）
 
