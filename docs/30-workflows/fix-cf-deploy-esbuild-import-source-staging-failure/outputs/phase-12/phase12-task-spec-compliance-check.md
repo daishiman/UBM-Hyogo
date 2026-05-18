@@ -28,14 +28,14 @@ The esbuild `import-source` parser failure is fixed locally by converging the ro
 
 ## Phase 11 evidence file inventory
 
-| File | Purpose | Verdict |
+| Classification | Path | Status |
 | --- | --- | --- |
-| `outputs/phase-11/main.md` | NON_VISUAL verdict and screenshot skip | completed_local |
-| `outputs/phase-11/manual-smoke-log.md` | command / expected / actual / verdict table | completed_local |
-| `outputs/phase-11/link-checklist.md` | workflow, implementation, mirror, and system spec links | completed_local |
-| `outputs/phase-11/ci-evidence.md` | local evidence and pending CI boundary | runtime_pending |
-| `outputs/phase-11/esbuild-version.txt` | esbuild version evidence | completed_local |
-| `outputs/phase-11/pnpm-why-esbuild.txt` | dependency convergence evidence | completed_local |
+| NON_VISUAL verdict and screenshot skip | `outputs/phase-11/main.md` | present |
+| Manual smoke command/expected/actual/verdict table | `outputs/phase-11/manual-smoke-log.md` | present |
+| Workflow / implementation / mirror / system spec link checklist | `outputs/phase-11/link-checklist.md` | present |
+| Local evidence and pending CI boundary record | `outputs/phase-11/ci-evidence.md` | present |
+| esbuild version evidence | `outputs/phase-11/esbuild-version.txt` | present |
+| Dependency convergence (`pnpm why esbuild`) evidence | `outputs/phase-11/pnpm-why-esbuild.txt` | present |
 
 ## Phase 12 strict 7 file inventory
 
