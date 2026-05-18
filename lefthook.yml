@@ -45,12 +45,22 @@ post-merge:
   commands:
     stale-worktree-notice:
       run: bash scripts/hooks/stale-worktree-notice.sh post-merge
-      # ⚠ post-merge では indexes/*.json の再生成を行わない
+      # ⚠ post-merge では generator 管理 index の再生成を行わない
       # 再生成は明示コマンド `pnpm indexes:rebuild` でのみ実行する
 
 pre-push:
   parallel: false
   commands:
+    verify-esbuild:
+      tags: [test, env]
+      run: bash scripts/hooks/verify-esbuild-guard.sh
+      skip:
+        - merge
+        - rebase
+      fail_text: |
+        🚫 esbuild runtime 検証に失敗しました。
+        詳細: docs/30-workflows/issue-747-vitest-esbuild-arch-and-worktree-isolation/runbook.md
+        復旧: pnpm install --force / pnpm rebuild esbuild / worktree node_modules 再生成
     coverage-guard:
       run: bash scripts/coverage-guard.sh --changed
       stage_fixed: false
@@ -59,11 +69,19 @@ pre-push:
       stage_fixed: false
       fail_text: |
         🚫 skill indexes に drift があります。
-        pnpm indexes:rebuild → 差分を commit → 再 push してください。
+        mise exec -- pnpm indexes:rebuild → 差分を commit → 再 push してください。
         対応 CI: verify-indexes-up-to-date
+        詳細: docs/00-getting-started-manual/lefthook-operations.md#skill-indexes-drift-gate
     gate-metadata-guard:
       run: bash scripts/hooks/gate-metadata-guard.sh
       stage_fixed: false
       fail_text: |
         🚫 変更された artifacts.json に metadata.gates が欠落しています。
         対応 CI: verify-gate-metadata
+    phase12-compliance-guard:
+      run: bash scripts/hooks/phase12-compliance-guard.sh
+      stage_fixed: false
+      fail_text: |
+        🚫 Phase 12 compliance check に失敗（canonical 9 heading 欠落 等）。
+        対応 CI: verify-phase12-compliance
+        SSOT: .claude/skills/task-specification-creator/references/phase12-compliance-check-template.md

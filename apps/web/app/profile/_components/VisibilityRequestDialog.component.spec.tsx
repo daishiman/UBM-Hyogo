@@ -2,6 +2,20 @@
 import { afterEach, describe, it, expect, vi } from "vitest";
 import { render, screen, fireEvent, waitFor, act, cleanup } from "@testing-library/react";
 
+const navigationMock = vi.hoisted(() => {
+  const callOrder: string[] = [];
+  return {
+    callOrder,
+    refresh: vi.fn(() => {
+      callOrder.push("refresh");
+    }),
+  };
+});
+
+vi.mock("next/navigation", () => ({
+  useRouter: () => ({ refresh: navigationMock.refresh }),
+}));
+
 afterEach(() => cleanup());
 import { VisibilityRequestDialog } from "./VisibilityRequestDialog";
 
@@ -14,7 +28,11 @@ const mockFetch = (status: number, body: object) => {
   );
 };
 
-afterEach(() => vi.restoreAllMocks());
+afterEach(() => {
+  navigationMock.callOrder.length = 0;
+  navigationMock.refresh.mockClear();
+  vi.restoreAllMocks();
+});
 
 
 describe("VisibilityRequestDialog", () => {
@@ -110,10 +128,45 @@ describe("VisibilityRequestDialog", () => {
     expect(onClose).toHaveBeenCalled();
   });
 
+  it("submit 成功時に refresh → onSubmitted → onClose の順で発火する", async () => {
+    mockFetch(202, {
+      queueId: "q1",
+      type: "visibility_request",
+      status: "pending",
+      createdAt: "now",
+    });
+    const onSubmitted = vi.fn(() => {
+      navigationMock.callOrder.push("onSubmitted");
+    });
+    const onClose = vi.fn(() => {
+      navigationMock.callOrder.push("onClose");
+    });
+    render(
+      <VisibilityRequestDialog
+        desiredState="hidden"
+        open={true}
+        onClose={onClose}
+        onSubmitted={onSubmitted}
+      />,
+    );
+    await act(async () => {
+      fireEvent.click(screen.getByTestId("visibility-submit"));
+    });
+    await waitFor(() => {
+      expect(navigationMock.callOrder).toEqual([
+        "refresh",
+        "onSubmitted",
+        "onClose",
+      ]);
+    });
+  });
+
   it("409 → エラー banner を出す（onClose しない）", async () => {
     mockFetch(409, { error: "DUPLICATE_PENDING_REQUEST" });
     const onClose = vi.fn();
-    const onSubmitted = vi.fn();
+    const onSubmitted = vi.fn(() => {
+      navigationMock.callOrder.push("onSubmitted");
+    });
     render(
       <VisibilityRequestDialog
         desiredState="hidden"
@@ -128,6 +181,7 @@ describe("VisibilityRequestDialog", () => {
     expect(onSubmitted).toHaveBeenCalledWith(
       expect.objectContaining({ type: "visibility_request", status: "pending" }),
     );
+    expect(navigationMock.callOrder).toEqual(["refresh", "onSubmitted"]);
     expect(alert.getAttribute("data-code")).toBe("DUPLICATE_PENDING_REQUEST");
   });
 

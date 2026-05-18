@@ -23,8 +23,8 @@
     },
     {
       "id": "parallel-i04-homepage-cta",
-      "status": "pending",
-      "canonical_workflow": null,
+      "status": "completed",
+      "canonical_workflow": "docs/30-workflows/integration-fixes-i04-homepage-cta-implementation/",
       "spec": "parallel-i04-homepage-cta/spec.md"
     },
     {
@@ -46,5 +46,8 @@
       "spec": "parallel-i07-profile-loading-skeleton/spec.md"
     }
   ],
-  "notes": "spec.md は発注書（scope contract）であり、各子タスクは canonical workflow root へ昇格して Phase 1-13 を実行する。in-place fix で済む軽微タスクは canonical_workflow=null のまま spec.md 内で完結する。"
+  "notes": "spec.md は発注書（scope contract）であり、各子タスクは canonical workflow root へ昇格して Phase 1-13 を実行する。in-place fix で済む軽微タスクは canonical_workflow=null のまま spec.md 内で完結する。",
+  "metadata": {
+    "gates": []
+  }
 }
