@@ -91,7 +91,13 @@ task_dir_from_path() {
         *)
           # Top-level workflow files (e.g. LOGS.md) are not task dirs.
           [[ "${parts[2]}" == *.* ]] && return 1
-          printf 'docs/%s/%s\n' "${parts[1]}" "${parts[2]}"
+          # `<workflow>/improvements/<sub>` の orchestration tree は <sub> 単位で
+          # branch slug 整合性を判定する（子タスク branch から親 tracker を触る正当ケース）。
+          if [ "${parts[3]:-}" = "improvements" ] && [ -n "${parts[4]:-}" ]; then
+            printf 'docs/%s/%s/%s/%s\n' "${parts[1]}" "${parts[2]}" "${parts[3]}" "${parts[4]}"
+          else
+            printf 'docs/%s/%s\n' "${parts[1]}" "${parts[2]}"
+          fi
           ;;
       esac
       ;;

@@ -22,11 +22,11 @@
 
 ## Phase 11 evidence file inventory
 
-| ファイル | 状態 | 用途 |
+| Classification | Path | Status |
 | --- | --- | --- |
-| `outputs/phase-11/manual-test-result.md` | N/A | spec_created 段階のため runtime evidence 未取得 |
+| manual test result | outputs/phase-11/manual-test-result.md | n/a |
 
-spec_created 段階では runtime evidence は不要。`docs-only` PR としての CI gate green を Phase 11 evidence として扱う。
+spec_created 段階では runtime evidence は不要（`docs-only` PR）。`verify-phase12-compliance` parser 互換のため Classification / Path / Status カラムは維持し、Status は `n/a` を宣言する（実ファイル存在チェックは present 行のみ）。`docs-only` PR としての CI gate green を Phase 11 evidence として扱う。
 
 ## Phase 12 strict 7 file inventory
 

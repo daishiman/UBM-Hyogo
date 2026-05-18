@@ -238,6 +238,36 @@ function adminMembersBody(query: URLSearchParams) {
   }
 }
 
+function adminTagsQueueBody(query: URLSearchParams) {
+  const status = query.get('status')
+  const items = [
+    {
+      queueId: 'tag_q_001',
+      memberId: 'mem_alpha',
+      responseId: 'res_alpha',
+      status: 'queued' as const,
+      suggestedTagsJson: JSON.stringify(['founder', 'kobe']),
+      reason: 'playwright fixture',
+      createdAt: '2026-05-12T00:00:00.000Z',
+      updatedAt: '2026-05-12T00:00:00.000Z',
+    },
+    {
+      queueId: 'tag_q_dlq',
+      memberId: 'mem_beta',
+      responseId: 'res_beta',
+      status: 'dlq' as const,
+      suggestedTagsJson: JSON.stringify(['review-required']),
+      reason: 'retry limit exceeded',
+      createdAt: '2026-05-12T00:10:00.000Z',
+      updatedAt: '2026-05-12T00:20:00.000Z',
+    },
+  ]
+  const filtered = status
+    ? items.filter((it) => it.status === status)
+    : items
+  return { total: filtered.length, items: filtered }
+}
+
 function meetingsListBody() {
   return {
     total: state.meetingsSeed.meetings.length,
@@ -438,6 +468,10 @@ async function ensureMockApi(): Promise<void> {
       }
       if (req.method === 'GET' && url.pathname === '/admin/meetings') {
         response(res, 200, meetingsListBody())
+        return
+      }
+      if (req.method === 'GET' && url.pathname === '/admin/tags/queue') {
+        response(res, 200, adminTagsQueueBody(url.searchParams))
         return
       }
       const meetingDetailMatch = url.pathname.match(/^\/admin\/meetings\/([^/]+)$/)

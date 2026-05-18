@@ -53,10 +53,7 @@ pre-push:
   commands:
     verify-esbuild:
       tags: [test, env]
-      run: |
-        node scripts/verify-node-arch.mjs && \
-        node scripts/verify-worktree-node-modules-isolation.mjs && \
-        node scripts/verify-esbuild-version.mjs
+      run: bash scripts/hooks/verify-esbuild-guard.sh
       skip:
         - merge
         - rebase
