@@ -1,6 +1,6 @@
 {
   "task_name": "issue-266-shared-sync-zod-contract",
-  "task_path": "docs/30-workflows/issue-266-shared-sync-zod-contract",
+  "task_path": "docs/30-workflows/completed-tasks/issue-266-shared-sync-zod-contract",
   "github_issue": 266,
   "github_issue_state": "CLOSED",
   "wave": 1,
@@ -41,7 +41,7 @@
         "gate_id": "Gate-A",
         "status": "passed",
         "passed_at": "2026-05-18T00:00:00+09:00",
-        "evidence_path": "docs/30-workflows/issue-266-shared-sync-zod-contract/phase-1-requirements.md",
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-266-shared-sync-zod-contract/phase-1-requirements.md",
         "approver": "codex",
         "notes": "Canonical values are derived from current physical DDL/runtime reality, not the stale U-UT01-10 historical assumptions."
       },
@@ -49,7 +49,7 @@
         "gate_id": "Gate-B",
         "status": "passed",
         "passed_at": "2026-05-18T00:00:00+09:00",
-        "evidence_path": "docs/30-workflows/issue-266-shared-sync-zod-contract/outputs/phase-12/phase12-task-spec-compliance-check.md",
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-266-shared-sync-zod-contract/outputs/phase-12/phase12-task-spec-compliance-check.md",
         "approver": "codex",
         "notes": "Phase 12 strict 7 outputs and same-wave aiworkflow-requirements sync are present."
       },
@@ -57,7 +57,7 @@
         "gate_id": "Gate-C",
         "status": "pending",
         "passed_at": null,
-        "evidence_path": "docs/30-workflows/issue-266-shared-sync-zod-contract/phase-13-pr.md",
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-266-shared-sync-zod-contract/phase-13-pr.md",
         "approver": "daishiman",
         "notes": "Staging D1 distinct query, commit, push, and PR remain user-gated. Local code implementation and focused verification are complete."
       }

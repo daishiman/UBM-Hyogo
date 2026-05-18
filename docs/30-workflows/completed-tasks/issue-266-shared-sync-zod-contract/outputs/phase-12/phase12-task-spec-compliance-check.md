@@ -1,12 +1,12 @@
 # Phase 12 Task Spec Compliance Check
 
-## Summary Verdict
+## Summary verdict
 
 `PASS_BOUNDARY_SYNCED_IMPLEMENTED_LOCAL_RUNTIME_PENDING`
 
 The issue #266 workflow now satisfies the task-specification-creator Phase 12 documentation requirements and aiworkflow-requirements same-wave sync for an implemented-local workflow. It does not claim staging D1 runtime evidence, commit, push, or PR completion.
 
-## Changed-Files Classification
+## Changed-files classification
 
 | Area | Files | Classification |
 | --- | --- | --- |
@@ -15,7 +15,7 @@ The issue #266 workflow now satisfies the task-specification-creator Phase 12 do
 | Requirements sync | `.claude/skills/aiworkflow-requirements/**` | system spec sync |
 | Runtime code | `packages/shared/src/zod/sync-log.ts`, `packages/shared/src/zod/index.ts`, `apps/api/src/sync/{types,audit,manual,scheduled,audit-route.contract.spec,audit.contract.spec,manual.contract.spec,scheduled.contract.spec}.ts`, `apps/api/src/jobs/{sync-sheets-to-d1,sync-forms-responses}.ts` | implemented local |
 
-## Workflow State and Phase Status Consistency
+## `workflow_state` and phase status consistency
 
 | Field | Value | Result |
 | --- | --- | --- |
@@ -28,7 +28,22 @@ The issue #266 workflow now satisfies the task-specification-creator Phase 12 do
 | Phase 12 | `completed` | PASS: strict 7 outputs present |
 | Phase 13 | `runtime_pending` / user-gated | PASS |
 
-## Phase 12 Strict 7 File Inventory
+## Phase 11 evidence file inventory
+
+| Path | Status | Notes |
+| --- | --- | --- |
+| `outputs/phase-11/README.md` | present | local phase-11 evidence index |
+| `outputs/phase-11/local-verification.md` | present | local typecheck/lint/test verification log |
+
+## Archive/delete stale-reference gate
+
+| Check | Result |
+| --- | --- |
+| Task workflow moved to `completed-tasks/` | PASS: source path archived |
+| Stale-reference grep (`docs/30-workflows/issue-266-shared-sync-zod-contract`) | PASS: only historical references remain in commit history; active paths updated to `completed-tasks/issue-266-shared-sync-zod-contract` |
+| `artifacts.json` evidence_path entries point at archived location | PASS: both root and outputs `artifacts.json` use `completed-tasks/` prefix |
+
+## Phase 12 strict 7 file inventory
 
 | File | Result |
 | --- | --- |
@@ -40,7 +55,7 @@ The issue #266 workflow now satisfies the task-specification-creator Phase 12 do
 | `outputs/phase-12/skill-feedback-report.md` | PASS |
 | `outputs/phase-12/phase12-task-spec-compliance-check.md` | PASS |
 
-## Skill / Reference / System Spec Same-Wave Sync
+## Skill/reference/system spec same-wave sync
 
 | File | Result |
 | --- | --- |
@@ -78,7 +93,7 @@ The issue #266 workflow now satisfies the task-specification-creator Phase 12 do
 | Phase 12 strict 7 | PASS | `outputs/phase-12/*` | local docs |
 | Same-wave system sync | PASS | aiworkflow files listed above | local docs |
 
-## Four-Condition Verdict
+## Four-condition verdict
 
 | Condition | Result |
 | --- | --- |
@@ -102,6 +117,6 @@ The issue #266 workflow now satisfies the task-specification-creator Phase 12 do
 | Implementation stale-token grep | PASS: no independent trigger/status type declarations, legacy mutex literals, or forbidden shared deep imports in implementation paths |
 | Targeted stale-token grep for legacy package alias, close-keyword wording, and old U-UT01-08 path | PASS: only historical correction notes, no active implementation command or PR text |
 
-## Runtime or User-Gated Boundary
+## Runtime or user-gated boundary
 
 Local code implementation was executed in this cycle. Staging D1 distinct query, commit, push, and PR remain user-gated operations.
