@@ -1,0 +1,36 @@
+{
+  "workflow_id": "ui-prototype-design-system-foundation",
+  "metadata": {
+    "workflow_state": "spec_created",
+    "taskType": "implementation",
+    "visualEvidence": "VISUAL",
+    "implementation_mode": "greenfield-foundation",
+    "prototype_coverage": "PROTOTYPE-COVERAGE.md"
+  },
+  "phases": [
+    { "phase": 1, "status": "spec_created" },
+    { "phase": 2, "status": "spec_created" },
+    { "phase": 3, "status": "spec_created" },
+    { "phase": 4, "status": "spec_created" },
+    { "phase": 5, "status": "spec_created" },
+    { "phase": 6, "status": "spec_created" },
+    { "phase": 7, "status": "spec_created" },
+    { "phase": 8, "status": "spec_created" },
+    { "phase": 9, "status": "spec_created" },
+    { "phase": 10, "status": "spec_created" },
+    { "phase": 11, "status": "spec_created" },
+    { "phase": 12, "status": "spec_created" },
+    { "phase": 13, "status": "pending_user_approval" }
+  ],
+  "outputs": {
+    "phase_12": [
+      "outputs/phase-12/main.md",
+      "outputs/phase-12/implementation-guide.md",
+      "outputs/phase-12/system-spec-update-summary.md",
+      "outputs/phase-12/documentation-changelog.md",
+      "outputs/phase-12/unassigned-task-detection.md",
+      "outputs/phase-12/skill-feedback-report.md",
+      "outputs/phase-12/phase12-task-spec-compliance-check.md"
+    ]
+  }
+}

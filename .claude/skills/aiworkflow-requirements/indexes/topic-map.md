@@ -3416,6 +3416,15 @@ node scripts/list-specs.js --topics
 | Follow-up 未タスク | L81 |
 | Validation Chain（spec_created） | L90 |
 
+### references/workflow-ui-prototype-design-system-foundation-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Summary | L3 |
+| Canonical Sources | L14 |
+| Workflow Outputs | L36 |
+| Implementation Boundary | L51 |
+
 ### references/workflow-ui-ux-visual-baseline-drift.md
 
 | セクション | 行 |
@@ -6854,14 +6863,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L1529 |
-| フェーズ構造（概要） | L1538 |
-| 品質ゲート（概要） | L1569 |
-| 出力テンプレート | L1580 |
-| 実行時のコマンド・エージェント・スキル | L1603 |
-| 昇格パターン集 | L1627 |
-| Current Active / Spec Created Tasks | L1629 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L1779 |
+| ドキュメント構成 | L1543 |
+| フェーズ構造（概要） | L1552 |
+| 品質ゲート（概要） | L1583 |
+| 出力テンプレート | L1594 |
+| 実行時のコマンド・エージェント・スキル | L1617 |
+| 昇格パターン集 | L1641 |
+| Current Active / Spec Created Tasks | L1643 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L1793 |
 
 ### references/task-workflow-backlog-part2.md
 
