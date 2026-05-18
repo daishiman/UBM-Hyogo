@@ -5,6 +5,16 @@
 > - 読み込み条件: 成果物パス命名やartifacts.json更新が必要なとき
 > - 関連スキーマ: schemas/artifact-definition.json
 > - 関連スクリプト: scripts/init-artifacts.js, scripts/complete-phase.js, scripts/validate-phase-output.js
+>
+> **重要（再発防止 / Refs L-DEVSYNC-013, SP-DEVSYNC-012）**: workflow root の
+> `artifacts.json` と `outputs/artifacts.json` は両方とも `metadata.gates` 配列を
+> 必須とする。最低 Gate-A (spec_review) / Gate-B (implementation_review) /
+> Gate-C (external_ops) の 3 件、各エントリに `gate_id` / `status` (`passed` /
+> `pending` / `failed` / `waived`) / `passed_at` (ISO8601 or null) / `evidence_path`
+> (workflow root からの相対 path) / `approver` / `notes` を持たせる。参照実装:
+> `docs/30-workflows/completed-tasks/ut-17-followup-005-alert-relay-kv-error-metrics/artifacts.json`。
+> 同等チェックは pre-push `scripts/hooks/gate-metadata-guard.sh` と
+> CI `verify-gate-metadata` が走る。
 
 ## 概要
 
