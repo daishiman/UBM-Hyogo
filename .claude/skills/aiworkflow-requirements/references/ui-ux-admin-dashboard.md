@@ -247,13 +247,38 @@ D1 や apps/api の repository を web 側で直接 import することは禁止
 
 #### mutation
 
-`resolveTagQueue(queueId, body)` 成功時に Toast + `router.refresh()`。`body` は `{ action: "confirmed", tagCodes: string[] }` または `{ action: "rejected", reason: string }`。
+2026-05-17 `admin-tags-queue-resolver-drawer` の spec_created root 以降、resolve UI は `TagsQueueResolveDrawer` へ抽出する方針を正本化した。`TagQueuePanel` は list / filter / selected item / drawer trigger を持ち、drawer が `useAdminMutation<TagQueueResolveResponse>('/api/admin/tags/queue/:queueId/resolve', 'POST')` を呼ぶ。upstream API 正本は `/admin/tags/queue/:queueId/resolve`。
+
+`body` は `{ action: "confirmed", tagCodes: string[] }` または `{ action: "rejected", reason: string }`。client validation は `@ubm-hyogo/shared` root export の `tagQueueResolveBodySchema` を使う。`idempotent: true` の response は `useAdminMutation` の `successMessage(data)` mapper で「既に処理済です」を表示し、drawer 側で二重 toast を出さない。
+
+#### TagsQueueResolveDrawer
+
+実装: `apps/web/src/components/admin/TagsQueueResolveDrawer.tsx`、status token map は `apps/web/src/components/admin/_tagQueueStatus.ts` 正本。
+
+- `role="dialog"` + `aria-modal="true"` + `aria-labelledby`
+- initial focus / focus trap / ESC close / trigger への return focus
+- confirmed branch: `suggestedTags` 全選択初期値、1 件以上必須
+- rejected branch: trim 後 `reason` 1 文字以上必須
+- terminal status (`resolved` / `rejected` / `dlq`) は submit disabled + `aria-disabled="true"`（`TERMINAL_TAG_QUEUE_STATUSES` set を `_tagQueueStatus.ts` で集中管理）
+- submit action は `submittedActionRef` で固定し、`useAdminMutation` の `successMessage(data)` が async state を読まないようにする（L-ATQRD-005）
+
+##### status → OKLch token mapping（`TAG_QUEUE_STATUS_TOKEN`）
+
+| status | label | tokenVar |
+| --- | --- | --- |
+| `queued` | 未対応 | `var(--status-info-bg)` |
+| `reviewing` | 対応中 | `var(--status-warn-bg)` |
+| `resolved` | 承認済 | `var(--status-success-bg)` |
+| `rejected` | 却下 | `var(--status-danger-bg)` |
+| `dlq` | DLQ | `var(--status-neutral-bg)` |
+
+すべて `apps/web/src/styles/tokens.css` の OKLch token を参照する。HEX 直書きや `bg-[#xxx]` は禁止（`verify-design-tokens` gate 対象）。
 
 #### 不変条件
 
 - 不変条件 #13: tag 直接更新 endpoint なし。**queue resolve のみ**で `member_tags` を反映。
 - AC-2: members 画面からの遷移時に `?memberId=...` を保持し、対象 memberId のキューを先頭に並べる。
-- `current.status === "resolved"` のときは resolve ボタンを disabled。
+- `current.status` が `resolved` / `rejected` / `dlq` の terminal status のときは submit を disabled。
 
 ---
 
@@ -395,7 +420,7 @@ D1 や apps/api の repository を web 側で直接 import することは禁止
 
 ### 8.3 admin-only mutation
 
-すべての PATCH/POST/DELETE は `apps/web/src/lib/admin/api.ts` 経由でのみ発火し、`/api/admin/*` BFF proxy が session.isAdmin を再検証する。詳細は `architecture-admin-api-client.md` を参照。
+すべての PATCH/POST/DELETE は `apps/web/src/lib/admin/api.ts` helper または `apps/web/src/features/admin/hooks/useAdminMutation.ts` 経由で発火し、`/api/admin/*` BFF proxy が session.isAdmin を再検証する。詳細は `architecture-admin-api-client.md` を参照。
 
 ---
 
@@ -407,7 +432,7 @@ D1 や apps/api の repository を web 側で直接 import することは禁止
 | #5 | apps/web から D1 直接アクセス禁止 | すべての fetch は `/admin/*` API 経由 |
 | #11 | profile 本文の管理者編集 mutation を提供しない | MemberDrawer / api.ts に該当関数なし |
 | #12 | 管理メモは MemberDrawer 内のみ | api.ts の note 関数は drawer のみで参照 |
-| #13 | tag 直接更新なし、queue resolve のみ | TagQueuePanel + api.ts.resolveTagQueue |
+| #13 | tag 直接更新なし、queue resolve のみ | TagQueuePanel + TagsQueueResolveDrawer + useAdminMutation `/api/admin/tags/queue/:queueId/resolve` |
 | #14 | schema 差分解消は `/admin/schema` のみ | SchemaDiffPanel は単一 page.tsx で import |
 | #15 | attendance は `!isDeleted` のみ、重複は disabled / 409 / 422 | MeetingPanel + page.tsx |
 

@@ -14,7 +14,12 @@ Fixture root.
 
 ## Phase 11 evidence file inventory
 
-Runtime evidence details are optional for this spec-only fixture.
+| Classification | Path | Status |
+| --- | --- | --- |
+| NON_VISUAL phase11 main | `outputs/phase-11/main.md` | present |
+| NON_VISUAL manual evidence | `outputs/phase-11/manual-test-result.md` | present |
+| NON_VISUAL smoke log | `outputs/phase-11/manual-smoke-log.md` | present |
+| NON_VISUAL link checklist | `outputs/phase-11/link-checklist.md` | present |
 
 ## Phase 12 strict 7 file inventory
 

@@ -166,6 +166,8 @@ pnpm typecheck
 pnpm lint
 ```
 
+> **Vitest / esbuild runtime トラブル時**: `pnpm verify:vitest-runtime` で arch / worktree isolation / esbuild version の 3 verify をまとめて実行。詳細復旧手順は `docs/30-workflows/issue-747-vitest-esbuild-arch-and-worktree-isolation/runbook.md` を参照。
+
 > **Git hook の方針**: `lefthook.yml` が hook の正本。`pnpm install` 実行時に `prepare` script
 > 経由で `lefthook install` が自動配置する。`.git/hooks/*` の手書きは禁止。
 > indexes 再生成は post-merge から廃止しており、必要時は `pnpm indexes:rebuild` を明示実行する。
@@ -183,6 +185,18 @@ main を feature ブランチへ取り込む sync-merge では、構造的に「
 | pre-push `coverage-guard` | push 範囲 (`@{u}..HEAD`) に merge commit を 1 件以上含む かつ `--changed` モード時 | `scripts/coverage-guard.sh` |
 
 これにより main 取り込み時の `git commit` / `git push` で `--no-verify` を**付ける必要はない**。featureコミット/pushは従来通りhookが効く。`--no-verify` の使用は引き続き避け、hook が誤検知する場合は本セクションの方針に沿って hook 自体を改善すること。
+
+#### sync-merge コンフリクト解消の3層予防
+
+dev → feature の sync-merge では skill / 30-workflows ログ系で構造的にコンフリクトが頻発するため、以下 3 層で予防している:
+
+| 層 | 仕組み | 対象 |
+|----|-------|------|
+| 1. `.gitattributes` `merge=union` | git が自動結合 | `docs/30-workflows/LOGS.md`, `.claude/skills/*/SKILL-changelog.md` |
+| 2. resolver スクリプト | `pnpm sync:resolve`（merge 中のみ可） | `SKILL.md` / `task-workflow-active.md` / `indexes/*-map.md` の union 解消、`indexes/keywords.json` の `--ours + rebuild` |
+| 3. ドキュメント | lessons-learned-dev-sync-merge-conflict-resolution-2026-05.md (L-DEVSYNC-001..007) | 残った混在ファイルの手動解消ルール |
+
+標準フロー: `git merge dev` → conflict 発生時は `pnpm sync:resolve` → 残件があれば手動解消 → `git commit` → `pnpm typecheck && pnpm lint` → `git push`。
 
 ### リモート同期チェック (`pnpm sync:check`) — main / dev 共通
 
@@ -217,10 +231,11 @@ git には `post-fetch` hook が存在しないため、`git fetch` 後にリモ
 2. `git fetch origin dev` を実行し、ローカル `dev` を `origin/dev` にfast-forward同期する。
 3. 作業ブランチに戻り、`dev` をマージする。
 4. コンフリクトがあれば以下の方針で自律解消し、`git add` と `git commit` まで行う。
-5. 品質検証は次の3コマンドだけを実行する。
+5. 品質検証は次の4コマンドだけを実行する。
    - `pnpm install --force`
    - `pnpm typecheck`
    - `pnpm lint`
+   - `bash scripts/verify-pr-ready.sh`（docs-only gate の pre-flight。`verify:phase12-compliance` / `gate-metadata:validate` / `indexes:rebuild` drift を一括検証。失敗パターンは `.claude/skills/task-specification-creator/references/pr-pre-flight-ci-gate-checklist.md` を参照）
 6. 品質検証が失敗した場合は最大3回まで自動修復し、修復差分をコミットする。
 7. `git status --porcelain` で未コミット変更を確認し、残っている変更は `git add -A` で全件含めてコミットする。
 8. `git diff dev...HEAD --name-only` でPRに入るファイル一覧を取得し、PR本文作成時に漏れなし確認として扱う。
@@ -241,6 +256,7 @@ git には `post-fetch` hook が存在しないため、`git fetch` 後にリモ
 - `pnpm install --force` 失敗時は依存状態とlockfileの不整合を疑い、最小限の再生成で復旧する。
 - `pnpm typecheck` 失敗時は、unused import、null許容、型注釈漏れ、export/import不整合など明白な型不整合を最小差分で修正する。
 - `pnpm lint` 失敗時は、まず `pnpm lint --fix` を試し、残る違反だけを手修正する。
+- `bash scripts/verify-pr-ready.sh` 失敗時は `.claude/skills/task-specification-creator/references/pr-pre-flight-ci-gate-checklist.md` の §1〜§5 を参照し、`gate-metadata:validate`（artifacts.json zod schema）→ `verify:phase12-compliance`（canonical 9 headings / Phase 11 evidence 表 / workflow root scan）→ `indexes:rebuild` drift の順で原因切り分け＋修正してから再実行する。
 - テストコード実行は、ユーザーが明示しない限りこのPR作成フローでは行わない。
 
 ### PR作成前チェック

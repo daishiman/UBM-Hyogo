@@ -90,13 +90,13 @@ node scripts/list-specs.js --topics
 | 1. 構成図 | L15 |
 | 2. Server-side fetch（`apps/web/src/lib/admin/server-fetch.ts`） | L49 |
 | 3. Client-side mutation（`apps/web/src/lib/admin/api.ts`） | L109 |
-| 4. BFF proxy（`apps/web/app/api/admin/[...path]/route.ts`） | L179 |
-| 5. ステータスコード処理方針 | L236 |
-| 6. 環境変数 | L268 |
-| 7. 不変条件サマリ（admin API client / proxy） | L281 |
-| 8. 関連ドキュメント | L293 |
-| 9. 06c-A Admin Dashboard 契約 (2026-05-02) | L301 |
-| 10. Self-service BFF proxy（`apps/web/app/api/me/[...path]/route.ts`） | L318 |
+| 4. BFF proxy（`apps/web/app/api/admin/[...path]/route.ts`） | L181 |
+| 5. ステータスコード処理方針 | L238 |
+| 6. 環境変数 | L270 |
+| 7. 不変条件サマリ（admin API client / proxy） | L283 |
+| 8. 関連ドキュメント | L295 |
+| 9. 06c-A Admin Dashboard 契約 (2026-05-02) | L303 |
+| 10. Self-service BFF proxy（`apps/web/app/api/me/[...path]/route.ts`） | L320 |
 
 ### references/architecture-auth-security-core.md
 
@@ -973,10 +973,11 @@ node scripts/list-specs.js --topics
 | マイグレーション管理 | L102 |
 | テスト戦略 | L160 |
 | UBM-Hyogo D1 Repository 契約（02b） | L190 |
-| エラーハンドリング | L232 |
-| Conversation DB 初期化パターン | L263 |
-| UBM-Hyogo Schema Sync Contract（03a） | L265 |
-| ベクトル検索実装（DiskANN） | L385 |
+| Schema Drift ADR Gate | L222 |
+| エラーハンドリング | L241 |
+| Conversation DB 初期化パターン | L272 |
+| UBM-Hyogo Schema Sync Contract（03a） | L274 |
+| ベクトル検索実装（DiskANN） | L394 |
 
 ### references/database-implementation-details.md
 
@@ -1099,10 +1100,10 @@ node scripts/list-specs.js --topics
 | 3. /admin（Dashboard） | L77 |
 | 4. /admin/members | L112 |
 | 5. /admin/tags | L205 |
-| 6. /admin/schema | L260 |
-| 7. /admin/meetings | L315 |
-| 8. 共通の Server/Client 契約 | L384 |
-| 9. 不変条件サマリ（admin UI） | L402 |
+| 6. /admin/schema | L285 |
+| 7. /admin/meetings | L340 |
+| 8. 共通の Server/Client 契約 | L409 |
+| 9. 不変条件サマリ（admin UI） | L427 |
 
 ### references/ui-ux-advanced.md
 
@@ -1401,7 +1402,8 @@ node scripts/list-specs.js --topics
 | フォーム設計 | L8 |
 | 認証UI設計 | L69 |
 | APIキー設定UI設計 | L287 |
-| 変更履歴 | L372 |
+| 公開 Form URL constants SSOT (UBM-Hyogo 適用) | L372 |
+| 変更履歴 | L395 |
 
 ### references/ui-ux-history-panel.md
 
@@ -2241,6 +2243,14 @@ node scripts/list-specs.js --topics
 | Evidence Artifacts | L24 |
 | Boundary | L39 |
 
+### references/workflow-fix-cf-deploy-esbuild-import-source-staging-failure-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Implementation Files | L10 |
+| Evidence | L18 |
+| Phase 12 | L27 |
+
 ### references/workflow-governance-design-category.md
 
 | セクション | 行 |
@@ -2659,6 +2669,14 @@ node scripts/list-specs.js --topics
 |------------|----|
 | User Gate | L22 |
 
+### references/workflow-issue-717-oidc-cf-full-migration-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Canonical Artifacts | L12 |
+| Follow-Ups | L26 |
+| Boundary | L34 |
+
 ### references/workflow-issue-718-legacy-cf-token-revocation-artifact-inventory.md
 
 | セクション | 行 |
@@ -2668,6 +2686,31 @@ node scripts/list-specs.js --topics
 | Same-Wave System Spec Sync | L35 |
 | Gate C Blockers | L48 |
 | Scope Note | L56 |
+
+### references/workflow-issue-720-cf-audit-monitor-env-protection-fix-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| User Gate | L17 |
+
+### references/workflow-issue-730-phase11-evidence-existence-validator-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Canonical Artifacts | L11 |
+| Boundaries | L27 |
+
+### references/workflow-issue-747-vitest-esbuild-arch-and-worktree-isolation-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Canonical Root | L3 |
+| State | L7 |
+| Canonical Files | L17 |
+| Implementation Contract | L28 |
+| Downstream Gates | L35 |
+
+### references/workflow-issue-748-jest-axe-primitive-a11y-integration-artifact-inventory.md
 
 ### references/workflow-light-theme-contrast-regression-guard.md
 
@@ -2714,6 +2757,27 @@ node scripts/list-specs.js --topics
 | 関連改善タスク | L102 |
 | 関連ドキュメント | L112 |
 | 変更履歴 | L126 |
+
+### references/workflow-parallel-09-ux-cross-cutting-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Implementation Files (apps/web) | L10 |
+| Tests | L27 |
+| Phase 12 strict 7 outputs | L34 |
+| Evidence | L46 |
+| User-gated boundary | L55 |
+
+### references/workflow-parallel-i03-dialog-refresh-order-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Workflow Root | L3 |
+| State | L9 |
+| Implementation Files | L13 |
+| Evidence | L22 |
+| Lessons Learned | L28 |
+| User Gates | L37 |
 
 ### references/workflow-permission-fallback-abort-skip-retry.md
 
@@ -3106,9 +3170,9 @@ node scripts/list-specs.js --topics
 
 | セクション | 行 |
 |------------|----|
-| Implementation Files | L10 |
-| Evidence | L18 |
-| Phase 12 | L30 |
+| Implementation Files | L11 |
+| Evidence | L19 |
+| Phase 12 | L31 |
 
 ### references/workflow-task-12-member-detail-register-legal-artifact-inventory.md
 
@@ -3213,6 +3277,14 @@ node scripts/list-specs.js --topics
 | Artifact Set | L13 |
 | Boundary | L26 |
 
+### references/workflow-task-25-followup-loading-state-observation-fixture-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Current Status | L3 |
+| Artifact Set | L13 |
+| Boundary | L34 |
+
 ### references/workflow-task-25-ui-mvp-w8-par-routes-smoke-coverage-artifact-inventory.md
 
 | セクション | 行 |
@@ -3226,6 +3298,15 @@ node scripts/list-specs.js --topics
 | Overview | L3 |
 | Current Artifacts | L13 |
 | Boundary | L22 |
+
+### references/workflow-task-709-visual-baseline-runtime-capture-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Metadata | L3 |
+| Workflow Artifacts | L13 |
+| Runtime Captured Artifacts | L25 |
+| Boundary | L36 |
 
 ### references/workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md
 
@@ -3502,6 +3583,7 @@ node scripts/list-specs.js --topics
 | Runbooks | L35 |
 | Runtime Boundary | L42 |
 | Followup-003: alert-relay weekly healthcheck cron（Issue #635 / 2026-05-14） | L45 |
+| Followup-006: Workers KV usage dashboard monitoring（2026-05-16） | L61 |
 
 ### references/workflow-ut-17-followup-002-alert-relay-dedup-kv-artifact-inventory.md
 
@@ -3510,6 +3592,15 @@ node scripts/list-specs.js --topics
 | Canonical Workflow | L3 |
 | Planned Implementation Artifacts | L13 |
 | State Boundary | L25 |
+
+### references/workflow-ut-17-followup-005-alert-relay-kv-error-metrics-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Implementation Targets | L14 |
+| State | L22 |
+| Local Evidence | L33 |
+| Downstream | L41 |
 
 ### references/workflow-ut-17-followup-005-alert-relay-kv-operation-error-metrics-artifact-inventory.md
 
@@ -3933,20 +4024,21 @@ node scripts/list-specs.js --topics
 | サービス構成 | L13 |
 | 現行 canonical: UT-06 実行前ゲート（2026-04-27） | L25 |
 | API Worker Cron（u-04 Sheets → D1 sync） | L51 |
-| D1 Backup Long-Term Storage（UT-06-FU-E / 2026-05-01） | L87 |
-| Cloudflare Workers デプロイ（Next.js / OpenNext） | L106 |
-| Cloudflare Workers デプロイ（APIバックエンド） | L194 |
-| Cloudflare D1 データベース | L340 |
-| Cloudflare KV セッションキャッシュ（UT-13 / SESSION_KV） | L373 |
-| GitHub Actions CI/CD | L485 |
-| プレビューデプロイメント | L516 |
-| カスタムドメイン設定 | L532 |
-| 環境分離 | L545 |
-| ロールバック戦略 | L555 |
-| モニタリング/アラート（UT-08 連携） | L576 |
-| per-sync write cap 連続到達アラート（03b-followup-006 / Issue #199） | L593 |
-| Long-term Analytics Evidence（Issue #347 / 2026-05-05） | L628 |
-| 変更履歴 | L677 |
+| Cloudflare Alert Policy IaC（UT-17 follow-up 004 / 006） | L87 |
+| D1 Backup Long-Term Storage（UT-06-FU-E / 2026-05-01） | L102 |
+| Cloudflare Workers デプロイ（Next.js / OpenNext） | L121 |
+| Cloudflare Workers デプロイ（APIバックエンド） | L209 |
+| Cloudflare D1 データベース | L355 |
+| Cloudflare KV セッションキャッシュ（UT-13 / SESSION_KV） | L388 |
+| GitHub Actions CI/CD | L500 |
+| プレビューデプロイメント | L531 |
+| カスタムドメイン設定 | L547 |
+| 環境分離 | L560 |
+| ロールバック戦略 | L570 |
+| モニタリング/アラート（UT-08 連携） | L591 |
+| per-sync write cap 連続到達アラート（03b-followup-006 / Issue #199） | L608 |
+| Long-term Analytics Evidence（Issue #347 / 2026-05-05） | L643 |
+| 変更履歴 | L692 |
 
 ### references/deployment-core.md
 
@@ -3973,19 +4065,19 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 概要 | L10 |
 | ワークフロー構成 | L38 |
-| CI ワークフロー要件（PR 時） | L65 |
-| キャッシュ戦略 | L101 |
-| 並列実行の活用 | L124 |
-| CD ワークフロー要件（dev / main マージ時） | L180 |
-| Backend ワークフロー要件（dev / main マージ時） | L210 |
+| CI ワークフロー要件（PR 時） | L66 |
+| キャッシュ戦略 | L102 |
+| 並列実行の活用 | L125 |
+| CD ワークフロー要件（dev / main マージ時） | L181 |
+| Backend ワークフロー要件（dev / main マージ時） | L211 |
 | モニタリングとアラート | L237 |
 | GitHub Secrets の要件 | L271 |
-| Issue #638 CLOUDFLARE_PAGES_PROJECT deletion current state | L303 |
-| UT-27: GitHub Secrets / Variables 配置決定（2026-04-29） | L325 |
-| Workflow lint scope の不変条件（CI recovery / 2026-05-09） | L351 |
-| Failure cascade 抑止 pattern（CI recovery / 2026-05-09） | L362 |
-| Post-release dashboard automation (Issue #351 / 2026-05-05) | L383 |
-| post-release-30day-auto-summary | L420 |
+| Issue #638 CLOUDFLARE_PAGES_PROJECT deletion current state | L299 |
+| UT-27: GitHub Secrets / Variables 配置決定（2026-04-29） | L321 |
+| Workflow lint scope の不変条件（CI recovery / 2026-05-09） | L343 |
+| Failure cascade 抑止 pattern（CI recovery / 2026-05-09） | L354 |
+| Post-release dashboard automation (Issue #351 / 2026-05-05) | L375 |
+| post-release-30day-auto-summary | L412 |
 
 ### references/deployment-history.md
 
@@ -4002,15 +4094,15 @@ node scripts/list-specs.js --topics
 | 管理場所の判断フロー | L51 |
 | Cloudflare Secrets（ランタイム） | L68 |
 | GitHub Secrets / Variables（CI/CD 用） | L134 |
-| wrangler.toml の環境別設定 | L258 |
-| ローカル開発での設定 | L290 |
-| Cloudflare CLI ラッパー: `scripts/cf.sh`（UT-06 派生 / 2026-04-27） | L329 |
-| セキュリティ原則 | L361 |
-| Cloudflare API Token の作成手順 | L372 |
-| Cloudflare API Token 90 日 rotation runbook（Issue #407 / 2026-05-06） | L387 |
-| UT-27: GitHub Secrets / Variables 同期運用（2026-04-29） | L498 |
-| U-FIX-CF-ACCT-01-DERIV-02: Cloudflare deploy token split | L550 |
-| 変更履歴 | L569 |
+| wrangler.toml の環境別設定 | L268 |
+| ローカル開発での設定 | L300 |
+| Cloudflare CLI ラッパー: `scripts/cf.sh`（UT-06 派生 / 2026-04-27） | L339 |
+| セキュリティ原則 | L373 |
+| Cloudflare API Token の作成手順 | L384 |
+| Cloudflare API Token 90 日 rotation runbook（Issue #407 / 2026-05-06） | L399 |
+| UT-27: GitHub Secrets / Variables 同期運用（2026-04-29） | L510 |
+| U-FIX-CF-ACCT-01-DERIV-02: Cloudflare deploy token split | L562 |
+| 変更履歴 | L582 |
 
 ### references/deployment.md
 
@@ -4268,12 +4360,12 @@ node scripts/list-specs.js --topics
 | 概要 | L23 |
 | 使い方 | L31 |
 | Current Alias Overrides（個別互換行） | L38 |
-| Family Summary | L83 |
-| Detailed Register | L104 |
-| Section Extract Register (2026-03-17) | L285 |
-| 500-Line Split Register (2026-03-16) | L296 |
-| Fragment Migration Register (2026-04-28) | L318 |
-| Task Root Path Drift Register (2026-04-30 追記) | L345 |
+| Family Summary | L84 |
+| Detailed Register | L105 |
+| Section Extract Register (2026-03-17) | L286 |
+| 500-Line Split Register (2026-03-16) | L297 |
+| Fragment Migration Register (2026-04-28) | L319 |
+| Task Root Path Drift Register (2026-04-30 追記) | L346 |
 
 ### references/lessons-fetch-service-binding-testing.md
 
@@ -4564,8 +4656,9 @@ node scripts/list-specs.js --topics
 | L-07B-003: stableKey collision は revision-scoped UNIQUE pre-check + 422 で防御し、DB UNIQUE index は別タスクに切り出す | L26 |
 | L-07B-004: back-fill は batch サイズと CPU budget の二重ガードで Workers 30s 制限を逃げる | L34 |
 | L-07B-005: alias 候補提案は score 関数を service 層に分離し、Levenshtein + section/index で stateless に保つ | L42 |
-| 関連未タスク・後続 wave 連携 | L50 |
-| 参照 | L57 |
+| L-07B-006: alias label の i18n は NFKC + trim + whitespace 圧縮で比較前処理し、stableKey collision の HTTP status は 409 に統一する（2026-05-17 UT-07B alias recommendation i18n） | L50 |
+| 関連未タスク・後続 wave 連携 | L58 |
+| 参照 | L65 |
 
 ### references/lessons-learned-07c-attendance-audit-2026-04.md
 
@@ -4651,6 +4744,18 @@ node scripts/list-specs.js --topics
 | L-09C-EXEC-005: Issue close 状態は `Refs #N` を使い `Closes` を再付与しない | L41 |
 | L-09C-EXEC-006: follow-up の existing detection を新規化と分離する | L49 |
 
+### references/lessons-learned-admin-tags-queue-resolver-drawer-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| L-ATQRD-001: current topology beats generated `_components` premise | L3 |
+| L-ATQRD-002: admin mutation invariant must distinguish helper layer from hook layer | L7 |
+| L-ATQRD-003: endpoint names need layer labels | L11 |
+| L-ATQRD-004: idempotent UX belongs in one toast path | L15 |
+| L-ATQRD-005: success toast action must not depend on async React state | L19 |
+| L-ATQRD-006: completed-tasks/ relocation requires path drift sweep | L23 |
+| L-ATQRD-007: Phase 12 strict-7 verdict labels must use workflow_state vocabulary | L27 |
+
 ### references/lessons-learned-ci-pipeline-recovery-2026-05.md
 
 | セクション | 行 |
@@ -4702,6 +4807,13 @@ node scripts/list-specs.js --topics
 | L-DOCS-LIFECYCLE-005: artifacts parity は同一 wave の必須ゲート | L91 |
 | 起点 task との対応 | L103 |
 | 不変条件 | L113 |
+
+### references/lessons-learned-fix-cf-deploy-esbuild-import-source-staging-failure-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| メタ情報 | L3 |
+| Lessons | L12 |
 
 ### references/lessons-learned-issue-106-admin-notes-repository-2026-05.md
 
@@ -5090,6 +5202,27 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 5-minute Checklist | L15 |
 
+### references/lessons-learned-issue-720-cf-audit-monitor-env-protection-fix-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| L-720-001: Read-only monitor jobs must not inherit deploy environment protection | L3 |
+| L-720-002: Alternative comparison cost — `environment:` 削除 1 行が正解にたどり着くまで | L11 |
+| L-720-003: Repository-level secret mirror は widened access boundary を伴う trade-off | L26 |
+| L-720-004: CLOSED issue への phase-12 fold-state sync | L34 |
+| L-720-005: `implemented_local_runtime_pending` 新ステータスの導入意義 | L42 |
+
+### references/lessons-learned-issue-747-vitest-esbuild-node-arch-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| L-I747-001: 3 層複合根本原因モデル | L7 |
+| L-I747-002: 3 つの verify script を gate 二重化で配置する | L19 |
+| L-I747-003: root `esbuild@0.27.3` devDependency を contract 化 | L27 |
+| L-I747-004: `ESBUILD_BINARY_PATH` の干渉を runbook で明文化 | L35 |
+| L-I747-005: closed Issue でも `Refs #<n>` で後付け canonical workflow を建てる | L43 |
+| L-I747-006: parent repository `node_modules` cleanup は AI が自動実行しない | L51 |
+
 ### references/lessons-learned-issue359-production-d1-apply-2026-05.md
 
 | セクション | 行 |
@@ -5113,6 +5246,16 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 教訓一覧 | L8 |
 | 申し送り（open / baseline 未タスク） | L57 |
+
+### references/lessons-learned-parallel-i03-dialog-refresh-order-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| L-PARALLEL-I03-001: dialog 内で `router.refresh()` を最先に発火する順序契約 | L9 |
+| L-PARALLEL-I03-002: 409 duplicate pending 分岐の `router.refresh()` 漏れは review gate でしか検知できない | L16 |
+| L-PARALLEL-I03-003: `vi.hoisted` + `vi.mock("next/navigation")` で callOrder を spec 間共有する pattern | L23 |
+| L-PARALLEL-I03-004: 親 spec で子 dialog を inline `vi.mock` 化して navigation mock 衝突を回避する | L30 |
+| L-PARALLEL-I03-005: ワークフロー dir の `completed-tasks/` 自動移送と canonical path drift | L37 |
 
 ### references/lessons-learned-skill-codex-validation-2026-04.md
 
@@ -5202,7 +5345,8 @@ node scripts/list-specs.js --topics
 | L-T11-004: `force-dynamic` 撤去 → `connection()` 移行（OpenNext + Cloudflare Workers） | L125 |
 | L-T11-005: local D1 に `member_identities` 不在で screenshot / axe 未取得 → task-ut-04 seed-data-runbook follow-up | L155 |
 | L-T11-006: `playwright.config.ts` を `desktop-chromium` 単独 project に絞り込み | L184 |
-| 横断教訓 | L216 |
+| L-T11-007: prototype JSX 単一ファイル長時の bottom section 見落とし対策 | L216 |
+| 横断教訓 | L244 |
 
 ### references/lessons-learned-task-12-member-detail-register-legal-2026-05.md
 
@@ -5289,6 +5433,17 @@ node scripts/list-specs.js --topics
 | L-TASK24-003 — `audit-runner.sh` の I/O contract を spec 化する | L52 |
 | L-TASK24-004 — task root rename 時の self-reference path 一括更新 | L68 |
 | Backlinks | L88 |
+
+### references/lessons-learned-task-25-followup-loading-state-observation-fixture-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| L-T25LF-001: routable wrapper / private source の 2 系統構成を fixture pattern として明文化する | L5 |
+| L-T25LF-002: loading.tsx の runtime 観測には deterministic な server-side delay fixture が必要 | L12 |
+| L-T25LF-003: env guard 重複を `_lib/fixture-guard.ts` に集約する横断リファクタは 3 件目を契機に実施する | L19 |
+| L-T25LF-004: completed-tasks 配下のドキュメント更新は「子 task のスコープ内」として扱い、placeholder 解消 commit を分割しない | L26 |
+| L-T25LF-005: `/smoke/*` を public routable surface として明文化したら、本番ルーティング・SEO・error.tsx への副作用を 3 軸で評価する | L33 |
+| 参照 | L46 |
 
 ### references/lessons-learned-task-26-error-tsx-token-utility-migration-2026-05.md
 
@@ -5624,8 +5779,8 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 概要 | L3 |
 | 仕様書インデックス | L7 |
-| 利用順序 | L110 |
-| 関連ドキュメント | L115 |
+| 利用順序 | L112 |
+| 関連ドキュメント | L117 |
 
 ### references/llm-embedding.md
 
@@ -6268,23 +6423,23 @@ node scripts/list-specs.js --topics
 | 1. 無料枠の境界 | L15 |
 | 2. WAE 6 イベント設計（reference） | L42 |
 | 3. アラート閾値設計指針 | L67 |
-| 4. PII 除外ルール | L93 |
-| 5. 苦戦箇所（恒久対策） | L109 |
-| 6. 関連ファイル | L134 |
-| 7. 09b Cron / Incident Response Runbook Linkage（2026-05-01） | L146 |
-| 8. 09b-A Sentry / Slack Runtime Smoke Contract（2026-05-05） | L152 |
-| 9. Issue #408 Cloudflare Audit Logs Monitoring Contract（2026-05-06） | L187 |
-| 10. Issue #515 Cloudflare Audit Logs ML-ready Classifier Contract（2026-05-07） | L213 |
-| 11. Issue #571 Staging Runtime Smoke CI Contract（2026-05-08） | L227 |
-| 11. Issue #549 Cloudflare Audit Logs ML production switch contract（2026-05-08） | L254 |
-| 12. Issue #587 Cloudflare Audit Logs ML model artifact rotation contract（2026-05-10） | L278 |
-| 11.1 Issue #586 post-switch 7-day close-out contract（2026-05-09） | L307 |
-| 11.2 Issue #655 D+7 recovery 2nd-cycle contract（2026-05-14） | L336 |
-| 10. Issue #547 Cloudflare Audit Logs Redacted Feature Export Contract（2026-05-08） | L358 |
-| 10. Issue #514 Cloudflare Audit Logs Cold Storage / R2 Export Contract（2026-05-07） | L376 |
-| 11. Issue #546 Cloudflare Audit Logs 90 Day Baseline Observation（2026-05-08） | L377 |
-| 12. Issue #514 Cloudflare Audit Logs Cold Storage / R2 Export Contract（2026-05-07） | L393 |
-| 13. 変更履歴 | L415 |
+| 4. PII 除外ルール | L105 |
+| 5. 苦戦箇所（恒久対策） | L121 |
+| 6. 関連ファイル | L146 |
+| 7. 09b Cron / Incident Response Runbook Linkage（2026-05-01） | L158 |
+| 8. 09b-A Sentry / Slack Runtime Smoke Contract（2026-05-05） | L164 |
+| 9. Issue #408 Cloudflare Audit Logs Monitoring Contract（2026-05-06） | L199 |
+| 10. Issue #515 Cloudflare Audit Logs ML-ready Classifier Contract（2026-05-07） | L225 |
+| 11. Issue #571 Staging Runtime Smoke CI Contract（2026-05-08） | L239 |
+| 11. Issue #549 Cloudflare Audit Logs ML production switch contract（2026-05-08） | L266 |
+| 12. Issue #587 Cloudflare Audit Logs ML model artifact rotation contract（2026-05-10） | L290 |
+| 11.1 Issue #586 post-switch 7-day close-out contract（2026-05-09） | L319 |
+| 11.2 Issue #655 D+7 recovery 2nd-cycle contract（2026-05-14） | L348 |
+| 11.3 Issue #720 monitor environment protection fix（2026-05-16） | L370 |
+| 10. Issue #547 Cloudflare Audit Logs Redacted Feature Export Contract（2026-05-08） | L393 |
+| 10. Issue #514 Cloudflare Audit Logs Cold Storage / R2 Export Contract（2026-05-07） | L411 |
+| 11. Issue #546 Cloudflare Audit Logs 90 Day Baseline Observation（2026-05-08） | L412 |
+| 12. Issue #514 Cloudflare Audit Logs Cold Storage / R2 Export Contract（2026-05-07） | L428 |
 
 ### references/patterns-advanced.md
 
@@ -6316,6 +6471,7 @@ node scripts/list-specs.js --topics
 | 4. `wrangler.toml` binding gating | L63 |
 | 5. Wording 規律 — practical reduction を使う | L90 |
 | 適用範囲 | L107 |
+| 6. KV usage monitoring policy（ALERT_DEDUP_KV 後続監視） | L119 |
 
 ### references/patterns.md
 
@@ -6764,6 +6920,14 @@ node scripts/list-specs.js --topics
 | 昇格パターン集 | L1503 |
 | Current Active / Spec Created Tasks | L1505 |
 | UT-17 followup-003 alert-relay weekly healthcheck cron | L1650 |
+| ドキュメント構成 | L1557 |
+| フェーズ構造（概要） | L1566 |
+| 品質ゲート（概要） | L1597 |
+| 出力テンプレート | L1608 |
+| 実行時のコマンド・エージェント・スキル | L1631 |
+| 昇格パターン集 | L1655 |
+| Current Active / Spec Created Tasks | L1657 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L1807 |
 
 ### references/task-workflow-backlog-part2.md
 
@@ -7080,9 +7244,9 @@ node scripts/list-specs.js --topics
 | 4. 色とコントラスト | L214 |
 | 5. 検証チェックリスト | L244 |
 | 6. 自動テストツール | L270 |
-| 7. WCAG 2.1 AAチェックリスト | L300 |
-| 参照 | L327 |
-| 変更履歴 | L335 |
+| 7. WCAG 2.1 AAチェックリスト | L306 |
+| 参照 | L333 |
+| 変更履歴 | L341 |
 
 ### references/testing-component-patterns-advanced.md
 
