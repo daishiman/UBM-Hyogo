@@ -46,8 +46,24 @@ GITIGNORED_EVIDENCE=""
 for compliance_md in $(echo "$CHANGED" | grep -E 'phase12-task-spec-compliance-check\.md$' || true); do
   [ -f "$compliance_md" ] || continue
   ROOT=$(dirname "$(dirname "$(dirname "$compliance_md")")")
-  EVIDENCE_PATHS=$(awk '/^## Phase 11 evidence file inventory/{f=1;next} /^## /{f=0} f && /\| `[^`]+` \| present \|/' "$compliance_md" \
-    | grep -oE '`[^`]+`' | tr -d '`' | sort -u)
+  # Phase 11 evidence inventory に書かれた present 行の path を抽出する。
+  # 旧形式: `| ` + バックティック囲み path + ` | present |`
+  # 新形式 (L-DEVSYNC-015 / Refs Phase 11 parser 互換): `| classification | <plain path> | present |`
+  # どちらの形式でも path を抽出できるよう、`| present |` を含む行を拾って 2/3列目を試す。
+  EVIDENCE_PATHS=$(awk -F'|' '
+    /^## Phase 11 evidence file inventory/ {f=1;next}
+    /^## / {f=0}
+    f && /\| *present *\|/ {
+      # cells: $1 empty (leading |), $2 classification or path, $3 path or status...
+      # path = backtick-quoted cell があればその中身、なければ status の直前 cell
+      for (i=2;i<=NF;i++) {
+        cell=$i
+        gsub(/^ +| +$/,"",cell)
+        if (cell == "present") { if (prev != "" && prev != "present") print prev; break }
+        gsub(/^`|`$/,"",cell)
+        prev = cell
+      }
+    }' "$compliance_md" | sort -u || true)
   for ep in $EVIDENCE_PATHS; do
     abs="$ROOT/$ep"
     [ -f "$abs" ] || continue

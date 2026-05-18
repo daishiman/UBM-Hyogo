@@ -1,0 +1,78 @@
+{
+  "schemaVersion": 1,
+  "taskId": "FIX-CF-DEPLOY-ESBUILD-IMPORT-SOURCE",
+  "title": "Cloudflare deploy esbuild import-source feature failure fix",
+  "metadata": {
+    "taskType": "implementation",
+    "visualEvidence": "NON_VISUAL",
+    "workflow_state": "implemented_local_evidence_captured",
+    "implementation_status": "implementation_complete_local_verification_pending",
+    "sourceIssue": null,
+    "relatedPr": "#461",
+    "branch": "fix/cf-deploy-esbuild-import-source-staging-failure",
+    "canonicalRoot": "docs/30-workflows/fix-cf-deploy-esbuild-import-source-staging-failure",
+    "parentWorkflow": null,
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/fix-cf-deploy-esbuild-import-source-staging-failure/outputs/phase-03/change-plan.md",
+        "approver": "daishiman",
+        "notes": "spec_review: Phase 1-3 完了で全体設計の妥当性確認"
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/fix-cf-deploy-esbuild-import-source-staging-failure/outputs/phase-05/local-verification.md",
+        "approver": "daishiman",
+        "notes": "implementation_review: ローカル typecheck/lint/build dry-run PASS"
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/fix-cf-deploy-esbuild-import-source-staging-failure/outputs/phase-11/ci-evidence.md",
+        "approver": "daishiman",
+        "notes": "ci_green: web-cd/deploy-staging + backend-ci/deploy-staging 緑化観測"
+      },
+      {
+        "gate_id": "Gate-D",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/fix-cf-deploy-esbuild-import-source-staging-failure/outputs/phase-13/pr-summary.md",
+        "approver": "daishiman",
+        "notes": "user_gated: commit / push / PR"
+      }
+    ]
+  },
+  "phases": [
+    { "phase": 1, "name": "現状把握", "status": "completed", "outputs": ["outputs/phase-01/dependency-map.md"] },
+    { "phase": 2, "name": "候補解比較・採択", "status": "completed", "outputs": ["outputs/phase-02/option-comparison.md"] },
+    { "phase": 3, "name": "全体設計", "status": "completed", "outputs": ["outputs/phase-03/change-plan.md"] },
+    { "phase": 4, "name": "詳細実装手順", "status": "completed", "outputs": ["outputs/phase-04/implementation-steps.md"] },
+    { "phase": 5, "name": "ローカル検証", "status": "runtime_pending", "outputs": ["outputs/phase-05/local-verification.md"] },
+    { "phase": 6, "name": "ユニットテスト影響評価", "status": "runtime_pending", "outputs": ["outputs/phase-06/test-impact.md"] },
+    { "phase": 7, "name": "統合テスト方針", "status": "runtime_pending", "outputs": ["outputs/phase-07/integration-plan.md"] },
+    { "phase": 8, "name": "ドキュメント更新", "status": "completed", "outputs": ["outputs/phase-08/docs-updates.md"] },
+    { "phase": 9, "name": "受入確認", "status": "runtime_pending", "outputs": ["outputs/phase-09/acceptance.md"] },
+    { "phase": 10, "name": "ロールバック手順", "status": "completed", "outputs": ["outputs/phase-10/rollback.md"] },
+    { "phase": 11, "name": "NON_VISUAL evidence", "status": "runtime_pending", "outputs": ["outputs/phase-11/main.md", "outputs/phase-11/manual-smoke-log.md", "outputs/phase-11/link-checklist.md", "outputs/phase-11/ci-evidence.md", "outputs/phase-11/esbuild-version.txt", "outputs/phase-11/pnpm-why-esbuild.txt"] },
+    { "phase": 12, "name": "正本同期", "status": "completed", "outputs": ["outputs/phase-12/main.md", "outputs/phase-12/implementation-guide.md", "outputs/phase-12/system-spec-update-summary.md", "outputs/phase-12/documentation-changelog.md", "outputs/phase-12/unassigned-task-detection.md", "outputs/phase-12/skill-feedback-report.md", "outputs/phase-12/phase12-task-spec-compliance-check.md"] },
+    { "phase": 13, "name": "PR・振り返り", "status": "blocked", "outputs": ["outputs/phase-13/pr-summary.md"] }
+  ],
+  "externalOpsPending": [
+    "ローカル build dry-run 検証",
+    "commit",
+    "push",
+    "PR",
+    "CI green observation: web-cd/deploy-staging",
+    "CI green observation: backend-ci/deploy-staging"
+  ],
+  "implementedFiles": [
+    "package.json",
+    "pnpm-lock.yaml",
+    "scripts/cf.sh"
+  ]
+}
