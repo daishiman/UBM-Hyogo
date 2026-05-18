@@ -138,8 +138,8 @@ export default function LoginLoading(): ReactNode
 
 ## 8. DoD
 
-- [x] `/login/error.tsx` focus管理実装（i05 close-out: `docs/30-workflows/parallel-i05-login-loading-and-error-focus/`。Card primitive 新設なし、既存 token section で代替）
-- [x] `/login/loading.tsx` 新規作成、OKLch skeleton（i05 close-out: `apps/web/app/login/loading.tsx`）
+- [ ] `/login/error.tsx` Card layout + focus管理実装
+- [ ] `/login/loading.tsx` 新規作成、OKLch skeleton
 - [ ] Root `error.tsx` に focus管理追加
 - [ ] `/profile/loading.tsx` 統一skeleton実装
 - [ ] OKLch token完全性確認、HEX直書き0
