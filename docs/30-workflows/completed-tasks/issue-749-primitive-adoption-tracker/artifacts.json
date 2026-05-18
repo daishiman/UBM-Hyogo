@@ -22,7 +22,7 @@
       {
         "gate_id": "Gate-A",
         "status": "passed",
-        "passed_at": null,
+        "passed_at": "2026-05-17T00:00:00Z",
         "evidence_path": "docs/30-workflows/completed-tasks/issue-749-primitive-adoption-tracker/outputs/phase-1/spec-extraction-map.md",
         "approver": "local",
         "notes": "baseline matrix + AC enumeration"
@@ -30,7 +30,7 @@
       {
         "gate_id": "Gate-B",
         "status": "passed",
-        "passed_at": null,
+        "passed_at": "2026-05-17T00:00:00Z",
         "evidence_path": "docs/30-workflows/completed-tasks/issue-749-primitive-adoption-tracker/outputs/phase-11/main.md",
         "approver": "local",
         "notes": "local VISUAL+NON_VISUAL evidence (typecheck/lint/test/grep-gate/visual-smoke)"

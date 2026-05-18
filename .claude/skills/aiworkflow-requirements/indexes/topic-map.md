@@ -6904,30 +6904,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L1456 |
-| フェーズ構造（概要） | L1465 |
-| 品質ゲート（概要） | L1496 |
-| 出力テンプレート | L1507 |
-| 実行時のコマンド・エージェント・スキル | L1530 |
-| 昇格パターン集 | L1554 |
-| Current Active / Spec Created Tasks | L1556 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L1702 |
-| ドキュメント構成 | L1405 |
-| フェーズ構造（概要） | L1414 |
-| 品質ゲート（概要） | L1445 |
-| 出力テンプレート | L1456 |
-| 実行時のコマンド・エージェント・スキル | L1479 |
-| 昇格パターン集 | L1503 |
-| Current Active / Spec Created Tasks | L1505 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L1650 |
-| ドキュメント構成 | L1557 |
-| フェーズ構造（概要） | L1566 |
-| 品質ゲート（概要） | L1597 |
-| 出力テンプレート | L1608 |
-| 実行時のコマンド・エージェント・スキル | L1631 |
-| 昇格パターン集 | L1655 |
-| Current Active / Spec Created Tasks | L1657 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L1807 |
+| ドキュメント構成 | L1568 |
+| フェーズ構造（概要） | L1577 |
+| 品質ゲート（概要） | L1608 |
+| 出力テンプレート | L1619 |
+| 実行時のコマンド・エージェント・スキル | L1642 |
+| 昇格パターン集 | L1666 |
+| Current Active / Spec Created Tasks | L1668 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L1818 |
 
 ### references/task-workflow-backlog-part2.md
 
