@@ -80,3 +80,10 @@ pre-push:
       fail_text: |
         🚫 変更された artifacts.json に metadata.gates が欠落しています。
         対応 CI: verify-gate-metadata
+    phase12-compliance-guard:
+      run: bash scripts/hooks/phase12-compliance-guard.sh
+      stage_fixed: false
+      fail_text: |
+        🚫 Phase 12 compliance check に失敗（canonical 9 heading 欠落 等）。
+        対応 CI: verify-phase12-compliance
+        SSOT: .claude/skills/task-specification-creator/references/phase12-compliance-check-template.md

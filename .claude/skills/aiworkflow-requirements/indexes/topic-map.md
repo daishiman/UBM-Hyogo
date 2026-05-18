@@ -2701,6 +2701,8 @@ node scripts/list-specs.js --topics
 | Implementation Contract | L28 |
 | Downstream Gates | L35 |
 
+### references/workflow-issue-748-jest-axe-primitive-a11y-integration-artifact-inventory.md
+
 ### references/workflow-light-theme-contrast-regression-guard.md
 
 | セクション | 行 |
@@ -6852,14 +6854,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L1515 |
-| フェーズ構造（概要） | L1524 |
-| 品質ゲート（概要） | L1555 |
-| 出力テンプレート | L1566 |
-| 実行時のコマンド・エージェント・スキル | L1589 |
-| 昇格パターン集 | L1613 |
-| Current Active / Spec Created Tasks | L1615 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L1765 |
+| ドキュメント構成 | L1529 |
+| フェーズ構造（概要） | L1538 |
+| 品質ゲート（概要） | L1569 |
+| 出力テンプレート | L1580 |
+| 実行時のコマンド・エージェント・スキル | L1603 |
+| 昇格パターン集 | L1627 |
+| Current Active / Spec Created Tasks | L1629 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L1779 |
 
 ### references/task-workflow-backlog-part2.md
 
@@ -7176,9 +7178,9 @@ node scripts/list-specs.js --topics
 | 4. 色とコントラスト | L214 |
 | 5. 検証チェックリスト | L244 |
 | 6. 自動テストツール | L270 |
-| 7. WCAG 2.1 AAチェックリスト | L300 |
-| 参照 | L327 |
-| 変更履歴 | L335 |
+| 7. WCAG 2.1 AAチェックリスト | L306 |
+| 参照 | L333 |
+| 変更履歴 | L341 |
 
 ### references/testing-component-patterns-advanced.md
 
