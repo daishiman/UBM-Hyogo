@@ -2747,6 +2747,16 @@ node scripts/list-specs.js --topics
 | 関連ドキュメント | L112 |
 | 変更履歴 | L126 |
 
+### references/workflow-parallel-09-ux-cross-cutting-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Implementation Files (apps/web) | L10 |
+| Tests | L27 |
+| Phase 12 strict 7 outputs | L34 |
+| Evidence | L46 |
+| User-gated boundary | L55 |
+
 ### references/workflow-permission-fallback-abort-skip-retry.md
 
 | セクション | 行 |
