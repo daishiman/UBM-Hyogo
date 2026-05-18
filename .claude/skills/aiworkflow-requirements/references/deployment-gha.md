@@ -55,6 +55,8 @@
 
 > **current facts (Issue #526 / 2026-05-08)**: `ci.yml` に `workflow-shell-lint` job を追加済み。job は `contents: read` のみを持ち、`bash -n scripts/observation/create-reminder-issue.sh`、`bash scripts/observation/test/test-create-reminder-issue.sh`、`shellcheck scripts/observation/*.sh scripts/observation/test/*.sh`、downloaded `actionlint` による `.github/workflows/post-release-observation-reminder.yml` / `.github/workflows/ci.yml` 検査、`secrets.GITHUB_TOKEN` 以外の `secrets.*` literal allowlist grep を実行する。既存 branch protection required context は `ci`, `Validate Build`, `coverage-gate` であるため、同じ gate を `ci` job 内の `pnpm observation:lint` にも組み込み、PR merge gate の強制力を既存 required context 経由で担保する。`post-release-observation-reminder.yml` の schedule / workflow_dispatch / Issue 作成副作用は変更しない。Runtime CI evidence は PR 後の `gh run view` で追記するため `PASS_BOUNDARY_SYNCED_RUNTIME_PENDING`。
 
+> **current facts (PR #795 residual CI recovery / 2026-05-18)**: `workflow-shell-lint` は `setup-project` を `install: 'false'` で呼ぶため、`actions/setup-node@v4` の pnpm cache post step が存在しない store path を検証しないよう `cache: ''` を必ず渡す。`setup-project` の `cache` input default は `'pnpm'` で、通常 caller の cache behavior は維持する。`backend-ci.yml` は D1 migration step で `CF_TOKEN_D1_<ENV>`、Workers deploy step で `CF_TOKEN_WORKERS_<ENV>` を `with.apiToken` と step-level `env.CLOUDFLARE_API_TOKEN` の両方へ渡す。これは同じ scoped secret の action互換注入であり、secret 未登録時の独立 fallback ではない。runtime green evidence、secret existence confirmation、commit / push / PR は user-gated。
+
 > **current facts (Issue #626 RB-01 / 2026-05-12)**: standalone `.github/workflows/lighthouse.yml` は `pr-build-test.yml` の `lighthouse-ci` job に統合され、削除済み。`lighthouse-ci` の `name:` は required status context 互換のため維持し、`if: github.base_ref == 'dev'` で旧 Lighthouse dev-base 境界を維持する。PR dry-run checks、`lighthouse-ci` log の再 build 0 件確認、merge-time branch protection before/after diff は user-gated runtime evidence。
 
 > **current facts (CI env secret preflight / 2026-05-16)**: `verify-env-secrets.yml` は PR / dev・main push / workflow_dispatch で `scripts/ci/verify-env-secrets.sh --json` を実行する。`GH_VERIFY_ENV_SECRETS_TOKEN` があれば優先し、なければ `GITHUB_TOKEN` を使う。`d1-migration-verify.yml` は `environment: staging` + `secrets.CLOUDFLARE_API_TOKEN` に統一済みで、旧 `CLOUDFLARE_API_TOKEN_STAGING` は撤回。secret placement、variables placement、runtime-smoke rerun、commit、push、PR は user-gated。
@@ -230,7 +232,7 @@
 >
 > **current facts (UT-CICD-DRIFT / 2026-04-29)**: 現行 `.github/workflows/backend-ci.yml` には D1 migrations apply + Workers deploy のステップは実装済みだが、Discord Webhook 通知ステップは未実装。UT-08-IMPL（Wave 2）で導入予定。UT-CICD-DRIFT では存在しない派生タスクIDへ委譲せず、通知未実装を current facts として固定する。
 
-> **current facts (Issue #718 / 2026-05-16)**: 現行 `backend-ci.yml` は D1 migration step で `CF_TOKEN_D1_<ENV>`、Workers deploy step で `CF_TOKEN_WORKERS_<ENV>` を使う。`web-cd.yml` は実 GitHub Environment に登録済みの `secrets.CLOUDFLARE_API_TOKEN` を deploy step の `env.CLOUDFLARE_API_TOKEN` へ限定注入し、同 step 内で空展開を早期 fail する。job-level env と separate `Verify CF token is present` step は Issue #640 以降の current contract では使用しない。`CF_TOKEN_PAGES_<ENV>` は current web-cd path で使用しない。Issue #718 の Cloudflare revoke / GitHub Secrets mutation / 1Password mutation は user-gated であり、backend-ci 切替後も 4 scoped secret の environment inventory evidence を merge gate として扱う。
+> **current facts (Issue #718 + PR #795 / 2026-05-18)**: 現行 `backend-ci.yml` は D1 migration step で `CF_TOKEN_D1_<ENV>`、Workers deploy step で `CF_TOKEN_WORKERS_<ENV>` を使い、各 wrangler-action step に同じ scoped secret を `with.apiToken` と step-level `env.CLOUDFLARE_API_TOKEN` の両方で渡す。`web-cd.yml` は実 GitHub Environment に登録済みの `secrets.CLOUDFLARE_API_TOKEN` を deploy step の `env.CLOUDFLARE_API_TOKEN` へ限定注入し、同 step 内で空展開を早期 fail する。job-level env と separate `Verify CF token is present` step は Issue #640 以降の current contract では使用しない。`CF_TOKEN_PAGES_<ENV>` は current web-cd path で使用しない。Issue #718 の Cloudflare revoke / GitHub Secrets mutation / 1Password mutation は user-gated であり、backend-ci 切替後も 4 scoped secret の environment inventory evidence を merge gate として扱う。
 
 ---
 
@@ -280,7 +282,7 @@
 
 ### U-FIX-CF-ACCT-01-DERIV-01: OIDC short-lived credential target contract（2026-05-06）
 
-`docs/30-workflows/u-fix-cf-acct-01-deriv-01-github-oidc-short-lived-credentials/` は `spec_created / implementation-spec / NON_VISUAL` の target contract である。OIDC runtime cutover は未実行であり、現行 `backend-ci.yml` は Issue #718 以降 `CF_TOKEN_D1_*` / `CF_TOKEN_WORKERS_*` を使う。`d1-migration-verify.yml` の `secrets.CLOUDFLARE_API_TOKEN_STAGING` 参照は current fact として残る。`web-cd.yml` は 2026-05-09 task-01 web-cd secret alignment で実 Environment 名 `CLOUDFLARE_API_TOKEN` へ同期済み。
+`docs/30-workflows/u-fix-cf-acct-01-deriv-01-github-oidc-short-lived-credentials/` は `spec_created / implementation-spec / NON_VISUAL` の target contract である。OIDC runtime cutover は未実行であり、現行 `backend-ci.yml` は Issue #718 以降 `CF_TOKEN_D1_*` / `CF_TOKEN_WORKERS_*` を使う。`d1-migration-verify.yml` は 2026-05-16 CI env secret preflight 以降 `secrets.CLOUDFLARE_API_TOKEN` に統一済みで、旧 `CLOUDFLARE_API_TOKEN_STAGING` は撤回済み。`web-cd.yml` は 2026-05-09 task-01 web-cd secret alignment で実 Environment 名 `CLOUDFLARE_API_TOKEN` へ同期済み。
 
 | 項目 | 契約 |
 | --- | --- |
@@ -351,6 +353,16 @@ UT-27 (`docs/30-workflows/completed-tasks/ut-27-github-secrets-variables-deploym
 | 拡張ルール | `.github/workflows/` への workflow 追加は glob に自動包含。allowlist 追記運用へ戻さない |
 | shellcheck 対象 | `scripts/observation/*.sh`, `scripts/observation/test/*.sh`, `scripts/redaction-check.sh`, `scripts/__tests__/*.sh`。`scripts/smoke/provision-staging-secrets.sh` は現行 Issue #290 scope 外であり、この invariant には含めない |
 
+## setup-project cache input 不変条件（PR #795 residual CI recovery / 2026-05-18）
+
+`setup-project` composite action の `cache` input は `actions/setup-node@v4` の cache strategy にそのまま渡す。default は `'pnpm'` で、通常 caller は指定不要。`install: 'false'` の caller は pnpm store を作らないため、`cache: ''` を明示して setup-node cache restore/save path を無効化する。
+
+| Caller pattern | Required cache value | Reason |
+| --- | --- | --- |
+| `install: 'true'` / default install | omitted or `'pnpm'` | dependency install creates pnpm store |
+| `install: 'false'` | `''` | no pnpm store exists; avoids setup-node cache post-step path validation |
+| `setup-strategy: 'mise'` | ignored by node-setup path | mise action owns its own cache behavior |
+
 ## Failure cascade 抑止 pattern（CI recovery / 2026-05-09）
 
 通知 / post step が依存する artifact 不在時に Slack webhook POST や `${VAR:?}` 展開で job 全段が連鎖失敗するのを防ぐため、**前提 artifact の存在を `hashFiles(...)` で guard する** pattern を canonical とする。`.github/workflows/runtime-smoke-staging.yml` の Slack failure post step は次の形を採用しており、他 workflow にも横展開推奨する。
@@ -371,6 +383,12 @@ UT-27 (`docs/30-workflows/completed-tasks/ut-27-github-secrets-variables-deploym
 | 両方を AND 結合 | `${{ failure() && hashFiles('<path>') != '' }}` |
 
 `if: secrets.X != ''` は repository / environment の解決順序によって false positive が起こり得るため、shell 内で空文字判定するか、本 pattern と組み合わせる。`${VAR:?}` を必要とする step は guard 内側に閉じ、guard 不成立時には step 全体を skip させて連鎖失敗を抑止する。
+
+## Lessons learned (PR #795 由来 / 2026-05-18)
+
+- **L-CICACHE-001**: `actions/setup-node@v4` の pnpm cache は `install: 'false'` 時に store path 不在で post step が fail する。`setup-project` action の `cache` input を `''` 明示で渡し cache を完全に無効化することが回避策。default は `'pnpm'` のまま、install を伴わない caller のみ `cache: ''` を渡す（参照: `## setup-project cache input 不変条件`、`changelog/20260518-pr795-ci-cache-token-recovery.md`）。
+- **L-CFTOKEN-001**: `cloudflare/wrangler-action@v3` は `with.apiToken` 入力優先だが、内部で step-level `env.CLOUDFLARE_API_TOKEN` も参照するため、両方に同じ scoped secret を注入する dual injection が action 互換性で必須。独立 fallback ではなく、両者の同時注入が contract（参照: `references/deployment-secrets-management.md`、`changelog/20260518-pr795-ci-cache-token-recovery.md`）。
+- **L-WFSCOPE-001**: `backend-ci.yml` で job-level env に Cloudflare token を昇格すると install / build step まで token が露出するため、deploy step-scoped 限定で `env` を渡すのが secret hygiene として必須。job-level `env:` への昇格は禁止し、step ごとに `env: { CLOUDFLARE_API_TOKEN: ${{ secrets.CF_TOKEN_* }} }` を限定付与する（参照: `references/deployment-secrets-management.md`、`changelog/20260518-pr795-ci-cache-token-recovery.md`）。
 
 ## Post-release dashboard automation (Issue #351 / 2026-05-05)
 
@@ -453,10 +471,11 @@ Slack channel 作成は workflow / shell script に入れない。Slack App / Bo
 workflow permissions は `contents: write` / `pull-requests: write` / `actions: read` のみ。`gh run list` 失敗は workflow failure、Slack POST 失敗は PR 残置 + exit 3 とし、retry / alert 実装は本 workflow に含めない。failure 比率 `>= 10%` の場合は PR body に retry / alert 検討節を追記する。
 
 | 2026-05-09 | 2.6.0 | CI recovery wave: 「Workflow lint scope の不変条件」と「Failure cascade 抑止 pattern」を追加。actionlint 対象 workflow に `web-cd.yml` / `runtime-smoke-staging.yml` を含めること、Slack failure post 等の通知 step は `hashFiles('<artifact>') != ''` guard で連鎖失敗を抑止することを正本化 |
+| 2026-05-18 | 2.6.1 | PR #795 residual CI recovery を同期。`setup-project.cache` input と `install: 'false'` caller の `cache: ''` 不変条件、backend-ci D1 / Workers scoped tokens の `with.apiToken` + step-level `env.CLOUDFLARE_API_TOKEN` 併用、secret 存在確認 / runtime GHA evidence の user-gated 境界を正本化 |
 | 2026-05-07 | 2.5.0 | Issue #517 follow-up auto-summary foundation を実装。`.github/workflows/post-release-30day-auto-summary.yml`、`scripts/post-release-dashboard/30day-summary.sh` ＋ TC-01〜TC-07 / TC-05b plain shell test、schedule-only 30 day gate、open PR idempotency、`auto/post-release-30day-summary-YYYYMM` branch / `[auto-summary] post-release-dashboard 30d` PR title prefix / Slack Incoming Webhook (channel `w1618436027-ek2505248`) を正本化。Issue #517 は CLOSED 維持 / `Refs` のみ |
 | 2026-05-06 | 2.4.0 | Issue #407 Cloudflare API Token rotation reminder workflow を追加。`CF_TOKEN_ISSUED_AT`、85 日 reminder、dry-run、duplicate guard、最小 permissions を正本化 |
 | 2026-05-05 | 2.3.0 | Issue #351 post-release dashboard automation を追加。read-only analytics token、daily schedule、artifact path、redaction gate、`scripts/cf.sh api-post` 境界を正本化 |
 | 2026-04-29 | 2.2.0 | UT-CICD-DRIFT: Node 22→24 / pnpm 9→10.33.2 同期、workflow 構成表に `validate-build.yml` / `verify-indexes.yml` を追加、Discord 通知未実装の current facts 注記、coverage soft→hard gate 段階性注記 |
-| 2026-05-06 | 2.3.0 | U-FIX-CF-ACCT-01-DERIV-01 OIDC short-lived credential target contract を追加。OIDC runtime cutover は未実行。Issue #718 以降 `backend-ci.yml` は `CF_TOKEN_D1_*` / `CF_TOKEN_WORKERS_*`、`d1-migration-verify.yml` は `CLOUDFLARE_API_TOKEN_STAGING`、`web-cd.yml` は environment-scoped `secrets.CLOUDFLARE_API_TOKEN` を使う |
+| 2026-05-06 | 2.3.0 | U-FIX-CF-ACCT-01-DERIV-01 OIDC short-lived credential target contract を追加。OIDC runtime cutover は未実行。Issue #718 以降 `backend-ci.yml` は `CF_TOKEN_D1_*` / `CF_TOKEN_WORKERS_*`、`d1-migration-verify.yml` は 2026-05-16 に `secrets.CLOUDFLARE_API_TOKEN` へ統一済み、`web-cd.yml` は environment-scoped `secrets.CLOUDFLARE_API_TOKEN` を使う |
 | 2026-04-29 | 2.1.0 | UT-27: GitHub Secrets / Variables 配置決定マトリクスと Phase 13 user 承認ゲートを追記 |
 | 2026-04-09 | 2.0.0 | 旧デプロイ基盤・Electron E2E 削除、Cloudflare Pages デプロイへ移行 |

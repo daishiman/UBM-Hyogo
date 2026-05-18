@@ -235,6 +235,17 @@
 | local verification | `mise exec -- pnpm install --force`, `pnpm why esbuild`, `pnpm exec esbuild --version`, `mise exec -- pnpm --filter @ubm-hyogo/web build:cloudflare`, `bash scripts/cf.sh deploy --config apps/api/wrangler.toml --dry-run --outdir /tmp/api-bundle` |
 | user gate | GitHub Actions deploy-staging, runtime smoke, commit, push, PR |
 
+### PR #795 residual CI cache / Cloudflare token recovery（2026-05-18）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / NON_VISUAL / PASS_BOUNDARY_SYNCED_RUNTIME_PENDING / Phase 12 strict 7 present` |
+| 成果物 | `docs/30-workflows/completed-tasks/fix-ci-cache-and-cf-token-pr795/` |
+| 目的 | PR #795 後に残った `workflow-shell-lint` setup-node pnpm cache path validation と `backend-ci` Cloudflare token injection failure を局所修復する |
+| implementation targets | `.github/actions/setup-project/action.yml`, `.github/workflows/ci.yml`, `.github/workflows/backend-ci.yml`, `scripts/__tests__/workflow-env-scope.test.sh` |
+| evidence | `outputs/phase-11/evidence.md`, `outputs/phase-12/phase12-task-spec-compliance-check.md` |
+| user gate | GitHub environment secret confirmation, GitHub Actions runtime evidence, commit, push, PR |
+
 ### Issue #667 Stage 3b mock API fixture coverage（2026-05-14）
 
 | 項目 | 値 |

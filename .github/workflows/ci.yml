@@ -27,6 +27,7 @@ jobs:
         with:
           node-version: '24'
           install: 'false'
+          cache: ''
 
       - name: Bash syntax for observation reminder
         run: bash -n scripts/observation/create-reminder-issue.sh
