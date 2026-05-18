@@ -5,7 +5,33 @@
     "taskType": "implementation",
     "visualEvidence": "VISUAL",
     "implementation_mode": "greenfield-foundation",
-    "prototype_coverage": "PROTOTYPE-COVERAGE.md"
+    "prototype_coverage": "PROTOTYPE-COVERAGE.md",
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-05-18T00:00:00Z",
+        "evidence_path": "docs/30-workflows/ui-prototype-design-system-foundation/outputs/phase-12/main.md",
+        "approver": "daishiman",
+        "notes": "spec_review: Phase 1-13 spec readiness (parallel-01..04 / serial-00 / serial-05..07)"
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/ui-prototype-design-system-foundation/outputs/phase-12/implementation-guide.md",
+        "approver": "daishiman",
+        "notes": "implementation_review: full 19-route binding + Playwright visual evidence pending"
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/ui-prototype-design-system-foundation/serial-07-regression-evidence/phase-11-evidence-inventory.md",
+        "approver": "daishiman",
+        "notes": "external_ops: runtime screenshots / PR / merge"
+      }
+    ]
   },
   "phases": [
     { "phase": 1, "status": "spec_created" },
