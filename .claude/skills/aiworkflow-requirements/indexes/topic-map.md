@@ -1402,7 +1402,8 @@ node scripts/list-specs.js --topics
 | フォーム設計 | L8 |
 | 認証UI設計 | L69 |
 | APIキー設定UI設計 | L287 |
-| 変更履歴 | L372 |
+| 公開 Form URL constants SSOT (UBM-Hyogo 適用) | L372 |
+| 変更履歴 | L395 |
 
 ### references/ui-ux-history-panel.md
 
@@ -2241,6 +2242,14 @@ node scripts/list-specs.js --topics
 | Implementation Artifacts | L12 |
 | Evidence Artifacts | L24 |
 | Boundary | L39 |
+
+### references/workflow-fix-cf-deploy-esbuild-import-source-staging-failure-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Implementation Files | L10 |
+| Evidence | L18 |
+| Phase 12 | L27 |
 
 ### references/workflow-governance-design-category.md
 
@@ -3169,9 +3178,9 @@ node scripts/list-specs.js --topics
 
 | セクション | 行 |
 |------------|----|
-| Implementation Files | L10 |
-| Evidence | L18 |
-| Phase 12 | L30 |
+| Implementation Files | L11 |
+| Evidence | L19 |
+| Phase 12 | L31 |
 
 ### references/workflow-task-12-member-detail-register-legal-artifact-inventory.md
 
@@ -4096,12 +4105,12 @@ node scripts/list-specs.js --topics
 | wrangler.toml の環境別設定 | L268 |
 | ローカル開発での設定 | L300 |
 | Cloudflare CLI ラッパー: `scripts/cf.sh`（UT-06 派生 / 2026-04-27） | L339 |
-| セキュリティ原則 | L371 |
-| Cloudflare API Token の作成手順 | L382 |
-| Cloudflare API Token 90 日 rotation runbook（Issue #407 / 2026-05-06） | L397 |
-| UT-27: GitHub Secrets / Variables 同期運用（2026-04-29） | L508 |
-| U-FIX-CF-ACCT-01-DERIV-02: Cloudflare deploy token split | L560 |
-| 変更履歴 | L580 |
+| セキュリティ原則 | L373 |
+| Cloudflare API Token の作成手順 | L384 |
+| Cloudflare API Token 90 日 rotation runbook（Issue #407 / 2026-05-06） | L399 |
+| UT-27: GitHub Secrets / Variables 同期運用（2026-04-29） | L510 |
+| U-FIX-CF-ACCT-01-DERIV-02: Cloudflare deploy token split | L562 |
+| 変更履歴 | L582 |
 
 ### references/deployment.md
 
@@ -4807,6 +4816,13 @@ node scripts/list-specs.js --topics
 | 起点 task との対応 | L103 |
 | 不変条件 | L113 |
 
+### references/lessons-learned-fix-cf-deploy-esbuild-import-source-staging-failure-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| メタ情報 | L3 |
+| Lessons | L12 |
+
 ### references/lessons-learned-issue-106-admin-notes-repository-2026-05.md
 
 | セクション | 行 |
@@ -5344,7 +5360,8 @@ node scripts/list-specs.js --topics
 | L-T11-004: `force-dynamic` 撤去 → `connection()` 移行（OpenNext + Cloudflare Workers） | L125 |
 | L-T11-005: local D1 に `member_identities` 不在で screenshot / axe 未取得 → task-ut-04 seed-data-runbook follow-up | L155 |
 | L-T11-006: `playwright.config.ts` を `desktop-chromium` 単独 project に絞り込み | L184 |
-| 横断教訓 | L216 |
+| L-T11-007: prototype JSX 単一ファイル長時の bottom section 見落とし対策 | L216 |
+| 横断教訓 | L244 |
 
 ### references/lessons-learned-task-12-member-detail-register-legal-2026-05.md
 
@@ -6910,6 +6927,14 @@ node scripts/list-specs.js --topics
 | 昇格パターン集 | L1669 |
 | Current Active / Spec Created Tasks | L1671 |
 | UT-17 followup-003 alert-relay weekly healthcheck cron | L1821 |
+| ドキュメント構成 | L1568 |
+| フェーズ構造（概要） | L1577 |
+| 品質ゲート（概要） | L1608 |
+| 出力テンプレート | L1619 |
+| 実行時のコマンド・エージェント・スキル | L1642 |
+| 昇格パターン集 | L1666 |
+| Current Active / Spec Created Tasks | L1668 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L1818 |
 
 ### references/task-workflow-backlog-part2.md
 

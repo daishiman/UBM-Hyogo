@@ -156,6 +156,7 @@
 - task spec 作成時の方針: `phase12-task-spec-compliance-check.md` テンプレ（`.claude/skills/task-specification-creator/references/phase12-compliance-check-template.md`）に **`Classification | Path | Status` 3 列正本** を明記し、`n/a` 行のみの spec-only root テンプレも併記する。
 - Why: parser が探すヘッダ語彙が固定（`path` / `evidence path` / `status`）なため、見出しを変えると table 全体が無視され空判定になる。日本語見出し or 自由列名は table 上は読みやすくても CI gate を必ず落とす。
 - 事例: 2026-05-18 feat/admin-tags-queue-resolver-drawer-mvp-recovery の dev sync push 後 CI で `admin-tags-queue-resolver-drawer`（`Evidence | State` 列） と `ui-prototype-alignment-mvp-recovery/improvements/serial-05-admin-mutation-ui`（`ファイル | 状態 | 用途` 列）の 2 root が同 sniff で fail。両方を `Classification | Path | Status` に書き換えて PASS。
+- 事例（補強・2026-05-18 fix/cf-deploy-esbuild-import-source-staging-failure dev sync）: 同 root の Phase 11 inventory が `File | Purpose | Verdict` 列 + status 値 `completed_local` / `runtime_pending` という非 canonical 表記で同じく fail。`Classification | Path | Status` 3 列 + status `present` への書き換えで CI PASS（commit `e355025e`）。
 
 ## L-DEVSYNC-016: admin 系 server-side fetch は `scripts/e2e-mock-api.mjs` 側に fixture を追加（playwright `page.route()` では intercept できない）（2026-05-18 追加）
 
@@ -169,6 +170,21 @@
 - Why: `fetchAdmin` server component fetch は browser を経由しないため `page.route()` mock は素通り。`auth.ts` の `page.route` は API client (`apiClient`) のような client component fetch にのみ作用する。
 - 事例: 2026-05-18 feat/admin-tags-queue-resolver-drawer-mvp-recovery の e2e で `admin-tags-resolve-drawer.spec.ts` が `getByRole('button', { name: /^mem_alpha/ })` を timeout。`scripts/e2e-mock-api.mjs:502` の `/admin/tags/queue` handler が `{ total: 0, items: [] }` の空 response を返していたため queue list が空。`auth.ts` の `adminTagsQueueBody` と同 shape の mem_alpha (queued) / mem_beta (dlq) 2 行を mock-api に追加して解消。L-DEVSYNC-010 の「fixture 不足を疑う」原則を server-side fetch に拡張するサブルール。
 
+## L-DEVSYNC-017: dev 取り込みで esbuild 等 native binary 依存が version bump した場合の二段復旧（2026-05-18 追加）
+
+- 症状: 2026-05-18 fix/cf-deploy-esbuild-import-source-staging-failure への dev sync merge で `package.json` の `esbuild` が 0.25.4 → 0.27.3 に更新され、以下 2 段の失敗が連鎖した:
+  1. `pnpm install` が `ERR_PNPM_OUTDATED_LOCKFILE` で fail（lockfile に旧 specifier が残存）
+  2. lockfile 更新後も pre-push の `verify-esbuild` が `@esbuild/darwin-arm64 resolved outside cwd` で fail。`node_modules/@esbuild/` 配下に `darwin-x64` のみ存在し host (M1 Pro = arm64) 用 binary が抜けていたため、`require.resolve('@esbuild/darwin-arm64/bin/esbuild')` が親 worktree（`/Users/dm/dev/dev/個人開発/UBM-Hyogo/node_modules/...`）へエスケープ解決された。
+- 解消（二段）:
+  1. **lockfile 同期**: `CI=true pnpm install --no-frozen-lockfile` で lockfile を新 specifier に追随させ、差分（`pnpm-lock.yaml` のみ）を chore commit にする。コミットメッセージ例: `chore: update pnpm-lock for esbuild 0.27.3 after dev sync`
+  2. **arch 整合 + worktree 隔離復旧**: `CI=true pnpm install --force` で `@esbuild/<host-arch>` 用 optional dep を再 install。`ls node_modules/@esbuild/darwin-arm64/bin/esbuild` と `node -e "console.log(require.resolve('@esbuild/darwin-arm64/bin/esbuild'))"` で worktree 内に解決されることを確認してから push。
+- 盲点: `pre-push` の `verify-esbuild` (issue-747 系) はあるが、dev 取り込み直後の version bump は他タスク由来のため feature ブランチ単体では再現せず PR で初めて顕在化しやすい。今回も sync-merge コミットの直後に発生。
+- Why: pnpm の optional dep 解決は install 時点の `node_modules/.pnpm/lock.yaml` snapshot に依存するため、version bump 時は worktree-local `node_modules` の再生成が必須。`--no-frozen-lockfile` は lockfile を更新するが optional platform-specific binary の再配置までは保証しないため、`--force` を二段目に挟む必要がある。
+- 適用判断: dev sync merge 直後の `pnpm install` で `ERR_PNPM_OUTDATED_LOCKFILE` が出たら自動的に `--no-frozen-lockfile` 経路へ。`verify-esbuild` が arm64/x64 解決 fail で reject したら `--force` 経路へ。順序を逆にしてもよいが、`--force` のみだと lockfile mismatch が残ることがあるため二段が安全。
+- How to apply: 本ルールは dev 同期 prompt（ユーザー手元の `branch-sync-and-push` 系）の自律修復ルーチンに組み込む。「CI 失敗 = `pnpm install --force` で再生成」と「lockfile mismatch = `pnpm install --no-frozen-lockfile`」をどちらも自律判断ルール C / E に追加して、ユーザー確認なしで連鎖実行する。
+- 事例: 2026-05-18 fix/cf-deploy-esbuild-import-source-staging-failure dev sync で本ルール適用、pre-push gate 全 PASS（`coverage-guard` / `gate-metadata-guard` / `indexes-drift-guard` / `phase12-compliance-guard` / `verify-esbuild`）の上 push 成功。
+
+
 ## 適用範囲
-- task-specification-creator skill: 本 Lessons Learned は SKILL.md / changelog / references の conflict 解消にもそのまま適用される。Phase 12 で `artifacts.json` を出力する際は L-DEVSYNC-006 の status enum / passed_at / approver / evidence_path を必ず満たす。L-DEVSYNC-008 の "最新 N 件" 規約、L-DEVSYNC-011 の fact migration 判定、L-DEVSYNC-012 の追記型衝突両側採用ルールはいずれも `task-specification-creator/SKILL.md` / 配下 references / changelog 衝突に適用する。
+- task-specification-creator skill: 本 Lessons Learned は SKILL.md / changelog / references の conflict 解消にもそのまま適用される。Phase 12 で `artifacts.json` を出力する際は L-DEVSYNC-006 の status enum / passed_at / approver / evidence_path を必ず満たす。L-DEVSYNC-008 の "最新 N 件" 規約、L-DEVSYNC-011 の fact migration 判定、L-DEVSYNC-012 の追記型衝突両側採用ルールはいずれも `task-specification-creator/SKILL.md` / 配下 references / changelog 衝突に適用する。L-DEVSYNC-015 の native binary version bump 二段復旧は dev sync prompt の自律修復に組み込む。
 - aiworkflow-requirements skill: indexes 再生成は本 skill 配下で完結する。L-DEVSYNC-012 適用後は必ず `pnpm indexes:rebuild` を実行し JSON validity を検証する。

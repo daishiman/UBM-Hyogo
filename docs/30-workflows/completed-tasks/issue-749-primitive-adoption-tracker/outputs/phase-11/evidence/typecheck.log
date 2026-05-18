@@ -1,0 +1,6 @@
+mise WARN  Config files in ~/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260517-084452-wt-9/.mise.toml are not trusted.
+Trust them with `mise trust`. See https://mise.jdx.dev/cli/trust.html for more information.
+
+> @ubm-hyogo/web@0.1.0 typecheck /Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260517-084452-wt-9/apps/web
+> tsc -p tsconfig.json --noEmit
+

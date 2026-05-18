@@ -661,12 +661,14 @@
       "database-schema.md",
       "deployment-details.md",
       "lessons-learned-05a-form-preview-503-2026-05.md",
-      "quality-e2e-testing.md"
+      "quality-e2e-testing.md",
+      "ui-ux-forms.md"
     ],
     "Hyogo": [
       "api-endpoints.md",
       "database-implementation-core.md",
-      "deployment-details.md"
+      "deployment-details.md",
+      "ui-ux-forms.md"
     ],
     "Admin": [
       "api-endpoints.md",
@@ -4643,6 +4645,7 @@
       "lessons-learned-claude-code-permissions-apply-2026-04.md",
       "lessons-learned-coverage-80-enforcement-2026-04.md",
       "lessons-learned-docs-only-lifecycle.md",
+      "lessons-learned-fix-cf-deploy-esbuild-import-source-staging-failure-2026-05.md",
       "lessons-learned-issue-106-admin-notes-repository-2026-05.md",
       "lessons-learned-issue-191-schema-aliases-2026-04.md",
       "lessons-learned-issue-194-identity-merge-2026-05.md",
@@ -5363,6 +5366,7 @@
       "workflow-06b-c-profile-logged-in-visual-evidence-artifact-inventory.md",
       "workflow-06b-c-runtime-evidence-execution-artifact-inventory.md",
       "workflow-e2e-quality-uplift-stage-0-3-artifact-inventory.md",
+      "workflow-fix-cf-deploy-esbuild-import-source-staging-failure-artifact-inventory.md",
       "workflow-issue-106-admin-member-notes-repository-task-spec-artifact-inventory.md",
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
       "workflow-issue-377-retry-tick-and-dlq-audit-artifact-inventory.md",
@@ -6013,7 +6017,8 @@
       "lessons-learned-task-18-w7-verify-tokens-and-playwright-smoke-2026-05.md",
       "lessons-learned-ut-15-waf-rate-limiting.md",
       "r2-storage-decision-guide.md",
-      "testing-playwright-e2e.md"
+      "testing-playwright-e2e.md",
+      "ui-ux-forms.md"
     ],
     "Reference": [
       "claude-code-settings-hierarchy.md",
@@ -6366,6 +6371,7 @@
       "ipc-4-layer-pattern.md",
       "ipc-contract-checklist.md",
       "lessons-learned-07c-audit-log-browsing-ui-2026-05.md",
+      "lessons-learned-fix-cf-deploy-esbuild-import-source-staging-failure-2026-05.md",
       "logging-migration-guide.md",
       "task-workflow-completed-ui-ux-visual-baseline-drift.md",
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
@@ -6527,6 +6533,7 @@
       "workflow-07c-followup-002-attendance-visual-smoke-artifact-inventory.md",
       "workflow-e2e-quality-uplift-stage-0-3-artifact-inventory.md",
       "workflow-e2e-stage-2-2d-contract-artifact-inventory.md",
+      "workflow-fix-cf-deploy-esbuild-import-source-staging-failure-artifact-inventory.md",
       "workflow-i01-toastprovider-root-mount-artifact-inventory.md",
       "workflow-i02-admin-error-type-unify-artifact-inventory.md",
       "workflow-issue-106-admin-member-notes-repository-task-spec-artifact-inventory.md",
@@ -7337,19 +7344,23 @@
       "deployment-cloudflare-opennext-workers.md",
       "deployment-secrets-management.md",
       "lessons-fetch-service-binding-testing.md",
+      "lessons-learned-fix-cf-deploy-esbuild-import-source-staging-failure-2026-05.md",
       "lessons-learned-issue-408-cf-audit-logs-monitoring-2026-05.md",
       "lessons-learned-issue-514-cf-audit-logs-cold-storage-r2-export-2026-05.md",
       "lessons-learned-issue-720-cf-audit-monitor-env-protection-fix-2026-05.md",
-      "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md"
+      "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md",
+      "workflow-fix-cf-deploy-esbuild-import-source-staging-failure-artifact-inventory.md"
     ],
     "cf": [
       "deployment-cloudflare-opennext-workers.md",
       "deployment-cloudflare.md",
       "deployment-secrets-management.md",
+      "lessons-learned-fix-cf-deploy-esbuild-import-source-staging-failure-2026-05.md",
       "lessons-learned-issue-502-dlq-monitoring-dashboard-2026-05.md",
       "lessons-learned-issue-514-cf-audit-logs-cold-storage-r2-export-2026-05.md",
       "lessons-learned-ut-03-sheets-auth-2026-04.md",
       "lessons-learned-ut07b-fu-01-schema-alias-backfill-queue-cron-split-2026-05.md",
+      "workflow-fix-cf-deploy-esbuild-import-source-staging-failure-artifact-inventory.md",
       "workflow-issue-518-cf-audit-logs-monitoring-hold-artifact-inventory.md",
       "workflow-issue-720-cf-audit-monitor-env-protection-fix-artifact-inventory.md"
     ],
@@ -7416,10 +7427,12 @@
       "lessons-learned-06c-admin-ui-2026-04.md",
       "lessons-learned-07c-audit-log-browsing-ui-2026-05.md",
       "lessons-learned-09a-staging-smoke-forms-sync-validation-2026-05.md",
+      "lessons-learned-fix-cf-deploy-esbuild-import-source-staging-failure-2026-05.md",
       "lessons-learned-issue-372-attendance-pagination-2026-05.md",
       "lessons-learned-issue-399-admin-queue-visual-evidence-2026-05.md",
       "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md",
       "lessons-learned-ut07b-schema-alias-hardening-2026-05.md",
+      "workflow-fix-cf-deploy-esbuild-import-source-staging-failure-artifact-inventory.md",
       "workflow-issue-531-runtime-smoke-attendance-provider-artifact-inventory.md",
       "workflow-issue-559-task-03-followup-001-sentry-staging-runtime-evidence-artifact-inventory.md",
       "workflow-task-05-error-boundary-and-staging-smoke-artifact-inventory.md",
@@ -8429,8 +8442,10 @@
     ],
     "failure": [
       "dlq-monitoring.md",
+      "lessons-learned-fix-cf-deploy-esbuild-import-source-staging-failure-2026-05.md",
       "lessons-learned-issue-401-admin-request-notification-2026-05.md",
-      "lessons-learned-ut07b-schema-alias-hardening-2026-05.md"
+      "lessons-learned-ut07b-schema-alias-hardening-2026-05.md",
+      "workflow-fix-cf-deploy-esbuild-import-source-staging-failure-artifact-inventory.md"
     ],
     "sql": [
       "dlq-monitoring.md"
@@ -9890,6 +9905,7 @@
       "lessons-learned-claude-code-permissions-apply-2026-04.md",
       "lessons-learned-coverage-80-enforcement-2026-04.md",
       "lessons-learned-docs-only-lifecycle.md",
+      "lessons-learned-fix-cf-deploy-esbuild-import-source-staging-failure-2026-05.md",
       "lessons-learned-issue-106-admin-notes-repository-2026-05.md",
       "lessons-learned-issue-191-schema-aliases-2026-04.md",
       "lessons-learned-issue-194-identity-merge-2026-05.md",
@@ -10452,11 +10468,13 @@
       "lessons-learned-03a-stablekey-literal-lint-enforcement-2026-05.md",
       "lessons-learned-06b-b-profile-request-pending-banner-sticky-2026-05.md",
       "lessons-learned-06c-C-admin-tags-2026-05.md",
+      "lessons-learned-fix-cf-deploy-esbuild-import-source-staging-failure-2026-05.md",
       "lessons-learned-issue-514-cf-audit-logs-cold-storage-r2-export-2026-05.md",
       "lessons-learned-task-25-followup-loading-state-observation-fixture-2026-05.md",
       "lessons-learned-ut-02a-attendance-write-operations-2026-05.md",
       "workflow-06c-B-admin-members-artifact-inventory.md",
       "workflow-06c-C-admin-tags-artifact-inventory.md",
+      "workflow-fix-cf-deploy-esbuild-import-source-staging-failure-artifact-inventory.md",
       "workflow-issue-516-github-audit-log-cross-source-correlation-artifact-inventory.md",
       "workflow-issue-531-runtime-smoke-attendance-provider-artifact-inventory.md"
     ],
@@ -11737,7 +11755,8 @@
       "workflow-issue-730-phase11-evidence-existence-validator-artifact-inventory.md"
     ],
     "公開": [
-      "lessons-learned-06a-public-web-2026-04.md"
+      "lessons-learned-06a-public-web-2026-04.md",
+      "ui-ux-forms.md"
     ],
     "Landing": [
       "lessons-learned-06a-public-web-2026-04.md"
@@ -11818,7 +11837,9 @@
     ],
     "esbuild": [
       "lessons-learned-06a-public-web-2026-04.md",
+      "lessons-learned-fix-cf-deploy-esbuild-import-source-staging-failure-2026-05.md",
       "lessons-learned-issue-747-vitest-esbuild-node-arch-2026-05.md",
+      "workflow-fix-cf-deploy-esbuild-import-source-staging-failure-artifact-inventory.md",
       "workflow-issue-747-vitest-esbuild-arch-and-worktree-isolation-artifact-inventory.md",
       "workflow-task-10-followup-001-opennext-esbuild-mismatch-artifact-inventory.md"
     ],
@@ -12583,6 +12604,7 @@
       "lessons-learned-task-24.md",
       "lessons-learned-task-26-error-tsx-token-utility-migration-2026-05.md",
       "lessons-learned-task-spec-2d-contract-stage-2-2026-05.md",
+      "ui-ux-forms.md",
       "workflow-ut08-monitoring-alert-design-artifact-inventory.md"
     ],
     "へ寄せる": [
@@ -12710,6 +12732,7 @@
     ],
     "section": [
       "lessons-learned-07b-schema-alias-assignment-2026-04.md",
+      "lessons-learned-task-11-public-top-and-member-list-2026-05.md",
       "lessons-learned-task-14-my-profile-and-requests-2026-05.md"
     ],
     "stateless": [
@@ -13572,6 +13595,26 @@
     "との対応": [
       "lessons-learned-docs-only-lifecycle.md"
     ],
+    "fix": [
+      "lessons-learned-fix-cf-deploy-esbuild-import-source-staging-failure-2026-05.md",
+      "lessons-learned-issue-393-stablekey-literal-legacy-cleanup-2026-05.md",
+      "lessons-learned-web-app-route-bundle-parse-fix-2026-05.md",
+      "logs-archive-2026-01-skill-selector-todo-scan-template.md",
+      "observability-monitoring.md",
+      "workflow-fix-cf-deploy-esbuild-import-source-staging-failure-artifact-inventory.md",
+      "workflow-issue-720-cf-audit-monitor-env-protection-fix-artifact-inventory.md",
+      "workflow-skill-md-codex-validation-fix-artifact-inventory.md",
+      "workflow-web-app-route-bundle-parse-fix-artifact-inventory.md"
+    ],
+    "import": [
+      "lessons-learned-fix-cf-deploy-esbuild-import-source-staging-failure-2026-05.md",
+      "lessons-learned-issue-393-stablekey-literal-legacy-cleanup-2026-05.md",
+      "lessons-learned-issue-623-vitest-spec-suffix-convergence-2026-05.md",
+      "logs-archive-2026-02-skill-import-interface-atoms-rerun.md",
+      "logs-archive-2026-03-line-budget-workflow-consolidation.md",
+      "logs-archive-2026-03-skill-views-completed-move.md",
+      "workflow-fix-cf-deploy-esbuild-import-source-staging-failure-artifact-inventory.md"
+    ],
     "regression": [
       "lessons-learned-issue-106-admin-notes-repository-2026-05.md",
       "lessons-learned-ut-coverage-2026-05-wave.md",
@@ -14314,19 +14357,11 @@
     ],
     "JSX": [
       "lessons-learned-issue-393-stablekey-literal-legacy-cleanup-2026-05.md",
+      "lessons-learned-task-11-public-top-and-member-list-2026-05.md",
       "lessons-learned-task-14-my-profile-and-requests-2026-05.md"
     ],
     "attribute": [
       "lessons-learned-issue-393-stablekey-literal-legacy-cleanup-2026-05.md"
-    ],
-    "fix": [
-      "lessons-learned-issue-393-stablekey-literal-legacy-cleanup-2026-05.md",
-      "lessons-learned-web-app-route-bundle-parse-fix-2026-05.md",
-      "logs-archive-2026-01-skill-selector-todo-scan-template.md",
-      "observability-monitoring.md",
-      "workflow-issue-720-cf-audit-monitor-env-protection-fix-artifact-inventory.md",
-      "workflow-skill-md-codex-validation-fix-artifact-inventory.md",
-      "workflow-web-app-route-bundle-parse-fix-artifact-inventory.md"
     ],
     "候補にならず手作業で": [
       "lessons-learned-issue-393-stablekey-literal-legacy-cleanup-2026-05.md"
@@ -14356,13 +14391,6 @@
     ],
     "への単一方向": [
       "lessons-learned-issue-393-stablekey-literal-legacy-cleanup-2026-05.md"
-    ],
-    "import": [
-      "lessons-learned-issue-393-stablekey-literal-legacy-cleanup-2026-05.md",
-      "lessons-learned-issue-623-vitest-spec-suffix-convergence-2026-05.md",
-      "logs-archive-2026-02-skill-import-interface-atoms-rerun.md",
-      "logs-archive-2026-03-line-budget-workflow-consolidation.md",
-      "logs-archive-2026-03-skill-views-completed-move.md"
     ],
     "で循環依存リスクを潰す": [
       "lessons-learned-issue-393-stablekey-literal-legacy-cleanup-2026-05.md"
@@ -15232,6 +15260,7 @@
       "workflow-admin-member-delete-e2e-spec-artifact-inventory.md",
       "workflow-e2e-quality-uplift-stage-0-3-artifact-inventory.md",
       "workflow-e2e-stage-2-2d-contract-artifact-inventory.md",
+      "workflow-fix-cf-deploy-esbuild-import-source-staging-failure-artifact-inventory.md",
       "workflow-i01-toastprovider-root-mount-artifact-inventory.md",
       "workflow-i02-admin-error-type-unify-artifact-inventory.md",
       "workflow-issue-106-admin-member-notes-repository-task-spec-artifact-inventory.md",
@@ -15979,6 +16008,7 @@
     ],
     "prototype": [
       "lessons-learned-task-06-ui-ux-contract-rewrite-2026-05.md",
+      "lessons-learned-task-11-public-top-and-member-list-2026-05.md",
       "ui-ux-prototype-map.md"
     ],
     "正本順位と視覚詳細委譲の判断基準": [
@@ -16099,6 +16129,15 @@
       "lessons-learned-task-18-w7-verify-tokens-and-playwright-smoke-2026-05.md"
     ],
     "に絞り込み": [
+      "lessons-learned-task-11-public-top-and-member-list-2026-05.md"
+    ],
+    "単一ファイル長時の": [
+      "lessons-learned-task-11-public-top-and-member-list-2026-05.md"
+    ],
+    "bottom": [
+      "lessons-learned-task-11-public-top-and-member-list-2026-05.md"
+    ],
+    "見落とし対策": [
       "lessons-learned-task-11-public-top-and-member-list-2026-05.md"
     ],
     "legal": [
@@ -18602,7 +18641,8 @@
     ],
     "適用": [
       "logs-archive-2026-02-completed-move-preload-sync.md",
-      "skill-ledger-gitignore-policy.md"
+      "skill-ledger-gitignore-policy.md",
+      "ui-ux-forms.md"
     ],
     "再監査補完": [
       "logs-archive-2026-02-completed-move-preload-sync.md"
@@ -22186,6 +22226,12 @@
     "キー設定": [
       "ui-ux-forms.md"
     ],
+    "Form": [
+      "ui-ux-forms.md"
+    ],
+    "constants": [
+      "ui-ux-forms.md"
+    ],
     "ログ表示": [
       "ui-ux-history-panel.md"
     ],
@@ -22500,6 +22546,7 @@
       "workflow-admin-member-delete-e2e-spec-artifact-inventory.md",
       "workflow-e2e-quality-uplift-stage-0-3-artifact-inventory.md",
       "workflow-e2e-stage-2-2d-contract-artifact-inventory.md",
+      "workflow-fix-cf-deploy-esbuild-import-source-staging-failure-artifact-inventory.md",
       "workflow-i01-toastprovider-root-mount-artifact-inventory.md",
       "workflow-i02-admin-error-type-unify-artifact-inventory.md",
       "workflow-issue-106-admin-member-notes-repository-task-spec-artifact-inventory.md",
@@ -22629,6 +22676,7 @@
       "workflow-03a-stablekey-literal-lint-enforcement-artifact-inventory.md",
       "workflow-07c-followup-002-attendance-visual-smoke-artifact-inventory.md",
       "workflow-e2e-stage-2-2d-contract-artifact-inventory.md",
+      "workflow-fix-cf-deploy-esbuild-import-source-staging-failure-artifact-inventory.md",
       "workflow-i01-toastprovider-root-mount-artifact-inventory.md",
       "workflow-issue-352-postmortem-template-automation-artifact-inventory.md",
       "workflow-issue-377-retry-tick-and-dlq-audit-artifact-inventory.md",
@@ -22776,6 +22824,7 @@
       "workflow-06b-c-runtime-evidence-execution-artifact-inventory.md",
       "workflow-2b-admin-identity-conflicts-spec-artifact-inventory.md",
       "workflow-e2e-quality-uplift-stage-0-3-artifact-inventory.md",
+      "workflow-fix-cf-deploy-esbuild-import-source-staging-failure-artifact-inventory.md",
       "workflow-issue-377-retry-tick-and-dlq-audit-artifact-inventory.md",
       "workflow-issue-502-ut-07b-fu-01-followup-dlq-monitoring-dashboard-artifact-inventory.md",
       "workflow-issue-747-vitest-esbuild-arch-and-worktree-isolation-artifact-inventory.md",
