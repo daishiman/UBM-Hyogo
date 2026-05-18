@@ -29,10 +29,10 @@ The workflow is reclassified from docs-only/spec_created to `implemented_local_e
 
 ## 4. Phase 11 evidence file inventory
 
-| Evidence | Verdict |
-| --- | --- |
-| `outputs/phase-11/manual-smoke-log.md` | completed (local AC grep evidence recorded) |
-| screenshots | completed (not applicable: NON_VISUAL) |
+| Path | Status | Runtime interpretation |
+| --- | --- | --- |
+| `outputs/phase-11/manual-smoke-log.md` | present | local AC grep evidence recorded |
+| screenshots | n/a | not applicable (NON_VISUAL) |
 
 ## 5. Phase 12 strict 7 file inventory
 
