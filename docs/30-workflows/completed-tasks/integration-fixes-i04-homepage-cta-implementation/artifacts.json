@@ -38,5 +38,41 @@
       ]
     },
     "phase-13": { "status": "blocked", "blocker": "user 明示承認待ち" }
+  },
+  "metadata": {
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-05-17T17:30:00+09:00",
+        "evidence_path": "docs/30-workflows/completed-tasks/integration-fixes-i04-homepage-cta-implementation/index.md",
+        "approver": "daishiman",
+        "notes": "spec review completed before implementation"
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "passed",
+        "passed_at": "2026-05-17T17:30:00+09:00",
+        "evidence_path": "docs/30-workflows/completed-tasks/integration-fixes-i04-homepage-cta-implementation/outputs/phase-12/implementation-guide.md",
+        "approver": "daishiman",
+        "notes": "final implementation deliverable validated at Phase 9/10"
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "passed",
+        "passed_at": "2026-05-17T17:30:00+09:00",
+        "evidence_path": "docs/30-workflows/completed-tasks/integration-fixes-i04-homepage-cta-implementation/outputs/phase-12/phase12-task-spec-compliance-check.md",
+        "approver": "daishiman",
+        "notes": "Phase 12 strict outputs and artifacts parity verified"
+      },
+      {
+        "gate_id": "Gate-D",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/integration-fixes-i04-homepage-cta-implementation/outputs/phase-12/implementation-guide.md",
+        "approver": "daishiman",
+        "notes": "commit, push, and PR are user-gated"
+      }
+    ]
   }
 }
