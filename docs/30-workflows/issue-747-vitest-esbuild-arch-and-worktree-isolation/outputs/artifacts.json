@@ -16,7 +16,33 @@
     "issue_reference_mode": "refs_only",
     "recovered_from_unassigned": "docs/30-workflows/unassigned-task/parallel-09-followup-002-vitest-esbuild-version-alignment.md",
     "phase12StrictFiles": 7,
-    "implementation_status": "implemented_local_runtime_blocked_node_arch"
+    "implementation_status": "implemented_local_runtime_blocked_node_arch",
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/issue-747-vitest-esbuild-arch-and-worktree-isolation/outputs/phase-11.md",
+        "approver": "daishiman",
+        "notes": "Phase 11 evidence partially captured (worktree isolation + esbuild version parity PASS locally). verify-node-arch remains blocked on host Rosetta/x64 Node — full evidence gated on arm64 native Node reinstall."
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "passed",
+        "passed_at": "2026-05-17T00:00:00+09:00",
+        "evidence_path": "docs/30-workflows/issue-747-vitest-esbuild-arch-and-worktree-isolation/outputs/phase-12/phase12-task-spec-compliance-check.md",
+        "approver": "daishiman",
+        "notes": "Phase 12 strict 7 outputs present (main, implementation-guide, system-spec-update-summary, documentation-changelog, unassigned-task-detection, skill-feedback-report, phase12-task-spec-compliance-check)."
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/issue-747-vitest-esbuild-arch-and-worktree-isolation/outputs/phase-13.md",
+        "approver": "daishiman",
+        "notes": "arm64 Node reinstall on host, full local runtime evidence recapture, commit/push/PR/GitHub Actions runtime evidence remain user-gated."
+      }
+    ]
   },
   "phases": [
     { "phase": 1, "name": "要件定義 / Current Baseline", "file": "outputs/phase-01.md", "status": "spec_created" },

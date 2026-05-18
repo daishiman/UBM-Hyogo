@@ -27,20 +27,20 @@
 
 Phase 11 evidence is partially captured. The canonical paths use tracked `.txt` files, and failed evidence is treated as a blocker rather than PASS evidence.
 
-| Evidence | Path | State |
+| Evidence | Path | Status |
 | --- | --- | --- |
-| baseline arch | `outputs/phase-11/evidence/baseline-arch.txt` | spec_created (planned) |
-| baseline spawn trace | `outputs/phase-11/evidence/baseline-spawn-trace.txt` | spec_created (planned) |
-| baseline esbuild versions | `outputs/phase-11/evidence/baseline-esbuild-versions.txt` | spec_created (planned) |
-| post-fix arch | `outputs/phase-11/evidence/post-arch.txt` | blocked: local Node is x64 |
-| post-fix isolation | `outputs/phase-11/evidence/post-isolation.txt` | pass from repository root |
-| post-fix version | `outputs/phase-11/evidence/post-esbuild.txt` | pass from repository root |
-| focused vitest A | `outputs/phase-11/evidence/vitest-parallel09-primitives.txt` | pass |
-| focused vitest B | `outputs/phase-11/evidence/vitest-useAdminMutation.txt` | pass |
-| typecheck | `outputs/phase-11/evidence/typecheck.txt` | spec_created (planned) |
-| lint | `outputs/phase-11/evidence/lint.txt` | spec_created (planned) |
-| lefthook smoke | `outputs/phase-11/evidence/lefthook-pre-push.txt` | spec_created (planned) |
-| CI run URLs | `outputs/phase-11/evidence/ci-run-urls.txt` | spec_created (planned) |
+| baseline arch | `outputs/phase-11/evidence/baseline-arch.txt` | present |
+| baseline spawn trace | `outputs/phase-11/evidence/baseline-spawn-trace.txt` | present |
+| baseline esbuild versions | `outputs/phase-11/evidence/baseline-esbuild-versions.txt` | present |
+| post-fix arch | `outputs/phase-11/evidence/post-arch.txt` | present |
+| post-fix isolation | `outputs/phase-11/evidence/post-isolation.txt` | present |
+| post-fix version | `outputs/phase-11/evidence/post-esbuild.txt` | present |
+| focused vitest A | `outputs/phase-11/evidence/vitest-parallel09-primitives.txt` | present |
+| focused vitest B | `outputs/phase-11/evidence/vitest-useAdminMutation.txt` | present |
+| typecheck | `outputs/phase-11/evidence/typecheck.txt` | present |
+| lint | `outputs/phase-11/evidence/lint.txt` | present |
+| lefthook smoke | `outputs/phase-11/evidence/lefthook-pre-push.txt` | present |
+| CI run URLs | `outputs/phase-11/evidence/ci-run-urls.txt` | pending |
 
 ## Phase 12 strict 7 file inventory
 
