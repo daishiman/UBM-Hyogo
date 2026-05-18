@@ -1,10 +1,5 @@
 import { notFound } from "next/navigation";
-import { readRawEnv } from "../../../src/lib/env";
-
-function smokeFixtureEnabled() {
-  const env = readRawEnv();
-  return env["ENABLE_STAGING_SMOKE_FIXTURE"] === "1" && env["ENVIRONMENT"] !== "production";
-}
+import { smokeFixtureEnabled } from "../_lib/fixture-guard";
 
 export default function SmokeErrorBoundaryFixture() {
   if (!smokeFixtureEnabled()) {
