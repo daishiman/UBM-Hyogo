@@ -500,7 +500,33 @@ const server = createServer(async (req, res) => {
     }
   }
   if (req.method === "GET" && pathname === "/admin/tags/queue") {
-    return safeJson(res, 200, { total: 0, items: [] }, schemas.AdminTagQueueZ);
+    // admin-tags-resolve-drawer.spec.ts が evidence capture で mem_alpha (queued) / mem_beta (dlq) を必要とする。
+    // 同 spec 以外 (admin-pages.spec.ts / full-smoke.spec.ts) は heading 存在のみ検証するので items 有無は影響しない。
+    const status = url.searchParams.get("status");
+    const items = [
+      {
+        queueId: "tag_q_001",
+        memberId: "mem_alpha",
+        responseId: "res_alpha",
+        status: "queued",
+        suggestedTagsJson: JSON.stringify(["founder", "kobe"]),
+        reason: "playwright fixture",
+        createdAt: "2026-05-12T00:00:00.000Z",
+        updatedAt: "2026-05-12T00:00:00.000Z",
+      },
+      {
+        queueId: "tag_q_dlq",
+        memberId: "mem_beta",
+        responseId: "res_beta",
+        status: "dlq",
+        suggestedTagsJson: JSON.stringify(["review-required"]),
+        reason: "retry limit exceeded",
+        createdAt: "2026-05-12T00:10:00.000Z",
+        updatedAt: "2026-05-12T00:20:00.000Z",
+      },
+    ];
+    const filtered = status ? items.filter((it) => it.status === status) : items;
+    return safeJson(res, 200, { total: filtered.length, items: filtered }, schemas.AdminTagQueueZ);
   }
   if (req.method === "GET" && pathname === "/admin/schema/diff") {
     return safeJson(res, 200, adminSchemaDiff, schemas.AdminSchemaDiffZ);
