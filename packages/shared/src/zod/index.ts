@@ -4,3 +4,4 @@ export * from "./schema";
 export * from "./response";
 export * from "./identity";
 export * from "./viewmodel";
+export * from "./sync-log";
