@@ -45,7 +45,7 @@ const PAGED_SURFACES = [
   "apps/web/src/components/admin/AuditLogPanel.tsx",
 ];
 
-describe("Issue #749 — primitive adoption", () => {
+describe("Issue 749 — primitive adoption", () => {
   it.each(MUTATING_PANELS)(
     "%s routes mutation through features/admin/hooks/useAdminMutation (C2)",
     (_panel, hookHost) => {

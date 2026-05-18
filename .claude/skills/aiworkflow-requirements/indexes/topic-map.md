@@ -3446,6 +3446,15 @@ node scripts/list-specs.js --topics
 | Follow-up 未タスク | L81 |
 | Validation Chain（spec_created） | L90 |
 
+### references/workflow-ui-prototype-design-system-foundation-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Summary | L3 |
+| Canonical Sources | L14 |
+| Workflow Outputs | L36 |
+| Implementation Boundary | L51 |
+
 ### references/workflow-ui-ux-visual-baseline-drift.md
 
 | セクション | 行 |
