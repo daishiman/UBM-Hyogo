@@ -18,9 +18,9 @@
         "gate_id": "Gate-A",
         "status": "passed",
         "passed_at": "2026-05-15T00:00:00+09:00",
-        "evidence_path": "docs/30-workflows/completed-tasks/parallel-09-ux-cross-cutting/outputs/phase-03/design-review.md",
+        "evidence_path": "docs/30-workflows/completed-tasks/parallel-09-ux-cross-cutting/outputs/phase-11/main.md",
         "approver": "spec-contract",
-        "notes": "spec_review: Phase 1-13 contract evidence exists; app implementation remains user-gated"
+        "notes": "spec_review proxy: original phase-03/design-review.md absent (archived prior to lifecycle move); Phase 11 main.md is the closest extant Phase ≤3 evidence anchor"
       },
       {
         "gate_id": "Gate-B",
