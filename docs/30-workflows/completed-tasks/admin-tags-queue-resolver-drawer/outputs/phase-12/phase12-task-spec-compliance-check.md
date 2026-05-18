@@ -31,15 +31,19 @@ No staging / production runtime PASS wording is used. Local Vitest and VISUAL sc
 
 Phase 11 screenshot evidence was captured in this review cycle using the dedicated drawer evidence spec and DLQ fixture row.
 
-| Evidence | State |
-| --- | --- |
-| screenshots 5 PNG | PASS |
-| local Vitest | PASS: apps/web 626 tests passed / 1 skipped |
-| Playwright drawer evidence | PASS: 1 passed |
-| axe | PASS: `outputs/phase-11/logs/axe.json` violations 0 |
-| typecheck / lint / design tokens | PASS |
-| `phase11-capture-metadata.json` | present |
-| `manual-test-result.md` | present |
+| Classification | Path | Status |
+| --- | --- | --- |
+| screenshot | outputs/phase-11/screenshots/admin-tags-drawer-closed.png | present |
+| screenshot | outputs/phase-11/screenshots/admin-tags-drawer-confirmed-open.png | present |
+| screenshot | outputs/phase-11/screenshots/admin-tags-drawer-rejected-open.png | present |
+| screenshot | outputs/phase-11/screenshots/admin-tags-drawer-validation-error.png | present |
+| screenshot | outputs/phase-11/screenshots/admin-tags-drawer-terminal-disabled.png | present |
+| axe report | outputs/phase-11/logs/axe.json | present |
+| capture metadata | outputs/phase-11/phase11-capture-metadata.json | present |
+| screenshot plan | outputs/phase-11/screenshot-plan.json | present |
+| manual test result | outputs/phase-11/manual-test-result.md | present |
+
+Summary: local Vitest PASS (apps/web 626 tests passed / 1 skipped), Playwright drawer evidence PASS (1 passed), axe violations 0, typecheck / lint / design tokens PASS. No staging / production runtime PASS wording.
 
 ## Phase 12 strict 7 file inventory
 

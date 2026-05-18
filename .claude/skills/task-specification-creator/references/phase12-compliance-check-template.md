@@ -36,6 +36,32 @@ the task specification, actual changed files, evidence files, and system ledgers
 > したがって `Phase 11 evidence file inventory` の見出しテキストおよび
 > `| Path | Status | ... |` 形式のテーブル構造（`Path` / `Status` 列必須）も
 > heading SSOT として固定する。drift 時は parser / verifier / fixtures を同 PR で更新する。
+>
+> **Phase 11 evidence inventory 正本テーブル例（Refs L-DEVSYNC-015 / SP-DEVSYNC-015）**:
+>
+> implementation-complete root（runtime evidence あり）:
+>
+> ```markdown
+> ## Phase 11 evidence file inventory
+>
+> | Classification | Path | Status |
+> | --- | --- | --- |
+> | screenshot | outputs/phase-11/screenshots/foo.png | present |
+> | axe report | outputs/phase-11/logs/axe.json | present |
+> | manual test result | outputs/phase-11/manual-test-result.md | present |
+> ```
+>
+> spec-only / docs-only root（runtime evidence なし）:
+>
+> ```markdown
+> ## Phase 11 evidence file inventory
+>
+> | Classification | Path | Status |
+> | --- | --- | --- |
+> | manual test result | outputs/phase-11/manual-test-result.md | n/a |
+> ```
+>
+> 列見出しは **`Classification` / `Path` / `Status`**（小文字統一）で固定。`Evidence` / `State` / `ファイル` / `状態` 等の亜種は parser に拾われず CI 必 fail。`Status` は `present` / `pending` / `n/a` の 3 値のみ。空テーブル禁止（`<empty-or-missing-table>` で fail）。
 
 ## Verification Commands
 

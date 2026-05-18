@@ -144,6 +144,30 @@
 - task spec 作成時の方針: Phase 11 evidence command は `tee outputs/phase-11/local-test.log` 等を使ってよい（既に `.gitignore` で例外化済）。`.evidence/` 以下や workflow root 外への log 書き出しは禁止。
 - Why: Phase 11 evidence は CI で物理実在検証されるため tracked でなければならない。`.gitignore` の `*.log` 一律除外は build artifact 用で、task evidence には適用してはならない。同じ事象は task 作成のたびに繰り返されるため `.gitignore` のグローバル negation で恒久解消する。
 
+## L-DEVSYNC-015: Phase 11 evidence inventory テーブルは `Classification | Path | Status` 3列必須（2026-05-18 追加）
+
+- 症状: `verify-phase12-compliance` が `missing or invalid Phase 11 evidence file claim(s): <empty-or-missing-table>` で fail。原因は `outputs/phase-12/phase12-task-spec-compliance-check.md` の `## Phase 11 evidence file inventory` 配下テーブルに **`path` / `evidence path` 列、または `status` 列が無い** こと。`scripts/lib/phase12-compliance/parse-phase11-evidence.ts` の `parsePhase11EvidenceClaims` は `header.findIndex((cell) => cell === "path" || cell === "evidence path")` および `cell === "status"` で必須カラムを探索し、見つからなければ全行をスキップして空配列を返す。空配列は `verify-phase11-evidence-existence.ts` で `<empty-or-missing-table>` に変換される。
+- 解消: テーブル見出しを **`| Classification | Path | Status |`** に統一する。日本語見出し（`ファイル | 状態 | 用途`）や `Evidence | State` 等の亜種は parser に拾われないため避ける。
+  - `Classification` 列: 任意（`screenshot` / `axe report` / `manual test result` / `capture metadata` 等の自由文字列）
+  - `Path` 列: workflow root からの相対 path（例: `outputs/phase-11/screenshots/foo.png`）。`present` 行は物理実在検査される
+  - `Status` 列: `present` / `pending` / `n/a` のいずれか（小文字）。それ以外は `invalidStatuses` で fail
+- 適用判断: `verify-phase12-compliance` が走る全 workflow root（`docs/30-workflows/completed-tasks/**` 配下 / `unassigned-task/` 配下 / `verify-phase12-compliance.ts` で発見される全 root）の `phase12-task-spec-compliance-check.md` に等しく適用。spec_created 段階の docs-only root でも 1 行以上の `n/a` 行で table を成立させる必要がある（空テーブルは即 fail）。
+- task spec 作成時の方針: `phase12-task-spec-compliance-check.md` テンプレ（`.claude/skills/task-specification-creator/references/phase12-compliance-check-template.md`）に **`Classification | Path | Status` 3 列正本** を明記し、`n/a` 行のみの spec-only root テンプレも併記する。
+- Why: parser が探すヘッダ語彙が固定（`path` / `evidence path` / `status`）なため、見出しを変えると table 全体が無視され空判定になる。日本語見出し or 自由列名は table 上は読みやすくても CI gate を必ず落とす。
+- 事例: 2026-05-18 feat/admin-tags-queue-resolver-drawer-mvp-recovery の dev sync push 後 CI で `admin-tags-queue-resolver-drawer`（`Evidence | State` 列） と `ui-prototype-alignment-mvp-recovery/improvements/serial-05-admin-mutation-ui`（`ファイル | 状態 | 用途` 列）の 2 root が同 sniff で fail。両方を `Classification | Path | Status` に書き換えて PASS。
+
+## L-DEVSYNC-016: admin 系 server-side fetch は `scripts/e2e-mock-api.mjs` 側に fixture を追加（playwright `page.route()` では intercept できない）（2026-05-18 追加）
+
+- 症状: admin 画面 (e.g. `/admin/tags`) の Playwright spec が「item が表示されない → 60s タイムアウト」で CI fail。`apps/web/playwright/fixtures/auth.ts` には `adminTagsQueueBody()` と `page.route()` の `/admin/tags/queue` GET handler が登録済みで、ローカルでは動くケースもある。実体は `fetchAdmin` (`apps/web/src/lib/admin/server-fetch.ts`) が **Next.js server component から `INTERNAL_API_BASE_URL` (`http://127.0.0.1:8787`、CI では `scripts/e2e-mock-api.mjs`) へ server-to-server fetch** を行うため、`page.route()` (browser context だけを intercept) では捕捉不可能。auth.ts の `adminTagsQueueBody` は browser-side からの直接 fetch のみに作用する。
+- 解消手順:
+  1. 失敗 spec のページ component が叩く endpoint と fetch 経路を特定（server component / `fetchAdmin` 経由 vs browser fetch / `apiClient` 経由）
+  2. server-side fetch であれば `scripts/e2e-mock-api.mjs` 側の同 endpoint handler を編集し、必要な fixture rows を返すように更新（schema は `packages/contracts/src/index.mjs` の `schemas.*Z` を `safeJson(res, 200, body, schemas.XxxZ)` で必ず通すこと）
+  3. browser-side fetch なら従来通り `playwright/fixtures/auth.ts` の `page.route()` block で対応
+  4. mock-api 編集後はローカル `pnpm e2e` で対象 spec が通ることを確認
+- 適用判断: admin 系画面の spec が「heading は出るが list 行が出ない」「button name 系 locator がタイムアウト」のとき、まず `grep -n 'pathname === "/<endpoint>"' scripts/e2e-mock-api.mjs` で mock-api 側が空配列・空 body を返していないか確認。空なら fixture rows を入れる。
+- Why: `fetchAdmin` server component fetch は browser を経由しないため `page.route()` mock は素通り。`auth.ts` の `page.route` は API client (`apiClient`) のような client component fetch にのみ作用する。
+- 事例: 2026-05-18 feat/admin-tags-queue-resolver-drawer-mvp-recovery の e2e で `admin-tags-resolve-drawer.spec.ts` が `getByRole('button', { name: /^mem_alpha/ })` を timeout。`scripts/e2e-mock-api.mjs:502` の `/admin/tags/queue` handler が `{ total: 0, items: [] }` の空 response を返していたため queue list が空。`auth.ts` の `adminTagsQueueBody` と同 shape の mem_alpha (queued) / mem_beta (dlq) 2 行を mock-api に追加して解消。L-DEVSYNC-010 の「fixture 不足を疑う」原則を server-side fetch に拡張するサブルール。
+
 ## 適用範囲
 - task-specification-creator skill: 本 Lessons Learned は SKILL.md / changelog / references の conflict 解消にもそのまま適用される。Phase 12 で `artifacts.json` を出力する際は L-DEVSYNC-006 の status enum / passed_at / approver / evidence_path を必ず満たす。L-DEVSYNC-008 の "最新 N 件" 規約、L-DEVSYNC-011 の fact migration 判定、L-DEVSYNC-012 の追記型衝突両側採用ルールはいずれも `task-specification-creator/SKILL.md` / 配下 references / changelog 衝突に適用する。
 - aiworkflow-requirements skill: indexes 再生成は本 skill 配下で完結する。L-DEVSYNC-012 適用後は必ず `pnpm indexes:rebuild` を実行し JSON validity を検証する。
