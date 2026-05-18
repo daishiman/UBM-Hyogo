@@ -1,0 +1,16 @@
+Command:
+
+```bash
+df -h /System/Volumes/Data
+du -sh ~/Library/Caches/ms-playwright apps/web/.next apps/web/.open-next 2>/dev/null || true
+```
+
+Observed before Playwright run:
+
+```text
+Filesystem      Size    Used   Avail Capacity iused ifree %iused  Mounted on
+/dev/disk3s5   460Gi   419Gi    11Gi    98%    9.8M  114M    8%   /System/Volumes/Data
+528M    /Users/dm/Library/Caches/ms-playwright
+```
+
+ENOSPC did not recur during the 2026-05-17 Issue #746 Playwright run.

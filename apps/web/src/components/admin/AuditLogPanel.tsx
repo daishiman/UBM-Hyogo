@@ -1,5 +1,9 @@
 import Link from "next/link";
 import type { AdminAuditListItem, AdminAuditListResponse } from "../../lib/admin/types";
+import { FormField } from "../ui/FormField";
+import { Input } from "../ui/Input";
+import { EmptyState } from "../ui/EmptyState";
+import { Pagination } from "../ui/Pagination";
 
 export interface AuditSearchValues {
   readonly action?: string;
@@ -167,30 +171,24 @@ export function AuditLogPanel({
           marginBottom: 20,
         }}
       >
-        <label>
-          action
-          <input name="action" defaultValue={values.action ?? ""} placeholder="attendance.add" />
-        </label>
-        <label>
-          actorEmail
-          <input name="actorEmail" defaultValue={values.actorEmail ?? ""} inputMode="email" />
-        </label>
-        <label>
-          targetType
-          <input name="targetType" defaultValue={values.targetType ?? ""} placeholder="meeting | admin_member_note" />
-        </label>
-        <label>
-          targetId
-          <input name="targetId" defaultValue={values.targetId ?? ""} />
-        </label>
-        <label>
-          from (JST)
-          <input name="from" type="datetime-local" defaultValue={values.fromLocal ?? ""} />
-        </label>
-        <label>
-          to (JST)
-          <input name="to" type="datetime-local" defaultValue={values.toLocal ?? ""} />
-        </label>
+        <FormField name="action" label="action">
+          <Input name="action" defaultValue={values.action ?? ""} placeholder="attendance.add" />
+        </FormField>
+        <FormField name="actorEmail" label="actorEmail">
+          <Input name="actorEmail" defaultValue={values.actorEmail ?? ""} inputMode="email" />
+        </FormField>
+        <FormField name="targetType" label="targetType">
+          <Input name="targetType" defaultValue={values.targetType ?? ""} placeholder="meeting | admin_member_note" />
+        </FormField>
+        <FormField name="targetId" label="targetId">
+          <Input name="targetId" defaultValue={values.targetId ?? ""} />
+        </FormField>
+        <FormField name="from" label="from (JST)">
+          <Input name="from" type="datetime-local" defaultValue={values.fromLocal ?? ""} />
+        </FormField>
+        <FormField name="to" label="to (JST)">
+          <Input name="to" type="datetime-local" defaultValue={values.toLocal ?? ""} />
+        </FormField>
         <label>
           limit
           <select name="limit" defaultValue={values.limit ?? "50"}>
@@ -209,7 +207,7 @@ export function AuditLogPanel({
 
       {error ? <p role="alert">監査ログを読み込めませんでした: {error}</p> : null}
       {!error && items.length === 0 ? (
-        <div data-component="empty-state">該当する監査ログはありません。</div>
+        <EmptyState title="該当する監査ログはありません。" />
       ) : null}
 
       {items.length > 0 ? (
@@ -231,13 +229,14 @@ export function AuditLogPanel({
               </tbody>
             </table>
           </div>
-          <nav aria-label="監査ログページ送り">
-            {data?.nextCursor ? (
-              <Link href={buildAuditHref(values, data.nextCursor)}>次のページ</Link>
-            ) : (
-              <span>次のページはありません</span>
-            )}
-          </nav>
+          <Pagination
+            current={1}
+            hasPrev={false}
+            hasNext={Boolean(data?.nextCursor)}
+            nextHref={data?.nextCursor ? buildAuditHref(values, data.nextCursor) : undefined}
+            nextLabel="次のページ"
+          />
+          {!data?.nextCursor ? <span>次のページはありません</span> : null}
         </>
       ) : null}
     </section>

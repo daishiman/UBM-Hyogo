@@ -10,6 +10,7 @@ import {
   useState,
   type KeyboardEvent as ReactKeyboardEvent,
 } from "react";
+import { useRouter } from "next/navigation";
 import {
   AuthRequiredError,
   requestVisibilityChange,
@@ -35,6 +36,7 @@ export function VisibilityRequestDialog({
   onClose,
   onSubmitted,
 }: VisibilityRequestDialogProps) {
+  const router = useRouter();
   const titleId = useId();
   const descId = useId();
   const dialogRef = useRef<HTMLDivElement>(null);
@@ -75,10 +77,12 @@ export function VisibilityRequestDialog({
         ...(reason.length > 0 ? { reason } : {}),
       });
       if (res.ok) {
+        router.refresh();
         onSubmitted(res.accepted);
         onClose();
       } else {
         if (res.code === "DUPLICATE_PENDING_REQUEST") {
+          router.refresh();
           onSubmitted({
             queueId: "existing-pending",
             type: "visibility_request",
