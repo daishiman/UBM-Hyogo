@@ -27,14 +27,25 @@ Phase statuses remain `completed` for local implementation/spec artifacts. Local
 
 ## Phase 11 evidence file inventory
 
-| Evidence | Status |
-| --- | --- |
-| `outputs/phase-11/main.md` | present |
-| `apps/web/app/visual-harness/[name]/page.tsx` | present |
-| `apps/web/app/visual-harness/[name]/VisualScenarios.client.tsx` | present |
-| `apps/web/playwright/tests/visual/parallel-09-primitives.spec.ts` | present |
-| `apps/web/playwright.parallel09.config.ts` | present |
-| `outputs/phase-11/screenshots/*.png` | completed, 12 PNGs, all non-empty and all <= 500KB |
+| Classification | Path | Status |
+| --- | --- | --- |
+| Phase 11 summary | `outputs/phase-11/main.md` | present |
+| Phase 11 screenshot (1x) | `outputs/phase-11/screenshots/01-formfield-error.png` | present |
+| Phase 11 screenshot (2x) | `outputs/phase-11/screenshots/01-formfield-error@2x.png` | present |
+| Phase 11 screenshot (1x) | `outputs/phase-11/screenshots/02-icon-4sizes.png` | present |
+| Phase 11 screenshot (2x) | `outputs/phase-11/screenshots/02-icon-4sizes@2x.png` | present |
+| Phase 11 screenshot (1x) | `outputs/phase-11/screenshots/03-breadcrumb.png` | present |
+| Phase 11 screenshot (2x) | `outputs/phase-11/screenshots/03-breadcrumb@2x.png` | present |
+| Phase 11 screenshot (1x) | `outputs/phase-11/screenshots/04-focus-visible.png` | present |
+| Phase 11 screenshot (2x) | `outputs/phase-11/screenshots/04-focus-visible@2x.png` | present |
+| Phase 11 screenshot (1x) | `outputs/phase-11/screenshots/05-pagination-disabled.png` | present |
+| Phase 11 screenshot (2x) | `outputs/phase-11/screenshots/05-pagination-disabled@2x.png` | present |
+| Phase 11 screenshot (1x) | `outputs/phase-11/screenshots/06-empty-state.png` | present |
+| Phase 11 screenshot (2x) | `outputs/phase-11/screenshots/06-empty-state@2x.png` | present |
+| Visual harness route (outside workflow root) | `apps/web/app/visual-harness/[name]/page.tsx` | n/a |
+| Visual harness scenarios (outside workflow root) | `apps/web/app/visual-harness/[name]/VisualScenarios.client.tsx` | n/a |
+| Playwright spec (outside workflow root) | `apps/web/playwright/tests/visual/parallel-09-primitives.spec.ts` | n/a |
+| Playwright config (outside workflow root) | `apps/web/playwright.parallel09.config.ts` | n/a |
 
 ## Phase 12 strict 7 file inventory
 

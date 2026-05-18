@@ -41,22 +41,149 @@
         "docs/30-workflows/task-18-fu-full-visual-regression-suite/",
         "docs/30-workflows/task-22-ui-mvp-w8-par-regression-smoke/"
       ]
-    }
+    },
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-05-17T00:00:00+09:00",
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-746-parallel-09-playwright-visual-evidence-completion/phase-3-architecture.md",
+        "approver": "daishiman",
+        "notes": "design_review: recovery workflow architecture for parallel-09 visual evidence completion"
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "passed",
+        "passed_at": "2026-05-17T00:00:00+09:00",
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-746-parallel-09-playwright-visual-evidence-completion/outputs/phase-12/implementation-guide.md",
+        "approver": "daishiman",
+        "notes": "implementation_review: 12 PNG visual evidence captured at parent canonical screenshots dir; Playwright run 6 passed"
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-746-parallel-09-playwright-visual-evidence-completion/phase-13-pr.md",
+        "approver": "daishiman",
+        "notes": "user_gated: commit, push, PR, GitHub Issue #746 mutation, and downstream adoption require explicit user approval"
+      }
+    ]
   },
   "phases": [
-    { "phase": 1, "name": "要件定義", "status": "completed", "outputs": ["phase-1-requirements.md"] },
-    { "phase": 2, "name": "設計", "status": "completed", "outputs": ["phase-2-design.md"] },
-    { "phase": 3, "name": "アーキテクチャ", "status": "completed", "outputs": ["phase-3-architecture.md"] },
-    { "phase": 4, "name": "実装計画", "status": "completed", "outputs": ["phase-4-implementation-plan.md"] },
-    { "phase": 5, "name": "テスト計画", "status": "completed", "outputs": ["phase-5-test-plan.md"] },
-    { "phase": 6, "name": "品質ゲート", "status": "completed", "outputs": ["phase-6-quality-gates.md"] },
-    { "phase": 7, "name": "Evidence collection", "status": "completed", "outputs": ["phase-7-evidence-collection.md"] },
-    { "phase": 8, "name": "状態遷移", "status": "completed", "outputs": ["phase-8-state-transition.md"] },
-    { "phase": 9, "name": "Rollback", "status": "completed", "outputs": ["phase-9-rollback.md"] },
-    { "phase": 10, "name": "Operational runbook", "status": "completed", "outputs": ["phase-10-operational-runbook.md"] },
-    { "phase": 11, "name": "Visual evidence", "status": "completed", "outputs": ["phase-11-visual-evidence.md", "outputs/phase-11/screenshots/README.md", "outputs/phase-11/playwright-run.txt", "outputs/phase-11/png-inventory.txt", "outputs/phase-11/disk-space.txt"] },
-    { "phase": 12, "name": "Open runtime boundary close-out", "status": "completed", "outputs": ["phase-12-open-runtime-boundary.md", "outputs/phase-12/implementation-guide.md", "outputs/phase-12/system-spec-update-summary.md", "outputs/phase-12/documentation-changelog.md", "outputs/phase-12/unassigned-task-detection.md", "outputs/phase-12/skill-feedback-report.md", "outputs/phase-12/phase12-task-spec-compliance-check.md"] },
-    { "phase": 13, "name": "PR", "status": "pending_user_approval", "outputs": ["phase-13-pr.md"] }
+    {
+      "phase": 1,
+      "name": "要件定義",
+      "status": "completed",
+      "outputs": [
+        "phase-1-requirements.md"
+      ]
+    },
+    {
+      "phase": 2,
+      "name": "設計",
+      "status": "completed",
+      "outputs": [
+        "phase-2-design.md"
+      ]
+    },
+    {
+      "phase": 3,
+      "name": "アーキテクチャ",
+      "status": "completed",
+      "outputs": [
+        "phase-3-architecture.md"
+      ]
+    },
+    {
+      "phase": 4,
+      "name": "実装計画",
+      "status": "completed",
+      "outputs": [
+        "phase-4-implementation-plan.md"
+      ]
+    },
+    {
+      "phase": 5,
+      "name": "テスト計画",
+      "status": "completed",
+      "outputs": [
+        "phase-5-test-plan.md"
+      ]
+    },
+    {
+      "phase": 6,
+      "name": "品質ゲート",
+      "status": "completed",
+      "outputs": [
+        "phase-6-quality-gates.md"
+      ]
+    },
+    {
+      "phase": 7,
+      "name": "Evidence collection",
+      "status": "completed",
+      "outputs": [
+        "phase-7-evidence-collection.md"
+      ]
+    },
+    {
+      "phase": 8,
+      "name": "状態遷移",
+      "status": "completed",
+      "outputs": [
+        "phase-8-state-transition.md"
+      ]
+    },
+    {
+      "phase": 9,
+      "name": "Rollback",
+      "status": "completed",
+      "outputs": [
+        "phase-9-rollback.md"
+      ]
+    },
+    {
+      "phase": 10,
+      "name": "Operational runbook",
+      "status": "completed",
+      "outputs": [
+        "phase-10-operational-runbook.md"
+      ]
+    },
+    {
+      "phase": 11,
+      "name": "Visual evidence",
+      "status": "completed",
+      "outputs": [
+        "phase-11-visual-evidence.md",
+        "outputs/phase-11/screenshots/README.md",
+        "outputs/phase-11/playwright-run.txt",
+        "outputs/phase-11/png-inventory.txt",
+        "outputs/phase-11/disk-space.txt"
+      ]
+    },
+    {
+      "phase": 12,
+      "name": "Open runtime boundary close-out",
+      "status": "completed",
+      "outputs": [
+        "phase-12-open-runtime-boundary.md",
+        "outputs/phase-12/implementation-guide.md",
+        "outputs/phase-12/system-spec-update-summary.md",
+        "outputs/phase-12/documentation-changelog.md",
+        "outputs/phase-12/unassigned-task-detection.md",
+        "outputs/phase-12/skill-feedback-report.md",
+        "outputs/phase-12/phase12-task-spec-compliance-check.md"
+      ]
+    },
+    {
+      "phase": 13,
+      "name": "PR",
+      "status": "pending_user_approval",
+      "outputs": [
+        "phase-13-pr.md"
+      ]
+    }
   ],
   "targetFiles": [
     "apps/web/playwright/tests/visual/parallel-09-primitives.spec.ts",
