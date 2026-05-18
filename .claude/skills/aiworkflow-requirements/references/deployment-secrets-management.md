@@ -579,10 +579,23 @@ done
 
 Issue #718 legacy token revocation is `implemented-local-runtime-pending / implementation / NON_VISUAL` as of 2026-05-16. `backend-ci.yml` uses the existing `CF_TOKEN_D1_*` and `CF_TOKEN_WORKERS_*` names; `CLOUDFLARE_API_TOKEN_DEPLOY_*` is not introduced. `web-cd.yml` keeps the current runtime secret name `CLOUDFLARE_API_TOKEN`; whether its value is legacy is operator-only evidence. Token id, suffix, account id, value hash, token preview, and 1Password URI must not be written to docs, logs, PR body, or evidence.
 
+### Issue #765 1Password op:// path consolidation contract
+
+Issue #765 is `spec_created_blocked_by_oidc_support / implementation / NON_VISUAL` as of 2026-05-18. Until Cloudflare OIDC deploy support and production cutover evidence exist, `web-cd.yml` continues to use the GitHub environment secret name `CLOUDFLARE_API_TOKEN`; only the 1Password path contract is formalized here.
+
+| op:// path | Role | Runtime status | Consumer |
+| --- | --- | --- | --- |
+| `op://UBM-Hyogo/Cloudflare/api_token_staging` | canonical path | pending Gate-B user-gated mutation | local `.env` / staging deploy token reference |
+| `op://UBM-Hyogo/Cloudflare/api_token_production` | canonical path | pending Gate-B user-gated mutation | local `.env` / production deploy token reference |
+| legacy Cloudflare deploy-token op:// paths | deprecated (#765, 2026-05-18) | archive pending; physical delete is Gate B' | historical/operator-only references |
+
+WAF operations use `op://UBM-Hyogo/Cloudflare-WAF/api_token_waf` and are not deploy-token canonical paths. Evidence must remain path-only and must not include token values, token previews, suffixes, account IDs, value hashes, or resolved 1Password URIs.
+
 ## 変更履歴
 
 | 日付 | バージョン | 変更内容 |
 | ---- | ---------- | -------- |
+| 2026-05-18 | 1.4.5 | issue-765: 1Password Cloudflare deploy-token op:// path consolidation を `spec_created_blocked_by_oidc_support` として同期。canonical path は `op://UBM-Hyogo/Cloudflare/api_token_staging` / `op://UBM-Hyogo/Cloudflare/api_token_production`、legacy deploy-token path は `deprecated (#765, 2026-05-18)`。actual archive / `cf.sh whoami` / physical delete は user-gated。 |
 | 2026-05-16 | 1.4.4 | Issue #718 legacy Cloudflare API token revocation workflow を `implemented-local-runtime-pending` として同期。backend-ci は `CF_TOKEN_D1_*` / `CF_TOKEN_WORKERS_*` へ切替済み、web-cd は current runtime 名 `CLOUDFLARE_API_TOKEN` を維持し value provenance を operator-only evidence とする。`CLOUDFLARE_API_TOKEN_DEPLOY_*` 新設は禁止。 |
 | 2026-05-10 | 1.4.3 | Issue #587 rotation scripts (`scripts/cf-audit-log/rotation/`) と canary workflow (`.github/workflows/cf-audit-log-artifact-canary.yml`) が op 参照名のみを受理することを正本化。candidate/previous resolved value を inputs / logs / artifact upload に残さない境界を実装で固定 |
 | 2026-05-16 | 1.4.4 | Issue #717 Cloudflare Workers OIDC support revalidation を同期。公式 Workers GitHub Actions / wrangler-action docs は API token 認証を案内しており、supported OIDC deploy path が確認できないため `web-cd.yml` は no-code。Issue #640 step-scoped `CLOUDFLARE_API_TOKEN` boundary を current contract として維持し、production cutover / apps-api D1 cutover / 1Password restructure は blocked follow-up 化 |

@@ -1,0 +1,111 @@
+{
+  "task_name": "issue-765-1p-vault-restructure-oidc-cutover",
+  "task_path": "docs/30-workflows/issue-765-1p-vault-restructure-oidc-cutover",
+  "github_issue": 765,
+  "github_issue_state": "OPEN",
+  "wave": 1,
+  "execution_mode": "sequential_with_user_gated_mutation",
+  "depends_on": [
+    "issue-717-followup-001",
+    "issue-717-followup-002",
+    "issue-640-followup-002"
+  ],
+  "blocks": [],
+  "created_at": "2026-05-18T00:00:00+09:00",
+  "status": "spec_created",
+  "metadata": {
+    "taskType": "implementation",
+    "docs_only": false,
+    "visualEvidence": "NON_VISUAL",
+    "workflow_state": "spec_created_blocked_by_oidc_support",
+    "implementationCategory": "security-hardening",
+    "scope": "onepassword_vault_op_uri_consolidation",
+    "domain": "local_dev_cloudflare_secret_path",
+    "governance_mutation_user_gate": true,
+    "read_only_evidence_allowed_pre_gate": [
+      "rg -n 'op://' .env.example apps/web/.dev.vars.example scripts docs .claude",
+      "rg -n 'CLOUDFLARE_API_TOKEN' .env.example apps/web/.dev.vars.example scripts docs .claude",
+      "op vault list",
+      "op item list --vault UBM-Hyogo"
+    ],
+    "mutation_commands": [
+      "op item create/edit/archive/delete (operator only; values/URIs/secrets are never recorded)",
+      "edit .env / .env.example; apps/web/.dev.vars.example is baseline verification only unless a deploy-token op:// reference is discovered (user approval required for commit)",
+      "edit scripts/cf.sh / docs/runbooks/cloudflare-waf-operations.md / deployment-secrets-management.md (user approval required)"
+    ],
+    "user_approval_marker": "outputs/phase-13/user-approval-issue-765-<timestamp>.md",
+    "planned_read_only_evidence_files": [
+      "outputs/phase-1/op-uri-inventory-current.md",
+      "outputs/phase-1/acceptance-criteria.md",
+      "outputs/phase-1/deprecation-window-policy.md",
+      "outputs/phase-11/main.md",
+      "outputs/phase-11/grep-gate-after.log",
+      "outputs/phase-11/evidence-ledger.md"
+    ],
+    "planned_mutation_evidence_files": [
+      "outputs/phase-11/operator-approval-record.md",
+      "outputs/phase-11/onepassword-item-status-after.md",
+      "outputs/phase-11/cf-whoami-after.log"
+    ],
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/issue-765-1p-vault-restructure-oidc-cutover/outputs/phase-3/go-no-go-decision.md",
+        "approver": "daishiman",
+        "notes": "Phase 3 design review で canonical op:// path / deprecation window / rollback design / aiworkflow current contract を確定後 GO 判定"
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/issue-765-1p-vault-restructure-oidc-cutover/outputs/phase-11/main.md",
+        "approver": "daishiman",
+        "notes": "Phase 11 で手動 1Password vault mutation + local dev smoke の evidence 収集後 pass"
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/issue-765-1p-vault-restructure-oidc-cutover/phase-13-pr.md",
+        "approver": "daishiman",
+        "notes": "commit / push / PR 専用 gate。1Password mutation は Gate-B、物理 delete は Gate-B-prime"
+      },
+      {
+        "gate_id": "Gate-B-PRIME",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/issue-765-1p-vault-restructure-oidc-cutover/outputs/phase-12/unassigned-task-detection.md",
+        "approver": "daishiman",
+        "notes": "legacy item physical delete is separate user-gated sub-gate after archive evidence and deprecation window; pending until Gate-B evidence exists"
+      }
+    ]
+  },
+  "phases": [
+    {"phase": 1, "name": "requirements", "file": "phase-1-requirements.md", "status": "spec_created", "outputs": ["outputs/phase-1/op-uri-inventory-current.md", "outputs/phase-1/acceptance-criteria.md", "outputs/phase-1/deprecation-window-policy.md"], "depends_on_phases": [], "user_approval_required": false},
+    {"phase": 2, "name": "design", "file": "phase-2-design.md", "status": "spec_created", "outputs": ["outputs/phase-2/onepassword-vault-design.md", "outputs/phase-2/op-uri-migration-table.md", "outputs/phase-2/file-diff-plan.md", "outputs/phase-2/rollback-design.md"], "depends_on_phases": [1], "user_approval_required": false},
+    {"phase": 3, "name": "design-review", "file": "phase-3-design-review.md", "status": "spec_created", "outputs": ["outputs/phase-3/review-checklist.md", "outputs/phase-3/go-no-go-decision.md"], "depends_on_phases": [2], "user_approval_required": false},
+    {"phase": 4, "name": "test-plan", "file": "phase-4-test-plan.md", "status": "spec_created", "outputs": ["outputs/phase-4/test-cases.md", "outputs/phase-4/test-execution-plan.md"], "depends_on_phases": [3], "user_approval_required": false},
+    {"phase": 5, "name": "implementation", "file": "phase-5-implementation.md", "status": "spec_created", "outputs": ["outputs/phase-5/implementation-diff.md", "outputs/phase-5/file-change-checklist.md"], "depends_on_phases": [4], "user_approval_required": false},
+    {"phase": 6, "name": "test-additions", "file": "phase-6-test-additions.md", "status": "spec_created", "outputs": ["outputs/phase-6/grep-gate-script-spec.md", "outputs/phase-6/test-results.md", "outputs/phase-6/negative-case-record.md"], "depends_on_phases": [5], "user_approval_required": false},
+    {"phase": 7, "name": "coverage", "file": "phase-7-coverage.md", "status": "spec_created", "outputs": ["outputs/phase-7/coverage-ac-exemption.md"], "depends_on_phases": [6], "user_approval_required": false},
+    {"phase": 8, "name": "refactor", "file": "phase-8-refactor.md", "status": "spec_created", "outputs": ["outputs/phase-8/refactor-checklist.md", "outputs/phase-8/redaction-check-result.md"], "depends_on_phases": [7], "user_approval_required": false},
+    {"phase": 9, "name": "qa", "file": "phase-9-qa.md", "status": "spec_created", "outputs": ["outputs/phase-9/qa-checklist.md", "outputs/phase-9/ci-gate-results.md"], "depends_on_phases": [8], "user_approval_required": true},
+    {"phase": 10, "name": "final-review", "file": "phase-10-final-review.md", "status": "spec_created", "outputs": ["outputs/phase-10/go-decision.md", "outputs/phase-10/sign-off-record.md", "outputs/phase-10/user-gate-checklist.md"], "depends_on_phases": [9], "user_approval_required": true},
+    {"phase": 11, "name": "manual-test", "file": "phase-11-manual-test.md", "status": "spec_created_blocked_by_oidc_support", "outputs": ["outputs/phase-11/main.md", "outputs/phase-11/operator-approval-record.md", "outputs/phase-11/onepassword-item-status-before.md", "outputs/phase-11/onepassword-item-status-after.md", "outputs/phase-11/cf-whoami-after.log", "outputs/phase-11/grep-gate-after.log", "outputs/phase-11/evidence-ledger.md"], "depends_on_phases": [10], "user_approval_required": true},
+    {"phase": 12, "name": "documentation", "file": "phase-12-documentation.md", "status": "spec_created", "outputs": ["outputs/phase-12/main.md", "outputs/phase-12/implementation-guide.md", "outputs/phase-12/phase12-task-spec-compliance-check.md", "outputs/phase-12/system-spec-update-summary.md", "outputs/phase-12/skill-feedback-report.md", "outputs/phase-12/unassigned-task-detection.md", "outputs/phase-12/documentation-changelog.md"], "depends_on_phases": [11], "user_approval_required": false},
+    {"phase": 13, "name": "pr", "file": "phase-13-pr.md", "status": "spec_created", "outputs": ["outputs/phase-13/pr-body.md", "outputs/phase-13/user-approval-issue-765-<timestamp>.md"], "depends_on_phases": [12], "user_approval_required": true}
+  ],
+  "specs_referenced": [
+    "docs/30-workflows/unassigned-task/issue-717-followup-003-1password-restructure.md",
+    ".claude/skills/aiworkflow-requirements/references/deployment-secrets-management.md",
+    ".claude/skills/task-specification-creator/references/non-visual-irreversible-task-rules.md"
+  ],
+  "secrets_introduced": [],
+  "invariants_touched": [
+    "1Password item の値・URI・token 値・suffix は仕様書・evidence・コミットに記録しない（path 識別子のみ記録）",
+    "1Password vault mutation・GitHub Secrets mutation・.env 編集の commit は user-gated",
+    "legacy op:// path 参照は immediate 削除せず deprecation 期間を設けて rollback path を維持する"
+  ]
+}
