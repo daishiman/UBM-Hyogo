@@ -8,6 +8,17 @@
 
 本ドキュメントは、複雑なタスクを単一責務の原則に基づいて分解し、各サブタスクに最適なスラッシュコマンド・エージェント・スキルの組み合わせを選定するためのガイドラインを定義する。
 
+### Issue #765 1Password vault restructure for OIDC cutover（2026-05-18）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `spec_created_blocked_by_oidc_support / implementation / NON_VISUAL` |
+| 成果物 | `docs/30-workflows/issue-765-1p-vault-restructure-oidc-cutover/` |
+| source | `docs/30-workflows/unassigned-task/issue-717-followup-003-1password-restructure.md` |
+| 目的 | Cloudflare deploy token の 1Password op:// path を `op://UBM-Hyogo/Cloudflare/api_token_staging` / `api_token_production` へ整理する条件付き仕様 |
+| boundary | aiworkflow current contract では `web-cd` の `CLOUDFLARE_API_TOKEN` direct-token path が維持されているため、OIDC supported deploy path / production cutover evidence まで Phase 11 mutation は blocked |
+| user gate | 1Password archive, `bash scripts/cf.sh whoami`, commit, push, PR, Gate B' physical delete |
+
 ### UI Prototype Design System Foundation（2026-05-18）
 
 | 項目 | 値 |

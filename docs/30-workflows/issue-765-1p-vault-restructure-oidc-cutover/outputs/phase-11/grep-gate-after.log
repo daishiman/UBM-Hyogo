@@ -1,0 +1,4 @@
+status=pending_implementation
+command="bash scripts/verify-onepassword-op-uri-canonical.sh"
+exit=not_executed
+

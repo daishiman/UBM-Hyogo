@@ -425,6 +425,16 @@
 | Environment secret 0 件問題 | smoke 起動前に `bash scripts/smoke/provision-staging-secrets.sh` + name-only inventory を必須化（`deployment-secrets-management.md`） |
 | lessons-learned | `references/lessons-learned-ci-pipeline-recovery-2026-05.md`（L-CIPR-001〜006） |
 
+### Issue #765 1Password Vault Restructure（2026-05-18）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/issue-765-1p-vault-restructure-oidc-cutover/` |
+| 状態 | `spec_created_blocked_by_oidc_support / implementation / NON_VISUAL` |
+| deploy token canonical candidates | `op://UBM-Hyogo/Cloudflare/api_token_staging` / `op://UBM-Hyogo/Cloudflare/api_token_production` |
+| boundary | OIDC supported deploy path / production cutover evidence が揃うまで Phase 11 mutation は blocked |
+| user gate | 1Password archive, `bash scripts/cf.sh whoami`, commit, push, PR, Gate B' physical delete |
+
 ### E2E quality uplift Stage 2 / 2a admin requests（2026-05-09）
 
 | 目的 | 参照先 |

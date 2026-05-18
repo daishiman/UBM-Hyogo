@@ -18,7 +18,7 @@ Cloudflare Free プランの範囲で edge security を確立する。
 
 ## 2. 前提
 
-- `CLOUDFLARE_API_TOKEN` を 1Password に保管（`op://Cloudflare/API Token/credential`）
+- WAF 専用 token を 1Password に保管（`op://UBM-Hyogo/Cloudflare-WAF/api_token_waf`）
   - 必要 scope: `Zone.WAF` / `Zone.RateLimit` / `Zone.Read`
 - `.env` に `op://...` 参照のみを記載（実値禁止）
 - `op` CLI / `jq` がローカルにインストール済み
