@@ -1,0 +1,5 @@
+[verify-node-arch] FAIL: process.arch=x64, expected arm64
+Hint: mise が Rosetta 2 経由の x64 Node を install しています。
+     terminal を arm64 native で起動し、mise install を再実行してください。
+     詳細: docs/30-workflows/issue-747-vitest-esbuild-arch-and-worktree-isolation/runbook.md §4
+exit=1

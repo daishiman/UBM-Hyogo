@@ -1,0 +1,48 @@
+name: verify-esbuild
+
+on:
+  pull_request:
+  push:
+    branches: [dev, main]
+
+jobs:
+  verify:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-14]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10.33.2
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24.15.0
+          cache: pnpm
+
+      - name: Show host
+        run: |
+          uname -m
+          node -p "process.platform + ' ' + process.arch"
+
+      - name: pnpm install (frozen)
+        run: pnpm install --frozen-lockfile
+
+      - name: verify:node-arch
+        run: pnpm verify:node-arch
+
+      - name: verify:worktree-isolation
+        run: pnpm verify:worktree-isolation
+
+      - name: verify:esbuild
+        run: pnpm verify:esbuild
+
+      - name: focused vitest — parallel09-primitives
+        run: pnpm test:parallel09-primitives
+
+      - name: focused vitest — useAdminMutation
+        run: pnpm test:parallel09-use-admin-mutation

@@ -16,6 +16,19 @@
 
 ---
 
+### Issue #747 Vitest esbuild arch & worktree isolation（2026-05-17）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/issue-747-vitest-esbuild-arch-and-worktree-isolation/` |
+| 状態 | `implemented_local_runtime_blocked_node_arch / implementation / NON_VISUAL / PARTIAL_LOCAL_EVIDENCE_NODE_ARCH_BLOCKED` |
+| source | Issue #747 CLOSED / `docs/30-workflows/unassigned-task/parallel-09-followup-002-vitest-esbuild-version-alignment.md` consumed |
+| root cause | Node arch x64 under Rosetta 2 + worktree `node_modules` missing `@esbuild/darwin-x64` + parent repository `@esbuild/darwin-x64@0.25.4` leakage |
+| contract | root `esbuild@0.27.3` devDependency; `verify-node-arch`, `verify-worktree-isolation`, `verify-esbuild`, `verify:vitest-runtime`; focused Vitest root scripts `test:parallel09-primitives` / `test:parallel09-use-admin-mutation` |
+| evidence boundary | focused Vitest 2 specs, worktree isolation, and esbuild version parity pass locally; `verify:node-arch` blocks because local Node is x64; CI / commit / push / PR remain user-gated |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-747-vitest-esbuild-arch-and-worktree-isolation-artifact-inventory.md` |
+
+### UT-07A-FU-01 memberTags.assignTagsToMember cleanup（2026-05-15）
 ### parallel-09 UX cross-cutting primitives visual evidence（Issue #746 / 2026-05-17）
 
 | 目的 | 参照先 |
