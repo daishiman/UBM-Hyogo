@@ -48,8 +48,10 @@ describe("MemberDetailSections", () => {
     );
     const rows = container.querySelectorAll(".kv-row");
     const stableRows = container.querySelectorAll("[data-stable-key]");
+    const visibilityRows = container.querySelectorAll("[data-visibility]");
     expect(rows.length).toBe(2);
     expect(stableRows.length).toBe(rows.length);
+    expect(visibilityRows.length).toBe(rows.length);
   });
 
   it("excludes url kind from KVList (TC-U-03)", () => {

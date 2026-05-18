@@ -194,6 +194,52 @@
     color: var(--ubm-color-text-muted);
   }
 
+  /* === ui-prototype-design-system-foundation selector hooks === */
+  [data-component="member-card"] {
+    border-radius: var(--ubm-radius-md);
+    border: 1px solid var(--ubm-color-border-default);
+    background: var(--ubm-color-surface-panel);
+    box-shadow: var(--ubm-shadow-xs);
+    transition:
+      border-color 160ms ease,
+      box-shadow 160ms ease,
+      transform 160ms ease;
+  }
+
+  [data-component="member-card"]:hover,
+  [data-component="member-card"]:focus-within {
+    border-color: var(--ubm-color-border-strong);
+    box-shadow: var(--ubm-shadow-sm);
+    transform: translateY(-1px);
+  }
+
+  [data-component="member-tags"] [data-component="badge"],
+  [data-component="tag-pill"] {
+    border-radius: 999px;
+  }
+
+  [data-component="tag-pill"][aria-selected="true"] {
+    border-color: var(--ubm-color-accent);
+    background: var(--ubm-color-accent-soft);
+    color: var(--ubm-color-accent-ink);
+  }
+
+  [data-visibility] {
+    border-inline-start: 3px solid var(--ubm-color-border-default);
+  }
+
+  [data-visibility="public"] {
+    border-inline-start-color: var(--ubm-color-ok);
+  }
+
+  [data-visibility="member"] {
+    border-inline-start-color: var(--ubm-color-info);
+  }
+
+  [data-visibility="admin"] {
+    border-inline-start-color: var(--ubm-color-warn);
+  }
+
   /* === parallel-09 G9-6 mobile responsive helpers (使用は parallel-01〜08 側) === */
   /* 既存 Tailwind breakpoint (sm/md/lg/xl) のみ利用。ここでは追加 breakpoint を定義しない */
 
