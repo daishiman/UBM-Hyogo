@@ -1,0 +1,234 @@
+{
+  "schemaVersion": 1,
+  "taskId": "PARALLEL-09-UX",
+  "title": "19 routes 横断 UX primitives 統一 (G9-1〜G9-9)",
+  "metadata": {
+    "taskType": "implementation",
+    "visualEvidence": "VISUAL_ON_EXECUTION",
+    "workflow_state": "implemented_local_evidence_captured",
+    "implementation_status": "implementation_complete_visual_evidence_captured",
+    "sourceIssue": null,
+    "canonicalRoot": "docs/30-workflows/completed-tasks/parallel-09-ux-cross-cutting",
+    "archivedFrom": "docs/30-workflows/parallel-09-ux-cross-cutting",
+    "parentWorkflow": "docs/30-workflows/ui-prototype-alignment-mvp-recovery",
+    "originSpec": "docs/30-workflows/ui-prototype-alignment-mvp-recovery/improvements/parallel-09-ux-cross-cutting/spec.md",
+    "scopeBoundary": "This wave implements the shared apps/web UI primitives, local typecheck, and Issue #746 Playwright visual evidence capture. Commit, push, PR, staging/production smoke, and downstream 19-route adoption remain user-gated.",
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-05-15T00:00:00+09:00",
+        "evidence_path": "docs/30-workflows/completed-tasks/parallel-09-ux-cross-cutting/outputs/phase-11/main.md",
+        "approver": "spec-contract",
+        "notes": "spec_review proxy: original phase-03/design-review.md absent (archived prior to lifecycle move); Phase 11 main.md is the closest extant Phase ≤3 evidence anchor"
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "passed",
+        "passed_at": "2026-05-15T00:00:00+09:00",
+        "evidence_path": "docs/30-workflows/completed-tasks/parallel-09-ux-cross-cutting/outputs/phase-12/implementation-guide.md",
+        "approver": "daishiman",
+        "notes": "implementation_review: apps/web primitives, local typecheck, and Issue #746 visual evidence completed"
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/parallel-09-ux-cross-cutting/outputs/phase-13/pr-summary.md",
+        "approver": "daishiman",
+        "notes": "user_gated: commit, push, PR, staging/production smoke, and downstream 19-route adoption require explicit user approval"
+      }
+    ],
+    "dependencies": {
+      "upstream": [
+        "docs/30-workflows/ui-prototype-alignment-mvp-recovery/SCOPE.md",
+        "docs/30-workflows/ui-prototype-alignment-mvp-recovery/improvements/parallel-03-prototype-ux-css/spec.md",
+        "docs/00-getting-started-manual/specs/09b-design-tokens.md",
+        "docs/00-getting-started-manual/specs/09c-primitives.md"
+      ],
+      "downstream": [
+        "docs/30-workflows/ui-prototype-alignment-mvp-recovery/improvements/parallel-01-navigation/spec.md",
+        "docs/30-workflows/ui-prototype-alignment-mvp-recovery/improvements/parallel-02-state-sync/spec.md",
+        "docs/30-workflows/ui-prototype-alignment-mvp-recovery/improvements/serial-05-admin-mutation-ui/"
+      ]
+    }
+  },
+  "phases": [
+    {
+      "phase": 1,
+      "name": "要件定義",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-01/requirements.md"
+      ]
+    },
+    {
+      "phase": 2,
+      "name": "設計",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-02/g9-1-form-validation-design.md",
+        "outputs/phase-02/g9-2-empty-state-design.md",
+        "outputs/phase-02/g9-3-pagination-design.md",
+        "outputs/phase-02/g9-4-icon-size-design.md",
+        "outputs/phase-02/g9-5-breadcrumb-design.md",
+        "outputs/phase-02/g9-6-mobile-responsive-design.md",
+        "outputs/phase-02/g9-7-focus-visible-design.md",
+        "outputs/phase-02/g9-8-mutation-guard-design.md",
+        "outputs/phase-02/g9-9-form-state-preserve-design.md"
+      ]
+    },
+    {
+      "phase": 3,
+      "name": "設計レビュー",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-03/design-review.md"
+      ]
+    },
+    {
+      "phase": 4,
+      "name": "タスク分解",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-04/task-breakdown.md",
+        "outputs/phase-04/critical-path.md"
+      ]
+    },
+    {
+      "phase": 5,
+      "name": "実装計画",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-05/implementation-plan.md"
+      ]
+    },
+    {
+      "phase": 6,
+      "name": "実装手順",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-06/implementation-steps.md"
+      ]
+    },
+    {
+      "phase": 7,
+      "name": "テスト計画",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-07/test-plan.md",
+        "outputs/phase-07/test-results.md"
+      ]
+    },
+    {
+      "phase": 8,
+      "name": "ドキュメント更新",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-08/docs-updates.md"
+      ]
+    },
+    {
+      "phase": 9,
+      "name": "受入確認",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-09/acceptance.md"
+      ]
+    },
+    {
+      "phase": 10,
+      "name": "リファクタ",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-10/refactor-summary.md"
+      ]
+    },
+    {
+      "phase": 11,
+      "name": "VISUAL evidence",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-11/main.md"
+      ]
+    },
+    {
+      "phase": 12,
+      "name": "正本同期",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-12/main.md",
+        "outputs/phase-12/implementation-guide.md",
+        "outputs/phase-12/system-spec-update-summary.md",
+        "outputs/phase-12/documentation-changelog.md",
+        "outputs/phase-12/unassigned-task-detection.md",
+        "outputs/phase-12/skill-feedback-report.md",
+        "outputs/phase-12/phase12-task-spec-compliance-check.md"
+      ]
+    },
+    {
+      "phase": 13,
+      "name": "PR・振り返り",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-13/pr-summary.md"
+      ]
+    }
+  ],
+  "targetFiles": [
+    "apps/web/src/components/ui/FormField.tsx",
+    "apps/web/src/components/ui/Pagination.tsx",
+    "apps/web/src/components/ui/Icon.tsx",
+    "apps/web/src/components/ui/EmptyState.tsx",
+    "apps/web/src/components/admin/Breadcrumb.tsx",
+    "apps/web/src/lib/useAdminMutation.ts",
+    "apps/web/src/styles/globals.css"
+  ],
+  "designsInPhase02": [
+    {
+      "id": "G9-1",
+      "name": "Form validation 共通仕様",
+      "ac": "AC-1"
+    },
+    {
+      "id": "G9-2",
+      "name": "Empty state 表示",
+      "ac": "AC-2"
+    },
+    {
+      "id": "G9-3",
+      "name": "Pagination meta + cursor UI",
+      "ac": "AC-3"
+    },
+    {
+      "id": "G9-4",
+      "name": "Icon size convention",
+      "ac": "AC-4"
+    },
+    {
+      "id": "G9-5",
+      "name": "Breadcrumb primitive",
+      "ac": "AC-5"
+    },
+    {
+      "id": "G9-6",
+      "name": "Mobile responsive contract",
+      "ac": "AC-6"
+    },
+    {
+      "id": "G9-7",
+      "name": "focus-visible 統一",
+      "ac": "AC-7"
+    },
+    {
+      "id": "G9-8",
+      "name": "Concurrent mutation guard",
+      "ac": "AC-8"
+    },
+    {
+      "id": "G9-9",
+      "name": "Form state preserve on error",
+      "ac": "AC-9"
+    }
+  ]
+}

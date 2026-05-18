@@ -1,0 +1,4 @@
+# baseline (pre-fix) — captured at issue-747 spec creation
+host (node_modules/esbuild/package.json): 0.27.3
+bin (parent ../../node_modules/@esbuild/darwin-x64): 0.25.4  ← drift
+lock (pnpm-lock.yaml): 0.27.3

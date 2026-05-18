@@ -43,6 +43,10 @@ logs/
 outputs/post-release-dashboard/**
 !docs/30-workflows/issue-586-post-switch-7day-close-out/outputs/phase-11/evidence/
 !docs/30-workflows/issue-586-post-switch-7day-close-out/outputs/phase-11/evidence/*.log
+# Phase 11 evidence logs（issue-730 evidence-existence validator が物理実在を検証するため
+# task workflow root 配下の outputs/phase-11/*.log は tracked にする）
+!docs/30-workflows/**/outputs/phase-11/*.log
+!docs/30-workflows/**/outputs/phase-11/**/*.log
 
 # Environment
 .env
