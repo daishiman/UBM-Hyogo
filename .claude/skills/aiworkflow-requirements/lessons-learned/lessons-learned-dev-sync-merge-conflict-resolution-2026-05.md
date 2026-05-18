@@ -124,6 +124,14 @@
 - Why: 同じ CI 失敗を毎タスク繰り返す recurring pattern は「task 作成時にテンプレートを使わない」ことが根本原因。テンプレート遵守を pre-push gate で機械的に強制し、PR 到達前に修正させる。
 - How to apply: 既存 task の retroactive 修正手順 — `outputs/phase-12/phase12-task-spec-compliance-check.md` を canonical 9 heading に書き換え、両 `artifacts.json` に `metadata.gates` 配列（Gate-A spec_review / Gate-B implementation_review / Gate-C external_ops の 3 件、`status` / `passed_at` / `evidence_path` / `approver` / `notes` 必須）を追加。`pnpm verify:phase12-compliance` と `pnpm gate-metadata:validate` がローカルで通ることを確認してから commit / push。
 
+## L-DEVSYNC-014: Phase 11 evidence `.log` ファイルの `.gitignore` 除外問題（2026-05-18 追加）
+
+- 症状: `verify-phase12-compliance` の Phase 11 evidence existence validator (issue-730) が `outputs/phase-11/local-test.log` 等を `missing-evidence` として fail。ローカルでは file が存在するため `pnpm verify:phase12-compliance` は PASS するが、CI 環境では `.gitignore` の `*.log` パターンで除外されてリポジトリに含まれず、validator が物理実在を検出できない。
+- 解消: `.gitignore` に `!docs/30-workflows/**/outputs/phase-11/*.log` と `!docs/30-workflows/**/outputs/phase-11/**/*.log` の **negation pattern** を追加し、Phase 11 evidence 配下の log のみ tracked にする。既存 task の `.log` ファイルは `git add` し直して commit する。
+- 適用判断: Phase 11 evidence で `.log` 拡張子を使う場合は **必ず** `.gitignore` negation が効いていることを `git check-ignore -v <path>` で確認する。tracked になっていれば該当行が出力されない（exit code 1）。
+- task spec 作成時の方針: Phase 11 evidence command は `tee outputs/phase-11/local-test.log` 等を使ってよい（既に `.gitignore` で例外化済）。`.evidence/` 以下や workflow root 外への log 書き出しは禁止。
+- Why: Phase 11 evidence は CI で物理実在検証されるため tracked でなければならない。`.gitignore` の `*.log` 一律除外は build artifact 用で、task evidence には適用してはならない。同じ事象は task 作成のたびに繰り返されるため `.gitignore` のグローバル negation で恒久解消する。
+
 ## 適用範囲
 - task-specification-creator skill: 本 Lessons Learned は SKILL.md / changelog / references の conflict 解消にもそのまま適用される。Phase 12 で `artifacts.json` を出力する際は L-DEVSYNC-006 の status enum / passed_at / approver / evidence_path を必ず満たす。L-DEVSYNC-008 の "最新 N 件" 規約、L-DEVSYNC-011 の fact migration 判定、L-DEVSYNC-012 の追記型衝突両側採用ルールはいずれも `task-specification-creator/SKILL.md` / 配下 references / changelog 衝突に適用する。
 - aiworkflow-requirements skill: indexes 再生成は本 skill 配下で完結する。L-DEVSYNC-012 適用後は必ず `pnpm indexes:rebuild` を実行し JSON validity を検証する。
