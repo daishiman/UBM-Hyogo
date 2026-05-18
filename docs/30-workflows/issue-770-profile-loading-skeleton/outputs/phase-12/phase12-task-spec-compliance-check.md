@@ -1,10 +1,10 @@
 # Phase 12 Task Spec Compliance Check
 
-## Summary Verdict
+## Summary verdict
 
 `PASS_BOUNDARY_SYNCED_RUNTIME_PENDING`. The workflow has implementation code, focused test file, root artifacts, Phase 12 strict 7 outputs, local command evidence, local component screenshot evidence, parent/source sync, and aiworkflow same-wave sync entries. Authenticated runtime visual evidence remains user-gated.
 
-## Changed-files Classification
+## Changed-files classification
 
 | Area | Files | Classification |
 |---|---|---|
@@ -15,26 +15,26 @@
 | source task | `docs/30-workflows/unassigned-task/integration-fixes-i07-profile-loading-skeleton.md` | consumed trace |
 | skill ledger | `.claude/skills/aiworkflow-requirements/**` selected files | same-wave sync |
 
-## Workflow State And Phase Status
+## `workflow_state` and phase status consistency
 
 Root state is `implemented_local_runtime_pending / implementation / VISUAL`; paired verdict is `PASS_BOUNDARY_SYNCED_RUNTIME_PENDING`.
 Phase 1-10 and Phase 12 are completed. Phase 11 has local command evidence and isolated component screenshot evidence in scope; authenticated runtime visual evidence remains pending user gate. Phase 13 remains not started because commit / push / PR require explicit approval.
 
-## Phase 11 Evidence Inventory
+## Phase 11 evidence file inventory
 
-| Evidence | Status |
-|---|---|
-| `outputs/phase-11/evidence/test-profile-loading.txt` | present / exit 0 |
-| `outputs/phase-11/evidence/test-profile-regression.txt` | present / exit 0 |
-| `outputs/phase-11/evidence/typecheck-web.txt` | present / exit 0 |
-| `outputs/phase-11/evidence/lint-web.txt` | present / exit 0 |
-| `outputs/phase-11/evidence/grep-hex-profile-loading.txt` | present / exit 1 expected no-hit |
-| `outputs/phase-11/screenshots/profile-loading-local-component-desktop.png` | present / local component screenshot |
-| `outputs/phase-11/screenshots/screenshot-plan.json` | present |
-| `outputs/phase-11/screenshots/phase11-capture-metadata.json` | present |
-| `outputs/phase-11/screenshot-coverage.md` | present |
+| Classification | Path | Status |
+|---|---|---|
+| command log | outputs/phase-11/evidence/test-profile-loading.txt | present |
+| command log | outputs/phase-11/evidence/test-profile-regression.txt | present |
+| command log | outputs/phase-11/evidence/typecheck-web.txt | present |
+| command log | outputs/phase-11/evidence/lint-web.txt | present |
+| command log | outputs/phase-11/evidence/grep-hex-profile-loading.txt | present |
+| screenshot | outputs/phase-11/screenshots/profile-loading-local-component-desktop.png | present |
+| screenshot plan | outputs/phase-11/screenshots/screenshot-plan.json | present |
+| screenshot metadata | outputs/phase-11/screenshots/phase11-capture-metadata.json | present |
+| screenshot coverage | outputs/phase-11/screenshot-coverage.md | present |
 
-## Phase 12 Strict 7 Inventory
+## Phase 12 strict 7 file inventory
 
 | File | Status |
 |---|---|
@@ -46,19 +46,26 @@ Phase 1-10 and Phase 12 are completed. Phase 11 has local command evidence and i
 | `outputs/phase-12/skill-feedback-report.md` | present |
 | `outputs/phase-12/phase12-task-spec-compliance-check.md` | present |
 
-## 30 Thinking Methods Compact Evidence
+## Skill/reference/system spec same-wave sync
 
-| Group | Applied Methods | Result |
-|---|---|---|
-| logical | critical / deductive / inductive / abductive / vertical | main risk was state and evidence drift, not component design |
-| structural | decomposition / MECE / two-axis / process | separated code, tests, workflow, parent sync, source trace, aiworkflow sync |
-| meta | meta / abstraction / double-loop | canonical root promotion made the original in-place assumption obsolete |
-| creative | brainstorming / lateral / paradox / analogy / if / novice | kept inline skeleton, no premature primitive extraction |
-| systems | systems / causal / causal-loop | parent index and source task must change in the same wave to avoid recurring drift |
-| value | trade-on / plus-sum / value proposition / strategic | a11y, token consistency, and CLS approximation improved with minimal code |
-| problem-solving | why / improvement / hypothesis / issue / KJ | findings grouped into state, command, layout evidence, and ledger sync |
+- `aiworkflow-requirements`: 同一 wave で SKILL-changelog / references / task-workflow-active を更新済み
+- `task-specification-creator`: 既存テンプレートに準拠し skill 側の追加変更なし
+- system spec (`docs/00-getting-started-manual/specs/*.md`): 変更なし（UI コンポーネント追加のみで spec 影響なし）
+- consumed unassigned-task: `unassigned-task/integration-fixes-i07-profile-loading-skeleton.md` を consume 済み
 
-## Four-condition Verdict
+## Runtime or user-gated boundary
+
+- 認証付き runtime visual evidence（authenticated profile loading screenshot）は user-gate のため pending
+- ローカル component-level screenshot は phase-11 で取得済み（runtime PASS の boundary 内）
+- CI gate（`validate` / `verify-phase12-compliance` / `verify-indexes-up-to-date` / `playwright-smoke`）はローカル PASS、production runtime PASS は別 wave で取得
+
+## Archive/delete stale-reference gate
+
+- 本 wave で削除 / archive される root: なし
+- 親 `ui-prototype-alignment-mvp-recovery/improvements/parallel-07-auth-and-shared/` への in-place 実装前提は canonical pointer 化で解消済み
+- skill SSOT / aiworkflow-requirements indexes 側に stale reference: なし
+
+## Four-condition verdict
 
 | Condition | Verdict |
 |---|---|
