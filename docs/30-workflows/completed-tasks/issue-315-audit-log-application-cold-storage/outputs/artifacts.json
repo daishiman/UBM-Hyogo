@@ -11,7 +11,33 @@
     "workflow_state": "implemented_local_evidence_captured",
     "implementation_status": "implementation_complete_pending_pr",
     "runtime_boundary": "PASS_BOUNDARY_SYNCED_RUNTIME_PENDING",
-    "parity_with_root_artifacts": "outputs ledger は root artifacts.json と同一の phase status / existing outputs list を持つ。存在しない planned-only outputs は列挙しない"
+    "parity_with_root_artifacts": "outputs ledger は root artifacts.json と同一の phase status / existing outputs list を持つ。存在しない planned-only outputs は列挙しない",
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-05-18T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-315-audit-log-application-cold-storage/outputs/phase-12/main.md",
+        "approver": "daishiman",
+        "notes": "spec_review parity with root artifacts.json"
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "passed",
+        "passed_at": "2026-05-18T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-315-audit-log-application-cold-storage/outputs/phase-12/implementation-guide.md",
+        "approver": "daishiman",
+        "notes": "implementation_review parity with root artifacts.json"
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-315-audit-log-application-cold-storage/outputs/phase-13/user-approval-issue-315-<timestamp>.md",
+        "approver": "daishiman",
+        "notes": "external_ops pending user approval"
+      }
+    ]
   },
   "phases": [
     {"phase": 1, "name": "requirements", "file": "phase-1-requirements.md", "status": "completed", "outputs": ["phase-1/acceptance-criteria.md"], "depends_on_phases": [], "user_approval_required": false},

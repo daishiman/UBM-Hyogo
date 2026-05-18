@@ -54,6 +54,32 @@
       "outputs/phase-11/r2-bucket-create-after.log",
       "outputs/phase-11/d1-migrations-apply-after.log",
       "outputs/phase-11/deploy-api-prod-after.log"
+    ],
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-05-18T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-315-audit-log-application-cold-storage/outputs/phase-12/main.md",
+        "approver": "daishiman",
+        "notes": "spec_review: Phase 1-13 spec + local implementation completed"
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "passed",
+        "passed_at": "2026-05-18T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-315-audit-log-application-cold-storage/outputs/phase-12/implementation-guide.md",
+        "approver": "daishiman",
+        "notes": "implementation_review: redact + exporter + repository + admin audit + workflow"
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-315-audit-log-application-cold-storage/outputs/phase-13/user-approval-issue-315-<timestamp>.md",
+        "approver": "daishiman",
+        "notes": "external_ops: R2 Object Lock bucket create / D1 migration apply / production deploy (user gated)"
+      }
     ]
   },
   "phases": [
