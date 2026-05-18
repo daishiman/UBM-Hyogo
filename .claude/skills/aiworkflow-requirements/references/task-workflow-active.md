@@ -524,6 +524,20 @@
 | evidence boundary | Phase 12 strict 7 + artifacts parity + Phase 11 deterministic evidence は present。apps/web implementation は local reflected。authenticated screenshot / visual runtime evidence / staging deploy / production smoke / commit / push / PR は user approval 後 |
 | artifact inventory | `references/workflow-task-14-my-profile-and-requests-artifact-inventory.md` |
 
+### parallel-i03 profile request dialog refresh order（2026-05-17）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | implemented_local_evidence_captured / implementation / NON_VISUAL / Phase 13 pending_user_approval |
+| 成果物 | `docs/30-workflows/parallel-i03-dialog-refresh-order/` |
+| 目的 | profile request dialog の success path を `router.refresh() -> onSubmitted -> onClose()` に固定し、unmount 後 refresh race と parent 側二重発火を排除する |
+| 実装対象 | `apps/web/app/profile/_components/VisibilityRequestDialog.tsx`, `DeleteRequestDialog.tsx`, `RequestActionPanel.tsx` |
+| test evidence | dialog 2 件の `callOrder` assertion と parent `router.refresh` 非発火 assertion |
+| source spec | `docs/30-workflows/ui-prototype-alignment-mvp-recovery/improvements/integration-fixes/parallel-i03-dialog-refresh-order/spec.md` |
+| artifact inventory | `references/workflow-parallel-i03-dialog-refresh-order-artifact-inventory.md` |
+| lessons-learned | `references/lessons-learned-parallel-i03-dialog-refresh-order-2026-05.md`（L-PARALLEL-I03-001..005: refresh 順序契約 / 409 分岐漏れ gate / `vi.hoisted` callOrder pattern / 親 spec の子 dialog inline mock / completed-tasks path drift） |
+| user gate | commit / push / PR |
+
 ### E2E Quality Uplift Stage 0-3（2026-05-09）
 
 | 項目 | 値 |
