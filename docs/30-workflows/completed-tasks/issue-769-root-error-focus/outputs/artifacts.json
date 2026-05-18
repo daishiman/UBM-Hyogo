@@ -18,7 +18,7 @@
         "gate_id": "Gate-A",
         "status": "passed",
         "passed_at": "2026-05-17T00:00:00+09:00",
-        "evidence_path": "docs/30-workflows/issue-769-root-error-focus/index.md",
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-769-root-error-focus/index.md",
         "approver": "codex",
         "notes": "spec_review: root error focus scope, target files, and parent i06 mapping confirmed."
       },
@@ -26,7 +26,7 @@
         "gate_id": "Gate-B",
         "status": "passed",
         "passed_at": "2026-05-17T00:00:00+09:00",
-        "evidence_path": "docs/30-workflows/issue-769-root-error-focus/outputs/phase-11/evidence/",
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-769-root-error-focus/outputs/phase-11/evidence/",
         "approver": "codex",
         "notes": "local_evidence: typecheck and lint passed; web package test command completed 89 files / 618 tests passed, 1 skipped."
       },
@@ -34,7 +34,7 @@
         "gate_id": "Gate-C",
         "status": "passed",
         "passed_at": "2026-05-17T00:00:00+09:00",
-        "evidence_path": "docs/30-workflows/issue-769-root-error-focus/outputs/phase-12/phase12-task-spec-compliance-check.md",
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-769-root-error-focus/outputs/phase-12/phase12-task-spec-compliance-check.md",
         "approver": "codex",
         "notes": "phase12: strict 7 outputs present, artifacts parity present."
       },
@@ -42,7 +42,7 @@
         "gate_id": "Gate-D",
         "status": "pending",
         "passed_at": null,
-        "evidence_path": "docs/30-workflows/issue-769-root-error-focus/outputs/phase-13/pr-summary.md",
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-769-root-error-focus/outputs/phase-13/pr-summary.md",
         "approver": "daishiman",
         "notes": "commit / push / PR remain user-gated."
       }
