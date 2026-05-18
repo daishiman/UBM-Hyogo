@@ -30,6 +30,20 @@ const map = (r: AttendanceDbRow): MemberAttendanceRow => ({
   assignedBy: r.assigned_by,
 });
 
+// ut-07c-followup-001: bulk import 用に「session に既登録の member id 集合」を 1 query で取得する。
+export async function listExistingAttendanceMemberIds(
+  c: DbCtx,
+  sessionId: string,
+): Promise<Set<MemberId>> {
+  const r = await c.db
+    .prepare("SELECT member_id FROM member_attendance WHERE session_id = ?")
+    .bind(sessionId)
+    .all<{ member_id: string }>();
+  const set = new Set<MemberId>();
+  for (const row of r.results ?? []) set.add(asMemberId(row.member_id));
+  return set;
+}
+
 export async function listAttendanceByMember(c: DbCtx, memberId: MemberId): Promise<MemberAttendanceRow[]> {
   const r = await c.db
     .prepare("SELECT member_id, session_id, assigned_at, assigned_by FROM member_attendance WHERE member_id = ?")

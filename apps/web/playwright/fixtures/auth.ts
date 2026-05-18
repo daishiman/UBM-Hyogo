@@ -288,6 +288,63 @@ function updateAttendance(sessionId: string, memberId: string, attended: boolean
   return { status: 200, body: { ok: true, attended: false } }
 }
 
+type ImportRow = { memberId?: string; email?: string }
+
+function importAttendance(sessionId: string, rows: ImportRow[], dryRun: boolean): {
+  status: number
+  body: unknown
+} {
+  const meeting = state.meetingsSeed.meetings.find((item) => item.sessionId === sessionId)
+  if (!meeting) return { status: 404, body: { ok: false, error: 'session_not_found' } }
+  if (rows.length > 500) {
+    return { status: 413, body: { ok: false, error: 'payload_too_large', maxRows: 500 } }
+  }
+  const seen = new Set<string>()
+  const results = rows.map((row, index) => {
+    const memberId = row.memberId?.trim()
+    const email = row.email?.trim().toLowerCase()
+    const resolvedId = memberId || email?.replace(/@example\.test$/, '')
+    const candidate = resolvedId
+      ? meeting.candidates.find((item) => item.memberId === resolvedId)
+      : undefined
+    if (!resolvedId) return { index, status: 'invalid', message: 'memberId_or_email_required' }
+    if (!candidate) return { index, status: 'unknown_member', message: 'member_not_found' }
+    if (candidate.isDeleted) {
+      return { index, status: 'deleted_member', memberId: candidate.memberId }
+    }
+    if (meeting.attendees.some((item) => item.memberId === candidate.memberId) || seen.has(candidate.memberId)) {
+      return { index, status: 'duplicate', memberId: candidate.memberId }
+    }
+    seen.add(candidate.memberId)
+    return { index, status: 'ok', memberId: candidate.memberId }
+  })
+  const summary = {
+    total: results.length,
+    ok: results.filter((row) => row.status === 'ok').length,
+    duplicate: results.filter((row) => row.status === 'duplicate').length,
+    deletedMember: results.filter((row) => row.status === 'deleted_member').length,
+    unknownMember: results.filter((row) => row.status === 'unknown_member').length,
+    invalid: results.filter((row) => row.status === 'invalid').length,
+  }
+  const committed = !dryRun && summary.ok === summary.total && summary.total > 0
+  if (committed) {
+    meeting.attendees = [
+      ...meeting.attendees,
+      ...results
+        .filter((row): row is { index: number; status: 'ok'; memberId: string } => row.status === 'ok')
+        .map((row) => ({
+          memberId: row.memberId,
+          assignedAt: '2026-05-15T00:00:00.000Z',
+          assignedBy: 'admin-1',
+        })),
+    ]
+  }
+  return {
+    status: 200,
+    body: { ok: true, summary, rows: results, dryRun, committed },
+  }
+}
+
 function readJson(req: IncomingMessage): Promise<unknown> {
   return new Promise((resolve, reject) => {
     let raw = ''
@@ -406,6 +463,27 @@ async function ensureMockApi(): Promise<void> {
             response(res, result.status, result.body)
           })
           .catch(() => response(res, 400, { error: 'invalid_json' }))
+        return
+      }
+      const attendanceImportMatch = url.pathname.match(
+        /^\/admin\/meetings\/([^/]+)\/attendance\/import$/,
+      )
+      if (req.method === 'POST' && attendanceImportMatch?.[1]) {
+        readJson(req)
+          .then((body) => {
+            const parsed = body as { rows?: ImportRow[] }
+            if (!Array.isArray(parsed.rows)) {
+              response(res, 400, { ok: false, error: 'invalid_payload' })
+              return
+            }
+            const result = importAttendance(
+              decodeURIComponent(attendanceImportMatch[1]),
+              parsed.rows,
+              url.searchParams.get('dryRun') !== 'false',
+            )
+            response(res, result.status, result.body)
+          })
+          .catch(() => response(res, 400, { ok: false, error: 'invalid_json' }))
         return
       }
       if (req.method === 'POST' && url.pathname === '/__test__/seed-meetings') {
