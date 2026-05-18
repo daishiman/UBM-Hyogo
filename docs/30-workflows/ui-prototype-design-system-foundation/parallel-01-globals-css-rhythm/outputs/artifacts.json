@@ -6,22 +6,87 @@
     "taskType": "implementation",
     "visualEvidence": "VISUAL_ON_EXECUTION",
     "implementation_status": "local_css_selectors_added",
-    "runtime_boundary": "serial-07 visual evidence pending"
+    "runtime_boundary": "serial-07 visual evidence pending",
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-05-18T00:00:00Z",
+        "evidence_path": "docs/30-workflows/ui-prototype-design-system-foundation/parallel-01-globals-css-rhythm/outputs/phase-12/main.md",
+        "approver": "daishiman",
+        "notes": "spec_review: parallel-01 Phase 1-13 spec readiness for globals.css rhythm"
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/ui-prototype-design-system-foundation/parallel-01-globals-css-rhythm/outputs/phase-12/implementation-guide.md",
+        "approver": "daishiman",
+        "notes": "implementation_review: globals.css selectors landed locally; serial-07 visual evidence pending"
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/ui-prototype-design-system-foundation/serial-07-regression-evidence/outputs/phase-11/screenshots/",
+        "approver": "daishiman",
+        "notes": "runtime_review: serial-07-regression-evidence Playwright screenshots are the runtime gate"
+      }
+    ]
   },
   "phases": [
-    { "phase": 1, "status": "completed" },
-    { "phase": 2, "status": "completed" },
-    { "phase": 3, "status": "completed" },
-    { "phase": 4, "status": "completed" },
-    { "phase": 5, "status": "completed" },
-    { "phase": 6, "status": "completed" },
-    { "phase": 7, "status": "completed" },
-    { "phase": 8, "status": "completed" },
-    { "phase": 9, "status": "completed" },
-    { "phase": 10, "status": "completed" },
-    { "phase": 11, "status": "completed" },
-    { "phase": 12, "status": "completed" },
-    { "phase": 13, "status": "pending_user_approval" }
+    {
+      "phase": 1,
+      "status": "completed"
+    },
+    {
+      "phase": 2,
+      "status": "completed"
+    },
+    {
+      "phase": 3,
+      "status": "completed"
+    },
+    {
+      "phase": 4,
+      "status": "completed"
+    },
+    {
+      "phase": 5,
+      "status": "completed"
+    },
+    {
+      "phase": 6,
+      "status": "completed"
+    },
+    {
+      "phase": 7,
+      "status": "completed"
+    },
+    {
+      "phase": 8,
+      "status": "completed"
+    },
+    {
+      "phase": 9,
+      "status": "completed"
+    },
+    {
+      "phase": 10,
+      "status": "completed"
+    },
+    {
+      "phase": 11,
+      "status": "completed"
+    },
+    {
+      "phase": 12,
+      "status": "completed"
+    },
+    {
+      "phase": 13,
+      "status": "pending_user_approval"
+    }
   ],
   "outputs": {
     "phase_11": [
