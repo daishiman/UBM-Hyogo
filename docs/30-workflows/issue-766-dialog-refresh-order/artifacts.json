@@ -29,5 +29,34 @@
     "phase-11-manual-test.md",
     "phase-12-documentation.md",
     "phase-13-pr.md"
-  ]
+  ],
+  "metadata": {
+    "workflow_state": "spec_ready_implementation_pending",
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-05-17T00:00:00Z",
+        "evidence_path": "docs/30-workflows/issue-766-dialog-refresh-order/phase-3-design-review.md",
+        "approver": "daishiman",
+        "notes": "spec_review: Phase 1-3 requirements/design/design-review for spec-only workflow"
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/issue-766-dialog-refresh-order/phase-10-final-review.md",
+        "approver": "daishiman",
+        "notes": "implementation_review: implementation has not started; spec_created stage only"
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/issue-766-dialog-refresh-order/phase-13-pr.md",
+        "approver": "daishiman",
+        "notes": "external_ops: PR merge after implementation wave"
+      }
+    ]
+  }
 }
