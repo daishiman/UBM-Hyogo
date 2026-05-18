@@ -8,6 +8,7 @@
 
 本ドキュメントは、複雑なタスクを単一責務の原則に基づいて分解し、各サブタスクに最適なスラッシュコマンド・エージェント・スキルの組み合わせを選定するためのガイドラインを定義する。
 
+### Issue #749 Primitive Adoption Tracker（2026-05-17）
 ### Issue #747 Vitest esbuild arch & worktree isolation（2026-05-17）
 
 | 項目 | 値 |
@@ -53,6 +54,16 @@
 
 | 項目 | 値 |
 | --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / VISUAL_RUNTIME_PENDING / Phase 12 strict 7 present` |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-749-primitive-adoption-tracker/` |
+| source | Issue #749 CLOSED。PR 文脈は `Refs #749` のみ |
+| parent / route SSOT | `docs/30-workflows/completed-tasks/ui-prototype-alignment-mvp-recovery/SCOPE.md` |
+| 目的 | completed SCOPE の 19 routes x 6 primitive 採用を `outputs/adoption-tracker.md` と `verify-primitive-adoption` gate で機械検証可能にする |
+| implementation targets | `apps/web/src/components/admin/{MeetingPanel,AuditLogPanel,TagQueuePanel,SchemaDiffPanel,RequestQueuePanel,IdentityConflictRow}.tsx`, `apps/web/src/components/public/DensityToggle.client.tsx`, `apps/web/app/(admin)/admin/**/page.tsx`, `scripts/verify-primitive-adoption.sh`, `.github/workflows/verify-primitive-adoption.yml` |
+| same-cycle sync | `CLAUDE.md` 不変条件 9 / 10、quick-reference、resource-map、task-workflow-active、changelog、LOGS |
+| evidence boundary | `apps/web` implementation、Phase 11 grep/typecheck/focused tests、Phase 12 strict 7 は captured。runtime screenshot、branch protection PUT、commit、push、PR は user-gated |
+### i02-admin-error-type-unify（2026-05-17）
+
 | ステータス | `implemented_local_evidence_captured / implementation / NON_VISUAL / Phase 12 strict 7 present / completed-tasks moved` |
 | 成果物 | `docs/30-workflows/completed-tasks/i02-admin-error-type-unify/` |
 | source | `docs/30-workflows/completed-tasks/integration-fixes-i02-admin-error-type-unify.md` consumed |
@@ -1255,6 +1266,17 @@
 | runtime境界 | 本サイクルでは production R2 / D1 / GitHub Secrets / commit / PR は未実行。Phase 11/12/13 skeleton と SSOT 同期のみ完了 |
 | 正本同期 | `references/observability-monitoring.md` / `references/deployment-secrets-management.md` / `docs/00-getting-started-manual/specs/15-infrastructure-runbook.md` / `references/lessons-learned-issue-514-cf-audit-logs-cold-storage-r2-export-2026-05.md` |
 | 苦戦知見 | `references/lessons-learned-issue-514-cf-audit-logs-cold-storage-r2-export-2026-05.md` (L-ISSUE514-001..007: artifacts mirror parity / Phase 11 10 screenshots, Phase 12 strict 7 outputs / `PASS_BOUNDARY_SYNCED_RUNTIME_PENDING` 語彙 / G1-G4 gate sequence / monthly→daily cadence 補正 / source schema 整合 + r2_etag / 6-category redaction guard) |
+
+### Issue #315 application audit_log cold storage（2026-05-18）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / NON_VISUAL / PASS_BOUNDARY_SYNCED_RUNTIME_PENDING` |
+| 成果物 | `docs/30-workflows/issue-315-audit-log-application-cold-storage/` |
+| 実装 | `apps/api/migrations/0018_add_audit_log_export_manifest.sql`, `apps/api/src/lib/audit/redact.ts`, `apps/api/src/repository/auditLog.ts`, `scripts/audit-log/export-to-r2.ts`, `.github/workflows/audit-log-cold-storage.yml` |
+| R2 binding | `UBM_AUDIT_APP_COLD_STORAGE` |
+| manifest | `audit_log_export_manifest`、`(yyyy, mm, dd)` UNIQUE、`pending -> completed/failed`、`r2_etag` / `sha256` |
+| gate | production D1 apply / R2 Object Lock bucket create / deploy / non-dry-run export / restore drill / commit / push / PR は user-gated |
 
 
 ### parallel-10-auth-session-handling（2026-05-15）

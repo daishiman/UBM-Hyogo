@@ -1,0 +1,8 @@
+Redaction grep gate status: local deterministic gate.
+
+Tracked gates:
+- `apps/api/src/lib/audit/__tests__/redact.spec.ts`
+- `scripts/audit-log/__tests__/redact-grep-gate.spec.ts`
+
+Invariant:
+R2 export JSONL must contain masked values only. Raw email, phone, address, and actor email must not leave D1.
