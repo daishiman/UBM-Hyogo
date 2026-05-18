@@ -2684,6 +2684,18 @@ packages/
 | 検出コマンド | `pnpm indexes:rebuild` を CI 上で実行し、続けて `git diff --exit-code -- .claude/skills/aiworkflow-requirements/indexes` で drift 判定（非ゼロ exit で fail） |
 | Node / pnpm 固定 | Node 24（`.mise.toml`） / pnpm 10.33.2（`package.json` `packageManager`）。CI も同バージョンを `mise` 経由で利用 |
 | ローカル再生成 | `mise exec -- pnpm indexes:rebuild`（post-merge から廃止された自動再生成の正規後継経路） |
+
+### Indexes Drift Recovery SOP 早見（UT-CICD-DRIFT-IMPL-VERIFY-INDEXES-TRIGGER / 2026-05-17）
+
+| 観点 | 値 / 参照先 |
+| --- | --- |
+| canonical task root | `docs/30-workflows/completed-tasks/ut-cicd-drift-impl-verify-indexes-trigger/` |
+| runbook | `docs/00-getting-started-manual/lefthook-operations.md`（§skill indexes drift gate — trigger 条件と復旧 SOP） |
+| hook 導線 | `lefthook.yml` `pre-push.indexes-drift-guard.fail_text` |
+| 通常復旧 | `mise exec -- pnpm indexes:rebuild` → `git status .claude/skills/aiworkflow-requirements/indexes` → index diff commit → push |
+| CI fail 復旧 | `git pull --rebase` 後に通常復旧を実施 |
+| 禁止 | `indexes/*.json` 手編集 / 復旧目的の `--no-verify` |
+| 継続 follow-up | `U-VIDX-01`（Actions smoke / branch protection）、`U-VIDX-02`（other skill indexes ADR） |
 | branch protection 連携 | `main` / `dev` の `required_status_checks` 候補として `verify-indexes-up-to-date` を登録（solo 運用ポリシー: レビュー必須化はせず CI gate で品質担保） |
 | トリガー | `pull_request`（push / merge 経路で indexes drift を pre-merge ブロック） |
 | 失敗時の対処 | ローカルで `pnpm indexes:rebuild` を実行 → 差分をコミット → 再 push（ジェネレータ `scripts/generate-index.js` が正本） |
