@@ -17,7 +17,7 @@
 
 - `apps/web/app/(admin)/admin/schema` の既存 `SchemaDiffPanel` を hardening し、browser proxy `/api/admin/schema/*` と Worker `/admin/schema/*` の既存 API contract に揃える
 - 既存 `postSchemaAlias()` helper を単一 mutation 経路として維持し、202 retryable / 409 conflict / 422 collision を feedback として取り扱う
-- design token (OKLch) と既存 admin component pattern（serial-05-step-02 と同形）に統一し、grep gate / typecheck / lint / test / build の PASS 5 点を取得する
+- design token (OKLch) と既存 admin component pattern（serial-05-step-02 と同形）に統一し、grep gate / typecheck / lint / test / build の PASS 5 点と Issue #775 fixture-backed visual evidence 11 PNG を取得する
 
 ## Test plan（checklist）
 
@@ -30,7 +30,7 @@
 - [ ] row button → form open → 200 OK で `router.refresh()` + success feedback
 - [ ] 202 retryable / 409 conflict / 422 collision で form feedback
 - [ ] GET 失敗は error boundary / fixture fallback として扱い、POST 422 を read-only fallback にしない
-- [ ] screenshot 4 枚（list / empty / form / error）取得し `outputs/phase-11/screenshots/` に保存
+- [ ] Issue #775 visual evidence 11 PNG（4 pane × desktop/mobile + resolve success/409/422）を `outputs/phase-11/screenshots/` に保存し、legacy placeholder を PASS inventory から除外
 
 ## 関連 spec / issue
 

@@ -159,6 +159,7 @@ CLOSED Issue 由来の recovery では、Phase 13 の `status` は `blocked` / `
 | Issue | 後付け対象 | 主な mutation | 備考 |
 | --- | --- | --- | --- |
 | Issue #718 | `docs/30-workflows/issue-718-legacy-cf-token-revocation/` | 旧 Cloudflare API token revocation（dashboard 操作 + secrets rotation） | unassigned-task `docs/30-workflows/unassigned-task/issue-640-followup-002-legacy-token-revocation.md` を consumed 化、`Refs #718` のみ |
+| Issue #775 | `docs/30-workflows/completed-tasks/issue-775-serial-05-step-03-runtime-evidence-completion/` | runtime visual evidence completion（fixture-backed Playwright で 11 PNG capture、production app/API code は frozen） | unassigned-task `docs/30-workflows/completed-tasks/serial-05-step-03-followup-001-runtime-evidence-completion.md` を consumed 化、`Refs #775` のみ。screenshots は parent `completed-tasks/serial-05-step-03-schema-diff-resolve/outputs/phase-11/screenshots/` に一本化し、recovery root は README pointer のみ。legacy placeholder は `.placeholder.txt` へ退避し PASS inventory から除外。`metadata.gates` 配下に `passed_at` / `approver` 必須。詳細教訓: [aiworkflow-requirements/references/lessons-learned-issue-775-serial-05-step-03-runtime-evidence-completion-2026-05.md](../../aiworkflow-requirements/references/lessons-learned-issue-775-serial-05-step-03-runtime-evidence-completion-2026-05.md) |
 
 ---
 

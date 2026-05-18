@@ -944,3 +944,9 @@ production env monitor secret cleanup は user-gated。
 # 2026-05-17
 
 - UT-07B alias recommendation i18n を `implemented_local_evidence_captured / implementation / NON_VISUAL` として同期。`recommendedStableKeys` label 比較を NFKC + trim + whitespace 圧縮へ正本化し、`api-endpoints.md` / `01-api-schema.md` / `11-admin-management.md` / quick-reference / resource-map / topic-map / keywords / task-workflow-active を同一 wave で更新。source unassigned は completed trace へ移動。commit / push / PR は user-gated。
+# 2026-05-18 — Issue #775 serial-05-step-03 runtime evidence completion
+
+- Synced `docs/30-workflows/completed-tasks/issue-775-serial-05-step-03-runtime-evidence-completion/` as `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION / refs_only`.
+- Added focused Playwright config/spec and local D1 seed fixtures while keeping production app/API files frozen.
+- Captured parent SchemaDiffPanel runtime evidence: 11 PNG screenshots and `playwright.log` (`11 passed / 3 skipped`).
+- Updated task-workflow-active, quick-reference, resource-map, and artifact inventory in the same wave.

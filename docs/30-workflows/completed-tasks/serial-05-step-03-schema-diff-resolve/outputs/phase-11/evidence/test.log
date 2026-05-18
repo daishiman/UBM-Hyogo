@@ -1,0 +1,197 @@
+mise WARN  Config files in ~/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260518-150039-wt-8/.mise.toml are not trusted.
+Trust them with `mise trust`. See https://mise.jdx.dev/cli/trust.html for more information.
+
+> @ubm-hyogo/web@0.1.0 test /Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260518-150039-wt-8/apps/web
+> vitest run --passWithNoTests --root=../.. --config=vitest.config.ts apps/web -- --run SchemaDiffPanel.component.spec.tsx apps/web/src/lib/admin/__tests__/api.spec.ts
+
+[33mThe CJS build of Vite's Node API is deprecated. See https://vite.dev/guide/troubleshooting.html#vite-cjs-node-api-deprecated for more details.[39m
+
+ RUN  v2.1.9 /Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260518-150039-wt-8
+
+ ✓ apps/web/src/lib/admin/__tests__/api.spec.ts (19 tests) 11ms
+stdout | apps/web/src/lib/fetch/public.spec.ts > fetchPublic > service-binding 経路: env.API_SERVICE.fetch を使う
+{ transport: 'service-binding', path: '/health', status: 200 }
+
+stdout | apps/web/src/lib/fetch/public.spec.ts > fetchPublic > PUBLIC_API_BASE_URL を使った外向き fetch
+{ transport: 'http-fallback', path: '/v1/foo', status: 200 }
+
+stdout | apps/web/src/lib/fetch/public.spec.ts > fetchPublic > getCloudflareContext throw 時 process.env を fallback として使う
+{ transport: 'http-fallback', path: '/v1/bar', status: 200 }
+
+stdout | apps/web/src/lib/fetch/public.spec.ts > fetchPublic > process.env.PUBLIC_API_BASE_URL があれば Cloudflare env より優先する
+{ transport: 'http-fallback', path: '/v1/baz', status: 200 }
+
+stdout | apps/web/src/lib/fetch/public.spec.ts > fetchPublic > PUBLIC_API_BASE_URL 未指定なら DEFAULT_BASE_URL
+{ transport: 'http-fallback', path: '/x', status: 200 }
+
+stdout | apps/web/src/lib/fetch/public.spec.ts > fetchPublic > revalidate と headers を上書きできる
+{ transport: 'service-binding', path: '/x', status: 200 }
+
+stdout | apps/web/src/lib/fetch/public.spec.ts > fetchPublic > 非 2xx でエラー throw
+{ transport: 'http-fallback', path: '/oops', status: 500 }
+
+stdout | apps/web/src/lib/fetch/public.spec.ts > fetchPublicOrNotFound > 200 で JSON を返す
+{ transport: 'http-fallback', path: '/v1/x', status: 200 }
+
+stdout | apps/web/src/lib/fetch/public.spec.ts > fetchPublicOrNotFound > 404 で FetchPublicNotFoundError
+{ transport: 'http-fallback', path: '/v1/missing', status: 404 }
+
+stdout | apps/web/src/lib/fetch/public.spec.ts > fetchPublicOrNotFound > 5xx で 通常 Error
+{ transport: 'http-fallback', path: '/v1/x', status: 503 }
+
+stdout | apps/web/src/lib/fetch/public.spec.ts > fetchPublicOrNotFound > revalidate オプションを伝搬する
+{ transport: 'service-binding', path: '/v1/x', status: 200 }
+
+stdout | apps/web/src/lib/fetch/public.spec.ts > getServiceBinding env guard regression (AC-R-01..R-05) > [AC-R-02] production context: PUBLIC_API_BASE_URL 明示でも service binding が呼ばれる
+{ transport: 'service-binding', path: '/health', status: 200 }
+
+stdout | apps/web/src/lib/fetch/public.spec.ts > getServiceBinding env guard regression (AC-R-01..R-05) > [AC-R-03] CI without Playwright flag: PUBLIC_API_BASE_URL 明示でも service binding が呼ばれる
+{ transport: 'service-binding', path: '/health', status: 200 }
+
+stdout | apps/web/src/lib/fetch/public.spec.ts > getServiceBinding env guard regression (AC-R-01..R-05) > [AC-R-01] NODE_ENV=test: PUBLIC_API_BASE_URL 明示で global.fetch が呼ばれる
+{ transport: 'http-fallback', path: '/health', status: 200 }
+
+stdout | apps/web/src/lib/fetch/public.spec.ts > getServiceBinding env guard regression (AC-R-01..R-05) > [edge-1] staging: PUBLIC_API_BASE_URL 未設定なら service binding が呼ばれる
+{ transport: 'service-binding', path: '/health', status: 200 }
+
+stdout | apps/web/src/lib/fetch/public.spec.ts > getServiceBinding env guard regression (AC-R-01..R-05) > [edge-2] local dev: service binding 不在で global.fetch が呼ばれる
+{ transport: 'http-fallback', path: '/health', status: 200 }
+
+stdout | apps/web/src/lib/fetch/public.spec.ts > getServiceBinding env guard regression (AC-R-01..R-05) > [edge-3] PLAYWRIGHT_TEST=1: PUBLIC_API_BASE_URL 明示で global.fetch が呼ばれる
+{ transport: 'http-fallback', path: '/health', status: 200 }
+
+ ✓ apps/web/src/lib/fetch/public.spec.ts (18 tests) 168ms
+ ✓ apps/web/src/features/admin/hooks/__tests__/useAdminMutation.spec.ts (12 tests) 51ms
+ ✓ apps/web/src/components/admin/__tests__/IdentityConflictRow.spec.tsx (9 tests) 178ms
+ ✓ apps/web/src/components/admin/__tests__/AuditLogPanel.component.spec.tsx (39 tests) 191ms
+ ✓ apps/web/src/components/admin/__tests__/SchemaDiffPanel.component.spec.tsx (12 tests) 312ms
+ ✓ apps/web/src/components/admin/__tests__/MeetingPanel.component.spec.tsx (17 tests) 338ms
+ ✓ apps/web/src/lib/auth.spec.ts (40 tests) 247ms
+ ✓ apps/web/src/components/admin/__tests__/TagsQueueResolveDrawer.spec.tsx (18 tests) 338ms
+ ✓ apps/web/app/profile/_components/RequestActionPanel.component.spec.tsx (11 tests) 113ms
+ ✓ apps/web/src/components/ui/__tests__/primitives.component.spec.tsx (26 tests) 224ms
+ ✓ apps/web/src/components/ui/__tests__/parallel09-primitives.component.spec.tsx (26 tests) 380ms
+ ✓ apps/web/src/__tests__/static-invariants.runtime.spec.ts (5 tests) 555ms
+   ✓ static invariants / 06b > S-03: apps/web 全体に '/no-access' リテラルが現れない 354ms
+ ✓ apps/web/src/lib/api/me-requests.spec.ts (15 tests) 45ms
+ ✓ apps/web/app/__tests__/error.component.spec.tsx (10 tests) 157ms
+ ✓ apps/web/src/lib/fetch/authed.spec.ts (13 tests) 8ms
+ ✓ apps/web/app/profile/_components/VisibilityRequestDialog.component.spec.tsx (8 tests) 235ms
+ ✓ apps/web/src/components/admin/__tests__/TagQueuePanel.component.spec.tsx (9 tests) 362ms
+ ✓ apps/web/src/__tests__/tokens.runtime.spec.ts (9 tests) 5ms
+ ✓ apps/web/app/profile/_components/DeleteRequestDialog.component.spec.tsx (6 tests) 128ms
+stdout | apps/web/src/lib/api/__tests__/public.spec.ts > public api wrapper > getStats: schema strict parse を経由する
+{ transport: 'http-fallback', path: '/public/stats', status: 200 }
+
+stdout | apps/web/src/lib/api/__tests__/public.spec.ts > public api wrapper > getStats: 不正な schema は throw する
+{ transport: 'http-fallback', path: '/public/stats', status: 200 }
+
+stdout | apps/web/src/lib/api/__tests__/public.spec.ts > public api wrapper > listMembers: 既定値を query に乗せず公開 endpoint を叩く
+{ transport: 'http-fallback', path: '/public/members', status: 200 }
+
+stdout | apps/web/src/lib/api/__tests__/public.spec.ts > public api wrapper > listMembers: q / density / tag を query に展開する
+{ transport: 'http-fallback', path: '/public/members', status: 200 }
+
+stdout | apps/web/src/lib/api/__tests__/public.spec.ts > public api wrapper > getMemberProfile: 404 を FetchPublicNotFoundError に変換する
+{
+  transport: 'http-fallback',
+  path: '/public/members/missing',
+  status: 404
+}
+
+stdout | apps/web/src/lib/api/__tests__/public.spec.ts > public api wrapper > getFormPreview: strict parse OK
+{
+  transport: 'http-fallback',
+  path: '/public/form-preview',
+  status: 200
+}
+
+ ✓ apps/web/src/lib/api/__tests__/public.spec.ts (6 tests) 12ms
+ ✓ apps/web/src/lib/auth/verify-magic-link.spec.ts (15 tests) 6ms
+ ✓ apps/web/app/api/auth/callback/email/route.route.spec.ts (11 tests) 15ms
+ ✓ apps/web/src/lib/auth/magic-link-client.spec.ts (11 tests) 8ms
+ ✓ apps/web/src/components/public/__tests__/MemberDetailSections.component.spec.tsx (5 tests) 27ms
+ ✓ apps/web/src/components/admin/__tests__/RequestQueuePanel.component.spec.tsx (6 tests) 686ms
+   ✓ RequestQueuePanel > TC-22: 承認ボタンで confirmation modal が開く 427ms
+ ✓ apps/web/src/lib/__tests__/logger.spec.ts (8 tests) 7ms
+ ✓ apps/web/src/features/admin/components/__tests__/MembersTable.spec.tsx (6 tests) 276ms
+ ✓ apps/web/src/lib/url/__tests__/members-search.spec.ts (11 tests) 6ms
+ ✓ apps/web/app/api/me/[...path]/route.route.spec.ts (3 tests) 9ms
+ ✓ apps/web/src/lib/api/__tests__/me-requests-client.spec.ts (7 tests) 8ms
+ ✓ apps/web/src/lib/__tests__/env.spec.ts (10 tests) 7ms
+ ✓ apps/web/app/login/_components/MagicLinkForm.component.spec.tsx (2 tests) 85ms
+ ✓ apps/web/src/components/public/__tests__/FormPreviewSections.component.spec.tsx (3 tests) 21ms
+ ✓ apps/web/app/api/me/delete-request/route.route.spec.ts (5 tests) 115ms
+ ✓ apps/web/app/login/_components/__tests__/LoginPanel.component.spec.tsx (7 tests) 379ms
+ ✓ apps/web/app/profile/_components/__tests__/VisibilityRequest.component.spec.tsx (4 tests) 366ms
+   ✓ VisibilityRequest > public → 公開停止申請を成功させる 349ms
+ ✓ apps/web/app/api/me/visibility-request/route.route.spec.ts (4 tests) 7ms
+ ✓ apps/web/src/lib/__tests__/useAdminMutation.spec.tsx (4 tests) 67ms
+ ✓ apps/web/src/features/admin/components/__tests__/BulkActionBar.spec.tsx (5 tests) 413ms
+   ✓ BulkActionBar > TC-BAB-02: publish click でシリアル呼出 302ms
+ ✓ apps/web/src/lib/url/login-query.spec.ts (16 tests) 4ms
+ ✓ apps/web/src/components/ui/__tests__/task10-contract.component.spec.tsx (3 tests) 403ms
+   ✓ task-10 ui primitive contract > keeps className merge and accessibility surfaces available 373ms
+ ✓ apps/web/src/lib/__tests__/boundary.spec.ts (3 tests) 358ms
+ ✓ apps/web/src/components/public/__tests__/MemberCard.component.spec.tsx (3 tests) 344ms
+   ✓ MemberCard > renders all member fields and link to detail page (happy) 337ms
+ ✓ apps/web/app/profile/_components/__tests__/DeleteRequest.component.spec.tsx (3 tests) 277ms
+ ✓ apps/web/src/lib/session.spec.ts (7 tests) 2ms
+ ✓ apps/web/src/components/public/__tests__/MemberTable.spec.tsx (3 tests) 73ms
+ ✓ apps/web/src/features/admin/components/__tests__/MembersFilters.spec.tsx (6 tests) 577ms
+   ✓ MembersFilters > a11y violations 0 344ms
+ ✓ apps/web/src/components/layout/__tests__/AdminSidebar.component.spec.tsx (4 tests) 453ms
+   ✓ AdminSidebar > 管理メニュー nav が aria-label 付きで存在する (accessibility) 380ms
+ ✓ apps/web/app/profile/_components/PublicVisibilityBanner.component.spec.tsx (6 tests) 240ms
+ ✓ apps/web/src/features/admin/components/__tests__/KpiGrid.spec.tsx (5 tests) 367ms
+ ✓ apps/web/src/components/public/__tests__/MemberFilters.client.spec.tsx (3 tests) 352ms
+ ✓ apps/web/src/features/admin/components/__tests__/MemberDrawer.spec.tsx (1 test) 116ms
+ ✓ apps/web/src/components/public/__tests__/MemberLinks.component.spec.tsx (3 tests) 24ms
+ ✓ apps/web/src/components/public/__tests__/Stats.component.spec.tsx (3 tests) 35ms
+ ✓ apps/web/src/components/feedback/__tests__/EmptyState.component.spec.tsx (3 tests) 49ms
+ ✓ apps/web/src/components/public/__tests__/DensityToggle.client.spec.tsx (3 tests) 74ms
+ ✓ apps/web/src/components/public/__tests__/ProfileHero.component.spec.tsx (3 tests) 61ms
+stdout | apps/web/scripts/__tests__/lhci-auth-storage.spec.ts > lhci-auth-storage > writes a storage state with authjs.session-token cookie
+[lhci-auth-storage] wrote /var/folders/35/t3gvbkdd2w55yk8csmzskzrw0000gn/T/lhci-auth-KrO4pA/storage.json
+
+ ✓ apps/web/scripts/__tests__/lhci-auth-storage.spec.ts (2 tests) 8ms
+ ✓ apps/web/src/components/public/__tests__/Hero.component.spec.tsx (3 tests) 64ms
+ ✓ apps/web/src/components/ui/Toast.spec.tsx (3 tests) 49ms
+ ✓ apps/web/app/login/_components/__tests__/LoginCard.component.spec.tsx (5 tests) 93ms
+ ↓ apps/web/src/__tests__/build-output.runtime.spec.ts (1 test | 1 skipped)
+ ✓ apps/web/src/lib/auth/oauth-client.spec.ts (5 tests) 4ms
+ ✓ apps/web/src/test-utils/fetch-mock.spec.ts (5 tests) 6ms
+ ✓ apps/web/src/__tests__/instrumentation-client.runtime.spec.ts (2 tests) 12ms
+ ✓ apps/web/src/components/public/__tests__/Timeline.component.spec.tsx (3 tests) 87ms
+ ✓ apps/web/src/lib/admin/dashboard-ui.spec.ts (4 tests) 2ms
+ ✓ apps/web/src/lib/url/login-redirect.spec.ts (8 tests) 4ms
+ ✓ apps/web/src/components/auth/__tests__/SignOutButton.component.spec.tsx (3 tests) 98ms
+ ✓ apps/web/app/__smoke__/_lib/fixture-guard.spec.ts (4 tests) 2ms
+ ✓ apps/web/app/profile/_components/RequestErrorMessage.component.spec.tsx (9 tests) 99ms
+ ✓ apps/web/src/components/public/__tests__/RegisterCallout.component.spec.tsx (3 tests) 21ms
+ ✓ apps/web/src/components/public/__tests__/MemberGrid.spec.tsx (3 tests) 77ms
+ ✓ apps/web/src/features/admin/components/__tests__/RecentActionsTable.spec.tsx (4 tests) 107ms
+ ✓ apps/web/src/components/public/__tests__/MemberActivity.component.spec.tsx (2 tests) 16ms
+ ✓ apps/web/src/components/admin/__tests__/_tagQueueStatus.spec.ts (3 tests) 2ms
+ ✓ apps/web/src/components/public/__tests__/PublicHeader.spec.tsx (2 tests) 106ms
+ ✓ apps/web/src/components/public/__tests__/ZoneIntro.spec.tsx (2 tests) 95ms
+ ✓ apps/web/src/components/public/__tests__/PublicFooter.spec.tsx (2 tests) 163ms
+ ✓ apps/web/app/profile/_components/RequestPendingBanner.component.spec.tsx (3 tests) 80ms
+ ✓ apps/web/src/components/legal/__tests__/LegalProse.component.spec.tsx (2 tests) 19ms
+ ✓ apps/web/src/lib/url/login-state.spec.ts (2 tests) 3ms
+ ✓ apps/web/src/components/public/__tests__/MemberTags.component.spec.tsx (2 tests) 47ms
+ ✓ apps/web/src/lib/__tests__/sentry-capture.spec.ts (5 tests) 33ms
+ ✓ apps/web/src/lib/__tests__/is-browser.spec.ts (3 tests) 2ms
+ ✓ apps/web/src/lib/tones.spec.ts (7 tests) 24ms
+ ✓ apps/web/src/__tests__/instrumentation.runtime.spec.ts (2 tests) 109ms
+ ✓ apps/web/app/(admin)/admin/audit/page.page.spec.ts (2 tests) 2ms
+ ✓ apps/web/src/components/layout/__tests__/MemberHeader.spec.tsx (1 test) 89ms
+ ✓ apps/web/src/lib/__tests__/logger.runtime.spec.ts (2 tests) 9ms
+ ✓ apps/web/src/lib/__tests__/is-browser.node.spec.ts (2 tests) 2ms
+
+ Test Files  91 passed | 1 skipped (92)
+      Tests  643 passed | 1 skipped (644)
+   Start at  17:13:44
+   Duration  16.67s (transform 4.16s, setup 0ms, collect 25.43s, tests 11.91s, environment 69.81s, prepare 7.90s)
+
+EXIT_CODE=0

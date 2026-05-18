@@ -80,15 +80,29 @@
 
 | 項目 | 値 |
 | --- | --- |
-| ステータス | `implemented-local-runtime-pending / implementation / VISUAL / PASS_BOUNDARY_SYNCED_RUNTIME_PENDING` |
-| 成果物 | `docs/30-workflows/serial-05-step-03-schema-diff-resolve/` |
+| ステータス | `completed / implementation / VISUAL / PASS` |
+| 成果物 | `docs/30-workflows/completed-tasks/serial-05-step-03-schema-diff-resolve/` |
 | 親 workflow | `docs/30-workflows/ui-prototype-alignment-mvp-recovery/improvements/serial-05-admin-mutation-ui/` |
 | 目的 | `/admin/schema` の既存 `SchemaDiffPanel` を現行 schema alias API contract に合わせて hardening する |
 | implementation targets | `apps/web/src/components/admin/SchemaDiffPanel.tsx`, `apps/web/src/lib/admin/api.ts`, `apps/web/src/components/admin/__tests__/SchemaDiffPanel.component.spec.tsx`, `apps/web/src/lib/admin/__tests__/api.spec.ts` |
 | API boundary | 既存 `GET /admin/schema/diff` / `POST /admin/schema/aliases` を利用。新 endpoint / D1 schema / env gate 追加なし |
 | UI contract | 4 ペイン table semantics、stableKey regex `/^[a-zA-Z][a-zA-Z0-9_]*$/`、row select 後 input focus、409 `existingStableKey` / 422 `existingQuestionIds` 表示、202 retryable status、queued/resolved 日本語 label |
-| evidence | `docs/30-workflows/serial-05-step-03-schema-diff-resolve/outputs/phase-11/evidence/`, `docs/30-workflows/serial-05-step-03-schema-diff-resolve/outputs/phase-12/phase12-task-spec-compliance-check.md` |
-| user gate | runtime screenshots、staging smoke、commit、push、PR |
+| evidence | `docs/30-workflows/completed-tasks/serial-05-step-03-schema-diff-resolve/outputs/phase-11/evidence/`, `docs/30-workflows/completed-tasks/serial-05-step-03-schema-diff-resolve/outputs/phase-11/screenshots/`, `docs/30-workflows/completed-tasks/serial-05-step-03-schema-diff-resolve/outputs/phase-12/phase12-task-spec-compliance-check.md` |
+| evidence completion | `docs/30-workflows/completed-tasks/issue-775-serial-05-step-03-runtime-evidence-completion/` captured 11 fixture-backed local runtime PNG and consumed the source follow-up |
+| user gate | real D1/staging smoke、commit、push、PR |
+
+### Issue #775 serial-05-step-03 runtime evidence completion（2026-05-18）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION / refs_only` |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-775-serial-05-step-03-runtime-evidence-completion/` |
+| 親 workflow | `docs/30-workflows/completed-tasks/serial-05-step-03-schema-diff-resolve/` |
+| source | `docs/30-workflows/completed-tasks/serial-05-step-03-followup-001-runtime-evidence-completion.md` consumed |
+| implementation targets | `apps/web/playwright.admin-schema-diff.config.ts`, `apps/web/playwright/tests/visual/admin-schema-diff.spec.ts`, `apps/web/playwright/.auth/.gitignore`, optional future real-D1 `scripts/fixtures/serial-05-step-03/seed-{diff,cleanup}.sql` |
+| evidence | parent Phase 11 fixture-backed local runtime screenshots 11 PNG + `outputs/phase-11/evidence/playwright.log` (`11 passed / 3 skipped`) |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-775-serial-05-step-03-runtime-evidence-completion-artifact-inventory.md` |
+| user gate | real D1 smoke / commit / push / PR / staging deploy / GitHub Issue mutation |
 
 ### admin-tags-queue-resolver-drawer（2026-05-17）
 

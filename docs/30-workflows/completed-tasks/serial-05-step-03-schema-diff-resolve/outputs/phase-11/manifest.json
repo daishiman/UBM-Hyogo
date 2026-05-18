@@ -10,18 +10,27 @@
     "grep_gate": "evidence/grep-gate.log"
   },
   "screenshots": {
-    "status": "partial_local_captured_runtime_pending",
-    "reason": "admin-schema-diff-list.png は保存済み。残りの empty / resolve-form / error は Cloudflare Workers + auth + API + D1 binding が前提の runtime state を必要とするため、staging runtime / Playwright smoke 環境で取得する手順を evidence.md に記載済み。",
+    "status": "completed",
+    "reason": "Issue #775 recovery workflow captured the remaining SchemaDiffPanel runtime visual evidence with Playwright fixture-backed admin auth. Production app/API source remained frozen.",
     "captured": [
-      "screenshots/admin-schema-diff-list.png"
+      "screenshots/admin-schema-diff-added-desktop.png",
+      "screenshots/admin-schema-diff-added-mobile.png",
+      "screenshots/admin-schema-diff-changed-desktop.png",
+      "screenshots/admin-schema-diff-changed-mobile.png",
+      "screenshots/admin-schema-diff-removed-desktop.png",
+      "screenshots/admin-schema-diff-removed-mobile.png",
+      "screenshots/admin-schema-diff-unresolved-desktop.png",
+      "screenshots/admin-schema-diff-unresolved-mobile.png",
+      "screenshots/admin-schema-diff-resolve-success.png",
+      "screenshots/admin-schema-diff-resolve-409.png",
+      "screenshots/admin-schema-diff-resolve-422.png"
     ],
-    "pending": [
-      "screenshots/admin-schema-diff-empty.png",
-      "screenshots/admin-schema-diff-resolve-form.png",
-      "screenshots/admin-schema-diff-error.png"
-    ]
+    "legacy_placeholder": "screenshots/admin-schema-diff-list.placeholder.txt",
+    "pending": []
   },
-  "captured_at": "2026-05-16T23:30:00+09:00",
-  "pass": false,
-  "verdict": "PASS_BOUNDARY_SYNCED_RUNTIME_PENDING"
+  "completion_workflow": "docs/30-workflows/completed-tasks/issue-775-serial-05-step-03-runtime-evidence-completion/",
+  "runtime_evidence_log": "evidence/playwright.log",
+  "captured_at": "2026-05-18T17:29:49+09:00",
+  "pass": true,
+  "verdict": "PASS"
 }

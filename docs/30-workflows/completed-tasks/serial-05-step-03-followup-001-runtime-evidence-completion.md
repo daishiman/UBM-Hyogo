@@ -10,20 +10,22 @@
 | 対象機能     | `SchemaDiffPanel` の 4 pane (added / changed / removed / unresolved) × 2 scale (desktop / mobile) visual evidence、および resolve 成功 / 409 / 422 のユーザーフィードバック実証 |
 | 優先度       | 高                                                                                              |
 | 見積もり規模 | 小〜中規模                                                                                      |
-| ステータス   | pending                                                                                         |
+| ステータス   | consumed                                                                                        |
 | 発見元       | serial-05 step-03 Phase 12 Runtime Pending Boundary                                             |
 | 発見日       | 2026-05-17                                                                                      |
 
 ## Canonical Workflow Status
 
-- 親 workflow: `docs/30-workflows/ui-prototype-alignment-mvp-recovery/improvements/serial-05-admin-mutation-ui/step-03-schema-diff-resolve/`
-- 親タスク状態: `implemented-local-runtime-pending`
-- Phase 11 evidence 状態: `runtime_pending`（local 5 点 evidence は PASS、Cloudflare Workers + auth + D1 binding 前提の runtime screenshots が未取得）
+> 2026-05-18 consumed update: this source task is historical. The active/completed evidence package is `docs/30-workflows/completed-tasks/issue-775-serial-05-step-03-runtime-evidence-completion/`; the parent evidence path is `docs/30-workflows/completed-tasks/serial-05-step-03-schema-diff-resolve/outputs/phase-11/`. Sections below preserve the original problem statement, while the status rows here show the current outcome.
+
+- 親 workflow: `docs/30-workflows/completed-tasks/serial-05-step-03-schema-diff-resolve/`
+- 親タスク状態: `completed / PASS`（Issue #775 recovery workflow で fixture-backed local visual evidence を取得済み）
+- Phase 11 evidence 状態: `completed`（11 PNG captured、legacy placeholder excluded、real D1/staging smoke は user-gated boundary）
 - 関連 outputs:
-  - `docs/30-workflows/serial-05-step-03-schema-diff-resolve/outputs/phase-11/evidence.md`
-  - `docs/30-workflows/serial-05-step-03-schema-diff-resolve/outputs/phase-12/main.md`
-  - `docs/30-workflows/serial-05-step-03-schema-diff-resolve/outputs/phase-12/unassigned-task-detection.md`
-  - `docs/30-workflows/serial-05-step-03-schema-diff-resolve/outputs/phase-12/implementation-guide.md`
+  - `docs/30-workflows/completed-tasks/serial-05-step-03-schema-diff-resolve/outputs/phase-11/evidence.md`
+  - `docs/30-workflows/completed-tasks/serial-05-step-03-schema-diff-resolve/outputs/phase-12/main.md`
+  - `docs/30-workflows/completed-tasks/serial-05-step-03-schema-diff-resolve/outputs/phase-12/unassigned-task-detection.md`
+  - `docs/30-workflows/completed-tasks/serial-05-step-03-schema-diff-resolve/outputs/phase-12/implementation-guide.md`
 - 関連 spec: `docs/30-workflows/ui-prototype-alignment-mvp-recovery/improvements/serial-05-admin-mutation-ui/step-03-schema-diff-resolve/spec.md`
 - 関連実装:
   - `apps/web/src/components/admin/SchemaDiffPanel.tsx`
@@ -46,13 +48,13 @@ serial-05-step-03 (schema-diff-resolve) は、Google Form の現行 schema と D
 - diff status 日本語化と `aria-describedby` 紐付け
 - local 5 点 evidence (typecheck / lint / test / build / grep-gate) は `outputs/phase-11/evidence/` に PASS で取得済み
 
-Phase 11 evidence 設計上、`outputs/phase-11/screenshots/` 配下に `admin-schema-diff-list.png` / `admin-schema-diff-empty.png` / `admin-schema-diff-resolve-form.png` / `admin-schema-diff-error.png` の 4 種を取得する計画となっていたが、実行担当ローカルで以下が揃わず screenshots は **未取得のまま** Phase 12 に遷移した:
+Phase 11 evidence 設計上、`outputs/phase-11/screenshots/` 配下に runtime screenshots を取得する計画となっていたが、実行担当ローカルで以下が揃わず screenshots は **未取得のまま** Phase 12 に遷移していた:
 
 - Cloudflare Workers (`apps/api`) 起動 + D1 binding 解決
 - Auth.js admin session cookie の発行 (`/admin/*` route の gate 通過)
 - diff > 0 / diff = 0 / 409 collision / 422 validation を満たす D1 fixture seed
 
-結果、Phase 12 main.md にて `phase_status (11) = runtime_pending`、`evidence_state = PASS_BOUNDARY_SYNCED_RUNTIME_PENDING`、`runtime_evidence = "local 5 点 evidence captured。runtime screenshots は Cloudflare Workers + auth + D1 前提のため pending"` で固定されている。
+Issue #775 recovery workflow でこの pending は解消済み。今回の完了境界は fixture-backed local visual evidence であり、real D1/staging smoke は user-gated の外部確認として残す。
 
 ### 1.2 問題点・課題
 
@@ -64,7 +66,7 @@ Phase 11 evidence 設計上、`outputs/phase-11/screenshots/` 配下に `admin-s
 ### 1.3 放置した場合の影響
 
 - serial-05-step-03 が `completed` に進まず、`serial-05-admin-mutation-ui` の 3/5 ゲートで全 step-04 / step-05 の merge 順序が滞る
-- staging (`dev` deploy) で admin schema 機能の runtime smoke がスキップされ、Cloudflare Workers + D1 binding + Auth.js gate の三点結合の初回確認が後ろ倒しになる
+- staging (`dev` deploy) で admin schema 機能の real D1 runtime smoke がスキップされ、Cloudflare Workers + D1 binding + Auth.js gate の三点結合の初回確認が後ろ倒しになる
 - 409 collision / 422 validation の payload detail 表示が runtime 上で再現確認されないまま production に乗るリスク
 
 ---
@@ -73,7 +75,7 @@ Phase 11 evidence 設計上、`outputs/phase-11/screenshots/` 配下に `admin-s
 
 ### 2.1 目的
 
-serial-05-step-03 Phase 11 で設計済みの runtime screenshots を、Cloudflare Workers (`apps/api`) + Auth.js admin session + D1 binding を揃えた状態で取得し、`SchemaDiffPanel` の 4 pane × 2 scale = 8 PNG と resolve 成功 / 409 / 422 のフィードバック PNG を `outputs/phase-11/screenshots/` 配下に配置。Phase 11 evidence claim を `runtime_pending` → `completed` に更新する。
+serial-05-step-03 Phase 11 で不足していた visual screenshots を、既存 Playwright admin auth fixture + schema diff fixture で取得し、`SchemaDiffPanel` の 4 pane × 2 scale = 8 PNG と resolve 成功 / 409 / 422 のフィードバック PNG を `outputs/phase-11/screenshots/` 配下に配置。Phase 11 evidence claim を `runtime_pending` → `completed` に更新する。
 
 ### 2.2 最終ゴール
 
@@ -88,10 +90,10 @@ serial-05-step-03 Phase 11 で設計済みの runtime screenshots を、Cloudfla
 
 #### 含むもの
 
-- `apps/api` を Cloudflare Workers 互換で起動 (`wrangler dev` 経由) し D1 binding を解決
-- D1 seed: diff > 0 を再現する Google Form schema mock と 既存登録済 `stableKey` (409 用) を投入
-- Auth.js admin session cookie 発行手順の確立（テストアカウント `manjumoto.daishi@senpai-lab.com` 利用）
-- 9 PNG の取得と `outputs/phase-11/screenshots/` への配置
+- Playwright admin auth fixture と schema diff fixture による local visual evidence capture
+- Optional future real-D1 seed: diff > 0 を再現する Google Form schema mock と既存登録済 `stableKey` (409 用) の投入 SQL を保持
+- Auth.js storageState 実体は commit しない（今回の PASS 境界は fixture cookie injection）
+- 11 PNG の取得と `outputs/phase-11/screenshots/` への配置
 - `outputs/phase-11/manifest.json` 更新
 - Phase 12 main.md / Phase 11 evidence.md の状態遷移反映
 - staging 上の runtime smoke ログ取得（任意・推奨）
@@ -105,7 +107,7 @@ serial-05-step-03 Phase 11 で設計済みの runtime screenshots を、Cloudfla
 
 ### 2.4 成果物
 
-- 9 PNG ファイル（`outputs/phase-11/screenshots/` 配下）
+- 11 PNG ファイル（`outputs/phase-11/screenshots/` 配下）
 - 更新済 `outputs/phase-11/manifest.json`
 - Phase 12 main.md / Phase 11 evidence.md / `unassigned-task-detection.md` の状態更新差分
 - 本 followup §3 への runtime evidence 取得手順記録
@@ -150,15 +152,15 @@ local 取得が困難な場合の代替として staging (`dev` deploy) で scre
 
 1. **local stack 起動**: terminal A で `mise exec -- pnpm --filter @ubm/api dev`、terminal B で `bash scripts/with-env.sh mise exec -- pnpm --filter @ubm/web dev`
 2. **D1 seed**: `bash scripts/cf.sh d1 execute ubm-hyogo-db-local --local --file=outputs/phase-11/fixtures/seed-diff.sql` で diff > 0 / 409 候補を投入
-3. **admin session 取得**: Magic Link で `manjumoto.daishi@senpai-lab.com` ログイン → DevTools で `next-auth.session-token` cookie を抜き出し `playwright/.auth/admin.json` に `storageState` 形式で保存
-4. **Playwright で 8 PNG 取得**: `SchemaDiffPanel` の 4 pane を 1280 / 375 viewport で full-page capture
+3. **admin session 取得**: Playwright `adminPage` fixture が `authjs.session-token` を注入。storageState JSON は作成・commit しない
+4. **Playwright で 8 PNG 取得**: `SchemaDiffPanel` の 4 pane region を 1280 / 375 viewport で capture
 5. **resolve フィードバック 3 PNG 取得**: 正常 submit / 409 / 422 を順に発火し、toast 表示直後をキャプチャ
 6. **staging fallback**: local で再現困難な場合は `cf.sh` 経由で staging deploy し、同手順を staging URL に対して実行
 7. **manifest 更新と state 反映**: `outputs/phase-11/manifest.json` を `pass: true` / `verdict: PASS` に更新、Phase 12 main.md の `phase_status (11) = completed` に修正
 
 ### 3.6 学んだこと / 横展開メモ
 
-- Cloudflare Workers + D1 + Auth.js の三点結合 runtime 検証は、3 つのうちどれが欠けても screenshot が取れない。local stack 起動順序を固定化する手順書化が serial-05 残 step (04 / 05) でも再利用可能
+- Cloudflare Workers + D1 + Auth.js の三点結合 runtime 検証は user-gated の外部確認として残る。今回の consumed 境界は fixture-backed visual evidence completion。
 - `INTERNAL_API_BASE_URL` を `getEnv()` 経由で注入する経路は `apps/web/src/lib/env.ts` zod schema 検証を通る必要があり、未定義時に error boundary (`apps/web/src/app/error.tsx`) に落ちる。screenshot 取得前に必ず `/admin/schema` で 200 を確認する
 - `127.0.0.1:8787` のような local 限定 endpoint は `apps/web/src` 配下に焼き込み禁止（task-18 regression smoke の grep gate で検知される）。env 経由でのみ注入する
 
@@ -166,7 +168,7 @@ local 取得が困難な場合の代替として staging (`dev` deploy) で scre
 
 ## 4. 受入条件 (AC)
 
-- **AC-1**: `docs/30-workflows/serial-05-step-03-schema-diff-resolve/outputs/phase-11/screenshots/` に下記 9 PNG が存在し、各ファイルが commit 可能サイズ（個別 ≤ 500KB 目安）
+- **AC-1**: `docs/30-workflows/serial-05-step-03-schema-diff-resolve/outputs/phase-11/screenshots/` に下記 11 PNG が存在し、各ファイルが commit 可能サイズ（個別 ≤ 500KB 目安）
   - `admin-schema-diff-added-desktop.png` / `admin-schema-diff-added-mobile.png`
   - `admin-schema-diff-changed-desktop.png` / `admin-schema-diff-changed-mobile.png`
   - `admin-schema-diff-removed-desktop.png` / `admin-schema-diff-removed-mobile.png`
@@ -188,7 +190,7 @@ local 取得が困難な場合の代替として staging (`dev` deploy) で scre
 
 ## 6. 参照資料
 
-- `docs/30-workflows/serial-05-step-03-schema-diff-resolve/outputs/phase-11/evidence.md` - Phase 11 evidence 設計（5 点セット + screenshots）
+- `docs/30-workflows/completed-tasks/serial-05-step-03-schema-diff-resolve/outputs/phase-11/evidence.md` - Phase 11 evidence 設計（5 点セット + screenshots）
 - `docs/30-workflows/serial-05-step-03-schema-diff-resolve/outputs/phase-12/main.md` - workflow_state / evidence_state 正本
 - `docs/30-workflows/serial-05-step-03-schema-diff-resolve/outputs/phase-12/implementation-guide.md` - 実装範囲と制約
 - `docs/30-workflows/serial-05-step-03-schema-diff-resolve/outputs/phase-12/unassigned-task-detection.md` - 後続候補 / coverage layer 表
@@ -208,5 +210,16 @@ local 取得が困難な場合の代替として staging (`dev` deploy) で scre
 | `implementation_status` | `IMPLEMENTED_LOCAL_RUNTIME_PENDING` | `IMPLEMENTED_COMPLETED` |
 | `evidence_state` | `PASS_BOUNDARY_SYNCED_RUNTIME_PENDING` | `PASS` |
 | `phase_status (11)` | `runtime_pending` | `completed` |
-| `runtime_evidence` | `local 5 点 evidence captured。runtime screenshots は Cloudflare Workers + auth + D1 前提のため pending` | `local 5 点 + runtime 9 screenshots captured` |
+| `runtime_evidence` | `local 5 点 evidence captured。runtime screenshots は pending` | `local 5 点 + fixture-backed runtime 11 valid PNG captured` |
 | `governance_mutation_user_gate` | `false` | `false`（PR 作成時のみ user 明示承認で `true`、本 followup では変更しない） |
+
+---
+status: consumed
+consumed_at: 2026-05-18
+canonical_workflow: docs/30-workflows/completed-tasks/issue-775-serial-05-step-03-runtime-evidence-completion/
+recovery_note: |
+  Issue #775 was closed before a canonical workflow root existed.
+  This unassigned-task file is preserved for backward link integrity.
+  Runtime evidence completion was executed through the canonical workflow root above.
+  Issue #775 reference mode: refs_only (no Closes #775).
+---

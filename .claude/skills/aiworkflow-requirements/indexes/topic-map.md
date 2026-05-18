@@ -2703,6 +2703,14 @@ node scripts/list-specs.js --topics
 
 ### references/workflow-issue-748-jest-axe-primitive-a11y-integration-artifact-inventory.md
 
+### references/workflow-issue-775-serial-05-step-03-runtime-evidence-completion-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Implementation Files | L10 |
+| Evidence | L20 |
+| Same-Wave Sync | L29 |
+
 ### references/workflow-light-theme-contrast-regression-guard.md
 
 | セクション | 行 |
@@ -2788,8 +2796,8 @@ node scripts/list-specs.js --topics
 
 | セクション | 行 |
 |------------|----|
-| Primary files | L10 |
-| Evidence | L21 |
+| Primary files | L11 |
+| Evidence | L22 |
 
 ### references/workflow-skill-identifier-branded-type-resolution.md
 
@@ -5207,6 +5215,13 @@ node scripts/list-specs.js --topics
 | L-I747-005: closed Issue でも `Refs #<n>` で後付け canonical workflow を建てる | L43 |
 | L-I747-006: parent repository `node_modules` cleanup は AI が自動実行しない | L51 |
 
+### references/lessons-learned-issue-775-serial-05-step-03-runtime-evidence-completion-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| 苦戦箇所（unassigned-task 由来） | L13 |
+| 関連 skill feedback | L29 |
+
 ### references/lessons-learned-issue359-production-d1-apply-2026-05.md
 
 | セクション | 行 |
@@ -5762,8 +5777,8 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 概要 | L3 |
 | 仕様書インデックス | L7 |
-| 利用順序 | L111 |
-| 関連ドキュメント | L116 |
+| 利用順序 | L112 |
+| 関連ドキュメント | L117 |
 
 ### references/llm-embedding.md
 
@@ -6887,14 +6902,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L1557 |
-| フェーズ構造（概要） | L1566 |
-| 品質ゲート（概要） | L1597 |
-| 出力テンプレート | L1608 |
-| 実行時のコマンド・エージェント・スキル | L1631 |
-| 昇格パターン集 | L1655 |
-| Current Active / Spec Created Tasks | L1657 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L1807 |
+| ドキュメント構成 | L1571 |
+| フェーズ構造（概要） | L1580 |
+| 品質ゲート（概要） | L1611 |
+| 出力テンプレート | L1622 |
+| 実行時のコマンド・エージェント・スキル | L1645 |
+| 昇格パターン集 | L1669 |
+| Current Active / Spec Created Tasks | L1671 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L1821 |
 
 ### references/task-workflow-backlog-part2.md
 
