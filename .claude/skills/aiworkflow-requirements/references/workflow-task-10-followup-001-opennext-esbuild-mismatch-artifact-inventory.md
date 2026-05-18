@@ -6,6 +6,7 @@
 | state | `implemented-local / implementation / NON_VISUAL / runtime_evidence_captured` |
 | source task | `docs/30-workflows/unassigned-task/task-10-followup-001-opennext-esbuild-mismatch.md` |
 | parent | `docs/30-workflows/completed-tasks/task-10-ui-primitives-spec/` |
+| superseded by | `docs/30-workflows/fix-cf-deploy-esbuild-import-source-staging-failure/` (`pnpm.overrides.esbuild = "0.27.3"` current SSOT, 2026-05-17) |
 
 ## Implementation Files
 
@@ -31,3 +32,4 @@
 
 Strict seven files are present under `outputs/phase-12/`, and root/output `artifacts.json` parity is maintained.
 
+Historical note: `0.25.4` was correct for this 2026-05-11 OpenNext mismatch but is no longer the current Cloudflare deploy override. The active SSOT is `package.json#pnpm.overrides.esbuild = "0.27.3"` from `docs/30-workflows/fix-cf-deploy-esbuild-import-source-staging-failure/`.

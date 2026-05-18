@@ -37,6 +37,11 @@ test.describe("public top & members list @critical-route", () => {
     await expect(
       page.locator('[data-stat="total"]'),
     ).toHaveCount(1);
+    const cta = page.locator('[data-component="call-to-action-cta"]');
+    await expect(cta).toBeVisible();
+    const ctaLink = cta.getByRole("link", { name: "回答フォームを開く" });
+    await expect(ctaLink).toHaveAttribute("target", "_blank");
+    await expect(ctaLink).toHaveAttribute("rel", "noopener noreferrer");
     await page.screenshot({
       path: screenshotPath("home-screenshot.png"),
       fullPage: true,

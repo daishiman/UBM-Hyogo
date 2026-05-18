@@ -1,5 +1,6 @@
 // 07c-followup-003: /admin/audit read-only browsing UI.
 import { fetchAdmin } from "../../../../src/lib/admin/server-fetch";
+import { Breadcrumb } from "@/components/admin/Breadcrumb";
 import { AuditLogPanel, type AuditSearchValues } from "../../../../src/components/admin/AuditLogPanel";
 import type { AdminAuditListResponse } from "../../../../src/lib/admin/types";
 import { jstLocalToUtcIso } from "./audit-query";
@@ -59,9 +60,14 @@ export default async function AdminAuditPage({
     error = e instanceof Error ? e.message : "unknown error";
   }
 
-  return error ? (
-    <AuditLogPanel data={data} values={values} error={error} />
-  ) : (
-    <AuditLogPanel data={data} values={values} />
+  return (
+    <section className="flex flex-col gap-4">
+      <Breadcrumb items={[{ label: "管理", href: "/admin" }, { label: "監査ログ" }]} />
+      {error ? (
+        <AuditLogPanel data={data} values={values} error={error} />
+      ) : (
+        <AuditLogPanel data={data} values={values} />
+      )}
+    </section>
   );
 }

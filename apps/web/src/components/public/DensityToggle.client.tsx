@@ -5,6 +5,8 @@
 
 import { useRouter, useSearchParams } from "next/navigation";
 import { useCallback } from "react";
+import { FormField } from "../ui/FormField";
+import { Input } from "../ui/Input";
 
 const DENSITY_OPTIONS: ReadonlyArray<{
   value: "comfy" | "dense" | "list";
@@ -44,16 +46,19 @@ export function DensityToggle({ value }: DensityToggleProps) {
       data-component="density-toggle"
     >
       {DENSITY_OPTIONS.map((opt) => (
-        <label key={opt.value}>
-          <input
+        <FormField
+          key={opt.value}
+          name={`density-${opt.value}`}
+          label={opt.label}
+        >
+          <Input
             type="radio"
             name="density"
             value={opt.value}
             checked={value === opt.value}
             onChange={() => onChange(opt.value)}
           />
-          <span>{opt.label}</span>
-        </label>
+        </FormField>
       ))}
     </div>
   );
