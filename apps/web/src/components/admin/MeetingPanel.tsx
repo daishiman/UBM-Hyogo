@@ -12,6 +12,10 @@ import {
   addAttendance,
   removeAttendance,
 } from "../../lib/admin/api";
+import { FormField } from "../ui/FormField";
+import { Input } from "../ui/Input";
+import { EmptyState } from "../ui/EmptyState";
+import { AdminMutationError, useAdminMutation } from "../../features/admin/hooks/useAdminMutation";
 
 export interface MeetingItem {
   sessionId: string;
@@ -34,6 +38,23 @@ export interface MemberCandidate {
   fullName: string;
 }
 
+interface MeetingMutationResponse {
+  ok?: boolean;
+}
+
+const unwrapAdminResult = async <T,>(result: Promise<{
+  ok: true;
+  data: unknown;
+} | {
+  ok: false;
+  status: number;
+  error: string;
+}>): Promise<T> => {
+  const r = await result;
+  if (!r.ok) throw new AdminMutationError(r.status, r.error);
+  return r.data as T;
+};
+
 // 不変条件 #15: UI 側 filter 二重防御
 export function filterCandidates<T extends { isDeleted?: boolean }>(members: T[]): T[] {
   return members.filter((m) => m.isDeleted !== true);
@@ -46,6 +67,51 @@ interface Props {
 
 export function MeetingPanel({ meetings, candidates }: Props) {
   const router = useRouter();
+  const meetingCreateMutation = useAdminMutation<MeetingMutationResponse>(
+    "/api/admin/meetings",
+    "POST",
+    {
+      refreshOnSuccess: false,
+      mutationFn: (payload) =>
+        unwrapAdminResult<MeetingMutationResponse>(
+          createMeeting(payload as { title: string; heldOn: string; note?: string | null }),
+        ),
+    },
+  );
+  const meetingUpdateMutation = useAdminMutation<MeetingMutationResponse>(
+    "/api/admin/meetings",
+    "PATCH",
+    {
+      refreshOnSuccess: false,
+      mutationFn: (payload) => {
+        const { sessionId, ...body } = payload as {
+          sessionId: string;
+          title?: string;
+          heldOn?: string;
+          note?: string | null;
+          deletedAt?: string | null;
+        };
+        return unwrapAdminResult<MeetingMutationResponse>(updateMeeting(sessionId, body));
+      },
+    },
+  );
+  const attendanceMutation = useAdminMutation<MeetingMutationResponse>(
+    "/api/admin/meetings/attendances",
+    "POST",
+    {
+      refreshOnSuccess: false,
+      mutationFn: (payload) => {
+        const { sessionId, memberId, attended: isAttended } = payload as {
+          sessionId: string;
+          memberId: string;
+          attended: boolean;
+        };
+        return unwrapAdminResult<MeetingMutationResponse>(
+          isAttended ? addAttendance(sessionId, memberId) : removeAttendance(sessionId, memberId),
+        );
+      },
+    },
+  );
   const initialAttended = () =>
     Object.fromEntries(
       meetings.items.map((m) => [
@@ -67,12 +133,15 @@ export function MeetingPanel({ meetings, candidates }: Props) {
     e.preventDefault();
     if (!title.trim() || !/^\d{4}-\d{2}-\d{2}$/.test(heldOn)) return;
     setBusy(true);
-    const r = await createMeeting({ title: title.trim(), heldOn, note: note.trim() || null });
-    setBusy(false);
-    if (!r.ok) {
-      setToast(`開催追加に失敗: ${r.error}`);
-      return;
+    let ok = true;
+    try {
+      await meetingCreateMutation.trigger({ title: title.trim(), heldOn, note: note.trim() || null });
+    } catch (e) {
+      ok = false;
+      setToast(`開催追加に失敗: ${e instanceof Error ? e.message : "unknown error"}`);
     }
+    setBusy(false);
+    if (!ok) return;
     setToast("開催日を追加しました");
     setTitle("");
     setHeldOn("");
@@ -87,11 +156,14 @@ export function MeetingPanel({ meetings, candidates }: Props) {
       setToast("この会員は既に出席登録されています");
       return;
     }
-    const r = await addAttendance(sessionId, memberId);
-    if (!r.ok) {
-      if (r.status === 422) setToast("削除済み会員は登録できません");
-      else if (r.status === 409) setToast("この会員は既に出席登録されています");
-      else setToast(`登録に失敗: ${r.error}`);
+    try {
+      await attendanceMutation.trigger(
+        { sessionId, memberId, attended: true },
+      );
+    } catch (e) {
+      if (e instanceof AdminMutationError && e.status === 422) setToast("削除済み会員は登録できません");
+      else if (e instanceof AdminMutationError && e.status === 409) setToast("この会員は既に出席登録されています");
+      else setToast(`登録に失敗: ${e instanceof Error ? e.message : "unknown error"}`);
       return;
     }
     setAttended((s) => {
@@ -107,13 +179,17 @@ export function MeetingPanel({ meetings, candidates }: Props) {
   const onUpdate = async (sessionId: string) => {
     const draft = editing[sessionId];
     if (!draft || !draft.title.trim() || !/^\d{4}-\d{2}-\d{2}$/.test(draft.heldOn)) return;
-    const r = await updateMeeting(sessionId, {
-      title: draft.title.trim(),
-      heldOn: draft.heldOn,
-      note: draft.note.trim() || null,
-    });
-    if (!r.ok) {
-      setToast(`開催更新に失敗: ${r.error}`);
+    try {
+      await meetingUpdateMutation.trigger(
+        {
+          sessionId,
+          title: draft.title.trim(),
+          heldOn: draft.heldOn,
+          note: draft.note.trim() || null,
+        },
+      );
+    } catch (e) {
+      setToast(`開催更新に失敗: ${e instanceof Error ? e.message : "unknown error"}`);
       return;
     }
     setToast("開催日を更新しました");
@@ -121,9 +197,12 @@ export function MeetingPanel({ meetings, candidates }: Props) {
   };
 
   const onSoftDelete = async (sessionId: string) => {
-    const r = await updateMeeting(sessionId, { deletedAt: new Date().toISOString() });
-    if (!r.ok) {
-      setToast(`開催削除に失敗: ${r.error}`);
+    try {
+      await meetingUpdateMutation.trigger(
+        { sessionId, deletedAt: new Date().toISOString() },
+      );
+    } catch (e) {
+      setToast(`開催削除に失敗: ${e instanceof Error ? e.message : "unknown error"}`);
       return;
     }
     setToast("開催日を削除しました");
@@ -131,9 +210,12 @@ export function MeetingPanel({ meetings, candidates }: Props) {
   };
 
   const onRemove = async (sessionId: string, memberId: string) => {
-    const r = await removeAttendance(sessionId, memberId);
-    if (!r.ok) {
-      setToast(`削除に失敗: ${r.error}`);
+    try {
+      await attendanceMutation.trigger(
+        { sessionId, memberId, attended: false },
+      );
+    } catch (e) {
+      setToast(`削除に失敗: ${e instanceof Error ? e.message : "unknown error"}`);
       return;
     }
     setAttended((s) => {
@@ -153,27 +235,27 @@ export function MeetingPanel({ meetings, candidates }: Props) {
 
       <form onSubmit={onCreate} aria-label="開催日追加">
         <h2>開催日を追加</h2>
-        <label>
-          タイトル
-          <input value={title} onChange={(e) => setTitle(e.target.value)} required />
-        </label>
-        <label>
-          開催日 (YYYY-MM-DD)
-          <input
+        <FormField name="meeting-title" label="タイトル" required>
+          <Input value={title} onChange={(e) => setTitle(e.target.value)} required />
+        </FormField>
+        <FormField name="meeting-heldOn" label="開催日 (YYYY-MM-DD)" required>
+          <Input
             type="date"
             value={heldOn}
             onChange={(e) => setHeldOn(e.target.value)}
             required
           />
-        </label>
-        <label>
-          メモ
-          <input value={note} onChange={(e) => setNote(e.target.value)} />
-        </label>
+        </FormField>
+        <FormField name="meeting-note" label="メモ">
+          <Input value={note} onChange={(e) => setNote(e.target.value)} />
+        </FormField>
         <button type="submit" disabled={busy}>追加</button>
       </form>
 
       <h2>開催日一覧 ({meetings.total} 件)</h2>
+      {meetings.items.length === 0 ? (
+        <EmptyState title="開催日はまだありません" />
+      ) : null}
       <ul>
         {meetings.items.map((m) => {
           const here = attended[m.sessionId] ?? new Set<string>();
@@ -186,9 +268,8 @@ export function MeetingPanel({ meetings, candidates }: Props) {
                 {m.note && <p>{m.note}</p>}
                 <details>
                   <summary>編集</summary>
-                  <label>
-                    タイトル
-                    <input
+                  <FormField name={`meeting-edit-title-${m.sessionId}`} label="タイトル">
+                    <Input
                       value={editing[m.sessionId]?.title ?? m.title}
                       onChange={(e) =>
                         setEditing((s) => ({
@@ -201,10 +282,9 @@ export function MeetingPanel({ meetings, candidates }: Props) {
                         }))
                       }
                     />
-                  </label>
-                  <label>
-                    開催日
-                    <input
+                  </FormField>
+                  <FormField name={`meeting-edit-heldOn-${m.sessionId}`} label="開催日">
+                    <Input
                       type="date"
                       value={editing[m.sessionId]?.heldOn ?? m.heldOn}
                       onChange={(e) =>
@@ -218,10 +298,9 @@ export function MeetingPanel({ meetings, candidates }: Props) {
                         }))
                       }
                     />
-                  </label>
-                  <label>
-                    メモ
-                    <input
+                  </FormField>
+                  <FormField name={`meeting-edit-note-${m.sessionId}`} label="メモ">
+                    <Input
                       value={editing[m.sessionId]?.note ?? (m.note ?? "")}
                       onChange={(e) =>
                         setEditing((s) => ({
@@ -234,7 +313,7 @@ export function MeetingPanel({ meetings, candidates }: Props) {
                         }))
                       }
                     />
-                  </label>
+                  </FormField>
                   <button type="button" onClick={() => onUpdate(m.sessionId)}>
                     更新
                   </button>

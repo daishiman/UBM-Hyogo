@@ -9,6 +9,7 @@ import {
   requireProvider,
   type AuditLogListRow,
 } from "../../repository/_shared/provider-context";
+import { redactAuditPayload, redactString } from "../../lib/audit/redact";
 import type { AdminRouteEnv } from "./_shared";
 
 export const ListAuditQueryZ = z.object({
@@ -24,7 +25,7 @@ export const ListAuditQueryZ = z.object({
 
 export const AdminAuditListItemZ = z.object({
   auditId: z.string().min(1),
-  actorId: z.string().min(1),
+  actorId: z.string().min(1).nullable(),
   actorEmail: z.string().nullable(),
   action: z.string().min(1),
   targetType: z.string().nullable(),
@@ -104,44 +105,38 @@ const jstInputToUtcIso = (value: string, endOfDate: boolean): string | null => {
   return Number.isNaN(Date.parse(iso)) ? null : iso;
 };
 
-const PII_KEY =
-  /(^|_|\b)(email|mail|phone|tel|mobile|address|addr|name|fullname|firstname|lastname|displayname|kana|postal|zip)(_|$|\b)/i;
-const normalizePiiKey = (key: string): string => key.toLowerCase().replace(/[-_\s]/g, "");
-const isPiiKey = (key: string): boolean => {
-  const normalized = normalizePiiKey(key);
-  return (
-    PII_KEY.test(key) ||
-    ["email", "mail", "phone", "tel", "mobile", "address", "addr", "name", "kana", "postal", "zip"].some((token) =>
-      normalized.includes(token),
-    )
-  );
-};
-const EMAIL_VALUE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-const PHONE_VALUE = /^\+?[\d\s().-]{8,}$/;
-
-const maskJsonValue = (value: unknown): unknown => {
-  if (Array.isArray(value)) return value.map(maskJsonValue);
-  if (typeof value === "string" && (EMAIL_VALUE.test(value) || PHONE_VALUE.test(value))) {
-    return "[masked]";
-  }
-  if (value && typeof value === "object") {
-    return Object.fromEntries(
-      Object.entries(value as Record<string, unknown>).map(([key, child]) => [
-        key,
-        isPiiKey(key) ? "[masked]" : maskJsonValue(child),
-      ]),
-    );
-  }
-  return value;
-};
-
 const parseAndMask = (json: string | null): { value: unknown | null; parseError: boolean } => {
   if (json === null || json === "") return { value: null, parseError: false };
   try {
-    return { value: maskJsonValue(JSON.parse(json)), parseError: false };
+    const parsed = JSON.parse(json) as unknown;
+    if (parsed && typeof parsed === "object" && !Array.isArray(parsed)) {
+      return {
+        value: toAdminMaskedValue(redactAuditPayload(parsed as Record<string, unknown>)),
+        parseError: false,
+      };
+    }
+    return {
+      value: typeof parsed === "string" ? redactString(parsed) : parsed,
+      parseError: false,
+    };
   } catch {
     return { value: null, parseError: true };
   }
+};
+
+const toAdminMaskedValue = (value: unknown): unknown => {
+  if (value === null || value === undefined) return value;
+  if (Array.isArray(value)) return value.map(toAdminMaskedValue);
+  if (typeof value === "object") {
+    const record = value as Record<string, unknown>;
+    if (record.redacted === true && typeof record.kind === "string") {
+      return "[masked]";
+    }
+    return Object.fromEntries(
+      Object.entries(record).map(([k, v]) => [k, toAdminMaskedValue(v)]),
+    );
+  }
+  return value;
 };
 
 const toResponseItem = (row: AuditLogListRow) => {

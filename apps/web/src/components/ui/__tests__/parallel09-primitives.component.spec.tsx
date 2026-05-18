@@ -5,6 +5,7 @@ import { Pagination } from "../Pagination";
 import { Icon } from "../Icon";
 import { EmptyState } from "../EmptyState";
 import { Breadcrumb } from "../../admin/Breadcrumb";
+import { axe } from "../../../test/axe";
 
 afterEach(() => cleanup());
 
@@ -154,5 +155,67 @@ describe("Breadcrumb (G9-5)", () => {
   it("items 空時は何も描画しない", () => {
     const { container } = render(<Breadcrumb items={[]} />);
     expect(container.querySelector("[data-component=breadcrumb]")).toBeNull();
+  });
+});
+
+describe.each([
+  [
+    "FormField",
+    () =>
+      render(
+        <FormField name="name" label="氏名">
+          <input type="text" />
+        </FormField>,
+      ).container,
+  ],
+  [
+    "FormField (error)",
+    () =>
+      render(
+        <FormField name="email" label="メール" error="必須項目です">
+          <input type="email" />
+        </FormField>,
+      ).container,
+  ],
+  [
+    "EmptyState",
+    () =>
+      render(
+        <EmptyState
+          icon={<span data-testid="ico" />}
+          title="空"
+          description="まだありません"
+          action={<button>追加</button>}
+        />,
+      ).container,
+  ],
+  [
+    "Pagination",
+    () =>
+      render(
+        <Pagination current={2} total={50} pageSize={10} hasNext hasPrev onNext={() => {}} onPrev={() => {}} />,
+      ).container,
+  ],
+  ["Icon (labelled)", () => render(<Icon name="search" ariaLabel="検索" />).container],
+  [
+    "Icon (decorative)",
+    () =>
+      render(
+        <Icon>
+          <svg />
+        </Icon>,
+      ).container,
+  ],
+  [
+    "Breadcrumb",
+    () =>
+      render(
+        <Breadcrumb items={[{ label: "管理", href: "/admin" }, { label: "会員" }]} />,
+      ).container,
+  ],
+] as const)("a11y(%s)", (_, mount) => {
+  it("has no axe violations", async () => {
+    const results = await axe(mount());
+    expect(results.violations).toHaveLength(0);
   });
 });

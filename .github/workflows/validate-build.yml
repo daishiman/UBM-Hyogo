@@ -21,9 +21,9 @@ jobs:
         id: ready
         run: |
           if [ -f "package.json" ] && [ -f "pnpm-workspace.yaml" ]; then
-            echo "value=true" >> $GITHUB_OUTPUT
+            echo "value=true" >> "$GITHUB_OUTPUT"
           else
-            echo "value=false" >> $GITHUB_OUTPUT
+            echo "value=false" >> "$GITHUB_OUTPUT"
           fi
 
       - name: Skip — monorepo not yet bootstrapped

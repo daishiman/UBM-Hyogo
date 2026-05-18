@@ -22,10 +22,76 @@
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-762-cf-oidc-staging-proof-prod-cutover-artifact-inventory.md` |
 | user gate | commit / push / PR / Cloudflare / GitHub Secret / 1Password mutation |
 
+### UI Prototype Design System Foundation（2026-05-18）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `spec_created / implementation / VISUAL / Phase 12 strict 7 present` |
+| 成果物 | `docs/30-workflows/ui-prototype-design-system-foundation/` |
+| prototype coverage | `docs/30-workflows/ui-prototype-design-system-foundation/PROTOTYPE-COVERAGE.md` |
+| 目的 | 凍結プロトタイプと 09a-09h の情報を、現行 `apps/web/app/**` 物理配置へ反映できる design system foundation workflow として整理する |
+| source | `docs/00-getting-started-manual/claude-design-prototype/**`, `docs/00-getting-started-manual/specs/09a..09h-*.md`, parent `docs/30-workflows/ui-prototype-alignment-mvp-recovery/` |
+| boundary | 新規 API endpoint / D1 schema / Google Form 仕様変更なし。`/login` / `/profile` / `/privacy` / `/terms` は root app path を維持 |
+| evidence | root / outputs `artifacts.json` parity, Phase 12 strict 7, 30-method compact evidence in `PROTOTYPE-COVERAGE.md` |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-ui-prototype-design-system-foundation-artifact-inventory.md` |
+| user gate | code implementation, visual screenshots, commit, push, PR |
+
+### Issue #749 Primitive Adoption Tracker（2026-05-17）
+### Issue #747 Vitest esbuild arch & worktree isolation（2026-05-17）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_runtime_blocked_node_arch / implementation / NON_VISUAL / PARTIAL_LOCAL_EVIDENCE_NODE_ARCH_BLOCKED` |
+| 成果物 | `docs/30-workflows/issue-747-vitest-esbuild-arch-and-worktree-isolation/` |
+| source | Issue #747 CLOSED / `docs/30-workflows/unassigned-task/parallel-09-followup-002-vitest-esbuild-version-alignment.md` consumed |
+| 目的 | focused Vitest 2 spec の起動 blocker を、Node arch / worktree topology / esbuild version parity の3層で検出・復旧する |
+| 実装 | `scripts/verify-node-arch.mjs`, `scripts/verify-worktree-node-modules-isolation.mjs`, `scripts/verify-esbuild-version.mjs`, root `package.json` scripts + `esbuild@0.27.3`, `pnpm-lock.yaml`, `lefthook.yml`, `.github/workflows/verify-esbuild.yml`, `.mise.toml`, `CLAUDE.md` runbook link |
+| evidence | focused Vitest 2 specs, worktree isolation, and esbuild version parity pass locally; `verify:node-arch` fails on this Rosetta/x64 Node and remains the active runtime blocker |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-747-vitest-esbuild-arch-and-worktree-isolation-artifact-inventory.md` |
+| user gate | arm64 Node reinstall on local host, commit, push, PR, GitHub Actions runtime evidence, parent repository `node_modules` cleanup |
+
+### Issue #748 jest-axe primitive a11y integration（2026-05-17）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / NON_VISUAL / Phase 12 strict 7 present` |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-748-jest-axe-primitive-a11y-integration/` |
+| Issue | #748 CLOSED。PR 文脈は `Refs #748` |
+| source | `docs/30-workflows/completed-tasks/parallel-09-followup-003-jest-axe-real-a11y-integration.md` consumed |
+| 目的 | parallel-09 primitive 5 種に real `jest-axe` component test を統合し、proxy assertion だけの a11y gate を解消する |
+| implementation targets | `apps/web/src/test/axe.ts`, `apps/web/src/components/ui/__tests__/parallel09-primitives.component.spec.tsx` |
+| evidence | `outputs/phase-11/local-test.log`, `typecheck.log`, `lint.log`; Phase 12 strict 7 |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-748-jest-axe-primitive-a11y-integration-artifact-inventory.md` |
+| user gate | commit / push / PR / issue mutation |
+
+### Issue #730 Phase 11 evidence existence validator（2026-05-17）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / NON_VISUAL / local evidence PASS` |
+| 成果物 | `docs/30-workflows/issue-730-phase11-evidence-existence-validator/` |
+| Issue | #730 CLOSED。PR 文脈は `Refs #730` のみ |
+| source unassigned | `docs/30-workflows/unassigned-task/task-27-followup-002-phase11-evidence-existence-validator.md` consumed |
+| 目的 | Phase 12 compliance check の Phase 11 evidence inventory で `present` 宣言された path の物理実在を検証する |
+| implementation targets | `scripts/lib/phase12-compliance/parse-phase11-evidence.ts`, `verify-phase11-evidence-existence.ts`, `verify-compliance-file.ts`, `types.ts`, `scripts/__tests__/verify-phase12-compliance.spec.ts` |
+| evidence | `outputs/phase-11/main.md`, `outputs/phase-12/phase12-task-spec-compliance-check.md` |
+| runtime boundary | `pnpm test:phase12-compliance` and `pnpm verify:phase12-compliance` pass locally. GitHub-hosted CI evidence remains user-gated |
+| user gate | commit / push / PR / Issue mutation |
+
 ### i02-admin-error-type-unify（2026-05-17）
 
 | 項目 | 値 |
 | --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / VISUAL_RUNTIME_PENDING / Phase 12 strict 7 present` |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-749-primitive-adoption-tracker/` |
+| source | Issue #749 CLOSED。PR 文脈は `Refs #749` のみ |
+| parent / route SSOT | `docs/30-workflows/completed-tasks/ui-prototype-alignment-mvp-recovery/SCOPE.md` |
+| 目的 | completed SCOPE の 19 routes x 6 primitive 採用を `outputs/adoption-tracker.md` と `verify-primitive-adoption` gate で機械検証可能にする |
+| implementation targets | `apps/web/src/components/admin/{MeetingPanel,AuditLogPanel,TagQueuePanel,SchemaDiffPanel,RequestQueuePanel,IdentityConflictRow}.tsx`, `apps/web/src/components/public/DensityToggle.client.tsx`, `apps/web/app/(admin)/admin/**/page.tsx`, `scripts/verify-primitive-adoption.sh`, `.github/workflows/verify-primitive-adoption.yml` |
+| same-cycle sync | `CLAUDE.md` 不変条件 9 / 10、quick-reference、resource-map、task-workflow-active、changelog、LOGS |
+| evidence boundary | `apps/web` implementation、Phase 11 grep/typecheck/focused tests、Phase 12 strict 7 は captured。runtime screenshot、branch protection PUT、commit、push、PR は user-gated |
+### i02-admin-error-type-unify（2026-05-17）
+
 | ステータス | `implemented_local_evidence_captured / implementation / NON_VISUAL / Phase 12 strict 7 present / completed-tasks moved` |
 | 成果物 | `docs/30-workflows/completed-tasks/i02-admin-error-type-unify/` |
 | source | `docs/30-workflows/completed-tasks/integration-fixes-i02-admin-error-type-unify.md` consumed |
@@ -37,6 +103,18 @@
 | user gate | commit / push / PR |
 
 ### UT-07A-FU-01 memberTags.assignTagsToMember cleanup（2026-05-15）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / NON_VISUAL / Phase 12 strict 7 present` |
+| 成果物 | `docs/30-workflows/ut-07a-01-member-tags-assign-cleanup/` |
+| source | Issue #294 CLOSED / `docs/30-workflows/completed-tasks/COMPLETED-UT-07A-01-member-tags-assign-cleanup.md` consumed |
+| 目的 | `assignTagsToMember` を削除せず、`tagQueueResolve` workflow 専用 helper としてコード本体で明示する |
+| 実装 | `apps/api/src/repository/memberTags.ts` のファイル冒頭コメント、関数 JSDoc、provider interface JSDoc、`memberTags.readonly.test-d.ts` / `memberTags.repository.spec.ts` boundary gates |
+| evidence | Phase 11 tracked `.txt` local evidence / grep topology / git diff、Phase 12 strict 7 |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-ut-07a-01-member-tags-assign-cleanup-artifact-inventory.md` |
+| user gate | commit / push / PR / issue mutation |
+
 ### serial-05-step-03 schema diff resolve UI（2026-05-16）
 
 | 項目 | 値 |
@@ -49,6 +127,20 @@
 | API boundary | 既存 `GET /admin/schema/diff` / `POST /admin/schema/aliases` を利用。新 endpoint / D1 schema / env gate 追加なし |
 | UI contract | 4 ペイン table semantics、stableKey regex `/^[a-zA-Z][a-zA-Z0-9_]*$/`、row select 後 input focus、409 `existingStableKey` / 422 `existingQuestionIds` 表示、202 retryable status、queued/resolved 日本語 label |
 | evidence | `docs/30-workflows/serial-05-step-03-schema-diff-resolve/outputs/phase-11/evidence/`, `docs/30-workflows/serial-05-step-03-schema-diff-resolve/outputs/phase-12/phase12-task-spec-compliance-check.md` |
+| user gate | runtime screenshots、staging smoke、commit、push、PR |
+
+### admin-tags-queue-resolver-drawer（2026-05-17）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / VISUAL / local tests passed / Phase 12 strict 7 present` |
+| 成果物 | `docs/30-workflows/completed-tasks/admin-tags-queue-resolver-drawer/` |
+| source | `docs/30-workflows/ui-prototype-alignment-mvp-recovery/improvements/serial-05-admin-mutation-ui/step-04-tags-assignment/spec.md` |
+| 目的 | `/admin/tags` の既存 `TagQueuePanel` から resolve UI を `TagsQueueResolveDrawer` として抽出し、a11y drawer pattern、schema validation、`useAdminMutation` 経由 mutation に再設計する |
+| implementation targets | `apps/web/src/components/admin/TagQueuePanel.tsx`, `apps/web/src/components/admin/TagsQueueResolveDrawer.tsx`, `apps/web/src/components/admin/_tagQueueStatus.ts`, `apps/web/src/features/admin/hooks/useAdminMutation.ts`, `apps/web/src/lib/admin/server-fetch.ts`, `apps/web/playwright/tests/admin-tags-resolve-drawer.spec.ts`, `apps/web/src/styles/tokens.css` |
+| API boundary | 既存 upstream `POST /admin/tags/queue/:queueId/resolve` のみ。browser path は `/api/admin/tags/queue/:queueId/resolve`。新 endpoint / D1 schema / shared schema 変更なし |
+| evidence | `docs/30-workflows/completed-tasks/admin-tags-queue-resolver-drawer/outputs/phase-12/phase12-task-spec-compliance-check.md`; local Vitest 626 passed / 1 skipped; Phase 11 screenshots 5 PNG; axe violations 0 |
+| lessons | `references/lessons-learned-admin-tags-queue-resolver-drawer-2026-05.md` |
 | user gate | runtime screenshots、staging smoke、commit、push、PR |
 
 ### UT-07A-04 member_tags assigned_via_queue_id decision（2026-05-16）
@@ -80,13 +172,13 @@
 
 | 項目 | 値 |
 | --- | --- |
-| ステータス | `implemented_local_runtime_pending / implementation / VISUAL_ON_EXECUTION / implementation_complete_visual_pending / Phase 12 strict 7 present` |
-| 成果物 | `docs/30-workflows/parallel-09-ux-cross-cutting/` |
+| ステータス | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION / implementation_complete_visual_evidence_captured / Phase 12 strict 7 present` |
+| 成果物 | `docs/30-workflows/completed-tasks/parallel-09-ux-cross-cutting/` |
 | 親 workflow | `docs/30-workflows/ui-prototype-alignment-mvp-recovery/` |
 | 原典 | `docs/30-workflows/ui-prototype-alignment-mvp-recovery/improvements/parallel-09-ux-cross-cutting/spec.md` |
 | 目的 | 19 routes 横断 UX primitive（FormField / EmptyState / Pagination / Icon / Breadcrumb / responsive / focus-visible / mutation guard / form preserve）を `apps/web` に実装し、後続 parallel-01〜08 の入力正本として固定する |
-| evidence | `outputs/phase-07/test-results.md`, `outputs/phase-11/main.md`, `outputs/phase-12/phase12-task-spec-compliance-check.md` |
-| 境界 | 本 wave は `apps/web` 共通 primitive 実装と local typecheck まで完了。visual screenshots は local `ENOSPC` 解消後、staging/production smoke、19-route adoption、commit、push、PR は user-gated |
+| evidence | `outputs/phase-07/test-results.md`, `outputs/phase-11/main.md`, `outputs/phase-11/screenshots/*.png` (12), `outputs/phase-12/phase12-task-spec-compliance-check.md` |
+| 境界 | 本 wave は `apps/web` 共通 primitive 実装、local typecheck、Issue #746 local visual screenshots まで完了。staging/production smoke、19-route adoption、commit、push、PR は user-gated |
 
 ### PARALLEL-01-NAV admin navigation wayfinding（2026-05-15）
 
@@ -144,18 +236,29 @@
 | Phase 12 | strict files present under `outputs/phase-12/`; `implementation-guide-part2.md` は root artifacts 由来の追加成果物 |
 | user gate | production/staging runtime summary evidence / commit / push / PR |
 
-### fix-wrangler-esbuild-import-source-error（2026-05-15）
+### fix-cf-deploy-esbuild-import-source-staging-failure（2026-05-17）
 
 | 項目 | 値 |
 | --- | --- |
-| ステータス | `verified / implementation / NON_VISUAL / PASS_BOUNDARY_SYNCED_RUNTIME_PENDING / Phase 12 strict 7 present` |
-| 成果物 | `docs/30-workflows/completed-tasks/fix-wrangler-esbuild-import-source-error/` |
+| ステータス | `implemented_local_evidence_captured / implementation / NON_VISUAL / PASS_BOUNDARY_SYNCED_RUNTIME_PENDING / Phase 12 strict 7 present` |
+| 成果物 | `docs/30-workflows/fix-cf-deploy-esbuild-import-source-staging-failure/` |
 | 目的 | `wrangler@4.85.0` が要求する `esbuild@0.27.3` と root `pnpm.overrides.esbuild=0.25.4` の不整合を解消し、Cloudflare deploy build error `"import-source" is not a valid feature name` を修復する |
 | implementation targets | `package.json`, `pnpm-lock.yaml`, `scripts/cf.sh` |
 | evidence | `outputs/phase-11/main.md`, `outputs/phase-11/manual-smoke-log.md`, `outputs/phase-12/phase12-task-spec-compliance-check.md` |
-| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-fix-wrangler-esbuild-import-source-error-artifact-inventory.md` |
-| local verification | `pnpm install --frozen-lockfile=false`, `pnpm why esbuild`, `pnpm exec esbuild --version`, `build:cloudflare`, `apps/api wrangler deploy --dry-run` |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-fix-cf-deploy-esbuild-import-source-staging-failure-artifact-inventory.md` |
+| local verification | `mise exec -- pnpm install --force`, `pnpm why esbuild`, `pnpm exec esbuild --version`, `mise exec -- pnpm --filter @ubm-hyogo/web build:cloudflare`, `bash scripts/cf.sh deploy --config apps/api/wrangler.toml --dry-run --outdir /tmp/api-bundle` |
 | user gate | GitHub Actions deploy-staging, runtime smoke, commit, push, PR |
+
+### PR #795 residual CI cache / Cloudflare token recovery（2026-05-18）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / NON_VISUAL / PASS_BOUNDARY_SYNCED_RUNTIME_PENDING / Phase 12 strict 7 present` |
+| 成果物 | `docs/30-workflows/completed-tasks/fix-ci-cache-and-cf-token-pr795/` |
+| 目的 | PR #795 後に残った `workflow-shell-lint` setup-node pnpm cache path validation と `backend-ci` Cloudflare token injection failure を局所修復する |
+| implementation targets | `.github/actions/setup-project/action.yml`, `.github/workflows/ci.yml`, `.github/workflows/backend-ci.yml`, `scripts/__tests__/workflow-env-scope.test.sh` |
+| evidence | `outputs/phase-11/evidence.md`, `outputs/phase-12/phase12-task-spec-compliance-check.md` |
+| user gate | GitHub environment secret confirmation, GitHub Actions runtime evidence, commit, push, PR |
 
 ### Issue #667 Stage 3b mock API fixture coverage（2026-05-14）
 
@@ -471,6 +574,20 @@
 | evidence boundary | Phase 12 strict 7 + artifacts parity + Phase 11 deterministic evidence は present。apps/web implementation は local reflected。authenticated screenshot / visual runtime evidence / staging deploy / production smoke / commit / push / PR は user approval 後 |
 | artifact inventory | `references/workflow-task-14-my-profile-and-requests-artifact-inventory.md` |
 
+### parallel-i03 profile request dialog refresh order（2026-05-17）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | implemented_local_evidence_captured / implementation / NON_VISUAL / Phase 13 pending_user_approval |
+| 成果物 | `docs/30-workflows/parallel-i03-dialog-refresh-order/` |
+| 目的 | profile request dialog の success path を `router.refresh() -> onSubmitted -> onClose()` に固定し、unmount 後 refresh race と parent 側二重発火を排除する |
+| 実装対象 | `apps/web/app/profile/_components/VisibilityRequestDialog.tsx`, `DeleteRequestDialog.tsx`, `RequestActionPanel.tsx` |
+| test evidence | dialog 2 件の `callOrder` assertion と parent `router.refresh` 非発火 assertion |
+| source spec | `docs/30-workflows/ui-prototype-alignment-mvp-recovery/improvements/integration-fixes/parallel-i03-dialog-refresh-order/spec.md` |
+| artifact inventory | `references/workflow-parallel-i03-dialog-refresh-order-artifact-inventory.md` |
+| lessons-learned | `references/lessons-learned-parallel-i03-dialog-refresh-order-2026-05.md`（L-PARALLEL-I03-001..005: refresh 順序契約 / 409 分岐漏れ gate / `vi.hoisted` callOrder pattern / 親 spec の子 dialog inline mock / completed-tasks path drift） |
+| user gate | commit / push / PR |
+
 ### E2E Quality Uplift Stage 0-3（2026-05-09）
 
 | 項目 | 値 |
@@ -732,6 +849,20 @@
 | merge gate | 既存 required context `ci` 内で `pnpm observation:lint` を実行。dedicated `workflow-shell-lint` job は見やすい分離証跡で、required context 追加は user-gated |
 | 境界 | Reminder workflow の schedule / workflow_dispatch / Issue 作成副作用は変更しない。GitHub Actions runtime evidence、branch protection PUT、commit、push、PR は user approval 後 |
 | Issue 取扱 | #526 / #350 CLOSED 維持。PR 文脈では `Refs #526, Refs #350` のみ |
+
+### Issue #290 workflow lint gate（2026-05-17）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | implemented_local_evidence_captured / implementation / NON_VISUAL / PASS_BOUNDARY_SYNCED_RUNTIME_PENDING / Phase 13 pending_user_approval |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-290-workflow-lint-gate/` |
+| Artifact inventory | `references/workflow-issue-290-workflow-lint-gate-artifact-inventory.md` |
+| Lessons | `references/lessons-learned-issue-290-workflow-lint-gate-2026-05.md` |
+| 実装対象 | `.github/workflows/ci.yml`, `package.json`, `docs/30-workflows/runbooks/workflow-lint-local-recovery.md` |
+| lint対象 | `.github/workflows/*.yml`（現行 32 件） |
+| merge gate | 既存 required context `ci` 内で `pnpm observation:lint` を実行。dedicated `workflow-shell-lint` job も同じ glob scope。required context 追加は user-gated |
+| 境界 | yamllint は不採用。branch protection 変更、GitHub Actions runtime evidence、commit、push、PR は user approval 後 |
+| Issue 取扱 | Issue #290 / parent UT-CICD-DRIFT。PR 文脈では `Refs #290, Refs UT-CICD-DRIFT` |
 
 ### UI prototype alignment / MVP recovery task-20 screen blueprints public/member（2026-05-07）
 
@@ -1178,6 +1309,17 @@
 | 正本同期 | `references/observability-monitoring.md` / `references/deployment-secrets-management.md` / `docs/00-getting-started-manual/specs/15-infrastructure-runbook.md` / `references/lessons-learned-issue-514-cf-audit-logs-cold-storage-r2-export-2026-05.md` |
 | 苦戦知見 | `references/lessons-learned-issue-514-cf-audit-logs-cold-storage-r2-export-2026-05.md` (L-ISSUE514-001..007: artifacts mirror parity / Phase 11 10 screenshots, Phase 12 strict 7 outputs / `PASS_BOUNDARY_SYNCED_RUNTIME_PENDING` 語彙 / G1-G4 gate sequence / monthly→daily cadence 補正 / source schema 整合 + r2_etag / 6-category redaction guard) |
 
+### Issue #315 application audit_log cold storage（2026-05-18）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / NON_VISUAL / PASS_BOUNDARY_SYNCED_RUNTIME_PENDING` |
+| 成果物 | `docs/30-workflows/issue-315-audit-log-application-cold-storage/` |
+| 実装 | `apps/api/migrations/0018_add_audit_log_export_manifest.sql`, `apps/api/src/lib/audit/redact.ts`, `apps/api/src/repository/auditLog.ts`, `scripts/audit-log/export-to-r2.ts`, `.github/workflows/audit-log-cold-storage.yml` |
+| R2 binding | `UBM_AUDIT_APP_COLD_STORAGE` |
+| manifest | `audit_log_export_manifest`、`(yyyy, mm, dd)` UNIQUE、`pending -> completed/failed`、`r2_etag` / `sha256` |
+| gate | production D1 apply / R2 Object Lock bucket create / deploy / non-dry-run export / restore drill / commit / push / PR は user-gated |
+
 
 ### parallel-10-auth-session-handling（2026-05-15）
 
@@ -1318,6 +1460,20 @@
 | 実装 | `apps/web/src/lib/admin/api.ts` の predicate `isSchemaAliasRetryableContinuation`（5 点合致: `status=202` ∧ `backfill.status='exhausted'` ∧ `retryable=true` ∧ `code='backfill_cpu_budget_exhausted'` ∧ `mode='apply'`）、`apps/web/src/components/admin/SchemaDiffPanel.tsx` の feedback state、focused `api.spec.ts` / `SchemaDiffPanel.component.spec.tsx` |
 | 検証 | focused Vitest 30 tests PASS。JUnit: `docs/30-workflows/ut-07b-fu-02-admin-schema-alias-retry-label/outputs/phase-11/test-junit.xml` |
 | 境界 | API contract / D1 schema / queue-cron workflow は変更しない。manual screenshot / commit / push / PR は user-gated。苦戦箇所と適用ルールは `references/lessons-learned-ut07b-fu-02-admin-schema-alias-retry-label-2026-05.md`（L-UT07B-FU02-001 5 点 narrowing / L-002 confirmed と backfill.status の責務分離 / L-003 code 不一致 fallback / L-004 4 状態 manual screenshot deferred） |
+
+### UT-07B Alias Recommendation i18n（2026-05-17）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow_state | implemented_local_evidence_captured |
+| implementation state | implementation |
+| visualEvidence | NON_VISUAL |
+| issue | #292 CLOSED (`Refs #292` only for PR text) |
+| 成果物 | `docs/30-workflows/ut-07b-alias-recommendation-i18n/` |
+| 目的 | `GET /admin/schema/diff` の `recommendedStableKeys` label 比較を NFKC + trim + whitespace 圧縮で安定化する |
+| 実装 | `apps/api/src/services/aliasRecommendation.ts` の `normalizeLabelForCompare` と `recommendAliases` の normalized Levenshtein 入力 |
+| 検証 | `aliasRecommendation.spec.ts` 20 tests PASS。`schema.contract.spec.ts` 16 tests PASS。apps/api suite 48 files / 300 tests PASS |
+| 境界 | response shape / DB schema / UI は変更しない。大規模 back-fill / retryable continuation は UT-07B hardening の責務。commit / push / PR は user-gated |
 
 ### UT-07B-FU-03 Production Migration Apply Runbook（2026-05-02）
 

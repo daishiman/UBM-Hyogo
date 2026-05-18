@@ -75,6 +75,16 @@ Playwright 系 visual evidence タスクで Phase 12 から path drift と stora
 - `not_implemented` / `PENDING_RUNTIME_EVIDENCE`（spec・wrapper 揃い、実行のみ未済）/ `captured` を区別する。
 - compliance-check の `Phase 11 screenshot evidence` 行は `PENDING_RUNTIME_EVIDENCE` を許容語彙に含めること。
 
+## Archived workflow visual evidence path drift gate（Issue #746 / 2026-05-17）
+
+VISUAL_ON_EXECUTION の後付け recovery で、親 workflow が `completed-tasks/` 配下へ移動済みの場合は、Phase 11 `completed` 昇格前に次を同一 wave で満たす。
+
+1. Playwright spec の screenshot 出力先は `completed-tasks/` の canonical evidence path を default にし、将来移動に備えて task-specific env override（例: `PARALLEL09_EVIDENCE_DIR`）を持つ。
+2. PNG 等の physical evidence を実生成し、count / zero-byte / max-size gate を `outputs/phase-11/*-inventory.txt` に残す。
+3. 実行ログは tracked `.txt` / `.json` を canonical とする。`.log` は `.gitignore` 対象になりやすいため Phase 11 PASS 根拠にしない。
+4. recovery workflow root の Phase 12 strict 7、親 workflow の Phase 11 / artifacts、source unassigned の `consumed`、aiworkflow inventory / indexes を同じサイクルで同期する。
+5. physical evidence が揃うまで `implemented_local_evidence_captured` / `completed` / `consumed` を使わず、`runtime_pending` または `PENDING_RUNTIME_EVIDENCE` に留める。
+
 ## VISUAL タスクの local mock-screenshot 経路（staging 不在時の許容条件）
 
 VISUAL タスクで staging 実機 deploy が **別 gate で pending** の場合、local Playwright fixture + standalone mock API を経由した screenshot を Phase 11 evidence の **暫定 canonical** として採用してよい（task-15 admin dashboard で適用された経路）。
