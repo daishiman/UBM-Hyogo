@@ -108,6 +108,7 @@
 - Why: 追記型 SSOT（changelog の表行、checklist の箇条書き、lessons-learned の項番付きセクション、keywords.json の文字列配列要素）は順序が意味を持たないか、または時系列で HEAD→dev の順が自然。`--theirs` / `--ours` の一方採用は片方の wave の作業ログを消すことになり情報損失となる。
 - 適用判断: 衝突ブロックが「両側とも新規追加行（既存行の変更ではない）」かつ「semantic に独立」であることを目視確認。同一論理項目に対する両側変更（例: 同じ Issue 番号の status 行を両側が違う値に更新）の場合は本ルール非適用、L-DEVSYNC-002 / L-DEVSYNC-011 の判定に従う。
 - 事例: 2026-05-17 feat/issue-720-cf-audit-monitor-env-protection-fix dev sync。conflict 4 件すべて両側採用で解消、`pnpm indexes:rebuild` で keywords.json と topic-map.md を deterministic 再生成、JSON validity 確認 PASS。
+- 事例（補強・2026-05-18 feat/issue-748-jest-axe-primitive-a11y-integration dev sync）: conflict 5 件 — `references/task-workflow-active.md`（HEAD: Issue #748 entry / dev: Issue #730 + i02-admin-error-type-unify entries）と `indexes/{keywords.json, quick-reference.md, resource-map.md, topic-map.md}`。`task-workflow-active.md` は本ルール（追記型 SSOT 両側採用、順序 HEAD→dev）で連結解消、indexes 4 件は L-DEVSYNC-002 通り `git checkout --theirs` で incoming 採用後 `pnpm indexes:rebuild` で deterministic 再生成。dev sync workflow が「L-DEVSYNC-012（両側採用） + L-DEVSYNC-002（indexes は再生成）」の二本柱で機械的解消可能であることを再確認。
 - 追加事例: 2026-05-17 `feat/issue-746-parallel-09-playwright-visual-evidence` dev sync で 7 ファイル衝突（`aiworkflow-requirements/SKILL.md` / `indexes/quick-reference.md` / `indexes/resource-map.md` / `LOGS/_legacy.md` / `references/legacy-ordinal-family-register.md` / `task-specification-creator/SKILL.md` / `SKILL-changelog.md`）。すべて HEAD（Issue #746 parallel-09 visual evidence completion 行）+ dev 側（i02 / ut-07b / issue-720 / issue-730 系の追加行）の独立追加であり、本 L-DEVSYNC-012 ルールに従い両側採用（HEAD→dev 時系列順）で機械的に解消。base section の `||||||| <hash>` は破棄。`quick-reference.md` ではセクション見出し自体が更新されていた（旧: UT-07A-FU-01 → 新: UT-07B alias recommendation i18n）ため、本文に合致する dev 側見出しを採用し HEAD の parallel-09 セクションを上に挿入。
 
 ## L-DEVSYNC-010: 新規 playwright spec と mock API fixture の同時追加義務
@@ -119,6 +120,28 @@
   4. admin UI は desktop-primary のため、admin 系 spec は `playwright.config.ts` の `mobile-webkit` project `testIgnore` に追加（既存 `admin-pages.spec.ts` パターンに合わせる）
 - Why: e2e CI 失敗は dev sync merge 起因と紛らわしいが、実体は spec と mock fixture の coverage gap。dev sync prompt 終了直後に CI 失敗を発見した場合、merge conflict ではなく fixture 不足を最初に疑うこと。
 - 事例: 2026-05-17 feat/admin-tags-queue-resolver-drawer-mvp-recovery で `admin-tags-resolve-drawer.spec.ts` 追加時に `/admin/tags/queue` GET endpoint が `auth.ts` 未登録のため CI 失敗。`adminTagsQueueBody()` を追加し mobile-webkit `testIgnore` に spec を追加して解消（commit e871acc8）。
+
+## L-DEVSYNC-013: 「task 作成漏れ」起因の CI 失敗は merge 後 push でも検出されない盲点（2026-05-18 追加）
+
+- 症状: 2026-05-18 feat/issue-748-jest-axe-primitive-a11y-integration の dev sync push で CI が `verify-phase12-compliance` と `verify-gate-metadata` の 2 件で fail。原因は dev sync ではなく**task 作成時点で**:
+  - `outputs/phase-12/phase12-task-spec-compliance-check.md` の見出しが canonical 9（`## Summary verdict` / `## Changed-files classification` / …）と一致せず独自命名（`## 1. Verdict` / `## 2. Strict 7 Output Existence` / …）になっていた
+  - `artifacts.json` と `outputs/artifacts.json` の `metadata.gates` 配列が欠落していた
+- 盲点: pre-push の `gate-metadata-guard` は「push 範囲に merge commit を含む場合は全スキップ」設計だったため、sync-merge 経由 push では検出不能。Phase 12 compliance 側に至っては pre-push hook 自体が存在しなかった。結果として task 作成時の漏れが PR で初めて顕在化し、毎タスク同じ修正を繰り返す再発パターンになっていた。
+- 恒久対応（同 push で実装）:
+  1. **`scripts/hooks/gate-metadata-guard.sh` 強化**: merge commit 含む push でも全スキップせず `git log --no-merges --name-only "$BASE..HEAD" -- '**/artifacts.json'` で feature 由来の非マージコミット差分のみを評価対象にする。sync-merge で引き込まれた他タスク artifacts.json は除外、本ブランチ生成の artifacts.json は必ず検証される。
+  2. **`scripts/hooks/phase12-compliance-guard.sh` 新設 + `lefthook.yml` 登録**: `verify-phase12-compliance` を pre-push で先行実行。`outputs/phase-12/phase12-task-spec-compliance-check.md` / `outputs/phase-12/main.md` / `artifacts.json` のいずれかが feature 由来 commit で変更されていれば走る。失敗時は canonical 9 heading SSOT (`.claude/skills/task-specification-creator/references/phase12-compliance-check-template.md`) と修正コマンドを表示。
+  3. **task-specification-creator skill 側 lessons-learned**: 「task 作成時に canonical schema を逸脱しない」「artifacts.json は metadata.gates 必須」を再強化（SP-DEVSYNC-012）。
+- 適用判断: pre-push 強化は破壊的変更ではなく既存 CI 失敗を pre-push で前倒すだけなので常時有効でよい。merge commit 含む push でも feature 由来差分のみ評価するため sync-merge 誤判定の懸念もない。
+- Why: 同じ CI 失敗を毎タスク繰り返す recurring pattern は「task 作成時にテンプレートを使わない」ことが根本原因。テンプレート遵守を pre-push gate で機械的に強制し、PR 到達前に修正させる。
+- How to apply: 既存 task の retroactive 修正手順 — `outputs/phase-12/phase12-task-spec-compliance-check.md` を canonical 9 heading に書き換え、両 `artifacts.json` に `metadata.gates` 配列（Gate-A spec_review / Gate-B implementation_review / Gate-C external_ops の 3 件、`status` / `passed_at` / `evidence_path` / `approver` / `notes` 必須）を追加。`pnpm verify:phase12-compliance` と `pnpm gate-metadata:validate` がローカルで通ることを確認してから commit / push。
+
+## L-DEVSYNC-014: Phase 11 evidence `.log` ファイルの `.gitignore` 除外問題（2026-05-18 追加）
+
+- 症状: `verify-phase12-compliance` の Phase 11 evidence existence validator (issue-730) が `outputs/phase-11/local-test.log` 等を `missing-evidence` として fail。ローカルでは file が存在するため `pnpm verify:phase12-compliance` は PASS するが、CI 環境では `.gitignore` の `*.log` パターンで除外されてリポジトリに含まれず、validator が物理実在を検出できない。
+- 解消: `.gitignore` に `!docs/30-workflows/**/outputs/phase-11/*.log` と `!docs/30-workflows/**/outputs/phase-11/**/*.log` の **negation pattern** を追加し、Phase 11 evidence 配下の log のみ tracked にする。既存 task の `.log` ファイルは `git add` し直して commit する。
+- 適用判断: Phase 11 evidence で `.log` 拡張子を使う場合は **必ず** `.gitignore` negation が効いていることを `git check-ignore -v <path>` で確認する。tracked になっていれば該当行が出力されない（exit code 1）。
+- task spec 作成時の方針: Phase 11 evidence command は `tee outputs/phase-11/local-test.log` 等を使ってよい（既に `.gitignore` で例外化済）。`.evidence/` 以下や workflow root 外への log 書き出しは禁止。
+- Why: Phase 11 evidence は CI で物理実在検証されるため tracked でなければならない。`.gitignore` の `*.log` 一律除外は build artifact 用で、task evidence には適用してはならない。同じ事象は task 作成のたびに繰り返されるため `.gitignore` のグローバル negation で恒久解消する。
 
 ## 適用範囲
 - task-specification-creator skill: 本 Lessons Learned は SKILL.md / changelog / references の conflict 解消にもそのまま適用される。Phase 12 で `artifacts.json` を出力する際は L-DEVSYNC-006 の status enum / passed_at / approver / evidence_path を必ず満たす。L-DEVSYNC-008 の "最新 N 件" 規約、L-DEVSYNC-011 の fact migration 判定、L-DEVSYNC-012 の追記型衝突両側採用ルールはいずれも `task-specification-creator/SKILL.md` / 配下 references / changelog 衝突に適用する。

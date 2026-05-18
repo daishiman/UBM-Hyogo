@@ -2691,6 +2691,18 @@ node scripts/list-specs.js --topics
 | Canonical Artifacts | L11 |
 | Boundaries | L27 |
 
+### references/workflow-issue-747-vitest-esbuild-arch-and-worktree-isolation-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Canonical Root | L3 |
+| State | L7 |
+| Canonical Files | L17 |
+| Implementation Contract | L28 |
+| Downstream Gates | L35 |
+
+### references/workflow-issue-748-jest-axe-primitive-a11y-integration-artifact-inventory.md
+
 ### references/workflow-light-theme-contrast-regression-guard.md
 
 | セクション | 行 |
@@ -5173,6 +5185,17 @@ node scripts/list-specs.js --topics
 | L-720-004: CLOSED issue への phase-12 fold-state sync | L34 |
 | L-720-005: `implemented_local_runtime_pending` 新ステータスの導入意義 | L42 |
 
+### references/lessons-learned-issue-747-vitest-esbuild-node-arch-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| L-I747-001: 3 層複合根本原因モデル | L7 |
+| L-I747-002: 3 つの verify script を gate 二重化で配置する | L19 |
+| L-I747-003: root `esbuild@0.27.3` devDependency を contract 化 | L27 |
+| L-I747-004: `ESBUILD_BINARY_PATH` の干渉を runbook で明文化 | L35 |
+| L-I747-005: closed Issue でも `Refs #<n>` で後付け canonical workflow を建てる | L43 |
+| L-I747-006: parent repository `node_modules` cleanup は AI が自動実行しない | L51 |
+
 ### references/lessons-learned-issue359-production-d1-apply-2026-05.md
 
 | セクション | 行 |
@@ -6843,14 +6866,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L1516 |
-| フェーズ構造（概要） | L1525 |
-| 品質ゲート（概要） | L1556 |
-| 出力テンプレート | L1567 |
-| 実行時のコマンド・エージェント・スキル | L1590 |
-| 昇格パターン集 | L1614 |
-| Current Active / Spec Created Tasks | L1616 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L1766 |
+| ドキュメント構成 | L1543 |
+| フェーズ構造（概要） | L1552 |
+| 品質ゲート（概要） | L1583 |
+| 出力テンプレート | L1594 |
+| 実行時のコマンド・エージェント・スキル | L1617 |
+| 昇格パターン集 | L1641 |
+| Current Active / Spec Created Tasks | L1643 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L1793 |
 
 ### references/task-workflow-backlog-part2.md
 
@@ -7167,9 +7190,9 @@ node scripts/list-specs.js --topics
 | 4. 色とコントラスト | L214 |
 | 5. 検証チェックリスト | L244 |
 | 6. 自動テストツール | L270 |
-| 7. WCAG 2.1 AAチェックリスト | L300 |
-| 参照 | L327 |
-| 変更履歴 | L335 |
+| 7. WCAG 2.1 AAチェックリスト | L306 |
+| 参照 | L333 |
+| 変更履歴 | L341 |
 
 ### references/testing-component-patterns-advanced.md
 

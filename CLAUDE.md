@@ -164,6 +164,8 @@ pnpm typecheck
 pnpm lint
 ```
 
+> **Vitest / esbuild runtime トラブル時**: `pnpm verify:vitest-runtime` で arch / worktree isolation / esbuild version の 3 verify をまとめて実行。詳細復旧手順は `docs/30-workflows/issue-747-vitest-esbuild-arch-and-worktree-isolation/runbook.md` を参照。
+
 > **Git hook の方針**: `lefthook.yml` が hook の正本。`pnpm install` 実行時に `prepare` script
 > 経由で `lefthook install` が自動配置する。`.git/hooks/*` の手書きは禁止。
 > indexes 再生成は post-merge から廃止しており、必要時は `pnpm indexes:rebuild` を明示実行する。
