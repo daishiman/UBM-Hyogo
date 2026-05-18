@@ -3,8 +3,11 @@ import path from "node:path";
 import { expect, test } from "@playwright/test";
 
 const evidenceDir = path.resolve(
-  process.cwd(),
-  "../../docs/30-workflows/parallel-09-ux-cross-cutting/outputs/phase-11/screenshots",
+  process.env.PARALLEL09_EVIDENCE_DIR ??
+    path.join(
+      process.cwd(),
+      "../../docs/30-workflows/completed-tasks/parallel-09-ux-cross-cutting/outputs/phase-11/screenshots",
+    ),
 );
 
 const shots = [

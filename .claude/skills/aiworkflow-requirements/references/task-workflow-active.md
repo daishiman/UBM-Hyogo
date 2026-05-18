@@ -22,6 +22,33 @@
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-256-e2e-coverage-baseline-runbook-artifact-inventory.md` |
 | user gate | commit / push / PR / issue mutation |
 
+### Issue #747 Vitest esbuild arch & worktree isolation（2026-05-17）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_runtime_blocked_node_arch / implementation / NON_VISUAL / PARTIAL_LOCAL_EVIDENCE_NODE_ARCH_BLOCKED` |
+| 成果物 | `docs/30-workflows/issue-747-vitest-esbuild-arch-and-worktree-isolation/` |
+| source | Issue #747 CLOSED / `docs/30-workflows/unassigned-task/parallel-09-followup-002-vitest-esbuild-version-alignment.md` consumed |
+| 目的 | focused Vitest 2 spec の起動 blocker を、Node arch / worktree topology / esbuild version parity の3層で検出・復旧する |
+| 実装 | `scripts/verify-node-arch.mjs`, `scripts/verify-worktree-node-modules-isolation.mjs`, `scripts/verify-esbuild-version.mjs`, root `package.json` scripts + `esbuild@0.27.3`, `pnpm-lock.yaml`, `lefthook.yml`, `.github/workflows/verify-esbuild.yml`, `.mise.toml`, `CLAUDE.md` runbook link |
+| evidence | focused Vitest 2 specs, worktree isolation, and esbuild version parity pass locally; `verify:node-arch` fails on this Rosetta/x64 Node and remains the active runtime blocker |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-747-vitest-esbuild-arch-and-worktree-isolation-artifact-inventory.md` |
+| user gate | arm64 Node reinstall on local host, commit, push, PR, GitHub Actions runtime evidence, parent repository `node_modules` cleanup |
+
+### Issue #748 jest-axe primitive a11y integration（2026-05-17）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / NON_VISUAL / Phase 12 strict 7 present` |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-748-jest-axe-primitive-a11y-integration/` |
+| Issue | #748 CLOSED。PR 文脈は `Refs #748` |
+| source | `docs/30-workflows/completed-tasks/parallel-09-followup-003-jest-axe-real-a11y-integration.md` consumed |
+| 目的 | parallel-09 primitive 5 種に real `jest-axe` component test を統合し、proxy assertion だけの a11y gate を解消する |
+| implementation targets | `apps/web/src/test/axe.ts`, `apps/web/src/components/ui/__tests__/parallel09-primitives.component.spec.tsx` |
+| evidence | `outputs/phase-11/local-test.log`, `typecheck.log`, `lint.log`; Phase 12 strict 7 |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-748-jest-axe-primitive-a11y-integration-artifact-inventory.md` |
+| user gate | commit / push / PR / issue mutation |
+
 ### Issue #730 Phase 11 evidence existence validator（2026-05-17）
 
 | 項目 | 値 |
@@ -106,13 +133,13 @@
 
 | 項目 | 値 |
 | --- | --- |
-| ステータス | `implemented_local_runtime_pending / implementation / VISUAL_ON_EXECUTION / implementation_complete_visual_pending / Phase 12 strict 7 present` |
-| 成果物 | `docs/30-workflows/parallel-09-ux-cross-cutting/` |
+| ステータス | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION / implementation_complete_visual_evidence_captured / Phase 12 strict 7 present` |
+| 成果物 | `docs/30-workflows/completed-tasks/parallel-09-ux-cross-cutting/` |
 | 親 workflow | `docs/30-workflows/ui-prototype-alignment-mvp-recovery/` |
 | 原典 | `docs/30-workflows/ui-prototype-alignment-mvp-recovery/improvements/parallel-09-ux-cross-cutting/spec.md` |
 | 目的 | 19 routes 横断 UX primitive（FormField / EmptyState / Pagination / Icon / Breadcrumb / responsive / focus-visible / mutation guard / form preserve）を `apps/web` に実装し、後続 parallel-01〜08 の入力正本として固定する |
-| evidence | `outputs/phase-07/test-results.md`, `outputs/phase-11/main.md`, `outputs/phase-12/phase12-task-spec-compliance-check.md` |
-| 境界 | 本 wave は `apps/web` 共通 primitive 実装と local typecheck まで完了。visual screenshots は local `ENOSPC` 解消後、staging/production smoke、19-route adoption、commit、push、PR は user-gated |
+| evidence | `outputs/phase-07/test-results.md`, `outputs/phase-11/main.md`, `outputs/phase-11/screenshots/*.png` (12), `outputs/phase-12/phase12-task-spec-compliance-check.md` |
+| 境界 | 本 wave は `apps/web` 共通 primitive 実装、local typecheck、Issue #746 local visual screenshots まで完了。staging/production smoke、19-route adoption、commit、push、PR は user-gated |
 
 ### PARALLEL-01-NAV admin navigation wayfinding（2026-05-15）
 
@@ -496,6 +523,20 @@
 | 下流 | task-18 regression smoke / verify-design-tokens |
 | evidence boundary | Phase 12 strict 7 + artifacts parity + Phase 11 deterministic evidence は present。apps/web implementation は local reflected。authenticated screenshot / visual runtime evidence / staging deploy / production smoke / commit / push / PR は user approval 後 |
 | artifact inventory | `references/workflow-task-14-my-profile-and-requests-artifact-inventory.md` |
+
+### parallel-i03 profile request dialog refresh order（2026-05-17）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | implemented_local_evidence_captured / implementation / NON_VISUAL / Phase 13 pending_user_approval |
+| 成果物 | `docs/30-workflows/parallel-i03-dialog-refresh-order/` |
+| 目的 | profile request dialog の success path を `router.refresh() -> onSubmitted -> onClose()` に固定し、unmount 後 refresh race と parent 側二重発火を排除する |
+| 実装対象 | `apps/web/app/profile/_components/VisibilityRequestDialog.tsx`, `DeleteRequestDialog.tsx`, `RequestActionPanel.tsx` |
+| test evidence | dialog 2 件の `callOrder` assertion と parent `router.refresh` 非発火 assertion |
+| source spec | `docs/30-workflows/ui-prototype-alignment-mvp-recovery/improvements/integration-fixes/parallel-i03-dialog-refresh-order/spec.md` |
+| artifact inventory | `references/workflow-parallel-i03-dialog-refresh-order-artifact-inventory.md` |
+| lessons-learned | `references/lessons-learned-parallel-i03-dialog-refresh-order-2026-05.md`（L-PARALLEL-I03-001..005: refresh 順序契約 / 409 分岐漏れ gate / `vi.hoisted` callOrder pattern / 親 spec の子 dialog inline mock / completed-tasks path drift） |
+| user gate | commit / push / PR |
 
 ### E2E Quality Uplift Stage 0-3（2026-05-09）
 
