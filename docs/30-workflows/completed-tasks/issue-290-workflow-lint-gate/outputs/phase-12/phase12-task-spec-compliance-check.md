@@ -27,12 +27,17 @@ Local implementation and documentation sync are complete. GitHub Actions runtime
 
 ## Phase 11 evidence file inventory
 
-| File | Command | Exit / state | Verdict |
-| --- | --- | --- | --- |
-| `outputs/phase-11/smoke-log.md` | `./actionlint -color .github/workflows/*.yml` | exit 0 | completed (32 workflow files checked) |
-| `outputs/phase-11/smoke-log.md` | `pnpm observation:lint` | exit 0 | completed (shell unit 13 PASS + actionlint all workflows) |
-| `outputs/phase-11/canonical-paths.json` | `node .claude/skills/task-specification-creator/scripts/validate-phase11-canonical-evidence-paths.js --workflow docs/30-workflows/completed-tasks/issue-290-workflow-lint-gate --check-existence` | exit 0 after remediation | completed (manifest valid and paths exist) |
-| GitHub Actions runtime | `gh pr checks <PR_NUMBER> --watch` | not run | runtime_pending (requires user-approved PR) |
+| Classification | Path | Status |
+| --- | --- | --- |
+| smoke-log | outputs/phase-11/smoke-log.md | present |
+| canonical-paths | outputs/phase-11/canonical-paths.json | present |
+| github-actions-runtime | outputs/phase-11/github-actions-runtime.md | pending |
+
+補足:
+
+- `outputs/phase-11/smoke-log.md` は `./actionlint -color .github/workflows/*.yml` (exit 0, 32 workflow files checked) と `pnpm observation:lint` (exit 0, shell unit 13 PASS + actionlint all workflows) の記録を含む。
+- `outputs/phase-11/canonical-paths.json` は `node .claude/skills/task-specification-creator/scripts/validate-phase11-canonical-evidence-paths.js --workflow docs/30-workflows/completed-tasks/issue-290-workflow-lint-gate --check-existence` exit 0 後の manifest。
+- `github-actions-runtime` は `gh pr checks <PR_NUMBER> --watch` 実行待ち (runtime_pending、user-approved PR が前提)。
 
 ## Phase 12 strict 7 file inventory
 

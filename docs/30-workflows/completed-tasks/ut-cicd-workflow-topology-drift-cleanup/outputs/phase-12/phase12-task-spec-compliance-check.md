@@ -62,7 +62,7 @@
 | REUSABLE-QUALITY (MEDIUM) | `unassigned-task/UT-CICD-DRIFT-IMPL-REUSABLE-QUALITY.md` | 本 phase で起票 |
 | CRON-CONSOLIDATION (LOW) | `unassigned-task/UT-CICD-DRIFT-IMPL-CRON-CONSOLIDATION.md` | 本 phase で起票 |
 | VERIFY-INDEXES-TRIGGER (LOW) | `unassigned-task/UT-CICD-DRIFT-IMPL-VERIFY-INDEXES-TRIGGER.md` | 本 phase で起票 |
-| WORKFLOW-LINT-GATE (MEDIUM) | `unassigned-task/ut-cicd-drift-impl-workflow-lint-gate.md` | review 改善で追加起票 |
+| WORKFLOW-LINT-GATE (MEDIUM) | `unassigned-task/UT-CICD-DRIFT-IMPL-WORKFLOW-LINT-GATE.md` | review 改善で追加起票 |
 
 → **PASS**
 

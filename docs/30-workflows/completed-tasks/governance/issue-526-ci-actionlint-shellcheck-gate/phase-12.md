@@ -85,7 +85,7 @@ Phase 1 / Phase 2 / Phase 5 / Phase 6 / Phase 7 / Phase 8 / Phase 9 / Phase 10 /
 
 ## 未タスク判定
 
-CONST_007 に従い、本タスクは今回の実装サイクルで完了させる。repo 全体 shellcheck gate や汎用 workflow lint gate は Issue #526 の目的外であり、先送りではなくスコープ外と判定する。新規 backlog を作成する場合は、既存 `ut-cicd-drift-impl-workflow-lint-gate.md` との重複を確認する。
+CONST_007 に従い、本タスクは今回の実装サイクルで完了させる。repo 全体 shellcheck gate や汎用 workflow lint gate は Issue #526 の目的外であり、先送りではなくスコープ外と判定する。新規 backlog を作成する場合は、既存 `UT-CICD-DRIFT-IMPL-WORKFLOW-LINT-GATE.md` との重複を確認する。
 
 ## DoD
 
