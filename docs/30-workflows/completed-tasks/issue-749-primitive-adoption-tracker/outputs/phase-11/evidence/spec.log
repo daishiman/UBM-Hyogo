@@ -1,0 +1,30 @@
+[33mThe CJS build of Vite's Node API is deprecated. See https://vite.dev/guide/troubleshooting.html#vite-cjs-node-api-deprecated for more details.[39m
+
+ RUN  v2.1.9 /Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260517-084452-wt-9
+
+ ✓ apps/web/src/components/admin/__tests__/primitive-adoption.spec.ts (23 tests) 103ms
+ ✓ apps/web/src/features/admin/hooks/__tests__/useAdminMutation.spec.ts (9 tests) 198ms
+ ✓ apps/web/src/components/ui/__tests__/parallel09-primitives.component.spec.tsx (19 tests) 747ms
+   ✓ FormField (G9-1) > error 時に aria-invalid と aria-describedby を入力に注入する 340ms
+ ✓ apps/web/src/components/admin/__tests__/RequestQueuePanel.component.spec.tsx (6 tests) 1067ms
+   ✓ RequestQueuePanel > TC-22: 承認ボタンで confirmation modal が開く 348ms
+   ✓ RequestQueuePanel > TC-26: nextCursor があれば次ページへ遷移できる 318ms
+ ✓ apps/web/src/components/admin/__tests__/AuditLogPanel.component.spec.tsx (39 tests) 1370ms
+   ✓ AuditLogPanel > renders collapsed summaries and no edit/delete/rerun actions 581ms
+ ✓ apps/web/src/components/admin/__tests__/TagQueuePanel.component.spec.tsx (14 tests) 1759ms
+   ✓ TagQueuePanel > happy: items 複数 + 先頭が初期選択 → review pane に詳細表示 658ms
+ ✓ apps/web/src/components/admin/__tests__/SchemaDiffPanel.component.spec.tsx (11 tests) 1816ms
+   ✓ SchemaDiffPanel > mutation 成功: 割当→postSchemaAlias 呼出、toast/refresh、form クローズ 597ms
+   ✓ SchemaDiffPanel > mutation 失敗 (authz-fail): 403 forbidden で role=alert、form は閉じない 343ms
+ ✓ apps/web/src/features/admin/components/__tests__/MembersTable.spec.tsx (6 tests) 1243ms
+   ✓ MembersTable > TC-MT-04: 氏名 button click 410ms
+   ✓ MembersTable > a11y violations 0 455ms
+ ✓ apps/web/src/components/admin/__tests__/MeetingPanel.component.spec.tsx (17 tests) 2111ms
+   ✓ MeetingPanel.filterCandidates > 既存 attendance を初期状態から disabled にする 605ms
+   ✓ MeetingPanel — empty / mutation / authz > createMeeting 成功: 引数が正しく入力をクリアして toast 表示 302ms
+
+ Test Files  9 passed (9)
+      Tests  144 passed (144)
+   Start at  12:17:39
+   Duration  10.24s (transform 4.81s, setup 0ms, collect 9.94s, tests 10.41s, environment 26.53s, prepare 5.06s)
+
