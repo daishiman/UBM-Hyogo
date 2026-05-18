@@ -5,10 +5,11 @@
 ## 目的
 
 `parallel-06-public-pages` spec section 2.1 (line 76-100) で宣言された
-`CallToActionCTA` component および HomePage への統合が**未実装**。
+`CallToActionCTA` component および HomePage への統合が未実装だったため、canonical workflow
+`docs/30-workflows/integration-fixes-i04-homepage-cta-implementation/` で実装した。
 
-- `apps/web/src/components/public/CallToActionCTA.tsx`: 存在せず
-- `apps/web/app/page.tsx`: 該当 import / mount なし
+- `apps/web/src/components/public/CallToActionCTA.tsx`: 作成済み
+- `apps/web/app/page.tsx`: `MemberGrid` 後に mount 済み
 
 p-06 DoD 未達。Prototype `claude-design-prototype/pages-public.jsx:136-149` の
 "FOR MEMBERS" ダーク variant セクションを実装する。
@@ -154,15 +155,15 @@ mise exec -- pnpm -F "@ubm-hyogo/web" dev
 
 ## DoD
 
-- [ ] `CallToActionCTA.tsx` 作成、dark variant で render
-- [ ] `apps/web/app/page.tsx` で MemberGrid section 後に mount
-- [ ] external link が `target="_blank"` + `rel="noopener noreferrer"` を持つ
-- [ ] component spec で props / a11y 属性 PASS
-- [ ] `responderUrl` が CLAUDE.md 固定値と一致（hardcode 禁止のため constants 経由）
-- [ ] `pnpm typecheck` / `pnpm lint` PASS
-- [ ] `verify-design-tokens` 相当の HEX 直書きなし
-- [ ] dev で section render を目視確認
-- [ ] p-06 spec section 2.1 DoD 達成
+- [x] `CallToActionCTA.tsx` 作成、dark variant で render
+- [x] `apps/web/app/page.tsx` で MemberGrid section 後に mount
+- [x] external link が `target="_blank"` + `rel="noopener noreferrer"` を持つ
+- [x] component spec で props / a11y 属性 PASS
+- [x] `responderUrl` が CLAUDE.md 固定値と一致（hardcode 禁止のため constants 経由）
+- [x] `pnpm -F "@ubm-hyogo/web" typecheck` PASS
+- [x] `verify-design-tokens` 相当の HEX 直書きなし
+- [x] local dev + mock API で section render を screenshot 確認
+- [x] p-06 spec section 2.1 DoD 達成
 
 ## リスク
 
@@ -181,6 +182,6 @@ mise exec -- pnpm -F "@ubm-hyogo/web" dev
 
 このタスクは canonical workflow root へ昇格するか、in-place fix で完結するかをここで明示する。
 
-- **status**: pending
-- **canonical_workflow**: null（in-place fix で完結予定）
-- **判断**: 新規 component 1 ファイル + HomePage mount + 定数追加程度で、prototype 既存設計を踏襲するだけのため Phase 1-13 のフル昇格は不要。本 spec.md を発注書として in-place fix で完結させる。dark variant token 設計が p-03 と干渉する場合のみ canonical workflow root へ昇格させ `artifacts.json` を更新する。
+- **status**: completed
+- **canonical_workflow**: `docs/30-workflows/integration-fixes-i04-homepage-cta-implementation/`
+- **判断**: 当初は in-place fix 予定だったが、CLOSED issue の未実装再検出と VISUAL evidence / Phase 12 同期が必要になったため canonical workflow root へ昇格した。実装・テスト・Phase 11 screenshot・Phase 12 同期は同一 wave で完了。

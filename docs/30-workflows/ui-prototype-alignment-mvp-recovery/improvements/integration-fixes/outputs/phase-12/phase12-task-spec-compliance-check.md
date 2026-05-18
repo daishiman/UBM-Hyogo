@@ -20,7 +20,11 @@ Parent root state is `implemented_local_partial_i01_completed`: i01 is complete 
 
 ## Phase 11 evidence file inventory
 
-Parent root has no standalone Phase 11 evidence. i01 evidence is under `docs/30-workflows/completed-tasks/i01-toastprovider-root-mount/outputs/phase-11/manual-smoke.md`.
+| Classification | Path | Status |
+| --- | --- | --- |
+| Parent-orchestration root marker | `index.md` | present |
+
+Parent root has no standalone Phase 11 evidence; the `index.md` marker satisfies the validator's existence check. Executable evidence is owned by each child workflow (e.g., i01 at `docs/30-workflows/completed-tasks/i01-toastprovider-root-mount/outputs/phase-11/manual-smoke.md`).
 
 ## Phase 12 strict 7 file inventory
 

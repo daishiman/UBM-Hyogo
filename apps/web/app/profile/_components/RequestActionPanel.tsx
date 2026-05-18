@@ -5,7 +5,6 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 import { STABLE_KEY } from "@ubm-hyogo/shared";
 import type {
   MeProfileStatusSummary,
@@ -34,7 +33,6 @@ export function RequestActionPanel({
   rulesConsent,
   pendingRequests,
 }: RequestActionPanelProps) {
-  const router = useRouter();
   const [visibilityDialogState, setVisibilityDialogState] =
     useState<VisibilityDesiredState | null>(null);
   const [deleteOpen, setDeleteOpen] = useState(false);
@@ -55,8 +53,7 @@ export function RequestActionPanel({
   }
 
   const onSubmitted = () => {
-    // pending は server state を正本にし、送信後は再取得して durable な banner を表示する（S1）
-    router.refresh();
+    // refresh は dialog 側で close 前に schedule 済み。parent は local state を持たない。
   };
 
   // server pending のみを正本にする。楽観的 UI は採用しない。
