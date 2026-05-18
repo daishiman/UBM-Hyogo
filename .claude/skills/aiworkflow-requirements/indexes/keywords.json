@@ -13394,7 +13394,9 @@
       "lessons-learned-issue-393-stablekey-literal-legacy-cleanup-2026-05.md",
       "lessons-learned-web-app-route-bundle-parse-fix-2026-05.md",
       "logs-archive-2026-01-skill-selector-todo-scan-template.md",
+      "observability-monitoring.md",
       "workflow-fix-cf-deploy-esbuild-import-source-staging-failure-artifact-inventory.md",
+      "workflow-issue-720-cf-audit-monitor-env-protection-fix-artifact-inventory.md",
       "workflow-skill-md-codex-validation-fix-artifact-inventory.md",
       "workflow-web-app-route-bundle-parse-fix-artifact-inventory.md"
     ],
@@ -14154,17 +14156,6 @@
     ],
     "attribute": [
       "lessons-learned-issue-393-stablekey-literal-legacy-cleanup-2026-05.md"
-    ],
-    "fix": [
-      "lessons-learned-fix-cf-deploy-esbuild-import-source-staging-failure-2026-05.md",
-      "lessons-learned-issue-393-stablekey-literal-legacy-cleanup-2026-05.md",
-      "lessons-learned-web-app-route-bundle-parse-fix-2026-05.md",
-      "logs-archive-2026-01-skill-selector-todo-scan-template.md",
-      "observability-monitoring.md",
-      "workflow-fix-cf-deploy-esbuild-import-source-staging-failure-artifact-inventory.md",
-      "workflow-issue-720-cf-audit-monitor-env-protection-fix-artifact-inventory.md",
-      "workflow-skill-md-codex-validation-fix-artifact-inventory.md",
-      "workflow-web-app-route-bundle-parse-fix-artifact-inventory.md"
     ],
     "候補にならず手作業で": [
       "lessons-learned-issue-393-stablekey-literal-legacy-cleanup-2026-05.md"

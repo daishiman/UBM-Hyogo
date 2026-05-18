@@ -4070,15 +4070,15 @@ node scripts/list-specs.js --topics
 | 管理場所の判断フロー | L51 |
 | Cloudflare Secrets（ランタイム） | L68 |
 | GitHub Secrets / Variables（CI/CD 用） | L134 |
-| wrangler.toml の環境別設定 | L270 |
-| ローカル開発での設定 | L302 |
-| Cloudflare CLI ラッパー: `scripts/cf.sh`（UT-06 派生 / 2026-04-27） | L341 |
-| セキュリティ原則 | L375 |
-| Cloudflare API Token の作成手順 | L386 |
-| Cloudflare API Token 90 日 rotation runbook（Issue #407 / 2026-05-06） | L401 |
-| UT-27: GitHub Secrets / Variables 同期運用（2026-04-29） | L512 |
-| U-FIX-CF-ACCT-01-DERIV-02: Cloudflare deploy token split | L564 |
-| 変更履歴 | L583 |
+| wrangler.toml の環境別設定 | L268 |
+| ローカル開発での設定 | L300 |
+| Cloudflare CLI ラッパー: `scripts/cf.sh`（UT-06 派生 / 2026-04-27） | L339 |
+| セキュリティ原則 | L373 |
+| Cloudflare API Token の作成手順 | L384 |
+| Cloudflare API Token 90 日 rotation runbook（Issue #407 / 2026-05-06） | L399 |
+| UT-27: GitHub Secrets / Variables 同期運用（2026-04-29） | L510 |
+| U-FIX-CF-ACCT-01-DERIV-02: Cloudflare deploy token split | L562 |
+| 変更履歴 | L582 |
 
 ### references/deployment.md
 
