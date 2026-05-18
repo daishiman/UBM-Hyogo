@@ -21,16 +21,18 @@ else
   BASE="origin/dev"
 fi
 
-# sync-merge ノイズ除去（gate-metadata-guard と同じ考え方）
-MERGE_COUNT=$(git log --merges --format=%H "$BASE..HEAD" 2>/dev/null | wc -l | tr -d ' ')
-if [ "${MERGE_COUNT:-0}" -ge 1 ]; then
-  CHANGED=$(git log --no-merges --name-only --format= "$BASE..HEAD" 2>/dev/null \
-    | sort -u | sed '/^$/d' \
-    | grep -E '(^|/)(outputs/phase-12/phase12-task-spec-compliance-check\.md|outputs/phase-12/main\.md|artifacts\.json)$' || true)
-else
-  CHANGED=$(git diff --name-only "$BASE...HEAD" 2>/dev/null \
-    | grep -E '(^|/)(outputs/phase-12/phase12-task-spec-compliance-check\.md|outputs/phase-12/main\.md|artifacts\.json)$' || true)
+# sync-merge ノイズ除去:
+#   本ブランチが分岐した時点 (merge-base HEAD origin/dev) を真の base にし、
+#   --first-parent --no-merges で本ブランチ独自コミットの changed file だけを評価する。
+#   こうしないと sync-merge した他タスクの compliance file まで再評価対象になり、
+#   越境 fail を引き起こす。
+FORK_BASE=$(git merge-base HEAD origin/dev 2>/dev/null || true)
+if [ -z "$FORK_BASE" ]; then
+  FORK_BASE="$BASE"
 fi
+CHANGED=$(git log --first-parent --no-merges --name-only --format= "$FORK_BASE..HEAD" 2>/dev/null \
+  | sort -u | sed '/^$/d' \
+  | grep -E '(^|/)(outputs/phase-12/phase12-task-spec-compliance-check\.md|outputs/phase-12/main\.md|artifacts\.json)$' || true)
 
 if [ -z "$CHANGED" ]; then
   exit 0
@@ -90,7 +92,7 @@ fi
 
 # 変更ファイルが含まれる workflow root に対して compliance check を実行。
 # verify-phase12-compliance.ts は COMPLIANCE_BASE_REF / COMPLIANCE_HEAD_REF で diff scope を決める。
-if ! COMPLIANCE_BASE_REF="$BASE" COMPLIANCE_HEAD_REF="HEAD" \
+if ! COMPLIANCE_BASE_REF="$FORK_BASE" COMPLIANCE_HEAD_REF="HEAD" \
   node --experimental-strip-types --disable-warning=MODULE_TYPELESS_PACKAGE_JSON \
   scripts/verify-phase12-compliance.ts 2>&1 | tee /tmp/phase12-compliance-guard.log \
   | grep -q '"status": "pass"'; then
