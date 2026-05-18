@@ -2747,6 +2747,17 @@ node scripts/list-specs.js --topics
 | Evidence | L46 |
 | User-gated boundary | L55 |
 
+### references/workflow-parallel-i03-dialog-refresh-order-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Workflow Root | L3 |
+| State | L9 |
+| Implementation Files | L13 |
+| Evidence | L22 |
+| Lessons Learned | L28 |
+| User Gates | L37 |
+
 ### references/workflow-permission-fallback-abort-skip-retry.md
 
 | セクション | 行 |
@@ -5185,6 +5196,16 @@ node scripts/list-specs.js --topics
 | 教訓一覧 | L8 |
 | 申し送り（open / baseline 未タスク） | L57 |
 
+### references/lessons-learned-parallel-i03-dialog-refresh-order-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| L-PARALLEL-I03-001: dialog 内で `router.refresh()` を最先に発火する順序契約 | L9 |
+| L-PARALLEL-I03-002: 409 duplicate pending 分岐の `router.refresh()` 漏れは review gate でしか検知できない | L16 |
+| L-PARALLEL-I03-003: `vi.hoisted` + `vi.mock("next/navigation")` で callOrder を spec 間共有する pattern | L23 |
+| L-PARALLEL-I03-004: 親 spec で子 dialog を inline `vi.mock` 化して navigation mock 衝突を回避する | L30 |
+| L-PARALLEL-I03-005: ワークフロー dir の `completed-tasks/` 自動移送と canonical path drift | L37 |
+
 ### references/lessons-learned-skill-codex-validation-2026-04.md
 
 | セクション | 行 |
@@ -6831,14 +6852,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L1502 |
-| フェーズ構造（概要） | L1511 |
-| 品質ゲート（概要） | L1542 |
-| 出力テンプレート | L1553 |
-| 実行時のコマンド・エージェント・スキル | L1576 |
-| 昇格パターン集 | L1600 |
-| Current Active / Spec Created Tasks | L1602 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L1752 |
+| ドキュメント構成 | L1516 |
+| フェーズ構造（概要） | L1525 |
+| 品質ゲート（概要） | L1556 |
+| 出力テンプレート | L1567 |
+| 実行時のコマンド・エージェント・スキル | L1590 |
+| 昇格パターン集 | L1614 |
+| Current Active / Spec Created Tasks | L1616 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L1766 |
 
 ### references/task-workflow-backlog-part2.md
 
