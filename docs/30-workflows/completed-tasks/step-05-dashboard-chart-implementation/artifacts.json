@@ -1,0 +1,55 @@
+{
+  "schemaVersion": 1,
+  "taskId": "step-05-dashboard-chart-implementation",
+  "status": "implemented_local_evidence_captured",
+  "metadata": {
+    "workflow_state": "implemented_local_evidence_captured",
+    "implementation_status": "implementation_complete_pending_pr",
+    "taskType": "implementation",
+    "visualEvidence": "VISUAL_ON_EXECUTION",
+    "source_spec": "docs/30-workflows/ui-prototype-alignment-mvp-recovery/improvements/serial-05-admin-mutation-ui/step-05-dashboard-chart/spec.md",
+    "created": "2026-05-18",
+    "updated": "2026-05-18",
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-05-18T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/step-05-dashboard-chart-implementation/phase-01.md",
+        "approver": "local",
+        "notes": "SSOT fixed: StatusDistribution chart receiver plus same-cycle API byStatus producer on existing dashboard endpoint"
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "passed",
+        "passed_at": "2026-05-18T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/step-05-dashboard-chart-implementation/outputs/phase-12/phase12-task-spec-compliance-check.md",
+        "approver": "local",
+        "notes": "implementation and local evidence captured; runtime screenshots and PR remain user-gated"
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/step-05-dashboard-chart-implementation/phase-13.md",
+        "approver": "daishiman",
+        "notes": "commit / push / PR require explicit user approval"
+      }
+    ]
+  },
+  "phases": [
+    { "phase": 1, "status": "completed", "path": "phase-01.md" },
+    { "phase": 2, "status": "completed", "path": "phase-02.md" },
+    { "phase": 3, "status": "completed", "path": "phase-03.md" },
+    { "phase": 4, "status": "completed", "path": "phase-04.md" },
+    { "phase": 5, "status": "completed", "path": "phase-05.md" },
+    { "phase": 6, "status": "completed", "path": "phase-06.md" },
+    { "phase": 7, "status": "completed", "path": "phase-07.md" },
+    { "phase": 8, "status": "completed", "path": "phase-08.md" },
+    { "phase": 9, "status": "completed", "path": "phase-09.md" },
+    { "phase": 10, "status": "completed", "path": "phase-10.md" },
+    { "phase": 11, "status": "completed", "path": "phase-11.md" },
+    { "phase": 12, "status": "completed", "path": "phase-12.md" },
+    { "phase": 13, "status": "blocked", "path": "phase-13.md", "reason": "commit / push / PR require user approval" }
+  ]
+}

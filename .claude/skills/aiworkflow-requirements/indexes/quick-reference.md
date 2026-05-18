@@ -2513,6 +2513,17 @@ packages/
 | audit check | `audit_log.target_type='tag_queue' AND target_id=$QUEUE_ID` |
 | source task | `UT-07A-03` consumed by Issue #295 workflow |
 
+### step-05 dashboard chart implementation（2026-05-18）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/step-05-dashboard-chart-implementation/` |
+| state | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION / implementation_complete_pending_pr` |
+| implementation | `apps/web/src/features/admin/components/_dashboard/StatusDistribution.tsx` |
+| test | `apps/web/src/features/admin/components/_dashboard/StatusDistribution.spec.tsx` |
+| contract | `GET /admin/dashboard` returns optional `byStatus`; populated 時は SVG bar chart + chip list、legacy/未提供時は existing placeholder |
+| boundary | authenticated runtime screenshots / commit / push / PR are user-gated |
+
 ### UBM-Hyogo Admin UI 早見（06c / 2026-04-29）
 
 | 観点 | 値 / 参照先 |

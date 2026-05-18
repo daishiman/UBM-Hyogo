@@ -8,6 +8,18 @@
 
 本ドキュメントは、複雑なタスクを単一責務の原則に基づいて分解し、各サブタスクに最適なスラッシュコマンド・エージェント・スキルの組み合わせを選定するためのガイドラインを定義する。
 
+### step-05 dashboard chart implementation（2026-05-18）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION / implementation_complete_pending_pr` |
+| 成果物 | `docs/30-workflows/step-05-dashboard-chart-implementation/` |
+| source | `docs/30-workflows/ui-prototype-alignment-mvp-recovery/improvements/serial-05-admin-mutation-ui/step-05-dashboard-chart/spec.md` |
+| 目的 | admin dashboard `StatusDistribution` に SVG bar chart receiver を追加し、既存 `GET /admin/dashboard` endpoint に `byStatus` producer を追加する。legacy response では既存 placeholder を維持する |
+| implementation targets | `apps/web/src/features/admin/components/_dashboard/StatusDistribution.tsx`, `apps/web/src/features/admin/components/_dashboard/StatusDistribution.spec.tsx`, `apps/web/src/lib/admin/admin-dashboard-ui.ts`, `apps/api/src/routes/admin/dashboard.ts`, `apps/api/src/repository/dashboard.ts`, `packages/shared/src/zod/viewmodel.ts` |
+| same-cycle sync | `ui-ux-admin-dashboard.md`, quick-reference, resource-map, artifact inventory, changelog |
+| evidence boundary | focused component test / grep gate / Phase 12 strict 7 present。authenticated runtime screenshots, commit, push, PR は user-gated |
+
 ### UI Prototype Design System Foundation（2026-05-18）
 
 | 項目 | 値 |
