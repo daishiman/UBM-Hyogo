@@ -3320,6 +3320,15 @@ node scripts/list-specs.js --topics
 | Runtime Captured Artifacts | L25 |
 | Boundary | L36 |
 
+### references/workflow-task-761-visual-full-required-status-check-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Metadata | L3 |
+| Workflow Artifacts | L13 |
+| Implementation Targets | L24 |
+| Runtime Boundary | L30 |
+
 ### references/workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md
 
 | セクション | 行 |
@@ -3954,12 +3963,13 @@ node scripts/list-specs.js --topics
 |------------|----|
 | Current contract | L3 |
 | Required status checks | L7 |
-| Invariants | L16 |
-| Issue #554 runbook | L28 |
-| Branch-specific drift rule（E2E Stage 3c / 2026-05-10） | L44 |
-| 3-state vocabulary（runtime mutation 系） | L62 |
-| Stage 3c required contexts target（2026-05-10） | L81 |
-| References | L92 |
+| Invariants | L19 |
+| Issue #554 runbook | L31 |
+| Branch-specific drift rule（E2E Stage 3c / 2026-05-10） | L47 |
+| 3-state vocabulary（runtime mutation 系） | L65 |
+| Stage 3c required contexts target（2026-05-10） | L84 |
+| Task #761 visual-full required contexts target（2026-05-17） | L95 |
+| References | L113 |
 
 ### references/cloudflare-edge-security.md
 
@@ -6936,14 +6946,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L1632 |
-| フェーズ構造（概要） | L1641 |
-| 品質ゲート（概要） | L1672 |
-| 出力テンプレート | L1683 |
-| 実行時のコマンド・エージェント・スキル | L1706 |
-| 昇格パターン集 | L1730 |
-| Current Active / Spec Created Tasks | L1732 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L1883 |
+| ドキュメント構成 | L1634 |
+| フェーズ構造（概要） | L1643 |
+| 品質ゲート（概要） | L1674 |
+| 出力テンプレート | L1685 |
+| 実行時のコマンド・エージェント・スキル | L1708 |
+| 昇格パターン集 | L1732 |
+| Current Active / Spec Created Tasks | L1734 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L1885 |
 
 ### references/task-workflow-backlog-part2.md
 

@@ -38,7 +38,7 @@ jobs:
       - name: Build web app (OpenNext Workers bundle)
         run: mise exec -- pnpm --filter @ubm-hyogo/web build:cloudflare
 
-      # NOTE(issue-762): step-scoped secrets.CLOUDFLARE_API_TOKEN is the current safe baseline.
+      # NOTE(issue-762): step-scoped CF deploy secret (see Deploy step env) is the current safe baseline.
       # Keep GitHub OIDC token permission and OIDC exchange out of web-cd until Cloudflare documents
       # supported Workers deploy OIDC in wrangler-action. See docs/30-workflows/issue-762-cf-oidc-staging-proof-prod-cutover/.
       - name: Deploy to Cloudflare Workers (staging)
@@ -86,7 +86,7 @@ jobs:
       - name: Build web app (OpenNext Workers bundle)
         run: mise exec -- pnpm --filter @ubm-hyogo/web build:cloudflare
 
-      # NOTE(issue-762): step-scoped secrets.CLOUDFLARE_API_TOKEN is the current safe baseline.
+      # NOTE(issue-762): step-scoped CF deploy secret (see Deploy step env) is the current safe baseline.
       # Keep GitHub OIDC token permission and OIDC exchange out of web-cd until Cloudflare documents
       # supported Workers deploy OIDC in wrangler-action. See docs/30-workflows/issue-762-cf-oidc-staging-proof-prod-cutover/.
       - name: Deploy to Cloudflare Workers (production)
