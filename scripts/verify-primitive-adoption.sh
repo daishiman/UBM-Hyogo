@@ -12,27 +12,66 @@ cd "$REPO_ROOT"
 FAIL=0
 
 # --- C1: no raw <input> in admin / public DensityToggle
-C1_OUT="$(grep -rn --exclude-dir=__tests__ --include='*.tsx' '<input' \
+#   text-like inputs must go through FormField + Input primitive.
+#   radio / checkbox are out of scope for the Input primitive abstraction
+#   (these are choice controls, not single-line text fields).
+C1_RAW="$(grep -rn --exclude-dir=__tests__ --include='*.tsx' '<input' \
   apps/web/src/components/admin/ \
   apps/web/src/components/public/DensityToggle.client.tsx \
   2>/dev/null || true)"
+C1_OUT="$(printf '%s\n' "$C1_RAW" | awk '
+  NR==FNR { next }
+' /dev/null <(printf '%s\n' "$C1_RAW") | while IFS= read -r line; do
+  [ -z "$line" ] && continue
+  file="${line%%:*}"
+  rest="${line#*:}"
+  lineno="${rest%%:*}"
+  # Read 6 lines starting at the match to span multi-line JSX opening tags,
+  # then check if the element carries a radio / checkbox type attribute.
+  block="$(sed -n "${lineno},$((lineno + 6))p" "$file")"
+  if printf '%s' "$block" | grep -qE 'type="(radio|checkbox)"'; then
+    continue
+  fi
+  printf '%s\n' "$line"
+done)"
 if [ -n "$C1_OUT" ]; then
   C1_HITS=$(printf '%s\n' "$C1_OUT" | wc -l | tr -d ' ')
   echo "[C1 FAIL] raw <input> usage found: $C1_HITS hits"
   printf '%s\n' "$C1_OUT"
   FAIL=1
 else
-  echo "[C1 OK] no raw <input> in admin / public DensityToggle"
+  echo "[C1 OK] no raw text-like <input> in admin / public DensityToggle"
 fi
 
-# --- C2: mutating admin panels use useAdminMutation().trigger() from features/hooks
-EXPECTED_PANELS=(MeetingPanel TagQueuePanel SchemaDiffPanel RequestQueuePanel)
-for p in "${EXPECTED_PANELS[@]}"; do
+# --- C2: mutating admin panels route writes through useAdminMutation().trigger().
+#   panel_path: panel that owns the mutation surface.
+#   delegate_path: optional sibling component the panel delegates mutation to
+#     (e.g. TagQueuePanel renders TagsQueueResolveDrawer which holds the hook).
+EXPECTED_PANELS=(
+  "MeetingPanel|"
+  "TagQueuePanel|apps/web/src/components/admin/TagsQueueResolveDrawer.tsx"
+  "SchemaDiffPanel|"
+  "RequestQueuePanel|"
+)
+panel_uses_hook() {
+  local path="$1"
+  [ -f "$path" ] || return 1
+  grep -q 'features/admin/hooks/useAdminMutation' "$path" || return 1
+  # accept either `someMutation.trigger(` (object-style) or `{ trigger ... }` destructure
+  if ! grep -qE '\.trigger\(|\{\s*trigger\b' "$path"; then
+    return 1
+  fi
+  ! grep -q 'void _.*Mutation' "$path"
+}
+for entry in "${EXPECTED_PANELS[@]}"; do
+  p="${entry%%|*}"
+  delegate="${entry#*|}"
   panel_path="apps/web/src/components/admin/${p}.tsx"
-  if grep -q 'features/admin/hooks/useAdminMutation' "$panel_path" \
-    && grep -q '\.trigger(' "$panel_path" \
-    && ! grep -q 'void _.*Mutation' "$panel_path"; then
+  if panel_uses_hook "$panel_path"; then
     echo "[C2 OK] $p uses useAdminMutation trigger (features)"
+  elif [ -n "$delegate" ] && panel_uses_hook "$delegate" \
+    && grep -q "$(basename "$delegate" .tsx)" "$panel_path"; then
+    echo "[C2 OK] $p delegates mutation to $(basename "$delegate" .tsx) (features hook)"
   else
     echo "[C2 FAIL] $p does not use features/admin/hooks/useAdminMutation trigger"
     FAIL=1

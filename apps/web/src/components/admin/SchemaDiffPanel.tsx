@@ -76,6 +76,24 @@ interface SchemaAliasApplyBody {
   existingStableKey?: string;
 }
 
+function buildSchemaAliasErrorMessage(
+  status: number,
+  fallback: string,
+  payload: SchemaAliasApplyBody | null,
+): string {
+  if (status === 422) {
+    if (payload?.code === "stable_key_collision") {
+      const ids = payload.existingQuestionIds ?? [];
+      return `stableKey は既存 questionId と衝突しています（${ids.join(", ")}）`;
+    }
+    return fallback;
+  }
+  if (status === 409 && payload?.existingStableKey) {
+    return `${fallback}（既存 stableKey: ${payload.existingStableKey}）`;
+  }
+  return fallback;
+}
+
 export function SchemaDiffPanel({ initial }: { readonly initial: SchemaDiffListView }) {
   const router = useRouter();
   const schemaAliasMutation = useAdminMutation<SchemaAliasApplyBody>("/api/admin/schema/aliases", "POST", {
@@ -86,7 +104,11 @@ export function SchemaDiffPanel({ initial }: { readonly initial: SchemaDiffListV
         stableKey: string;
         diffId?: string;
       });
-      if (!r.ok) throw new AdminMutationError(r.status, r.error);
+      if (!r.ok) {
+        const errPayload = (r.data ?? null) as SchemaAliasApplyBody | null;
+        const message = buildSchemaAliasErrorMessage(r.status, r.error, errPayload);
+        throw new AdminMutationError(r.status, message);
+      }
       if (isSchemaAliasRetryableContinuation(r)) return r.data as SchemaAliasApplyBody;
       return r.data as SchemaAliasApplyBody;
     },
