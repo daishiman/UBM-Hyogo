@@ -109,7 +109,21 @@ task_dir_from_path() {
   esac
 }
 
+# Staged file のうち「staged 内容が origin/dev と完全一致するもの」は除外する。
+# 背景: sync-merge 後、自ブランチの旧コミットで触れた cross-task ファイルの stale-reference を
+# 戻す revert は cross-task taint を取り除く正当な cleanup であり、誤検知の対象外。
+is_revert_to_origin_dev() {
+  local path="$1"
+  local origin_blob
+  local staged_blob
+  origin_blob=$(git rev-parse --verify --quiet "origin/dev:$path" 2>/dev/null) || return 1
+  staged_blob=$(git ls-files --stage -- "$path" 2>/dev/null | awk '{print $2}')
+  [ -n "$staged_blob" ] || return 1
+  [ "$origin_blob" = "$staged_blob" ]
+}
+
 STAGED_TASK_DIRS=$(while IFS= read -r path; do
+  is_revert_to_origin_dev "$path" && continue
   task_dir_from_path "$path" || true
 done < <(git diff --cached --name-only) | sort -u)
 
