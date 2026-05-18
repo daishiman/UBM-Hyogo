@@ -1,0 +1,8 @@
+{
+  "status": "PENDING_USER_GATE",
+  "reason": "workflow_dispatch requires approved repository credential mirroring, push, PR, and merge before execution",
+  "workflow": "cf-audit-log-monitor.yml",
+  "ref": "dev",
+  "dry_run": true,
+  "run": null
+}

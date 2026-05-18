@@ -6,8 +6,10 @@
 | --- | --- |
 | Task ID | `task-25-followup-loading-state-observation-fixture` |
 | Source | `docs/30-workflows/task-25-ui-mvp-w8-par-routes-smoke-coverage/` |
-| workflow_state | `spec_created` |
+| workflow_state | `consumed` |
 | Classification | `implementation / NON_VISUAL` |
+| Consumed by | `docs/30-workflows/task-25-followup-loading-state-observation-fixture/` |
+| Consumed at | `2026-05-16` |
 
 ## 苦戦箇所
 
