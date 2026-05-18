@@ -271,17 +271,17 @@ describe("アクセシビリティ", () => {
 
 ### jest-axe統合
 
-```typescript
-import { axe, toHaveNoViolations } from "jest-axe";
+Vitest では既存 component spec と同じ inline pattern を標準にする。`expect.extend(toHaveNoViolations)` は Jest matcher 型 augmentation と `vitest.setup.ts` 追加を伴うため、新規導入しない。
 
-expect.extend(toHaveNoViolations);
+```typescript
+import { axe } from "@/test/axe";
 
 describe("自動アクセシビリティ検証", () => {
   it("axe違反がない", async () => {
     const { container } = render(<PermissionDialog />);
     const results = await axe(container);
 
-    expect(results).toHaveNoViolations();
+    expect(results.violations).toHaveLength(0);
   });
 });
 ```
@@ -289,10 +289,16 @@ describe("自動アクセシビリティ検証", () => {
 ### 設定
 
 ```typescript
-// vitest.setup.ts
-import { toHaveNoViolations } from "jest-axe";
+// apps/web/src/test/axe.ts
+import { configureAxe } from "jest-axe";
 
-expect.extend(toHaveNoViolations);
+export const axe = configureAxe({
+  rules: {
+    "color-contrast": { enabled: false },
+    region: { enabled: false },
+    "landmark-one-main": { enabled: false },
+  },
+});
 ```
 
 ---

@@ -35,7 +35,9 @@ describe("task-10 ui primitive contract", () => {
     expect(CardFooter).toBeTypeOf("function");
     expect(Badge).toBeTypeOf("function");
     expect(badgeVariants).toBeTypeOf("function");
-    expect(Input).toBeTypeOf("function");
+    // Input is wrapped in forwardRef for FormField ref forwarding,
+    // so it surfaces as an object (ForwardRefExoticComponent) — not a function.
+    expect(Input).toBeTypeOf("object");
     expect(Select).toBeTypeOf("function");
     expect(Sidebar).toBeTypeOf("function");
     expect(Stat).toBeTypeOf("function");

@@ -32,6 +32,13 @@
   --ubm-color-info: oklch(0.55 0.09 230);
   --ubm-color-info-soft: oklch(0.96 0.025 230);
 
+  /* Status semantic tokens (admin tag queue badge 等) — palette からの派生 */
+  --status-info-bg: var(--ubm-color-info-soft);
+  --status-warn-bg: var(--ubm-color-warn-soft);
+  --status-success-bg: var(--ubm-color-ok-soft);
+  --status-danger-bg: var(--ubm-color-danger-soft);
+  --status-neutral-bg: var(--ubm-color-surface-bg-2);
+
   /* Zone alias */
   --ubm-color-zone-a: var(--ubm-color-info);
   --ubm-color-zone-b: var(--ubm-color-accent);
@@ -143,3 +150,5 @@
     --ubm-color-info-soft: #ecf3fb;
   }
 }
+
+/* trigger: visual-full pull_request rollup re-evaluation */

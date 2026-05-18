@@ -1,0 +1,88 @@
+{
+  "metadata": {
+    "workflow_id": "admin-tags-queue-resolver-drawer",
+    "title": "Admin tags queue resolver drawer hardening specification",
+    "taskType": "implementation",
+    "visualEvidence": "VISUAL",
+    "workflow_state": "implemented_local_evidence_captured",
+    "evidence_state": "LOCAL_TESTS_AND_VISUAL_EVIDENCE_PASSED",
+    "implementationCategory": "code-change",
+    "created_at": "2026-05-17",
+    "updated_at": "2026-05-17",
+    "source_spec": "docs/30-workflows/ui-prototype-alignment-mvp-recovery/improvements/serial-05-admin-mutation-ui/step-04-tags-assignment/spec.md",
+    "phase13_state": "blocked_pending_user_approval",
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-05-17T00:00:00+09:00",
+        "evidence_path": "docs/30-workflows/completed-tasks/admin-tags-queue-resolver-drawer/outputs/phase-01.md",
+        "approver": "local",
+        "notes": "current topology verified; stale _components premise superseded"
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "passed",
+        "passed_at": "2026-05-17T14:28:00+09:00",
+        "evidence_path": "docs/30-workflows/completed-tasks/admin-tags-queue-resolver-drawer/outputs/phase-11",
+        "approver": "local",
+        "notes": "apps/web implementation exists; local Vitest, Playwright screenshots, and axe check passed"
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/admin-tags-queue-resolver-drawer/outputs/phase-13.md",
+        "approver": "daishiman",
+        "notes": "commit / push / PR are user-gated"
+      }
+    ]
+  },
+  "implementation_targets": [
+    "apps/web/src/components/admin/TagsQueueResolveDrawer.tsx",
+    "apps/web/src/components/admin/_tagQueueStatus.ts",
+    "apps/web/src/components/admin/TagQueuePanel.tsx",
+    "apps/web/src/components/admin/__tests__/TagsQueueResolveDrawer.spec.tsx",
+    "apps/web/src/components/admin/__tests__/_tagQueueStatus.spec.ts",
+    "apps/web/src/components/admin/__tests__/TagQueuePanel.component.spec.tsx",
+    "apps/web/src/features/admin/hooks/useAdminMutation.ts",
+    "apps/web/src/features/admin/hooks/__tests__/useAdminMutation.spec.ts",
+    "apps/web/src/styles/tokens.css"
+  ],
+  "evidence": [
+    "outputs/phase-01.md",
+    "outputs/phase-02.md",
+    "outputs/phase-03.md",
+    "outputs/phase-04.md",
+    "outputs/phase-05.md",
+    "outputs/phase-06.md",
+    "outputs/phase-07.md",
+    "outputs/phase-08.md",
+    "outputs/phase-09.md",
+    "outputs/phase-10.md",
+    "outputs/phase-11.md",
+    "outputs/phase-12/main.md",
+    "outputs/phase-12/implementation-guide.md",
+    "outputs/phase-12/system-spec-update-summary.md",
+    "outputs/phase-12/documentation-changelog.md",
+    "outputs/phase-12/unassigned-task-detection.md",
+    "outputs/phase-12/skill-feedback-report.md",
+    "outputs/phase-12/phase12-task-spec-compliance-check.md",
+    "outputs/phase-13.md"
+  ],
+  "phases": [
+    { "phase": 1, "phaseId": "phase-01", "status": "completed", "artifact": "outputs/phase-01.md" },
+    { "phase": 2, "phaseId": "phase-02", "status": "completed", "artifact": "outputs/phase-02.md" },
+    { "phase": 3, "phaseId": "phase-03", "status": "completed", "artifact": "outputs/phase-03.md" },
+    { "phase": 4, "phaseId": "phase-04", "status": "completed", "artifact": "outputs/phase-04.md" },
+    { "phase": 5, "phaseId": "phase-05", "status": "completed", "artifact": "outputs/phase-05.md" },
+    { "phase": 6, "phaseId": "phase-06", "status": "completed", "artifact": "outputs/phase-06.md" },
+    { "phase": 7, "phaseId": "phase-07", "status": "completed", "artifact": "outputs/phase-07.md" },
+    { "phase": 8, "phaseId": "phase-08", "status": "completed", "artifact": "outputs/phase-08.md" },
+    { "phase": 9, "phaseId": "phase-09", "status": "completed", "artifact": "outputs/phase-09.md" },
+    { "phase": 10, "phaseId": "phase-10", "status": "completed", "artifact": "outputs/phase-10.md" },
+    { "phase": 11, "phaseId": "phase-11", "status": "completed", "artifact": "outputs/phase-11.md" },
+    { "phase": 12, "phaseId": "phase-12", "status": "completed", "artifact": "outputs/phase-12/main.md" },
+    { "phase": 13, "phaseId": "phase-13", "status": "blocked", "artifact": "outputs/phase-13.md" }
+  ]
+}

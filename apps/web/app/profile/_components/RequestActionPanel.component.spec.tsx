@@ -2,11 +2,56 @@
 import { afterEach, describe, it, expect, vi } from "vitest";
 import { render, screen, fireEvent, cleanup } from "@testing-library/react";
 
-vi.mock("next/navigation", () => ({
-  useRouter: () => ({ refresh: vi.fn(), push: vi.fn(), replace: vi.fn() }),
+const navigationMock = vi.hoisted(() => ({
+  refresh: vi.fn(),
 }));
 
-afterEach(() => cleanup());
+vi.mock("next/navigation", () => ({
+  useRouter: () => ({
+    refresh: navigationMock.refresh,
+    push: vi.fn(),
+    replace: vi.fn(),
+  }),
+}));
+
+vi.mock("./VisibilityRequestDialog", () => ({
+  VisibilityRequestDialog: ({
+    open,
+    onSubmitted,
+  }: {
+    open: boolean;
+    onSubmitted: () => void;
+  }) =>
+    open ? (
+      <div data-testid="visibility-request-dialog">
+        <button type="button" onClick={onSubmitted} data-testid="submit-visibility-mock">
+          submit visibility
+        </button>
+      </div>
+    ) : null,
+}));
+
+vi.mock("./DeleteRequestDialog", () => ({
+  DeleteRequestDialog: ({
+    open,
+    onSubmitted,
+  }: {
+    open: boolean;
+    onSubmitted: () => void;
+  }) =>
+    open ? (
+      <div data-testid="delete-request-dialog">
+        <button type="button" onClick={onSubmitted} data-testid="submit-delete-mock">
+          submit delete
+        </button>
+      </div>
+    ) : null,
+}));
+
+afterEach(() => {
+  cleanup();
+  navigationMock.refresh.mockClear();
+});
 import { RequestActionPanel } from "./RequestActionPanel";
 
 describe("RequestActionPanel", () => {
@@ -48,6 +93,13 @@ describe("RequestActionPanel", () => {
     render(<RequestActionPanel publishState="public" rulesConsent="consented" />);
     fireEvent.click(screen.getByTestId("open-delete-dialog"));
     expect(screen.getByTestId("delete-request-dialog")).toBeTruthy();
+  });
+
+  it("dialog 提出後、parent 側から router.refresh は呼ばれない", () => {
+    render(<RequestActionPanel publishState="public" rulesConsent="consented" />);
+    fireEvent.click(screen.getByTestId("open-hide-dialog"));
+    fireEvent.click(screen.getByTestId("submit-visibility-mock"));
+    expect(navigationMock.refresh).not.toHaveBeenCalled();
   });
 
   // 06b-followup-001 (#428): server-side pending state による reload 永続性
