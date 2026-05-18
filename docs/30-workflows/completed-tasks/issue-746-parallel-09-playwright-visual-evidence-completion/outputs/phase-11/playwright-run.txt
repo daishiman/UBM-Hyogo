@@ -1,0 +1,20 @@
+Command:
+
+```bash
+mise exec -- pnpm --dir apps/web exec playwright test --config=playwright.parallel09.config.ts --reporter=line
+```
+
+Result:
+
+```text
+Running 6 tests using 1 worker
+[1/6] [visual-chromium] parallel-09 primitives visual evidence - 01-formfield-error 1x and 2x screenshots
+[2/6] [visual-chromium] parallel-09 primitives visual evidence - 02-icon-4sizes 1x and 2x screenshots
+[3/6] [visual-chromium] parallel-09 primitives visual evidence - 03-breadcrumb 1x and 2x screenshots
+[4/6] [visual-chromium] parallel-09 primitives visual evidence - 04-focus-visible 1x and 2x screenshots
+[5/6] [visual-chromium] parallel-09 primitives visual evidence - 05-pagination-disabled 1x and 2x screenshots
+[6/6] [visual-chromium] parallel-09 primitives visual evidence - 06-empty-state 1x and 2x screenshots
+6 passed (1.2m)
+```
+
+Note: Node emitted a non-fatal `NO_COLOR` / `FORCE_COLOR` warning before the first test. A first post-edit retry exposed a missing local `chromium_headless_shell-1217` cache; `mise exec -- pnpm --dir apps/web exec playwright install chromium` restored the browser. A review-cycle rerun after adding `webServer` to `apps/web/playwright.parallel09.config.ts` passed with the single command above.

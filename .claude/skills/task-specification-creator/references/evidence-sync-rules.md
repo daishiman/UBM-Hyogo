@@ -97,3 +97,28 @@ Phase 12 完了時に以下の全項目を確認する:
 - [ ] task-specification-creator/LOGS.md 更新済み
 - [ ] aiworkflow-requirements/SKILL.md 変更履歴更新済み
 - [ ] task-specification-creator/SKILL.md 変更履歴更新済み
+
+### ルール6: Phase 11 evidence path 規約（Refs #730）
+
+`Phase 11 evidence file inventory` の `Path` 列は **workflow root（`docs/30-workflows/<task>/`）からの相対パスのみ** を許容する。
+
+**制約**:
+
+- 絶対パス（`/Users/...` / `/home/...` 等）は禁止。verifier (`scripts/lib/phase12-compliance/verify-phase11-evidence-existence.ts`) が reject する
+- `../` を含む workflow root 外参照は禁止。path traversal として reject される
+- `~` 始まりの home-relative path も禁止
+- `Status` 列は lowercase canonical（`present` / `absent` / `not_executed` / `mock_fallback`）のみ。`Present` / `PRESENT` 等の大文字混在は parser (`parse-phase11-evidence.ts`) が別状態として扱う
+
+**`Status=present` の物理存在要求**:
+
+- `Status=present` 行は workflow root 配下に物理 file が存在することを要求する
+- inventory に記載するのみで実体が無い場合は `missing-evidence` で FAIL
+- 実 evidence を配置できない場合は `Status` を `absent` / `not_executed` / `mock_fallback` に修正する
+
+**検証コマンド**:
+
+```bash
+# Phase 11 evidence inventory の Status=present 行が実体を持つことを確認
+node scripts/verify-phase12-compliance.ts --task docs/30-workflows/<task>
+# 期待: missing-evidence FAIL が 0 件
+```

@@ -1,0 +1,5 @@
+╭─────────────────────────────────────╮
+│ 🥊 lefthook v1.13.6  hook: pre-push │
+╰─────────────────────────────────────╯
+sync hooks: ✔️ (pre-push, pre-commit, post-merge)
+summary: (done in 0.32 seconds)
