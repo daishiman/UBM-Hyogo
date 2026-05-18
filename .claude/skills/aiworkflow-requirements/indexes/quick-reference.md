@@ -16,6 +16,44 @@
 
 ---
 
+### Issue #747 Vitest esbuild arch & worktree isolation（2026-05-17）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/issue-747-vitest-esbuild-arch-and-worktree-isolation/` |
+| 状態 | `implemented_local_runtime_blocked_node_arch / implementation / NON_VISUAL / PARTIAL_LOCAL_EVIDENCE_NODE_ARCH_BLOCKED` |
+| source | Issue #747 CLOSED / `docs/30-workflows/unassigned-task/parallel-09-followup-002-vitest-esbuild-version-alignment.md` consumed |
+| root cause | Node arch x64 under Rosetta 2 + worktree `node_modules` missing `@esbuild/darwin-x64` + parent repository `@esbuild/darwin-x64@0.25.4` leakage |
+| contract | root `esbuild@0.27.3` devDependency; `verify-node-arch`, `verify-worktree-isolation`, `verify-esbuild`, `verify:vitest-runtime`; focused Vitest root scripts `test:parallel09-primitives` / `test:parallel09-use-admin-mutation` |
+| evidence boundary | focused Vitest 2 specs, worktree isolation, and esbuild version parity pass locally; `verify:node-arch` blocks because local Node is x64; CI / commit / push / PR remain user-gated |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-747-vitest-esbuild-arch-and-worktree-isolation-artifact-inventory.md` |
+
+### UT-07A-FU-01 memberTags.assignTagsToMember cleanup（2026-05-15）
+### parallel-09 UX cross-cutting primitives visual evidence（Issue #746 / 2026-05-17）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/parallel-09-ux-cross-cutting/` |
+| recovery root | `docs/30-workflows/issue-746-parallel-09-playwright-visual-evidence-completion/` |
+| 状態 | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION` |
+| source | Issue #746 CLOSED / `docs/30-workflows/unassigned-task/parallel-09-followup-001-playwright-visual-evidence-completion.md` consumed |
+| implementation | `apps/web/playwright/tests/visual/parallel-09-primitives.spec.ts` completed-tasks evidence path + `PARALLEL09_EVIDENCE_DIR` override |
+| evidence | `docs/30-workflows/completed-tasks/parallel-09-ux-cross-cutting/outputs/phase-11/screenshots/*.png` (12), Issue #746 `outputs/phase-11/playwright-run.txt` |
+| user gate | commit / push / PR / issue mutation / staging-production smoke |
+
+### UT-07B alias recommendation i18n（2026-05-17）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/ut-07b-alias-recommendation-i18n/` |
+| 状態 | `implemented_local_evidence_captured / implementation / NON_VISUAL` |
+| issue | #292 CLOSED / source task consumed to `docs/30-workflows/completed-tasks/UT-07B-alias-recommendation-i18n-001.md` |
+| implementation | `apps/api/src/services/aliasRecommendation.ts` の `normalizeLabelForCompare` |
+| contract | `recommendedStableKeys` label 比較前に NFKC + trim + whitespace 圧縮。response shape は `string[]` 維持 |
+| tests | `apps/api/src/services/aliasRecommendation.spec.ts` 20 tests PASS; `apps/api/src/routes/admin/schema.contract.spec.ts` 16 tests PASS; apps/api suite 48 files / 300 tests PASS |
+| evidence | `outputs/phase-11/manual-smoke-log.md`, `outputs/phase-12/phase12-task-spec-compliance-check.md` |
+| user gate | commit / push / PR |
+
 ### CI Env Secret Inventory And Preflight Gate（2026-05-16）
 
 | 目的 | 参照先 |
@@ -310,6 +348,21 @@
 | downstream | task-18 regression smoke / verify-design-tokens |
 | evidence boundary | Phase 12 strict 7, artifacts parity, apps/web implementation, focused tests, and local screenshot evidence are present. Staging smoke, production-equivalent runtime evidence, commit, push, and PR remain user-gated |
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-task-13-login-rebuild-artifact-inventory.md` |
+
+### parallel-i03 profile request dialog refresh order（2026-05-17）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/parallel-i03-dialog-refresh-order/` |
+| 状態 | `implemented_local_evidence_captured / implementation / NON_VISUAL` |
+| route scope | `/profile` |
+| implementation targets | `apps/web/app/profile/_components/{VisibilityRequestDialog,DeleteRequestDialog,RequestActionPanel}.tsx` |
+| contract | dialog success / 409 duplicate-pending 両分岐とも `router.refresh() -> onSubmitted(res.accepted) -> onClose()` |
+| parent boundary | `RequestActionPanel` does not call `router.refresh()` in `onSubmitted` |
+| evidence | `outputs/phase-11/visual-verification-skip.md`, `outputs/phase-12/phase12-task-spec-compliance-check.md` |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-parallel-i03-dialog-refresh-order-artifact-inventory.md` |
+| lessons-learned | `.claude/skills/aiworkflow-requirements/references/lessons-learned-parallel-i03-dialog-refresh-order-2026-05.md`（L-PARALLEL-I03-001..005） |
+| user gate | commit / push / PR |
 
 ### CI Pipeline Recovery Web CD And Runtime Smoke（2026-05-09）
 

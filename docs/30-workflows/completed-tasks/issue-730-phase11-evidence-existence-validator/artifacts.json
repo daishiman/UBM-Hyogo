@@ -1,0 +1,62 @@
+{
+  "metadata": {
+    "workflow_id": "issue-730-phase11-evidence-existence-validator",
+    "taskType": "implementation",
+    "visualEvidence": "NON_VISUAL",
+    "workflow_state": "implemented_local_evidence_captured",
+    "status": "implemented_local_evidence_captured",
+    "implementation_status": "implementation_complete_pending_pr",
+    "evidence_state": "LOCAL_EVIDENCE_CAPTURED",
+    "coverageTier": "standard",
+    "created_at": "2026-05-17",
+    "updated_at": "2026-05-17",
+    "source_issue": 730,
+    "source_issue_state": "closed",
+    "recovered_from_unassigned": "docs/30-workflows/unassigned-task/task-27-followup-002-phase11-evidence-existence-validator.md",
+    "issue_state_at_recovery": "closed",
+    "issue_reference_mode": "refs_only",
+    "source_unassigned_task": "docs/30-workflows/unassigned-task/task-27-followup-002-phase11-evidence-existence-validator.md",
+    "upstream_task": "docs/30-workflows/completed-tasks/task-27-ui-mvp-w9-solo-mvp-3-layer-task-mapping/",
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-05-17T00:00:00+09:00",
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-730-phase11-evidence-existence-validator/index.md",
+        "approver": "daishiman",
+        "notes": "spec_review: Phase 1-13 spec plus same-wave implementation/evidence captured. Commit, push, PR remain user-gated."
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "passed",
+        "passed_at": "2026-05-17T07:06:00+09:00",
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-730-phase11-evidence-existence-validator/outputs/phase-11/manual-test-result.md",
+        "approver": "daishiman",
+        "notes": "validator_green: pnpm test:phase12-compliance passed locally (19 tests)."
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "passed",
+        "passed_at": "2026-05-17T07:06:00+09:00",
+        "evidence_path": ".github/workflows/verify-phase12-compliance.yml",
+        "approver": "CODEOWNERS:github-workflows",
+        "notes": "ci_integration: verify-phase12-compliance workflow keeps MVP-PAUSE pull_request boundary and adds origin/dev fallback for non-PR events."
+      }
+    ]
+  },
+  "phases": [
+    { "id": 1, "name": "要件定義", "status": "passed" },
+    { "id": 2, "name": "設計", "status": "passed" },
+    { "id": 3, "name": "設計レビュー", "status": "passed" },
+    { "id": 4, "name": "詳細実装計画", "status": "passed" },
+    { "id": 5, "name": "環境準備", "status": "passed" },
+    { "id": 6, "name": "実装", "status": "passed" },
+    { "id": 7, "name": "テスト / カバレッジ", "status": "passed" },
+    { "id": 8, "name": "統合", "status": "passed" },
+    { "id": 9, "name": "レビュー", "status": "passed" },
+    { "id": 10, "name": "検収準備", "status": "passed" },
+    { "id": 11, "name": "動作確認 / 証跡", "status": "passed" },
+    { "id": 12, "name": "完了同期", "status": "passed" },
+    { "id": 13, "name": "リリース / クローズ", "status": "blocked_pending_user_approval" }
+  ]
+}

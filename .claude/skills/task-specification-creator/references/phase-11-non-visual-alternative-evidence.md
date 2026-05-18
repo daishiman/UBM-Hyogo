@@ -191,6 +191,16 @@ UT-07B-FU-03 production migration apply runbook（2026-05-02）の close-out fee
 - [ ] Phase 13 が user approval gate のまま残っている
 - [ ] secret value / token / account id / raw production output を evidence に転記していない
 
+## Phase 12 compliance check における Phase 11 evidence 実在性 validator（Refs #730）
+
+`outputs/phase-12/phase12-task-spec-compliance-check.md` の `## Phase 11 evidence file inventory` または `## 4. Phase 11 evidence file inventory` 表は、`scripts/lib/phase12-compliance/verify-compliance-file.ts` から自動検証される。表に `Status = present` と書いた evidence は、workflow root 配下に物理ファイルが存在しなければ `reason: "missing-evidence"` で fail する。空 path やディレクトリ path は evidence file ではないため fail とする。
+
+正規 status は小文字の `present` / `pending` / `n/a` を使う。`present` だけが実在チェック対象で、`pending` / `n/a` は実在未要求として扱う。`Present` などの表記揺れや未知 status は invalid claim として fail し、`present` とみなしてはならない。
+
+Path は workflow root 相対を原則とし、絶対パスや `../` による root 外参照は許可しない。docs-only / NON_VISUAL タスクの代表的な検査対象は `outputs/phase-11/main.md`、`outputs/phase-11/manual-test-result.md`、`outputs/phase-11/manual-smoke-log.md`、`outputs/phase-11/link-checklist.md` の 4 ファイルである。
+
+この validator は evidence の内容妥当性までは検査しない。中身の品質、実行ログの exit code、redaction、runtime smoke の真偽は、各タスクの Phase 11 / Phase 12 で別途検証する。
+
 ## Cloudflare Workers production preflight evidence template（docs-only infrastructure verification）
 
 UT-06-FU-A production route / secret / observability preflight（2026-04-30）の close-out feedback を反映。`apps/web` / `apps/api` を OpenNext Workers へ移行する際の **production runbook 検証**は、UI 差分なし・コード差分最小・実 production 環境への mutation 不可という条件で行うため、本テンプレートを Phase 11 evidence の最小構成として固定する。

@@ -13,18 +13,18 @@ else
   BASE="origin/dev"
 fi
 
-# sync-merge スキップ判定（CLAUDE.md 個人開発運用ポリシーに準拠）:
-#   push 範囲に merge commit を 1 件以上含む場合、sync-merge で他タスクの artifacts.json が
-#   大量に混入し、`--require-gates-for-changed` の評価対象を肥大化させて誤判定を起こすため
-#   このガードをスキップする。feature 単体 push は従来通りチェック対象。
+# sync-merge ノイズ除去（CLAUDE.md 個人開発運用ポリシーに準拠）:
+#   push 範囲に merge commit が含まれる場合、sync-merge で他タスクの artifacts.json が大量に
+#   引き込まれる。これらを評価対象にすると誤判定するため `--no-merges` で feature 由来の
+#   non-merge commit のみを対象とする。feature 単体 push は全変更を対象にする（従来通り）。
 MERGE_COUNT=$(git log --merges --format=%H "$BASE..HEAD" 2>/dev/null | wc -l | tr -d ' ')
 if [ "${MERGE_COUNT:-0}" -ge 1 ]; then
-  echo "[gate-metadata-guard] SKIP: push 範囲 ($BASE..HEAD) に merge commit が ${MERGE_COUNT} 件含まれます。sync-merge のためスキップします。" >&2
-  exit 0
+  # merge commit を除外し、feature ブランチ固有の commit が触った artifacts.json のみ抽出
+  CHANGED=$(git log --no-merges --name-only --format= "$BASE..HEAD" -- '**/artifacts.json' 2>/dev/null | sort -u | sed '/^$/d' || true)
+  echo "[gate-metadata-guard] merge commit を ${MERGE_COUNT} 件検出。non-merge commit 由来の artifacts.json のみ検証します。" >&2
+else
+  CHANGED=$(git diff --name-only "$BASE...HEAD" -- '**/artifacts.json' 2>/dev/null || true)
 fi
-
-# push 範囲で変更された artifacts.json のみを対象（macOS bash 3.2 互換のため mapfile 不使用）
-CHANGED=$(git diff --name-only "$BASE...HEAD" -- '**/artifacts.json' 2>/dev/null || true)
 
 if [ -z "$CHANGED" ]; then
   exit 0
