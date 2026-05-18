@@ -1,10 +1,10 @@
 # Phase 12 compliance check
 
-## 1. Summary verdict
+## Summary verdict
 
 `completed (runtime PASS / verified at 2026-05-17T17:30:00Z)` — Phase 1〜12 の strict 成果物が揃い、`pnpm typecheck` / `pnpm lint` / targeted vitest / targeted Playwright smoke がすべて local で PASS。Phase 11 screenshot 3 件物理生成済み。
 
-## 2. Changed-files classification
+## Changed-files classification
 
 | 分類 | パス | 区分 |
 |------|------|------|
@@ -21,13 +21,13 @@
 
 ランタイム影響 / boundary 越え変更なし。D1 schema・Google Form schema・既存 API endpoint surface に変更なし。
 
-## 3. `workflow_state` and phase status consistency
+## `workflow_state` and phase status consistency
 
 - `artifacts.json.metadata.workflow_state = implemented_local`
 - Phase 1〜12 はすべて `completed (runtime PASS / verified at 2026-05-17T17:30:00Z)` を記録
 - index.md と各 phase-*.md の状態表記は逐語一致
 
-## 4. Phase 11 evidence file inventory
+## Phase 11 evidence file inventory
 
 | Path | Status | 種別 | 備考 |
 |------|--------|------|------|
@@ -39,7 +39,7 @@
 
 すべての `Status=present` 行の物理 file は workflow root 配下に存在する（path-existence-validator PASS）。
 
-## 5. Phase 12 strict 7 file inventory
+## Phase 12 strict 7 file inventory
 
 | # | ファイル | 存在 | 備考 |
 |---|----------|------|------|
@@ -51,24 +51,24 @@
 | 6 | `phase12-task-spec-compliance-check.md` | ✅ | 本ファイル |
 | 7 | `outputs/artifacts.json` | ✅ | metadata 同期 |
 
-## 6. Skill/reference/system spec same-wave sync
+## Skill/reference/system spec same-wave sync
 
 - `.claude/skills/task-specification-creator/SKILL-changelog.md`: branch-sync hook 誤検出の再発防止を追記
 - `.claude/skills/aiworkflow-requirements/SKILL-changelog.md`: phase12-compliance root 検出の例外パターンを追記
 - `docs/00-getting-started-manual/specs/*.md`: 変更なし（API/D1/Google Form schema 不変）
 
-## 7. Runtime or user-gated boundary
+## Runtime or user-gated boundary
 
 - D1 / Google Form / Cloudflare deploy への影響なし
 - runtime mutation なし（公開 UI のみの変更）
 - user-gated boundary: なし
 
-## 8. Archive/delete stale-reference gate
+## Archive/delete stale-reference gate
 
 - 削除 root なし。アーカイブ移動なし
 - stale reference grep: 0 件
 
-## 9. Four-condition verdict
+## Four-condition verdict
 
 | Condition | Verdict | Evidence |
 |-----------|---------|----------|
