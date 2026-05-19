@@ -6,7 +6,7 @@ sub_workflow: parallel-03-appshell-layouts
 status: spec_created
 taskType: implementation
 visualEvidence: VISUAL
-implementation_mode: greenfield-foundation
+implementation_mode: existing-layout-alignment
 ---
 
 # Phase 1 — 要件定義
@@ -15,7 +15,7 @@ implementation_mode: greenfield-foundation
 
 ## 1. 解決すべき要件
 
-`apps/web/app/` 配下の **3 系統 AppShell layout**（公開・管理・会員）に、parallel-01/02 で globals.css に追加した `[data-theme]` / `[data-shell]` / `[data-route]` selector を機械的に当てるための共通 chrome 規約を実装する。
+`apps/web/app/` 配下の既存 **3 系統 AppShell layout**（公開・管理・会員）に、parallel-01/02 で globals.css に追加した `[data-theme]` / `[data-shell]` / `[data-route]` selector を機械的に当てるための共通 chrome 規約を実装する。
 
 ### 1.1 機能要件
 

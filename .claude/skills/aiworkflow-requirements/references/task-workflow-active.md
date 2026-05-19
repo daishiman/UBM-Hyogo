@@ -104,6 +104,7 @@
 | evidence | root / outputs `artifacts.json` parity, Phase 12 strict 7, 30-method compact evidence in `PROTOTYPE-COVERAGE.md` |
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-ui-prototype-design-system-foundation-artifact-inventory.md` |
 | user gate | code implementation, visual screenshots, commit, push, PR |
+| sub-workflow parallel-03 AppShell Layouts | status `implemented_local_evidence_captured / implementation / VISUAL (public chrome only; admin/member deferred-to-serial-07)`; `implementation_mode: existing-layout-alignment`; 編集 `apps/web/app/(public\|member\|admin)/layout.tsx`、追加 spec `apps/web/app/(public\|member\|admin)/layout.spec.tsx`; data-* 契約 (`data-theme` / `data-route-group` / `data-shell` / `data-route` / `data-testid`) + OKLch token (`var(--ubm-color-*)`) only + 既存 primitive 無改変 + admin 2 段防御 `getSession()` redirect; lessons `.claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-parallel-03-appshell-layouts-2026-05.md` (L-PAR03-001..005); full chrome admin/member screenshot は親 workflow `serial-07-regression-evidence/` へ deferred-to-serial-07; commit / push / PR は user-gated |
 
 ### Issue #749 Primitive Adoption Tracker（2026-05-17）
 ### Issue #747 Vitest esbuild arch & worktree isolation（2026-05-17）

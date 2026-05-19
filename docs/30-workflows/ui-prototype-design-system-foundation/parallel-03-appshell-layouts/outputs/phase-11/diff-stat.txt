@@ -1,0 +1,17 @@
+ apps/web/app/(admin)/layout.tsx                    | 32 +++++++++---
+ apps/web/app/(member)/layout.tsx                   | 17 ++++--
+ apps/web/app/(public)/layout.tsx                   | 16 +++---
+ .../outputs/phase-12/main.md                       |  2 +-
+ .../phase-12/phase12-task-spec-compliance-check.md | 23 ++++----
+ .../phase-01-requirements.md                       |  4 +-
+ .../phase-02-architecture.md                       |  4 +-
+ .../phase-03-task-breakdown.md                     |  4 +-
+ .../phase-04-interface-contract.md                 | 10 ++--
+ .../phase-05-implementation-guide.md               | 30 ++++++-----
+ .../phase-06-test-strategy.md                      |  2 -
+ .../parallel-03-appshell-layouts/phase-08-dod.md   |  4 +-
+ .../phase-10-local-verification.md                 | 10 ++--
+ .../phase-11-evidence-inventory.md                 | 61 +++++++++++++---------
+ .../phase-12-compliance-check.md                   | 14 ++---
+ .../phase-13-commit-pr.md                          | 10 ++--
+ 16 files changed, 145 insertions(+), 98 deletions(-)

@@ -3494,6 +3494,7 @@ node scripts/list-specs.js --topics
 | Canonical Sources | L14 |
 | Workflow Outputs | L36 |
 | Implementation Boundary | L51 |
+| Sub-workflow: parallel-03 AppShell Layouts（2026-05-19） | L60 |
 
 ### references/workflow-ui-ux-visual-baseline-drift.md
 
@@ -6987,14 +6988,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L1703 |
-| フェーズ構造（概要） | L1712 |
-| 品質ゲート（概要） | L1743 |
-| 出力テンプレート | L1754 |
-| 実行時のコマンド・エージェント・スキル | L1777 |
-| 昇格パターン集 | L1801 |
-| Current Active / Spec Created Tasks | L1803 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L1954 |
+| ドキュメント構成 | L1704 |
+| フェーズ構造（概要） | L1713 |
+| 品質ゲート（概要） | L1744 |
+| 出力テンプレート | L1755 |
+| 実行時のコマンド・エージェント・スキル | L1778 |
+| 昇格パターン集 | L1802 |
+| Current Active / Spec Created Tasks | L1804 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L1955 |
 
 ### references/task-workflow-backlog-part2.md
 

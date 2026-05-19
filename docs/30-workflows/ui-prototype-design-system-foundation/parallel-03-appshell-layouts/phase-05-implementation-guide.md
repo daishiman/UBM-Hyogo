@@ -14,9 +14,9 @@ status: spec_created
 
 ## 1. Public AppShell
 
-### 1.1 絶対パス
+### 1.1 編集対象パス
 
-- 編集対象: `/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260518-101514-wt-4/apps/web/app/(public)/layout.tsx`
+- 編集対象: `<repo-root>/apps/web/app/(public)/layout.tsx`
 - 種別: **編集**（新規ではない）
 
 ### 1.2 関数シグネチャ
@@ -73,9 +73,9 @@ export default function PublicLayout({
 
 ## 2. Admin AppShell
 
-### 2.1 絶対パス
+### 2.1 編集対象パス
 
-- 編集対象: `/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260518-101514-wt-4/apps/web/app/(admin)/layout.tsx`
+- 編集対象: `<repo-root>/apps/web/app/(admin)/layout.tsx`
 - 種別: **編集**
 
 ### 2.2 関数シグネチャ
@@ -119,7 +119,7 @@ export default async function AdminLayout({
       data-testid="admin-shell"
     >
       <aside
-        className="row-span-2 border-r border-[var(--ubm-color-border-default)]"
+        className="border-r border-[var(--ubm-color-border-default)] md:row-span-2"
         data-shell="sidebar"
       >
         <AdminSidebar />
@@ -128,8 +128,13 @@ export default async function AdminLayout({
         className="flex items-center justify-between border-b border-[var(--ubm-color-border-default)] px-4 py-3"
         data-shell="topbar"
       >
-        <nav aria-label="パンくず" data-component="admin-breadcrumb-slot" />
-        <div data-component="admin-topbar-actions" />
+        <div
+          className="text-sm font-semibold text-[var(--ubm-color-text-primary)]"
+          data-component="admin-breadcrumb-slot"
+        >
+          管理
+        </div>
+        <div aria-hidden="true" data-component="admin-topbar-actions" />
       </header>
       <main className="flex flex-col gap-4 p-4 md:p-6" data-route="admin">
         {children}
@@ -144,17 +149,17 @@ export default async function AdminLayout({
 | 旧 | 新 |
 |----|----|
 | `<div className="ubm-admin-shell grid ... md:grid-cols-[240px_1fr]" data-testid="admin-shell">` | wrapper に `data-theme="cool"` / `data-route-group="admin"` を追加。grid-rows を `auto_1fr` に変更し topbar 行を追加 |
-| `<aside className="border-r ...">` | `data-shell="sidebar"` + `row-span-2` 追加 |
-| topbar 行なし | 新規 `<header data-shell="topbar">` をブレッドクラム slot + actions slot 付きで追加 |
+| `<aside className="border-r ...">` | `data-shell="sidebar"` + desktop 限定 `md:row-span-2` 追加 |
+| topbar 行なし | 新規 `<header data-shell="topbar">` を現在地 label + actions slot 付きで追加 |
 | `<main className="flex flex-col gap-4 p-4 md:p-6">` | `data-route="admin"` 追加 |
 
-`AdminSidebar` 内の `SignOutButton` は **そのまま残す**（NFR-04 を守るため AdminSidebar の API は変更しない）。topbar 側 `data-component="admin-topbar-actions"` slot は serial-05 で実装が入る placeholder。
+`AdminSidebar` 内の `SignOutButton` は **そのまま残す**（NFR-04 を守るため AdminSidebar の API は変更しない）。topbar 側 `data-component="admin-topbar-actions"` slot は空の landmark にせず、非表示 placeholder として serial-05 の実装余地だけを残す。
 
 ## 3. Member AppShell
 
-### 3.1 絶対パス
+### 3.1 編集対象パス
 
-- 編集対象: `/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260518-101514-wt-4/apps/web/app/(member)/layout.tsx`
+- 編集対象: `<repo-root>/apps/web/app/(member)/layout.tsx`
 - 種別: **編集**
 
 ### 3.2 関数シグネチャ
@@ -211,7 +216,6 @@ export default function MemberLayout({
 ## 4. import パス検証コマンド
 
 ```bash
-cd /Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260518-101514-wt-4
 ls apps/web/src/components/public/PublicHeader.tsx apps/web/src/components/public/PublicFooter.tsx \
    apps/web/src/components/layout/AdminSidebar.tsx apps/web/src/components/layout/MemberHeader.tsx \
    apps/web/src/lib/session.ts

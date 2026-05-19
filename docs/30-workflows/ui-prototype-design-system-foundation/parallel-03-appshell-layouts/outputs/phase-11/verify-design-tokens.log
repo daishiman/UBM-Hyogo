@@ -1,0 +1,5 @@
+
+> ubm-hyogo@0.1.0 verify:tokens /Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260519-074613-wt-20
+> node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --experimental-strip-types scripts/verify-design-tokens.ts
+
+✓ design tokens in sync (88 tracked)

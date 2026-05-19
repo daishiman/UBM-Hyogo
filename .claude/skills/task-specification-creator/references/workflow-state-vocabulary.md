@@ -138,9 +138,51 @@ Each remaining hit must be classified before PASS:
 | Generated index hit | Regenerate indexes after the live/historical classification is fixed. |
 | Deleted root with live references | FAIL. Restore the root or complete the archive/move ledger update in the same wave. |
 
+## Phase 12 Verdict Vocabulary Unification (2026-05-19 追加 / parallel-03-appshell-layouts 由来)
+
+Phase 12 root の verdict label と sub-workflow（parallel-NN-*）の verdict label を **同一語彙体系** に統一する。混在を許容すると compliance gate が verdict 一致確認に失敗する。
+
+### Canonical mapping
+
+| 場面 | Root 集約 (`docs/30-workflows/<workflow>/outputs/phase-12/main.md`) | Sub-workflow (`parallel-NN-*/phase-12-compliance-check.md`) |
+| --- | --- | --- |
+| 仕様完備 + local PASS、runtime/visual は serial gate へ deferral | `SPEC READINESS PASS / RUNTIME VISUAL PARTIAL` | `SPEC_READY_LOCAL_EVIDENCE_CAPTURED / VISUAL_EVIDENCE_PENDING` |
+| 仕様完備のみ、実装着手前 | `SPEC READINESS PASS / IMPLEMENTATION PENDING` | `spec_created` |
+| local + runtime visual 取得済 | `PASS / RUNTIME VISUAL COMPLETE` | `implemented_local_evidence_captured` ＋ `runtime_evidence_captured` |
+| 外部 ops / KV / D1 等 user gate 待ち | `PASS / EXTERNAL OPS PENDING` | `PASS_BOUNDARY_SYNCED_RUNTIME_PENDING (external resource: …)` |
+
+### Deferred VISUAL / runtime evidence 分類ラベル
+
+runtime visual / axe / Lighthouse 等を**同 wave で取得しない**設計の場合、Phase 12 sub-workflow および artifacts.json の `metadata.deferredEvidence[]` に下記ラベルを明示する。
+
+| ラベル | 用途 |
+| --- | --- |
+| `deferred-to-serial-<task-slug>` | serial gate task（例: task-18 verify-design-tokens / playwright-smoke）へ申し送り。`<task-slug>` は具体 task 名で固定 |
+| `BLOCKED_UNTIL_USER_APPROVAL` | user 承認 gate 待ち（外部 ops / production cutover 等） |
+| `BLOCKED_UNTIL_DEPLOY` | staging / production deploy 完了 gate 待ち |
+
+ラベル単独で verdict にしない（root state + verdict suffix とペアで併記）。新規 skill 化はせず本ファイルで一元管理する。
+
+## EV Inventory Path Label vs 実体 Drift Gate (2026-05-19 追加)
+
+Phase 11 evidence inventory（`outputs/phase-11/evidence-inventory.md`）の `Path` 列が示すラベルと、`outputs/phase-11/evidence/` 配下の実体ファイルが乖離していると Phase 12 compliance gate が false-PASS する。下記 grep を `verify-phase11-evidence-existence.ts` 系と併せて手動で実行する。
+
+```bash
+# inventory に書かれた path が物理存在することを確認
+rg -n "^\| .*\| present \|" docs/30-workflows/<workflow>/outputs/phase-11/evidence-inventory.md \
+  | awk -F'|' '{print $2}' | tr -d ' ' \
+  | while read p; do
+      [ -e "docs/30-workflows/<workflow>/$p" ] || echo "MISSING: $p"
+    done
+```
+
+drift があれば `Status` を `absent` / `not_executed` に書き換える、または実体を配置する。詳細運用は [evidence-sync-rules.md §ルール6](evidence-sync-rules.md) と併読。
+
 ## Related References
 
 - [phase12-compliance-check-template.md](phase12-compliance-check-template.md)
 - [phase-12-spec.md](phase-12-spec.md)
 - [phase-template-phase11.md](phase-template-phase11.md)
 - [phase12-skill-feedback-promotion.md](phase12-skill-feedback-promotion.md)
+- [task-type-decision.md](task-type-decision.md) — `implementation_mode: existing-layout-alignment`
+- [server-component-e2e-pattern.md](server-component-e2e-pattern.md) — Server Component redirect の vitest pattern

@@ -1,0 +1,26 @@
+
+> ubm-hyogo@0.1.0 lint /Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260519-074613-wt-20
+> node scripts/lint-boundaries.mjs && pnpm run lint:deps && node scripts/lint-stablekey-literal.mjs && node scripts/lint-stable-key-update.mjs --strict && pnpm -r lint
+
+
+> ubm-hyogo@0.1.0 lint:deps /Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260519-074613-wt-20
+> rg --files apps packages -g '*.ts' -g '*.tsx' | xargs pnpm dlx dependency-cruiser --config .dependency-cruiser.cjs
+
+
+✔ no dependency violations found (1498 modules, 2167 dependencies cruised)
+
+[stablekey-literal-lint] OK (mode=warning, scanned=416 files, stableKeys=31)
+[stable-key-update-lint] OK (mode=error, scanned=514 files)
+Scope: 6 of 7 workspace projects
+packages/contracts lint$ tsc -p tsconfig.json --noEmit
+packages/shared lint$ tsc -p tsconfig.json --noEmit
+packages/contracts lint: Done
+packages/shared lint: Done
+packages/integrations lint$ tsc -p tsconfig.json --noEmit
+packages/integrations/google lint$ tsc -p tsconfig.json --noEmit
+apps/web lint$ tsc -p tsconfig.json --noEmit && eslint 'src/**/*.{ts,tsx}'
+packages/integrations lint: Done
+packages/integrations/google lint: Done
+apps/web lint: Done
+apps/api lint$ tsc -p tsconfig.json --noEmit
+apps/api lint: Done

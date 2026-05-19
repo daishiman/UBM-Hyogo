@@ -1,0 +1,30 @@
+{
+  "taskId": "parallel-03-appshell-layouts",
+  "capturedAt": "2026-05-19T11:16:27+09:00",
+  "baseUrl": "http://127.0.0.1:3000",
+  "captures": [
+    {
+      "id": "public-shell",
+      "route": "/members",
+      "viewport": { "width": 1280, "height": 800 },
+      "output": "screenshots/public-shell.png",
+      "status": "captured",
+      "sizeBytes": 53503,
+      "dimensions": { "width": 1280, "height": 800 }
+    }
+  ],
+  "deferredCaptures": [
+    {
+      "id": "admin-shell",
+      "route": "/admin",
+      "status": "deferred-to-serial-07",
+      "requiredFixture": "authenticated admin session"
+    },
+    {
+      "id": "member-shell",
+      "route": "(member route group)",
+      "status": "deferred-to-serial-07",
+      "requiredFixture": "route implemented under app/(member)"
+    }
+  ]
+}

@@ -2,7 +2,7 @@
 
 ## 1. Summary verdict
 
-SPEC READINESS PASS. `ui-prototype-design-system-foundation` now has root / outputs artifacts parity, strict 7 Phase 12 outputs, prototype coverage SSOT, corrected current app paths, and initial code hooks for AppShell / selector contracts. This is not a runtime visual PASS.
+SPEC READINESS PASS / RUNTIME VISUAL PARTIAL. `ui-prototype-design-system-foundation` now has root / outputs artifacts parity, strict 7 Phase 12 outputs, prototype coverage SSOT, corrected current app paths, and initial code hooks for AppShell / selector contracts. `parallel-03` has captured a public AppShell screenshot; admin/member full runtime screenshots remain serial-07 evidence.
 
 ## 2. Changed-files classification
 
@@ -23,13 +23,14 @@ SPEC READINESS PASS. `ui-prototype-design-system-foundation` now has root / outp
 
 ## 4. Phase 11 evidence file inventory
 
-| Path | Status | Note |
-|------|--------|------|
-| `parallel-04-shared-page-chrome/outputs/phase-11/fallback-not-found.png` | pending | required by updated Phase 11 inventory |
-| `serial-07-regression-evidence/outputs/phase-11/screenshots/top.png` | pending | required during implementation run |
-| `serial-07-regression-evidence/outputs/phase-11/screenshots/members-list.png` | pending | required during implementation run |
-| `serial-07-regression-evidence/outputs/phase-11/screenshots/member-detail.png` | pending | required during implementation run |
-| `serial-07-regression-evidence/outputs/phase-11/screenshots/admin-dashboard.png` | pending | required during implementation run |
+| Classification | Path | Status |
+| --- | --- | --- |
+| screenshot | `parallel-04-shared-page-chrome/outputs/phase-11/fallback-not-found.png` | pending |
+| screenshot | `serial-07-regression-evidence/outputs/phase-11/screenshots/top.png` | pending |
+| screenshot | `serial-07-regression-evidence/outputs/phase-11/screenshots/members-list.png` | pending |
+| screenshot | `serial-07-regression-evidence/outputs/phase-11/screenshots/member-detail.png` | pending |
+| screenshot | `serial-07-regression-evidence/outputs/phase-11/screenshots/admin-dashboard.png` | pending |
+| screenshot | `parallel-03-appshell-layouts/outputs/phase-11/screenshots/public-shell.png` | present |
 
 ## 5. Phase 12 strict 7 file inventory
 
@@ -53,7 +54,7 @@ SPEC READINESS PASS. `ui-prototype-design-system-foundation` now has root / outp
 
 ## 7. Runtime or user-gated boundary
 
-Runtime screenshots remain pending until the implementation execution cycle. Minimal code hooks were added in this review cycle, but full 19-route blueprint binding and visual regression evidence are still tracked by the active workflow phases; this file does not claim runtime completion.
+Runtime screenshots are partially captured in this implementation cycle. `parallel-03` owns and has captured public AppShell evidence; authenticated admin and member route-group runtime evidence remain tracked by serial-07. This file does not claim full 19-route visual completion.
 
 ## 8. Archive/delete stale-reference gate
 
@@ -63,7 +64,7 @@ No archive/delete action. Stale app path and route-group inferred paths were cor
 
 | condition | result |
 |-----------|--------|
-| 矛盾なし | PASS |
-| 漏れなし | PASS |
+| 矛盾なし | PASS for spec readiness; runtime visual is explicitly partial |
+| 漏れなし | PASS for tracked scope; serial-07 admin/member captures remain open tracked evidence |
 | 整合性あり | PASS |
 | 依存関係整合 | PASS |

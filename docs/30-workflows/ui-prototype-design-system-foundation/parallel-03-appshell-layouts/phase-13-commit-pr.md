@@ -145,7 +145,10 @@ feat(ui-foundation/parallel-03): AppShell 3 系統に data-* 契約を導入
 - `outputs/phase-11/verify-design-tokens.log`
 - `outputs/phase-11/verify-test-suffix.log`
 - `outputs/phase-11/diff-stat.txt`
-- （visual 証跡は serial-07 で取得予定）
+- `outputs/phase-11/screenshots/screenshot-plan.json`
+- `outputs/phase-11/screenshots/phase11-capture-metadata.json`
+- `outputs/phase-11/screenshot-coverage.md`
+- `outputs/phase-11/screenshots/*.png`
 
 ## Refs
 
@@ -156,8 +159,6 @@ feat(ui-foundation/parallel-03): AppShell 3 系統に data-* 契約を導入
 ## 5. PR 作成コマンド
 
 ```bash
-cd /Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260518-101514-wt-4
-
 git checkout -b feat/ui-foundation-appshell-layouts
 git add docs/30-workflows/ui-prototype-design-system-foundation/parallel-03-appshell-layouts/ \
         apps/web/app/'(public)'/layout.tsx apps/web/app/'(public)'/layout.spec.tsx \
@@ -182,9 +183,10 @@ gh pr create --base dev --title "feat(ui-foundation/parallel-03): AppShell 3 系
 - [ ] HEX 直書きが含まれていない（`rg -nE 'bg-\[#|text-\[#|border-\[#' apps/web/app/'('*')'/layout.tsx`）
 - [ ] `*.test.tsx` が含まれていない
 - [ ] Phase 11 evidence が PR 本文から参照されている
+- [ ] VISUAL task gate 4 点（screenshot plan / capture metadata / coverage / PNG 1 件以上）が揃っている
 
 ## 7. マージ後 follow-up
 
-- serial-07 が走るタイミングで Playwright 4 screens visual baseline を取り直す
+- serial-07 が走るタイミングで Playwright 4 screens visual baseline を取り直す。ただし parallel-03 の Phase 13 では、Phase 11 に VISUAL task gate 4 点の証跡または参照先 path を記録済みであることを前提にする
 - group migration（`/profile` を `(member)` 配下へ等）は行わない。現行 root 配下 path を `PROTOTYPE-COVERAGE.md` の `current_app_path` として維持する
 - AdminTopbar の primitive 化は本 workflow の必須成果物ではない。parallel-03 では inline JSX の topbar slot を完了形とする
