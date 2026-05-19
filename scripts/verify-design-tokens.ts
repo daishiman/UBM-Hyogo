@@ -494,6 +494,7 @@ async function scanForbiddenColorLiterals(
     // next/og ImageResponse は CSS variable を解決しないため HEX literal 必須。
     .filter((file) => !file.endsWith('/app/opengraph-image.tsx'))
     .filter((file) => !excludes.some((re) => re.test(file)))
+    .filter((file) => !excludes.some((re) => re.test(file)))
   const drifts: TokenDrift[] = []
   const hexRe = /(^|[^A-Za-z0-9_-])(#[0-9A-Fa-f]{3}(?:[0-9A-Fa-f]{3})?(?:[0-9A-Fa-f]{2})?)\b/g
   const arbitraryRe = /\b(?:bg|text|border|from|to|via)-\[#[0-9A-Fa-f]{3,8}\]/g

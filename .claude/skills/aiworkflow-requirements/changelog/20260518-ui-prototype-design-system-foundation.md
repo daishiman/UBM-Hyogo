@@ -9,6 +9,9 @@ sub-workflow with full Phase 11 evidence and 7 follow-up proto-specs.
 `spec_created / implementation / VISUAL / spec_readiness_pass`, with
 `parallel-01-globals-css-rhythm` advanced to `runtime_pending` after local CSS
 selector implementation and admin shell width alignment.
+`spec_created / implementation / VISUAL / spec_readiness_pass`, with
+`parallel-01-globals-css-rhythm` advanced to `runtime_pending` after local CSS
+selector implementation and admin shell width alignment.
 
 ## Changes (2026-05-18)
 
@@ -17,6 +20,8 @@ selector implementation and admin shell width alignment.
 - Fixed `/profile` to remain at `apps/web/app/profile/**`.
 - Corrected stale `apps/web/src/app` references in 09a / 09h.
 - Added minimal `apps/web` hooks for AppShell data attributes and normalized parallel-02 G3 marker CSS for member-card hover, tag-pill, and `data-visibility`.
+- Added minimal `apps/web` hooks for AppShell data attributes, member-card hover, tag-pill, `data-visibility`, parallel-01 P1-1〜P1-5 `globals.css` selectors, and admin shell width `272px`.
+- Synced parallel-01 Phase 11 artifacts to all required evidence files and marked serial-07 screenshots as delegated pending rather than completed.
 - Added minimal `apps/web` hooks for AppShell data attributes, member-card hover, tag-pill, `data-visibility`, parallel-01 P1-1〜P1-5 `globals.css` selectors, and admin shell width `272px`.
 - Synced parallel-01 Phase 11 artifacts to all required evidence files and marked serial-07 screenshots as delegated pending rather than completed.
 - Synced quick-reference, resource-map, task-workflow-active, artifact inventory, SKILL.md, SKILL-changelog, and LOGS.

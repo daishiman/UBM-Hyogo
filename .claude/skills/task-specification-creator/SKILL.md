@@ -175,6 +175,8 @@ Phase 12 は次の **6 必須タスク** を実行し、最低 7 ファイルを
 | Phase 11 evidence 二層 status 運用（`present` validator 検査 / `pending` inventory ledger / `n/a` 不要確定） | [references/phase11-evidence-two-tier-status.md](references/phase11-evidence-two-tier-status.md) |
 | parallel sub-workflow 構造（root / sub artifacts.json 二重構造 / `sub_workflow` フィールド / Phase 11-12 outputs parity / `parallel-NN-*` vs `serial-NN-*` 命名 / VISUAL_ON_EXECUTION の sub→serial 集約） | [references/patterns-parallel-sub-workflow.md](references/patterns-parallel-sub-workflow.md) |
 | prototype-driven CSS 移植（`claude-design-prototype` SSOT / `@layer components` 末尾追加 / `tokens.css` 色責務 と `globals.css` rhythm 責務の SRP / HEX 直書き禁止 と `verify-design-tokens` CI gate） | [references/patterns-prototype-driven-css.md](references/patterns-prototype-driven-css.md) |
+| parallel sub-workflow 構造（root / sub artifacts.json 二重構造 / `sub_workflow` フィールド / Phase 11-12 outputs parity / `parallel-NN-*` vs `serial-NN-*` 命名 / VISUAL_ON_EXECUTION の sub→serial 集約） | [references/patterns-parallel-sub-workflow.md](references/patterns-parallel-sub-workflow.md) |
+| prototype-driven CSS 移植（`claude-design-prototype` SSOT / `@layer components` 末尾追加 / `tokens.css` 色責務 と `globals.css` rhythm 責務の SRP / HEX 直書き禁止 と `verify-design-tokens` CI gate） | [references/patterns-prototype-driven-css.md](references/patterns-prototype-driven-css.md) |
 
 ## 最小 workflow
 
