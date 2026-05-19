@@ -12,7 +12,7 @@ import {
   type SheetsValueRange,
 } from "./sheets-fetcher";
 import { mapSheetRows, type MemberRow } from "./mappers/sheets-to-members";
-import { STABLE_KEY } from "@ubm-hyogo/shared";
+import { STABLE_KEY, type SyncTriggerType } from "@ubm-hyogo/shared";
 import { withRetry } from "../utils/with-retry";
 import { WriteQueue } from "../utils/write-queue";
 
@@ -27,7 +27,7 @@ export interface SyncEnv {
 }
 
 export interface SyncOptions {
-  readonly trigger: "cron" | "admin" | "backfill";
+  readonly trigger: SyncTriggerType;
   readonly fetcher?: SheetsFetcher;
   readonly now?: () => Date;
   readonly runId?: string;

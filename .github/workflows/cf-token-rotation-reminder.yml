@@ -136,6 +136,8 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          echo "No issue created." >> "$GITHUB_STEP_SUMMARY"
-          echo "should_remind=${{ steps.elapsed.outputs.should_remind }}" >> "$GITHUB_STEP_SUMMARY"
-          echo "existing_count=${{ steps.existing.outputs.count }}" >> "$GITHUB_STEP_SUMMARY"
+          {
+            echo "No issue created."
+            echo "should_remind=${{ steps.elapsed.outputs.should_remind }}"
+            echo "existing_count=${{ steps.existing.outputs.count }}"
+          } >> "$GITHUB_STEP_SUMMARY"
