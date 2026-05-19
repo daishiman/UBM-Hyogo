@@ -17,10 +17,10 @@ status: spec_created
 - [ ] G3-1: tag pill `aria-selected="true"` で背景塗りつぶしが視覚反映される
 - [ ] G3-1: tag pill hover で border-color が `--ubm-color-border-strong` に変化
 - [ ] G3-2: member card hover で border-color / box-shadow が transition 経由で変化
-- [ ] G3-2: member card に focus-visible で accent outline 表示
-- [ ] G3-3: `data-visibility="public"` で左 border `--ubm-color-ok` と icon `🌍` 表示
-- [ ] G3-3: `data-visibility="member"` で左 border `--ubm-color-zone-b` と icon `👥` 表示
-- [ ] G3-3: `data-visibility="admin"` で左 border `--ubm-color-danger` と icon `🔐` 表示
+- [ ] G3-2: member card 内 link focus 時に focus-within で accent outline 表示
+- [ ] G3-3: `data-visibility="public"` で左 border `--ubm-color-ok` と同色 dot marker 表示
+- [ ] G3-3: `data-visibility="member"` で左 border `--ubm-color-zone-b` と同色 dot marker 表示
+- [ ] G3-3: `data-visibility="admin"` で左 border `--ubm-color-danger` と同色 dot marker 表示
 
 ### 1.2 品質 DoD
 
@@ -29,14 +29,14 @@ status: spec_created
 - [ ] `pnpm --filter @ubm-hyogo/web build` exit 0
 - [ ] HEX 直書き 0 件 (`grep -rEn 'bg-\[#\|text-\[#\|border-\[#' apps/web/src`)
 - [ ] verify-design-tokens CI gate green
-- [ ] Playwright visual snapshot 6 種 (tag-pill-selected / member-card-default / member-card-hover / visibility-public / visibility-member / visibility-admin) baseline 更新済
+- [ ] Playwright visual snapshot 9 種 (tag-pill-default / tag-pill-selected / tag-pill-hover / member-card-default / member-card-hover / member-card-focus / visibility-public / visibility-member / visibility-admin) baseline 更新済
 - [ ] axe a11y violations 0
 - [ ] `bash scripts/verify-pr-ready.sh` exit 0
 
 ### 1.3 ドキュメント DoD
 
 - [ ] 本サブワークフローの phase-01..13 が `spec_created` 状態
-- [ ] `outputs/phase-11/evidence-inventory.md` に snapshot ファイルが列挙されている
+- [ ] `phase-11-evidence-inventory.md` に snapshot ファイルと静的検証 log が列挙され、未取得 runtime screenshot は `pending` として明示されている
 - [ ] PR 本文に Phase 5 の追加 CSS 抜粋が含まれている
 - [ ] CHANGELOG / 30-workflows LOGS に本サブワークフロー完了が追記されている
 

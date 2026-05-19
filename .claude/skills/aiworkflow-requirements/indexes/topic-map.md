@@ -3451,9 +3451,12 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | Summary | L3 |
-| Canonical Sources | L14 |
-| Workflow Outputs | L36 |
-| Implementation Boundary | L51 |
+| Canonical Sources | L15 |
+| Workflow Outputs | L37 |
+| Implementation Boundary | L53 |
+| parallel-02 prototype CSS rules port (2026-05-19 close-out) | L63 |
+| Follow-up unassigned tasks (proto-spec) | L74 |
+| Difficulties summary (parallel-02) | L86 |
 
 ### references/workflow-ui-ux-visual-baseline-drift.md
 
@@ -6934,14 +6937,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L1618 |
-| フェーズ構造（概要） | L1627 |
-| 品質ゲート（概要） | L1658 |
-| 出力テンプレート | L1669 |
-| 実行時のコマンド・エージェント・スキル | L1692 |
-| 昇格パターン集 | L1716 |
-| Current Active / Spec Created Tasks | L1718 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L1868 |
+| ドキュメント構成 | L1621 |
+| フェーズ構造（概要） | L1630 |
+| 品質ゲート（概要） | L1661 |
+| 出力テンプレート | L1672 |
+| 実行時のコマンド・エージェント・スキル | L1695 |
+| 昇格パターン集 | L1719 |
+| Current Active / Spec Created Tasks | L1721 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L1871 |
 
 ### references/task-workflow-backlog-part2.md
 

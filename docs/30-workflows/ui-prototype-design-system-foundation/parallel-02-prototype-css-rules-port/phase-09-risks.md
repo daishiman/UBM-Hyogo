@@ -73,12 +73,12 @@ grep -c 'parallel-02.*(end)' apps/web/src/styles/globals.css   # 期待: 3
 
 ## 2. 副次リスク
 
-### 2.1 emoji icon の OS / Browser 差
+### 2.1 CSS dot marker の視認性
 
 | リスク | 影響 | 対策 |
 |--------|------|------|
-| emoji glyph が OS 間で異なり visual snapshot に差分 | baseline 不安定化 | CI 環境 (linux + Chromium) で baseline 固定。local の人手検証は OS 差を許容 |
-| emoji フォント未読込で `tofu` (□) 表示 | 装飾意図が伝わらない | 中期的に SVG `background-image` 置換を検討 (本件では emoji 採用、follow-up issue 化) |
+| dot marker が本文と近すぎる | 公開範囲の視認性が下がる | `margin-inline-end: 6px` と 3px left border を併用し、Playwright screenshotで確認する |
+| OS / font 差分で snapshot が揺れる | baseline 不安定化 | 絵文字を使わず、CSS token dot で描画する |
 
 ### 2.2 `--ubm-dur-fast` / `--ubm-ease-standard` 未定義リスク
 

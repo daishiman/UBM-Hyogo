@@ -30,10 +30,13 @@ CSS 規則のみの追加であるため、テストの主軸は **Playwright vi
 
 | Scenario | route | 撮影 state | 撮影方法 |
 |----------|-------|----------|---------|
-| tag-pill-selected | `/(public)/members?tag=foo` | active tag に `aria-selected="true"` | 通常 screenshot |
-| member-card-default | `/(public)/members` | 一覧 grid を nominal state で撮影 | 通常 screenshot |
-| member-card-hover | `/(public)/members` | 1 枚目のカードに hover | `page.locator(...).hover({ force: true })` 後撮影 |
-| visibility-public | `/(public)/members/[id]` | 既定 (全 section が public) | 通常 screenshot |
+| tag-pill-default | `/members` | tag pill 非選択状態 | 通常 screenshot |
+| tag-pill-selected | `/members?tag=foo` | active tag に `aria-selected="true"` | 通常 screenshot |
+| tag-pill-hover | `/members` | tag pill に hover | `page.locator(...).hover({ force: true })` 後撮影 |
+| member-card-default | `/members` | 一覧 grid を nominal state で撮影 | 通常 screenshot |
+| member-card-hover | `/members` | 1 枚目のカードに hover | `page.locator(...).hover({ force: true })` 後撮影 |
+| member-card-focus | `/members` | 1 枚目のカードに keyboard focus | `focus()` 後撮影 |
+| visibility-public | `/members/[id]` | 既定 (全 section が public) | 通常 screenshot |
 | visibility-member / admin | (fixture seed で section に admin/member を含めた状態) | 同上 | 通常 screenshot |
 
 ### 3.2 hover の取り扱い
@@ -75,7 +78,7 @@ test('tag pill aria-selected', async ({ page }) => {
 
 ## 5. baseline 管理
 
-- 初回実装時に baseline screenshot を `e2e/__screenshots__/parallel-02/` 配下に commit
+- 初回実装時に baseline screenshot 9 種を `e2e/__screenshots__/parallel-02/` 配下に commit
 - diff 許容閾値: `maxDiffPixelRatio: 0.02` (transition のサブピクセル差吸収)
 - baseline 更新は本サブワークフローの実装 PR で同時に行う
 
@@ -106,4 +109,4 @@ mise exec -- pnpm --filter @ubm-hyogo/web exec playwright test --update-snapshot
 |------|------|
 | transition の中途撮影 | `waitForTimeout(200)` でフェード完了を待つ |
 | font の読み込み遅延 | `await page.evaluate(() => document.fonts.ready)` を撮影前に挿入 |
-| emoji rendering 差 | OS / browser ごとに emoji glyph が異なるため、baseline は CI 環境 (linux + Chromium) 固定で生成する |
+| marker rendering 差 | 絵文字を使わず CSS token dot に固定し、OS / browser glyph 差分を避ける |

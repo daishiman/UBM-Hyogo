@@ -75,6 +75,70 @@ export function Parallel09VisualScenario({ name }: { readonly name: string }) {
     );
   }
 
+  if (name === "parallel-02-css-rules") {
+    return (
+      <VisualShell>
+        <div style={{ display: "grid", gap: 28 }}>
+          <section style={{ display: "flex", gap: 12, alignItems: "center" }}>
+            <button type="button" data-component="tag-pill" data-evidence="tag-pill-default">
+              #kobe
+            </button>
+            <button
+              type="button"
+              data-component="tag-pill"
+              data-evidence="tag-pill-selected"
+              aria-selected="true"
+            >
+              #startup
+            </button>
+            <button type="button" data-component="tag-pill" data-evidence="tag-pill-hover">
+              #mentor
+            </button>
+          </section>
+
+          <section style={{ display: "grid", gap: 12 }}>
+            <article
+              data-component="member-card"
+              data-evidence="member-card-default"
+              style={{ border: "1px solid var(--ubm-color-border-default)", borderRadius: "var(--ubm-radius-md)", padding: 16 }}
+            >
+              <a href="/members/sample-001">佐藤 サンプル</a>
+              <p style={{ margin: "8px 0 0", color: "var(--ubm-color-text-secondary)" }}>事業開発 / Kobe</p>
+            </article>
+            <article
+              data-component="member-card"
+              data-evidence="member-card-hover"
+              style={{ border: "1px solid var(--ubm-color-border-default)", borderRadius: "var(--ubm-radius-md)", padding: 16 }}
+            >
+              <a href="/members/sample-002">田中 サンプル</a>
+              <p style={{ margin: "8px 0 0", color: "var(--ubm-color-text-secondary)" }}>地域連携 / Himeji</p>
+            </article>
+            <article
+              data-component="member-card"
+              data-evidence="member-card-focus"
+              style={{ border: "1px solid var(--ubm-color-border-default)", borderRadius: "var(--ubm-radius-md)", padding: 16 }}
+            >
+              <a href="/members/sample-003">山田 サンプル</a>
+              <p style={{ margin: "8px 0 0", color: "var(--ubm-color-text-secondary)" }}>教育 / Akashi</p>
+            </article>
+          </section>
+
+          <section style={{ display: "grid", gap: 10 }}>
+            <p data-visibility="public" data-evidence="visibility-public">
+              公開プロフィール
+            </p>
+            <p data-visibility="member" data-evidence="visibility-member">
+              会員限定メモ
+            </p>
+            <p data-visibility="admin" data-evidence="visibility-admin">
+              管理者確認項目
+            </p>
+          </section>
+        </div>
+      </VisualShell>
+    );
+  }
+
   return (
     <VisualShell>
       <EmptyState

@@ -59,8 +59,8 @@ CSS は markup 不整合に対して **silent ignore** で振る舞う (例外 t
 | 規則 | 期待される a11y 影響 |
 |------|--------------------|
 | `aria-selected="true"` | screen reader が「選択中」と読み上げる |
-| visibility icon (`::before` emoji) | 装飾扱い、a11y tree に出ない (`content` で生成された text は読み上げ対象外として扱う実装が多いが、装飾意図を明示するため markup 側で section title に visibility ラベルを必ず含める) |
-| focus-visible outline | キーボード操作で focus 可視化 |
+| visibility marker (`::before` dot) | 装飾扱い、a11y tree に意味を持たせない。意味は本文ラベル側で担保する |
+| focus-within outline | card 内 link へキーボード focus した時に card 全体の focus を可視化 |
 
 ## 7. JSON Schema 風の契約 (markup 期待 shape)
 

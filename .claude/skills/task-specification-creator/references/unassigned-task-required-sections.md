@@ -255,9 +255,70 @@ required field として検査する想定。§6 governance YAML フロントマ
 検査対象とし、`MISSING_GOVERNANCE_CONTRACT` / `CONTRACT_INCONSISTENT` /
 `MISSING_USER_APPROVAL_MARKER` を fail 種別として扱う。実装は F-1 タスクで対応予定。
 
+## 8. 単一ファイル proto-spec フォーマット（Phase 1-13 を持たないタスク種候補）
+
+`docs/30-workflows/unassigned-task/<slug>.md` を Phase 1-13 構造に展開する前段として、
+**単一ファイルの proto-spec**（タスク種候補 / tasking 前の検討票）として配置することを正式に許容する。
+出典: `parallel-02-prototype-css-rules-port`（2026-05-18）の派生未タスク運用知見。
+
+### 適用条件
+
+- まだ Phase 1（要件定義）に進む前で、対象スコープが「タスク化すべきか」自体の判断段階にある
+- 親 workflow root が確定しているが、子タスクとして単独 directory（`phase-01-requirements.md` … `phase-13.md`）化するほどの粒度がない
+- 中身が固まったら **本格 Phase 1-13 spec** または親 workflow 内の追加 phase ファイルに昇格する前提
+
+### 必須セクション（軽量 7 セクション）
+
+| # | セクション | 必須 | 内容 |
+| --- | --- | --- | --- |
+| 1 | メタ情報 | ✅ | `## メタ情報` 見出し下に親 workflow / Issue / status (`proto` / `consumed` / `superseded`) / 作成日 |
+| 2 | 目的 | ✅ | 1-3 行で「なぜタスク化候補なのか」 |
+| 3 | スコープ | ✅ | 含む / 含まない（最小 1 列 + 1 列） |
+| 4 | 依存関係 | ✅ | 親 workflow root へのリンク / 先行タスク / 関連 PR |
+| 5 | 苦戦箇所・知見 | ✅ | 検討中に得た知見・回避すべきパターン |
+| 6 | 受け入れ基準 | ✅ | 「本格 spec へ昇格する条件」または「破棄する条件」 |
+| 7 | 参照 | ✅ | 関連 spec / reference / Issue / lessons-learned |
+
+Phase 1-13 形式の必須 4 セクション（§1-§4 苦戦 / リスク / 検証 / スコープ）とは別系統。
+proto-spec は「タスク種候補」であり、`scripts/audit-unassigned-tasks.js` 連携では
+**header に `status: proto` または `## メタ情報` 表に `種別: proto-spec` を含む** ことで
+4 セクション必須チェックを skip し、軽量 7 セクションの存在確認に切替える。
+
+### 本格 spec への昇格パス
+
+```
+unassigned-task/<slug>.md (proto)
+   │
+   │  受け入れ基準を満たす
+   ▼
+either:
+  (A) 親 workflow に phase ファイル追加（既存 workflow 内 task）
+  (B) 新規 workflow root 生成（docs/30-workflows/<new-workflow>/phase-01..phase-13）
+   │
+   ▼
+unassigned-task/<slug>.md status を `consumed` に書き換え、
+canonical_workflow: <昇格先 path> を YAML フロントマターに追記し、
+本ファイルは履歴として保持（削除しない）
+```
+
+### 破棄パス
+
+タスク化不要と判定された場合は status を `superseded` または `rejected` に変更し、
+理由（rationale）を `## メタ情報` 表に 1 行で残してから保持。物理削除はしない。
+
+### 落とし穴
+
+| 症状 | 修正 |
+| --- | --- |
+| proto-spec のまま長期放置 | 4 週間以上 `proto` 状態のものは Phase 12 unassigned-task-detection で再評価対象 |
+| `## メタ情報` 見出しが複数（yaml block と表の重複） | 1 つに統一 |
+| 昇格後に `consumed` への書き換え漏れ | aiworkflow indexes / changelog 同 wave 更新 |
+| proto-spec を Phase 1-13 形式に展開せず本格タスクとして commit | `governance_mutation_user_gate` 等の必須 YAML が欠落 → audit fail |
+
 ## 関連リンク
 
 - 出典: `docs/30-workflows/completed-tasks/task-conflict-prevention-skill-state-redesign/outputs/phase-12/`
 - 既存ガイド: `references/unassigned-task-guidelines.md`
 - 検出ガイド: `references/unassigned-task-detection-guide.md`
 - 品質基準: `references/unassigned-task-quality-standards.md`
+- proto-spec 出典: `parallel-02-prototype-css-rules-port` 2026-05-18 派生未タスク運用

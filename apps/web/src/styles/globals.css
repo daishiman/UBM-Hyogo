@@ -194,51 +194,96 @@
     color: var(--ubm-color-text-muted);
   }
 
-  /* === ui-prototype-design-system-foundation selector hooks === */
-  [data-component="member-card"] {
-    border-radius: var(--ubm-radius-md);
-    border: 1px solid var(--ubm-color-border-default);
-    background: var(--ubm-color-surface-panel);
-    box-shadow: var(--ubm-shadow-xs);
-    transition:
-      border-color 160ms ease,
-      box-shadow 160ms ease,
-      transform 160ms ease;
-  }
-
-  [data-component="member-card"]:hover,
-  [data-component="member-card"]:focus-within {
-    border-color: var(--ubm-color-border-strong);
-    box-shadow: var(--ubm-shadow-sm);
-    transform: translateY(-1px);
-  }
-
-  [data-component="member-tags"] [data-component="badge"],
+  /* === parallel-02 G3-1 tag pill (start) === */
   [data-component="tag-pill"] {
-    border-radius: 999px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 10px;
+    background: var(--ubm-color-surface-bg);
+    border: 1px solid var(--ubm-color-border-default);
+    border-radius: var(--ubm-radius-sm);
+    color: var(--ubm-color-text-secondary);
+    font-size: var(--ubm-text-xs);
+    font-weight: 500;
+    cursor: pointer;
+    transition:
+      background var(--ubm-dur-fast, 0.15s) var(--ubm-ease-standard, ease),
+      color var(--ubm-dur-fast, 0.15s) var(--ubm-ease-standard, ease),
+      border-color var(--ubm-dur-fast, 0.15s) var(--ubm-ease-standard, ease);
+  }
+
+  [data-component="tag-pill"]:hover {
+    border-color: var(--ubm-color-border-strong);
   }
 
   [data-component="tag-pill"][aria-selected="true"] {
-    border-color: var(--ubm-color-accent);
-    background: var(--ubm-color-accent-soft);
-    color: var(--ubm-color-accent-ink);
+    background: var(--ubm-color-text-primary);
+    border-color: var(--ubm-color-text-primary);
+    color: var(--ubm-color-surface-panel);
+  }
+  /* === parallel-02 G3-1 tag pill (end) === */
+
+  /* === parallel-02 G3-2 member card hover (start) === */
+  [data-component="member-card"] {
+    transition:
+      border-color var(--ubm-dur-fast, 0.15s) var(--ubm-ease-standard, ease),
+      box-shadow var(--ubm-dur-fast, 0.15s) var(--ubm-ease-standard, ease);
   }
 
+  [data-component="member-card"]:hover {
+    border-color: var(--ubm-color-border-strong);
+    box-shadow: var(--ubm-shadow-sm);
+  }
+
+  [data-component="member-card"]:focus-within {
+    outline: 2px solid var(--ubm-color-accent);
+    outline-offset: 2px;
+  }
+  /* === parallel-02 G3-2 member card hover (end) === */
+
+  /* === parallel-02 G3-3 visibility marker (start) === */
   [data-visibility] {
-    border-inline-start: 3px solid var(--ubm-color-border-default);
+    position: relative;
+    padding-inline-start: 12px;
+    border-left: 3px solid var(--ubm-color-border-default);
   }
 
   [data-visibility="public"] {
-    border-inline-start-color: var(--ubm-color-ok);
+    border-left-color: var(--ubm-color-ok);
   }
 
   [data-visibility="member"] {
-    border-inline-start-color: var(--ubm-color-info);
+    border-left-color: var(--ubm-color-zone-b);
   }
 
   [data-visibility="admin"] {
-    border-inline-start-color: var(--ubm-color-warn);
+    border-left-color: var(--ubm-color-danger);
   }
+
+  [data-visibility]::before {
+    content: "";
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    margin-inline-end: 6px;
+    border-radius: 999px;
+    background: var(--ubm-color-border-default);
+    vertical-align: middle;
+  }
+
+  [data-visibility="public"]::before {
+    background: var(--ubm-color-ok);
+  }
+
+  [data-visibility="member"]::before {
+    background: var(--ubm-color-zone-b);
+  }
+
+  [data-visibility="admin"]::before {
+    background: var(--ubm-color-danger);
+  }
+  /* === parallel-02 G3-3 visibility marker (end) === */
 
   /* === parallel-09 G9-6 mobile responsive helpers (使用は parallel-01〜08 側) === */
   /* 既存 Tailwind breakpoint (sm/md/lg/xl) のみ利用。ここでは追加 breakpoint を定義しない */
