@@ -29,8 +29,8 @@
     },
     {
       "id": "parallel-i05-login-loading-and-error-focus",
-      "status": "pending",
-      "canonical_workflow": null,
+      "status": "implemented_local_evidence_captured",
+      "canonical_workflow": "docs/30-workflows/parallel-i05-login-loading-and-error-focus/",
       "spec": "parallel-i05-login-loading-and-error-focus/spec.md"
     },
     {
