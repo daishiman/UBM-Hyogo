@@ -24,9 +24,9 @@
 
 ## Phase 11 evidence file inventory
 
-| ファイル | 状態 | 用途 |
+| Classification | Path | Status |
 | --- | --- | --- |
-| `outputs/phase-11/manual-test-result.md` | N/A | spec_created 段階のため runtime evidence 未取得 |
+| manual test result | outputs/phase-11/manual-test-result.md | n/a |
 
 spec_created 段階では runtime evidence（screenshot / log）は不要。`docs-only` PR としての CI gate（`validate` / `verify-phase12-compliance` / `verify-indexes-up-to-date` / `coverage-gate`）の green を Phase 11 evidence として扱う。
 

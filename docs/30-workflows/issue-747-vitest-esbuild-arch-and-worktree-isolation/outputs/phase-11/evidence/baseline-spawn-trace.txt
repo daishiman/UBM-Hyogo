@@ -1,7 +1,0 @@
-# baseline spawn trace — captured pre-fix (issue-747)
-# Source: node_modules resolution observed by manual repro at spec creation.
-# parent repo /Users/dm/dev/dev/個人開発/UBM-Hyogo/node_modules/@esbuild/darwin-x64/bin/esbuild
-# was spawned by the worktree's esbuild host (0.27.3) instead of the worktree-local
-# @esbuild/<arch>. Cause: worktree node_modules only carried darwin-arm64 while the
-# Node binary reported process.arch === 'x64' (Rosetta 2).
-# Captured indirectly via verify-worktree-isolation FAIL output (see baseline below).

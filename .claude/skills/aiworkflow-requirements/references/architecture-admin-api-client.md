@@ -166,13 +166,15 @@ async function call<T>(
 
 UT-07A-02 以降、`resolveTagQueue` の body 型は `@ubm-hyogo/shared` の `TagQueueResolveBody` を参照する。client 側に同型 union を手書き複製しない。
 
+2026-05-17 の `admin-tags-queue-resolver-drawer` 以降、`apps/web/src/features/admin/hooks/useAdminMutation.ts` は client mutation の hook-level 正本として扱う。`useAdminMutation('/api/admin/...')` は Next.js BFF proxy 経路を直接呼ぶため、`api.ts` helper 追加と同等の admin mutation boundary に含める。既存 `resolveTagQueue()` helper は legacy caller 互換として残し、UI caller が 0 になった後の cleanup 候補に留める。
+
 04b-followup-004 以降、`/admin/requests` page は Server Component で `fetchAdmin("/admin/requests?status=pending&type=...")` を呼び、Client Component `RequestQueuePanel` が `resolveAdminRequest()` を通じて `/api/admin/requests/:noteId/resolve` に mutation する。`nextCursor` がある場合は `cursor` query 付きで次ページへ遷移する。409 は「他の管理者が既に処理済み」として toast + `router.refresh()` に分岐し、delete/visibility approve は confirmation modal で二段確認する。
 
 ### 3.4 不変条件（api.ts）
 
 - 不変条件 #11: profile 本文（businessOverview 等）の編集 mutation は **意図的に存在させない**。
 - 不変条件 #13: tag 直接更新 mutation も存在させない（`resolveTagQueue` のみ）。
-- 不変条件 #5: 本ファイル経由 **以外**の admin mutation 経路を作らない。
+- 不変条件 #5: admin mutation は `apps/web/src/lib/admin/api.ts` helper または `apps/web/src/features/admin/hooks/useAdminMutation.ts` から `/api/admin/*` BFF proxy 経由で発火する。これ以外の ad hoc `fetch` は作らない。
 
 ---
 
@@ -285,7 +287,7 @@ if (req.method !== "GET" && req.method !== "DELETE") {
 | #5 | apps/web から D1 直接アクセス禁止 | server-fetch.ts と api.ts のみが API 経路。proxy が upstream を `apps/api` に固定 |
 | #11 | profile 本文編集 mutation を提供しない | api.ts に該当関数を**置かない** |
 | #12 | 管理メモ mutation は MemberDrawer 内のみ | api.ts の `postMemberNote` / `patchMemberNote` を drawer 以外で参照しない |
-| #13 | tag 直接更新なし、queue resolve のみ | api.ts に `resolveTagQueue` のみ |
+| #13 | tag 直接更新なし、queue resolve のみ | `resolveTagQueue` または `useAdminMutation('/api/admin/tags/queue/:queueId/resolve')` のみ |
 | admin gate 二重 | layout + proxy で再検証 | `(admin)/layout.tsx` + `/api/admin/[...path]` の `requireAdmin()` |
 
 ---

@@ -4,6 +4,10 @@
 
 このファイルは task-specification-creator の運用・改善・Phase 12 close-out 同期履歴を新しい順に記録する。
 
+## 2026-05-17 - Issue #749 primitive adoption tracker review
+
+`docs/30-workflows/completed-tasks/issue-749-primitive-adoption-tracker/` の 30 種思考法レビューを反映した。実コード差分を伴う workflow は docs-only / spec-created のラベルに固定せず、`implemented_local_evidence_captured` として Phase 11 local evidence、Phase 12 strict 7、root artifacts、skill sync を同一サイクルで揃える。route SSOT は moved completed root の `docs/30-workflows/completed-tasks/ui-prototype-alignment-mvp-recovery/SCOPE.md` を参照し、コピーした route matrix の stale row を Phase 4/7/11 gate へ波及させない。primitive adoption gate は import-only や `void` placeholder ではなく、実 JSX rendering / `useAdminMutation().trigger()` / EmptyState / Pagination を検査する。未タスク候補は同一サイクルで解消可能なら unassigned-task 化せず、`unassigned-task-detection.md` に 0 件と解消理由を記録する。
+
 ## 2026-05-16 - Issue #717 conditional no-code close-out feedback
 
 `docs/30-workflows/issue-717-oidc-cf-full-migration/` の Phase 12 feedback を確認した。Cloudflare Workers GitHub Actions OIDC のような外部公式 support 依存 implementation task では、一次情報再検証で unsupported と判定した場合、推測コードを入れず `implementationCategory=conditional` / `verified_current_no_code_change_pending_pr` として root/output artifacts、Phase 11 revalidation evidence、Phase 12 strict 7、unassigned follow-up formalization、aiworkflow sync を同一 wave で揃える必要がある。template 本体の即時変更は no-op とし、本 workflow の `skill-feedback-report.md` に promotion candidate として記録した。

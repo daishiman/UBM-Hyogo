@@ -5,6 +5,7 @@ LOG_FILE=""
 ACCOUNT_ID="${CLOUDFLARE_ACCOUNT_ID:-}"
 TOKEN_VALUE="${CLOUDFLARE_API_TOKEN_VALUE_FOR_TEST:-}"
 TOKEN_REGEX='[A-Za-z0-9_-]{40,}'
+JWT_REGEX='eyJ[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+'
 
 usage() {
   echo "usage: $0 [--log <path>] [--account-id <id>] [--token-value-for-test <value>]" >&2
@@ -83,6 +84,20 @@ TOKEN_MATCHES="$(grep -E -n "$TOKEN_REGEX" "$INPUT_SRC" 2>/dev/null | grep -v -E
 if [ -n "$TOKEN_MATCHES" ]; then
   echo "::error::token-like long string detected in log"
   printf '%s\n' "$TOKEN_MATCHES" | mask_line
+  LEAK_FOUND=1
+fi
+
+JWT_MATCHES="$(grep -E -n "$JWT_REGEX" "$INPUT_SRC" 2>/dev/null || true)"
+if [ -n "$JWT_MATCHES" ]; then
+  echo "::error::JWT-like token detected in log"
+  printf '%s\n' "$JWT_MATCHES" | mask_line
+  LEAK_FOUND=1
+fi
+
+CF_AUD_MATCHES="$(grep -F -n "cloudflare-aud" "$INPUT_SRC" 2>/dev/null || true)"
+if [ -n "$CF_AUD_MATCHES" ]; then
+  echo "::error::cloudflare-aud claim detected in log"
+  printf '%s\n' "$CF_AUD_MATCHES" | mask_line
   LEAK_FOUND=1
 fi
 

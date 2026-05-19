@@ -1,3 +1,0 @@
-[verify-worktree-isolation] OK: @esbuild/darwin-x64 resolved inside cwd
-  resolved: /Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260517-015719-wt-11/node_modules/@esbuild/darwin-x64/bin/esbuild
-exit=0
