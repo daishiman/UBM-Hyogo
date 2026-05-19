@@ -18,7 +18,7 @@ implementation_mode: greenfield-foundation
 ## 1. 事前準備
 
 ```bash
-cd /Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260518-101514-wt-4
+cd <repo-root>
 mise exec -- pnpm install
 ```
 
@@ -43,8 +43,8 @@ mise exec -- pnpm --filter @ubm-hyogo/web test --run apps/web/app/__tests__/load
 ## 4. デザイントークン / テスト suffix gate
 
 ```bash
-mise exec -- pnpm verify:design-tokens
-mise exec -- pnpm verify:test-suffix
+mise exec -- pnpm verify:tokens
+test -z "$(find apps/web -name '*.test.*' -print -quit)"
 ```
 
 ## 5. ビルド検証（Cloudflare Workers 互換）
@@ -71,8 +71,8 @@ mise exec -- pnpm --filter @ubm-hyogo/web dev
 ## 7. ToastProvider 単一配置 grep
 
 ```bash
-grep -rln "ToastProvider" apps/web/app/
-# 期待出力: apps/web/app/layout.tsx のみ 1 件
+find apps/web/app -path '*/__tests__/*' -prune -o -type f \( -name '*.tsx' -o -name '*.ts' \) -print | xargs rg -n "ToastProvider"
+# 期待出力: apps/web/app/layout.tsx の import / render のみ
 ```
 
 ## 8. HEX 直書き grep（補助）

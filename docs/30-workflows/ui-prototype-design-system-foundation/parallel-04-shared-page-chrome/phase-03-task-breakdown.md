@@ -68,14 +68,12 @@ implementation_mode: greenfield-foundation
 ```
 serial-00-design (Phase 1-3)
    ↓
-parallel-04（本サブワークフロー）
-   ↓ (root chrome が確定)
-parallel-03-appshell-layouts（ToastProvider 再 wrap 禁止を確認）
-   ↓
+parallel-01 / parallel-02 / parallel-03 / parallel-04（並列実装）
+   ↓ (相互レビュー gate: ToastProvider 単一配置 / selector hook / skeleton rhythm)
 serial-05-page-routes-blueprint-binding
 ```
 
-並列性: parallel-01 / 02 / 03 / 04 は相互に直接依存しないため並列実装可能。ただし `globals.css` 拡張（parallel-01）と本サブワークフローは loading.tsx の skeleton class 名で結合するため、命名規約（`ui-card-*`）は事前合意済みである必要がある。
+並列性: parallel-01 / 02 / 03 / 04 は実装順序としては並列。依存関係は直列実装ではなく、契約確認 gate として扱う。ToastProvider は root layout の hard contract、`ui-card-*` / skeleton rhythm / selector hook は soft contract として Phase 4 に集約し、各並列 sub-workflow が相互レビューで確認する。
 
 ## 7. 工数見積（参考）
 
@@ -93,7 +91,7 @@ serial-05-page-routes-blueprint-binding
 | リスク | 対応 step |
 |-------|----------|
 | ToastProvider 二重ラップ | G1-5 で root 1 か所に固定。parallel-03 仕様レビュー時に再確認 |
-| Card primitive が Workers bundle に乗らない | G2-3 / G3-2 で import path を `@/components/ui/Card` に固定し、`apps/web/tsconfig.json` の paths と整合 |
+| Card primitive が Workers bundle に乗らない | G2-3 / G3-2 で import path を `../src/components/ui/Card` に固定し、root Vitest と Next build の両方で検証 |
 | viewport export 追加で既存 metadata 解釈が壊れる | G1-3 / G1-4 を順序遵守し、`pnpm build` で SSR 出力を確認 |
 | `themeColor` の OKLch 表現を browser が解釈できない | meta tag の `themeColor` は OKLch サポートが古い browser で無視されるだけで build を fail させない。Phase 9 リスクで明記 |
 

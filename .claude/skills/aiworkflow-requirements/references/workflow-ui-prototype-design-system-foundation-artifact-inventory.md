@@ -74,6 +74,15 @@ Future implementation must use `PROTOTYPE-COVERAGE.md` and keep the current
 `apps/web/app/**` paths, including root app paths for `/login`, `/profile`,
 `/privacy`, and `/terms`.
 
+## Sub-workflows
+
+| sub-workflow | scope | inventory | status |
+|--------------|-------|-----------|--------|
+| `parallel-04-shared-page-chrome` | `apps/web/app/{layout,error,not-found,loading}.tsx` の共通 chrome 実装と root fallback visual evidence | [workflow-parallel-04-shared-page-chrome-artifact-inventory.md](workflow-parallel-04-shared-page-chrome-artifact-inventory.md) | `spec_created / implementation / VISUAL / Phase 11 evidence captured (EV-01..16)` (2026-05-19) |
+
+Phase 12 strict 7 outputs は parent root `outputs/phase-12/` に集約し、sub-workflow には
+複製しない（parent-sub-workflow strict7 aggregation parity）。
+
 ## P1-1〜P1-5 Selector ↔ Token ↔ 09 Spec Mapping (parallel-01)
 
 `apps/web/src/styles/globals.css` の `@layer components` に追加した data-attr

@@ -33,6 +33,11 @@ description: |
   i18n, i18n-label-normalization, NFKC, alias-recommendation,
   alias-recommendation-score-stability, label-normalization,
   recommendedStableKeys, stable_key_collision, 409 stable_key_collision,
+  parallel-04-shared-page-chrome, root chrome, fallback boundary,
+  ToastProvider single mount, runtime source-only grep, __tests__ prune,
+  OKLch token gate, next build --webpack, parent-sub-workflow strict7 aggregation,
+  logger.error mount-once, useEffect mount-once
+  recommendedStableKeys, stable_key_collision, 409 stable_key_collision,
   OGP, sitemap, robots, metadata, SEO, opengraph-image
 allowed-tools:
   - Read
@@ -54,6 +59,7 @@ ubm-hyogo Web アプリプロジェクトの全仕様を管理するスキル。
 
 | Version | Date | Changes |
 | --- | --- | --- |
+| v2026.05.19-parallel-04-shared-page-chrome | 2026-05-19 | `parallel-04-shared-page-chrome` を `spec_created / implementation / VISUAL / Phase 11 evidence captured (EV-01..16)` として同期。`apps/web/app/{layout,error,not-found,loading}.tsx` を Card / EmptyState primitive + OKLch token に置換、`error.tsx` の `logger.error` を `useEffect([])` で mount-once 化、`__tests__/error.component.spec.tsx` 再 render guard test 追加。Phase 11 evidence は EV-01..09 静的 gate + EV-10..11 capture provenance + EV-12..15 root chrome / fallback PNG + EV-16 visual review。Phase 12 strict 7 は parent root `outputs/phase-12/` に集約 (parent-sub-workflow strict7 aggregation)。`ToastProvider` 単一 mount grep は `__tests__` 除外 runtime source-only に固定 (L-PARA04-001)。Next.js 16 production build は OpenNext Workers 互換のため `next build --webpack` を SSOT (L-PARA04-002)。新規 references / lessons-learned / changelog / completion shard を同 wave 反映。commit / push / PR / serial-07 19 routes 全体 visual regression は user-gated。 |
 | v2026.05.17-issue274-public-pages-ogp-sitemap-robots | 2026-05-17 | Issue #274 public pages OGP / sitemap / robots を `implemented_local_evidence_captured / implementation / VISUAL` として同期。`apps/web` metadata route / root OG image / public page metadata / SEO helper / Playwright smoke、Phase 11 typecheck / lint / test / build / curl / Playwright / `og-image.png` evidence、06a/task-11 source consumed trace、site URL host の wrangler `AUTH_URL` 整合を同一 wave で反映。commit / push / PR / Issue mutation は user-gated。 |
 | v2026.05.17-issue746-parallel09-visual-evidence | 2026-05-17 | Issue #746 parallel-09 Playwright visual evidence completion を `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION` として同期。`parallel-09-primitives.spec.ts` の evidence path を completed-tasks default + `PARALLEL09_EVIDENCE_DIR` override へ補正し、12 PNG / run log / inventory / Phase 12 strict 7、source unassigned consumed、parent Phase 11 / artifacts / open runtime boundary、quick-reference / resource-map / task-workflow-active / artifact inventory を同一 wave で反映。commit / push / PR / Issue mutation / staging-production smoke は user-gated。 |
 | v2026.05.18-issue-256-e2e-coverage-baseline-runbook | 2026-05-18 | Issue #256 E2E coverage baseline runbook を `implemented_local_evidence_captured / implementation / NON_VISUAL` として同期。`coverage.exclude` ratio measurement を production-like app source denominator（test spec 除外）へ補正し、baseline `37 / 80 = 46.3% warn`、PR soft warn workflow、fallback metric runbook、Playwright smoke SLA runbook、Phase 9 QA evidence、Phase 12 strict 7、root/output artifacts parity、parent task partial_fix trace を同一 wave で反映。Issue #256 は CLOSED のため PR 文脈は `Refs #256` のみ。commit / push / PR は user-gated。 |

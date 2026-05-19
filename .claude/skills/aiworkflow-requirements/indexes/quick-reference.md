@@ -70,6 +70,21 @@
 
 ---
 
+### parallel-04 Shared Page Chrome（2026-05-19）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/ui-prototype-design-system-foundation/parallel-04-shared-page-chrome/` |
+| 状態 | `spec_created / implementation / VISUAL / Phase 11 evidence captured (EV-01..16)` |
+| 実装対象 | `apps/web/app/{layout,error,not-found,loading}.tsx` + `apps/web/app/__tests__/error.component.spec.tsx` + `apps/web/app/__smoke__/loading-state/{page,loading}.tsx` |
+| invariant | OKLch token のみ / HEX 直書き 0 / `__tests__` 除外 ToastProvider 単一 mount / `next build --webpack` / Phase 12 strict 7 は parent root 集約 |
+| evidence | EV-01..09 静的 gate + EV-10..11 capture provenance + EV-12..15 root chrome / fallback PNG + EV-16 visual review |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-parallel-04-shared-page-chrome-artifact-inventory.md` |
+| lessons | `.claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-parallel-04-root-chrome-2026-05.md` (L-PARA04-001..007) |
+| changelog | `.claude/skills/aiworkflow-requirements/changelog/20260519-parallel-04-shared-page-chrome.md` |
+| completion shard | `.claude/skills/aiworkflow-requirements/references/task-workflow-completed-recent-2026-05.md` |
+| user gate | commit / push / PR / serial-07 19 routes 全体 visual regression |
+
 ### Issue #772 CF audit monitor runtime restoration（2026-05-17）
 
 | 目的 | 参照先 |

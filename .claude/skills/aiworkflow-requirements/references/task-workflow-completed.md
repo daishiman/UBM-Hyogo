@@ -4,6 +4,10 @@
 > 役割: index — 詳細は各子ファイルを参照
 > 区分: 履歴記録（history record）
 
+## 最近の完了タスク（2026-05）
+
+- [2026-05-19: parallel-04 Shared Page Chrome（root chrome / fallback boundary / OKLch token / Phase 11 EV-01..16 captured / parent-sub-workflow strict7 aggregation）](./task-workflow-completed-recent-2026-05.md)
+
 ## 最近の完了タスク（2026-04）
 
 - [2026-04-29: UT-01 Sheets→D1 同期方式定義 spec_created（Cron pull / sync_log logical design / existing implementation gap tracking）](./task-workflow-completed-recent-2026-04d.md)

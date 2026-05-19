@@ -82,10 +82,10 @@ sub-workflow: `parallel-04-shared-page-chrome/`
 - [ ] `pnpm lint` exit 0
 - [ ] `pnpm --filter @ubm-hyogo/web test apps/web/app/__tests__` PASS
 - [ ] `pnpm --filter @ubm-hyogo/web build` success
-- [ ] `pnpm verify:design-tokens` exit 0
-- [ ] `pnpm verify:test-suffix` exit 0
+- [ ] `pnpm verify:tokens` exit 0
+- [ ] `test -z "$(find apps/web -name '*.test.*' -print -quit)"` exit 0
 - [ ] `bash scripts/verify-pr-ready.sh` exit 0
-- [ ] `grep ToastProvider apps/web/app/` → 1 件
+- [ ] source-only ToastProvider grep → `apps/web/app/layout.tsx` の import / render のみ
 
 > Draft note: this is a pre-execution checklist. Evidence logs must exist under
 > `outputs/phase-11/` before any item is marked complete.
