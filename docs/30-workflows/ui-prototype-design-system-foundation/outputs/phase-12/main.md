@@ -11,4 +11,4 @@ UI prototype design system foundation の Phase 12 集約サマリー。
 
 ## Boundary
 
-本サイクルは仕様書の準拠改善であり、`apps/` 実装差分は発生していない。対象 workflow は `taskType=implementation` の実装仕様書として、後続実装サイクルで `PROTOTYPE-COVERAGE.md` に従いコードへ反映する。
+本サイクルは仕様書の準拠改善に加え、`apps/web` の最小 AppShell 実装差分（public/admin/member layout data hooks と layout specs）を含む。対象 workflow は `taskType=implementation` の実装仕様書として扱い、後続の full 19-route binding と serial-07 visual regression evidence は `PROTOTYPE-COVERAGE.md` に従って継続する。

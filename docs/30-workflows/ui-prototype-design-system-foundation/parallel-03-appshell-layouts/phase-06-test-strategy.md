@@ -91,8 +91,6 @@ vi.mock("next/navigation", () => ({ redirect: vi.fn((url: string) => { throw new
 ## 5. テスト実行コマンド
 
 ```bash
-cd /Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260518-101514-wt-4
-
 # 3 layout spec のみ
 mise exec -- pnpm --filter @ubm-hyogo/web test -- "app/(public)/layout.spec.tsx"
 mise exec -- pnpm --filter @ubm-hyogo/web test -- "app/(admin)/layout.spec.tsx"

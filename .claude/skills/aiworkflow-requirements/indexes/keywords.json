@@ -5508,6 +5508,7 @@
       "workflow-task-25-ui-mvp-w8-par-routes-smoke-coverage-artifact-inventory.md",
       "workflow-task-issue-346-08a-canonical-workflow-tree-restore-artifact-inventory.md",
       "workflow-task-issue-494-09a-A-exec-staging-smoke-runtime-artifact-inventory.md",
+      "workflow-ui-prototype-design-system-foundation-artifact-inventory.md",
       "workflow-ut-02a-attendance-profile-integration-artifact-inventory.md",
       "workflow-ut-branch-flow-dev-staging-sync-artifact-inventory.md",
       "workflow-ut08-monitoring-alert-design-artifact-inventory.md"
@@ -15829,7 +15830,8 @@
       "workflow-task-04a-parallel-public-directory-api-endpoints-artifact-inventory.md",
       "workflow-task-05b-parallel-magic-link-provider-and-auth-gate-state-artifact-inventory.md",
       "workflow-task-07b-parallel-schema-diff-alias-assignment-workflow-artifact-inventory.md",
-      "workflow-task-08a-parallel-api-contract-repository-and-authorization-tests-artifact-inventory.md"
+      "workflow-task-08a-parallel-api-contract-repository-and-authorization-tests-artifact-inventory.md",
+      "workflow-ui-prototype-design-system-foundation-artifact-inventory.md"
     ],
     "dialog": [
       "lessons-learned-parallel-i03-dialog-refresh-order-2026-05.md",
@@ -23811,6 +23813,15 @@
     ],
     "pr": [
       "workflow-task-verify-indexes-up-to-date-ci-artifact-inventory.md"
+    ],
+    "Sub": [
+      "workflow-ui-prototype-design-system-foundation-artifact-inventory.md"
+    ],
+    "AppShell": [
+      "workflow-ui-prototype-design-system-foundation-artifact-inventory.md"
+    ],
+    "Layouts": [
+      "workflow-ui-prototype-design-system-foundation-artifact-inventory.md"
     ],
     "責務分離": [
       "workflow-ut-02a-attendance-profile-integration-artifact-inventory.md",
