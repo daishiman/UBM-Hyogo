@@ -1,0 +1,24 @@
+{
+  "workflow": "docs/30-workflows/issue-770-profile-loading-skeleton",
+  "generatedAt": "2026-05-18T00:08:00+09:00",
+  "visualEvidence": "VISUAL",
+  "shots": [
+    {
+      "id": "TC-VIS-01",
+      "name": "profile-loading-local-component-desktop",
+      "path": "outputs/phase-11/screenshots/profile-loading-local-component-desktop.png",
+      "source": "isolated local component render matching apps/web/app/profile/loading.tsx DOM shape",
+      "viewport": {
+        "width": 1280,
+        "height": 720
+      },
+      "assertions": [
+        "avatar skeleton block is visible",
+        "heading skeleton block is visible",
+        "four key-value skeleton blocks are visible",
+        "layout uses the profile loading max-width and spacing rhythm"
+      ]
+    }
+  ],
+  "runtimeBoundary": "Authenticated /profile browser screenshot and staging visual smoke remain user-gated."
+}

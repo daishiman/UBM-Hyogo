@@ -1,0 +1,13 @@
+Status: pending_user_gate
+
+Runtime authenticated visual diff was not executed in this cycle. The existing PNG files in
+outputs/phase-11/screenshots/ are placeholder artifacts, not authenticated dashboard screenshots.
+
+Local component evidence is covered by:
+- apps/web/src/features/admin/components/_dashboard/StatusDistribution.spec.tsx
+- outputs/phase-11/evidence/test.log
+
+Required before PR merge if visual runtime evidence is requested:
+- start authenticated admin runtime
+- capture /admin dashboard placeholder or populated chart state
+- replace placeholder artifacts or add fresh screenshots with viewport dimensions

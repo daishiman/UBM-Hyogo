@@ -1,0 +1,51 @@
+# Coverage Exclude Ratio
+
+- measured_at: 2026-05-18T04:07:54.368Z
+- vitest_config_path: `vitest.config.ts`
+- target_root: `apps/web/app`
+- total_files: 80
+- excluded_count: 37
+- ratio: 46.3%
+- threshold: 30%
+- status: warn
+
+## Excluded Files
+
+- `apps/web/app/(admin)/admin/audit/page.tsx`
+- `apps/web/app/(admin)/admin/dashboard/attendance/page.tsx`
+- `apps/web/app/(admin)/admin/error.tsx`
+- `apps/web/app/(admin)/admin/identity-conflicts/page.tsx`
+- `apps/web/app/(admin)/admin/meetings/[id]/page.tsx`
+- `apps/web/app/(admin)/admin/meetings/page.tsx`
+- `apps/web/app/(admin)/admin/members/page.tsx`
+- `apps/web/app/(admin)/admin/page.tsx`
+- `apps/web/app/(admin)/admin/requests/page.tsx`
+- `apps/web/app/(admin)/admin/schema/page.tsx`
+- `apps/web/app/(admin)/admin/tags/page.tsx`
+- `apps/web/app/(admin)/layout.tsx`
+- `apps/web/app/(dev)/layout.tsx`
+- `apps/web/app/(dev)/primitives-harness/page.tsx`
+- `apps/web/app/(member)/layout.tsx`
+- `apps/web/app/(public)/layout.tsx`
+- `apps/web/app/(public)/members/[id]/page.tsx`
+- `apps/web/app/(public)/members/page.tsx`
+- `apps/web/app/(public)/register/page.tsx`
+- `apps/web/app/__smoke__/error-boundary/page.tsx`
+- `apps/web/app/__smoke__/loading-state/page.tsx`
+- `apps/web/app/__smoke__/members-list/page.tsx`
+- `apps/web/app/__smoke__/ui-primitives/page.tsx`
+- `apps/web/app/error.tsx`
+- `apps/web/app/layout.tsx`
+- `apps/web/app/login/error.tsx`
+- `apps/web/app/login/page.tsx`
+- `apps/web/app/page.tsx`
+- `apps/web/app/privacy/page.tsx`
+- `apps/web/app/profile/error.tsx`
+- `apps/web/app/profile/page.tsx`
+- `apps/web/app/smoke/error-boundary/page.tsx`
+- `apps/web/app/smoke/loading-state/page.tsx`
+- `apps/web/app/smoke/members-list/page.tsx`
+- `apps/web/app/smoke/ui-primitives/page.tsx`
+- `apps/web/app/terms/page.tsx`
+- `apps/web/app/visual-harness/[name]/page.tsx`
+

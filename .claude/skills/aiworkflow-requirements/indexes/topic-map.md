@@ -1098,12 +1098,12 @@ node scripts/list-specs.js --topics
 | 1. 全体構成 | L16 |
 | 2. AdminSidebar | L51 |
 | 3. /admin（Dashboard） | L77 |
-| 4. /admin/members | L112 |
-| 5. /admin/tags | L205 |
-| 6. /admin/schema | L285 |
-| 7. /admin/meetings | L340 |
-| 8. 共通の Server/Client 契約 | L409 |
-| 9. 不変条件サマリ（admin UI） | L427 |
+| 4. /admin/members | L130 |
+| 5. /admin/tags | L223 |
+| 6. /admin/schema | L303 |
+| 7. /admin/meetings | L358 |
+| 8. 共通の Server/Client 契約 | L427 |
+| 9. 不変条件サマリ（admin UI） | L445 |
 
 ### references/ui-ux-advanced.md
 
@@ -2312,6 +2312,27 @@ node scripts/list-specs.js --topics
 | Branch-level deletion check | L101 |
 | Downstream task: issue-195-sync-jobs-contract-schema-consolidation-001（2026-05-04） | L105 |
 
+### references/workflow-issue-256-e2e-coverage-baseline-runbook-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Canonical Workflow | L3 |
+| Canonical Paths | L9 |
+| Implementation Targets | L23 |
+| Classification | L35 |
+| Runtime Boundary | L41 |
+| Consumed / Superseded Trace | L47 |
+| Lessons Learned | L53 |
+
+### references/workflow-issue-274-public-pages-ogp-sitemap-robots-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Workflow | L3 |
+| Implementation Targets | L11 |
+| Evidence Boundary | L24 |
+| Captured Evidence | L27 |
+
 ### references/workflow-issue-290-workflow-lint-gate-artifact-inventory.md
 
 | セクション | 行 |
@@ -2730,6 +2751,17 @@ node scripts/list-specs.js --topics
 |------------|----|
 | State | L16 |
 
+### references/workflow-issue-770-profile-loading-skeleton-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Implementation Targets | L11 |
+| Evidence | L18 |
+| Lessons Learned | L27 |
+| User Gate | L33 |
+
+### references/workflow-issue-772-cf-audit-monitor-runtime-restoration-artifact-inventory.md
+
 ### references/workflow-light-theme-contrast-regression-guard.md
 
 | セクション | 行 |
@@ -2922,6 +2954,12 @@ node scripts/list-specs.js --topics
 | Follow-up 未タスク | L81 |
 | Validation Chain | L89 |
 | 関連ドキュメント | L102 |
+
+### references/workflow-step-05-dashboard-chart-implementation-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Phase 12 Strict 7 | L27 |
 
 ### references/workflow-task-03-w2-par-sentry-workers-sdk-unify-artifact-inventory.md
 
@@ -4406,15 +4444,15 @@ node scripts/list-specs.js --topics
 
 | セクション | 行 |
 |------------|----|
-| 概要 | L23 |
-| 使い方 | L31 |
-| Current Alias Overrides（個別互換行） | L38 |
-| Family Summary | L84 |
-| Detailed Register | L105 |
-| Section Extract Register (2026-03-17) | L286 |
-| 500-Line Split Register (2026-03-16) | L297 |
-| Fragment Migration Register (2026-04-28) | L319 |
-| Task Root Path Drift Register (2026-04-30 追記) | L346 |
+| 概要 | L24 |
+| 使い方 | L32 |
+| Current Alias Overrides（個別互換行） | L39 |
+| Family Summary | L85 |
+| Detailed Register | L106 |
+| Section Extract Register (2026-03-17) | L287 |
+| 500-Line Split Register (2026-03-16) | L298 |
+| Fragment Migration Register (2026-04-28) | L320 |
+| Task Root Path Drift Register (2026-04-30 追記) | L347 |
 
 ### references/lessons-fetch-service-binding-testing.md
 
@@ -4905,6 +4943,18 @@ node scripts/list-specs.js --topics
 | OP-ISSUE195FU002-2: current canonical deletion 検知の運用 | L80 |
 | 再確認・適用記録: issue-195-sync-jobs-contract-schema-consolidation-001（2026-05-04） | L89 |
 
+### references/lessons-learned-issue-274-public-pages-ogp-sitemap-robots-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| L-274-001: site URL を `ENVIRONMENT` キーの SSOT に集約した | L10 |
+| L-274-002: sitemap の paginated 取得は失敗時に静的サブセットで縮退する | L30 |
+| L-274-003: `robots.ts` は `getPublicEnv()` 経由で env-branch する | L49 |
+| L-274-004: OG image route は `runtime = "edge"` を明示する | L66 |
+| L-274-005: 起票元 unassigned 2 件は consumed trace として保持する | L83 |
+| L-274-006: `issue-NNN` namespace は legacy-ordinal-family-register の table 行追加不要 | L102 |
+| 参照 | L119 |
+
 ### references/lessons-learned-issue-290-workflow-lint-gate-2026-05.md
 
 | セクション | 行 |
@@ -5281,6 +5331,18 @@ node scripts/list-specs.js --topics
 | L-I747-005: closed Issue でも `Refs #<n>` で後付け canonical workflow を建てる | L43 |
 | L-I747-006: parent repository `node_modules` cleanup は AI が自動実行しない | L51 |
 
+### references/lessons-learned-issue-770-profile-loading-skeleton-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| L-770-001: Skeleton block count は実コンポーネントの DOM 構造に一致させる | L3 |
+| L-770-002: OKLch トークン正本化下で skeleton 色は `bg-surface-2` を採用 | L11 |
+| L-770-003: A11y はロール + 状態 + sr-only テキストの三点セットを必須化する | L19 |
+| L-770-004: Parent workflow 3 点同期は same-wave で実施する | L27 |
+| L-770-005: Source unassigned-task は consumed trace として保持する | L35 |
+| L-770-006: `implemented_local_runtime_pending` 中間ステータスの再利用 | L43 |
+| L-770-007: aiworkflow-requirements の same-wave sync は 5 ファイル定型 | L51 |
+
 ### references/lessons-learned-issue359-production-d1-apply-2026-05.md
 
 | セクション | 行 |
@@ -5348,6 +5410,16 @@ node scripts/list-specs.js --topics
 | L-T6-005: A-2（#130）未完了状態で T-6 着手すると `LOGS.md` を gitignore 連動で誤って ignore 化する経路 | L44 |
 | 関連リンク | L52 |
 | 申し送り（open / baseline 未タスク） | L61 |
+
+### references/lessons-learned-step-05-dashboard-chart-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| L-DASH-001: chart library 不採用 / SVG 直書きで OKLch token 整合を優先 | L7 |
+| L-DASH-002: OKLch CSS var vs HEX 直書き / chart UI でも HEX 禁止を堅持 | L16 |
+| L-DASH-003: `byStatus` を optional discriminator にする後方互換戦略 | L25 |
+| L-DASH-004: legacy placeholder fallback / `slices` empty 時の既存 UI 維持 | L34 |
+| L-DASH-005: aria-label を component spec で test back する設計 | L43 |
 
 ### references/lessons-learned-sync-merge-hook-skip-2026-04.md
 
@@ -5849,8 +5921,8 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 概要 | L3 |
 | 仕様書インデックス | L7 |
-| 利用順序 | L113 |
-| 関連ドキュメント | L118 |
+| 利用順序 | L114 |
+| 関連ドキュメント | L119 |
 
 ### references/llm-embedding.md
 
@@ -6982,6 +7054,14 @@ node scripts/list-specs.js --topics
 | 昇格パターン集 | L1759 |
 | Current Active / Spec Created Tasks | L1761 |
 | UT-17 followup-003 alert-relay weekly healthcheck cron | L1912 |
+| ドキュメント構成 | L1715 |
+| フェーズ構造（概要） | L1724 |
+| 品質ゲート（概要） | L1755 |
+| 出力テンプレート | L1766 |
+| 実行時のコマンド・エージェント・スキル | L1789 |
+| 昇格パターン集 | L1813 |
+| Current Active / Spec Created Tasks | L1815 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L1967 |
 
 ### references/task-workflow-backlog-part2.md
 
