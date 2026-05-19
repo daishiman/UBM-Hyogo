@@ -60,6 +60,15 @@ assert_exit 1 bash "$SCRIPT" --log "$TMP_DIR/multiline.log"
 printf 'sha256-abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMN is allowed\n' > "$TMP_DIR/hash.log"
 assert_exit 0 bash "$SCRIPT" --log "$TMP_DIR/hash.log"
 
+printf 'auth: Bearer eyJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJ4In0.signature_part\n' > "$TMP_DIR/jwt.log"
+assert_exit 1 bash "$SCRIPT" --log "$TMP_DIR/jwt.log"
+
+printf 'claim: cloudflare-aud=workers-deploy\n' > "$TMP_DIR/cloudflare-aud.log"
+assert_exit 1 bash "$SCRIPT" --log "$TMP_DIR/cloudflare-aud.log"
+
+printf 'integrity sha512-abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMN\n' > "$TMP_DIR/integrity.log"
+assert_exit 0 bash "$SCRIPT" --log "$TMP_DIR/integrity.log"
+
 large_log="$TMP_DIR/large.log"
 for i in $(seq 1 1000); do
   printf 'line %s clean\n' "$i"
