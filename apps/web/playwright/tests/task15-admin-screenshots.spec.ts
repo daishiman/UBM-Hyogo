@@ -27,7 +27,8 @@ test.describe('task-15 admin dashboard and members screenshots', () => {
     await screenshot(adminPage, 'admin-dashboard-zone-placeholder.png')
     await screenshot(adminPage, 'admin-layout-sidebar-active.png')
 
-    await adminPage.goto('/admin/members')
+    await adminPage.waitForLoadState('networkidle')
+    await adminPage.goto('/admin/members', { waitUntil: 'domcontentloaded' })
     await expect(adminPage.locator('#admin-members-h')).toBeAttached()
     await expect(adminPage.getByText('青木 太郎')).toBeVisible()
     await screenshot(adminPage, 'admin-members-default.png')
