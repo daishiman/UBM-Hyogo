@@ -1,0 +1,9 @@
+=== sitemap/robots/og file existence ===
+apps/web/app/opengraph-image.tsx
+apps/web/app/robots.ts
+apps/web/app/sitemap.ts
+apps/web/src/lib/seo/site-metadata.ts
+=== process.env direct ref in seo helper and metadata routes ===
+OK: no direct process.env
+=== D1 direct access in sitemap ===
+OK: no direct D1 access

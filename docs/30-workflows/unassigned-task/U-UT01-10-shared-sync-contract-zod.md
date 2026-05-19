@@ -11,8 +11,8 @@
 | 優先度 | MEDIUM |
 | 起票日 | 2026-04-29 |
 | 起票元 | `docs/30-workflows/ut-01-sheets-d1-sync-design/outputs/phase-12/unassigned-task-detection.md` (U-10) |
-| 状態 | unassigned |
-| taskType | docs-only-contract |
+| 状態 | consumed_by_issue_266_implemented_local_runtime_pending |
+| taskType | implementation |
 | visualEvidence | NON_VISUAL |
 | 既存タスク組み込み | なし |
 | 組み込み先 | - |
@@ -20,6 +20,8 @@
 ## 目的
 
 `packages/shared` に sync 契約型（`SyncLogStatus` / `SyncTriggerType` / `SyncLogRecord`）の TypeScript 型と Zod schema を一意の正本として配置し、UT-04（D1 schema）と UT-09（同期ジョブ実装）が独立に enum 値や record 構造を再定義することによる契約ドリフトを構造的に封じる。`apps/api`（D1 書き込み）と `apps/web`（管理 UI 表示・admin queue 連携）が同一の runtime 検証経路で同期 record を扱える状態を作る。
+
+> 2026-05-18 issue #266 formalization note: 本タスクは `docs/30-workflows/issue-266-shared-sync-zod-contract/` に実装 workflow として昇格・実装済み。現行物理 DDL / runtime 実態を canonical とし、`SyncLogStatus = running|success|failed|skipped`、`SyncTriggerType = cron|admin|backfill`、`SyncLogRecord` は `sync_job_logs` 物理 12 カラムを正本とする。旧本文の `pending|in_progress|completed|failed` / `manual|cron|backfill` / 13 カラム前提は historical context として保持し、実装時の正本にはしない。
 
 ## スコープ
 
@@ -29,12 +31,12 @@
 - `SyncTriggerType` Zod schema の設計（canonical 値は U-8 で確定済みの 3 値 = `manual` / `cron` / `backfill` を前提に literal union として定義する仕様）
 - `SyncLogRecord` Zod schema の設計（`outputs/phase-02/sync-log-schema.md` の 13 カラム = `id` / `trigger_type` / `status` / `started_at` / `finished_at` / `processed_offset` / `total_rows` / `error_code` / `error_message` / `retry_count` / `created_at` / `idempotency_key` / `lock_expires_at` の論理マッピング）
 - `packages/shared/src/` 内の配置位置決定（既存パターン: `zod/` に schema、`types/` に型 export 経路を持つ。本タスクでは `zod/sync.ts` 新設 + `zod/index.ts` への re-export 経路を提案）
-- `apps/api` / `apps/web` 双方からの import 経路の正規化方針（`@repo/shared` 直下 export を使い、深い path import を禁止する設計ルール）
+- `apps/api` / `apps/web` 双方からの import 経路の正規化方針（`@ubm-hyogo/shared` 直下 export を使い、深い path import を禁止する設計ルール）
 - 型 ↔ runtime 整合の検証方針（`z.infer` 由来型と `SyncLogRecord` 型の構造的等価性を unit test で固定する手順）
 
 ### 含まない
 
-- 実装本体（schema コード追加・export 経路コード変更・test 追加は別タスクで行う）
+- 実装本体（issue #266 workflow で実装済み。残る staging D1 distinct evidence / commit / push / PR は user-gated）
 - U-7（`sync_log` 物理名 vs 既存 `sync_job_logs` / `sync_locks` 整合）の canonical 物理名決定本体
 - U-8（status / trigger enum 統一）の canonical 値決定本体（本タスクは U-8 確定値を前提として schema 化する立場）
 - U-9（retry 回数 / offset resume 方針統一）の canonical 値決定本体（`retry_count` 上限値・`processed_offset` 単位は U-9 で確定）
@@ -89,7 +91,7 @@ Zod schema を書いて `z.infer<typeof SyncLogRecordSchema>` で型を導出す
 | --- | --- | --- |
 | U-8 / U-9 確定前に schema 化を先行し、確定後の値集合と乖離 | schema の手戻り・UT-04/UT-09 への二重通達 | 「着手タイミング」節で U-7 / U-8 / U-9 完了を着手 gate として明記。本タスクの完了条件にも依存 task の closed 状態を含める |
 | `z.infer` 経由型と独立 `type` 宣言の併存 | runtime ↔ type drift の温床 | schema 設計章で `z.infer` 強制 + 独立 `type` 宣言禁止を設計ルールとして明記 |
-| `apps/web` から `apps/api` の deep import を許す | shared 契約を経由しないドリフト経路が残る | 本タスクの設計ルール章で `@repo/shared` 経由のみ許容、`apps/api/**` への直接 import を ESLint で禁止する方針を後続タスク（実装担当）への申し送りとして残す |
+| `apps/web` から `apps/api` の deep import を許す | shared 契約を経由しないドリフト経路が残る | 本タスクの設計ルール章で `@ubm-hyogo/shared` 経由のみ許容、`apps/api/**` への直接 import を ESLint で禁止する方針を後続タスク（実装担当）への申し送りとして残す |
 | Zod schema による runtime parse の overhead | sync ジョブのホットパスで latency 増 | `safeParse` は境界（D1 read 直後 / API 入力受信時）でのみ実施し、内部関数間では `z.infer` 由来型での pass-through を許容する方針を schema doc に記載 |
 | field 命名規則の snake_case / camelCase 揺れ | `apps/web` 表示時の typo を compile-time 検出できない | U-7 確定後に「物理層 = snake_case / application 層 = camelCase + 変換層を shared に置く」か「全層 snake_case 統一」のいずれかを schema doc に決定として記載 |
 
@@ -97,7 +99,7 @@ Zod schema を書いて `z.infer<typeof SyncLogRecordSchema>` で型を導出す
 
 | 観点 | 方法 |
 | --- | --- |
-| 型 export 経路 | `packages/shared/src/zod/index.ts` から `SyncLogStatus` / `SyncTriggerType` / `SyncLogRecord` schema が re-export されていること、および `@repo/shared` 直下から import 可能であることを `pnpm typecheck` 通過と import 経路の grep で確認する設計を仕様書化する |
+| 型 export 経路 | `packages/shared/src/zod/index.ts` から `SyncLogStatus` / `SyncTriggerType` / `SyncLogRecord` schema が re-export されていること、および `@ubm-hyogo/shared` 直下から import 可能であることを `pnpm typecheck` 通過と import 経路の grep で確認する設計を仕様書化する |
 | runtime Zod parse | D1 read 直後の record に対し `SyncLogRecordSchema.safeParse(row)` が success を返すケース（13 カラム揃い）と failure を返すケース（status に未定義値、retry_count に負数、idempotency_key 欠落）を unit test で固定する手順を仕様書化する |
 | 型 ↔ runtime 整合 | `z.infer<typeof SyncLogRecordSchema>` が `SyncLogRecord` 型と構造的等価であることを `expectTypeOf` 系 assertion（`vitest` の `expectTypeOf` または `tsd`）で固定する手順を仕様書化する |
 | API ↔ web 共有テスト | `apps/api` の `/admin/sync/logs` 相当エンドポイントが返す JSON を `apps/web` 側で `SyncLogRecordSchema.safeParse` する contract test を `int-test-skill` 経由で実装する方針を後続実装タスクへの申し送りとして残す |
