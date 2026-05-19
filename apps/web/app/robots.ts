@@ -3,6 +3,8 @@ import type { MetadataRoute } from "next";
 import { getPublicEnv } from "@/lib/env";
 import { getSiteUrl } from "@/lib/seo/site-metadata";
 
+export const dynamic = "force-dynamic";
+
 export default function robots(): MetadataRoute.Robots {
   const env = getPublicEnv();
   const base = getSiteUrl();
