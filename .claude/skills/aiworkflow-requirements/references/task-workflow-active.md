@@ -8,6 +8,22 @@
 
 本ドキュメントは、複雑なタスクを単一責務の原則に基づいて分解し、各サブタスクに最適なスラッシュコマンド・エージェント・スキルの組み合わせを選定するためのガイドラインを定義する。
 
+### parallel-04 Shared Page Chrome（2026-05-19）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `spec_created / implementation / VISUAL / Phase 11 evidence captured (EV-01..16)` |
+| 成果物 | `docs/30-workflows/ui-prototype-design-system-foundation/parallel-04-shared-page-chrome/` |
+| 親 workflow | `docs/30-workflows/ui-prototype-design-system-foundation/`（Phase 12 strict 7 は parent root に集約） |
+| 実装対象 | `apps/web/app/{layout,error,not-found,loading}.tsx` + `apps/web/app/__tests__/error.component.spec.tsx` + `apps/web/app/__smoke__/loading-state/{page,loading}.tsx` |
+| boundary | 新 API/D1/Form 変更なし。OKLch token のみ。`__tests__` 除外 runtime source-only ToastProvider grep。`next build --webpack` 固定 |
+| evidence | EV-01..09 静的 gate + EV-10..11 capture provenance + EV-12..15 4 fallback PNG + EV-16 visual review |
+| lessons | `.claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-parallel-04-root-chrome-2026-05.md` (L-PARA04-001..007) |
+| changelog | `.claude/skills/aiworkflow-requirements/changelog/20260519-parallel-04-shared-page-chrome.md` |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-parallel-04-shared-page-chrome-artifact-inventory.md` |
+| completion shard | `.claude/skills/aiworkflow-requirements/references/task-workflow-completed-recent-2026-05.md` |
+| user gate | commit / push / PR / serial-07 19 routes 全体 visual regression |
+
 ### UI Prototype Design System Foundation（2026-05-18）
 
 | 項目 | 値 |
@@ -19,6 +35,7 @@
 | source | `docs/00-getting-started-manual/claude-design-prototype/**`, `docs/00-getting-started-manual/specs/09a..09h-*.md`, parent `docs/30-workflows/ui-prototype-alignment-mvp-recovery/` |
 | boundary | 新規 API endpoint / D1 schema / Google Form 仕様変更なし。`/login` / `/profile` / `/privacy` / `/terms` は root app path を維持 |
 | evidence | root / outputs `artifacts.json` parity, Phase 12 strict 7, 30-method compact evidence in `PROTOTYPE-COVERAGE.md` |
+| sub-workflows | `parallel-04-shared-page-chrome` (2026-05-19 同期、上記参照) |
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-ui-prototype-design-system-foundation-artifact-inventory.md` |
 | user gate | code implementation, visual screenshots, commit, push, PR |
 

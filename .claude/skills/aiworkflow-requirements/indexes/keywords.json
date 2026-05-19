@@ -2875,6 +2875,7 @@
       "quality-e2e-testing.md",
       "security-skill-execution-permission.md",
       "task-workflow-completed-recent-2026-04d.md",
+      "task-workflow-completed-recent-2026-05.md",
       "ui-ux-components-details.md",
       "ui-ux-feature-components-advanced.md",
       "ui-ux-feature-components-reference-organisms-history-surfaces.md",
@@ -2909,6 +2910,7 @@
       "logs-archive-2026-03-skill-views-completed-move.md",
       "logs-archive-2026-03-task-10a-c-final-audit.md",
       "security-skill-execution-permission.md",
+      "task-workflow-completed-recent-2026-05.md",
       "ui-ux-components-details.md",
       "ui-ux-feature-components-advanced.md",
       "ui-ux-feature-components-reference-organisms-history-surfaces.md",
@@ -3229,6 +3231,7 @@
       "workflow-issue-718-legacy-cf-token-revocation-artifact-inventory.md",
       "workflow-issue-730-phase11-evidence-existence-validator-artifact-inventory.md",
       "workflow-issue-747-vitest-esbuild-arch-and-worktree-isolation-artifact-inventory.md",
+      "workflow-parallel-04-shared-page-chrome-artifact-inventory.md",
       "workflow-parallel-i03-dialog-refresh-order-artifact-inventory.md",
       "workflow-task-05-error-boundary-and-staging-smoke-artifact-inventory.md",
       "workflow-task-06a-A-public-web-real-workers-d1-smoke-execution-artifact-inventory.md",
@@ -3941,7 +3944,8 @@
       "architecture-database.md",
       "directory-structure-core.md",
       "lessons-learned-ut-cicd-drift-impl-observability-matrix-sync-2026-05.md",
-      "workflow-governance-design-category.md"
+      "workflow-governance-design-category.md",
+      "workflow-ui-prototype-design-system-foundation-artifact-inventory.md"
     ],
     "テーブル設計": [
       "architecture-database.md"
@@ -4494,6 +4498,7 @@
       "workflow-issue-590-phase11-canonical-evidence-paths-artifact-inventory.md",
       "workflow-issue-626-rb01-share-build-output-lighthouse-pr-build-artifact-inventory.md",
       "workflow-issue-717-oidc-cf-full-migration-artifact-inventory.md",
+      "workflow-parallel-04-shared-page-chrome-artifact-inventory.md",
       "workflow-task-05-error-boundary-and-staging-smoke-artifact-inventory.md",
       "workflow-task-06a-A-public-web-real-workers-d1-smoke-execution-artifact-inventory.md",
       "workflow-task-09-w3-par-tailwind-v4-setup-artifact-inventory.md",
@@ -4751,6 +4756,7 @@
       "workflow-issue-532-write-tag-note-provider-ctx-injection-artifact-inventory.md",
       "workflow-issue-588-fallback-alert-slack-mail-extension-artifact-inventory.md",
       "workflow-issue-623-vitest-spec-suffix-convergence-artifact-inventory.md",
+      "workflow-parallel-04-shared-page-chrome-artifact-inventory.md",
       "workflow-parallel-i03-dialog-refresh-order-artifact-inventory.md",
       "workflow-task-12-member-detail-register-legal-artifact-inventory.md",
       "workflow-task-13-login-rebuild-artifact-inventory.md",
@@ -5368,6 +5374,7 @@
       "skill-ledger-overview.md",
       "task-workflow-completed-agent-view-line-budget.md",
       "task-workflow-completed-recent-2026-04b.md",
+      "task-workflow-completed-recent-2026-05.md",
       "task-workflow-completed.md",
       "task-workflow-phases.md",
       "workflow-06b-a-me-api-authjs-session-resolver-artifact-inventory.md",
@@ -6502,6 +6509,7 @@
       "workflow-issue-533-public-profile-builder-attendance-injection-artifact-inventory.md",
       "workflow-issue-623-vitest-spec-suffix-convergence-artifact-inventory.md",
       "workflow-issue-718-legacy-cf-token-revocation-artifact-inventory.md",
+      "workflow-parallel-04-shared-page-chrome-artifact-inventory.md",
       "workflow-task-08-w2-design-tokens-doc-artifact-inventory.md",
       "workflow-ut-07b-fu-04-production-migration-apply-execution-artifact-inventory.md"
     ],
@@ -6595,6 +6603,7 @@
       "workflow-issue-588-fallback-alert-slack-mail-extension-artifact-inventory.md",
       "workflow-issue-590-phase11-canonical-evidence-paths-artifact-inventory.md",
       "workflow-issue-626-rb01-share-build-output-lighthouse-pr-build-artifact-inventory.md",
+      "workflow-parallel-04-shared-page-chrome-artifact-inventory.md",
       "workflow-parallel-09-ux-cross-cutting-artifact-inventory.md",
       "workflow-parallel-i03-dialog-refresh-order-artifact-inventory.md",
       "workflow-serial-05-step-03-schema-diff-resolve-artifact-inventory.md",
@@ -7649,6 +7658,7 @@
       "lessons-learned-ut-gov-001-2026-04.md",
       "lessons-learned-ut07b-fu-01-schema-alias-backfill-queue-cron-split-2026-05.md",
       "lessons-learned-ut07b-fu04-production-migration-already-applied-verification-2026-05.md",
+      "task-workflow-completed-recent-2026-05.md",
       "ui-ux-components.md",
       "workflow-02c-followup-002-fixtures-prod-build-exclusion-artifact-inventory.md",
       "workflow-06c-C-admin-tags-artifact-inventory.md",
@@ -8525,6 +8535,7 @@
       "lessons-learned-task-12-member-detail-register-legal-2026-05.md",
       "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md",
       "logs-archive-2026-03-ipc-fallback-phase12-sync.md",
+      "workflow-parallel-04-shared-page-chrome-artifact-inventory.md",
       "workflow-task-05b-B-magic-link-callback-credentials-provider-artifact-inventory.md",
       "workflow-task-05b-parallel-magic-link-provider-and-auth-gate-state-artifact-inventory.md"
     ],
@@ -9899,6 +9910,7 @@
       "workflow-issue-352-postmortem-template-automation-artifact-inventory.md",
       "workflow-issue-378-tag-queue-paused-flag-artifact-inventory.md",
       "workflow-issue-504-extended-fixture-50k-artifact-inventory.md",
+      "workflow-parallel-04-shared-page-chrome-artifact-inventory.md",
       "workflow-task-07-prototype-mapping-table-artifact-inventory.md",
       "workflow-ui-prototype-design-system-foundation-artifact-inventory.md",
       "workflow-ut-07a-01-member-tags-assign-cleanup-artifact-inventory.md",
@@ -12219,7 +12231,8 @@
       "task-workflow-completed-agent-view-line-budget.md"
     ],
     "recent": [
-      "lessons-learned-06c-A-admin-dashboard-2026-05.md"
+      "lessons-learned-06c-A-admin-dashboard-2026-05.md",
+      "task-workflow-completed-recent-2026-05.md"
     ],
     "actions": [
       "lessons-learned-06c-A-admin-dashboard-2026-05.md"
@@ -13834,7 +13847,9 @@
     ],
     "Shared": [
       "lessons-learned-issue-195-03b-followup-sync-shared-modules-owner-2026-05.md",
-      "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md"
+      "task-workflow-completed-recent-2026-05.md",
+      "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
+      "workflow-parallel-04-shared-page-chrome-artifact-inventory.md"
     ],
     "Modules": [
       "lessons-learned-issue-195-03b-followup-sync-shared-modules-owner-2026-05.md",
@@ -15381,6 +15396,7 @@
       "workflow-issue-730-phase11-evidence-existence-validator-artifact-inventory.md",
       "workflow-issue-747-vitest-esbuild-arch-and-worktree-isolation-artifact-inventory.md",
       "workflow-issue-748-jest-axe-primitive-a11y-integration-artifact-inventory.md",
+      "workflow-parallel-04-shared-page-chrome-artifact-inventory.md",
       "workflow-parallel-09-ux-cross-cutting-artifact-inventory.md",
       "workflow-parallel-i03-dialog-refresh-order-artifact-inventory.md",
       "workflow-skill-lifecycle-created-skill-usage-journey.md",
@@ -15816,6 +15832,8 @@
     "parallel": [
       "lessons-learned-parallel-i03-dialog-refresh-order-2026-05.md",
       "lessons-learned-ut-coverage-2026-05-wave.md",
+      "task-workflow-completed-recent-2026-05.md",
+      "workflow-parallel-04-shared-page-chrome-artifact-inventory.md",
       "workflow-parallel-09-ux-cross-cutting-artifact-inventory.md",
       "workflow-parallel-i03-dialog-refresh-order-artifact-inventory.md",
       "workflow-task-04a-parallel-public-directory-api-endpoints-artifact-inventory.md",
@@ -16532,6 +16550,7 @@
     ],
     "Cross": [
       "lessons-learned-task-18-w7-verify-tokens-and-playwright-smoke-2026-05.md",
+      "workflow-parallel-04-shared-page-chrome-artifact-inventory.md",
       "workflow-task-18-w7-verify-tokens-and-playwright-smoke-artifact-inventory.md",
       "workflow-task-issue-191-production-d1-schema-aliases-apply-001-artifact-inventory.md"
     ],
@@ -17980,7 +17999,8 @@
       "task-workflow-completed-recent-2026-04a.md",
       "task-workflow-completed-recent-2026-04b.md",
       "task-workflow-completed-recent-2026-04c.md",
-      "task-workflow-completed-recent-2026-04d.md"
+      "task-workflow-completed-recent-2026-04d.md",
+      "task-workflow-completed-recent-2026-05.md"
     ],
     "FileService": [
       "llm-workspace-chat-edit.md"
@@ -21346,6 +21366,20 @@
     "impl": [
       "task-workflow-completed-recent-2026-04d.md"
     ],
+    "shard": [
+      "task-workflow-completed-recent-2026-05.md"
+    ],
+    "Page": [
+      "task-workflow-completed-recent-2026-05.md",
+      "workflow-parallel-04-shared-page-chrome-artifact-inventory.md"
+    ],
+    "Chrome": [
+      "task-workflow-completed-recent-2026-05.md",
+      "workflow-parallel-04-shared-page-chrome-artifact-inventory.md"
+    ],
+    "captured": [
+      "task-workflow-completed-recent-2026-05.md"
+    ],
     "create": [
       "task-workflow-completed-skill-create-ui-integration.md"
     ],
@@ -22644,6 +22678,7 @@
       "workflow-issue-730-phase11-evidence-existence-validator-artifact-inventory.md",
       "workflow-issue-747-vitest-esbuild-arch-and-worktree-isolation-artifact-inventory.md",
       "workflow-issue-748-jest-axe-primitive-a11y-integration-artifact-inventory.md",
+      "workflow-parallel-04-shared-page-chrome-artifact-inventory.md",
       "workflow-parallel-09-ux-cross-cutting-artifact-inventory.md",
       "workflow-parallel-i03-dialog-refresh-order-artifact-inventory.md",
       "workflow-skill-lifecycle-created-skill-usage-journey.md",
@@ -22746,6 +22781,7 @@
       "workflow-issue-617-ci-test-time-reduction-split-artifact-inventory.md",
       "workflow-issue-626-rb01-share-build-output-lighthouse-pr-build-artifact-inventory.md",
       "workflow-issue-747-vitest-esbuild-arch-and-worktree-isolation-artifact-inventory.md",
+      "workflow-parallel-04-shared-page-chrome-artifact-inventory.md",
       "workflow-parallel-09-ux-cross-cutting-artifact-inventory.md",
       "workflow-parallel-i03-dialog-refresh-order-artifact-inventory.md",
       "workflow-task-07-prototype-mapping-table-artifact-inventory.md",
@@ -22835,6 +22871,7 @@
       "workflow-issue-718-legacy-cf-token-revocation-artifact-inventory.md",
       "workflow-issue-730-phase11-evidence-existence-validator-artifact-inventory.md",
       "workflow-issue-747-vitest-esbuild-arch-and-worktree-isolation-artifact-inventory.md",
+      "workflow-parallel-04-shared-page-chrome-artifact-inventory.md",
       "workflow-skill-lifecycle-created-skill-usage-journey.md",
       "workflow-task-07-prototype-mapping-table-artifact-inventory.md",
       "workflow-task-07c-followup-003-audit-log-browsing-ui-artifact-inventory.md",
@@ -23174,6 +23211,7 @@
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
       "workflow-issue-526-ci-actionlint-shellcheck-gate-artifact-inventory.md",
       "workflow-issue-616-miniflare-undici-upstream-tracking-artifact-inventory.md",
+      "workflow-parallel-04-shared-page-chrome-artifact-inventory.md",
       "workflow-skill-md-codex-validation-fix-artifact-inventory.md",
       "workflow-task-03b-followup-005-sync-jobs-design-spec-artifact-inventory.md",
       "workflow-task-04a-parallel-public-directory-api-endpoints-artifact-inventory.md",
@@ -23341,6 +23379,7 @@
     ],
     "Sources": [
       "workflow-issue-533-public-profile-builder-attendance-injection-artifact-inventory.md",
+      "workflow-parallel-04-shared-page-chrome-artifact-inventory.md",
       "workflow-ui-prototype-design-system-foundation-artifact-inventory.md"
     ],
     "Re": [
@@ -23386,6 +23425,7 @@
     ],
     "Targets": [
       "workflow-issue-626-rb01-share-build-output-lighthouse-pr-build-artifact-inventory.md",
+      "workflow-parallel-04-shared-page-chrome-artifact-inventory.md",
       "workflow-task-09-w3-par-tailwind-v4-setup-artifact-inventory.md",
       "workflow-task-761-visual-full-required-status-check-artifact-inventory.md",
       "workflow-task-issue-346-08a-canonical-workflow-tree-restore-artifact-inventory.md",
@@ -23796,6 +23836,9 @@
     ],
     "pr": [
       "workflow-task-verify-indexes-up-to-date-ci-artifact-inventory.md"
+    ],
+    "Sub": [
+      "workflow-ui-prototype-design-system-foundation-artifact-inventory.md"
     ],
     "責務分離": [
       "workflow-ut-02a-attendance-profile-integration-artifact-inventory.md",

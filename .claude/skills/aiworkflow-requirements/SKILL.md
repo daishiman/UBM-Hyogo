@@ -29,7 +29,11 @@ description: |
   wrangler bundling, wrangler version mismatch, scripts/cf.sh, cf.sh wrapper,
   i18n, i18n-label-normalization, NFKC, alias-recommendation,
   alias-recommendation-score-stability, label-normalization,
-  recommendedStableKeys, stable_key_collision, 409 stable_key_collision
+  recommendedStableKeys, stable_key_collision, 409 stable_key_collision,
+  parallel-04-shared-page-chrome, root chrome, fallback boundary,
+  ToastProvider single mount, runtime source-only grep, __tests__ prune,
+  OKLch token gate, next build --webpack, parent-sub-workflow strict7 aggregation,
+  logger.error mount-once, useEffect mount-once
 allowed-tools:
   - Read
   - Glob
@@ -50,6 +54,7 @@ ubm-hyogo Web アプリプロジェクトの全仕様を管理するスキル。
 
 | Version | Date | Changes |
 | --- | --- | --- |
+| v2026.05.19-parallel-04-shared-page-chrome | 2026-05-19 | `parallel-04-shared-page-chrome` を `spec_created / implementation / VISUAL / Phase 11 evidence captured (EV-01..16)` として同期。`apps/web/app/{layout,error,not-found,loading}.tsx` を Card / EmptyState primitive + OKLch token に置換、`error.tsx` の `logger.error` を `useEffect([])` で mount-once 化、`__tests__/error.component.spec.tsx` 再 render guard test 追加。Phase 11 evidence は EV-01..09 静的 gate + EV-10..11 capture provenance + EV-12..15 root chrome / fallback PNG + EV-16 visual review。Phase 12 strict 7 は parent root `outputs/phase-12/` に集約 (parent-sub-workflow strict7 aggregation)。`ToastProvider` 単一 mount grep は `__tests__` 除外 runtime source-only に固定 (L-PARA04-001)。Next.js 16 production build は OpenNext Workers 互換のため `next build --webpack` を SSOT (L-PARA04-002)。新規 references / lessons-learned / changelog / completion shard を同 wave 反映。commit / push / PR / serial-07 19 routes 全体 visual regression は user-gated。 |
 | v2026.05.18-dev-sync-gate-metadata-fix-verify-indexes-trigger | 2026-05-18 | `feat/ut-cicd-drift-verify-indexes-trigger-recovery-sop` への dev sync で `SKILL.md` / `indexes/topic-map.md` の 2 conflict を自律解消し、CI `verify-gate-metadata` ERROR を解消するため root/output `artifacts.json` に `metadata.gates` (Gate-A passed / Gate-B passed / Gate-C pending) を追加。changelog union (HEAD entries + dev `v2026.05.18-pr795-ci-cache-token-recovery`) を採用、indexes は dev 側採用後 `pnpm indexes:rebuild`、`task-specification-creator` 側にも gate-metadata-on-merge SOP を反映。 |
 | v2026.05.17-verify-indexes-trigger-recovery-sop | 2026-05-17 | `ut-cicd-drift-impl-verify-indexes-trigger` を `implemented_local_evidence_captured / implementation / NON_VISUAL` として同期。`verify-indexes-up-to-date` trigger、pre-push 一次防衛、CI 二次防衛、`mise exec -- pnpm indexes:rebuild` 復旧 SOP、generator 管理 index と手動同期 index の境界、stable runbook anchor、source unassigned consumed trace、Phase 12 strict 7、root/output artifacts parity、quick-reference/resource-map/task-workflow-active/changelog を同一 wave で反映。commit / push / PR は user-gated。 |
 | v2026.05.16-task25-followup-loading-state-observation-fixture | 2026-05-16 | task-25 follow-up loading state observation fixture を `verified / implementation / NON_VISUAL / implementation_complete_pending_pr` として同期。`/smoke/loading-state` fixture、shared fixture guard + focused unit test、staging smoke spec、`SMOKE-COVERAGE-MATRIX.md` row 19 runtime observation、`09-ui-ux.md` fixture route正本、Phase 12 strict 7、source unassigned consumed trace、quick-reference/resource-map/task-workflow-active/artifact inventory/changelog を同一 wave で反映。remote staging smoke / commit / push / PR は user-gated。 |

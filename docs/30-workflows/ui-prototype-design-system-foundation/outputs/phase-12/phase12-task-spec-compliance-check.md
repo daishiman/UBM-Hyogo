@@ -9,7 +9,7 @@ SPEC READINESS PASS. `ui-prototype-design-system-foundation` now has root / outp
 | area | classification | note |
 |------|----------------|------|
 | `docs/30-workflows/ui-prototype-design-system-foundation/**` | implementation-spec documentation | taskType remains `implementation`; Phase 12 is spec-readiness |
-| `apps/web/**` | minimal implementation hook | AppShell data hooks, selector CSS, tag/visibility markers added |
+| `apps/web/**` | implementation delta | AppShell data hooks, selector CSS, tag/visibility markers, plus parallel-04 root fallback chrome (`layout.tsx`, `error.tsx`, `not-found.tsx`, `loading.tsx`) |
 | `packages/**` | no change | no package diff introduced |
 
 ## 3. `workflow_state` and phase status consistency
@@ -25,7 +25,13 @@ SPEC READINESS PASS. `ui-prototype-design-system-foundation` now has root / outp
 
 | Path | Status | Note |
 |------|--------|------|
-| `parallel-04-shared-page-chrome/outputs/phase-11/fallback-not-found.png` | pending | required by updated Phase 11 inventory |
+| `parallel-04-shared-page-chrome/outputs/phase-11/screenshot-plan.json` | present | capture plan updated |
+| `parallel-04-shared-page-chrome/outputs/phase-11/phase11-capture-metadata.json` | present | capture metadata updated |
+| `parallel-04-shared-page-chrome/outputs/phase-11/root-layout.png` | present | captured |
+| `parallel-04-shared-page-chrome/outputs/phase-11/fallback-error.png` | present | captured |
+| `parallel-04-shared-page-chrome/outputs/phase-11/fallback-not-found.png` | present | captured |
+| `parallel-04-shared-page-chrome/outputs/phase-11/fallback-loading.png` | present | captured |
+| `parallel-04-shared-page-chrome/outputs/phase-11/ui-sanity-visual-review.md` | present | screenshot review updated |
 | `serial-07-regression-evidence/outputs/phase-11/screenshots/top.png` | pending | required during implementation run |
 | `serial-07-regression-evidence/outputs/phase-11/screenshots/members-list.png` | pending | required during implementation run |
 | `serial-07-regression-evidence/outputs/phase-11/screenshots/member-detail.png` | pending | required during implementation run |
@@ -53,7 +59,9 @@ SPEC READINESS PASS. `ui-prototype-design-system-foundation` now has root / outp
 
 ## 7. Runtime or user-gated boundary
 
-Runtime screenshots remain pending until the implementation execution cycle. Minimal code hooks were added in this review cycle, but full 19-route blueprint binding and visual regression evidence are still tracked by the active workflow phases; this file does not claim runtime completion.
+parallel-04 fallback screenshots are captured in this cycle. Full 19-route blueprint binding and serial-07 visual regression evidence are still tracked by the active workflow phases; this file does not claim full-route runtime completion.
+
+parallel-04 keeps `visualEvidence: VISUAL` because root fallback screenshots are part of the acceptance surface. Phase 11 records EV-12..15 as present; serial-07 remains the owner for full route visual regression.
 
 ## 8. Archive/delete stale-reference gate
 

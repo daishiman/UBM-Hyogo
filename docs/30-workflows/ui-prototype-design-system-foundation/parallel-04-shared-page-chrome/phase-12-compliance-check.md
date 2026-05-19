@@ -77,7 +77,8 @@ implementation_mode: greenfield-foundation
 | 文法が合っているか | `pnpm lint` |
 | 動作が合っているか | `pnpm --filter @ubm-hyogo/web test apps/web/app/__tests__` |
 | ビルドが通るか | `pnpm --filter @ubm-hyogo/web build` |
-| 色の禁止違反がないか | `pnpm verify:design-tokens` |
+| 色の禁止違反がないか | `pnpm verify:tokens` |
+| テスト suffix が統一されているか | `test -z "$(find apps/web -name '*.test.*' -print -quit)"` |
 
 ## 7. 上位ワークフローとの関係
 
@@ -87,19 +88,31 @@ implementation_mode: greenfield-foundation
 - parallel-02: プロトタイプ独自の selector ルール
 - parallel-03: 公開／会員／管理それぞれの中枠（layout）
 
-が動いています。本サブワークフロー（parallel-04）が完了すると、残る serial-05（個別ページ）/ serial-06（API 接続）/ serial-07（最終確認）に進めます。
+が並列で動いています。本サブワークフロー（parallel-04）の実装完了後は、相互レビュー gate（ToastProvider 単一配置 / selector hook / skeleton rhythm）を通してから serial-05（個別ページ）/ serial-06（API 接続）/ serial-07（最終確認）に進めます。
 
 ## 8. リスクの平易説明
 
 | もしも… | こう対処する |
 |--------|-------------|
-| ToastProvider が 2 個になってしまったら | `grep ToastProvider apps/web/app/` で 1 件しかないことを確認 |
-| 色が直書きされていないか不安 | `pnpm verify:design-tokens` を実行。何も出力されなければ OK |
+| ToastProvider が 2 個になってしまったら | source-only grep で runtime 配置が `apps/web/app/layout.tsx` の import / render だけであることを確認 |
+| 色が直書きされていないか不安 | `pnpm verify:tokens` を実行。何も出力されなければ OK |
 | 古い browser で `viewport.themeColor` の色が出ない | 機能には影響なし。新しい browser では正しく表示される |
 
 ## 9. 完了の合図
 
 「DoD（Phase 8 参照）が全部 ✓ になり、PR を `dev` ブランチに向けて出せる状態」になったらこのサブワークフローは完了です。
+
+parallel-04 は親 workflow の `outputs/phase-12/` を Phase 12 strict 7 の正本とする。sub-workflow 単体に同名 7 ファイルを複製せず、親台帳で root / outputs artifacts parity と同時に検証する。
+
+| strict output | 正本パス | 状態 |
+|---------------|----------|------|
+| main | `docs/30-workflows/ui-prototype-design-system-foundation/outputs/phase-12/main.md` | present |
+| implementation-guide | `docs/30-workflows/ui-prototype-design-system-foundation/outputs/phase-12/implementation-guide.md` | present |
+| system-spec-update-summary | `docs/30-workflows/ui-prototype-design-system-foundation/outputs/phase-12/system-spec-update-summary.md` | present |
+| documentation-changelog | `docs/30-workflows/ui-prototype-design-system-foundation/outputs/phase-12/documentation-changelog.md` | present |
+| unassigned-task-detection | `docs/30-workflows/ui-prototype-design-system-foundation/outputs/phase-12/unassigned-task-detection.md` | present |
+| skill-feedback-report | `docs/30-workflows/ui-prototype-design-system-foundation/outputs/phase-12/skill-feedback-report.md` | present |
+| phase12-task-spec-compliance-check | `docs/30-workflows/ui-prototype-design-system-foundation/outputs/phase-12/phase12-task-spec-compliance-check.md` | present |
 
 ---
 
