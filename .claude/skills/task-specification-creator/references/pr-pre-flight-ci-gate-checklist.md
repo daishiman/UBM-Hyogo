@@ -141,3 +141,33 @@ GitHub Actions hosted runner の CPU 変動で `categories:performance` が `min
 ```
 
 詳細: `.claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-dev-sync-merge-conflict-resolution-2026-05.md` L-DEVSYNC-020。
+
+## 7. `pnpm build` fail（`apps/web/src/lib/env.ts` zod schema 評価で `ENVIRONMENT` / `NEXT_PUBLIC_API_BASE_URL` undefined）
+
+新規 PR が `apps/web/app/**` のトップレベルで env 依存 metadata を追加（`export const metadata = buildBaseMetadata()` 等）すると、CI の `pnpm build` が **`/_not-found` の "Failed to collect page data"** ZodError で fail する。`getPublicEnv()` は parse 失敗時 throw する不変条件（CLAUDE.md `apps/web` env アクセス不変条件）を持つため、env 未設定の CI ビルドでは必ず crash する。
+
+影響 CI: `Validate Build`, `build-test`, `coverage-gate-shard (web)`, `lighthouse-ci`, `visual-full (desktop/mobile/tablet)` — `pnpm build` を呼ぶ全 job。
+
+### 二段対応（両方適用が原則）
+
+1. **コード側（defense-in-depth）**: `export const metadata = ...` を `export async function generateMetadata(): Promise<Metadata> { return ...; }` に置換し、env 評価を request 時へ遅延する。
+2. **CI 環境側（必須）**: `pnpm build` を実行する全 workflow（`validate-build.yml` / `pr-build-test.yml` / `ci.yml` の `coverage-gate-shard` matrix.group=='web' / `lighthouse.yml` / `playwright-visual-full.yml` / `playwright-visual-baseline-update.yml`）の build step に `env:` で placeholder を渡す:
+
+```yaml
+env:
+  ENVIRONMENT: local
+  NEXT_PUBLIC_API_BASE_URL: http://127.0.0.1:8787
+  PUBLIC_API_BASE_URL: http://127.0.0.1:8787
+  INTERNAL_API_BASE_URL: http://127.0.0.1:8787
+  AUTH_URL: http://127.0.0.1:3000
+  SENTRY_ENVIRONMENT: local
+  SENTRY_TRACES_SAMPLE_RATE: '0'
+```
+
+real value は runtime に Cloudflare bindings (`wrangler.toml [vars]`) で上書きされるため CI ビルドでは固定 placeholder で問題ない。`pr-build-test.yml` は secret 非接触 untrusted PR workflow だが、これらは非 secret なので `env:` で渡してよい。
+
+### 事前検出
+
+PR push 前に `mise exec -- pnpm build` を local で実行し ZodError が出ないことを確認する。`apps/web/app/**/*.{tsx,ts}` でモジュールトップレベルから `getPublicEnv` / `getEnv` / `buildBaseMetadata` / `buildPageMetadata` / `getSiteUrl` を呼ぶ diff が含まれている場合は本セクションを必ず適用する。
+
+詳細: `.claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-dev-sync-merge-conflict-resolution-2026-05.md` L-DEVSYNC-025。

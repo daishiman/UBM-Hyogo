@@ -56,6 +56,18 @@ jobs:
         # `mise exec` 経由で渡ると Next.js prerender で `_not-found` が
         # `useContext` null エラーになるため、bash 内で `NODE_ENV=production` を
         # 上書きしてから pnpm build を起動する。
+        # apps/web の Next.js build は静的ページ生成時に
+        # apps/web/src/lib/env.ts の zod schema を評価するため、最低限のビルド時
+        # placeholder env（非 secret のみ）を渡す。real value は runtime に
+        # Cloudflare bindings で上書きされるため CI ビルドでは固定 placeholder で問題ない。
+        env:
+          ENVIRONMENT: local
+          NEXT_PUBLIC_API_BASE_URL: http://127.0.0.1:8787
+          PUBLIC_API_BASE_URL: http://127.0.0.1:8787
+          INTERNAL_API_BASE_URL: http://127.0.0.1:8787
+          AUTH_URL: http://127.0.0.1:3000
+          SENTRY_ENVIRONMENT: local
+          SENTRY_TRACES_SAMPLE_RATE: '0'
         run: mise exec -- bash -c 'NODE_ENV=production pnpm build'
 
       # Issue #626 (RB-01): 標準 Next.js build output (apps/web/.next/) を

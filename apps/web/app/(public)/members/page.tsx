@@ -24,12 +24,14 @@ import {
 // members=30s revalidate (AC-9)
 export const revalidate = 30;
 
-export const metadata: Metadata = buildPageMetadata({
-  title: "メンバー一覧",
-  description:
-    "UBM 兵庫支部会のメンバー紹介。職種・拠点・関心領域から探せます",
-  path: "/members",
-});
+export async function generateMetadata(): Promise<Metadata> {
+  return buildPageMetadata({
+    title: "メンバー一覧",
+    description:
+      "UBM 兵庫支部会のメンバー紹介。職種・拠点・関心領域から探せます",
+    path: "/members",
+  });
+}
 
 interface MembersPageProps {
   // Next.js 16 では searchParams は Promise になっている

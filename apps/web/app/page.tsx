@@ -25,11 +25,13 @@ import { FORM_RESPONDER_URL } from "../src/lib/constants/form";
 // stats=60s revalidate (AC-9)
 export const revalidate = 60;
 
-export const metadata: Metadata = buildPageMetadata({
-  title: "ホーム",
-  description: "UBM 兵庫支部会の活動紹介、メンバーディレクトリ、参加案内",
-  path: "/",
-});
+export async function generateMetadata(): Promise<Metadata> {
+  return buildPageMetadata({
+    title: "ホーム",
+    description: "UBM 兵庫支部会の活動紹介、メンバーディレクトリ、参加案内",
+    path: "/",
+  });
+}
 
 export default async function HomePage() {
   await connection();

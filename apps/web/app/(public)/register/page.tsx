@@ -20,12 +20,14 @@ type FormPreviewView = z.infer<typeof FormPreviewViewZ>;
 export const dynamic = "force-dynamic";
 export const revalidate = 600;
 
-export const metadata: Metadata = buildPageMetadata({
-  title: "入会案内",
-  description:
-    "UBM 兵庫支部会への入会フォーム案内。Google Form に遷移します",
-  path: "/register",
-});
+export async function generateMetadata(): Promise<Metadata> {
+  return buildPageMetadata({
+    title: "入会案内",
+    description:
+      "UBM 兵庫支部会への入会フォーム案内。Google Form に遷移します",
+    path: "/register",
+  });
+}
 
 export default async function RegisterPage() {
   let preview: FormPreviewView | null = null;
