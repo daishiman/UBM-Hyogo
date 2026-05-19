@@ -2722,6 +2722,14 @@ node scripts/list-specs.js --topics
 
 ### references/workflow-issue-748-jest-axe-primitive-a11y-integration-artifact-inventory.md
 
+### references/workflow-issue-762-cf-oidc-staging-proof-prod-cutover-artifact-inventory.md
+
+### references/workflow-issue-769-root-error-focus-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| State | L16 |
+
 ### references/workflow-light-theme-contrast-regression-guard.md
 
 | セクション | 行 |
@@ -3317,6 +3325,15 @@ node scripts/list-specs.js --topics
 | Workflow Artifacts | L13 |
 | Runtime Captured Artifacts | L25 |
 | Boundary | L36 |
+
+### references/workflow-task-761-visual-full-required-status-check-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Metadata | L3 |
+| Workflow Artifacts | L13 |
+| Implementation Targets | L24 |
+| Runtime Boundary | L30 |
 
 ### references/workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md
 
@@ -3955,12 +3972,13 @@ node scripts/list-specs.js --topics
 |------------|----|
 | Current contract | L3 |
 | Required status checks | L7 |
-| Invariants | L16 |
-| Issue #554 runbook | L28 |
-| Branch-specific drift rule（E2E Stage 3c / 2026-05-10） | L44 |
-| 3-state vocabulary（runtime mutation 系） | L62 |
-| Stage 3c required contexts target（2026-05-10） | L81 |
-| References | L92 |
+| Invariants | L19 |
+| Issue #554 runbook | L31 |
+| Branch-specific drift rule（E2E Stage 3c / 2026-05-10） | L47 |
+| 3-state vocabulary（runtime mutation 系） | L65 |
+| Stage 3c required contexts target（2026-05-10） | L84 |
+| Task #761 visual-full required contexts target（2026-05-17） | L95 |
+| References | L113 |
 
 ### references/cloudflare-edge-security.md
 
@@ -4092,16 +4110,16 @@ node scripts/list-specs.js --topics
 | 並列実行の活用 | L127 |
 | CD ワークフロー要件（dev / main マージ時） | L183 |
 | Backend ワークフロー要件（dev / main マージ時） | L213 |
-| モニタリングとアラート | L239 |
-| GitHub Secrets の要件 | L273 |
-| Issue #638 CLOUDFLARE_PAGES_PROJECT deletion current state | L301 |
-| UT-27: GitHub Secrets / Variables 配置決定（2026-04-29） | L323 |
-| Workflow lint scope の不変条件（CI recovery / 2026-05-09） | L345 |
-| setup-project cache input 不変条件（PR #795 residual CI recovery / 2026-05-18） | L356 |
-| Failure cascade 抑止 pattern（CI recovery / 2026-05-09） | L366 |
-| Lessons learned (PR #795 由来 / 2026-05-18) | L387 |
-| Post-release dashboard automation (Issue #351 / 2026-05-05) | L393 |
-| post-release-30day-auto-summary | L430 |
+| モニタリングとアラート | L241 |
+| GitHub Secrets の要件 | L275 |
+| Issue #638 CLOUDFLARE_PAGES_PROJECT deletion current state | L303 |
+| UT-27: GitHub Secrets / Variables 配置決定（2026-04-29） | L325 |
+| Workflow lint scope の不変条件（CI recovery / 2026-05-09） | L347 |
+| setup-project cache input 不変条件（PR #795 residual CI recovery / 2026-05-18） | L358 |
+| Failure cascade 抑止 pattern（CI recovery / 2026-05-09） | L368 |
+| Lessons learned (PR #795 由来 / 2026-05-18) | L389 |
+| Post-release dashboard automation (Issue #351 / 2026-05-05) | L395 |
+| post-release-30day-auto-summary | L432 |
 
 ### references/deployment-history.md
 
@@ -4118,15 +4136,15 @@ node scripts/list-specs.js --topics
 | 管理場所の判断フロー | L51 |
 | Cloudflare Secrets（ランタイム） | L68 |
 | GitHub Secrets / Variables（CI/CD 用） | L134 |
-| wrangler.toml の環境別設定 | L268 |
-| ローカル開発での設定 | L300 |
-| Cloudflare CLI ラッパー: `scripts/cf.sh`（UT-06 派生 / 2026-04-27） | L339 |
-| セキュリティ原則 | L373 |
-| Cloudflare API Token の作成手順 | L384 |
-| Cloudflare API Token 90 日 rotation runbook（Issue #407 / 2026-05-06） | L399 |
-| UT-27: GitHub Secrets / Variables 同期運用（2026-04-29） | L510 |
-| U-FIX-CF-ACCT-01-DERIV-02: Cloudflare deploy token split | L559 |
-| 変更履歴 | L581 |
+| wrangler.toml の環境別設定 | L288 |
+| ローカル開発での設定 | L320 |
+| Cloudflare CLI ラッパー: `scripts/cf.sh`（UT-06 派生 / 2026-04-27） | L359 |
+| セキュリティ原則 | L393 |
+| Cloudflare API Token の作成手順 | L404 |
+| Cloudflare API Token 90 日 rotation runbook（Issue #407 / 2026-05-06） | L419 |
+| UT-27: GitHub Secrets / Variables 同期運用（2026-04-29） | L530 |
+| U-FIX-CF-ACCT-01-DERIV-02: Cloudflare deploy token split | L579 |
+| 変更履歴 | L601 |
 
 ### references/deployment.md
 
@@ -6937,14 +6955,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L1621 |
-| フェーズ構造（概要） | L1630 |
-| 品質ゲート（概要） | L1661 |
-| 出力テンプレート | L1672 |
-| 実行時のコマンド・エージェント・スキル | L1695 |
-| 昇格パターン集 | L1719 |
-| Current Active / Spec Created Tasks | L1721 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L1871 |
+| ドキュメント構成 | L1652 |
+| フェーズ構造（概要） | L1661 |
+| 品質ゲート（概要） | L1692 |
+| 出力テンプレート | L1703 |
+| 実行時のコマンド・エージェント・スキル | L1726 |
+| 昇格パターン集 | L1750 |
+| Current Active / Spec Created Tasks | L1752 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L1903 |
 
 ### references/task-workflow-backlog-part2.md
 

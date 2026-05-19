@@ -1,0 +1,93 @@
+{
+  "schemaVersion": 1,
+  "metadata": {
+    "id": "UT-CICD-DRIFT-IMPL-VERIFY-INDEXES-TRIGGER",
+    "taskType": "implementation",
+    "docsOnly": false,
+    "visualEvidence": "NON_VISUAL",
+    "implementation_mode": "implemented_local",
+    "workflow_state": "implemented_local_evidence_captured",
+    "github_issue": 289,
+    "github_issue_state": "closed",
+    "parent_task": "UT-CICD-DRIFT",
+    "priority": "LOW",
+    "scale": "small",
+    "created_at": "2026-04-29",
+    "updated_at": "2026-05-17",
+    "scope": "verify_indexes_trigger_recovery_sop",
+    "phase13_state": "blocked_pending_user_approval",
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-05-17T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/ut-cicd-drift-impl-verify-indexes-trigger/outputs/phase-3/design.md",
+        "approver": "daishiman",
+        "notes": "spec_review: Phase 1-3 scope/inventory/design"
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "passed",
+        "passed_at": "2026-05-17T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/ut-cicd-drift-impl-verify-indexes-trigger/outputs/phase-10/ac-verification.md",
+        "approver": "daishiman",
+        "notes": "implementation_review: Phase 10 AC verification + Phase 11 manual smoke + Phase 12 strict 7"
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/ut-cicd-drift-impl-verify-indexes-trigger/outputs/phase-13/diff-to-pr.md",
+        "approver": "daishiman",
+        "notes": "external_ops: PR merge to dev (PR #796)"
+      }
+    ]
+  },
+  "task": {
+    "id": "UT-CICD-DRIFT-IMPL-VERIFY-INDEXES-TRIGGER",
+    "name": "Verify indexes trigger and recovery runbook",
+    "task_path": "docs/30-workflows/ut-cicd-drift-impl-verify-indexes-trigger",
+    "status": "implemented_local_evidence_captured",
+    "depends_on": ["#58", "UT-CICD-DRIFT"],
+    "blocks": []
+  },
+  "implementation_targets": [
+    "docs/00-getting-started-manual/lefthook-operations.md",
+    "lefthook.yml",
+    "scripts/hooks/indexes-drift-guard.sh"
+  ],
+  "evidence": [
+    "outputs/phase-10/ac-verification.md",
+    "outputs/phase-11/manual-smoke-log.md",
+    "outputs/phase-12/main.md",
+    "outputs/phase-12/implementation-guide.md",
+    "outputs/phase-12/system-spec-update-summary.md",
+    "outputs/phase-12/documentation-changelog.md",
+    "outputs/phase-12/unassigned-task-detection.md",
+    "outputs/phase-12/skill-feedback-report.md",
+    "outputs/phase-12/phase12-task-spec-compliance-check.md"
+  ],
+  "phases": [
+    { "phase": 1, "name": "課題定義・スコープ確認", "status": "completed", "outputs": ["outputs/phase-1/scope.md"] },
+    { "phase": 2, "name": "現状調査・既存資産インベントリ", "status": "completed", "outputs": ["outputs/phase-2/inventory.md"] },
+    { "phase": 3, "name": "設計", "status": "completed", "outputs": ["outputs/phase-3/design.md"] },
+    { "phase": 4, "name": "タスク分解", "status": "completed", "outputs": ["outputs/phase-4/wbs.md"] },
+    { "phase": 5, "name": "編集対象ファイル一覧", "status": "completed", "outputs": ["outputs/phase-5/edit-targets.md"] },
+    { "phase": 6, "name": "文章ドラフト", "status": "completed", "outputs": ["outputs/phase-6/draft.md"] },
+    { "phase": 7, "name": "リンク整合性チェック方針", "status": "completed", "outputs": ["outputs/phase-7/link-check.md"] },
+    { "phase": 8, "name": "Before/After 差分プレビュー", "status": "completed", "outputs": ["outputs/phase-8/before-after.md"] },
+    { "phase": 9, "name": "レビュー観点", "status": "completed", "outputs": ["outputs/phase-9/review.md"] },
+    { "phase": 10, "name": "受入条件検証", "status": "completed", "outputs": ["outputs/phase-10/ac-verification.md"] },
+    { "phase": 11, "name": "NON_VISUAL evidence", "status": "completed", "outputs": ["outputs/phase-11/manual-smoke-log.md"] },
+    { "phase": 12, "name": "正本同期", "status": "completed", "outputs": [
+      "outputs/phase-12/main.md",
+      "outputs/phase-12/implementation-guide.md",
+      "outputs/phase-12/system-spec-update-summary.md",
+      "outputs/phase-12/documentation-changelog.md",
+      "outputs/phase-12/unassigned-task-detection.md",
+      "outputs/phase-12/skill-feedback-report.md",
+      "outputs/phase-12/phase12-task-spec-compliance-check.md"
+    ] },
+    { "phase": 13, "name": "PR作成", "status": "blocked_pending_user_approval", "outputs": ["outputs/phase-13/diff-to-pr.md"] }
+  ]
+}
