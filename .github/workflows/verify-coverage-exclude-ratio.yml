@@ -16,7 +16,7 @@ on:
 
 permissions:
   contents: read
-  pull-requests: read
+  pull-requests: write
   issues: write
 
 jobs:
@@ -37,6 +37,7 @@ jobs:
           echo "status=$(jq -r .status coverage-exclude-ratio.json)" >> "$GITHUB_OUTPUT"
 
       - if: steps.measure.outputs.status == 'warn'
+        continue-on-error: true
         uses: actions/github-script@v7
         with:
           script: |
@@ -44,27 +45,31 @@ jobs:
             const ratio = Number('${{ steps.measure.outputs.ratio }}');
             const pct = (ratio * 100).toFixed(1);
             const body = `${marker}\ncoverage.exclude ratio for \`apps/web/app\` is ${pct}% (threshold: 30%). See \`docs/30-workflows/runbooks/e2e-coverage-fallback-metric.md\`.`;
-            const comments = await github.paginate(github.rest.issues.listComments, {
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              issue_number: context.issue.number,
-              per_page: 100,
-            });
-            const existing = comments.find((comment) => comment.body?.includes(marker));
-            if (existing) {
-              await github.rest.issues.updateComment({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                comment_id: existing.id,
-                body,
-              });
-            } else {
-              await github.rest.issues.createComment({
+            try {
+              const comments = await github.paginate(github.rest.issues.listComments, {
                 owner: context.repo.owner,
                 repo: context.repo.repo,
                 issue_number: context.issue.number,
-                body,
+                per_page: 100,
               });
+              const existing = comments.find((comment) => comment.body?.includes(marker));
+              if (existing) {
+                await github.rest.issues.updateComment({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  comment_id: existing.id,
+                  body,
+                });
+              } else {
+                await github.rest.issues.createComment({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  issue_number: context.issue.number,
+                  body,
+                });
+              }
+            } catch (error) {
+              core.warning(`Failed to post coverage-exclude-ratio comment: ${error.message}. This is non-fatal; the measurement artifact is still uploaded.`);
             }
 
       - uses: actions/upload-artifact@v4
