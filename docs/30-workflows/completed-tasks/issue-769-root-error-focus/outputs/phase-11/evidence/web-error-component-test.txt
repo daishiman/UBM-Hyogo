@@ -1,0 +1,8 @@
+Command: mise exec -- pnpm -F "@ubm-hyogo/web" test -- --run error.component
+Result: exit 0
+
+Summary:
+- The package script forwarded arguments after the app path and ran the web suite.
+- Test Files: 89 passed, 1 skipped (90)
+- Tests: 618 passed, 1 skipped (619)
+- `apps/web/app/__tests__/error.component.spec.tsx`: 13 tests passed, including TC-U-09a/b/c.
