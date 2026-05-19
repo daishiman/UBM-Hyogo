@@ -8,6 +8,21 @@
 
 本ドキュメントは、複雑なタスクを単一責務の原則に基づいて分解し、各サブタスクに最適なスラッシュコマンド・エージェント・スキルの組み合わせを選定するためのガイドラインを定義する。
 
+### Issue #770 profile loading skeleton（2026-05-17）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_runtime_pending / implementation / VISUAL / Phase 12 strict 7 present` |
+| 成果物 | `docs/30-workflows/issue-770-profile-loading-skeleton/` |
+| source | `docs/30-workflows/unassigned-task/integration-fixes-i07-profile-loading-skeleton.md` consumed |
+| parent | `docs/30-workflows/ui-prototype-alignment-mvp-recovery/improvements/integration-fixes/parallel-i07-profile-loading-skeleton/spec.md` |
+| 目的 | `/profile/loading.tsx` を text placeholder から OKLch token skeleton に置換し、parallel-07 §4.5 を local 達成する |
+| 実装 | `apps/web/app/profile/loading.tsx`, `apps/web/app/profile/loading.spec.tsx` |
+| 不変条件 | API / D1 schema / deployment contract 変更なし。`bg-surface-2` token utility と `.spec.tsx` 命名を維持 |
+| evidence | focused local command evidence / Phase 12 strict 7 |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-770-profile-loading-skeleton-artifact-inventory.md` |
+| user gate | authenticated browser screenshot / staging runtime visual evidence / commit / push / PR |
+
 ### Issue #769 root error h1 auto-focus（2026-05-17）
 
 | 項目 | 値 |

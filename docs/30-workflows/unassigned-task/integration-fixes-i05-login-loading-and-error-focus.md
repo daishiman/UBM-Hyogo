@@ -10,9 +10,12 @@
 | 対象機能     | `apps/web/app/login/loading.tsx`（新規） / `apps/web/app/login/error.tsx`（修正）                |
 | 優先度       | 高                                                                                              |
 | 見積もり規模 | 小規模                                                                                          |
-| ステータス   | pending                                                                                         |
+| ステータス   | consumed                                                                                        |
+| canonical_workflow | `docs/30-workflows/issue-768-login-loading-and-error-focus/`                              |
+| consumed_by | Issue #768 canonical workflow                                                                    |
 | 発見元       | improvements integration-fixes 接続検証（parallel-07 DoD line 141, 142 未達）                   |
 | 発見日       | 2026-05-16                                                                                      |
+| consumed日   | 2026-05-18                                                                                      |
 
 ## Canonical Workflow Status
 
@@ -20,6 +23,7 @@
 - 親 spec: `docs/30-workflows/ui-prototype-alignment-mvp-recovery/improvements/integration-fixes/parallel-i05-login-loading-and-error-focus/spec.md`
 - 親 index: `docs/30-workflows/ui-prototype-alignment-mvp-recovery/improvements/integration-fixes/index.md`
 - 親 workflow 状態: `spec_ready_implementation_pending`
+- consumed_by: Issue #768 canonical workflow (`docs/30-workflows/issue-768-login-loading-and-error-focus/`)
 - 関連実装（未着手）:
   - `apps/web/app/login/loading.tsx`（不在 → 新規）
   - `apps/web/app/login/error.tsx`（focus 管理 / Card layout / aria-live=assertive 未適用）
