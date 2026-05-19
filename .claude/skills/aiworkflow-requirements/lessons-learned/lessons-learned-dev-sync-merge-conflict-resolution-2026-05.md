@@ -352,3 +352,19 @@
 
 - task-specification-creator skill: 本 Lessons Learned は SKILL.md / changelog / references の conflict 解消にもそのまま適用される。Phase 12 で `artifacts.json` を出力する際は L-DEVSYNC-006 の status enum / passed_at / approver / evidence_path を必ず満たす。L-DEVSYNC-008 の "最新 N 件" 規約、L-DEVSYNC-011 の fact migration 判定、L-DEVSYNC-012 の追記型衝突両側採用ルールはいずれも `task-specification-creator/SKILL.md` / 配下 references / changelog 衝突に適用する。L-DEVSYNC-015 の native binary version bump 二段復旧、L-DEVSYNC-018 の resolver 対象外ファイル手動 union は dev sync prompt の自律修復に組み込む。L-DEVSYNC-019 の root/outputs `artifacts.json` への `metadata.gates` 生成時付与は task-specification-creator skill Phase 12 template に組み込む。
 - aiworkflow-requirements skill: indexes 再生成は本 skill 配下で完結する。L-DEVSYNC-012 適用後は必ず `pnpm indexes:rebuild` を実行し JSON validity を検証する。L-DEVSYNC-018 は本 skill 配下 `LOGS/_legacy.md` の自律 union 解消に直接適用される。L-DEVSYNC-023 は `lefthook.yml` / `.github/workflows/*.yml` の hook 実装が inline→外部 script へ進化した case の 3-way conflict 解消（外部 script 採用＋HEAD 側付加ロジック統合）に適用する。L-DEVSYNC-024 は `apps/**` / `packages/**` の `.ts` / `.tsx` import block conflict に適用し、`task-specification-creator` の dev sync prompt の自律解消手順にも組み込む（手動解消対象として明示）。L-DEVSYNC-025 は新規 PR が `apps/web/app/**` のトップレベルで env 依存 metadata（OGP/sitemap/robots 系）を追加した場合の CI build 失敗パターンで、`generateMetadata` 化＋全 build workflow への placeholder env 注入の二段対応を `pr-pre-flight-ci-gate-checklist.md` に組み込む。
+
+## L-DEVSYNC-026: worktree stale `index.lock` 復旧 / HEAD ブロックが already-merged 行と重複する duplicate-row collapse（2026-05-19 追加）
+
+- 症状A (stale lock): `fix/parallel-i06-root-error-focus` ← dev sync-merge で `pnpm sync:resolve` の `--ours + rebuild` 段直前に `fatal: Unable to create '.../worktrees/<wt>/index.lock': File exists.` で失敗。worktree 環境では `.git` はテキストファイル（`gitdir: ...`）のため、メイン repo の `.git/index.lock` を消しても worktree の lock は残置されたまま。
+- 症状B (duplicate-row): 同 sync-merge で `docs/30-workflows/ui-prototype-alignment-mvp-recovery/improvements/integration-fixes/index.md` に 3-way diff block が 2 箇所発生。HEAD 側の追加行（`i06 implemented_local_evidence_captured`）が、conflict block の直前行に **既出**（`docs/30-workflows/issue-769-root-error-focus/` を参照する正本 row）。L-DEVSYNC-012 の「両側採用」を機械適用すると i06 row が二重化する。
+- 解消:
+  1. **stale lock 自動復旧**: `GITDIR=$(git rev-parse --git-dir); rm -f "$GITDIR/index.lock"` を発行。`git rev-parse --git-dir` は worktree でも実 git dir（`.git/worktrees/<wt>/`）を返すため、worktree でもメイン repo でも単一コマンドで復旧可能。lock 自体は前 resolver の中断残置で別 git プロセスではない（30 分以内でも安全に削除可）。
+  2. **duplicate-row collapse**: conflict block 内 HEAD 行を 1 行ずつ `git diff dev...HEAD --diff-filter=AM -- <file>` の HEAD 側 hunk と、conflict marker 直前の merged 領域に対し grep 検出。既出と判定したら HEAD ブロックを破棄し dev ブロックのみ採用。新規行のみであれば従来通り両側採用。
+- Why:
+  - worktree 環境では `.git` はメインリポジトリへのリダイレクトファイル。lock の物理 path はメイン repo `.git/worktrees/<wt>/index.lock` で、`git rev-parse --git-dir` 経由でしか worktree-aware に解決できない。直リンクの `.git/index.lock` 削除は worktree では効果なし。
+  - HEAD ブロックが既出行と重複する典型 case は、feature ブランチ側で「分散して書いた同情報の集約 commit」と「同情報を dev 側で既に integration 済み」が両立した場合。両側採用すると downstream で table 行が二重化し人間 reviewer / index re-generator が混乱する。
+- How to apply:
+  - dev sync prompt 自律判断ルール B（コンフリクト解消方針）に以下を追加:
+    - B-7「stale `index.lock` 自動復旧」: `pnpm sync:resolve` / `git merge` が `Unable to create '.../index.lock'` で失敗したら `rm -f "$(git rev-parse --git-dir)/index.lock"` を実行し再試行（worktree-aware path 解決必須）。
+    - B-8「duplicate-row collapse」: 3-way diff block の HEAD 行が conflict marker 直前の merged 領域に grep で検出可能なら HEAD ブロックを破棄、dev ブロックのみ採用。新規行のみなら従来通り両側採用（L-DEVSYNC-012）。
+- 事例: 2026-05-19 `fix/parallel-i06-root-error-focus` ← dev sync-merge で `improvements/integration-fixes/index.md` line 24-31 / 90-97 の 3-way block 2 箇所を duplicate-row collapse で解消、stale `index.lock` を `git rev-parse --git-dir` 経由で復旧。
