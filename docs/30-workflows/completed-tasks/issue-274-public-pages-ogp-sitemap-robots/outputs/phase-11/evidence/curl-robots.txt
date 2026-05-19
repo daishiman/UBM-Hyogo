@@ -1,0 +1,13 @@
+User-Agent: *
+Allow: /
+Allow: /members
+Allow: /members/
+Allow: /register
+Disallow: /admin
+Disallow: /admin/
+Disallow: /profile
+Disallow: /login
+Disallow: /api
+
+Host: ubm-hyogo-web.daishimanju.workers.dev
+Sitemap: https://ubm-hyogo-web.daishimanju.workers.dev/sitemap.xml

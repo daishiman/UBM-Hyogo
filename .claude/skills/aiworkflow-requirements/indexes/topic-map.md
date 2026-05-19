@@ -2312,6 +2312,27 @@ node scripts/list-specs.js --topics
 | Branch-level deletion check | L101 |
 | Downstream task: issue-195-sync-jobs-contract-schema-consolidation-001（2026-05-04） | L105 |
 
+### references/workflow-issue-256-e2e-coverage-baseline-runbook-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Canonical Workflow | L3 |
+| Canonical Paths | L9 |
+| Implementation Targets | L23 |
+| Classification | L35 |
+| Runtime Boundary | L41 |
+| Consumed / Superseded Trace | L47 |
+| Lessons Learned | L53 |
+
+### references/workflow-issue-274-public-pages-ogp-sitemap-robots-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Workflow | L3 |
+| Implementation Targets | L11 |
+| Evidence Boundary | L24 |
+| Captured Evidence | L27 |
+
 ### references/workflow-issue-290-workflow-lint-gate-artifact-inventory.md
 
 | セクション | 行 |
@@ -4413,15 +4434,15 @@ node scripts/list-specs.js --topics
 
 | セクション | 行 |
 |------------|----|
-| 概要 | L23 |
-| 使い方 | L31 |
-| Current Alias Overrides（個別互換行） | L38 |
-| Family Summary | L84 |
-| Detailed Register | L105 |
-| Section Extract Register (2026-03-17) | L286 |
-| 500-Line Split Register (2026-03-16) | L297 |
-| Fragment Migration Register (2026-04-28) | L319 |
-| Task Root Path Drift Register (2026-04-30 追記) | L346 |
+| 概要 | L24 |
+| 使い方 | L32 |
+| Current Alias Overrides（個別互換行） | L39 |
+| Family Summary | L85 |
+| Detailed Register | L106 |
+| Section Extract Register (2026-03-17) | L287 |
+| 500-Line Split Register (2026-03-16) | L298 |
+| Fragment Migration Register (2026-04-28) | L320 |
+| Task Root Path Drift Register (2026-04-30 追記) | L347 |
 
 ### references/lessons-fetch-service-binding-testing.md
 
@@ -4911,6 +4932,18 @@ node scripts/list-specs.js --topics
 | OP-ISSUE195FU002-1: 同一 wave 同期の漏れ無し基準（governance docs-only 版） | L69 |
 | OP-ISSUE195FU002-2: current canonical deletion 検知の運用 | L80 |
 | 再確認・適用記録: issue-195-sync-jobs-contract-schema-consolidation-001（2026-05-04） | L89 |
+
+### references/lessons-learned-issue-274-public-pages-ogp-sitemap-robots-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| L-274-001: site URL を `ENVIRONMENT` キーの SSOT に集約した | L10 |
+| L-274-002: sitemap の paginated 取得は失敗時に静的サブセットで縮退する | L30 |
+| L-274-003: `robots.ts` は `getPublicEnv()` 経由で env-branch する | L49 |
+| L-274-004: OG image route は `runtime = "edge"` を明示する | L66 |
+| L-274-005: 起票元 unassigned 2 件は consumed trace として保持する | L83 |
+| L-274-006: `issue-NNN` namespace は legacy-ordinal-family-register の table 行追加不要 | L102 |
+| 参照 | L119 |
 
 ### references/lessons-learned-issue-290-workflow-lint-gate-2026-05.md
 
@@ -6991,14 +7024,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L1701 |
-| フェーズ構造（概要） | L1710 |
-| 品質ゲート（概要） | L1741 |
-| 出力テンプレート | L1752 |
-| 実行時のコマンド・エージェント・スキル | L1775 |
-| 昇格パターン集 | L1799 |
-| Current Active / Spec Created Tasks | L1801 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L1952 |
+| ドキュメント構成 | L1715 |
+| フェーズ構造（概要） | L1724 |
+| 品質ゲート（概要） | L1755 |
+| 出力テンプレート | L1766 |
+| 実行時のコマンド・エージェント・スキル | L1789 |
+| 昇格パターン集 | L1813 |
+| Current Active / Spec Created Tasks | L1815 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L1967 |
 
 ### references/task-workflow-backlog-part2.md
 

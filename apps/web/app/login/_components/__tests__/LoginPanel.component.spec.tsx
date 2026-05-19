@@ -28,9 +28,9 @@ describe("LoginPanel / 6 状態", () => {
     render(<LoginPanel state="input" redirect="/profile" />);
     expect(screen.getByLabelText("メールアドレス")).toBeTruthy();
     expect(screen.getByRole("button", { name: /google/i })).toBeTruthy();
-    expect(screen.getByRole("link", { name: "こちら" }).getAttribute("href")).toBe(
-      "/register",
-    );
+    expect(
+      screen.getByRole("link", { name: "会員登録ページから新規登録" }).getAttribute("href"),
+    ).toBe("/register");
   });
 
   it("input + gate=admin_required: warn Banner が出る", () => {
