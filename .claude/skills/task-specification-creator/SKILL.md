@@ -8,6 +8,7 @@ description: |
   • DDD / 適用: ユビキタス言語 / 目的: 用語統一
   Trigger:
   タスク仕様書作成, タスク分解, ワークフロー設計, Phase実行, インテグレーション設計, ワークフローパッケージ, Cloudflare Workers, Web API設計, 外部連携パッケージ, completed-tasks 移動, task path normalization, docs-only spec_created, phase12 compliance ci gate, verify-phase12-compliance, Phase 12 canonical heading SSOT, recovery workflow, recovery-mode, since-filter, evidence-step parity gate, max-2-cycle guard, D'+0 reset, conditional-implementation, unsupported-path-gate, primary-source-snapshot-gate, verified_current_no_code_change_pending_pr, stale-claim grep, workflow-path-existence-gate, infra-diff state gate, cloudflare alert policy IaC, kv usage monitoring, runbook implementation diff, tests/fixtures dirty diff gate, fallback retirement, dual-environment coverage gate, physical deletion 2-stage, lookup contract sync, phase11 evidence existence, missing-evidence, parse-phase11-evidence, phase11 evidence inventory parser, evidence existence validator, path traversal evidence guard, branch-sync skill reflection, unassigned-task pre-flight gate, unassigned-task batch verification, missing-required-section
+  タスク仕様書作成, タスク分解, ワークフロー設計, Phase実行, インテグレーション設計, ワークフローパッケージ, Cloudflare Workers, Web API設計, 外部連携パッケージ, completed-tasks 移動, task path normalization, docs-only spec_created, phase12 compliance ci gate, verify-phase12-compliance, Phase 12 canonical heading SSOT, recovery workflow, recovery-mode, since-filter, evidence-step parity gate, max-2-cycle guard, D'+0 reset, conditional-implementation, unsupported-path-gate, primary-source-snapshot-gate, verified_current_no_code_change_pending_pr, stale-claim grep, workflow-path-existence-gate, infra-diff state gate, cloudflare alert policy IaC, kv usage monitoring, runbook implementation diff, tests/fixtures dirty diff gate, fallback retirement, dual-environment coverage gate, physical deletion 2-stage, lookup contract sync, phase11 evidence existence, missing-evidence, parse-phase11-evidence, phase11 evidence inventory parser, evidence existence validator, path traversal evidence guard, branch-sync skill reflection, coverage exclude ratio gate, e2e coverage fallback metric, playwright smoke route SLA, runbook SLA baseline
 allowed-tools:
   - Read
   - Write
@@ -127,7 +128,7 @@ Phase 12 は次の **6 必須タスク** を実行し、最低 7 ファイルを
 5. スキルフィードバックレポート作成（**改善点なしでも出力必須**。章立ては「テンプレ改善 / ワークフロー改善 / ドキュメント改善」の 3 観点固定）
 6. タスク仕様書コンプライアンスチェック（`outputs/phase-12/phase12-task-spec-compliance-check.md`）
 
-詳細仕様（Part 1/2 セルフチェック・Step 1-A〜1-D ルール・`spec_created` close-out・docs-only → code 再判定）は [references/phase-12-spec.md](references/phase-12-spec.md)。`spec_created` / docs-only / NON_VISUAL は root workflow state を据え置き、Phase status と 7 ファイル実体・current/baseline 監査値で検証する。よくある漏れ（UBM-009〜017 含む）と苦戦防止 Tips は [references/phase-12-pitfalls.md](references/phase-12-pitfalls.md)。
+詳細仕様（Part 1/2 セルフチェック・Step 1-A〜1-D ルール・`spec_created` close-out・docs-only → code 再判定）は [references/phase-12-spec.md](references/phase-12-spec.md)。`spec_created` / docs-only / NON_VISUAL は root workflow state を据え置き、Phase status と 7 ファイル実体・current/baseline 監査値で検証する。よくある漏れ（UBM-009〜017 含む）と苦戦防止 Tips は [references/phase-12-pitfalls.md](references/phase-12-pitfalls.md)。**parallel sub-workflow（`parallel-NN-*/` を持つ workflow）では root と各 sub の両方で canonical 9 headings / strict 7 outputs / Phase 12 compliance-check を保持する**（詳細: [references/patterns-parallel-sub-workflow.md](references/patterns-parallel-sub-workflow.md)）。
 
 ## 重要ルール（要約）
 
@@ -171,6 +172,8 @@ Phase 12 は次の **6 必須タスク** を実行し、最低 7 ファイルを
 | NON_VISUAL 不可逆操作タスク（3-gate 分離 / migration literal / SSOT リテラル禁則 / runtime spec_created 起票） | [references/non-visual-irreversible-task-rules.md](references/non-visual-irreversible-task-rules.md) |
 | Live wiring タスク運用パターン（Cloudflare scheduled retry-after 制約 / redact-safe 4 layer grep gate / fingerprintVersion による salt rotation 分離 / Cloudflare Secrets op 参照 / Phase ごと足し算チェックリスト） | [references/patterns-live-wiring.md](references/patterns-live-wiring.md) |
 | Completed Tasks Path Normalization（Phase 13 完了後の `completed-tasks/<category>/` 移動 / `Refs #XXX` 連結 / metadata 据え置き） | [references/completed-tasks-policy.md](references/completed-tasks-policy.md) |
+| parallel sub-workflow 構造（root / sub artifacts.json 二重構造 / `sub_workflow` フィールド / Phase 11-12 outputs parity / `parallel-NN-*` vs `serial-NN-*` 命名 / VISUAL_ON_EXECUTION の sub→serial 集約） | [references/patterns-parallel-sub-workflow.md](references/patterns-parallel-sub-workflow.md) |
+| prototype-driven CSS 移植（`claude-design-prototype` SSOT / `@layer components` 末尾追加 / `tokens.css` 色責務 と `globals.css` rhythm 責務の SRP / HEX 直書き禁止 と `verify-design-tokens` CI gate） | [references/patterns-prototype-driven-css.md](references/patterns-prototype-driven-css.md) |
 
 ## 最小 workflow
 

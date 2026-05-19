@@ -1,0 +1,16 @@
+{
+  "workflow": "step-05-dashboard-chart-implementation",
+  "visualEvidence": "VISUAL_ON_EXECUTION",
+  "screenshots": [
+    {
+      "path": "outputs/phase-11/screenshots/admin-dashboard-placeholder.png",
+      "state": "placeholder",
+      "status": "present-placeholder-copy"
+    },
+    {
+      "path": "outputs/phase-11/screenshots/admin-dashboard-chart.png",
+      "state": "component-chart",
+      "status": "present-placeholder-copy-runtime-user-gated"
+    }
+  ]
+}

@@ -33,7 +33,7 @@ export async function runManualSync(
     now: deps.now ?? (() => new Date()),
     newId: deps.newId ?? (() => crypto.randomUUID()),
   };
-  return withSyncMutex(auditDeps, "manual", async () => {
+  return withSyncMutex(auditDeps, "admin", async () => {
     return runFetchMapUpsert(env, deps);
   });
 }

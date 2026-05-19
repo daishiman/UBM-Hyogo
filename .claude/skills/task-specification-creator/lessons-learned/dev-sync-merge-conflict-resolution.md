@@ -139,5 +139,12 @@
 - Why: 新規 task では `git diff` で必ず両 artifacts.json が変更扱いになるため、`metadata.gates` 不在は merge 直前まで気付かず PR DIRTY / CI fail のリードタイム要因になる。spec 生成テンプレート段階で 3-gate skeleton を埋め込むことで recurring fail を抑止する。
 - 詳細は aiworkflow-requirements 配下の L-DEVSYNC-018 を参照。
 
+### SP-DEVSYNC-021: `lefthook.yml` の inline run ⇔ 外部 script 進化 case の 3-way conflict 解消（2026-05-19 追加）
+- 症状: dev sync で `lefthook.yml` の同一 hook（例: `pre-push.verify-esbuild`）が conflict。HEAD 側は inline `run: |` ブロック、dev 側は外部 script 切り出し + sync-merge skip 内蔵という **段階の異なる実装**。両側 union すると YAML 構造（同一キー重複）が破壊される。
+- 解消: **外部 script 側を正本採用**し、`lefthook.yml` は `run: bash scripts/hooks/<guard>.sh` 1 行に収束。HEAD 側 inline の付加ロジック（例: mise-aware node 解決 / 追加 env / 追加 verify）は **script 本体へ統合**する。
+- 自動化可否: YAML structured config は L-DEVSYNC-001 の table-union ルール対象外。手動 merge 必須。`pnpm sync:resolve` も非対応。
+- 適用判断: `lefthook.yml` / `.github/workflows/*.yml` / `*.json` 等の structured config で「inline → 外部 script への切り出し」が片側で行われ、他方に未統合の付加ロジックがある case。
+- 詳細は aiworkflow-requirements 配下の L-DEVSYNC-023 を参照。
+
 ### SP-DEVSYNC-020: 共通の正本リンク
-- 詳細は [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] （aiworkflow-requirements 配下、L-DEVSYNC-001..019）を参照。
+- 詳細は [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] （aiworkflow-requirements 配下、L-DEVSYNC-001..023）を参照。

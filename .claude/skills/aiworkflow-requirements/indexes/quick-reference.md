@@ -31,6 +31,46 @@
 | lessons-learned | `references/lessons-learned-d1-batch-atomicity-and-soft-delete-2026-05.md` |
 | 苦戦箇所 | If-Match parse 400/409 分離, `db.batch` atomicity 公式 doc 引用, soft delete grep gate, audit_log vs cf_audit_log 分離, followup scope 分離 |
 
+## Issue #274 public pages OGP / sitemap / robots（2026-05-17）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/issue-274-public-pages-ogp-sitemap-robots/` |
+| 状態 | `implemented_local_evidence_captured / implementation / VISUAL / Phase 13 blocked_pending_user_approval` |
+| issue | #274 OPEN; PR should use `Refs #274`; commit / push / PR / Issue mutation are user-gated |
+| scope | public routes `/`, `/members`, `/members/[id]`, `/register`; sitemap / robots / root OG image / page metadata |
+| sitemap contract | `/public/members?limit=100&page=N` paginated until `pagination.hasNext === false`; list item shape is top-level `memberId` / `fullName` |
+| playwright target | `apps/web/playwright/tests/public-metadata.spec.ts` |
+| evidence | `outputs/phase-11/evidence/*`, `outputs/phase-11/screenshots/og-image.png`; typecheck/lint/test/build/curl/Playwright PASS |
+| source consumed | `docs/30-workflows/unassigned-task/task-06a-followup-002-ogp-sitemap.md`, `docs/30-workflows/unassigned-task/task-11-followup-002-public-og-sitemap-robots.md` |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-274-public-pages-ogp-sitemap-robots-artifact-inventory.md` |
+| lessons | `.claude/skills/aiworkflow-requirements/references/lessons-learned-issue-274-public-pages-ogp-sitemap-robots-2026-05.md`（L-274-001..006: site URL SSOT / sitemap degraded mode / robots env-branch / OG edge runtime / consumed trace / issue-NNN namespace 規約） |
+| user gate | implementation, runtime evidence, commit, push, PR |
+
+## Issue #256 E2E coverage baseline runbook（2026-05-18）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/issue-256-e2e-coverage-baseline-runbook/` |
+| 状態 | `implemented_local_evidence_captured / implementation / NON_VISUAL` |
+| implementation | `scripts/measure-coverage-exclude-ratio.ts`, `.github/workflows/verify-coverage-exclude-ratio.yml`, `vitest.config.ts` |
+| runbooks | `docs/30-workflows/runbooks/e2e-coverage-fallback-metric.md`, `docs/30-workflows/runbooks/playwright-smoke-19-route-sla.md` |
+| evidence | `outputs/phase-7/coverage-exclude-ratio.json` (`37 / 80 = 46.3% warn`), `outputs/phase-9/qa-result.md`, `outputs/phase-11/manual-test-result.md`, `outputs/phase-12/phase12-task-spec-compliance-check.md` |
+| boundary | Issue #256 CLOSED, use `Refs #256` only; commit / push / PR are user-gated |
+
+## Issue #266 shared sync Zod contract（2026-05-18）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow | `docs/30-workflows/issue-266-shared-sync-zod-contract/` |
+| status | `implemented_local_runtime_pending / implementation / NON_VISUAL` |
+| issue | #266 CLOSED。PR 文脈は `Refs #266` のみ |
+| contract | `SyncLogStatus = running/success/failed/skipped`, `SyncTriggerType = cron/admin/backfill`, `SyncLogRecord = sync_job_logs` 物理 12 カラム |
+| implementation | `packages/shared/src/zod/sync-log.ts`, `packages/shared/src/zod/index.ts`, `apps/api/src/sync/{types,audit,manual,scheduled}.ts`, `apps/api/src/jobs/{sync-sheets-to-d1,sync-forms-responses}.ts`, sync contract specs |
+| key boundary | U-UT01-08 / U-UT01-10 の旧 `pending/in_progress/completed`・`manual/cron/backfill` 前提は historical。issue #266 は物理 DDL / runtime 実態を canonical とする |
+| Phase 12 | strict 7 outputs present; local code/test evidence captured |
+| user gate | staging D1 distinct query, commit, push, PR |
+
 ## Issue #762 CF OIDC staging proof readiness（2026-05-17）
 
 | 項目 | 値 |
@@ -137,17 +177,30 @@
 | changelog | `.claude/skills/aiworkflow-requirements/changelog/20260516-runtime-smoke-staging-secrets-restore.md` |
 | boundary | runtime inline value check is retained; secret placement, workflow rerun, commit, push, PR are user-gated。production-runtime-smoke env は dev→main マージ未済のため secret 投入保留（allowlist 行も未追加） |
 
+### parallel-i06-root-error-focus（2026-05-18）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/parallel-i06-root-error-focus/` |
+| 状態 | `implemented_local_evidence_captured / implementation / NON_VISUAL` |
+| source | `docs/30-workflows/ui-prototype-alignment-mvp-recovery/improvements/integration-fixes/parallel-i06-root-error-focus/spec.md` |
+| implementation | `apps/web/app/error.tsx`, `apps/web/app/error.spec.tsx` |
+| contract | root `error.tsx` catch 時に `logger.error` 後、h1 へ `focus({ preventScroll: true })` を移譲 |
+| evidence | `outputs/phase-11/evidence/{typecheck,lint,test,grep-gate}.log`, `outputs/phase-11/evidence/diff.txt`, `outputs/phase-12/phase12-task-spec-compliance-check.md` |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-parallel-i06-root-error-focus-artifact-inventory.md` |
+| user gate | commit / push / PR |
+
 ### UI Prototype Design System Foundation（2026-05-18）
 
 | 目的 | 参照先 |
 | --- | --- |
 | workflow root | `docs/30-workflows/ui-prototype-design-system-foundation/` |
-| 状態 | `spec_created / implementation / VISUAL` |
+| 状態 | `spec_created / implementation / VISUAL`（parallel-01 は `runtime_pending`: local CSS selectors added, serial-07 visual evidence pending） |
 | prototype coverage SSOT | `docs/30-workflows/ui-prototype-design-system-foundation/PROTOTYPE-COVERAGE.md` |
 | strict Phase 12 | `outputs/phase-12/{main.md,implementation-guide.md,system-spec-update-summary.md,documentation-changelog.md,unassigned-task-detection.md,skill-feedback-report.md,phase12-task-spec-compliance-check.md}` |
 | source inventory | `claude-design-prototype/{app.jsx,data.jsx,icons.jsx,index.html,pages-admin.jsx,pages-member.jsx,pages-public.jsx,primitives.jsx,styles.css}` + `specs/09a..09h` |
 | current app path rule | `apps/web/app/**` is canonical; `/login`, `/profile`, `/privacy`, `/terms` remain root app paths |
-| implementation boundary | no new API endpoint / D1 schema / Google Form change; minimal `apps/web` AppShell / selector hooks added; full 19-route binding and visual evidence remain user-gated work |
+| implementation boundary | no new API endpoint / D1 schema / Google Form change; minimal `apps/web` AppShell / selector hooks and parallel-01 P1-1〜P1-5 CSS selectors added; full 19-route binding and visual evidence remain user-gated work |
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-ui-prototype-design-system-foundation-artifact-inventory.md` |
 
 ### Issue #749 Primitive Adoption Tracker（2026-05-17）
@@ -2608,6 +2661,29 @@ packages/
 | web consumer | `apps/web/src/lib/admin/api.ts` の `resolveTagQueue(queueId, body)` |
 | focused evidence | `pnpm exec vitest run --root=. --config=vitest.config.ts apps/api/src/routes/admin/tags-queue.test.ts apps/api/src/workflows/tagQueueResolve.test.ts apps/api/src/schemas/tagQueueResolve.test.ts` |
 | handoff | UT-07A-03 staging smoke with real admin auth / deployed Worker |
+
+### UBM-Hyogo Issue #295 Tag Queue Race Smoke（2026-05-15）
+
+| 観点 | 値 / 参照先 |
+| --- | --- |
+| canonical workflow | `docs/30-workflows/issue-295-tag-queue-resolve-race-smoke/` |
+| state | `implemented_local_evidence_captured / implementation / NON_VISUAL / runtime_pending` |
+| smoke runner | `scripts/smoke/tag-queue-race.mjs` |
+| focused test | `bash scripts/smoke/__tests__/tag-queue-race.test.sh` |
+| D1 fixture columns | `tag_assignment_queue.queue_id`, `response_id`, `suggested_tags_json` |
+| audit check | `audit_log.target_type='tag_queue' AND target_id=$QUEUE_ID` |
+| source task | `UT-07A-03` consumed by Issue #295 workflow |
+
+### step-05 dashboard chart implementation（2026-05-18）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/step-05-dashboard-chart-implementation/` |
+| state | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION / implementation_complete_pending_pr` |
+| implementation | `apps/web/src/features/admin/components/_dashboard/StatusDistribution.tsx` |
+| test | `apps/web/src/features/admin/components/_dashboard/StatusDistribution.spec.tsx` |
+| contract | `GET /admin/dashboard` returns optional `byStatus`; populated 時は SVG bar chart + chip list、legacy/未提供時は existing placeholder |
+| boundary | authenticated runtime screenshots / commit / push / PR are user-gated |
 
 ### UBM-Hyogo Admin UI 早見（06c / 2026-04-29）
 

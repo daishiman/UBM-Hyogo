@@ -124,6 +124,11 @@ describe("viewmodel parsers — 10 種 (AC-4 / 不変条件 #1)", () => {
           untaggedMembers: 0,
           unresolvedSchema: 0,
         },
+        byStatus: [
+          { status: "public", count: 1 },
+          { status: "member_only", count: 0 },
+          { status: "hidden", count: 0 },
+        ],
         recentActions: [],
         generatedAt: "2026-04-27T00:00:00Z",
       }).success,
