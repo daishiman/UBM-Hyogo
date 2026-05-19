@@ -1,5 +1,30 @@
 # クイックリファレンス
 
+## Issue #762 CF OIDC staging proof readiness（2026-05-17）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow | `docs/30-workflows/issue-762-cf-oidc-staging-proof-prod-cutover/` |
+| status | `implemented_local_evidence_captured / implementation / NON_VISUAL / user-gated PR` |
+| implementation | `scripts/oidc/verify-claim-pin.sh`, `scripts/redaction-check.sh`, `.github/workflows/oidc-observation-window.yml`, `.github/workflows/web-cd.yml` comment-only |
+| system spec | `.claude/skills/aiworkflow-requirements/references/deployment-secrets-management.md` Issue #762 G1-G4 gate |
+| source trace | `docs/30-workflows/unassigned-task/issue-717-followup-001-production-oidc-cutover.md` partially consumed |
+| evidence | `outputs/phase-11/`, `outputs/phase-12/phase12-task-spec-compliance-check.md` |
+| boundary | real OIDC cutover / staging proof / production cutover / legacy token revocation remain blocked until official support G1-G4 |
+| lessons-learned | `.claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-issue-762-cf-oidc-pre-support-hardening-2026-05.md`（L-I762-001..005） |
+| user gate | commit / push / PR and all external mutations |
+
+## Issue #324 shared package type contracts（2026-05-15）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow | `docs/30-workflows/completed-tasks/issue-324-shared-package-type-contracts/` |
+| status | `implemented_local_evidence_captured / implementation / NON_VISUAL` |
+| implementation | `packages/shared/src/__tests__/type-contracts.spec.ts` |
+| source trace | `docs/30-workflows/completed-tasks/UT-08A-05-shared-package-type-test.md` |
+| evidence | `outputs/phase-11/evidence/shared-typecheck.txt`, `outputs/phase-11/evidence/shared-lint.txt`, `outputs/phase-11/evidence/shared-test.txt` |
+| boundary | Issue #324 CLOSED, use `Refs #324` only; no runtime schema/API/D1 changes |
+
 > 最重要情報への即時アクセス
 > 詳細は resource-map.md → 該当ファイル を参照
 
@@ -21,6 +46,21 @@
 | user gate | authenticated browser screenshot, staging runtime visual evidence, commit, push, PR |
 
 ---
+
+### Issue #769 root error h1 auto-focus（2026-05-17）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/issue-769-root-error-focus/` |
+| 状態 | `implemented_local_evidence_captured / implementation / NON_VISUAL / runtime_pending` |
+| scope | root `apps/web/app/error.tsx` の h1 自動 focus |
+| implementation | `apps/web/app/error.tsx` |
+| tests | `apps/web/app/__tests__/error.component.spec.tsx` TC-U-09a/b/c |
+| evidence | `outputs/phase-11/evidence/`, `outputs/phase-12/phase12-task-spec-compliance-check.md` |
+| source | `docs/30-workflows/unassigned-task/integration-fixes-i06-root-error-focus.md` consumed |
+| parent | `docs/30-workflows/ui-prototype-alignment-mvp-recovery/improvements/integration-fixes/parallel-i06-root-error-focus/spec.md` |
+| lessons | `.claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-issue-769-root-error-focus-2026-05.md` (L-I769-001..005) |
+| user gate | interactive screen reader smoke, commit, push, PR |
 
 ### i02-admin-error-type-unify（2026-05-17）
 

@@ -116,3 +116,28 @@ bash scripts/verify-pr-ready.sh
    - `missing-evidence` → §2 (table 形式) または §3 (path 解決) または §5 (unassigned-task 配置)
 3. `indexes:rebuild drift` → `.claude/skills/aiworkflow-requirements/indexes/` 配下の再生成差分を `git add` & commit（sync-merge 直後は `task-workflow-active.md` の `merge=union` で行数が増減し `topic-map.md` の見出し L 番号が drift する構造的事象。再生成→コミットが正規復旧手順）
 4. 修正後 `bash scripts/verify-pr-ready.sh` を再実行し全 PASS を確認してから push
+
+## 6. `lighthouse-ci` performance fail（環境ノイズ起因）
+
+GitHub Actions hosted runner の CPU 変動で `categories:performance` が `minScore=0.80` を 0.01〜0.05 ポイント割って CI が赤化する事象が発生する（`/` のみで `0.78`、`/members` / `/login` は通過というケースが典型）。
+
+### 適用判断（`warn` 降格を採用してよい条件）
+
+1. CI が GitHub Actions hosted runner（性能変動が大きい）上で走る
+2. 変更内容が performance に直接寄与しない（a11y / focus / 文言変更等）
+3. `accessibility` / `seo` / `best-practices` は `error` のままで a11y regression は捕捉できる
+
+### 対応
+
+`lighthouserc.json` の `categories:performance` のみ `error` → `warn` に降格する。閾値 `minScore: 0.80` は維持し、将来 dedicated runner / perf 改善時に `error` 復帰させる。完全撤廃（assertion 削除）は禁止（regression 検知を失うため）。
+
+```jsonc
+"assertions": {
+  "categories:performance": ["warn", { "minScore": 0.80 }],
+  "categories:accessibility": ["error", { "minScore": 0.90 }],
+  "categories:best-practices": ["error", { "minScore": 0.90 }],
+  "categories:seo": ["error", { "minScore": 0.80 }]
+}
+```
+
+詳細: `.claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-dev-sync-merge-conflict-resolution-2026-05.md` L-DEVSYNC-020。

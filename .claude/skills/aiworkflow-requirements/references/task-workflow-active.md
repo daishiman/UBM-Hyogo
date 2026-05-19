@@ -23,6 +23,34 @@
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-770-profile-loading-skeleton-artifact-inventory.md` |
 | user gate | authenticated browser screenshot / staging runtime visual evidence / commit / push / PR |
 
+### Issue #769 root error h1 auto-focus（2026-05-17）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / NON_VISUAL / runtime_pending` |
+| 成果物 | `docs/30-workflows/issue-769-root-error-focus/` |
+| source | `docs/30-workflows/unassigned-task/integration-fixes-i06-root-error-focus.md` consumed |
+| 目的 | root `apps/web/app/error.tsx` の h1 に mount 後 focus を移譲し、screen reader がエラー見出しを即時認識できるようにする |
+| 実装 | `apps/web/app/error.tsx`, `apps/web/app/__tests__/error.component.spec.tsx` |
+| 不変条件 | 文言、className、digest 表示、reset、logger shape、i05 `/login/error.tsx` は変更しない |
+| evidence | `docs/30-workflows/issue-769-root-error-focus/outputs/phase-11/evidence/`, `docs/30-workflows/issue-769-root-error-focus/outputs/phase-12/phase12-task-spec-compliance-check.md` |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-769-root-error-focus-artifact-inventory.md` |
+| user gate | interactive screen reader smoke / commit / push / PR |
+
+### Issue #762 CF OIDC staging proof readiness（2026-05-17）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / NON_VISUAL / Phase 13 blocked_user_approval` |
+| 成果物 | `docs/30-workflows/issue-762-cf-oidc-staging-proof-prod-cutover/` |
+| source | `docs/30-workflows/unassigned-task/issue-717-followup-001-production-oidc-cutover.md` partially consumed |
+| 目的 | Cloudflare Workers OIDC deploy support 公式化前に、claim pin dry-run / OIDC-shaped redaction / manual observation gate / current safe baseline comment / requirements sync を完了する |
+| 実装 | `scripts/oidc/verify-claim-pin.sh`, `scripts/redaction-check.sh`, `.github/workflows/oidc-observation-window.yml`, `.github/workflows/web-cd.yml` |
+| 不変条件 | `web-cd.yml` deploy behavior remains unchanged; no `id-token: write`; no guessed exchange endpoint; no secret / JWT / account id recorded |
+| evidence | `outputs/phase-11/`, `outputs/phase-12/phase12-task-spec-compliance-check.md` |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-762-cf-oidc-staging-proof-prod-cutover-artifact-inventory.md` |
+| user gate | commit / push / PR / Cloudflare / GitHub Secret / 1Password mutation |
+
 ### UI Prototype Design System Foundation（2026-05-18）
 
 | 項目 | 値 |
