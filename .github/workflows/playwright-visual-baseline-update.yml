@@ -32,7 +32,7 @@ jobs:
           SENTRY_ENVIRONMENT: local
           SENTRY_TRACES_SAMPLE_RATE: '0'
         run: pnpm --filter @ubm-hyogo/web build
-      - name: Regenerate baselines
+      - name: Regenerate visual-full baselines
         env:
           PLAYWRIGHT_EVIDENCE_TASK: task-18-fu
         run: |
@@ -40,6 +40,14 @@ jobs:
             --project=visual-full-chromium-desktop \
             --project=visual-full-chromium-tablet \
             --project=visual-full-chromium-mobile \
+            --update-snapshots
+      - name: Regenerate smoke visual baselines (visual-chromium)
+        env:
+          PLAYWRIGHT_EVIDENCE_TASK: task-18-w7
+          PLAYWRIGHT_TASK18_SMOKE: '1'
+        run: |
+          pnpm --filter @ubm-hyogo/web exec playwright test \
+            --project=visual-chromium \
             --update-snapshots
       - name: Update .baseline-meta.json
         env:
@@ -89,7 +97,7 @@ jobs:
           set -euo pipefail
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add apps/web/playwright/tests/visual-full/
+          git add apps/web/playwright/tests/visual-full/ apps/web/playwright/tests/visual/
           if git diff --cached --quiet; then
             echo "No baseline changes to commit."
             exit 0

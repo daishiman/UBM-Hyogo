@@ -3,16 +3,16 @@ phase: 4
 title: 入出力契約 — HTML attribute と CSS 変数の対応表
 workflow_id: ui-prototype-design-system-foundation
 sub_workflow: parallel-01-globals-css-rhythm
-status: spec_created
+status: runtime_pending
 ---
 
-# Phase 4 — 入出力・データ契約
+# Phase 4: 入出力・データ契約
 
 [実装区分: 実装仕様書]
 
 ## 1. 契約形式
 
-本 SW は CSS のみを扱うため、データ契約は **「HTML attribute（入力） → CSS 変数経由のスタイル（出力）」** の対応表として規定する。
+本 SW の主契約は CSS selector であり、データ契約は **「HTML attribute（入力） → CSS 変数経由のスタイル（出力）」** の対応表として規定する。加えて、既存 admin shell の grid column 幅を `272px` に揃える layout 実装契約を 1 件だけ含む。
 
 ## 2. attribute 契約
 
@@ -59,13 +59,19 @@ status: spec_created
 
 | 値 | font-size | font-weight | line-height | letter-spacing | color |
 |----|----------|------------|-------------|----------------|-------|
-| `display` | `--ubm-text-3xl` (32px) | 600 | 1.15 | -0.025em | `--ubm-color-text-primary` |
-| `title` | `--ubm-text-2xl` (24px) | 600 | 1.2 | -0.02em | `--ubm-color-text-primary` |
-| `section` | `--ubm-text-xl` (20px) | 600 | 1.3 | -0.01em | `--ubm-color-text-primary` |
-| `card` | `--ubm-text-lg` (16px) | 600 | 1.35 | -0.005em | `--ubm-color-text-primary` |
+| `display` | `--ubm-text-3xl` (32px) | 600 | 1.15 | 0 | `--ubm-color-text-primary` |
+| `title` | `--ubm-text-2xl` (24px) | 600 | 1.2 | 0 | `--ubm-color-text-primary` |
+| `section` | `--ubm-text-xl` (20px) | 600 | 1.3 | 0 | `--ubm-color-text-primary` |
+| `card` | `--ubm-text-lg` (16px) | 600 | 1.35 | 0 | `--ubm-color-text-primary` |
 | `body` | `--ubm-text-base` (13.5px) | 400 | 1.7 | 0 | `--ubm-color-text-secondary` |
 | `caption` | `--ubm-text-sm` (12.5px) | 400 | 1.5 | 0 | `--ubm-color-text-secondary` |
-| `eyebrow` | `--ubm-text-xs` (11px) | 500 | 1.4 | 0.16em（uppercase 用） | `--ubm-color-text-muted` |
+| `eyebrow` | `--ubm-text-xs` (11px) | 500 | 1.4 | 0 | `--ubm-color-text-muted` |
+
+### 2.6 admin shell grid width
+
+| 対象 | 契約 | 理由 |
+| --- | --- | --- |
+| `apps/web/app/(admin)/layout.tsx` | `md:grid-cols-[272px_1fr]` | `[data-shell="sidebar"]` の prototype sidebar rhythm と管理画面の実幅を揃える |
 
 ## 3. CSS 変数依存表（出力）
 
@@ -108,3 +114,49 @@ status: spec_created
 | Tailwind utility（`bg-surface` 等）が同 specificity で適用 | cascade 順で後勝ちにより自然に調整。`!important` 不要 |
 | parallel-02 の動的規則（`:hover`, `[aria-selected]`） | 本 SW 側は base state のみ、動的状態は parallel-02 が同 selector に追加 |
 | parallel-03 の AppShell layout が `data-shell` 属性を付与 | layout 側が attribute を付ければ自動適用 |
+
+## メタ情報
+
+| 項目 | 値 |
+| --- | --- |
+| workflow_id | `ui-prototype-design-system-foundation` |
+| sub_workflow | `parallel-01-globals-css-rhythm` |
+| phase | `4` |
+| status | `runtime_pending` |
+| taskType | `implementation` |
+| visualEvidence | `VISUAL_ON_EXECUTION` |
+
+## 目的
+
+この Phase は既存本文の内容を、task-specification-creator の共通骨格に沿って実行可能な仕様として扱う。
+
+## 実行タスク
+
+1. 既存本文の Phase 固有タスクを実行する。
+2. `apps/web/src/styles/globals.css` の P1-1〜P1-5 selector contract と矛盾しないことを確認する。
+3. Phase 11 evidence と Phase 12 strict 7 の境界を `VISUAL_ON_EXECUTION` として維持する。
+
+## 参照資料
+
+- `docs/30-workflows/ui-prototype-design-system-foundation/index.md`
+- `docs/30-workflows/ui-prototype-design-system-foundation/PROTOTYPE-COVERAGE.md`
+- `apps/web/src/styles/globals.css`
+- `.claude/skills/task-specification-creator/references/phase-12-spec.md`
+- `.claude/skills/aiworkflow-requirements/indexes/resource-map.md`
+
+## 成果物
+
+- 本 Phase ファイル
+- `outputs/phase-11/` の local selector evidence
+- `outputs/phase-12/` の strict 7 files
+
+## 完了条件
+
+- [x] `node .claude/skills/task-specification-creator/scripts/validate-phase-output.js docs/30-workflows/ui-prototype-design-system-foundation/parallel-01-globals-css-rhythm` が error 0 である。
+- [x] P1-1〜P1-5 selector が `globals.css` に存在する。
+- [x] root workflow 全体の visual runtime evidence は serial-07 に委譲され、parallel-01 は `runtime_pending` として閉じる。
+
+## 統合テスト連携
+
+- CSS selector presence は `outputs/phase-11/section-presence.txt` と `grep-selectors.txt` で確認する。
+- visual screenshot は `serial-07-regression-evidence/` の責務として後続 runtime evidence に接続する。
