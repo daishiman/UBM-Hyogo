@@ -22,6 +22,20 @@
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-256-e2e-coverage-baseline-runbook-artifact-inventory.md` |
 | user gate | commit / push / PR / issue mutation |
 
+### Issue #266 shared sync Zod contract（2026-05-18）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_runtime_pending / implementation / NON_VISUAL / Phase 12 strict 7 present` |
+| 成果物 | `docs/30-workflows/issue-266-shared-sync-zod-contract/` |
+| Issue | #266 CLOSED。PR 文脈は `Refs #266` のみ |
+| 目的 | `SyncLogStatus` / `SyncTriggerType` / `SyncLogRecord` を `packages/shared/src/zod/sync-log.ts` に Zod schema + `z.infer` 型として一意定義し、`apps/api` sync read/write 境界へ接続する |
+| canonical | status=`running/success/failed/skipped`, trigger=`cron/admin/backfill`, record=`sync_job_logs` 物理 12 カラム |
+| implemented targets | `packages/shared/src/zod/sync-log.ts`, `packages/shared/src/zod/index.ts`, `apps/api/src/sync/{types,audit,manual,scheduled,audit-route.contract.spec,audit.contract.spec,manual.contract.spec,scheduled.contract.spec}.ts`, `apps/api/src/jobs/{sync-sheets-to-d1,sync-forms-responses}.ts` |
+| source trace | `docs/30-workflows/unassigned-task/U-UT01-08-sync-enum-canonicalization.md`, `docs/30-workflows/unassigned-task/U-UT01-10-shared-sync-contract-zod.md` |
+| evidence boundary | Local shared/API tests and typechecks captured; staging D1 distinct query remains runtime/user-gated |
+| user gate | staging D1 distinct query, commit, push, PR |
+
 ### Issue #772 CF audit monitor runtime restoration（2026-05-17）
 
 | 項目 | 値 |
