@@ -6975,22 +6975,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L1662 |
-| フェーズ構造（概要） | L1671 |
-| 品質ゲート（概要） | L1702 |
-| 出力テンプレート | L1713 |
-| 実行時のコマンド・エージェント・スキル | L1736 |
-| 昇格パターン集 | L1760 |
-| Current Active / Spec Created Tasks | L1762 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L1913 |
-| ドキュメント構成 | L1675 |
-| フェーズ構造（概要） | L1684 |
-| 品質ゲート（概要） | L1715 |
-| 出力テンプレート | L1726 |
-| 実行時のコマンド・エージェント・スキル | L1749 |
-| 昇格パターン集 | L1773 |
-| Current Active / Spec Created Tasks | L1775 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L1926 |
+| ドキュメント構成 | L1689 |
+| フェーズ構造（概要） | L1698 |
+| 品質ゲート（概要） | L1729 |
+| 出力テンプレート | L1740 |
+| 実行時のコマンド・エージェント・スキル | L1763 |
+| 昇格パターン集 | L1787 |
+| Current Active / Spec Created Tasks | L1789 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L1940 |
 
 ### references/task-workflow-backlog-part2.md
 
