@@ -1,0 +1,36 @@
+{
+  "schemaVersion": 1,
+  "task_id": "UT-07C-FU-001",
+  "capture_status": "captured",
+  "environment": "local-playwright-fixture",
+  "command": "PLAYWRIGHT_EVIDENCE_TASK=ut-07c-followup-001-attendance-csv-import PLAYWRIGHT_EVIDENCE_DIR=../../docs/30-workflows/ut-07c-followup-001-attendance-csv-import/outputs/phase-11 mise exec -- pnpm --filter @ubm-hyogo/web exec playwright test apps/web/playwright/tests/attendance-csv-import.spec.ts --project=desktop-chromium",
+  "expected_screenshots": [
+    "outputs/phase-11/screenshots/S1-upload.png",
+    "outputs/phase-11/screenshots/S2-preview.png",
+    "outputs/phase-11/screenshots/S3-confirm-done.png",
+    "outputs/phase-11/screenshots/S4-error-deleted-member.png"
+  ],
+  "captured_screenshots": [
+    {
+      "file": "outputs/phase-11/screenshots/S1-upload.png",
+      "sha256": "fd46536532b1ba6bc1cbcb3d9bd108012c8ff96eef27fa4d5cd63442ee8bce39"
+    },
+    {
+      "file": "outputs/phase-11/screenshots/S2-preview.png",
+      "sha256": "625885e7afb64ff6a6fb7eda45a39f5eda213643bd845209fc65fe96ad086657"
+    },
+    {
+      "file": "outputs/phase-11/screenshots/S3-confirm-done.png",
+      "sha256": "f68a519c12e535c64758add3b11cdf2b08fad2e7b78704249c3eadf7b2ee7536"
+    },
+    {
+      "file": "outputs/phase-11/screenshots/S4-error-deleted-member.png",
+      "sha256": "50ab0bd3d7332f4ca5c6460c81361c40faa516fca9192f66aae9dfd0fb2fdd25"
+    }
+  ],
+  "tester_account": "playwright-admin-fixture",
+  "viewport": { "width": 1280, "height": 800 },
+  "browser": "chromium",
+  "captured_at": "2026-05-18T17:49:22+09:00",
+  "notes": "Local Playwright fixture evidence. Staging / production smoke, commit, push, and PR remain user-gated."
+}

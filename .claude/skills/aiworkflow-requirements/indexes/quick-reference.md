@@ -43,6 +43,21 @@
 
 ---
 
+### UT-07C-FU-001 attendance CSV import spec（2026-05-18）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/ut-07c-followup-001-attendance-csv-import/` |
+| 状態 | `implemented_local_evidence_captured / implementation / VISUAL / Phase 1-12 completed / Phase 13 pending_user_approval` |
+| issue | #312 |
+| contract | `POST /admin/meetings/:sessionId/attendance/import?dryRun=true|false`; client CSV parse + JSON rows; max 500 rows; row status `ok` / `duplicate` / `deleted_member` / `unknown_member` / `invalid` |
+| implementation targets | `apps/api/src/routes/admin/attendance.ts`, `apps/api/src/use-cases/admin/import-attendance-bulk.ts`, `apps/api/src/repository/attendance.ts`, `apps/web/app/(admin)/admin/meetings/[id]/AttendanceCsvImportPanel.tsx`, `apps/web/src/lib/csv/parse-attendance.ts`, `apps/web/package.json` |
+| important boundary | Hono `Context` is not passed into service; route resolves `DbCtx`, `authUser`, and `auditLogProvider`. `member_status.is_deleted` is the deleted-member source. `dryRun=false` explicit only commits; omitted/typo dry-runs. commit uses D1 batch for attendance + audit insert. |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-ut-07c-followup-001-attendance-csv-import-artifact-inventory.md` |
+| evidence boundary | focused API route 13 / API service 13 / web parser+UI 13 PASS. Phase 11 local Playwright screenshots S1-S4 captured. Phase 12 strict 7 outputs present. commit / push / PR remain user-gated. |
+
+---
+
 ### Issue #772 CF audit monitor runtime restoration（2026-05-17）
 
 | 目的 | 参照先 |

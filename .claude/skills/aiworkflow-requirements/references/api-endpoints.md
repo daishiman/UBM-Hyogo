@@ -106,6 +106,7 @@ u-04 (`docs/30-workflows/completed-tasks/u-04-serial-sheets-to-d1-sync-implement
 | GET | `/admin/meetings/:sessionId/export.csv` | attendance を `meetingId,heldOn,memberId,displayName,attended` 固定列の CSV で返す。soft-deleted meeting は 404 | Auth.js JWT + `requireAdmin` |
 | GET | `/admin/meetings/:sessionId/attendance/candidates` | attendance 候補を一覧する。session 不在は `404 session_not_found`、削除済み member と登録済み member は除外する | Auth.js JWT + `requireAdmin` |
 | POST | `/admin/meetings/:sessionId/attendance` | attendance を追加する。重複は `409 attendance_already_recorded`、削除済み member は `422 member_is_deleted`、session 不在は `404 session_not_found` | Auth.js JWT + `requireAdmin` |
+| POST | `/admin/meetings/:sessionId/attendance/import?dryRun=true\|false` | UT-07C-FU-001 正本: client CSV parse 済み JSON rows を bulk import する。`dryRun=false` 明示時のみ commit、省略 / typo は dry-run。500 行超過は 413、memberId/email 空 row は row status `invalid`、同一 payload 重複は 2 行目以降 `duplicate_in_payload`。commit は全行 ok のみ D1 batch で `member_attendance` insert + `audit_log.action='attendance.import.add'` を同一境界に投入する | Auth.js JWT + `requireAdmin` |
 | DELETE | `/admin/meetings/:sessionId/attendance/:memberId` | attendance を削除する。row 不在は `404 attendance_not_found` に集約する | Auth.js JWT + `requireAdmin` |
 | GET | `/admin/audit` | `audit_log` を read-only に検索する。`action` / `actorEmail` / `targetType` / `targetId` / UTC `from` `to` / cursor / limit を受け、raw JSON ではなく masked view を返す | Auth.js JWT + `requireAdmin` |
 
@@ -121,6 +122,7 @@ u-04 (`docs/30-workflows/completed-tasks/u-04-serial-sheets-to-d1-sync-implement
 - Issue #401 admin resolve notification は `member_identities.response_email` を宛先として読み、`MAIL_PROVIDER_KEY` / `MAIL_FROM_ADDRESS` 経由で送信する。notification enqueue / dispatch は resolve transaction の外側に置き、raw `resolutionNote` は email / `notification_outbox.reason_summary` / `notification_ledger.detail_json` にコピーしない。mail config 未準備時は claim 前に dispatch を skip し、pending row を保持する。
 - 06c-E UI の attendance add/remove は `/admin/meetings/:sessionId/attendances` の `{ attended }` alias を正本として使う。04c の `/attendance` POST/DELETE route は既存互換 route として維持する。
 - 07c attendance add/remove は `attendance.add` / `attendance.remove` を `target_type='meeting'`, `target_id=<sessionId>` で append し、追加は `after_json`、削除は `before_json` に attendance row を残す。
+- UT-07C-FU-001 attendance CSV import は既存互換 attendance surface の配下に `/attendance/import` を追加する。add/remove UI の plural `/attendances` alias は維持し、bulk import の audit は `attendance.import.add` を成功行ごとに残す。
 - 07c follow-up audit browsing は append-only の閲覧専用で、`before_json` / `after_json` の保存値は変更せず、API projection と UI defense-in-depth で email / phone / address / name 相当キーを表示時 masking する。cursor は `{ createdAt, auditId }` の base64url JSON、order は `created_at DESC, audit_id DESC`。
 - 06c-A follow-up: `/admin/dashboard` は単一 endpoint を維持し（`/admin/dashboard/kpi`・`/admin/dashboard/recent-actions` の split は不採用）、表示時に `audit_log` へ `dashboard.view` を append する。`recentActions` は `dashboard.view` を除外フィルタし KPI / 最近の作業の自己ループを防ぐ。
 
