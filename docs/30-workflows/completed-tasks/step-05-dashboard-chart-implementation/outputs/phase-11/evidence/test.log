@@ -1,0 +1,10 @@
+[33mThe CJS build of Vite's Node API is deprecated. See https://vite.dev/guide/troubleshooting.html#vite-cjs-node-api-deprecated for more details.[39m
+
+ RUN  v2.1.9 /Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260518-195333-wt-4
+
+ ✓ apps/web/src/features/admin/components/_dashboard/StatusDistribution.spec.tsx (7 tests) 327ms
+
+ Test Files  1 passed (1)
+      Tests  7 passed (7)
+   Start at  22:45:18
+   Duration  5.60s (transform 517ms, setup 0ms, collect 1.18s, tests 327ms, environment 1.57s, prepare 276ms)

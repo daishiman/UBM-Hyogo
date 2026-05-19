@@ -275,6 +275,13 @@
   5. `git diff --check` で残マーカーゼロを確認
 - 事例: 2026-05-19 `feat/issue-266-shared-sync-zod-contract ← dev` の sync で `lefthook.yml` の `verify-esbuild` を `scripts/hooks/verify-esbuild-guard.sh` 採用に統一し、mise-aware node 解決を script 本体へ統合。`pnpm sync:resolve` は YAML conflict を扱わないため手動で処理した（resolver 拡張対象外であることを併せて確認）。
 
+## L-DEVSYNC-024: 標準パターン（indexes 4ファイル + task-workflow-active.md）は resolver 単体で完結 — 自律 sync prompt の baseline 確認（2026-05-19 追加）
+
+- 症状: `feat/serial-05-admin-mutation-step-05-dashboard-chart ← dev` の sync で conflict が `indexes/{quick-reference,resource-map,topic-map}.md` + `references/task-workflow-active.md` の 4 ファイルのみ。これは L-DEVSYNC-002 + L-DEVSYNC-007 (層2 resolver) が想定する正準パターン。
+- 解消: `pnpm sync:resolve` 一発で全件 union-resolve → `pnpm indexes:rebuild` で keywords.json/topic-map 再生成 → 2段 commit。手動編集ゼロ。
+- Why: union driver + resolver script の 2 層予防策がベースラインとして機能していることの確認。新規 lesson は不要だが、自律 sync prompt が「標準パターンの場合は resolver で完結し追加学びゼロ」を最終レポートに明示することで、ノイズ的な lesson 量産を防ぐ。
+- How to apply: 自律 sync prompt は `pnpm sync:resolve` 後の残 conflict 件数が 0 かつ非 indexes ファイルへの conflict が無い場合、新規 L-DEVSYNC-NNN を作らず本 L-DEVSYNC-024 の baseline 該当事例として実行ログに記録するのみで良い。
+
 ## L-DEVSYNC-024: ソースコード import block で HEAD / dev が別 import を追加した場合の両側採用（2026-05-19 追加・元 L-DEVSYNC-023 をリナンバー）
 
 - 症状: `feat/issue-274-public-pages-ogp-sitemap-robots` に `origin/dev` を取り込んだ際、`apps/web/app/page.tsx` の import block で 3-way conflict が発生。HEAD 側は `import { buildPageMetadata } from "@/lib/seo/site-metadata";`（OGP 対応で追加）、dev 側は `import { CallToActionCTA } from "../src/components/public/CallToActionCTA";`（CTA 追加）。`pnpm sync:resolve` は `apps/**` / `*.tsx` を resolver 対象外としているため `WARN unhandled conflict` として残置。
@@ -329,7 +336,17 @@
 - How to apply: 新規 UI を追加する PR では push 前に `grep -rn '>こちら<\|>詳細<\|>クリック<\|>here<\|>more<\|>click here<' apps/web/app apps/web/src` を実行し、ヒットがあれば descriptive text に置換する。`pr-pre-flight-ci-gate-checklist.md` §10 に運用ルールを記載。
 - 事例: 2026-05-19 `feat/issue-274-public-pages-ogp-sitemap-robots` の `apps/web/app/login/_components/LoginPanel.client.tsx` で `<a href="/register">こちら</a>` を `<a href="/register">会員登録ページから新規登録</a>` に変更、対応する `LoginPanel.component.spec.tsx` の `getByRole("link", { name: "こちら" })` も同時更新で `/login` SEO PASS。
 
-## L-DEVSYNC-029: improvements 系 index と completed-tasks/spec のステータス行 3-way conflict（2026-05-19 追加）
+## L-DEVSYNC-029: `.claude/skills/*/lessons-learned/*.md` と `LOGS/_legacy.md` の resolver pattern 化（2026-05-19 追加）
+
+- 症状: dev→feat sync-merge で `.claude/skills/aiworkflow-requirements/LOGS/_legacy.md` と `.claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-dev-sync-merge-conflict-resolution-2026-05.md` が CONFLICT。`pnpm sync:resolve` は `UNION_TARGETS` のハードコード配列のみを対象とするため、これら append-only ファイルを `WARN unhandled conflict` で残し手動 union を強いる。L-DEVSYNC-018 は LOGS の手動 union を案内するが、運用上は他 skill にも `LOGS/_legacy.md` / `lessons-learned/*.md` が増えるためファイル単位で配列に積む方式は破綻する。
+- 対応:
+  1. `scripts/sync/resolve-skill-merge-conflicts.sh` に **glob ベースの union 対象**を追加: `case` 文で `.claude/skills/*/LOGS/_legacy.md` と `.claude/skills/*/lessons-learned/*.md` をマッチさせ `apply_union` に積む（個別配列管理を撤廃）。
+  2. `.gitattributes` にも同パターンを追加し、resolver 不使用環境（素の `git merge dev` 実行時）でも自動 union が効くようにする: `.claude/skills/*/LOGS/_legacy.md merge=union` / `.claude/skills/*/lessons-learned/*.md merge=union`。
+- Why: append-only な history 系ファイルは両側 entry を結合するのが意味的に常に正しい。glob 化により今後 skill が増えても resolver 修正不要になる。`.gitattributes` と resolver の二重ガードにすることで、`pnpm sync:resolve` 経由でない素の `git merge dev` でも conflict が再発しなくなる。
+- How to apply: 新規 skill で `LOGS/_legacy.md` または `lessons-learned/*.md` を新設する場合、本パターンが自動適用される。個別の対象追加は不要。resolver の `UNION_TARGETS` 配列に lessons-learned / LOGS 系ファイルを追加してはならない（glob 定義と二重になる）。
+- 事例: 2026-05-19 `feat/serial-05-admin-mutation-step-05-dashboard-chart` ← dev sync-merge で本 lessons-learned 自体と `LOGS/_legacy.md` の両方が CONFLICT、glob 対応で恒久解消。
+
+## L-DEVSYNC-030: improvements 系 index と completed-tasks/spec のステータス行 3-way conflict（2026-05-19 追加）
 
 - 症状: `dev → feature` sync で `docs/30-workflows/ui-prototype-alignment-mvp-recovery/improvements/integration-fixes/index.md` および対応する `completed-tasks/integration-fixes-iNN-*.md` の **ステータス表行**（`| iNN | <state> | <evidence> |` / `| ステータス | ... |`）で diff3 conflict が発生する。HEAD は **当 feature の自スコープ task（例: i05）が完了** した行を更新、dev は **他スコープ task（例: i06 / i07）が並行 wave で完了** した行を更新するため、同じ表内で互いに干渉する。
 - 解消: 各 i 行は **独立した task の状態** を表すため、`<<<<<<< HEAD` 側の行と `>>>>>>> dev` 側の行を **行単位で両側採用**（HEAD が更新した行は HEAD 版、dev が更新した行は dev 版）。`||||||| base` セクションは破棄。`completed-tasks/iNN-*.md` 内のメタ情報表（ステータス / canonical_workflow / consumed_by / 関連実装）も同様に **HEAD 側の実装完了情報 + dev 側の consumed_by / canonical_workflow refs を統合** する。
