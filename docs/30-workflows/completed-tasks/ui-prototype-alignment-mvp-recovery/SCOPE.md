@@ -27,6 +27,8 @@
 | 共通 | `not-found.tsx` | 無 | EmptyState |
 | 共通 | `loading.tsx` | 無 | Skeleton |
 
+補足（2026-05-18）: `/login` segment 固有の `loading.tsx` / `error.tsx` a11y close-out は `docs/30-workflows/parallel-i05-login-loading-and-error-focus/` で実装済み。root `error.tsx` と `/profile/loading.tsx` は integration-fixes i06 / i07 の active sibling specs で追跡する。
+
 ## 2. API 接続マッピング要約
 
 詳細 shape は `outputs/phase-3/phase-3.md` §2 を参照する。ここでは後続 task が迷わない粒度の route group と endpoint surface だけを固定する。
