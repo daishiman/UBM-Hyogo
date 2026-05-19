@@ -66,7 +66,7 @@ const EVIDENCE_DIR =
                           ? '../../docs/30-workflows/task-18-w7-verify-tokens-and-playwright-smoke/outputs/phase-11/evidence'
                           : '../../docs/30-workflows/completed-tasks/08b-A-playwright-e2e-full-execution/outputs/phase-11/evidence')
 
-const shouldStartLocalServer = !isStagingSmoke
+const shouldStartLocalServer = !isStagingSmoke && process.env.PLAYWRIGHT_SKIP_WEB_SERVER !== '1'
 const localBaseURL = process.env.PLAYWRIGHT_BASE_URL || 'http://localhost:3000'
 const localServerReadyURL =
   isTask18RegressionGate || isAttendanceVisualSmoke ? `${localBaseURL}/login` : localBaseURL
