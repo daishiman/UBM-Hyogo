@@ -1,0 +1,14 @@
+apps/web/app/profile/loading.tsx:18:          className="h-16 w-16 rounded-full bg-surface-2 motion-safe:animate-pulse"
+apps/web/app/profile/loading.tsx:23:          className="h-8 w-48 rounded bg-surface-2 motion-safe:animate-pulse"
+apps/web/app/profile/loading.tsx:27:        <div className="h-6 w-full rounded bg-surface-2 motion-safe:animate-pulse" />
+apps/web/app/profile/loading.tsx:28:        <div className="h-6 w-5/6 rounded bg-surface-2 motion-safe:animate-pulse" />
+apps/web/app/profile/loading.tsx:29:        <div className="h-6 w-4/6 rounded bg-surface-2 motion-safe:animate-pulse" />
+apps/web/app/profile/loading.tsx:30:        <div className="h-6 w-3/6 rounded bg-surface-2 motion-safe:animate-pulse" />
+apps/web/src/styles/globals.css:14:  --color-surface-2: var(--ubm-color-surface-bg-2);
+apps/web/src/styles/tokens.css:7:  --ubm-color-surface-bg-2: #ebe9e3;
+apps/web/src/styles/tokens.css:40:  --status-neutral-bg: var(--ubm-color-surface-bg-2);
+apps/web/src/styles/tokens.css:103:  --ubm-color-surface-bg-2: #eee5d5;
+apps/web/src/styles/tokens.css:119:  --ubm-color-surface-bg-2: #e4e8ec;
+OK: no HEX literals
+OK: no arbitrary color
+OK: scope intact

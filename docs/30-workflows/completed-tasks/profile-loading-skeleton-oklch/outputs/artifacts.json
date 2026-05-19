@@ -1,0 +1,52 @@
+{
+  "id": "profile-loading-skeleton-oklch",
+  "title": "/profile/loading OKLch skeleton",
+  "taskType": "implementation",
+  "visualEvidence": "VISUAL",
+  "status": "completed",
+  "metadata": {
+    "workflow_state": "implemented_local_evidence_captured",
+    "implementation_status": "implementation_complete_pending_pr",
+    "source": "docs/30-workflows/ui-prototype-alignment-mvp-recovery/improvements/integration-fixes/parallel-i07-profile-loading-skeleton/spec.md",
+    "parentWorkflow": "docs/30-workflows/ui-prototype-alignment-mvp-recovery/improvements/integration-fixes/",
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-05-19T09:08:21+09:00",
+        "evidence_path": "docs/30-workflows/completed-tasks/profile-loading-skeleton-oklch/outputs/phase-11/evidence/test.log",
+        "approver": "CODEOWNERS:apps/web",
+        "notes": "implementation and focused component test evidence"
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "passed",
+        "passed_at": "2026-05-19T09:08:21+09:00",
+        "evidence_path": "docs/30-workflows/completed-tasks/profile-loading-skeleton-oklch/outputs/phase-11/evidence/grep-gate.log",
+        "approver": "CODEOWNERS:apps/web",
+        "notes": "token utility and scope grep gate"
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/profile-loading-skeleton-oklch/phase-13.md",
+        "approver": "CODEOWNERS:docs",
+        "notes": "commit, push, and PR are user-gated"
+      }
+    ]
+  },
+  "implementationTargets": [
+    "apps/web/app/profile/loading.tsx",
+    "apps/web/app/profile/loading.spec.tsx"
+  ],
+  "phase12Outputs": [
+    "outputs/phase-12/main.md",
+    "outputs/phase-12/implementation-guide.md",
+    "outputs/phase-12/system-spec-update-summary.md",
+    "outputs/phase-12/documentation-changelog.md",
+    "outputs/phase-12/unassigned-task-detection.md",
+    "outputs/phase-12/skill-feedback-report.md",
+    "outputs/phase-12/phase12-task-spec-compliance-check.md"
+  ]
+}

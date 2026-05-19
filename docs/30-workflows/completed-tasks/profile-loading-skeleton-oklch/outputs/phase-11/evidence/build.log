@@ -1,0 +1,82 @@
+mise WARN  Config files in ~/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260519-063006-wt-14/.mise.toml are not trusted.
+Trust them with `mise trust`. See https://mise.jdx.dev/cli/trust.html for more information.
+
+> @ubm-hyogo/web@0.1.0 build /Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260519-063006-wt-14/apps/web
+> NODE_ENV=production next build --webpack
+
+▲ Next.js 16.2.4 (webpack)
+
+⚠ The "middleware" file convention is deprecated. Please use "proxy" instead. Learn more: https://nextjs.org/docs/messages/middleware-to-proxy
+  Creating an optimized production build ...
+⚠ Compiled with warnings in 30.7s
+
+../../node_modules/@prisma/instrumentation/node_modules/@opentelemetry/instrumentation/build/esm/platform/node/instrumentation.js
+Critical dependency: the request of a dependency is an expression
+
+Import trace for requested module:
+../../node_modules/@prisma/instrumentation/node_modules/@opentelemetry/instrumentation/build/esm/platform/node/instrumentation.js
+../../node_modules/@prisma/instrumentation/node_modules/@opentelemetry/instrumentation/build/esm/platform/node/index.js
+../../node_modules/@prisma/instrumentation/node_modules/@opentelemetry/instrumentation/build/esm/platform/index.js
+../../node_modules/@prisma/instrumentation/node_modules/@opentelemetry/instrumentation/build/esm/index.js
+../../node_modules/@prisma/instrumentation/dist/index.js
+../../node_modules/@sentry/node/build/cjs/integrations/tracing/prisma.js
+../../node_modules/@sentry/node/build/cjs/index.js
+../../node_modules/@sentry/nextjs/build/cjs/index.server.js
+./src/lib/sentry/capture.ts
+./src/lib/logger.ts
+./app/error.tsx
+
+✓ Compiled successfully in 42s
+  Skipping validation of types
+  Finished TypeScript config validation in 17ms ...
+  Collecting page data using 9 workers ...
+  Generating static pages using 9 workers (0/12) ...
+  Generating static pages using 9 workers (3/12) 
+  Generating static pages using 9 workers (6/12) 
+  Generating static pages using 9 workers (9/12) 
+✓ Generating static pages using 9 workers (12/12) in 212ms
+  Finalizing page optimization ...
+  Collecting build traces ...
+
+Route (app)
+┌ ƒ /
+├ ○ /_not-found
+├ ƒ /admin
+├ ƒ /admin/audit
+├ ƒ /admin/dashboard/attendance
+├ ƒ /admin/identity-conflicts
+├ ƒ /admin/meetings
+├ ƒ /admin/meetings/[id]
+├ ƒ /admin/members
+├ ƒ /admin/requests
+├ ƒ /admin/schema
+├ ƒ /admin/tags
+├ ƒ /api/admin/[...path]
+├ ƒ /api/auth/[...nextauth]
+├ ƒ /api/auth/callback/email
+├ ƒ /api/auth/gate-state
+├ ƒ /api/auth/magic-link
+├ ƒ /api/auth/magic-link/verify
+├ ƒ /api/me/[...path]
+├ ƒ /api/me/delete-request
+├ ƒ /api/me/visibility-request
+├ ƒ /login
+├ ƒ /members
+├ ƒ /members/[id]
+├ ƒ /primitives-harness
+├ ○ /privacy
+├ ƒ /profile
+├ ƒ /register
+├ ƒ /smoke/error-boundary
+├ ƒ /smoke/loading-state
+├ ƒ /smoke/members-list
+├ ○ /smoke/ui-primitives
+├ ○ /terms
+└ ƒ /visual-harness/[name]
+
+
+ƒ Proxy (Middleware)
+
+○  (Static)   prerendered as static content
+ƒ  (Dynamic)  server-rendered on demand
+

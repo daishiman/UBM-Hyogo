@@ -5,7 +5,7 @@
 | 項目 | 値 |
 | --- | --- |
 | workflow | `docs/30-workflows/completed-tasks/issue-324-shared-package-type-contracts/` |
-| status | `implemented_local_evidence_captured / implementation / NON_VISUAL` |
+| status | `implemented_local_evidence_captured / implementation / VISUAL` |
 | implementation | `packages/shared/src/__tests__/type-contracts.spec.ts` |
 | source trace | `docs/30-workflows/completed-tasks/UT-08A-05-shared-package-type-test.md` |
 | evidence | `outputs/phase-11/evidence/shared-typecheck.txt`, `outputs/phase-11/evidence/shared-lint.txt`, `outputs/phase-11/evidence/shared-test.txt` |
@@ -15,6 +15,19 @@
 > 詳細は resource-map.md → 該当ファイル を参照
 
 ---
+
+### profile-loading-skeleton-oklch（2026-05-19）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/profile-loading-skeleton-oklch/` |
+| 状態 | `implemented_local_evidence_captured / implementation / VISUAL / implementation_complete_pending_pr` |
+| source | `docs/30-workflows/ui-prototype-alignment-mvp-recovery/improvements/integration-fixes/parallel-i07-profile-loading-skeleton/spec.md` |
+| implementation | `apps/web/app/profile/loading.tsx`, `apps/web/app/profile/loading.spec.tsx` |
+| contract | `/profile/loading.tsx` は `role=status` / `aria-busy=true` / `aria-live=polite` / `data-page=profile-loading` と avatar + 4 KV row skeleton を持つ |
+| evidence | `outputs/phase-11/evidence/{test,typecheck,lint,build,grep-gate}.log`, `outputs/phase-12/phase12-task-spec-compliance-check.md` |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-profile-loading-skeleton-oklch-artifact-inventory.md` |
+| user gate | commit / push / PR |
 
 ### UI Prototype Design System Foundation（2026-05-18）
 
