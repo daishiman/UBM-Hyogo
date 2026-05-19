@@ -966,3 +966,7 @@ production env monitor secret cleanup は user-gated。
 # 2026-05-17
 
 - UT-07B alias recommendation i18n を `implemented_local_evidence_captured / implementation / NON_VISUAL` として同期。`recommendedStableKeys` label 比較を NFKC + trim + whitespace 圧縮へ正本化し、`api-endpoints.md` / `01-api-schema.md` / `11-admin-management.md` / quick-reference / resource-map / topic-map / keywords / task-workflow-active を同一 wave で更新。source unassigned は completed trace へ移動。commit / push / PR は user-gated。
+# 2026-05-18 issue-256-e2e-coverage-baseline-runbook
+
+- Synced `docs/30-workflows/issue-256-e2e-coverage-baseline-runbook/` as `implemented_local_evidence_captured / implementation / NON_VISUAL`.
+- Added workflow artifact inventory and active task ledger entry for coverage exclude ratio baseline, smoke SLA runbook, fallback metric runbook, and current `apps/web/app` topology sync.
