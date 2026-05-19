@@ -18,8 +18,8 @@ export default function robots(): MetadataRoute.Robots {
     rules: [
       {
         userAgent: "*",
-        allow: ["/", "/members", "/members/", "/register"],
-        disallow: ["/admin", "/admin/", "/profile", "/login", "/api"],
+        allow: ["/", "/members", "/members/", "/register", "/login"],
+        disallow: ["/admin", "/admin/", "/profile", "/api"],
       },
     ],
     sitemap: new URL("/sitemap.xml", base).toString(),
