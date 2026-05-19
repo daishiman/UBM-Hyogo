@@ -2730,6 +2730,17 @@ node scripts/list-specs.js --topics
 |------------|----|
 | State | L16 |
 
+### references/workflow-issue-770-profile-loading-skeleton-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Implementation Targets | L11 |
+| Evidence | L18 |
+| Lessons Learned | L27 |
+| User Gate | L33 |
+
+### references/workflow-issue-772-cf-audit-monitor-runtime-restoration-artifact-inventory.md
+
 ### references/workflow-light-theme-contrast-regression-guard.md
 
 | セクション | 行 |
@@ -5271,6 +5282,18 @@ node scripts/list-specs.js --topics
 | L-I747-005: closed Issue でも `Refs #<n>` で後付け canonical workflow を建てる | L43 |
 | L-I747-006: parent repository `node_modules` cleanup は AI が自動実行しない | L51 |
 
+### references/lessons-learned-issue-770-profile-loading-skeleton-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| L-770-001: Skeleton block count は実コンポーネントの DOM 構造に一致させる | L3 |
+| L-770-002: OKLch トークン正本化下で skeleton 色は `bg-surface-2` を採用 | L11 |
+| L-770-003: A11y はロール + 状態 + sr-only テキストの三点セットを必須化する | L19 |
+| L-770-004: Parent workflow 3 点同期は same-wave で実施する | L27 |
+| L-770-005: Source unassigned-task は consumed trace として保持する | L35 |
+| L-770-006: `implemented_local_runtime_pending` 中間ステータスの再利用 | L43 |
+| L-770-007: aiworkflow-requirements の same-wave sync は 5 ファイル定型 | L51 |
+
 ### references/lessons-learned-issue359-production-d1-apply-2026-05.md
 
 | セクション | 行 |
@@ -6960,6 +6983,14 @@ node scripts/list-specs.js --topics
 | 昇格パターン集 | L1760 |
 | Current Active / Spec Created Tasks | L1762 |
 | UT-17 followup-003 alert-relay weekly healthcheck cron | L1913 |
+| ドキュメント構成 | L1675 |
+| フェーズ構造（概要） | L1684 |
+| 品質ゲート（概要） | L1715 |
+| 出力テンプレート | L1726 |
+| 実行時のコマンド・エージェント・スキル | L1749 |
+| 昇格パターン集 | L1773 |
+| Current Active / Spec Created Tasks | L1775 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L1926 |
 
 ### references/task-workflow-backlog-part2.md
 

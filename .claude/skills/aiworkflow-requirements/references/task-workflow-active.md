@@ -22,6 +22,33 @@
 | evidence boundary | Local shared/API tests and typechecks captured; staging D1 distinct query remains runtime/user-gated |
 | user gate | staging D1 distinct query, commit, push, PR |
 
+### Issue #772 CF audit monitor runtime restoration（2026-05-17）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `runtime_pending / implementation / NON_VISUAL / PASS_BOUNDARY_SYNCED_RUNTIME_PENDING` |
+| 成果物 | `docs/30-workflows/issue-772-cf-audit-monitor-runtime-restoration-and-cleanup/` |
+| source | `docs/30-workflows/unassigned-task/followup-issue-720-001-prod-env-monitor-secret-cleanup.md` consumed |
+| 目的 | `cf-audit-log-monitor.yml` の hourly runtime を repository-level monitor secrets / variables で復旧し、production env monitor cleanup は fresh inventory で対象不在なら no-op と判定する |
+| evidence | Phase 11 runtime placeholders / Phase 12 strict 7 / Phase 13 placeholders |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-772-cf-audit-monitor-runtime-restoration-artifact-inventory.md` |
+| user gate | repo secrets / variables、workflow dispatch、six hourly successes、rollback delete、commit、push、PR |
+
+### Issue #770 profile loading skeleton（2026-05-17）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_runtime_pending / implementation / VISUAL / Phase 12 strict 7 present` |
+| 成果物 | `docs/30-workflows/issue-770-profile-loading-skeleton/` |
+| source | `docs/30-workflows/unassigned-task/integration-fixes-i07-profile-loading-skeleton.md` consumed |
+| parent | `docs/30-workflows/ui-prototype-alignment-mvp-recovery/improvements/integration-fixes/parallel-i07-profile-loading-skeleton/spec.md` |
+| 目的 | `/profile/loading.tsx` を text placeholder から OKLch token skeleton に置換し、parallel-07 §4.5 を local 達成する |
+| 実装 | `apps/web/app/profile/loading.tsx`, `apps/web/app/profile/loading.spec.tsx` |
+| 不変条件 | API / D1 schema / deployment contract 変更なし。`bg-surface-2` token utility と `.spec.tsx` 命名を維持 |
+| evidence | focused local command evidence / Phase 12 strict 7 |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-770-profile-loading-skeleton-artifact-inventory.md` |
+| user gate | authenticated browser screenshot / staging runtime visual evidence / commit / push / PR |
+
 ### Issue #769 root error h1 auto-focus（2026-05-17）
 
 | 項目 | 値 |
@@ -776,7 +803,7 @@
 | 項目 | 値 |
 | --- | --- |
 | 状態 | `implemented_local_runtime_pending / implementation / NON_VISUAL` |
-| 成果物 | `docs/30-workflows/issue-720-cf-audit-monitor-env-protection-fix/` |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-720-cf-audit-monitor-env-protection-fix/` |
 | source | `docs/30-workflows/completed-tasks/task-issue-655-cf-audit-log-monitor-production-env-protection-001.md` consumed |
 | parent | `docs/30-workflows/completed-tasks/issue-655-d7-recovery-2nd-cycle/` |
 | local diff | `.github/workflows/cf-audit-log-monitor.yml` から `environment: production` を削除 |

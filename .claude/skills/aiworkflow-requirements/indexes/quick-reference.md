@@ -43,6 +43,38 @@
 
 ---
 
+### Issue #772 CF audit monitor runtime restoration（2026-05-17）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/issue-772-cf-audit-monitor-runtime-restoration-and-cleanup/` |
+| 状態 | `runtime_pending / implementation / NON_VISUAL / PASS_BOUNDARY_SYNCED_RUNTIME_PENDING` |
+| source | `docs/30-workflows/unassigned-task/followup-issue-720-001-prod-env-monitor-secret-cleanup.md` consumed |
+| decision | production environment monitor cleanup is no-op if fresh inventory still shows no monitor-specific secrets; runtime restoration remains pending |
+| evidence | `outputs/phase-11/runtime-evidence/{hourly-runs.json,6h-success.md,heartbeat-after.txt}`, `outputs/phase-12/phase12-task-spec-compliance-check.md` |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-772-cf-audit-monitor-runtime-restoration-artifact-inventory.md` |
+| lessons | `.claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-issue-772-cf-audit-monitor-runtime-restoration-2026-05.md` |
+| user gate | repo secrets / variables, workflow dispatch, six hourly successes, rollback delete, commit, push, PR |
+
+---
+
+### Issue #770 Profile Loading Skeleton（2026-05-17）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/issue-770-profile-loading-skeleton/` |
+| 状態 | `implemented_local_runtime_pending / implementation / VISUAL` |
+| source issue | #770 OPEN |
+| implementation | `apps/web/app/profile/loading.tsx`, `apps/web/app/profile/loading.spec.tsx` |
+| parent spec | `docs/30-workflows/ui-prototype-alignment-mvp-recovery/improvements/integration-fixes/parallel-i07-profile-loading-skeleton/spec.md` |
+| source task | `docs/30-workflows/unassigned-task/integration-fixes-i07-profile-loading-skeleton.md` consumed |
+| evidence | `outputs/phase-12/phase12-task-spec-compliance-check.md`, `outputs/phase-11/evidence/` |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-770-profile-loading-skeleton-artifact-inventory.md` |
+| lessons | `.claude/skills/aiworkflow-requirements/references/lessons-learned-issue-770-profile-loading-skeleton-2026-05.md` (L-770-001..007) |
+| user gate | authenticated browser screenshot, staging runtime visual evidence, commit, push, PR |
+
+---
+
 ### Issue #769 root error h1 auto-focus（2026-05-17）
 
 | 目的 | 参照先 |
@@ -2862,6 +2894,20 @@ UT-17 Cloudflare Notifications → alert-relay → Slack 経路を、既存 API 
 | strict outputs | `outputs/phase-12/{main,implementation-guide,system-spec-update-summary,documentation-changelog,unassigned-task-detection,skill-feedback-report,phase12-task-spec-compliance-check}.md` |
 | inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-655-d7-recovery-2nd-cycle-artifact-inventory.md` |
 | user gate | commit / push / PR / workflow_dispatch / secret or variable mutation / runtime promotion は user approval 後のみ |
+
+### Issue #720 CF audit monitor environment protection fix（2026-05-16）
+
+| 観点 | 値 / 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-720-cf-audit-monitor-env-protection-fix/` |
+| status | `implemented_local_runtime_pending / implementation / NON_VISUAL` |
+| local diff | `.github/workflows/cf-audit-log-monitor.yml` から `environment: production` を削除 |
+| classification | read-only / notification-only monitor. Deploy / rollback / schema apply は行わない |
+| runbook | `docs/00-getting-started-manual/specs/15-infrastructure-runbook.md` Issue #720 section |
+| parent | `docs/30-workflows/completed-tasks/issue-655-d7-recovery-2nd-cycle/` |
+| evidence boundary | Phase 11 planned files are physical `PENDING_USER_GATE` placeholders. Runtime success is not claimed locally |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-720-cf-audit-monitor-env-protection-fix-artifact-inventory.md` |
+| user gate | repo secret/variable mirror, push, PR, workflow dispatch dry run, six scheduled successes, D'+0 declaration, production env monitor secret cleanup |
 
 ### UT-17 Follow-up 002 / Alert Relay Dedup KV（2026-05-13）
 
