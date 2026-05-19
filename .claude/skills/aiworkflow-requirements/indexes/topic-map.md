@@ -1098,12 +1098,12 @@ node scripts/list-specs.js --topics
 | 1. 全体構成 | L16 |
 | 2. AdminSidebar | L51 |
 | 3. /admin（Dashboard） | L77 |
-| 4. /admin/members | L112 |
-| 5. /admin/tags | L205 |
-| 6. /admin/schema | L285 |
-| 7. /admin/meetings | L340 |
-| 8. 共通の Server/Client 契約 | L409 |
-| 9. 不変条件サマリ（admin UI） | L427 |
+| 4. /admin/members | L130 |
+| 5. /admin/tags | L223 |
+| 6. /admin/schema | L303 |
+| 7. /admin/meetings | L358 |
+| 8. 共通の Server/Client 契約 | L427 |
+| 9. 不変条件サマリ（admin UI） | L445 |
 
 ### references/ui-ux-advanced.md
 
@@ -2944,6 +2944,12 @@ node scripts/list-specs.js --topics
 | Follow-up 未タスク | L81 |
 | Validation Chain | L89 |
 | 関連ドキュメント | L102 |
+
+### references/workflow-step-05-dashboard-chart-implementation-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Phase 12 Strict 7 | L27 |
 
 ### references/workflow-task-03-w2-par-sentry-workers-sdk-unify-artifact-inventory.md
 
@@ -5384,6 +5390,16 @@ node scripts/list-specs.js --topics
 | 関連リンク | L52 |
 | 申し送り（open / baseline 未タスク） | L61 |
 
+### references/lessons-learned-step-05-dashboard-chart-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| L-DASH-001: chart library 不採用 / SVG 直書きで OKLch token 整合を優先 | L7 |
+| L-DASH-002: OKLch CSS var vs HEX 直書き / chart UI でも HEX 禁止を堅持 | L16 |
+| L-DASH-003: `byStatus` を optional discriminator にする後方互換戦略 | L25 |
+| L-DASH-004: legacy placeholder fallback / `slices` empty 時の既存 UI 維持 | L34 |
+| L-DASH-005: aria-label を component spec で test back する設計 | L43 |
+
 ### references/lessons-learned-sync-merge-hook-skip-2026-04.md
 
 | セクション | 行 |
@@ -5884,8 +5900,8 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 概要 | L3 |
 | 仕様書インデックス | L7 |
-| 利用順序 | L113 |
-| 関連ドキュメント | L118 |
+| 利用順序 | L114 |
+| 関連ドキュメント | L119 |
 
 ### references/llm-embedding.md
 
@@ -7009,14 +7025,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L1707 |
-| フェーズ構造（概要） | L1716 |
-| 品質ゲート（概要） | L1747 |
-| 出力テンプレート | L1758 |
-| 実行時のコマンド・エージェント・スキル | L1781 |
-| 昇格パターン集 | L1805 |
-| Current Active / Spec Created Tasks | L1807 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L1959 |
+| ドキュメント構成 | L1719 |
+| フェーズ構造（概要） | L1728 |
+| 品質ゲート（概要） | L1759 |
+| 出力テンプレート | L1770 |
+| 実行時のコマンド・エージェント・スキル | L1793 |
+| 昇格パターン集 | L1817 |
+| Current Active / Spec Created Tasks | L1819 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L1971 |
 
 ### references/task-workflow-backlog-part2.md
 
