@@ -482,6 +482,8 @@ async function scanForbiddenColorLiterals(roots: readonly string[]): Promise<Tok
     .flat()
     .filter((file) => /\.(ts|tsx|css)$/.test(file))
     .filter((file) => !file.endsWith('/src/styles/tokens.css'))
+    // next/og ImageResponse は CSS variable を解決しないため HEX literal 必須。
+    .filter((file) => !file.endsWith('/app/opengraph-image.tsx'))
   const drifts: TokenDrift[] = []
   const hexRe = /(^|[^A-Za-z0-9_-])(#[0-9A-Fa-f]{3}(?:[0-9A-Fa-f]{3})?(?:[0-9A-Fa-f]{2})?)\b/g
   const arbitraryRe = /\b(?:bg|text|border|from|to|via)-\[#[0-9A-Fa-f]{3,8}\]/g
