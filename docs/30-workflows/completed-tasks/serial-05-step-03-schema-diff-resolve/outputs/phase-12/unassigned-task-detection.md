@@ -32,7 +32,7 @@
 
 - alias bulk resolve（複数 diff を一括処理）
 - diff history view（resolve 履歴の閲覧 UI）
-- alias rollback / undo（2026-05-19 に `docs/30-workflows/issue-778-schema-alias-rollback-undo/` で consumed）
+- alias rollback / undo
 - admin notification（diff 発生時の通知）
 
 ## 4. 判定
