@@ -176,9 +176,11 @@ function RollbackConfirmModal(props: RollbackConfirmModalProps) {
       if (focusables.length === 0) return;
       const first = focusables[0];
       const last = focusables[focusables.length - 1];
+      // eslint-disable-next-line no-restricted-globals -- isBrowser() guard above
       if (e.shiftKey && document.activeElement === first) {
         e.preventDefault();
         last.focus();
+        // eslint-disable-next-line no-restricted-globals -- isBrowser() guard above
       } else if (!e.shiftKey && document.activeElement === last) {
         e.preventDefault();
         first.focus();
