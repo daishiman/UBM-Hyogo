@@ -1,13 +1,14 @@
 {
   "$schema": "../../../../docs/30-workflows/task-709-visual-baseline-runtime-capture/schemas/baseline-meta.schema.json",
-  "captured_at_commit_sha": "f5c87fa40a5f57f8e07fcb9871a5bfc619c8a294",
-  "captured_at": "2026-05-18T08:31:22Z",
+  "captured_at_commit_sha": "e21a3ba5cf96e715771d37817ffb593aadb30f38",
+  "captured_at": "2026-05-19T13:58:33Z",
   "captured_via": "playwright-visual-baseline-update.yml#workflow_dispatch",
   "captured_run_ids": [
     "25961476237",
     "25961551972",
     "25982741998",
-    "26022102232"
+    "26022102232",
+    "26101682046"
   ],
   "viewport_dimensions": {
     "desktop": {
@@ -35,5 +36,5 @@
   "refresh_workflow": ".github/workflows/playwright-visual-baseline-update.yml",
   "refresh_command_hint": "gh workflow run playwright-visual-baseline-update.yml -f reason=\"<why>\" -r <feature-branch>",
   "notes": "captured_at_commit_sha からの rendering_relevant_paths diff が空でない場合、baseline は stale。scripts/visual-baseline-status.sh で診断可能。",
-  "last_refresh_reason": "issue-749 primitive adoption: MeetingPanel / SchemaDiffPanel / RequestQueuePanel refactor changed admin/meetings, admin/schema, admin/requests rendering (EmptyState, AdminMutationError structured payload). baselines captured before #760 are now stale."
+  "last_refresh_reason": "parallel-02 prototype CSS rules port — globals.css G3-3 visibility marker (8px dot + padding-inline-start: 12px) intentionally shifts MemberDetailSections layout (+27px). baseline regeneration required for PR #830 visual-full to PASS."
 }
