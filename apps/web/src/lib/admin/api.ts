@@ -86,6 +86,15 @@ export interface SchemaAliasApplySuccessBody {
   ok: true;
   mode: "apply";
   confirmed: true;
+  alias?: {
+    id: string;
+    revisionId: string;
+    aliasQuestionId: string;
+    aliasLabel: string | null;
+    resolvedAt: string | null;
+    resolvedBy: string | null;
+    version: number;
+  };
   backfill: {
     status: SchemaAliasBackfillStatus;
     remaining?: number;
@@ -113,6 +122,76 @@ export const postSchemaAlias = (body: {
   diffId?: string;
 }): Promise<AdminMutationResult<SchemaAliasApplyBody>> =>
   call<SchemaAliasApplyBody>(`/schema/aliases`, "POST", body);
+
+export interface RollbackSchemaAliasInput {
+  aliasId: string;
+  version: number;
+  reason?: string;
+}
+
+export interface RollbackSchemaAliasResult {
+  aliasId: string;
+  rolledBackAt: string;
+  relatedAuditId: string | null;
+  newVersion: number;
+  impact: {
+    affectedResponseCount: number;
+    recomputeRequired: boolean;
+  };
+}
+
+export class RollbackApiError extends Error {
+  readonly status: number;
+  readonly code: string;
+  constructor(status: number, code: string, message?: string) {
+    super(message ?? `${code} (status ${status})`);
+    this.status = status;
+    this.code = code;
+    this.name = "RollbackApiError";
+  }
+}
+
+export async function rollbackSchemaAlias(
+  input: RollbackSchemaAliasInput,
+): Promise<RollbackSchemaAliasResult> {
+  let res: Response;
+  try {
+    res = await fetch(
+      `/api/admin/schema/aliases/${encodeURIComponent(input.aliasId)}/rollback`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "If-Match": `version=${input.version}`,
+        },
+        body: JSON.stringify({ reason: input.reason }),
+      },
+    );
+  } catch (e) {
+    throw new RollbackApiError(0, "network_error", e instanceof Error ? e.message : "network error");
+  }
+  let body: unknown = null;
+  const ct = res.headers.get("content-type") ?? "";
+  if (ct.includes("application/json")) {
+    try {
+      body = await res.json();
+    } catch {
+      // ignore
+    }
+  }
+  if (!res.ok) {
+    const code =
+      typeof body === "object" && body !== null && "error" in body
+        ? String((body as { error: unknown }).error)
+        : "unknown";
+    const message =
+      typeof body === "object" && body !== null && "message" in body
+        ? String((body as { message: unknown }).message)
+        : undefined;
+    throw new RollbackApiError(res.status, code, message);
+  }
+  return body as RollbackSchemaAliasResult;
+}
 
 export const isSchemaAliasRetryableContinuation = (
   r: AdminMutationResult<SchemaAliasApplyBody>,

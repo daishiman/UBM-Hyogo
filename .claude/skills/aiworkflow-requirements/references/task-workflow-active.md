@@ -8,6 +8,20 @@
 
 本ドキュメントは、複雑なタスクを単一責務の原則に基づいて分解し、各サブタスクに最適なスラッシュコマンド・エージェント・スキルの組み合わせを選定するためのガイドラインを定義する。
 
+### Issue #778 schema alias rollback / undo（2026-05-19）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_runtime_pending / implementation / VISUAL / PASS_BOUNDARY_SYNCED_RUNTIME_PENDING` |
+| 成果物 | `docs/30-workflows/issue-778-schema-alias-rollback-undo/` |
+| source | `docs/30-workflows/unassigned-task/serial-05-step-03-followup-004-schema-alias-rollback-undo.md` consumed via canonical workflow |
+| parent | `docs/30-workflows/completed-tasks/serial-05-step-03-schema-diff-resolve/` |
+| 目的 | SchemaDiffPanel alias resolve の誤操作を D1 直接修正ではなく API + application `audit_log` 経由で rollback / undo できるようにする |
+| contract | `POST /admin/schema/aliases/:aliasId/rollback`, `If-Match: version=<N>`, response `{ aliasId, rolledBackAt, relatedAuditId, newVersion, impact }`; relation は `audit_log.after_json.relatedAuditId` |
+| evidence | Phase 12 strict 7 / root-output artifacts parity / Phase 11 runtime placeholders |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-778-schema-alias-rollback-undo-artifact-inventory.md` |
+| user gate | staging D1 migration apply, production D1 migration apply, Playwright visual baseline, commit, push, PR |
+
 ### Issue #772 CF audit monitor runtime restoration（2026-05-17）
 
 | 項目 | 値 |

@@ -7,7 +7,7 @@ description: |
   • Continuous Delivery / 適用: フェーズゲート / 目的: 品質パイプライン
   • DDD / 適用: ユビキタス言語 / 目的: 用語統一
   Trigger:
-  タスク仕様書作成, タスク分解, ワークフロー設計, Phase実行, インテグレーション設計, ワークフローパッケージ, Cloudflare Workers, Web API設計, 外部連携パッケージ, completed-tasks 移動, task path normalization, docs-only spec_created, phase12 compliance ci gate, verify-phase12-compliance, Phase 12 canonical heading SSOT, recovery workflow, recovery-mode, since-filter, evidence-step parity gate, max-2-cycle guard, D'+0 reset, conditional-implementation, unsupported-path-gate, primary-source-snapshot-gate, verified_current_no_code_change_pending_pr, stale-claim grep, workflow-path-existence-gate, infra-diff state gate, cloudflare alert policy IaC, kv usage monitoring, runbook implementation diff, tests/fixtures dirty diff gate, fallback retirement, dual-environment coverage gate, physical deletion 2-stage, lookup contract sync, phase11 evidence existence, missing-evidence, parse-phase11-evidence, phase11 evidence inventory parser, evidence existence validator, path traversal evidence guard, branch-sync skill reflection
+  タスク仕様書作成, タスク分解, ワークフロー設計, Phase実行, インテグレーション設計, ワークフローパッケージ, Cloudflare Workers, Web API設計, 外部連携パッケージ, completed-tasks 移動, task path normalization, docs-only spec_created, phase12 compliance ci gate, verify-phase12-compliance, Phase 12 canonical heading SSOT, recovery workflow, recovery-mode, since-filter, evidence-step parity gate, max-2-cycle guard, D'+0 reset, conditional-implementation, unsupported-path-gate, primary-source-snapshot-gate, verified_current_no_code_change_pending_pr, stale-claim grep, workflow-path-existence-gate, infra-diff state gate, cloudflare alert policy IaC, kv usage monitoring, runbook implementation diff, tests/fixtures dirty diff gate, fallback retirement, dual-environment coverage gate, physical deletion 2-stage, lookup contract sync, phase11 evidence existence, missing-evidence, parse-phase11-evidence, phase11 evidence inventory parser, evidence existence validator, path traversal evidence guard, branch-sync skill reflection, unassigned-task pre-flight gate, unassigned-task batch verification, missing-required-section
 allowed-tools:
   - Read
   - Write
@@ -28,6 +28,8 @@ allowed-tools:
 
 | Version | Date | Changes |
 | --- | --- | --- |
+| v2026.05.19-issue778-unassigned-task-batch-preflight | 2026-05-19 | Issue #778 Phase 12 で複数件 unassigned-task の必須 3 セクション欠落を予防。`references/unassigned-task-required-sections.md` §6.5 を新設し `rg -L` ベースの pre-flight verification snippet を正本化。SKILL.md Phase 12 Task 4 に同 wave 2 件以上発行時の必須実行を明記。 |
+| v2026.05.19-issue778-physical-output-and-followup-gate | 2026-05-19 | Issue #778 review feedback を反映。Phase 12 strict 7 / output artifacts mirror の物理配置、既存 follow-up の実在 path への正規化、source unassigned consumed trace の同 wave 同期を確認。 |
 | v2026.05.17-issue772-current-state-runtime-restoration | 2026-05-17 | Issue #772 review feedback を反映。CLOSED cleanup issue を current codebase 実態で再分類し、cleanup no-op decision と runtime restored の混同禁止、repo-level variables count（参照 9 / 既存 1 / 投入 8）、rollback delete command の destructive user-gated marker 必須化を `references/phase12-skill-feedback-promotion.md` に追加。 |
 | v2026.05.17-branch-sync-skill-reflection | 2026-05-17 | dev 同期マージで発生した SKILL.md / SKILL-changelog.md / keywords.json / deployment-secrets-management.md の意味的衝突を「両者結合（HEAD 側 issue #720 系 + dev 側 ut17-followup-006 / i02 / issue #717 系）」で自律解消した運用知見を反映。本ブランチ（feat/issue-720-cf-audit-monitor-env-protection-fix）の Phase 12 feedback と dev 取り込みコミットを同一 wave で skill 正本に反映する基準を branch-sync 自律実行プロンプトの自律判断ルール B-5（ドキュメントは両者結合し重複除去）に整合させた。 |
 | v2026.05.17-branch-sync-skill-reflection | 2026-05-17 | dev 同期マージで発生した SKILL.md / SKILL-changelog.md / keywords.json / task-workflow-active.md / indexes の意味的衝突を「両者結合（HEAD 側 Issue #730 phase11-evidence-existence-validator + dev 側 i02 / issue #717 / ut17-followup-006 / issue #720 系）」で自律解消した運用知見を反映。本ブランチ（feat/issue-730-phase11-evidence-existence-validator）の Phase 11 evidence existence validator と dev 取り込みコミットを同一 wave で skill 正本に反映する基準を branch-sync 自律実行プロンプトの自律判断ルール B-5（ドキュメントは両者結合し重複除去）に整合させた。indexes は `pnpm indexes:rebuild` 再生成を正規経路とし、merge では theirs を採用してから rebuild する手順を確立。 |
@@ -121,7 +123,7 @@ Phase 12 は次の **6 必須タスク** を実行し、最低 7 ファイルを
 1. 実装ガイド作成（Part 1 中学生レベル + Part 2 技術者レベル）
 2. システム仕様書更新（Step 1-A/B/C + 条件付き Step 2）
 3. ドキュメント更新履歴作成
-4. 未タスク検出レポート作成（**0 件でも出力必須**。coverage 型タスクは coverage layer 表 `file/before%/after%/delta%` で代替可能）
+4. 未タスク検出レポート作成（**0 件でも出力必須**。coverage 型タスクは coverage layer 表 `file/before%/after%/delta%` で代替可能。**同 wave で 2 件以上の unassigned-task を新規発行する場合は [references/unassigned-task-required-sections.md §6.5](references/unassigned-task-required-sections.md) の pre-flight verification snippet（`rg -L '^## 苦戦箇所【記入必須】'` 等 4 見出し）を実行し、欠落 0 件を確認してから close-out する**）
 5. スキルフィードバックレポート作成（**改善点なしでも出力必須**。章立ては「テンプレ改善 / ワークフロー改善 / ドキュメント改善」の 3 観点固定）
 6. タスク仕様書コンプライアンスチェック（`outputs/phase-12/phase12-task-spec-compliance-check.md`）
 
@@ -161,7 +163,7 @@ Phase 12 は次の **6 必須タスク** を実行し、最低 7 ファイルを
 | PR push 前 CI gate pre-flight チェックリスト（過去の繰り返し失敗 5 系統 + `scripts/verify-pr-ready.sh`） | [references/pr-pre-flight-ci-gate-checklist.md](references/pr-pre-flight-ci-gate-checklist.md) |
 | Phase 12 よくある漏れ / 苦戦防止 Tips | [references/phase-12-pitfalls.md](references/phase-12-pitfalls.md) |
 | Phase 12 sync パターン（aiworkflow-requirements 同時更新 / workflow root 移動チェックリスト） | [references/patterns-phase12-sync.md](references/patterns-phase12-sync.md) |
-| 未タスクテンプレ必須 4 セクション（苦戦箇所 / リスクと対策 / 検証方法 / スコープ）+ §6 governance YAML フロントマター契約 | [references/unassigned-task-required-sections.md](references/unassigned-task-required-sections.md) |
+| 未タスクテンプレ必須 4 セクション（苦戦箇所 / リスクと対策 / 検証方法 / スコープ）+ §6 governance YAML フロントマター契約 + §6.5 複数件 batch 生成 pre-flight 検証（Issue #778） | [references/unassigned-task-required-sections.md](references/unassigned-task-required-sections.md) |
 | CLOSED Issue で canonical workflow root が欠落していた場合の後付け生成 / unassigned-task consumed 化 / governance YAML 契約 | [references/closed-issue-canonical-workflow-recovery.md](references/closed-issue-canonical-workflow-recovery.md) |
 | 品質ゲート / Phase 境界 / 検証コマンド導線（commands.md とハブ関係） | [references/quality-gates.md](references/quality-gates.md) |
 | オーケストレーション / リソース導線 / ベストプラクティス | [references/orchestration.md](references/orchestration.md) |

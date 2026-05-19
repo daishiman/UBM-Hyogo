@@ -32,7 +32,12 @@ description: |
   wrangler bundling, wrangler version mismatch, scripts/cf.sh, cf.sh wrapper,
   i18n, i18n-label-normalization, NFKC, alias-recommendation,
   alias-recommendation-score-stability, label-normalization,
-  recommendedStableKeys, stable_key_collision, 409 stable_key_collision
+  recommendedStableKeys, stable_key_collision, 409 stable_key_collision,
+  schema-alias-rollback, schema-alias-undo, If-Match, rolledBackAt,
+  D1 soft delete, deleted_at, partial unique index, optimistic lock,
+  version_mismatch, db.batch atomicity, audit_log relatedAuditId,
+  cf_audit_log vs audit_log boundary, rollback workflow pattern,
+  pattern-d1-soft-delete-optimistic-lock-batch
 allowed-tools:
   - Read
   - Glob
@@ -53,6 +58,8 @@ ubm-hyogo Web アプリプロジェクトの全仕様を管理するスキル。
 
 | Version | Date | Changes |
 | --- | --- | --- |
+| v2026.05.19-pattern-d1-soft-delete-optimistic-lock-batch | 2026-05-19 | Issue #778 で確立した D1 soft delete + 楽観ロック + `db.batch()` atomic mutation + audit relation を汎用 pattern として正本化。`references/pattern-d1-soft-delete-optimistic-lock-batch.md` + `references/lessons-learned-d1-batch-atomicity-and-soft-delete-2026-05.md`（L-DBATCH-001 / L-SOFTDEL-001 / L-OPTLOCK-001 / L-AUDITREL-001 / L-SCOPE-001）を新規追加し、`indexes/resource-map.md` / `indexes/quick-reference.md` / `SKILL.md` Trigger / `LOGS/_legacy.md` を同一 wave で同期。 |
+| v2026.05.19-issue778-schema-alias-rollback-undo | 2026-05-19 | Issue #778 schema alias rollback / undo を `runtime_pending / implementation / VISUAL / PASS_BOUNDARY_SYNCED_RUNTIME_PENDING` として同期。rollback endpoint、application `audit_log.after_json.relatedAuditId`、Phase 12 strict 7、root/output artifacts parity、source followup-004 consumed trace、followup split、api/admin specs、indexes を同一 wave で反映。 |
 | v2026.05.17-issue772-cf-audit-monitor-runtime-restoration | 2026-05-17 | Issue #772 を `runtime_pending / implementation / NON_VISUAL / PASS_BOUNDARY_SYNCED_RUNTIME_PENDING` として同期。cleanup no-op candidate と runtime restoration pending を分離し、workflow root / runbook / source follow-up consumed marker / Phase 13 placeholders / indexes / lessons を同一 wave で反映。 |
 | v2026.05.16-task25-followup-loading-state-observation-fixture | 2026-05-16 | task-25 follow-up loading state observation fixture を `verified / implementation / NON_VISUAL / implementation_complete_pending_pr` として同期。`/smoke/loading-state` fixture、shared fixture guard + focused unit test、staging smoke spec、`SMOKE-COVERAGE-MATRIX.md` row 19 runtime observation、`09-ui-ux.md` fixture route正本、Phase 12 strict 7、source unassigned consumed trace、quick-reference/resource-map/task-workflow-active/artifact inventory/changelog を同一 wave で反映。remote staging smoke / commit / push / PR は user-gated。 |
 | v2026.05.16-ut17-followup006-kv-usage-monitoring | 2026-05-16 | `ut-17-followup-006-alert-dedup-kv-usage-dashboard-monitoring` を `implemented_local_runtime_pending / implementation / NON_VISUAL` として同期。Workers KV account quota guard 2 policy（`workers-kv-writes-per-day` / `workers-kv-stored-bytes`）、namespace filter 不在境界、`enabled:false` 初期状態、Cloudflare apply / Slack smoke / `enabled:true` rollout user gate を正本化。 |

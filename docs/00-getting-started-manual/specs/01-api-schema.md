@@ -283,6 +283,12 @@ Response は `PublicMemberListViewZ.strict()` を正本とし、`items`、`pagin
 
 collision は同一 `revision_id` 内の別 `question_id` が同じ stableKey を持つ場合に `409 stable_key_collision` + `existingStableKey`、body validation は `422` + `existingQuestionIds`、diff 不在は `404`、diff と question 不一致は `409` を返す。back-fill が CPU budget に達した場合は `202 backfill_cpu_budget_exhausted` + `retryable=true` として UI に再試行可能状態を返す。大規模 back-fill / UNIQUE index / retryable HTTP contract は `docs/30-workflows/completed-tasks/ut-07b-schema-alias-hardening/` に分離済み。
 
+### Schema alias rollback / undo API（Issue #778）
+
+`POST /admin/schema/aliases/:aliasId/rollback` は、誤った alias resolve を D1 直接修正なしで取り消す admin-only endpoint である。request は `If-Match: version=<N>` header を必須とし、body は `{ "reason"?: string }` を受け取る。version 不一致は `409 version_mismatch`、対象なしは `404 not_found`、既に soft delete 済みなら `404 already_deleted` を返す。
+
+成功時 response は `{ aliasId, rolledBackAt, relatedAuditId, newVersion, impact: { affectedResponseCount, recomputeRequired } }`。rollback は `schema_aliases.deleted_at / deleted_by / version` を更新し、必要に応じて `schema_diff_queue.status` を `resolved -> queued` に戻し、application `audit_log.action='schema_alias.rollback'` を追加する。元 resolve audit への参照は rollback 行の `after_json.relatedAuditId` に保存する。Cloudflare Audit Logs 取り込み用 `cf_audit_log` はこの admin mutation の保存先にしない。
+
 ## admin identity conflict merge API（Issue #194）
 
 03b response sync が `EMAIL_CONFLICT` を記録した運用文脈では、admin が同一人物の重複 identity を手動確認して merge できる。
