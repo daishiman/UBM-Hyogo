@@ -1,6 +1,5 @@
 import { ImageResponse } from "next/og";
 
-export const runtime = "edge";
 export const alt = "UBM 兵庫支部会";
 export const size = { width: 1200, height: 630 } as const;
 export const contentType = "image/png";

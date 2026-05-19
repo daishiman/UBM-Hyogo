@@ -102,6 +102,17 @@ jobs:
       # assert する。fail 時は "Sentry server instrumentation missing in standalone build artifact"
       # を log に出力する (docs/runbooks/next-standalone-instrumentation-patch.md §4)。
       - name: Build (Cloudflare standalone)
+        # `build:cloudflare` も Next.js build を内部で再走するため、最初の Build step と
+        # 同じ env placeholder が必要（apps/web/src/lib/env.ts の zod schema が CI 環境で
+        # ENVIRONMENT / NEXT_PUBLIC_API_BASE_URL undefined を拒否するため）。
+        env:
+          ENVIRONMENT: local
+          NEXT_PUBLIC_API_BASE_URL: http://127.0.0.1:8787
+          PUBLIC_API_BASE_URL: http://127.0.0.1:8787
+          INTERNAL_API_BASE_URL: http://127.0.0.1:8787
+          AUTH_URL: http://127.0.0.1:3000
+          SENTRY_ENVIRONMENT: local
+          SENTRY_TRACES_SAMPLE_RATE: '0'
         run: mise exec -- bash -c 'NODE_ENV=production pnpm --filter @ubm-hyogo/web build:cloudflare'
 
       - name: verify-web-instrumentation-patch
@@ -143,6 +154,17 @@ jobs:
           path: apps/web/.next
 
       - name: Start server (background)
+        # generateMetadata は request 時に getPublicEnv() を実行するため、
+        # start 時にも env placeholder が必要。ENVIRONMENT=production で
+        # site-metadata.ts の robots を index:true に切替え、Lighthouse SEO を pass させる。
+        env:
+          ENVIRONMENT: production
+          NEXT_PUBLIC_API_BASE_URL: http://127.0.0.1:8787
+          PUBLIC_API_BASE_URL: http://127.0.0.1:8787
+          INTERNAL_API_BASE_URL: http://127.0.0.1:8787
+          AUTH_URL: http://127.0.0.1:3000
+          SENTRY_ENVIRONMENT: local
+          SENTRY_TRACES_SAMPLE_RATE: '0'
         run: mise exec -- pnpm --filter @ubm-hyogo/web start &
 
       - name: Wait for server
