@@ -8,6 +8,75 @@
 
 本ドキュメントは、複雑なタスクを単一責務の原則に基づいて分解し、各サブタスクに最適なスラッシュコマンド・エージェント・スキルの組み合わせを選定するためのガイドラインを定義する。
 
+### Issue #256 E2E coverage baseline runbook（2026-05-18）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / NON_VISUAL / implementation_complete_pending_pr` |
+| 成果物 | `docs/30-workflows/issue-256-e2e-coverage-baseline-runbook/` |
+| Issue | #256 CLOSED。PR 文脈は `Refs #256` のみ |
+| source unassigned | `docs/30-workflows/unassigned-task/task-e2e-playwright-coverage-001.md` partial_fix |
+| 目的 | apps/web route coverage blind spot を `coverage.exclude` ratio baseline、soft warn workflow、fallback metric runbook、smoke SLA runbook で可視化する |
+| implementation targets | `scripts/measure-coverage-exclude-ratio.ts`, `scripts/__tests__/measure-coverage-exclude-ratio.spec.ts`, `.github/workflows/verify-coverage-exclude-ratio.yml`, `vitest.config.ts`, `docs/30-workflows/runbooks/e2e-coverage-fallback-metric.md`, `docs/30-workflows/runbooks/playwright-smoke-19-route-sla.md` |
+| evidence | `outputs/phase-7/coverage-exclude-ratio.json` (`37 / 80 = 46.3% warn`), `outputs/phase-9/qa-result.md`, `outputs/phase-11/manual-test-result.md`, `outputs/phase-12/phase12-task-spec-compliance-check.md` |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-256-e2e-coverage-baseline-runbook-artifact-inventory.md` |
+| user gate | commit / push / PR / issue mutation |
+
+### Issue #266 shared sync Zod contract（2026-05-18）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_runtime_pending / implementation / NON_VISUAL / Phase 12 strict 7 present` |
+| 成果物 | `docs/30-workflows/issue-266-shared-sync-zod-contract/` |
+| Issue | #266 CLOSED。PR 文脈は `Refs #266` のみ |
+| 目的 | `SyncLogStatus` / `SyncTriggerType` / `SyncLogRecord` を `packages/shared/src/zod/sync-log.ts` に Zod schema + `z.infer` 型として一意定義し、`apps/api` sync read/write 境界へ接続する |
+| canonical | status=`running/success/failed/skipped`, trigger=`cron/admin/backfill`, record=`sync_job_logs` 物理 12 カラム |
+| implemented targets | `packages/shared/src/zod/sync-log.ts`, `packages/shared/src/zod/index.ts`, `apps/api/src/sync/{types,audit,manual,scheduled,audit-route.contract.spec,audit.contract.spec,manual.contract.spec,scheduled.contract.spec}.ts`, `apps/api/src/jobs/{sync-sheets-to-d1,sync-forms-responses}.ts` |
+| source trace | `docs/30-workflows/unassigned-task/U-UT01-08-sync-enum-canonicalization.md`, `docs/30-workflows/unassigned-task/U-UT01-10-shared-sync-contract-zod.md` |
+| evidence boundary | Local shared/API tests and typechecks captured; staging D1 distinct query remains runtime/user-gated |
+| user gate | staging D1 distinct query, commit, push, PR |
+
+### Issue #772 CF audit monitor runtime restoration（2026-05-17）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `runtime_pending / implementation / NON_VISUAL / PASS_BOUNDARY_SYNCED_RUNTIME_PENDING` |
+| 成果物 | `docs/30-workflows/issue-772-cf-audit-monitor-runtime-restoration-and-cleanup/` |
+| source | `docs/30-workflows/unassigned-task/followup-issue-720-001-prod-env-monitor-secret-cleanup.md` consumed |
+| 目的 | `cf-audit-log-monitor.yml` の hourly runtime を repository-level monitor secrets / variables で復旧し、production env monitor cleanup は fresh inventory で対象不在なら no-op と判定する |
+| evidence | Phase 11 runtime placeholders / Phase 12 strict 7 / Phase 13 placeholders |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-772-cf-audit-monitor-runtime-restoration-artifact-inventory.md` |
+| user gate | repo secrets / variables、workflow dispatch、six hourly successes、rollback delete、commit、push、PR |
+
+### Issue #770 profile loading skeleton（2026-05-17）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_runtime_pending / implementation / VISUAL / Phase 12 strict 7 present` |
+| 成果物 | `docs/30-workflows/issue-770-profile-loading-skeleton/` |
+| source | `docs/30-workflows/unassigned-task/integration-fixes-i07-profile-loading-skeleton.md` consumed |
+| parent | `docs/30-workflows/ui-prototype-alignment-mvp-recovery/improvements/integration-fixes/parallel-i07-profile-loading-skeleton/spec.md` |
+| 目的 | `/profile/loading.tsx` を text placeholder から OKLch token skeleton に置換し、parallel-07 §4.5 を local 達成する |
+| 実装 | `apps/web/app/profile/loading.tsx`, `apps/web/app/profile/loading.spec.tsx` |
+| 不変条件 | API / D1 schema / deployment contract 変更なし。`bg-surface-2` token utility と `.spec.tsx` 命名を維持 |
+| evidence | focused local command evidence / Phase 12 strict 7 |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-770-profile-loading-skeleton-artifact-inventory.md` |
+| user gate | authenticated browser screenshot / staging runtime visual evidence / commit / push / PR |
+
+### Issue #769 root error h1 auto-focus（2026-05-17）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / NON_VISUAL / runtime_pending` |
+| 成果物 | `docs/30-workflows/issue-769-root-error-focus/` |
+| source | `docs/30-workflows/unassigned-task/integration-fixes-i06-root-error-focus.md` consumed |
+| 目的 | root `apps/web/app/error.tsx` の h1 に mount 後 focus を移譲し、screen reader がエラー見出しを即時認識できるようにする |
+| 実装 | `apps/web/app/error.tsx`, `apps/web/app/__tests__/error.component.spec.tsx` |
+| 不変条件 | 文言、className、digest 表示、reset、logger shape、i05 `/login/error.tsx` は変更しない |
+| evidence | `docs/30-workflows/issue-769-root-error-focus/outputs/phase-11/evidence/`, `docs/30-workflows/issue-769-root-error-focus/outputs/phase-12/phase12-task-spec-compliance-check.md` |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-769-root-error-focus-artifact-inventory.md` |
+| user gate | interactive screen reader smoke / commit / push / PR |
+
 ### Issue #762 CF OIDC staging proof readiness（2026-05-17）
 
 | 項目 | 値 |
@@ -749,7 +818,7 @@
 | 項目 | 値 |
 | --- | --- |
 | 状態 | `implemented_local_runtime_pending / implementation / NON_VISUAL` |
-| 成果物 | `docs/30-workflows/issue-720-cf-audit-monitor-env-protection-fix/` |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-720-cf-audit-monitor-env-protection-fix/` |
 | source | `docs/30-workflows/completed-tasks/task-issue-655-cf-audit-log-monitor-production-env-protection-001.md` consumed |
 | parent | `docs/30-workflows/completed-tasks/issue-655-d7-recovery-2nd-cycle/` |
 | local diff | `.github/workflows/cf-audit-log-monitor.yml` から `environment: production` を削除 |

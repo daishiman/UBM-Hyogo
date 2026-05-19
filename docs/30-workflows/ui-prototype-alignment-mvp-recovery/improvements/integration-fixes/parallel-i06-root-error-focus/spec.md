@@ -9,7 +9,7 @@
 実コード (`apps/web/app/error.tsx`) で確認:
 - `role="alert"` + `aria-live="assertive"` ✓ 既実装
 - digest 表示 ✓ 既実装
-- **h1 への自動 focus 未実装** ← 本タスクで追加
+- **h1 への自動 focus 実装済み** ← Issue #769 workflow で追加
 
 ## スコープ
 
@@ -28,7 +28,7 @@
 | Path | 種別 | 理由 |
 |------|------|------|
 | `apps/web/app/error.tsx` | modify | h1 ref + focus useEffect |
-| `apps/web/app/error.spec.tsx` | create or modify | focus 移譲検証 |
+| `apps/web/app/__tests__/error.component.spec.tsx` | modify | 既存 root error component test へ focus 移譲検証を追記 |
 
 ## 設計
 
@@ -93,11 +93,11 @@ export default function RouteError({ error, reset }: Props) {
 
 ## テスト方針
 
-`apps/web/app/error.spec.tsx` を新規作成（既存があれば追記）:
+`apps/web/app/__tests__/error.component.spec.tsx` の既存 `RouteError` suite に追記:
 
 ```ts
 import { render, screen } from "@testing-library/react";
-import RouteError from "./error";
+import RouteError from "../error";
 
 it("マウント直後に h1 に focus が当たる", () => {
   render(<RouteError error={new Error("boom")} reset={() => {}} />);
@@ -116,16 +116,16 @@ it("digest を表示", () => {
 ```bash
 mise exec -- pnpm typecheck
 mise exec -- pnpm lint
-mise exec -- pnpm -F "@ubm-hyogo/web" test -- --run error
+mise exec -- pnpm -F "@ubm-hyogo/web" test -- --run error.component
 ```
 
 ## DoD
 
-- [ ] `apps/web/app/error.tsx` で h1 に `ref` + `tabIndex={-1}`
-- [ ] useEffect で `focus({ preventScroll: true })` 呼び出し
-- [ ] `error.spec.tsx` で focus 検証 PASS
-- [ ] `pnpm typecheck` / `pnpm lint` PASS
-- [ ] p-07 spec 4.3 (Root error.tsx focus 管理) 達成
+- [x] `apps/web/app/error.tsx` で h1 に `ref` + `tabIndex={-1}`
+- [x] useEffect で `focus({ preventScroll: true })` 呼び出し
+- [x] `apps/web/app/__tests__/error.component.spec.tsx` で focus 検証 PASS
+- [x] `pnpm typecheck` / `pnpm lint` PASS
+- [x] p-07 spec 4.3 (Root error.tsx focus 管理) 達成
 
 ## リスク
 
@@ -143,6 +143,6 @@ mise exec -- pnpm -F "@ubm-hyogo/web" test -- --run error
 
 このタスクは canonical workflow root へ昇格するか、in-place fix で完結するかをここで明示する。
 
-- **status**: pending
-- **canonical_workflow**: null（in-place fix で完結予定）
-- **判断**: 差分は 4 行 + test 1 ファイルのみで p-07 spec 4.3 の DoD 補完が目的。Phase 1-13 のフル昇格は不要と判断し、本 spec.md を発注書として in-place fix で完結させる。
+- **status**: implemented_local_evidence_captured
+- **canonical_workflow**: `docs/30-workflows/issue-769-root-error-focus/`
+- **判断**: 当初は in-place fix 予定だったが、Issue #769 として Phase 1-13 の canonical workflow root へ昇格済み。実装、既存テスト追記、Phase 11 deterministic evidence、Phase 12 strict 7、親 index / source unassigned task / aiworkflow-requirements 同期まで同一 wave で完了。interactive screen reader smoke、commit、push、PR は user-gated。

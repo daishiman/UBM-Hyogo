@@ -28,6 +28,14 @@ if base=$(git -C "$ROOT_DIR" merge-base HEAD origin/dev 2>/dev/null) && [ -n "$b
   fi
 fi
 
-node "$ROOT_DIR/scripts/verify-node-arch.mjs" && \
-  node "$ROOT_DIR/scripts/verify-worktree-node-modules-isolation.mjs" && \
-  node "$ROOT_DIR/scripts/verify-esbuild-version.mjs"
+# mise 管理 node を明示利用（Volta / nvm の shim が PATH 先頭にあっても
+# arm64 native node が選ばれるようにする。Refs: issue #747 §4）
+if command -v mise >/dev/null 2>&1; then
+  NODE_BIN=(mise exec -- node)
+else
+  NODE_BIN=(node)
+fi
+
+"${NODE_BIN[@]}" "$ROOT_DIR/scripts/verify-node-arch.mjs" && \
+  "${NODE_BIN[@]}" "$ROOT_DIR/scripts/verify-worktree-node-modules-isolation.mjs" && \
+  "${NODE_BIN[@]}" "$ROOT_DIR/scripts/verify-esbuild-version.mjs"
