@@ -21,16 +21,18 @@ else
   BASE="origin/dev"
 fi
 
-# sync-merge ノイズ除去（gate-metadata-guard と同じ考え方）
-MERGE_COUNT=$(git log --merges --format=%H "$BASE..HEAD" 2>/dev/null | wc -l | tr -d ' ')
-if [ "${MERGE_COUNT:-0}" -ge 1 ]; then
-  CHANGED=$(git log --no-merges --name-only --format= "$BASE..HEAD" 2>/dev/null \
-    | sort -u | sed '/^$/d' \
-    | grep -E '(^|/)(outputs/phase-12/phase12-task-spec-compliance-check\.md|outputs/phase-12/main\.md|artifacts\.json)$' || true)
-else
-  CHANGED=$(git diff --name-only "$BASE...HEAD" 2>/dev/null \
-    | grep -E '(^|/)(outputs/phase-12/phase12-task-spec-compliance-check\.md|outputs/phase-12/main\.md|artifacts\.json)$' || true)
+# sync-merge ノイズ除去:
+#   本ブランチが分岐した時点 (merge-base HEAD origin/dev) を真の base にし、
+#   --first-parent --no-merges で本ブランチ独自コミットの changed file だけを評価する。
+#   こうしないと sync-merge した他タスクの compliance file まで再評価対象になり、
+#   越境 fail を引き起こす。
+FORK_BASE=$(git merge-base HEAD origin/dev 2>/dev/null || true)
+if [ -z "$FORK_BASE" ]; then
+  FORK_BASE="$BASE"
 fi
+CHANGED=$(git log --first-parent --no-merges --name-only --format= "$FORK_BASE..HEAD" 2>/dev/null \
+  | sort -u | sed '/^$/d' \
+  | grep -E '(^|/)(outputs/phase-12/phase12-task-spec-compliance-check\.md|outputs/phase-12/main\.md|artifacts\.json)$' || true)
 
 if [ -z "$CHANGED" ]; then
   exit 0
@@ -44,8 +46,24 @@ GITIGNORED_EVIDENCE=""
 for compliance_md in $(echo "$CHANGED" | grep -E 'phase12-task-spec-compliance-check\.md$' || true); do
   [ -f "$compliance_md" ] || continue
   ROOT=$(dirname "$(dirname "$(dirname "$compliance_md")")")
-  EVIDENCE_PATHS=$(awk '/^## Phase 11 evidence file inventory/{f=1;next} /^## /{f=0} f && /\| `[^`]+` \| present \|/' "$compliance_md" \
-    | grep -oE '`[^`]+`' | tr -d '`' | sort -u)
+  # Phase 11 evidence inventory に書かれた present 行の path を抽出する。
+  # 旧形式: `| ` + バックティック囲み path + ` | present |`
+  # 新形式 (L-DEVSYNC-015 / Refs Phase 11 parser 互換): `| classification | <plain path> | present |`
+  # どちらの形式でも path を抽出できるよう、`| present |` を含む行を拾って 2/3列目を試す。
+  EVIDENCE_PATHS=$(awk -F'|' '
+    /^## Phase 11 evidence file inventory/ {f=1;next}
+    /^## / {f=0}
+    f && /\| *present *\|/ {
+      # cells: $1 empty (leading |), $2 classification or path, $3 path or status...
+      # path = backtick-quoted cell があればその中身、なければ status の直前 cell
+      for (i=2;i<=NF;i++) {
+        cell=$i
+        gsub(/^ +| +$/,"",cell)
+        if (cell == "present") { if (prev != "" && prev != "present") print prev; break }
+        gsub(/^`|`$/,"",cell)
+        prev = cell
+      }
+    }' "$compliance_md" | sort -u || true)
   for ep in $EVIDENCE_PATHS; do
     abs="$ROOT/$ep"
     [ -f "$abs" ] || continue
@@ -74,7 +92,7 @@ fi
 
 # 変更ファイルが含まれる workflow root に対して compliance check を実行。
 # verify-phase12-compliance.ts は COMPLIANCE_BASE_REF / COMPLIANCE_HEAD_REF で diff scope を決める。
-if ! COMPLIANCE_BASE_REF="$BASE" COMPLIANCE_HEAD_REF="HEAD" \
+if ! COMPLIANCE_BASE_REF="$FORK_BASE" COMPLIANCE_HEAD_REF="HEAD" \
   node --experimental-strip-types --disable-warning=MODULE_TYPELESS_PACKAGE_JSON \
   scripts/verify-phase12-compliance.ts 2>&1 | tee /tmp/phase12-compliance-guard.log \
   | grep -q '"status": "pass"'; then

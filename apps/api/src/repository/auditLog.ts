@@ -232,6 +232,147 @@ export interface AuditLogProvider {
   listFiltered(filters: AuditLogListFilters): Promise<AuditLogListRow[]>;
 }
 
+// ---------------------------------------------------------------------------
+// Issue #315: application audit_log cold storage (R2 export)
+// ---------------------------------------------------------------------------
+
+export interface ExportableAuditRow {
+  auditId: string;
+  actorId: string | null;
+  actorEmail: string | null;
+  action: string;
+  targetType: string;
+  targetId: string | null;
+  beforeJson: string | null;
+  afterJson: string | null;
+  createdAt: string;
+}
+
+export const listForExport = async (
+  c: DbCtx,
+  range: { fromUtc: string; toUtcExclusive: string; limit: number },
+): Promise<ExportableAuditRow[]> => {
+  const r = await c.db
+    .prepare(
+      `SELECT ${SELECT_COLS}
+       FROM audit_log
+       WHERE created_at >= ?1 AND created_at < ?2
+       ORDER BY created_at ASC, audit_id ASC
+       LIMIT ?3`,
+    )
+    .bind(range.fromUtc, range.toUtcExclusive, range.limit)
+    .all<ExportableAuditRow>();
+  return r.results ?? [];
+};
+
+export interface NewExportManifest {
+  exportRunId: string;
+  yyyy: number;
+  mm: number;
+  dd: number;
+  objectKey: string;
+  rowCount: number;
+  uncompressedBytes: number;
+  compressedBytes: number;
+  sha256: string;
+  startedAt: string;
+}
+
+export const insertExportManifest = async (
+  c: DbCtx,
+  m: NewExportManifest,
+): Promise<{ id: string }> => {
+  const id = crypto.randomUUID();
+  await c.db
+    .prepare(
+      `INSERT INTO audit_log_export_manifest
+       (id, export_run_id, yyyy, mm, dd, object_key, row_count, uncompressed_bytes, compressed_bytes, sha256, redaction_policy_version, status, started_at)
+       VALUES (?1,?2,?3,?4,?5,?6,?7,?8,?9,?10,'v1','pending',?11)`,
+    )
+    .bind(
+      id,
+      m.exportRunId,
+      m.yyyy,
+      m.mm,
+      m.dd,
+      m.objectKey,
+      m.rowCount,
+      m.uncompressedBytes,
+      m.compressedBytes,
+      m.sha256,
+      m.startedAt,
+    )
+    .run();
+  return { id };
+};
+
+export const completeExportManifest = async (
+  c: DbCtx,
+  id: string,
+  m: { r2Etag: string | null; completedAt: string },
+): Promise<void> => {
+  await c.db
+    .prepare(
+      `UPDATE audit_log_export_manifest
+       SET status='completed', r2_etag=?2, completed_at=?3, error_message=NULL
+       WHERE id=?1`,
+    )
+    .bind(id, m.r2Etag, m.completedAt)
+    .run();
+};
+
+export const failExportManifest = async (
+  c: DbCtx,
+  id: string,
+  m: { errorMessage: string; completedAt: string },
+): Promise<void> => {
+  await c.db
+    .prepare(
+      `UPDATE audit_log_export_manifest
+       SET status='failed', error_message=?2, completed_at=?3
+       WHERE id=?1`,
+    )
+    .bind(id, m.errorMessage, m.completedAt)
+    .run();
+};
+
+export const findExportManifestByPartition = async (
+  c: DbCtx,
+  yyyy: number,
+  mm: number,
+  dd: number,
+): Promise<{ id: string; status: "pending" | "completed" | "failed" } | null> => {
+  const r = await c.db
+    .prepare(
+      `SELECT id, status FROM audit_log_export_manifest
+       WHERE yyyy=?1 AND mm=?2 AND dd=?3 LIMIT 1`,
+    )
+    .bind(yyyy, mm, dd)
+    .first<{ id: string; status: "pending" | "completed" | "failed" }>();
+  return r ?? null;
+};
+
+// 90 日 TTL purge：completed manifest で被覆された日付範囲のみ DELETE。
+// 未 export 行 / failed 日付は残存させる安全装置を持つ。
+export const purgeExportedOlderThan = async (
+  c: DbCtx,
+  thresholdUtc: string,
+): Promise<{ deleted: number }> => {
+  const r = await c.db
+    .prepare(
+      `DELETE FROM audit_log
+       WHERE created_at < ?1
+         AND substr(created_at,1,10) IN (
+           SELECT printf('%04d-%02d-%02d', yyyy, mm, dd)
+           FROM audit_log_export_manifest
+           WHERE status='completed'
+         )`,
+    )
+    .bind(thresholdUtc)
+    .run();
+  return { deleted: r.meta?.changes ?? 0 };
+};
+
 export const createAuditLogProvider = (c: DbCtx): AuditLogProvider => ({
   append: (e) => append(c, e),
   listRecent: (limit) => listRecent(c, limit),

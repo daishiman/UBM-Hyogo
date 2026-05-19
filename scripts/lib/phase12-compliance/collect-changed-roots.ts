@@ -17,6 +17,9 @@ function rootFromChangedFile(repoRoot: string, filePath: string, opts?: { delete
   if (first === "unassigned-task") return null;
   if (first === "runbooks") return null;
   if (segments.length < 2) return null;
+  if (first === "completed-tasks" && segments.length === 2 && segments[1]?.endsWith(".md")) {
+    return null;
+  }
 
   for (let length = segments.length - 1; length >= 1; length -= 1) {
     const candidate = `${WORKFLOW_PREFIX}${segments.slice(0, length).join("/")}`;
@@ -35,6 +38,7 @@ function rootFromChangedFile(repoRoot: string, filePath: string, opts?: { delete
   }
 
   if (opts?.deleted) return null;
+  if (first === "completed-tasks") return null;
 
   return `${WORKFLOW_PREFIX}${first}`;
 }
