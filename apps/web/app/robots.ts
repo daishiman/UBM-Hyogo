@@ -1,0 +1,28 @@
+import type { MetadataRoute } from "next";
+
+import { getPublicEnv } from "@/lib/env";
+import { getSiteUrl } from "@/lib/seo/site-metadata";
+
+export const dynamic = "force-dynamic";
+
+export default function robots(): MetadataRoute.Robots {
+  const env = getPublicEnv();
+  const base = getSiteUrl();
+  if (env.ENVIRONMENT !== "production") {
+    return {
+      rules: [{ userAgent: "*", disallow: "/" }],
+      sitemap: new URL("/sitemap.xml", base).toString(),
+    };
+  }
+  return {
+    rules: [
+      {
+        userAgent: "*",
+        allow: ["/", "/members", "/members/", "/register", "/login"],
+        disallow: ["/admin", "/admin/", "/profile", "/api"],
+      },
+    ],
+    sitemap: new URL("/sitemap.xml", base).toString(),
+    host: base.host,
+  };
+}

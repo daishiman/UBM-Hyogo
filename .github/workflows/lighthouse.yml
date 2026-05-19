@@ -29,12 +29,33 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Build (Next.js production)
+        # Next.js build は静的ページ生成時に env.ts の zod schema を評価する。
+        # CI には real env がないため最低限の placeholder を渡す。
+        # ENVIRONMENT=production にすることで site-metadata.ts の robots が
+        # `index: true` を返し、Lighthouse SEO assertion (>=0.80) を pass する。
+        # local/staging は noindex でランタイム保護されており、これは Lighthouse
+        # 実行用途に限定した build-time の評価切替（実 production deploy では
+        # Cloudflare bindings の ENVIRONMENT が上書きする）。
+        env:
+          ENVIRONMENT: production
+          NEXT_PUBLIC_API_BASE_URL: http://127.0.0.1:8787
+          PUBLIC_API_BASE_URL: http://127.0.0.1:8787
+          INTERNAL_API_BASE_URL: http://127.0.0.1:8787
+          AUTH_URL: http://127.0.0.1:3000
+          SENTRY_ENVIRONMENT: local
+          SENTRY_TRACES_SAMPLE_RATE: '0'
         run: pnpm --filter @ubm-hyogo/web build
 
       - name: Start server (background)
         env:
           AUTH_SECRET: ${{ secrets.AUTH_SECRET }}
           INTERNAL_API_BASE_URL: http://127.0.0.1:8787
+          ENVIRONMENT: production
+          NEXT_PUBLIC_API_BASE_URL: http://127.0.0.1:8787
+          PUBLIC_API_BASE_URL: http://127.0.0.1:8787
+          AUTH_URL: http://127.0.0.1:3000
+          SENTRY_ENVIRONMENT: local
+          SENTRY_TRACES_SAMPLE_RATE: '0'
         run: pnpm --filter @ubm-hyogo/web start &
 
       - name: Wait for server

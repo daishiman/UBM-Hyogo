@@ -32,7 +32,8 @@ description: |
   wrangler bundling, wrangler version mismatch, scripts/cf.sh, cf.sh wrapper,
   i18n, i18n-label-normalization, NFKC, alias-recommendation,
   alias-recommendation-score-stability, label-normalization,
-  recommendedStableKeys, stable_key_collision, 409 stable_key_collision
+  recommendedStableKeys, stable_key_collision, 409 stable_key_collision,
+  OGP, sitemap, robots, metadata, SEO, opengraph-image
 allowed-tools:
   - Read
   - Glob
@@ -53,6 +54,8 @@ ubm-hyogo Web アプリプロジェクトの全仕様を管理するスキル。
 
 | Version | Date | Changes |
 | --- | --- | --- |
+| v2026.05.17-issue274-public-pages-ogp-sitemap-robots | 2026-05-17 | Issue #274 public pages OGP / sitemap / robots を `implemented_local_evidence_captured / implementation / VISUAL` として同期。`apps/web` metadata route / root OG image / public page metadata / SEO helper / Playwright smoke、Phase 11 typecheck / lint / test / build / curl / Playwright / `og-image.png` evidence、06a/task-11 source consumed trace、site URL host の wrangler `AUTH_URL` 整合を同一 wave で反映。commit / push / PR / Issue mutation は user-gated。 |
+| v2026.05.17-issue746-parallel09-visual-evidence | 2026-05-17 | Issue #746 parallel-09 Playwright visual evidence completion を `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION` として同期。`parallel-09-primitives.spec.ts` の evidence path を completed-tasks default + `PARALLEL09_EVIDENCE_DIR` override へ補正し、12 PNG / run log / inventory / Phase 12 strict 7、source unassigned consumed、parent Phase 11 / artifacts / open runtime boundary、quick-reference / resource-map / task-workflow-active / artifact inventory を同一 wave で反映。commit / push / PR / Issue mutation / staging-production smoke は user-gated。 |
 | v2026.05.18-issue-256-e2e-coverage-baseline-runbook | 2026-05-18 | Issue #256 E2E coverage baseline runbook を `implemented_local_evidence_captured / implementation / NON_VISUAL` として同期。`coverage.exclude` ratio measurement を production-like app source denominator（test spec 除外）へ補正し、baseline `37 / 80 = 46.3% warn`、PR soft warn workflow、fallback metric runbook、Playwright smoke SLA runbook、Phase 9 QA evidence、Phase 12 strict 7、root/output artifacts parity、parent task partial_fix trace を同一 wave で反映。Issue #256 は CLOSED のため PR 文脈は `Refs #256` のみ。commit / push / PR は user-gated。 |
 | v2026.05.17-ut-07b-alias-recommendation-i18n | 2026-05-17 | UT-07B-alias-recommendation-i18n-001 を `implemented_local_evidence_captured / implementation / NON_VISUAL` として同期。`recommendedStableKeys` の label 比較前処理を NFKC + trim + whitespace 圧縮に固定（`apps/api/src/services/aliasRecommendation.ts` 純関数 / response shape `string[]` 不変）、route contract test と正本仕様 (`api-endpoints.md` / `01-api-schema.md` / `11-admin-management.md`) の collision HTTP status を `409 stable_key_collision` に統一して drift を補正。Phase 12 strict 7 / artifacts.json 同期 / source unassigned task を `completed-tasks/UT-07B-alias-recommendation-i18n-001.md` に移動 (`status: consumed`)、`lessons-learned-07b-schema-alias-assignment-2026-04.md` に L-07B-006、`workflow-ut-07b-schema-alias-hardening-artifact-inventory.md` に i18n / hardening 責務境界、`indexes/keywords.json` に NFKC / i18n / alias-recommendation / stable_key_collision / label-normalization 参照拡大を同一 wave で反映。commit / push / PR は user-gated。 |
 | v2026.05.17-issue772-cf-audit-monitor-runtime-restoration | 2026-05-17 | Issue #772 を `runtime_pending / implementation / NON_VISUAL / PASS_BOUNDARY_SYNCED_RUNTIME_PENDING` として同期。cleanup no-op candidate と runtime restoration pending を分離し、workflow root / runbook / source follow-up consumed marker / Phase 13 placeholders / indexes / lessons を同一 wave で反映。 |
