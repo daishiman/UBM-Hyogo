@@ -3125,6 +3125,7 @@
       "workflow-issue-560-next-standalone-instrumentation-patch-artifact-inventory.md",
       "workflow-issue-626-rb01-share-build-output-lighthouse-pr-build-artifact-inventory.md",
       "workflow-issue-747-vitest-esbuild-arch-and-worktree-isolation-artifact-inventory.md",
+      "workflow-issue-769-root-error-focus-artifact-inventory.md",
       "workflow-parallel-i03-dialog-refresh-order-artifact-inventory.md",
       "workflow-task-09-w3-par-tailwind-v4-setup-artifact-inventory.md",
       "workflow-task-14-my-profile-and-requests-artifact-inventory.md",
@@ -3230,6 +3231,7 @@
       "workflow-issue-730-phase11-evidence-existence-validator-artifact-inventory.md",
       "workflow-issue-747-vitest-esbuild-arch-and-worktree-isolation-artifact-inventory.md",
       "workflow-issue-762-cf-oidc-staging-proof-prod-cutover-artifact-inventory.md",
+      "workflow-issue-769-root-error-focus-artifact-inventory.md",
       "workflow-issue-772-cf-audit-monitor-runtime-restoration-artifact-inventory.md",
       "workflow-parallel-i03-dialog-refresh-order-artifact-inventory.md",
       "workflow-task-05-error-boundary-and-staging-smoke-artifact-inventory.md",
@@ -7123,6 +7125,7 @@
       "workflow-issue-655-d7-recovery-2nd-cycle-artifact-inventory.md",
       "workflow-issue-720-cf-audit-monitor-env-protection-fix-artifact-inventory.md",
       "workflow-issue-748-jest-axe-primitive-a11y-integration-artifact-inventory.md",
+      "workflow-issue-769-root-error-focus-artifact-inventory.md",
       "workflow-task-issue-191-production-d1-schema-aliases-apply-001-artifact-inventory.md",
       "workflow-task-issue-191-schema-aliases-implementation-001-artifact-inventory.md",
       "workflow-task-issue-346-08a-canonical-workflow-tree-restore-artifact-inventory.md",
@@ -10518,6 +10521,7 @@
       "lessons-learned-task-25-followup-loading-state-observation-fixture-2026-05.md",
       "lessons-learned-task-26-error-tsx-token-utility-migration-2026-05.md",
       "workflow-i02-admin-error-type-unify-artifact-inventory.md",
+      "workflow-issue-769-root-error-focus-artifact-inventory.md",
       "workflow-task-05-error-boundary-and-staging-smoke-artifact-inventory.md"
     ],
     "は同一実装で": [
@@ -11697,6 +11701,7 @@
       "workflow-i01-toastprovider-root-mount-artifact-inventory.md",
       "workflow-issue-495-09b-A-sentry-slack-runtime-smoke-prod-extension-artifact-inventory.md",
       "workflow-issue-516-github-audit-log-cross-source-correlation-artifact-inventory.md",
+      "workflow-issue-769-root-error-focus-artifact-inventory.md",
       "workflow-skill-ledger-a3-progressive-disclosure-artifact-inventory.md",
       "workflow-task-03-w2-par-sentry-workers-sdk-unify-artifact-inventory.md",
       "workflow-task-issue-494-09a-A-exec-staging-smoke-runtime-artifact-inventory.md",
@@ -15395,6 +15400,7 @@
       "workflow-issue-747-vitest-esbuild-arch-and-worktree-isolation-artifact-inventory.md",
       "workflow-issue-748-jest-axe-primitive-a11y-integration-artifact-inventory.md",
       "workflow-issue-762-cf-oidc-staging-proof-prod-cutover-artifact-inventory.md",
+      "workflow-issue-769-root-error-focus-artifact-inventory.md",
       "workflow-parallel-09-ux-cross-cutting-artifact-inventory.md",
       "workflow-parallel-i03-dialog-refresh-order-artifact-inventory.md",
       "workflow-skill-lifecycle-created-skill-usage-journey.md",
@@ -22661,6 +22667,7 @@
       "workflow-issue-747-vitest-esbuild-arch-and-worktree-isolation-artifact-inventory.md",
       "workflow-issue-748-jest-axe-primitive-a11y-integration-artifact-inventory.md",
       "workflow-issue-762-cf-oidc-staging-proof-prod-cutover-artifact-inventory.md",
+      "workflow-issue-769-root-error-focus-artifact-inventory.md",
       "workflow-parallel-09-ux-cross-cutting-artifact-inventory.md",
       "workflow-parallel-i03-dialog-refresh-order-artifact-inventory.md",
       "workflow-skill-lifecycle-created-skill-usage-journey.md",
@@ -23432,6 +23439,9 @@
     ],
     "Readiness": [
       "workflow-issue-762-cf-oidc-staging-proof-prod-cutover-artifact-inventory.md"
+    ],
+    "focus": [
+      "workflow-issue-769-root-error-focus-artifact-inventory.md"
     ],
     "restoration": [
       "workflow-issue-772-cf-audit-monitor-runtime-restoration-artifact-inventory.md"

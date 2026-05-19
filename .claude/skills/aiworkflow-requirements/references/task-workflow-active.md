@@ -20,6 +20,20 @@
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-772-cf-audit-monitor-runtime-restoration-artifact-inventory.md` |
 | user gate | repo secrets / variables、workflow dispatch、six hourly successes、rollback delete、commit、push、PR |
 
+### Issue #769 root error h1 auto-focus（2026-05-17）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / NON_VISUAL / runtime_pending` |
+| 成果物 | `docs/30-workflows/issue-769-root-error-focus/` |
+| source | `docs/30-workflows/unassigned-task/integration-fixes-i06-root-error-focus.md` consumed |
+| 目的 | root `apps/web/app/error.tsx` の h1 に mount 後 focus を移譲し、screen reader がエラー見出しを即時認識できるようにする |
+| 実装 | `apps/web/app/error.tsx`, `apps/web/app/__tests__/error.component.spec.tsx` |
+| 不変条件 | 文言、className、digest 表示、reset、logger shape、i05 `/login/error.tsx` は変更しない |
+| evidence | `docs/30-workflows/issue-769-root-error-focus/outputs/phase-11/evidence/`, `docs/30-workflows/issue-769-root-error-focus/outputs/phase-12/phase12-task-spec-compliance-check.md` |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-769-root-error-focus-artifact-inventory.md` |
+| user gate | interactive screen reader smoke / commit / push / PR |
+
 ### Issue #762 CF OIDC staging proof readiness（2026-05-17）
 
 | 項目 | 値 |

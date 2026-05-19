@@ -113,7 +113,19 @@
 - Why: `page.route()` は browser network のみ intercept する仕様。Next.js server component から発する fetch は browser を経由しないため intercept 不能。fixture 整合性は server-side mock-api 側にも必要。
 - 詳細は aiworkflow-requirements 配下の L-DEVSYNC-016 を参照。
 
-### SP-DEVSYNC-018: 新規タスク root/outputs `artifacts.json` には `metadata.gates` を必ず付与（2026-05-18 追加）
+### SP-DEVSYNC-018: `pnpm sync:resolve` 対象外ファイルは手動 union 自律継続（2026-05-18 追加）
+
+- 症状: dev sync merge で `.claude/skills/aiworkflow-requirements/LOGS/_legacy.md` がコンフリクトし、`pnpm sync:resolve` が `[resolve-skill-merge-conflicts] WARN unhandled conflict: .../LOGS/_legacy.md` を出して exit 1 で終わる。resolver の明示対象は SKILL.md / `indexes/*-map.md` / `references/task-workflow-active.md` のみで、`LOGS/_legacy.md` は `.gitattributes` の `merge=union` 設定があっても 3-way marker (`<<<<<<<` / `|||||||` / `=======` / `>>>>>>>`) として残る。
+- 解消（task spec 生成時の絶対ルール）:
+  1. resolver 完走後 `git diff --diff-filter=U --name-only` で残余を確認
+  2. 残余が `LOGS/_legacy.md` または `changelog/*.md` 等の追記型 markdown のみ → HEAD entry と dev entry を**両方保持**して連結（marker 4 種を除去、重複 entry のみ除去）
+  3. 残余に semantic conflict（同一論理項目に両側が違う値を入れた変更）が含まれる場合は SP-DEVSYNC-009（fact migration `--ours`）または L-DEVSYNC-002（`--theirs`）の判定に従う
+- task 仕様書を書く際: dev 同期 merge を含む task の Phase 5 手順に「`pnpm sync:resolve` 完了後 `git diff --diff-filter=U --name-only` で残余を取り、LOGS/changelog のみなら手動 union で自律継続」を明示する。Phase 11 evidence にも resolver 出力ログ + 手動解消 diff 内容を含める。
+- Why: resolver スクリプトが LOGS を対象外にしている設計理由は、entry の順序（時系列・logical order）が文脈依存で機械判定できないため。追記型 SSOT は両側 entry を保持するのがデフォルト解（SP-DEVSYNC-012 と整合）。
+- 事例: 2026-05-18 feat/issue-769-root-error-focus ← dev sync で `LOGS/_legacy.md` 単独残余を 30 秒以内に union 解消。resolver の `WARN unhandled` メッセージで対象を即特定できた。
+- 詳細は aiworkflow-requirements 配下の L-DEVSYNC-018 を参照。
+
+### SP-DEVSYNC-019: 新規タスク root/outputs `artifacts.json` には `metadata.gates` を必ず付与（2026-05-18 追加）
 
 - 症状: 新規 task workflow root を作成して PR を出すと、`verify-gate-metadata` workflow の `validate` ジョブが `[ERROR] <task>/artifacts.json: metadata.gates absent on changed artifacts.json` で fail。validator (`scripts/gate-metadata/validate.ts`) は `--require-gates-for-changed` に列挙された artifacts.json に対してのみ ERROR を出すため、既存 task の WARN は無視されるが新規 task は必ず ERROR になる。
 - 解消（task spec 生成時の絶対ルール）:
@@ -127,5 +139,5 @@
 - Why: 新規 task では `git diff` で必ず両 artifacts.json が変更扱いになるため、`metadata.gates` 不在は merge 直前まで気付かず PR DIRTY / CI fail のリードタイム要因になる。spec 生成テンプレート段階で 3-gate skeleton を埋め込むことで recurring fail を抑止する。
 - 詳細は aiworkflow-requirements 配下の L-DEVSYNC-018 を参照。
 
-### SP-DEVSYNC-019: 共通の正本リンク
-- 詳細は [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] （aiworkflow-requirements 配下、L-DEVSYNC-001..018）を参照。
+### SP-DEVSYNC-020: 共通の正本リンク
+- 詳細は [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] （aiworkflow-requirements 配下、L-DEVSYNC-001..019）を参照。

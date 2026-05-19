@@ -1,0 +1,7 @@
+Command: rg -n 'useRef<HTMLHeadingElement>|ref={headingRef}|tabIndex={-1}|focus\\(\\{ preventScroll: true \\}\\)' apps/web/app/error.tsx
+Result: expected matches present
+
+Summary:
+- `useRef<HTMLHeadingElement>(null)` present
+- `headingRef.current?.focus({ preventScroll: true })` present after `logger.error`
+- h1 has `ref={headingRef}` and `tabIndex={-1}`
