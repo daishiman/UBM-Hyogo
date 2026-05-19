@@ -93,6 +93,24 @@ D1 や apps/api の repository を web 側で直接 import することは禁止
 | 最近の提出 table | 06c baseline: `view.recentSubmissions`。06c-A follow-up 後: `audit_log` 直近7日 max20 の `recentActions`（`dashboard.view` 除外） |
 | 生成日時 | `<p class="meta">{view.generatedAt}</p>` |
 
+### 3.2.1 公開ステータス分布
+
+実装: `apps/web/src/features/admin/components/_dashboard/StatusDistribution.tsx`
+
+`GET /admin/dashboard` は `byStatus: Array<{ status: "public" | "member_only" | "hidden"; count: number }>` を返す。`toAdminDashboardUi()` が `byStatus` を `StatusSlice[]` として返す場合、`StatusDistribution` は SVG bar chart と chip list を表示する。legacy response 等で `byStatus` が未提供、`undefined`、または空配列の場合は既存 placeholder（`分布データは現在集計対象外です`）を維持する。
+
+| status | label | chart color |
+| --- | --- | --- |
+| `public` | 公開 | `var(--ubm-color-ok)` |
+| `member_only` | 会員限定 | `var(--ubm-color-info)` |
+| `hidden` | 非公開 | `var(--ubm-color-warn)` |
+
+不変条件:
+
+- chart library は追加しない。SVG 直書きで描画する。
+- HEX color literal は使わず、OKLch design token var を介す。
+- API `byStatus` producer は既存 `/admin/dashboard` endpoint に含める。新 endpoint は作らない。
+
 ### 3.3 KpiCard props
 
 ```ts
