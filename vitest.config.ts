@@ -78,6 +78,7 @@ export default defineConfig({
       reportsDirectory: "./coverage",
       include: [
         "apps/**/src/**/*.{ts,tsx}",
+        "apps/**/app/**/*.{ts,tsx}",
         "packages/**/src/**/*.{ts,tsx}",
       ],
       exclude: [
@@ -86,11 +87,9 @@ export default defineConfig({
         "**/.next/**",
         "**/.open-next/**",
         "**/.wrangler/**",
-        "apps/web/src/app/**/page.tsx",
-        "apps/web/src/app/**/layout.tsx",
-        "apps/web/src/app/**/loading.tsx",
-        "apps/web/src/app/**/error.tsx",
-        "apps/web/src/app/**/not-found.tsx",
+        "apps/web/app/**/page.tsx",
+        "apps/web/app/**/layout.tsx",
+        "apps/web/app/**/error.tsx",
         "apps/web/next.config.*",
         "apps/web/middleware.ts",
         "apps/web/src/lib/api/me-types.ts",

@@ -1059,6 +1059,7 @@ node scripts/search-spec.js "safeInvoke"
 
 | リソース | 役割 | 読み込み条件 |
 | --- | --- | --- |
+| `docs/30-workflows/issue-256-e2e-coverage-baseline-runbook/` | Issue #256 AC2/AC3 post-close root fix。coverage exclude ratio baseline、PR soft warn、fallback metric runbook、Playwright smoke SLA、`apps/web/app` coverage topology sync | apps/web E2E coverage baseline、coverage.exclude ratio、smoke SLA、Issue #256 の current state を確認する時 |
 | `docs/30-workflows/completed-tasks/e2e-quality-uplift-stage-3/` | Stage 3 umbrella archive. Lighthouse CI、E2E coverage hard gate、branch protection contexts の親仕様 | Stage 3 全体のAC、依存、親子境界を確認する時 |
 | `docs/30-workflows/e2e-quality-uplift-stage-3-impl/3a-lighthouse-ci/` | `lighthouse-ci` context を登録する Lighthouse CI implementation spec | Lighthouse CI workflow、`lighthouserc.json`、Q-02 `/profile` 縮退判定を確認する時 |
 | `docs/30-workflows/e2e-quality-uplift-stage-3-impl/3b-e2e-tests-hard-gate/` | `e2e-tests-coverage-gate` context を登録する E2E hard gate implementation spec | `.github/workflows/e2e-tests.yml`、Monocart reporter、line coverage 80% gate を確認する時 |

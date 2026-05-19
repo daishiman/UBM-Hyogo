@@ -16,6 +16,17 @@
 | lessons | `.claude/skills/aiworkflow-requirements/references/lessons-learned-issue-274-public-pages-ogp-sitemap-robots-2026-05.md`（L-274-001..006: site URL SSOT / sitemap degraded mode / robots env-branch / OG edge runtime / consumed trace / issue-NNN namespace 規約） |
 | user gate | implementation, runtime evidence, commit, push, PR |
 
+## Issue #256 E2E coverage baseline runbook（2026-05-18）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/issue-256-e2e-coverage-baseline-runbook/` |
+| 状態 | `implemented_local_evidence_captured / implementation / NON_VISUAL` |
+| implementation | `scripts/measure-coverage-exclude-ratio.ts`, `.github/workflows/verify-coverage-exclude-ratio.yml`, `vitest.config.ts` |
+| runbooks | `docs/30-workflows/runbooks/e2e-coverage-fallback-metric.md`, `docs/30-workflows/runbooks/playwright-smoke-19-route-sla.md` |
+| evidence | `outputs/phase-7/coverage-exclude-ratio.json` (`37 / 80 = 46.3% warn`), `outputs/phase-9/qa-result.md`, `outputs/phase-11/manual-test-result.md`, `outputs/phase-12/phase12-task-spec-compliance-check.md` |
+| boundary | Issue #256 CLOSED, use `Refs #256` only; commit / push / PR are user-gated |
+
 ## Issue #266 shared sync Zod contract（2026-05-18）
 
 | 項目 | 値 |
