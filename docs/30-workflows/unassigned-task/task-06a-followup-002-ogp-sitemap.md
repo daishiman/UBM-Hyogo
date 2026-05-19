@@ -8,12 +8,16 @@
 | 対象機能 | public web (`/`, `/members`, `/members/[id]`, `/register`) |
 | 優先度 | 中 |
 | ステータス | 未実施 |
+| 消費状態 | consumed |
+| canonical_workflow | `docs/30-workflows/issue-274-public-pages-ogp-sitemap-robots/` |
 | 発見元 | 06a Phase 12 未タスク検出 |
 | 発見日 | 2026-04-29 |
 
 ---
 
 ## 苦戦箇所【記入必須】
+
+> 2026-05-17: 本タスクは `docs/30-workflows/issue-274-public-pages-ogp-sitemap-robots/` に統合済み。物理ファイルは source trace として残す。
 
 06a は公開導線の画面実装に集中し、SNS シェア用 metadata、OGP、sitemap はスコープ外として残った。公開ページとしては見つけやすさと共有時の説明品質が不足する。
 

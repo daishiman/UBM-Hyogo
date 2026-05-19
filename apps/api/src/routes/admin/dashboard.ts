@@ -12,7 +12,7 @@ import {
 } from "@ubm-hyogo/shared";
 import { requireAdmin } from "../../middleware/require-admin";
 import { ctx } from "../../repository/_shared/db";
-import { getTotals, listRecentActions } from "../../repository/dashboard";
+import { getStatusDistribution, getTotals, listRecentActions } from "../../repository/dashboard";
 import {
   computeAttendanceOverview,
   listSessionAttendanceStats,
@@ -48,13 +48,15 @@ export const createAdminDashboardRoute = () => {
 
   app.get("/dashboard", async (c) => {
     const dbCtx = ctx({ DB: c.env.DB });
-    const [totals, recent] = await Promise.all([
+    const [totals, byStatus, recent] = await Promise.all([
       getTotals(dbCtx),
+      getStatusDistribution(dbCtx),
       listRecentActions(dbCtx, 20),
     ]);
 
     const view = {
       totals,
+      byStatus,
       recentActions: recent.map((r) => ({
         auditId: r.auditId,
         actorEmail: r.actorEmail,

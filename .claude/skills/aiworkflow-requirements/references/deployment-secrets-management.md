@@ -191,6 +191,26 @@ Current primary sources still document API token authentication for Workers depl
 
 Therefore `web-cd.yml` must keep Issue #640's step-scoped `CLOUDFLARE_API_TOKEN` boundary until Cloudflare documents a supported OIDC deploy path. Do not add `permissions: id-token: write`, a guessed `wrangler-action` input, or a custom Cloudflare token exchange endpoint to production workflow files without new primary-source evidence. Production OIDC cutover, apps/api D1 credential cutover, and 1Password restructuring are formalized separately under `docs/30-workflows/unassigned-task/issue-717-followup-*.md`.
 
+### Issue #762 OIDC future supported path gate（2026-05-17）
+
+`docs/30-workflows/issue-762-cf-oidc-staging-proof-prod-cutover/` implements the pre-support hardening that is safe before Cloudflare documents a Workers deploy OIDC path. The current runtime contract remains unchanged: `.github/workflows/web-cd.yml` uses step-scoped `secrets.CLOUDFLARE_API_TOKEN`, `permissions: id-token: write` is not granted, and no guessed exchange endpoint is introduced.
+
+Pre-support hardening now consists of:
+
+- `scripts/oidc/verify-claim-pin.sh`: dry-run subject claim pin verifier for `repository`, `ref`, `environment`, and `event_name`.
+- `scripts/redaction-check.sh`: leak gate extended to reject JWT-like `eyJ...` tokens and `cloudflare-aud` claim text.
+- `.github/workflows/oidc-observation-window.yml`: manual-only no-op observation gate to be replaced with a real verifier after supported OIDC deploy exists.
+- `.github/workflows/web-cd.yml`: comment-only documentation that the step-scoped token is the current safe baseline.
+
+Future OIDC cutover must satisfy these gates in order:
+
+| Gate | Requirement | Evidence |
+|---|---|---|
+| G1 | Cloudflare docs or `cloudflare/wrangler-action` release notes document the supported input names, audience, exchange behavior, and rollback path. | Primary-source URL and timestamp. |
+| G2 | Staging proof uses the supported path and passes `scripts/redaction-check.sh` plus `scripts/oidc/verify-claim-pin.sh`. | Redacted staging deploy log and claim verifier output. |
+| G3 | Production cutover uses `repository=daishiman/UBM-Hyogo`, `ref=refs/heads/main`, `environment=production`, `event_name=push`. | Redacted production run URL and deployment version check. |
+| G4 | Observation window proves fallback usage is 0 before legacy token physical revocation. | `oidc-observation-window` evidence and canonical `docs/30-workflows/issue-718-legacy-cf-token-revocation/` revocation path. |
+
 
 | `CF_TOKEN_PAGES_STAGING` / `CF_TOKEN_PAGES_PRODUCTION` | Deprecated historical Pages deploy token | Deprecated for web-cd.yml after OpenNext Workers cutover |
 | `CLOUDFLARE_API_TOKEN` | web-cd の environment-scoped deploy token 正本名。OIDC cutover までは transitional direct token として維持 | web-cd.yml |

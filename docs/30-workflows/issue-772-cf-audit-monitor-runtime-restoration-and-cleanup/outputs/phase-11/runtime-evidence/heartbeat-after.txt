@@ -1,0 +1,11 @@
+Status: PENDING_USER_GATE
+Variable: CF_AUDIT_LAST_SUCCESS_AT
+Reason: heartbeat can only be verified after the first successful run post-secret-investment.
+
+Collection command (post user-gate):
+  gh api repos/daishiman/UBM-Hyogo/actions/variables/CF_AUDIT_LAST_SUCCESS_AT \
+    | jq '{name, value, updated_at}'
+
+PASS condition:
+  - updated_at >= timestamp of the latest 6-consecutive-success window
+  - value is a unix epoch in seconds

@@ -1,0 +1,11 @@
+Command: mise exec -- pnpm typecheck
+Result: exit 0
+
+Summary:
+- `pnpm -r typecheck`
+- packages/contracts: Done
+- packages/shared: Done
+- apps/web: Done
+- packages/integrations/google: Done
+- packages/integrations: Done
+- apps/api: Done

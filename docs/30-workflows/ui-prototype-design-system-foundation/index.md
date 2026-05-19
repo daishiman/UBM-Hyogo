@@ -15,7 +15,7 @@ prototype_coverage: PROTOTYPE-COVERAGE.md
 
 `docs/00-getting-started-manual/claude-design-prototype/` で凍結された UI プロトタイプの「画面背景・サーフェス階層・カードの陰影・余白リズム・タイポスケール・配色の雰囲気」を、**全画面（公開・会員・管理・ログイン・エラー・notFound・loading）で機械的に再現される仕組み**として `apps/web` に実装するための workflow root。
 
-現状は OKLch トークン正本化（`apps/web/src/styles/tokens.css`）と Tailwind v4 bridge（`apps/web/src/styles/globals.css`）までは完成しているが、**page-level の chrome 規則・AppShell layout・blueprint からの page.tsx 生成・Form response → 個別プロフィール表示** が抜けており、プロトタイプの「雰囲気」が一切反映されていない。
+現状は OKLch トークン正本化（`apps/web/src/styles/tokens.css`）と Tailwind v4 bridge（`apps/web/src/styles/globals.css`）に加え、parallel-01 の P1-1〜P1-5 selector contract と admin shell width hook が `runtime_pending` まで実装済み。残る未完は **AppShell data binding・blueprint からの page.tsx 生成・Form response → 個別プロフィール表示・serial-07 visual runtime evidence** である。
 
 本 workflow はこの 4 つの欠落を埋め、プロトタイプ未掲載画面（管理画面群・register・privacy・terms・login・error・not-found）も同じ primitives と rhythm で構成される共通基盤を作る。
 
@@ -57,7 +57,7 @@ prototype_coverage: PROTOTYPE-COVERAGE.md
 | ディレクトリ | 種別 | 責務 | 依存 |
 |-------------|------|------|------|
 | `serial-00-design/` | 直列・前提 | Phase 1-3 設計書（要件・アーキ・タスク分解） | なし |
-| `parallel-01-globals-css-rhythm/` | 並列 | globals.css `@layer components` で page background / surface / card / typography rhythm 翻訳 | serial-00 |
+| `parallel-01-globals-css-rhythm/` | 並列 | globals.css `@layer components` で page background / surface / card / typography rhythm 翻訳、admin shell width 調整（runtime_pending） | serial-00 |
 | `parallel-02-prototype-css-rules-port/` | 並列 | tag pill / member card hover / `[data-visibility]` marker など selector 規則を globals.css に転記 | serial-00 |
 | `parallel-03-appshell-layouts/` | 並列 | `(public)/layout.tsx` / `(admin)/layout.tsx` / `(member)/layout.tsx` 共通 chrome | serial-00 |
 | `parallel-04-shared-page-chrome/` | 並列 | root `app/layout.tsx`（ToastProvider 配置）/ `error.tsx` / `not-found.tsx` / `loading.tsx` | serial-00 |

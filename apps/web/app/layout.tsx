@@ -3,14 +3,11 @@ import type { ReactNode } from "react";
 import "../src/styles/tokens.css";
 import "../src/styles/globals.css";
 import { ToastProvider } from "../src/components/ui/Toast";
+import { buildBaseMetadata } from "../src/lib/seo/site-metadata";
 
-export const metadata: Metadata = {
-  title: {
-    default: "UBM Hyogo",
-    template: "%s | UBM Hyogo",
-  },
-  description: "兵庫県中小企業家同友会 西神戸支部の会員情報と活動を扱うWebアプリ",
-};
+export async function generateMetadata(): Promise<Metadata> {
+  return buildBaseMetadata();
+}
 
 export const viewport: Viewport = {
   width: "device-width",

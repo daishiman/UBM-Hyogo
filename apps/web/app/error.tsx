@@ -1,14 +1,13 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import {
   Card,
   CardContent,
   CardDescription,
   CardFooter,
   CardHeader,
-  CardTitle,
 } from "../src/components/ui/Card";
 import { logger } from "../src/lib/logger";
 
@@ -18,12 +17,15 @@ type Props = {
 };
 
 export default function RouteError({ error, reset }: Props) {
+  const headingRef = useRef<HTMLHeadingElement>(null);
+
   useEffect(() => {
     logger.error({
       event: "error.boundary.caught",
       digest: error.digest,
       err: error,
     });
+    headingRef.current?.focus({ preventScroll: true });
   }, [error]);
 
   const isDev = process.env.NODE_ENV !== "production";
@@ -32,7 +34,13 @@ export default function RouteError({ error, reset }: Props) {
     <main className="mx-auto max-w-2xl px-6 py-16">
       <Card role="alert" aria-live="assertive" data-page="error">
         <CardHeader>
-          <CardTitle className="text-danger">画面を表示できませんでした</CardTitle>
+          <h1
+            ref={headingRef}
+            tabIndex={-1}
+            className="ui-card-title text-danger"
+          >
+            画面を表示できませんでした
+          </h1>
           <CardDescription>
             時間をおいて再試行してください。問題が続く場合は管理者にご連絡ください。
           </CardDescription>
@@ -50,19 +58,19 @@ export default function RouteError({ error, reset }: Props) {
           )}
         </CardContent>
         <CardFooter className="flex gap-3">
-        <button
-          type="button"
-          onClick={reset}
-          className="rounded-md bg-accent px-4 py-2 text-sm text-panel"
-        >
-          再試行する
-        </button>
-        <Link
-          href="/"
-          className="rounded-md border border-border px-4 py-2 text-sm"
-        >
-          トップへ戻る
-        </Link>
+          <button
+            type="button"
+            onClick={reset}
+            className="rounded-md bg-accent px-4 py-2 text-sm text-panel"
+          >
+            再試行する
+          </button>
+          <Link
+            href="/"
+            className="rounded-md border border-border px-4 py-2 text-sm"
+          >
+            トップへ戻る
+          </Link>
         </CardFooter>
       </Card>
     </main>

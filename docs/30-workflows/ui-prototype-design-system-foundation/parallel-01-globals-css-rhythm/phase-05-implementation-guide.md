@@ -3,27 +3,31 @@ phase: 5
 title: 実装ガイド — globals.css への追記 CSS 規則
 workflow_id: ui-prototype-design-system-foundation
 sub_workflow: parallel-01-globals-css-rhythm
-status: spec_created
+status: runtime_pending
 ---
 
-# Phase 5 — 実装ガイド
+# Phase 5: 実装ガイド
 
 [実装区分: 実装仕様書]
 
 ## 1. 対象ファイル
 
-**絶対パス**: `/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260518-101514-wt-4/apps/web/src/styles/globals.css`
+**絶対パス**: `/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260518-195609-wt-19/apps/web/src/styles/globals.css`
 
 リポジトリ相対パス: `apps/web/src/styles/globals.css`
+
+補助対象: `apps/web/app/(admin)/layout.tsx`。既存 admin shell の grid
+column を `md:grid-cols-[272px_1fr]` に揃えるだけで、layout 構造や
+data 属性の追加は行わない。
 
 ## 2. 挿入位置
 
 既存ファイルは:
 
-- L1-9: `@import` / `@source` 宣言
-- L11-68: `@theme inline` ブロック（Tailwind v4 token bridge）
-- L70-114: `@layer base`
-- L116-215: `@layer components`
+- [x] L1-9: `@import` / `@source` 宣言
+- [x] L11-68: `@theme inline` ブロック（Tailwind v4 token bridge）
+- [x] L70-114: `@layer base`
+- [x] L116-215: `@layer components`
   - L117-145: parallel-09 G9-1 form 規則
   - L147-169: parallel-09 G9-3 pagination 規則
   - L171-175: parallel-09 G9-4 icon 規則
@@ -31,10 +35,10 @@ status: spec_created
   - L197-198: parallel-09 G9-6 mobile（コメントのみ）
   - L200-214: parallel-09 G9-7 focus-visible / reduced-motion
 
-**追加位置**: L198（G9-6 コメント直後）と L200（G9-7 先頭）のあいだ。つまり既存 G9-6 と G9-7 のあいだに本 SW の 5 セクション（P1-1〜P1-5）を挿入する。挿入後の構造:
+**追加位置**: 既存 `ui-prototype-design-system-foundation selector hooks` と G9-6 コメントのあいだ。既に parallel-02 相当の selector hooks が入っている場合は、その直後に本 SW の 5 セクション（P1-1〜P1-5）を挿入する。挿入後の構造:
 
 ```
-... G9-6 mobile (existing)
+... ui-prototype-design-system-foundation selector hooks (existing)
 === parallel-01 P1-1 page surface ===
 === parallel-01 P1-2 section rhythm ===
 === parallel-01 P1-3 card chrome ===
@@ -142,7 +146,6 @@ status: spec_created
   [data-text="display"] {
     font-size: var(--ubm-text-3xl);
     line-height: 1.15;
-    letter-spacing: -0.025em;
     font-weight: 600;
     color: var(--ubm-color-text-primary);
     margin: 0;
@@ -150,7 +153,6 @@ status: spec_created
   [data-text="title"] {
     font-size: var(--ubm-text-2xl);
     line-height: 1.2;
-    letter-spacing: -0.02em;
     font-weight: 600;
     color: var(--ubm-color-text-primary);
     margin: 0;
@@ -158,7 +160,6 @@ status: spec_created
   [data-text="section"] {
     font-size: var(--ubm-text-xl);
     line-height: 1.3;
-    letter-spacing: -0.01em;
     font-weight: 600;
     color: var(--ubm-color-text-primary);
     margin: 0;
@@ -166,7 +167,6 @@ status: spec_created
   [data-text="card"] {
     font-size: var(--ubm-text-lg);
     line-height: 1.35;
-    letter-spacing: -0.005em;
     font-weight: 600;
     color: var(--ubm-color-text-primary);
     margin: 0;
@@ -186,7 +186,6 @@ status: spec_created
   [data-text="eyebrow"] {
     font-size: var(--ubm-text-xs);
     line-height: 1.4;
-    letter-spacing: 0.16em;
     font-weight: 500;
     text-transform: uppercase;
     color: var(--ubm-color-text-muted);
@@ -211,19 +210,67 @@ status: spec_created
 
 ## 5. 衝突回避ガイド
 
-- **既存 `@layer base` の `body` 規則（L77-87）と衝突しない**: 本 SW は `[data-route]` を対象とし `body` は触らない
-- **既存 parallel-09 規則と衝突しない**: parallel-09 は `.ui-*` class セレクタ、本 SW は `[data-*]` 属性セレクタで名前空間が分離
-- **focus-visible 既存規則と衝突しない**: 本 SW より後ろ（L358 以降）に配置し続ける
+- [x] **既存 `@layer base` の `body` 規則（L77-87）と衝突しない**: 本 SW は `[data-route]` を対象とし `body` は触らない
+- [x] **既存 parallel-09 規則と衝突しない**: parallel-09 は `.ui-*` class セレクタ、本 SW は `[data-*]` 属性セレクタで名前空間が分離
+- [x] **focus-visible 既存規則と衝突しない**: 本 SW より後ろ（L358 以降）に配置し続ける
 
 ## 6. 編集禁止箇所
 
-- L1-9 `@import` / `@source`
-- L11-68 `@theme inline`
-- L70-114 `@layer base`
-- L117-198 既存 parallel-09 規則
-- L200-214 既存 focus-visible / reduced-motion 規則（行番号は後ろへ移動するが内容は保持）
-- `apps/web/src/styles/tokens.css`（全体）
+- [x] L1-9 `@import` / `@source`
+- [x] L11-68 `@theme inline`
+- [x] L70-114 `@layer base`
+- [x] L117-198 既存 parallel-09 規則
+- [x] L200-214 既存 focus-visible / reduced-motion 規則（行番号は後ろへ移動するが内容は保持）
+- [x] `apps/web/src/styles/tokens.css`（全体）
 
 ## 7. 動作確認 hint（Phase 10 で具体化）
 
-実装後、`apps/web/app/page.tsx`（既存）に `data-text="display"` を一時的に付与してローカルで `pnpm dev` から見た目変化を確認できる。本 SW では確認後に削除する（本 SW のスコープは CSS のみ）。
+実装後は `grep-selectors.txt` と build smoke で selector 契約を確認する。
+`layout.tsx` の差分は admin sidebar 幅の 1 行に限定し、視覚確認は
+serial-07 の Playwright evidence が担当する。
+
+## メタ情報
+
+| 項目 | 値 |
+| --- | --- |
+| workflow_id | `ui-prototype-design-system-foundation` |
+| sub_workflow | `parallel-01-globals-css-rhythm` |
+| phase | `5` |
+| status | `runtime_pending` |
+| taskType | `implementation` |
+| visualEvidence | `VISUAL_ON_EXECUTION` |
+
+## 目的
+
+この Phase は既存本文の内容を、task-specification-creator の共通骨格に沿って実行可能な仕様として扱う。
+
+## 実行タスク
+
+1. 既存本文の Phase 固有タスクを実行する。
+2. `apps/web/src/styles/globals.css` の P1-1〜P1-5 selector contract と矛盾しないことを確認する。
+3. Phase 11 evidence と Phase 12 strict 7 の境界を `VISUAL_ON_EXECUTION` として維持する。
+
+## 参照資料
+
+- `docs/30-workflows/ui-prototype-design-system-foundation/index.md`
+- `docs/30-workflows/ui-prototype-design-system-foundation/PROTOTYPE-COVERAGE.md`
+- `apps/web/src/styles/globals.css`
+- `.claude/skills/task-specification-creator/references/phase-12-spec.md`
+- `.claude/skills/aiworkflow-requirements/indexes/resource-map.md`
+
+## 成果物
+
+- 本 Phase ファイル
+- `outputs/phase-11/` の local selector evidence
+- `outputs/phase-12/` の strict 7 files
+
+## 完了条件
+
+- [x] `node .claude/skills/task-specification-creator/scripts/validate-phase-output.js docs/30-workflows/ui-prototype-design-system-foundation/parallel-01-globals-css-rhythm` が error 0 である。
+- [x] P1-1〜P1-5 selector が `globals.css` に存在する。
+- [x] root workflow 全体の visual runtime evidence は serial-07 に委譲され、parallel-01 は `runtime_pending` として閉じる。
+
+## 統合テスト連携
+
+- CSS selector presence は `outputs/phase-11/section-presence.txt` と `grep-selectors.txt` で確認する。
+- visual screenshot は `serial-07-regression-evidence/` の責務として後続 runtime evidence に接続する。

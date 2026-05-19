@@ -93,6 +93,13 @@ for path in $UNMERGED; do
       if [ "$path" = "$t" ]; then apply_ours+=("$path"); matched=1; break; fi
     done
   fi
+  # pattern-based union targets (append-only logs / lessons-learned)
+  if [ "$matched" -eq 0 ]; then
+    case "$path" in
+      .claude/skills/*/LOGS/_legacy.md|.claude/skills/*/lessons-learned/*.md)
+        apply_union+=("$path"); matched=1 ;;
+    esac
+  fi
   if [ "$matched" -eq 0 ]; then
     echo "[resolve-skill-merge-conflicts] WARN unhandled conflict: $path" >&2
   fi
