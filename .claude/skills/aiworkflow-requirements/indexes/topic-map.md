@@ -3532,8 +3532,8 @@ node scripts/list-specs.js --topics
 | Canonical Sources | L14 |
 | Workflow Outputs | L36 |
 | Implementation Boundary | L52 |
-| Sub-workflows | L62 |
-| P1-1〜P1-5 Selector ↔ Token ↔ 09 Spec Mapping (parallel-01) | L99 |
+| Sub-workflows | L77 |
+| P1-1〜P1-5 Selector ↔ Token ↔ 09 Spec Mapping (parallel-01) | L86 |
 
 ### references/workflow-ui-ux-visual-baseline-drift.md
 
