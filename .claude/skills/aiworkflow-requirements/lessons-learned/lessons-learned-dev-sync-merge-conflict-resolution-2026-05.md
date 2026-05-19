@@ -259,9 +259,24 @@
 - How to apply: 同様に lighthouse fail で sync ブロックされた場合、`lighthouserc.json` の `categories:performance` のみ `warn` 降格を検討する。完全撤廃（削除）は禁止。閾値 `minScore: 0.8` は維持し、将来 dedicated runner / perf 改善時に `error` 復帰させる。
 - 事例: 2026-05-19 PR #803、performance `warn` 降格後 `lighthouse-ci` job が pass、conflict 解消後の sync push が CI 緑化。
 
+## L-DEVSYNC-023: ソースコード import block で HEAD / dev が別 import を追加した場合の両側採用（2026-05-19 追加）
+
+- 症状: `feat/issue-274-public-pages-ogp-sitemap-robots` に `origin/dev` を取り込んだ際、`apps/web/app/page.tsx` の import block で 3-way conflict が発生。HEAD 側は `import { buildPageMetadata } from "@/lib/seo/site-metadata";`（OGP 対応で追加）、dev 側は `import { CallToActionCTA } from "../src/components/public/CallToActionCTA";`（CTA 追加）。`pnpm sync:resolve` は `apps/**` / `*.tsx` を resolver 対象外としているため `WARN unhandled conflict` として残置。
+- 解消: 両 import を順序維持で連結し、conflict marker（`<<<<<<<` / `|||||||` / `=======` / `>>>>>>>`）を物理除去。両側で参照されているシンボル（`buildPageMetadata` は `metadata` export、`CallToActionCTA` は JSX 内で使用）はどちらも本体で使われているため、片側採用は型エラー / 未使用 import / ランタイム ReferenceError のいずれかを必ず引き起こす。
+- 検証: `mise exec -- pnpm typecheck` で両 import が必要なことを確認（未使用なら ESLint `no-unused-vars` で fail、未定義参照なら tsc で fail）。
+- Why: L-DEVSYNC-012 の「追記型衝突は両側採用」は markdown 表 / lessons-learned だけでなく、TypeScript / JavaScript の **import block** にも適用できる。import 文は宣言順に semantic dependency がなく、両側の新規 import は本体側で必ず使用されている（未使用なら lint で消える）ため、機械的両側採用が安全。
+- 適用条件: 以下を全て満たす場合のみ機械的両側採用してよい:
+  1. conflict 範囲が **import / require 宣言のみ**（実装コード行を含まない）
+  2. HEAD 側・dev 側ともに **新規 import 追加**（同一シンボル名の reassign / rename ではない）
+  3. base セクションが空（共通祖先には該当 import が存在しなかった）
+  4. 解消後に `pnpm typecheck` / `pnpm lint` が PASS する
+- 適用除外: 同一シンボル名を別パスから import し直すリネーム conflict、import 順序を意図的に並び替える stylistic conflict、conditional import (`if (...) require(...)`) は両側採用すると semantic 競合になるため手動判断が必要。
+- 自動化候補: `scripts/sync/resolve-skill-merge-conflicts.sh` の対象を `apps/**/*.{ts,tsx}` の **import block** のみに限定して拡張する余地あり。ただし実装コード行を 1 行でも含む conflict は対象外（誤検出時の影響が大きい）。現状は手動解消で十分。
+- 事例: 2026-05-19 dev sync 取り込み、`apps/web/app/page.tsx`、両 import 保持で merge commit `370c7f64` 作成、typecheck / lint / verify-pr-ready / pre-push hook すべて PASS、`feat/issue-274-public-pages-ogp-sitemap-robots` push 成功。
+
 ## 適用範囲
 - task-specification-creator skill: 本 Lessons Learned は SKILL.md / changelog / references の conflict 解消にもそのまま適用される。Phase 12 で `artifacts.json` を出力する際は L-DEVSYNC-006 の status enum / passed_at / approver / evidence_path を必ず満たす。L-DEVSYNC-008 の "最新 N 件" 規約、L-DEVSYNC-011 の fact migration 判定、L-DEVSYNC-012 の追記型衝突両側採用ルールはいずれも `task-specification-creator/SKILL.md` / 配下 references / changelog 衝突に適用する。L-DEVSYNC-015 の native binary version bump 二段復旧は dev sync prompt の自律修復に組み込む。L-DEVSYNC-021 (lint scope glob 収束) / L-DEVSYNC-022 (version table 両側 row 保持) は workflow YAML / `references/*-gha.md` / `deployment-secrets-management.md` 等の lint-config 系・version-table 系 conflict にも適用する。
 - aiworkflow-requirements skill: indexes 再生成は本 skill 配下で完結する。L-DEVSYNC-012 適用後は必ず `pnpm indexes:rebuild` を実行し JSON validity を検証する。
 
 - task-specification-creator skill: 本 Lessons Learned は SKILL.md / changelog / references の conflict 解消にもそのまま適用される。Phase 12 で `artifacts.json` を出力する際は L-DEVSYNC-006 の status enum / passed_at / approver / evidence_path を必ず満たす。L-DEVSYNC-008 の "最新 N 件" 規約、L-DEVSYNC-011 の fact migration 判定、L-DEVSYNC-012 の追記型衝突両側採用ルールはいずれも `task-specification-creator/SKILL.md` / 配下 references / changelog 衝突に適用する。L-DEVSYNC-015 の native binary version bump 二段復旧、L-DEVSYNC-018 の resolver 対象外ファイル手動 union は dev sync prompt の自律修復に組み込む。L-DEVSYNC-019 の root/outputs `artifacts.json` への `metadata.gates` 生成時付与は task-specification-creator skill Phase 12 template に組み込む。
-- aiworkflow-requirements skill: indexes 再生成は本 skill 配下で完結する。L-DEVSYNC-012 適用後は必ず `pnpm indexes:rebuild` を実行し JSON validity を検証する。L-DEVSYNC-018 は本 skill 配下 `LOGS/_legacy.md` の自律 union 解消に直接適用される。
+- aiworkflow-requirements skill: indexes 再生成は本 skill 配下で完結する。L-DEVSYNC-012 適用後は必ず `pnpm indexes:rebuild` を実行し JSON validity を検証する。L-DEVSYNC-018 は本 skill 配下 `LOGS/_legacy.md` の自律 union 解消に直接適用される。L-DEVSYNC-023 は `apps/**` / `packages/**` の `.ts` / `.tsx` import block conflict に適用し、`task-specification-creator` の dev sync prompt の自律解消手順にも組み込む（手動解消対象として明示）。
