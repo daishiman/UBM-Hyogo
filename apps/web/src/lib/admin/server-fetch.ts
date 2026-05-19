@@ -211,7 +211,7 @@ const task17AuditFixture = (path: string) => {
 };
 
 const task18TagQueueFixture = () => ({
-  total: 1,
+  total: 2,
   items: [
     {
       queueId: "tag_q_001",
@@ -222,6 +222,16 @@ const task18TagQueueFixture = () => ({
       reason: "task18 smoke fixture",
       createdAt: "2026-05-12T00:00:00.000Z",
       updatedAt: "2026-05-12T00:00:00.000Z",
+    },
+    {
+      queueId: "tag_q_dlq",
+      memberId: "mem_beta",
+      responseId: "res_beta",
+      status: "dlq",
+      suggestedTagsJson: JSON.stringify(["review-required"]),
+      reason: "retry limit exceeded",
+      createdAt: "2026-05-12T00:10:00.000Z",
+      updatedAt: "2026-05-12T00:20:00.000Z",
     },
   ],
 });

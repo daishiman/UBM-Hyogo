@@ -1,0 +1,84 @@
+{
+  "feature": "issue-769-root-error-focus",
+  "created": "2026-05-17T00:00:00+09:00",
+  "lastUpdated": "2026-05-17T00:00:00+09:00",
+  "status": "runtime_pending",
+  "metadata": {
+    "taskType": "implementation",
+    "visualEvidence": "NON_VISUAL",
+    "workflow_state": "implemented_local_evidence_captured",
+    "implementation_status": "implementation_complete_pending_pr",
+    "implementationCategory": "standard",
+    "github_issue": 769,
+    "parent_workflow": "docs/30-workflows/ui-prototype-alignment-mvp-recovery/improvements/integration-fixes/",
+    "parent_spec": "docs/30-workflows/ui-prototype-alignment-mvp-recovery/improvements/integration-fixes/parallel-i06-root-error-focus/spec.md",
+    "source_unassigned_task": "docs/30-workflows/unassigned-task/integration-fixes-i06-root-error-focus.md",
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-05-17T00:00:00+09:00",
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-769-root-error-focus/index.md",
+        "approver": "codex",
+        "notes": "spec_review: root error focus scope, target files, and parent i06 mapping confirmed."
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "passed",
+        "passed_at": "2026-05-17T00:00:00+09:00",
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-769-root-error-focus/outputs/phase-11/evidence/",
+        "approver": "codex",
+        "notes": "local_evidence: typecheck and lint passed; web package test command completed 89 files / 618 tests passed, 1 skipped."
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "passed",
+        "passed_at": "2026-05-17T00:00:00+09:00",
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-769-root-error-focus/outputs/phase-12/phase12-task-spec-compliance-check.md",
+        "approver": "codex",
+        "notes": "phase12: strict 7 outputs present, artifacts parity present."
+      },
+      {
+        "gate_id": "Gate-D",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-769-root-error-focus/outputs/phase-13/pr-summary.md",
+        "approver": "daishiman",
+        "notes": "commit / push / PR remain user-gated."
+      }
+    ]
+  },
+  "phases": {
+    "1": { "status": "completed", "artifacts": ["phase-1-requirements.md"] },
+    "2": { "status": "completed", "artifacts": ["phase-2-design.md"] },
+    "3": { "status": "completed", "artifacts": ["phase-3-design-review.md"] },
+    "4": { "status": "completed", "artifacts": ["phase-4-test-plan.md"] },
+    "5": { "status": "completed", "artifacts": ["phase-5-implementation.md"] },
+    "6": { "status": "completed", "artifacts": ["phase-6-test-additions.md"] },
+    "7": { "status": "completed", "artifacts": ["phase-7-coverage.md"] },
+    "8": { "status": "completed", "artifacts": ["phase-8-refactor.md"] },
+    "9": { "status": "completed", "artifacts": ["phase-9-qa.md"] },
+    "10": { "status": "completed", "artifacts": ["phase-10-final-review.md"] },
+    "11": {
+      "status": "runtime_pending",
+      "artifacts": ["outputs/phase-11/manual-smoke-log.md", "outputs/phase-11/evidence/"]
+    },
+    "12": {
+      "status": "completed",
+      "artifacts": [
+        "outputs/phase-12/main.md",
+        "outputs/phase-12/implementation-guide.md",
+        "outputs/phase-12/system-spec-update-summary.md",
+        "outputs/phase-12/documentation-changelog.md",
+        "outputs/phase-12/unassigned-task-detection.md",
+        "outputs/phase-12/skill-feedback-report.md",
+        "outputs/phase-12/phase12-task-spec-compliance-check.md"
+      ]
+    },
+    "13": {
+      "status": "blocked",
+      "artifacts": ["outputs/phase-13/pr-summary.md"],
+      "notes": "user approval required for commit / push / PR"
+    }
+  }
+}

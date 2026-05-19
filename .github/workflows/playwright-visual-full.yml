@@ -5,13 +5,6 @@ on:
     - cron: '0 18 * * *' # JST 03:00 nightly
   workflow_dispatch:
   pull_request:
-    paths:
-      - 'apps/web/src/**'
-      - 'apps/web/playwright.config.ts'
-      - 'apps/web/playwright/tests/visual-full/**'
-      - 'apps/web/playwright/fixtures/**'
-      - 'apps/web/src/styles/tokens.css'
-      - '.github/workflows/playwright-visual-full.yml'
 concurrency:
   group: visual-full-${{ github.ref }}
   cancel-in-progress: true
@@ -45,7 +38,6 @@ jobs:
         run: |
           set +e
           VISUAL_BASELINE_STATUS_FAIL_ON_STALE=0 bash scripts/visual-baseline-status.sh > /tmp/baseline-status.txt 2>&1
-          rc=$?
           cat /tmp/baseline-status.txt
           if grep -q "STALE:" /tmp/baseline-status.txt; then
             echo "stale=true" >> "$GITHUB_OUTPUT"

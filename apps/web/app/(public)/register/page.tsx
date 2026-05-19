@@ -9,26 +9,24 @@ import { FormPreviewViewZ } from "@ubm-hyogo/shared";
 
 import { FormPreviewSections } from "../../../src/components/public/FormPreviewSections";
 import { RegisterCallout } from "../../../src/components/public/RegisterCallout";
+import { FORM_RESPONDER_URL } from "../../../src/lib/constants/form";
 import { fetchPublic } from "../../../src/lib/fetch/public";
 
 type FormPreviewView = z.infer<typeof FormPreviewViewZ>;
-
-const FALLBACK_RESPONDER_URL =
-  "https://docs.google.com/forms/d/e/1FAIpQLSeWfv-R8nblYVqqcCTwcvVsFyVVHFeKYxn96NEm1zNXeydtVQ/viewform";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 600;
 
 export default async function RegisterPage() {
   let preview: FormPreviewView | null = null;
-  let responderUrl = FALLBACK_RESPONDER_URL;
+  let responderUrl: string = FORM_RESPONDER_URL;
   let previewError: string | null = null;
 
   try {
     preview = await fetchPublic<FormPreviewView>("/public/form-preview", {
       revalidate: 600,
     });
-    responderUrl = preview.responderUrl ?? FALLBACK_RESPONDER_URL;
+    responderUrl = preview.responderUrl ?? FORM_RESPONDER_URL;
   } catch (_err) {
     previewError =
       "フォーム情報を取得できませんでした。登録は下のリンクから進めてください。";

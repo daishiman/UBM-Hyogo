@@ -45,7 +45,7 @@ post-merge:
   commands:
     stale-worktree-notice:
       run: bash scripts/hooks/stale-worktree-notice.sh post-merge
-      # ⚠ post-merge では indexes/*.json の再生成を行わない
+      # ⚠ post-merge では generator 管理 index の再生成を行わない
       # 再生成は明示コマンド `pnpm indexes:rebuild` でのみ実行する
 
 pre-push:
@@ -53,17 +53,7 @@ pre-push:
   commands:
     verify-esbuild:
       tags: [test, env]
-      # mise 管理 node を明示利用（Volta / nvm の shim が PATH 先頭にあっても
-      # arm64 native node が選ばれるようにする。Refs: issue #747 §4）
-      run: |
-        if command -v mise >/dev/null 2>&1; then
-          NODE_BIN="mise exec -- node"
-        else
-          NODE_BIN="node"
-        fi
-        $NODE_BIN scripts/verify-node-arch.mjs && \
-        $NODE_BIN scripts/verify-worktree-node-modules-isolation.mjs && \
-        $NODE_BIN scripts/verify-esbuild-version.mjs
+      run: bash scripts/hooks/verify-esbuild-guard.sh
       skip:
         - merge
         - rebase
@@ -79,8 +69,9 @@ pre-push:
       stage_fixed: false
       fail_text: |
         🚫 skill indexes に drift があります。
-        pnpm indexes:rebuild → 差分を commit → 再 push してください。
+        mise exec -- pnpm indexes:rebuild → 差分を commit → 再 push してください。
         対応 CI: verify-indexes-up-to-date
+        詳細: docs/00-getting-started-manual/lefthook-operations.md#skill-indexes-drift-gate
     gate-metadata-guard:
       run: bash scripts/hooks/gate-metadata-guard.sh
       stage_fixed: false

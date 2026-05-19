@@ -15,12 +15,18 @@ export default async function AdminLayout({ children }: { readonly children: Rea
   return (
     <div
       className="ubm-admin-shell grid min-h-screen grid-cols-1 bg-[var(--ubm-color-surface-bg)] text-[var(--ubm-color-text-primary)] md:grid-cols-[240px_1fr]"
+      data-theme="cool"
       data-testid="admin-shell"
     >
-      <aside className="border-r border-[var(--ubm-color-border-default)]">
+      <aside
+        className="border-r border-[var(--ubm-color-border-default)]"
+        data-shell="sidebar"
+      >
         <AdminSidebar />
       </aside>
-      <main className="flex flex-col gap-4 p-4 md:p-6">{children}</main>
+      <main className="flex flex-col gap-4 p-4 md:p-6" data-route="admin">
+        {children}
+      </main>
     </div>
   );
 }
