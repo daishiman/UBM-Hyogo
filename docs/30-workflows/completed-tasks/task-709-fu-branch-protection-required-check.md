@@ -1,5 +1,14 @@
 # task-709-fu-branch-protection-required-check
 
+## Canonical Status
+
+| 項目 | 値 |
+| --- | --- |
+| status | consumed |
+| canonical_workflow | `docs/30-workflows/task-761-visual-full-required-status-check/` |
+| consumed_at | 2026-05-17 |
+| note | Issue #761 workflow formalized and executed this governance follow-up. This file remains as historical pointer only; do not execute as an active task. |
+
 ## メタ情報
 
 | 項目 | 値 |

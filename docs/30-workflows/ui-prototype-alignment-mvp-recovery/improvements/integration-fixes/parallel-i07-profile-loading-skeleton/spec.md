@@ -146,5 +146,5 @@ mise exec -- pnpm -F "@ubm-hyogo/web" test -- --run profile/loading
 このタスクは canonical workflow root へ昇格するか、in-place fix で完結するかをここで明示する。
 
 - **status**: implemented_local_evidence_captured
-- **canonical_workflow**: `docs/30-workflows/profile-loading-skeleton-oklch/`
+- **canonical_workflow**: `docs/30-workflows/completed-tasks/profile-loading-skeleton-oklch/`
 - **判断**: 初期判断では in-place fix 予定だったが、task-specification-creator / aiworkflow-requirements 準拠のため Phase 11 evidence、Phase 12 strict 7、親 tracking 更新、aiworkflow index 同期を同一 wave で持つ canonical workflow root へ昇格した。本 spec.md は source spec として残し、実装・証跡の正本は canonical workflow を参照する。

@@ -11,6 +11,7 @@
 | 優先度       | 中                                                                                                                    |
 | 見積もり規模 | 小規模                                                                                                                |
 | ステータス   | consumed_by_canonical_workflow                                                                                         |
+| canonical_workflow | `docs/30-workflows/completed-tasks/profile-loading-skeleton-oklch/`                                            |
 | 発見元       | UI prototype alignment / MVP recovery — improvements 接続検証 (integration-fixes index.md §2 i07)                     |
 | 発見日       | 2026-05-16                                                                                                            |
 
@@ -19,6 +20,7 @@
 - 親 workflow: `docs/30-workflows/ui-prototype-alignment-mvp-recovery/`
 - 親 sub-workflow: `docs/30-workflows/ui-prototype-alignment-mvp-recovery/improvements/integration-fixes/`
 - 親タスク状態: `implemented_local_evidence_captured`
+- consumed_by: canonical workflow (`docs/30-workflows/completed-tasks/profile-loading-skeleton-oklch/`)
 - 仕様正本: `docs/30-workflows/ui-prototype-alignment-mvp-recovery/improvements/integration-fixes/parallel-i07-profile-loading-skeleton/spec.md`
 - canonical workflow: `docs/30-workflows/profile-loading-skeleton-oklch/`
 - consumed evidence: `docs/30-workflows/profile-loading-skeleton-oklch/outputs/phase-11/evidence/test.log`
