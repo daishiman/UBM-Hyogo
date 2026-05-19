@@ -260,7 +260,22 @@
 - How to apply: 同様に lighthouse fail で sync ブロックされた場合、`lighthouserc.json` の `categories:performance` のみ `warn` 降格を検討する。完全撤廃（削除）は禁止。閾値 `minScore: 0.8` は維持し、将来 dedicated runner / perf 改善時に `error` 復帰させる。
 - 事例: 2026-05-19 PR #803、performance `warn` 降格後 `lighthouse-ci` job が pass、conflict 解消後の sync push が CI 緑化。
 
-## L-DEVSYNC-023: ソースコード import block で HEAD / dev が別 import を追加した場合の両側採用（2026-05-19 追加）
+## L-DEVSYNC-023: `lefthook.yml` の hook 実装が「inline run」⇔「外部 script」へ進化した case の 3-way conflict 解消（2026-05-19 追加）
+
+- 症状: dev sync で `lefthook.yml` の同一 hook（例: `pre-push.verify-esbuild`）が conflict。HEAD 側は inline `run: |` ブロックで mise-aware の node 解決ロジック（issue #747 §4: `command -v mise` で `mise exec -- node` に切替）を持ち、dev 側は同等の検証を **外部 script** (`scripts/hooks/verify-esbuild-guard.sh`) に切り出し、さらに sync-merge skip 判定（push 範囲に merge commit を含む場合 exit 0）を内蔵する形へ進化していた。両者は同じ目的（esbuild/arch/isolation 検証）に対する **段階の異なる実装** であり、片側採用すると他方の意図（mise 解決 / sync-merge skip）のいずれかが失われる。
+- 解消: **外部 script 側を正本として採用**し、HEAD 側 inline ブロックの mise-aware ロジックを **script 本体に統合**する（`NODE_BIN=(mise exec -- node)` を `command -v mise` で条件選択）。`lefthook.yml` 側は `run: bash scripts/hooks/verify-esbuild-guard.sh` の 1 行に収束。conflict marker を除去後、`lefthook validate` 相当の構文確認として lefthook がロード可能であることを `pre-push` dry-run でも確認できる。
+- 盲点: 両側採用（union）すると YAML 構造として `run:` キーが重複し parse エラーになる。L-DEVSYNC-001 の table-union ルールは **structured config (YAML) には適用しない**。意味の上で片側に**他方の essence を統合**する手動 merge が正しい。
+- Why: 外部 script への切り出しは「sync-merge skip 等の制御フローを bash 表現力で書く」「lefthook.yml を宣言だけに保つ」という改善で、原則 dev 側採用。ただし HEAD 側の **mise 解決ロジック** は issue #747 §4 で要件化された Volta/nvm shim 対策であり、捨ててはならない → script に統合する。
+- 適用判断: `lefthook.yml` / `.github/workflows/*.yml` 等の hook/workflow 定義で「inline → 外部 script への切り出し」が dev 側で行われ、HEAD 側に未統合の付加ロジックがある場合に適用する。
+- How to apply:
+  1. dev 側の script を正本として `lefthook.yml` の hook 行はそのまま採用
+  2. HEAD 側 inline run ブロックから「dev 側 script に欠けている付加ロジック」（mise 解決 / 追加 env / 追加 verify など）を抽出
+  3. 抽出ロジックを script 本体に統合（既存 sync-merge skip 等の制御フローを破壊しない位置に挿入）
+  4. conflict marker (`<<<<<<<` / `|||||||` / `=======` / `>>>>>>>`) を物理除去
+  5. `git diff --check` で残マーカーゼロを確認
+- 事例: 2026-05-19 `feat/issue-266-shared-sync-zod-contract ← dev` の sync で `lefthook.yml` の `verify-esbuild` を `scripts/hooks/verify-esbuild-guard.sh` 採用に統一し、mise-aware node 解決を script 本体へ統合。`pnpm sync:resolve` は YAML conflict を扱わないため手動で処理した（resolver 拡張対象外であることを併せて確認）。
+
+## L-DEVSYNC-024: ソースコード import block で HEAD / dev が別 import を追加した場合の両側採用（2026-05-19 追加・元 L-DEVSYNC-023 をリナンバー）
 
 - 症状: `feat/issue-274-public-pages-ogp-sitemap-robots` に `origin/dev` を取り込んだ際、`apps/web/app/page.tsx` の import block で 3-way conflict が発生。HEAD 側は `import { buildPageMetadata } from "@/lib/seo/site-metadata";`（OGP 対応で追加）、dev 側は `import { CallToActionCTA } from "../src/components/public/CallToActionCTA";`（CTA 追加）。`pnpm sync:resolve` は `apps/**` / `*.tsx` を resolver 対象外としているため `WARN unhandled conflict` として残置。
 - 解消: 両 import を順序維持で連結し、conflict marker（`<<<<<<<` / `|||||||` / `=======` / `>>>>>>>`）を物理除去。両側で参照されているシンボル（`buildPageMetadata` は `metadata` export、`CallToActionCTA` は JSX 内で使用）はどちらも本体で使われているため、片側採用は型エラー / 未使用 import / ランタイム ReferenceError のいずれかを必ず引き起こす。
@@ -274,10 +289,10 @@
 - 適用除外: 同一シンボル名を別パスから import し直すリネーム conflict、import 順序を意図的に並び替える stylistic conflict、conditional import (`if (...) require(...)`) は両側採用すると semantic 競合になるため手動判断が必要。
 - 自動化候補: `scripts/sync/resolve-skill-merge-conflicts.sh` の対象を `apps/**/*.{ts,tsx}` の **import block** のみに限定して拡張する余地あり。ただし実装コード行を 1 行でも含む conflict は対象外（誤検出時の影響が大きい）。現状は手動解消で十分。
 - 事例: 2026-05-19 dev sync 取り込み、`apps/web/app/page.tsx`、両 import 保持で merge commit `370c7f64` 作成、typecheck / lint / verify-pr-ready / pre-push hook すべて PASS、`feat/issue-274-public-pages-ogp-sitemap-robots` push 成功。
-
+- 番号リナンバー注記: 当初本ブランチが先に L-DEVSYNC-023 として記録したが、`feat/issue-266-shared-sync-zod-contract` が dev に先行 merge し L-DEVSYNC-023 (lefthook.yml inline→script) を使用したため、L-DEVSYNC-012 の番号衝突リナンバー規則（後発=dev 採用、HEAD は次の空き番号 = L-DEVSYNC-024）に従いリナンバー。
 ## 適用範囲
 - task-specification-creator skill: 本 Lessons Learned は SKILL.md / changelog / references の conflict 解消にもそのまま適用される。Phase 12 で `artifacts.json` を出力する際は L-DEVSYNC-006 の status enum / passed_at / approver / evidence_path を必ず満たす。L-DEVSYNC-008 の "最新 N 件" 規約、L-DEVSYNC-011 の fact migration 判定、L-DEVSYNC-012 の追記型衝突両側採用ルールはいずれも `task-specification-creator/SKILL.md` / 配下 references / changelog 衝突に適用する。L-DEVSYNC-015 の native binary version bump 二段復旧は dev sync prompt の自律修復に組み込む。L-DEVSYNC-021 (lint scope glob 収束) / L-DEVSYNC-022 (version table 両側 row 保持) は workflow YAML / `references/*-gha.md` / `deployment-secrets-management.md` 等の lint-config 系・version-table 系 conflict にも適用する。
 - aiworkflow-requirements skill: indexes 再生成は本 skill 配下で完結する。L-DEVSYNC-012 適用後は必ず `pnpm indexes:rebuild` を実行し JSON validity を検証する。
 
 - task-specification-creator skill: 本 Lessons Learned は SKILL.md / changelog / references の conflict 解消にもそのまま適用される。Phase 12 で `artifacts.json` を出力する際は L-DEVSYNC-006 の status enum / passed_at / approver / evidence_path を必ず満たす。L-DEVSYNC-008 の "最新 N 件" 規約、L-DEVSYNC-011 の fact migration 判定、L-DEVSYNC-012 の追記型衝突両側採用ルールはいずれも `task-specification-creator/SKILL.md` / 配下 references / changelog 衝突に適用する。L-DEVSYNC-015 の native binary version bump 二段復旧、L-DEVSYNC-018 の resolver 対象外ファイル手動 union は dev sync prompt の自律修復に組み込む。L-DEVSYNC-019 の root/outputs `artifacts.json` への `metadata.gates` 生成時付与は task-specification-creator skill Phase 12 template に組み込む。
-- aiworkflow-requirements skill: indexes 再生成は本 skill 配下で完結する。L-DEVSYNC-012 適用後は必ず `pnpm indexes:rebuild` を実行し JSON validity を検証する。L-DEVSYNC-018 は本 skill 配下 `LOGS/_legacy.md` の自律 union 解消に直接適用される。L-DEVSYNC-023 は `apps/**` / `packages/**` の `.ts` / `.tsx` import block conflict に適用し、`task-specification-creator` の dev sync prompt の自律解消手順にも組み込む（手動解消対象として明示）。
+- aiworkflow-requirements skill: indexes 再生成は本 skill 配下で完結する。L-DEVSYNC-012 適用後は必ず `pnpm indexes:rebuild` を実行し JSON validity を検証する。L-DEVSYNC-018 は本 skill 配下 `LOGS/_legacy.md` の自律 union 解消に直接適用される。L-DEVSYNC-023 は `lefthook.yml` / `.github/workflows/*.yml` の hook 実装が inline→外部 script へ進化した case の 3-way conflict 解消（外部 script 採用＋HEAD 側付加ロジック統合）に適用する。L-DEVSYNC-024 は `apps/**` / `packages/**` の `.ts` / `.tsx` import block conflict に適用し、`task-specification-creator` の dev sync prompt の自律解消手順にも組み込む（手動解消対象として明示）。

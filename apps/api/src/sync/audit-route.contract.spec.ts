@@ -12,7 +12,7 @@ describe("u-04 audit-route", () => {
     await env.db
       .prepare(
         `INSERT INTO sync_job_logs (run_id, trigger_type, status, started_at)
-         VALUES ('a-1', 'manual', 'success', '2026-04-30T00:00:00.000Z')`,
+         VALUES ('a-1', 'admin', 'success', '2026-04-30T00:00:00.000Z')`,
       )
       .run();
     const res = await auditQueryRoute.request(

@@ -2,6 +2,7 @@
 // u-04: audit writer + withSyncMutex の単体テスト (U-A-01..08, U-X-01..04)。
 
 import { describe, it, expect } from "vitest";
+import { SyncLogStatusZ, SyncTriggerTypeZ } from "@ubm-hyogo/shared";
 import { setupD1 } from "../repository/__tests__/_setup";
 import {
   startRun,
@@ -21,14 +22,14 @@ describe("u-04 audit", () => {
   it("U-A-01: startRun が running 行を 1 件 insert する", async () => {
     const env = await setupD1();
     const deps = depsFor(env.db, "2026-04-30T00:00:00.000Z", "r1");
-    const { result } = await startRun(deps, "manual");
+    const { result } = await startRun(deps, "admin");
     expect(result.acquired).toBe(true);
     const row = await env.db
       .prepare("SELECT status, trigger_type FROM sync_job_logs WHERE run_id = ?1")
       .bind("r1")
       .first<{ status: string; trigger_type: string }>();
     expect(row?.status).toBe("running");
-    expect(row?.trigger_type).toBe("manual");
+    expect(row?.trigger_type).toBe("admin");
   });
 
   it("U-A-02: 二重 startRun は 2 件目を skipped で記録する", async () => {
@@ -36,8 +37,8 @@ describe("u-04 audit", () => {
     await env.reset();
     const a = depsFor(env.db, "2026-04-30T00:00:00.000Z", "r-a");
     const b = depsFor(env.db, "2026-04-30T00:00:01.000Z", "r-b");
-    await startRun(a, "manual");
-    const second = await startRun(b, "manual");
+    await startRun(a, "admin");
+    const second = await startRun(b, "admin");
     expect(second.result.acquired).toBe(false);
     const row = await env.db
       .prepare("SELECT status FROM sync_job_logs WHERE run_id = ?1")
@@ -50,7 +51,7 @@ describe("u-04 audit", () => {
     const env = await setupD1();
     await env.reset();
     const deps = depsFor(env.db, "2026-04-30T00:00:00.000Z", "r-fin");
-    await startRun(deps, "manual");
+    await startRun(deps, "admin");
     const summary: DiffSummary = {
       fetched: 3,
       upserted: 3,
@@ -88,7 +89,7 @@ describe("u-04 audit", () => {
     const env = await setupD1();
     await env.reset();
     const deps = depsFor(env.db, "2026-04-30T00:00:00.000Z", "wm-ok");
-    const r = await withSyncMutex(deps, "manual", async () => ({
+    const r = await withSyncMutex(deps, "admin", async () => ({
       fetched: 1,
       upserted: 1,
       failed: 0,
@@ -104,7 +105,7 @@ describe("u-04 audit", () => {
     const env = await setupD1();
     await env.reset();
     const deps = depsFor(env.db, "2026-04-30T00:00:00.000Z", "wm-ng");
-    const r = await withSyncMutex(deps, "scheduled", async () => {
+    const r = await withSyncMutex(deps, "cron", async () => {
       throw new Error("boom user@example.com");
     });
     expect(r.status).toBe("failed");
@@ -121,11 +122,11 @@ describe("u-04 audit", () => {
     const b = depsFor(env.db, "2026-04-30T00:00:00.500Z", "wm-b");
     let release: () => void = () => undefined;
     const gate = new Promise<void>((resolve) => (release = resolve));
-    const p1 = withSyncMutex(a, "manual", async () => {
+    const p1 = withSyncMutex(a, "admin", async () => {
       await gate;
       return { fetched: 0, upserted: 0, failed: 0, retryCount: 0, durationMs: 0 };
     });
-    const r2 = await withSyncMutex(b, "manual", async () => ({
+    const r2 = await withSyncMutex(b, "admin", async () => ({
       fetched: 0,
       upserted: 0,
       failed: 0,
@@ -146,7 +147,7 @@ describe("u-04 audit", () => {
         `2026-04-30T00:00:0${i}.000Z`,
         `rec-${i}`,
       );
-      await withSyncMutex(deps, "manual", async () => ({
+      await withSyncMutex(deps, "admin", async () => ({
         fetched: i,
         upserted: i,
         failed: 0,
@@ -158,5 +159,54 @@ describe("u-04 audit", () => {
     expect(items).toHaveLength(2);
     expect(items[0]!.auditId).toBe("rec-2");
     expect(items[1]!.auditId).toBe("rec-1");
+  });
+
+  it("issue-266: listRecent rows pass shared SyncTriggerTypeZ / SyncLogStatusZ", async () => {
+    const env = await setupD1();
+    await env.reset();
+    const triggers = ["admin", "cron", "backfill"] as const;
+    for (let i = 0; i < triggers.length; i += 1) {
+      const deps = depsFor(
+        env.db,
+        `2026-05-17T00:00:0${i}.000Z`,
+        `shared-${i}`,
+      );
+      await withSyncMutex(deps, triggers[i]!, async () => ({
+        fetched: 0,
+        upserted: 0,
+        failed: 0,
+        retryCount: 0,
+        durationMs: 0,
+      }));
+    }
+    const rows = await listRecent(env.db, 10);
+    expect(rows.length).toBeGreaterThanOrEqual(3);
+    for (const r of rows) {
+      expect(SyncTriggerTypeZ.safeParse(r.trigger).success).toBe(true);
+      expect(SyncLogStatusZ.safeParse(r.status).success).toBe(true);
+    }
+  });
+
+  it("issue-266: listRecent filters legacy trigger rows before shared row parse", async () => {
+    const env = await setupD1();
+    await env.reset();
+    await env.db
+      .prepare(
+        `INSERT INTO sync_job_logs (run_id, trigger_type, status, started_at, finished_at)
+         VALUES ('legacy-manual', 'manual', 'success', '2026-05-17T00:00:00.000Z', '2026-05-17T00:00:01.000Z')`,
+      )
+      .run();
+    const deps = depsFor(env.db, "2026-05-17T00:00:02.000Z", "canonical-admin");
+    await withSyncMutex(deps, "admin", async () => ({
+      fetched: 0,
+      upserted: 0,
+      failed: 0,
+      retryCount: 0,
+      durationMs: 0,
+    }));
+
+    const rows = await listRecent(env.db, 10);
+    expect(rows.map((r) => r.auditId)).toContain("canonical-admin");
+    expect(rows.map((r) => r.auditId)).not.toContain("legacy-manual");
   });
 });

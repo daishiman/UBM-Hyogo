@@ -16,6 +16,19 @@
 | lessons | `.claude/skills/aiworkflow-requirements/references/lessons-learned-issue-274-public-pages-ogp-sitemap-robots-2026-05.md`（L-274-001..006: site URL SSOT / sitemap degraded mode / robots env-branch / OG edge runtime / consumed trace / issue-NNN namespace 規約） |
 | user gate | implementation, runtime evidence, commit, push, PR |
 
+## Issue #266 shared sync Zod contract（2026-05-18）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow | `docs/30-workflows/issue-266-shared-sync-zod-contract/` |
+| status | `implemented_local_runtime_pending / implementation / NON_VISUAL` |
+| issue | #266 CLOSED。PR 文脈は `Refs #266` のみ |
+| contract | `SyncLogStatus = running/success/failed/skipped`, `SyncTriggerType = cron/admin/backfill`, `SyncLogRecord = sync_job_logs` 物理 12 カラム |
+| implementation | `packages/shared/src/zod/sync-log.ts`, `packages/shared/src/zod/index.ts`, `apps/api/src/sync/{types,audit,manual,scheduled}.ts`, `apps/api/src/jobs/{sync-sheets-to-d1,sync-forms-responses}.ts`, sync contract specs |
+| key boundary | U-UT01-08 / U-UT01-10 の旧 `pending/in_progress/completed`・`manual/cron/backfill` 前提は historical。issue #266 は物理 DDL / runtime 実態を canonical とする |
+| Phase 12 | strict 7 outputs present; local code/test evidence captured |
+| user gate | staging D1 distinct query, commit, push, PR |
+
 ## Issue #762 CF OIDC staging proof readiness（2026-05-17）
 
 | 項目 | 値 |
