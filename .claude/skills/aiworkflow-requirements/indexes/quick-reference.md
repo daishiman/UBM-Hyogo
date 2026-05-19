@@ -1,5 +1,36 @@
 # クイックリファレンス
 
+## Issue #778 Schema Alias Rollback / Undo（2026-05-19）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/issue-778-schema-alias-rollback-undo/` |
+| status | `implemented_local_runtime_pending / implementation / VISUAL / PASS_BOUNDARY_SYNCED_RUNTIME_PENDING` |
+| source | `docs/30-workflows/unassigned-task/serial-05-step-03-followup-004-schema-alias-rollback-undo.md` |
+| parent | `docs/30-workflows/completed-tasks/serial-05-step-03-schema-diff-resolve/` |
+| API | `POST /admin/schema/aliases/:aliasId/rollback` with `If-Match: version=<N>` |
+| audit | application `audit_log.action='schema_alias.rollback'`;元 resolve は `after_json.relatedAuditId` |
+| specs | `docs/00-getting-started-manual/specs/01-api-schema.md`, `docs/00-getting-started-manual/specs/11-admin-management.md` |
+| evidence | `outputs/phase-12/phase12-task-spec-compliance-check.md`, `outputs/artifacts.json` |
+| pattern | `.claude/skills/aiworkflow-requirements/references/pattern-d1-soft-delete-optimistic-lock-batch.md` |
+| lessons-learned | `.claude/skills/aiworkflow-requirements/references/lessons-learned-d1-batch-atomicity-and-soft-delete-2026-05.md`（L-DBATCH-001 / L-SOFTDEL-001 / L-OPTLOCK-001 / L-AUDITREL-001 / L-SCOPE-001） |
+| user gate | staging apply / production apply / visual baseline / commit / push / PR |
+
+## D1 Soft Delete + Optimistic Lock + db.batch（汎用パターン / 2026-05-19）
+
+| 項目 | 値 |
+| --- | --- |
+| 正本 | `.claude/skills/aiworkflow-requirements/references/pattern-d1-soft-delete-optimistic-lock-batch.md` |
+| schema 拡張 | `deleted_at TEXT`, `deleted_by TEXT`, `version INTEGER NOT NULL DEFAULT 1` + partial unique index `WHERE deleted_at IS NULL` + `idx_<table>_deleted_at` |
+| API 形 | `POST /admin/<resource>/:id/rollback` + `If-Match: version=<N>` (`^version=(\d+)$`) |
+| Error 体系 | 400 bad_request / 404 not_found / 404 already_deleted / 409 version_mismatch / 500 |
+| atomic | `db.batch([soft-delete UPDATE WHERE version=?, downstream insert, audit_log insert])` — Cloudflare D1 公式 all-or-nothing |
+| audit | application `audit_log.after_json.relatedAuditId`（`cf_audit_log` には書かない） |
+| grep gate | `rg "FROM <table>" \| rg -v "deleted_at IS NULL"` 0 行 / `rg "UPDATE <table>" \| rg -v "version ="` 0 行 |
+| 参考実装 | Issue #778 `docs/30-workflows/issue-778-schema-alias-rollback-undo/` |
+| lessons-learned | `references/lessons-learned-d1-batch-atomicity-and-soft-delete-2026-05.md` |
+| 苦戦箇所 | If-Match parse 400/409 分離, `db.batch` atomicity 公式 doc 引用, soft delete grep gate, audit_log vs cf_audit_log 分離, followup scope 分離 |
+
 ## Issue #274 public pages OGP / sitemap / robots（2026-05-17）
 
 | 目的 | 参照先 |

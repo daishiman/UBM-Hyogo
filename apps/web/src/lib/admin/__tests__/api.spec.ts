@@ -32,6 +32,7 @@ describe("lib/admin/api.ts (不変条件)", () => {
     expect(typeof adminApi.deleteMember).toBe("function");
     expect(typeof adminApi.resolveTagQueue).toBe("function");
     expect(typeof adminApi.postSchemaAlias).toBe("function");
+    expect(typeof adminApi.rollbackSchemaAlias).toBe("function");
     expect(typeof adminApi.createMeeting).toBe("function");
     expect(typeof adminApi.addAttendance).toBe("function");
     expect(typeof adminApi.removeAttendance).toBe("function");
@@ -301,5 +302,54 @@ describe("lib/admin/api.ts call() の振る舞い", () => {
     expect((fetchSpy.mock.calls[2] as [string])[0]).toBe(
       "/api/admin/requests/note%201/resolve",
     );
+  });
+
+  it("rollbackSchemaAlias: If-Match と reason body を送る", async () => {
+    fetchSpy.mockResolvedValue(
+      jsonResponse(200, {
+        aliasId: "a 1",
+        rolledBackAt: "2026-05-19T00:00:00.000Z",
+        relatedAuditId: "aud-1",
+        newVersion: 3,
+        impact: { affectedResponseCount: 2, recomputeRequired: true },
+      }),
+    );
+    const res = await adminApi.rollbackSchemaAlias({
+      aliasId: "a 1",
+      version: 2,
+      reason: "typo",
+    });
+    expect(res.newVersion).toBe(3);
+    const [url, init] = fetchSpy.mock.calls[0] as [string, RequestInit];
+    expect(url).toBe("/api/admin/schema/aliases/a%201/rollback");
+    expect(init.method).toBe("POST");
+    expect(init.body).toBe(JSON.stringify({ reason: "typo" }));
+    expect((init.headers as Record<string, string>)["If-Match"]).toBe("version=2");
+  });
+
+  it("rollbackSchemaAlias: 409 JSON error を RollbackApiError に変換する", async () => {
+    fetchSpy.mockResolvedValue(
+      jsonResponse(409, { error: "version_mismatch", message: "race detected" }),
+    );
+    await expect(
+      adminApi.rollbackSchemaAlias({ aliasId: "a1", version: 1 }),
+    ).rejects.toMatchObject({
+      name: "RollbackApiError",
+      status: 409,
+      code: "version_mismatch",
+      message: "race detected",
+    });
+  });
+
+  it("rollbackSchemaAlias: network error を status=0 に変換する", async () => {
+    fetchSpy.mockRejectedValue(new Error("offline"));
+    await expect(
+      adminApi.rollbackSchemaAlias({ aliasId: "a1", version: 1 }),
+    ).rejects.toMatchObject({
+      name: "RollbackApiError",
+      status: 0,
+      code: "network_error",
+      message: "offline",
+    });
   });
 });

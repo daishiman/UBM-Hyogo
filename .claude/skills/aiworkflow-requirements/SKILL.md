@@ -33,6 +33,12 @@ description: |
   i18n, i18n-label-normalization, NFKC, alias-recommendation,
   alias-recommendation-score-stability, label-normalization,
   recommendedStableKeys, stable_key_collision, 409 stable_key_collision,
+  schema-alias-rollback, schema-alias-undo, If-Match, rolledBackAt,
+  D1 soft delete, deleted_at, partial unique index, optimistic lock,
+  version_mismatch, db.batch atomicity, audit_log relatedAuditId,
+  cf_audit_log vs audit_log boundary, rollback workflow pattern,
+  pattern-d1-soft-delete-optimistic-lock-batch
+  recommendedStableKeys, stable_key_collision, 409 stable_key_collision,
   OGP, sitemap, robots, metadata, SEO, opengraph-image
 allowed-tools:
   - Read
@@ -54,6 +60,8 @@ ubm-hyogo Web アプリプロジェクトの全仕様を管理するスキル。
 
 | Version | Date | Changes |
 | --- | --- | --- |
+| v2026.05.19-pattern-d1-soft-delete-optimistic-lock-batch | 2026-05-19 | Issue #778 で確立した D1 soft delete + 楽観ロック + `db.batch()` atomic mutation + audit relation を汎用 pattern として正本化。`references/pattern-d1-soft-delete-optimistic-lock-batch.md` + `references/lessons-learned-d1-batch-atomicity-and-soft-delete-2026-05.md`（L-DBATCH-001 / L-SOFTDEL-001 / L-OPTLOCK-001 / L-AUDITREL-001 / L-SCOPE-001）を新規追加し、`indexes/resource-map.md` / `indexes/quick-reference.md` / `SKILL.md` Trigger / `LOGS/_legacy.md` を同一 wave で同期。 |
+| v2026.05.19-issue778-schema-alias-rollback-undo | 2026-05-19 | Issue #778 schema alias rollback / undo を `runtime_pending / implementation / VISUAL / PASS_BOUNDARY_SYNCED_RUNTIME_PENDING` として同期。rollback endpoint、application `audit_log.after_json.relatedAuditId`、Phase 12 strict 7、root/output artifacts parity、source followup-004 consumed trace、followup split、api/admin specs、indexes を同一 wave で反映。 |
 | v2026.05.17-issue274-public-pages-ogp-sitemap-robots | 2026-05-17 | Issue #274 public pages OGP / sitemap / robots を `implemented_local_evidence_captured / implementation / VISUAL` として同期。`apps/web` metadata route / root OG image / public page metadata / SEO helper / Playwright smoke、Phase 11 typecheck / lint / test / build / curl / Playwright / `og-image.png` evidence、06a/task-11 source consumed trace、site URL host の wrangler `AUTH_URL` 整合を同一 wave で反映。commit / push / PR / Issue mutation は user-gated。 |
 | v2026.05.17-issue746-parallel09-visual-evidence | 2026-05-17 | Issue #746 parallel-09 Playwright visual evidence completion を `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION` として同期。`parallel-09-primitives.spec.ts` の evidence path を completed-tasks default + `PARALLEL09_EVIDENCE_DIR` override へ補正し、12 PNG / run log / inventory / Phase 12 strict 7、source unassigned consumed、parent Phase 11 / artifacts / open runtime boundary、quick-reference / resource-map / task-workflow-active / artifact inventory を同一 wave で反映。commit / push / PR / Issue mutation / staging-production smoke は user-gated。 |
 | v2026.05.18-issue-256-e2e-coverage-baseline-runbook | 2026-05-18 | Issue #256 E2E coverage baseline runbook を `implemented_local_evidence_captured / implementation / NON_VISUAL` として同期。`coverage.exclude` ratio measurement を production-like app source denominator（test spec 除外）へ補正し、baseline `37 / 80 = 46.3% warn`、PR soft warn workflow、fallback metric runbook、Playwright smoke SLA runbook、Phase 9 QA evidence、Phase 12 strict 7、root/output artifacts parity、parent task partial_fix trace を同一 wave で反映。Issue #256 は CLOSED のため PR 文脈は `Refs #256` のみ。commit / push / PR は user-gated。 |

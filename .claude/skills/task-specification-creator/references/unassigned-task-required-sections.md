@@ -248,6 +248,63 @@ user_approval_marker: outputs/phase-13/user-approval-<task-id>-<timestamp>.md
 
 ---
 
+## 6.5 複数件 batch 生成時の pre-flight 検証（Issue #778 由来）
+
+Phase 12 `unassigned-task-detection.md` から **同 wave で 2 件以上の unassigned-task を新規発行** する場合、
+必須 3 セクション（`苦戦箇所【記入必須】` / `リスクと対策` / `検証方法`）の欠落が頻発する。
+（§5 テンプレ § 4 `スコープ` を含めると 4 セクション。本 §6.5 は §5 テンプレを採用する通常フォーマットに適用する。
+軽量フォーマット §「軽量フォーマット例外」採用時は対象外。）
+
+実例（Issue #778 review で検出された欠落）:
+
+- `docs/30-workflows/unassigned-task/serial-05-step-03-followup-005-*.md`
+- `docs/30-workflows/unassigned-task/serial-05-step-03-followup-006-*.md`
+- `docs/30-workflows/unassigned-task/serial-05-step-03-followup-007-*.md`
+
+### pre-flight checklist（複数件 batch 発行前に必ず実行）
+
+1. 新規発行予定の unassigned-task ファイル path を列挙する
+2. 以下 verification snippet を実行し、必須見出しの欠落を 0 件にする
+3. 欠落があるファイルを補完してから Phase 12 を close-out する
+
+### verification snippet（rg pattern）
+
+`rg` で 4 必須見出し（§5 通常フォーマット）の不在を検出する。`-L` で「マッチ**しない**ファイル」を列挙する。
+
+```bash
+# 直近の新規 unassigned-task 全件を対象に必須セクションの欠落を一括検出
+# (軽量フォーマット採用ファイルは別途 `## 5. 参照資料` の親 spec.md リンクで除外運用)
+TARGETS=$(git status --porcelain docs/30-workflows/unassigned-task/ \
+  | awk '/^\?\?|^.M|^A / {print $2}')
+
+for f in $TARGETS; do
+  for heading in '^## 苦戦箇所【記入必須】' '^## リスクと対策' '^## 検証方法' '^## スコープ'; do
+    rg -q "$heading" "$f" || echo "MISSING [$heading]: $f"
+  done
+done
+```
+
+期待: stdout が空（欠落 0 件）。1 行でも `MISSING [...]: ...` が出たら該当ファイルを補完する。
+
+batch 単位での一括チェック（同 wave 全件 grep）:
+
+```bash
+# 同 wave で発行した複数ファイルを一括 grep し、必須見出しを持たないファイルを列挙
+rg -L '^## 苦戦箇所【記入必須】' docs/30-workflows/unassigned-task/<wave-prefix>-*.md
+rg -L '^## リスクと対策'           docs/30-workflows/unassigned-task/<wave-prefix>-*.md
+rg -L '^## 検証方法'               docs/30-workflows/unassigned-task/<wave-prefix>-*.md
+rg -L '^## スコープ'               docs/30-workflows/unassigned-task/<wave-prefix>-*.md
+```
+
+期待: 4 コマンドとも 0 件出力。1 行でも path が返ったら同 wave close-out 禁止。
+
+### 他 gate との整合
+
+- `phase11-evidence-existence`: Phase 11 evidence 表の path 実在検証と独立。本 gate は Phase 12 unassigned-task 表の発行物検証
+- `unsupported-path-gate`: 不在 path への traversal を禁止。本 gate は発行物の見出し欠落のみを検査
+- §6 governance YAML フロントマター契約: 不可逆 mutation を含むタスクでは §6 + §6.5 の **両方** を満たす必要がある
+- `audit-unassigned-tasks.js`（未実装）の F-1 実装時に `MISSING_REQUIRED_SECTION` を fail 種別として追加する想定
+
 ## 7. 検証スクリプト連携
 
 `scripts/audit-unassigned-tasks.js` / `scripts/verify-unassigned-links.js` は本書の 4 セクションを

@@ -2762,6 +2762,15 @@ node scripts/list-specs.js --topics
 
 ### references/workflow-issue-772-cf-audit-monitor-runtime-restoration-artifact-inventory.md
 
+### references/workflow-issue-778-schema-alias-rollback-undo-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Canonical Root | L3 |
+| Source And Parent | L12 |
+| Contract | L23 |
+| Boundary | L31 |
+
 ### references/workflow-light-theme-contrast-regression-guard.md
 
 | セクション | 行 |
@@ -4882,6 +4891,17 @@ node scripts/list-specs.js --topics
 | 実行タイミングまとめ | L78 |
 | 関連リソース | L87 |
 
+### references/lessons-learned-d1-batch-atomicity-and-soft-delete-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| L-DBATCH-001: `db.batch()` の atomicity 仕様引用を Phase 02 design で必須化する | L7 |
+| L-SOFTDEL-001: `FROM <table>` の全箇所に `AND deleted_at IS NULL` を grep gate で強制する | L17 |
+| L-OPTLOCK-001: `If-Match: version=N` の parse 失敗（400）と version 衝突（409）を route handler 層で明確に分離する | L27 |
+| L-AUDITREL-001: `audit_log` と `cf_audit_log` の責務分離を SKILL ドキュメントで明示する | L38 |
+| L-SCOPE-001: bulk rollback / notification / recompute は followup に分離し、CONST_007 例外宣言を `index.md` 冒頭に必須化する | L47 |
+| 参考 | L59 |
+
 ### references/lessons-learned-docs-only-lifecycle.md
 
 | セクション | 行 |
@@ -6584,6 +6604,18 @@ node scripts/list-specs.js --topics
 | 11. Issue #546 Cloudflare Audit Logs 90 Day Baseline Observation（2026-05-08） | L412 |
 | 12. Issue #514 Cloudflare Audit Logs Cold Storage / R2 Export Contract（2026-05-07） | L428 |
 
+### references/pattern-d1-soft-delete-optimistic-lock-batch.md
+
+| セクション | 行 |
+|------------|----|
+| メタ情報 | L7 |
+| 適用シーン | L18 |
+| パターン構成 | L29 |
+| 苦戦箇所と対策 | L120 |
+| grep gate | L132 |
+| 参考実装（Issue #778） | L145 |
+| 関連パターン | L164 |
+
 ### references/patterns-advanced.md
 
 | セクション | 行 |
@@ -7047,14 +7079,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L1732 |
-| フェーズ構造（概要） | L1741 |
-| 品質ゲート（概要） | L1772 |
-| 出力テンプレート | L1783 |
-| 実行時のコマンド・エージェント・スキル | L1806 |
-| 昇格パターン集 | L1830 |
-| Current Active / Spec Created Tasks | L1832 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L1984 |
+| ドキュメント構成 | L1746 |
+| フェーズ構造（概要） | L1755 |
+| 品質ゲート（概要） | L1786 |
+| 出力テンプレート | L1797 |
+| 実行時のコマンド・エージェント・スキル | L1820 |
+| 昇格パターン集 | L1844 |
+| Current Active / Spec Created Tasks | L1846 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L1998 |
 
 ### references/task-workflow-backlog-part2.md
 

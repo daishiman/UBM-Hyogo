@@ -1,0 +1,103 @@
+{
+  "workflow_id": "issue-778-schema-alias-rollback-undo",
+  "version": "1.0.0",
+  "created_at": "2026-05-19",
+  "parent_workflow": "docs/30-workflows/completed-tasks/serial-05-step-03-schema-diff-resolve/",
+  "parent_issue": 778,
+  "issue_state": "CLOSED",
+  "issue_closed_at": "2026-05-19T02:10:00Z",
+  "spec_creation_strategy": "optimize_to_current_codebase",
+  "metadata": {
+    "taskType": "implementation",
+    "visualEvidence": "VISUAL",
+    "workflow_state": "runtime_pending",
+    "implementation_status": "contract_ready_runtime_pending",
+    "governance_mutation_user_gate": true,
+    "mutation_commands": [
+      "bash scripts/cf.sh d1 migrations apply ubm-hyogo-db --env staging",
+      "bash scripts/cf.sh d1 migrations apply ubm-hyogo-db-prod --env production",
+      "git push origin feat/issue-778-schema-alias-rollback-undo",
+      "gh pr create --base dev"
+    ],
+    "user_approval_marker": "required before each mutation command",
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-05-19T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-778-schema-alias-rollback-undo/index.md",
+        "approver": "daishiman",
+        "notes": "spec_review: Phase 1-13 spec finalized; followup-003/005/006/007 は CONST_007 例外として明示分離"
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "passed",
+        "passed_at": "2026-05-19T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-778-schema-alias-rollback-undo/outputs/phase-12/phase12-task-spec-compliance-check.md",
+        "approver": "daishiman",
+        "notes": "validator_green: Phase 12 strict 7 outputs present; canonical 9 heading compliance check generated"
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-778-schema-alias-rollback-undo/phase-11.md",
+        "approver": "daishiman",
+        "notes": "runtime_pending: staging migration apply + visual baseline + audit runtime evidence は user-gated"
+      }
+    ]
+  },
+  "phases": {
+    "phase-01": { "status": "spec_created", "file": "phase-01.md" },
+    "phase-02": {
+      "status": "spec_created",
+      "file": "phase-02.md",
+      "outputs": [
+        "outputs/phase-02/api-contract.md",
+        "outputs/phase-02/d1-schema-migration.md",
+        "outputs/phase-02/ui-state-machine.md"
+      ]
+    },
+    "phase-03": { "status": "spec_created", "file": "phase-03.md" },
+    "phase-04": { "status": "spec_created", "file": "phase-04.md" },
+    "phase-05": { "status": "spec_created", "file": "phase-05.md" },
+    "phase-06": { "status": "spec_created", "file": "phase-06.md" },
+    "phase-07": { "status": "spec_created", "file": "phase-07.md" },
+    "phase-08": { "status": "spec_created", "file": "phase-08.md" },
+    "phase-09": { "status": "spec_created", "file": "phase-09.md" },
+    "phase-10": { "status": "spec_created", "file": "phase-10.md" },
+    "phase-11": {
+      "status": "runtime_pending",
+      "file": "phase-11.md",
+      "outputs": [
+        "outputs/phase-11/visual-baseline.md",
+        "outputs/phase-11/migration-apply.md",
+        "outputs/phase-11/rollback-runtime.md"
+      ]
+    },
+    "phase-12": {
+      "status": "spec_created",
+      "file": "phase-12.md",
+      "outputs": [
+        "outputs/phase-12/main.md",
+        "outputs/phase-12/implementation-guide.md",
+        "outputs/phase-12/system-spec-update-summary.md",
+        "outputs/phase-12/documentation-changelog.md",
+        "outputs/phase-12/unassigned-task-detection.md",
+        "outputs/phase-12/skill-feedback-report.md",
+        "outputs/phase-12/phase12-task-spec-compliance-check.md"
+      ]
+    },
+    "phase-13": {
+      "status": "blocked",
+      "file": "phase-13.md",
+      "outputs": ["outputs/phase-13/pr-summary.md"]
+    }
+  },
+  "user_gated_operations": [
+    "bash scripts/cf.sh d1 migrations apply ubm-hyogo-db --env staging",
+    "bash scripts/cf.sh d1 migrations apply ubm-hyogo-db-prod --env production",
+    "git push origin feat/issue-778-schema-alias-rollback-undo",
+    "gh pr create --base dev"
+  ]
+}

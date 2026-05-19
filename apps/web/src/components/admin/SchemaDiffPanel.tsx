@@ -8,10 +8,14 @@ import { useRouter } from "next/navigation";
 import {
   postSchemaAlias,
   isSchemaAliasRetryableContinuation,
+  rollbackSchemaAlias,
+  RollbackApiError,
+  type RollbackSchemaAliasResult,
 } from "../../lib/admin/api";
 import { FormField } from "../ui/FormField";
 import { Input } from "../ui/Input";
 import { EmptyState } from "../ui/EmptyState";
+import { isBrowser } from "../../lib/is-browser";
 import { AdminMutationError, useAdminMutation } from "../../features/admin/hooks/useAdminMutation";
 
 export type DiffType = "added" | "changed" | "removed" | "unresolved";
@@ -33,6 +37,7 @@ export interface SchemaDiffItem {
 export interface SchemaDiffListView {
   total: number;
   items: SchemaDiffItem[];
+  resolvedAliases?: ResolvedAliasItem[];
 }
 
 const TYPES: DiffType[] = ["added", "changed", "removed", "unresolved"];
@@ -66,6 +71,15 @@ interface Feedback {
 interface SchemaAliasApplyBody {
   ok?: boolean;
   mode?: "apply" | "dryRun";
+  alias?: {
+    id: string;
+    revisionId: string;
+    aliasQuestionId: string;
+    aliasLabel: string | null;
+    resolvedAt: string | null;
+    resolvedBy: string | null;
+    version: number;
+  };
   backfill?: {
     status?: string;
     retryable?: boolean;
@@ -94,7 +108,226 @@ function buildSchemaAliasErrorMessage(
   return fallback;
 }
 
-export function SchemaDiffPanel({ initial }: { readonly initial: SchemaDiffListView }) {
+// Issue #778: rollback / undo に必要な型と内部 component。HistoryPane / RollbackConfirmModal /
+// UndoToast はいずれも同ファイル内に閉じ、外部 export しない（不変条件 #14）。
+export interface ResolvedAliasItem {
+  id: string;
+  revisionId: string;
+  stableKey: string;
+  aliasQuestionId: string;
+  aliasLabel: string;
+  resolvedAt: string;
+  resolvedBy: string;
+  version: number;
+  impact?: ImpactInfo;
+}
+
+interface ImpactInfo {
+  affectedResponseCount: number;
+  recomputeRequired: boolean;
+}
+
+type RollbackModalState =
+  | { kind: "idle" }
+  | { kind: "confirm"; alias: ResolvedAliasItem }
+  | { kind: "calling"; alias: ResolvedAliasItem }
+  | { kind: "error"; alias: ResolvedAliasItem; status: number; message: string };
+
+type UndoState =
+  | { kind: "hidden" }
+  | { kind: "available"; alias: ResolvedAliasItem; expiresAt: number };
+
+const UNDO_WINDOW_MS = 5 * 60 * 1000;
+
+interface RollbackConfirmModalProps {
+  readonly alias: ResolvedAliasItem;
+  readonly actorEmail: string | null;
+  readonly busy: boolean;
+  readonly errorMessage: string | null;
+  readonly onCancel: () => void;
+  readonly onConfirm: () => void;
+}
+
+function RollbackConfirmModal(props: RollbackConfirmModalProps) {
+  const titleId = "rollback-title";
+  const dialogRef = useRef<HTMLDivElement>(null);
+  const cancelRef = useRef<HTMLButtonElement>(null);
+
+  useEffect(() => {
+    cancelRef.current?.focus();
+  }, []);
+
+  useEffect(() => {
+    if (!isBrowser()) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        e.preventDefault();
+        props.onCancel();
+        return;
+      }
+      if (e.key !== "Tab") return;
+      const root = dialogRef.current;
+      if (!root) return;
+      const focusables = Array.from(
+        root.querySelectorAll<HTMLElement>(
+          'button:not([disabled]), [href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])',
+        ),
+      );
+      if (focusables.length === 0) return;
+      const first = focusables[0];
+      const last = focusables[focusables.length - 1];
+      // eslint-disable-next-line no-restricted-globals -- isBrowser() guard above
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault();
+        last.focus();
+        // eslint-disable-next-line no-restricted-globals -- isBrowser() guard above
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
+      }
+    };
+    // eslint-disable-next-line no-restricted-globals -- isBrowser() guard above
+    document.addEventListener("keydown", onKey);
+    return () => {
+      // eslint-disable-next-line no-restricted-globals -- isBrowser() guard above
+      document.removeEventListener("keydown", onKey);
+    };
+  }, [props]);
+
+  return (
+    <div
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby={titleId}
+      ref={dialogRef}
+      data-component="rollback-confirm-modal"
+      className="rollback-modal"
+    >
+      <h3 id={titleId}>resolve の取り消し</h3>
+      <dl>
+        <dt>alias label</dt>
+        <dd>{props.alias.aliasLabel}</dd>
+        <dt>stableKey</dt>
+        <dd><code>{props.alias.stableKey}</code></dd>
+        <dt>resolved at</dt>
+        <dd>{props.alias.resolvedAt}</dd>
+        <dt>resolved by</dt>
+        <dd>{props.alias.resolvedBy}</dd>
+        <dt>影響応答件数</dt>
+        <dd data-role="affected-response-count">
+          {props.alias.impact
+            ? `${props.alias.impact.affectedResponseCount} 件`
+            : "未取得"}
+        </dd>
+        <dt>再集計要否</dt>
+        <dd data-role="recompute-required">
+          {props.alias.impact?.recomputeRequired ? "必要" : "不要または未確定"}
+        </dd>
+        <dt>操作者 (you)</dt>
+        <dd>{props.actorEmail ?? "(unknown)"}</dd>
+      </dl>
+      <p className="warning-text" data-role="recompute-warning">
+        ⚠ 関連する response_fields の再集計が必要になる可能性があります。
+        再集計実行は本タスク外です（別途運用フォロー）。
+      </p>
+      {props.errorMessage && (
+        <p role="alert" data-role="modal-error">
+          {props.errorMessage}
+        </p>
+      )}
+      <div className="rollback-modal-actions">
+        <button
+          type="button"
+          onClick={props.onCancel}
+          ref={cancelRef}
+          disabled={props.busy}
+        >
+          キャンセル
+        </button>
+        <button
+          type="button"
+          onClick={props.onConfirm}
+          disabled={props.busy}
+          data-action="confirm-rollback"
+        >
+          {props.busy ? "取り消し中…" : "取り消す"}
+        </button>
+      </div>
+    </div>
+  );
+}
+
+interface HistoryPaneProps {
+  readonly aliases: ReadonlyArray<ResolvedAliasItem>;
+  readonly onRequestRollback: (alias: ResolvedAliasItem) => void;
+}
+
+function HistoryPane(props: HistoryPaneProps) {
+  if (props.aliases.length === 0) {
+    return (
+      <section aria-labelledby="schema-alias-history-h">
+        <h2 id="schema-alias-history-h">resolve 履歴</h2>
+        <p>履歴はまだありません。</p>
+      </section>
+    );
+  }
+  return (
+    <section aria-labelledby="schema-alias-history-h">
+      <h2 id="schema-alias-history-h">resolve 履歴</h2>
+      <ul role="list" data-component="schema-alias-history">
+        {props.aliases.slice(0, 10).map((a) => (
+          <li key={a.id} data-alias-id={a.id}>
+            <span>{a.aliasLabel}</span>
+            <code>{a.stableKey}</code>
+            <time dateTime={a.resolvedAt}>{a.resolvedAt}</time>
+            <span>{a.resolvedBy}</span>
+            <button
+              type="button"
+              onClick={() => props.onRequestRollback(a)}
+              aria-label={`alias ${a.aliasLabel} の resolve を取り消す`}
+            >
+              rollback
+            </button>
+          </li>
+        ))}
+      </ul>
+    </section>
+  );
+}
+
+interface UndoToastProps {
+  readonly alias: ResolvedAliasItem;
+  readonly onUndo: () => void;
+  readonly onDismiss: () => void;
+}
+
+function UndoToast(props: UndoToastProps) {
+  return (
+    <div role="status" aria-live="polite" data-component="undo-toast">
+      <p>
+        alias「{props.alias.aliasLabel}」を割当てました。5 分以内であれば取消できます。
+      </p>
+      <button
+        type="button"
+        onClick={props.onUndo}
+        aria-label={`alias ${props.alias.aliasLabel} の割当を取消す`}
+      >
+        取消
+      </button>
+      <button type="button" onClick={props.onDismiss}>
+        閉じる
+      </button>
+    </div>
+  );
+}
+
+export interface SchemaDiffPanelProps {
+  readonly initial: SchemaDiffListView;
+  readonly resolvedAliases?: ReadonlyArray<ResolvedAliasItem>;
+  readonly actorEmail?: string | null;
+}
+
+export function SchemaDiffPanel({ initial, resolvedAliases, actorEmail }: SchemaDiffPanelProps) {
   const router = useRouter();
   const schemaAliasMutation = useAdminMutation<SchemaAliasApplyBody>("/api/admin/schema/aliases", "POST", {
     refreshOnSuccess: false,
@@ -129,6 +362,78 @@ export function SchemaDiffPanel({ initial }: { readonly initial: SchemaDiffListV
   const [busy, setBusy] = useState(false);
   const [feedback, setFeedback] = useState<Feedback | null>(null);
   const stableKeyInputRef = useRef<HTMLInputElement>(null);
+
+  // Issue #778: rollback / undo state
+  const [rollbackState, setRollbackState] = useState<RollbackModalState>({
+    kind: "idle",
+  });
+  const [undoState, setUndoState] = useState<UndoState>({ kind: "hidden" });
+  const [historyAliases, setHistoryAliases] = useState<ResolvedAliasItem[]>(
+    () => [...(resolvedAliases ?? initial.resolvedAliases ?? [])],
+  );
+  const undoTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(() => {
+    return () => {
+      if (undoTimerRef.current) clearTimeout(undoTimerRef.current);
+    };
+  }, []);
+
+  const startUndoTimer = (alias: ResolvedAliasItem) => {
+    if (undoTimerRef.current) clearTimeout(undoTimerRef.current);
+    setUndoState({ kind: "available", alias, expiresAt: Date.now() + UNDO_WINDOW_MS });
+    undoTimerRef.current = setTimeout(() => {
+      setUndoState({ kind: "hidden" });
+    }, UNDO_WINDOW_MS);
+  };
+
+  const performRollback = async (alias: ResolvedAliasItem): Promise<RollbackSchemaAliasResult | null> => {
+    setRollbackState({ kind: "calling", alias });
+    try {
+      const result = await rollbackSchemaAlias({
+        aliasId: alias.id,
+        version: alias.version,
+      });
+      // 履歴から該当 alias を除去
+      setHistoryAliases((prev) => prev.filter((a) => a.id !== alias.id));
+      setRollbackState({ kind: "idle" });
+      setUndoState({ kind: "hidden" });
+      if (undoTimerRef.current) clearTimeout(undoTimerRef.current);
+      setFeedback({
+        kind: "success",
+        label: `resolve を取消しました（影響件数: ${result.impact.affectedResponseCount}${result.impact.recomputeRequired ? " / 再集計推奨" : ""}）`,
+      });
+      router.refresh();
+      return result;
+    } catch (e) {
+      if (e instanceof RollbackApiError) {
+        setRollbackState({
+          kind: "error",
+          alias,
+          status: e.status,
+          message: e.message,
+        });
+      } else {
+        setRollbackState({
+          kind: "error",
+          alias,
+          status: 0,
+          message: e instanceof Error ? e.message : "unknown error",
+        });
+      }
+      return null;
+    }
+  };
+
+  const onConfirmRollback = async () => {
+    if (rollbackState.kind !== "confirm") return;
+    await performRollback(rollbackState.alias);
+  };
+
+  const onUndo = async () => {
+    if (undoState.kind !== "available") return;
+    await performRollback(undoState.alias);
+  };
 
   const onSelect = (it: SchemaDiffItem) => {
     setActive(it);
@@ -207,6 +512,23 @@ export function SchemaDiffPanel({ initial }: { readonly initial: SchemaDiffListV
     }
 
     setFeedback({ kind: "success", label: "alias を割当てました" });
+    // Issue #778: resolve 直後の undo toast を 5 分間表示。
+    // undo は実 alias id + version が返った場合だけ有効化する。
+    if (active && active.questionId && body.mode === "apply" && body.alias) {
+      const newAlias: ResolvedAliasItem = {
+        id: body.alias.id,
+        revisionId: body.alias.revisionId,
+        stableKey: trimmedKey,
+        aliasQuestionId: body.alias.aliasQuestionId,
+        aliasLabel: body.alias.aliasLabel ?? active.label,
+        resolvedAt: body.alias.resolvedAt ?? new Date().toISOString(),
+        resolvedBy: body.alias.resolvedBy ?? actorEmail ?? "you",
+        version: body.alias.version,
+        impact: { affectedResponseCount: 0, recomputeRequired: false },
+      };
+      setHistoryAliases((prev) => [newAlias, ...prev.filter((a) => a.id !== newAlias.id)].slice(0, 10));
+      startUndoTimer(newAlias);
+    }
     setActive(null);
     router.refresh();
   };
@@ -298,6 +620,41 @@ export function SchemaDiffPanel({ initial }: { readonly initial: SchemaDiffListV
       )}
       {active && !active.questionId && (
         <p role="alert">この diff には questionId がないため alias 割当はできません。</p>
+      )}
+
+      <HistoryPane
+        aliases={historyAliases}
+        onRequestRollback={(alias) =>
+          setRollbackState({ kind: "confirm", alias })
+        }
+      />
+
+      {(rollbackState.kind === "confirm" ||
+        rollbackState.kind === "calling" ||
+        rollbackState.kind === "error") && (
+        <RollbackConfirmModal
+          alias={rollbackState.alias}
+          actorEmail={actorEmail ?? null}
+          busy={rollbackState.kind === "calling"}
+          errorMessage={
+            rollbackState.kind === "error"
+              ? `失敗 (${rollbackState.status}): ${rollbackState.message}`
+              : null
+          }
+          onCancel={() => setRollbackState({ kind: "idle" })}
+          onConfirm={onConfirmRollback}
+        />
+      )}
+
+      {undoState.kind === "available" && (
+        <UndoToast
+          alias={undoState.alias}
+          onUndo={onUndo}
+          onDismiss={() => {
+            if (undoTimerRef.current) clearTimeout(undoTimerRef.current);
+            setUndoState({ kind: "hidden" });
+          }}
+        />
       )}
     </section>
   );
