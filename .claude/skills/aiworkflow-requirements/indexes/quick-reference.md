@@ -1,9 +1,121 @@
 # クイックリファレンス
 
+## Issue #274 public pages OGP / sitemap / robots（2026-05-17）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/issue-274-public-pages-ogp-sitemap-robots/` |
+| 状態 | `implemented_local_evidence_captured / implementation / VISUAL / Phase 13 blocked_pending_user_approval` |
+| issue | #274 OPEN; PR should use `Refs #274`; commit / push / PR / Issue mutation are user-gated |
+| scope | public routes `/`, `/members`, `/members/[id]`, `/register`; sitemap / robots / root OG image / page metadata |
+| sitemap contract | `/public/members?limit=100&page=N` paginated until `pagination.hasNext === false`; list item shape is top-level `memberId` / `fullName` |
+| playwright target | `apps/web/playwright/tests/public-metadata.spec.ts` |
+| evidence | `outputs/phase-11/evidence/*`, `outputs/phase-11/screenshots/og-image.png`; typecheck/lint/test/build/curl/Playwright PASS |
+| source consumed | `docs/30-workflows/unassigned-task/task-06a-followup-002-ogp-sitemap.md`, `docs/30-workflows/unassigned-task/task-11-followup-002-public-og-sitemap-robots.md` |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-274-public-pages-ogp-sitemap-robots-artifact-inventory.md` |
+| lessons | `.claude/skills/aiworkflow-requirements/references/lessons-learned-issue-274-public-pages-ogp-sitemap-robots-2026-05.md`（L-274-001..006: site URL SSOT / sitemap degraded mode / robots env-branch / OG edge runtime / consumed trace / issue-NNN namespace 規約） |
+| user gate | implementation, runtime evidence, commit, push, PR |
+
+## Issue #256 E2E coverage baseline runbook（2026-05-18）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/issue-256-e2e-coverage-baseline-runbook/` |
+| 状態 | `implemented_local_evidence_captured / implementation / NON_VISUAL` |
+| implementation | `scripts/measure-coverage-exclude-ratio.ts`, `.github/workflows/verify-coverage-exclude-ratio.yml`, `vitest.config.ts` |
+| runbooks | `docs/30-workflows/runbooks/e2e-coverage-fallback-metric.md`, `docs/30-workflows/runbooks/playwright-smoke-19-route-sla.md` |
+| evidence | `outputs/phase-7/coverage-exclude-ratio.json` (`37 / 80 = 46.3% warn`), `outputs/phase-9/qa-result.md`, `outputs/phase-11/manual-test-result.md`, `outputs/phase-12/phase12-task-spec-compliance-check.md` |
+| boundary | Issue #256 CLOSED, use `Refs #256` only; commit / push / PR are user-gated |
+
+## Issue #266 shared sync Zod contract（2026-05-18）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow | `docs/30-workflows/issue-266-shared-sync-zod-contract/` |
+| status | `implemented_local_runtime_pending / implementation / NON_VISUAL` |
+| issue | #266 CLOSED。PR 文脈は `Refs #266` のみ |
+| contract | `SyncLogStatus = running/success/failed/skipped`, `SyncTriggerType = cron/admin/backfill`, `SyncLogRecord = sync_job_logs` 物理 12 カラム |
+| implementation | `packages/shared/src/zod/sync-log.ts`, `packages/shared/src/zod/index.ts`, `apps/api/src/sync/{types,audit,manual,scheduled}.ts`, `apps/api/src/jobs/{sync-sheets-to-d1,sync-forms-responses}.ts`, sync contract specs |
+| key boundary | U-UT01-08 / U-UT01-10 の旧 `pending/in_progress/completed`・`manual/cron/backfill` 前提は historical。issue #266 は物理 DDL / runtime 実態を canonical とする |
+| Phase 12 | strict 7 outputs present; local code/test evidence captured |
+| user gate | staging D1 distinct query, commit, push, PR |
+
+## Issue #762 CF OIDC staging proof readiness（2026-05-17）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow | `docs/30-workflows/issue-762-cf-oidc-staging-proof-prod-cutover/` |
+| status | `implemented_local_evidence_captured / implementation / NON_VISUAL / user-gated PR` |
+| implementation | `scripts/oidc/verify-claim-pin.sh`, `scripts/redaction-check.sh`, `.github/workflows/oidc-observation-window.yml`, `.github/workflows/web-cd.yml` comment-only |
+| system spec | `.claude/skills/aiworkflow-requirements/references/deployment-secrets-management.md` Issue #762 G1-G4 gate |
+| source trace | `docs/30-workflows/unassigned-task/issue-717-followup-001-production-oidc-cutover.md` partially consumed |
+| evidence | `outputs/phase-11/`, `outputs/phase-12/phase12-task-spec-compliance-check.md` |
+| boundary | real OIDC cutover / staging proof / production cutover / legacy token revocation remain blocked until official support G1-G4 |
+| lessons-learned | `.claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-issue-762-cf-oidc-pre-support-hardening-2026-05.md`（L-I762-001..005） |
+| user gate | commit / push / PR and all external mutations |
+
+## Issue #324 shared package type contracts（2026-05-15）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow | `docs/30-workflows/completed-tasks/issue-324-shared-package-type-contracts/` |
+| status | `implemented_local_evidence_captured / implementation / NON_VISUAL` |
+| implementation | `packages/shared/src/__tests__/type-contracts.spec.ts` |
+| source trace | `docs/30-workflows/completed-tasks/UT-08A-05-shared-package-type-test.md` |
+| evidence | `outputs/phase-11/evidence/shared-typecheck.txt`, `outputs/phase-11/evidence/shared-lint.txt`, `outputs/phase-11/evidence/shared-test.txt` |
+| boundary | Issue #324 CLOSED, use `Refs #324` only; no runtime schema/API/D1 changes |
+
 > 最重要情報への即時アクセス
 > 詳細は resource-map.md → 該当ファイル を参照
 
 ---
+
+### Issue #772 CF audit monitor runtime restoration（2026-05-17）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/issue-772-cf-audit-monitor-runtime-restoration-and-cleanup/` |
+| 状態 | `runtime_pending / implementation / NON_VISUAL / PASS_BOUNDARY_SYNCED_RUNTIME_PENDING` |
+| source | `docs/30-workflows/unassigned-task/followup-issue-720-001-prod-env-monitor-secret-cleanup.md` consumed |
+| decision | production environment monitor cleanup is no-op if fresh inventory still shows no monitor-specific secrets; runtime restoration remains pending |
+| evidence | `outputs/phase-11/runtime-evidence/{hourly-runs.json,6h-success.md,heartbeat-after.txt}`, `outputs/phase-12/phase12-task-spec-compliance-check.md` |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-772-cf-audit-monitor-runtime-restoration-artifact-inventory.md` |
+| lessons | `.claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-issue-772-cf-audit-monitor-runtime-restoration-2026-05.md` |
+| user gate | repo secrets / variables, workflow dispatch, six hourly successes, rollback delete, commit, push, PR |
+
+---
+
+### Issue #770 Profile Loading Skeleton（2026-05-17）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/issue-770-profile-loading-skeleton/` |
+| 状態 | `implemented_local_runtime_pending / implementation / VISUAL` |
+| source issue | #770 OPEN |
+| implementation | `apps/web/app/profile/loading.tsx`, `apps/web/app/profile/loading.spec.tsx` |
+| parent spec | `docs/30-workflows/ui-prototype-alignment-mvp-recovery/improvements/integration-fixes/parallel-i07-profile-loading-skeleton/spec.md` |
+| source task | `docs/30-workflows/unassigned-task/integration-fixes-i07-profile-loading-skeleton.md` consumed |
+| evidence | `outputs/phase-12/phase12-task-spec-compliance-check.md`, `outputs/phase-11/evidence/` |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-770-profile-loading-skeleton-artifact-inventory.md` |
+| lessons | `.claude/skills/aiworkflow-requirements/references/lessons-learned-issue-770-profile-loading-skeleton-2026-05.md` (L-770-001..007) |
+| user gate | authenticated browser screenshot, staging runtime visual evidence, commit, push, PR |
+
+---
+
+### Issue #769 root error h1 auto-focus（2026-05-17）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/issue-769-root-error-focus/` |
+| 状態 | `implemented_local_evidence_captured / implementation / NON_VISUAL / runtime_pending` |
+| scope | root `apps/web/app/error.tsx` の h1 自動 focus |
+| implementation | `apps/web/app/error.tsx` |
+| tests | `apps/web/app/__tests__/error.component.spec.tsx` TC-U-09a/b/c |
+| evidence | `outputs/phase-11/evidence/`, `outputs/phase-12/phase12-task-spec-compliance-check.md` |
+| source | `docs/30-workflows/unassigned-task/integration-fixes-i06-root-error-focus.md` consumed |
+| parent | `docs/30-workflows/ui-prototype-alignment-mvp-recovery/improvements/integration-fixes/parallel-i06-root-error-focus/spec.md` |
+| lessons | `.claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-issue-769-root-error-focus-2026-05.md` (L-I769-001..005) |
+| user gate | interactive screen reader smoke, commit, push, PR |
 
 ### i02-admin-error-type-unify（2026-05-17）
 
@@ -2809,6 +2921,20 @@ UT-17 Cloudflare Notifications → alert-relay → Slack 経路を、既存 API 
 | strict outputs | `outputs/phase-12/{main,implementation-guide,system-spec-update-summary,documentation-changelog,unassigned-task-detection,skill-feedback-report,phase12-task-spec-compliance-check}.md` |
 | inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-655-d7-recovery-2nd-cycle-artifact-inventory.md` |
 | user gate | commit / push / PR / workflow_dispatch / secret or variable mutation / runtime promotion は user approval 後のみ |
+
+### Issue #720 CF audit monitor environment protection fix（2026-05-16）
+
+| 観点 | 値 / 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-720-cf-audit-monitor-env-protection-fix/` |
+| status | `implemented_local_runtime_pending / implementation / NON_VISUAL` |
+| local diff | `.github/workflows/cf-audit-log-monitor.yml` から `environment: production` を削除 |
+| classification | read-only / notification-only monitor. Deploy / rollback / schema apply は行わない |
+| runbook | `docs/00-getting-started-manual/specs/15-infrastructure-runbook.md` Issue #720 section |
+| parent | `docs/30-workflows/completed-tasks/issue-655-d7-recovery-2nd-cycle/` |
+| evidence boundary | Phase 11 planned files are physical `PENDING_USER_GATE` placeholders. Runtime success is not claimed locally |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-720-cf-audit-monitor-env-protection-fix-artifact-inventory.md` |
+| user gate | repo secret/variable mirror, push, PR, workflow dispatch dry run, six scheduled successes, D'+0 declaration, production env monitor secret cleanup |
 
 ### UT-17 Follow-up 002 / Alert Relay Dedup KV（2026-05-13）
 

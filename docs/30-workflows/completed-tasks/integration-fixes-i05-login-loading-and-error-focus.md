@@ -11,8 +11,11 @@
 | 優先度       | 高                                                                                              |
 | 見積もり規模 | 小規模                                                                                          |
 | ステータス   | consumed / implemented_local_evidence_captured                                                  |
+| canonical_workflow | `docs/30-workflows/issue-768-login-loading-and-error-focus/`                              |
+| consumed_by | Issue #768 canonical workflow                                                                    |
 | 発見元       | improvements integration-fixes 接続検証（parallel-07 DoD line 141, 142 未達）                   |
 | 発見日       | 2026-05-16                                                                                      |
+| consumed日   | 2026-05-18                                                                                      |
 
 ## Canonical Workflow Status
 
@@ -21,6 +24,7 @@
 - 親 index: `docs/30-workflows/ui-prototype-alignment-mvp-recovery/improvements/integration-fixes/index.md`
 - 親 workflow 状態: `implemented_local_evidence_captured`
 - canonical workflow: `docs/30-workflows/parallel-i05-login-loading-and-error-focus/`
+- consumed_by: Issue #768 canonical workflow (`docs/30-workflows/issue-768-login-loading-and-error-focus/`)
 - 関連実装（完了）:
   - `apps/web/app/login/loading.tsx`（新規作成済み）
   - `apps/web/app/login/error.tsx`（focus 管理 / aria-live=assertive / digest 条件表示を実装済み）

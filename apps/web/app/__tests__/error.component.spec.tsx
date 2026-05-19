@@ -148,4 +148,31 @@ describe("RouteError", () => {
       expect(html).toContain("border-border");
     });
   });
+
+  describe("TC-U-09: mount 時に h1 へ focus が移譲される", () => {
+    it("focuses h1 on mount", () => {
+      const reset = vi.fn();
+      render(<RouteError error={makeError({ digest: "focus-test" })} reset={reset} />);
+      const h1 = screen.getByRole("heading", { level: 1 });
+      expect(document.activeElement).toBe(h1);
+    });
+
+    it("h1 has tabIndex=-1 to allow programmatic focus", () => {
+      const reset = vi.fn();
+      render(<RouteError error={makeError()} reset={reset} />);
+      const h1 = screen.getByRole("heading", { level: 1 });
+      expect(h1.getAttribute("tabindex")).toBe("-1");
+    });
+
+    it("calls focus with preventScroll=true", () => {
+      const reset = vi.fn();
+      const focusSpy = vi.spyOn(HTMLElement.prototype, "focus");
+      try {
+        render(<RouteError error={makeError()} reset={reset} />);
+        expect(focusSpy).toHaveBeenCalledWith({ preventScroll: true });
+      } finally {
+        focusSpy.mockRestore();
+      }
+    });
+  });
 });

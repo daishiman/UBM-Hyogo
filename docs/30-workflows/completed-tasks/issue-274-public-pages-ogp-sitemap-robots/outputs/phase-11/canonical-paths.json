@@ -1,0 +1,80 @@
+{
+  "schemaVersion": "1.0.0",
+  "taskId": "issue-274-public-pages-ogp-sitemap-robots",
+  "workflowDir": "docs/30-workflows/issue-274-public-pages-ogp-sitemap-robots",
+  "evidence": [
+    {
+      "id": "typecheck",
+      "kind": "typecheck",
+      "path": "outputs/phase-11/evidence/typecheck.log",
+      "command": "pnpm --filter @ubm-hyogo/web typecheck",
+      "acquiredBy": "implementation_cycle",
+      "requiredForCloseout": true
+    },
+    {
+      "id": "lint",
+      "kind": "lint",
+      "path": "outputs/phase-11/evidence/lint.log",
+      "command": "pnpm --filter @ubm-hyogo/web lint",
+      "acquiredBy": "implementation_cycle",
+      "requiredForCloseout": true
+    },
+    {
+      "id": "test",
+      "kind": "test",
+      "path": "outputs/phase-11/evidence/test.log",
+      "command": "pnpm --filter @ubm-hyogo/web test -- apps/web/src/lib/seo",
+      "acquiredBy": "implementation_cycle",
+      "requiredForCloseout": true
+    },
+    {
+      "id": "build",
+      "kind": "build",
+      "path": "outputs/phase-11/evidence/build.log",
+      "command": "ENVIRONMENT=local NEXT_PUBLIC_API_BASE_URL=http://127.0.0.1:8787 PUBLIC_API_BASE_URL=http://127.0.0.1:8787 INTERNAL_API_BASE_URL=http://127.0.0.1:8787 AUTH_URL=http://localhost:3000 SENTRY_ENVIRONMENT=local SENTRY_TRACES_SAMPLE_RATE=0 pnpm --filter @ubm-hyogo/web build",
+      "acquiredBy": "implementation_cycle",
+      "requiredForCloseout": true
+    },
+    {
+      "id": "grep-gate",
+      "kind": "grep-gate",
+      "path": "outputs/phase-11/evidence/grep-gate.log",
+      "command": "rg process.env and D1 direct access gates for SEO helper and metadata routes",
+      "acquiredBy": "implementation_cycle",
+      "requiredForCloseout": true
+    },
+    {
+      "id": "curl-sitemap",
+      "kind": "runtime-observation",
+      "path": "outputs/phase-11/evidence/curl-sitemap.txt",
+      "command": "curl -sS http://localhost:3000/sitemap.xml",
+      "acquiredBy": "implementation_cycle",
+      "requiredForCloseout": true
+    },
+    {
+      "id": "curl-robots",
+      "kind": "runtime-observation",
+      "path": "outputs/phase-11/evidence/curl-robots.txt",
+      "command": "curl -sS http://localhost:3000/robots.txt",
+      "acquiredBy": "implementation_cycle",
+      "requiredForCloseout": true
+    },
+    {
+      "id": "playwright-smoke",
+      "kind": "runtime-observation",
+      "path": "outputs/phase-11/evidence/playwright-smoke.log",
+      "command": "pnpm --filter @ubm-hyogo/web exec playwright test playwright/tests/public-metadata.spec.ts --project=desktop-chromium",
+      "acquiredBy": "implementation_cycle",
+      "requiredForCloseout": true
+    },
+    {
+      "id": "og-image-file",
+      "kind": "runtime-observation",
+      "path": "outputs/phase-11/evidence/og-image-file.log",
+      "command": "file outputs/phase-11/screenshots/og-image.png",
+      "acquiredBy": "implementation_cycle",
+      "requiredForCloseout": true,
+      "notes": "PNG artifact path is outputs/phase-11/screenshots/og-image.png"
+    }
+  ]
+}
