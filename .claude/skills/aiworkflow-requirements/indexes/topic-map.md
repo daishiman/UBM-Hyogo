@@ -2829,6 +2829,16 @@ node scripts/list-specs.js --topics
 | Lessons Learned | L28 |
 | User Gates | L37 |
 
+### references/workflow-parallel-i06-root-error-focus-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Metadata | L3 |
+| Implementation | L12 |
+| Evidence | L19 |
+| System Sync | L32 |
+| User Gates | L42 |
+
 ### references/workflow-permission-fallback-abort-skip-retry.md
 
 | セクション | 行 |
@@ -5370,6 +5380,18 @@ node scripts/list-specs.js --topics
 | L-PARALLEL-I03-004: 親 spec で子 dialog を inline `vi.mock` 化して navigation mock 衝突を回避する | L30 |
 | L-PARALLEL-I03-005: ワークフロー dir の `completed-tasks/` 自動移送と canonical path drift | L37 |
 
+### references/lessons-learned-parallel-i06-root-error-focus-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| 概要 | L3 |
+| L-I06-001: root error boundary の a11y focus 実装パターン | L13 |
+| L-I06-002: focus 検証は `document.activeElement` 直接比較 | L30 |
+| L-I06-003: in-place spec → canonical workflow root 昇格時の同期忘れ | L41 |
+| L-I06-004: completion 移動時の artifacts.json path drift | L56 |
+| L-I06-005: NON_VISUAL タスクの Phase 11 evidence 5 点セット | L77 |
+| 関連 | L93 |
+
 ### references/lessons-learned-skill-codex-validation-2026-04.md
 
 | セクション | 行 |
@@ -7027,14 +7049,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L1719 |
-| フェーズ構造（概要） | L1728 |
-| 品質ゲート（概要） | L1759 |
-| 出力テンプレート | L1770 |
-| 実行時のコマンド・エージェント・スキル | L1793 |
-| 昇格パターン集 | L1817 |
-| Current Active / Spec Created Tasks | L1819 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L1971 |
+| ドキュメント構成 | L1732 |
+| フェーズ構造（概要） | L1741 |
+| 品質ゲート（概要） | L1772 |
+| 出力テンプレート | L1783 |
+| 実行時のコマンド・エージェント・スキル | L1806 |
+| 昇格パターン集 | L1830 |
+| Current Active / Spec Created Tasks | L1832 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L1984 |
 
 ### references/task-workflow-backlog-part2.md
 
