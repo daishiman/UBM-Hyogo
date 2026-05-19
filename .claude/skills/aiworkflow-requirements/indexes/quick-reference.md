@@ -45,6 +45,23 @@
 
 ---
 
+### Issue #770 Profile Loading Skeleton（2026-05-17）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/issue-770-profile-loading-skeleton/` |
+| 状態 | `implemented_local_runtime_pending / implementation / VISUAL` |
+| source issue | #770 OPEN |
+| implementation | `apps/web/app/profile/loading.tsx`, `apps/web/app/profile/loading.spec.tsx` |
+| parent spec | `docs/30-workflows/ui-prototype-alignment-mvp-recovery/improvements/integration-fixes/parallel-i07-profile-loading-skeleton/spec.md` |
+| source task | `docs/30-workflows/unassigned-task/integration-fixes-i07-profile-loading-skeleton.md` consumed |
+| evidence | `outputs/phase-12/phase12-task-spec-compliance-check.md`, `outputs/phase-11/evidence/` |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-770-profile-loading-skeleton-artifact-inventory.md` |
+| lessons | `.claude/skills/aiworkflow-requirements/references/lessons-learned-issue-770-profile-loading-skeleton-2026-05.md` (L-770-001..007) |
+| user gate | authenticated browser screenshot, staging runtime visual evidence, commit, push, PR |
+
+---
+
 ### Issue #769 root error h1 auto-focus（2026-05-17）
 
 | 目的 | 参照先 |
