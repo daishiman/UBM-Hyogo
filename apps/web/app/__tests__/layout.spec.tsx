@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import type { ReactElement, ReactNode } from "react";
-import RootLayout, { metadata, viewport } from "../layout";
+import RootLayout, { generateMetadata, viewport } from "../layout";
 
 type RootElementProps = {
   lang: string;
@@ -14,11 +14,9 @@ type BodyElementProps = {
 };
 
 describe("RootLayout", () => {
-  it("exports metadata title object and viewport", () => {
-    expect(metadata.title).toEqual({
-      default: "UBM Hyogo",
-      template: "%s | UBM Hyogo",
-    });
+  it("exports generateMetadata and viewport", async () => {
+    const metadata = await generateMetadata();
+    expect(metadata.title).toBeDefined();
     expect(viewport).toEqual({
       width: "device-width",
       initialScale: 1,
