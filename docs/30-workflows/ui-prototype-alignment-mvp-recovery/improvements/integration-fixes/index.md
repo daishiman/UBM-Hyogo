@@ -9,7 +9,7 @@
 利用されているか** は単体マージ時点では検証されない。
 
 本ワークフローは、コード実体での依存接続検証（実 grep / file read）で検出された 7 件の未接続/部分接続を
-管理する。2026-05-16 時点では i01 のみ `docs/30-workflows/completed-tasks/i01-toastprovider-root-mount/` で実装完了し、i02〜i07 は本 index 配下の active integration-fix spec として残る。
+管理する。2026-05-19 時点では i01 / i04 / i06 が local implementation captured で、i02 / i03 / i05 / i07 は本 index 配下の active integration-fix spec として残る。
 
 ## 2. 検出結果（接続検証 evidence）
 
@@ -21,6 +21,7 @@
 | i04 | (完了) `CallToActionCTA` を HomePage に実装済み | p-06 DoD 達成 | `apps/web/app/page.tsx` が `CallToActionCTA` を mount、`apps/web/src/components/public/CallToActionCTA.tsx` 作成済み、Phase 11 screenshot 3 件保存 |
 | i05 | `/login/loading.tsx` 未作成 + `/login/error.tsx` の focus 管理 / Card layout 未適用 | p-07 DoD 未達 | `apps/web/app/login/loading.tsx` 不在 / `error.tsx` は `useRef` / `tabIndex` なし |
 | i06 | root `error.tsx` の h1 自動 focus 実装済み | parallel-07 spec 4.3 local implementation complete | `apps/web/app/error.tsx` で `useRef` / `headingRef.current?.focus({ preventScroll: true })` / `tabIndex={-1}` 実装済み |
+| i06 | (完了) root `error.tsx` の h1 自動 focus 実装済み | p-07 spec 4.3 達成 | `apps/web/app/error.tsx` が `useRef` / `headingRef.current?.focus({ preventScroll: true })` を持つ |
 | i07 | `/profile/loading.tsx` が簡素テキストのみで OKLch skeleton 未適用 | p-07 spec 4.5 未達 | `apps/web/app/profile/loading.tsx` は `<p aria-live="polite">読み込み中…</p>` のみ |
 
 ## 3. ディレクトリ構成
@@ -70,7 +71,7 @@ integration-fixes/
 
 ## 7. 残タスク追跡
 
-本 i01 close-out の範囲は `ToastProvider` root mount のみ。i02〜i07 は別 active spec として同ディレクトリ配下に残し、formal task は `docs/30-workflows/unassigned-task/` に登録済み。
+本 i01 close-out の範囲は `ToastProvider` root mount のみ。i02 / i03 / i05 / i07 は別 active spec として同ディレクトリ配下に残し、formal task は `docs/30-workflows/unassigned-task/` に登録済み。i04 / i06 は local implementation captured として canonical workflow root へ接続済みで、同表では consumed trace として扱う。
 
 | spec | 状態 | 追跡場所 |
 | --- | --- | --- |
@@ -80,6 +81,7 @@ integration-fixes/
 | i04 | completed locally | `docs/30-workflows/integration-fixes-i04-homepage-cta-implementation/` / `parallel-i04-homepage-cta/spec.md` / `docs/30-workflows/unassigned-task/integration-fixes-i04-homepage-cta.md` |
 | i05 | spec_ready_implementation_pending | `parallel-i05-login-loading-and-error-focus/spec.md` / `docs/30-workflows/unassigned-task/integration-fixes-i05-login-loading-and-error-focus.md` |
 | i06 | implemented_local_evidence_captured | `parallel-i06-root-error-focus/spec.md` / `docs/30-workflows/issue-769-root-error-focus/` / `docs/30-workflows/unassigned-task/integration-fixes-i06-root-error-focus.md` consumed |
+| i06 | implemented_local_evidence_captured | `docs/30-workflows/parallel-i06-root-error-focus/` / `parallel-i06-root-error-focus/spec.md` / `docs/30-workflows/unassigned-task/integration-fixes-i06-root-error-focus.md` |
 | i07 | spec_ready_implementation_pending | `parallel-i07-profile-loading-skeleton/spec.md` / `docs/30-workflows/unassigned-task/integration-fixes-i07-profile-loading-skeleton.md` |
 
 ## 8. 参照

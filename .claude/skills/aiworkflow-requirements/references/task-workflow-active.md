@@ -36,6 +36,19 @@
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-762-cf-oidc-staging-proof-prod-cutover-artifact-inventory.md` |
 | user gate | commit / push / PR / Cloudflare / GitHub Secret / 1Password mutation |
 
+### parallel-i06-root-error-focus（2026-05-18）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / NON_VISUAL` |
+| 成果物 | `docs/30-workflows/completed-tasks/parallel-i06-root-error-focus/` |
+| source | `docs/30-workflows/ui-prototype-alignment-mvp-recovery/improvements/integration-fixes/parallel-i06-root-error-focus/spec.md` |
+| 目的 | root `apps/web/app/error.tsx` の h1 自動 focus を実装し、p-07 section 4.3 を達成する |
+| 実装 | `apps/web/app/error.tsx`, `apps/web/app/error.spec.tsx` |
+| evidence | Phase 11 local command evidence + Phase 12 strict 7 present |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-parallel-i06-root-error-focus-artifact-inventory.md` |
+| user gate | commit / push / PR |
+
 ### UI Prototype Design System Foundation（2026-05-18）
 
 | 項目 | 値 |
