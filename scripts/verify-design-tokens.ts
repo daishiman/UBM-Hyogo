@@ -58,6 +58,12 @@ const DEFAULTS = {
   includeThemeBridge: true,
   scanColorLiterals: true,
   colorLiteralRoots: ['apps/web/app', 'apps/web/src'],
+  colorLiteralExcludes: [
+    /\/opengraph-image\.tsx$/,
+    /\/twitter-image\.tsx$/,
+    /\/icon\.tsx$/,
+    /\/apple-icon\.tsx$/,
+  ] as readonly RegExp[],
 }
 
 const ROOT_SCOPE = ':root'
@@ -477,11 +483,15 @@ async function listFiles(root: string): Promise<string[]> {
   return files
 }
 
-async function scanForbiddenColorLiterals(roots: readonly string[]): Promise<TokenDrift[]> {
+async function scanForbiddenColorLiterals(
+  roots: readonly string[],
+  excludes: readonly RegExp[] = DEFAULTS.colorLiteralExcludes,
+): Promise<TokenDrift[]> {
   const files = (await Promise.all(roots.map((root) => listFiles(root))))
     .flat()
     .filter((file) => /\.(ts|tsx|css)$/.test(file))
     .filter((file) => !file.endsWith('/src/styles/tokens.css'))
+    .filter((file) => !excludes.some((re) => re.test(file)))
   const drifts: TokenDrift[] = []
   const hexRe = /(^|[^A-Za-z0-9_-])(#[0-9A-Fa-f]{3}(?:[0-9A-Fa-f]{3})?(?:[0-9A-Fa-f]{2})?)\b/g
   const arbitraryRe = /\b(?:bg|text|border|from|to|via)-\[#[0-9A-Fa-f]{3,8}\]/g

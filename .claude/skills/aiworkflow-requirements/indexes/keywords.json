@@ -8355,7 +8355,8 @@
       "r2-storage-decision-guide.md",
       "workflow-issue-718-legacy-cf-token-revocation-artifact-inventory.md",
       "workflow-task-08-w2-design-tokens-doc-artifact-inventory.md",
-      "workflow-task-26-ui-mvp-w8-par-error-tsx-token-utility-migration-artifact-inventory.md"
+      "workflow-task-26-ui-mvp-w8-par-error-tsx-token-utility-migration-artifact-inventory.md",
+      "workflow-ui-prototype-design-system-foundation-artifact-inventory.md"
     ],
     "の作成手順": [
       "deployment-secrets-management.md"
@@ -10771,7 +10772,8 @@
       "workflow-issue-718-legacy-cf-token-revocation-artifact-inventory.md",
       "workflow-task-06-ui-ux-contract-rewrite-artifact-inventory.md",
       "workflow-task-07-prototype-mapping-table-artifact-inventory.md",
-      "workflow-task-issue-346-08a-canonical-workflow-tree-restore-artifact-inventory.md"
+      "workflow-task-issue-346-08a-canonical-workflow-tree-restore-artifact-inventory.md",
+      "workflow-ui-prototype-design-system-foundation-artifact-inventory.md"
     ],
     "二重正本": [
       "lessons-learned-03b-followup-005-sync-jobs-design-spec-2026-05.md"
@@ -16129,7 +16131,8 @@
       "workflow-task-04a-parallel-public-directory-api-endpoints-artifact-inventory.md",
       "workflow-task-05b-parallel-magic-link-provider-and-auth-gate-state-artifact-inventory.md",
       "workflow-task-07b-parallel-schema-diff-alias-assignment-workflow-artifact-inventory.md",
-      "workflow-task-08a-parallel-api-contract-repository-and-authorization-tests-artifact-inventory.md"
+      "workflow-task-08a-parallel-api-contract-repository-and-authorization-tests-artifact-inventory.md",
+      "workflow-ui-prototype-design-system-foundation-artifact-inventory.md"
     ],
     "dialog": [
       "lessons-learned-parallel-i03-dialog-refresh-order-2026-05.md",
@@ -24075,7 +24078,8 @@
     ],
     "Mapping": [
       "workflow-task-07-prototype-mapping-table-artifact-inventory.md",
-      "workflow-task-08-w2-design-tokens-doc-artifact-inventory.md"
+      "workflow-task-08-w2-design-tokens-doc-artifact-inventory.md",
+      "workflow-ui-prototype-design-system-foundation-artifact-inventory.md"
     ],
     "Verifier": [
       "workflow-task-07-prototype-mapping-table-artifact-inventory.md"
@@ -24191,6 +24195,9 @@
     ],
     "pr": [
       "workflow-task-verify-indexes-up-to-date-ci-artifact-inventory.md"
+    ],
+    "Selector": [
+      "workflow-ui-prototype-design-system-foundation-artifact-inventory.md"
     ],
     "責務分離": [
       "workflow-ut-02a-attendance-profile-integration-artifact-inventory.md",

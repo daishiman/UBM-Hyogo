@@ -1,0 +1,1 @@
+17:      className="ubm-admin-shell grid min-h-screen grid-cols-1 bg-[var(--ubm-color-surface-bg)] text-[var(--ubm-color-text-primary)] md:grid-cols-[272px_1fr]"
