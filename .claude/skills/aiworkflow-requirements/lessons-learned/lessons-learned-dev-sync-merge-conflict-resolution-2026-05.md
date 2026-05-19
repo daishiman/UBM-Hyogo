@@ -320,6 +320,15 @@
 - 事例: 2026-05-19 `feat/issue-274-public-pages-ogp-sitemap-robots` で `buildBaseMetadata()` 追加 → 全 lighthouse URL で SEO 0.63 fail。両 workflow の start step に `ENVIRONMENT: production` 追加で復旧。
 - 追補（L-DEVSYNC-027-B）: `app/robots.ts` は build 時に `○` static で prerender されるため、build 時の `ENVIRONMENT=local` が `User-Agent: * / Disallow: /` を artifact に焼き込んでしまう。`pr-build-test.yml` の lighthouse-ci sub-job は `next-build-<sha>` artifact を共有し start 時に `ENVIRONMENT=production` を渡すが、静的 robots.txt は変わらず Lighthouse の `is-crawlable` audit が `disallow` を検出して SEO 0.63 のまま fail し続ける。`export const dynamic = "force-dynamic"` を `app/robots.ts` に追加（`app/sitemap.ts` と同じパターン）し、request 時に env を再評価することで start 時の env で robots.txt 出力を切替可能になる。`apps/web/app/**` で env-dependent metadata route を追加する場合は **`dynamic = "force-dynamic"` 必須** を運用ルールとする。
 
+## L-DEVSYNC-028: `lighthouse-ci` SEO 0.63 — `link-text` audit 起因（generic anchor text）（2026-05-19 追加）
+
+- 症状: L-DEVSYNC-027 / 027-B 適用後も特定ページ（例: `/login`）のみが SEO `0.63` で fail し続ける。robots / meta description / `<title>` / `lang` / canonical はすべて正しい。
+- 原因: ページ内の anchor が `<a href="/register">こちら</a>` のような **汎用語句** ("こちら", "詳細", "クリック", "here", "more", "click here") のみで構成されている。Lighthouse の `link-text` audit が「Links do not have descriptive text」で大幅減点（0.37 程度の寄与）し、SEO category score を 0.63 まで押し下げる。robots/title/description が完全に正常でも単独で発生する。
+- 対応: anchor の **innerText を descriptive に書き換える**（リンク先が想起できる名詞句）。例: `こちら` → `会員登録ページから新規登録`、`詳細` → `<コンテンツ名>の詳細`。test (`.spec.tsx`) の `getByRole("link", { name: "..." })` も同じ文字列に追従。
+- Why: ARIA label や `aria-describedby` は `link-text` audit を満たさない（visible text を見るため）。`title` attribute の追加では補えない。テキスト自体を直すのが唯一の正解。
+- How to apply: 新規 UI を追加する PR では push 前に `grep -rn '>こちら<\|>詳細<\|>クリック<\|>here<\|>more<\|>click here<' apps/web/app apps/web/src` を実行し、ヒットがあれば descriptive text に置換する。`pr-pre-flight-ci-gate-checklist.md` §10 に運用ルールを記載。
+- 事例: 2026-05-19 `feat/issue-274-public-pages-ogp-sitemap-robots` の `apps/web/app/login/_components/LoginPanel.client.tsx` で `<a href="/register">こちら</a>` を `<a href="/register">会員登録ページから新規登録</a>` に変更、対応する `LoginPanel.component.spec.tsx` の `getByRole("link", { name: "こちら" })` も同時更新で `/login` SEO PASS。
+
 ## 適用範囲
 - task-specification-creator skill: 本 Lessons Learned は SKILL.md / changelog / references の conflict 解消にもそのまま適用される。Phase 12 で `artifacts.json` を出力する際は L-DEVSYNC-006 の status enum / passed_at / approver / evidence_path を必ず満たす。L-DEVSYNC-008 の "最新 N 件" 規約、L-DEVSYNC-011 の fact migration 判定、L-DEVSYNC-012 の追記型衝突両側採用ルールはいずれも `task-specification-creator/SKILL.md` / 配下 references / changelog 衝突に適用する。L-DEVSYNC-015 の native binary version bump 二段復旧は dev sync prompt の自律修復に組み込む。L-DEVSYNC-021 (lint scope glob 収束) / L-DEVSYNC-022 (version table 両側 row 保持) は workflow YAML / `references/*-gha.md` / `deployment-secrets-management.md` 等の lint-config 系・version-table 系 conflict にも適用する。
 - aiworkflow-requirements skill: indexes 再生成は本 skill 配下で完結する。L-DEVSYNC-012 適用後は必ず `pnpm indexes:rebuild` を実行し JSON validity を検証する。

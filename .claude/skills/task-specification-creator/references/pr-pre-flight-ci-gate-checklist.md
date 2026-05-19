@@ -212,3 +212,19 @@ grep -rn "runtime = [\"']edge[\"']" apps/web/app apps/web/src
 ### 補足: `app/robots.ts` / `app/sitemap.ts` は `export const dynamic = "force-dynamic"` 必須
 
 `apps/web/app/robots.ts` のような env-dependent metadata route は default で `○` static prerender されるため、build 時の `ENVIRONMENT=local` で `Disallow: /` が artifact に焼き込まれ、start 時に `ENVIRONMENT=production` を渡しても出力は変わらない。Lighthouse の `is-crawlable` audit が disallow を検出して SEO 0.63 のまま fail し続ける。`export const dynamic = "force-dynamic"` を `app/robots.ts` に追加（`app/sitemap.ts` 既存パターンと同じ）し、request 時 env で再評価可能にする。`apps/web/app/**` で env-dependent metadata route を追加する PR では grep で `export const dynamic` 指定を必ず確認する。
+
+## 10. `lighthouse-ci` SEO 0.63 — `link-text` audit fail（generic anchor text 起因）
+
+§9 を適用しても **特定ページのみ** SEO `0.63` で fail し続ける場合、Lighthouse の `link-text` audit が原因。`<a href="...">こちら</a>` / `>詳細<` / `>クリック<` / `>here<` / `>more<` / `>click here<` のような汎用語句のみの anchor は「Links do not have descriptive text」で減点され、SEO category を 0.63 まで押し下げる（robots / title / description が完全に正常でも単独で発生）。
+
+### 対応
+
+anchor の innerText を **リンク先を想起できる descriptive な名詞句** に書き換える。`aria-label` / `title` attribute では補えない（audit は visible text を見る）。テキスト自体の書き換えが唯一の正解。対応する `.spec.tsx` の `getByRole("link", { name: "..." })` も同時更新する。
+
+### 事前検出
+
+```bash
+grep -rn '>こちら<\|>詳細<\|>クリック<\|>here<\|>more<\|>click here<' apps/web/app apps/web/src
+```
+
+ヒットがあれば descriptive text に置換してから push する。事例: 2026-05-19 `feat/issue-274-public-pages-ogp-sitemap-robots` で `LoginPanel.client.tsx` の `<a href="/register">こちら</a>` を `>会員登録ページから新規登録<` に変更で `/login` SEO PASS（L-DEVSYNC-028）。
