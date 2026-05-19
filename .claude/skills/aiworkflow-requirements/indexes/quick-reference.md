@@ -146,6 +146,19 @@
 | changelog | `.claude/skills/aiworkflow-requirements/changelog/20260516-runtime-smoke-staging-secrets-restore.md` |
 | boundary | runtime inline value check is retained; secret placement, workflow rerun, commit, push, PR are user-gated。production-runtime-smoke env は dev→main マージ未済のため secret 投入保留（allowlist 行も未追加） |
 
+### parallel-i06-root-error-focus（2026-05-18）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/parallel-i06-root-error-focus/` |
+| 状態 | `implemented_local_evidence_captured / implementation / NON_VISUAL` |
+| source | `docs/30-workflows/ui-prototype-alignment-mvp-recovery/improvements/integration-fixes/parallel-i06-root-error-focus/spec.md` |
+| implementation | `apps/web/app/error.tsx`, `apps/web/app/error.spec.tsx` |
+| contract | root `error.tsx` catch 時に `logger.error` 後、h1 へ `focus({ preventScroll: true })` を移譲 |
+| evidence | `outputs/phase-11/evidence/{typecheck,lint,test,grep-gate}.log`, `outputs/phase-11/evidence/diff.txt`, `outputs/phase-12/phase12-task-spec-compliance-check.md` |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-parallel-i06-root-error-focus-artifact-inventory.md` |
+| user gate | commit / push / PR |
+
 ### UI Prototype Design System Foundation（2026-05-18）
 
 | 目的 | 参照先 |

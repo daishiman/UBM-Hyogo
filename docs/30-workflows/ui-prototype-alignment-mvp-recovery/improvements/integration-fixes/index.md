@@ -9,7 +9,7 @@
 利用されているか** は単体マージ時点では検証されない。
 
 本ワークフローは、コード実体での依存接続検証（実 grep / file read）で検出された 7 件の未接続/部分接続を
-管理する。2026-05-18 時点では i01 / i04 / i05 が実装済みで、i02 / i03 / i06 / i07 は本 index 配下の active integration-fix spec として残る。
+管理する。2026-05-19 時点では i01 / i04 / i05 / i06 が local implementation captured で、i02 / i03 / i07 は本 index 配下の active integration-fix spec として残る。
 
 ## 2. 検出結果（接続検証 evidence）
 
@@ -70,7 +70,7 @@ integration-fixes/
 
 ## 7. 残タスク追跡
 
-本 i01 close-out の範囲は `ToastProvider` root mount のみ。i02〜i07 は別 active spec として同ディレクトリ配下に残し、formal task は `docs/30-workflows/unassigned-task/` に登録済み。
+本 i01 close-out の範囲は `ToastProvider` root mount のみ。i02 / i03 / i05 / i07 は別 active spec として同ディレクトリ配下に残し、formal task は `docs/30-workflows/unassigned-task/` に登録済み。i04 / i06 は local implementation captured として canonical workflow root へ接続済みで、同表では consumed trace として扱う。
 
 | spec | 状態 | 追跡場所 |
 | --- | --- | --- |
