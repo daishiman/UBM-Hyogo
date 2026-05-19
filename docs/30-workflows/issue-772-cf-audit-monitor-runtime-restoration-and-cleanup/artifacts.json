@@ -21,22 +21,112 @@
       "gh api -X DELETE /repos/daishiman/UBM-Hyogo/actions/variables/<name>"
     ],
     "read_only_evidence_allowed_pre_gate": true,
-    "user_approval_marker": "required before each mutation command"
+    "user_approval_marker": "required before each mutation command",
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-05-17T00:00:00Z",
+        "evidence_path": "docs/30-workflows/issue-772-cf-audit-monitor-runtime-restoration-and-cleanup/index.md",
+        "approver": "daishiman",
+        "notes": "spec_review: Phase 1-13 spec finalized; cleanup no-op candidate と runtime restoration pending を分離"
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "passed",
+        "passed_at": "2026-05-17T00:00:00Z",
+        "evidence_path": "docs/30-workflows/issue-772-cf-audit-monitor-runtime-restoration-and-cleanup/outputs/phase-12/phase12-task-spec-compliance-check.md",
+        "approver": "daishiman",
+        "notes": "validator_green: Phase 12 strict 7 outputs present、root/output artifacts full mirror、canonical 9 heading 準拠"
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/issue-772-cf-audit-monitor-runtime-restoration-and-cleanup/phase-11.md",
+        "approver": "daishiman",
+        "notes": "runtime_pending: repo secrets / variables 配置、workflow dispatch、six hourly successes、rollback delete は user-gated external mutation"
+      }
+    ]
   },
   "phases": {
-    "phase-01": { "status": "spec_created", "file": "phase-01.md" },
-    "phase-02": { "status": "spec_created", "file": "phase-02.md", "outputs": ["outputs/phase-02/secret-investment-plan.md", "outputs/phase-02/variable-mirror-plan.md", "outputs/phase-02/inventory-before.md"] },
-    "phase-03": { "status": "spec_created", "file": "phase-03.md" },
-    "phase-04": { "status": "spec_created", "file": "phase-04.md" },
-    "phase-05": { "status": "spec_created", "file": "phase-05.md" },
-    "phase-06": { "status": "spec_created", "file": "phase-06.md" },
-    "phase-07": { "status": "spec_created", "file": "phase-07.md" },
-    "phase-08": { "status": "spec_created", "file": "phase-08.md" },
-    "phase-09": { "status": "spec_created", "file": "phase-09.md" },
-    "phase-10": { "status": "spec_created", "file": "phase-10.md" },
-    "phase-11": { "status": "runtime_pending", "file": "phase-11.md", "outputs": ["outputs/phase-11/visual-verification-skip.md", "outputs/phase-11/workflow-dispatch-dryrun.md", "outputs/phase-11/runtime-evidence/hourly-runs.json", "outputs/phase-11/runtime-evidence/6h-success.md", "outputs/phase-11/runtime-evidence/heartbeat-after.txt"] },
-    "phase-12": { "status": "spec_created", "file": "phase-12.md", "outputs": ["outputs/phase-12/main.md", "outputs/phase-12/implementation-guide.md", "outputs/phase-12/system-spec-update-summary.md", "outputs/phase-12/documentation-changelog.md", "outputs/phase-12/unassigned-task-detection.md", "outputs/phase-12/skill-feedback-report.md", "outputs/phase-12/phase12-task-spec-compliance-check.md"] },
-    "phase-13": { "status": "blocked", "file": "phase-13.md", "outputs": ["outputs/phase-13/pr-summary.md", "outputs/phase-13/post-cleanup-secret-inventory.md"] }
+    "phase-01": {
+      "status": "spec_created",
+      "file": "phase-01.md"
+    },
+    "phase-02": {
+      "status": "spec_created",
+      "file": "phase-02.md",
+      "outputs": [
+        "outputs/phase-02/secret-investment-plan.md",
+        "outputs/phase-02/variable-mirror-plan.md",
+        "outputs/phase-02/inventory-before.md"
+      ]
+    },
+    "phase-03": {
+      "status": "spec_created",
+      "file": "phase-03.md"
+    },
+    "phase-04": {
+      "status": "spec_created",
+      "file": "phase-04.md"
+    },
+    "phase-05": {
+      "status": "spec_created",
+      "file": "phase-05.md"
+    },
+    "phase-06": {
+      "status": "spec_created",
+      "file": "phase-06.md"
+    },
+    "phase-07": {
+      "status": "spec_created",
+      "file": "phase-07.md"
+    },
+    "phase-08": {
+      "status": "spec_created",
+      "file": "phase-08.md"
+    },
+    "phase-09": {
+      "status": "spec_created",
+      "file": "phase-09.md"
+    },
+    "phase-10": {
+      "status": "spec_created",
+      "file": "phase-10.md"
+    },
+    "phase-11": {
+      "status": "runtime_pending",
+      "file": "phase-11.md",
+      "outputs": [
+        "outputs/phase-11/visual-verification-skip.md",
+        "outputs/phase-11/workflow-dispatch-dryrun.md",
+        "outputs/phase-11/runtime-evidence/hourly-runs.json",
+        "outputs/phase-11/runtime-evidence/6h-success.md",
+        "outputs/phase-11/runtime-evidence/heartbeat-after.txt"
+      ]
+    },
+    "phase-12": {
+      "status": "spec_created",
+      "file": "phase-12.md",
+      "outputs": [
+        "outputs/phase-12/main.md",
+        "outputs/phase-12/implementation-guide.md",
+        "outputs/phase-12/system-spec-update-summary.md",
+        "outputs/phase-12/documentation-changelog.md",
+        "outputs/phase-12/unassigned-task-detection.md",
+        "outputs/phase-12/skill-feedback-report.md",
+        "outputs/phase-12/phase12-task-spec-compliance-check.md"
+      ]
+    },
+    "phase-13": {
+      "status": "blocked",
+      "file": "phase-13.md",
+      "outputs": [
+        "outputs/phase-13/pr-summary.md",
+        "outputs/phase-13/post-cleanup-secret-inventory.md"
+      ]
+    }
   },
   "user_gated_operations": [
     "gh secret set CF_AUDIT_D1_TOKEN_PROD --body \"$(op read op://...)\"",
