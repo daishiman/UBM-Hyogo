@@ -208,3 +208,7 @@ grep -rn "runtime = [\"']edge[\"']" apps/web/app apps/web/src
 `lighthouse.yml` の Build / Start server step と `pr-build-test.yml` の lighthouse-ci sub-job の Start server step に **`ENVIRONMENT: production`** を渡す。これは Lighthouse 実行に限定した build-time 評価切替で、real production deploy では Cloudflare bindings の `ENVIRONMENT` が上書きするため副作用はない（local / staging は引き続き noindex でランタイム保護される）。
 
 `pr-build-test.yml` の lighthouse-ci sub-job は `build-test` で生成された `next-build-<sha>` artifact を download して使うため、build 時の env ではなく **start 時の env で `getPublicEnv()` を上書き**する点に注意（`generateMetadata` は request 時に解決されるため）。
+
+### 補足: `app/robots.ts` / `app/sitemap.ts` は `export const dynamic = "force-dynamic"` 必須
+
+`apps/web/app/robots.ts` のような env-dependent metadata route は default で `○` static prerender されるため、build 時の `ENVIRONMENT=local` で `Disallow: /` が artifact に焼き込まれ、start 時に `ENVIRONMENT=production` を渡しても出力は変わらない。Lighthouse の `is-crawlable` audit が disallow を検出して SEO 0.63 のまま fail し続ける。`export const dynamic = "force-dynamic"` を `app/robots.ts` に追加（`app/sitemap.ts` 既存パターンと同じ）し、request 時 env で再評価可能にする。`apps/web/app/**` で env-dependent metadata route を追加する PR では grep で `export const dynamic` 指定を必ず確認する。
