@@ -4,7 +4,7 @@
 
 ## Summary verdict
 
-`implemented-local-runtime-pending / PASS_BOUNDARY_SYNCED_RUNTIME_PENDING`。本ワークフローは `serial-05-admin-mutation-ui` の 3 番目（直列順序 3/5）の implementation 仕様書で、既存 admin/schema 画面の `SchemaDiffPanel` を hardening する VISUAL タスクである。本 wave は `SchemaDiffPanel` と focused tests をローカル実装済み。local typecheck / lint / test / build / grep gate evidence は PASS、runtime screenshots / staging smoke / commit / push / PR は user-gated boundary として pending。
+`completed / PASS`。本ワークフローは `serial-05-admin-mutation-ui` の 3 番目（直列順序 3/5）の implementation 仕様書で、既存 admin/schema 画面の `SchemaDiffPanel` を hardening する VISUAL タスクである。Issue #775 recovery workflow で runtime screenshots 11 valid PNG と Playwright log を取得し、legacy `admin-schema-diff-list.placeholder.txt` は非 PNG として PASS screenshot inventory から除外した。Phase 11 は completed に昇格済み。commit / push / PR は user-gated boundary として pending。
 
 ## Required Sections
 
@@ -33,29 +33,38 @@
 
 ## `workflow_state` and phase status consistency
 
-- `workflow_state = implemented-local-runtime-pending`（root / outputs `artifacts.json` と整合）
-- `implementation_status = IMPLEMENTED_LOCAL_RUNTIME_PENDING`
-- `evidence_state = PASS_BOUNDARY_SYNCED_RUNTIME_PENDING`
+- `workflow_state = completed`（root / outputs `artifacts.json` と整合）
+- `implementation_status = IMPLEMENTED_COMPLETED`
+- `evidence_state = PASS`
 - Phase 1-10,12 status: `completed`
-- Phase 11 status: `runtime_pending`（local evidence captured、runtime screenshots pending）
+- Phase 11 status: `completed`（local evidence + runtime 11 valid PNG captured）
 - Phase 13 status: `pending_user_approval`
 - `implementation_mode = existing-schema-diff-panel-hardening`
 - `taskType = implementation`、`visualEvidence = VISUAL`
-- 仕様書のみで runtime PASS 主張なし、CI gate は `verify-phase12-compliance` / `validate` / `verify-indexes-up-to-date` のみが boundary
+- Runtime PASS は Issue #775 の tracked Playwright log と PNG evidence に限定して主張する
 - `artifacts.json` と `outputs/artifacts.json` は両方存在し、内容一致を `cmp -s artifacts.json outputs/artifacts.json` で確認する。root が編集正本、outputs 側は Phase evidence mirror として同値維持する。
 
 ## Phase 11 evidence file inventory
 
 | Classification | Path | Status |
 | --- | --- | --- |
-| Phase 11 取得計画 / canonical path / PASS 5 点セット手順 | `outputs/phase-11/evidence.md` | present |
-| local 5 点 evidence manifest | `outputs/phase-11/manifest.json` | present |
-| admin-schema-diff-list screenshot (runtime pending) | `outputs/phase-11/screenshots/admin-schema-diff-list.png` | pending |
-| admin-schema-diff-empty screenshot (runtime pending) | `outputs/phase-11/screenshots/admin-schema-diff-empty.png` | pending |
-| admin-schema-diff-resolve-form screenshot (runtime pending) | `outputs/phase-11/screenshots/admin-schema-diff-resolve-form.png` | pending |
-| admin-schema-diff-error screenshot (runtime pending) | `outputs/phase-11/screenshots/admin-schema-diff-error.png` | pending |
+| plan | outputs/phase-11/evidence.md | present |
+| manifest | outputs/phase-11/manifest.json | present |
+| playwright log | outputs/phase-11/evidence/playwright.log | present |
+| legacy placeholder | outputs/phase-11/screenshots/admin-schema-diff-list.placeholder.txt | n/a |
+| screenshot | outputs/phase-11/screenshots/admin-schema-diff-added-desktop.png | present |
+| screenshot | outputs/phase-11/screenshots/admin-schema-diff-added-mobile.png | present |
+| screenshot | outputs/phase-11/screenshots/admin-schema-diff-changed-desktop.png | present |
+| screenshot | outputs/phase-11/screenshots/admin-schema-diff-changed-mobile.png | present |
+| screenshot | outputs/phase-11/screenshots/admin-schema-diff-removed-desktop.png | present |
+| screenshot | outputs/phase-11/screenshots/admin-schema-diff-removed-mobile.png | present |
+| screenshot | outputs/phase-11/screenshots/admin-schema-diff-unresolved-desktop.png | present |
+| screenshot | outputs/phase-11/screenshots/admin-schema-diff-unresolved-mobile.png | present |
+| screenshot | outputs/phase-11/screenshots/admin-schema-diff-resolve-success.png | present |
+| screenshot | outputs/phase-11/screenshots/admin-schema-diff-resolve-409.png | present |
+| screenshot | outputs/phase-11/screenshots/admin-schema-diff-resolve-422.png | present |
 
-local evidence は captured 済みだが、VISUAL runtime screenshot は未完了。したがって completed / PASS 単独ではなく `implemented-local-runtime-pending / PASS_BOUNDARY_SYNCED_RUNTIME_PENDING` として close-out する。
+Issue #775 recovery workflow captured runtime visual evidence. Parent manifest is `pass=true`, `verdict=PASS`.
 
 ## Phase 12 strict 7 file inventory
 
@@ -73,30 +82,30 @@ CI gate `verify-phase12-compliance` が要求する 7 ファイルすべて出�
 
 ## Skill/reference/system spec same-wave sync
 
-- `aiworkflow-requirements`: 親ワークフロー（`ui-prototype-alignment-mvp-recovery`）側で整備済、本 wave で追加同期なし
+- `aiworkflow-requirements`: Issue #775 recovery inventory / quick-reference / resource-map / task-workflow-active を同 wave で同期
 - `task-specification-creator`: テンプレートに準拠、skill 変更不要
 - system spec (`docs/00-getting-started-manual/specs/*.md`): 変更なし
-- consumed unassigned-task: なし
+- consumed unassigned-task: `docs/30-workflows/completed-tasks/serial-05-step-03-followup-001-runtime-evidence-completion.md`
 
 ## Runtime or user-gated boundary
 
-- local implementation は完了済みだが、runtime screenshot / staging smoke は user-gated boundary とする
+- local implementation and runtime screenshots are completed. Staging smoke remains user-gated boundary.
 - CI gate `verify-phase12-compliance` / focused Vitest / typecheck / lint / build / grep gate を local boundary とする
-- 実装着手 / PR 作成 / push / commit は user 明示承認まで実行禁止
+- PR 作成 / push / commit は user 明示承認まで実行禁止
 - `governance_mutation_user_gate = false`
 
 ## Archive/delete stale-reference gate
 
 - 本 wave で削除 / archive されるワークフロー root: なし
 - 既存 root への live inventory 参照: 影響なし（新規追加のみ）
-- `unassigned-task/` からの consume なし
+- `unassigned-task/serial-05-step-03-followup-001-runtime-evidence-completion.md` を consumed pointer 化済み
 - skill SSOT / aiworkflow-requirements indexes 側に stale reference 発生なし
 
 ## Four-condition verdict
 
 | Condition | Verdict | Evidence |
 | --- | --- | --- |
-| 矛盾なし | PASS_BOUNDARY_SYNCED_RUNTIME_PENDING | root/output artifacts、Phase 12、実コード差分を `implemented-local-runtime-pending` へ統一 |
-| 漏れなし | PASS_BOUNDARY_SYNCED_RUNTIME_PENDING | index.md + Phase 1-13 outputs + Phase 12 strict 7 + local evidence + same-wave aiworkflow/manual spec sync を含む |
-| 整合性あり | PASS_BOUNDARY_SYNCED_RUNTIME_PENDING | 親 spec drift を既存 `SchemaDiffPanel` hardening に補正し、API regex / payload / UI表示を同期 |
-| 依存関係整合 | PASS_BOUNDARY_SYNCED_RUNTIME_PENDING | step-01 / step-02 / parallel-08 / parallel-09 と step-04..08 downstream を artifacts.json に明示。runtime screenshot / PR は user-gated |
+| 矛盾なし | PASS | root/output artifacts、Phase 12、manifest を completed/PASS へ統一 |
+| 漏れなし | PASS | index.md + Phase 1-13 outputs + Phase 12 strict 7 + local/runtime evidence + same-wave aiworkflow sync を含む |
+| 整合性あり | PASS | 親 spec drift を既存 `SchemaDiffPanel` hardening に補正し、API regex / payload / UI表示を同期 |
+| 依存関係整合 | PASS | Issue #775 recovery root、source unassigned consumed、parent workflow evidence path、downstream step-04..08 を同期 |

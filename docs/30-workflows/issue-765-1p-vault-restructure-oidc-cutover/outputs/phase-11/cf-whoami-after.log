@@ -1,0 +1,4 @@
+status=pending_user_approval
+command="bash scripts/cf.sh whoami"
+exit=not_executed
+
