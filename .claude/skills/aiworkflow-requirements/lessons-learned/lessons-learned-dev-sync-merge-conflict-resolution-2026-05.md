@@ -379,3 +379,15 @@
     - B-7「stale `index.lock` 自動復旧」: `pnpm sync:resolve` / `git merge` が `Unable to create '.../index.lock'` で失敗したら `rm -f "$(git rev-parse --git-dir)/index.lock"` を実行し再試行（worktree-aware path 解決必須）。
     - B-8「duplicate-row collapse」: 3-way diff block の HEAD 行が conflict marker 直前の merged 領域に grep で検出可能なら HEAD ブロックを破棄、dev ブロックのみ採用。新規行のみなら従来通り両側採用（L-DEVSYNC-012）。
 - 事例: 2026-05-19 `fix/parallel-i06-root-error-focus` ← dev sync-merge で `improvements/integration-fixes/index.md` line 24-31 / 90-97 の 3-way block 2 箇所を duplicate-row collapse で解消、stale `index.lock` を `git rev-parse --git-dir` 経由で復旧。
+
+## L-DEVSYNC-027: `pnpm sync:resolve` が `LOGS/_legacy.md` の `git add` で `.gitignore` hint により exit 1 終了し、後続の `keywords.json --ours + rebuild` が走らない（2026-05-20 追加）
+
+- 症状: `feat/ut-07c-followup-001-attendance-csv-import` ← dev sync-merge で `.claude/skills/aiworkflow-requirements/{LOGS/_legacy.md,SKILL.md,indexes/quick-reference.md,indexes/topic-map.md,indexes/keywords.json}` の 5 ファイルがコンフリクト。`pnpm sync:resolve` を実行すると 4 ファイルは `union-resolved` で成功するが、最終 `git add` 段階で `LOGS/_legacy.md` が `.gitignore`（`LOGS/` ディレクトリ無視）に該当し `hint: ignored by one of your .gitignore files ... Use -f if you really want to add them.` → `ELIFECYCLE Command failed with exit code 1` で resolver script 全体が異常終了する。結果として `keywords.json` の `--ours + indexes:rebuild` step が走らず、`UU .claude/skills/aiworkflow-requirements/indexes/keywords.json` が unresolved のまま残存。
+- 解消手順（B-9 として自律修復に組み込む）:
+  1. `pnpm sync:resolve` の exit 1 でも 4 ファイルの union-resolve は **完了している** ため `git status --porcelain | grep -E "^UU"` で残コンフリクトを確認。
+  2. 残った `indexes/keywords.json` のみ `git checkout --ours .claude/skills/aiworkflow-requirements/indexes/keywords.json && mise exec -- pnpm indexes:rebuild` を手動実行。
+  3. `LOGS/_legacy.md` は `.gitignore` 無視対象だが既に tracked file（symlink-like 例外運用）であれば `git update-index --no-skip-worktree` 等は不要。`git status` で `M` 表示されているなら通常 `git add .claude/skills/aiworkflow-requirements/LOGS/_legacy.md -f` で staging 可能（既 tracked のため -f なしでも追加可能なケースもある）。
+- 根本対応案: `scripts/sync/resolve-skill-merge-conflicts.sh` の `git add` step を `git add -f` 化、または `LOGS/` を `.gitignore` から除外して既 tracked であることを明示する。task-specification-creator skill の `pr-pre-flight-ci-gate-checklist.md` に「sync:resolve が exit 1 でも残コンフリクトが LOGS-only / keywords.json のみなら自律継続」を追加する。
+- Why: `LOGS/` を `.gitignore` で無視している（hand-written log artifact を排除する意図）が、`_legacy.md` のみ歴史的に tracked であり、`merge=union` 属性で衝突解消対象になっている。`git add` 時の hint は警告でなく exit 1 を伝播するため shell script が全体停止する。
+- How to apply: dev sync prompt 自律判断ルール B に B-9「sync:resolve exit 1 時の継続条件」を追加し、UU 残ファイルが `indexes/keywords.json` および `LOGS/_legacy.md` のみであれば自律修復を継続、他のパスが残っていた場合のみ最終レポート対象とする。
+- 事例: 2026-05-20 `feat/ut-07c-followup-001-attendance-csv-import` ← dev sync-merge。`pnpm sync:resolve` exit 1 後、`keywords.json --ours + indexes:rebuild` を手動実行して継続解消。
