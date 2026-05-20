@@ -35,7 +35,7 @@
     "@sentry/nextjs": "^10.51.0",
     "@ubm-hyogo/contracts": "workspace:*",
     "@ubm-hyogo/shared": "workspace:*",
-    "next": "16.2.4",
+    "next": "16.2.6",
     "next-auth": "5.0.0-beta.30",
     "papaparse": "^5.4.1",
     "react": "19.2.5",
