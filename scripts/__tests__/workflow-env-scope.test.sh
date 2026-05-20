@@ -105,22 +105,25 @@ grep -A8 'name: Deploy to Cloudflare Workers (production)' "$WEB_CD" | grep -q '
 grep -A12 'name: Deploy to Cloudflare Workers (staging)' "$WEB_CD" | grep -q 'set -o pipefail' || fail "web-cd staging deploy pipefail missing"
 grep -A12 'name: Deploy to Cloudflare Workers (production)' "$WEB_CD" | grep -q 'set -o pipefail' || fail "web-cd production deploy pipefail missing"
 
-# === Issue #718: legacy unscoped CLOUDFLARE_API_TOKEN must not appear in backend-ci ===
-# backend-ci has been migrated to CF_TOKEN_D1_* / CF_TOKEN_WORKERS_*
+# === task-cf-token-staging-injection-fix-001 (2026-05-20): unify to CLOUDFLARE_API_TOKEN ===
+# backend-ci unified back to CLOUDFLARE_API_TOKEN because CF_TOKEN_D1_* / CF_TOKEN_WORKERS_*
+# were never registered in the staging/production GitHub Environments and resolved to empty,
+# causing deploy failures. SSOT: docs/30-workflows/task-cf-token-staging-injection-fix-001/index.md
+# This supersedes issue #718's scoped-token requirement for backend-ci.
 # shellcheck disable=SC2016
-if grep -nE 'apiToken: \$\{\{ secrets\.CLOUDFLARE_API_TOKEN \}\}' "$BACKEND_CI"; then
-  fail "backend-ci still references legacy unscoped CLOUDFLARE_API_TOKEN; expected CF_TOKEN_D1_* / CF_TOKEN_WORKERS_*"
+if grep -nE 'secrets\.CF_TOKEN_(D1|WORKERS)_(STAGING|PRODUCTION)' "$BACKEND_CI"; then
+  fail "backend-ci must not reference CF_TOKEN_D1_* / CF_TOKEN_WORKERS_* (unregistered); use CLOUDFLARE_API_TOKEN"
 fi
 
-# backend-ci with.apiToken exact match for scoped tokens
-assert_step_api_token "$BACKEND_CI" 'deploy-staging:' 'Apply D1 migrations' 'CF_TOKEN_D1_STAGING'
-assert_step_api_token "$BACKEND_CI" 'deploy-staging:' 'Deploy Workers app' 'CF_TOKEN_WORKERS_STAGING'
-assert_step_api_token "$BACKEND_CI" 'deploy-production:' 'Apply D1 migrations' 'CF_TOKEN_D1_PRODUCTION'
-assert_step_api_token "$BACKEND_CI" 'deploy-production:' 'Deploy Workers app' 'CF_TOKEN_WORKERS_PRODUCTION'
-assert_step_env_token "$BACKEND_CI" 'deploy-staging:' 'Apply D1 migrations' 'CF_TOKEN_D1_STAGING'
-assert_step_env_token "$BACKEND_CI" 'deploy-staging:' 'Deploy Workers app' 'CF_TOKEN_WORKERS_STAGING'
-assert_step_env_token "$BACKEND_CI" 'deploy-production:' 'Apply D1 migrations' 'CF_TOKEN_D1_PRODUCTION'
-assert_step_env_token "$BACKEND_CI" 'deploy-production:' 'Deploy Workers app' 'CF_TOKEN_WORKERS_PRODUCTION'
+# backend-ci with.apiToken / env.CLOUDFLARE_API_TOKEN must reference CLOUDFLARE_API_TOKEN
+assert_step_api_token "$BACKEND_CI" 'deploy-staging:' 'Apply D1 migrations' 'CLOUDFLARE_API_TOKEN'
+assert_step_api_token "$BACKEND_CI" 'deploy-staging:' 'Deploy Workers app' 'CLOUDFLARE_API_TOKEN'
+assert_step_api_token "$BACKEND_CI" 'deploy-production:' 'Apply D1 migrations' 'CLOUDFLARE_API_TOKEN'
+assert_step_api_token "$BACKEND_CI" 'deploy-production:' 'Deploy Workers app' 'CLOUDFLARE_API_TOKEN'
+assert_step_env_token "$BACKEND_CI" 'deploy-staging:' 'Apply D1 migrations' 'CLOUDFLARE_API_TOKEN'
+assert_step_env_token "$BACKEND_CI" 'deploy-staging:' 'Deploy Workers app' 'CLOUDFLARE_API_TOKEN'
+assert_step_env_token "$BACKEND_CI" 'deploy-production:' 'Apply D1 migrations' 'CLOUDFLARE_API_TOKEN'
+assert_step_env_token "$BACKEND_CI" 'deploy-production:' 'Deploy Workers app' 'CLOUDFLARE_API_TOKEN'
 
 grep -q 'Verify deploy log redaction (staging)' "$WEB_CD" || fail "web-cd staging redaction check missing"
 grep -q 'Verify deploy log redaction (production)' "$WEB_CD" || fail "web-cd production redaction check missing"
