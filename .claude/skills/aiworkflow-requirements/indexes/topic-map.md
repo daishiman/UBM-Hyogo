@@ -2884,6 +2884,12 @@ node scripts/list-specs.js --topics
 | 関連ドキュメント | L137 |
 | 変更履歴 | L148 |
 
+### references/workflow-profile-loading-skeleton-oklch-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Boundary | L19 |
+
 ### references/workflow-serial-05-step-03-schema-diff-resolve-artifact-inventory.md
 
 | セクション | 行 |
@@ -7144,14 +7150,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L1818 |
-| フェーズ構造（概要） | L1827 |
-| 品質ゲート（概要） | L1858 |
-| 出力テンプレート | L1869 |
-| 実行時のコマンド・エージェント・スキル | L1892 |
-| 昇格パターン集 | L1916 |
-| Current Active / Spec Created Tasks | L1918 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L2071 |
+| ドキュメント構成 | L1832 |
+| フェーズ構造（概要） | L1841 |
+| 品質ゲート（概要） | L1872 |
+| 出力テンプレート | L1883 |
+| 実行時のコマンド・エージェント・スキル | L1906 |
+| 昇格パターン集 | L1930 |
+| Current Active / Spec Created Tasks | L1932 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L2085 |
 
 ### references/task-workflow-backlog-part2.md
 
