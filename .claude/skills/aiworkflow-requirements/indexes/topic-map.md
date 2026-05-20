@@ -874,13 +874,13 @@ node scripts/list-specs.js --topics
 | 概要 | L8 |
 | ドキュメント構成 | L15 |
 | REST API エンドポイント一覧 | L25 |
-| エンドポイント命名規則 | L212 |
-| UBM-Hyogo Admin Sync API（03a） | L233 |
-| UBM-Hyogo Member Self-Service API（04b） | L284 |
-| Admin Dashboard Attendance Analytics API（UT-02A follow-up 002） | L310 |
-| Desktop IPC API サマリー | L324 |
-| 変更履歴 | L355 |
-| 関連ドキュメント | L372 |
+| エンドポイント命名規則 | L214 |
+| UBM-Hyogo Admin Sync API（03a） | L235 |
+| UBM-Hyogo Member Self-Service API（04b） | L286 |
+| Admin Dashboard Attendance Analytics API（UT-02A follow-up 002） | L312 |
+| Desktop IPC API サマリー | L326 |
+| 変更履歴 | L357 |
+| 関連ドキュメント | L374 |
 
 ### references/api-internal-chunk-search.md
 
@@ -3654,6 +3654,17 @@ node scripts/list-specs.js --topics
 | Evidence Summary | L32 |
 | Follow-up Disposition | L41 |
 
+### references/workflow-ut-07c-followup-001-attendance-csv-import-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Metadata | L3 |
+| Canonical Files | L12 |
+| Implementation Targets | L21 |
+| Contract Summary | L32 |
+| Evidence Boundary | L45 |
+| Related Lessons | L49 |
+
 ### references/workflow-ut-15-waf-rate-limiting-rules-setup-artifact-inventory.md
 
 | セクション | 行 |
@@ -5733,6 +5744,25 @@ node scripts/list-specs.js --topics
 | L-HDBH-004: HEALTH_DB_TOKEN rotation を Phase 12 close-out 時点で formalize する | L42 |
 | 関連参照 | L55 |
 
+### references/lessons-learned-ut-07c-followup-001-attendance-csv-import-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| L-UT07CFU1-001: `*.contract.spec.ts` は `vitest.d1.config.ts` 経由でしか走らない | L5 |
+| L-UT07CFU1-002: D1 `batch()` で attendance + audit を同一境界に投入する | L14 |
+| L-UT07CFU1-003: client 側 CSV parse は papaparse + JSON payload で API へ渡す | L24 |
+| L-UT07CFU1-004: `exactOptionalPropertyTypes: true` 環境での optional field 受け渡し | L33 |
+| L-UT07CFU1-005: React 19 `JSX.Element` は `React.JSX.Element` 名前空間で参照する | L41 |
+| L-UT07CFU1-006: 3-step wizard の confirm 有効化条件は `ok === total` で固定する | L49 |
+| L-UT07CFU1-007: `dryRun` パラメータは安全側既定にする | L58 |
+| L-UT07CFU1-008: email lookup は `normalizeEmail` (NFKC + trim + lowercase) を経由する | L67 |
+| L-UT07CFU1-009: Phase-11 evidence 出力先は completed-tasks/ 配下に揃える | L75 |
+| L-UT07CFU1-010: mockApi seedMeetings race は self-heal で吸収する | L93 |
+| L-UT07CFU1-011: `<input type="file">` の SSR 出力は WebKit / Firefox で hydration mismatch を起こす | L108 |
+| L-UT07CFU1-012: Playwright e2e の expect timeout は Next.js dev `[...path]` route 初回コンパイルを吸収する 30s に伸ばす | L128 |
+| L-UT07CFU1-013: e2e mock は `apps/web/playwright/fixtures/auth.ts` と `scripts/e2e-mock-api.mjs` の 2 系統あり drift する | L150 |
+| 関連参照 | L175 |
+
 ### references/lessons-learned-ut-15-waf-rate-limiting.md
 
 | セクション | 行 |
@@ -7060,7 +7090,7 @@ node scripts/list-specs.js --topics
 | 実行時のコマンド・エージェント・スキル | L1835 |
 | 昇格パターン集 | L1859 |
 | Current Active / Spec Created Tasks | L1861 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L2013 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L2014 |
 
 ### references/task-workflow-backlog-part2.md
 

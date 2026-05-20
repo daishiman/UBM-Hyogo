@@ -595,6 +595,66 @@ const server = createServer(async (req, res) => {
       return writeJson(res, 200, { ok: true, attended: false });
     }
   }
+  // /attendance/import — CSV 一括 import (ut-07c-followup-001)
+  {
+    const match = pathname.match(/^\/admin\/meetings\/([^/]+)\/attendance\/import$/);
+    if (req.method === "POST" && match) {
+      const sessionId = decodeURIComponent(match[1]);
+      const dryRun = url.searchParams.get("dryRun") !== "false";
+      const body = await readBody(req);
+      const rows = Array.isArray(body?.rows) ? body.rows : null;
+      if (!rows) {
+        return writeJson(res, 400, { ok: false, error: "invalid_body" });
+      }
+      if (rows.length > 500) {
+        return writeJson(res, 413, { ok: false, error: "payload_too_large", maxRows: 500 });
+      }
+      const meeting = state.meetingsSeed.meetings.find((m) => m.sessionId === sessionId);
+      if (!meeting) return writeJson(res, 404, { ok: false, error: "session_not_found" });
+      const seen = new Set();
+      const results = rows.map((row, index) => {
+        const memberId = typeof row?.memberId === "string" ? row.memberId.trim() : "";
+        const email = typeof row?.email === "string" ? row.email.trim().toLowerCase() : "";
+        const resolvedId = memberId || email.replace(/@example\.test$/, "");
+        if (!resolvedId) return { index, status: "invalid", message: "memberId_or_email_required" };
+        const candidate = meeting.candidates.find((c) => c.memberId === resolvedId);
+        if (!candidate) return { index, status: "unknown_member", message: "member_not_found" };
+        if (candidate.isDeleted) {
+          return { index, status: "deleted_member", memberId: candidate.memberId };
+        }
+        if (
+          meeting.attendees.some((a) => a.memberId === candidate.memberId) ||
+          seen.has(candidate.memberId)
+        ) {
+          return { index, status: "duplicate", memberId: candidate.memberId };
+        }
+        seen.add(candidate.memberId);
+        return { index, status: "ok", memberId: candidate.memberId };
+      });
+      const summary = {
+        total: results.length,
+        ok: results.filter((r) => r.status === "ok").length,
+        duplicate: results.filter((r) => r.status === "duplicate").length,
+        deletedMember: results.filter((r) => r.status === "deleted_member").length,
+        unknownMember: results.filter((r) => r.status === "unknown_member").length,
+        invalid: results.filter((r) => r.status === "invalid").length,
+      };
+      const committed = !dryRun && summary.ok === summary.total && summary.total > 0;
+      if (committed) {
+        meeting.attendees = [
+          ...meeting.attendees,
+          ...results
+            .filter((r) => r.status === "ok")
+            .map((r) => ({
+              memberId: r.memberId,
+              assignedAt: NOW,
+              assignedBy: "admin-1",
+            })),
+        ];
+      }
+      return writeJson(res, 200, { ok: true, summary, rows: results, dryRun, committed });
+    }
+  }
   // legacy /attendance (singular) — back-compat for older specs
   if (req.method === "POST" && pathname.startsWith("/admin/meetings/") && pathname.endsWith("/attendance")) {
     const sessionId = pathname.split("/")[3];
