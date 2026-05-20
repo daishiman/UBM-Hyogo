@@ -1,5 +1,46 @@
 # クイックリファレンス
 
+## Issue #775 serial-05-step-03 runtime evidence completion（2026-05-18）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow | `docs/30-workflows/completed-tasks/issue-775-serial-05-step-03-runtime-evidence-completion/` |
+| parent | `docs/30-workflows/completed-tasks/serial-05-step-03-schema-diff-resolve/` |
+| status | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION / refs_only` |
+| implementation | `apps/web/playwright.admin-schema-diff.config.ts`, `apps/web/playwright/tests/visual/admin-schema-diff.spec.ts`, optional future real-D1 `scripts/fixtures/serial-05-step-03/seed-{diff,cleanup}.sql` |
+| evidence | parent `outputs/phase-11/screenshots/` 11 fixture-backed local runtime PNG + `outputs/phase-11/evidence/playwright.log` (`11 passed / 3 skipped`) |
+| boundary | production app/API files frozen; real D1/staging smoke user-gated; Issue #775 remains closed and PR text must use `Refs #775` only |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-775-serial-05-step-03-runtime-evidence-completion-artifact-inventory.md` |
+
+## Issue #799 useAutoFocusOnMount hook（2026-05-19）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow | `docs/30-workflows/issue-799-use-auto-focus-on-mount-hook/` |
+| status | `implemented_local_evidence_captured / implementation / NON_VISUAL / implementation_complete_pending_pr` |
+| implementation | `apps/web/src/lib/a11y/useAutoFocusOnMount.ts`, root/login/profile/admin `error.tsx` |
+| tests | `apps/web/src/lib/a11y/__tests__/useAutoFocusOnMount.spec.tsx`, route error component specs |
+| source trace | `docs/30-workflows/unassigned-task/issue-769-followup-001-use-auto-focus-on-mount-hook.md` consumed |
+| evidence | `outputs/phase-11/evidence/web-vitest.txt`, `outputs/phase-12/phase12-task-spec-compliance-check.md` |
+| system spec | `docs/00-getting-started-manual/specs/09-ui-ux.md` error boundary focus contract |
+| boundary | Issue #799 is CLOSED; PR wording uses `Refs #799`; commit / push / PR are user-gated |
+
+## Issue #274 public pages OGP / sitemap / robots（2026-05-17）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/issue-274-public-pages-ogp-sitemap-robots/` |
+| 状態 | `implemented_local_evidence_captured / implementation / VISUAL / Phase 13 blocked_pending_user_approval` |
+| issue | #274 OPEN; PR should use `Refs #274`; commit / push / PR / Issue mutation are user-gated |
+| scope | public routes `/`, `/members`, `/members/[id]`, `/register`; sitemap / robots / root OG image / page metadata |
+| sitemap contract | `/public/members?limit=100&page=N` paginated until `pagination.hasNext === false`; list item shape is top-level `memberId` / `fullName` |
+| playwright target | `apps/web/playwright/tests/public-metadata.spec.ts` |
+| evidence | `outputs/phase-11/evidence/*`, `outputs/phase-11/screenshots/og-image.png`; typecheck/lint/test/build/curl/Playwright PASS |
+| source consumed | `docs/30-workflows/unassigned-task/task-06a-followup-002-ogp-sitemap.md`, `docs/30-workflows/unassigned-task/task-11-followup-002-public-og-sitemap-robots.md` |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-274-public-pages-ogp-sitemap-robots-artifact-inventory.md` |
+| lessons | `.claude/skills/aiworkflow-requirements/references/lessons-learned-issue-274-public-pages-ogp-sitemap-robots-2026-05.md`（L-274-001..006: site URL SSOT / sitemap degraded mode / robots env-branch / OG edge runtime / consumed trace / issue-NNN namespace 規約） |
+| user gate | implementation, runtime evidence, commit, push, PR |
+
 ## Issue #256 E2E coverage baseline runbook（2026-05-18）
 
 | 目的 | 参照先 |
@@ -54,6 +95,22 @@
 
 ---
 
+### UT-07C-FU-001 attendance CSV import spec（2026-05-18）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/ut-07c-followup-001-attendance-csv-import/` |
+| 状態 | `implemented_local_evidence_captured / implementation / VISUAL / Phase 1-12 completed / Phase 13 pending_user_approval` |
+| issue | #312 |
+| contract | `POST /admin/meetings/:sessionId/attendance/import?dryRun=true|false`; client CSV parse + JSON rows; max 500 rows; row status `ok` / `duplicate` / `deleted_member` / `unknown_member` / `invalid` |
+| implementation targets | `apps/api/src/routes/admin/attendance.ts`, `apps/api/src/use-cases/admin/import-attendance-bulk.ts`, `apps/api/src/repository/attendance.ts`, `apps/web/app/(admin)/admin/meetings/[id]/AttendanceCsvImportPanel.tsx`, `apps/web/src/lib/csv/parse-attendance.ts`, `apps/web/package.json` |
+| important boundary | Hono `Context` is not passed into service; route resolves `DbCtx`, `authUser`, and `auditLogProvider`. `member_status.is_deleted` is the deleted-member source. `dryRun=false` explicit only commits; omitted/typo dry-runs. commit uses D1 batch for attendance + audit insert. |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-ut-07c-followup-001-attendance-csv-import-artifact-inventory.md` |
+| evidence boundary | focused API route 13 / API service 13 / web parser+UI 13 PASS. Phase 11 local Playwright screenshots S1-S4 captured. Phase 12 strict 7 outputs present. commit / push / PR remain user-gated. |
+
+---
+
+### UI Prototype Design System Foundation（2026-05-18 / parallel-02 close-out 2026-05-19）
 ### Issue #772 CF audit monitor runtime restoration（2026-05-17）
 
 | 目的 | 参照先 |
@@ -130,19 +187,62 @@
 | changelog | `.claude/skills/aiworkflow-requirements/changelog/20260516-runtime-smoke-staging-secrets-restore.md` |
 | boundary | runtime inline value check is retained; secret placement, workflow rerun, commit, push, PR are user-gated。production-runtime-smoke env は dev→main マージ未済のため secret 投入保留（allowlist 行も未追加） |
 
+### parallel-i06-root-error-focus（2026-05-18）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/parallel-i06-root-error-focus/` |
+| 状態 | `implemented_local_evidence_captured / implementation / NON_VISUAL` |
+| source | `docs/30-workflows/ui-prototype-alignment-mvp-recovery/improvements/integration-fixes/parallel-i06-root-error-focus/spec.md` |
+| implementation | `apps/web/app/error.tsx`, `apps/web/app/error.spec.tsx` |
+| contract | root `error.tsx` catch 時に `logger.error` 後、h1 へ `focus({ preventScroll: true })` を移譲 |
+| evidence | `outputs/phase-11/evidence/{typecheck,lint,test,grep-gate}.log`, `outputs/phase-11/evidence/diff.txt`, `outputs/phase-12/phase12-task-spec-compliance-check.md` |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-parallel-i06-root-error-focus-artifact-inventory.md` |
+| user gate | commit / push / PR |
+
 ### UI Prototype Design System Foundation（2026-05-18）
 
 | 目的 | 参照先 |
 | --- | --- |
 | workflow root | `docs/30-workflows/ui-prototype-design-system-foundation/` |
-| 状態 | `spec_created / implementation / VISUAL` |
+| 状態 | `implemented_local_evidence_captured / implementation / VISUAL_RUNTIME_PENDING` |
+| 状態 | `spec_created / implementation / VISUAL`（parallel-01 は `runtime_pending`: local CSS selectors added, serial-07 visual evidence pending） |
+| 状態 | `spec_created / implementation / VISUAL`（parallel-01 は `runtime_pending`: local CSS selectors added, serial-07 visual evidence pending） |
 | prototype coverage SSOT | `docs/30-workflows/ui-prototype-design-system-foundation/PROTOTYPE-COVERAGE.md` |
 | strict Phase 12 | `outputs/phase-12/{main.md,implementation-guide.md,system-spec-update-summary.md,documentation-changelog.md,unassigned-task-detection.md,skill-feedback-report.md,phase12-task-spec-compliance-check.md}` |
 | source inventory | `claude-design-prototype/{app.jsx,data.jsx,icons.jsx,index.html,pages-admin.jsx,pages-member.jsx,pages-public.jsx,primitives.jsx,styles.css}` + `specs/09a..09h` |
 | current app path rule | `apps/web/app/**` is canonical; `/login`, `/profile`, `/privacy`, `/terms` remain root app paths |
-| implementation boundary | no new API endpoint / D1 schema / Google Form change; minimal `apps/web` AppShell / selector hooks added; full 19-route binding and visual evidence remain user-gated work |
+| implementation boundary | no new API endpoint / D1 schema / Google Form change; minimal `apps/web` AppShell / selector hooks and parallel-02 G3 CSS marker blocks added; full 19-route binding and visual evidence remain user-gated work |
+| parallel-02 close-out | `apps/web/src/styles/globals.css` G3-1/2/3 markers + `MemberFilters.client.tsx` tag-pill data-component + visual harness + Playwright spec; Phase 11 9 screenshot + 5 log present, strict 7 outputs (root + sub) present |
+| follow-up unassigned | `docs/30-workflows/unassigned-task/UT-DSF-01..07-*.md`（globals-css / AppShell / page-chrome / route blueprint / form binding / regression evidence / runtime screenshots） |
+| lessons learned | `.claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-parallel-02-prototype-css-rules-port-2026-05.md`（L-P02-001..007） |
+| implementation boundary | no new API endpoint / D1 schema / Google Form change; minimal `apps/web` AppShell / selector hooks and parallel-01 P1-1〜P1-5 CSS selectors added; full 19-route binding and visual evidence remain user-gated work |
+| implementation boundary | no new API endpoint / D1 schema / Google Form change; minimal `apps/web` AppShell / selector hooks and parallel-01 P1-1〜P1-5 CSS selectors added; full 19-route binding and visual evidence remain user-gated work |
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-ui-prototype-design-system-foundation-artifact-inventory.md` |
 | sub-workflow parallel-03 AppShell Layouts（2026-05-19） | `docs/30-workflows/ui-prototype-design-system-foundation/parallel-03-appshell-layouts/`、status `implemented_local_evidence_captured / implementation / VISUAL (public chrome only; admin/member deferred-to-serial-07)`、`implementation_mode: existing-layout-alignment`、3 layout (`apps/web/app/(public\|member\|admin)/layout.tsx`) に `data-theme` / `data-route-group` / `data-shell` / `data-route` / `data-testid` を付与、OKLch token (`var(--ubm-color-*)`) 経由のみ、既存 primitive 無改変、admin は `getSession()` 2 段防御 + redirect 維持、Phase 11 evidence は `outputs/phase-11/`、lessons-learned `.claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-parallel-03-appshell-layouts-2026-05.md` (L-PAR03-001..005) |
+
+#### status vocabulary（visual evidence 軸）
+
+| 値 | 意味 |
+| --- | --- |
+| `VISUAL` | local + runtime 双方で visual evidence 取得済み |
+| `VISUAL_ON_EXECUTION` | local 撮影済み、CI runtime job で再現可能 |
+| `VISUAL_RUNTIME_PENDING` | local 撮影済み、production-equivalent runtime 再撮影が user-gated で残置（parallel-02 で正式登録） |
+| `NON_VISUAL` | UI 以外、visual evidence 不要 |
+
+`implemented_local_evidence_captured` は **local 範囲の Phase 11 evidence が物理 present、production runtime 実行は user-gated** を意味する。parallel-02 で `VISUAL_RUNTIME_PENDING` と組み合わせて使用。
+
+#### shared `globals.css` 並列編集マーカー規約
+
+`apps/web/src/styles/globals.css` は `merge=union` 不可。複数 parallel-XX が同 wave で触る際は以下フォーマットで block を占有する:
+
+```css
+/* === parallel-02 G3-1 member-card hover (start) === */
+... rules ...
+/* === parallel-02 G3-1 member-card hover (end) === */
+```
+
+先着優先 / 他 parallel は block 内書き換え禁止。詳細は L-P02-001 / L-P02-004。
 
 ### Issue #749 Primitive Adoption Tracker（2026-05-17）
 
@@ -524,6 +624,16 @@
 | failure cascade guard | 通知 step は `if: ${{ failure() && hashFiles('<artifact>') != '' }}` で前提 artifact を guard する（`deployment-gha.md`） |
 | Environment secret 0 件問題 | smoke 起動前に `bash scripts/smoke/provision-staging-secrets.sh` + name-only inventory を必須化（`deployment-secrets-management.md`） |
 | lessons-learned | `references/lessons-learned-ci-pipeline-recovery-2026-05.md`（L-CIPR-001〜006） |
+
+### Issue #765 1Password Vault Restructure（2026-05-18）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/issue-765-1p-vault-restructure-oidc-cutover/` |
+| 状態 | `spec_created_blocked_by_oidc_support / implementation / NON_VISUAL` |
+| deploy token canonical candidates | `op://UBM-Hyogo/Cloudflare/api_token_staging` / `op://UBM-Hyogo/Cloudflare/api_token_production` |
+| boundary | OIDC supported deploy path / production cutover evidence が揃うまで Phase 11 mutation は blocked |
+| user gate | 1Password archive, `bash scripts/cf.sh whoami`, commit, push, PR, Gate B' physical delete |
 
 ### E2E quality uplift Stage 2 / 2a admin requests（2026-05-09）
 
@@ -2602,6 +2712,29 @@ packages/
 | web consumer | `apps/web/src/lib/admin/api.ts` の `resolveTagQueue(queueId, body)` |
 | focused evidence | `pnpm exec vitest run --root=. --config=vitest.config.ts apps/api/src/routes/admin/tags-queue.test.ts apps/api/src/workflows/tagQueueResolve.test.ts apps/api/src/schemas/tagQueueResolve.test.ts` |
 | handoff | UT-07A-03 staging smoke with real admin auth / deployed Worker |
+
+### UBM-Hyogo Issue #295 Tag Queue Race Smoke（2026-05-15）
+
+| 観点 | 値 / 参照先 |
+| --- | --- |
+| canonical workflow | `docs/30-workflows/issue-295-tag-queue-resolve-race-smoke/` |
+| state | `implemented_local_evidence_captured / implementation / NON_VISUAL / runtime_pending` |
+| smoke runner | `scripts/smoke/tag-queue-race.mjs` |
+| focused test | `bash scripts/smoke/__tests__/tag-queue-race.test.sh` |
+| D1 fixture columns | `tag_assignment_queue.queue_id`, `response_id`, `suggested_tags_json` |
+| audit check | `audit_log.target_type='tag_queue' AND target_id=$QUEUE_ID` |
+| source task | `UT-07A-03` consumed by Issue #295 workflow |
+
+### step-05 dashboard chart implementation（2026-05-18）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/step-05-dashboard-chart-implementation/` |
+| state | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION / implementation_complete_pending_pr` |
+| implementation | `apps/web/src/features/admin/components/_dashboard/StatusDistribution.tsx` |
+| test | `apps/web/src/features/admin/components/_dashboard/StatusDistribution.spec.tsx` |
+| contract | `GET /admin/dashboard` returns optional `byStatus`; populated 時は SVG bar chart + chip list、legacy/未提供時は existing placeholder |
+| boundary | authenticated runtime screenshots / commit / push / PR are user-gated |
 
 ### UBM-Hyogo Admin UI 早見（06c / 2026-04-29）
 

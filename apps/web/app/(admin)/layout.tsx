@@ -19,7 +19,7 @@ export default async function AdminLayout({
 
   return (
     <div
-      className="ubm-admin-shell grid min-h-screen grid-cols-1 grid-rows-[auto_1fr] bg-[var(--ubm-color-surface-bg)] text-[var(--ubm-color-text-primary)] md:grid-cols-[240px_1fr]"
+      className="ubm-admin-shell grid min-h-screen grid-cols-1 grid-rows-[auto_1fr] bg-[var(--ubm-color-surface-bg)] text-[var(--ubm-color-text-primary)] md:grid-cols-[272px_1fr]"
       data-theme="cool"
       data-route-group="admin"
       data-testid="admin-shell"

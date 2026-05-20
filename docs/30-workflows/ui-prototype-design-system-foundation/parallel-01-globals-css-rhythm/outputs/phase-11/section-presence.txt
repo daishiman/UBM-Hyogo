@@ -1,0 +1,5 @@
+243:  /* === parallel-01 P1-1 page surface === */
+250:  /* === parallel-01 P1-2 section rhythm === */
+267:  /* === parallel-01 P1-3 card chrome === */
+298:  /* === parallel-01 P1-4 shell surface === */
+322:  /* === parallel-01 P1-5 typography scale === */

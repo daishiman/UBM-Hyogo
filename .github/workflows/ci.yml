@@ -176,6 +176,16 @@ jobs:
 
       - name: Build apps/web (web shard only)
         if: steps.ready.outputs.value == 'true' && matrix.group == 'web'
+        # apps/web の Next.js build は静的ページ生成時に env.ts の zod schema を評価する。
+        # CI には real env がないため最低限の placeholder を渡す（runtime は Cloudflare bindings で上書き）。
+        env:
+          ENVIRONMENT: local
+          NEXT_PUBLIC_API_BASE_URL: http://127.0.0.1:8787
+          PUBLIC_API_BASE_URL: http://127.0.0.1:8787
+          INTERNAL_API_BASE_URL: http://127.0.0.1:8787
+          AUTH_URL: http://127.0.0.1:3000
+          SENTRY_ENVIRONMENT: local
+          SENTRY_TRACES_SAMPLE_RATE: '0'
         run: pnpm --filter @ubm-hyogo/web build:cloudflare
 
       - name: Run coverage-guard for shard

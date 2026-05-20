@@ -192,7 +192,7 @@ dev → feature の sync-merge では skill / 30-workflows ログ系で構造的
 
 | 層 | 仕組み | 対象 |
 |----|-------|------|
-| 1. `.gitattributes` `merge=union` | git が自動結合 | `docs/30-workflows/LOGS.md`, `.claude/skills/*/SKILL-changelog.md` |
+| 1. `.gitattributes` `merge=union` | git が自動結合 | `docs/30-workflows/LOGS.md`, `.claude/skills/*/SKILL-changelog.md`, `.claude/skills/*/LOGS/_legacy.md`, `.claude/skills/*/lessons-learned/*.md` |
 | 2. resolver スクリプト | `pnpm sync:resolve`（merge 中のみ可） | `SKILL.md` / `task-workflow-active.md` / `indexes/*-map.md` の union 解消、`indexes/keywords.json` の `--ours + rebuild` |
 | 3. ドキュメント | lessons-learned-dev-sync-merge-conflict-resolution-2026-05.md (L-DEVSYNC-001..007) | 残った混在ファイルの手動解消ルール |
 

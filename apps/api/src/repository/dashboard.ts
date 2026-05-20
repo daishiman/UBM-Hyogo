@@ -1,6 +1,7 @@
 // dashboard 集計用 repository（06c-A）
-// AdminDashboardView の totals (KPI 4) + recentActions を 1 ファイルに集約。
+// AdminDashboardView の totals (KPI 4) + status distribution + recentActions を 1 ファイルに集約。
 import type { DbCtx } from "./_shared/db";
+import type { PublishState } from "@ubm-hyogo/shared";
 
 export interface DashboardTotals {
   totalMembers: number;
@@ -16,6 +17,11 @@ export interface DashboardRecentAction {
   targetType: string;
   targetId: string | null;
   createdAt: string;
+}
+
+export interface DashboardStatusSlice {
+  status: PublishState;
+  count: number;
 }
 
 const countOne = async (c: DbCtx, sql: string): Promise<number> => {
@@ -43,6 +49,27 @@ export async function getTotals(c: DbCtx): Promise<DashboardTotals> {
       ),
     ]);
   return { totalMembers, publicMembers, untaggedMembers, unresolvedSchema };
+}
+
+interface StatusDistributionRow {
+  publish_state: string | null;
+  n: number;
+}
+
+const STATUS_ORDER: readonly PublishState[] = ["public", "member_only", "hidden"];
+
+export async function getStatusDistribution(c: DbCtx): Promise<DashboardStatusSlice[]> {
+  const r = await c.db
+    .prepare(
+      `SELECT COALESCE(ms.publish_state, 'member_only') AS publish_state, COUNT(*) AS n
+       FROM member_identities mi
+       LEFT JOIN member_status ms ON ms.member_id = mi.member_id
+       WHERE COALESCE(ms.is_deleted, 0) = 0
+       GROUP BY COALESCE(ms.publish_state, 'member_only')`,
+    )
+    .all<StatusDistributionRow>();
+  const counts = new Map((r.results ?? []).map((row) => [row.publish_state, row.n]));
+  return STATUS_ORDER.map((status) => ({ status, count: counts.get(status) ?? 0 }));
 }
 
 interface RecentActionRow {

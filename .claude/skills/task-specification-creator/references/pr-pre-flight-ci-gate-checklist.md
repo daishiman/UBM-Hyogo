@@ -87,6 +87,18 @@
 
 短縮形（`Verdict` / `Evidence Gates` 等）は drift。recovery workflow / followup task で別 template から流用すると落ちる。
 
+### 5.5. Phase-11 evidence 出力先と untracked workflow root の不整合
+
+`collect-changed-roots.ts` は `git ls-files --others --exclude-standard docs/30-workflows` で untracked ファイルも root 検出対象に含める。Workflow を `completed-tasks/` に移動した後、Playwright spec / runbook / scripts が旧 `docs/30-workflows/<task>/...` を evidence 出力先として参照したままだと、test 実行で untracked screenshot 等が生まれ、`reason: missing-file` で fail する。
+
+- OK: `apps/web/playwright/tests/<task>.spec.ts` の `PHASE11_DIR` は `docs/30-workflows/completed-tasks/<task>/outputs/phase-11` を指す
+- NG: 旧 `docs/30-workflows/<task>/outputs/phase-11` のまま放置（CI 失敗パターン: e2e-tests-coverage-gate は通っても verify-pr-ready の verify:phase12-compliance で fail）
+- 復旧手順:
+  1. spec / runbook の `PHASE11_DIR` (`resolve('../../docs/30-workflows/...')`) を completed-tasks/ 配下に書き換え
+  2. `find docs/30-workflows/<旧 task>/ -type f -delete && find docs/30-workflows/<旧 task>/ -type d -empty -delete`
+  3. `git ls-files --others --exclude-standard docs/30-workflows/<旧 task>` が空であることを確認
+  4. `bash scripts/verify-pr-ready.sh` 再実行
+
 ### 5. `unassigned-task` ファイルの配置
 
 `scripts/lib/phase12-compliance/collect-changed-roots.ts` は `docs/30-workflows/unassigned-task/` を **first segment** のみ scan 対象から除外する。`docs/30-workflows/completed-tasks/unassigned-task/` のように深くネストされた配置は除外されず、`docs/30-workflows/completed-tasks` を root として誤検出し `<empty-or-missing-table>` で FAIL する。
@@ -115,7 +127,8 @@ bash scripts/verify-pr-ready.sh
    - `missing-heading` → §4 canonical 9 headings
    - `missing-evidence` → §2 (table 形式) または §3 (path 解決) または §5 (unassigned-task 配置)
 3. `indexes:rebuild drift` → `.claude/skills/aiworkflow-requirements/indexes/` 配下の再生成差分を `git add` & commit（sync-merge 直後は `task-workflow-active.md` の `merge=union` で行数が増減し `topic-map.md` の見出し L 番号が drift する構造的事象。再生成→コミットが正規復旧手順）
-4. 修正後 `bash scripts/verify-pr-ready.sh` を再実行し全 PASS を確認してから push
+4. `pnpm sync:resolve` が exit code 1 で終わるが残コンフリクトが `LOGS/_legacy.md` のみ（`.gitignore` 配下で `git add` が失敗するが union resolve 自体は成功） → `git add -f .claude/skills/*/LOGS/_legacy.md` で追跡し続行。残る `indexes/keywords.json` (UU) は `git checkout --ours` + `pnpm indexes:rebuild` で deterministic 再生成（L-DEVSYNC-029 安定パターン）
+5. 修正後 `bash scripts/verify-pr-ready.sh` を再実行し全 PASS を確認してから push
 
 ## 6. `lighthouse-ci` performance fail（環境ノイズ起因）
 
@@ -141,3 +154,151 @@ GitHub Actions hosted runner の CPU 変動で `categories:performance` が `min
 ```
 
 詳細: `.claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-dev-sync-merge-conflict-resolution-2026-05.md` L-DEVSYNC-020。
+
+## 7. `pnpm build` fail（`apps/web/src/lib/env.ts` zod schema 評価で `ENVIRONMENT` / `NEXT_PUBLIC_API_BASE_URL` undefined）
+
+新規 PR が `apps/web/app/**` のトップレベルで env 依存 metadata を追加（`export const metadata = buildBaseMetadata()` 等）すると、CI の `pnpm build` が **`/_not-found` の "Failed to collect page data"** ZodError で fail する。`getPublicEnv()` は parse 失敗時 throw する不変条件（CLAUDE.md `apps/web` env アクセス不変条件）を持つため、env 未設定の CI ビルドでは必ず crash する。
+
+影響 CI: `Validate Build`, `build-test`, `coverage-gate-shard (web)`, `lighthouse-ci`, `visual-full (desktop/mobile/tablet)` — `pnpm build` を呼ぶ全 job。
+
+### 二段対応（両方適用が原則）
+
+1. **コード側（defense-in-depth）**: `export const metadata = ...` を `export async function generateMetadata(): Promise<Metadata> { return ...; }` に置換し、env 評価を request 時へ遅延する。
+2. **CI 環境側（必須）**: `pnpm build` を実行する全 workflow（`validate-build.yml` / `pr-build-test.yml` / `ci.yml` の `coverage-gate-shard` matrix.group=='web' / `lighthouse.yml` / `playwright-visual-full.yml` / `playwright-visual-baseline-update.yml`）の build step に `env:` で placeholder を渡す:
+
+```yaml
+env:
+  ENVIRONMENT: local
+  NEXT_PUBLIC_API_BASE_URL: http://127.0.0.1:8787
+  PUBLIC_API_BASE_URL: http://127.0.0.1:8787
+  INTERNAL_API_BASE_URL: http://127.0.0.1:8787
+  AUTH_URL: http://127.0.0.1:3000
+  SENTRY_ENVIRONMENT: local
+  SENTRY_TRACES_SAMPLE_RATE: '0'
+```
+
+real value は runtime に Cloudflare bindings (`wrangler.toml [vars]`) で上書きされるため CI ビルドでは固定 placeholder で問題ない。`pr-build-test.yml` は secret 非接触 untrusted PR workflow だが、これらは非 secret なので `env:` で渡してよい。
+
+### 事前検出
+
+PR push 前に `mise exec -- pnpm build` を local で実行し ZodError が出ないことを確認する。`apps/web/app/**/*.{tsx,ts}` でモジュールトップレベルから `getPublicEnv` / `getEnv` / `buildBaseMetadata` / `buildPageMetadata` / `getSiteUrl` を呼ぶ diff が含まれている場合は本セクションを必ず適用する。
+
+詳細: `.claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-dev-sync-merge-conflict-resolution-2026-05.md` L-DEVSYNC-025。
+
+### 補足: `build:cloudflare` (OpenNext Workers) も同じ env が必要
+
+`pnpm --filter @ubm-hyogo/web build:cloudflare` は内部で `next build` を再走するため、`pr-build-test.yml` の "Build (Cloudflare standalone)" / `ci.yml` の "Build apps/web (web shard only)" でも同じ `env:` block を必ず付与する。Build step だけ env を渡しても build:cloudflare step を見落とすと `coverage-gate-shard (web)` / `build-test` が ZodError で fail し続ける（CI で実際に踏んだ）。
+
+## 8. `build:cloudflare` fail — `cannot use the edge runtime` (OpenNext incompatibility)
+
+`apps/web/app/**` に `export const runtime = "edge"` を持つ route segment（典型: `app/opengraph-image.tsx`, `app/og/route.ts`）があると、`opennextjs-cloudflare build` が以下で fail する:
+
+```
+Error: app/opengraph-image/route cannot use the edge runtime.
+OpenNext requires edge runtime function to be defined in a separate function.
+```
+
+OpenNext Cloudflare adapter は Workers runtime に bundle するため、route 単位の `runtime = "edge"` 指定を許容しない（Workers 自体が edge-like 実行環境のため指定が不要）。
+
+### 対応
+
+`export const runtime = "edge"` を削除する。`next/og` `ImageResponse` は Node runtime でも動作するため、削除で `pnpm dev` / `pnpm build` / `build:cloudflare` の全てが通る。
+
+### 事前検出
+
+```bash
+grep -rn "runtime = [\"']edge[\"']" apps/web/app apps/web/src
+```
+
+`apps/web/app/**` 配下に edge runtime 指定がないことを push 前に確認する。
+
+## 9. `lighthouse-ci` SEO assertion 0.63 < 0.80 fail（`robots: noindex` 起因）
+
+`apps/web/src/lib/seo/site-metadata.ts` の `buildBaseMetadata()` は `ENVIRONMENT !== "production"` のとき `robots: { index: false, follow: false }` を返す。CI の lighthouse workflow が `ENVIRONMENT=local` で build/start すると、SEO category が **0.63** まで落ち `categories:seo` (`minScore: 0.80`) assertion で fail する（全 URL `/`, `/members`, `/login` で同一 score）。
+
+### 対応
+
+`lighthouse.yml` の Build / Start server step と `pr-build-test.yml` の lighthouse-ci sub-job の Start server step に **`ENVIRONMENT: production`** を渡す。これは Lighthouse 実行に限定した build-time 評価切替で、real production deploy では Cloudflare bindings の `ENVIRONMENT` が上書きするため副作用はない（local / staging は引き続き noindex でランタイム保護される）。
+
+`pr-build-test.yml` の lighthouse-ci sub-job は `build-test` で生成された `next-build-<sha>` artifact を download して使うため、build 時の env ではなく **start 時の env で `getPublicEnv()` を上書き**する点に注意（`generateMetadata` は request 時に解決されるため）。
+
+### 補足: `app/robots.ts` / `app/sitemap.ts` は `export const dynamic = "force-dynamic"` 必須
+
+`apps/web/app/robots.ts` のような env-dependent metadata route は default で `○` static prerender されるため、build 時の `ENVIRONMENT=local` で `Disallow: /` が artifact に焼き込まれ、start 時に `ENVIRONMENT=production` を渡しても出力は変わらない。Lighthouse の `is-crawlable` audit が disallow を検出して SEO 0.63 のまま fail し続ける。`export const dynamic = "force-dynamic"` を `app/robots.ts` に追加（`app/sitemap.ts` 既存パターンと同じ）し、request 時 env で再評価可能にする。`apps/web/app/**` で env-dependent metadata route を追加する PR では grep で `export const dynamic` 指定を必ず確認する。
+
+## 10. `lighthouse-ci` SEO 0.63 — `link-text` audit fail（generic anchor text 起因）
+
+§9 を適用しても **特定ページのみ** SEO `0.63` で fail し続ける場合、Lighthouse の `link-text` audit が原因。`<a href="...">こちら</a>` / `>詳細<` / `>クリック<` / `>here<` / `>more<` / `>click here<` のような汎用語句のみの anchor は「Links do not have descriptive text」で減点され、SEO category を 0.63 まで押し下げる（robots / title / description が完全に正常でも単独で発生）。
+
+### 対応
+
+anchor の innerText を **リンク先を想起できる descriptive な名詞句** に書き換える。`aria-label` / `title` attribute では補えない（audit は visible text を見る）。テキスト自体の書き換えが唯一の正解。対応する `.spec.tsx` の `getByRole("link", { name: "..." })` も同時更新する。
+
+### 事前検出
+
+```bash
+grep -rn '>こちら<\|>詳細<\|>クリック<\|>here<\|>more<\|>click here<' apps/web/app apps/web/src
+```
+
+ヒットがあれば descriptive text に置換してから push する。事例: 2026-05-19 `feat/issue-274-public-pages-ogp-sitemap-robots` で `LoginPanel.client.tsx` の `<a href="/register">こちら</a>` を `>会員登録ページから新規登録<` に変更で `/login` SEO PASS（L-DEVSYNC-028）。
+
+## 10. dev sync `pnpm sync:resolve` exit 1 後の自律継続条件（L-DEVSYNC-027）
+
+`pnpm sync:resolve` が `[resolve-skill-merge-conflicts] union-resolved ...` を出した後 `hint: ... ignored by one of your .gitignore files ... LOGS` → `ELIFECYCLE Command failed with exit code 1` で異常終了するケースがある（`.claude/skills/aiworkflow-requirements/LOGS/_legacy.md` を `git add` する際の `.gitignore` 競合）。**この exit 1 は union-resolve の失敗ではなく `git add` step の hint 由来**で、4 ファイル union は完了している。
+
+### 自律継続条件
+
+`git status --porcelain | grep -E "^UU"` の残ファイルが以下のいずれかパターンに該当する場合のみ自律継続する:
+
+- `indexes/keywords.json` のみ → `git checkout --ours .claude/skills/aiworkflow-requirements/indexes/keywords.json && mise exec -- pnpm indexes:rebuild` を発行して解消
+- `LOGS/_legacy.md` のみ → 通常の `git add` で staging（既 tracked のため hint が出ても staging される。残不安なら `git add -f`）
+- 上記 2 ファイルの組合せのみ
+
+それ以外のパスが UU で残っている場合は最終レポート対象にして中断する。
+
+詳細: `.claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-dev-sync-merge-conflict-resolution-2026-05.md` L-DEVSYNC-027。
+
+## 11. `playwright-smoke / visual` — `getByRole(<role>)` strict-mode 違反（L-DEVSYNC-031）
+
+dev 取り込み後の `playwright-smoke / visual (chromium, 4 screens)` で `strict mode violation: getByRole('status') resolved to 2 elements` 等が CI でのみ FAIL する典型ケース。HEAD 側のテストはローカルでは singleton だが、dev 側で同一画面に同 role の追加要素（Toast / save-status indicator 等）が入って 2 件マッチになる。
+
+### 事前検出 / 修正
+
+```bash
+# 同 role を画面共有しうる要素を grep
+grep -rn 'role="status"' apps/web/app apps/web/src
+
+# spec 側で getByRole("status") の絞り込みが弱い箇所を grep
+grep -rn 'getByRole("status")\|getByRole(\x27status\x27)' apps/web/playwright/tests
+```
+
+- ARIA role を画面共有要素の primary selector に使わない。component-specific `data-feedback-kind="success"` / `getByTestId(...)` 等の絞り込みに置換する。
+- 同 spec 内で 409/422 ケースが `[data-feedback-kind="conflict_error"]` 等で既に絞られている場合、success ケースだけ非対称に残るパターンが起きやすい。**全 feedback variant を同じ selector 戦略に統一**するのが SSOT。
+
+### 自律対応
+
+1. `playwright-smoke / visual` FAIL を `gh run view <run-id> --log-failed` で確認
+2. 失敗箇所の locator を grep / 該当 component の DOM 属性を確認
+3. component-specific selector へ置換（spec 側のみ。component 側の `data-*` 属性は触らない）
+4. 修正だけで再 push（baseline snapshot 更新は不要 — strict-mode は要素数判定のため）
+
+詳細: `.claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-dev-sync-merge-conflict-resolution-2026-05.md` L-DEVSYNC-031。
+
+## 12. parallel sub-workflow が同一 artifact-inventory.md に独立 H2 を追加する 3-way conflict（L-DEVSYNC-032）
+
+`ui-prototype-design-system-foundation` のような並列ワークフローでは、`parallel-02 / parallel-03` 等の sub-workflow が **同一 inventory ファイル**（`workflow-<workflow>-artifact-inventory.md` / `phase-12/phase12-task-spec-compliance-check.md` / `phase-12/main.md`）に**独立 H2 ブロック / 独立 evidence table 行**を追記する設計で、構造的に dev sync-merge で 3-way conflict が頻発する。`.gitattributes` を `references/workflow-*.md` で `merge=union` 化していないのは sub-workflow ブロックの順序・表構造保持のため。
+
+### 自律解消ルール（B-10 / B-11）
+
+- **B-10「parallel sub-workflow 独立 H2 / 独立 row 追加の union 採用」**:
+  - artifact-inventory.md / `phase12-task-spec-compliance-check.md` / Phase 11 evidence inventory で HEAD と dev が **異なる H2 / 異なる table row** を独立追加した conflict は、marker のみ削除して両側ブロックを `HEAD → dev` の順で連結する。
+  - 同一 H2 / 同一 row を両側で編集している場合のみ意味的競合として個別判断（多くは「partial → runtime_pending」「PASS → runtime_pending」等の status vocabulary 更新を dev 側に寄せる）。
+- **B-11「単一 className トークン非競合変更の連結採用」**:
+  - `<element className="...">` で HEAD と dev が同 class 文字列の**異なるトークン**を追加・置換しているだけのコンフリクトは、両トークンを 1 行に併記。
+  - 同じトークンを異なる値に変更している場合（例: `grid-cols-[240px_1fr]` ↔ `grid-cols-[272px_1fr]`）は、SSOT spec（`docs/00-getting-started-manual/specs/09h-shell-and-fixtures.md` 等）が後追いで更新された側を採用。本ケースでは dev 側が SSOT 更新済みのため dev 採用。
+
+### Phase 11 evidence inventory 結合の追加注意
+
+- HEAD と dev が **column 構造**を変更している場合（`| Path | Status |` 3 列 ↔ `| Classification | Path | Status | Note |` 4 列）、4 列側を採用し、3 列側の row を 4 列に整形して merge する。`Classification` 列が空欄になる場合は `visual` / `log` / `evidence` 等の adminer convention を補完する。
+
+詳細: `.claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-dev-sync-merge-conflict-resolution-2026-05.md` L-DEVSYNC-032。

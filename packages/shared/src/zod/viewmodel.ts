@@ -182,6 +182,14 @@ export const AdminDashboardViewZ = z
       untaggedMembers: z.number().int().nonnegative(),
       unresolvedSchema: z.number().int().nonnegative(),
     }),
+    byStatus: z
+      .array(
+        z.object({
+          status: PublishStateZ,
+          count: z.number().int().nonnegative(),
+        }),
+      )
+      .optional(),
     recentActions: z.array(
       z.object({
         auditId: z.string(),

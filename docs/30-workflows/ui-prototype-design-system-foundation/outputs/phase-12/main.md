@@ -11,4 +11,4 @@ UI prototype design system foundation の Phase 12 集約サマリー。
 
 ## Boundary
 
-本サイクルは仕様書の準拠改善に加え、`apps/web` の最小 AppShell 実装差分（public/admin/member layout data hooks と layout specs）を含む。対象 workflow は `taskType=implementation` の実装仕様書として扱い、後続の full 19-route binding と serial-07 visual regression evidence は `PROTOTYPE-COVERAGE.md` に従って継続する。
+本サイクルは仕様書の準拠改善に加えて、`apps/web` の最小 implementation hook（parallel-02 prototype CSS rules port、parallel-03 AppShell layout data hooks と layout specs を含む）を同一 wave で補正し、typecheck / lint / build / grep evidence と parallel-02 local screenshot 9 件を取得した。対象 workflow は `implemented_local_evidence_captured / implementation / VISUAL_RUNTIME_PENDING` とし、full 19-route binding / production-equivalent runtime screenshot / serial-07 visual regression evidence / commit / push / PR は user-gated として `PROTOTYPE-COVERAGE.md` に従って継続する。

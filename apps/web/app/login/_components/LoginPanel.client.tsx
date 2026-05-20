@@ -35,7 +35,7 @@ export function LoginPanel({ state, redirect, error, gate }: LoginPanelProps) {
         <GoogleOAuthButton redirect={redirect} />
         <MagicLinkForm redirect={redirect} />
         <p>
-          未登録の方は <a href="/register">こちら</a>
+          未登録の方は <a href="/register">会員登録ページから新規登録</a>
         </p>
       </section>
     );
