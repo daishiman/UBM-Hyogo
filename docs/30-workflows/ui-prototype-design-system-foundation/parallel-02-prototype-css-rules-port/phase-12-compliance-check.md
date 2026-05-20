@@ -1,77 +1,105 @@
 ---
 phase: 12
-title: Compliance Check (中学生レベル概念説明)
+title: Phase 12 Task Spec Compliance Check
 workflow_id: ui-prototype-design-system-foundation
 sub_workflow: parallel-02-prototype-css-rules-port
-status: spec_created
+status: runtime_pending
 ---
 
-# Phase 12 — Compliance Check
+# Phase 12 — Task Spec Compliance Check
 
 [実装区分: 実装仕様書]
 
-## 1. このサブワークフローを中学生でもわかる言葉で説明する
+## 1. Summary verdict
 
-### 1.1 何を作るの？
+runtime_pending (`implemented_local_evidence_captured / VISUAL_RUNTIME_PENDING`). `parallel-02-prototype-css-rules-port` now has the canonical Phase 12 heading structure, sub-workflow strict 7 outputs, parser-compatible Phase 11 inventory, a real `globals.css` implementation aligned with G3-1 / G3-2 / G3-3, active tag DOM binding, focus-within card focus, and local Playwright screenshot evidence. Production-equivalent visual evidence remains under the root workflow `VISUAL_RUNTIME_PENDING` boundary.
 
-ウェブサイトの中で「この会員カードにマウスを乗せたら影がついて浮き上がる」「タグのボタンを押したら色が反転する」「公開範囲によってマークが変わる」という、見た目の変化のルールを 1 つの場所 (`globals.css`) にまとめる。
+### 中学生にも分かる説明
 
-### 1.2 なぜ必要なの？
+ウェブサイトの中で「会員カードにマウスを乗せたら少し浮き上がる」「タグを選んだら色が変わる」「公開範囲ごとに印がつく」という見た目のルールを、1 つの場所にまとめる作業である。教室の掲示物で、学年ごとに同じ色のシールを貼るルールを決めるのと同じで、画面ごとに見た目がバラバラにならないようにする。
 
-今までは画面ごとにバラバラに見た目を書いていたので、ある画面では浮き上がるけど別の画面では浮き上がらない、みたいな不揃いがあった。共通のルールを 1 か所に書いておけば、全画面で同じ動きになる。
+## 2. Changed-files classification
 
-### 1.3 どう作るの？
+| area | classification | note |
+|------|----------------|------|
+| `apps/web/src/styles/globals.css` | implementation hook | G3-1 / G3-2 / G3-3 selector rules normalized to `parallel-02` marker blocks |
+| `apps/web/src/components/public/MemberFilters.client.tsx` | implementation hook | active tag button now exposes `data-component="tag-pill"` + `aria-selected="true"` |
+| `apps/web/app/visual-harness/[name]/*` | local visual harness | deterministic parallel-02 visual scenario added |
+| `apps/web/playwright/tests/visual/parallel-02-css-rules.spec.ts` | local visual evidence | writes 9 Phase 11 screenshots |
+| `parallel-02-prototype-css-rules-port/phase-*.md` | implementation spec | route notation, evidence table, DoD, and compliance headings aligned |
+| `parallel-02-prototype-css-rules-port/outputs/phase-12/*` | Phase 12 strict 7 | sub-workflow strict 7 materialized |
+| `apps/api/**`, `packages/**` | no change | no API / D1 / package contract change |
 
-`apps/web/src/styles/globals.css` というファイルの末尾に、HTML タグの「印 (data-*属性とaria-*属性)」を目印にして「この印がついていたらこう光る」というルールを 3 種類追加する。
+## 3. `workflow_state` and phase status consistency
 
-| 印 | ルール |
-|----|--------|
-| `data-component="tag-pill"` + `aria-selected="true"` | タグの色を反転する |
-| `data-component="member-card"` にマウスが乗ったら | 枠線が濃くなって影がつく |
-| `data-visibility="public/member/admin"` | 左に色の縦線と絵文字をつける |
+| item | value | result |
+|------|-------|--------|
+| sub-workflow phase status | `runtime_pending` | runtime_pending: local implementation + local screenshot evidence captured; production-equivalent visual still root-pending |
+| implementation state | `implemented_local_evidence_captured` | runtime_pending: CSS hook, DOM binding, and local evidence exist |
+| taskType | `implementation` | runtime_pending |
+| visualEvidence | `VISUAL_RUNTIME_PENDING` | runtime_pending: local screenshots present, root runtime visual not claimed completed |
+| Phase 13 | `pending_user_approval` | runtime_pending: commit / PR not executed |
 
-### 1.4 どこに気をつけるの？
+## 4. Phase 11 evidence file inventory
 
-同じ `globals.css` ファイルを、別の人 (parallel-01) も同時に書き換えている。だから「ここからここまで自分の担当」というコメントの目印を必ずつけて、後でぶつかっても直しやすくしておく。
+| Classification | Path | Status |
+|----------------|------|--------|
+| screenshot | outputs/phase-11/tag-pill-default.png | present |
+| screenshot | outputs/phase-11/tag-pill-selected.png | present |
+| screenshot | outputs/phase-11/tag-pill-hover.png | present |
+| screenshot | outputs/phase-11/member-card-default.png | present |
+| screenshot | outputs/phase-11/member-card-hover.png | present |
+| screenshot | outputs/phase-11/member-card-focus.png | present |
+| screenshot | outputs/phase-11/visibility-public.png | present |
+| screenshot | outputs/phase-11/visibility-member.png | present |
+| screenshot | outputs/phase-11/visibility-admin.png | present |
+| log | outputs/phase-10/typecheck.log | present |
+| log | outputs/phase-10/lint.log | present |
+| log | outputs/phase-10/build.log | present |
+| log | outputs/phase-10/grep-hex.log | present |
+| log | outputs/phase-10/grep-markers.log | present |
 
-## 2. 設計判断の整合性チェック
+## 5. Phase 12 strict 7 file inventory
 
-| 観点 | 確認 |
-|------|------|
-| CLAUDE.md「OKLch トークン正本化」 | すべての色値が `var(--ubm-color-*)` 経由 |
-| CLAUDE.md「プロトタイプ正本順位」 | プロトタイプ `styles.css` ℓ808-828 を起点に翻訳 |
-| CLAUDE.md「19 routes 不変条件」 | API endpoint 変更なし / D1 schema 変更なし |
-| CONST_005 (Phase 1-13 必須) | 13 ファイル揃い、Phase 12 に中学生レベル説明含む |
-| CONST_007 (1 サイクル完了) | 3 step で 1 サイクル内完結 |
+| Path | Status |
+|------|--------|
+| `outputs/phase-12/main.md` | present |
+| `outputs/phase-12/implementation-guide.md` | present |
+| `outputs/phase-12/system-spec-update-summary.md` | present |
+| `outputs/phase-12/documentation-changelog.md` | present |
+| `outputs/phase-12/unassigned-task-detection.md` | present |
+| `outputs/phase-12/skill-feedback-report.md` | present |
+| `outputs/phase-12/phase12-task-spec-compliance-check.md` | present |
 
-## 3. canonical 9 headings (verify-phase12-compliance gate)
+| implementation-guide depth | Status |
+| --- | --- |
+| Part 1 beginner explanation + 5 terms | present |
+| TypeScript / DOM contract | present |
+| API signature / usage | present |
+| error handling / edge cases | present |
+| configurable parameters / constants | present |
 
-verify-phase12-compliance gate が要求する 9 つの canonical heading を本ファイルが含むことを確認する:
+## 6. Skill/reference/system spec same-wave sync
 
-1. 「このサブワークフローを中学生でもわかる言葉で説明する」 ✓
-2. 「何を作るの？」 ✓
-3. 「なぜ必要なの？」 ✓
-4. 「どう作るの？」 ✓
-5. 「どこに気をつけるの？」 ✓
-6. 「設計判断の整合性チェック」 ✓
-7. 「canonical 9 headings」 ✓
-8. 「未対応リスク・FollowUp」 ✓ (§4 で記載)
-9. 「Phase 11 evidence 表」 ✓ (§5 で参照)
+| target | result |
+|--------|--------|
+| `task-specification-creator` | runtime_pending: existing rules applied locally; no generic rule promotion required |
+| `aiworkflow-requirements` | runtime_pending: root workflow ledgers updated to implementation hook + runtime visual pending |
+| `automation-30` | runtime_pending: 30-method analysis consumed; patch repair chosen over destructive rewrite |
 
-## 4. 未対応リスク・FollowUp
+## 7. Runtime or user-gated boundary
 
-| 項目 | 未対応理由 | follow-up |
-|------|-----------|----------|
-| visibility marker の SVG icon 化 | MVP は emoji で十分 | 将来 visual snapshot OS 差が問題になったら issue 化 |
-| API `visibility` field 追加 | 既存 endpoint surface 不変条件のため不可 | API spec 改訂時に再評価 |
-| `data-component` の追加値定義 | スコープ外 | 新サブワークフローで対応 |
+Local Playwright screenshots are captured under `outputs/phase-11/`. Production-equivalent runtime screenshots, commit, push, and PR remain user-gated. This file does not claim root workflow visual completion.
 
-## 5. Phase 11 evidence 表 (再掲)
+## 8. Archive/delete stale-reference gate
 
-本サブワークフローの evidence は `phase-11-evidence-inventory.md` §2 を正本とする。`verify-phase11-evidence` gate はその表を参照する。
+No archive/delete action. Stale `/(public)/members` URL notation was corrected to runtime URLs (`/members`, `/members/[id]`) in the same wave.
 
-| 区分 | 件数 |
-|------|------|
-| screenshot | 9 |
-| log | 5 |
-| 合計 | 14 |
+## 9. Four-condition verdict
+
+| condition | result | evidence |
+|-----------|--------|----------|
+| 矛盾なし | runtime_pending | CSS, DOM binding, Phase 6, Phase 8, Phase 11, and Phase 12 now describe the same G3 contract; root visual completion remains pending |
+| 漏れなし | runtime_pending | 13 phase files, strict 7 outputs, 9 local screenshots, 5 logs, and state boundary are listed |
+| 整合性あり | runtime_pending | canonical heading names, evidence table columns, runtime URL notation, and `VISUAL_RUNTIME_PENDING` vocabulary are unified |
+| 依存関係整合 | runtime_pending | parallel-02 owns CSS hooks and minimal tag-pill DOM binding; root/serial runtime coverage remains downstream |

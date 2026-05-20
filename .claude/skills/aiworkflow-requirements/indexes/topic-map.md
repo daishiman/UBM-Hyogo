@@ -874,13 +874,13 @@ node scripts/list-specs.js --topics
 | 概要 | L8 |
 | ドキュメント構成 | L15 |
 | REST API エンドポイント一覧 | L25 |
-| エンドポイント命名規則 | L212 |
-| UBM-Hyogo Admin Sync API（03a） | L233 |
-| UBM-Hyogo Member Self-Service API（04b） | L284 |
-| Admin Dashboard Attendance Analytics API（UT-02A follow-up 002） | L310 |
-| Desktop IPC API サマリー | L324 |
-| 変更履歴 | L355 |
-| 関連ドキュメント | L372 |
+| エンドポイント命名規則 | L214 |
+| UBM-Hyogo Admin Sync API（03a） | L235 |
+| UBM-Hyogo Member Self-Service API（04b） | L286 |
+| Admin Dashboard Attendance Analytics API（UT-02A follow-up 002） | L312 |
+| Desktop IPC API サマリー | L326 |
+| 変更履歴 | L357 |
+| 関連ドキュメント | L374 |
 
 ### references/api-internal-chunk-search.md
 
@@ -2762,6 +2762,8 @@ node scripts/list-specs.js --topics
 
 ### references/workflow-issue-772-cf-audit-monitor-runtime-restoration-artifact-inventory.md
 
+### references/workflow-issue-799-use-auto-focus-on-mount-hook-artifact-inventory.md
+
 ### references/workflow-issue-806-dynamic-member-og-image-artifact-inventory.md
 
 | セクション | 行 |
@@ -2838,6 +2840,16 @@ node scripts/list-specs.js --topics
 | Evidence | L22 |
 | Lessons Learned | L28 |
 | User Gates | L37 |
+
+### references/workflow-parallel-i06-root-error-focus-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Metadata | L3 |
+| Implementation | L12 |
+| Evidence | L19 |
+| System Sync | L32 |
+| User Gates | L42 |
 
 ### references/workflow-permission-fallback-abort-skip-retry.md
 
@@ -3516,9 +3528,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | Summary | L3 |
-| Canonical Sources | L14 |
-| Workflow Outputs | L36 |
-| Implementation Boundary | L51 |
+| Canonical Sources | L17 |
+| Workflow Outputs | L39 |
+| Implementation Boundary | L57 |
+| parallel-02 prototype CSS rules port (2026-05-19 close-out) | L67 |
+| Follow-up unassigned tasks (proto-spec) | L78 |
+| Difficulties summary (parallel-02) | L90 |
+| P1-1〜P1-5 Selector ↔ Token ↔ 09 Spec Mapping (parallel-01) | L124 |
+| P1-1〜P1-5 Selector ↔ Token ↔ 09 Spec Mapping (parallel-01) | L169 |
 
 ### references/workflow-ui-ux-visual-baseline-drift.md
 
@@ -3646,6 +3663,17 @@ node scripts/list-specs.js --topics
 | Implementation Artifacts | L22 |
 | Evidence Summary | L32 |
 | Follow-up Disposition | L41 |
+
+### references/workflow-ut-07c-followup-001-attendance-csv-import-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Metadata | L3 |
+| Canonical Files | L12 |
+| Implementation Targets | L21 |
+| Contract Summary | L32 |
+| Evidence Boundary | L45 |
+| Related Lessons | L49 |
 
 ### references/workflow-ut-15-waf-rate-limiting-rules-setup-artifact-inventory.md
 
@@ -4189,7 +4217,7 @@ node scripts/list-specs.js --topics
 | Cloudflare API Token 90 日 rotation runbook（Issue #407 / 2026-05-06） | L419 |
 | UT-27: GitHub Secrets / Variables 同期運用（2026-04-29） | L530 |
 | U-FIX-CF-ACCT-01-DERIV-02: Cloudflare deploy token split | L579 |
-| 変更履歴 | L601 |
+| 変更履歴 | L613 |
 
 ### references/deployment.md
 
@@ -5331,6 +5359,17 @@ node scripts/list-specs.js --topics
 | L-I747-005: closed Issue でも `Refs #<n>` で後付け canonical workflow を建てる | L43 |
 | L-I747-006: parent repository `node_modules` cleanup は AI が自動実行しない | L51 |
 
+### references/lessons-learned-issue-765-1password-vault-restructure-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| L-765-001: 条件付き implementation spec は phase wording で `completed` を使わない | L7 |
+| L-765-002: Gate-B / Gate-B-PRIME / Gate-C の責務分離 | L15 |
+| L-765-003: WAF 用 op:// path は deploy token canonical と分離する | L27 |
+| L-765-004: op:// canonical path drift の local grep gate | L35 |
+| L-765-005: source unassigned task の consumed-pending trace | L43 |
+| L-765-006: deny-pattern を含む workflow 命名の回避 | L51 |
+
 ### references/lessons-learned-issue-770-profile-loading-skeleton-2026-05.md
 
 | セクション | 行 |
@@ -5376,6 +5415,18 @@ node scripts/list-specs.js --topics
 | L-PARALLEL-I03-003: `vi.hoisted` + `vi.mock("next/navigation")` で callOrder を spec 間共有する pattern | L23 |
 | L-PARALLEL-I03-004: 親 spec で子 dialog を inline `vi.mock` 化して navigation mock 衝突を回避する | L30 |
 | L-PARALLEL-I03-005: ワークフロー dir の `completed-tasks/` 自動移送と canonical path drift | L37 |
+
+### references/lessons-learned-parallel-i06-root-error-focus-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| 概要 | L3 |
+| L-I06-001: root error boundary の a11y focus 実装パターン | L13 |
+| L-I06-002: focus 検証は `document.activeElement` 直接比較 | L30 |
+| L-I06-003: in-place spec → canonical workflow root 昇格時の同期忘れ | L41 |
+| L-I06-004: completion 移動時の artifacts.json path drift | L56 |
+| L-I06-005: NON_VISUAL タスクの Phase 11 evidence 5 点セット | L77 |
+| 関連 | L93 |
 
 ### references/lessons-learned-skill-codex-validation-2026-04.md
 
@@ -5713,6 +5764,25 @@ node scripts/list-specs.js --topics
 | L-HDBH-003: 503 fail-closed と Retry-After: 30 の不変条件 | L31 |
 | L-HDBH-004: HEALTH_DB_TOKEN rotation を Phase 12 close-out 時点で formalize する | L42 |
 | 関連参照 | L55 |
+
+### references/lessons-learned-ut-07c-followup-001-attendance-csv-import-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| L-UT07CFU1-001: `*.contract.spec.ts` は `vitest.d1.config.ts` 経由でしか走らない | L5 |
+| L-UT07CFU1-002: D1 `batch()` で attendance + audit を同一境界に投入する | L14 |
+| L-UT07CFU1-003: client 側 CSV parse は papaparse + JSON payload で API へ渡す | L24 |
+| L-UT07CFU1-004: `exactOptionalPropertyTypes: true` 環境での optional field 受け渡し | L33 |
+| L-UT07CFU1-005: React 19 `JSX.Element` は `React.JSX.Element` 名前空間で参照する | L41 |
+| L-UT07CFU1-006: 3-step wizard の confirm 有効化条件は `ok === total` で固定する | L49 |
+| L-UT07CFU1-007: `dryRun` パラメータは安全側既定にする | L58 |
+| L-UT07CFU1-008: email lookup は `normalizeEmail` (NFKC + trim + lowercase) を経由する | L67 |
+| L-UT07CFU1-009: Phase-11 evidence 出力先は completed-tasks/ 配下に揃える | L75 |
+| L-UT07CFU1-010: mockApi seedMeetings race は self-heal で吸収する | L93 |
+| L-UT07CFU1-011: `<input type="file">` の SSR 出力は WebKit / Firefox で hydration mismatch を起こす | L108 |
+| L-UT07CFU1-012: Playwright e2e の expect timeout は Next.js dev `[...path]` route 初回コンパイルを吸収する 30s に伸ばす | L128 |
+| L-UT07CFU1-013: e2e mock は `apps/web/playwright/fixtures/auth.ts` と `scripts/e2e-mock-api.mjs` の 2 系統あり drift する | L150 |
+| 関連参照 | L175 |
 
 ### references/lessons-learned-ut-15-waf-rate-limiting.md
 
@@ -7034,14 +7104,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L1729 |
-| フェーズ構造（概要） | L1738 |
-| 品質ゲート（概要） | L1769 |
-| 出力テンプレート | L1780 |
-| 実行時のコマンド・エージェント・スキル | L1803 |
-| 昇格パターン集 | L1827 |
-| Current Active / Spec Created Tasks | L1829 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L1981 |
+| ドキュメント構成 | L1786 |
+| フェーズ構造（概要） | L1795 |
+| 品質ゲート（概要） | L1826 |
+| 出力テンプレート | L1837 |
+| 実行時のコマンド・エージェント・スキル | L1860 |
+| 昇格パターン集 | L1884 |
+| Current Active / Spec Created Tasks | L1886 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L2039 |
 
 ### references/task-workflow-backlog-part2.md
 

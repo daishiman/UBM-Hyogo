@@ -87,6 +87,18 @@
 
 短縮形（`Verdict` / `Evidence Gates` 等）は drift。recovery workflow / followup task で別 template から流用すると落ちる。
 
+### 5.5. Phase-11 evidence 出力先と untracked workflow root の不整合
+
+`collect-changed-roots.ts` は `git ls-files --others --exclude-standard docs/30-workflows` で untracked ファイルも root 検出対象に含める。Workflow を `completed-tasks/` に移動した後、Playwright spec / runbook / scripts が旧 `docs/30-workflows/<task>/...` を evidence 出力先として参照したままだと、test 実行で untracked screenshot 等が生まれ、`reason: missing-file` で fail する。
+
+- OK: `apps/web/playwright/tests/<task>.spec.ts` の `PHASE11_DIR` は `docs/30-workflows/completed-tasks/<task>/outputs/phase-11` を指す
+- NG: 旧 `docs/30-workflows/<task>/outputs/phase-11` のまま放置（CI 失敗パターン: e2e-tests-coverage-gate は通っても verify-pr-ready の verify:phase12-compliance で fail）
+- 復旧手順:
+  1. spec / runbook の `PHASE11_DIR` (`resolve('../../docs/30-workflows/...')`) を completed-tasks/ 配下に書き換え
+  2. `find docs/30-workflows/<旧 task>/ -type f -delete && find docs/30-workflows/<旧 task>/ -type d -empty -delete`
+  3. `git ls-files --others --exclude-standard docs/30-workflows/<旧 task>` が空であることを確認
+  4. `bash scripts/verify-pr-ready.sh` 再実行
+
 ### 5. `unassigned-task` ファイルの配置
 
 `scripts/lib/phase12-compliance/collect-changed-roots.ts` は `docs/30-workflows/unassigned-task/` を **first segment** のみ scan 対象から除外する。`docs/30-workflows/completed-tasks/unassigned-task/` のように深くネストされた配置は除外されず、`docs/30-workflows/completed-tasks` を root として誤検出し `<empty-or-missing-table>` で FAIL する。
@@ -228,3 +240,19 @@ grep -rn '>こちら<\|>詳細<\|>クリック<\|>here<\|>more<\|>click here<' a
 ```
 
 ヒットがあれば descriptive text に置換してから push する。事例: 2026-05-19 `feat/issue-274-public-pages-ogp-sitemap-robots` で `LoginPanel.client.tsx` の `<a href="/register">こちら</a>` を `>会員登録ページから新規登録<` に変更で `/login` SEO PASS（L-DEVSYNC-028）。
+
+## 10. dev sync `pnpm sync:resolve` exit 1 後の自律継続条件（L-DEVSYNC-027）
+
+`pnpm sync:resolve` が `[resolve-skill-merge-conflicts] union-resolved ...` を出した後 `hint: ... ignored by one of your .gitignore files ... LOGS` → `ELIFECYCLE Command failed with exit code 1` で異常終了するケースがある（`.claude/skills/aiworkflow-requirements/LOGS/_legacy.md` を `git add` する際の `.gitignore` 競合）。**この exit 1 は union-resolve の失敗ではなく `git add` step の hint 由来**で、4 ファイル union は完了している。
+
+### 自律継続条件
+
+`git status --porcelain | grep -E "^UU"` の残ファイルが以下のいずれかパターンに該当する場合のみ自律継続する:
+
+- `indexes/keywords.json` のみ → `git checkout --ours .claude/skills/aiworkflow-requirements/indexes/keywords.json && mise exec -- pnpm indexes:rebuild` を発行して解消
+- `LOGS/_legacy.md` のみ → 通常の `git add` で staging（既 tracked のため hint が出ても staging される。残不安なら `git add -f`）
+- 上記 2 ファイルの組合せのみ
+
+それ以外のパスが UU で残っている場合は最終レポート対象にして中断する。
+
+詳細: `.claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-dev-sync-merge-conflict-resolution-2026-05.md` L-DEVSYNC-027。

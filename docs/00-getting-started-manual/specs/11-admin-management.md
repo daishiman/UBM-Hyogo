@@ -78,6 +78,7 @@ API 正本:
 | `PATCH /admin/meetings/:id` | title / heldOn / note / deletedAt 更新 |
 | `POST /admin/meetings/:id/attendances` | `{ memberId, attended }` で参加付与 / 解除 |
 | `GET /admin/meetings/:id/export.csv` | CSV export |
+| `POST /admin/meetings/:id/attendance/import?dryRun=true\|false` | CSV 由来の一括参加登録。`dryRun=false` 明示時のみ commit、500 行上限、row 別 status preview |
 
 Audit action:
 
@@ -88,6 +89,7 @@ Audit action:
 | 開催日論理削除 | `meetings.delete` |
 | 参加付与 | `attendance.add` |
 | 参加解除 | `attendance.remove` |
+| CSV 一括参加付与 | `attendance.import.add` |
 
 ### `/admin/audit`
 
