@@ -282,8 +282,22 @@ function meetingsListBody() {
   }
 }
 
+// playwright 並列 worker 間で /__test__/seed-meetings POST が race し
+// state.meetingsSeed.meetings から sessionId が一時的に消えるケースがある
+// (例: attendance.spec.ts と attendance-csv-import.spec.ts が同時実行)。
+// `sess-1` などの default seed に存在する meeting は self-heal で復元する。
+function findMeetingWithSelfHeal(sessionId: string) {
+  let meeting = state.meetingsSeed.meetings.find((item) => item.sessionId === sessionId)
+  if (meeting) return meeting
+  const fallback = defaultAttendanceSeed().meetings.find((item) => item.sessionId === sessionId)
+  if (!fallback) return undefined
+  state.meetingsSeed = defaultAttendanceSeed()
+  meeting = state.meetingsSeed.meetings.find((item) => item.sessionId === sessionId)
+  return meeting
+}
+
 function meetingDetailBody(sessionId: string) {
-  const meeting = state.meetingsSeed.meetings.find((item) => item.sessionId === sessionId)
+  const meeting = findMeetingWithSelfHeal(sessionId)
   if (!meeting) return null
   return {
     sessionId: meeting.sessionId,
@@ -298,7 +312,7 @@ function updateAttendance(sessionId: string, memberId: string, attended: boolean
   status: number
   body: unknown
 } {
-  const meeting = state.meetingsSeed.meetings.find((item) => item.sessionId === sessionId)
+  const meeting = findMeetingWithSelfHeal(sessionId)
   if (!meeting) return { status: 404, body: { error: 'meeting_not_found' } }
   const candidate = meeting.candidates.find((item) => item.memberId === memberId)
   if (!candidate) return { status: 404, body: { error: 'member_not_found' } }
@@ -324,7 +338,7 @@ function importAttendance(sessionId: string, rows: ImportRow[], dryRun: boolean)
   status: number
   body: unknown
 } {
-  const meeting = state.meetingsSeed.meetings.find((item) => item.sessionId === sessionId)
+  const meeting = findMeetingWithSelfHeal(sessionId)
   if (!meeting) return { status: 404, body: { ok: false, error: 'session_not_found' } }
   if (rows.length > 500) {
     return { status: 413, body: { ok: false, error: 'payload_too_large', maxRows: 500 } }
