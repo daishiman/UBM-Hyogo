@@ -7101,15 +7101,7 @@ node scripts/list-specs.js --topics
 | 実行時のコマンド・エージェント・スキル | L1846 |
 | 昇格パターン集 | L1870 |
 | Current Active / Spec Created Tasks | L1872 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L2024 |
-| ドキュメント構成 | L1761 |
-| フェーズ構造（概要） | L1770 |
-| 品質ゲート（概要） | L1801 |
-| 出力テンプレート | L1812 |
-| 実行時のコマンド・エージェント・スキル | L1835 |
-| 昇格パターン集 | L1859 |
-| Current Active / Spec Created Tasks | L1861 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L2014 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L2025 |
 
 ### references/task-workflow-backlog-part2.md
 
