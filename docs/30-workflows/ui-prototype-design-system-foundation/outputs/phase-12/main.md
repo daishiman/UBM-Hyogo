@@ -11,4 +11,4 @@ UI prototype design system foundation の Phase 12 集約サマリー。
 
 ## Boundary
 
-本サイクルは仕様書の準拠改善であり、`apps/` 実装差分は発生していない。対象 workflow は `taskType=implementation` の実装仕様書として、後続実装サイクルで `PROTOTYPE-COVERAGE.md` に従いコードへ反映する。
+本サイクルは仕様書の準拠改善に加えて、`apps/web` の最小 implementation hook を同一 wave で補正し、typecheck / lint / build / grep evidence と parallel-02 local screenshot 9 件を取得した。対象 workflow は `implemented_local_evidence_captured / implementation / VISUAL_RUNTIME_PENDING` とし、full 19-route binding / production-equivalent runtime screenshot / commit / push / PR は user-gated として残す。

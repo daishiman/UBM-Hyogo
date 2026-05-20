@@ -345,6 +345,7 @@
 - Why: append-only な history 系ファイルは両側 entry を結合するのが意味的に常に正しい。glob 化により今後 skill が増えても resolver 修正不要になる。`.gitattributes` と resolver の二重ガードにすることで、`pnpm sync:resolve` 経由でない素の `git merge dev` でも conflict が再発しなくなる。
 - How to apply: 新規 skill で `LOGS/_legacy.md` または `lessons-learned/*.md` を新設する場合、本パターンが自動適用される。個別の対象追加は不要。resolver の `UNION_TARGETS` 配列に lessons-learned / LOGS 系ファイルを追加してはならない（glob 定義と二重になる）。
 - 事例: 2026-05-19 `feat/serial-05-admin-mutation-step-05-dashboard-chart` ← dev sync-merge で本 lessons-learned 自体と `LOGS/_legacy.md` の両方が CONFLICT、glob 対応で恒久解消。
+- 補強事例（2026-05-19 `feat/parallel-02-prototype-css-rules-port` dev sync）: conflict 7 件 — `aiworkflow-requirements/{LOGS/_legacy.md, SKILL.md, indexes/{keywords.json, quick-reference.md, resource-map.md, topic-map.md}, references/task-workflow-active.md}` + `task-specification-creator/SKILL.md`。`pnpm sync:resolve` で 6 件 union 解消（`LOGS/_legacy.md` は `.gitignore` 配下のため `git add` が exit 1、しかし union resolve 自体は成功・後続に影響なし）、残る `indexes/keywords.json` (UU) は `git checkout --ours` + `pnpm indexes:rebuild` で deterministic 再生成 → `topic-map.md` も同時 drift 解消。手動 union 編集ゼロで完了し L-DEVSYNC-002 + L-DEVSYNC-029 の二本柱が安定運用パターンであることを再確認。なお `sync:resolve` の `git add` 失敗（gitignore 対象ファイル）は終了コード非ゼロを返すが、union resolve は既に完了しているため `git status --short | grep '^UU'` で残コンフリクトを確認して問題なければ続行してよい。
 
 ## L-DEVSYNC-030: improvements 系 index と completed-tasks/spec のステータス行 3-way conflict（2026-05-19 追加）
 

@@ -70,6 +70,7 @@
 
 ---
 
+### UI Prototype Design System Foundation（2026-05-18 / parallel-02 close-out 2026-05-19）
 ### Issue #772 CF audit monitor runtime restoration（2026-05-17）
 
 | 目的 | 参照先 |
@@ -164,13 +165,43 @@
 | 目的 | 参照先 |
 | --- | --- |
 | workflow root | `docs/30-workflows/ui-prototype-design-system-foundation/` |
+| 状態 | `implemented_local_evidence_captured / implementation / VISUAL_RUNTIME_PENDING` |
+| 状態 | `spec_created / implementation / VISUAL`（parallel-01 は `runtime_pending`: local CSS selectors added, serial-07 visual evidence pending） |
 | 状態 | `spec_created / implementation / VISUAL`（parallel-01 は `runtime_pending`: local CSS selectors added, serial-07 visual evidence pending） |
 | prototype coverage SSOT | `docs/30-workflows/ui-prototype-design-system-foundation/PROTOTYPE-COVERAGE.md` |
 | strict Phase 12 | `outputs/phase-12/{main.md,implementation-guide.md,system-spec-update-summary.md,documentation-changelog.md,unassigned-task-detection.md,skill-feedback-report.md,phase12-task-spec-compliance-check.md}` |
 | source inventory | `claude-design-prototype/{app.jsx,data.jsx,icons.jsx,index.html,pages-admin.jsx,pages-member.jsx,pages-public.jsx,primitives.jsx,styles.css}` + `specs/09a..09h` |
 | current app path rule | `apps/web/app/**` is canonical; `/login`, `/profile`, `/privacy`, `/terms` remain root app paths |
+| implementation boundary | no new API endpoint / D1 schema / Google Form change; minimal `apps/web` AppShell / selector hooks and parallel-02 G3 CSS marker blocks added; full 19-route binding and visual evidence remain user-gated work |
+| parallel-02 close-out | `apps/web/src/styles/globals.css` G3-1/2/3 markers + `MemberFilters.client.tsx` tag-pill data-component + visual harness + Playwright spec; Phase 11 9 screenshot + 5 log present, strict 7 outputs (root + sub) present |
+| follow-up unassigned | `docs/30-workflows/unassigned-task/UT-DSF-01..07-*.md`（globals-css / AppShell / page-chrome / route blueprint / form binding / regression evidence / runtime screenshots） |
+| lessons learned | `.claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-parallel-02-prototype-css-rules-port-2026-05.md`（L-P02-001..007） |
+| implementation boundary | no new API endpoint / D1 schema / Google Form change; minimal `apps/web` AppShell / selector hooks and parallel-01 P1-1〜P1-5 CSS selectors added; full 19-route binding and visual evidence remain user-gated work |
 | implementation boundary | no new API endpoint / D1 schema / Google Form change; minimal `apps/web` AppShell / selector hooks and parallel-01 P1-1〜P1-5 CSS selectors added; full 19-route binding and visual evidence remain user-gated work |
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-ui-prototype-design-system-foundation-artifact-inventory.md` |
+
+#### status vocabulary（visual evidence 軸）
+
+| 値 | 意味 |
+| --- | --- |
+| `VISUAL` | local + runtime 双方で visual evidence 取得済み |
+| `VISUAL_ON_EXECUTION` | local 撮影済み、CI runtime job で再現可能 |
+| `VISUAL_RUNTIME_PENDING` | local 撮影済み、production-equivalent runtime 再撮影が user-gated で残置（parallel-02 で正式登録） |
+| `NON_VISUAL` | UI 以外、visual evidence 不要 |
+
+`implemented_local_evidence_captured` は **local 範囲の Phase 11 evidence が物理 present、production runtime 実行は user-gated** を意味する。parallel-02 で `VISUAL_RUNTIME_PENDING` と組み合わせて使用。
+
+#### shared `globals.css` 並列編集マーカー規約
+
+`apps/web/src/styles/globals.css` は `merge=union` 不可。複数 parallel-XX が同 wave で触る際は以下フォーマットで block を占有する:
+
+```css
+/* === parallel-02 G3-1 member-card hover (start) === */
+... rules ...
+/* === parallel-02 G3-1 member-card hover (end) === */
+```
+
+先着優先 / 他 parallel は block 内書き換え禁止。詳細は L-P02-001 / L-P02-004。
 
 ### Issue #749 Primitive Adoption Tracker（2026-05-17）
 
