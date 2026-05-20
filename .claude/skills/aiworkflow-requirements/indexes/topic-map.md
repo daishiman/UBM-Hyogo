@@ -4236,9 +4236,7 @@ node scripts/list-specs.js --topics
 | Cloudflare API Token 90 日 rotation runbook（Issue #407 / 2026-05-06） | L419 |
 | UT-27: GitHub Secrets / Variables 同期運用（2026-04-29） | L530 |
 | U-FIX-CF-ACCT-01-DERIV-02: Cloudflare deploy token split | L574 |
-| 変更履歴 | L596 |
-| U-FIX-CF-ACCT-01-DERIV-02: Cloudflare deploy token split | L579 |
-| 変更履歴 | L613 |
+| 変更履歴 | L608 |
 
 ### references/deployment.md
 
@@ -7145,14 +7143,6 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L1761 |
-| フェーズ構造（概要） | L1770 |
-| 品質ゲート（概要） | L1801 |
-| 出力テンプレート | L1812 |
-| 実行時のコマンド・エージェント・スキル | L1835 |
-| 昇格パターン集 | L1859 |
-| Current Active / Spec Created Tasks | L1861 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L2015 |
 | ドキュメント構成 | L1814 |
 | フェーズ構造（概要） | L1823 |
 | 品質ゲート（概要） | L1854 |
@@ -7160,7 +7150,7 @@ node scripts/list-specs.js --topics
 | 実行時のコマンド・エージェント・スキル | L1888 |
 | 昇格パターン集 | L1912 |
 | Current Active / Spec Created Tasks | L1914 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L2067 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L2068 |
 
 ### references/task-workflow-backlog-part2.md
 

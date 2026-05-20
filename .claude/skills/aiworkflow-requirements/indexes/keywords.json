@@ -7825,7 +7825,8 @@
       "workflow-issue-532-write-tag-note-provider-ctx-injection-artifact-inventory.md"
     ],
     "for": [
-      "deployment-cloudflare-opennext-workers.md"
+      "deployment-cloudflare-opennext-workers.md",
+      "lessons-learned-issue-765-1password-vault-restructure-2026-05.md"
     ],
     "デプロイメント": [
       "deployment-cloudflare-ut06-gate.md",
@@ -16157,9 +16158,6 @@
       "lessons-learned-issue-765-1password-vault-restructure-2026-05.md"
     ],
     "Restructure": [
-      "lessons-learned-issue-765-1password-vault-restructure-2026-05.md"
-    ],
-    "for": [
       "lessons-learned-issue-765-1password-vault-restructure-2026-05.md"
     ],
     "条件付き": [
