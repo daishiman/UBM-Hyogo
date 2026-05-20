@@ -125,6 +125,7 @@
 - Why: resolver スクリプトが LOGS を対象外にしている設計理由は、entry の順序（時系列・logical order）が文脈依存で機械判定できないため。追記型 SSOT は両側 entry を保持するのがデフォルト解（SP-DEVSYNC-012 と整合）。
 - 事例: 2026-05-18 feat/issue-769-root-error-focus ← dev sync で `LOGS/_legacy.md` 単独残余を 30 秒以内に union 解消。resolver の `WARN unhandled` メッセージで対象を即特定できた。
 - 事例（2026-05-19 `feat/parallel-02-prototype-css-rules-port` dev sync）: `pnpm sync:resolve` が `LOGS/_legacy.md` を union resolve した直後の `git add` で exit 1（`.gitignore` 配下のため `Use -f if you really want to add them.`）。**union resolve 自体は成功しており**、`git status --short` で確認すると `LOGS/_legacy.md` は `M` 表示で UU 残りなし。残るは `indexes/keywords.json` のみで `git checkout --ours` + `pnpm indexes:rebuild` の標準手順で解消可能。task spec の Phase 5 手順に「`pnpm sync:resolve` の exit code 非ゼロは即 fail とせず、`git status --short | grep '^UU'` で実残余を確認する」ことを明示する。
+- 事例（2026-05-20 `feat/issue-776-schema-alias-bulk-resolve` dev sync）: 同一 LOGS/_legacy.md gitignore exit-1 + keywords.json UU 残り。手順テンプレ（`sync:resolve` → exit code 無視 → `^UU` grep で `keywords.json` のみ確認 → `checkout --ours` + `indexes:rebuild` → `git add indexes/`）が 1 分以内で完走することを再確認。SP-DEVSYNC-018 はテンプレ化済み・再発 case で手動編集ゼロ。
 - 詳細は aiworkflow-requirements 配下の L-DEVSYNC-018 を参照。
 
 ### SP-DEVSYNC-019: 新規タスク root/outputs `artifacts.json` には `metadata.gates` を必ず付与（2026-05-18 追加）
@@ -175,3 +176,9 @@
 
 ### SP-DEVSYNC-020: 共通の正本リンク
 - 詳細は [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] （aiworkflow-requirements 配下、L-DEVSYNC-001..025）を参照。
+- 詳細は [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] （aiworkflow-requirements 配下、L-DEVSYNC-001..032）を参照。
+
+### SP-DEVSYNC-021: completed-task Phase 11 evidence inventory の 3-way conflict（2026-05-20 追加）
+- `docs/30-workflows/completed-tasks/**/outputs/phase-1[12]/*.md` で発生する 3-way conflict は、HEAD 側が `pending`/`runtime_pending`/`placeholder`、dev 側が `present`/`captured`/`PASS` を含む場合は **dev 側採用**（recovery 完了後の正本を尊重）。両側 union は evidence existence validator の二重カウントを誘発するため禁止。
+- 事例: 2026-05-20 `feat/issue-776-schema-alias-bulk-resolve` ← dev sync で `serial-05-step-03-schema-diff-resolve/outputs/phase-12/phase12-task-spec-compliance-check.md` の Phase 11 inventory 表を dev 側採用で解消。
+- 詳細は aiworkflow-requirements 配下の L-DEVSYNC-032 を参照。
