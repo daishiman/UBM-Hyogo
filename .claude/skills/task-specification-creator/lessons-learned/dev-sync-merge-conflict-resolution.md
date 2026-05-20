@@ -147,5 +147,13 @@
 - 適用判断: `lefthook.yml` / `.github/workflows/*.yml` / `*.json` 等の structured config で「inline → 外部 script への切り出し」が片側で行われ、他方に未統合の付加ロジックがある case。
 - 詳細は aiworkflow-requirements 配下の L-DEVSYNC-023 を参照。
 
+### SP-DEVSYNC-022: references 配下「変更履歴」append-only 表の両側 row 衝突（2026-05-20 追加）
+- 症状: feature ブランチと dev が `references/deployment-*.md` 等の `## 変更履歴` 表に **同日同 version** で別々の row を独立追加 → `pnpm sync:resolve` が unhandled としてスキップし `[WARN] unhandled conflict` + exit 1。
+- 解消: 両 row を保持し HEAD→dev 時系列順で連結（version 重複可、append-only として両側採用）。conflict marker のみ除去。
+- 適用判断: `references/*.md` の append-only 変更履歴表ブロック全般。narrative 衝突（fact migration）は SP-DEVSYNC-009 / L-DEVSYNC-002A の判定に従う。
+- task spec を書く際: dev 同期を含む Phase 5 手順に「`pnpm sync:resolve` の `unhandled` リストが `references/deployment-*.md` のみなら、変更履歴表ブロックの両側保持で自律継続」を明示。
+- 事例: 2026-05-20 `feat/issue-765-1password-vault-restructure` ← dev sync で `deployment-secrets-management.md` 1.4.5 が HEAD（issue-765 vault restructure）+ dev（PR #795 CI recovery）の独立追加 → 両 row union で解消。
+- 詳細は aiworkflow-requirements 配下の L-DEVSYNC-022 を参照。
+
 ### SP-DEVSYNC-020: 共通の正本リンク
 - 詳細は [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] （aiworkflow-requirements 配下、L-DEVSYNC-001..023）を参照。
