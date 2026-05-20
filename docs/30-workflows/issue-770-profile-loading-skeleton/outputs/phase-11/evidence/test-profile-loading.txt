@@ -1,0 +1,8 @@
+Command: mise exec -- pnpm exec vitest run --root=. --config=vitest.config.ts apps/web/app/profile/loading.spec.tsx
+Exit: 0
+
+Result:
+- Test Files: 1 passed
+- Tests: 3 passed
+- Target: apps/web/app/profile/loading.spec.tsx
+

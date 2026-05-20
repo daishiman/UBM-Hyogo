@@ -8,10 +8,15 @@
 - Tailwind v4 bridge (`apps/web/src/styles/globals.css:11-68`) は接続済み
 - primitives (`apps/web/src/components/ui/`) は 13 個実装済み
 
-しかし以下が抜けている:
+2026-05-18 の parallel-01 実装で、`globals.css` の P1-1〜P1-5
+selector contract と admin shell width の local code hook は
+`runtime_pending` まで進んだ。残る抜けは、route binding、AppShell
+構造付与、visual runtime evidence、Form response binding である。
 
-1. **page-level の chrome 規則がない** — `globals.css @layer components` に `body` / `[data-route]` / カード共通余白の既定 selector がない。各ページが個別に Tailwind utility で背景を指定する設計で、ページ毎にバラつく
-2. **AppShell layout の data-* 契約が未完成** — `app/(public)/layout.tsx` / `(admin)/layout.tsx` / `(member)/layout.tsx` は存在するが、Topbar / Sidebar / surface 背景 / カード余白の rhythm を画面横断で共通化する `data-theme` / `data-shell` / `data-route` 契約が不足している
+初期設計時点の不足:
+
+1. **page-level の chrome 規則が未完** — `globals.css @layer components` の P1-1〜P1-5 selector は追加済み。全 route への binding と visual runtime evidence は serial-05/07 で確認する
+2. **AppShell layout の data-* 契約が未完成** — `app/(public)/layout.tsx` / `(admin)/layout.tsx` / `(member)/layout.tsx` は存在し、admin sidebar 幅は `272px` に調整済み。ただし Topbar / Sidebar / surface 背景 / カード余白の rhythm を全 route で保証する data 属性の最終 binding は parallel-03/serial-05 が責務を持つ
 3. **page.tsx のプロトタイプ反映が部分的** — 19 routes の page.tsx は現行コードに存在するが、09e/09f/09g/09h と prototype JSX から section / primitive / data mapping を引ける台帳が不足しているため、ページ毎に雰囲気がずれる
 4. **selector ベース規則が未移植** — `improvements/parallel-03-prototype-ux-css/spec.md:25-62` の G3-1/2/3 規則（tag pill 選択時 fill / member card hover / `[data-visibility]` marker）が `globals.css` 未反映
 5. **Form response → MemberDetail 描画が未接続** — API は response_fields を返せるが `(public)/members/[id]/page.tsx` が無いため、Google Form の実回答データが画面に出ない

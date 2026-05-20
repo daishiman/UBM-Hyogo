@@ -10,14 +10,18 @@
 | 対象機能     | `/profile` 配下の VisibilityRequestDialog / DeleteRequestDialog / RequestActionPanel の状態同期 |
 | 優先度       | 高                                                                                              |
 | 見積もり規模 | 小規模                                                                                          |
-| ステータス   | pending                                                                                         |
+| ステータス   | consumed                                                                                        |
+| canonical_workflow | `docs/30-workflows/issue-766-dialog-refresh-order/`                                       |
+| consumed_by | Issue #766 canonical workflow                                                                    |
 | 発見元       | improvements integration-fixes 接続検証（i03 ギャップ）                                         |
 | 発見日       | 2026-05-16                                                                                      |
+| consumed日   | 2026-05-18                                                                                      |
 
 ## Canonical Workflow Status
 
 - 親 workflow: `docs/30-workflows/ui-prototype-alignment-mvp-recovery/improvements/integration-fixes/`
 - 親タスク状態: `spec_ready_implementation_pending`
+- consumed_by: Issue #766 canonical workflow (`docs/30-workflows/issue-766-dialog-refresh-order/`)
 - ソース spec: `docs/30-workflows/ui-prototype-alignment-mvp-recovery/improvements/integration-fixes/parallel-i03-dialog-refresh-order/spec.md`
 - 上位 workflow: `docs/30-workflows/ui-prototype-alignment-mvp-recovery/`（不変条件 1〜4 を継承）
 - 関連 spec（順序ルールの起源）: `improvements/parallel-02-state-sync/spec.md` 4.2 節（line 95-117）

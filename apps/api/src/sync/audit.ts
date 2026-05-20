@@ -1,5 +1,8 @@
 // u-04: audit writer + withSyncMutex。物理は sync_job_logs。
-// trigger 値は manual / scheduled / backfill。互換用に外部 'admin' を受けたら manual に正規化。
+// trigger 値は shared canonical = cron / admin / backfill (物理 DDL 一致)。
+// issue-266 で旧 TS 値 manual / scheduled を物理に揃え、lockTriggerOf 変換を廃止した。
+
+import { SyncLogRecordZ } from "@ubm-hyogo/shared";
 
 import {
   acquireSyncLock,
@@ -23,12 +26,6 @@ export interface StartRunResult {
 const DEFAULT_LOCK_TTL_MS = 10 * 60 * 1000;
 const SYNC_LOCK_ID = "sheets-to-d1";
 
-function lockTriggerOf(t: SyncTrigger): "cron" | "admin" | "backfill" {
-  if (t === "manual") return "admin";
-  if (t === "scheduled") return "cron";
-  return "backfill";
-}
-
 export async function startRun(
   deps: AuditDeps,
   trigger: SyncTrigger,
@@ -37,7 +34,7 @@ export async function startRun(
   const auditId = deps.newId();
   const lock = await acquireSyncLock(deps.db, {
     holder: auditId,
-    triggerType: lockTriggerOf(trigger),
+    triggerType: trigger,
     ttlMs,
     now: deps.now,
   });
@@ -178,12 +175,16 @@ export async function listRecent(
   const safeLimit = Math.min(Math.max(1, limit), 100);
   const rs = await db
     .prepare(
-      `SELECT run_id, trigger_type, status, started_at, finished_at,
+      `SELECT id, run_id, trigger_type, status, started_at, finished_at,
               fetched_count, upserted_count, failed_count, retry_count, duration_ms, error_reason
-       FROM sync_job_logs ORDER BY started_at DESC LIMIT ?1`,
+       FROM sync_job_logs
+       WHERE trigger_type IN ('cron','admin','backfill')
+         AND status IN ('running','success','failed','skipped')
+       ORDER BY started_at DESC LIMIT ?1`,
     )
     .bind(safeLimit)
     .all<{
+      id: number;
       run_id: string;
       trigger_type: string;
       status: AuditStatus;
@@ -196,17 +197,20 @@ export async function listRecent(
       duration_ms: number | null;
       error_reason: string | null;
     }>();
-  return (rs.results ?? []).map((r) => ({
-    auditId: r.run_id,
-    trigger: r.trigger_type,
-    status: r.status,
-    startedAt: r.started_at,
-    finishedAt: r.finished_at,
-    fetchedCount: r.fetched_count,
-    upsertedCount: r.upserted_count,
-    failedCount: r.failed_count,
-    retryCount: r.retry_count,
-    durationMs: r.duration_ms,
-    errorReason: r.error_reason,
-  }));
+  return (rs.results ?? []).map((raw) => {
+    const r = SyncLogRecordZ.parse(raw);
+    return {
+      auditId: r.run_id,
+      trigger: r.trigger_type,
+      status: r.status,
+      startedAt: r.started_at,
+      finishedAt: r.finished_at,
+      fetchedCount: r.fetched_count,
+      upsertedCount: r.upserted_count,
+      failedCount: r.failed_count,
+      retryCount: r.retry_count,
+      durationMs: r.duration_ms,
+      errorReason: r.error_reason,
+    };
+  });
 }

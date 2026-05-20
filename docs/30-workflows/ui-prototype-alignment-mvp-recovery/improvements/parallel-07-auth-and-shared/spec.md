@@ -108,7 +108,7 @@ OKLch token (`--ubm-color-surface-2`) の完全性確認。既に実装済み（
 
 ### 4.5 `/profile/loading.tsx` の改善
 
-**現状:** 簡素なtext のみ。Skeleton pattern欠落。
+**現状:** Issue #770 で local 実装済み。`apps/web/app/profile/loading.tsx` は `role="status"` / `aria-busy="true"` / `aria-live="polite"` / `bg-surface-2` skeleton 6 blocks に更新済み。Authenticated browser screenshot / staging runtime visual evidence は user-gated。
 
 **要件:**
 - Root loading と統一した OKLch skeleton pattern
@@ -141,7 +141,7 @@ export default function LoginLoading(): ReactNode
 - [ ] `/login/error.tsx` Card layout + focus管理実装
 - [ ] `/login/loading.tsx` 新規作成、OKLch skeleton
 - [ ] Root `error.tsx` に focus管理追加
-- [ ] `/profile/loading.tsx` 統一skeleton実装
+- [x] `/profile/loading.tsx` 統一skeleton実装（Issue #770 local 実装済み、runtime visual evidence pending）
 - [ ] OKLch token完全性確認、HEX直書き0
 - [ ] jest-axe violations 0
 - [ ] TypeCheck/ESLint clean
@@ -151,4 +151,4 @@ export default function LoginLoading(): ReactNode
 - **不変条件:** OKLch token のみ、API endpoint surface利用のみ、D1アクセス禁止
 - **テスト:** セクション7参照
 
-**状態:** 仕様書作成完了、実装待ち
+**状態:** Issue #770 により `/profile/loading.tsx` は local 実装済み。Authenticated browser screenshot / staging runtime visual evidence は user-gated のため、親 workflow 全体は引き続き runtime evidence 待ち。

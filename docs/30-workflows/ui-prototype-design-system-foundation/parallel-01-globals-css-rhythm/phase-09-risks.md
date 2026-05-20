@@ -3,10 +3,10 @@ phase: 9
 title: リスク・代替案 — 既存 base 衝突 / specificity / cascade 干渉
 workflow_id: ui-prototype-design-system-foundation
 sub_workflow: parallel-01-globals-css-rhythm
-status: spec_created
+status: runtime_pending
 ---
 
-# Phase 9 — リスク・代替案
+# Phase 9: リスク・代替案
 
 [実装区分: 実装仕様書]
 
@@ -24,6 +24,7 @@ status: spec_created
 | R-08 | `@layer components` 末尾追加でファイル肥大化 | 低 | 高 | 100-150 行程度の追加で許容範囲。本 workflow 内では分割せず、肥大化しない selector 数に抑える |
 | R-09 | typography line-height を無単位値（1.7 等）で指定して継承される | 中 | 低 | 仕様通り。無単位は推奨パターン（W3C） |
 | R-10 | `verify-design-tokens` gate が新規 selector を未承認として fail | 中 | 中 | gate スクリプトは HEX / `bg-[#` を検出するもので selector 名は対象外。リスク低 |
+| R-11 | admin shell width 変更が parallel-03 の AppShell 責務と混同される | 中 | 低 | 本 SW は既存 grid value の `272px` 調整だけに限定し、構造変更・data 属性追加・route binding は parallel-03/serial-05 に残す |
 
 ## 2. 採用しない代替案（再掲・Phase 2 §4 補足）
 
@@ -36,4 +37,53 @@ status: spec_created
 
 ## 3. ロールバック
 
-本 SW の変更は単一ファイル（globals.css）の追加挿入のみ。問題発生時は `git revert <commit>` で完全に元の状態へ戻せる。tokens.css / page.tsx / layout.tsx には触らないため副作用なし。
+本 SW の変更は `globals.css` の追加挿入と `apps/web/app/(admin)/layout.tsx`
+の admin grid width 1 行変更のみ。問題発生時は `git revert <commit>` で
+完全に元の状態へ戻せる。tokens.css / page.tsx / layout 構造には触らない
+ため副作用を限定できる。
+
+## メタ情報
+
+| 項目 | 値 |
+| --- | --- |
+| workflow_id | `ui-prototype-design-system-foundation` |
+| sub_workflow | `parallel-01-globals-css-rhythm` |
+| phase | `9` |
+| status | `runtime_pending` |
+| taskType | `implementation` |
+| visualEvidence | `VISUAL_ON_EXECUTION` |
+
+## 目的
+
+この Phase は既存本文の内容を、task-specification-creator の共通骨格に沿って実行可能な仕様として扱う。
+
+## 実行タスク
+
+1. 既存本文の Phase 固有タスクを実行する。
+2. `apps/web/src/styles/globals.css` の P1-1〜P1-5 selector contract と矛盾しないことを確認する。
+3. Phase 11 evidence と Phase 12 strict 7 の境界を `VISUAL_ON_EXECUTION` として維持する。
+
+## 参照資料
+
+- `docs/30-workflows/ui-prototype-design-system-foundation/index.md`
+- `docs/30-workflows/ui-prototype-design-system-foundation/PROTOTYPE-COVERAGE.md`
+- `apps/web/src/styles/globals.css`
+- `.claude/skills/task-specification-creator/references/phase-12-spec.md`
+- `.claude/skills/aiworkflow-requirements/indexes/resource-map.md`
+
+## 成果物
+
+- 本 Phase ファイル
+- `outputs/phase-11/` の local selector evidence
+- `outputs/phase-12/` の strict 7 files
+
+## 完了条件
+
+- [x] `node .claude/skills/task-specification-creator/scripts/validate-phase-output.js docs/30-workflows/ui-prototype-design-system-foundation/parallel-01-globals-css-rhythm` が error 0 である。
+- [x] P1-1〜P1-5 selector が `globals.css` に存在する。
+- [x] root workflow 全体の visual runtime evidence は serial-07 に委譲され、parallel-01 は `runtime_pending` として閉じる。
+
+## 統合テスト連携
+
+- CSS selector presence は `outputs/phase-11/section-presence.txt` と `grep-selectors.txt` で確認する。
+- visual screenshot は `serial-07-regression-evidence/` の責務として後続 runtime evidence に接続する。

@@ -10,7 +10,13 @@
 | 対象機能     | root route error boundary のスクリーンリーダー読み上げ促進                                       |
 | 優先度       | 中（a11y 改善。i05 と同根の問題だが root error boundary 単独で対処可能で他タスクとの依存なし）   |
 | 見積もり規模 | 極小（4 行差分 + spec 1 本）                                                                    |
+<<<<<<<< Updated upstream:docs/30-workflows/completed-tasks/integration-fixes-i06-root-error-focus.md
 | ステータス   | consumed_by_issue_769_local_implementation                                                      |
+|||||||| Stash base:docs/30-workflows/unassigned-task/integration-fixes-i06-root-error-focus.md
+| ステータス   | pending                                                                                         |
+========
+| ステータス   | consumed                                                                                        |
+>>>>>>>> Stashed changes:docs/30-workflows/completed-tasks/unassigned-task/integration-fixes-i06-root-error-focus.md
 | 発見元       | improvements/integration-fixes 接続検証（i06 行）                                               |
 | 発見日       | 2026-05-16                                                                                      |
 
@@ -19,10 +25,21 @@
 - 親 workflow: `docs/30-workflows/ui-prototype-alignment-mvp-recovery/improvements/integration-fixes/`
 - 親 workflow 状態: `implemented_local_evidence_captured`
 - 直接の親 spec: `docs/30-workflows/ui-prototype-alignment-mvp-recovery/improvements/integration-fixes/parallel-i06-root-error-focus/spec.md`
-- 親 parallel-07 spec section: 4.3 「Root error.tsx focus 管理」未達
+- canonical workflow: `docs/30-workflows/completed-tasks/parallel-i06-root-error-focus/`
+- consumed_at: 2026-05-18
+- consumed_by: `docs/30-workflows/completed-tasks/parallel-i06-root-error-focus/`
+- 親 parallel-07 spec section: 4.3 「Root error.tsx focus 管理」達成済み
 - 関連実装:
+<<<<<<<< Updated upstream:docs/30-workflows/completed-tasks/integration-fixes-i06-root-error-focus.md
   - `apps/web/app/error.tsx`（修正対象 / issue-769 で `useRef` + `headingRef.current?.focus()` 実装済み）
   - `apps/web/app/__tests__/error.component.spec.tsx`（追記）
+|||||||| Stash base:docs/30-workflows/unassigned-task/integration-fixes-i06-root-error-focus.md
+  - `apps/web/app/error.tsx`（修正対象 / `useRef` + `headingRef.current?.focus()` 未実装）
+  - `apps/web/app/error.spec.tsx`（新規または追記）
+========
+  - `apps/web/app/error.tsx`（修正対象 / `useRef` + `headingRef.current?.focus()` 実装済み）
+  - `apps/web/app/error.spec.tsx`（新規または追記）
+>>>>>>>> Stashed changes:docs/30-workflows/completed-tasks/unassigned-task/integration-fixes-i06-root-error-focus.md
 
 ---
 
@@ -36,12 +53,18 @@
 2. `error.digest` の表示（運用調査のための識別子）
 3. **マウント直後に h1 へ自動 focus を移譲し、スクリーンリーダーがエラー見出しを即座に読み上げる挙動**
 
+<<<<<<<< Updated upstream:docs/30-workflows/completed-tasks/integration-fixes-i06-root-error-focus.md
 1 と 2 は既に実装済みだが、発見時点では **3 の h1 への自動 focus 移譲が未実装** であることが integration-fixes 接続検証（i06 行）で確認された。issue-769 local implementation で `useRef<HTMLHeadingElement>` / `tabIndex={-1}` / `headingRef.current?.focus({ preventScroll: true })` を追加済み。
+|||||||| Stash base:docs/30-workflows/unassigned-task/integration-fixes-i06-root-error-focus.md
+1 と 2 は既に実装済みだが、**3 の h1 への自動 focus 移譲が未実装** であることが integration-fixes 接続検証（i06 行）で確認された。実コード `apps/web/app/error.tsx` には `useRef<HTMLHeadingElement>` / `tabIndex={-1}` / `headingRef.current?.focus({ preventScroll: true })` のいずれも存在しない。
+========
+1 と 2 は既に実装済みで、発見時は **3 の h1 への自動 focus 移譲が未実装** だった。2026-05-18 の canonical workflow `docs/30-workflows/completed-tasks/parallel-i06-root-error-focus/` で `useRef<HTMLHeadingElement>` / `tabIndex={-1}` / `headingRef.current?.focus({ preventScroll: true })` を実装済み。
+>>>>>>>> Stashed changes:docs/30-workflows/completed-tasks/unassigned-task/integration-fixes-i06-root-error-focus.md
 
 ### 1.2 問題点・課題
 
 - スクリーンリーダー利用者がエラー発生に気付くまでに遅延が生じる（`aria-live="assertive"` のみではフォーカス位置が前画面に残るケースがある）
-- parallel-07 の DoD（spec 4.3）が未達のまま親 workflow (`ui-prototype-alignment-mvp-recovery`) が closing できない
+- parallel-07 の DoD（spec 4.3）が未達のまま親 workflow (`ui-prototype-alignment-mvp-recovery`) が closing できない状態は、canonical workflow 実装で解消済み
 - 同根の問題 (i05 = `/login/error.tsx` の focus 未管理) と別々に放置されると、a11y regression を体系的に検知する hook が育たない
 
 ### 1.3 放置した場合の影響

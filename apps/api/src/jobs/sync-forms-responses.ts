@@ -34,6 +34,7 @@ import type {
   MemberId,
   MemberResponse,
   ResponseId,
+  SyncTriggerType,
 } from "@ubm-hyogo/shared";
 
 import { ctx } from "../repository/_shared/db";
@@ -72,7 +73,7 @@ export interface ResponseSyncEnv {
 }
 
 export interface ResponseSyncOptions {
-  readonly trigger: "cron" | "admin" | "backfill";
+  readonly trigger: SyncTriggerType;
   readonly fullSync?: boolean;
   readonly cursor?: string;
   readonly client: GoogleFormsClient;

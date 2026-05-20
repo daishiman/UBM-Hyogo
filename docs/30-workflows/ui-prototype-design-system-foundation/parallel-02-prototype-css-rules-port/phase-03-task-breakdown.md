@@ -15,8 +15,8 @@ status: spec_created
 | Step | 責務 | 編集対象 | 想定 diff 行数 |
 |------|------|----------|---------------|
 | Step 1 (G3-1) | tag pill base + selected + hover の CSS 規則追加 | `apps/web/src/styles/globals.css` | +20 行 |
-| Step 2 (G3-2) | member card base + hover + focus-visible の CSS 規則追加 | `apps/web/src/styles/globals.css` | +15 行 |
-| Step 3 (G3-3) | visibility marker base + 値別 3 種 + icon ::before の CSS 規則追加 | `apps/web/src/styles/globals.css` | +30 行 |
+| Step 2 (G3-2) | member card base + hover + focus-within の CSS 規則追加 | `apps/web/src/styles/globals.css` | +15 行 |
+| Step 3 (G3-3) | visibility marker base + 値別 3 種 + dot ::before の CSS 規則追加 | `apps/web/src/styles/globals.css` | +30 行 |
 
 各 step は独立して commit / push 可能。順序は G3-1 → G3-2 → G3-3 を推奨 (selector specificity の単純順)。
 
@@ -37,7 +37,7 @@ status: spec_created
 - 編集箇所: Step 1 の `(end)` マーカー直後に append
 - 追加ブロック:
   - マーカーコメント `/* === parallel-02 G3-2 member card hover (start) === */`
-  - base + hover + focus-visible
+  - base + hover + focus-within
 - 検証: Playwright visual snapshot で hover state が transition 中継できる
 
 ### 2.3 Step 3 — G3-3 Visibility marker
@@ -47,8 +47,8 @@ status: spec_created
   - マーカーコメント `/* === parallel-02 G3-3 visibility marker (start) === */`
   - base `[data-visibility]`
   - 値別 (public / member / admin)
-  - icon `::before` 3 種
-- 検証: 3 つの値で left-border 色と icon が切り替わることを browser dev tool で確認
+  - token dot `::before` 3 種
+- 検証: 3 つの値で left-border 色と dot marker が切り替わることを browser dev tool で確認
 
 ## 3. 完了判定 (per step)
 

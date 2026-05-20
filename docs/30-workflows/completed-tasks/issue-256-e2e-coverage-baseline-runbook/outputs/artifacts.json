@@ -1,0 +1,74 @@
+{
+  "workflow_id": "issue-256-e2e-coverage-baseline-runbook",
+  "status": "implemented_local_evidence_captured",
+  "metadata": {
+    "workflow_state": "implemented_local_evidence_captured",
+    "implementation_status": "implementation_complete_pending_pr",
+    "taskType": "implementation",
+    "visualEvidence": "NON_VISUAL",
+    "scope": "Issue #256 AC2/AC3 baseline implementation, route smoke SLA runbooks, coverage exclude ratio soft warning",
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-05-18T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-256-e2e-coverage-baseline-runbook/outputs/phase-12/main.md",
+        "approver": "daishiman",
+        "notes": "spec_review: Phase 1-13 spec + local implementation completed"
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "passed",
+        "passed_at": "2026-05-18T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-256-e2e-coverage-baseline-runbook/outputs/phase-12/implementation-guide.md",
+        "approver": "daishiman",
+        "notes": "implementation_review: measure-coverage-exclude-ratio.ts + verify-coverage-exclude-ratio workflow + runbook 2 件"
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-256-e2e-coverage-baseline-runbook/phase-13-pr.md",
+        "approver": "daishiman",
+        "notes": "external_ops: PR review / merge / CI verify-coverage-exclude-ratio first run"
+      }
+    ]
+  },
+  "phases": {
+    "phase-1": { "status": "spec_created", "artifacts": ["phase-1-requirements.md", "outputs/phase-1/inventory.md"] },
+    "phase-2": { "status": "spec_created", "artifacts": ["phase-2-design.md", "outputs/phase-2/design-decisions.md"] },
+    "phase-3": { "status": "spec_created", "artifacts": ["phase-3-design-review.md"] },
+    "phase-4": { "status": "spec_created", "artifacts": ["phase-4-test-plan.md"] },
+    "phase-5": {
+      "status": "spec_created",
+      "artifacts": [
+        "phase-5-implementation.md",
+        "scripts/measure-coverage-exclude-ratio.ts",
+        ".github/workflows/verify-coverage-exclude-ratio.yml",
+        "docs/30-workflows/runbooks/e2e-coverage-fallback-metric.md",
+        "docs/30-workflows/runbooks/playwright-smoke-19-route-sla.md",
+        "vitest.config.ts (exclude trim)"
+      ]
+    },
+    "phase-6": { "status": "spec_created", "artifacts": ["phase-6-test-additions.md", "scripts/__tests__/measure-coverage-exclude-ratio.spec.ts"] },
+    "phase-7": { "status": "completed", "artifacts": ["phase-7-coverage.md", "outputs/phase-7/coverage-exclude-ratio.json", "outputs/phase-7/coverage-exclude-ratio.md"] },
+    "phase-8": { "status": "spec_created", "artifacts": ["phase-8-refactor.md"] },
+    "phase-9": { "status": "spec_created", "artifacts": ["phase-9-qa.md", "outputs/phase-9/qa-result.md"] },
+    "phase-10": { "status": "spec_created", "artifacts": ["phase-10-final-review.md"] },
+    "phase-11": { "status": "completed", "artifacts": ["phase-11-manual-test.md", "outputs/phase-11/manual-test-result.md"] },
+    "phase-12": {
+      "status": "completed",
+      "artifacts": [
+        "phase-12-documentation.md",
+        "outputs/phase-12/main.md",
+        "outputs/phase-12/implementation-guide.md",
+        "outputs/phase-12/system-spec-update-summary.md",
+        "outputs/phase-12/documentation-changelog.md",
+        "outputs/phase-12/unassigned-task-detection.md",
+        "outputs/phase-12/skill-feedback-report.md",
+        "outputs/phase-12/phase12-task-spec-compliance-check.md"
+      ]
+    },
+    "phase-13": { "status": "runtime_pending", "artifacts": ["phase-13-pr.md"] }
+  }
+}
