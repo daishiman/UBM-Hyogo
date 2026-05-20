@@ -1,0 +1,20 @@
+{
+  "workflow": "docs/30-workflows/issue-770-profile-loading-skeleton",
+  "generatedAt": "2026-05-18T00:08:00+09:00",
+  "tool": "Playwright chromium via pnpm exec tsx",
+  "captureMethod": "isolated local component render",
+  "sourceImplementation": "apps/web/app/profile/loading.tsx",
+  "outputHtml": "outputs/phase-11/screenshots/profile-loading-local-component-desktop.html",
+  "screenshots": [
+    {
+      "id": "TC-VIS-01",
+      "path": "outputs/phase-11/screenshots/profile-loading-local-component-desktop.png",
+      "viewport": "1280x720",
+      "dimensions": "816x340"
+    }
+  ],
+  "limitations": [
+    "This proves local component shape, token class usage, and spacing in isolation.",
+    "Authenticated runtime transition and staging smoke are user-gated and remain pending."
+  ]
+}

@@ -376,7 +376,7 @@ local implementation である。状態は
 
 | 項目 | 正本 |
 | --- | --- |
-| workflow root | `docs/30-workflows/issue-720-cf-audit-monitor-env-protection-fix/` |
+| workflow root | `docs/30-workflows/completed-tasks/issue-720-cf-audit-monitor-env-protection-fix/` |
 | source unassigned | `docs/30-workflows/completed-tasks/task-issue-655-cf-audit-log-monitor-production-env-protection-001.md` |
 | parent workflow | `docs/30-workflows/completed-tasks/issue-655-d7-recovery-2nd-cycle/` |
 | local diff | `.github/workflows/cf-audit-log-monitor.yml` から `environment: production` を削除 |

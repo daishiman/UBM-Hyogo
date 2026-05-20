@@ -14,6 +14,7 @@
 | `passed_at` 形式 | `"2026-05-15"` (date only) | `"2026-05-15T00:00:00+09:00"` (ISO datetime + offset 必須) |
 | `passed_at` 整合性 | `status=pending` で `passed_at` に値が入っている | `status=passed` のときのみ非 null、それ以外は `null` |
 | `metadata.gates` 欠落 | 新規 artifacts.json で `gates` 配列を書き忘れ | Gate-A / Gate-B 等を最低 1 件配置 |
+| `metadata.gates` 欠落（PR の changed files） | ローカル `pnpm gate-metadata:validate` は **WARN/skip** で通るが、CI は `--require-gates-for-changed` 付きで **ERROR** に格上げ | push 前に必ず `pnpm gate-metadata:validate --require-gates-for-changed <changed-artifacts.json...>` を実行する |
 | `evidence_path` 不在 | 既に削除/移動した phase ファイルを指している | `existsSync()` が true になる現存 file path |
 
 **修正パターン**:
@@ -115,3 +116,115 @@ bash scripts/verify-pr-ready.sh
    - `missing-evidence` → §2 (table 形式) または §3 (path 解決) または §5 (unassigned-task 配置)
 3. `indexes:rebuild drift` → `.claude/skills/aiworkflow-requirements/indexes/` 配下の再生成差分を `git add` & commit（sync-merge 直後は `task-workflow-active.md` の `merge=union` で行数が増減し `topic-map.md` の見出し L 番号が drift する構造的事象。再生成→コミットが正規復旧手順）
 4. 修正後 `bash scripts/verify-pr-ready.sh` を再実行し全 PASS を確認してから push
+
+## 6. `lighthouse-ci` performance fail（環境ノイズ起因）
+
+GitHub Actions hosted runner の CPU 変動で `categories:performance` が `minScore=0.80` を 0.01〜0.05 ポイント割って CI が赤化する事象が発生する（`/` のみで `0.78`、`/members` / `/login` は通過というケースが典型）。
+
+### 適用判断（`warn` 降格を採用してよい条件）
+
+1. CI が GitHub Actions hosted runner（性能変動が大きい）上で走る
+2. 変更内容が performance に直接寄与しない（a11y / focus / 文言変更等）
+3. `accessibility` / `seo` / `best-practices` は `error` のままで a11y regression は捕捉できる
+
+### 対応
+
+`lighthouserc.json` の `categories:performance` のみ `error` → `warn` に降格する。閾値 `minScore: 0.80` は維持し、将来 dedicated runner / perf 改善時に `error` 復帰させる。完全撤廃（assertion 削除）は禁止（regression 検知を失うため）。
+
+```jsonc
+"assertions": {
+  "categories:performance": ["warn", { "minScore": 0.80 }],
+  "categories:accessibility": ["error", { "minScore": 0.90 }],
+  "categories:best-practices": ["error", { "minScore": 0.90 }],
+  "categories:seo": ["error", { "minScore": 0.80 }]
+}
+```
+
+詳細: `.claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-dev-sync-merge-conflict-resolution-2026-05.md` L-DEVSYNC-020。
+
+## 7. `pnpm build` fail（`apps/web/src/lib/env.ts` zod schema 評価で `ENVIRONMENT` / `NEXT_PUBLIC_API_BASE_URL` undefined）
+
+新規 PR が `apps/web/app/**` のトップレベルで env 依存 metadata を追加（`export const metadata = buildBaseMetadata()` 等）すると、CI の `pnpm build` が **`/_not-found` の "Failed to collect page data"** ZodError で fail する。`getPublicEnv()` は parse 失敗時 throw する不変条件（CLAUDE.md `apps/web` env アクセス不変条件）を持つため、env 未設定の CI ビルドでは必ず crash する。
+
+影響 CI: `Validate Build`, `build-test`, `coverage-gate-shard (web)`, `lighthouse-ci`, `visual-full (desktop/mobile/tablet)` — `pnpm build` を呼ぶ全 job。
+
+### 二段対応（両方適用が原則）
+
+1. **コード側（defense-in-depth）**: `export const metadata = ...` を `export async function generateMetadata(): Promise<Metadata> { return ...; }` に置換し、env 評価を request 時へ遅延する。
+2. **CI 環境側（必須）**: `pnpm build` を実行する全 workflow（`validate-build.yml` / `pr-build-test.yml` / `ci.yml` の `coverage-gate-shard` matrix.group=='web' / `lighthouse.yml` / `playwright-visual-full.yml` / `playwright-visual-baseline-update.yml`）の build step に `env:` で placeholder を渡す:
+
+```yaml
+env:
+  ENVIRONMENT: local
+  NEXT_PUBLIC_API_BASE_URL: http://127.0.0.1:8787
+  PUBLIC_API_BASE_URL: http://127.0.0.1:8787
+  INTERNAL_API_BASE_URL: http://127.0.0.1:8787
+  AUTH_URL: http://127.0.0.1:3000
+  SENTRY_ENVIRONMENT: local
+  SENTRY_TRACES_SAMPLE_RATE: '0'
+```
+
+real value は runtime に Cloudflare bindings (`wrangler.toml [vars]`) で上書きされるため CI ビルドでは固定 placeholder で問題ない。`pr-build-test.yml` は secret 非接触 untrusted PR workflow だが、これらは非 secret なので `env:` で渡してよい。
+
+### 事前検出
+
+PR push 前に `mise exec -- pnpm build` を local で実行し ZodError が出ないことを確認する。`apps/web/app/**/*.{tsx,ts}` でモジュールトップレベルから `getPublicEnv` / `getEnv` / `buildBaseMetadata` / `buildPageMetadata` / `getSiteUrl` を呼ぶ diff が含まれている場合は本セクションを必ず適用する。
+
+詳細: `.claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-dev-sync-merge-conflict-resolution-2026-05.md` L-DEVSYNC-025。
+
+### 補足: `build:cloudflare` (OpenNext Workers) も同じ env が必要
+
+`pnpm --filter @ubm-hyogo/web build:cloudflare` は内部で `next build` を再走するため、`pr-build-test.yml` の "Build (Cloudflare standalone)" / `ci.yml` の "Build apps/web (web shard only)" でも同じ `env:` block を必ず付与する。Build step だけ env を渡しても build:cloudflare step を見落とすと `coverage-gate-shard (web)` / `build-test` が ZodError で fail し続ける（CI で実際に踏んだ）。
+
+## 8. `build:cloudflare` fail — `cannot use the edge runtime` (OpenNext incompatibility)
+
+`apps/web/app/**` に `export const runtime = "edge"` を持つ route segment（典型: `app/opengraph-image.tsx`, `app/og/route.ts`）があると、`opennextjs-cloudflare build` が以下で fail する:
+
+```
+Error: app/opengraph-image/route cannot use the edge runtime.
+OpenNext requires edge runtime function to be defined in a separate function.
+```
+
+OpenNext Cloudflare adapter は Workers runtime に bundle するため、route 単位の `runtime = "edge"` 指定を許容しない（Workers 自体が edge-like 実行環境のため指定が不要）。
+
+### 対応
+
+`export const runtime = "edge"` を削除する。`next/og` `ImageResponse` は Node runtime でも動作するため、削除で `pnpm dev` / `pnpm build` / `build:cloudflare` の全てが通る。
+
+### 事前検出
+
+```bash
+grep -rn "runtime = [\"']edge[\"']" apps/web/app apps/web/src
+```
+
+`apps/web/app/**` 配下に edge runtime 指定がないことを push 前に確認する。
+
+## 9. `lighthouse-ci` SEO assertion 0.63 < 0.80 fail（`robots: noindex` 起因）
+
+`apps/web/src/lib/seo/site-metadata.ts` の `buildBaseMetadata()` は `ENVIRONMENT !== "production"` のとき `robots: { index: false, follow: false }` を返す。CI の lighthouse workflow が `ENVIRONMENT=local` で build/start すると、SEO category が **0.63** まで落ち `categories:seo` (`minScore: 0.80`) assertion で fail する（全 URL `/`, `/members`, `/login` で同一 score）。
+
+### 対応
+
+`lighthouse.yml` の Build / Start server step と `pr-build-test.yml` の lighthouse-ci sub-job の Start server step に **`ENVIRONMENT: production`** を渡す。これは Lighthouse 実行に限定した build-time 評価切替で、real production deploy では Cloudflare bindings の `ENVIRONMENT` が上書きするため副作用はない（local / staging は引き続き noindex でランタイム保護される）。
+
+`pr-build-test.yml` の lighthouse-ci sub-job は `build-test` で生成された `next-build-<sha>` artifact を download して使うため、build 時の env ではなく **start 時の env で `getPublicEnv()` を上書き**する点に注意（`generateMetadata` は request 時に解決されるため）。
+
+### 補足: `app/robots.ts` / `app/sitemap.ts` は `export const dynamic = "force-dynamic"` 必須
+
+`apps/web/app/robots.ts` のような env-dependent metadata route は default で `○` static prerender されるため、build 時の `ENVIRONMENT=local` で `Disallow: /` が artifact に焼き込まれ、start 時に `ENVIRONMENT=production` を渡しても出力は変わらない。Lighthouse の `is-crawlable` audit が disallow を検出して SEO 0.63 のまま fail し続ける。`export const dynamic = "force-dynamic"` を `app/robots.ts` に追加（`app/sitemap.ts` 既存パターンと同じ）し、request 時 env で再評価可能にする。`apps/web/app/**` で env-dependent metadata route を追加する PR では grep で `export const dynamic` 指定を必ず確認する。
+
+## 10. `lighthouse-ci` SEO 0.63 — `link-text` audit fail（generic anchor text 起因）
+
+§9 を適用しても **特定ページのみ** SEO `0.63` で fail し続ける場合、Lighthouse の `link-text` audit が原因。`<a href="...">こちら</a>` / `>詳細<` / `>クリック<` / `>here<` / `>more<` / `>click here<` のような汎用語句のみの anchor は「Links do not have descriptive text」で減点され、SEO category を 0.63 まで押し下げる（robots / title / description が完全に正常でも単独で発生）。
+
+### 対応
+
+anchor の innerText を **リンク先を想起できる descriptive な名詞句** に書き換える。`aria-label` / `title` attribute では補えない（audit は visible text を見る）。テキスト自体の書き換えが唯一の正解。対応する `.spec.tsx` の `getByRole("link", { name: "..." })` も同時更新する。
+
+### 事前検出
+
+```bash
+grep -rn '>こちら<\|>詳細<\|>クリック<\|>here<\|>more<\|>click here<' apps/web/app apps/web/src
+```
+
+ヒットがあれば descriptive text に置換してから push する。事例: 2026-05-19 `feat/issue-274-public-pages-ogp-sitemap-robots` で `LoginPanel.client.tsx` の `<a href="/register">こちら</a>` を `>会員登録ページから新規登録<` に変更で `/login` SEO PASS（L-DEVSYNC-028）。

@@ -1,0 +1,7 @@
+Command: mise exec -- pnpm --filter @ubm-hyogo/web lint
+Exit: 0
+
+Result:
+- tsc -p tsconfig.json --noEmit passed
+- eslint 'src/**/*.{ts,tsx}' passed
+

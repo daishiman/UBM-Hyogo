@@ -158,6 +158,10 @@ export interface AdminDashboardView {
     untaggedMembers: number;
     unresolvedSchema: number;
   };
+  byStatus?: Array<{
+    status: PublishState;
+    count: number;
+  }>;
   recentActions: Array<{
     auditId: string;
     actorEmail: string | null;

@@ -1,0 +1,29 @@
+# 目的: OIDC 切替後の fallback 起動 0 件 observation 用 manual gate 雛形。
+# 本サイクルでは no-op verifier。後続実切替 PR で実 verifier に差し替える。
+name: oidc-observation-window
+
+on:
+  workflow_dispatch:
+    inputs:
+      window_label:
+        description: 'observation label (e.g., 2026-06-staging-proof)'
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+concurrency:
+  group: oidc-observation-window-${{ inputs.window_label }}
+  cancel-in-progress: false
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: No-op observation gate (manual)
+        run: |
+          echo "observation window manual gate: ${{ inputs.window_label }}"
+          echo "fallback count verifier is intentionally deferred until Cloudflare OIDC deploy support is official"

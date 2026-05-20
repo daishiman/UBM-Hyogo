@@ -84,3 +84,25 @@ dev → feature の sync-merge で CI が落ちた場合、落ちた gate のう
 ### 再発防止アクション
 - sync-merge 完了レポートでは「sync 起因の失敗」と「既存失敗」を明示分離する。
 - 既存失敗の修正は **タスク本体の Phase 12 close-out** に組み込み、別コミットで対処する。本 lessons-learned ファイル自体も Phase 12 close-out 同期 wave の成果物として扱う。
+
+---
+
+## 4. ci-cd / ローカル `gate-metadata:validate` の WARN は CI の ERROR と一致しない（2026-05-18 task-761 再発）
+
+### 概要
+`task-761-visual-full-required-status-check` で `metadata.gates` が両 `artifacts.json` に未配置のまま push し、`verify-gate-metadata` が ERROR で落ちた。本 lessons-learned § 2 と `references/gate-metadata.md` で既に明文化済みのパターンの **再発**。
+
+### なぜ再発したか
+- ローカル `pnpm gate-metadata:validate`（pre-flight `scripts/verify-pr-ready.sh` が実行する形）は **`--require-gates-for-changed` 引数なし** で動くため、`metadata.gates` 欠落は **WARN/skip** にダウングレードされ、ERROR にならない。
+- CI 側だけが PR の changed `artifacts.json` を `--require-gates-for-changed` に渡して ERROR へ格上げするため、「pre-flight 緑 → CI 赤」というギャップが生まれる。
+- pre-flight でこの差分を吸収する仕組みがなく、`completed-tasks/<task>/artifacts.json` を新規追加した PR で繰り返し落ちる構造になっていた。
+
+### 再発防止アクション
+- 新規／変更した `artifacts.json` を含む PR では、push 前に **手動で** 以下を実行する:
+  ```bash
+  changed=$(git diff origin/dev...HEAD --name-only -- 'docs/30-workflows/**/artifacts.json')
+  pnpm gate-metadata:validate --require-gates-for-changed $changed
+  ```
+- 上記コマンドを `pr-pre-flight-ci-gate-checklist.md § 1` に追加済み。`scripts/verify-pr-ready.sh` への組み込み（changed files を自動算出して strict モードで呼ぶ）は別タスク化候補。
+- task-specification-creator スキルで governance-mutation task（`gateModel: three_gate_a_b_c`）を生成する際は、`metadata.gates` を初期テンプレに **必ず** 含めることを Phase 12 close-out チェックの必須項目とする。
+- canonical 3-gate テンプレ実例: `docs/30-workflows/completed-tasks/task-761-visual-full-required-status-check/artifacts.json`（Gate-A spec / Gate-B validator / Gate-C runtime user-approval を `three_gate_a_b_c` で配置）。

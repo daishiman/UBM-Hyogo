@@ -1,0 +1,13 @@
+Command: mise exec -- pnpm lint
+Result: exit 0
+
+Summary:
+- dependency-cruiser: no dependency violations found
+- stablekey-literal-lint: OK
+- stable-key-update-lint: OK
+- packages/contracts lint: Done
+- packages/shared lint: Done
+- apps/web lint: Done
+- packages/integrations/google lint: Done
+- packages/integrations lint: Done
+- apps/api lint: Done
