@@ -10,10 +10,14 @@
 | 対象機能     | Playwright + apps/web `page.tsx` / `layout.tsx` / route.ts 主要導線   |
 | 優先度       | 中                                                                    |
 | 見積もり規模 | 中規模                                                                |
-| ステータス   | 未実施 (proposed)                                                     |
+| ステータス   | partial_fix（Issue #256 AC2/AC3 は `issue-256-e2e-coverage-baseline-runbook` で実装済） |
 | 親タスク     | coverage-80-enforcement                                               |
 | 発見元       | coverage-80-enforcement Phase 12 unassigned-task-detection (U-2)      |
 | 発見日       | 2026-04-29                                                            |
+
+### 2026-05-18 partial fix trace
+
+`docs/30-workflows/issue-256-e2e-coverage-baseline-runbook/` により、AC2（主要 route smoke SLA 明文化）と AC3（coverage exclude ratio baseline + 代替指標 runbook）は `implemented_local_evidence_captured` として部分消費済み。Issue #256 は CLOSED のため PR 文脈は `Refs #256` のみを使う。
 
 ---
 

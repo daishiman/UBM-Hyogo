@@ -1,0 +1,19 @@
+# Web Vitest Evidence
+
+Command executed:
+
+```bash
+pnpm --filter @ubm-hyogo/web test -- --reporter=verbose \
+  apps/web/src/lib/a11y/__tests__/useAutoFocusOnMount.spec.tsx \
+  apps/web/app/__tests__/error.component.spec.tsx \
+  apps/web/app/login/__tests__/error.component.spec.tsx \
+  apps/web/app/profile/__tests__/error.component.spec.tsx \
+  "apps/web/app/(admin)/admin/__tests__/error.component.spec.tsx"
+```
+
+Result:
+
+- Exit code: 0
+- Test Files: 98 passed, 1 skipped
+- Tests: 690 passed, 1 skipped
+- Note: the package script appends `apps/web`, so the command ran the web package test suite rather than only the focused paths.

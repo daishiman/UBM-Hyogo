@@ -6,7 +6,7 @@
 task_id: issue-717-followup-003-1password-restructure
 title: 1Password Cloudflare Credential Restructure
 category: Secret Management
-status: blocked
+status: consumed_pending_issue_765_gate_b
 source_workflow: docs/30-workflows/issue-717-oidc-cf-full-migration/
 github_issue: 717
 created_date: 2026-05-16
@@ -15,7 +15,13 @@ visualEvidence: NON_VISUAL
 dependencies:
   - production OIDC cutover completed
   - legacy token physical revocation completed
+canonical_workflow: docs/30-workflows/issue-765-1p-vault-restructure-oidc-cutover/
 ```
+
+## Canonical Workflow Trace
+
+This unassigned task has been promoted to `docs/30-workflows/issue-765-1p-vault-restructure-oidc-cutover/`.
+Archive and runtime smoke remain user-gated in Issue #765 Gate B; physical delete remains Gate B' after the deprecation window. Keep this source task as consumed-pending until Issue #765 evidence is complete.
 
 ## 1. 苦戦箇所
 

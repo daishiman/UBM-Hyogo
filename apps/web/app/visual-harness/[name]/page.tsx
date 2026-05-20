@@ -12,6 +12,7 @@ const allowed = new Set([
   "pagination-disabled",
   "empty-state",
   "profile-loading",
+  "parallel-02-css-rules",
 ]);
 
 export default async function Parallel09VisualPage({

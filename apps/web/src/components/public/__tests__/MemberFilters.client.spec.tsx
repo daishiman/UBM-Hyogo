@@ -60,6 +60,8 @@ describe("MemberFilters", () => {
     const tags = container.querySelectorAll('[data-role="active-tags"] li');
     expect(tags).toHaveLength(2);
     const fooBtn = screen.getByRole("button", { name: "#foo ×" });
+    expect(fooBtn.getAttribute("data-component")).toBe("tag-pill");
+    expect(fooBtn.getAttribute("aria-selected")).toBe("true");
     fireEvent.click(fooBtn);
     expect(replaceMock).toHaveBeenCalled();
   });

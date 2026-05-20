@@ -1,0 +1,129 @@
+mise WARN  Config files in ~/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260518-150039-wt-8/.mise.toml are not trusted.
+Trust them with `mise trust`. See https://mise.jdx.dev/cli/trust.html for more information.
+[1A[2K[2m[WebServer] [22m(node:79616) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[2m[WebServer] [22m(Use `pnpm --trace-warnings ...` to show where the warning was created)
+
+[1A[2K[2m[WebServer] [22m(node:79665) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[2m[WebServer] [22m(Use `node --trace-warnings ...` to show where the warning was created)
+
+[1A[2K[2m[WebServer] [22m(node:79668) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[2m[WebServer] [22m(Use `node --trace-warnings ...` to show where the warning was created)
+
+[1A[2K[2m[WebServer] [22m⚠ The "middleware" file convention is deprecated. Please use "proxy" instead. Learn more: https://nextjs.org/docs/messages/middleware-to-proxy
+
+[1A[2K[2m[WebServer] [22m⚠ ../../node_modules/@prisma/instrumentation/node_modules/@opentelemetry/instrumentation/build/esm/platform/node/instrumentation.js
+[2m[WebServer] [22mCritical dependency: the request of a dependency is an expression
+[2m[WebServer] [22m
+[2m[WebServer] [22mImport trace for requested module:
+[2m[WebServer] [22m../../node_modules/@prisma/instrumentation/node_modules/@opentelemetry/instrumentation/build/esm/platform/node/instrumentation.js
+[2m[WebServer] [22m../../node_modules/@prisma/instrumentation/node_modules/@opentelemetry/instrumentation/build/esm/platform/node/index.js
+[2m[WebServer] [22m../../node_modules/@prisma/instrumentation/node_modules/@opentelemetry/instrumentation/build/esm/platform/index.js
+[2m[WebServer] [22m../../node_modules/@prisma/instrumentation/node_modules/@opentelemetry/instrumentation/build/esm/index.js
+[2m[WebServer] [22m../../node_modules/@prisma/instrumentation/dist/index.js
+[2m[WebServer] [22m../../node_modules/@sentry/node/build/cjs/integrations/tracing/prisma.js
+[2m[WebServer] [22m../../node_modules/@sentry/node/build/cjs/index.js
+[2m[WebServer] [22m../../node_modules/@sentry/nextjs/build/cjs/index.server.js
+[2m[WebServer] [22m./src/lib/sentry/capture.ts
+[2m[WebServer] [22m./src/lib/logger.ts
+[2m[WebServer] [22m./app/error.tsx
+
+
+Running 14 tests using 1 worker
+
+[1A[2K(node:80478) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[1A[2K(node:80478) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[1A[2K[1/14] [chromium-desktop] › playwright/tests/visual/admin-schema-diff.spec.ts:69:5 › SchemaDiffPanel runtime evidence › pane added
+[1A[2K[2m[WebServer] [22m⚠ ../../node_modules/@prisma/instrumentation/node_modules/@opentelemetry/instrumentation/build/esm/platform/node/instrumentation.js
+[2m[WebServer] [22mCritical dependency: the request of a dependency is an expression
+[2m[WebServer] [22m
+[2m[WebServer] [22mImport trace for requested module:
+[2m[WebServer] [22m../../node_modules/@prisma/instrumentation/node_modules/@opentelemetry/instrumentation/build/esm/platform/node/instrumentation.js
+[2m[WebServer] [22m../../node_modules/@prisma/instrumentation/node_modules/@opentelemetry/instrumentation/build/esm/platform/node/index.js
+[2m[WebServer] [22m../../node_modules/@prisma/instrumentation/node_modules/@opentelemetry/instrumentation/build/esm/platform/index.js
+[2m[WebServer] [22m../../node_modules/@prisma/instrumentation/node_modules/@opentelemetry/instrumentation/build/esm/index.js
+[2m[WebServer] [22m../../node_modules/@prisma/instrumentation/dist/index.js
+[2m[WebServer] [22m../../node_modules/@sentry/node/build/cjs/integrations/tracing/prisma.js
+[2m[WebServer] [22m../../node_modules/@sentry/node/build/cjs/index.js
+[2m[WebServer] [22m../../node_modules/@sentry/nextjs/build/cjs/index.server.js
+[2m[WebServer] [22m./src/lib/sentry/capture.ts
+[2m[WebServer] [22m./src/lib/logger.ts
+[2m[WebServer] [22m./app/error.tsx
+
+[1A[2K[2m[WebServer] [22m⚠ ../../node_modules/@prisma/instrumentation/node_modules/@opentelemetry/instrumentation/build/esm/platform/node/instrumentation.js
+[2m[WebServer] [22mCritical dependency: the request of a dependency is an expression
+[2m[WebServer] [22m
+[2m[WebServer] [22mImport trace for requested module:
+[2m[WebServer] [22m../../node_modules/@prisma/instrumentation/node_modules/@opentelemetry/instrumentation/build/esm/platform/node/instrumentation.js
+[2m[WebServer] [22m../../node_modules/@prisma/instrumentation/node_modules/@opentelemetry/instrumentation/build/esm/platform/node/index.js
+[2m[WebServer] [22m../../node_modules/@prisma/instrumentation/node_modules/@opentelemetry/instrumentation/build/esm/platform/index.js
+[2m[WebServer] [22m../../node_modules/@prisma/instrumentation/node_modules/@opentelemetry/instrumentation/build/esm/index.js
+[2m[WebServer] [22m../../node_modules/@prisma/instrumentation/dist/index.js
+[2m[WebServer] [22m../../node_modules/@sentry/node/build/cjs/integrations/tracing/prisma.js
+[2m[WebServer] [22m../../node_modules/@sentry/node/build/cjs/index.js
+[2m[WebServer] [22m../../node_modules/@sentry/nextjs/build/cjs/index.server.js
+[2m[WebServer] [22m./src/lib/sentry/capture.ts
+[2m[WebServer] [22m./src/lib/logger.ts
+[2m[WebServer] [22m./app/error.tsx
+
+[1A[2K[2m[WebServer] [22m⚠ ../../node_modules/@prisma/instrumentation/node_modules/@opentelemetry/instrumentation/build/esm/platform/node/instrumentation.js
+[2m[WebServer] [22mCritical dependency: the request of a dependency is an expression
+[2m[WebServer] [22m
+[2m[WebServer] [22mImport trace for requested module:
+[2m[WebServer] [22m../../node_modules/@prisma/instrumentation/node_modules/@opentelemetry/instrumentation/build/esm/platform/node/instrumentation.js
+[2m[WebServer] [22m../../node_modules/@prisma/instrumentation/node_modules/@opentelemetry/instrumentation/build/esm/platform/node/index.js
+[2m[WebServer] [22m../../node_modules/@prisma/instrumentation/node_modules/@opentelemetry/instrumentation/build/esm/platform/index.js
+[2m[WebServer] [22m../../node_modules/@prisma/instrumentation/node_modules/@opentelemetry/instrumentation/build/esm/index.js
+[2m[WebServer] [22m../../node_modules/@prisma/instrumentation/dist/index.js
+[2m[WebServer] [22m../../node_modules/@sentry/node/build/cjs/integrations/tracing/prisma.js
+[2m[WebServer] [22m../../node_modules/@sentry/node/build/cjs/index.js
+[2m[WebServer] [22m../../node_modules/@sentry/nextjs/build/cjs/index.server.js
+[2m[WebServer] [22m./src/lib/sentry/capture.ts
+[2m[WebServer] [22m./src/lib/logger.ts
+[2m[WebServer] [22m./app/error.tsx
+
+[1A[2K[2m[WebServer] [22m⚠ ../../node_modules/@prisma/instrumentation/node_modules/@opentelemetry/instrumentation/build/esm/platform/node/instrumentation.js
+[2m[WebServer] [22mCritical dependency: the request of a dependency is an expression
+[2m[WebServer] [22m
+[2m[WebServer] [22mImport trace for requested module:
+[2m[WebServer] [22m../../node_modules/@prisma/instrumentation/node_modules/@opentelemetry/instrumentation/build/esm/platform/node/instrumentation.js
+[2m[WebServer] [22m../../node_modules/@prisma/instrumentation/node_modules/@opentelemetry/instrumentation/build/esm/platform/node/index.js
+[2m[WebServer] [22m../../node_modules/@prisma/instrumentation/node_modules/@opentelemetry/instrumentation/build/esm/platform/index.js
+[2m[WebServer] [22m../../node_modules/@prisma/instrumentation/node_modules/@opentelemetry/instrumentation/build/esm/index.js
+[2m[WebServer] [22m../../node_modules/@prisma/instrumentation/dist/index.js
+[2m[WebServer] [22m../../node_modules/@sentry/node/build/cjs/integrations/tracing/prisma.js
+[2m[WebServer] [22m../../node_modules/@sentry/node/build/cjs/index.js
+[2m[WebServer] [22m../../node_modules/@sentry/nextjs/build/cjs/index.server.js
+[2m[WebServer] [22m./src/lib/sentry/capture.ts
+[2m[WebServer] [22m./src/lib/logger.ts
+[2m[WebServer] [22m./app/error.tsx
+
+[1A[2K[2/14] [chromium-desktop] › playwright/tests/visual/admin-schema-diff.spec.ts:69:5 › SchemaDiffPanel runtime evidence › pane changed
+[1A[2K[3/14] [chromium-desktop] › playwright/tests/visual/admin-schema-diff.spec.ts:69:5 › SchemaDiffPanel runtime evidence › pane removed
+[1A[2K[4/14] [chromium-desktop] › playwright/tests/visual/admin-schema-diff.spec.ts:69:5 › SchemaDiffPanel runtime evidence › pane unresolved
+[1A[2K[5/14] [chromium-desktop] › playwright/tests/visual/admin-schema-diff.spec.ts:82:3 › SchemaDiffPanel runtime evidence › resolve success feedback
+[1A[2K[6/14] [chromium-desktop] › playwright/tests/visual/admin-schema-diff.spec.ts:95:3 › SchemaDiffPanel runtime evidence › resolve 409 feedback
+[1A[2K[7/14] [chromium-desktop] › playwright/tests/visual/admin-schema-diff.spec.ts:108:3 › SchemaDiffPanel runtime evidence › resolve 422 feedback
+[1A[2K(node:82149) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[1A[2K(node:82149) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[1A[2K[8/14] [chromium-mobile] › playwright/tests/visual/admin-schema-diff.spec.ts:69:5 › SchemaDiffPanel runtime evidence › pane added
+[1A[2K[9/14] [chromium-mobile] › playwright/tests/visual/admin-schema-diff.spec.ts:69:5 › SchemaDiffPanel runtime evidence › pane changed
+[1A[2K[10/14] [chromium-mobile] › playwright/tests/visual/admin-schema-diff.spec.ts:69:5 › SchemaDiffPanel runtime evidence › pane removed
+[1A[2K[11/14] [chromium-mobile] › playwright/tests/visual/admin-schema-diff.spec.ts:69:5 › SchemaDiffPanel runtime evidence › pane unresolved
+[1A[2K[12/14] [chromium-mobile] › playwright/tests/visual/admin-schema-diff.spec.ts:82:3 › SchemaDiffPanel runtime evidence › resolve success feedback
+[1A[2K[13/14] [chromium-mobile] › playwright/tests/visual/admin-schema-diff.spec.ts:95:3 › SchemaDiffPanel runtime evidence › resolve 409 feedback
+[1A[2K[14/14] [chromium-mobile] › playwright/tests/visual/admin-schema-diff.spec.ts:108:3 › SchemaDiffPanel runtime evidence › resolve 422 feedback
+[1A[2K  3 skipped
+  11 passed (37.8s)
+EXIT_CODE=0
