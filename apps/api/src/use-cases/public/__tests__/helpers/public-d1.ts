@@ -16,6 +16,7 @@ export interface PublicD1MockOptions {
   tagsByMemberId?: Record<string, unknown[]>;
   attendanceByMemberId?: Record<string, unknown[]>;
   meetings?: unknown[];
+  topTags?: Array<{ code: string; label: string; count: number }>;
   syncJobs?: Partial<Record<"schema_sync" | "response_sync", unknown | null>>;
   failOnSql?: RegExp | string;
   queryLog?: string[];
@@ -185,6 +186,14 @@ class MockStmt {
 
     if (sql.includes("SELECT mi.member_id, mi.current_response_id")) {
       return { results: (this.options.publicMembers ?? []) as T[] };
+    }
+
+    if (
+      sql.includes("JOIN tag_definitions td") &&
+      sql.includes("COUNT(DISTINCT mi.member_id) AS count") &&
+      sql.includes("GROUP BY td.code")
+    ) {
+      return { results: (this.options.topTags ?? []) as T[] };
     }
 
     if (

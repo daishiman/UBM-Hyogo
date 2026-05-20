@@ -260,7 +260,9 @@ enum 外や過大値は 400 ではなく default / clamp に fallback し、内�
 
 ### Response
 
-Response は `PublicMemberListViewZ.strict()` を正本とし、`items`、`pagination`、`appliedQuery`、`generatedAt` を返す。`responseEmail`、`publicConsent`、`rulesConsent`、`publishState`、`isDeleted`、管理メモなどの admin-only field は返さない。
+Response は `PublicMemberListViewZ.strict()` を正本とし、`items`、`pagination`、`appliedQuery`、`topTags`、`generatedAt` を返す。`responseEmail`、`publicConsent`、`rulesConsent`、`publishState`、`isDeleted`、管理メモなどの admin-only field は返さない。
+
+`topTags` は `/members` の tag chip picker 用候補であり、公開境界を通る member に紐づく active tag を `{ code, label, count }[]` として最大 20 件返す。集計は `COUNT(DISTINCT member_id)` の降順、同数時は `code ASC` とし、追加 endpoint は作らない。`tag` query による絞り込みは repeated `tag` の AND 条件を維持し、`topTags` 自体は候補提示のための補助 field として返す。
 
 ### Public boundary
 

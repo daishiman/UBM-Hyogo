@@ -131,6 +131,11 @@ export interface PublicMemberListView {
     sort: "recent" | "name";
     density: "comfy" | "dense" | "list";
   };
+  topTags: Array<{
+    code: string;
+    label: string;
+    count: number;
+  }>;
   generatedAt: string;
 }
 

@@ -2333,6 +2333,17 @@ node scripts/list-specs.js --topics
 | Evidence Boundary | L24 |
 | Captured Evidence | L27 |
 
+### references/workflow-issue-276-mobile-filterbar-tag-picker-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Metadata | L3 |
+| Canonical Files | L13 |
+| Planned Implementation Targets | L23 |
+| Runtime Boundary | L32 |
+| Lessons Learned | L36 |
+| Pattern Reference | L42 |
+
 ### references/workflow-issue-290-workflow-lint-gate-artifact-inventory.md
 
 | セクション | 行 |
@@ -4981,6 +4992,15 @@ node scripts/list-specs.js --topics
 | L-274-006: `issue-NNN` namespace は legacy-ordinal-family-register の table 行追加不要 | L102 |
 | 参照 | L119 |
 
+### references/lessons-learned-issue-276-mobile-filterbar-tag-picker-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| 背景 | L10 |
+| 教訓一覧 | L20 |
+| 後発タスクへの転記チェックリスト（filter / picker primitive 追加時に複製） | L64 |
+| 参照 | L78 |
+
 ### references/lessons-learned-issue-290-workflow-lint-gate-2026-05.md
 
 | セクション | 行 |
@@ -7109,14 +7129,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L1786 |
-| フェーズ構造（概要） | L1795 |
-| 品質ゲート（概要） | L1826 |
-| 出力テンプレート | L1837 |
-| 実行時のコマンド・エージェント・スキル | L1860 |
-| 昇格パターン集 | L1884 |
-| Current Active / Spec Created Tasks | L1886 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L2039 |
+| ドキュメント構成 | L1776 |
+| フェーズ構造（概要） | L1785 |
+| 品質ゲート（概要） | L1816 |
+| 出力テンプレート | L1827 |
+| 実行時のコマンド・エージェント・スキル | L1850 |
+| 昇格パターン集 | L1874 |
+| Current Active / Spec Created Tasks | L1876 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L2028 |
 
 ### references/task-workflow-backlog-part2.md
 

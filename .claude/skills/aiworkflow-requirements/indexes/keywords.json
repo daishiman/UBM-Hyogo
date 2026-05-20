@@ -3232,6 +3232,7 @@
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
       "workflow-issue-256-e2e-coverage-baseline-runbook-artifact-inventory.md",
       "workflow-issue-274-public-pages-ogp-sitemap-robots-artifact-inventory.md",
+      "workflow-issue-276-mobile-filterbar-tag-picker-artifact-inventory.md",
       "workflow-issue-295-tag-queue-resolve-race-smoke-artifact-inventory.md",
       "workflow-issue-331-cicd-runtime-warning-cleanup-artifact-inventory.md",
       "workflow-issue-352-postmortem-template-automation-artifact-inventory.md",
@@ -4415,6 +4416,7 @@
       "lessons-learned-issue-194-identity-merge-2026-05.md",
       "lessons-learned-issue-195-03b-followup-sync-shared-modules-owner-2026-05.md",
       "lessons-learned-issue-274-public-pages-ogp-sitemap-robots-2026-05.md",
+      "lessons-learned-issue-276-mobile-filterbar-tag-picker-2026-05.md",
       "lessons-learned-issue-290-workflow-lint-gate-2026-05.md",
       "lessons-learned-issue-325-test-suffix-rename-migration-2026-05.md",
       "lessons-learned-issue-347-cloudflare-analytics-export-2026-05.md",
@@ -4538,6 +4540,7 @@
       "workflow-i02-admin-error-type-unify-artifact-inventory.md",
       "workflow-issue-256-e2e-coverage-baseline-runbook-artifact-inventory.md",
       "workflow-issue-274-public-pages-ogp-sitemap-robots-artifact-inventory.md",
+      "workflow-issue-276-mobile-filterbar-tag-picker-artifact-inventory.md",
       "workflow-issue-300-direct-stable-key-update-guard-artifact-inventory.md",
       "workflow-issue-331-cicd-runtime-warning-cleanup-artifact-inventory.md",
       "workflow-issue-372-attendance-pagination-artifact-inventory.md",
@@ -4723,6 +4726,7 @@
       "lessons-learned-issue-106-admin-notes-repository-2026-05.md",
       "lessons-learned-issue-191-schema-aliases-2026-04.md",
       "lessons-learned-issue-194-identity-merge-2026-05.md",
+      "lessons-learned-issue-276-mobile-filterbar-tag-picker-2026-05.md",
       "lessons-learned-issue-290-workflow-lint-gate-2026-05.md",
       "lessons-learned-issue-325-test-suffix-rename-migration-2026-05.md",
       "lessons-learned-issue-346-08a-canonical-workflow-tree-restore-2026-05.md",
@@ -4817,6 +4821,7 @@
       "release-runbook.md",
       "workflow-2b-admin-identity-conflicts-spec-artifact-inventory.md",
       "workflow-issue-256-e2e-coverage-baseline-runbook-artifact-inventory.md",
+      "workflow-issue-276-mobile-filterbar-tag-picker-artifact-inventory.md",
       "workflow-issue-331-cicd-runtime-warning-cleanup-artifact-inventory.md",
       "workflow-issue-504-extended-fixture-50k-artifact-inventory.md",
       "workflow-issue-532-write-tag-note-provider-ctx-injection-artifact-inventory.md",
@@ -6020,6 +6025,7 @@
       "lessons-learned-07b-schema-alias-assignment-2026-04.md",
       "lessons-learned-07c-attendance-audit-2026-04.md",
       "lessons-learned-issue-274-public-pages-ogp-sitemap-robots-2026-05.md",
+      "lessons-learned-issue-276-mobile-filterbar-tag-picker-2026-05.md",
       "lessons-learned-issue-621-apps-web-test-suffix-rename-2026-05.md",
       "lessons-learned-issue-630-authenticated-profile-lhci-a11y-2026-05.md",
       "lessons-learned-task-25-followup-loading-state-observation-fixture-2026-05.md",
@@ -6166,6 +6172,7 @@
       "claude-code-settings-hierarchy.md",
       "interfaces-skill-verify-contract.md",
       "lessons-learned-task-18-w7-verify-tokens-and-playwright-smoke-2026-05.md",
+      "workflow-issue-276-mobile-filterbar-tag-picker-artifact-inventory.md",
       "workflow-issue-502-ut-07b-fu-01-followup-dlq-monitoring-dashboard-artifact-inventory.md",
       "workflow-task-18-w7-verify-tokens-and-playwright-smoke-artifact-inventory.md"
     ],
@@ -6646,6 +6653,7 @@
       "workflow-ai-runtime-execution-responsibility-realignment.md",
       "workflow-i01-toastprovider-root-mount-artifact-inventory.md",
       "workflow-issue-256-e2e-coverage-baseline-runbook-artifact-inventory.md",
+      "workflow-issue-276-mobile-filterbar-tag-picker-artifact-inventory.md",
       "workflow-issue-290-workflow-lint-gate-artifact-inventory.md",
       "workflow-issue-331-cicd-runtime-warning-cleanup-artifact-inventory.md",
       "workflow-issue-352-postmortem-template-automation-artifact-inventory.md",
@@ -7221,6 +7229,7 @@
       "workflow-issue-191-schema-aliases-artifact-inventory.md",
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
       "workflow-issue-274-public-pages-ogp-sitemap-robots-artifact-inventory.md",
+      "workflow-issue-276-mobile-filterbar-tag-picker-artifact-inventory.md",
       "workflow-issue-351-09c-post-release-dashboard-automation-artifact-inventory.md",
       "workflow-issue-372-attendance-pagination-artifact-inventory.md",
       "workflow-issue-393-stablekey-literal-legacy-cleanup-artifact-inventory.md",
@@ -8822,7 +8831,8 @@
     ],
     "Pattern": [
       "gate-c-external-mutation-pattern.md",
-      "ui-ux-portal-patterns.md"
+      "ui-ux-portal-patterns.md",
+      "workflow-issue-276-mobile-filterbar-tag-picker-artifact-inventory.md"
     ],
     "汎用テンプレート": [
       "gate-c-external-mutation-pattern.md"
@@ -8854,6 +8864,7 @@
       "workflow-i01-toastprovider-root-mount-artifact-inventory.md",
       "workflow-i02-admin-error-type-unify-artifact-inventory.md",
       "workflow-issue-191-schema-aliases-artifact-inventory.md",
+      "workflow-issue-276-mobile-filterbar-tag-picker-artifact-inventory.md",
       "workflow-issue-290-workflow-lint-gate-artifact-inventory.md",
       "workflow-issue-372-attendance-pagination-artifact-inventory.md",
       "workflow-issue-504-extended-fixture-50k-artifact-inventory.md",
@@ -9871,6 +9882,7 @@
     ],
     "背景": [
       "ipc-contract-checklist.md",
+      "lessons-learned-issue-276-mobile-filterbar-tag-picker-2026-05.md",
       "lessons-learned-sync-merge-hook-skip-2026-04.md"
     ],
     "non": [
@@ -10130,6 +10142,7 @@
       "lessons-learned-issue-106-admin-notes-repository-2026-05.md",
       "lessons-learned-issue-191-schema-aliases-2026-04.md",
       "lessons-learned-issue-194-identity-merge-2026-05.md",
+      "lessons-learned-issue-276-mobile-filterbar-tag-picker-2026-05.md",
       "lessons-learned-issue-290-workflow-lint-gate-2026-05.md",
       "lessons-learned-issue-325-test-suffix-rename-migration-2026-05.md",
       "lessons-learned-issue-350-long-term-observation-2026-05.md",
@@ -10210,6 +10223,7 @@
       "lessons-learned.md",
       "release-runbook.md",
       "workflow-issue-256-e2e-coverage-baseline-runbook-artifact-inventory.md",
+      "workflow-issue-276-mobile-filterbar-tag-picker-artifact-inventory.md",
       "workflow-issue-331-cicd-runtime-warning-cleanup-artifact-inventory.md",
       "workflow-issue-504-extended-fixture-50k-artifact-inventory.md",
       "workflow-issue-588-fallback-alert-slack-mail-extension-artifact-inventory.md",
@@ -11419,7 +11433,9 @@
       "lessons-learned-06c-C-admin-tags-2026-05.md",
       "lessons-learned-06c-admin-ui-2026-04.md",
       "lessons-learned-07a-tag-queue-resolve-2026-04.md",
+      "lessons-learned-issue-276-mobile-filterbar-tag-picker-2026-05.md",
       "lessons-learned-issue-377-retry-tick-dlq-audit-2026-05.md",
+      "workflow-issue-276-mobile-filterbar-tag-picker-artifact-inventory.md",
       "workflow-issue-532-write-tag-note-provider-ctx-injection-artifact-inventory.md"
     ],
     "状態と": [
@@ -12484,6 +12500,7 @@
     ],
     "filter": [
       "lessons-learned-06c-B-admin-members-2026-05.md",
+      "lessons-learned-issue-276-mobile-filterbar-tag-picker-2026-05.md",
       "logs-archive-2026-02-env-infra-ipc-auth-ui.md",
       "ui-ux-atoms-patterns-core.md"
     ],
@@ -13186,6 +13203,7 @@
       "lessons-learned-08a-B-public-search-filter-coverage-2026-05.md",
       "lessons-learned-claude-code-permissions-apply-2026-04.md",
       "lessons-learned-issue-194-identity-merge-2026-05.md",
+      "lessons-learned-issue-276-mobile-filterbar-tag-picker-2026-05.md",
       "lessons-learned-issue-351-post-release-dashboard-2026-05.md",
       "lessons-learned-lefthook-mwr-runbook-2026-04.md",
       "lessons-learned-skill-codex-validation-2026-04.md",
@@ -14259,6 +14277,33 @@
     "行追加不要": [
       "lessons-learned-issue-274-public-pages-ogp-sitemap-robots-2026-05.md"
     ],
+    "mobile": [
+      "lessons-learned-issue-276-mobile-filterbar-tag-picker-2026-05.md",
+      "workflow-issue-276-mobile-filterbar-tag-picker-artifact-inventory.md"
+    ],
+    "FilterBar": [
+      "lessons-learned-issue-276-mobile-filterbar-tag-picker-2026-05.md"
+    ],
+    "picker": [
+      "lessons-learned-issue-276-mobile-filterbar-tag-picker-2026-05.md",
+      "workflow-issue-276-mobile-filterbar-tag-picker-artifact-inventory.md"
+    ],
+    "公開メンバー一覧": [
+      "lessons-learned-issue-276-mobile-filterbar-tag-picker-2026-05.md"
+    ],
+    "後発タスクへの転記チェックリスト": [
+      "lessons-learned-issue-276-mobile-filterbar-tag-picker-2026-05.md"
+    ],
+    "primitive": [
+      "lessons-learned-issue-276-mobile-filterbar-tag-picker-2026-05.md",
+      "lessons-learned-issue-377-retry-tick-dlq-audit-2026-05.md",
+      "lessons-learned-issue-532-write-tag-note-provider-ctx-injection-2026-05.md",
+      "lessons-learned-task-12-member-detail-register-legal-2026-05.md",
+      "workflow-issue-748-jest-axe-primitive-a11y-integration-artifact-inventory.md"
+    ],
+    "追加時に複製": [
+      "lessons-learned-issue-276-mobile-filterbar-tag-picker-2026-05.md"
+    ],
     "allowlist": [
       "lessons-learned-issue-290-workflow-lint-gate-2026-05.md"
     ],
@@ -14699,12 +14744,6 @@
     ],
     "を必ずテストする": [
       "lessons-learned-issue-377-retry-tick-dlq-audit-2026-05.md"
-    ],
-    "primitive": [
-      "lessons-learned-issue-377-retry-tick-dlq-audit-2026-05.md",
-      "lessons-learned-issue-532-write-tag-note-provider-ctx-injection-2026-05.md",
-      "lessons-learned-task-12-member-detail-register-legal-2026-05.md",
-      "workflow-issue-748-jest-axe-primitive-a11y-integration-artifact-inventory.md"
     ],
     "に寄せる": [
       "lessons-learned-issue-377-retry-tick-dlq-audit-2026-05.md",
@@ -15667,6 +15706,7 @@
       "workflow-issue-191-schema-aliases-artifact-inventory.md",
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
       "workflow-issue-256-e2e-coverage-baseline-runbook-artifact-inventory.md",
+      "workflow-issue-276-mobile-filterbar-tag-picker-artifact-inventory.md",
       "workflow-issue-290-workflow-lint-gate-artifact-inventory.md",
       "workflow-issue-295-tag-queue-resolve-race-smoke-artifact-inventory.md",
       "workflow-issue-300-direct-stable-key-update-guard-artifact-inventory.md",
@@ -23254,6 +23294,7 @@
       "workflow-issue-191-schema-aliases-artifact-inventory.md",
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
       "workflow-issue-256-e2e-coverage-baseline-runbook-artifact-inventory.md",
+      "workflow-issue-276-mobile-filterbar-tag-picker-artifact-inventory.md",
       "workflow-issue-290-workflow-lint-gate-artifact-inventory.md",
       "workflow-issue-295-tag-queue-resolve-race-smoke-artifact-inventory.md",
       "workflow-issue-300-direct-stable-key-update-guard-artifact-inventory.md",
@@ -23392,6 +23433,7 @@
       "workflow-i01-toastprovider-root-mount-artifact-inventory.md",
       "workflow-issue-256-e2e-coverage-baseline-runbook-artifact-inventory.md",
       "workflow-issue-274-public-pages-ogp-sitemap-robots-artifact-inventory.md",
+      "workflow-issue-276-mobile-filterbar-tag-picker-artifact-inventory.md",
       "workflow-issue-352-postmortem-template-automation-artifact-inventory.md",
       "workflow-issue-377-retry-tick-and-dlq-audit-artifact-inventory.md",
       "workflow-issue-378-tag-queue-paused-flag-artifact-inventory.md",
@@ -23480,6 +23522,7 @@
       "workflow-2b-admin-identity-conflicts-spec-artifact-inventory.md",
       "workflow-issue-191-schema-aliases-artifact-inventory.md",
       "workflow-issue-256-e2e-coverage-baseline-runbook-artifact-inventory.md",
+      "workflow-issue-276-mobile-filterbar-tag-picker-artifact-inventory.md",
       "workflow-issue-300-direct-stable-key-update-guard-artifact-inventory.md",
       "workflow-issue-352-postmortem-template-automation-artifact-inventory.md",
       "workflow-issue-372-attendance-pagination-artifact-inventory.md",
@@ -23548,6 +23591,7 @@
       "workflow-2b-admin-identity-conflicts-spec-artifact-inventory.md",
       "workflow-e2e-quality-uplift-stage-0-3-artifact-inventory.md",
       "workflow-fix-cf-deploy-esbuild-import-source-staging-failure-artifact-inventory.md",
+      "workflow-issue-276-mobile-filterbar-tag-picker-artifact-inventory.md",
       "workflow-issue-377-retry-tick-and-dlq-audit-artifact-inventory.md",
       "workflow-issue-502-ut-07b-fu-01-followup-dlq-monitoring-dashboard-artifact-inventory.md",
       "workflow-issue-747-vitest-esbuild-arch-and-worktree-isolation-artifact-inventory.md",
@@ -23874,6 +23918,7 @@
     "Targets": [
       "workflow-issue-256-e2e-coverage-baseline-runbook-artifact-inventory.md",
       "workflow-issue-274-public-pages-ogp-sitemap-robots-artifact-inventory.md",
+      "workflow-issue-276-mobile-filterbar-tag-picker-artifact-inventory.md",
       "workflow-issue-626-rb01-share-build-output-lighthouse-pr-build-artifact-inventory.md",
       "workflow-issue-770-profile-loading-skeleton-artifact-inventory.md",
       "workflow-task-09-w3-par-tailwind-v4-setup-artifact-inventory.md",
@@ -23900,6 +23945,13 @@
     "Captured": [
       "workflow-issue-274-public-pages-ogp-sitemap-robots-artifact-inventory.md",
       "workflow-task-709-visual-baseline-runtime-capture-artifact-inventory.md"
+    ],
+    "filterbar": [
+      "workflow-issue-276-mobile-filterbar-tag-picker-artifact-inventory.md"
+    ],
+    "Planned": [
+      "workflow-issue-276-mobile-filterbar-tag-picker-artifact-inventory.md",
+      "workflow-ut-17-followup-002-alert-relay-dedup-kv-artifact-inventory.md"
     ],
     "Same": [
       "workflow-issue-290-workflow-lint-gate-artifact-inventory.md",
@@ -24552,9 +24604,6 @@
       "workflow-ut-17-followup-002-alert-relay-dedup-kv-artifact-inventory.md",
       "workflow-ut-17-followup-005-alert-relay-kv-error-metrics-artifact-inventory.md",
       "workflow-ut-17-followup-005-alert-relay-kv-operation-error-metrics-artifact-inventory.md"
-    ],
-    "Planned": [
-      "workflow-ut-17-followup-002-alert-relay-dedup-kv-artifact-inventory.md"
     ],
     "Metrics": [
       "workflow-ut-17-followup-005-alert-relay-kv-error-metrics-artifact-inventory.md",
