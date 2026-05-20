@@ -125,6 +125,28 @@ abort → `useEffect` も走らず `data-hydrated="true"` にならない → `o
 - ブラウザ依存の attribute injection（`caret-color`, `autocomplete`, 拡張機能 inject）が疑われたら、
   まず該当 element を client-only render に切り替えるのが最短復旧。
 
+## L-UT07CFU1-012: Playwright e2e の expect timeout は Next.js dev `[...path]` route 初回コンパイルを吸収する 30s に伸ばす
+
+**苦戦内容**: `attendance-csv-import.spec.ts` の `setInputFiles` 直後の
+`expect(step-preview).toBeVisible()` が CI 全 project (chromium / firefox / mobile-webkit)
+で 10s timeout で連続失敗。trace zip を解凍すると POST `/api/admin/meetings/sess-1/attendance/import?dryRun=true`
+が `status:-1`（応答なし）で、その直後に `[Fast Refresh] rebuilding` → `done in 7418ms`
+の log。原因は Next.js dev server が `app/api/admin/[...path]/route.ts` catch-all を
+新 URL (`/attendance/import`) で初回 invoke した際の on-demand compile が 7-15s かかり、
+expect の既定 10s timeout を超過していた（hydration mismatch 関連の caret-color warning は
+別 test (`auth-gate-state`) の log で本件とは無関係）。
+
+**再発防止**:
+- `/api/admin/*` catch-all 経由の新 URL を初回 POST する e2e は、対応する expect に
+  `{ timeout: 30_000 }` を明示する（dev compile + dryRun round-trip を安全に吸収）。
+- 「local PASS / CI FAIL」の e2e timeout は dev compile cost を疑う → `.next` を消して
+  ローカル再現可能。
+- trace の `status:-1` は「リクエスト送信済み・応答未受信」のサイン。webserver log の
+  `Fast Refresh rebuilding` 時間と突き合わせる。
+- 真の hydration 由来の停止は trace の console に `hydration mismatch` warning が出る。
+  関係 element の `data-testid` を warning ツリー内に含むかを確認してから panel 側 fix
+  （suppressHydrationWarning / client-only render gating）を入れる。
+
 ## 関連参照
 
 - [[workflow-ut-07c-followup-001-attendance-csv-import-artifact-inventory]]

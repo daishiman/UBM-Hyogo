@@ -3633,6 +3633,7 @@
       "lessons-learned-task-12-member-detail-register-legal-2026-05.md",
       "lessons-learned-task-24.md",
       "lessons-learned-task-spec-2d-contract-stage-2-2026-05.md",
+      "lessons-learned-ut-07c-followup-001-attendance-csv-import-2026-05.md",
       "lessons-learned-ut07b-fu-02-admin-schema-alias-retry-label-2026-05.md",
       "logs-archive-2026-03-workflow02-screenshot-guard.md",
       "workflow-ai-chat-llm-integration-fix-artifact-inventory.md",
@@ -3658,6 +3659,7 @@
       "lessons-learned-task-17-admin-schema-conflicts-audit-2026-05.md",
       "lessons-learned-task-21-09g-admin-blueprint-2026-05.md",
       "lessons-learned-task-spec-2d-contract-stage-2-2026-05.md",
+      "lessons-learned-ut-07c-followup-001-attendance-csv-import-2026-05.md",
       "lessons-learned-ut06-fu-a-prod-route-secret-2026-04.md",
       "lessons-learned-web-app-route-bundle-parse-fix-2026-05.md",
       "workflow-web-app-route-bundle-parse-fix-artifact-inventory.md"
@@ -5042,6 +5044,7 @@
       "lessons-learned-06a-public-web-2026-04.md",
       "lessons-learned-06b-a-me-api-authjs-session-resolver-2026-05.md",
       "lessons-learned-issue-560-next-standalone-instrumentation-patch-2026-05.md",
+      "lessons-learned-ut-07c-followup-001-attendance-csv-import-2026-05.md",
       "logs-archive-2026-02-env-infra-ipc-auth-ui.md",
       "logs-archive-2026-02-skill-import-interface-atoms-rerun.md",
       "technology-core.md",
@@ -7842,6 +7845,7 @@
       "directory-structure-core.md",
       "lessons-learned-06a-public-web-2026-04.md",
       "lessons-learned-issue-560-next-standalone-instrumentation-patch-2026-05.md",
+      "lessons-learned-ut-07c-followup-001-attendance-csv-import-2026-05.md",
       "technology-core.md",
       "workflow-issue-560-next-standalone-instrumentation-patch-artifact-inventory.md"
     ],
@@ -8165,6 +8169,7 @@
       "lessons-learned-06b-a-me-api-authjs-session-resolver-2026-05.md",
       "lessons-learned-task-18-w7-verify-tokens-and-playwright-smoke-2026-05.md",
       "lessons-learned-ut-03-sheets-auth-2026-04.md",
+      "lessons-learned-ut-07c-followup-001-attendance-csv-import-2026-05.md",
       "workflow-ut-branch-flow-dev-staging-sync-artifact-inventory.md"
     ],
     "main": [
@@ -14557,6 +14562,7 @@
     ],
     "timeout": [
       "lessons-learned-issue-372-attendance-pagination-2026-05.md",
+      "lessons-learned-ut-07c-followup-001-attendance-csv-import-2026-05.md",
       "task-workflow-completed-skill-lifecycle-archive-2026-03.md",
       "task-workflow-completed-skill-lifecycle-security.md",
       "task-workflow-completed-ut-06-safety-gate.md",
@@ -16665,6 +16671,7 @@
     "Playwright": [
       "lessons-learned-task-12-member-detail-register-legal-2026-05.md",
       "lessons-learned-task-18-w7-verify-tokens-and-playwright-smoke-2026-05.md",
+      "lessons-learned-ut-07c-followup-001-attendance-csv-import-2026-05.md",
       "testing-playwright-e2e.md",
       "workflow-task-08b-A-playwright-e2e-full-execution-artifact-inventory.md"
     ],
@@ -17811,6 +17818,16 @@
     "を起こす": [
       "lessons-learned-ut-07c-followup-001-attendance-csv-import-2026-05.md"
     ],
+    "expect": [
+      "lessons-learned-ut-07c-followup-001-attendance-csv-import-2026-05.md",
+      "lessons-learned-ut07b-fu04-production-migration-already-applied-verification-2026-05.md"
+    ],
+    "初回コンパイルを吸収する": [
+      "lessons-learned-ut-07c-followup-001-attendance-csv-import-2026-05.md"
+    ],
+    "に伸ばす": [
+      "lessons-learned-ut-07c-followup-001-attendance-csv-import-2026-05.md"
+    ],
     "Thresholds": [
       "lessons-learned-ut-15-waf-rate-limiting.md"
     ],
@@ -18353,9 +18370,6 @@
       "lessons-learned-ut07b-fu04-production-migration-already-applied-verification-2026-05.md"
     ],
     "優先": [
-      "lessons-learned-ut07b-fu04-production-migration-already-applied-verification-2026-05.md"
-    ],
-    "expect": [
       "lessons-learned-ut07b-fu04-production-migration-already-applied-verification-2026-05.md"
     ],
     "applied": [

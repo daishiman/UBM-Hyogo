@@ -5759,7 +5759,8 @@ node scripts/list-specs.js --topics
 | L-UT07CFU1-009: Phase-11 evidence 出力先は completed-tasks/ 配下に揃える | L75 |
 | L-UT07CFU1-010: mockApi seedMeetings race は self-heal で吸収する | L93 |
 | L-UT07CFU1-011: `<input type="file">` の SSR 出力は WebKit / Firefox で hydration mismatch を起こす | L108 |
-| 関連参照 | L128 |
+| L-UT07CFU1-012: Playwright e2e の expect timeout は Next.js dev `[...path]` route 初回コンパイルを吸収する 30s に伸ばす | L128 |
+| 関連参照 | L150 |
 
 ### references/lessons-learned-ut-15-waf-rate-limiting.md
 
