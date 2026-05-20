@@ -68,6 +68,8 @@
 - CSV export は `meetingId, heldOn, memberId, displayName, attended` の列順で返す
 - 開催日と参加履歴はフォーム項目ではなく、管理者データとして扱う
 - 物理 table は `meeting_sessions` / `member_attendance`。web は `/api/admin/meetings*` proxy 経由で apps/api を呼び、D1 を直接参照しない
+- Web UI の破壊的操作（出席解除、開催日論理削除）は `ConfirmDialog` 経由で確認する。出席付与は非破壊操作のため確認 dialog を出さない
+- 出席解除で `404 attendance_not_found` を受けた場合は、他管理者が先に解除した状態として成功相当に扱い、UI から対象出席者を除去して「既に出席解除されています」を表示する
 
 API 正本:
 

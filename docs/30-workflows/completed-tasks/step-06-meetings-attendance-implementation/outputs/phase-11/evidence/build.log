@@ -1,0 +1,78 @@
+
+> ubm-hyogo@0.1.0 build /Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260519-154029-wt-4
+> bash scripts/with-env.sh pnpm -r build
+
+Scope: 6 of 7 workspace projects
+packages/shared build$ tsc -p tsconfig.json --noEmit
+packages/shared build: Done
+packages/integrations build$ tsc -p tsconfig.json --noEmit
+apps/web build$ NODE_ENV=production next build --webpack
+packages/integrations/google build$ tsc -p tsconfig.json --noEmit
+apps/web build: ▲ Next.js 16.2.4 (webpack)
+apps/web build: ⚠ The "middleware" file convention is deprecated. Please use "proxy" instead. Learn more: https://nextjs.org/docs/messages/middleware-to-proxy
+apps/web build:   Creating an optimized production build ...
+packages/integrations build: Done
+packages/integrations/google build: Done
+apps/web build: ⚠ Compiled with warnings in 24.3s
+apps/web build: ../../node_modules/@prisma/instrumentation/node_modules/@opentelemetry/instrumentation/build/esm/platform/node/instrumentation.js
+apps/web build: Critical dependency: the request of a dependency is an expression
+apps/web build: Import trace for requested module:
+apps/web build: ../../node_modules/@prisma/instrumentation/node_modules/@opentelemetry/instrumentation/build/esm/platform/node/instrumentation.js
+apps/web build: ../../node_modules/@prisma/instrumentation/node_modules/@opentelemetry/instrumentation/build/esm/platform/node/index.js
+apps/web build: ../../node_modules/@prisma/instrumentation/node_modules/@opentelemetry/instrumentation/build/esm/platform/index.js
+apps/web build: ../../node_modules/@prisma/instrumentation/node_modules/@opentelemetry/instrumentation/build/esm/index.js
+apps/web build: ../../node_modules/@prisma/instrumentation/dist/index.js
+apps/web build: ../../node_modules/@sentry/node/build/cjs/integrations/tracing/prisma.js
+apps/web build: ../../node_modules/@sentry/node/build/cjs/index.js
+apps/web build: ../../node_modules/@sentry/nextjs/build/cjs/index.server.js
+apps/web build: ./src/lib/sentry/capture.ts
+apps/web build: ./src/lib/logger.ts
+apps/web build: ./app/global-error.tsx
+apps/web build: ✓ Compiled successfully in 39.4s
+apps/web build:   Skipping validation of types
+apps/web build:   Finished TypeScript config validation in 20ms ...
+apps/web build:   Collecting page data using 9 workers ...
+apps/web build:   Generating static pages using 9 workers (0/13) ...
+apps/web build:   Generating static pages using 9 workers (3/13) 
+apps/web build: Error occurred prerendering page "/members". Read more: https://nextjs.org/docs/messages/prerender-error
+apps/web build: Error [ZodError]: [
+apps/web build:   {
+apps/web build:     "code": "invalid_value",
+apps/web build:     "values": [
+apps/web build:       "local",
+apps/web build:       "staging",
+apps/web build:       "production"
+apps/web build:     ],
+apps/web build:     "path": [
+apps/web build:       "ENVIRONMENT"
+apps/web build:     ],
+apps/web build:     "message": "Invalid option: expected one of \"local\"|\"staging\"|\"production\""
+apps/web build:   },
+apps/web build:   {
+apps/web build:     "expected": "string",
+apps/web build:     "code": "invalid_type",
+apps/web build:     "path": [
+apps/web build:       "NEXT_PUBLIC_API_BASE_URL"
+apps/web build:     ],
+apps/web build:     "message": "Invalid input: expected string, received undefined"
+apps/web build:   }
+apps/web build: ]
+apps/web build:     at j (.next/server/app/privacy/page.js:2:12108)
+apps/web build:     at j (.next/server/app/privacy/page.js:2:10394)
+apps/web build:     at k (.next/server/app/privacy/page.js:2:10439)
+apps/web build:     at Module.g (.next/server/app/privacy/page.js:1:1898)
+apps/web build:     at <unknown> (.next/server/chunks/5476.js:12:702)
+apps/web build:     at <unknown> (.next/server/chunks/3698.js:1:21793)
+apps/web build:     at af.with (.next/server/chunks/3698.js:4:14120)
+apps/web build:     at ai.with (.next/server/chunks/3698.js:4:14475)
+apps/web build:     at aB.startActiveSpan (.next/server/chunks/3698.js:4:16593)
+apps/web build:     at aD.startActiveSpan (.next/server/chunks/3698.js:4:16835) {
+apps/web build:   digest: '543660239'
+apps/web build: }
+apps/web build: Export encountered an error on /(public)/members/page: /members, exiting the build.
+apps/web build: ⨯ Next.js build worker exited with code: 1 and signal: null
+apps/web build: Failed
+/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260519-154029-wt-4/apps/web:
+ ERR_PNPM_RECURSIVE_RUN_FIRST_FAIL  @ubm-hyogo/web@0.1.0 build: `NODE_ENV=production next build --webpack`
+Exit status 1
+ ELIFECYCLE  Command failed with exit code 1.

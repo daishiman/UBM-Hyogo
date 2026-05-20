@@ -1,0 +1,13 @@
+{
+  "workflow_id": "step-06-meetings-attendance-implementation",
+  "status": "implemented_local_evidence_captured",
+  "taskType": "implementation",
+  "visualEvidence": "VISUAL_ON_EXECUTION",
+  "workflow_state": "implemented_local_evidence_captured",
+  "canonical_workflow_root": "docs/30-workflows/step-06-meetings-attendance-implementation/",
+  "implementation_status": "implemented_local",
+  "runtime_status": "local_visual_evidence_captured",
+  "phase11_evidence": "captured_local",
+  "phase12_strict_outputs": "present",
+  "phase13_user_gate": "blocked_until_explicit_user_approval"
+}

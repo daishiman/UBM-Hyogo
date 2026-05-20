@@ -16,6 +16,8 @@ import { FormField } from "../ui/FormField";
 import { Input } from "../ui/Input";
 import { EmptyState } from "../ui/EmptyState";
 import { AdminMutationError, useAdminMutation } from "../../features/admin/hooks/useAdminMutation";
+import { useConfirmDialog } from "../../features/admin/hooks/useConfirmDialog";
+import { ConfirmDialog } from "../ui/ConfirmDialog";
 
 export interface MeetingItem {
   sessionId: string;
@@ -196,36 +198,59 @@ export function MeetingPanel({ meetings, candidates }: Props) {
     router.refresh();
   };
 
-  const onSoftDelete = async (sessionId: string) => {
-    try {
-      await meetingUpdateMutation.trigger(
-        { sessionId, deletedAt: new Date().toISOString() },
-      );
-    } catch (e) {
-      setToast(`開催削除に失敗: ${e instanceof Error ? e.message : "unknown error"}`);
-      return;
+  // 破壊的操作（出席解除 / 開催日 soft delete）の確認 dialog を一本化。
+  // ctx は kind に応じて { sessionId } / { sessionId, memberId } を保持する。
+  const confirm = useConfirmDialog(async (kind, _note, ctx) => {
+    if (kind === "remove") {
+      const { sessionId, memberId } = ctx as { sessionId: string; memberId: string };
+      try {
+        await attendanceMutation.trigger({ sessionId, memberId, attended: false });
+      } catch (e) {
+        if (e instanceof AdminMutationError && e.status === 404) {
+          setAttended((s) => {
+            const next = { ...s };
+            const cur = new Set(next[sessionId] ?? []);
+            cur.delete(memberId);
+            next[sessionId] = cur;
+            return next;
+          });
+          setToast("既に出席解除されています");
+          return;
+        } else {
+          setToast(`削除に失敗: ${e instanceof Error ? e.message : "unknown error"}`);
+        }
+        throw e;
+      }
+      setAttended((s) => {
+        const next = { ...s };
+        const cur = new Set(next[sessionId] ?? []);
+        cur.delete(memberId);
+        next[sessionId] = cur;
+        return next;
+      });
+      setToast("出席を削除しました");
+    } else if (kind === "delete") {
+      const { sessionId } = ctx as { sessionId: string };
+      try {
+        await meetingUpdateMutation.trigger({
+          sessionId,
+          deletedAt: new Date().toISOString(),
+        });
+      } catch (e) {
+        setToast(`開催削除に失敗: ${e instanceof Error ? e.message : "unknown error"}`);
+        throw e;
+      }
+      setToast("開催日を削除しました");
+      router.refresh();
     }
-    setToast("開催日を削除しました");
-    router.refresh();
+  });
+
+  const onSoftDelete = (sessionId: string) => {
+    confirm.openConfirm("delete", { sessionId });
   };
 
-  const onRemove = async (sessionId: string, memberId: string) => {
-    try {
-      await attendanceMutation.trigger(
-        { sessionId, memberId, attended: false },
-      );
-    } catch (e) {
-      setToast(`削除に失敗: ${e instanceof Error ? e.message : "unknown error"}`);
-      return;
-    }
-    setAttended((s) => {
-      const next = { ...s };
-      const cur = new Set(next[sessionId] ?? []);
-      cur.delete(memberId);
-      next[sessionId] = cur;
-      return next;
-    });
-    setToast("出席を削除しました");
+  const onRemove = (sessionId: string, memberId: string) => {
+    confirm.openConfirm("remove", { sessionId, memberId });
   };
 
   return (
@@ -382,6 +407,28 @@ export function MeetingPanel({ meetings, candidates }: Props) {
           );
         })}
       </ul>
+
+      <ConfirmDialog
+        open={confirm.open}
+        title={
+          confirm.kind === "remove"
+            ? "出席を削除しますか？"
+            : confirm.kind === "delete"
+              ? "この開催日を削除しますか？"
+              : ""
+        }
+        description={
+          confirm.kind === "delete"
+            ? "この操作は soft delete です。後で復元できません。"
+            : undefined
+        }
+        confirmLabel="削除する"
+        isDestructive
+        submitting={confirm.submitting}
+        validationError={confirm.validationError}
+        onConfirm={confirm.submit}
+        onCancel={confirm.closeConfirm}
+      />
     </section>
   );
 }
