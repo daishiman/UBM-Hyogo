@@ -105,6 +105,26 @@ workflow が completed-tasks/ に移動した後も Playwright が旧 path に s
   `findMeetingWithSelfHeal` を経由させる（生 `find` を残さない）。
 - `--all-flaky` 化の前に、ローカル単体 PASS / CI 並列 FAIL のギャップは worker 間 mutable state 競合を疑う。
 
+## L-UT07CFU1-011: `<input type="file">` の SSR 出力は WebKit / Firefox で hydration mismatch を起こす
+
+**苦戦内容**: `attendance-csv-import.spec.ts` が CI の mobile-webkit / desktop-firefox project でのみ
+`step-preview` 待ちで timeout（chromium / ローカルでは PASS）。DOM を確認すると
+`<section data-hydrated="false">` のまま停止し、Console に
+`A tree hydrated but some attributes of the server rendered HTML didn't match`
+`style={{caret-color:"transparent"}}` の hydration mismatch warning。WebKit / Firefox は
+`<input type="file">` に `caret-color: transparent` をブラウザデフォルト or extension で
+後付け injection するため SSR HTML と差分が出て、React 19 が当該 subtree の hydration を
+abort → `useEffect` も走らず `data-hydrated="true"` にならない → `onChange` handler 未 bind で
+`setInputFiles` が file 反映されず timeout。
+
+**再発防止**:
+- `<input type="file">` を含む subtree は **client-only render に gating** する
+  （`{hydrated && <input ... />}` パターン）。SSR HTML に input が出ないので mismatch 不能。
+- 併せて当該 `<input>` に `suppressHydrationWarning` を defense in depth で付ける。
+- hydration signal (`data-hydrated`) は section ルートに残し、e2e は section の signal を待つ。
+- ブラウザ依存の attribute injection（`caret-color`, `autocomplete`, 拡張機能 inject）が疑われたら、
+  まず該当 element を client-only render に切り替えるのが最短復旧。
+
 ## 関連参照
 
 - [[workflow-ut-07c-followup-001-attendance-csv-import-artifact-inventory]]

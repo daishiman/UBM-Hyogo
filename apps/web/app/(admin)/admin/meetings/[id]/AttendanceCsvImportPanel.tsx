@@ -231,16 +231,24 @@ export function AttendanceCsvImportPanel({ sessionId }: Props): React.JSX.Elemen
         <li aria-current={currentStep === 3 ? "step" : undefined}>3. confirm</li>
       </ol>
 
-      {state.kind === "idle" && (
+      {state.kind === "idle" && hydrated && (
         <div data-testid="step-upload">
           <label>
             CSV ファイル (memberId / email カラム必須、最大 500 行)
+            {/*
+              suppressHydrationWarning: ブラウザ拡張 / WebKit / Firefox が
+              file input に `style="caret-color: transparent"` を後付けで注入し、
+              SSR とのミスマッチで hydration を中断させる事象を抑止する。
+              hydrated=true 後にのみ render するので SSR 出力は存在しないが、
+              defense in depth として suppressHydrationWarning も付ける。
+            */}
             <input
               ref={fileRef}
               type="file"
               accept=".csv,text/csv"
               data-testid="csv-file-input"
               onChange={onFile}
+              suppressHydrationWarning
             />
           </label>
         </div>
