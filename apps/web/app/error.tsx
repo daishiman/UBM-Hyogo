@@ -4,7 +4,6 @@ import Link from "next/link";
 import { useEffect, useRef } from "react";
 import { useAutoFocusOnMount } from "../src/lib/a11y/useAutoFocusOnMount";
 import { logger } from "../src/lib/logger";
-import { useAutoFocusOnMount } from "../src/lib/a11y/useAutoFocusOnMount";
 
 type Props = {
   error: Error & { digest?: string };
