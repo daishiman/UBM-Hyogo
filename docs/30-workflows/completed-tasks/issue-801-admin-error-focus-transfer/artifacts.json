@@ -22,7 +22,7 @@
         "gate_id": "Gate-A",
         "status": "passed",
         "passed_at": "2026-05-19T14:25:00+09:00",
-        "evidence_path": "docs/30-workflows/issue-801-admin-error-focus-transfer/index.md",
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-801-admin-error-focus-transfer/index.md",
         "approver": "codex",
         "notes": "spec_review: admin segment scope, source follow-up, root reference implementation, and target files confirmed."
       },
@@ -30,7 +30,7 @@
         "gate_id": "Gate-B",
         "status": "passed",
         "passed_at": "2026-05-19T14:25:00+09:00",
-        "evidence_path": "docs/30-workflows/issue-801-admin-error-focus-transfer/outputs/phase-11/evidence/focused-web-test.txt",
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-801-admin-error-focus-transfer/outputs/phase-11/evidence/focused-web-test.txt",
         "approver": "codex",
         "notes": "local_evidence: web typecheck, lint, and web Vitest pass. Visual/browser screenshot remains user-gated runtime evidence."
       },
@@ -38,7 +38,7 @@
         "gate_id": "Gate-C",
         "status": "passed",
         "passed_at": "2026-05-19T14:25:00+09:00",
-        "evidence_path": "docs/30-workflows/issue-801-admin-error-focus-transfer/outputs/phase-12/phase12-task-spec-compliance-check.md",
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-801-admin-error-focus-transfer/outputs/phase-12/phase12-task-spec-compliance-check.md",
         "approver": "codex",
         "notes": "phase12: strict 7 outputs present, artifacts parity present, aiworkflow-requirements same-wave sync applied."
       },
@@ -46,7 +46,7 @@
         "gate_id": "Gate-D",
         "status": "pending",
         "passed_at": null,
-        "evidence_path": "docs/30-workflows/issue-801-admin-error-focus-transfer/outputs/phase-13/pr-summary.md",
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-801-admin-error-focus-transfer/outputs/phase-13/pr-summary.md",
         "approver": "daishiman",
         "notes": "commit / push / PR and runtime visual smoke remain user-gated."
       }
