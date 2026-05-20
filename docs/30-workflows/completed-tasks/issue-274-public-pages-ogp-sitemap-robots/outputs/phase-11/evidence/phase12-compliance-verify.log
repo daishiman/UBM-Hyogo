@@ -1,0 +1,21 @@
+
+> ubm-hyogo@0.1.0 verify:phase12-compliance /Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260517-235128-wt-5
+> node --experimental-strip-types --disable-warning=MODULE_TYPELESS_PACKAGE_JSON scripts/verify-phase12-compliance.ts
+
+{
+  "status": "pass",
+  "template": ".claude/skills/task-specification-creator/references/phase12-compliance-check-template.md",
+  "roots": [
+    {
+      "rootPath": "docs/30-workflows/issue-274-public-pages-ogp-sitemap-robots",
+      "workflowState": "implemented_local_evidence_captured",
+      "hasCompletedTasksAncestor": false
+    }
+  ],
+  "results": [
+    {
+      "ok": true,
+      "rootPath": "docs/30-workflows/issue-274-public-pages-ogp-sitemap-robots"
+    }
+  ]
+}

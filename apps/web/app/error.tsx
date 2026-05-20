@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useRef } from "react";
+import { useAutoFocusOnMount } from "../src/lib/a11y/useAutoFocusOnMount";
 import { logger } from "../src/lib/logger";
 import { useAutoFocusOnMount } from "../src/lib/a11y/useAutoFocusOnMount";
 
@@ -12,6 +13,7 @@ type Props = {
 
 export default function RouteError({ error, reset }: Props) {
   const headingRef = useRef<HTMLHeadingElement>(null);
+  useAutoFocusOnMount(headingRef);
 
   useEffect(() => {
     logger.error({

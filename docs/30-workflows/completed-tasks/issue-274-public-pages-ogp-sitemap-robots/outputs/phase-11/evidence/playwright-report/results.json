@@ -1,0 +1,562 @@
+{
+  "config": {
+    "configFile": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260517-235128-wt-5/apps/web/playwright.config.ts",
+    "rootDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260517-235128-wt-5/apps/web/playwright/tests",
+    "forbidOnly": false,
+    "fullyParallel": true,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260517-235128-wt-5/docs/30-workflows/issue-274-public-pages-ogp-sitemap-robots/outputs/phase-11/evidence/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "desktop-chromium",
+        "name": "desktop-chromium",
+        "testDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260517-235128-wt-5/apps/web/playwright/tests",
+        "testIgnore": [
+          "/visual\\/.*\\.spec\\.ts$/",
+          "/visual-full\\/.*\\.spec\\.ts$/",
+          "/full-smoke\\.spec\\.ts$/",
+          "**/admin-identity-conflicts.spec.ts",
+          "**/admin-requests.spec.ts",
+          "**/admin-schema-conflicts-audit.spec.ts",
+          "**/admin-member-delete.spec.ts"
+        ],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 60000
+      },
+      {
+        "outputDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260517-235128-wt-5/docs/30-workflows/issue-274-public-pages-ogp-sitemap-robots/outputs/phase-11/evidence/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "smoke-chromium",
+        "name": "smoke-chromium",
+        "testDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260517-235128-wt-5/apps/web/playwright/tests",
+        "testIgnore": [
+          "**/admin-identity-conflicts.spec.ts",
+          "**/admin-requests.spec.ts",
+          "**/admin-schema-conflicts-audit.spec.ts",
+          "**/admin-member-delete.spec.ts"
+        ],
+        "testMatch": [
+          "/full-smoke\\.spec\\.ts$/"
+        ],
+        "timeout": 60000
+      },
+      {
+        "outputDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260517-235128-wt-5/docs/30-workflows/issue-274-public-pages-ogp-sitemap-robots/outputs/phase-11/evidence/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "visual-chromium",
+        "name": "visual-chromium",
+        "testDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260517-235128-wt-5/apps/web/playwright/tests",
+        "testIgnore": [
+          "**/admin-identity-conflicts.spec.ts",
+          "**/admin-requests.spec.ts",
+          "**/admin-schema-conflicts-audit.spec.ts",
+          "**/admin-member-delete.spec.ts"
+        ],
+        "testMatch": [
+          "/visual\\/.*\\.spec\\.ts$/"
+        ],
+        "timeout": 60000
+      },
+      {
+        "outputDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260517-235128-wt-5/docs/30-workflows/issue-274-public-pages-ogp-sitemap-robots/outputs/phase-11/evidence/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "desktop-firefox",
+        "name": "desktop-firefox",
+        "testDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260517-235128-wt-5/apps/web/playwright/tests",
+        "testIgnore": [
+          "/visual\\/.*\\.spec\\.ts$/",
+          "/visual-full\\/.*\\.spec\\.ts$/",
+          "/full-smoke\\.spec\\.ts$/",
+          "**/admin-identity-conflicts.spec.ts",
+          "**/admin-requests.spec.ts",
+          "**/admin-schema-conflicts-audit.spec.ts",
+          "**/admin-member-delete.spec.ts"
+        ],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 60000
+      },
+      {
+        "outputDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260517-235128-wt-5/docs/30-workflows/issue-274-public-pages-ogp-sitemap-robots/outputs/phase-11/evidence/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "mobile-webkit",
+        "name": "mobile-webkit",
+        "testDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260517-235128-wt-5/apps/web/playwright/tests",
+        "testIgnore": [
+          "/visual\\/.*\\.spec\\.ts$/",
+          "/visual-full\\/.*\\.spec\\.ts$/",
+          "/full-smoke\\.spec\\.ts$/",
+          "/admin-pages\\.spec\\.ts$/",
+          "**/admin-identity-conflicts.spec.ts",
+          "**/admin-requests.spec.ts",
+          "**/admin-schema-conflicts-audit.spec.ts",
+          "**/admin-member-delete.spec.ts"
+        ],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 60000
+      },
+      {
+        "outputDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260517-235128-wt-5/docs/30-workflows/issue-274-public-pages-ogp-sitemap-robots/outputs/phase-11/evidence/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "visual-full-chromium-desktop",
+        "name": "visual-full-chromium-desktop",
+        "testDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260517-235128-wt-5/apps/web/playwright/tests/visual-full",
+        "testIgnore": [
+          "**/admin-identity-conflicts.spec.ts",
+          "**/admin-requests.spec.ts",
+          "**/admin-schema-conflicts-audit.spec.ts",
+          "**/admin-member-delete.spec.ts"
+        ],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 60000
+      },
+      {
+        "outputDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260517-235128-wt-5/docs/30-workflows/issue-274-public-pages-ogp-sitemap-robots/outputs/phase-11/evidence/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "visual-full-chromium-tablet",
+        "name": "visual-full-chromium-tablet",
+        "testDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260517-235128-wt-5/apps/web/playwright/tests/visual-full",
+        "testIgnore": [
+          "**/admin-identity-conflicts.spec.ts",
+          "**/admin-requests.spec.ts",
+          "**/admin-schema-conflicts-audit.spec.ts",
+          "**/admin-member-delete.spec.ts"
+        ],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 60000
+      },
+      {
+        "outputDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260517-235128-wt-5/docs/30-workflows/issue-274-public-pages-ogp-sitemap-robots/outputs/phase-11/evidence/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "visual-full-chromium-mobile",
+        "name": "visual-full-chromium-mobile",
+        "testDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260517-235128-wt-5/apps/web/playwright/tests/visual-full",
+        "testIgnore": [
+          "**/admin-identity-conflicts.spec.ts",
+          "**/admin-requests.spec.ts",
+          "**/admin-schema-conflicts-audit.spec.ts",
+          "**/admin-member-delete.spec.ts"
+        ],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 60000
+      },
+      {
+        "outputDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260517-235128-wt-5/docs/30-workflows/issue-274-public-pages-ogp-sitemap-robots/outputs/phase-11/evidence/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "staging",
+        "name": "staging",
+        "testDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260517-235128-wt-5/apps/web/playwright/tests",
+        "testIgnore": [
+          "**/admin-identity-conflicts.spec.ts",
+          "**/admin-requests.spec.ts",
+          "**/admin-schema-conflicts-audit.spec.ts",
+          "**/admin-member-delete.spec.ts"
+        ],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 60000
+      },
+      {
+        "outputDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260517-235128-wt-5/docs/30-workflows/issue-274-public-pages-ogp-sitemap-robots/outputs/phase-11/evidence/test-results",
+        "repeatEach": 1,
+        "retries": 2,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "staging-smoke",
+        "name": "staging-smoke",
+        "testDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260517-235128-wt-5/apps/web/tests/e2e",
+        "testIgnore": [
+          "**/admin-identity-conflicts.spec.ts",
+          "**/admin-requests.spec.ts",
+          "**/admin-schema-conflicts-audit.spec.ts",
+          "**/admin-member-delete.spec.ts"
+        ],
+        "testMatch": [
+          "/staging-smoke\\.spec\\.ts$/"
+        ],
+        "timeout": 60000
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "html",
+        {
+          "outputFolder": "../../docs/30-workflows/issue-274-public-pages-ogp-sitemap-robots/outputs/phase-11/evidence/playwright-report/html",
+          "open": "never"
+        }
+      ],
+      [
+        "json",
+        {
+          "outputFile": "../../docs/30-workflows/issue-274-public-pages-ogp-sitemap-robots/outputs/phase-11/evidence/playwright-report/results.json"
+        }
+      ],
+      [
+        "list",
+        null
+      ],
+      [
+        "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260517-235128-wt-5/node_modules/monocart-reporter/lib/index.js",
+        {
+          "name": "UBM-Hyogo E2E",
+          "outputFile": "../../docs/30-workflows/issue-274-public-pages-ogp-sitemap-robots/outputs/phase-11/evidence/monocart/index.html",
+          "coverage": {
+            "outputDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260517-235128-wt-5/apps/web/coverage",
+            "reports": [
+              [
+                "v8",
+                {
+                  "outputDir": "coverage/v8"
+                }
+              ],
+              "json-summary",
+              [
+                "lcovonly",
+                {
+                  "outputFile": "coverage/lcov.info"
+                }
+              ]
+            ]
+          }
+        }
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.59.1",
+    "workers": 1,
+    "webServer": null
+  },
+  "suites": [
+    {
+      "title": "public-metadata.spec.ts",
+      "file": "public-metadata.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "public pages OGP / sitemap / robots",
+          "file": "public-metadata.spec.ts",
+          "line": 6,
+          "column": 6,
+          "specs": [
+            {
+              "title": "/ exposes OG and Twitter meta tags",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "desktop-chromium",
+                  "projectName": "desktop-chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 1715,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-05-18T01:30:07.298Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "dd8e5ef1d6b0c7bd9627-237800edbaf12b6c0f89",
+              "file": "public-metadata.spec.ts",
+              "line": 8,
+              "column": 5
+            },
+            {
+              "title": "/members exposes OG and Twitter meta tags",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "desktop-chromium",
+                  "projectName": "desktop-chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 1791,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-05-18T01:30:09.392Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "dd8e5ef1d6b0c7bd9627-20e7fa11ba69f178e507",
+              "file": "public-metadata.spec.ts",
+              "line": 8,
+              "column": 5
+            },
+            {
+              "title": "/register exposes OG and Twitter meta tags",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "desktop-chromium",
+                  "projectName": "desktop-chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 1772,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-05-18T01:30:11.208Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "dd8e5ef1d6b0c7bd9627-e546b98da7ef004e5b87",
+              "file": "public-metadata.spec.ts",
+              "line": 8,
+              "column": 5
+            },
+            {
+              "title": "/members/[id] exposes member detail OG and Twitter meta tags",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "desktop-chromium",
+                  "projectName": "desktop-chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 5937,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-05-18T01:30:13.003Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "dd8e5ef1d6b0c7bd9627-de15d49d88f5c46034e5",
+              "file": "public-metadata.spec.ts",
+              "line": 19,
+              "column": 3
+            },
+            {
+              "title": "/sitemap.xml returns XML with static routes",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "desktop-chromium",
+                  "projectName": "desktop-chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 1322,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-05-18T01:30:19.034Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "dd8e5ef1d6b0c7bd9627-32e925fbd97b1106c1e3",
+              "file": "public-metadata.spec.ts",
+              "line": 31,
+              "column": 3
+            },
+            {
+              "title": "/robots.txt is served",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "desktop-chromium",
+                  "projectName": "desktop-chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 30,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-05-18T01:30:20.370Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "dd8e5ef1d6b0c7bd9627-d10f547987ff44d8fbb2",
+              "file": "public-metadata.spec.ts",
+              "line": 41,
+              "column": 3
+            },
+            {
+              "title": "/opengraph-image returns PNG",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "desktop-chromium",
+                  "projectName": "desktop-chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 1184,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-05-18T01:30:20.419Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "dd8e5ef1d6b0c7bd9627-3ebbb51cd5b8f45026fe",
+              "file": "public-metadata.spec.ts",
+              "line": 49,
+              "column": 3
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-05-18T01:30:05.162Z",
+    "duration": 16537.044,
+    "expected": 7,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  }
+}

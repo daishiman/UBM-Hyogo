@@ -10,7 +10,13 @@
 | 対象機能     | `/profile` route segment error boundary のスクリーンリーダー読み上げ促進                            |
 | 優先度       | 中（会員マイページ中核 route の a11y 改善。root 完了済を前提に横展開）                              |
 | 見積もり規模 | 小（既存 `profile/error.tsx` の置き換え相当 + spec 1 本 + test 1 本）                               |
+<<<<<<<< HEAD:docs/30-workflows/completed-tasks/issue-769-followup-002-profile-error-focus-transfer.md
 | ステータス   | consumed（`docs/30-workflows/completed-tasks/issue-800-profile-error-focus-transfer/` で実装完了）                  |
+|||||||| 5587fc5ea:docs/30-workflows/unassigned-task/issue-769-followup-002-profile-error-focus-transfer.md
+| ステータス   | pending                                                                                             |
+========
+| ステータス   | consumed_by `docs/30-workflows/issue-799-use-auto-focus-on-mount-hook/`                             |
+>>>>>>>> origin/dev:docs/30-workflows/completed-tasks/unassigned-task/issue-769-followup-002-profile-error-focus-transfer.md
 | 発見元       | issue-769 Phase 12 unassigned-task-detection（followup candidate: `/profile/error.tsx` focus 転送） |
 | 発見日       | 2026-05-17                                                                                          |
 
@@ -26,6 +32,7 @@
 - 関連 followup:
   - issue-769-followup-001（`useAutoFocusOnMount(ref)` 共通 hook 抽出案。merge 済なら本タスクで利用し、未抽出ならインライン実装）
   - 別 followup（`/admin/error.tsx` focus transfer）— 本タスクスコープ外
+- consumed note: Issue #799 workflow で `/profile/error.tsx` の h1 focus transfer に加え、digest 表示・構造化 logger・dev-only stack output まで同一 wave で実装済み。PR 作成のみ user-gated。
 
 ---
 

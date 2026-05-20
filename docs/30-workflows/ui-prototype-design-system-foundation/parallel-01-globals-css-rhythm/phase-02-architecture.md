@@ -3,10 +3,10 @@ phase: 2
 title: アーキテクチャ — CSS layer 構造・selector 設計・トークン経路
 workflow_id: ui-prototype-design-system-foundation
 sub_workflow: parallel-01-globals-css-rhythm
-status: spec_created
+status: runtime_pending
 ---
 
-# Phase 2 — アーキテクチャ設計
+# Phase 2: アーキテクチャ設計
 
 [実装区分: 実装仕様書]
 
@@ -54,10 +54,10 @@ P1-1〜P1-5 の 5 セクションを挿入する。`@layer base` には触らな
 
 ### 2.2 specificity 戦略
 
-- 単一 attribute selector（specificity 0,1,0）を基本
-- `data-card-tone="emphasis"` のような modifier も同 specificity
-- Tailwind utility（specificity 0,1,0）と同レベルで cascade 順だけで上書き可能にする
-- `!important` は禁止
+- [x] 単一 attribute selector（specificity 0,1,0）を基本
+- [x] `data-card-tone="emphasis"` のような modifier も同 specificity
+- [x] Tailwind utility（specificity 0,1,0）と同レベルで cascade 順だけで上書き可能にする
+- [x] `!important` は禁止
 
 ## 3. トークン経路
 
@@ -91,6 +91,52 @@ P1-1〜P1-5 の 5 セクションを挿入する。`@layer base` には触らな
 
 ## 5. 既存規則との衝突回避
 
-- 既存 `@layer base` の `body { background: var(--ubm-color-surface-bg) }`（L81）と本 SW の `body` 規則は**同値**になるため衝突しない（component 層が cascade 上後勝ち）
-- 既存 parallel-09 規則は `.ui-*` class セレクタ。本 SW は `[data-*]` 属性セレクタ。**名前空間が異なる**ため衝突しない
-- 既存 focus-visible / reduced-motion 規則は本 SW の末尾より後ろに維持する
+- [x] 既存 `@layer base` の `body { background: var(--ubm-color-surface-bg) }`（L81）と本 SW の `body` 規則は**同値**になるため衝突しない（component 層が cascade 上後勝ち）
+- [x] 既存 parallel-09 規則は `.ui-*` class セレクタ。本 SW は `[data-*]` 属性セレクタ。**名前空間が異なる**ため衝突しない
+- [x] 既存 focus-visible / reduced-motion 規則は本 SW の末尾より後ろに維持する
+
+## メタ情報
+
+| 項目 | 値 |
+| --- | --- |
+| workflow_id | `ui-prototype-design-system-foundation` |
+| sub_workflow | `parallel-01-globals-css-rhythm` |
+| phase | `2` |
+| status | `runtime_pending` |
+| taskType | `implementation` |
+| visualEvidence | `VISUAL_ON_EXECUTION` |
+
+## 目的
+
+この Phase は既存本文の内容を、task-specification-creator の共通骨格に沿って実行可能な仕様として扱う。
+
+## 実行タスク
+
+1. 既存本文の Phase 固有タスクを実行する。
+2. `apps/web/src/styles/globals.css` の P1-1〜P1-5 selector contract と矛盾しないことを確認する。
+3. Phase 11 evidence と Phase 12 strict 7 の境界を `VISUAL_ON_EXECUTION` として維持する。
+
+## 参照資料
+
+- `docs/30-workflows/ui-prototype-design-system-foundation/index.md`
+- `docs/30-workflows/ui-prototype-design-system-foundation/PROTOTYPE-COVERAGE.md`
+- `apps/web/src/styles/globals.css`
+- `.claude/skills/task-specification-creator/references/phase-12-spec.md`
+- `.claude/skills/aiworkflow-requirements/indexes/resource-map.md`
+
+## 成果物
+
+- 本 Phase ファイル
+- `outputs/phase-11/` の local selector evidence
+- `outputs/phase-12/` の strict 7 files
+
+## 完了条件
+
+- [x] `node .claude/skills/task-specification-creator/scripts/validate-phase-output.js docs/30-workflows/ui-prototype-design-system-foundation/parallel-01-globals-css-rhythm` が error 0 である。
+- [x] P1-1〜P1-5 selector が `globals.css` に存在する。
+- [x] root workflow 全体の visual runtime evidence は serial-07 に委譲され、parallel-01 は `runtime_pending` として閉じる。
+
+## 統合テスト連携
+
+- CSS selector presence は `outputs/phase-11/section-presence.txt` と `grep-selectors.txt` で確認する。
+- visual screenshot は `serial-07-regression-evidence/` の責務として後続 runtime evidence に接続する。

@@ -2,8 +2,8 @@
 
 import Link from "next/link";
 import { useEffect, useRef } from "react";
-import { logger } from "../../../src/lib/logger";
 import { useAutoFocusOnMount } from "../../../src/lib/a11y/useAutoFocusOnMount";
+import { logger } from "../../../src/lib/logger";
 
 export interface AdminErrorProps {
   readonly error: Error & { digest?: string };
@@ -12,15 +12,16 @@ export interface AdminErrorProps {
 
 export default function AdminError({ error, reset }: AdminErrorProps) {
   const headingRef = useRef<HTMLHeadingElement>(null);
+  useAutoFocusOnMount(headingRef);
 
   useEffect(() => {
     logger.error({
       event: "error.boundary.caught",
+      scope: "admin",
       digest: error.digest,
       err: error,
     });
   }, [error]);
-  useAutoFocusOnMount(headingRef);
 
   const isDev = process.env.NODE_ENV !== "production";
 

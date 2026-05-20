@@ -10,9 +10,15 @@
 | 対象機能     | admin segment error boundary（admin top + 7 subroute = 8 routes 全体をカバーする segment-level 1 枚） |
 | 優先度       | 中                                                                                                    |
 | 見積もり規模 | 小（admin/error.tsx 全面書き換え 約 40 行 + spec/test 追記）                                          |
+<<<<<<<< HEAD:docs/30-workflows/completed-tasks/issue-769-followup-003-admin-error-focus-transfer.md
 | ステータス   | consumed（`docs/30-workflows/completed-tasks/issue-800-profile-error-focus-transfer/` で実装完了）                    |
 | canonical_workflow | `docs/30-workflows/completed-tasks/issue-800-profile-error-focus-transfer/`                                    |
 | consumed_by | Issue #800 error boundary focus hook rollout                                                           |
+|||||||| 5587fc5ea:docs/30-workflows/unassigned-task/issue-769-followup-003-admin-error-focus-transfer.md
+| ステータス   | pending                                                                                               |
+========
+| ステータス   | consumed_by `docs/30-workflows/issue-799-use-auto-focus-on-mount-hook/`                               |
+>>>>>>>> origin/dev:docs/30-workflows/completed-tasks/unassigned-task/issue-769-followup-003-admin-error-focus-transfer.md
 | 発見元       | issue-769 Phase 12 unassigned-task-detection (`/admin/error.tsx` focus transfer 行)                   |
 | 発見日       | 2026-05-17                                                                                            |
 
@@ -24,8 +30,17 @@
 - 発見元 evidence: `docs/30-workflows/completed-tasks/issue-769-root-error-focus/outputs/phase-12/unassigned-task-detection.md`（Follow-up Candidates 表 3 行目）
 - 横展開元 (reference impl): `apps/web/app/error.tsx`（issue-769 で `useRef` + `tabIndex={-1}` + `focus({ preventScroll: true })` 実装済み）
 - 修正対象 (現状確認済):
+<<<<<<<< HEAD:docs/30-workflows/completed-tasks/issue-769-followup-003-admin-error-focus-transfer.md
   - `apps/web/app/(admin)/admin/error.tsx` — Issue #800 rollout で a11y hardening 実装済み
   - `apps/web/app/(admin)/admin/__tests__/error.component.spec.tsx` — Issue #800 rollout で追加済み
+|||||||| 5587fc5ea:docs/30-workflows/unassigned-task/issue-769-followup-003-admin-error-focus-transfer.md
+  - `apps/web/app/(admin)/admin/error.tsx` — 既存だが a11y hardening が **未実装**（focus 管理なし / `aria-live` なし / digest 表示なし / logger 呼び出しなし）
+  - `apps/web/app/(admin)/admin/__tests__/error.component.spec.tsx`（新規追加 または 既存ファイル追記）
+========
+  - `apps/web/app/(admin)/admin/error.tsx` — 既存だが a11y hardening が **未実装**（focus 管理なし / `aria-live` なし / digest 表示なし / logger 呼び出しなし）
+  - `apps/web/app/(admin)/admin/__tests__/error.component.spec.tsx`（新規追加 または 既存ファイル追記）
+- consumed note: Issue #799 workflow で `(admin)/admin/error.tsx` の h1 focus transfer に加え、digest 表示・構造化 logger・production-safe copy・dev-only stack output まで同一 wave で実装済み。PR 作成のみ user-gated。
+>>>>>>>> origin/dev:docs/30-workflows/completed-tasks/unassigned-task/issue-769-followup-003-admin-error-focus-transfer.md
 - admin segment 構成 (8 routes すべて本 boundary 配下):
   - `(admin)/admin/page.tsx` (admin top / dashboard)
   - `(admin)/admin/members/`

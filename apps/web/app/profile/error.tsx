@@ -2,8 +2,8 @@
 
 import Link from "next/link";
 import { useEffect, useRef } from "react";
-import { logger } from "../../src/lib/logger";
 import { useAutoFocusOnMount } from "../../src/lib/a11y/useAutoFocusOnMount";
+import { logger } from "../../src/lib/logger";
 
 export interface ProfileErrorProps {
   readonly error: Error & { digest?: string };
@@ -16,6 +16,7 @@ export default function ProfileError({ error, reset }: ProfileErrorProps) {
   useEffect(() => {
     logger.error({
       event: "error.boundary.caught",
+      scope: "profile",
       digest: error.digest,
       err: error,
     });

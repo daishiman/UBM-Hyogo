@@ -176,6 +176,7 @@ export default defineConfig({
         /full-smoke\.spec\.ts$/,
         /admin-pages\.spec\.ts$/,
         /admin-tags-resolve-drawer\.spec\.ts$/,
+        /task15-admin-screenshots\.spec\.ts$/,
         ...fixtureGatedTestIgnore,
       ],
       use: { ...devices['iPhone 13'], viewport: { width: 390, height: 844 } },
