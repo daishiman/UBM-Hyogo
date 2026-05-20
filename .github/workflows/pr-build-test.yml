@@ -56,6 +56,18 @@ jobs:
         # `mise exec` 経由で渡ると Next.js prerender で `_not-found` が
         # `useContext` null エラーになるため、bash 内で `NODE_ENV=production` を
         # 上書きしてから pnpm build を起動する。
+        # apps/web の Next.js build は静的ページ生成時に
+        # apps/web/src/lib/env.ts の zod schema を評価するため、最低限のビルド時
+        # placeholder env（非 secret のみ）を渡す。real value は runtime に
+        # Cloudflare bindings で上書きされるため CI ビルドでは固定 placeholder で問題ない。
+        env:
+          ENVIRONMENT: local
+          NEXT_PUBLIC_API_BASE_URL: http://127.0.0.1:8787
+          PUBLIC_API_BASE_URL: http://127.0.0.1:8787
+          INTERNAL_API_BASE_URL: http://127.0.0.1:8787
+          AUTH_URL: http://127.0.0.1:3000
+          SENTRY_ENVIRONMENT: local
+          SENTRY_TRACES_SAMPLE_RATE: '0'
         run: mise exec -- bash -c 'NODE_ENV=production pnpm build'
 
       # Issue #626 (RB-01): 標準 Next.js build output (apps/web/.next/) を
@@ -90,6 +102,17 @@ jobs:
       # assert する。fail 時は "Sentry server instrumentation missing in standalone build artifact"
       # を log に出力する (docs/runbooks/next-standalone-instrumentation-patch.md §4)。
       - name: Build (Cloudflare standalone)
+        # `build:cloudflare` も Next.js build を内部で再走するため、最初の Build step と
+        # 同じ env placeholder が必要（apps/web/src/lib/env.ts の zod schema が CI 環境で
+        # ENVIRONMENT / NEXT_PUBLIC_API_BASE_URL undefined を拒否するため）。
+        env:
+          ENVIRONMENT: local
+          NEXT_PUBLIC_API_BASE_URL: http://127.0.0.1:8787
+          PUBLIC_API_BASE_URL: http://127.0.0.1:8787
+          INTERNAL_API_BASE_URL: http://127.0.0.1:8787
+          AUTH_URL: http://127.0.0.1:3000
+          SENTRY_ENVIRONMENT: local
+          SENTRY_TRACES_SAMPLE_RATE: '0'
         run: mise exec -- bash -c 'NODE_ENV=production pnpm --filter @ubm-hyogo/web build:cloudflare'
 
       - name: verify-web-instrumentation-patch
@@ -131,6 +154,17 @@ jobs:
           path: apps/web/.next
 
       - name: Start server (background)
+        # generateMetadata は request 時に getPublicEnv() を実行するため、
+        # start 時にも env placeholder が必要。ENVIRONMENT=production で
+        # site-metadata.ts の robots を index:true に切替え、Lighthouse SEO を pass させる。
+        env:
+          ENVIRONMENT: production
+          NEXT_PUBLIC_API_BASE_URL: http://127.0.0.1:8787
+          PUBLIC_API_BASE_URL: http://127.0.0.1:8787
+          INTERNAL_API_BASE_URL: http://127.0.0.1:8787
+          AUTH_URL: http://127.0.0.1:3000
+          SENTRY_ENVIRONMENT: local
+          SENTRY_TRACES_SAMPLE_RATE: '0'
         run: mise exec -- pnpm --filter @ubm-hyogo/web start &
 
       - name: Wait for server

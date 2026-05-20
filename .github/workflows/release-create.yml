@@ -52,9 +52,11 @@ jobs:
             v[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]-[0-9][0-9][0-9][0-9]) ;;
             *) echo "invalid tag: $tag"; exit 64 ;;
           esac
-          echo "tag=$tag" >> "$GITHUB_OUTPUT"
-          echo "target=$target" >> "$GITHUB_OUTPUT"
-          echo "mode=$mode" >> "$GITHUB_OUTPUT"
+          {
+            echo "tag=$tag"
+            echo "target=$target"
+            echo "mode=$mode"
+          } >> "$GITHUB_OUTPUT"
 
       - name: Render release notes dry-run
         if: steps.inputs.outputs.mode == 'dry-run'

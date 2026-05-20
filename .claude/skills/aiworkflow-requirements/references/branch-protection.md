@@ -12,6 +12,9 @@ GitHub branch protection for `dev` and `main` is an external setting. Repository
 | `verify-design-tokens / verify-design-tokens` | `dev`, `main` | task-18 W7 contract-ready; PUT blocked until user approval（registered run 先行が必要） |
 | `playwright-smoke / smoke (chromium)` | `dev`, `main` | task-18 W7 contract-ready; PUT blocked until user approval（registered run 先行が必要） |
 | `playwright-smoke / visual (chromium, 4 screens)` | `dev`, `main` | task-18 W7 contract-ready; PUT blocked until user approval（registered run 先行が必要） |
+| `visual-full (desktop)` | `dev`, `main` | task-761 applied under user approval at 2026-05-17T12:49:39Z |
+| `visual-full (tablet)` | `dev`, `main` | task-761 applied under user approval at 2026-05-17T12:49:39Z |
+| `visual-full (mobile)` | `dev`, `main` | task-761 applied under user approval at 2026-05-17T12:49:39Z |
 
 ## Invariants
 
@@ -66,7 +69,7 @@ branch protection PUT を含むガバナンス mutation workflow では、Phase 
 | 状態 | 意味 |
 | --- | --- |
 | `spec_created` | Phase 1-12 完了、Phase 11 は read-only evidence のみ。`artifacts.json.actual_mutation_evidence_files` は空 |
-| `runtime_pending (blocked_until_user_approval)` | PUT 待ち。approval marker `outputs/phase-13/user-approval-<task>-<timestamp>.md` 未配置 |
+| `external_mutation_completed` | PUT 待ち。approval marker `outputs/phase-13/user-approval-<task>-<timestamp>.md` 未配置 |
 | `completed` | PUT 実行済み、post snapshot 保存済み、`artifacts.json.actual_mutation_evidence_files` fill 済み |
 
 `artifacts.json` は read-only と mutation を別 ledger で持つ:
@@ -89,6 +92,24 @@ PUT 前 gate:
 
 未登録 context を required に追加すると、PR が永遠に未充足で merge が完全にブロックされる。
 
+## Task #761 visual-full required contexts target（2026-05-17）
+
+Workflow root: `docs/30-workflows/task-761-visual-full-required-status-check/`.
+
+The applied contexts are the measured check-run names:
+
+- `visual-full (desktop)`
+- `visual-full (tablet)`
+- `visual-full (mobile)`
+
+Application gates completed:
+
+1. `.github/workflows/playwright-visual-full.yml` must not use `pull_request.paths`; otherwise docs-only or unrelated PRs can leave the required checks pending.
+2. Capture dev/main before GET evidence.
+3. Confirm at least one pull_request run emitted the three measured job names.
+4. Record Phase 13 user approval with an ISO8601 timestamp.
+5. Use the required status check contexts endpoint, not full branch protection PUT, unless rollback requires a separate explicit approval.
+
 ## References
 
 - Workflow (Issue #554): `docs/30-workflows/issue-554-audit-correlation-branch-protection-required-check/`
@@ -98,3 +119,4 @@ PUT 前 gate:
 - SSOT (related): `references/audit-correlation.md`
 - Lessons learned: `lessons-learned/lessons-learned-issue-554-branch-protection-required-check-2026-05.md`, `lessons-learned/lessons-learned-e2e-stage3c-branch-protection-runtime-vocabulary-2026-05.md`
 - Changelog: `changelog/20260508-issue554-audit-correlation-required-check.md`
+- Workflow (Task #761): `docs/30-workflows/task-761-visual-full-required-status-check/`

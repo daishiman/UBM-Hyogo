@@ -13,7 +13,7 @@ export function MemberTags({ tags }: MemberTagsProps) {
       <ul className="tags-list" role="list">
         {tags.map((t) => (
           <li key={t.code}>
-            <Badge tone="default" outline>
+            <Badge data-component="tag-pill" tone="default" outline>
               {t.label}
             </Badge>
           </li>

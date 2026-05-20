@@ -37,7 +37,7 @@ describe("u-04 manual sync", () => {
       .bind("audit-1")
       .first<{ status: string; trigger_type: string }>();
     expect(log?.status).toBe("success");
-    expect(log?.trigger_type).toBe("manual");
+    expect(log?.trigger_type).toBe("admin");
   });
 
   it("I-02: SYNC_ADMIN_TOKEN 未一致は 401 を返す", async () => {

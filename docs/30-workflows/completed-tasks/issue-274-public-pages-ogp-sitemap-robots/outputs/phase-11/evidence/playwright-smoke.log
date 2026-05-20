@@ -1,0 +1,42 @@
+
+Running 7 tests using 1 worker
+
+(node:67404) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:67404) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 [desktop-chromium] › playwright/tests/public-metadata.spec.ts:8:5 › public pages OGP / sitemap / robots › / exposes OG and Twitter meta tags (1.7s)
+  ✓  2 [desktop-chromium] › playwright/tests/public-metadata.spec.ts:8:5 › public pages OGP / sitemap / robots › /members exposes OG and Twitter meta tags (1.8s)
+  ✓  3 [desktop-chromium] › playwright/tests/public-metadata.spec.ts:8:5 › public pages OGP / sitemap / robots › /register exposes OG and Twitter meta tags (1.8s)
+  ✓  4 [desktop-chromium] › playwright/tests/public-metadata.spec.ts:19:3 › public pages OGP / sitemap / robots › /members/[id] exposes member detail OG and Twitter meta tags (5.9s)
+  ✓  5 [desktop-chromium] › playwright/tests/public-metadata.spec.ts:31:3 › public pages OGP / sitemap / robots › /sitemap.xml returns XML with static routes (1.3s)
+  ✓  6 [desktop-chromium] › playwright/tests/public-metadata.spec.ts:41:3 › public pages OGP / sitemap / robots › /robots.txt is served (30ms)
+  ✓  7 [desktop-chromium] › playwright/tests/public-metadata.spec.ts:49:3 › public pages OGP / sitemap / robots › /opengraph-image returns PNG (1.2s)
+
+  7 passed (16.5s)
+[MR] generating report data ...
+[MR] generating test report ...
+[MR] UBM-Hyogo E2E
+┌─────────────┬────────────────────────┐
+│ Tests       │ 7                      │
+│ ├ Failed    │ 0 (0.0%)               │
+│ ├ Flaky     │ 0 (0.0%)               │
+│ ├ Skipped   │ 0 (0.0%)               │
+│ └ Passed    │ 7 (100.0%)             │
+│ Steps       │ 86                     │
+│ Suites      │ 1                      │
+│ ├ Projects  │ 1                      │
+│ ├ Files     │ 1                      │
+│ ├ Describes │ 1                      │
+│ └ Shards    │ 0                      │
+│ Errors      │ 0                      │
+│ Retries     │ 0                      │
+│ Logs        │ 0                      │
+│ Attachments │ 0                      │
+│ Artifacts   │ 0                      │
+│ Playwright  │ v1.59.1                │
+│ Date        │ 5/18/2026, 10:30:05 AM │
+│ Duration    │ 16.10s                 │
+└─────────────┴────────────────────────┘
+[MR] json: ../../docs/30-workflows/issue-274-public-pages-ogp-sitemap-robots/outputs/phase-11/evidence/monocart/index.json
+[MR] view report: npx monocart show-report ../../docs/30-workflows/issue-274-public-pages-ogp-sitemap-robots/outputs/phase-11/evidence/monocart/index.html

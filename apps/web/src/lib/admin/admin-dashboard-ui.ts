@@ -24,7 +24,7 @@ export interface AdminDashboardUiView {
 // API response が現行 schema (totals/recentActions/generatedAt) のみを返すケースを正常系とし、
 // 拡張フィールドが将来追加された場合に optional として吸収できるよう loose 判定する。
 export function toAdminDashboardUi(
-  view: AdminDashboardView & { byZone?: unknown; byStatus?: unknown },
+  view: Omit<AdminDashboardView, "byStatus"> & { byZone?: unknown; byStatus?: unknown },
 ): AdminDashboardUiView {
   return {
     totals: view.totals,

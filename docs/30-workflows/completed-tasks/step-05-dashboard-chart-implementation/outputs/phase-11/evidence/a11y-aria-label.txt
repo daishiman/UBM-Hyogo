@@ -1,0 +1,11 @@
+Status: component-test-backed
+
+Focused component test verifies the SVG chart accessibility contract:
+- role="img"
+- aria-label="公開ステータス分布: 公開 12, 会員限定 8, 非公開 3"
+
+Evidence:
+- apps/web/src/features/admin/components/_dashboard/StatusDistribution.spec.tsx
+- outputs/phase-11/evidence/test.log
+
+Runtime DevTools / axe verification remains part of the authenticated screenshot user gate.

@@ -1,0 +1,6 @@
+Command: grep -nE "#[0-9a-fA-F]{3,8}|bg-\[#|text-\[#" apps/web/app/profile/loading.tsx
+Exit: 1
+
+Result:
+- No HEX color / arbitrary bg / arbitrary text color usage found.
+

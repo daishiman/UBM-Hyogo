@@ -201,6 +201,10 @@ Path は workflow root 相対を原則とし、絶対パスや `../` による r
 
 この validator は evidence の内容妥当性までは検査しない。中身の品質、実行ログの exit code、redaction、runtime smoke の真偽は、各タスクの Phase 11 / Phase 12 で別途検証する。
 
+### 二層 status 運用（present / pending / n/a）
+
+`present` 行は validator が物理ファイル存在を強制検査する **対象**。`pending` 行は inventory ledger としての記録専用で、validator 検査対象外（別タスク gate / runtime 観測待ち / N-day 観測などで後続取得予定の evidence を一覧として保持するために使う）。`n/a` 行は取得不要が確定したもの。詳細運用・昇格パス・落とし穴は [phase11-evidence-two-tier-status.md](phase11-evidence-two-tier-status.md) を参照。
+
 ## Cloudflare Workers production preflight evidence template（docs-only infrastructure verification）
 
 UT-06-FU-A production route / secret / observability preflight（2026-04-30）の close-out feedback を反映。`apps/web` / `apps/api` を OpenNext Workers へ移行する際の **production runbook 検証**は、UI 差分なし・コード差分最小・実 production 環境への mutation 不可という条件で行うため、本テンプレートを Phase 11 evidence の最小構成として固定する。

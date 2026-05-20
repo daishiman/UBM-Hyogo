@@ -61,6 +61,35 @@ assert_step_api_token() {
   ' "$file" || fail "$file $step_name must set with.apiToken exactly to $secret_name"
 }
 
+assert_step_env_token() {
+  local file="$1"
+  local scope_anchor="$2"
+  local step_name="$3"
+  local secret_name="$4"
+  local expected="CLOUDFLARE_API_TOKEN: \${{ secrets.${secret_name} }}"
+
+  awk -v scope_anchor="$scope_anchor" -v step_name="$step_name" -v expected="$expected" '
+    BEGIN { in_scope=(scope_anchor == ""); in_step=0; found=0 }
+    scope_anchor != "" && index($0, scope_anchor) { in_scope=1 }
+    in_scope && index($0, "- name: " step_name) {
+      in_step=1
+      next
+    }
+    in_step && /^[[:space:]]{6}- name:/ { in_step=0 }
+    in_step && /CLOUDFLARE_API_TOKEN:/ {
+      line=$0
+      sub(/^[[:space:]]+/, "", line)
+      if (line == expected) {
+        found=1
+        exit 0
+      }
+      print FILENAME ":" FNR ": expected " expected " but got " line > "/dev/stderr"
+      exit 2
+    }
+    END { exit found ? 0 : 1 }
+  ' "$file" || fail "$file $step_name must set env.CLOUDFLARE_API_TOKEN exactly to $secret_name"
+}
+
 assert_no_job_level_cf_token "$WEB_CD"
 assert_no_job_level_cf_token "$BACKEND_CI"
 assert_no_job_level_cf_token "$POST_RELEASE_DASHBOARD"
@@ -88,6 +117,10 @@ assert_step_api_token "$BACKEND_CI" 'deploy-staging:' 'Apply D1 migrations' 'CF_
 assert_step_api_token "$BACKEND_CI" 'deploy-staging:' 'Deploy Workers app' 'CF_TOKEN_WORKERS_STAGING'
 assert_step_api_token "$BACKEND_CI" 'deploy-production:' 'Apply D1 migrations' 'CF_TOKEN_D1_PRODUCTION'
 assert_step_api_token "$BACKEND_CI" 'deploy-production:' 'Deploy Workers app' 'CF_TOKEN_WORKERS_PRODUCTION'
+assert_step_env_token "$BACKEND_CI" 'deploy-staging:' 'Apply D1 migrations' 'CF_TOKEN_D1_STAGING'
+assert_step_env_token "$BACKEND_CI" 'deploy-staging:' 'Deploy Workers app' 'CF_TOKEN_WORKERS_STAGING'
+assert_step_env_token "$BACKEND_CI" 'deploy-production:' 'Apply D1 migrations' 'CF_TOKEN_D1_PRODUCTION'
+assert_step_env_token "$BACKEND_CI" 'deploy-production:' 'Deploy Workers app' 'CF_TOKEN_WORKERS_PRODUCTION'
 
 grep -q 'Verify deploy log redaction (staging)' "$WEB_CD" || fail "web-cd staging redaction check missing"
 grep -q 'Verify deploy log redaction (production)' "$WEB_CD" || fail "web-cd production redaction check missing"

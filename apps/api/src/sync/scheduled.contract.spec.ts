@@ -19,16 +19,16 @@ describe("u-04 scheduled sync", () => {
     await env.db
       .prepare(
         `INSERT INTO sync_job_logs (run_id, trigger_type, status, started_at, finished_at)
-         VALUES ('p1', 'manual', 'success', '2026-04-29T00:00:00.000Z', '2026-04-29T00:01:00.000Z'),
-                ('p2', 'scheduled', 'success', '2026-04-30T00:00:00.000Z', '2026-04-30T00:01:00.000Z'),
-                ('p3', 'manual', 'failed',  '2026-04-30T01:00:00.000Z', '2026-04-30T01:01:00.000Z')`,
+         VALUES ('p1', 'admin', 'success', '2026-04-29T00:00:00.000Z', '2026-04-29T00:01:00.000Z'),
+                ('p2', 'cron', 'success', '2026-04-30T00:00:00.000Z', '2026-04-30T00:01:00.000Z'),
+                ('p3', 'admin', 'failed',  '2026-04-30T01:00:00.000Z', '2026-04-30T01:01:00.000Z')`,
       )
       .run();
     const cursor = await readLastSuccessCursor(env.db);
     expect(cursor).toBe("2026-04-30T00:01:00.000Z");
   });
 
-  it("I-06: runScheduledSync は cursor を読みつつ全件 upsert として trigger=scheduled で audit する", async () => {
+  it("I-06: runScheduledSync は cursor を読みつつ全件 upsert として trigger=cron で audit する", async () => {
     const env = await setupD1();
     await env.reset();
     let invoked = 0;
@@ -55,6 +55,6 @@ describe("u-04 scheduled sync", () => {
       .prepare("SELECT trigger_type FROM sync_job_logs WHERE run_id = ?1")
       .bind("sch-1")
       .first<{ trigger_type: string }>();
-    expect(row?.trigger_type).toBe("scheduled");
+    expect(row?.trigger_type).toBe("cron");
   });
 });

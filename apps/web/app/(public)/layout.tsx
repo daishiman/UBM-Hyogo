@@ -12,9 +12,15 @@ export default function PublicLayout({
 }) {
   return (
     <>
-      <PublicHeader />
-      <div data-role="container">{children}</div>
-      <PublicFooter />
+      <header data-shell="topbar">
+        <PublicHeader />
+      </header>
+      <main data-route="public" data-role="container">
+        {children}
+      </main>
+      <footer data-shell="footer">
+        <PublicFooter />
+      </footer>
     </>
   );
 }

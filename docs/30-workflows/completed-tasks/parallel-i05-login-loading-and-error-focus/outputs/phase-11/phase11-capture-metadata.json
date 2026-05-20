@@ -1,0 +1,16 @@
+{
+  "taskId": "parallel-i05-login-loading-and-error-focus",
+  "mode": "VISUAL",
+  "localEvidenceCapturedAt": "2026-05-18T12:58:00Z",
+  "runtimeScreenshots": {
+    "status": "pending_user_approval",
+    "reason": "Fresh browser screenshot capture is external/runtime evidence and remains user-gated."
+  },
+  "localEvidence": [
+    {
+      "type": "vitest",
+      "command": "pnpm exec vitest run --root=. --config=vitest.config.ts apps/web/app/login/error.spec.tsx apps/web/app/login/loading.spec.tsx",
+      "result": "2 files passed / 4 tests passed"
+    }
+  ]
+}

@@ -3,10 +3,13 @@
 // 不変条件 #1: stableKey 経由でのみ field を参照（直書き禁止、全 KV row に data-stable-key）
 // 不変条件 #5: web から D1 直接禁止 → public API 経由のみ
 
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import type { z } from "zod";
 
 import { PublicMemberProfileZ } from "@ubm-hyogo/shared";
+
+import { buildPageMetadata } from "@/lib/seo/site-metadata";
 
 import { MemberActivity } from "../../../../src/components/public/MemberActivity";
 import { MemberDetailSections } from "../../../../src/components/public/MemberDetailSections";
@@ -39,15 +42,29 @@ async function fetchProfile(
   }
 }
 
-export async function generateMetadata({ params }: MemberDetailPageProps) {
+export async function generateMetadata({
+  params,
+}: MemberDetailPageProps): Promise<Metadata> {
   const { id } = await params;
   const profile = await fetchProfile(id);
   if (!profile) {
-    notFound();
+    return buildPageMetadata({
+      title: "メンバーが見つかりません",
+      description:
+        "指定された UBM 兵庫支部会メンバーは公開されていません",
+      path: `/members/${id}`,
+      twitterCard: "summary",
+    });
   }
-  return {
-    title: `${profile.summary.fullName} | UBM 兵庫支部会`,
-  };
+  const occ = profile.summary.occupation;
+  return buildPageMetadata({
+    title: profile.summary.fullName,
+    description: `${profile.summary.fullName}${
+      occ ? `（${occ}）` : ""
+    }の UBM 兵庫支部会プロフィール`,
+    path: `/members/${id}`,
+    twitterCard: "summary",
+  });
 }
 
 export default async function MemberDetailPage({

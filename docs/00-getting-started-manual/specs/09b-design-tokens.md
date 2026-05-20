@@ -166,9 +166,9 @@ Warm and cool override only surface / text / border / accent values.
 | `--text` | `--ubm-color-text-primary` | `#22180a` |
 | `--text-2` | `--ubm-color-text-secondary` | `#6b5a42` |
 | `--text-3` | `--ubm-color-text-muted` | `#9a8a6e` |
-| `--accent` | `--ubm-color-accent` | `oklch(0.62 0.14 50)` |
+| `--accent` | `--ubm-color-accent` | `oklch(0.52 0.13 50)` |
 | `--accent-soft` | `--ubm-color-accent-soft` | `oklch(0.94 0.05 60)` |
-| `--accent-ink` | `--ubm-color-accent-ink` | `oklch(0.40 0.13 50)` |
+| `--accent-ink` | `--ubm-color-accent-ink` | `oklch(0.36 0.12 50)` |
 
 ### 3.4.3 Cool Theme
 
@@ -348,9 +348,9 @@ This keeps Style Dictionary, custom verifiers, and human review on the same sche
         "text-primary": { "value": "#22180a", "css": "--ubm-color-text-primary" },
         "text-secondary": { "value": "#6b5a42", "css": "--ubm-color-text-secondary" },
         "text-muted": { "value": "#9a8a6e", "css": "--ubm-color-text-muted" },
-        "accent": { "value": "oklch(0.62 0.14 50)", "css": "--ubm-color-accent" },
+        "accent": { "value": "oklch(0.52 0.13 50)", "css": "--ubm-color-accent" },
         "accent-soft": { "value": "oklch(0.94 0.05 60)", "css": "--ubm-color-accent-soft" },
-        "accent-ink": { "value": "oklch(0.40 0.13 50)", "css": "--ubm-color-accent-ink" }
+        "accent-ink": { "value": "oklch(0.36 0.12 50)", "css": "--ubm-color-accent-ink" }
       },
       "cool": {
         "surface-bg": { "value": "#f1f3f5", "css": "--ubm-color-surface-bg" },

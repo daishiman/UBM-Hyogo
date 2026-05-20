@@ -59,9 +59,11 @@ jobs:
             UNTIL=$(date -u +%Y-%m-%dT%H:00:00Z)
             SINCE=$(date -u -d '1 hour ago' +%Y-%m-%dT%H:00:00Z)
           fi
-          echo "since=$SINCE" >> "$GITHUB_OUTPUT"
-          echo "until=$UNTIL" >> "$GITHUB_OUTPUT"
-          echo "hour=$SINCE" >> "$GITHUB_OUTPUT"
+          {
+            echo "since=$SINCE"
+            echo "until=$UNTIL"
+            echo "hour=$SINCE"
+          } >> "$GITHUB_OUTPUT"
       - name: Fetch audit logs into D1
         env:
           CLOUDFLARE_ACCOUNT_ID: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
