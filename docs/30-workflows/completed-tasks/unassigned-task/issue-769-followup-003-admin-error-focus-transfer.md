@@ -7,24 +7,29 @@
 | タスクID     | issue-769-followup-003-admin-error-focus-transfer                                                     |
 | タスク名     | `(admin)/admin/error.tsx` への root 同等 a11y hardening (focus / aria-live / digest / logger) 横展開  |
 | 分類         | 改善 / a11y (accessibility) followup                                                                  |
-| 対象機能     | admin segment error boundary（admin top + 7 subroute = 8 routes 全体をカバーする segment-level 1 枚） |
+| 対象機能     | admin route segment error boundary（`/admin` page + nested child routes の render error をカバーする segment-level 1 枚。`(admin)/layout.tsx` 由来の layout error は対象外） |
 | 優先度       | 中                                                                                                    |
 | 見積もり規模 | 小（admin/error.tsx 全面書き換え 約 40 行 + spec/test 追記）                                          |
-| ステータス   | pending                                                                                               |
+| ステータス   | consumed                                                                                              |
 | 発見元       | issue-769 Phase 12 unassigned-task-detection (`/admin/error.tsx` focus transfer 行)                   |
 | 発見日       | 2026-05-17                                                                                            |
 
 ## Canonical Workflow Status
 
 - 親 workflow: `docs/30-workflows/ui-prototype-alignment-mvp-recovery/`（a11y hardening 系列）
-- 親 workflow 状態: `implemented_local_evidence_captured`（root error.tsx focus は issue-769 で完了済み・admin segment は未達）
-- 直接の親 spec: `docs/30-workflows/ui-prototype-alignment-mvp-recovery/improvements/integration-fixes/parallel-i06-root-error-focus/spec.md`（spec section 4.3 「error boundary focus 管理」の admin segment 横展開）
+- 親 workflow 状態: `implemented_local_evidence_captured`（root error.tsx focus は issue-769、admin route segment は issue-801 で local implementation captured）
+- canonical workflow: `docs/30-workflows/issue-801-admin-error-focus-transfer/`
+- canonical issue: #801
+- consumed_at: 2026-05-19
+- consumed_by: issue-801 local implementation (`apps/web/app/(admin)/admin/error.tsx`, `apps/web/app/(admin)/admin/__tests__/error.component.spec.tsx`)
+- consumed_state: `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION / runtime_pending`
+- 直接の親 spec: `docs/30-workflows/ui-prototype-alignment-mvp-recovery/improvements/integration-fixes/parallel-i06-root-error-focus/spec.md`（spec section 4.3 「error boundary focus 管理」の admin route segment 横展開）
 - 発見元 evidence: `docs/30-workflows/issue-769-root-error-focus/outputs/phase-12/unassigned-task-detection.md`（Follow-up Candidates 表 3 行目）
 - 横展開元 (reference impl): `apps/web/app/error.tsx`（issue-769 で `useRef` + `tabIndex={-1}` + `focus({ preventScroll: true })` 実装済み）
 - 修正対象 (現状確認済):
   - `apps/web/app/(admin)/admin/error.tsx` — 既存だが a11y hardening が **未実装**（focus 管理なし / `aria-live` なし / digest 表示なし / logger 呼び出しなし）
   - `apps/web/app/(admin)/admin/__tests__/error.component.spec.tsx`（新規追加 または 既存ファイル追記）
-- admin segment 構成 (8 routes すべて本 boundary 配下):
+- admin route segment 構成（本 boundary の render error 対象。`apps/web/app/(admin)/layout.tsx` は sibling parent layout のため対象外）:
   - `(admin)/admin/page.tsx` (admin top / dashboard)
   - `(admin)/admin/members/`
   - `(admin)/admin/tags/`
@@ -50,7 +55,7 @@ issue-769 で root `apps/web/app/error.tsx` の h1 自動 focus 移譲を実装�
 - `logger.error({ event: "error.boundary.caught", ... })`（構造化ログ）
 - OKLch トークンに沿った className（`text-danger` / `bg-surface-2` / `border-border` 等）
 
-admin segment は管理者業務の中核（members 編集 / tags 管理 / meetings 操作 / schema 変更 / requests 承認 / identity-conflicts 解決 / audit 閲覧）であり、Next.js App Router の error boundary 仕様上 `(admin)/admin/error.tsx` は admin 配下 8 routes 全体の障害をキャッチする **唯一の segment-level boundary** として機能する。
+admin route segment は管理者業務の中核（members 編集 / tags 管理 / meetings 操作 / schema 変更 / requests 承認 / identity-conflicts 解決 / audit 閲覧）であり、Next.js App Router の error boundary 仕様上 `(admin)/admin/error.tsx` は `/admin` page と nested child routes の render error をキャッチする segment-level boundary として機能する。`apps/web/app/(admin)/layout.tsx` 由来の layout error はこの child boundary では捕捉しない。
 
 ### 1.2 問題点・課題
 
@@ -61,7 +66,7 @@ admin segment は管理者業務の中核（members 編集 / tags 管理 / meeti
 
 ### 1.3 放置した場合の影響
 
-- admin 配下 8 routes でランタイムエラーが発生した際、screen reader 利用の管理者がエラー認知できず、誤った状態のまま操作続行するリスク
+- `/admin` page と nested child routes で render error が発生した際、screen reader 利用の管理者がエラー認知できず、誤った状態のまま操作続行するリスク
 - `parallel-07` spec section 4.3 が要求する error boundary a11y 要件の **admin segment への横展開未達** が `ui-prototype-alignment-mvp-recovery` Phase 13 まで持ち越される
 - issue-769-followup-001 (`useAutoFocusOnMount` 共通 hook 抽出 candidate) の整備順序が複雑化（admin 含めて 3 箇所同時 refactor が必要になる）
 
@@ -71,12 +76,12 @@ admin segment は管理者業務の中核（members 編集 / tags 管理 / meeti
 
 ### 2.1 目的
 
-`apps/web/app/(admin)/admin/error.tsx` を root error.tsx と同等の a11y hardening 水準まで引き上げ、admin 配下 8 routes 全体の error boundary として `parallel-07` spec section 4.3 を満たす。
+`apps/web/app/(admin)/admin/error.tsx` を root error.tsx と同等の a11y hardening 水準まで引き上げ、`/admin` page と nested child routes の render error boundary として `parallel-07` spec section 4.3 を満たす。
 
 ### 2.2 最終ゴール
 
 - `apps/web/app/(admin)/admin/error.tsx` が root error.tsx と同じ構造（`useRef` / `tabIndex={-1}` / `useEffect` 内 `logger.error → focus` / `aria-live="assertive"` / digest 表示 / `isDev` 分岐の stack 表示）を備える
-- admin 文脈に合わせた文言調整（h1 文言を「管理画面を表示できませんでした」等にする / 「トップへ戻る」リンク先を `/admin` にする / ボタンとリンクの className を admin layout の OKLch トークンに整合）
+- admin 文脈に合わせた文言調整（h1 文言を「管理画面を表示できませんでした」等にする / 「トップへ戻る」リンク先は auth loop 回避のため `/` にする / ボタンとリンクの className を admin layout の OKLch トークンに整合）
 - `apps/web/app/(admin)/admin/__tests__/error.component.spec.tsx`（新規）に focus 移譲・digest 表示・reset 動作・logger 呼び出しの単体検証を追加
 - `pnpm typecheck` / `pnpm lint` / 該当 vitest が PASS
 - `parallel-07` spec section 4.3 の admin segment 適用 DoD を達成
@@ -113,12 +118,12 @@ admin segment は管理者業務の中核（members 編集 / tags 管理 / meeti
 
 ### 3.1 segment boundary 設計の意思決定: segment-level 1 枚 vs route-level 分散
 
-Next.js App Router では error.tsx を **どの階層に置くか** で catch 範囲が変わる。admin 配下 8 routes に対して取りうる構成は 2 つ:
+Next.js App Router では error.tsx を **どの階層に置くか** で catch 範囲が変わる。`/admin` page と nested child routes に対して取りうる構成は 2 つ:
 
 **案 A (採用): segment-level 1 枚 = `(admin)/admin/error.tsx` のみ**
 
 - 配置: `apps/web/app/(admin)/admin/error.tsx` 1 ファイル
-- catch 範囲: admin 配下 8 routes すべて（page.tsx, members/, tags/, meetings/, schema/, requests/, identity-conflicts/, audit/）
+- catch 範囲: `/admin` page と nested child routes（page.tsx, members/, tags/, meetings/, schema/, requests/, identity-conflicts/, audit/）の render error。`apps/web/app/(admin)/layout.tsx` 由来の layout error は対象外。
 - 長所:
   - 実装 1 箇所で a11y hardening が完結
   - 文言・ログ event 名・トークン使用を 1 箇所で統一できる
@@ -163,7 +168,7 @@ issue-769-followup-001 で `useAutoFocusOnMount(ref)` 共通 hook 抽出が検�
 
 ### 3.5 学んだこと / 横展開メモ
 
-- segment-level boundary 1 枚で admin 配下 8 routes をカバーする設計は、a11y 横展開を局所化できる最小コスト解
+- segment-level boundary 1 枚で `/admin` page と nested child route render errors をカバーする設計は、a11y 横展開を局所化できる最小コスト解
 - admin auth gate (`redirect` ベース) は error boundary と衝突しない設計になっているため、本タスクで分岐ロジックを足す必要はない
 - 共通 hook 抽出は本タスク完了後の followup で 4 箇所一括が最適
 - admin/error.tsx の文言は root より「管理画面」「管理者にご連絡」を明示し、運用者向けの誘導を分離する

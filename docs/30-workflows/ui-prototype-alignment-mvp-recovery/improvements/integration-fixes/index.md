@@ -20,7 +20,7 @@
 | i03 | dialog の `router.refresh()` 呼び出し位置が spec と乖離（close 後発火リスク） | p-02 spec 違反 | `RequestActionPanel.tsx:57` で `refresh()` を onSubmitted callback に置く実装。spec は dialog 内で close 前 |
 | i04 | (完了) `CallToActionCTA` を HomePage に実装済み | p-06 DoD 達成 | `apps/web/app/page.tsx` が `CallToActionCTA` を mount、`apps/web/src/components/public/CallToActionCTA.tsx` 作成済み、Phase 11 screenshot 3 件保存 |
 | i05 | `/login/loading.tsx` 未作成 + `/login/error.tsx` の focus 管理 / Card layout 未適用 | p-07 DoD 未達 | `apps/web/app/login/loading.tsx` 不在 / `error.tsx` は `useRef` / `tabIndex` なし |
-| i06 | root `error.tsx` の h1 自動 focus 実装済み | parallel-07 spec 4.3 local implementation complete | `apps/web/app/error.tsx` で `useRef` / `headingRef.current?.focus({ preventScroll: true })` / `tabIndex={-1}` 実装済み |
+| i06 | root `error.tsx` + admin route segment `error.tsx` の h1 自動 focus 実装済み | parallel-07 spec 4.3 local implementation complete; admin child workflow issue-801 local evidence captured | `apps/web/app/error.tsx` と `apps/web/app/(admin)/admin/error.tsx` で `useRef` / `headingRef.current?.focus({ preventScroll: true })` / `tabIndex={-1}` 実装済み。admin layout (`apps/web/app/(admin)/layout.tsx`) 由来のエラー捕捉は対象外 |
 | i07 | (local 実装済み / runtime visual pending) `/profile/loading.tsx` を OKLch skeleton 化 | p-07 spec 4.5 local 達成 | `apps/web/app/profile/loading.tsx` は `role="status"` + `bg-surface-2` skeleton 6 blocks。canonical workflow: `docs/30-workflows/issue-770-profile-loading-skeleton/` |
 
 ## 3. ディレクトリ構成
@@ -79,7 +79,7 @@ integration-fixes/
 | i03 | spec_ready_implementation_pending | `parallel-i03-dialog-refresh-order/spec.md` / `docs/30-workflows/unassigned-task/integration-fixes-i03-dialog-refresh-order.md` |
 | i04 | completed locally | `docs/30-workflows/integration-fixes-i04-homepage-cta-implementation/` / `parallel-i04-homepage-cta/spec.md` / `docs/30-workflows/unassigned-task/integration-fixes-i04-homepage-cta.md` |
 | i05 | spec_ready_implementation_pending | `parallel-i05-login-loading-and-error-focus/spec.md` / `docs/30-workflows/unassigned-task/integration-fixes-i05-login-loading-and-error-focus.md` |
-| i06 | implemented_local_evidence_captured | `parallel-i06-root-error-focus/spec.md` / `docs/30-workflows/issue-769-root-error-focus/` / `docs/30-workflows/unassigned-task/integration-fixes-i06-root-error-focus.md` consumed |
+| i06 | implemented_local_evidence_captured | `parallel-i06-root-error-focus/spec.md` / root: `docs/30-workflows/issue-769-root-error-focus/` / admin child: `docs/30-workflows/issue-801-admin-error-focus-transfer/` / consumed sources: `docs/30-workflows/unassigned-task/integration-fixes-i06-root-error-focus.md`, `docs/30-workflows/unassigned-task/issue-769-followup-003-admin-error-focus-transfer.md` |
 | i07 | implemented_local_runtime_pending | `parallel-i07-profile-loading-skeleton/spec.md` / `docs/30-workflows/issue-770-profile-loading-skeleton/` / source consumed `docs/30-workflows/unassigned-task/integration-fixes-i07-profile-loading-skeleton.md` |
 
 ## 8. 参照
