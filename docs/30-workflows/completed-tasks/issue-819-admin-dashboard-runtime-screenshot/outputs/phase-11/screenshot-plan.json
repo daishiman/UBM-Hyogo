@@ -1,0 +1,21 @@
+{
+  "status": "runtime_pending",
+  "visualEvidence": "VISUAL_ON_EXECUTION",
+  "screenshots": [
+    {
+      "name": "admin-dashboard-placeholder.png",
+      "state": "slices_undefined",
+      "minimumWidth": 200,
+      "minimumHeight": 100,
+      "maximumBytes": 500000
+    },
+    {
+      "name": "admin-dashboard-chart.png",
+      "state": "slices_populated",
+      "minimumWidth": 200,
+      "minimumHeight": 100,
+      "maximumBytes": 500000
+    }
+  ],
+  "promoteToCompletedOnlyAfterRealPngCapture": true
+}

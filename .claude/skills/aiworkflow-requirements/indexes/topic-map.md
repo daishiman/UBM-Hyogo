@@ -2764,6 +2764,13 @@ node scripts/list-specs.js --topics
 
 ### references/workflow-issue-799-use-auto-focus-on-mount-hook-artifact-inventory.md
 
+### references/workflow-issue-819-admin-dashboard-runtime-screenshot-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Phase 12 Strict 7 | L42 |
+| User-Gated Boundary | L54 |
+
 ### references/workflow-light-theme-contrast-regression-guard.md
 
 | セクション | 行 |
@@ -2961,7 +2968,7 @@ node scripts/list-specs.js --topics
 
 | セクション | 行 |
 |------------|----|
-| Phase 12 Strict 7 | L27 |
+| Phase 12 Strict 7 | L29 |
 
 ### references/workflow-task-03-w2-par-sentry-workers-sdk-unify-artifact-inventory.md
 
@@ -7083,14 +7090,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L1761 |
-| フェーズ構造（概要） | L1770 |
-| 品質ゲート（概要） | L1801 |
-| 出力テンプレート | L1812 |
-| 実行時のコマンド・エージェント・スキル | L1835 |
-| 昇格パターン集 | L1859 |
-| Current Active / Spec Created Tasks | L1861 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L2014 |
+| ドキュメント構成 | L1774 |
+| フェーズ構造（概要） | L1783 |
+| 品質ゲート（概要） | L1814 |
+| 出力テンプレート | L1825 |
+| 実行時のコマンド・エージェント・スキル | L1848 |
+| 昇格パターン集 | L1872 |
+| Current Active / Spec Created Tasks | L1874 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L2027 |
 
 ### references/task-workflow-backlog-part2.md
 

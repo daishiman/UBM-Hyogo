@@ -2713,6 +2713,19 @@ packages/
 | contract | `GET /admin/dashboard` returns optional `byStatus`; populated 時は SVG bar chart + chip list、legacy/未提供時は existing placeholder |
 | boundary | authenticated runtime screenshots / commit / push / PR are user-gated |
 
+### issue-819 admin dashboard runtime screenshot（2026-05-20）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/issue-819-admin-dashboard-runtime-screenshot/` |
+| state | `spec_created / implementation / VISUAL_ON_EXECUTION / runtime_pending` |
+| source issue | `#819` closed 維持。PR 文脈は `Refs #819` のみ |
+| source unassigned | `docs/30-workflows/unassigned-task/step-05-followup-001-admin-dashboard-runtime-screenshot-capture.md` |
+| purpose | step-05 の dummy 16x16 PNG 2 件を authenticated admin runtime screenshot に置換し、親 workflow evidence を `runtime_completed` に進める |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-819-admin-dashboard-runtime-screenshot-artifact-inventory.md` |
+| lessons-learned | `.claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-runtime-screenshot-evidence-replacement-2026-05.md`（L-RSE-001..005） |
+| boundary | screenshot capture / parent PNG replacement / source consumed update / commit / push / PR are user-gated |
+
 ### UBM-Hyogo Admin UI 早見（06c / 2026-04-29）
 
 | 観点 | 値 / 参照先 |
