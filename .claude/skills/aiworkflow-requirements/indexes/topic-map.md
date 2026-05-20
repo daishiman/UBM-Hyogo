@@ -2730,6 +2730,8 @@ node scripts/list-specs.js --topics
 |------------|----|
 | State | L16 |
 
+### references/workflow-issue-799-use-auto-focus-on-mount-hook-artifact-inventory.md
+
 ### references/workflow-light-theme-contrast-regression-guard.md
 
 | セクション | 行 |
@@ -6952,14 +6954,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L1648 |
-| フェーズ構造（概要） | L1657 |
-| 品質ゲート（概要） | L1688 |
-| 出力テンプレート | L1699 |
-| 実行時のコマンド・エージェント・スキル | L1722 |
-| 昇格パターン集 | L1746 |
-| Current Active / Spec Created Tasks | L1748 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L1899 |
+| ドキュメント構成 | L1663 |
+| フェーズ構造（概要） | L1672 |
+| 品質ゲート（概要） | L1703 |
+| 出力テンプレート | L1714 |
+| 実行時のコマンド・エージェント・スキル | L1737 |
+| 昇格パターン集 | L1761 |
+| Current Active / Spec Created Tasks | L1763 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L1914 |
 
 ### references/task-workflow-backlog-part2.md
 

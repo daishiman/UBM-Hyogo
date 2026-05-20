@@ -10,7 +10,7 @@
 | 対象機能     | admin segment error boundary（admin top + 7 subroute = 8 routes 全体をカバーする segment-level 1 枚） |
 | 優先度       | 中                                                                                                    |
 | 見積もり規模 | 小（admin/error.tsx 全面書き換え 約 40 行 + spec/test 追記）                                          |
-| ステータス   | pending                                                                                               |
+| ステータス   | consumed_by `docs/30-workflows/issue-799-use-auto-focus-on-mount-hook/`                               |
 | 発見元       | issue-769 Phase 12 unassigned-task-detection (`/admin/error.tsx` focus transfer 行)                   |
 | 発見日       | 2026-05-17                                                                                            |
 
@@ -24,6 +24,7 @@
 - 修正対象 (現状確認済):
   - `apps/web/app/(admin)/admin/error.tsx` — 既存だが a11y hardening が **未実装**（focus 管理なし / `aria-live` なし / digest 表示なし / logger 呼び出しなし）
   - `apps/web/app/(admin)/admin/__tests__/error.component.spec.tsx`（新規追加 または 既存ファイル追記）
+- consumed note: Issue #799 workflow で `(admin)/admin/error.tsx` の h1 focus transfer に加え、digest 表示・構造化 logger・production-safe copy・dev-only stack output まで同一 wave で実装済み。PR 作成のみ user-gated。
 - admin segment 構成 (8 routes すべて本 boundary 配下):
   - `(admin)/admin/page.tsx` (admin top / dashboard)
   - `(admin)/admin/members/`
