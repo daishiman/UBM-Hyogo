@@ -4,6 +4,7 @@
 "use client";
 
 import { useEffect, useRef, type ReactElement } from "react";
+import { useAutoFocusOnMount } from "../../src/lib/a11y/useAutoFocusOnMount";
 
 export interface LoginErrorProps {
   readonly error: Error & { digest?: string };
@@ -15,11 +16,11 @@ export default function LoginError({
   reset,
 }: LoginErrorProps): ReactElement {
   const headingRef = useRef<HTMLHeadingElement>(null);
+  useAutoFocusOnMount(headingRef);
 
   useEffect(() => {
     // eslint-disable-next-line no-console
     console.error("[login] route error", error);
-    headingRef.current?.focus({ preventScroll: true });
   }, [error]);
 
   return (
