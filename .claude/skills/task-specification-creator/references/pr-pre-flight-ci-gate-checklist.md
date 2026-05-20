@@ -87,6 +87,18 @@
 
 短縮形（`Verdict` / `Evidence Gates` 等）は drift。recovery workflow / followup task で別 template から流用すると落ちる。
 
+### 5.5. Phase-11 evidence 出力先と untracked workflow root の不整合
+
+`collect-changed-roots.ts` は `git ls-files --others --exclude-standard docs/30-workflows` で untracked ファイルも root 検出対象に含める。Workflow を `completed-tasks/` に移動した後、Playwright spec / runbook / scripts が旧 `docs/30-workflows/<task>/...` を evidence 出力先として参照したままだと、test 実行で untracked screenshot 等が生まれ、`reason: missing-file` で fail する。
+
+- OK: `apps/web/playwright/tests/<task>.spec.ts` の `PHASE11_DIR` は `docs/30-workflows/completed-tasks/<task>/outputs/phase-11` を指す
+- NG: 旧 `docs/30-workflows/<task>/outputs/phase-11` のまま放置（CI 失敗パターン: e2e-tests-coverage-gate は通っても verify-pr-ready の verify:phase12-compliance で fail）
+- 復旧手順:
+  1. spec / runbook の `PHASE11_DIR` (`resolve('../../docs/30-workflows/...')`) を completed-tasks/ 配下に書き換え
+  2. `find docs/30-workflows/<旧 task>/ -type f -delete && find docs/30-workflows/<旧 task>/ -type d -empty -delete`
+  3. `git ls-files --others --exclude-standard docs/30-workflows/<旧 task>` が空であることを確認
+  4. `bash scripts/verify-pr-ready.sh` 再実行
+
 ### 5. `unassigned-task` ファイルの配置
 
 `scripts/lib/phase12-compliance/collect-changed-roots.ts` は `docs/30-workflows/unassigned-task/` を **first segment** のみ scan 対象から除外する。`docs/30-workflows/completed-tasks/unassigned-task/` のように深くネストされた配置は除外されず、`docs/30-workflows/completed-tasks` を root として誤検出し `<empty-or-missing-table>` で FAIL する。
@@ -229,3 +241,45 @@ grep -rn '>こちら<\|>詳細<\|>クリック<\|>here<\|>more<\|>click here<' a
 ```
 
 ヒットがあれば descriptive text に置換してから push する。事例: 2026-05-19 `feat/issue-274-public-pages-ogp-sitemap-robots` で `LoginPanel.client.tsx` の `<a href="/register">こちら</a>` を `>会員登録ページから新規登録<` に変更で `/login` SEO PASS（L-DEVSYNC-028）。
+
+## 10. dev sync `pnpm sync:resolve` exit 1 後の自律継続条件（L-DEVSYNC-027）
+
+`pnpm sync:resolve` が `[resolve-skill-merge-conflicts] union-resolved ...` を出した後 `hint: ... ignored by one of your .gitignore files ... LOGS` → `ELIFECYCLE Command failed with exit code 1` で異常終了するケースがある（`.claude/skills/aiworkflow-requirements/LOGS/_legacy.md` を `git add` する際の `.gitignore` 競合）。**この exit 1 は union-resolve の失敗ではなく `git add` step の hint 由来**で、4 ファイル union は完了している。
+
+### 自律継続条件
+
+`git status --porcelain | grep -E "^UU"` の残ファイルが以下のいずれかパターンに該当する場合のみ自律継続する:
+
+- `indexes/keywords.json` のみ → `git checkout --ours .claude/skills/aiworkflow-requirements/indexes/keywords.json && mise exec -- pnpm indexes:rebuild` を発行して解消
+- `LOGS/_legacy.md` のみ → 通常の `git add` で staging（既 tracked のため hint が出ても staging される。残不安なら `git add -f`）
+- 上記 2 ファイルの組合せのみ
+
+それ以外のパスが UU で残っている場合は最終レポート対象にして中断する。
+
+詳細: `.claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-dev-sync-merge-conflict-resolution-2026-05.md` L-DEVSYNC-027。
+
+## 11. `playwright-smoke / visual` — `getByRole(<role>)` strict-mode 違反（L-DEVSYNC-031）
+
+dev 取り込み後の `playwright-smoke / visual (chromium, 4 screens)` で `strict mode violation: getByRole('status') resolved to 2 elements` 等が CI でのみ FAIL する典型ケース。HEAD 側のテストはローカルでは singleton だが、dev 側で同一画面に同 role の追加要素（Toast / save-status indicator 等）が入って 2 件マッチになる。
+
+### 事前検出 / 修正
+
+```bash
+# 同 role を画面共有しうる要素を grep
+grep -rn 'role="status"' apps/web/app apps/web/src
+
+# spec 側で getByRole("status") の絞り込みが弱い箇所を grep
+grep -rn 'getByRole("status")\|getByRole(\x27status\x27)' apps/web/playwright/tests
+```
+
+- ARIA role を画面共有要素の primary selector に使わない。component-specific `data-feedback-kind="success"` / `getByTestId(...)` 等の絞り込みに置換する。
+- 同 spec 内で 409/422 ケースが `[data-feedback-kind="conflict_error"]` 等で既に絞られている場合、success ケースだけ非対称に残るパターンが起きやすい。**全 feedback variant を同じ selector 戦略に統一**するのが SSOT。
+
+### 自律対応
+
+1. `playwright-smoke / visual` FAIL を `gh run view <run-id> --log-failed` で確認
+2. 失敗箇所の locator を grep / 該当 component の DOM 属性を確認
+3. component-specific selector へ置換（spec 側のみ。component 側の `data-*` 属性は触らない）
+4. 修正だけで再 push（baseline snapshot 更新は不要 — strict-mode は要素数判定のため）
+
+詳細: `.claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-dev-sync-merge-conflict-resolution-2026-05.md` L-DEVSYNC-031。

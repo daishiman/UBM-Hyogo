@@ -50,6 +50,7 @@
       "lessons-learned-task-21-09g-admin-blueprint-2026-05.md",
       "lessons-learned-u-fix-cf-acct-01-deriv-01-oidc-short-lived-credentials-2026-05.md",
       "lessons-learned-ut-03-sheets-auth-2026-04.md",
+      "lessons-learned-ut-07c-followup-001-attendance-csv-import-2026-05.md",
       "lessons-learned-ut07b-fu-01-schema-alias-backfill-queue-cron-split-2026-05.md",
       "logs-archive-2026-01-agent-sdk-deps-renderer-api.md",
       "security-api-electron.md",
@@ -786,6 +787,7 @@
       "lessons-learned-ut-02a-tag-assignment-queue-2026-05.md",
       "lessons-learned-ut-03-sheets-auth-2026-04.md",
       "lessons-learned-ut-06-fu-h-2026-04.md",
+      "lessons-learned-ut-07c-followup-001-attendance-csv-import-2026-05.md",
       "lessons-learned-ut-15-waf-rate-limiting.md",
       "lessons-learned-ut-17-followup-003-healthcheck-cron-2026-05.md",
       "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md",
@@ -843,6 +845,7 @@
       "workflow-ut-07b-fu-03-production-migration-apply-runbook-artifact-inventory.md",
       "workflow-ut-07b-fu-04-production-migration-apply-execution-artifact-inventory.md",
       "workflow-ut-07b-schema-alias-hardening-artifact-inventory.md",
+      "workflow-ut-07c-followup-001-attendance-csv-import-artifact-inventory.md",
       "workflow-ut-15-waf-rate-limiting-rules-setup-artifact-inventory.md",
       "workflow-ut-17-cloudflare-analytics-alerts-artifact-inventory.md",
       "workflow-ut-17-followup-002-alert-relay-dedup-kv-artifact-inventory.md",
@@ -1269,6 +1272,7 @@
       "lessons-learned-task-24.md",
       "lessons-learned-task-spec-2d-contract-stage-2-2026-05.md",
       "lessons-learned-ut-02a-attendance-write-operations-2026-05.md",
+      "lessons-learned-ut-07c-followup-001-attendance-csv-import-2026-05.md",
       "lessons-learned-ut-coverage-2026-05-wave.md",
       "lessons-learned-ut07b-schema-alias-hardening-2026-05.md",
       "logs-archive-2026-03-auth-mode-migration-sync.md",
@@ -2177,6 +2181,7 @@
       "lessons-learned-06b-b-profile-self-service-request-ui-2026-05.md",
       "lessons-learned-issue-621-apps-web-test-suffix-rename-2026-05.md",
       "lessons-learned-task-11-public-top-and-member-list-2026-05.md",
+      "lessons-learned-ut-07c-followup-001-attendance-csv-import-2026-05.md",
       "lessons-learned-ut-coverage-2026-05-wave.md",
       "quality-e2e-testing.md",
       "ui-ux-atoms-patterns-core.md",
@@ -2196,6 +2201,7 @@
       "lessons-learned-issue-621-apps-web-test-suffix-rename-2026-05.md",
       "lessons-learned-task-11-public-top-and-member-list-2026-05.md",
       "lessons-learned-task-15-admin-dashboard-and-members-2026-05.md",
+      "lessons-learned-ut-07c-followup-001-attendance-csv-import-2026-05.md",
       "lessons-learned-ut-coverage-2026-05-wave.md",
       "lessons-learned-web-app-route-bundle-parse-fix-2026-05.md",
       "quality-e2e-testing.md",
@@ -2464,6 +2470,7 @@
       "lessons-learned-task-18-w7-verify-tokens-and-playwright-smoke-2026-05.md",
       "lessons-learned-task-25-followup-loading-state-observation-fixture-2026-05.md",
       "lessons-learned-task-spec-2d-contract-stage-2-2026-05.md",
+      "lessons-learned-ut-07c-followup-001-attendance-csv-import-2026-05.md",
       "lessons-learned-ut-coverage-2026-05-wave.md",
       "logs-archive-2026-02-auth-callback-lifecycle-guard.md",
       "logs-archive-2026-02-completed-move-preload-sync.md",
@@ -2869,6 +2876,7 @@
       "lessons-learned-task-spec-2d-contract-stage-2-2026-05.md",
       "lessons-learned-task19-primitives-full-spec-2026-05.md",
       "lessons-learned-ut-02a-attendance-write-operations-2026-05.md",
+      "lessons-learned-ut-07c-followup-001-attendance-csv-import-2026-05.md",
       "lessons-learned-ut-coverage-2026-05-wave.md",
       "lessons-learned-ut-gov-001-2026-04.md",
       "lessons-learned-ut-gov-004-branch-protection-context-sync.md",
@@ -3246,6 +3254,7 @@
       "workflow-issue-769-root-error-focus-artifact-inventory.md",
       "workflow-issue-770-profile-loading-skeleton-artifact-inventory.md",
       "workflow-issue-772-cf-audit-monitor-runtime-restoration-artifact-inventory.md",
+      "workflow-issue-799-use-auto-focus-on-mount-hook-artifact-inventory.md",
       "workflow-parallel-i03-dialog-refresh-order-artifact-inventory.md",
       "workflow-parallel-i06-root-error-focus-artifact-inventory.md",
       "workflow-step-05-dashboard-chart-implementation-artifact-inventory.md",
@@ -3275,6 +3284,7 @@
       "workflow-ut-07b-fu-01-schema-alias-backfill-queue-cron-split-artifact-inventory.md",
       "workflow-ut-07b-fu-04-production-migration-apply-execution-artifact-inventory.md",
       "workflow-ut-07b-schema-alias-hardening-artifact-inventory.md",
+      "workflow-ut-07c-followup-001-attendance-csv-import-artifact-inventory.md",
       "workflow-ut-15-waf-rate-limiting-rules-setup-artifact-inventory.md",
       "workflow-ut-17-cloudflare-analytics-alerts-artifact-inventory.md",
       "workflow-ut-17-followup-002-alert-relay-dedup-kv-artifact-inventory.md",
@@ -3570,6 +3580,7 @@
       "lessons-learned-task-11-public-top-and-member-list-2026-05.md",
       "lessons-learned-task-25-followup-loading-state-observation-fixture-2026-05.md",
       "lessons-learned-ut-02a-tag-assignment-queue-2026-05.md",
+      "lessons-learned-ut-07c-followup-001-attendance-csv-import-2026-05.md",
       "quality-e2e-testing.md"
     ],
     "mutation": [
@@ -3588,6 +3599,7 @@
       "lessons-learned-06b-b-profile-self-service-request-ui-2026-05.md",
       "lessons-learned-06c-admin-ui-2026-04.md",
       "lessons-learned-task-11-public-top-and-member-list-2026-05.md",
+      "lessons-learned-ut-07c-followup-001-attendance-csv-import-2026-05.md",
       "lessons-learned-ut-coverage-2026-05-wave.md",
       "lessons-learned-ut07b-fu-01-schema-alias-backfill-queue-cron-split-2026-05.md",
       "spec-splitting-guidelines.md",
@@ -3626,6 +3638,7 @@
       "lessons-learned-task-12-member-detail-register-legal-2026-05.md",
       "lessons-learned-task-24.md",
       "lessons-learned-task-spec-2d-contract-stage-2-2026-05.md",
+      "lessons-learned-ut-07c-followup-001-attendance-csv-import-2026-05.md",
       "lessons-learned-ut07b-fu-02-admin-schema-alias-retry-label-2026-05.md",
       "logs-archive-2026-03-workflow02-screenshot-guard.md",
       "workflow-ai-chat-llm-integration-fix-artifact-inventory.md",
@@ -3651,6 +3664,7 @@
       "lessons-learned-task-17-admin-schema-conflicts-audit-2026-05.md",
       "lessons-learned-task-21-09g-admin-blueprint-2026-05.md",
       "lessons-learned-task-spec-2d-contract-stage-2-2026-05.md",
+      "lessons-learned-ut-07c-followup-001-attendance-csv-import-2026-05.md",
       "lessons-learned-ut06-fu-a-prod-route-secret-2026-04.md",
       "lessons-learned-web-app-route-bundle-parse-fix-2026-05.md",
       "workflow-web-app-route-bundle-parse-fix-artifact-inventory.md"
@@ -3669,7 +3683,8 @@
     "client": [
       "architecture-admin-api-client.md",
       "lessons-learned-05a-auth-ui-logout-button-2026-05.md",
-      "lessons-learned-07a-tag-queue-resolve-2026-04.md"
+      "lessons-learned-07a-tag-queue-resolve-2026-04.md",
+      "lessons-learned-ut-07c-followup-001-attendance-csv-import-2026-05.md"
     ],
     "契約": [
       "architecture-admin-api-client.md",
@@ -3804,6 +3819,7 @@
       "architecture-auth-security-core.md",
       "auth-google-oauth-cf-integration.md",
       "lessons-learned-09a-staging-smoke-forms-sync-validation-2026-05.md",
+      "lessons-learned-ut-07c-followup-001-attendance-csv-import-2026-05.md",
       "lessons-learned-ut-coverage-2026-05-wave.md",
       "logs-archive-2026-03-auth-mode-migration-sync.md",
       "logs-archive-2026-03-ipc-fallback-phase12-sync.md",
@@ -4481,6 +4497,7 @@
       "workflow-issue-762-cf-oidc-staging-proof-prod-cutover-artifact-inventory.md",
       "workflow-issue-772-cf-audit-monitor-runtime-restoration-artifact-inventory.md",
       "workflow-issue-775-serial-05-step-03-runtime-evidence-completion-artifact-inventory.md",
+      "workflow-issue-799-use-auto-focus-on-mount-hook-artifact-inventory.md",
       "workflow-task-issue-299-schema-questions-fallback-retirement-artifact-inventory.md",
       "workflow-ut-17-cloudflare-analytics-alerts-artifact-inventory.md"
     ],
@@ -4552,6 +4569,7 @@
       "workflow-ut-07b-fu-01-schema-alias-backfill-queue-cron-split-artifact-inventory.md",
       "workflow-ut-07b-fu-03-production-migration-apply-runbook-artifact-inventory.md",
       "workflow-ut-07b-fu-04-production-migration-apply-execution-artifact-inventory.md",
+      "workflow-ut-07c-followup-001-attendance-csv-import-artifact-inventory.md",
       "workflow-ut-15-waf-rate-limiting-rules-setup-artifact-inventory.md",
       "workflow-ut-17-cloudflare-analytics-alerts-artifact-inventory.md",
       "workflow-ut-17-followup-002-alert-relay-dedup-kv-artifact-inventory.md",
@@ -4767,6 +4785,7 @@
       "lessons-learned-ut-02a-tag-assignment-queue-2026-05.md",
       "lessons-learned-ut-03-sheets-auth-2026-04.md",
       "lessons-learned-ut-06-fu-h-2026-04.md",
+      "lessons-learned-ut-07c-followup-001-attendance-csv-import-2026-05.md",
       "lessons-learned-ut-15-waf-rate-limiting.md",
       "lessons-learned-ut-17-followup-003-healthcheck-cron-2026-05.md",
       "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md",
@@ -4801,7 +4820,8 @@
       "workflow-task-13-login-rebuild-artifact-inventory.md",
       "workflow-task-issue-494-09a-A-exec-staging-smoke-runtime-artifact-inventory.md",
       "workflow-ut-07a-01-member-tags-assign-cleanup-artifact-inventory.md",
-      "workflow-ut-07b-fu-01-schema-alias-backfill-queue-cron-split-artifact-inventory.md"
+      "workflow-ut-07b-fu-01-schema-alias-backfill-queue-cron-split-artifact-inventory.md",
+      "workflow-ut-07c-followup-001-attendance-csv-import-artifact-inventory.md"
     ],
     "learned": [
       "audit-correlation.md",
@@ -5036,6 +5056,7 @@
       "lessons-learned-06a-public-web-2026-04.md",
       "lessons-learned-06b-a-me-api-authjs-session-resolver-2026-05.md",
       "lessons-learned-issue-560-next-standalone-instrumentation-patch-2026-05.md",
+      "lessons-learned-ut-07c-followup-001-attendance-csv-import-2026-05.md",
       "logs-archive-2026-02-env-infra-ipc-auth-ui.md",
       "logs-archive-2026-02-skill-import-interface-atoms-rerun.md",
       "technology-core.md",
@@ -5328,6 +5349,7 @@
       "lessons-learned-task-17-admin-schema-conflicts-audit-2026-05.md",
       "lessons-learned-task-18-w7-verify-tokens-and-playwright-smoke-2026-05.md",
       "lessons-learned-task-26-error-tsx-token-utility-migration-2026-05.md",
+      "lessons-learned-ut-07c-followup-001-attendance-csv-import-2026-05.md",
       "task-workflow-completed-ui-ux-visual-baseline-drift.md",
       "workflow-ui-ux-visual-baseline-drift.md"
     ],
@@ -5389,6 +5411,7 @@
       "lessons-learned-ut-02a-tag-assignment-queue-2026-05.md",
       "lessons-learned-ut-03-sheets-auth-2026-04.md",
       "lessons-learned-ut-06-fu-h-2026-04.md",
+      "lessons-learned-ut-07c-followup-001-attendance-csv-import-2026-05.md",
       "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md",
       "lessons-learned-ut-cicd-drift-impl-observability-matrix-sync-2026-05.md",
       "lessons-learned-ut-coverage-2026-05-wave.md",
@@ -5642,6 +5665,7 @@
       "lessons-learned-issue-548-ml-model-selection-2026-05.md",
       "lessons-learned-ut-03-sheets-auth-2026-04.md",
       "lessons-learned-ut-06-fu-h-2026-04.md",
+      "lessons-learned-ut-07c-followup-001-attendance-csv-import-2026-05.md",
       "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md",
       "lessons-learned-ut-gov-001-2026-04.md",
       "lessons-learned-utgov001-second-stage-reapply-2026-04.md"
@@ -6347,7 +6371,8 @@
       "lessons-learned-issue-106-admin-notes-repository-2026-05.md",
       "lessons-learned-issue-502-dlq-monitoring-dashboard-2026-05.md",
       "lessons-learned-issue-532-write-tag-note-provider-ctx-injection-2026-05.md",
-      "lessons-learned-ut-03-sheets-auth-2026-04.md"
+      "lessons-learned-ut-03-sheets-auth-2026-04.md",
+      "lessons-learned-ut-07c-followup-001-attendance-csv-import-2026-05.md"
     ],
     "references": [
       "claude-code-skills-resources.md",
@@ -6683,6 +6708,7 @@
       "workflow-task-issue-346-08a-canonical-workflow-tree-restore-artifact-inventory.md",
       "workflow-ut-06-fu-a-prod-route-secret-001-artifact-inventory.md",
       "workflow-ut-07b-schema-alias-hardening-artifact-inventory.md",
+      "workflow-ut-07c-followup-001-attendance-csv-import-artifact-inventory.md",
       "workflow-ut-17-followup-005-alert-relay-kv-error-metrics-artifact-inventory.md",
       "workflow-ut-17-followup-005-alert-relay-kv-operation-error-metrics-artifact-inventory.md"
     ],
@@ -6733,7 +6759,8 @@
     ],
     "self": [
       "database-admin-repository-boundary.md",
-      "lessons-learned-task-24.md"
+      "lessons-learned-task-24.md",
+      "lessons-learned-ut-07c-followup-001-attendance-csv-import-2026-05.md"
     ],
     "queue": [
       "database-admin-repository-boundary.md",
@@ -6876,6 +6903,7 @@
       "workflow-task-13-login-rebuild-artifact-inventory.md",
       "workflow-ut-07a-01-member-tags-assign-cleanup-artifact-inventory.md",
       "workflow-ut-07b-fu-01-schema-alias-backfill-queue-cron-split-artifact-inventory.md",
+      "workflow-ut-07c-followup-001-attendance-csv-import-artifact-inventory.md",
       "workflow-ut-15-waf-rate-limiting-rules-setup-artifact-inventory.md"
     ],
     "ベクトル検索実装": [
@@ -7727,6 +7755,7 @@
       "lessons-learned-task-17-admin-schema-conflicts-audit-2026-05.md",
       "lessons-learned-task-18-w7-verify-tokens-and-playwright-smoke-2026-05.md",
       "lessons-learned-ut-03-sheets-auth-2026-04.md",
+      "lessons-learned-ut-07c-followup-001-attendance-csv-import-2026-05.md",
       "lessons-learned-ut-gov-001-2026-04.md",
       "lessons-learned-ut07b-fu-01-schema-alias-backfill-queue-cron-split-2026-05.md",
       "lessons-learned-ut07b-fu04-production-migration-already-applied-verification-2026-05.md",
@@ -7809,6 +7838,7 @@
       "lessons-learned-issue-548-ml-model-selection-2026-05.md",
       "lessons-learned-u-ut01-07-fu01-canonical-sync-receiver-2026-05.md",
       "lessons-learned-ut-06-fu-h-2026-04.md",
+      "lessons-learned-ut-07c-followup-001-attendance-csv-import-2026-05.md",
       "lessons-learned-ut06-fu-a-prod-route-secret-2026-04.md",
       "lessons-learned-ut07b-fu-01-schema-alias-backfill-queue-cron-split-2026-05.md",
       "lessons-learned-ut07b-fu-02-admin-schema-alias-retry-label-2026-05.md",
@@ -7823,6 +7853,7 @@
       "workflow-ut-07b-fu-01-schema-alias-backfill-queue-cron-split-artifact-inventory.md",
       "workflow-ut-07b-fu-03-production-migration-apply-runbook-artifact-inventory.md",
       "workflow-ut-07b-fu-04-production-migration-apply-execution-artifact-inventory.md",
+      "workflow-ut-07c-followup-001-attendance-csv-import-artifact-inventory.md",
       "workflow-ut-17-followup-005-alert-relay-kv-error-metrics-artifact-inventory.md",
       "workflow-ut-17-followup-005-alert-relay-kv-operation-error-metrics-artifact-inventory.md"
     ],
@@ -7834,6 +7865,7 @@
       "directory-structure-core.md",
       "lessons-learned-06a-public-web-2026-04.md",
       "lessons-learned-issue-560-next-standalone-instrumentation-patch-2026-05.md",
+      "lessons-learned-ut-07c-followup-001-attendance-csv-import-2026-05.md",
       "technology-core.md",
       "workflow-issue-560-next-standalone-instrumentation-patch-artifact-inventory.md"
     ],
@@ -7852,7 +7884,8 @@
       "lessons-learned-ut-15-waf-rate-limiting.md"
     ],
     "file": [
-      "deployment-cloudflare.md"
+      "deployment-cloudflare.md",
+      "lessons-learned-ut-07c-followup-001-attendance-csv-import-2026-05.md"
     ],
     "Password": [
       "deployment-cloudflare.md",
@@ -8156,6 +8189,7 @@
       "lessons-learned-06b-a-me-api-authjs-session-resolver-2026-05.md",
       "lessons-learned-task-18-w7-verify-tokens-and-playwright-smoke-2026-05.md",
       "lessons-learned-ut-03-sheets-auth-2026-04.md",
+      "lessons-learned-ut-07c-followup-001-attendance-csv-import-2026-05.md",
       "workflow-ut-branch-flow-dev-staging-sync-artifact-inventory.md"
     ],
     "main": [
@@ -8224,7 +8258,8 @@
       "lessons-learned-task-18-w7-verify-tokens-and-playwright-smoke-2026-05.md"
     ],
     "input": [
-      "deployment-gha.md"
+      "deployment-gha.md",
+      "lessons-learned-ut-07c-followup-001-attendance-csv-import-2026-05.md"
     ],
     "residual": [
       "deployment-gha.md"
@@ -8822,6 +8857,7 @@
       "workflow-ut-07b-fu-01-schema-alias-backfill-queue-cron-split-artifact-inventory.md",
       "workflow-ut-07b-fu-03-production-migration-apply-runbook-artifact-inventory.md",
       "workflow-ut-07b-schema-alias-hardening-artifact-inventory.md",
+      "workflow-ut-07c-followup-001-attendance-csv-import-artifact-inventory.md",
       "workflow-ut-cicd-drift-impl-observability-matrix-sync-artifact-inventory.md"
     ],
     "Structured": [
@@ -9322,7 +9358,8 @@
     "React": [
       "interfaces-agent-sdk.md",
       "interfaces-chat-history-details.md",
-      "lessons-learned-admin-tags-queue-resolver-drawer-2026-05.md"
+      "lessons-learned-admin-tags-queue-resolver-drawer-2026-05.md",
+      "lessons-learned-ut-07c-followup-001-attendance-csv-import-2026-05.md"
     ],
     "Hook": [
       "interfaces-agent-sdk.md",
@@ -9889,7 +9926,8 @@
     ],
     "trim": [
       "ipc-contract-checklist.md",
-      "lessons-learned-07b-schema-alias-assignment-2026-04.md"
+      "lessons-learned-07b-schema-alias-assignment-2026-04.md",
+      "lessons-learned-ut-07c-followup-001-attendance-csv-import-2026-05.md"
     ],
     "を使用していないバリデーション箇所を検出": [
       "ipc-contract-checklist.md"
@@ -9931,6 +9969,7 @@
       "lessons-learned-07c-audit-log-browsing-ui-2026-05.md",
       "lessons-learned-issue-546-cf-audit-logs-90day-baseline-observation-2026-05.md",
       "lessons-learned-skill-ledger-t6-hook-idempotency-2026-04.md",
+      "lessons-learned-ut-07c-followup-001-attendance-csv-import-2026-05.md",
       "skill-ledger-gitattributes-policy.md"
     ],
     "出力": [
@@ -9995,7 +10034,8 @@
       "workflow-ui-prototype-design-system-foundation-artifact-inventory.md",
       "workflow-ut-07a-01-member-tags-assign-cleanup-artifact-inventory.md",
       "workflow-ut-07b-fu-01-schema-alias-backfill-queue-cron-split-artifact-inventory.md",
-      "workflow-ut-07b-schema-alias-hardening-artifact-inventory.md"
+      "workflow-ut-07b-schema-alias-hardening-artifact-inventory.md",
+      "workflow-ut-07c-followup-001-attendance-csv-import-artifact-inventory.md"
     ],
     "Section": [
       "legacy-ordinal-family-register.md"
@@ -10129,6 +10169,7 @@
       "lessons-learned-ut-02a-tag-assignment-queue-2026-05.md",
       "lessons-learned-ut-03-sheets-auth-2026-04.md",
       "lessons-learned-ut-06-fu-h-2026-04.md",
+      "lessons-learned-ut-07c-followup-001-attendance-csv-import-2026-05.md",
       "lessons-learned-ut-15-waf-rate-limiting.md",
       "lessons-learned-ut-17-followup-003-healthcheck-cron-2026-05.md",
       "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md",
@@ -10180,6 +10221,7 @@
       "lessons-learned-parallel-i03-dialog-refresh-order-2026-05.md",
       "lessons-learned-task-15-admin-dashboard-and-members-2026-05.md",
       "lessons-learned-task-17-admin-schema-conflicts-audit-2026-05.md",
+      "lessons-learned-ut-07c-followup-001-attendance-csv-import-2026-05.md",
       "lessons-learned-ut-coverage-2026-05-wave.md"
     ],
     "closure": [
@@ -10327,7 +10369,8 @@
       "workflow-02c-followup-002-fixtures-prod-build-exclusion-artifact-inventory.md"
     ],
     "CFU": [
-      "lessons-learned-02c-fixture-prod-build-exclusion-2026-05.md"
+      "lessons-learned-02c-fixture-prod-build-exclusion-2026-05.md",
+      "lessons-learned-ut-07c-followup-001-attendance-csv-import-2026-05.md"
     ],
     "code": [
       "lessons-learned-02c-fixture-prod-build-exclusion-2026-05.md",
@@ -10344,6 +10387,7 @@
       "lessons-learned-issue-401-admin-request-notification-2026-05.md",
       "lessons-learned-issue359-production-d1-apply-2026-05.md",
       "lessons-learned-task-11-public-top-and-member-list-2026-05.md",
+      "lessons-learned-ut-07c-followup-001-attendance-csv-import-2026-05.md",
       "task-workflow-completed-ut-06-safety-gate.md"
     ],
     "がある": [
@@ -10424,6 +10468,7 @@
     ],
     "true": [
       "lessons-learned-02c-fixture-prod-build-exclusion-2026-05.md",
+      "lessons-learned-ut-07c-followup-001-attendance-csv-import-2026-05.md",
       "lessons-learned-ut07b-fu-02-admin-schema-alias-retry-label-2026-05.md"
     ],
     "を維持する": [
@@ -10672,6 +10717,7 @@
     ],
     "fixtures": [
       "lessons-learned-03a-stablekey-literal-lint-enforcement-2026-05.md",
+      "lessons-learned-ut-07c-followup-001-attendance-csv-import-2026-05.md",
       "workflow-02c-followup-002-fixtures-prod-build-exclusion-artifact-inventory.md"
     ],
     "tests": [
@@ -10813,7 +10859,8 @@
     "vitest": [
       "lessons-learned-03b-followup-005-sync-jobs-design-spec-2026-05.md",
       "lessons-learned-issue-325-test-suffix-rename-migration-2026-05.md",
-      "lessons-learned-issue-372-attendance-pagination-2026-05.md"
+      "lessons-learned-issue-372-attendance-pagination-2026-05.md",
+      "lessons-learned-ut-07c-followup-001-attendance-csv-import-2026-05.md"
     ],
     "の二段で担保": [
       "lessons-learned-03b-followup-005-sync-jobs-design-spec-2026-05.md"
@@ -10904,6 +10951,7 @@
       "lessons-learned-task-spec-2d-contract-stage-2-2026-05.md",
       "lessons-learned-u-ut01-08-sync-enum-canonical-2026-04.md",
       "lessons-learned-ut-02a-tag-assignment-queue-2026-05.md",
+      "lessons-learned-ut-07c-followup-001-attendance-csv-import-2026-05.md",
       "workflow-i02-admin-error-type-unify-artifact-inventory.md"
     ],
     "文字列リテラル拡散は": [
@@ -11041,7 +11089,8 @@
     ],
     "field": [
       "lessons-learned-03b-response-sync-2026-04.md",
-      "lessons-learned-04b-member-self-service.md"
+      "lessons-learned-04b-member-self-service.md",
+      "lessons-learned-ut-07c-followup-001-attendance-csv-import-2026-05.md"
     ],
     "の重複": [
       "lessons-learned-03b-response-sync-2026-04.md"
@@ -11124,6 +11173,7 @@
       "lessons-learned-07a-tag-queue-resolve-2026-04.md",
       "lessons-learned-07b-schema-alias-assignment-2026-04.md",
       "lessons-learned-issue-191-schema-aliases-2026-04.md",
+      "lessons-learned-ut-07c-followup-001-attendance-csv-import-2026-05.md",
       "lessons-learned-ut07b-fu-01-schema-alias-backfill-queue-cron-split-2026-05.md"
     ],
     "する": [
@@ -11136,6 +11186,7 @@
       "lessons-learned-issue-514-cf-audit-logs-cold-storage-r2-export-2026-05.md",
       "lessons-learned-task-18-w7-verify-tokens-and-playwright-smoke-2026-05.md",
       "lessons-learned-ut-06-fu-h-2026-04.md",
+      "lessons-learned-ut-07c-followup-001-attendance-csv-import-2026-05.md",
       "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md",
       "lessons-learned-ut07b-fu-02-admin-schema-alias-retry-label-2026-05.md"
     ],
@@ -11239,6 +11290,7 @@
       "lessons-learned-issue-555-audit-correlation-salt-rotation-2026-05.md",
       "lessons-learned-task-17-admin-schema-conflicts-audit-2026-05.md",
       "lessons-learned-task-24.md",
+      "lessons-learned-ut-07c-followup-001-attendance-csv-import-2026-05.md",
       "workflow-issue-516-github-audit-log-cross-source-correlation-artifact-inventory.md",
       "workflow-issue-518-cf-audit-logs-monitoring-hold-artifact-inventory.md",
       "workflow-issue-554-audit-correlation-branch-protection-required-check-artifact-inventory.md",
@@ -11367,10 +11419,12 @@
       "lessons-learned-04c-admin-backoffice-2026-04.md",
       "lessons-learned-07c-attendance-audit-2026-04.md",
       "lessons-learned-issue-372-attendance-pagination-2026-05.md",
+      "lessons-learned-ut-07c-followup-001-attendance-csv-import-2026-05.md",
       "workflow-issue-372-attendance-pagination-artifact-inventory.md",
       "workflow-issue-572-attendance-provider-production-runtime-smoke-artifact-inventory.md",
       "workflow-ut-02a-attendance-profile-integration-artifact-inventory.md",
-      "workflow-ut-02a-followup-001-attendance-write-operations-artifact-inventory.md"
+      "workflow-ut-02a-followup-001-attendance-write-operations-artifact-inventory.md",
+      "workflow-ut-07c-followup-001-attendance-csv-import-artifact-inventory.md"
     ],
     "memberId": [
       "lessons-learned-04c-admin-backoffice-2026-04.md",
@@ -11395,6 +11449,7 @@
     ],
     "mismatch": [
       "lessons-learned-04c-admin-backoffice-2026-04.md",
+      "lessons-learned-ut-07c-followup-001-attendance-csv-import-2026-05.md",
       "workflow-task-10-followup-001-opennext-esbuild-mismatch-artifact-inventory.md"
     ],
     "で別エラーに分ける": [
@@ -11856,7 +11911,8 @@
     "lookup": [
       "lessons-learned-05a-form-preview-503-2026-05.md",
       "lessons-learned-issue-191-schema-aliases-2026-04.md",
-      "lessons-learned-issue-401-admin-request-notification-2026-05.md"
+      "lessons-learned-issue-401-admin-request-notification-2026-05.md",
+      "lessons-learned-ut-07c-followup-001-attendance-csv-import-2026-05.md"
     ],
     "の優先順位を": [
       "lessons-learned-05a-form-preview-503-2026-05.md"
@@ -12422,7 +12478,8 @@
       "lessons-learned-06c-B-admin-members-2026-05.md"
     ],
     "total": [
-      "lessons-learned-06c-B-admin-members-2026-05.md"
+      "lessons-learned-06c-B-admin-members-2026-05.md",
+      "lessons-learned-ut-07c-followup-001-attendance-csv-import-2026-05.md"
     ],
     "互換を保ち": [
       "lessons-learned-06c-B-admin-members-2026-05.md"
@@ -12570,7 +12627,8 @@
       "lessons-learned-06c-C-admin-tags-2026-05.md",
       "lessons-learned-admin-tags-queue-resolver-drawer-2026-05.md",
       "lessons-learned-skill-ledger-t6-hook-idempotency-2026-04.md",
-      "lessons-learned-sync-merge-hook-skip-2026-04.md"
+      "lessons-learned-sync-merge-hook-skip-2026-04.md",
+      "workflow-issue-799-use-auto-focus-on-mount-hook-artifact-inventory.md"
     ],
     "を導入する": [
       "lessons-learned-06c-C-admin-tags-2026-05.md"
@@ -12673,7 +12731,8 @@
       "lessons-learned-06c-admin-ui-2026-04.md"
     ],
     "mjs": [
-      "lessons-learned-06c-admin-ui-2026-04.md"
+      "lessons-learned-06c-admin-ui-2026-04.md",
+      "lessons-learned-ut-07c-followup-001-attendance-csv-import-2026-05.md"
     ],
     "を境界の正本にする": [
       "lessons-learned-06c-admin-ui-2026-04.md"
@@ -12744,7 +12803,8 @@
     ],
     "race": [
       "lessons-learned-07a-tag-queue-resolve-2026-04.md",
-      "lessons-learned-task-15-admin-dashboard-and-members-2026-05.md"
+      "lessons-learned-task-15-admin-dashboard-and-members-2026-05.md",
+      "lessons-learned-ut-07c-followup-001-attendance-csv-import-2026-05.md"
     ],
     "を扱わない": [
       "lessons-learned-07a-tag-queue-resolve-2026-04.md"
@@ -12834,7 +12894,8 @@
       "lessons-learned-07b-schema-alias-assignment-2026-04.md"
     ],
     "dryRun": [
-      "lessons-learned-07b-schema-alias-assignment-2026-04.md"
+      "lessons-learned-07b-schema-alias-assignment-2026-04.md",
+      "lessons-learned-ut-07c-followup-001-attendance-csv-import-2026-05.md"
     ],
     "apply": [
       "lessons-learned-07b-schema-alias-assignment-2026-04.md",
@@ -12928,7 +12989,8 @@
       "lessons-learned-07b-schema-alias-assignment-2026-04.md"
     ],
     "NFKC": [
-      "lessons-learned-07b-schema-alias-assignment-2026-04.md"
+      "lessons-learned-07b-schema-alias-assignment-2026-04.md",
+      "lessons-learned-ut-07c-followup-001-attendance-csv-import-2026-05.md"
     ],
     "whitespace": [
       "lessons-learned-07b-schema-alias-assignment-2026-04.md"
@@ -13031,7 +13093,8 @@
       "lessons-learned-issue-393-stablekey-literal-legacy-cleanup-2026-05.md",
       "lessons-learned-issue-399-admin-queue-visual-evidence-2026-05.md",
       "lessons-learned-issue-502-dlq-monitoring-dashboard-2026-05.md",
-      "lessons-learned-issue-514-cf-audit-logs-cold-storage-r2-export-2026-05.md"
+      "lessons-learned-issue-514-cf-audit-logs-cold-storage-r2-export-2026-05.md",
+      "lessons-learned-ut-07c-followup-001-attendance-csv-import-2026-05.md"
     ],
     "監査ログ閲覧は": [
       "lessons-learned-07c-audit-log-browsing-ui-2026-05.md"
@@ -13605,6 +13668,7 @@
       "lessons-learned-task-25-followup-loading-state-observation-fixture-2026-05.md",
       "lessons-learned-task-spec-2d-contract-stage-2-2026-05.md",
       "lessons-learned-ut-02a-tag-assignment-queue-2026-05.md",
+      "lessons-learned-ut-07c-followup-001-attendance-csv-import-2026-05.md",
       "logs-archive-2026-02-auth-callback-lifecycle-guard.md",
       "logs-archive-2026-02-completed-move-preload-sync.md",
       "logs-archive-2026-02-skill-import-interface-atoms-rerun.md",
@@ -13809,10 +13873,12 @@
       "lessons-learned-fix-cf-deploy-esbuild-import-source-staging-failure-2026-05.md",
       "lessons-learned-issue-393-stablekey-literal-legacy-cleanup-2026-05.md",
       "lessons-learned-issue-623-vitest-spec-suffix-convergence-2026-05.md",
+      "lessons-learned-ut-07c-followup-001-attendance-csv-import-2026-05.md",
       "logs-archive-2026-02-skill-import-interface-atoms-rerun.md",
       "logs-archive-2026-03-line-budget-workflow-consolidation.md",
       "logs-archive-2026-03-skill-views-completed-move.md",
-      "workflow-fix-cf-deploy-esbuild-import-source-staging-failure-artifact-inventory.md"
+      "workflow-fix-cf-deploy-esbuild-import-source-staging-failure-artifact-inventory.md",
+      "workflow-ut-07c-followup-001-attendance-csv-import-artifact-inventory.md"
     ],
     "regression": [
       "lessons-learned-issue-106-admin-notes-repository-2026-05.md",
@@ -14493,7 +14559,8 @@
     "optional": [
       "lessons-learned-issue-372-attendance-pagination-2026-05.md",
       "lessons-learned-step-05-dashboard-chart-2026-05.md",
-      "lessons-learned-ut-02a-attendance-profile-integration-2026-05.md"
+      "lessons-learned-ut-02a-attendance-profile-integration-2026-05.md",
+      "lessons-learned-ut-07c-followup-001-attendance-csv-import-2026-05.md"
     ],
     "attendanceMeta": [
       "lessons-learned-issue-372-attendance-pagination-2026-05.md"
@@ -14525,6 +14592,7 @@
     ],
     "timeout": [
       "lessons-learned-issue-372-attendance-pagination-2026-05.md",
+      "lessons-learned-ut-07c-followup-001-attendance-csv-import-2026-05.md",
       "task-workflow-completed-skill-lifecycle-archive-2026-03.md",
       "task-workflow-completed-skill-lifecycle-security.md",
       "task-workflow-completed-ut-06-safety-gate.md",
@@ -14670,7 +14738,8 @@
     "JSX": [
       "lessons-learned-issue-393-stablekey-literal-legacy-cleanup-2026-05.md",
       "lessons-learned-task-11-public-top-and-member-list-2026-05.md",
-      "lessons-learned-task-14-my-profile-and-requests-2026-05.md"
+      "lessons-learned-task-14-my-profile-and-requests-2026-05.md",
+      "lessons-learned-ut-07c-followup-001-attendance-csv-import-2026-05.md"
     ],
     "attribute": [
       "lessons-learned-issue-393-stablekey-literal-legacy-cleanup-2026-05.md"
@@ -14794,7 +14863,8 @@
     ],
     "email": [
       "lessons-learned-issue-401-admin-request-notification-2026-05.md",
-      "lessons-learned-issue-514-cf-audit-logs-cold-storage-r2-export-2026-05.md"
+      "lessons-learned-issue-514-cf-audit-logs-cold-storage-r2-export-2026-05.md",
+      "lessons-learned-ut-07c-followup-001-attendance-csv-import-2026-05.md"
     ],
     "outbox": [
       "lessons-learned-issue-401-admin-request-notification-2026-05.md"
@@ -15363,7 +15433,8 @@
       "workflow-issue-531-runtime-smoke-attendance-provider-artifact-inventory.md",
       "workflow-task-09c-production-deploy-execution-001-artifact-inventory.md",
       "workflow-task-21-w2-par-screen-blueprints-admin-artifact-inventory.md",
-      "workflow-task-issue-494-09a-A-exec-staging-smoke-runtime-artifact-inventory.md"
+      "workflow-task-issue-494-09a-A-exec-staging-smoke-runtime-artifact-inventory.md",
+      "workflow-ut-07c-followup-001-attendance-csv-import-artifact-inventory.md"
     ],
     "Resources": [
       "lessons-learned-issue-532-write-tag-note-provider-ctx-injection-2026-05.md",
@@ -15609,6 +15680,7 @@
       "workflow-issue-762-cf-oidc-staging-proof-prod-cutover-artifact-inventory.md",
       "workflow-issue-769-root-error-focus-artifact-inventory.md",
       "workflow-issue-770-profile-loading-skeleton-artifact-inventory.md",
+      "workflow-issue-799-use-auto-focus-on-mount-hook-artifact-inventory.md",
       "workflow-parallel-09-ux-cross-cutting-artifact-inventory.md",
       "workflow-parallel-i03-dialog-refresh-order-artifact-inventory.md",
       "workflow-parallel-i06-root-error-focus-artifact-inventory.md",
@@ -15679,6 +15751,7 @@
       "workflow-ut-07b-fu-03-production-migration-apply-runbook-artifact-inventory.md",
       "workflow-ut-07b-fu-04-production-migration-apply-execution-artifact-inventory.md",
       "workflow-ut-07b-schema-alias-hardening-artifact-inventory.md",
+      "workflow-ut-07c-followup-001-attendance-csv-import-artifact-inventory.md",
       "workflow-ut-15-waf-rate-limiting-rules-setup-artifact-inventory.md",
       "workflow-ut-17-cloudflare-analytics-alerts-artifact-inventory.md",
       "workflow-ut-17-followup-002-alert-relay-dedup-kv-artifact-inventory.md",
@@ -16103,6 +16176,7 @@
     "step": [
       "lessons-learned-issue-775-serial-05-step-03-runtime-evidence-completion-2026-05.md",
       "lessons-learned-step-05-dashboard-chart-2026-05.md",
+      "lessons-learned-ut-07c-followup-001-attendance-csv-import-2026-05.md",
       "workflow-issue-775-serial-05-step-03-runtime-evidence-completion-artifact-inventory.md",
       "workflow-serial-05-step-03-schema-diff-resolve-artifact-inventory.md",
       "workflow-step-05-dashboard-chart-implementation-artifact-inventory.md"
@@ -16612,6 +16686,7 @@
     "playwright": [
       "lessons-learned-task-11-public-top-and-member-list-2026-05.md",
       "lessons-learned-task-18-w7-verify-tokens-and-playwright-smoke-2026-05.md",
+      "lessons-learned-ut-07c-followup-001-attendance-csv-import-2026-05.md",
       "workflow-task-18-w7-verify-tokens-and-playwright-smoke-artifact-inventory.md"
     ],
     "chromium": [
@@ -16640,6 +16715,7 @@
     "Playwright": [
       "lessons-learned-task-12-member-detail-register-legal-2026-05.md",
       "lessons-learned-task-18-w7-verify-tokens-and-playwright-smoke-2026-05.md",
+      "lessons-learned-ut-07c-followup-001-attendance-csv-import-2026-05.md",
       "testing-playwright-e2e.md",
       "workflow-task-08b-A-playwright-e2e-full-execution-artifact-inventory.md"
     ],
@@ -16748,10 +16824,12 @@
       "lessons-learned-task-15-admin-dashboard-and-members-2026-05.md"
     ],
     "で吸収する": [
-      "lessons-learned-task-15-admin-dashboard-and-members-2026-05.md"
+      "lessons-learned-task-15-admin-dashboard-and-members-2026-05.md",
+      "lessons-learned-ut-07c-followup-001-attendance-csv-import-2026-05.md"
     ],
     "を経由する": [
-      "lessons-learned-task-15-admin-dashboard-and-members-2026-05.md"
+      "lessons-learned-task-15-admin-dashboard-and-members-2026-05.md",
+      "lessons-learned-ut-07c-followup-001-attendance-csv-import-2026-05.md"
     ],
     "it": [
       "lessons-learned-task-15-admin-dashboard-and-members-2026-05.md"
@@ -16853,7 +16931,8 @@
       "lessons-learned-task-18-w7-verify-tokens-and-playwright-smoke-2026-05.md"
     ],
     "SSR": [
-      "lessons-learned-task-18-w7-verify-tokens-and-playwright-smoke-2026-05.md"
+      "lessons-learned-task-18-w7-verify-tokens-and-playwright-smoke-2026-05.md",
+      "lessons-learned-ut-07c-followup-001-attendance-csv-import-2026-05.md"
     ],
     "でしか": [
       "lessons-learned-task-18-w7-verify-tokens-and-playwright-smoke-2026-05.md"
@@ -17690,6 +17769,113 @@
       "workflow-task-07b-parallel-schema-diff-alias-assignment-workflow-artifact-inventory.md",
       "workflow-task-08a-parallel-api-contract-repository-and-authorization-tests-artifact-inventory.md"
     ],
+    "CSV": [
+      "lessons-learned-ut-07c-followup-001-attendance-csv-import-2026-05.md",
+      "workflow-ut-07c-followup-001-attendance-csv-import-artifact-inventory.md"
+    ],
+    "一括": [
+      "lessons-learned-ut-07c-followup-001-attendance-csv-import-2026-05.md"
+    ],
+    "経由でしか走らない": [
+      "lessons-learned-ut-07c-followup-001-attendance-csv-import-2026-05.md"
+    ],
+    "を同一境界に投入する": [
+      "lessons-learned-ut-07c-followup-001-attendance-csv-import-2026-05.md"
+    ],
+    "parse": [
+      "lessons-learned-ut-07c-followup-001-attendance-csv-import-2026-05.md",
+      "lessons-learned-web-app-route-bundle-parse-fix-2026-05.md",
+      "workflow-web-app-route-bundle-parse-fix-artifact-inventory.md"
+    ],
+    "papaparse": [
+      "lessons-learned-ut-07c-followup-001-attendance-csv-import-2026-05.md"
+    ],
+    "payload": [
+      "lessons-learned-ut-07c-followup-001-attendance-csv-import-2026-05.md",
+      "lessons-learned-ut-gov-001-2026-04.md"
+    ],
+    "へ渡す": [
+      "lessons-learned-ut-07c-followup-001-attendance-csv-import-2026-05.md"
+    ],
+    "exactOptionalPropertyTypes": [
+      "lessons-learned-ut-07c-followup-001-attendance-csv-import-2026-05.md"
+    ],
+    "環境での": [
+      "lessons-learned-ut-07c-followup-001-attendance-csv-import-2026-05.md"
+    ],
+    "受け渡し": [
+      "lessons-learned-ut-07c-followup-001-attendance-csv-import-2026-05.md"
+    ],
+    "Element": [
+      "lessons-learned-ut-07c-followup-001-attendance-csv-import-2026-05.md"
+    ],
+    "名前空間で参照する": [
+      "lessons-learned-ut-07c-followup-001-attendance-csv-import-2026-05.md"
+    ],
+    "wizard": [
+      "lessons-learned-ut-07c-followup-001-attendance-csv-import-2026-05.md"
+    ],
+    "confirm": [
+      "lessons-learned-ut-07c-followup-001-attendance-csv-import-2026-05.md"
+    ],
+    "有効化条件は": [
+      "lessons-learned-ut-07c-followup-001-attendance-csv-import-2026-05.md"
+    ],
+    "ok": [
+      "lessons-learned-ut-07c-followup-001-attendance-csv-import-2026-05.md"
+    ],
+    "パラメータは安全側既定にする": [
+      "lessons-learned-ut-07c-followup-001-attendance-csv-import-2026-05.md"
+    ],
+    "normalizeEmail": [
+      "lessons-learned-ut-07c-followup-001-attendance-csv-import-2026-05.md"
+    ],
+    "lowercase": [
+      "lessons-learned-ut-07c-followup-001-attendance-csv-import-2026-05.md"
+    ],
+    "出力先は": [
+      "lessons-learned-ut-07c-followup-001-attendance-csv-import-2026-05.md"
+    ],
+    "配下に揃える": [
+      "lessons-learned-ut-07c-followup-001-attendance-csv-import-2026-05.md"
+    ],
+    "mockApi": [
+      "lessons-learned-ut-07c-followup-001-attendance-csv-import-2026-05.md"
+    ],
+    "seedMeetings": [
+      "lessons-learned-ut-07c-followup-001-attendance-csv-import-2026-05.md"
+    ],
+    "heal": [
+      "lessons-learned-ut-07c-followup-001-attendance-csv-import-2026-05.md"
+    ],
+    "出力は": [
+      "lessons-learned-ut-07c-followup-001-attendance-csv-import-2026-05.md"
+    ],
+    "WebKit": [
+      "lessons-learned-ut-07c-followup-001-attendance-csv-import-2026-05.md"
+    ],
+    "Firefox": [
+      "lessons-learned-ut-07c-followup-001-attendance-csv-import-2026-05.md"
+    ],
+    "hydration": [
+      "lessons-learned-ut-07c-followup-001-attendance-csv-import-2026-05.md"
+    ],
+    "を起こす": [
+      "lessons-learned-ut-07c-followup-001-attendance-csv-import-2026-05.md"
+    ],
+    "expect": [
+      "lessons-learned-ut-07c-followup-001-attendance-csv-import-2026-05.md",
+      "lessons-learned-ut07b-fu04-production-migration-already-applied-verification-2026-05.md"
+    ],
+    "初回コンパイルを吸収する": [
+      "lessons-learned-ut-07c-followup-001-attendance-csv-import-2026-05.md"
+    ],
+    "に伸ばす": [
+      "lessons-learned-ut-07c-followup-001-attendance-csv-import-2026-05.md"
+    ],
+    "系統あり": [
+      "lessons-learned-ut-07c-followup-001-attendance-csv-import-2026-05.md"
+    ],
     "Thresholds": [
       "lessons-learned-ut-15-waf-rate-limiting.md"
     ],
@@ -17982,9 +18168,6 @@
     "形の用途分離": [
       "lessons-learned-ut-gov-001-2026-04.md"
     ],
-    "payload": [
-      "lessons-learned-ut-gov-001-2026-04.md"
-    ],
     "完了前提の": [
       "lessons-learned-ut-gov-001-2026-04.md"
     ],
@@ -18233,9 +18416,6 @@
     "優先": [
       "lessons-learned-ut07b-fu04-production-migration-already-applied-verification-2026-05.md"
     ],
-    "expect": [
-      "lessons-learned-ut07b-fu04-production-migration-already-applied-verification-2026-05.md"
-    ],
     "applied": [
       "lessons-learned-ut07b-fu04-production-migration-already-applied-verification-2026-05.md"
     ],
@@ -18311,10 +18491,6 @@
     ],
     "連鎖発火タスク": [
       "lessons-learned-utgov001-second-stage-reapply-2026-04.md"
-    ],
-    "parse": [
-      "lessons-learned-web-app-route-bundle-parse-fix-2026-05.md",
-      "workflow-web-app-route-bundle-parse-fix-artifact-inventory.md"
     ],
     "教訓集": [
       "lessons-learned.md"
@@ -23063,6 +23239,7 @@
       "workflow-issue-762-cf-oidc-staging-proof-prod-cutover-artifact-inventory.md",
       "workflow-issue-769-root-error-focus-artifact-inventory.md",
       "workflow-issue-770-profile-loading-skeleton-artifact-inventory.md",
+      "workflow-issue-799-use-auto-focus-on-mount-hook-artifact-inventory.md",
       "workflow-parallel-09-ux-cross-cutting-artifact-inventory.md",
       "workflow-parallel-i03-dialog-refresh-order-artifact-inventory.md",
       "workflow-parallel-i06-root-error-focus-artifact-inventory.md",
@@ -23133,6 +23310,7 @@
       "workflow-ut-07b-fu-03-production-migration-apply-runbook-artifact-inventory.md",
       "workflow-ut-07b-fu-04-production-migration-apply-execution-artifact-inventory.md",
       "workflow-ut-07b-schema-alias-hardening-artifact-inventory.md",
+      "workflow-ut-07c-followup-001-attendance-csv-import-artifact-inventory.md",
       "workflow-ut-15-waf-rate-limiting-rules-setup-artifact-inventory.md",
       "workflow-ut-17-cloudflare-analytics-alerts-artifact-inventory.md",
       "workflow-ut-17-followup-002-alert-relay-dedup-kv-artifact-inventory.md",
@@ -23187,6 +23365,7 @@
       "workflow-ut-07a-01-member-tags-assign-cleanup-artifact-inventory.md",
       "workflow-ut-07b-fu-01-schema-alias-backfill-queue-cron-split-artifact-inventory.md",
       "workflow-ut-07b-schema-alias-hardening-artifact-inventory.md",
+      "workflow-ut-07c-followup-001-attendance-csv-import-artifact-inventory.md",
       "workflow-ut-15-waf-rate-limiting-rules-setup-artifact-inventory.md",
       "workflow-ut-17-followup-002-alert-relay-dedup-kv-artifact-inventory.md",
       "workflow-ut-17-followup-005-alert-relay-kv-error-metrics-artifact-inventory.md",
@@ -23282,6 +23461,7 @@
       "workflow-ut-06-followup-A-opennext-workers-migration-artifact-inventory.md",
       "workflow-ut-07b-fu-03-production-migration-apply-runbook-artifact-inventory.md",
       "workflow-ut-07b-fu-04-production-migration-apply-execution-artifact-inventory.md",
+      "workflow-ut-07c-followup-001-attendance-csv-import-artifact-inventory.md",
       "workflow-ut-15-waf-rate-limiting-rules-setup-artifact-inventory.md",
       "workflow-ut-17-followup-002-alert-relay-dedup-kv-artifact-inventory.md",
       "workflow-ut-cicd-drift-impl-observability-matrix-sync-artifact-inventory.md",
@@ -23321,6 +23501,7 @@
       "workflow-task-10-followup-001-opennext-esbuild-mismatch-artifact-inventory.md",
       "workflow-task-17-admin-schema-conflicts-audit-artifact-inventory.md",
       "workflow-ut-06-fu-a-prod-route-secret-001-artifact-inventory.md",
+      "workflow-ut-07c-followup-001-attendance-csv-import-artifact-inventory.md",
       "workflow-ut-coverage-2026-05-wave-artifact-inventory.md"
     ],
     "Logged": [
@@ -23641,6 +23822,7 @@
       "workflow-task-09-w3-par-tailwind-v4-setup-artifact-inventory.md",
       "workflow-task-761-visual-full-required-status-check-artifact-inventory.md",
       "workflow-task-issue-346-08a-canonical-workflow-tree-restore-artifact-inventory.md",
+      "workflow-ut-07c-followup-001-attendance-csv-import-artifact-inventory.md",
       "workflow-ut-17-followup-005-alert-relay-kv-error-metrics-artifact-inventory.md"
     ],
     "Classification": [
@@ -23862,6 +24044,9 @@
     ],
     "restoration": [
       "workflow-issue-772-cf-audit-monitor-runtime-restoration-artifact-inventory.md"
+    ],
+    "useAutoFocusOnMount": [
+      "workflow-issue-799-use-auto-focus-on-mount-hook-artifact-inventory.md"
     ],
     "ライトテーマ": [
       "workflow-light-theme-contrast-regression-guard.md"

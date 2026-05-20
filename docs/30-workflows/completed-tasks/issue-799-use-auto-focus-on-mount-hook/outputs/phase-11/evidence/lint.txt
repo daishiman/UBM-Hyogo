@@ -1,0 +1,9 @@
+# Lint Evidence
+
+Command:
+
+```bash
+pnpm --filter @ubm-hyogo/web lint
+```
+
+Result: exit code 0.

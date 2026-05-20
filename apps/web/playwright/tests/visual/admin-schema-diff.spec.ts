@@ -85,7 +85,9 @@ test.describe("SchemaDiffPanel runtime evidence", () => {
     await adminPage.getByRole("button", { name: /所属部署/ }).click();
     await adminPage.getByLabel(/新しい stableKey/).fill("member_department_new");
     await adminPage.getByRole("button", { name: "割当" }).click();
-    await expect(adminPage.getByRole("status")).toContainText("alias を割当てました");
+    await expect(adminPage.locator('[data-feedback-kind="success"]')).toContainText(
+      "alias を割当てました",
+    );
     await adminPage.screenshot({
       path: path.join(evidenceDir, "admin-schema-diff-resolve-success.png"),
       fullPage: true,

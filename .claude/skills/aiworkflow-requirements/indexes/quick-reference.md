@@ -12,6 +12,19 @@
 | boundary | production app/API files frozen; real D1/staging smoke user-gated; Issue #775 remains closed and PR text must use `Refs #775` only |
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-775-serial-05-step-03-runtime-evidence-completion-artifact-inventory.md` |
 
+## Issue #799 useAutoFocusOnMount hook（2026-05-19）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow | `docs/30-workflows/issue-799-use-auto-focus-on-mount-hook/` |
+| status | `implemented_local_evidence_captured / implementation / NON_VISUAL / implementation_complete_pending_pr` |
+| implementation | `apps/web/src/lib/a11y/useAutoFocusOnMount.ts`, root/login/profile/admin `error.tsx` |
+| tests | `apps/web/src/lib/a11y/__tests__/useAutoFocusOnMount.spec.tsx`, route error component specs |
+| source trace | `docs/30-workflows/unassigned-task/issue-769-followup-001-use-auto-focus-on-mount-hook.md` consumed |
+| evidence | `outputs/phase-11/evidence/web-vitest.txt`, `outputs/phase-12/phase12-task-spec-compliance-check.md` |
+| system spec | `docs/00-getting-started-manual/specs/09-ui-ux.md` error boundary focus contract |
+| boundary | Issue #799 is CLOSED; PR wording uses `Refs #799`; commit / push / PR are user-gated |
+
 ## Issue #274 public pages OGP / sitemap / robots（2026-05-17）
 
 | 目的 | 参照先 |
@@ -79,6 +92,21 @@
 
 > 最重要情報への即時アクセス
 > 詳細は resource-map.md → 該当ファイル を参照
+
+---
+
+### UT-07C-FU-001 attendance CSV import spec（2026-05-18）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/ut-07c-followup-001-attendance-csv-import/` |
+| 状態 | `implemented_local_evidence_captured / implementation / VISUAL / Phase 1-12 completed / Phase 13 pending_user_approval` |
+| issue | #312 |
+| contract | `POST /admin/meetings/:sessionId/attendance/import?dryRun=true|false`; client CSV parse + JSON rows; max 500 rows; row status `ok` / `duplicate` / `deleted_member` / `unknown_member` / `invalid` |
+| implementation targets | `apps/api/src/routes/admin/attendance.ts`, `apps/api/src/use-cases/admin/import-attendance-bulk.ts`, `apps/api/src/repository/attendance.ts`, `apps/web/app/(admin)/admin/meetings/[id]/AttendanceCsvImportPanel.tsx`, `apps/web/src/lib/csv/parse-attendance.ts`, `apps/web/package.json` |
+| important boundary | Hono `Context` is not passed into service; route resolves `DbCtx`, `authUser`, and `auditLogProvider`. `member_status.is_deleted` is the deleted-member source. `dryRun=false` explicit only commits; omitted/typo dry-runs. commit uses D1 batch for attendance + audit insert. |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-ut-07c-followup-001-attendance-csv-import-artifact-inventory.md` |
+| evidence boundary | focused API route 13 / API service 13 / web parser+UI 13 PASS. Phase 11 local Playwright screenshots S1-S4 captured. Phase 12 strict 7 outputs present. commit / push / PR remain user-gated. |
 
 ---
 
