@@ -4215,7 +4215,7 @@ node scripts/list-specs.js --topics
 | Cloudflare API Token 90 日 rotation runbook（Issue #407 / 2026-05-06） | L419 |
 | UT-27: GitHub Secrets / Variables 同期運用（2026-04-29） | L530 |
 | U-FIX-CF-ACCT-01-DERIV-02: Cloudflare deploy token split | L579 |
-| 変更履歴 | L601 |
+| 変更履歴 | L613 |
 
 ### references/deployment.md
 
@@ -5356,6 +5356,17 @@ node scripts/list-specs.js --topics
 | L-I747-004: `ESBUILD_BINARY_PATH` の干渉を runbook で明文化 | L35 |
 | L-I747-005: closed Issue でも `Refs #<n>` で後付け canonical workflow を建てる | L43 |
 | L-I747-006: parent repository `node_modules` cleanup は AI が自動実行しない | L51 |
+
+### references/lessons-learned-issue-765-1password-vault-restructure-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| L-765-001: 条件付き implementation spec は phase wording で `completed` を使わない | L7 |
+| L-765-002: Gate-B / Gate-B-PRIME / Gate-C の責務分離 | L15 |
+| L-765-003: WAF 用 op:// path は deploy token canonical と分離する | L27 |
+| L-765-004: op:// canonical path drift の local grep gate | L35 |
+| L-765-005: source unassigned task の consumed-pending trace | L43 |
+| L-765-006: deny-pattern を含む workflow 命名の回避 | L51 |
 
 ### references/lessons-learned-issue-770-profile-loading-skeleton-2026-05.md
 
@@ -7106,6 +7117,14 @@ node scripts/list-specs.js --topics
 | 昇格パターン集 | L1873 |
 | Current Active / Spec Created Tasks | L1875 |
 | UT-17 followup-003 alert-relay weekly healthcheck cron | L2028 |
+| ドキュメント構成 | L1772 |
+| フェーズ構造（概要） | L1781 |
+| 品質ゲート（概要） | L1812 |
+| 出力テンプレート | L1823 |
+| 実行時のコマンド・エージェント・スキル | L1846 |
+| 昇格パターン集 | L1870 |
+| Current Active / Spec Created Tasks | L1872 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L2025 |
 
 ### references/task-workflow-backlog-part2.md
 
