@@ -1,6 +1,6 @@
 // task-15 W5: admin gate + 2 カラム grid + AdminSidebar
 // 不変条件 #11: session.isAdmin !== true は redirect。
-// middleware.ts は配置しない（layout 内 auth() で完結、Edge cost 削減）。
+// proxy.ts は配置しない（root proxy.ts と layout 内 auth() で完結、Edge cost 削減）。
 import type { ReactNode } from "react";
 import { redirect } from "next/navigation";
 import { getSession } from "../../src/lib/session";

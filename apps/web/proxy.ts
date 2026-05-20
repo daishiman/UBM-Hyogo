@@ -1,8 +1,9 @@
-// 05a + 06b: 認証 middleware（edge runtime, 二段防御の第1段）。
+// 05a + 06b: 認証 proxy（edge runtime, 二段防御の第1段）。
 // matcher: /admin/:path*, /profile/:path*
 //
 // /admin 配下:
-//   - 未ログイン or isAdmin=false → /login?gate=admin_required
+//   - 未ログイン → /login?gate=admin_required
+//   - ログイン済 + isAdmin=false → 403 Forbidden
 //   - ログイン済 + isAdmin=true → next()
 // /profile 配下（06b 追加）:
 //   - 未ログイン → /login?redirect=<元path>
@@ -49,7 +50,7 @@ const sessionToken = (req: NextRequest): string | undefined => {
   return undefined;
 };
 
-const guardedMiddleware = async (req: NextRequest) => {
+const guardedProxy = async (req: NextRequest) => {
   const { pathname } = req.nextUrl;
   const claims = await decodeAuthSessionJwt(authSecret(req), sessionToken(req));
 
@@ -58,7 +59,6 @@ const guardedMiddleware = async (req: NextRequest) => {
       return buildAdminLoginRedirect(req);
     }
     if (!claims.isAdmin) {
-      // 認証済 non-admin: /login redirect ではなく 403 を返す（一段防御 + UX）
       return new NextResponse("Forbidden", {
         status: 403,
         headers: { "content-type": "text/plain; charset=utf-8" },
@@ -75,11 +75,11 @@ const guardedMiddleware = async (req: NextRequest) => {
   return NextResponse.next();
 };
 
-export async function middleware(req: NextRequest) {
-  return guardedMiddleware(req);
+export async function proxy(req: NextRequest) {
+  return guardedProxy(req);
 }
 
-export default middleware;
+export default proxy;
 
 export const config = {
   matcher: ["/admin/:path*", "/profile/:path*"],

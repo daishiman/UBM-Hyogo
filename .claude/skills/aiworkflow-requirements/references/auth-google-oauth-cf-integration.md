@@ -17,7 +17,7 @@ Browser
    │  (1) GET /admin/* with auth.js cookie
    ▼
 apps/web (Workers + OpenNext)
-   │  middleware.ts: JWT verify only (NO D1 access)
+   │  proxy.ts: JWT verify only (NO D1 access)
    │  ├── unauthorized → /login?gate=admin
    │  └── authorized   → forward to route handler
    │
@@ -51,14 +51,14 @@ JWT claims に積んで返却 → Auth.js が cookie に永続化
 
 # 主要パターン
 
-## 1. 二段防御 middleware
+## 1. 二段防御 proxy
 
-`apps/web/middleware.ts` は edge runtime で動く。ここでは Auth.js cookie の JWT verify のみ実施し、D1 アクセスは禁止する（edge には D1 binding が無く、あっても latency 上不適切）。
+`apps/web/proxy.ts` は edge runtime で動く。ここでは Auth.js cookie の JWT verify のみ実施し、D1 アクセスは禁止する（edge には D1 binding が無く、あっても latency 上不適切）。Issue #277 で旧 `apps/web/middleware.ts` convention から移行済み。
 
 - 1段目: cookie 存在 + JWT signature/exp 検証 → fail なら `/login?gate=<reason>` redirect
 - 2段目: route handler 側で必要なら `/auth/session-resolve` 経由の admin 判定を再確認
 
-`gate` パラメータ（例: `gate=admin` / `gate=unregistered` / `gate=expired`）は UI 文言切替に使用する。middleware は claims から `isAdmin` を読み、admin route で false なら `/` へ redirect（unauthorized 表示は web 層で完結させる）。
+`gate` パラメータ（例: `gate=admin_required` / `gate=unregistered` / `gate=expired`）は UI 文言切替に使用する。proxy は claims から `isAdmin` を読み、admin route で未ログインなら `/login?gate=admin_required` へ redirect、認証済 non-admin なら 403 Forbidden を返す。
 
 詳細な claim 定義は `interfaces-auth-core.md` ではなく UBM-Hyogo の signIn callback コードを正本とする（`apps/web/src/lib/auth.ts`）。
 
@@ -145,7 +145,7 @@ staging のみ各層の解決結果を `console.log` で可視化する（transp
 
 | 役割 | パス |
 | --- | --- |
-| edge middleware | `apps/web/middleware.ts` |
+| edge proxy | `apps/web/proxy.ts` |
 | Auth.js 設定 / env 層化 | `apps/web/src/lib/auth.ts` |
 | internal fetch helper | `apps/web/src/lib/fetch/public.ts` |
 | web wrangler config | `apps/web/wrangler.toml` |

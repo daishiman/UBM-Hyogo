@@ -2333,6 +2333,14 @@ node scripts/list-specs.js --topics
 | Evidence Boundary | L24 |
 | Captured Evidence | L27 |
 
+### references/workflow-issue-277-next-proxy-migration-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Implementation Targets | L10 |
+| Evidence | L21 |
+| User Gate | L30 |
+
 ### references/workflow-issue-290-workflow-lint-gate-artifact-inventory.md
 
 | セクション | 行 |
@@ -3994,7 +4002,7 @@ node scripts/list-specs.js --topics
 
 | セクション | 行 |
 |------------|----|
-| 1. 二段防御 middleware | L54 |
+| 1. 二段防御 proxy | L54 |
 | 2. service-binding 経由の internal API call | L65 |
 | 3. /auth/session-resolve internal-only endpoint | L86 |
 | 4. OpenNext post-build worker patch | L97 |
@@ -7051,14 +7059,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L1746 |
-| フェーズ構造（概要） | L1755 |
-| 品質ゲート（概要） | L1786 |
-| 出力テンプレート | L1797 |
-| 実行時のコマンド・エージェント・スキル | L1820 |
-| 昇格パターン集 | L1844 |
-| Current Active / Spec Created Tasks | L1846 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L1998 |
+| ドキュメント構成 | L1759 |
+| フェーズ構造（概要） | L1768 |
+| 品質ゲート（概要） | L1799 |
+| 出力テンプレート | L1810 |
+| 実行時のコマンド・エージェント・スキル | L1833 |
+| 昇格パターン集 | L1857 |
+| Current Active / Spec Created Tasks | L1859 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L2011 |
 
 ### references/task-workflow-backlog-part2.md
 
