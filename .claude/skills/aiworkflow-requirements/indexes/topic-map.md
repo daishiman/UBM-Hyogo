@@ -2762,6 +2762,8 @@ node scripts/list-specs.js --topics
 
 ### references/workflow-issue-772-cf-audit-monitor-runtime-restoration-artifact-inventory.md
 
+### references/workflow-issue-799-use-auto-focus-on-mount-hook-artifact-inventory.md
+
 ### references/workflow-light-theme-contrast-regression-guard.md
 
 | セクション | 行 |
@@ -7084,6 +7086,14 @@ node scripts/list-specs.js --topics
 | 昇格パターン集 | L1844 |
 | Current Active / Spec Created Tasks | L1846 |
 | UT-17 followup-003 alert-relay weekly healthcheck cron | L1999 |
+| ドキュメント構成 | L1761 |
+| フェーズ構造（概要） | L1770 |
+| 品質ゲート（概要） | L1801 |
+| 出力テンプレート | L1812 |
+| 実行時のコマンド・エージェント・スキル | L1835 |
+| 昇格パターン集 | L1859 |
+| Current Active / Spec Created Tasks | L1861 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L2013 |
 
 ### references/task-workflow-backlog-part2.md
 

@@ -1,0 +1,9 @@
+# Typecheck Evidence
+
+Command:
+
+```bash
+pnpm --filter @ubm-hyogo/web typecheck
+```
+
+Result: exit code 0.

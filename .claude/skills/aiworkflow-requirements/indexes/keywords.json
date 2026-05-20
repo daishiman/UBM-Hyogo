@@ -3249,6 +3249,7 @@
       "workflow-issue-769-root-error-focus-artifact-inventory.md",
       "workflow-issue-770-profile-loading-skeleton-artifact-inventory.md",
       "workflow-issue-772-cf-audit-monitor-runtime-restoration-artifact-inventory.md",
+      "workflow-issue-799-use-auto-focus-on-mount-hook-artifact-inventory.md",
       "workflow-parallel-i03-dialog-refresh-order-artifact-inventory.md",
       "workflow-parallel-i06-root-error-focus-artifact-inventory.md",
       "workflow-step-05-dashboard-chart-implementation-artifact-inventory.md",
@@ -4483,6 +4484,7 @@
       "workflow-issue-747-vitest-esbuild-arch-and-worktree-isolation-artifact-inventory.md",
       "workflow-issue-762-cf-oidc-staging-proof-prod-cutover-artifact-inventory.md",
       "workflow-issue-772-cf-audit-monitor-runtime-restoration-artifact-inventory.md",
+      "workflow-issue-799-use-auto-focus-on-mount-hook-artifact-inventory.md",
       "workflow-task-issue-299-schema-questions-fallback-retirement-artifact-inventory.md",
       "workflow-ut-17-cloudflare-analytics-alerts-artifact-inventory.md"
     ],
@@ -12584,7 +12586,8 @@
       "lessons-learned-06c-C-admin-tags-2026-05.md",
       "lessons-learned-admin-tags-queue-resolver-drawer-2026-05.md",
       "lessons-learned-skill-ledger-t6-hook-idempotency-2026-04.md",
-      "lessons-learned-sync-merge-hook-skip-2026-04.md"
+      "lessons-learned-sync-merge-hook-skip-2026-04.md",
+      "workflow-issue-799-use-auto-focus-on-mount-hook-artifact-inventory.md"
     ],
     "を導入する": [
       "lessons-learned-06c-C-admin-tags-2026-05.md"
@@ -15631,6 +15634,7 @@
       "workflow-issue-762-cf-oidc-staging-proof-prod-cutover-artifact-inventory.md",
       "workflow-issue-769-root-error-focus-artifact-inventory.md",
       "workflow-issue-770-profile-loading-skeleton-artifact-inventory.md",
+      "workflow-issue-799-use-auto-focus-on-mount-hook-artifact-inventory.md",
       "workflow-parallel-09-ux-cross-cutting-artifact-inventory.md",
       "workflow-parallel-i03-dialog-refresh-order-artifact-inventory.md",
       "workflow-parallel-i06-root-error-focus-artifact-inventory.md",
@@ -23135,6 +23139,7 @@
       "workflow-issue-762-cf-oidc-staging-proof-prod-cutover-artifact-inventory.md",
       "workflow-issue-769-root-error-focus-artifact-inventory.md",
       "workflow-issue-770-profile-loading-skeleton-artifact-inventory.md",
+      "workflow-issue-799-use-auto-focus-on-mount-hook-artifact-inventory.md",
       "workflow-parallel-09-ux-cross-cutting-artifact-inventory.md",
       "workflow-parallel-i03-dialog-refresh-order-artifact-inventory.md",
       "workflow-parallel-i06-root-error-focus-artifact-inventory.md",
@@ -23936,6 +23941,9 @@
     ],
     "restoration": [
       "workflow-issue-772-cf-audit-monitor-runtime-restoration-artifact-inventory.md"
+    ],
+    "useAutoFocusOnMount": [
+      "workflow-issue-799-use-auto-focus-on-mount-hook-artifact-inventory.md"
     ],
     "ライトテーマ": [
       "workflow-light-theme-contrast-regression-guard.md"

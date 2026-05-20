@@ -8,6 +8,21 @@
 
 本ドキュメントは、複雑なタスクを単一責務の原則に基づいて分解し、各サブタスクに最適なスラッシュコマンド・エージェント・スキルの組み合わせを選定するためのガイドラインを定義する。
 
+### Issue #799 useAutoFocusOnMount hook（2026-05-19）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / NON_VISUAL / implementation_complete_pending_pr` |
+| 成果物 | `docs/30-workflows/issue-799-use-auto-focus-on-mount-hook/` |
+| Issue | #799 CLOSED。PR 文脈は `Refs #799` |
+| source | `docs/30-workflows/unassigned-task/issue-769-followup-001-use-auto-focus-on-mount-hook.md` consumed |
+| 目的 | `useAutoFocusOnMount` hook を追加し、root / login / profile / admin error boundary の h1 focus transfer を統一する |
+| 実装 | `apps/web/src/lib/a11y/useAutoFocusOnMount.ts`, `apps/web/app/error.tsx`, `apps/web/app/login/error.tsx`, `apps/web/app/profile/error.tsx`, `apps/web/app/(admin)/admin/error.tsx` |
+| tests | `apps/web/src/lib/a11y/__tests__/useAutoFocusOnMount.spec.tsx`, route error component specs |
+| evidence | `docs/30-workflows/issue-799-use-auto-focus-on-mount-hook/outputs/phase-11/evidence/web-vitest.txt`, `docs/30-workflows/issue-799-use-auto-focus-on-mount-hook/outputs/phase-12/phase12-task-spec-compliance-check.md` |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-799-use-auto-focus-on-mount-hook-artifact-inventory.md` |
+| user gate | commit / push / PR |
+
 ### UI Prototype Design System Foundation（2026-05-18 / parallel-02 close-out 2026-05-19）
 ### step-05 dashboard chart implementation（2026-05-18）
 

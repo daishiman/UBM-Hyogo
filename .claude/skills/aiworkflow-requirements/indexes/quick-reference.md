@@ -1,5 +1,18 @@
 # クイックリファレンス
 
+## Issue #799 useAutoFocusOnMount hook（2026-05-19）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow | `docs/30-workflows/issue-799-use-auto-focus-on-mount-hook/` |
+| status | `implemented_local_evidence_captured / implementation / NON_VISUAL / implementation_complete_pending_pr` |
+| implementation | `apps/web/src/lib/a11y/useAutoFocusOnMount.ts`, root/login/profile/admin `error.tsx` |
+| tests | `apps/web/src/lib/a11y/__tests__/useAutoFocusOnMount.spec.tsx`, route error component specs |
+| source trace | `docs/30-workflows/unassigned-task/issue-769-followup-001-use-auto-focus-on-mount-hook.md` consumed |
+| evidence | `outputs/phase-11/evidence/web-vitest.txt`, `outputs/phase-12/phase12-task-spec-compliance-check.md` |
+| system spec | `docs/00-getting-started-manual/specs/09-ui-ux.md` error boundary focus contract |
+| boundary | Issue #799 is CLOSED; PR wording uses `Refs #799`; commit / push / PR are user-gated |
+
 ## Issue #274 public pages OGP / sitemap / robots（2026-05-17）
 
 | 目的 | 参照先 |
