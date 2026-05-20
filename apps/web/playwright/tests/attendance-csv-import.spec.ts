@@ -27,7 +27,10 @@ test.describe('UT-07C-FU-001 attendance CSV import screenshots', () => {
     const meetings = new AdminMeetingsPage(adminPage)
     await meetings.visit('sess-1')
 
-    await expect(adminPage.getByTestId('attendance-csv-import-panel')).toBeVisible()
+    const panel = adminPage.getByTestId('attendance-csv-import-panel')
+    await expect(panel).toBeVisible()
+    // React hydration を待つ: data-hydrated="true" になるまで onChange handler 未 bind の race を避ける。
+    await expect(panel).toHaveAttribute('data-hydrated', 'true')
     await screenshot(adminPage, 'S1-upload.png')
 
     await adminPage

@@ -3,7 +3,7 @@
 // state machine: idle → parsing → preview → confirming → done (or error)
 // 既存 MeetingAttendancePanel の sibling として配置。既存 panel は変更しない。
 import * as React from "react";
-import { useReducer, useRef, type ChangeEvent } from "react";
+import { useEffect, useReducer, useRef, useState, type ChangeEvent } from "react";
 import {
   parseAttendanceCsv,
   type ParsedAttendanceRow,
@@ -137,6 +137,12 @@ interface Props {
 export function AttendanceCsvImportPanel({ sessionId }: Props): React.JSX.Element {
   const [state, dispatch] = useReducer(reducer, initial);
   const fileRef = useRef<HTMLInputElement | null>(null);
+  // hydration signal: Playwright が onChange handler の bind 完了を待つために参照する。
+  // SSR では false。client hydration 後の useEffect で true に。
+  const [hydrated, setHydrated] = useState(false);
+  useEffect(() => {
+    setHydrated(true);
+  }, []);
 
   const callImport = async (
     rows: ParsedAttendanceRow[],
@@ -216,6 +222,7 @@ export function AttendanceCsvImportPanel({ sessionId }: Props): React.JSX.Elemen
     <section
       aria-labelledby="attendance-csv-import-h"
       data-testid="attendance-csv-import-panel"
+      data-hydrated={hydrated ? "true" : "false"}
     >
       <h2 id="attendance-csv-import-h">出席 CSV 一括登録</h2>
       <ol aria-label="import-steps" data-testid="import-steps">
