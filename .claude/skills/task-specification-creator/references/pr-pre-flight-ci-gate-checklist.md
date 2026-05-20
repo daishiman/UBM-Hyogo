@@ -127,7 +127,8 @@ bash scripts/verify-pr-ready.sh
    - `missing-heading` → §4 canonical 9 headings
    - `missing-evidence` → §2 (table 形式) または §3 (path 解決) または §5 (unassigned-task 配置)
 3. `indexes:rebuild drift` → `.claude/skills/aiworkflow-requirements/indexes/` 配下の再生成差分を `git add` & commit（sync-merge 直後は `task-workflow-active.md` の `merge=union` で行数が増減し `topic-map.md` の見出し L 番号が drift する構造的事象。再生成→コミットが正規復旧手順）
-4. 修正後 `bash scripts/verify-pr-ready.sh` を再実行し全 PASS を確認してから push
+4. `pnpm sync:resolve` が exit code 1 で終わるが残コンフリクトが `LOGS/_legacy.md` のみ（`.gitignore` 配下で `git add` が失敗するが union resolve 自体は成功） → `git add -f .claude/skills/*/LOGS/_legacy.md` で追跡し続行。残る `indexes/keywords.json` (UU) は `git checkout --ours` + `pnpm indexes:rebuild` で deterministic 再生成（L-DEVSYNC-029 安定パターン）
+5. 修正後 `bash scripts/verify-pr-ready.sh` を再実行し全 PASS を確認してから push
 
 ## 6. `lighthouse-ci` performance fail（環境ノイズ起因）
 
@@ -256,3 +257,29 @@ grep -rn '>こちら<\|>詳細<\|>クリック<\|>here<\|>more<\|>click here<' a
 それ以外のパスが UU で残っている場合は最終レポート対象にして中断する。
 
 詳細: `.claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-dev-sync-merge-conflict-resolution-2026-05.md` L-DEVSYNC-027。
+
+## 11. `playwright-smoke / visual` — `getByRole(<role>)` strict-mode 違反（L-DEVSYNC-031）
+
+dev 取り込み後の `playwright-smoke / visual (chromium, 4 screens)` で `strict mode violation: getByRole('status') resolved to 2 elements` 等が CI でのみ FAIL する典型ケース。HEAD 側のテストはローカルでは singleton だが、dev 側で同一画面に同 role の追加要素（Toast / save-status indicator 等）が入って 2 件マッチになる。
+
+### 事前検出 / 修正
+
+```bash
+# 同 role を画面共有しうる要素を grep
+grep -rn 'role="status"' apps/web/app apps/web/src
+
+# spec 側で getByRole("status") の絞り込みが弱い箇所を grep
+grep -rn 'getByRole("status")\|getByRole(\x27status\x27)' apps/web/playwright/tests
+```
+
+- ARIA role を画面共有要素の primary selector に使わない。component-specific `data-feedback-kind="success"` / `getByTestId(...)` 等の絞り込みに置換する。
+- 同 spec 内で 409/422 ケースが `[data-feedback-kind="conflict_error"]` 等で既に絞られている場合、success ケースだけ非対称に残るパターンが起きやすい。**全 feedback variant を同じ selector 戦略に統一**するのが SSOT。
+
+### 自律対応
+
+1. `playwright-smoke / visual` FAIL を `gh run view <run-id> --log-failed` で確認
+2. 失敗箇所の locator を grep / 該当 component の DOM 属性を確認
+3. component-specific selector へ置換（spec 側のみ。component 側の `data-*` 属性は触らない）
+4. 修正だけで再 push（baseline snapshot 更新は不要 — strict-mode は要素数判定のため）
+
+詳細: `.claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-dev-sync-merge-conflict-resolution-2026-05.md` L-DEVSYNC-031。

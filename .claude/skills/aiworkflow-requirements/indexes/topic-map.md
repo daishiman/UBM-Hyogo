@@ -2762,6 +2762,14 @@ node scripts/list-specs.js --topics
 
 ### references/workflow-issue-772-cf-audit-monitor-runtime-restoration-artifact-inventory.md
 
+### references/workflow-issue-775-serial-05-step-03-runtime-evidence-completion-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Implementation Files | L10 |
+| Evidence | L20 |
+| Same-Wave Sync | L29 |
+
 ### references/workflow-issue-799-use-auto-focus-on-mount-hook-artifact-inventory.md
 
 ### references/workflow-light-theme-contrast-regression-guard.md
@@ -2859,8 +2867,8 @@ node scripts/list-specs.js --topics
 
 | セクション | 行 |
 |------------|----|
-| Primary files | L10 |
-| Evidence | L21 |
+| Primary files | L11 |
+| Evidence | L22 |
 
 ### references/workflow-skill-identifier-branded-type-resolution.md
 
@@ -5372,6 +5380,13 @@ node scripts/list-specs.js --topics
 | L-770-006: `implemented_local_runtime_pending` 中間ステータスの再利用 | L43 |
 | L-770-007: aiworkflow-requirements の same-wave sync は 5 ファイル定型 | L51 |
 
+### references/lessons-learned-issue-775-serial-05-step-03-runtime-evidence-completion-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| 苦戦箇所（unassigned-task 由来） | L13 |
+| 関連 skill feedback | L29 |
+
 ### references/lessons-learned-issue359-production-d1-apply-2026-05.md
 
 | セクション | 行 |
@@ -5969,8 +5984,8 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 概要 | L3 |
 | 仕様書インデックス | L7 |
-| 利用順序 | L114 |
-| 関連ドキュメント | L119 |
+| 利用順序 | L115 |
+| 関連ドキュメント | L120 |
 
 ### references/llm-embedding.md
 
@@ -7094,14 +7109,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L1772 |
-| フェーズ構造（概要） | L1781 |
-| 品質ゲート（概要） | L1812 |
-| 出力テンプレート | L1823 |
-| 実行時のコマンド・エージェント・スキル | L1846 |
-| 昇格パターン集 | L1870 |
-| Current Active / Spec Created Tasks | L1872 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L2025 |
+| ドキュメント構成 | L1786 |
+| フェーズ構造（概要） | L1795 |
+| 品質ゲート（概要） | L1826 |
+| 出力テンプレート | L1837 |
+| 実行時のコマンド・エージェント・スキル | L1860 |
+| 昇格パターン集 | L1884 |
+| Current Active / Spec Created Tasks | L1886 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L2039 |
 
 ### references/task-workflow-backlog-part2.md
 

@@ -1,0 +1,216 @@
+{
+  "schemaVersion": 1,
+  "taskId": "ISSUE-775-SERIAL-05-STEP-03-RUNTIME-EVIDENCE",
+  "title": "Issue #775 serial-05-step-03 SchemaDiffPanel runtime evidence completion",
+  "status": "implemented_local_evidence_captured",
+  "metadata": {
+    "taskType": "implementation",
+    "visualEvidence": "VISUAL_ON_EXECUTION",
+    "workflow_state": "implemented_local_evidence_captured",
+    "implementation_status": "runtime_evidence_completed",
+    "issue_number": 775,
+    "issue_state_at_recovery": "closed",
+    "issue_reference_mode": "refs_only",
+    "recovered_from_unassigned": "docs/30-workflows/completed-tasks/serial-05-step-03-followup-001-runtime-evidence-completion.md",
+    "parent_workflow": "docs/30-workflows/completed-tasks/serial-05-step-03-schema-diff-resolve/",
+    "evidence_path": "docs/30-workflows/completed-tasks/serial-05-step-03-schema-diff-resolve/outputs/phase-11/screenshots/",
+    "governance_mutation_user_gate": false,
+    "scopeBoundary": "Local Playwright spec addition, optional D1 seed fixture, fixture-backed admin visual evidence capture, and evidence file updates only. Commit, push, PR, and GitHub Issue mutation remain user-gated. No production source under apps/web/src or apps/api/src is modified.",
+    "expected_screenshots": [
+      "admin-schema-diff-added-desktop.png",
+      "admin-schema-diff-added-mobile.png",
+      "admin-schema-diff-changed-desktop.png",
+      "admin-schema-diff-changed-mobile.png",
+      "admin-schema-diff-removed-desktop.png",
+      "admin-schema-diff-removed-mobile.png",
+      "admin-schema-diff-unresolved-desktop.png",
+      "admin-schema-diff-unresolved-mobile.png",
+      "admin-schema-diff-resolve-success.png",
+      "admin-schema-diff-resolve-409.png",
+      "admin-schema-diff-resolve-422.png"
+    ],
+    "dependencies": {
+      "upstream": [
+        "docs/30-workflows/completed-tasks/serial-05-step-03-schema-diff-resolve/",
+        "apps/web/src/components/admin/SchemaDiffPanel.tsx",
+        "apps/web/src/lib/admin/api.ts",
+        "apps/web/src/lib/admin/server-fetch.ts",
+        "apps/api/src/routes/admin/schema.ts",
+        "apps/web/app/(admin)/admin/schema/page.tsx",
+        "apps/web/src/lib/env.ts"
+      ],
+      "downstream": [
+        "docs/30-workflows/ui-prototype-alignment-mvp-recovery/improvements/serial-05-admin-mutation-ui/",
+        "docs/30-workflows/task-22-ui-mvp-w8-par-regression-smoke/"
+      ]
+    },
+    "frozen_files": [
+      "apps/web/src/components/admin/SchemaDiffPanel.tsx",
+      "apps/web/src/lib/admin/api.ts",
+      "apps/web/src/lib/admin/server-fetch.ts",
+      "apps/api/src/routes/admin/schema.ts",
+      "apps/web/app/(admin)/admin/schema/page.tsx"
+    ],
+    "new_files_allowed": [
+      "apps/web/playwright/tests/visual/admin-schema-diff.spec.ts",
+      "apps/web/playwright.admin-schema-diff.config.ts",
+      "scripts/fixtures/serial-05-step-03/seed-diff.sql",
+      "scripts/fixtures/serial-05-step-03/seed-cleanup.sql",
+      "apps/web/playwright/.auth/.gitignore"
+    ],
+    "mutation_commands": [
+      "bash scripts/cf.sh d1 execute ubm-hyogo-db-local --local --file=scripts/fixtures/serial-05-step-03/seed-diff.sql",
+      "bash scripts/cf.sh d1 execute ubm-hyogo-db-local --local --file=scripts/fixtures/serial-05-step-03/seed-cleanup.sql",
+      "mise exec -- pnpm --filter @ubm-hyogo/web exec playwright test --config=playwright.admin-schema-diff.config.ts"
+    ],
+    "read_only_evidence_allowed_pre_gate": [
+      "mise exec -- pnpm typecheck",
+      "mise exec -- pnpm lint",
+      "git diff --name-only dev...HEAD",
+      "ls docs/30-workflows/completed-tasks/serial-05-step-03-schema-diff-resolve/outputs/phase-11/screenshots/",
+      "cat docs/30-workflows/completed-tasks/serial-05-step-03-schema-diff-resolve/outputs/phase-11/manifest.json"
+    ],
+    "legacy_placeholder": "docs/30-workflows/completed-tasks/serial-05-step-03-schema-diff-resolve/outputs/phase-11/screenshots/admin-schema-diff-list.placeholder.txt",
+    "expected_screenshots_note": "11 valid runtime PNG files; legacy admin-schema-diff-list placeholder is text and excluded from PASS screenshot inventory.",
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-05-18T00:00:00+09:00",
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-775-serial-05-step-03-runtime-evidence-completion/phase-3-architecture.md",
+        "approver": "daishiman",
+        "notes": "design_review: architecture & scope freeze reviewed. Production app/API files stayed frozen."
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "passed",
+        "passed_at": "2026-05-18T00:00:00+09:00",
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-775-serial-05-step-03-runtime-evidence-completion/outputs/phase-12/implementation-guide.md",
+        "approver": "daishiman",
+        "notes": "implementation_review: 11 PNG visual evidence captured and parent manifest set to pass:true."
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-775-serial-05-step-03-runtime-evidence-completion/phase-13-pr.md",
+        "approver": "daishiman",
+        "notes": "pr_creation: Blocked by user gate: commit/push/PR require explicit approval and were not executed."
+      }
+    ]
+  },
+  "phases": [
+    {
+      "phase": 1,
+      "file": "phase-1-requirements.md",
+      "status": "completed",
+      "outputs": [
+        "phase-1-requirements.md"
+      ]
+    },
+    {
+      "phase": 2,
+      "file": "phase-2-design.md",
+      "status": "completed",
+      "outputs": [
+        "phase-2-design.md"
+      ]
+    },
+    {
+      "phase": 3,
+      "file": "phase-3-architecture.md",
+      "status": "completed",
+      "outputs": [
+        "phase-3-architecture.md"
+      ]
+    },
+    {
+      "phase": 4,
+      "file": "phase-4-implementation-plan.md",
+      "status": "completed",
+      "outputs": [
+        "phase-4-implementation-plan.md"
+      ]
+    },
+    {
+      "phase": 5,
+      "file": "phase-5-test-plan.md",
+      "status": "completed",
+      "outputs": [
+        "phase-5-test-plan.md"
+      ]
+    },
+    {
+      "phase": 6,
+      "file": "phase-6-quality-gates.md",
+      "status": "completed",
+      "outputs": [
+        "phase-6-quality-gates.md"
+      ]
+    },
+    {
+      "phase": 7,
+      "file": "phase-7-evidence-collection.md",
+      "status": "completed",
+      "outputs": [
+        "phase-7-evidence-collection.md"
+      ]
+    },
+    {
+      "phase": 8,
+      "file": "phase-8-state-transition.md",
+      "status": "completed",
+      "outputs": [
+        "phase-8-state-transition.md"
+      ]
+    },
+    {
+      "phase": 9,
+      "file": "phase-9-rollback.md",
+      "status": "completed",
+      "outputs": [
+        "phase-9-rollback.md"
+      ]
+    },
+    {
+      "phase": 10,
+      "file": "phase-10-operational-runbook.md",
+      "status": "completed",
+      "outputs": [
+        "phase-10-operational-runbook.md"
+      ]
+    },
+    {
+      "phase": 11,
+      "file": "phase-11-visual-evidence.md",
+      "status": "completed",
+      "outputs": [
+        "phase-11-visual-evidence.md",
+        "outputs/phase-11/README.md"
+      ]
+    },
+    {
+      "phase": 12,
+      "file": "phase-12-open-runtime-boundary.md",
+      "status": "completed",
+      "outputs": [
+        "phase-12-open-runtime-boundary.md",
+        "outputs/phase-12/main.md",
+        "outputs/phase-12/implementation-guide.md",
+        "outputs/phase-12/system-spec-update-summary.md",
+        "outputs/phase-12/documentation-changelog.md",
+        "outputs/phase-12/unassigned-task-detection.md",
+        "outputs/phase-12/skill-feedback-report.md",
+        "outputs/phase-12/phase12-task-spec-compliance-check.md"
+      ]
+    },
+    {
+      "phase": 13,
+      "file": "phase-13-pr.md",
+      "status": "pending_user_approval",
+      "outputs": [
+        "phase-13-pr.md"
+      ]
+    }
+  ]
+}
