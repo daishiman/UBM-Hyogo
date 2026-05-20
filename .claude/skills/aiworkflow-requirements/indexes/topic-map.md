@@ -5760,7 +5760,8 @@ node scripts/list-specs.js --topics
 | L-UT07CFU1-010: mockApi seedMeetings race は self-heal で吸収する | L93 |
 | L-UT07CFU1-011: `<input type="file">` の SSR 出力は WebKit / Firefox で hydration mismatch を起こす | L108 |
 | L-UT07CFU1-012: Playwright e2e の expect timeout は Next.js dev `[...path]` route 初回コンパイルを吸収する 30s に伸ばす | L128 |
-| 関連参照 | L150 |
+| L-UT07CFU1-013: e2e mock は `apps/web/playwright/fixtures/auth.ts` と `scripts/e2e-mock-api.mjs` の 2 系統あり drift する | L150 |
+| 関連参照 | L175 |
 
 ### references/lessons-learned-ut-15-waf-rate-limiting.md
 

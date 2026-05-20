@@ -147,6 +147,31 @@ expect の既定 10s timeout を超過していた（hydration mismatch 関連�
   関係 element の `data-testid` を warning ツリー内に含むかを確認してから panel 側 fix
   （suppressHydrationWarning / client-only render gating）を入れる。
 
+## L-UT07CFU1-013: e2e mock は `apps/web/playwright/fixtures/auth.ts` と `scripts/e2e-mock-api.mjs` の 2 系統あり drift する
+
+**苦戦内容**: `attendance-csv-import.spec.ts` がローカル単体では PASS するのに CI で
+`step-preview` に到達せず timeout。trace の response body を xxd でバイト確認すると
+`{"error":"MOCK_API_NOT_FOUND","method":"POST","path":"/admin/meetings/sess-1/attendance/import"}`。
+`auth.ts` の mockApi (line 614 付近) は `{error, path}` のみ返し `method` field を含まないため、
+この 96-byte payload は `auth.ts` 由来ではないと特定。grep で `MOCK_API_NOT_FOUND` を全リポジトリ
+検索 → `scripts/e2e-mock-api.mjs:669` (本体 mock) を発見。CI は `scripts/e2e-mock-api.mjs` を
+使用するが、`auth.ts` の mockApi にだけ `importAttendance` handler が追加されており、
+`scripts/e2e-mock-api.mjs` には未追加 → CI 環境でのみ 404 で落ちていた。
+
+**再発防止**:
+- 新規 admin API endpoint を mock 経由で e2e に通すときは **両 mock 系統** に追加する:
+  - `apps/web/playwright/fixtures/auth.ts` (ローカル `pnpm exec playwright test` の `mockApi` fixture)
+  - `scripts/e2e-mock-api.mjs` (CI workflow `e2e.yml` で `INTERNAL_API_BASE_URL=http://127.0.0.1:8787` として spawn される mock 本体)
+- 「ローカル PASS / CI FAIL」かつ `status:-1` でも `Fast Refresh rebuilding` log が無い時は
+  **404 (MOCK_API_NOT_FOUND) を疑う**。trace.zip → resources/*.json をバイトレベルで確認する。
+- 復旧コマンド（CI artifact から response body 確認）:
+  ```bash
+  gh run download <run-id> -n playwright-report-<project> -D /tmp/ci-artifact
+  unzip -d /tmp/trace /tmp/ci-artifact/**/trace.zip
+  xxd /tmp/trace/resources/<resource-sha> | head -20
+  ```
+- 中長期: 両 mock を共通 module 化して divergence を構造的に潰す（task として別途切る）。
+
 ## 関連参照
 
 - [[workflow-ut-07c-followup-001-attendance-csv-import-artifact-inventory]]
