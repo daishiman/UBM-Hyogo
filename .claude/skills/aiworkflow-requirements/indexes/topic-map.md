@@ -2221,6 +2221,12 @@ node scripts/list-specs.js --topics
 | 関連ドキュメント | L117 |
 | 変更履歴 | L131 |
 
+### references/workflow-ci-staging-deploy-failure-fix-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| User-gated operations | L13 |
+
 ### references/workflow-e2e-quality-uplift-stage-0-3-artifact-inventory.md
 
 | セクション | 行 |
@@ -4092,24 +4098,25 @@ node scripts/list-specs.js --topics
 
 | セクション | 行 |
 |------------|----|
-| 1. 適用範囲 | L8 |
-| 2. 形式判定マトリクス | L14 |
-| 3. wrangler.toml 必須項目 | L25 |
-| 4. .assetsignore の役割と運用 | L88 |
-| 5. ビルド・デプロイ手順 | L108 |
-| 6. Worker bundle size ガード | L131 |
-| 7. SPA fallback / 404 ハンドリング | L149 |
-| 8. preview / staging / production の env 分離 | L158 |
-| 9. 旧 Pages プロジェクトの並走方針 | L170 |
-| 10. CLI 経路の徹底 | L182 |
-| 11. R2 incremental cache（任意採用） | L191 |
-| 11.1 Build mode の不変条件（CI recovery / 2026-05-09） | L199 |
-| 12. 関連リソース | L213 |
-| 13. production route / secret / observability preflight | L234 |
-| 14. analytics read-only token 分離 | L275 |
-| 15. Long-term analytics evidence | L290 |
-| 15. 09c-A production execution workflow | L296 |
-| 変更履歴 | L311 |
+| 適用範囲 | L8 |
+| 形式判定マトリクス | L14 |
+| wrangler.toml 必須項目 | L25 |
+| .assetsignore の役割と運用 | L88 |
+| ビルド・デプロイ手順 | L108 |
+| Worker bundle size ガード | L131 |
+| SPA fallback / 404 ハンドリング | L149 |
+| preview / staging / production の env 分離 | L158 |
+| 旧 Pages プロジェクトの並走方針 | L170 |
+| CLI 経路の徹底 | L182 |
+| R2 incremental cache（任意採用） | L191 |
+| Build mode の不変条件（CI recovery / 2026-05-09） | L199 |
+| 関連リソース | L213 |
+| production route / secret / observability preflight | L234 |
+| analytics read-only token 分離 | L275 |
+| Long-term analytics evidence | L290 |
+| c-A production execution workflow | L296 |
+| CI build-time env injection for OpenNext Workers | L311 |
+| 変更履歴 | L321 |
 
 ### references/deployment-cloudflare-ut06-gate.md
 
@@ -4206,8 +4213,8 @@ node scripts/list-specs.js --topics
 | Cloudflare API Token の作成手順 | L404 |
 | Cloudflare API Token 90 日 rotation runbook（Issue #407 / 2026-05-06） | L419 |
 | UT-27: GitHub Secrets / Variables 同期運用（2026-04-29） | L530 |
-| U-FIX-CF-ACCT-01-DERIV-02: Cloudflare deploy token split | L579 |
-| 変更履歴 | L601 |
+| U-FIX-CF-ACCT-01-DERIV-02: Cloudflare deploy token split | L574 |
+| 変更履歴 | L596 |
 
 ### references/deployment.md
 
@@ -4865,7 +4872,7 @@ node scripts/list-specs.js --topics
 
 | セクション | 行 |
 |------------|----|
-| 関連リソース | L17 |
+| 関連リソース | L18 |
 
 ### references/lessons-learned-ci-test-recovery-coverage-80-2026-05-04.md
 
@@ -7090,7 +7097,7 @@ node scripts/list-specs.js --topics
 | 実行時のコマンド・エージェント・スキル | L1835 |
 | 昇格パターン集 | L1859 |
 | Current Active / Spec Created Tasks | L1861 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L2014 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L2015 |
 
 ### references/task-workflow-backlog-part2.md
 

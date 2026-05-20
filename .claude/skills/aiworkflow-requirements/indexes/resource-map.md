@@ -1074,3 +1074,13 @@ node scripts/search-spec.js "safeInvoke"
 | `docs/30-workflows/e2e-quality-uplift-stage-3/` | Stage 3 local execution root. Desired contexts manifests、governance-invariant apply、branch protection apply/verify evidence、Lighthouse wait-on / workflow_dispatch、Phase 12 strict 7 outputs を束ねる implemented-local-runtime-pending spec | 今回 worktree の branch protection hard-lock 実装差分、apply evidence、PR CI runtime pending 境界を確認する時 |
 | `docs/30-workflows/task-761-visual-full-required-status-check/` | `visual-full ({desktop,tablet,mobile})` を dev/main required status checks へ user approval 後に昇格済みの NON_VISUAL governance spec | visual-full required-check promotion、branch protection contexts POST、path-filter pending 回避を確認する時 |
 | UT-17 followup-003 alert-relay weekly healthcheck cron | `docs/30-workflows/ut-17-followup-003-alert-relay-healthcheck-cron/` | `implementation_completed_external_ops_pending / implementation / NON_VISUAL / CODE_COMPLETE_EXTERNAL_OPS_PENDING` | `references/deployment-cloudflare.md`, `references/task-workflow-active.md`, `references/workflow-ut-17-cloudflare-analytics-alerts-artifact-inventory.md`, `references/lessons-learned-ut-17-followup-003-healthcheck-cron-2026-05.md` |
+
+### CI staging deploy failure fix（2026-05-20）
+
+| リソース | 役割 | 読み込み条件 |
+| --- | --- | --- |
+| `docs/30-workflows/completed-tasks/ci-staging-deploy-failure-fix/` | web-cd build-time env failure と backend-ci D1 token failure の復旧 workflow。Phase 1-13 / Phase 12 strict 7 / artifacts parity を保持 | dev push staging deploy failure の current state を確認する時 |
+| `.github/workflows/web-cd.yml` | OpenNext build step の build-time env injection 正本。deploy secret は deploy step scoped のまま | `ENVIRONMENT` / `NEXT_PUBLIC_API_BASE_URL` build-time failure を調査する時 |
+| `apps/web/src/lib/__tests__/build-time-env.spec.ts` | build-time placeholder env contract test | EnvSchema required key の変更時 |
+| `docs/30-workflows/completed-tasks/ci-staging-deploy-failure-fix/outputs/task-02-cf-api-token-d1-permission-restore/runbook.md` | Cloudflare API token rotation / incident response runbook | D1 migration authentication error 10000 / 9109 を復旧する時 |
+| `references/workflow-ci-staging-deploy-failure-fix-artifact-inventory.md` | workflow artifact inventory | 同 wave 変更棚卸し時 |

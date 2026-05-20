@@ -535,9 +535,9 @@ UT-27 で導入する GitHub 側 CD 値は、**1Password Environments を正本�
 
 | 名前 | 種別 | 配置先 | 正本 |
 | --- | --- | --- | --- |
-| `CF_TOKEN_D1_STAGING` / `CF_TOKEN_D1_PRODUCTION` | Secret | GitHub environment secrets (`staging` / `production`) | 1Password |
-| `CF_TOKEN_WORKERS_STAGING` / `CF_TOKEN_WORKERS_PRODUCTION` | Secret | GitHub environment secrets (`staging` / `production`) | 1Password |
-| `CLOUDFLARE_API_TOKEN` | Secret | GitHub environment secrets (`staging` / `production`) | web-cd deploy token 正本名。backend-ci では使用しない |
+| `CLOUDFLARE_API_TOKEN` | Secret | GitHub environment secrets (`staging` / `production`) | Current `backend-ci.yml` and `web-cd.yml` Cloudflare API token name. Value is environment-specific and stored in 1Password |
+| `CF_TOKEN_D1_STAGING` / `CF_TOKEN_D1_PRODUCTION` | Secret | Historical GitHub environment secrets (`staging` / `production`) | Deprecated backend-ci D1 token split names; superseded by PR #847 / `ci-staging-deploy-failure-fix` |
+| `CF_TOKEN_WORKERS_STAGING` / `CF_TOKEN_WORKERS_PRODUCTION` | Secret | Historical GitHub environment secrets (`staging` / `production`) | Deprecated backend-ci Workers token split names; superseded by PR #847 / `ci-staging-deploy-failure-fix` |
 | `CF_TOKEN_PAGES_STAGING` / `CF_TOKEN_PAGES_PRODUCTION` | Secret | Historical GitHub environment secrets (`staging` / `production`) | Deprecated Pages references only; not referenced by current `web-cd.yml` |
 | `CLOUDFLARE_ACCOUNT_ID` | Variable | GitHub repository variable | 1Password（識別子として管理、GitHub では非 Secret） |
 | `DISCORD_WEBHOOK_URL` | Secret | GitHub repository secret | 1Password |
@@ -547,13 +547,8 @@ UT-27 で導入する GitHub 側 CD 値は、**1Password Environments を正本�
 ### 手動同期パターン
 
 ```bash
-for ENV in staging production; do
-  for SCOPE in D1 WORKERS PAGES; do
-    SECRET_NAME="CF_TOKEN_${SCOPE}_${ENV^^}"
-    op read "op://UBM-Hyogo/Cloudflare/${SECRET_NAME}" \
-      | gh secret set "$SECRET_NAME" --env "$ENV" --repo daishiman/UBM-Hyogo
-  done
-done
+gh secret set CLOUDFLARE_API_TOKEN --env staging --repo daishiman/UBM-Hyogo
+gh secret set CLOUDFLARE_API_TOKEN --env production --repo daishiman/UBM-Hyogo
 ```
 
 要件:
@@ -561,7 +556,7 @@ done
 - 値は一時環境変数にのみ置き、ファイル化しない。
 - `--body "実値"` のように shell history に残る書き方を禁止する。
 - repository-scoped と environment-scoped の同名併存は、意図がある場合を除き drift として扱う。
-- Cloudflare API Token は Pages Edit / Workers Scripts Edit / D1 Edit / Account Settings Read の最小スコープにする。
+- Cloudflare API Token は current consumers に必要な Workers Scripts Edit / D1 Edit / Account Settings Read の最小スコープにする。
 - 同期後は 1Password Item Notes に Last-Updated 日時だけを記録し、値ハッシュは記録しない。
 
 ### rollback 経路
@@ -578,30 +573,31 @@ done
 
 ## U-FIX-CF-ACCT-01-DERIV-02: Cloudflare deploy token split
 
-2026-05-16 Issue #718 以降、GitHub Actions の Cloudflare deploy token は workflow ごとに正本名を分ける。backend-ci は用途と環境で分けた 4 Secret（D1 / Workers x staging / production）を current runtime とし、web-cd は実 GitHub Environment に登録済みの `CLOUDFLARE_API_TOKEN` を正本名として使う。
+2026-05-20 `ci-staging-deploy-failure-fix` 以降、current `backend-ci.yml` と `web-cd.yml` は GitHub Environment `CLOUDFLARE_API_TOKEN` を正本名として使う。staging / production の値は environment ごとに分離し、token scope は D1:Edit + Workers Scripts:Edit + Account Settings:Read に限定する。2026-05-16 Issue #718 の `CF_TOKEN_D1_*` / `CF_TOKEN_WORKERS_*` split は historical contract として残すが、current runtime consumer ではない。
 
 | Secret | Scope | GitHub environment | Consumer |
 | --- | --- | --- | --- |
-| `CF_TOKEN_D1_STAGING` | `D1:Edit`, `Account Settings:Read` | `staging` | `backend-ci.yml` D1 migration |
-| `CF_TOKEN_D1_PRODUCTION` | `D1:Edit`, `Account Settings:Read` | `production` | `backend-ci.yml` D1 migration |
-| `CF_TOKEN_WORKERS_STAGING` | `Workers Scripts:Edit`, `Account Settings:Read` | `staging` | `backend-ci.yml` Workers deploy |
-| `CF_TOKEN_WORKERS_PRODUCTION` | `Workers Scripts:Edit`, `Account Settings:Read` | `production` | `backend-ci.yml` Workers deploy |
+| `CLOUDFLARE_API_TOKEN` | `D1:Edit`, `Workers Scripts:Edit`, `Account Settings:Read` | `staging` / `production` | Current `backend-ci.yml` D1 migration + Workers deploy and `web-cd.yml` deploy |
+| `CF_TOKEN_D1_STAGING` | `D1:Edit`, `Account Settings:Read` | `staging` | Historical backend-ci D1 migration name; not referenced by current `backend-ci.yml` |
+| `CF_TOKEN_D1_PRODUCTION` | `D1:Edit`, `Account Settings:Read` | `production` | Historical backend-ci D1 migration name; not referenced by current `backend-ci.yml` |
+| `CF_TOKEN_WORKERS_STAGING` | `Workers Scripts:Edit`, `Account Settings:Read` | `staging` | Historical backend-ci Workers deploy name; not referenced by current `backend-ci.yml` |
+| `CF_TOKEN_WORKERS_PRODUCTION` | `Workers Scripts:Edit`, `Account Settings:Read` | `production` | Historical backend-ci Workers deploy name; not referenced by current `backend-ci.yml` |
 | `CF_TOKEN_PAGES_STAGING` | `Cloudflare Pages:Edit`, `Account Settings:Read` | `staging` | Deprecated Pages target; not referenced by current `web-cd.yml` |
 | `CF_TOKEN_PAGES_PRODUCTION` | `Cloudflare Pages:Edit`, `Account Settings:Read` | `production` | Deprecated Pages target; not referenced by current `web-cd.yml` |
-| `CLOUDFLARE_API_TOKEN` | `Workers Scripts:Edit`, `Account Settings:Read` | `staging` / `production` | `web-cd.yml` deploy token 正本名。environment-scoped secret として保持 |
 | `CF_TOKEN_PAGES_STAGING` | `Cloudflare Pages:Edit`, `Account Settings:Read` | `staging` | Deprecated historical Pages deploy token |
 | `CF_TOKEN_PAGES_PRODUCTION` | `Cloudflare Pages:Edit`, `Account Settings:Read` | `production` | Deprecated historical Pages deploy token |
 
-`CLOUDFLARE_API_TOKEN` is deprecated for backend deploy workflows, but remains the current web-cd environment-scoped deploy token until a future OIDC cutover replaces direct token injection. Evidence must not include token values, value hashes, token IDs, suffixes, account IDs, token previews, or 1Password URIs.
+`CLOUDFLARE_API_TOKEN` is the current environment-scoped deploy token name for both backend and web deploy workflows until a future OIDC cutover replaces direct token injection. Evidence must not include token values, value hashes, token IDs, suffixes, account IDs, token previews, or 1Password URIs.
 
-PR #795 residual CI recovery adds step-level `env.CLOUDFLARE_API_TOKEN` to backend-ci D1 / Workers wrangler-action steps for both staging and production, using the exact same scoped secret already passed through `with.apiToken`. This is not a second credential source; missing GitHub environment secrets still fail closed and require operator evidence via `gh secret list --env <env>`.
+PR #847 and `ci-staging-deploy-failure-fix` keep backend-ci D1 / Workers wrangler-action steps on `secrets.CLOUDFLARE_API_TOKEN` for both staging and production, passing the same environment-scoped secret through `with.apiToken` and step-level `env.CLOUDFLARE_API_TOKEN`. This is not a second credential source; missing GitHub environment secrets still fail closed and require operator evidence via `gh secret list --env <env>`.
 
-Issue #718 legacy token revocation is `implemented-local-runtime-pending / implementation / NON_VISUAL` as of 2026-05-16. `backend-ci.yml` uses the existing `CF_TOKEN_D1_*` and `CF_TOKEN_WORKERS_*` names; `CLOUDFLARE_API_TOKEN_DEPLOY_*` is not introduced. `web-cd.yml` keeps the current runtime secret name `CLOUDFLARE_API_TOKEN`; whether its value is legacy is operator-only evidence. Token id, suffix, account id, value hash, token preview, and 1Password URI must not be written to docs, logs, PR body, or evidence.
+Issue #718 legacy token revocation remains historical context as of 2026-05-16. Current `backend-ci.yml` no longer uses `CF_TOKEN_D1_*` / `CF_TOKEN_WORKERS_*`; `CLOUDFLARE_API_TOKEN_DEPLOY_*` is not introduced. Both `backend-ci.yml` and `web-cd.yml` keep the current runtime secret name `CLOUDFLARE_API_TOKEN`; whether its value is legacy is operator-only evidence. Token id, suffix, account id, value hash, token preview, and 1Password URI must not be written to docs, logs, PR body, or evidence.
 
 ## 変更履歴
 
 | 日付 | バージョン | 変更内容 |
 | ---- | ---------- | -------- |
+| 2026-05-20 | 1.4.6 | `ci-staging-deploy-failure-fix` を同期。current `backend-ci.yml` / `web-cd.yml` は GitHub Environment `CLOUDFLARE_API_TOKEN` を正本名として使い、`CF_TOKEN_D1_*` / `CF_TOKEN_WORKERS_*` は historical split names として扱う。staging / production token 値は environment ごとに分離し、D1:Edit + Workers Scripts:Edit + Account Settings:Read に限定する。 |
 | 2026-05-18 | 1.4.5 | PR #795 residual CI recovery を同期。backend-ci の scoped D1 / Workers token は `with.apiToken` と step-level `env.CLOUDFLARE_API_TOKEN` の両方に同じ secret を渡す action compatibility pattern として正本化し、独立 fallback ではない境界を明記。`CLOUDFLARE_API_TOKEN` の backend-ci current runtime 誤記を撤回。 |
 | 2026-05-16 | 1.4.4 | Issue #718 legacy Cloudflare API token revocation workflow を `implemented-local-runtime-pending` として同期。backend-ci は `CF_TOKEN_D1_*` / `CF_TOKEN_WORKERS_*` へ切替済み、web-cd は current runtime 名 `CLOUDFLARE_API_TOKEN` を維持し value provenance を operator-only evidence とする。`CLOUDFLARE_API_TOKEN_DEPLOY_*` 新設は禁止。 |
 | 2026-05-10 | 1.4.3 | Issue #587 rotation scripts (`scripts/cf-audit-log/rotation/`) と canary workflow (`.github/workflows/cf-audit-log-artifact-canary.yml`) が op 参照名のみを受理することを正本化。candidate/previous resolved value を inputs / logs / artifact upload に残さない境界を実装で固定 |
