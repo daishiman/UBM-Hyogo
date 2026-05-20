@@ -2467,6 +2467,7 @@
       "lessons-learned-task-18-w7-verify-tokens-and-playwright-smoke-2026-05.md",
       "lessons-learned-task-25-followup-loading-state-observation-fixture-2026-05.md",
       "lessons-learned-task-spec-2d-contract-stage-2-2026-05.md",
+      "lessons-learned-ut-07c-followup-001-attendance-csv-import-2026-05.md",
       "lessons-learned-ut-coverage-2026-05-wave.md",
       "logs-archive-2026-02-auth-callback-lifecycle-guard.md",
       "logs-archive-2026-02-completed-move-preload-sync.md",
@@ -5393,6 +5394,7 @@
       "lessons-learned-ut-02a-tag-assignment-queue-2026-05.md",
       "lessons-learned-ut-03-sheets-auth-2026-04.md",
       "lessons-learned-ut-06-fu-h-2026-04.md",
+      "lessons-learned-ut-07c-followup-001-attendance-csv-import-2026-05.md",
       "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md",
       "lessons-learned-ut-cicd-drift-impl-observability-matrix-sync-2026-05.md",
       "lessons-learned-ut-coverage-2026-05-wave.md",
@@ -6736,7 +6738,8 @@
     ],
     "self": [
       "database-admin-repository-boundary.md",
-      "lessons-learned-task-24.md"
+      "lessons-learned-task-24.md",
+      "lessons-learned-ut-07c-followup-001-attendance-csv-import-2026-05.md"
     ],
     "queue": [
       "database-admin-repository-boundary.md",
@@ -7730,6 +7733,7 @@
       "lessons-learned-task-17-admin-schema-conflicts-audit-2026-05.md",
       "lessons-learned-task-18-w7-verify-tokens-and-playwright-smoke-2026-05.md",
       "lessons-learned-ut-03-sheets-auth-2026-04.md",
+      "lessons-learned-ut-07c-followup-001-attendance-csv-import-2026-05.md",
       "lessons-learned-ut-gov-001-2026-04.md",
       "lessons-learned-ut07b-fu-01-schema-alias-backfill-queue-cron-split-2026-05.md",
       "lessons-learned-ut07b-fu04-production-migration-already-applied-verification-2026-05.md",
@@ -12761,7 +12765,8 @@
     ],
     "race": [
       "lessons-learned-07a-tag-queue-resolve-2026-04.md",
-      "lessons-learned-task-15-admin-dashboard-and-members-2026-05.md"
+      "lessons-learned-task-15-admin-dashboard-and-members-2026-05.md",
+      "lessons-learned-ut-07c-followup-001-attendance-csv-import-2026-05.md"
     ],
     "を扱わない": [
       "lessons-learned-07a-tag-queue-resolve-2026-04.md"
@@ -13625,6 +13630,7 @@
       "lessons-learned-task-25-followup-loading-state-observation-fixture-2026-05.md",
       "lessons-learned-task-spec-2d-contract-stage-2-2026-05.md",
       "lessons-learned-ut-02a-tag-assignment-queue-2026-05.md",
+      "lessons-learned-ut-07c-followup-001-attendance-csv-import-2026-05.md",
       "logs-archive-2026-02-auth-callback-lifecycle-guard.md",
       "logs-archive-2026-02-completed-move-preload-sync.md",
       "logs-archive-2026-02-skill-import-interface-atoms-rerun.md",
@@ -16763,7 +16769,8 @@
       "lessons-learned-task-15-admin-dashboard-and-members-2026-05.md"
     ],
     "で吸収する": [
-      "lessons-learned-task-15-admin-dashboard-and-members-2026-05.md"
+      "lessons-learned-task-15-admin-dashboard-and-members-2026-05.md",
+      "lessons-learned-ut-07c-followup-001-attendance-csv-import-2026-05.md"
     ],
     "を経由する": [
       "lessons-learned-task-15-admin-dashboard-and-members-2026-05.md",
@@ -17767,6 +17774,21 @@
       "lessons-learned-ut-07c-followup-001-attendance-csv-import-2026-05.md"
     ],
     "lowercase": [
+      "lessons-learned-ut-07c-followup-001-attendance-csv-import-2026-05.md"
+    ],
+    "出力先は": [
+      "lessons-learned-ut-07c-followup-001-attendance-csv-import-2026-05.md"
+    ],
+    "配下に揃える": [
+      "lessons-learned-ut-07c-followup-001-attendance-csv-import-2026-05.md"
+    ],
+    "mockApi": [
+      "lessons-learned-ut-07c-followup-001-attendance-csv-import-2026-05.md"
+    ],
+    "seedMeetings": [
+      "lessons-learned-ut-07c-followup-001-attendance-csv-import-2026-05.md"
+    ],
+    "heal": [
       "lessons-learned-ut-07c-followup-001-attendance-csv-import-2026-05.md"
     ],
     "Thresholds": [

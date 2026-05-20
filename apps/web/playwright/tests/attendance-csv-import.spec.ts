@@ -4,7 +4,7 @@ import { mkdir } from 'node:fs/promises'
 import { join, resolve } from 'node:path'
 
 const PHASE11_DIR = resolve(
-  '../../docs/30-workflows/ut-07c-followup-001-attendance-csv-import/outputs/phase-11',
+  '../../docs/30-workflows/completed-tasks/ut-07c-followup-001-attendance-csv-import/outputs/phase-11',
 )
 const SCREENSHOT_DIR = join(PHASE11_DIR, 'screenshots')
 

@@ -5756,7 +5756,9 @@ node scripts/list-specs.js --topics
 | L-UT07CFU1-006: 3-step wizard の confirm 有効化条件は `ok === total` で固定する | L49 |
 | L-UT07CFU1-007: `dryRun` パラメータは安全側既定にする | L58 |
 | L-UT07CFU1-008: email lookup は `normalizeEmail` (NFKC + trim + lowercase) を経由する | L67 |
-| 関連参照 | L75 |
+| L-UT07CFU1-009: Phase-11 evidence 出力先は completed-tasks/ 配下に揃える | L75 |
+| L-UT07CFU1-010: mockApi seedMeetings race は self-heal で吸収する | L93 |
+| 関連参照 | L108 |
 
 ### references/lessons-learned-ut-15-waf-rate-limiting.md
 
@@ -7078,14 +7080,6 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L1746 |
-| フェーズ構造（概要） | L1755 |
-| 品質ゲート（概要） | L1786 |
-| 出力テンプレート | L1797 |
-| 実行時のコマンド・エージェント・スキル | L1820 |
-| 昇格パターン集 | L1844 |
-| Current Active / Spec Created Tasks | L1846 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L1999 |
 | ドキュメント構成 | L1761 |
 | フェーズ構造（概要） | L1770 |
 | 品質ゲート（概要） | L1801 |
@@ -7093,7 +7087,7 @@ node scripts/list-specs.js --topics
 | 実行時のコマンド・エージェント・スキル | L1835 |
 | 昇格パターン集 | L1859 |
 | Current Active / Spec Created Tasks | L1861 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L2013 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L2014 |
 
 ### references/task-workflow-backlog-part2.md
 

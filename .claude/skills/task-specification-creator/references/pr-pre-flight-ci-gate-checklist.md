@@ -87,6 +87,18 @@
 
 短縮形（`Verdict` / `Evidence Gates` 等）は drift。recovery workflow / followup task で別 template から流用すると落ちる。
 
+### 5.5. Phase-11 evidence 出力先と untracked workflow root の不整合
+
+`collect-changed-roots.ts` は `git ls-files --others --exclude-standard docs/30-workflows` で untracked ファイルも root 検出対象に含める。Workflow を `completed-tasks/` に移動した後、Playwright spec / runbook / scripts が旧 `docs/30-workflows/<task>/...` を evidence 出力先として参照したままだと、test 実行で untracked screenshot 等が生まれ、`reason: missing-file` で fail する。
+
+- OK: `apps/web/playwright/tests/<task>.spec.ts` の `PHASE11_DIR` は `docs/30-workflows/completed-tasks/<task>/outputs/phase-11` を指す
+- NG: 旧 `docs/30-workflows/<task>/outputs/phase-11` のまま放置（CI 失敗パターン: e2e-tests-coverage-gate は通っても verify-pr-ready の verify:phase12-compliance で fail）
+- 復旧手順:
+  1. spec / runbook の `PHASE11_DIR` (`resolve('../../docs/30-workflows/...')`) を completed-tasks/ 配下に書き換え
+  2. `find docs/30-workflows/<旧 task>/ -type f -delete && find docs/30-workflows/<旧 task>/ -type d -empty -delete`
+  3. `git ls-files --others --exclude-standard docs/30-workflows/<旧 task>` が空であることを確認
+  4. `bash scripts/verify-pr-ready.sh` 再実行
+
 ### 5. `unassigned-task` ファイルの配置
 
 `scripts/lib/phase12-compliance/collect-changed-roots.ts` は `docs/30-workflows/unassigned-task/` を **first segment** のみ scan 対象から除外する。`docs/30-workflows/completed-tasks/unassigned-task/` のように深くネストされた配置は除外されず、`docs/30-workflows/completed-tasks` を root として誤検出し `<empty-or-missing-table>` で FAIL する。

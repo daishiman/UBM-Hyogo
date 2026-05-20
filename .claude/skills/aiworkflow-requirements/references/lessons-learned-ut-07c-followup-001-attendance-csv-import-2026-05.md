@@ -72,8 +72,42 @@ CSV 3-step wizard + audit_log 統合 + D1 batch insert を `apps/api` / `apps/we
 - `apps/api/src/lib/email.ts#normalizeEmail` を導入し、 **CSV → API 入口で必ず normalize** する。
 - normalize は NFKC + trim + lowercase の 3 段。`Refs ut-07b alias recommendation i18n label normalization (NFKC + trim + whitespace 圧縮)` の語彙と整合させる。
 
+## L-UT07CFU1-009: Phase-11 evidence 出力先は completed-tasks/ 配下に揃える
+
+**苦戦内容**: e2e spec (`apps/web/playwright/tests/attendance-csv-import.spec.ts`) の `PHASE11_DIR` が
+`docs/30-workflows/ut-07c-followup-001-attendance-csv-import/outputs/phase-11` を指したまま残り、
+workflow が completed-tasks/ に移動した後も Playwright が旧 path に screenshot を吐いていた。
+未追跡 screenshots ファイルがあるだけで `verify-phase12-compliance` の
+`collect-changed-roots.ts` は `git ls-files --others --exclude-standard docs/30-workflows` で
+非 completed root を検出し、Phase 12 file 不在で fail する（CI gate `verify-pr-ready`）。
+
+**再発防止**:
+- Workflow を `completed-tasks/` に移動したら、`docs/30-workflows/<task>/...` を参照している
+  `apps/web/playwright/tests/*.spec.ts` / runbook / scripts の path も同時に
+  `docs/30-workflows/completed-tasks/<task>/...` へ更新する。
+- 旧 path 配下を `find ... -type f -delete` で空にし、空 dir も `find -type d -empty -delete` で除去する。
+- PR pre-flight: 移動完了後に `bash scripts/verify-pr-ready.sh` を流して
+  `verify:phase12-compliance` が PASS することを確認する。
+  `git ls-files --others --exclude-standard docs/30-workflows/<task>` で空であるべき。
+
+## L-UT07CFU1-010: mockApi seedMeetings race は self-heal で吸収する
+
+**苦戦内容**: `attendance.spec.ts` と `attendance-csv-import.spec.ts` を並列 worker で同時実行すると、
+`/__test__/seed-meetings` POST が他 worker の seed で上書きされ、`sess-1` 等の default seed meeting が
+一時的に `state.meetingsSeed.meetings` から消えるケースが発生。`meetingDetailBody` / `importAttendance` が
+404 を返し、UI が `step-error` に落ちて Playwright が `step-preview` を待ち続けて timeout (CI 失敗、
+ローカル単体では再現しない)。
+
+**再発防止**:
+- `apps/web/playwright/fixtures/auth.ts` に `findMeetingWithSelfHeal(sessionId)` を実装し、
+  default seed に含まれる sessionId は state 上書きで自動復元する（`commit a5cf06238`）。
+- `meetingDetailBody` / `updateAttendance` / `importAttendance` のすべての分岐で
+  `findMeetingWithSelfHeal` を経由させる（生 `find` を残さない）。
+- `--all-flaky` 化の前に、ローカル単体 PASS / CI 並列 FAIL のギャップは worker 間 mutable state 競合を疑う。
+
 ## 関連参照
 
 - [[workflow-ut-07c-followup-001-attendance-csv-import-artifact-inventory]]
 - [[api-endpoints]]
 - [[task-workflow-active]]
+- [[lessons-learned-phase11-evidence-path-after-completed-tasks-move]]
