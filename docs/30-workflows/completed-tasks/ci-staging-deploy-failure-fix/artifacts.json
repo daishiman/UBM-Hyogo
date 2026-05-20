@@ -20,6 +20,32 @@
       "git push",
       "gh pr create",
       "dev push runtime CI verification"
+    ],
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-05-20T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/ci-staging-deploy-failure-fix/outputs/phase-12/main.md",
+        "approver": "daishiman",
+        "notes": "spec_review: Phase 1-13 仕様書 + task-01 local implementation 完了"
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "passed",
+        "passed_at": "2026-05-20T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/ci-staging-deploy-failure-fix/outputs/phase-12/implementation-guide.md",
+        "approver": "daishiman",
+        "notes": "implementation_review: web-cd build-time env injection + cf token rotation runbook"
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/ci-staging-deploy-failure-fix/phase-13.md",
+        "approver": "daishiman",
+        "notes": "external_ops_runtime: dev push 後の GHA runtime success / D1 migration / staging HTTP 200"
+      }
     ]
   },
   "phases": {
