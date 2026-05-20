@@ -31,7 +31,7 @@ status: spec_created
 | G3-1 hover | `[data-component="tag-pill"]:hover` | 0,2,0 | selected の直後 |
 | G3-2 base | `[data-component="member-card"]` | 0,1,0 | tag pill 群の後 |
 | G3-2 hover | `[data-component="member-card"]:hover` | 0,2,0 | base 直後 |
-| G3-2 focus | `[data-component="member-card"]:focus-visible` | 0,2,0 | hover 直後 |
+| G3-2 focus | `[data-component="member-card"]:focus-within` | 0,2,0 | hover 直後 |
 | G3-3 base | `[data-visibility]` | 0,1,0 | member card の後 |
 | G3-3 値別 | `[data-visibility="public"]` etc. | 0,2,0 | base 直後 |
 | G3-3 icon | `[data-visibility="public"]::before` etc. | 0,2,1 | 値別の直後 |
@@ -102,5 +102,5 @@ grep -nE 'data-component="(tag-pill|member-card)"|data-visibility=' apps/web/src
 |--------|----------|
 | Tailwind plugin で `tag-pill-selected` utility を生やす | utility 層が肥大化。selector 規則の方が markup と意味が一致 |
 | 各 component の module.css で個別実装 | プロトタイプの「全画面で機械的に効く selector」設計を再現できない |
-| inline style で hover を実装 | hover/focus-visible が記述不能 |
+| inline style で hover を実装 | hover/focus-within が記述不能 |
 | parallel-01 と同一ブロックに混在 | merge 衝突リスク増大。責務分離マーカーで分ける方が安全 |

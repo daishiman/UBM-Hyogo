@@ -121,3 +121,6 @@ apps/web/.lhci/
 apps/web/.lighthouseci/
 apps/web/.lighthouseci-authenticated/
 .lighthouseci-authenticated/
+
+# actionlint ローカルバイナリ（リポジトリ管理対象外）
+actionlint

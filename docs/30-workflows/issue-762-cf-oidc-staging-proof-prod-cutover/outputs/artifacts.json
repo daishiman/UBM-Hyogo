@@ -1,0 +1,262 @@
+{
+  "task_name": "issue-762-cf-oidc-staging-proof-prod-cutover",
+  "task_path": "docs/30-workflows/issue-762-cf-oidc-staging-proof-prod-cutover",
+  "github_issue": 762,
+  "github_issue_state": "CLOSED",
+  "github_issue_state_reason": "completed",
+  "wave": 2,
+  "execution_mode": "sequential",
+  "depends_on": [
+    "issue-717-oidc-cf-full-migration"
+  ],
+  "blocks": [
+    "issue-718-legacy-cf-token-revocation"
+  ],
+  "created_at": "2026-05-17",
+  "metadata": {
+    "taskType": "implementation",
+    "docs_only": false,
+    "visualEvidence": "NON_VISUAL",
+    "workflow_state": "conditional_implementation_with_peripheral_hardening",
+    "implementation_status": "implemented_local_evidence_captured",
+    "implementationCategory": "conditional",
+    "scope": "cloudflare_github_actions_oidc_peripheral_hardening_pre_official_support",
+    "domain": "github_actions_cloudflare_ci_cd_security_surface",
+    "evidence_type": "primary_source_revalidation_and_peripheral_hardening_dry_run",
+    "current_decision": "implement_5_peripheral_hardening_items_in_1_pr_keep_web_cd_deploy_behavior_unchanged_until_cloudflare_official_oidc_support_is_confirmed",
+    "primary_sources_checked_at": "2026-05-17",
+    "const_007_exceptions": [
+      "actual id-token: write addition to web-cd.yml",
+      "actual OIDC exchange step",
+      "actual staging OIDC proof run",
+      "actual production OIDC cutover",
+      "legacy CLOUDFLARE_API_TOKEN physical revocation"
+    ],
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-05-17T00:00:00Z",
+        "evidence_path": "docs/30-workflows/issue-762-cf-oidc-staging-proof-prod-cutover/outputs/phase-11/cloudflare-oidc-support-revalidation-2026-05-17.md",
+        "approver": "daishiman",
+        "notes": "Cloudflare Workers GitHub Actions docs and wrangler-action#402 status (2026-05-17): unsupported / OPEN."
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "passed",
+        "passed_at": "2026-05-17T00:00:00Z",
+        "evidence_path": "docs/30-workflows/issue-762-cf-oidc-staging-proof-prod-cutover/outputs/phase-11/verify-claim-pin-dry-run.log",
+        "approver": "daishiman",
+        "notes": "verify-claim-pin.sh の 9 ケース exit path 全 PASS。"
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "passed",
+        "passed_at": "2026-05-17T00:00:00Z",
+        "evidence_path": "docs/30-workflows/issue-762-cf-oidc-staging-proof-prod-cutover/outputs/phase-11/redaction-check-extension.log",
+        "approver": "daishiman",
+        "notes": "redaction-check.sh 拡張 JWT / cloudflare-aud 検出 + 既存 ACCOUNT_ID regression PASS。"
+      },
+      {
+        "gate_id": "Gate-D",
+        "status": "passed",
+        "passed_at": "2026-05-17T00:00:00Z",
+        "evidence_path": "docs/30-workflows/issue-762-cf-oidc-staging-proof-prod-cutover/outputs/phase-11/web-cd-comment-diff.md",
+        "approver": "daishiman",
+        "notes": "web-cd.yml diff がコメント行のみ。grep -c 'NOTE(issue-762)' = 2。"
+      },
+      {
+        "gate_id": "Gate-E",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/issue-762-cf-oidc-staging-proof-prod-cutover/phase-13-pr.md",
+        "approver": "daishiman",
+        "notes": "Commit / push / gh pr create はユーザー明示承認後のみ実行。"
+      }
+    ]
+  },
+  "phases": [
+    {
+      "phase": 1,
+      "name": "要件定義",
+      "file": "phase-1-requirements.md",
+      "status": "completed",
+      "outputs": [
+        "phase-1-requirements.md"
+      ],
+      "depends_on_phases": [],
+      "user_approval_required": false
+    },
+    {
+      "phase": 2,
+      "name": "設計",
+      "file": "phase-2-design.md",
+      "status": "completed",
+      "outputs": [
+        "phase-2-design.md"
+      ],
+      "depends_on_phases": [1],
+      "user_approval_required": false
+    },
+    {
+      "phase": 3,
+      "name": "設計レビュー",
+      "file": "phase-3-design-review.md",
+      "status": "completed",
+      "outputs": [
+        "phase-3-design-review.md"
+      ],
+      "depends_on_phases": [2],
+      "user_approval_required": false
+    },
+    {
+      "phase": 4,
+      "name": "テスト計画",
+      "file": "phase-4-test-plan.md",
+      "status": "completed",
+      "outputs": [
+        "phase-4-test-plan.md"
+      ],
+      "depends_on_phases": [3],
+      "user_approval_required": false
+    },
+    {
+      "phase": 5,
+      "name": "実装",
+      "file": "phase-5-implementation.md",
+      "status": "completed",
+      "outputs": [
+        "phase-5-implementation.md"
+      ],
+      "depends_on_phases": [4],
+      "user_approval_required": false
+    },
+    {
+      "phase": 6,
+      "name": "テスト拡充",
+      "file": "phase-6-test-additions.md",
+      "status": "completed",
+      "outputs": [
+        "phase-6-test-additions.md"
+      ],
+      "depends_on_phases": [5],
+      "user_approval_required": false
+    },
+    {
+      "phase": 7,
+      "name": "カバレッジ確認",
+      "file": "phase-7-coverage.md",
+      "status": "completed",
+      "outputs": [
+        "phase-7-coverage.md"
+      ],
+      "depends_on_phases": [6],
+      "user_approval_required": false
+    },
+    {
+      "phase": 8,
+      "name": "リファクタリング",
+      "file": "phase-8-refactor.md",
+      "status": "completed",
+      "outputs": [
+        "phase-8-refactor.md"
+      ],
+      "depends_on_phases": [7],
+      "user_approval_required": false
+    },
+    {
+      "phase": 9,
+      "name": "品質保証",
+      "file": "phase-9-qa.md",
+      "status": "completed",
+      "outputs": [
+        "phase-9-qa.md"
+      ],
+      "depends_on_phases": [8],
+      "user_approval_required": false
+    },
+    {
+      "phase": 10,
+      "name": "最終レビュー",
+      "file": "phase-10-final-review.md",
+      "status": "completed",
+      "outputs": [
+        "phase-10-final-review.md"
+      ],
+      "depends_on_phases": [9],
+      "user_approval_required": false
+    },
+    {
+      "phase": 11,
+      "name": "手動テスト",
+      "file": "phase-11-manual-test.md",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-11/cloudflare-oidc-support-revalidation-2026-05-17.md",
+        "outputs/phase-11/verify-claim-pin-dry-run.log",
+        "outputs/phase-11/redaction-check-extension.log",
+        "outputs/phase-11/local-verification-summary.md",
+        "outputs/phase-11/observation-window-dispatch.md",
+        "outputs/phase-11/web-cd-comment-diff.md"
+      ],
+      "depends_on_phases": [10],
+      "user_approval_required": false
+    },
+    {
+      "phase": 12,
+      "name": "ドキュメント更新",
+      "file": "phase-12-documentation.md",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-12/main.md",
+        "outputs/phase-12/implementation-guide.md",
+        "outputs/phase-12/system-spec-update-summary.md",
+        "outputs/phase-12/documentation-changelog.md",
+        "outputs/phase-12/unassigned-task-detection.md",
+        "outputs/phase-12/skill-feedback-report.md",
+        "outputs/phase-12/phase12-task-spec-compliance-check.md",
+        "outputs/phase-12/secrets-boundary-current.md",
+        "outputs/phase-12/future-oidc-supported-path.md",
+        "outputs/phase-12/claim-pin-verifier-spec.md",
+        "outputs/phase-12/redaction-pattern-update.md",
+        "outputs/phase-12/observation-window-runbook.md"
+      ],
+      "depends_on_phases": [11],
+      "user_approval_required": false
+    },
+    {
+      "phase": 13,
+      "name": "PR 作成",
+      "file": "phase-13-pr.md",
+      "status": "blocked",
+      "outputs": [
+        "phase-13-pr.md",
+        "outputs/phase-13/pr-body-draft.md"
+      ],
+      "depends_on_phases": [12],
+      "user_approval_required": true
+    }
+  ],
+  "specs_referenced": [
+    ".claude/skills/task-specification-creator/SKILL.md",
+    ".claude/skills/aiworkflow-requirements/SKILL.md",
+    ".claude/skills/automation-30/SKILL.md",
+    ".claude/skills/aiworkflow-requirements/references/deployment-secrets-management.md",
+    ".claude/skills/aiworkflow-requirements/references/deployment-gha.md",
+    "docs/30-workflows/issue-717-oidc-cf-full-migration/",
+    "docs/30-workflows/unassigned-task/issue-717-followup-001-production-oidc-cutover.md"
+  ],
+  "doc_references": [
+    "https://developers.cloudflare.com/workers/ci-cd/external-cicd/github-actions/",
+    "https://github.com/cloudflare/wrangler-action",
+    "https://github.com/cloudflare/wrangler-action/issues/402"
+  ],
+  "invariants_touched": [
+    "web-cd.yml deploy behavior remains unchanged (comment-only diff)",
+    "permissions: id-token: write is NOT added in this cycle",
+    "step-scoped secrets.CLOUDFLARE_API_TOKEN remains the current runtime contract",
+    "legacy token physical revocation stays blocked until official support, staging proof, production cutover, and observation are complete",
+    "no OIDC token / JWT real value / Cloudflare Account ID is recorded in artifacts"
+  ],
+  "secrets_introduced": []
+}

@@ -6,8 +6,9 @@
 task_id: issue-717-followup-001-production-oidc-cutover
 title: Cloudflare GitHub Actions OIDC Staging Proof and Production Cutover
 category: CI/CD Security
-status: blocked
+status: partially_consumed
 source_workflow: docs/30-workflows/issue-717-oidc-cf-full-migration/
+canonical_workflow: docs/30-workflows/issue-762-cf-oidc-staging-proof-prod-cutover/
 github_issue: 717
 created_date: 2026-05-16
 taskType: implementation
@@ -17,6 +18,26 @@ dependencies:
   - staging OIDC proof green after official support is confirmed
   - observation window fallback count zero
 ```
+
+## 0. 消費状況（Issue #762 / 2026-05-17）
+
+`docs/30-workflows/issue-762-cf-oidc-staging-proof-prod-cutover/` で、公式 OIDC deploy support 前でも安全な周辺強化のみを同一 wave に実装した。
+
+消費済み:
+
+- subject claim pin dry-run helper: `scripts/oidc/verify-claim-pin.sh`
+- OIDC token leak guard: `scripts/redaction-check.sh` の JWT-like token / `cloudflare-aud` 検出
+- observation window manual gate: `.github/workflows/oidc-observation-window.yml`
+- current safe baseline の明文化: `.github/workflows/web-cd.yml` コメントと `deployment-secrets-management.md` Issue #762 section
+
+未消費で blocked 維持:
+
+- `.github/workflows/web-cd.yml` への `permissions: id-token: write` 付与
+- supported OIDC exchange step
+- staging OIDC proof / production cutover
+- observation 完了後の legacy token physical revocation
+
+未消費分は G1（Cloudflare 公式 support）成立まで実装しない。
 
 ## 1. 苦戦箇所
 
