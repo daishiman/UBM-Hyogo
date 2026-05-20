@@ -31,10 +31,10 @@
 将来的に独立タスク化を検討する候補。本 step では着手しない。
 
 - alias bulk resolve（複数 diff を一括処理）
-- diff history view（resolve 履歴の閲覧 UI）
+- diff history view（resolve 履歴の閲覧 UI） — consumed by `docs/30-workflows/completed-tasks/issue-777-schema-diff-resolve-history-view/`
 - alias rollback / undo
 - admin notification（diff 発生時の通知）
 
 ## 4. 判定
 
-`unassigned-task-detection = 0 件 / coverage 整合 / 後続候補は別 task で個別判断`。CI gate 上の 0 件 verdict として記録。
+`unassigned-task-detection = 0 件 / coverage 整合 / diff history view は Issue #777 canonical workflow へ昇格済み`。CI gate 上の 0 件 verdict として記録。

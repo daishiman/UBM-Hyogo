@@ -16,6 +16,22 @@
 | lessons | `.claude/skills/aiworkflow-requirements/references/lessons-learned-issue-274-public-pages-ogp-sitemap-robots-2026-05.md`（L-274-001..006: site URL SSOT / sitemap degraded mode / robots env-branch / OG edge runtime / consumed trace / issue-NNN namespace 規約） |
 | user gate | implementation, runtime evidence, commit, push, PR |
 
+## Issue #777 Schema Diff Resolve History View（2026-05-20）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-777-schema-diff-resolve-history-view/` |
+| 状態 | `CONTRACT_READY_IMPLEMENTATION_PENDING / implementation / VISUAL / Phase 12 strict 7 present` |
+| source issue | #777 OPEN |
+| source task | `docs/30-workflows/unassigned-task/serial-05-step-03-followup-003-schema-diff-history-view.md` consumed |
+| parent | `docs/30-workflows/completed-tasks/serial-05-step-03-schema-diff-resolve/` |
+| API boundary | existing `/admin/audit?action=schema_diff.alias_assigned`; no new endpoint by default |
+| implementation targets | `apps/web/src/components/admin/SchemaDiffHistoryPanel.tsx`, `apps/web/app/(admin)/admin/schema/history/page.tsx`, `apps/web/src/lib/admin/api.ts` |
+| same-wave hardening | `schemaAliasAssign` audit payload now includes `questionText` for future history UI |
+| evidence | `outputs/phase-12/phase12-task-spec-compliance-check.md`; implementation/runtime evidence pending |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-777-schema-diff-resolve-history-view-artifact-inventory.md` |
+| user gate | UI implementation, authenticated admin screenshot, staging smoke, commit, push, PR |
+
 ## Issue #256 E2E coverage baseline runbook（2026-05-18）
 
 | 目的 | 参照先 |
@@ -151,7 +167,7 @@
 | 目的 | 参照先 |
 | --- | --- |
 | workflow root | `docs/30-workflows/ui-prototype-design-system-foundation/` |
-| 状態 | `spec_created / implementation / VISUAL` |
+| 状態 | `CONTRACT_READY_IMPLEMENTATION_PENDING / implementation / VISUAL` |
 | prototype coverage SSOT | `docs/30-workflows/ui-prototype-design-system-foundation/PROTOTYPE-COVERAGE.md` |
 | strict Phase 12 | `outputs/phase-12/{main.md,implementation-guide.md,system-spec-update-summary.md,documentation-changelog.md,unassigned-task-detection.md,skill-feedback-report.md,phase12-task-spec-compliance-check.md}` |
 | source inventory | `claude-design-prototype/{app.jsx,data.jsx,icons.jsx,index.html,pages-admin.jsx,pages-member.jsx,pages-public.jsx,primitives.jsx,styles.css}` + `specs/09a..09h` |
@@ -229,7 +245,7 @@
 
 | 目的 | 参照先 |
 | --- | --- |
-| workflow root | `docs/30-workflows/serial-05-step-03-schema-diff-resolve/` |
+| workflow root | `docs/30-workflows/completed-tasks/serial-05-step-03-schema-diff-resolve/` |
 | 状態 | `implemented-local-runtime-pending / implementation / VISUAL / PASS_BOUNDARY_SYNCED_RUNTIME_PENDING` |
 | scope | 既存 `SchemaDiffPanel` の stableKey validation / table semantics / focus / error payload / status label hardening |
 | implementation | `apps/web/src/components/admin/SchemaDiffPanel.tsx`, `apps/web/src/lib/admin/api.ts` |

@@ -283,6 +283,8 @@ Response は `PublicMemberListViewZ.strict()` を正本とし、`items`、`pagin
 
 collision は同一 `revision_id` 内の別 `question_id` が同じ stableKey を持つ場合に `409 stable_key_collision` + `existingStableKey`、body validation は `422` + `existingQuestionIds`、diff 不在は `404`、diff と question 不一致は `409` を返す。back-fill が CPU budget に達した場合は `202 backfill_cpu_budget_exhausted` + `retryable=true` として UI に再試行可能状態を返す。大規模 back-fill / UNIQUE index / retryable HTTP contract は `docs/30-workflows/completed-tasks/ut-07b-schema-alias-hardening/` に分離済み。
 
+Issue #777 schema diff resolve history view では、`/(admin)/admin/schema/history` UI が既存 `GET /admin/audit?action=schema_diff.alias_assigned` をそのまま data source として参照する（案 A 採用、新 endpoint 追加禁止）。UI は `before_json.stableKey` / `after_json.stableKey` / `after_json.questionText` / `actorEmail` / `createdAt` を表示し、cursor pagination は既存 audit endpoint の `encodeAuditCursor` を踏襲する。filter は `action` 固定 + `actorEmail` / `from` / `to` の既存 query を組み合わせる。
+
 ## admin identity conflict merge API（Issue #194）
 
 03b response sync が `EMAIL_CONFLICT` を記録した運用文脈では、admin が同一人物の重複 identity を手動確認して merge できる。

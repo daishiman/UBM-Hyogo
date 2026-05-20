@@ -10,18 +10,19 @@
 | 対象機能     | admin schema diff resolve の履歴閲覧（誰がいつどの alias を resolve したかの可視化）              |
 | 優先度       | 中                                                                                                |
 | 見積もり規模 | 中規模                                                                                            |
-| ステータス   | pending                                                                                           |
+| ステータス   | consumed                                                                                          |
 | 発見元       | serial-05 step-03 Phase 12 後続候補                                                               |
 | 発見日       | 2026-05-17                                                                                        |
 
 ## Canonical Workflow Status
 
-- 親 workflow: `docs/30-workflows/serial-05-step-03-schema-diff-resolve/`
+- 親 workflow: `docs/30-workflows/completed-tasks/serial-05-step-03-schema-diff-resolve/`
 - 親タスク状態: `implemented`（現在 diff の resolve UI は完了、履歴閲覧は未着手）
-- Phase 12 evidence 状態: 後続候補として `outputs/phase-12/unassigned-task-detection.md` §3 に明示済み（未消費）
+- Canonical workflow: `docs/30-workflows/issue-777-schema-diff-resolve-history-view/`
+- Phase 12 evidence 状態: 後続候補として `outputs/phase-12/unassigned-task-detection.md` §3 に明示済み。本ファイルは Issue #777 workflow へ昇格済みの consumed trace として保持する。
 - 関連 outputs:
-  - `docs/30-workflows/serial-05-step-03-schema-diff-resolve/outputs/phase-12/implementation-guide.md`
-  - `docs/30-workflows/serial-05-step-03-schema-diff-resolve/outputs/phase-12/unassigned-task-detection.md`（§3 後続候補「diff history view」）
+  - `docs/30-workflows/completed-tasks/serial-05-step-03-schema-diff-resolve/outputs/phase-12/implementation-guide.md`
+  - `docs/30-workflows/completed-tasks/serial-05-step-03-schema-diff-resolve/outputs/phase-12/unassigned-task-detection.md`（§3 後続候補「diff history view」）
 - 関連実装:
   - `apps/web/app/(admin)/admin/schema/page.tsx`（既存 server component、history route 追加可否を本 spec §2 で判断）
   - `apps/web/src/components/admin/SchemaDiffPanel.tsx`（現状は「現在の diff」のみ描画）
@@ -78,7 +79,7 @@ admin が schema diff resolve の過去履歴を時系列で閲覧・filter で�
 - 履歴一覧 UI コンポーネント（`apps/web/src/components/admin/SchemaDiffHistoryPanel.tsx` 新規）
 - 履歴閲覧 page（route 構成は §2.5 で確定。新 route 追加 or 既存 schema page のタブ化）
 - shared `Pagination` / `FormField` primitive (parallel-09) の再利用
-- API 側: 既存 `/admin/audit` を `kind=schema_alias_resolve` で filter する経路の検証 / 不足分のみ最小追加
+- API 側: 既存 `/admin/audit` を `action=schema_diff.alias_assigned` で filter する経路の検証 / 不足分のみ最小追加
 - `apps/web/src/lib/admin/api.ts` への history fetch helper 追加
 - `*.spec.tsx`（component spec）と `apps/web/src/lib/admin/__tests__/api.spec.ts` への mutation/history fetch helper unit spec
 
@@ -105,8 +106,8 @@ admin が schema diff resolve の過去履歴を時系列で閲覧・filter で�
 
 | 案 | 概要 | 採用条件 | リスク |
 | --- | --- | --- | --- |
-| A. 既存 `/admin/audit?kind=schema_alias_resolve` 再利用 | `apps/api/src/routes/admin/audit.ts` 既存 cursor pagination をそのまま使い、UI 側で kind filter を渡す | 既存 audit log に schema resolve イベントが `kind` 識別可能な形で書かれている | audit log payload に before/after stableKey が含まれない場合は表示項目が欠落 |
-| B. `/admin/schema/history` を新設 | `apps/api/src/routes/admin/schema.ts` に history endpoint を追加し、schema 領域専用 payload で before/after stableKey を返却 | 案 A で表示項目が満たせない、または kind filter の粒度が不足 | 既存 API endpoint surface 維持の不変条件に対する justify が必要（本 spec §1.2 監査要件で justify 可能） |
+| A. 既存 `/admin/audit?action=schema_diff.alias_assigned` 再利用 | `apps/api/src/routes/admin/audit.ts` 既存 cursor pagination をそのまま使い、UI 側で action filter を渡す | 既存 audit log に schema resolve イベントが `action` 識別可能な形で書かれている | audit log payload に before/after stableKey が含まれない場合は表示項目が欠落 |
+| B. `/admin/schema/history` を新設 | `apps/api/src/routes/admin/schema.ts` に history endpoint を追加し、schema 領域専用 payload で before/after stableKey を返却 | 案 A で表示項目が満たせない、または action filter の粒度が不足 | 既存 API endpoint surface 維持の不変条件に対する justify が必要（本 spec §1.2 監査要件で justify 可能） |
 
 採用判断は実装着手時に audit log の実 payload を grep / spec で確認した上で確定。原則 **案 A を第一候補**とし、payload 不足が判明した場合のみ案 B へ昇格する。案 B 採用時は CLAUDE.md「既存 API endpoint surface 維持」不変条件に対する例外として、本 spec §1.2 の監査要件で justify する。
 
@@ -188,8 +189,8 @@ resolve 履歴は運用継続に従い単調増加するため、offset paginati
 
 ## 6. 参照資料
 
-- `docs/30-workflows/serial-05-step-03-schema-diff-resolve/outputs/phase-12/implementation-guide.md` - 親 step の実装ガイド
-- `docs/30-workflows/serial-05-step-03-schema-diff-resolve/outputs/phase-12/unassigned-task-detection.md` §3 - 後続候補「diff history view」
+- `docs/30-workflows/completed-tasks/serial-05-step-03-schema-diff-resolve/outputs/phase-12/implementation-guide.md` - 親 step の実装ガイド
+- `docs/30-workflows/completed-tasks/serial-05-step-03-schema-diff-resolve/outputs/phase-12/unassigned-task-detection.md` §3 - 後続候補「diff history view」
 - `apps/web/src/components/admin/SchemaDiffPanel.tsx` - 現状の diff 表示 component（履歴 UI の隣接基盤）
 - `apps/web/app/(admin)/admin/schema/page.tsx` - schema 領域 server component（route 追加 / タブ化の判断対象）
 - `apps/api/src/routes/admin/schema.ts` - schema endpoint（案 B 採用時の追加対象）

@@ -501,11 +501,12 @@ export const schemaAliasAssign = async (
     };
   }
 
+  const questionText = await fetchQuestionLabel(c, input.questionId, question.revision_id);
   const alias = await insertManualAlias(c, {
     revisionId: question.revision_id,
     stableKey: asStableKey(input.stableKey),
     aliasQuestionId: input.questionId,
-    aliasLabel: await fetchQuestionLabel(c, input.questionId, question.revision_id),
+    aliasLabel: questionText,
     resolvedBy: input.actorId,
   });
   if (input.diffId) {
@@ -526,6 +527,7 @@ export const schemaAliasAssign = async (
       stableKey: input.stableKey,
       aliasId: alias.id,
       questionId: input.questionId,
+      questionText,
       diffId: input.diffId ?? null,
       affectedResponseFields: backfilled.result.updated,
     },

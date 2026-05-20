@@ -8,6 +8,22 @@
 
 本ドキュメントは、複雑なタスクを単一責務の原則に基づいて分解し、各サブタスクに最適なスラッシュコマンド・エージェント・スキルの組み合わせを選定するためのガイドラインを定義する。
 
+### Issue #777 schema diff resolve history view（2026-05-20）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `CONTRACT_READY_IMPLEMENTATION_PENDING / implementation / VISUAL / Phase 12 strict 7 present` |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-777-schema-diff-resolve-history-view/` |
+| Issue | #777 OPEN |
+| source | `docs/30-workflows/unassigned-task/serial-05-step-03-followup-003-schema-diff-history-view.md` consumed |
+| parent | `docs/30-workflows/completed-tasks/serial-05-step-03-schema-diff-resolve/` |
+| 目的 | `/admin/schema/history` で schema diff resolve の過去操作を audit log から閲覧・filter できるようにする |
+| API boundary | 既存 `/admin/audit?action=schema_diff.alias_assigned` を利用。`questionTextLike` は audit endpoint query へ送らず現 page 50 件内 client-side filter |
+| same-wave hardening | `apps/api/src/workflows/schemaAliasAssign.ts` の audit `after` payload に `questionText` を追加 |
+| evidence | Phase 12 strict 7 / root-output artifacts parity / source consumed trace |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-777-schema-diff-resolve-history-view-artifact-inventory.md` |
+| user gate | UI implementation, local command evidence, authenticated screenshot, staging smoke, commit, push, PR |
+
 ### Issue #256 E2E coverage baseline runbook（2026-05-18）
 
 | 項目 | 値 |
@@ -95,7 +111,7 @@
 
 | 項目 | 値 |
 | --- | --- |
-| ステータス | `spec_created / implementation / VISUAL / Phase 12 strict 7 present` |
+| ステータス | `CONTRACT_READY_IMPLEMENTATION_PENDING / implementation / VISUAL / Phase 12 strict 7 present` |
 | 成果物 | `docs/30-workflows/ui-prototype-design-system-foundation/` |
 | prototype coverage | `docs/30-workflows/ui-prototype-design-system-foundation/PROTOTYPE-COVERAGE.md` |
 | 目的 | 凍結プロトタイプと 09a-09h の情報を、現行 `apps/web/app/**` 物理配置へ反映できる design system foundation workflow として整理する |
@@ -189,13 +205,13 @@
 | 項目 | 値 |
 | --- | --- |
 | ステータス | `implemented-local-runtime-pending / implementation / VISUAL / PASS_BOUNDARY_SYNCED_RUNTIME_PENDING` |
-| 成果物 | `docs/30-workflows/serial-05-step-03-schema-diff-resolve/` |
+| 成果物 | `docs/30-workflows/completed-tasks/serial-05-step-03-schema-diff-resolve/` |
 | 親 workflow | `docs/30-workflows/ui-prototype-alignment-mvp-recovery/improvements/serial-05-admin-mutation-ui/` |
 | 目的 | `/admin/schema` の既存 `SchemaDiffPanel` を現行 schema alias API contract に合わせて hardening する |
 | implementation targets | `apps/web/src/components/admin/SchemaDiffPanel.tsx`, `apps/web/src/lib/admin/api.ts`, `apps/web/src/components/admin/__tests__/SchemaDiffPanel.component.spec.tsx`, `apps/web/src/lib/admin/__tests__/api.spec.ts` |
 | API boundary | 既存 `GET /admin/schema/diff` / `POST /admin/schema/aliases` を利用。新 endpoint / D1 schema / env gate 追加なし |
 | UI contract | 4 ペイン table semantics、stableKey regex `/^[a-zA-Z][a-zA-Z0-9_]*$/`、row select 後 input focus、409 `existingStableKey` / 422 `existingQuestionIds` 表示、202 retryable status、queued/resolved 日本語 label |
-| evidence | `docs/30-workflows/serial-05-step-03-schema-diff-resolve/outputs/phase-11/evidence/`, `docs/30-workflows/serial-05-step-03-schema-diff-resolve/outputs/phase-12/phase12-task-spec-compliance-check.md` |
+| evidence | `docs/30-workflows/completed-tasks/serial-05-step-03-schema-diff-resolve/outputs/phase-11/evidence/`, `docs/30-workflows/completed-tasks/serial-05-step-03-schema-diff-resolve/outputs/phase-12/phase12-task-spec-compliance-check.md` |
 | user gate | runtime screenshots、staging smoke、commit、push、PR |
 
 ### admin-tags-queue-resolver-drawer（2026-05-17）

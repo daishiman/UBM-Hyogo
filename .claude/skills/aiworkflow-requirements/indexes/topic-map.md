@@ -2762,6 +2762,16 @@ node scripts/list-specs.js --topics
 
 ### references/workflow-issue-772-cf-audit-monitor-runtime-restoration-artifact-inventory.md
 
+### references/workflow-issue-777-schema-diff-resolve-history-view-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Canonical Root | L3 |
+| State | L7 |
+| Workflow Artifacts | L11 |
+| Source And Parent | L39 |
+| Implementation Boundary | L46 |
+
 ### references/workflow-light-theme-contrast-regression-guard.md
 
 | セクション | 行 |
@@ -7008,14 +7018,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L1703 |
-| フェーズ構造（概要） | L1712 |
-| 品質ゲート（概要） | L1743 |
-| 出力テンプレート | L1754 |
-| 実行時のコマンド・エージェント・スキル | L1777 |
-| 昇格パターン集 | L1801 |
-| Current Active / Spec Created Tasks | L1803 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L1955 |
+| ドキュメント構成 | L1719 |
+| フェーズ構造（概要） | L1728 |
+| 品質ゲート（概要） | L1759 |
+| 出力テンプレート | L1770 |
+| 実行時のコマンド・エージェント・スキル | L1793 |
+| 昇格パターン集 | L1817 |
+| Current Active / Spec Created Tasks | L1819 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L1971 |
 
 ### references/task-workflow-backlog-part2.md
 
