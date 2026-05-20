@@ -5758,7 +5758,8 @@ node scripts/list-specs.js --topics
 | L-UT07CFU1-008: email lookup は `normalizeEmail` (NFKC + trim + lowercase) を経由する | L67 |
 | L-UT07CFU1-009: Phase-11 evidence 出力先は completed-tasks/ 配下に揃える | L75 |
 | L-UT07CFU1-010: mockApi seedMeetings race は self-heal で吸収する | L93 |
-| 関連参照 | L108 |
+| L-UT07CFU1-011: `<input type="file">` の SSR 出力は WebKit / Firefox で hydration mismatch を起こす | L108 |
+| 関連参照 | L128 |
 
 ### references/lessons-learned-ut-15-waf-rate-limiting.md
 

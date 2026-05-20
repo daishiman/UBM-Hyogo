@@ -7860,7 +7860,8 @@
       "lessons-learned-ut-15-waf-rate-limiting.md"
     ],
     "file": [
-      "deployment-cloudflare.md"
+      "deployment-cloudflare.md",
+      "lessons-learned-ut-07c-followup-001-attendance-csv-import-2026-05.md"
     ],
     "Password": [
       "deployment-cloudflare.md",
@@ -8232,7 +8233,8 @@
       "lessons-learned-task-18-w7-verify-tokens-and-playwright-smoke-2026-05.md"
     ],
     "input": [
-      "deployment-gha.md"
+      "deployment-gha.md",
+      "lessons-learned-ut-07c-followup-001-attendance-csv-import-2026-05.md"
     ],
     "residual": [
       "deployment-gha.md"
@@ -10920,6 +10922,7 @@
       "lessons-learned-task-spec-2d-contract-stage-2-2026-05.md",
       "lessons-learned-u-ut01-08-sync-enum-canonical-2026-04.md",
       "lessons-learned-ut-02a-tag-assignment-queue-2026-05.md",
+      "lessons-learned-ut-07c-followup-001-attendance-csv-import-2026-05.md",
       "workflow-i02-admin-error-type-unify-artifact-inventory.md"
     ],
     "文字列リテラル拡散は": [
@@ -11415,6 +11418,7 @@
     ],
     "mismatch": [
       "lessons-learned-04c-admin-backoffice-2026-04.md",
+      "lessons-learned-ut-07c-followup-001-attendance-csv-import-2026-05.md",
       "workflow-task-10-followup-001-opennext-esbuild-mismatch-artifact-inventory.md"
     ],
     "で別エラーに分ける": [
@@ -16876,7 +16880,8 @@
       "lessons-learned-task-18-w7-verify-tokens-and-playwright-smoke-2026-05.md"
     ],
     "SSR": [
-      "lessons-learned-task-18-w7-verify-tokens-and-playwright-smoke-2026-05.md"
+      "lessons-learned-task-18-w7-verify-tokens-and-playwright-smoke-2026-05.md",
+      "lessons-learned-ut-07c-followup-001-attendance-csv-import-2026-05.md"
     ],
     "でしか": [
       "lessons-learned-task-18-w7-verify-tokens-and-playwright-smoke-2026-05.md"
@@ -17789,6 +17794,21 @@
       "lessons-learned-ut-07c-followup-001-attendance-csv-import-2026-05.md"
     ],
     "heal": [
+      "lessons-learned-ut-07c-followup-001-attendance-csv-import-2026-05.md"
+    ],
+    "出力は": [
+      "lessons-learned-ut-07c-followup-001-attendance-csv-import-2026-05.md"
+    ],
+    "WebKit": [
+      "lessons-learned-ut-07c-followup-001-attendance-csv-import-2026-05.md"
+    ],
+    "Firefox": [
+      "lessons-learned-ut-07c-followup-001-attendance-csv-import-2026-05.md"
+    ],
+    "hydration": [
+      "lessons-learned-ut-07c-followup-001-attendance-csv-import-2026-05.md"
+    ],
+    "を起こす": [
       "lessons-learned-ut-07c-followup-001-attendance-csv-import-2026-05.md"
     ],
     "Thresholds": [
