@@ -2,7 +2,7 @@
 
 ## 1. Summary verdict
 
-SPEC READINESS PASS. `ui-prototype-design-system-foundation` now has root / outputs artifacts parity, strict 7 Phase 12 outputs, prototype coverage SSOT, corrected current app paths, and initial code hooks for AppShell / selector contracts. This is not a runtime visual PASS.
+runtime_pending (`implemented_local_evidence_captured / VISUAL_RUNTIME_PENDING`). `ui-prototype-design-system-foundation` now has root / outputs artifacts parity, strict 7 Phase 12 outputs, prototype coverage SSOT, corrected current app paths, initial code hooks for AppShell / selector contracts, local static evidence, and parallel-02 local screenshots. This is not root visual completion.
 
 ## 2. Changed-files classification
 
@@ -16,26 +16,35 @@ SPEC READINESS PASS. `ui-prototype-design-system-foundation` now has root / outp
 
 | item | value | result |
 |------|-------|--------|
-| root workflow_state | `spec_created` | PASS |
-| taskType | `implementation` | PASS |
-| visualEvidence | `VISUAL` | PASS |
-| Phase 13 | `pending_user_approval` | PASS |
+| root workflow_state | `implemented_local_evidence_captured` | runtime_pending |
+| taskType | `implementation` | runtime_pending |
+| visualEvidence | `VISUAL_RUNTIME_PENDING` | runtime_pending |
+| Phase 13 | `pending_user_approval` | runtime_pending |
 
 ## 4. Phase 11 evidence file inventory
 
-| Path | Status | Note |
-|------|--------|------|
-| `parallel-04-shared-page-chrome/outputs/phase-11/screenshot-plan.json` | present | capture plan updated |
-| `parallel-04-shared-page-chrome/outputs/phase-11/phase11-capture-metadata.json` | present | capture metadata updated |
-| `parallel-04-shared-page-chrome/outputs/phase-11/root-layout.png` | present | captured |
-| `parallel-04-shared-page-chrome/outputs/phase-11/fallback-error.png` | present | captured |
-| `parallel-04-shared-page-chrome/outputs/phase-11/fallback-not-found.png` | present | captured |
-| `parallel-04-shared-page-chrome/outputs/phase-11/fallback-loading.png` | present | captured |
-| `parallel-04-shared-page-chrome/outputs/phase-11/ui-sanity-visual-review.md` | present | screenshot review updated |
-| `serial-07-regression-evidence/outputs/phase-11/screenshots/top.png` | pending | required during implementation run |
-| `serial-07-regression-evidence/outputs/phase-11/screenshots/members-list.png` | pending | required during implementation run |
-| `serial-07-regression-evidence/outputs/phase-11/screenshots/member-detail.png` | pending | required during implementation run |
-| `serial-07-regression-evidence/outputs/phase-11/screenshots/admin-dashboard.png` | pending | required during implementation run |
+| Classification | Path | Status | Note |
+|----------------|------|--------|------|
+| visual | `parallel-04-shared-page-chrome/outputs/phase-11/screenshot-plan.json` | present | capture plan updated |
+| visual | `parallel-04-shared-page-chrome/outputs/phase-11/phase11-capture-metadata.json` | present | capture metadata updated |
+| visual | `parallel-04-shared-page-chrome/outputs/phase-11/root-layout.png` | present | captured |
+| visual | `parallel-04-shared-page-chrome/outputs/phase-11/fallback-error.png` | present | captured |
+| visual | `parallel-04-shared-page-chrome/outputs/phase-11/fallback-not-found.png` | present | captured |
+| visual | `parallel-04-shared-page-chrome/outputs/phase-11/fallback-loading.png` | present | captured |
+| visual | `parallel-04-shared-page-chrome/outputs/phase-11/ui-sanity-visual-review.md` | present | screenshot review updated |
+| visual | `parallel-02-prototype-css-rules-port/outputs/phase-11/tag-pill-default.png` | present | local selector screenshot |
+| visual | `parallel-02-prototype-css-rules-port/outputs/phase-11/tag-pill-selected.png` | present | local selector screenshot |
+| visual | `parallel-02-prototype-css-rules-port/outputs/phase-11/tag-pill-hover.png` | present | local selector screenshot |
+| visual | `parallel-02-prototype-css-rules-port/outputs/phase-11/member-card-default.png` | present | local selector screenshot |
+| visual | `parallel-02-prototype-css-rules-port/outputs/phase-11/member-card-hover.png` | present | local selector screenshot |
+| visual | `parallel-02-prototype-css-rules-port/outputs/phase-11/member-card-focus.png` | present | local selector screenshot |
+| visual | `parallel-02-prototype-css-rules-port/outputs/phase-11/visibility-public.png` | present | local selector screenshot |
+| visual | `parallel-02-prototype-css-rules-port/outputs/phase-11/visibility-member.png` | present | local selector screenshot |
+| visual | `parallel-02-prototype-css-rules-port/outputs/phase-11/visibility-admin.png` | present | local selector screenshot |
+| visual | `serial-07-regression-evidence/outputs/phase-11/screenshots/top.png` | pending | required during implementation run |
+| visual | `serial-07-regression-evidence/outputs/phase-11/screenshots/members-list.png` | pending | required during implementation run |
+| visual | `serial-07-regression-evidence/outputs/phase-11/screenshots/member-detail.png` | pending | required during implementation run |
+| visual | `serial-07-regression-evidence/outputs/phase-11/screenshots/admin-dashboard.png` | pending | required during implementation run |
 
 ## 5. Phase 12 strict 7 file inventory
 
@@ -53,13 +62,13 @@ SPEC READINESS PASS. `ui-prototype-design-system-foundation` now has root / outp
 
 | target | result |
 |--------|--------|
-| `task-specification-creator` | PASS: strict 7 and artifacts parity added |
-| `aiworkflow-requirements` | PASS: workflow registered in quick-reference / resource-map / task-workflow-active |
-| `automation-30` | PASS: 30 methods compact evidence table added to `PROTOTYPE-COVERAGE.md` |
+| `task-specification-creator` | runtime_pending: strict 7 and artifacts parity added |
+| `aiworkflow-requirements` | runtime_pending: workflow registered in quick-reference / resource-map / task-workflow-active |
+| `automation-30` | runtime_pending: 30 methods compact evidence table added to `PROTOTYPE-COVERAGE.md` |
 
 ## 7. Runtime or user-gated boundary
 
-parallel-04 fallback screenshots are captured in this cycle. Full 19-route blueprint binding and serial-07 visual regression evidence are still tracked by the active workflow phases; this file does not claim full-route runtime completion.
+parallel-04 fallback screenshots and parallel-02 local selector screenshots are captured in this cycle. Full 19-route blueprint binding and serial-07 production-equivalent visual regression evidence are still tracked by the active workflow phases; this file does not claim full-route runtime completion.
 
 parallel-04 keeps `visualEvidence: VISUAL` because root fallback screenshots are part of the acceptance surface. Phase 11 records EV-12..15 as present; serial-07 remains the owner for full route visual regression.
 
@@ -71,7 +80,7 @@ No archive/delete action. Stale app path and route-group inferred paths were cor
 
 | condition | result |
 |-----------|--------|
-| 矛盾なし | PASS |
-| 漏れなし | PASS |
-| 整合性あり | PASS |
-| 依存関係整合 | PASS |
+| 矛盾なし | runtime_pending |
+| 漏れなし | runtime_pending |
+| 整合性あり | runtime_pending |
+| 依存関係整合 | runtime_pending |

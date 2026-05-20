@@ -12,4 +12,4 @@ UI prototype design system foundation の Phase 12 集約サマリー。
 
 ## Boundary
 
-本サイクルは仕様書の準拠改善に加えて、CONST_004 に基づく最小 `apps/web/app/**` 実装差分を含む。parallel-04 の root fallback screenshots は同一サイクルで取得済み。full 19-route visual regression は `serial-07-regression-evidence/` の user-gated 実行に残す。
+本サイクルは仕様書の準拠改善に加えて、CONST_004 に基づく最小 `apps/web/app/**` 実装差分を含む。parallel-04 の root fallback screenshots は同一サイクルで取得済み。さらに parallel-02 wave で `apps/web` の最小 implementation hook を補正し、typecheck / lint / build / grep evidence と local screenshot 9 件を取得した。対象 workflow は `implemented_local_evidence_captured / implementation / VISUAL_RUNTIME_PENDING` とし、full 19-route visual regression / production-equivalent runtime screenshot / commit / push / PR は `serial-07-regression-evidence/` の user-gated 実行に残す。

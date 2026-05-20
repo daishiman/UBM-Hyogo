@@ -17,8 +17,22 @@ import {
 } from "../../middleware/repository-providers";
 import { requireProvider } from "../../repository/_shared/provider-context";
 import { memberExists, type AdminRouteEnv } from "./_shared";
+import {
+  importAttendanceBulk,
+  IMPORT_MAX_ROWS,
+  SessionNotFoundError,
+} from "../../use-cases/admin/import-attendance-bulk";
 
 const AddBodyZ = z.object({ memberId: z.string().min(1) });
+
+const ImportRowZ = z
+  .object({
+    memberId: z.string().min(1).optional(),
+    email: z.string().min(1).optional(),
+  })
+  .strict();
+
+const ImportBodyZ = z.object({ rows: z.array(ImportRowZ) });
 
 const toAttendanceResponse = (row: MemberAttendanceRow) => ({
   meetingSessionId: row.sessionId,
@@ -101,6 +115,63 @@ export const createAdminAttendanceRoute = () => {
       after: toAttendanceResponse(result.row),
     });
     return c.json({ ok: true, attendance: toAttendanceResponse(result.row) }, 201);
+  });
+
+  app.post("/meetings/:sessionId/attendance/import", async (c) => {
+    const sessionId = c.req.param("sessionId");
+    if (!sessionId) return c.json({ ok: false, error: "missing sessionId" }, 400);
+    const dryRunParam = c.req.query("dryRun");
+    const dryRun = dryRunParam !== "false";
+    let raw: unknown;
+    try {
+      raw = await c.req.json();
+    } catch {
+      return c.json({ ok: false, error: "invalid_json" }, 400);
+    }
+    if (
+      typeof raw !== "object" ||
+      raw === null ||
+      !Array.isArray((raw as { rows?: unknown }).rows)
+    ) {
+      return c.json({ ok: false, error: "invalid_payload" }, 400);
+    }
+    const rowsArr = (raw as { rows: unknown[] }).rows;
+    if (rowsArr.length > IMPORT_MAX_ROWS) {
+      return c.json(
+        { ok: false, error: "payload_too_large", maxRows: IMPORT_MAX_ROWS },
+        413,
+      );
+    }
+    const parsed = ImportBodyZ.safeParse(raw);
+    if (!parsed.success) {
+      return c.json({ ok: false, error: "invalid_payload", details: parsed.error.message }, 400);
+    }
+    const db = ctx({ DB: c.env.DB });
+    const authUser = c.get("authUser");
+    try {
+      const result = await importAttendanceBulk(db, sessionId, parsed.data.rows, {
+        commit: !dryRun,
+        actor: {
+          id: asAdminId(authUser.memberId),
+          email: adminEmail(authUser.email),
+        },
+      });
+      return c.json(
+        {
+          ok: true,
+          summary: result.summary,
+          rows: result.rows,
+          dryRun,
+          committed: result.committed,
+        },
+        200,
+      );
+    } catch (e) {
+      if (e instanceof SessionNotFoundError) {
+        return c.json({ ok: false, error: "session_not_found" }, 404);
+      }
+      throw e;
+    }
   });
 
   app.delete("/meetings/:sessionId/attendance/:memberId", async (c) => {

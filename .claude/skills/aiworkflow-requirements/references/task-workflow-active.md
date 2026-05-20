@@ -24,6 +24,33 @@
 | completion shard | `.claude/skills/aiworkflow-requirements/references/task-workflow-completed-recent-2026-05.md` |
 | user gate | commit / push / PR / serial-07 19 routes 全体 visual regression |
 
+### Issue #765 1Password vault restructure for OIDC cutover（2026-05-18）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `spec_created_blocked_by_oidc_support / implementation / NON_VISUAL` |
+| 成果物 | `docs/30-workflows/issue-765-1p-vault-restructure-oidc-cutover/` |
+| source | `docs/30-workflows/unassigned-task/issue-717-followup-003-1password-restructure.md` |
+| 目的 | Cloudflare deploy token の 1Password op:// path を `op://UBM-Hyogo/Cloudflare/api_token_staging` / `api_token_production` へ整理する条件付き仕様 |
+| boundary | aiworkflow current contract では `web-cd` の `CLOUDFLARE_API_TOKEN` direct-token path が維持されているため、OIDC supported deploy path / production cutover evidence まで Phase 11 mutation は blocked |
+| user gate | 1Password archive, `bash scripts/cf.sh whoami`, commit, push, PR, Gate B' physical delete |
+
+### Issue #799 useAutoFocusOnMount hook（2026-05-19）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / NON_VISUAL / implementation_complete_pending_pr` |
+| 成果物 | `docs/30-workflows/issue-799-use-auto-focus-on-mount-hook/` |
+| Issue | #799 CLOSED。PR 文脈は `Refs #799` |
+| source | `docs/30-workflows/unassigned-task/issue-769-followup-001-use-auto-focus-on-mount-hook.md` consumed |
+| 目的 | `useAutoFocusOnMount` hook を追加し、root / login / profile / admin error boundary の h1 focus transfer を統一する |
+| 実装 | `apps/web/src/lib/a11y/useAutoFocusOnMount.ts`, `apps/web/app/error.tsx`, `apps/web/app/login/error.tsx`, `apps/web/app/profile/error.tsx`, `apps/web/app/(admin)/admin/error.tsx` |
+| tests | `apps/web/src/lib/a11y/__tests__/useAutoFocusOnMount.spec.tsx`, route error component specs |
+| evidence | `docs/30-workflows/issue-799-use-auto-focus-on-mount-hook/outputs/phase-11/evidence/web-vitest.txt`, `docs/30-workflows/issue-799-use-auto-focus-on-mount-hook/outputs/phase-12/phase12-task-spec-compliance-check.md` |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-799-use-auto-focus-on-mount-hook-artifact-inventory.md` |
+| user gate | commit / push / PR |
+
+### UI Prototype Design System Foundation（2026-05-18 / parallel-02 close-out 2026-05-19）
 ### step-05 dashboard chart implementation（2026-05-18）
 
 | 項目 | 値 |
@@ -136,6 +163,8 @@
 
 | 項目 | 値 |
 | --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / VISUAL_RUNTIME_PENDING / Phase 12 strict 7 present` |
+| ステータス | `spec_created / implementation / VISUAL / Phase 12 strict 7 present / parallel-01 local_implementation_complete (CSS selector + admin width 272px)` |
 | ステータス | `spec_created / implementation / VISUAL / Phase 12 strict 7 present / parallel-01 local_implementation_complete (CSS selector + admin width 272px)` |
 | 成果物 | `docs/30-workflows/ui-prototype-design-system-foundation/` |
 | prototype coverage | `docs/30-workflows/ui-prototype-design-system-foundation/PROTOTYPE-COVERAGE.md` |
@@ -144,12 +173,23 @@
 | boundary | 新規 API endpoint / D1 schema / Google Form 仕様変更なし。`/login` / `/profile` / `/privacy` / `/terms` は root app path を維持 |
 | evidence | root / outputs `artifacts.json` parity, Phase 12 strict 7, 30-method compact evidence in `PROTOTYPE-COVERAGE.md` |
 | sub-workflows | `parallel-04-shared-page-chrome` (2026-05-19 同期、上記参照) |
+| evidence | root / outputs `artifacts.json` parity, Phase 12 strict 7, parallel-02 strict 7, 30-method compact evidence in `PROTOTYPE-COVERAGE.md`, parallel-02 Phase 11 9 screenshot + 5 log present |
+| parallel-02 実装 | `apps/web/src/styles/globals.css`（G3-1/G3-2/G3-3 start/end marker block）, `apps/web/src/components/public/MemberFilters.client.tsx`（`data-component="tag-pill"` + `aria-selected`）, `apps/web/app/visual-harness/[name]/{page.tsx,VisualScenarios.client.tsx}`, `apps/web/playwright/tests/visual/parallel-02-css-rules.spec.ts` |
+| follow-up unassigned | `UT-DSF-01..07`（`docs/30-workflows/unassigned-task/UT-DSF-NN-*.md`: parallel-01 globals-css rhythm / parallel-03 AppShell / parallel-04 shared page chrome / serial-05 route blueprint binding / serial-06 form response binding / serial-07 regression evidence / runtime production-equivalent screenshots） |
+| lessons learned | `.claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-parallel-02-prototype-css-rules-port-2026-05.md`（L-P02-001..007 / OP-P02-1..7） |
+| parallel-01 | `local_implementation_complete (CSS selector + admin width 272px)` — `apps/web/src/styles/globals.css` に P1-1〜P1-5 selector 追加、`apps/web/app/(admin)/layout.tsx` を `md:grid-cols-[272px_1fr]` + `data-shell` / `data-route` に整列。runtime visual screenshots は user-gated |
+| parallel-02..N | TBD — typography / card / shell / route surface 等の後続 wave は未着手または review pending |
+| serial-07 visual evidence | TBD — runtime screenshots / playwright visual diff は delegated pending（user-gated） |
+| evidence | root / outputs `artifacts.json` parity, Phase 12 strict 7, 30-method compact evidence in `PROTOTYPE-COVERAGE.md`, parallel-01 local CSS selector evidence under `parallel-01-globals-css-rhythm/outputs/phase-11/` |
+| lessons-learned | [[lessons-learned-ui-prototype-design-system-foundation-globals-css-rhythm-2026-05]] (L-UIPROTO-001..005) |
 | parallel-01 | `local_implementation_complete (CSS selector + admin width 272px)` — `apps/web/src/styles/globals.css` に P1-1〜P1-5 selector 追加、`apps/web/app/(admin)/layout.tsx` を `md:grid-cols-[272px_1fr]` + `data-shell` / `data-route` に整列。runtime visual screenshots は user-gated |
 | parallel-02..N | TBD — typography / card / shell / route surface 等の後続 wave は未着手または review pending |
 | serial-07 visual evidence | TBD — runtime screenshots / playwright visual diff は delegated pending（user-gated） |
 | evidence | root / outputs `artifacts.json` parity, Phase 12 strict 7, 30-method compact evidence in `PROTOTYPE-COVERAGE.md`, parallel-01 local CSS selector evidence under `parallel-01-globals-css-rhythm/outputs/phase-11/` |
 | lessons-learned | [[lessons-learned-ui-prototype-design-system-foundation-globals-css-rhythm-2026-05]] (L-UIPROTO-001..005) |
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-ui-prototype-design-system-foundation-artifact-inventory.md` |
+| user gate | full 19-route binding, runtime visual screenshots, commit, push, PR |
+| user gate | full 19-route binding, visual screenshots, commit, push, PR |
 | user gate | full 19-route binding, visual screenshots, commit, push, PR |
 
 ### Issue #749 Primitive Adoption Tracker（2026-05-17）
@@ -235,15 +275,29 @@
 
 | 項目 | 値 |
 | --- | --- |
-| ステータス | `implemented-local-runtime-pending / implementation / VISUAL / PASS_BOUNDARY_SYNCED_RUNTIME_PENDING` |
-| 成果物 | `docs/30-workflows/serial-05-step-03-schema-diff-resolve/` |
+| ステータス | `completed / implementation / VISUAL / PASS` |
+| 成果物 | `docs/30-workflows/completed-tasks/serial-05-step-03-schema-diff-resolve/` |
 | 親 workflow | `docs/30-workflows/ui-prototype-alignment-mvp-recovery/improvements/serial-05-admin-mutation-ui/` |
 | 目的 | `/admin/schema` の既存 `SchemaDiffPanel` を現行 schema alias API contract に合わせて hardening する |
 | implementation targets | `apps/web/src/components/admin/SchemaDiffPanel.tsx`, `apps/web/src/lib/admin/api.ts`, `apps/web/src/components/admin/__tests__/SchemaDiffPanel.component.spec.tsx`, `apps/web/src/lib/admin/__tests__/api.spec.ts` |
 | API boundary | 既存 `GET /admin/schema/diff` / `POST /admin/schema/aliases` を利用。新 endpoint / D1 schema / env gate 追加なし |
 | UI contract | 4 ペイン table semantics、stableKey regex `/^[a-zA-Z][a-zA-Z0-9_]*$/`、row select 後 input focus、409 `existingStableKey` / 422 `existingQuestionIds` 表示、202 retryable status、queued/resolved 日本語 label |
-| evidence | `docs/30-workflows/serial-05-step-03-schema-diff-resolve/outputs/phase-11/evidence/`, `docs/30-workflows/serial-05-step-03-schema-diff-resolve/outputs/phase-12/phase12-task-spec-compliance-check.md` |
-| user gate | runtime screenshots、staging smoke、commit、push、PR |
+| evidence | `docs/30-workflows/completed-tasks/serial-05-step-03-schema-diff-resolve/outputs/phase-11/evidence/`, `docs/30-workflows/completed-tasks/serial-05-step-03-schema-diff-resolve/outputs/phase-11/screenshots/`, `docs/30-workflows/completed-tasks/serial-05-step-03-schema-diff-resolve/outputs/phase-12/phase12-task-spec-compliance-check.md` |
+| evidence completion | `docs/30-workflows/completed-tasks/issue-775-serial-05-step-03-runtime-evidence-completion/` captured 11 fixture-backed local runtime PNG and consumed the source follow-up |
+| user gate | real D1/staging smoke、commit、push、PR |
+
+### Issue #775 serial-05-step-03 runtime evidence completion（2026-05-18）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION / refs_only` |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-775-serial-05-step-03-runtime-evidence-completion/` |
+| 親 workflow | `docs/30-workflows/completed-tasks/serial-05-step-03-schema-diff-resolve/` |
+| source | `docs/30-workflows/completed-tasks/serial-05-step-03-followup-001-runtime-evidence-completion.md` consumed |
+| implementation targets | `apps/web/playwright.admin-schema-diff.config.ts`, `apps/web/playwright/tests/visual/admin-schema-diff.spec.ts`, `apps/web/playwright/.auth/.gitignore`, optional future real-D1 `scripts/fixtures/serial-05-step-03/seed-{diff,cleanup}.sql` |
+| evidence | parent Phase 11 fixture-backed local runtime screenshots 11 PNG + `outputs/phase-11/evidence/playwright.log` (`11 passed / 3 skipped`) |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-775-serial-05-step-03-runtime-evidence-completion-artifact-inventory.md` |
+| user gate | real D1 smoke / commit / push / PR / staging deploy / GitHub Issue mutation |
 
 ### admin-tags-queue-resolver-drawer（2026-05-17）
 
@@ -1945,6 +1999,7 @@ docs-only / direction-reconciliation で採用方針 A を維持する場合で�
 | 07a-parallel-tag-assignment-queue-resolve-workflow | completed / Phase 1-12 完了 / Phase 13 pending_user_approval / NON_VISUAL | `docs/30-workflows/completed-tasks/07a-parallel-tag-assignment-queue-resolve-workflow/` | tag assignment queue resolve workflow を `apps/api` に実装。`POST /admin/tags/queue/:queueId/resolve` は `{ action: "confirmed", tagCodes }` / `{ action: "rejected", reason }` を受け、guarded update 成功後だけ `member_tags` / `audit_log` を更新する。`queued/reviewing -> resolved/rejected`、同一 payload idempotent、409 race/state conflict、422 unknown tag/deleted member。03b response sync hook から未タグ member の candidate queue を自動投入。apps/web admin client と `TagQueuePanel`、packages/shared zod/type も `rejected` と resolve body に追従。検証: api typecheck PASS / web typecheck PASS / shared typecheck PASS / api Vitest 69 files 406 tests PASS / web Vitest 13 files 72 tests PASS。固有教訓 `references/lessons-learned-07a-tag-queue-resolve-2026-04.md`（L-07A-001〜007）。Follow-up: UT-07A-01 / UT-07A-03（UT-07A-02 と UT-07A-04 は consumed） |
 | issue-109-ut-02a-tag-assignment-queue-management | implemented-local / implementation / NON_VISUAL / Phase 1-12 completed / Phase 13 pending_user_approval / Issue #109 CLOSED | `docs/30-workflows/completed-tasks/issue-109-ut-02a-tag-assignment-queue-management/` | 02a `memberTags.ts` read-only 境界を維持したまま、Forms sync から `tag_assignment_queue` へ candidate を投入する write-side repository / workflow を実装。`enqueueTagCandidate(env, payload)` は `createIdempotent` 経由で `<memberId>:<responseId>` key を使い、migration `0009_tag_queue_idempotency_retry.sql` で idempotency / retry / DLQ 列を追加。admin queue は `status=dlq` filter を許可。manual specs 08/11/12 と Phase 12 7 outputs は同一 wave 同期済み。open follow-up: `task-issue-109-dlq-requeue-api-001.md`, `task-issue-109-tag-queue-pause-flag-001.md`。consumed: `task-issue-109-retry-tick-and-dlq-audit-001.md`（issue-377へ昇格済み）、`task-schema-diff-queue-faked1-compat-001.md`（Issue #379 current GREEN verification で consumed trace 化済み）。 |
 | issue-377-retry-tick-and-dlq-audit | implemented-local / implementation / NON_VISUAL / Phase 1-12 completed / Phase 13 pending_user_approval / Issue #377 CLOSED | `docs/30-workflows/issue-377-retry-tick-and-dlq-audit/` | UT-02A retry/DLQ primitives を scheduled cron で駆動。`apps/api/src/workflows/tagQueueRetryTick.ts` は retry tick 対象条件（`reason='retry_tick'` / `attempt_count > 0` / `last_error IS NOT NULL` / `next_visible_at IS NOT NULL`）を満たす queued row のみ処理し、plain human-review queued row は skip。default scheduled path でも `incrementRetryWithDlqAudit` を呼び、max retry 超過 / non-retryable error では `status='dlq'` と `admin.tag.queue_dlq_moved` audit (`target_type='tag_queue'`) を D1 batch で同時記録する。`apps/api/wrangler.toml` は top-level / staging / production を3 cron以内に維持し、legacy Sheets hourly は手動限定。Focused evidence: `tagQueueRetryTick.test.ts` 7 tests PASS + api typecheck PASS。Phase 13 は `Refs #377` のみ、commit / push / PR / deploy は user-gated。 |
+| ut-07c-followup-001-attendance-csv-import | implemented_local_evidence_captured / implementation / VISUAL / Phase 1-12 completed / Phase 13 pending_user_approval / Issue #312 | `docs/30-workflows/ut-07c-followup-001-attendance-csv-import/` | meeting attendance CSV 一括 import を `apps/api` / `apps/web` に実装済み。新 endpoint は `POST /admin/meetings/:sessionId/attendance/import?dryRun=true|false`、CSV parse は apps/web client 側、API payload は JSON rows、500 行超過は client/API の二段防御。`dryRun=false` 明示時のみ commit、省略/typo は dry-run。service は Hono `Context` を受けず `DbCtx` / actor / `auditLogProvider` を明示依存にし、commit 時は D1 batch で `member_attendance` insert と `attendance.import.add` audit insert を同一境界に投入する。row status は `ok` / `duplicate` / `deleted_member` / `unknown_member` / `invalid`、`memberId_email_mismatch` と空 row を invalid とする。focused API route 13 / API service 13 / web parser+UI 13 PASS、Phase 11 local Playwright screenshots S1-S4 captured、Phase 12 strict 7 actual outputs present。commit / push / PR は user-gated。 |
 | 07c-parallel-meeting-attendance-and-admin-audit-log-workflow | completed / Phase 1-12 完了 / Phase 13 pending_user_approval / NON_VISUAL | `docs/30-workflows/completed-tasks/07c-parallel-meeting-attendance-and-admin-audit-log-workflow/` | apps/api attendance 3 endpoint を 05a `requireAdmin` 配下で実装。`GET /admin/meetings/:sessionId/attendance/candidates` は session 不在 `404 session_not_found`、削除済み・登録済み member 除外。`POST /admin/meetings/:sessionId/attendance` は duplicate `409 attendance_already_recorded` / deleted `422 member_is_deleted` / session 不在 `404 session_not_found`。`DELETE /admin/meetings/:sessionId/attendance/:memberId` は row 不在を `404 attendance_not_found` に集約。add/remove 成功時のみ `audit_log` に `attendance.add` / `attendance.remove` を append（target_type=`meeting`, target_id=sessionId）。Phase 11 は API-only のため Vitest smoke evidence、visual は 08b/09a に委譲。固有教訓 `references/lessons-learned-07c-attendance-audit-2026-04.md`（L-07C-001〜005）。 |
 | 07c-followup-003-audit-log-browsing-ui | completed / Phase 1-12 完了 / Phase 13 blocked_user_approval / VISUAL | `docs/30-workflows/completed-tasks/07c-followup-003-audit-log-browsing-ui/` | `/admin/audit` 監査ログ閲覧 UI と `GET /admin/audit` を実装。API は `requireAdmin`、複合 filter、UTC range、cursor pagination、limit 1-100、maskedBefore/maskedAfter projection、broken JSON parseError を提供し raw `before_json` / `after_json` を返さない。Web は admin proxy 経由の read-only table/filter/disclosure UI、JST 入力・表示、UI 側 PII 再 mask、AdminSidebar 導線を追加。検証: api typecheck PASS / web typecheck PASS / api Vitest 82 files 493 tests PASS / focused web Vitest 2 files 7 tests PASS。web 全体 test は既存 `/no-access` invariant で FAIL（本差分外）。Phase 11 screenshot 7 件を保存。 |
 | 08a-parallel-api-contract-repository-and-authorization-tests | member_only / Phase 1-10 completed / Phase 11-12 member_only / Phase 13 pending_user_approval / NON_VISUAL | `docs/30-workflows/08a-parallel-api-contract-repository-and-authorization-tests/` | apps/api の API contract / repository / authz / brand type / invariant tests を整備。Phase 11 実測は 74 files / 442 tests PASS、coverage は Statements 84.18% / Branches 84.13% / Functions 83.37% / Lines 84.18% で AC-6 PARTIAL。代表 authz matrix + route tests で現状を観測し、全 endpoint generated matrix と public use-case coverage 補強は `docs/30-workflows/unassigned-task/UT-08A-01-public-use-case-coverage-hardening.md` に formalize。UI route なしのため screenshot 不要、Phase 11 evidence は `outputs/phase-11/evidence/{test-run.log,coverage-report.txt,ci-workflow.yml}`。Phase 12 close-out: `outputs/phase-12/{main,implementation-guide,documentation-changelog,system-spec-update-summary,unassigned-task-detection,skill-feedback-report,phase12-task-spec-compliance-check}.md`（全 6 + 1 揃い）。Follow-up は UT-08A-01〜06 の計 6 本を `unassigned-task/` に formalize（02 visual regression / 03 production load test / 04 D1 migration test guideline / 05 shared package type test / 06 test suffix rename）。task root path drift（`02-application-implementation/` → `30-workflows/` 直下）を `legacy-ordinal-family-register.md` の Task Root Path Drift Register に記録。 |
