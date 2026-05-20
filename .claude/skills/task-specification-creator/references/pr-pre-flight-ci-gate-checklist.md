@@ -115,7 +115,8 @@ bash scripts/verify-pr-ready.sh
    - `missing-heading` → §4 canonical 9 headings
    - `missing-evidence` → §2 (table 形式) または §3 (path 解決) または §5 (unassigned-task 配置)
 3. `indexes:rebuild drift` → `.claude/skills/aiworkflow-requirements/indexes/` 配下の再生成差分を `git add` & commit（sync-merge 直後は `task-workflow-active.md` の `merge=union` で行数が増減し `topic-map.md` の見出し L 番号が drift する構造的事象。再生成→コミットが正規復旧手順）
-4. 修正後 `bash scripts/verify-pr-ready.sh` を再実行し全 PASS を確認してから push
+4. `pnpm sync:resolve` が exit code 1 で終わるが残コンフリクトが `LOGS/_legacy.md` のみ（`.gitignore` 配下で `git add` が失敗するが union resolve 自体は成功） → `git add -f .claude/skills/*/LOGS/_legacy.md` で追跡し続行。残る `indexes/keywords.json` (UU) は `git checkout --ours` + `pnpm indexes:rebuild` で deterministic 再生成（L-DEVSYNC-029 安定パターン）
+5. 修正後 `bash scripts/verify-pr-ready.sh` を再実行し全 PASS を確認してから push
 
 ## 6. `lighthouse-ci` performance fail（環境ノイズ起因）
 
