@@ -9,6 +9,8 @@
 # 両側が「先頭への新規行追記」を行うため、union で両方残す。
 docs/30-workflows/LOGS.md                       merge=union
 .claude/skills/*/SKILL-changelog.md             merge=union
+.claude/skills/*/LOGS/_legacy.md                merge=union
+.claude/skills/*/lessons-learned/*.md           merge=union
 
 # === Lockfile は package manager が再生成するので最終側を採用しがちだが、
 # 自動 union は構文破壊につながるため明示しない（手動 / `pnpm install --force`）===

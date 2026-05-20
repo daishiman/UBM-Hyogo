@@ -1,0 +1,19 @@
+mise WARN  Config files in ~/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260518-215018-wt-16/.mise.toml are not trusted.
+Trust them with `mise trust`. See https://mise.jdx.dev/cli/trust.html for more information.
+
+> ubm-hyogo@0.1.0 typecheck /Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260518-215018-wt-16
+> pnpm -r typecheck
+
+Scope: 6 of 7 workspace projects
+packages/contracts typecheck$ tsc -p tsconfig.json --noEmit
+packages/shared typecheck$ tsc -p tsconfig.json --noEmit
+packages/contracts typecheck: Done
+packages/shared typecheck: Done
+apps/web typecheck$ tsc -p tsconfig.json --noEmit
+packages/integrations/google typecheck$ tsc -p tsconfig.json --noEmit
+packages/integrations typecheck$ tsc -p tsconfig.json --noEmit
+packages/integrations typecheck: Done
+packages/integrations/google typecheck: Done
+apps/web typecheck: Done
+apps/api typecheck$ tsc -p tsconfig.json --noEmit
+apps/api typecheck: Done

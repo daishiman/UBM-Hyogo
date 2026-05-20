@@ -7,15 +7,15 @@
 
 admin ダッシュボードの StatusDistribution component を改善し、`toAdminDashboardUi()` から `byStatus` データが得られた場合、chart 描画する。dependencies に chart library がなければ SVG 直書きで簡易実装。
 
-**API 状態確認済 (2026-05-15)**: `apps/api/src/routes/admin/dashboard.ts` の response に **`byStatus` field は未実装**。本 spec は以下 2 段階で進める。
-1. **Phase 5a (frontend)**: StatusDistribution.tsx に SVG chart logic を実装。`byStatus` props が `undefined / null / empty` の場合は既存 chip list を fallback として描画（後方互換維持）。
-2. **Phase 5b (backend, scope 外)**: API 側に `byStatus: Array<{status, count}>` field 追加。本 improvements workflow では実施せず、別タスク化。frontend 側は 5a で受け皿だけ準備。
+**API 状態更新 (2026-05-18)**: レビューサイクルで `apps/api/src/routes/admin/dashboard.ts` の response に **`byStatus` field を同一 endpoint 上で実装**した。本 spec は以下 2 段階を同一サイクルで完了した。
+1. **Phase 5a (frontend)**: StatusDistribution.tsx に SVG chart logic を実装。`byStatus` props が `undefined / null / empty` の場合は既存 placeholder を fallback として描画（後方互換維持）。
+2. **Phase 5b (backend)**: API 側に `byStatus: Array<{status, count}>` field を追加。新 endpoint は作らない。
 
 ## 2. スコープ
 
 - **変更対象**: `apps/web/src/features/admin/components/_dashboard/StatusDistribution.tsx`
 - **新規実装**: chart rendering logic (SVG または library)
-- **API**: `GET /api/admin/dashboard` (既に実装、byStatus 拡張を期待)
+- **API**: `GET /api/admin/dashboard` (既存 endpoint に byStatus 拡張済)
 - **UI パターン**: status slice data → bar chart or donut chart
 
 ## 3. 変更対象ファイル一覧
@@ -155,7 +155,7 @@ pnpm e2e:visual --project=visual-chromium
 
 ## 10. リスク
 
-1. **byStatus API response**: API side で byStatus data をまだ返していない場合、chart は未表示
+1. **byStatus API response**: legacy response や empty data の場合、chart は未表示で placeholder に fallback
 2. **SVG responsiveness**: viewport width 変更時の re-render handling
 3. **library dependency**: 将来 recharts 等を導入する場合の refactor コスト
 
