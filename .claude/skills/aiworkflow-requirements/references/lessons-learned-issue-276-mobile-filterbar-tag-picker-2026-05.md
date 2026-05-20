@@ -61,6 +61,12 @@
 - **教訓**: UI primitive 追加は **(a) API contract / (b) UI props / (c) 画面 blueprint / (d) feature 仕様** の 4 軸 spec を同時更新する。`outputs/phase-12/system-spec-update-summary.md` に 4 行の更新表を作って漏れチェックする運用を固定する。
 - **将来アクション**: task-specification-creator `references/patterns-mobile-ui-primitive-3point-sync.md` §「4-spec sync matrix」に表 template を登録。
 
+### L-I276-008: dev sync 後の stash-pop コンフリクトは union 解消 + `pnpm indexes:rebuild` で確定する
+
+- **背景**: 本タスクの実装途中で `feat/issue-276-mobile-filterbar-tag-picker` ブランチに `origin/dev`（4 commits ahead）を取り込んだ際、未コミットの skill index 追記が `git stash` 経由で退避され、`git merge origin/dev` 後の `git stash pop` で 3-way conflict が発生した（`<<<<<<< Updated upstream` / `||||||| Stash base` / `=======` / `>>>>>>> Stashed changes` マーカー）。発生ファイルは `indexes/{quick-reference,resource-map,topic-map}.md`、`references/task-workflow-active.md`、`apps/api/src/repository/_shared/generated/static-manifest.json` の 5 件。`pnpm sync:resolve` は `MERGE_HEAD` 検出ロジックのため stash-pop には適用できず、no merge in progress として早期 exit する。
+- **教訓**: (a) stash-pop コンフリクト の skill index は **両側 union 採用が正本**（Issue #775 entry と Issue #276 entry の双方を残す）、(b) 解消後は **必ず `pnpm indexes:rebuild`** を実行して `keywords.json` を再生成し index drift CI gate を抜ける、(c) `static-manifest.json` などの自動生成物は markerless で unmerged 化することがあるため `git add -A` 前に `git ls-files -u` で確認する、(d) 解消 commit の前に `bash scripts/verify-pr-ready.sh`（verify:phase12-compliance / gate-metadata:validate / indexes:rebuild drift）を pre-flight として走らせると pre-push hook 段階での再失敗を防げる。
+- **将来アクション**: `scripts/sync/resolve-skill-merge-conflicts.sh` に stash-pop も検出対象に含める拡張を検討（条件: `git stash list` 非空 かつ unmerged paths が `.claude/skills/aiworkflow-requirements/indexes/` 配下のみ → union + `indexes:rebuild` を自動適用）。task-specification-creator 側の `patterns-mobile-ui-primitive-3point-sync.md` には「dev 取り込み時の index 同期 3 点（union / indexes:rebuild / verify-pr-ready）」を追記する。
+
 ## 後発タスクへの転記チェックリスト（filter / picker primitive 追加時に複製）
 
 - [ ] shared zod schema を最初に追加し `.max(N)` で件数制約を埋め込む

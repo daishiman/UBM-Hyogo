@@ -85,6 +85,18 @@ UI primitive を追加するたびに、関連 system spec を 4 軸で同時更
 
 `outputs/phase-11/evidence/<above>.png` に固定 path で保存し、`outputs/phase-11/screenshot-plan.json` で path + viewport を宣言する。
 
+## 6.5. dev 取り込み時の index 同期 3 点（stash-pop conflict 解消手順）
+
+本 pattern を適用する long-running task では、実装途中で `origin/dev` を取り込む際、未コミットの skill index 追記が `git stash` → `git merge dev` → `git stash pop` 経路で 3-way conflict（`<<<<<<< Updated upstream` / `||||||| Stash base` / `>>>>>>> Stashed changes`）に発生しやすい。発生時は次の 3 点を固定手順とする。
+
+1. **union 解消**: 該当 index ファイル（`indexes/{quick-reference,resource-map,topic-map}.md`, `references/task-workflow-active.md`）は **Updated upstream 側 + Stashed changes 側の両方を採用** し、Stash base 側を破棄する。これにより dev で merge された他 workflow entry（例: Issue #775 entry）と本タスクで追加する entry（例: Issue #276 entry）が両方残る。
+2. **indexes 再生成**: 解消後に `pnpm indexes:rebuild` を必ず実行し `keywords.json` を再生成する（手書きの union では keyword 索引が drift し、`verify-indexes-up-to-date` CI gate が fail する）。
+3. **pre-flight gate**: commit / push の前に `bash scripts/verify-pr-ready.sh`（verify:phase12-compliance / gate-metadata:validate / indexes:rebuild drift の 3 点を一括）を実行する。pre-push hook 段階で初めて落ちると再 fix の commit が増え PR ノイズになる。
+
+なお `pnpm sync:resolve`（`scripts/sync/resolve-skill-merge-conflicts.sh`）は `MERGE_HEAD` 検出ロジックのため stash-pop コンフリクトでは `no merge in progress` で早期 exit する。stash-pop 起因では本手順を手動適用する（自動化未対応）。
+
+参照: `.claude/skills/aiworkflow-requirements/references/lessons-learned-issue-276-mobile-filterbar-tag-picker-2026-05.md` § L-I276-008
+
 ## 7. Phase 12 close-out 必須同期対象（本 pattern 適用時）
 
 本 pattern を採用したタスクの Phase 12 close-out では、以下を同一 wave で同期する。`patterns-phase12-sync.md` の一般則に加えて UI primitive 固有の追加項目。

@@ -4998,8 +4998,8 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 背景 | L10 |
 | 教訓一覧 | L20 |
-| 後発タスクへの転記チェックリスト（filter / picker primitive 追加時に複製） | L64 |
-| 参照 | L78 |
+| 後発タスクへの転記チェックリスト（filter / picker primitive 追加時に複製） | L70 |
+| 参照 | L84 |
 
 ### references/lessons-learned-issue-290-workflow-lint-gate-2026-05.md
 
