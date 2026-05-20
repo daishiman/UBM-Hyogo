@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useEffect, useRef } from "react";
 import { logger } from "../src/lib/logger";
+import { useAutoFocusOnMount } from "../src/lib/a11y/useAutoFocusOnMount";
 
 type Props = {
   error: Error & { digest?: string };
@@ -18,8 +19,8 @@ export default function RouteError({ error, reset }: Props) {
       digest: error.digest,
       err: error,
     });
-    headingRef.current?.focus({ preventScroll: true });
   }, [error]);
+  useAutoFocusOnMount(headingRef);
 
   const isDev = process.env.NODE_ENV !== "production";
 

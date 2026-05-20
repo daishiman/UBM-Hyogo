@@ -2753,6 +2753,14 @@ node scripts/list-specs.js --topics
 
 ### references/workflow-issue-772-cf-audit-monitor-runtime-restoration-artifact-inventory.md
 
+### references/workflow-issue-800-profile-error-focus-transfer-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| State | L22 |
+| useAutoFocusOnMount hook | L28 |
+| Error focus management pattern | L32 |
+
 ### references/workflow-light-theme-contrast-regression-guard.md
 
 | セクション | 行 |
@@ -6987,14 +6995,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L1703 |
-| フェーズ構造（概要） | L1712 |
-| 品質ゲート（概要） | L1743 |
-| 出力テンプレート | L1754 |
-| 実行時のコマンド・エージェント・スキル | L1777 |
-| 昇格パターン集 | L1801 |
-| Current Active / Spec Created Tasks | L1803 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L1954 |
+| ドキュメント構成 | L1718 |
+| フェーズ構造（概要） | L1727 |
+| 品質ゲート（概要） | L1758 |
+| 出力テンプレート | L1769 |
+| 実行時のコマンド・エージェント・スキル | L1792 |
+| 昇格パターン集 | L1816 |
+| Current Active / Spec Created Tasks | L1818 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L1969 |
 
 ### references/task-workflow-backlog-part2.md
 

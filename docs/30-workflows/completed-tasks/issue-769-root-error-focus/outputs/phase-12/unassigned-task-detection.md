@@ -9,7 +9,7 @@ No blocking unassigned task is required to complete root `error.tsx` h1 focus. T
 | Candidate | Decision | Reason |
 | --- | --- | --- |
 | `useAutoFocusOnMount(ref)` shared hook | not created in this cycle | Requires i05 and i06 to settle first; premature extraction would create cross-task coupling |
-| `/profile/error.tsx` focus transfer | not created in this cycle | Not required by parent i06 spec; should be evaluated as a separate a11y hardening task |
+| `/profile/error.tsx` focus transfer | consumed by `docs/30-workflows/completed-tasks/issue-800-profile-error-focus-transfer/` | Implemented locally in Issue #800 workflow; Phase 11 local evidence and Phase 12 strict 7 captured |
 | `/admin/error.tsx` focus transfer | not created in this cycle | Not required by parent i06 spec; should be evaluated as a separate a11y hardening task |
 
 ## CONST_005 Judgment

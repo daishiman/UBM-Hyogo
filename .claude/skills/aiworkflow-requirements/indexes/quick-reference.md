@@ -90,7 +90,7 @@
 
 | 目的 | 参照先 |
 | --- | --- |
-| workflow root | `docs/30-workflows/issue-769-root-error-focus/` |
+| workflow root | `docs/30-workflows/completed-tasks/issue-769-root-error-focus/` |
 | 状態 | `implemented_local_evidence_captured / implementation / NON_VISUAL / runtime_pending` |
 | scope | root `apps/web/app/error.tsx` の h1 自動 focus |
 | implementation | `apps/web/app/error.tsx` |
@@ -100,6 +100,23 @@
 | parent | `docs/30-workflows/ui-prototype-alignment-mvp-recovery/improvements/integration-fixes/parallel-i06-root-error-focus/spec.md` |
 | lessons | `.claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-issue-769-root-error-focus-2026-05.md` (L-I769-001..005) |
 | user gate | interactive screen reader smoke, commit, push, PR |
+
+### Issue #800 error boundary focus hook rollout（2026-05-19）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-800-profile-error-focus-transfer/` |
+| 状態 | `implemented_local_evidence_captured / implementation / NON_VISUAL / implementation_complete_pending_pr` |
+| source issue | #800 CLOSED。PR 文脈は `Refs #800` のみ |
+| implementation | `apps/web/src/lib/a11y/useAutoFocusOnMount.ts`, `apps/web/app/{error,profile/error,login/error}.tsx`, `apps/web/app/(admin)/admin/error.tsx` |
+| tests | hook + root/profile/login/admin focused tests |
+| source | `docs/30-workflows/completed-tasks/issue-769-followup-{001,002,003}*.md` consumed; `/login/error.tsx` residual recovered from i05/Issue #768 context |
+| source parent | `docs/30-workflows/completed-tasks/issue-769-root-error-focus/` |
+| umbrella parent | `docs/30-workflows/ui-prototype-alignment-mvp-recovery/` |
+| evidence | focused Vitest 5 files / 31 PASS, web typecheck PASS, web lint PASS, `outputs/phase-12/implementation-guide.md`, `outputs/phase-12/phase12-task-spec-compliance-check.md` |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-800-profile-error-focus-transfer-artifact-inventory.md` |
+| lessons-learned | `.claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-issue-800-profile-error-focus-transfer-2026-05.md` |
+| user gate | manual screen reader smoke, commit, push, PR |
 
 ### i02-admin-error-type-unify（2026-05-17）
 

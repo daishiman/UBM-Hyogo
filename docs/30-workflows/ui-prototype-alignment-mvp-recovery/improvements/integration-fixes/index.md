@@ -79,7 +79,7 @@ integration-fixes/
 | i03 | spec_ready_implementation_pending | `parallel-i03-dialog-refresh-order/spec.md` / `docs/30-workflows/unassigned-task/integration-fixes-i03-dialog-refresh-order.md` |
 | i04 | completed locally | `docs/30-workflows/integration-fixes-i04-homepage-cta-implementation/` / `parallel-i04-homepage-cta/spec.md` / `docs/30-workflows/unassigned-task/integration-fixes-i04-homepage-cta.md` |
 | i05 | spec_ready_implementation_pending | `parallel-i05-login-loading-and-error-focus/spec.md` / `docs/30-workflows/unassigned-task/integration-fixes-i05-login-loading-and-error-focus.md` |
-| i06 | implemented_local_evidence_captured | `parallel-i06-root-error-focus/spec.md` / `docs/30-workflows/issue-769-root-error-focus/` / `docs/30-workflows/unassigned-task/integration-fixes-i06-root-error-focus.md` consumed |
+| i06 | implemented_local_evidence_captured | `parallel-i06-root-error-focus/spec.md` / `docs/30-workflows/completed-tasks/issue-769-root-error-focus/` / `docs/30-workflows/unassigned-task/integration-fixes-i06-root-error-focus.md` consumed |
 | i07 | implemented_local_runtime_pending | `parallel-i07-profile-loading-skeleton/spec.md` / `docs/30-workflows/issue-770-profile-loading-skeleton/` / source consumed `docs/30-workflows/unassigned-task/integration-fixes-i07-profile-loading-skeleton.md` |
 
 ## 8. 参照

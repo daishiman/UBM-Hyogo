@@ -144,5 +144,5 @@ mise exec -- pnpm -F "@ubm-hyogo/web" test -- --run error.component
 このタスクは canonical workflow root へ昇格するか、in-place fix で完結するかをここで明示する。
 
 - **status**: implemented_local_evidence_captured
-- **canonical_workflow**: `docs/30-workflows/issue-769-root-error-focus/`
+- **canonical_workflow**: `docs/30-workflows/completed-tasks/issue-769-root-error-focus/`
 - **判断**: 当初は in-place fix 予定だったが、Issue #769 として Phase 1-13 の canonical workflow root へ昇格済み。実装、既存テスト追記、Phase 11 deterministic evidence、Phase 12 strict 7、親 index / source unassigned task / aiworkflow-requirements 同期まで同一 wave で完了。interactive screen reader smoke、commit、push、PR は user-gated。
