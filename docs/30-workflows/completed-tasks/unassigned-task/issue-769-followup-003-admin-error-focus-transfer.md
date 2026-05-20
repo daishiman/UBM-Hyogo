@@ -10,7 +10,7 @@
 | 対象機能     | admin route segment error boundary（`/admin` page + nested child routes の render error をカバーする segment-level 1 枚。`(admin)/layout.tsx` 由来の layout error は対象外） |
 | 優先度       | 中                                                                                                    |
 | 見積もり規模 | 小（admin/error.tsx 全面書き換え 約 40 行 + spec/test 追記）                                          |
-| ステータス   | consumed                                                                                              |
+| ステータス   | consumed (canonical: `docs/30-workflows/completed-tasks/issue-801-admin-error-focus-transfer/`; hook 化先行: `docs/30-workflows/issue-799-use-auto-focus-on-mount-hook/`) |
 | 発見元       | issue-769 Phase 12 unassigned-task-detection (`/admin/error.tsx` focus transfer 行)                   |
 | 発見日       | 2026-05-17                                                                                            |
 
@@ -29,7 +29,8 @@
 - 修正対象 (現状確認済):
   - `apps/web/app/(admin)/admin/error.tsx` — 既存だが a11y hardening が **未実装**（focus 管理なし / `aria-live` なし / digest 表示なし / logger 呼び出しなし）
   - `apps/web/app/(admin)/admin/__tests__/error.component.spec.tsx`（新規追加 または 既存ファイル追記）
-- admin route segment 構成（本 boundary の render error 対象。`apps/web/app/(admin)/layout.tsx` は sibling parent layout のため対象外）:
+- consumed note: Issue #799 で `useAutoFocusOnMount` 共通 hook を抽出済み。本タスクは issue-801 で admin segment への hook 適用 + digest 表示・構造化 logger・production-safe copy・dev-only stack output を実装し canonical workflow へ昇格。
+- admin route segment 構成（本 boundary の render error 対象。`apps/web/app/(admin)/layout.tsx` は sibling parent layout のため対象外。8 routes すべて本 boundary 配下）:
   - `(admin)/admin/page.tsx` (admin top / dashboard)
   - `(admin)/admin/members/`
   - `(admin)/admin/tags/`

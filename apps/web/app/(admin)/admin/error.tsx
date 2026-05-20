@@ -2,15 +2,19 @@
 
 import Link from "next/link";
 import { useEffect, useRef } from "react";
+import { useAutoFocusOnMount } from "../../../src/lib/a11y/useAutoFocusOnMount";
 import { logger } from "../../../src/lib/logger";
 
+type AdminError = Error & { digest?: string };
+
 type Props = {
-  error: Error & { digest?: string };
+  error: AdminError;
   reset: () => void;
 };
 
 export default function AdminError({ error, reset }: Props) {
   const headingRef = useRef<HTMLHeadingElement>(null);
+  useAutoFocusOnMount(headingRef);
 
   useEffect(() => {
     logger.error({
@@ -19,7 +23,6 @@ export default function AdminError({ error, reset }: Props) {
       digest: error.digest,
       err: error,
     });
-    headingRef.current?.focus({ preventScroll: true });
   }, [error]);
 
   const isDev = process.env.NODE_ENV !== "production";

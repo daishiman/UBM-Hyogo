@@ -4,12 +4,13 @@
 
 ## 目的
 
-`parallel-07` spec section 4.3 で要求された root `error.tsx` の focus 管理が未実装。
+`parallel-07` spec section 4.3 で要求された root `error.tsx` の focus 管理を 2026-05-18 実装サイクルで完了した。
 
 実コード (`apps/web/app/error.tsx`) で確認:
 - `role="alert"` + `aria-live="assertive"` ✓ 既実装
 - digest 表示 ✓ 既実装
 - **h1 への自動 focus 実装済み** ← Issue #769 workflow で追加
+- **h1 への自動 focus 実装済み** ← 本タスクで追加
 
 ## スコープ
 
@@ -126,6 +127,13 @@ mise exec -- pnpm -F "@ubm-hyogo/web" test -- --run error.component
 - [x] `apps/web/app/__tests__/error.component.spec.tsx` で focus 検証 PASS
 - [x] `pnpm typecheck` / `pnpm lint` PASS
 - [x] p-07 spec 4.3 (Root error.tsx focus 管理) 達成
+- [x] `apps/web/app/error.tsx` で h1 に `ref` + `tabIndex={-1}`
+- [x] useEffect で `focus({ preventScroll: true })` 呼び出し
+- [x] `error.spec.tsx` で focus 検証 PASS
+- [x] `pnpm typecheck` / `pnpm lint` PASS
+- [x] p-07 spec 4.3 (Root error.tsx focus 管理) 達成
+
+DoD は canonical workflow `docs/30-workflows/parallel-i06-root-error-focus/` の Phase 11 evidence と 2026-05-19 review cycle の再実行で確認済み。
 
 ## リスク
 
@@ -146,3 +154,6 @@ mise exec -- pnpm -F "@ubm-hyogo/web" test -- --run error.component
 - **status**: implemented_local_evidence_captured
 - **canonical_workflow**: `docs/30-workflows/issue-769-root-error-focus/`
 - **判断**: 当初は in-place fix 予定だったが、Issue #769 として Phase 1-13 の canonical workflow root へ昇格済み。実装、既存テスト追記、Phase 11 deterministic evidence、Phase 12 strict 7、親 index / source unassigned task / aiworkflow-requirements 同期まで同一 wave で完了。interactive screen reader smoke、commit、push、PR は user-gated。
+- **status**: implemented_local_evidence_captured
+- **canonical_workflow**: `docs/30-workflows/parallel-i06-root-error-focus/`
+- **判断**: 2026-05-18 の実行 cycle で canonical workflow root へ昇格し、root `error.tsx` の h1 自動 focus と `error.spec.tsx` の direct Vitest evidence を実装済み。Phase 11 evidence、Phase 12 strict 7 outputs、artifacts full mirror、aiworkflow-requirements sync に接続した。Phase 13 commit / push / PR は user approval gate のため未実行。

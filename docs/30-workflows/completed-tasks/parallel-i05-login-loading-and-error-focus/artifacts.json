@@ -1,0 +1,78 @@
+{
+  "workflow_id": "parallel-i05-login-loading-and-error-focus",
+  "metadata": {
+    "workflow_state": "implemented_local_evidence_captured",
+    "taskType": "implementation",
+    "visualEvidence": "VISUAL",
+    "implementation_mode": "new",
+    "parent_workflow": "ui-prototype-alignment-mvp-recovery",
+    "source_spec": "docs/30-workflows/ui-prototype-alignment-mvp-recovery/improvements/integration-fixes/parallel-i05-login-loading-and-error-focus/spec.md",
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-05-18T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/parallel-i05-login-loading-and-error-focus/index.md",
+        "approver": "daishiman",
+        "notes": "spec_review: Phase 1-13 spec readiness"
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "passed",
+        "passed_at": "2026-05-18T12:58:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/parallel-i05-login-loading-and-error-focus/outputs/phase-12/phase12-task-spec-compliance-check.md",
+        "approver": "daishiman",
+        "notes": "implementation_review: loading + error + focused vitest PASS"
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/parallel-i05-login-loading-and-error-focus/outputs/phase-11/manual-test-result.md",
+        "approver": "daishiman",
+        "notes": "external_ops: runtime screenshots / PR / merge"
+      }
+    ]
+  },
+  "phases": [
+    { "phase": 1, "status": "completed" },
+    { "phase": 2, "status": "completed" },
+    { "phase": 3, "status": "completed" },
+    { "phase": 4, "status": "completed" },
+    { "phase": 5, "status": "completed" },
+    { "phase": 6, "status": "completed" },
+    { "phase": 7, "status": "completed" },
+    { "phase": 8, "status": "completed" },
+    { "phase": 9, "status": "completed" },
+    { "phase": 10, "status": "completed" },
+    { "phase": 11, "status": "completed_local_evidence_runtime_visual_pending" },
+    { "phase": 12, "status": "completed" },
+    { "phase": 13, "status": "pending" }
+  ],
+  "outputs": {
+    "phase_11": [
+      "outputs/phase-11/screenshot-plan.json",
+      "outputs/phase-11/phase11-capture-metadata.json",
+      "outputs/phase-11/manual-test-result.md",
+      "outputs/phase-11/manual-test-report.md",
+      "outputs/phase-11/discovered-issues.md",
+      "outputs/phase-11/ui-sanity-visual-review.md"
+    ],
+    "phase_12": [
+      "outputs/phase-12/main.md",
+      "outputs/phase-12/implementation-guide.md",
+      "outputs/phase-12/system-spec-update-summary.md",
+      "outputs/phase-12/documentation-changelog.md",
+      "outputs/phase-12/unassigned-task-detection.md",
+      "outputs/phase-12/skill-feedback-report.md",
+      "outputs/phase-12/phase12-task-spec-compliance-check.md"
+    ]
+  },
+  "implementation_targets": [
+    { "path": "apps/web/app/login/loading.tsx", "action": "create" },
+    { "path": "apps/web/app/login/error.tsx", "action": "modify" },
+    { "path": "apps/web/app/login/loading.spec.tsx", "action": "create" },
+    { "path": "apps/web/app/login/error.spec.tsx", "action": "create_or_modify" },
+    { "path": "apps/web/src/styles/globals.css", "action": "conditional_modify" }
+  ]
+}

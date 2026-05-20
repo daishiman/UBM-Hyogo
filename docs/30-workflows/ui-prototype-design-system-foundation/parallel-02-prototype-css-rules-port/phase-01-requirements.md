@@ -7,7 +7,7 @@ status: spec_created
 created_at: 2026-05-18
 owner: daishiman
 taskType: implementation
-visualEvidence: VISUAL
+visualEvidence: VISUAL_RUNTIME_PENDING
 implementation_mode: greenfield-foundation
 ---
 
@@ -46,7 +46,7 @@ implementation_mode: greenfield-foundation
 | selector | `[data-component="member-card"]` |
 | transition | `border-color`, `box-shadow` を `var(--ubm-dur-fast)` で変化 |
 | hover | `border-color: var(--ubm-color-border-strong); box-shadow: var(--ubm-shadow-sm);` |
-| focus-visible | `outline: 2px solid var(--ubm-color-accent); outline-offset: 2px;` |
+| focus-within | `outline: 2px solid var(--ubm-color-accent); outline-offset: 2px;` |
 | 非 hover (既定) | `box-shadow: var(--ubm-shadow-xs, none);` (既存 surface に追加しない) |
 
 ### 3.3 G3-3: Visibility marker
@@ -55,10 +55,10 @@ implementation_mode: greenfield-foundation
 |------|------|
 | selector | `[data-visibility="public" \| "member" \| "admin"]` |
 | 共通装飾 | `border-left: 3px solid <token>; padding-inline-start: 12px; position: relative;` |
-| `public` | border `var(--ubm-color-ok)` / `::before` content `"🌍"` |
-| `member` | border `var(--ubm-color-zone-b)` / `::before` content `"👥"` |
-| `admin` | border `var(--ubm-color-danger)` / `::before` content `"🔐"` |
-| icon 配置 | `::before { margin-inline-end: 6px; }` 装飾扱い (`aria-hidden` は markup 側で担保) |
+| `public` | border `var(--ubm-color-ok)` / `::before` dot `var(--ubm-color-ok)` |
+| `member` | border `var(--ubm-color-zone-b)` / `::before` dot `var(--ubm-color-zone-b)` |
+| `admin` | border `var(--ubm-color-danger)` / `::before` dot `var(--ubm-color-danger)` |
+| marker 配置 | `::before` は 8px の装飾 dot。OS / font 依存の絵文字は使わない |
 
 ## 4. 非機能要件
 

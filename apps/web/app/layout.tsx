@@ -2,11 +2,11 @@ import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import "@/styles/globals.css";
 import { ToastProvider } from "@/components/ui/Toast";
+import { buildBaseMetadata } from "@/lib/seo/site-metadata";
 
-export const metadata: Metadata = {
-  title: "UBM Hyogo",
-  description: "Runtime foundation for UBM Hyogo",
-};
+export async function generateMetadata(): Promise<Metadata> {
+  return buildBaseMetadata();
+}
 
 export default function RootLayout({ children }: { readonly children: ReactNode }) {
   return (

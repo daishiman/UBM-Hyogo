@@ -1,0 +1,83 @@
+{
+  "schemaVersion": 1,
+  "taskId": "parallel-i06-root-error-focus",
+  "title": "root error.tsx h1 auto focus",
+  "taskType": "implementation",
+  "visualEvidence": "NON_VISUAL",
+  "workflow_state": "implemented_local_evidence_captured",
+  "evidence_state": "LOCAL_COMMAND_EVIDENCE_CAPTURED",
+  "metadata": {
+    "taskType": "implementation",
+    "visualEvidence": "NON_VISUAL",
+    "workflow_state": "implemented_local_evidence_captured",
+    "canonicalRoot": "docs/30-workflows/completed-tasks/parallel-i06-root-error-focus",
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-05-18T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/parallel-i06-root-error-focus/outputs/phase-12/phase12-task-spec-compliance-check.md",
+        "approver": "daishiman",
+        "notes": "phase12_compliance: strict 7 outputs and four-condition verdict present"
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "passed",
+        "passed_at": "2026-05-18T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/parallel-i06-root-error-focus/outputs/phase-11/evidence/test.log",
+        "approver": "daishiman",
+        "notes": "local_evidence: direct Vitest run for apps/web/app/error.spec.tsx plus typecheck/lint/grep evidence captured"
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/parallel-i06-root-error-focus/outputs/phase-13/pr-summary.md",
+        "approver": "daishiman",
+        "notes": "commit_push_pr remain user-gated"
+      }
+    ]
+  },
+  "canonical_workflow": "docs/30-workflows/completed-tasks/parallel-i06-root-error-focus/",
+  "source_spec": "docs/30-workflows/ui-prototype-alignment-mvp-recovery/improvements/integration-fixes/parallel-i06-root-error-focus/spec.md",
+  "created_at": "2026-05-18",
+  "updated_at": "2026-05-18",
+  "implementation_targets": [
+    "apps/web/app/error.tsx",
+    "apps/web/app/error.spec.tsx"
+  ],
+  "phases": {
+    "phase-01": { "file": "phase-01-requirements.md", "state": "completed" },
+    "phase-02": { "file": "phase-02-architecture.md", "state": "completed" },
+    "phase-03": { "file": "phase-03-task-breakdown.md", "state": "completed" },
+    "phase-04": { "file": "phase-04-data-contract.md", "state": "completed" },
+    "phase-05": { "file": "phase-05-implementation-guide.md", "state": "completed" },
+    "phase-06": { "file": "phase-06-test-plan.md", "state": "completed" },
+    "phase-07": { "file": "phase-07-quality-gates.md", "state": "completed" },
+    "phase-08": { "file": "phase-08-dod.md", "state": "completed" },
+    "phase-09": { "file": "phase-09-risks.md", "state": "completed" },
+    "phase-10": { "file": "phase-10-local-verification.md", "state": "completed" },
+    "phase-11": { "file": "phase-11-evidence-inventory.md", "state": "completed" },
+    "phase-12": { "file": "outputs/phase-12/phase12-task-spec-compliance-check.md", "state": "completed" },
+    "phase-13": { "file": "phase-13-commit-pr.md", "state": "blocked_pending_user_approval" }
+  },
+  "phase12_outputs": [
+    "outputs/phase-12/main.md",
+    "outputs/phase-12/implementation-guide.md",
+    "outputs/phase-12/system-spec-update-summary.md",
+    "outputs/phase-12/documentation-changelog.md",
+    "outputs/phase-12/unassigned-task-detection.md",
+    "outputs/phase-12/skill-feedback-report.md",
+    "outputs/phase-12/phase12-task-spec-compliance-check.md"
+  ],
+  "dod_commands": [
+    "mise exec -- pnpm typecheck",
+    "mise exec -- pnpm lint",
+    "mise exec -- pnpm -F \"@ubm-hyogo/web\" exec vitest run --root=../.. --config=vitest.config.ts apps/web/app/error.spec.tsx"
+  ],
+  "userGated": [
+    "commit",
+    "push",
+    "PR"
+  ]
+}
