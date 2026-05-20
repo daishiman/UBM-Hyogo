@@ -1,5 +1,22 @@
-import { describe, expect, it } from "vitest";
+import { afterAll, beforeAll, describe, expect, it } from "vitest";
 import type { ReactElement, ReactNode } from "react";
+
+const ENV_KEYS = ["ENVIRONMENT", "NEXT_PUBLIC_API_BASE_URL"] as const;
+const originalEnv: Partial<Record<(typeof ENV_KEYS)[number], string | undefined>> = {};
+
+beforeAll(() => {
+  for (const key of ENV_KEYS) originalEnv[key] = process.env[key];
+  process.env.ENVIRONMENT = "local";
+  process.env.NEXT_PUBLIC_API_BASE_URL = "http://localhost:8787";
+});
+
+afterAll(() => {
+  for (const key of ENV_KEYS) {
+    if (originalEnv[key] === undefined) delete process.env[key];
+    else process.env[key] = originalEnv[key];
+  }
+});
+
 import RootLayout, { generateMetadata, viewport } from "../layout";
 
 type RootElementProps = {
