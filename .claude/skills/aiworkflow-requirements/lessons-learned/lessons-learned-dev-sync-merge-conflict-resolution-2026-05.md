@@ -402,3 +402,11 @@
 - Why: HEAD 側で書かれた spec は HEAD 単独で実行する限り pass する。dev 取り込みで初めて画面に複数 role="status" 要素が出現するため、CI でのみ顕在化する。ロケーター方針として「画面共有要素では ARIA role を strict-mode の primary selector に使わない」が dev sync 後の安全運用。
 - How to apply: dev 取り込み後の `playwright-smoke / visual` FAIL を確認したら、まず該当 spec の `getByRole(<role>)` を grep し、同 role を持つ要素が HEAD と dev で重複していないかを検査。重複ありなら component-specific `data-*` 属性 selector か `getByTestId(...)` に切替える（既存 mock fixture 側は変更しない）。
 - 事例: 2026-05-20 `feat/issue-775-serial-05-step-03-runtime-evidence-spec` ← dev sync-merge。`apps/web/playwright/tests/visual/admin-schema-diff.spec.ts:88` を `locator('[data-feedback-kind="success"]')` に変更で復旧。
+
+## L-DEVSYNC-032: completed-task の Phase 11 evidence inventory 表で発生する 3-way conflict は dev 側採用（2026-05-20 追加）
+
+- 症状: `feat/issue-776-schema-alias-bulk-resolve` ← dev sync-merge で `docs/30-workflows/completed-tasks/serial-05-step-03-schema-diff-resolve/outputs/phase-12/phase12-task-spec-compliance-check.md` の Phase 11 evidence inventory table に 3-way conflict（`<<<<<<< HEAD`／`||||||| <base>`／`=======`／`>>>>>>> origin/dev`）。`pnpm sync:resolve` は対象外（completed-tasks 配下は merge=union 属性なし）。
+- 解消: HEAD 側は runtime evidence 未取得時点の `runtime pending` 表記、dev 側は Issue #775 recovery 完了後の 11 PNG + playwright log captured 状態を反映。conflict block の直後に「Issue #775 recovery workflow captured runtime visual evidence. Parent manifest is `pass=true`, `verdict=PASS`.」というナラティブが既に存在するため、整合する **dev 側を採用**（HEAD 側を破棄）。
+- Why: completed-tasks 配下の Phase evidence inventory は「タスク完了時点の最終状態」を正本とする。HEAD のブランチが Issue #775 recovery 以前の snapshot を持っていても、completed-tasks へのマージ時点では dev 側の post-recovery 状態が正本となる。両側 union で行を二重化すると CI gate (`verify-phase12-compliance` の evidence existence validator) が同一 evidence の二重カウントで誤検知する。
+- How to apply: dev sync prompt 自律判断ルール B に B-10 として追加。`docs/30-workflows/completed-tasks/**/outputs/phase-1[12]/*.md` 配下で 3-way conflict が発生し、HEAD 側が `pending` / `runtime_pending` / `placeholder` を含み、dev 側が `present` / `captured` / `PASS` を含む場合、または conflict block 直後/直前の merged 領域に dev 側状態と整合するナラティブが存在する場合は dev 側のみ採用する。両側に意味のある差分（同 evidence の別属性追加など）がある場合のみ手動マージ。
+- 事例: 2026-05-20 `feat/issue-776-schema-alias-bulk-resolve` ← dev sync-merge。`phase12-task-spec-compliance-check.md` line 51-80 の 3-way block を dev 側（11 PNG + playwright log）採用で解消。
