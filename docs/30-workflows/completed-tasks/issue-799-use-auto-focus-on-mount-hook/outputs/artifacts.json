@@ -7,7 +7,7 @@
     "visualEvidence": "NON_VISUAL",
     "workflow_state": "implemented_local_evidence_captured",
     "implementation_status": "implementation_complete_pending_pr",
-    "canonicalRoot": "docs/30-workflows/issue-799-use-auto-focus-on-mount-hook",
+    "canonicalRoot": "docs/30-workflows/completed-tasks/issue-799-use-auto-focus-on-mount-hook",
     "issue": "https://github.com/daishiman/UBM-Hyogo/issues/799",
     "issue_state": "closed",
     "source_spec": "docs/30-workflows/unassigned-task/issue-769-followup-001-use-auto-focus-on-mount-hook.md",
@@ -16,7 +16,7 @@
         "gate_id": "Gate-A",
         "status": "passed",
         "passed_at": "2026-05-19T14:05:00+09:00",
-        "evidence_path": "docs/30-workflows/issue-799-use-auto-focus-on-mount-hook/outputs/phase-03/design-review.md",
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-799-use-auto-focus-on-mount-hook/outputs/phase-03/design-review.md",
         "approver": "daishiman",
         "notes": "spec_review"
       },
@@ -24,7 +24,7 @@
         "gate_id": "Gate-B",
         "status": "passed",
         "passed_at": "2026-05-19T14:05:00+09:00",
-        "evidence_path": "docs/30-workflows/issue-799-use-auto-focus-on-mount-hook/outputs/phase-12/phase12-task-spec-compliance-check.md",
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-799-use-auto-focus-on-mount-hook/outputs/phase-12/phase12-task-spec-compliance-check.md",
         "approver": "daishiman",
         "notes": "implementation_review"
       },
@@ -32,7 +32,7 @@
         "gate_id": "Gate-C",
         "status": "pending",
         "passed_at": null,
-        "evidence_path": "docs/30-workflows/issue-799-use-auto-focus-on-mount-hook/outputs/phase-13/pr-summary.md",
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-799-use-auto-focus-on-mount-hook/outputs/phase-13/pr-summary.md",
         "approver": "daishiman",
         "notes": "user_gated: commit / push / PR"
       }
