@@ -105,6 +105,11 @@ if (!isTask17AdminEvidence) {
 if (!isAdminMemberDeleteRun) {
   fixtureGatedTestIgnore.push('**/admin-member-delete.spec.ts')
 }
+if (!isIssue776SchemaBulkEvidence) {
+  // PLAYWRIGHT_ISSUE776_SCHEMA_BULK_FIXTURE=1 が無いと server-fetch が空 items を返し
+  // "30 件選択中" assertion が 60s timeout で全 retry fail → job timeout 18m 超過する。
+  fixtureGatedTestIgnore.push('**/issue776-schema-bulk-resolve.spec.ts')
+}
 
 export default defineConfig({
   testDir: './playwright/tests',
