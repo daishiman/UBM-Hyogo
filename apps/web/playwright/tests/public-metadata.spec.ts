@@ -1,7 +1,19 @@
 import { expect, test } from "@playwright/test";
+import { mkdir, writeFile } from "node:fs/promises";
+import path from "node:path";
 
 const PUBLIC_ROUTES = ["/", "/members", "/register"] as const;
 const SEEDED_MEMBER_DETAIL_PATH = "/members/playwright-public-member";
+const defaultScreenshotDir = process.cwd().endsWith(`${path.sep}apps${path.sep}web`)
+  ? "../../docs/30-workflows/issue-806-dynamic-member-og-image/outputs/phase-11/screenshots"
+  : "docs/30-workflows/issue-806-dynamic-member-og-image/outputs/phase-11/screenshots";
+const SCREENSHOT_DIR =
+  process.env.PLAYWRIGHT_SCREENSHOT_DIR ?? defaultScreenshotDir;
+
+async function writePhase11Evidence(fileName: string, data: Buffer | string) {
+  await mkdir(SCREENSHOT_DIR, { recursive: true });
+  await writeFile(path.join(SCREENSHOT_DIR, fileName), data);
+}
 
 test.describe("public pages OGP / sitemap / robots", () => {
   for (const path of PUBLIC_ROUTES) {
@@ -26,6 +38,54 @@ test.describe("public pages OGP / sitemap / robots", () => {
     );
     await expect(page.locator('meta[property="og:image"]')).toHaveCount(1);
     await expect(page.locator('meta[name="twitter:card"]')).toHaveCount(1);
+  });
+
+  test("/members/[id] exposes member-specific og:image path", async ({
+    page,
+  }) => {
+    await page.goto(SEEDED_MEMBER_DETAIL_PATH);
+    const og = page.locator('meta[property="og:image"]');
+    const twitter = page.locator('meta[name="twitter:image"]');
+    await expect(og).toHaveCount(1);
+    await expect(twitter).toHaveCount(1);
+    const content = await og.getAttribute("content");
+    const twitterContent = await twitter.getAttribute("content");
+    expect(content).toBeTruthy();
+    expect(twitterContent).toBeTruthy();
+    expect(content!).toContain(
+      "/members/playwright-public-member/opengraph-image",
+    );
+    expect(twitterContent!).toContain(
+      "/members/playwright-public-member/opengraph-image",
+    );
+    await writePhase11Evidence(
+      "og-image-meta-grep.txt",
+      [
+        `og:image=${content}`,
+        `twitter:image=${twitterContent}`,
+        "",
+      ].join("\n"),
+    );
+  });
+
+  test("/members/[id]/opengraph-image returns PNG", async ({ request }) => {
+    const res = await request.get(
+      `${SEEDED_MEMBER_DETAIL_PATH}/opengraph-image`,
+    );
+    expect(res.status()).toBe(200);
+    expect(res.headers()["content-type"]).toContain("image/png");
+    const body = Buffer.from(await res.body());
+    expect(body.subarray(0, 8).toString("hex")).toBe("89504e470d0a1a0a");
+    await writePhase11Evidence("og-image-seeded.png", body);
+  });
+
+  test("/members/<nonexistent>/opengraph-image returns 404", async ({
+    request,
+  }) => {
+    const res = await request.get(
+      "/members/__nonexistent_member_for_og__/opengraph-image",
+    );
+    expect(res.status()).toBe(404);
   });
 
   test("/sitemap.xml returns XML with static routes", async ({ request }) => {

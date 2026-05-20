@@ -63,6 +63,7 @@ export interface PageMetaInput {
   title: string;
   description?: string;
   path: string;
+  /** Absolute path or relative path. Relative path is resolved against metadataBase. */
   ogImage?: string;
   twitterCard?: "summary" | "summary_large_image";
 }
