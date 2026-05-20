@@ -2770,6 +2770,14 @@ node scripts/list-specs.js --topics
 | Evidence | L20 |
 | Same-Wave Sync | L29 |
 
+### references/workflow-issue-776-schema-alias-bulk-resolve-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Workflow Artifacts | L11 |
+| Implementation Targets | L35 |
+| Runtime Boundary | L49 |
+
 ### references/workflow-issue-799-use-auto-focus-on-mount-hook-artifact-inventory.md
 
 ### references/workflow-light-theme-contrast-regression-guard.md
@@ -5387,6 +5395,19 @@ node scripts/list-specs.js --topics
 | 苦戦箇所（unassigned-task 由来） | L13 |
 | 関連 skill feedback | L29 |
 
+### references/lessons-learned-issue-776-schema-alias-bulk-resolve-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| L-ISSUE-776-001: API 不変条件下では client-side bounded fan-out を選ぶ | L5 |
+| L-ISSUE-776-002: bulk と single の state は完全に分離する | L11 |
+| L-ISSUE-776-003: partial failure は first-class behavior として扱う | L15 |
+| L-ISSUE-776-004: `202 backfill_cpu_budget_exhausted` は failure ではなく retryable continuation | L19 |
+| L-ISSUE-776-005: validation rule は単一ファイルに集約する | L32 |
+| L-ISSUE-776-006: Phase 11 evidence は local 単独でも canonical 構成を満たす | L36 |
+| L-ISSUE-776-007: source unassigned task は Phase 12 で必ず consumed 化 | L40 |
+| クロスリファレンス | L44 |
+
 ### references/lessons-learned-issue359-production-d1-apply-2026-05.md
 
 | セクション | 行 |
@@ -7109,14 +7130,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L1786 |
-| フェーズ構造（概要） | L1795 |
-| 品質ゲート（概要） | L1826 |
-| 出力テンプレート | L1837 |
-| 実行時のコマンド・エージェント・スキル | L1860 |
-| 昇格パターン集 | L1884 |
-| Current Active / Spec Created Tasks | L1886 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L2039 |
+| ドキュメント構成 | L1800 |
+| フェーズ構造（概要） | L1809 |
+| 品質ゲート（概要） | L1840 |
+| 出力テンプレート | L1851 |
+| 実行時のコマンド・エージェント・スキル | L1874 |
+| 昇格パターン集 | L1898 |
+| Current Active / Spec Created Tasks | L1900 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L2053 |
 
 ### references/task-workflow-backlog-part2.md
 
