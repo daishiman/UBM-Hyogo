@@ -2,7 +2,7 @@
   "workflow_id": "issue-277-next-proxy-migration",
   "version": "1.0.0",
   "created_at": "2026-05-20",
-  "canonical_workflow_root": "docs/30-workflows/issue-277-next-proxy-migration/",
+  "canonical_workflow_root": "docs/30-workflows/completed-tasks/issue-277-next-proxy-migration/",
   "source_issue": 277,
   "source_issue_state": "OPEN",
   "parent_workflow": "docs/30-workflows/completed-tasks/UT-06B-NEXT-PROXY-MIGRATION.md",
@@ -17,7 +17,7 @@
         "gate_id": "Gate-A",
         "status": "passed",
         "passed_at": "2026-05-20T00:00:00Z",
-        "evidence_path": "docs/30-workflows/issue-277-next-proxy-migration/phase-3-design-review.md",
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-277-next-proxy-migration/phase-3-design-review.md",
         "approver": "daishiman",
         "notes": "spec_review: Phase 1-3 requirements/design/design-review finalized"
       },
@@ -25,7 +25,7 @@
         "gate_id": "Gate-B",
         "status": "passed",
         "passed_at": "2026-05-20T00:00:00Z",
-        "evidence_path": "docs/30-workflows/issue-277-next-proxy-migration/outputs/phase-12/phase12-task-spec-compliance-check.md",
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-277-next-proxy-migration/outputs/phase-12/phase12-task-spec-compliance-check.md",
         "approver": "daishiman",
         "notes": "skill_compliance_review: strict 7 outputs and aiworkflow inventory synchronized"
       },
@@ -33,7 +33,7 @@
         "gate_id": "Gate-C",
         "status": "pending",
         "passed_at": null,
-        "evidence_path": "docs/30-workflows/issue-277-next-proxy-migration/phase-13-pr.md",
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-277-next-proxy-migration/phase-13-pr.md",
         "approver": "daishiman",
         "notes": "external_ops: dev-server runtime smoke, commit, push, PR, and issue close remain user-gated"
       }

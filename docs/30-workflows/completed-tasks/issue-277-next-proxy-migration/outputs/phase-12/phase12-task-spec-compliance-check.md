@@ -37,14 +37,14 @@ Phase 11 is `runtime_pending` because manual evidence is only valid after implem
 
 | Classification | Path | Status |
 | --- | --- | --- |
-| manual test result | outputs/phase-11/manual-test-result.md | present: local implementation complete / runtime smoke pending |
-| logged-out profile redirect | outputs/phase-11/m1-curl.txt | present; 307 `/login?redirect=%2Fprofile` |
-| logged-out admin redirect | outputs/phase-11/m2-curl.txt | present; 307 `/login?gate=admin_required` |
+| manual test result | outputs/phase-11/manual-test-result.md | present |
+| logged-out profile redirect | outputs/phase-11/m1-curl.txt | present |
+| logged-out admin redirect | outputs/phase-11/m2-curl.txt | present |
 | non-admin admin 403 | outputs/phase-11/m3-focused-test.txt | present |
 | admin admin ok | outputs/phase-11/m4-focused-test.txt | present |
-| profile query redirect | outputs/phase-11/m5-profile-with-query.txt | present; 307 encoded original path+query |
-| build warning grep | outputs/phase-11/m6-build-log.txt | present; no `middleware.*deprecated` hit |
-| proxy focused test | outputs/phase-11/m7-proxy-spec.txt | present; 7 tests passed |
+| profile query redirect | outputs/phase-11/m5-profile-with-query.txt | present |
+| build warning grep | outputs/phase-11/m6-build-log.txt | present |
+| proxy focused test | outputs/phase-11/m7-proxy-spec.txt | present |
 
 ## 5. Phase 12 strict 7 file inventory
 
