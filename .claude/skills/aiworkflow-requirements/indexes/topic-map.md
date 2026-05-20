@@ -1098,12 +1098,12 @@ node scripts/list-specs.js --topics
 | 1. 全体構成 | L16 |
 | 2. AdminSidebar | L51 |
 | 3. /admin（Dashboard） | L77 |
-| 4. /admin/members | L112 |
-| 5. /admin/tags | L205 |
-| 6. /admin/schema | L285 |
-| 7. /admin/meetings | L340 |
-| 8. 共通の Server/Client 契約 | L409 |
-| 9. 不変条件サマリ（admin UI） | L427 |
+| 4. /admin/members | L130 |
+| 5. /admin/tags | L223 |
+| 6. /admin/schema | L303 |
+| 7. /admin/meetings | L358 |
+| 8. 共通の Server/Client 契約 | L427 |
+| 9. 不変条件サマリ（admin UI） | L445 |
 
 ### references/ui-ux-advanced.md
 
@@ -2772,6 +2772,8 @@ node scripts/list-specs.js --topics
 | Source And Parent | L39 |
 | Implementation Boundary | L46 |
 
+### references/workflow-issue-799-use-auto-focus-on-mount-hook-artifact-inventory.md
+
 ### references/workflow-light-theme-contrast-regression-guard.md
 
 | セクション | 行 |
@@ -2838,6 +2840,16 @@ node scripts/list-specs.js --topics
 | Evidence | L22 |
 | Lessons Learned | L28 |
 | User Gates | L37 |
+
+### references/workflow-parallel-i06-root-error-focus-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Metadata | L3 |
+| Implementation | L12 |
+| Evidence | L19 |
+| System Sync | L32 |
+| User Gates | L42 |
 
 ### references/workflow-permission-fallback-abort-skip-retry.md
 
@@ -2954,6 +2966,12 @@ node scripts/list-specs.js --topics
 | Follow-up 未タスク | L81 |
 | Validation Chain | L89 |
 | 関連ドキュメント | L102 |
+
+### references/workflow-step-05-dashboard-chart-implementation-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Phase 12 Strict 7 | L27 |
 
 ### references/workflow-task-03-w2-par-sentry-workers-sdk-unify-artifact-inventory.md
 
@@ -3510,9 +3528,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | Summary | L3 |
-| Canonical Sources | L14 |
-| Workflow Outputs | L36 |
-| Implementation Boundary | L51 |
+| Canonical Sources | L17 |
+| Workflow Outputs | L39 |
+| Implementation Boundary | L57 |
+| parallel-02 prototype CSS rules port (2026-05-19 close-out) | L67 |
+| Follow-up unassigned tasks (proto-spec) | L78 |
+| Difficulties summary (parallel-02) | L90 |
+| P1-1〜P1-5 Selector ↔ Token ↔ 09 Spec Mapping (parallel-01) | L124 |
+| P1-1〜P1-5 Selector ↔ Token ↔ 09 Spec Mapping (parallel-01) | L169 |
 
 ### references/workflow-ui-ux-visual-baseline-drift.md
 
@@ -5371,6 +5394,18 @@ node scripts/list-specs.js --topics
 | L-PARALLEL-I03-004: 親 spec で子 dialog を inline `vi.mock` 化して navigation mock 衝突を回避する | L30 |
 | L-PARALLEL-I03-005: ワークフロー dir の `completed-tasks/` 自動移送と canonical path drift | L37 |
 
+### references/lessons-learned-parallel-i06-root-error-focus-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| 概要 | L3 |
+| L-I06-001: root error boundary の a11y focus 実装パターン | L13 |
+| L-I06-002: focus 検証は `document.activeElement` 直接比較 | L30 |
+| L-I06-003: in-place spec → canonical workflow root 昇格時の同期忘れ | L41 |
+| L-I06-004: completion 移動時の artifacts.json path drift | L56 |
+| L-I06-005: NON_VISUAL タスクの Phase 11 evidence 5 点セット | L77 |
+| 関連 | L93 |
+
 ### references/lessons-learned-skill-codex-validation-2026-04.md
 
 | セクション | 行 |
@@ -5392,6 +5427,16 @@ node scripts/list-specs.js --topics
 | L-T6-005: A-2（#130）未完了状態で T-6 着手すると `LOGS.md` を gitignore 連動で誤って ignore 化する経路 | L44 |
 | 関連リンク | L52 |
 | 申し送り（open / baseline 未タスク） | L61 |
+
+### references/lessons-learned-step-05-dashboard-chart-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| L-DASH-001: chart library 不採用 / SVG 直書きで OKLch token 整合を優先 | L7 |
+| L-DASH-002: OKLch CSS var vs HEX 直書き / chart UI でも HEX 禁止を堅持 | L16 |
+| L-DASH-003: `byStatus` を optional discriminator にする後方互換戦略 | L25 |
+| L-DASH-004: legacy placeholder fallback / `slices` empty 時の既存 UI 維持 | L34 |
+| L-DASH-005: aria-label を component spec で test back する設計 | L43 |
 
 ### references/lessons-learned-sync-merge-hook-skip-2026-04.md
 
@@ -5893,8 +5938,8 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 概要 | L3 |
 | 仕様書インデックス | L7 |
-| 利用順序 | L113 |
-| 関連ドキュメント | L118 |
+| 利用順序 | L114 |
+| 関連ドキュメント | L119 |
 
 ### references/llm-embedding.md
 
@@ -7018,14 +7063,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L1719 |
-| フェーズ構造（概要） | L1728 |
-| 品質ゲート（概要） | L1759 |
-| 出力テンプレート | L1770 |
-| 実行時のコマンド・エージェント・スキル | L1793 |
-| 昇格パターン集 | L1817 |
-| Current Active / Spec Created Tasks | L1819 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L1971 |
+| ドキュメント構成 | L1778 |
+| フェーズ構造（概要） | L1787 |
+| 品質ゲート（概要） | L1818 |
+| 出力テンプレート | L1829 |
+| 実行時のコマンド・エージェント・スキル | L1852 |
+| 昇格パターン集 | L1876 |
+| Current Active / Spec Created Tasks | L1878 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L2030 |
 
 ### references/task-workflow-backlog-part2.md
 

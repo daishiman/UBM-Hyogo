@@ -10,6 +10,7 @@ const allowed = new Set([
   "focus-visible",
   "pagination-disabled",
   "empty-state",
+  "parallel-02-css-rules",
 ]);
 
 export default async function Parallel09VisualPage({

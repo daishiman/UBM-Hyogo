@@ -24,6 +24,34 @@
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-777-schema-diff-resolve-history-view-artifact-inventory.md` |
 | user gate | UI implementation, local command evidence, authenticated screenshot, staging smoke, commit, push, PR |
 
+### Issue #799 useAutoFocusOnMount hook（2026-05-19）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / NON_VISUAL / implementation_complete_pending_pr` |
+| 成果物 | `docs/30-workflows/issue-799-use-auto-focus-on-mount-hook/` |
+| Issue | #799 CLOSED。PR 文脈は `Refs #799` |
+| source | `docs/30-workflows/unassigned-task/issue-769-followup-001-use-auto-focus-on-mount-hook.md` consumed |
+| 目的 | `useAutoFocusOnMount` hook を追加し、root / login / profile / admin error boundary の h1 focus transfer を統一する |
+| 実装 | `apps/web/src/lib/a11y/useAutoFocusOnMount.ts`, `apps/web/app/error.tsx`, `apps/web/app/login/error.tsx`, `apps/web/app/profile/error.tsx`, `apps/web/app/(admin)/admin/error.tsx` |
+| tests | `apps/web/src/lib/a11y/__tests__/useAutoFocusOnMount.spec.tsx`, route error component specs |
+| evidence | `docs/30-workflows/issue-799-use-auto-focus-on-mount-hook/outputs/phase-11/evidence/web-vitest.txt`, `docs/30-workflows/issue-799-use-auto-focus-on-mount-hook/outputs/phase-12/phase12-task-spec-compliance-check.md` |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-799-use-auto-focus-on-mount-hook-artifact-inventory.md` |
+| user gate | commit / push / PR |
+
+### UI Prototype Design System Foundation（2026-05-18 / parallel-02 close-out 2026-05-19）
+### step-05 dashboard chart implementation（2026-05-18）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION / implementation_complete_pending_pr` |
+| 成果物 | `docs/30-workflows/step-05-dashboard-chart-implementation/` |
+| source | `docs/30-workflows/ui-prototype-alignment-mvp-recovery/improvements/serial-05-admin-mutation-ui/step-05-dashboard-chart/spec.md` |
+| 目的 | admin dashboard `StatusDistribution` に SVG bar chart receiver を追加し、既存 `GET /admin/dashboard` endpoint に `byStatus` producer を追加する。legacy response では既存 placeholder を維持する |
+| implementation targets | `apps/web/src/features/admin/components/_dashboard/StatusDistribution.tsx`, `apps/web/src/features/admin/components/_dashboard/StatusDistribution.spec.tsx`, `apps/web/src/lib/admin/admin-dashboard-ui.ts`, `apps/api/src/routes/admin/dashboard.ts`, `apps/api/src/repository/dashboard.ts`, `packages/shared/src/zod/viewmodel.ts` |
+| same-cycle sync | `ui-ux-admin-dashboard.md`, quick-reference, resource-map, artifact inventory, changelog |
+| evidence boundary | focused component test / grep gate / Phase 12 strict 7 present。authenticated runtime screenshots, commit, push, PR は user-gated |
+
 ### Issue #256 E2E coverage baseline runbook（2026-05-18）
 
 | 項目 | 値 |
@@ -107,19 +135,50 @@
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-762-cf-oidc-staging-proof-prod-cutover-artifact-inventory.md` |
 | user gate | commit / push / PR / Cloudflare / GitHub Secret / 1Password mutation |
 
+### parallel-i06-root-error-focus（2026-05-18）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / NON_VISUAL` |
+| 成果物 | `docs/30-workflows/completed-tasks/parallel-i06-root-error-focus/` |
+| source | `docs/30-workflows/ui-prototype-alignment-mvp-recovery/improvements/integration-fixes/parallel-i06-root-error-focus/spec.md` |
+| 目的 | root `apps/web/app/error.tsx` の h1 自動 focus を実装し、p-07 section 4.3 を達成する |
+| 実装 | `apps/web/app/error.tsx`, `apps/web/app/error.spec.tsx` |
+| evidence | Phase 11 local command evidence + Phase 12 strict 7 present |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-parallel-i06-root-error-focus-artifact-inventory.md` |
+| user gate | commit / push / PR |
+
 ### UI Prototype Design System Foundation（2026-05-18）
 
 | 項目 | 値 |
 | --- | --- |
 | ステータス | `CONTRACT_READY_IMPLEMENTATION_PENDING / implementation / VISUAL / Phase 12 strict 7 present` |
+| ステータス | `implemented_local_evidence_captured / implementation / VISUAL_RUNTIME_PENDING / Phase 12 strict 7 present` |
+| ステータス | `spec_created / implementation / VISUAL / Phase 12 strict 7 present / parallel-01 local_implementation_complete (CSS selector + admin width 272px)` |
+| ステータス | `spec_created / implementation / VISUAL / Phase 12 strict 7 present / parallel-01 local_implementation_complete (CSS selector + admin width 272px)` |
 | 成果物 | `docs/30-workflows/ui-prototype-design-system-foundation/` |
 | prototype coverage | `docs/30-workflows/ui-prototype-design-system-foundation/PROTOTYPE-COVERAGE.md` |
 | 目的 | 凍結プロトタイプと 09a-09h の情報を、現行 `apps/web/app/**` 物理配置へ反映できる design system foundation workflow として整理する |
 | source | `docs/00-getting-started-manual/claude-design-prototype/**`, `docs/00-getting-started-manual/specs/09a..09h-*.md`, parent `docs/30-workflows/ui-prototype-alignment-mvp-recovery/` |
 | boundary | 新規 API endpoint / D1 schema / Google Form 仕様変更なし。`/login` / `/profile` / `/privacy` / `/terms` は root app path を維持 |
-| evidence | root / outputs `artifacts.json` parity, Phase 12 strict 7, 30-method compact evidence in `PROTOTYPE-COVERAGE.md` |
+| evidence | root / outputs `artifacts.json` parity, Phase 12 strict 7, parallel-02 strict 7, 30-method compact evidence in `PROTOTYPE-COVERAGE.md`, parallel-02 Phase 11 9 screenshot + 5 log present |
+| parallel-02 実装 | `apps/web/src/styles/globals.css`（G3-1/G3-2/G3-3 start/end marker block）, `apps/web/src/components/public/MemberFilters.client.tsx`（`data-component="tag-pill"` + `aria-selected`）, `apps/web/app/visual-harness/[name]/{page.tsx,VisualScenarios.client.tsx}`, `apps/web/playwright/tests/visual/parallel-02-css-rules.spec.ts` |
+| follow-up unassigned | `UT-DSF-01..07`（`docs/30-workflows/unassigned-task/UT-DSF-NN-*.md`: parallel-01 globals-css rhythm / parallel-03 AppShell / parallel-04 shared page chrome / serial-05 route blueprint binding / serial-06 form response binding / serial-07 regression evidence / runtime production-equivalent screenshots） |
+| lessons learned | `.claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-parallel-02-prototype-css-rules-port-2026-05.md`（L-P02-001..007 / OP-P02-1..7） |
+| parallel-01 | `local_implementation_complete (CSS selector + admin width 272px)` — `apps/web/src/styles/globals.css` に P1-1〜P1-5 selector 追加、`apps/web/app/(admin)/layout.tsx` を `md:grid-cols-[272px_1fr]` + `data-shell` / `data-route` に整列。runtime visual screenshots は user-gated |
+| parallel-02..N | TBD — typography / card / shell / route surface 等の後続 wave は未着手または review pending |
+| serial-07 visual evidence | TBD — runtime screenshots / playwright visual diff は delegated pending（user-gated） |
+| evidence | root / outputs `artifacts.json` parity, Phase 12 strict 7, 30-method compact evidence in `PROTOTYPE-COVERAGE.md`, parallel-01 local CSS selector evidence under `parallel-01-globals-css-rhythm/outputs/phase-11/` |
+| lessons-learned | [[lessons-learned-ui-prototype-design-system-foundation-globals-css-rhythm-2026-05]] (L-UIPROTO-001..005) |
+| parallel-01 | `local_implementation_complete (CSS selector + admin width 272px)` — `apps/web/src/styles/globals.css` に P1-1〜P1-5 selector 追加、`apps/web/app/(admin)/layout.tsx` を `md:grid-cols-[272px_1fr]` + `data-shell` / `data-route` に整列。runtime visual screenshots は user-gated |
+| parallel-02..N | TBD — typography / card / shell / route surface 等の後続 wave は未着手または review pending |
+| serial-07 visual evidence | TBD — runtime screenshots / playwright visual diff は delegated pending（user-gated） |
+| evidence | root / outputs `artifacts.json` parity, Phase 12 strict 7, 30-method compact evidence in `PROTOTYPE-COVERAGE.md`, parallel-01 local CSS selector evidence under `parallel-01-globals-css-rhythm/outputs/phase-11/` |
+| lessons-learned | [[lessons-learned-ui-prototype-design-system-foundation-globals-css-rhythm-2026-05]] (L-UIPROTO-001..005) |
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-ui-prototype-design-system-foundation-artifact-inventory.md` |
-| user gate | code implementation, visual screenshots, commit, push, PR |
+| user gate | full 19-route binding, runtime visual screenshots, commit, push, PR |
+| user gate | full 19-route binding, visual screenshots, commit, push, PR |
+| user gate | full 19-route binding, visual screenshots, commit, push, PR |
 
 ### Issue #749 Primitive Adoption Tracker（2026-05-17）
 ### Issue #747 Vitest esbuild arch & worktree isolation（2026-05-17）
