@@ -3529,12 +3529,12 @@ node scripts/list-specs.js --topics
 | Canonical Sources | L17 |
 | Workflow Outputs | L39 |
 | Implementation Boundary | L57 |
-| Sub-workflow: parallel-03 AppShell Layouts（2026-05-19） | L68 |
-| parallel-02 prototype CSS rules port (2026-05-19 close-out) | L90 |
-| Follow-up unassigned tasks (proto-spec) | L101 |
-| Difficulties summary (parallel-02) | L113 |
-| P1-1〜P1-5 Selector ↔ Token ↔ 09 Spec Mapping (parallel-01) | L147 |
-| P1-1〜P1-5 Selector ↔ Token ↔ 09 Spec Mapping (parallel-01) | L192 |
+| Sub-workflow: parallel-03 AppShell Layouts（2026-05-19） | L67 |
+| parallel-02 prototype CSS rules port (2026-05-19 close-out) | L88 |
+| Follow-up unassigned tasks (proto-spec) | L99 |
+| Difficulties summary (parallel-02) | L111 |
+| P1-1〜P1-5 Selector ↔ Token ↔ 09 Spec Mapping (parallel-01) | L145 |
+| P1-1〜P1-5 Selector ↔ Token ↔ 09 Spec Mapping (parallel-01) | L190 |
 
 ### references/workflow-ui-ux-visual-baseline-drift.md
 
