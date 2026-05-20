@@ -593,11 +593,24 @@ PR #847 and `ci-staging-deploy-failure-fix` keep backend-ci D1 / Workers wrangle
 
 Issue #718 legacy token revocation remains historical context as of 2026-05-16. Current `backend-ci.yml` no longer uses `CF_TOKEN_D1_*` / `CF_TOKEN_WORKERS_*`; `CLOUDFLARE_API_TOKEN_DEPLOY_*` is not introduced. Both `backend-ci.yml` and `web-cd.yml` keep the current runtime secret name `CLOUDFLARE_API_TOKEN`; whether its value is legacy is operator-only evidence. Token id, suffix, account id, value hash, token preview, and 1Password URI must not be written to docs, logs, PR body, or evidence.
 
+### Issue #765 1Password op:// path consolidation contract
+
+Issue #765 is `spec_created_blocked_by_oidc_support / implementation / NON_VISUAL` as of 2026-05-18. Until Cloudflare OIDC deploy support and production cutover evidence exist, `web-cd.yml` continues to use the GitHub environment secret name `CLOUDFLARE_API_TOKEN`; only the 1Password path contract is formalized here.
+
+| op:// path | Role | Runtime status | Consumer |
+| --- | --- | --- | --- |
+| `op://UBM-Hyogo/Cloudflare/api_token_staging` | canonical path | pending Gate-B user-gated mutation | local `.env` / staging deploy token reference |
+| `op://UBM-Hyogo/Cloudflare/api_token_production` | canonical path | pending Gate-B user-gated mutation | local `.env` / production deploy token reference |
+| legacy Cloudflare deploy-token op:// paths | deprecated (#765, 2026-05-18) | archive pending; physical delete is Gate B' | historical/operator-only references |
+
+WAF operations use `op://UBM-Hyogo/Cloudflare-WAF/api_token_waf` and are not deploy-token canonical paths. Evidence must remain path-only and must not include token values, token previews, suffixes, account IDs, value hashes, or resolved 1Password URIs.
+
 ## 変更履歴
 
 | 日付 | バージョン | 変更内容 |
 | ---- | ---------- | -------- |
 | 2026-05-20 | 1.4.6 | `ci-staging-deploy-failure-fix` を同期。current `backend-ci.yml` / `web-cd.yml` は GitHub Environment `CLOUDFLARE_API_TOKEN` を正本名として使い、`CF_TOKEN_D1_*` / `CF_TOKEN_WORKERS_*` は historical split names として扱う。staging / production token 値は environment ごとに分離し、D1:Edit + Workers Scripts:Edit + Account Settings:Read に限定する。 |
+| 2026-05-18 | 1.4.5 | issue-765: 1Password Cloudflare deploy-token op:// path consolidation を `spec_created_blocked_by_oidc_support` として同期。canonical path は `op://UBM-Hyogo/Cloudflare/api_token_staging` / `op://UBM-Hyogo/Cloudflare/api_token_production`、legacy deploy-token path は `deprecated (#765, 2026-05-18)`。actual archive / `cf.sh whoami` / physical delete は user-gated。 |
 | 2026-05-18 | 1.4.5 | PR #795 residual CI recovery を同期。backend-ci の scoped D1 / Workers token は `with.apiToken` と step-level `env.CLOUDFLARE_API_TOKEN` の両方に同じ secret を渡す action compatibility pattern として正本化し、独立 fallback ではない境界を明記。`CLOUDFLARE_API_TOKEN` の backend-ci current runtime 誤記を撤回。 |
 | 2026-05-16 | 1.4.4 | Issue #718 legacy Cloudflare API token revocation workflow を `implemented-local-runtime-pending` として同期。backend-ci は `CF_TOKEN_D1_*` / `CF_TOKEN_WORKERS_*` へ切替済み、web-cd は current runtime 名 `CLOUDFLARE_API_TOKEN` を維持し value provenance を operator-only evidence とする。`CLOUDFLARE_API_TOKEN_DEPLOY_*` 新設は禁止。 |
 | 2026-05-10 | 1.4.3 | Issue #587 rotation scripts (`scripts/cf-audit-log/rotation/`) と canary workflow (`.github/workflows/cf-audit-log-artifact-canary.yml`) が op 参照名のみを受理することを正本化。candidate/previous resolved value を inputs / logs / artifact upload に残さない境界を実装で固定 |

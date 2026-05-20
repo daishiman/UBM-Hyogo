@@ -2768,6 +2768,22 @@ node scripts/list-specs.js --topics
 
 ### references/workflow-issue-772-cf-audit-monitor-runtime-restoration-artifact-inventory.md
 
+### references/workflow-issue-775-serial-05-step-03-runtime-evidence-completion-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Implementation Files | L10 |
+| Evidence | L20 |
+| Same-Wave Sync | L29 |
+
+### references/workflow-issue-776-schema-alias-bulk-resolve-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Workflow Artifacts | L11 |
+| Implementation Targets | L35 |
+| Runtime Boundary | L49 |
+
 ### references/workflow-issue-799-use-auto-focus-on-mount-hook-artifact-inventory.md
 
 ### references/workflow-light-theme-contrast-regression-guard.md
@@ -2861,12 +2877,18 @@ node scripts/list-specs.js --topics
 | 関連ドキュメント | L137 |
 | 変更履歴 | L148 |
 
+### references/workflow-profile-loading-skeleton-oklch-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Boundary | L19 |
+
 ### references/workflow-serial-05-step-03-schema-diff-resolve-artifact-inventory.md
 
 | セクション | 行 |
 |------------|----|
-| Primary files | L10 |
-| Evidence | L21 |
+| Primary files | L11 |
+| Evidence | L22 |
 
 ### references/workflow-skill-identifier-branded-type-resolution.md
 
@@ -4215,6 +4237,8 @@ node scripts/list-specs.js --topics
 | UT-27: GitHub Secrets / Variables 同期運用（2026-04-29） | L530 |
 | U-FIX-CF-ACCT-01-DERIV-02: Cloudflare deploy token split | L574 |
 | 変更履歴 | L596 |
+| U-FIX-CF-ACCT-01-DERIV-02: Cloudflare deploy token split | L579 |
+| 変更履歴 | L613 |
 
 ### references/deployment.md
 
@@ -5356,6 +5380,17 @@ node scripts/list-specs.js --topics
 | L-I747-005: closed Issue でも `Refs #<n>` で後付け canonical workflow を建てる | L43 |
 | L-I747-006: parent repository `node_modules` cleanup は AI が自動実行しない | L51 |
 
+### references/lessons-learned-issue-765-1password-vault-restructure-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| L-765-001: 条件付き implementation spec は phase wording で `completed` を使わない | L7 |
+| L-765-002: Gate-B / Gate-B-PRIME / Gate-C の責務分離 | L15 |
+| L-765-003: WAF 用 op:// path は deploy token canonical と分離する | L27 |
+| L-765-004: op:// canonical path drift の local grep gate | L35 |
+| L-765-005: source unassigned task の consumed-pending trace | L43 |
+| L-765-006: deny-pattern を含む workflow 命名の回避 | L51 |
+
 ### references/lessons-learned-issue-770-profile-loading-skeleton-2026-05.md
 
 | セクション | 行 |
@@ -5367,6 +5402,26 @@ node scripts/list-specs.js --topics
 | L-770-005: Source unassigned-task は consumed trace として保持する | L35 |
 | L-770-006: `implemented_local_runtime_pending` 中間ステータスの再利用 | L43 |
 | L-770-007: aiworkflow-requirements の same-wave sync は 5 ファイル定型 | L51 |
+
+### references/lessons-learned-issue-775-serial-05-step-03-runtime-evidence-completion-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| 苦戦箇所（unassigned-task 由来） | L13 |
+| 関連 skill feedback | L29 |
+
+### references/lessons-learned-issue-776-schema-alias-bulk-resolve-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| L-ISSUE-776-001: API 不変条件下では client-side bounded fan-out を選ぶ | L5 |
+| L-ISSUE-776-002: bulk と single の state は完全に分離する | L11 |
+| L-ISSUE-776-003: partial failure は first-class behavior として扱う | L15 |
+| L-ISSUE-776-004: `202 backfill_cpu_budget_exhausted` は failure ではなく retryable continuation | L19 |
+| L-ISSUE-776-005: validation rule は単一ファイルに集約する | L32 |
+| L-ISSUE-776-006: Phase 11 evidence は local 単独でも canonical 構成を満たす | L36 |
+| L-ISSUE-776-007: source unassigned task は Phase 12 で必ず consumed 化 | L40 |
+| クロスリファレンス | L44 |
 
 ### references/lessons-learned-issue359-production-d1-apply-2026-05.md
 
@@ -5965,8 +6020,8 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 概要 | L3 |
 | 仕様書インデックス | L7 |
-| 利用順序 | L114 |
-| 関連ドキュメント | L119 |
+| 利用順序 | L115 |
+| 関連ドキュメント | L120 |
 
 ### references/llm-embedding.md
 
@@ -7098,6 +7153,14 @@ node scripts/list-specs.js --topics
 | 昇格パターン集 | L1859 |
 | Current Active / Spec Created Tasks | L1861 |
 | UT-17 followup-003 alert-relay weekly healthcheck cron | L2015 |
+| ドキュメント構成 | L1814 |
+| フェーズ構造（概要） | L1823 |
+| 品質ゲート（概要） | L1854 |
+| 出力テンプレート | L1865 |
+| 実行時のコマンド・エージェント・スキル | L1888 |
+| 昇格パターン集 | L1912 |
+| Current Active / Spec Created Tasks | L1914 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L2067 |
 
 ### references/task-workflow-backlog-part2.md
 

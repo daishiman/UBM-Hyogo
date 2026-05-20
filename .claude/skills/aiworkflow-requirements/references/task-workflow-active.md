@@ -8,6 +8,31 @@
 
 本ドキュメントは、複雑なタスクを単一責務の原則に基づいて分解し、各サブタスクに最適なスラッシュコマンド・エージェント・スキルの組み合わせを選定するためのガイドラインを定義する。
 
+### profile-loading-skeleton-oklch（2026-05-19）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / VISUAL / implementation_complete_pending_pr` |
+| 成果物 | `docs/30-workflows/completed-tasks/profile-loading-skeleton-oklch/` |
+| source | `docs/30-workflows/ui-prototype-alignment-mvp-recovery/improvements/integration-fixes/parallel-i07-profile-loading-skeleton/spec.md` |
+| consumed task | `docs/30-workflows/completed-tasks/integration-fixes-i07-profile-loading-skeleton.md` |
+| 目的 | `/profile/loading.tsx` を text-only placeholder から `role=status` profile skeleton へ置換し p-07 spec 4.5 を満たす |
+| 実装 | `apps/web/app/profile/loading.tsx`, `apps/web/app/profile/loading.spec.tsx` |
+| evidence | `docs/30-workflows/completed-tasks/profile-loading-skeleton-oklch/outputs/phase-11/evidence/`, `docs/30-workflows/completed-tasks/profile-loading-skeleton-oklch/outputs/phase-11/screenshots/profile-loading-skeleton.png`, `outputs/phase-12/phase12-task-spec-compliance-check.md` |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-profile-loading-skeleton-oklch-artifact-inventory.md` |
+| user gate | commit / push / PR |
+
+### Issue #765 1Password vault restructure for OIDC cutover（2026-05-18）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `spec_created_blocked_by_oidc_support / implementation / NON_VISUAL` |
+| 成果物 | `docs/30-workflows/issue-765-1p-vault-restructure-oidc-cutover/` |
+| source | `docs/30-workflows/unassigned-task/issue-717-followup-003-1password-restructure.md` |
+| 目的 | Cloudflare deploy token の 1Password op:// path を `op://UBM-Hyogo/Cloudflare/api_token_staging` / `api_token_production` へ整理する条件付き仕様 |
+| boundary | aiworkflow current contract では `web-cd` の `CLOUDFLARE_API_TOKEN` direct-token path が維持されているため、OIDC supported deploy path / production cutover evidence まで Phase 11 mutation は blocked |
+| user gate | 1Password archive, `bash scripts/cf.sh whoami`, commit, push, PR, Gate B' physical delete |
+
 ### Issue #799 useAutoFocusOnMount hook（2026-05-19）
 
 | 項目 | 値 |
@@ -177,6 +202,20 @@
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-747-vitest-esbuild-arch-and-worktree-isolation-artifact-inventory.md` |
 | user gate | arm64 Node reinstall on local host, commit, push, PR, GitHub Actions runtime evidence, parent repository `node_modules` cleanup |
 
+### Issue #776 schema alias bulk resolve UI（2026-05-18）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / VISUAL / staging_pending` |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-776-schema-alias-bulk-resolve/` |
+| source | Issue #776 CLOSED / `docs/30-workflows/unassigned-task/serial-05-step-03-followup-002-schema-alias-bulk-resolve.md` consumed |
+| parent | `docs/30-workflows/completed-tasks/serial-05-step-03-schema-diff-resolve/` |
+| 目的 | `/admin/schema` の既存 `SchemaDiffPanel` に bulk selection / batch confirm modal / partial failure recovery を追加 |
+| design decision | 新規 API endpoint は作らず、既存 `POST /admin/schema/aliases` を `postSchemaAliasBulk` から bounded fan-out で呼ぶ。`202 backfill_cpu_budget_exhausted` は retryable continuation として modal に残す |
+| implementation targets | `apps/web/src/components/admin/SchemaDiffPanel.tsx`, `SchemaDiffBulkResolveModal.tsx`, `schemaAliasValidation.ts`, `hooks/useSchemaDiffBulkSelection.ts`, `apps/web/src/lib/admin/api.ts`, `apps/web/src/lib/admin/server-fetch.ts`, `apps/web/playwright/tests/issue776-schema-bulk-resolve.spec.ts` |
+| evidence boundary | focused Vitest, typecheck, local Playwright screenshots/perf/a11y evidence are present. Staging smoke, commit, push, and PR remain user-gated |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-776-schema-alias-bulk-resolve-artifact-inventory.md` |
+
 ### Issue #748 jest-axe primitive a11y integration（2026-05-17）
 
 | 項目 | 値 |
@@ -246,15 +285,29 @@
 
 | 項目 | 値 |
 | --- | --- |
-| ステータス | `implemented-local-runtime-pending / implementation / VISUAL / PASS_BOUNDARY_SYNCED_RUNTIME_PENDING` |
-| 成果物 | `docs/30-workflows/serial-05-step-03-schema-diff-resolve/` |
+| ステータス | `completed / implementation / VISUAL / PASS` |
+| 成果物 | `docs/30-workflows/completed-tasks/serial-05-step-03-schema-diff-resolve/` |
 | 親 workflow | `docs/30-workflows/ui-prototype-alignment-mvp-recovery/improvements/serial-05-admin-mutation-ui/` |
 | 目的 | `/admin/schema` の既存 `SchemaDiffPanel` を現行 schema alias API contract に合わせて hardening する |
 | implementation targets | `apps/web/src/components/admin/SchemaDiffPanel.tsx`, `apps/web/src/lib/admin/api.ts`, `apps/web/src/components/admin/__tests__/SchemaDiffPanel.component.spec.tsx`, `apps/web/src/lib/admin/__tests__/api.spec.ts` |
 | API boundary | 既存 `GET /admin/schema/diff` / `POST /admin/schema/aliases` を利用。新 endpoint / D1 schema / env gate 追加なし |
 | UI contract | 4 ペイン table semantics、stableKey regex `/^[a-zA-Z][a-zA-Z0-9_]*$/`、row select 後 input focus、409 `existingStableKey` / 422 `existingQuestionIds` 表示、202 retryable status、queued/resolved 日本語 label |
-| evidence | `docs/30-workflows/serial-05-step-03-schema-diff-resolve/outputs/phase-11/evidence/`, `docs/30-workflows/serial-05-step-03-schema-diff-resolve/outputs/phase-12/phase12-task-spec-compliance-check.md` |
-| user gate | runtime screenshots、staging smoke、commit、push、PR |
+| evidence | `docs/30-workflows/completed-tasks/serial-05-step-03-schema-diff-resolve/outputs/phase-11/evidence/`, `docs/30-workflows/completed-tasks/serial-05-step-03-schema-diff-resolve/outputs/phase-11/screenshots/`, `docs/30-workflows/completed-tasks/serial-05-step-03-schema-diff-resolve/outputs/phase-12/phase12-task-spec-compliance-check.md` |
+| evidence completion | `docs/30-workflows/completed-tasks/issue-775-serial-05-step-03-runtime-evidence-completion/` captured 11 fixture-backed local runtime PNG and consumed the source follow-up |
+| user gate | real D1/staging smoke、commit、push、PR |
+
+### Issue #775 serial-05-step-03 runtime evidence completion（2026-05-18）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION / refs_only` |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-775-serial-05-step-03-runtime-evidence-completion/` |
+| 親 workflow | `docs/30-workflows/completed-tasks/serial-05-step-03-schema-diff-resolve/` |
+| source | `docs/30-workflows/completed-tasks/serial-05-step-03-followup-001-runtime-evidence-completion.md` consumed |
+| implementation targets | `apps/web/playwright.admin-schema-diff.config.ts`, `apps/web/playwright/tests/visual/admin-schema-diff.spec.ts`, `apps/web/playwright/.auth/.gitignore`, optional future real-D1 `scripts/fixtures/serial-05-step-03/seed-{diff,cleanup}.sql` |
+| evidence | parent Phase 11 fixture-backed local runtime screenshots 11 PNG + `outputs/phase-11/evidence/playwright.log` (`11 passed / 3 skipped`) |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-775-serial-05-step-03-runtime-evidence-completion-artifact-inventory.md` |
+| user gate | real D1 smoke / commit / push / PR / staging deploy / GitHub Issue mutation |
 
 ### admin-tags-queue-resolver-drawer（2026-05-17）
 
