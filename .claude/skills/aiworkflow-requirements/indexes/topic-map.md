@@ -3567,13 +3567,8 @@ node scripts/list-specs.js --topics
 | Follow-up unassigned tasks (proto-spec) | L99 |
 | Difficulties summary (parallel-02) | L111 |
 | P1-1〜P1-5 Selector ↔ Token ↔ 09 Spec Mapping (parallel-01) | L145 |
-| P1-1〜P1-5 Selector ↔ Token ↔ 09 Spec Mapping (parallel-01) | L190 |
-| parallel-02 prototype CSS rules port (2026-05-19 close-out) | L67 |
-| Follow-up unassigned tasks (proto-spec) | L78 |
-| Difficulties summary (parallel-02) | L90 |
-| P1-1〜P1-5 Selector ↔ Token ↔ 09 Spec Mapping (parallel-01) | L124 |
-| Sub-workflows | L169 |
-| P1-1〜P1-5 Selector ↔ Token ↔ 09 Spec Mapping (parallel-01) | L178 |
+| Sub-workflows | L190 |
+| P1-1〜P1-5 Selector ↔ Token ↔ 09 Spec Mapping (parallel-01) | L199 |
 
 ### references/workflow-ui-ux-visual-baseline-drift.md
 
@@ -7163,22 +7158,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L1802 |
-| フェーズ構造（概要） | L1811 |
-| 品質ゲート（概要） | L1842 |
-| 出力テンプレート | L1853 |
-| 実行時のコマンド・エージェント・スキル | L1876 |
-| 昇格パターン集 | L1900 |
-| Current Active / Spec Created Tasks | L1902 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L2055 |
-| ドキュメント構成 | L1832 |
-| フェーズ構造（概要） | L1841 |
-| 品質ゲート（概要） | L1872 |
-| 出力テンプレート | L1883 |
-| 実行時のコマンド・エージェント・スキル | L1906 |
-| 昇格パターン集 | L1930 |
-| Current Active / Spec Created Tasks | L1932 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L2086 |
+| ドキュメント構成 | L1834 |
+| フェーズ構造（概要） | L1843 |
+| 品質ゲート（概要） | L1874 |
+| 出力テンプレート | L1885 |
+| 実行時のコマンド・エージェント・スキル | L1908 |
+| 昇格パターン集 | L1932 |
+| Current Active / Spec Created Tasks | L1934 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L2088 |
 
 ### references/task-workflow-backlog-part2.md
 
