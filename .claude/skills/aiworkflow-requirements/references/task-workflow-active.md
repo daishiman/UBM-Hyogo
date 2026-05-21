@@ -8,6 +8,20 @@
 
 本ドキュメントは、複雑なタスクを単一責務の原則に基づいて分解し、各サブタスクに最適なスラッシュコマンド・エージェント・スキルの組み合わせを選定するためのガイドラインを定義する。
 
+### task-runtime-smoke-admin-members-500-recovery-001（2026-05-21）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `runtime_pending / implementation / NON_VISUAL / PASS_BOUNDARY_SYNCED_RUNTIME_PENDING` |
+| 成果物 | `docs/30-workflows/task-runtime-smoke-admin-members-500-recovery-001/` |
+| 目的 | backend-ci runtime smoke staging の `admin-list http=500` を RCA し、`GET /admin/members` を 200 + `.members` array へ復旧する |
+| in-cycle implementation | `apps/api/src/routes/admin/members.ts` defensive recovery + `apps/api/src/routes/admin/members.contract.spec.ts`; `scripts/smoke/runtime-attendance-provider.sh` redacted non-200 body persistence + `scripts/smoke/__tests__/runtime-attendance-provider.test.sh` T-4-5 |
+| RCA targets | `apps/api/src/routes/admin/members.ts`, staging D1 schema, middleware providers, Workers binding |
+| Phase 12 | strict 7 outputs + canonical compliance check present |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-task-runtime-smoke-admin-members-500-recovery-001-artifact-inventory.md` |
+| lessons | `.claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-task-runtime-smoke-admin-members-500-recovery-001-2026-05.md` |
+| user gate | staging curl/D1/tail, deploy, backend-ci rerun, commit, push, PR |
+
 ### parallel-04 Shared Page Chrome（2026-05-19）
 
 | 項目 | 値 |
