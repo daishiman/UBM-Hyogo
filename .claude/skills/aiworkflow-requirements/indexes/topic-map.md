@@ -3518,6 +3518,12 @@ node scripts/list-specs.js --topics
 | Follow-up 未タスク | L25 |
 | Validation Chain | L31 |
 
+### references/workflow-task-runtime-smoke-admin-members-500-recovery-001-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Contract | L17 |
+
 ### references/workflow-task-spec-2d-contract-stage-2-artifact-inventory.md
 
 | セクション | 行 |
@@ -7163,14 +7169,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L1832 |
-| フェーズ構造（概要） | L1841 |
-| 品質ゲート（概要） | L1872 |
-| 出力テンプレート | L1883 |
-| 実行時のコマンド・エージェント・スキル | L1906 |
-| 昇格パターン集 | L1930 |
-| Current Active / Spec Created Tasks | L1932 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L2087 |
+| ドキュメント構成 | L1846 |
+| フェーズ構造（概要） | L1855 |
+| 品質ゲート（概要） | L1886 |
+| 出力テンプレート | L1897 |
+| 実行時のコマンド・エージェント・スキル | L1920 |
+| 昇格パターン集 | L1944 |
+| Current Active / Spec Created Tasks | L1946 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L2101 |
 
 ### references/task-workflow-backlog-part2.md
 

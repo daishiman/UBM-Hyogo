@@ -42,6 +42,32 @@
       "outputs/phase-12/unassigned-task-detection.md",
       "outputs/phase-12/skill-feedback-report.md",
       "outputs/phase-12/phase12-task-spec-compliance-check.md"
+    ],
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-05-21T00:00:00Z",
+        "evidence_path": "docs/30-workflows/task-runtime-smoke-admin-members-500-recovery-001/outputs/phase-12/main.md",
+        "approver": "daishiman",
+        "notes": "spec_review: Phase 1-13 spec authored, local implementation completed (admin members handler + tests + smoke runner)"
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "passed",
+        "passed_at": "2026-05-21T00:00:00Z",
+        "evidence_path": "docs/30-workflows/task-runtime-smoke-admin-members-500-recovery-001/outputs/phase-12/implementation-guide.md",
+        "approver": "daishiman",
+        "notes": "implementation_review: typecheck/lint/test PASS, staging deploy version 0e981fdb"
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/task-runtime-smoke-admin-members-500-recovery-001/outputs/phase-08/evidence/summary.json",
+        "approver": "daishiman",
+        "notes": "external_ops: backend-ci runtime smoke staging green confirmation"
+      }
     ]
   },
   "phases": [
