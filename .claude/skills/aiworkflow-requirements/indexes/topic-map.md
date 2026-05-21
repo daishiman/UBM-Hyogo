@@ -2832,6 +2832,19 @@ node scripts/list-specs.js --topics
 | 関連ドキュメント | L112 |
 | 変更履歴 | L126 |
 
+### references/workflow-parallel-04-shared-page-chrome-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Summary | L3 |
+| Scope | L16 |
+| Canonical Sources | L20 |
+| Implementation Targets | L31 |
+| Workflow Outputs | L42 |
+| Evidence Inventory | L57 |
+| Implementation Boundary | L78 |
+| Lessons / Cross-link | L86 |
+
 ### references/workflow-parallel-09-ux-cross-cutting-artifact-inventory.md
 
 | セクション | 行 |
@@ -3559,7 +3572,8 @@ node scripts/list-specs.js --topics
 | Follow-up unassigned tasks (proto-spec) | L78 |
 | Difficulties summary (parallel-02) | L90 |
 | P1-1〜P1-5 Selector ↔ Token ↔ 09 Spec Mapping (parallel-01) | L124 |
-| P1-1〜P1-5 Selector ↔ Token ↔ 09 Spec Mapping (parallel-01) | L169 |
+| Sub-workflows | L169 |
+| P1-1〜P1-5 Selector ↔ Token ↔ 09 Spec Mapping (parallel-01) | L178 |
 
 ### references/workflow-ui-ux-visual-baseline-drift.md
 
@@ -7149,14 +7163,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L1814 |
-| フェーズ構造（概要） | L1823 |
-| 品質ゲート（概要） | L1854 |
-| 出力テンプレート | L1865 |
-| 実行時のコマンド・エージェント・スキル | L1888 |
-| 昇格パターン集 | L1912 |
-| Current Active / Spec Created Tasks | L1914 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L2069 |
+| ドキュメント構成 | L1832 |
+| フェーズ構造（概要） | L1841 |
+| 品質ゲート（概要） | L1872 |
+| 出力テンプレート | L1883 |
+| 実行時のコマンド・エージェント・スキル | L1906 |
+| 昇格パターン集 | L1930 |
+| Current Active / Spec Created Tasks | L1932 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L2087 |
 
 ### references/task-workflow-backlog-part2.md
 
@@ -7297,6 +7311,12 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 
+### references/task-workflow-completed-recent-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| 2026-05-19: parallel-04 Shared Page Chrome（spec_created + Phase 11 evidence captured） | L6 |
+
 ### references/task-workflow-completed-skill-create-ui-integration.md
 
 | セクション | 行 |
@@ -7420,10 +7440,11 @@ node scripts/list-specs.js --topics
 
 | セクション | 行 |
 |------------|----|
-| 最近の完了タスク（2026-04） | L7 |
-| 完了タスク（2026-03後半） | L128 |
-| 完了タスク（機能別アーカイブ） | L136 |
-| UT-TASK-SPEC-TEMPLATE-IMPROVEMENT-001: task-specification-creator Phase-12 テンプレート改善 | L245 |
+| 最近の完了タスク（2026-05） | L7 |
+| 最近の完了タスク（2026-04） | L11 |
+| 完了タスク（2026-03後半） | L132 |
+| 完了タスク（機能別アーカイブ） | L140 |
+| UT-TASK-SPEC-TEMPLATE-IMPROVEMENT-001: task-specification-creator Phase-12 テンプレート改善 | L249 |
 
 ### references/task-workflow-history.md
 

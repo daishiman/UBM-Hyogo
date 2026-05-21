@@ -10,6 +10,7 @@
 - `outputs/artifacts.json`: added
 - Phase 12 strict 7 files: added under `outputs/phase-12/`
 - root `index.md`: `prototype_coverage` metadata and SSOT section added
+- `apps/web/app/layout.tsx`, `error.tsx`, `not-found.tsx`, `loading.tsx`: parallel-04 root chrome contract implemented in same cycle
 - `.claude/skills/aiworkflow-requirements/indexes/quick-reference.md`: workflow entry added
 - `.claude/skills/aiworkflow-requirements/indexes/resource-map.md`: workflow current canonical set added
 - `.claude/skills/aiworkflow-requirements/references/task-workflow-active.md`: active workflow entry added
