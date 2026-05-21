@@ -5622,6 +5622,7 @@
       "workflow-task-07b-parallel-schema-diff-alias-assignment-workflow-artifact-inventory.md",
       "workflow-task-16-admin-tags-meetings-requests-artifact-inventory.md",
       "workflow-task-25-ui-mvp-w8-par-routes-smoke-coverage-artifact-inventory.md",
+      "workflow-task-alert-relay-global-scope-fix-001-artifact-inventory.md",
       "workflow-task-issue-346-08a-canonical-workflow-tree-restore-artifact-inventory.md",
       "workflow-task-issue-494-09a-A-exec-staging-smoke-runtime-artifact-inventory.md",
       "workflow-ut-02a-attendance-profile-integration-artifact-inventory.md",
@@ -6945,6 +6946,7 @@
       "workflow-task-08-w2-design-tokens-doc-artifact-inventory.md",
       "workflow-task-08b-A-playwright-e2e-full-execution-artifact-inventory.md",
       "workflow-task-13-login-rebuild-artifact-inventory.md",
+      "workflow-task-alert-relay-global-scope-fix-001-artifact-inventory.md",
       "workflow-ut-07a-01-member-tags-assign-cleanup-artifact-inventory.md",
       "workflow-ut-07b-fu-01-schema-alias-backfill-queue-cron-split-artifact-inventory.md",
       "workflow-ut-07c-followup-001-attendance-csv-import-artifact-inventory.md",
@@ -8310,7 +8312,8 @@
       "workflow-06c-A-admin-dashboard-artifact-inventory.md",
       "workflow-06c-B-admin-members-artifact-inventory.md",
       "workflow-06c-C-admin-tags-artifact-inventory.md",
-      "workflow-task-06-ui-ux-contract-rewrite-artifact-inventory.md"
+      "workflow-task-06-ui-ux-contract-rewrite-artifact-inventory.md",
+      "workflow-task-alert-relay-global-scope-fix-001-artifact-inventory.md"
     ],
     "setup": [
       "deployment-gha.md",
@@ -11876,6 +11879,7 @@
       "workflow-task-26-ui-mvp-w8-par-error-tsx-token-utility-migration-artifact-inventory.md",
       "workflow-task-709-visual-baseline-runtime-capture-artifact-inventory.md",
       "workflow-task-761-visual-full-required-status-check-artifact-inventory.md",
+      "workflow-task-alert-relay-global-scope-fix-001-artifact-inventory.md",
       "workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md",
       "workflow-task-issue-191-production-d1-schema-aliases-apply-001-artifact-inventory.md",
       "workflow-task-issue-191-schema-aliases-implementation-001-artifact-inventory.md",
@@ -12402,7 +12406,8 @@
       "workflow-serial-05-step-03-schema-diff-resolve-artifact-inventory.md",
       "workflow-skill-ledger-a3-progressive-disclosure-artifact-inventory.md",
       "workflow-skill-lifecycle-evaluation-scoring-gate.md",
-      "workflow-skill-lifecycle-routing-render-view-foundation.md"
+      "workflow-skill-lifecycle-routing-render-view-foundation.md",
+      "workflow-task-alert-relay-global-scope-fix-001-artifact-inventory.md"
     ],
     "Request": [
       "lessons-learned-06b-b-profile-self-service-request-ui-2026-05.md",
@@ -13961,6 +13966,7 @@
       "workflow-fix-cf-deploy-esbuild-import-source-staging-failure-artifact-inventory.md",
       "workflow-issue-720-cf-audit-monitor-env-protection-fix-artifact-inventory.md",
       "workflow-skill-md-codex-validation-fix-artifact-inventory.md",
+      "workflow-task-alert-relay-global-scope-fix-001-artifact-inventory.md",
       "workflow-web-app-route-bundle-parse-fix-artifact-inventory.md"
     ],
     "import": [
@@ -14120,6 +14126,7 @@
       "workflow-skill-ledger-a3-progressive-disclosure-artifact-inventory.md",
       "workflow-skill-lifecycle-evaluation-scoring-gate.md",
       "workflow-skill-lifecycle-routing-render-view-foundation.md",
+      "workflow-task-alert-relay-global-scope-fix-001-artifact-inventory.md",
       "workflow-ut08-monitoring-alert-design-artifact-inventory.md"
     ],
     "quick": [
@@ -17229,7 +17236,8 @@
     ],
     "global": [
       "lessons-learned-task-18-w7-verify-tokens-and-playwright-smoke-2026-05.md",
-      "logs-archive-2026-03-line-budget-reform-formalize.md"
+      "logs-archive-2026-03-line-budget-reform-formalize.md",
+      "workflow-task-alert-relay-global-scope-fix-001-artifact-inventory.md"
     ],
     "置換": [
       "lessons-learned-task-18-w7-verify-tokens-and-playwright-smoke-2026-05.md"
@@ -18138,11 +18146,13 @@
       "lessons-learned-ut-17-followup-003-healthcheck-cron-2026-05.md",
       "task-workflow-active.md",
       "workflow-issue-588-fallback-alert-slack-mail-extension-artifact-inventory.md",
+      "workflow-task-alert-relay-global-scope-fix-001-artifact-inventory.md",
       "workflow-ut-17-cloudflare-analytics-alerts-artifact-inventory.md"
     ],
     "relay": [
       "lessons-learned-ut-17-followup-003-healthcheck-cron-2026-05.md",
       "task-workflow-active.md",
+      "workflow-task-alert-relay-global-scope-fix-001-artifact-inventory.md",
       "workflow-ut-17-cloudflare-analytics-alerts-artifact-inventory.md"
     ],
     "weekly": [

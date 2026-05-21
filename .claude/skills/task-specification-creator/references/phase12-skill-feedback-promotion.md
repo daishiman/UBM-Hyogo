@@ -118,6 +118,26 @@ source unassigned-task が「Dashboard-only」「IaC 不要」と読める場合
 - [ ] mirror directory が存在する skill は mirror sync と `diff -qr` を実行した
 - [ ] workflow が docs-only `spec_created` から `enforced_dry_run` などへ再分類された場合は root/outputs `artifacts.json`、`phase12-task-spec-compliance-check.md`、`system-spec-update-summary.md`、SKILL changelog、resource-map / quick-reference / task-workflow-active を **同 wave** で更新した（reclassification は 7 同期点を 1 wave で消化する）
 
+## Workers Global Scope and Secret-Bridge Promotion Rule
+
+Cloudflare Workers deploy blocker fixes must route reusable findings to the
+owning skills in the same wave. In particular:
+
+| Finding | Required promotion |
+| --- | --- |
+| Worker validation rejects an import-time API call | Add or update aiworkflow lessons/specs so the accepted pattern is lazy module cache, not module-top `crypto.randomUUID()` or handler-local per-call UUIDs |
+| Local operator secret layout differs from CI canonical secret name | Document the bridge in the deployment secret spec, explicitly separating local 1Password field labels from GitHub Actions secret names |
+| A wrapper script is changed to normalize secrets | Include the script and its regression test in root `artifacts.json#scope.files`, Phase 12 compliance, documentation changelog, and artifact inventory |
+| Skill feedback initially says no-op but a reusable rule exists | Replace no-op wording with the promotion target, evidence path, and no-op reason only for truly unchanged skills |
+
+実例: `task-alert-relay-global-scope-fix-001` では
+`alert-relay.ts` の module-top `crypto.randomUUID()` が Workers validation error
+10021 を起こした。正本実装は `cachedIsolateId` + `getIsolateId()` の lazy
+module cache。local `scripts/cf.sh deploy --env staging|production` は
+1Password `Employee/ubm-hyogo-env` の env-specific field を読み、wrangler には
+child env `CLOUDFLARE_API_TOKEN` だけを渡す。CI の GitHub Environment secret
+名とは分離して記録する。
+
 ## Queue retry / DLQ feedback rule
 
 Queue retry / DLQ workflow の Phase 12 では、injected failure callback のテストだけで close-out しない。production scheduled path が dependency injection なしで retry-eligible row を処理することを、focused test または route/scheduled handler test で確認する。

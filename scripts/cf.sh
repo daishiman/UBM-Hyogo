@@ -18,6 +18,8 @@ if [ "$#" -eq 0 ]; then
 fi
 
 REPO_ROOT="$(git rev-parse --show-toplevel)"
+CF_DEPLOY_ENV=""
+CF_DEPLOY_CONFIG=""
 
 if [ "$1" != "alerts" ] && [ -n "${CLOUDFLARE_API_TOKEN:-}" ]; then
   export CF_SH_SKIP_WITH_ENV=1
@@ -269,18 +271,16 @@ else
 fi
 
 if [ "$1" = "deploy" ] && printf '%s\n' "$@" | grep -qx -- "--config"; then
-  config_path=""
-  deploy_env=""
   prev=""
   for arg in "$@"; do
     if [ "$prev" = "--config" ]; then
-      config_path="$arg"
+      CF_DEPLOY_CONFIG="$arg"
     elif [ "$prev" = "--env" ]; then
-      deploy_env="$arg"
+      CF_DEPLOY_ENV="$arg"
     fi
     prev="$arg"
   done
-  if [ "$config_path" = "apps/web/wrangler.toml" ] && [ "${deploy_env:-production}" = "production" ] && [ "${ENABLE_STAGING_SMOKE_FIXTURE:-}" = "1" ]; then
+  if [ "$CF_DEPLOY_CONFIG" = "apps/web/wrangler.toml" ] && [ "${CF_DEPLOY_ENV:-production}" = "production" ] && [ "${ENABLE_STAGING_SMOKE_FIXTURE:-}" = "1" ]; then
     echo "[cf.sh] refusing production web deploy with ENABLE_STAGING_SMOKE_FIXTURE=1" >&2
     exit 64
   fi
@@ -288,6 +288,29 @@ fi
 
 if [ "${CF_SH_SKIP_WITH_ENV:-0}" = "1" ]; then
   exec "$WRANGLER_BIN" "$@"
+fi
+
+if [ "$1" = "deploy" ] && [ -n "$CF_DEPLOY_CONFIG" ]; then
+  case "${CF_DEPLOY_ENV:-production}" in
+    staging) cf_token_field="CLOUDFLARE_API_TOKEN_STAGING" ;;
+    production) cf_token_field="CLOUDFLARE_API_TOKEN_PRODUCTION" ;;
+    *)
+      echo "[cf.sh] unsupported deploy --env '${CF_DEPLOY_ENV}' for 1Password token selection" >&2
+      exit 64
+      ;;
+  esac
+  cf_token="$(
+    op item get ubm-hyogo-env \
+      --vault Employee \
+      --fields "label=${cf_token_field}" \
+      --reveal
+  )"
+  if [ -z "$cf_token" ]; then
+    echo "[cf.sh] 1Password field '${cf_token_field}' is empty" >&2
+    exit 78
+  fi
+  echo "[cf.sh] using 1Password field ${cf_token_field} as CLOUDFLARE_API_TOKEN for deploy --env ${CF_DEPLOY_ENV:-production}" >&2
+  exec env CF_SH_SKIP_WITH_ENV=1 CLOUDFLARE_API_TOKEN="$cf_token" mise exec -- "$WRANGLER_BIN" "$@"
 fi
 
 # with-env.sh が op run で .env (op:// 参照のみ) を解決して env に注入する
