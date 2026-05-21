@@ -3413,6 +3413,12 @@ node scripts/list-specs.js --topics
 | Implementation Targets | L24 |
 | Runtime Boundary | L30 |
 
+### references/workflow-task-alert-relay-global-scope-fix-001-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Contract | L17 |
+
 ### references/workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md
 
 | セクション | 行 |
@@ -4231,12 +4237,12 @@ node scripts/list-specs.js --topics
 | wrangler.toml の環境別設定 | L288 |
 | ローカル開発での設定 | L320 |
 | Cloudflare CLI ラッパー: `scripts/cf.sh`（UT-06 派生 / 2026-04-27） | L359 |
-| セキュリティ原則 | L393 |
-| Cloudflare API Token の作成手順 | L404 |
-| Cloudflare API Token 90 日 rotation runbook（Issue #407 / 2026-05-06） | L419 |
-| UT-27: GitHub Secrets / Variables 同期運用（2026-04-29） | L530 |
-| U-FIX-CF-ACCT-01-DERIV-02: Cloudflare deploy token split | L574 |
-| 変更履歴 | L608 |
+| セキュリティ原則 | L394 |
+| Cloudflare API Token の作成手順 | L405 |
+| Cloudflare API Token 90 日 rotation runbook（Issue #407 / 2026-05-06） | L420 |
+| UT-27: GitHub Secrets / Variables 同期運用（2026-04-29） | L531 |
+| U-FIX-CF-ACCT-01-DERIV-02: Cloudflare deploy token split | L575 |
+| 変更履歴 | L625 |
 
 ### references/deployment.md
 
@@ -6018,8 +6024,8 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 概要 | L3 |
 | 仕様書インデックス | L7 |
-| 利用順序 | L115 |
-| 関連ドキュメント | L120 |
+| 利用順序 | L116 |
+| 関連ドキュメント | L121 |
 
 ### references/llm-embedding.md
 
@@ -7150,7 +7156,7 @@ node scripts/list-specs.js --topics
 | 実行時のコマンド・エージェント・スキル | L1888 |
 | 昇格パターン集 | L1912 |
 | Current Active / Spec Created Tasks | L1914 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L2068 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L2069 |
 
 ### references/task-workflow-backlog-part2.md
 

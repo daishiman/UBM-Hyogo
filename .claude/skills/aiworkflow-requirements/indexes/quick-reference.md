@@ -425,6 +425,20 @@
 | runbook | `docs/30-workflows/runbooks/ut-17-alert-relay-monthly-healthcheck.md` section 5 |
 | user gate | runtime Workers Logs tail / deploy / commit / push / PR |
 
+### task-alert-relay-global-scope-fix-001 — Alert Relay Workers Global Scope Fix（2026-05-21）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/task-alert-relay-global-scope-fix-001/` |
+| 状態 | `implemented_local_evidence_captured / implementation / NON_VISUAL / staging deploy validation pending_user_approval` |
+| implementation | `apps/api/src/routes/internal/alert-relay.ts` lazily initializes `isolateId` through `getIsolateId()` instead of module top-level `crypto.randomUUID()` |
+| local deploy token bridge | `scripts/cf.sh` maps `deploy --env staging\|production` to `CLOUDFLARE_API_TOKEN_STAGING` / `CLOUDFLARE_API_TOKEN_PRODUCTION` from 1Password, then exposes only child-env `CLOUDFLARE_API_TOKEN` to wrangler |
+| regression test | `apps/api/src/routes/internal/__tests__/alert-relay.spec.ts` TC-GS-01 asserts import-time `crypto.randomUUID` is not called |
+| artifact inventory | `references/workflow-task-alert-relay-global-scope-fix-001-artifact-inventory.md` |
+| deployment secrets spec | `references/deployment-secrets-management.md` v1.4.7 local-only token bridge |
+| lessons learned | `lessons-learned/lessons-learned-task-alert-relay-global-scope-fix-001-2026-05.md` |
+| user gate | deploy-staging CI job / commit / push / PR |
+
 
 ### task-18-FU Full Visual Regression Suite（2026-05-14）
 
