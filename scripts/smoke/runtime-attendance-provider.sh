@@ -18,6 +18,7 @@
 #   2 : 引数不正・必須 env 欠落
 set -euo pipefail
 
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 ENVIRONMENT="${1:-}"
 shift || true
 if [[ -z "$ENVIRONMENT" ]]; then
@@ -62,6 +63,7 @@ done
 OUT_LOG="$OUT_DIR/runtime-smoke.log"
 SUMMARY_JSON="$OUT_DIR/summary.json"
 TMP_DIR="$(mktemp -d)"
+REDACT="$SCRIPT_DIR/redact.sh"
 umask 077
 trap 'rm -rf "$TMP_DIR"' EXIT
 
@@ -148,10 +150,13 @@ request_json() {
   fi
 
   if [[ "$status" != "200" ]]; then
+    local redacted_body
+    redacted_body="$(head -c 2000 "$body_file" | tr -d '\0' | bash "$REDACT")"
     {
       printf '===== %s GET =====\n' "$label"
       printf 'status=%s\n' "$status"
       printf 'contract=%s\n\n' "$jq_filter"
+      printf 'body=%s\n\n' "$redacted_body"
     } >> "$OUT_LOG"
     fail_and_exit "$label" "$status" "$jq_filter"
   fi
