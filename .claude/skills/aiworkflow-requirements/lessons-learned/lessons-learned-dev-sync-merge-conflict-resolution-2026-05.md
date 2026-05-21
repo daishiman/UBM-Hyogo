@@ -417,6 +417,23 @@
   - **B-11「単一 className トークン非競合変更の連結採用」**: `<element className="...">` で HEAD と dev が同じ class 文字列の**異なるトークン**を追加・置換している場合、両方のトークンを 1 行に併記する。同じトークンを異なる値に変更している場合のみ最終レポート対象（例: `grid-cols-[240px_1fr]` ↔ `grid-cols-[272px_1fr]` は dev 側が SSOT を `09h-shell-and-fixtures.md` で更新済みなので dev 採用）。
 - 事例: 2026-05-20 `feat/ui-prototype-design-system-foundation-parallel-03-appshell-layouts` ← dev sync-merge。`workflow-ui-prototype-design-system-foundation-artifact-inventory.md` / `phase12-task-spec-compliance-check.md` / `phase-12/main.md` / `apps/web/app/(admin)/layout.tsx` の 4 ファイルを B-10 / B-11 ルールで union 解消。`indexes/keywords.json` は B-9 既存ルールで `--ours + pnpm indexes:rebuild` 復旧。
 
+## L-DEVSYNC-024: 同一 import ブロック内 別 symbol 追加の 3-way conflict は両側 union（2026-05-20 追加）
+
+- 症状: feature ブランチ `feat/parallel-04-shared-page-chrome` ← dev sync で `apps/web/app/error.tsx` の冒頭 import ブロックが衝突。HEAD は `Card / CardContent / CardDescription / CardFooter / CardHeader` を `../src/components/ui/Card` から追加、dev は `useAutoFocusOnMount` を `../src/lib/a11y/useAutoFocusOnMount` から追加。3-way base には両方とも未追加だったため `pnpm sync:resolve` 対象外（src コード）として残った。
+- 解消: marker 4 種を除去し、HEAD ブロックの Card 系 import と dev ブロックの hook import を**両方残す**。本体コードが `<Card>` と `useAutoFocusOnMount(headingRef)` を両方使うため意味的競合なし。
+- Why: src コードでの import 追加は append-only 性質を持つことが多く（symbol 名の重複さえなければ衝突しない）、結局両者を残すのが最頻パターン。base に存在する既存 import（`logger`）はそのまま残しておけば良い。
+- How to apply: `apps/web/**` / `apps/api/**` / `packages/**` の import 衝突は (1) 両側に出現する symbol が本体で使用されているかを `grep -n <symbol>` で確認 → (2) 両側使用なら両 import を union（順序は HEAD→dev、ソート整理は別 commit）→ (3) 片側のみ使用ならその側を採用。
+- 事例: 2026-05-20 `feat/parallel-04-shared-page-chrome` dev sync で `apps/web/app/error.tsx` を union 解消後 typecheck 通過。task-specification-creator skill 側 SP-DEVSYNC-023 と対応。
+
+## L-DEVSYNC-025: Phase 12 evidence inventory 表の 3-col → 4-col schema 遷移は dev 側採用（2026-05-20 追加）
+
+- 症状: feature ブランチ ← dev sync で `outputs/phase-12/phase12-task-spec-compliance-check.md` の Phase 11 evidence inventory 表が衝突。HEAD は旧 3-col（Path / Status / Note）でローカル新規追加行を含み、dev は新 4-col（Classification / Path / Status / Note）で別タスクの present 行と新カラム導入を含む。表ヘッダ自体が両側で異なるため、union だと 2 つの表ヘッダが並ぶ破壊的結果になる。
+- 解消: **dev 側の 4-col schema を正本採用**し、HEAD 側の present 行を `Classification = visual` 付きで再構成して dev 側行集合に手動 union する。`pnpm sync:resolve` は markdown table 構造を解釈しないため対象外。
+- Why: Phase 11 evidence parser（issue-730 系 evidence-existence-validator）は将来的に `Classification` 列を必須化する方向。spec 段階で 4-col に統一しておけば parser 改修時の遡及修正が不要。
+- How to apply: `outputs/phase-12/*.md` の table 衝突は (1) 列構造の世代を判定（dev 側が新世代であるケースが大多数）→ (2) 新世代 schema を採用 → (3) HEAD 側の row を新 schema の列順に再配置 → (4) `Classification` 等の新規列は `visual` / `coverage` / `gate` 等の語彙集合から選択。
+- 事例: 2026-05-20 `feat/parallel-04-shared-page-chrome` dev sync で `ui-prototype-design-system-foundation/outputs/phase-12/phase12-task-spec-compliance-check.md` の Phase 11 表が 3-col vs 4-col で衝突 → 4-col 採用 + HEAD row 7 件を `visual` Classification 付きで再配置して解消。`outputs/phase-12/main.md` の `## Boundary` セクションも同様の 3-way narrative 衝突 → HEAD 側 (CONST_004 minimal 実装) + dev 側 (parallel-02 wave 補正) を意味的に結合して 1 段落に統合。task-specification-creator skill 側 SP-DEVSYNC-024 と対応。
+- 事例（2026-05-20 再現・2 度目）: `feat/ui-prototype-design-system-foundation-parallel-03-appshell-layouts` ← dev 取り込み 2 度目で `phase-12/main.md` の `## Boundary` ナラティブと `phase12-task-spec-compliance-check.md` `## 7. Runtime or user-gated boundary` ナラティブの 2 ファイルが narrative 3-way conflict。HEAD（parallel-03 AppShell + parallel-02 CSS port wave）と dev（parallel-04 root fallback wave）が異なる sub-workflow 群を独立追記しただけで意味的競合なし → HEAD→dev 結合 1 段落で union 解消。`pnpm sync:resolve` は対象外（narrative 段落は markdown table と異なり resolver 非対応）であり、手動の意味結合がテンプレ手順として確立した。同一 ui-prototype-design-system-foundation workflow 配下の sub-workflow ブランチが順次 dev に merge されると、配下の Phase 12 narrative ファイルで本パターンが繰り返し再現するため、dev sync prompt 自律判断ルール B-5（ドキュメント両側採用）の典型適用 case として記録。
+
 ## L-DEVSYNC-032: completed-task の Phase 11 evidence inventory 表で発生する 3-way conflict は dev 側採用（2026-05-20 追加）
 
 - 症状: `feat/issue-776-schema-alias-bulk-resolve` ← dev sync-merge で `docs/30-workflows/completed-tasks/serial-05-step-03-schema-diff-resolve/outputs/phase-12/phase12-task-spec-compliance-check.md` の Phase 11 evidence inventory table に 3-way conflict（`<<<<<<< HEAD`／`||||||| <base>`／`=======`／`>>>>>>> origin/dev`）。`pnpm sync:resolve` は対象外（completed-tasks 配下は merge=union 属性なし）。

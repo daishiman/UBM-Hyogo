@@ -9,7 +9,7 @@ runtime_pending / RUNTIME VISUAL PARTIAL (`implemented_local_evidence_captured /
 | area | classification | note |
 |------|----------------|------|
 | `docs/30-workflows/ui-prototype-design-system-foundation/**` | implementation-spec documentation | taskType remains `implementation`; Phase 12 is spec-readiness |
-| `apps/web/**` | minimal implementation hook | AppShell data hooks, selector CSS, tag/visibility markers added |
+| `apps/web/**` | implementation delta | AppShell data hooks, selector CSS, tag/visibility markers, plus parallel-04 root fallback chrome (`layout.tsx`, `error.tsx`, `not-found.tsx`, `loading.tsx`) |
 | `packages/**` | no change | no package diff introduced |
 
 ## 3. `workflow_state` and phase status consistency
@@ -25,7 +25,13 @@ runtime_pending / RUNTIME VISUAL PARTIAL (`implemented_local_evidence_captured /
 
 | Classification | Path | Status | Note |
 |----------------|------|--------|------|
-| visual | `parallel-04-shared-page-chrome/outputs/phase-11/fallback-not-found.png` | pending | required by updated Phase 11 inventory |
+| visual | `parallel-04-shared-page-chrome/outputs/phase-11/screenshot-plan.json` | present | capture plan updated |
+| visual | `parallel-04-shared-page-chrome/outputs/phase-11/phase11-capture-metadata.json` | present | capture metadata updated |
+| visual | `parallel-04-shared-page-chrome/outputs/phase-11/root-layout.png` | present | captured |
+| visual | `parallel-04-shared-page-chrome/outputs/phase-11/fallback-error.png` | present | captured |
+| visual | `parallel-04-shared-page-chrome/outputs/phase-11/fallback-not-found.png` | present | captured |
+| visual | `parallel-04-shared-page-chrome/outputs/phase-11/fallback-loading.png` | present | captured |
+| visual | `parallel-04-shared-page-chrome/outputs/phase-11/ui-sanity-visual-review.md` | present | screenshot review updated |
 | visual | `parallel-02-prototype-css-rules-port/outputs/phase-11/tag-pill-default.png` | present | local selector screenshot |
 | visual | `parallel-02-prototype-css-rules-port/outputs/phase-11/tag-pill-selected.png` | present | local selector screenshot |
 | visual | `parallel-02-prototype-css-rules-port/outputs/phase-11/tag-pill-hover.png` | present | local selector screenshot |
@@ -63,7 +69,9 @@ runtime_pending / RUNTIME VISUAL PARTIAL (`implemented_local_evidence_captured /
 
 ## 7. Runtime or user-gated boundary
 
-Parallel-02 local screenshots and parallel-03 public AppShell screenshot are present. Authenticated admin and member route-group runtime evidence remain tracked by serial-07. Full 19-route blueprint binding and production-equivalent visual regression evidence are still tracked by the active workflow phases; this file does not claim root or full 19-route visual completion.
+Parallel-02 local selector screenshots, parallel-03 public AppShell screenshot, and parallel-04 root fallback screenshots are captured in this cycle. Authenticated admin and member route-group runtime evidence remain tracked by serial-07. Full 19-route blueprint binding and production-equivalent visual regression evidence are still tracked by the active workflow phases; this file does not claim root or full 19-route visual completion.
+
+parallel-04 keeps `visualEvidence: VISUAL` because root fallback screenshots are part of the acceptance surface. Phase 11 records EV-12..15 as present; serial-07 remains the owner for full route visual regression.
 
 ## 8. Archive/delete stale-reference gate
 

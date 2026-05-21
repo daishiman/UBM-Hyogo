@@ -84,7 +84,7 @@
 | 項目 | 値 |
 | --- | --- |
 | workflow | `docs/30-workflows/completed-tasks/issue-324-shared-package-type-contracts/` |
-| status | `implemented_local_evidence_captured / implementation / NON_VISUAL` |
+| status | `implemented_local_evidence_captured / implementation / VISUAL` |
 | implementation | `packages/shared/src/__tests__/type-contracts.spec.ts` |
 | source trace | `docs/30-workflows/completed-tasks/UT-08A-05-shared-package-type-test.md` |
 | evidence | `outputs/phase-11/evidence/shared-typecheck.txt`, `outputs/phase-11/evidence/shared-lint.txt`, `outputs/phase-11/evidence/shared-test.txt` |
@@ -94,6 +94,34 @@
 > 詳細は resource-map.md → 該当ファイル を参照
 
 ---
+
+### parallel-04 Shared Page Chrome（2026-05-19）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/ui-prototype-design-system-foundation/parallel-04-shared-page-chrome/` |
+| 状態 | `spec_created / implementation / VISUAL / Phase 11 evidence captured (EV-01..16)` |
+| 実装対象 | `apps/web/app/{layout,error,not-found,loading}.tsx` + `apps/web/app/__tests__/error.component.spec.tsx` + `apps/web/app/__smoke__/loading-state/{page,loading}.tsx` |
+| invariant | OKLch token のみ / HEX 直書き 0 / `__tests__` 除外 ToastProvider 単一 mount / `next build --webpack` / Phase 12 strict 7 は parent root 集約 |
+| evidence | EV-01..09 静的 gate + EV-10..11 capture provenance + EV-12..15 root chrome / fallback PNG + EV-16 visual review |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-parallel-04-shared-page-chrome-artifact-inventory.md` |
+| lessons | `.claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-parallel-04-root-chrome-2026-05.md` (L-PARA04-001..007) |
+| changelog | `.claude/skills/aiworkflow-requirements/changelog/20260519-parallel-04-shared-page-chrome.md` |
+| completion shard | `.claude/skills/aiworkflow-requirements/references/task-workflow-completed-recent-2026-05.md` |
+| user gate | commit / push / PR / serial-07 19 routes 全体 visual regression |
+
+### profile-loading-skeleton-oklch（2026-05-19）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/profile-loading-skeleton-oklch/` |
+| 状態 | `implemented_local_evidence_captured / implementation / VISUAL / implementation_complete_pending_pr` |
+| source | `docs/30-workflows/ui-prototype-alignment-mvp-recovery/improvements/integration-fixes/parallel-i07-profile-loading-skeleton/spec.md` |
+| implementation | `apps/web/app/profile/loading.tsx`, `apps/web/app/profile/loading.spec.tsx` |
+| contract | `/profile/loading.tsx` は `role=status` / `aria-busy=true` / `aria-live=polite` / `data-page=profile-loading` と avatar + 4 KV row skeleton を持つ |
+| evidence | `outputs/phase-11/evidence/{test,typecheck,lint,build,grep-gate}.log`, `outputs/phase-12/phase12-task-spec-compliance-check.md` |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-profile-loading-skeleton-oklch-artifact-inventory.md` |
+| user gate | commit / push / PR |
 
 ### UT-07C-FU-001 attendance CSV import spec（2026-05-18）
 
@@ -371,7 +399,7 @@
 | workflow root | `docs/30-workflows/completed-tasks/fix-ci-cache-and-cf-token-pr795/` |
 | 状態 | `implemented_local_evidence_captured / implementation / NON_VISUAL / PASS_BOUNDARY_SYNCED_RUNTIME_PENDING` |
 | task-01 | `setup-project.cache` input を追加し、`workflow-shell-lint` の `install: 'false'` caller は `cache: ''` で setup-node pnpm cache を無効化 |
-| task-02 | backend-ci D1 / Workers scoped secrets (`CF_TOKEN_D1_*`, `CF_TOKEN_WORKERS_*`) を `with.apiToken` と step-level `env.CLOUDFLARE_API_TOKEN` の両方へ同値注入。独立 fallback ではない |
+| task-02 | Historical PR #795 note: backend-ci D1 / Workers scoped secrets (`CF_TOKEN_D1_*`, `CF_TOKEN_WORKERS_*`) were once documented as the scoped source behind `with.apiToken` and step-level `env.CLOUDFLARE_API_TOKEN`. Current `backend-ci.yml` uses environment-scoped `CLOUDFLARE_API_TOKEN` directly. |
 | implementation targets | `.github/actions/setup-project/action.yml`, `.github/workflows/ci.yml`, `.github/workflows/backend-ci.yml`, `scripts/__tests__/workflow-env-scope.test.sh` |
 | evidence | `outputs/phase-11/evidence.md`, `outputs/phase-12/phase12-task-spec-compliance-check.md` |
 | user gate | GitHub environment secret confirmation / GitHub Actions runtime evidence / commit / push / PR |
@@ -1045,7 +1073,7 @@
 | primary IdP | AWS STS（GitHub OIDC federation） |
 | workflow inventory | `.github/workflows/web-cd.yml`, `.github/workflows/backend-ci.yml`, `.github/workflows/d1-migration-verify.yml` |
 | current token references | `backend-ci.yml` still uses `CLOUDFLARE_API_TOKEN` and `d1-migration-verify.yml` still uses `CLOUDFLARE_API_TOKEN_STAGING` until their runtime cutover. `web-cd.yml` uses environment-scoped `CLOUDFLARE_API_TOKEN` after task-01 web-cd secret alignment. |
-| current token references | Issue #718 以降 `backend-ci.yml` uses `CF_TOKEN_D1_*` / `CF_TOKEN_WORKERS_*`; `d1-migration-verify.yml` は 2026-05-16 以降 `secrets.CLOUDFLARE_API_TOKEN` に統一済み。`web-cd.yml` uses environment-scoped `CLOUDFLARE_API_TOKEN` after task-01 web-cd secret alignment. |
+| current token references | 2026-05-20 `ci-staging-deploy-failure-fix` 以降、`backend-ci.yml` / `web-cd.yml` は environment-scoped `CLOUDFLARE_API_TOKEN` を current runtime secret name とする。`CF_TOKEN_D1_*` / `CF_TOKEN_WORKERS_*` は historical split names。 |
 | approval gates | G1 trust policy / G2 staging cutover / G3 production cutover / G4 long-lived token revoke |
 | close-out evidence | `outputs/phase-12/phase12-task-spec-compliance-check.md` |
 | runtime evidence | `outputs/phase-11/main.md` + `manual-smoke-log.md` + `link-checklist.md` are RUNTIME_PENDING placeholder ledgers. deploy / revoke are未実行 |
@@ -3106,3 +3134,15 @@ UT-17 Cloudflare Notifications → alert-relay → Slack 経路を、既存 API 
 | source task | `docs/30-workflows/unassigned-task/task-709-fu-branch-protection-required-check.md` consumed |
 | artifact inventory | `references/workflow-task-761-visual-full-required-status-check-artifact-inventory.md` |
 | user gate | branch protection contexts POST / after GET / commit / push / PR |
+
+### CI staging deploy failure fix（2026-05-20）
+
+| 観点 | 値 / 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/ci-staging-deploy-failure-fix/` |
+| status | `PASS_BOUNDARY_SYNCED_RUNTIME_PENDING / implementation / NON_VISUAL` |
+| task-01 | `.github/workflows/web-cd.yml` の OpenNext build step に `apps/web/wrangler.toml` 由来の build-time env を step-scoped 注入し、`apps/web/src/lib/__tests__/build-time-env.spec.ts` で `getPublicEnv` / `getEnv` contract を固定 |
+| task-02 | Cloudflare API token を D1:Edit + Workers Scripts:Edit + Account Settings:Read で staging / production 分離 rotation。Cloudflare / 1Password / GitHub Secret mutation は user-gated |
+| evidence boundary | local env test / grep / build smoke は PASS。`web-cd / deploy-staging`、`backend-ci / deploy-staging`、staging HTTP 200 は dev push 後の runtime_pending |
+| artifact inventory | `references/workflow-ci-staging-deploy-failure-fix-artifact-inventory.md` |
+| user gate | Cloudflare token creation, 1Password update, `gh secret set`, commit, push, PR, dev push runtime evidence |
