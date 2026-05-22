@@ -33,6 +33,12 @@ description: |
   i18n, i18n-label-normalization, NFKC, alias-recommendation,
   alias-recommendation-score-stability, label-normalization,
   recommendedStableKeys, stable_key_collision, 409 stable_key_collision,
+  schema-alias-rollback, schema-alias-undo, If-Match, rolledBackAt,
+  D1 soft delete, deleted_at, partial unique index, optimistic lock,
+  version_mismatch, db.batch atomicity, audit_log relatedAuditId,
+  cf_audit_log vs audit_log boundary, rollback workflow pattern,
+  pattern-d1-soft-delete-optimistic-lock-batch
+  recommendedStableKeys, stable_key_collision, 409 stable_key_collision,
   parallel-04-shared-page-chrome, root chrome, fallback boundary,
   ToastProvider single mount, runtime source-only grep, __tests__ prune,
   OKLch token gate, next build --webpack, parent-sub-workflow strict7 aggregation,
@@ -59,6 +65,8 @@ ubm-hyogo Web アプリプロジェクトの全仕様を管理するスキル。
 
 | Version | Date | Changes |
 | --- | --- | --- |
+| v2026.05.19-pattern-d1-soft-delete-optimistic-lock-batch | 2026-05-19 | Issue #778 で確立した D1 soft delete + 楽観ロック + `db.batch()` atomic mutation + audit relation を汎用 pattern として正本化。`references/pattern-d1-soft-delete-optimistic-lock-batch.md` + `references/lessons-learned-d1-batch-atomicity-and-soft-delete-2026-05.md`（L-DBATCH-001 / L-SOFTDEL-001 / L-OPTLOCK-001 / L-AUDITREL-001 / L-SCOPE-001）を新規追加し、`indexes/resource-map.md` / `indexes/quick-reference.md` / `SKILL.md` Trigger / `LOGS/_legacy.md` を同一 wave で同期。 |
+| v2026.05.19-issue778-schema-alias-rollback-undo | 2026-05-19 | Issue #778 schema alias rollback / undo を `runtime_pending / implementation / VISUAL / PASS_BOUNDARY_SYNCED_RUNTIME_PENDING` として同期。rollback endpoint、application `audit_log.after_json.relatedAuditId`、Phase 12 strict 7、root/output artifacts parity、source followup-004 consumed trace、followup split、api/admin specs、indexes を同一 wave で反映。 |
 | v2026.05.22-task-staging-auth-secret-binding-recovery | 2026-05-22 | `task-staging-auth-secret-binding-recovery-001` を `implemented_local_runtime_pending / implementation / NON_VISUAL` として同期。`AUTH_SECRET` missing/blank structured log、auth secret zod validator、runtime smoke `auth-secret-binding-missing` classification、`cf.sh secret put` empty stdin guard、Phase 12 strict 7、artifact inventory、quick-reference/resource-map/task-workflow-active、lesson/changelogを登録。Cloudflare secret reinjection、staging/prod curl、backend-ci rerun、commit/push/PR は user-gated。 |
 | v2026.05.21-runtime-smoke-admin-members-500-recovery | 2026-05-21 | `task-runtime-smoke-admin-members-500-recovery-001` を `spec_created / implementation / NON_VISUAL` として同期。staging `GET /admin/members` 500 RCA workflow、Phase 12 strict 7、artifact inventory、quick-reference/resource-map/task-workflow-active、lesson/changelogを登録。in-cycle 実装は `runtime-attendance-provider.sh` の non-200 body persistence + T-4-5 regression test。staging curl/D1/tail、deploy、backend-ci rerun、commit/push/PR は user-gated。 |
 | v2026.05.21-task-alert-relay-global-scope-fix-001 | 2026-05-21 | `task-alert-relay-global-scope-fix-001` を同期。`alert-relay.ts` の module top-level `crypto.randomUUID()` を lazy `getIsolateId()` へ移し、local `scripts/cf.sh deploy --env staging\|production` の 1Password env-specific token field bridge を `deployment-secrets-management.md` v1.4.7 と lessons learned に反映。commit / push / PR / real deploy job は user-gated。 |
