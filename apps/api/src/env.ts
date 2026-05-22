@@ -8,6 +8,7 @@
 
 import type { SyncEnv } from "./jobs/sync-sheets-to-d1";
 import type { ResponseSyncEnv } from "./jobs/sync-forms-responses";
+import { z } from "zod";
 
 /**
  * Cloudflare Workers の env binding 型。
@@ -105,6 +106,16 @@ export interface Env extends SyncEnv, ResponseSyncEnv {
   // wrangler.toml の `[[env.{staging,production}.kv_namespaces]]` で binding = "ALERT_DEDUP_KV" を割当てる。
   readonly ALERT_DEDUP_KV: KVNamespace;
 }
+
+export const AuthSecretEnvSchema = z.object({
+  AUTH_SECRET: z.string().trim().min(32, "AUTH_SECRET must be at least 32 characters"),
+});
+
+export type AuthSecretEnv = z.infer<typeof AuthSecretEnvSchema>;
+
+export const validateAuthSecretEnv = (env: { AUTH_SECRET?: string | undefined }): AuthSecretEnv => {
+  return AuthSecretEnvSchema.parse(env);
+};
 
 // 予約欄（本タスク scope 外、後続タスクで `Env` に追加する binding 候補）
 // - SESSIONS: KVNamespace            → 05a / 05b で `[[kv_namespaces]]` 追加と同時に

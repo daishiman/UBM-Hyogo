@@ -92,6 +92,21 @@
 - [ ] fixture は `pass/` と `fail-missing-evidence/` の 2 系統で構成し、spec から root を差し替える
 - [ ] invalid status と missing path が同一 row で発生した場合、両配列に分類される
 
+### 7. Phase 11 evidence inventory が phase-07/phase-08 の `*.log` を claim する場合は .gitignore whitelist が必須（L-IS855-EVD-007）
+
+- `verifyPhase11EvidenceExistence()` は `existsSync()` で物理実在を検証するため、`.gitignore` の `*.log` パターンに該当する evidence は CI checkout 時に存在せず必ず fail する
+- Phase 07 (`outputs/phase-07/*.log`) / Phase 08 (`outputs/phase-08/*.log`) を Phase 11 evidence inventory で claim する場合、`.gitignore` の Phase 11 whitelist と同パターンで除外を継承する必要がある
+- 正本: `.gitignore` の `# Logs` セクションに以下を含めること
+  ```
+  !docs/30-workflows/**/outputs/phase-07/*.log
+  !docs/30-workflows/**/outputs/phase-07/**/*.log
+  !docs/30-workflows/**/outputs/phase-08/*.log
+  !docs/30-workflows/**/outputs/phase-08/**/*.log
+  ```
+- 検出経路: `gate-metadata:validate`（`artifacts.json` の `evidence_path` 実在チェック）と `verify-phase12-compliance`（Phase 11 inventory の `status: present` 行に対する `existsSync()` チェック）が **同時に** fail する場合、ほぼ確実に gitignore 由来。`git check-ignore -v <path>` で確認する
+- 起源: PR #855 task-staging-auth-secret-binding-recovery-001 で Phase 11 inventory が phase-07/*.log を claim したが gitignore で除外され CI fail（validate + verify-phase12-compliance 同時 ERROR）
+- **やってはいけない**: 個別タスクで `git add -f` する。再発防止のため `.gitignore` 全体パターンで吸収する
+
 ## やってはいけないこと
 
 - heading SSOT を `## Phase 11 evidence file inventory`（番号なし）へ書き換えて parser を単純化する
@@ -99,6 +114,7 @@
 - 空 inventory / heading 不在を ok 扱いにする
 - pass fixture と fail fixture を 1 ディレクトリに mix する
 - `status: Present`（大文字始まり）を `present` と等価扱いにする
+- Phase 11 inventory が phase-07/phase-08 `*.log` を claim するのに `.gitignore` whitelist を追加し忘れる（L-IS855-EVD-007）
 
 ## 参照ファイル
 

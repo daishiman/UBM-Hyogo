@@ -3426,6 +3426,12 @@ node scripts/list-specs.js --topics
 | Implementation Targets | L24 |
 | Runtime Boundary | L30 |
 
+### references/workflow-task-alert-relay-global-scope-fix-001-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Contract | L17 |
+
 ### references/workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md
 
 | セクション | 行 |
@@ -3512,12 +3518,24 @@ node scripts/list-specs.js --topics
 | Follow-up 未タスク | L25 |
 | Validation Chain | L31 |
 
+### references/workflow-task-runtime-smoke-admin-members-500-recovery-001-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Contract | L19 |
+
 ### references/workflow-task-spec-2d-contract-stage-2-artifact-inventory.md
 
 | セクション | 行 |
 |------------|----|
 | Canonical Set | L12 |
 | Boundary | L22 |
+
+### references/workflow-task-staging-auth-secret-binding-recovery-001-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Contract | L17 |
 
 ### references/workflow-task-sync-forms-d1-legacy-umbrella-artifact-inventory.md
 
@@ -4246,12 +4264,12 @@ node scripts/list-specs.js --topics
 | wrangler.toml の環境別設定 | L288 |
 | ローカル開発での設定 | L320 |
 | Cloudflare CLI ラッパー: `scripts/cf.sh`（UT-06 派生 / 2026-04-27） | L359 |
-| セキュリティ原則 | L393 |
-| Cloudflare API Token の作成手順 | L404 |
-| Cloudflare API Token 90 日 rotation runbook（Issue #407 / 2026-05-06） | L419 |
-| UT-27: GitHub Secrets / Variables 同期運用（2026-04-29） | L530 |
-| U-FIX-CF-ACCT-01-DERIV-02: Cloudflare deploy token split | L574 |
-| 変更履歴 | L608 |
+| セキュリティ原則 | L394 |
+| Cloudflare API Token の作成手順 | L405 |
+| Cloudflare API Token 90 日 rotation runbook（Issue #407 / 2026-05-06） | L420 |
+| UT-27: GitHub Secrets / Variables 同期運用（2026-04-29） | L531 |
+| U-FIX-CF-ACCT-01-DERIV-02: Cloudflare deploy token split | L575 |
+| 変更履歴 | L625 |
 
 ### references/deployment.md
 
@@ -6033,8 +6051,8 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 概要 | L3 |
 | 仕様書インデックス | L7 |
-| 利用順序 | L115 |
-| 関連ドキュメント | L120 |
+| 利用順序 | L117 |
+| 関連ドキュメント | L122 |
 
 ### references/llm-embedding.md
 
@@ -7158,14 +7176,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L1834 |
-| フェーズ構造（概要） | L1843 |
-| 品質ゲート（概要） | L1874 |
-| 出力テンプレート | L1885 |
-| 実行時のコマンド・エージェント・スキル | L1908 |
-| 昇格パターン集 | L1932 |
-| Current Active / Spec Created Tasks | L1934 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L2088 |
+| ドキュメント構成 | L1862 |
+| フェーズ構造（概要） | L1871 |
+| 品質ゲート（概要） | L1902 |
+| 出力テンプレート | L1913 |
+| 実行時のコマンド・エージェント・スキル | L1936 |
+| 昇格パターン集 | L1960 |
+| Current Active / Spec Created Tasks | L1962 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L2117 |
 
 ### references/task-workflow-backlog-part2.md
 
