@@ -146,3 +146,9 @@
 - 上位 README: ../README.md
 - 共通テンプレ: ../_templates/phase-template-app.md
 - 並列タスク: ../02a-... , ../02b-...
+
+#### 関連タスク（legacy umbrella 逆リンク）
+
+| 関連タスク | リンク | 理由 |
+|-----------|--------|------|
+| task-sync-forms-d1-legacy-umbrella-001 | [umbrella close-out](../task-sync-forms-d1-legacy-umbrella-001/) | 旧 UT-09（単一 /admin/sync + sync_audit + Sheets API）の close-out。本タスクが `sync_jobs` 排他 + data access boundary を担保し、`sync_audit` 物理テーブルの新設禁止を構造で保証する。Refs: Issue #291 / issue-291-forms-d1-legacy-followup-cleanup |

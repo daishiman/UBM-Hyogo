@@ -3,6 +3,29 @@
 > 親ファイル: [task-workflow-completed.md](task-workflow-completed.md)
 > 役割: 月次 shard（task-workflow-completed.md の line budget 抑制）
 
+## 2026-05-22: Issue #291 Forms D1 legacy follow-up cleanup
+
+| 項目 | 値 |
+| --- | --- |
+| タスクID | issue-291-forms-d1-legacy-followup-cleanup |
+| ステータス | `implemented_local / docs-only / NON_VISUAL / Phase 1-12 completed / Phase 13 pending_user_approval` |
+| workflow root | `docs/30-workflows/issue-291-forms-d1-legacy-followup-cleanup/` |
+| Issue | #291 CLOSED (`Refs #291` only) |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-291-forms-d1-legacy-followup-cleanup-artifact-inventory.md` |
+
+### 実施内容
+
+- `.claude/skills/aiworkflow-requirements/references/` の current guidance を Forms API + split sync endpoint + `sync_jobs` へ同期した。
+- Google Sheets API、単一 `/admin/sync`、`sync_audit` は historical / superseded として分類した。
+- 03a / 03b / 02c には物理 backlink、04c / 09b には `task-workflow-active.md` ledger fallback backlink を追加した。
+- Phase 11 は NON_VISUAL evidence、Phase 12 は strict 7 outputs で close-out した。
+
+### 検証証跡
+
+- `git status --porcelain -- apps/ packages/`: dirty diff 0。
+- `cmp -s docs/30-workflows/issue-291-forms-d1-legacy-followup-cleanup/artifacts.json docs/30-workflows/issue-291-forms-d1-legacy-followup-cleanup/outputs/artifacts.json`: PASS。
+- Phase 11 evidence: `outputs/phase-11/manual-test-result.md`, `outputs/phase-11/rg-before-after.md`。
+
 ## 2026-05-19: parallel-04 Shared Page Chrome（spec_created + Phase 11 evidence captured）
 
 | 項目       | 値                                                                                          |
