@@ -33,10 +33,10 @@
 
 ## 3. LOGS.md 更新行
 
-`docs/30-workflows/LOGS.md` の末尾に下記行を追記（実装着手時の commit と同時に追加する想定）:
+`docs/30-workflows/LOGS.md` は 2026-05-16 の implemented-local-runtime-pending 行を保持し、2026-05-18 の Issue #775 recovery 行で runtime evidence completion を追記する:
 
 ```
-2026-05-16 | serial-05-step-03-schema-diff-resolve | implemented-local-runtime-pending / implementation / VISUAL / PASS_BOUNDARY_SYNCED_RUNTIME_PENDING | Implemented SchemaDiffPanel stableKey validation/table semantics/focus/error payload/status label hardening with focused tests. Local 5-point evidence captured; runtime screenshots/staging smoke/commit/push/PR remain user-gated.
+2026-05-18 | issue-775 serial-05-step-03 runtime evidence completion | implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION / PASS | Completed fixture-backed local runtime visual evidence for the completed parent workflow: 11 PNG captured, legacy placeholder excluded, parent manifest/pass state updated, source unassigned consumed, and aiworkflow-requirements synced. Real D1/staging smoke, commit, push, PR, and GitHub Issue mutation remain user-gated.
 ```
 
 ## 4. 参照リンク整合

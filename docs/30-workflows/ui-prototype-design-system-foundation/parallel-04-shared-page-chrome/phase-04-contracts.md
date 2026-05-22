@@ -135,7 +135,7 @@ export default function Loading(): JSX.Element;
 ## 5. ToastProvider との接続契約
 
 ```ts
-import { ToastProvider } from "@/components/ui/Toast";
+import { ToastProvider } from "../src/components/ui/Toast";
 ```
 
 - ToastProvider は `apps/web/src/components/ui/Toast.tsx` で `"use client"` 宣言済み
@@ -144,7 +144,7 @@ import { ToastProvider } from "@/components/ui/Toast";
 
 ```ts
 "use client";
-import { useToast } from "@/components/ui/Toast";
+import { useToast } from "../src/components/ui/Toast";
 const { toast } = useToast();
 toast("保存しました", "status"); // or "alert"
 ```
@@ -154,7 +154,7 @@ route group layout（parallel-03）は **ToastProvider を再 import / 再 wrap 
 ## 6. logger 接続契約
 
 ```ts
-import { logger } from "@/lib/logger";
+import { logger } from "../src/lib/logger";
 
 logger.error({
   event: "error.boundary.caught",
@@ -175,19 +175,19 @@ logger.error({
 | `ui-empty-state` | not-found | 同上 |
 | skeleton 矩形 class（命名は parallel-01 確定後に決まる） | loading | 同上 |
 
-> parallel-01 で class 名が確定するまでは、loading.tsx の skeleton は既存 `bg-surface-2` トークンを暫定で利用してよい（HEX 直書きではないため `verify-design-tokens` gate は通る）。
+> parallel-01 で class 名が確定するまでは、loading.tsx の skeleton は既存 `bg-surface-2` トークンを暫定で利用してよい（HEX 直書きではないため `verify:tokens` gate は通る）。
 
 ## 8. import path 契約
 
 | 用途 | path |
 |------|------|
-| Toast | `@/components/ui/Toast` |
-| Card 系 | `@/components/ui/Card` |
-| EmptyState | `@/components/ui/EmptyState` |
-| logger | `@/lib/logger` |
-| css | `@/styles/tokens.css` / `@/styles/globals.css` |
+| Toast | `../src/components/ui/Toast` |
+| Card 系 | `../src/components/ui/Card` |
+| EmptyState | `../src/components/ui/EmptyState` |
+| logger | `../src/lib/logger` |
+| css | `../src/styles/tokens.css` / `../src/styles/globals.css` |
 
-`@/` は `apps/web/tsconfig.json` の paths（`"@/*": ["src/*"]`）にマップされる。app 直下のファイル（`apps/web/app/`）からは src 配下を `@/...` で参照する。
+root fallback 4 ファイルは root Vitest config から直接 import されるため、src 配下は相対 import を正本とする。route page 側の `@/...` alias は維持してよいが、本サブワークフローの対象ファイルへは持ち込まない。
 
 ## 9. 契約検証手段
 
@@ -197,5 +197,5 @@ logger.error({
 | metadata / viewport export | Next.js build が消化 → `pnpm build` |
 | props 型 | TS strict mode |
 | ToastProvider 単一配置 | parallel-03 仕様レビュー + grep `ToastProvider` で `app/` 配下 1 件のみ |
-| HEX 直書き禁止 | `verify-design-tokens` CI gate |
+| HEX 直書き禁止 | `verify:tokens` CI gate |
 | logger event 名 | grep `error.boundary.caught` で error.tsx 1 件のみ |

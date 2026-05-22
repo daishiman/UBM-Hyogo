@@ -17,18 +17,18 @@ implementation_mode: greenfield-foundation
 
 ## 1. `apps/web/app/layout.tsx`（編集）
 
-### 1.1 絶対パス
+### 1.1 編集対象
 
-`/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260518-101514-wt-4/apps/web/app/layout.tsx`
+`<repo-root>/apps/web/app/layout.tsx`
 
 ### 1.2 import 順序（厳守）
 
 ```ts
 import type { Metadata, Viewport } from "next";
 import type { ReactNode } from "react";
-import "@/styles/tokens.css";   // 1st: OKLch 変数
-import "@/styles/globals.css";  // 2nd: Tailwind v4 bridge + @layer components
-import { ToastProvider } from "@/components/ui/Toast";
+import "../src/styles/tokens.css";   // 1st: OKLch 変数
+import "../src/styles/globals.css";  // 2nd: Tailwind v4 bridge + @layer components
+import { ToastProvider } from "../src/components/ui/Toast";
 ```
 
 ### 1.3 関数シグネチャと JSX 構造
@@ -55,7 +55,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="ja" data-theme="warm">
-      <body>
+      <body data-shell="root">
         <ToastProvider>{children}</ToastProvider>
       </body>
     </html>
@@ -71,9 +71,9 @@ export default function RootLayout({
 
 ## 2. `apps/web/app/error.tsx`（編集）
 
-### 2.1 絶対パス
+### 2.1 編集対象
 
-`/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260518-101514-wt-4/apps/web/app/error.tsx`
+`<repo-root>/apps/web/app/error.tsx`
 
 ### 2.2 import 順序
 
@@ -82,11 +82,11 @@ export default function RootLayout({
 
 import Link from "next/link";
 import { useEffect } from "react";
-import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@/components/ui/Card";
-import { logger } from "@/lib/logger";
+import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "../src/components/ui/Card";
+import { logger } from "../src/lib/logger";
 ```
 
-> 注: 既存実装は `from "../src/lib/logger"` の相対 import。tsconfig paths に揃えて `@/lib/logger` に統一する。
+> 注: `app/` 配下を root Vitest config で直接 import する既存テスト経路に合わせ、root fallback 4 ファイルは相対 import を正本とする。route page 側の `@/` alias と混在しても、ここではテスト実行可能性を優先する。
 
 ### 2.3 関数シグネチャと JSX 構造（ErrorCard 派生）
 
@@ -108,8 +108,8 @@ export default function RouteError({ error, reset }: Props) {
   const isDev = process.env.NODE_ENV !== "production";
 
   return (
-    <div role="alert" aria-live="assertive" data-page="error" className="mx-auto max-w-2xl px-6 py-16">
-      <Card>
+    <main className="mx-auto max-w-2xl px-6 py-16">
+      <Card role="alert" aria-live="assertive" data-page="error">
         <CardHeader>
           <CardTitle className="text-danger">画面を表示できませんでした</CardTitle>
           <CardDescription>
@@ -144,7 +144,7 @@ export default function RouteError({ error, reset }: Props) {
           </Link>
         </CardFooter>
       </Card>
-    </div>
+    </main>
   );
 }
 ```
@@ -152,7 +152,7 @@ export default function RouteError({ error, reset }: Props) {
 ### 2.4 既存からの差分
 
 - 追加: Card primitive import / Card JSX 構造化 / `data-page="error"`
-- 変更: logger import path 相対 → `@/lib/logger` 統一
+- 維持: logger import path は `../src/lib/logger` 相対（Vitest root config の alias drift 回避）
 - 維持: `"use client"` / logger.error 呼び出し / `isDev` 分岐 / reset button / Link
 - 削除: `<h1>` 直書き → CardTitle に移譲
 
@@ -160,16 +160,16 @@ export default function RouteError({ error, reset }: Props) {
 
 ## 3. `apps/web/app/not-found.tsx`（編集）
 
-### 3.1 絶対パス
+### 3.1 編集対象
 
-`/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260518-101514-wt-4/apps/web/app/not-found.tsx`
+`<repo-root>/apps/web/app/not-found.tsx`
 
 ### 3.2 import 順序
 
 ```ts
 import Link from "next/link";
-import { Card } from "@/components/ui/Card";
-import { EmptyState } from "@/components/ui/EmptyState";
+import { Card, CardContent } from "../src/components/ui/Card";
+import { EmptyState } from "../src/components/ui/EmptyState";
 ```
 
 ### 3.3 関数シグネチャと JSX 構造（NotFoundCard 派生）
@@ -184,11 +184,14 @@ export default function NotFound() {
       className="mx-auto max-w-xl px-6 py-16"
     >
       <Card>
-        <EmptyState
-          title="ページが見つかりません"
-          description="URL をご確認のうえ、トップから再度アクセスしてください。"
-          action={
-            <div className="flex justify-center gap-3">
+        <CardContent>
+          <EmptyState
+            role="status"
+            icon={<span className="text-sm text-text-3">404</span>}
+            title="ページが見つかりません"
+            description="URL をご確認のうえ、トップから再度アクセスしてください。"
+            action={
+              <div className="mt-6 flex justify-center gap-3">
               <Link
                 href="/"
                 className="inline-block rounded-md bg-accent px-4 py-2 text-sm text-panel"
@@ -201,14 +204,10 @@ export default function NotFound() {
               >
                 メンバー一覧へ
               </Link>
-            </div>
-          }
-        >
-          <p className="text-sm text-text-3">404</p>
-          <h1 id="not-found-title" className="sr-only">
-            ページが見つかりません
-          </h1>
-        </EmptyState>
+              </div>
+            }
+          />
+        </CardContent>
       </Card>
     </main>
   );
@@ -223,14 +222,14 @@ export default function NotFound() {
 
 ## 4. `apps/web/app/loading.tsx`（編集）
 
-### 4.1 絶対パス
+### 4.1 編集対象
 
-`/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260518-101514-wt-4/apps/web/app/loading.tsx`
+`<repo-root>/apps/web/app/loading.tsx`
 
 ### 4.2 import 順序
 
 ```ts
-import { Card, CardContent } from "@/components/ui/Card";
+import { Card, CardContent } from "../src/components/ui/Card";
 ```
 
 ### 4.3 関数シグネチャと JSX 構造（SkeletonCard 派生）
@@ -238,8 +237,8 @@ import { Card, CardContent } from "@/components/ui/Card";
 ```tsx
 export default function Loading() {
   return (
-    <div
-      className="mx-auto max-w-3xl px-6 py-12"
+    <main
+      className="mx-auto max-w-3xl space-y-4 px-6 py-12"
       role="status"
       aria-busy="true"
       aria-live="polite"
@@ -254,7 +253,7 @@ export default function Loading() {
           <div className="h-64 rounded bg-surface-2 motion-safe:animate-pulse" />
         </CardContent>
       </Card>
-    </div>
+    </main>
   );
 }
 ```

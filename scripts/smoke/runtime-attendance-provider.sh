@@ -18,6 +18,7 @@
 #   2 : 引数不正・必須 env 欠落
 set -euo pipefail
 
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 ENVIRONMENT="${1:-}"
 shift || true
 if [[ -z "$ENVIRONMENT" ]]; then
@@ -62,6 +63,7 @@ done
 OUT_LOG="$OUT_DIR/runtime-smoke.log"
 SUMMARY_JSON="$OUT_DIR/summary.json"
 TMP_DIR="$(mktemp -d)"
+REDACT="$SCRIPT_DIR/redact.sh"
 umask 077
 trap 'rm -rf "$TMP_DIR"' EXIT
 
@@ -115,10 +117,19 @@ fail_and_exit() {
   local label="$1"
   local status="$2"
   local jq_filter="$3"
+  local reason="${4:-}"
   OVERALL_STATUS="FAIL"
-  SUMMARY_ENTRIES+=("$(printf '{"label":"%s","status":"FAIL","http":"%s","contract":%s}' "$label" "$status" "$(printf '%s' "$jq_filter" | jq -Rs .)")")
+  if [[ -n "$reason" ]]; then
+    SUMMARY_ENTRIES+=("$(printf '{"label":"%s","status":"FAIL","http":"%s","contract":%s,"reason":%s}' "$label" "$status" "$(printf '%s' "$jq_filter" | jq -Rs .)" "$(printf '%s' "$reason" | jq -Rs .)")")
+  else
+    SUMMARY_ENTRIES+=("$(printf '{"label":"%s","status":"FAIL","http":"%s","contract":%s}' "$label" "$status" "$(printf '%s' "$jq_filter" | jq -Rs .)")")
+  fi
   write_summary
-  echo "FAIL: $label http=$status contract=$jq_filter" >&2
+  if [[ -n "$reason" ]]; then
+    echo "FAIL: $label http=$status contract=$jq_filter reason=$reason" >&2
+  else
+    echo "FAIL: $label http=$status contract=$jq_filter" >&2
+  fi
   exit 1
 }
 
@@ -148,12 +159,23 @@ request_json() {
   fi
 
   if [[ "$status" != "200" ]]; then
+    local redacted_body
+    local failure_reason=""
+    redacted_body="$(head -c 2000 "$body_file" | tr -d '\0' | bash "$REDACT")"
+    if printf '%s' "$redacted_body" | jq -e '.error == "auth misconfigured"' >/dev/null 2>&1 ||
+      printf '%s' "$redacted_body" | grep -Eq '"error"[[:space:]]*:[[:space:]]*"auth misconfigured"'; then
+      failure_reason="auth-secret-binding-missing"
+    fi
     {
       printf '===== %s GET =====\n' "$label"
       printf 'status=%s\n' "$status"
       printf 'contract=%s\n\n' "$jq_filter"
+      if [[ -n "$failure_reason" ]]; then
+        printf 'reason=%s\n\n' "$failure_reason"
+      fi
+      printf 'body=%s\n\n' "$redacted_body"
     } >> "$OUT_LOG"
-    fail_and_exit "$label" "$status" "$jq_filter"
+    fail_and_exit "$label" "$status" "$jq_filter" "$failure_reason"
   fi
 
   if ! jq -e "$jq_filter" "$body_file" >/dev/null 2>&1; then
@@ -182,9 +204,9 @@ MEMBER_ID="$STAGING_MEMBER_ID"
 
 assert_staging_target
 request_json "admin-list" "$BASE/admin/members" "$STAGING_ADMIN_BEARER" '.members | type == "array"' '.members | length'
-request_json "admin-detail" "$BASE/admin/members/$MEMBER_ID" "$STAGING_ADMIN_BEARER" '.attendance | type == "array"' '.attendance | length'
+request_json "admin-detail" "$BASE/admin/members/$MEMBER_ID" "$STAGING_ADMIN_BEARER" '.profile | type == "object"' '.identityMemberId'
 request_json "admin-attendance" "$BASE/admin/members/$MEMBER_ID/attendance" "$STAGING_ADMIN_BEARER" '.records | type == "array"' '.records | length'
-request_json "me-root" "$BASE/me/" "$STAGING_ME_BEARER" '.user.memberId | type == "string"' '.user.memberId | type'
+request_json "me-root" "$BASE/me" "$STAGING_ME_BEARER" '.user.memberId | type == "string"' '.user.memberId | type'
 request_json "me-profile" "$BASE/me/profile" "$STAGING_ME_BEARER" '.profile.attendance | type == "array"' '.profile.attendance | length'
 request_json "me-attendance" "$BASE/me/attendance" "$STAGING_ME_BEARER" '.records | type == "array"' '.records | length'
 

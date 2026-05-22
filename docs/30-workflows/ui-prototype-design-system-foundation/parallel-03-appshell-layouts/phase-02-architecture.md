@@ -43,7 +43,7 @@ app/
 
 ```
 <div data-theme="cool" data-route-group="admin" className="min-h-screen grid grid-cols-[240px_1fr] grid-rows-[auto_1fr]">
-  <aside data-shell="sidebar" className="row-span-2"><AdminSidebar /></aside>
+  <aside data-shell="sidebar" className="md:row-span-2"><AdminSidebar /></aside>
   <header data-shell="topbar"><AdminTopbarSlot /></header>
   <main data-route="admin">{children}</main>
 </div>
@@ -53,7 +53,7 @@ app/
 - `session === null` → `redirect("/login?next=/admin")`
 - `session.isAdmin !== true` → `redirect("/login?gate=forbidden")`
 - 既存実装の auth gate を維持（middleware と二段防御）
-- `AdminTopbarSlot` は新規 primitive を作らず、layout.tsx 内 inline JSX で組み立てる軽量 chrome（ブレッドクラム slot + サインアウト導線）
+- `AdminTopbarSlot` は新規 primitive を作らず、layout.tsx 内 inline JSX で組み立てる軽量 chrome（現在地 label + actions slot）
 - `AdminSidebar` 内の `SignOutButton` は props を変更せず残す。本サブワークフローの完了形は **両方残す並存案** とし、視覚的重複は CSS と配置で吸収する。Topbar primitive 抽出は本 workflow の必須成果物にしない。
 
 ### 2.3 Member AppShell

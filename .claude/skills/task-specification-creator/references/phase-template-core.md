@@ -85,6 +85,7 @@ Phase 1、Phase 2、Phase 3。
 ## Phase 1 のポイント
 
 - **Step 0: P50チェック（必須）** — Phase 1 開始前に対象ファイルの実装状態を `git log` と `grep` で確認し、既実装コードの重複作成を防止する（詳細: [phase-template-phase1.md](phase-template-phase1.md)）。
+- **Runtime smoke 500 body-first RCA（必須）**: runtime smoke / staging smoke / backend-ci smoke の 500 復旧タスクでは、最初に artifact の bounded response body を保存・grep し、body が `auth misconfigured` / auth・config 系を示す場合は endpoint handler より先に auth middleware・runtime binding・secret/variable 注入経路を切り分ける。`secret list` は name presence のみで value usability 証明ではないため、Phase 1 で runtime curl/body evidence と区別して記録する。
 - inventory と source scope の差分を固定する。
 - acceptance criteria を番号付きで定義し、**本文に AC-1, AC-2... を列挙する**。
 - `spec-extraction-map.md` で aiworkflow-requirements 正本と current code anchor の対応を固定する。
