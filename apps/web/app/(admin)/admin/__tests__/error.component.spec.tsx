@@ -26,10 +26,10 @@ afterEach(() => {
 });
 
 function makeError(opts: { digest?: string; stack?: string } = {}) {
-  const e = new Error("boom") as Error & { digest?: string };
-  if (opts.stack !== undefined) e.stack = opts.stack;
-  if (opts.digest) e.digest = opts.digest;
-  return e;
+  const error = new Error("boom") as Error & { digest?: string };
+  if (opts.stack !== undefined) error.stack = opts.stack;
+  if (opts.digest) error.digest = opts.digest;
+  return error;
 }
 
 describe("AdminError", () => {
@@ -79,7 +79,7 @@ describe("AdminError", () => {
     it("invokes reset once on click", () => {
       const reset = vi.fn();
       render(<AdminError error={makeError()} reset={reset} />);
-      fireEvent.click(screen.getByRole("button", { name: "再試行する" }));
+      fireEvent.click(screen.getByRole("button", { name: "再試行" }));
       expect(reset).toHaveBeenCalledTimes(1);
     });
   });

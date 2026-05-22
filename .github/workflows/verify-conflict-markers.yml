@@ -1,0 +1,55 @@
+# 目的: マージ未解決の conflict marker がコミット履歴に混入することを防ぐ gate
+# 検知対象: tracked file 内の '^<<<<<<< ' / '^>>>>>>> ' / '^||||||| ' を持つ行
+#   ('======='-only 行は markdown setext heading と衝突するため除外)
+# 除外: 自身 + lessons-learned / dev-sync 系 doc（マーカー記法を説明目的で含む）
+# 関連: .gitattributes (merge=union), scripts/sync/resolve-skill-merge-conflicts.sh,
+#       .claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-dev-sync-merge-conflict-resolution-2026-05.md
+name: verify-conflict-markers
+
+on:
+  push:
+    branches: [main, dev]
+  pull_request:
+    branches: [main, dev]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: verify-conflict-markers-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    name: verify-conflict-markers
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Scan for unresolved merge conflict markers
+        run: |
+          set -euo pipefail
+          # Use git grep to limit to tracked files. Exclude self + skill docs
+          # where these markers appear as documentation examples.
+          violations=$(git grep -nE '^(<<<<<<< |>>>>>>> |\|\|\|\|\|\|\| )' \
+            -- \
+            ':(exclude).github/workflows/verify-conflict-markers.yml' \
+            ':(exclude).claude/skills/**/lessons-learned/**' \
+            ':(exclude).claude/skills/**/dev-sync*.md' \
+            ':(exclude).claude/skills/**/SKILL-changelog.md' \
+            ':(exclude).claude/commands/**' \
+            ':(exclude)docs/30-workflows/**/dev-sync*.md' \
+            ':(exclude)docs/30-workflows/**/lessons-learned*.md' \
+            ':(exclude)scripts/sync/**' \
+            || true)
+          if [ -n "$violations" ]; then
+            echo "::error::Unresolved merge conflict markers detected."
+            echo "--- offending lines ---"
+            echo "$violations"
+            echo "----------------------"
+            echo "Resolve with: pnpm sync:resolve (auto) + manual edits, then re-commit."
+            exit 1
+          fi
+          echo "OK: no unresolved merge conflict markers in tracked files."

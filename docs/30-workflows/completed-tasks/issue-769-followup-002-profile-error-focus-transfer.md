@@ -10,7 +10,7 @@
 | 対象機能     | `/profile` route segment error boundary のスクリーンリーダー読み上げ促進                            |
 | 優先度       | 中（会員マイページ中核 route の a11y 改善。root 完了済を前提に横展開）                              |
 | 見積もり規模 | 小（既存 `profile/error.tsx` の置き換え相当 + spec 1 本 + test 1 本）                               |
-| ステータス   | consumed_by `docs/30-workflows/issue-799-use-auto-focus-on-mount-hook/`                             |
+| ステータス   | consumed（`docs/30-workflows/completed-tasks/issue-800-profile-error-focus-transfer/` で実装完了）                  |
 | 発見元       | issue-769 Phase 12 unassigned-task-detection（followup candidate: `/profile/error.tsx` focus 転送） |
 | 発見日       | 2026-05-17                                                                                          |
 
@@ -18,8 +18,11 @@
 
 - 親 workflow: `docs/30-workflows/ui-prototype-alignment-mvp-recovery/`（a11y hardening 系列として位置付け）
 - 親 workflow 状態: `implemented_local_evidence_captured`（root error.tsx focus は issue-769 で完了済）
-- 直接の起点 spec: `docs/30-workflows/issue-769-root-error-focus/outputs/phase-12/unassigned-task-detection.md`（Follow-up Candidates 行 `/profile/error.tsx` focus transfer）
+- 直接の起点 spec: `docs/30-workflows/completed-tasks/issue-769-root-error-focus/outputs/phase-12/unassigned-task-detection.md`（Follow-up Candidates 行 `/profile/error.tsx` focus transfer）
 - 横展開元実装: `apps/web/app/error.tsx`（root, issue-769 で `useRef` + `headingRef.current?.focus({ preventScroll: true })` を実装済み）
+- canonical workflow: `docs/30-workflows/completed-tasks/issue-800-profile-error-focus-transfer/`
+- consumed evidence: `docs/30-workflows/completed-tasks/issue-800-profile-error-focus-transfer/outputs/phase-12/phase12-task-spec-compliance-check.md`
+- Issue #800 実装では root parity を優先し、logger payload は `scope: "profile"` なしの `{ event, digest, err }` に再定義。semantic wrapper も root と同じ `div role="alert" aria-live="assertive"` へ統一。
 - 関連 followup:
   - issue-769-followup-001（`useAutoFocusOnMount(ref)` 共通 hook 抽出案。merge 済なら本タスクで利用し、未抽出ならインライン実装）
   - 別 followup（`/admin/error.tsx` focus transfer）— 本タスクスコープ外
@@ -202,7 +205,7 @@ root error.tsx の test は `apps/web/app/__tests__/error.component.spec.tsx`（
 
 ## 5. 参照資料
 
-- `docs/30-workflows/issue-769-root-error-focus/outputs/phase-12/unassigned-task-detection.md` — 本タスク発見元（follow-up candidate `/profile/error.tsx` focus transfer 行）
+- `docs/30-workflows/completed-tasks/issue-769-root-error-focus/outputs/phase-12/unassigned-task-detection.md` — 本タスク発見元（follow-up candidate `/profile/error.tsx` focus transfer 行）
 - `docs/30-workflows/unassigned-task/integration-fixes-i06-root-error-focus.md` — 同根 (root) の先行タスク指示書。実装パターン / AC 構造の元
 - `docs/30-workflows/ui-prototype-alignment-mvp-recovery/improvements/integration-fixes/parallel-i06-root-error-focus/spec.md` — root focus 管理の親 spec（Before/After サンプルコード含む）
 - `apps/web/app/error.tsx` — 横展開元の正本実装（issue-769 で完了済）

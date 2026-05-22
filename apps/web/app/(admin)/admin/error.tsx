@@ -5,14 +5,12 @@ import { useEffect, useRef } from "react";
 import { useAutoFocusOnMount } from "../../../src/lib/a11y/useAutoFocusOnMount";
 import { logger } from "../../../src/lib/logger";
 
-type AdminError = Error & { digest?: string };
+export interface AdminErrorProps {
+  readonly error: Error & { digest?: string };
+  readonly reset: () => void;
+}
 
-type Props = {
-  error: AdminError;
-  reset: () => void;
-};
-
-export default function AdminError({ error, reset }: Props) {
+export default function AdminError({ error, reset }: AdminErrorProps) {
   const headingRef = useRef<HTMLHeadingElement>(null);
   useAutoFocusOnMount(headingRef);
 
@@ -37,7 +35,7 @@ export default function AdminError({ error, reset }: Props) {
         管理画面を表示できませんでした
       </h1>
       <p className="mt-2 text-sm text-text-3">
-        時間をおいて再試行してください。問題が続く場合は管理者にご連絡ください。
+        時間をおいて再度お試しください。問題が続く場合は管理者にご連絡ください。
       </p>
       {error.digest && (
         <p className="mt-4 text-xs text-text-3">
@@ -55,7 +53,7 @@ export default function AdminError({ error, reset }: Props) {
           onClick={reset}
           className="rounded-md bg-accent px-4 py-2 text-sm text-panel"
         >
-          再試行する
+          再試行
         </button>
         <Link
           href="/"
