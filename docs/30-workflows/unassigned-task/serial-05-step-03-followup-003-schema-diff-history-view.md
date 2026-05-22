@@ -180,7 +180,7 @@ resolve 履歴は運用継続に従い単調増加するため、offset paginati
 
 ## 5. 依存関係
 
-- **followup-004 (rollback / undo) の前提タスク**: 本タスクで「履歴 → 行選択」の UI 基盤を提供することで、followup-004 が rollback 起点を選択可能になる
+- **followup-004 (rollback / undo) との関係**: followup-004 は `docs/30-workflows/issue-778-schema-alias-rollback-undo/` で縮退 HistoryPane を内蔵して単独実装済み。よって本タスクは followup-004 の前提ではなく、内蔵 HistoryPane を独立 history view に拡張・吸収する後続 UI 改善として扱う
 - **followup-002 (bulk resolve) とは独立**: bulk resolve 完了後の履歴は本 UI で個別行として表示可能（bulk 識別 flag があれば badge 表示候補、無くても可）
 - **parallel-09 (UX cross-cutting primitives) 完了が前提**: Pagination / FormField / Breadcrumb / EmptyState primitive が parallel-09 で提供済みであることを利用
 
