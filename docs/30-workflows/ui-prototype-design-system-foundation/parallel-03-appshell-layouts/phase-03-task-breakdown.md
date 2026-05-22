@@ -42,8 +42,8 @@ Clean Code SRP に従い「1 step = 1 layout の編集 + その spec」とする
 - [ ] `getSession()` → 未認証 / non-admin redirect の既存契約を維持
 - [ ] route group 直下に `<div data-theme="cool" data-route-group="admin" data-testid="admin-shell">` を配置
 - [ ] grid: `grid-cols-[240px_1fr] grid-rows-[auto_1fr]`
-- [ ] `<aside data-shell="sidebar" className="row-span-2">` 内に `<AdminSidebar />`
-- [ ] `<header data-shell="topbar">` 内に inline topbar JSX（ブレッドクラム slot + サインアウト導線 placeholder）
+- [ ] `<aside data-shell="sidebar" className="md:row-span-2">` 内に `<AdminSidebar />`
+- [ ] `<header data-shell="topbar">` 内に inline topbar JSX（現在地 label + actions slot placeholder）
 - [ ] `<main data-route="admin">{children}</main>`
 - [ ] OKLch トークン経由のみ
 - [ ] spec: 未認証 → redirect 呼び出し、admin 認証 → render を assertion（`getSession` mock）

@@ -1,0 +1,8 @@
+PASS [T-4-1] runtime-smoke.log created
+PASS [T-4-1] summary.json valid with FAIL status
+PASS [T-4-2] summary.json not created without --ci-summary
+PASS [T-4-3] non-staging exits 2
+PASS [T-4-4] unknown arg exits 2
+PASS [T-4-5] non-200 response body is persisted with redaction
+PASS [T-4-6] auth misconfigured is classified as AUTH_SECRET binding missing
+OK: runtime-attendance-provider tests pass

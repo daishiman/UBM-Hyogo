@@ -91,6 +91,119 @@ else
   echo "PASS [T-4-4] unknown arg exits 2"
 fi
 
+# --- T-4-5: route non-200 時に response body を runtime-smoke.log へ残す ---
+TEST_DIR3="$(mktemp -d)"
+FAKE_BIN="$TEST_DIR3/bin"
+mkdir -p "$FAKE_BIN"
+cat > "$FAKE_BIN/curl" <<'SH'
+#!/usr/bin/env bash
+out=""
+url="${@: -1}"
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    -o)
+      out="$2"
+      shift 2
+      ;;
+    -w)
+      shift 2
+      ;;
+    *)
+      shift
+      ;;
+  esac
+done
+if [[ "$url" == "http://staging.example.test/" ]]; then
+  printf '{"environment":"staging"}' > "$out"
+  printf '200'
+  exit 0
+fi
+printf '{"ok":false,"error":"staging failure","sessionToken":"secret-value-1","accessToken":"secret-value-2"}' > "$out"
+printf '500'
+SH
+chmod +x "$FAKE_BIN/curl"
+
+set +e
+PATH="$FAKE_BIN:$PATH" \
+STAGING_API_BASE=http://staging.example.test \
+STAGING_API_HOST_ALLOW_REGEX=staging.example.test \
+STAGING_ADMIN_BEARER=stub-admin \
+STAGING_MEMBER_ID=stub-member \
+STAGING_ME_BEARER=stub-me \
+  bash "$RUNNER" staging --out-dir "$TEST_DIR3" --ci-summary >/dev/null 2>&1
+ec=$?
+set -e
+if [[ "$ec" -ne 1 ]]; then
+  echo "FAIL [T-4-5] route 500 should exit 1, got $ec"
+  fail=$((fail + 1))
+elif ! grep -Fq '===== admin-list GET =====' "$TEST_DIR3/runtime-smoke.log"; then
+  echo "FAIL [T-4-5] runtime-smoke.log does not identify admin-list failure"
+  fail=$((fail + 1))
+elif ! grep -Fq 'body={"ok":false,"error":"staging failure","sessionToken":"[REDACTED]","accessToken":"[REDACTED]"}' "$TEST_DIR3/runtime-smoke.log"; then
+  echo "FAIL [T-4-5] runtime-smoke.log does not include non-200 response body"
+  fail=$((fail + 1))
+elif grep -Eq 'secret-value-[12]' "$TEST_DIR3/runtime-smoke.log"; then
+  echo "FAIL [T-4-5] runtime-smoke.log leaked token-like response body values"
+  fail=$((fail + 1))
+else
+  echo "PASS [T-4-5] non-200 response body is persisted with redaction"
+fi
+
+# --- T-4-6: auth misconfigured body は AUTH_SECRET binding 原因として分類する ---
+TEST_DIR4="$(mktemp -d)"
+FAKE_BIN2="$TEST_DIR4/bin"
+mkdir -p "$FAKE_BIN2"
+cat > "$FAKE_BIN2/curl" <<'SH'
+#!/usr/bin/env bash
+out=""
+url="${@: -1}"
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    -o)
+      out="$2"
+      shift 2
+      ;;
+    -w)
+      shift 2
+      ;;
+    *)
+      shift
+      ;;
+  esac
+done
+if [[ "$url" == "http://staging.example.test/" ]]; then
+  printf '{"environment":"staging"}' > "$out"
+  printf '200'
+  exit 0
+fi
+printf '{ "error": "auth misconfigured" }' > "$out"
+printf '500'
+SH
+chmod +x "$FAKE_BIN2/curl"
+
+set +e
+PATH="$FAKE_BIN2:$PATH" \
+STAGING_API_BASE=http://staging.example.test \
+STAGING_API_HOST_ALLOW_REGEX=staging.example.test \
+STAGING_ADMIN_BEARER=stub-admin \
+STAGING_MEMBER_ID=stub-member \
+STAGING_ME_BEARER=stub-me \
+  bash "$RUNNER" staging --out-dir "$TEST_DIR4" --ci-summary >/dev/null 2>&1
+ec=$?
+set -e
+if [[ "$ec" -ne 1 ]]; then
+  echo "FAIL [T-4-6] auth misconfigured should exit 1, got $ec"
+  fail=$((fail + 1))
+elif ! grep -Fq 'reason=auth-secret-binding-missing' "$TEST_DIR4/runtime-smoke.log"; then
+  echo "FAIL [T-4-6] runtime-smoke.log lacks auth-secret-binding-missing reason"
+  fail=$((fail + 1))
+elif ! jq -e '.routes[0].reason == "auth-secret-binding-missing"' "$TEST_DIR4/summary.json" >/dev/null 2>&1; then
+  echo "FAIL [T-4-6] summary.json lacks auth-secret-binding-missing reason"
+  fail=$((fail + 1))
+else
+  echo "PASS [T-4-6] auth misconfigured is classified as AUTH_SECRET binding missing"
+fi
+
 if [[ "$fail" -ne 0 ]]; then
   echo "FAIL: $fail cases"
   exit 1

@@ -14,7 +14,15 @@ import {
 import { sendSlackMessage } from "../../lib/slack-sender";
 import type { CloudflareNotificationPayload } from "../../types/cloudflare-notification";
 
-const isolateId = crypto.randomUUID();
+let cachedIsolateId: string | undefined;
+
+function getIsolateId(): string {
+  if (cachedIsolateId === undefined) {
+    cachedIsolateId = crypto.randomUUID();
+  }
+  return cachedIsolateId;
+}
+
 const textEncoder = new TextEncoder();
 const KV_OP_FAILED_EVENT = "alert_relay_kv_op_failed";
 
@@ -59,7 +67,7 @@ function emitKvOperationError(payload: {
     op: payload.op,
     errorClass: payload.errorClass,
     dedupeKeyHash: payload.dedupeKeyHash,
-    isolateId,
+    isolateId: getIsolateId(),
     ts: new Date().toISOString(),
   }));
 }
