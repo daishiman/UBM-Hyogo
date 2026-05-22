@@ -1,0 +1,37 @@
+===== admin-list GET =====
+status=200
+contract=.members | type == "array"
+summary=2
+PASS admin-list
+
+===== admin-detail GET =====
+status=200
+contract=.profile | type == "object"
+summary=3386dea2-686b-4bec-8f5f-505504d45b7e
+PASS admin-detail
+
+===== admin-attendance GET =====
+status=200
+contract=.records | type == "array"
+summary=0
+PASS admin-attendance
+
+===== me-root GET =====
+status=200
+contract=.user.memberId | type == "string"
+summary=string
+PASS me-root
+
+===== me-profile GET =====
+status=200
+contract=.profile.attendance | type == "array"
+summary=0
+PASS me-profile
+
+===== me-attendance GET =====
+status=200
+contract=.records | type == "array"
+summary=0
+PASS me-attendance
+
+runtime attendance provider smoke PASS

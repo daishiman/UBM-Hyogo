@@ -48,27 +48,28 @@ UT-17 followup-002 で導入した `ALERT_DEDUP_KV` の `.get` / `.put` 失敗�
 
 ---
 
-## L-UT17-FU005-002. 設計 / module-top isolateId と Workers isolate lifecycle
+## L-UT17-FU005-002. 設計 / lazy module cache isolateId と Workers global scope safety
 
 ### Context
-`event=alert_relay_kv_op_failed` の構造化ログに `isolateId` を含めることで、Cloudflare Workers Logs 上で同一 isolate の連続失敗を相関できるようにした。実装は `const ISOLATE_ID = crypto.randomUUID();` を module top-level に置く方式。
+`event=alert_relay_kv_op_failed` の構造化ログに `isolateId` を含めることで、Cloudflare Workers Logs 上で同一 isolate の連続失敗を相関できるようにした。当初は `const ISOLATE_ID = crypto.randomUUID();` を module top-level に置く方式だったが、Cloudflare Workers validation error 10021 により、global scope での `crypto.randomUUID()` 呼び出しは不可であることが確定した。
 
 ### Problem
 - 関数内で都度 `randomUUID()` を呼ぶと、1 リクエスト内の複数 log 行が別 id になり相関できない。
 - request scope に保持すると、isolate 再利用時の連続失敗（例: KV 通信劣化中の連続 alert）が「同じ isolate なのに別 id」となり、Workers Logs 側の相関クエリが組めない。
-- 一方 Workers の isolate は eviction される/されないが SDK 観測できず、`module-top` 採用は「isolate が生きている間は同一」という確率的観測値であることを spec に明記する必要がある。
+- 一方 Workers の isolate は eviction される/されないが SDK 観測できず、lazy module cache 採用は「最初の log emission 以降、module instance が生きている間は同一」という確率的観測値であることを spec に明記する必要がある。
 
 ### Resolution
-- `ISOLATE_ID` は **module top-level の `const`** に固定。
+- `isolateId` は **module-private lazy cache** に固定する。top-level では `let cachedIsolateId: string | undefined` のみを持ち、`getIsolateId()` の初回実行時に `crypto.randomUUID()` を呼ぶ。
 - 仕様書（`outputs/phase-12/implementation-guide.md` / runbook）に「isolate 生存中は同一、isolate 再起動で再生成。完全な request 単位の相関 id ではない」旨を明記。
 - 将来 trace-id が必要になれば `cf-request-id` 等を別 field として追加する（既存 isolateId は維持）。
 
 ### 再発防止
-- Workers でのプロセス相関 id は **module-top const** をデフォルトとし、request 相関が欲しい場合は別 field として追加。決して同一 field に二義性を持たせない。
+- Workers でのプロセス相関 id は **module-private lazy cache** をデフォルトとし、top-level で `crypto.randomUUID()` を呼ばない。request 相関が欲しい場合は別 field として追加し、決して同一 field に二義性を持たせない。
 
 ### 関連 path
-- `apps/api/src/routes/internal/alert-relay.ts`（module top）
+- `apps/api/src/routes/internal/alert-relay.ts`（lazy `getIsolateId()`）
 - `docs/30-workflows/runbooks/ut-17-alert-relay-monthly-healthcheck.md`
+- `docs/30-workflows/task-alert-relay-global-scope-fix-001/`
 
 ---
 

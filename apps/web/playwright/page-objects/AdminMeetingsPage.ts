@@ -54,6 +54,22 @@ export class AdminMeetingsPage extends BasePage {
 
   async removeAttendanceOnList(sessionId: string, memberId: string): Promise<void> {
     await this.listRemoveButton(sessionId, memberId).click()
+    await this.page.getByRole('button', { name: '削除する' }).click()
+  }
+
+  async openRemoveAttendanceDialog(sessionId: string, memberId: string): Promise<void> {
+    await this.listRemoveButton(sessionId, memberId).click()
+    await expect(this.page.getByRole('dialog')).toContainText('出席を削除しますか？')
+  }
+
+  async confirmOpenDialog(): Promise<void> {
+    await this.page.getByRole('button', { name: '削除する' }).click()
+  }
+
+  async openDeleteMeetingDialog(sessionId: string): Promise<void> {
+    await this.listSession(sessionId).getByText('編集').click()
+    await this.listSession(sessionId).getByRole('button', { name: '開催日を削除' }).click()
+    await expect(this.page.getByRole('dialog')).toContainText('この開催日を削除しますか？')
   }
 
   async expectListToast(text: string): Promise<void> {

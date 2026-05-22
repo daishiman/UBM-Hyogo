@@ -1,0 +1,31 @@
+{
+  "taskId": "parallel-03-appshell-layouts",
+  "visualEvidence": "VISUAL",
+  "captureMode": "local-next-dev",
+  "createdAt": "2026-05-19T11:16:27+09:00",
+  "targets": [
+    {
+      "id": "public-shell",
+      "route": "/members",
+      "viewport": { "width": 1280, "height": 800 },
+      "output": "screenshots/public-shell.png",
+      "status": "captured"
+    },
+    {
+      "id": "admin-shell",
+      "route": "/admin",
+      "viewport": { "width": 1280, "height": 800 },
+      "output": "screenshots/admin-shell.png",
+      "status": "deferred-to-serial-07",
+      "reason": "admin runtime shell requires authenticated admin session fixture"
+    },
+    {
+      "id": "member-shell",
+      "route": "(member route group)",
+      "viewport": { "width": 1280, "height": 800 },
+      "output": "screenshots/member-shell.png",
+      "status": "deferred-to-serial-07",
+      "reason": "current /login and /profile are root routes, not children of (member)"
+    }
+  ]
+}

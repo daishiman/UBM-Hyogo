@@ -12,15 +12,13 @@ status: spec_created
 
 ## 1. 前提
 
-- 作業ディレクトリ: `/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260518-101514-wt-4`
+- 作業ディレクトリ: repo root
 - Node 24 / pnpm 10 が `mise exec --` で固定
 - 初回または依存変更後は `mise exec -- pnpm install`
 
 ## 2. 静的検証
 
 ```bash
-cd /Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260518-101514-wt-4
-
 # G1 typecheck
 mise exec -- pnpm typecheck
 
@@ -70,17 +68,17 @@ mise exec -- pnpm --filter @ubm-hyogo/web dev
 2. `<header data-shell="topbar">` / `<footer data-shell="footer">` / `<main data-route="public">` が DOM に存在すること
 3. `http://localhost:3000/admin` を開き、未認証なら `/login?next=/admin` redirect すること
 4. admin session 取得後（`/login` で magic link / OAuth）`/admin` で `data-theme="cool"` / `[data-shell="sidebar"]` / `[data-shell="topbar"]` / `[data-route="admin"]` が見えること
-5. `http://localhost:3000/login` で `data-theme="warm"` / `[data-route="member"]` が見えること
+5. member AppShell は現行 `/login` / `/profile` root path ではなく `(member)` route group 用の土台なので、DOM 実測は追加 member route または layout spec で確認する。`/login` を member layout の実測根拠にしない
 
 ## 6. DOM scrape による契約確認
 
 ```bash
 # curl + grep（dev server 起動中）
 curl -s http://localhost:3000/ | grep -E 'data-(theme|route-group|shell|route|testid)='
-curl -s http://localhost:3000/login | grep -E 'data-(theme|route-group|shell|route|testid)='
+# member AppShell は route group 内の route が実装された後に scrape する
 ```
 
-期待: 期待する data-* 属性が SSR 段階で出力されている。
+期待: Public / Admin は SSR 段階で期待する data-* 属性が出力される。Member は layout spec を主証跡とし、route 実装後の visual evidence で SSR scrape を追加する。
 
 ## 7. design tokens 違反スキャン
 
