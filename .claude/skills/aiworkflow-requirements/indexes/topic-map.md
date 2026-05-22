@@ -2221,6 +2221,12 @@ node scripts/list-specs.js --topics
 | 関連ドキュメント | L117 |
 | 変更履歴 | L131 |
 
+### references/workflow-ci-staging-deploy-failure-fix-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| User-gated operations | L13 |
+
 ### references/workflow-e2e-quality-uplift-stage-0-3-artifact-inventory.md
 
 | セクション | 行 |
@@ -2762,7 +2768,46 @@ node scripts/list-specs.js --topics
 
 ### references/workflow-issue-772-cf-audit-monitor-runtime-restoration-artifact-inventory.md
 
+### references/workflow-issue-775-serial-05-step-03-runtime-evidence-completion-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Implementation Files | L10 |
+| Evidence | L20 |
+| Same-Wave Sync | L29 |
+
+### references/workflow-issue-776-schema-alias-bulk-resolve-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Workflow Artifacts | L11 |
+| Implementation Targets | L35 |
+| Runtime Boundary | L49 |
+
+### references/workflow-issue-778-schema-alias-rollback-undo-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Canonical Root | L3 |
+| Source And Parent | L12 |
+| Contract | L23 |
+| Boundary | L31 |
+
 ### references/workflow-issue-799-use-auto-focus-on-mount-hook-artifact-inventory.md
+
+### references/workflow-issue-800-profile-error-focus-transfer-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| State | L22 |
+| useAutoFocusOnMount hook | L28 |
+| Error focus management pattern | L32 |
+
+### references/workflow-issue-801-admin-error-focus-transfer-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| State | L15 |
 
 ### references/workflow-issue-806-dynamic-member-og-image-artifact-inventory.md
 
@@ -2820,6 +2865,19 @@ node scripts/list-specs.js --topics
 | 関連ドキュメント | L112 |
 | 変更履歴 | L126 |
 
+### references/workflow-parallel-04-shared-page-chrome-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Summary | L3 |
+| Scope | L16 |
+| Canonical Sources | L20 |
+| Implementation Targets | L31 |
+| Workflow Outputs | L42 |
+| Evidence Inventory | L57 |
+| Implementation Boundary | L78 |
+| Lessons / Cross-link | L86 |
+
 ### references/workflow-parallel-09-ux-cross-cutting-artifact-inventory.md
 
 | セクション | 行 |
@@ -2865,12 +2923,18 @@ node scripts/list-specs.js --topics
 | 関連ドキュメント | L137 |
 | 変更履歴 | L148 |
 
+### references/workflow-profile-loading-skeleton-oklch-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Boundary | L19 |
+
 ### references/workflow-serial-05-step-03-schema-diff-resolve-artifact-inventory.md
 
 | セクション | 行 |
 |------------|----|
-| Primary files | L10 |
-| Evidence | L21 |
+| Primary files | L11 |
+| Evidence | L22 |
 
 ### references/workflow-skill-identifier-branded-type-resolution.md
 
@@ -2972,6 +3036,8 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | Phase 12 Strict 7 | L27 |
+
+### references/workflow-step-06-meetings-attendance-implementation-artifact-inventory.md
 
 ### references/workflow-task-03-w2-par-sentry-workers-sdk-unify-artifact-inventory.md
 
@@ -3395,6 +3461,12 @@ node scripts/list-specs.js --topics
 | Implementation Targets | L24 |
 | Runtime Boundary | L30 |
 
+### references/workflow-task-alert-relay-global-scope-fix-001-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Contract | L17 |
+
 ### references/workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md
 
 | セクション | 行 |
@@ -3481,12 +3553,24 @@ node scripts/list-specs.js --topics
 | Follow-up 未タスク | L25 |
 | Validation Chain | L31 |
 
+### references/workflow-task-runtime-smoke-admin-members-500-recovery-001-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Contract | L19 |
+
 ### references/workflow-task-spec-2d-contract-stage-2-artifact-inventory.md
 
 | セクション | 行 |
 |------------|----|
 | Canonical Set | L12 |
 | Boundary | L22 |
+
+### references/workflow-task-staging-auth-secret-binding-recovery-001-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Contract | L17 |
 
 ### references/workflow-task-sync-forms-d1-legacy-umbrella-artifact-inventory.md
 
@@ -3531,11 +3615,13 @@ node scripts/list-specs.js --topics
 | Canonical Sources | L17 |
 | Workflow Outputs | L39 |
 | Implementation Boundary | L57 |
-| parallel-02 prototype CSS rules port (2026-05-19 close-out) | L67 |
-| Follow-up unassigned tasks (proto-spec) | L78 |
-| Difficulties summary (parallel-02) | L90 |
-| P1-1〜P1-5 Selector ↔ Token ↔ 09 Spec Mapping (parallel-01) | L124 |
-| P1-1〜P1-5 Selector ↔ Token ↔ 09 Spec Mapping (parallel-01) | L169 |
+| Sub-workflow: parallel-03 AppShell Layouts（2026-05-19） | L67 |
+| parallel-02 prototype CSS rules port (2026-05-19 close-out) | L88 |
+| Follow-up unassigned tasks (proto-spec) | L99 |
+| Difficulties summary (parallel-02) | L111 |
+| P1-1〜P1-5 Selector ↔ Token ↔ 09 Spec Mapping (parallel-01) | L145 |
+| Sub-workflows | L190 |
+| P1-1〜P1-5 Selector ↔ Token ↔ 09 Spec Mapping (parallel-01) | L199 |
 
 ### references/workflow-ui-ux-visual-baseline-drift.md
 
@@ -4102,24 +4188,25 @@ node scripts/list-specs.js --topics
 
 | セクション | 行 |
 |------------|----|
-| 1. 適用範囲 | L8 |
-| 2. 形式判定マトリクス | L14 |
-| 3. wrangler.toml 必須項目 | L25 |
-| 4. .assetsignore の役割と運用 | L88 |
-| 5. ビルド・デプロイ手順 | L108 |
-| 6. Worker bundle size ガード | L131 |
-| 7. SPA fallback / 404 ハンドリング | L149 |
-| 8. preview / staging / production の env 分離 | L158 |
-| 9. 旧 Pages プロジェクトの並走方針 | L170 |
-| 10. CLI 経路の徹底 | L182 |
-| 11. R2 incremental cache（任意採用） | L191 |
-| 11.1 Build mode の不変条件（CI recovery / 2026-05-09） | L199 |
-| 12. 関連リソース | L213 |
-| 13. production route / secret / observability preflight | L234 |
-| 14. analytics read-only token 分離 | L275 |
-| 15. Long-term analytics evidence | L290 |
-| 15. 09c-A production execution workflow | L296 |
-| 変更履歴 | L311 |
+| 適用範囲 | L8 |
+| 形式判定マトリクス | L14 |
+| wrangler.toml 必須項目 | L25 |
+| .assetsignore の役割と運用 | L88 |
+| ビルド・デプロイ手順 | L108 |
+| Worker bundle size ガード | L131 |
+| SPA fallback / 404 ハンドリング | L149 |
+| preview / staging / production の env 分離 | L158 |
+| 旧 Pages プロジェクトの並走方針 | L170 |
+| CLI 経路の徹底 | L182 |
+| R2 incremental cache（任意採用） | L191 |
+| Build mode の不変条件（CI recovery / 2026-05-09） | L199 |
+| 関連リソース | L213 |
+| production route / secret / observability preflight | L234 |
+| analytics read-only token 分離 | L275 |
+| Long-term analytics evidence | L290 |
+| c-A production execution workflow | L296 |
+| CI build-time env injection for OpenNext Workers | L311 |
+| 変更履歴 | L321 |
 
 ### references/deployment-cloudflare-ut06-gate.md
 
@@ -4212,12 +4299,12 @@ node scripts/list-specs.js --topics
 | wrangler.toml の環境別設定 | L288 |
 | ローカル開発での設定 | L320 |
 | Cloudflare CLI ラッパー: `scripts/cf.sh`（UT-06 派生 / 2026-04-27） | L359 |
-| セキュリティ原則 | L393 |
-| Cloudflare API Token の作成手順 | L404 |
-| Cloudflare API Token 90 日 rotation runbook（Issue #407 / 2026-05-06） | L419 |
-| UT-27: GitHub Secrets / Variables 同期運用（2026-04-29） | L530 |
-| U-FIX-CF-ACCT-01-DERIV-02: Cloudflare deploy token split | L579 |
-| 変更履歴 | L613 |
+| セキュリティ原則 | L394 |
+| Cloudflare API Token の作成手順 | L405 |
+| Cloudflare API Token 90 日 rotation runbook（Issue #407 / 2026-05-06） | L420 |
+| UT-27: GitHub Secrets / Variables 同期運用（2026-04-29） | L531 |
+| U-FIX-CF-ACCT-01-DERIV-02: Cloudflare deploy token split | L575 |
+| 変更履歴 | L625 |
 
 ### references/deployment.md
 
@@ -4875,7 +4962,7 @@ node scripts/list-specs.js --topics
 
 | セクション | 行 |
 |------------|----|
-| 関連リソース | L17 |
+| 関連リソース | L18 |
 
 ### references/lessons-learned-ci-test-recovery-coverage-80-2026-05-04.md
 
@@ -4908,6 +4995,17 @@ node scripts/list-specs.js --topics
 | branch protection / contexts 登録の上流前提（5 重明記） | L74 |
 | 実行タイミングまとめ | L78 |
 | 関連リソース | L87 |
+
+### references/lessons-learned-d1-batch-atomicity-and-soft-delete-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| L-DBATCH-001: `db.batch()` の atomicity 仕様引用を Phase 02 design で必須化する | L7 |
+| L-SOFTDEL-001: `FROM <table>` の全箇所に `AND deleted_at IS NULL` を grep gate で強制する | L17 |
+| L-OPTLOCK-001: `If-Match: version=N` の parse 失敗（400）と version 衝突（409）を route handler 層で明確に分離する | L27 |
+| L-AUDITREL-001: `audit_log` と `cf_audit_log` の責務分離を SKILL ドキュメントで明示する | L38 |
+| L-SCOPE-001: bulk rollback / notification / recompute は followup に分離し、CONST_007 例外宣言を `index.md` 冒頭に必須化する | L47 |
+| 参考 | L59 |
 
 ### references/lessons-learned-docs-only-lifecycle.md
 
@@ -5381,6 +5479,26 @@ node scripts/list-specs.js --topics
 | L-770-005: Source unassigned-task は consumed trace として保持する | L35 |
 | L-770-006: `implemented_local_runtime_pending` 中間ステータスの再利用 | L43 |
 | L-770-007: aiworkflow-requirements の same-wave sync は 5 ファイル定型 | L51 |
+
+### references/lessons-learned-issue-775-serial-05-step-03-runtime-evidence-completion-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| 苦戦箇所（unassigned-task 由来） | L13 |
+| 関連 skill feedback | L29 |
+
+### references/lessons-learned-issue-776-schema-alias-bulk-resolve-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| L-ISSUE-776-001: API 不変条件下では client-side bounded fan-out を選ぶ | L5 |
+| L-ISSUE-776-002: bulk と single の state は完全に分離する | L11 |
+| L-ISSUE-776-003: partial failure は first-class behavior として扱う | L15 |
+| L-ISSUE-776-004: `202 backfill_cpu_budget_exhausted` は failure ではなく retryable continuation | L19 |
+| L-ISSUE-776-005: validation rule は単一ファイルに集約する | L32 |
+| L-ISSUE-776-006: Phase 11 evidence は local 単独でも canonical 構成を満たす | L36 |
+| L-ISSUE-776-007: source unassigned task は Phase 12 で必ず consumed 化 | L40 |
+| クロスリファレンス | L44 |
 
 ### references/lessons-learned-issue359-production-d1-apply-2026-05.md
 
@@ -5979,8 +6097,8 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 概要 | L3 |
 | 仕様書インデックス | L7 |
-| 利用順序 | L114 |
-| 関連ドキュメント | L119 |
+| 利用順序 | L117 |
+| 関連ドキュメント | L122 |
 
 ### references/llm-embedding.md
 
@@ -6641,6 +6759,18 @@ node scripts/list-specs.js --topics
 | 11. Issue #546 Cloudflare Audit Logs 90 Day Baseline Observation（2026-05-08） | L412 |
 | 12. Issue #514 Cloudflare Audit Logs Cold Storage / R2 Export Contract（2026-05-07） | L428 |
 
+### references/pattern-d1-soft-delete-optimistic-lock-batch.md
+
+| セクション | 行 |
+|------------|----|
+| メタ情報 | L7 |
+| 適用シーン | L18 |
+| パターン構成 | L29 |
+| 苦戦箇所と対策 | L120 |
+| grep gate | L132 |
+| 参考実装（Issue #778） | L145 |
+| 関連パターン | L164 |
+
 ### references/patterns-advanced.md
 
 | セクション | 行 |
@@ -7104,14 +7234,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L1786 |
-| フェーズ構造（概要） | L1795 |
-| 品質ゲート（概要） | L1826 |
-| 出力テンプレート | L1837 |
-| 実行時のコマンド・エージェント・スキル | L1860 |
-| 昇格パターン集 | L1884 |
-| Current Active / Spec Created Tasks | L1886 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L2039 |
+| ドキュメント構成 | L1936 |
+| フェーズ構造（概要） | L1945 |
+| 品質ゲート（概要） | L1976 |
+| 出力テンプレート | L1987 |
+| 実行時のコマンド・エージェント・スキル | L2010 |
+| 昇格パターン集 | L2034 |
+| Current Active / Spec Created Tasks | L2036 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L2191 |
 
 ### references/task-workflow-backlog-part2.md
 
@@ -7252,6 +7382,12 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 
+### references/task-workflow-completed-recent-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| 2026-05-19: parallel-04 Shared Page Chrome（spec_created + Phase 11 evidence captured） | L6 |
+
 ### references/task-workflow-completed-skill-create-ui-integration.md
 
 | セクション | 行 |
@@ -7375,10 +7511,11 @@ node scripts/list-specs.js --topics
 
 | セクション | 行 |
 |------------|----|
-| 最近の完了タスク（2026-04） | L7 |
-| 完了タスク（2026-03後半） | L128 |
-| 完了タスク（機能別アーカイブ） | L136 |
-| UT-TASK-SPEC-TEMPLATE-IMPROVEMENT-001: task-specification-creator Phase-12 テンプレート改善 | L245 |
+| 最近の完了タスク（2026-05） | L7 |
+| 最近の完了タスク（2026-04） | L11 |
+| 完了タスク（2026-03後半） | L132 |
+| 完了タスク（機能別アーカイブ） | L140 |
+| UT-TASK-SPEC-TEMPLATE-IMPROVEMENT-001: task-specification-creator Phase-12 テンプレート改善 | L249 |
 
 ### references/task-workflow-history.md
 

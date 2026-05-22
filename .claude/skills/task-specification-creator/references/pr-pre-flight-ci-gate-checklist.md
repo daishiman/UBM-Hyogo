@@ -127,7 +127,8 @@ bash scripts/verify-pr-ready.sh
    - `missing-heading` → §4 canonical 9 headings
    - `missing-evidence` → §2 (table 形式) または §3 (path 解決) または §5 (unassigned-task 配置)
 3. `indexes:rebuild drift` → `.claude/skills/aiworkflow-requirements/indexes/` 配下の再生成差分を `git add` & commit（sync-merge 直後は `task-workflow-active.md` の `merge=union` で行数が増減し `topic-map.md` の見出し L 番号が drift する構造的事象。再生成→コミットが正規復旧手順）
-4. 修正後 `bash scripts/verify-pr-ready.sh` を再実行し全 PASS を確認してから push
+4. `pnpm sync:resolve` が exit code 1 で終わるが残コンフリクトが `LOGS/_legacy.md` のみ（`.gitignore` 配下で `git add` が失敗するが union resolve 自体は成功） → `git add -f .claude/skills/*/LOGS/_legacy.md` で追跡し続行。残る `indexes/keywords.json` (UU) は `git checkout --ours` + `pnpm indexes:rebuild` で deterministic 再生成（L-DEVSYNC-029 安定パターン）
+5. 修正後 `bash scripts/verify-pr-ready.sh` を再実行し全 PASS を確認してから push
 
 ## 6. `lighthouse-ci` performance fail（環境ノイズ起因）
 
@@ -256,3 +257,48 @@ grep -rn '>こちら<\|>詳細<\|>クリック<\|>here<\|>more<\|>click here<' a
 それ以外のパスが UU で残っている場合は最終レポート対象にして中断する。
 
 詳細: `.claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-dev-sync-merge-conflict-resolution-2026-05.md` L-DEVSYNC-027。
+
+## 11. `playwright-smoke / visual` — `getByRole(<role>)` strict-mode 違反（L-DEVSYNC-031）
+
+dev 取り込み後の `playwright-smoke / visual (chromium, 4 screens)` で `strict mode violation: getByRole('status') resolved to 2 elements` 等が CI でのみ FAIL する典型ケース。HEAD 側のテストはローカルでは singleton だが、dev 側で同一画面に同 role の追加要素（Toast / save-status indicator 等）が入って 2 件マッチになる。
+
+### 事前検出 / 修正
+
+```bash
+# 同 role を画面共有しうる要素を grep
+grep -rn 'role="status"' apps/web/app apps/web/src
+
+# spec 側で getByRole("status") の絞り込みが弱い箇所を grep
+grep -rn 'getByRole("status")\|getByRole(\x27status\x27)' apps/web/playwright/tests
+```
+
+- ARIA role を画面共有要素の primary selector に使わない。component-specific `data-feedback-kind="success"` / `getByTestId(...)` 等の絞り込みに置換する。
+- 同 spec 内で 409/422 ケースが `[data-feedback-kind="conflict_error"]` 等で既に絞られている場合、success ケースだけ非対称に残るパターンが起きやすい。**全 feedback variant を同じ selector 戦略に統一**するのが SSOT。
+
+### 自律対応
+
+1. `playwright-smoke / visual` FAIL を `gh run view <run-id> --log-failed` で確認
+2. 失敗箇所の locator を grep / 該当 component の DOM 属性を確認
+3. component-specific selector へ置換（spec 側のみ。component 側の `data-*` 属性は触らない）
+4. 修正だけで再 push（baseline snapshot 更新は不要 — strict-mode は要素数判定のため）
+
+詳細: `.claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-dev-sync-merge-conflict-resolution-2026-05.md` L-DEVSYNC-031。
+
+## 12. parallel sub-workflow が同一 artifact-inventory.md に独立 H2 を追加する 3-way conflict（L-DEVSYNC-032）
+
+`ui-prototype-design-system-foundation` のような並列ワークフローでは、`parallel-02 / parallel-03` 等の sub-workflow が **同一 inventory ファイル**（`workflow-<workflow>-artifact-inventory.md` / `phase-12/phase12-task-spec-compliance-check.md` / `phase-12/main.md`）に**独立 H2 ブロック / 独立 evidence table 行**を追記する設計で、構造的に dev sync-merge で 3-way conflict が頻発する。`.gitattributes` を `references/workflow-*.md` で `merge=union` 化していないのは sub-workflow ブロックの順序・表構造保持のため。
+
+### 自律解消ルール（B-10 / B-11）
+
+- **B-10「parallel sub-workflow 独立 H2 / 独立 row 追加の union 採用」**:
+  - artifact-inventory.md / `phase12-task-spec-compliance-check.md` / Phase 11 evidence inventory で HEAD と dev が **異なる H2 / 異なる table row** を独立追加した conflict は、marker のみ削除して両側ブロックを `HEAD → dev` の順で連結する。
+  - 同一 H2 / 同一 row を両側で編集している場合のみ意味的競合として個別判断（多くは「partial → runtime_pending」「PASS → runtime_pending」等の status vocabulary 更新を dev 側に寄せる）。
+- **B-11「単一 className トークン非競合変更の連結採用」**:
+  - `<element className="...">` で HEAD と dev が同 class 文字列の**異なるトークン**を追加・置換しているだけのコンフリクトは、両トークンを 1 行に併記。
+  - 同じトークンを異なる値に変更している場合（例: `grid-cols-[240px_1fr]` ↔ `grid-cols-[272px_1fr]`）は、SSOT spec（`docs/00-getting-started-manual/specs/09h-shell-and-fixtures.md` 等）が後追いで更新された側を採用。本ケースでは dev 側が SSOT 更新済みのため dev 採用。
+
+### Phase 11 evidence inventory 結合の追加注意
+
+- HEAD と dev が **column 構造**を変更している場合（`| Path | Status |` 3 列 ↔ `| Classification | Path | Status | Note |` 4 列）、4 列側を採用し、3 列側の row を 4 列に整形して merge する。`Classification` 列が空欄になる場合は `visual` / `log` / `evidence` 等の adminer convention を補完する。
+
+詳細: `.claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-dev-sync-merge-conflict-resolution-2026-05.md` L-DEVSYNC-032。

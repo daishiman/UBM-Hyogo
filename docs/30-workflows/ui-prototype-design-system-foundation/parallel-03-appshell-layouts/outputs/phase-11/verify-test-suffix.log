@@ -1,0 +1,1 @@
+scripts/verify-test-suffix.sh not present; layout specs use *.spec.tsx and lint passed.

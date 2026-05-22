@@ -125,7 +125,7 @@ export function SignOutButton(): JSX.Element;
 
 ```ts
 export type SessionShape = {
-  readonly userId: string;
+  readonly memberId: string;
   readonly email: string;
   readonly isAdmin: boolean;
 };
@@ -141,8 +141,8 @@ export async function getSession(): Promise<SessionShape | null>;
 `apps/web/middleware.ts`
 
 - matcher: `/admin/:path*`, `/profile/:path*`
-- 未認証 / non-admin の redirect / 403 を edge で実行
-- layout 内 `getSession()` gate と二段防御
+- middleware が first gate として未認証 redirect / non-admin 403 を edge で実行
+- layout 内 `getSession()` gate は fallback の二段防御として未認証 redirect / non-admin forbidden redirect を維持
 
 ## 4. data-* 契約（DOM 出力契約）
 
@@ -160,7 +160,7 @@ export async function getSession(): Promise<SessionShape | null>;
 
 ## 6. CSS class 契約
 
-- layout 側で使う Tailwind class は **構造クラスのみ**（`min-h-screen` / `grid` / `grid-cols-*` / `grid-rows-*` / `row-span-*` / `flex` / `gap-*` / `p-*`）
+- layout 側で使う Tailwind class は **構造クラスのみ**（`min-h-screen` / `grid` / `grid-cols-*` / `grid-rows-*` / `md:row-span-*` / `flex` / `gap-*` / `p-*`）
 - 配色 / shadow / border 色は `bg-[var(--ubm-color-surface-bg)]` のように OKLch トークン経由のみ
 - `bg-[#xxx]` / `text-[#xxx]` / `border-[#xxx]` は禁止（verify-design-tokens で reject）
 
@@ -179,7 +179,7 @@ expect(container.querySelector('[data-route="public"]')).not.toBeNull();
 expect(await axe(container)).toHaveNoViolations();
 
 // Admin（async layout）
-vi.mock("../../src/lib/session", () => ({ getSession: vi.fn().mockResolvedValue({ userId: "u1", email: "a@b", isAdmin: true }) }));
+vi.mock("../../src/lib/session", () => ({ getSession: vi.fn().mockResolvedValue({ memberId: "m1", email: "a@b", isAdmin: true }) }));
 const tree = await AdminLayout({ children: <div>child</div> });
 const { container } = render(tree);
 ```

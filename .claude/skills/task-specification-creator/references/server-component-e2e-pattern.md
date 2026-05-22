@@ -97,9 +97,62 @@ rg -n "page\.route\(" tests/e2e/ | grep -i "server\|fetch" && echo "REVIEW" || e
 - `apps/web` の Server Component 由来 fetch を `INTERNAL_API_BASE_URL` で差し替え
 - Phase 11 evidence は `e2e-run.txt` / `coverage-summary.json` を tracked で保存
 
+## Server Component redirect の vitest pattern（2026-05-19 追加 / parallel-03-appshell-layouts 由来）
+
+Server Component（`async function` layout / page）が `next/navigation` の `redirect()` を呼ぶ場合、`redirect` は内部的に special error を throw して制御フローを切断する。これを vitest から検証するには **`redirect` を throw に mock し `rejects.toThrow` で assert** する。
+
+### 適用条件
+
+- `apps/web/app/(admin)/layout.tsx` のように Server Component で `getSession()` の結果に応じて `redirect('/login')` する
+- middleware 単独に依存せず、layout レベルでも 2 段防御として redirect する
+
+### canonical pattern
+
+```ts
+// apps/web/app/(admin)/layout.spec.tsx
+import { describe, it, expect, vi, beforeEach } from 'vitest';
+
+vi.mock('next/navigation', () => ({
+  redirect: vi.fn((url: string) => {
+    throw new Error(`NEXT_REDIRECT:${url}`);
+  }),
+}));
+vi.mock('@/lib/auth', () => ({
+  getSession: vi.fn(),
+}));
+
+import AdminLayout from './layout';
+import { getSession } from '@/lib/auth';
+
+describe('AdminLayout', () => {
+  beforeEach(() => vi.clearAllMocks());
+
+  it('redirects to /login when session is null', async () => {
+    vi.mocked(getSession).mockResolvedValue(null);
+    await expect(
+      AdminLayout({ children: null as any }),
+    ).rejects.toThrow('NEXT_REDIRECT:/login');
+  });
+
+  it('renders children for admin session', async () => {
+    vi.mocked(getSession).mockResolvedValue({ user: { role: 'admin' } } as any);
+    const result = await AdminLayout({ children: 'OK' as any });
+    expect(result).toBeDefined();
+  });
+});
+```
+
+### 不変条件
+
+- `redirect` mock は **必ず throw する関数** にする。`vi.fn()` 単体（throw なし）だと layout が `redirect()` の後の処理を続行し false-PASS する
+- spec 名は `layout.spec.tsx`（`.test.tsx` 禁止、CLAUDE.md 不変条件 #8）
+- Server Component を直接 `await Component(props)` で実行する。`@testing-library/react` の `render` は async server component に対応していないため使わない
+- `redirect` の throw を `try/catch` で握り潰して assert すると失敗パスが見えなくなる。**必ず `rejects.toThrow` を使う**
+
 ## 関連 reference
 
 - [quality-gates.md](quality-gates.md) — §7 テスト常時実行可能性 DoD / §7.5 E2E lines coverage ≥ 80%
 - [phase-template-phase11.md](phase-template-phase11.md) — Phase 11 evidence canonical path
 - [phase-11-non-visual-alternative-evidence.md](phase-11-non-visual-alternative-evidence.md) — tracked evidence rule
 - [workflow-state-vocabulary.md](workflow-state-vocabulary.md) — runtime_pending / completed 区別
+- [task-type-decision.md](task-type-decision.md) — `implementation_mode: existing-layout-alignment`

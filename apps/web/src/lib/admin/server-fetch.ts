@@ -187,6 +187,28 @@ const task17SchemaFixture = () => ({
   ],
 });
 
+const issue776SchemaBulkFixture = () => ({
+  total: 30,
+  items: Array.from({ length: 30 }, (_, i) => {
+    const n = String(i + 1).padStart(2, "0");
+    const type = i % 2 === 0 ? "unresolved" : "changed";
+    return {
+      diffId: `issue776_${n}`,
+      revisionId: "rev_issue776",
+      type,
+      questionId: `q_issue776_${n}`,
+      stableKey: type === "changed" ? `existing_key_${n}` : null,
+      label: `Issue 776 bulk row ${n}`,
+      suggestedStableKey: `issue776_key_${n}`,
+      status: "queued",
+      resolvedBy: null,
+      resolvedAt: null,
+      createdAt: `2026-05-18T00:${n}:00.000Z`,
+    };
+  }),
+});
+
+
 const task17AuditFixture = (path: string) => {
   const url = new URL(path, "http://internal.test");
   const isEmpty = url.searchParams.get("targetType") === "empty";
@@ -343,6 +365,15 @@ export async function fetchAdmin<T>(
     path.startsWith("/admin/audit")
   ) {
     return adminMemberDeleteAuditFixture() as T;
+  }
+
+  if (
+    process.env["NODE_ENV"] !== "production" &&
+    process.env["PLAYWRIGHT_ISSUE776_SCHEMA_BULK_FIXTURE"] === "1" &&
+    opts.method === undefined &&
+    path.startsWith("/admin/schema/diff")
+  ) {
+    return issue776SchemaBulkFixture() as T;
   }
 
   if (

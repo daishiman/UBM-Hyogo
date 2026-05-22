@@ -21,7 +21,7 @@ implementation_mode: greenfield-foundation
 | DoD-02 | `apps/web/app/layout.tsx` で `tokens.css` → `globals.css` の順で import されている | grep / diff |
 | DoD-03 | `apps/web/app/layout.tsx` に `metadata`（object 形式 title）と `viewport` が export されている | typecheck + grep |
 | DoD-04 | `apps/web/app/error.tsx` が `"use client"` で始まり、props 型 `{ error: Error & { digest?: string }; reset: () => void }` を持つ | typecheck |
-| DoD-05 | `apps/web/app/error.tsx` が Card primitive で構成されている | grep `@/components/ui/Card` |
+| DoD-05 | `apps/web/app/error.tsx` が Card primitive で構成されている | grep `../src/components/ui/Card` |
 | DoD-06 | `apps/web/app/error.tsx` が logger.error を `event: "error.boundary.caught"` で呼ぶ | grep |
 | DoD-07 | `apps/web/app/not-found.tsx` が Server Component（`"use client"` なし）で Card + EmptyState 構成 | grep |
 | DoD-08 | `apps/web/app/loading.tsx` が `role="status" aria-busy="true" aria-live="polite"` を持つ | grep |
@@ -45,8 +45,8 @@ implementation_mode: greenfield-foundation
 | DoD-Q-01 | `pnpm typecheck` | exit 0 |
 | DoD-Q-02 | `pnpm lint` | exit 0 |
 | DoD-Q-03 | `pnpm --filter @ubm-hyogo/web build` | success |
-| DoD-Q-04 | `pnpm verify:design-tokens` | exit 0 |
-| DoD-Q-05 | `pnpm verify:test-suffix` | exit 0 |
+| DoD-Q-04 | `pnpm verify:tokens` | exit 0 |
+| DoD-Q-05 | `test -z "$(find apps/web -name '*.test.*' -print -quit)"` | exit 0 |
 | DoD-Q-06 | `bash scripts/verify-pr-ready.sh` | exit 0 |
 
 ## 4. プロセス DoD

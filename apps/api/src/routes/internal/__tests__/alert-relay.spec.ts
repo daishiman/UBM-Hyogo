@@ -848,3 +848,16 @@ describe("mounted /internal/alert-relay", () => {
     }
   });
 });
+
+describe("global scope safety (validation error 10021 regression guard)", () => {
+  it("TC-GS-01: module import does not call crypto.randomUUID", async () => {
+    vi.resetModules();
+    const randomUUIDSpy = vi.spyOn(crypto, "randomUUID");
+    try {
+      await import("../alert-relay");
+      expect(randomUUIDSpy).not.toHaveBeenCalled();
+    } finally {
+      randomUUIDSpy.mockRestore();
+    }
+  });
+});

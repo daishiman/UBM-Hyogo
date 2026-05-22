@@ -12,7 +12,7 @@ export const SITE = {
 } as const;
 
 const SITE_URL_MAP: Record<string, string> = {
-  production: "https://ubm-hyogo-web.daishimanju.workers.dev",
+  production: "https://ubm-hyogo-web-production.daishimanju.workers.dev",
   staging: "https://ubm-hyogo-web-staging.daishimanju.workers.dev",
   local: "http://localhost:3000",
 };

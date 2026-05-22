@@ -32,6 +32,7 @@ describe("lib/admin/api.ts (不変条件)", () => {
     expect(typeof adminApi.deleteMember).toBe("function");
     expect(typeof adminApi.resolveTagQueue).toBe("function");
     expect(typeof adminApi.postSchemaAlias).toBe("function");
+    expect(typeof adminApi.rollbackSchemaAlias).toBe("function");
     expect(typeof adminApi.createMeeting).toBe("function");
     expect(typeof adminApi.addAttendance).toBe("function");
     expect(typeof adminApi.removeAttendance).toBe("function");
@@ -283,6 +284,174 @@ describe("lib/admin/api.ts call() の振る舞い", () => {
     expect(adminApi.isSchemaAliasRetryableContinuation(r)).toBe(false);
   });
 
+  it("BULK-01 postSchemaAliasBulk([]) → 即座に results=[] を返し fetch しない", async () => {
+    const out = await adminApi.postSchemaAliasBulk([]);
+    expect(out).toEqual({ results: [] });
+    expect(fetchSpy).not.toHaveBeenCalled();
+  });
+
+  it("BULK-02 3 件全件成功 → results[].status === success", async () => {
+    fetchSpy.mockResolvedValue(
+      jsonResponse(200, {
+        ok: true,
+        mode: "apply",
+        confirmed: true,
+        backfill: { status: "completed" },
+      }),
+    );
+    const out = await adminApi.postSchemaAliasBulk([
+      { diffId: "d1", questionId: "q1", stableKey: "k1" },
+      { diffId: "d2", questionId: "q2", stableKey: "k2" },
+      { diffId: "d3", questionId: "q3", stableKey: "k3" },
+    ]);
+    expect(out.results.map((r) => r.status)).toEqual([
+      "success",
+      "success",
+      "success",
+    ]);
+    expect(out.results.map((r) => r.diffId)).toEqual(["d1", "d2", "d3"]);
+  });
+
+  it("BULK-03 1 件 409 → 2 success + 1 error(conflict)、入力順を維持", async () => {
+    fetchSpy.mockImplementation((_url: unknown, init?: RequestInit) => {
+      const body = JSON.parse(String(init?.body ?? "{}"));
+      if (body.diffId === "d2") {
+        return Promise.resolve(
+          jsonResponse(409, { ok: false, error: "conflict" }),
+        );
+      }
+      return Promise.resolve(
+        jsonResponse(200, {
+          ok: true,
+          mode: "apply",
+          confirmed: true,
+          backfill: { status: "completed" },
+        }),
+      );
+    });
+    const out = await adminApi.postSchemaAliasBulk([
+      { diffId: "d1", questionId: "q1", stableKey: "k1" },
+      { diffId: "d2", questionId: "q2", stableKey: "k2" },
+      { diffId: "d3", questionId: "q3", stableKey: "k3" },
+    ]);
+    expect(out.results.map((r) => r.status)).toEqual([
+      "success",
+      "error",
+      "success",
+    ]);
+    expect(out.results[1].error?.kind).toBe("conflict");
+    expect(out.results[1].error?.httpStatus).toBe(409);
+  });
+
+  it("BULK-04 1 件 422 → error(invalid)", async () => {
+    fetchSpy.mockImplementation((_url: unknown, init?: RequestInit) => {
+      const body = JSON.parse(String(init?.body ?? "{}"));
+      if (body.diffId === "d1") {
+        return Promise.resolve(
+          jsonResponse(422, { ok: false, error: "invalid" }),
+        );
+      }
+      return Promise.resolve(
+        jsonResponse(200, {
+          ok: true,
+          mode: "apply",
+          confirmed: true,
+          backfill: { status: "completed" },
+        }),
+      );
+    });
+    const out = await adminApi.postSchemaAliasBulk([
+      { diffId: "d1", questionId: "q1", stableKey: "k1" },
+      { diffId: "d2", questionId: "q2", stableKey: "k2" },
+    ]);
+    expect(out.results[0].status).toBe("error");
+    expect(out.results[0].error?.kind).toBe("invalid");
+    expect(out.results[0].error?.httpStatus).toBe(422);
+    expect(out.results[1].status).toBe("success");
+  });
+
+  it("BULK-05 network 失敗 → error.kind = network", async () => {
+    fetchSpy.mockRejectedValue(new Error("boom"));
+    const out = await adminApi.postSchemaAliasBulk([
+      { diffId: "d1", questionId: "q1", stableKey: "k1" },
+    ]);
+    expect(out.results[0].status).toBe("error");
+    expect(out.results[0].error?.kind).toBe("network");
+    expect(out.results[0].error?.httpStatus).toBe(0);
+    expect(out.results[0].error?.message).toBe("boom");
+  });
+
+  it("BULK-05b row 完了ごとに onRowResult を呼び、stableKey を trim して送る", async () => {
+    fetchSpy.mockResolvedValue(
+      jsonResponse(200, {
+        ok: true,
+        mode: "apply",
+        confirmed: true,
+        backfill: { status: "completed" },
+      }),
+    );
+    const onRowResult = vi.fn();
+    const out = await adminApi.postSchemaAliasBulk(
+      [{ diffId: "d1", questionId: "q1", stableKey: " key_one " }],
+      { onRowResult },
+    );
+    expect(out.results[0].status).toBe("success");
+    expect(onRowResult).toHaveBeenCalledWith(out.results[0], 0);
+    expect(JSON.parse(String(fetchSpy.mock.calls[0][1]?.body))).toMatchObject({
+      stableKey: "key_one",
+    });
+  });
+
+  it("BULK-06 8 件 を最大 concurrency 8 で実行し、結果は入力順", async () => {
+    let inflight = 0;
+    let maxInflight = 0;
+    fetchSpy.mockImplementation(async (_u: unknown, init?: RequestInit) => {
+      inflight++;
+      maxInflight = Math.max(maxInflight, inflight);
+      await new Promise((r) => setTimeout(r, 1));
+      inflight--;
+      const body = JSON.parse(String(init?.body ?? "{}"));
+      return jsonResponse(200, {
+        ok: true,
+        mode: "apply",
+        confirmed: true,
+        backfill: { status: "completed" },
+        diffId: body.diffId,
+      });
+    });
+    const inputs = Array.from({ length: 8 }, (_, i) => ({
+      diffId: `d${i}`,
+      questionId: `q${i}`,
+      stableKey: `k${i}`,
+    }));
+    const out = await adminApi.postSchemaAliasBulk(inputs);
+    expect(out.results.map((r) => r.diffId)).toEqual(
+      inputs.map((i) => i.diffId),
+    );
+    expect(maxInflight).toBeLessThanOrEqual(8);
+  });
+
+  it("BULK-07 202 retryable continuation → status=retryable / error.kind=retryable", async () => {
+    fetchSpy.mockResolvedValue(
+      jsonResponse(202, {
+        ok: true,
+        mode: "apply",
+        confirmed: true,
+        backfill: {
+          status: "exhausted",
+          retryable: true,
+          code: "backfill_cpu_budget_exhausted",
+        },
+      }),
+    );
+    const out = await adminApi.postSchemaAliasBulk([
+      { diffId: "d1", questionId: "q1", stableKey: "k1" },
+    ]);
+    expect(out.results[0].status).toBe("retryable");
+    expect(out.results[0].error?.kind).toBe("retryable");
+    expect(out.results[0].error?.httpStatus).toBe(202);
+  });
+
   it("postSchemaAlias / resolveAdminRequest / resolveTagQueue も path/body 整合", async () => {
     fetchSpy.mockResolvedValue(jsonResponse(200, {}));
     await adminApi.postSchemaAlias({ questionId: "q1", stableKey: "k1" });
@@ -301,5 +470,54 @@ describe("lib/admin/api.ts call() の振る舞い", () => {
     expect((fetchSpy.mock.calls[2] as [string])[0]).toBe(
       "/api/admin/requests/note%201/resolve",
     );
+  });
+
+  it("rollbackSchemaAlias: If-Match と reason body を送る", async () => {
+    fetchSpy.mockResolvedValue(
+      jsonResponse(200, {
+        aliasId: "a 1",
+        rolledBackAt: "2026-05-19T00:00:00.000Z",
+        relatedAuditId: "aud-1",
+        newVersion: 3,
+        impact: { affectedResponseCount: 2, recomputeRequired: true },
+      }),
+    );
+    const res = await adminApi.rollbackSchemaAlias({
+      aliasId: "a 1",
+      version: 2,
+      reason: "typo",
+    });
+    expect(res.newVersion).toBe(3);
+    const [url, init] = fetchSpy.mock.calls[0] as [string, RequestInit];
+    expect(url).toBe("/api/admin/schema/aliases/a%201/rollback");
+    expect(init.method).toBe("POST");
+    expect(init.body).toBe(JSON.stringify({ reason: "typo" }));
+    expect((init.headers as Record<string, string>)["If-Match"]).toBe("version=2");
+  });
+
+  it("rollbackSchemaAlias: 409 JSON error を RollbackApiError に変換する", async () => {
+    fetchSpy.mockResolvedValue(
+      jsonResponse(409, { error: "version_mismatch", message: "race detected" }),
+    );
+    await expect(
+      adminApi.rollbackSchemaAlias({ aliasId: "a1", version: 1 }),
+    ).rejects.toMatchObject({
+      name: "RollbackApiError",
+      status: 409,
+      code: "version_mismatch",
+      message: "race detected",
+    });
+  });
+
+  it("rollbackSchemaAlias: network error を status=0 に変換する", async () => {
+    fetchSpy.mockRejectedValue(new Error("offline"));
+    await expect(
+      adminApi.rollbackSchemaAlias({ aliasId: "a1", version: 1 }),
+    ).rejects.toMatchObject({
+      name: "RollbackApiError",
+      status: 0,
+      code: "network_error",
+      message: "offline",
+    });
   });
 });

@@ -22,21 +22,23 @@ UT-17-FU-002 で導入した `ALERT_DEDUP_KV.get` / `put` の失敗を observabl
 
 ---
 
-## 1. 実装 / `isolateId` は module top で 1 回だけ採番する
+## 1. 実装 / `isolateId` は lazy module cache で 1 回だけ採番する
 
 ### 概要
-`crypto.randomUUID()` を handler 内で呼ぶと、毎リクエストで isolateId が変わってしまい「同一 isolate で連続発生したエラー」を Workers Logs 上で束ねられなくなる。module top（`createAlertRelayRoute` の外）に `const isolateId = crypto.randomUUID();` を置き、isolate ライフサイクルと一致させた。
+`crypto.randomUUID()` を handler 内で都度呼ぶと、毎リクエストで isolateId が変わってしまい「同一 isolate で連続発生したエラー」を Workers Logs 上で束ねられなくなる。一方で module top に `const isolateId = crypto.randomUUID();` を置くと Cloudflare Workers validation error 10021 の原因になる。現在の正本は、module-private な `cachedIsolateId` と `getIsolateId()` による lazy module cache である。
 
 ### なぜ重要か
 - Cloudflare Workers の isolate は warm 時に複数リクエストを跨いで再利用される。isolate 内で発生する KV 局所障害（接続キャッシュ劣化など）を診断するには、同一 isolate 由来であることを後段集計で識別できる必要がある。
-- handler ローカルで採番すると、後段 dashboard でグルーピング軸が崩れる。
+- handler ローカルで都度採番すると、後段 dashboard でグルーピング軸が崩れる。
+- module import 時に採番すると、Cloudflare Workers の global scope forbidden operation として deploy validation が fail する。
 
 ### 再発防止アクション
-- 構造化ログに `isolateId` を出す場合は module 評価時の単発採番をデフォルトにする。
-- review 時のチェックリストに「`crypto.randomUUID()` を request handler の中で呼んでいないか」を追加。
+- 構造化ログに `isolateId` を出す場合は、module-private lazy cache をデフォルトにする。
+- review 時のチェックリストに「`crypto.randomUUID()` を module top-level で呼んでいないか」と「handler 内で都度呼んで相関性を壊していないか」を追加する。
 
 ### 関連 reference
-- `apps/api/src/routes/internal/alert-relay.ts`（module top `const isolateId = crypto.randomUUID();`）
+- `apps/api/src/routes/internal/alert-relay.ts`（`cachedIsolateId` + `getIsolateId()`）
+- `docs/30-workflows/task-alert-relay-global-scope-fix-001/`
 
 ---
 
@@ -120,7 +122,7 @@ UT-17-FU-002 で導入した `ALERT_DEDUP_KV.get` / `put` の失敗を observabl
 
 | 教訓 | classification | 主要 gate / artifact |
 |------|----------------|----------------------|
-| 1 | implementation/isolate-identity | `const isolateId = crypto.randomUUID();` を module top に置く |
+| 1 | implementation/isolate-identity | `cachedIsolateId` + `getIsolateId()` の lazy module cache を使い、module top で `crypto.randomUUID()` を呼ばない |
 | 2 | implementation/fail-open-semantics | KV.get throw → 200 + warn + Slack 配信。behaviour change を Phase 12 表に明記 |
 | 3 | security/pii-hashing | `sha256Hex12(dedupeKey)` で raw key を出さない |
 | 4 | contract/log-schema-literal | `event: "alert_relay_kv_op_failed"` を後段集計の固定契約として予約 |

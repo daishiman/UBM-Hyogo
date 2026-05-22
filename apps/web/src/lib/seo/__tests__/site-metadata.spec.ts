@@ -29,7 +29,7 @@ describe("site-metadata", () => {
         NEXT_PUBLIC_API_BASE_URL: "https://x.example.com",
       });
       expect(getSiteUrl().toString()).toBe(
-        "https://ubm-hyogo-web.daishimanju.workers.dev/",
+        "https://ubm-hyogo-web-production.daishimanju.workers.dev/",
       );
     });
 

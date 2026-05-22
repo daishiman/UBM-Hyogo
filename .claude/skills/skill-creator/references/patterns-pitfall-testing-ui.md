@@ -402,3 +402,17 @@ cd apps/desktop && pnpm vitest run src/renderer/components/AuthGuard/
 - **適用条件**: page-object pattern を採用する Playwright E2E、admin dashboard / KPI / table 等 testid を多用する UI
 - **発見日**: 2026-05-10
 - **関連タスク**: task-15 admin dashboard and members
+
+### [UI/A11y] Error boundary auto-focus 移譲（issue-800）
+
+- **状況**: error boundary / loading skeleton / dialog の heading に SR フォーカスを当てる処理を各コンポーネント内で `useEffect(() => ref.current?.focus(), [])` と書き散らすと、deps lint / 再 focus / scroll jump / test false positive / log 欠落の 5 系統で再発バグが出る。`apps/web/src/lib/a11y/useAutoFocusOnMount.ts` に hook を集約しても、呼び出し側の使い方を誤ると同じ落とし穴を踏む
+- **落とし穴と対策**:
+  1. **deps 設計**: `useEffect` deps を `[]` にすると `react-hooks/exhaustive-deps` が警告。`[options, ref]` にすると呼び出し側で `{ preventScroll: true }` を inline 渡しすると毎 render で options が新規生成され再 focus が走る。→ hook 側で options を default 引数 + 内部で安定参照化し、**呼び出し側は options を省略**して mount-only 担保にする
+  2. **tabIndex 必須**: `<h1>` などの non-interactive 要素は `tabIndex={-1}` がないと `.focus()` してもフォーカスが当たらない。hook 側で auto 付与すると DOM mutation の副作用が読みにくくなるため、**hook は付与せず呼び出し側 JSX で `tabIndex={-1}` を明示**する設計とする
+  3. **preventScroll**: `ref.current.focus()` を素で呼ぶと SR ユーザーで予期しない scroll jump が発生。hook 内部で必ず `focus({ preventScroll: true })` を渡す
+  4. **test 検証**: `document.activeElement === el` だけだと jsdom で false positive が出やすい。`vi.spyOn(HTMLElement.prototype, 'focus')` で spy し、`expect(spy).toHaveBeenCalledWith({ preventScroll: true })` まで引数検証する
+  5. **logger 欠落**: error boundary に `logger.error({ event: 'error_boundary_caught', digest, err })` を入れ忘れると sentry / log 集約から digest 追跡が壊れ、本番再現が不能になる。boundary 実装時の必須項目とする
+- **参照実装**: `apps/web/src/lib/a11y/useAutoFocusOnMount.ts` / issue-800 workflow (`docs/30-workflows/completed-tasks/issue-800-profile-error-focus-transfer/`)
+- **適用条件**: error boundary / loading 状態 / dialog open など mount 時に heading へ SR フォーカスを移譲する全 UI
+- **発見日**: 2026-05-19
+- **関連タスク**: issue-800
