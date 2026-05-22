@@ -1,3 +1,4 @@
+// serial-05: /(public)/members/[id] — blueprint 09e:339-472
 // `/members/[id]` 公開メンバー詳細 (Server Component)
 // task-12 で primitives 接続を再構成。
 // 不変条件 #1: stableKey 経由でのみ field を参照（直書き禁止、全 KV row に data-stable-key）
@@ -82,7 +83,7 @@ export default async function MemberDetailPage({
   );
 
   return (
-    <main data-page="member-detail" className="stack-lg">
+    <main data-page="member-detail" className="stack-lg" data-route="public" data-section-rhythm="comfortable">
       <a href="/members" data-role="back" className="back-link">
         ← メンバー一覧に戻る
       </a>

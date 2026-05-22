@@ -42,7 +42,7 @@ export default async function AdminLayout({
         </div>
         <div aria-hidden="true" data-component="admin-topbar-actions" />
       </header>
-      <main className="flex flex-col gap-4 p-4 md:p-6" data-route="admin">
+      <main className="flex flex-col gap-4 p-4 md:p-6" data-route="admin" data-section-rhythm="compact">
         {children}
       </main>
     </div>

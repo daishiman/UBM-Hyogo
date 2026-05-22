@@ -12,7 +12,7 @@
         "gate_id": "Gate-A",
         "status": "passed",
         "passed_at": "2026-05-18T00:00:00Z",
-        "evidence_path": "docs/30-workflows/ui-prototype-design-system-foundation/parallel-01-globals-css-rhythm/outputs/phase-12/main.md",
+        "evidence_path": "docs/30-workflows/ui-prototype-design-system-foundation/outputs/phase-12/main.md",
         "approver": "daishiman",
         "notes": "spec_review: parallel-01 Phase 1-13 spec readiness for globals.css rhythm"
       },
@@ -20,7 +20,7 @@
         "gate_id": "Gate-B",
         "status": "pending",
         "passed_at": null,
-        "evidence_path": "docs/30-workflows/ui-prototype-design-system-foundation/parallel-01-globals-css-rhythm/outputs/phase-12/implementation-guide.md",
+        "evidence_path": "docs/30-workflows/ui-prototype-design-system-foundation/outputs/phase-12/implementation-guide.md",
         "approver": "daishiman",
         "notes": "implementation_review: globals.css selectors landed locally; serial-07 visual evidence pending"
       },

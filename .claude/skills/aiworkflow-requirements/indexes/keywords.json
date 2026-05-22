@@ -10293,7 +10293,8 @@
       "lessons-fetch-service-binding-testing.md"
     ],
     "Binding": [
-      "lessons-fetch-service-binding-testing.md"
+      "lessons-fetch-service-binding-testing.md",
+      "workflow-ui-prototype-design-system-foundation-artifact-inventory.md"
     ],
     "Testing": [
       "lessons-fetch-service-binding-testing.md"
@@ -15535,7 +15536,8 @@
       "lessons-learned-issue-532-write-tag-note-provider-ctx-injection-2026-05.md",
       "lessons-learned-issue-776-schema-alias-bulk-resolve-2026-05.md",
       "workflow-ai-chat-llm-integration-fix-artifact-inventory.md",
-      "workflow-skill-md-codex-validation-fix-artifact-inventory.md"
+      "workflow-skill-md-codex-validation-fix-artifact-inventory.md",
+      "workflow-ui-prototype-design-system-foundation-artifact-inventory.md"
     ],
     "matrix": [
       "lessons-learned-issue-532-write-tag-note-provider-ctx-injection-2026-05.md",
@@ -16342,7 +16344,8 @@
       "lessons-learned-issue-775-serial-05-step-03-runtime-evidence-completion-2026-05.md",
       "lessons-learned-ut-coverage-2026-05-wave.md",
       "workflow-issue-775-serial-05-step-03-runtime-evidence-completion-artifact-inventory.md",
-      "workflow-serial-05-step-03-schema-diff-resolve-artifact-inventory.md"
+      "workflow-serial-05-step-03-schema-diff-resolve-artifact-inventory.md",
+      "workflow-ui-prototype-design-system-foundation-artifact-inventory.md"
     ],
     "step": [
       "lessons-learned-issue-775-serial-05-step-03-runtime-evidence-completion-2026-05.md",
@@ -22156,7 +22159,8 @@
     ],
     "Page": [
       "task-workflow-completed-recent-2026-05.md",
-      "workflow-parallel-04-shared-page-chrome-artifact-inventory.md"
+      "workflow-parallel-04-shared-page-chrome-artifact-inventory.md",
+      "workflow-ui-prototype-design-system-foundation-artifact-inventory.md"
     ],
     "Chrome": [
       "task-workflow-completed-recent-2026-05.md",
@@ -24687,6 +24691,12 @@
       "workflow-ui-prototype-design-system-foundation-artifact-inventory.md"
     ],
     "Difficulties": [
+      "workflow-ui-prototype-design-system-foundation-artifact-inventory.md"
+    ],
+    "Routes": [
+      "workflow-ui-prototype-design-system-foundation-artifact-inventory.md"
+    ],
+    "Blueprint": [
       "workflow-ui-prototype-design-system-foundation-artifact-inventory.md"
     ],
     "Selector": [

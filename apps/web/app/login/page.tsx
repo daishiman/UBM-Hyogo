@@ -1,3 +1,4 @@
+// serial-05: /login — blueprint 09f:30-110
 // task-13 Phase 5: /login Server Component（カード型 wrapper）。
 // 不変条件 #8: searchParams が gate state の正本。
 // 不変条件 #9: `/no-access` ルートを使わず /login が 6 状態を吸収する。
@@ -37,7 +38,7 @@ export default async function LoginPage({ searchParams }: LoginPageProps) {
     ...(q.gate !== undefined ? { gate: q.gate } : {}),
   };
   return (
-    <main>
+    <main data-route="member" data-section-rhythm="compact">
       <LoginCard
         state={q.state}
         title={meta.title}

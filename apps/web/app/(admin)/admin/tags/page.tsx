@@ -1,3 +1,4 @@
+// serial-05: /(admin)/admin/tags — blueprint 09g:281-400
 // 06c: /admin/tags キュー画面
 // AC-2 の受け先: ?memberId=... を保持する
 import { fetchAdmin } from "../../../../src/lib/admin/server-fetch";

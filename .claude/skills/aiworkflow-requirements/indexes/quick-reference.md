@@ -267,7 +267,7 @@
 | source inventory | `claude-design-prototype/{app.jsx,data.jsx,icons.jsx,index.html,pages-admin.jsx,pages-member.jsx,pages-public.jsx,primitives.jsx,styles.css}` + `specs/09a..09h` |
 | current app path rule | `apps/web/app/**` is canonical; `/login`, `/profile`, `/privacy`, `/terms` remain root app paths |
 | implementation boundary | no new API endpoint / D1 schema / Google Form change; minimal `apps/web` AppShell / selector hooks and parallel-02 G3 CSS marker blocks added; full 19-route binding and visual evidence remain user-gated work |
-| parallel-02 close-out | `apps/web/src/styles/globals.css` G3-1/2/3 markers + `MemberFilters.client.tsx` tag-pill data-component + visual harness + Playwright spec; Phase 11 9 screenshot + 5 log present, strict 7 outputs (root + sub) present |
+| parallel-02 close-out | `apps/web/src/styles/globals.css` G3-1/2/3 markers + `MemberFilters.client.tsx` tag-pill data-component + visual harness + Playwright spec; Phase 11 9 screenshot + 5 log present, strict 7 outputs aggregated at parent root |
 | follow-up unassigned | `docs/30-workflows/unassigned-task/UT-DSF-01..07-*.md`（globals-css / AppShell / page-chrome / route blueprint / form binding / regression evidence / runtime screenshots） |
 | lessons learned | `.claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-parallel-02-prototype-css-rules-port-2026-05.md`（L-P02-001..007） |
 | implementation boundary | no new API endpoint / D1 schema / Google Form change; minimal `apps/web` AppShell / selector hooks and parallel-01 P1-1〜P1-5 CSS selectors added; full 19-route binding and visual evidence remain user-gated work |
