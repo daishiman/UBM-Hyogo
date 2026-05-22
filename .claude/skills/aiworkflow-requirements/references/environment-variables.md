@@ -104,7 +104,7 @@ TypeScript 側の API Worker Env 型は `apps/api/src/env.ts` の `Env` interfac
 
 | 変数名 | 用途 / 配置 / 備考 |
 | --- | --- |
-| `AUTH_SECRET` | Auth.js JWT 署名共有秘密 (HS256)。apps/web secret。Auth.js v5、1Password→Cloudflare Secrets |
+| `AUTH_SECRET` | Auth.js JWT 署名共有秘密 (HS256)。apps/web + apps/api secret。同一値必須。Auth.js v5 と API 側 `verifySessionJwt`、1Password→Cloudflare Secrets |
 | `AUTH_GOOGLE_ID` | Google OAuth client id。apps/web secret。Google Cloud Console OAuth client |
 | `AUTH_GOOGLE_SECRET` | Google OAuth client secret。apps/web secret。漏洩時 fail-closed |
 | `INTERNAL_AUTH_SECRET` | apps/web → apps/api `/auth/session-resolve` 共有秘密。両 worker secret に同値、service-binding 経由 internal-only |

@@ -124,6 +124,10 @@ describe("RouteError", () => {
       const { container } = render(<RouteError error={makeError({ digest: "d1" })} reset={reset} />);
       const html = container.innerHTML;
       expectNoStaleTokenClasses(html);
+      expect(html).toContain("ui-card");
+      expect(html).toContain("ui-card-header");
+      expect(html).toContain("ui-card-content");
+      expect(html).toContain("ui-card-footer");
       expect(html).toContain("text-danger");
       expect(html).toContain("text-text-3");
       expect(html).toContain("bg-accent");
@@ -134,6 +138,8 @@ describe("RouteError", () => {
       const { container } = render(<Loading />);
       const html = container.innerHTML;
       expectNoStaleTokenClasses(html);
+      expect(html).toContain("ui-card");
+      expect(html).toContain("ui-card-content");
       expect(html).toContain("bg-surface-2");
       expect(html).toContain("motion-safe:animate-pulse");
     });
@@ -142,6 +148,9 @@ describe("RouteError", () => {
       const { container } = render(<NotFound />);
       const html = container.innerHTML;
       expectNoStaleTokenClasses(html);
+      expect(html).toContain("ui-card");
+      expect(html).toContain("ui-card-content");
+      expect(html).toContain("ui-empty-state");
       expect(html).toContain("text-text-3");
       expect(html).toContain("bg-accent");
       expect(html).toContain("text-panel");

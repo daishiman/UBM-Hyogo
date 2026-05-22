@@ -58,4 +58,19 @@
 | enforced_dry_run | implementation | NON_VISUAL | （未指定） | warning モードで動的検証中、blocking gate へ昇格前 |
 | PASS_WITH_BLOCKER | implementation | NON_VISUAL | （未指定） | 全 phase の design GO は完了、runtime GO は外部前提（legacy cleanup 等）blocked。Issue #394 (stableKey strict CI gate) 実例。current evidence と planned-after-cleanup evidence を物理分離する |
 | verified_current_no_code_change | implementation | NON_VISUAL | `stale-current-verification` | 元タスクは code fix を要求していたが、Phase 1 の current baseline が既に GREEN で stale failure と判定された状態。コード変更せず、baseline / after / coverage / Phase 12 strict outputs と consumed unassigned trace を同 wave で揃える。`metadata.workflow_state` は `verified_current_no_code_change_pending_pr` を使用 |
+| implemented_local_evidence_captured | implementation | VISUAL_ON_EXECUTION | `existing-layout-alignment` | 既存 primitive / route-group layout を**無改変で整える**実装（App Router の `(public)/(member)/(admin)/layout.tsx` 等を AppShell 化し、`data-theme` / `data-route-group` / `data-shell` / `data-testid` 等の attribute を付与する）。新規 primitive / token を生やさず、OKLch トークン経由のみ、HEX 直書き禁止。VISUAL runtime evidence は serial gate（task-18 など）に deferral し、local では typecheck / lint / focused vitest + Server Component redirect spec を canonical evidence にする。parallel-03-appshell-layouts（task-20260519）導入。 |
 | completed | implementation / process | 任意 | （未指定） | runtime GO 完了・completed-tasks/ へ移動 |
+
+### `implementation_mode: existing-layout-alignment` 規約（2026-05-19 追加 / parallel-03-appshell-layouts 由来）
+
+UI prototype alignment ワークフローにおける route-group layout の AppShell 化のように、**新規 primitive を生やさず既存 layout を attribute / wiring のみで整える**実装は `metadata.implementation_mode: existing-layout-alignment` を明示する。
+
+**必須**:
+
+- 既存 `apps/web/src/components/**` の primitive を改変しない（changed files に含めない）
+- color は `apps/web/src/styles/tokens.css` の OKLch token 経由のみ。HEX / `bg-[#xxx]` / `text-[#xxx]` 直書き禁止（task-18 `verify-design-tokens` gate で reject）
+- layout root に `data-theme` / `data-route-group` / `data-shell` / `data-route` / `data-testid` を付与し、Playwright / visual gate から referenceable にする
+- admin layout は `getSession() + redirect` の 2 段防御（middleware 単独に依存しない）
+- Server Component（async function）+ `next/navigation` redirect の test は `redirect` を throw に mock し `rejects.toThrow` で assert（詳細: [server-component-e2e-pattern.md](server-component-e2e-pattern.md) §「Server Component redirect の vitest pattern」）
+- spec ファイル名は `*.spec.tsx` のみ（`*.test.tsx` 禁止、CLAUDE.md 不変条件 #8）
+- VISUAL runtime evidence は同 wave で取らず、serial gate task（例: task-18 `verify-design-tokens` / `playwright-smoke` / `playwright-visual`）に `deferred-to-serial-<task-slug>` ラベル付きで申し送る

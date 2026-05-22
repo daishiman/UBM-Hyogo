@@ -1,0 +1,130 @@
+{
+  "workflow_id": "ci-staging-deploy-failure-fix",
+  "version": "1.0.0",
+  "created_at": "2026-05-20",
+  "updated_at": "2026-05-20",
+  "metadata": {
+    "taskType": "implementation",
+    "visualEvidence": "NON_VISUAL",
+    "workflow_state": "PASS_BOUNDARY_SYNCED_RUNTIME_PENDING",
+    "implementation_status": "task-01_implemented_local_task-02_external_ops_pending",
+    "scope": "web-cd build-time env injection and Cloudflare API token D1 permission recovery",
+    "phase12_contract": "strict_7_outputs_present",
+    "outputs_artifacts_policy": "root_and_outputs_mirror",
+    "user_gated_operations": [
+      "Cloudflare API token creation or rotation",
+      "1Password token field update",
+      "gh secret set CLOUDFLARE_API_TOKEN --env staging",
+      "gh secret set CLOUDFLARE_API_TOKEN --env production",
+      "git commit",
+      "git push",
+      "gh pr create",
+      "dev push runtime CI verification"
+    ],
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-05-20T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/ci-staging-deploy-failure-fix/outputs/phase-12/main.md",
+        "approver": "daishiman",
+        "notes": "spec_review: Phase 1-13 仕様書 + task-01 local implementation 完了"
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "passed",
+        "passed_at": "2026-05-20T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/ci-staging-deploy-failure-fix/outputs/phase-12/implementation-guide.md",
+        "approver": "daishiman",
+        "notes": "implementation_review: web-cd build-time env injection + cf token rotation runbook"
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/ci-staging-deploy-failure-fix/phase-13.md",
+        "approver": "daishiman",
+        "notes": "external_ops_runtime: dev push 後の GHA runtime success / D1 migration / staging HTTP 200"
+      }
+    ]
+  },
+  "phases": {
+    "phase-1": {
+      "status": "completed",
+      "artifacts": ["outputs/phase-1/phase-1.md"]
+    },
+    "phase-2": {
+      "status": "completed",
+      "artifacts": ["outputs/phase-2/phase-2.md"]
+    },
+    "phase-3": {
+      "status": "completed",
+      "artifacts": ["outputs/phase-3/phase-3.md"]
+    },
+    "phase-4": {
+      "status": "completed",
+      "artifacts": ["outputs/phase-4/phase-4.md"]
+    },
+    "phase-5": {
+      "status": "PASS_BOUNDARY_SYNCED_RUNTIME_PENDING",
+      "artifacts": ["outputs/phase-5/phase-5.md"]
+    },
+    "phase-6": {
+      "status": "completed",
+      "artifacts": ["outputs/phase-6/phase-6.md"]
+    },
+    "phase-7": {
+      "status": "completed",
+      "artifacts": ["outputs/phase-7/phase-7.md"]
+    },
+    "phase-8": {
+      "status": "completed",
+      "artifacts": ["outputs/phase-8/phase-8.md"]
+    },
+    "phase-9": {
+      "status": "completed",
+      "artifacts": ["outputs/phase-9/phase-9.md"]
+    },
+    "phase-10": {
+      "status": "completed",
+      "artifacts": ["outputs/phase-10/phase-10.md"]
+    },
+    "phase-11": {
+      "status": "pass_boundary_synced_runtime_pending",
+      "artifacts": [
+        "outputs/phase-11/main.md",
+        "outputs/phase-11/local-verification-summary.md",
+        "outputs/phase-11/runtime-pending-gates.md"
+      ]
+    },
+    "phase-12": {
+      "status": "strict_outputs_present_synced",
+      "artifacts": [
+        "outputs/phase-12/main.md",
+        "outputs/phase-12/implementation-guide.md",
+        "outputs/phase-12/system-spec-update-summary.md",
+        "outputs/phase-12/documentation-changelog.md",
+        "outputs/phase-12/unassigned-task-detection.md",
+        "outputs/phase-12/skill-feedback-report.md",
+        "outputs/phase-12/phase12-task-spec-compliance-check.md"
+      ]
+    },
+    "phase-13": {
+      "status": "blocked_pending_user_approval",
+      "artifacts": ["phase-13.md"]
+    }
+  },
+  "tasks": {
+    "task-01-web-build-env-injection": {
+      "status": "implemented_local",
+      "implementation_files": [
+        ".github/workflows/web-cd.yml",
+        "apps/web/src/lib/__tests__/build-time-env.spec.ts"
+      ]
+    },
+    "task-02-cf-api-token-d1-permission-restore": {
+      "status": "external_ops_pending_user_approval",
+      "runbook": "outputs/task-02-cf-api-token-d1-permission-restore/runbook.md"
+    }
+  }
+}

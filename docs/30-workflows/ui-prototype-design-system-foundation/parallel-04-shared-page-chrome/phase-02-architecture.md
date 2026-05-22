@@ -66,8 +66,8 @@ Next.js 15+ の規約:
 `apps/web/app/layout.tsx` の冒頭 import 順は次で固定する:
 
 ```ts
-import "@/styles/tokens.css";   // OKLch 変数定義（1 番目）
-import "@/styles/globals.css";  // Tailwind v4 bridge + @layer components（2 番目）
+import "../src/styles/tokens.css";   // OKLch 変数定義（1 番目）
+import "../src/styles/globals.css";  // Tailwind v4 bridge + @layer components（2 番目）
 ```
 
 理由:
