@@ -30,7 +30,7 @@ status: spec_created
 
 ## 2. Canonical heading SSOT
 
-Phase 12 の canonical 9 headings は `.claude/skills/task-specification-creator/references/phase12-canonical-headings.md` を SSOT とする。本ファイルは以下の見出しを順守する:
+Phase 12 の canonical heading / verdict vocabulary は `.claude/skills/task-specification-creator/references/phase12-compliance-check-template.md` と `.claude/skills/task-specification-creator/references/phase-12-tasks-guide.md` を SSOT とする。本ファイルは以下の見出しを順守する:
 
 1. このフェーズの目的（中学生にも分かる説明）
 2. Canonical heading SSOT
@@ -49,10 +49,11 @@ Phase 12 の canonical 9 headings は `.claude/skills/task-specification-creator
 | C-01 | YAML frontmatter に `phase` / `title` / `workflow_id` / `sub_workflow` / `status` がある | ◯ | grep |
 | C-02 | `[実装区分: 実装仕様書]` が冒頭にある | ◯ | grep |
 | C-03 | 13 ファイルが存在（phase-01..13） | ◯ | `ls` |
-| C-04 | Phase 5 に絶対パス・関数シグネチャ・JSX スケルトン・既存 import パスが揃う | ◯ | 目視 |
+| C-04 | Phase 5 に編集対象パス・関数シグネチャ・JSX スケルトン・既存 import パスが揃う | ◯ | 目視 |
 | C-05 | Phase 11 evidence inventory が parser 仕様に整合 | ◯ | parser dry-run |
 | C-06 | Phase 12 が canonical 9 headings を順守 | ◯ | `pnpm verify:phase12-compliance` |
 | C-07 | Phase 13 に commit message draft と PR draft が記載 | ◯ | 目視 |
+| C-08 | VISUAL task gate として `outputs/phase-11/screenshots/screenshot-plan.json` / `phase11-capture-metadata.json` / `screenshot-coverage.md` / `screenshots/*.png` が揃う | ◯ | `ls` + `wc -l` |
 
 ## 4. 不変条件チェック
 
@@ -107,7 +108,7 @@ Phase 12 の canonical 9 headings は `.claude/skills/task-specification-creator
 | Phase 8 DoD | 完了基準 | Phase 13 PR draft |
 | Phase 9 risks | R-01..R-08 | Phase 13 PR risk section |
 | Phase 10 local verification | コマンド集 | 実装中 / PR 前 |
-| Phase 11 evidence | EV-01..16 | Phase 13 PR 本文 |
+| Phase 11 evidence | EV-01..20 | Phase 13 PR 本文 |
 | Phase 12 compliance | C/INV/N/D/EV table | Phase 13 PR compliance section |
 | Phase 13 commit / PR | 全 Phase 統合 | merge |
 
@@ -121,13 +122,14 @@ Phase 12 の canonical 9 headings は `.claude/skills/task-specification-creator
 | axe critical violation | layout 側で `aria-label` 補強 |
 | primitive API 変更 | revert |
 | D1 import in layout | 削除し API 経由に変更 |
+| VISUAL 必須証跡 4 点欠落 | Phase 12 を `VISUAL_EVIDENCE_PENDING` とし、画像取得または参照先 path を同一 cycle で追加 |
 
 ## 9. compliance result
 
 | 結果 | 条件 |
 |------|------|
-| PASS | C-01..07 / INV-01..07 / N-01..05 / EV-01..09+10 すべて green |
-| CONDITIONAL PASS | EV-11..16 が serial-07 で取得予定の場合 |
+| SPEC_READY_LOCAL_EVIDENCE_CAPTURED | C-01..08 / INV-01..07 / N-01..05 / EV-01..10 / EV-17..20 すべて green |
+| VISUAL_EVIDENCE_PENDING | EV-17..20 のいずれかが未取得。Phase 13 へ進めず、取得ゲート・参照先 path を同一 cycle で追加する |
 | FAIL | 上記いずれかが red |
 
-PASS / CONDITIONAL PASS 時のみ Phase 13 に進む。
+`SPEC_READY_LOCAL_EVIDENCE_CAPTURED` 時のみ Phase 13 に進む。

@@ -1,0 +1,153 @@
+{
+  "workflow_id": "step-06-meetings-attendance-implementation",
+  "status": "implemented_local_evidence_captured",
+  "taskType": "implementation",
+  "visualEvidence": "VISUAL_ON_EXECUTION",
+  "workflow_state": "implemented_local_evidence_captured",
+  "canonical_workflow_root": "docs/30-workflows/step-06-meetings-attendance-implementation/",
+  "source_spec": "docs/30-workflows/ui-prototype-alignment-mvp-recovery/improvements/serial-05-admin-mutation-ui/step-06-meetings-attendance/spec.md",
+  "parent_workflow": "docs/30-workflows/ui-prototype-alignment-mvp-recovery/improvements/serial-05-admin-mutation-ui/",
+  "serial_order": "6/8",
+  "implementation_status": "implemented_local",
+  "runtime_status": "local_visual_evidence_captured",
+  "metadata": {
+    "workflow_state": "implemented_local_evidence_captured",
+    "taskType": "implementation",
+    "visualEvidence": "VISUAL_ON_EXECUTION",
+    "implementation_mode": "spec-first-implementation",
+    "phase12_strict_outputs": "present",
+    "phase11_evidence": "captured_local",
+    "phase13_user_gate": "blocked_until_explicit_user_approval",
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-05-21T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/step-06-meetings-attendance-implementation/phase-03.md",
+        "approver": "daishiman",
+        "notes": "spec_review: Phase 1-4 scope/design for confirm dialog"
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "passed",
+        "passed_at": "2026-05-21T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/step-06-meetings-attendance-implementation/outputs/phase-12/implementation-guide.md",
+        "approver": "daishiman",
+        "notes": "implementation_review: Phase 5-12 local implementation + visual evidence captured"
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/step-06-meetings-attendance-implementation/outputs/phase-13/approval-gate.md",
+        "approver": "daishiman",
+        "notes": "external_ops: Phase 13 blocked_until_explicit_user_approval"
+      }
+    ]
+  },
+  "target_files": [
+    {
+      "path": "apps/web/src/features/admin/hooks/useConfirmDialog.ts",
+      "change": "add"
+    },
+    {
+      "path": "apps/web/src/features/admin/hooks/__tests__/useConfirmDialog.spec.tsx",
+      "change": "add"
+    },
+    {
+      "path": "apps/web/src/features/admin/hooks/index.ts",
+      "change": "modify"
+    },
+    {
+      "path": "apps/web/src/components/ui/ConfirmDialog.tsx",
+      "change": "add"
+    },
+    {
+      "path": "apps/web/src/components/ui/__tests__/ConfirmDialog.spec.tsx",
+      "change": "add"
+    },
+    {
+      "path": "apps/web/src/components/admin/MeetingPanel.tsx",
+      "change": "modify"
+    },
+    {
+      "path": "apps/web/src/components/admin/__tests__/MeetingPanel.component.spec.tsx",
+      "change": "modify"
+    },
+    {
+      "path": "apps/web/app/(admin)/admin/meetings/[id]/MeetingAttendancePanel.tsx",
+      "change": "modify"
+    },
+    {
+      "path": "apps/web/app/(admin)/admin/meetings/[id]/__tests__/MeetingAttendancePanel.spec.tsx",
+      "change": "add"
+    }
+  ],
+  "phases": [
+    {
+      "phase": 1,
+      "file": "phase-01.md",
+      "status": "spec_created"
+    },
+    {
+      "phase": 2,
+      "file": "phase-02.md",
+      "status": "spec_created"
+    },
+    {
+      "phase": 3,
+      "file": "phase-03.md",
+      "status": "spec_created"
+    },
+    {
+      "phase": 4,
+      "file": "phase-04.md",
+      "status": "spec_created"
+    },
+    {
+      "phase": 5,
+      "file": "phase-05.md",
+      "status": "completed"
+    },
+    {
+      "phase": 6,
+      "file": "phase-06.md",
+      "status": "completed"
+    },
+    {
+      "phase": 7,
+      "file": "phase-07.md",
+      "status": "spec_created"
+    },
+    {
+      "phase": 8,
+      "file": "phase-08.md",
+      "status": "spec_created"
+    },
+    {
+      "phase": 9,
+      "file": "phase-09.md",
+      "status": "spec_created"
+    },
+    {
+      "phase": 10,
+      "file": "phase-10.md",
+      "status": "spec_created"
+    },
+    {
+      "phase": 11,
+      "file": "phase-11.md",
+      "status": "completed"
+    },
+    {
+      "phase": 12,
+      "file": "phase-12.md",
+      "status": "completed"
+    },
+    {
+      "phase": 13,
+      "file": "phase-13.md",
+      "status": "blocked_until_explicit_user_approval"
+    }
+  ]
+}

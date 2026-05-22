@@ -21,6 +21,78 @@
 | evidence boundary | Local implementation present。Phase 12 strict 7 present。Focused tests/build evidence and dev-server smoke remain runtime evidence gates; commit / push / PR / Issue close are user-gated |
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-277-next-proxy-migration-artifact-inventory.md` |
 
+### Issue #778 schema alias rollback / undo（2026-05-19）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_runtime_pending / implementation / VISUAL / PASS_BOUNDARY_SYNCED_RUNTIME_PENDING` |
+| 成果物 | `docs/30-workflows/issue-778-schema-alias-rollback-undo/` |
+| source | `docs/30-workflows/unassigned-task/serial-05-step-03-followup-004-schema-alias-rollback-undo.md` consumed via canonical workflow |
+| parent | `docs/30-workflows/completed-tasks/serial-05-step-03-schema-diff-resolve/` |
+| 目的 | SchemaDiffPanel alias resolve の誤操作を D1 直接修正ではなく API + application `audit_log` 経由で rollback / undo できるようにする |
+| contract | `POST /admin/schema/aliases/:aliasId/rollback`, `If-Match: version=<N>`, response `{ aliasId, rolledBackAt, relatedAuditId, newVersion, impact }`; relation は `audit_log.after_json.relatedAuditId` |
+| evidence | Phase 12 strict 7 / root-output artifacts parity / Phase 11 runtime placeholders |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-778-schema-alias-rollback-undo-artifact-inventory.md` |
+| user gate | staging D1 migration apply, production D1 migration apply, Playwright visual baseline, commit, push, PR |
+
+### task-staging-auth-secret-binding-recovery-001（2026-05-22）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_runtime_pending / implementation / NON_VISUAL` |
+| 成果物 | `docs/30-workflows/task-staging-auth-secret-binding-recovery-001/` |
+| 目的 | staging worker の `AUTH_SECRET` runtime binding drift を復旧し、admin endpoint 全滅を解消する |
+| in-cycle implementation | `apps/api/src/middleware/require-admin.ts` structured log, `apps/api/src/env.ts` auth secret validator, `scripts/smoke/runtime-attendance-provider.sh` auth-misconfigured classification, `scripts/cf.sh` empty stdin guard |
+| tests | API focused test, API typecheck, smoke shell test, cf.sh guard test |
+| Phase 12 | strict 7 outputs + canonical compliance check present |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-task-staging-auth-secret-binding-recovery-001-artifact-inventory.md` |
+| lessons | `.claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-task-staging-auth-secret-binding-recovery-001-2026-05.md` |
+| user gate | Cloudflare secret reinjection, staging/prod curl, backend-ci rerun, commit, push, PR |
+
+### task-runtime-smoke-admin-members-500-recovery-001（2026-05-21）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `runtime_pending / implementation / NON_VISUAL / PASS_BOUNDARY_SYNCED_RUNTIME_PENDING` |
+| 成果物 | `docs/30-workflows/completed-tasks/task-runtime-smoke-admin-members-500-recovery-001/` |
+| 目的 | backend-ci runtime smoke staging の `admin-list http=500` を RCA し、`GET /admin/members` を 200 + `.members` array へ復旧する。後続 evidence により真因は `AUTH_SECRET` binding と判明し、復旧責務は `task-staging-auth-secret-binding-recovery-001` に委譲済み |
+| in-cycle implementation | PR #854 baseline: `apps/api/src/routes/admin/members.ts` defensive recovery + `apps/api/src/routes/admin/members.contract.spec.ts`; current root-cause correction wave: `scripts/smoke/runtime-attendance-provider.sh` redacted non-200 body persistence/auth-misconfigured classification + `scripts/smoke/__tests__/runtime-attendance-provider.test.sh` T-4-5/T-4-6 |
+| RCA targets | `apps/api/src/routes/admin/members.ts`, staging D1 schema, middleware providers, Workers binding |
+| Phase 12 | strict 7 outputs + canonical compliance check present |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-task-runtime-smoke-admin-members-500-recovery-001-artifact-inventory.md` |
+| lessons | `.claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-task-runtime-smoke-admin-members-500-recovery-001-2026-05.md` |
+| user gate | true root cause superseded by `task-staging-auth-secret-binding-recovery-001`; staging curl/D1/tail, deploy, backend-ci rerun, commit, push, PR |
+
+### parallel-04 Shared Page Chrome（2026-05-19）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `spec_created / implementation / VISUAL / Phase 11 evidence captured (EV-01..16)` |
+| 成果物 | `docs/30-workflows/ui-prototype-design-system-foundation/parallel-04-shared-page-chrome/` |
+| 親 workflow | `docs/30-workflows/ui-prototype-design-system-foundation/`（Phase 12 strict 7 は parent root に集約） |
+| 実装対象 | `apps/web/app/{layout,error,not-found,loading}.tsx` + `apps/web/app/__tests__/error.component.spec.tsx` + `apps/web/app/__smoke__/loading-state/{page,loading}.tsx` |
+| boundary | 新 API/D1/Form 変更なし。OKLch token のみ。`__tests__` 除外 runtime source-only ToastProvider grep。`next build --webpack` 固定 |
+| evidence | EV-01..09 静的 gate + EV-10..11 capture provenance + EV-12..15 4 fallback PNG + EV-16 visual review |
+| lessons | `.claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-parallel-04-root-chrome-2026-05.md` (L-PARA04-001..007) |
+| changelog | `.claude/skills/aiworkflow-requirements/changelog/20260519-parallel-04-shared-page-chrome.md` |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-parallel-04-shared-page-chrome-artifact-inventory.md` |
+| completion shard | `.claude/skills/aiworkflow-requirements/references/task-workflow-completed-recent-2026-05.md` |
+| user gate | commit / push / PR / serial-07 19 routes 全体 visual regression |
+
+### profile-loading-skeleton-oklch（2026-05-19）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / VISUAL / implementation_complete_pending_pr` |
+| 成果物 | `docs/30-workflows/completed-tasks/profile-loading-skeleton-oklch/` |
+| source | `docs/30-workflows/ui-prototype-alignment-mvp-recovery/improvements/integration-fixes/parallel-i07-profile-loading-skeleton/spec.md` |
+| consumed task | `docs/30-workflows/completed-tasks/integration-fixes-i07-profile-loading-skeleton.md` |
+| 目的 | `/profile/loading.tsx` を text-only placeholder から `role=status` profile skeleton へ置換し p-07 spec 4.5 を満たす |
+| 実装 | `apps/web/app/profile/loading.tsx`, `apps/web/app/profile/loading.spec.tsx` |
+| evidence | `docs/30-workflows/completed-tasks/profile-loading-skeleton-oklch/outputs/phase-11/evidence/`, `docs/30-workflows/completed-tasks/profile-loading-skeleton-oklch/outputs/phase-11/screenshots/profile-loading-skeleton.png`, `outputs/phase-12/phase12-task-spec-compliance-check.md` |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-profile-loading-skeleton-oklch-artifact-inventory.md` |
+| user gate | commit / push / PR |
+
 ### Issue #765 1Password vault restructure for OIDC cutover（2026-05-18）
 
 | 項目 | 値 |
@@ -120,14 +192,44 @@
 | 項目 | 値 |
 | --- | --- |
 | ステータス | `implemented_local_evidence_captured / implementation / NON_VISUAL / runtime_pending` |
-| 成果物 | `docs/30-workflows/issue-769-root-error-focus/` |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-769-root-error-focus/` |
 | source | `docs/30-workflows/unassigned-task/integration-fixes-i06-root-error-focus.md` consumed |
 | 目的 | root `apps/web/app/error.tsx` の h1 に mount 後 focus を移譲し、screen reader がエラー見出しを即時認識できるようにする |
 | 実装 | `apps/web/app/error.tsx`, `apps/web/app/__tests__/error.component.spec.tsx` |
 | 不変条件 | 文言、className、digest 表示、reset、logger shape、i05 `/login/error.tsx` は変更しない |
-| evidence | `docs/30-workflows/issue-769-root-error-focus/outputs/phase-11/evidence/`, `docs/30-workflows/issue-769-root-error-focus/outputs/phase-12/phase12-task-spec-compliance-check.md` |
+| evidence | `docs/30-workflows/completed-tasks/issue-769-root-error-focus/outputs/phase-11/evidence/`, `docs/30-workflows/completed-tasks/issue-769-root-error-focus/outputs/phase-12/phase12-task-spec-compliance-check.md` |
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-769-root-error-focus-artifact-inventory.md` |
 | user gate | interactive screen reader smoke / commit / push / PR |
+
+### Issue #801 admin error h1 auto-focus transfer（2026-05-19）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION / runtime_pending` |
+| 成果物 | `docs/30-workflows/issue-801-admin-error-focus-transfer/` |
+| source | `docs/30-workflows/unassigned-task/issue-769-followup-003-admin-error-focus-transfer.md` consumed |
+| predecessor | `docs/30-workflows/completed-tasks/issue-769-root-error-focus/` |
+| 目的 | admin segment error boundary の h1 に mount 後 focus を移譲し、screen reader が管理画面エラー見出しを即時認識できるようにする |
+| 実装 | `apps/web/app/(admin)/admin/error.tsx`, `apps/web/app/(admin)/admin/__tests__/error.component.spec.tsx` |
+| 不変条件 | Auth gate / API / D1 schema / common hook は変更しない。`/` fallback link で auth loop を避ける |
+| evidence | `docs/30-workflows/issue-801-admin-error-focus-transfer/outputs/phase-11/evidence/`, `docs/30-workflows/issue-801-admin-error-focus-transfer/outputs/phase-12/phase12-task-spec-compliance-check.md` |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-801-admin-error-focus-transfer-artifact-inventory.md` |
+| user gate | runtime browser screenshot / screen reader smoke / commit / push / PR |
+
+### Issue #800 error boundary focus hook rollout（2026-05-19）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / NON_VISUAL / implementation_complete_pending_pr` |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-800-profile-error-focus-transfer/` |
+| Issue | #800 CLOSED。PR 文脈は `Refs #800` のみ |
+| source | `docs/30-workflows/completed-tasks/issue-769-followup-002-profile-error-focus-transfer.md` consumed |
+| parent | `docs/30-workflows/completed-tasks/issue-769-root-error-focus/` |
+| 目的 | `/profile/error.tsx` 起点で error boundary focus hook を抽出し、root/profile/login/admin の h1 focus / `aria-live` / digest / logger を統一する |
+| 実装 | `apps/web/src/lib/a11y/useAutoFocusOnMount.ts`, `apps/web/app/{error,profile/error,login/error}.tsx`, `apps/web/app/(admin)/admin/error.tsx`, focused tests |
+| evidence | focused Vitest 5 files / 31 PASS, web typecheck PASS, web lint PASS, `docs/30-workflows/completed-tasks/issue-800-profile-error-focus-transfer/outputs/phase-12/implementation-guide.md`, `docs/30-workflows/completed-tasks/issue-800-profile-error-focus-transfer/outputs/phase-12/phase12-task-spec-compliance-check.md` |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-800-profile-error-focus-transfer-artifact-inventory.md` |
+| user gate | manual screen reader smoke / commit / push / PR |
 
 ### Issue #762 CF OIDC staging proof readiness（2026-05-17）
 
@@ -168,6 +270,8 @@
 | 目的 | 凍結プロトタイプと 09a-09h の情報を、現行 `apps/web/app/**` 物理配置へ反映できる design system foundation workflow として整理する |
 | source | `docs/00-getting-started-manual/claude-design-prototype/**`, `docs/00-getting-started-manual/specs/09a..09h-*.md`, parent `docs/30-workflows/ui-prototype-alignment-mvp-recovery/` |
 | boundary | 新規 API endpoint / D1 schema / Google Form 仕様変更なし。`/login` / `/profile` / `/privacy` / `/terms` は root app path を維持 |
+| evidence | root / outputs `artifacts.json` parity, Phase 12 strict 7, 30-method compact evidence in `PROTOTYPE-COVERAGE.md` |
+| sub-workflows | `parallel-04-shared-page-chrome` (2026-05-19 同期、上記参照) |
 | evidence | root / outputs `artifacts.json` parity, Phase 12 strict 7, parallel-02 strict 7, 30-method compact evidence in `PROTOTYPE-COVERAGE.md`, parallel-02 Phase 11 9 screenshot + 5 log present |
 | parallel-02 実装 | `apps/web/src/styles/globals.css`（G3-1/G3-2/G3-3 start/end marker block）, `apps/web/src/components/public/MemberFilters.client.tsx`（`data-component="tag-pill"` + `aria-selected`）, `apps/web/app/visual-harness/[name]/{page.tsx,VisualScenarios.client.tsx}`, `apps/web/playwright/tests/visual/parallel-02-css-rules.spec.ts` |
 | follow-up unassigned | `UT-DSF-01..07`（`docs/30-workflows/unassigned-task/UT-DSF-NN-*.md`: parallel-01 globals-css rhythm / parallel-03 AppShell / parallel-04 shared page chrome / serial-05 route blueprint binding / serial-06 form response binding / serial-07 regression evidence / runtime production-equivalent screenshots） |
@@ -183,6 +287,8 @@
 | evidence | root / outputs `artifacts.json` parity, Phase 12 strict 7, 30-method compact evidence in `PROTOTYPE-COVERAGE.md`, parallel-01 local CSS selector evidence under `parallel-01-globals-css-rhythm/outputs/phase-11/` |
 | lessons-learned | [[lessons-learned-ui-prototype-design-system-foundation-globals-css-rhythm-2026-05]] (L-UIPROTO-001..005) |
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-ui-prototype-design-system-foundation-artifact-inventory.md` |
+| user gate | code implementation, visual screenshots, commit, push, PR |
+| sub-workflow parallel-03 AppShell Layouts | status `implemented_local_evidence_captured / implementation / VISUAL (public chrome only; admin/member deferred-to-serial-07)`; `implementation_mode: existing-layout-alignment`; 編集 `apps/web/app/(public\|member\|admin)/layout.tsx`、追加 spec `apps/web/app/(public\|member\|admin)/layout.spec.tsx`; data-* 契約 (`data-theme` / `data-route-group` / `data-shell` / `data-route` / `data-testid`) + OKLch token (`var(--ubm-color-*)`) only + 既存 primitive 無改変 + admin 2 段防御 `getSession()` redirect; lessons `.claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-parallel-03-appshell-layouts-2026-05.md` (L-PAR03-001..005); full chrome admin/member screenshot は親 workflow `serial-07-regression-evidence/` へ deferred-to-serial-07; commit / push / PR は user-gated |
 | user gate | full 19-route binding, runtime visual screenshots, commit, push, PR |
 | user gate | full 19-route binding, visual screenshots, commit, push, PR |
 | user gate | full 19-route binding, visual screenshots, commit, push, PR |
@@ -200,6 +306,20 @@
 | evidence | focused Vitest 2 specs, worktree isolation, and esbuild version parity pass locally; `verify:node-arch` fails on this Rosetta/x64 Node and remains the active runtime blocker |
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-747-vitest-esbuild-arch-and-worktree-isolation-artifact-inventory.md` |
 | user gate | arm64 Node reinstall on local host, commit, push, PR, GitHub Actions runtime evidence, parent repository `node_modules` cleanup |
+
+### Issue #776 schema alias bulk resolve UI（2026-05-18）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / VISUAL / staging_pending` |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-776-schema-alias-bulk-resolve/` |
+| source | Issue #776 CLOSED / `docs/30-workflows/unassigned-task/serial-05-step-03-followup-002-schema-alias-bulk-resolve.md` consumed |
+| parent | `docs/30-workflows/completed-tasks/serial-05-step-03-schema-diff-resolve/` |
+| 目的 | `/admin/schema` の既存 `SchemaDiffPanel` に bulk selection / batch confirm modal / partial failure recovery を追加 |
+| design decision | 新規 API endpoint は作らず、既存 `POST /admin/schema/aliases` を `postSchemaAliasBulk` から bounded fan-out で呼ぶ。`202 backfill_cpu_budget_exhausted` は retryable continuation として modal に残す |
+| implementation targets | `apps/web/src/components/admin/SchemaDiffPanel.tsx`, `SchemaDiffBulkResolveModal.tsx`, `schemaAliasValidation.ts`, `hooks/useSchemaDiffBulkSelection.ts`, `apps/web/src/lib/admin/api.ts`, `apps/web/src/lib/admin/server-fetch.ts`, `apps/web/playwright/tests/issue776-schema-bulk-resolve.spec.ts` |
+| evidence boundary | focused Vitest, typecheck, local Playwright screenshots/perf/a11y evidence are present. Staging smoke, commit, push, and PR remain user-gated |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-776-schema-alias-bulk-resolve-artifact-inventory.md` |
 
 ### Issue #748 jest-axe primitive a11y integration（2026-05-17）
 
@@ -265,6 +385,22 @@
 | evidence | Phase 11 tracked `.txt` local evidence / grep topology / git diff、Phase 12 strict 7 |
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-ut-07a-01-member-tags-assign-cleanup-artifact-inventory.md` |
 | user gate | commit / push / PR / issue mutation |
+
+### step-06 meetings attendance implementation（2026-05-20）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION / local_visual_evidence_captured` |
+| 成果物 | `docs/30-workflows/completed-tasks/step-06-meetings-attendance-implementation/` |
+| 親 workflow | `docs/30-workflows/ui-prototype-alignment-mvp-recovery/improvements/serial-05-admin-mutation-ui/` |
+| source | `docs/30-workflows/ui-prototype-alignment-mvp-recovery/improvements/serial-05-admin-mutation-ui/step-06-meetings-attendance/spec.md` |
+| 目的 | `/admin/meetings` の出席登録 / 出席解除 / 開催日 soft delete を `useAdminMutation` と共有 `useConfirmDialog` / `ConfirmDialog` に統一する |
+| implementation targets | `apps/web/src/features/admin/hooks/useConfirmDialog.ts`, `apps/web/src/components/ui/ConfirmDialog.tsx`, `apps/web/src/components/admin/MeetingPanel.tsx`, `apps/web/app/(admin)/admin/meetings/[id]/MeetingAttendancePanel.tsx`, `apps/web/playwright/tests/attendance.spec.ts` |
+| API boundary | current UI alias `POST /api/admin/meetings/:id/attendances` with `{ memberId, attended }` only. New DELETE endpoint is not introduced |
+| UI contract | destructive operations require ConfirmDialog; attendance add is no-confirm; dialog has `useId`, focus trap, focus restore, ESC, backdrop; remove `404 attendance_not_found` is success-equivalent UI removal |
+| evidence | `docs/30-workflows/completed-tasks/step-06-meetings-attendance-implementation/outputs/phase-11/evidence/`, `docs/30-workflows/completed-tasks/step-06-meetings-attendance-implementation/outputs/phase-11/screenshots/`, `docs/30-workflows/completed-tasks/step-06-meetings-attendance-implementation/outputs/phase-12/phase12-task-spec-compliance-check.md` |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-step-06-meetings-attendance-implementation-artifact-inventory.md` |
+| user gate | staging / production smoke、commit、push、PR |
 
 ### serial-05-step-03 schema diff resolve UI（2026-05-16）
 
@@ -1912,7 +2048,7 @@ docs-only / direction-reconciliation で採用方針 A を維持する場合で�
 | issue-355-opennext-workers-cd-cutover-task-spec | spec_created / implementation / NON_VISUAL / Phase 1-12 outputs present / Phase 13 blocked_pending_user_approval | `docs/30-workflows/completed-tasks/issue-355-opennext-workers-cd-cutover-task-spec/` | CLOSED Issue #355 の cutover 実装仕様root。repo-side `.github/workflows/web-cd.yml` の Pages deploy 撤去 / Workers deploy 置換は Issue #331 で consumed。残る Cloudflare side cutover、staging smoke、rollback readiness を `docs/30-workflows/unassigned-task/task-impl-opennext-workers-migration-001.md` / Issue #419 user-gated work へ接続する。Phase 11は実測PASSではなく5つのNON_VISUAL evidence contractとして保存し、実 deploy / commit / PR はuser承認まで禁止。 |
 | issue-331-cicd-runtime-warning-cleanup | implemented-local / implementation / NON_VISUAL / local-static PASS / runtime evidence pending_user_approval / Phase 13 blocked_until_user_approval | `docs/30-workflows/issue-331-cicd-runtime-warning-cleanup/` | CLOSED Issue #331 の残存 warning cleanup。`apps/api/wrangler.toml` top-level `[vars]` を削除し、`.github/workflows/web-cd.yml` を Pages deploy から OpenNext Workers build + `scripts/cf.sh deploy --config apps/web/wrangler.toml --env <staging\|production>` へ切替。`workflow_dispatch` 追加済み。`task-impl-opennext-workers-migration-001` の web-cd repo cutover 部分と `U-FIX-CF-ACCT-02` を consumed/superseded。AC-2/5/6 の runtime warning-zero / Actions green evidence、Cloudflare Pages retirement、secret mutation、commit/push/PR は user approval 後。PR 文脈は `Refs #331`。 |
 | issue-640-oidc-cf-token-cutover | implemented-local-runtime-pending / implementation / NON_VISUAL / local-static PASS / Phase 12 strict outputs present / Phase 13 blocked_pending_user_approval | `docs/30-workflows/issue-640-oidc-cf-token-cutover/` | Issue #640 の OIDC / step-scoped Cloudflare token cutover。`web-cd.yml` の `CLOUDFLARE_API_TOKEN` / `CLOUDFLARE_ACCOUNT_ID` を job-level env から deploy step scope へ降格し、redaction step は Account ID variable のみを受け取る。`post-release-dashboard.yml` の analytics token も verify/collect step scope へ降格。`backend-ci.yml` は wrangler-action `with.apiToken` step scope を維持。`scripts/redaction-check.sh` と shell tests を追加し `pnpm test:workflow-secrets` / `ci.yml` に接続。Source unassigned `issue-331-followup-003-oidc-step-scoped-cf-token-cutover.md` は consumed。Full OIDC migration / legacy token revocation / runtime deploy evidence / commit / push / PR は user-gated follow-up。 |
-| issue-718-legacy-cf-token-revocation | implemented-local-runtime-pending / implementation / NON_VISUAL / security-hardening / Phase 12 strict outputs present / Gate C pending_user_approval | `docs/30-workflows/issue-718-legacy-cf-token-revocation/` | Issue #718 の legacy Cloudflare API token revocation workflow。backend-ci は existing canonical `CF_TOKEN_D1_*` / `CF_TOKEN_WORKERS_*` へ切替済みで、`scripts/__tests__/workflow-env-scope.test.sh` が exact `with.apiToken` gate を持つ。web-cd は current runtime 名 `CLOUDFLARE_API_TOKEN` を維持し、legacy value ではないことを operator-only evidence で確認する。`CLOUDFLARE_API_TOKEN_DEPLOY_*` は導入しない。4 scoped secret inventory、Cloudflare revoke、GitHub Secrets mutation、1Password mutation、commit、push、PR は explicit user approval marker 後のみ。 |
+| issue-718-legacy-cf-token-revocation | implemented-local-runtime-pending / implementation / NON_VISUAL / security-hardening / Phase 12 strict outputs present / Gate C pending_user_approval | `docs/30-workflows/issue-718-legacy-cf-token-revocation/` | Issue #718 の legacy Cloudflare API token revocation workflow。`CF_TOKEN_D1_*` / `CF_TOKEN_WORKERS_*` split は historical contract で、2026-05-20 `ci-staging-deploy-failure-fix` 後の current `backend-ci.yml` / `web-cd.yml` は environment-scoped `CLOUDFLARE_API_TOKEN` を使う。`CLOUDFLARE_API_TOKEN_DEPLOY_*` は導入しない。Cloudflare revoke、GitHub Secrets mutation、1Password mutation、commit、push、PR は explicit user approval marker 後のみ。 |
 | issue-717-oidc-cf-full-migration | verified_current_no_code_change_pending_pr / implementation / NON_VISUAL / conditional / Phase 12 strict outputs present / Phase 13 blocked_pending_user_approval | `docs/30-workflows/issue-717-oidc-cf-full-migration/` | Issue #717 の Cloudflare Workers GitHub Actions OIDC full migration support revalidation。2026-05-16 時点の Cloudflare Workers GitHub Actions docs と `cloudflare/wrangler-action` README は API token authentication (`apiToken: secrets.CLOUDFLARE_API_TOKEN`) を案内しており、supported OIDC deploy exchange path は確認できない。`.github/workflows/web-cd.yml` へ `id-token: write` や仮 exchange step は追加せず、Issue #640 step-scoped `CLOUDFLARE_API_TOKEN` boundary を current contract として維持。Production OIDC cutover / apps-api D1 token cutover / 1Password restructure は `docs/30-workflows/unassigned-task/issue-717-followup-*.md` に formalized。commit / push / PR は user-gated。 |
 | issue-355-opennext-workers-cd-cutover-task-spec | spec_created / implementation / NON_VISUAL / Phase 1-12 outputs present / Phase 13 blocked_pending_user_approval | `docs/30-workflows/completed-tasks/issue-355-opennext-workers-cd-cutover-task-spec/` | CLOSED Issue #355 の cutover 実装仕様root。`.github/workflows/web-cd.yml` の旧 Pages deploy 経路と Workers deploy 置換は 2026-05-09 CI recovery wave で local 実装済み。残る Cloudflare side cutover、staging smoke、rollback readiness を `docs/30-workflows/unassigned-task/task-impl-opennext-workers-migration-001.md` の残スコープへ接続する。Phase 11は実測PASSではなく5つのNON_VISUAL evidence contractとして保存し、実 deploy / commit / PR はuser承認まで禁止。 |
 | issue-419-pages-project-dormant-delete-after-355 | spec_created / implementation / NON_VISUAL / destructive-operation / Phase 11 runtime evidence pending / Phase 12 strict outputs present / Phase 13 blocked_pending_user_approval | `docs/30-workflows/issue-419-pages-project-dormant-delete-after-355/` | Issue #419 (`Refs #355`) の Pages dormant 物理削除 runtime contract。Workers cutover 完了、Pages custom domain detach、最低 2 週間 dormant 観察、user 明示承認、`bash scripts/cf.sh pages project delete <PROJECT_NAME> --yes`、post-deletion smoke、redaction grep、aiworkflow Pages 言及 cleanup を AC-1〜AC-6 として固定。削除実行・Cloudflare CLI・commit・push・PR は本 spec_created cycle では未実行。起票元 unassigned は `docs/30-workflows/unassigned-task/task-issue-355-pages-project-delete-after-dormant-001.md`。 |
@@ -1932,7 +2068,7 @@ docs-only / direction-reconciliation で採用方針 A を維持する場合で�
 | task-lefthook-multi-worktree-reinstall-runbook | spec_created / docs-only / runbook-spec / NON_VISUAL | `docs/30-workflows/completed-tasks/task-lefthook-multi-worktree-reinstall-runbook/` | 30+ worktree への lefthook 一括再 install runbook 仕様を確定。`doc/00-getting-started-manual/lefthook-operations.md` への差分追記内容を Step 2-1〜2-4 で specify。固有教訓は `lessons-learned-lefthook-mwr-runbook-2026-04.md`（L-MWR-001〜006）。スクリプト実装（`scripts/reinstall-lefthook-all-worktrees.sh`）は別 Wave に分離 |
 | ut-06-followup-A-opennext-workers-migration | implemented / static_verified / NON_VISUAL | `docs/30-workflows/ut-06-followup-A-opennext-workers-migration/` | apps/web `wrangler.toml` を Pages 形式から OpenNext Workers 形式へ移行。AC-1〜AC-7 / AC-13〜AC-16 は静的検証済み。AC-8〜AC-12（build / staging deploy / smoke / bundle size / fallback 実測）はユーザー承認後に Phase 11 へ追記 |
 | FIX-CF-ACCT-ID-VARS-001 | implemented / static_verified / NON_VISUAL / Phase 13 user_approval_required | `docs/30-workflows/completed-tasks/fix-cf-account-id-vars-reference/` | `.github/workflows/backend-ci.yml` 4 箇所と `.github/workflows/web-cd.yml` 2 箇所の `CLOUDFLARE_ACCOUNT_ID` 参照を `${{ vars.CLOUDFLARE_ACCOUNT_ID }}` に同期。Repository Variable 登録あり / Secret 不在を `gh api` で確認済み。actionlint / yamllint はローカル未導入のため deferred。関連未タスク `U-FIX-CF-ACCT-01` / `U-FIX-CF-ACCT-02` を formalize。 |
-| U-FIX-CF-ACCT-01-DERIV-02 | spec_created / implementation / NON_VISUAL / superseded-by-issue-718-for-backend / runtime token issuance pending user operation | `docs/30-workflows/u-fix-cf-acct-01-deriv-02-scope-split-tokens/` | Issue #406 CLOSED. Historical split contract proposed D1 / Workers / Pages x staging / production. Current backend-ci state is owned by Issue #718 and uses 4 scoped `CF_TOKEN_D1_*` / `CF_TOKEN_WORKERS_*`; current web-cd keeps environment-scoped `CLOUDFLARE_API_TOKEN` and does not use Pages tokens. `scripts/cf.sh` pre-injected token path remains relevant. Cloudflare dashboard token issuance / GitHub Secrets mutation / 7 day staging green / 24h old-token retirement remain user operation pending. PR 文面は `Refs #406` のみ。 |
+| U-FIX-CF-ACCT-01-DERIV-02 | spec_created / implementation / NON_VISUAL / superseded-by-current-CLOUDFLARE_API_TOKEN-runtime / runtime token issuance pending user operation | `docs/30-workflows/u-fix-cf-acct-01-deriv-02-scope-split-tokens/` | Issue #406 CLOSED. Historical split contract proposed D1 / Workers / Pages x staging / production. Current backend-ci and web-cd use environment-scoped `CLOUDFLARE_API_TOKEN`; `CF_TOKEN_D1_*` / `CF_TOKEN_WORKERS_*` are historical names and Pages tokens are not current deploy consumers. `scripts/cf.sh` pre-injected token path remains relevant. Cloudflare dashboard token issuance / GitHub Secrets mutation / 7 day staging green / 24h old-token retirement remain user operation pending. PR 文面は `Refs #406` のみ。 |
 | UT-06-FU-A-PROD-ROUTE-SECRET-001 | completed / Phase 1-12 完了 / Phase 13 pending_user_approval / docs-only / NON_VISUAL | `docs/30-workflows/completed-tasks/ut-06-fu-a-prod-route-secret-001-worker-migration-verification/` | UT-06-FU-A OpenNext Workers production cutover 前の route / custom domain / secret key / observability target split-brain 防止 runbook。`outputs/phase-05/runbook.md` を workflow-local 正本とし、secret 値は記録せず key 名のみ、Cloudflare 操作は `bash scripts/cf.sh` 経由、production deploy / DNS 切替 / Worker 削除は別承認に分離。原典 unassigned は `docs/30-workflows/completed-tasks/UT-06-FU-A-production-route-secret-observability.md` に移動済み。route inventory は design workflow `docs/30-workflows/ut-06-fu-a-route-inventory-script-001-cloudflare-route-inventory/` と実装 follow-up `docs/30-workflows/unassigned-task/UT-06-FU-A-route-inventory-script-impl-001.md` に分離済み。Logpush target diff automation は `docs/30-workflows/ut-06-fu-a-logpush-target-diff-script-001/` で implementation_complete。Phase 11 evidence は NON_VISUAL infrastructure verification の format check 完了であり、production 実測 PASS は別承認 operation に分離。固有教訓 `references/lessons-learned-ut06-fu-a-prod-route-secret-2026-04.md`（L-UT06FUA-001〜007）、artifact inventory `references/workflow-ut-06-fu-a-prod-route-secret-001-artifact-inventory.md`。 |
 | UT-06-FU-A-ROUTE-INVENTORY-SCRIPT-001 | spec_created / docs-only / NON_VISUAL / Phase 12 completed / Phase 13 blocked_pending_user_approval | `docs/30-workflows/ut-06-fu-a-route-inventory-script-001-cloudflare-route-inventory/` | production Worker route inventory script の設計 close-out。`InventoryReport` SSOT、GET allowlist（workers scripts / zone workers routes / workers domains）、secret leak guard、mutation grep、NON_VISUAL evidence を固定。元 unassigned `docs/30-workflows/unassigned-task/UT-06-FU-A-route-inventory-script-001.md` は consumed pointer。実装・実 command・親 runbook 追記・実測 evidence は `docs/30-workflows/unassigned-task/UT-06-FU-A-route-inventory-script-impl-001.md` に委譲。 |
 | UT-06-FU-A-LOGPUSH-TARGET-DIFF-SCRIPT-001 | implementation_complete / Phase 1-12 completed / Phase 13 pending_user_approval / NON_VISUAL | `docs/30-workflows/ut-06-fu-a-logpush-target-diff-script-001/` | production observability target diff script。公開入口は `bash scripts/cf.sh observability-diff --current-worker ubm-hyogo-web-production --legacy-worker ubm-hyogo-web --config apps/web/wrangler.toml`、内部実装は `scripts/observability-target-diff.sh` / `scripts/lib/redaction.sh`。Workers Logs / Tail / Logpush / Analytics Engine の 4 軸を新旧 Worker で比較し、token / credential / sink URL query は redaction 済みで出力する。検証は `bash tests/unit/redaction.test.sh` 11 PASS、`bash tests/integration/observability-target-diff.test.sh` 18 PASS。起源 unassigned `docs/30-workflows/unassigned-task/UT-06-FU-A-logpush-target-diff-script-001.md` は transferred_to_workflow。 |
@@ -2021,6 +2157,8 @@ docs-only / direction-reconciliation で採用方針 A を維持する場合で�
 | Task | 状態 | Root | Summary |
 | --- | --- | --- | --- |
 | UT-17 follow-up 005 alert relay KV operation error metrics | implemented_local_evidence_captured / implementation / NON_VISUAL / PASS_BOUNDARY_SYNCED_RUNTIME_PENDING | `docs/30-workflows/completed-tasks/ut-17-followup-005-alert-relay-kv-operation-error-metrics/` | Issue #701. Adds fail-safe structured logging for `ALERT_DEDUP_KV.get` / `.put` failures in `apps/api/src/routes/internal/alert-relay.ts`. `KV.get` now fails open after emitting `event=alert_relay_kv_op_failed`; `KV.put` preserves `dedupPersisted:false`. `dedupeKeyHash` is SHA-256 first 12 hex or `hash_error` if hashing fails; logging sink failure is swallowed. Local evidence: API typecheck / lint / build PASS and API Vitest 48 files / 294 tests PASS with `ESBUILD_BINARY_PATH` pinned to project-local esbuild. Runtime Workers Logs tail, deploy, commit, push, and PR remain user-gated. |
+| task-alert-relay-global-scope-fix-001 | implemented_local_evidence_captured / implementation / NON_VISUAL / staging deploy job pending_user_approval | `docs/30-workflows/task-alert-relay-global-scope-fix-001/` | Fixes PR #505 backend-ci deploy-staging validation error 10021 by replacing module top-level `crypto.randomUUID()` in `apps/api/src/routes/internal/alert-relay.ts` with lazy `getIsolateId()`. Focused regression test in `apps/api/src/routes/internal/__tests__/alert-relay.spec.ts` asserts module import does not call `crypto.randomUUID`; existing structured log tests preserve stable `isolateId` semantics. `scripts/cf.sh` now maps local `deploy --env staging\|production` to `CLOUDFLARE_API_TOKEN_STAGING` / `CLOUDFLARE_API_TOKEN_PRODUCTION` 1Password fields while preserving wrangler's `CLOUDFLARE_API_TOKEN` child env contract. Local Vitest, typecheck, lint, global-scope grep, and staging dry-run evidence are captured; staging deploy job, commit, push, and PR remain user-gated. |
+| ci-staging-deploy-failure-fix | PASS_BOUNDARY_SYNCED_RUNTIME_PENDING / implementation / NON_VISUAL | `docs/30-workflows/completed-tasks/ci-staging-deploy-failure-fix/` | Recovers dev push staging deploy failures after PR #815/#847. task-01 implemented local build-time env injection in `.github/workflows/web-cd.yml` plus `apps/web/src/lib/__tests__/build-time-env.spec.ts`; task-02 formalizes Cloudflare D1/deploy token rotation with staging/production separation. Cloudflare token creation, 1Password update, `gh secret set`, commit, push, PR, and runtime CI evidence remain user-gated. |
 | runtime-smoke-staging-secrets-restore | implemented_local_evidence_captured / implementation / NON_VISUAL / user-gated runtime evidence boundary user-gated | `docs/30-workflows/completed-tasks/runtime-smoke-staging-secrets-restore/` | 2026-05-16 runtime smoke failure follow-up。`staging-runtime-smoke` 必須 4 secret (`STAGING_API_BASE`, `STAGING_ADMIN_BEARER`, `STAGING_MEMBER_ID`, `STAGING_ME_BEARER`) を `scripts/ci/verify-env-secrets.allowlist` の `env=...;required=...;reason=...` contract に追加し、`verify-env-secrets.sh` が GitHub Environment secret name-only inventory と照合する。`runtime-smoke-staging.yml` の inline value check は最終防御として維持。secret mutation、runtime workflow rerun、commit、push、PR は user-gated。 |
 | UT-17 follow-up 004 Cloudflare Notification Policy IaC | implementation_complete / implementation / NON_VISUAL / runtime Cloudflare mutation pending_user_approval / Phase 13 pending_user_approval | `docs/30-workflows/completed-tasks/ut-17-followup-004-cloudflare-notification-policy-iac/` | Parent UT-17 T9/T10 Dashboard manual Notification Policy setup successor. Implements Cloudflare Notification Policy 4 categories / 5 policy files + webhook destination IaC under `infra/cloudflare-alerts/`, `bash scripts/cf.sh alerts {apply,diff,list}`, PR-local validate + schedule/manual read-only drift CI, token split `CLOUDFLARE_ALERTS_TOKEN_APPLY` / `CLOUDFLARE_ALERTS_TOKEN_READ`, URL drift secret `CLOUDFLARE_ALERT_RELAY_URL`, canonical webhook definition root `infra/cloudflare-alerts/webhooks/`, and Cloudflare API `PUT` update method. No Cloudflare mutation, GitHub Secret placement, commit, push, or PR executed. |
 | UT-17 Cloudflare Analytics alerts + Slack relay | implemented-local / implementation / NON_VISUAL / CODE_COMPLETE_EXTERNAL_OPS_PENDING | `docs/30-workflows/ut-17-cloudflare-analytics-alerts/` | Cloudflare usage alert workflow. Free baseline is Cloudflare Notifications email + runbook. Local Slack Japanese relay is implemented in `apps/api` as `POST /internal/alert-relay` with `cf-webhook-auth` fixed-secret auth, Japanese Block Kit formatting, Slack retry sender, focused tests, and runbooks. Body HMAC / `X-CF-Alert-Signature` are explicitly out of contract. Cloudflare Secrets, deploy, Notification Policy setup, Slack runtime smoke, commit, push, and PR remain user-gated. |

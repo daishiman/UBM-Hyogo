@@ -24,8 +24,9 @@
 1. `PROTOTYPE-COVERAGE.md` の Source Inventory で prototype source を確認する。
 2. Route Coverage Matrix の `current_app_path` を編集対象の正とする。
 3. `serial-05` は page blueprint と primitive composition、`serial-06` は response_fields binding、`parallel-01/02` は CSS / selector、`parallel-03/04` は shell / fallback を担当する。
-4. 実装後は `serial-07` の Playwright visual evidence で top / members-list / member-detail / admin-dashboard を取得する。
-5. `/login` / `/profile` / `/privacy` / `/terms` は root 配下を編集し、route group 配下へ新規作成しない。
+4. `parallel-04` の root fallback 4 画面は `parallel-04-shared-page-chrome/outputs/phase-11/*.png` を参照する。
+5. 実装後は `serial-07` の Playwright visual evidence で top / members-list / member-detail / admin-dashboard を取得する。
+6. `/login` / `/profile` / `/privacy` / `/terms` は root 配下を編集し、route group 配下へ新規作成しない。
 
 ### Sub-workflow Guides
 
@@ -54,7 +55,8 @@ mise exec -- pnpm --filter @ubm-hyogo/web build
 
 ## Screenshot Evidence Boundary
 
-This Phase 12 guide is a spec-readiness artifact. Runtime screenshots are still
-owned by `serial-07-regression-evidence/outputs/phase-11/screenshots/` and must
-be captured during the implementation execution cycle before visual completion
-is claimed.
+This Phase 12 guide is a spec-readiness artifact. `parallel-04` root fallback
+screenshots are captured under
+`parallel-04-shared-page-chrome/outputs/phase-11/`. Full 19-route visual
+regression screenshots are still owned by
+`serial-07-regression-evidence/outputs/phase-11/screenshots/`.
