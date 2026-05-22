@@ -10,14 +10,16 @@
 | 対象機能     | Next.js App Router error boundary 群の自動 focus 制御共通化                                     |
 | 優先度       | 低（既に i05 / i06 で個別実装済み・regression なし。横展開耐性向上が主目的）                    |
 | 見積もり規模 | 小（hook 1 ファイル新規 + i05 / i06 各 4 行差分 + hook 用 spec 1 本）                           |
-| ステータス   | consumed_by `docs/30-workflows/issue-799-use-auto-focus-on-mount-hook/`                         |
+| ステータス   | consumed（`docs/30-workflows/completed-tasks/issue-800-profile-error-focus-transfer/` で実装完了）              |
+| canonical_workflow | `docs/30-workflows/completed-tasks/issue-800-profile-error-focus-transfer/`                              |
+| consumed_by | Issue #800 error boundary focus hook rollout                                                     |
 | 発見元       | issue-769 Phase 12 unassigned-task-detection (`docs/30-workflows/completed-tasks/issue-769-root-error-focus/outputs/phase-12/unassigned-task-detection.md`) |
 | 発見日       | 2026-05-17                                                                                      |
 
 ## Canonical Workflow Status
 
-- 親 workflow: `docs/30-workflows/issue-769-root-error-focus/`（Phase 12 unassigned-task-detection で followup candidate として記録済み）
-- consumed workflow: `docs/30-workflows/issue-799-use-auto-focus-on-mount-hook/`
+- 親 workflow: `docs/30-workflows/completed-tasks/issue-769-root-error-focus/`（Phase 12 unassigned-task-detection で followup candidate として記録済み）
+- consumed workflow: `docs/30-workflows/completed-tasks/issue-799-use-auto-focus-on-mount-hook/`
 - consumed note: 起点 spec は i05/i06 + `options?: FocusOptions` を候補にしていたが、実コード調査で root のみ既存 focus 実装、login/profile/admin は未対応と判明したため、Issue #799 workflow で options なし最小 hook + 4 boundary 横展開に再定義して実装した。
 - 親 workflow 状態: `local_implementation_complete_followup_recorded`
 - 直接の起点 spec: `docs/30-workflows/ui-prototype-alignment-mvp-recovery/improvements/integration-fixes/parallel-i06-root-error-focus/spec.md` §4.3、および i05 = `parallel-i05-login-loading-and-error-focus/spec.md`
@@ -26,9 +28,10 @@
   - `apps/web/app/login/error.tsx`（i05 で実装済み / 置換対象）
 - 関連既存ファイル（参考のみ）:
   - `apps/web/app/__tests__/error.component.spec.tsx`
-- 新規追加候補:
+- 実装済み:
   - `apps/web/src/lib/a11y/useAutoFocusOnMount.ts`
-  - `apps/web/src/lib/a11y/__tests__/useAutoFocusOnMount.spec.ts`(t)x
+  - `apps/web/src/lib/a11y/__tests__/useAutoFocusOnMount.spec.tsx`
+  - root/profile/login/admin error boundary へ適用済み
 
 ---
 
@@ -189,7 +192,7 @@ useAutoFocusOnMount(headingRef);
 
 ## 5. 参照資料
 
-- `docs/30-workflows/issue-769-root-error-focus/outputs/phase-12/unassigned-task-detection.md` — followup candidate の発見元
+- `docs/30-workflows/completed-tasks/issue-769-root-error-focus/outputs/phase-12/unassigned-task-detection.md` — followup candidate の発見元
 - `docs/30-workflows/unassigned-task/integration-fixes-i06-root-error-focus.md` — i06 タスク指示書（§3.3-4 / §3.4 で hook 抽出時期を規定）
 - `docs/30-workflows/ui-prototype-alignment-mvp-recovery/improvements/integration-fixes/parallel-i06-root-error-focus/spec.md` — i06 親 spec（Before/After 実装パターン）
 - `docs/30-workflows/ui-prototype-alignment-mvp-recovery/improvements/integration-fixes/parallel-i05-login-loading-and-error-focus/spec.md` — i05 親 spec

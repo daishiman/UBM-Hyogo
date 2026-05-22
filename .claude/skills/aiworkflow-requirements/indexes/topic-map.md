@@ -2795,6 +2795,20 @@ node scripts/list-specs.js --topics
 
 ### references/workflow-issue-799-use-auto-focus-on-mount-hook-artifact-inventory.md
 
+### references/workflow-issue-800-profile-error-focus-transfer-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| State | L22 |
+| useAutoFocusOnMount hook | L28 |
+| Error focus management pattern | L32 |
+
+### references/workflow-issue-801-admin-error-focus-transfer-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| State | L15 |
+
 ### references/workflow-light-theme-contrast-regression-guard.md
 
 | セクション | 行 |
@@ -3012,6 +3026,8 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | Phase 12 Strict 7 | L27 |
+
+### references/workflow-step-06-meetings-attendance-implementation-artifact-inventory.md
 
 ### references/workflow-task-03-w2-par-sentry-workers-sdk-unify-artifact-inventory.md
 
@@ -7208,14 +7224,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L1876 |
-| フェーズ構造（概要） | L1885 |
-| 品質ゲート（概要） | L1916 |
-| 出力テンプレート | L1927 |
-| 実行時のコマンド・エージェント・スキル | L1950 |
-| 昇格パターン集 | L1974 |
-| Current Active / Spec Created Tasks | L1976 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L2131 |
+| ドキュメント構成 | L1922 |
+| フェーズ構造（概要） | L1931 |
+| 品質ゲート（概要） | L1962 |
+| 出力テンプレート | L1973 |
+| 実行時のコマンド・エージェント・スキル | L1996 |
+| 昇格パターン集 | L2020 |
+| Current Active / Spec Created Tasks | L2022 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L2177 |
 
 ### references/task-workflow-backlog-part2.md
 
