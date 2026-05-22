@@ -1,0 +1,13 @@
+.claude/skills/aiworkflow-requirements/SKILL-changelog.md
+.claude/skills/aiworkflow-requirements/SKILL.md
+.claude/skills/aiworkflow-requirements/indexes/quick-reference.md
+.claude/skills/aiworkflow-requirements/indexes/resource-map.md
+.claude/skills/aiworkflow-requirements/references/task-workflow-active.md
+apps/web/app/(admin)/admin/error.tsx
+apps/web/app/error.tsx
+apps/web/app/login/error.tsx
+apps/web/app/profile/error.tsx
+docs/30-workflows/completed-tasks/issue-769-root-error-focus/outputs/phase-12/unassigned-task-detection.md
+docs/30-workflows/unassigned-task/issue-769-followup-001-use-auto-focus-on-mount-hook.md
+docs/30-workflows/unassigned-task/issue-769-followup-002-profile-error-focus-transfer.md
+docs/30-workflows/unassigned-task/issue-769-followup-003-admin-error-focus-transfer.md

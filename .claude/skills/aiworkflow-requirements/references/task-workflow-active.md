@@ -8,6 +8,20 @@
 
 本ドキュメントは、複雑なタスクを単一責務の原則に基づいて分解し、各サブタスクに最適なスラッシュコマンド・エージェント・スキルの組み合わせを選定するためのガイドラインを定義する。
 
+### Issue #778 schema alias rollback / undo（2026-05-19）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_runtime_pending / implementation / VISUAL / PASS_BOUNDARY_SYNCED_RUNTIME_PENDING` |
+| 成果物 | `docs/30-workflows/issue-778-schema-alias-rollback-undo/` |
+| source | `docs/30-workflows/unassigned-task/serial-05-step-03-followup-004-schema-alias-rollback-undo.md` consumed via canonical workflow |
+| parent | `docs/30-workflows/completed-tasks/serial-05-step-03-schema-diff-resolve/` |
+| 目的 | SchemaDiffPanel alias resolve の誤操作を D1 直接修正ではなく API + application `audit_log` 経由で rollback / undo できるようにする |
+| contract | `POST /admin/schema/aliases/:aliasId/rollback`, `If-Match: version=<N>`, response `{ aliasId, rolledBackAt, relatedAuditId, newVersion, impact }`; relation は `audit_log.after_json.relatedAuditId` |
+| evidence | Phase 12 strict 7 / root-output artifacts parity / Phase 11 runtime placeholders |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-778-schema-alias-rollback-undo-artifact-inventory.md` |
+| user gate | staging D1 migration apply, production D1 migration apply, Playwright visual baseline, commit, push, PR |
+
 ### task-staging-auth-secret-binding-recovery-001（2026-05-22）
 
 | 項目 | 値 |
@@ -165,14 +179,44 @@
 | 項目 | 値 |
 | --- | --- |
 | ステータス | `implemented_local_evidence_captured / implementation / NON_VISUAL / runtime_pending` |
-| 成果物 | `docs/30-workflows/issue-769-root-error-focus/` |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-769-root-error-focus/` |
 | source | `docs/30-workflows/unassigned-task/integration-fixes-i06-root-error-focus.md` consumed |
 | 目的 | root `apps/web/app/error.tsx` の h1 に mount 後 focus を移譲し、screen reader がエラー見出しを即時認識できるようにする |
 | 実装 | `apps/web/app/error.tsx`, `apps/web/app/__tests__/error.component.spec.tsx` |
 | 不変条件 | 文言、className、digest 表示、reset、logger shape、i05 `/login/error.tsx` は変更しない |
-| evidence | `docs/30-workflows/issue-769-root-error-focus/outputs/phase-11/evidence/`, `docs/30-workflows/issue-769-root-error-focus/outputs/phase-12/phase12-task-spec-compliance-check.md` |
+| evidence | `docs/30-workflows/completed-tasks/issue-769-root-error-focus/outputs/phase-11/evidence/`, `docs/30-workflows/completed-tasks/issue-769-root-error-focus/outputs/phase-12/phase12-task-spec-compliance-check.md` |
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-769-root-error-focus-artifact-inventory.md` |
 | user gate | interactive screen reader smoke / commit / push / PR |
+
+### Issue #801 admin error h1 auto-focus transfer（2026-05-19）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION / runtime_pending` |
+| 成果物 | `docs/30-workflows/issue-801-admin-error-focus-transfer/` |
+| source | `docs/30-workflows/unassigned-task/issue-769-followup-003-admin-error-focus-transfer.md` consumed |
+| predecessor | `docs/30-workflows/completed-tasks/issue-769-root-error-focus/` |
+| 目的 | admin segment error boundary の h1 に mount 後 focus を移譲し、screen reader が管理画面エラー見出しを即時認識できるようにする |
+| 実装 | `apps/web/app/(admin)/admin/error.tsx`, `apps/web/app/(admin)/admin/__tests__/error.component.spec.tsx` |
+| 不変条件 | Auth gate / API / D1 schema / common hook は変更しない。`/` fallback link で auth loop を避ける |
+| evidence | `docs/30-workflows/issue-801-admin-error-focus-transfer/outputs/phase-11/evidence/`, `docs/30-workflows/issue-801-admin-error-focus-transfer/outputs/phase-12/phase12-task-spec-compliance-check.md` |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-801-admin-error-focus-transfer-artifact-inventory.md` |
+| user gate | runtime browser screenshot / screen reader smoke / commit / push / PR |
+
+### Issue #800 error boundary focus hook rollout（2026-05-19）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / NON_VISUAL / implementation_complete_pending_pr` |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-800-profile-error-focus-transfer/` |
+| Issue | #800 CLOSED。PR 文脈は `Refs #800` のみ |
+| source | `docs/30-workflows/completed-tasks/issue-769-followup-002-profile-error-focus-transfer.md` consumed |
+| parent | `docs/30-workflows/completed-tasks/issue-769-root-error-focus/` |
+| 目的 | `/profile/error.tsx` 起点で error boundary focus hook を抽出し、root/profile/login/admin の h1 focus / `aria-live` / digest / logger を統一する |
+| 実装 | `apps/web/src/lib/a11y/useAutoFocusOnMount.ts`, `apps/web/app/{error,profile/error,login/error}.tsx`, `apps/web/app/(admin)/admin/error.tsx`, focused tests |
+| evidence | focused Vitest 5 files / 31 PASS, web typecheck PASS, web lint PASS, `docs/30-workflows/completed-tasks/issue-800-profile-error-focus-transfer/outputs/phase-12/implementation-guide.md`, `docs/30-workflows/completed-tasks/issue-800-profile-error-focus-transfer/outputs/phase-12/phase12-task-spec-compliance-check.md` |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-800-profile-error-focus-transfer-artifact-inventory.md` |
+| user gate | manual screen reader smoke / commit / push / PR |
 
 ### Issue #762 CF OIDC staging proof readiness（2026-05-17）
 
@@ -328,6 +372,22 @@
 | evidence | Phase 11 tracked `.txt` local evidence / grep topology / git diff、Phase 12 strict 7 |
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-ut-07a-01-member-tags-assign-cleanup-artifact-inventory.md` |
 | user gate | commit / push / PR / issue mutation |
+
+### step-06 meetings attendance implementation（2026-05-20）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION / local_visual_evidence_captured` |
+| 成果物 | `docs/30-workflows/completed-tasks/step-06-meetings-attendance-implementation/` |
+| 親 workflow | `docs/30-workflows/ui-prototype-alignment-mvp-recovery/improvements/serial-05-admin-mutation-ui/` |
+| source | `docs/30-workflows/ui-prototype-alignment-mvp-recovery/improvements/serial-05-admin-mutation-ui/step-06-meetings-attendance/spec.md` |
+| 目的 | `/admin/meetings` の出席登録 / 出席解除 / 開催日 soft delete を `useAdminMutation` と共有 `useConfirmDialog` / `ConfirmDialog` に統一する |
+| implementation targets | `apps/web/src/features/admin/hooks/useConfirmDialog.ts`, `apps/web/src/components/ui/ConfirmDialog.tsx`, `apps/web/src/components/admin/MeetingPanel.tsx`, `apps/web/app/(admin)/admin/meetings/[id]/MeetingAttendancePanel.tsx`, `apps/web/playwright/tests/attendance.spec.ts` |
+| API boundary | current UI alias `POST /api/admin/meetings/:id/attendances` with `{ memberId, attended }` only. New DELETE endpoint is not introduced |
+| UI contract | destructive operations require ConfirmDialog; attendance add is no-confirm; dialog has `useId`, focus trap, focus restore, ESC, backdrop; remove `404 attendance_not_found` is success-equivalent UI removal |
+| evidence | `docs/30-workflows/completed-tasks/step-06-meetings-attendance-implementation/outputs/phase-11/evidence/`, `docs/30-workflows/completed-tasks/step-06-meetings-attendance-implementation/outputs/phase-11/screenshots/`, `docs/30-workflows/completed-tasks/step-06-meetings-attendance-implementation/outputs/phase-12/phase12-task-spec-compliance-check.md` |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-step-06-meetings-attendance-implementation-artifact-inventory.md` |
+| user gate | staging / production smoke、commit、push、PR |
 
 ### serial-05-step-03 schema diff resolve UI（2026-05-16）
 

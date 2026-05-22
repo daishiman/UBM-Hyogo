@@ -29,6 +29,7 @@ export default function RouteError({ error, reset }: Props) {
       err: error,
     });
   }, [error]);
+  useAutoFocusOnMount(headingRef);
 
   const isDev = process.env.NODE_ENV !== "production";
 

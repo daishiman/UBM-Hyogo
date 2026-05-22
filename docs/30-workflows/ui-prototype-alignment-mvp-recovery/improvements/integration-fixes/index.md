@@ -20,7 +20,7 @@
 | i03 | dialog の `router.refresh()` 呼び出し位置が spec と乖離（close 後発火リスク） | p-02 spec 違反 | `RequestActionPanel.tsx:57` で `refresh()` を onSubmitted callback に置く実装。spec は dialog 内で close 前 |
 | i04 | (完了) `CallToActionCTA` を HomePage に実装済み | p-06 DoD 達成 | `apps/web/app/page.tsx` が `CallToActionCTA` を mount、`apps/web/src/components/public/CallToActionCTA.tsx` 作成済み、Phase 11 screenshot 3 件保存 |
 | i05 | (完了) `/login/loading.tsx` 新規作成 + `/login/error.tsx` の focus 管理 / alert 強化を実装済み | p-07 DoD line 141, 142 達成 | `apps/web/app/login/loading.tsx` が `role=status` / `aria-busy=true` / `aria-live=polite`、`error.tsx` が `useRef` / `tabIndex={-1}` / `aria-live=assertive` |
-| i06 | root `error.tsx` の h1 自動 focus 実装済み | parallel-07 spec 4.3 local implementation complete | `apps/web/app/error.tsx` で `useRef` / `headingRef.current?.focus({ preventScroll: true })` / `tabIndex={-1}` 実装済み |
+| i06 | root `error.tsx` + admin route segment `error.tsx` の h1 自動 focus 実装済み | parallel-07 spec 4.3 local implementation complete; admin child workflow issue-801 local evidence captured | `apps/web/app/error.tsx` と `apps/web/app/(admin)/admin/error.tsx` で `useRef` / `headingRef.current?.focus({ preventScroll: true })` / `tabIndex={-1}` 実装済み。admin layout (`apps/web/app/(admin)/layout.tsx`) 由来のエラー捕捉は対象外 |
 | i07 | (完了) `/profile/loading.tsx` を design-token utility skeleton に置換済み | p-07 spec 4.5 達成 | `apps/web/app/profile/loading.tsx` は `role=status` + avatar/KV skeleton、`apps/web/app/profile/loading.spec.tsx` は 4 tests PASS。canonical workflow: `docs/30-workflows/completed-tasks/profile-loading-skeleton-oklch/` |
 
 ## 3. ディレクトリ構成
@@ -79,7 +79,7 @@ integration-fixes/
 | i03 | spec_ready_implementation_pending | `parallel-i03-dialog-refresh-order/spec.md` / `docs/30-workflows/unassigned-task/integration-fixes-i03-dialog-refresh-order.md` |
 | i04 | completed locally | `docs/30-workflows/integration-fixes-i04-homepage-cta-implementation/` / `parallel-i04-homepage-cta/spec.md` / `docs/30-workflows/unassigned-task/integration-fixes-i04-homepage-cta.md` |
 | i05 | implemented_local_evidence_captured | `docs/30-workflows/parallel-i05-login-loading-and-error-focus/` / `parallel-i05-login-loading-and-error-focus/spec.md` / `docs/30-workflows/unassigned-task/integration-fixes-i05-login-loading-and-error-focus.md`（consumed） |
-| i06 | implemented_local_evidence_captured | `parallel-i06-root-error-focus/spec.md` / `docs/30-workflows/issue-769-root-error-focus/` / `docs/30-workflows/unassigned-task/integration-fixes-i06-root-error-focus.md` consumed |
+| i06 | implemented_local_evidence_captured | `parallel-i06-root-error-focus/spec.md` / root: `docs/30-workflows/completed-tasks/issue-769-root-error-focus/` / admin child: `docs/30-workflows/completed-tasks/issue-801-admin-error-focus-transfer/` / consumed sources: `docs/30-workflows/unassigned-task/integration-fixes-i06-root-error-focus.md`, `docs/30-workflows/completed-tasks/issue-769-followup-003-admin-error-focus-transfer.md` |
 | i07 | implemented_local_evidence_captured | `docs/30-workflows/completed-tasks/profile-loading-skeleton-oklch/` / source `parallel-i07-profile-loading-skeleton/spec.md` / consumed `docs/30-workflows/completed-tasks/integration-fixes-i07-profile-loading-skeleton.md` |
 
 ## 8. 参照

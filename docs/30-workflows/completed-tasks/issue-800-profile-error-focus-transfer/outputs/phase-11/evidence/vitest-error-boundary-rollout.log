@@ -1,0 +1,20 @@
+
+ RUN  v2.1.9 /Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260519-130130-wt-2
+
+ ✓ apps/web/src/lib/a11y/__tests__/useAutoFocusOnMount.spec.tsx (3 tests) 1186ms
+   ✓ useAutoFocusOnMount > mount 時に ref 対象へ focus を移す 1159ms
+ ✓ apps/web/app/login/__tests__/error.component.spec.tsx (4 tests) 1205ms
+   ✓ LoginError > mount 時に h1 へ focus を移譲する 948ms
+ ✓ apps/web/app/profile/__tests__/error.component.spec.tsx (7 tests) 1339ms
+   ✓ ProfileError > mount 時に h1 へ focus を移譲する 1058ms
+ ✓ apps/web/app/(admin)/admin/__tests__/error.component.spec.tsx (4 tests) 1349ms
+   ✓ AdminError > mount 時に h1 へ focus を移譲する 980ms
+ ✓ apps/web/app/__tests__/error.component.spec.tsx (13 tests) 1672ms
+   ✓ RouteError > TC-U-01: dev mode で stack を表示する > renders <pre> with stack content 613ms
+   ✓ RouteError > TC-U-05: reset ボタンクリックで reset prop が呼ばれる > invokes reset once on click 385ms
+
+ Test Files  5 passed (5)
+      Tests  31 passed (31)
+   Start at  14:44:28
+   Duration  11.13s (transform 3.94s, setup 0ms, collect 12.52s, tests 6.75s, environment 13.02s, prepare 2.37s)
+

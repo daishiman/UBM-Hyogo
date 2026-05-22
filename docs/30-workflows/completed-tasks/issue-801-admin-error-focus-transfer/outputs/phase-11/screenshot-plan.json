@@ -1,0 +1,19 @@
+{
+  "task": "issue-801-admin-error-focus-transfer",
+  "visualEvidence": "VISUAL_ON_EXECUTION",
+  "plannedScreenshots": [
+    {
+      "id": "admin-error-focus",
+      "path": "outputs/phase-11/screenshots/admin-error-focus.png",
+      "route": "/admin",
+      "state": "segment error boundary thrown",
+      "assertions": [
+        "h1 is visible with text 管理画面を表示できませんでした",
+        "role=alert wrapper has aria-live=assertive",
+        "document.activeElement is the h1",
+        "stack is not visible when NODE_ENV=production"
+      ],
+      "status": "pending_user_gate"
+    }
+  ]
+}
