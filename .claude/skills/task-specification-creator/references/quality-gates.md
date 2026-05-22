@@ -132,6 +132,25 @@ Phase 12 の `phase12-task-spec-compliance-check.md` で、次の 8 点を **チ
 7. §7.2 (3) CI gate 化
 8. §7.5 E2E lines coverage ≥ 80%（リポジトリ閾値・タスク閾値の両方）
 
+### 7.7 a11y focus management gate（error boundary / dialog / loading skeleton）
+
+focus 移譲を伴う UI 実装（error boundary 統一構造、dialog mount focus、loading skeleton 切替時 focus 引継ぎ等）を含む `taskType=implementation` タスクは、Phase 6 / Phase 11 で次を必須検証する。詳細パターンとアンチパターンは [patterns-a11y-focus-management.md](patterns-a11y-focus-management.md) を参照する。
+
+#### Phase 6 (test plan) 必須項目
+
+1. focused test で **`vi.spyOn(HTMLElement.prototype, 'focus')` を必須化** し、`expect(spy).toHaveBeenCalledWith({ preventScroll: true })` の **引数完全一致** assertion を 1 ケース以上含める（`toHaveBeenCalled()` のみは FAIL）。
+2. `preventScroll: true` の default 渡し検証 + caller `{ preventScroll: false }` opt-out 検証を independent な 2 ケースとして持つ。
+3. error boundary 統合 spec では `expect(document.activeElement).toBe(getByRole('heading', { level: 1 }))` で actual focus 移譲も assert する（spy 単体では layout 副作用を検出できないため不足）。
+4. `useAutoFocusOnMount`（`apps/web/src/lib/a11y/useAutoFocusOnMount.ts`）を標準 hook として採用し、各 error boundary に inline `useEffect(() => ref.current?.focus(), [])` を新規追加しない（drift 禁止）。
+
+#### Phase 11 (evidence) 必須項目
+
+1. `outputs/phase-11/evidence/focus-management-spec-run.txt` に該当 spec の vitest フル実行ログ（pass 集計末尾あり）を tracked path で保存する。
+2. `outputs/phase-11/evidence/focus-management-spec-list.txt` に `grep -rn "useAutoFocusOnMount" apps/web/src` 結果を保存し、利用箇所 drift 0 を担保する。
+3. VISUAL ルート統合タスクのみ `outputs/phase-11/screenshots/error-boundary-focus-<route>.png` で focus ring 可視状態を残す。NON_VISUAL hook 単体タスクは [phase-11-non-visual-alternative-evidence.md](phase-11-non-visual-alternative-evidence.md) L3 in-memory test layer に従い screenshot は要求しない。
+
+> 該当パターンの実装例（hook 定義 / error.tsx 利用 / focused spec の最小サンプル）と 5 アンチパターン一覧は [patterns-a11y-focus-management.md](patterns-a11y-focus-management.md) を参照。
+
 ## 検証コマンド
 
 ```bash

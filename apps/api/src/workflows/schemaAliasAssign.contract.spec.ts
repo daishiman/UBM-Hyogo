@@ -101,7 +101,7 @@ describe("schemaAliasAssign", () => {
     expect(result.queueStatus).toBe("resolved");
 
     const alias = await env.db
-      .prepare("SELECT stable_key FROM schema_aliases WHERE alias_question_id = 'q1'")
+      .prepare("SELECT stable_key FROM schema_aliases WHERE alias_question_id = 'q1' AND deleted_at IS NULL")
       .first<{ stable_key: string }>();
     expect(alias?.stable_key).toBe("full_name");
     const q = await env.db
