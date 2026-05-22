@@ -21,6 +21,20 @@
 | evidence boundary | Local implementation present。Phase 12 strict 7 present。Focused tests/build evidence and dev-server smoke remain runtime evidence gates; commit / push / PR / Issue close are user-gated |
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-277-next-proxy-migration-artifact-inventory.md` |
 
+### Issue #806 dynamic member OG image（2026-05-20）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented-local / implementation / VISUAL / local-evidence-captured` |
+| 成果物 | `docs/30-workflows/issue-806-dynamic-member-og-image/` |
+| Issue | #806 CLOSED。PR 文脈は `Refs #806` のみ |
+| parent | `docs/30-workflows/completed-tasks/issue-274-public-pages-ogp-sitemap-robots/` |
+| source trace | `docs/30-workflows/unassigned-task/task-issue-274-followup-001-dynamic-member-og-image.md` consumed |
+| 目的 | `/members/[id]/opengraph-image` と member detail metadata を実装し、SNS share 時に member-specific `og:image` / `twitter:image` を返す |
+| implementation targets | `apps/web/app/(public)/members/[id]/opengraph-image/route.tsx`, `apps/web/app/(public)/members/[id]/page.tsx`, `apps/web/src/lib/seo/site-metadata.ts`, `apps/web/playwright/tests/public-metadata.spec.ts`, `apps/web/app/(public)/members/[id]/__tests__/opengraph-image.spec.tsx` |
+| key contract | Next.js 16 async `params: Promise<{ id: string }>`; publicConsent は API contract に委譲し web は `FetchPublicNotFoundError` mapping を検証 |
+| evidence boundary | Phase 12 strict 7 present。apps/web 実装、focused unit/Playwright、Phase 11 screenshot evidence captured。commit、push、PR、deploy verification は user-gated |
+
 ### Issue #778 schema alias rollback / undo（2026-05-19）
 
 | 項目 | 値 |

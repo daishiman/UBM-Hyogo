@@ -13,6 +13,20 @@
 | inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-277-next-proxy-migration-artifact-inventory.md` |
 | user gate | dev-server manual smoke, commit, push, PR, issue close |
 
+## Issue #806 dynamic member OG image（2026-05-20）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/issue-806-dynamic-member-og-image/` |
+| 状態 | `implemented-local / implementation / VISUAL / local-evidence-captured` |
+| issue | #806 CLOSED; PR should use `Refs #806`; commit / push / PR / Issue mutation are user-gated |
+| parent | `docs/30-workflows/completed-tasks/issue-274-public-pages-ogp-sitemap-robots/` |
+| scope | `/members/[id]/opengraph-image` dynamic member OG image, member detail `og:image` / `twitter:image`, unit + Playwright coverage |
+| key contract | Next.js 16 App Router `params: Promise<{ id: string }>`; public profile privacy is API-owned by `apps/api/src/routes/public/member-profile.ts` and `apps/api/src/use-cases/public/get-public-member-profile.ts` |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-806-dynamic-member-og-image-artifact-inventory.md` |
+| evidence boundary | Phase 12 strict 7 present; focused unit/Playwright and Phase 11 screenshot evidence captured; commit / push / PR / deploy verification user-gated |
+
+## Issue #799 useAutoFocusOnMount hook（2026-05-19）
 ## step-06 meetings attendance implementation（2026-05-20）
 ## Issue #778 Schema Alias Rollback / Undo（2026-05-19）
 

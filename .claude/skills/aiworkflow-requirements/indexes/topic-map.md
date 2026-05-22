@@ -2817,6 +2817,16 @@ node scripts/list-specs.js --topics
 |------------|----|
 | State | L15 |
 
+### references/workflow-issue-806-dynamic-member-og-image-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Workflow | L3 |
+| Implementation Targets | L13 |
+| Evidence Boundary | L21 |
+| Required Runtime Evidence | L25 |
+| Phase 12 Strict Outputs | L32 |
+
 ### references/workflow-light-theme-contrast-regression-guard.md
 
 | セクション | 行 |
@@ -7240,6 +7250,14 @@ node scripts/list-specs.js --topics
 | 昇格パターン集 | L2033 |
 | Current Active / Spec Created Tasks | L2035 |
 | UT-17 followup-003 alert-relay weekly healthcheck cron | L2190 |
+| ドキュメント構成 | L1936 |
+| フェーズ構造（概要） | L1945 |
+| 品質ゲート（概要） | L1976 |
+| 出力テンプレート | L1987 |
+| 実行時のコマンド・エージェント・スキル | L2010 |
+| 昇格パターン集 | L2034 |
+| Current Active / Spec Created Tasks | L2036 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L2191 |
 
 ### references/task-workflow-backlog-part2.md
 
