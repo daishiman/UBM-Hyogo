@@ -75,6 +75,7 @@ describe("ProfileError", () => {
     expect(logger.error).toHaveBeenCalledTimes(1);
     expect(logger.error).toHaveBeenCalledWith({
       event: "error.boundary.caught",
+      scope: "profile",
       digest: "d1",
       err: error,
     });

@@ -73,6 +73,7 @@ describe("LoginError", () => {
     expect(reset).toHaveBeenCalledTimes(1);
     expect(logger.error).toHaveBeenCalledWith({
       event: "error.boundary.caught",
+      scope: "login",
       digest: "d1",
       err: error,
     });

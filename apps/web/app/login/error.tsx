@@ -46,7 +46,7 @@ export default function LoginError({
         <p className="text-sm text-text-3">時間をおいて再度お試しください。</p>
         {error.digest ? (
           <p className="rounded bg-surface-2 p-3 text-xs text-text-3">
-            <code>error id: {error.digest}</code>
+            エラーID: <code>{error.digest}</code>
           </p>
         ) : null}
         {isDev && (
