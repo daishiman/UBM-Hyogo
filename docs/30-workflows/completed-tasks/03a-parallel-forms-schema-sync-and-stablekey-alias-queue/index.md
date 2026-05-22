@@ -140,9 +140,3 @@
 - 共通テンプレ: ../_templates/phase-template-app.md
 - 並列タスク: ../03b-parallel-forms-response-sync-and-current-response-resolver/
 - 下流タスク: ../04c-parallel-admin-backoffice-api-endpoints/, ../07b-parallel-schema-diff-alias-assignment-workflow/
-
-#### 関連タスク（legacy umbrella 逆リンク）
-
-| 関連タスク | リンク | 理由 |
-|-----------|--------|------|
-| task-sync-forms-d1-legacy-umbrella-001 | [umbrella close-out](../task-sync-forms-d1-legacy-umbrella-001/) | 旧 UT-09（単一 /admin/sync + sync_audit + Sheets API）の close-out。本タスクが current Forms API schema sync 経路（`POST /admin/sync/schema` + `sync_jobs` ledger）を担保する。Refs: Issue #291 / issue-291-forms-d1-legacy-followup-cleanup |

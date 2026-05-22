@@ -150,9 +150,3 @@
 - 共通テンプレ: ../_templates/phase-template-app.md
 - 並列タスク: ../03a-parallel-forms-schema-sync-and-stablekey-alias-queue/
 - 下流: ../04a / ../04b / ../04c / ../07a / ../07c
-
-#### 関連タスク（legacy umbrella 逆リンク）
-
-| 関連タスク | リンク | 理由 |
-|-----------|--------|------|
-| task-sync-forms-d1-legacy-umbrella-001 | [umbrella close-out](../task-sync-forms-d1-legacy-umbrella-001/) | 旧 UT-09（単一 /admin/sync + sync_audit + Sheets API）の close-out。本タスクが current Forms API response sync 経路（`POST /admin/sync/responses` + `sync_jobs` ledger + `current_response_id` resolver）を担保する。Refs: Issue #291 / issue-291-forms-d1-legacy-followup-cleanup |
