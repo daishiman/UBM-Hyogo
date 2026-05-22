@@ -22,3 +22,10 @@ handler emits it. Once the handler exists, still require staging deploy/runtime
 smoke evidence before creating alert IaC, so the task can specify signal
 frequency, routing, and redaction boundaries from observed data rather than
 local-only assumptions.
+
+## L-RTSMOKE-003: `auth misconfigured` means middleware/binding first, handler second
+
+The follow-up body `{"error":"auth misconfigured"}` showed that PR #854's admin
+members handler hardening was not the true smoke-failure fix. When a persisted
+runtime body names auth/config, inspect `requireAuth` / `requireAdmin` and
+Workers bindings before changing endpoint handlers.

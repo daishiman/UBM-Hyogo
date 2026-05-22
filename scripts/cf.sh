@@ -286,6 +286,26 @@ if [ "$1" = "deploy" ] && printf '%s\n' "$@" | grep -qx -- "--config"; then
   fi
 fi
 
+if [ "$1" = "secret" ] && [ "${2:-}" = "put" ] && [ ! -t 0 ]; then
+  secret_stdin="$(cat)"
+  if [ -z "$(printf '%s' "$secret_stdin" | tr -d '[:space:]')" ]; then
+    echo "[cf.sh] refusing empty stdin for 'secret put ${3:-<missing-secret-name>}'" >&2
+    exit 78
+  fi
+  for arg in "$@"; do
+    if [ "$arg" = "--dry-run" ]; then
+      echo "[cf.sh] dry-run: secret put ${3:-<missing-secret-name>} accepted non-empty stdin" >&2
+      exit 0
+    fi
+  done
+  if [ "${CF_SH_SKIP_WITH_ENV:-0}" = "1" ]; then
+    printf '%s' "$secret_stdin" | "$WRANGLER_BIN" "$@"
+    exit $?
+  fi
+  printf '%s' "$secret_stdin" | "$REPO_ROOT/scripts/with-env.sh" mise exec -- "$WRANGLER_BIN" "$@"
+  exit $?
+fi
+
 if [ "${CF_SH_SKIP_WITH_ENV:-0}" = "1" ]; then
   exec "$WRANGLER_BIN" "$@"
 fi

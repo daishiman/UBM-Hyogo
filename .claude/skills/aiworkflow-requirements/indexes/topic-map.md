@@ -3522,7 +3522,7 @@ node scripts/list-specs.js --topics
 
 | セクション | 行 |
 |------------|----|
-| Contract | L17 |
+| Contract | L19 |
 
 ### references/workflow-task-spec-2d-contract-stage-2-artifact-inventory.md
 
@@ -3530,6 +3530,12 @@ node scripts/list-specs.js --topics
 |------------|----|
 | Canonical Set | L12 |
 | Boundary | L22 |
+
+### references/workflow-task-staging-auth-secret-binding-recovery-001-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Contract | L17 |
 
 ### references/workflow-task-sync-forms-d1-legacy-umbrella-artifact-inventory.md
 
@@ -6044,8 +6050,8 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 概要 | L3 |
 | 仕様書インデックス | L7 |
-| 利用順序 | L116 |
-| 関連ドキュメント | L121 |
+| 利用順序 | L117 |
+| 関連ドキュメント | L122 |
 
 ### references/llm-embedding.md
 
@@ -7169,14 +7175,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L1846 |
-| フェーズ構造（概要） | L1855 |
-| 品質ゲート（概要） | L1886 |
-| 出力テンプレート | L1897 |
-| 実行時のコマンド・エージェント・スキル | L1920 |
-| 昇格パターン集 | L1944 |
-| Current Active / Spec Created Tasks | L1946 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L2101 |
+| ドキュメント構成 | L1860 |
+| フェーズ構造（概要） | L1869 |
+| 品質ゲート（概要） | L1900 |
+| 出力テンプレート | L1911 |
+| 実行時のコマンド・エージェント・スキル | L1934 |
+| 昇格パターン集 | L1958 |
+| Current Active / Spec Created Tasks | L1960 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L2115 |
 
 ### references/task-workflow-backlog-part2.md
 
