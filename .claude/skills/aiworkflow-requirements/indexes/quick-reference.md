@@ -250,6 +250,21 @@
 | lessons | `.claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-issue-769-root-error-focus-2026-05.md` (L-I769-001..005) |
 | user gate | interactive screen reader smoke, commit, push, PR |
 
+### Issue #801 admin error h1 auto-focus transfer（2026-05-19）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/issue-801-admin-error-focus-transfer/` |
+| 状態 | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION / runtime_pending` |
+| scope | `(admin)/admin/error.tsx` の h1 自動 focus / aria-live / digest / logger 横展開 |
+| implementation | `apps/web/app/(admin)/admin/error.tsx` |
+| tests | `apps/web/app/(admin)/admin/__tests__/error.component.spec.tsx` |
+| evidence | `outputs/phase-11/evidence/`, `outputs/phase-12/phase12-task-spec-compliance-check.md` |
+| source | `docs/30-workflows/unassigned-task/issue-769-followup-003-admin-error-focus-transfer.md` consumed |
+| predecessor | `docs/30-workflows/completed-tasks/issue-769-root-error-focus/` |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-801-admin-error-focus-transfer-artifact-inventory.md` |
+| user gate | runtime browser screenshot, screen reader smoke, commit, push, PR |
+
 ### Issue #800 error boundary focus hook rollout（2026-05-19）
 
 | 目的 | 参照先 |

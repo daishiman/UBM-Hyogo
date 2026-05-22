@@ -188,6 +188,21 @@
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-769-root-error-focus-artifact-inventory.md` |
 | user gate | interactive screen reader smoke / commit / push / PR |
 
+### Issue #801 admin error h1 auto-focus transfer（2026-05-19）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION / runtime_pending` |
+| 成果物 | `docs/30-workflows/issue-801-admin-error-focus-transfer/` |
+| source | `docs/30-workflows/unassigned-task/issue-769-followup-003-admin-error-focus-transfer.md` consumed |
+| predecessor | `docs/30-workflows/completed-tasks/issue-769-root-error-focus/` |
+| 目的 | admin segment error boundary の h1 に mount 後 focus を移譲し、screen reader が管理画面エラー見出しを即時認識できるようにする |
+| 実装 | `apps/web/app/(admin)/admin/error.tsx`, `apps/web/app/(admin)/admin/__tests__/error.component.spec.tsx` |
+| 不変条件 | Auth gate / API / D1 schema / common hook は変更しない。`/` fallback link で auth loop を避ける |
+| evidence | `docs/30-workflows/issue-801-admin-error-focus-transfer/outputs/phase-11/evidence/`, `docs/30-workflows/issue-801-admin-error-focus-transfer/outputs/phase-12/phase12-task-spec-compliance-check.md` |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-801-admin-error-focus-transfer-artifact-inventory.md` |
+| user gate | runtime browser screenshot / screen reader smoke / commit / push / PR |
+
 ### Issue #800 error boundary focus hook rollout（2026-05-19）
 
 | 項目 | 値 |

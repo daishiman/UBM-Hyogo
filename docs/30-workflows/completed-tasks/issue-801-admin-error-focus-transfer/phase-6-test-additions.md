@@ -1,3 +1,8 @@
+# Phase 6: Test Additions — issue-801 admin error focus transfer
+
+## 新規ファイル: `apps/web/app/(admin)/admin/__tests__/error.component.spec.tsx`
+
+```tsx
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { cleanup, fireEvent, render, screen } from "@testing-library/react";
 
@@ -26,24 +31,18 @@ afterEach(() => {
 });
 
 function makeError(opts: { digest?: string; stack?: string } = {}) {
-  const error = new Error("boom") as Error & { digest?: string };
-  if (opts.stack !== undefined) error.stack = opts.stack;
-  if (opts.digest) error.digest = opts.digest;
-  return error;
+  const e = new Error("boom") as Error & { digest?: string };
+  if (opts.stack !== undefined) e.stack = opts.stack;
+  if (opts.digest) e.digest = opts.digest;
+  return e;
 }
 
 describe("AdminError", () => {
   describe("TC-AE-01: dev mode で stack を表示する", () => {
     beforeEach(() => vi.stubEnv("NODE_ENV", "development"));
-
     it("renders <pre> with stack content", () => {
       const reset = vi.fn();
-      render(
-        <AdminError
-          error={makeError({ stack: "Error: admin-stack-marker\n  at x" })}
-          reset={reset}
-        />,
-      );
+      render(<AdminError error={makeError({ stack: "Error: admin-stack-marker\n  at x" })} reset={reset} />);
       const pre = document.querySelector("pre");
       expect(pre).not.toBeNull();
       expect(pre?.textContent).toContain("admin-stack-marker");
@@ -52,7 +51,6 @@ describe("AdminError", () => {
 
   describe("TC-AE-02: prod mode で stack を表示しない", () => {
     beforeEach(() => vi.stubEnv("NODE_ENV", "production"));
-
     it("does not render <pre>", () => {
       const reset = vi.fn();
       render(<AdminError error={makeError({ stack: "should-not-show" })} reset={reset} />);
@@ -79,7 +77,7 @@ describe("AdminError", () => {
     it("invokes reset once on click", () => {
       const reset = vi.fn();
       render(<AdminError error={makeError()} reset={reset} />);
-      fireEvent.click(screen.getByRole("button", { name: "再試行" }));
+      fireEvent.click(screen.getByRole("button", { name: "再試行する" }));
       expect(reset).toHaveBeenCalledTimes(1);
     });
   });
@@ -107,9 +105,7 @@ describe("AdminError", () => {
 
   describe("TC-AE-08: OKLch トークンのみ使用", () => {
     it("uses design tokens and no stale token classes", () => {
-      const { container } = render(
-        <AdminError error={makeError({ digest: "d1" })} reset={vi.fn()} />,
-      );
+      const { container } = render(<AdminError error={makeError({ digest: "d1" })} reset={vi.fn()} />);
       const html = container.innerHTML;
       expect(html).not.toContain("text-[var(");
       expect(html).not.toContain("bg-[var(");
@@ -161,3 +157,29 @@ describe("AdminError", () => {
     });
   });
 });
+```
+
+## モック path の確認
+
+`apps/web/app/(admin)/admin/__tests__/error.component.spec.tsx` → `apps/web/src/lib/logger` 相対:
+
+```
+__tests__/    -> ..
+admin/        -> ../..
+(admin)/      -> ../../..
+app/          -> ../../../..
+apps/web/     -> ../../../../src/lib/logger
+```
+
+→ `vi.mock("../../../../src/lib/logger", ...)`、`import { logger } from "../../../../src/lib/logger"`
+
+## 実行コマンド
+
+```bash
+mise exec -- pnpm -F "@ubm-hyogo/web" test -- --run admin/__tests__/error.component
+```
+
+## DoD
+
+- 12 TC すべて PASS
+- AC-9 / AC-10 達成

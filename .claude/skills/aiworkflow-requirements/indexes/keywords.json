@@ -3153,6 +3153,7 @@
       "workflow-issue-747-vitest-esbuild-arch-and-worktree-isolation-artifact-inventory.md",
       "workflow-issue-769-root-error-focus-artifact-inventory.md",
       "workflow-issue-800-profile-error-focus-transfer-artifact-inventory.md",
+      "workflow-issue-801-admin-error-focus-transfer-artifact-inventory.md",
       "workflow-parallel-i03-dialog-refresh-order-artifact-inventory.md",
       "workflow-task-09-w3-par-tailwind-v4-setup-artifact-inventory.md",
       "workflow-task-14-my-profile-and-requests-artifact-inventory.md",
@@ -3268,6 +3269,7 @@
       "workflow-issue-778-schema-alias-rollback-undo-artifact-inventory.md",
       "workflow-issue-799-use-auto-focus-on-mount-hook-artifact-inventory.md",
       "workflow-issue-800-profile-error-focus-transfer-artifact-inventory.md",
+      "workflow-issue-801-admin-error-focus-transfer-artifact-inventory.md",
       "workflow-parallel-04-shared-page-chrome-artifact-inventory.md",
       "workflow-parallel-i03-dialog-refresh-order-artifact-inventory.md",
       "workflow-parallel-i06-root-error-focus-artifact-inventory.md",
@@ -3572,6 +3574,7 @@
       "workflow-admin-member-delete-e2e-spec-artifact-inventory.md",
       "workflow-i02-admin-error-type-unify-artifact-inventory.md",
       "workflow-issue-106-admin-member-notes-repository-task-spec-artifact-inventory.md",
+      "workflow-issue-801-admin-error-focus-transfer-artifact-inventory.md",
       "workflow-task-04b-followup-001-admin-queue-request-status-metadata-artifact-inventory.md",
       "workflow-task-15-admin-dashboard-and-members-artifact-inventory.md",
       "workflow-task-16-admin-tags-meetings-requests-artifact-inventory.md",
@@ -7309,6 +7312,7 @@
       "workflow-issue-769-root-error-focus-artifact-inventory.md",
       "workflow-issue-770-profile-loading-skeleton-artifact-inventory.md",
       "workflow-issue-800-profile-error-focus-transfer-artifact-inventory.md",
+      "workflow-issue-801-admin-error-focus-transfer-artifact-inventory.md",
       "workflow-task-issue-191-production-d1-schema-aliases-apply-001-artifact-inventory.md",
       "workflow-task-issue-191-schema-aliases-implementation-001-artifact-inventory.md",
       "workflow-task-issue-346-08a-canonical-workflow-tree-restore-artifact-inventory.md",
@@ -10788,6 +10792,7 @@
       "workflow-i02-admin-error-type-unify-artifact-inventory.md",
       "workflow-issue-769-root-error-focus-artifact-inventory.md",
       "workflow-issue-800-profile-error-focus-transfer-artifact-inventory.md",
+      "workflow-issue-801-admin-error-focus-transfer-artifact-inventory.md",
       "workflow-parallel-i06-root-error-focus-artifact-inventory.md",
       "workflow-task-05-error-boundary-and-staging-smoke-artifact-inventory.md"
     ],
@@ -15973,6 +15978,7 @@
       "workflow-issue-778-schema-alias-rollback-undo-artifact-inventory.md",
       "workflow-issue-799-use-auto-focus-on-mount-hook-artifact-inventory.md",
       "workflow-issue-800-profile-error-focus-transfer-artifact-inventory.md",
+      "workflow-issue-801-admin-error-focus-transfer-artifact-inventory.md",
       "workflow-parallel-04-shared-page-chrome-artifact-inventory.md",
       "workflow-parallel-09-ux-cross-cutting-artifact-inventory.md",
       "workflow-parallel-i03-dialog-refresh-order-artifact-inventory.md",
@@ -16707,6 +16713,7 @@
       "lessons-learned-parallel-i06-root-error-focus-2026-05.md",
       "workflow-issue-769-root-error-focus-artifact-inventory.md",
       "workflow-issue-800-profile-error-focus-transfer-artifact-inventory.md",
+      "workflow-issue-801-admin-error-focus-transfer-artifact-inventory.md",
       "workflow-parallel-i06-root-error-focus-artifact-inventory.md"
     ],
     "検証は": [
@@ -23642,6 +23649,7 @@
       "workflow-issue-778-schema-alias-rollback-undo-artifact-inventory.md",
       "workflow-issue-799-use-auto-focus-on-mount-hook-artifact-inventory.md",
       "workflow-issue-800-profile-error-focus-transfer-artifact-inventory.md",
+      "workflow-issue-801-admin-error-focus-transfer-artifact-inventory.md",
       "workflow-parallel-04-shared-page-chrome-artifact-inventory.md",
       "workflow-parallel-09-ux-cross-cutting-artifact-inventory.md",
       "workflow-parallel-i03-dialog-refresh-order-artifact-inventory.md",
@@ -24467,7 +24475,8 @@
       "workflow-issue-800-profile-error-focus-transfer-artifact-inventory.md"
     ],
     "transfer": [
-      "workflow-issue-800-profile-error-focus-transfer-artifact-inventory.md"
+      "workflow-issue-800-profile-error-focus-transfer-artifact-inventory.md",
+      "workflow-issue-801-admin-error-focus-transfer-artifact-inventory.md"
     ],
     "ライトテーマ": [
       "workflow-light-theme-contrast-regression-guard.md"
