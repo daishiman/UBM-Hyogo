@@ -18,6 +18,7 @@ one ambiguous PASS label.
 | `pass_runtime_synced` | N-day close-out terminal state. Production runtime evidence の observation window が完走し、aggregate gate（4 観測軸: actualSnapshots / fallbackRateMean / leakageHits / mlSnapshots など）が PASS した上で evidence PR が user-approved された状態。 | merge 後 D+N の cross-run aggregate JSON + evidence PR + user approval。skeleton zero metrics gate を含む aggregate gate が PASS。 | `completed`（merge 完了 / PR 承認後）。 |
 | `implemented_local_build_blocked` | `VISUAL_ON_EXECUTION` 専用サブステート。local typecheck / lint / focused test は PASS だが、`build:cloudflare` 等の build toolchain blocker により runtime visual / axe evidence が取得できない段階。 | local PASS evidence + blocker の原因解析 + follow-up unassigned-task（build 修復タスク）の起票。 | `runtime-evidence-captured` after blocker is resolved and runtime screenshot / axe evidence is captured in the parent task `outputs/phase-11/evidence/` directory. |
 | `runtime_evidence_captured` | `VISUAL_ON_EXECUTION` の runtime gate を通過した状態。runtime screenshot と axe report が親 task の `outputs/phase-11/evidence/` に集約済み。 | local PASS + `outputs/phase-11/evidence/screenshots/*.png` + `outputs/phase-11/evidence/axe-report.json` + Phase 12 strict 7 outputs + artifacts parity。 | Phase 13 user gate (commit / push / PR / merge)。 |
+| `VISUAL_RUNTIME_PENDING` / `visual_runtime_pending` | local 実装と local screenshot は取得済みだが、production runtime（Cloudflare staging/production deploy 後の実機 visual）evidence が未取得の境界。`implemented_local_evidence_captured` + 「local screenshot ≠ production runtime visual」を明示する。 | local PASS 5 点 + `outputs/phase-11/evidence/screenshots/local/*.png`（local 取得 / standalone mock も含む） + production runtime evidence は `pending` 行で inventory 化。 | `runtime_evidence_captured` after production fresh visual 取得。 |
 | `verified_current_no_code_change_pending_pr` | Current baseline already satisfies the reported problem, with no code change required. | Baseline and after evidence, stale-current rationale, consumed source task trace. | Phase 13 user gate, then completed/archive policy. |
 | `completed` | Workflow is fully closed according to its completion policy. | Phase 13 completion or completed-tasks policy, final ledger/index sync. | Terminal. |
 
@@ -76,6 +77,7 @@ ledger / changelog / unassigned-task の自然文では、`metadata.workflow_sta
 | `implemented_local_runtime_pending` | `implemented-local-runtime-pending` | task-15 admin dashboard 系のように staging/production 実機 smoke が **別タスク gate で pending** な状態を自然文で示すとき |
 | `implemented_local_build_blocked` | `implemented-local-build-blocked` | `VISUAL_ON_EXECUTION` task で build toolchain blocker により runtime visual が取得できない段階（task-10 で導入） |
 | `runtime_evidence_captured` | `runtime-evidence-captured` | `VISUAL_ON_EXECUTION` の runtime gate 通過、screenshot / axe が親 task `outputs/phase-11/evidence/` 配下に集約済み |
+| `VISUAL_RUNTIME_PENDING` / `visual_runtime_pending` | `visual-runtime-pending` | local screenshot は取得済 / production runtime visual は別 wave / 別タスクで取得予定。local evidence と production runtime evidence の境界を明示するときに使う |
 | `pass_boundary_synced_runtime_pending` | `pass-boundary-synced-runtime-pending` | merge 後 runtime 観測中 |
 | `pass_runtime_synced` | `pass-runtime-synced` | N-day close-out 完了 |
 
@@ -138,9 +140,51 @@ Each remaining hit must be classified before PASS:
 | Generated index hit | Regenerate indexes after the live/historical classification is fixed. |
 | Deleted root with live references | FAIL. Restore the root or complete the archive/move ledger update in the same wave. |
 
+## Phase 12 Verdict Vocabulary Unification (2026-05-19 追加 / parallel-03-appshell-layouts 由来)
+
+Phase 12 root の verdict label と sub-workflow（parallel-NN-*）の verdict label を **同一語彙体系** に統一する。混在を許容すると compliance gate が verdict 一致確認に失敗する。
+
+### Canonical mapping
+
+| 場面 | Root 集約 (`docs/30-workflows/<workflow>/outputs/phase-12/main.md`) | Sub-workflow (`parallel-NN-*/phase-12-compliance-check.md`) |
+| --- | --- | --- |
+| 仕様完備 + local PASS、runtime/visual は serial gate へ deferral | `SPEC READINESS PASS / RUNTIME VISUAL PARTIAL` | `SPEC_READY_LOCAL_EVIDENCE_CAPTURED / VISUAL_EVIDENCE_PENDING` |
+| 仕様完備のみ、実装着手前 | `SPEC READINESS PASS / IMPLEMENTATION PENDING` | `spec_created` |
+| local + runtime visual 取得済 | `PASS / RUNTIME VISUAL COMPLETE` | `implemented_local_evidence_captured` ＋ `runtime_evidence_captured` |
+| 外部 ops / KV / D1 等 user gate 待ち | `PASS / EXTERNAL OPS PENDING` | `PASS_BOUNDARY_SYNCED_RUNTIME_PENDING (external resource: …)` |
+
+### Deferred VISUAL / runtime evidence 分類ラベル
+
+runtime visual / axe / Lighthouse 等を**同 wave で取得しない**設計の場合、Phase 12 sub-workflow および artifacts.json の `metadata.deferredEvidence[]` に下記ラベルを明示する。
+
+| ラベル | 用途 |
+| --- | --- |
+| `deferred-to-serial-<task-slug>` | serial gate task（例: task-18 verify-design-tokens / playwright-smoke）へ申し送り。`<task-slug>` は具体 task 名で固定 |
+| `BLOCKED_UNTIL_USER_APPROVAL` | user 承認 gate 待ち（外部 ops / production cutover 等） |
+| `BLOCKED_UNTIL_DEPLOY` | staging / production deploy 完了 gate 待ち |
+
+ラベル単独で verdict にしない（root state + verdict suffix とペアで併記）。新規 skill 化はせず本ファイルで一元管理する。
+
+## EV Inventory Path Label vs 実体 Drift Gate (2026-05-19 追加)
+
+Phase 11 evidence inventory（`outputs/phase-11/evidence-inventory.md`）の `Path` 列が示すラベルと、`outputs/phase-11/evidence/` 配下の実体ファイルが乖離していると Phase 12 compliance gate が false-PASS する。下記 grep を `verify-phase11-evidence-existence.ts` 系と併せて手動で実行する。
+
+```bash
+# inventory に書かれた path が物理存在することを確認
+rg -n "^\| .*\| present \|" docs/30-workflows/<workflow>/outputs/phase-11/evidence-inventory.md \
+  | awk -F'|' '{print $2}' | tr -d ' ' \
+  | while read p; do
+      [ -e "docs/30-workflows/<workflow>/$p" ] || echo "MISSING: $p"
+    done
+```
+
+drift があれば `Status` を `absent` / `not_executed` に書き換える、または実体を配置する。詳細運用は [evidence-sync-rules.md §ルール6](evidence-sync-rules.md) と併読。
+
 ## Related References
 
 - [phase12-compliance-check-template.md](phase12-compliance-check-template.md)
 - [phase-12-spec.md](phase-12-spec.md)
 - [phase-template-phase11.md](phase-template-phase11.md)
 - [phase12-skill-feedback-promotion.md](phase12-skill-feedback-promotion.md)
+- [task-type-decision.md](task-type-decision.md) — `implementation_mode: existing-layout-alignment`
+- [server-component-e2e-pattern.md](server-component-e2e-pattern.md) — Server Component redirect の vitest pattern

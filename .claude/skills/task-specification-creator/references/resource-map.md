@@ -93,7 +93,10 @@
 | Reference | 読み込み条件 | 内容 |
 | --- | --- | --- |
 | [unassigned-task-guidelines.md](unassigned-task-guidelines.md) | 未タスク出力時 | 未タスク仕様ルール |
+| [unassigned-task-required-sections.md](unassigned-task-required-sections.md) | 未タスク作成時 / proto-spec 配置時 | 4 セクション必須 + §6 governance YAML + §8 単一ファイル proto-spec フォーマット（軽量 7 セクション） |
 | [closed-issue-canonical-workflow-recovery.md](closed-issue-canonical-workflow-recovery.md) | CLOSED Issue で canonical workflow root が欠落していた場合の後付け生成 / governance YAML 契約参照時 | 後付け 5 段手順、`status: consumed` 保全、`Refs #<n>` 限定運用、YAML フロントマター 4 フィールド契約 |
+| [shared-file-parallel-edit-pattern.md](shared-file-parallel-edit-pattern.md) | 複数 parallel-XX タスクで `globals.css` 等 cascade 系共有ファイルを編集する設計時 | マーカー責務分離 / 先着優先 / `merge=union` 不可ルール / Phase 2/4/5/11/12 組込み |
+| [phase11-evidence-two-tier-status.md](phase11-evidence-two-tier-status.md) | Phase 11 evidence inventory に `pending` 行を含める場合 / 別タスク gate evidence を ledger 化する場合 | `present` (validator 検査) / `pending` (inventory ledger) / `n/a` (取得不要確定) の二層運用と昇格パス |
 
 ### project workflow examples
 

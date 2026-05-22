@@ -1,10 +1,11 @@
 {
   "workflow_id": "ui-prototype-design-system-foundation",
   "metadata": {
-    "workflow_state": "spec_created",
+    "workflow_state": "implemented_local_evidence_captured",
     "taskType": "implementation",
-    "visualEvidence": "VISUAL",
+    "visualEvidence": "VISUAL_RUNTIME_PENDING",
     "implementation_mode": "greenfield-foundation",
+    "implementation_status": "local_static_evidence_captured_runtime_visual_pending",
     "prototype_coverage": "PROTOTYPE-COVERAGE.md",
     "sub_workflows": {
       "parallel-01-globals-css-rhythm": {
@@ -52,7 +53,7 @@
     { "phase": 9, "status": "spec_created" },
     { "phase": 10, "status": "spec_created" },
     { "phase": 11, "status": "spec_created" },
-    { "phase": 12, "status": "spec_created" },
+    { "phase": 12, "status": "runtime_pending" },
     { "phase": 13, "status": "pending_user_approval" }
   ],
   "outputs": {

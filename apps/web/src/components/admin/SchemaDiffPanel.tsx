@@ -7,16 +7,29 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import {
   postSchemaAlias,
+  postSchemaAliasBulk,
   isSchemaAliasRetryableContinuation,
   rollbackSchemaAlias,
   RollbackApiError,
   type RollbackSchemaAliasResult,
 } from "../../lib/admin/api";
+import {
+  useSchemaDiffBulkSelection,
+  type BulkRowState,
+} from "./hooks/useSchemaDiffBulkSelection";
+import { SchemaDiffBulkResolveModal } from "./SchemaDiffBulkResolveModal";
+import {
+  isStableKeyValid,
+  normalizeStableKey,
+  STABLE_KEY_VALIDATION_MESSAGE,
+} from "./schemaAliasValidation";
 import { FormField } from "../ui/FormField";
 import { Input } from "../ui/Input";
 import { EmptyState } from "../ui/EmptyState";
 import { isBrowser } from "../../lib/is-browser";
 import { AdminMutationError, useAdminMutation } from "../../features/admin/hooks/useAdminMutation";
+
+const BULK_LIMIT = 50;
 
 export type DiffType = "added" | "changed" | "removed" | "unresolved";
 
@@ -52,7 +65,6 @@ const STATUS_LABELS: Record<SchemaDiffItem["status"], string> = {
   resolved: "解決済み",
 };
 
-const STABLE_KEY_PATTERN = /^[a-zA-Z][a-zA-Z0-9_]*$/;
 const VALIDATION_FEEDBACK_ID = "schema-alias-validation-feedback";
 
 type FeedbackKind =
@@ -435,6 +447,25 @@ export function SchemaDiffPanel({ initial, resolvedAliases, actorEmail }: Schema
     await performRollback(undoState.alias);
   };
 
+  // Issue #776: bulk resolve mode
+  const [bulkMode, setBulkMode] = useState(false);
+
+  const diffById = useMemo(() => {
+    const m = new Map<string, SchemaDiffItem>();
+    for (const it of initial.items) m.set(it.diffId, it);
+    return m;
+  }, [initial.items]);
+
+  const bulk = useSchemaDiffBulkSelection({
+    postSchemaAliasBulk,
+    onAllSucceeded: () => router.refresh(),
+    categoryOf: (diffId) => {
+      const it = diffById.get(diffId);
+      if (!it) return null;
+      return it.type === "unresolved" || it.type === "changed" ? it.type : null;
+    },
+  });
+
   const onSelect = (it: SchemaDiffItem) => {
     setActive(it);
     setStableKey(it.suggestedStableKey ?? it.stableKey ?? "");
@@ -442,7 +473,7 @@ export function SchemaDiffPanel({ initial, resolvedAliases, actorEmail }: Schema
   };
 
   const trimmedKey = stableKey.trim();
-  const isValidStableKey = STABLE_KEY_PATTERN.test(trimmedKey);
+  const isValidStableKey = isStableKeyValid(stableKey);
   const describedBy =
     feedback?.kind === "validation_error"
       ? `schema-alias-stableKey-hint ${VALIDATION_FEEDBACK_ID}`
@@ -460,8 +491,7 @@ export function SchemaDiffPanel({ initial, resolvedAliases, actorEmail }: Schema
     if (!isValidStableKey) {
       setFeedback({
         kind: "validation_error",
-        label:
-          "stableKey は英字で始まり、英数字と _ のみ使用できます（例: fullName）。",
+        label: STABLE_KEY_VALIDATION_MESSAGE,
       });
       return;
     }
@@ -533,10 +563,69 @@ export function SchemaDiffPanel({ initial, resolvedAliases, actorEmail }: Schema
     router.refresh();
   };
 
+  const bulkEligible = (t: DiffType) => t === "unresolved" || t === "changed";
+
+  const onConfirmBulk = () => {
+    const ids = Array.from(bulk.selectedIds);
+    if (ids.length === 0) return;
+    const rows: BulkRowState[] = ids
+      .map((id) => diffById.get(id))
+      .filter((it): it is SchemaDiffItem => Boolean(it && it.questionId))
+      .map((it) => ({
+        diffId: it.diffId,
+        questionId: it.questionId as string,
+        category: it.type === "unresolved" ? "unresolved" : "changed",
+        suggestedStableKey: it.suggestedStableKey,
+        stableKey: normalizeStableKey(it.suggestedStableKey ?? it.stableKey ?? ""),
+        submitStatus: "idle" as const,
+      }));
+    bulk.openModal(rows);
+  };
+
+  const bulkLimitExceeded = bulk.breakdown.total > BULK_LIMIT;
+  const bulkWarning = bulkLimitExceeded
+    ? `一度に選択できるのは最大 ${BULK_LIMIT} 件です（現在 ${bulk.breakdown.total} 件選択中）。`
+    : null;
+
   return (
     <section aria-labelledby="schema-diff-h">
       <h1 id="schema-diff-h">schema 差分</h1>
       <p>{initial.total} 件</p>
+      <div>
+        <button
+          type="button"
+          onClick={() => {
+            setBulkMode((v) => !v);
+            if (bulkMode) bulk.clearSelection();
+          }}
+          aria-pressed={bulkMode}
+        >
+          {bulkMode ? "Bulk Resolve を終了" : "Bulk Resolve"}
+        </button>
+        {bulkMode && (
+          <span data-testid="bulk-selection-summary">
+            {bulk.breakdown.total} 件選択中（unresolved {bulk.breakdown.unresolved} /
+            changed {bulk.breakdown.changed}）
+          </span>
+        )}
+        {bulkMode && (
+          <button
+            type="button"
+            onClick={onConfirmBulk}
+            disabled={
+              bulk.breakdown.total === 0 || bulkLimitExceeded
+            }
+            aria-describedby={bulkLimitExceeded ? "bulk-limit-warning" : undefined}
+          >
+            Bulk Resolve 確定
+          </button>
+        )}
+        {bulkWarning && (
+          <p id="bulk-limit-warning" role="alert" data-feedback-kind="bulk_warning">
+            {bulkWarning}
+          </p>
+        )}
+      </div>
       {feedback && (
         <div
           id={feedback.kind === "validation_error" ? VALIDATION_FEEDBACK_ID : undefined}
@@ -553,7 +642,15 @@ export function SchemaDiffPanel({ initial, resolvedAliases, actorEmail }: Schema
       )}
 
       <div className="schema-grid" style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 8 }}>
-        {TYPES.map((t) => (
+        {TYPES.map((t) => {
+          const showCheckbox = bulkMode && bulkEligible(t);
+          const eligibleIds = grouped[t]
+            .filter((it) => it.questionId)
+            .map((it) => it.diffId);
+          const allSelectedInCat =
+            eligibleIds.length > 0 &&
+            eligibleIds.every((id) => bulk.selectedIds.has(id));
+          return (
           <div key={t} aria-labelledby={`pane-${t}`}>
             <h2 id={`pane-${t}`}>{TYPE_LABELS[t]}</h2>
             {grouped[t].length === 0 ? (
@@ -562,6 +659,32 @@ export function SchemaDiffPanel({ initial, resolvedAliases, actorEmail }: Schema
               <table>
                 <thead>
                   <tr>
+                    {showCheckbox && (
+                      <th scope="col">
+                        <label>
+                          <input
+                            type="checkbox"
+                            aria-label={`全選択 ${TYPE_LABELS[t]}`}
+                            checked={allSelectedInCat}
+                            onChange={(e) => {
+                              if (e.target.checked) {
+                                bulk.selectAllInCategory(
+                                  t === "unresolved" ? "unresolved" : "changed",
+                                  eligibleIds,
+                                );
+                              } else {
+                                for (const id of eligibleIds) {
+                                  if (bulk.selectedIds.has(id)) bulk.toggle(id);
+                                }
+                              }
+                            }}
+                          />
+                          <span className="visually-hidden">
+                            全選択 {TYPE_LABELS[t]}
+                          </span>
+                        </label>
+                      </th>
+                    )}
                     <th scope="col">質問</th>
                     <th scope="col">questionId</th>
                     <th scope="col">状態</th>
@@ -570,6 +693,18 @@ export function SchemaDiffPanel({ initial, resolvedAliases, actorEmail }: Schema
                 <tbody>
                   {grouped[t].map((it) => (
                     <tr key={it.diffId}>
+                      {showCheckbox && (
+                        <td>
+                          {it.questionId && (
+                            <input
+                              type="checkbox"
+                              aria-label={`select diff ${it.questionId}`}
+                              checked={bulk.selectedIds.has(it.diffId)}
+                              onChange={() => bulk.toggle(it.diffId)}
+                            />
+                          )}
+                        </td>
+                      )}
                       <td>
                         <button
                           type="button"
@@ -587,7 +722,8 @@ export function SchemaDiffPanel({ initial, resolvedAliases, actorEmail }: Schema
               </table>
             )}
           </div>
-        ))}
+          );
+        })}
       </div>
 
       {active && active.questionId && (
@@ -656,6 +792,19 @@ export function SchemaDiffPanel({ initial, resolvedAliases, actorEmail }: Schema
           }}
         />
       )}
+
+      <SchemaDiffBulkResolveModal
+        open={bulk.modalOpen}
+        rows={bulk.rows}
+        isSubmitting={bulk.isSubmitting}
+        onUpdateStableKey={bulk.updateRowStableKey}
+        onApplyRecommendation={bulk.applySuggestion}
+        onApplyAllRecommendations={bulk.applyAllSuggestions}
+        onSubmit={() => {
+          void bulk.submit();
+        }}
+        onClose={bulk.closeModal}
+      />
     </section>
   );
 }

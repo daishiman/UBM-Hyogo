@@ -10,6 +10,12 @@
 - 実装先は `apps/web` の画面群で、`apps/api` は状態更新と同期の裏側を担う
 この文書は UBM 兵庫支部会メンバーサイトの UI 契約を定義する。
 扱う範囲は routes、component props、state、a11y、API 接続、token 参照名に限定する。
+
+## Error Boundary Focus
+
+Next.js App Router の `error.tsx` では、`role="alert"` の領域内にある h1 を初期 focus 対象にする。実装は `apps/web/src/lib/a11y/useAutoFocusOnMount.ts` を使い、呼び出し側が `useRef<HTMLHeadingElement>(null)` と h1 の `ref` / `tabIndex={-1}` を持つ。
+
+focus 呼び出しは `focus({ preventScroll: true })` に固定する。root / login / profile / admin の error boundary は同じ hook を使い、文言・layout・token の変更を伴わずに screen reader へのエラー通知を揃える。
 視覚値、余白値、フォント値、prototype の行範囲、画面 blueprints は別正本へ委譲する。
 
 ### 1.1 契約のみスコープ

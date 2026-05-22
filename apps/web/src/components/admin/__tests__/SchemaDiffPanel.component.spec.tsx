@@ -9,6 +9,7 @@ vi.mock("next/navigation", () => ({
 
 const postSchemaAliasMock = vi.fn();
 const rollbackSchemaAliasMock = vi.fn();
+const postSchemaAliasBulkMock = vi.fn();
 vi.mock("../../../lib/admin/api", async () => {
   const actual =
     await vi.importActual<typeof import("../../../lib/admin/api")>(
@@ -18,6 +19,7 @@ vi.mock("../../../lib/admin/api", async () => {
     ...actual,
     postSchemaAlias: (...args: unknown[]) => postSchemaAliasMock(...args),
     rollbackSchemaAlias: (...args: unknown[]) => rollbackSchemaAliasMock(...args),
+    postSchemaAliasBulk: (...args: unknown[]) => postSchemaAliasBulkMock(...args),
   };
 });
 
@@ -52,6 +54,7 @@ afterEach(() => {
   refreshMock.mockReset();
   postSchemaAliasMock.mockReset();
   rollbackSchemaAliasMock.mockReset();
+  postSchemaAliasBulkMock.mockReset();
 });
 
 beforeEach(() => {
@@ -598,6 +601,127 @@ describe("SchemaDiffPanel", () => {
     } finally {
       vi.useRealTimers();
     }
+  });
+
+  it("BULK-PANEL-01 Bulk Resolve トグルで unresolved / changed 行に checkbox 描画、added/removed には出さない", () => {
+    render(
+      <SchemaDiffPanel
+        initial={{
+          total: 4,
+          items: [
+            item({ diffId: "a", type: "added", questionId: "qa", label: "added-1" }),
+            item({ diffId: "b", type: "changed", questionId: "qb", label: "changed-1" }),
+            item({ diffId: "c", type: "removed", questionId: "qc", label: "removed-1" }),
+            item({ diffId: "d", type: "unresolved", questionId: "qd", label: "unresolved-1" }),
+          ],
+        }}
+      />,
+    );
+    fireEvent.click(screen.getByRole("button", { name: "Bulk Resolve" }));
+    expect(screen.getByLabelText("select diff qb")).toBeTruthy();
+    expect(screen.getByLabelText("select diff qd")).toBeTruthy();
+    expect(screen.queryByLabelText("select diff qa")).toBeNull();
+    expect(screen.queryByLabelText("select diff qc")).toBeNull();
+  });
+
+  it("BULK-PANEL-02 カテゴリヘッダ select-all で全行が選択", () => {
+    render(
+      <SchemaDiffPanel
+        initial={{
+          total: 2,
+          items: [
+            item({ diffId: "u1", type: "unresolved", questionId: "qu1", label: "u1" }),
+            item({ diffId: "u2", type: "unresolved", questionId: "qu2", label: "u2" }),
+          ],
+        }}
+      />,
+    );
+    fireEvent.click(screen.getByRole("button", { name: "Bulk Resolve" }));
+    fireEvent.click(screen.getByLabelText("全選択 未解決"));
+    expect((screen.getByLabelText("select diff qu1") as HTMLInputElement).checked).toBe(true);
+    expect((screen.getByLabelText("select diff qu2") as HTMLInputElement).checked).toBe(true);
+    expect(screen.getByTestId("bulk-selection-summary").textContent).toContain("2 件選択中");
+  });
+
+  it("BULK-PANEL-03 0 件選択時に Bulk Resolve 確定 button が disabled", () => {
+    render(
+      <SchemaDiffPanel
+        initial={{
+          total: 1,
+          items: [
+            item({ diffId: "u1", type: "unresolved", questionId: "qu1", label: "u1" }),
+          ],
+        }}
+      />,
+    );
+    fireEvent.click(screen.getByRole("button", { name: "Bulk Resolve" }));
+    const confirm = screen.getByRole("button", { name: "Bulk Resolve 確定" }) as HTMLButtonElement;
+    expect(confirm.disabled).toBe(true);
+  });
+
+  it("BULK-PANEL-03b 51 件選択時は確定 disabled かつ role=alert で上限理由を表示", () => {
+    render(
+      <SchemaDiffPanel
+        initial={{
+          total: 51,
+          items: Array.from({ length: 51 }, (_, i) =>
+            item({
+              diffId: `u${i}`,
+              type: "unresolved",
+              questionId: `qu${i}`,
+              label: `u${i}`,
+            }),
+          ),
+        }}
+      />,
+    );
+    fireEvent.click(screen.getByRole("button", { name: "Bulk Resolve" }));
+    fireEvent.click(screen.getByLabelText("全選択 未解決"));
+    const confirm = screen.getByRole("button", { name: "Bulk Resolve 確定" }) as HTMLButtonElement;
+    expect(confirm.disabled).toBe(true);
+    const alert = screen.getByRole("alert");
+    expect(alert.getAttribute("data-feedback-kind")).toBe("bulk_warning");
+    expect(alert.textContent).toContain("最大 50 件");
+    expect(confirm.getAttribute("aria-describedby")).toBe("bulk-limit-warning");
+  });
+
+  it("BULK-PANEL-03c 50 件選択時は警告なしで modal を開ける", () => {
+    render(
+      <SchemaDiffPanel
+        initial={{
+          total: 50,
+          items: Array.from({ length: 50 }, (_, i) =>
+            item({
+              diffId: `u${i}`,
+              type: "unresolved",
+              questionId: `qu${i}`,
+              label: `u${i}`,
+              suggestedStableKey: `stable_key_${i}`,
+            }),
+          ),
+        }}
+      />,
+    );
+    fireEvent.click(screen.getByRole("button", { name: "Bulk Resolve" }));
+    fireEvent.click(screen.getByLabelText("全選択 未解決"));
+    const confirm = screen.getByRole("button", { name: "Bulk Resolve 確定" }) as HTMLButtonElement;
+    expect(confirm.disabled).toBe(false);
+    expect(screen.queryByRole("alert")).toBeNull();
+    fireEvent.click(confirm);
+    expect(screen.getByTestId("bulk-resolve-modal")).toBeTruthy();
+  });
+
+  it("BULK-PANEL-04 既存 single inline edit 経路の回帰なし: bulk mode OFF で従来通り form が出る", () => {
+    render(
+      <SchemaDiffPanel
+        initial={{
+          total: 1,
+          items: [item({ diffId: "d-x", questionId: "q-x", label: "lbl-x" })],
+        }}
+      />,
+    );
+    fireEvent.click(screen.getByRole("button", { name: /lbl-x/ }));
+    expect(screen.getByRole("form", { name: "stableKey alias 割当" })).toBeTruthy();
   });
 
   it("suggestedStableKey が input の初期値として設定される", () => {

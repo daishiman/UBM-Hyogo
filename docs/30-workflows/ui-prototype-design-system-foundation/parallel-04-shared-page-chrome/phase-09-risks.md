@@ -22,7 +22,7 @@ implementation_mode: greenfield-foundation
 | R-03 | hydration mismatch（`<html data-theme>` 変更時に SSR/CSR 差分） | hydration error | 低 | `data-theme` は文字列リテラル固定。`Date.now()` 等を root layout に入れない |
 | R-04 | `viewport.themeColor` の OKLch 表現が古い browser で無視される | 視覚差のみ（機能影響なし） | 中 | 受容する。HEX フォールバックは入れない（HEX 禁止の不変条件と衝突するため） |
 | R-05 | `next build --webpack` が Cloudflare Workers bundle で `Toast.tsx` の `"use client"` を解決失敗 | build fail | 低 | Toast.tsx は既存稼働実績あり。本サブワークフローで Provider 利用方法を変えないため新規リスク低 |
-| R-06 | logger import path 変更（相対 → `@/lib/logger`）で他参照が壊れる | typecheck fail | 低 | grep `from "../src/lib/logger"` と `from "../../src/lib/logger"` を事前確認し、本サブワークフロー範囲外は触らない |
+| R-06 | logger import path 変更（相対 → `../src/lib/logger`）で他参照が壊れる | typecheck fail | 低 | grep `from "../src/lib/logger"` と `from "../../src/lib/logger"` を事前確認し、本サブワークフロー範囲外は触らない |
 | R-07 | Card primitive の `CardFooter` が未 export | typecheck fail | 低 | Phase 5 §2.4 の代替（`<div className="ui-card-content flex gap-3">`）を用意済み |
 | R-08 | parallel-01 で `ui-card-*` class 命名が後で変わる | loading.tsx の skeleton class 名再修正 | 中 | 当面は `bg-surface-2` トークンで暫定実装し、parallel-01 完了後に置換 |
 | R-09 | `app/error.tsx` の error boundary がテスト環境（jsdom）で再現できない | unit test 強度低下 | 中 | Phase 6 §3.2 のように **直接 render** に切替えて契約検証する |
@@ -44,11 +44,11 @@ implementation_mode: greenfield-foundation
 CI / pre-push どちらでも:
 
 ```bash
-grep -rln "ToastProvider" apps/web/app/
-# 期待: apps/web/app/layout.tsx のみ
+find apps/web/app -path '*/__tests__/*' -prune -o -type f \( -name '*.tsx' -o -name '*.ts' \) -print | xargs rg -n "ToastProvider"
+# 期待: apps/web/app/layout.tsx の import / render のみ
 ```
 
-route group layout が後続で追加された場合、レビュー時に上記 grep の件数が 1 を超えないことを確認する。
+route group layout が後続で追加された場合、レビュー時に上記 grep が `apps/web/app/layout.tsx` 以外を指していないことを確認する。
 
 ## 4. hydration mismatch 防止チェック
 

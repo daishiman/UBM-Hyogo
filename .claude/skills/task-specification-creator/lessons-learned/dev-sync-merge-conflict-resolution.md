@@ -36,6 +36,21 @@
 - task 仕様書を書く際、visual regression を含む task では Phase 5 (implementation) に「baseline 捕捉直後に `.baseline-meta.json` を更新する」ステップを明示する。Phase 11 evidence に `pnpm visual:baseline:status` の出力を含める。
 - Why: visual baseline 系 task は dev evolution に追随する保守コストが高く、provenance がないと「なぜ失敗しているか」の判定に毎回時間が溶ける。
 
+#### SP-DEVSYNC-007-A: baseline update workflow 完了後の CI 再起動必須（2026-05-22 追加）
+- 症状: `playwright-visual-baseline-update.yml` が ✅ success で baseline 画像を source branch へ push しても、その commit に対する CI run が一切走らない（`gh run list --branch <branch>` で baseline commit を headSha とする run が 0 件）。結果として PR の `playwright-visual-full` / `playwright-smoke` の failed check が更新されず「baseline 更新したのに CI 失敗が直らない」状態になる。
+- 原因: `GITHUB_TOKEN` を使った GitHub Actions からの push は GH 仕様で workflow を新規 trigger しない（無限ループ防止）。`peter-evans/create-pull-request@v7` 不採用の代償。
+- 解消（手動 1 ステップ）:
+  ```
+  git pull --ff-only origin <branch>
+  git commit --allow-empty -m "ci: re-trigger after baseline update (<baseline-sha> was pushed by GITHUB_TOKEN, no CI ran)"
+  git push
+  ```
+  user 認証 push なので全 CI workflow が起動する。
+- task 仕様書を書く際: visual regression を含む task の Phase 11 (manual test) に「baseline update workflow success 後、`gh run list --branch <branch> --json headSha,name` で baseline commit に対する CI run 件数を確認。0 件なら empty commit + push で re-trigger」を**逐語明示**する。
+- 恒久対応 TODO: `playwright-visual-baseline-update.yml` の最終ステップに empty commit 自動追加を組み込むか PAT push に切替える。それまでは本手動回避策で運用。
+- Why: GITHUB_TOKEN push の CI 非起動挙動は公式ドキュメント記載だが、L-DEVSYNC-009 / SP-DEVSYNC-007 本体の運用手順には欠落していたため利用者が「CI 動いていない」と気付かないと詰む盲点だった。
+- 詳細は aiworkflow-requirements 配下の L-DEVSYNC-009-A を参照。
+
 ### SP-DEVSYNC-009: HEAD ブランチが fact migration の正本である場合の `--ours` 例外
 - 症状: feature ブランチが secret 名・workflow 参照などの runtime fact migration を実装している場合（例: Issue #718 で `backend-ci.yml` が `CLOUDFLARE_API_TOKEN` → `CF_TOKEN_D1_*` / `CF_TOKEN_WORKERS_*` へ切替済）、dev 側 narrative（`references/deployment-gha.md` 等）は旧 fact のままで `--theirs` を機械適用すると事実後退する。
 - 解消: `git diff origin/dev..HEAD -- .github/workflows/ apps/` で HEAD 側に当該 fact の workflow/code 変更が**コミット済み**であることを確認した上で `git checkout --ours -- <path>` を採用。merge commit 後に `pnpm indexes:rebuild` で派生 indexes を再生成する。
@@ -57,6 +72,8 @@
 - task 仕様書を書く際、dev 同期 merge を含む task では Phase 5 の手順に「追記型 SSOT 衝突は両側採用で解消し JSON validity を検証する」を明示する。
 - 事例（2026-05-18 `feat/parallel-i03-dialog-refresh-order` dev sync）: `pnpm sync:resolve` を 1 回叩くだけで `indexes/topic-map.md` (union) と `indexes/keywords.json` (`--ours` + rebuild) が自動解消。task spec 生成時、`outputs/phase-11/` に「dev sync merge を含む task は `pnpm sync:resolve` の 1 コマンドで覆える」旨を Phase 5 手順に書いておくと再発時の摩擦が消える。
 - 事例（2026-05-18 feat/issue-748-jest-axe-primitive-a11y-integration dev sync）: `.claude/skills/aiworkflow-requirements/references/task-workflow-active.md` で HEAD（Issue #748 entry）と dev（Issue #730 + i02-admin-error-type-unify entries）が独立追記、両側採用で解消。`indexes/*` 4 件は L-DEVSYNC-002 の `--theirs` + `pnpm indexes:rebuild` で deterministic 再生成。
+- 事例（2026-05-20 feat/issue-775-serial-05-step-03-runtime-evidence-spec dev sync）: `indexes/resource-map.md` / `indexes/topic-map.md` の 2 件 conflict を `pnpm sync:resolve` で union 自動解消 → merge commit → `pnpm indexes:rebuild` で残 drift (`indexes/topic-map.md` L 番号 +8/-16) を吸収して単独 chore commit、の 3 ステップで完遂。`pnpm sync:resolve` → `pnpm indexes:rebuild` → 単独 chore commit のテンプレ手順が 5 度目の再現確認。task spec 生成時、dev sync を含む task の Phase 5 にこの 3 ステップを逐語明示する。
+- 事例（2026-05-20 `feat/ui-prototype-design-system-foundation-parallel-03-appshell-layouts` dev sync 2 度目）: 同一 feature ブランチへの 2 度目の dev 取り込みで `indexes/topic-map.md` 1 件のみが conflict。`pnpm sync:resolve` で union 解消 → merge commit → pre-push `indexes-drift-guard` が drift 検出 → `pnpm indexes:rebuild` → 単独 `chore(indexes): rebuild skill indexes after dev sync union merge` commit で push PASS（6 度目の再現）。教訓: 「同一 feature ブランチで複数回 dev sync を行う場合でも、本 3 ステップが branch lifecycle 全期間で一貫して有効」。task spec 生成時、dev sync を Phase 5 に明示する task は「初回・2 回目以降を問わず同じ 3 ステップで完結する」旨を 1 文で補足する。
 - Why: 追記型 SSOT は順序が意味を持たないか時系列で HEAD→dev が自然。`--theirs` / `--ours` の一方採用は片方の wave の作業ログを消すことになる。詳細は aiworkflow-requirements 配下の L-DEVSYNC-012 を参照。
 - 事例（番号衝突リナンバー・2026-05-18 feat/admin-tags-queue-resolver-drawer-mvp-recovery）: 本ファイル自身が「同一 SP-DEVSYNC-013 を HEAD（共通の正本リンク）/ dev（Phase 11 .log negation）で別 semantic に使用」する典型的な番号衝突を起こした。解消ルール: 「後から dev へマージされた側（dev 側）の番号を優先採用し、HEAD 側の節は次の空き番号 (本件では SP-DEVSYNC-014) へ繰り上げる。本文・参照 [[link]] は壊さない」。task 仕様書を書く際は、Phase 5「skill 同 wave 同期」手順に「節 ID の番号衝突が発生したら HEAD 側を繰り上げる」を明示する。
 
@@ -123,6 +140,8 @@
 - task 仕様書を書く際: dev 同期 merge を含む task の Phase 5 手順に「`pnpm sync:resolve` 完了後 `git diff --diff-filter=U --name-only` で残余を取り、LOGS/changelog のみなら手動 union で自律継続」を明示する。Phase 11 evidence にも resolver 出力ログ + 手動解消 diff 内容を含める。
 - Why: resolver スクリプトが LOGS を対象外にしている設計理由は、entry の順序（時系列・logical order）が文脈依存で機械判定できないため。追記型 SSOT は両側 entry を保持するのがデフォルト解（SP-DEVSYNC-012 と整合）。
 - 事例: 2026-05-18 feat/issue-769-root-error-focus ← dev sync で `LOGS/_legacy.md` 単独残余を 30 秒以内に union 解消。resolver の `WARN unhandled` メッセージで対象を即特定できた。
+- 事例（2026-05-19 `feat/parallel-02-prototype-css-rules-port` dev sync）: `pnpm sync:resolve` が `LOGS/_legacy.md` を union resolve した直後の `git add` で exit 1（`.gitignore` 配下のため `Use -f if you really want to add them.`）。**union resolve 自体は成功しており**、`git status --short` で確認すると `LOGS/_legacy.md` は `M` 表示で UU 残りなし。残るは `indexes/keywords.json` のみで `git checkout --ours` + `pnpm indexes:rebuild` の標準手順で解消可能。task spec の Phase 5 手順に「`pnpm sync:resolve` の exit code 非ゼロは即 fail とせず、`git status --short | grep '^UU'` で実残余を確認する」ことを明示する。
+- 事例（2026-05-20 `feat/issue-776-schema-alias-bulk-resolve` dev sync）: 同一 LOGS/_legacy.md gitignore exit-1 + keywords.json UU 残り。手順テンプレ（`sync:resolve` → exit code 無視 → `^UU` grep で `keywords.json` のみ確認 → `checkout --ours` + `indexes:rebuild` → `git add indexes/`）が 1 分以内で完走することを再確認。SP-DEVSYNC-018 はテンプレ化済み・再発 case で手動編集ゼロ。
 - 詳細は aiworkflow-requirements 配下の L-DEVSYNC-018 を参照。
 
 ### SP-DEVSYNC-019: 新規タスク root/outputs `artifacts.json` には `metadata.gates` を必ず付与（2026-05-18 追加）
@@ -146,5 +165,43 @@
 - 適用判断: `lefthook.yml` / `.github/workflows/*.yml` / `*.json` 等の structured config で「inline → 外部 script への切り出し」が片側で行われ、他方に未統合の付加ロジックがある case。
 - 詳細は aiworkflow-requirements 配下の L-DEVSYNC-023 を参照。
 
+### SP-DEVSYNC-022: references 配下「変更履歴」append-only 表の両側 row 衝突（2026-05-20 追加）
+- 症状: feature ブランチと dev が `references/deployment-*.md` 等の `## 変更履歴` 表に **同日同 version** で別々の row を独立追加 → `pnpm sync:resolve` が unhandled としてスキップし `[WARN] unhandled conflict` + exit 1。
+- 解消: 両 row を保持し HEAD→dev 時系列順で連結（version 重複可、append-only として両側採用）。conflict marker のみ除去。
+- 適用判断: `references/*.md` の append-only 変更履歴表ブロック全般。narrative 衝突（fact migration）は SP-DEVSYNC-009 / L-DEVSYNC-002A の判定に従う。
+- task spec を書く際: dev 同期を含む Phase 5 手順に「`pnpm sync:resolve` の `unhandled` リストが `references/deployment-*.md` のみなら、変更履歴表ブロックの両側保持で自律継続」を明示。
+- 事例: 2026-05-20 `feat/issue-765-1password-vault-restructure` ← dev sync で `deployment-secrets-management.md` 1.4.5 が HEAD（issue-765 vault restructure）+ dev（PR #795 CI recovery）の独立追加 → 両 row union で解消。
+- 詳細は aiworkflow-requirements 配下の L-DEVSYNC-022 を参照。
+
+### SP-DEVSYNC-023: 同一 import ブロック内 別行追加の 3-way conflict は両側 import 統合（2026-05-20 追加）
+- 症状: feature ブランチ（root chrome）が `apps/web/app/error.tsx` に `Card` 系 import を追加、dev 側（issue-799 / parallel-i06）が同一 import ブロックに `useAutoFocusOnMount` を追加 → 同一論理「import 文集合」への独立追加が 3-way marker として残り、`pnpm sync:resolve` の対象外（src コード）。
+- 解消: marker 4 種を除去し HEAD ブロックと dev ブロックの import 文を**両方残す**。本体が両 symbol を実使用しているため意味的競合は無く、機械的 union で完結。`logger` 等 base ブロックに既存していた import は重複を作らないよう既存行を再利用する。
+- 適用判断: `*.tsx` / `*.ts` の同一 import ブロック内で「両側が異なる symbol を追加」「本体コードが両 symbol を実使用」「export shape は変更されていない」case。複数行 import statement は HEAD→dev の順で連結し alphabetical 整理は別 commit に分離する。
+- task spec を書く際: dev 同期を含む Phase 5 手順に「`apps/web/**` の import 衝突は本体での symbol 使用有無を grep（例: `grep -n useAutoFocusOnMount apps/web/app/error.tsx`）で確認し、両側使用なら union、片側のみ使用ならその側を採用」を明示する。
+- 事例: 2026-05-20 `feat/parallel-04-shared-page-chrome` dev sync で `apps/web/app/error.tsx` が `Card`（HEAD）と `useAutoFocusOnMount`（dev）を同時要求 → union で解消、typecheck 通過。
+- 詳細は aiworkflow-requirements 配下の L-DEVSYNC-024 を参照。
+
+### SP-DEVSYNC-024: Phase 12 evidence inventory 表は dev 側列構造（4-col with Classification）を正本採用（2026-05-20 追加）
+- 症状: feature 側（旧 3-col: Path / Status / Note）と dev 側（新 4-col: Classification / Path / Status / Note）が `phase12-task-spec-compliance-check.md` の Phase 11 evidence inventory 表で構造的に衝突。HEAD は feature 自タスクの present 行を含み、dev は別タスクの present 行と新カラムを含む。
+- 解消: **dev 側の 4-col schema を正本採用**し、HEAD 側に列挙されていた feature 行を `Classification = visual` 付きで再構成して dev 側行集合に union する。Phase 11 inventory parser（issue-730 系）が `Classification` 列の有無を許容する仕様であっても、新規ファイルでは必ず 4-col で書く。
+- 自動化可否: `pnpm sync:resolve` は markdown table の構造判別をしないため対象外。Phase 12 evidence parser の現行仕様は `references/phase11-evidence-existence-validator-input-contract.md` 参照。
+- 適用判断: `outputs/phase-12/phase12-task-spec-compliance-check.md` / `outputs/phase-12/main.md` の structured table セクション全般。
+- task spec を書く際: Phase 12 template の Phase 11 evidence inventory セクションを 4-col（Classification / Path / Status / Note）に統一し、`Classification` 列の語彙集合（`visual` / `coverage` / `gate` 等）を `references/phase12-compliance-check-template.md` に併記する。
+- 事例: 2026-05-20 `feat/parallel-04-shared-page-chrome` dev sync で `ui-prototype-design-system-foundation/outputs/phase-12/phase12-task-spec-compliance-check.md` の Phase 11 表が 3-col vs 4-col で衝突 → 4-col 採用 + HEAD row 再付与で解消。
+- 事例（2026-05-20 再現・parallel-03 wave 2 度目 dev 取り込み）: `feat/ui-prototype-design-system-foundation-parallel-03-appshell-layouts` で `phase-12/main.md` の `## Boundary` と `phase12-task-spec-compliance-check.md` の `## 7. Runtime or user-gated boundary` の 2 ファイルが narrative 3-way conflict。HEAD（parallel-03 AppShell + parallel-02 CSS port）と dev（parallel-04 root fallback）の異なる sub-workflow 群を独立追記しただけで意味的競合は無く、結合 1 段落で解消。task spec を書く際: ui-prototype-design-system-foundation 配下の sub-workflow ブランチでは Phase 12 narrative セクション（`main.md` `## Boundary` / `phase12-task-spec-compliance-check.md` `## 7. Runtime or user-gated boundary`）が再現的に narrative conflict 化することを Phase 5 手順に明記し、両 wave のキー語彙（`parallel-02 CSS rules port` / `parallel-03 AppShell layout` / `parallel-04 root fallback` / `serial-07 visual regression` 等）を保持した結合段落を作る方針を採る。
+- 詳細は aiworkflow-requirements 配下の L-DEVSYNC-025 を参照。
+
 ### SP-DEVSYNC-020: 共通の正本リンク
-- 詳細は [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] （aiworkflow-requirements 配下、L-DEVSYNC-001..023）を参照。
+- 詳細は [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] （aiworkflow-requirements 配下、L-DEVSYNC-001..025）を参照。
+- 詳細は [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] （aiworkflow-requirements 配下、L-DEVSYNC-001..032）を参照。
+
+### SP-DEVSYNC-021: completed-task Phase 11 evidence inventory の 3-way conflict（2026-05-20 追加）
+- `docs/30-workflows/completed-tasks/**/outputs/phase-1[12]/*.md` で発生する 3-way conflict は、HEAD 側が `pending`/`runtime_pending`/`placeholder`、dev 側が `present`/`captured`/`PASS` を含む場合は **dev 側採用**（recovery 完了後の正本を尊重）。両側 union は evidence existence validator の二重カウントを誘発するため禁止。
+- 事例: 2026-05-20 `feat/issue-776-schema-alias-bulk-resolve` ← dev sync で `serial-05-step-03-schema-diff-resolve/outputs/phase-12/phase12-task-spec-compliance-check.md` の Phase 11 inventory 表を dev 側採用で解消。
+- 詳細は aiworkflow-requirements 配下の L-DEVSYNC-032 を参照。
+
+### SP-DEVSYNC-008: 同一 React Component への並行 feature 追加 conflict は L-DEVSYNC-033 適用
+- task 仕様書 Phase 4-5（implementation）で同一 React component に hook / state / JSX modal を追加する task が並行する場合、dev sync-merge で 3-way conflict が必発する。
+- 解消: aiworkflow-requirements `lessons-learned-dev-sync-merge-conflict-resolution-2026-05.md` の **L-DEVSYNC-033** に従い、hook 命名・JSX 子要素が disjoint であれば SP-DEVSYNC-001 と同じ regex で機械的両側採用。
+- task 仕様書側の予防策: Phase 5 step で「対象 component 内 state 追加位置」を明示し、既存 hook ブロックの末尾追記とする（先頭/中間挿入を避ける）ことで sync-merge 時の機械的解消成功率を上げる。
+- 事例: 2026-05-21 Issue #778（rollback/undo） ← dev (#776 bulk resolve) の SchemaDiffPanel.tsx / spec / api.ts / specs ×2 全 5 ファイル両側 union 解消、typecheck/lint/verify-pr-ready 全 PASS。

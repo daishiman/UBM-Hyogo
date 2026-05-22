@@ -6,7 +6,7 @@
 
 - **タスク種別**: implementation
 - **visualEvidence**: VISUAL
-- **workflow_state**: `implemented-local-runtime-pending`
+- **workflow_state**: `completed`
 - **implementation_mode**: `existing-schema-diff-panel-hardening`
 - **直列順序**: 3 / 5 (`serial-05-admin-mutation-ui`)
 
@@ -14,14 +14,14 @@
 
 | Key | Value |
 | --- | --- |
-| `workflow_state` | `implemented-local-runtime-pending` |
-| `implementation_status` | `IMPLEMENTED_LOCAL_RUNTIME_PENDING` |
-| `evidence_state` | `PASS_BOUNDARY_SYNCED_RUNTIME_PENDING` |
+| `workflow_state` | `completed` |
+| `implementation_status` | `IMPLEMENTED_COMPLETED` |
+| `evidence_state` | `PASS` |
 | `phase_status (1-10,12)` | `completed` |
-| `phase_status (11)` | `runtime_pending`（local 5 点 PASS、runtime screenshots pending） |
+| `phase_status (11)` | `completed`（local 5 点 PASS + Issue #775 runtime 11 valid PNG captured） |
 | `phase_status (13)` | `pending_user_approval` |
 | `governance_mutation_user_gate` | `false`（PR 作成時のみ user 明示承認で `true`） |
-| `runtime_evidence` | local 5 点 evidence captured。runtime screenshots は Cloudflare Workers + auth + D1 前提のため pending |
+| `runtime_evidence` | local 5 点 evidence + SchemaDiffPanel runtime 11 valid PNG captured via `docs/30-workflows/completed-tasks/issue-775-serial-05-step-03-runtime-evidence-completion/`; legacy `admin-schema-diff-list.placeholder.txt` is not PASS screenshot evidence |
 
 ## 3. Phase 12 必須 7 ファイル所在
 

@@ -31,6 +31,57 @@
 | lessons-learned | `references/lessons-learned-d1-batch-atomicity-and-soft-delete-2026-05.md` |
 | 苦戦箇所 | If-Match parse 400/409 分離, `db.batch` atomicity 公式 doc 引用, soft delete grep gate, audit_log vs cf_audit_log 分離, followup scope 分離 |
 
+## task-staging-auth-secret-binding-recovery-001（2026-05-22）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow | `docs/30-workflows/completed-tasks/task-staging-auth-secret-binding-recovery-001/` |
+| status | `implemented_runtime_verified_pending_pr / implementation / NON_VISUAL` |
+| purpose | recover staging `AUTH_SECRET` runtime binding after `auth misconfigured` body proved middleware root cause |
+| implementation | `apps/api/src/middleware/require-admin.ts`, `apps/api/src/env.ts`, `scripts/smoke/runtime-attendance-provider.sh`, `scripts/cf.sh` |
+| tests | `apps/api/src/middleware/require-admin.authz.spec.ts`, `apps/api/src/env.spec.ts`, `scripts/smoke/__tests__/runtime-attendance-provider.test.sh`, `scripts/__tests__/cf-sh-secret-put.test.sh` |
+| Phase 12 | `outputs/phase-12/phase12-task-spec-compliance-check.md` + strict 7 files present |
+| Phase 11 runtime evidence | `outputs/phase-11/evidence/staging-runtime-smoke.log` + `staging-runtime-smoke-summary.json`（admin-list / admin-detail / admin-attendance / me-root / me-profile / me-attendance 全 6 経路 HTTP 200 PASS） |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-task-staging-auth-secret-binding-recovery-001-artifact-inventory.md` |
+| boundary | production curl, backend-ci rerun, commit, push, PR are user-gated |
+
+## task-runtime-smoke-admin-members-500-recovery-001（2026-05-21）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow | `docs/30-workflows/completed-tasks/task-runtime-smoke-admin-members-500-recovery-001/` |
+| status | `runtime_pending / implementation / NON_VISUAL / PASS_BOUNDARY_SYNCED_RUNTIME_PENDING` |
+| purpose | staging runtime smoke `admin-list http=500` for `GET /admin/members` recovery |
+| in-cycle implementation | `apps/api/src/routes/admin/members.ts` defensive recovery + `members.contract.spec.ts`; `scripts/smoke/runtime-attendance-provider.sh` logs redacted non-200 body; `scripts/smoke/__tests__/runtime-attendance-provider.test.sh` T-4-5 covers it |
+| Phase 12 | `outputs/phase-12/phase12-task-spec-compliance-check.md` + strict 7 files present |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-task-runtime-smoke-admin-members-500-recovery-001-artifact-inventory.md` |
+| boundary | true root cause superseded by `task-staging-auth-secret-binding-recovery-001`; staging curl/D1/tail, deploy, backend-ci rerun, commit, push, PR are user-gated |
+
+## Issue #775 serial-05-step-03 runtime evidence completion（2026-05-18）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow | `docs/30-workflows/completed-tasks/issue-775-serial-05-step-03-runtime-evidence-completion/` |
+| parent | `docs/30-workflows/completed-tasks/serial-05-step-03-schema-diff-resolve/` |
+| status | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION / refs_only` |
+| implementation | `apps/web/playwright.admin-schema-diff.config.ts`, `apps/web/playwright/tests/visual/admin-schema-diff.spec.ts`, optional future real-D1 `scripts/fixtures/serial-05-step-03/seed-{diff,cleanup}.sql` |
+| evidence | parent `outputs/phase-11/screenshots/` 11 fixture-backed local runtime PNG + `outputs/phase-11/evidence/playwright.log` (`11 passed / 3 skipped`) |
+| boundary | production app/API files frozen; real D1/staging smoke user-gated; Issue #775 remains closed and PR text must use `Refs #775` only |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-775-serial-05-step-03-runtime-evidence-completion-artifact-inventory.md` |
+
+## Issue #799 useAutoFocusOnMount hook（2026-05-19）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow | `docs/30-workflows/issue-799-use-auto-focus-on-mount-hook/` |
+| status | `implemented_local_evidence_captured / implementation / NON_VISUAL / implementation_complete_pending_pr` |
+| implementation | `apps/web/src/lib/a11y/useAutoFocusOnMount.ts`, root/login/profile/admin `error.tsx` |
+| tests | `apps/web/src/lib/a11y/__tests__/useAutoFocusOnMount.spec.tsx`, route error component specs |
+| source trace | `docs/30-workflows/unassigned-task/issue-769-followup-001-use-auto-focus-on-mount-hook.md` consumed |
+| evidence | `outputs/phase-11/evidence/web-vitest.txt`, `outputs/phase-12/phase12-task-spec-compliance-check.md` |
+| system spec | `docs/00-getting-started-manual/specs/09-ui-ux.md` error boundary focus contract |
+| boundary | Issue #799 is CLOSED; PR wording uses `Refs #799`; commit / push / PR are user-gated |
+
 ## Issue #274 public pages OGP / sitemap / robots（2026-05-17）
 
 | 目的 | 参照先 |
@@ -90,7 +141,7 @@
 | 項目 | 値 |
 | --- | --- |
 | workflow | `docs/30-workflows/completed-tasks/issue-324-shared-package-type-contracts/` |
-| status | `implemented_local_evidence_captured / implementation / NON_VISUAL` |
+| status | `implemented_local_evidence_captured / implementation / VISUAL` |
 | implementation | `packages/shared/src/__tests__/type-contracts.spec.ts` |
 | source trace | `docs/30-workflows/completed-tasks/UT-08A-05-shared-package-type-test.md` |
 | evidence | `outputs/phase-11/evidence/shared-typecheck.txt`, `outputs/phase-11/evidence/shared-lint.txt`, `outputs/phase-11/evidence/shared-test.txt` |
@@ -101,6 +152,50 @@
 
 ---
 
+### parallel-04 Shared Page Chrome（2026-05-19）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/ui-prototype-design-system-foundation/parallel-04-shared-page-chrome/` |
+| 状態 | `spec_created / implementation / VISUAL / Phase 11 evidence captured (EV-01..16)` |
+| 実装対象 | `apps/web/app/{layout,error,not-found,loading}.tsx` + `apps/web/app/__tests__/error.component.spec.tsx` + `apps/web/app/__smoke__/loading-state/{page,loading}.tsx` |
+| invariant | OKLch token のみ / HEX 直書き 0 / `__tests__` 除外 ToastProvider 単一 mount / `next build --webpack` / Phase 12 strict 7 は parent root 集約 |
+| evidence | EV-01..09 静的 gate + EV-10..11 capture provenance + EV-12..15 root chrome / fallback PNG + EV-16 visual review |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-parallel-04-shared-page-chrome-artifact-inventory.md` |
+| lessons | `.claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-parallel-04-root-chrome-2026-05.md` (L-PARA04-001..007) |
+| changelog | `.claude/skills/aiworkflow-requirements/changelog/20260519-parallel-04-shared-page-chrome.md` |
+| completion shard | `.claude/skills/aiworkflow-requirements/references/task-workflow-completed-recent-2026-05.md` |
+| user gate | commit / push / PR / serial-07 19 routes 全体 visual regression |
+
+### profile-loading-skeleton-oklch（2026-05-19）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/profile-loading-skeleton-oklch/` |
+| 状態 | `implemented_local_evidence_captured / implementation / VISUAL / implementation_complete_pending_pr` |
+| source | `docs/30-workflows/ui-prototype-alignment-mvp-recovery/improvements/integration-fixes/parallel-i07-profile-loading-skeleton/spec.md` |
+| implementation | `apps/web/app/profile/loading.tsx`, `apps/web/app/profile/loading.spec.tsx` |
+| contract | `/profile/loading.tsx` は `role=status` / `aria-busy=true` / `aria-live=polite` / `data-page=profile-loading` と avatar + 4 KV row skeleton を持つ |
+| evidence | `outputs/phase-11/evidence/{test,typecheck,lint,build,grep-gate}.log`, `outputs/phase-12/phase12-task-spec-compliance-check.md` |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-profile-loading-skeleton-oklch-artifact-inventory.md` |
+| user gate | commit / push / PR |
+
+### UT-07C-FU-001 attendance CSV import spec（2026-05-18）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/ut-07c-followup-001-attendance-csv-import/` |
+| 状態 | `implemented_local_evidence_captured / implementation / VISUAL / Phase 1-12 completed / Phase 13 pending_user_approval` |
+| issue | #312 |
+| contract | `POST /admin/meetings/:sessionId/attendance/import?dryRun=true|false`; client CSV parse + JSON rows; max 500 rows; row status `ok` / `duplicate` / `deleted_member` / `unknown_member` / `invalid` |
+| implementation targets | `apps/api/src/routes/admin/attendance.ts`, `apps/api/src/use-cases/admin/import-attendance-bulk.ts`, `apps/api/src/repository/attendance.ts`, `apps/web/app/(admin)/admin/meetings/[id]/AttendanceCsvImportPanel.tsx`, `apps/web/src/lib/csv/parse-attendance.ts`, `apps/web/package.json` |
+| important boundary | Hono `Context` is not passed into service; route resolves `DbCtx`, `authUser`, and `auditLogProvider`. `member_status.is_deleted` is the deleted-member source. `dryRun=false` explicit only commits; omitted/typo dry-runs. commit uses D1 batch for attendance + audit insert. |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-ut-07c-followup-001-attendance-csv-import-artifact-inventory.md` |
+| evidence boundary | focused API route 13 / API service 13 / web parser+UI 13 PASS. Phase 11 local Playwright screenshots S1-S4 captured. Phase 12 strict 7 outputs present. commit / push / PR remain user-gated. |
+
+---
+
+### UI Prototype Design System Foundation（2026-05-18 / parallel-02 close-out 2026-05-19）
 ### Issue #772 CF audit monitor runtime restoration（2026-05-17）
 
 | 目的 | 参照先 |
@@ -195,13 +290,44 @@
 | 目的 | 参照先 |
 | --- | --- |
 | workflow root | `docs/30-workflows/ui-prototype-design-system-foundation/` |
+| 状態 | `implemented_local_evidence_captured / implementation / VISUAL_RUNTIME_PENDING` |
+| 状態 | `spec_created / implementation / VISUAL`（parallel-01 は `runtime_pending`: local CSS selectors added, serial-07 visual evidence pending） |
 | 状態 | `spec_created / implementation / VISUAL`（parallel-01 は `runtime_pending`: local CSS selectors added, serial-07 visual evidence pending） |
 | prototype coverage SSOT | `docs/30-workflows/ui-prototype-design-system-foundation/PROTOTYPE-COVERAGE.md` |
 | strict Phase 12 | `outputs/phase-12/{main.md,implementation-guide.md,system-spec-update-summary.md,documentation-changelog.md,unassigned-task-detection.md,skill-feedback-report.md,phase12-task-spec-compliance-check.md}` |
 | source inventory | `claude-design-prototype/{app.jsx,data.jsx,icons.jsx,index.html,pages-admin.jsx,pages-member.jsx,pages-public.jsx,primitives.jsx,styles.css}` + `specs/09a..09h` |
 | current app path rule | `apps/web/app/**` is canonical; `/login`, `/profile`, `/privacy`, `/terms` remain root app paths |
+| implementation boundary | no new API endpoint / D1 schema / Google Form change; minimal `apps/web` AppShell / selector hooks and parallel-02 G3 CSS marker blocks added; full 19-route binding and visual evidence remain user-gated work |
+| parallel-02 close-out | `apps/web/src/styles/globals.css` G3-1/2/3 markers + `MemberFilters.client.tsx` tag-pill data-component + visual harness + Playwright spec; Phase 11 9 screenshot + 5 log present, strict 7 outputs (root + sub) present |
+| follow-up unassigned | `docs/30-workflows/unassigned-task/UT-DSF-01..07-*.md`（globals-css / AppShell / page-chrome / route blueprint / form binding / regression evidence / runtime screenshots） |
+| lessons learned | `.claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-parallel-02-prototype-css-rules-port-2026-05.md`（L-P02-001..007） |
+| implementation boundary | no new API endpoint / D1 schema / Google Form change; minimal `apps/web` AppShell / selector hooks and parallel-01 P1-1〜P1-5 CSS selectors added; full 19-route binding and visual evidence remain user-gated work |
 | implementation boundary | no new API endpoint / D1 schema / Google Form change; minimal `apps/web` AppShell / selector hooks and parallel-01 P1-1〜P1-5 CSS selectors added; full 19-route binding and visual evidence remain user-gated work |
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-ui-prototype-design-system-foundation-artifact-inventory.md` |
+| sub-workflow parallel-03 AppShell Layouts（2026-05-19） | `docs/30-workflows/ui-prototype-design-system-foundation/parallel-03-appshell-layouts/`、status `implemented_local_evidence_captured / implementation / VISUAL (public chrome only; admin/member deferred-to-serial-07)`、`implementation_mode: existing-layout-alignment`、3 layout (`apps/web/app/(public\|member\|admin)/layout.tsx`) に `data-theme` / `data-route-group` / `data-shell` / `data-route` / `data-testid` を付与、OKLch token (`var(--ubm-color-*)`) 経由のみ、既存 primitive 無改変、admin は `getSession()` 2 段防御 + redirect 維持、Phase 11 evidence は `outputs/phase-11/`、lessons-learned `.claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-parallel-03-appshell-layouts-2026-05.md` (L-PAR03-001..005) |
+
+#### status vocabulary（visual evidence 軸）
+
+| 値 | 意味 |
+| --- | --- |
+| `VISUAL` | local + runtime 双方で visual evidence 取得済み |
+| `VISUAL_ON_EXECUTION` | local 撮影済み、CI runtime job で再現可能 |
+| `VISUAL_RUNTIME_PENDING` | local 撮影済み、production-equivalent runtime 再撮影が user-gated で残置（parallel-02 で正式登録） |
+| `NON_VISUAL` | UI 以外、visual evidence 不要 |
+
+`implemented_local_evidence_captured` は **local 範囲の Phase 11 evidence が物理 present、production runtime 実行は user-gated** を意味する。parallel-02 で `VISUAL_RUNTIME_PENDING` と組み合わせて使用。
+
+#### shared `globals.css` 並列編集マーカー規約
+
+`apps/web/src/styles/globals.css` は `merge=union` 不可。複数 parallel-XX が同 wave で触る際は以下フォーマットで block を占有する:
+
+```css
+/* === parallel-02 G3-1 member-card hover (start) === */
+... rules ...
+/* === parallel-02 G3-1 member-card hover (end) === */
+```
+
+先着優先 / 他 parallel は block 内書き換え禁止。詳細は L-P02-001 / L-P02-004。
 
 ### Issue #749 Primitive Adoption Tracker（2026-05-17）
 
@@ -228,6 +354,20 @@
 | contract | root `esbuild@0.27.3` devDependency; `verify-node-arch`, `verify-worktree-isolation`, `verify-esbuild`, `verify:vitest-runtime`; focused Vitest root scripts `test:parallel09-primitives` / `test:parallel09-use-admin-mutation` |
 | evidence boundary | focused Vitest 2 specs, worktree isolation, and esbuild version parity pass locally; `verify:node-arch` blocks because local Node is x64; CI / commit / push / PR remain user-gated |
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-747-vitest-esbuild-arch-and-worktree-isolation-artifact-inventory.md` |
+
+### Issue #776 schema alias bulk resolve UI（2026-05-18）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-776-schema-alias-bulk-resolve/` |
+| 状態 | `implemented_local_evidence_captured / implementation / VISUAL / staging_pending` |
+| source | Issue #776 CLOSED / `docs/30-workflows/unassigned-task/serial-05-step-03-followup-002-schema-alias-bulk-resolve.md` consumed |
+| parent | `docs/30-workflows/completed-tasks/serial-05-step-03-schema-diff-resolve/` |
+| contract | Existing `POST /admin/schema/aliases` only; `postSchemaAliasBulk` uses bounded fan-out, row-level progress, `success / retryable / error` result states |
+| retryable boundary | `202 backfill_cpu_budget_exhausted` remains retryable continuation in the modal, not a failure |
+| implementation | `apps/web/src/components/admin/SchemaDiffPanel.tsx`, `SchemaDiffBulkResolveModal.tsx`, `schemaAliasValidation.ts`, `hooks/useSchemaDiffBulkSelection.ts`, `apps/web/src/lib/admin/api.ts`, `apps/web/playwright/tests/issue776-schema-bulk-resolve.spec.ts` |
+| evidence | focused Vitest/typecheck PASS; `outputs/phase-11/bulk-*.png`, `perf-30rows.md`, `a11y-manual-check.md`; `outputs/phase-12/phase12-task-spec-compliance-check.md` |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-776-schema-alias-bulk-resolve-artifact-inventory.md` |
 
 ### UT-07A-FU-01 memberTags.assignTagsToMember cleanup（2026-05-15）
 ### parallel-09 UX cross-cutting primitives visual evidence（Issue #746 / 2026-05-17）
@@ -316,7 +456,7 @@
 | workflow root | `docs/30-workflows/completed-tasks/fix-ci-cache-and-cf-token-pr795/` |
 | 状態 | `implemented_local_evidence_captured / implementation / NON_VISUAL / PASS_BOUNDARY_SYNCED_RUNTIME_PENDING` |
 | task-01 | `setup-project.cache` input を追加し、`workflow-shell-lint` の `install: 'false'` caller は `cache: ''` で setup-node pnpm cache を無効化 |
-| task-02 | backend-ci D1 / Workers scoped secrets (`CF_TOKEN_D1_*`, `CF_TOKEN_WORKERS_*`) を `with.apiToken` と step-level `env.CLOUDFLARE_API_TOKEN` の両方へ同値注入。独立 fallback ではない |
+| task-02 | Historical PR #795 note: backend-ci D1 / Workers scoped secrets (`CF_TOKEN_D1_*`, `CF_TOKEN_WORKERS_*`) were once documented as the scoped source behind `with.apiToken` and step-level `env.CLOUDFLARE_API_TOKEN`. Current `backend-ci.yml` uses environment-scoped `CLOUDFLARE_API_TOKEN` directly. |
 | implementation targets | `.github/actions/setup-project/action.yml`, `.github/workflows/ci.yml`, `.github/workflows/backend-ci.yml`, `scripts/__tests__/workflow-env-scope.test.sh` |
 | evidence | `outputs/phase-11/evidence.md`, `outputs/phase-12/phase12-task-spec-compliance-check.md` |
 | user gate | GitHub environment secret confirmation / GitHub Actions runtime evidence / commit / push / PR |
@@ -357,6 +497,20 @@
 | evidence | `outputs/phase-11/evidence/{typecheck,lint,build,test,grep-gate}.txt`; API test PASS = 48 files / 294 tests |
 | runbook | `docs/30-workflows/runbooks/ut-17-alert-relay-monthly-healthcheck.md` section 5 |
 | user gate | runtime Workers Logs tail / deploy / commit / push / PR |
+
+### task-alert-relay-global-scope-fix-001 — Alert Relay Workers Global Scope Fix（2026-05-21）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/task-alert-relay-global-scope-fix-001/` |
+| 状態 | `implemented_local_evidence_captured / implementation / NON_VISUAL / staging deploy validation pending_user_approval` |
+| implementation | `apps/api/src/routes/internal/alert-relay.ts` lazily initializes `isolateId` through `getIsolateId()` instead of module top-level `crypto.randomUUID()` |
+| local deploy token bridge | `scripts/cf.sh` maps `deploy --env staging\|production` to `CLOUDFLARE_API_TOKEN_STAGING` / `CLOUDFLARE_API_TOKEN_PRODUCTION` from 1Password, then exposes only child-env `CLOUDFLARE_API_TOKEN` to wrangler |
+| regression test | `apps/api/src/routes/internal/__tests__/alert-relay.spec.ts` TC-GS-01 asserts import-time `crypto.randomUUID` is not called |
+| artifact inventory | `references/workflow-task-alert-relay-global-scope-fix-001-artifact-inventory.md` |
+| deployment secrets spec | `references/deployment-secrets-management.md` v1.4.7 local-only token bridge |
+| lessons learned | `lessons-learned/lessons-learned-task-alert-relay-global-scope-fix-001-2026-05.md` |
+| user gate | deploy-staging CI job / commit / push / PR |
 
 
 ### task-18-FU Full Visual Regression Suite（2026-05-14）
@@ -583,6 +737,16 @@
 | failure cascade guard | 通知 step は `if: ${{ failure() && hashFiles('<artifact>') != '' }}` で前提 artifact を guard する（`deployment-gha.md`） |
 | Environment secret 0 件問題 | smoke 起動前に `bash scripts/smoke/provision-staging-secrets.sh` + name-only inventory を必須化（`deployment-secrets-management.md`） |
 | lessons-learned | `references/lessons-learned-ci-pipeline-recovery-2026-05.md`（L-CIPR-001〜006） |
+
+### Issue #765 1Password Vault Restructure（2026-05-18）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/issue-765-1p-vault-restructure-oidc-cutover/` |
+| 状態 | `spec_created_blocked_by_oidc_support / implementation / NON_VISUAL` |
+| deploy token canonical candidates | `op://UBM-Hyogo/Cloudflare/api_token_staging` / `op://UBM-Hyogo/Cloudflare/api_token_production` |
+| boundary | OIDC supported deploy path / production cutover evidence が揃うまで Phase 11 mutation は blocked |
+| user gate | 1Password archive, `bash scripts/cf.sh whoami`, commit, push, PR, Gate B' physical delete |
 
 ### E2E quality uplift Stage 2 / 2a admin requests（2026-05-09）
 
@@ -980,7 +1144,7 @@
 | primary IdP | AWS STS（GitHub OIDC federation） |
 | workflow inventory | `.github/workflows/web-cd.yml`, `.github/workflows/backend-ci.yml`, `.github/workflows/d1-migration-verify.yml` |
 | current token references | `backend-ci.yml` still uses `CLOUDFLARE_API_TOKEN` and `d1-migration-verify.yml` still uses `CLOUDFLARE_API_TOKEN_STAGING` until their runtime cutover. `web-cd.yml` uses environment-scoped `CLOUDFLARE_API_TOKEN` after task-01 web-cd secret alignment. |
-| current token references | Issue #718 以降 `backend-ci.yml` uses `CF_TOKEN_D1_*` / `CF_TOKEN_WORKERS_*`; `d1-migration-verify.yml` は 2026-05-16 以降 `secrets.CLOUDFLARE_API_TOKEN` に統一済み。`web-cd.yml` uses environment-scoped `CLOUDFLARE_API_TOKEN` after task-01 web-cd secret alignment. |
+| current token references | 2026-05-20 `ci-staging-deploy-failure-fix` 以降、`backend-ci.yml` / `web-cd.yml` は environment-scoped `CLOUDFLARE_API_TOKEN` を current runtime secret name とする。`CF_TOKEN_D1_*` / `CF_TOKEN_WORKERS_*` は historical split names。 |
 | approval gates | G1 trust policy / G2 staging cutover / G3 production cutover / G4 long-lived token revoke |
 | close-out evidence | `outputs/phase-12/phase12-task-spec-compliance-check.md` |
 | runtime evidence | `outputs/phase-11/main.md` + `manual-smoke-log.md` + `link-checklist.md` are RUNTIME_PENDING placeholder ledgers. deploy / revoke are未実行 |
@@ -3041,3 +3205,15 @@ UT-17 Cloudflare Notifications → alert-relay → Slack 経路を、既存 API 
 | source task | `docs/30-workflows/unassigned-task/task-709-fu-branch-protection-required-check.md` consumed |
 | artifact inventory | `references/workflow-task-761-visual-full-required-status-check-artifact-inventory.md` |
 | user gate | branch protection contexts POST / after GET / commit / push / PR |
+
+### CI staging deploy failure fix（2026-05-20）
+
+| 観点 | 値 / 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/ci-staging-deploy-failure-fix/` |
+| status | `PASS_BOUNDARY_SYNCED_RUNTIME_PENDING / implementation / NON_VISUAL` |
+| task-01 | `.github/workflows/web-cd.yml` の OpenNext build step に `apps/web/wrangler.toml` 由来の build-time env を step-scoped 注入し、`apps/web/src/lib/__tests__/build-time-env.spec.ts` で `getPublicEnv` / `getEnv` contract を固定 |
+| task-02 | Cloudflare API token を D1:Edit + Workers Scripts:Edit + Account Settings:Read で staging / production 分離 rotation。Cloudflare / 1Password / GitHub Secret mutation は user-gated |
+| evidence boundary | local env test / grep / build smoke は PASS。`web-cd / deploy-staging`、`backend-ci / deploy-staging`、staging HTTP 200 は dev push 後の runtime_pending |
+| artifact inventory | `references/workflow-ci-staging-deploy-failure-fix-artifact-inventory.md` |
+| user gate | Cloudflare token creation, 1Password update, `gh secret set`, commit, push, PR, dev push runtime evidence |

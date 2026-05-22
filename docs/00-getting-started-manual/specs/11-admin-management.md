@@ -78,6 +78,7 @@ API 正本:
 | `PATCH /admin/meetings/:id` | title / heldOn / note / deletedAt 更新 |
 | `POST /admin/meetings/:id/attendances` | `{ memberId, attended }` で参加付与 / 解除 |
 | `GET /admin/meetings/:id/export.csv` | CSV export |
+| `POST /admin/meetings/:id/attendance/import?dryRun=true\|false` | CSV 由来の一括参加登録。`dryRun=false` 明示時のみ commit、500 行上限、row 別 status preview |
 
 Audit action:
 
@@ -88,6 +89,7 @@ Audit action:
 | 開催日論理削除 | `meetings.delete` |
 | 参加付与 | `attendance.add` |
 | 参加解除 | `attendance.remove` |
+| CSV 一括参加付与 | `attendance.import.add` |
 
 ### `/admin/audit`
 
@@ -165,6 +167,14 @@ UI は `responseEmailMasked` だけを表示し、merge reason に含まれる e
 直近 resolve から 5 分以内は undo toast を表示できる。undo は専用 endpoint を持たず、`POST /admin/schema/aliases/:aliasId/rollback` を同じ `If-Match: version=<N>` header 付きで呼ぶ。version mismatch は `409` として「他の管理者が変更済み」と表示し、再読込を促す。
 
 rollback / undo 成功時は application `audit_log.action='schema_alias.rollback'` を追加し、元 resolve audit id を `after_json.relatedAuditId` に保存する。`cf_audit_log` は Cloudflare Audit Logs 取り込み専用であり、SchemaDiffPanel の admin mutation audit には使わない。
+
+### bulk resolve（Issue #776）
+
+`/admin/schema` には single inline edit と並走する **bulk resolve mode** を備える。トグル button (`aria-pressed`) で bulk mode を有効化すると、`unresolved` / `changed` カテゴリの行のみに checkbox が描画される（`added` / `removed` 行は対象外）。カテゴリヘッダの「全選択」checkbox と行 checkbox で複数 diff を選択し、「Bulk Resolve 確定」button から確認 modal を開く。modal では各行の stableKey を個別編集 / 推奨採用 / 全行に推奨を一括適用でき、「確定」で `POST /admin/schema/aliases` を **client-side bounded fan-out（concurrency 8、入力順で結果集計）** により逐次実行する。
+
+bulk endpoint は新設せず、既存 API endpoint surface のみを使用する（CLAUDE.md 不変条件1）。partial failure（一部行が 409 / 422 / network エラー）の場合は失敗行だけを modal に残し、行ごとに `role="alert"` で errorMessage を表示する。HTTP 202 `backfill_cpu_budget_exhausted` を受けた行は失敗扱いにせず `submitStatus="retryable"` として再開可能行のまま modal に残す。全行成功時は modal を閉じ、`router.refresh()` で一覧を再取得する。
+
+選択上限は **50 件** とし、51 件以上を選択した場合は `role="alert"` で警告を出して確定を不可にする。modal は既存 `Modal` primitive（focus trap / Esc close 内蔵）を再利用し、`isSubmitting=true` の間は確定 / キャンセル / Esc を一律無視する。色は OKLch design token (`apps/web/src/styles/tokens.css`) のみを使用し、HEX 直書きや `bg-[#xxx]` は禁止（`verify-design-tokens` gate）。
 
 ## tag assignment queue（UT-02A / 07a）
 
