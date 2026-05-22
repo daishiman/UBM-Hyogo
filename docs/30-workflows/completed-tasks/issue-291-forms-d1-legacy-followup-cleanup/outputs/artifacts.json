@@ -20,7 +20,25 @@
     "issue_state_at_recovery": "closed",
     "issue_reference_mode": "refs_only",
     "recovered_from_unassigned": "docs/30-workflows/unassigned-task/task-sync-forms-d1-legacy-followup-cleanup-001.md",
-    "recovery_pattern": "closed-issue-canonical-workflow-recovery"
+    "recovery_pattern": "closed-issue-canonical-workflow-recovery",
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-05-22T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-291-forms-d1-legacy-followup-cleanup/outputs/phase-12/main.md",
+        "approver": "daishiman",
+        "notes": "spec_review: Phase 1-13 docs-only cleanup spec completed"
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "passed",
+        "passed_at": "2026-05-22T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-291-forms-d1-legacy-followup-cleanup/outputs/phase-12/implementation-guide.md",
+        "approver": "daishiman",
+        "notes": "implementation_review: skill references migrated from Sheets/sync_audit to Forms API + sync_jobs"
+      }
+    ]
   },
   "phases": [
     {
