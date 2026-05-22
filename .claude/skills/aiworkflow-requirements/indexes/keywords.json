@@ -5631,6 +5631,7 @@
       "workflow-task-issue-494-09a-A-exec-staging-smoke-runtime-artifact-inventory.md",
       "workflow-task-runtime-smoke-admin-members-500-recovery-001-artifact-inventory.md",
       "workflow-task-staging-auth-secret-binding-recovery-001-artifact-inventory.md",
+      "workflow-ui-prototype-design-system-foundation-artifact-inventory.md",
       "workflow-ut-02a-attendance-profile-integration-artifact-inventory.md",
       "workflow-ut-branch-flow-dev-staging-sync-artifact-inventory.md",
       "workflow-ut08-monitoring-alert-design-artifact-inventory.md"
@@ -24667,6 +24668,15 @@
     "pr": [
       "workflow-task-verify-indexes-up-to-date-ci-artifact-inventory.md"
     ],
+    "Sub": [
+      "workflow-ui-prototype-design-system-foundation-artifact-inventory.md"
+    ],
+    "AppShell": [
+      "workflow-ui-prototype-design-system-foundation-artifact-inventory.md"
+    ],
+    "Layouts": [
+      "workflow-ui-prototype-design-system-foundation-artifact-inventory.md"
+    ],
     "rules": [
       "workflow-ui-prototype-design-system-foundation-artifact-inventory.md"
     ],
@@ -24680,9 +24690,6 @@
       "workflow-ui-prototype-design-system-foundation-artifact-inventory.md"
     ],
     "Selector": [
-      "workflow-ui-prototype-design-system-foundation-artifact-inventory.md"
-    ],
-    "Sub": [
       "workflow-ui-prototype-design-system-foundation-artifact-inventory.md"
     ],
     "責務分離": [

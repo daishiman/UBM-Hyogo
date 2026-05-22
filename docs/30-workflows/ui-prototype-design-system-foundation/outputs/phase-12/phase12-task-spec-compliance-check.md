@@ -2,7 +2,7 @@
 
 ## 1. Summary verdict
 
-runtime_pending (`implemented_local_evidence_captured / VISUAL_RUNTIME_PENDING`). `ui-prototype-design-system-foundation` now has root / outputs artifacts parity, strict 7 Phase 12 outputs, prototype coverage SSOT, corrected current app paths, initial code hooks for AppShell / selector contracts, local static evidence, and parallel-02 local screenshots. This is not root visual completion.
+runtime_pending / RUNTIME VISUAL PARTIAL (`implemented_local_evidence_captured / VISUAL_RUNTIME_PENDING`). `ui-prototype-design-system-foundation` now has root / outputs artifacts parity, strict 7 Phase 12 outputs, prototype coverage SSOT, corrected current app paths, initial code hooks for AppShell / selector contracts, local static evidence, and parallel-02 local screenshots. `parallel-03` has captured a public AppShell screenshot; admin/member full runtime screenshots remain serial-07 evidence. This is not root visual completion.
 
 ## 2. Changed-files classification
 
@@ -41,6 +41,7 @@ runtime_pending (`implemented_local_evidence_captured / VISUAL_RUNTIME_PENDING`)
 | visual | `parallel-02-prototype-css-rules-port/outputs/phase-11/visibility-public.png` | present | local selector screenshot |
 | visual | `parallel-02-prototype-css-rules-port/outputs/phase-11/visibility-member.png` | present | local selector screenshot |
 | visual | `parallel-02-prototype-css-rules-port/outputs/phase-11/visibility-admin.png` | present | local selector screenshot |
+| visual | `parallel-03-appshell-layouts/outputs/phase-11/screenshots/public-shell.png` | present | parallel-03 public AppShell screenshot |
 | visual | `serial-07-regression-evidence/outputs/phase-11/screenshots/top.png` | pending | required during implementation run |
 | visual | `serial-07-regression-evidence/outputs/phase-11/screenshots/members-list.png` | pending | required during implementation run |
 | visual | `serial-07-regression-evidence/outputs/phase-11/screenshots/member-detail.png` | pending | required during implementation run |
@@ -68,7 +69,7 @@ runtime_pending (`implemented_local_evidence_captured / VISUAL_RUNTIME_PENDING`)
 
 ## 7. Runtime or user-gated boundary
 
-parallel-04 fallback screenshots and parallel-02 local selector screenshots are captured in this cycle. Full 19-route blueprint binding and serial-07 production-equivalent visual regression evidence are still tracked by the active workflow phases; this file does not claim full-route runtime completion.
+Parallel-02 local selector screenshots, parallel-03 public AppShell screenshot, and parallel-04 root fallback screenshots are captured in this cycle. Authenticated admin and member route-group runtime evidence remain tracked by serial-07. Full 19-route blueprint binding and production-equivalent visual regression evidence are still tracked by the active workflow phases; this file does not claim root or full 19-route visual completion.
 
 parallel-04 keeps `visualEvidence: VISUAL` because root fallback screenshots are part of the acceptance surface. Phase 11 records EV-12..15 as present; serial-07 remains the owner for full route visual regression.
 
@@ -80,7 +81,7 @@ No archive/delete action. Stale app path and route-group inferred paths were cor
 
 | condition | result |
 |-----------|--------|
-| 矛盾なし | runtime_pending |
-| 漏れなし | runtime_pending |
+| 矛盾なし | runtime_pending (spec readiness PASS; runtime visual partial) |
+| 漏れなし | runtime_pending (serial-07 admin/member captures remain open tracked evidence) |
 | 整合性あり | runtime_pending |
 | 依存関係整合 | runtime_pending |
