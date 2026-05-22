@@ -1,0 +1,20 @@
+
+> ubm-hyogo@0.1.0 typecheck /Users/dm/dev/dev/個人開発/UBM-Hyogo
+> pnpm -r typecheck
+
+Scope: 6 of 7 workspace projects
+packages/contracts typecheck$ tsc -p tsconfig.json --noEmit
+packages/shared typecheck$ tsc -p tsconfig.json --noEmit
+packages/contracts typecheck: Done
+packages/shared typecheck: Done
+apps/web typecheck$ tsc -p tsconfig.json --noEmit
+packages/integrations/google typecheck$ tsc -p tsconfig.json --noEmit
+packages/integrations typecheck$ tsc -p tsconfig.json --noEmit
+packages/integrations typecheck: Done
+packages/integrations/google typecheck: Done
+apps/web typecheck: src/lib/csv/parse-attendance.ts(4,18): error TS2307: Cannot find module 'papaparse' or its corresponding type declarations.
+apps/web typecheck: Failed
+/Users/dm/dev/dev/個人開発/UBM-Hyogo/apps/web:
+ ERR_PNPM_RECURSIVE_RUN_FIRST_FAIL  @ubm-hyogo/web@0.1.0 typecheck: `tsc -p tsconfig.json --noEmit`
+Exit status 2
+ ELIFECYCLE  Command failed with exit code 2.

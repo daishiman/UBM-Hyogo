@@ -4,11 +4,13 @@
 
 // @vitest-environment node
 import { describe, it, expect } from "vitest";
+import { vi } from "vitest";
 import { signSessionJwt, asMemberId } from "@ubm-hyogo/shared";
 import {
   createMeSessionResolver,
   type MeSessionResolverEnv,
 } from "./me-session-resolver";
+import * as logger from "../lib/logger";
 
 const SECRET = "test-secret-32-bytes-min-aaaaaaaa";
 
@@ -163,6 +165,7 @@ describe("createMeSessionResolver", () => {
     });
 
     it("returns null when AUTH_SECRET unset", async () => {
+      const logSpy = vi.spyOn(logger, "logError").mockImplementation(() => {});
       const jwt = await signSessionJwt(SECRET, {
         memberId: asMemberId("m_001"),
         email: "user@example.com",
@@ -176,6 +179,45 @@ describe("createMeSessionResolver", () => {
         ENVIRONMENT: "production",
       });
       expect(result).toBeNull();
+      expect(logSpy).toHaveBeenCalledWith({
+        code: "UBM-AUTH-SECRET-MISSING",
+        phase: "meSessionResolver",
+        bindingPresent: false,
+      });
+      logSpy.mockRestore();
+    });
+
+    it("returns null and logs when AUTH_SECRET is blank or too short", async () => {
+      const logSpy = vi.spyOn(logger, "logError").mockImplementation(() => {});
+      const jwt = await signSessionJwt(SECRET, {
+        memberId: asMemberId("m_001"),
+        email: "user@example.com",
+        isAdmin: false,
+      });
+      const req = buildRequest({
+        headers: { authorization: `Bearer ${jwt}` },
+      });
+      await expect(
+        resolver(req, {
+          DB: {} as D1Database,
+          ENVIRONMENT: "production",
+          AUTH_SECRET: "   ",
+        }),
+      ).resolves.toBeNull();
+      await expect(
+        resolver(req, {
+          DB: {} as D1Database,
+          ENVIRONMENT: "production",
+          AUTH_SECRET: "short",
+        }),
+      ).resolves.toBeNull();
+      expect(logSpy).toHaveBeenCalledTimes(2);
+      expect(logSpy).toHaveBeenCalledWith({
+        code: "UBM-AUTH-SECRET-MISSING",
+        phase: "meSessionResolver",
+        bindingPresent: true,
+      });
+      logSpy.mockRestore();
     });
 
     it("returns null with no token at all", async () => {
