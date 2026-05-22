@@ -88,6 +88,12 @@
 - **重要な学び（2026-05-17 追記）**: 当初 `peter-evans/create-pull-request@v7` で PR 作成する設計だったが、リポジトリ設定「Allow GitHub Actions to create and approve pull requests」が無効のため `GitHub Actions is not permitted to create or approve pull requests` で fail。`GITHUB_TOKEN` の `contents: write` で source ブランチへ直接 push する方式に切替（PR 作成権限不要・`visual-baseline-approval` environment gate は維持）。
 - Why: dev merge 起因の rendering 差はほぼ全 feature ブランチで再発するため、recovery を 1-click + 自己診断可能にする。`visual-baseline-approval` environment gate は維持し、人間判断を保ったまま摩擦のみ削減。
 - How to apply: dev sync prompt 完了後に `pnpm visual:baseline:status` を実行し STALE なら表示された `gh workflow run` を実行。CI 失敗時は PR コメントの指示に従う。
+- **重要な学び（2026-05-22 追記・L-DEVSYNC-009-A）**: `playwright-visual-baseline-update.yml` が `GITHUB_TOKEN` で source branch へ直接 push した baseline 更新 commit（例: `chore(visual): update baselines via workflow_dispatch`）は、**GitHub Actions の仕様により CI を一切トリガーしない**（`GITHUB_TOKEN` 起因の push は無限ループ防止のため workflow を起こさない既知挙動）。結果として「baseline 更新は成功したのに CI が走らず PR の failed check が残り続ける」状態になる。
+  - **検出**: baseline 更新 workflow が ✅ success で完了し新 commit が push されたのに `gh run list --branch <branch>` でその commit を headSha とする run が 0 件のとき。
+  - **解消**: 該当 branch をローカルへ `git pull --ff-only` 後、`git commit --allow-empty -m "ci: re-trigger after baseline update (<baseline-sha> was pushed by GITHUB_TOKEN, no CI ran)"` で empty commit を作成し user 認証で push する。これにより全 CI workflow が新 commit に対し起動する。
+  - **恒久対応 TODO**: `playwright-visual-baseline-update.yml` の最終ステップに「empty commit を追加 push して CI re-trigger」or PAT を使った push に切替えるべき。現状は dev sync prompt 利用者が手動で empty commit を打つ運用回避策で対処する。
+  - Why: GITHUB_TOKEN push が CI を起こさない挙動はドキュメント化されているが、L-DEVSYNC-009 本体の運用手順に欠落していたため利用者が「CI が動いていない」と気付かないと詰む盲点だった。
+  - How to apply: baseline 更新 workflow success 確認後、必ず `gh run list --branch <branch> --limit 20 --json headSha` で baseline commit の CI run 件数を確認する。0 件なら即 empty commit + push で re-trigger する。
 
 ## L-DEVSYNC-010: 自律 sync prompt 実行時の dev HEAD ≠ feature 現在ブランチ HEAD ケース
 - 症状: `git fetch --prune origin` 後 `git rev-list --count origin/dev..dev = 0`（dev は最新）でも、feature ブランチが古い base に居る場合がある。
