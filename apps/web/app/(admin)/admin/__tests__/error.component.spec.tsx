@@ -3,55 +3,79 @@ import { afterEach, describe, expect, it, vi } from "vitest";
 
 vi.mock("../../../../src/lib/logger", () => ({
   logger: {
+    debug: vi.fn(),
+    info: vi.fn(),
+    warn: vi.fn(),
     error: vi.fn(),
+    child: () => ({
+      debug: vi.fn(),
+      info: vi.fn(),
+      warn: vi.fn(),
+      error: vi.fn(),
+    }),
   },
 }));
 
-import ErrorBoundary from "../error";
+import AdminError from "../error";
 import { logger } from "../../../../src/lib/logger";
 
 afterEach(() => {
   cleanup();
-  vi.restoreAllMocks();
+  vi.clearAllMocks();
   vi.unstubAllEnvs();
 });
 
+function makeError(opts: { digest?: string; stack?: string } = {}) {
+  const error = new Error("boom") as Error & { digest?: string };
+  if (opts.stack !== undefined) error.stack = opts.stack;
+  if (opts.digest) error.digest = opts.digest;
+  return error;
+}
+
 describe("AdminError", () => {
-  it("focuses the h1 on mount with preventScroll", () => {
-    const focusSpy = vi.spyOn(HTMLHeadingElement.prototype, "focus");
-
-    render(<ErrorBoundary error={new Error("boom")} reset={vi.fn()} />);
-
+  it("mount 時に h1 へ focus を移譲する", () => {
+    render(<AdminError error={makeError()} reset={vi.fn()} />);
     const heading = screen.getByRole("heading", { level: 1 });
+    expect(document.activeElement).toBe(heading);
     expect(heading.getAttribute("tabindex")).toBe("-1");
-    expect(focusSpy).toHaveBeenCalledWith({ preventScroll: true });
   });
 
-  it("invokes reset from the retry button", () => {
-    const reset = vi.fn();
-
-    render(<ErrorBoundary error={new Error("boom")} reset={reset} />);
-    fireEvent.click(screen.getByRole("button", { name: "再試行" }));
-
-    expect(reset).toHaveBeenCalledTimes(1);
+  it("role=alert と aria-live=assertive を付与する", () => {
+    render(<AdminError error={makeError()} reset={vi.fn()} />);
+    const alert = screen.getByRole("alert");
+    expect(alert.getAttribute("aria-live")).toBe("assertive");
   });
 
-  it("logs structured boundary details, hides raw message, and renders digest", () => {
-    const error = new Error("secret backend detail") as Error & { digest?: string };
-    error.digest = "admin-digest";
-    vi.stubEnv("NODE_ENV", "production");
-
-    render(<ErrorBoundary error={error} reset={vi.fn()} />);
-
-    expect(logger.error).toHaveBeenCalledWith(
-      expect.objectContaining({
-        event: "error.boundary.caught",
-        scope: "admin",
-        digest: "admin-digest",
-        err: error,
-      }),
+  it("digest と dev stack を条件付きで表示する", () => {
+    vi.stubEnv("NODE_ENV", "development");
+    const { rerender } = render(
+      <AdminError
+        error={makeError({ digest: "admin-digest", stack: "Error: admin-stack" })}
+        reset={vi.fn()}
+      />,
     );
+    expect(screen.getByText(/エラーID:/)).toBeTruthy();
     expect(screen.getByText("admin-digest")).toBeTruthy();
-    expect(screen.queryByText("secret backend detail")).toBeNull();
+    expect(document.querySelector("pre")?.textContent).toContain("admin-stack");
+
+    vi.stubEnv("NODE_ENV", "production");
+    rerender(<AdminError error={makeError({ stack: "should-not-show" })} reset={vi.fn()} />);
+    expect(screen.queryByText(/エラーID:/)).toBeNull();
+    expect(document.querySelector("pre")).toBeNull();
+  });
+
+  it("reset click と logger.error を検証する", () => {
+    const reset = vi.fn();
+    const error = makeError({ digest: "d1" });
+    render(<AdminError error={error} reset={reset} />);
+
+    fireEvent.click(screen.getByRole("button", { name: "再試行" }));
+    expect(reset).toHaveBeenCalledTimes(1);
+    expect(logger.error).toHaveBeenCalledWith({
+      event: "error.boundary.caught",
+      scope: "admin",
+      digest: "d1",
+      err: error,
+    });
   });
 });

@@ -448,6 +448,14 @@
 - How to apply: dev sync prompt 自律判断ルール B に B-10 として追加。`docs/30-workflows/completed-tasks/**/outputs/phase-1[12]/*.md` 配下で 3-way conflict が発生し、HEAD 側が `pending` / `runtime_pending` / `placeholder` を含み、dev 側が `present` / `captured` / `PASS` を含む場合、または conflict block 直後/直前の merged 領域に dev 側状態と整合するナラティブが存在する場合は dev 側のみ採用する。両側に意味のある差分（同 evidence の別属性追加など）がある場合のみ手動マージ。
 - 事例: 2026-05-20 `feat/issue-776-schema-alias-bulk-resolve` ← dev sync-merge。`phase12-task-spec-compliance-check.md` line 51-80 の 3-way block を dev 側（11 PNG + playwright log）採用で解消。
 
+## L-DEVSYNC-033: integration-fixes/index.md status 追跡表で異なる i 行を両側更新 → 1 行ずつ片側採用 union（2026-05-21 追加）
+
+- 症状: `docs/30-workflows/ui-prototype-alignment-mvp-recovery/improvements/integration-fixes/index.md` `## 7. 残タスク追跡` 表で、HEAD 側ブランチは i06 行を `completed-tasks/issue-769-root-error-focus/` に格上げ、dev 側は i07 行を `completed-tasks/profile-loading-skeleton-oklch/` に格上げ。`<<<<<<< / ||||||| / =======` の 3-way block 内に **異なる i 番号の行更新が並列存在**したため `pnpm sync:resolve` は unhandled として残す。
+- 解消: i06 行は HEAD 側採用、i07 行は dev 側採用で 1 行ずつ採択する**行レベル union**。`||||||| base` の base 行 2 行は両側で更新済みのため破棄。最終的に conflict block を 2 行（i06: HEAD / i07: dev）で置換。
+- Why: status 追跡表の各行は i 単位で独立した evidence pointer であり、行同士に意味的依存はない。片側採用は行に対してのみ適用すれば良く、表全体での片側採用は両側の昇格進捗を一方的に失う破壊的解消になる。
+- How to apply: dev sync prompt 自律判断ルール B に B-11 として追加。status 追跡表（`integration-fixes/index.md` / `parallel-NN/status.md` / `serial-NN/status.md` 等）の 3-way conflict は (1) conflict block 内で更新行の key（i 番号 / parallel/serial 番号）を抽出 → (2) key ごとに HEAD 側 / dev 側のいずれかを採用 → (3) 同一 key で両側更新の場合のみ意味的マージ → (4) base 行は破棄。`pnpm sync:resolve` 拡張対象（行 key ベース resolver）として将来的に自動化候補。
+- 事例: 2026-05-21 `feat/issue-800-profile-error-focus-transfer` ← dev sync-merge。`integration-fixes/index.md` line 82-91 の 3-way block を i06=HEAD / i07=dev の 1 行ずつ採択で 2 行に圧縮し解消。task-specification-creator skill 側 SP-DEVSYNC-026 と対応。
+
 ## L-DEVSYNC-033: 同一 React Component の state region に独立 feature が hook 並行追加した case の両側 union（2026-05-21 追加）
 - 症状: `feat/issue-778-schema-alias-rollback-undo` ← dev sync-merge で `apps/web/src/components/admin/SchemaDiffPanel.tsx` の hook 宣言領域に 3-way conflict（HEAD: Issue #778 rollback/undo 用 `useState` / `useEffect` / `performRollback` クロージャ群、dev: Issue #776 bulk resolve 用 `bulkMode` / `diffById` / `useSchemaDiffBulkSelection`）。同 component の JSX 末尾（HistoryPane + RollbackConfirmModal + UndoToast 対 SchemaDiffBulkResolveModal）も同様の 3-way conflict。テスト spec（`SchemaDiffPanel.component.spec.tsx`）の vi.mock setup / afterEach reset も同パターンで 4 箇所 conflict。
 - 解消: 両 feature は state name・mock 名・modal 名が disjoint かつ JSX 配置順に semantic 依存なし。L-DEVSYNC-012（追記型衝突両側採用）と L-DEVSYNC-024（import block 両側 union）の延長として、`<<<<<<< HEAD\n(A)(?:\|\|\|\|\|\|\| <base>\n(B))?=======\n(C)>>>>>>> dev\n  →  {A}{C}` の機械的両側採用で全 conflict 解消。typecheck / lint / `bash scripts/verify-pr-ready.sh` いずれも 1 発 PASS。

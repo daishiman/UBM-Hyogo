@@ -10,21 +10,37 @@
 | 対象機能     | admin segment error boundary（admin top + 7 subroute = 8 routes 全体をカバーする segment-level 1 枚） |
 | 優先度       | 中                                                                                                    |
 | 見積もり規模 | 小（admin/error.tsx 全面書き換え 約 40 行 + spec/test 追記）                                          |
+<<<<<<<< HEAD:docs/30-workflows/completed-tasks/issue-769-followup-003-admin-error-focus-transfer.md
+| ステータス   | consumed（`docs/30-workflows/completed-tasks/issue-800-profile-error-focus-transfer/` で実装完了）                    |
+| canonical_workflow | `docs/30-workflows/completed-tasks/issue-800-profile-error-focus-transfer/`                                    |
+| consumed_by | Issue #800 error boundary focus hook rollout                                                           |
+|||||||| 5587fc5ea:docs/30-workflows/unassigned-task/issue-769-followup-003-admin-error-focus-transfer.md
+| ステータス   | pending                                                                                               |
+========
 | ステータス   | consumed_by `docs/30-workflows/issue-799-use-auto-focus-on-mount-hook/`                               |
+>>>>>>>> origin/dev:docs/30-workflows/completed-tasks/unassigned-task/issue-769-followup-003-admin-error-focus-transfer.md
 | 発見元       | issue-769 Phase 12 unassigned-task-detection (`/admin/error.tsx` focus transfer 行)                   |
 | 発見日       | 2026-05-17                                                                                            |
 
 ## Canonical Workflow Status
 
 - 親 workflow: `docs/30-workflows/ui-prototype-alignment-mvp-recovery/`（a11y hardening 系列）
-- 親 workflow 状態: `implemented_local_evidence_captured`（root error.tsx focus は issue-769 で完了済み・admin segment は未達）
+- 親 workflow 状態: `implemented_local_evidence_captured`（root error.tsx focus は issue-769、admin segment は Issue #800 rollout で完了）
 - 直接の親 spec: `docs/30-workflows/ui-prototype-alignment-mvp-recovery/improvements/integration-fixes/parallel-i06-root-error-focus/spec.md`（spec section 4.3 「error boundary focus 管理」の admin segment 横展開）
-- 発見元 evidence: `docs/30-workflows/issue-769-root-error-focus/outputs/phase-12/unassigned-task-detection.md`（Follow-up Candidates 表 3 行目）
+- 発見元 evidence: `docs/30-workflows/completed-tasks/issue-769-root-error-focus/outputs/phase-12/unassigned-task-detection.md`（Follow-up Candidates 表 3 行目）
 - 横展開元 (reference impl): `apps/web/app/error.tsx`（issue-769 で `useRef` + `tabIndex={-1}` + `focus({ preventScroll: true })` 実装済み）
 - 修正対象 (現状確認済):
+<<<<<<<< HEAD:docs/30-workflows/completed-tasks/issue-769-followup-003-admin-error-focus-transfer.md
+  - `apps/web/app/(admin)/admin/error.tsx` — Issue #800 rollout で a11y hardening 実装済み
+  - `apps/web/app/(admin)/admin/__tests__/error.component.spec.tsx` — Issue #800 rollout で追加済み
+|||||||| 5587fc5ea:docs/30-workflows/unassigned-task/issue-769-followup-003-admin-error-focus-transfer.md
+  - `apps/web/app/(admin)/admin/error.tsx` — 既存だが a11y hardening が **未実装**（focus 管理なし / `aria-live` なし / digest 表示なし / logger 呼び出しなし）
+  - `apps/web/app/(admin)/admin/__tests__/error.component.spec.tsx`（新規追加 または 既存ファイル追記）
+========
   - `apps/web/app/(admin)/admin/error.tsx` — 既存だが a11y hardening が **未実装**（focus 管理なし / `aria-live` なし / digest 表示なし / logger 呼び出しなし）
   - `apps/web/app/(admin)/admin/__tests__/error.component.spec.tsx`（新規追加 または 既存ファイル追記）
 - consumed note: Issue #799 workflow で `(admin)/admin/error.tsx` の h1 focus transfer に加え、digest 表示・構造化 logger・production-safe copy・dev-only stack output まで同一 wave で実装済み。PR 作成のみ user-gated。
+>>>>>>>> origin/dev:docs/30-workflows/completed-tasks/unassigned-task/issue-769-followup-003-admin-error-focus-transfer.md
 - admin segment 構成 (8 routes すべて本 boundary 配下):
   - `(admin)/admin/page.tsx` (admin top / dashboard)
   - `(admin)/admin/members/`
@@ -41,9 +57,9 @@
 
 ### 1.1 背景
 
-issue-769 で root `apps/web/app/error.tsx` の h1 自動 focus 移譲を実装し、`parallel-07` spec section 4.3 「Root error.tsx focus 管理」を達成した。同 Phase 12 unassigned-task-detection で **`/admin/error.tsx` への focus transfer 適用** が followup candidate として記録されたが、issue-769 のスコープ外として保留された (`docs/30-workflows/issue-769-root-error-focus/outputs/phase-12/unassigned-task-detection.md`)。
+issue-769 で root `apps/web/app/error.tsx` の h1 自動 focus 移譲を実装し、`parallel-07` spec section 4.3 「Root error.tsx focus 管理」を達成した。同 Phase 12 unassigned-task-detection で **`/admin/error.tsx` への focus transfer 適用** が followup candidate として記録されたが、issue-769 のスコープ外として保留された (`docs/30-workflows/completed-tasks/issue-769-root-error-focus/outputs/phase-12/unassigned-task-detection.md`)。
 
-現状 `apps/web/app/(admin)/admin/error.tsx` を確認すると、root error.tsx と比べて以下が **すべて未実装**:
+作成時点の現状では `apps/web/app/(admin)/admin/error.tsx` は root error.tsx と比べて以下が **すべて未実装**だった。Issue #800 rollout 後は解消済み:
 
 - `role="alert"` + `aria-live="assertive"`（screen reader 通知）
 - `error.digest` の表示（運用調査の識別子）
@@ -155,7 +171,7 @@ issue-769-followup-001 で `useAutoFocusOnMount(ref)` 共通 hook 抽出が検�
 
 ### 3.4 解決策候補（実施順）
 
-1. **現状確認**: `apps/web/app/(admin)/admin/error.tsx` を Read で確認 → root error.tsx 比較で差分明確化（本仕様書作成時点で確認済: a11y hardening 全項目未実装）
+1. **現状確認**: `apps/web/app/(admin)/admin/error.tsx` を Read で確認 → root error.tsx 比較で差分明確化（本仕様書作成時点では a11y hardening 全項目未実装、Issue #800 rollout 後は解消済み）
 2. **テンプレート移植**: root error.tsx 全構造をコピー、文言と `Link href` を admin 文脈に調整
 3. **logger import 経路**: admin error.tsx からの相対パスは `../../../src/lib/logger`（`apps/web/app/(admin)/admin/error.tsx` → `apps/web/src/lib/logger`）。path alias が利用可能なら `@/lib/logger` を優先（tsconfig 確認）
 4. **テスト追加**: root の `error.component.spec.tsx` をベースに admin 版を新規作成。focus / digest / reset / logger の 4 観点を検証
@@ -194,13 +210,13 @@ issue-769-followup-001 で `useAutoFocusOnMount(ref)` 共通 hook 抽出が検�
 
 ## 5. 参照資料
 
-- `docs/30-workflows/issue-769-root-error-focus/outputs/phase-12/unassigned-task-detection.md` — 本タスクの発見元（Follow-up Candidates 3 行目）
+- `docs/30-workflows/completed-tasks/issue-769-root-error-focus/outputs/phase-12/unassigned-task-detection.md` — 本タスクの発見元（Follow-up Candidates 3 行目）
 - `docs/30-workflows/unassigned-task/integration-fixes-i06-root-error-focus.md` — 同根 root 側の完了済タスク（章立てフォーマット参考）
 - `docs/30-workflows/ui-prototype-alignment-mvp-recovery/improvements/integration-fixes/parallel-i06-root-error-focus/spec.md` — 親 spec section 4.3 (admin 横展開元)
 - `docs/30-workflows/ui-prototype-alignment-mvp-recovery/improvements/integration-fixes/index.md` — 親 workflow index
 - `apps/web/app/error.tsx` — 横展開元（root reference implementation）
 - `apps/web/app/__tests__/error.component.spec.tsx` — テスト構造の参考
-- `apps/web/app/(admin)/admin/error.tsx` — 修正対象（現状: a11y hardening 全項目未実装）
+- `apps/web/app/(admin)/admin/error.tsx` — 修正対象（Issue #800 rollout で a11y hardening 実装済み）
 - `apps/web/app/(admin)/admin/layout.tsx` — admin layout（OKLch トークン整合確認用）
 - `docs/00-getting-started-manual/specs/13-mvp-auth.md` — admin auth gate 仕様（変更不可・継承確認用）
 - `docs/00-getting-started-manual/specs/design-tokens.md` — OKLch トークン正本（AC-8）
