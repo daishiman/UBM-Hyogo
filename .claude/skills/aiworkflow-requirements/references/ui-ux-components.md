@@ -28,3 +28,25 @@
 全 primitive は `apps/web/src/components/ui/index.ts` から barrel export する。`Modal` と `Drawer` は Escape close、初期 focus、Tab focus loop、close 後 focus restore を最低基準とする。`ToastProvider` は client component とし、通知領域に `aria-live="polite"` を置く。
 
 `apps/web/src/lib/tones.ts` は `ChipTone`、`zoneTone(zone: string): ChipTone`、`statusTone(status: string): ChipTone` を提供する。
+
+## task-10 UI primitives integration contract（2026-05-09）
+
+`docs/30-workflows/completed-tasks/task-10-ui-primitives-spec/` は Wave 0 baseline の破棄ではなく、既存 `apps/web/src/components/ui/` と task-10 contract の統合実装である。既存 PascalCase files と barrel export を維持し、後続 task-11..17 は `@/components/ui` から import する。
+
+| 区分 | primitive | 方針 |
+| --- | --- | --- |
+| 既存拡張 | `Button / Avatar / Field / Input / Select` | 既存 props を後方互換で維持し、task-10 props を optional に追加 |
+| 新規追加 | `Card / Badge / Sidebar / Stat / EmptyState / Banner` | task-10 contract の不足分として追加 |
+| 維持 | `Chip / Switch / Segmented / Textarea / Search / Drawer / Modal / Toast / KVList / LinkPills` | 削除せず Wave 0 baseline として保持 |
+
+task-10 contract は 11 primitive、Wave 0 baseline は 15 primitive、prototype full catalog は 21 primitive として語彙を分離する。後続 task-11..17 は task-10 の 11 primitive contract と Wave 0 維持 export の交差を `@/components/ui` barrel から使う。09c の 21 primitive catalog は full prototype reference であり、task-10 の完了条件ではない。
+
+状態語彙は `runtime-evidence-captured / implementation / VISUAL_ON_EXECUTION / existing-ui-integration`。typecheck / lint / focused test / coverage / Next build は PASS。2026-05-11 に follow-up 001 で当時の OpenNext esbuild mismatch を `pnpm.overrides.esbuild = 0.25.4` により解消し、`build:cloudflare` は PASS。この `0.25.4` は historical fix であり、current Cloudflare deploy SSOT は 2026-05-17 の `fix-cf-deploy-esbuild-import-source-staging-failure` により `pnpm.overrides.esbuild = 0.27.3` へ supersede 済み。follow-up 002 で runtime screenshot / axe を `task-10-followup-002-runtime-visual-axe-evidence` workflow 配下に取得済み。axe で検出した `Stat` の `<dt>/<dd>` 構造違反は同 cycle で `dl > div > dt/dd` 構造へ修正した。
+
+## task-10 follow-up 002 runtime visual + axe evidence（2026-05-11）
+
+`docs/30-workflows/completed-tasks/task-10-followup-002-runtime-visual-axe-evidence/` は task-10 の pending runtime screenshot / axe evidence を取得するための executable follow-up workflow である。状態は `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION`。
+
+実装対象は `apps/web/app/(dev)/primitives-harness/page.tsx`、`apps/web/app/(dev)/layout.tsx`、`apps/web/playwright/tests/ui-primitives-visual.spec.ts`、`apps/web/playwright.config.ts`。axe で検出した HTML 意味論不整合の同一サイクル修正として `apps/web/src/components/ui/Stat.tsx` と `apps/web/src/components/ui/Sidebar.tsx` も最小更新する。production runtime では `ENABLE_PRIMITIVES_HARNESS=1` なしに harness を到達不能にし、Playwright 実行時のみ `PLAYWRIGHT_EVIDENCE_TASK=task-10-followup-002` で evidence dir を workflow 配下へ向ける。
+
+Phase 11 actual inventory は screenshot 37 件、`axe-report.json` violations 0、Playwright 38 passed。

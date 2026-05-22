@@ -1,0 +1,57 @@
+name: post-release-30day-auto-summary
+
+on:
+  schedule:
+    - cron: '0 1 * * *'   # UTC 01:00 daily（post-release-dashboard が UTC 00:00 起動の 1h 後）
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: 'Skip PR creation and Slack notification (stdout only)'
+        required: false
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+  pull-requests: write
+  actions: read
+
+concurrency:
+  group: post-release-30day-auto-summary
+  cancel-in-progress: false
+
+jobs:
+  summarize:
+    name: summarize-30day
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      DRY_RUN: ${{ inputs.dry_run || 'false' }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Configure git identity
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+
+      - name: Validate parent workflow exists
+        run: |
+          test -f .github/workflows/post-release-dashboard.yml \
+            || { echo "error: parent workflow missing"; exit 64; }
+
+      - name: Run 30day summary
+        id: summary
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        run: |
+          set -euo pipefail
+          if [ "${DRY_RUN}" = "true" ]; then
+            bash scripts/post-release-dashboard/30day-summary.sh --dry-run
+          else
+            bash scripts/post-release-dashboard/30day-summary.sh
+          fi

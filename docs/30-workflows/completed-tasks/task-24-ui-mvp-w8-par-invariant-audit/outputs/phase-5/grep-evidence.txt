@@ -1,0 +1,109 @@
+
+=== INV-2 grep: bg-[# / text-[# / border-[# in apps/web/src ===
+NO_MATCH
+
+=== INV-2 grep: HEX color in apps/web/src (excluding tokens.css) ===
+NO_MATCH
+
+=== INV-3 primitives directory listing (apps/web/src/components/ui) ===
+NO_DIR
+
+=== INV-3 unexpected primitives diff (current - allowed) ===
+NO_UNEXPECTED_PRIMITIVES
+
+=== INV-4 D1 references in apps/web/src ===
+apps/web/src/lib/__tests__/boundary.spec.ts:1:// AC-3 / AC-4: apps/web から apps/api/src/repository および D1Database を直接 import すると
+apps/web/src/lib/__tests__/boundary.spec.ts:32:  it("apps/web から D1Database を import すると boundary lint が error", () => {
+apps/web/src/lib/__tests__/boundary.spec.ts:34:      `import type { D1Database } from "@cloudflare/workers-types";\nexport const x: D1Database = {} as D1Database;\n`,
+
+=== INV-4 d1_databases in apps/web/wrangler.toml ===
+NO_MATCH
+
+=== INV-5 consent keys in apps/web/src + apps/api/src (non-test, non-function) ===
+apps/api/src/_shared/public-filter.ts:13:publicConsent
+apps/api/src/_shared/public-filter.ts:19:publicConsent
+apps/api/src/_shared/public-filter.ts:25:publicConsent
+apps/api/src/_shared/public-filter.ts:2:publicConsent
+apps/api/src/_shared/public-filter.ts:7:publicConsent
+apps/api/src/jobs/mappers/extract-consent.ts:10:publicConsent
+apps/api/src/jobs/mappers/extract-consent.ts:11:rulesConsent
+apps/api/src/jobs/mappers/extract-consent.ts:15:publicConsent
+apps/api/src/jobs/mappers/extract-consent.ts:15:rulesConsent
+apps/api/src/jobs/mappers/extract-consent.ts:19:extractConsent
+apps/api/src/jobs/mappers/extract-consent.ts:28:normalizeConsent
+apps/api/src/jobs/mappers/extract-consent.ts:2:publicConsent
+apps/api/src/jobs/mappers/extract-consent.ts:2:ruleConsent
+apps/api/src/jobs/mappers/extract-consent.ts:2:rulesConsent
+apps/api/src/jobs/mappers/extract-consent.ts:3:normalizeConsent
+apps/api/src/jobs/mappers/extract-consent.ts:5:normalizeConsent
+apps/api/src/jobs/mappers/sheets-to-members.ts:130:publicConsent
+apps/api/src/jobs/mappers/sheets-to-members.ts:131:rulesConsent
+apps/api/src/jobs/mappers/sheets-to-members.ts:142:publicConsent
+apps/api/src/jobs/mappers/sheets-to-members.ts:142:rulesConsent
+apps/api/src/jobs/mappers/sheets-to-members.ts:39:publicConsent
+apps/api/src/jobs/mappers/sheets-to-members.ts:40:rulesConsent
+apps/api/src/jobs/mappers/sheets-to-members.ts:77:publicConsent
+apps/api/src/jobs/mappers/sheets-to-members.ts:78:rulesConsent
+apps/api/src/jobs/sync-forms-responses.ts:25:extractConsent
+apps/api/src/jobs/sync-forms-responses.ts:367:extractConsent
+apps/api/src/jobs/sync-forms-responses.ts:373:publicConsent
+apps/api/src/jobs/sync-forms-responses.ts:374:rulesConsent
+apps/api/src/jobs/sync-forms-responses.ts:8:publicConsent
+apps/api/src/jobs/sync-forms-responses.ts:8:rulesConsent
+apps/api/src/jobs/sync-sheets-to-d1.ts:277:publicConsent
+apps/api/src/jobs/sync-sheets-to-d1.ts:278:rulesConsent
+apps/api/src/middleware/session-guard.ts:127:requireRulesConsent
+apps/api/src/middleware/session-guard.ts:68:requireRulesConsent
+apps/api/src/repository/_shared/builder.ts:346:publicConsent
+apps/api/src/repository/_shared/builder.ts:347:rulesConsent
+apps/api/src/repository/_shared/builder.ts:413:publicConsent
+apps/api/src/repository/_shared/builder.ts:414:rulesConsent
+apps/api/src/repository/_shared/builder.ts:435:publicConsent
+apps/api/src/repository/_shared/builder.ts:436:rulesConsent
+apps/api/src/repository/_shared/generated/static-manifest.json:107:publicConsent
+apps/api/src/repository/_shared/generated/static-manifest.json:122:rulesConsent
+apps/api/src/repository/status.ts:66:publicConsent
+apps/api/src/repository/status.ts:67:rulesConsent
+apps/api/src/repository/status.ts:78:publicConsent
+apps/api/src/repository/status.ts:78:rulesConsent
+apps/api/src/routes/admin/members.ts:278:publicConsent
+apps/api/src/routes/admin/members.ts:282:rulesConsent
+apps/api/src/routes/me/index.ts:131:publicConsent
+apps/api/src/routes/me/index.ts:132:rulesConsent
+apps/api/src/routes/me/index.ts:188:requireRulesConsent
+apps/api/src/routes/me/index.ts:241:requireRulesConsent
+apps/api/src/routes/me/index.ts:9:requireRulesConsent
+apps/api/src/routes/me/schemas.ts:68:publicConsent
+apps/api/src/routes/me/schemas.ts:69:rulesConsent
+apps/api/src/sync/upsert.ts:62:publicConsent
+apps/api/src/sync/upsert.ts:63:rulesConsent
+apps/api/src/use-cases/public/get-public-member-profile.ts:78:publicConsent
+apps/api/src/view-models/public/public-member-list-view.ts:25:rulesConsent
+apps/api/src/view-models/public/public-member-list-view.ts:35:rulesConsent
+apps/api/src/view-models/public/public-member-list-view.ts:3:rulesConsent
+apps/api/src/view-models/public/public-member-profile-view.ts:50:rulesConsent
+apps/web/src/components/public/RegisterCallout.tsx:24:publicConsent
+apps/web/src/components/public/RegisterCallout.tsx:25:rulesConsent
+apps/web/src/components/public/RegisterCallout.tsx:2:publicConsent
+apps/web/src/components/public/RegisterCallout.tsx:2:rulesConsent
+apps/web/src/components/public/RegisterCallout.tsx:31:publicConsent
+apps/web/src/components/public/RegisterCallout.tsx:34:rulesConsent
+apps/web/src/features/admin/components/_members/MemberDrawer.tsx:76:publicConsent
+apps/web/src/features/admin/components/_members/MemberDrawer.tsx:77:publicConsent
+apps/web/src/features/admin/components/_members/MemberDrawer.tsx:80:rulesConsent
+apps/web/src/features/admin/components/_members/MemberDrawer.tsx:81:rulesConsent
+apps/web/src/features/admin/components/_members/MembersTable.tsx:111:publicConsent
+apps/web/src/features/admin/components/_members/MembersTable.tsx:111:rulesConsent
+apps/web/src/lib/admin/server-fetch.ts:252:publicConsent
+apps/web/src/lib/admin/server-fetch.ts:253:rulesConsent
+apps/web/src/lib/admin/server-fetch.ts:262:publicConsent
+apps/web/src/lib/admin/server-fetch.ts:263:rulesConsent
+apps/web/src/lib/admin/server-fetch.ts:84:publicConsent
+apps/web/src/lib/admin/server-fetch.ts:85:rulesConsent
+apps/web/src/lib/admin/server-fetch.ts:94:publicConsent
+apps/web/src/lib/admin/server-fetch.ts:95:rulesConsent
+apps/web/src/lib/api/me-types.ts:28:publicConsent
+apps/web/src/lib/api/me-types.ts:29:rulesConsent
+
+=== INV-6 gas-prototype references under apps/ + packages/ ===
+NO_MATCH

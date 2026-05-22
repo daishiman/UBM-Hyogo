@@ -1,3 +1,5 @@
+import { EmptyState } from "../feedback/EmptyState";
+
 export interface TimelineEntry {
   sessionId: string;
   title: string;
@@ -10,7 +12,15 @@ export interface TimelineProps {
 
 export function Timeline({ entries }: TimelineProps) {
   if (entries.length === 0) {
-    return null;
+    return (
+      <section data-component="timeline">
+        <h2>最近の支部会</h2>
+        <EmptyState
+          title="まだ支部会の記録がありません"
+          description="開催後に最新の支部会情報を掲載します。"
+        />
+      </section>
+    );
   }
   return (
     <section data-component="timeline">

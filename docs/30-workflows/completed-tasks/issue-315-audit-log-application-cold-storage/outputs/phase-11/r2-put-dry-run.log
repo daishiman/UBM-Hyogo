@@ -1,0 +1,4 @@
+R2 PUT status: runtime_pending.
+
+Reason:
+`UBM_AUDIT_APP_COLD_STORAGE` non-dry-run writes require R2 bucket creation with Object Lock and explicit user approval. Local dry-run must not perform R2 PUT.

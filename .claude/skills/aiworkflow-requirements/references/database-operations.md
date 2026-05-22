@@ -118,7 +118,7 @@
 
 ## Issue #503 schema alias back-fill cursor A/B operation
 
-Issue #503（`docs/30-workflows/issue-503-ut-07b-fu-01-followup-cursor-semantics-migration/`）は `implemented-local / implementation / NON_VISUAL / runtime evidence pending_user_gate`。local code は `BACKFILL_CURSOR_MODE` による `remaining-scan` / `cursor` shadow branch を持つが、runtime 採用判断は staging 10,000 行 fixture evidence まで保留する。
+Issue #503 の former workflow root `docs/30-workflows/issue-503-ut-07b-fu-01-followup-cursor-semantics-migration/` は現 worktree から除去済みであり、active workflow 導線としては使わない。現行契約として残るのは、`BACKFILL_CURSOR_MODE` による `remaining-scan` / `cursor` A/B operation boundary だけである。runtime 採用判断は staging 10,000 行 fixture evidence まで保留する。
 
 | 項目 | current contract |
 | --- | --- |

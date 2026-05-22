@@ -5,7 +5,9 @@ import { Hono } from "hono";
 import { requireAdmin, type RequireAuthVariables } from "../../middleware/require-admin";
 import {
   attendanceProviderMiddleware,
+  writeTagNoteProviderMiddleware,
   type RepositoryProviderVariables,
+  type WriteTagNoteProviderVariables,
 } from "../../middleware/repository-providers";
 import { ctx } from "../../repository/_shared/db";
 import { asMemberId, asAdminId } from "../../repository/_shared/brand";
@@ -16,7 +18,7 @@ import {
   ATTENDANCE_PAGE_DEFAULT_LIMIT,
   ATTENDANCE_PAGE_MAX_LIMIT,
 } from "../../repository/attendance";
-import { listByTarget } from "../../repository/auditLog";
+import { requireProvider } from "../../repository/_shared/provider-context";
 import {
   ADMIN_DENSITY_VALUES,
   ADMIN_SEARCH_LIMITS,
@@ -31,8 +33,25 @@ import {
   type AdminZone,
 } from "@ubm-hyogo/shared";
 import { normalizeIso, type AdminRouteEnv } from "./_shared";
+import { logError } from "../../lib/logger";
+
+const ADMIN_MEMBERS_ERROR_CODE = "UBM-ADMIN-MEMBERS-500";
 
 const FILTER_VALUES = ["published", "hidden", "deleted"] as const;
+
+type ConsentValue = "consented" | "declined" | "unknown";
+type PublishStateValue = "public" | "member_only" | "hidden";
+
+const normalizeConsent = (v: string | null | undefined): ConsentValue =>
+  v === "consented" || v === "declined" ? v : "unknown";
+
+const normalizePublishState = (
+  v: string | null | undefined,
+): PublishStateValue => {
+  if (v === "public" || v === "published") return "public";
+  if (v === "hidden" || v === "private") return "hidden";
+  return "member_only";
+};
 const isOneOf = <T extends readonly string[]>(
   value: string,
   values: T,
@@ -54,10 +73,10 @@ interface MemberListRow {
 
 const filterToSql = (filter?: AdminFilter): string => {
   if (filter === "published") {
-    return "COALESCE(ms.is_deleted, 0) = 0 AND COALESCE(ms.publish_state, 'member_only') = 'public'";
+    return "COALESCE(ms.is_deleted, 0) = 0 AND COALESCE(ms.publish_state, 'member_only') IN ('public', 'published')";
   }
   if (filter === "hidden") {
-    return "COALESCE(ms.is_deleted, 0) = 0 AND COALESCE(ms.publish_state, 'member_only') = 'hidden'";
+    return "COALESCE(ms.is_deleted, 0) = 0 AND COALESCE(ms.publish_state, 'member_only') IN ('hidden', 'private')";
   }
   if (filter === "deleted") {
     return "COALESCE(ms.is_deleted, 0) = 1";
@@ -203,47 +222,56 @@ const sortToSql = (sort: AdminSort): string => {
 export const createAdminMembersRoute = () => {
   const app = new Hono<{
     Bindings: AdminRouteEnv;
-    Variables: RequireAuthVariables & RepositoryProviderVariables;
+    Variables: RequireAuthVariables & RepositoryProviderVariables & Partial<WriteTagNoteProviderVariables>;
   }>();
   app.use("*", requireAdmin);
   // admin gate 後段で repository provider を bind（issue-371）
   app.use("*", attendanceProviderMiddleware);
+  app.use("*", writeTagNoteProviderMiddleware);
 
   app.get("/members", async (c) => {
-    const queries = c.req.queries();
-    const single: Record<string, string | undefined> = {};
-    for (const [k, v] of Object.entries(queries)) {
-      single[k] = v[0];
-    }
-    const tagArr = queries.tag ?? [];
+    try {
+      const queries = c.req.queries();
+      const single: Record<string, string | undefined> = {};
+      for (const [k, v] of Object.entries(queries)) {
+        single[k] = v[0];
+      }
+      const tagArr = queries.tag ?? [];
 
-    const parsed = parseSearchOrError(single, { tag: tagArr });
-    if (!parsed.ok) {
-      return c.json({ ok: false, error: parsed.error }, parsed.status);
-    }
-    const s = parsed.value;
-    const built = buildSearchSql(s);
+      const parsed = parseSearchOrError(single, { tag: tagArr });
+      if (!parsed.ok) {
+        return c.json({ ok: false, error: parsed.error }, parsed.status);
+      }
+      const s = parsed.value;
+      const built = buildSearchSql(s);
 
-    const db = ctx({ DB: c.env.DB });
+      if (!c.env?.DB) {
+        logError({ code: ADMIN_MEMBERS_ERROR_CODE, phase: "binding-missing" });
+        return c.json(
+          { ok: false, error: "DB binding missing", code: ADMIN_MEMBERS_ERROR_CODE },
+          503,
+        );
+      }
+      const db = ctx({ DB: c.env.DB });
 
-    // total count
-    const countRow = await db.db
-      .prepare(
-        `SELECT COUNT(DISTINCT mi.member_id) AS n
+      // total count
+      const countRow = await db.db
+        .prepare(
+          `SELECT COUNT(DISTINCT mi.member_id) AS n
          FROM member_identities mi
          LEFT JOIN member_responses mr ON mr.response_id = mi.current_response_id
          LEFT JOIN member_status ms ON ms.member_id = mi.member_id
          ${built.joinSql}
          ${built.whereSql} AND mi.member_id NOT IN (SELECT source_member_id FROM identity_aliases)`,
-      )
-      .bind(...built.binds)
-      .first<{ n: number }>();
-    const total = countRow?.n ?? 0;
+        )
+        .bind(...built.binds)
+        .first<{ n: number }>();
+      const total = countRow?.n ?? 0;
 
-    const offset = (s.page - 1) * ADMIN_SEARCH_LIMITS.PAGE_SIZE;
-    const r = await db.db
-      .prepare(
-        `SELECT mi.member_id, mi.response_email, mi.last_submitted_at,
+      const offset = (s.page - 1) * ADMIN_SEARCH_LIMITS.PAGE_SIZE;
+      const r = await db.db
+        .prepare(
+          `SELECT mi.member_id, mi.response_email, mi.last_submitted_at,
                 mr.answers_json,
                 ms.public_consent, ms.rules_consent, ms.publish_state, ms.is_deleted
          FROM member_identities mi
@@ -253,53 +281,64 @@ export const createAdminMembersRoute = () => {
          ${built.whereSql} AND mi.member_id NOT IN (SELECT source_member_id FROM identity_aliases)
          ${sortToSql(s.sort)}
          LIMIT ? OFFSET ?`,
-      )
-      .bind(...built.binds, ADMIN_SEARCH_LIMITS.PAGE_SIZE, offset)
-      .all<MemberListRow>();
+        )
+        .bind(...built.binds, ADMIN_SEARCH_LIMITS.PAGE_SIZE, offset)
+        .all<MemberListRow>();
 
-    const members = (r.results ?? []).map((row) => {
-      let fullName = "";
-      if (row.answers_json) {
-        try {
-          const p = JSON.parse(row.answers_json) as Record<string, unknown>;
-          const fn = p[STABLE_KEY.fullName];
-          if (typeof fn === "string") fullName = fn;
-        } catch {
-          // ignore
+      const members = (r.results ?? []).map((row) => {
+        let fullName = "";
+        if (row.answers_json) {
+          try {
+            const p = JSON.parse(row.answers_json) as Record<string, unknown>;
+            const fn = p[STABLE_KEY.fullName];
+            if (typeof fn === "string") fullName = fn;
+          } catch {
+            // ignore
+          }
         }
-      }
-      return {
-        memberId: row.member_id,
-        responseEmail: row.response_email,
-        fullName,
-        publicConsent: (row.public_consent ?? "unknown") as
-          | "consented"
-          | "declined"
-          | "unknown",
-        rulesConsent: (row.rules_consent ?? "unknown") as
-          | "consented"
-          | "declined"
-          | "unknown",
-        publishState: (row.publish_state ?? "member_only") as
-          | "public"
-          | "member_only"
-          | "hidden",
-        isDeleted: row.is_deleted === 1,
-        lastSubmittedAt: normalizeIso(row.last_submitted_at),
-      };
-    });
+        return {
+          memberId: row.member_id,
+          responseEmail: row.response_email,
+          fullName,
+          publicConsent: normalizeConsent(row.public_consent),
+          rulesConsent: normalizeConsent(row.rules_consent),
+          publishState: normalizePublishState(row.publish_state),
+          isDeleted: row.is_deleted === 1,
+          lastSubmittedAt: normalizeIso(row.last_submitted_at),
+        };
+      });
 
-    const view = {
-      total,
-      members,
-      page: s.page,
+      const view = {
+        total,
+        members,
+        page: s.page,
         pageSize: ADMIN_SEARCH_LIMITS.PAGE_SIZE,
-    };
-    const parsedView = AdminMemberListViewZ.safeParse(view);
-    if (!parsedView.success) {
-      return c.json({ ok: false, error: parsedView.error.message }, 500);
+      };
+      const parsedView = AdminMemberListViewZ.safeParse(view);
+      if (!parsedView.success) {
+        logError({
+          code: ADMIN_MEMBERS_ERROR_CODE,
+          phase: "zod",
+          issues: parsedView.error.flatten(),
+        });
+        return c.json(
+          { ok: false, error: "internal", code: ADMIN_MEMBERS_ERROR_CODE },
+          500,
+        );
+      }
+      return c.json(parsedView.data, 200);
+    } catch (err) {
+      logError({
+        code: ADMIN_MEMBERS_ERROR_CODE,
+        phase: "exception",
+        name: (err as Error)?.name,
+        message: (err as Error)?.message,
+      });
+      return c.json(
+        { ok: false, error: "internal", code: ADMIN_MEMBERS_ERROR_CODE },
+        500,
+      );
     }
-    return c.json(parsedView.data, 200);
   });
 
   app.get("/members/:memberId", async (c) => {
@@ -308,7 +347,8 @@ export const createAdminMembersRoute = () => {
     const db = ctx({ DB: c.env.DB });
     const mid = asMemberId(memberId);
 
-    const auditRows = await listByTarget(db, "member", memberId, 50);
+    const auditRows = await requireProvider(c.var.auditLogProvider, "auditLogProvider")
+      .listByTarget("member", memberId, 50);
     const adminAudit = auditRows.map((a) => ({
       actor: asAdminId(a.actorEmail ?? a.actorId ?? "system"),
       action: a.action as string,

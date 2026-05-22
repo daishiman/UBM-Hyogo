@@ -55,6 +55,21 @@ API smoke evidence では screenshot は不要。代わりに以下を `manual-s
 | `PASS_RUNTIME_SYNCED` | 全 G1-G4 runtime evidence 取得済 | 最終形 |
 | `PASS`（単独表記） | **禁止**。boundary suffix を必ず付与 | 誤読防止のため Phase 11 では使用不可 |
 
+### N日 close-out / cross-run artifact aggregation evidence
+
+scheduled GitHub Actions の D+7 / D+30 / 90日観測のように、複数 run の artifact を後段 workflow で集約して runtime 昇格するタスクでは、Phase 11 を「local evidence」と「runtime close-out evidence」に分ける。
+
+| evidence | 必須内容 |
+| --- | --- |
+| local evidence | `typecheck` / `lint` / focused test / redaction or grep gate。`PASS` 単独ではなく `OK_LOCAL` / `OK_FOCUSED` 等で記録する |
+| runtime aggregate JSON | `expectedSnapshots` と `actualSnapshots` を両方持つ。shell の件数比較だけを唯一の証跡にしない |
+| run URL list | 集約対象 run の URL 一覧を markdown evidence に残す |
+| aggregate gate | `actualSnapshots < expectedSnapshots`、fallback rate threshold 超過、leakage hit、classifier mismatch、skeleton zero metrics を PR 起票前に fail させる |
+| cross-run download | `actions/download-artifact@v4` は same-run 向け。別 workflow / 別 run の artifact 集約では `gh api workflows/<name>/runs` + `gh api .../artifacts/<id>/zip` を正本パターンとしてよい |
+| evidence PR | runtime window 終了後の evidence 追加は `peter-evans/create-pull-request` 等で別ブランチ PR 化し、直 push しない |
+
+実測 metrics をまだ接続していない skeleton snapshot（例: 全 snapshot が `totalEvents=0` / `fallbackRate=0` / `p95LatencyMs=0`）を D+N runtime PASS の根拠にしてはならない。
+
 #### 必須記録項目（`outputs/phase-11/main.md`）
 
 - 状態語彙（上表のいずれか）と判定根拠
@@ -62,8 +77,12 @@ API smoke evidence では screenshot は不要。代わりに以下を `manual-s
 - runtime evidence の pending 内訳（G1: deploy / G2: Forms sync / G3: D1 apply / G4: commit-push-PR）
 - 各 runtime evidence の取得ゲート（[phase-template-phase13.md](phase-template-phase13.md) §G1-G4）
 - 実行されたら fresh evidence を後追いで `outputs/phase-11/` に追加する旨の宣言
+- 外部 SaaS / 1Password / Cloudflare Secret を使う場合は、mutation gate の直前ではなく preflight で canonical vault/item/project の存在を確認する。未 provisioning なら secret put / deploy を実行せず、`unassigned-task-detection.md` で formalize する。
+- OpenNext Workers の server runtime 混入 grep は `apps/web/.open-next/worker.js` など server artifact に限定する。`.open-next/assets/` の browser bundle を同じ AC に含める場合は、browser scope として別 AC に分ける。
 
 #### Phase 12 compliance との連動
+
+状態語彙の定義は [workflow-state-vocabulary.md](workflow-state-vocabulary.md) を、Phase 12 compliance-check の観点は [phase12-compliance-check-template.md](phase12-compliance-check-template.md) を参照する。
 
 `outputs/phase-12/phase12-task-spec-compliance-check.md` では
 `PASS_BOUNDARY_SYNCED_RUNTIME_PENDING` を `PASS` と書き換えず、
@@ -326,3 +345,31 @@ GitHub Actions OIDC、Cloudflare deploy auth、branch protection、external IdP 
 | runtime boundary | spec-created cycle で未実行の external mutation / deploy / revoke を明記 |
 
 この matrix は `phase12-task-spec-compliance-check.md` の 4 条件（矛盾なし / 漏れなし / 整合性 / 依存関係整合）の根拠にする。
+
+## Tailwind v4 / PostCSS build artifact verification（VISUAL_ON_EXECUTION build pipeline タスク）
+
+**Anchor**: 「Tailwind v4 / PostCSS build artifact verification」
+
+### 適用条件
+
+- `taskType=implementation` かつ `visualEvidence=VISUAL_ON_EXECUTION`
+- build pipeline / token 系タスク（例: Tailwind v4 setup / PostCSS config / design token CSS variable 配信）
+- generated CSS が runtime evidence の主証跡となるタスク
+
+### generated CSS grep を 2 点で確認する
+
+build pipeline タスクでは emitted CSS を直接 grep して runtime evidence を残す。grep は次の 2 点で実行し、両方 PASS した場合のみ Phase 11 を `PASS` にする。
+
+| # | grep 対象 | 目的 | PASS 条件 |
+| --- | --- | --- | --- |
+| 1 | `var(--ubm-*)` 系 CSS variable | design token が generated CSS に正しく出力されているか確認 | `outputs/phase-11/generated.css` 内に該当 variable 参照が 1 件以上存在 |
+| 2 | utility selector（Tailwind v4 emitted class） | Tailwind v4 の class が生成パイプラインを通過しているか確認 | `outputs/phase-11/generated.css` 内に対象 utility selector が 1 件以上存在 |
+
+### Evidence
+
+| ファイル | 役割 |
+| --- | --- |
+| `outputs/phase-11/generated.css` | build パイプライン出力の生 CSS（grep 対象の正本） |
+| `apps/web/src/__tests__/build-output.test.ts` | 上記 2 点の grep を自動検証する build output test |
+
+両者を `outputs/phase-11/main.md` から参照リンクで結び、`manual-smoke-log.md` に grep コマンドと件数を記録する。grep 件数 0 の場合は `PASS` 不可とし、root cause（PostCSS plugin chain / token CSS import / content glob）を `discovered-issues.md` に分類する。

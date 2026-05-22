@@ -1,0 +1,15 @@
+
+{
+  "error": {
+    "text": "A request to the Cloudflare API (/accounts/<concealed by 1Password>/d1/database/24963f0a-7fbb-4508-a93a-f8e502aa4585/query) failed.",
+    "notes": [
+      {
+        "text": "no such table: cf_audit_log: SQLITE_ERROR [code: 7500]"
+      }
+    ],
+    "kind": "error",
+    "name": "APIError",
+    "code": 7500,
+    "accountTag": "<concealed by 1Password>"
+  }
+}

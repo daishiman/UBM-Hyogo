@@ -1,6 +1,7 @@
 // 04b-followup-004: /admin/requests admin queue resolve workflow page
 // 不変条件 #5: server fetch は admin proxy 経由のみ。
 import { fetchAdmin } from "../../../../src/lib/admin/server-fetch";
+import { Breadcrumb } from "@/components/admin/Breadcrumb";
 import {
   RequestQueuePanel,
   type RequestQueueListView,
@@ -39,5 +40,10 @@ export default async function AdminRequestsPage({
     nextCursor: data.nextCursor ?? null,
     appliedFilters: data.appliedFilters ?? { status: "pending", type },
   };
-  return <RequestQueuePanel initial={view} type={type} />;
+  return (
+    <section className="flex flex-col gap-4">
+      <Breadcrumb items={[{ label: "管理", href: "/admin" }, { label: "依頼キュー" }]} />
+      <RequestQueuePanel initial={view} type={type} />
+    </section>
+  );
 }

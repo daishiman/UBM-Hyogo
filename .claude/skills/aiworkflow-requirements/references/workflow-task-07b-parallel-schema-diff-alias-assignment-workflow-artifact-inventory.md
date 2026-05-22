@@ -46,21 +46,21 @@
 | ファイル | 役割 |
 |---|---|
 | `apps/api/src/workflows/schemaAliasAssign.ts` | apply / dryRun / back-fill / audit を担当する workflow 本体（345 行）。`SchemaAliasAssignInput` / `SchemaAliasAssignResult` discriminated union / `SchemaAliasAssignFailure` / `BACKFILL_BATCH_SIZE=100` / `BACKFILL_CPU_BUDGET_MS=25000` を export |
-| `apps/api/src/workflows/schemaAliasAssign.test.ts` | dryRun no-side-effect / apply happy path / collision 422 / diff_not_found 404 / question mismatch 409 / deleted member skip / batch resume / idempotent re-apply の単体テスト |
+| `apps/api/src/workflows/schemaAliasAssign.contract.spec.ts` | dryRun no-side-effect / apply happy path / collision `409 stable_key_collision` / diff_not_found 404 / question mismatch 409 / deleted member skip / batch resume / idempotent re-apply の単体テスト |
 
 ### Service（apps/api）
 
 | ファイル | 役割 |
 |---|---|
 | `apps/api/src/services/aliasRecommendation.ts` | `(label, section, index, candidates) => string[]` の純粋関数。Levenshtein 距離 + section 一致 + index 近接スコアで上位 5 件を返す（74 行） |
-| `apps/api/src/services/aliasRecommendation.test.ts` | スコア境界 / 同点 tie-break / 候補 0 件 / 空 label の単体テスト |
+| `apps/api/src/services/aliasRecommendation.spec.ts` | スコア境界 / 同点 tie-break / 候補 0 件 / 空 label / i18n label normalization の単体テスト |
 
 ### Route handler（apps/api）
 
 | ファイル | 役割 |
 |---|---|
 | `apps/api/src/routes/admin/schema.ts` | `GET /admin/schema/diff`（recommendedStableKeys 同梱）/ `POST /admin/schema/aliases?dryRun=<true\|false>` の handler。zod validation + workflow 呼び出し + HTTP error マッピング（400/401/403/404/409/422） |
-| `apps/api/src/routes/admin/schema.test.ts` | route 層 integration テスト。admin gate / zod 400 / workflow failure → http status mapping を検証 |
+| `apps/api/src/routes/admin/schema.contract.spec.ts` | route 層 integration テスト。admin gate / zod 400 / workflow failure → http status mapping を検証 |
 
 ### Repository 拡張（apps/api）
 
@@ -73,7 +73,7 @@
 
 | ファイル | 反映内容 |
 |---|---|
-| `.claude/skills/aiworkflow-requirements/references/api-endpoints.md` | §管理バックオフィス API 04c に「07b schema alias workflow close-out」段落を追加（recommendedStableKeys / dryRun 副作用なし契約 / collision 422 / back-fill batch+CPU budget） |
+| `.claude/skills/aiworkflow-requirements/references/api-endpoints.md` | §管理バックオフィス API 04c に「07b schema alias workflow close-out」段落を追加。current contract は hardening 後の `schema_aliases` INSERT / collision `409 stable_key_collision` / back-fill batch+CPU budget |
 | `.claude/skills/aiworkflow-requirements/references/database-schema-07b-schema-alias-assignment.md` | 500 行制限に従い、`schema_questions` / `schema_diff_queue` / `response_fields` / `audit_log` の 07b 責務テーブル + 実 DB と仕様書の差分吸収（`__extra__:<questionId>` / `deleted_members` join）を子ファイルとして新設 |
 | `.claude/skills/aiworkflow-requirements/references/database-schema.md` | 親導線として 07b 子ファイルへのリンクを追加 |
 | `.claude/skills/aiworkflow-requirements/references/lessons-learned-07b-schema-alias-assignment-2026-04.md` | L-07B-001〜005（仕様書差分 grep 照合 / dryRun・apply 副作用境界分離 / revision-scoped pre-check 422 + UNIQUE index follow-up / batch+CPU budget+idempotent / aliasRecommendation 純粋関数化） |
@@ -88,7 +88,7 @@
 
 - `BACKFILL_BATCH_SIZE = 100`（D1 SELECT/UPDATE 1 batch 行数）
 - `BACKFILL_CPU_BUDGET_MS = 25000`（Workers 30s 制限の安全マージン 5s）
-- HTTP error マッピング: zod 400 / 認証なし 401 / 非 admin 403 / question_not_found・diff_not_found 404 / diff_question_mismatch 409 / collision 422
+- HTTP error マッピング: zod 400 / 認証なし 401 / 非 admin 403 / question_not_found・diff_not_found 404 / diff_question_mismatch 409 / collision `409 stable_key_collision`
 - extra field 識別: `response_fields.stable_key='__extra__:<questionId>'` LIKE
 - 削除 skip: `member_identities ⋈ deleted_members` を経由し `response_id NOT IN (...)`
 - `schema_diff_queue.status` enum: `queued | resolved` を採用（`reviewing` 等の中間状態は持たない）
@@ -104,6 +104,6 @@
 
 - `mise exec -- pnpm --filter @ubm-hyogo/api typecheck`
 - `mise exec -- pnpm --filter @ubm-hyogo/api lint`
-- `mise exec -- pnpm --filter @ubm-hyogo/api test -- --run src/workflows/schemaAliasAssign.test.ts src/services/aliasRecommendation.test.ts src/routes/admin/schema.test.ts`
+- `mise exec -- pnpm --filter @ubm-hyogo/api test -- --run src/workflows/schemaAliasAssign.contract.spec.ts src/services/aliasRecommendation.spec.ts src/routes/admin/schema.contract.spec.ts`
 - root / outputs `artifacts.json` parity（`docs/30-workflows/07b-.../artifacts.json` ↔ `outputs/artifacts.json`）
 - `phase12-task-spec-compliance-check.md` 不変条件 #1〜#15 全項目 trace

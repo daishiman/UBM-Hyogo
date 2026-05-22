@@ -1,6 +1,6 @@
-// 06b: /login の searchParams を zod で type-safe に解釈する。
+// task-13: /login の searchParams を zod で type-safe に解釈する。
 // 不変条件 #8: URL query が gate state の正本（ブラウザ永続ストレージ 退避なし）。
-// 不変条件 #9: `/no-access` 経由ではなく /login が 5 状態を吸収するための parser。
+// 不変条件 #9: `/no-access` 経由ではなく /login が 6 状態を吸収するための parser。
 
 import { z } from "zod";
 import { normalizeRedirectPath } from "./safe-redirect";
@@ -11,6 +11,7 @@ export const LOGIN_GATE_STATES = [
   "unregistered",
   "rules_declined",
   "deleted",
+  "error",
 ] as const;
 
 export type LoginGateState = (typeof LOGIN_GATE_STATES)[number];
@@ -19,7 +20,10 @@ export const loginQuerySchema = z.object({
   state: z.enum(LOGIN_GATE_STATES).default("input"),
   email: z.string().email().optional(),
   redirect: z.string().optional().transform(normalizeRedirectPath),
-  error: z.string().optional(),
+  error: z.preprocess(
+    (value) => (typeof value === "string" ? value.slice(0, 200) : value),
+    z.string().optional(),
+  ),
   gate: z.string().optional(),
 });
 

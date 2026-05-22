@@ -1,0 +1,39 @@
+{
+  "task_name": "issue-534-skill-workflow-state-guidance",
+  "task_path": "docs/30-workflows/issue-534-skill-workflow-state-guidance",
+  "wave": "skill-promotion-workflow-state",
+  "execution_mode": "sequential",
+  "depends_on": [
+    "docs/30-workflows/completed-tasks/issue-371-ut-02a-followup-003-hono-ctx-di-migration/outputs/phase-12/skill-feedback-report.md",
+    "docs/30-workflows/completed-tasks/issue-371-ut-02a-followup-003-hono-ctx-di-migration/outputs/phase-12/phase12-task-spec-compliance-check.md"
+  ],
+  "blocks": [],
+  "created_at": "2026-05-08",
+  "updated_at": "2026-05-08",
+  "metadata": {
+    "taskType": "implementation",
+    "docs_only": false,
+    "workflow_state": "implemented_local_evidence_captured",
+    "implementation_status": "skill_reference_updated_pending_pr",
+    "visualEvidence": "NON_VISUAL",
+    "priority": "Medium",
+    "scope": "task-specification-creator-skill-workflow-state-promotion",
+    "issue": 534,
+    "issue_state": "closed"
+  },
+  "phases": [
+    { "phase": 1, "name": "要件定義", "file": "phase-01.md", "status": "completed", "outputs": [], "depends_on_phases": [], "user_approval_required": false },
+    { "phase": 2, "name": "設計", "file": "phase-02.md", "status": "completed", "outputs": ["outputs/phase-02/vocabulary-structure.md", "outputs/phase-02/compliance-check-template-structure.md", "outputs/phase-02/changed-files.md"], "depends_on_phases": [1], "user_approval_required": false },
+    { "phase": 3, "name": "代替案比較 ADR", "file": "phase-03.md", "status": "completed", "outputs": ["outputs/phase-03/adr-vocabulary-placement.md"], "depends_on_phases": [2], "user_approval_required": false },
+    { "phase": 4, "name": "テスト戦略", "file": "phase-04.md", "status": "completed", "outputs": [], "depends_on_phases": [3], "user_approval_required": false },
+    { "phase": 5, "name": "実装ランブック", "file": "phase-05.md", "status": "completed", "outputs": [], "depends_on_phases": [4], "user_approval_required": false },
+    { "phase": 6, "name": "コードレビュー観点", "file": "phase-06.md", "status": "completed", "outputs": [], "depends_on_phases": [5], "user_approval_required": false },
+    { "phase": 7, "name": "静的解析・型チェック", "file": "phase-07.md", "status": "completed", "outputs": [], "depends_on_phases": [6], "user_approval_required": false },
+    { "phase": 8, "name": "単体・統合テスト実行", "file": "phase-08.md", "status": "completed", "outputs": [], "depends_on_phases": [7], "user_approval_required": false },
+    { "phase": 9, "name": "不変条件・契約整合性検査", "file": "phase-09.md", "status": "completed", "outputs": [], "depends_on_phases": [8], "user_approval_required": false },
+    { "phase": 10, "name": "リスク再評価", "file": "phase-10.md", "status": "completed", "outputs": [], "depends_on_phases": [9], "user_approval_required": false },
+    { "phase": 11, "name": "NON_VISUAL evidence contract", "file": "phase-11.md", "status": "completed", "outputs": ["outputs/phase-11/main.md", "outputs/phase-11/evidence/typecheck.log", "outputs/phase-11/evidence/lint.log", "outputs/phase-11/evidence/indexes-rebuild.log", "outputs/phase-11/evidence/indexes-diff.log", "outputs/phase-11/evidence/grep-vocabulary.log", "outputs/phase-11/evidence/link-reachability.log", "outputs/phase-11/evidence/changelog-sync.log", "outputs/phase-11/evidence/logs-sync.log", "outputs/phase-11/evidence/compliance-check-structure.log", "outputs/phase-11/evidence/changelog-deletions.log", "outputs/phase-11/evidence/logs-deletions.log", "outputs/phase-11/evidence/skillmd-deletions.log"], "depends_on_phases": [10], "user_approval_required": false },
+    { "phase": 12, "name": "ドキュメント・未タスク・スキルフィードバック", "file": "phase-12.md", "status": "completed", "outputs": ["outputs/phase-12/main.md", "outputs/phase-12/implementation-guide.md", "outputs/phase-12/system-spec-update-summary.md", "outputs/phase-12/documentation-changelog.md", "outputs/phase-12/unassigned-task-detection.md", "outputs/phase-12/skill-feedback-report.md", "outputs/phase-12/phase12-task-spec-compliance-check.md"], "depends_on_phases": [11], "user_approval_required": false },
+    { "phase": 13, "name": "commit / PR 承認ゲート", "file": "phase-13.md", "status": "pending_user_approval", "outputs": [], "depends_on_phases": [12], "user_approval_required": true }
+  ]
+}

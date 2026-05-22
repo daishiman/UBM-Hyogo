@@ -1,0 +1,11 @@
+Listing tests:
+  [desktop-chromium] › profile-delete-request.spec.ts:10:3 › profile delete-request (06b-B) › TC-E-03: 二段確認後に退会申請 → 202 → pending banner
+  [desktop-chromium] › profile-delete-request.spec.ts:29:3 › profile delete-request (06b-B) › TC-E-10: delete pending banner survives route round-trip via server state
+  [desktop-chromium] › profile-delete-request.spec.ts:49:3 › profile delete-request (06b-B) › TC-E-09: kbd 操作のみで完走（tab/enter）
+  [desktop-chromium] › profile-visibility-request.spec.ts:10:3 › profile visibility-request (06b-B) › TC-E-01: public → 公開停止申請 → 202 → pending banner
+  [desktop-chromium] › profile-visibility-request.spec.ts:24:3 › profile visibility-request (06b-B) › TC-E-07: pending banner survives route round-trip via server state
+  [desktop-chromium] › profile-visibility-request.spec.ts:41:3 › profile visibility-request (06b-B) › TC-E-04: 二重申請 409 → エラー banner + ボタン disabled
+  [desktop-chromium] › profile-visibility-request.spec.ts:55:3 › profile visibility-request (06b-B) › TC-E-05: reason > max disables submit
+  [desktop-chromium] › public-flow.spec.ts:16:3 › public flow (landing → 一覧 → 詳細 → 登録) › desktop: full flow
+  [desktop-chromium] › public-flow.spec.ts:43:3 › public flow (landing → 一覧 → 詳細 → 登録) › mobile: full flow
+Total: 9 tests in 3 files

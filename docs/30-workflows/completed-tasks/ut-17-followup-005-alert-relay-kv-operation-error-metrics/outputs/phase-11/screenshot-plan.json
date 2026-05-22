@@ -1,0 +1,6 @@
+{
+  "visualEvidence": "NON_VISUAL",
+  "screenshotsRequired": false,
+  "reason": "UT-17-FU-005 changes API logging, tests, and runbook only. No UI or browser route changes are included.",
+  "runtimeEvidence": "user-gated Workers Logs tail after deploy"
+}

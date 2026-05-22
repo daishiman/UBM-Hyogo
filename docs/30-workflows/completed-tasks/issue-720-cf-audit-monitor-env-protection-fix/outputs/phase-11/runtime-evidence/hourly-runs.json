@@ -1,0 +1,8 @@
+{
+  "status": "PENDING_USER_GATE",
+  "reason": "six scheduled successes require merge plus at least six wall-clock hours of GitHub Actions runtime",
+  "workflow": "cf-audit-log-monitor.yml",
+  "branch": "dev",
+  "event": "schedule",
+  "runs": []
+}

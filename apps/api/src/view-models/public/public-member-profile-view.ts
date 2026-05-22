@@ -4,7 +4,12 @@
 
 import { z } from "zod";
 
-import { PublicMemberProfileZ, STABLE_KEY } from "@ubm-hyogo/shared";
+import {
+  PublicMemberProfileZ,
+  STABLE_KEY,
+  type AttendanceMeta,
+  type AttendanceRecord,
+} from "@ubm-hyogo/shared";
 
 import {
   isPublicStatus,
@@ -37,6 +42,8 @@ export interface ProfileSource {
   status: MemberStatusView;
   fields: ProfileFieldSource[];
   schemaFields: VisibilityIndexEntry[];
+  attendance: AttendanceRecord[];
+  attendanceMeta?: AttendanceMeta;
   tags: ProfileTagSource[];
 }
 
@@ -147,6 +154,8 @@ export const toPublicMemberProfile = (
     memberId: src.member.memberId,
     summary,
     publicSections,
+    attendance: src.attendance,
+    ...(src.attendanceMeta ? { attendanceMeta: src.attendanceMeta } : {}),
     tags: src.tags.map((t) => ({
       code: t.code,
       label: t.label,

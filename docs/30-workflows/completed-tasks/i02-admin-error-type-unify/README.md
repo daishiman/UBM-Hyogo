@@ -1,0 +1,3 @@
+# i02-admin-error-type-unify — 仕様書ディレクトリ
+
+本ディレクトリは `parallel-i02-admin-error-type-unify` の canonical workflow root として、`useAdminMutation` 独自の `AdminMutationHttpError` を `@/lib/fetch/authed` 系の `AuthRequiredError` / `FetchAuthedError` に統合するための Phase 1-13 仕様書を格納する。利用順序は `index.md`（メタ・Scope・DoD）→ `outputs/phase-01.md`（AC 確定）→ `phase-02.md`（依存・順序）→ `phase-03.md`（詳細設計・変更マップ）→ `outputs/phase-04.md` 以降の実装・検証・Phase 12 close-out 成果物。Phase 1-12 は完了済みで、Phase 13 の commit / push / PR のみユーザー承認待ちである。`artifacts.json` と `outputs/artifacts.json` は root/output artifact inventory として workflow_state / phase 状態を同値で保持する。元発注書は `docs/30-workflows/ui-prototype-alignment-mvp-recovery/improvements/integration-fixes/parallel-i02-admin-error-type-unify/spec.md`。

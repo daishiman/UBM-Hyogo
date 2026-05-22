@@ -1,0 +1,31 @@
+{
+  "metadata": {
+    "id": "issue-518-cf-audit-logs-monitoring-hold",
+    "title": "Cloudflare Audit Logs 自動監視の HOLD 化と週次手動確認運用への縮退",
+    "issue": 518,
+    "parentIssue": 408,
+    "relatedIssues": [514, 515, 516],
+    "createdAt": "2026-05-07",
+    "workflow_state": "implemented-local",
+    "taskType": "implementation",
+    "visualEvidence": "NON_VISUAL",
+    "wave": 1,
+    "priority": "low",
+    "branch": "spec/issue-518-cf-audit-logs-monitoring-hold"
+  },
+  "phases": [
+    { "id": 1, "title": "要件定義", "status": "completed" },
+    { "id": 2, "title": "全体設計（HOLD 戦略選定）", "status": "completed" },
+    { "id": 3, "title": "詳細設計（変更ファイル / 差分方針 / runbook 章立て）", "status": "completed" },
+    { "id": 4, "title": "環境準備", "status": "completed" },
+    { "id": 5, "title": "実装: cf-audit-log-monitor.yml 編集", "status": "completed" },
+    { "id": 6, "title": "実装: cf-audit-log-monitor-watchdog.yml 削除", "status": "completed" },
+    { "id": 7, "title": "実装: 週次手動確認 runbook 新規作成", "status": "completed" },
+    { "id": 8, "title": "実装: 親 spec 追記", "status": "completed" },
+    { "id": 9, "title": "テスト / 静的検証", "status": "completed" },
+    { "id": 10, "title": "統合検証（dry-run 起動）", "status": "blocked_pending_user_approval" },
+    { "id": 11, "title": "runtime evidence（schedule 停止確認）", "status": "pass_boundary_synced_runtime_pending" },
+    { "id": 12, "title": "ドキュメント / aiworkflow-requirements 反映", "status": "completed" },
+    { "id": 13, "title": "PR 作成（commit / push / PR）", "status": "blocked_pending_user_approval" }
+  ]
+}

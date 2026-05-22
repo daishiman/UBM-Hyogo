@@ -2,13 +2,13 @@
 
 ## Status
 
-`implemented-local / implementation / NON_VISUAL / runtime evidence pending_user_gate`
+`historical-artifact-inventory / workflow-root-removed-from-active-worktree`
 
 ## Workflow
 
 | Item | Value |
 | --- | --- |
-| Root | `docs/30-workflows/issue-503-ut-07b-fu-01-followup-cursor-semantics-migration/` |
+| Former root | `docs/30-workflows/issue-503-ut-07b-fu-01-followup-cursor-semantics-migration/`（現 worktree では削除済み。active 導線として参照しない） |
 | Source unassigned | `docs/30-workflows/unassigned-task/task-ut-07b-fu-01-followup-cursor-semantics-migration.md` |
 | Issue | `Refs #503` |
 | Runtime boundary | staging A/B evidence pending user approval |

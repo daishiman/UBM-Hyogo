@@ -1,0 +1,5 @@
+2026-05-07T00:00:00Z run id=42 token=ghp_AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+2026-05-07T00:01:00Z Bearer ABCDEFGH only
+2026-05-07T00:02:00Z client secret: REDACT_ME_PLEASE
+2026-05-07T00:03:00Z Authorization: signed-by-x
+2026-05-07T00:04:00Z normal log line without sensitive

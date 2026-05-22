@@ -34,6 +34,17 @@ contains_task_tokens() {
     *"$task_slug"* ) return 0 ;;
   esac
 
+  # Numeric task ID match: if task_slug starts with a numeric segment (e.g. "23-...")
+  # and branch_slug contains that same numeric segment as its own token, accept.
+  # This handles branches like `task-27-phase12-and-task-23-completion` that cover
+  # multiple task dirs by enumerating their numeric IDs.
+  local task_head_num="${task_slug%%-*}"
+  if [[ "$task_head_num" =~ ^[0-9]+$ ]]; then
+    case "-$branch_slug-" in
+      *"-$task_head_num-"* ) return 0 ;;
+    esac
+  fi
+
   # Long task directory names often include extra context not present in the
   # branch. Require at least three meaningful token overlaps to avoid false
   # positives while still blocking unrelated task directories.
@@ -69,14 +80,24 @@ task_dir_from_path() {
     30-workflows)
       [ -n "${parts[2]:-}" ] || return 1
       case "${parts[2]}" in
-        completed-tasks|unassigned-task|02-application-implementation)
+        unassigned-task|runbooks)
+          # 共通領域: 単一ファイル形式の受け皿。ブランチ slug 整合は不要。
+          return 1
+          ;;
+        completed-tasks|02-application-implementation)
           [ -n "${parts[3]:-}" ] || return 1
           printf 'docs/%s/%s/%s\n' "${parts[1]}" "${parts[2]}" "${parts[3]}"
           ;;
         *)
           # Top-level workflow files (e.g. LOGS.md) are not task dirs.
           [[ "${parts[2]}" == *.* ]] && return 1
-          printf 'docs/%s/%s\n' "${parts[1]}" "${parts[2]}"
+          # `<workflow>/improvements/<sub>` の orchestration tree は <sub> 単位で
+          # branch slug 整合性を判定する（子タスク branch から親 tracker を触る正当ケース）。
+          if [ "${parts[3]:-}" = "improvements" ] && [ -n "${parts[4]:-}" ]; then
+            printf 'docs/%s/%s/%s/%s\n' "${parts[1]}" "${parts[2]}" "${parts[3]}" "${parts[4]}"
+          else
+            printf 'docs/%s/%s\n' "${parts[1]}" "${parts[2]}"
+          fi
           ;;
       esac
       ;;
@@ -88,7 +109,21 @@ task_dir_from_path() {
   esac
 }
 
+# Staged file のうち「staged 内容が origin/dev と完全一致するもの」は除外する。
+# 背景: sync-merge 後、自ブランチの旧コミットで触れた cross-task ファイルの stale-reference を
+# 戻す revert は cross-task taint を取り除く正当な cleanup であり、誤検知の対象外。
+is_revert_to_origin_dev() {
+  local path="$1"
+  local origin_blob
+  local staged_blob
+  origin_blob=$(git rev-parse --verify --quiet "origin/dev:$path" 2>/dev/null) || return 1
+  staged_blob=$(git ls-files --stage -- "$path" 2>/dev/null | awk '{print $2}')
+  [ -n "$staged_blob" ] || return 1
+  [ "$origin_blob" = "$staged_blob" ]
+}
+
 STAGED_TASK_DIRS=$(while IFS= read -r path; do
+  is_revert_to_origin_dev "$path" && continue
   task_dir_from_path "$path" || true
 done < <(git diff --cached --name-only) | sort -u)
 

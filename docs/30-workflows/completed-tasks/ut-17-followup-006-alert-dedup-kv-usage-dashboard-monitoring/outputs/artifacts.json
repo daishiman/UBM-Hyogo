@@ -1,0 +1,226 @@
+{
+  "feature": "ut-17-followup-006-alert-dedup-kv-usage-dashboard-monitoring",
+  "created": "2026-05-16T00:00:00+09:00",
+  "lastUpdated": "2026-05-16T00:00:00+09:00",
+  "status": "implemented_local_runtime_pending",
+  "metadata": {
+    "taskType": "implementation",
+    "visualEvidence": "NON_VISUAL",
+    "workflow_state": "implemented_local_runtime_pending",
+    "implementationCategory": "standard",
+    "governance_mutation_user_gate": true,
+    "mutation_commands": [
+      "bash scripts/cf.sh alerts apply --yes"
+    ],
+    "read_only_evidence_allowed_pre_gate": [
+      "bash scripts/cf.sh alerts list",
+      "bash scripts/cf.sh alerts diff",
+      "mise exec -- pnpm test:alerts"
+    ],
+    "user_approval_marker": "outputs/phase-10/user-approval-alerts-apply.md",
+    "actual_read_only_evidence_files": [
+      "outputs/phase-11/non-visual-evidence.md"
+    ],
+    "actual_mutation_evidence_files": [],
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-05-16T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/ut-17-followup-006-alert-dedup-kv-usage-dashboard-monitoring/outputs/phase-12/main.md",
+        "approver": "local",
+        "notes": "spec_review: Phase 1-13 spec + local implementation completed"
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "passed",
+        "passed_at": "2026-05-16T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/ut-17-followup-006-alert-dedup-kv-usage-dashboard-monitoring/outputs/phase-12/implementation-guide.md",
+        "approver": "local",
+        "notes": "implementation_review: local artifacts + skill same-wave sync"
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/ut-17-followup-006-alert-dedup-kv-usage-dashboard-monitoring/outputs/phase-13/pr-summary.md",
+        "approver": "daishiman",
+        "notes": "external_ops: Cloudflare alerts apply / Slack smoke / enabled:true rollout — user-gated"
+      },
+      {
+        "gate_id": "Gate-D",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/ut-17-followup-006-alert-dedup-kv-usage-dashboard-monitoring/outputs/phase-13/pr-summary.md",
+        "approver": "daishiman",
+        "notes": "user_gated: commit / push / PR / Issue close"
+      }
+    ]
+  },
+  "phases": [
+    {
+      "phase": 1,
+      "name": "要件定義 / Cloudflare API 仕様確認",
+      "file": "phase-01.md",
+      "status": "completed",
+      "outputs": []
+    },
+    {
+      "phase": 2,
+      "name": "設計（policy 構造・閾値・schema 拡張要否）",
+      "file": "phase-02.md",
+      "status": "completed",
+      "outputs": []
+    },
+    {
+      "phase": 3,
+      "name": "設計レビュー",
+      "file": "phase-03.md",
+      "status": "completed",
+      "outputs": []
+    },
+    {
+      "phase": 4,
+      "name": "タスク分解",
+      "file": "phase-04.md",
+      "status": "completed",
+      "outputs": []
+    },
+    {
+      "phase": 5,
+      "name": "実装仕様（ファイル差分・関数シグネチャ）",
+      "file": "phase-05.md",
+      "status": "completed",
+      "outputs": []
+    },
+    {
+      "phase": 6,
+      "name": "テスト計画",
+      "file": "phase-06.md",
+      "status": "completed",
+      "outputs": []
+    },
+    {
+      "phase": 7,
+      "name": "実装",
+      "file": "phase-07.md",
+      "status": "completed",
+      "outputs": []
+    },
+    {
+      "phase": 8,
+      "name": "統合確認（local apply --dry-run / diff）",
+      "file": "phase-08.md",
+      "status": "completed",
+      "outputs": []
+    },
+    {
+      "phase": 9,
+      "name": "テスト補強 / lint / typecheck",
+      "file": "phase-09.md",
+      "status": "completed",
+      "outputs": []
+    },
+    {
+      "phase": 10,
+      "name": "リリース準備（staging apply + 擬似発火準備）",
+      "file": "phase-10.md",
+      "status": "runtime_pending",
+      "outputs": []
+    },
+    {
+      "phase": 11,
+      "name": "視覚的検証（NON_VISUAL command evidence + Slack 着信 evidence）",
+      "file": "phase-11.md",
+      "status": "runtime_pending",
+      "outputs": [
+        "outputs/phase-11/main.md",
+        "outputs/phase-11/non-visual-evidence.md",
+        "outputs/phase-11/manual-smoke-log.md",
+        "outputs/phase-11/link-checklist.md"
+      ]
+    },
+    {
+      "phase": 12,
+      "name": "正本同期",
+      "file": "phase-12.md",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-12/main.md",
+        "outputs/phase-12/implementation-guide.md",
+        "outputs/phase-12/phase12-task-spec-compliance-check.md",
+        "outputs/phase-12/system-spec-update-summary.md",
+        "outputs/phase-12/skill-feedback-report.md",
+        "outputs/phase-12/unassigned-task-detection.md",
+        "outputs/phase-12/documentation-changelog.md"
+      ]
+    },
+    {
+      "phase": 13,
+      "name": "PR・振り返り",
+      "file": "phase-13.md",
+      "status": "pending",
+      "outputs": [],
+      "user_approval_required": true
+    }
+  ],
+  "dependencies": {
+    "1": [],
+    "2": [
+      "1"
+    ],
+    "3": [
+      "1",
+      "2"
+    ],
+    "4": [
+      "3"
+    ],
+    "5": [
+      "4"
+    ],
+    "6": [
+      "5"
+    ],
+    "7": [
+      "5",
+      "6"
+    ],
+    "8": [
+      "7"
+    ],
+    "9": [
+      "7",
+      "8"
+    ],
+    "10": [
+      "8",
+      "9"
+    ],
+    "11": [
+      "10"
+    ],
+    "12": [
+      "11"
+    ],
+    "13": [
+      "12"
+    ]
+  },
+  "external_services": [
+    "Cloudflare Alerting v3 Policies",
+    "Cloudflare KV Analytics",
+    "Slack alert relay"
+  ],
+  "secrets_introduced": [],
+  "infra_artifacts": [
+    "infra/cloudflare-alerts/policies/workers-kv-*.json",
+    "infra/cloudflare-alerts/quota-base.json",
+    "infra/cloudflare-alerts/schema/policy.schema.json"
+  ],
+  "doc_references": [
+    "docs/30-workflows/runbooks/ut-17-alert-relay-monthly-healthcheck.md",
+    ".claude/skills/aiworkflow-requirements/references/patterns-kv-dedup.md",
+    ".claude/skills/aiworkflow-requirements/references/task-workflow-active.md"
+  ]
+}

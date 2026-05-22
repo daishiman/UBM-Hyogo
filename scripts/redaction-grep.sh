@@ -18,7 +18,7 @@ for pattern in "${patterns[@]}"; do
     --glob '!**/dist/**' \
     --glob '!**/coverage/**' \
     --glob '!scripts/notify/save-slack-evidence.ts' \
-    --glob '!scripts/notify/__tests__/slack-incident-runbook.test.ts' \
+    --glob '!scripts/notify/__tests__/slack-incident-runbook.spec.ts' \
     --glob '!docs/30-workflows/completed-tasks/09c-incident-runbook-slack-delivery/outputs/phase-08/main.md' \
     --glob '!docs/30-workflows/completed-tasks/09b-A-observability-sentry-slack-runtime-smoke/outputs/phase-09/main.md' >/dev/null; then
     echo "FAIL redaction pattern matched: $pattern" >&2

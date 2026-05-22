@@ -11,7 +11,7 @@
 | 対象機能     | apps/web Cloudflare 配信形式 (`@opennextjs/cloudflare`)                       |
 | 優先度       | 高 (HIGH ブロッカー)                                                          |
 | 見積もり規模 | 中規模                                                                        |
-| ステータス   | 未実施 (proposed)                                                             |
+| ステータス   | 部分消化済み（2026-05-09 CI recovery wave で `web-cd.yml` Workers deploy 置換は local 実装完了。残りは Cloudflare side / runtime evidence の user-gated 確認） |
 | 親タスク     | UT-06 (production deploy execution)                                           |
 | 発見元       | UT-06 Phase 12 unassigned-task-detection (UNASSIGNED-A)                       |
 | 発見日       | 2026-04-28                                                                    |
@@ -22,12 +22,12 @@
 
 ### 1.1 背景
 
-CLAUDE.md および ADR-0001 は apps/web を「Cloudflare Workers + Next.js via `@opennextjs/cloudflare`」と定義している。2026-05-01 時点で `apps/web/wrangler.toml` は Workers 形式へ移行済みだが、`.github/workflows/web-cd.yml` は `pages deploy .next` の Pages deploy 経路を呼び続けており、Cloudflare side の Pages project → Workers script 切替 runbook も未完了である。
+CLAUDE.md および ADR-0001 は apps/web を「Cloudflare Workers + Next.js via `@opennextjs/cloudflare`」と定義している。2026-05-09 CI recovery wave（`docs/30-workflows/ci-pipeline-recovery-web-cd-and-runtime-smoke/`）で `.github/workflows/web-cd.yml` は `pages deploy .next` から `build:cloudflare` + `bash scripts/cf.sh deploy --config apps/web/wrangler.toml --env staging|production` へ local 実装済み。残る論点は Cloudflare side の Pages project → Workers script 切替確認、custom domain / route / rollback 確認、user-approved runtime deploy / smoke evidence である。
 
 ### 1.2 問題点・課題
 
-- ADR-0001（Workers + OpenNext）と `web-cd.yml`（Pages deploy）の drift
-- `.open-next/` Worker を deploy する CD 経路が未整備
+- ADR-0001（Workers + OpenNext）と `web-cd.yml`（Pages deploy）の driftは 2026-05-09 local patch で解消済み
+- `.open-next/` Worker を deploy する CD 経路は local 実装済みだが、GitHub Actions 実行と Cloudflare deployment freshness evidence は user approval 後
 - Cloudflare ダッシュボード上の Pages project / Workers script / custom domain / route の切替確認が未整備
 
 ### 1.3 放置した場合の影響
@@ -42,12 +42,12 @@ CLAUDE.md および ADR-0001 は apps/web を「Cloudflare Workers + Next.js via
 
 ### 2.1 目的
 
-apps/web を ADR-0001 どおりの「OpenNext (`.open-next/`) on Cloudflare Workers」配信へ移行完了させ、`web-cd.yml` と Cloudflare side を Workers deploy に同期する。
+apps/web を ADR-0001 どおりの「OpenNext (`.open-next/`) on Cloudflare Workers」配信へ移行完了させる。`web-cd.yml` の同期は 2026-05-09 CI recovery wave で完了済みのため、残スコープは Cloudflare side と runtime evidence の確認に限定する。
 
 ### 2.2 想定 AC
 
 1. `pnpm --filter @ubm-hyogo/web build:cloudflare` が `.open-next/` を生成する
-2. `.github/workflows/web-cd.yml` の Web deploy command が `pages deploy .next` ではなく `wrangler deploy --env staging` / `wrangler deploy --env production` 相当になっている
+2. `.github/workflows/web-cd.yml` の Web deploy command が `pages deploy .next` ではなく `bash scripts/cf.sh deploy --config apps/web/wrangler.toml --env staging` / `bash scripts/cf.sh deploy --config apps/web/wrangler.toml --env production` を正本経路として呼んでいる（CLAUDE.md の Cloudflare 系 CLI 実行ルールに整合。`wrangler` 直接実行 / `pnpm wrangler` / `npx wrangler` は禁止。2026-05-09 local PASS）
 3. UT-06 Phase 11 smoke (S-01〜S-10) 全件 PASS
 4. staging 検証完了 (URL 疎通 + Web→API 連携)
 5. `apps/web/wrangler.toml` に `pages_build_output_dir` が存在せず、`main = ".open-next/worker.js"` と `[assets]` が維持される
@@ -57,7 +57,7 @@ apps/web を ADR-0001 どおりの「OpenNext (`.open-next/`) on Cloudflare Work
 
 #### 含むもの
 
-- `.github/workflows/web-cd.yml` の Workers deploy 書き換え
+- `.github/workflows/web-cd.yml` の Workers deploy 書き換え（2026-05-09 local 実装済み）
 - `@opennextjs/cloudflare` のビルドコマンド整備（`open-next build` 等）
 - staging / production の deploy / rollback 確認
 - OpenNext 配下 assets / cache の Cloudflare binding 設定
@@ -70,7 +70,7 @@ apps/web を ADR-0001 どおりの「OpenNext (`.open-next/`) on Cloudflare Work
 
 ### 2.4 成果物
 
-- `.github/workflows/web-cd.yml` 更新差分
+- `.github/workflows/web-cd.yml` 更新差分（2026-05-09 CI recovery wave）
 - 必要な場合のみ `apps/web/wrangler.toml` の追補更新差分
 - `package.json` build script 更新差分
 - staging smoke ログ

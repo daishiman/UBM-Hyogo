@@ -1,0 +1,71 @@
+{
+  "taskId": "task-15-admin-dashboard-and-members",
+  "createdAt": "2026-05-10",
+  "implementationMode": "new",
+  "implementationKind": "implementation",
+  "taskType": "implementation",
+  "visualEvidence": "VISUAL",
+  "metadata": {
+    "workflow_state": "implemented-local-runtime-pending",
+    "implementation_status": "IMPLEMENTED_LOCAL_RUNTIME_PENDING",
+    "taskType": "implementation",
+    "visualEvidence": "VISUAL",
+    "phase13": "blocked_pending_user_approval"
+  },
+  "sourceSpec": "docs/30-workflows/ui-prototype-alignment-mvp-recovery/07-screens-admin/task-15-w5-par-admin-dashboard-and-members.md",
+  "phases": {
+    "phase01": { "status": "completed", "spec": "phase-01.md", "outputs": ["outputs/phase-01/requirements.md"] },
+    "phase02": { "status": "completed", "spec": "phase-02.md", "outputs": ["outputs/phase-02/design.md"] },
+    "phase03": { "status": "completed", "spec": "phase-03.md", "outputs": ["outputs/phase-03/review.md", "outputs/phase-03/review-result.md"] },
+    "phase04": { "status": "completed", "spec": "phase-04.md", "outputs": ["outputs/phase-04/test-spec.md"] },
+    "phase05": { "status": "completed", "spec": "phase-05.md", "outputs": ["outputs/phase-05/implementation-log.md", "outputs/phase-05/wave-log.md"] },
+    "phase06": { "status": "completed", "spec": "phase-06.md", "outputs": ["outputs/phase-06/main.md"] },
+    "phase07": { "status": "completed", "spec": "phase-07.md", "outputs": ["outputs/phase-07/main.md"] },
+    "phase08": { "status": "completed", "spec": "phase-08.md", "outputs": ["outputs/phase-08/main.md"] },
+    "phase09": { "status": "completed", "spec": "phase-09.md", "outputs": ["outputs/phase-09/main.md"] },
+    "phase10": { "status": "completed", "spec": "phase-10.md", "outputs": ["outputs/phase-10/main.md"] },
+    "phase11": {
+      "status": "completed_local_fixture",
+      "spec": "phase-11.md",
+      "outputs": [
+        "outputs/phase-11/main.md",
+        "outputs/phase-11/admin-dashboard-default.png",
+        "outputs/phase-11/admin-dashboard-schema-alert.png",
+        "outputs/phase-11/admin-dashboard-zone-placeholder.png",
+        "outputs/phase-11/admin-members-default.png",
+        "outputs/phase-11/admin-members-filter-published.png",
+        "outputs/phase-11/admin-members-bulk-selected.png",
+        "outputs/phase-11/admin-members-drawer-open.png",
+        "outputs/phase-11/admin-members-empty.png",
+        "outputs/phase-11/admin-layout-sidebar-active.png",
+        "outputs/phase-11/phase11-capture-metadata.json",
+        "outputs/phase-11/manual-test-result.md",
+        "outputs/phase-11/ui-sanity-visual-review.md"
+      ]
+    },
+    "phase12": {
+      "status": "completed",
+      "spec": "phase-12.md",
+      "outputs": [
+        "outputs/phase-12/main.md",
+        "outputs/phase-12/implementation-guide.md",
+        "outputs/phase-12/system-spec-update-summary.md",
+        "outputs/phase-12/documentation-changelog.md",
+        "outputs/phase-12/unassigned-task-detection.md",
+        "outputs/phase-12/skill-feedback-report.md",
+        "outputs/phase-12/phase12-task-spec-compliance-check.md"
+      ]
+    },
+    "phase13": {
+      "status": "blocked",
+      "spec": "phase-13.md",
+      "outputs": ["outputs/phase-13/pr-readiness-checklist.md"],
+      "blockedReason": "commit/push/PR creation requires explicit user approval"
+    }
+  },
+  "dependencies": {
+    "upstream": ["task-09", "task-10", "task-13"],
+    "downstream": ["task-16", "task-17", "task-18"],
+    "parallelGate": "task-15 W5 apps/web/app/(admin)/layout.tsx owner surface is implemented locally; task-16/task-17 may consume after branch integration"
+  }
+}

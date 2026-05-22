@@ -1,0 +1,86 @@
+{
+  "task_id": "task-761-visual-full-required-status-check",
+  "parity_with": "../artifacts.json",
+  "status": "implemented",
+  "implementation_mode": "new",
+  "task_type": "NON_VISUAL",
+  "metadata": {
+    "workflow_state": "implemented",
+    "taskType": "implementation",
+    "visualEvidence": "NON_VISUAL",
+    "implementationCategory": "governance",
+    "governance_mutation_user_gate": true,
+    "mutation_commands": [
+      "gh api -X POST repos/daishiman/UBM-Hyogo/branches/dev/protection/required_status_checks/contexts --input /tmp/visual-full-contexts.json",
+      "gh api -X POST repos/daishiman/UBM-Hyogo/branches/main/protection/required_status_checks/contexts --input /tmp/visual-full-contexts.json"
+    ],
+    "runtime_evidence_status": "completed",
+    "actual_mutation_evidence_files": [
+      "outputs/phase-11/evidence/dev-protection-after.json.md",
+      "outputs/phase-11/evidence/main-protection-after.json.md",
+      "outputs/phase-11/evidence/manual-test-result.md",
+      "outputs/phase-13/user-approval-task-761-visual-full-required-status-check-20260517T124939Z.md"
+    ],
+    "source_unassigned_task": "docs/30-workflows/unassigned-task/task-709-fu-branch-protection-required-check.md",
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-05-17T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/task-761-visual-full-required-status-check/index.md",
+        "approver": "daishiman",
+        "notes": "spec_review: parity mirror of ../artifacts.json Gate-A"
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "passed",
+        "passed_at": "2026-05-17T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/task-761-visual-full-required-status-check/outputs/phase-12/implementation-guide.md",
+        "approver": "daishiman",
+        "notes": "validator_green: parity mirror of ../artifacts.json Gate-B"
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "passed",
+        "passed_at": "2026-05-17T12:49:39Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/task-761-visual-full-required-status-check/outputs/phase-13/user-approval-task-761-visual-full-required-status-check-20260517T124939Z.md",
+        "approver": "daishiman",
+        "notes": "runtime_user_gate: parity mirror of ../artifacts.json Gate-C"
+      }
+    ]
+  },
+  "outputs": {
+    "phase-1": ["phase-1/phase-1.md"],
+    "phase-2": ["phase-2/phase-2.md"],
+    "phase-3": ["phase-3/phase-3.md"],
+    "phase-4": ["phase-4/phase-4.md"],
+    "phase-5": ["phase-5/phase-5.md"],
+    "phase-6": ["phase-6/phase-6.md"],
+    "phase-7": ["phase-7/phase-7.md"],
+    "phase-8": ["phase-8/phase-8.md"],
+    "phase-9": ["phase-9/phase-9.md"],
+    "phase-10": ["phase-10/phase-10.md"],
+    "phase-11": [
+      "phase-11/phase-11.md",
+      "phase-11/evidence/dev-protection-before.json.md",
+      "phase-11/evidence/main-protection-before.json.md",
+      "phase-11/evidence/pull-request-trigger-natural-firing.md",
+      "phase-11/evidence/user-approval-marker.md",
+      "phase-11/evidence/dev-protection-after.json.md",
+      "phase-11/evidence/main-protection-after.json.md",
+      "phase-11/evidence/rollback-put-payload.md",
+      "phase-11/evidence/manual-test-result.md",
+      "phase-11/evidence/ui-sanity-visual-review.md"
+    ],
+    "phase-12": [
+      "phase-12/implementation-guide.md",
+      "phase-12/main.md",
+      "phase-12/system-spec-update-summary.md",
+      "phase-12/documentation-changelog.md",
+      "phase-12/unassigned-task-detection.md",
+      "phase-12/skill-feedback-report.md",
+      "phase-12/phase12-task-spec-compliance-check.md"
+    ],
+    "phase-13": ["phase-13/phase-13.md"]
+  }
+}

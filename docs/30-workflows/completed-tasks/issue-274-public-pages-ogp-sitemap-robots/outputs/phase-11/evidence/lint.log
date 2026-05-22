@@ -1,0 +1,4 @@
+
+> @ubm-hyogo/web@0.1.0 lint /Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260517-235128-wt-5/apps/web
+> tsc -p tsconfig.json --noEmit && eslint 'src/**/*.{ts,tsx}'
+

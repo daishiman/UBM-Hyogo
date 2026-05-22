@@ -1,0 +1,38 @@
+{
+  "schemaVersion": 1,
+  "task_id": "UT-07C-FU-001",
+  "task_path": "docs/30-workflows/ut-07c-followup-001-attendance-csv-import",
+  "captured_by": "manual",
+  "tester_account": "manjumoto.daishi@senpai-lab.com",
+  "viewport": { "width": 1280, "height": 800 },
+  "screens": [
+    {
+      "id": "S1-upload",
+      "route": "/admin/meetings/{sessionId}",
+      "step": "upload",
+      "purpose": "AttendanceCsvImportPanel の初期 (idle / step-upload) 表示。csv-file-input が visible。",
+      "file": "outputs/phase-11/screenshots/S1-upload.png"
+    },
+    {
+      "id": "S2-preview",
+      "route": "/admin/meetings/{sessionId}",
+      "step": "preview",
+      "purpose": "CSV upload 後の preview。ok / duplicate / unknown_member の混在を行別 status pill で表示。confirm-import / cancel-import が render。",
+      "file": "outputs/phase-11/screenshots/S2-preview.png"
+    },
+    {
+      "id": "S3-confirm-done",
+      "route": "/admin/meetings/{sessionId}",
+      "step": "done",
+      "purpose": "confirm 後 step-done に遷移。サマリ (total/ok/duplicate/...) と「import 完了」メッセージ。",
+      "file": "outputs/phase-11/screenshots/S3-confirm-done.png"
+    },
+    {
+      "id": "S4-error-deleted",
+      "route": "/admin/meetings/{sessionId}",
+      "step": "preview",
+      "purpose": "deleted_member を含む CSV の preview。行 status pill が deleted_member、confirm ボタンが disabled。",
+      "file": "outputs/phase-11/screenshots/S4-error-deleted-member.png"
+    }
+  ]
+}

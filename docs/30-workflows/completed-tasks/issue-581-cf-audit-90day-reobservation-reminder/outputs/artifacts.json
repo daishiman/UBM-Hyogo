@@ -1,0 +1,31 @@
+{
+  "taskId": "issue-581-cf-audit-90day-reobservation-reminder",
+  "issue": 581,
+  "title": "CF Audit Logs 90 Day Re-observation Reminder",
+  "status": "spec_created",
+  "metadata": {
+    "taskId": "issue-581-cf-audit-90day-reobservation-reminder",
+    "taskType": "docs-only",
+    "visualEvidence": "NON_VISUAL",
+    "workflow_state": "spec_created",
+    "runtimeDecisionState": "observation_continue",
+    "implementationClassification": "ドキュメント / 正本仕様同期のみ",
+    "earliestExecutionDate": "2026-08-05",
+    "closedIssueHandling": "Issue #581 and #546 are CLOSED and must remain closed; use Refs #581 / Refs #546 only."
+  },
+  "phases": [
+    { "phase": 1, "file": "phase-01.md", "status": "spec_ready" },
+    { "phase": 2, "file": "phase-02.md", "status": "spec_ready" },
+    { "phase": 3, "file": "phase-03.md", "status": "spec_ready" },
+    { "phase": 4, "file": "phase-04.md", "status": "spec_ready" },
+    { "phase": 5, "file": "phase-05.md", "status": "spec_ready" },
+    { "phase": 6, "file": "phase-06.md", "status": "runtime_pending" },
+    { "phase": 7, "file": "phase-07.md", "status": "runtime_pending" },
+    { "phase": 8, "file": "phase-08.md", "status": "spec_ready" },
+    { "phase": 9, "file": "phase-09.md", "status": "spec_ready" },
+    { "phase": 10, "file": "phase-10.md", "status": "spec_ready" },
+    { "phase": 11, "file": "phase-11.md", "status": "runtime_pending" },
+    { "phase": 12, "file": "phase-12.md", "status": "spec_sync_completed" },
+    { "phase": 13, "file": "phase-13.md", "status": "pending_user_approval" }
+  ]
+}

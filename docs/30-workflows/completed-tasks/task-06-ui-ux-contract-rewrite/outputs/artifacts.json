@@ -1,0 +1,199 @@
+{
+  "task": {
+    "id": "task-06-ui-ux-contract-rewrite",
+    "name": "ui-ux-contract-rewrite",
+    "wave": 2,
+    "execution": "parallel"
+  },
+  "metadata": {
+    "taskType": "implementation",
+    "visualEvidence": "NON_VISUAL",
+    "workflow_state": "implemented-local",
+    "createdAt": "2026-05-07",
+    "scope": "ui_contract_rewrite",
+    "purpose": "rewrite docs/00-getting-started-manual/specs/09-ui-ux.md as contract-only (props/state/a11y/token references)",
+    "implementation_status": "primary_spec_rewritten_pending_pr"
+  },
+  "phases": [
+    {
+      "id": 1,
+      "name": "要件定義",
+      "status": "completed",
+      "file": "phase-01.md",
+      "user_approval_required": false
+    },
+    {
+      "id": 2,
+      "name": "設計",
+      "status": "completed",
+      "file": "phase-02.md",
+      "user_approval_required": false
+    },
+    {
+      "id": 3,
+      "name": "設計レビュー",
+      "status": "completed",
+      "file": "phase-03.md",
+      "user_approval_required": false
+    },
+    {
+      "id": 4,
+      "name": "テスト戦略",
+      "status": "completed",
+      "file": "phase-04.md",
+      "user_approval_required": false
+    },
+    {
+      "id": 5,
+      "name": "実装ランブック",
+      "status": "completed",
+      "file": "phase-05.md",
+      "user_approval_required": false
+    },
+    {
+      "id": 6,
+      "name": "異常系検証",
+      "status": "completed",
+      "file": "phase-06.md",
+      "user_approval_required": false
+    },
+    {
+      "id": 7,
+      "name": "AC マトリクス",
+      "status": "completed",
+      "file": "phase-07.md",
+      "user_approval_required": false
+    },
+    {
+      "id": 8,
+      "name": "DRY 化",
+      "status": "completed",
+      "file": "phase-08.md",
+      "user_approval_required": false
+    },
+    {
+      "id": 9,
+      "name": "品質保証",
+      "status": "completed",
+      "file": "phase-09.md",
+      "user_approval_required": false
+    },
+    {
+      "id": 10,
+      "name": "最終レビュー",
+      "status": "completed",
+      "file": "phase-10.md",
+      "user_approval_required": false
+    },
+    {
+      "id": 11,
+      "name": "手動 smoke (NON_VISUAL)",
+      "status": "completed",
+      "file": "phase-11.md",
+      "user_approval_required": false
+    },
+    {
+      "id": 12,
+      "name": "ドキュメント更新",
+      "status": "completed",
+      "file": "phase-12.md",
+      "user_approval_required": false
+    },
+    {
+      "id": 13,
+      "name": "PR 作成",
+      "status": "pending_user_approval",
+      "file": "phase-13.md",
+      "user_approval_required": true
+    }
+  ],
+  "deliverables": {
+    "primary": "docs/00-getting-started-manual/specs/09-ui-ux.md (rewritten, contract-only, 300-420 lines)",
+    "package": "docs/30-workflows/task-06-ui-ux-contract-rewrite/**"
+  },
+  "dependencies": {
+    "upstream": [
+      "task-01 scope-gate-all-screens"
+    ],
+    "downstream": [
+      "task-07",
+      "task-08",
+      "task-09",
+      "task-10",
+      "task-11..17"
+    ],
+    "parallel": [
+      "task-07",
+      "task-08"
+    ]
+  },
+  "diff_scope": {
+    "M": [
+      "docs/00-getting-started-manual/specs/09-ui-ux.md",
+      ".claude/skills/aiworkflow-requirements/SKILL.md",
+      ".claude/skills/aiworkflow-requirements/LOGS/_legacy.md",
+      ".claude/skills/aiworkflow-requirements/indexes/quick-reference.md",
+      ".claude/skills/aiworkflow-requirements/indexes/resource-map.md",
+      ".claude/skills/aiworkflow-requirements/indexes/topic-map.md",
+      ".claude/skills/aiworkflow-requirements/indexes/keywords.json",
+      ".claude/skills/aiworkflow-requirements/references/task-workflow-active.md",
+      ".claude/skills/task-specification-creator/SKILL.md",
+      ".claude/skills/task-specification-creator/LOGS/_legacy.md"
+    ],
+    "A": [
+      "docs/30-workflows/task-06-ui-ux-contract-rewrite/**",
+      ".claude/skills/aiworkflow-requirements/changelog/20260507-task-06-ui-ux-contract-rewrite.md",
+      ".claude/skills/aiworkflow-requirements/references/lessons-learned-task-06-ui-ux-contract-rewrite-2026-05.md"
+    ],
+    "D": []
+  },
+  "evidence": {
+    "phase_11_non_visual": [
+      "outputs/phase-11/evidence/grep-gate.log",
+      "outputs/phase-11/evidence/markdown-lint.log",
+      "outputs/phase-11/evidence/trace-check.log",
+      "outputs/phase-11/evidence/structure-check.log",
+      "outputs/phase-11/phase-11-non-visual-alternative-evidence.md"
+    ]
+  },
+  "invariants_touched": [
+    1,
+    2,
+    3,
+    5,
+    6
+  ],
+  "specs_referenced": [
+    "docs/00-getting-started-manual/specs/09-ui-ux.md",
+    "docs/00-getting-started-manual/specs/09a-prototype-map.md (path only / created by task-07)",
+    "docs/00-getting-started-manual/specs/09b-design-tokens.md (path only / created by task-08)",
+    "docs/30-workflows/ui-prototype-alignment-mvp-recovery/outputs/phase-1/phase-1.md",
+    "docs/30-workflows/ui-prototype-alignment-mvp-recovery/outputs/phase-2/phase-2.md",
+    "docs/30-workflows/ui-prototype-alignment-mvp-recovery/outputs/phase-3/phase-3.md"
+  ],
+  "ui_routes": [
+    "/",
+    "/(public)/members",
+    "/(public)/members/[id]",
+    "/(public)/register",
+    "/privacy",
+    "/terms",
+    "/login",
+    "/profile",
+    "/(admin)/admin",
+    "/(admin)/admin/members",
+    "/(admin)/admin/tags",
+    "/(admin)/admin/meetings",
+    "/(admin)/admin/schema",
+    "/(admin)/admin/requests",
+    "/(admin)/admin/identity-conflicts",
+    "/(admin)/admin/audit",
+    "error.tsx",
+    "global-error.tsx",
+    "not-found.tsx",
+    "loading.tsx"
+  ],
+  "endpoints_referenced_unchanged": true,
+  "d1_tables": [],
+  "secrets_introduced": []
+}

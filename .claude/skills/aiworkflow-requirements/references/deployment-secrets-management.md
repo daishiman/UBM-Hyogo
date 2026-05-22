@@ -2,6 +2,9 @@
 
 > 本ドキュメントは ubm-hyogo のデプロイメント仕様書の一部です。
 > 管理: .claude/skills/aiworkflow-requirements/
+>
+> **関連**: 不可逆な外部 mutation を伴う token revocation / secret rotation 等は
+> [Gate C: External Mutation Pattern](./gate-c-external-mutation-pattern.md) を参照（汎用テンプレ）。
 
 ---
 
@@ -14,6 +17,34 @@ ubm-hyogo は **Cloudflare** と **GitHub** の2箇所でシークレットを�
 | **Cloudflare** | ランタイムシークレット（外部 API キー、DB 接続情報） | Worker/Pages が直接使用するため |
 | **GitHub Secrets** | デプロイシークレット（Cloudflare API Token）| CI/CD 自動化のため |
 | **GitHub Variables** | 非機密設定値（ドメイン名、プロジェクト名） | 環境別の設定切り替えのため |
+
+---
+
+## GitHub Actions Secret Preflight Gate（2026-05-16）
+
+`docs/30-workflows/ci-env-secret-inventory-and-preflight-gate/` で
+Environment scope と Repository scope の secret name inventory を CI 発火前に
+検査する `verify-env-secrets` gate を追加した。検査対象は
+`.github/workflows/*.yml` の `secrets.NAME` 参照で、値は取得しない。
+
+正本:
+
+- script: `scripts/ci/verify-env-secrets.sh`
+- CI: `.github/workflows/verify-env-secrets.yml`
+- allowlist: `scripts/ci/verify-env-secrets.allowlist`
+- inventory: `docs/30-workflows/ci-env-secret-inventory-and-preflight-gate/task-02-adjacent-unregistered-secret-inventory/inventory.md`
+
+`verify-env-secrets.allowlist` には 2 種類の行がある。
+`name=<SECRET>;reason=<REASON>` は短期 mute 専用で、pending business secret を既定登録しない。
+`env=<ENV>;required=<CSV>;reason=<REASON>` は mute ではなく Environment scope の必須 secret contract であり、指定 Environment の name-only inventory に全 secret 名が存在しない場合は fail する。Repository-scoped secret はこの contract を満たさない。
+
+provisioning helper script (`scripts/smoke/provision-staging-secrets.sh`) は 1Password reference (`op://Employee/ubm-hyogo-env/<FIELD>`) を `op read` で取得し `gh secret set --env <ENV>` の stdin に直接 pipe する。helper の op:// path と `verify_staging_marker()` 内 hardcoded ref は **同じ vault 構造を前提**としており、vault 階層が変わる場合は両方を同時に修正する。
+
+運用境界:
+
+- `staging-runtime-smoke` の 5 secret と隣接 15 refs の実投入は user-gated。
+- evidence は secret 名・scope・workflow path・run URL のみ。値、hash、suffix、長さ、bearer fragment、webhook URL は記録しない。
+- `op item edit` / `op item get --format json` 等は stdout に field 値を leak しうるため、CLI 実行時は `>/dev/null` で抑止し、誤って出力された場合は対象 field のローテーションを実施する。
 
 ---
 
@@ -39,15 +70,10 @@ CI/CD（GitHub Actions で使用）
 ### Cloudflare Workers（バックエンド `apps/api/`）
 
 ```bash
-# production 環境
-wrangler secret put OPENAI_API_KEY --env production
-wrangler secret put DATABASE_URL --env production
-wrangler secret put SLACK_BOT_TOKEN --env production
-
-# staging 環境
-wrangler secret put OPENAI_API_KEY --env staging
-wrangler secret put DATABASE_URL --env staging
-wrangler secret put SLACK_BOT_TOKEN --env staging
+# 各 env（production / staging）に対して以下を投入
+wrangler secret put OPENAI_API_KEY --env <env>
+wrangler secret put DATABASE_URL --env <env>
+wrangler secret put SLACK_BOT_TOKEN --env <env>
 ```
 
 | シークレット名 | 説明 | 環境 |
@@ -59,6 +85,8 @@ wrangler secret put SLACK_BOT_TOKEN --env staging
 | `DISCORD_WEBHOOK_URL` | Discord Webhook（内部通知） | production / staging |
 | `GOOGLE_SERVICE_ACCOUNT_JSON` | Google Sheets API 用 Service Account JSON key。`apps/api/src/jobs/sheets-fetcher.ts` / `sync-sheets-to-d1.ts` が `env.GOOGLE_SERVICE_ACCOUNT_JSON` として参照する正本名。値は `wrangler secret list` でも参照不可（name のみ） | production / staging |
 | `MAIL_PROVIDER_KEY` | Magic Link メール送信 provider API key。`apps/api/src/index.ts` の mail sender factory が参照する正本名。値は 1Password 正本から stdin 投入し、docs / logs / PR に転記しない | production / staging |
+| `AUDIT_CORRELATION_SALT` | audit-correlation fingerprintHash 生成用 salt。1Password `op://CloudflareSecurity/AuditCorrelationSalt/value` が正本。値は docs / logs / PR / evidence に残さない | production / staging |
+| `AUDIT_CORRELATION_SALT_PREVIOUS` | Issue #555 rotation window 中だけ存在する previous salt。1Password `op://CloudflareSecurity/AuditCorrelationSaltPrevious/value` が正本。window 終了後に Cloudflare Secrets と 1Password から削除 / archive する | production / staging |
 
 ### `GOOGLE_SERVICE_ACCOUNT_JSON` 投入ルール（UT-25 / 2026-04-29）
 
@@ -75,6 +103,16 @@ wrangler secret put SLACK_BOT_TOKEN --env staging
 - 値は `op read "op://UBM-Hyogo/auth-mail-<env>/MAIL_PROVIDER_KEY" | bash scripts/cf.sh secret put MAIL_PROVIDER_KEY --config apps/api/wrangler.toml --env <env>` の stdin 経由で投入する。
 - staging-first 固定。staging の name-only secret list と Magic Link smoke は 09a、production readiness は 09c が所有する。
 - evidence には key 名と `op://Vault/Item/Field` 参照だけを残し、値・値ハッシュ・provider response body は残さない。
+
+### Audit correlation salt rotation（Issue #555 / 2026-05-08）
+
+- Secret policy の正本は本ファイル。parallel `references/secrets-management.md` is intentionally not created。
+- `AUDIT_CORRELATION_SALT` は current、`AUDIT_CORRELATION_SALT_PREVIOUS` は rotation window 中だけの previous とする。
+- 1Password references は `op://CloudflareSecurity/AuditCorrelationSalt/value` と `op://CloudflareSecurity/AuditCorrelationSaltPrevious/value` に統一する。
+- `scripts/audit-correlation/rotate-salt.sh` は `--dry-run` / `--apply` / `--rollback` / `--end-rotation` の 4 modes を持つ。production mutation は user gate + explicit confirmation なしに実行しない。
+- staging `--end-rotation` は previous secret delete 後に Worker deploy まで実行し、env binding refresh を完了させる。production deploy は user gate 後の明示操作に限定する。
+- dual-hash bridge は 7 日を既定 window とし、window に現れない actor の旧 incident は自動 backfill しない。
+- evidence には secret 名、1Password reference、command exit code、redacted runner output のみを残す。salt literal、salt hash full value、Cloudflare token、GitHub PAT は保存禁止。
 
 ### Cloudflare Pages（フロントエンド `apps/web/`）
 
@@ -126,14 +164,103 @@ Rotation 手順:
 | シークレット名 | 説明 | 使用箇所 |
 | -------------- | ---- | -------- |
 | `CF_TOKEN_D1_STAGING` / `CF_TOKEN_D1_PRODUCTION` | D1 migration 用 Cloudflare API Token | backend-ci.yml |
-| `CF_TOKEN_WORKERS_STAGING` / `CF_TOKEN_WORKERS_PRODUCTION` | Workers deploy 用 Cloudflare API Token | backend-ci.yml |
-| `CF_TOKEN_PAGES_STAGING` / `CF_TOKEN_PAGES_PRODUCTION` | Pages deploy 用 Cloudflare API Token | web-cd.yml |
-| `CLOUDFLARE_API_TOKEN` | 旧単一 Cloudflare API Token（24h 並行保持後に削除） | Deprecated |
-| `CLOUDFLARE_API_TOKEN_STAGING` | Cloudflare API Token（D1 migration verification staging 用） | d1-migration-verify.yml |
-| `CF_AUDIT_TOKEN_PROD` | Cloudflare Audit Logs 読み取り専用 Token（監視用）。scope は `Account > Audit Logs:Read` のみ。deploy 用 token と名前・権限・rotation を分離する | `cf-audit-log-monitor.yml`（Issue #408 実装 PR で追加予定） |
-| `CF_AUDIT_D1_TOKEN_PROD` | cf-audit-log monitor が D1 `cf_audit_log` / `cf_audit_baseline` / `cf_audit_finding_dedupe` へ書き込むための最小権限 Cloudflare Token。deploy 用 token は監視 workflow に注入しない | `cf-audit-log-monitor.yml` (`environment: production`) |
+| `CF_TOKEN_WORKERS_STAGING` / `CF_TOKEN_WORKERS_PRODUCTION` | Workers deploy 用 Cloudflare API Token | backend-ci.yml。web-cd.yml は 2026-05-09 task-01 alignment 後に使用しない |
+| `CF_TOKEN_PAGES_STAGING` / `CF_TOKEN_PAGES_PRODUCTION` | 旧 Pages deploy 用 Cloudflare API Token target contract。Issue #331 後の `web-cd.yml` では未参照 | Deprecated target |
+| `CLOUDFLARE_API_TOKEN` | web-cd の environment-scoped Cloudflare API Token 正本名 | web-cd.yml |
+
+### Issue #640 Step-Scoped Cloudflare Token Cutover（2026-05-14）
+
+`CLOUDFLARE_API_TOKEN` は GitHub Actions の job-level `env:` に置かない。deploy / analytics collection など Cloudflare API を実際に呼ぶ step の `env:` または action step の `with.apiToken` に限定する。
+
+| Workflow | Rule | Evidence |
+|---|---|---|
+| `.github/workflows/web-cd.yml` | `Deploy to Cloudflare Workers` step のみ `CLOUDFLARE_API_TOKEN` を受け取る。install / build step には渡さない。deploy log redaction step は `CLOUDFLARE_ACCOUNT_ID` variable のみを受け取る。 | `scripts/__tests__/workflow-env-scope.test.sh` |
+| `.github/workflows/backend-ci.yml` | `cloudflare/wrangler-action@v3` の `with.apiToken` と step-level `env.CLOUDFLARE_API_TOKEN` に同じ scoped secret（D1 / Workers x staging / production）を渡す。これは action 互換の二重注入であり、secret 未登録時の独立 fallback ではない。job-level env へ昇格しない。 | `scripts/__tests__/workflow-env-scope.test.sh` |
+| `.github/workflows/post-release-dashboard.yml` | analytics read token は `Verify analytics token presence` と `Collect dashboard` step のみに渡す。 | `scripts/__tests__/workflow-env-scope.test.sh` |
+
+`scripts/redaction-check.sh` は取得済み log/artifact の補助検査であり、token 値を検査のために新たに露出させない。一般的な Account ID は GitHub Variable として扱い、secret と混同しない。Account ID を機密として扱う個別 evidence では `--account-id` を明示して検査する。
+
+### Issue #717 Cloudflare Workers OIDC support revalidation（2026-05-16）
+
+`docs/30-workflows/issue-717-oidc-cf-full-migration/` revalidated Cloudflare Workers GitHub Actions OIDC support and closed as `verified_current_no_code_change_pending_pr / implementation / NON_VISUAL / conditional`.
+
+Current primary sources still document API token authentication for Workers deploy:
+
+- Cloudflare Workers GitHub Actions docs use `cloudflare/wrangler-action@v3` with `apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}`.
+- `cloudflare/wrangler-action` README documents `apiToken` / `accountId` and does not document a supported OIDC input.
+
+Therefore `web-cd.yml` must keep Issue #640's step-scoped `CLOUDFLARE_API_TOKEN` boundary until Cloudflare documents a supported OIDC deploy path. Do not add `permissions: id-token: write`, a guessed `wrangler-action` input, or a custom Cloudflare token exchange endpoint to production workflow files without new primary-source evidence. Production OIDC cutover, apps/api D1 credential cutover, and 1Password restructuring are formalized separately under `docs/30-workflows/unassigned-task/issue-717-followup-*.md`.
+
+### Issue #762 OIDC future supported path gate（2026-05-17）
+
+`docs/30-workflows/issue-762-cf-oidc-staging-proof-prod-cutover/` implements the pre-support hardening that is safe before Cloudflare documents a Workers deploy OIDC path. The current runtime contract remains unchanged: `.github/workflows/web-cd.yml` uses step-scoped `secrets.CLOUDFLARE_API_TOKEN`, `permissions: id-token: write` is not granted, and no guessed exchange endpoint is introduced.
+
+Pre-support hardening now consists of:
+
+- `scripts/oidc/verify-claim-pin.sh`: dry-run subject claim pin verifier for `repository`, `ref`, `environment`, and `event_name`.
+- `scripts/redaction-check.sh`: leak gate extended to reject JWT-like `eyJ...` tokens and `cloudflare-aud` claim text.
+- `.github/workflows/oidc-observation-window.yml`: manual-only no-op observation gate to be replaced with a real verifier after supported OIDC deploy exists.
+- `.github/workflows/web-cd.yml`: comment-only documentation that the step-scoped token is the current safe baseline.
+
+Future OIDC cutover must satisfy these gates in order:
+
+| Gate | Requirement | Evidence |
+|---|---|---|
+| G1 | Cloudflare docs or `cloudflare/wrangler-action` release notes document the supported input names, audience, exchange behavior, and rollback path. | Primary-source URL and timestamp. |
+| G2 | Staging proof uses the supported path and passes `scripts/redaction-check.sh` plus `scripts/oidc/verify-claim-pin.sh`. | Redacted staging deploy log and claim verifier output. |
+| G3 | Production cutover uses `repository=daishiman/UBM-Hyogo`, `ref=refs/heads/main`, `environment=production`, `event_name=push`. | Redacted production run URL and deployment version check. |
+| G4 | Observation window proves fallback usage is 0 before legacy token physical revocation. | `oidc-observation-window` evidence and canonical `docs/30-workflows/issue-718-legacy-cf-token-revocation/` revocation path. |
+
+
+| `CF_TOKEN_PAGES_STAGING` / `CF_TOKEN_PAGES_PRODUCTION` | Deprecated historical Pages deploy token | Deprecated for web-cd.yml after OpenNext Workers cutover |
+| `CLOUDFLARE_API_TOKEN` | web-cd の environment-scoped deploy token 正本名。OIDC cutover までは transitional direct token として維持 | web-cd.yml |
+| `CLOUDFLARE_API_TOKEN_STAGING` / `CLOUDFLARE_API_TOKEN_PRODUCTION` | Historical / forbidden as GitHub CI secret names; allowed only as local 1Password field labels in `Employee/ubm-hyogo-env` for `scripts/cf.sh deploy --env staging\|production` bridging. The child process still receives `CLOUDFLARE_API_TOKEN`. | Local 1Password field labels only; not GitHub Actions secret names |
+| `CF_AUDIT_TOKEN_PROD` | Cloudflare Audit Logs 読み取り専用 Token（監視用）。scope は `Account > Audit Logs:Read` のみ。deploy 用 token と名前・権限・rotation を分離する。Issue #518 HOLD 中も保持し、手動確認時だけ使う | `cf-audit-log-monitor.yml`（HOLD 中は `workflow_dispatch` のみ） |
+| `CF_AUDIT_D1_TOKEN_PROD` | cf-audit-log monitor が D1 `cf_audit_log` / `cf_audit_baseline` / `cf_audit_finding_dedupe` へ書き込むための最小権限 Cloudflare Token。deploy 用 token は監視 workflow に注入しない。Issue #518 HOLD 中も保持 | `cf-audit-log-monitor.yml` (`environment: production`, HOLD 中は手動 run のみ) |
 | `DISCORD_WEBHOOK_URL` | Discord Webhook（デプロイ通知） | 未使用（UT-08-IMPL で導入予定。現行 web-cd.yml / backend-ci.yml には参照なし） |
 | `CODECOV_TOKEN` | Codecov カバレッジアップロード | ci.yml |
+
+Full OIDC migration is intentionally separated to `docs/30-workflows/unassigned-task/issue-640-followup-001-oidc-full-migration.md`. Legacy token physical revocation is now formalized as Issue #718 at `docs/30-workflows/issue-718-legacy-cf-token-revocation/`; the original `docs/30-workflows/unassigned-task/issue-640-followup-002-legacy-token-revocation.md` is retained as consumed provenance.
+
+### Issue #718 Legacy Cloudflare API Token Revocation（2026-05-16）
+
+Issue #718 is the Gate C retirement path for legacy `CLOUDFLARE_API_TOKEN` surfaces. It does not state that the token is already revoked. Before revocation, operators must prove Issue #640 runtime deploy evidence is green and classify every `CLOUDFLARE_API_TOKEN` consumer as current direct deploy token, deprecated target, audit-only token, or historical/generated reference.
+
+Cloudflare token revocation, GitHub Secret deletion/replacement, and 1Password item mutation require explicit saved user approval under `docs/30-workflows/issue-718-legacy-cf-token-revocation/outputs/phase-13/user-approval-issue-718-<timestamp>.md`. Evidence records command names, exit codes, secret names, and item names only; token values, token previews, suffixes, account IDs, and vault values are prohibited.
+
+### Issue #571 staging runtime smoke GitHub Environment（2026-05-08）
+
+`staging-runtime-smoke` は Issue #571 の staging runtime smoke CI 専用 GitHub Environment。current cycle は `implemented-local / implementation / NON_VISUAL` であり、実 Environment 作成と secret 配置は user approval 後に行う。2026-05-10 の task-02 close-out 以降、配置 runbook の入口正本は `docs/30-workflows/ci-secret-alignment-and-runtime-smoke-recovery/runbooks/secret-provisioning.md` とする。推奨実行経路は `bash scripts/smoke/provision-staging-secrets.sh` で、`op read` 出力は `gh secret set --body -` へ stdin で直結する。手動 `gh secret set` は fallback として runbook に残す。
+
+| Category | Secret | Placement | Purpose |
+| --- | --- | --- | --- |
+| staging runtime credential | `STAGING_API_BASE` | GitHub Environment secret: `staging-runtime-smoke` | staging API base URL for smoke |
+| staging runtime credential | `STAGING_ADMIN_BEARER` | GitHub Environment secret: `staging-runtime-smoke` | admin read-only smoke auth |
+| staging runtime credential | `STAGING_MEMBER_ID` | GitHub Environment secret: `staging-runtime-smoke` | member fixture id |
+| staging runtime credential | `STAGING_ME_BEARER` | GitHub Environment secret: `staging-runtime-smoke` | member `/me` smoke auth |
+| staging runtime credential | `SLACK_WEBHOOK_INCIDENT` | GitHub Environment secret: `staging-runtime-smoke` | failure-only incident post |
+
+Rules:
+
+- Repository-scoped secrets must not store staging runtime credentials.
+- The smoke workflow is invoked through reusable `workflow_call` from `backend-ci.yml`; no repository-scoped dispatch token is required for Issue #571.
+- `scripts/ci/verify-env-secrets.allowlist` declares the smoke-required 4 secrets with `env=staging-runtime-smoke;required=...`; this is a required Environment contract, not a repository fallback and not a mute.
+- Evidence may record secret names and placement only. Values, value hashes, token fragments, webhook URLs, and decoded cookies are forbidden in docs, logs, artifacts, PR body, and commit messages.
+- Before runtime execution, validate both name-only secret inventory and a value-without-printing staging marker check for `STAGING_API_BASE`.
+- `scripts/smoke/provision-staging-secrets.sh` verifies the final environment inventory by secret name only. Runtime smoke success is not implied until a user-approved Actions run produces fresh evidence.
+
+#### Environment 作成済み・secret 0 件問題（CI recovery / 2026-05-09）
+
+GitHub Environment は作成されているが secret が 0 件のまま staging runtime smoke を起動すると、`runtime-smoke-staging.yml` 内の `${VAR:?}` チェックが exit 2 を返し、smoke job 全段が連鎖失敗する。これは Environment が「存在する」ことと「runtime credential が揃っている」ことを区別しない設計に由来する pre-flight gap であり、CI recovery wave で次の verification pattern を canonical に固定した。
+
+| 観点 | 正本 |
+| --- | --- |
+| pre-flight 経路 | `bash scripts/smoke/provision-staging-secrets.sh`（idempotent / redacted） |
+| inventory check | `gh secret list --env staging-runtime-smoke --json name -q '.[].name'` で **name のみ** を確認。値・値 hash を出力しない |
+| 投入経路 | `op read "op://<Vault>/<Item>/<Field>" \| gh secret set <NAME> --env staging-runtime-smoke --body -` の stdin 直結 |
+| smoke 起動 gate | user-approved Actions run 前の inventory は 5 secret（`STAGING_API_BASE` / `STAGING_ADMIN_BEARER` / `STAGING_MEMBER_ID` / `STAGING_ME_BEARER` / `SLACK_WEBHOOK_INCIDENT`）一致を確認する。ただし workflow 内 early-fail は smoke 本体必須 4 secret のみを対象にし、Slack は failure summary post step の fail-closed guard が担当する |
+| `${VAR:?}` の扱い | smoke workflow 側では smoke 本体必須 4 secret を name-only early-fail する。invocation 前の runbook/helper pre-flight で 0 件を検出し、連鎖失敗を抑止する |
+| ログ衛生 | Environment 名と secret 名のみを stdout に出力。値、Authorization header、cookie, decoded webhook URL は出力 / 文書 / PR / evidence に転記禁止 |
 
 ### GitHub Variables（非機密設定値）
 
@@ -142,11 +269,18 @@ Rotation 手順:
 | 変数名 | 説明 | 例 |
 | ------ | ---- | -- |
 | `CLOUDFLARE_ACCOUNT_ID` | Cloudflare account 識別子。資格情報ではないため Repository Variable として管理し、workflow では `${{ vars.CLOUDFLARE_ACCOUNT_ID }}` で参照 | `b3dde7be...` |
-| `CLOUDFLARE_PAGES_PROJECT` | Cloudflare Pages production/base プロジェクト名。staging は workflow が `-staging` を連結 | `ubm-hyogo-web` |
+| `CLOUDFLARE_PAGES_PROJECT` | Deleted by Issue #638 after user approval marker。Issue #331 後の `web-cd.yml` では未参照。rollback 時のみ GitHub repository variable として再作成する | rollback value: `ubm-hyogo-web` |
+| `CLOUDFLARE_PAGES_PROJECT` | Deprecated for current web-cd.yml after OpenNext Workers cutover. Historical Pages project name retained for UT-28 references only; new web deploy logic uses `apps/web/wrangler.toml` `[env.*].name` | `ubm-hyogo-web` |
 | `CLOUDFLARE_WORKERS_DOMAIN` | Workers 本番ドメイン | `api.ubm-hyogo.workers.dev` |
 | `CLOUDFLARE_WORKERS_STAGING_DOMAIN` | Workers ステージングドメイン | `api-staging.ubm-hyogo.workers.dev` |
 | `CF_AUDIT_CLASSIFIER` | Cloudflare Audit Logs analyzer の classifier 選択。既定値は `threshold`。`ml` は Issue #515 Gate 後のみ | `threshold` |
-| `ML_MODEL_PATH` | Gate 後の ML model artifact path。未設定時は threshold fallback。secret 値ではないが artifact 配布正本が決まるまで production 設定しない | 未設定 |
+| `ML_MODEL_PATH` | Gate 後の ML model artifact path。`op://Employee/ubm-hyogo-env/CF_AUDIT_ML_MODEL_PATH_PROD` 参照のみを workflow contract に置き、解決値は secret として扱って logs / docs / PR body に残さない。production 設定は Gate-0〜C 通過後のみ | 未設定 |
+| `CF_AUDIT_ML_MODEL_PATH_CANDIDATE` | Issue #587 artifact rotation の candidate artifact op 参照名。値は 1Password 正本にのみ置き、workflow inputs / docs / logs には op reference name だけを残す | 未設定 |
+| `CF_AUDIT_ML_MODEL_PATH_PREVIOUS` | Issue #587 promotion 前に現行 production artifact reference を退避する previous op 参照名。rollback target の識別に使い、解決値は保存しない | 未設定 |
+| `CF_AUDIT_FALLBACK_RATE_THRESHOLD` | Issue #549 production ML switch 後の fallback rate alert 閾値。既定は `0.05` | `0.05` |
+| `CF_AUDIT_FALLBACK_RATE_CONSECUTIVE_HOURS` | fallback rate alert の連続超過時間。既定は `3` | `3` |
+| `EMAIL_FROM` | Issue #588 fallback alert mail HTTP webhook の From。GitHub Actions environment variable。mail provider 未確定時は未設定でよい | 未設定 |
+| `EMAIL_TO` | Issue #588 fallback alert mail HTTP webhook の宛先。GitHub Actions environment variable。mail provider 未確定時は未設定でよい | 未設定 |
 | `CF_AUDIT_REDACT_SECRET` | redacted feature export の actor hash salt。feature export workflow でのみ使う secret。ログ・dataset へ値を出さない | GitHub environment secret |
 
 ---
@@ -227,15 +361,10 @@ API_SECRET_KEY=...
 ローカルでの `wrangler` 直接実行および `wrangler login`（OAuth トークンを `~/Library/Preferences/.wrangler/config/default.toml` に保持する方式）は **使用禁止**。Claude Code および手動オペレーション双方で次の canonical wrapper のみを使う。
 
 ```bash
-# 認証確認
-bash scripts/cf.sh whoami
-
-# D1 操作
+bash scripts/cf.sh whoami                                                               # 認証確認
 bash scripts/cf.sh d1 list
 bash scripts/cf.sh d1 migrations apply ubm-hyogo-db-prod --env production
 bash scripts/cf.sh d1 export ubm-hyogo-db-prod --env production --output backup.sql
-
-# デプロイ・rollback
 bash scripts/cf.sh deploy   --config apps/api/wrangler.toml --env production
 bash scripts/cf.sh deploy   --config apps/web/wrangler.toml --env production
 bash scripts/cf.sh rollback <VERSION_ID> --config apps/api/wrangler.toml --env production
@@ -246,9 +375,12 @@ bash scripts/cf.sh rollback <VERSION_ID> --config apps/api/wrangler.toml --env p
 | 役割 | 内容 |
 | --- | --- |
 | 1Password 注入 | `scripts/with-env.sh` 経由で `op run --env-file=.env` を呼び、`.env` 内の `op://Vault/Item/Field` 参照から `CLOUDFLARE_API_TOKEN` 等を環境変数として揮発的に渡す（ファイルやログには残らない） |
+| deploy token bridge | local `deploy --env staging\|production` only: if `CLOUDFLARE_API_TOKEN` is not already injected, `scripts/cf.sh` reads `Employee/ubm-hyogo-env` field `CLOUDFLARE_API_TOKEN_STAGING` or `CLOUDFLARE_API_TOKEN_PRODUCTION` via `op item get --fields label=... --reveal`, then execs wrangler with child-env `CLOUDFLARE_API_TOKEN`. The field name may be logged; the token value must not be logged. |
 | esbuild 不整合解決 | グローバル `esbuild` とのバージョン不整合を `ESBUILD_BINARY_PATH` で自動解決（worktree のローカル `node_modules/esbuild` を優先解決） |
 | Node 24 / pnpm 10 強制 | `mise exec --` 経由で mise 管理の Node / pnpm バイナリを保証 |
 | ローカル wrangler 優先 | グローバル `wrangler` ではなく worktree の `node_modules/.bin/wrangler` を解決し、wrangler 4.x strict mode の前提を満たす |
+
+Current esbuild override SSOT (2026-05-17): `package.json#pnpm.overrides.esbuild` is exact `0.27.3`. This value is chosen to satisfy `wrangler@4.85.0` `supported.import-source` parsing while keeping OpenNext and wrangler on a single esbuild version. Evidence root: `docs/30-workflows/fix-cf-deploy-esbuild-import-source-staging-failure/`.
 
 **禁止事項（Claude Code を含む全 AI エージェントに適用）**:
 
@@ -324,7 +456,7 @@ UT-08 モニタリング/アラート設計で追加される Secret 群は **�
 | --- | --- | --- | --- |
 | `SENTRY_DSN_API` | API Worker Sentry SDK DSN | Cloudflare Secrets (`apps/api`, staging / production) | `op://UBM-Hyogo/Sentry API DSN (<env>)/dsn` |
 | `SENTRY_DSN_WEB` | Web Worker Sentry SDK DSN | Cloudflare Secrets (`apps/web`, staging / production) | `op://UBM-Hyogo/Sentry Web DSN (<env>)/dsn` |
-| `SLACK_WEBHOOK_INCIDENT` | incident response Slack Incoming Webhook | Cloudflare Secrets (`apps/api`, staging / production) | `op://UBM-Hyogo/Slack Incident Webhook (<env>)/url` |
+| `SLACK_WEBHOOK_INCIDENT` | incident response Slack Incoming Webhook | Cloudflare Secrets (`apps/api`, staging / production) | `op://Employee/ubm-hyogo-env/SLACK_WEBHOOK_INCIDENT_<ENV>` |
 | `SLACK_WORKFLOW_URL` | optional Slack workflow endpoint。採用しない環境では未配置 | Cloudflare Secrets (`apps/api`, staging / production) | `op://UBM-Hyogo/Slack Incident Workflow (<env>)/url` |
 | `SMOKE_ADMIN_TOKEN` | `/admin/smoke/observability` Bearer token | Cloudflare Secrets (`apps/api`, staging / production) | `op://UBM-Hyogo/Smoke Admin Token (<env>)/token` |
 
@@ -338,7 +470,7 @@ Production observability smoke uses the same secret names as staging with enviro
 
 | Secret 名 | 用途 | 配布先 | 正本 |
 | --- | --- | --- | --- |
-| `SLACK_WEBHOOK_INCIDENT` | `#ubm-hyogo-incidents` incoming webhook for staging / production observability smoke | Cloudflare Secrets (`apps/api`, staging / production) and GitHub Actions secret when CI smoke requires it | `op://UBM-Hyogo/Slack Incident Webhook (<env>)/url` |
+| `SLACK_WEBHOOK_INCIDENT` | `#ubm-hyogo-incidents` incoming webhook for staging / production observability smoke | Cloudflare Secrets (`apps/api`, staging / production) and GitHub Actions secret when CI smoke requires it | `op://Employee/ubm-hyogo-env/SLACK_WEBHOOK_INCIDENT_<ENV>` |
 
 Placement gates:
 
@@ -349,9 +481,22 @@ Placement gates:
 
 `wrangler secret put` must not be executed directly. Use `bash scripts/cf.sh secret put SLACK_WEBHOOK_INCIDENT --config apps/api/wrangler.toml --env <env>` with the value supplied by stdin from 1Password. Name-only verification may use `bash scripts/cf.sh secret list --config apps/api/wrangler.toml --env <env> | grep SLACK_WEBHOOK_INCIDENT`.
 
+### Issue #588 fallback alert Slack / mail GitHub Actions secrets（2026-05-10）
+
+Issue #588 の `cf-audit-log-monitor.yml` は fallback rate > 5% が 3 hour 連続した場合、GitHub Issue 起票に加えて Slack / mail HTTP webhook を best-effort で送る。Slack は Issue #520 の incident channel 正本名に寄せ、GitHub Actions でも `SLACK_WEBHOOK_INCIDENT` を使う。`SLACK_WEBHOOK_URL` は CLI の local fallback 名としてのみ許容し、新規 GitHub Actions secret として作らない。
+
+| Secret / Variable 名 | 用途 | 配布先 | 正本 |
+| --- | --- | --- | --- |
+| `SLACK_WEBHOOK_INCIDENT` | `#ubm-hyogo-incidents` fallback alert Slack post | GitHub Actions environment secret (`production`) | `op://Employee/ubm-hyogo-env/SLACK_WEBHOOK_INCIDENT_PROD` |
+| `EMAIL_WEBHOOK_URL` | fallback alert mail provider HTTP endpoint。provider 契約後に設定 | GitHub Actions environment secret (`production`) | 1Password provider item（契約時に item/path を確定） |
+| `EMAIL_FROM` | mail webhook payload `from` | GitHub Actions environment variable (`production`) | provider 契約時の sender address |
+| `EMAIL_TO` | mail webhook payload `to` | GitHub Actions environment variable (`production`) | incident distribution address |
+
+`EMAIL_WEBHOOK_URL` / `EMAIL_FROM` / `EMAIL_TO` のいずれかが未設定の場合、mail dispatcher は no-op で skip する。これは provider 未契約時の runtime boundary であり、GitHub Issue 起票と Slack 通知を阻害しない。
+
 ### Issue #408 Cloudflare Audit Logs monitoring Secret（2026-05-06）
 
-Issue #408 は `spec_created / implementation / NON_VISUAL / runtime pending` の監視 workflow 仕様である。GitHub Actions から Cloudflare Audit Logs API を読むため、deploy token とは別に次の監視用 Secret を正本化する。値は 1Password 正本から GitHub environment secret へ派生コピーし、docs / logs / PR body / Phase evidence に実値・値 hash・Authorization header を残さない。
+Issue #408 は Cloudflare Audit Logs 監視 workflow 仕様である。Issue #518 により自動監視は `HOLD / manual-check-only` へ縮退したが、手動確認と将来再開のため deploy token とは別に次の監視用 Secret を正本化する。値は 1Password 正本から GitHub environment secret へ派生コピーし、docs / logs / PR body / Phase evidence に実値・値 hash・Authorization header を残さない。
 
 | Secret 名 | 用途 | 配布先 | 正本 |
 | --- | --- | --- | --- |
@@ -363,8 +508,8 @@ Issue #408 は `spec_created / implementation / NON_VISUAL / runtime pending` �
 - `CF_AUDIT_TOKEN_PROD` は `CLOUDFLARE_API_TOKEN` の代替として deploy / D1 migration / Workers Scripts edit に使わない。監視 workflow から deploy 用 `CLOUDFLARE_API_TOKEN` は外し、D1 書き込みは `CF_AUDIT_D1_TOKEN_PROD` に分離する。
 - rotation は deploy token と独立に実施し、rotation window は Issue #408 の baseline 学習対象から除外する。
 - Phase 11 evidence は token 値ではなく、`Audit Logs:Read` の scope 確認結果と secret 名だけを保存する。
-- runtime workflow (`.github/workflows/cf-audit-log-monitor.yml` / `cf-audit-log-monitor-watchdog.yml`)、scripts (`scripts/cf-audit-log/**`)、D1 migration (`apps/api/migrations/0014_create_cf_audit_log.sql`) を Issue #408 実装 PR で追加した（2026-05-06）。**ただし** token 発行 / 1Password 登録 / GitHub Secret 登録 / 7 日 baseline 学習 は production 担当者が手動で行う runbook 工程であり、本 PR のコード merge では完了扱いにしない。`docs/30-workflows/issue-408-cf-audit-logs-monitoring/outputs/phase-5/secrets-registration.md`（または phase-12 implementation guide）を正本として段階的に green 化する。
-- Issue #515 の `CF_AUDIT_CLASSIFIER` は repository variable として `threshold` を既定にする。`ML_MODEL_PATH` と `CF_AUDIT_REDACT_SECRET` は production ML switch / feature export Gate 後に設定し、今回の ML-ready abstraction では secret 値を要求しない。
+- runtime workflow (`.github/workflows/cf-audit-log-monitor.yml`)、scripts (`scripts/cf-audit-log/**`)、D1 migration (`apps/api/migrations/0014_create_cf_audit_log.sql`) を Issue #408 実装 PR で追加した（2026-05-06）。Issue #518 で `cf-audit-log-monitor.yml` は schedule 削除 + `dry_run=true` 既定に変更し、`cf-audit-log-monitor-watchdog.yml` は削除した。**ただし** token 発行 / 1Password 登録 / GitHub Secret 登録 / 7 日 baseline 学習 は production 担当者が手動で行う runbook 工程であり、本 PR のコード merge では完了扱いにしない。HOLD 中の運用正本は `docs/30-workflows/runbooks/cf-audit-logs-weekly-manual-check.md`。Phase output の正本は `docs/30-workflows/issue-408-cf-audit-logs-monitoring/outputs/phase-5/secrets-registration.md`（または phase-12 implementation guide）。
+- Issue #515 の `CF_AUDIT_CLASSIFIER` は repository variable として `threshold` を既定にする。Issue #549 の Gate-0〜C 通過後のみ production switch PR で `ml` に変更する。`ML_MODEL_PATH` は `op://Employee/ubm-hyogo-env/CF_AUDIT_ML_MODEL_PATH_PROD` を正本参照とし、docs / logs / PR body には解決値を残さない。Issue #587 の artifact rotation では `CF_AUDIT_ML_MODEL_PATH_CANDIDATE` と `CF_AUDIT_ML_MODEL_PATH_PREVIOUS` を op 参照名として扱い、candidate / previous の解決値を保存しない。`CF_AUDIT_REDACT_SECRET` は feature export Gate 後に設定し、ML-ready abstraction では secret 値を要求しない。
 
 ### Issue #514 Cloudflare Audit Logs cold storage R2 export Secret（2026-05-07）
 
@@ -391,24 +536,20 @@ UT-27 で導入する GitHub 側 CD 値は、**1Password Environments を正本�
 
 | 名前 | 種別 | 配置先 | 正本 |
 | --- | --- | --- | --- |
-| `CF_TOKEN_D1_STAGING` / `CF_TOKEN_D1_PRODUCTION` | Secret | GitHub environment secrets (`staging` / `production`) | 1Password |
-| `CF_TOKEN_WORKERS_STAGING` / `CF_TOKEN_WORKERS_PRODUCTION` | Secret | GitHub environment secrets (`staging` / `production`) | 1Password |
-| `CF_TOKEN_PAGES_STAGING` / `CF_TOKEN_PAGES_PRODUCTION` | Secret | GitHub environment secrets (`staging` / `production`) | 1Password |
-| `CLOUDFLARE_API_TOKEN` | Secret | GitHub environment secrets (`staging` / `production`) | Deprecated。24h 並行保持後に削除 |
+| `CLOUDFLARE_API_TOKEN` | Secret | GitHub environment secrets (`staging` / `production`) | Current `backend-ci.yml` and `web-cd.yml` Cloudflare API token name. Value is environment-specific and stored in 1Password |
+| `CF_TOKEN_D1_STAGING` / `CF_TOKEN_D1_PRODUCTION` | Secret | Historical GitHub environment secrets (`staging` / `production`) | Deprecated backend-ci D1 token split names; superseded by PR #847 / `ci-staging-deploy-failure-fix` |
+| `CF_TOKEN_WORKERS_STAGING` / `CF_TOKEN_WORKERS_PRODUCTION` | Secret | Historical GitHub environment secrets (`staging` / `production`) | Deprecated backend-ci Workers token split names; superseded by PR #847 / `ci-staging-deploy-failure-fix` |
+| `CF_TOKEN_PAGES_STAGING` / `CF_TOKEN_PAGES_PRODUCTION` | Secret | Historical GitHub environment secrets (`staging` / `production`) | Deprecated Pages references only; not referenced by current `web-cd.yml` |
 | `CLOUDFLARE_ACCOUNT_ID` | Variable | GitHub repository variable | 1Password（識別子として管理、GitHub では非 Secret） |
 | `DISCORD_WEBHOOK_URL` | Secret | GitHub repository secret | 1Password |
-| `CLOUDFLARE_PAGES_PROJECT` | Variable | GitHub repository variable | UT-28 の Pages project 名 |
+| `CLOUDFLARE_PAGES_PROJECT` | Variable | GitHub repository variable | Deleted by Issue #638; rollback POST requires separate user approval marker |
+| `CLOUDFLARE_PAGES_PROJECT` | Variable | GitHub repository variable | Deprecated historical UT-28 Pages project name; current `web-cd.yml` must not read it |
 
 ### 手動同期パターン
 
 ```bash
-for ENV in staging production; do
-  for SCOPE in D1 WORKERS PAGES; do
-    SECRET_NAME="CF_TOKEN_${SCOPE}_${ENV^^}"
-    op read "op://UBM-Hyogo/Cloudflare/${SECRET_NAME}" \
-      | gh secret set "$SECRET_NAME" --env "$ENV" --repo daishiman/UBM-Hyogo
-  done
-done
+gh secret set CLOUDFLARE_API_TOKEN --env staging --repo daishiman/UBM-Hyogo
+gh secret set CLOUDFLARE_API_TOKEN --env production --repo daishiman/UBM-Hyogo
 ```
 
 要件:
@@ -416,7 +557,7 @@ done
 - 値は一時環境変数にのみ置き、ファイル化しない。
 - `--body "実値"` のように shell history に残る書き方を禁止する。
 - repository-scoped と environment-scoped の同名併存は、意図がある場合を除き drift として扱う。
-- Cloudflare API Token は Pages Edit / Workers Scripts Edit / D1 Edit / Account Settings Read の最小スコープにする。
+- Cloudflare API Token は current consumers に必要な Workers Scripts Edit / D1 Edit / Account Settings Read の最小スコープにする。
 - 同期後は 1Password Item Notes に Last-Updated 日時だけを記録し、値ハッシュは記録しない。
 
 ### rollback 経路
@@ -433,28 +574,71 @@ done
 
 ## U-FIX-CF-ACCT-01-DERIV-02: Cloudflare deploy token split
 
-2026-05-06 以降、GitHub Actions の Cloudflare deploy token は単一 `CLOUDFLARE_API_TOKEN` ではなく、用途と環境で分けた 6 Secret を正本とする。
+2026-05-20 `ci-staging-deploy-failure-fix` 以降、current `backend-ci.yml` と `web-cd.yml` は GitHub Environment `CLOUDFLARE_API_TOKEN` を正本名として使う。staging / production の値は environment ごとに分離し、token scope は D1:Edit + Workers Scripts:Edit + Account Settings:Read に限定する。2026-05-16 Issue #718 の `CF_TOKEN_D1_*` / `CF_TOKEN_WORKERS_*` split は historical contract として残すが、current runtime consumer ではない。
 
 | Secret | Scope | GitHub environment | Consumer |
 | --- | --- | --- | --- |
-| `CF_TOKEN_D1_STAGING` | `D1:Edit`, `Account Settings:Read` | `staging` | `backend-ci.yml` D1 migration |
-| `CF_TOKEN_D1_PRODUCTION` | `D1:Edit`, `Account Settings:Read` | `production` | `backend-ci.yml` D1 migration |
-| `CF_TOKEN_WORKERS_STAGING` | `Workers Scripts:Edit`, `Account Settings:Read` | `staging` | `backend-ci.yml` Workers deploy |
-| `CF_TOKEN_WORKERS_PRODUCTION` | `Workers Scripts:Edit`, `Account Settings:Read` | `production` | `backend-ci.yml` Workers deploy |
-| `CF_TOKEN_PAGES_STAGING` | `Cloudflare Pages:Edit`, `Account Settings:Read` | `staging` | `web-cd.yml` Pages deploy |
-| `CF_TOKEN_PAGES_PRODUCTION` | `Cloudflare Pages:Edit`, `Account Settings:Read` | `production` | `web-cd.yml` Pages deploy |
+| `CLOUDFLARE_API_TOKEN` | `D1:Edit`, `Workers Scripts:Edit`, `Account Settings:Read` | `staging` / `production` | Current `backend-ci.yml` D1 migration + Workers deploy and `web-cd.yml` deploy |
+| `CF_TOKEN_D1_STAGING` | `D1:Edit`, `Account Settings:Read` | `staging` | Historical backend-ci D1 migration name; not referenced by current `backend-ci.yml` |
+| `CF_TOKEN_D1_PRODUCTION` | `D1:Edit`, `Account Settings:Read` | `production` | Historical backend-ci D1 migration name; not referenced by current `backend-ci.yml` |
+| `CF_TOKEN_WORKERS_STAGING` | `Workers Scripts:Edit`, `Account Settings:Read` | `staging` | Historical backend-ci Workers deploy name; not referenced by current `backend-ci.yml` |
+| `CF_TOKEN_WORKERS_PRODUCTION` | `Workers Scripts:Edit`, `Account Settings:Read` | `production` | Historical backend-ci Workers deploy name; not referenced by current `backend-ci.yml` |
+| `CF_TOKEN_PAGES_STAGING` | `Cloudflare Pages:Edit`, `Account Settings:Read` | `staging` | Deprecated Pages target; not referenced by current `web-cd.yml` |
+| `CF_TOKEN_PAGES_PRODUCTION` | `Cloudflare Pages:Edit`, `Account Settings:Read` | `production` | Deprecated Pages target; not referenced by current `web-cd.yml` |
+| `CF_TOKEN_PAGES_STAGING` | `Cloudflare Pages:Edit`, `Account Settings:Read` | `staging` | Deprecated historical Pages deploy token |
+| `CF_TOKEN_PAGES_PRODUCTION` | `Cloudflare Pages:Edit`, `Account Settings:Read` | `production` | Deprecated historical Pages deploy token |
 
-`CLOUDFLARE_API_TOKEN` is deprecated for deploy workflows. It may remain during the 24h parallel window after production success, then must be revoked in Cloudflare and removed from GitHub Secrets. Evidence must not include token values, value hashes, or token previews.
+`CLOUDFLARE_API_TOKEN` is the current environment-scoped deploy token name for both backend and web deploy workflows until a future OIDC cutover replaces direct token injection. Evidence must not include token values, value hashes, token IDs, suffixes, account IDs, token previews, or 1Password URIs.
+
+PR #847 and `ci-staging-deploy-failure-fix` keep backend-ci D1 / Workers wrangler-action steps on `secrets.CLOUDFLARE_API_TOKEN` for both staging and production, passing the same environment-scoped secret through `with.apiToken` and step-level `env.CLOUDFLARE_API_TOKEN`. This is not a second credential source; missing GitHub environment secrets still fail closed and require operator evidence via `gh secret list --env <env>`.
+
+`task-alert-relay-global-scope-fix-001` adds a local-only exception for the
+operator's current 1Password layout: `scripts/cf.sh deploy --env staging` reads
+`CLOUDFLARE_API_TOKEN_STAGING`, and `--env production` reads
+`CLOUDFLARE_API_TOKEN_PRODUCTION`, from `Employee/ubm-hyogo-env`. The wrapper
+maps either field to the child `CLOUDFLARE_API_TOKEN` variable before invoking
+wrangler. CI, wrangler-action, and production workflow files must continue using
+the environment-scoped GitHub secret name `CLOUDFLARE_API_TOKEN`.
+
+Issue #718 legacy token revocation remains historical context as of 2026-05-16. Current `backend-ci.yml` no longer uses `CF_TOKEN_D1_*` / `CF_TOKEN_WORKERS_*`; `CLOUDFLARE_API_TOKEN_DEPLOY_*` is not introduced. Both `backend-ci.yml` and `web-cd.yml` keep the current runtime secret name `CLOUDFLARE_API_TOKEN`; whether its value is legacy is operator-only evidence. Token id, suffix, account id, value hash, token preview, and 1Password URI must not be written to docs, logs, PR body, or evidence.
+
+### Issue #765 1Password op:// path consolidation contract
+
+Issue #765 is `spec_created_blocked_by_oidc_support / implementation / NON_VISUAL` as of 2026-05-18. Until Cloudflare OIDC deploy support and production cutover evidence exist, `web-cd.yml` continues to use the GitHub environment secret name `CLOUDFLARE_API_TOKEN`; only the 1Password path contract is formalized here.
+
+The canonical future `op://UBM-Hyogo/Cloudflare/api_token_staging` /
+`api_token_production` paths remain pending Gate-B user-gated mutation. Until
+that migration occurs, the local wrapper may read the current operator layout
+(`Employee/ubm-hyogo-env` field labels `CLOUDFLARE_API_TOKEN_STAGING` /
+`CLOUDFLARE_API_TOKEN_PRODUCTION`) and normalize it to child-env
+`CLOUDFLARE_API_TOKEN`. Do not use those field labels as GitHub Actions secret
+names.
+
+| op:// path | Role | Runtime status | Consumer |
+| --- | --- | --- | --- |
+| `op://UBM-Hyogo/Cloudflare/api_token_staging` | canonical path | pending Gate-B user-gated mutation | local `.env` / staging deploy token reference |
+| `op://UBM-Hyogo/Cloudflare/api_token_production` | canonical path | pending Gate-B user-gated mutation | local `.env` / production deploy token reference |
+| legacy Cloudflare deploy-token op:// paths | deprecated (#765, 2026-05-18) | archive pending; physical delete is Gate B' | historical/operator-only references |
+
+WAF operations use `op://UBM-Hyogo/Cloudflare-WAF/api_token_waf` and are not deploy-token canonical paths. Evidence must remain path-only and must not include token values, token previews, suffixes, account IDs, value hashes, or resolved 1Password URIs.
 
 ## 変更履歴
 
 | 日付 | バージョン | 変更内容 |
 | ---- | ---------- | -------- |
-| 2026-05-07 | 1.3.1 | Issue #514 Cloudflare Audit Logs cold storage R2 export の `CF_AUDIT_R2_TOKEN_PROD` と `UBM_AUDIT_COLD_STORAGE` 境界を追加。監視 Token / deploy Token と分離し、G1-G4 approval order を固定 |
-| 2026-05-06 | 1.3.0 | U-FIX-CF-ACCT-01-DERIV-02: Cloudflare deploy token を D1 / Workers / Pages x staging / production の 6 Secret へ分割。旧 `CLOUDFLARE_API_TOKEN` は 24h 並行保持後に失効する deprecated secret として扱う。 |
-| 2026-04-29 | 1.2.0 | UT-27: GitHub Secrets / Variables の 1Password 正本・派生コピー運用、一時環境変数 + unset パターン、Last-Updated メモ運用を追記 |
-| 2026-05-06 | 1.3.0 | Issue #408 Cloudflare Audit Logs monitoring の `CF_AUDIT_TOKEN_PROD` を `spec_created / runtime pending` として追加。deploy token と監視 token の名前・scope・rotation 分離を正本化 |
+| 2026-05-21 | 1.4.7 | `task-alert-relay-global-scope-fix-001` を同期。local `scripts/cf.sh deploy --env staging\|production` は `Employee/ubm-hyogo-env` の `CLOUDFLARE_API_TOKEN_STAGING` / `CLOUDFLARE_API_TOKEN_PRODUCTION` を読み、child env `CLOUDFLARE_API_TOKEN` として wrangler に渡す。CI / wrangler-action の正本 secret 名は引き続き environment-scoped `CLOUDFLARE_API_TOKEN`。 |
+| 2026-05-20 | 1.4.6 | `ci-staging-deploy-failure-fix` を同期。current `backend-ci.yml` / `web-cd.yml` は GitHub Environment `CLOUDFLARE_API_TOKEN` を正本名として使い、`CF_TOKEN_D1_*` / `CF_TOKEN_WORKERS_*` は historical split names として扱う。staging / production token 値は environment ごとに分離し、D1:Edit + Workers Scripts:Edit + Account Settings:Read に限定する。 |
+| 2026-05-18 | 1.4.5 | issue-765: 1Password Cloudflare deploy-token op:// path consolidation を `spec_created_blocked_by_oidc_support` として同期。canonical path は `op://UBM-Hyogo/Cloudflare/api_token_staging` / `op://UBM-Hyogo/Cloudflare/api_token_production`、legacy deploy-token path は `deprecated (#765, 2026-05-18)`。actual archive / `cf.sh whoami` / physical delete は user-gated。 |
+| 2026-05-18 | 1.4.5 | PR #795 residual CI recovery を同期。backend-ci の scoped D1 / Workers token は `with.apiToken` と step-level `env.CLOUDFLARE_API_TOKEN` の両方に同じ secret を渡す action compatibility pattern として正本化し、独立 fallback ではない境界を明記。`CLOUDFLARE_API_TOKEN` の backend-ci current runtime 誤記を撤回。 |
+| 2026-05-16 | 1.4.4 | Issue #718 legacy Cloudflare API token revocation workflow を `implemented-local-runtime-pending` として同期。backend-ci は `CF_TOKEN_D1_*` / `CF_TOKEN_WORKERS_*` へ切替済み、web-cd は current runtime 名 `CLOUDFLARE_API_TOKEN` を維持し value provenance を operator-only evidence とする。`CLOUDFLARE_API_TOKEN_DEPLOY_*` 新設は禁止。 |
+| 2026-05-10 | 1.4.3 | Issue #587 rotation scripts (`scripts/cf-audit-log/rotation/`) と canary workflow (`.github/workflows/cf-audit-log-artifact-canary.yml`) が op 参照名のみを受理することを正本化。candidate/previous resolved value を inputs / logs / artifact upload に残さない境界を実装で固定 |
+| 2026-05-16 | 1.4.4 | Issue #717 Cloudflare Workers OIDC support revalidation を同期。公式 Workers GitHub Actions / wrangler-action docs は API token 認証を案内しており、supported OIDC deploy path が確認できないため `web-cd.yml` は no-code。Issue #640 step-scoped `CLOUDFLARE_API_TOKEN` boundary を current contract として維持し、production cutover / apps-api D1 cutover / 1Password restructure は blocked follow-up 化 |
+| 2026-05-10 | 1.4.2 | Issue #587 Cloudflare Audit Logs ML model artifact rotation の candidate / previous op 参照名を追加。resolved artifact path を docs / logs / PR body に残さない境界を正本化 |
+| 2026-05-09 | 1.4.1 | CI recovery task-01: web-cd の deploy secret 正本名を environment-scoped `CLOUDFLARE_API_TOKEN` へ同期。`CF_TOKEN_WORKERS_*` は backend-ci Workers deploy 用として維持し、web-cd では使用しない境界へ補正。 |
+| 2026-05-10 | 1.4.1 | task-02 close-out: 配置 runbook 入口を `docs/30-workflows/ci-secret-alignment-and-runtime-smoke-recovery/runbooks/secret-provisioning.md`、推奨実行経路を `scripts/smoke/provision-staging-secrets.sh` として分離。workflow early-fail は smoke 本体必須 4 secret、Slack は failure summary post step の fail-closed guard が担当する境界へ補正 |
+| 2026-05-09 | 1.4.0 | CI recovery wave: Issue #571 staging runtime smoke 節に「Environment 作成済み・secret 0 件問題」の pre-flight 検証 pattern を追加。`scripts/smoke/provision-staging-secrets.sh` を canonical 投入経路、`gh secret list --json name -q` を name-only inventory として正本化し、`${VAR:?}` 連鎖失敗の抑止経路を明記 |
+| 2026-05-07 | 1.3.1 | Issue #518 Cloudflare Audit Logs HOLD を反映。監視 secret は保持するが、schedule 自動監視と watchdog は停止し、手動確認時のみ利用する |
+| 2026-05-06 | 1.3.0 | U-FIX-CF-ACCT-01-DERIV-02: Cloudflare deploy token を D1 / Workers / Pages x staging / production の 6 Secret へ分割（旧 `CLOUDFLARE_API_TOKEN` は 24h 並行保持後に失効する deprecated secret として扱う）。Issue #408 Cloudflare Audit Logs monitoring の `CF_AUDIT_TOKEN_PROD` を `spec_created / runtime pending` として追加し、deploy token と監視 token の名前・scope・rotation 分離を正本化 |
+| 2026-04-29 | 1.2.0 | UT-27: GitHub Secrets / Variables の 1Password 正本・派生コピー運用、一時環境変数 + unset パターン、Last-Updated メモ運用を追記。UT-25: `GOOGLE_SERVICE_ACCOUNT_JSON` を apps/api Workers Secret 正本名として追加し、`scripts/cf.sh` + stdin 投入 / staging-first / rollback / legacy alias 境界を明文化 |
+| 2026-04-27 | 1.1.0 | UT-06 派生: `scripts/cf.sh` を 1Password / esbuild / mise 統合の canonical wrapper として明文化（`wrangler login` ローカル OAuth トークン保持禁止と `op://` 参照経由の動的注入を必須化）。UT-08 モニタリング系 Secret セクション追加 |
 | 2026-04-09 | 1.0.0 | 初版作成（Cloudflare/GitHub 2層シークレット管理） |
-| 2026-04-27 | 1.1.0 | UT-06 派生: `scripts/cf.sh` を 1Password / esbuild / mise 統合の canonical wrapper として明文化。`wrangler login` ローカル OAuth トークン保持禁止と `op://` 参照経由の動的注入を必須化 |
-| 2026-04-27 | 1.1.0 | UT-08 モニタリング系 Secret セクション追加 |
-| 2026-04-29 | 1.2.0 | UT-25: `GOOGLE_SERVICE_ACCOUNT_JSON` を apps/api Workers Secret 正本名として追加し、`scripts/cf.sh` + stdin 投入 / staging-first / rollback / legacy alias 境界を明文化 |

@@ -6,7 +6,16 @@
     "jsx": "preserve",
     "noEmit": true,
     "plugins": [{ "name": "next" }],
-    "types": ["node"]
+    "types": ["node"],
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"],
+      "@ubm-hyogo/shared": ["../../packages/shared/src/index.ts"],
+      "@ubm-hyogo/shared/errors": ["../../packages/shared/src/errors.ts"],
+      "@ubm-hyogo/shared/logging": ["../../packages/shared/src/logging.ts"],
+      "@ubm-hyogo/integrations": ["../../packages/integrations/src/index.ts"],
+      "@ubm-hyogo/integrations-google": ["../../packages/integrations/google/src/index.ts"]
+    }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "../../packages/shared/src/**/*.ts"],
   "exclude": ["node_modules"]

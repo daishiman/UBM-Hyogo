@@ -59,3 +59,37 @@ jq '.metadata.workflow_state' docs/30-workflows/completed-tasks/<category>/<issu
   - 移動前: `docs/30-workflows/02-application-implementation/09b-A-observability-sentry-slack-runtime-smoke/`
   - 移動後: `docs/30-workflows/completed-tasks/observability/issue-502-dlq-monitoring-dashboard/`
   - Issue は CLOSED 維持、PR は `Refs #502` で連結
+
+## 親アーカイブパス整合性チェック（2026-05-10 e2e-quality-uplift stage-3 由来）
+
+`completed-tasks/` 配下に **親 workflow（umbrella / stage / wave 単位）** と **子 sub-workflow** が同時に存在する場合、移動後に親 → 子の path 整合が drift しやすい。Phase 12 close-out / 移動 wave で次のチェックを必須化する。
+
+### 不変条件
+
+- 親 workflow が `completed-tasks/<category>/<parent-id>/` に移動した時点で、子 sub-workflow も同 wave で `completed-tasks/<category>/<parent-id>/<sub-id>/` または `completed-tasks/<category>/<sub-id>/` に揃える
+- 親 `index.md` / `artifacts.json` 内の sub-workflow path（`outputs/`、`sub-tasks/`、参照リンク）は **移動後の絶対 / 相対 path を再計算**して書き換える
+- aiworkflow-requirements `task-workflow-active.md` / `legacy-ordinal-family-register.md` / 関連 register に残る旧 path も同 wave で更新
+- 親と子のどちらか一方だけを移動して他方を `docs/30-workflows/` 直下に残すことを禁止する（孤児化検出 FAIL）
+
+### 検証コマンド
+
+```bash
+# 親 workflow 配下の子 path が壊れていないか
+PARENT="docs/30-workflows/completed-tasks/<category>/<parent-id>"
+test -d "${PARENT}"
+rg -n "docs/30-workflows/(?!completed-tasks/)" "${PARENT}/index.md" "${PARENT}/artifacts.json" \
+  && echo "FAIL: 旧 path が親アーカイブに残存" || echo "OK"
+
+# 子 sub-workflow が同 wave で移動済か
+rg -n "<parent-id>/<sub-id>" docs/30-workflows/ .claude/skills/aiworkflow-requirements/ \
+  | grep -v "completed-tasks/<category>/<parent-id>/" && echo "FAIL: stale parent path" || echo "OK"
+```
+
+### FAIL 判定
+
+| パターン | 判定 | 修復 |
+| --- | --- | --- |
+| 親が completed-tasks/ に移動済みだが子が `docs/30-workflows/<old-parent>/<sub>/` に残存 | FAIL | 子を同 wave で移動。aiworkflow register も同期 |
+| 親 `index.md` の sub-workflow リンクが旧 relative path のまま | FAIL | 移動後 path で書き換え |
+| 親 `artifacts.json.metadata.sub_workflows[]` に旧 path が残る | FAIL | metadata を update。`workflow_state` は据え置き |
+| aiworkflow `task-workflow-active.md` / register に旧 path が残る | FAIL | 同 wave で path 更新

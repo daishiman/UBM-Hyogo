@@ -1,6 +1,7 @@
 // 06c: /admin/meetings 開催日 + attendance
 // 不変条件 #15: attendance 候補は !isDeleted のみ。重複 POST は disabled / 422 toast
 import type { AdminMemberListView } from "@ubm-hyogo/shared";
+import { Breadcrumb } from "@/components/admin/Breadcrumb";
 import { fetchAdmin } from "../../../../src/lib/admin/server-fetch";
 import { MeetingPanel } from "../../../../src/components/admin/MeetingPanel";
 import type { MeetingsListView } from "../../../../src/components/admin/MeetingPanel";
@@ -16,5 +17,10 @@ export default async function AdminMeetingsPage() {
   const candidates = members.members
     .filter((m) => !m.isDeleted)
     .map((m) => ({ memberId: m.memberId, fullName: m.fullName }));
-  return <MeetingPanel meetings={meetings} candidates={candidates} />;
+  return (
+    <section className="flex flex-col gap-4">
+      <Breadcrumb items={[{ label: "管理", href: "/admin" }, { label: "開催日 / 出席管理" }]} />
+      <MeetingPanel meetings={meetings} candidates={candidates} />
+    </section>
+  );
 }

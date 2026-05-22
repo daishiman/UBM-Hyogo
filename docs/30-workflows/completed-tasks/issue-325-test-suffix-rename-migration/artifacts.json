@@ -1,0 +1,80 @@
+{
+  "metadata": {
+    "task_id": "issue-325-test-suffix-rename-migration",
+    "task_name": "既存 *.test.ts → suffix 規約 (*.contract.spec.ts / *.authz.spec.ts / *.repository.spec.ts / *.spec.ts) 段階的 rename",
+    "parent_issue": "https://github.com/daishiman/UBM-Hyogo/issues/325",
+    "parent_issue_state": "CLOSED",
+    "parent_unassigned_task": "docs/30-workflows/unassigned-task/UT-08A-06-test-suffix-rename-migration.md",
+    "created_date": "2026-05-09",
+    "workflow_state": "implementation_completed",
+    "taskType": "implementation",
+    "implementation_mode": "refactor-rename-only",
+    "visualEvidence": "NON_VISUAL",
+    "priority": "low",
+    "scale": "medium",
+    "expected_pr_count": 1,
+    "coverage_ac": "not_applicable",
+    "rename_target_count": 132,
+    "rename_classification": {
+      "contract": 41,
+      "authz": 4,
+      "repository": 38,
+      "unit": 49
+    },
+    "spec_path": "docs/30-workflows/issue-325-test-suffix-rename-migration/",
+    "branch": "docs/issue-325-test-suffix-rename-spec",
+    "issue_link_directive": "Refs #325 (do not use Closes)"
+  },
+  "phases": [
+    { "id": 1, "name": "要件定義 / Gate 整理 / 真の論点", "status": "completed", "output": "phase-01.md" },
+    { "id": 2, "name": "既存実装調査 / fixed list 凍結 / 命名衝突調査", "status": "completed", "output": "phase-02.md" },
+    { "id": 3, "name": "設計 / suffix 分類ルール / glob 移行戦略", "status": "completed", "output": "phase-03.md" },
+    { "id": 4, "name": "I/O 契約 / rename mapping CSV / 件数 snapshot 契約", "status": "completed", "output": "phase-04.md" },
+    { "id": 5, "name": "データモデル / fixed list 正規化 / config glob 表現", "status": "completed", "output": "phase-05.md" },
+    { "id": 6, "name": "関数シグネチャ・rename 実行スクリプト擬似コード", "status": "completed", "output": "phase-06.md" },
+    { "id": 7, "name": "整合性検証 / 08a 規約 / vitest / lefthook / CI", "status": "completed", "output": "phase-07.md" },
+    { "id": 8, "name": "エラーハンドリング / 命名衝突 / glob 漏れ / git mv 競合", "status": "completed", "output": "phase-08.md" },
+    { "id": 9, "name": "テスト計画 / rename script 単体 / glob coverage grep / smoke", "status": "completed", "output": "phase-09.md" },
+    { "id": 10, "name": "デプロイ・rollback / PR commit 戦略", "status": "completed", "output": "phase-10.md" },
+    { "id": 11, "name": "実行 evidence", "status": "completed", "output": "outputs/phase-11/main.md" },
+    { "id": 12, "name": "実装ガイド・ADR・SSOT 同期・未タスク・skill feedback", "status": "completed", "output": "outputs/phase-12/" },
+    { "id": 13, "name": "PR 作成（Refs #325）", "status": "pending", "output": "outputs/phase-13/main.md" }
+  ],
+  "acceptance_criteria": [
+    "AC-1: 132 ファイル全件 suffix 規約に基づき rename 済み（fixed list と完全一致）",
+    "AC-2: rename は git mv のみ・test 内容変更ゼロ",
+    "AC-3: rename 後 pnpm --filter @ubm-hyogo/api test green / 件数同一",
+    "AC-4: *.test.ts + *.spec.ts 合計 = 132（rename 前と同一）",
+    "AC-5: 残存 *.test.ts = 0",
+    "AC-6: suffix 内訳 = fixed list と一致",
+    "AC-7: vitest / package.json / lefthook / CI workflow の glob 網羅",
+    "AC-8: pnpm typecheck exit 0",
+    "AC-9: pnpm lint exit 0",
+    "AC-10: suffix 規約 ADR (outputs/phase-12/test-file-suffix-adr.md) 存在",
+    "AC-11: Phase 12 strict 7 files（main.md + 6 補助ファイル）存在 + ADR 存在",
+    "AC-12: PR 本文に Refs #325 を含む（Closes 禁止）"
+  ],
+  "scope_in": [
+    "apps/api/src/**/*.test.ts 132 ファイル全件 git mv rename",
+    "vitest.config.ts / package.json / lefthook.yml / .github/workflows/*.yml の glob 同期",
+    "suffix 規約 ADR の確定（outputs/phase-12/test-file-suffix-adr.md）"
+  ],
+  "scope_out": [
+    "apps/web/src/**/*.test.ts の rename（別 task）",
+    "packages/**/*.test.ts の rename（別 task）",
+    "test 内容の修正・追加・削除（rename PR と絶対に混在させない）",
+    "E2E spec の rename（既に *.spec.ts 命名）",
+    "vitest 以外の test runner 設定",
+    "TypeScript path mapping 変更",
+    "coverage 閾値変更"
+  ],
+  "dependencies": {
+    "upstream": [
+      "docs/30-workflows/completed-tasks/08a-parallel-api-contract-repository-and-authorization-tests/",
+      "docs/30-workflows/unassigned-task/UT-08A-06-test-suffix-rename-migration.md"
+    ],
+    "downstream_tasks": [
+      "なし（Issue #325 / UT-08A-06 の責務は apps/api の既存 follow-up 消化に限定）"
+    ]
+  }
+}

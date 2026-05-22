@@ -1,7 +1,7 @@
 import { mkdir, writeFile } from 'node:fs/promises'
 import { fileURLToPath } from 'node:url'
 import path from 'node:path'
-import { expect, test } from '@playwright/test'
+import { expect, test } from '../fixtures/coverage'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const taskRoot = path.resolve(

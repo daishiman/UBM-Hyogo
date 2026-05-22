@@ -1,0 +1,15 @@
+{
+  "taskId": "admin-tags-queue-resolver-drawer",
+  "capturedAt": "2026-05-17T14:28:00+09:00",
+  "viewport": "1280x800",
+  "command": "PLAYWRIGHT_TASK18_SMOKE=1 PLAYWRIGHT_EVIDENCE_DIR=../../docs/30-workflows/admin-tags-queue-resolver-drawer/outputs/phase-11 PLAYWRIGHT_SCREENSHOT_DIR=../../docs/30-workflows/admin-tags-queue-resolver-drawer/outputs/phase-11/screenshots PLAYWRIGHT_LOG_DIR=../../docs/30-workflows/admin-tags-queue-resolver-drawer/outputs/phase-11/logs pnpm --filter @ubm-hyogo/web exec playwright test playwright/tests/admin-tags-resolve-drawer.spec.ts --project=desktop-chromium",
+  "result": "PASS",
+  "screenshots": [
+    { "name": "admin-tags-drawer-closed.png", "tc": "drawer closed", "status": "PASS" },
+    { "name": "admin-tags-drawer-confirmed-open.png", "tc": "confirmed open", "status": "PASS" },
+    { "name": "admin-tags-drawer-rejected-open.png", "tc": "rejected open", "status": "PASS" },
+    { "name": "admin-tags-drawer-validation-error.png", "tc": "validation error", "status": "PASS" },
+    { "name": "admin-tags-drawer-terminal-disabled.png", "tc": "terminal disabled", "status": "PASS" }
+  ],
+  "axeViolations": 0
+}

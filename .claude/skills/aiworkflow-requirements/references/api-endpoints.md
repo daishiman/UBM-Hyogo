@@ -95,16 +95,18 @@ u-04 (`docs/30-workflows/completed-tasks/u-04-serial-sheets-to-d1-sync-implement
 | GET | `/admin/requests` | visibility/delete request の pending queue を `type=visibility_request|delete_request`, `status=pending`, cursor pagination で FIFO 一覧する | Auth.js JWT + `requireAdmin` |
 | POST | `/admin/requests/:noteId/resolve` | admin request を approve/reject する。approve は `member_status` 更新、`admin_member_notes.request_status` 更新、`audit_log` append を D1 batch で同一 workflow 境界に置き、二重 resolve は 409。Issue #401 実装後は batch 完了後に `notification_outbox` へ best-effort enqueue する。enqueue 失敗 / missing recipient は warning のみで resolve を rollback しない | Auth.js JWT + `requireAdmin` |
 | GET | `/admin/tags/queue` | tag assignment queue を一覧する | Auth.js JWT + `requireAdmin` |
-| POST | `/admin/tags/queue/:queueId/resolve` | queue item を `confirmed`（DB/API status: `resolved`）または `rejected` に解決する | Auth.js JWT + `requireAdmin` |
+| POST | `/admin/tags/queue/:queueId/resolve` | queue item を `confirmed`（DB/API status: `resolved`）または `rejected` に解決する。`member_tags.assigned_via_queue_id` は追加せず、queue trace は ADR 0002 に従い `audit_log.target_type='tag_queue'` / `target_id=<queueId>` と `member_tags.source='admin_queue'` で担保する | Auth.js JWT + `requireAdmin` |
 | GET | `/admin/schema/diff` | schema diff queue を一覧する | Auth.js JWT + `requireAdmin` |
 | POST | `/admin/schema/aliases` | question stable key alias を解決する | Auth.js JWT + `requireAdmin` |
 | GET | `/admin/meetings` | meeting sessions と attendance summary（既存出席 memberId）を一覧する | Auth.js JWT + `requireAdmin` |
+| GET | `/admin/meetings/:sessionId` | meeting detail を返す。`sessionId/title/heldOn/candidates/attendees` を含み、candidates は削除済み member も `isDeleted=true` として返す。unknown / soft-deleted meeting は `404 not_found` | Auth.js JWT + `requireAdmin` |
 | POST | `/admin/meetings` | meeting session を作成する | Auth.js JWT + `requireAdmin` |
 | PATCH | `/admin/meetings/:sessionId` | title / heldOn / note / deletedAt を更新する。deletedAt セット時は soft delete として一覧から除外する | Auth.js JWT + `requireAdmin` |
 | POST | `/admin/meetings/:sessionId/attendances` | 06c-E 正本: `{ memberId, attended }` で attendance を追加 / 削除する。`attended=true` の重複は `409 attendance_already_recorded`、unknown member は `404 member_not_found`、削除済み member は `422 member_is_deleted`、session 不在 / soft-deleted meeting は `404 session_not_found` | Auth.js JWT + `requireAdmin` |
 | GET | `/admin/meetings/:sessionId/export.csv` | attendance を `meetingId,heldOn,memberId,displayName,attended` 固定列の CSV で返す。soft-deleted meeting は 404 | Auth.js JWT + `requireAdmin` |
 | GET | `/admin/meetings/:sessionId/attendance/candidates` | attendance 候補を一覧する。session 不在は `404 session_not_found`、削除済み member と登録済み member は除外する | Auth.js JWT + `requireAdmin` |
 | POST | `/admin/meetings/:sessionId/attendance` | attendance を追加する。重複は `409 attendance_already_recorded`、削除済み member は `422 member_is_deleted`、session 不在は `404 session_not_found` | Auth.js JWT + `requireAdmin` |
+| POST | `/admin/meetings/:sessionId/attendance/import?dryRun=true\|false` | UT-07C-FU-001 正本: client CSV parse 済み JSON rows を bulk import する。`dryRun=false` 明示時のみ commit、省略 / typo は dry-run。500 行超過は 413、memberId/email 空 row は row status `invalid`、同一 payload 重複は 2 行目以降 `duplicate_in_payload`。commit は全行 ok のみ D1 batch で `member_attendance` insert + `audit_log.action='attendance.import.add'` を同一境界に投入する | Auth.js JWT + `requireAdmin` |
 | DELETE | `/admin/meetings/:sessionId/attendance/:memberId` | attendance を削除する。row 不在は `404 attendance_not_found` に集約する | Auth.js JWT + `requireAdmin` |
 | GET | `/admin/audit` | `audit_log` を read-only に検索する。`action` / `actorEmail` / `targetType` / `targetId` / UTC `from` `to` / cursor / limit を受け、raw JSON ではなく masked view を返す | Auth.js JWT + `requireAdmin` |
 
@@ -120,6 +122,7 @@ u-04 (`docs/30-workflows/completed-tasks/u-04-serial-sheets-to-d1-sync-implement
 - Issue #401 admin resolve notification は `member_identities.response_email` を宛先として読み、`MAIL_PROVIDER_KEY` / `MAIL_FROM_ADDRESS` 経由で送信する。notification enqueue / dispatch は resolve transaction の外側に置き、raw `resolutionNote` は email / `notification_outbox.reason_summary` / `notification_ledger.detail_json` にコピーしない。mail config 未準備時は claim 前に dispatch を skip し、pending row を保持する。
 - 06c-E UI の attendance add/remove は `/admin/meetings/:sessionId/attendances` の `{ attended }` alias を正本として使う。04c の `/attendance` POST/DELETE route は既存互換 route として維持する。
 - 07c attendance add/remove は `attendance.add` / `attendance.remove` を `target_type='meeting'`, `target_id=<sessionId>` で append し、追加は `after_json`、削除は `before_json` に attendance row を残す。
+- UT-07C-FU-001 attendance CSV import は既存互換 attendance surface の配下に `/attendance/import` を追加する。add/remove UI の plural `/attendances` alias は維持し、bulk import の audit は `attendance.import.add` を成功行ごとに残す。
 - 07c follow-up audit browsing は append-only の閲覧専用で、`before_json` / `after_json` の保存値は変更せず、API projection と UI defense-in-depth で email / phone / address / name 相当キーを表示時 masking する。cursor は `{ createdAt, auditId }` の base64url JSON、order は `created_at DESC, audit_id DESC`。
 - 06c-A follow-up: `/admin/dashboard` は単一 endpoint を維持し（`/admin/dashboard/kpi`・`/admin/dashboard/recent-actions` の split は不採用）、表示時に `audit_log` へ `dashboard.view` を append する。`recentActions` は `dashboard.view` を除外フィルタし KPI / 最近の作業の自己ループを防ぐ。
 
@@ -137,10 +140,11 @@ UT-07A-02 close-out で schema 正本は `packages/shared/src/schemas/admin/tag-
 
 07b schema alias workflow close-out:
 
-- `GET /admin/schema/diff` は `items[].recommendedStableKeys: string[]` を返す。候補は既存 `schema_questions.stable_key` から、label の Levenshtein 距離 + section / position 一致スコアで上位 5 件を提示する。
+- `GET /admin/schema/diff` は `items[].recommendedStableKeys: string[]` を返す。候補は既存 `schema_questions.stable_key` から、label を `NFKC + trim + whitespace 圧縮` で比較前処理した Levenshtein 距離 + section / position 一致スコアで上位 5 件を提示する。response shape は `string[]` のまま維持する。
 - `POST /admin/schema/aliases?dryRun=true` は書き込みを行わず、`affectedResponseFields` / `currentStableKeyCount` / `conflictExists` を返す。dry-run では `audit_log` も追記しない。
 - `POST /admin/schema/aliases` apply mode は `schema_aliases` へ manual alias を INSERT し、任意 `diffId` の `schema_diff_queue` resolve、`response_fields.stable_key='__extra__:<questionId>'` の back-fill、`audit_log.action='schema_diff.alias_assigned'` 追記を同じ workflow 境界で実行する。`schema_questions.stable_key` は fallback 期間の参照互換として残し、manual alias の主 write target には戻さない。
-- collision は同一 `revision_id` 内の別 `question_id` が同じ stableKey を持つ場合に `409 stable_key_collision` を返す。body validation は `422`、diff 不在は `404`、diff と request question mismatch は `409`。
+- `stableKey` は `/^[a-zA-Z][a-zA-Z0-9_]*$/` に一致する必要がある。UI も同じ regex で client-side validation し、input `pattern` / `aria-invalid` / validation alert `aria-describedby` を接続する。
+- collision は同一 `revision_id` 内の別 `question_id` が同じ stableKey を持つ場合に `422 stable_key_collision` + `existingQuestionIds` を返す。既存 alias conflict は `409` + `existingStableKey`、body validation は `422`、diff 不在は `404`、diff と request question mismatch は `409`。
 - back-fill は batch 100 / CPU budget 25s を上限とし、`deleted_members` に紐づく `member_identities.current_response_id` は対象外にする。既に同 response に新 stableKey 行がある場合は extra 行を削除して冪等性を保つ。CPU budget exhausted は HTTP 202 + retryable body とし、`backfill.status='exhausted'`、`code='backfill_cpu_budget_exhausted'`、`retryable=true`、`queueStatus='resolved'` を返す。`schema_diff_queue.backfill_status` / `backfill_cursor` は continuation 状態を保持し、`exhausted` / `in_progress` / `failed` の diff は再実行対象として一覧可能にする。
 
 ### 認証セッション解決 API（apps/api / 05a）
@@ -184,10 +188,10 @@ Auth.js session cookie は 05a で共有 HS256 JWT に固定し、`packages/shar
 | --- | --- | --- | --- | --- |
 | GET | `/public/stats` | 公開 KPI、zone / membership breakdown、今年の支部会数、直近支部会、schema / response sync 状態 | 不要 | `public, max-age=60` |
 | GET | `/public/members` | 公開会員一覧。`q / zone / status / tag / sort / density / page / limit` を受け付ける | 不要 | `no-store` |
-| GET | `/public/members/:memberId` | 公開会員プロフィール。公開同意・公開状態・未削除を満たさない member は 404 | 不要 | `no-store` |
+| GET | `/public/members/:memberId` | 公開会員プロフィール。公開同意・公開状態・未削除を満たさない member は 404。`attendanceProviderMiddleware` / `RepositoryProviderVariables` 経由で attendance provider を bind し、公開適格判定後に `attendance: AttendanceRecord[]` と optional `attendanceMeta` を返す | 不要 | `no-store` |
 | GET | `/public/form-preview` | `schema_questions` 由来のフォームプレビューと responder URL | 不要 | `public, max-age=60` |
 
-公開 member の基本条件は `public_consent='consented' AND publish_state='public' AND is_deleted=0`。profile / list response は `responseEmail` / `rulesConsent` / `adminNotes` を含めない。`/public/members` の `tag` は repeated query を AND 条件として扱い、`limit` は 1〜100 に clamp する。
+公開 member の基本条件は `public_consent='consented' AND publish_state='public' AND is_deleted=0`。profile / list response は `responseEmail` / `rulesConsent` / `adminNotes` を含めない。`GET /public/members/:memberId` の attendance は `member_attendance` と active `meeting_sessions`（`meeting_sessions.deleted_at IS NULL`）を `session_id` で INNER JOIN した `AttendanceRecord[]`（`sessionId`, `title`, `heldOn`）に限定し、soft-deleted meeting、member-only / admin-only field、audit 情報は返さない。非公開 member の attendance 有無は 404 経路で漏らさない。`/public/members` の `tag` は repeated query を AND 条件として扱い、`limit` は 1〜100 に clamp する。
 
 `GET /admin/smoke/sheets` は UT-26 の NON_VISUAL smoke route。`GOOGLE_SHEETS_SA_JSON` / `SHEETS_SPREADSHEET_ID` を読み取り専用で使い、2 回連続 `fetchRange()` の間に OAuth token fetch が 1 回だけであることを `tokenFetchesDuringSmoke=1` として返す。`range` query は 80 文字以内の単一 A1 range のみ許可する。
 

@@ -84,14 +84,14 @@ Slack workspace への不可逆 SaaS 操作（`#ubm-hyogo-incidents` channel 作
 - inviter / creator (Slack user display name のみ・workspace token 記載禁止):
 - incoming webhook 発行日時 (ISO8601):
 - webhook URL: <provisioned> (1Password 参照のみ・実値記載禁止)
-- 1Password item path: op://UBM-Hyogo/Slack Incident Webhook (production)/url
+- 1Password item path: op://Employee/ubm-hyogo-env/SLACK_WEBHOOK_INCIDENT_PRODUCTION
 - 1Password item 登録 timestamp (ISO8601):
 
 ## G2: 1Password + Cloudflare staging secret 配置
 
 - G2 user approval timestamp (ISO8601): <required>
 - G2 approver (user): <required>
-- 1Password staging item path: op://UBM-Hyogo/Slack Incident Webhook (staging)/url
+- 1Password staging item path: op://Employee/ubm-hyogo-env/SLACK_WEBHOOK_INCIDENT_STAGING
 - 1Password staging item 登録 timestamp:
 - bash scripts/cf.sh secret put SLACK_WEBHOOK_INCIDENT --env staging 実行 timestamp:
 - bash scripts/cf.sh secret list --env staging 出力 (name-only 抜粋):

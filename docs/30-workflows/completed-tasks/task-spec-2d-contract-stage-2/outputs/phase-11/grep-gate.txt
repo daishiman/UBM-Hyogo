@@ -1,0 +1,5 @@
+# grep gate
+## z.object grep
+OK: 0 hits
+## skip grep
+OK: 0 hits

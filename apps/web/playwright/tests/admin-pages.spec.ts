@@ -1,5 +1,5 @@
 // TODO(08b): 実装は Phase 11 manual smoke で活性化
-import { expect } from '@playwright/test'
+import { expect } from '../fixtures/coverage'
 import { test } from '../fixtures/auth'
 import { AdminDashboardPage } from '../page-objects/AdminDashboardPage'
 import { AdminMembersPage } from '../page-objects/AdminMembersPage'
@@ -9,7 +9,7 @@ import { AdminMeetingsPage } from '../page-objects/AdminMeetingsPage'
 
 const ADMIN_PATHS = ['/admin', '/admin/members', '/admin/tags', '/admin/schema', '/admin/meetings']
 
-test.describe.skip('admin pages × 認可境界 (5 画面 × 3 ロール)', () => {
+test.describe('admin pages × 認可境界 (5 画面 × 3 ロール)', () => {
   test('admin: 5 画面すべてアクセス可能 + screenshot', async ({ adminPage }) => {
     const dash = new AdminDashboardPage(adminPage)
     await dash.visit()

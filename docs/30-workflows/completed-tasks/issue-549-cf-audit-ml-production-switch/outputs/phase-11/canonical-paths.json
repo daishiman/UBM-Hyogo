@@ -1,0 +1,82 @@
+{
+  "schemaVersion": "1.0.0",
+  "taskId": "issue-549-cf-audit-ml-production-switch",
+  "workflowDir": "docs/30-workflows/completed-tasks/issue-549-cf-audit-ml-production-switch",
+  "evidence": [
+    {
+      "id": "typecheck",
+      "kind": "typecheck",
+      "path": "outputs/phase-11/evidence/typecheck.log",
+      "command": "mise exec -- pnpm typecheck | tee outputs/phase-11/evidence/typecheck.log",
+      "acquiredBy": "implementation_cycle",
+      "requiredForCloseout": true,
+      "notes": "Known-failure boundary is allowed only when Issue #549 introduced errors are zero."
+    },
+    {
+      "id": "lint",
+      "kind": "lint",
+      "path": "outputs/phase-11/evidence/lint.log",
+      "command": "mise exec -- pnpm lint | tee outputs/phase-11/evidence/lint.log",
+      "acquiredBy": "implementation_cycle",
+      "requiredForCloseout": true
+    },
+    {
+      "id": "focused-tests",
+      "kind": "test",
+      "path": "outputs/phase-11/evidence/test.log",
+      "command": "mise exec -- pnpm vitest run scripts/cf-audit-log/observation/__tests__ scripts/cf-audit-log/__tests__/evaluation.test.ts --reporter=verbose | tee outputs/phase-11/evidence/test.log",
+      "acquiredBy": "implementation_cycle",
+      "requiredForCloseout": true
+    },
+    {
+      "id": "build",
+      "kind": "build",
+      "path": "outputs/phase-11/evidence/build.log",
+      "command": "mise exec -- pnpm build | tee outputs/phase-11/evidence/build.log",
+      "acquiredBy": "implementation_cycle",
+      "requiredForCloseout": false,
+      "notes": "Gate後の実装サイクルで取得する予約path。"
+    },
+    {
+      "id": "grep-gate",
+      "kind": "grep-gate",
+      "path": "outputs/phase-11/evidence/grep-gate.log",
+      "command": "mise exec -- pnpm tsx scripts/cf-audit-log/evaluation/secret-leakage-grep.ts outputs/phase-11/evidence/ --exit-on-detect | tee outputs/phase-11/evidence/grep-gate.log",
+      "acquiredBy": "implementation_cycle",
+      "requiredForCloseout": true
+    },
+    {
+      "id": "hourly-run-7day",
+      "kind": "runtime-observation",
+      "path": "outputs/phase-11/evidence/hourly-run-7day.md",
+      "command": "gh run list --workflow cf-audit-log-monitor.yml --json databaseId,url,conclusion,createdAt",
+      "acquiredBy": "post_merge",
+      "requiredForCloseout": false,
+      "notes": "production env switch merge後7日分のruntime evidence。"
+    },
+    {
+      "id": "fallback-rate-7day",
+      "kind": "runtime-observation",
+      "path": "outputs/phase-11/evidence/fallback-rate-7day.json",
+      "command": "scripts/cf-audit-log/observation/post-switch-monitor.ts",
+      "acquiredBy": "post_merge",
+      "requiredForCloseout": false
+    },
+    {
+      "id": "p95-latency-7day",
+      "kind": "runtime-observation",
+      "path": "outputs/phase-11/evidence/p95-latency-7day.json",
+      "command": "scripts/cf-audit-log/observation/post-switch-monitor.ts",
+      "acquiredBy": "post_merge",
+      "requiredForCloseout": false
+    },
+    {
+      "id": "issue-rate-comparison",
+      "kind": "runtime-observation",
+      "path": "outputs/phase-11/evidence/issue-rate-comparison.md",
+      "command": "scripts/cf-audit-log/observation/post-switch-monitor.ts",
+      "acquiredBy": "post_merge",
+      "requiredForCloseout": false
+    }
+  ]
+}

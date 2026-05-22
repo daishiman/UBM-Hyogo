@@ -50,7 +50,7 @@
 
 ## Scope In
 - Slack channel `#ubm-hyogo-incidents` 作成 / incoming webhook 発行
-- 1Password 正本 item path 規約（`op://UBM-Hyogo/Slack Incident Webhook (<env>)/url`）
+- 1Password 正本 item path 規約（`op://Employee/ubm-hyogo-env/SLACK_WEBHOOK_INCIDENT_<ENV>`）
 - Cloudflare Workers staging / production secret 投入（`bash scripts/cf.sh secret put` 経由）
 - GitHub Actions secret 登録
 - staging / production smoke 着弾確認 evidence template
@@ -63,8 +63,8 @@
 
 ## Channel / Secret 配置結果（runtime wave で実体化）
 - Slack channel: `#ubm-hyogo-incidents` (channel id: <provisioned>, redacted)
-- 1Password item: `op://UBM-Hyogo/Slack Incident Webhook (production)/url`
-- 1Password item: `op://UBM-Hyogo/Slack Incident Webhook (staging)/url`
+- 1Password item: `op://Employee/ubm-hyogo-env/SLACK_WEBHOOK_INCIDENT_PRODUCTION`
+- 1Password item: `op://Employee/ubm-hyogo-env/SLACK_WEBHOOK_INCIDENT_STAGING`
 - Cloudflare staging: `bash scripts/cf.sh secret list --env staging` で `SLACK_WEBHOOK_INCIDENT` を name-only 確認
 - Cloudflare production: `bash scripts/cf.sh secret list --env production` で `SLACK_WEBHOOK_INCIDENT` を name-only 確認
 - GitHub Actions: `gh secret list --repo daishiman/UBM-Hyogo` で name-only 確認

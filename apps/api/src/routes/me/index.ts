@@ -33,8 +33,13 @@ import {
 } from "../../repository/attendance";
 import {
   attendanceProviderMiddleware,
+  writeTagNoteProviderMiddleware,
   type RepositoryProviderVariables,
 } from "../../middleware/repository-providers";
+import {
+  requireProvider,
+  type WriteTagNoteProviderCtx,
+} from "../../repository/_shared/provider-context";
 import {
   memberSelfRequestQueue,
   resolveEditResponseUrl,
@@ -67,6 +72,7 @@ export const createMeRoute = (deps: MeRouteDeps) => {
   app.use("*", sessionGuard({ resolveSession: deps.resolveSession }));
   // session 確定後に repository provider を bind（issue-371）
   app.use("*", attendanceProviderMiddleware);
+  app.use("*", writeTagNoteProviderMiddleware);
 
   // GET /me — SessionUser
   app.get("/", (c) => {
@@ -90,6 +96,23 @@ export const createMeRoute = (deps: MeRouteDeps) => {
   app.get("/profile", async (c) => {
     const user = c.get("user");
     const ctx = c.get("ctx");
+    const providerCtx: WriteTagNoteProviderCtx = {
+      ...ctx,
+      var: {
+        adminNotesProvider: requireProvider(c.var.adminNotesProvider, "adminNotesProvider"),
+        auditLogProvider: requireProvider(c.var.auditLogProvider, "auditLogProvider"),
+        notificationOutboxProvider: requireProvider(
+          c.var.notificationOutboxProvider,
+          "notificationOutboxProvider",
+        ),
+        tagDefinitionsProvider: requireProvider(
+          c.var.tagDefinitionsProvider,
+          "tagDefinitionsProvider",
+        ),
+        tagQueueProvider: requireProvider(c.var.tagQueueProvider, "tagQueueProvider"),
+        memberTagsProvider: requireProvider(c.var.memberTagsProvider, "memberTagsProvider"),
+      },
+    };
     const profile = await buildMemberProfile(
       { ...ctx, var: { attendanceProvider: c.var.attendanceProvider } },
       user.memberId,
@@ -101,7 +124,7 @@ export const createMeRoute = (deps: MeRouteDeps) => {
       return c.json({ code: "PROFILE_UNAVAILABLE" }, 404);
     }
     const editUrl = await resolveEditResponseUrl(ctx, user.memberId);
-    const pendingRequests = await getPendingRequestsForMember(ctx, user.memberId);
+    const pendingRequests = await getPendingRequestsForMember(providerCtx, user.memberId);
     const body: MeProfileResponse = {
       profile,
       statusSummary: {
@@ -167,6 +190,23 @@ export const createMeRoute = (deps: MeRouteDeps) => {
     async (c) => {
       const user = c.get("user");
       const ctx = c.get("ctx");
+      const providerCtx: WriteTagNoteProviderCtx = {
+        ...ctx,
+        var: {
+          adminNotesProvider: requireProvider(c.var.adminNotesProvider, "adminNotesProvider"),
+          auditLogProvider: requireProvider(c.var.auditLogProvider, "auditLogProvider"),
+          notificationOutboxProvider: requireProvider(
+            c.var.notificationOutboxProvider,
+            "notificationOutboxProvider",
+          ),
+          tagDefinitionsProvider: requireProvider(
+            c.var.tagDefinitionsProvider,
+            "tagDefinitionsProvider",
+          ),
+          tagQueueProvider: requireProvider(c.var.tagQueueProvider, "tagQueueProvider"),
+          memberTagsProvider: requireProvider(c.var.memberTagsProvider, "memberTagsProvider"),
+        },
+      };
       const raw = await c.req.json().catch(() => null);
       const parsed = MeVisibilityRequestBodyZ.safeParse(raw);
       if (!parsed.success) {
@@ -176,7 +216,7 @@ export const createMeRoute = (deps: MeRouteDeps) => {
         );
       }
       const pending = await memberSelfRequestQueue.hasPending(
-        ctx,
+        providerCtx,
         user.memberId,
         "visibility_request",
       );
@@ -184,7 +224,7 @@ export const createMeRoute = (deps: MeRouteDeps) => {
         return c.json({ code: "DUPLICATE_PENDING_REQUEST" }, 409);
       }
       const result = await memberSelfRequestQueue.appendVisibility({
-        ctx,
+        ctx: providerCtx,
         memberId: user.memberId,
         actorEmail: user.email,
         reason: parsed.data.reason,
@@ -203,6 +243,23 @@ export const createMeRoute = (deps: MeRouteDeps) => {
     async (c) => {
       const user = c.get("user");
       const ctx = c.get("ctx");
+      const providerCtx: WriteTagNoteProviderCtx = {
+        ...ctx,
+        var: {
+          adminNotesProvider: requireProvider(c.var.adminNotesProvider, "adminNotesProvider"),
+          auditLogProvider: requireProvider(c.var.auditLogProvider, "auditLogProvider"),
+          notificationOutboxProvider: requireProvider(
+            c.var.notificationOutboxProvider,
+            "notificationOutboxProvider",
+          ),
+          tagDefinitionsProvider: requireProvider(
+            c.var.tagDefinitionsProvider,
+            "tagDefinitionsProvider",
+          ),
+          tagQueueProvider: requireProvider(c.var.tagQueueProvider, "tagQueueProvider"),
+          memberTagsProvider: requireProvider(c.var.memberTagsProvider, "memberTagsProvider"),
+        },
+      };
       const raw = await c.req.json().catch(() => null);
       // 空 body を許容: {} とみなす
       const parsed = MeDeleteRequestBodyZ.safeParse(raw ?? {});
@@ -213,7 +270,7 @@ export const createMeRoute = (deps: MeRouteDeps) => {
         );
       }
       const pending = await memberSelfRequestQueue.hasPending(
-        ctx,
+        providerCtx,
         user.memberId,
         "delete_request",
       );
@@ -221,7 +278,7 @@ export const createMeRoute = (deps: MeRouteDeps) => {
         return c.json({ code: "DUPLICATE_PENDING_REQUEST" }, 409);
       }
       const result = await memberSelfRequestQueue.appendDelete({
-        ctx,
+        ctx: providerCtx,
         memberId: user.memberId,
         actorEmail: user.email,
         reason: parsed.data.reason,

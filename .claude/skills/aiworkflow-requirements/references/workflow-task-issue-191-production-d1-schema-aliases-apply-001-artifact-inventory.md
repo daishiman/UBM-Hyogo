@@ -32,7 +32,7 @@
 | --- | --- |
 | `docs/30-workflows/unassigned-task/task-issue-191-production-d1-schema-aliases-apply-001.md` | transferred_to_workflow_removed_after_transfer; canonical root is the completed workflow directory |
 | `docs/30-workflows/unassigned-task/task-issue-191-schema-questions-fallback-retirement-001.md` | production apply prerequisite satisfied; still requires coverage/log audit |
-| `docs/30-workflows/unassigned-task/task-issue-191-direct-stable-key-update-guard-001.md` | production apply prerequisite satisfied; ready for scheduling |
+| `docs/30-workflows/unassigned-task/task-issue-191-direct-stable-key-update-guard-001.md` | production apply prerequisite satisfied; consumed_by_issue_300 -> `docs/30-workflows/issue-300-direct-stable-key-update-guard/` |
 | `docs/30-workflows/unassigned-task/task-issue-359-production-d1-out-of-band-apply-audit-001.md` | created to audit the prior operations that applied migrations `0008_schema_alias_hardening.sql` and `0008_create_schema_aliases.sql` before this workflow's Phase 13 |
 
 ## Runtime Evidence Reservation

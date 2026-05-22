@@ -1,10 +1,10 @@
 // TODO(08b): 実装は Phase 11 manual smoke で活性化
-import { test, expect } from '@playwright/test'
+import { test, expect } from '../fixtures/coverage'
 import AxeBuilder from '@axe-core/playwright'
 
 const PUBLIC_PATHS = ['/', '/members', '/members/m-1', '/register', '/login']
 
-test.describe.skip('a11y — WCAG 2.1 AA 主要違反 0 件', () => {
+test.describe('a11y — WCAG 2.1 AA 主要違反 0 件', () => {
   for (const path of PUBLIC_PATHS) {
     test(`axe ${path}`, async ({ page }) => {
       await page.goto(path)

@@ -14,11 +14,11 @@ echo "=== ワークツリー作成 ==="
 echo "ブランチ: $BRANCH"
 echo "パス    : $WT_PATH"
 
-# リモートmainを最新化
-git fetch origin main
+# リモートdevを最新化（dev = 開発統合ブランチ。main は production リリース時のみ）
+git fetch origin dev
 
-# ワークツリー作成（mainから分岐）
-git worktree add -b "$BRANCH" "$WT_PATH" origin/main
+# ワークツリー作成（devから分岐）
+git worktree add -b "$BRANCH" "$WT_PATH" origin/dev
 
 echo ""
 echo "=== pnpm install ==="

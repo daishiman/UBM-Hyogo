@@ -1,0 +1,5 @@
+[
+  {"conclusion":"success","createdAt":"__TODAY_MINUS_29__","event":"schedule","databaseId":1001,"url":"https://example.invalid/runs/1001"},
+  {"conclusion":"success","createdAt":"__TODAY_MINUS_28__","event":"schedule","databaseId":1002,"url":"https://example.invalid/runs/1002"},
+  {"conclusion":"success","createdAt":"__TODAY_MINUS_27__","event":"workflow_dispatch","databaseId":1003,"url":"https://example.invalid/runs/1003"}
+]

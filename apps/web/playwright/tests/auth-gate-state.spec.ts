@@ -1,10 +1,10 @@
 // TODO(08b): 実装は Phase 11 manual smoke で活性化
-import { test } from '@playwright/test'
+import { test } from '../fixtures/coverage'
 import { LoginPage } from '../page-objects/LoginPage'
 
 const STATES = ['input', 'sent', 'unregistered', 'rules_declined', 'deleted'] as const
 
-test.describe.skip('auth gate state (5 状態 + /no-access 不在)', () => {
+test.describe('auth gate state (5 状態 + /no-access 不在)', () => {
   for (const state of STATES) {
     test(`desktop: /login state=${state}`, async ({ page }) => {
       const login = new LoginPage(page)

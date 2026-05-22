@@ -1,0 +1,104 @@
+{
+  "task": "task-21-w2-screen-blueprints-admin",
+  "createdAt": "2026-05-07",
+  "metadata": {
+    "workflow_state": "spec_created",
+    "taskType": "docs-only",
+    "visualEvidence": "NON_VISUAL",
+    "coverage": {
+      "applicable": false,
+      "reason": "Pure documentation/specification workflow. The executable output is docs/00-getting-started-manual/specs/09g-screen-blueprints-admin.md; apps/ and packages/ code are out of scope for this task."
+    },
+    "phase12_output_policy": "strict_7_files",
+    "artifacts_parity": "root_only"
+  },
+  "phases": [
+    {
+      "phase": 1,
+      "file": "phase-01.md",
+      "status": "completed"
+    },
+    {
+      "phase": 2,
+      "file": "phase-02.md",
+      "status": "completed"
+    },
+    {
+      "phase": 3,
+      "file": "phase-03.md",
+      "status": "completed"
+    },
+    {
+      "phase": 4,
+      "file": "phase-04.md",
+      "status": "completed"
+    },
+    {
+      "phase": 5,
+      "file": "phase-05.md",
+      "status": "completed"
+    },
+    {
+      "phase": 6,
+      "file": "phase-06.md",
+      "status": "completed"
+    },
+    {
+      "phase": 7,
+      "file": "phase-07.md",
+      "status": "completed"
+    },
+    {
+      "phase": 8,
+      "file": "phase-08.md",
+      "status": "completed"
+    },
+    {
+      "phase": 9,
+      "file": "phase-09.md",
+      "status": "completed"
+    },
+    {
+      "phase": 10,
+      "file": "phase-10.md",
+      "status": "completed"
+    },
+    {
+      "phase": 11,
+      "file": "phase-11.md",
+      "status": "completed"
+    },
+    {
+      "phase": 12,
+      "file": "phase-12.md",
+      "status": "completed"
+    },
+    {
+      "phase": 13,
+      "file": "phase-13.md",
+      "status": "blocked_pending_user_approval"
+    }
+  ],
+  "canonicalOutputs": {
+    "targetSpec": "docs/00-getting-started-manual/specs/09g-screen-blueprints-admin.md",
+    "phase12": [
+      "outputs/phase-12/main.md",
+      "outputs/phase-12/implementation-guide.md",
+      "outputs/phase-12/system-spec-update-summary.md",
+      "outputs/phase-12/documentation-changelog.md",
+      "outputs/phase-12/unassigned-task-detection.md",
+      "outputs/phase-12/skill-feedback-report.md",
+      "outputs/phase-12/phase12-task-spec-compliance-check.md"
+    ],
+    "phase13": {
+      "status": "blocked_pending_user_approval",
+      "reason": "Phase 13 commit/push/PR outputs are intentionally not generated until the user explicitly approves PR preparation.",
+      "plannedOutputs": [
+        "outputs/phase-13/local-check-result.md",
+        "outputs/phase-13/change-summary.md",
+        "outputs/phase-13/pr-info.md",
+        "outputs/phase-13/pr-creation-result.md"
+      ]
+    }
+  }
+}

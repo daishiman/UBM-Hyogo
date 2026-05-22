@@ -4,6 +4,8 @@
 //   - 不変条件 #3: responseEmail は API 側で既に部分マスク済 (raw email を表示しない)
 //   - 不変条件 #5: D1 直接アクセスなし
 import { fetchAdmin } from "../../../../src/lib/admin/server-fetch";
+import { Breadcrumb } from "@/components/admin/Breadcrumb";
+import { EmptyState } from "../../../../src/components/ui/EmptyState";
 import type { ListIdentityConflictsResponse } from "@ubm-hyogo/shared";
 import { IdentityConflictRow } from "../../../../src/components/admin/IdentityConflictRow";
 
@@ -24,6 +26,7 @@ export default async function AdminIdentityConflictsPage({
 
   return (
     <main className="mx-auto max-w-5xl px-6 py-8">
+      <Breadcrumb items={[{ label: "管理", href: "/admin" }, { label: "Identity 重複候補" }]} />
       <header className="mb-6">
         <h1 className="text-2xl font-semibold tracking-tight">Identity 重複候補</h1>
         <p className="mt-2 text-sm text-zinc-600">
@@ -33,9 +36,7 @@ export default async function AdminIdentityConflictsPage({
       </header>
 
       {data.items.length === 0 ? (
-        <p className="rounded-md border border-zinc-200 bg-zinc-50 p-6 text-center text-sm text-zinc-500">
-          現在、merge 候補はありません。
-        </p>
+        <EmptyState title="現在、merge 候補はありません。" />
       ) : (
         <ul className="divide-y divide-zinc-200 rounded-md border border-zinc-200">
           {data.items.map((item) => (

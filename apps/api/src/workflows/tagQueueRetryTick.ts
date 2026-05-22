@@ -1,16 +1,15 @@
 import type { Env } from "../env";
 import { ctx } from "../repository/_shared/db";
-import {
-  incrementRetryWithDlqAudit,
-  listPending,
-  moveToDlqWithAudit,
-  TAG_QUEUE_SYSTEM_ACTOR_EMAIL,
-  TAG_QUEUE_TICK_BATCH_SIZE,
-  TAG_QUEUE_TICK_MAX_RUNTIME_MS,
-  type TagAssignmentQueueRow,
-} from "../repository/tagQueue";
+import { createWriteTagNoteProviderBundle } from "../middleware/repository-providers";
+import type {
+  TagAssignmentQueueRow,
+  WriteTagNoteProviderBundle,
+} from "../repository/_shared/provider-context";
 
 const RETRY_ELIGIBLE_REASON = "retry_tick";
+const TAG_QUEUE_SYSTEM_ACTOR_EMAIL = "system@retry-tick";
+const TAG_QUEUE_TICK_BATCH_SIZE = 20;
+const TAG_QUEUE_TICK_MAX_RUNTIME_MS = 20_000;
 
 export class NonRetryableTagQueueError extends Error {
   constructor(message: string) {
@@ -20,6 +19,7 @@ export class NonRetryableTagQueueError extends Error {
 }
 
 export interface RetryTickDeps {
+  providers?: WriteTagNoteProviderBundle;
   now?: () => string;
   batchSize?: number;
   maxRuntimeMs?: number;
@@ -57,6 +57,7 @@ export async function runTagQueueRetryTick(
   deps: RetryTickDeps = {},
 ): Promise<RetryTickResult> {
   const db = ctx(env);
+  const providers = deps.providers ?? createWriteTagNoteProviderBundle(db);
   const now = deps.now ?? (() => new Date().toISOString());
   const batchSize = deps.batchSize ?? TAG_QUEUE_TICK_BATCH_SIZE;
   const maxRuntimeMs = deps.maxRuntimeMs ?? TAG_QUEUE_TICK_MAX_RUNTIME_MS;
@@ -74,7 +75,7 @@ export async function runTagQueueRetryTick(
     elapsedMs: 0,
   };
 
-  const rows = await listPending(db, { now: now(), limit: batchSize });
+  const rows = await providers.tagQueueProvider.listPending({ now: now(), limit: batchSize });
   for (const row of rows) {
     if (clockMs() - startedAt > maxRuntimeMs) {
       result.abortedByTimeout = true;
@@ -89,8 +90,7 @@ export async function runTagQueueRetryTick(
 
     try {
       await processRow(row);
-      const moved = await incrementRetryWithDlqAudit(
-        db,
+      const moved = await providers.tagQueueProvider.incrementRetryWithDlqAudit(
         row.queueId,
         row.lastError ?? "retry tick",
         now(),
@@ -102,8 +102,8 @@ export async function runTagQueueRetryTick(
     } catch (error) {
       const message = error instanceof Error ? error.message : String(error);
       const moved = error instanceof NonRetryableTagQueueError
-        ? await moveToDlqWithAudit(db, row.queueId, message, now(), actor)
-        : await incrementRetryWithDlqAudit(db, row.queueId, message, now(), actor);
+        ? await providers.tagQueueProvider.moveToDlqWithAudit(row.queueId, message, now(), actor)
+        : await providers.tagQueueProvider.incrementRetryWithDlqAudit(row.queueId, message, now(), actor);
 
       if ("changed" in moved) {
         if (moved.changed) result.movedToDlq += 1;

@@ -320,6 +320,36 @@ export async function moveToDlqWithAudit(
   return { changed: true };
 }
 
+export async function resolveConfirmed(
+  c: DbCtx,
+  queueId: string,
+  tagCodes: string[],
+  now: string,
+): Promise<{ changed: boolean }> {
+  const result = await c.db
+    .prepare(
+      "UPDATE tag_assignment_queue SET status = 'resolved', suggested_tags_json = ?, updated_at = ? WHERE queue_id = ? AND status IN ('queued','reviewing')",
+    )
+    .bind(JSON.stringify(tagCodes), now, queueId)
+    .run();
+  return { changed: (result.meta?.changes ?? 0) > 0 };
+}
+
+export async function resolveRejected(
+  c: DbCtx,
+  queueId: string,
+  reason: string,
+  now: string,
+): Promise<{ changed: boolean }> {
+  const result = await c.db
+    .prepare(
+      "UPDATE tag_assignment_queue SET status = 'rejected', reason = ?, updated_at = ? WHERE queue_id = ? AND status IN ('queued','reviewing')",
+    )
+    .bind(reason, now, queueId)
+    .run();
+  return { changed: (result.meta?.changes ?? 0) > 0 };
+}
+
 function buildRetryUpdate(
   c: DbCtx,
   current: TagAssignmentQueueRow,
@@ -396,3 +426,52 @@ function buildDlqAuditInsert(
 export function deriveIdempotencyKey(input: { memberId: string; responseId: string }): string {
   return `${input.memberId}:${input.responseId}`;
 }
+
+export interface TagQueueProvider {
+  listQueue(status?: TagQueueStatus): Promise<TagAssignmentQueueRow[]>;
+  findQueueById(queueId: string): Promise<TagAssignmentQueueRow | null>;
+  listPending(opts?: { now: string; limit?: number }): Promise<TagAssignmentQueueRow[]>;
+  listDlq(opts?: { limit?: number }): Promise<TagAssignmentQueueRow[]>;
+  createIdempotent(
+    row: NewTagAssignmentQueueRowIdempotent,
+  ): Promise<{ row: TagAssignmentQueueRow; isExisting: boolean }>;
+  incrementRetryWithDlqAudit(
+    queueId: string,
+    errorMessage: string,
+    now: string,
+    actorEmail?: string,
+    maxRetry?: number,
+  ): Promise<{ moved: "retry" | "dlq" | "noop" }>;
+  moveToDlqWithAudit(
+    queueId: string,
+    errorMessage: string,
+    now: string,
+    actorEmail?: string,
+  ): Promise<{ changed: boolean }>;
+  resolveConfirmed(
+    queueId: string,
+    tagCodes: string[],
+    now: string,
+  ): Promise<{ changed: boolean }>;
+  resolveRejected(
+    queueId: string,
+    reason: string,
+    now: string,
+  ): Promise<{ changed: boolean }>;
+}
+
+export const createTagQueueProvider = (c: DbCtx): TagQueueProvider => ({
+  listQueue: (status) => listQueue(c, status),
+  findQueueById: (queueId) => findQueueById(c, queueId),
+  listPending: (opts = { now: new Date().toISOString() }) => listPending(c, opts),
+  listDlq: (opts) => listDlq(c, opts),
+  createIdempotent: (row) => createIdempotent(c, row),
+  incrementRetryWithDlqAudit: (queueId, errorMessage, now, actorEmail, maxRetry) =>
+    incrementRetryWithDlqAudit(c, queueId, errorMessage, now, actorEmail, maxRetry),
+  moveToDlqWithAudit: (queueId, errorMessage, now, actorEmail) =>
+    moveToDlqWithAudit(c, queueId, errorMessage, now, actorEmail),
+  resolveConfirmed: (queueId, tagCodes, now) =>
+    resolveConfirmed(c, queueId, tagCodes, now),
+  resolveRejected: (queueId, reason, now) =>
+    resolveRejected(c, queueId, reason, now),
+});

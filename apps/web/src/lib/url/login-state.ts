@@ -1,6 +1,7 @@
 // 06b: /login の URL を client side で書き換える helper。
 // magic link 送信後に email を URL から落とすために使う（privacy + 不変条件 #8）。
 
+import { browserHistory } from "../is-browser";
 import type { LoginGateState } from "./login-query";
 import { normalizeRedirectPath } from "./safe-redirect";
 
@@ -34,9 +35,7 @@ export const replaceLoginState = (
   opts?: ReplaceLoginStateOptions,
 ): void => {
   const url = buildLoginUrl(state, redirect, opts);
-  const historyImpl =
-    opts?.historyImpl ??
-    (typeof window !== "undefined" ? window.history : undefined);
+  const historyImpl = opts?.historyImpl ?? browserHistory();
   if (!historyImpl) return;
   historyImpl.replaceState(null, "", url);
 };

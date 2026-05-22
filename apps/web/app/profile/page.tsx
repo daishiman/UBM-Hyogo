@@ -13,6 +13,7 @@ import {
   FetchAuthedError,
   fetchAuthed,
 } from "../../src/lib/fetch/authed";
+import { PublicVisibilityBanner } from "./_components/PublicVisibilityBanner";
 import { StatusSummary } from "./_components/StatusSummary";
 import { ProfileFields } from "./_components/ProfileFields";
 import { EditCta } from "./_components/EditCta";
@@ -49,6 +50,10 @@ export default async function ProfilePage() {
       <MemberHeader />
       <main>
         <h1>マイページ</h1>
+        <PublicVisibilityBanner
+          publishState={statusSummary.publishState}
+          authGateState={me.authGateState}
+        />
         <StatusSummary
           statusSummary={statusSummary}
           authGateState={me.authGateState}

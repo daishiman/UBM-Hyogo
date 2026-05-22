@@ -1,0 +1,549 @@
+{
+  "$schema": "xgboost-v1",
+  "name": "xgboost",
+  "version": "1.0.0",
+  "trainedAt": "2026-05-08T07:21:24.186Z",
+  "datasetHash": "3cde4c68996e5007",
+  "params": {
+    "numRounds": 15,
+    "maxDepth": 4,
+    "learningRate": 0.3,
+    "seed": 42
+  },
+  "baseScore": 0,
+  "boosters": [
+    {
+      "tree": [
+        {
+          "nodeId": 0,
+          "feature": "action_category",
+          "split": 3.5,
+          "yes": 1,
+          "no": 10,
+          "missing": 1
+        },
+        {
+          "nodeId": 1,
+          "feature": "hour_of_day",
+          "split": 10.5,
+          "yes": 2,
+          "no": 3,
+          "missing": 2
+        },
+        {
+          "nodeId": 2,
+          "leaf": -1.3444
+        },
+        {
+          "nodeId": 3,
+          "feature": "day_of_week",
+          "split": 3,
+          "yes": 4,
+          "no": 7,
+          "missing": 4
+        },
+        {
+          "nodeId": 4,
+          "feature": "status_class",
+          "split": 3,
+          "yes": 5,
+          "no": 6,
+          "missing": 5
+        },
+        {
+          "nodeId": 5,
+          "leaf": 2
+        },
+        {
+          "nodeId": 6,
+          "leaf": -1.6471
+        },
+        {
+          "nodeId": 7,
+          "feature": "hour_of_day",
+          "split": 16.5,
+          "yes": 8,
+          "no": 9,
+          "missing": 8
+        },
+        {
+          "nodeId": 8,
+          "leaf": -1.4118
+        },
+        {
+          "nodeId": 9,
+          "leaf": -1.3478
+        },
+        {
+          "nodeId": 10,
+          "leaf": 2
+        }
+      ]
+    },
+    {
+      "tree": [
+        {
+          "nodeId": 0,
+          "feature": "hour_of_day",
+          "split": 10.5,
+          "yes": 1,
+          "no": 2,
+          "missing": 1
+        },
+        {
+          "nodeId": 1,
+          "leaf": -0.9855
+        },
+        {
+          "nodeId": 2,
+          "feature": "token_id_present",
+          "split": 0.5,
+          "yes": 3,
+          "no": 4,
+          "missing": 3
+        },
+        {
+          "nodeId": 3,
+          "leaf": 1.5488
+        },
+        {
+          "nodeId": 4,
+          "feature": "status_class",
+          "split": 3,
+          "yes": 5,
+          "no": 6,
+          "missing": 5
+        },
+        {
+          "nodeId": 5,
+          "leaf": 2.0758
+        },
+        {
+          "nodeId": 6,
+          "leaf": -1.2785
+        }
+      ]
+    },
+    {
+      "tree": [
+        {
+          "nodeId": 0,
+          "leaf": -0.7391
+        }
+      ]
+    },
+    {
+      "tree": [
+        {
+          "nodeId": 0,
+          "feature": "hour_of_day",
+          "split": 10.5,
+          "yes": 1,
+          "no": 4,
+          "missing": 1
+        },
+        {
+          "nodeId": 1,
+          "feature": "day_of_week",
+          "split": 3,
+          "yes": 2,
+          "no": 3,
+          "missing": 2
+        },
+        {
+          "nodeId": 2,
+          "leaf": -0.6115
+        },
+        {
+          "nodeId": 3,
+          "leaf": -0.58
+        },
+        {
+          "nodeId": 4,
+          "feature": "token_id_present",
+          "split": 0.5,
+          "yes": 5,
+          "no": 6,
+          "missing": 5
+        },
+        {
+          "nodeId": 5,
+          "leaf": 1.4305
+        },
+        {
+          "nodeId": 6,
+          "feature": "day_of_week",
+          "split": 3,
+          "yes": 7,
+          "no": 8,
+          "missing": 7
+        },
+        {
+          "nodeId": 7,
+          "leaf": -0.6592
+        },
+        {
+          "nodeId": 8,
+          "feature": "action_category",
+          "split": 0.5,
+          "yes": 9,
+          "no": 10,
+          "missing": 9
+        },
+        {
+          "nodeId": 9,
+          "leaf": 2.0124
+        },
+        {
+          "nodeId": 10,
+          "leaf": -0.9305
+        }
+      ]
+    },
+    {
+      "tree": [
+        {
+          "nodeId": 0,
+          "feature": "token_id_present",
+          "split": 0.5,
+          "yes": 1,
+          "no": 2,
+          "missing": 1
+        },
+        {
+          "nodeId": 1,
+          "leaf": 1.2803
+        },
+        {
+          "nodeId": 2,
+          "feature": "day_of_week",
+          "split": 3,
+          "yes": 3,
+          "no": 4,
+          "missing": 3
+        },
+        {
+          "nodeId": 3,
+          "leaf": -0.4922
+        },
+        {
+          "nodeId": 4,
+          "feature": "status_class",
+          "split": 3,
+          "yes": 5,
+          "no": 8,
+          "missing": 5
+        },
+        {
+          "nodeId": 5,
+          "feature": "hour_of_day",
+          "split": 10.5,
+          "yes": 6,
+          "no": 7,
+          "missing": 6
+        },
+        {
+          "nodeId": 6,
+          "leaf": 3.9883
+        },
+        {
+          "nodeId": 7,
+          "leaf": 1.5536
+        },
+        {
+          "nodeId": 8,
+          "feature": "hour_of_day",
+          "split": 10.5,
+          "yes": 9,
+          "no": 10,
+          "missing": 9
+        },
+        {
+          "nodeId": 9,
+          "leaf": -0.8768
+        },
+        {
+          "nodeId": 10,
+          "leaf": -0.7752
+        }
+      ]
+    },
+    {
+      "tree": [
+        {
+          "nodeId": 0,
+          "leaf": -0.3671
+        }
+      ]
+    },
+    {
+      "tree": [
+        {
+          "nodeId": 0,
+          "leaf": -0.2751
+        }
+      ]
+    },
+    {
+      "tree": [
+        {
+          "nodeId": 0,
+          "leaf": -0.2032
+        }
+      ]
+    },
+    {
+      "tree": [
+        {
+          "nodeId": 0,
+          "feature": "ip_24_bucket_hash",
+          "split": 0.584,
+          "yes": 1,
+          "no": 2,
+          "missing": 1
+        },
+        {
+          "nodeId": 1,
+          "leaf": 6.2216
+        },
+        {
+          "nodeId": 2,
+          "leaf": -0.6461
+        }
+      ]
+    },
+    {
+      "tree": [
+        {
+          "nodeId": 0,
+          "feature": "ip_24_bucket_hash",
+          "split": 0.584,
+          "yes": 1,
+          "no": 2,
+          "missing": 1
+        },
+        {
+          "nodeId": 1,
+          "leaf": 1.8143
+        },
+        {
+          "nodeId": 2,
+          "leaf": -0.5157
+        }
+      ]
+    },
+    {
+      "tree": [
+        {
+          "nodeId": 0,
+          "feature": "token_id_present",
+          "split": 0.5,
+          "yes": 1,
+          "no": 2,
+          "missing": 1
+        },
+        {
+          "nodeId": 1,
+          "leaf": 1.3485
+        },
+        {
+          "nodeId": 2,
+          "feature": "hour_of_day",
+          "split": 10.5,
+          "yes": 3,
+          "no": 10,
+          "missing": 3
+        },
+        {
+          "nodeId": 3,
+          "feature": "day_of_week",
+          "split": 3,
+          "yes": 4,
+          "no": 7,
+          "missing": 4
+        },
+        {
+          "nodeId": 4,
+          "feature": "status_class",
+          "split": 3,
+          "yes": 5,
+          "no": 6,
+          "missing": 5
+        },
+        {
+          "nodeId": 5,
+          "leaf": 7.3851
+        },
+        {
+          "nodeId": 6,
+          "leaf": -0.8026
+        },
+        {
+          "nodeId": 7,
+          "feature": "day_of_week",
+          "split": 4.5,
+          "yes": 8,
+          "no": 9,
+          "missing": 8
+        },
+        {
+          "nodeId": 8,
+          "leaf": -0.2007
+        },
+        {
+          "nodeId": 9,
+          "leaf": -0.169
+        },
+        {
+          "nodeId": 10,
+          "leaf": -0.2495
+        }
+      ]
+    },
+    {
+      "tree": [
+        {
+          "nodeId": 0,
+          "leaf": -0.1434
+        }
+      ]
+    },
+    {
+      "tree": [
+        {
+          "nodeId": 0,
+          "leaf": -0.1028
+        }
+      ]
+    },
+    {
+      "tree": [
+        {
+          "nodeId": 0,
+          "feature": "status_class",
+          "split": 3,
+          "yes": 1,
+          "no": 6,
+          "missing": 1
+        },
+        {
+          "nodeId": 1,
+          "feature": "day_of_week",
+          "split": 3,
+          "yes": 2,
+          "no": 3,
+          "missing": 2
+        },
+        {
+          "nodeId": 2,
+          "leaf": 1.9266
+        },
+        {
+          "nodeId": 3,
+          "feature": "hour_of_day",
+          "split": 10.5,
+          "yes": 4,
+          "no": 5,
+          "missing": 4
+        },
+        {
+          "nodeId": 4,
+          "leaf": 2.877
+        },
+        {
+          "nodeId": 5,
+          "leaf": 1.736
+        },
+        {
+          "nodeId": 6,
+          "feature": "token_id_present",
+          "split": 0.5,
+          "yes": 7,
+          "no": 8,
+          "missing": 7
+        },
+        {
+          "nodeId": 7,
+          "leaf": 1.2504
+        },
+        {
+          "nodeId": 8,
+          "feature": "day_of_week",
+          "split": 3,
+          "yes": 9,
+          "no": 10,
+          "missing": 9
+        },
+        {
+          "nodeId": 9,
+          "leaf": -0.599
+        },
+        {
+          "nodeId": 10,
+          "leaf": -0.6055
+        }
+      ]
+    },
+    {
+      "tree": [
+        {
+          "nodeId": 0,
+          "feature": "action_category",
+          "split": 3.5,
+          "yes": 1,
+          "no": 8,
+          "missing": 1
+        },
+        {
+          "nodeId": 1,
+          "feature": "action_category",
+          "split": 0.5,
+          "yes": 2,
+          "no": 7,
+          "missing": 2
+        },
+        {
+          "nodeId": 2,
+          "feature": "day_of_week",
+          "split": 3,
+          "yes": 3,
+          "no": 4,
+          "missing": 3
+        },
+        {
+          "nodeId": 3,
+          "leaf": 1.525
+        },
+        {
+          "nodeId": 4,
+          "feature": "hour_of_day",
+          "split": 10.5,
+          "yes": 5,
+          "no": 6,
+          "missing": 5
+        },
+        {
+          "nodeId": 5,
+          "leaf": 1.7918
+        },
+        {
+          "nodeId": 6,
+          "leaf": 1.4372
+        },
+        {
+          "nodeId": 7,
+          "leaf": -0.4803
+        },
+        {
+          "nodeId": 8,
+          "leaf": 1.1721
+        }
+      ]
+    }
+  ],
+  "severityThresholds": {
+    "high": 0.7,
+    "medium": 0.55,
+    "low": 0.4
+  }
+}

@@ -1,5 +1,21 @@
 # Phase 12 重要仕様
 
+> 状態語彙の定義は [workflow-state-vocabulary.md](workflow-state-vocabulary.md) を、compliance-check 観点は [phase12-compliance-check-template.md](phase12-compliance-check-template.md) を参照する。
+
+## CLOSED Issue Reference Rule
+
+Implementation / docs-only を問わず、既に CLOSED の GitHub Issue に後続実装や仕様同期を紐づける場合、Phase 13 / PR 文脈は `Refs #<issue>` のみを使う。`Closes #<issue>` / `Fixes #<issue>` / `Resolves #<issue>` は Issue state を誤操作するため禁止する。Issue を reopen しない方針、production/user gate、後続 task との関係は `index.md` と `phase-13.md` に明記する。
+
+例: Issue #547 redacted feature export は Issue が CLOSED のまま implementation を進めるため、PR body は `Refs #547` のみ。
+
+## Docs-only grep verification / completed-task backlink rule
+
+Docs-only / NON_VISUAL の ADR・判断正本化タスクでは、CONST_004 例外を採用しても検証を省略してはならない。関数シグネチャ、実装テスト、実行コマンドが該当しない場合は、同じ AC を満たす grep / git diff verification に置き換え、Phase 5 / Phase 6 / Phase 11 / Phase 12 にコマンド、期待件数、境界理由を記録する。
+
+既に `completed-tasks/` 配下へ移動済みの親 workflow に後発 ADR や closure trace を追加する場合、許可される編集は脚注、行末補足、追記セクションだけである。過去 evidence 本文の破壊的書き換え、PASS 判定の差し替え、実行済みログの改変は禁止する。親を編集しない場合は、子 ADR から親への単方向リンクと root `artifacts.json` の parentWorkflow で依存関係を明示する。
+
+Phase 12 compliance check では、docs-only grep 代替と completed-task back-link のどちらも `Skill/reference/system spec same-wave sync` と `Archive/delete stale-reference gate` に記録する。`skill-feedback-report.md` にこれらを提案した場合は、owning reference へ同一 wave で昇格するか、no-op reason と evidence path を明記する。
+
 ## 必須タスク（5タスク - 全て完了必須）
 
 | Task | 名称                             | 必須 | 詳細参照                                    |
@@ -41,21 +57,40 @@ Phase 12 では `outputs/phase-12/` 配下に以下 **7 ファイルを必ず揃
 
 新規スキル / template fixture / SubAgent prompt にこの 7 ファイル名を埋め込む際は、上表の正規名を **コピーペースト** で記載すること。エイリアス命名規則を内部で許容してはならない。
 
+### Phase ステータス語彙 3 値定義（2026-05-09 stage-3-impl 由来）
+
+Phase / runtime artifact のステータスは **`spec_created` / `runtime_pending` / `completed` の 3 値** を厳格運用する。これら 3 値は Phase 12 の `phase12-task-spec-compliance-check.md` および各 Phase の status 表で混同してはならない。e2e-quality-uplift stage-3-impl の 3 サブタスクで、runtime CI 実行前に `completed` を貼ってしまい compliance check が FAIL になった実例がある。
+
+| 値 | 適用条件 | 禁止事項 |
+| --- | --- | --- |
+| `spec_created` | 仕様書のみ作成済み。コード差分なし、Phase 11 evidence 未取得、runtime CI 未実行 | runtime evidence を擬似的に `completed` とラベルしない |
+| `runtime_pending` | spec / コード / local 5 点 PASS は揃ったが、**runtime CI / staging deploy / fresh GET / production smoke のいずれかが未実行** | 「local PASS = completed」と短絡しない。runtime artifact ファイルが空 or placeholder のまま `completed` を貼らない |
+| `completed` | runtime CI が **実際に exit 0 で完了し、artifact ファイル（log / evidence / fresh GET JSON）が物理生成済み** で、検証日時とコマンドが `documentation-changelog.md` に転記済み | runtime CI 実行前に予測値で `completed` を付与しない |
+
+**3 値運用の必須ルール**:
+
+1. **runtime CI 実行前に `completed` を付与しない**: テンプレートの runtime evidence セクションに `completed` を埋め込んだまま提出することを禁止。runtime CI 未実行時は `runtime_pending` を必ず採用する。
+2. `runtime_pending` から `completed` への昇格は **runtime artifact が物理ファイルとして outputs/phase-11/evidence/ 配下に存在し、`exit code` 行が記録されている** ことを条件にする。
+3. `phase12-task-spec-compliance-check.md` の各 AC / Step 判定行は、3 値のいずれかを必ず明示し、`PASS` 単独表記は禁止（`completed (runtime PASS)` / `runtime_pending (CI scheduled)` / `spec_created (no impl yet)` のように suffix 必須）。
+4. テンプレ生成時は `runtime_pending` をデフォルト値にする。AI が runtime 実行を自律判断して `completed` を貼ることは禁止。
+
+`PASS_BOUNDARY_SYNCED_RUNTIME_PENDING` / `CONTRACT_READY_IMPLEMENTATION_PENDING` / `PENDING_RUNTIME_EVIDENCE` 等の既存 boundary 語彙は本 3 値の `runtime_pending` に対応する詳細サブカテゴリとして引き続き併用する。
+
 ### Implementation evidence path の状態表現
 
-Phase 12 には `spec formalization path` と `implementation evidence path` がある。コード差分、Phase 11 evidence、Phase 12 7 成果物がすでに存在する実装タスクでは、root `artifacts.json`、`index.md`、`phase12-task-spec-compliance-check.md` の状態を `verified` / `implementation_complete_pending_pr` へ揃える。`spec_created` は実装着手前の状態だけに使い、実装済みタスクの compliance check に残さない。
+Phase 12 には `spec formalization path` と `implementation evidence path` がある。コード差分、Phase 11 evidence、Phase 12 7 成果物がすでに存在する実装タスクでは、root `artifacts.json`、`index.md`、`phase12-task-spec-compliance-check.md` の状態を `implemented_local_evidence_captured` / `implementation_complete_pending_pr` へ揃える。`spec_created` は実装着手前の状態だけに使い、実装済みタスクの compliance check に残さない。
 
 `system-spec-update-summary.md` に `pending same-wave sync` が残る場合、Task 6 は `PASS` にしてはならない。同一 wave で aiworkflow-requirements indexes / task-workflow / legacy mapping を更新するか、明確に `PASS_WITH_OPEN_SYNC` / `FAIL` として blocker を列挙する。
 
 #### Implementation evidence path 状態揃え checklist
 
-実装タスク（コード差分が wave 内に存在し Phase 11 evidence が出揃ったケース）で root `artifacts.json` / `index.md` / `phase12-task-spec-compliance-check.md` を `verified` + `implementation_complete_pending_pr` に整合させる際は、以下を順に確認する（UT-02A 由来 / 2026-05-01）:
+実装タスク（コード差分が wave 内に存在し Phase 11 evidence が出揃ったケース）で root `artifacts.json` / `index.md` / `phase12-task-spec-compliance-check.md` を `implemented_local_evidence_captured` + `implementation_complete_pending_pr` に整合させる際は、以下を順に確認する（UT-02A 由来 / 2026-05-01）:
 
 | # | 確認項目 | 失敗時の挙動 |
 | --- | --- | --- |
-| 1 | root `artifacts.json` の `metadata.workflow_state` が `verified` で、`metadata.implementation_status` が `implementation_complete_pending_pr` になっている | `spec_created` のままなら本セクション冒頭ルールに反するので置換 |
+| 1 | root `artifacts.json` の `metadata.workflow_state` が `implemented_local_evidence_captured` で、`metadata.implementation_status` が `implementation_complete_pending_pr` になっている | `spec_created` のままなら本セクション冒頭ルールに反するので置換 |
 | 2 | `index.md` の Status / Workflow State 行が artifacts.json と一致（drift 禁止） | drift があれば artifacts.json を正本として index.md を上書き |
-| 3 | `phase12-task-spec-compliance-check.md` の総合判定行が `verified` を反映し、`spec_created` と書かれていない | 旧テンプレ語彙が残る場合は当該行のみ書き換える |
+| 3 | `phase12-task-spec-compliance-check.md` の総合判定行が `implemented_local_evidence_captured` を反映し、`spec_created` と書かれていない | 旧テンプレ語彙が残る場合は当該行のみ書き換える |
 | 4 | `system-spec-update-summary.md` の Step 1-A〜1-C / Step 2 / Step 3 が同一 wave で完了済 or `PASS_WITH_OPEN_SYNC` の根拠が併記されている | 未完なら same-wave sync を実施するか blocker を明記 |
 | 5 | aiworkflow-requirements `indexes/` / `task-workflow-active.md` / legacy mapping のうち更新対象が wave 内コミットに含まれている | 別 wave に分離する場合は派生未タスクへ移管しリンクを貼る |
 | 6 | `unassigned-task-detection.md` に新規未タスクが 0 件でも明示記載され、生成された未タスクファイルが [unassigned-task-quality-standards.md](unassigned-task-quality-standards.md) §ファイル命名規則 / §`<cat>` 語彙に従っている | 命名 drift があれば rename し、`detection.md` のリンクも更新 |
@@ -210,7 +245,7 @@ user 明示指示まで保留する場合、Phase 11 と Phase 12 の PASS 判�
 
 - Phase 12 spec completeness は runtime evidence pending でも PASS にできる。ただし
   `phase12-task-spec-compliance-check.md` の総合判定行は `PASS_BOUNDARY_SYNCED_RUNTIME_PENDING` を使い、
-  `PASS` / `verified` 単独表記を禁止する。
+  `PASS` / `verified` 単独表記を禁止する。新規 close-out では `verified` ではなく `implemented_local_evidence_captured` を使う。
 - Phase 11 evidence pending の各 file は `PENDING_RUNTIME_EVIDENCE` または `blocked_until_user_approval` を
   冒頭判定行に置き、user gate と rollback 境界を明記する（false green 防止）。
 - service-binding と HTTP fallback のような two-path 実装では、`implementation-guide.md` に
@@ -315,12 +350,12 @@ canonical workflow の `metadata.workflow_state` が `spec_created`（実装未�
 
 小規模 `taskType=implementation` かつ `visualEvidence=VISUAL_ON_EXECUTION` の task では、Phase 12 開始時に **実コード差分の有無を必ず再判定** する。focused test のみで component evidence PASS が出ているケースでも、コード実装が入った時点で `spec_created` を維持してはならない。
 
-| 判定軸 | `spec_created` のままにする条件 | `implementation_complete_pending_pr` / `verified` へ昇格する条件 |
+| 判定軸 | `spec_created` のままにする条件 | `implementation_complete_pending_pr` / `implemented_local_evidence_captured` へ昇格する条件 |
 | --- | --- | --- |
 | コード差分 | wave 内に実コード差分が **0 件** | wave 内に **1 件以上** の実コード差分（`apps/api`/`apps/web`/`packages/*`） |
 | Phase 11 evidence | spec walkthrough のみ | component evidence（focused test / vitest / JUnit）が PASS で記録済 |
-| `artifacts.json` | `metadata.workflow_state=spec_created` | `metadata.workflow_state=verified` + `metadata.implementation_status=implementation_complete_pending_pr` |
-| `phase12-task-spec-compliance-check.md` | `spec_created` close-out | `verified` + `runtime screenshot pending` を boundary suffix で明示 |
+| `artifacts.json` | `metadata.workflow_state=spec_created` | `metadata.workflow_state=implemented_local_evidence_captured` + `metadata.implementation_status=implementation_complete_pending_pr` |
+| `phase12-task-spec-compliance-check.md` | `spec_created` close-out | `implemented_local_evidence_captured` + `runtime screenshot pending` を boundary suffix で明示 |
 
 判定手順（Phase 12 着手時に必ず実行）:
 
@@ -330,7 +365,7 @@ canonical workflow の `metadata.workflow_state` が `spec_created`（実装未�
 4. 昇格後は本ファイル冒頭「Implementation evidence path 状態揃え checklist」6 項目を実行
 
 > NG 例: `apps/web/src/lib/admin/api.ts` に predicate 実装が入り focused test が PASS しているのに、`artifacts.json` を `spec_created` のまま提出する。
-> OK 例: 同条件で `verified` + `implementation_complete_pending_pr` に昇格させ、runtime screenshot のみ `pending` と分離記録する。
+> OK 例: 同条件で `implemented_local_evidence_captured` + `implementation_complete_pending_pr` に昇格させ、runtime screenshot のみ `pending` と分離記録する。
 
 ---
 

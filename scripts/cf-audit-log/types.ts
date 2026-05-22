@@ -1,3 +1,5 @@
+import type { RedactedFeatures } from "./features/schema.ts";
+
 export type Severity = "HIGH" | "MEDIUM" | "LOW";
 
 export interface AuditLogEvent {
@@ -27,6 +29,34 @@ export interface Finding {
   titlePrefix: string;
   labels: string[];
 }
+
+// ---------------------------------------------------------------------------
+// Issue #547: Cloudflare Audit Logs redacted feature dataset export
+// ---------------------------------------------------------------------------
+
+export type FeatureExportWindow = {
+  fromUtc: Date;
+  toUtc: Date;
+};
+
+export type FeatureExportLine = {
+  id: string;
+  occurredAt: string;
+  features: RedactedFeatures;
+  label?: Severity | "NONE";
+};
+
+export type FeatureExportManifest = {
+  exportRunId: string;
+  source: "cf_audit_log";
+  windowFromUtc: string;
+  windowToUtc: string;
+  rowCount: number;
+  sha256: string;
+  redactionPolicyVersion: "feature-v1";
+  schemaVersion: "redacted-features-v1";
+  generatedAt: string;
+};
 
 // ---------------------------------------------------------------------------
 // Issue #514: Cloudflare Audit Logs cold storage / R2 export

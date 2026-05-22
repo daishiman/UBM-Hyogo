@@ -1,5 +1,7 @@
 # U-UT01-08: sync 状態 enum / trigger enum の統一タスク
 
+> 2026-05-18 issue #266 formalization note: shared Zod 実装仕様 `docs/30-workflows/issue-266-shared-sync-zod-contract/` が、現行物理 DDL / runtime 実態を canonical として `SyncLogStatus = running|success|failed|skipped`、`SyncTriggerType = cron|admin|backfill` を採用した。旧本文の `pending|in_progress|completed|failed` / `manual|cron|backfill` 推奨案は historical context として保持し、issue #266 実装では採用しない。DB migration / UI label / consumer audit は本 note で自動完了扱いにせず、該当 follow-up のスコープに残す。
+
 ## メタ情報
 
 | 項目 | 値 |

@@ -1,0 +1,30 @@
+Command: rg -n "alert_relay_kv_op_failed|logKvOperationError|hash_error" apps/api/src/routes/internal docs/30-workflows/runbooks/ut-17-alert-relay-monthly-healthcheck.md
+Date: 2026-05-16
+Result: PASS
+
+Raw matches:
+
+```text
+docs/30-workflows/runbooks/ut-17-alert-relay-monthly-healthcheck.md:117:{"event":"alert_relay_kv_op_failed","op":"put","errorClass":"Error","dedupeKeyHash":"a1b2c3d4e5f6","isolateId":"00000000-0000-4000-8000-000000000000","ts":"2026-05-16T00:00:00.000Z"}
+docs/30-workflows/runbooks/ut-17-alert-relay-monthly-healthcheck.md:126:  | grep 'alert_relay_kv_op_failed'
+docs/30-workflows/runbooks/ut-17-alert-relay-monthly-healthcheck.md:133:  | grep 'alert_relay_kv_op_failed' \
+docs/30-workflows/runbooks/ut-17-alert-relay-monthly-healthcheck.md:137:  | grep 'alert_relay_kv_op_failed' \
+docs/30-workflows/runbooks/ut-17-alert-relay-monthly-healthcheck.md:145:| `event` | `alert_relay_kv_op_failed` | KV 操作失敗ログの固定イベント名 | grep / Logpush filter の一次条件 |
+docs/30-workflows/runbooks/ut-17-alert-relay-monthly-healthcheck.md:148:| `dedupeKeyHash` | SHA-256 先頭 12 hex / `hash_error` | dedupe key の短縮 hash。hash 生成自体が失敗した場合もログ emit を優先する | raw key を出さず同一 alert の再発を追跡 |
+apps/api/src/routes/internal/__tests__/alert-relay.spec.ts:450:        event: "alert_relay_kv_op_failed",
+apps/api/src/routes/internal/__tests__/alert-relay.spec.ts:579:        event: "alert_relay_kv_op_failed",
+apps/api/src/routes/internal/__tests__/alert-relay.spec.ts:657:        event: "alert_relay_kv_op_failed",
+apps/api/src/routes/internal/__tests__/alert-relay.spec.ts:660:        dedupeKeyHash: "hash_error",
+apps/api/src/routes/internal/__tests__/alert-relay.spec.ts:818:        event: "alert_relay_kv_op_failed",
+apps/api/src/routes/internal/alert-relay.ts:19:const KV_OP_FAILED_EVENT = "alert_relay_kv_op_failed";
+apps/api/src/routes/internal/alert-relay.ts:67:async function logKvOperationError(
+apps/api/src/routes/internal/alert-relay.ts:81:      emitKvOperationError({ op, errorClass, dedupeKeyHash: "hash_error" });
+apps/api/src/routes/internal/alert-relay.ts:122:      await logKvOperationError("get", error, dedupeKey);
+apps/api/src/routes/internal/alert-relay.ts:155:      await logKvOperationError("put", error, dedupeKey);
+```
+
+Summary:
+- `alert_relay_kv_op_failed` appears in implementation, tests, and runbook.
+- `logKvOperationError` appears only in `apps/api/src/routes/internal/alert-relay.ts` and its call sites.
+- `hash_error` appears in implementation fallback, test assertion, and runbook field definition.
+- Evidence files use `.txt` because repository `.gitignore` ignores `*.log`.

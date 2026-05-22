@@ -10,6 +10,7 @@ import {
   useState,
   type KeyboardEvent as ReactKeyboardEvent,
 } from "react";
+import { useRouter } from "next/navigation";
 import {
   AuthRequiredError,
   requestDelete,
@@ -32,6 +33,7 @@ export function DeleteRequestDialog({
   onClose,
   onSubmitted,
 }: DeleteRequestDialogProps) {
+  const router = useRouter();
   const titleId = useId();
   const descId = useId();
   const irreversibleId = useId();
@@ -66,10 +68,12 @@ export function DeleteRequestDialog({
     try {
       const res = await requestDelete(reason.length > 0 ? { reason } : {});
       if (res.ok) {
+        router.refresh();
         onSubmitted(res.accepted);
         onClose();
       } else {
         if (res.code === "DUPLICATE_PENDING_REQUEST") {
+          router.refresh();
           onSubmitted({
             queueId: "existing-pending",
             type: "delete_request",
@@ -115,6 +119,7 @@ export function DeleteRequestDialog({
       ref={dialogRef}
       onKeyDown={onDialogKeyDown}
       data-testid="delete-request-dialog"
+      data-region="delete-request-dialog"
     >
       <h3 id={titleId}>退会を申請する</h3>
       <p id={descId}>

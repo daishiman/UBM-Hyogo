@@ -27,7 +27,7 @@
 
 **苦戦箇所**: `GET /me/profile` schema に `pendingRequests` を追加した直後、web 側 SSR は any cast で動いてしまい mirror 型 `apps/web/src/lib/api/me-types.ts` の更新が漏れた。型が割れていても build は通り、Phase 7/8 まで気づかない。
 
-**5分解決カード**: spec の affected files に必ず `apps/web/src/lib/api/me-types.ts` を列挙する。実装時は API schema → web mirror の順で commit を分け、`apps/web/src/lib/api/me-types.test-d.ts` で shape match を type-level test として固定する。Phase 12 artifact-inventory の Web mirror 行 unfilled は compliance fail 扱いにする。
+**5分解決カード**: spec の affected files に必ず `apps/web/src/lib/api/me-types.ts` を列挙する。実装時は API schema → web mirror の順で commit を分け、`apps/web/src/lib/api/me-types.spec-d.ts` で shape match を type-level test として固定する。Phase 12 artifact-inventory の Web mirror 行 unfilled は compliance fail 扱いにする。
 
 **promoted-to**: `.claude/skills/task-specification-creator/SKILL.md`（Web/API mirror type checklist）, `references/architecture-implementation-patterns-core.md`（API contract mirror pattern）, `references/workflow-06b-b-profile-request-pending-banner-sticky-artifact-inventory.md`
 

@@ -1,9 +1,9 @@
 // TODO(08b): 実装は Phase 11 manual smoke で活性化
-import { expect } from '@playwright/test'
+import { expect } from '../fixtures/coverage'
 import { test } from '../fixtures/auth'
 import { ProfilePage } from '../page-objects/ProfilePage'
 
-test.describe.skip('profile (#4 編集 form 不在 / #8 reload 後 session 維持)', () => {
+test.describe('profile (#4 編集 form 不在 / #8 reload 後 session 維持)', () => {
   test('desktop: 編集 form 不在 + editResponseUrl ボタン', async ({ memberPage }) => {
     const profile = new ProfilePage(memberPage)
     await profile.visit()

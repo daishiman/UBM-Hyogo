@@ -1,0 +1,48 @@
+{
+  "schemaVersion": 1,
+  "metadata": {
+    "id": "ci-pipeline-recovery-web-cd-and-runtime-smoke",
+    "taskType": "implementation",
+    "docsOnly": false,
+    "remainingOnly": false,
+    "visualEvidence": "NON_VISUAL",
+    "implementation_mode": "implemented-local-ci-recovery",
+    "workflow_state": "implemented-local-runtime-pending",
+    "created_at": "2026-05-09",
+    "scope": "web-cd-workers-migration-and-staging-runtime-smoke-secret-provisioning",
+    "phase_outputs_status": "completed",
+    "runtime_evidence_state": "deploy-and-secret-operations-pending-user-approval"
+  },
+  "task": {
+    "id": "ci-pipeline-recovery-web-cd-and-runtime-smoke",
+    "name": "CI pipeline recovery: web CD and runtime smoke",
+    "task_path": "docs/30-workflows/ci-pipeline-recovery-web-cd-and-runtime-smoke",
+    "status": "implemented-local-runtime-pending",
+    "depends_on": [
+      "apps/web OpenNext Workers bundle",
+      "scripts/cf.sh Cloudflare wrapper",
+      "issue-571-runtime-smoke-ci-staging-integration"
+    ],
+    "blocks": [
+      "web-cd dev/main green run",
+      "runtime-smoke-staging green run",
+      "09c production deploy readiness"
+    ]
+  },
+  "phases": [
+    { "phase": 1, "name": "Context", "file": "design/phase-01-context.md", "status": "completed", "outputs": ["design/phase-01-context.md"] },
+    { "phase": 2, "name": "Requirements", "file": "design/phase-02-requirements.md", "status": "completed", "outputs": ["design/phase-02-requirements.md"] },
+    { "phase": 3, "name": "Architecture", "file": "design/phase-03-architecture.md", "status": "completed", "outputs": ["design/phase-03-architecture.md"] },
+    { "phase": 11, "name": "Acceptance Evidence", "file": "outputs/phase-12/phase12-task-spec-compliance-check.md", "status": "local-evidence-captured", "outputs": ["outputs/phase-12/phase12-task-spec-compliance-check.md"] },
+    { "phase": 12, "name": "Close-out Compliance", "file": "outputs/phase-12/main.md", "status": "completed", "outputs": [
+      "outputs/phase-12/main.md",
+      "outputs/phase-12/implementation-guide.md",
+      "outputs/phase-12/system-spec-update-summary.md",
+      "outputs/phase-12/documentation-changelog.md",
+      "outputs/phase-12/unassigned-task-detection.md",
+      "outputs/phase-12/skill-feedback-report.md",
+      "outputs/phase-12/phase12-task-spec-compliance-check.md"
+    ] },
+    { "phase": 13, "name": "PR / runtime operations", "file": "index.md", "status": "pending_user_approval", "outputs": ["index.md"] }
+  ]
+}

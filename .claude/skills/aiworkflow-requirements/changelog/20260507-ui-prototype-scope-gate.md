@@ -3,6 +3,7 @@
 ## Summary
 
 UI prototype alignment / MVP recovery の task-01 scope gate を aiworkflow-requirements に同期した。
+同日 task-07 prototype mapping table も同一 recovery wave の docs-only / NON_VISUAL 正本として同期した。
 
 ## Synced Facts
 
@@ -16,11 +17,22 @@ UI prototype alignment / MVP recovery の task-01 scope gate を aiworkflow-requ
 | visual evidence | NON_VISUAL。screenshot 不要 |
 | archive hygiene | 5 dir を `docs/30-workflows/completed-tasks/` へ archive し、純削除 blocker は解消済み |
 
+| task-07 item | Value |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/task-07-prototype-mapping-table/` |
+| artifact | `docs/00-getting-started-manual/specs/09a-prototype-map.md` |
+| aiworkflow reference | `references/ui-ux-prototype-map.md` |
+| inventory | `references/workflow-task-07-prototype-mapping-table-artifact-inventory.md` |
+| 苦戦箇所 | `lessons-learned/lessons-learned-task-07-prototype-mapping-table-2026-05.md` |
+| verifier | `scripts/verify-09a-prototype-line-ranges.sh` |
+| synced facts | 13+ primitives, 19 routes, shell/chrome, 09c-09h source mapping, EDITMODE rejection list |
+
 ## Updated Indexes
 
 - `.claude/skills/aiworkflow-requirements/indexes/quick-reference.md`
 - `.claude/skills/aiworkflow-requirements/indexes/resource-map.md`
 - `.claude/skills/aiworkflow-requirements/references/task-workflow-active.md`
+- `.claude/skills/aiworkflow-requirements/references/ui-ux-prototype-map.md`
 - `.claude/skills/aiworkflow-requirements/SKILL.md`
 
 ## Verification

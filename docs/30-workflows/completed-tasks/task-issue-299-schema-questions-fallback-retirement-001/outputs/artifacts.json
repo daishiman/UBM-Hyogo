@@ -1,0 +1,87 @@
+{
+  "metadata": {
+    "workflow_id": "task-issue-299-schema-questions-fallback-retirement-001",
+    "taskType": "implementation",
+    "visualEvidence": "NON_VISUAL",
+    "workflow_state": "implementation_complete_pending_pr",
+    "implementation_status": "fallback_retired_local",
+    "evidence_state": "COVERAGE_ZERO_VERIFIED_LOCAL",
+    "coverageTier": "standard",
+    "created_at": "2026-05-15",
+    "updated_at": "2026-05-15",
+    "source_issue": 299,
+    "source_issue_state": "open",
+    "source_unassigned_task": "docs/30-workflows/unassigned-task/task-issue-191-schema-questions-fallback-retirement-001.md",
+    "canonical_system_spec": ".claude/skills/aiworkflow-requirements/references/database-implementation-core.md",
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-05-15T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/task-issue-299-schema-questions-fallback-retirement-001/index.md",
+        "approver": "daishiman",
+        "notes": "spec_review: Phase 1-13 specification created. Issue #299 remains open and PR wording must use Refs #299 only."
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "passed",
+        "passed_at": "2026-05-15T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/task-issue-299-schema-questions-fallback-retirement-001/outputs/phase-11/coverage-evidence.md",
+        "approver": "daishiman",
+        "notes": "coverage_gate: production 0 rows / staging 0 rows (production と同一 D1 binding) を 2026-05-15 16:00 JST 帯に確認。"
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "passed",
+        "passed_at": "2026-05-15T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/task-issue-299-schema-questions-fallback-retirement-001/outputs/phase-11/test-results.md",
+        "approver": "CODEOWNERS:apps-api",
+        "notes": "implementation_validation: focused unit test 6/6 PASS, tsc -p apps/api PASS, target file static grep 0 件確認。"
+      },
+      {
+        "gate_id": "Gate-D",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/task-issue-299-schema-questions-fallback-retirement-001/phase-13.md",
+        "approver": "daishiman",
+        "notes": "pr_approval: commit, push, PR creation, and any Issue mutation are blocked until explicit user approval."
+      }
+    ]
+  },
+  "implementation_targets": [
+    "apps/api/src/repository/schemaQuestions.ts",
+    "apps/api/src/sync/schema/resolve-stable-key.spec.ts",
+    "scripts/diagnose/schema-aliases-coverage.sql",
+    ".claude/skills/aiworkflow-requirements/references/database-implementation-core.md"
+  ],
+  "evidence": [
+    "outputs/phase-11/main.md",
+    "outputs/phase-11/test-results.md",
+    "outputs/phase-11/coverage-evidence.md",
+    "outputs/phase-11/sync-log-evidence.md",
+    "outputs/phase-11/static-guard.md",
+    "outputs/phase-11/diff-evidence.md",
+    "outputs/phase-12/main.md",
+    "outputs/phase-12/implementation-guide.md",
+    "outputs/phase-12/system-spec-update-summary.md",
+    "outputs/phase-12/documentation-changelog.md",
+    "outputs/phase-12/unassigned-task-detection.md",
+    "outputs/phase-12/skill-feedback-report.md",
+    "outputs/phase-12/phase12-task-spec-compliance-check.md"
+  ],
+  "phases": [
+    { "phase": 1, "status": "spec_created" },
+    { "phase": 2, "status": "spec_created" },
+    { "phase": 3, "status": "spec_created" },
+    { "phase": 4, "status": "spec_created" },
+    { "phase": 5, "status": "spec_created" },
+    { "phase": 6, "status": "spec_created" },
+    { "phase": 7, "status": "spec_created" },
+    { "phase": 8, "status": "spec_created" },
+    { "phase": 9, "status": "spec_created" },
+    { "phase": 10, "status": "spec_created" },
+    { "phase": 11, "status": "completed" },
+    { "phase": 12, "status": "completed" },
+    { "phase": 13, "status": "blocked_until_user_approval" }
+  ]
+}

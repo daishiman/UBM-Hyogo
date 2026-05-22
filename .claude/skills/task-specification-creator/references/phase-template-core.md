@@ -85,6 +85,7 @@ Phase 1、Phase 2、Phase 3。
 ## Phase 1 のポイント
 
 - **Step 0: P50チェック（必須）** — Phase 1 開始前に対象ファイルの実装状態を `git log` と `grep` で確認し、既実装コードの重複作成を防止する（詳細: [phase-template-phase1.md](phase-template-phase1.md)）。
+- **Runtime smoke 500 body-first RCA（必須）**: runtime smoke / staging smoke / backend-ci smoke の 500 復旧タスクでは、最初に artifact の bounded response body を保存・grep し、body が `auth misconfigured` / auth・config 系を示す場合は endpoint handler より先に auth middleware・runtime binding・secret/variable 注入経路を切り分ける。`secret list` は name presence のみで value usability 証明ではないため、Phase 1 で runtime curl/body evidence と区別して記録する。
 - inventory と source scope の差分を固定する。
 - acceptance criteria を番号付きで定義し、**本文に AC-1, AC-2... を列挙する**。
 - `spec-extraction-map.md` で aiworkflow-requirements 正本と current code anchor の対応を固定する。
@@ -102,7 +103,7 @@ Phase 1、Phase 2、Phase 3。
 
 - concern ごとの target topology を table 化する。
 - lane 数は 3 以下に固定する。
-- validation matrix を command 単位で定義する。
+- validation matrix を command 単位で定義する。command gate を書く前に対象 workspace の `package.json` と test runner config を確認し、実在する package name / script 名だけを使う。例: current scripts が `test` / `typecheck` の package に `test:run` / `test:typecheck` を書かない。
 - DI 境界の型配置判断を明示する（下記フロー参照）。
 - 画面遷移 / handoff 改修では、Phase 1 で確定した **既存 state 名** と **既存 route pattern** をそのまま設計へ持ち込む。未定義 state を設計本文で発明しない。
 - 既存 DB / API / shared schema の enum や status を拡張・alias する場合、Phase 2 で **仕様語 ↔ 実装語の対応表** と **追従対象（backend route / web client / shared zod / type / docs）** を明示する。07a feedback: `candidate/confirmed` と `queued/resolved` の drift、web client の空 body 呼び出し、shared schema の `rejected` 漏れを再発防止する。
@@ -111,6 +112,16 @@ Phase 1、Phase 2、Phase 3。
 - OAuth / session / admin gate 系タスクでは、Phase 2 で **session 型定義・JWT encode/decode 契約・provider 間共有 ADR** を必須セクション化する。Auth.js 等の framework default を API 側が検証できる前提にせず、実 cookie/token と API verifier の互換テストを validation matrix に含める。
 - D1 / API / repository 系タスクでは、Phase 2 で `apps/api/migrations/*.sql` と repository contract を grep 照合し、「仕様書記述 vs 実 DB」の対応表を必須セクション化する。存在しないカラム前提を設計本文へ持ち込まない。
 - HTTP 202 / retryable / resumable workflow では、Phase 2 で **continuation visibility** を必須セクション化する。retry target が API list / queue row / documented operator command のどれから再発見できるか、完了状態へ収束する条件、Phase 4 の検証ケースを同じ表に書く。
+- UI prototype alignment のように prototype 掲載画面と未掲載派生画面が混在する docs-only task では、Phase 2 で **派生ルール正本転記計画** を必須セクション化する。派生元参照、転記方式（全文 / 抜粋 + link / link のみ）、派生注記の固定形、新 primitive 生成可否、prototype JSX の扱い（literal JSX / 構造 contract / link only）を表に固定し、Phase 11 AC で検証できる数値に落とす。
+- **UI Prototype JSX Section Inventory Checklist【prototype 移植 task 必須】**（UBM-Hyogo i04 / L-T11-007 知見）: prototype JSX ファイル (例: `claude-design-prototype/pages-public.jsx`) を本番 component / page に移植する task では、Phase 2 で以下の 3 成果物を必須化し bottom / nested / conditional render の section 見落としを防ぐ。Phase 11 AC は「prototype section 全数と本番 mount 数が一致」を数値で検証する。
+  
+  | 責務 | 実行方法 | 出力成果物 |
+  | --- | --- | --- |
+  | JSX section 列挙 | prototype JSX を `rg -n "^\s*(<[A-Z]|export\|function|return\s*\()" <file>` で行番号付き抽出し全 section をリスト化 | `source-section-inventory.md` |
+  | 本番側対応 mapping | 各 section を現行本番の component / mount point (route file + 行) へ表化。未移植 section を明示 | `component-mapping-table.md` |
+  | 落とし穴 checklist | bottom section / nested section / dark variant 等の視覚独立 section / conditional render を明示チェック | `migration-risks.md` |
+- **既存実装検査ゲート【follow-up タスク必須】**（Issue #560 L-560-001 / L-560-004 知見）: 既存 workaround の hardening / formalize 系 follow-up タスクでは、Phase 2 で `rg --files <target dir>` により対象スクリプト・実装ファイル・physical output path を必ず洗い出し、「既存実装あり / 部分実装あり / greenfield」のいずれかに分類してから Phase 3 の `RED` / `spec_created` / `existing-hardening` ラベルを確定する。greenfield 前提の wording を既存実装ありの follow-up に持ち込まない。RED の意味は「ファイル不在」ではなく「既存コードが新規 AC を満たさない」こと。
+- **CI workflow 実在確認ゲート**（Issue #560 L-560-003 知見）: CI gate を伴うタスクでは、Phase 2 で `rg --files .github/workflows` により実在する workflow file を列挙し、owner workflow を 1 つに固定してから Phase 3 へ進める。`pr-build.yml` のような generic placeholder を spec に残置しない。複数 workflow に跨る場合は dependency matrix の owner / co-owner 列でどの workflow が canonical CI gate 責務を持つかを明示する。
 
 ### concern 数による設計書分割基準（TASK-SKILL-LIFECYCLE-08 知見）
 

@@ -12,13 +12,17 @@ import {
 } from "@ubm-hyogo/shared";
 import { requireAdmin } from "../../middleware/require-admin";
 import { ctx } from "../../repository/_shared/db";
-import { getTotals, listRecentActions } from "../../repository/dashboard";
+import { getStatusDistribution, getTotals, listRecentActions } from "../../repository/dashboard";
 import {
   computeAttendanceOverview,
   listSessionAttendanceStats,
   listMemberAttendanceRanking,
 } from "../../repository/attendance";
-import { append as appendAudit } from "../../repository/auditLog";
+import {
+  writeTagNoteProviderMiddleware,
+  type WriteTagNoteProviderVariables,
+} from "../../middleware/repository-providers";
+import { requireProvider } from "../../repository/_shared/provider-context";
 import {
   adminEmail,
   asAdminId,
@@ -37,19 +41,22 @@ const parseAnalyticsLimit = (raw: string | undefined): { ok: true; limit?: numbe
 export const createAdminDashboardRoute = () => {
   const app = new Hono<{
     Bindings: AdminRouteEnv;
-    Variables: { authUser: AuthSessionUser };
+    Variables: { authUser: AuthSessionUser } & Partial<WriteTagNoteProviderVariables>;
   }>();
   app.use("*", requireAdmin);
+  app.use("*", writeTagNoteProviderMiddleware);
 
   app.get("/dashboard", async (c) => {
     const dbCtx = ctx({ DB: c.env.DB });
-    const [totals, recent] = await Promise.all([
+    const [totals, byStatus, recent] = await Promise.all([
       getTotals(dbCtx),
+      getStatusDistribution(dbCtx),
       listRecentActions(dbCtx, 20),
     ]);
 
     const view = {
       totals,
+      byStatus,
       recentActions: recent.map((r) => ({
         auditId: r.auditId,
         actorEmail: r.actorEmail,
@@ -67,7 +74,7 @@ export const createAdminDashboardRoute = () => {
     }
 
     const authUser = c.get("authUser");
-    await appendAudit(dbCtx, {
+    await requireProvider(c.var.auditLogProvider, "auditLogProvider").append({
       actorId: authUser.memberId ? asAdminId(authUser.memberId) : null,
       actorEmail: authUser.email ? adminEmail(authUser.email) : null,
       action: auditAction("dashboard.view"),

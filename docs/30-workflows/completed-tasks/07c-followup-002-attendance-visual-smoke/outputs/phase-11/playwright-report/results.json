@@ -1,0 +1,622 @@
+{
+  "config": {
+    "configFile": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260515-100450-wt-11/apps/web/playwright.config.ts",
+    "rootDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260515-100450-wt-11/apps/web/playwright/tests",
+    "forbidOnly": false,
+    "fullyParallel": true,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {},
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260515-100450-wt-11/docs/30-workflows/07c-followup-002-attendance-visual-smoke/outputs/phase-11/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {},
+        "id": "desktop-chromium",
+        "name": "desktop-chromium",
+        "testDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260515-100450-wt-11/apps/web/playwright/tests",
+        "testIgnore": [
+          "/visual\\/.*\\.spec\\.ts$/",
+          "/visual-full\\/.*\\.spec\\.ts$/",
+          "/full-smoke\\.spec\\.ts$/",
+          "**/admin-identity-conflicts.spec.ts",
+          "**/admin-requests.spec.ts",
+          "**/admin-schema-conflicts-audit.spec.ts",
+          "**/admin-member-delete.spec.ts"
+        ],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 60000
+      },
+      {
+        "outputDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260515-100450-wt-11/docs/30-workflows/07c-followup-002-attendance-visual-smoke/outputs/phase-11/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {},
+        "id": "smoke-chromium",
+        "name": "smoke-chromium",
+        "testDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260515-100450-wt-11/apps/web/playwright/tests",
+        "testIgnore": [
+          "**/admin-identity-conflicts.spec.ts",
+          "**/admin-requests.spec.ts",
+          "**/admin-schema-conflicts-audit.spec.ts",
+          "**/admin-member-delete.spec.ts"
+        ],
+        "testMatch": [
+          "/full-smoke\\.spec\\.ts$/"
+        ],
+        "timeout": 60000
+      },
+      {
+        "outputDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260515-100450-wt-11/docs/30-workflows/07c-followup-002-attendance-visual-smoke/outputs/phase-11/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {},
+        "id": "visual-chromium",
+        "name": "visual-chromium",
+        "testDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260515-100450-wt-11/apps/web/playwright/tests",
+        "testIgnore": [
+          "**/admin-identity-conflicts.spec.ts",
+          "**/admin-requests.spec.ts",
+          "**/admin-schema-conflicts-audit.spec.ts",
+          "**/admin-member-delete.spec.ts"
+        ],
+        "testMatch": [
+          "/visual\\/.*\\.spec\\.ts$/"
+        ],
+        "timeout": 60000
+      },
+      {
+        "outputDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260515-100450-wt-11/docs/30-workflows/07c-followup-002-attendance-visual-smoke/outputs/phase-11/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {},
+        "id": "desktop-firefox",
+        "name": "desktop-firefox",
+        "testDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260515-100450-wt-11/apps/web/playwright/tests",
+        "testIgnore": [
+          "/visual\\/.*\\.spec\\.ts$/",
+          "/visual-full\\/.*\\.spec\\.ts$/",
+          "/full-smoke\\.spec\\.ts$/",
+          "**/admin-identity-conflicts.spec.ts",
+          "**/admin-requests.spec.ts",
+          "**/admin-schema-conflicts-audit.spec.ts",
+          "**/admin-member-delete.spec.ts"
+        ],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 60000
+      },
+      {
+        "outputDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260515-100450-wt-11/docs/30-workflows/07c-followup-002-attendance-visual-smoke/outputs/phase-11/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {},
+        "id": "mobile-webkit",
+        "name": "mobile-webkit",
+        "testDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260515-100450-wt-11/apps/web/playwright/tests",
+        "testIgnore": [
+          "/visual\\/.*\\.spec\\.ts$/",
+          "/visual-full\\/.*\\.spec\\.ts$/",
+          "/full-smoke\\.spec\\.ts$/",
+          "/admin-pages\\.spec\\.ts$/",
+          "**/admin-identity-conflicts.spec.ts",
+          "**/admin-requests.spec.ts",
+          "**/admin-schema-conflicts-audit.spec.ts",
+          "**/admin-member-delete.spec.ts"
+        ],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 60000
+      },
+      {
+        "outputDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260515-100450-wt-11/docs/30-workflows/07c-followup-002-attendance-visual-smoke/outputs/phase-11/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {},
+        "id": "visual-full-chromium-desktop",
+        "name": "visual-full-chromium-desktop",
+        "testDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260515-100450-wt-11/apps/web/playwright/tests/visual-full",
+        "testIgnore": [
+          "**/admin-identity-conflicts.spec.ts",
+          "**/admin-requests.spec.ts",
+          "**/admin-schema-conflicts-audit.spec.ts",
+          "**/admin-member-delete.spec.ts"
+        ],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 60000
+      },
+      {
+        "outputDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260515-100450-wt-11/docs/30-workflows/07c-followup-002-attendance-visual-smoke/outputs/phase-11/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {},
+        "id": "visual-full-chromium-tablet",
+        "name": "visual-full-chromium-tablet",
+        "testDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260515-100450-wt-11/apps/web/playwright/tests/visual-full",
+        "testIgnore": [
+          "**/admin-identity-conflicts.spec.ts",
+          "**/admin-requests.spec.ts",
+          "**/admin-schema-conflicts-audit.spec.ts",
+          "**/admin-member-delete.spec.ts"
+        ],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 60000
+      },
+      {
+        "outputDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260515-100450-wt-11/docs/30-workflows/07c-followup-002-attendance-visual-smoke/outputs/phase-11/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {},
+        "id": "visual-full-chromium-mobile",
+        "name": "visual-full-chromium-mobile",
+        "testDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260515-100450-wt-11/apps/web/playwright/tests/visual-full",
+        "testIgnore": [
+          "**/admin-identity-conflicts.spec.ts",
+          "**/admin-requests.spec.ts",
+          "**/admin-schema-conflicts-audit.spec.ts",
+          "**/admin-member-delete.spec.ts"
+        ],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 60000
+      },
+      {
+        "outputDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260515-100450-wt-11/docs/30-workflows/07c-followup-002-attendance-visual-smoke/outputs/phase-11/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {},
+        "id": "staging",
+        "name": "staging",
+        "testDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260515-100450-wt-11/apps/web/playwright/tests",
+        "testIgnore": [
+          "**/admin-identity-conflicts.spec.ts",
+          "**/admin-requests.spec.ts",
+          "**/admin-schema-conflicts-audit.spec.ts",
+          "**/admin-member-delete.spec.ts"
+        ],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 60000
+      },
+      {
+        "outputDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260515-100450-wt-11/docs/30-workflows/07c-followup-002-attendance-visual-smoke/outputs/phase-11/test-results",
+        "repeatEach": 1,
+        "retries": 2,
+        "metadata": {},
+        "id": "staging-smoke",
+        "name": "staging-smoke",
+        "testDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260515-100450-wt-11/apps/web/tests/e2e",
+        "testIgnore": [
+          "**/admin-identity-conflicts.spec.ts",
+          "**/admin-requests.spec.ts",
+          "**/admin-schema-conflicts-audit.spec.ts",
+          "**/admin-member-delete.spec.ts"
+        ],
+        "testMatch": [
+          "/staging-smoke\\.spec\\.ts$/"
+        ],
+        "timeout": 60000
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "html",
+        {
+          "outputFolder": "../../docs/30-workflows/07c-followup-002-attendance-visual-smoke/outputs/phase-11/playwright-report/html",
+          "open": "never"
+        }
+      ],
+      [
+        "json",
+        {
+          "outputFile": "../../docs/30-workflows/07c-followup-002-attendance-visual-smoke/outputs/phase-11/playwright-report/results.json"
+        }
+      ],
+      [
+        "list",
+        null
+      ],
+      [
+        "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260515-100450-wt-11/node_modules/monocart-reporter/lib/index.js",
+        {
+          "name": "UBM-Hyogo E2E",
+          "outputFile": "../../docs/30-workflows/07c-followup-002-attendance-visual-smoke/outputs/phase-11/monocart/index.html",
+          "coverage": {
+            "outputDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260515-100450-wt-11/apps/web/coverage",
+            "reports": [
+              [
+                "v8",
+                {
+                  "outputDir": "coverage/v8"
+                }
+              ],
+              "json-summary",
+              [
+                "lcovonly",
+                {
+                  "outputFile": "coverage/lcov.info"
+                }
+              ]
+            ]
+          }
+        }
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.59.1",
+    "workers": 1,
+    "webServer": null
+  },
+  "suites": [
+    {
+      "title": "attendance.spec.ts",
+      "file": "attendance.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "attendance visual smoke (#313)",
+          "file": "attendance.spec.ts",
+          "line": 4,
+          "column": 6,
+          "specs": [
+            {
+              "title": "detail: 削除済み member は候補に出ない",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "desktop-chromium",
+                  "projectName": "desktop-chromium",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "3b9a56e6ecc460e88dcd-141972ca9805dc20374c",
+              "file": "attendance.spec.ts",
+              "line": 7,
+              "column": 3
+            },
+            {
+              "title": "detail: 登録済み member は登録済として可視化される",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "desktop-chromium",
+                  "projectName": "desktop-chromium",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "3b9a56e6ecc460e88dcd-505a46dd979a68cb0cc0",
+              "file": "attendance.spec.ts",
+              "line": 17,
+              "column": 3
+            },
+            {
+              "title": "detail: 同一 member 連続登録で toast 表示",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "desktop-chromium",
+                  "projectName": "desktop-chromium",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "3b9a56e6ecc460e88dcd-50e73d3070a84e6ab152",
+              "file": "attendance.spec.ts",
+              "line": 27,
+              "column": 3
+            },
+            {
+              "title": "list: delete 後 attendance state が更新される",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "desktop-chromium",
+                  "projectName": "desktop-chromium",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "3b9a56e6ecc460e88dcd-7f96d17a4ede3a9c057a",
+              "file": "attendance.spec.ts",
+              "line": 40,
+              "column": 3
+            },
+            {
+              "title": "detail: 削除済み member は候補に出ない",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "desktop-firefox",
+                  "projectName": "desktop-firefox",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "3b9a56e6ecc460e88dcd-9a56a83ebd3c2006bba6",
+              "file": "attendance.spec.ts",
+              "line": 7,
+              "column": 3
+            },
+            {
+              "title": "detail: 登録済み member は登録済として可視化される",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "desktop-firefox",
+                  "projectName": "desktop-firefox",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "3b9a56e6ecc460e88dcd-211e27875a6cf7cbc4c4",
+              "file": "attendance.spec.ts",
+              "line": 17,
+              "column": 3
+            },
+            {
+              "title": "detail: 同一 member 連続登録で toast 表示",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "desktop-firefox",
+                  "projectName": "desktop-firefox",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "3b9a56e6ecc460e88dcd-7efc33e6a5e76ee3293d",
+              "file": "attendance.spec.ts",
+              "line": 27,
+              "column": 3
+            },
+            {
+              "title": "list: delete 後 attendance state が更新される",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "desktop-firefox",
+                  "projectName": "desktop-firefox",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "3b9a56e6ecc460e88dcd-7796705a99526166eacc",
+              "file": "attendance.spec.ts",
+              "line": 40,
+              "column": 3
+            },
+            {
+              "title": "detail: 削除済み member は候補に出ない",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "mobile-webkit",
+                  "projectName": "mobile-webkit",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "3b9a56e6ecc460e88dcd-561995a1b2f97b1fe50b",
+              "file": "attendance.spec.ts",
+              "line": 7,
+              "column": 3
+            },
+            {
+              "title": "detail: 登録済み member は登録済として可視化される",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "mobile-webkit",
+                  "projectName": "mobile-webkit",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "3b9a56e6ecc460e88dcd-a8890a315631e838c55e",
+              "file": "attendance.spec.ts",
+              "line": 17,
+              "column": 3
+            },
+            {
+              "title": "detail: 同一 member 連続登録で toast 表示",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "mobile-webkit",
+                  "projectName": "mobile-webkit",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "3b9a56e6ecc460e88dcd-0308f51ed42e1dd640ae",
+              "file": "attendance.spec.ts",
+              "line": 27,
+              "column": 3
+            },
+            {
+              "title": "list: delete 後 attendance state が更新される",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "mobile-webkit",
+                  "projectName": "mobile-webkit",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "3b9a56e6ecc460e88dcd-26ff02856a5d3c7a2b09",
+              "file": "attendance.spec.ts",
+              "line": 40,
+              "column": 3
+            },
+            {
+              "title": "detail: 削除済み member は候補に出ない",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "staging",
+                  "projectName": "staging",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "3b9a56e6ecc460e88dcd-033c93f572779ee18874",
+              "file": "attendance.spec.ts",
+              "line": 7,
+              "column": 3
+            },
+            {
+              "title": "detail: 登録済み member は登録済として可視化される",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "staging",
+                  "projectName": "staging",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "3b9a56e6ecc460e88dcd-7c51bae3f9bc49e1fd60",
+              "file": "attendance.spec.ts",
+              "line": 17,
+              "column": 3
+            },
+            {
+              "title": "detail: 同一 member 連続登録で toast 表示",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "staging",
+                  "projectName": "staging",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "3b9a56e6ecc460e88dcd-d2e30a5cee809a0603db",
+              "file": "attendance.spec.ts",
+              "line": 27,
+              "column": 3
+            },
+            {
+              "title": "list: delete 後 attendance state が更新される",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "staging",
+                  "projectName": "staging",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "3b9a56e6ecc460e88dcd-dbb5447ad76fc7e18b93",
+              "file": "attendance.spec.ts",
+              "line": 40,
+              "column": 3
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-05-15T04:45:14.649Z",
+    "duration": 296.029,
+    "expected": 0,
+    "skipped": 16,
+    "unexpected": 0,
+    "flaky": 0
+  }
+}

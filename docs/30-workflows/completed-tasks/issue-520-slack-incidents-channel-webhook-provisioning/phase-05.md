@@ -111,7 +111,7 @@ op item create \
 3. title = `SLACK_WEBHOOK_INCIDENT`
 4. field `url` を **password 種別**（concealed）として作成し、Slack コピーバッファから貼り付け
 5. Save
-6. 参照 path `op://UBM-Hyogo/Slack Incident Webhook (production)/url` を runbook 作業 worksheet に控える（実値は控えない）
+6. 参照 path `op://Employee/ubm-hyogo-env/SLACK_WEBHOOK_INCIDENT_PRODUCTION` を runbook 作業 worksheet に控える（実値は控えない）
 
 ### DoD
 
@@ -130,7 +130,7 @@ op item create \
 
 ```diff
 + # incident channel #ubm-hyogo-incidents 向け incoming webhook (production / staging 共有)
-+ SLACK_WEBHOOK_INCIDENT="op://UBM-Hyogo/Slack Incident Webhook (production)/url"
++ SLACK_WEBHOOK_INCIDENT="op://Employee/ubm-hyogo-env/SLACK_WEBHOOK_INCIDENT_PRODUCTION"
 ```
 
 実値は **絶対に書かない**。op:// 参照のみ。
@@ -153,7 +153,7 @@ git diff で行を削除して revert。
 ```bash
 # 値は op 経由で stdin に直接渡し、コマンドラインに値を残さない
 # scripts/cf.sh が op run --env-file=.env でラップしている前提
-op read "op://UBM-Hyogo/Slack Incident Webhook (production)/url" \
+op read "op://Employee/ubm-hyogo-env/SLACK_WEBHOOK_INCIDENT_PRODUCTION" \
   | bash scripts/cf.sh secret put SLACK_WEBHOOK_INCIDENT \
       --config apps/api/wrangler.toml \
       --env staging
@@ -189,7 +189,7 @@ bash scripts/cf.sh secret delete SLACK_WEBHOOK_INCIDENT \
 ### 手順
 
 ```bash
-op read "op://UBM-Hyogo/Slack Incident Webhook (production)/url" \
+op read "op://Employee/ubm-hyogo-env/SLACK_WEBHOOK_INCIDENT_PRODUCTION" \
   | bash scripts/cf.sh secret put SLACK_WEBHOOK_INCIDENT \
       --config apps/api/wrangler.toml \
       --env production
@@ -215,7 +215,7 @@ bash scripts/cf.sh secret list --config apps/api/wrangler.toml --env production 
 
 ```bash
 # stdin で値を渡し、shell history に値を残さない
-op read "op://UBM-Hyogo/Slack Incident Webhook (production)/url" \
+op read "op://Employee/ubm-hyogo-env/SLACK_WEBHOOK_INCIDENT_PRODUCTION" \
   | gh secret set SLACK_WEBHOOK_INCIDENT --repo daishiman/UBM-Hyogo
 
 # name-only 確認
@@ -277,7 +277,7 @@ hit があった場合: 当該 file を編集して fragment を `<webhook-url-f
 
 | 追記内容 | 概要 |
 | --- | --- |
-| secret 配置先 | 1Password (`op://UBM-Hyogo/Slack Incident Webhook (production)/url`) → Cloudflare Workers (staging+production) → GitHub Actions の同期順 |
+| secret 配置先 | 1Password (`op://Employee/ubm-hyogo-env/SLACK_WEBHOOK_INCIDENT_PRODUCTION`) → Cloudflare Workers (staging+production) → GitHub Actions の同期順 |
 | 投入経路 | `bash scripts/cf.sh secret put` のみ（`wrangler` 直接禁止） |
 | 値非表示原則 | `secret list` での name-only 確認、`op read` の出力を terminal に残さない、shell history への値混入禁止 |
 | rotate 手順 | webhook 漏洩時の Slack disable → 1Password 更新 → cf.sh 再投入 → gh secret 上書き |
@@ -334,7 +334,7 @@ hit があった場合: 当該 file を編集して fragment を `<webhook-url-f
 grep -q "Step A\|Step J" docs/30-workflows/issue-520-slack-incidents-channel-webhook-provisioning/phase-05.md
 grep -q "scripts/cf.sh secret put" docs/30-workflows/issue-520-slack-incidents-channel-webhook-provisioning/phase-05.md
 grep -q "gh secret set" docs/30-workflows/issue-520-slack-incidents-channel-webhook-provisioning/phase-05.md
-grep -q "op://UBM-Hyogo/Slack Incident Webhook (production)/url" docs/30-workflows/issue-520-slack-incidents-channel-webhook-provisioning/phase-05.md
+grep -q "op://Employee/ubm-hyogo-env/SLACK_WEBHOOK_INCIDENT_PRODUCTION" docs/30-workflows/issue-520-slack-incidents-channel-webhook-provisioning/phase-05.md
 ```
 
 ## 成果物

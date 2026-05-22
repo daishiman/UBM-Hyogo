@@ -60,7 +60,7 @@ issue-495-09b-A-sentry-slack-runtime-smoke-prod-extension が依存する `SLACK
 | AC | 内容 | observable evidence |
 | --- | --- | --- |
 | AC-1 | Slack workspace に `#ubm-hyogo-incidents` channel が存在し、incoming webhook integration（または bot）が posting 権限を保持 | `outputs/phase-11/channel-provisioning-log.md` の channel ID（`C...` 形式の前 4 文字のみ）と integration 名 |
-| AC-2 | `#ubm-hyogo-incidents` 向け incoming webhook が発行され、URL 値が 1Password の所定 vault/item に保管されている。**実値はドキュメント・evidence・log のいずれにも記載しない** | `op://UBM-Hyogo/Slack Incident Webhook (<env>)/url` 参照 path のみを記録 |
+| AC-2 | `#ubm-hyogo-incidents` 向け incoming webhook が発行され、URL 値が 1Password の所定 vault/item に保管されている。**実値はドキュメント・evidence・log のいずれにも記載しない** | `op://Employee/ubm-hyogo-env/SLACK_WEBHOOK_INCIDENT_<ENV>` 参照 path のみを記録 |
 | AC-3 | `SLACK_WEBHOOK_INCIDENT` が staging / production 双方の Cloudflare Workers secret として `bash scripts/cf.sh secret put SLACK_WEBHOOK_INCIDENT --env <env>` 経由で投入済み | `bash scripts/cf.sh secret list --env staging` / `--env production` の name-only 出力で `SLACK_WEBHOOK_INCIDENT` が両 env に存在 |
 | AC-4 | GitHub Actions secret として `SLACK_WEBHOOK_INCIDENT` が登録されている（CI smoke で参照する経路がある場合のみ） | `gh secret list --repo daishiman/UBM-Hyogo` で name 確認 |
 | AC-5 | staging smoke endpoint からのテスト POST が `[STAGING SMOKE]` prefix で `#ubm-hyogo-incidents` に着弾 | `outputs/phase-11/webhook-smoke-log.md` の Slack permalink（手動取得）と staging Sentry event id short |
@@ -115,7 +115,7 @@ issue-495-09b-A-sentry-slack-runtime-smoke-prod-extension が依存する `SLACK
 | incoming webhook | Slack の channel 単位 POST endpoint。`https://hooks.slack.com/services/...` 形式。実値は 1Password のみで保持 |
 | channel slug | `#` を除いた channel 名。本タスクでは `ubm-hyogo-incidents` |
 | webhook URL fragment | Slack incoming webhook URL（`hooks` の services path 配下の workspace ID / channel ID / token を含む path 文字列）のうち、workspace ID 以降の path token 部分。redaction gate の対象 |
-| op:// 参照 | 1Password CLI の secret 参照記法。例: `op://UBM-Hyogo/Slack Incident Webhook (<env>)/url` |
+| op:// 参照 | 1Password CLI の secret 参照記法。例: `op://Employee/ubm-hyogo-env/SLACK_WEBHOOK_INCIDENT_<ENV>` |
 | env-aware Slack prefix | issue-495-09b-A-sentry-slack-runtime-smoke-prod-extension で確定済みの `[STAGING SMOKE]` / `[PRODUCTION SMOKE]` prefix |
 | name-only 確認 | `cf.sh secret list` の secret 名のみ列挙（値は表示されない）出力での存在確認 |
 

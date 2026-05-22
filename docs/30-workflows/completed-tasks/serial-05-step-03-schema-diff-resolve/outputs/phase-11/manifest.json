@@ -1,0 +1,36 @@
+{
+  "task": "serial-05-step-03-schema-diff-resolve",
+  "taskType": "implementation",
+  "visualEvidence": "VISUAL",
+  "evidence": {
+    "typecheck": "evidence/typecheck.log",
+    "lint": "evidence/lint.log",
+    "test": "evidence/test.log",
+    "build": "evidence/build.log",
+    "grep_gate": "evidence/grep-gate.log"
+  },
+  "screenshots": {
+    "status": "completed",
+    "reason": "Issue #775 recovery workflow captured the remaining SchemaDiffPanel runtime visual evidence with Playwright fixture-backed admin auth. Production app/API source remained frozen.",
+    "captured": [
+      "screenshots/admin-schema-diff-added-desktop.png",
+      "screenshots/admin-schema-diff-added-mobile.png",
+      "screenshots/admin-schema-diff-changed-desktop.png",
+      "screenshots/admin-schema-diff-changed-mobile.png",
+      "screenshots/admin-schema-diff-removed-desktop.png",
+      "screenshots/admin-schema-diff-removed-mobile.png",
+      "screenshots/admin-schema-diff-unresolved-desktop.png",
+      "screenshots/admin-schema-diff-unresolved-mobile.png",
+      "screenshots/admin-schema-diff-resolve-success.png",
+      "screenshots/admin-schema-diff-resolve-409.png",
+      "screenshots/admin-schema-diff-resolve-422.png"
+    ],
+    "legacy_placeholder": "screenshots/admin-schema-diff-list.placeholder.txt",
+    "pending": []
+  },
+  "completion_workflow": "docs/30-workflows/completed-tasks/issue-775-serial-05-step-03-runtime-evidence-completion/",
+  "runtime_evidence_log": "evidence/playwright.log",
+  "captured_at": "2026-05-18T17:29:49+09:00",
+  "pass": true,
+  "verdict": "PASS"
+}

@@ -5,20 +5,26 @@ function hashStringToHue(input: string): number {
 }
 
 export interface AvatarProps {
-  memberId: string;
+  memberId?: string;
   name: string;
-  size?: "sm" | "md" | "lg";
+  hue?: number;
+  size?: "sm" | "md" | "lg" | "xl";
+  className?: string;
 }
 
-export function Avatar({ memberId, name, size = "md" }: AvatarProps) {
-  const hue = hashStringToHue(memberId);
+export function Avatar({ memberId, name, hue, size = "md", className }: AvatarProps) {
+  const resolvedHue = hue ?? hashStringToHue(memberId ?? name);
+  const initial = name.trim().charAt(0) || "?";
   // Invariants #6 and #8: hue is derived from memberId, never persisted.
   return (
     <div
       role="img"
       aria-label={name}
       data-size={size}
-      style={{ background: `hsl(${hue} 70% 60%)` }}
-    />
+      className={className}
+      style={{ background: `hsl(${resolvedHue} 70% 60%)` }}
+    >
+      {initial}
+    </div>
   );
 }

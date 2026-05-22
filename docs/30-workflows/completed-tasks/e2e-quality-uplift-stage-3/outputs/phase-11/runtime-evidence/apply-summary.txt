@@ -1,0 +1,22 @@
+command: bash .github/branch-protection/apply.sh all
+date: 2026-05-11
+exit_code: 0
+
+raw_log: runtime-evidence/apply-result.txt
+note: apply-result.txt is raw stdout from multiple gh api PUT responses and is kept for audit continuity. This summary is the canonical human-readable apply evidence.
+
+dev:
+  contexts: ["ci","Validate Build","coverage-gate","lighthouse-ci","e2e-tests-coverage-gate"]
+  strict: false
+  required_pull_request_reviews: null
+  enforce_admins: true
+  required_linear_history: true
+  lock_branch: false
+
+main:
+  contexts: ["ci","Validate Build","coverage-gate","lighthouse-ci","e2e-tests-coverage-gate"]
+  strict: false
+  required_pull_request_reviews: null
+  enforce_admins: true
+  required_linear_history: true
+  lock_branch: false

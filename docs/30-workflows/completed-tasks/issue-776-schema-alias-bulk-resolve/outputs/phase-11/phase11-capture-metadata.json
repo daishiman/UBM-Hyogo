@@ -1,0 +1,14 @@
+{
+  "taskId": "issue-776-schema-alias-bulk-resolve",
+  "mode": "local Playwright fixture",
+  "status": "captured",
+  "capturedAt": "2026-05-18T10:09:46.301Z",
+  "screenshots": [
+    "bulk-select-desktop-1280.png",
+    "bulk-modal-desktop-1280.png",
+    "bulk-success-desktop-1280.png",
+    "bulk-partial-failure-desktop-1280.png",
+    "bulk-select-mobile-375.png",
+    "bulk-modal-mobile-375.png"
+  ]
+}

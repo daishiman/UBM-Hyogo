@@ -1,0 +1,90 @@
+{
+  "issue": 588,
+  "metadata": {
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-05-10T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-588-fallback-alert-slack-mail-extension/index.md",
+        "approver": "daishiman",
+        "notes": "spec_review: Phase 1-13 spec present at root, scope and DoD finalized"
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "passed",
+        "passed_at": "2026-05-10T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-588-fallback-alert-slack-mail-extension/outputs/phase-11/main.md",
+        "approver": "daishiman",
+        "notes": "validator_green: focused Vitest 22 tests PASS, pnpm typecheck PASS, pnpm lint PASS"
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": ".github/workflows/cf-audit-log-monitor.yml",
+        "approver": "CODEOWNERS:github-workflows",
+        "notes": "ci_integration: workflow guarded fallback notification step deployed; runtime Slack/mail delivery is user-gated"
+      },
+      {
+        "gate_id": "Gate-D",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-588-fallback-alert-slack-mail-extension/phase-13.md",
+        "approver": "daishiman",
+        "notes": "runtime_evidence: production completion requires natural fallback-rate incident or approved runtime verification wave"
+      }
+    ]
+  },
+  "taskType": "implementation",
+  "visualEvidence": "NON_VISUAL",
+  "workflow_state": "implemented-local-runtime-pending",
+  "stateVocabulary": "IMPLEMENTED_LOCAL_RUNTIME_PENDING",
+  "parent": 549,
+  "supersedes": "docs/30-workflows/unassigned-task/u-fix-cf-acct-01-deriv-04-fu-03-d-followup-03.md",
+  "implementation_targets": [
+    "scripts/cf-audit-log/observation/fallback-rate-alert.ts",
+    "scripts/cf-audit-log/observation/__tests__/fallback-rate-alert.test.ts",
+    ".github/workflows/cf-audit-log-monitor.yml",
+    "docs/00-getting-started-manual/specs/15-infrastructure-runbook.md"
+  ],
+  "secrets": {
+    "SLACK_WEBHOOK_INCIDENT": "GitHub Actions secret derived from the Issue #520 Slack incident webhook SSOT; CLI also accepts legacy SLACK_WEBHOOK_URL as fallback only",
+    "EMAIL_WEBHOOK_URL": "provider webhook secret; missing value keeps mail dispatcher no-op",
+    "EMAIL_FROM": "GitHub Actions variable",
+    "EMAIL_TO": "GitHub Actions variable"
+  },
+  "phases": [
+    { "phase": 1, "status": "completed", "output": "outputs/phase-01/main.md" },
+    { "phase": 2, "status": "completed", "output": "phase-02.md" },
+    { "phase": 3, "status": "completed", "output": "phase-03.md" },
+    { "phase": 4, "status": "completed", "output": "phase-04.md" },
+    { "phase": 5, "status": "completed", "output": "phase-05.md" },
+    { "phase": 6, "status": "completed", "output": "phase-06.md" },
+    { "phase": 7, "status": "completed", "output": "phase-07.md" },
+    { "phase": 8, "status": "completed", "output": "phase-08.md" },
+    { "phase": 9, "status": "completed", "output": "phase-09.md" },
+    { "phase": 10, "status": "completed", "output": "phase-10.md" },
+    { "phase": 11, "status": "completed", "output": "outputs/phase-11/main.md" },
+    { "phase": 12, "status": "completed", "output": "outputs/phase-12/main.md" },
+    { "phase": 13, "status": "blocked_pending_user_approval", "output": "phase-13.md" }
+  ],
+  "evidence": {
+    "focusedTest": "outputs/phase-11/evidence/test.log",
+    "secretGrep": "outputs/phase-11/evidence/secret-grep.txt",
+    "grepGate": "outputs/phase-11/evidence/grep-gate.log",
+    "actionlint": "outputs/phase-11/evidence/actionlint.log",
+    "typecheck": "outputs/phase-11/evidence/typecheck.log",
+    "lint": "outputs/phase-11/evidence/lint.log"
+  },
+  "phase12StrictOutputs": [
+    "outputs/phase-12/main.md",
+    "outputs/phase-12/implementation-guide.md",
+    "outputs/phase-12/phase12-task-spec-compliance-check.md",
+    "outputs/phase-12/system-spec-update-summary.md",
+    "outputs/phase-12/skill-feedback-report.md",
+    "outputs/phase-12/unassigned-task-detection.md",
+    "outputs/phase-12/documentation-changelog.md"
+  ],
+  "runtimeBoundary": "Production completion requires a natural fallback-rate incident or an approved runtime verification wave; commit, push, PR, secret mutation, and HOLD removal remain user-gated."
+}

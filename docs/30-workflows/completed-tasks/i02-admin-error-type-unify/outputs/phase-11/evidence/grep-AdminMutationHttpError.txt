@@ -1,0 +1,3 @@
+PASS
+Command: rg -n "AdminMutationHttpError|useAdminMutation\\.spec\\.tsx" apps/web/src/features/admin/hooks apps/web/src/lib/fetch
+Result: 0 hits / exit 1 expected

@@ -1,0 +1,45 @@
+{
+  "schemaVersion": 1,
+  "taskId": "I01-TOAST-ROOT-MOUNT",
+  "title": "ToastProvider root layout mount",
+  "metadata": {
+    "taskType": "implementation",
+    "visualEvidence": "VISUAL_ON_EXECUTION",
+    "workflow_state": "implemented_local_evidence_captured",
+    "runtime_visual_state": "pending_user_session",
+    "created_at": "2026-05-16",
+    "updated_at": "2026-05-16",
+    "canonicalRoot": "docs/30-workflows/completed-tasks/i01-toastprovider-root-mount",
+    "parentWorkflow": "docs/30-workflows/ui-prototype-alignment-mvp-recovery/improvements/integration-fixes",
+    "sourceSpec": "docs/30-workflows/ui-prototype-alignment-mvp-recovery/improvements/integration-fixes/parallel-i01-toastprovider-root-mount/spec.md"
+  },
+  "implementationTargets": [
+    "apps/web/app/layout.tsx"
+  ],
+  "phases": [
+    { "phase": 1, "name": "要件定義", "status": "completed", "outputs": ["outputs/phase-01/requirements.md"] },
+    { "phase": 2, "name": "設計", "status": "completed", "outputs": ["outputs/phase-02/client-boundary-decision.md", "outputs/phase-02/wrapper-strategy.md"] },
+    { "phase": 3, "name": "設計レビュー", "status": "completed", "outputs": ["outputs/phase-03/design-review.md"] },
+    { "phase": 4, "name": "タスク分解", "status": "completed", "outputs": ["outputs/phase-04/task-breakdown.md"] },
+    { "phase": 5, "name": "実装計画", "status": "completed", "outputs": ["outputs/phase-05/implementation-plan.md"] },
+    { "phase": 6, "name": "実装手順", "status": "completed", "outputs": ["outputs/phase-06/implementation-steps.md"] },
+    { "phase": 7, "name": "テスト計画", "status": "completed", "outputs": ["outputs/phase-07/test-plan.md"] },
+    { "phase": 8, "name": "ドキュメント更新", "status": "completed", "outputs": ["outputs/phase-08/docs-updates.md"] },
+    { "phase": 9, "name": "受入確認", "status": "completed", "outputs": ["outputs/phase-09/acceptance.md"] },
+    { "phase": 10, "name": "リファクタ", "status": "completed", "outputs": ["outputs/phase-10/refactor-summary.md"] },
+    { "phase": 11, "name": "Visual evidence", "status": "implemented_local_evidence_captured_runtime_visual_pending", "outputs": ["outputs/phase-11/manual-smoke.md"] },
+    { "phase": 12, "name": "正本同期", "status": "completed", "outputs": ["outputs/phase-12/main.md", "outputs/phase-12/implementation-guide.md", "outputs/phase-12/system-spec-update-summary.md", "outputs/phase-12/documentation-changelog.md", "outputs/phase-12/unassigned-task-detection.md", "outputs/phase-12/skill-feedback-report.md", "outputs/phase-12/phase12-task-spec-compliance-check.md"] },
+    { "phase": 13, "name": "PR・振り返り", "status": "blocked_pending_user_approval", "outputs": ["outputs/phase-13/pr-summary.md"] }
+  ],
+  "evidence": [
+    "outputs/phase-09/acceptance.md",
+    "outputs/phase-11/manual-smoke.md",
+    "outputs/phase-12/phase12-task-spec-compliance-check.md"
+  ],
+  "userGated": [
+    "authenticated admin runtime toast visual smoke",
+    "commit",
+    "push",
+    "PR"
+  ]
+}

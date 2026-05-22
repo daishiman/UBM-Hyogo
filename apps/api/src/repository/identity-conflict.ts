@@ -10,15 +10,19 @@ import type {
   IdentityConflictRow,
   ListIdentityConflictsResponse,
 } from "@ubm-hyogo/shared";
-import { maskResponseEmail, FieldByStableKeyZ } from "@ubm-hyogo/shared";
+import {
+  maskResponseEmail,
+  FieldByStableKeyZ,
+  STABLE_KEY,
+} from "@ubm-hyogo/shared";
 import { detectConflictCandidates } from "../services/admin/identity-conflict-detector";
 import { redactIdentityReason } from "./identity-merge";
 
 // stableKey は supply module (FieldByStableKeyZ) から派生。
 // fullName を identity の name、occupation を affiliation として使う。
 type StableKey = keyof typeof FieldByStableKeyZ;
-const NAME_KEY: StableKey = "fullName";
-const AFFILIATION_KEY: StableKey = "occupation";
+const NAME_KEY: StableKey = STABLE_KEY.fullName;
+const AFFILIATION_KEY: StableKey = STABLE_KEY.occupation;
 
 interface IdentitySnapshotRow {
   memberId: string;

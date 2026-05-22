@@ -1,0 +1,8 @@
+=== fetch in admin/meetings ===
+OK: no direct fetch
+=== legacy singular attendance UI path ===
+OK: UI uses attendances alias
+=== HEX in ConfirmDialog ===
+OK: no HEX
+=== ConfirmDialog barrel export ===
+19:export * from "./ConfirmDialog";

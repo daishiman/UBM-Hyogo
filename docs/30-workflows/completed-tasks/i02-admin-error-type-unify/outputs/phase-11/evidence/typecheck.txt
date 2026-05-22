@@ -1,0 +1,3 @@
+PASS
+Command: mise exec -- pnpm -F "@ubm-hyogo/web" typecheck
+Result: exit 0

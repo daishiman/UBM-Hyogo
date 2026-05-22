@@ -1,0 +1,108 @@
+{
+  "env": "staging",
+  "mode": "simulate",
+  "zoneFilter": null,
+  "zones": [
+    {
+      "id": "<<CLOUDFLARE_ZONE_ID_API>>",
+      "alias": "api",
+      "scope": "apps/api"
+    },
+    {
+      "id": "<<CLOUDFLARE_ZONE_ID_WEB>>",
+      "alias": "web",
+      "scope": "apps/web"
+    }
+  ],
+  "expected": {
+    "managedRuleset": {
+      "phase": "http_request_firewall_managed",
+      "mode": "simulate"
+    },
+    "customRules": [
+      {
+        "name": "block-non-https",
+        "expression": "(not ssl)",
+        "action": "block",
+        "mode": "enforce"
+      },
+      {
+        "name": "challenge-suspicious-ua-on-auth",
+        "expression": "(http.request.uri.path contains \"/api/auth/\" and http.user_agent contains \"curl\")",
+        "action": "managed_challenge",
+        "mode": "simulate"
+      },
+      {
+        "name": "block-known-bad-asn",
+        "expression": "(ip.geoip.asn in {0})",
+        "action": "block",
+        "mode": "simulate"
+      },
+      {
+        "name": "admin-sensitive-path-log",
+        "expression": "(http.request.uri.path contains \"/api/admin/\")",
+        "action": "log",
+        "mode": "simulate"
+      }
+    ],
+    "rateLimitRules": [
+      {
+        "name": "rl-auth",
+        "expression": "(http.request.uri.path matches \"^/api/auth/\")",
+        "action": "block",
+        "mode": "simulate",
+        "ratelimit": {
+          "characteristics": [
+            "ip.src"
+          ],
+          "period": 60,
+          "requests_per_period": 10,
+          "mitigation_timeout": 60
+        }
+      },
+      {
+        "name": "rl-admin",
+        "expression": "(http.request.uri.path matches \"^/api/admin/\")",
+        "action": "managed_challenge",
+        "mode": "simulate",
+        "ratelimit": {
+          "characteristics": [
+            "ip.src"
+          ],
+          "period": 60,
+          "requests_per_period": 30,
+          "mitigation_timeout": 60
+        }
+      },
+      {
+        "name": "rl-me",
+        "expression": "(http.request.uri.path matches \"^/api/me/\")",
+        "action": "block",
+        "mode": "simulate",
+        "ratelimit": {
+          "characteristics": [
+            "ip.src"
+          ],
+          "period": 60,
+          "requests_per_period": 60,
+          "mitigation_timeout": 30
+        }
+      },
+      {
+        "name": "rl-public",
+        "expression": "(http.request.uri.path matches \"^/api/public/\")",
+        "action": "block",
+        "mode": "simulate",
+        "ratelimit": {
+          "characteristics": [
+            "ip.src"
+          ],
+          "period": 10,
+          "requests_per_period": 50,
+          "mitigation_timeout": 10
+        }
+      }
+    ]
+  },
+  "dryRun": true
+}

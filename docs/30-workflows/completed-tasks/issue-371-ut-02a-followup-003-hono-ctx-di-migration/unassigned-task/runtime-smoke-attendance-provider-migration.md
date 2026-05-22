@@ -7,11 +7,11 @@
 | タスクID | runtime-smoke-attendance-provider-migration |
 | タスク名 | Cloudflare staging への runtime smoke 実行（attendanceProvider middleware 移行） |
 | 分類 | runtime verification / boundary close-out |
-| 対象機能 | `apps/api` の `/admin/members*` および `/me*` エンドポイント（Hono ctx 経由 attendanceProvider DI） |
+| 対象機能 | `apps/api` の `/admin/members*` および `/me*` read-only GET smoke。Hono ctx 経由 attendanceProvider DI の直接 evidence は issue-531 で `/admin/members/:memberId` と `/me/profile` に限定 |
 | 優先度 | medium |
 | 見積もり規模 | 小規模 |
-| ステータス | unassigned |
-| issue_number | （未起票） |
+| ステータス | consumed / superseded-by issue-531 |
+| issue_number | #531（Refs-only、closed 維持） |
 | 親タスク | `docs/30-workflows/issue-371-ut-02a-followup-003-hono-ctx-di-migration/` |
 | 親タスク状態 | `workflow_state: implemented-local` (`PASS_BOUNDARY_SYNCED_RUNTIME_PENDING`) |
 | 発見元 | issue-371 親タスク Phase 12 close-out |
@@ -20,6 +20,14 @@
 | visualEvidence | NON_VISUAL（HTTP response / log artifact） |
 
 ---
+
+## Current Canonical Pointer（2026-05-07）
+
+この未タスクは `docs/30-workflows/issue-531-runtime-smoke-attendance-provider-migration/` に昇格済み。
+重複起票せず、以後の実行・証跡・Phase 12 同期は issue-531 workflow を正本とする。
+
+Runtime smoke は現時点で `pending_user_runtime_credentials`。親タスク state は live staging smoke PASS まで
+`PASS_BOUNDARY_SYNCED_RUNTIME_PENDING` を維持する。
 
 ## 1. なぜこのタスクが必要か（Why）
 
@@ -36,7 +44,7 @@
 ### 1.2 問題点・課題
 
 - silent fallback を throw に変更したため、middleware 結線漏れがある場合 **本番初回リクエストで即時 500** になるリスク
-- 結線漏れを検出する仕組みは現状 grep gate のみで、Workers runtime での全エンドポイント実踏が初回検証として必須
+- 結線漏れを検出する仕組みは現状 grep gate のみで、Workers runtime での DI-bound route 実踏が初回検証として必須
 - staging 上で attendance フィールドが正しく hydrate されているか（過去の silent `[]` を本物の配列で上書きできているか）の実測 evidence が無い
 - production 切替判断のための observability gate が閉じられない
 
@@ -52,7 +60,7 @@
 
 ### 2.1 目的
 
-Cloudflare staging 環境にデプロイ済みの API Worker に対し `/admin/members*` および `/me*` 全エンドポイントを実行し、attendanceProvider middleware が全 route で正常結線され、attendance データが期待通り返ることを runtime evidence として記録する。あわせて、結線漏れ時の `throw new Error("attendanceProvider not bound to context")` が想定通り 500 として顕在化することを、artificial 結線漏れ局所テストで確認する。
+Cloudflare staging 環境にデプロイ済みの API Worker に対し `/admin/members*` および `/me*` の read-only GET を実行し、DI-bound route（`/admin/members/:memberId`, `/me/profile`）では attendanceProvider middleware が正常結線され、paging route では route-local provider path が期待通り返ることを runtime evidence として記録する。あわせて、結線漏れ時の `throw new Error("attendanceProvider not bound to context")` が想定通り 500 として顕在化することを、artificial 結線漏れ局所テストで確認する。
 
 ### 2.2 最終ゴール
 
@@ -66,9 +74,9 @@ Cloudflare staging 環境にデプロイ済みの API Worker に対し `/admin/m
 
 #### 含むもの
 
-- staging deploy 済み Worker への `/admin/members*` 全エンドポイント runtime smoke
-- staging deploy 済み Worker への `/me*` 全エンドポイント runtime smoke
-- attendance フィールドの hydrate 実測（response body 検査）
+- staging deploy 済み Worker への `/admin/members*` read-only GET runtime smoke
+- staging deploy 済み Worker への `/me*` read-only GET runtime smoke
+- attendance フィールドの hydrate 実測（summary-only contract 検査。raw response body は保存しない）
 - `attendanceProvider not bound to context` throw 経路の局所検証（既存 unit テストで足りない場合のみ追加）
 - middleware 結線対象 route の inventory 作成（`apps/api/src/routes/admin/members.ts` / `apps/api/src/routes/me/index.ts` から抽出）
 - Phase 11 NON_VISUAL evidence の作成
@@ -84,7 +92,7 @@ Cloudflare staging 環境にデプロイ済みの API Worker に対し `/admin/m
 
 ### 2.4 成果物
 
-- `docs/30-workflows/issue-371-ut-02a-followup-003-hono-ctx-di-migration/outputs/phase-11/runtime-smoke-log.md`（curl コマンド・response status・attendance hydrate 抜粋）
+- `docs/30-workflows/issue-531-runtime-smoke-attendance-provider-migration/outputs/phase-11/evidence/runtime-smoke.log`（status / jq contract / count summary。raw body 保存禁止）
 - `docs/30-workflows/issue-371-ut-02a-followup-003-hono-ctx-di-migration/outputs/phase-11/route-inventory.md`（middleware 結線対象 route の網羅リスト）
 - 親タスク `outputs/phase-12/main.md` の `workflow_state` 更新差分
 - artificial 結線漏れテスト追加分（必要時のみ）
@@ -123,7 +131,7 @@ Cloudflare staging 環境にデプロイ済みの API Worker に対し `/admin/m
    - 既存 `apps/api/src/middleware/__tests__/repository-providers.test.ts` および `apps/api/src/repository/__tests__/builder.test.ts` を `pnpm vitest run` で実行し、`attendanceProvider not bound to context` throw を assert しているケースが PASS することを確認
    - PASS していれば runtime での artificial 結線剥がしテストは不要（unit で fail-fast を担保）
 6. **evidence 記録**
-   - curl コマンド・status・attendance 配列長・redaction 済み response を `runtime-smoke-log.md` に記録
+   - status・jq contract・attendance 配列長 summary を `runtime-smoke.log` に記録
    - secret 値（cookie 全文 / token 全文）は記録しない
 7. **親タスク state 更新**
    - 全 PASS なら `outputs/phase-12/main.md` の `workflow_state: implemented-local` を `completed` に、`PASS_BOUNDARY_SYNCED_RUNTIME_PENDING` を `PASS_RUNTIME_VERIFIED` に書き換える PR を作成
@@ -210,8 +218,8 @@ grep -E "Cookie:|Authorization:" docs/30-workflows/issue-371-*/outputs/phase-11/
 
 ### 含む
 
-- `apps/api/src/routes/admin/members.ts` の全 route runtime smoke (staging)
-- `apps/api/src/routes/me/index.ts` の全 route runtime smoke (staging)
+- `apps/api/src/routes/admin/members.ts` の read-only GET runtime smoke (staging)
+- `apps/api/src/routes/me/index.ts` の read-only GET runtime smoke (staging)
 - `attendanceProvider not bound to context` throw 経路の unit 検証
 - Phase 11 NON_VISUAL evidence 作成
 - 親タスク `workflow_state` 更新 PR

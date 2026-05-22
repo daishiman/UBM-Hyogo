@@ -1,0 +1,140 @@
+{
+  "schemaVersion": 1,
+  "taskId": "ut-17-followup-004",
+  "title": "Cloudflare Notification Policy 4カテゴリ / 5 policy の IaC 化と drift 検知",
+  "metadata": {
+    "taskType": "implementation",
+    "visualEvidence": "NON_VISUAL",
+    "workflow_state": "implementation_complete",
+    "implementation_status": "IMPLEMENTED",
+    "sourceIssue": "#636 (CLOSED — Refs として参照)",
+    "parentWorkflow": "docs/30-workflows/ut-17-cloudflare-analytics-alerts/",
+    "canonicalRoot": "docs/30-workflows/ut-17-followup-004-cloudflare-notification-policy-iac",
+    "originalTaskSpec": "docs/30-workflows/unassigned-task/ut-17-followup-004-cloudflare-notification-policy-iac.md",
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-05-15T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/ut-17-followup-004-cloudflare-notification-policy-iac/outputs/phase-12/main.md",
+        "approver": "daishiman",
+        "notes": "spec_review: Phase 1-13 spec + local implementation completed"
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "passed",
+        "passed_at": "2026-05-15T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/ut-17-followup-004-cloudflare-notification-policy-iac/outputs/phase-12/implementation-guide.md",
+        "approver": "daishiman",
+        "notes": "implementation_review: infra/cloudflare-alerts/ + scripts/cf.sh alerts + drift workflow"
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/ut-17-followup-004-cloudflare-notification-policy-iac/outputs/phase-13/pr-summary.md",
+        "approver": "daishiman",
+        "notes": "external_ops: Cloudflare token placement (apply/read), notification policy apply, drift workflow first run"
+      }
+    ]
+  },
+  "phases": [
+    { "phase": 1, "name": "要件定義", "status": "completed", "outputs": ["outputs/phase-01/requirements.md"] },
+    { "phase": 2, "name": "設計", "status": "completed", "outputs": ["outputs/phase-02/architecture.md", "outputs/phase-02/directory-layout.md", "outputs/phase-02/cf-sh-alerts-spec.md", "outputs/phase-02/api-mapping.md", "outputs/phase-02/token-scope-design.md"] },
+    { "phase": 3, "name": "設計レビュー", "status": "completed", "outputs": ["outputs/phase-03/design-review.md"] },
+    { "phase": 4, "name": "タスク分解", "status": "completed", "outputs": ["outputs/phase-04/task-breakdown.md", "outputs/phase-04/critical-path.md"] },
+    { "phase": 5, "name": "実装計画", "status": "completed", "outputs": ["outputs/phase-05/implementation-plan.md"] },
+    { "phase": 6, "name": "テスト計画", "status": "completed", "outputs": ["outputs/phase-06/test-plan.md"] },
+    { "phase": 7, "name": "テスト実装", "status": "completed", "outputs": ["outputs/phase-07/test-implementation.md", "outputs/phase-07/fixture-spec.md"] },
+    { "phase": 8, "name": "実装本体", "status": "completed", "outputs": ["outputs/phase-08/implementation-spec.md"] },
+    { "phase": 9, "name": "品質ゲート", "status": "completed", "outputs": ["outputs/phase-09/quality-gates.md"] },
+    { "phase": 10, "name": "リリース準備", "status": "completed", "outputs": ["outputs/phase-10/release-sop.md"] },
+    { "phase": 11, "name": "視覚的検証", "status": "completed", "outputs": ["outputs/phase-11/visual-verification-skip.md", "outputs/phase-11/evidence/test-alerts.log", "outputs/phase-11/evidence/git-status.txt", "outputs/phase-11/evidence/git-diff-stat.txt"] },
+    { "phase": 12, "name": "正本同期", "status": "completed", "outputs": ["outputs/phase-12/main.md", "outputs/phase-12/implementation-guide.md", "outputs/phase-12/system-spec-update-summary.md", "outputs/phase-12/documentation-changelog.md", "outputs/phase-12/unassigned-task-detection.md", "outputs/phase-12/skill-feedback-report.md", "outputs/phase-12/phase12-task-spec-compliance-check.md"] },
+    { "phase": 13, "name": "PR・振り返り", "status": "pending", "outputs": [] }
+  ],
+  "acceptanceCriteria": [
+    "AC-1: infra/cloudflare-alerts/policies/*.json に 4カテゴリ / 5 policy の宣言が存在し quota-base.json で閾値再現可能",
+    "AC-2: webhook destination が name key で参照され ID 直書き禁止",
+    "AC-3: alerts apply が冪等（連続実行で diff 空）",
+    "AC-4: alerts diff が drift で exit 非 0 + 差分 JSON 出力",
+    "AC-5: alerts list が現状 JSON を読み取り専用に出力",
+    "AC-6: API Token scope が apply (Edit) / read (Read) で分離",
+    "AC-7: infra/cloudflare-alerts/README.md に運用手順記載",
+    "AC-8: .github/workflows/cloudflare-alerts-drift.yml が read-only token のみ参照",
+    "AC-9: 親 UT-17 implementation-guide Part 5 から本タスクへの参照リンク追記",
+    "AC-10: monthly healthcheck runbook が cf.sh alerts diff へ差し替え",
+    "AC-11: apply 内部で webhook → policy 順序保証、name 解決",
+    "AC-12: design-review.md に GO/NO-GO 記録"
+  ],
+  "invariants": [
+    "Cloudflare CLI 操作は bash scripts/cf.sh 経由のみ",
+    "Secret は 1Password Environments 正本、.env は op:// 参照のみ",
+    "API Token は apply / read で scope 分離、deploy token への scope 追加禁止",
+    "CI は read-only token のみ使用",
+    "webhook destination ID 直書き禁止、name で参照",
+    "閾値は quota-base.json × 係数で計算、絶対値直書き禁止",
+    "alerts apply は冪等、順序は webhook → policy",
+    "apps/web / apps/api コードに影響しない",
+    "D1 直接アクセスは apps/api に閉じる",
+    "CONST_007: 今回サイクル内で完了させる、先送り禁止"
+  ],
+  "implementationTargets": {
+    "newDirectories": [
+      "infra/cloudflare-alerts/",
+      "infra/cloudflare-alerts/policies/",
+      "infra/cloudflare-alerts/webhooks/",
+      "infra/cloudflare-alerts/lib/",
+      "infra/cloudflare-alerts/schema/"
+    ],
+    "newFiles": [
+      "infra/cloudflare-alerts/quota-base.json",
+      "infra/cloudflare-alerts/README.md",
+      "infra/cloudflare-alerts/policies/workers-requests.json",
+      "infra/cloudflare-alerts/policies/d1-read-queries.json",
+      "infra/cloudflare-alerts/policies/d1-write-rows.json",
+      "infra/cloudflare-alerts/policies/pages-build.json",
+      "infra/cloudflare-alerts/policies/r2-class-a.json",
+      "infra/cloudflare-alerts/webhooks/ut-17-relay.json",
+      "infra/cloudflare-alerts/lib/api-client.ts",
+      "infra/cloudflare-alerts/lib/canonicalize.ts",
+      "infra/cloudflare-alerts/lib/cli.ts",
+      "infra/cloudflare-alerts/lib/diff.ts",
+      "infra/cloudflare-alerts/lib/load.ts",
+      "infra/cloudflare-alerts/lib/quota-base.ts",
+      "infra/cloudflare-alerts/lib/resolve.ts",
+      "infra/cloudflare-alerts/lib/types.ts",
+      "infra/cloudflare-alerts/schema/policy.schema.json",
+      "infra/cloudflare-alerts/schema/quota-base.schema.json",
+      "infra/cloudflare-alerts/schema/webhook.schema.json",
+      ".github/workflows/cloudflare-alerts-drift.yml"
+    ],
+    "modifiedFiles": [
+      "scripts/cf.sh (alerts サブコマンド case 分岐追加)",
+      ".env (op:// 参照 2 件追加)",
+      "docs/30-workflows/ut-17-cloudflare-analytics-alerts/outputs/phase-12/implementation-guide.md (Phase 12 同期で参照リンク追記)",
+      "docs/30-workflows/runbooks/ut-17-alert-relay-monthly-healthcheck.md (Phase 12 同期で Dashboard 目視を差し替え)"
+    ]
+  },
+  "externalDependencies": {
+    "cloudflareApiEndpoints": [
+      "/accounts/:account_id/alerting/v3/policies",
+      "/accounts/:account_id/alerting/v3/destinations/webhooks"
+    ],
+    "cloudflareTokenPermissions": [
+      "Account.Notifications:Edit (apply)",
+      "Account.Notifications:Read (read / CI)"
+    ],
+    "onePasswordItems": [
+      "op://Cloudflare/UBM-Hyogo Alerts Apply Token/credential",
+      "op://Cloudflare/UBM-Hyogo Alerts Read Token/credential"
+    ],
+    "githubSecrets": [
+      "CLOUDFLARE_ALERTS_TOKEN_READ",
+      "CLOUDFLARE_ALERT_RELAY_URL"
+    ],
+    "githubVariables": [
+      "CLOUDFLARE_ACCOUNT_ID (既存)"
+    ]
+  }
+}

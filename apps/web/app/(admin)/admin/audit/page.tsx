@@ -1,22 +1,14 @@
 // 07c-followup-003: /admin/audit read-only browsing UI.
 import { fetchAdmin } from "../../../../src/lib/admin/server-fetch";
+import { Breadcrumb } from "@/components/admin/Breadcrumb";
 import { AuditLogPanel, type AuditSearchValues } from "../../../../src/components/admin/AuditLogPanel";
 import type { AdminAuditListResponse } from "../../../../src/lib/admin/types";
+import { jstLocalToUtcIso } from "./audit-query";
 
 export const dynamic = "force-dynamic";
 
 const toSingle = (value: string | string[] | undefined): string | undefined =>
   Array.isArray(value) ? value[0] : value;
-
-export function jstLocalToUtcIso(value: string | undefined): string | undefined {
-  if (!value) return undefined;
-  const m = /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2})$/.exec(value);
-  if (!m) return undefined;
-  const [, y, mo, d, h, mi] = m;
-  return new Date(
-    Date.UTC(Number(y), Number(mo) - 1, Number(d), Number(h) - 9, Number(mi), 0, 0),
-  ).toISOString();
-}
 
 function buildAuditApiPath(values: AuditSearchValues): string {
   const params = new URLSearchParams();
@@ -68,9 +60,14 @@ export default async function AdminAuditPage({
     error = e instanceof Error ? e.message : "unknown error";
   }
 
-  return error ? (
-    <AuditLogPanel data={data} values={values} error={error} />
-  ) : (
-    <AuditLogPanel data={data} values={values} />
+  return (
+    <section className="flex flex-col gap-4">
+      <Breadcrumb items={[{ label: "管理", href: "/admin" }, { label: "監査ログ" }]} />
+      {error ? (
+        <AuditLogPanel data={data} values={values} error={error} />
+      ) : (
+        <AuditLogPanel data={data} values={values} />
+      )}
+    </section>
   );
 }

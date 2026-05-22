@@ -1,0 +1,60 @@
+{
+  "task_id": "ut-15-waf-rate-limiting-rules-setup",
+  "task_code": "UT-15",
+  "task_path": "docs/30-workflows/ut-15-waf-rate-limiting-rules-setup",
+  "created_at": "2026-05-09",
+  "updated_at": "2026-05-09",
+  "metadata": {
+    "issue": 18,
+    "issue_state": "closed",
+    "taskType": "implementation",
+    "workflow_mode": "implemented-local-runtime-pending",
+    "visualEvidence": "NON_VISUAL",
+    "scope": "cloudflare_edge_security",
+    "workflow_state": "implemented-local-runtime-pending",
+    "implementation_status": "implemented_local",
+    "runtime_state": "runtime_pending_user_approval",
+    "approval_state": "blocked_pending_user_approval",
+    "phase12_contract": "strict_7_outputs_present",
+    "outputs_artifacts_policy": "root_and_outputs_mirror",
+    "base_branch": "dev",
+    "closed_issue_reference_policy": "Refs #18 only"
+  },
+  "gates": {
+    "G1": "pending_user_approval_staging_simulate_apply",
+    "G2": "pending_7day_simulate_observation",
+    "G3": "pending_user_approval_production_enforce",
+    "G4": "pending_user_approval_commit_push_pr"
+  },
+  "phases": [
+    { "phase": 1, "path": "phase-01.md", "status": "completed" },
+    { "phase": 2, "path": "phase-02.md", "status": "completed" },
+    { "phase": 3, "path": "phase-03.md", "status": "completed" },
+    { "phase": 4, "path": "phase-04.md", "status": "implemented-local" },
+    { "phase": 5, "path": "phase-05.md", "status": "implemented-local" },
+    { "phase": 6, "path": "phase-06.md", "status": "implemented-local" },
+    { "phase": 7, "path": "phase-07.md", "status": "implemented-local" },
+    { "phase": 8, "path": "phase-08.md", "status": "implemented-local" },
+    { "phase": 9, "path": "phase-09.md", "status": "implemented-local" },
+    { "phase": 10, "path": "phase-10.md", "status": "implemented-local" },
+    { "phase": 11, "path": "phase-11.md", "status": "pass_boundary_synced_runtime_pending" },
+    { "phase": 12, "path": "phase-12.md", "status": "strict_outputs_present_synced" },
+    { "phase": 13, "path": "phase-13.md", "status": "blocked_pending_user_approval" }
+  ],
+  "required_outputs": {
+    "phase11": [
+      "outputs/phase-11/main.md",
+      "outputs/phase-11/manual-smoke-log.md",
+      "outputs/phase-11/link-checklist.md"
+    ],
+    "phase12": [
+      "outputs/phase-12/main.md",
+      "outputs/phase-12/implementation-guide.md",
+      "outputs/phase-12/system-spec-update-summary.md",
+      "outputs/phase-12/documentation-changelog.md",
+      "outputs/phase-12/unassigned-task-detection.md",
+      "outputs/phase-12/skill-feedback-report.md",
+      "outputs/phase-12/phase12-task-spec-compliance-check.md"
+    ]
+  }
+}

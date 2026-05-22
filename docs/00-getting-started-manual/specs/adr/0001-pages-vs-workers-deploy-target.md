@@ -4,6 +4,8 @@
 
 Accepted (2026-05-01)
 
+Update (2026-05-09): repo-side `.github/workflows/web-cd.yml` cutover was implemented by Issue #331. Remaining work is Cloudflare side retirement / route verification / runtime smoke under user approval.
+
 ## Context
 
 `apps/web` の Cloudflare deploy topology は 4 つの参照点に分散し、2026-05-01 時点で drift が残っていた。
@@ -17,6 +19,8 @@ Accepted (2026-05-01)
 
 本 ADR は、`CLAUDE.md` と `apps/web/wrangler.toml` の Workers 方針を deploy target の正本として採用し、残る `.github/workflows/web-cd.yml` / Cloudflare side の切替を後続 migration task へ委譲する。
 
+2026-05-09 時点では、Issue #331 により `.github/workflows/web-cd.yml` も OpenNext Workers build + `scripts/cf.sh deploy --config apps/web/wrangler.toml --env <staging|production>` に同期済み。上表は ADR 採択時点の履歴である。
+
 GitHub Issue #287 に対応する。Refs #287。
 
 ## Decision
@@ -28,15 +32,15 @@ GitHub Issue #287 に対応する。Refs #287。
 | 対象 | 決定 |
 | --- | --- |
 | `apps/web/wrangler.toml` | Workers 形式を維持する |
-| `.github/workflows/web-cd.yml` | `pages deploy` から Workers deploy へ後続 task で置換する |
-| Cloudflare side | Pages project から Workers script への切替 runbook を後続 task の AC に含める |
+| `.github/workflows/web-cd.yml` | Issue #331 で `pages deploy` から Workers deploy へ置換済み |
+| Cloudflare side | Pages project retirement / route verification / runtime smoke を user-gated AC として残す |
 | `CLAUDE.md` | Workers 表記を維持する |
-| 正本仕様 | current facts を `wrangler.toml = Workers / web-cd.yml = Pages drift 残` に更新する |
+| 正本仕様 | current facts を `wrangler.toml = Workers / web-cd.yml = Workers deploy` に更新済み |
 
 ## Consequences
 
-- ADR 採択と実 cutover 完了は別物として扱う。
-- `.github/workflows/web-cd.yml` の `pages deploy` 置換、staging / production smoke、Cloudflare side 切替確認は `task-impl-opennext-workers-migration-001` の責務にする。
+- ADR 採択と runtime cutover 完了は別物として扱う。
+- `.github/workflows/web-cd.yml` の `pages deploy` 置換は Issue #331 で consumed。staging / production smoke、Cloudflare side retirement / route verification は user approval 後に扱う。
 - Workers 形式 cutover 後も `apps/web/wrangler.toml` への `[[d1_databases]]` 追加は禁止する。D1 binding は `apps/api` 側のみに閉じる。
 - `@opennextjs/cloudflare` の major update 時は互換性を再評価する。
 

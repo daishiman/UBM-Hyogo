@@ -1,0 +1,20 @@
+# repeat-each evidence
+
+Status: `pass`
+
+Command:
+
+```bash
+ENABLE_STAGING_SMOKE_FIXTURE=1 ENVIRONMENT=staging STAGING_BASE_URL=http://localhost:3000 \
+  pnpm --dir apps/web exec playwright test tests/e2e/staging-smoke.spec.ts \
+  --config playwright.config.ts --project=staging-smoke \
+  --grep "staging smoke / loading state" --repeat-each=10
+```
+
+Result: `50 passed (11.6m)`.
+
+Notes:
+- The first version of the boundary test observed transient browser DOM directly and produced retry-only flakes during repeat execution.
+- The final test validates the streamed HTML contains `[data-page="smoke-loading-state"]`, `aria-live="polite"`, and `読み込み中`, then validates the browser final DOM contains `[data-page="smoke-loading-state-fixture"]` and the loading marker is detached.
+- The delay clamp case asserts `?delay=3500` reports `delay-ms: 3000` and takes at least 2000 ms.
+- Staging deployment and CI evidence remain user-gated because commit / push / PR were not requested.

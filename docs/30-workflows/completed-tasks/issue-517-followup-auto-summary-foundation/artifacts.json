@@ -1,0 +1,67 @@
+{
+  "workflow_id": "issue-517-followup-auto-summary-foundation",
+  "workflow_state": "implemented-local",
+  "metadata": {
+    "workflow_state": "implemented-local",
+    "task_id": "issue-517-followup-auto-summary-foundation",
+    "task_name": "N-day follow-up auto-summary foundation (GHA cron + Slack notification + draft PR auto-creation)",
+    "github_issue": 517,
+    "github_issue_state": "CLOSED",
+    "parent_task": "issue-497-post-release-dashboard-30day-conclusion",
+    "ancestor_task": "issue-351-09c-post-release-dashboard-automation",
+    "source_review": "issue-497 close-out review (2026-05-06) detected manual operation gap for 30-day follow-up aggregation",
+    "created_date": "2026-05-07",
+    "category": "automation",
+    "priority": "medium",
+    "scale": "medium",
+    "taskType": "implementation",
+    "visualEvidence": "NON_VISUAL",
+    "docsOnly": false,
+    "implementation_rationale": "Adds new GHA workflow, bash scripts (30day-summary.sh + aggregate.sh + tests), Slack Webhook integration, and SLACK_WEBHOOK_URL secret registration. Code changes are required to automate issue-497 manual operation.",
+    "wave": 3,
+    "trigger_condition": "issue-497 main merge completed; new workflow runs daily at UTC 01:00 and silent-skips until 30 consecutive schedule days with gap 0 are satisfied",
+    "runtime_state": "CONTRACT_READY_SECRET_PENDING_AND_RUNTIME_PENDING",
+    "dependencies": [
+      "issue-497-post-release-dashboard-30day-conclusion",
+      "issue-351-09c-post-release-dashboard-automation"
+    ],
+    "pr_refs": ["#517", "#497", "#351"],
+    "github_secrets_required": ["SLACK_WEBHOOK_URL"],
+    "slack_channel": "w1618436027-ek2505248",
+    "slack_channel_bootstrap": {
+      "mode": "manual-preflight",
+      "channel_id": "w1618436027-ek2505248",
+      "webhook_binding": "incoming-webhook-to-channel",
+      "secret": "SLACK_WEBHOOK_URL",
+      "secret_source": "1Password canonical -> GitHub Secret derived copy",
+      "runtime_state_until_registered": "CONTRACT_READY_SECRET_PENDING"
+    }
+  },
+  "phases": [
+    { "id": 1, "name": "要件定義", "status": "completed", "spec": "phase-01.md" },
+    { "id": 2, "name": "設計（workflow YAML / shell script / Secrets contract）", "status": "completed", "spec": "phase-02.md" },
+    { "id": 3, "name": "設計レビューゲート", "status": "completed", "spec": "phase-03.md" },
+    { "id": 4, "name": "検証戦略", "status": "completed", "spec": "phase-04.md" },
+    { "id": 5, "name": "実装 runbook", "status": "completed", "spec": "phase-05.md" },
+    { "id": 6, "name": "異常系", "status": "completed", "spec": "phase-06.md" },
+    { "id": 7, "name": "AC マトリクス", "status": "completed", "spec": "phase-07.md" },
+    { "id": 8, "name": "DRY 化 / 仕様間整合", "status": "completed", "spec": "phase-08.md" },
+    { "id": 9, "name": "品質保証", "status": "completed", "spec": "phase-09.md" },
+    { "id": 10, "name": "最終レビューゲート", "status": "completed", "spec": "phase-10.md" },
+    { "id": 11, "name": "手動検証", "status": "completed_with_user_gated_runtime_pending", "runtime_state": "CONTRACT_READY_SECRET_PENDING_AND_RUNTIME_PENDING", "spec": "phase-11.md" },
+    { "id": 12, "name": "ドキュメント更新", "status": "completed", "spec": "phase-12.md" },
+    { "id": 13, "name": "PR 作成", "status": "blocked_pending_user_approval", "spec": "phase-13.md" }
+  ],
+  "ac": [
+    "AC-1: 日次 cron (UTC 01:00) で起動・30 日 gate 不成立時 silent skip",
+    "AC-2: 30 日 gate 成立時、conclusion 分布 / 連続 failure / 原因分類 / failure 比率を draft PR body に埋込",
+    "AC-3: Slack channel bootstrap + Slack Webhook に集計サマリ（5 行以内）+ draft PR URL 通知",
+    "AC-4: 二重起票防止（同月内既存 PR ならスキップ・Slack 通知もしない）",
+    "AC-5: redaction（token/bearer/secret/Authorization 含む行が出力に混入しない）",
+    "AC-6: failure 比率 >= 10% 時、PR body に retry/alert 追加検討セクションを自動追記",
+    "AC-7: workflow_dispatch で手動実行可（dry_run input 対応）",
+    "AC-8: ローカル bash scripts/post-release-dashboard/30day-summary.sh --dry-run 成功（PR 起票・Slack 送信なし）",
+    "AC-9: Phase 12 で 7 必須成果物 + skill references 同期完了",
+    "AC-10: 4 条件評価（価値性 / 実現性 / 整合性 / 運用性）全 PASS"
+  ]
+}

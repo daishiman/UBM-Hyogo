@@ -13,12 +13,13 @@ interface ParsedArgs {
   github: string;
   cloudflare: string;
   salt: string;
+  previousSalt?: string;
   out?: string;
 }
 
 function usageAndExit(): never {
   process.stderr.write(
-    'Usage: runner.ts --github <gh.json> --cloudflare <cf.json> --salt <salt> [--out <out.json>]\n',
+    'Usage: runner.ts --github <gh.json> --cloudflare <cf.json> --salt <salt> [--previous-salt <salt>] [--out <out.json>]\n',
   );
   exit(2);
 }
@@ -39,6 +40,10 @@ function parseArgs(args: string[]): ParsedArgs {
         break;
       case '--salt':
         out.salt = v;
+        i++;
+        break;
+      case '--previous-salt':
+        out.previousSalt = v;
         i++;
         break;
       case '--out':
@@ -64,8 +69,9 @@ async function main(): Promise<void> {
   const ghRaw = await readJson<ReadonlyArray<RawGitHubAuditEvent>>(args.github);
   const cfRaw = await readJson<ReadonlyArray<RawCloudflareAuditEvent>>(args.cloudflare);
 
-  const ghNorm = await Promise.all(ghRaw.map((e) => redactGitHub(e, { salt: args.salt })));
-  const cfNorm = await Promise.all(cfRaw.map((e) => redactCloudflare(e, { salt: args.salt })));
+  const redactOpts = { salt: args.salt, previousSalt: args.previousSalt };
+  const ghNorm = await Promise.all(ghRaw.map((e) => redactGitHub(e, redactOpts)));
+  const cfNorm = await Promise.all(cfRaw.map((e) => redactCloudflare(e, redactOpts)));
 
   const findings = correlate(ghNorm, cfNorm);
   const json = JSON.stringify(findings, null, 2);

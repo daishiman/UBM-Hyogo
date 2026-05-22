@@ -50,7 +50,51 @@ done
 3. stale command が再発しやすい条件を `skill-feedback-report.md` に `promotion target / no-op reason / evidence path` 付きで routing する。
 4. 再利用可能なテンプレート差分なら `task-specification-creator` へ昇格し、単発 typo なら evidence path と no-op reason を残す。
 
-実例: `issue-106-admin-member-notes-repository-task-spec` では `pnpm --filter @repo/api test:run -- adminNotes` が stale だったため、`pnpm --filter ./apps/api test -- adminNotes` と focused Vitest command へ再解決し、Phase 1/4/9/11/12 に同期した。
+実例:
+
+- `issue-106-admin-member-notes-repository-task-spec` では `pnpm --filter @repo/api test:run -- adminNotes` が stale だったため、`pnpm --filter ./apps/api test -- adminNotes` と focused Vitest command へ再解決し、Phase 1/4/9/11/12 に同期した。
+- `issue-532-extend-ctx-injection-to-write-tag-note-providers` では作成済み spec が `@repo/api` / `test:run` / `test:typecheck` を参照していたが、current package は `@ubm-hyogo/api` で scripts は `test` / `typecheck` だった。Phase 11 evidence と Phase 12 outputs を current command へ補正し、Phase 2 validation matrix 作成時点で `package.json` を読むルールを `phase-template-core.md` へ昇格した。
+
+実例: Issue #533 public profile attendance では `pnpm --filter @ubm-hyogo/api test -- <file>` が対象 file を絞り込まなかったため、root config を明示した `pnpm exec vitest run --root=. --config=vitest.config.ts <exact files>` を canonical focused command にした。pnpm filter 経由の package script が test runner へ file 引数を渡さない repo では、Phase 1 baseline / Phase 4 test plan / Phase 9 QA / Phase 11 evidence / Phase 12 compliance の全箇所を、実測 PASS した root Vitest command にそろえる。
+
+## Client Hook Shared Error Contract Gate
+
+Client hook が HTTP / auth error を扱う場合、既存 shared error class と redirect helper を Phase 1-5 で探索し、hook 内に独自 Error class や独自 query 語彙を作らない。Phase 12 では次の 4 点を同一 wave で確認する。
+
+| Gate | 必須条件 |
+| --- | --- |
+| shared error class | `AuthRequiredError` / `FetchAuthedError` 等の既存 class を使い、features 配下で同一概念の Error class を新設しない |
+| redirect query vocabulary | login redirect は既存 URL helper の query 名に合わせる。`next` / `redirect` のような表記 drift を Phase 12 に残さない |
+| optional side-effect DI | redirect / toast / currentPath などの副作用境界がある場合、test 用 optional DI または既存 helper 経由で検証可能にする |
+| public hook parity | 正本仕様の戻り値（例: `reset`）と現コード・tests・aiworkflow inventory を同じ wave で同期する |
+
+実例: `i02-admin-error-type-unify` では、`useAdminMutation` の独自 `AdminMutationHttpError` を削除するだけでは p-10 の 401 redirect 契約を証明できなかった。最終 close-out では `toLoginRedirect(currentPath)` + optional `redirector` を hook に接続し、query 名を `/login?redirect=...` に統一し、`reset` 返却を正本仕様とコードへ同期した。
+
+## Recovery Window Evidence Parity Gate
+
+D+N / 2 周目 recovery / re-observation workflow で `since` / D'+0 / recovery mode を追加する場合、Phase 5 / Phase 11 / Phase 12 では次の 2 点を必須にする。
+
+| Gate | 必須条件 |
+| --- | --- |
+| actual window filter | `since` を JSON metadata に出すだけでなく、artifact download / snapshot staging / aggregation の少なくとも 1 層で D'+0 〜 D'+N の実データに絞る |
+| evidence step parity | normal mode で生成している run URL list / aggregate JSON / leakage log / comparison evidence を recovery mode でも recovery suffix path に生成する。`if: recovery_mode != true` で通常 evidence step を丸ごと skip しない |
+| schema parity | Phase 3 schema に `runUrls` / comparison fields 等を定義した場合、実 CLI output と workflow-generated evidence が同じ field を持つ |
+| Phase 12 truthfulness | local implementation diff が存在する場合、`spec_created` / `no code changed` / `spec-only close-out` と書かず `implemented-local-runtime-pending` 等へ root/output artifacts と aiworkflow ledgers を同 wave で再分類する |
+
+実例: Issue #655 D+7 recovery 2nd-cycle では初回差分が `recovery_mode` と `since` を受け取るだけで、実際の `hourly-merged` は直近 8 日のまま、かつ recovery mode で run URL list / issue-rate comparison を skip していた。`post-switch-monitor.ts` に D'+0 window filter と schema fields を追加し、`cf-audit-log-7day-summary.yml` で recovery suffix evidence を通常 evidence と同じ粒度で生成するよう補正した。
+
+## Infra / Tests Fixture Dirty Diff Gate（UT-17 followup-006 反映）
+
+source unassigned-task が「Dashboard-only」「IaC 不要」と読める場合でも、Phase 5 以降で `infra/cloudflare-alerts/policies/*.json` / `tests/fixtures/**` / `docs/30-workflows/runbooks/**` などへ実装差分が入った瞬間、close-out 前の dirty diff gate を `apps/` / `packages/` 限定に閉じてはならない。
+
+| Gate | 必須条件 |
+| --- | --- |
+| diff target scope | dirty diff 確認対象を `apps/` / `packages/` から `infra/` / `scripts/` / `.github/` / `tests/fixtures/` / `docs/30-workflows/runbooks/` まで広げる |
+| state vocabulary | hit があれば `spec_created` / `No Code Changes` で閉じず `IMPLEMENTED_LOCAL_RUNTIME_PENDING` などへ再分類 |
+| detection command | `git status --porcelain -- infra/ scripts/ .github/ tests/fixtures/ docs/30-workflows/runbooks/` を Phase 12 entry checklist と `documentation-changelog.md` の双方に転記 |
+| skill promotion | source unassigned の「Dashboard-only」前提を疑う routing を `task-specification-creator` の `references/phase-12-documentation-guide.md` / SKILL Trigger に昇格 |
+
+実例: UT-17 followup-006 alert dedup + KV usage dashboard monitoring では、source unassigned-task が「Dashboard-only」前提で `apps/` 改変ゼロを想定していた。実装は `infra/cloudflare-alerts/policies/workers-kv-stored-bytes.json` / `workers-kv-writes-per-day.json` 新規 + `quota-base.json` 拡張 + `tests/fixtures/cloudflare-alerts/api-list-policies.json` + `infra/cloudflare-alerts/lib/__tests__/*.spec.ts` + `docs/30-workflows/runbooks/ut-17-alert-relay-monthly-healthcheck.md` の同期に拡大。旧 gate（`apps/` / `packages/` 限定）では素通りし `spec_created` で close 寸前だったため、infra/scripts/tests fixture 実装差分 gate を追加し、source task status を `IMPLEMENTED_LOCAL_RUNTIME_PENDING` へ再分類した。検知コマンドは上記 `git status --porcelain` を逐語埋め込みで運用する。
 
 ## 苦戦箇所 Required Fields
 
@@ -73,6 +117,26 @@ done
 - [ ] `documentation-changelog.md` に更新ファイルと no-op rationale を残した
 - [ ] mirror directory が存在する skill は mirror sync と `diff -qr` を実行した
 - [ ] workflow が docs-only `spec_created` から `enforced_dry_run` などへ再分類された場合は root/outputs `artifacts.json`、`phase12-task-spec-compliance-check.md`、`system-spec-update-summary.md`、SKILL changelog、resource-map / quick-reference / task-workflow-active を **同 wave** で更新した（reclassification は 7 同期点を 1 wave で消化する）
+
+## Workers Global Scope and Secret-Bridge Promotion Rule
+
+Cloudflare Workers deploy blocker fixes must route reusable findings to the
+owning skills in the same wave. In particular:
+
+| Finding | Required promotion |
+| --- | --- |
+| Worker validation rejects an import-time API call | Add or update aiworkflow lessons/specs so the accepted pattern is lazy module cache, not module-top `crypto.randomUUID()` or handler-local per-call UUIDs |
+| Local operator secret layout differs from CI canonical secret name | Document the bridge in the deployment secret spec, explicitly separating local 1Password field labels from GitHub Actions secret names |
+| A wrapper script is changed to normalize secrets | Include the script and its regression test in root `artifacts.json#scope.files`, Phase 12 compliance, documentation changelog, and artifact inventory |
+| Skill feedback initially says no-op but a reusable rule exists | Replace no-op wording with the promotion target, evidence path, and no-op reason only for truly unchanged skills |
+
+実例: `task-alert-relay-global-scope-fix-001` では
+`alert-relay.ts` の module-top `crypto.randomUUID()` が Workers validation error
+10021 を起こした。正本実装は `cachedIsolateId` + `getIsolateId()` の lazy
+module cache。local `scripts/cf.sh deploy --env staging|production` は
+1Password `Employee/ubm-hyogo-env` の env-specific field を読み、wrangler には
+child env `CLOUDFLARE_API_TOKEN` だけを渡す。CI の GitHub Environment secret
+名とは分離して記録する。
 
 ## Queue retry / DLQ feedback rule
 
@@ -103,6 +167,26 @@ Queue retry / DLQ workflow の Phase 12 では、injected failure callback の�
 | promoted feedback | `skill-feedback-report.md` が `promote` とした項目は skill changelog / reference / domain changelog へ反映し、未反映なら `no-op reason` または未タスク化理由を記録する |
 
 実例: Issue #394 stableKey strict CI gate では `pnpm lint:stablekey:strict` が 148 violations で fail するため `.github/workflows/ci.yml` strict step は追加せず、`blocked_by_legacy_cleanup` として Phase 1-12 を close-out した。
+
+## Synthetic Harness vs Production Winner Rule（implementation / NON_VISUAL）
+
+複数候補比較・ML model selection・benchmark harness の workflow では、synthetic / fixture dataset による harness smoke と production-equivalent dataset による winner selection を同じ `PASS` として扱わない。synthetic 実装が完了している場合は、root workflow state を `implemented_synthetic` などの実態語彙へ進め、production winner / env switch は別 gate として残す。
+
+| gate | 必須条件 |
+| --- | --- |
+| state vocabulary | root `artifacts.json` / `outputs/artifacts.json` / `index.md` / Phase 11 / Phase 12 / SSOT indexes が同じ state を使う |
+| dataset boundary | synthetic fixture は harness shape / schema / metric aggregation の証跡に限定し、production winner と書かない |
+| metric honesty | fallbackRate / latency / rejection reason は実 comparison 経路を構造化して計測し、fallback 候補を 0 と過小計上しない |
+| env contract | model artifact / gateway / token env 名を workflow / factory / runbook / Phase docs で同一名に固定する |
+| deferred switch | production dataset replay、rollback rehearsal、env switch、post-switch observation は user-gated follow-up に分離し、理由・時期・場所を Phase 12 に書く |
+
+実例: Issue #548 Cloudflare Audit Logs ML model selection では、synthetic 720-row fixture で `xgboost` が harness-smoke winner になったが、Workers AI sync path fallbackRate は 1.0 として rejection し、production winner は FU-03-B redacted 90-day replay 後の FU-03-D に分離した。
+
+## Applied Example: Issue #546 long-running observation evidence
+
+| Workflow | Routing decision | Evidence |
+| --- | --- | --- |
+| Issue #546 Cloudflare Audit Logs 90 day baseline observation | 長期 GitHub Actions 観測の `gh api --paginate` JSON array 化、ゼロ件 evidence の readiness 前提、pending marker artifact を `phase-11-non-visual-alternative-evidence.md` へ昇格。domain-specific Gate-A FAIL / Gate-B-C pending / D1 no-table は aiworkflow-requirements lessons に反映。 | `.claude/skills/aiworkflow-requirements/references/lessons-learned-issue-546-cf-audit-logs-90day-baseline-observation-2026-05.md` |
 
 ## Stale-current no-code verification rule（implementation / NON_VISUAL）
 
@@ -184,6 +268,14 @@ Phase 13 declared files（`local-check-result.md` / `change-summary.md` / `pr-in
 - CLOSED Issue を扱う場合は **再 open 禁止 / `Refs #<n>` 限定**（`Closes #<n>` 禁止）
 - 承認後の実行担当 / rollback 経路 / 二段 rollback（VERSION_ID + Pages dormant 等）の readiness 参照
 
+### CLOSED fold / external mutation state sync
+
+Issue #638 のように CLOSED Issue や CLOSED fold 先に deferred work が残っていた場合、Phase 12 は次を同 wave gate とする:
+
+- fold 先 Issue の current state を確認し、closed 先へ「後でやる」と記録したままにしない。必要なら current owner workflow を作成し、source unassigned は `superseded` / `consumed` に更新する。
+- 外部 mutation が user approval marker 後に完了したら、root/output `artifacts.json`、Phase 7 / 11 / 12、aiworkflow 正本、PR template を実行後状態へ同期する。`CONTRACT_READY_*` や `runtime_pending` を残したまま deletion evidence を追加しない。
+- `pre-mutation` snapshot は履歴 evidence として明示し、`current-*` 名が残る場合は Phase 12 inventory で「pre-mutation snapshot」と説明する。
+
 `artifacts.json` の Phase 13 は `status=blocked` / `user_approval_required=true` / `blockedReason` を必須とする。
 
 ### Same-wave 同期点（deploy-deferred 拡張）
@@ -210,10 +302,45 @@ Required handling:
 
 Example: UT-07B-FU-04 reclassified `0008_schema_alias_hardening.sql` from production apply execution to already-applied verification because production D1 ledger already records it as applied at `2026-05-01 08:21:04 UTC`. The valid post-check scope is `schema_diff_queue.backfill_cursor` / `backfill_status`; `schema_aliases` table and UNIQUE indexes belong to `0008_create_schema_aliases.sql`.
 
+## Read-only monitor environment separation gate
+
+GitHub Actions `environment:` must be treated as a deploy protection boundary, not as
+a generic "this job touches production data" label. For scheduled or monitoring jobs,
+Phase 2 and Phase 12 must classify the job before preserving or adding
+`environment: production`.
+
+Required handling:
+
+- If the workflow deploys, rolls back, applies schema, changes branch protection, or
+  performs any production mutation, keep the environment gate and require user
+  approval evidence before mutation.
+- If the workflow only reads production telemetry, builds snapshots, or sends
+  notifications, do not inherit deploy branch protection by default. Either remove
+  `environment: production` or document why branch-policy blocking is intentionally
+  accepted.
+- Repository-level mirroring is allowed only for read-only monitor tokens and
+  notification webhooks. Mutation-capable deploy credentials stay environment-scoped.
+- Phase 11 runtime evidence that is blocked on secret mirroring, push, PR, or
+  wall-clock observation must be represented by physical placeholder files marked
+  `PENDING_USER_GATE`. A manifest entry without a file is a Phase 11 evidence drift.
+- Phase 12 compliance must explicitly distinguish local YAML readiness from
+  runtime success. Do not mark workflow dispatch, scheduled success, or heartbeat
+  evidence as PASS until fresh run URLs or variable evidence exist.
+
+Example: Issue #720 removed `environment: production` from the read-only
+`cf-audit-log-monitor.yml` job so `dev` scheduled runs are no longer blocked by the
+production deployment environment branch policy. The production deployment
+environment itself remains protected, repo-level monitor credential mirroring is
+user-gated, and six scheduled successes remain runtime evidence rather than local
+close-out evidence.
+
 ## Applied Examples
+
+> 状態語彙の定義は [workflow-state-vocabulary.md](workflow-state-vocabulary.md) を、compliance-check 観点は [phase12-compliance-check-template.md](phase12-compliance-check-template.md) を参照する。
 
 | Task | Routing decision | Evidence |
 | --- | --- | --- |
+| runtime smoke admin members 500 recovery | runtime smoke recovery 仕様で runner が non-200 body を捨てている場合、診断性改善を feedback prose に留めず、対象 runner と focused shell test を同 wave で更新する。CI artifact に残る body は既存 redaction filter を通す。local contract evidence で defensive handler fix が必要と判明した場合は同 cycle で実装し、staging deploy / backend-ci rerun は user-gated evidence として pending に残す | `docs/30-workflows/completed-tasks/task-runtime-smoke-admin-members-500-recovery-001/outputs/phase-12/skill-feedback-report.md`, `scripts/smoke/runtime-attendance-provider.sh`, `scripts/smoke/__tests__/runtime-attendance-provider.test.sh`, `apps/api/src/routes/admin/members.ts`, `apps/api/src/routes/admin/members.contract.spec.ts` |
 | 09a staging smoke / Forms sync validation | placeholder evidence boundary と artifacts parity は task-specification-creator、domain lesson は aiworkflow-requirements、skill update process は skill-creator へ昇格 | `references/lessons-learned-09a-staging-smoke-forms-sync-validation-2026-05.md` |
 | 09b cron monitoring / release runbook | cron env parity、rollback split、NON_VISUAL alternative evidence は aiworkflow-requirements の artifact inventory / lessons へ昇格。candidate task は existing unassigned を先に検索し、重複 formalize を避ける | `references/lessons-learned-09b-cron-monitoring-release-runbook-2026-05.md`, `references/workflow-task-09b-parallel-cron-triggers-monitoring-and-release-runbook-artifact-inventory.md` |
 | UT-06-FU-A route inventory script design | docs-only design workflow で Phase 03/06/12/13 欠落を Phase 0/1 early gate で検出し、Design GO / runtime GO を分離して implementation follow-up を同 wave で formalize | `outputs/phase-12/system-spec-update-summary.md`, `unassigned-task/UT-06-FU-A-route-inventory-script-impl-001.md` |
@@ -224,6 +351,13 @@ Example: UT-07B-FU-04 reclassified `0008_schema_alias_hardening.sql` from produc
 | task-05a-form-preview-503-001 (bugfix / NON_VISUAL) | Phase 5 / Phase 12 runbook の `seed file 参照` と `schema_versions.state` 値 inline SQL の整合性を **同 wave で実ドキュメント側に補正**（state='active' へ統一、不存在 seed file 参照は inline SQL に置換）し、テンプレート差分は no-op routing。`getLatestVersion() === null` 経路の `logWarn({ code: "UBM-5500", context })` 構造化ログ追加と TC-RED-03 ルート層 503 contract test を同 wave で配置。runtime curl evidence は user approval gate 後の `PENDING_RUNTIME_EVIDENCE` として Phase 11 を閉じ、`AC-1/AC-2/AC-3 = runtime blocked` を Phase 7 / Phase 11 / Phase 12 で一貫表記する | `docs/30-workflows/task-05a-form-preview-503-001/outputs/phase-12/skill-feedback-report.md`, `docs/30-workflows/task-05a-form-preview-503-001/outputs/phase-12/system-spec-update-summary.md` |
 | Issue #379 schemaDiffQueue fakeD1 compat verification | `implementation / NON_VISUAL` で Phase 1 baseline が GREEN なら code plan（fakeD1 parser 拡張 / seed edit / SQL rewrite）を撤回して `verified_current_no_code_change` (`implementation_mode=stale-current-verification`) で close-out。focused command の baseline / after / coverage 実測、`verify_commands` 実行済みのみ列挙、元 unassigned task の `consumed_by_current_verification` trace、aiworkflow-requirements への lessons-learned 同 wave 昇格、Phase 13 を `blocked_pending_user_approval` に維持を必須化 | `.claude/skills/aiworkflow-requirements/references/lessons-learned-issue-379-schema-diff-current-green-2026-05.md`, `docs/30-workflows/issue-379-schema-diff-queue-faked1-compat/outputs/phase-12/main.md`, `docs/30-workflows/unassigned-task/task-schema-diff-queue-faked1-compat-001.md` |
 | Issue #408 Cloudflare Audit Logs monitoring | implementation / NON_VISUAL / monitoring workflow 仕様では、監視用 token scope confirmation、hourly workflow success、D1 row count、synthetic issue、dedup、watchdog、baseline artifact を Phase 11 evidence として分ける。実値未取得ファイルは `PASS_BOUNDARY_SYNCED_RUNTIME_PENDING` placeholder とし、runtime PASS と書かない。D1 migration 番号は Phase 5 着手前に current repo layout を確認し、存在しない migration root を固定しない。 | `docs/30-workflows/issue-408-cf-audit-logs-monitoring/outputs/phase-12/skill-feedback-report.md`, `.claude/skills/aiworkflow-requirements/references/observability-monitoring.md` |
+| Issue #547 Cloudflare Audit Logs redacted feature export | implementation / NON_VISUAL / read-only production export では、fixture evidence と production evidence を分離し、production export は `PENDING_RUNTIME_EVIDENCE` + user approval gate に固定する。manual CLI + runbook で十分な場合は `.github/workflows` を変更しない。Phase 12 compliance は strict 7 file existence だけでなく AC matrix / evidence paths / SSOT sync / root-output artifacts parity / runtime-pending boundary を確認する。CLOSED Issue は `Refs #547` のみで `Closes/Fixes/Resolves` を禁止する。 | `docs/30-workflows/issue-547-cf-audit-logs-redacted-production-feature-export/outputs/phase-12/skill-feedback-report.md`, `.claude/skills/aiworkflow-requirements/references/lessons-learned-issue-547-cf-audit-logs-redacted-production-feature-export-2026-05.md` |
+| Issue #720 CF audit monitor environment protection fix | read-only monitoring workflow では `environment: production` を deploy protection として再判定し、branch policy blocking を受け入れる明示理由がなければ外す。repo-level mirror は read-only / notification credentials に限定し user-gated。Phase 11 planned runtime evidence は `PENDING_USER_GATE` placeholder files を物理配置し、manifest-only evidence で close-out しない。 | `docs/30-workflows/completed-tasks/issue-720-cf-audit-monitor-env-protection-fix/outputs/phase-12/skill-feedback-report.md`, `docs/00-getting-started-manual/specs/15-infrastructure-runbook.md` |
+| Issue #772 CF audit monitor runtime restoration | CLOSED cleanup issue でも current codebase が runtime failure を示す場合は、原典ラベルより実態を優先して implementation / NON_VISUAL runtime restoration に再分類する。cleanup no-op decision と runtime restored を混同せず、repo-level vars は existing `CLOUDFLARE_ACCOUNT_ID` を除外した required count を明記する。rollback の `gh secret delete` / `gh api -X DELETE` も destructive user-gated operation として別 approval marker を要求する。 | `docs/30-workflows/issue-772-cf-audit-monitor-runtime-restoration-and-cleanup/outputs/phase-12/skill-feedback-report.md`, `.claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-issue-772-cf-audit-monitor-runtime-restoration-2026-05.md` |
+| task-15 admin dashboard and members | implementation / VISUAL_ON_EXECUTION では、Phase 12 strict 7 を main.md 集約禁止で物理 7 file 必須、Server Component fetch を含む VISUAL evidence は browser `page.route()` 不可で local Playwright fixture + mock API 経由に Phase 9 設計時から固定、`it.todo` a11y placeholder を `jest-axe` 等の実テストに同 cycle で変換、shared schema 不変条件下では UI 投影差を `apps/web/src/lib/<feature>/<feature>-ui.ts` mapper に閉じ込めて新 endpoint / shared schema mutation を回避、Server-fetch + Client island の race は cancelled flag + `try/finally` busy リセットを invariant 化する | `docs/30-workflows/task-15-admin-dashboard-and-members/outputs/phase-12/skill-feedback-report.md`, `docs/30-workflows/task-15-admin-dashboard-and-members/outputs/phase-12/system-spec-update-summary.md`, `.claude/skills/aiworkflow-requirements/references/lessons-learned-task-15-admin-dashboard-and-members-2026-05.md` |
+| Issue #533 public profile attendance injection | public API contract / builder injection の NON_VISUAL implementation では、`spec_created` 由来でも code diff、focused Vitest evidence、Phase 12 strict 7 outputs が揃ったら `verified / implementation_complete_pending_pr` へ昇格する。pnpm filter test が file narrowing しない場合は root Vitest config 明示 command に再解決し、public eligibility 判定前に attendance を読まない privacy boundary を system spec へ同 wave 同期する。runtime deploy と commit/PR は Phase 13 user gate に残し、public web UI rendering は明示 product scope が出るまで未タスク化しない。 | `docs/30-workflows/completed-tasks/issue-533-public-profile-builder-attendance-injection/outputs/phase-12/skill-feedback-report.md`, `docs/30-workflows/completed-tasks/issue-533-public-profile-builder-attendance-injection/outputs/phase-12/system-spec-update-summary.md`, `.claude/skills/aiworkflow-requirements/references/workflow-issue-533-public-profile-builder-attendance-injection-artifact-inventory.md` |
+| Issue #717 Cloudflare OIDC support revalidation | conditional implementation が upstream / vendor support 未確認で no-code close-out になる場合、Phase 1-13 全体の executable claims を `unsupported / not_applicable_this_cycle / future supported path` へ同 wave で再同期する。`id-token: write`、runtime deploy log、rollback rehearsal、missing Phase 11 artifacts を PASS 根拠に残さない。staging proof は official support 確認後の follow-up gate として formalize し、legacy token revocation は production cutover + observation 後まで blocked にする。 | `docs/30-workflows/issue-717-oidc-cf-full-migration/outputs/phase-12/skill-feedback-report.md`, `docs/30-workflows/issue-717-oidc-cf-full-migration/outputs/phase-12/phase12-task-spec-compliance-check.md` |
+| task-staging-auth-secret-binding-recovery-001 (misdiagnosis→true-cause split) | 先行ワークフロー (`task-runtime-smoke-admin-members-500-recovery-001`) が `runtime smoke 500` を defensive handler 不足と誤診断した状態で boundary-synced しても、artifact body (`{"error":"auth misconfigured"}`) が異なる真因 (AUTH_SECRET binding 欠落) を指す場合、新規 workflow を立て superseded 関係を `index.md` の `related:` と aiworkflow-requirements `resource-map` formula に両方向で記録する。**superseded 側**は status を `runtime_pending / superseded_by_root_cause_fix` に再分類し、PASS 根拠を維持せず真因 workflow への委譲を Phase 12 system-spec-update-summary に明示。**真因側**は Phase 1 で body-first RCA を実施し `secret list` は name presence のみで証明にしない invariant を確立、Cloudflare secret reinjection / staging curl / backend-ci rerun は user-gated `PENDING_RUNTIME_EVIDENCE` に固定し、Phase 12 strict 7 outputs を物理配置する | `docs/30-workflows/completed-tasks/task-staging-auth-secret-binding-recovery-001/outputs/phase-12/skill-feedback-report.md`, `docs/30-workflows/completed-tasks/task-staging-auth-secret-binding-recovery-001/outputs/phase-12/system-spec-update-summary.md`, `.claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-task-staging-auth-secret-binding-recovery-001-2026-05.md` |
 
 ## 禁止事項
 

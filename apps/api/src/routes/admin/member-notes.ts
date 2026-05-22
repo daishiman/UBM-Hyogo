@@ -3,15 +3,13 @@
 import { Hono } from "hono";
 import { z } from "zod";
 import { requireAdmin } from "../../middleware/require-admin";
-import { ctx } from "../../repository/_shared/db";
 import { asMemberId } from "../../repository/_shared/brand";
 import { adminEmail, auditAction } from "../../repository/_shared/brand";
 import {
-  create as createNote,
-  update as updateNote,
-  findById as findNoteById,
-} from "../../repository/adminNotes";
-import { append as auditAppend } from "../../repository/auditLog";
+  writeTagNoteProviderMiddleware,
+  type WriteTagNoteProviderVariables,
+} from "../../middleware/repository-providers";
+import { requireProvider } from "../../repository/_shared/provider-context";
 import { memberExists, type AdminRouteEnv } from "./_shared";
 
 const CreateNoteBodyZ = z.object({ body: z.string().min(1) });
@@ -20,8 +18,12 @@ const UpdateNoteBodyZ = z.object({ body: z.string().min(1) });
 const SYSTEM_ADMIN_EMAIL = adminEmail("system@admin.local");
 
 export const createAdminMemberNotesRoute = () => {
-  const app = new Hono<{ Bindings: AdminRouteEnv }>();
+  const app = new Hono<{
+    Bindings: AdminRouteEnv;
+    Variables: Partial<WriteTagNoteProviderVariables>;
+  }>();
   app.use("*", requireAdmin);
+  app.use("*", writeTagNoteProviderMiddleware);
 
   app.post("/members/:memberId/notes", async (c) => {
     const memberId = c.req.param("memberId");
@@ -36,16 +38,17 @@ export const createAdminMemberNotesRoute = () => {
     if (!parsed.success) {
       return c.json({ ok: false, error: parsed.error.message }, 400);
     }
-    const db = ctx({ DB: c.env.DB });
     if (!(await memberExists(c.env.DB, memberId))) {
       return c.json({ ok: false, error: "member not found" }, 404);
     }
-    const created = await createNote(db, {
+    const adminNotesProvider = requireProvider(c.var.adminNotesProvider, "adminNotesProvider");
+    const auditLogProvider = requireProvider(c.var.auditLogProvider, "auditLogProvider");
+    const created = await adminNotesProvider.create({
       memberId: asMemberId(memberId),
       body: parsed.data.body,
       createdBy: SYSTEM_ADMIN_EMAIL,
     });
-    await auditAppend(db, {
+    await auditLogProvider.append({
       actorId: null,
       actorEmail: null,
       action: auditAction("admin.member.note_created"),
@@ -72,20 +75,20 @@ export const createAdminMemberNotesRoute = () => {
     if (!parsed.success) {
       return c.json({ ok: false, error: parsed.error.message }, 400);
     }
-    const db = ctx({ DB: c.env.DB });
-    const before = await findNoteById(db, noteId);
+    const adminNotesProvider = requireProvider(c.var.adminNotesProvider, "adminNotesProvider");
+    const auditLogProvider = requireProvider(c.var.auditLogProvider, "auditLogProvider");
+    const before = await adminNotesProvider.findById(noteId);
     if (!before) return c.json({ ok: false, error: "note not found" }, 404);
     if (before.memberId !== memberId) {
       return c.json({ ok: false, error: "note member mismatch" }, 404);
     }
-    const updated = await updateNote(
-      db,
+    const updated = await adminNotesProvider.update(
       noteId,
       parsed.data.body,
       SYSTEM_ADMIN_EMAIL,
     );
     if (!updated) return c.json({ ok: false, error: "update failed" }, 404);
-    await auditAppend(db, {
+    await auditLogProvider.append({
       actorId: null,
       actorEmail: null,
       action: auditAction("admin.member.note_updated"),

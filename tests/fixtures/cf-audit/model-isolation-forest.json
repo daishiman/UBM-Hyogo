@@ -1,0 +1,1149 @@
+{
+  "$schema": "isolation-forest-v1",
+  "name": "isolation-forest",
+  "version": "1.0.0",
+  "trainedAt": "2026-05-08T07:21:20.672Z",
+  "datasetHash": "3cde4c68996e5007",
+  "params": {
+    "numTrees": 30,
+    "subSampleSize": 64,
+    "seed": 42
+  },
+  "trees": [
+    {
+      "nodes": [
+        {
+          "feature": "hour_of_day",
+          "threshold": 19.3518,
+          "left": 1,
+          "right": 2
+        },
+        {
+          "leaf": true,
+          "depth": 1
+        },
+        {
+          "leaf": true,
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "nodes": [
+        {
+          "leaf": true,
+          "depth": 0
+        }
+      ]
+    },
+    {
+      "nodes": [
+        {
+          "feature": "day_of_week",
+          "threshold": 0.6195,
+          "left": 1,
+          "right": 4
+        },
+        {
+          "feature": "action_category",
+          "threshold": 3.648,
+          "left": 2,
+          "right": 3
+        },
+        {
+          "leaf": true,
+          "depth": 2
+        },
+        {
+          "leaf": true,
+          "depth": 2
+        },
+        {
+          "feature": "ip_24_bucket_hash",
+          "threshold": 0.7202,
+          "left": 5,
+          "right": 6
+        },
+        {
+          "leaf": true,
+          "depth": 2
+        },
+        {
+          "leaf": true,
+          "depth": 2
+        }
+      ]
+    },
+    {
+      "nodes": [
+        {
+          "feature": "status_class",
+          "threshold": 2.2469,
+          "left": 1,
+          "right": 2
+        },
+        {
+          "leaf": true,
+          "depth": 1
+        },
+        {
+          "leaf": true,
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "nodes": [
+        {
+          "feature": "ip_24_bucket_hash",
+          "threshold": 0.6963,
+          "left": 1,
+          "right": 2
+        },
+        {
+          "leaf": true,
+          "depth": 1
+        },
+        {
+          "leaf": true,
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "nodes": [
+        {
+          "leaf": true,
+          "depth": 0
+        }
+      ]
+    },
+    {
+      "nodes": [
+        {
+          "feature": "ip_24_bucket_hash",
+          "threshold": 0.5671,
+          "left": 1,
+          "right": 4
+        },
+        {
+          "feature": "day_of_week",
+          "threshold": 3.4468,
+          "left": 2,
+          "right": 3
+        },
+        {
+          "leaf": true,
+          "depth": 2
+        },
+        {
+          "leaf": true,
+          "depth": 2
+        },
+        {
+          "feature": "token_id_present",
+          "threshold": 0.9192,
+          "left": 5,
+          "right": 6
+        },
+        {
+          "leaf": true,
+          "depth": 2
+        },
+        {
+          "feature": "action_category",
+          "threshold": 0.0859,
+          "left": 7,
+          "right": 8
+        },
+        {
+          "leaf": true,
+          "depth": 3
+        },
+        {
+          "leaf": true,
+          "depth": 3
+        }
+      ]
+    },
+    {
+      "nodes": [
+        {
+          "feature": "token_id_present",
+          "threshold": 0.9962,
+          "left": 1,
+          "right": 2
+        },
+        {
+          "leaf": true,
+          "depth": 1
+        },
+        {
+          "leaf": true,
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "nodes": [
+        {
+          "feature": "day_of_week",
+          "threshold": 4.4206,
+          "left": 1,
+          "right": 12
+        },
+        {
+          "feature": "action_category",
+          "threshold": 2.0053,
+          "left": 2,
+          "right": 11
+        },
+        {
+          "feature": "day_of_week",
+          "threshold": 1.2644,
+          "left": 3,
+          "right": 8
+        },
+        {
+          "feature": "hour_of_day",
+          "threshold": 8.6258,
+          "left": 4,
+          "right": 7
+        },
+        {
+          "feature": "action_category",
+          "threshold": 0.1896,
+          "left": 5,
+          "right": 6
+        },
+        {
+          "leaf": true,
+          "depth": 5
+        },
+        {
+          "leaf": true,
+          "depth": 5
+        },
+        {
+          "leaf": true,
+          "depth": 4
+        },
+        {
+          "feature": "action_category",
+          "threshold": 0.7061,
+          "left": 9,
+          "right": 10
+        },
+        {
+          "leaf": true,
+          "depth": 4
+        },
+        {
+          "leaf": true,
+          "depth": 4
+        },
+        {
+          "leaf": true,
+          "depth": 2
+        },
+        {
+          "feature": "status_class",
+          "threshold": 3.685,
+          "left": 13,
+          "right": 14
+        },
+        {
+          "leaf": true,
+          "depth": 2
+        },
+        {
+          "feature": "ip_24_bucket_hash",
+          "threshold": 0.7792,
+          "left": 15,
+          "right": 16
+        },
+        {
+          "leaf": true,
+          "depth": 3
+        },
+        {
+          "leaf": true,
+          "depth": 3
+        }
+      ]
+    },
+    {
+      "nodes": [
+        {
+          "feature": "token_id_present",
+          "threshold": 0.1408,
+          "left": 1,
+          "right": 2
+        },
+        {
+          "leaf": true,
+          "depth": 1
+        },
+        {
+          "feature": "hour_of_day",
+          "threshold": 17.5443,
+          "left": 3,
+          "right": 10
+        },
+        {
+          "feature": "action_category",
+          "threshold": 0.602,
+          "left": 4,
+          "right": 9
+        },
+        {
+          "feature": "hour_of_day",
+          "threshold": 8.6416,
+          "left": 5,
+          "right": 8
+        },
+        {
+          "feature": "hour_of_day",
+          "threshold": 2.237,
+          "left": 6,
+          "right": 7
+        },
+        {
+          "leaf": true,
+          "depth": 5
+        },
+        {
+          "leaf": true,
+          "depth": 5
+        },
+        {
+          "leaf": true,
+          "depth": 4
+        },
+        {
+          "leaf": true,
+          "depth": 3
+        },
+        {
+          "feature": "ip_24_bucket_hash",
+          "threshold": 0.4209,
+          "left": 11,
+          "right": 12
+        },
+        {
+          "leaf": true,
+          "depth": 3
+        },
+        {
+          "feature": "day_of_week",
+          "threshold": 2.6791,
+          "left": 13,
+          "right": 16
+        },
+        {
+          "feature": "day_of_week",
+          "threshold": 0.1215,
+          "left": 14,
+          "right": 15
+        },
+        {
+          "leaf": true,
+          "depth": 5
+        },
+        {
+          "leaf": true,
+          "depth": 5
+        },
+        {
+          "feature": "day_of_week",
+          "threshold": 5.2989,
+          "left": 17,
+          "right": 18
+        },
+        {
+          "leaf": true,
+          "depth": 5
+        },
+        {
+          "leaf": true,
+          "depth": 5
+        }
+      ]
+    },
+    {
+      "nodes": [
+        {
+          "feature": "day_of_week",
+          "threshold": 5.4562,
+          "left": 1,
+          "right": 12
+        },
+        {
+          "feature": "status_class",
+          "threshold": 3.2812,
+          "left": 2,
+          "right": 5
+        },
+        {
+          "feature": "hour_of_day",
+          "threshold": 15.7305,
+          "left": 3,
+          "right": 4
+        },
+        {
+          "leaf": true,
+          "depth": 3
+        },
+        {
+          "leaf": true,
+          "depth": 3
+        },
+        {
+          "feature": "action_category",
+          "threshold": 1.4393,
+          "left": 6,
+          "right": 11
+        },
+        {
+          "feature": "ip_24_bucket_hash",
+          "threshold": 0.6339,
+          "left": 7,
+          "right": 8
+        },
+        {
+          "leaf": true,
+          "depth": 4
+        },
+        {
+          "feature": "hour_of_day",
+          "threshold": 0.7069,
+          "left": 9,
+          "right": 10
+        },
+        {
+          "leaf": true,
+          "depth": 5
+        },
+        {
+          "leaf": true,
+          "depth": 5
+        },
+        {
+          "leaf": true,
+          "depth": 3
+        },
+        {
+          "feature": "action_category",
+          "threshold": 0.1372,
+          "left": 13,
+          "right": 14
+        },
+        {
+          "leaf": true,
+          "depth": 2
+        },
+        {
+          "leaf": true,
+          "depth": 2
+        }
+      ]
+    },
+    {
+      "nodes": [
+        {
+          "leaf": true,
+          "depth": 0
+        }
+      ]
+    },
+    {
+      "nodes": [
+        {
+          "feature": "action_category",
+          "threshold": 0.0522,
+          "left": 1,
+          "right": 2
+        },
+        {
+          "leaf": true,
+          "depth": 1
+        },
+        {
+          "feature": "action_category",
+          "threshold": 3.0451,
+          "left": 3,
+          "right": 6
+        },
+        {
+          "feature": "ip_24_bucket_hash",
+          "threshold": 0.5272,
+          "left": 4,
+          "right": 5
+        },
+        {
+          "leaf": true,
+          "depth": 3
+        },
+        {
+          "leaf": true,
+          "depth": 3
+        },
+        {
+          "leaf": true,
+          "depth": 2
+        }
+      ]
+    },
+    {
+      "nodes": [
+        {
+          "feature": "status_class",
+          "threshold": 2.5685,
+          "left": 1,
+          "right": 2
+        },
+        {
+          "leaf": true,
+          "depth": 1
+        },
+        {
+          "feature": "day_of_week",
+          "threshold": 0.4673,
+          "left": 3,
+          "right": 4
+        },
+        {
+          "leaf": true,
+          "depth": 2
+        },
+        {
+          "leaf": true,
+          "depth": 2
+        }
+      ]
+    },
+    {
+      "nodes": [
+        {
+          "feature": "action_category",
+          "threshold": 0.1151,
+          "left": 1,
+          "right": 2
+        },
+        {
+          "leaf": true,
+          "depth": 1
+        },
+        {
+          "leaf": true,
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "nodes": [
+        {
+          "feature": "token_id_present",
+          "threshold": 0.6047,
+          "left": 1,
+          "right": 2
+        },
+        {
+          "leaf": true,
+          "depth": 1
+        },
+        {
+          "leaf": true,
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "nodes": [
+        {
+          "leaf": true,
+          "depth": 0
+        }
+      ]
+    },
+    {
+      "nodes": [
+        {
+          "feature": "action_category",
+          "threshold": 3.2375,
+          "left": 1,
+          "right": 2
+        },
+        {
+          "leaf": true,
+          "depth": 1
+        },
+        {
+          "leaf": true,
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "nodes": [
+        {
+          "feature": "day_of_week",
+          "threshold": 4.2916,
+          "left": 1,
+          "right": 6
+        },
+        {
+          "feature": "status_class",
+          "threshold": 2.7086,
+          "left": 2,
+          "right": 3
+        },
+        {
+          "leaf": true,
+          "depth": 2
+        },
+        {
+          "feature": "hour_of_day",
+          "threshold": 7.0412,
+          "left": 4,
+          "right": 5
+        },
+        {
+          "leaf": true,
+          "depth": 3
+        },
+        {
+          "leaf": true,
+          "depth": 3
+        },
+        {
+          "feature": "ip_24_bucket_hash",
+          "threshold": 0.4993,
+          "left": 7,
+          "right": 8
+        },
+        {
+          "leaf": true,
+          "depth": 2
+        },
+        {
+          "feature": "hour_of_day",
+          "threshold": 9.4677,
+          "left": 9,
+          "right": 10
+        },
+        {
+          "leaf": true,
+          "depth": 3
+        },
+        {
+          "leaf": true,
+          "depth": 3
+        }
+      ]
+    },
+    {
+      "nodes": [
+        {
+          "feature": "action_category",
+          "threshold": 0.4638,
+          "left": 1,
+          "right": 2
+        },
+        {
+          "leaf": true,
+          "depth": 1
+        },
+        {
+          "leaf": true,
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "nodes": [
+        {
+          "feature": "status_class",
+          "threshold": 3.3711,
+          "left": 1,
+          "right": 2
+        },
+        {
+          "leaf": true,
+          "depth": 1
+        },
+        {
+          "feature": "hour_of_day",
+          "threshold": 2.5508,
+          "left": 3,
+          "right": 6
+        },
+        {
+          "feature": "day_of_week",
+          "threshold": 3.491,
+          "left": 4,
+          "right": 5
+        },
+        {
+          "leaf": true,
+          "depth": 3
+        },
+        {
+          "leaf": true,
+          "depth": 3
+        },
+        {
+          "feature": "day_of_week",
+          "threshold": 4.715,
+          "left": 7,
+          "right": 14
+        },
+        {
+          "feature": "action_category",
+          "threshold": 3.2186,
+          "left": 8,
+          "right": 13
+        },
+        {
+          "feature": "day_of_week",
+          "threshold": 0.619,
+          "left": 9,
+          "right": 10
+        },
+        {
+          "leaf": true,
+          "depth": 5
+        },
+        {
+          "feature": "hour_of_day",
+          "threshold": 4.7256,
+          "left": 11,
+          "right": 12
+        },
+        {
+          "leaf": true,
+          "depth": 6
+        },
+        {
+          "leaf": true,
+          "depth": 6
+        },
+        {
+          "leaf": true,
+          "depth": 4
+        },
+        {
+          "feature": "ip_24_bucket_hash",
+          "threshold": 0.5935,
+          "left": 15,
+          "right": 16
+        },
+        {
+          "leaf": true,
+          "depth": 4
+        },
+        {
+          "leaf": true,
+          "depth": 4
+        }
+      ]
+    },
+    {
+      "nodes": [
+        {
+          "feature": "ip_24_bucket_hash",
+          "threshold": 0.7197,
+          "left": 1,
+          "right": 6
+        },
+        {
+          "feature": "day_of_week",
+          "threshold": 0.5174,
+          "left": 2,
+          "right": 5
+        },
+        {
+          "feature": "hour_of_day",
+          "threshold": 3.3666,
+          "left": 3,
+          "right": 4
+        },
+        {
+          "leaf": true,
+          "depth": 3
+        },
+        {
+          "leaf": true,
+          "depth": 3
+        },
+        {
+          "leaf": true,
+          "depth": 2
+        },
+        {
+          "leaf": true,
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "nodes": [
+        {
+          "feature": "ip_24_bucket_hash",
+          "threshold": 0.6916,
+          "left": 1,
+          "right": 2
+        },
+        {
+          "leaf": true,
+          "depth": 1
+        },
+        {
+          "feature": "day_of_week",
+          "threshold": 1.0808,
+          "left": 3,
+          "right": 6
+        },
+        {
+          "feature": "status_class",
+          "threshold": 2.4863,
+          "left": 4,
+          "right": 5
+        },
+        {
+          "leaf": true,
+          "depth": 3
+        },
+        {
+          "leaf": true,
+          "depth": 3
+        },
+        {
+          "leaf": true,
+          "depth": 2
+        }
+      ]
+    },
+    {
+      "nodes": [
+        {
+          "leaf": true,
+          "depth": 0
+        }
+      ]
+    },
+    {
+      "nodes": [
+        {
+          "feature": "action_category",
+          "threshold": 6.8745,
+          "left": 1,
+          "right": 2
+        },
+        {
+          "leaf": true,
+          "depth": 1
+        },
+        {
+          "leaf": true,
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "nodes": [
+        {
+          "leaf": true,
+          "depth": 0
+        }
+      ]
+    },
+    {
+      "nodes": [
+        {
+          "feature": "day_of_week",
+          "threshold": 2.8765,
+          "left": 1,
+          "right": 14
+        },
+        {
+          "feature": "hour_of_day",
+          "threshold": 18.1519,
+          "left": 2,
+          "right": 7
+        },
+        {
+          "feature": "status_class",
+          "threshold": 2.077,
+          "left": 3,
+          "right": 6
+        },
+        {
+          "feature": "day_of_week",
+          "threshold": 1.5482,
+          "left": 4,
+          "right": 5
+        },
+        {
+          "leaf": true,
+          "depth": 4
+        },
+        {
+          "leaf": true,
+          "depth": 4
+        },
+        {
+          "leaf": true,
+          "depth": 3
+        },
+        {
+          "feature": "day_of_week",
+          "threshold": 1.2571,
+          "left": 8,
+          "right": 13
+        },
+        {
+          "feature": "token_id_present",
+          "threshold": 0.293,
+          "left": 9,
+          "right": 10
+        },
+        {
+          "leaf": true,
+          "depth": 4
+        },
+        {
+          "feature": "ip_24_bucket_hash",
+          "threshold": 0.431,
+          "left": 11,
+          "right": 12
+        },
+        {
+          "leaf": true,
+          "depth": 5
+        },
+        {
+          "leaf": true,
+          "depth": 5
+        },
+        {
+          "leaf": true,
+          "depth": 3
+        },
+        {
+          "feature": "day_of_week",
+          "threshold": 4.8448,
+          "left": 15,
+          "right": 20
+        },
+        {
+          "feature": "hour_of_day",
+          "threshold": 20.8102,
+          "left": 16,
+          "right": 19
+        },
+        {
+          "feature": "ip_24_bucket_hash",
+          "threshold": 0.4401,
+          "left": 17,
+          "right": 18
+        },
+        {
+          "leaf": true,
+          "depth": 4
+        },
+        {
+          "leaf": true,
+          "depth": 4
+        },
+        {
+          "leaf": true,
+          "depth": 3
+        },
+        {
+          "feature": "ip_24_bucket_hash",
+          "threshold": 0.6892,
+          "left": 21,
+          "right": 24
+        },
+        {
+          "feature": "hour_of_day",
+          "threshold": 2.0572,
+          "left": 22,
+          "right": 23
+        },
+        {
+          "leaf": true,
+          "depth": 4
+        },
+        {
+          "leaf": true,
+          "depth": 4
+        },
+        {
+          "leaf": true,
+          "depth": 3
+        }
+      ]
+    },
+    {
+      "nodes": [
+        {
+          "feature": "day_of_week",
+          "threshold": 5.0125,
+          "left": 1,
+          "right": 10
+        },
+        {
+          "feature": "day_of_week",
+          "threshold": 1.9587,
+          "left": 2,
+          "right": 3
+        },
+        {
+          "leaf": true,
+          "depth": 2
+        },
+        {
+          "feature": "status_class",
+          "threshold": 3.9661,
+          "left": 4,
+          "right": 5
+        },
+        {
+          "leaf": true,
+          "depth": 3
+        },
+        {
+          "feature": "day_of_week",
+          "threshold": 4.3739,
+          "left": 6,
+          "right": 9
+        },
+        {
+          "feature": "ip_24_bucket_hash",
+          "threshold": 0.3779,
+          "left": 7,
+          "right": 8
+        },
+        {
+          "leaf": true,
+          "depth": 5
+        },
+        {
+          "leaf": true,
+          "depth": 5
+        },
+        {
+          "leaf": true,
+          "depth": 4
+        },
+        {
+          "feature": "hour_of_day",
+          "threshold": 4.4242,
+          "left": 11,
+          "right": 12
+        },
+        {
+          "leaf": true,
+          "depth": 2
+        },
+        {
+          "leaf": true,
+          "depth": 2
+        }
+      ]
+    },
+    {
+      "nodes": [
+        {
+          "feature": "hour_of_day",
+          "threshold": 14.3819,
+          "left": 1,
+          "right": 4
+        },
+        {
+          "feature": "ip_24_bucket_hash",
+          "threshold": 0.6521,
+          "left": 2,
+          "right": 3
+        },
+        {
+          "leaf": true,
+          "depth": 2
+        },
+        {
+          "leaf": true,
+          "depth": 2
+        },
+        {
+          "feature": "ip_24_bucket_hash",
+          "threshold": 0.6445,
+          "left": 5,
+          "right": 6
+        },
+        {
+          "leaf": true,
+          "depth": 2
+        },
+        {
+          "feature": "hour_of_day",
+          "threshold": 16.8581,
+          "left": 7,
+          "right": 8
+        },
+        {
+          "leaf": true,
+          "depth": 3
+        },
+        {
+          "leaf": true,
+          "depth": 3
+        }
+      ]
+    },
+    {
+      "nodes": [
+        {
+          "feature": "hour_of_day",
+          "threshold": 16.9479,
+          "left": 1,
+          "right": 6
+        },
+        {
+          "feature": "ip_24_bucket_hash",
+          "threshold": 0.6617,
+          "left": 2,
+          "right": 3
+        },
+        {
+          "leaf": true,
+          "depth": 2
+        },
+        {
+          "feature": "status_class",
+          "threshold": 2.7788,
+          "left": 4,
+          "right": 5
+        },
+        {
+          "leaf": true,
+          "depth": 3
+        },
+        {
+          "leaf": true,
+          "depth": 3
+        },
+        {
+          "leaf": true,
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "severityThresholds": {
+    "high": 0.6,
+    "medium": 0.5,
+    "low": 0.4
+  }
+}

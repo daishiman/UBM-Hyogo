@@ -181,10 +181,196 @@ implicit な拡大解釈を防ぎ、派生未タスクの切り出しを正し�
 -
 ```
 
-## 6. 検証スクリプト連携
+## 6. Governance YAML フロントマター契約（不可逆 mutation タスク）
+
+`gh api -X PUT` / `wrangler deploy` / `d1 migrations apply` / `gh secret set` 等の不可逆 mutation を
+含む unassigned-task は、ファイル冒頭 YAML フロントマターに次 4 フィールドを **必須化** する。
+詳細は [closed-issue-canonical-workflow-recovery.md](closed-issue-canonical-workflow-recovery.md) §3、
+AI 実行可否分類は [non-visual-irreversible-task-rules.md](non-visual-irreversible-task-rules.md) §0 を参照。
+
+```yaml
+---
+governance_mutation_user_gate: true
+mutation_commands:
+  - "gh api -X PUT repos/<owner>/<repo>/branches/<branch>/protection"
+  - "wrangler deploy --config apps/api/wrangler.toml --env production"
+read_only_evidence_allowed_pre_gate: true
+user_approval_marker: outputs/phase-13/user-approval-<task-id>-<timestamp>.md
+---
+```
+
+| field | 必須 | 内容 |
+| --- | --- | --- |
+| `governance_mutation_user_gate` | ✅ | `true` 固定。AI が user 承認なしに mutation 実行禁止 |
+| `mutation_commands` | ✅ | 不可逆 command literal 一覧（partial wildcard / placeholder 禁止） |
+| `read_only_evidence_allowed_pre_gate` | ✅ | `true`: read-only 操作のみ AI 事前実行可 |
+| `user_approval_marker` | ✅ | user 承認文言を逐語保存する物理パス |
+
+> 不可逆 mutation を **含まない** docs-only / NON_VISUAL タスクではフロントマター 4 フィールドは
+> 任意。`governance_mutation_user_gate: false` を明示すると audit script が緩和路線で評価する。
+
+---
+
+## 軽量フォーマット例外（親 spec.md 配下の sub-task）
+
+`improvements/<workflow-name>/<group>/index.md` と `spec.md` が親側に存在する sub-task は、
+リスク・検証・スコープが親 spec に集約されているため、未タスクファイル側では
+`## 1. なぜ / ## 2. 何を / ## 3. 苦戦 / ## 4. AC / ## 5. 参照資料` の 5 セクション軽量
+フォーマットを許容する。重複記載を避け、親 spec 側の SSOT を壊さないことが目的。
+
+### 前提条件（必須）
+
+- `## 5. 参照資料` から **親 `spec.md` への明示リンク** が必須（相対パス可、リンク切れ禁止）
+- 親側 `index.md` / `spec.md` に「リスクと対策」「検証方法」「スコープ（含む/含まない）」が
+  実体として存在すること（grep / 目視で確認）
+- 親側が削除・移動された場合は、軽量フォーマットを通常 4 セクションへ昇格させる
+  （親リンク切れ = SSOT 崩壊なので例外失効）
+
+### 適用例
+
+`docs/30-workflows/ui-prototype-alignment-mvp-recovery/improvements/integration-fixes/`
+配下に親 `index.md` + `parallel-i02..i07/spec.md` が存在し、リスク・検証・スコープが
+親側で集約管理されているため、以下 6 ファイルは 5 セクション軽量フォーマットを採用:
+
+- `docs/30-workflows/unassigned-task/integration-fixes-i02-admin-error-type-unify.md`
+- `docs/30-workflows/unassigned-task/integration-fixes-i03-dialog-refresh-order.md`
+- `docs/30-workflows/unassigned-task/integration-fixes-i04-homepage-cta.md`
+- `docs/30-workflows/unassigned-task/integration-fixes-i05-login-loading-and-error-focus.md`
+- `docs/30-workflows/unassigned-task/integration-fixes-i06-root-error-focus.md`
+- `docs/30-workflows/unassigned-task/integration-fixes-i07-profile-loading-skeleton.md`
+
+### audit script 連携
+
+`scripts/audit-unassigned-tasks.js` 実装時は、ファイル冒頭または `## 5. 参照資料` 内に
+親 `spec.md` への relative link が含まれる場合、4 セクション必須チェックを skip し
+軽量 5 セクション（`## 1. なぜ` / `## 2. 何を` / `## 3. 苦戦` / `## 4. AC` / `## 5. 参照資料`）の
+存在確認に切替える分岐を設ける。
+
+---
+
+## 6.5 複数件 batch 生成時の pre-flight 検証（Issue #778 由来）
+
+Phase 12 `unassigned-task-detection.md` から **同 wave で 2 件以上の unassigned-task を新規発行** する場合、
+必須 3 セクション（`苦戦箇所【記入必須】` / `リスクと対策` / `検証方法`）の欠落が頻発する。
+（§5 テンプレ § 4 `スコープ` を含めると 4 セクション。本 §6.5 は §5 テンプレを採用する通常フォーマットに適用する。
+軽量フォーマット §「軽量フォーマット例外」採用時は対象外。）
+
+実例（Issue #778 review で検出された欠落）:
+
+- `docs/30-workflows/unassigned-task/serial-05-step-03-followup-005-*.md`
+- `docs/30-workflows/unassigned-task/serial-05-step-03-followup-006-*.md`
+- `docs/30-workflows/unassigned-task/serial-05-step-03-followup-007-*.md`
+
+### pre-flight checklist（複数件 batch 発行前に必ず実行）
+
+1. 新規発行予定の unassigned-task ファイル path を列挙する
+2. 以下 verification snippet を実行し、必須見出しの欠落を 0 件にする
+3. 欠落があるファイルを補完してから Phase 12 を close-out する
+
+### verification snippet（rg pattern）
+
+`rg` で 4 必須見出し（§5 通常フォーマット）の不在を検出する。`-L` で「マッチ**しない**ファイル」を列挙する。
+
+```bash
+# 直近の新規 unassigned-task 全件を対象に必須セクションの欠落を一括検出
+# (軽量フォーマット採用ファイルは別途 `## 5. 参照資料` の親 spec.md リンクで除外運用)
+TARGETS=$(git status --porcelain docs/30-workflows/unassigned-task/ \
+  | awk '/^\?\?|^.M|^A / {print $2}')
+
+for f in $TARGETS; do
+  for heading in '^## 苦戦箇所【記入必須】' '^## リスクと対策' '^## 検証方法' '^## スコープ'; do
+    rg -q "$heading" "$f" || echo "MISSING [$heading]: $f"
+  done
+done
+```
+
+期待: stdout が空（欠落 0 件）。1 行でも `MISSING [...]: ...` が出たら該当ファイルを補完する。
+
+batch 単位での一括チェック（同 wave 全件 grep）:
+
+```bash
+# 同 wave で発行した複数ファイルを一括 grep し、必須見出しを持たないファイルを列挙
+rg -L '^## 苦戦箇所【記入必須】' docs/30-workflows/unassigned-task/<wave-prefix>-*.md
+rg -L '^## リスクと対策'           docs/30-workflows/unassigned-task/<wave-prefix>-*.md
+rg -L '^## 検証方法'               docs/30-workflows/unassigned-task/<wave-prefix>-*.md
+rg -L '^## スコープ'               docs/30-workflows/unassigned-task/<wave-prefix>-*.md
+```
+
+期待: 4 コマンドとも 0 件出力。1 行でも path が返ったら同 wave close-out 禁止。
+
+### 他 gate との整合
+
+- `phase11-evidence-existence`: Phase 11 evidence 表の path 実在検証と独立。本 gate は Phase 12 unassigned-task 表の発行物検証
+- `unsupported-path-gate`: 不在 path への traversal を禁止。本 gate は発行物の見出し欠落のみを検査
+- §6 governance YAML フロントマター契約: 不可逆 mutation を含むタスクでは §6 + §6.5 の **両方** を満たす必要がある
+- `audit-unassigned-tasks.js`（未実装）の F-1 実装時に `MISSING_REQUIRED_SECTION` を fail 種別として追加する想定
+
+## 7. 検証スクリプト連携
 
 `scripts/audit-unassigned-tasks.js` / `scripts/verify-unassigned-links.js` は本書の 4 セクションを
-required field として検査する想定。実装は F-1 タスクで対応予定。
+required field として検査する想定。§6 governance YAML フロントマター契約も同 script の
+検査対象とし、`MISSING_GOVERNANCE_CONTRACT` / `CONTRACT_INCONSISTENT` /
+`MISSING_USER_APPROVAL_MARKER` を fail 種別として扱う。実装は F-1 タスクで対応予定。
+
+## 8. 単一ファイル proto-spec フォーマット（Phase 1-13 を持たないタスク種候補）
+
+`docs/30-workflows/unassigned-task/<slug>.md` を Phase 1-13 構造に展開する前段として、
+**単一ファイルの proto-spec**（タスク種候補 / tasking 前の検討票）として配置することを正式に許容する。
+出典: `parallel-02-prototype-css-rules-port`（2026-05-18）の派生未タスク運用知見。
+
+### 適用条件
+
+- まだ Phase 1（要件定義）に進む前で、対象スコープが「タスク化すべきか」自体の判断段階にある
+- 親 workflow root が確定しているが、子タスクとして単独 directory（`phase-01-requirements.md` … `phase-13.md`）化するほどの粒度がない
+- 中身が固まったら **本格 Phase 1-13 spec** または親 workflow 内の追加 phase ファイルに昇格する前提
+
+### 必須セクション（軽量 7 セクション）
+
+| # | セクション | 必須 | 内容 |
+| --- | --- | --- | --- |
+| 1 | メタ情報 | ✅ | `## メタ情報` 見出し下に親 workflow / Issue / status (`proto` / `consumed` / `superseded`) / 作成日 |
+| 2 | 目的 | ✅ | 1-3 行で「なぜタスク化候補なのか」 |
+| 3 | スコープ | ✅ | 含む / 含まない（最小 1 列 + 1 列） |
+| 4 | 依存関係 | ✅ | 親 workflow root へのリンク / 先行タスク / 関連 PR |
+| 5 | 苦戦箇所・知見 | ✅ | 検討中に得た知見・回避すべきパターン |
+| 6 | 受け入れ基準 | ✅ | 「本格 spec へ昇格する条件」または「破棄する条件」 |
+| 7 | 参照 | ✅ | 関連 spec / reference / Issue / lessons-learned |
+
+Phase 1-13 形式の必須 4 セクション（§1-§4 苦戦 / リスク / 検証 / スコープ）とは別系統。
+proto-spec は「タスク種候補」であり、`scripts/audit-unassigned-tasks.js` 連携では
+**header に `status: proto` または `## メタ情報` 表に `種別: proto-spec` を含む** ことで
+4 セクション必須チェックを skip し、軽量 7 セクションの存在確認に切替える。
+
+### 本格 spec への昇格パス
+
+```
+unassigned-task/<slug>.md (proto)
+   │
+   │  受け入れ基準を満たす
+   ▼
+either:
+  (A) 親 workflow に phase ファイル追加（既存 workflow 内 task）
+  (B) 新規 workflow root 生成（docs/30-workflows/<new-workflow>/phase-01..phase-13）
+   │
+   ▼
+unassigned-task/<slug>.md status を `consumed` に書き換え、
+canonical_workflow: <昇格先 path> を YAML フロントマターに追記し、
+本ファイルは履歴として保持（削除しない）
+```
+
+### 破棄パス
+
+タスク化不要と判定された場合は status を `superseded` または `rejected` に変更し、
+理由（rationale）を `## メタ情報` 表に 1 行で残してから保持。物理削除はしない。
+
+### 落とし穴
+
+| 症状 | 修正 |
+| --- | --- |
+| proto-spec のまま長期放置 | 4 週間以上 `proto` 状態のものは Phase 12 unassigned-task-detection で再評価対象 |
+| `## メタ情報` 見出しが複数（yaml block と表の重複） | 1 つに統一 |
+| 昇格後に `consumed` への書き換え漏れ | aiworkflow indexes / changelog 同 wave 更新 |
+| proto-spec を Phase 1-13 形式に展開せず本格タスクとして commit | `governance_mutation_user_gate` 等の必須 YAML が欠落 → audit fail |
 
 ## 関連リンク
 
@@ -192,3 +378,4 @@ required field として検査する想定。実装は F-1 タスクで対応予
 - 既存ガイド: `references/unassigned-task-guidelines.md`
 - 検出ガイド: `references/unassigned-task-detection-guide.md`
 - 品質基準: `references/unassigned-task-quality-standards.md`
+- proto-spec 出典: `parallel-02-prototype-css-rules-port` 2026-05-18 派生未タスク運用

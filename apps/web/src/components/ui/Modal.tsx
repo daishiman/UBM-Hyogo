@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from "react";
 import type { ReactNode } from "react";
+import { browserDocument } from "../../lib/is-browser";
 
 export interface ModalProps {
   open: boolean;
@@ -15,7 +16,9 @@ export function Modal({ open, onClose, title, children }: ModalProps) {
 
   useEffect(() => {
     if (!open) return;
-    const previousFocus = document.activeElement instanceof HTMLElement ? document.activeElement : null;
+    const doc = browserDocument();
+    if (!doc) return;
+    const previousFocus = doc.activeElement instanceof HTMLElement ? doc.activeElement : null;
     const dialog = dialogRef.current;
     const focusable = dialog?.querySelector<HTMLElement>(
       'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])',
@@ -39,17 +42,17 @@ export function Modal({ open, onClose, title, children }: ModalProps) {
 
       const first = elements[0];
       const last = elements[elements.length - 1];
-      if (e.shiftKey && document.activeElement === first) {
+      if (e.shiftKey && doc.activeElement === first) {
         e.preventDefault();
         last.focus();
-      } else if (!e.shiftKey && document.activeElement === last) {
+      } else if (!e.shiftKey && doc.activeElement === last) {
         e.preventDefault();
         first.focus();
       }
     };
-    document.addEventListener("keydown", handler);
+    doc.addEventListener("keydown", handler);
     return () => {
-      document.removeEventListener("keydown", handler);
+      doc.removeEventListener("keydown", handler);
       previousFocus?.focus();
     };
   }, [open, onClose]);

@@ -15,7 +15,7 @@
 
 ---
 
-## 0. 対象画面
+## 対象画面
 
 | Route | 画面 | prototype 出典 | 状態 |
 |-------|------|----------------|------|
@@ -259,9 +259,8 @@ const LandingPage = ({ nav, tweaks }) => {
 
 | データ | endpoint | 入力 | 出力 schema (zod) | fallback |
 |--------|----------|------|-------------------|----------|
-| `visibleMembers`, `featured` | `GET /v1/public/members?limit=6&sort=recent` | query: `{ limit?: number; sort?: "recent"\|"name" }` | `z.object({ items: z.array(MemberPublicSchema), total: z.number() })` | `{ items: [], total: 0 }` |
-| `MEETINGS` | `GET /v1/public/meetings?limit=4` | query: `{ limit?: number }` | `z.array(MeetingSchema)` | `[]` |
-| `lastSyncAt` | `GET /v1/public/system/last-sync` | なし | `z.object({ syncedAt: z.string().datetime().nullable() })` | `{ syncedAt: null }`（表示は `数分前` を `—` に置換） |
+| `visibleMembers`, `featured` | `GET /public/members?limit=6&sort=recent` | query: `{ limit?: number; sort?: "recent"\|"name" }` | `PublicMemberListView`（`items`, `pagination`, `appliedQuery`, `generatedAt`） | `{ items: [], pagination: { total: 0 } }` |
+| `stats`, `recentMeetings`, `lastSync` | `GET /public/stats` | なし | `PublicStatsView`（公開 KPI / zone・membership breakdown / `recentMeetings` / `lastSync`） | `recentMeetings: []`、同期表示は `—` |
 
 `MemberPublicSchema` は `01-api-schema.md` の `visibility: "public"` 列のみで構成（`birthDate` / `challenges` / `ubmJoinDate` は除外）。`isPublic && !isDeleted` は API 側でフィルタ済み。
 
@@ -518,8 +517,8 @@ const MemberListPage = ({ nav, tweaks }) => {
 
 | データ | endpoint | 入力 query | 出力 schema | fallback |
 |--------|----------|-----------|-------------|----------|
-| 一覧 | `GET /v1/public/members` | `{ q?: string; zone?: "0→1"\|"1→10"\|"10→100"; status?: "会員"\|"非会員"\|"アカデミー生"; tags?: string[]; sort?: "recent"\|"name"; page?: number; perPage?: number }` | `z.object({ items: z.array(MemberPublicSchema), total: z.number(), page: z.number(), perPage: z.number() })` | `{ items: [], total: 0, page: 1, perPage: 20 }` |
-| タグ候補 | `GET /v1/public/tags` | なし | `z.object({ catalog: z.array(z.object({ category: z.string(), tags: z.array(z.string()) })), all: z.array(z.string()) })` | `{ catalog: [], all: [] }` |
+| 一覧 | `GET /public/members` | `{ q?: string; zone?: ZoneId; status?: MemberStatus; tag?: string[]; sort?: "recent"\|"name"; density?: "comfy"\|"dense"\|"list"; page?: number; limit?: number }` | `PublicMemberListView`（`items`, `pagination: { total, page, limit }`, `appliedQuery`, `generatedAt`） | `{ items: [], pagination: { total: 0, page: 1, limit: 20 } }` |
+| タグ候補 | API 接続なし | prototype / 09h fixture 由来の固定 filter catalog | 追加 endpoint なし。`GET /public/members` の repeated `tag` query に選択値だけ渡す | 空 catalog 時は tag row を非表示 |
 
 URL query に状態を映す（Next.js `useSearchParams` / `router.replace`）:
 
@@ -539,7 +538,7 @@ URL query に状態を映す（Next.js `useSearchParams` / `router.replace`）:
 - 並び替え: `recent` は `updatedAt desc`、`name` は `fullName.localeCompare(_, "ja")` 昇順。
 - density 切替: Segmented で即時切替 + `density` query を更新。
 - card 押下: `nav("member", { id })` → `/members/${id}` へ遷移（`<Link>` ベースで右クリック新規タブも可能にする）。
-- アニメ: ルート `.page-enter`、card hover で `transform: translateY(-2px)` + `--shadow-hover`（`09-ui-ux.md`）。
+- アニメ: ルート `.page-enter`、card hover は transform token + `--shadow-hover`（`09-ui-ux.md`）。
 
 ### 2.8 a11y
 - landmark: shell の `<main>` 配下、Filters は `<form role="search" aria-label="メンバー絞り込み">`。
@@ -742,7 +741,7 @@ const MemberDetailPage = ({ nav, params, tweaks }) => {
 
 | データ | endpoint | 入力 | 出力 schema | fallback |
 |--------|----------|------|-------------|----------|
-| 詳細 | `GET /v1/public/members/{id}` | path: `{ id: string }` | `MemberPublicDetailSchema = MemberPublicSchema.extend({ links: z.object({ website?: z.string().url(), x?: ..., instagram?: ..., facebook?: ..., linkedin?: ..., note?: ..., youtube?: ..., threads?: ..., tiktok?: ... }) })` | 404 → `notFound()` |
+| 詳細 | `GET /public/members/:id` | path: `{ id: string }` | `MemberPublicDetailSchema = MemberPublicSchema.extend({ links: z.object({ website?: z.string().url(), x?: ..., instagram?: ..., facebook?: ..., linkedin?: ..., note?: ..., youtube?: ..., threads?: ..., tiktok?: ... }) })` | 404 → `notFound()` |
 
 `MemberPublicDetailSchema` は `01-api-schema.md` の `visibility: "public"` 列フル + `id`/`updatedAt`/`hue`。`birthDate`/`challenges`/`ubmJoinDate`/`email`/`responseId`/`submittedAt`/`publicConsent`/`rulesConsent` は出力に含めない。
 
@@ -853,7 +852,9 @@ const RegisterPage = () => (
 - loading/error/empty なし（純静的）。CTA 外部遷移時のポップアップブロックは想定せず、外部タブが開けない場合のみ `Toast` で `フォームを開けませんでした。URL を直接開いてください。` を表示。
 
 ### 4.6 データ contract
-- API 接続なし。`formId` / `responderUrl` / `sectionCount` / `questionCount` は CLAUDE.md §フォーム固定値を直接転記。
+| データ | endpoint | 入力 | 出力 | fallback |
+|--------|----------|------|------|----------|
+| form preview | `GET /public/form-preview` | なし | `formId` / `responderUrl` / `sectionCount` / `questionCount` | responderUrl link のみ表示 |
 
 ### 4.7 インタラクション
 - CTA: 外部タブ。`onClick` 内で `window.open(..., "_blank", "noopener,noreferrer")`。
@@ -868,7 +869,7 @@ const RegisterPage = () => (
 
 ---
 
-## 5. Privacy (`/privacy`) / Terms (`/terms`) — 派生ルール
+## 5. Privacy (`/privacy`) — 派生ルール
 
 ### 5.1 ルート / メタ
 | ルート | path | title | description |
@@ -878,7 +879,7 @@ const RegisterPage = () => (
 
 認可: public。
 
-### 5.2 レイアウト構造（共通）
+### 5.2 レイアウト構造
 
 ```
 PublicShell
@@ -889,10 +890,10 @@ PublicShell
 ```
 
 typography token は派生規定:
-- 本文段落: `var(--ubm-text-prose-body)` (16px / line-height 1.85 / `--text`)
-- 段落間: `--ubm-text-prose-spacing` (上下 12px)
+- 本文段落: `var(--ubm-text-prose-body)`（本文 typography token）
+- 段落間: `--ubm-text-prose-spacing`
 - h2: `var(--ubm-text-prose-h2)`（`h-section` と同等）
-- h3: `var(--ubm-text-prose-h3)`（14px / 600 / `--text`）
+- h3: `var(--ubm-text-prose-h3)`（小見出し typography token）
 - リスト: `var(--ubm-text-prose-list)`（`--text-2` ・ left-padding 1.2em）
 
 `color-mix` / `var(--*)` 以外の色は使用しない。
@@ -946,7 +947,7 @@ const LegalPage = ({ kind }) => {
 - API 接続なし。本文は MDX/Markdown ソースから読み込み（`apps/web/content/legal/{privacy,terms}.mdx` 派生案）。
 
 ### 5.7 インタラクション
-- ToC からのスムーズスクロール（`scroll-behavior: smooth` / `scroll-margin-top: 80px`）。
+- ToC からのスムーズスクロール（`scroll-behavior` / `scroll-margin` は token 経由）。
 - prefers-reduced-motion 時は jump scroll。
 
 ### 5.8 a11y
@@ -956,6 +957,53 @@ const LegalPage = ({ kind }) => {
 
 ### 5.9 prototype 出典
 - なし（派生）。準拠: `09-ui-ux.md` typography token、`CLAUDE.md` §重要な不変条件 #2 (`publicConsent` / `rulesConsent`)、`google-form/` 利用規約。
+
+## 6. Terms (`/terms`) — 派生ルール
+
+### 6.1 ルート / メタ
+| ルート | path | title | description |
+|--------|------|-------|-------------|
+| Terms | `/terms` | `利用規約 | UBM兵庫支部会` | `UBM兵庫支部会メンバーサイトのご利用にあたっての規約を記載しています。` |
+
+### 6.2 コピー原文
+- h1: 利用規約
+- lead: UBM兵庫支部会メンバーサイトの利用条件を確認できます。
+- section: 総則 / 禁止事項 / 公開情報の取り扱い / 免責事項 / 規約の変更
+
+### 6.3 状態遷移
+```mermaid
+stateDiagram-v2
+  [*] --> static
+  static --> [*]
+```
+
+### 6.4 API 接続
+| method | endpoint | trigger | 状態反映 |
+|--------|----------|---------|---------|
+| なし | なし | static render | API call なし |
+
+### 6.5 props / 内部 state
+| name | type | scope |
+|------|------|-------|
+| `sections` | `LegalSection[]` | terms markdown source |
+
+### 6.6 a11y
+- landmark: `<main>` 配下に `<article>`。
+- heading: `h1` は 1 つ、条項見出しは `h2`。
+
+### 6.7 token / primitive / icon 参照
+- primitive: `09c-primitives.md` LegalProse
+- token: `09b-design-tokens.md` typography / surface / border
+- icon: `09d-icons.md` external / info
+- prototype-map: `09a-prototype-map.md` 派生画面一覧
+
+## 99. 不採用要素
+
+| 要素 | 理由 |
+|------|------|
+| TweaksPanel | EDITMODE 専用で本番仕様に昇格しない |
+| theme switcher | MVP は単一テーマ。token 値は 09b owner |
+| GAS prototype 由来の直接挙動 | 本番仕様の正本は `claude-design-prototype` と 09 series |
 
 ---
 
@@ -975,7 +1023,7 @@ const LegalPage = ({ kind }) => {
 | `zoneTone(zone)` | `0→1` / `1→10` / `10→100` の chip tone マッピング |
 | `statusTone(type)` | `会員` / `非会員` / `アカデミー生` の chip tone マッピング |
 
-`color-mix(in oklch, var(--accent) 14%, transparent)` 等の `color-mix` 表現は token と組み合わせる場合に限り許容（hex 直書きは禁止）。
+`color-mix` 表現は token と組み合わせる場合に限り許容（hex 直書きは禁止）。
 
 ## 付録 B. CLAUDE.md 不変条件との対応
 
@@ -984,7 +1032,7 @@ const LegalPage = ({ kind }) => {
 | #1 schema を固定しすぎない | API 経由のフィールド追加に対し、未知 key は無視（zod `.passthrough()` 推奨） |
 | #2 `publicConsent` / `rulesConsent` 統一 | 公開層は consent を表示しない。register §4 の本文で名称統一 |
 | #3 `responseEmail` は system field | 公開層では `email` を一切表示しない（detail schema からも除外） |
-| #4 admin-managed data 分離 | `tags` は admin 管理だが公開可。本ブループリントは公開エンドポイント `/v1/public/*` 経由のみで取得 |
-| #5 D1 直アクセス禁止 | `apps/web` は `apps/api` の `/v1/public/*` を fetch（SSR/RSC）するのみ |
+| #4 admin-managed data 分離 | `tags` は admin 管理だが公開可。本ブループリントは公開エンドポイント `/public/*` 経由のみで取得 |
+| #5 D1 直アクセス禁止 | `apps/web` は `apps/api` の `/public/*` を fetch（SSR/RSC）するのみ |
 | #6 GAS prototype 非昇格 | 本ブループリントは `claude-design-prototype` のみを参照 |
 | #7 Google Form 再回答が更新経路 | register §4 が外部 Form responderUrl に誘導 |

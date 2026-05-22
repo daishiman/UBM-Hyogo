@@ -376,3 +376,43 @@ cd apps/desktop && pnpm vitest run src/renderer/components/AuthGuard/
 - **適用条件**: 複数の設計タスクが型契約でシリアル接続されているシリーズ設計
 - **発見日**: 2026-03-17
 - **関連タスク**: TASK-SKILL-LIFECYCLE-08
+
+### [Testing/E2E] e2e mock の二重実装は state drift を生む（task-15 admin dashboard）
+
+- **状況**: Playwright fixture 内 `page.route()` で組んだ mock と、SSR fetch 用 standalone mock server の両方を保持すると、片方の状態だけ更新されて assertion が一貫しない drift が発生する。Next.js Server Component の `fetch()` は `page.route()` を捕捉しないため、UI 経由で state を変えても server-side fetch は古い fixture-internal mock を踏まないが、別 spec が standalone 側を更新すると同じ画面でも結果が割れる
+- **アプローチ**:
+  1. Single source of truth は **standalone HTTP mock server**（`apps/web/playwright/fixtures/standalone-mock-server.ts` 等）に固定する
+  2. Playwright test から状態を切り替えたい場合は HTTP control endpoint（例: `POST /__mock/state`）を一本生やし、test はそれだけを叩く。`page.route()` は使わない
+  3. fixture-internal mock を残す合理的理由（page-object 単体検証など）がある場合は、必ず standalone mock と **同じ JSON fixture file** を読み込み、update 経路を control endpoint 経由に強制する
+  4. CI gate として `grep -rn 'page.route(' apps/*/playwright/tests/` の hit 件数を Phase 11 evidence に残し、新規追加時はレビュー必須にする
+- **結果**: SSR fetch / CSR fetch / test assertion の 3 経路が同じ state を見るため、screenshot と spec assertion の drift が消える
+- **適用条件**: Next.js App Router / Server Component を含む E2E、Playwright + standalone mock の組み合わせ、admin dashboard のように UI から state 変更を行うフロー
+- **発見日**: 2026-05-10
+- **関連タスク**: task-15 admin dashboard and members
+
+### [Testing/E2E] page-object と実装 testid の drift 防止（task-15 admin dashboard）
+
+- **状況**: page-object に新しい locator を追加しても、実装側 `data-testid` が同 cycle で配備されていないと spec が `Locator timeout` で fail する。逆に実装側 testid を rename しても page-object が追従せず壊れる drift も起きる
+- **アプローチ**:
+  1. page-object 追加 / 変更時は `grep -rn 'data-testid="<id>"' apps/web/src` を必ず実行し、実装側存在を確認する。Phase 11 evidence (`testid-cross-check.txt`) に grep 結果を残す
+  2. `data-testid` 命名は **機能 prefix + kebab-case** に統一する（例: `admin-kpi-card-total` / `admin-members-row-action-edit`）。snake_case / camelCase / 接尾辞バラつきを禁止する
+  3. page-object と実装の同 commit 配備を Phase 5 ランブックで強制する。「実装は別タスク」分離は禁止
+  4. CI gate として page-object の locator 文字列と実装 `data-testid` を cross-grep する script (`scripts/verify-testid-parity.mjs`) を整備し、`dev` PR で required check 化する
+- **結果**: locator timeout / silent skip 系 fail が消え、page-object refactor も実装側更新と同期する
+- **適用条件**: page-object pattern を採用する Playwright E2E、admin dashboard / KPI / table 等 testid を多用する UI
+- **発見日**: 2026-05-10
+- **関連タスク**: task-15 admin dashboard and members
+
+### [UI/A11y] Error boundary auto-focus 移譲（issue-800）
+
+- **状況**: error boundary / loading skeleton / dialog の heading に SR フォーカスを当てる処理を各コンポーネント内で `useEffect(() => ref.current?.focus(), [])` と書き散らすと、deps lint / 再 focus / scroll jump / test false positive / log 欠落の 5 系統で再発バグが出る。`apps/web/src/lib/a11y/useAutoFocusOnMount.ts` に hook を集約しても、呼び出し側の使い方を誤ると同じ落とし穴を踏む
+- **落とし穴と対策**:
+  1. **deps 設計**: `useEffect` deps を `[]` にすると `react-hooks/exhaustive-deps` が警告。`[options, ref]` にすると呼び出し側で `{ preventScroll: true }` を inline 渡しすると毎 render で options が新規生成され再 focus が走る。→ hook 側で options を default 引数 + 内部で安定参照化し、**呼び出し側は options を省略**して mount-only 担保にする
+  2. **tabIndex 必須**: `<h1>` などの non-interactive 要素は `tabIndex={-1}` がないと `.focus()` してもフォーカスが当たらない。hook 側で auto 付与すると DOM mutation の副作用が読みにくくなるため、**hook は付与せず呼び出し側 JSX で `tabIndex={-1}` を明示**する設計とする
+  3. **preventScroll**: `ref.current.focus()` を素で呼ぶと SR ユーザーで予期しない scroll jump が発生。hook 内部で必ず `focus({ preventScroll: true })` を渡す
+  4. **test 検証**: `document.activeElement === el` だけだと jsdom で false positive が出やすい。`vi.spyOn(HTMLElement.prototype, 'focus')` で spy し、`expect(spy).toHaveBeenCalledWith({ preventScroll: true })` まで引数検証する
+  5. **logger 欠落**: error boundary に `logger.error({ event: 'error_boundary_caught', digest, err })` を入れ忘れると sentry / log 集約から digest 追跡が壊れ、本番再現が不能になる。boundary 実装時の必須項目とする
+- **参照実装**: `apps/web/src/lib/a11y/useAutoFocusOnMount.ts` / issue-800 workflow (`docs/30-workflows/completed-tasks/issue-800-profile-error-focus-transfer/`)
+- **適用条件**: error boundary / loading 状態 / dialog open など mount 時に heading へ SR フォーカスを移譲する全 UI
+- **発見日**: 2026-05-19
+- **関連タスク**: issue-800

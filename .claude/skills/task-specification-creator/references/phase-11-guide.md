@@ -69,6 +69,32 @@ Local 実装に対する Phase 11 evidence は、以下 5 ファイルを **cano
 
 5 点のうち 1 点でも欠けると `PASS_BOUNDARY_SYNCED_RUNTIME_PENDING` は使えず `CONTRACT_READY_IMPLEMENTATION_PENDING` へ格下げ、または欠落理由を `manual-test-result.md` に明記する。
 
+##### canonical filename 不変規律（rename 禁止）
+
+Local PASS 5 点の **filename / 拡張子 / 配置 path** は task 固有の名前へ rename してはならない。`.log` を `.txt` にしたり、`test.log` を `api-test.txt` / `unit-test-summary.txt` のように task 内容で書き換えると、cross-task の grep / aggregate 検査が破綻するため drift 扱いとする。
+
+| ❌ 禁止例（task 固有 rename） | ✅ 正本 canonical path |
+| --- | --- |
+| `outputs/phase-11/evidence/api-test.txt` | `outputs/phase-11/evidence/test.log` |
+| `outputs/phase-11/evidence/unit-test-summary.txt` | `outputs/phase-11/evidence/test.log` |
+| `outputs/phase-11/evidence/grep-seenAlerts-zero.txt` | `outputs/phase-11/evidence/grep-gate.log` |
+| `outputs/phase-11/evidence/typecheck-summary.txt` | `outputs/phase-11/evidence/typecheck.log` |
+| `outputs/phase-11/evidence/build-output.txt` | `outputs/phase-11/evidence/build.log` |
+
+task 固有の補足 evidence（特定 grep の zero ヒット詳細など）を残したい場合は、canonical 5 点ファイルを **必ず別途生成した上で**、補足ファイルを `outputs/phase-11/evidence/<task-slug>-<purpose>.log` として **追加** する。canonical 5 点の代替や rename にはしない。
+
+`build.log` / `grep-gate.log` が「該当なし」となる NON_VISUAL / docs-only タスクでも、ファイル自体は実体として配置し、内容に「該当なし。理由: <build を伴わない docs-only task / 禁止トークン検査対象が存在しない>」を 1 行記録する。空ファイルは drift。
+
+##### 事例（PASS_BOUNDARY_SYNCED_RUNTIME_PENDING × NON_VISUAL）
+
+- task-04-w3-window-guard-and-logger: PASS_BOUNDARY_SYNCED_RUNTIME_PENDING × NON_VISUAL × Sentry runtime smoke pending（observability runtime evidence は後続 staging deploy で取得）
+
+#### 外部 channel / secret preflight を伴う NON_VISUAL 実装
+
+Slack Incoming Webhook、GitHub Secret、外部 SaaS channel など、実装は完了しているがユーザー承認付きの外部準備が残る場合は、Phase 11 で `CONTRACT_READY_SECRET_PENDING` を明示する。`outputs/phase-11/evidence/` には実値ログの代わりに、目的 / 取得手順 / approval gate / 記録してよい項目 / 記録禁止の secret-like value を書いた template evidence を配置する。
+
+`CONTRACT_READY_SECRET_PENDING` と `CONTRACT_READY_RUNTIME_PENDING` は併記できる。前者は channel / webhook / secret 登録前、後者は schedule / production runtime の時間依存実走前を表す。どちらも `PASS` ではないため、Phase 12 compliance と implementation-guide では `template only / runtime PASS pending` を明記する。
+
 ### Phase 11
 
 - docs-only task: navigation、archive discoverability、mirror parity を確認する。

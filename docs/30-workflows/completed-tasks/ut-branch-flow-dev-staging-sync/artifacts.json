@@ -1,0 +1,43 @@
+{
+  "task_id": "ut-branch-flow-dev-staging-sync",
+  "title": "feature → dev → main 運用フロー切替・dev/staging 同期確立",
+  "metadata": {
+    "workflow_state": "local_verified",
+    "implementation_status": "local_implementation_complete_remote_sync_pending",
+    "taskType": "implementation",
+    "visualEvidence": "NON_VISUAL",
+    "phase13_gate": "blocked_until_user_approval",
+    "canonical_root": "docs/30-workflows/ut-branch-flow-dev-staging-sync/"
+  },
+  "phases": [
+    {"phase": 1, "status": "completed", "file": "phase-01.md"},
+    {"phase": 2, "status": "completed", "file": "phase-02.md"},
+    {"phase": 3, "status": "completed", "file": "phase-03.md"},
+    {"phase": 4, "status": "completed", "file": "phase-04.md"},
+    {"phase": 5, "status": "completed", "file": "phase-05.md"},
+    {"phase": 6, "status": "completed", "file": "phase-06.md"},
+    {"phase": 7, "status": "completed", "file": "phase-07.md"},
+    {"phase": 8, "status": "completed", "file": "phase-08.md"},
+    {"phase": 9, "status": "completed", "file": "phase-09.md"},
+    {"phase": 10, "status": "completed", "file": "phase-10.md"},
+    {"phase": 11, "status": "blocked", "file": "phase-11.md", "reason": "remote dev sync requires user-approved push/force-push; current origin/main...origin/dev = 8 0"},
+    {"phase": 12, "status": "completed_with_remote_sync_blocker", "file": "phase-12.md"},
+    {"phase": 13, "status": "blocked", "file": "phase-13.md", "reason": "user approval required for commit/push/PR"}
+  ],
+  "declared_outputs": {
+    "phase11": [
+      "outputs/phase-11/main.md",
+      "outputs/phase-11/link-checklist.md",
+      "outputs/phase-11/manual-smoke-log.md"
+    ],
+    "phase12": [
+      "outputs/phase-12/main.md",
+      "outputs/phase-12/implementation-guide.md",
+      "outputs/phase-12/system-spec-update-summary.md",
+      "outputs/phase-12/documentation-changelog.md",
+      "outputs/phase-12/unassigned-task-detection.md",
+      "outputs/phase-12/skill-feedback-report.md",
+      "outputs/phase-12/phase12-task-spec-compliance-check.md"
+    ]
+  }
+}

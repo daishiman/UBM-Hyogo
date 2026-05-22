@@ -3,10 +3,8 @@ import { BasePage } from './BasePage'
 
 export class ProfilePage extends BasePage {
   readonly url = '/profile'
-  readonly userName = this.page.locator('[data-testid="profile-user-name"]')
-  readonly editResponseUrlButton = this.page.locator(
-    '[data-testid="edit-response-url-button"]',
-  )
+  readonly userName = this.page.getByRole('heading', { level: 1, name: 'マイページ' })
+  readonly editResponseUrlButton = this.page.locator('[data-cta="edit-response"]')
 
   // 不変条件 #4: 自前の編集 form は持たず、Google Form viewform 経由のみ
   async assertNoEditFormVisible(): Promise<void> {

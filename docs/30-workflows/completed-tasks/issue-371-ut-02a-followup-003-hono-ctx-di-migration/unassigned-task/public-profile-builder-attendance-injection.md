@@ -1,4 +1,15 @@
-# `buildPublicMemberProfile` に attendance 含める要件発生時の ctx 注入適用 - タスク指示書
+# Consumed: `buildPublicMemberProfile` public attendance injection
+
+Status: consumed_by_issue_533 / promoted_to_workflow
+
+Canonical workflow:
+`docs/30-workflows/completed-tasks/issue-533-public-profile-builder-attendance-injection/`
+
+Issue #533 implemented the conditional requirement originally described here. Do not execute this source stub as an open task.
+
+---
+
+# Historical Source Stub: `buildPublicMemberProfile` に attendance 含める要件発生時の ctx 注入適用
 
 ## メタ情報
 
@@ -10,20 +21,20 @@
 | 対象機能     | `apps/api/src/repository/_shared/builder.ts` の `buildPublicMemberProfile`                 |
 | 優先度       | low（要件発生時。public visibility に attendance を含める仕様判断が確定してから着手）      |
 | 見積もり規模 | 小〜中規模                                                                                 |
-| ステータス   | 未実施（条件付き発火 = public profile に attendance を含める仕様変更が承認された時点）     |
+| ステータス   | consumed_by_issue_533 / promoted_to_workflow                                               |
 | 発見元       | 親タスク `issue-371-ut-02a-followup-003-hono-ctx-di-migration` `index.md` scope out 末尾   |
 | 発見日       | 2026-05-06                                                                                 |
 | 親タスク     | `docs/30-workflows/issue-371-ut-02a-followup-003-hono-ctx-di-migration/`                   |
 
 ---
 
-## 1. なぜこのタスクが必要か（Why）
+## 1. なぜこのタスクが必要だったか（Why）
 
 ### 1.1 背景
 
 親タスク `issue-371-ut-02a-followup-003-hono-ctx-di-migration` は、attendance を含む member profile builder（例: `buildMemberProfile` / admin 系）に対して Hono context (`RepositoryProviderVariables`) 経由で attendance repository を DI する移行を完了した。
 
-ただし `buildPublicMemberProfile` は **現状 attendance を含まない**ため、対象外として scope out している（親タスク `index.md` の scope out 末尾参照）。将来 public profile に attendance（出席履歴・出席数など）を含める仕様変更が発生した場合、本ビルダーに対しても同じ ctx 注入パターンを適用する必要がある。
+ただし `buildPublicMemberProfile` は **現状 attendance を含まない**ため、対象外として scope out している（親タスク `index.md` の scope out 末尾参照）。将来 public profile に attendance（出席履歴・出席数など）を含める仕様変更が発生した場合、本ビルダーに対しても同じ ctx 注入パターンを適用する必要があった。この条件は Issue #533 で発火し、canonical workflow に昇格済み。
 
 ### 1.2 問題点・課題
 

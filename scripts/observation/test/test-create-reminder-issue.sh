@@ -34,13 +34,14 @@ run_resolve_with_fake_gh() {
   local out fake_bin
   out="$(mktemp)"
   fake_bin="$(mktemp -d)"
-  printf '%s\n' \
-    '#!/usr/bin/env bash' \
-    'if [ "$1" = "api" ] && [ "$2" = "repos/daishiman/UBM-Hyogo/releases/latest" ]; then' \
-    '  echo "{\"published_at\":\"2026-05-01T00:00:00Z\"}"' \
-    '  exit 0' \
-    'fi' \
-    'exit 1' >"$fake_bin/gh"
+  cat >"$fake_bin/gh" <<'FAKE_GH'
+#!/usr/bin/env bash
+if [ "$1" = "api" ] && [ "$2" = "repos/daishiman/UBM-Hyogo/releases/latest" ]; then
+  echo "{\"published_at\":\"2026-05-01T00:00:00Z\"}"
+  exit 0
+fi
+exit 1
+FAKE_GH
   chmod +x "$fake_bin/gh"
   PATH="$fake_bin:$PATH" GITHUB_OUTPUT="$out" TODAY_OVERRIDE="${1:-}" bash "$SCRIPT" --resolve-only >/dev/null
   cat "$out"

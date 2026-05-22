@@ -29,7 +29,7 @@
 | D-ID | 観点 | SSOT 配置先 | 検査 |
 | --- | --- | --- | --- |
 | D-01 | secret 名 `SLACK_WEBHOOK_INCIDENT` 単一定義 | `.claude/skills/aiworkflow-requirements/references/deployment-secrets-management.md` | staging / production / GitHub Secrets / 1Password / `.env.example` で同一名を使う。env で値を分けるが命名は変更しない |
-| D-02 | 1Password 参照規約 `op://UBM-Hyogo/Slack Incident Webhook (<env>)/url` の DRY 化 | `deployment-secrets-management.md` の op:// 参照テーブル | 本タスク以降に追加される secret も同テーブルに集約。runbook / `.env.example` / phase-* 仕様書からは「テーブル参照」の形式で引用 |
+| D-02 | 1Password 参照規約 `op://Employee/ubm-hyogo-env/SLACK_WEBHOOK_INCIDENT_<ENV>` の DRY 化 | `deployment-secrets-management.md` の op:// 参照テーブル | 本タスク以降に追加される secret も同テーブルに集約。runbook / `.env.example` / phase-* 仕様書からは「テーブル参照」の形式で引用 |
 | D-03 | channel 名 `ubm-hyogo-incidents` の単一定義 | `.claude/skills/aiworkflow-requirements/references/observability-monitoring.md` | route コード（issue-495 spec で確定済み）/ runbook / phase-* 仕様書 / aiworkflow-requirements は同 reference を SSOT として参照のみ。コード側に文字列リテラルとして散在させない（必要時は env 経由で注入） |
 | D-04 | redaction grep pattern の集約 | `scripts/redaction-grep.sh`（既存があれば追記、無ければ新規作成。新規作成判断は Phase 5 実装ランブックで確定） | `hooks\.slack\.com/services/[A-Z0-9]` / `B[0-9A-Z]{8,}/[0-9A-Za-z]{16,}` / `xox[bp]-` の 3 pattern を 1 スクリプトに集約。Phase 9 / Phase 11 G4 / Phase 13 PR body 確認の 3 経路から同スクリプトを呼び出す |
 | D-05 | `cf.sh secret put` stdin 投入のテンプレ化 | `scripts/cf.sh`（既存ラッパー）を確認。`secret put` サブコマンドが op run 経由で stdin から値を渡すテンプレートを runbook に明示。`scripts/cf.sh` 内に未定義であれば最小拡張する（拡張範囲は Phase 5 で確定） | runbook と phase-* 仕様書では `bash scripts/cf.sh secret put SLACK_WEBHOOK_INCIDENT --config apps/api/wrangler.toml --env <env>` という単一形式のみ提示。`wrangler secret put` 直接実行を一切登場させない |
@@ -51,7 +51,7 @@
 
 DoD: 全配置先で同一名。env で値を分岐するが命名は不変。
 
-### 2. op:// 参照規約 `op://UBM-Hyogo/Slack Incident Webhook (<env>)/url`
+### 2. op:// 参照規約 `op://Employee/ubm-hyogo-env/SLACK_WEBHOOK_INCIDENT_<ENV>`
 
 DoD: `deployment-secrets-management.md` の secret 一覧表に行追加し、phase-* / runbook / `.env.example` 各所からはテーブル参照を促す記述のみとする。
 

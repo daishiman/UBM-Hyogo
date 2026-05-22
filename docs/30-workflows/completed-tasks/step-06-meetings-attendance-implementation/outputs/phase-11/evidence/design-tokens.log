@@ -1,0 +1,15 @@
+
+> @ubm-hyogo/web@0.1.0 verify-design-tokens /Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260519-154029-wt-4/apps/web
+> vitest run --root=../.. --config=vitest.config.ts apps/web/src/__tests__/tokens.runtime.spec.ts
+
+[33mThe CJS build of Vite's Node API is deprecated. See https://vite.dev/guide/troubleshooting.html#vite-cjs-node-api-deprecated for more details.[39m
+
+ RUN  v2.1.9 /Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260519-154029-wt-4
+
+ ✓ apps/web/src/__tests__/tokens.runtime.spec.ts (9 tests) 34ms
+
+ Test Files  1 passed (1)
+      Tests  9 passed (9)
+   Start at  14:52:13
+   Duration  9.41s (transform 708ms, setup 0ms, collect 580ms, tests 34ms, environment 2.20s, prepare 1.17s)
+

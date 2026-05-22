@@ -17,6 +17,8 @@ import type { MiddlewareHandler } from "hono";
 import type { SessionJwtClaims, AuthSessionUser } from "@ubm-hyogo/shared";
 import { verifySessionJwt } from "@ubm-hyogo/shared";
 import type { MemberId } from "@ubm-hyogo/shared";
+import { validateAuthSecretEnv } from "../env";
+import { logError } from "../lib/logger";
 
 export interface RequireAuthEnv {
   readonly AUTH_SECRET?: string;
@@ -48,6 +50,22 @@ const parseCookie = (cookieHeader: string, name: string): string | null => {
   return null;
 };
 
+const getAuthSecretOrRespond = (
+  secret: string | undefined,
+  phase: "requireAuth" | "requireAdmin",
+): string | null => {
+  try {
+    return validateAuthSecretEnv({ AUTH_SECRET: secret }).AUTH_SECRET;
+  } catch {
+    logError({
+      code: "UBM-AUTH-SECRET-MISSING",
+      phase,
+      bindingPresent: typeof secret === "string",
+    });
+    return null;
+  }
+};
+
 export const extractJwt = (request: Request | { header: (k: string) => string | undefined }): string | null => {
   const get = (k: string): string =>
     typeof (request as Request).headers?.get === "function"
@@ -71,7 +89,7 @@ export const requireAuth: MiddlewareHandler<{
   Bindings: RequireAuthEnv;
   Variables: RequireAuthVariables;
 }> = async (c, next) => {
-  const secret = c.env.AUTH_SECRET;
+  const secret = getAuthSecretOrRespond(c.env.AUTH_SECRET, "requireAuth");
   if (!secret) {
     return c.json({ error: "auth misconfigured" }, 500);
   }
@@ -101,7 +119,7 @@ export const requireAdmin: MiddlewareHandler<{
 }> = async (c, next) => {
   // 認証部分は requireAuth と同等の処理を inline で実行（hono の middleware は
   // 直接 await できないため、共通の verify ロジックを取り出して呼ぶ）。
-  const secret = c.env.AUTH_SECRET;
+  const secret = getAuthSecretOrRespond(c.env.AUTH_SECRET, "requireAdmin");
   if (!secret) {
     return c.json({ error: "auth misconfigured" }, 500);
   }

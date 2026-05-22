@@ -1,0 +1,39 @@
+{
+  "task_name": "issue-533-public-profile-builder-attendance-injection",
+  "task_path": "docs/30-workflows/completed-tasks/issue-533-public-profile-builder-attendance-injection",
+  "wave": "issue-371-follow-up-public-profile",
+  "execution_mode": "single-cycle-sequential-with-parallel-tests",
+  "depends_on": [
+    "docs/30-workflows/completed-tasks/issue-371-ut-02a-followup-003-hono-ctx-di-migration/",
+    "docs/00-getting-started-manual/specs/01-api-schema.md",
+    "apps/api/src/middleware/repository-providers.ts",
+    "apps/api/src/repository/attendance.ts"
+  ],
+  "created_at": "2026-05-08",
+  "metadata": {
+    "taskType": "implementation",
+    "docs_only": false,
+    "workflow_state": "verified",
+    "visualEvidence": "NON_VISUAL",
+    "priority": "low",
+    "scope": "public-profile-attendance-injection",
+    "issue": 533,
+    "issue_state": "closed",
+    "implementation_status": "implementation_complete_pending_pr"
+  },
+  "phases": [
+    { "phase": 1, "name": "要件定義", "file": "phase-01.md", "status": "completed", "outputs": ["outputs/phase-01/requirements.md"], "depends_on_phases": [], "user_approval_required": false },
+    { "phase": 2, "name": "実装設計", "file": "phase-02.md", "status": "completed", "outputs": ["outputs/phase-02/design.md"], "depends_on_phases": [1], "user_approval_required": false },
+    { "phase": 3, "name": "ADR / privacy decision", "file": "phase-03.md", "status": "completed", "outputs": ["outputs/phase-03/privacy-attendance-public-contract.md"], "depends_on_phases": [2], "user_approval_required": false },
+    { "phase": 4, "name": "テスト戦略", "file": "phase-04.md", "status": "completed", "outputs": ["outputs/phase-04/test-strategy.md"], "depends_on_phases": [3], "user_approval_required": false },
+    { "phase": 5, "name": "実装手順", "file": "phase-05.md", "status": "completed", "outputs": ["outputs/phase-05/implementation-summary.md"], "depends_on_phases": [4], "user_approval_required": false },
+    { "phase": 6, "name": "レビュー観点", "file": "phase-06.md", "status": "completed", "outputs": ["outputs/phase-06/review-checklist.md"], "depends_on_phases": [5], "user_approval_required": false },
+    { "phase": 7, "name": "静的解析", "file": "phase-07.md", "status": "completed", "outputs": ["outputs/phase-07/static-analysis.md", "outputs/phase-11/evidence/typecheck.log", "outputs/phase-11/evidence/lint.log"], "depends_on_phases": [6], "user_approval_required": false },
+    { "phase": 8, "name": "単体・統合テスト", "file": "phase-08.md", "status": "completed", "outputs": ["outputs/phase-08/test-execution.md", "outputs/phase-11/evidence/test.log"], "depends_on_phases": [7], "user_approval_required": false },
+    { "phase": 9, "name": "契約・不変条件検証", "file": "phase-09.md", "status": "completed", "outputs": ["outputs/phase-09/contract-verification.md", "outputs/phase-11/evidence/grep-gate.log"], "depends_on_phases": [8], "user_approval_required": false },
+    { "phase": 10, "name": "リスク再評価", "file": "phase-10.md", "status": "completed", "outputs": ["outputs/phase-10/risk-review.md"], "depends_on_phases": [9], "user_approval_required": false },
+    { "phase": 11, "name": "NON_VISUAL evidence", "file": "phase-11.md", "status": "completed", "outputs": ["outputs/phase-11/main.md", "outputs/phase-11/evidence/typecheck.log", "outputs/phase-11/evidence/lint.log", "outputs/phase-11/evidence/test.log", "outputs/phase-11/evidence/build.log", "outputs/phase-11/evidence/grep-gate.log"], "depends_on_phases": [10], "user_approval_required": false },
+    { "phase": 12, "name": "仕様同期", "file": "phase-12.md", "status": "completed", "outputs": ["outputs/phase-12/main.md", "outputs/phase-12/implementation-guide.md", "outputs/phase-12/system-spec-update-summary.md", "outputs/phase-12/documentation-changelog.md", "outputs/phase-12/unassigned-task-detection.md", "outputs/phase-12/skill-feedback-report.md", "outputs/phase-12/phase12-task-spec-compliance-check.md"], "depends_on_phases": [11], "user_approval_required": false },
+    { "phase": 13, "name": "commit / PR 承認ゲート", "file": "phase-13.md", "status": "blocked_pending_user_approval", "outputs": [], "depends_on_phases": [12], "user_approval_required": true }
+  ]
+}

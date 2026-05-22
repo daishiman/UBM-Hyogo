@@ -39,6 +39,118 @@ Phase 13 が user approval + 実行ゲートを兼ねる NON_VISUAL implementati
 - AC matrix では spec evidence と runtime evidence を分離し、`blocked_until_user_approval` placeholder を PUT 成功や drift 解消の根拠にしない。
 - Phase 12 の system spec update は `spec_created` を維持し、実行後の正本反映が必要な場合は正式 unassigned-task へ分離する。
 
+## §7. テスト常時実行可能性 DoD（continuous test executability）
+
+UI / API / boundary を伴うタスクの仕様書 (`docs/30-workflows/<feature>/03-spec-source/task-*.md`) では、対応するテスト群が **「いつでも誰でも 1 コマンドで pass まで通せる状態」** を DoD に含める。`taskType=implementation` のうち `testCategory ∈ {e2e, integration, contract}` を 1 つでも持つタスクは本セクションが必須。
+
+### 7.1 仕様書側の必須記述（CONST 拡張）
+
+実装仕様書の DoD セクションに以下 4 点を必ず明記する。曖昧表現（「テストが通る」「動作確認」のみ）は FAIL。
+
+1. **対象テストファイルの列挙**: 仕様書実装後に GREEN になるべき spec ファイルパスを行単位で列挙する（例: `apps/web/playwright/tests/profile.spec.ts:7:3`）。
+2. **常時実行コマンドの固定**: `mise exec -- pnpm --filter <pkg> exec <runner> <args>` 形式の実行コマンドを 1 行で記載。`-- --project=` 等の `--` argument misparse を避ける書式とする。
+3. **実行前提（pre-requisite）の宣言**: dev server / browser binary / fixtures / D1 seed / auth session など、実行前に整っていなければならない条件を箇条書きする。各条件には**自動化スクリプト or CI step のパス**を書く（手順を書くだけは不可）。
+4. **un-skip 不変条件**: `test.describe.skip` / `test.skip(true)` / `it.skip` を当該テストに**置かない**ことを明記。仕様書がカバーするテストはランタイムで skip されてはならない。
+
+### 7.2 infra 側の必須整備（実装サイクル内で完了させる）
+
+仕様書はテスト実行性を**仕組み**で保証する。手順書化のみで「実装者が頑張る」前提は禁止。以下 3 点を実装サイクルに含めることを仕様書側で要求する。
+
+| 項目 | 内容 | 配置先の例 |
+| --- | --- | --- |
+| browser binary の確実な install | `pnpm install` 後に Playwright browsers が無い場合は明示的 install step / postinstall / CI cache のいずれかで自動化 | `package.json#scripts.postinstall` または `.github/workflows/<e2e>.yml` |
+| dev server の自動起動 | `playwright.config.ts#webServer` が local で立ち上がる、または fixture が `mise exec -- pnpm dev` を起動 | `apps/web/playwright.config.ts` |
+| CI gate 化 | E2E（または対応 test category）が `dev` への PR で required check として走る | `.github/workflows/*.yml`、branch protection の `required_status_checks` |
+
+### 7.3 un-skip ポリシー（regression guard）
+
+`test.describe.skip(...)` / `test.skip(true, '...')` を使って **「実装は別 phase で活性化する」** と先送りする運用は禁止。`CONST_007`（先送り禁止）と整合する。
+
+- 一時的な skip が必要な場合は `test.fixme(...)` を使い、直近サイクルで GREEN へ戻す Issue 番号をコメントに付ける。
+- skip / fixme を含む spec ファイルは Phase 11 evidence で「skip count = 0」を AC matrix に明記する（仕様書側で記述）。
+- regression guard として `grep -rn "test.describe.skip\|test\.skip(true" apps/*/playwright/tests/` が 0 件を返すことを Phase 11 evidence に含めることを推奨。
+
+#### `it.todo` / `test.todo` 残留禁止（Phase 6 close-out gate）
+
+`it.todo("...")` / `test.todo("...")` は実装未着手 placeholder のため Phase 6 close-out 時点で **必ず実装または削除する**。残留したまま Phase 6 を閉じることを禁止する（task-15 admin dashboard の a11y todo 残留事例を踏まえた規約）。
+
+- Phase 6 close-out gate: `grep -rn "\bit\.todo\|\btest\.todo" apps/*/src apps/*/playwright/tests packages/*/src` の hit が 0 件であることを Phase 11 evidence (`todo-count.txt`) に記録する。1 件でも残れば FAIL。
+- a11y / accessibility 系 todo は同 cycle 内で **実 assertion へ昇格**させる（例: `axe-core` / `@axe-core/playwright` の `expect(results.violations).toEqual([])`）。
+- どうしても skip が必要な場合のみ `test.skip("reason: <issue-url>")` を使用し、理由コメントと追跡 Issue を inline 必須。`test.skip` の総数は Phase 11 evidence で 0 を期待し、>0 の場合は `unassigned-task` へ formalize する。
+- CI gate として `.github/workflows/*.yml` に `todo-count` step を組み込み、`it.todo` / `test.todo` の出現で job を fail させる。
+
+### 7.4 Phase 11 evidence への落とし込み
+
+VISUAL タスクは `phase-template-phase11.md` の screenshot evidence に加え、以下 3 件を `outputs/phase-11/evidence/` に必ず残す:
+
+```
+e2e-run.txt              # 該当 spec のフル実行ログ（pass/fail 集計が末尾にある tracked evidence）
+e2e-list.txt             # 対象 spec の列挙結果（実行対象 drift 防止）
+e2e-skip-count.txt       # skip 集計（0 を期待）
+runner-version.txt       # @playwright/test / vitest 等のバージョン固定証跡
+```
+
+`*.log` が repository `.gitignore` で無視される環境では、`.log` を canonical evidence にしない。Phase 12 compliance は `git check-ignore` または `git status --short -- <evidence>` で evidence が追跡可能な path であることを確認する。untracked / ignored evidence だけを PASS 根拠にすることは禁止。
+
+Next.js Server Component / route handler などが Node 側で `fetch()` する E2E では、Playwright の `page.route()` は server-side fetch を捕捉しない。server state を検証する AC は、mock API server、test seed、または `INTERNAL_API_BASE_URL` 差し替えなど、server fetch 経路に効く仕組みを Phase 4 までに用意し、Phase 11 evidence にその起動 path を記録する。
+
+NON_VISUAL タスクは [phase-11-non-visual-alternative-evidence.md](phase-11-non-visual-alternative-evidence.md) の L3 in-memory test layer と統合する。
+
+### 7.5 E2E カバレッジ閾値（≥ 80%）
+
+E2E（Playwright 等）でブラウザ実行型のテストを持つタスク仕様書は、`taskType=implementation` のうち `testCategory ∋ e2e` を含む場合、**E2E によるソースコード行カバレッジ 80% 以上** を DoD に組み込む。閾値・計測方式は次の通り固定する。
+
+| 項目 | 値 / 規定 |
+| --- | --- |
+| 閾値 | `lines >= 80%` を最低基準。`statements / functions / branches` も併記し、いずれか 1 つでも閾値割れ時は FAIL |
+| 計測対象 | UI 配下の TS/TSX（例: `apps/web/src/**`、`apps/web/app/**`）。infra（`*.config.ts` / `scripts/**`）と test 自身は除外 |
+| 計測方式（Playwright） | `page.coverage.startJSCoverage()` ＋ `monocart-reporter` または `c8` でレポート生成。CI 上で `coverage/e2e/{lcov.info, coverage-summary.json}` を artifact として upload |
+| 計測方式（vitest） | `vitest run --coverage` を別 step で実行し、E2E coverage と結合（`nyc merge` または `monocart` の merge）して総合カバレッジを算出してもよい |
+| 閾値 enforcement | CI で `coverage-summary.json` を読み、`lines.pct < 80` なら exit 1 する step を `e2e-tests.yml` に組み込む |
+| 仕様書側の記述 | 各 task-spec の DoD に「自タスクが触る module 群が新規に E2E 経由で覆われ、リポジトリ全体の `lines.pct` が 80% を**割らない**」ことを明記 |
+
+仕様書側の記述例（DoD 抜粋）:
+
+> - `apps/web/src/components/members/MembersFilterBar.client.tsx` の主要分岐（density 切替・query 反映）が `search-density.spec.ts` のフローで実行される
+> - `coverage/e2e/coverage-summary.json` の `total.lines.pct >= 80`（リポジトリ閾値）を割らない
+> - 自タスク追加 module の `lines.pct >= 80`（タスク閾値）を独立に確認
+
+カバレッジ閾値割れが発生した場合、**spec の追加・assertion 増強で覆う**のが第一手。E2E で触れない dead code は削除を検討する。閾値を下げて pass させることは禁止。
+
+NON_VISUAL タスクは E2E coverage 対象外とし、L3 in-memory test layer（[phase-11-non-visual-alternative-evidence.md](phase-11-non-visual-alternative-evidence.md)）の coverage 規定に従う。
+
+### 7.6 Phase 12 close-out 検証
+
+Phase 12 の `phase12-task-spec-compliance-check.md` で、次の 8 点を **チェックリスト** として実体検証する。1 件でも欠落していれば `verified` にせず `partial` でとどめ、未対応分は `unassigned-task` へ formalize する（CONST_007 の例外条件「外部依存待ち」等に該当する場合のみ）。
+
+1. §7.1 (1) 対象 spec ファイル列挙
+2. §7.1 (2) 1 行実行コマンド
+3. §7.1 (3) 実行前提と自動化 path
+4. §7.1 (4) un-skip 不変条件
+5. §7.2 (1) browser binary 自動 install
+6. §7.2 (2) dev server 自動起動
+7. §7.2 (3) CI gate 化
+8. §7.5 E2E lines coverage ≥ 80%（リポジトリ閾値・タスク閾値の両方）
+
+### 7.7 a11y focus management gate（error boundary / dialog / loading skeleton）
+
+focus 移譲を伴う UI 実装（error boundary 統一構造、dialog mount focus、loading skeleton 切替時 focus 引継ぎ等）を含む `taskType=implementation` タスクは、Phase 6 / Phase 11 で次を必須検証する。詳細パターンとアンチパターンは [patterns-a11y-focus-management.md](patterns-a11y-focus-management.md) を参照する。
+
+#### Phase 6 (test plan) 必須項目
+
+1. focused test で **`vi.spyOn(HTMLElement.prototype, 'focus')` を必須化** し、`expect(spy).toHaveBeenCalledWith({ preventScroll: true })` の **引数完全一致** assertion を 1 ケース以上含める（`toHaveBeenCalled()` のみは FAIL）。
+2. `preventScroll: true` の default 渡し検証 + caller `{ preventScroll: false }` opt-out 検証を independent な 2 ケースとして持つ。
+3. error boundary 統合 spec では `expect(document.activeElement).toBe(getByRole('heading', { level: 1 }))` で actual focus 移譲も assert する（spy 単体では layout 副作用を検出できないため不足）。
+4. `useAutoFocusOnMount`（`apps/web/src/lib/a11y/useAutoFocusOnMount.ts`）を標準 hook として採用し、各 error boundary に inline `useEffect(() => ref.current?.focus(), [])` を新規追加しない（drift 禁止）。
+
+#### Phase 11 (evidence) 必須項目
+
+1. `outputs/phase-11/evidence/focus-management-spec-run.txt` に該当 spec の vitest フル実行ログ（pass 集計末尾あり）を tracked path で保存する。
+2. `outputs/phase-11/evidence/focus-management-spec-list.txt` に `grep -rn "useAutoFocusOnMount" apps/web/src` 結果を保存し、利用箇所 drift 0 を担保する。
+3. VISUAL ルート統合タスクのみ `outputs/phase-11/screenshots/error-boundary-focus-<route>.png` で focus ring 可視状態を残す。NON_VISUAL hook 単体タスクは [phase-11-non-visual-alternative-evidence.md](phase-11-non-visual-alternative-evidence.md) L3 in-memory test layer に従い screenshot は要求しない。
+
+> 該当パターンの実装例（hook 定義 / error.tsx 利用 / focused spec の最小サンプル）と 5 アンチパターン一覧は [patterns-a11y-focus-management.md](patterns-a11y-focus-management.md) を参照。
+
 ## 検証コマンド
 
 ```bash

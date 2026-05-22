@@ -1,0 +1,28 @@
+
+> @ubm-hyogo/web@0.1.0 build:cloudflare /Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260509-001614-wt-10/apps/web
+> NODE_ENV=production opennextjs-cloudflare build && node ../../scripts/patch-open-next-worker.mjs
+
+
+┌─────────────────────────────┐
+│ OpenNext — Cloudflare build │
+└─────────────────────────────┘
+
+✘ [ERROR] Cannot start service: Host version "0.25.4" does not match binary version "0.21.5"
+
+1 error
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+Error: The service was stopped
+    at /Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260509-001614-wt-10/node_modules/@opennextjs/aws/node_modules/esbuild/lib/main.js:947:34
+    at responseCallbacks.<computed> (/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260509-001614-wt-10/node_modules/@opennextjs/aws/node_modules/esbuild/lib/main.js:601:9)
+    at Socket.afterClose (/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260509-001614-wt-10/node_modules/@opennextjs/aws/node_modules/esbuild/lib/main.js:592:28)
+    at Socket.emit (node:events:521:24)
+    at endReadableNT (node:internal/streams/readable:1729:12)
+    at process.processTicksAndRejections (node:internal/process/task_queues:90:21)
+
+Node.js v24.15.0
+/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260509-001614-wt-10/apps/web:
+ ERR_PNPM_RECURSIVE_RUN_FIRST_FAIL  @ubm-hyogo/web@0.1.0 build:cloudflare: `NODE_ENV=production opennextjs-cloudflare build && node ../../scripts/patch-open-next-worker.mjs`
+Exit status 1

@@ -1,0 +1,67 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "phase11-evidence-canonical-paths.schema.json",
+  "title": "Phase 11 Evidence Canonical Paths",
+  "description": "Canonical manifest for Phase 11 evidence paths used by workflow close-out and Phase 12 compliance checks.",
+  "type": "object",
+  "required": ["taskId", "workflowDir", "evidence"],
+  "additionalProperties": false,
+  "properties": {
+    "taskId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "workflowDir": {
+      "type": "string",
+      "pattern": "^docs/30-workflows/(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)[A-Za-z0-9._/-]+[^/]$"
+    },
+    "schemaVersion": {
+      "type": "string",
+      "pattern": "^1\\.0\\.0$"
+    },
+    "evidence": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["id", "kind", "path", "command", "acquiredBy"],
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[a-z0-9][a-z0-9._-]*$"
+          },
+          "kind": {
+            "type": "string",
+            "enum": [
+              "typecheck",
+              "lint",
+              "test",
+              "build",
+              "grep-gate",
+              "runtime-observation"
+            ]
+          },
+          "path": {
+            "type": "string",
+            "pattern": "^outputs/phase-11/(?!.*(?:^|/)\\.\\.(?:/|$))(?:evidence/)?[A-Za-z0-9._/-]+\\.(?:log|txt|md|json|csv)$"
+          },
+          "command": {
+            "type": "string",
+            "minLength": 1
+          },
+          "acquiredBy": {
+            "type": "string",
+            "enum": ["spec_created", "implementation_cycle", "post_merge"]
+          },
+          "requiredForCloseout": {
+            "type": "boolean"
+          },
+          "notes": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

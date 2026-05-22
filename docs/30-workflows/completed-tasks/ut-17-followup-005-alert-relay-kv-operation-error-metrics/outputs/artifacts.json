@@ -1,0 +1,66 @@
+{
+  "schemaVersion": 1,
+  "task_name": "ut-17-followup-005-alert-relay-kv-operation-error-metrics",
+  "task_path": "docs/30-workflows/completed-tasks/ut-17-followup-005-alert-relay-kv-operation-error-metrics",
+  "created_at": "2026-05-16T00:00:00+09:00",
+  "status": "runtime_pending",
+  "taskId": "UT-17-FU-005",
+  "title": "alert-relay KV operation error structured logging",
+  "metadata": {
+    "taskType": "implementation",
+    "visualEvidence": "NON_VISUAL",
+    "workflow_state": "implemented_local_evidence_captured",
+    "implementation_status": "IMPLEMENTED_LOCAL_EVIDENCE_CAPTURED",
+    "sourceIssue": "#701",
+    "sourceIssueState": "OPEN",
+    "canonicalRoot": "docs/30-workflows/completed-tasks/ut-17-followup-005-alert-relay-kv-operation-error-metrics",
+    "parentWorkflow": "docs/30-workflows/ut-17-cloudflare-analytics-alerts",
+    "predecessorTask": "docs/30-workflows/completed-tasks/ut-17-followup-002-alert-relay-dedup-kv",
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-05-16T00:00:00+09:00",
+        "evidence_path": "docs/30-workflows/completed-tasks/ut-17-followup-005-alert-relay-kv-operation-error-metrics/outputs/phase-03/design-review.md",
+        "approver": "daishiman",
+        "notes": "spec_review: Phase 1-3 design GO recorded locally; no external mutation"
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "passed",
+        "passed_at": "2026-05-16T00:00:00+09:00",
+        "evidence_path": "docs/30-workflows/completed-tasks/ut-17-followup-005-alert-relay-kv-operation-error-metrics/outputs/phase-12/implementation-guide.md",
+        "approver": "daishiman",
+        "notes": "implementation_review: code + tests + runbook completed locally"
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/ut-17-followup-005-alert-relay-kv-operation-error-metrics/outputs/phase-13/pr-summary.md",
+        "approver": "daishiman",
+        "notes": "user_gated: commit / push / PR"
+      }
+    ]
+  },
+  "phases": [
+    { "phase": 1, "name": "要件定義", "file": "phase-01.md", "status": "completed", "outputs": ["outputs/phase-01/requirements.md"] },
+    { "phase": 2, "name": "設計", "file": "phase-02.md", "status": "completed", "outputs": ["outputs/phase-02/log-schema.md", "outputs/phase-02/helper-design.md", "outputs/phase-02/emit-points.md", "outputs/phase-02/isolate-id-strategy.md"] },
+    { "phase": 3, "name": "設計レビュー", "file": "phase-03.md", "status": "completed", "outputs": ["outputs/phase-03/design-review.md"] },
+    { "phase": 4, "name": "タスク分解", "file": "phase-04.md", "status": "completed", "outputs": ["outputs/phase-04/task-breakdown.md", "outputs/phase-04/critical-path.md"] },
+    { "phase": 5, "name": "実装計画", "file": "phase-05.md", "status": "completed", "outputs": ["outputs/phase-05/implementation-plan.md"] },
+    { "phase": 6, "name": "実装手順", "file": "phase-06.md", "status": "completed", "outputs": ["outputs/phase-06/implementation-steps.md"] },
+    { "phase": 7, "name": "テスト計画", "file": "phase-07.md", "status": "completed", "outputs": ["outputs/phase-07/test-plan.md"] },
+    { "phase": 8, "name": "ドキュメント更新", "file": "phase-08.md", "status": "completed", "outputs": ["outputs/phase-08/docs-updates.md"] },
+    { "phase": 9, "name": "受入確認", "file": "phase-09.md", "status": "completed", "outputs": ["outputs/phase-09/acceptance.md"] },
+    { "phase": 10, "name": "リファクタ", "file": "phase-10.md", "status": "completed", "outputs": ["outputs/phase-10/refactor-summary.md"] },
+    { "phase": 11, "name": "NON_VISUAL evidence", "file": "phase-11.md", "status": "completed", "outputs": ["outputs/phase-11/visual-verification-skip.md", "outputs/phase-11/evidence/typecheck.txt", "outputs/phase-11/evidence/lint.txt", "outputs/phase-11/evidence/build.txt", "outputs/phase-11/evidence/test.txt", "outputs/phase-11/evidence/grep-gate.txt"] },
+    { "phase": 12, "name": "正本同期", "file": "phase-12.md", "status": "completed", "outputs": ["outputs/phase-12/main.md", "outputs/phase-12/implementation-guide.md", "outputs/phase-12/system-spec-update-summary.md", "outputs/phase-12/documentation-changelog.md", "outputs/phase-12/unassigned-task-detection.md", "outputs/phase-12/skill-feedback-report.md", "outputs/phase-12/phase12-task-spec-compliance-check.md"] },
+    { "phase": 13, "name": "PR・振り返り", "file": "phase-13.md", "status": "blocked", "outputs": ["outputs/phase-13/pr-summary.md"], "user_approval_required": true }
+  ],
+  "plannedImplementationFiles": [
+    "apps/api/src/routes/internal/alert-relay.ts",
+    "apps/api/src/routes/internal/__tests__/alert-relay.spec.ts",
+    "docs/30-workflows/runbooks/ut-17-alert-relay-monthly-healthcheck.md"
+  ]
+}

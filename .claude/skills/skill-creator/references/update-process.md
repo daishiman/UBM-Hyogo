@@ -78,6 +78,7 @@ close-out remediation follow-up を同一 wave で解消した場合は、新規
 Phase 3.8: skill feedback promotion
 Phase 12 `skill-feedback-report.md` の提案を「記録しただけ」で閉じず、task-specification-creator / aiworkflow-requirements / skill-creator の該当 reference へ昇格するか、昇格しない根拠を documentation changelog に残す
 各苦戦箇所は `symptom / cause / recurrence condition / 5-minute resolution / evidence path / promoted-to or no-op reason` に分解する。routing は `task-specification-creator/references/phase12-skill-feedback-promotion.md` に従い、workflow/template gap は task-specification-creator、domain implementation lesson は aiworkflow-requirements、skill authoring/update-process gap は skill-creator に置く。
+implementation-spec-to-skill sync audit may conclude no direct skill edit is needed, but the no-op is valid only when `skill-feedback-report.md` names the no-op reason, evidence path, and the owning skill/reference that already covers the case.
 cron / release / incident response など運用 runbook 系の docs-only task では、runtime 操作を成功扱いにせず、runbook artifact inventory と domain lesson を aiworkflow-requirements に昇格する。09b のように candidate follow-up が複数出る場合は、既存 `docs/30-workflows/unassigned-task/` を先に検索して formalized / delegated / existing related / candidate を分ける。
 mirror parity は `.agents/skills/<skill>` が存在する場合のみ必須。存在しない mirror を前提に PASS を書かず、N/A 理由を `documentation-changelog.md` に残す。
 Implementation spec-to-skill sync is complete only when workflow outputs, system spec summary, updated skill reference/asset, and mirror diff/N/A evidence all point to the same current contract.
@@ -267,6 +268,7 @@ Phase 12 由来のスキル更新は、`skill-feedback-report.md` に記録し�
 | metadata | `description` は短く保ち、詳細な Anchors / Trigger / 履歴は本文または `references/` に退避する |
 | line budget | `SKILL.md` と主要 reference は 500 行以内を目安にし、超過時は classification-first で分割する |
 | generated files | README / CHANGELOG / samples を慣性で増やさず、既存 `LOGS.md` / `SKILL-changelog.md` / `references/resource-map.md` の正本関係を優先する |
+| changelog sync | 既存スキルの `references/` 追加・既存 reference 補強・Trigger 更新を行ったら、**同一 wave** で対象スキルの `SKILL-changelog.md` に 1 行追加し、`SKILL.md` 内最新 3 件履歴も同期する。reference 追加のみで SKILL-changelog を更新しないのは fail。 |
 | SubAgent lanes | 入力、責務、出力、編集可否、依存関係を明示し、監査は read-only、編集は owner が直列化する |
 | cross-runtime contract | Claude Code / Codex / 外部CLIで実行差が出る場合は、実行境界と検証コマンドを reference に残す |
 

@@ -24,7 +24,7 @@ if grep -RIn --include='*.ts' --include='*.tsx' -E '"/no-access"|`/no-access`' "
 fi
 
 # 3. apps/web から D1 binding を直接読まない (env.DB / context.env.DB / DB as D1Database)
-if grep -RIn --include='*.ts' --include='*.tsx' --exclude-dir='__tests__' --exclude='*.test.ts' --exclude='*.test.tsx' -E 'env\.DB|env\["DB"\]|D1Database' "${WEB_DIR}/app" "${WEB_DIR}/src" 2>/dev/null; then
+if grep -RIn --include='*.ts' --include='*.tsx' --exclude-dir='__tests__' --exclude='*.spec.ts' --exclude='*.spec.tsx' -E 'env\.DB|env\["DB"\]|D1Database' "${WEB_DIR}/app" "${WEB_DIR}/src" 2>/dev/null; then
   echo "FAIL: apps/web で D1 binding を直接参照しています (不変条件 #5)" >&2
   fail=1
 fi

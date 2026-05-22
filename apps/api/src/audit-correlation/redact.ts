@@ -8,7 +8,8 @@ import type {
   RedactOpts,
 } from './types';
 
-const FINGERPRINT_VERSION = 1 as const;
+const FINGERPRINT_VERSION_V1 = 1 as const;
+const FINGERPRINT_VERSION_V2 = 2 as const;
 
 export function normalizeEmail(raw: string | undefined): { localPart?: string; domain?: string } {
   if (!raw) return {};
@@ -80,6 +81,33 @@ export async function computeFingerprint(input: FingerprintInput, salt: string):
   return toHex(digest) as FingerprintHash;
 }
 
+async function computeFingerprintBundle(
+  input: FingerprintInput,
+  opts: RedactOpts,
+): Promise<{
+  fingerprintHash: FingerprintHash;
+  fingerprintVersion: 1 | 2;
+  fingerprintHashes?: { v1?: FingerprintHash; v2?: FingerprintHash };
+}> {
+  // dual-hash mode: AUDIT_CORRELATION_SALT_PREVIOUS が設定されている rotation 期間中のみ
+  // v1 (旧 salt) と v2 (新 salt) の両方を計算する。canonical hash は常に v2 = opts.salt 側。
+  // rotation 終了後は previousSalt が undefined になり single-hash path（v2 only）に戻る。
+  const v2 = await computeFingerprint(input, opts.salt);
+  if (opts.previousSalt && opts.previousSalt !== opts.salt) {
+    const v1 = await computeFingerprint(input, opts.previousSalt);
+    return {
+      fingerprintHash: v2,
+      fingerprintVersion: FINGERPRINT_VERSION_V2,
+      fingerprintHashes: { v1, v2 },
+    };
+  }
+  return {
+    fingerprintHash: v2,
+    fingerprintVersion: FINGERPRINT_VERSION_V2,
+    fingerprintHashes: { v2 },
+  };
+}
+
 export async function redactGitHub(
   ev: RawGitHubAuditEvent,
   opts: RedactOpts,
@@ -87,15 +115,12 @@ export async function redactGitHub(
   const email = normalizeEmail(ev.external_identity_nameid);
   const ipPrefix = truncateIp(ev.actor_ip);
   const uaBucket = bucketUserAgent(ev.user_agent);
-  // join key は actor identity（email local-part + domain）のみ。
-  // ipPrefix / uaBucket は副情報として保持し、HIGH severity 判定で使う（IP 急変検知のため group 内で参照する）。
-  const fingerprintHash = await computeFingerprint(
+  const bundle = await computeFingerprintBundle(
     { emailLocalPart: email.localPart, emailDomain: email.domain, ipPrefix, uaBucket },
-    opts.salt,
+    opts,
   );
   return {
-    fingerprintHash,
-    fingerprintVersion: FINGERPRINT_VERSION,
+    ...bundle,
     source: 'github',
     eventType: ev.action,
     occurredAt: ev.created_at,
@@ -112,14 +137,13 @@ export async function redactCloudflare(
   const email = normalizeEmail(ev.actor.email);
   const ipPrefix = truncateIp(ev.actor.ip);
   const uaBucket = bucketUserAgent(ev.user_agent);
-  const fingerprintHash = await computeFingerprint(
+  const bundle = await computeFingerprintBundle(
     { emailLocalPart: email.localPart, emailDomain: email.domain, ipPrefix, uaBucket },
-    opts.salt,
+    opts,
   );
   const occurredAt = Date.parse(ev.when);
   return {
-    fingerprintHash,
-    fingerprintVersion: FINGERPRINT_VERSION,
+    ...bundle,
     source: 'cloudflare',
     eventType: ev.action.type,
     occurredAt: Number.isFinite(occurredAt) ? occurredAt : 0,
@@ -128,3 +152,5 @@ export async function redactCloudflare(
     userAgentBucket: uaBucket,
   };
 }
+
+export const __testing = { FINGERPRINT_VERSION_V1, FINGERPRINT_VERSION_V2 };

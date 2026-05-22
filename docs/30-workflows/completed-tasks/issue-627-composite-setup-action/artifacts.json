@@ -1,0 +1,97 @@
+{
+  "metadata": {
+    "workflow_id": "issue-627-composite-setup-action",
+    "issue": 627,
+    "parent_issue": 608,
+    "implementation_mode": "new",
+    "workflow_state": "implemented_local_runtime_pending",
+    "implementation_status": "implemented_local_runtime_pending",
+    "taskType": "implementation",
+    "visualEvidence": "NON_VISUAL",
+    "scope": "CI infra composite action",
+    "coverageTier": "standard",
+    "base_branch": "dev",
+    "feature_branch": "feat/issue-627-composite-setup-action",
+    "updated_at": "2026-05-12",
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-05-12T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-627-composite-setup-action/phase-1.md",
+        "approver": "daishiman",
+        "notes": "spec_review: Phase 1-13 spec for composite setup action. Approved locally."
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "passed",
+        "passed_at": "2026-05-12T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-627-composite-setup-action/outputs/phase-11/main.md",
+        "approver": "daishiman",
+        "notes": "validator_green: local actionlint and composite structure check PASS; runtime GHA evidence pending."
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": ".github/actions/setup-project/action.yml",
+        "approver": "CODEOWNERS:github-workflows",
+        "notes": "ci_integration: validate / verify-phase12-compliance / workflow-shell-lint green required."
+      },
+      {
+        "gate_id": "Gate-D",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-627-composite-setup-action/phase-13.md",
+        "approver": "daishiman",
+        "notes": "pr_approval: user-gated merge into dev."
+      }
+    ]
+  },
+  "inventory": [
+    { "path": ".github/actions/setup-project/action.yml", "kind": "new", "scope": "checkout-less Node / pnpm / mise setup composite action" },
+    { "path": ".github/workflows/lighthouse.yml", "kind": "edit", "scope": "replace setup block after checkout" },
+    { "path": ".github/workflows/e2e-tests.yml", "kind": "edit", "scope": "replace e2e and e2e-tests-coverage-gate setup blocks after checkout" },
+    { "path": ".github/workflows/ci.yml", "kind": "edit", "scope": "replace workflow-shell-lint / ci / coverage-gate setup blocks after checkout" },
+    { "path": ".github/workflows/pr-build-test.yml", "kind": "edit", "scope": "replace mise setup + install after pinned checkout" }
+  ],
+  "phases": [
+    { "phase": 1, "status": "completed", "path": "phase-1.md" },
+    { "phase": 2, "status": "completed", "path": "phase-2.md" },
+    { "phase": 3, "status": "completed", "path": "phase-3.md" },
+    { "phase": 4, "status": "completed", "path": "phase-4.md" },
+    { "phase": 5, "status": "completed", "path": "phase-5.md" },
+    { "phase": 6, "status": "completed", "path": "phase-6.md" },
+    { "phase": 7, "status": "completed", "path": "phase-7.md" },
+    { "phase": 8, "status": "completed", "path": "phase-8.md" },
+    { "phase": 9, "status": "runtime_pending", "path": "phase-9.md" },
+    { "phase": 10, "status": "completed", "path": "phase-10.md" },
+    { "phase": 11, "status": "runtime_pending", "path": "phase-11.md" },
+    { "phase": 12, "status": "completed", "path": "phase-12.md" },
+    { "phase": 13, "status": "runtime_pending", "path": "phase-13.md" }
+  ],
+  "evidence": {
+    "phase11": "outputs/phase-11/",
+    "phase11_required_non_visual": [
+      "main.md",
+      "manual-smoke-log.md",
+      "link-checklist.md"
+    ],
+    "phase12": "outputs/phase-12/",
+    "phase12_strict_7": [
+      "main.md",
+      "implementation-guide.md",
+      "system-spec-update-summary.md",
+      "documentation-changelog.md",
+      "unassigned-task-detection.md",
+      "skill-feedback-report.md",
+      "phase12-task-spec-compliance-check.md"
+    ],
+    "phase13": "outputs/phase-13/"
+  },
+  "closed_issue_reference_rule": {
+    "issue_627_state": "CLOSED",
+    "pr_reference": "Refs #627",
+    "forbidden_keywords": ["github_auto_close_keywords_for_issue_627"]
+  }
+}

@@ -1,63 +1,73 @@
-// issue-194-03b-followup-001-email-conflict-identity-merge
-// admin identity 重複候補 1 行 + merge / dismiss 操作 (二段階確認は merge 側で confirm prompt)
 "use client";
-import { useId, useState, useTransition } from "react";
-import { useRouter } from "next/navigation";
-import type { IdentityConflictRow as Row } from "@ubm-hyogo/shared";
-
-const callJson = async (
-  url: string,
-  body: unknown,
-): Promise<{ ok: boolean; status: number; data: unknown }> => {
-  const res = await fetch(url, {
-    method: "POST",
-    headers: { "content-type": "application/json" },
-    body: JSON.stringify(body),
-  });
-  const data = await res.json().catch(() => ({}));
-  return { ok: res.ok, status: res.status, data };
-};
+import { useId, useState } from "react";
+import type {
+  DismissIdentityConflictResponse,
+  IdentityConflictRow as Row,
+  MergeIdentityResponse,
+} from "@ubm-hyogo/shared";
+import { useAdminMutation } from "../../features/admin/hooks";
 
 export function IdentityConflictRow({ item }: { item: Row }) {
-  const router = useRouter();
   const formId = useId();
-  const [isPending, startTransition] = useTransition();
   const [stage, setStage] = useState<"idle" | "merge-confirm" | "merge-final" | "dismiss">("idle");
-  const [reason, setReason] = useState("");
-  const [err, setErr] = useState<string | null>(null);
+  const [mergeReason, setMergeReason] = useState("");
+  const [dismissReason, setDismissReason] = useState("");
   const mergeReasonId = `${formId}-merge-reason`;
   const dismissReasonId = `${formId}-dismiss-reason`;
+  const mergeErrorId = `${formId}-merge-error`;
+  const dismissErrorId = `${formId}-dismiss-error`;
+
+  const mergeMutation = useAdminMutation<MergeIdentityResponse>(
+    `/api/admin/identity-conflicts/${encodeURIComponent(item.conflictId)}/merge`,
+    "POST",
+    {
+      successMessage: "✓ 統合しました",
+      onSuccess: () => {
+        setStage("idle");
+        setMergeReason("");
+      },
+    },
+  );
+
+  const dismissMutation = useAdminMutation<DismissIdentityConflictResponse>(
+    `/api/admin/identity-conflicts/${encodeURIComponent(item.conflictId)}/dismiss`,
+    "POST",
+    {
+      successMessage: "✓ 別人として確定しました",
+      onSuccess: () => {
+        setStage("idle");
+        setDismissReason("");
+      },
+    },
+  );
+
+  const mergeError = mergeMutation.error?.message ?? null;
+  const dismissError = dismissMutation.error?.message ?? null;
 
   const onMerge = () => {
-    setErr(null);
-    startTransition(async () => {
-      const res = await callJson(
-        `/api/admin/identity-conflicts/${encodeURIComponent(item.conflictId)}/merge`,
-        { targetMemberId: item.candidateTargetMemberId, reason },
-      );
-      if (!res.ok) {
-        const e = (res.data as { error?: string }).error ?? "MERGE_FAILED";
-        setErr(`${res.status}: ${e}`);
-        return;
-      }
-      router.refresh();
-    });
+    void mergeMutation
+      .trigger({
+        targetMemberId: item.candidateTargetMemberId,
+        reason: mergeReason.trim(),
+      })
+      .catch(() => {
+        // error は mergeMutation.error / toast 経由で surface。modal は閉じず、reason を保持する。
+      });
   };
 
   const onDismiss = () => {
-    setErr(null);
-    startTransition(async () => {
-      const res = await callJson(
-        `/api/admin/identity-conflicts/${encodeURIComponent(item.conflictId)}/dismiss`,
-        { reason },
-      );
-      if (!res.ok) {
-        const e = (res.data as { error?: string }).error ?? "DISMISS_FAILED";
-        setErr(`${res.status}: ${e}`);
-        return;
-      }
-      router.refresh();
+    void dismissMutation.trigger({ reason: dismissReason.trim() }).catch(() => {
+      // 同上: 失敗時に modal を閉じない。
     });
+  };
+
+  const cancelMerge = () => {
+    setStage("idle");
+    setMergeReason("");
+  };
+  const cancelDismiss = () => {
+    setStage("idle");
+    setDismissReason("");
   };
 
   return (
@@ -107,7 +117,7 @@ export function IdentityConflictRow({ item }: { item: Row }) {
             <button
               type="button"
               className="rounded-md border border-zinc-300 px-3 py-1"
-              onClick={() => setStage("idle")}
+              onClick={cancelMerge}
             >
               キャンセル
             </button>
@@ -132,24 +142,32 @@ export function IdentityConflictRow({ item }: { item: Row }) {
           </label>
           <textarea
             id={mergeReasonId}
-            value={reason}
-            onChange={(e) => setReason(e.target.value)}
+            value={mergeReason}
+            onChange={(e) => setMergeReason(e.target.value)}
+            aria-invalid={mergeError ? "true" : undefined}
+            aria-describedby={mergeError ? mergeErrorId : undefined}
             className="mb-2 w-full rounded-md border border-zinc-300 p-2 text-sm"
             placeholder="例: 本人確認済 / 同一人物として統合"
             rows={2}
             maxLength={500}
+            disabled={mergeMutation.isLoading}
           />
-          {err && (
-            <p className="mb-2 text-red-600" role="alert" aria-live="polite">
-              {err}
+          {mergeError && (
+            <p
+              id={mergeErrorId}
+              className="mb-2 text-red-600"
+              role="alert"
+              aria-live="polite"
+            >
+              {mergeError}
             </p>
           )}
           <div className="flex justify-end gap-2">
             <button
               type="button"
               className="rounded-md border border-zinc-300 px-3 py-1"
-              onClick={() => setStage("idle")}
-              disabled={isPending}
+              onClick={cancelMerge}
+              disabled={mergeMutation.isLoading}
             >
               キャンセル
             </button>
@@ -157,7 +175,7 @@ export function IdentityConflictRow({ item }: { item: Row }) {
               type="button"
               className="rounded-md bg-red-600 px-3 py-1 text-white disabled:opacity-50"
               onClick={onMerge}
-              disabled={isPending || reason.trim().length === 0}
+              disabled={mergeMutation.isLoading || mergeReason.trim().length === 0}
             >
               merge 実行
             </button>
@@ -173,24 +191,32 @@ export function IdentityConflictRow({ item }: { item: Row }) {
           </label>
           <textarea
             id={dismissReasonId}
-            value={reason}
-            onChange={(e) => setReason(e.target.value)}
+            value={dismissReason}
+            onChange={(e) => setDismissReason(e.target.value)}
+            aria-invalid={dismissError ? "true" : undefined}
+            aria-describedby={dismissError ? dismissErrorId : undefined}
             className="mb-2 w-full rounded-md border border-zinc-300 p-2 text-sm"
             placeholder="例: 同姓同名 / 別組織所属で確認済"
             rows={2}
             maxLength={500}
+            disabled={dismissMutation.isLoading}
           />
-          {err && (
-            <p className="mb-2 text-red-600" role="alert" aria-live="polite">
-              {err}
+          {dismissError && (
+            <p
+              id={dismissErrorId}
+              className="mb-2 text-red-600"
+              role="alert"
+              aria-live="polite"
+            >
+              {dismissError}
             </p>
           )}
           <div className="flex justify-end gap-2">
             <button
               type="button"
               className="rounded-md border border-zinc-300 px-3 py-1"
-              onClick={() => setStage("idle")}
-              disabled={isPending}
+              onClick={cancelDismiss}
+              disabled={dismissMutation.isLoading}
             >
               キャンセル
             </button>
@@ -198,7 +224,7 @@ export function IdentityConflictRow({ item }: { item: Row }) {
               type="button"
               className="rounded-md bg-zinc-700 px-3 py-1 text-white disabled:opacity-50"
               onClick={onDismiss}
-              disabled={isPending || reason.trim().length === 0}
+              disabled={dismissMutation.isLoading || dismissReason.trim().length === 0}
             >
               別人として確定
             </button>

@@ -389,7 +389,7 @@ architecture-implementation-patterns.md の「E2Eテストパターン（TASK-8C
 
 ---
 
-## UBM 兵庫 — Static Invariants カタログ（apps/web `src/__tests__/static-invariants.test.ts`）
+## UBM 兵庫 — Static Invariants カタログ（apps/web `src/__tests__/static-invariants.runtime.spec.ts`）
 
 apps/web の React ツリー / route handler / 設定ファイルに対して、ランタイム挙動ではなく **ソース構造そのもの** を Vitest から正規表現スキャンで検証する不変条件群。E2E ではなく "static" な invariants として位置付け、不変条件 #4（profile 本文編集 UI 不在）/ #5（apps/web → D1 直接アクセス禁止）等を構造保証する。
 

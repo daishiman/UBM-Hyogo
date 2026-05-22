@@ -1,0 +1,481 @@
+{
+  "schemaVersion": 1,
+  "taskId": "issue-623",
+  "title": "vitest.config の test/spec 二段階対応を spec 単一に収斂",
+  "metadata": {
+    "taskType": "implementation",
+    "visualEvidence": "NON_VISUAL",
+    "workflow_state": "implemented_local_runtime_pending",
+    "implementation_status": "IMPLEMENTED_LOCAL_RUNTIME_PENDING",
+    "sourceIssue": "#623",
+    "parentIssue": "#325",
+    "issueState": "CLOSED",
+    "issueReferenceMode": "Refs",
+    "canonicalRoot": "docs/30-workflows/issue-623-vitest-spec-suffix-convergence",
+    "createdAt": "2026-05-12",
+    "owner": "delivery",
+    "priority": "MEDIUM",
+    "wave": "followup",
+    "branch": {
+      "base": "dev",
+      "working": "feat/issue-623-vitest-spec-suffix-convergence"
+    },
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-05-12T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-623-vitest-spec-suffix-convergence/index.md",
+        "approver": "daishiman",
+        "notes": "spec_review: Phase 1-13 spec present; suffix convergence scope finalized"
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "passed",
+        "passed_at": "2026-05-12T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-623-vitest-spec-suffix-convergence/outputs/phase-11/evidence-bundle/ac-1-find-after.txt",
+        "approver": "daishiman",
+        "notes": "validator_green: 159 files renamed to *.spec.{ts,tsx}, vitest include single, block-test-suffix gate green"
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": ".github/workflows/verify-test-suffix.yml",
+        "approver": "CODEOWNERS:github-workflows",
+        "notes": "ci_integration: verify-test-suffix CI gate live; required-checks wiring pending user approval"
+      },
+      {
+        "gate_id": "Gate-D",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-623-vitest-spec-suffix-convergence/phase-13.md",
+        "approver": "daishiman",
+        "notes": "runtime_evidence: full CI vitest numTotalTests parity verification pending PR-merge run"
+      }
+    ]
+  },
+  "scope": {
+    "renameCounts": {
+      "appsWeb": 83,
+      "appsApi": 6,
+      "packagesShared": 17,
+      "packagesIntegrations": 11,
+      "scripts": 35,
+      "claudeSkills": 7,
+      "total": 159
+    },
+    "configEdits": [
+      "vitest.config.ts:test.include",
+      "vitest.config.ts:coverage.exclude"
+    ],
+    "ciGates": [
+      "scripts/hooks/block-test-suffix.sh",
+      "lefthook.yml:pre-commit.commands.block-test-suffix",
+      ".github/workflows/verify-test-suffix.yml"
+    ],
+    "docsUpdates": [
+      "CLAUDE.md",
+      "docs/30-workflows/issue-325-test-suffix-rename-migration/outputs/phase-12/test-file-suffix-adr.md",
+      ".claude/skills/task-specification-creator/SKILL-changelog.md",
+      ".claude/skills/aiworkflow-requirements/SKILL-changelog.md",
+      ".claude/skills/aiworkflow-requirements/indexes/"
+    ]
+  },
+  "acceptanceCriteria": [
+    {
+      "id": "AC-1",
+      "summary": "*.test.ts(x) 残存 0 件",
+      "evidence": "outputs/phase-11/evidence-bundle/ac-1-find-after.txt"
+    },
+    {
+      "id": "AC-2",
+      "summary": "vitest.config.ts test.include が *.spec.{ts,tsx} 単一",
+      "evidence": "outputs/phase-11/evidence-bundle/ac-2-grep-include.txt"
+    },
+    {
+      "id": "AC-3",
+      "summary": "coverage.exclude から **/*.test.{ts,tsx} 削除",
+      "evidence": "outputs/phase-11/evidence-bundle/ac-3-grep-exclude.txt"
+    },
+    {
+      "id": "AC-4",
+      "summary": "block-test-suffix.sh が staged 検出時 exit != 0",
+      "evidence": "outputs/phase-11/evidence-bundle/ac-4-precommit-log.txt"
+    },
+    {
+      "id": "AC-5",
+      "summary": "lefthook.yml に block-test-suffix command 追加 / 並列動作",
+      "evidence": "outputs/phase-11/evidence-bundle/ac-5-lefthook-coexist.txt"
+    },
+    {
+      "id": "AC-6",
+      "summary": "verify-test-suffix.yml が main/dev push と PR で trigger / fail 動作",
+      "evidence": "outputs/phase-11/evidence-bundle/ac-6-ci-fail.txt"
+    },
+    {
+      "id": "AC-7",
+      "summary": "numTotalTests 不変 / coverage delta ±0.5pt 以内",
+      "evidence": "outputs/phase-11/evidence-bundle/ac-7-numTotalTests-diff.txt"
+    },
+    {
+      "id": "AC-8",
+      "summary": "CLAUDE.md / ADR / skill changelog 追記",
+      "evidence": "outputs/phase-11/evidence-bundle/ac-8-docs-diff.txt"
+    }
+  ],
+  "phases": [
+    {
+      "phase": 1,
+      "name": "要件定義",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-01/requirements.md"
+      ]
+    },
+    {
+      "phase": 2,
+      "name": "設計",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-02/rename-strategy.md",
+        "outputs/phase-02/vitest-config-diff.md",
+        "outputs/phase-02/lefthook-script-design.md",
+        "outputs/phase-02/verify-workflow-design.md",
+        "outputs/phase-02/adr-update-plan.md"
+      ]
+    },
+    {
+      "phase": 3,
+      "name": "タスク分解",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-03/task-breakdown.md"
+      ]
+    },
+    {
+      "phase": 4,
+      "name": "実装計画（rename 実施）",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-04/implementation-plan.md"
+      ]
+    },
+    {
+      "phase": 5,
+      "name": "vitest.config 収斂",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-05/implementation-summary.md"
+      ]
+    },
+    {
+      "phase": 6,
+      "name": "lefthook pre-commit gate",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-06/test-plan.md"
+      ]
+    },
+    {
+      "phase": 7,
+      "name": "GitHub Actions verify-test-suffix",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-07/refactor-summary.md"
+      ]
+    },
+    {
+      "phase": 8,
+      "name": "ドキュメント追従",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-08/documentation-sync.md"
+      ]
+    },
+    {
+      "phase": 9,
+      "name": "テスト戦略",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-09/test-strategy.md",
+        "outputs/phase-09/test-discovery-before.json",
+        "outputs/phase-09/test-discovery-after.json",
+        "outputs/phase-09/test-discovery-diff.md",
+        "outputs/phase-09/gate-pre-commit-log.txt",
+        "outputs/phase-09/gate-ci-log.txt",
+        "outputs/phase-09/gate-coexist-log.txt",
+        "outputs/phase-09/block-test-suffix-unit-result.txt",
+        "outputs/phase-09/coverage-before.json"
+      ]
+    },
+    {
+      "phase": 10,
+      "name": "品質ゲート",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-10/gate-summary.md",
+        "outputs/phase-10/g1-find-result.txt",
+        "outputs/phase-10/g2-grep.txt",
+        "outputs/phase-10/g3-grep.txt",
+        "outputs/phase-10/g4-typecheck.txt",
+        "outputs/phase-10/g5-lint.txt",
+        "outputs/phase-10/g6-vitest.json",
+        "outputs/phase-10/g6-numTotalTests-diff.txt",
+        "outputs/phase-10/g7-coverage-after.json",
+        "outputs/phase-10/g7-coverage-delta.txt"
+      ]
+    },
+    {
+      "phase": 11,
+      "name": "Evidence 収集",
+      "status": "completed",
+      "visualEvidence": "NON_VISUAL",
+      "outputs": [
+        "outputs/phase-11/visual-verification-skip.md",
+        "outputs/phase-11/test-report.md",
+        "outputs/phase-11/vitest-config-diff-summary.md",
+        "outputs/phase-11/ci-gate-trigger-results.md",
+        "outputs/phase-11/coverage-delta-report.md",
+        "outputs/phase-11/evidence-bundle/ac-1-find-before.txt",
+        "outputs/phase-11/evidence-bundle/ac-1-find-after.txt",
+        "outputs/phase-11/evidence-bundle/ac-2-grep-include.txt",
+        "outputs/phase-11/evidence-bundle/ac-2-vitest-config-diff.txt",
+        "outputs/phase-11/evidence-bundle/ac-3-grep-exclude.txt",
+        "outputs/phase-11/evidence-bundle/ac-4-precommit-log.txt",
+        "outputs/phase-11/evidence-bundle/ac-4-unit-result.txt",
+        "outputs/phase-11/evidence-bundle/ac-5-lefthook-coexist.txt",
+        "outputs/phase-11/evidence-bundle/ac-5-lefthook-diff.txt",
+        "outputs/phase-11/evidence-bundle/ac-6-ci-fail.txt",
+        "outputs/phase-11/evidence-bundle/ac-6-ci-green.txt",
+        "outputs/phase-11/evidence-bundle/ac-7-numTotalTests-before.json",
+        "outputs/phase-11/evidence-bundle/ac-7-numTotalTests-after.json",
+        "outputs/phase-11/evidence-bundle/ac-7-numTotalTests-diff.txt",
+        "outputs/phase-11/evidence-bundle/ac-7-coverage-delta.txt",
+        "outputs/phase-11/evidence-bundle/ac-8-docs-diff.txt"
+      ]
+    },
+    {
+      "phase": 12,
+      "name": "正本同期",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-12/main.md",
+        "outputs/phase-12/implementation-guide.md",
+        "outputs/phase-12/system-spec-update-summary.md",
+        "outputs/phase-12/skill-feedback-report.md",
+        "outputs/phase-12/phase12-task-spec-compliance-check.md",
+        "outputs/phase-12/documentation-changelog.md",
+        "outputs/phase-12/unassigned-task-detection.md"
+      ]
+    },
+    {
+      "phase": 13,
+      "name": "PR・振り返り",
+      "status": "pending",
+      "outputs": [
+        "outputs/phase-13/pr-checklist.md",
+        "outputs/phase-13/local-check-result.md",
+        "outputs/phase-13/changed-files.txt",
+        "outputs/phase-13/change-summary.md",
+        "outputs/phase-13/retrospective.md"
+      ]
+    }
+  ],
+  "tasks": [
+    {
+      "id": "T-01",
+      "name": "rename 補助スクリプト作成",
+      "phase": 4,
+      "deps": []
+    },
+    {
+      "id": "T-02",
+      "name": "apps/web rename",
+      "phase": 4,
+      "deps": [
+        "T-01"
+      ]
+    },
+    {
+      "id": "T-03",
+      "name": "apps/api rename",
+      "phase": 4,
+      "deps": [
+        "T-01"
+      ]
+    },
+    {
+      "id": "T-04",
+      "name": "packages/shared rename",
+      "phase": 4,
+      "deps": [
+        "T-01"
+      ]
+    },
+    {
+      "id": "T-05",
+      "name": "packages/integrations rename",
+      "phase": 4,
+      "deps": [
+        "T-01"
+      ]
+    },
+    {
+      "id": "T-06",
+      "name": "scripts rename",
+      "phase": 4,
+      "deps": [
+        "T-01"
+      ]
+    },
+    {
+      "id": "T-07",
+      "name": ".claude/skills rename",
+      "phase": 4,
+      "deps": [
+        "T-01"
+      ]
+    },
+    {
+      "id": "T-08",
+      "name": "indexes 再生成",
+      "phase": 4,
+      "deps": [
+        "T-07"
+      ]
+    },
+    {
+      "id": "T-09",
+      "name": "import path 修正",
+      "phase": 4,
+      "deps": [
+        "T-02",
+        "T-03",
+        "T-04",
+        "T-05",
+        "T-06",
+        "T-07"
+      ]
+    },
+    {
+      "id": "T-10",
+      "name": "vitest.config.ts 収斂",
+      "phase": 5,
+      "deps": [
+        "T-09"
+      ]
+    },
+    {
+      "id": "T-11",
+      "name": "block-test-suffix.sh 追加",
+      "phase": 6,
+      "deps": [
+        "T-10"
+      ]
+    },
+    {
+      "id": "T-12",
+      "name": "lefthook.yml 配線",
+      "phase": 6,
+      "deps": [
+        "T-11"
+      ]
+    },
+    {
+      "id": "T-13",
+      "name": "verify-test-suffix.yml 追加",
+      "phase": 7,
+      "deps": [
+        "T-10"
+      ]
+    },
+    {
+      "id": "T-14",
+      "name": "CLAUDE.md 追記",
+      "phase": 8,
+      "deps": [
+        "T-13"
+      ]
+    },
+    {
+      "id": "T-15",
+      "name": "ADR 追記",
+      "phase": 8,
+      "deps": [
+        "T-13"
+      ]
+    },
+    {
+      "id": "T-16",
+      "name": "skill changelog 追記",
+      "phase": 8,
+      "deps": [
+        "T-08"
+      ]
+    },
+    {
+      "id": "T-17",
+      "name": "unassigned-task ファイル移動",
+      "phase": 12,
+      "deps": [
+        "T-14",
+        "T-15",
+        "T-16"
+      ]
+    },
+    {
+      "id": "T-18",
+      "name": "Phase 11 evidence 収集",
+      "phase": 11,
+      "deps": [
+        "T-13"
+      ]
+    },
+    {
+      "id": "T-19",
+      "name": "PR 作成",
+      "phase": 13,
+      "deps": [
+        "T-17",
+        "T-18"
+      ]
+    }
+  ],
+  "dod": [
+    "find . -name '*.test.ts' -o -name '*.test.tsx' | grep -v node_modules が 0 件",
+    "vitest.config.ts の test.include が *.spec.{ts,tsx} 単一",
+    "vitest.config.ts の coverage.exclude から **/*.test.{ts,tsx} 削除",
+    "pnpm test --run の numTotalTests が rename 前と同一",
+    "coverage delta ±0%（許容誤差 ±0.5pt）",
+    "scripts/hooks/block-test-suffix.sh が .test.ts(x) staged 時に exit != 0",
+    ".github/workflows/verify-test-suffix.yml が main/dev push および PR で trigger し fail 動作可能",
+    "CLAUDE.md / ADR / skill changelog に追記反映"
+  ],
+  "externalOpsPending": [
+    "commit",
+    "push",
+    "PR creation",
+    "full pnpm test --run numTotalTests parity in CI"
+  ],
+  "implementedSubtasks": [
+    "T-01",
+    "T-02",
+    "T-03",
+    "T-04",
+    "T-05",
+    "T-06",
+    "T-07",
+    "T-08",
+    "T-09",
+    "T-10",
+    "T-11",
+    "T-12",
+    "T-13",
+    "T-14",
+    "T-15",
+    "T-16",
+    "T-17",
+    "T-18"
+  ]
+}

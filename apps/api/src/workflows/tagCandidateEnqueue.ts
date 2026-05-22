@@ -6,12 +6,10 @@
 // 不変条件 #5: D1 アクセスは apps/api 内に閉じる
 //
 import type { DbCtx } from "../repository/_shared/db";
-import {
-  createIdempotent,
-  deriveIdempotencyKey,
-} from "../repository/tagQueue";
+import { createWriteTagNoteProviderBundle } from "../middleware/repository-providers";
 import { asMemberId, asResponseId } from "../repository/_shared/brand";
 import { logWarn } from "@ubm-hyogo/shared/logging";
+import type { WriteTagNoteProviderBundle } from "../repository/_shared/provider-context";
 
 export interface EnqueueTagCandidateInput {
   memberId: string;
@@ -24,6 +22,10 @@ export interface EnqueueTagCandidateResult {
   queueId?: string;
 }
 
+export interface EnqueueTagCandidateDeps {
+  providers?: WriteTagNoteProviderBundle;
+}
+
 export function parsePaused(env: {
   readonly TAG_QUEUE_PAUSED?: string;
 }): boolean {
@@ -34,6 +36,7 @@ export async function enqueueTagCandidate(
   c: DbCtx,
   input: EnqueueTagCandidateInput,
   paused = false,
+  deps: EnqueueTagCandidateDeps = {},
 ): Promise<EnqueueTagCandidateResult> {
   if (paused) {
     logWarn({
@@ -69,14 +72,15 @@ export async function enqueueTagCandidate(
   }
 
   // 3. candidate 投入
+  const providers = deps.providers ?? createWriteTagNoteProviderBundle(c);
   const queueId = crypto.randomUUID();
-  const created = await createIdempotent(c, {
+  const created = await providers.tagQueueProvider.createIdempotent({
     queueId,
     memberId: asMemberId(input.memberId),
     responseId: asResponseId(input.responseId),
     suggestedTagsJson: "[]",
     reason: null,
-    idempotencyKey: deriveIdempotencyKey(input),
+    idempotencyKey: `${input.memberId}:${input.responseId}`,
   });
   return { enqueued: true, queueId: created.row.queueId };
 }

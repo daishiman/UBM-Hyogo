@@ -1,0 +1,269 @@
+{
+  "task_name": "task-04-w3-window-guard-and-logger",
+  "task_path": "docs/30-workflows/task-04-w3-window-guard-and-logger",
+  "wave": "W3",
+  "execution_mode": "parallel-with-task-02; sequential-after-task-03 gate; phases sequential",
+  "depends_on": [
+    "task-01-gate",
+    "task-03-w2-par-sentry-workers-sdk-unify"
+  ],
+  "blocks": [
+    "task-05-w4-par-error-boundary-and-staging-smoke"
+  ],
+  "created_at": "2026-05-08",
+  "source_spec": "docs/30-workflows/ui-prototype-alignment-mvp-recovery/02-runtime/task-04-w3-par-window-guard-and-logger.md",
+  "metadata": {
+    "taskType": "implementation",
+    "visualEvidence": "NON_VISUAL",
+    "docs_only": false,
+    "scope": "apps/web platform (SSR safety + observability)",
+    "purpose": "window 直接参照ガードを is-browser.ts に集約し、構造化 logger を Sentry capture と接続する",
+    "workflow_state": "implemented-local",
+    "implementation_status": "PASS_BOUNDARY_SYNCED_RUNTIME_PENDING"
+  },
+  "phases": [
+    {
+      "phase": 1,
+      "name": "要件定義",
+      "file": "phase-01.md",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-01/phase-01.md"
+      ],
+      "depends_on_phases": [],
+      "user_approval_required": false
+    },
+    {
+      "phase": 2,
+      "name": "アーキテクチャ設計",
+      "file": "phase-02.md",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-02/phase-02.md"
+      ],
+      "depends_on_phases": [
+        1
+      ],
+      "user_approval_required": false
+    },
+    {
+      "phase": 3,
+      "name": "詳細設計（俯瞰）",
+      "file": "phase-03.md",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-03/phase-03.md"
+      ],
+      "depends_on_phases": [
+        2
+      ],
+      "user_approval_required": false
+    },
+    {
+      "phase": 4,
+      "name": "テスト戦略",
+      "file": "phase-04.md",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-04/phase-04.md"
+      ],
+      "depends_on_phases": [
+        3
+      ],
+      "user_approval_required": false
+    },
+    {
+      "phase": 5,
+      "name": "環境準備 / 前提セットアップ",
+      "file": "phase-05.md",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-05/phase-05.md"
+      ],
+      "depends_on_phases": [
+        4
+      ],
+      "user_approval_required": false
+    },
+    {
+      "phase": 6,
+      "name": "実装手順詳細",
+      "file": "phase-06.md",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-06/phase-06.md"
+      ],
+      "depends_on_phases": [
+        5
+      ],
+      "user_approval_required": false
+    },
+    {
+      "phase": 7,
+      "name": "単体テスト計画",
+      "file": "phase-07.md",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-07/phase-07.md"
+      ],
+      "depends_on_phases": [
+        6
+      ],
+      "user_approval_required": false
+    },
+    {
+      "phase": 8,
+      "name": "統合 / smoke",
+      "file": "phase-08.md",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-08/phase-08.md"
+      ],
+      "depends_on_phases": [
+        7
+      ],
+      "user_approval_required": false
+    },
+    {
+      "phase": 9,
+      "name": "品質保証",
+      "file": "phase-09.md",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-09/phase-09.md"
+      ],
+      "depends_on_phases": [
+        8
+      ],
+      "user_approval_required": false
+    },
+    {
+      "phase": 10,
+      "name": "ビルド & SSR 検証",
+      "file": "phase-10.md",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-10/phase-10.md"
+      ],
+      "depends_on_phases": [
+        9
+      ],
+      "user_approval_required": false
+    },
+    {
+      "phase": 11,
+      "name": "証跡 (PASS 5 点セット / NON_VISUAL evidence)",
+      "file": "phase-11.md",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-11/main.md",
+        "outputs/phase-11/phase-11.md"
+      ],
+      "depends_on_phases": [
+        10
+      ],
+      "user_approval_required": false
+    },
+    {
+      "phase": 12,
+      "name": "ドキュメント更新 / 引き継ぎ / コンプライアンス",
+      "file": "phase-12.md",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-12/main.md",
+        "outputs/phase-12/implementation-guide.md",
+        "outputs/phase-12/system-spec-update-summary.md",
+        "outputs/phase-12/documentation-changelog.md",
+        "outputs/phase-12/unassigned-task-detection.md",
+        "outputs/phase-12/skill-feedback-report.md",
+        "outputs/phase-12/phase12-task-spec-compliance-check.md",
+        "outputs/phase-12/phase-12.md"
+      ],
+      "depends_on_phases": [
+        11
+      ],
+      "user_approval_required": false
+    },
+    {
+      "phase": 13,
+      "name": "commit / PR 作成 / G1-G4 承認ゲート",
+      "file": "phase-13.md",
+      "status": "pending_user_approval",
+      "outputs": [
+        "outputs/phase-13/phase-13.md"
+      ],
+      "depends_on_phases": [
+        12
+      ],
+      "user_approval_required": true
+    }
+  ],
+  "specs_referenced": [
+    "docs/30-workflows/ui-prototype-alignment-mvp-recovery/02-runtime/task-04-w3-par-window-guard-and-logger.md",
+    "docs/30-workflows/ui-prototype-alignment-mvp-recovery/02-runtime/task-03-w2-par-sentry-workers-sdk-unify.md",
+    "docs/30-workflows/ui-prototype-alignment-mvp-recovery/02-runtime/task-05-w4-par-error-boundary-and-staging-smoke.md",
+    "docs/30-workflows/ui-prototype-alignment-mvp-recovery/SCOPE.md",
+    "CLAUDE.md"
+  ],
+  "endpoints": [],
+  "d1_tables": [],
+  "ui_routes": [],
+  "files_created": [
+    "apps/web/src/lib/is-browser.ts",
+    "apps/web/src/lib/logger.ts",
+    "apps/web/src/lib/__tests__/is-browser.test.ts",
+    "apps/web/src/lib/__tests__/is-browser.node.test.ts",
+    "apps/web/src/lib/__tests__/logger.test.ts",
+    "apps/web/src/lib/__tests__/logger.runtime.test.ts"
+  ],
+  "files_modified": [
+    "apps/web/eslint.config.mjs",
+    "apps/web/src/**/*.{ts,tsx} (window 直参照箇所のみ最小)",
+    "apps/web/src/components/ui/Modal.tsx",
+    "apps/web/src/components/ui/Drawer.tsx",
+    "apps/web/src/__tests__/instrumentation-client.test.ts",
+    "apps/web/package.json",
+    "pnpm-lock.yaml"
+  ],
+  "secrets_introduced": [],
+  "invariants_touched": [
+    5
+  ],
+  "exported_api": {
+    "is-browser": [
+      "isBrowser(): boolean",
+      "whenBrowser(fn: () => void): void"
+    ],
+    "logger": [
+      "type LogLevel = 'debug' | 'info' | 'warn' | 'error'",
+      "interface LogFields { event: string; requestId?: string; userId?: string; digest?: string; [k: string]: unknown }",
+      "interface Logger { debug; info; warn; error; child }",
+      "const logger: Logger"
+    ]
+  },
+  "upstream_api_consumed": {
+    "from_task": "task-03-w2-par-sentry-workers-sdk-unify",
+    "module": "apps/web/src/lib/sentry/capture.ts",
+    "imports": [
+      "captureException(error: unknown, ctx?: CaptureContext): string | undefined",
+      "captureMessage(message: string, ctx?: CaptureContext): string | undefined"
+    ]
+  },
+  "acceptance_criteria": [
+    "AC-1: is-browser.ts / logger.ts 新設",
+    "AC-2: __tests__ pass (is-browser.test.ts / is-browser.node.test.ts / logger.test.ts / logger.runtime.test.ts)",
+    "AC-3: rg '\\bwindow\\.' src/ が is-browser.ts / instrumentation-client.ts 以外で 0",
+    "AC-4: pnpm lint が no-restricted-globals 違反 0",
+    "AC-5: pnpm build が SSR 警告 0",
+    "AC-6: logger.error → Sentry event 記録（手動 smoke）",
+    "AC-7: logger 出力が JSON 一行",
+    "AC-8: ESLint 例外は overrides セクション方式"
+  ],
+  "evidence": {
+    "typecheck": "outputs/phase-11/evidence/typecheck.log",
+    "lint": "outputs/phase-11/evidence/lint.log",
+    "test": "outputs/phase-11/evidence/test.log",
+    "build": "outputs/phase-11/evidence/build.log",
+    "grepGate": "outputs/phase-11/evidence/grep-gate.log"
+  }
+}

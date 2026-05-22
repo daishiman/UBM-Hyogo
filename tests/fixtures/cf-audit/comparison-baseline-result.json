@@ -1,0 +1,91 @@
+{
+  "datasetPath": "tests/fixtures/cf-audit/labeled-90day.jsonl",
+  "datasetSize": 720,
+  "generatedAt": "2026-05-08T07:21:49.408Z",
+  "classifiers": [
+    {
+      "name": "threshold",
+      "version": "threshold@1.0.0",
+      "metrics": {
+        "precision": 0.312649,
+        "recall": 1,
+        "fp": 288,
+        "fn": 0,
+        "fpRate": 0.488964,
+        "fnRate": 0,
+        "fallbackRate": 0,
+        "latencyP50": 0.0025,
+        "latencyP95": 0.0045
+      }
+    },
+    {
+      "name": "isolation-forest",
+      "version": "isolation-forest@1.0.0",
+      "metrics": {
+        "precision": 0.181944,
+        "recall": 1,
+        "fp": 589,
+        "fn": 0,
+        "fpRate": 1,
+        "fnRate": 0,
+        "fallbackRate": 0,
+        "latencyP50": 0.0217,
+        "latencyP95": 0.0793
+      }
+    },
+    {
+      "name": "xgboost",
+      "version": "xgboost@1.0.0",
+      "metrics": {
+        "precision": 1,
+        "recall": 1,
+        "fp": 0,
+        "fn": 0,
+        "fpRate": 0,
+        "fnRate": 0,
+        "fallbackRate": 0,
+        "latencyP50": 0.0096,
+        "latencyP95": 0.0259
+      }
+    },
+    {
+      "name": "workers-ai",
+      "version": "workers-ai@1.0.0",
+      "metrics": {
+        "precision": 0.312649,
+        "recall": 1,
+        "fp": 288,
+        "fn": 0,
+        "fpRate": 0.488964,
+        "fnRate": 0,
+        "fallbackRate": 0,
+        "latencyP50": 0.0017,
+        "latencyP95": 0.0027
+      }
+    }
+  ],
+  "selection": {
+    "winner": "xgboost",
+    "criteria": {
+      "precisionMinDelta": 0.05,
+      "recallMinAbsolute": "baseline",
+      "fallbackRateMax": 0.01,
+      "latencyP95Max": 500
+    },
+    "tieBreaker": [
+      "precision_desc",
+      "latencyP95_asc",
+      "fallbackRate_asc"
+    ],
+    "rejected": [
+      {
+        "name": "isolation-forest",
+        "reason": "precision_below_baseline+5pt"
+      },
+      {
+        "name": "workers-ai",
+        "reason": "precision_below_baseline+5pt"
+      }
+    ]
+  }
+}

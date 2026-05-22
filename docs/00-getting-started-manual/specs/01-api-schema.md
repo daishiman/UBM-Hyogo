@@ -164,7 +164,13 @@ type ConsentStatus = "consented" | "declined" | "unknown";
 
 ---
 
-`MemberProfile.attendance` は `member_attendance` と `meeting_sessions` を `session_id` で INNER JOIN して返す。API contract は `AttendanceRecord[]`（`sessionId`, `title`, `heldOn`）を維持し、`GET /me/profile` と admin member detail は `attendanceProviderMiddleware` が Hono context に bind した `c.var.attendanceProvider` から provider を解決する。builder call site へ optional `deps?.attendanceProvider` を渡す方式は使わない。大量履歴向けに `attendanceMeta?: { hasMore: boolean; nextCursor: string | null }` を optional 追加し、`GET /me/profile` と admin member detail は default 50 件の先頭ページを返す。先頭ページの limit 指定は builder の optional `deps?.attendancePage` 経由でのみ渡す。
+`MemberProfile.attendance` と `PublicMemberProfile.attendance` は `member_attendance` と active `meeting_sessions`（`meeting_sessions.deleted_at IS NULL`）を `session_id` で INNER JOIN して返す。API contract は `AttendanceRecord[]`（`sessionId`, `title`, `heldOn`）を維持し、`GET /me/profile`、admin member detail、`GET /public/members/:memberId` は `attendanceProviderMiddleware` が Hono context に bind した `c.var.attendanceProvider` から provider を解決する。builder call site へ optional `deps?.attendanceProvider` を渡す方式は使わない。大量履歴向けに `attendanceMeta?: { hasMore: boolean; nextCursor: string | null }` を optional 追加し、`GET /me/profile`、admin member detail、public member detail は default 50 件の先頭ページを返す。先頭ページの limit 指定は builder の optional `deps?.attendancePage` または use-case の default page request 経由でのみ渡す。public member detail は公開適格判定（`public_consent='consented'`, `publish_state='public'`, `is_deleted=0`）が成立した後に attendance を読む。非公開 member の attendance 有無や soft-deleted meeting を 404 / 除外経路で漏らさない。
+
+### Public Profile Attendance Contract
+
+| Endpoint | 認証 | Response 追加 | Privacy boundary |
+| --- | --- | --- | --- |
+| `GET /public/members/:memberId` | public / session 不要 | `attendance: AttendanceRecord[]`, `attendanceMeta?: { hasMore: boolean; nextCursor: string | null }` | `responseEmail`, `audit`, `adminNotes`, member-only/admin-only field は返さない。公開適格でない member は attendance read 前に 404 |
 
 ### Attendance pagination
 
@@ -186,6 +192,26 @@ cursor は `{ heldOn, sessionId }` を base64url JSON 化した不透明文字�
 | GET | `/admin/dashboard/attendance/ranking` | `limit` default 50 / max 200。不正値は 400 | `Array<{ memberId: MemberId; displayName: string; attendedCount: number; rate: number }>` |
 
 集計分母は `meeting_sessions.deleted_at IS NULL` の active session と `member_status.is_deleted != 1` の active member に揃える。削除済み session / 削除済み member の attendance row は `attendeeCount` / `attendedCount` / `overallRate` に含めない。
+
+## Admin Meeting Attendance Management API
+
+UT-07C / UT-07C-FU-001 で追加した meeting attendance の管理用 endpoint 群。すべて admin gate 配下で実行し、apps/web からは `/api/admin/...` proxy / `fetchAdmin` 経由で呼ぶ。apps/web から D1 を直接参照しない。
+
+| Method | Path | Query / Body | Response |
+|--------|------|--------------|----------|
+| GET | `/admin/meetings/:sessionId/attendance/candidates` | なし | 出席候補 member 一覧 |
+| POST | `/admin/meetings/:sessionId/attendance` | `{ memberId }` | 201（追加） / 409（既存） / 422（不正） / 404 |
+| DELETE | `/admin/meetings/:sessionId/attendance/:memberId` | なし | 200（削除） / 404 |
+| POST | `/admin/meetings/:sessionId/attendance/import?dryRun=true\|false` | `{ rows: Array<{ memberId?, email? }> }` (rows.length <= 500) | 200（summary / 行別 status / dryRun / committed） / 400（invalid_json / invalid_payload） / 401 / 403 / 404（session_not_found） / 413（payload_too_large） |
+
+`POST /admin/meetings/:sessionId/attendance/import` は CSV 由来の attendance を一括登録する。
+
+- `dryRun=true` または省略 / typo: D1 write 0 / audit_log 0。行別 status のみ返す
+- `dryRun=false`: 全行 `ok` のときのみ insert（部分コミット禁止）。chunk size 80 で `member_attendance` と `audit_log.action='attendance.import.add'` を D1 batch に同時投入する
+- 行別 status: `ok` / `duplicate` / `deleted_member` / `unknown_member` / `invalid`（`invalid` は `memberId_or_email_required` / `memberId_email_mismatch`）
+- 同一 payload 内の同一 member は 2 行目以降 `duplicate` (`duplicate_in_payload`)
+- email lookup は NFKC + trim + lowercase で正規化（server / client 共通）
+- 500 行上限、501 行は 413
 
 ## API health contract: GET /health/db
 
@@ -271,9 +297,19 @@ Response は `PublicMemberListViewZ.strict()` を正本とし、`items`、`pagin
 
 ## schema alias assignment API（07b）
 
-`GET /admin/schema/diff` は `recommendedStableKeys: string[]` を同梱する。`POST /admin/schema/aliases?dryRun=true` は DB / queue / audit に副作用を出さず、影響件数と collision 有無だけを返す。apply は `schema_questions.stable_key` 更新、任意 `schema_diff_queue.status='resolved'`、`response_fields.stable_key='__extra__:<questionId>'` の back-fill、`audit_log.action='schema_diff.alias_assigned'` を実行する。
+`GET /admin/schema/diff` は `recommendedStableKeys: string[]` を同梱する。候補順の label 比較は `apps/api/src/services/aliasRecommendation.ts` の `normalizeLabelForCompare` で両辺を NFKC 正規化、trim、連続 whitespace 圧縮してから Levenshtein 距離へ渡す。response shape は `string[]` のまま変えない。`stableKey` は `/^[a-zA-Z][a-zA-Z0-9_]*$/` に一致する必要がある。
 
-collision は 422、diff 不在は 404、diff と question 不一致は 409。大規模 back-fill / UNIQUE index / retryable HTTP contract は `docs/30-workflows/unassigned-task/UT-07B-schema-alias-hardening-001.md` に分離する。
+`POST /admin/schema/aliases?dryRun=true` は DB / queue / audit に副作用を出さず、`affectedResponseFields` / `currentStableKeyCount` / `conflictExists` を返す。apply は `schema_aliases` へ manual alias を INSERT し、任意 `schema_diff_queue.status='resolved'`、`response_fields.stable_key='__extra__:<questionId>'` の back-fill、`audit_log.action='schema_diff.alias_assigned'` を同じ workflow 境界で実行する。`schema_questions.stable_key` は fallback 期間の参照互換として残し、manual alias の主 write target には戻さない。
+
+collision は同一 `revision_id` 内の別 `question_id` が同じ stableKey を持つ場合に `409 stable_key_collision` + `existingStableKey`、body validation は `422` + `existingQuestionIds`、diff 不在は `404`、diff と question 不一致は `409` を返す。back-fill が CPU budget に達した場合は `202 backfill_cpu_budget_exhausted` + `retryable=true` として UI に再試行可能状態を返す。大規模 back-fill / UNIQUE index / retryable HTTP contract は `docs/30-workflows/completed-tasks/ut-07b-schema-alias-hardening/` に分離済み。
+
+### Schema alias rollback / undo API（Issue #778）
+
+`POST /admin/schema/aliases/:aliasId/rollback` は、誤った alias resolve を D1 直接修正なしで取り消す admin-only endpoint である。request は `If-Match: version=<N>` header を必須とし、body は `{ "reason"?: string }` を受け取る。version 不一致は `409 version_mismatch`、対象なしは `404 not_found`、既に soft delete 済みなら `404 already_deleted` を返す。
+
+成功時 response は `{ aliasId, rolledBackAt, relatedAuditId, newVersion, impact: { affectedResponseCount, recomputeRequired } }`。rollback は `schema_aliases.deleted_at / deleted_by / version` を更新し、必要に応じて `schema_diff_queue.status` を `resolved -> queued` に戻し、application `audit_log.action='schema_alias.rollback'` を追加する。元 resolve audit への参照は rollback 行の `after_json.relatedAuditId` に保存する。Cloudflare Audit Logs 取り込み用 `cf_audit_log` はこの admin mutation の保存先にしない。
+
+Issue #776 の `/admin/schema` bulk resolve は **新しい bulk endpoint を追加しない**。`apps/web/src/lib/admin/api.ts#postSchemaAliasBulk` が既存 `POST /admin/schema/aliases` を concurrency 8 の client-side bounded fan-out で呼び、入力順の `success / retryable / error` row result を返す。`stableKey` validation は single edit と同じ regex（英字開始、英数字と `_` のみ）を UI 側で共有し、`status=0` は `network`、`409` は `conflict`、`422` は `invalid` として分類する。HTTP 202 `backfill_cpu_budget_exhausted` は failure ではなく retryable row として modal に残す。
 
 ## admin identity conflict merge API（Issue #194）
 

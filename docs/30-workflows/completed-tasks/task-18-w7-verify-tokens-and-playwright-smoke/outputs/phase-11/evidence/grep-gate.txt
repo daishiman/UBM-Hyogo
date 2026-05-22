@@ -1,0 +1,3 @@
+Command: pnpm verify:tokens
+Exit: 0
+Result: forbidden HEX / Tailwind arbitrary color literal scan is integrated into verify-design-tokens and passed.

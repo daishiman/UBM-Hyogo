@@ -3,7 +3,7 @@
 ## メタ情報
 
 ```yaml
-issue_number: null
+issue_number: 532
 ```
 
 ## メタ情報
@@ -16,13 +16,19 @@ issue_number: null
 | 対象機能     | repository provider 注入経路の横展開判断                                                   |
 | 優先度       | low（実需要発生時のみ着手）                                                                |
 | 見積もり規模 | 小〜中（評価のみで close する可能性あり）                                                  |
-| ステータス   | 未実施                                                                                     |
+| ステータス   | consumed（Issue #532 workflow で implemented-local 化済み）                                |
 | 発見元       | issue-371-ut-02a-followup-003-hono-ctx-di-migration Phase 12 unassigned-task-detection     |
 | 発見日       | 2026-05-06                                                                                 |
 | 親タスク     | docs/30-workflows/issue-371-ut-02a-followup-003-hono-ctx-di-migration                      |
 | タスク種別   | implementation / NON_VISUAL（着手判断時に再確定）                                          |
 
 ---
+
+## Consumed Status
+
+この未タスクは Issue #532 workflow
+`docs/30-workflows/completed-tasks/issue-532-extend-ctx-injection-to-write-tag-note-providers/`
+で実装・Phase 12 同期済み。Issue #532 は CLOSED 維持で、後続 PR 文脈では `Refs #532` を使う。
 
 ## 1. なぜこのタスクが必要か（Why）
 

@@ -1,0 +1,5 @@
+v24.15.0
+10.33.2
+2025.9.18 macos-x64 (2025-09-25)
+mise WARN  mise version 2026.5.3 available
+mise WARN  To update, run mise self-update

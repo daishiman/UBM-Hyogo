@@ -1,0 +1,68 @@
+{
+  "task_name": "issue-622-packages-test-suffix-rename",
+  "task_path": "docs/30-workflows/issue-622-packages-test-suffix-rename",
+  "created_at": "2026-05-11T00:00:00+09:00",
+  "status": "implemented-local",
+  "metadata": {
+    "taskType": "implementation",
+    "visualEvidence": "NON_VISUAL",
+    "workflow_state": "implemented-local",
+    "implementation_mode": "rename-only",
+    "runtime_state": "local-evidence-partial",
+    "issue": 622,
+    "upstreamIssues": [325, 621],
+    "downstreamIssue": 623,
+    "canonicalRoot": "docs/30-workflows/issue-622-packages-test-suffix-rename/",
+    "refsPolicy": "Closes #622 is allowed for the open implementation issue; closed upstream issues use Refs #325 and Refs #621 only.",
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-05-11T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-622-packages-test-suffix-rename/index.md",
+        "approver": "daishiman",
+        "notes": "spec_review: Phase 1-13 仕様書が root に揃い、rename-only スコープと implementation_mode を確定"
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "passed",
+        "passed_at": "2026-05-11T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-622-packages-test-suffix-rename/outputs/phase-05/rename-mapping.csv",
+        "approver": "daishiman",
+        "notes": "local_evidence: 28 file rename mapping + focused package tests / typecheck / lint / residual grep 0 を local evidence として記録"
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": ".github/workflows/ci.yml",
+        "approver": "CODEOWNERS:github-workflows",
+        "notes": "ci_runtime: PR 発火 CI が `pnpm -r test` を含む required checks を pass した時点で passed。commit / push / PR は user gate"
+      }
+    ]
+  },
+  "phases": [
+    { "phase": 1, "name": "要件定義 / 真の論点", "file": "phase-01.md", "status": "completed" },
+    { "phase": 2, "name": "既存実装調査", "file": "phase-02.md", "status": "completed" },
+    { "phase": 3, "name": "設計", "file": "phase-03.md", "status": "completed" },
+    { "phase": 4, "name": "環境準備 / 前提条件確認", "file": "phase-04.md", "status": "completed" },
+    { "phase": 5, "name": "データモデル / rename-mapping.csv schema", "file": "phase-05.md", "status": "completed" },
+    { "phase": 6, "name": "実装サイクル handoff", "file": "phase-06.md", "status": "completed" },
+    { "phase": 7, "name": "整合性検証", "file": "phase-07.md", "status": "completed" },
+    { "phase": 8, "name": "エラーハンドリング", "file": "phase-08.md", "status": "completed" },
+    { "phase": 9, "name": "テスト計画", "file": "phase-09.md", "status": "completed" },
+    { "phase": 10, "name": "デプロイ / マージ手順", "file": "phase-10.md", "status": "completed" },
+    { "phase": 11, "name": "実行 evidence（NON_VISUAL）", "file": "phase-11.md", "status": "completed" },
+    { "phase": 12, "name": "実装ガイド・system spec 同期・skill feedback", "file": "phase-12.md", "status": "completed" },
+    { "phase": 13, "name": "PR 作成", "file": "phase-13.md", "status": "blocked" }
+  ],
+  "phase12StrictOutputs": [
+    "outputs/phase-12/main.md",
+    "outputs/phase-12/implementation-guide.md",
+    "outputs/phase-12/system-spec-update-summary.md",
+    "outputs/phase-12/documentation-changelog.md",
+    "outputs/phase-12/unassigned-task-detection.md",
+    "outputs/phase-12/skill-feedback-report.md",
+    "outputs/phase-12/phase12-task-spec-compliance-check.md"
+  ]
+}

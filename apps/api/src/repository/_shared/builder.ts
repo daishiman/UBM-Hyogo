@@ -42,7 +42,7 @@ import type {
   AttendanceProvider,
   AttendanceRecord,
 } from "../attendance";
-import { decodeAttendanceCursor } from "../attendance";
+import { ATTENDANCE_PAGE_DEFAULT_LIMIT, decodeAttendanceCursor } from "../attendance";
 import type { RepositoryProviderCtx } from "./provider-context";
 
 // issue-372: builder 経由で attendance を取得する際の page 指定。
@@ -251,8 +251,9 @@ export function buildSections(
  * - publish_state != 'public'
  */
 export async function buildPublicMemberProfile(
-  c: DbCtx,
+  c: RepositoryProviderCtx,
   mid: MemberId,
+  deps?: { attendancePage?: AttendancePageDeps },
 ): Promise<PublicMemberProfile | null> {
   const [identity, status] = await Promise.all([
     findMemberById(c, mid),
@@ -268,11 +269,16 @@ export async function buildPublicMemberProfile(
   if (!response) return null;
 
   const responseId = asResponseId(response.response_id);
-  const [sections, fields, visibilityRows, tags] = await Promise.all([
+  const [sections, fields, visibilityRows, tags, paged] = await Promise.all([
     listSectionsByResponseId(c, responseId),
     listFieldsByResponseId(c, responseId),
     listVisibilityByMemberId(c, mid),
     listTagsByMemberId(c, mid),
+    fetchAttendancePagedFor(
+      mid,
+      c.var.attendanceProvider,
+      deps?.attendancePage ?? { limit: ATTENDANCE_PAGE_DEFAULT_LIMIT },
+    ),
   ]);
 
   const visibilityMap = buildVisibilityMap(visibilityRows);
@@ -282,16 +288,19 @@ export async function buildPublicMemberProfile(
 
   const summary = extractSummary(response.answers_json);
 
-  return {
+  const profile: PublicMemberProfile = {
     memberId: asMemberId(identity.member_id),
     summary,
     publicSections,
+    attendance: paged.records,
     tags: tags.map((t) => ({
       code: t.code,
       label: t.label,
       category: t.category,
     })),
   };
+  if (paged.meta) profile.attendanceMeta = paged.meta;
+  return profile;
 }
 
 /**

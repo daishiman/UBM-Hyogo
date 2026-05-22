@@ -1,0 +1,205 @@
+
+> @ubm-hyogo/web@0.1.0 test:coverage /Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260509-001614-wt-10/apps/web
+> vitest run --passWithNoTests --root=../.. --config=vitest.config.ts --coverage --coverage.reportsDirectory=apps/web/coverage --coverage.include="apps/web/src/**/*.{ts,tsx}" apps/web
+
+[33mThe CJS build of Vite's Node API is deprecated. See https://vite.dev/guide/troubleshooting.html#vite-cjs-node-api-deprecated for more details.[39m
+
+ RUN  v2.1.9 /Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260509-001614-wt-10
+      Coverage enabled with v8
+
+ ✓ apps/web/src/lib/admin/__tests__/api.test.ts (19 tests) 102ms
+ ✓ apps/web/src/__tests__/static-invariants.test.ts (5 tests) 357ms
+ ✓ apps/web/src/lib/auth.test.ts (40 tests) 653ms
+   ✓ buildAuthConfig > getAuth > dynamic import で AuthRuntime を返し、二回目は cache される 483ms
+ ✓ apps/web/src/components/ui/__tests__/primitives.test.tsx (26 tests) 1141ms
+ ✓ apps/web/src/components/admin/__tests__/AuditLogPanel.test.tsx (39 tests) 1471ms
+   ✓ AuditLogPanel > renders collapsed summaries and no edit/delete/rerun actions 413ms
+ ✓ apps/web/src/components/admin/__tests__/SchemaDiffPanel.test.tsx (11 tests) 2049ms
+   ✓ SchemaDiffPanel > mutation 成功: 割当→postSchemaAlias 呼出、toast/refresh、form クローズ 413ms
+   ✓ SchemaDiffPanel > mutation 失敗 (authz-fail): 403 forbidden で role=alert、form は閉じない 366ms
+ ✓ apps/web/src/components/admin/__tests__/TagQueuePanel.test.tsx (14 tests) 2067ms
+   ✓ TagQueuePanel > happy: items 複数 + 先頭が初期選択 → review pane に詳細表示 591ms
+   ✓ TagQueuePanel > mutation rejected: 理由空ならバリデーション toast、入力後失敗時は失敗 toast 308ms
+ ✓ apps/web/src/components/admin/__tests__/MeetingPanel.test.tsx (17 tests) 2413ms
+   ✓ MeetingPanel.filterCandidates > 既存 attendance を初期状態から disabled にする 490ms
+   ✓ MeetingPanel — empty / mutation / authz > addAttendance 成功: 出席者リストに追加 336ms
+   ✓ MeetingPanel — empty / mutation / authz > 編集 details から updateMeeting を呼び CSV リンクを表示する 323ms
+stdout | apps/web/src/lib/fetch/public.test.ts > fetchPublic > service-binding 経路: env.API_SERVICE.fetch を使う
+{ transport: 'service-binding', path: '/health', status: 200 }
+
+stdout | apps/web/src/lib/fetch/public.test.ts > fetchPublic > PUBLIC_API_BASE_URL を使った外向き fetch
+{ transport: 'http-fallback', path: '/v1/foo', status: 200 }
+
+stdout | apps/web/src/lib/fetch/public.test.ts > fetchPublic > getCloudflareContext throw 時 process.env を fallback として使う
+{ transport: 'http-fallback', path: '/v1/bar', status: 200 }
+
+stdout | apps/web/src/lib/fetch/public.test.ts > fetchPublic > PUBLIC_API_BASE_URL 未指定なら DEFAULT_BASE_URL
+{ transport: 'http-fallback', path: '/x', status: 200 }
+
+stdout | apps/web/src/lib/fetch/public.test.ts > fetchPublic > revalidate と headers を上書きできる
+{ transport: 'service-binding', path: '/x', status: 200 }
+
+stdout | apps/web/src/lib/fetch/public.test.ts > fetchPublic > 非 2xx でエラー throw
+{ transport: 'http-fallback', path: '/oops', status: 500 }
+
+stdout | apps/web/src/lib/fetch/public.test.ts > fetchPublicOrNotFound > 200 で JSON を返す
+{ transport: 'http-fallback', path: '/v1/x', status: 200 }
+
+stdout | apps/web/src/lib/fetch/public.test.ts > fetchPublicOrNotFound > 404 で FetchPublicNotFoundError
+{ transport: 'http-fallback', path: '/v1/missing', status: 404 }
+
+stdout | apps/web/src/lib/fetch/public.test.ts > fetchPublicOrNotFound > 5xx で 通常 Error
+{ transport: 'http-fallback', path: '/v1/x', status: 503 }
+
+stdout | apps/web/src/lib/fetch/public.test.ts > fetchPublicOrNotFound > revalidate オプションを伝搬する
+{ transport: 'service-binding', path: '/v1/x', status: 200 }
+
+ ✓ apps/web/src/lib/fetch/public.test.ts (11 tests) 124ms
+ ✓ apps/web/src/components/admin/__tests__/MemberDrawer.test.tsx (14 tests) 2937ms
+   ✓ MemberDrawer > mutation - publishState 変更 成功: patchMemberStatus + onMutated/onClose 呼出 420ms
+   ✓ MemberDrawer > mutation - publishState 変更 失敗: error 表示、onClose 呼ばれない 423ms
+   ✓ MemberDrawer > attendance state: memberId 切替時に前会員の履歴を残さない 314ms
+ ✓ apps/web/src/lib/fetch/authed.test.ts (13 tests) 59ms
+ ✓ apps/web/src/lib/api/me-requests.test.ts (15 tests) 42ms
+ ✓ apps/web/src/lib/auth/verify-magic-link.test.ts (15 tests) 18ms
+ ✓ apps/web/app/api/auth/callback/email/route.test.ts (11 tests) 114ms
+ ✓ apps/web/src/components/admin/__tests__/MembersClient.test.tsx (4 tests) 1045ms
+   ✓ MembersClient > happy: 複数件をテーブルで表示する 600ms
+   ✓ MembersClient > mutation: 詳細ボタン押下で MemberDrawer が描画され、フィルタ遷移が router.push を呼ぶ 323ms
+ ✓ apps/web/src/lib/auth/magic-link-client.test.ts (11 tests) 40ms
+ ✓ apps/web/app/profile/_components/RequestActionPanel.test.tsx (10 tests) 239ms
+ ✓ apps/web/app/profile/_components/VisibilityRequestDialog.test.tsx (7 tests) 830ms
+   ✓ VisibilityRequestDialog > TC-U-05: open=false で dom 出ない / open=true で role=dialog 出現 388ms
+ ✓ apps/web/src/components/admin/__tests__/RequestQueuePanel.test.tsx (6 tests) 895ms
+ ✓ apps/web/app/api/me/[...path]/route.test.ts (3 tests) 43ms
+ ✓ apps/web/src/lib/url/__tests__/members-search.test.ts (11 tests) 35ms
+ ✓ apps/web/src/lib/api/__tests__/me-requests-client.test.ts (7 tests) 33ms
+ ✓ apps/web/app/api/me/delete-request/route.test.ts (5 tests) 63ms
+ ✓ apps/web/app/api/me/visibility-request/route.test.ts (4 tests) 43ms
+ ✓ apps/web/src/components/public/__tests__/FormPreviewSections.test.tsx (3 tests) 177ms
+ ✓ apps/web/app/profile/_components/__tests__/VisibilityRequest.test.tsx (4 tests) 444ms
+   ✓ VisibilityRequest > public → 公開停止申請を成功させる 347ms
+ ✓ apps/web/src/components/ui/__tests__/task10-contract.test.tsx (3 tests) 408ms
+   ✓ task-10 ui primitive contract > keeps className merge and accessibility surfaces available 368ms
+ ✓ apps/web/src/components/public/__tests__/MemberCard.test.tsx (3 tests) 442ms
+   ✓ MemberCard > renders all member fields and link to detail page (happy) 391ms
+ ✓ apps/web/src/lib/__tests__/boundary.test.ts (3 tests) 577ms
+ ✓ apps/web/src/lib/url/login-query.test.ts (13 tests) 30ms
+ ✓ apps/web/src/lib/session.test.ts (7 tests) 28ms
+ ✓ apps/web/app/profile/_components/__tests__/DeleteRequest.test.tsx (3 tests) 397ms
+   ✓ DeleteRequest > 退会申請を成功させ accepted 表示 313ms
+ ✓ apps/web/app/profile/_components/DeleteRequestDialog.test.tsx (4 tests) 470ms
+ ✓ apps/web/app/login/_components/MagicLinkForm.test.tsx (1 test) 430ms
+   ✓ MagicLinkForm cooldown / U-03 > submit 後 60s cooldown でカウントダウンし 0 で再有効化 426ms
+ ✓ apps/web/src/components/public/__tests__/StatCard.test.tsx (3 tests) 410ms
+ ✓ apps/web/src/lib/__tests__/env.test.ts (6 tests) 40ms
+ ✓ apps/web/src/test-utils/fetch-mock.test.ts (5 tests) 40ms
+ ✓ apps/web/src/lib/auth/oauth-client.test.ts (5 tests) 76ms
+ ✓ apps/web/src/components/feedback/__tests__/EmptyState.test.tsx (3 tests) 772ms
+   ✓ EmptyState > renders title, description and reset link with default label (happy) 414ms
+   ✓ EmptyState > uses custom resetLabel and renders children slot (variant) 344ms
+ ✓ apps/web/src/components/public/__tests__/ProfileHero.test.tsx (3 tests) 1141ms
+   ✓ ProfileHero > renders all fields and badges when zone and membershipType present (happy) 770ms
+ ✓ apps/web/src/components/public/__tests__/Hero.test.tsx (3 tests) 945ms
+   ✓ Hero > renders title, subtitle and both CTAs (happy) 669ms
+ ✓ apps/web/src/components/layout/__tests__/AdminSidebar.test.tsx (3 tests) 1625ms
+   ✓ AdminSidebar > 管理メニュー nav が aria-label 付きで存在する (accessibility) 1313ms
+ ✓ apps/web/src/components/public/__tests__/Timeline.test.tsx (3 tests) 387ms
+ ✓ apps/web/src/components/auth/__tests__/SignOutButton.test.tsx (3 tests) 409ms
+ ✓ apps/web/src/lib/url/login-redirect.test.ts (5 tests) 11ms
+ ✓ apps/web/src/lib/tones.test.ts (7 tests) 6ms
+ ✓ apps/web/src/lib/url/login-state.test.ts (2 tests) 14ms
+ ✓ apps/web/app/profile/_components/RequestErrorMessage.test.tsx (9 tests) 298ms
+ ✓ apps/web/app/profile/_components/RequestPendingBanner.test.tsx (3 tests) 178ms
+ ✓ apps/web/app/(admin)/admin/audit/page.test.ts (2 tests) 6ms
+
+ Test Files  50 passed (50)
+      Tests  427 passed (427)
+   Start at  08:07:40
+   Duration  21.13s (transform 6.38s, setup 0ms, collect 21.05s, tests 26.57s, environment 57.94s, prepare 14.97s)
+
+ % Coverage report from v8
+-------------------|---------|----------|---------|---------|-------------------
+File               | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s 
+-------------------|---------|----------|---------|---------|-------------------
+All files          |   83.47 |    87.29 |   83.19 |   83.47 |                   
+ components/admin  |   79.56 |    87.81 |   75.55 |   79.56 |                   
+  ...tLogPanel.tsx |     100 |    98.73 |     100 |     100 | 80                
+  ...nflictRow.tsx |       0 |        0 |       0 |       0 | 1-210             
+  MeetingPanel.tsx |   92.64 |     79.1 |   94.73 |   92.64 | ...26-128,227-234 
+  MemberDrawer.tsx |   86.63 |    85.96 |   84.61 |   86.63 | ...10-317,320-322 
+  ...ersClient.tsx |   75.82 |    93.33 |      35 |   75.82 | ...64-173,215-233 
+  ...ueuePanel.tsx |   96.87 |       60 |   58.33 |   96.87 | 73-74,108-111     
+  ...DiffPanel.tsx |     100 |    96.96 |     100 |     100 | 75                
+  ...ueuePanel.tsx |     100 |    96.07 |     100 |     100 | 61,77             
+ components/auth   |   92.59 |    83.33 |     100 |   92.59 |                   
+  ...OutButton.tsx |   92.59 |    83.33 |     100 |   92.59 | 25-26             
+ ...nents/feedback |     100 |      100 |     100 |     100 |                   
+  EmptyState.tsx   |     100 |      100 |     100 |     100 |                   
+ components/layout |   72.97 |    66.66 |      50 |   72.97 |                   
+  AdminSidebar.tsx |     100 |      100 |     100 |     100 |                   
+  MemberHeader.tsx |       0 |        0 |       0 |       0 | 1-10              
+ components/public |     100 |      100 |     100 |     100 |                   
+  ...wSections.tsx |     100 |      100 |     100 |     100 |                   
+  Hero.tsx         |     100 |      100 |     100 |     100 |                   
+  MemberCard.tsx   |     100 |      100 |     100 |     100 |                   
+  ProfileHero.tsx  |     100 |      100 |     100 |     100 |                   
+  StatCard.tsx     |     100 |      100 |     100 |     100 |                   
+  Timeline.tsx     |     100 |      100 |     100 |     100 |                   
+ components/ui     |    88.7 |    76.14 |    77.5 |    88.7 |                   
+  Avatar.tsx       |     100 |       60 |     100 |     100 | 16-17             
+  Badge.tsx        |     100 |       80 |     100 |     100 | 16                
+  Banner.tsx       |     100 |    85.71 |     100 |     100 | 16                
+  Button.tsx       |     100 |     62.5 |     100 |     100 | 20,44-46          
+  Card.tsx         |   89.47 |      100 |   83.33 |   89.47 | 24-25             
+  Chip.tsx         |     100 |      100 |     100 |     100 |                   
+  Drawer.tsx       |   89.13 |     64.7 |     100 |   89.13 | 36-38,43-44       
+  EmptyState.tsx   |     100 |       75 |     100 |     100 | 14                
+  Field.tsx        |     100 |    83.33 |     100 |     100 | 36,49,52          
+  Input.tsx        |     100 |      100 |     100 |     100 |                   
+  KVList.tsx       |     100 |      100 |     100 |     100 |                   
+  LinkPills.tsx    |     100 |      100 |     100 |     100 |                   
+  Modal.tsx        |   86.95 |    68.75 |     100 |   86.95 | 36-38,46-48       
+  Search.tsx       |     100 |      100 |   66.66 |     100 |                   
+  Segmented.tsx    |     100 |      100 |      50 |     100 |                   
+  Select.tsx       |     100 |    66.66 |     100 |     100 | 20                
+  Sidebar.tsx      |   37.93 |      100 |      25 |   37.93 | 25-29,42-49,52-58 
+  Stat.tsx         |     100 |    33.33 |     100 |     100 | 17-18             
+  Switch.tsx       |     100 |      100 |      50 |     100 |                   
+  Textarea.tsx     |     100 |      100 |     100 |     100 |                   
+  Toast.tsx        |   61.53 |      100 |      50 |   61.53 | 20-22,29-31,39-42 
+  icons.ts         |       0 |        0 |       0 |       0 | 1-8               
+  index.ts         |     100 |      100 |     100 |     100 |                   
+ lib               |   90.05 |    89.56 |   89.65 |   90.05 |                   
+  auth.ts          |    89.9 |    88.76 |      90 |    89.9 | ...19,140-141,387 
+  cn.ts            |     100 |      100 |     100 |     100 |                   
+  env.ts           |   83.78 |    66.66 |      80 |   83.78 | 30-31,34-37       
+  session.ts       |     100 |      100 |     100 |     100 |                   
+  tones.ts         |     100 |      100 |     100 |     100 |                   
+ lib/admin         |    58.5 |    85.36 |   72.22 |    58.5 |                   
+  api.ts           |   96.47 |     87.5 |   92.85 |   96.47 | 144-146           
+  server-fetch.ts  |    12.5 |      100 |       0 |    12.5 | 10-13,16-45       
+  types.ts         |       0 |        0 |       0 |       0 | 1-30              
+ lib/api           |   56.74 |    81.35 |   92.85 |   56.74 |                   
+  ...sts-client.ts |   88.33 |    77.27 |     100 |   88.33 | 46-49,67-68,77    
+  me-requests.ts   |   87.17 |    86.11 |     100 |   87.17 | 36-37,41-46,73-74 
+  ...ests.types.ts |     100 |      100 |     100 |     100 |                   
+  ...pes.test-d.ts |       0 |        0 |       0 |       0 | 1-76              
+ lib/auth          |   95.04 |     87.5 |     100 |   95.04 |                   
+  ...ink-client.ts |     100 |      100 |     100 |     100 |                   
+  oauth-client.ts  |     100 |      100 |     100 |     100 |                   
+  ...magic-link.ts |    92.1 |    79.41 |     100 |    92.1 | ...,66-67,104-105 
+ lib/fetch         |     100 |      100 |     100 |     100 |                   
+  authed.ts        |     100 |      100 |     100 |     100 |                   
+  public.ts        |     100 |      100 |     100 |     100 |                   
+ lib/url           |    98.6 |    87.27 |     100 |    98.6 |                   
+  login-query.ts   |     100 |      100 |     100 |     100 |                   
+  ...n-redirect.ts |     100 |      100 |     100 |     100 |                   
+  login-state.ts   |      96 |    33.33 |     100 |      96 | 39                
+  ...ers-search.ts |   98.24 |       92 |     100 |   98.24 | 47                
+  safe-redirect.ts |     100 |    93.33 |     100 |     100 | 7                 
+ test-utils        |   97.87 |     92.3 |     100 |   97.87 |                   
+  fetch-mock.ts    |   97.87 |     92.3 |     100 |   97.87 | 24                
+ ...utils/fixtures |     100 |      100 |     100 |     100 |                   
+  public.ts        |     100 |      100 |     100 |     100 |                   
+-------------------|---------|----------|---------|---------|-------------------

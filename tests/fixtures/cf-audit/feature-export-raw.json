@@ -1,0 +1,40 @@
+{
+  "events": [
+    {
+      "id": "feature-1",
+      "when": "2026-05-07T15:30:00.000Z",
+      "actor": {
+        "email": "operator@example.com",
+        "ip": "203.0.113.77",
+        "user_agent": "Mozilla/5.0 Chrome/123"
+      },
+      "action": {
+        "type": "token.read",
+        "result": "failure",
+        "result_code": 403
+      },
+      "resource": {
+        "type": "api_token",
+        "id": "tok_1234567890"
+      }
+    },
+    {
+      "id": "feature-2",
+      "when": "2026-05-08T00:15:00.000Z",
+      "actor": {
+        "email": "ci@example.com",
+        "ip": "2001:db8:abcd:0012::1",
+        "user_agent": "wrangler/4.85.0"
+      },
+      "action": {
+        "type": "worker.deploy",
+        "result": "success",
+        "result_code": 200
+      },
+      "resource": {
+        "type": "worker",
+        "id": "ubm-hyogo-api"
+      }
+    }
+  ]
+}

@@ -1,6 +1,7 @@
 // 06c: /admin/tags キュー画面
 // AC-2 の受け先: ?memberId=... を保持する
 import { fetchAdmin } from "../../../../src/lib/admin/server-fetch";
+import { Breadcrumb } from "@/components/admin/Breadcrumb";
 import { TagQueuePanel } from "../../../../src/components/admin/TagQueuePanel";
 import type { TagQueueStatus } from "../../../../src/components/admin/TagQueuePanel";
 
@@ -37,10 +38,13 @@ export default async function AdminTagsPage({
   const qs = status ? `?status=${status}` : "";
   const data = await fetchAdmin<QueueListView>(`/admin/tags/queue${qs}`);
   return (
-    <TagQueuePanel
-      initial={data}
-      filter={status}
-      focusMemberId={focusMemberId ?? null}
-    />
+    <section className="flex flex-col gap-4">
+      <Breadcrumb items={[{ label: "管理", href: "/admin" }, { label: "タグキュー" }]} />
+      <TagQueuePanel
+        initial={data}
+        filter={status}
+        focusMemberId={focusMemberId ?? null}
+      />
+    </section>
   );
 }

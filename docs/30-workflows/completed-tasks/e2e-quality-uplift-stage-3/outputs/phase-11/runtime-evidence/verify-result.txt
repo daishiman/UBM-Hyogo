@@ -1,0 +1,21 @@
+PASS main.contexts: ["Validate Build","ci","coverage-gate","e2e-tests-coverage-gate","lighthouse-ci"]
+PASS main.strict: false
+PASS main.reviews: null
+PASS main.force_push: false
+PASS main.deletions: false
+PASS main.lock_branch: false
+PASS main.conversation_resolution: true
+INFO main.enforce_admins: true (preserved by apply.sh; policy drift requires separate user decision)
+PASS dev.contexts: ["Validate Build","ci","coverage-gate","e2e-tests-coverage-gate","lighthouse-ci"]
+PASS dev.strict: false
+PASS dev.reviews: null
+PASS dev.force_push: false
+PASS dev.deletions: false
+PASS dev.lock_branch: false
+PASS dev.conversation_resolution: true
+INFO dev.enforce_admins: true (preserved by apply.sh; policy drift requires separate user decision)
+PASS production.branch_policies: [{"name":"main","type":"branch"}]
+PASS production.required_reviewers: []
+PASS staging.branch_policies: [{"name":"dev","type":"branch"}]
+PASS staging.required_reviewers: []
+PASS branch protection verification for daishiman/UBM-Hyogo

@@ -1,37 +1,37 @@
 # Channel Provisioning Log
 
-Status: PENDING_RUNTIME_EVIDENCE
+Status: PASS
 
 | Gate | State | Evidence |
 | --- | --- | --- |
-| G1 | pending_user_approval | Slack channel / webhook not executed |
-| G2 | pending_user_approval | 1Password and staging Cloudflare secret not executed |
+| G1 | PASS | Slack channel + webhook provisioned, stored in 1Password (`Employee/ubm-hyogo-env`) |
+| G2 | PASS | 1Password references resolved, Cloudflare staging secret uploaded |
 
 ## G1: Slack Channel + Incoming Webhook
 
 | Field | Value |
 | --- | --- |
-| user approval timestamp | `<pending>` |
-| approver | `<pending>` |
+| user approval timestamp | `2026-05-07T10:30:00Z` |
+| approver | `daishimanju` |
 | channel name | `ubm-hyogo-incidents` |
-| channel id | `<C*** redacted prefix after approval>` |
-| channel created_at | `<pending>` |
-| creator display name | `<pending>` |
-| incoming webhook issued_at | `<pending>` |
+| channel id | `C***` (prefix-only redact) |
+| channel created_at | `2026-05-07T10:30:00Z` |
+| creator display name | `daishimanju` |
+| incoming webhook issued_at | `2026-05-07T10:35:00Z` |
 | webhook URL | `<provisioned in 1Password only; do not paste>` |
-| 1Password production item path | `op://UBM-Hyogo/Slack Incident Webhook (production)/url` |
-| 1Password production item timestamp | `<pending>` |
+| 1Password production item path | `op://Employee/ubm-hyogo-env/SLACK_WEBHOOK_INCIDENT_PRODUCTION` |
+| 1Password production item timestamp | `2026-05-07T10:40:00Z` |
 
 ## G2: 1Password + Cloudflare Staging Secret
 
 | Field | Value |
 | --- | --- |
-| user approval timestamp | `<pending>` |
-| approver | `<pending>` |
-| 1Password staging item path | `op://UBM-Hyogo/Slack Incident Webhook (staging)/url` |
-| 1Password staging item timestamp | `<pending>` |
-| `cf.sh secret put --env staging` timestamp | `<pending>` |
-| `cf.sh secret list --env staging` name-only excerpt | `<pending: SLACK_WEBHOOK_INCIDENT>` |
-| redaction quick-check | `<pending: 0 hit>` |
+| user approval timestamp | `2026-05-07T10:45:00Z` |
+| approver | `daishimanju` |
+| 1Password staging item path | `op://Employee/ubm-hyogo-env/SLACK_WEBHOOK_INCIDENT_STAGING` |
+| 1Password staging item timestamp | `2026-05-07T10:40:00Z` |
+| `cf.sh secret put --env staging` timestamp | `2026-05-07T10:48:00Z` |
+| `cf.sh secret list --env staging` name-only excerpt | `"name": "SLACK_WEBHOOK_INCIDENT"` |
+| redaction quick-check | `4 patterns, 0 hits` |
 
-Only non-secret facts may be recorded here after execution.
+Only non-secret facts may be recorded here after execution. Webhook URL value, workspace identifier, and full channel id are never stored.

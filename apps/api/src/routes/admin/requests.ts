@@ -15,21 +15,19 @@ import {
 } from "../../middleware/require-admin";
 import { ctx } from "../../repository/_shared/db";
 import {
-  findById as findNoteById,
-  listPendingRequests,
   type AdminMemberNoteRow,
   type ListPendingRequestsCursor,
-} from "../../repository/adminNotes";
+  type NotificationOutboxRepository,
+  requireProvider,
+} from "../../repository/_shared/provider-context";
 import { getStatus } from "../../repository/status";
 import {
   asMemberId,
-  adminEmail,
-  auditAction,
 } from "../../repository/_shared/brand";
 import {
-  createOutboxRepository,
-  type NotificationOutboxRepository,
-} from "../../repository/notificationOutbox";
+  writeTagNoteProviderMiddleware,
+  type WriteTagNoteProviderVariables,
+} from "../../middleware/repository-providers";
 import { RETENTION_DAYS } from "../../services/retention-policy";
 import type { AdminRouteEnv } from "./_shared";
 
@@ -39,12 +37,38 @@ type RequestNoteType = (typeof NOTE_TYPES)[number];
 const StatusZ = z.enum(["pending", "resolved", "rejected"]).default("pending");
 const TypeZ = z.enum(NOTE_TYPES);
 
-const ListQueryZ = z.object({
+export const ListRequestsQueryZ = z.object({
   status: StatusZ.optional(),
   type: TypeZ,
   limit: z.coerce.number().int().min(1).max(100).default(50),
   cursor: z.string().min(1).optional(),
 });
+
+export const AdminRequestListItemZ = z.object({
+  noteId: z.string().min(1),
+  memberId: z.string().min(1),
+  noteType: TypeZ,
+  requestStatus: StatusZ,
+  requestedAt: z.string().min(1),
+  requestedReason: z.string().nullable(),
+  requestedPayload: z.unknown().nullable(),
+  memberSummary: z.object({
+    memberId: z.string().min(1),
+    publicHandle: z.string().nullable(),
+    publishState: z.string().min(1),
+    isDeleted: z.boolean(),
+  }).strict(),
+}).strict();
+
+export const AdminRequestsListResponseZ = z.object({
+  ok: z.literal(true),
+  items: z.array(AdminRequestListItemZ),
+  nextCursor: z.string().nullable(),
+  appliedFilters: z.object({
+    status: StatusZ,
+    type: TypeZ,
+  }).strict(),
+}).strict();
 
 // cursor は base64url(JSON {createdAt,noteId})
 const textEncoder = new TextEncoder();
@@ -156,6 +180,13 @@ const projectListItem = (
     },
   };
 };
+export type AdminRequestListItem = ReturnType<typeof projectListItem>;
+export interface ListRequestsResponse {
+  ok: true;
+  items: AdminRequestListItem[];
+  nextCursor: string | null;
+  appliedFilters: { status: z.infer<typeof StatusZ>; type: RequestNoteType };
+}
 
 const PUBLISH_STATES = ["public", "hidden", "member_only"] as const;
 type PublishState = (typeof PUBLISH_STATES)[number];
@@ -179,27 +210,38 @@ export interface AdminRequestsRouteDeps {
   logger?: { warn?: (msg: string, meta?: Record<string, unknown>) => void };
 }
 
-const defaultOutboxFactory = (env: AdminRouteEnv) =>
-  createOutboxRepository(ctx({ DB: env.DB }));
-
 const addDaysIso = (baseIso: string, days: number): string =>
   new Date(new Date(baseIso).getTime() + days * 24 * 60 * 60 * 1000).toISOString();
+
+export interface ResolveRequestResponse {
+  ok: true;
+  noteId: string;
+  requestStatus: "resolved" | "rejected";
+  resolvedAt: string;
+  resolvedByAdminId: string;
+  memberAfter: {
+    memberId: string;
+    publishState: string;
+    isDeleted: boolean;
+  };
+  retentionPurgeScheduledAt: string | null;
+}
 
 export const createAdminRequestsRoute = (
   deps: AdminRequestsRouteDeps = {},
 ) => {
-  const outboxFactory = deps.outboxFactory ?? defaultOutboxFactory;
   const logger = deps.logger ?? console;
   const app = new Hono<{
     Bindings: AdminRouteEnv;
-    Variables: RequireAuthVariables;
+    Variables: RequireAuthVariables & Partial<WriteTagNoteProviderVariables>;
   }>();
   app.use("*", requireAdmin);
+  app.use("*", writeTagNoteProviderMiddleware);
 
   app.get("/requests", async (c) => {
     const url = new URL(c.req.url);
     const raw = Object.fromEntries(url.searchParams.entries());
-    const parsed = ListQueryZ.safeParse(raw);
+    const parsed = ListRequestsQueryZ.safeParse(raw);
     if (!parsed.success) {
       return c.json({ ok: false, error: parsed.error.message }, 400);
     }
@@ -212,8 +254,10 @@ export const createAdminRequestsRoute = (
         return c.json({ ok: false, error: "invalid cursor" }, 400);
       }
     }
-    const db = ctx({ DB: c.env.DB });
-    const { rows, nextCursor } = await listPendingRequests(db, {
+    const { rows, nextCursor } = await requireProvider(
+      c.var.adminNotesProvider,
+      "adminNotesProvider",
+    ).listPendingRequests({
       status,
       type,
       limit,
@@ -251,7 +295,7 @@ export const createAdminRequestsRoute = (
       items: rows.map((r) => projectListItem(r, memberMap.get(r.memberId as string) ?? null)),
       nextCursor: nextCursor ? encodeCursor(nextCursor) : null,
       appliedFilters: { status, type },
-    });
+    } satisfies ListRequestsResponse);
   });
 
   app.post("/requests/:noteId/resolve", async (c) => {
@@ -270,7 +314,11 @@ export const createAdminRequestsRoute = (
     const { resolution, resolutionNote } = parsed.data;
 
     const db = ctx({ DB: c.env.DB });
-    const note = await findNoteById(db, noteId);
+    const adminNotesProvider = requireProvider(
+      c.var.adminNotesProvider,
+      "adminNotesProvider",
+    );
+    const note = await adminNotesProvider.findById(noteId);
     if (!note) return c.json({ ok: false, error: "note not found" }, 404);
     if (note.noteType !== "visibility_request" && note.noteType !== "delete_request") {
       return c.json({ ok: false, error: "unsupported note type" }, 400);
@@ -322,108 +370,38 @@ export const createAdminRequestsRoute = (
       retentionPurgeScheduledAt,
     });
 
-    const stmts = [];
+    let desiredPublishState: PublishState | null = null;
 
     if (resolution === "approve") {
       if (noteTypeNarrowed === "visibility_request") {
         const parsedBody = parseNoteBody(note.body);
-        const desired = inferDesiredPublishState(noteTypeNarrowed, parsedBody.payload);
-        if (!desired) {
+        desiredPublishState = inferDesiredPublishState(noteTypeNarrowed, parsedBody.payload);
+        if (!desiredPublishState) {
           return c.json(
             { ok: false, error: "invalid desiredState in request payload" },
             422,
           );
         }
-        stmts.push(
-          c.env.DB.prepare(
-            `UPDATE member_status
-               SET publish_state = ?1,
-                   updated_by = ?2,
-                   updated_at = ?3
-             WHERE member_id = (
-               SELECT member_id FROM admin_member_notes
-                WHERE note_id = ?4 AND request_status = 'pending'
-             )`,
-          ).bind(desired, adminId, nowIso, noteId),
-        );
-      } else {
-        // delete_request: 論理削除
-        stmts.push(
-          c.env.DB.prepare(
-            `UPDATE member_status
-               SET is_deleted = 1,
-                   updated_by = ?1,
-                   updated_at = ?2
-             WHERE member_id = (
-               SELECT member_id FROM admin_member_notes
-                WHERE note_id = ?3 AND request_status = 'pending'
-             )`,
-          ).bind(adminId, nowIso, noteId),
-        );
-        stmts.push(
-          c.env.DB.prepare(
-            `INSERT INTO deleted_members (member_id, deleted_by, deleted_at, reason)
-             SELECT member_id, ?1, ?2, ?3 FROM admin_member_notes
-              WHERE note_id = ?4 AND request_status = 'pending'
-             ON CONFLICT(member_id) DO UPDATE SET
-               deleted_by = excluded.deleted_by,
-               deleted_at = excluded.deleted_at,
-               reason = excluded.reason`,
-          ).bind(adminId, nowIso, resolutionNote ?? "delete_request approved", noteId),
-        );
       }
     }
 
-    stmts.push(
-      c.env.DB.prepare(
-        `INSERT INTO audit_log
-          (audit_id, actor_id, actor_email, action, target_type, target_id, before_json, after_json, created_at)
-         SELECT ?1, NULL, ?2, ?3, 'admin_member_note', note_id, NULL, ?4, ?5
-           FROM admin_member_notes
-          WHERE note_id = ?6
-            AND request_status = 'pending'`,
-      ).bind(
-        auditId,
-        adminEmail(adminIdRaw),
-        auditAction(`admin.request.${resolution}`),
-        auditAfter,
-        nowIso,
-        noteId,
-      ),
-    );
-
-    // note 楽観ロック更新（最後）。changes==0 → 409
-    stmts.push(
-      c.env.DB.prepare(
-        `UPDATE admin_member_notes
-            SET request_status = ?1,
-                resolved_at = ?2,
-                resolved_by_admin_id = ?3,
-                body = body || ?4,
-                updated_at = ?5
-          WHERE note_id = ?6
-            AND request_status = 'pending'`,
-      ).bind(
-        resolution === "approve" ? "resolved" : "rejected",
-        nowMs,
-        adminId,
-        noteSuffix,
-        nowIso,
-        noteId,
-      ),
-    );
-
-    const results = await c.env.DB.batch(stmts);
-    const noteResult = results[results.length - 1];
-    const auditResult = results[results.length - 2];
-    if (
-      !noteResult ||
-      noteResult.meta.changes === 0 ||
-      !auditResult ||
-      auditResult.meta.changes === 0
-    ) {
+    const resolveResult = await adminNotesProvider.resolveRequestAtomic({
+      noteId,
+      noteType: noteTypeNarrowed,
+      resolution,
+      resolutionNote: resolutionNote ?? null,
+      noteSuffix,
+      adminId,
+      adminEmailRaw: adminIdRaw,
+      nowMs,
+      nowIso,
+      auditId,
+      auditAfter,
+      desiredPublishState,
+    });
+    if (!resolveResult.changed) {
       // 競合: 直前に他 admin が resolve 済 → 409
-      const after = await findNoteById(db, noteId);
+      const after = await adminNotesProvider.findById(noteId);
       return c.json(
         {
           ok: false,
@@ -438,7 +416,12 @@ export const createAdminRequestsRoute = (
 
     // Issue #401: best-effort 通知 enqueue。失敗しても resolve は 200 を維持する。
     try {
-      const outbox = outboxFactory(c.env);
+      const outbox = deps.outboxFactory
+        ? deps.outboxFactory(c.env)
+        : requireProvider(
+            c.var.notificationOutboxProvider,
+            "notificationOutboxProvider",
+          );
       const recipient = await outbox.findRecipientEmail(memberId);
       if (!recipient) {
         logger.warn?.("notification_enqueue_skipped", {
@@ -483,7 +466,7 @@ export const createAdminRequestsRoute = (
         isDeleted: after?.is_deleted === 1,
       },
       retentionPurgeScheduledAt,
-    });
+    } satisfies ResolveRequestResponse);
   });
 
   return app;

@@ -4,7 +4,7 @@
 
 - workflow: `docs/30-workflows/completed-tasks/06b-C-profile-logged-in-visual-evidence/`
 - legacy stub: `docs/30-workflows/completed-tasks/UT-06B-PROFILE-VISUAL-EVIDENCE.md`
-- canonical sync: `apps/web/src/__tests__/static-invariants.test.ts`（S-04 不変条件強化）, `references/task-workflow-active.md`, `indexes/resource-map.md`, `indexes/quick-reference.md`
+- canonical sync: `apps/web/src/__tests__/static-invariants.runtime.spec.ts`（S-04 不変条件強化）, `references/task-workflow-active.md`, `indexes/resource-map.md`, `indexes/quick-reference.md`
 - 親タスク: 06b-parallel-member-login-and-profile-pages（completed / Phase 11 partial captured）
 
 ## Lessons
@@ -13,8 +13,8 @@
 
 - **状況**: S-04 不変条件は当初 `<input>` / `<form>` の不在のみを検査していたが、`<button type="submit">` を含む read-only 違反パターンを検出できなかった。プロフィール画面が外部 Google Form への遷移 CTA のみであることを構造で保証する目的に対し、ガードに穴があった。
 - **学び**: read-only invariant は「フォーム submit 経路全体」を網羅する必要がある。HTML 上の form-like 要素は `<input>` / `<textarea>` / `<select>` だけでなく `<button type="submit">` / `<button form="...">` も submit 経路となり得る。
-- **再発防止**: `apps/web/src/__tests__/static-invariants.test.ts` の S-04 で `<button[^>]*type=["']submit["']` を追加検出。今後 read-only 系不変条件を追加する場合は submit button 検出を最初から含める。
-- **関連 refs**: `apps/web/src/__tests__/static-invariants.test.ts`, `docs/30-workflows/completed-tasks/06b-C-profile-logged-in-visual-evidence/phase-09.md`
+- **再発防止**: `apps/web/src/__tests__/static-invariants.runtime.spec.ts` の S-04 で `<button[^>]*type=["']submit["']` を追加検出。今後 read-only 系不変条件を追加する場合は submit button 検出を最初から含める。
+- **関連 refs**: `apps/web/src/__tests__/static-invariants.runtime.spec.ts`, `docs/30-workflows/completed-tasks/06b-C-profile-logged-in-visual-evidence/phase-09.md`
 
 ### L-06B-002: spec_created 状態で Phase 12 outputs を作成する論理矛盾の解消
 

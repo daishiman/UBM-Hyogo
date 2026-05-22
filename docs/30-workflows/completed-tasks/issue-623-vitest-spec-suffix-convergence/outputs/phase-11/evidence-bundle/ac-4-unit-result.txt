@@ -1,0 +1,10 @@
+
+🚫 [pre-commit] *.test.{ts,tsx} ファイルは追加禁止です（ADR: *.spec.{ts,tsx} に統一）
+
+  対象 staged ファイル:
+    - apps/api/src/__tests__/dummy.test.ts
+
+  対処: 末尾を .spec.ts(x) に rename してから再 stage してください。
+    git mv path/to/foo.test.ts path/to/foo.spec.ts
+
+exit_code=1

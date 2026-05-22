@@ -1,8 +1,13 @@
+# Issue #518 HOLD は Issue #586 / #549 で解除。
+# production env で `vars.CF_AUDIT_CLASSIFIER=ml` を参照し、ML classifier path で hourly 監視を行う。
+# hourly post-step に leakage grep / fallback rate alert / artifact upload を組み込み、
+# `cf-audit-log-7day-summary.yml` が 168 hourly snapshots を集約できるようにする。
+# 手動起動: gh workflow run cf-audit-log-monitor.yml -f dry_run=true
 name: cf-audit-log-monitor
 
 on:
   schedule:
-    - cron: '0 * * * *'
+    - cron: '5 * * * *'
   workflow_dispatch:
     inputs:
       since:
@@ -31,8 +36,13 @@ concurrency:
 jobs:
   fetch-and-analyze:
     runs-on: ubuntu-latest
-    environment: production
     timeout-minutes: 10
+    env:
+      CF_AUDIT_CLASSIFIER: ${{ vars.CF_AUDIT_CLASSIFIER || 'threshold' }}
+      ML_MODEL_PATH: ${{ vars.ML_MODEL_PATH }}
+      CF_AUDIT_IF_MODEL: ${{ vars.CF_AUDIT_IF_MODEL }}
+      CF_AUDIT_XGB_MODEL: ${{ vars.CF_AUDIT_XGB_MODEL }}
+      CF_AUDIT_WORKERS_AI_URL: ${{ vars.CF_AUDIT_WORKERS_AI_URL }}
     steps:
       - uses: actions/checkout@v4
       - uses: jdx/mise-action@v2
@@ -49,8 +59,11 @@ jobs:
             UNTIL=$(date -u +%Y-%m-%dT%H:00:00Z)
             SINCE=$(date -u -d '1 hour ago' +%Y-%m-%dT%H:00:00Z)
           fi
-          echo "since=$SINCE" >> "$GITHUB_OUTPUT"
-          echo "until=$UNTIL" >> "$GITHUB_OUTPUT"
+          {
+            echo "since=$SINCE"
+            echo "until=$UNTIL"
+            echo "hour=$SINCE"
+          } >> "$GITHUB_OUTPUT"
       - name: Fetch audit logs into D1
         env:
           CLOUDFLARE_ACCOUNT_ID: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
@@ -61,19 +74,67 @@ jobs:
             --since "${{ steps.w.outputs.since }}" \
             --until "${{ steps.w.outputs.until }}"
       - name: Analyze and alert
+        id: analyze
         env:
           CLOUDFLARE_ACCOUNT_ID: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
           CLOUDFLARE_API_TOKEN: ${{ secrets.CF_AUDIT_D1_TOKEN_PROD }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GITHUB_REPOSITORY: ${{ github.repository }}
-          CF_AUDIT_CLASSIFIER: ${{ vars.CF_AUDIT_CLASSIFIER || 'threshold' }}
-          ML_MODEL_PATH: ${{ vars.ML_MODEL_PATH }}
+          CF_AUDIT_WORKERS_AI_TOKEN: ${{ secrets.CF_AUDIT_WORKERS_AI_TOKEN }}
         run: |
+          set -euo pipefail
+          mkdir -p outputs/observation
           if [ "${{ inputs.dry_run }}" = "true" ]; then
-            pnpm exec tsx scripts/cf-audit-log/analyze.ts --window 1h --dry-run
+            pnpm exec tsx scripts/cf-audit-log/analyze.ts --window 1h --dry-run \
+              | tee outputs/observation/analyze-${{ steps.w.outputs.hour }}.log
           else
-            pnpm exec tsx scripts/cf-audit-log/analyze.ts --window 1h
+            pnpm exec tsx scripts/cf-audit-log/analyze.ts --window 1h \
+              | tee outputs/observation/analyze-${{ steps.w.outputs.hour }}.log
           fi
+      - name: Build hourly snapshot
+        env:
+          CF_AUDIT_CLASSIFIER_VERSION: ${{ vars.CF_AUDIT_CLASSIFIER_VERSION }}
+        run: |
+          set -euo pipefail
+          mkdir -p outputs/observation
+          pnpm exec tsx scripts/cf-audit-log/observation/post-switch-monitor.ts \
+            --hour=${{ steps.w.outputs.hour }} \
+            --analyze-log=outputs/observation/analyze-${{ steps.w.outputs.hour }}.log \
+            --out=outputs/observation/${{ steps.w.outputs.hour }}.json
+      - name: Secret leakage grep (post-step gate)
+        run: |
+          set -euo pipefail
+          pnpm exec tsx scripts/cf-audit-log/evaluation/secret-leakage-grep.ts \
+            --exit-on-detect \
+            --input outputs/observation
+      - name: Evaluate fallback rate notification
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+          SLACK_WEBHOOK_INCIDENT: ${{ secrets.SLACK_WEBHOOK_INCIDENT }}
+          EMAIL_WEBHOOK_URL: ${{ secrets.EMAIL_WEBHOOK_URL }}
+          EMAIL_FROM: ${{ vars.EMAIL_FROM }}
+          EMAIL_TO: ${{ vars.EMAIL_TO }}
+        run: |
+          if compgen -G "outputs/observation/*.json" > /dev/null; then
+            if [ "${{ inputs.dry_run }}" = "true" ]; then
+              pnpm exec tsx scripts/cf-audit-log/observation/fallback-rate-alert.ts \
+                --window=3 --threshold=0.05 --input=outputs/observation --dry-run
+            else
+              pnpm exec tsx scripts/cf-audit-log/observation/fallback-rate-alert.ts \
+                --window=3 --threshold=0.05 --input=outputs/observation
+            fi
+          else
+            echo "No outputs/observation/*.json snapshots found; skipping fallback rate notification."
+          fi
+      - name: Upload hourly artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: hourly-snapshot-${{ github.run_id }}
+          path: outputs/observation/
+          retention-days: 8
+          if-no-files-found: warn
       - name: Update success heartbeat
         if: success()
         env:
