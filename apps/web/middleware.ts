@@ -1,4 +1,4 @@
-// 05a + 06b: 認証 proxy（edge runtime, 二段防御の第1段）。
+// 05a + 06b: 認証 middleware（edge runtime, 二段防御の第1段）。
 // matcher: /admin/:path*, /profile/:path*
 //
 // /admin 配下:
@@ -50,7 +50,7 @@ const sessionToken = (req: NextRequest): string | undefined => {
   return undefined;
 };
 
-const guardedProxy = async (req: NextRequest) => {
+const guardedMiddleware = async (req: NextRequest) => {
   const { pathname } = req.nextUrl;
   const claims = await decodeAuthSessionJwt(authSecret(req), sessionToken(req));
 
@@ -75,12 +75,13 @@ const guardedProxy = async (req: NextRequest) => {
   return NextResponse.next();
 };
 
-export async function proxy(req: NextRequest) {
-  return guardedProxy(req);
+export async function middleware(req: NextRequest) {
+  return guardedMiddleware(req);
 }
 
-export default proxy;
+export default middleware;
 
 export const config = {
   matcher: ["/admin/:path*", "/profile/:path*"],
+  runtime: "experimental-edge",
 };
