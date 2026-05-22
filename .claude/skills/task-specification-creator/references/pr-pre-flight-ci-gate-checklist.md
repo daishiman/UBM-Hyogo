@@ -323,3 +323,17 @@ new = pattern.sub(lambda m: m.group(1) + m.group(3), text)
 ```
 
 詳細: `.claude/skills/aiworkflow-requirements/changelog/20260522-dev-sync-issue777-spec-docs-union-manual-resolve.md`。
+
+## 14. dev sync 直後の `verify-indexes-up-to-date` drift 先回り（標準フロー）
+
+`pnpm sync:resolve` で `.claude/skills/aiworkflow-requirements/SKILL.md` / `indexes/topic-map.md` を union 解消した直後は、`pnpm indexes:rebuild` を実行すると `topic-map.md` に正規化差分（行順 / 重複除去）が出ることがある。push してから CI で `verify-indexes-up-to-date` gate に落ちる事故を防ぐため、以下を**マージコミット作成後・push 前**に必ず実行する:
+
+```bash
+pnpm sync:resolve              # conflict 解消
+git commit --no-edit           # マージコミット
+pnpm indexes:rebuild           # ← drift があれば差分が出る
+git diff --quiet || git commit -am "chore: rebuild aiworkflow indexes after dev sync merge"
+git push
+```
+
+詳細: `.claude/skills/aiworkflow-requirements/changelog/20260522-dev-sync-skill-md-topic-map-content-conflict-resolved.md`。
