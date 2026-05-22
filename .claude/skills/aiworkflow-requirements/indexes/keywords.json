@@ -3837,7 +3837,8 @@
       "lessons-learned-ut-coverage-2026-05-wave.md",
       "logs-archive-2026-03-auth-mode-migration-sync.md",
       "logs-archive-2026-03-ipc-fallback-phase12-sync.md",
-      "workflow-task-05b-parallel-magic-link-provider-and-auth-gate-state-artifact-inventory.md"
+      "workflow-task-05b-parallel-magic-link-provider-and-auth-gate-state-artifact-inventory.md",
+      "workflow-task-staging-auth-secret-binding-recovery-001-artifact-inventory.md"
     ],
     "gate": [
       "architecture-auth-security-core.md",
@@ -4960,7 +4961,8 @@
       "lessons-learned-issue-502-dlq-monitoring-dashboard-2026-05.md",
       "lessons-learned-task-spec-2d-contract-stage-2-2026-05.md",
       "lessons-learned-ut-coverage-2026-05-wave.md",
-      "patterns-kv-dedup.md"
+      "patterns-kv-dedup.md",
+      "workflow-task-staging-auth-secret-binding-recovery-001-artifact-inventory.md"
     ],
     "経由の": [
       "auth-google-oauth-cf-integration.md",
@@ -5628,6 +5630,7 @@
       "workflow-task-issue-346-08a-canonical-workflow-tree-restore-artifact-inventory.md",
       "workflow-task-issue-494-09a-A-exec-staging-smoke-runtime-artifact-inventory.md",
       "workflow-task-runtime-smoke-admin-members-500-recovery-001-artifact-inventory.md",
+      "workflow-task-staging-auth-secret-binding-recovery-001-artifact-inventory.md",
       "workflow-ut-02a-attendance-profile-integration-artifact-inventory.md",
       "workflow-ut-branch-flow-dev-staging-sync-artifact-inventory.md",
       "workflow-ut08-monitoring-alert-design-artifact-inventory.md"
@@ -6951,6 +6954,7 @@
       "workflow-task-13-login-rebuild-artifact-inventory.md",
       "workflow-task-alert-relay-global-scope-fix-001-artifact-inventory.md",
       "workflow-task-runtime-smoke-admin-members-500-recovery-001-artifact-inventory.md",
+      "workflow-task-staging-auth-secret-binding-recovery-001-artifact-inventory.md",
       "workflow-ut-07a-01-member-tags-assign-cleanup-artifact-inventory.md",
       "workflow-ut-07b-fu-01-schema-alias-backfill-queue-cron-split-artifact-inventory.md",
       "workflow-ut-07c-followup-001-attendance-csv-import-artifact-inventory.md",
@@ -7644,6 +7648,7 @@
       "workflow-issue-559-task-03-followup-001-sentry-staging-runtime-evidence-artifact-inventory.md",
       "workflow-task-05-error-boundary-and-staging-smoke-artifact-inventory.md",
       "workflow-task-issue-494-09a-A-exec-staging-smoke-runtime-artifact-inventory.md",
+      "workflow-task-staging-auth-secret-binding-recovery-001-artifact-inventory.md",
       "workflow-ut-branch-flow-dev-staging-sync-artifact-inventory.md"
     ],
     "production": [
@@ -7716,7 +7721,8 @@
       "lessons-learned-ci-test-recovery-coverage-80-2026-05-04.md",
       "observability-monitoring.md",
       "workflow-issue-655-d7-recovery-2nd-cycle-artifact-inventory.md",
-      "workflow-task-runtime-smoke-admin-members-500-recovery-001-artifact-inventory.md"
+      "workflow-task-runtime-smoke-admin-members-500-recovery-001-artifact-inventory.md",
+      "workflow-task-staging-auth-secret-binding-recovery-001-artifact-inventory.md"
     ],
     "関連リソース": [
       "deployment-cloudflare-opennext-workers.md",
@@ -7742,7 +7748,8 @@
       "lessons-learned-issue-720-cf-audit-monitor-env-protection-fix-2026-05.md",
       "lessons-learned-ut-03-sheets-auth-2026-04.md",
       "lessons-learned-ut-06-fu-h-2026-04.md",
-      "workflow-task-03-w2-par-sentry-workers-sdk-unify-artifact-inventory.md"
+      "workflow-task-03-w2-par-sentry-workers-sdk-unify-artifact-inventory.md",
+      "workflow-task-staging-auth-secret-binding-recovery-001-artifact-inventory.md"
     ],
     "observability": [
       "deployment-cloudflare-opennext-workers.md"
@@ -11894,6 +11901,7 @@
       "workflow-task-lefthook-multi-worktree-reinstall-artifact-inventory.md",
       "workflow-task-runtime-smoke-admin-members-500-recovery-001-artifact-inventory.md",
       "workflow-task-spec-2d-contract-stage-2-artifact-inventory.md",
+      "workflow-task-staging-auth-secret-binding-recovery-001-artifact-inventory.md",
       "workflow-task-sync-forms-d1-legacy-umbrella-artifact-inventory.md",
       "workflow-task-verify-indexes-up-to-date-ci-artifact-inventory.md",
       "workflow-task-worktree-environment-isolation-artifact-inventory.md",
@@ -12415,7 +12423,8 @@
       "workflow-skill-lifecycle-evaluation-scoring-gate.md",
       "workflow-skill-lifecycle-routing-render-view-foundation.md",
       "workflow-task-alert-relay-global-scope-fix-001-artifact-inventory.md",
-      "workflow-task-runtime-smoke-admin-members-500-recovery-001-artifact-inventory.md"
+      "workflow-task-runtime-smoke-admin-members-500-recovery-001-artifact-inventory.md",
+      "workflow-task-staging-auth-secret-binding-recovery-001-artifact-inventory.md"
     ],
     "Request": [
       "lessons-learned-06b-b-profile-self-service-request-ui-2026-05.md",
@@ -14137,6 +14146,7 @@
       "workflow-skill-lifecycle-routing-render-view-foundation.md",
       "workflow-task-alert-relay-global-scope-fix-001-artifact-inventory.md",
       "workflow-task-runtime-smoke-admin-members-500-recovery-001-artifact-inventory.md",
+      "workflow-task-staging-auth-secret-binding-recovery-001-artifact-inventory.md",
       "workflow-ut08-monitoring-alert-design-artifact-inventory.md"
     ],
     "quick": [

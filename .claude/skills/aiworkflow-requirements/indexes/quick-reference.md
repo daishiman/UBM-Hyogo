@@ -1,16 +1,30 @@
 # クイックリファレンス
 
+## task-staging-auth-secret-binding-recovery-001（2026-05-22）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow | `docs/30-workflows/completed-tasks/task-staging-auth-secret-binding-recovery-001/` |
+| status | `implemented_runtime_verified_pending_pr / implementation / NON_VISUAL` |
+| purpose | recover staging `AUTH_SECRET` runtime binding after `auth misconfigured` body proved middleware root cause |
+| implementation | `apps/api/src/middleware/require-admin.ts`, `apps/api/src/env.ts`, `scripts/smoke/runtime-attendance-provider.sh`, `scripts/cf.sh` |
+| tests | `apps/api/src/middleware/require-admin.authz.spec.ts`, `apps/api/src/env.spec.ts`, `scripts/smoke/__tests__/runtime-attendance-provider.test.sh`, `scripts/__tests__/cf-sh-secret-put.test.sh` |
+| Phase 12 | `outputs/phase-12/phase12-task-spec-compliance-check.md` + strict 7 files present |
+| Phase 11 runtime evidence | `outputs/phase-11/evidence/staging-runtime-smoke.log` + `staging-runtime-smoke-summary.json`（admin-list / admin-detail / admin-attendance / me-root / me-profile / me-attendance 全 6 経路 HTTP 200 PASS） |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-task-staging-auth-secret-binding-recovery-001-artifact-inventory.md` |
+| boundary | production curl, backend-ci rerun, commit, push, PR are user-gated |
+
 ## task-runtime-smoke-admin-members-500-recovery-001（2026-05-21）
 
 | 項目 | 値 |
 | --- | --- |
-| workflow | `docs/30-workflows/task-runtime-smoke-admin-members-500-recovery-001/` |
+| workflow | `docs/30-workflows/completed-tasks/task-runtime-smoke-admin-members-500-recovery-001/` |
 | status | `runtime_pending / implementation / NON_VISUAL / PASS_BOUNDARY_SYNCED_RUNTIME_PENDING` |
 | purpose | staging runtime smoke `admin-list http=500` for `GET /admin/members` recovery |
 | in-cycle implementation | `apps/api/src/routes/admin/members.ts` defensive recovery + `members.contract.spec.ts`; `scripts/smoke/runtime-attendance-provider.sh` logs redacted non-200 body; `scripts/smoke/__tests__/runtime-attendance-provider.test.sh` T-4-5 covers it |
 | Phase 12 | `outputs/phase-12/phase12-task-spec-compliance-check.md` + strict 7 files present |
 | inventory | `.claude/skills/aiworkflow-requirements/references/workflow-task-runtime-smoke-admin-members-500-recovery-001-artifact-inventory.md` |
-| boundary | staging curl/D1/tail, deploy, backend-ci rerun, commit, push, PR are user-gated |
+| boundary | true root cause superseded by `task-staging-auth-secret-binding-recovery-001`; staging curl/D1/tail, deploy, backend-ci rerun, commit, push, PR are user-gated |
 
 ## Issue #775 serial-05-step-03 runtime evidence completion（2026-05-18）
 

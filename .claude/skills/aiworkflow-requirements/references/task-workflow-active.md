@@ -8,19 +8,33 @@
 
 本ドキュメントは、複雑なタスクを単一責務の原則に基づいて分解し、各サブタスクに最適なスラッシュコマンド・エージェント・スキルの組み合わせを選定するためのガイドラインを定義する。
 
+### task-staging-auth-secret-binding-recovery-001（2026-05-22）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_runtime_pending / implementation / NON_VISUAL` |
+| 成果物 | `docs/30-workflows/task-staging-auth-secret-binding-recovery-001/` |
+| 目的 | staging worker の `AUTH_SECRET` runtime binding drift を復旧し、admin endpoint 全滅を解消する |
+| in-cycle implementation | `apps/api/src/middleware/require-admin.ts` structured log, `apps/api/src/env.ts` auth secret validator, `scripts/smoke/runtime-attendance-provider.sh` auth-misconfigured classification, `scripts/cf.sh` empty stdin guard |
+| tests | API focused test, API typecheck, smoke shell test, cf.sh guard test |
+| Phase 12 | strict 7 outputs + canonical compliance check present |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-task-staging-auth-secret-binding-recovery-001-artifact-inventory.md` |
+| lessons | `.claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-task-staging-auth-secret-binding-recovery-001-2026-05.md` |
+| user gate | Cloudflare secret reinjection, staging/prod curl, backend-ci rerun, commit, push, PR |
+
 ### task-runtime-smoke-admin-members-500-recovery-001（2026-05-21）
 
 | 項目 | 値 |
 | --- | --- |
 | ステータス | `runtime_pending / implementation / NON_VISUAL / PASS_BOUNDARY_SYNCED_RUNTIME_PENDING` |
-| 成果物 | `docs/30-workflows/task-runtime-smoke-admin-members-500-recovery-001/` |
-| 目的 | backend-ci runtime smoke staging の `admin-list http=500` を RCA し、`GET /admin/members` を 200 + `.members` array へ復旧する |
-| in-cycle implementation | `apps/api/src/routes/admin/members.ts` defensive recovery + `apps/api/src/routes/admin/members.contract.spec.ts`; `scripts/smoke/runtime-attendance-provider.sh` redacted non-200 body persistence + `scripts/smoke/__tests__/runtime-attendance-provider.test.sh` T-4-5 |
+| 成果物 | `docs/30-workflows/completed-tasks/task-runtime-smoke-admin-members-500-recovery-001/` |
+| 目的 | backend-ci runtime smoke staging の `admin-list http=500` を RCA し、`GET /admin/members` を 200 + `.members` array へ復旧する。後続 evidence により真因は `AUTH_SECRET` binding と判明し、復旧責務は `task-staging-auth-secret-binding-recovery-001` に委譲済み |
+| in-cycle implementation | PR #854 baseline: `apps/api/src/routes/admin/members.ts` defensive recovery + `apps/api/src/routes/admin/members.contract.spec.ts`; current root-cause correction wave: `scripts/smoke/runtime-attendance-provider.sh` redacted non-200 body persistence/auth-misconfigured classification + `scripts/smoke/__tests__/runtime-attendance-provider.test.sh` T-4-5/T-4-6 |
 | RCA targets | `apps/api/src/routes/admin/members.ts`, staging D1 schema, middleware providers, Workers binding |
 | Phase 12 | strict 7 outputs + canonical compliance check present |
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-task-runtime-smoke-admin-members-500-recovery-001-artifact-inventory.md` |
 | lessons | `.claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-task-runtime-smoke-admin-members-500-recovery-001-2026-05.md` |
-| user gate | staging curl/D1/tail, deploy, backend-ci rerun, commit, push, PR |
+| user gate | true root cause superseded by `task-staging-auth-secret-binding-recovery-001`; staging curl/D1/tail, deploy, backend-ci rerun, commit, push, PR |
 
 ### parallel-04 Shared Page Chrome（2026-05-19）
 

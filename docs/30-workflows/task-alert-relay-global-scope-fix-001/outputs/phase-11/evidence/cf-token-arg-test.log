@@ -1,3 +1,0 @@
-PASS: cf.sh skips with-env when CLOUDFLARE_API_TOKEN is already set
-[cf.sh] using 1Password field CLOUDFLARE_API_TOKEN_STAGING as CLOUDFLARE_API_TOKEN for deploy --env staging
-PASS: cf.sh maps staging deploy to CLOUDFLARE_API_TOKEN_STAGING locally
