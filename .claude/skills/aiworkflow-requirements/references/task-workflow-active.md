@@ -358,6 +358,22 @@
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-ut-07a-01-member-tags-assign-cleanup-artifact-inventory.md` |
 | user gate | commit / push / PR / issue mutation |
 
+### step-06 meetings attendance implementation（2026-05-20）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION / local_visual_evidence_captured` |
+| 成果物 | `docs/30-workflows/completed-tasks/step-06-meetings-attendance-implementation/` |
+| 親 workflow | `docs/30-workflows/ui-prototype-alignment-mvp-recovery/improvements/serial-05-admin-mutation-ui/` |
+| source | `docs/30-workflows/ui-prototype-alignment-mvp-recovery/improvements/serial-05-admin-mutation-ui/step-06-meetings-attendance/spec.md` |
+| 目的 | `/admin/meetings` の出席登録 / 出席解除 / 開催日 soft delete を `useAdminMutation` と共有 `useConfirmDialog` / `ConfirmDialog` に統一する |
+| implementation targets | `apps/web/src/features/admin/hooks/useConfirmDialog.ts`, `apps/web/src/components/ui/ConfirmDialog.tsx`, `apps/web/src/components/admin/MeetingPanel.tsx`, `apps/web/app/(admin)/admin/meetings/[id]/MeetingAttendancePanel.tsx`, `apps/web/playwright/tests/attendance.spec.ts` |
+| API boundary | current UI alias `POST /api/admin/meetings/:id/attendances` with `{ memberId, attended }` only. New DELETE endpoint is not introduced |
+| UI contract | destructive operations require ConfirmDialog; attendance add is no-confirm; dialog has `useId`, focus trap, focus restore, ESC, backdrop; remove `404 attendance_not_found` is success-equivalent UI removal |
+| evidence | `docs/30-workflows/completed-tasks/step-06-meetings-attendance-implementation/outputs/phase-11/evidence/`, `docs/30-workflows/completed-tasks/step-06-meetings-attendance-implementation/outputs/phase-11/screenshots/`, `docs/30-workflows/completed-tasks/step-06-meetings-attendance-implementation/outputs/phase-12/phase12-task-spec-compliance-check.md` |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-step-06-meetings-attendance-implementation-artifact-inventory.md` |
+| user gate | staging / production smoke、commit、push、PR |
+
 ### serial-05-step-03 schema diff resolve UI（2026-05-16）
 
 | 項目 | 値 |

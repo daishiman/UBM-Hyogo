@@ -3021,6 +3021,8 @@ node scripts/list-specs.js --topics
 |------------|----|
 | Phase 12 Strict 7 | L27 |
 
+### references/workflow-step-06-meetings-attendance-implementation-artifact-inventory.md
+
 ### references/workflow-task-03-w2-par-sentry-workers-sdk-unify-artifact-inventory.md
 
 | セクション | 行 |
@@ -7216,14 +7218,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L1891 |
-| フェーズ構造（概要） | L1900 |
-| 品質ゲート（概要） | L1931 |
-| 出力テンプレート | L1942 |
-| 実行時のコマンド・エージェント・スキル | L1965 |
-| 昇格パターン集 | L1989 |
-| Current Active / Spec Created Tasks | L1991 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L2146 |
+| ドキュメント構成 | L1907 |
+| フェーズ構造（概要） | L1916 |
+| 品質ゲート（概要） | L1947 |
+| 出力テンプレート | L1958 |
+| 実行時のコマンド・エージェント・スキル | L1981 |
+| 昇格パターン集 | L2005 |
+| Current Active / Spec Created Tasks | L2007 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L2162 |
 
 ### references/task-workflow-backlog-part2.md
 

@@ -247,7 +247,7 @@ describe("MeetingPanel — empty / mutation / authz", () => {
     expect(mockedAddAttendance).not.toHaveBeenCalled();
   });
 
-  it("removeAttendance 成功: 出席者リストから削除", async () => {
+  it("removeAttendance 成功: confirm dialog 経由で出席者リストから削除", async () => {
     mockedRemoveAttendance.mockResolvedValueOnce({ ok: true, status: 200, data: {} });
     render(
       <MeetingPanel
@@ -260,6 +260,12 @@ describe("MeetingPanel — empty / mutation / authz", () => {
     );
     expect(screen.getByText("m1")).toBeTruthy();
     fireEvent.click(screen.getByRole("button", { name: "削除" }));
+    // confirm dialog が表示され、まだ mutation は走らない
+    expect(await screen.findByRole("dialog")).toBeTruthy();
+    expect(screen.getByText("出席を削除しますか？")).toBeTruthy();
+    expect(mockedRemoveAttendance).not.toHaveBeenCalled();
+    // 「削除する」確定で trigger
+    fireEvent.click(screen.getByRole("button", { name: "削除する" }));
     await waitFor(() => {
       expect(mockedRemoveAttendance).toHaveBeenCalledWith("s1", "m1");
     });
@@ -267,7 +273,27 @@ describe("MeetingPanel — empty / mutation / authz", () => {
     expect(screen.queryByRole("heading", { name: "出席者" })).toBeNull();
   });
 
-  it("removeAttendance 失敗: 削除に失敗 toast", async () => {
+  it("removeAttendance キャンセル: confirm 取り消しで mutation 未発火", async () => {
+    render(
+      <MeetingPanel
+        meetings={{
+          total: 1,
+          items: [{ ...baseMeeting, attendance: [{ memberId: "m1" }] }],
+        }}
+        candidates={[{ memberId: "m1", fullName: "山田" }]}
+      />,
+    );
+    fireEvent.click(screen.getByRole("button", { name: "削除" }));
+    expect(await screen.findByRole("dialog")).toBeTruthy();
+    fireEvent.click(screen.getByRole("button", { name: "キャンセル" }));
+    await waitFor(() => {
+      expect(screen.queryByRole("dialog")).toBeNull();
+    });
+    expect(mockedRemoveAttendance).not.toHaveBeenCalled();
+    expect(screen.getByText("m1")).toBeTruthy();
+  });
+
+  it("removeAttendance 失敗: 削除に失敗 toast (confirm 経由)", async () => {
     mockedRemoveAttendance.mockResolvedValueOnce({
       ok: false,
       status: 500,
@@ -283,9 +309,31 @@ describe("MeetingPanel — empty / mutation / authz", () => {
       />,
     );
     fireEvent.click(screen.getByRole("button", { name: "削除" }));
+    fireEvent.click(await screen.findByRole("button", { name: "削除する" }));
     expect(await screen.findByText("削除に失敗: x")).toBeTruthy();
     // 出席者は残ったまま
     expect(screen.getByRole("heading", { name: "出席者" })).toBeTruthy();
+  });
+
+  it("removeAttendance 404: 既に出席解除済みとして list から除去 (confirm 経由)", async () => {
+    mockedRemoveAttendance.mockResolvedValueOnce({
+      ok: false,
+      status: 404,
+      error: "attendance_not_found",
+    });
+    render(
+      <MeetingPanel
+        meetings={{
+          total: 1,
+          items: [{ ...baseMeeting, attendance: [{ memberId: "m1" }] }],
+        }}
+        candidates={[{ memberId: "m1", fullName: "山田" }]}
+      />,
+    );
+    fireEvent.click(screen.getByRole("button", { name: "削除" }));
+    fireEvent.click(await screen.findByRole("button", { name: "削除する" }));
+    expect(await screen.findByText("既に出席解除されています")).toBeTruthy();
+    expect(screen.queryByRole("heading", { name: "出席者" })).toBeNull();
   });
 
   it("note ありの meeting で note を表示する", () => {
@@ -324,7 +372,7 @@ describe("MeetingPanel — empty / mutation / authz", () => {
     expect(await screen.findByText("開催日を更新しました")).toBeTruthy();
   });
 
-  it("削除 button は deletedAt 付き updateMeeting を呼ぶ", async () => {
+  it("削除 button は confirm 経由で deletedAt 付き updateMeeting を呼ぶ", async () => {
     mockedUpdateMeeting.mockResolvedValueOnce({ ok: true, status: 200, data: {} });
     render(
       <MeetingPanel
@@ -334,6 +382,14 @@ describe("MeetingPanel — empty / mutation / authz", () => {
     );
     fireEvent.click(screen.getByText("編集"));
     fireEvent.click(screen.getByRole("button", { name: "開催日を削除" }));
+    // confirm dialog: delete kind には soft delete 説明を含む
+    expect(await screen.findByRole("dialog")).toBeTruthy();
+    expect(screen.getByText("この開催日を削除しますか？")).toBeTruthy();
+    expect(
+      screen.getByText("この操作は soft delete です。後で復元できません。"),
+    ).toBeTruthy();
+    expect(mockedUpdateMeeting).not.toHaveBeenCalled();
+    fireEvent.click(screen.getByRole("button", { name: "削除する" }));
     await waitFor(() => {
       expect(mockedUpdateMeeting).toHaveBeenCalledWith(
         "s1",
