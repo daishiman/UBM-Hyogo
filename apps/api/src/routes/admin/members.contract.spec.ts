@@ -404,6 +404,156 @@ describe("admin members route", () => {
     expect(body.members[0]?.memberId).toBe("m1");
   });
 
+  describe("enum normalization (UBM-ADMIN-MEMBERS-500 recovery)", () => {
+    it("DB binding 不在の場合 503 + recovery code を返す", async () => {
+      const app = createAdminMembersRoute();
+      const res = await app.request(
+        "/members",
+        { headers: { ...await adminAuthHeader() } },
+        {
+          SYNC_ADMIN_TOKEN: "admin-token",
+          AUTH_SECRET: TEST_AUTH_SECRET,
+        } as unknown as ReturnType<typeof makeEnv>,
+      );
+      expect(res.status).toBe(503);
+      const body = (await res.json()) as { ok: false; error: string; code: string };
+      expect(body).toEqual({
+        ok: false,
+        error: "DB binding missing",
+        code: "UBM-ADMIN-MEMBERS-500",
+      });
+    });
+
+    it("publish_state が enum 外 ('draft') の場合 200 + publishState='member_only' に縮退", async () => {
+      await env.db
+        .prepare(
+          "UPDATE member_status SET publish_state = 'draft' WHERE member_id = 'm1'",
+        )
+        .run();
+      const app = createAdminMembersRoute();
+      const res = await app.request(
+        "/members",
+        { headers: { ...await adminAuthHeader() } },
+        makeEnv(env),
+      );
+      expect(res.status).toBe(200);
+      const body = (await res.json()) as {
+        total: number;
+        members: Array<{ memberId: string; publishState: string }>;
+        page: number;
+        pageSize: number;
+      };
+      expect(Array.isArray(body.members)).toBe(true);
+      expect(body.total).toBe(1);
+      expect(body.page).toBe(1);
+      expect(body.pageSize).toBeGreaterThan(0);
+      expect(body.members[0]?.memberId).toBe("m1");
+      expect(body.members[0]?.publishState).toBe("member_only");
+    });
+
+    it("legacy publish_state ('published' / 'private') は意味を保って正規化し filter にも残る", async () => {
+      await seedMember(env, "m2", "r2", { fullName: "Private User" }, "2026-04-02T00:00:00Z");
+      await env.db
+        .prepare(
+          "UPDATE member_status SET publish_state = 'published' WHERE member_id = 'm1'",
+        )
+        .run();
+      await env.db
+        .prepare(
+          "UPDATE member_status SET publish_state = 'private' WHERE member_id = 'm2'",
+        )
+        .run();
+      const app = createAdminMembersRoute();
+
+      const publishedRes = await app.request(
+        "/members?filter=published",
+        { headers: { ...await adminAuthHeader() } },
+        makeEnv(env),
+      );
+      expect(publishedRes.status).toBe(200);
+      const publishedBody = (await publishedRes.json()) as {
+        members: Array<{ memberId: string; publishState: string }>;
+      };
+      expect(publishedBody.members).toEqual([
+        expect.objectContaining({ memberId: "m1", publishState: "public" }),
+      ]);
+
+      const hiddenRes = await app.request(
+        "/members?filter=hidden",
+        { headers: { ...await adminAuthHeader() } },
+        makeEnv(env),
+      );
+      expect(hiddenRes.status).toBe(200);
+      const hiddenBody = (await hiddenRes.json()) as {
+        members: Array<{ memberId: string; publishState: string }>;
+      };
+      expect(hiddenBody.members).toEqual([
+        expect.objectContaining({ memberId: "m2", publishState: "hidden" }),
+      ]);
+    });
+
+    it("member_status 行が欠けて public_consent / rules_consent が NULL 相当の場合 200 + 'unknown' に縮退", async () => {
+      await env.db
+        .prepare(
+          "DELETE FROM member_status WHERE member_id = 'm1'",
+        )
+        .run();
+      const app = createAdminMembersRoute();
+      const res = await app.request(
+        "/members",
+        { headers: { ...await adminAuthHeader() } },
+        makeEnv(env),
+      );
+      expect(res.status).toBe(200);
+      const body = (await res.json()) as {
+        members: Array<{ publicConsent: string; rulesConsent: string }>;
+      };
+      expect(body.members[0]?.publicConsent).toBe("unknown");
+      expect(body.members[0]?.rulesConsent).toBe("unknown");
+    });
+
+    it("public_consent / rules_consent が enum 外 ('pending') の場合 'unknown' に縮退", async () => {
+      await env.db
+        .prepare(
+          "UPDATE member_status SET public_consent = 'pending', rules_consent = 'pending' WHERE member_id = 'm1'",
+        )
+        .run();
+      const app = createAdminMembersRoute();
+      const res = await app.request(
+        "/members",
+        { headers: { ...await adminAuthHeader() } },
+        makeEnv(env),
+      );
+      expect(res.status).toBe(200);
+      const body = (await res.json()) as {
+        members: Array<{ publicConsent: string; rulesConsent: string }>;
+      };
+      expect(body.members[0]?.publicConsent).toBe("unknown");
+      expect(body.members[0]?.rulesConsent).toBe("unknown");
+    });
+
+    it("view zod 失敗時は 500 + safe recovery code を返す", async () => {
+      await env.db
+        .prepare(
+          "UPDATE member_identities SET last_submitted_at = 'not-a-date' WHERE member_id = 'm1'",
+        )
+        .run();
+      const app = createAdminMembersRoute();
+      const res = await app.request(
+        "/members",
+        { headers: { ...await adminAuthHeader() } },
+        makeEnv(env),
+      );
+      expect(res.status).toBe(500);
+      const body = (await res.json()) as { ok: false; error: string; code: string };
+      expect(body).toEqual({
+        ok: false,
+        error: "internal",
+        code: "UBM-ADMIN-MEMBERS-500",
+      });
+    });
+  });
+
   it("GET /members?sort=name は fullName 昇順で返す", async () => {
     await seedMember(env, "m2", "r2", { fullName: "Alice" }, "2026-04-02T00:00:00Z");
     const app = createAdminMembersRoute();

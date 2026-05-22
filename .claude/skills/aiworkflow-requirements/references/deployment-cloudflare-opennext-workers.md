@@ -5,13 +5,13 @@
 > 起源: UT-06-FU-A (`docs/30-workflows/ut-06-followup-A-opennext-workers-migration/`)
 > deploy target decision: ADR-0001 (`docs/00-getting-started-manual/specs/adr/0001-pages-vs-workers-deploy-target.md`)
 
-## 1. 適用範囲
+## 適用範囲
 
 `apps/web` の Next.js App Router を Cloudflare Workers + `@opennextjs/cloudflare` で配信する場合の正本仕様。Cloudflare Pages 形式（`pages_build_output_dir = ".next"`）は **廃止**。本ファイルは Workers 形式の運用ルールを集約し、親仕様 `deployment-cloudflare.md` から差分参照される。
 
 `apps/api`（Hono Workers）は本ファイルの対象外。`apps/api` の `wrangler.toml` 仕様は親仕様に残す。
 
-## 2. 形式判定マトリクス
+## 形式判定マトリクス
 
 `apps/web/wrangler.toml` がどちらの形式かは以下で識別する。Workers 形式以外は移行または AC 再定義が必要。
 
@@ -22,7 +22,7 @@
 | `[assets] directory` | `.open-next/assets` | OpenNext Workers 形式 |
 | `compatibility_flags` | `["nodejs_compat"]` のみ | 不十分（`main` / `[assets]` と併記必須） |
 
-## 3. wrangler.toml 必須項目
+## wrangler.toml 必須項目
 
 `apps/web/wrangler.toml` は以下を必須項目とする（実値は実ファイルから引用）。
 
@@ -85,7 +85,7 @@ enabled = true
 
 > **注**: `compatibility_date = "2025-01-01"` は `nodejs_compat` 要件 (>= 2024-09-23) を満たす。採用日・確認日・理由は UT-06-FU-A Phase 5 / Phase 13 に記録済。
 
-## 4. .assetsignore の役割と運用
+## .assetsignore の役割と運用
 
 `.assetsignore` は `.open-next/assets/` を Workers Static Assets binding に同梱する際、サーバーコードや開発成果物を除外するための ignore リスト（`.gitignore` 互換）。
 
@@ -105,7 +105,7 @@ node_modules
 __tests__
 ```
 
-## 5. ビルド・デプロイ手順
+## ビルド・デプロイ手順
 
 OpenNext build → `scripts/cf.sh deploy` の 2 段構成。生成物が無い状態の deploy は失敗するため pre-deploy build を必須化する。
 
@@ -128,7 +128,7 @@ bash scripts/cf.sh deploy --config apps/web/wrangler.toml --env production
 
 deploy script は package.json に置かず、`scripts/cf.sh` 経由に一本化する（OAuth 漏出と esbuild バージョン不整合を防ぐため）。
 
-## 6. Worker bundle size ガード
+## Worker bundle size ガード
 
 Cloudflare Workers の bundle size 上限:
 
@@ -146,7 +146,7 @@ Cloudflare Workers の bundle size 上限:
 - RSC payload / server-only dependencies の削減
 - それでも収まらない場合は Paid プラン切替判断を文書化（UT-06-FU-A AC-11）
 
-## 7. SPA fallback / 404 ハンドリング
+## SPA fallback / 404 ハンドリング
 
 Workers Static Assets binding は Pages のような自動 SPA fallback 推定を行わないため、`not_found_handling` を **明示** する。
 
@@ -155,7 +155,7 @@ Workers Static Assets binding は Pages のような自動 SPA fallback 推定�
 
 UT-06-FU-A AC-12 で staging 環境の挙動確認を必須化している。
 
-## 8. preview / staging / production の env 分離
+## preview / staging / production の env 分離
 
 Workers Builds の preview 環境は production の env vars / secrets を共有する既知問題があるため、`apps/web/wrangler.toml` で env section を明示的に分離する。
 
@@ -167,7 +167,7 @@ Workers Builds の preview 環境は production の env vars / secrets を共有
 
 各 env は `assets` / `observability` / `vars` を再宣言する（top-level 継承に依存しない）。Workers Builds で preview を併用する場合は、preview build を staging env で動かし、production secrets が混入しないことを `bash scripts/cf.sh secret list` で検証する。
 
-## 9. 旧 Pages プロジェクトの並走方針
+## 旧 Pages プロジェクトの並走方針
 
 UT-28 で先行作成された Cloudflare Pages リソースが残存している場合、以下の判定軸で扱う。
 
@@ -179,7 +179,7 @@ UT-28 で先行作成された Cloudflare Pages リソースが残存してい�
 
 料金重複リスク（Pages + Workers 二重課金）を避けるため、保持期間中は Pages の build trigger を無効化する。詳細は `outputs/phase-02/rollback-plan.md`（UT-06-FU-A）を参照。
 
-## 10. CLI 経路の徹底
+## CLI 経路の徹底
 
 - `bash scripts/cf.sh` のみ使用（deploy / rollback / tail / secret put / secret list / d1 / whoami）
 - `wrangler` 直接実行 / `pnpm wrangler` / `npx wrangler` は **禁止**
@@ -188,7 +188,7 @@ UT-28 で先行作成された Cloudflare Pages リソースが残存してい�
 
 詳細は親仕様 `deployment-cloudflare.md` の 「Cloudflare アカウント設定」 章を参照。
 
-## 11. R2 incremental cache（任意採用）
+## R2 incremental cache（任意採用）
 
 OpenNext Cloudflare は R2 を incremental cache backend に利用可能。本タスク (UT-06-FU-A) では **採用判断を行わず** 別タスク (`UT-06-FU-A-R2-incremental-cache-decision.md`) で扱う。
 
@@ -196,7 +196,7 @@ OpenNext Cloudflare は R2 を incremental cache backend に利用可能。本�
 - `apps/web/open-next.config.ts` の `defineCloudflareConfig` で `incrementalCache` を `r2IncrementalCache` に指定
 - `wrangler.toml` に `[[r2_buckets]]` を env 別に追加（`apps/api` の R2 binding とは別 bucket / 別 binding 名で分離）
 
-## 11.1 Build mode の不変条件（CI recovery / 2026-05-09）
+## Build mode の不変条件（CI recovery / 2026-05-09）
 
 `apps/web` の Cloudflare Workers production bundle は **`next build --webpack` を正本** とする。Next.js 16 で default 化された Turbopack は `[project]/...` という仮想 module specifier を `.next/standalone/.next/server/app/*.js` に焼き込み、OpenNext build → Cloudflare Workers runtime で `Could not resolve "[project]/..."` 起動失敗を引き起こした実績がある（commit `80ee5616`）。Turbopack は **local dev 限定** とし、`pnpm --filter @ubm-hyogo/web build` / `build:cloudflare` から呼び出される production build は webpack に固定する。
 
@@ -210,7 +210,7 @@ OpenNext Cloudflare は R2 を incremental cache backend に利用可能。本�
 
 CLAUDE.md の `apps/web` env アクセス不変条件（`apps/web/src/lib/env.ts` の `getEnv()` 経由のみ、`process.env.*` 直接参照禁止、`error.tsx` で env validation throw を補足）と相互参照する。`getEnv()` の throw が Workers runtime まで残るためには webpack build path で bundle される前提を維持する必要がある。
 
-## 12. 関連リソース
+## 関連リソース
 
 | 種別 | パス |
 | --- | --- |
@@ -231,13 +231,13 @@ CLAUDE.md の `apps/web` env アクセス不変条件（`apps/web/src/lib/env.ts
 | web-cd migration residual task | `docs/30-workflows/unassigned-task/task-impl-opennext-workers-migration-001.md`（2026-05-09 CI recovery wave で Pages deploy 撤去は local 実装済み。残りは Cloudflare side cutover / runtime evidence） |
 | Long-term analytics evidence decision | `docs/30-workflows/completed-tasks/issue-347-cloudflare-analytics-export-decision/` |
 
-## 13. production route / secret / observability preflight
+## production route / secret / observability preflight
 
 `[env.production].name = "ubm-hyogo-web-production"` を使う cutover では、production deploy 承認前に workflow-local runbook を参照し、route / custom domain / secret key name / observability target が新 Worker を指すか確認する。これは実測完了ではなく承認前 preflight 手順の正本導線であり、DNS 切替、secret 値の記録、Logpush mutation、旧 Worker 削除は別承認に分離する。
 
 反復性が必要な読み取り確認は、route inventory script と Logpush target diff script で扱う。Logpush / observability target 差分は `bash scripts/cf.sh observability-diff --current-worker ubm-hyogo-web-production --legacy-worker ubm-hyogo-web --config apps/web/wrangler.toml` を公開入口とし、内部実装は `scripts/observability-target-diff.sh` と `scripts/lib/redaction.sh` に閉じる。どちらも read-only output と redaction を前提にし、`wrangler` 直接実行ではなく `bash scripts/cf.sh` または repository script 経由に閉じる。
 
-### 13.1 observability target diff の 4 軸
+### observability target diff の 4 軸
 
 `scripts/observability-target-diff.sh` は新旧 Worker（`--current-worker` / `--legacy-worker`）に対し以下 4 軸を read-only で比較する。値は redaction module 経由で出力する。
 
@@ -250,7 +250,7 @@ CLAUDE.md の `apps/web` env アクセス不変条件（`apps/web/src/lib/env.ts
 
 各軸の出力は `=== R<n> <axis> ===` ヘッダ付きの diff block で、新旧 Worker のいずれかにのみ存在する設定を `+` / `-` で示す。既存設定値の変更（`!`）も同 block で表現する。
 
-### 13.2 redaction ルール（`scripts/lib/redaction.sh`）
+### redaction ルール（`scripts/lib/redaction.sh`）
 
 | ID | 対象 | 振る舞い |
 | --- | --- | --- |
@@ -263,7 +263,7 @@ CLAUDE.md の `apps/web` env アクセス不変条件（`apps/web/src/lib/env.ts
 
 入力ストリームは `redact_stream` 関数を通してから標準出力へ流すこと。生 Cloudflare API レスポンスを `cat` / `jq` 直結で出力しない。
 
-### 13.3 read-only 保証と 2 経路
+### read-only 保証と 2 経路
 
 | 経路 | 用途 | 副作用 |
 | --- | --- | --- |
@@ -272,7 +272,7 @@ CLAUDE.md の `apps/web` env アクセス不変条件（`apps/web/src/lib/env.ts
 
 `wrangler logpush create` / `delete`, `wrangler tail` の起動、Cloudflare API `POST` / `PATCH` / `DELETE` は本 script の責務外であり、別承認 operation に分離する。検証は `bash tests/unit/redaction.test.sh`（11 ケース）と `bash tests/integration/observability-target-diff.test.sh`（18 ケース）で固定する。既存 `references/observability-monitoring.md`（WAE 6 イベント / UptimeRobot / アラート閾値）とは責務が異なる: 本節は production cutover preflight の差分検出、`observability-monitoring.md` は run-time monitoring/alert 設計を扱う。
 
-## 14. analytics read-only token 分離
+## analytics read-only token 分離
 
 post-release dashboard 等の analytics 取得用 Cloudflare API token は、production deploy 用の `CLOUDFLARE_API_TOKEN` と GitHub Secrets レベルで分離する。analytics 用 secret は `_READONLY` 接尾辞を必須とし、Issue #351 の正本名は `CLOUDFLARE_API_TOKEN_ANALYTICS_READONLY` とする。
 
@@ -287,13 +287,13 @@ post-release dashboard 等の analytics 取得用 Cloudflare API token は、pro
 
 `scripts/cf.sh api-post /client/v4/graphql -d <json>` は GraphQL Analytics の read-only query 専用入口として利用できる。`api-post` は `/client/v4/graphql` 以外の path を fail-closed し、POST/PATCH/DELETE mutation を伴う Cloudflare 操作は別承認 operation へ分離する。
 
-## 15. Long-term analytics evidence
+## Long-term analytics evidence
 
 OpenNext Workers production cutover 後の長期 analytics evidence は、親仕様 `deployment-cloudflare.md` の Issue #347 contract に従う。`apps/web` Worker の request volume / error rate / invocation aggregate は GraphQL Analytics API で取得し、raw URL / query / request body / IP / User-Agent は保存しない。
 
 正本 workflow: `docs/30-workflows/completed-tasks/issue-347-cloudflare-analytics-export-decision/`
 
-## 15. 09c-A production execution workflow
+## c-A production execution workflow
 
 Production deploy execution は `docs/30-workflows/completed-tasks/09c-A-production-deploy-execution/` を current workflow root とし、Issue #353 mirror として `docs/30-workflows/issue-353-09c-production-deploy-execution/` も同じ evidence contract を保持する。状態は `spec_created / implementation / VISUAL_ON_EXECUTION / production runtime evidence pending_user_approval` であり、実 Cloudflare mutation、D1 migration apply、release tag push、production smoke、24h verification は承認後の execution operation でのみ実行する。
 
@@ -308,10 +308,21 @@ Production deploy execution は `docs/30-workflows/completed-tasks/09c-A-product
 
 `apps/api` / `apps/web` の `deploy:production` package script は正本経路ではない。`wrangler` 直接実行も禁止し、`scripts/cf.sh` wrapper 経由に統一する。Phase 11 の placeholder evidence は runtime PASS ではなく、実値は承認済み execution 時に同一パスへ上書きする。
 
+## CI build-time env injection for OpenNext Workers
+
+`@opennextjs/cloudflare build` は内部で `next build` を実行するため、`apps/web/wrangler.toml` の `[vars]` / `[env.<name>.vars]` は build-time の Node process へ自動注入されない。`apps/web/src/lib/env.ts` の `getPublicEnv()` / `getEnv()` を build-time 経路で呼ぶ場合、GitHub Actions の `Build web app (OpenNext Workers bundle)` step に `apps/web/wrangler.toml` と同値の public / required env を step-scoped で注入する。
+
+この env は build placeholder であり、runtime 正本は引き続き `apps/web/wrangler.toml` である。Cloudflare deploy token は deploy step のみ `CLOUDFLARE_API_TOKEN` を受け取る current safe baseline を維持し、build step に secret を渡さない。
+
+正本 workflow: `docs/30-workflows/completed-tasks/ci-staging-deploy-failure-fix/`
+
+Regression anchor: `apps/web/src/lib/__tests__/build-time-env.spec.ts`
+
 ## 変更履歴
 
 | 日付 | バージョン | 変更内容 |
 | --- | --- | --- |
+| 2026-05-20 | 1.7.0 | CI staging deploy failure fix を同期。OpenNext build-time env injection (§16) を追加し、runtime env 正本は `apps/web/wrangler.toml`、deploy secret は deploy step scoped のままに固定 |
 | 2026-05-09 | 1.6.0 | Issue #331 で `.github/workflows/web-cd.yml` の repo-side Pages deploy 残を撤去し、OpenNext Workers build + `scripts/cf.sh deploy` に同期。Cloudflare side retirement / smoke は user-gated 境界として維持 |
 | 2026-05-09 | 1.6.0 | CI pipeline recovery: §11.1 「Build mode の不変条件」を追加。`next build --webpack` を production build 正本とし、Turbopack を local dev 限定に固定。`patch-next-standalone-instrumentation.mjs --verify-only` の emit-skip ガード（commit 532d9ab5）と webpack build path 整合テスト（commit ec0556f9）を併記し、CLAUDE.md の `apps/web` env アクセス不変条件と相互参照 |
 | 2026-05-05 | 1.5.0 | Issue #351 post-release dashboard automation に合わせ、analytics read-only token 分離規約 (§14) と `scripts/cf.sh api-post` の read-only GraphQL 入口を追加。あわせて 09c-A production execution workflow の導線 (§15)、`VISUAL_ON_EXECUTION` 境界、`cf.sh` 正本 deploy route、`ubm-hyogo-db-prod` D1 migration apply route を追加 |

@@ -1,0 +1,35 @@
+{
+  "subWorkflow": "parallel-04-shared-page-chrome",
+  "targets": [
+    {
+      "evidenceId": "EV-12",
+      "url": "/smoke/ui-primitives",
+      "label": "root-layout",
+      "outputPath": "outputs/phase-11/root-layout.png"
+    },
+    {
+      "evidenceId": "EV-13",
+      "url": "/smoke/error-boundary",
+      "label": "fallback-error",
+      "outputPath": "outputs/phase-11/fallback-error.png"
+    },
+    {
+      "evidenceId": "EV-14",
+      "url": "/__missing-ui-foundation-route",
+      "label": "fallback-not-found",
+      "outputPath": "outputs/phase-11/fallback-not-found.png"
+    },
+    {
+      "evidenceId": "EV-15",
+      "url": "/smoke/loading-state?preview=loading",
+      "label": "fallback-loading",
+      "outputPath": "outputs/phase-11/fallback-loading.png"
+    }
+  ],
+  "viewports": [
+    { "name": "desktop", "width": 1440, "height": 900 },
+    { "name": "mobile", "width": 390, "height": 844 }
+  ],
+  "status": "captured",
+  "note": "EV-12..15 were captured locally with Chromium against the parallel-04 smoke routes. Full 19-route regression remains owned by serial-07."
+}

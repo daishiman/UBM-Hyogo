@@ -1,0 +1,34 @@
+{
+  "owner": "parallel-04-shared-page-chrome",
+  "runAt": "2026-05-19T04:12:30Z",
+  "commit": "549ec713a20313bd2dbc9fed9658514ee9cc355f",
+  "branch": "feat/parallel-04-shared-page-chrome",
+  "baseUrl": "http://127.0.0.1:3077",
+  "browser": "chromium",
+  "tooling": {
+    "next": "16.2.4",
+    "node": "24.15.0",
+    "pnpm": "10.33.2"
+  },
+  "evidenceCaptured": {
+    "EV-01": "typecheck.log",
+    "EV-02": "lint.log",
+    "EV-03": "vitest.log",
+    "EV-04": "build.log",
+    "EV-05": "design-tokens.log",
+    "EV-06": "test-suffix.log",
+    "EV-07": "pr-ready.log",
+    "EV-08": "toast-provider-grep.txt",
+    "EV-09": "hex-direct-grep.txt",
+    "EV-10": "screenshot-plan.json",
+    "EV-11": "phase11-capture-metadata.json",
+    "EV-12": "root-layout.png",
+    "EV-13": "fallback-error.png",
+    "EV-14": "fallback-not-found.png",
+    "EV-15": "fallback-loading.png",
+    "EV-16": "ui-sanity-visual-review.md"
+  },
+  "evidencePending": {},
+  "status": "captured",
+  "note": "Static gates are represented by EV-01..09. Runtime fallback screenshots EV-12..15 were captured locally with Chromium. Full serial-07 visual regression remains separate."
+}

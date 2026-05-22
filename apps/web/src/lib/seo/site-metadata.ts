@@ -12,7 +12,7 @@ export const SITE = {
 } as const;
 
 const SITE_URL_MAP: Record<string, string> = {
-  production: "https://ubm-hyogo-web.daishimanju.workers.dev",
+  production: "https://ubm-hyogo-web-production.daishimanju.workers.dev",
   staging: "https://ubm-hyogo-web-staging.daishimanju.workers.dev",
   local: "http://localhost:3000",
 };
@@ -63,6 +63,7 @@ export interface PageMetaInput {
   title: string;
   description?: string;
   path: string;
+  /** Absolute path or relative path. Relative path is resolved against metadataBase. */
   ogImage?: string;
   twitterCard?: "summary" | "summary_large_image";
 }

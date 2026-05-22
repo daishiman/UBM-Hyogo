@@ -9,6 +9,8 @@
 // 不変条件 #15: dev 経路と production 経路を厳密に分離する。
 
 import { verifySessionJwt } from "@ubm-hyogo/shared";
+import { validateAuthSecretEnv } from "../env";
+import { logError } from "../lib/logger";
 import type { SessionResolver, SessionGuardEnv } from "./session-guard";
 import { extractJwt } from "./require-admin";
 
@@ -42,12 +44,23 @@ export const createMeSessionResolver = (): MeSessionResolver & SessionResolver =
   ) => {
     const dev = await resolveDevSession(req, env);
     if (dev) return dev;
-
-    const secret = env?.AUTH_SECRET;
-    if (!secret) return null;
+    if (env?.ENVIRONMENT === "development") return null;
 
     const token = extractJwt({ header: (k) => req.headers.get(k) ?? undefined });
     if (!token) return null;
+    if (token.startsWith("session:")) return null;
+
+    let secret: string;
+    try {
+      secret = validateAuthSecretEnv({ AUTH_SECRET: env?.AUTH_SECRET }).AUTH_SECRET;
+    } catch {
+      logError({
+        code: "UBM-AUTH-SECRET-MISSING",
+        phase: "meSessionResolver",
+        bindingPresent: typeof env?.AUTH_SECRET === "string",
+      });
+      return null;
+    }
 
     const claims = await verifySessionJwt(token, secret);
     if (!claims) return null;

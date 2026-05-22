@@ -1,4 +1,5 @@
 import { notFound } from "next/navigation";
+import Loading from "../../loading";
 import { smokeFixtureEnabled } from "../_lib/fixture-guard";
 
 export const dynamic = "force-dynamic";
@@ -28,13 +29,17 @@ function sleep(ms: number) {
 export default async function SmokeLoadingStateFixture({
   searchParams,
 }: {
-  searchParams: Promise<{ delay?: string | string[] }>;
+  searchParams: Promise<{ delay?: string | string[]; preview?: string | string[] }>;
 }) {
   if (!smokeFixtureEnabled()) {
     notFound();
   }
 
-  const { delay } = await searchParams;
+  const { delay, preview } = await searchParams;
+  if (preview === "loading") {
+    return <Loading />;
+  }
+
   const delayMs = clampDelay(delay);
   await sleep(delayMs);
 

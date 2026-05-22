@@ -37,10 +37,11 @@ describe("LoginError", () => {
     vi.spyOn(console, "error").mockImplementation(() => undefined);
 
     const { rerender } = render(<LoginError error={makeError("abc123")} reset={vi.fn()} />);
-    expect(screen.getByText("error id: abc123")).toBeTruthy();
+    expect(screen.getByText(/エラーID:/)).toBeTruthy();
+    expect(screen.getByText("abc123")).toBeTruthy();
 
     rerender(<LoginError error={makeError()} reset={vi.fn()} />);
-    expect(screen.queryByText(/error id:/)).toBeNull();
+    expect(screen.queryByText(/エラーID:/)).toBeNull();
   });
 
   it("calls reset from the retry button", () => {

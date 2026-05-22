@@ -1,9 +1,11 @@
 // @vitest-environment node
 // 05a Phase 4: requireAdmin / requireAuth contract test (G-04〜G-08, AC-5/AC-8)
 import { describe, it, expect } from "vitest";
+import { vi } from "vitest";
 import { Hono } from "hono";
 import { signSessionJwt, asMemberId } from "@ubm-hyogo/shared";
 import { requireAdmin, requireAuth } from "./require-admin";
+import * as logger from "../lib/logger";
 
 const SECRET = "test-secret-test-secret-test-secret-test-secret";
 
@@ -18,9 +20,42 @@ const buildApp = () => {
 
 describe("requireAdmin / requireAuth", () => {
   it("AUTH_SECRET 未設定 → 500", async () => {
+    const logSpy = vi.spyOn(logger, "logError").mockImplementation(() => {});
     const app = buildApp();
     const res = await app.request("/admin/dashboard", {}, { AUTH_SECRET: undefined });
     expect(res.status).toBe(500);
+    expect(logSpy).toHaveBeenCalledWith({
+      code: "UBM-AUTH-SECRET-MISSING",
+      phase: "requireAdmin",
+      bindingPresent: false,
+    });
+    logSpy.mockRestore();
+  });
+
+  it("AUTH_SECRET 空文字 → 500 + structured log", async () => {
+    const logSpy = vi.spyOn(logger, "logError").mockImplementation(() => {});
+    const app = buildApp();
+    const res = await app.request("/auth/me", {}, { AUTH_SECRET: "   " });
+    expect(res.status).toBe(500);
+    expect(logSpy).toHaveBeenCalledWith({
+      code: "UBM-AUTH-SECRET-MISSING",
+      phase: "requireAuth",
+      bindingPresent: true,
+    });
+    logSpy.mockRestore();
+  });
+
+  it("AUTH_SECRET が短すぎる場合も 500 + structured log", async () => {
+    const logSpy = vi.spyOn(logger, "logError").mockImplementation(() => {});
+    const app = buildApp();
+    const res = await app.request("/admin/dashboard", {}, { AUTH_SECRET: "short" });
+    expect(res.status).toBe(500);
+    expect(logSpy).toHaveBeenCalledWith({
+      code: "UBM-AUTH-SECRET-MISSING",
+      phase: "requireAdmin",
+      bindingPresent: true,
+    });
+    logSpy.mockRestore();
   });
 
   it("G-04 / AC-5: token なし → 401", async () => {

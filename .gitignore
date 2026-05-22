@@ -50,6 +50,13 @@ outputs/post-release-dashboard/**
 # Phase 11 evidence logs ディレクトリ全体（axe.json 等の non-log 拡張子も tracked にする / L-DEVSYNC-014 拡張）
 !docs/30-workflows/**/outputs/phase-11/logs/
 !docs/30-workflows/**/outputs/phase-11/logs/**
+# Phase 07 implementation evidence logs（phase-11 evidence inventory が phase-07 *.log を
+# 物理証跡として claim するパターンを許可するため tracked にする / PR #855 staging-auth-secret-binding-recovery）
+!docs/30-workflows/**/outputs/phase-07/*.log
+!docs/30-workflows/**/outputs/phase-07/**/*.log
+# Phase 08 runtime evidence outputs（curl/backend-ci の text/log 証跡を tracked にする）
+!docs/30-workflows/**/outputs/phase-08/*.log
+!docs/30-workflows/**/outputs/phase-08/**/*.log
 
 # Environment
 .env
