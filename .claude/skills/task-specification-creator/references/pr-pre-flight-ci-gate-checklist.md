@@ -302,3 +302,24 @@ grep -rn 'getByRole("status")\|getByRole(\x27status\x27)' apps/web/playwright/te
 - HEAD と dev が **column 構造**を変更している場合（`| Path | Status |` 3 列 ↔ `| Classification | Path | Status | Note |` 4 列）、4 列側を採用し、3 列側の row を 4 列に整形して merge する。`Classification` 列が空欄になる場合は `visual` / `log` / `evidence` 等の adminer convention を補完する。
 
 詳細: `.claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-dev-sync-merge-conflict-resolution-2026-05.md` L-DEVSYNC-032。
+
+## 13. spec docs (`docs/00-getting-started-manual/specs/*.md`) の独立節追加に対する手動 union 解消（L-DEVSYNC-033）
+
+`pnpm sync:resolve` の resolver は spec docs を union 対象に含めていない（`.gitattributes` の `merge=union` 対象は LOGS / SKILL-changelog / lessons-learned 等のみ）。`docs/00-getting-started-manual/specs/01-api-schema.md` / `11-admin-management.md` 等で、HEAD 側が issue A の独立節を追加し dev 側が issue B の独立節を追加するケースは構造的に conflict marker を残す。
+
+### 自律解消ルール（B-12）
+
+- **B-12「spec docs 独立節追加の手動 union」**: HEAD section と dev section が**意味的に独立な節**（別 H3 / 別 paragraph）の追加だった場合、conflict marker (`<<<<<<<` / `|||||||` / `=======` / `>>>>>>>`) のみ除去して **HEAD section + dev section** の順で残す手動 union を採用する。base section (`||||||| <sha>`) は通常空（両側追加のため）なので削除のみで足りる。
+- 同一節内の同一行 / 同一 sentence への両側変更は独立節追加ではない。最新 SSOT（後追い変更があった側、通常 dev）を採用するか、両方の意図を保持する書き換えを行う。
+
+### 推奨処方（Edit ツール bytes mismatch 回避）
+
+JP 全角括弧（`（` `）`）等を含む長文 conflict block は Edit ツールで bytes-level mismatch が頻発する。`python3 + re` でブロック単位置換する以下のワンライナーが確実:
+
+```python
+import re
+pattern = re.compile(r'<<<<<<< HEAD\n(.*?)(?:\|\|\|\|\|\|\| [^\n]*\n(.*?))?=======\n(.*?)>>>>>>> dev\n', re.DOTALL)
+new = pattern.sub(lambda m: m.group(1) + m.group(3), text)
+```
+
+詳細: `.claude/skills/aiworkflow-requirements/changelog/20260522-dev-sync-issue777-spec-docs-union-manual-resolve.md`。
