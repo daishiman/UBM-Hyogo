@@ -160,6 +160,14 @@ UI は `responseEmailMasked` だけを表示し、merge reason に含まれる e
 
 管理 UI は stableKey を直接固定せず、API の 409 / 422 境界を `role="alert"` で分けて表示する。409 `stable_key_collision` は `existingStableKey`、422 body validation は `existingQuestionIds` を保持して表示する。HTTP 202 `backfill_cpu_budget_exhausted` は失敗ではなく再試行可能 status として扱う。`recommendedStableKeys` の多言語 label 比較は UT-07B alias recommendation i18n で `NFKC + trim + whitespace 圧縮` として実装済みで、UI/API response shape は変えない。大規模 back-fill の retryable contract は `UT-07B-schema-alias-hardening-001` で扱う。
 
+### schema alias rollback / undo（Issue #778）
+
+`/admin/schema` は、誤 resolve を D1 直接修正ではなく API + audit log 経由で取り消す。SchemaDiffPanel は resolved alias の最小 HistoryPane を持ち、各行の rollback button から confirm modal を開く。confirm modal は影響応答件数、再集計要否、actor、対象 alias を表示し、再集計実行そのものは別 follow-up に分離する。
+
+直近 resolve から 5 分以内は undo toast を表示できる。undo は専用 endpoint を持たず、`POST /admin/schema/aliases/:aliasId/rollback` を同じ `If-Match: version=<N>` header 付きで呼ぶ。version mismatch は `409` として「他の管理者が変更済み」と表示し、再読込を促す。
+
+rollback / undo 成功時は application `audit_log.action='schema_alias.rollback'` を追加し、元 resolve audit id を `after_json.relatedAuditId` に保存する。`cf_audit_log` は Cloudflare Audit Logs 取り込み専用であり、SchemaDiffPanel の admin mutation audit には使わない。
+
 ### bulk resolve（Issue #776）
 
 `/admin/schema` には single inline edit と並走する **bulk resolve mode** を備える。トグル button (`aria-pressed`) で bulk mode を有効化すると、`unresolved` / `changed` カテゴリの行のみに checkbox が描画される（`added` / `removed` 行は対象外）。カテゴリヘッダの「全選択」checkbox と行 checkbox で複数 diff を選択し、「Bulk Resolve 確定」button から確認 modal を開く。modal では各行の stableKey を個別編集 / 推奨採用 / 全行に推奨を一括適用でき、「確定」で `POST /admin/schema/aliases` を **client-side bounded fan-out（concurrency 8、入力順で結果集計）** により逐次実行する。
