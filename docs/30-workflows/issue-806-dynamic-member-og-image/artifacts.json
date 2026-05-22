@@ -1,0 +1,69 @@
+{
+  "task_id": "issue-806-dynamic-member-og-image",
+  "issue": "https://github.com/daishiman/UBM-Hyogo/issues/806",
+  "created_at": "2026-05-20",
+  "status": "implemented-local",
+  "task_type": "implementation",
+  "visual_category": "VISUAL_ON_EXECUTION",
+  "metadata": {
+    "workflow_state": "implemented-local",
+    "implementation_status": "local-evidence-captured",
+    "taskType": "implementation",
+    "visualEvidence": "VISUAL_ON_EXECUTION",
+    "implementationCategory": "standard",
+    "spec_classification": "implementation_spec",
+    "canonical_workflow": "docs/30-workflows/issue-806-dynamic-member-og-image/",
+    "parentWorkflow": "docs/30-workflows/completed-tasks/issue-274-public-pages-ogp-sitemap-robots/",
+    "source_unassigned_tasks": [
+      "docs/30-workflows/unassigned-task/task-issue-274-followup-001-dynamic-member-og-image.md"
+    ],
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-05-20T00:00:00+09:00",
+        "evidence_path": "docs/30-workflows/issue-806-dynamic-member-og-image/outputs/phase-12/phase12-task-spec-compliance-check.md",
+        "approver": "daishiman",
+        "notes": "spec_review: Phase 1-13 implementation spec and strict Phase 12 outputs created"
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "passed",
+        "passed_at": "2026-05-20T00:00:00+09:00",
+        "evidence_path": "docs/30-workflows/issue-806-dynamic-member-og-image/outputs/phase-11/manual-test-result.md",
+        "approver": "daishiman",
+        "notes": "implementation_review: apps/web code, focused tests, Playwright metadata checks, and local visual PNG evidence captured"
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/issue-806-dynamic-member-og-image/outputs/phase-13/pr-creation-result.md",
+        "approver": "daishiman",
+        "notes": "external_ops: commit, push, PR, deploy verification, and Issue mutation are user-gated"
+      }
+    ]
+  },
+  "phases": [
+    { "phase": 1, "name": "要件定義", "status": "completed", "output": "phase-1-requirements.md" },
+    { "phase": 2, "name": "設計", "status": "completed", "output": "phase-2-design.md" },
+    { "phase": 3, "name": "設計レビュー", "status": "completed", "output": "phase-3-design-review.md" },
+    { "phase": 4, "name": "テスト計画", "status": "completed", "output": "phase-4-test-plan.md" },
+    { "phase": 5, "name": "実装手順", "status": "completed", "output": "phase-5-implementation.md" },
+    { "phase": 6, "name": "テスト追加", "status": "completed", "output": "phase-6-test-additions.md" },
+    { "phase": 7, "name": "カバレッジ", "status": "completed", "output": "phase-7-coverage.md" },
+    { "phase": 8, "name": "リファクタ", "status": "completed", "output": "phase-8-refactor.md" },
+    { "phase": 9, "name": "QA", "status": "completed", "output": "phase-9-qa.md" },
+    { "phase": 10, "name": "最終レビュー", "status": "completed", "output": "phase-10-final-review.md" },
+    { "phase": 11, "name": "手動テスト", "status": "local-evidence-captured", "output": "outputs/phase-11/manual-test-result.md" },
+    { "phase": 12, "name": "ドキュメント同期", "status": "completed", "output": "outputs/phase-12/main.md" },
+    { "phase": 13, "name": "commit-pr-release", "status": "blocked_pending_user_approval", "output": "outputs/phase-13/pr-creation-result.md" }
+  ],
+  "implementation_targets": [
+    "apps/web/app/(public)/members/[id]/opengraph-image/route.tsx",
+    "apps/web/app/(public)/members/[id]/page.tsx",
+    "apps/web/src/lib/seo/site-metadata.ts",
+    "apps/web/playwright/tests/public-metadata.spec.ts",
+    "apps/web/app/(public)/members/[id]/__tests__/opengraph-image.spec.tsx"
+  ]
+}
