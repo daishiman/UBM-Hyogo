@@ -1,7 +1,7 @@
 {
   "$schema": "../../../../docs/30-workflows/task-709-visual-baseline-runtime-capture/schemas/baseline-meta.schema.json",
-  "captured_at_commit_sha": "f00887e0fe245069698a665a8077b0fca7a93520",
-  "captured_at": "2026-05-20T14:55:18Z",
+  "captured_at_commit_sha": "153dafbd237da4668b07fd720564ebd3768c8f1b",
+  "captured_at": "2026-05-22T09:54:34Z",
   "captured_via": "playwright-visual-baseline-update.yml#workflow_dispatch",
   "captured_run_ids": [
     "25961476237",
@@ -10,7 +10,8 @@
     "26022102232",
     "26101682046",
     "26128917753",
-    "26170273931"
+    "26170273931",
+    "26280741223"
   ],
   "viewport_dimensions": {
     "desktop": {
@@ -38,5 +39,5 @@
   "refresh_workflow": ".github/workflows/playwright-visual-baseline-update.yml",
   "refresh_command_hint": "gh workflow run playwright-visual-baseline-update.yml -f reason=\"<why>\" -r <feature-branch>",
   "notes": "captured_at_commit_sha からの rendering_relevant_paths diff が空でない場合、baseline は stale。scripts/visual-baseline-status.sh で診断可能。",
-  "last_refresh_reason": "parallel-04 not-found primitive化 baseline 再生成 (retry: previous run hit non-ff after env-fix push)"
+  "last_refresh_reason": "sync after dev merge (153dafbd2) - admin AppShell layouts +43px height drift"
 }
