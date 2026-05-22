@@ -1,5 +1,6 @@
 # クイックリファレンス
 
+## step-06 meetings attendance implementation（2026-05-20）
 ## Issue #778 Schema Alias Rollback / Undo（2026-05-19）
 
 | 項目 | 値 |
@@ -71,16 +72,22 @@
 
 ## Issue #799 useAutoFocusOnMount hook（2026-05-19）
 
-| 項目 | 値 |
+| 目的 | 参照先 |
 | --- | --- |
-| workflow | `docs/30-workflows/issue-799-use-auto-focus-on-mount-hook/` |
-| status | `implemented_local_evidence_captured / implementation / NON_VISUAL / implementation_complete_pending_pr` |
-| implementation | `apps/web/src/lib/a11y/useAutoFocusOnMount.ts`, root/login/profile/admin `error.tsx` |
-| tests | `apps/web/src/lib/a11y/__tests__/useAutoFocusOnMount.spec.tsx`, route error component specs |
-| source trace | `docs/30-workflows/unassigned-task/issue-769-followup-001-use-auto-focus-on-mount-hook.md` consumed |
-| evidence | `outputs/phase-11/evidence/web-vitest.txt`, `outputs/phase-12/phase12-task-spec-compliance-check.md` |
-| system spec | `docs/00-getting-started-manual/specs/09-ui-ux.md` error boundary focus contract |
-| boundary | Issue #799 is CLOSED; PR wording uses `Refs #799`; commit / push / PR are user-gated |
+| workflow root | `docs/30-workflows/completed-tasks/step-06-meetings-attendance-implementation/` |
+| 状態 | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION / user-gated commit-push-PR` |
+| source spec | `docs/30-workflows/ui-prototype-alignment-mvp-recovery/improvements/serial-05-admin-mutation-ui/step-06-meetings-attendance/spec.md` |
+| scope | 出席解除 / 開催日削除 に confirm dialog 共通化、`MeetingAttendancePanel` の直接 `fetch` → `useAdminMutation` 統一 |
+| 新規 primitive | `apps/web/src/components/ui/ConfirmDialog.tsx`（ARIA-compliant, focus trap / restore） |
+| 新規 hook | `apps/web/src/features/admin/hooks/useConfirmDialog.ts`（state machine: idle / open / submitting / error） |
+| 改修 | `apps/web/src/components/admin/MeetingPanel.tsx`, `apps/web/app/(admin)/admin/meetings/[id]/MeetingAttendancePanel.tsx` |
+| API contract | 不変。`POST /api/admin/meetings/:id/attendances` `{ memberId, attended }`、error mapping 200/404/409/422/401/5xx を toast 統一 |
+| system spec | `docs/00-getting-started-manual/specs/11-admin-management.md`（`useConfirmDialog` / `/attendances` alias contract 反映） |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-step-06-meetings-attendance-implementation-artifact-inventory.md` |
+| lessons | `.claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-step-06-meetings-attendance-confirm-dialog-2026-05.md`（L-STEP06-001..004: confirm dialog 共通化 / focus trap pitfall / admin mutation 統一 / legacy 単数 route と複数形 alias 混同回避） |
+| follow-up | `docs/30-workflows/unassigned-task/admin-mutation-timeout-policy.md`（useAdminMutation timeout policy formalize） |
+| evidence | `outputs/phase-11/evidence/test.log` (52 Vitest PASS), `outputs/phase-11/evidence/e2e-attendance.log` (5 Playwright PASS), `outputs/phase-11/screenshots/*.png` (5 枚) |
+| user gate | commit / push / PR / staging smoke / production smoke |
 
 ## Issue #274 public pages OGP / sitemap / robots（2026-05-17）
 
@@ -272,62 +279,19 @@
 | changelog | `.claude/skills/aiworkflow-requirements/changelog/20260516-runtime-smoke-staging-secrets-restore.md` |
 | boundary | runtime inline value check is retained; secret placement, workflow rerun, commit, push, PR are user-gated。production-runtime-smoke env は dev→main マージ未済のため secret 投入保留（allowlist 行も未追加） |
 
-### parallel-i06-root-error-focus（2026-05-18）
-
-| 目的 | 参照先 |
-| --- | --- |
-| workflow root | `docs/30-workflows/completed-tasks/parallel-i06-root-error-focus/` |
-| 状態 | `implemented_local_evidence_captured / implementation / NON_VISUAL` |
-| source | `docs/30-workflows/ui-prototype-alignment-mvp-recovery/improvements/integration-fixes/parallel-i06-root-error-focus/spec.md` |
-| implementation | `apps/web/app/error.tsx`, `apps/web/app/error.spec.tsx` |
-| contract | root `error.tsx` catch 時に `logger.error` 後、h1 へ `focus({ preventScroll: true })` を移譲 |
-| evidence | `outputs/phase-11/evidence/{typecheck,lint,test,grep-gate}.log`, `outputs/phase-11/evidence/diff.txt`, `outputs/phase-12/phase12-task-spec-compliance-check.md` |
-| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-parallel-i06-root-error-focus-artifact-inventory.md` |
-| user gate | commit / push / PR |
-
 ### UI Prototype Design System Foundation（2026-05-18）
 
 | 目的 | 参照先 |
 | --- | --- |
 | workflow root | `docs/30-workflows/ui-prototype-design-system-foundation/` |
-| 状態 | `implemented_local_evidence_captured / implementation / VISUAL_RUNTIME_PENDING` |
-| 状態 | `spec_created / implementation / VISUAL`（parallel-01 は `runtime_pending`: local CSS selectors added, serial-07 visual evidence pending） |
-| 状態 | `spec_created / implementation / VISUAL`（parallel-01 は `runtime_pending`: local CSS selectors added, serial-07 visual evidence pending） |
+| 状態 | `spec_created / implementation / VISUAL` |
 | prototype coverage SSOT | `docs/30-workflows/ui-prototype-design-system-foundation/PROTOTYPE-COVERAGE.md` |
 | strict Phase 12 | `outputs/phase-12/{main.md,implementation-guide.md,system-spec-update-summary.md,documentation-changelog.md,unassigned-task-detection.md,skill-feedback-report.md,phase12-task-spec-compliance-check.md}` |
 | source inventory | `claude-design-prototype/{app.jsx,data.jsx,icons.jsx,index.html,pages-admin.jsx,pages-member.jsx,pages-public.jsx,primitives.jsx,styles.css}` + `specs/09a..09h` |
 | current app path rule | `apps/web/app/**` is canonical; `/login`, `/profile`, `/privacy`, `/terms` remain root app paths |
-| implementation boundary | no new API endpoint / D1 schema / Google Form change; minimal `apps/web` AppShell / selector hooks and parallel-02 G3 CSS marker blocks added; full 19-route binding and visual evidence remain user-gated work |
-| parallel-02 close-out | `apps/web/src/styles/globals.css` G3-1/2/3 markers + `MemberFilters.client.tsx` tag-pill data-component + visual harness + Playwright spec; Phase 11 9 screenshot + 5 log present, strict 7 outputs (root + sub) present |
-| follow-up unassigned | `docs/30-workflows/unassigned-task/UT-DSF-01..07-*.md`（globals-css / AppShell / page-chrome / route blueprint / form binding / regression evidence / runtime screenshots） |
-| lessons learned | `.claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-parallel-02-prototype-css-rules-port-2026-05.md`（L-P02-001..007） |
-| implementation boundary | no new API endpoint / D1 schema / Google Form change; minimal `apps/web` AppShell / selector hooks and parallel-01 P1-1〜P1-5 CSS selectors added; full 19-route binding and visual evidence remain user-gated work |
-| implementation boundary | no new API endpoint / D1 schema / Google Form change; minimal `apps/web` AppShell / selector hooks and parallel-01 P1-1〜P1-5 CSS selectors added; full 19-route binding and visual evidence remain user-gated work |
+| implementation boundary | no new API endpoint / D1 schema / Google Form change; minimal `apps/web` AppShell / selector hooks added; full 19-route binding and visual evidence remain user-gated work |
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-ui-prototype-design-system-foundation-artifact-inventory.md` |
 | sub-workflow parallel-03 AppShell Layouts（2026-05-19） | `docs/30-workflows/ui-prototype-design-system-foundation/parallel-03-appshell-layouts/`、status `implemented_local_evidence_captured / implementation / VISUAL (public chrome only; admin/member deferred-to-serial-07)`、`implementation_mode: existing-layout-alignment`、3 layout (`apps/web/app/(public\|member\|admin)/layout.tsx`) に `data-theme` / `data-route-group` / `data-shell` / `data-route` / `data-testid` を付与、OKLch token (`var(--ubm-color-*)`) 経由のみ、既存 primitive 無改変、admin は `getSession()` 2 段防御 + redirect 維持、Phase 11 evidence は `outputs/phase-11/`、lessons-learned `.claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-parallel-03-appshell-layouts-2026-05.md` (L-PAR03-001..005) |
-
-#### status vocabulary（visual evidence 軸）
-
-| 値 | 意味 |
-| --- | --- |
-| `VISUAL` | local + runtime 双方で visual evidence 取得済み |
-| `VISUAL_ON_EXECUTION` | local 撮影済み、CI runtime job で再現可能 |
-| `VISUAL_RUNTIME_PENDING` | local 撮影済み、production-equivalent runtime 再撮影が user-gated で残置（parallel-02 で正式登録） |
-| `NON_VISUAL` | UI 以外、visual evidence 不要 |
-
-`implemented_local_evidence_captured` は **local 範囲の Phase 11 evidence が物理 present、production runtime 実行は user-gated** を意味する。parallel-02 で `VISUAL_RUNTIME_PENDING` と組み合わせて使用。
-
-#### shared `globals.css` 並列編集マーカー規約
-
-`apps/web/src/styles/globals.css` は `merge=union` 不可。複数 parallel-XX が同 wave で触る際は以下フォーマットで block を占有する:
-
-```css
-/* === parallel-02 G3-1 member-card hover (start) === */
-... rules ...
-/* === parallel-02 G3-1 member-card hover (end) === */
-```
-
-先着優先 / 他 parallel は block 内書き換え禁止。詳細は L-P02-001 / L-P02-004。
 
 ### Issue #749 Primitive Adoption Tracker（2026-05-17）
 

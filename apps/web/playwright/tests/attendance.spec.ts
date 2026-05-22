@@ -24,14 +24,13 @@ test.describe('attendance visual smoke (#313)', () => {
     await meetings.screenshot('attendance-already-registered', 'desktop')
   })
 
-  test('detail: 同一 member 連続登録で toast 表示', async ({ adminPage, mockApi }) => {
-    await mockApi.seedUnregisteredMeeting()
+  test('detail: 登録済み member クリックで duplicate toast 表示', async ({ adminPage, mockApi }) => {
+    await mockApi.seedMeetings()
     const meetings = new AdminMeetingsPage(adminPage)
 
     await meetings.visit('sess-1')
-    await meetings.registerAttendance('m-2')
+    await meetings.registerAttendance('m-1')
     await meetings.screenshot('attendance-dup-1', 'desktop')
-    await meetings.registerAttendance('m-2')
 
     await meetings.expectDupToast()
     await meetings.screenshot('attendance-dup-2', 'desktop')
@@ -49,7 +48,9 @@ test.describe('attendance visual smoke (#313)', () => {
     )
     await meetings.expectAttendeePresent('sess-1', 'm-1', true)
     await meetings.screenshot('attendance-delete-before', 'desktop')
-    await meetings.removeAttendanceOnList('sess-1', 'm-1')
+    await meetings.openRemoveAttendanceDialog('sess-1', 'm-1')
+    await meetings.screenshot('attendance-confirm-remove', 'desktop')
+    await meetings.confirmOpenDialog()
 
     await meetings.expectListToast('出席を削除しました')
     await meetings.expectAttendeePresent('sess-1', 'm-1', false)
@@ -58,5 +59,14 @@ test.describe('attendance visual smoke (#313)', () => {
       false,
     )
     await meetings.screenshot('attendance-delete-after', 'desktop')
+  })
+
+  test('list: 開催日 soft delete confirm dialog が表示される', async ({ adminPage, mockApi }) => {
+    await mockApi.seedMeetings()
+    const meetings = new AdminMeetingsPage(adminPage)
+
+    await meetings.visit()
+    await meetings.openDeleteMeetingDialog('sess-1')
+    await meetings.screenshot('meeting-delete-confirm', 'desktop')
   })
 })

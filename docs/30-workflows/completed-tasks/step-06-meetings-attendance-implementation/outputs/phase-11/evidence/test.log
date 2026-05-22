@@ -1,0 +1,15 @@
+[33mThe CJS build of Vite's Node API is deprecated. See https://vite.dev/guide/troubleshooting.html#vite-cjs-node-api-deprecated for more details.[39m
+
+ RUN  v2.1.9 /Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260519-154029-wt-4
+
+ ✓ apps/web/src/features/admin/hooks/__tests__/useConfirmDialog.spec.tsx (10 tests) 137ms
+ ✓ apps/web/app/(admin)/admin/meetings/[id]/__tests__/MeetingAttendancePanel.spec.tsx (9 tests) 562ms
+ ✓ apps/web/src/components/ui/__tests__/ConfirmDialog.spec.tsx (14 tests) 858ms
+ ✓ apps/web/src/components/admin/__tests__/MeetingPanel.component.spec.tsx (19 tests) 1649ms
+   ✓ MeetingPanel.filterCandidates > 既存 attendance を初期状態から disabled にする 606ms
+
+ Test Files  4 passed (4)
+      Tests  52 passed (52)
+   Start at  14:51:41
+   Duration  10.98s (transform 6.24s, setup 0ms, collect 10.30s, tests 3.21s, environment 11.63s, prepare 3.81s)
+
