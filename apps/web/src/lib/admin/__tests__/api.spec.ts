@@ -521,3 +521,107 @@ describe("lib/admin/api.ts call() の振る舞い", () => {
     });
   });
 });
+
+// issue-777: fetchSchemaAliasHistory helper unit spec
+describe("fetchSchemaAliasHistory()", () => {
+  let fetchSpy: ReturnType<typeof vi.fn>;
+  beforeEach(() => {
+    fetchSpy = vi.fn();
+    globalThis.fetch = fetchSpy as unknown as typeof fetch;
+  });
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
+
+  const okPayload = (over: Partial<Record<string, unknown>> = {}) => ({
+    ok: true,
+    items: [
+      {
+        auditId: "a1",
+        actorId: "admin1",
+        actorEmail: "admin@example.com",
+        action: "schema_diff.alias_assigned",
+        targetType: "schema_diff",
+        targetId: "q1",
+        maskedBefore: { stableKey: "unknown" },
+        maskedAfter: { stableKey: "full_name", questionText: "氏名" },
+        parseError: false,
+        createdAt: "2026-05-19T10:00:00Z",
+      },
+    ],
+    nextCursor: null,
+    appliedFilters: {
+      action: "schema_diff.alias_assigned",
+      actorEmail: null,
+      targetType: null,
+      targetId: null,
+      from: null,
+      to: null,
+      limit: 50,
+    },
+    ...over,
+  });
+
+  it("TC-H-01: export 存在", () => {
+    expect(typeof adminApi.fetchSchemaAliasHistory).toBe("function");
+  });
+
+  it("TC-H-02: 既定 query は action / limit", async () => {
+    fetchSpy.mockResolvedValue(jsonResponse(200, okPayload({ items: [] })));
+    await adminApi.fetchSchemaAliasHistory();
+    const [url] = fetchSpy.mock.calls[0] as [string, RequestInit?];
+    expect(url).toContain("/api/admin/audit?");
+    expect(url).toContain("action=schema_diff.alias_assigned");
+    expect(url).toContain("limit=50");
+  });
+
+  it("TC-H-03: cursor を URL query に乗せる", async () => {
+    fetchSpy.mockResolvedValue(jsonResponse(200, okPayload({ items: [] })));
+    await adminApi.fetchSchemaAliasHistory({ cursor: "abc" });
+    const [url] = fetchSpy.mock.calls[0] as [string];
+    expect(url).toContain("cursor=abc");
+  });
+
+  it("TC-H-04: filter を URL query に乗せ、questionTextLike は含めない", async () => {
+    fetchSpy.mockResolvedValue(jsonResponse(200, okPayload({ items: [] })));
+    await adminApi.fetchSchemaAliasHistory({
+      actorEmail: "foo@example.com",
+      from: "2026-05-01",
+      to: "2026-05-19",
+      questionTextLike: "a&b",
+    });
+    const [url] = fetchSpy.mock.calls[0] as [string];
+    expect(url).toContain("actorEmail=foo%40example.com");
+    expect(url).toContain("from=2026-05-01");
+    expect(url).toContain("to=2026-05-19");
+    expect(url).not.toContain("questionTextLike");
+    expect(url).not.toContain("a%26b");
+  });
+
+  it("TC-H-04b: actorEmail を小文字化", async () => {
+    fetchSpy.mockResolvedValue(jsonResponse(200, okPayload({ items: [] })));
+    await adminApi.fetchSchemaAliasHistory({ actorEmail: "Foo@Example.COM" });
+    const [url] = fetchSpy.mock.calls[0] as [string];
+    expect(url).toContain("actorEmail=foo%40example.com");
+  });
+
+  it("TC-H-05: 200 OK で SchemaAliasHistoryItem 配列を返す", async () => {
+    fetchSpy.mockResolvedValue(jsonResponse(200, okPayload()));
+    const r = await adminApi.fetchSchemaAliasHistory();
+    expect(r.items.length).toBe(1);
+    expect(r.items[0]).toEqual({
+      auditId: "a1",
+      actorEmail: "admin@example.com",
+      createdAt: "2026-05-19T10:00:00Z",
+      beforeStableKey: "unknown",
+      afterStableKey: "full_name",
+      questionText: "氏名",
+    });
+    expect(r.nextCursor).toBeNull();
+  });
+
+  it("TC-H-07: HTTP 500 で throw", async () => {
+    fetchSpy.mockResolvedValue(plainResponse(500, "boom"));
+    await expect(adminApi.fetchSchemaAliasHistory()).rejects.toThrow(/HTTP 500/);
+  });
+});

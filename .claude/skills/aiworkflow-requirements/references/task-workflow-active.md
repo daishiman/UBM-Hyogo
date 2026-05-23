@@ -21,6 +21,22 @@
 | evidence boundary | Local implementation present。Phase 12 strict 7 present。Focused tests/build evidence and dev-server smoke remain runtime evidence gates; commit / push / PR / Issue close are user-gated |
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-277-next-proxy-migration-artifact-inventory.md` |
 
+### Issue #777 schema diff resolve history view（2026-05-20）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `CONTRACT_READY_IMPLEMENTATION_PENDING / implementation / VISUAL / Phase 12 strict 7 present` |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-777-schema-diff-resolve-history-view/` |
+| Issue | #777 OPEN |
+| source | `docs/30-workflows/unassigned-task/serial-05-step-03-followup-003-schema-diff-history-view.md` consumed |
+| parent | `docs/30-workflows/completed-tasks/serial-05-step-03-schema-diff-resolve/` |
+| 目的 | `/admin/schema/history` で schema diff resolve の過去操作を audit log から閲覧・filter できるようにする |
+| API boundary | 既存 `/admin/audit?action=schema_diff.alias_assigned` を利用。`questionTextLike` は audit endpoint query へ送らず現 page 50 件内 client-side filter |
+| same-wave hardening | `apps/api/src/workflows/schemaAliasAssign.ts` の audit `after` payload に `questionText` を追加 |
+| evidence | Phase 12 strict 7 / root-output artifacts parity / source consumed trace |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-777-schema-diff-resolve-history-view-artifact-inventory.md` |
+| user gate | UI implementation, local command evidence, authenticated screenshot, staging smoke, commit, push, PR |
+
 ### Issue #806 dynamic member OG image（2026-05-20）
 
 | 項目 | 値 |
@@ -145,6 +161,19 @@
 | implementation targets | `apps/web/src/features/admin/components/_dashboard/StatusDistribution.tsx`, `apps/web/src/features/admin/components/_dashboard/StatusDistribution.spec.tsx`, `apps/web/src/lib/admin/admin-dashboard-ui.ts`, `apps/api/src/routes/admin/dashboard.ts`, `apps/api/src/repository/dashboard.ts`, `packages/shared/src/zod/viewmodel.ts` |
 | same-cycle sync | `ui-ux-admin-dashboard.md`, quick-reference, resource-map, artifact inventory, changelog |
 | evidence boundary | focused component test / grep gate / Phase 12 strict 7 present。authenticated runtime screenshots, commit, push, PR は user-gated |
+
+### issue-819 admin dashboard runtime screenshot（2026-05-20）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `spec_created / implementation / VISUAL_ON_EXECUTION / runtime_pending` |
+| 成果物 | `docs/30-workflows/issue-819-admin-dashboard-runtime-screenshot/` |
+| source issue | `#819` closed 維持。PR 文脈は `Refs #819` のみ |
+| source unassigned | `docs/30-workflows/unassigned-task/step-05-followup-001-admin-dashboard-runtime-screenshot-capture.md` |
+| 目的 | step-05 admin dashboard chart workflow の dummy screenshot evidence 2 件を authenticated runtime PNG に置換し、親 workflow の runtime screenshot boundary を消し込む |
+| implementation targets | parent PNG evidence, parent Phase 11/12 evidence docs, source unassigned consumed marker |
+| same-cycle sync | quick-reference, task-workflow-active, artifact inventory, changelog, Phase 12 strict 7 |
+| evidence boundary | runtime screenshot capture, parent evidence replacement, source consumed update, commit, push, PR are user-gated |
 
 ### Issue #256 E2E coverage baseline runbook（2026-05-18）
 
@@ -276,6 +305,7 @@
 
 | 項目 | 値 |
 | --- | --- |
+| ステータス | `CONTRACT_READY_IMPLEMENTATION_PENDING / implementation / VISUAL / Phase 12 strict 7 present` |
 | ステータス | `implemented_local_evidence_captured / implementation / VISUAL_RUNTIME_PENDING / Phase 12 strict 7 present` |
 | ステータス | `spec_created / implementation / VISUAL / Phase 12 strict 7 present / parallel-01 local_implementation_complete (CSS selector + admin width 272px)` |
 | ステータス | `spec_created / implementation / VISUAL / Phase 12 strict 7 present / parallel-01 local_implementation_complete (CSS selector + admin width 272px)` |
@@ -420,6 +450,8 @@
 
 | 項目 | 値 |
 | --- | --- |
+| ステータス | `implemented-local-runtime-pending / implementation / VISUAL / PASS_BOUNDARY_SYNCED_RUNTIME_PENDING` |
+| 成果物 | `docs/30-workflows/completed-tasks/serial-05-step-03-schema-diff-resolve/` |
 | ステータス | `completed / implementation / VISUAL / PASS` |
 | 成果物 | `docs/30-workflows/completed-tasks/serial-05-step-03-schema-diff-resolve/` |
 | 親 workflow | `docs/30-workflows/ui-prototype-alignment-mvp-recovery/improvements/serial-05-admin-mutation-ui/` |
@@ -427,6 +459,8 @@
 | implementation targets | `apps/web/src/components/admin/SchemaDiffPanel.tsx`, `apps/web/src/lib/admin/api.ts`, `apps/web/src/components/admin/__tests__/SchemaDiffPanel.component.spec.tsx`, `apps/web/src/lib/admin/__tests__/api.spec.ts` |
 | API boundary | 既存 `GET /admin/schema/diff` / `POST /admin/schema/aliases` を利用。新 endpoint / D1 schema / env gate 追加なし |
 | UI contract | 4 ペイン table semantics、stableKey regex `/^[a-zA-Z][a-zA-Z0-9_]*$/`、row select 後 input focus、409 `existingStableKey` / 422 `existingQuestionIds` 表示、202 retryable status、queued/resolved 日本語 label |
+| evidence | `docs/30-workflows/completed-tasks/serial-05-step-03-schema-diff-resolve/outputs/phase-11/evidence/`, `docs/30-workflows/completed-tasks/serial-05-step-03-schema-diff-resolve/outputs/phase-12/phase12-task-spec-compliance-check.md` |
+| user gate | runtime screenshots、staging smoke、commit、push、PR |
 | evidence | `docs/30-workflows/completed-tasks/serial-05-step-03-schema-diff-resolve/outputs/phase-11/evidence/`, `docs/30-workflows/completed-tasks/serial-05-step-03-schema-diff-resolve/outputs/phase-11/screenshots/`, `docs/30-workflows/completed-tasks/serial-05-step-03-schema-diff-resolve/outputs/phase-12/phase12-task-spec-compliance-check.md` |
 | evidence completion | `docs/30-workflows/completed-tasks/issue-775-serial-05-step-03-runtime-evidence-completion/` captured 11 fixture-backed local runtime PNG and consumed the source follow-up |
 | user gate | real D1/staging smoke、commit、push、PR |

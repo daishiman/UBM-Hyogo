@@ -2792,6 +2792,16 @@ node scripts/list-specs.js --topics
 | Implementation Targets | L35 |
 | Runtime Boundary | L49 |
 
+### references/workflow-issue-777-schema-diff-resolve-history-view-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Canonical Root | L3 |
+| State | L7 |
+| Workflow Artifacts | L11 |
+| Source And Parent | L39 |
+| Implementation Boundary | L46 |
+
 ### references/workflow-issue-778-schema-alias-rollback-undo-artifact-inventory.md
 
 | セクション | 行 |
@@ -2826,6 +2836,13 @@ node scripts/list-specs.js --topics
 | Evidence Boundary | L21 |
 | Required Runtime Evidence | L25 |
 | Phase 12 Strict Outputs | L32 |
+
+### references/workflow-issue-819-admin-dashboard-runtime-screenshot-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Phase 12 Strict 7 | L42 |
+| User-Gated Boundary | L54 |
 
 ### references/workflow-light-theme-contrast-regression-guard.md
 
@@ -3043,7 +3060,7 @@ node scripts/list-specs.js --topics
 
 | セクション | 行 |
 |------------|----|
-| Phase 12 Strict 7 | L27 |
+| Phase 12 Strict 7 | L29 |
 
 ### references/workflow-step-06-meetings-attendance-implementation-artifact-inventory.md
 
@@ -7242,14 +7259,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L1949 |
-| フェーズ構造（概要） | L1958 |
-| 品質ゲート（概要） | L1989 |
-| 出力テンプレート | L2000 |
-| 実行時のコマンド・エージェント・スキル | L2023 |
-| 昇格パターン集 | L2047 |
-| Current Active / Spec Created Tasks | L2049 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L2204 |
+| ドキュメント構成 | L1983 |
+| フェーズ構造（概要） | L1992 |
+| 品質ゲート（概要） | L2023 |
+| 出力テンプレート | L2034 |
+| 実行時のコマンド・エージェント・スキル | L2057 |
+| 昇格パターン集 | L2081 |
+| Current Active / Spec Created Tasks | L2083 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L2238 |
 
 ### references/task-workflow-backlog-part2.md
 
