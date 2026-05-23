@@ -29,6 +29,7 @@ export interface PublicMemberListSource {
   items: PublicMemberListItemSource[];
   pagination: PaginationMeta;
   appliedQuery: PublicMemberListResponse["appliedQuery"];
+  topTags: PublicMemberListResponse["topTags"];
   generatedAt: string;
 }
 
@@ -50,6 +51,7 @@ export const toPublicMemberListView = (
     items,
     pagination: src.pagination,
     appliedQuery: src.appliedQuery,
+    topTags: src.topTags,
     generatedAt: src.generatedAt,
   });
 };

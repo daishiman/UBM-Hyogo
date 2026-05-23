@@ -2339,6 +2339,17 @@ node scripts/list-specs.js --topics
 | Evidence Boundary | L24 |
 | Captured Evidence | L27 |
 
+### references/workflow-issue-276-mobile-filterbar-tag-picker-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Metadata | L3 |
+| Canonical Files | L13 |
+| Planned Implementation Targets | L23 |
+| Runtime Boundary | L32 |
+| Lessons Learned | L36 |
+| Pattern Reference | L42 |
+
 ### references/workflow-issue-277-next-proxy-migration-artifact-inventory.md
 
 | セクション | 行 |
@@ -2540,6 +2551,19 @@ node scripts/list-specs.js --topics
 | Metadata | L3 |
 | Current Canonical Set | L13 |
 | Boundary | L29 |
+
+### references/workflow-issue-520-slack-incidents-channel-webhook-provisioning-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| canonical root | L3 |
+| root artifacts | L7 |
+| phase 12 required artifacts | L16 |
+| implementation artifacts | L28 |
+| production runtime evidence templates (Phase 11) | L37 |
+| same-wave skill sync | L45 |
+| boundary | L58 |
+| deferred evidence | L64 |
 
 ### references/workflow-issue-526-ci-actionlint-shellcheck-gate-artifact-inventory.md
 
@@ -5110,6 +5134,15 @@ node scripts/list-specs.js --topics
 | L-274-006: `issue-NNN` namespace は legacy-ordinal-family-register の table 行追加不要 | L102 |
 | 参照 | L119 |
 
+### references/lessons-learned-issue-276-mobile-filterbar-tag-picker-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| 背景 | L10 |
+| 教訓一覧 | L20 |
+| 後発タスクへの転記チェックリスト（filter / picker primitive 追加時に複製） | L70 |
+| 参照 | L84 |
+
 ### references/lessons-learned-issue-290-workflow-lint-gate-2026-05.md
 
 | セクション | 行 |
@@ -7275,14 +7308,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L1983 |
-| フェーズ構造（概要） | L1992 |
-| 品質ゲート（概要） | L2023 |
-| 出力テンプレート | L2034 |
-| 実行時のコマンド・エージェント・スキル | L2057 |
-| 昇格パターン集 | L2081 |
-| Current Active / Spec Created Tasks | L2083 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L2239 |
+| ドキュメント構成 | L2004 |
+| フェーズ構造（概要） | L2013 |
+| 品質ゲート（概要） | L2044 |
+| 出力テンプレート | L2055 |
+| 実行時のコマンド・エージェント・スキル | L2078 |
+| 昇格パターン集 | L2102 |
+| Current Active / Spec Created Tasks | L2104 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L2261 |
 
 ### references/task-workflow-backlog-part2.md
 

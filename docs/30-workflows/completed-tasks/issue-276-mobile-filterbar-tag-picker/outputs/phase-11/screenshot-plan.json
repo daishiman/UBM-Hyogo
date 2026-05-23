@@ -1,0 +1,31 @@
+{
+  "workflow_id": "issue-276-mobile-filterbar-tag-picker",
+  "created_at": "2026-05-20",
+  "command": "pnpm --filter @ubm-hyogo/web exec playwright test members-filter-mobile --project=desktop-chromium --reporter=line",
+  "screenshots": [
+    {
+      "case_id": "TC-11-01",
+      "path": "outputs/phase-11/evidence/mobile-initial.png",
+      "viewport": { "width": 375, "height": 844 },
+      "assertion": "mobile initial state keeps filters body collapsed"
+    },
+    {
+      "case_id": "TC-11-02",
+      "path": "outputs/phase-11/evidence/mobile-expanded.png",
+      "viewport": { "width": 375, "height": 844 },
+      "assertion": "expanded mobile state shows tag picker and selected tags"
+    },
+    {
+      "case_id": "TC-11-03",
+      "path": "outputs/phase-11/evidence/mobile-limit-reached.png",
+      "viewport": { "width": 375, "height": 844 },
+      "assertion": "five selected tags show limit hint and disable unselected chip"
+    },
+    {
+      "case_id": "TC-11-04",
+      "path": "outputs/phase-11/evidence/desktop-picker-and-selected.png",
+      "viewport": { "width": 1280, "height": 800 },
+      "assertion": "desktop state shows picker and selected bar together"
+    }
+  ]
+}
