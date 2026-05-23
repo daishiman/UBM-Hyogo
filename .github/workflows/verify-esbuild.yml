@@ -15,22 +15,12 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - uses: pnpm/action-setup@v4
-        with:
-          version: 10.33.2
-
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 24.15.0
-          cache: pnpm
+      - uses: ./.github/actions/setup-project
 
       - name: Show host
         run: |
           uname -m
           node -p "process.platform + ' ' + process.arch"
-
-      - name: pnpm install (frozen)
-        run: pnpm install --frozen-lockfile
 
       - name: verify:node-arch
         run: pnpm verify:node-arch

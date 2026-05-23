@@ -66,6 +66,18 @@
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-778-schema-alias-rollback-undo-artifact-inventory.md` |
 | user gate | staging D1 migration apply, production D1 migration apply, Playwright visual baseline, commit, push, PR |
 
+### ut-cicd-composite-setup-rollout（2026-05-22）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / NON_VISUAL / implementation_complete_pending_pr` |
+| 成果物 | `docs/30-workflows/ut-cicd-composite-setup-rollout/` |
+| 目的 | Issue #284 の composite setup rollout を current codebase に合わせ、raw setup action workflow steps を 0 件へする |
+| implementation | `.github/workflows/*.yml` 13 files migrated to `.github/actions/setup-project` |
+| preservation | `web-cd.yml` keeps mise semantics via `setup-strategy: mise`; `post-release-dashboard.yml` keeps no-install semantics via `install: 'false'` + `cache: ''` |
+| evidence | Phase 11 grep/diff files + Phase 12 strict 7 files |
+| user gate | commit, push, PR, remote GitHub Actions green evidence, Issue #284 mutation |
+
 ### task-staging-auth-secret-binding-recovery-001（2026-05-22）
 
 | 項目 | 値 |

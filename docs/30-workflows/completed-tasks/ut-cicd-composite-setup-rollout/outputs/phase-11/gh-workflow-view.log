@@ -1,0 +1,3 @@
+# gh workflow view
+
+Not executed in this local cycle; remote workflow parse is user/PR gated. Local YAML grep gates and phase12 verifier were run instead.

@@ -1,0 +1,25 @@
+.github/workflows/web-cd.yml:24:      - uses: ./.github/actions/setup-project
+.github/workflows/web-cd.yml:73:      - uses: ./.github/actions/setup-project
+.github/workflows/verify-phase12-compliance.yml:32:      - uses: ./.github/actions/setup-project
+.github/workflows/pr-build-test.yml:44:        uses: ./.github/actions/setup-project
+.github/workflows/post-release-dashboard.yml:39:      - uses: ./.github/actions/setup-project
+.github/workflows/playwright-visual-full.yml:48:      - uses: ./.github/actions/setup-project
+.github/workflows/validate-build.yml:33:      - uses: ./.github/actions/setup-project
+.github/workflows/e2e-tests.yml:31:        uses: ./.github/actions/setup-project
+.github/workflows/e2e-tests.yml:96:        uses: ./.github/actions/setup-project
+.github/workflows/playwright-visual-baseline-update.yml:22:      - uses: ./.github/actions/setup-project
+.github/workflows/lighthouse.yml:19:      - uses: ./.github/actions/setup-project
+.github/workflows/verify-stable-key-update.yml:24:        uses: ./.github/actions/setup-project
+.github/workflows/d1-migration-verify.yml:20:      - uses: ./.github/actions/setup-project
+.github/workflows/verify-gate-metadata.yml:28:        uses: ./.github/actions/setup-project
+.github/workflows/cloudflare-alerts-drift.yml:39:      - uses: ./.github/actions/setup-project
+.github/workflows/cloudflare-alerts-drift.yml:55:      - uses: ./.github/actions/setup-project
+.github/workflows/verify-esbuild.yml:18:      - uses: ./.github/actions/setup-project
+.github/workflows/cloudflare-analytics-export.yml:41:        uses: ./.github/actions/setup-project
+.github/workflows/ci.yml:26:        uses: ./.github/actions/setup-project
+.github/workflows/ci.yml:104:        uses: ./.github/actions/setup-project
+.github/workflows/ci.yml:162:      - uses: ./.github/actions/setup-project
+.github/workflows/ci.yml:222:        uses: ./.github/actions/setup-project
+.github/workflows/verify-indexes.yml:29:      - uses: ./.github/actions/setup-project
+.github/workflows/backend-ci.yml:25:      - uses: ./.github/actions/setup-project
+.github/workflows/backend-ci.yml:91:      - uses: ./.github/actions/setup-project
