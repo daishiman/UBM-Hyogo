@@ -24,6 +24,19 @@
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-home-page-prototype-alignment-artifact-inventory.md` |
 | user gate | staging deploy, commit, push, PR |
 
+### ci-green-recovery-smoke-coverage-shard（2026-05-23）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / NON_VISUAL / runtime_ci_pending` |
+| 成果物 | `docs/30-workflows/ci-green-recovery-smoke-coverage-shard/` |
+| 目的 | runtime-smoke staging admin 401、coverage-gate MISSING、coverage-gate-shard checkout failure の 3 CI 失敗を 1 implementation cycle で恒久解消する実装 |
+| lanes | A=`ci-runtime-mint`, B=`downstream-of-C + clearer diagnostics`, C=`permissions/token hardening + shard-failure diagnostics` |
+| implementation targets | `scripts/smoke/mint-staging-bearers.mts`, `scripts/smoke/runtime-attendance-provider.sh`, `.github/workflows/runtime-smoke-staging.yml`, `.github/workflows/ci.yml`, `scripts/coverage-guard.sh`, runtime smoke secret runbook |
+| evidence boundary | Phase 12 strict 7 present。Phase 11 は NON_VISUAL 代替証跡でローカル mint parity / smoke shell reason 分類 PASS。runtime CI evidence は user-gated |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-ci-green-recovery-smoke-coverage-shard-artifact-inventory.md` |
+| user gate | staging secret placement, runtime CI rerun evidence, commit, push, PR |
+
 ### admin-ui-prototype-alignment（2026-05-23）
 
 | 項目 | 値 |
