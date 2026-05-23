@@ -201,10 +201,7 @@
   }
 
   [data-size]::after {
-    content: attr(aria-label);
-    overflow: hidden;
-    width: 1ch;
-    font-weight: 800;
+    content: none;
   }
 
   [data-size="sm"] {

@@ -21130,7 +21130,8 @@
       "observability-monitoring.md"
     ],
     "Response": [
-      "observability-monitoring.md"
+      "observability-monitoring.md",
+      "workflow-ui-prototype-design-system-foundation-artifact-inventory.md"
     ],
     "Linkage": [
       "observability-monitoring.md"
@@ -23328,7 +23329,8 @@
       "ui-ux-forms.md"
     ],
     "Form": [
-      "ui-ux-forms.md"
+      "ui-ux-forms.md",
+      "workflow-ui-prototype-design-system-foundation-artifact-inventory.md"
     ],
     "constants": [
       "ui-ux-forms.md"
