@@ -6,6 +6,7 @@
 
 ## 最近の完了タスク（2026-05）
 
+- [2026-05-22: Issue #291 Forms D1 legacy follow-up cleanup（implemented_local / docs-only / NON_VISUAL / Phase 1-12 completed）](./task-workflow-completed-recent-2026-05.md)
 - [2026-05-19: parallel-04 Shared Page Chrome（root chrome / fallback boundary / OKLch token / Phase 11 EV-01..16 captured / parent-sub-workflow strict7 aggregation）](./task-workflow-completed-recent-2026-05.md)
 
 ## 最近の完了タスク（2026-04）
