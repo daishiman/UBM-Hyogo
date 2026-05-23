@@ -24,33 +24,63 @@ mise exec -- pnpm install --force  # ワークツリーごとに必要
 ```bash
 mise exec -- pnpm typecheck
 mise exec -- pnpm lint
+ENVIRONMENT=local \
+NEXT_PUBLIC_API_BASE_URL=http://127.0.0.1:8787 \
+PUBLIC_API_BASE_URL=http://127.0.0.1:8787 \
+INTERNAL_API_BASE_URL=http://127.0.0.1:8787 \
+AUTH_URL=http://localhost:3000 \
+AUTH_SECRET=local-build-auth-secret-32-bytes \
+SENTRY_ENVIRONMENT=local \
+SENTRY_TRACES_SAMPLE_RATE=0 \
 mise exec -- pnpm --filter @ubm-hyogo/web build   # next build --webpack
 ```
 
-### 2.2 grep gate（本 SW 専用）
+### 2.2 rg gate（本 SW 専用）
 
 ```bash
-# G-1: page.tsx の serial-05 コメント存在確認
-grep -L "// serial-05:" apps/web/app/**/page.tsx | grep -v __smoke__ | grep -v visual-harness
+# G-1: page.tsx の serial-05 コメント存在確認（対象 16 routes 固定）
+SERIAL05_ROUTE_FILES=(
+  apps/web/app/page.tsx
+  'apps/web/app/(public)/members/page.tsx'
+  'apps/web/app/(public)/members/[id]/page.tsx'
+  'apps/web/app/(public)/register/page.tsx'
+  apps/web/app/privacy/page.tsx
+  apps/web/app/terms/page.tsx
+  apps/web/app/login/page.tsx
+  apps/web/app/profile/page.tsx
+  'apps/web/app/(admin)/admin/page.tsx'
+  'apps/web/app/(admin)/admin/members/page.tsx'
+  'apps/web/app/(admin)/admin/tags/page.tsx'
+  'apps/web/app/(admin)/admin/meetings/page.tsx'
+  'apps/web/app/(admin)/admin/schema/page.tsx'
+  'apps/web/app/(admin)/admin/requests/page.tsx'
+  'apps/web/app/(admin)/admin/identity-conflicts/page.tsx'
+  'apps/web/app/(admin)/admin/audit/page.tsx'
+)
+for f in "${SERIAL05_ROUTE_FILES[@]}"; do
+  test -f "$f" && rg -q '^// serial-05: .+ — blueprint 09[efg]:' "$f" || {
+    echo "missing serial-05 marker: $f"
+    exit 1
+  }
+done
 
 # G-2: D1 直接アクセス禁止
-grep -rnE "D1Database|env\.DB" apps/web/app apps/web/src || echo "OK: D1 directアクセスなし"
+! rg -n "D1Database|env\.DB" apps/web/app apps/web/src
 
 # G-3: process.env 直接参照禁止
-grep -rnE "process\.env\." apps/web/app || echo "OK: process.env なし"
+! rg -n "process\.env\." apps/web/app
 
 # G-4: HEX 直書き
-grep -rnE "#[0-9a-fA-F]{3,8}" apps/web/app apps/web/src/components apps/web/src/styles \
-  | grep -v "// " | grep -v "node_modules" || echo "OK: HEX なし"
+! rg -n "#[0-9a-fA-F]{3,8}" apps/web/app apps/web/src/components apps/web/src/styles
 
 # G-5: bg-[# / text-[# 直書き
-grep -rnE "bg-\[#|text-\[#" apps/web/app apps/web/src/components || echo "OK"
+! rg -n "bg-\[#|text-\[#" apps/web/app apps/web/src/components
 
 # G-6: localhost 焼き込み
-grep -rnE "127\.0\.0\.1:8888" apps/web/app apps/web/src || echo "OK"
+! rg -n "127\.0\.0\.1:8888" apps/web/app apps/web/src
 
 # G-7/8: 新規 primitive / API endpoint 追加なし
-git diff dev...HEAD --name-only | grep -E "components/ui/|apps/api/src/routes/" || echo "OK"
+test -z "$(git diff --name-only dev...HEAD -- apps/web/src/components/ui apps/api/src/routes)"
 ```
 
 ### 2.3 unit / smoke test
@@ -93,6 +123,19 @@ mise exec -- pnpm --filter @ubm-hyogo/web exec playwright test playwright/smoke 
 
 # verify-design-tokens
 mise exec -- pnpm verify:design-tokens 2>&1 | tee outputs/phase-11/verify-design-tokens.log
+
+# static local evidence
+mise exec -- pnpm --filter @ubm-hyogo/web typecheck 2>&1 | tee outputs/phase-11/typecheck.log
+mise exec -- pnpm --filter @ubm-hyogo/web lint 2>&1 | tee outputs/phase-11/lint.log
+ENVIRONMENT=local \
+NEXT_PUBLIC_API_BASE_URL=http://127.0.0.1:8787 \
+PUBLIC_API_BASE_URL=http://127.0.0.1:8787 \
+INTERNAL_API_BASE_URL=http://127.0.0.1:8787 \
+AUTH_URL=http://localhost:3000 \
+AUTH_SECRET=local-build-auth-secret-32-bytes \
+SENTRY_ENVIRONMENT=local \
+SENTRY_TRACES_SAMPLE_RATE=0 \
+mise exec -- pnpm --filter @ubm-hyogo/web build 2>&1 | tee outputs/phase-11/build.log
 ```
 
 ## 5. トラブルシューティング

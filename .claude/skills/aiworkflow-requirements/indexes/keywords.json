@@ -3026,6 +3026,7 @@
       "workflow-issue-495-09b-A-sentry-slack-runtime-smoke-prod-extension-artifact-inventory.md",
       "workflow-issue-502-ut-07b-fu-01-followup-dlq-monitoring-dashboard-artifact-inventory.md",
       "workflow-issue-516-github-audit-log-cross-source-correlation-artifact-inventory.md",
+      "workflow-issue-520-slack-incidents-channel-webhook-provisioning-artifact-inventory.md",
       "workflow-skill-ledger-a3-progressive-disclosure-artifact-inventory.md",
       "workflow-skill-md-codex-validation-fix-artifact-inventory.md",
       "workflow-task-03-w2-par-sentry-workers-sdk-unify-artifact-inventory.md",
@@ -4358,6 +4359,7 @@
       "quality-e2e-testing.md",
       "ui-ux-components.md",
       "workflow-issue-495-09b-A-sentry-slack-runtime-smoke-prod-extension-artifact-inventory.md",
+      "workflow-issue-520-slack-incidents-channel-webhook-provisioning-artifact-inventory.md",
       "workflow-issue-531-runtime-smoke-attendance-provider-artifact-inventory.md",
       "workflow-issue-559-task-03-followup-001-sentry-staging-runtime-evidence-artifact-inventory.md",
       "workflow-issue-572-attendance-provider-production-runtime-smoke-artifact-inventory.md",
@@ -4665,6 +4667,7 @@
       "workflow-e2e-quality-uplift-stage-0-3-artifact-inventory.md",
       "workflow-issue-495-09b-A-sentry-slack-runtime-smoke-prod-extension-artifact-inventory.md",
       "workflow-issue-516-github-audit-log-cross-source-correlation-artifact-inventory.md",
+      "workflow-issue-520-slack-incidents-channel-webhook-provisioning-artifact-inventory.md",
       "workflow-issue-555-audit-correlation-salt-rotation-artifact-inventory.md",
       "workflow-skill-lifecycle-evaluation-scoring-gate.md",
       "workflow-step-05-dashboard-chart-implementation-artifact-inventory.md",
@@ -4963,6 +4966,7 @@
       "workflow-issue-399-admin-queue-resolve-staging-visual-evidence-artifact-inventory.md",
       "workflow-issue-495-09b-A-sentry-slack-runtime-smoke-prod-extension-artifact-inventory.md",
       "workflow-issue-516-github-audit-log-cross-source-correlation-artifact-inventory.md",
+      "workflow-issue-520-slack-incidents-channel-webhook-provisioning-artifact-inventory.md",
       "workflow-issue-531-runtime-smoke-attendance-provider-artifact-inventory.md",
       "workflow-skill-lifecycle-created-skill-usage-journey.md",
       "workflow-skill-lifecycle-evaluation-scoring-gate.md",
@@ -5277,6 +5281,7 @@
       "workflow-governance-design-category.md",
       "workflow-issue-495-09b-A-sentry-slack-runtime-smoke-prod-extension-artifact-inventory.md",
       "workflow-issue-516-github-audit-log-cross-source-correlation-artifact-inventory.md",
+      "workflow-issue-520-slack-incidents-channel-webhook-provisioning-artifact-inventory.md",
       "workflow-permission-fallback-abort-skip-retry.md",
       "workflow-skill-ledger-a3-progressive-disclosure-artifact-inventory.md",
       "workflow-skill-lifecycle-evaluation-scoring-gate.md",
@@ -5533,6 +5538,7 @@
       "workflow-issue-377-retry-tick-and-dlq-audit-artifact-inventory.md",
       "workflow-issue-495-09b-A-sentry-slack-runtime-smoke-prod-extension-artifact-inventory.md",
       "workflow-issue-502-ut-07b-fu-01-followup-dlq-monitoring-dashboard-artifact-inventory.md",
+      "workflow-issue-520-slack-incidents-channel-webhook-provisioning-artifact-inventory.md",
       "workflow-issue-526-ci-actionlint-shellcheck-gate-artifact-inventory.md",
       "workflow-issue-531-runtime-smoke-attendance-provider-artifact-inventory.md",
       "workflow-issue-560-next-standalone-instrumentation-patch-artifact-inventory.md",
@@ -5713,6 +5719,7 @@
       "workflow-06c-B-admin-members-artifact-inventory.md",
       "workflow-06c-C-admin-tags-artifact-inventory.md",
       "workflow-issue-495-09b-A-sentry-slack-runtime-smoke-prod-extension-artifact-inventory.md",
+      "workflow-issue-520-slack-incidents-channel-webhook-provisioning-artifact-inventory.md",
       "workflow-issue-554-audit-correlation-branch-protection-required-check-artifact-inventory.md",
       "workflow-task-03-w2-par-sentry-workers-sdk-unify-artifact-inventory.md",
       "workflow-task-761-visual-full-required-status-check-artifact-inventory.md",
@@ -6317,6 +6324,7 @@
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
       "workflow-issue-495-09b-A-sentry-slack-runtime-smoke-prod-extension-artifact-inventory.md",
       "workflow-issue-516-github-audit-log-cross-source-correlation-artifact-inventory.md",
+      "workflow-issue-520-slack-incidents-channel-webhook-provisioning-artifact-inventory.md",
       "workflow-issue-531-runtime-smoke-attendance-provider-artifact-inventory.md",
       "workflow-issue-555-audit-correlation-salt-rotation-artifact-inventory.md",
       "workflow-issue-617-ci-test-time-reduction-split-artifact-inventory.md",
@@ -7332,6 +7340,7 @@
       "workflow-issue-516-github-audit-log-cross-source-correlation-artifact-inventory.md",
       "workflow-issue-517-followup-auto-summary-foundation-artifact-inventory.md",
       "workflow-issue-518-cf-audit-logs-monitoring-hold-artifact-inventory.md",
+      "workflow-issue-520-slack-incidents-channel-webhook-provisioning-artifact-inventory.md",
       "workflow-issue-532-write-tag-note-provider-ctx-injection-artifact-inventory.md",
       "workflow-issue-559-task-03-followup-001-sentry-staging-runtime-evidence-artifact-inventory.md",
       "workflow-issue-572-attendance-provider-production-runtime-smoke-artifact-inventory.md",
@@ -7384,6 +7393,7 @@
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
       "workflow-issue-495-09b-A-sentry-slack-runtime-smoke-prod-extension-artifact-inventory.md",
       "workflow-issue-516-github-audit-log-cross-source-correlation-artifact-inventory.md",
+      "workflow-issue-520-slack-incidents-channel-webhook-provisioning-artifact-inventory.md",
       "workflow-issue-531-runtime-smoke-attendance-provider-artifact-inventory.md",
       "workflow-skill-lifecycle-evaluation-scoring-gate.md",
       "workflow-task-03-w2-par-sentry-workers-sdk-unify-artifact-inventory.md",
@@ -7738,6 +7748,7 @@
       "observability-monitoring.md",
       "workflow-issue-495-09b-A-sentry-slack-runtime-smoke-prod-extension-artifact-inventory.md",
       "workflow-issue-515-cf-audit-logs-ml-anomaly-artifact-inventory.md",
+      "workflow-issue-520-slack-incidents-channel-webhook-provisioning-artifact-inventory.md",
       "workflow-issue-548-ml-model-selection-artifact-inventory.md",
       "workflow-issue-572-attendance-provider-production-runtime-smoke-artifact-inventory.md",
       "workflow-task-issue-191-production-d1-schema-aliases-apply-001-artifact-inventory.md",
@@ -7900,6 +7911,7 @@
       "workflow-issue-495-09b-A-sentry-slack-runtime-smoke-prod-extension-artifact-inventory.md",
       "workflow-issue-503-ut-07b-fu-01-followup-cursor-semantics-migration-artifact-inventory.md",
       "workflow-issue-516-github-audit-log-cross-source-correlation-artifact-inventory.md",
+      "workflow-issue-520-slack-incidents-channel-webhook-provisioning-artifact-inventory.md",
       "workflow-issue-531-runtime-smoke-attendance-provider-artifact-inventory.md",
       "workflow-issue-554-audit-correlation-branch-protection-required-check-artifact-inventory.md",
       "workflow-issue-559-task-03-followup-001-sentry-staging-runtime-evidence-artifact-inventory.md",
@@ -10374,7 +10386,8 @@
       "lessons-fetch-service-binding-testing.md"
     ],
     "Binding": [
-      "lessons-fetch-service-binding-testing.md"
+      "lessons-fetch-service-binding-testing.md",
+      "workflow-ui-prototype-design-system-foundation-artifact-inventory.md"
     ],
     "Testing": [
       "lessons-fetch-service-binding-testing.md"
@@ -12068,6 +12081,7 @@
       "workflow-i01-toastprovider-root-mount-artifact-inventory.md",
       "workflow-issue-495-09b-A-sentry-slack-runtime-smoke-prod-extension-artifact-inventory.md",
       "workflow-issue-516-github-audit-log-cross-source-correlation-artifact-inventory.md",
+      "workflow-issue-520-slack-incidents-channel-webhook-provisioning-artifact-inventory.md",
       "workflow-issue-769-root-error-focus-artifact-inventory.md",
       "workflow-parallel-i06-root-error-focus-artifact-inventory.md",
       "workflow-skill-ledger-a3-progressive-disclosure-artifact-inventory.md",
@@ -15223,6 +15237,7 @@
       "workflow-issue-290-workflow-lint-gate-artifact-inventory.md",
       "workflow-issue-495-09b-A-sentry-slack-runtime-smoke-prod-extension-artifact-inventory.md",
       "workflow-issue-516-github-audit-log-cross-source-correlation-artifact-inventory.md",
+      "workflow-issue-520-slack-incidents-channel-webhook-provisioning-artifact-inventory.md",
       "workflow-issue-617-ci-test-time-reduction-split-artifact-inventory.md",
       "workflow-parallel-09-ux-cross-cutting-artifact-inventory.md",
       "workflow-task-05-error-boundary-and-staging-smoke-artifact-inventory.md",
@@ -15770,7 +15785,8 @@
       "lessons-learned-issue-532-write-tag-note-provider-ctx-injection-2026-05.md",
       "lessons-learned-issue-776-schema-alias-bulk-resolve-2026-05.md",
       "workflow-ai-chat-llm-integration-fix-artifact-inventory.md",
-      "workflow-skill-md-codex-validation-fix-artifact-inventory.md"
+      "workflow-skill-md-codex-validation-fix-artifact-inventory.md",
+      "workflow-ui-prototype-design-system-foundation-artifact-inventory.md"
     ],
     "matrix": [
       "lessons-learned-issue-532-write-tag-note-provider-ctx-injection-2026-05.md",
@@ -15859,6 +15875,7 @@
       "workflow-06c-C-admin-tags-artifact-inventory.md",
       "workflow-issue-495-09b-A-sentry-slack-runtime-smoke-prod-extension-artifact-inventory.md",
       "workflow-issue-516-github-audit-log-cross-source-correlation-artifact-inventory.md",
+      "workflow-issue-520-slack-incidents-channel-webhook-provisioning-artifact-inventory.md",
       "workflow-issue-603-phase12-compliance-check-ci-gate-artifact-inventory.md",
       "workflow-task-03-w2-par-sentry-workers-sdk-unify-artifact-inventory.md"
     ],
@@ -16026,6 +16043,7 @@
       "workflow-issue-515-cf-audit-logs-ml-anomaly-artifact-inventory.md",
       "workflow-issue-516-github-audit-log-cross-source-correlation-artifact-inventory.md",
       "workflow-issue-518-cf-audit-logs-monitoring-hold-artifact-inventory.md",
+      "workflow-issue-520-slack-incidents-channel-webhook-provisioning-artifact-inventory.md",
       "workflow-issue-526-ci-actionlint-shellcheck-gate-artifact-inventory.md",
       "workflow-issue-532-write-tag-note-provider-ctx-injection-artifact-inventory.md",
       "workflow-issue-533-public-profile-builder-attendance-injection-artifact-inventory.md",
@@ -16542,6 +16560,7 @@
       "lessons-learned-utgov001-second-stage-reapply-2026-04.md",
       "workflow-issue-495-09b-A-sentry-slack-runtime-smoke-prod-extension-artifact-inventory.md",
       "workflow-issue-516-github-audit-log-cross-source-correlation-artifact-inventory.md",
+      "workflow-issue-520-slack-incidents-channel-webhook-provisioning-artifact-inventory.md",
       "workflow-issue-531-runtime-smoke-attendance-provider-artifact-inventory.md",
       "workflow-skill-lifecycle-created-skill-usage-journey.md",
       "workflow-task-03-w2-par-sentry-workers-sdk-unify-artifact-inventory.md"
@@ -16588,7 +16607,8 @@
       "lessons-learned-issue-775-serial-05-step-03-runtime-evidence-completion-2026-05.md",
       "lessons-learned-ut-coverage-2026-05-wave.md",
       "workflow-issue-775-serial-05-step-03-runtime-evidence-completion-artifact-inventory.md",
-      "workflow-serial-05-step-03-schema-diff-resolve-artifact-inventory.md"
+      "workflow-serial-05-step-03-schema-diff-resolve-artifact-inventory.md",
+      "workflow-ui-prototype-design-system-foundation-artifact-inventory.md"
     ],
     "step": [
       "lessons-learned-issue-775-serial-05-step-03-runtime-evidence-completion-2026-05.md",
@@ -18910,7 +18930,8 @@
       "lessons-learned-ut07b-schema-alias-hardening-2026-05.md",
       "workflow-02c-followup-002-fixtures-prod-build-exclusion-artifact-inventory.md",
       "workflow-issue-495-09b-A-sentry-slack-runtime-smoke-prod-extension-artifact-inventory.md",
-      "workflow-issue-516-github-audit-log-cross-source-correlation-artifact-inventory.md"
+      "workflow-issue-516-github-audit-log-cross-source-correlation-artifact-inventory.md",
+      "workflow-issue-520-slack-incidents-channel-webhook-provisioning-artifact-inventory.md"
     ],
     "direction": [
       "lessons-learned-ut09-direction-reconciliation-2026-04.md"
@@ -20125,7 +20146,8 @@
       "logs-archive-2026-02-skill-validation-atoms-audit.md"
     ],
     "channel": [
-      "logs-archive-2026-02-skill-import-interface-atoms-rerun.md"
+      "logs-archive-2026-02-skill-import-interface-atoms-rerun.md",
+      "workflow-issue-520-slack-incidents-channel-webhook-provisioning-artifact-inventory.md"
     ],
     "UNASSIGNED": [
       "logs-archive-2026-02-skill-import-interface-atoms-rerun.md",
@@ -22421,7 +22443,8 @@
     ],
     "Page": [
       "task-workflow-completed-recent-2026-05.md",
-      "workflow-parallel-04-shared-page-chrome-artifact-inventory.md"
+      "workflow-parallel-04-shared-page-chrome-artifact-inventory.md",
+      "workflow-ui-prototype-design-system-foundation-artifact-inventory.md"
     ],
     "Chrome": [
       "task-workflow-completed-recent-2026-05.md",
@@ -23707,6 +23730,7 @@
       "workflow-issue-515-cf-audit-logs-ml-anomaly-artifact-inventory.md",
       "workflow-issue-516-github-audit-log-cross-source-correlation-artifact-inventory.md",
       "workflow-issue-518-cf-audit-logs-monitoring-hold-artifact-inventory.md",
+      "workflow-issue-520-slack-incidents-channel-webhook-provisioning-artifact-inventory.md",
       "workflow-issue-526-ci-actionlint-shellcheck-gate-artifact-inventory.md",
       "workflow-issue-532-write-tag-note-provider-ctx-injection-artifact-inventory.md",
       "workflow-issue-533-public-profile-builder-attendance-injection-artifact-inventory.md",
@@ -24453,14 +24477,16 @@
       "workflow-task-03-w2-par-sentry-workers-sdk-unify-artifact-inventory.md"
     ],
     "slack": [
-      "workflow-issue-495-09b-A-sentry-slack-runtime-smoke-prod-extension-artifact-inventory.md"
+      "workflow-issue-495-09b-A-sentry-slack-runtime-smoke-prod-extension-artifact-inventory.md",
+      "workflow-issue-520-slack-incidents-channel-webhook-provisioning-artifact-inventory.md"
     ],
     "extension": [
       "workflow-issue-495-09b-A-sentry-slack-runtime-smoke-prod-extension-artifact-inventory.md",
       "workflow-issue-588-fallback-alert-slack-mail-extension-artifact-inventory.md"
     ],
     "templates": [
-      "workflow-issue-495-09b-A-sentry-slack-runtime-smoke-prod-extension-artifact-inventory.md"
+      "workflow-issue-495-09b-A-sentry-slack-runtime-smoke-prod-extension-artifact-inventory.md",
+      "workflow-issue-520-slack-incidents-channel-webhook-provisioning-artifact-inventory.md"
     ],
     "Changelog": [
       "workflow-issue-502-ut-07b-fu-01-followup-dlq-monitoring-dashboard-artifact-inventory.md"
@@ -24495,6 +24521,15 @@
     ],
     "hold": [
       "workflow-issue-518-cf-audit-logs-monitoring-hold-artifact-inventory.md"
+    ],
+    "incidents": [
+      "workflow-issue-520-slack-incidents-channel-webhook-provisioning-artifact-inventory.md"
+    ],
+    "webhook": [
+      "workflow-issue-520-slack-incidents-channel-webhook-provisioning-artifact-inventory.md"
+    ],
+    "provisioning": [
+      "workflow-issue-520-slack-incidents-channel-webhook-provisioning-artifact-inventory.md"
     ],
     "elegant": [
       "workflow-issue-531-runtime-smoke-attendance-provider-artifact-inventory.md"
@@ -24993,6 +25028,12 @@
       "workflow-ui-prototype-design-system-foundation-artifact-inventory.md"
     ],
     "Difficulties": [
+      "workflow-ui-prototype-design-system-foundation-artifact-inventory.md"
+    ],
+    "Routes": [
+      "workflow-ui-prototype-design-system-foundation-artifact-inventory.md"
+    ],
+    "Blueprint": [
       "workflow-ui-prototype-design-system-foundation-artifact-inventory.md"
     ],
     "Selector": [

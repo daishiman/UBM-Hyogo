@@ -2552,6 +2552,19 @@ node scripts/list-specs.js --topics
 | Current Canonical Set | L13 |
 | Boundary | L29 |
 
+### references/workflow-issue-520-slack-incidents-channel-webhook-provisioning-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| canonical root | L3 |
+| root artifacts | L7 |
+| phase 12 required artifacts | L16 |
+| implementation artifacts | L28 |
+| production runtime evidence templates (Phase 11) | L37 |
+| same-wave skill sync | L45 |
+| boundary | L58 |
+| deferred evidence | L64 |
+
 ### references/workflow-issue-526-ci-actionlint-shellcheck-gate-artifact-inventory.md
 
 | セクション | 行 |
@@ -3655,9 +3668,10 @@ node scripts/list-specs.js --topics
 | parallel-02 prototype CSS rules port (2026-05-19 close-out) | L88 |
 | Follow-up unassigned tasks (proto-spec) | L99 |
 | Difficulties summary (parallel-02) | L111 |
-| P1-1〜P1-5 Selector ↔ Token ↔ 09 Spec Mapping (parallel-01) | L145 |
-| Sub-workflows | L190 |
-| P1-1〜P1-5 Selector ↔ Token ↔ 09 Spec Mapping (parallel-01) | L199 |
+| Sub-workflow: serial-05 Page Routes Blueprint Binding（2026-05-22 spec validation） | L145 |
+| P1-1〜P1-5 Selector ↔ Token ↔ 09 Spec Mapping (parallel-01) | L158 |
+| Sub-workflows | L203 |
+| P1-1〜P1-5 Selector ↔ Token ↔ 09 Spec Mapping (parallel-01) | L212 |
 
 ### references/workflow-ui-ux-visual-baseline-drift.md
 
@@ -7287,6 +7301,14 @@ node scripts/list-specs.js --topics
 | 昇格パターン集 | L2090 |
 | Current Active / Spec Created Tasks | L2092 |
 | UT-17 followup-003 alert-relay weekly healthcheck cron | L2246 |
+| ドキュメント構成 | L1983 |
+| フェーズ構造（概要） | L1992 |
+| 品質ゲート（概要） | L2023 |
+| 出力テンプレート | L2034 |
+| 実行時のコマンド・エージェント・スキル | L2057 |
+| 昇格パターン集 | L2081 |
+| Current Active / Spec Created Tasks | L2083 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L2240 |
 
 ### references/task-workflow-backlog-part2.md
 
