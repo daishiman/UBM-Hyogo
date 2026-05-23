@@ -10,7 +10,25 @@
     "implementation_mode": "existing-ui-alignment",
     "workflow_state": "implemented_local_evidence_captured",
     "scope": "single-cycle",
-    "single_cycle_completion": true
+    "single_cycle_completion": true,
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-05-23T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/members-page-prototype-alignment/outputs/phase-12/phase12-task-spec-compliance-check.md",
+        "approver": "daishiman",
+        "notes": "spec_review: Phase 1-12 completed; canonical 9-headings + Phase 11 evidence verified"
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "passed",
+        "passed_at": "2026-05-23T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/members-page-prototype-alignment/outputs/phase-11/runtime-notes.md",
+        "approver": "daishiman",
+        "notes": "implementation_review: components migrated to OKLch tokens + Playwright smoke + 6 visual evidence PNGs"
+      }
+    ]
   },
   "phases": [
     { "id": 1, "file": "phase-1-requirements.md", "status": "completed" },
