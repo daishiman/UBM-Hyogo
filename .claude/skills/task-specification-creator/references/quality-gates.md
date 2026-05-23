@@ -153,6 +153,10 @@ focus 移譲を伴う UI 実装（error boundary 統一構造、dialog mount foc
 
 ## 検証コマンド
 
+> **`validate-phase-output.js` の挙動補足**:
+> - modern layout `outputs/phase-N/phase-N.md` を自動検出し、root 直下 `phase-N-*.md` だけでなく outputs 配下も走査対象とする（`findPhaseFiles` の outputs/phase-N 探索追加）。modern layout では旧テンプレ必須見出し一覧ではなく **Phase title + section presence** をもって構造検証する。
+> - `spec_created` ワークフロー（`isSpecCreatedWorkflow`）かつ `outputs/phase-11/screenshots/phase11-capture-metadata.json#status=pending_implementation` のとき（`hasPendingPhase11CaptureMetadata`）、screenshot PNG 0 件は **pending boundary として PASS** と扱う（HIGH gate boundary）。実装着手後の VISUAL_RUNTIME 計測フェーズで初めて FAIL に昇格する。
+
 ```bash
 node scripts/validate-phase-output.js docs/30-workflows/{{FEATURE_NAME}}
 node scripts/verify-all-specs.js --workflow docs/30-workflows/{{FEATURE_NAME}}

@@ -38,8 +38,9 @@ export async function GET(_request: Request, { params }: RouteContext) {
         style={{
           width: "100%",
           height: "100%",
-          background: "linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%)",
-          color: "#ffffff",
+          background:
+            "linear-gradient(135deg, oklch(0.36 0.12 240) 0%, oklch(0.52 0.11 240) 100%)",
+          color: "oklch(1 0 0)",
           display: "flex",
           flexDirection: "column",
           alignItems: "flex-start",

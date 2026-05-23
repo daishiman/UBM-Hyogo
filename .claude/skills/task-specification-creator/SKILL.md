@@ -31,6 +31,7 @@ allowed-tools:
 
 | Version | Date | Changes |
 | --- | --- | --- |
+| v2026.05.23-validate-phase-output-modern-layout | 2026-05-23 | `validate-phase-output.js` を現行 `outputs/phase-N/phase-N.md` レイアウト対応へ更新。spec_created / VISUAL workflow では `phase11-capture-metadata.json#status=pending_implementation` がある場合、screenshot PNG 0 件を pending boundary として扱う。 |
 | v2026.05.19-issue778-unassigned-task-batch-preflight | 2026-05-19 | Issue #778 Phase 12 で複数件 unassigned-task の必須 3 セクション欠落を予防。`references/unassigned-task-required-sections.md` §6.5 を新設し `rg -L` ベースの pre-flight verification snippet を正本化。SKILL.md Phase 12 Task 4 に同 wave 2 件以上発行時の必須実行を明記。 |
 | v2026.05.19-issue778-physical-output-and-followup-gate | 2026-05-19 | Issue #778 review feedback を反映。Phase 12 strict 7 / output artifacts mirror の物理配置、既存 follow-up の実在 path への正規化、source unassigned consumed trace の同 wave 同期を確認。 |
 | v2026.05.22-runtime-smoke-auth-secret-body-first-rca | 2026-05-22 | `task-staging-auth-secret-binding-recovery-001` feedback を反映。runtime smoke 500 recovery では bounded response body を最初に読み、`auth misconfigured` 等 auth/config body の場合は endpoint handler より先に auth middleware・Workers binding・secret/variable 注入経路を切り分ける rule を `references/phase-template-core.md` に追加。`secret list` は name presence のみで value usability 証明ではないと明記。 |

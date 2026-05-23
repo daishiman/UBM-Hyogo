@@ -8,6 +8,19 @@
 
 本ドキュメントは、複雑なタスクを単一責務の原則に基づいて分解し、各サブタスクに最適なスラッシュコマンド・エージェント・スキルの組み合わせを選定するためのガイドラインを定義する。
 
+### mypage-prototype-alignment（2026-05-23）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / VISUAL / existing-ui-alignment` |
+| 成果物 | `docs/30-workflows/mypage-prototype-alignment/` |
+| 目的 | existing `/profile` を prototype `MyProfilePage` 準拠へ整え、Google Form 再回答 CTA、VisibilitySummary、ProfilePreview、RevalidateModal、danger-zone、MemberHeader 動線を実装する |
+| implementation targets | `apps/web/app/profile/page.tsx`, `apps/web/app/profile/_components/**`, `apps/web/app/profile/_lib/**`, `apps/web/src/components/layout/MemberHeader.tsx` |
+| API boundary | existing `/me/*` only。新 endpoint / D1 schema / Google Form schema / primitive API change なし |
+| Phase 12 | strict 7 present。Phase 11 screenshots captured |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-mypage-prototype-alignment-artifact-inventory.md` |
+| user gate | commit, push, PR |
+
 ### Issue #277 Next.js proxy migration（2026-05-20）
 
 | 項目 | 値 |
