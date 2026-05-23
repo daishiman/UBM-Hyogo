@@ -1,3 +1,4 @@
+// serial-05: /(admin)/admin/requests — blueprint 09g:641-740
 // 04b-followup-004: /admin/requests admin queue resolve workflow page
 // 不変条件 #5: server fetch は admin proxy 経由のみ。
 import { safeServerFetch } from "../../../../src/lib/admin/safe-server-fetch";

@@ -1,0 +1,7 @@
+Source: m7-proxy-spec.txt
+
+Covered case:
+- authenticated non-admin GET /admin returns 403 Forbidden
+
+Result:
+- apps/web/__tests__/proxy.spec.ts passed as part of focused Vitest run

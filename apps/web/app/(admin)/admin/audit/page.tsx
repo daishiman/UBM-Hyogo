@@ -1,3 +1,4 @@
+// serial-05: /(admin)/admin/audit — blueprint 09g:841-940
 // 07c-followup-003: /admin/audit read-only browsing UI.
 import { safeServerFetch } from "../../../../src/lib/admin/safe-server-fetch";
 import { Breadcrumb } from "@/components/admin/Breadcrumb";

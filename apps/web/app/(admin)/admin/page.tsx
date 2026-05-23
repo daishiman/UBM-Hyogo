@@ -1,3 +1,4 @@
+// serial-05: /(admin)/admin — blueprint 09g:4-161
 // task-15 + admin-ui-prototype-alignment: /admin ダッシュボード
 // AC: GET /admin/dashboard 1 fetch 集約 (KPI 4 + recentActions)
 // 失敗時は per-section AdminSectionError に degrade (page 全体 throw を廃止)

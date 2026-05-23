@@ -1,0 +1,7 @@
+Source: m7-proxy-spec.txt
+
+Covered case:
+- authenticated admin GET /admin returns NextResponse.next()
+
+Result:
+- apps/web/__tests__/proxy.spec.ts passed as part of focused Vitest run

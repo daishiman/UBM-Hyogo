@@ -829,6 +829,31 @@
     }
   }
 
+  /* === issue-276 mobile filterbar (MemberFilters collapsible) === */
+  /* mobile (<=640px) では collapsed 状態で本体 inputs を hide。summary 行のみ可視。 */
+  [data-component="member-filters"] [data-role="filters-summary-mobile"] {
+    display: none;
+  }
+  [data-component="member-filters"] [data-role="filters-body"] {
+    display: block;
+  }
+  @media (max-width: 640px) {
+    [data-component="member-filters"] [data-role="filters-summary-mobile"] {
+      display: flex;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      background: var(--ubm-color-bg);
+    }
+    [data-component="member-filters"][data-expanded="false"] [data-role="filters-body"] {
+      display: none;
+    }
+  }
+  [data-component="tag-picker"] button[aria-disabled="true"] {
+    opacity: 0.45;
+    cursor: not-allowed;
+  }
+
   /* === parallel-09 G9-7 focus-visible / reduced motion === */
   :focus-visible {
     outline: 2px solid var(--ubm-color-accent);

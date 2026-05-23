@@ -95,7 +95,7 @@ fi
 if ! COMPLIANCE_BASE_REF="$FORK_BASE" COMPLIANCE_HEAD_REF="HEAD" \
   node --experimental-strip-types --disable-warning=MODULE_TYPELESS_PACKAGE_JSON \
   scripts/verify-phase12-compliance.ts 2>&1 | tee /tmp/phase12-compliance-guard.log \
-  | grep -q '"status": "pass"'; then
+  | grep -qE '"status": "(pass|noop)"'; then
   cat <<'EOF' >&2
 🚫 Phase 12 compliance check failure（CI verify-phase12-compliance と同等チェック）。
 

@@ -27,16 +27,39 @@ status: draft
 
 ## 2. grep gate（本 SW 専用）
 
+`rg` を正本コマンドにする。shell glob の展開差と、19 routes 外の smoke / harness page を誤検出する問題を避けるため、G-1 は対象 route list を固定する。
+
+```bash
+SERIAL05_ROUTE_FILES=(
+  apps/web/app/page.tsx
+  'apps/web/app/(public)/members/page.tsx'
+  'apps/web/app/(public)/members/[id]/page.tsx'
+  'apps/web/app/(public)/register/page.tsx'
+  apps/web/app/privacy/page.tsx
+  apps/web/app/terms/page.tsx
+  apps/web/app/login/page.tsx
+  apps/web/app/profile/page.tsx
+  'apps/web/app/(admin)/admin/page.tsx'
+  'apps/web/app/(admin)/admin/members/page.tsx'
+  'apps/web/app/(admin)/admin/tags/page.tsx'
+  'apps/web/app/(admin)/admin/meetings/page.tsx'
+  'apps/web/app/(admin)/admin/schema/page.tsx'
+  'apps/web/app/(admin)/admin/requests/page.tsx'
+  'apps/web/app/(admin)/admin/identity-conflicts/page.tsx'
+  'apps/web/app/(admin)/admin/audit/page.tsx'
+)
+```
+
 | ID | 規則 | 検出コマンド |
 |----|------|------------|
-| G-1 | page.tsx 冒頭コメント `// serial-05: <route> — blueprint 09X:LLL-MMM` が全 16 routes に存在（fallback 3 を除く） | `grep -L "// serial-05:" apps/web/app/**/page.tsx` |
-| G-2 | `D1Database` / `env.DB` を `apps/web/app/` `apps/web/src/` で 0 件 | `grep -rE "D1Database\|env\.DB" apps/web/{app,src}` |
-| G-3 | `process.env\.` の page.tsx 内 0 件 | `grep -rE "process\.env\." apps/web/app` |
-| G-4 | HEX 直書き 0 件 | `grep -rE "#[0-9a-fA-F]{3,8}" apps/web/{app,src}` |
-| G-5 | `bg-\[#` / `text-\[#` 0 件 | `grep -rE "bg-\[#\|text-\[#" apps/web/{app,src}` |
-| G-6 | localhost endpoint 焼き込み 0 件 | `grep -rE "127\.0\.0\.1:8888" apps/web/{app,src}` |
-| G-7 | 新規 primitive が `apps/web/src/components/ui/` に追加されていない | `git diff dev...HEAD --name-only \| grep "components/ui/"` が空 |
-| G-8 | 新規 API endpoint が追加されていない | `git diff dev...HEAD --name-only \| grep "apps/api/src/routes/"` が空 |
+| G-1 | page.tsx 冒頭コメント `// serial-05: <route> — blueprint 09X:LLL-MMM` が対象 16 page routes に存在（fallback 3 は別確認） | `for f in "${SERIAL05_ROUTE_FILES[@]}"; do test -f "$f" && rg -q '^// serial-05: .+ — blueprint 09[efg]:' "$f" || { echo "missing serial-05 marker: $f"; exit 1; }; done` |
+| G-2 | `D1Database` / `env.DB` を `apps/web/app/` `apps/web/src/` で 0 件 | `! rg -n 'D1Database|env\.DB' apps/web/app apps/web/src` |
+| G-3 | `process.env\.` の page.tsx 内 0 件 | `! rg -n 'process\.env\.' apps/web/app` |
+| G-4 | HEX 直書き 0 件 | `! rg -n '#[0-9a-fA-F]{3,8}' apps/web/app apps/web/src` |
+| G-5 | `bg-[#` / `text-[#` 0 件 | `! rg -n 'bg-\[#|text-\[#' apps/web/app apps/web/src` |
+| G-6 | localhost endpoint 焼き込み 0 件 | `! rg -n '127\.0\.0\.1:8888' apps/web/app apps/web/src` |
+| G-7 | 新規 primitive が `apps/web/src/components/ui/` に追加されていない | `test -z "$(git diff --name-only dev...HEAD -- apps/web/src/components/ui)"` |
+| G-8 | 新規 API endpoint が追加されていない | `test -z "$(git diff --name-only dev...HEAD -- apps/api/src/routes)"` |
 
 ## 3. PR pre-flight
 

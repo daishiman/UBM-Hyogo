@@ -62,7 +62,7 @@ Phase-1 検証で 5 つの構造的な学びが抽出された。
 - artifact inventory: `references/workflow-ui-prototype-design-system-foundation-artifact-inventory.md` § Sub-workflow: parallel-03 AppShell Layouts
 - 親 workflow scope: `docs/30-workflows/ui-prototype-design-system-foundation/SCOPE.md`
 - prototype coverage SSOT: `docs/30-workflows/ui-prototype-design-system-foundation/PROTOTYPE-COVERAGE.md`
-- sub-workflow implementation guide: `docs/30-workflows/ui-prototype-design-system-foundation/parallel-03-appshell-layouts/outputs/phase-12/implementation-guide.md`
+- Phase 12 strict 7: parent root `docs/30-workflows/ui-prototype-design-system-foundation/outputs/phase-12/` に集約
 
 ## 変更履歴
 
