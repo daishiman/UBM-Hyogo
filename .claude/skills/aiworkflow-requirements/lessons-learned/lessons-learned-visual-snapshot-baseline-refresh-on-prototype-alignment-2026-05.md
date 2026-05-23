@@ -7,6 +7,17 @@ prototype 適用系の workflow（例: `login-page-prototype-alignment`, `home-p
 - 原因: prototype 適用 commit がコード（page.tsx / primitives）のみ変更し、`apps/web/playwright/tests/visual-full/full-visual.spec.ts-snapshots/` 内の該当 PNG を差し替えていない。
 - pre-flight gate (`scripts/verify-pr-ready.sh`) は visual 比較を実行しないため、pre-push では気付かず push 後の CI で初めて検出される。これは**期待される動作**（ローカル mac で linux baseline を生成するとフォント / hinting 差で flaky になるため CI に集約する設計）。
 
+## L-VISBASE-001b: visual baseline は **2 系統**ある — 両方更新しないと片方が残留 fail する（2026-05-24 追記）
+prototype 適用時に更新すべき login 系 baseline は以下 **2 つの独立した snapshot ディレクトリ**に存在する。片方だけ更新すると、もう片方の CI job が必ず残留 fail する（実際に visual-full だけ更新して `visual (chromium, 4 screens)` を取りこぼした事故あり）。
+
+| CI job | spec | snapshot dir | viewport |
+|--------|------|--------------|----------|
+| `playwright-visual-full / visual-full (desktop\|tablet\|mobile)` | `apps/web/playwright/tests/visual-full/full-visual.spec.ts` | `full-visual.spec.ts-snapshots/full-visual-<route>-<viewport>-visual-full-chromium-<viewport>-linux.png` | 3 viewport |
+| `playwright-smoke / visual (chromium, 4 screens)` | `apps/web/playwright/tests/visual/login.spec.ts` ほか | `<spec>.spec.ts-snapshots/<name>-visual-chromium-linux.png` | chromium 単一・`maxDiffPixelRatio: 0.02` |
+
+- 取りこぼし防止: `git grep -l "toHaveScreenshot" apps/web/playwright/tests/` で全 visual spec を列挙し、該当ルートを撮る spec の snapshot を**すべて**洗い出してから更新する。
+- `playwright-smoke` 側の artifact 名は `visual-full-<viewport>-diff` ではなく **`playwright-visual-artifacts`**（単一 zip）。中の `<...>-visual-chromium/<name>-actual.png`（非 retry）を採用する。
+
 ## L-VISBASE-002: 標準復旧手順（CI artifact から actual.png を baseline に昇格させる）
 失敗 job の `playwright-visual-<viewport>-diff` artifact に `<route>-<viewport>-actual.png` が含まれている。これを baseline に上書きする。
 
