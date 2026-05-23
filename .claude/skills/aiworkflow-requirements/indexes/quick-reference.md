@@ -1,5 +1,19 @@
 # クイックリファレンス
 
+## UT-25-DERIV-02 SA key expiry monitoring（2026-05-22）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow | `docs/30-workflows/ut-25-deriv-02-sa-key-expiry-monitoring/` |
+| status | `implemented_local_runtime_pending / implementation / NON_VISUAL` |
+| source | `docs/30-workflows/unassigned-task/UT-25-DERIV-02-sa-key-expiry-monitoring.md` (`status: consumed`) |
+| purpose | detect Google Service Account key expiry or permission loss for `GOOGLE_SERVICE_ACCOUNT_JSON` via Sheets API 401/403 classification |
+| implementation | `apps/api/src/jobs/sheets-auth-classifier.ts`, `apps/api/src/jobs/sheets-auth-logger.ts`, `apps/api/src/scheduled/sheets-auth-healthcheck.ts`, sync injection targets, scheduled wiring, `alert-relay.ts` payload extension |
+| invariant | no new cron; healthcheck piggybacks existing `*/15 * * * *`; 401/403 are distinct; 5xx/429/network are not sheets-auth alerts |
+| Phase 12 | `outputs/phase-12/phase12-task-spec-compliance-check.md` + strict 7 files present |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-ut-25-deriv-02-sa-key-expiry-monitoring-artifact-inventory.md` |
+| boundary | staging invalidation, Workers tail, production deploy, commit, push, PR are user-gated |
+
 ## task-staging-auth-secret-binding-recovery-001（2026-05-22）
 
 | 項目 | 値 |

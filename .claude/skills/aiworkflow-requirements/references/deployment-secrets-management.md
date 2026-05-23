@@ -95,6 +95,7 @@ wrangler secret put SLACK_BOT_TOKEN --env <env>
 - staging-first 固定。production への投入は staging の `secret list` name 確認後だけ実施する。
 - rollback は `secret delete` 後、1Password の旧 revision から同じ secret 名へ再投入する。
 - `GOOGLE_SHEETS_SA_JSON` は移行期間の legacy alias として実装側のみ許容し、Cloudflare Workers Secret の正本名は `GOOGLE_SERVICE_ACCOUNT_JSON` に統一する。
+- UT-25-DERIV-02 の sheets-auth alert から復旧する場合、401 (`SHEETS_AUTH_401_KEY_INVALID`) は key rollback / rotation を優先し、403 (`SHEETS_AUTH_403_FORBIDDEN`) は Spreadsheet 共有・SA disabled・scope 権限を先に確認する。Alert payload の `rollbackRunbookUrl` は `docs/30-workflows/completed-tasks/ut-25-cloudflare-secrets-production-deploy/outputs/phase-13/rollback-runbook.md` を指す。
 
 ### Auth mail env 投入ルール（05b-A / 2026-05-01）
 
