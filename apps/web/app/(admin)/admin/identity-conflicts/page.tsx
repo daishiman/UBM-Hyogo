@@ -3,9 +3,10 @@
 //   - admin gate は (admin)/layout.tsx で済 / API 呼び出しは fetchAdmin proxy
 //   - 不変条件 #3: responseEmail は API 側で既に部分マスク済 (raw email を表示しない)
 //   - 不変条件 #5: D1 直接アクセスなし
-import { fetchAdmin } from "../../../../src/lib/admin/server-fetch";
+import { safeServerFetch } from "../../../../src/lib/admin/safe-server-fetch";
 import { Breadcrumb } from "@/components/admin/Breadcrumb";
 import { EmptyState } from "../../../../src/components/ui/EmptyState";
+import { AdminSectionError } from "../../../../src/features/admin/components/_shared";
 import type { ListIdentityConflictsResponse } from "@ubm-hyogo/shared";
 import { IdentityConflictRow } from "../../../../src/components/admin/IdentityConflictRow";
 
@@ -22,7 +23,7 @@ export default async function AdminIdentityConflictsPage({
   const sp = await searchParams;
   const cursor = toSingle(sp["cursor"]);
   const path = `/admin/identity-conflicts${cursor ? `?cursor=${encodeURIComponent(cursor)}` : ""}`;
-  const data = await fetchAdmin<ListIdentityConflictsResponse>(path);
+  const result = await safeServerFetch<ListIdentityConflictsResponse>(path);
 
   return (
     <main className="mx-auto max-w-5xl px-6 py-8">
@@ -35,27 +36,34 @@ export default async function AdminIdentityConflictsPage({
         </p>
       </header>
 
-      {data.items.length === 0 ? (
+      {!result.ok ? (
+        <AdminSectionError
+          sectionLabel="Identity 重複候補"
+          code={result.error.code}
+          message={result.error.message}
+        />
+      ) : result.data.items.length === 0 ? (
         <EmptyState title="現在、merge 候補はありません。" />
       ) : (
-        <ul className="divide-y divide-zinc-200 rounded-md border border-zinc-200">
-          {data.items.map((item) => (
-            <li key={item.conflictId} className="px-4 py-3">
-              <IdentityConflictRow item={item} />
-            </li>
-          ))}
-        </ul>
-      )}
-
-      {data.nextCursor && (
-        <div className="mt-6 text-right">
-          <a
-            href={`?cursor=${encodeURIComponent(data.nextCursor)}`}
-            className="text-sm text-blue-600 underline-offset-2 hover:underline"
-          >
-            次のページ →
-          </a>
-        </div>
+        <>
+          <ul className="divide-y divide-zinc-200 rounded-md border border-zinc-200">
+            {result.data.items.map((item) => (
+              <li key={item.conflictId} className="px-4 py-3">
+                <IdentityConflictRow item={item} />
+              </li>
+            ))}
+          </ul>
+          {result.data.nextCursor && (
+            <div className="mt-6 text-right">
+              <a
+                href={`?cursor=${encodeURIComponent(result.data.nextCursor)}`}
+                className="text-sm text-blue-600 underline-offset-2 hover:underline"
+              >
+                次のページ →
+              </a>
+            </div>
+          )}
+        </>
       )}
     </main>
   );

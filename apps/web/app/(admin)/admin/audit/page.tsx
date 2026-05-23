@@ -1,5 +1,5 @@
 // 07c-followup-003: /admin/audit read-only browsing UI.
-import { fetchAdmin } from "../../../../src/lib/admin/server-fetch";
+import { safeServerFetch } from "../../../../src/lib/admin/safe-server-fetch";
 import { Breadcrumb } from "@/components/admin/Breadcrumb";
 import { AuditLogPanel, type AuditSearchValues } from "../../../../src/components/admin/AuditLogPanel";
 import type { AdminAuditListResponse } from "../../../../src/lib/admin/types";
@@ -52,13 +52,9 @@ export default async function AdminAuditPage({
   withValue(rawValues, "cursor", toSingle(sp["cursor"]));
   const values = rawValues as AuditSearchValues;
 
-  let data: AdminAuditListResponse | null = null;
-  let error: string | undefined;
-  try {
-    data = await fetchAdmin<AdminAuditListResponse>(buildAuditApiPath(values));
-  } catch (e) {
-    error = e instanceof Error ? e.message : "unknown error";
-  }
+  const result = await safeServerFetch<AdminAuditListResponse>(buildAuditApiPath(values));
+  const data: AdminAuditListResponse | null = result.ok ? result.data : null;
+  const error: string | undefined = result.ok ? undefined : result.error.message;
 
   return (
     <section className="flex flex-col gap-4">

@@ -1,8 +1,9 @@
 // 06c: /admin/schema 差分解消画面
 // 不変条件 #14: schema 解消はこの画面のみ
 import Link from "next/link";
-import { fetchAdmin } from "../../../../src/lib/admin/server-fetch";
+import { safeServerFetch } from "../../../../src/lib/admin/safe-server-fetch";
 import { Breadcrumb } from "@/components/admin/Breadcrumb";
+import { AdminSectionError } from "../../../../src/features/admin/components/_shared";
 import { SchemaDiffPanel } from "../../../../src/components/admin/SchemaDiffPanel";
 import type { SchemaDiffItem, SchemaDiffListView } from "../../../../src/components/admin/SchemaDiffPanel";
 
@@ -14,13 +15,12 @@ interface FormSection {
 }
 
 export default async function AdminSchemaPage() {
-  const data = await fetchAdmin<SchemaDiffListView & { sections?: FormSection[] }>(
+  const result = await safeServerFetch<SchemaDiffListView & { sections?: FormSection[] }>(
     "/admin/schema/diff",
   );
-  // Google Form 6 セクション（不変条件: sectionCount=6）の overview 一覧
   const sections: FormSection[] =
-    data.sections && data.sections.length > 0
-      ? data.sections
+    result.ok && result.data.sections && result.data.sections.length > 0
+      ? result.data.sections
       : Array.from({ length: 6 }, (_, i) => ({
           sectionKey: `section-${i + 1}`,
           title: `セクション${i + 1}`,
@@ -41,7 +41,15 @@ export default async function AdminSchemaPage() {
           ))}
         </ul>
       </section>
-      <SchemaDiffPanel initial={data} />
+      {result.ok ? (
+        <SchemaDiffPanel initial={result.data} />
+      ) : (
+        <AdminSectionError
+          sectionLabel="Schema diff"
+          code={result.error.code}
+          message={result.error.message}
+        />
+      )}
     </>
   );
 }

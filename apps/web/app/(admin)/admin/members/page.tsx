@@ -13,11 +13,12 @@ import {
   ADMIN_SEARCH_LIMITS,
   type AdminMemberSearch,
 } from "@ubm-hyogo/shared";
-import { fetchAdmin } from "../../../../src/lib/admin/server-fetch";
+import { safeServerFetch } from "../../../../src/lib/admin/safe-server-fetch";
 import {
   AdminPageHeader,
   MembersClientShell,
 } from "../../../../src/features/admin/components";
+import { AdminSectionError } from "../../../../src/features/admin/components/_shared";
 
 export const dynamic = "force-dynamic";
 
@@ -60,7 +61,7 @@ export default async function AdminMembersPage({
 
   const params = toAdminApiQuery(search);
   const qs = params.toString();
-  const initial = await fetchAdmin<AdminMemberListView>(
+  const result = await safeServerFetch<AdminMemberListView>(
     `/admin/members${qs ? `?${qs}` : ""}`,
   );
 
@@ -68,7 +69,7 @@ export default async function AdminMembersPage({
     <section aria-labelledby="admin-members-h" className="flex flex-col gap-4">
       <AdminPageHeader
         title="会員管理"
-        description={`${initial.total} 件の会員`}
+        description={result.ok ? `${result.data.total} 件の会員` : "読み込みに失敗"}
         breadcrumbs={[{ label: "管理", href: "/admin" }, { label: "会員管理" }]}
         actions={
           <button
@@ -85,12 +86,20 @@ export default async function AdminMembersPage({
       <h1 id="admin-members-h" className="sr-only">
         会員管理
       </h1>
-      <MembersClientShell
-        initial={initial}
-        initialFilter={{ q, zone, filter, sort: sort as "recent" | "name" | "publish_state" }}
-        page={page}
-        pageSize={initial.pageSize ?? PAGE_SIZE}
-      />
+      {result.ok ? (
+        <MembersClientShell
+          initial={result.data}
+          initialFilter={{ q, zone, filter, sort: sort as "recent" | "name" | "publish_state" }}
+          page={page}
+          pageSize={result.data.pageSize ?? PAGE_SIZE}
+        />
+      ) : (
+        <AdminSectionError
+          sectionLabel="会員管理"
+          code={result.error.code}
+          message={result.error.message}
+        />
+      )}
     </section>
   );
 }

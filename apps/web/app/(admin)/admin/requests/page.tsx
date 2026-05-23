@@ -1,7 +1,8 @@
 // 04b-followup-004: /admin/requests admin queue resolve workflow page
 // 不変条件 #5: server fetch は admin proxy 経由のみ。
-import { fetchAdmin } from "../../../../src/lib/admin/server-fetch";
+import { safeServerFetch } from "../../../../src/lib/admin/safe-server-fetch";
 import { Breadcrumb } from "@/components/admin/Breadcrumb";
+import { AdminSectionError } from "../../../../src/features/admin/components/_shared";
 import {
   RequestQueuePanel,
   type RequestQueueListView,
@@ -32,18 +33,28 @@ export default async function AdminRequestsPage({
   const cursor = typeof sp["cursor"] === "string" ? sp["cursor"] : null;
   const query = new URLSearchParams({ status: "pending", type });
   if (cursor) query.set("cursor", cursor);
-  const data = await fetchAdmin<AdminRequestsApiResponse>(
+  const result = await safeServerFetch<AdminRequestsApiResponse>(
     `/admin/requests?${query.toString()}`,
   );
-  const view: RequestQueueListView = {
-    items: data.items ?? [],
-    nextCursor: data.nextCursor ?? null,
-    appliedFilters: data.appliedFilters ?? { status: "pending", type },
-  };
   return (
     <section className="flex flex-col gap-4">
       <Breadcrumb items={[{ label: "管理", href: "/admin" }, { label: "依頼キュー" }]} />
-      <RequestQueuePanel initial={view} type={type} />
+      {result.ok ? (
+        <RequestQueuePanel
+          initial={{
+            items: result.data.items ?? [],
+            nextCursor: result.data.nextCursor ?? null,
+            appliedFilters: result.data.appliedFilters ?? { status: "pending", type },
+          }}
+          type={type}
+        />
+      ) : (
+        <AdminSectionError
+          sectionLabel="依頼キュー"
+          code={result.error.code}
+          message={result.error.message}
+        />
+      )}
     </section>
   );
 }

@@ -3,6 +3,7 @@
 ## 概要
 LOGS は archive index 方式へ再編した。最新更新は本ファイル、詳細 log は references/archive から参照する。
 ## 最新更新ヘッドライン
+| 2026-05-23 - admin-ui-prototype-alignment lessons-learned 反映（`references/lessons-learned-admin-ui-prototype-alignment-2026-05.md`（L-AUIP-001..006: per-section degrade / safeServerFetch SafeResult / Props contract Phase 2 確定 / barrel import CI gate / design token phase 分離 / server-client twin principle / Phase 4 test-contract scope lock）を新規作成。outputs/phase-12/unassigned-task-detection.md と phase12-task-spec-compliance-check.md の「detected 0」と「followup 2 件物理生成」の矛盾を解消。indexes は `pnpm indexes:rebuild` で再生成想定） |
 | 2026-05-20 - Issue #806 dynamic member OG image implemented-local sync（`docs/30-workflows/issue-806-dynamic-member-og-image/` を `implemented-local / implementation / VISUAL / local-evidence-captured` として同期。root/output `artifacts.json` parity、Phase 11 screenshot/meta evidence、Phase 12 strict 7、Phase 13 user-gated placeholders、source one-pager consumed marker、quick-reference / resource-map / task-workflow-active / artifact inventory / changelog を同一 wave で反映。automation-30 指摘の async `params`、stale API path、Phase 6 false-completed、`twitter:image` assertion、OpenNext route runtime compatibility、font backlog wording を修正。commit、push、PR、deploy verification は user-gated） |
 | 2026-05-19 - issue-801 admin error focus transfer sync（`docs/30-workflows/issue-801-admin-error-focus-transfer/` を `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION / runtime_pending` として同期。`apps/web/app/(admin)/admin/error.tsx` に h1 focus / aria-live / digest / logger scope を追加し、focused component tests 13 件、Phase 11 local evidence、Phase 12 strict 7、source unassigned consumed trace、resource-map / quick-reference / task-workflow-active / artifact inventory / changelog を同一 wave で反映。runtime screenshot / screen reader smoke / commit / push / PR は user-gated） |
 | 2026-05-19 - D1 soft delete + 楽観ロック + db.batch atomic mutation pattern 正本化（Issue #778 で確立した汎用パターンを `references/pattern-d1-soft-delete-optimistic-lock-batch.md` に集約、苦戦箇所を `references/lessons-learned-d1-batch-atomicity-and-soft-delete-2026-05.md`（L-DBATCH-001 / L-SOFTDEL-001 / L-OPTLOCK-001 / L-AUDITREL-001 / L-SCOPE-001）に集約。`indexes/resource-map.md` / `indexes/quick-reference.md` に新規 pattern 行 + Issue #778 行への cross-link、`SKILL.md` Trigger に D1 soft delete / partial unique index / optimistic lock / db.batch atomicity / cf_audit_log vs audit_log boundary 等のキーワードを追加。`indexes/topic-map.md` / `indexes/keywords.json` は `pnpm indexes:rebuild` で再生成想定） |
@@ -1008,3 +1009,8 @@ production env monitor secret cleanup は user-gated。
 
 - Synced `docs/30-workflows/issue-256-e2e-coverage-baseline-runbook/` as `implemented_local_evidence_captured / implementation / NON_VISUAL`.
 - Added workflow artifact inventory and active task ledger entry for coverage exclude ratio baseline, smoke SLA runbook, fallback metric runbook, and current `apps/web/app` topology sync.
+# 2026-05-23 admin-ui-prototype-alignment
+
+- Registered `docs/30-workflows/admin-ui-prototype-alignment/` as `spec_created / implementation / VISUAL`.
+- Added artifact inventory `references/workflow-admin-ui-prototype-alignment-artifact-inventory.md`.
+- Boundary: no API / D1 schema / Auth.js middleware contract change; runtime screenshots and PR creation are user-gated.
