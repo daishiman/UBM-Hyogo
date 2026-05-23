@@ -3,17 +3,9 @@ main = "src/index.ts"
 compatibility_date = "2025-01-01"
 compatibility_flags = ["nodejs_compat"]
 
-[vars]
-ENVIRONMENT = "production"
-SHEET_ID = "10XQqUko2A5jFXT-J0ibvPt3KUX56divqEk6kDccH5vw"
-FORM_ID = "119ec539YYGmkUEnSYlhI-zMXtvljVpvDFMm7nfhp7Xg"
-GOOGLE_FORM_ID = "119ec539YYGmkUEnSYlhI-zMXtvljVpvDFMm7nfhp7Xg"
-SHEETS_SPREADSHEET_ID = "10XQqUko2A5jFXT-J0ibvPt3KUX56divqEk6kDccH5vw"
-SYNC_BATCH_SIZE = "100"
-SYNC_MAX_RETRIES = "3"
-SYNC_RANGE = "Form Responses 1!A1:ZZ10000"
-RETENTION_PURGE_MODE = "dry-run"
-TAG_QUEUE_PAUSED = "false"
+# top-level [vars] is intentionally absent. Wrangler does not inherit
+# top-level vars into named environments, so production/staging vars live only
+# under [env.production.vars] and [env.staging.vars].
 
 # 03a: schema sync は 03:00 JST (= 18:00 UTC) に 1 回
 # 03b: response sync は */15 で実行（forms.responses.list 差分同期）
@@ -120,6 +112,20 @@ dataset = "sync_alerts"
 binding = "UBM_AUDIT_COLD_STORAGE"
 bucket_name = "ubm-hyogo-audit-cold-storage-prod"
 
+# Issue #315: Application audit_log cold storage / R2 export
+# 90 日 D1 TTL の前に redacted JSONL.gz を R2 へ日次 export する cold storage。
+# bucket 作成 (Object Lock COMPLIANCE 7 年) は Phase 11 runtime gate 承認後に実行する。
+[[env.production.r2_buckets]]
+binding = "UBM_AUDIT_APP_COLD_STORAGE"
+bucket_name = "ubm-audit-cold-storage-app-prod"
+
+# ut-17-followup-002: alert-relay dedup state 用 KV namespace は user-gated。
+# namespace 作成後、実 id だけを使って次の block を有効化する。
+# placeholder id を active TOML に残すと deploy validation を壊すため、承認前はコメント化する。
+# [[env.production.kv_namespaces]]
+# binding = "ALERT_DEDUP_KV"
+# id = "<production_namespace_id>"
+
 [env.staging]
 name = "ubm-hyogo-api-staging"
 
@@ -179,3 +185,16 @@ dataset = "sync_alerts_staging"
 binding = "UBM_AUDIT_COLD_STORAGE"
 bucket_name = "ubm-hyogo-audit-cold-storage-staging"
 preview_bucket_name = "ubm-hyogo-audit-cold-storage-staging"
+
+# Issue #315: application audit_log cold storage (staging)
+[[env.staging.r2_buckets]]
+binding = "UBM_AUDIT_APP_COLD_STORAGE"
+bucket_name = "ubm-audit-cold-storage-app-staging"
+preview_bucket_name = "ubm-audit-cold-storage-app-staging"
+
+# ut-17-followup-002: alert-relay dedup state 用 KV namespace は user-gated。
+# namespace 作成後、実 id だけを使って次の block を有効化する。
+# placeholder id を active TOML に残すと deploy validation を壊すため、承認前はコメント化する。
+# [[env.staging.kv_namespaces]]
+# binding = "ALERT_DEDUP_KV"
+# id = "<staging_namespace_id>"

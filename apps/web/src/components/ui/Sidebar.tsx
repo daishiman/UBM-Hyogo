@@ -5,6 +5,7 @@ import { cn } from "../../lib/cn";
 import { isBrowser } from "../../lib/is-browser";
 
 export interface SidebarProps extends HTMLAttributes<HTMLElement> {
+  as?: "aside" | "div";
   label?: string;
   header?: ReactNode;
   footer?: ReactNode;
@@ -30,13 +31,13 @@ function isActiveHref(href: string, matchPrefix?: string): boolean {
   return matchPrefix ? pathname.startsWith(matchPrefix) : pathname === href;
 }
 
-export function Sidebar({ label = "サイドバー", header, footer, children, className, ...props }: SidebarProps) {
+export function Sidebar({ as: Element = "aside", label = "サイドバー", header, footer, children, className, ...props }: SidebarProps) {
   return (
-    <aside {...props} className={cn("ui-sidebar", className)} aria-label={label}>
+    <Element {...props} className={cn("ui-sidebar", className)} aria-label={label}>
       {header}
       {children}
       {footer}
-    </aside>
+    </Element>
   );
 }
 

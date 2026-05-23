@@ -76,6 +76,18 @@ UBM-Hyogo の最小計装セット。各イベントは `index1` をテナント
 | KV 書き込み無料枠消費率（日次） | 60% | 85% | 1,000/日 上限への到達余裕 |
 | Sheets→D1 同期失敗 | 連続 1 回 | 連続 3 回 | 単発の Google API ゆらぎとシステム障害の切り分け |
 
+### 3.1.1 ALERT_DEDUP_KV quota guard（UT-17 follow-up 006）
+
+`infra/cloudflare-alerts/` の Cloudflare Notification Policy IaC に
+`workers-kv-writes-per-day` と `workers-kv-stored-bytes` を追加済み。
+どちらも initial `enabled:false` で、Cloudflare apply / Slack runtime smoke /
+`enabled:true` 切替は user-gated。
+
+Cloudflare native billing usage alert は account 集計であり、namespace filter を持たない。
+そのため、この 2 policy は `ALERT_DEDUP_KV` 固有監視ではなく Workers KV account quota guard
+として扱う。将来 KV namespace が増えた場合は、GraphQL / Workers Analytics pull 監視または
+namespace-specific alert support の再調査が必要。
+
 ### 3.2 30 分 dedupe（重複抑止）
 
 - 同一 `event 種別 × 環境 × 閾値レベル` の通知は 30 分間は 1 通に集約する。
@@ -260,7 +272,7 @@ Issue #549 は Issue #515 の ML-ready classifier を production で `ml` に切
 | workflow root | `docs/30-workflows/completed-tasks/issue-549-cf-audit-ml-production-switch/` |
 | classifier switch | `CF_AUDIT_CLASSIFIER=ml` は Gate-0〜C 通過後のみ |
 | model path | `ML_MODEL_PATH=op://Employee/ubm-hyogo-env/CF_AUDIT_ML_MODEL_PATH_PROD` |
-| fallback alert | fallback rate > 5% が 3 hour 連続で GitHub Issue 起票 |
+| fallback alert | fallback rate > 5% が 3 hour 連続で GitHub Issue 起票 + Slack (`SLACK_WEBHOOK_INCIDENT`) + mail HTTP webhook (`EMAIL_WEBHOOK_URL` / `EMAIL_FROM` / `EMAIL_TO`) を実行。Slack / mail は optional best-effort、GitHub Issue は必須 audit trail |
 | observation | production switch merge 後 7 日、168 hourly snapshots を確認 |
 | rollback | `CF_AUDIT_CLASSIFIER=threshold` へ戻し、D1 `classifier_used` / `classifier_version` / `confidence` は削除しない |
 
@@ -274,6 +286,109 @@ Gate:
 | Gate-C | rollback runbook approval / governance evidence 取得 | merge 凍結 |
 
 Runtime PASS は 7 日観測完走後だけに使う。implemented-local / local template / skeleton dry-run だけで `pass_runtime_synced` に昇格しない。
+
+## 12. Issue #587 Cloudflare Audit Logs ML model artifact rotation contract（2026-05-10）
+
+Issue #587 は Issue #549 の production ML switch 後に、次世代 ML model artifact を安全に入れ替えるための rotation contract である。現在状態は `implemented_local_runtime_pending / implementation / NON_VISUAL`。本サイクルで rotation scripts (`scripts/cf-audit-log/rotation/artifact-canary.ts`, `rotation-evidence-collector.ts`)、focused vitest 19 件、canary workflow (`.github/workflows/cf-audit-log-artifact-canary.yml`)、local fixture canary evidence、runbook contract、SSOT 同期までを完了済み。production artifact promotion は Gate-R0〜R3 と user approval 後の runtime cycle に残す。
+
+| 項目 | 正本 |
+| --- | --- |
+| workflow root | `docs/30-workflows/issue-587-cf-audit-ml-artifact-rotation/` |
+| parent | `docs/30-workflows/completed-tasks/issue-549-cf-audit-ml-production-switch/` |
+| runbook contract | `docs/30-workflows/runbooks/ml-model-artifact-rotation.md` |
+| candidate op reference | `op://Employee/ubm-hyogo-env/CF_AUDIT_ML_MODEL_PATH_CANDIDATE` |
+| production op reference | `op://Employee/ubm-hyogo-env/CF_AUDIT_ML_MODEL_PATH_PROD` |
+| previous op reference | `op://Employee/ubm-hyogo-env/CF_AUDIT_ML_MODEL_PATH_PREVIOUS` |
+| evidence schema | `CanaryOutput` includes `precisionProxy`, `recallProxy`, `fallbackRate`, `p95LatencyMs`, `leakageHits`, baseline metrics, candidate metrics, and verdict |
+| rotation scripts | `scripts/cf-audit-log/rotation/artifact-canary.ts`, `scripts/cf-audit-log/rotation/rotation-evidence-collector.ts`, `__tests__/*.test.ts` |
+| canary workflow | `.github/workflows/cf-audit-log-artifact-canary.yml` (`workflow_dispatch` only, validates op references, uploads canary evidence) |
+| canary fail gate | leakage hits > 0, fallback rate >= 5%, p95 latency > 1.5x baseline, or precision/recall worse than baseline |
+| rollback | restore production artifact reference to the previous op-managed value; do not drop D1 `classifier_used` / `classifier_version` / `confidence` |
+
+Gate-R0〜R3:
+
+| Gate | 条件 | 未通過時 |
+| --- | --- | --- |
+| Gate-R0 | Issue #549 runtime boundary or equivalent approval evidence is recorded | artifact promotion 不可 |
+| Gate-R1 | candidate offline replay is no worse than baseline | candidate discard / Issue #548 selectionへ戻す |
+| Gate-R2 | fallback rate / p95 latency / leakage grep are within thresholds | promotion PR 作成不可 |
+| Gate-R3 | previous artifact reference and rollback owner are recorded | promotion PR 作成不可 |
+
+Redaction rule: docs, logs, artifacts, PR body, and commit messages may contain op reference names, classifier version, run id, aggregate metrics, and redacted summaries only. Resolved artifact paths, raw feature datasets, full IP, full user-agent, actor email, bearer headers, token values, and value hashes are forbidden.
+
+## 11.1 Issue #586 post-switch 7-day close-out contract（2026-05-09）
+
+Issue #586 は Issue #549 の close-out として、production hourly run に leakage grep / fallback rate alert / artifact upload の 3 post-step を組み込み、`cf-audit-log-7day-summary.yml` で 168 hourly snapshots を集約して `pass_runtime_synced` 昇格を判定する契約である。状態昇格は 3 段:
+
+| 段階 | 条件 | runtime path |
+| --- | --- | --- |
+| `implemented_local_runtime_pending` | workflow YAML 編集 + SSOT 4 ファイル更新 + Phase 11 local 5 evidence + Phase 12 strict 7 outputs | merge 前 |
+| `pass_boundary_synced_runtime_pending` | base=`dev` PR merge 完了 + production env で `vars.CF_AUDIT_CLASSIFIER=ml` 設定済み | merge 後 D+0 |
+| `pass_runtime_synced` | 168 hourly snapshots 集約完了 + leakage grep 7 日連続 clean + fallback rate mean ≤ 5% | D+7 |
+
+| 項目 | 正本 |
+| --- | --- |
+| workflow root | `docs/30-workflows/issue-586-post-switch-7day-close-out/` |
+| hourly workflow | `.github/workflows/cf-audit-log-monitor.yml`（Issue #518 HOLD 解除 / `schedule: '5 * * * *'` / `dry_run` 既定 `false` / 3 post-step + artifact upload） |
+| 7-day summary workflow | `.github/workflows/cf-audit-log-7day-summary.yml`（`cron '0 1 */7 * *'` + `workflow_dispatch` / cross-run `gh api workflows/<name>/runs` + artifact zip download / `peter-evans/create-pull-request@v6`） |
+| evidence canonical path | `docs/30-workflows/issue-586-post-switch-7day-close-out/outputs/phase-11/evidence/{hourly-run-7day.md,hourly-run-7day-summary.json,leakage-grep-7day.log,issue-rate-comparison.md}` |
+| local 5 evidence | `outputs/phase-11/evidence/{typecheck.log,lint.log,test.log,build.log,grep-gate.log}` |
+| rollback | `gh variable set CF_AUDIT_CLASSIFIER --env production --body "threshold"` の env 1 行戻し。D1 列・schema には触らない |
+
+Gate:
+
+| Gate | 条件 | 未通過時 |
+| --- | --- | --- |
+| Gate-RUNTIME-CLASSIFIER-SET | production env で `vars.CF_AUDIT_CLASSIFIER=ml` 設定済み | hourly post-step は ml に切り替わらず threshold で 7 日 evidence 取り直し |
+| Gate-RUNTIME-7DAY | 168 hourly snapshots 蓄積完了（artifact retention 8 日内） | snapshot 不足 hour を `hourly-run-7day.md` に明記し、infra 障害なら昇格許容 / production 起因なら再観測 |
+| Gate-LEAKAGE-CLEAN-7DAY | 7 日連続で leakage grep clean | `pass_runtime_synced` 昇格不可 |
+| Gate-FALLBACK-RATE | 7 日 mean fallback rate ≤ 5% かつ 3h 連続超 alert 0 件 | rollback 検討 |
+| Gate-SNAPSHOT-INTEGRITY | aggregate JSON が `expectedSnapshots` / `actualSnapshots` を持ち、run URL 一覧が保存され、全 snapshot が skeleton zero metrics ではない | `pass_runtime_synced` 昇格不可 |
+
+## 11.2 Issue #655 D+7 recovery 2nd-cycle contract（2026-05-14）
+
+Issue #655 は Issue #586 の D+7 evidence が不足または未生成になった場合の
+2 周目 recovery contract である。canonical workflow root は
+`docs/30-workflows/completed-tasks/issue-655-d7-recovery-2nd-cycle/`、状態は
+`implemented-local-runtime-pending / implementation / NON_VISUAL / IMPLEMENTED_LOCAL_RUNTIME_PENDING`。
+
+| 項目 | 正本 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-655-d7-recovery-2nd-cycle/` |
+| parent workflow | `docs/30-workflows/completed-tasks/issue-586-post-switch-7day-close-out/` |
+| recovery aggregate | `outputs/phase-11/evidence/hourly-run-7day-summary-recovery.json` |
+| runtime boundary | PR-A implementation / PR-B D'+7 evidence / commit / push / PR / workflow_dispatch は user-gated |
+| state vocabulary | workflow root は `spec_created`、runtime collection は `runtime_pending`、D'+7 成功後の業務状態のみ `pass_runtime_synced` |
+| inventory | `references/workflow-issue-655-d7-recovery-2nd-cycle-artifact-inventory.md` |
+
+Recovery では 1 周目と 2 周目の evidence を混在させない。2 周目は
+`*-recovery.*` suffix と `./hourly-snapshots-recovery` input directory を使う。
+親 #586 の `hourly-run-7day-summary.json` が存在しない場合は、
+`recovery-rootcause-helper.ts --mark-missing-parent-summary` で missing 自体を
+root-cause evidence として記録する。
+
+## 11.3 Issue #720 monitor environment protection fix（2026-05-16）
+
+Issue #720 は Issue #655 recovery 2nd-cycle の blocker だった
+`cf-audit-log-monitor.yml` の GitHub `production` environment branch policy block を解消する
+local implementation である。状態は
+`implemented_local_runtime_pending / implementation / NON_VISUAL`。
+
+| 項目 | 正本 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-720-cf-audit-monitor-env-protection-fix/` |
+| source unassigned | `docs/30-workflows/completed-tasks/task-issue-655-cf-audit-log-monitor-production-env-protection-001.md` |
+| parent workflow | `docs/30-workflows/completed-tasks/issue-655-d7-recovery-2nd-cycle/` |
+| local diff | `.github/workflows/cf-audit-log-monitor.yml` から `environment: production` を削除 |
+| classification | read-only / notification-only monitor. Deploy / rollback / schema apply は行わない |
+| runtime boundary | repo secret/variable mirror, push, PR, workflow_dispatch, six scheduled successes, heartbeat, D'+0 declaration are user-gated |
+| inventory | `references/workflow-issue-720-cf-audit-monitor-env-protection-fix-artifact-inventory.md` |
+
+GitHub Actions `environment:` は deployment protection boundary として扱う。read-only or
+notification-only monitor が production data を読むだけの場合、`environment: production` を付ける
+ことは branch policy block を招くため、明示的に branch-policy blocking を受け入れる設計でない限り
+避ける。repo-level mirror は read-only monitor token / approved notification webhook に限定し、
+mutation-capable deploy credentials は environment-scoped のまま維持する。
 
 ## 10. Issue #547 Cloudflare Audit Logs Redacted Feature Export Contract（2026-05-08）
 
@@ -308,6 +423,8 @@ Issue #546 は docs-only / NON_VISUAL の runtime observation workflow として
 
 Decision is `observation_continue`. Do not proceed to production ML switch from Issue #546 evidence. Earliest meaningful 90 day review is after 2026-08-05 if successful hourly runs begin on 2026-05-08.
 
+Issue #581 formalizes the next re-observation cycle at `docs/30-workflows/issue-581-cf-audit-90day-reobservation-reminder/`. Its root `workflow_state` remains `spec_created`; `observation_continue` is a runtime decision value, not a root state. Because Issue #518 HOLD deleted the watchdog workflow, Issue #581 stores watchdog lifecycle evidence as a marker JSON instead of querying a non-existent GitHub Actions workflow.
+
 ## 12. Issue #514 Cloudflare Audit Logs Cold Storage / R2 Export Contract（2026-05-07）
 
 Issue #514 は Issue #408 の D1 30 日 retention を超える監査用途の cold storage 仕様である。状態は `implemented-local / implementation / NON_VISUAL / PASS_BOUNDARY_SYNCED_RUNTIME_PENDING`。本サイクルでは仕様・Phase 11/12/13 evidence skeleton・SSOT 同期に加え、R2 binding / D1 migration / exporter / restore drill / GitHub Actions workflow のローカル実装まで完了する。R2 bucket / Secret / production D1 migration apply / 初回 export / PR は G1-G4 の user approval 後にのみ実行する。
@@ -328,19 +445,37 @@ Redaction rule: export 段階で cold-storage 用 redaction transform を適用�
 
 苦戦知見: 本契約の cadence 補正 / G1-G4 順序固定 / `PASS_BOUNDARY_SYNCED_RUNTIME_PENDING` 語彙 / artifacts mirror parity / source schema 整合 + `r2_etag` / 6-category redaction guard の経緯は `references/lessons-learned-issue-514-cf-audit-logs-cold-storage-r2-export-2026-05.md` (L-ISSUE514-001..007) を参照する。
 
+### Issue #315 Application audit_log Cold Storage / R2 Export（2026-05-18）
+
+Issue #315 は application `audit_log` の 90 日 D1 retention 前 export を R2 Object Lock cold storage へ接続する。状態は `implemented_local_evidence_captured / implementation / NON_VISUAL / PASS_BOUNDARY_SYNCED_RUNTIME_PENDING`。production D1 apply / R2 bucket Object Lock creation / deploy / first non-dry-run export / restore drill / commit / push / PR は user approval 後にのみ実行する。
+
+| 項目 | 正本 |
+| --- | --- |
+| workflow root | `docs/30-workflows/issue-315-audit-log-application-cold-storage/` |
+| R2 binding | `UBM_AUDIT_APP_COLD_STORAGE` |
+| manifest | D1 `audit_log_export_manifest`。`(yyyy, mm, dd)` UNIQUE、`pending -> completed/failed`、`r2_etag` / `sha256` |
+| exporter | `scripts/audit-log/export-to-r2.ts` |
+| runbook | `docs/30-workflows/issue-315-audit-log-application-cold-storage/operations/audit-log-retention-runbook.md` |
+| evidence boundary | Phase 11/12 は local deterministic evidence。runtime PASS は user-gated mutation evidence 後 |
+
 ---
 
 ## 13. 変更履歴
-## 10. 変更履歴
 
 | 日付 | 変更 |
 | --- | --- |
+| 2026-05-09 | Issue #586 post-switch 7-day close-out contract を追加。Issue #518 HOLD 解除、`schedule '5 * * * *'` 復活、hourly post-step 3 点 + artifact upload + `cf-audit-log-7day-summary.yml` 新規、`pass_runtime_synced` 3 段昇格、forward-safe rollback を正本化 |
 | 2026-05-08 | Issue #546 Cloudflare Audit Logs 90 day baseline observation を追加。Gate-A FAIL、Gate-B/C pending、production ML switch 禁止、最短再判定日を正本化 |
+| 2026-05-10 | Issue #587 Cloudflare Audit Logs ML model artifact rotation contract を追加。candidate/canary/promotion/rollback の 4 段、Gate-R0〜R3、candidate/previous op 参照、forward-safe rollback 境界を正本化 |
+| 2026-05-10 | Issue #587 rotation scripts (`scripts/cf-audit-log/rotation/artifact-canary.ts`, `rotation-evidence-collector.ts`) と canary workflow (`.github/workflows/cf-audit-log-artifact-canary.yml`) を実装。focused vitest 19 件 pass、local fixture canary evidence を取得し、状態を `implemented_local_runtime_pending` に更新 |
+| 2026-05-09 | Issue #581 re-observation reminder を Issue #546 の canonical next-cycle workflow として追加。root `spec_created` と runtime decision `observation_continue` を分離し、watchdog は Issue #518 HOLD 削除済み lifecycle marker として扱う |
 | 2026-05-07 | Issue #518 により Cloudflare Audit Logs 自動監視を HOLD 化。`cf-audit-log-monitor.yml` は schedule 削除 + `dry_run=true` 既定、watchdog workflow は削除、週次手動確認 runbook を正本化 |
 | 2026-05-08 | Issue #547 Cloudflare Audit Logs redacted feature export contract を追加。fixture/production evidence 分離、read-only D1 export、schema validation、manifest、leakage gate、`Refs #547` 境界を正本化 |
 | 2026-05-07 | Issue #515 Cloudflare Audit Logs ML-ready classifier contract を追加。threshold default、redacted features、offline replay、forward-safe rollback、90 日 Gate を正本化 |
 | 2026-05-08 | Issue #549 Cloudflare Audit Logs ML production switch contract を追加。Gate-A〜C、`ML_MODEL_PATH` op 参照、fallback rate alert、7 日観測、forward-safe rollback 境界を正本化 |
+| 2026-05-10 | Issue #588 fallback alert Slack / mail extension を追加。`SLACK_WEBHOOK_INCIDENT` を GitHub Actions secret 正本に固定し、mail provider は `EMAIL_WEBHOOK_URL` + `EMAIL_FROM` + `EMAIL_TO` の3点成立時のみ best-effort 実送信する |
 | 2026-05-07 | Issue #514 Cloudflare Audit Logs cold storage / R2 export contract を追加。daily export cadence、manifest 2-phase、G1-G4 order、R2 binding / Secret 境界を正本化 |
+| 2026-05-18 | Issue #315 application `audit_log` cold storage / R2 export を追加。`audit_log_export_manifest`、`UBM_AUDIT_APP_COLD_STORAGE`、workflow-local runbook、user-gated runtime boundary を正本化 |
 | 2026-05-06 | Issue #495 production extension を追加。`x-smoke-production-confirm: YES`、production prefix / Sentry environment tag、G1-G4 gate、staging/production evidence 分離を固定 |
 | 2026-05-07 | Issue #520 Slack incident channel provisioning を追加。`#ubm-hyogo-incidents`、`SLACK_WEBHOOK_INCIDENT`、G1-G4 secret placement / smoke evidence 境界を固定 |
 | 2026-05-06 | Issue #408 Cloudflare Audit Logs monitoring contract を追加。`CF_AUDIT_TOKEN_PROD` 分離、severity label、Phase 11 runtime pending evidence 境界を正本化 |

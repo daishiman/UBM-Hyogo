@@ -1,0 +1,47 @@
+ M .claude/skills/aiworkflow-requirements/SKILL-changelog.md
+ M .claude/skills/aiworkflow-requirements/SKILL.md
+ M .claude/skills/aiworkflow-requirements/indexes/quick-reference.md
+ M .claude/skills/aiworkflow-requirements/indexes/resource-map.md
+ M .claude/skills/aiworkflow-requirements/references/task-workflow-active.md
+ M apps/web/app/(admin)/admin/error.tsx
+ M apps/web/app/error.tsx
+ M apps/web/app/login/error.tsx
+ M apps/web/app/profile/error.tsx
+ M docs/30-workflows/completed-tasks/issue-769-root-error-focus/outputs/phase-12/unassigned-task-detection.md
+ M docs/30-workflows/unassigned-task/issue-769-followup-001-use-auto-focus-on-mount-hook.md
+ M docs/30-workflows/unassigned-task/issue-769-followup-002-profile-error-focus-transfer.md
+ M docs/30-workflows/unassigned-task/issue-769-followup-003-admin-error-focus-transfer.md
+?? .claude/skills/aiworkflow-requirements/references/workflow-issue-800-profile-error-focus-transfer-artifact-inventory.md
+?? apps/web/app/(admin)/admin/__tests__/error.component.spec.tsx
+?? apps/web/app/login/__tests__/error.component.spec.tsx
+?? apps/web/app/profile/__tests__/error.component.spec.tsx
+?? apps/web/src/lib/a11y/__tests__/useAutoFocusOnMount.spec.tsx
+?? apps/web/src/lib/a11y/useAutoFocusOnMount.ts
+?? docs/30-workflows/issue-800-profile-error-focus-transfer/artifacts.json
+?? docs/30-workflows/issue-800-profile-error-focus-transfer/index.md
+?? docs/30-workflows/issue-800-profile-error-focus-transfer/outputs/artifacts.json
+?? docs/30-workflows/issue-800-profile-error-focus-transfer/outputs/phase-11/evidence/changed-files.txt
+?? docs/30-workflows/issue-800-profile-error-focus-transfer/outputs/phase-11/evidence/git-status-short.txt
+?? docs/30-workflows/issue-800-profile-error-focus-transfer/outputs/phase-11/evidence/vitest-error-boundary-rollout.log
+?? docs/30-workflows/issue-800-profile-error-focus-transfer/outputs/phase-11/evidence/vitest-profile-error.log
+?? docs/30-workflows/issue-800-profile-error-focus-transfer/outputs/phase-11/evidence/web-lint.log
+?? docs/30-workflows/issue-800-profile-error-focus-transfer/outputs/phase-11/evidence/web-typecheck.log
+?? docs/30-workflows/issue-800-profile-error-focus-transfer/outputs/phase-11/manual-smoke-log.md
+?? docs/30-workflows/issue-800-profile-error-focus-transfer/outputs/phase-12/documentation-changelog.md
+?? docs/30-workflows/issue-800-profile-error-focus-transfer/outputs/phase-12/implementation-guide.md
+?? docs/30-workflows/issue-800-profile-error-focus-transfer/outputs/phase-12/main.md
+?? docs/30-workflows/issue-800-profile-error-focus-transfer/outputs/phase-12/phase12-task-spec-compliance-check.md
+?? docs/30-workflows/issue-800-profile-error-focus-transfer/outputs/phase-12/skill-feedback-report.md
+?? docs/30-workflows/issue-800-profile-error-focus-transfer/outputs/phase-12/system-spec-update-summary.md
+?? docs/30-workflows/issue-800-profile-error-focus-transfer/outputs/phase-12/unassigned-task-detection.md
+?? docs/30-workflows/issue-800-profile-error-focus-transfer/outputs/phase-13/pr-summary.md
+?? docs/30-workflows/issue-800-profile-error-focus-transfer/phase-1-requirements.md
+?? docs/30-workflows/issue-800-profile-error-focus-transfer/phase-10-final-review.md
+?? docs/30-workflows/issue-800-profile-error-focus-transfer/phase-2-design.md
+?? docs/30-workflows/issue-800-profile-error-focus-transfer/phase-3-design-review.md
+?? docs/30-workflows/issue-800-profile-error-focus-transfer/phase-4-test-plan.md
+?? docs/30-workflows/issue-800-profile-error-focus-transfer/phase-5-implementation.md
+?? docs/30-workflows/issue-800-profile-error-focus-transfer/phase-6-test-additions.md
+?? docs/30-workflows/issue-800-profile-error-focus-transfer/phase-7-coverage.md
+?? docs/30-workflows/issue-800-profile-error-focus-transfer/phase-8-refactor.md
+?? docs/30-workflows/issue-800-profile-error-focus-transfer/phase-9-qa.md

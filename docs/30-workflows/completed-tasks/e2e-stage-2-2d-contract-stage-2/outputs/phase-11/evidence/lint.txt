@@ -1,0 +1,28 @@
+mise WARN  Config files in ~/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260510-175035-wt-5/.mise.toml are not trusted.
+Trust them with `mise trust`. See https://mise.jdx.dev/cli/trust.html for more information.
+
+> ubm-hyogo@0.1.0 lint /Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260510-175035-wt-5
+> node scripts/lint-boundaries.mjs && pnpm run lint:deps && node scripts/lint-stablekey-literal.mjs && pnpm -r lint
+
+
+> ubm-hyogo@0.1.0 lint:deps /Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260510-175035-wt-5
+> rg --files apps packages -g '*.ts' -g '*.tsx' | xargs pnpm dlx dependency-cruiser --config .dependency-cruiser.cjs
+
+
+✔ no dependency violations found (1282 modules, 1854 dependencies cruised)
+
+[stablekey-literal-lint] OK (mode=warning, scanned=360 files, stableKeys=31)
+Scope: 5 of 6 workspace projects
+packages/shared lint$ tsc -p tsconfig.json --noEmit
+packages/shared lint: Done
+apps/web lint$ tsc -p tsconfig.json --noEmit && eslint 'src/**/*.{ts,tsx}'
+packages/integrations/google lint$ tsc -p tsconfig.json --noEmit
+packages/integrations lint$ tsc -p tsconfig.json --noEmit
+packages/integrations lint: Done
+packages/integrations/google lint: Done
+apps/web lint: playwright/fixtures/coverage.ts(2,35): error TS2307: Cannot find module 'monocart-reporter' or its corresponding type declarations.
+apps/web lint: Failed
+/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260510-175035-wt-5/apps/web:
+ ERR_PNPM_RECURSIVE_RUN_FIRST_FAIL  @ubm-hyogo/web@0.1.0 lint: `tsc -p tsconfig.json --noEmit && eslint 'src/**/*.{ts,tsx}'`
+Exit status 2
+ ELIFECYCLE  Command failed with exit code 2.

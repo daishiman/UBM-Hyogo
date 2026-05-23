@@ -23,7 +23,21 @@ cat >"$fake_repo/node_modules/.bin/wrangler" <<'SH'
 printf 'wrangler %s\n' "$*"
 SH
 
-chmod +x "$bin_dir/git" "$fake_repo/node_modules/.bin/wrangler"
+cat >"$bin_dir/op" <<'SH'
+#!/usr/bin/env bash
+printf '%s\n' "staging-token-from-op"
+SH
+
+cat >"$bin_dir/mise" <<'SH'
+#!/usr/bin/env bash
+if [ "$1" = "exec" ] && [ "$2" = "--" ]; then
+  shift 2
+  exec "$@"
+fi
+exit 64
+SH
+
+chmod +x "$bin_dir/git" "$bin_dir/op" "$bin_dir/mise" "$fake_repo/node_modules/.bin/wrangler"
 
 output="$(
   TEST_REPO_ROOT="$fake_repo" \
@@ -38,3 +52,16 @@ if [ "$output" != "wrangler whoami" ]; then
 fi
 
 printf 'PASS: cf.sh skips with-env when CLOUDFLARE_API_TOKEN is already set\n'
+
+output="$(
+  TEST_REPO_ROOT="$fake_repo" \
+  PATH="$bin_dir:$PATH" \
+  "$repo_root/scripts/cf.sh" deploy --config apps/api/wrangler.toml --env staging --dry-run
+)"
+
+if [ "$output" != "wrangler deploy --config apps/api/wrangler.toml --env staging --dry-run" ]; then
+  printf 'FAIL: expected env-specific op token deploy path, got: %s\n' "$output" >&2
+  exit 1
+fi
+
+printf 'PASS: cf.sh maps staging deploy to CLOUDFLARE_API_TOKEN_STAGING locally\n'

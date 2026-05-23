@@ -1,0 +1,14 @@
+{
+  "$schema": "../schema/policy.schema.json",
+  "name": "d1-write-queries",
+  "description": "D1 write queries 80% of free-tier daily quota",
+  "alert_type": "billing_usage_alert",
+  "enabled": true,
+  "conditions": {
+    "metric": "d1_write_queries_per_day",
+    "percentage": 0.8
+  },
+  "mechanisms": {
+    "webhooks": [{ "name": "ut-17-relay" }]
+  }
+}

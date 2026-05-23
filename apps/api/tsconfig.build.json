@@ -10,6 +10,7 @@
     "src/**/*.test.ts",
     "src/**/*.spec.ts",
     "../../packages/**/__tests__/**",
-    "../../packages/**/*.test.ts"
+    "../../packages/**/*.test.ts",
+    "../../packages/**/*.spec.ts"
   ]
 }

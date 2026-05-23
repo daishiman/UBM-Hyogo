@@ -57,6 +57,7 @@ const TABLES = [
   "identity_aliases",
   "identity_merge_audit",
   "audit_log",
+  "audit_log_export_manifest",
   "schema_aliases",
   "magic_tokens",
   "sync_jobs",

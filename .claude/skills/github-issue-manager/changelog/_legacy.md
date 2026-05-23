@@ -2,6 +2,7 @@
 
 | Version   | Date           | Changes                                                     |
 | --------- | -------------- | ----------------------------------------------------------- |
+| **v2026.05.09-governance-drift-issue-template-from-stage3c** | **2026-05-09** | **Governance drift 別 Issue 起票テンプレを追加（references/governance-drift-issue-template.md 新設）。e2e-quality-uplift stage-3-impl 3c (branch-protection-contexts) 運用方針 O-2「同 PR 修正押し付け禁止」を正本化。SKILL.md references 表に行追加 + trigger キーワード拡張。** |
 | **v2026.05.05-09a-A-execution-followup-pattern** | **2026-05-05** | **Execution follow-up Issue パターン / D1 schema parity 連携 / blocker 双方向更新を追加（references/d1-parity-followup.md 新設、SKILL.md に要約セクション追加）** |
 | 1.7.0     | 2026-01-21     | 未同期仕様書一括Issue作成機能追加（sync_new_issues.js）     |
 | 1.6.0     | 2026-01-21     | 全Issueラベル一括付与機能追加（label_all_issues.js）        |

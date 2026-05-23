@@ -59,6 +59,9 @@ UBM兵庫支部会の会員管理・公開サイト。Google Form の実回答�
 5. D1 への直接アクセスは `apps/api` に閉じる（`apps/web` から直接アクセス禁止）
 6. GAS prototype は本番バックエンド仕様に昇格させない
 7. MVP では Google Form 再回答を本人更新の正式な経路とする
+8. 新規 test ファイルは `*.spec.{ts,tsx}` のみ（`*.test.{ts,tsx}` は禁止。lefthook `block-test-suffix` と GitHub Actions `verify-test-suffix` が reject する）
+9. admin panel の form input は `FormField` 経由を標準とし、`apps/web/src/components/admin/` 配下で直接 `<input>` を増やさない
+10. admin mutation は `@/features/admin/hooks/useAdminMutation` 経由を標準とし、legacy `@/lib/useAdminMutation` への新規参照を増やさない
 
 ---
 
@@ -78,7 +81,7 @@ feature/* --PR--> dev --PR--> main
 > **solo 運用ポリシー**: 個人開発のため必須レビュアー数は 0（GitHub branch protection の `required_pull_request_reviews` は `null`）。
 > 品質保証は CI（`required_status_checks`）/ 線形履歴（`required_linear_history`）/ 会話解決必須化（`required_conversation_resolution`）/ force-push & 削除禁止 で担保する。
 > GitHub 側の branch protection 実値を正本とし、CLAUDE.md は運用参照として扱う。UT-GOV-001 適用時は `gh api repos/{owner}/{repo}/branches/dev/protection` と `gh api repos/{owner}/{repo}/branches/main/protection` を個別に実行し、`grep` で `required_pull_request_reviews=null` / `lock_branch=false` / `enforce_admins=true` の drift がないことを確認する。
-> Issue #554 では `audit-correlation-verify / verify` を `dev` / `main` の required status check に追加する。実 `gh api -X PUT`、after JSON、commit、push、PR はユーザー明示承認後のみ実行する。read-only before JSON は事前 evidence として取得可能。
+> Issue #554 では `audit-correlation-verify / verify`、task-18 では `verify-design-tokens / verify-design-tokens`、`playwright-smoke / smoke (chromium)`、`playwright-smoke / visual (chromium, 4 screens)` を `dev` / `main` の required status check 候補に追加する。実 `gh api -X PUT`、PUT payload、commit、push、PR はユーザー明示承認後のみ実行する。read-only before JSON は事前 evidence として取得可能。
 
 ---
 
@@ -154,6 +157,7 @@ mise exec -- pnpm lint            # リント
 mise exec -- pnpm build           # ビルド
 mise exec -- pnpm indexes:rebuild # skill indexes を明示再生成（post-merge 廃止後の正規経路）
 mise exec -- pnpm sync:check      # origin/main・origin/dev とローカル/全 worktree の遅れを通知（git fetch 後の手動チェック）
+mise exec -- pnpm exec lhci healthcheck --config=./lighthouserc.json # Lighthouse CI 設定チェック
 
 # または mise shell で Node 24 環境に入ってから通常通り実行
 mise shell
@@ -161,6 +165,8 @@ pnpm install
 pnpm typecheck
 pnpm lint
 ```
+
+> **Vitest / esbuild runtime トラブル時**: `pnpm verify:vitest-runtime` で arch / worktree isolation / esbuild version の 3 verify をまとめて実行。詳細復旧手順は `docs/30-workflows/issue-747-vitest-esbuild-arch-and-worktree-isolation/runbook.md` を参照。
 
 > **Git hook の方針**: `lefthook.yml` が hook の正本。`pnpm install` 実行時に `prepare` script
 > 経由で `lefthook install` が自動配置する。`.git/hooks/*` の手書きは禁止。
@@ -179,6 +185,18 @@ main を feature ブランチへ取り込む sync-merge では、構造的に「
 | pre-push `coverage-guard` | push 範囲 (`@{u}..HEAD`) に merge commit を 1 件以上含む かつ `--changed` モード時 | `scripts/coverage-guard.sh` |
 
 これにより main 取り込み時の `git commit` / `git push` で `--no-verify` を**付ける必要はない**。featureコミット/pushは従来通りhookが効く。`--no-verify` の使用は引き続き避け、hook が誤検知する場合は本セクションの方針に沿って hook 自体を改善すること。
+
+#### sync-merge コンフリクト解消の3層予防
+
+dev → feature の sync-merge では skill / 30-workflows ログ系で構造的にコンフリクトが頻発するため、以下 3 層で予防している:
+
+| 層 | 仕組み | 対象 |
+|----|-------|------|
+| 1. `.gitattributes` `merge=union` | git が自動結合 | `docs/30-workflows/LOGS.md`, `.claude/skills/*/SKILL-changelog.md`, `.claude/skills/*/LOGS/_legacy.md`, `.claude/skills/*/lessons-learned/*.md` |
+| 2. resolver スクリプト | `pnpm sync:resolve`（merge 中のみ可） | `SKILL.md` / `task-workflow-active.md` / `indexes/*-map.md` の union 解消、`indexes/keywords.json` の `--ours + rebuild` |
+| 3. ドキュメント | lessons-learned-dev-sync-merge-conflict-resolution-2026-05.md (L-DEVSYNC-001..007) | 残った混在ファイルの手動解消ルール |
+
+標準フロー: `git merge dev` → conflict 発生時は `pnpm sync:resolve` → 残件があれば手動解消 → `git commit` → `pnpm typecheck && pnpm lint` → `git push`。
 
 ### リモート同期チェック (`pnpm sync:check`) — main / dev 共通
 
@@ -213,10 +231,11 @@ git には `post-fetch` hook が存在しないため、`git fetch` 後にリモ
 2. `git fetch origin dev` を実行し、ローカル `dev` を `origin/dev` にfast-forward同期する。
 3. 作業ブランチに戻り、`dev` をマージする。
 4. コンフリクトがあれば以下の方針で自律解消し、`git add` と `git commit` まで行う。
-5. 品質検証は次の3コマンドだけを実行する。
+5. 品質検証は次の4コマンドだけを実行する。
    - `pnpm install --force`
    - `pnpm typecheck`
    - `pnpm lint`
+   - `bash scripts/verify-pr-ready.sh`（docs-only gate の pre-flight。`verify:phase12-compliance` / `gate-metadata:validate` / `indexes:rebuild` drift を一括検証。失敗パターンは `.claude/skills/task-specification-creator/references/pr-pre-flight-ci-gate-checklist.md` を参照）
 6. 品質検証が失敗した場合は最大3回まで自動修復し、修復差分をコミットする。
 7. `git status --porcelain` で未コミット変更を確認し、残っている変更は `git add -A` で全件含めてコミットする。
 8. `git diff dev...HEAD --name-only` でPRに入るファイル一覧を取得し、PR本文作成時に漏れなし確認として扱う。
@@ -237,6 +256,7 @@ git には `post-fetch` hook が存在しないため、`git fetch` 後にリモ
 - `pnpm install --force` 失敗時は依存状態とlockfileの不整合を疑い、最小限の再生成で復旧する。
 - `pnpm typecheck` 失敗時は、unused import、null許容、型注釈漏れ、export/import不整合など明白な型不整合を最小差分で修正する。
 - `pnpm lint` 失敗時は、まず `pnpm lint --fix` を試し、残る違反だけを手修正する。
+- `bash scripts/verify-pr-ready.sh` 失敗時は `.claude/skills/task-specification-creator/references/pr-pre-flight-ci-gate-checklist.md` の §1〜§5 を参照し、`gate-metadata:validate`（artifacts.json zod schema）→ `verify:phase12-compliance`（canonical 9 headings / Phase 11 evidence 表 / workflow root scan）→ `indexes:rebuild` drift の順で原因切り分け＋修正してから再実行する。
 - テストコード実行は、ユーザーが明示しない限りこのPR作成フローでは行わない。
 
 ### PR作成前チェック
@@ -285,6 +305,7 @@ PR作成完了後は、PR URL、採用ブランチ、実行した自動修復、
 - `getEnv()` は zod schema で検証し、parse 失敗時は throw する。throw は `apps/web/src/app/error.tsx`（task-05）の error boundary で補足する設計のため、try/catch で握り潰さない。
 - 非機密 var は `apps/web/wrangler.toml` の `[vars]` / `[env.staging.vars]` / `[env.production.vars]` で管理。機密値は `bash scripts/cf.sh secret put` で Cloudflare Secrets に投入し、`.dev.vars.example` には `op://Vault/Item/Field` 参照のみを記す。
 - `127.0.0.1:8888` などローカル限定エンドポイントの `apps/web/src` 配下への焼き込みは禁止（task-18 regression smoke で grep gate）。
+- `apps/web` の production build は OpenNext Workers 互換のため `next build --webpack` を正本とする。Next.js 16 の Turbopack は local dev 用に限定し、Cloudflare Workers deploy bundle へ `[project]/...` 仮想 module specifier を混入させない。
 
 #### Cloudflare 系 CLI 実行ルール（Claude Code 必読）
 
@@ -342,8 +363,8 @@ bash scripts/cf.sh rollback <VERSION_ID> --config apps/api/wrangler.toml --env p
 
 ### 正本順位（衝突時の優先度）
 
-1. `docs/30-workflows/ui-prototype-alignment-mvp-recovery/SCOPE.md`
-2. `docs/30-workflows/ui-prototype-alignment-mvp-recovery/outputs/phase-{1,2,3}/phase-N.md`
+1. `docs/30-workflows/completed-tasks/ui-prototype-alignment-mvp-recovery/SCOPE.md`
+2. `docs/30-workflows/completed-tasks/ui-prototype-alignment-mvp-recovery/outputs/phase-{1,2,3}/phase-N.md`
 3. `docs/00-getting-started-manual/specs/*.md`
 4. プロトタイプ（`docs/00-getting-started-manual/claude-design-prototype/`）
 

@@ -15,6 +15,10 @@ export interface RecommendExistingInput {
   position: number;
 }
 
+export function normalizeLabelForCompare(s: string): string {
+  return s.normalize("NFKC").trim().replace(/\s+/g, " ");
+}
+
 /**
  * Levenshtein distance (DP, 標準)
  */
@@ -53,10 +57,11 @@ export function recommendAliases(
   topN = 5,
 ): string[] {
   if (existing.length === 0) return [];
+  const normalizedDiffLabel = normalizeLabelForCompare(diff.label);
   const scored = existing.map((e) => ({
     stableKey: e.stableKey,
     score:
-      -levenshtein(diff.label, e.label) +
+      -levenshtein(normalizedDiffLabel, normalizeLabelForCompare(e.label)) +
       (diff.sectionKey !== null && e.sectionKey === diff.sectionKey ? 10 : 0) +
       (diff.position !== null && e.position === diff.position ? 5 : 0),
   }));

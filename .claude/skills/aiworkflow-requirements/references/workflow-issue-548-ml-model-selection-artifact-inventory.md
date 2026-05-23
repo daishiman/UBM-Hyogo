@@ -2,7 +2,7 @@
 
 | Item | Value |
 | --- | --- |
-| workflow root | `docs/30-workflows/issue-548-ml-model-selection/` |
+| workflow root | historical `docs/30-workflows/issue-548-ml-model-selection/` (deleted in current branch; retain this inventory as trace only) |
 | state | `implemented_synthetic / implementation / NON_VISUAL / production winner pending FU-03-B/FU-03-D` |
 | predecessor | Issue #515 (`docs/30-workflows/issue-515-cf-audit-logs-ml-anomaly/`) — FU-03-C 後継 |
 | successor (production switch) | `docs/30-workflows/unassigned-task/U-FIX-CF-ACCT-01-DERIV-04-FU-03-D-production-classifier-switch.md` |

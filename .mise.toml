@@ -7,3 +7,9 @@ idiomatic_version_file_enable_tools = ["node"]
 
 [env]
 NODE_ENV = "development"
+
+# issue-747: install 後に Node arch (Apple Silicon → arm64) を best-effort で検証する。
+# 詳細: docs/30-workflows/issue-747-vitest-esbuild-arch-and-worktree-isolation/runbook.md
+# `|| true`: install 中の worktree 未整備状態で fail させない。実 gate は lefthook / CI 側。
+[hooks]
+postinstall = "node scripts/verify-node-arch.mjs || true"

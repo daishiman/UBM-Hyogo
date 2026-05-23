@@ -1,0 +1,110 @@
+{
+  "feature": "task-26-ui-mvp-w8-par-error-tsx-token-utility-migration",
+  "created": "2026-05-14T00:00:00+09:00",
+  "lastUpdated": "2026-05-14T00:00:00+09:00",
+  "status": "runtime_pending",
+  "metadata": {
+    "taskType": "implementation",
+    "visualEvidence": "VISUAL",
+    "workflow_state": "implemented_local_evidence_captured",
+    "implementation_status": "implementation_complete_pending_pr",
+    "implementationCategory": "standard",
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-05-14T00:00:00+09:00",
+        "evidence_path": "docs/30-workflows/completed-tasks/task-26-ui-mvp-w8-par-error-tsx-token-utility-migration/index.md",
+        "approver": "codex",
+        "notes": "spec_review: Phase 1-13 spec reconciled with current apps/web/app topology."
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "passed",
+        "passed_at": "2026-05-14T00:00:00+09:00",
+        "evidence_path": "docs/30-workflows/completed-tasks/task-26-ui-mvp-w8-par-error-tsx-token-utility-migration/outputs/phase-11/manual-test-result.md",
+        "approver": "codex",
+        "notes": "local_evidence: grep gate, web test run, focused component coverage, and Phase 11 screenshot evidence captured."
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "passed",
+        "passed_at": "2026-05-14T00:00:00+09:00",
+        "evidence_path": "docs/30-workflows/completed-tasks/task-26-ui-mvp-w8-par-error-tsx-token-utility-migration/outputs/phase-12/phase12-task-spec-compliance-check.md",
+        "approver": "codex",
+        "notes": "phase12: strict 7 outputs present, artifacts parity present."
+      },
+      {
+        "gate_id": "Gate-D",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/task-26-ui-mvp-w8-par-error-tsx-token-utility-migration/outputs/phase-13/pr-summary.md",
+        "approver": "daishiman",
+        "notes": "pr_approval: commit / push / PR remain user-gated."
+      }
+    ]
+  },
+  "phases": {
+    "1": {
+      "status": "completed",
+      "artifacts": ["outputs/phase-1/requirements.md"]
+    },
+    "2": {
+      "status": "completed",
+      "artifacts": ["outputs/phase-2/design.md"]
+    },
+    "3": {
+      "status": "completed",
+      "artifacts": ["outputs/phase-3/design-review.md"]
+    },
+    "4": {
+      "status": "completed",
+      "artifacts": ["outputs/phase-4/test-plan.md"]
+    },
+    "5": {
+      "status": "completed",
+      "artifacts": ["outputs/phase-5/implementation-plan.md"]
+    },
+    "6": {
+      "status": "completed",
+      "artifacts": ["outputs/phase-6/extended-tests.md"]
+    },
+    "7": {
+      "status": "completed",
+      "artifacts": ["outputs/phase-7/coverage-report.md"]
+    },
+    "8": {
+      "status": "completed",
+      "artifacts": ["outputs/phase-8/refactor-notes.md"]
+    },
+    "9": {
+      "status": "completed",
+      "artifacts": ["outputs/phase-9/qa-result.md"]
+    },
+    "10": {
+      "status": "completed",
+      "artifacts": ["outputs/phase-10/final-review.md"]
+    },
+    "11": {
+      "status": "completed",
+      "artifacts": ["outputs/phase-11/manual-test-result.md"]
+    },
+    "12": {
+      "status": "completed",
+      "artifacts": [
+        "outputs/phase-12/main.md",
+        "outputs/phase-12/implementation-guide.md",
+        "outputs/phase-12/system-spec-update-summary.md",
+        "outputs/phase-12/documentation-changelog.md",
+        "outputs/phase-12/unassigned-task-detection.md",
+        "outputs/phase-12/skill-feedback-report.md",
+        "outputs/phase-12/phase12-task-spec-compliance-check.md"
+      ]
+    },
+    "13": {
+      "status": "blocked",
+      "artifacts": ["outputs/phase-13/pr-summary.md"],
+      "notes": "user approval required for commit / push / PR"
+    }
+  }
+}

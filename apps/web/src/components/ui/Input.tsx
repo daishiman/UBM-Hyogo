@@ -1,4 +1,4 @@
-import type { InputHTMLAttributes } from "react";
+import { forwardRef, type InputHTMLAttributes } from "react";
 import { cn } from "../../lib/cn";
 
 export interface InputProps extends Omit<InputHTMLAttributes<HTMLInputElement>, "size"> {
@@ -7,9 +7,13 @@ export interface InputProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 
   invalid?: boolean;
 }
 
-export function Input({ describedBy, inputSize = "md", invalid, className, ...props }: InputProps) {
+export const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
+  { describedBy, inputSize = "md", invalid, className, ...props },
+  ref,
+) {
   return (
     <input
+      ref={ref}
       {...props}
       aria-describedby={props["aria-describedby"] ?? describedBy}
       aria-invalid={invalid ? true : props["aria-invalid"]}
@@ -17,4 +21,4 @@ export function Input({ describedBy, inputSize = "md", invalid, className, ...pr
       className={cn("ui-input", className)}
     />
   );
-}
+});

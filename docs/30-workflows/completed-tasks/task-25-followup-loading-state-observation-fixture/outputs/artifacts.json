@@ -1,0 +1,131 @@
+{
+  "task_id": "task-25-followup-loading-state-observation-fixture",
+  "workflow": "task-25-followup-loading-state-observation-fixture",
+  "implementation_mode": "implementation",
+  "task_classification": "implementation",
+  "visual_mode": "NON_VISUAL",
+  "status": "verified",
+  "metadata": {
+    "workflow_state": "verified",
+    "implementation_status": "implementation_complete_pending_pr",
+    "taskType": "implementation",
+    "visualEvidence": "NON_VISUAL",
+    "source_issue": "https://github.com/daishiman/UBM-Hyogo/issues/711",
+    "closed_issue_reference": "Refs #711",
+    "actual_read_only_evidence_files": [
+      "docs/30-workflows/task-25-followup-loading-state-observation-fixture/outputs/phase-11/evidence.md",
+      "docs/30-workflows/task-25-followup-loading-state-observation-fixture/outputs/phase-11/repeat-each-10.txt"
+    ],
+    "actual_mutation_evidence_files": [],
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-05-16T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/task-25-followup-loading-state-observation-fixture/index.md",
+        "approver": "local",
+        "notes": "Implementation / NON_VISUAL spec formalized for deterministic loading-state observation fixture."
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "passed",
+        "passed_at": "2026-05-16T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/task-25-followup-loading-state-observation-fixture/outputs/phase-11/evidence.md",
+        "approver": "local",
+        "notes": "Local implementation, fixture guard unit coverage, and focused Playwright evidence captured; full remote staging runtime and CI remain user-gated."
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/task-25-followup-loading-state-observation-fixture/phase-13.md",
+        "approver": "daishiman",
+        "notes": "Commit, push, PR, and staging runtime promotion require explicit user approval."
+      }
+    ]
+  },
+  "phases": {
+    "phase-01": {
+      "status": "completed",
+      "artifact": "phase-01.md"
+    },
+    "phase-02": {
+      "status": "completed",
+      "artifact": "phase-02.md"
+    },
+    "phase-03": {
+      "status": "completed",
+      "artifact": "phase-03.md"
+    },
+    "phase-04": {
+      "status": "completed",
+      "artifact": "phase-04.md"
+    },
+    "phase-05": {
+      "status": "completed",
+      "artifact": "phase-05.md"
+    },
+    "phase-06": {
+      "status": "completed",
+      "artifact": "phase-06.md"
+    },
+    "phase-07": {
+      "status": "completed",
+      "artifact": "phase-07.md"
+    },
+    "phase-08": {
+      "status": "completed",
+      "artifact": "phase-08.md"
+    },
+    "phase-09": {
+      "status": "completed",
+      "artifact": "phase-09.md"
+    },
+    "phase-10": {
+      "status": "completed",
+      "artifact": "phase-10.md"
+    },
+    "phase-11": {
+      "status": "completed",
+      "artifact": "outputs/phase-11/evidence.md"
+    },
+    "phase-12": {
+      "status": "completed",
+      "artifacts": [
+        "outputs/phase-12/main.md",
+        "outputs/phase-12/implementation-guide.md",
+        "outputs/phase-12/system-spec-update-summary.md",
+        "outputs/phase-12/documentation-changelog.md",
+        "outputs/phase-12/unassigned-task-detection.md",
+        "outputs/phase-12/skill-feedback-report.md",
+        "outputs/phase-12/phase12-task-spec-compliance-check.md"
+      ]
+    },
+    "phase-13": {
+      "status": "blocked",
+      "reason": "user-approval-required"
+    }
+  },
+  "main_deliverables": [
+    "apps/web/app/__smoke__/_lib/fixture-guard.ts",
+    "apps/web/app/__smoke__/_lib/fixture-guard.spec.ts",
+    "apps/web/app/__smoke__/error-boundary/page.tsx",
+    "apps/web/app/__smoke__/members-list/page.tsx",
+    "apps/web/app/__smoke__/loading-state/page.tsx",
+    "apps/web/app/__smoke__/loading-state/loading.tsx",
+    "apps/web/app/smoke/error-boundary/page.tsx",
+    "apps/web/app/smoke/members-list/page.tsx",
+    "apps/web/app/smoke/loading-state/page.tsx",
+    "apps/web/app/smoke/loading-state/loading.tsx",
+    "apps/web/tests/e2e/staging-smoke.spec.ts",
+    "docs/00-getting-started-manual/specs/09-ui-ux.md",
+    "docs/30-workflows/completed-tasks/ui-prototype-alignment-mvp-recovery/SMOKE-COVERAGE-MATRIX.md"
+  ],
+  "dependencies": {
+    "upstream": [
+      "docs/30-workflows/completed-tasks/task-25-ui-mvp-w8-par-routes-smoke-coverage/",
+      "docs/30-workflows/completed-tasks/unassigned-task/task-25-followup-loading-state-observation-fixture.md"
+    ],
+    "downstream": []
+  }
+}

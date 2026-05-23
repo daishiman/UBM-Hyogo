@@ -218,6 +218,15 @@ Turso の Embedded Replicas は、ローカルの SQLite ファイルとクラ�
 - `schemaDiffQueue.resolve(ctx, diffId, by)` は存在しない `diffId` を成功扱いにせず not found error を返す。
 - `attendance.addAttendance()` は `(member_id, session_id)` の PK 制約を重複防止の最終防衛線にする。削除済み除外は INSERT 前確認で行い、07c の API / audit 実装で操作直前の再確認と監査ログを担保する。07c API は candidates でも session 存在を確認し、不在時は `session_not_found` を返す。
 - `attendance.listAttendableMembers()` の `fullName` / `occupation` は 02a の response 系統合まで placeholder であり、04c/07c では表示値を別契約で補完する。
+
+## Schema Drift ADR Gate
+
+実装済み schema と仕様書上の schema が drift した場合、close-out 前に次のどちらかを必ず残す。
+
+1. **ADR 起票**: 既存実装を維持する判断、列・型・enum を追加しない判断、または migration を延期する判断を `docs/decisions/` に記録し、Context / Decision / Consequences / Alternatives / Re-evaluation triggers を揃える。
+2. **unassigned task formalization**: 同 cycle で ADR まで作れない場合、`docs/30-workflows/unassigned-task/` に判断タスクを作成し、親 workflow の Phase 12 `unassigned-task-detection.md` と root `artifacts.json` から追跡できるようにする。
+
+07a tag assignment queue resolve の `member_tags.assigned_via_queue_id` はこの gate の適用例である。現行判断は「列を追加せず、queue 追跡は `audit_log.target_type='tag_queue'` / `target_id=<queueId>` と `member_tags.source='admin_queue'` で担保する」。この判断は [ADR 0002](../../../../docs/decisions/0002-member-tags-assigned-via-queue-id-decision.md) として正本化されている（再評価トリガ: 監査 UI 1 クエリ要件 / audit retention 短縮 / D1 read 性能問題）。この判断を実行する workflow は `docs/30-workflows/issue-296-ut-07a-04-assigned-via-queue-id-decision/` で、Issue #296 は CLOSED のため PR 文脈は `Refs #296` のみを使う。
 - `attendance.createAttendanceProvider(ctx).findByMemberIds(ids)` は `MemberProfile.attendance` / admin detail `profile.attendance` への read aggregator として実装済み。`member_attendance` と `meeting_sessions` を `session_id` で INNER JOIN し、`member_id IN (...)` は 80 件 chunk で bind 上限を避ける。返却は `held_on DESC`, `session_id ASC` で安定化し、`meeting_sessions` に存在しない session は除外、同一 member + session は 1 件へ正規化する。
 - `attendance.computeAttendanceOverview()` / `listSessionAttendanceStats()` / `listMemberAttendanceRanking()` は admin dashboard analytics 用の GROUP BY aggregate path。80-id chunk pattern は流用せず、active session (`deleted_at IS NULL`) と active member (`is_deleted != 1`) のみを count / rate に含める。ranking 用 index は `idx_member_attendance_member`、session 側は既存 `idx_member_attendance_session` を使う。
 - 07c の attendance audit は `audit_log.target_type='meeting'`, `target_id=sessionId` を正とする。付与時は `after_json`、解除時は `before_json` に attendance row を保存し、DELETE の session/member/row 不在は `attendance_not_found` に集約する。
@@ -287,8 +296,10 @@ Turso の Embedded Replicas は、ローカルの SQLite ファイルとクラ�
 `issue-191-schema-aliases-ddl-and-07b-alias-resolution-wiring` で、07b alias assignment workflow の正本書き込み先を
 `schema_questions.stable_key` 直更新から `schema_aliases` 専用テーブルへ分離する方針を固定した。2026-05-01 の
 `task-issue-191-schema-aliases-implementation-001` で local implementation は完了し、`apps/api/migrations/0008_create_schema_aliases.sql`、
-`apps/api/src/repository/schemaAliases.ts`、07b write path、03a alias-first lookup に反映済み。production D1 apply と
-`schema_questions.stable_key` fallback retirement は別承認タスクに残す。
+`apps/api/src/repository/schemaAliases.ts`、07b write path、03a alias-first lookup に反映済み。
+2026-05-15 に Issue #299 workflow `docs/30-workflows/task-issue-299-schema-questions-fallback-retirement-001/` で
+production / staging の alias coverage query が両方 0 件であることを確認し、`schema_questions.stable_key` SELECT fallback を **廃止（retired）** した。
+以後、`findStableKeyByQuestionId` は `schema_aliases` lookup のみで解決し、miss は `null` を返す。
 
 `schema_aliases` 実装 DDL:
 
@@ -316,13 +327,12 @@ Repository 契約:
 | `schemaAliasesRepository.lookup(questionId)` | `alias_question_id` から alias 行を取得 |
 | `schemaAliasesRepository.insert(row)` | 07b の alias resolve 結果を追加。`schema_questions` は更新しない |
 | `schemaAliasesRepository.update(id, patch)` | 誤登録修正などの管理操作用。監査情報を維持 |
-| `schemaQuestionsRepository.findStableKeyById(questionId)` | 移行期間中のみ fallback として既存 stableKey を読む |
+| `schemaQuestionsRepository.findStableKeyByQuestionId(questionId)` | `schema_aliases` lookup のみで解決し、miss は `null` を返す（issue-299 で fallback 廃止済み） |
 
-03a lookup 順序:
+03a lookup 順序（issue-299 fallback 廃止後）:
 
 1. `schemaAliasesRepository.lookup(questionId)` が hit したら `schema_aliases.stable_key` を採用する。
-2. miss の場合だけ `schema_questions.stable_key` を fallback として読む。
-3. 両方 miss の場合は `schema_diff_queue` に unresolved として enqueue する。
+2. miss の場合は `null` を返し、03a は unresolved として `schema_diff_queue` に enqueue する（`schema_questions.stable_key` への SELECT fallback は廃止済み）。
 
 07b 書き込み境界:
 
@@ -331,11 +341,20 @@ Repository 契約:
 - `source='manual'` の INSERT は `resolved_by` を必須とし、auth middleware 由来の admin user id を記録する。
 - `UPDATE schema_questions SET stable_key` は禁止。静的検査は Phase 9 の grep guard を起点に、後続実装で repository / AST guard へ強化する。
 
-移行終端条件:
+Static guard（issue #300 / 2026-05-15）:
 
-- `schema_questions.stable_key IS NOT NULL` の全行が `schema_aliases` にも存在する状態を確認する。
-- 03a sync で unresolved 件数が事前比 1 件以上減少することを smoke evidence として保存する。
-- 上記を満たした後、別タスクで `schema_questions.stable_key` fallback 廃止を判断する。
+- `scripts/lint-stable-key-update.mjs` が direct `schema_questions.stable_key` mutation を CI / pre-commit / root lint chain で拒否する。
+- error detector: SQL literal / template literal の `UPDATE schema_questions ... SET ... stable_key`、および `.update(schemaQuestions).set({ stable_key | stableKey })` builder 呼び出し。
+- warning detector: `updateStableKey(...)` 呼び出し名。false positive 余地があるため warning 固定だが、repository helper 本体は削除済み。
+- allowed boundary: `schema_aliases` への write、`schema_questions.stable_key` read fallback、guard fixtures、migrations。
+- CI gate: `.github/workflows/verify-stable-key-update.yml`; pre-commit: `lefthook.yml` `block-stable-key-update`; package scripts: `lint:stable-key-update` / `lint:stable-key-update:strict`。
+- 詳細仕様と evidence: `docs/30-workflows/completed-tasks/issue-300-direct-stable-key-update-guard/`。
+
+移行終端条件（2026-05-15 達成済み）:
+
+- `schema_questions.stable_key IS NOT NULL` の全行が `schema_aliases` にも存在する状態を production / staging 両 D1 で確認した（`scripts/diagnose/schema-aliases-coverage.sql`、両方 0 件）。
+- Issue #299 workflow で `schema_questions.stable_key` SELECT fallback を廃止し、`findStableKeyByQuestionId` を `schema_aliases` lookup-only に切り替えた。
+- 以後の再判定は不要。alias 登録漏れが発生した場合は 03a sync が unresolved を `schema_diff_queue` に enqueue し、07b admin workflow で alias を追加する。
 
 ---
 

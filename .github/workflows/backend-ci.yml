@@ -34,9 +34,27 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
+      - name: Preflight - verify Cloudflare secrets are injected
+        env:
+          CF_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CF_ACCOUNT_ID: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          missing=0
+          for var in CF_TOKEN CF_ACCOUNT_ID; do
+            if [ -z "${!var}" ]; then
+              echo "::error::'$var' is empty. Set CLOUDFLARE_API_TOKEN in GitHub Environment 'staging' (Settings → Environments → staging)."
+              missing=1
+            fi
+          done
+          if [ "$missing" -eq 1 ]; then exit 1; fi
+          echo "OK: Cloudflare secrets injected (token length=${#CF_TOKEN})"
+
       - name: Apply D1 migrations
         id: migrate
         uses: cloudflare/wrangler-action@v3
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
@@ -48,6 +66,9 @@ jobs:
       - name: Deploy Workers app
         id: deploy
         uses: cloudflare/wrangler-action@v3
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
@@ -89,9 +110,27 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
+      - name: Preflight - verify Cloudflare secrets are injected
+        env:
+          CF_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CF_ACCOUNT_ID: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          missing=0
+          for var in CF_TOKEN CF_ACCOUNT_ID; do
+            if [ -z "${!var}" ]; then
+              echo "::error::'$var' is empty. Set CLOUDFLARE_API_TOKEN in GitHub Environment 'production' (Settings → Environments → production)."
+              missing=1
+            fi
+          done
+          if [ "$missing" -eq 1 ]; then exit 1; fi
+          echo "OK: Cloudflare secrets injected (token length=${#CF_TOKEN})"
+
       - name: Apply D1 migrations
         id: migrate
         uses: cloudflare/wrangler-action@v3
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
@@ -103,6 +142,9 @@ jobs:
       - name: Deploy Workers app
         id: deploy
         uses: cloudflare/wrangler-action@v3
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}

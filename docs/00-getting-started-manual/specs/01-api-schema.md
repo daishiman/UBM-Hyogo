@@ -193,6 +193,26 @@ cursor は `{ heldOn, sessionId }` を base64url JSON 化した不透明文字�
 
 集計分母は `meeting_sessions.deleted_at IS NULL` の active session と `member_status.is_deleted != 1` の active member に揃える。削除済み session / 削除済み member の attendance row は `attendeeCount` / `attendedCount` / `overallRate` に含めない。
 
+## Admin Meeting Attendance Management API
+
+UT-07C / UT-07C-FU-001 で追加した meeting attendance の管理用 endpoint 群。すべて admin gate 配下で実行し、apps/web からは `/api/admin/...` proxy / `fetchAdmin` 経由で呼ぶ。apps/web から D1 を直接参照しない。
+
+| Method | Path | Query / Body | Response |
+|--------|------|--------------|----------|
+| GET | `/admin/meetings/:sessionId/attendance/candidates` | なし | 出席候補 member 一覧 |
+| POST | `/admin/meetings/:sessionId/attendance` | `{ memberId }` | 201（追加） / 409（既存） / 422（不正） / 404 |
+| DELETE | `/admin/meetings/:sessionId/attendance/:memberId` | なし | 200（削除） / 404 |
+| POST | `/admin/meetings/:sessionId/attendance/import?dryRun=true\|false` | `{ rows: Array<{ memberId?, email? }> }` (rows.length <= 500) | 200（summary / 行別 status / dryRun / committed） / 400（invalid_json / invalid_payload） / 401 / 403 / 404（session_not_found） / 413（payload_too_large） |
+
+`POST /admin/meetings/:sessionId/attendance/import` は CSV 由来の attendance を一括登録する。
+
+- `dryRun=true` または省略 / typo: D1 write 0 / audit_log 0。行別 status のみ返す
+- `dryRun=false`: 全行 `ok` のときのみ insert（部分コミット禁止）。chunk size 80 で `member_attendance` と `audit_log.action='attendance.import.add'` を D1 batch に同時投入する
+- 行別 status: `ok` / `duplicate` / `deleted_member` / `unknown_member` / `invalid`（`invalid` は `memberId_or_email_required` / `memberId_email_mismatch`）
+- 同一 payload 内の同一 member は 2 行目以降 `duplicate` (`duplicate_in_payload`)
+- email lookup は NFKC + trim + lowercase で正規化（server / client 共通）
+- 500 行上限、501 行は 413
+
 ## API health contract: GET /health/db
 
 `GET /health/db` は API Worker から D1 binding に `SELECT 1` を実行し、UT-06 AC-4 の API 経由 D1 smoke を可能にするための health endpoint である。D1 への直接アクセスは `apps/api` に閉じ、`apps/web` から D1 binding を参照しない。
@@ -277,9 +297,21 @@ Response は `PublicMemberListViewZ.strict()` を正本とし、`items`、`pagin
 
 ## schema alias assignment API（07b）
 
-`GET /admin/schema/diff` は `recommendedStableKeys: string[]` を同梱する。`POST /admin/schema/aliases?dryRun=true` は DB / queue / audit に副作用を出さず、影響件数と collision 有無だけを返す。apply は `schema_questions.stable_key` 更新、任意 `schema_diff_queue.status='resolved'`、`response_fields.stable_key='__extra__:<questionId>'` の back-fill、`audit_log.action='schema_diff.alias_assigned'` を実行する。
+`GET /admin/schema/diff` は `recommendedStableKeys: string[]` を同梱する。候補順の label 比較は `apps/api/src/services/aliasRecommendation.ts` の `normalizeLabelForCompare` で両辺を NFKC 正規化、trim、連続 whitespace 圧縮してから Levenshtein 距離へ渡す。response shape は `string[]` のまま変えない。`stableKey` は `/^[a-zA-Z][a-zA-Z0-9_]*$/` に一致する必要がある。
 
-collision は 422、diff 不在は 404、diff と question 不一致は 409。大規模 back-fill / UNIQUE index / retryable HTTP contract は `docs/30-workflows/unassigned-task/UT-07B-schema-alias-hardening-001.md` に分離する。
+`POST /admin/schema/aliases?dryRun=true` は DB / queue / audit に副作用を出さず、`affectedResponseFields` / `currentStableKeyCount` / `conflictExists` を返す。apply は `schema_aliases` へ manual alias を INSERT し、任意 `schema_diff_queue.status='resolved'`、`response_fields.stable_key='__extra__:<questionId>'` の back-fill、`audit_log.action='schema_diff.alias_assigned'` を同じ workflow 境界で実行する。`schema_questions.stable_key` は fallback 期間の参照互換として残し、manual alias の主 write target には戻さない。
+
+collision は同一 `revision_id` 内の別 `question_id` が同じ stableKey を持つ場合に `409 stable_key_collision` + `existingStableKey`、body validation は `422` + `existingQuestionIds`、diff 不在は `404`、diff と question 不一致は `409` を返す。back-fill が CPU budget に達した場合は `202 backfill_cpu_budget_exhausted` + `retryable=true` として UI に再試行可能状態を返す。大規模 back-fill / UNIQUE index / retryable HTTP contract は `docs/30-workflows/completed-tasks/ut-07b-schema-alias-hardening/` に分離済み。
+
+Issue #777 schema diff resolve history view では、`/(admin)/admin/schema/history` UI が既存 `GET /admin/audit?action=schema_diff.alias_assigned` をそのまま data source として参照する（案 A 採用、新 endpoint 追加禁止）。UI は `before_json.stableKey` / `after_json.stableKey` / `after_json.questionText` / `actorEmail` / `createdAt` を表示し、cursor pagination は既存 audit endpoint の `encodeAuditCursor` を踏襲する。filter は `action` 固定 + `actorEmail` / `from` / `to` の既存 query を組み合わせる。
+
+### Schema alias rollback / undo API（Issue #778）
+
+`POST /admin/schema/aliases/:aliasId/rollback` は、誤った alias resolve を D1 直接修正なしで取り消す admin-only endpoint である。request は `If-Match: version=<N>` header を必須とし、body は `{ "reason"?: string }` を受け取る。version 不一致は `409 version_mismatch`、対象なしは `404 not_found`、既に soft delete 済みなら `404 already_deleted` を返す。
+
+成功時 response は `{ aliasId, rolledBackAt, relatedAuditId, newVersion, impact: { affectedResponseCount, recomputeRequired } }`。rollback は `schema_aliases.deleted_at / deleted_by / version` を更新し、必要に応じて `schema_diff_queue.status` を `resolved -> queued` に戻し、application `audit_log.action='schema_alias.rollback'` を追加する。元 resolve audit への参照は rollback 行の `after_json.relatedAuditId` に保存する。Cloudflare Audit Logs 取り込み用 `cf_audit_log` はこの admin mutation の保存先にしない。
+
+Issue #776 の `/admin/schema` bulk resolve は **新しい bulk endpoint を追加しない**。`apps/web/src/lib/admin/api.ts#postSchemaAliasBulk` が既存 `POST /admin/schema/aliases` を concurrency 8 の client-side bounded fan-out で呼び、入力順の `success / retryable / error` row result を返す。`stableKey` validation は single edit と同じ regex（英字開始、英数字と `_` のみ）を UI 側で共有し、`status=0` は `network`、`409` は `conflict`、`422` は `invalid` として分類する。HTTP 202 `backfill_cpu_budget_exhausted` は failure ではなく retryable row として modal に残す。
 
 ## admin identity conflict merge API（Issue #194）
 

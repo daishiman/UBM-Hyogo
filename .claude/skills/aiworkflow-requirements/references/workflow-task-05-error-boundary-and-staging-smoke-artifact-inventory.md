@@ -8,7 +8,7 @@
 | route source of truth | `docs/30-workflows/ui-prototype-alignment-mvp-recovery/specs/staging-smoke-checklist.md` | 19 routes |
 | Phase 12 strict files | `docs/30-workflows/task-05-error-boundary-and-staging-smoke/outputs/phase-12/` | present |
 | implementation targets | `apps/web/app/{error,global-error,not-found,loading}.tsx` | implemented-local |
-| test targets | `apps/web/tests/e2e/staging-smoke.spec.ts`, `apps/web/app/__tests__/error.test.tsx` | implemented-local |
+| test targets | `apps/web/tests/e2e/staging-smoke.spec.ts`, `apps/web/app/__tests__/error.component.spec.tsx` | implemented-local |
 
 ## Boundary
 

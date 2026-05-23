@@ -5,7 +5,7 @@
 | 項目 | 値 |
 | --- | --- |
 | ステータス | 未着手 |
-| 親 | `docs/30-workflows/issue-549-cf-audit-ml-production-switch/` |
+| 親 | `docs/30-workflows/completed-tasks/issue-549-cf-audit-ml-production-switch/` |
 
 ## 1. なぜこのタスクが必要か（Why）
 
@@ -33,18 +33,57 @@ artifact rotation runbook、canary evidence、rollback 更新、leakage grep evi
 
 ## 6. 検証方法
 
-dry-run log、fallback rate sample、secret leakage grep を確認する。
+### 単体検証
+
+```bash
+test -f docs/30-workflows/completed-tasks/issue-549-cf-audit-ml-production-switch/outputs/phase-11/model-artifact-rotation-dry-run.md
+rg -n "ML_MODEL_PATH|rollback|leakage grep" \
+  docs/30-workflows/completed-tasks/issue-549-cf-audit-ml-production-switch/outputs/phase-11/model-artifact-rotation-dry-run.md
+```
+
+期待: op 参照名、rollback path、leakage grep 結果が redacted evidence として存在する。
+
+### 統合検証
+
+```bash
+rg -n "CF_AUDIT_ML_MODEL_PATH_PROD|model artifact|rollback" \
+  .claude/skills/aiworkflow-requirements/references/observability-monitoring.md \
+  .claude/skills/aiworkflow-requirements/references/deployment-secrets-management.md
+```
+
+期待: artifact rotation の SSOT と secret 正本が矛盾しない。
 
 ## 7. リスクと対策
 
 | リスク | 対策 |
 | --- | --- |
 | 不適合 artifact | staging canary と offline replay を必須化 |
+| secret 解決値の漏洩 | evidence は op 参照名のみを保存し、解決値を保存しない |
 
-## 8. 参照情報
+## 8. スコープ
+
+### 含む
+
+- ML model artifact rotation runbook。
+- staging canary / offline replay / leakage grep evidence。
+- rollback path 更新と SSOT 同期。
+
+### 含まない
+
+- production switch 本体。
+- raw feature dataset 保存。
+- Slack / mail 通知拡張（followup-03）。
+
+## 9. 苦戦箇所【記入必須】
+
+- 対象: `ML_MODEL_PATH` と model artifact evidence。
+- 症状: op 参照名と解決値を混同すると secret が evidence に残る。
+- 対策: dry-run log / leakage grep / SSOT では op 参照名のみを扱う。
+
+## 10. 参照情報
 
 - `.claude/skills/aiworkflow-requirements/references/observability-monitoring.md`
 
-## 9. 備考
+## 11. 備考
 
 raw feature dataset は保存しない。

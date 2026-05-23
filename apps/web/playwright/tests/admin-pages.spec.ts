@@ -1,5 +1,5 @@
 // TODO(08b): 実装は Phase 11 manual smoke で活性化
-import { expect } from '@playwright/test'
+import { expect } from '../fixtures/coverage'
 import { test } from '../fixtures/auth'
 import { AdminDashboardPage } from '../page-objects/AdminDashboardPage'
 import { AdminMembersPage } from '../page-objects/AdminMembersPage'

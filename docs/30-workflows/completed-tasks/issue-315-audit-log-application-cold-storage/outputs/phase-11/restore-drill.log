@@ -1,0 +1,7 @@
+Restore drill status: runtime_pending.
+
+Reason:
+No production R2 object exists before bucket creation, D1 migration apply, deploy, and first approved export. Restore drill can only run after those user-gated operations complete.
+
+Runbook:
+`docs/30-workflows/issue-315-audit-log-application-cold-storage/operations/audit-log-retention-runbook.md`

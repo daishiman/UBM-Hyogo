@@ -17,7 +17,7 @@ Browser
    │  (1) GET /admin/* with auth.js cookie
    ▼
 apps/web (Workers + OpenNext)
-   │  middleware.ts: JWT verify only (NO D1 access)
+   │  proxy.ts: JWT verify only (NO D1 access)
    │  ├── unauthorized → /login?gate=admin
    │  └── authorized   → forward to route handler
    │
@@ -40,25 +40,25 @@ JWT claims に積んで返却 → Auth.js が cookie に永続化
 
 | 変数 | 設定先 | 用途 |
 | --- | --- | --- |
-| AUTH_SECRET | apps/web | Auth.js JWT 署名（web/api 間で共有しない） |
+| AUTH_SECRET | apps/web + apps/api | Auth.js JWT 署名と API 側 `verifySessionJwt` の共有 secret（同一値必須） |
 | AUTH_GOOGLE_ID | apps/web | Google OAuth Client ID |
 | AUTH_GOOGLE_SECRET | apps/web | Google OAuth Client Secret |
 | INTERNAL_AUTH_SECRET | apps/web + apps/api | service-binding 内部呼出の共有秘匿値（同一値必須） |
 | PUBLIC_API_BASE_URL | apps/web | local dev fallback / browser 公開 fetch |
 | INTERNAL_API_BASE_URL | apps/web | service-binding 不在時のサーバ間 fallback |
 
-`AUTH_SECRET` は web 側のみ。`INTERNAL_AUTH_SECRET` は web/api 両方に同一値で必須。欠落時は fail-closed（unregistered 扱い）。
+`AUTH_SECRET` と `INTERNAL_AUTH_SECRET` は web/api 両方に同一値で必須。欠落時は fail-closed（unregistered 扱い）。`secret list` は名前の存在だけを示すため、値が空でないことや runtime で利用可能なことは curl/smoke で別途確認する。
 
 # 主要パターン
 
-## 1. 二段防御 middleware
+## 1. 二段防御 proxy
 
-`apps/web/middleware.ts` は edge runtime で動く。ここでは Auth.js cookie の JWT verify のみ実施し、D1 アクセスは禁止する（edge には D1 binding が無く、あっても latency 上不適切）。
+`apps/web/proxy.ts` は edge runtime で動く。ここでは Auth.js cookie の JWT verify のみ実施し、D1 アクセスは禁止する（edge には D1 binding が無く、あっても latency 上不適切）。Issue #277 で旧 `apps/web/middleware.ts` convention から移行済み。
 
 - 1段目: cookie 存在 + JWT signature/exp 検証 → fail なら `/login?gate=<reason>` redirect
 - 2段目: route handler 側で必要なら `/auth/session-resolve` 経由の admin 判定を再確認
 
-`gate` パラメータ（例: `gate=admin` / `gate=unregistered` / `gate=expired`）は UI 文言切替に使用する。middleware は claims から `isAdmin` を読み、admin route で false なら `/` へ redirect（unauthorized 表示は web 層で完結させる）。
+`gate` パラメータ（例: `gate=admin_required` / `gate=unregistered` / `gate=expired`）は UI 文言切替に使用する。proxy は claims から `isAdmin` を読み、admin route で未ログインなら `/login?gate=admin_required` へ redirect、認証済 non-admin なら 403 Forbidden を返す。
 
 詳細な claim 定義は `interfaces-auth-core.md` ではなく UBM-Hyogo の signIn callback コードを正本とする（`apps/web/src/lib/auth.ts`）。
 
@@ -122,7 +122,7 @@ staging のみ各層の解決結果を `console.log` で可視化する（transp
 新しい OAuth/auth 関連タスクを開始する前に確認する。
 
 - [ ] `[[env.staging.services]]` と `[[env.production.services]]` 両方に `API_SERVICE` binding が宣言されているか（top-level 継承不可）
-- [ ] `AUTH_SECRET` が apps/web の staging / production secret に設定されているか（`bash scripts/cf.sh secret list --config apps/web/wrangler.toml --env <env>`）
+- [ ] `AUTH_SECRET` が apps/web と apps/api の staging / production secret に同一値で設定され、runtime curl/smoke で利用可能なことを確認したか（`secret list` は name presence のみ）
 - [ ] `INTERNAL_AUTH_SECRET` が **web/api 両 worker に同一値** で設定されているか（不一致だと無言で 401 → unregistered ループ）
 - [ ] OpenNext post-build patch (`scripts/patch-open-next-worker.mjs`) が `build:cloudflare` script の最後で必ず実行されるか
 - [ ] middleware が D1 を直接呼んでいないか（edge では D1 binding が無いため build は通るが runtime で fail）
@@ -145,7 +145,7 @@ staging のみ各層の解決結果を `console.log` で可視化する（transp
 
 | 役割 | パス |
 | --- | --- |
-| edge middleware | `apps/web/middleware.ts` |
+| edge proxy | `apps/web/proxy.ts` |
 | Auth.js 設定 / env 層化 | `apps/web/src/lib/auth.ts` |
 | internal fetch helper | `apps/web/src/lib/fetch/public.ts` |
 | web wrangler config | `apps/web/wrangler.toml` |

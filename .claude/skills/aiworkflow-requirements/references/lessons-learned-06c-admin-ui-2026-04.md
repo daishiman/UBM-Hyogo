@@ -23,7 +23,7 @@
 
 **原因**: 06c は admin UI 実装が責務であり lint foundation は独立 task。AC-6 の検出機構を ESLint 単一手段に縛ると lint foundation task が完成するまで AC が PASS しない循環依存が発生する。
 
-**解決方針**: AC-6 の正本検出は `scripts/lint-boundaries.mjs`（grep ベースの境界 import 検証）と `apps/web/src/lib/__tests__/boundary.test.ts`（unit boundary test）の 2 段で代替する。ESLint 正式導入は `unassigned-task-detection.md` に「lint foundation task で扱う」と分離記録する。Phase 12 の AC trace は AC-6 を PASS、`implementation-guide.md` の AC 表で AC-6 を `DEFERRED (ESLint)` と注記し、現状検証コマンド `rg -n "from ['\"](@repo/api|.*repository|.*d1)" apps/web` を必ず明示する。
+**解決方針**: AC-6 の正本検出は `scripts/lint-boundaries.mjs`（grep ベースの境界 import 検証）と `apps/web/src/lib/__tests__/boundary.spec.ts`（unit boundary test）の 2 段で代替する。ESLint 正式導入は `unassigned-task-detection.md` に「lint foundation task で扱う」と分離記録する。Phase 12 の AC trace は AC-6 を PASS、`implementation-guide.md` の AC 表で AC-6 を `DEFERRED (ESLint)` と注記し、現状検証コマンド `rg -n "from ['\"](@repo/api|.*repository|.*d1)" apps/web` を必ず明示する。
 
 **後続申し送り**: lint foundation task が起動した時点で `scripts/lint-boundaries.mjs` のルールを ESLint `no-restricted-imports` に昇格させる。それまで `lint-boundaries.mjs` を CI で必ず走らせ、grep ガードを退化させない。
 

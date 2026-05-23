@@ -1,0 +1,19 @@
+command=mise exec -- pnpm exec vitest run --root=. --config=vitest.d1.config.ts apps/api/src/routes/admin/members.contract.spec.ts
+status=PASS
+
+RUN v2.1.9 /Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260521-122011-wt-1
+
+stderr:
+{"level":"error","code":"UBM-ADMIN-MEMBERS-500","phase":"binding-missing"}
+{"level":"error","code":"UBM-ADMIN-MEMBERS-500","phase":"zod","issues":{"formErrors":[],"fieldErrors":{"members":["Invalid ISO datetime"]}}}
+
+Test Files  1 passed (1)
+Tests       27 passed (27)
+
+Covered recovery cases:
+- DB binding missing returns 503 + UBM-ADMIN-MEMBERS-500
+- enum drift draft returns member_only with full members array shape
+- legacy published/private map to public/hidden and remain filter-visible
+- missing member_status row maps consent fields to unknown
+- pending consent values map to unknown
+- zod failure returns safe internal error + UBM-ADMIN-MEMBERS-500

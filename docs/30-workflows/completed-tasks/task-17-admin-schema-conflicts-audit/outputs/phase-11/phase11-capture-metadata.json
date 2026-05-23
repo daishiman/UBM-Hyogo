@@ -1,0 +1,68 @@
+{
+  "taskId": "task-17-admin-schema-conflicts-audit",
+  "mode": "VISUAL_ON_EXECUTION",
+  "status": "captured",
+  "capturedAt": "2026-05-10T07:59:26.813Z",
+  "screenshots": [
+    {
+      "tc": "TC-01",
+      "name": "admin-schema-default.png",
+      "route": "/admin/schema",
+      "state": "default diff list"
+    },
+    {
+      "tc": "TC-02",
+      "name": "admin-schema-empty.png",
+      "route": "/admin/schema",
+      "state": "empty pane coverage via each pane none/default mixed fixture"
+    },
+    {
+      "tc": "TC-03",
+      "name": "admin-schema-apply-modal.png",
+      "route": "/admin/schema",
+      "state": "inline stableKey assignment form"
+    },
+    {
+      "tc": "TC-04",
+      "name": "admin-schema-assign-error.png",
+      "route": "/admin/schema",
+      "state": "assignment validation error"
+    },
+    {
+      "tc": "TC-05",
+      "name": "admin-identity-conflicts-default.png",
+      "route": "/admin/identity-conflicts",
+      "state": "default conflict list"
+    },
+    {
+      "tc": "TC-06",
+      "name": "admin-identity-conflicts-empty.png",
+      "route": "/admin/identity-conflicts",
+      "state": "fixture-backed non-empty list; empty state covered by component contract"
+    },
+    {
+      "tc": "TC-07",
+      "name": "admin-identity-conflicts-merge-modal.png",
+      "route": "/admin/identity-conflicts",
+      "state": "inline merge final confirmation"
+    },
+    {
+      "tc": "TC-08",
+      "name": "admin-audit-default.png",
+      "route": "/admin/audit",
+      "state": "default table"
+    },
+    {
+      "tc": "TC-09",
+      "name": "admin-audit-filtered.png",
+      "route": "/admin/audit?actorEmail=manjumoto.daishi%40senpai-lab.com",
+      "state": "filtered table"
+    },
+    {
+      "tc": "TC-10",
+      "name": "admin-audit-empty.png",
+      "route": "/admin/audit?targetType=empty",
+      "state": "empty table"
+    }
+  ]
+}

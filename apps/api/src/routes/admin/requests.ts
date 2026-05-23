@@ -37,12 +37,38 @@ type RequestNoteType = (typeof NOTE_TYPES)[number];
 const StatusZ = z.enum(["pending", "resolved", "rejected"]).default("pending");
 const TypeZ = z.enum(NOTE_TYPES);
 
-const ListQueryZ = z.object({
+export const ListRequestsQueryZ = z.object({
   status: StatusZ.optional(),
   type: TypeZ,
   limit: z.coerce.number().int().min(1).max(100).default(50),
   cursor: z.string().min(1).optional(),
 });
+
+export const AdminRequestListItemZ = z.object({
+  noteId: z.string().min(1),
+  memberId: z.string().min(1),
+  noteType: TypeZ,
+  requestStatus: StatusZ,
+  requestedAt: z.string().min(1),
+  requestedReason: z.string().nullable(),
+  requestedPayload: z.unknown().nullable(),
+  memberSummary: z.object({
+    memberId: z.string().min(1),
+    publicHandle: z.string().nullable(),
+    publishState: z.string().min(1),
+    isDeleted: z.boolean(),
+  }).strict(),
+}).strict();
+
+export const AdminRequestsListResponseZ = z.object({
+  ok: z.literal(true),
+  items: z.array(AdminRequestListItemZ),
+  nextCursor: z.string().nullable(),
+  appliedFilters: z.object({
+    status: StatusZ,
+    type: TypeZ,
+  }).strict(),
+}).strict();
 
 // cursor は base64url(JSON {createdAt,noteId})
 const textEncoder = new TextEncoder();
@@ -154,6 +180,13 @@ const projectListItem = (
     },
   };
 };
+export type AdminRequestListItem = ReturnType<typeof projectListItem>;
+export interface ListRequestsResponse {
+  ok: true;
+  items: AdminRequestListItem[];
+  nextCursor: string | null;
+  appliedFilters: { status: z.infer<typeof StatusZ>; type: RequestNoteType };
+}
 
 const PUBLISH_STATES = ["public", "hidden", "member_only"] as const;
 type PublishState = (typeof PUBLISH_STATES)[number];
@@ -180,6 +213,20 @@ export interface AdminRequestsRouteDeps {
 const addDaysIso = (baseIso: string, days: number): string =>
   new Date(new Date(baseIso).getTime() + days * 24 * 60 * 60 * 1000).toISOString();
 
+export interface ResolveRequestResponse {
+  ok: true;
+  noteId: string;
+  requestStatus: "resolved" | "rejected";
+  resolvedAt: string;
+  resolvedByAdminId: string;
+  memberAfter: {
+    memberId: string;
+    publishState: string;
+    isDeleted: boolean;
+  };
+  retentionPurgeScheduledAt: string | null;
+}
+
 export const createAdminRequestsRoute = (
   deps: AdminRequestsRouteDeps = {},
 ) => {
@@ -194,7 +241,7 @@ export const createAdminRequestsRoute = (
   app.get("/requests", async (c) => {
     const url = new URL(c.req.url);
     const raw = Object.fromEntries(url.searchParams.entries());
-    const parsed = ListQueryZ.safeParse(raw);
+    const parsed = ListRequestsQueryZ.safeParse(raw);
     if (!parsed.success) {
       return c.json({ ok: false, error: parsed.error.message }, 400);
     }
@@ -248,7 +295,7 @@ export const createAdminRequestsRoute = (
       items: rows.map((r) => projectListItem(r, memberMap.get(r.memberId as string) ?? null)),
       nextCursor: nextCursor ? encodeCursor(nextCursor) : null,
       appliedFilters: { status, type },
-    });
+    } satisfies ListRequestsResponse);
   });
 
   app.post("/requests/:noteId/resolve", async (c) => {
@@ -419,7 +466,7 @@ export const createAdminRequestsRoute = (
         isDeleted: after?.is_deleted === 1,
       },
       retentionPurgeScheduledAt,
-    });
+    } satisfies ResolveRequestResponse);
   });
 
   return app;

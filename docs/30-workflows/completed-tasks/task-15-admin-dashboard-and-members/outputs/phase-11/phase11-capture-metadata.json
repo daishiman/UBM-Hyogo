@@ -1,0 +1,65 @@
+{
+  "taskId": "task-15-admin-dashboard-and-members",
+  "mode": "VISUAL",
+  "captureDate": "2026-05-10",
+  "environment": "local-playwright-fixture",
+  "screenshots": [
+    {
+      "id": "S-01",
+      "file": "admin-dashboard-default.png",
+      "route": "/admin",
+      "viewport": "1280x800"
+    },
+    {
+      "id": "S-02",
+      "file": "admin-dashboard-schema-alert.png",
+      "route": "/admin",
+      "viewport": "1280x800",
+      "fixture": {
+        "unresolvedSchema": 5
+      }
+    },
+    {
+      "id": "S-03",
+      "file": "admin-dashboard-zone-placeholder.png",
+      "route": "/admin",
+      "viewport": "1280x800"
+    },
+    {
+      "id": "S-04",
+      "file": "admin-members-default.png",
+      "route": "/admin/members",
+      "viewport": "1280x800"
+    },
+    {
+      "id": "S-05",
+      "file": "admin-members-filter-published.png",
+      "route": "/admin/members?filter=published",
+      "viewport": "1280x800"
+    },
+    {
+      "id": "S-06",
+      "file": "admin-members-bulk-selected.png",
+      "route": "/admin/members",
+      "viewport": "1280x800"
+    },
+    {
+      "id": "S-07",
+      "file": "admin-members-drawer-open.png",
+      "route": "/admin/members",
+      "viewport": "1280x800"
+    },
+    {
+      "id": "S-08",
+      "file": "admin-members-empty.png",
+      "route": "/admin/members?q=zzzzz",
+      "viewport": "1280x800"
+    },
+    {
+      "id": "S-09",
+      "file": "admin-layout-sidebar-active.png",
+      "route": "/admin",
+      "viewport": "1280x800"
+    }
+  ]
+}

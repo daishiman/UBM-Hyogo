@@ -125,6 +125,7 @@ type TagQueueResolveBody =
 - schema 正本は `packages/shared/src/schemas/admin/tag-queue-resolve.ts` の `tagQueueResolveBodySchema`
 - `confirmed` と `rejected` の key を混在させた body は受け付けない（400 `validation_error`）
 - `confirmed` は `tag_definitions.code` を `member_tags.tag_id` へ解決し、queue status を `resolved`（仕様語 `confirmed`）にする
+- `member_tags.assigned_via_queue_id` 列は追加しない。queue 由来の追跡は [ADR 0002](../../decisions/0002-member-tags-assigned-via-queue-id-decision.md) に従い、`audit_log.target_type='tag_queue'` / `target_id=<queueId>` と `member_tags.source='admin_queue'` を正規経路とする
 - `rejected` は reason を保存し、queue status を `rejected` にする
 - `dlq` は retry 上限超過の保留状態で、`GET /admin/tags/queue?status=dlq` から確認する
 - 同一 payload の再投入は 200 + `idempotent: true` とし、追加 audit は作らない

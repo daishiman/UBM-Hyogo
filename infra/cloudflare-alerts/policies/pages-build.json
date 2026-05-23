@@ -1,0 +1,14 @@
+{
+  "$schema": "../schema/policy.schema.json",
+  "name": "pages-build",
+  "description": "Pages Build 80% of free-tier monthly quota",
+  "alert_type": "billing_usage_alert",
+  "enabled": true,
+  "conditions": {
+    "metric": "pages_requests_per_month",
+    "percentage": 0.8
+  },
+  "mechanisms": {
+    "webhooks": [{ "name": "ut-17-relay" }]
+  }
+}

@@ -14,6 +14,7 @@ import { sendMagicLink } from "../../../src/lib/auth/magic-link-client";
 import { replaceLoginState } from "../../../src/lib/url/login-state";
 
 const COOLDOWN_SECONDS = 60;
+const ERROR_MAX_LENGTH = 200;
 
 export interface MagicLinkFormProps {
   readonly redirect: string;
@@ -23,7 +24,6 @@ export function MagicLinkForm({ redirect }: MagicLinkFormProps) {
   const [email, setEmail] = useState("");
   const [cooldown, setCooldown] = useState(0);
   const [submitting, setSubmitting] = useState(false);
-  const [error, setError] = useState<string | null>(null);
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const router = useRouter();
 
@@ -40,7 +40,6 @@ export function MagicLinkForm({ redirect }: MagicLinkFormProps) {
   const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (submitting || cooldown > 0) return;
-    setError(null);
     setSubmitting(true);
     try {
       const res = await sendMagicLink(email, redirect);
@@ -49,7 +48,10 @@ export function MagicLinkForm({ redirect }: MagicLinkFormProps) {
       router.refresh();
     } catch (err) {
       const message = err instanceof Error ? err.message : "送信に失敗しました";
-      setError(message);
+      replaceLoginState("error", redirect, {
+        error: message.slice(0, ERROR_MAX_LENGTH),
+      });
+      router.refresh();
     } finally {
       setSubmitting(false);
     }
@@ -70,11 +72,6 @@ export function MagicLinkForm({ redirect }: MagicLinkFormProps) {
           onChange={(e) => setEmail(e.target.value)}
         />
       </Field>
-      {error ? (
-        <p role="alert" data-tone="error">
-          {error}
-        </p>
-      ) : null}
       <Button
         type="submit"
         disabled={submitting || cooldown > 0 || email.length === 0}

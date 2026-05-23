@@ -34,8 +34,8 @@
 - `apps/web/app/layout.tsx`
 - `apps/web/app/styles.css`
 - `apps/web/tsconfig.json`
-- `apps/web/src/__tests__/tokens.test.ts`
-- `apps/web/src/__tests__/build-output.test.ts`
+- `apps/web/src/__tests__/tokens.runtime.spec.ts`
+- `apps/web/src/__tests__/build-output.runtime.spec.ts`
 - `apps/web/src/__tests__/__fixtures__/utility-probe.tsx`
 - `pnpm-lock.yaml`
 

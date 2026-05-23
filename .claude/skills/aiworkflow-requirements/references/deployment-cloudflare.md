@@ -84,6 +84,21 @@ u-04 (`docs/30-workflows/completed-tasks/u-04-serial-sheets-to-d1-sync-implement
 
 ---
 
+## Cloudflare Alert Policy IaC（UT-17 follow-up 004 / 006）
+
+Cloudflare Notification Policy は Dashboard 手作業ではなく `infra/cloudflare-alerts/`
+配下の JSON 宣言と `bash scripts/cf.sh alerts {list,diff,apply}` を正本経路とする。
+2026-05-16 時点の repo 宣言は 5 category / 7 policy で、KV 追加分は
+`workers-kv-writes-per-day` と `workers-kv-stored-bytes` の 2 件。
+
+KV 2 policy は Workers KV account quota guard であり、namespace filter は持たない。
+初期値は `enabled:false`。Cloudflare apply、Slack staging delivery smoke、
+5 営業日 baseline 後の `enabled:true` 判断、commit / push / PR は user-gated。
+`infra/cloudflare-alerts/schema/policy.schema.json` は `billing_usage_alert` のままで足りるため
+UT-17 follow-up 006 では verified unchanged。
+
+---
+
 ## D1 Backup Long-Term Storage（UT-06-FU-E / 2026-05-01）
 
 UT-06 Phase 12 UNASSIGNED-E は `docs/30-workflows/ut-06-followup-E-d1-backup-long-term-storage/` で `spec_created` / docs-only / NON_VISUAL workflow として formalize した。現 wave は仕様書と validator 用 placeholder のみで、runtime 実装は Phase 13 ユーザー承認後の別 PR に分離する。
@@ -105,7 +120,8 @@ UT-06 Phase 12 UNASSIGNED-E は `docs/30-workflows/ut-06-followup-E-d1-backup-lo
 
 ## Cloudflare Workers デプロイ（Next.js / OpenNext）
 
-> **current facts (UT-CICD-DRIFT-IMPL-PAGES-VS-WORKERS-DECISION / 2026-05-01)**: `apps/web/wrangler.toml` は **OpenNext Workers 形式**（`main = ".open-next/worker.js"` + `[assets]`）で、`.github/workflows/web-cd.yml` はまだ **Pages deploy**（`pages deploy .next`）を呼ぶ。ADR-0001（`docs/00-getting-started-manual/specs/adr/0001-pages-vs-workers-deploy-target.md`）で Workers cutover を採択済み。残る `web-cd.yml` 置換、Cloudflare side Pages project → Workers script 切替、staging / production smoke は `task-impl-opennext-workers-migration-001` の責務とする。
+> **current facts (Issue #331 cleanup / 2026-05-09)**: `apps/web/wrangler.toml` は **OpenNext Workers 形式**（`main = ".open-next/worker.js"` + `[assets]`）で、`.github/workflows/web-cd.yml` も `pnpm --filter @ubm-hyogo/web build:cloudflare` 後に `bash scripts/cf.sh deploy --config apps/web/wrangler.toml --env <staging|production>` を呼ぶ。repo-side Pages deploy cutover は完了済み。Cloudflare side Pages project retirement、custom domain / route verification、staging / production runtime smoke は user approval 後の Issue #419 / Phase 13 evidence 境界とする。
+> **current facts (CI recovery / 2026-05-09)**: `apps/web/wrangler.toml` は **OpenNext Workers 形式**（`main = ".open-next/worker.js"` + `[assets]`）で、`.github/workflows/web-cd.yml` も `build:cloudflare` + `bash scripts/cf.sh deploy --config apps/web/wrangler.toml --env staging|production` へ同期済み。Pages deploy (`pages deploy .next`) は current web-cd path から撤去済み。staging / production runtime deploy evidence は user-approved Actions run 後に取得する。
 
 ### Pages 形式と OpenNext Workers 形式の判定（current state 列付き）
 
@@ -234,19 +250,43 @@ name = "ubm-hyogo-api"
 
 ### API Worker cron / Forms response sync（03b）
 
-`apps/api` は二種類の cron を持つ。
+`apps/api` は三種類の cron を持つ。
 
 > **UT-21 close-out note (2026-04-30)**: 下表の Sheets 由来 cron / `runSync` / Sheets API v4 説明は legacy current-fact の残存であり、現行正本は Forms sync（`forms.get` / `forms.responses.list`、`POST /admin/sync/schema` / `POST /admin/sync/responses`、`sync_jobs` ledger）である。runtime cron / wrangler 設定の撤回・整理は `docs/30-workflows/unassigned-task/task-ut21-impl-path-boundary-realignment-001.md`（UT21-U05）で扱い、本 close-out では `apps/api/wrangler.toml` を変更しない。
 
 | cron | 用途 | 実行関数 |
 | --- | --- | --- |
-| `0 * * * *` | Google Sheets 由来の legacy hourly sync（撤回は UT21-U05） | `runSync` |
-| `0 18 * * *` | 03a schema sync + issue-402 retention purge dry-run/apply 併用（fan-out なし。`apps/api/src/index.ts` cron handler 内で分岐ルーティングし、retention purge は `RETENTION_PURGE_MODE` で dry-run/apply/off を切替。SSOT: [data-retention-policy.md](./data-retention-policy.md)） | `runSchemaSync` + retention purge job |
+| `0 18 * * *` | 03a schema sync + issue-402 retention purge dry-run/apply + UT-17 weekly alert-relay healthcheck 併用。UT-17 healthcheck は `new Date(controller.scheduledTime).getUTCDay() === 1` の UTC Monday gate で週 1 回だけ動く。新規 cron は追加しない。 | `runSchemaSync` + retention purge job + `runAlertRelayHealthcheck` |
 | `*/15 * * * *` | Google Forms response 同期 | `runResponseSync` |
+| `*/5 * * * *` | issue-377 tag queue retry tick。legacy Sheets hourly sync (`0 * * * *`) は runtime cron から撤回済みで、互換経路として手動実行に限定する。 | `runTagQueueRetryTick` |
 
-> **current facts (09b / 2026-05-01)**: 上記 3 件は `apps/api/wrangler.toml` の `[triggers] crons = ["0 * * * *", "0 18 * * *", "*/15 * * * *"]`、`[env.staging.triggers]` と完全整合する。`0 * * * *` は legacy Sheets hourly cron の現行残存であり、撤回・runtime 設定整理は `docs/30-workflows/unassigned-task/task-ut21-impl-path-boundary-realignment-001.md`（UT21-U05）で扱う。09b は docs-only / spec_created のため runtime 設定を変更しない。
+> **current facts (UT-17 followup-003 review / 2026-05-14)**: 上記 3 件は `apps/api/wrangler.toml` の `[triggers] crons = ["0 18 * * *", "*/15 * * * *", "*/5 * * * *"]`、`[env.production.triggers]`、`[env.staging.triggers]` と完全整合する。`0 * * * *` は current runtime cron ではなく、legacy Sheets hourly sync の互換手動経路としてのみ扱う。
 
 Forms response sync は `GOOGLE_FORM_ID` を Cloudflare vars に持ち、`GOOGLE_SERVICE_ACCOUNT_EMAIL` / `GOOGLE_PRIVATE_KEY` を Cloudflare Secrets として扱う。JWT signing は Workers WebCrypto (`RSASSA-PKCS1-v1_5` + SHA-256) で行い、`packages/integrations` の Google Forms client に注入する。
+
+### UT-17 weekly alert-relay healthcheck cron（Issue #635 / 2026-05-14）
+
+`docs/30-workflows/ut-17-followup-003-alert-relay-healthcheck-cron/` は `implemented-local / implementation / NON_VISUAL / CODE_COMPLETE_EXTERNAL_OPS_PENDING`。`apps/api/src/scheduled/healthcheck.ts` が既存 daily cron `0 18 * * *` に相乗りし、UTC Monday gate（JST Tuesday 03:00）で Cloudflare Notifications → `/internal/alert-relay` → Slack 経路を週次確認する。Workers free plan の cron 3 本上限を守るため、新規 cron slot は追加しない。
+
+| 項目 | 正本 |
+| --- | --- |
+| scheduled module | `apps/api/src/scheduled/healthcheck.ts` |
+| cron | existing `0 18 * * *` only |
+| gate | `new Date(controller.scheduledTime).getUTCDay() === 1` |
+| relay call | Request 偽造 + `createAlertRelayRoute().request("/", reqInit, env)` |
+| Slack success | Slack fetch を `slackOkBodyGuard()` で `status 2xx + body.trim() === "ok"` に正規化し、relay route は 200/502 で判定 |
+| payload marker | `name: "UT-17 weekly healthcheck"`, `severity: "info"`, `data.healthcheck: true`, weekly `policy_id` |
+| fallback | Resend API mail to `HEALTHCHECK_FALLBACK_EMAIL` when Slack delivery fails |
+
+Optional Cloudflare Secrets:
+
+| Secret | 用途 | 配置 |
+| --- | --- | --- |
+| `SLACK_WEBHOOK_URL_HEALTHCHECK` | healthcheck 専用 Slack Incoming Webhook。未設定時は `SLACK_WEBHOOK_URL` に fallback | `bash scripts/cf.sh secret put --env <env> SLACK_WEBHOOK_URL_HEALTHCHECK` |
+| `HEALTHCHECK_FALLBACK_EMAIL` | Slack 失敗時の送信先 | `bash scripts/cf.sh secret put --env <env> HEALTHCHECK_FALLBACK_EMAIL` |
+| `RESEND_API_KEY` | Resend send email API token | `bash scripts/cf.sh secret put --env <env> RESEND_API_KEY` |
+
+External ops（secret 投入、staging / production deploy、manual cron fire、first production cron observation）は user approval gate 後に実施する。月次 runbook `docs/30-workflows/runbooks/ut-17-alert-relay-monthly-healthcheck.md` は定常監視から四半期 deep-dive / 連続 2 回失敗時の手動確認へ降格した。
 
 Issue #378 以降、Forms response sync の tag candidate enqueue は `TAG_QUEUE_PAUSED` variable で deploy-gated に停止できる。`"true"` 完全一致のみ停止し、停止中は `tag_assignment_queue` への D1 read / write を行わず `{ enqueued: false, reason: "paused" }` と structured log `UBM-TAGQ-PAUSED` を返す。切替手順は `docs/30-workflows/runbooks/tag-queue-pause.md` を正本とし、Cloudflare Secret では扱わない。
 
@@ -480,9 +520,11 @@ CI/CD の secret / variable 配置と最小権限は [`deployment-secrets-manage
 
 ### デプロイフロー（web-cd.yml）
 
-`push` to `dev` / `main` → Validate Build → Deploy to Cloudflare Workers（wrangler-action）。
+`push` to `dev` / `main` → OpenNext Workers bundle build → `bash scripts/cf.sh deploy --config apps/web/wrangler.toml --env <staging|production>`。
+`push` to `dev` / `main` → setup Node/pnpm/mise → `pnpm --filter @ubm-hyogo/web build:cloudflare` → `bash scripts/cf.sh deploy --config apps/web/wrangler.toml --env staging|production`。
 
-> **current facts (ADR-0001 / 2026-05-01)**: `apps/web/wrangler.toml` は OpenNext Workers 形式だが、現行 `.github/workflows/web-cd.yml` は Pages deploy（`pages deploy .next`）が残る。ADR-0001 で Workers deploy への cutover を採択済みで、`web-cd.yml` の `wrangler deploy --env <env>` 置換、Cloudflare side 切替、staging / production smoke は `task-impl-opennext-workers-migration-001` の責務。Discord 通知ステップは現状未実装で、UT-08-IMPL で導入予定。
+> **current facts (Issue #331 cleanup / 2026-05-09)**: 現行 `.github/workflows/web-cd.yml` は Pages deploy を呼ばない。Discord 通知ステップは現状未実装で、UT-08-IMPL で導入予定。
+> **current facts (CI recovery / 2026-05-09)**: `.github/workflows/web-cd.yml` の Pages deploy は撤去済み。Discord 通知ステップは現状未実装で、UT-08-IMPL で導入予定。
 
 ---
 

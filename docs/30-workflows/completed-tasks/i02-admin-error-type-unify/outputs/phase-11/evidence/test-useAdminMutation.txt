@@ -1,0 +1,4 @@
+PASS
+Command: ESBUILD_BINARY_PATH="$PWD/node_modules/@esbuild/darwin-arm64/bin/esbuild" pnpm exec vitest run --root=. --config=vitest.config.ts apps/web/src/features/admin/hooks/__tests__/useAdminMutation.spec.ts
+Result: 11 tests passed
+Coverage focus: 401 AuthRequiredError redirect DI, 403 FetchAuthedError alert, 5xx FetchAuthedError, reset.

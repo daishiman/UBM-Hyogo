@@ -22,7 +22,7 @@ Task type: `implemented-local / implementation / NON_VISUAL / PASS_BOUNDARY_SYNC
 - Cause: TypeScript の型上は `getEnv()` の戻り値が `Env` で確定するため、呼び出し側は throw を「異常系として握る」のが習慣的に正しいと感じてしまう。
 - Recurrence condition: env を必須化したいが、起動を止めたくない開発者が catch で fallback 値を埋める。
 - 5-minute resolution: `getEnv()` の throw は **握らず、`apps/web/src/app/error.tsx` (task-05 error boundary) で補足する** 設計を CLAUDE.md / lessons-learned に明記。env.test.ts に「fallback 化していないこと」のテストを残す。
-- Evidence path: `apps/web/src/lib/__tests__/env.test.ts`
+- Evidence path: `apps/web/src/lib/__tests__/env.spec.ts`
 
 ### L-T02W2-003: 公開 env (`NEXT_PUBLIC_*`) と内部 env を schema 上で分離する
 

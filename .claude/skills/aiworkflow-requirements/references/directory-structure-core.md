@@ -411,6 +411,6 @@
 | ------------------- | ----------------------------------- |
 | ci.yml              | CI（テスト、lint、型チェック）      |
 | backend-ci.yml      | APIデプロイ（Cloudflare Workers）  |
-| web-cd.yml          | Webデプロイ（Cloudflare Pages）    |
+| web-cd.yml          | Webデプロイ（Cloudflare Workers + OpenNext）    |
 
 ---

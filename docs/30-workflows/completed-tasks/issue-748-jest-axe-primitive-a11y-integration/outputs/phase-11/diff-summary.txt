@@ -1,0 +1,17 @@
+ M .claude/skills/aiworkflow-requirements/indexes/quick-reference.md
+ M .claude/skills/aiworkflow-requirements/indexes/resource-map.md
+ M .claude/skills/aiworkflow-requirements/references/task-workflow-active.md
+ M .claude/skills/aiworkflow-requirements/references/testing-accessibility.md
+ M apps/web/src/components/ui/__tests__/parallel09-primitives.component.spec.tsx
+ M docs/30-workflows/unassigned-task/parallel-09-followup-003-jest-axe-real-a11y-integration.md
+?? .claude/skills/aiworkflow-requirements/changelog/20260517-issue-748-jest-axe-primitive-a11y-integration.md
+?? .claude/skills/aiworkflow-requirements/references/workflow-issue-748-jest-axe-primitive-a11y-integration-artifact-inventory.md
+?? apps/web/src/test/
+?? docs/30-workflows/issue-748-jest-axe-primitive-a11y-integration/
+ .../indexes/quick-reference.md                     | 12 +++++
+ .../indexes/resource-map.md                        |  1 +
+ .../references/task-workflow-active.md             | 14 +++++
+ .../references/testing-accessibility.md            | 22 +++++---
+ .../parallel09-primitives.component.spec.tsx       | 63 ++++++++++++++++++++++
+ ...-followup-003-jest-axe-real-a11y-integration.md | 24 +++++----
+ 6 files changed, 117 insertions(+), 19 deletions(-)

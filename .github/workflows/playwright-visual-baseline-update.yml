@@ -1,0 +1,114 @@
+name: playwright-visual-baseline-update
+
+on:
+  workflow_dispatch:
+    inputs:
+      reason:
+        description: 'なぜ baseline 更新が必要か（必須）'
+        required: true
+        type: string
+
+jobs:
+  update-baseline:
+    runs-on: ubuntu-latest
+    environment: visual-baseline-approval # ← user approval gate
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref }}
+      - uses: ./.github/actions/setup-project
+      - name: Install playwright browsers
+        run: pnpm --filter @ubm-hyogo/web exec playwright install --with-deps chromium
+      - name: Build apps/web
+        env:
+          ENVIRONMENT: local
+          NEXT_PUBLIC_API_BASE_URL: http://127.0.0.1:8787
+          PUBLIC_API_BASE_URL: http://127.0.0.1:8787
+          INTERNAL_API_BASE_URL: http://127.0.0.1:8787
+          AUTH_URL: http://127.0.0.1:3000
+          SENTRY_ENVIRONMENT: local
+          SENTRY_TRACES_SAMPLE_RATE: '0'
+        run: pnpm --filter @ubm-hyogo/web build
+      - name: Regenerate visual-full baselines
+        env:
+          PLAYWRIGHT_EVIDENCE_TASK: task-18-fu
+        run: |
+          pnpm --filter @ubm-hyogo/web exec playwright test \
+            --project=visual-full-chromium-desktop \
+            --project=visual-full-chromium-tablet \
+            --project=visual-full-chromium-mobile \
+            --update-snapshots
+      - name: Regenerate smoke visual baselines (visual-chromium)
+        env:
+          PLAYWRIGHT_EVIDENCE_TASK: task-18-w7
+          PLAYWRIGHT_TASK18_SMOKE: '1'
+        run: |
+          pnpm --filter @ubm-hyogo/web exec playwright test \
+            --project=visual-chromium \
+            --update-snapshots
+      - name: Update .baseline-meta.json
+        env:
+          REASON: ${{ inputs.reason }}
+          RUN_ID: ${{ github.run_id }}
+        run: |
+          META=apps/web/playwright/tests/visual-full/.baseline-meta.json
+          SHA="$(git rev-parse HEAD)"
+          AT="$(date -u +"%Y-%m-%dT%H:%M:%SZ")"
+          python3 - <<PY
+          import json, os
+          p = "$META"
+          d = json.load(open(p)) if os.path.exists(p) else {}
+          d["captured_at_commit_sha"] = "$SHA"
+          d["captured_at"] = "$AT"
+          d["captured_via"] = "playwright-visual-baseline-update.yml#workflow_dispatch"
+          runs = d.get("captured_run_ids") or []
+          runs.append("$RUN_ID")
+          d["captured_run_ids"] = runs[-10:]
+          d.setdefault("viewport_dimensions", {
+              "desktop": {"width": 1280, "height": "fullPage"},
+              "tablet": {"width": 834, "height": "fullPage"},
+              "mobile": {"width": 390, "height": "fullPage"},
+          })
+          d.setdefault("rendering_relevant_paths", [
+              "apps/web/src/**",
+              "apps/web/app/**",
+              "apps/web/playwright.config.ts",
+              "apps/web/playwright/tests/visual-full/full-visual.spec.ts",
+              "apps/web/playwright/fixtures/**",
+              "apps/web/src/styles/tokens.css",
+              "apps/web/src/styles/**",
+          ])
+          d.setdefault("refresh_workflow", ".github/workflows/playwright-visual-baseline-update.yml")
+          d.setdefault("refresh_command_hint", "gh workflow run playwright-visual-baseline-update.yml -f reason=\"<why>\" -r <feature-branch>")
+          d["last_refresh_reason"] = os.environ.get("REASON", "")
+          with open(p, "w") as f:
+              json.dump(d, f, indent=2, ensure_ascii=False)
+              f.write("\n")
+          PY
+      - name: Commit and push baselines directly to source branch
+        env:
+          REASON: ${{ inputs.reason }}
+          RUN_ID: ${{ github.run_id }}
+          SOURCE_REF: ${{ github.ref_name }}
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add apps/web/playwright/tests/visual-full/ apps/web/playwright/tests/visual/
+          if git diff --cached --quiet; then
+            echo "No baseline changes to commit."
+            exit 0
+          fi
+          git commit -m "chore(visual): update baselines via workflow_dispatch
+
+          Reason: ${REASON}
+          workflow_dispatch run: ${RUN_ID}
+          source branch: ${SOURCE_REF}
+
+          .baseline-meta.json updated to current HEAD SHA."
+          # Push directly to the source branch. GITHUB_TOKEN has contents:write
+          # which sidesteps the \"GitHub Actions cannot create PRs\" restriction.
+          git push origin "HEAD:${SOURCE_REF}"

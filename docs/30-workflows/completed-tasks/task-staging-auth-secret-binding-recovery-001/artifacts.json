@@ -1,0 +1,84 @@
+{
+  "workflow_id": "task-staging-auth-secret-binding-recovery-001",
+  "status": "spec_created",
+  "metadata": {
+    "taskType": "implementation",
+    "visualEvidence": "NON_VISUAL",
+    "implementationCategory": "bugfix",
+    "implementation_mode": "new",
+    "workflow_state": "implemented_runtime_verified_pending_pr",
+    "created_at": "2026-05-22",
+    "owner": "daishiman",
+    "canonical_root": "docs/30-workflows/task-staging-auth-secret-binding-recovery-001",
+    "related_workflow_misdiagnosis": "docs/30-workflows/completed-tasks/task-runtime-smoke-admin-members-500-recovery-001",
+    "related_pr_misdiagnosis": "#854",
+    "related_artifact": "runtime-smoke-staging-26228634903",
+    "specs": [
+      "specs/spec-01-immediate-recovery.md",
+      "specs/spec-02-middleware-log-and-env-zod.md",
+      "specs/spec-03-ci-gate-and-smoke-branch.md",
+      "specs/spec-04-cf-sh-empty-secret-guard.md"
+    ],
+    "local_implementation_files_planned": [
+      "apps/api/src/middleware/require-admin.ts",
+      "apps/api/src/middleware/require-admin.spec.ts",
+      "apps/api/src/env.ts",
+      "apps/api/src/env.spec.ts",
+      "apps/api/src/routes/admin/members.contract.spec.ts",
+      "scripts/cf.sh",
+      "scripts/smoke/runtime-attendance-provider.sh",
+      "scripts/smoke/__tests__/runtime-attendance-provider.test.sh",
+      ".github/workflows/backend-ci.yml"
+    ],
+    "phase12_strict_outputs": [
+      "outputs/phase-12/main.md",
+      "outputs/phase-12/implementation-guide.md",
+      "outputs/phase-12/system-spec-update-summary.md",
+      "outputs/phase-12/documentation-changelog.md",
+      "outputs/phase-12/unassigned-task-detection.md",
+      "outputs/phase-12/skill-feedback-report.md",
+      "outputs/phase-12/phase12-task-spec-compliance-check.md"
+    ],
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-05-22T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/task-staging-auth-secret-binding-recovery-001/outputs/phase-12/main.md",
+        "approver": "daishiman",
+        "notes": "spec_review: Phase 1-13 spec authored, 4 spec sub-files written"
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "passed",
+        "passed_at": "2026-05-22T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/task-staging-auth-secret-binding-recovery-001/outputs/phase-07/test.log",
+        "approver": "daishiman",
+        "notes": "implementation: typecheck/lint/test PASS on 4 spec implementations"
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "passed",
+        "passed_at": "2026-05-22T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/task-staging-auth-secret-binding-recovery-001/outputs/phase-11/evidence/staging-runtime-smoke.log",
+        "approver": "daishiman",
+        "notes": "staging-runtime: AUTH_SECRET re-injection + admin-*/me-* HTTP 200 PASS confirmed (6 routes)"
+      }
+    ]
+  },
+  "phases": [
+    { "id": 1, "name": "要件・真因確定", "status": "completed", "path": "phase-01.md" },
+    { "id": 2, "name": "設計", "status": "completed", "path": "phase-02.md" },
+    { "id": 3, "name": "影響範囲", "status": "completed", "path": "phase-03.md" },
+    { "id": 4, "name": "テスト戦略", "status": "completed", "path": "phase-04.md" },
+    { "id": 5, "name": "実装方針", "status": "completed", "path": "phase-05.md" },
+    { "id": 6, "name": "テスト拡充", "status": "completed", "path": "phase-06.md" },
+    { "id": 7, "name": "ローカル検証", "status": "completed", "path": "phase-07.md" },
+    { "id": 8, "name": "staging 検証", "status": "pending_user_approval", "path": "phase-08.md" },
+    { "id": 9, "name": "品質保証", "status": "completed", "path": "phase-09.md" },
+    { "id": 10, "name": "最終レビュー", "status": "completed", "path": "phase-10.md" },
+    { "id": 11, "name": "evidence inventory", "status": "completed", "path": "phase-11.md" },
+    { "id": 12, "name": "ドキュメント", "status": "completed", "path": "phase-12.md" },
+    { "id": 13, "name": "PR 作成", "status": "pending", "path": "phase-13.md" }
+  ]
+}

@@ -1,6 +1,6 @@
 {
   "workflow_id": "task-10-ui-primitives-spec",
-  "workflow_state": "implemented-local-build-blocked",
+  "workflow_state": "runtime-evidence-captured",
   "metadata": {
     "task_id": "task-10-ui-primitives-spec",
     "task_name": "UI primitives task-10 existing baseline integration specification",
@@ -8,10 +8,44 @@
     "taskType": "implementation",
     "visualEvidence": "VISUAL_ON_EXECUTION",
     "implementation_mode": "existing-ui-integration",
-    "implementation_status": "implemented-local",
+    "implementation_status": "runtime_evidence_captured",
     "scope": "Integrate task-10 UI primitive contract with current apps/web/src/components/ui baseline without deleting existing exports.",
     "phase13_state": "blocked_pending_user_approval",
-    "local_build_state": "next_build_pass_cloudflare_build_blocked_esbuild_binary_mismatch"
+    "local_build_state": "build_cloudflare_pass_runtime_visual_axe_captured",
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-05-11T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/task-10-ui-primitives-spec/index.md",
+        "approver": "daishiman",
+        "notes": "spec_review: Phase 1-13 spec finalized at task root"
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "passed",
+        "passed_at": "2026-05-11T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/task-10-ui-primitives-spec/outputs/phase-11/main.md",
+        "approver": "daishiman",
+        "notes": "validator_green: typecheck/lint/build PASS, evidence captured"
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": ".github/workflows/ci.yml",
+        "approver": "CODEOWNERS:github-workflows",
+        "notes": "ci_integration: awaiting green CI on PR"
+      },
+      {
+        "gate_id": "Gate-D",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/task-10-ui-primitives-spec/outputs/phase-13/main.md",
+        "approver": "daishiman",
+        "notes": "pr_approval: awaiting user-gated merge into dev"
+      }
+    ]
   },
   "depends_on": [
     "task-08-design-tokens-doc",
@@ -29,19 +63,84 @@
     "task-17-admin-schema-conflicts-audit"
   ],
   "phases": [
-    { "id": 1, "name": "要件定義", "status": "spec_created", "spec": "phase-01.md" },
-    { "id": 2, "name": "設計", "status": "spec_created", "spec": "phase-02.md" },
-    { "id": 3, "name": "設計レビューゲート", "status": "spec_created", "spec": "phase-03.md" },
-    { "id": 4, "name": "テスト作成", "status": "spec_created", "spec": "phase-04.md" },
-    { "id": 5, "name": "実装", "status": "implemented-local", "spec": "phase-05.md" },
-    { "id": 6, "name": "テスト拡充", "status": "completed", "spec": "phase-06.md" },
-    { "id": 7, "name": "テストカバレッジ確認", "status": "completed", "spec": "phase-07.md" },
-    { "id": 8, "name": "リファクタリング", "status": "completed", "spec": "phase-08.md" },
-    { "id": 9, "name": "品質保証", "status": "blocked_build_cloudflare_esbuild_mismatch", "spec": "phase-09.md" },
-    { "id": 10, "name": "最終レビューゲート", "status": "blocked_build_cloudflare_esbuild_mismatch", "spec": "phase-10.md" },
-    { "id": 11, "name": "手動テスト検証", "status": "local_evidence_captured_runtime_visual_pending", "spec": "phase-11.md" },
-    { "id": 12, "name": "ドキュメント更新", "status": "completed_with_build_blocker_recorded", "spec": "phase-12.md" },
-    { "id": 13, "name": "PR作成", "status": "blocked_pending_user_approval", "spec": "phase-13.md" }
+    {
+      "id": 1,
+      "name": "要件定義",
+      "status": "spec_created",
+      "spec": "phase-01.md"
+    },
+    {
+      "id": 2,
+      "name": "設計",
+      "status": "spec_created",
+      "spec": "phase-02.md"
+    },
+    {
+      "id": 3,
+      "name": "設計レビューゲート",
+      "status": "spec_created",
+      "spec": "phase-03.md"
+    },
+    {
+      "id": 4,
+      "name": "テスト作成",
+      "status": "spec_created",
+      "spec": "phase-04.md"
+    },
+    {
+      "id": 5,
+      "name": "実装",
+      "status": "implemented-local",
+      "spec": "phase-05.md"
+    },
+    {
+      "id": 6,
+      "name": "テスト拡充",
+      "status": "completed",
+      "spec": "phase-06.md"
+    },
+    {
+      "id": 7,
+      "name": "テストカバレッジ確認",
+      "status": "completed",
+      "spec": "phase-07.md"
+    },
+    {
+      "id": 8,
+      "name": "リファクタリング",
+      "status": "completed",
+      "spec": "phase-08.md"
+    },
+    {
+      "id": 9,
+      "name": "品質保証",
+      "status": "completed",
+      "spec": "phase-09.md"
+    },
+    {
+      "id": 10,
+      "name": "最終レビューゲート",
+      "status": "completed",
+      "spec": "phase-10.md"
+    },
+    {
+      "id": 11,
+      "name": "手動テスト検証",
+      "status": "runtime_evidence_captured",
+      "spec": "phase-11.md"
+    },
+    {
+      "id": 12,
+      "name": "ドキュメント更新",
+      "status": "completed",
+      "spec": "phase-12.md"
+    },
+    {
+      "id": 13,
+      "name": "PR作成",
+      "status": "blocked_pending_user_approval",
+      "spec": "phase-13.md"
+    }
   ],
   "acceptance_criteria": [
     "AC-1: Existing apps/web/src/components/ui/index.ts exports are not removed.",

@@ -48,5 +48,5 @@ HTTP fallback URL は `getBaseUrl()` 経由で `PUBLIC_API_BASE_URL` を読む�
 
 - `docs/30-workflows/ut-05a-fetchpublic-service-binding-001/index.md`
 - `docs/30-workflows/ut-05a-fetchpublic-service-binding-001/outputs/phase-11/{code-diff-summary.md,staging-curl.log,production-curl.log,wrangler-tail-staging.log,local-dev-fallback.log,redaction-checklist.md}`
-- `apps/web/src/lib/fetch/public.ts`, `apps/web/src/lib/fetch/public.test.ts`
+- `apps/web/src/lib/fetch/public.ts`, `apps/web/src/lib/fetch/public.spec.ts`
 - `apps/web/wrangler.toml`, `apps/api/wrangler.toml`

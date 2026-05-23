@@ -34,7 +34,7 @@ slug: ui-ux-admin-dashboard
 - `getSession()` が null → `redirect("/login?next=/admin")`
 - `session.isAdmin !== true` → `redirect("/login?gate=forbidden")`
 - 通過時のみ `AdminSidebar` + `<main class="admin-main">{children}</main>` を返す
-- middleware.ts は配置しない（layout 内 auth() で完結、Edge cost 削減）
+- route-local proxy.ts は配置しない（root `apps/web/proxy.ts` と layout 内 auth() で完結、Edge cost 削減）
 
 ### 1.3 Server / Client 境界
 
@@ -92,6 +92,24 @@ D1 や apps/api の repository を web 側で直接 import することは禁止
 | schema 状態 | 06c baseline: `<strong data-testid="schema-state">{view.schemaState}</strong>`。06c-A follow-up 後: スキーマ未解決件数 KPI に統合 |
 | 最近の提出 table | 06c baseline: `view.recentSubmissions`。06c-A follow-up 後: `audit_log` 直近7日 max20 の `recentActions`（`dashboard.view` 除外） |
 | 生成日時 | `<p class="meta">{view.generatedAt}</p>` |
+
+### 3.2.1 公開ステータス分布
+
+実装: `apps/web/src/features/admin/components/_dashboard/StatusDistribution.tsx`
+
+`GET /admin/dashboard` は `byStatus: Array<{ status: "public" | "member_only" | "hidden"; count: number }>` を返す。`toAdminDashboardUi()` が `byStatus` を `StatusSlice[]` として返す場合、`StatusDistribution` は SVG bar chart と chip list を表示する。legacy response 等で `byStatus` が未提供、`undefined`、または空配列の場合は既存 placeholder（`分布データは現在集計対象外です`）を維持する。
+
+| status | label | chart color |
+| --- | --- | --- |
+| `public` | 公開 | `var(--ubm-color-ok)` |
+| `member_only` | 会員限定 | `var(--ubm-color-info)` |
+| `hidden` | 非公開 | `var(--ubm-color-warn)` |
+
+不変条件:
+
+- chart library は追加しない。SVG 直書きで描画する。
+- HEX color literal は使わず、OKLch design token var を介す。
+- API `byStatus` producer は既存 `/admin/dashboard` endpoint に含める。新 endpoint は作らない。
 
 ### 3.3 KpiCard props
 
@@ -232,7 +250,7 @@ D1 や apps/api の repository を web 側で直接 import することは禁止
 | --- | --- | --- |
 | `selected` | `string \| null` | 選択中 queueId（初期は items[0]?.queueId） |
 | `busy` | `boolean` | resolve 実行中 |
-| `toast` | `string \| null` | `role="status"` |
+| `feedback` | `{ kind: "success" \| "retryable" \| "validation_error" \| "conflict_error" \| "error"; label: string; detail?: string } \| null` | `success` / `retryable` は `role="status"`、validation / conflict / error は `role="alert"` |
 
 #### 並べ替え
 
@@ -247,13 +265,38 @@ D1 や apps/api の repository を web 側で直接 import することは禁止
 
 #### mutation
 
-`resolveTagQueue(queueId, body)` 成功時に Toast + `router.refresh()`。`body` は `{ action: "confirmed", tagCodes: string[] }` または `{ action: "rejected", reason: string }`。
+2026-05-17 `admin-tags-queue-resolver-drawer` の spec_created root 以降、resolve UI は `TagsQueueResolveDrawer` へ抽出する方針を正本化した。`TagQueuePanel` は list / filter / selected item / drawer trigger を持ち、drawer が `useAdminMutation<TagQueueResolveResponse>('/api/admin/tags/queue/:queueId/resolve', 'POST')` を呼ぶ。upstream API 正本は `/admin/tags/queue/:queueId/resolve`。
+
+`body` は `{ action: "confirmed", tagCodes: string[] }` または `{ action: "rejected", reason: string }`。client validation は `@ubm-hyogo/shared` root export の `tagQueueResolveBodySchema` を使う。`idempotent: true` の response は `useAdminMutation` の `successMessage(data)` mapper で「既に処理済です」を表示し、drawer 側で二重 toast を出さない。
+
+#### TagsQueueResolveDrawer
+
+実装: `apps/web/src/components/admin/TagsQueueResolveDrawer.tsx`、status token map は `apps/web/src/components/admin/_tagQueueStatus.ts` 正本。
+
+- `role="dialog"` + `aria-modal="true"` + `aria-labelledby`
+- initial focus / focus trap / ESC close / trigger への return focus
+- confirmed branch: `suggestedTags` 全選択初期値、1 件以上必須
+- rejected branch: trim 後 `reason` 1 文字以上必須
+- terminal status (`resolved` / `rejected` / `dlq`) は submit disabled + `aria-disabled="true"`（`TERMINAL_TAG_QUEUE_STATUSES` set を `_tagQueueStatus.ts` で集中管理）
+- submit action は `submittedActionRef` で固定し、`useAdminMutation` の `successMessage(data)` が async state を読まないようにする（L-ATQRD-005）
+
+##### status → OKLch token mapping（`TAG_QUEUE_STATUS_TOKEN`）
+
+| status | label | tokenVar |
+| --- | --- | --- |
+| `queued` | 未対応 | `var(--status-info-bg)` |
+| `reviewing` | 対応中 | `var(--status-warn-bg)` |
+| `resolved` | 承認済 | `var(--status-success-bg)` |
+| `rejected` | 却下 | `var(--status-danger-bg)` |
+| `dlq` | DLQ | `var(--status-neutral-bg)` |
+
+すべて `apps/web/src/styles/tokens.css` の OKLch token を参照する。HEX 直書きや `bg-[#xxx]` は禁止（`verify-design-tokens` gate 対象）。
 
 #### 不変条件
 
 - 不変条件 #13: tag 直接更新 endpoint なし。**queue resolve のみ**で `member_tags` を反映。
 - AC-2: members 画面からの遷移時に `?memberId=...` を保持し、対象 memberId のキューを先頭に並べる。
-- `current.status === "resolved"` のときは resolve ボタンを disabled。
+- `current.status` が `resolved` / `rejected` / `dlq` の terminal status のときは submit を disabled。
 
 ---
 
@@ -292,10 +335,11 @@ D1 や apps/api の repository を web 側で直接 import することは禁止
 
 #### レイアウト
 
-- 4 ペイン grid（`grid-template-columns: repeat(4, 1fr)`）に added / changed / removed / unresolved を分類表示
-- 各項目を `<button aria-pressed>` で選択 → `active` 設定
-- `active.questionId` がある場合: stableKey 編集 form
+- 4 ペイン grid（`grid-template-columns: repeat(4, 1fr)`）に added / changed / removed / unresolved を分類表示し、各ペインは `<table>` / `th scope="col"` / `tbody` で field-by-field 表示する
+- 各項目を `<button aria-pressed>` で選択 → `active` 設定。選択後は stableKey input へ focus する
+- `active.questionId` がある場合: stableKey 編集 form。`stableKey` は `/^[a-zA-Z][a-zA-Z0-9_]*$/` を `pattern` と client validation に使い、invalid 時は `aria-invalid=true`、validation alert id を `aria-describedby` に追加する
 - `active.questionId` が null の場合: `<p role="alert">この diff には questionId がないため alias 割当はできません。</p>`
+- queued / resolved は UI で日本語 label（未解決 / 解決済み）として表示する
 
 #### 初期 stableKey
 
@@ -303,7 +347,7 @@ D1 や apps/api の repository を web 側で直接 import することは禁止
 
 #### mutation
 
-`postSchemaAlias({ diffId, questionId, stableKey })` 成功時に Toast + `router.refresh()`。
+`postSchemaAlias({ diffId, questionId, stableKey })` 成功時に success feedback + `router.refresh()`。HTTP 202 retryable continuation は status として表示し form を維持する。409 は `existingStableKey`、422 `stable_key_collision` は `existingQuestionIds` を保持して alert に表示する。
 
 #### 不変条件
 
@@ -394,7 +438,7 @@ D1 や apps/api の repository を web 側で直接 import することは禁止
 
 ### 8.3 admin-only mutation
 
-すべての PATCH/POST/DELETE は `apps/web/src/lib/admin/api.ts` 経由でのみ発火し、`/api/admin/*` BFF proxy が session.isAdmin を再検証する。詳細は `architecture-admin-api-client.md` を参照。
+すべての PATCH/POST/DELETE は `apps/web/src/lib/admin/api.ts` helper または `apps/web/src/features/admin/hooks/useAdminMutation.ts` 経由で発火し、`/api/admin/*` BFF proxy が session.isAdmin を再検証する。詳細は `architecture-admin-api-client.md` を参照。
 
 ---
 
@@ -406,7 +450,7 @@ D1 や apps/api の repository を web 側で直接 import することは禁止
 | #5 | apps/web から D1 直接アクセス禁止 | すべての fetch は `/admin/*` API 経由 |
 | #11 | profile 本文の管理者編集 mutation を提供しない | MemberDrawer / api.ts に該当関数なし |
 | #12 | 管理メモは MemberDrawer 内のみ | api.ts の note 関数は drawer のみで参照 |
-| #13 | tag 直接更新なし、queue resolve のみ | TagQueuePanel + api.ts.resolveTagQueue |
+| #13 | tag 直接更新なし、queue resolve のみ | TagQueuePanel + TagsQueueResolveDrawer + useAdminMutation `/api/admin/tags/queue/:queueId/resolve` |
 | #14 | schema 差分解消は `/admin/schema` のみ | SchemaDiffPanel は単一 page.tsx で import |
 | #15 | attendance は `!isDeleted` のみ、重複は disabled / 409 / 422 | MeetingPanel + page.tsx |
 

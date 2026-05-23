@@ -1,0 +1,8 @@
+Command:
+`mise exec -- pnpm exec tsx scripts/audit-log/export-to-r2.ts --env staging --dry-run --target-date 2026-05-17`
+
+Expected result:
+CLI argument parsing and module loading succeed without R2 PUT or manifest writes.
+
+Runtime boundary:
+Actual production D1 read, manifest write, and R2 PUT are blocked until Phase 11 user approval.

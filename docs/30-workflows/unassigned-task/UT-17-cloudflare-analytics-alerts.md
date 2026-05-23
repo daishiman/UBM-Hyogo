@@ -8,11 +8,21 @@
 | タスク名 | Cloudflare Analytics アラート設定 |
 | 優先度 | LOW |
 | 推奨Wave | Wave 2+ |
-| 状態 | unassigned |
+| 状態 | consumed / promoted_to_workflow / local_code_complete_external_ops_pending |
 | 作成日 | 2026-04-23 |
 | 検出元タスク | 01b-parallel-cloudflare-base-bootstrap (UN-06) |
 | 既存タスク組み込み | なし |
 | 組み込み先 | - |
+
+## 昇格トレース
+
+| 項目 | 値 |
+| --- | --- |
+| 昇格先 | `docs/30-workflows/ut-17-cloudflare-analytics-alerts/` |
+| 昇格日 | 2026-05-09 |
+| 現在状態 | `implemented-local / implementation / NON_VISUAL / CODE_COMPLETE_EXTERNAL_OPS_PENDING` |
+| 実装済み | `apps/api` の `/internal/alert-relay`、`cf-webhook-auth` 認証、Slack 日本語 formatter、Slack retry sender、focused tests、runbook |
+| 残操作 | Cloudflare Secrets、deploy、Notification Policy、Slack runtime smoke、commit、push、PR（すべて user-gated） |
 
 ## 目的
 

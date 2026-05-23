@@ -8,6 +8,7 @@
 
 import type { SyncEnv } from "./jobs/sync-sheets-to-d1";
 import type { ResponseSyncEnv } from "./jobs/sync-forms-responses";
+import { z } from "zod";
 
 /**
  * Cloudflare Workers の env binding 型。
@@ -24,6 +25,14 @@ export interface Env extends SyncEnv, ResponseSyncEnv {
   // wrangler.toml [[analytics_engine_datasets]] binding = "SYNC_ALERTS"
   // 03b-followup-006: per-sync write cap 連続到達検知の event emit 先
   readonly SYNC_ALERTS?: AnalyticsEngineDataset;
+
+  // wrangler.toml [[r2_buckets]] binding = "UBM_AUDIT_COLD_STORAGE"
+  // Issue #514: Cloudflare audit log cold storage.
+  readonly UBM_AUDIT_COLD_STORAGE?: R2Bucket;
+
+  // wrangler.toml [[r2_buckets]] binding = "UBM_AUDIT_APP_COLD_STORAGE"
+  // Issue #315: application audit_log cold storage.
+  readonly UBM_AUDIT_APP_COLD_STORAGE?: R2Bucket;
 
   // wrangler.toml [[queues.producers]] binding = "SCHEMA_ALIAS_BACKFILL_QUEUE"
   // UT-07B-FU-01: schema alias back-fill 継続 job の enqueue 先
@@ -81,7 +90,32 @@ export interface Env extends SyncEnv, ResponseSyncEnv {
   // vars — 公開 runbook URL / GitHub org slug
   readonly AUDIT_CORRELATION_RUNBOOK_BASE_URL?: string;
   readonly AUDIT_CORRELATION_GITHUB_ORG?: string;
+
+  // UT-17 — Cloudflare Notifications generic webhook → Slack 日本語化リレー
+  // 1Password 正本 → Cloudflare Secrets（`bash scripts/cf.sh secret put` 経由）
+  readonly CF_WEBHOOK_AUTH_SECRET?: string;
+  readonly SLACK_WEBHOOK_URL?: string;
+  readonly SLACK_WEBHOOK_URL_HEALTHCHECK?: string;
+  readonly HEALTHCHECK_FALLBACK_EMAIL?: string;
+  readonly RESEND_API_KEY?: string;
+  // vars — Slack message links shown in UT-17 alert cards
+  readonly CF_ALERT_DASHBOARD_URL?: string;
+  readonly CF_ALERT_RUNBOOK_URL?: string;
+
+  // ut-17-followup-002: alert-relay dedup を isolate 跨ぎで永続化する KV namespace。
+  // wrangler.toml の `[[env.{staging,production}.kv_namespaces]]` で binding = "ALERT_DEDUP_KV" を割当てる。
+  readonly ALERT_DEDUP_KV: KVNamespace;
 }
+
+export const AuthSecretEnvSchema = z.object({
+  AUTH_SECRET: z.string().trim().min(32, "AUTH_SECRET must be at least 32 characters"),
+});
+
+export type AuthSecretEnv = z.infer<typeof AuthSecretEnvSchema>;
+
+export const validateAuthSecretEnv = (env: { AUTH_SECRET?: string | undefined }): AuthSecretEnv => {
+  return AuthSecretEnvSchema.parse(env);
+};
 
 // 予約欄（本タスク scope 外、後続タスクで `Env` に追加する binding 候補）
 // - SESSIONS: KVNamespace            → 05a / 05b で `[[kv_namespaces]]` 追加と同時に

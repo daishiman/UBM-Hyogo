@@ -1,0 +1,3 @@
+Command: PLAYWRIGHT_EVIDENCE_TASK=task-18-w7 PLAYWRIGHT_TASK18_SMOKE=1 pnpm --filter @ubm-hyogo/web exec playwright test --project=visual-chromium
+Exit: not run
+Result: pending runtime evidence; baseline PNG generation requires a clean local disk or CI ubuntu-latest run.

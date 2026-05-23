@@ -122,3 +122,14 @@ const result = await tagQueueResolve(c, {
 - Focused changed-path Vitest: PASS
 - Direct import grep gate: PASS
 - Full `test:coverage`: attempted; failed due Miniflare `EADDRNOTAVAIL` port exhaustion in broad concurrent D1 tests. This was not reproduced in focused changed-path test runs.
+
+## Follow-up: Full Coverage Rerun (Issue #577)
+
+`@ubm-hyogo/api` full `test:coverage` の EADDRNOTAVAIL port exhaustion は Issue #577 で triage 完了:
+
+- baseline rerun 3 回で EADDRNOTAVAIL が単調増加（23 → 38 → 51 件）し、TIME_WAIT 蓄積が支配要因と推定。
+- 軸 B（`--maxWorkers=1 --minWorkers=1`）で 133/133 PASS / 0 EADDRNOTAVAIL を確認。
+- patch 適用先: `apps/api/package.json#scripts.test:coverage` に `--maxWorkers=1 --minWorkers=1` を追加（最小差分。`vitest.config.ts` 不変）。
+- 30day-contract 適用なし（恒久対応として patch 採用）。
+
+参照: `docs/30-workflows/issue-577-api-coverage-rerun-miniflare-port-exhaustion/outputs/phase-11/main.md` と `evidence/triage-summary.md`。

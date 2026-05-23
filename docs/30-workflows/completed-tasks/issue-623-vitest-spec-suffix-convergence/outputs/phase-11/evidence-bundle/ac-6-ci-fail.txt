@@ -1,0 +1,1 @@
+Simulated by ac-4-unit-result.txt: the same forbidden suffix matcher rejects apps/api/src/__tests__/dummy.test.ts with exit_code=1. GitHub workflow uses repository-wide find matcher; live CI run is user-gated until push/PR.

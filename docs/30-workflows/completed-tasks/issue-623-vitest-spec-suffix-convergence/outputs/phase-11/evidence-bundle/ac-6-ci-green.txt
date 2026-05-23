@@ -1,0 +1,50 @@
+# 目的: テストファイル suffix を *.spec.{ts,tsx} 単一に収斂させた状態を CI で恒久保持する gate
+# 検知対象: *.test.ts(x) ファイルがリポジトリに 1 件でも存在する状態
+# ADR: docs/30-workflows/issue-325-test-suffix-rename-migration/outputs/phase-12/test-file-suffix-adr.md
+# 関連タスク: docs/30-workflows/issue-623-vitest-spec-suffix-convergence/
+name: verify-test-suffix
+
+on:
+  push:
+    branches: [main, dev]
+  pull_request:
+    branches: [main, dev]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: verify-test-suffix-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify-test-suffix:
+    name: verify-test-suffix
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Detect forbidden *.test.{ts,tsx} files
+        run: |
+          set -euo pipefail
+          OFFENDERS=$(find . \
+            -path ./node_modules -prune -o \
+            -path './**/node_modules' -prune -o \
+            -path ./.next -prune -o \
+            -path './**/.next' -prune -o \
+            -path ./.open-next -prune -o \
+            -path './**/.open-next' -prune -o \
+            \( -name '*.test.ts' -o -name '*.test.tsx' \) -print \
+            | sed 's|^\./||' \
+            | sort)
+          if [ -n "$OFFENDERS" ]; then
+            echo "::error::*.test.{ts,tsx} files are forbidden. Rename to *.spec.{ts,tsx} (ADR: test-file-suffix-adr.md)."
+            echo "--- offending files ---"
+            echo "$OFFENDERS"
+            echo "--- count ---"
+            echo "$OFFENDERS" | wc -l
+            exit 1
+          fi
+          echo "OK: no *.test.{ts,tsx} files detected."

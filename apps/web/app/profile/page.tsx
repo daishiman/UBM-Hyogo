@@ -1,3 +1,4 @@
+// serial-05: /profile — blueprint 09f:111-280
 // 06b: /profile Server Component（read-only）。
 // 不変条件 #4: 本文編集 UI は描画しない（申請 button は admin queue への依頼だけを作る）。
 // 不変条件 #5: D1 直接禁止。`fetchAuthed` 経由で API Worker を叩く。
@@ -13,6 +14,7 @@ import {
   FetchAuthedError,
   fetchAuthed,
 } from "../../src/lib/fetch/authed";
+import { PublicVisibilityBanner } from "./_components/PublicVisibilityBanner";
 import { StatusSummary } from "./_components/StatusSummary";
 import { ProfileFields } from "./_components/ProfileFields";
 import { EditCta } from "./_components/EditCta";
@@ -47,8 +49,12 @@ export default async function ProfilePage() {
   return (
     <>
       <MemberHeader />
-      <main>
+      <main data-route="member" data-section-rhythm="comfortable">
         <h1>マイページ</h1>
+        <PublicVisibilityBanner
+          publishState={statusSummary.publishState}
+          authGateState={me.authGateState}
+        />
         <StatusSummary
           statusSummary={statusSummary}
           authGateState={me.authGateState}

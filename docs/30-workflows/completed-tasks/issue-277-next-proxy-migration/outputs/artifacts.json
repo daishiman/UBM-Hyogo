@@ -1,0 +1,71 @@
+{
+  "workflow_id": "issue-277-next-proxy-migration",
+  "version": "1.0.0",
+  "created_at": "2026-05-20",
+  "canonical_workflow_root": "docs/30-workflows/completed-tasks/issue-277-next-proxy-migration/",
+  "source_issue": 277,
+  "source_issue_state": "OPEN",
+  "parent_workflow": "docs/30-workflows/completed-tasks/UT-06B-NEXT-PROXY-MIGRATION.md",
+  "metadata": {
+    "taskType": "implementation",
+    "visualEvidence": "NON_VISUAL",
+    "workflow_state": "implemented_local",
+    "implementation_status": "implemented_local",
+    "implementation_mode": "code_migrated_runtime_evidence_pending",
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-05-20T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-277-next-proxy-migration/phase-3-design-review.md",
+        "approver": "daishiman",
+        "notes": "spec_review: Phase 1-3 requirements/design/design-review finalized"
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "passed",
+        "passed_at": "2026-05-20T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-277-next-proxy-migration/outputs/phase-12/phase12-task-spec-compliance-check.md",
+        "approver": "daishiman",
+        "notes": "skill_compliance_review: strict 7 outputs and aiworkflow inventory synchronized"
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-277-next-proxy-migration/phase-13-pr.md",
+        "approver": "daishiman",
+        "notes": "external_ops: dev-server runtime smoke, commit, push, PR, and issue close remain user-gated"
+      }
+    ]
+  },
+  "phases": [
+    { "phase": 1, "name": "要件定義", "file": "phase-1-requirements.md", "status": "spec_created" },
+    { "phase": 2, "name": "設計", "file": "phase-2-design.md", "status": "spec_created" },
+    { "phase": 3, "name": "設計レビュー", "file": "phase-3-design-review.md", "status": "spec_created" },
+    { "phase": 4, "name": "テスト計画", "file": "phase-4-test-plan.md", "status": "spec_created" },
+    { "phase": 5, "name": "実装", "file": "phase-5-implementation.md", "status": "spec_created" },
+    { "phase": 6, "name": "テスト追加", "file": "phase-6-test-additions.md", "status": "spec_created" },
+    { "phase": 7, "name": "カバレッジ", "file": "phase-7-coverage.md", "status": "spec_created" },
+    { "phase": 8, "name": "リファクタ", "file": "phase-8-refactor.md", "status": "spec_created" },
+    { "phase": 9, "name": "QA", "file": "phase-9-qa.md", "status": "spec_created" },
+    { "phase": 10, "name": "最終レビュー", "file": "phase-10-final-review.md", "status": "spec_created" },
+    { "phase": 11, "name": "手動テスト", "file": "phase-11-manual-test.md", "status": "runtime_pending" },
+    { "phase": 12, "name": "ドキュメント", "file": "phase-12-documentation.md", "status": "spec_created" },
+    { "phase": 13, "name": "PR 作成", "file": "phase-13-pr.md", "status": "pending_user_approval" }
+  ],
+  "implementation_targets": [
+    "apps/web/middleware.ts",
+    "apps/web/proxy.ts",
+    "apps/web/app/(admin)/layout.tsx",
+    "apps/web/__tests__/proxy.spec.ts",
+    "apps/web/package.json",
+    "vitest.config.ts"
+  ],
+  "user_gated_operations": [
+    "git commit",
+    "git push",
+    "gh pr create --base dev",
+    "issue #277 close"
+  ]
+}

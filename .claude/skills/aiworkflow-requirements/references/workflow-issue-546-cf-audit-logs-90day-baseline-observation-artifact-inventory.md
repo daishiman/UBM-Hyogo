@@ -18,6 +18,10 @@
 | SSOT — workflow | `references/task-workflow-active.md` Issue #546 row |
 | lessons-learned | `references/lessons-learned-issue-546-cf-audit-logs-90day-baseline-observation-2026-05.md` |
 | Phase 12 strict 7 | `outputs/phase-12/{main,implementation-guide,documentation-changelog,unassigned-task-detection,skill-feedback-report,system-spec-update-summary,phase12-task-spec-compliance-check}.md` |
+| re-observation reminder | `docs/30-workflows/issue-581-cf-audit-90day-reobservation-reminder/` |
+| re-observation root artifacts | `docs/30-workflows/issue-581-cf-audit-90day-reobservation-reminder/artifacts.json`, `outputs/artifacts.json` |
+| re-observation Phase 12 strict 7 | `docs/30-workflows/issue-581-cf-audit-90day-reobservation-reminder/outputs/phase-12/{main,implementation-guide,system-spec-update-summary,documentation-changelog,unassigned-task-detection,skill-feedback-report,phase12-task-spec-compliance-check}.md` |
+| re-observation pointer | `docs/30-workflows/unassigned-task/issue-546-cf-audit-logs-90day-reobservation-reminder-001.md` |
 
 ## Gate Result
 
@@ -28,3 +32,15 @@
 | Gate-C tuning cost >= 4h/month | PENDING | no owner-authored monthly tuning minutes log |
 
 Decision: `observation_continue`. Do not proceed to ML comparison or production ML switch from this evidence set.
+
+## Re-observation Reminder Package (Issue #581)
+
+Issue #581 formalizes the next 90 day observation cycle as `docs/30-workflows/issue-581-cf-audit-90day-reobservation-reminder/`.
+
+| Item | Value |
+| --- | --- |
+| root state | `spec_created` |
+| runtime decision state | `observation_continue` |
+| earliest execution | 2026-08-05, or 90 days after the first successful monitor run, whichever is later |
+| closed issue handling | Issue #581 / #546 stay CLOSED; use `Refs #581` / `Refs #546` only |
+| watchdog handling | Issue #518 HOLD deleted the watchdog workflow; store lifecycle marker JSON instead of querying a non-existent workflow |

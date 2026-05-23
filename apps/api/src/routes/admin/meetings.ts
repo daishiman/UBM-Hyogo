@@ -9,6 +9,7 @@ import {
   insertMeeting,
   updateMeeting,
   listMeetingAttendanceForExport,
+  findMeetingById,
   type MeetingAttendanceExportRow,
 } from "../../repository/meetings";
 import { addAttendance, listAttendanceBySession, removeAttendance } from "../../repository/attendance";
@@ -89,6 +90,49 @@ export const createAdminMeetingsRoute = () => {
       })),
     );
     return c.json({ total: itemsWithAttendance.length, items: itemsWithAttendance }, 200);
+  });
+
+  app.get("/meetings/:id", async (c) => {
+    const db = ctx({ DB: c.env.DB });
+    const meeting = await findMeetingById(db, c.req.param("id"));
+    if (!meeting || meeting.deletedAt) {
+      return c.json({ ok: false, error: "not_found" }, 404);
+    }
+    const [attendance, candidates] = await Promise.all([
+      listAttendanceBySession(db, meeting.sessionId),
+      c.env.DB
+        .prepare(
+          `SELECT mi.member_id AS memberId,
+                  COALESCE(json_extract(mr.answers_json, '$.fullName'),
+                           json_extract(mr.answers_json, '$.displayName'),
+                           mi.response_email,
+                           mi.member_id) AS fullName,
+                  COALESCE(ms.is_deleted, 0) AS isDeleted
+             FROM member_identities mi
+             LEFT JOIN member_responses mr ON mr.response_id = mi.current_response_id
+             LEFT JOIN member_status ms ON ms.member_id = mi.member_id
+            ORDER BY fullName ASC, mi.member_id ASC`,
+        )
+        .all<{ memberId: string; fullName: string | null; isDeleted: number }>(),
+    ]);
+    return c.json(
+      {
+        sessionId: meeting.sessionId,
+        title: meeting.title,
+        heldOn: meeting.heldOn,
+        candidates: (candidates.results ?? []).map((row) => ({
+          memberId: row.memberId,
+          fullName: row.fullName ?? row.memberId,
+          isDeleted: row.isDeleted === 1,
+        })),
+        attendees: attendance.map((row) => ({
+          memberId: row.memberId,
+          assignedAt: row.assignedAt,
+          assignedBy: row.assignedBy,
+        })),
+      },
+      200,
+    );
   });
 
   app.post("/meetings", async (c) => {

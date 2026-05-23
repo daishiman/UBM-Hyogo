@@ -1,0 +1,20 @@
+{
+  "task": "serial-05-step-03-schema-diff-resolve",
+  "state": "completed",
+  "status": "completed",
+  "note": "Issue #775 recovery captured 11 valid runtime PNG screenshots. Legacy admin-schema-diff-list placeholder is kept as .placeholder.txt and excluded from PASS screenshot evidence.",
+  "screenshots": [
+    "screenshots/admin-schema-diff-added-desktop.png",
+    "screenshots/admin-schema-diff-added-mobile.png",
+    "screenshots/admin-schema-diff-changed-desktop.png",
+    "screenshots/admin-schema-diff-changed-mobile.png",
+    "screenshots/admin-schema-diff-removed-desktop.png",
+    "screenshots/admin-schema-diff-removed-mobile.png",
+    "screenshots/admin-schema-diff-unresolved-desktop.png",
+    "screenshots/admin-schema-diff-unresolved-mobile.png",
+    "screenshots/admin-schema-diff-resolve-success.png",
+    "screenshots/admin-schema-diff-resolve-409.png",
+    "screenshots/admin-schema-diff-resolve-422.png"
+  ],
+  "legacy_placeholder": "screenshots/admin-schema-diff-list.placeholder.txt"
+}

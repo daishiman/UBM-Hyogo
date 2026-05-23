@@ -23,7 +23,7 @@
 | API tests | `apps/api/src/routes/admin/audit.test.ts`, `apps/api/src/repository/__tests__/auditLog.test.ts` | route contract と repository boundary |
 | Web route | `apps/web/app/(admin)/admin/audit/page.tsx` | `/admin/audit` page |
 | Web component | `apps/web/src/components/admin/AuditLogPanel.tsx` | read-only table / filters / disclosure UI / UI-side masking |
-| Web test | `apps/web/src/components/admin/__tests__/AuditLogPanel.test.tsx` | focused component behavior |
+| Web test | `apps/web/src/components/admin/__tests__/AuditLogPanel.component.spec.tsx` | focused component behavior |
 | Manual spec | `docs/00-getting-started-manual/specs/11-admin-management.md` | 管理画面仕様 |
 | API spec | `.claude/skills/aiworkflow-requirements/references/api-endpoints.md` | API契約 |
 | Lessons | `.claude/skills/aiworkflow-requirements/references/lessons-learned-07c-audit-log-browsing-ui-2026-05.md` | 苦戦箇所と再発防止 |

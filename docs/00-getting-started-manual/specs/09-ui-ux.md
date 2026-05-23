@@ -10,6 +10,12 @@
 - 実装先は `apps/web` の画面群で、`apps/api` は状態更新と同期の裏側を担う
 この文書は UBM 兵庫支部会メンバーサイトの UI 契約を定義する。
 扱う範囲は routes、component props、state、a11y、API 接続、token 参照名に限定する。
+
+## Error Boundary Focus
+
+Next.js App Router の `error.tsx` では、`role="alert"` の領域内にある h1 を初期 focus 対象にする。実装は `apps/web/src/lib/a11y/useAutoFocusOnMount.ts` を使い、呼び出し側が `useRef<HTMLHeadingElement>(null)` と h1 の `ref` / `tabIndex={-1}` を持つ。
+
+focus 呼び出しは `focus({ preventScroll: true })` に固定する。root / login / profile / admin の error boundary は同じ hook を使い、文言・layout・token の変更を伴わずに screen reader へのエラー通知を揃える。
 視覚値、余白値、フォント値、prototype の行範囲、画面 blueprints は別正本へ委譲する。
 
 ### 1.1 契約のみスコープ
@@ -106,7 +112,7 @@
 
 | 認可 | layout | 主 component | API | 状態 | 主 props | a11y | token | 視覚詳細 link | 不採用 |
 |------|--------|---------------|-----|------|----------|------|-------|----------------|--------|
-| admin | admin layout | TagsQueue, MemberDetail | GET `/admin/tags-queue`; POST `/admin/tags-queue/:id/decision` | page standard, reviewing | queueItems, selectedCandidate, decision | queue item は button semantics | color, space, radius, text | 09g | tag dictionary editor |
+| admin | admin layout | TagsQueue, MemberDetail | GET `/admin/tags/queue`; POST `/admin/tags/queue/:queueId/resolve` | page standard, reviewing | queueItems, selectedCandidate, resolution | queue item は button semantics | color, space, radius, text | 09g | tag dictionary editor |
 
 ### 2.3.4 `/(admin)/admin/meetings`
 
@@ -124,7 +130,7 @@
 
 | 認可 | layout | 主 component | API | 状態 | 主 props | a11y | token | 視覚詳細 link | 不採用 |
 |------|--------|---------------|-----|------|----------|------|-------|----------------|--------|
-| admin | admin layout | RequestsQueue, RequestDetail | GET `/admin/requests`; POST `/admin/requests/:id/decision` | page standard, reviewing | items, selectedRequest, decision | approval action は確認文を持つ | color, space, radius, text | 09g | hidden approval |
+| admin | admin layout | RequestsQueue, RequestDetail | GET `/admin/requests`; POST `/admin/requests/:noteId/resolve` | page standard, reviewing | items, selectedRequest, resolution | approval action は確認文を持つ | color, space, radius, text | 09g | hidden approval |
 
 ### 2.3.7 `/(admin)/admin/identity-conflicts`
 
@@ -178,9 +184,9 @@ Task-05 implemented-local contract: `app/loading.tsx` uses `role="status"`, `ari
 
 | 認可 | layout | 主 component | API | 状態 | 主 props | a11y | token | 視覚詳細 link | 不採用 |
 |------|--------|---------------|-----|------|----------|------|-------|----------------|--------|
-| staging fixture only | `app/__smoke__/*` | SmokeFixture | API call なし | error / success | fixture flag | alert or main landmark | color, space | 09h | production exposure |
+| staging fixture only | `app/smoke/*` wrapper + `app/__smoke__/*` source | SmokeFixture | API call なし | error / loading / success | fixture flag | alert, status, or main landmark | color, space | 09h | production exposure |
 
-`app/__smoke__/error-boundary` と `app/__smoke__/members-list` は `ENABLE_STAGING_SMOKE_FIXTURE=1` かつ `ENVIRONMENT !== "production"` のときだけ有効にする。production deploy は `scripts/cf.sh deploy --config apps/web/wrangler.toml --env production` の preflight で `ENABLE_STAGING_SMOKE_FIXTURE=1` を拒否する。Playwright `staging-smoke` project は remote `STAGING_BASE_URL` 専用で、localhost dev server を起動しない。
+`app/smoke/error-boundary`, `app/smoke/members-list`, `app/smoke/loading-state` は routable wrapper とし、実体は `app/__smoke__/*` 配下に置く。いずれも `apps/web/app/__smoke__/_lib/fixture-guard.ts` の `ENABLE_STAGING_SMOKE_FIXTURE=1` かつ `ENVIRONMENT !== "production"` ガードを通ったときだけ有効にし、条件不一致時は `notFound()` で 404 を返す。production deploy は `scripts/cf.sh deploy --config apps/web/wrangler.toml --env production` の preflight で `ENABLE_STAGING_SMOKE_FIXTURE=1` を拒否する。Playwright `staging-smoke` project は remote `STAGING_BASE_URL` 専用で、localhost dev server を起動しない。ローカル検証時だけ `STAGING_BASE_URL=http://localhost:3000` と fixture env を明示して focused run する。
 
 ## 3. component 契約一覧
 

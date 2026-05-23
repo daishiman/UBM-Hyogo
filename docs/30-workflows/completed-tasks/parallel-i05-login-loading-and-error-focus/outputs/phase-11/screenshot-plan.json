@@ -1,0 +1,11 @@
+{
+  "mode": "VISUAL",
+  "runtime_status": "pending_user_approval",
+  "viewports": [{ "width": 1280, "height": 800 }],
+  "scenarios": [
+    { "id": "TC-01", "name": "login loading skeleton", "route": "/login", "trigger": "slow-network-throttle", "status": "pending" },
+    { "id": "TC-02", "name": "login error default", "route": "/login", "trigger": "force-throw", "status": "pending" },
+    { "id": "TC-03", "name": "login error with digest", "route": "/login", "trigger": "force-throw-with-digest", "status": "pending" },
+    { "id": "TC-04", "name": "login error focused heading", "route": "/login", "trigger": "force-throw-and-focus-ring", "status": "pending" }
+  ]
+}

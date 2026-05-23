@@ -444,8 +444,8 @@ stateDiagram-v2
 
 | 用途 | API | method | response 期待 shape |
 | --- | --- | --- | --- |
-| キュー | `/admin/tags-queue` | GET | items |
-| 採否 | `/admin/tags-queue/:id/decision` | POST | ok |
+| キュー | `/admin/tags/queue` | GET | items |
+| 採否 | `/admin/tags/queue/:queueId/resolve` | POST | ok |
 
 ### 4.5 props / state
 
@@ -992,10 +992,8 @@ stateDiagram-v2
 | POST | `/admin/meetings` | create confirm | create session |
 | PATCH | `/admin/meetings/:sessionId` | edit confirm | update / soft delete |
 | POST | `/admin/meetings/:sessionId/attendances` | attendance toggle | add / remove alias |
-| GET | `/admin/meetings/:sessionId/export.csv` | export action | csv download |
 | GET | `/admin/meetings/:sessionId/attendance/candidates` | add attendance | candidate list |
-| POST | `/admin/meetings/:sessionId/attendance` | add attendance | add row |
-| DELETE | `/admin/meetings/:sessionId/attendance/:memberId` | remove attendance | remove row |
+| POST | `/admin/meetings/:sessionId/attendances` | attendance toggle | add / remove row |
 
 ### 5.5 props / state
 

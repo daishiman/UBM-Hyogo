@@ -1,0 +1,93 @@
+{
+  "task_name": "issue-749-primitive-adoption-tracker",
+  "created_at": "2026-05-17T00:00:00+09:00",
+  "status": "implemented_local_evidence_captured",
+  "metadata": {
+    "workflow_id": "issue-749-primitive-adoption-tracker",
+    "title": "Primitive Adoption Tracker (19 routes x 6 primitive)",
+    "taskType": "implementation",
+    "visualEvidence": "VISUAL",
+    "workflow_state": "implemented_local_evidence_captured",
+    "evidence_state": "LOCAL_EVIDENCE_CAPTURED_VISUAL_RUNTIME_PENDING",
+    "implementationCategory": "standard",
+    "created_at": "2026-05-17T00:00:00+09:00",
+    "updated_at": "2026-05-17T00:00:00+09:00",
+    "source_issue": 749,
+    "source_issue_state": "closed",
+    "source_issue_policy": "keep_closed_refs_only",
+    "parent_spec": "docs/30-workflows/ui-prototype-alignment-mvp-recovery/improvements/parallel-09-ux-cross-cutting/spec.md",
+    "branch": "feat/issue-749-primitive-adoption-tracker",
+    "phase13_state": "blocked_pending_user_approval",
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-05-17T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-749-primitive-adoption-tracker/outputs/phase-1/spec-extraction-map.md",
+        "approver": "local",
+        "notes": "baseline matrix + AC enumeration"
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "passed",
+        "passed_at": "2026-05-17T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-749-primitive-adoption-tracker/outputs/phase-11/main.md",
+        "approver": "local",
+        "notes": "local VISUAL+NON_VISUAL evidence (typecheck/lint/test/grep-gate/visual-smoke)"
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-749-primitive-adoption-tracker/phase-13.md",
+        "approver": "daishiman",
+        "notes": "commit / push / PR user-gated; Issue #749 must remain closed"
+      }
+    ]
+  },
+  "implementation_targets": [
+    "apps/web/src/components/admin/MeetingPanel.tsx",
+    "apps/web/src/components/admin/AuditLogPanel.tsx",
+    "apps/web/src/components/admin/TagQueuePanel.tsx",
+    "apps/web/src/components/admin/SchemaDiffPanel.tsx",
+    "apps/web/src/components/admin/RequestQueuePanel.tsx",
+    "apps/web/src/components/public/DensityToggle.client.tsx",
+    "apps/web/app/(admin)/admin/page.tsx",
+    "apps/web/app/(admin)/admin/members/page.tsx",
+    "apps/web/app/(admin)/admin/tags/page.tsx",
+    "apps/web/app/(admin)/admin/meetings/page.tsx",
+    "apps/web/app/(admin)/admin/schema/page.tsx",
+    "apps/web/app/(admin)/admin/requests/page.tsx",
+    "apps/web/app/(admin)/admin/identity-conflicts/page.tsx",
+    "apps/web/app/(admin)/admin/audit/page.tsx",
+    "scripts/verify-primitive-adoption.sh",
+    ".github/workflows/verify-primitive-adoption.yml",
+    "docs/30-workflows/completed-tasks/issue-749-primitive-adoption-tracker/outputs/adoption-tracker.md"
+  ],
+  "spec_outputs": [
+    "outputs/phase-1/spec-extraction-map.md",
+    "outputs/phase-12/main.md",
+    "outputs/phase-12/implementation-guide.md",
+    "outputs/phase-12/phase12-task-spec-compliance-check.md",
+    "outputs/phase-12/system-spec-update-summary.md",
+    "outputs/phase-12/skill-feedback-report.md",
+    "outputs/phase-12/unassigned-task-detection.md",
+    "outputs/phase-12/documentation-changelog.md",
+    "outputs/adoption-tracker.md"
+  ],
+  "phases": [
+    { "phase": 1, "phaseId": "phase-1", "status": "spec_created", "artifact": "phase-1.md" },
+    { "phase": 2, "phaseId": "phase-2", "status": "spec_created", "artifact": "phase-2.md" },
+    { "phase": 3, "phaseId": "phase-3", "status": "spec_created", "artifact": "phase-3.md" },
+    { "phase": 4, "phaseId": "phase-4", "status": "completed", "artifact": "phase-4.md" },
+    { "phase": 5, "phaseId": "phase-5", "status": "completed", "artifact": "phase-5.md" },
+    { "phase": 6, "phaseId": "phase-6", "status": "completed", "artifact": "phase-6.md" },
+    { "phase": 7, "phaseId": "phase-7", "status": "completed", "artifact": "phase-7.md" },
+    { "phase": 8, "phaseId": "phase-8", "status": "completed", "artifact": "phase-8.md" },
+    { "phase": 9, "phaseId": "phase-9", "status": "completed", "artifact": "phase-9.md" },
+    { "phase": 10, "phaseId": "phase-10", "status": "completed", "artifact": "phase-10.md" },
+    { "phase": 11, "phaseId": "phase-11", "status": "completed", "artifact": "phase-11.md" },
+    { "phase": 12, "phaseId": "phase-12", "status": "completed", "artifact": "phase-12.md" },
+    { "phase": 13, "phaseId": "phase-13", "status": "blocked", "artifact": "phase-13.md" }
+  ]
+}

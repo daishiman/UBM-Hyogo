@@ -89,5 +89,28 @@ assert_contains "preserve japanese" \
   "トークン: ya29.FAKE_OAUTH_TOKEN_XXXXXXXXXXX 確認" \
   "トークン"
 
+# R-07 production runtime smoke redaction
+assert_redacted "R-07 __Secure cookie" \
+  "Set-Cookie: __Secure-authjs.session-token=mock_secret_cookie; Path=/" \
+  "mock_secret_cookie"
+assert_redacted "R-07 __Secure cookie name" \
+  "Set-Cookie: __Secure-authjs.session-token=mock_secret_cookie; Path=/" \
+  "__Secure-authjs"
+assert_redacted "R-07 Cloudflare ray" \
+  "cf-ray: 0123456789abcdef-NRT" \
+  "0123456789abcdef-NRT"
+assert_redacted "R-07 email local part" \
+  "email=person.example@gmail.com" \
+  "person\\.example@gmail\\.com"
+assert_contains "R-07 preserves email domain only" \
+  "email=person.example@gmail.com" \
+  "REDACTED_EMAIL_LOCAL.*gmail\\.com"
+assert_redacted "R-07 fullName field" \
+  '"fullName":"Example Person"' \
+  "Example Person"
+assert_redacted "R-07 OAuth state" \
+  "oauth_state=mock_oauth_state_value" \
+  "mock_oauth_state_value"
+
 printf '\n--- summary: PASS=%d FAIL=%d ---\n' "$PASS" "$FAIL"
 [ "$FAIL" -eq 0 ]

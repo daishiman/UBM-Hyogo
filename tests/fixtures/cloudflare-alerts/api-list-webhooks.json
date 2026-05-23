@@ -1,0 +1,14 @@
+{
+  "result": [
+    {
+      "id": "11111111-1111-1111-1111-111111111111",
+      "name": "ut-17-relay",
+      "type": "generic",
+      "url": "https://relay-worker-host.example.invalid/internal/alert-relay",
+      "created_at": "2026-05-09T00:00:00Z"
+    }
+  ],
+  "success": true,
+  "errors": [],
+  "messages": []
+}

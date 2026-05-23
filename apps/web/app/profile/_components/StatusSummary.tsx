@@ -32,7 +32,7 @@ export function StatusSummary({
   authGateState,
 }: StatusSummaryProps) {
   return (
-    <section aria-label="アカウント状態">
+    <section aria-label="アカウント状態" data-region="status-summary">
       <h2>アカウント状態</h2>
       <KVList
         items={[

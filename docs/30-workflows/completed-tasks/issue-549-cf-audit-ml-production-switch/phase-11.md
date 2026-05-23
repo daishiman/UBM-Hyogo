@@ -119,6 +119,7 @@ evidence ファイル / log には以下の生値を含めない（grep gate で
 - Gate 後の実装サイクル（feat ブランチ）に渡す Phase 11 contract: workflow YAML / model artifact / 7 日 hourly observation path を canonical 固定。
 - secret leakage grep gate を hourly post-step に組み込む AC-5 / AC-10 の検証は、実装サイクルの Phase 11 で `evidence/grep-gate.log` として取得する。
 - Phase 12 entry checklist へ: placeholder token grep 0 件 / `§99` 必須項目 content check / dirty-code gate を引き継ぐ。
+- Machine-readable canonical evidence path: `outputs/phase-11/canonical-paths.json`（schema: `.claude/skills/task-specification-creator/schemas/phase11-evidence-canonical-paths.schema.json`）。
 
 ## メタ情報
 

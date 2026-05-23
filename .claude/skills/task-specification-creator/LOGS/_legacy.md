@@ -4,6 +4,50 @@
 
 このファイルは task-specification-creator の運用・改善・Phase 12 close-out 同期履歴を新しい順に記録する。
 
+## 2026-05-17 - Issue #749 primitive adoption tracker review
+
+`docs/30-workflows/completed-tasks/issue-749-primitive-adoption-tracker/` の 30 種思考法レビューを反映した。実コード差分を伴う workflow は docs-only / spec-created のラベルに固定せず、`implemented_local_evidence_captured` として Phase 11 local evidence、Phase 12 strict 7、root artifacts、skill sync を同一サイクルで揃える。route SSOT は moved completed root の `docs/30-workflows/completed-tasks/ui-prototype-alignment-mvp-recovery/SCOPE.md` を参照し、コピーした route matrix の stale row を Phase 4/7/11 gate へ波及させない。primitive adoption gate は import-only や `void` placeholder ではなく、実 JSX rendering / `useAdminMutation().trigger()` / EmptyState / Pagination を検査する。未タスク候補は同一サイクルで解消可能なら unassigned-task 化せず、`unassigned-task-detection.md` に 0 件と解消理由を記録する。
+
+## 2026-05-16 - Issue #717 conditional no-code close-out feedback
+
+`docs/30-workflows/issue-717-oidc-cf-full-migration/` の Phase 12 feedback を確認した。Cloudflare Workers GitHub Actions OIDC のような外部公式 support 依存 implementation task では、一次情報再検証で unsupported と判定した場合、推測コードを入れず `implementationCategory=conditional` / `verified_current_no_code_change_pending_pr` として root/output artifacts、Phase 11 revalidation evidence、Phase 12 strict 7、unassigned follow-up formalization、aiworkflow sync を同一 wave で揃える必要がある。template 本体の即時変更は no-op とし、本 workflow の `skill-feedback-report.md` に promotion candidate として記録した。
+
+- routing target: `references/phase12-skill-feedback-promotion.md` の `Stale-current no-code verification rule` / `Workflow Path Existence Gate` / `Recovery Window Evidence Parity Gate` / `Conditional Implementation Category`（Issue #616 既存項）を Issue #717 適用例として更新。
+- promotion target: 既存 `schemas/artifact-definition.json` の `implementationCategory=conditional` と `workflow-state-vocabulary.md` の `verified_current_no_code_change_pending_pr` を Issue #717 で実適用済み。stale-claim grep gate と primary-source snapshot 必須条項を `phase12-skill-feedback-promotion.md` に Issue #717 例で再記述。
+- no-op reason: 既存 template / schema 構造（conditional category enum、state vocabulary、phase11 revalidation evidence 章）が Issue #717 のケースを完全に吸収し、新規 template field / new reference file の追加は不要。SKILL.md Trigger 行へ `unsupported-path-gate` / `primary-source-snapshot-gate` のみ追加して導線を補強。
+
+## 2026-05-14 - Issue #640 CI/CD secret-scope close-out feedback
+
+`docs/30-workflows/issue-640-oidc-cf-token-cutover/` の Phase 12 feedback を確認した。CI/CD secret-scope tasks では static workflow scope test を local evidence だけに置かず、repository script（例: `pnpm test:workflow-secrets`）と CI workflow-shell-lint に接続する必要がある。既存の Phase 12 strict 7 / implemented-local-runtime-pending / NON_VISUAL evidence rules で吸収可能なため、task-specification-creator template 本体の構造変更は no-op とし、今回 workflow の `skill-feedback-report.md` に「promoted via repo CI gate / template change no-op」を記録する。
+
+## 2026-05-10 - e2e-quality-uplift stage-3-impl 3b / 3c skill feedback promotion
+
+`docs/30-workflows/e2e-quality-uplift-stage-3-impl/3b-e2e-tests-hard-gate/outputs/phase-12/skill-feedback-report.md` および `3c-branch-protection-contexts/outputs/phase-12/skill-feedback-report.md` を反映。schemas/artifact-definition.json の status enum に `spec_created` / `runtime_pending` を追加し、metadata に governance gate / evidence ledger split キーを正規化。`references/server-component-e2e-pattern.md`（`page.route()` を server-side fetch evidence にしない / `INTERNAL_API_BASE_URL` 差し替え / mock API + seed / tracked evidence）と `references/governance-branch-protection-pattern.md`（dev / main 個別 GET・個別 PUT / branch-specific evidence 分離）を新設。`references/phase12-compliance-check-template.md` に 3-state verdict vocabulary と evidence ledger split を追加し PASS 単独表記を禁止。`references/completed-tasks-policy.md` に親アーカイブパス整合性チェックを追加。`references/workflow-state-vocabulary.md` に canonical short-form alias 表を追加。SKILL.md / resource-map.md に同期。
+
+## 2026-05-11 - Issue #603 Phase 12 compliance CI gate
+
+`docs/30-workflows/issue-603-phase12-compliance-check-ci-gate/` の実装で、`phase12-compliance-check-template.md` の Required Sections 9 項目を `verify-phase12-compliance` CI gate の canonical heading SSOT として固定した。workflow 自身 / `package.json` / verifier script / lib / tests / fixtures / template 変更で focused Vitest と verifier を実行する経路を同期し、move 時の削除元 workflow root を false-block しない root collection 挙動を同一 wave でテスト化した。PR CI、commit、push、PR は user-gated のまま未実行。
+
+## 2026-05-10 - task-14 my-profile-and-requests strict evidence correction
+
+`docs/30-workflows/task-14-my-profile-and-requests/` の 30 種思考法レビューで、Phase 1-13 は存在するが `outputs/` 実体、Phase 12 strict 7、root/output artifacts parity、canonical state vocabulary、`@ubm-hyogo/web` command contract が不足していた。root state を `PASS_BOUNDARY_SYNCED_RUNTIME_PENDING` へ補正し、Phase 11 deterministic evidence、Phase 12 strict 7、Phase 13 readiness checklist、aiworkflow-requirements 導線を同一 wave で実体化した。authenticated screenshot、staging smoke、production runtime evidence、commit、push、PR は user-gated のまま未実行。
+
+## 2026-05-10 - Issue #587 artifact rotation implemented-local close-out
+
+`docs/30-workflows/issue-587-cf-audit-ml-artifact-rotation/` の Phase 12 review で、実コード・workflow が同一 wave に入った場合は `spec_created` のまま閉じず `implemented_local_runtime_pending` へ再分類する必要を確認した。root/outputs `artifacts.json` parity、Phase 11 NON_VISUAL 3 files、typecheck/lint/focused tests 19 件/local fixture canary/rotation evidence/leakage/dataset evidence、strict 7 outputs、SSOT same-wave sync、LOGS、unassigned formalize を実体化して close-out。production artifact promotion は Gate-R0〜R3 と user approval 後の runtime operation に残し、CLOSED Issue 文脈は `Refs #549, #587` のみに固定した。commit / push / PR は未実行。
+
+## 2026-05-08 - Issue #534 workflow_state vocabulary promotion
+
+## 2026-05-09 - ci secret alignment task-01 Phase 12 strict outputs
+
+`docs/30-workflows/ci-secret-alignment-and-runtime-smoke-recovery/task-01-web-cd-secret-name-alignment/` の review で、implementation / NON_VISUAL の小規模 workflow YAML 修正でも Phase 12 strict 7 files を省略すると `spec_created` と local code diff が混線することを確認した。task-01 は `.github/workflows/web-cd.yml` の local 実装、Phase 11 local evidence、Phase 12 strict 7 outputs を同一 wave で揃え、dev/main runtime CI は `runtime_pending` として user approval 後に分離した。テンプレート変更は不要で既存 Phase 12 7-file gate を適用。
+
+## 2026-05-09 - task-13 login rebuild spec sync
+
+`docs/30-workflows/task-13-login-rebuild/` の 30 種思考法レビューで、Phase 1-13 は存在するが Phase 12 strict 7、root/output artifacts parity、canonical state vocabulary、aiworkflow sync、`@ubm-hyogo/web` command contract が不足していた。さらに apps/web 実装差分が存在したため、仕様 package を `implemented-local / implementation / VISUAL_ON_EXECUTION / IMPLEMENTED_LOCAL_RUNTIME_PENDING` として再分類した。`data-testid="login-card"` + `data-state` locator、`LoginCardProps.state`、`rules_declined role="alert"`、Magic Link failure `state=error` URL transition、`verify-design-tokens` script、Phase 11 local screenshots、Phase 13 user approval gate を同一 wave で補正。staging smoke、production-equivalent runtime evidence、commit、push、PR は未実行。
+
+`docs/30-workflows/issue-534-skill-workflow-state-guidance/` の review で、workflow root state、phase status、Phase 11/12 evidence、archive/delete ledger sync の境界を `task-specification-creator` skill 本体へ昇格した。`references/workflow-state-vocabulary.md` と `references/phase12-compliance-check-template.md` を新設し、SKILL.md References、既存 Phase 11/12 references、SKILL-changelog を同期。commit、push、PR は user-gated のまま未実行。
+
 ## 2026-05-08 - Issue #548 synthetic harness vs production winner boundary
 
 `docs/30-workflows/issue-548-ml-model-selection/` の Phase 12 review で、synthetic fixture による model comparison harness smoke と production-equivalent dataset による winner selection が混在し、root state / Phase 11 / SSOT の語彙が割れる危険を確認した。`references/phase12-skill-feedback-promotion.md` に Synthetic Harness vs Production Winner Rule を追加し、`implemented_synthetic` state、dataset boundary、fallbackRate の構造化計測、env contract 名統一、production switch follow-up 分離を同 wave 必須条件として固定した。commit / push / PR は未実行。
@@ -2645,3 +2689,44 @@ AC-1〜AC-6 全達成。Phase 10 判定: PASS（MINOR 0件）
 - Normalized phase statuses to `completed` / `pending` / `blocked` while keeping root workflow state `spec_created`.
 - Added `outputs/phase-11/main.md` as `PENDING_IMPLEMENTATION_EVIDENCE` so reserved evidence paths are not mistaken for runtime PASS.
 - Skill feedback: multi-candidate model selection workflows must separate synthetic harness smoke from production winner selection and keep FU-03-D production switch user-gated.
+## 2026-05-10 - task-16 admin-tags-meetings-requests contract alignment
+
+`docs/30-workflows/task-16-admin-tags-meetings-requests/` の 30 種思考法レビューで、旧生成仕様が `apps/web/src/app` / `src/features/admin` / `lib/api/admin-*` / `/decision` / `approved` という stale contract を含んでいた。現行 repo 正本（`apps/web/app`, `apps/web/src/components/admin`, `apps/web/src/lib/admin`）へ非破壊再構成し、Phase 01-13 canonical naming、root/output artifacts parity、Phase 11 pending runtime marker、Phase 12 strict 7、aiworkflow-requirements 同期を同一 wave で実体化した。runtime screenshots、staging smoke、commit、push、PR は user-gated。
+# 2026-05-09 issue586 post-switch 7-day close-out review feedback
+
+# 2026-05-16 UT-17-FU-005 alert-relay KV error metrics review
+
+- 対象: `docs/30-workflows/ut-17-followup-005-alert-relay-kv-error-metrics/`
+- 種別: implementation / NON_VISUAL / Phase 12 strict 7 + root/output artifacts parity review
+- 結果: `spec_created` のまま完了断定していた drift を `implemented_local_evidence_captured / implementation_complete_pending_pr` へ補正し、Phase 1〜12 completed / Phase 13 user-gated に整合。root `artifacts.json` と `outputs/artifacts.json` を full mirror に統一。
+- 実装: `apps/api/src/routes/internal/alert-relay.ts` と `alert-relay.spec.ts`、monthly healthcheck runbook を同一 cycle で更新。typecheck / lint / API test PASS。
+- skill feedback: task-specification-creator の template structural change は不要。既存 strict 7 / 3-state / artifacts parity gate で検出・修正可能だったため no-op。
+
+- Added Phase 11/12 guidance for N-day scheduled observation close-out: cross-run artifact download via `gh api`, durable `expectedSnapshots` / `actualSnapshots`, run URL evidence, aggregate gates for fallback/leakage/classifier/skeleton metrics, and evidence PR creation without direct push.
+- Applied to `/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260509-211455-wt-6/docs/30-workflows/issue-586-post-switch-7day-close-out/`.
+
+# 2026-05-09 UT-17 cloudflare analytics alerts + Slack 日本語化リレー close-out
+
+- 対象: `docs/30-workflows/ut-17-cloudflare-analytics-alerts/` (UT-17 / Cloudflare Analytics Alerts + Slack 日本語化リレー)
+- 種別: implementation-completed-local close-out / Phase 12 strict 7 outputs 完了
+- 結果: Phase 12 canonical 7 files (`main.md` / `implementation-guide.md` / `system-spec-update-summary.md` / `documentation-changelog.md` / `unassigned-task-detection.md` / `skill-feedback-report.md` / `phase12-task-spec-compliance-check.md`) を materialize。
+- skill feedback: no template change required (no-op skill feedback)。formatter / 未タスク state vocabulary / strict 7 outputs 命名はいずれも既存 task-specification-creator テンプレートで充足。
+- evidence: `docs/30-workflows/ut-17-cloudflare-analytics-alerts/outputs/phase-12/skill-feedback-report.md`
+
+# 2026-05-10
+
+- task-15 admin dashboard and members review feedback applied: Phase 12 strict 7 files must be physical files, artifacts must reference existing outputs, and VISUAL tasks need local fixture screenshot evidence when staging is not yet available. `it.todo` a11y placeholders were replaced with `jest-axe` tests in the same cycle.
+# 2026-05-11 Issue #616 conditional implementation category
+
+- Added `metadata.implementationCategory` enum to `schemas/artifact-definition.json`, including `conditional` for implementation tasks where code/config changes happen only after upstream improvement detection.
+- Promoted Issue #616 review feedback so no-code-change verified triage workflows can use `verified_current_no_code_change_pending_pr` instead of stale `spec_created` after Phase 11 evidence is captured.
+- Commit / push / PR were not executed.
+
+# 2026-05-16 Issue #717 conditional no-code stale-claim gate
+
+- Promoted Issue #717 review feedback: when primary-source revalidation proves an implementation path is unsupported, Phase 1-13 must be resynced so stale executable claims (`id-token: write`, deploy logs, rollback rehearsals, missing evidence paths) are not left as current-cycle DoD.
+- Future staging proof / production cutover must be formalized separately and legacy token revocation remains blocked until production cutover + observation.
+# 2026-05-18 issue-256-e2e-coverage-baseline-runbook
+
+- Applied Phase 11 evidence existence and Phase 12 strict 7 compliance rules to `docs/30-workflows/issue-256-e2e-coverage-baseline-runbook/`.
+- Confirmed CLOSED Issue PR wording uses `Refs #256` instead of close keywords.

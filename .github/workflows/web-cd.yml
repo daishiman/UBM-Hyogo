@@ -1,5 +1,5 @@
-# 目的: Cloudflare Pages の dev/main デプロイ
-# 範囲: dev -> staging project, main -> production project
+# 目的: Cloudflare Workers (OpenNext) への dev/main デプロイ
+# 範囲: dev -> ubm-hyogo-web-staging, main -> ubm-hyogo-web-production
 name: web-cd
 
 on:
@@ -18,9 +18,10 @@ jobs:
       name: staging
     permissions:
       contents: read
-      deployments: write
     steps:
       - uses: actions/checkout@v4
+
+      - uses: jdx/mise-action@v2
 
       - uses: pnpm/action-setup@v4
         with:
@@ -32,21 +33,42 @@ jobs:
           cache: pnpm
 
       - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+        run: mise exec -- pnpm install --frozen-lockfile
 
-      - name: Build web app
-        run: pnpm --filter @ubm-hyogo/web build
+      # NOTE: build-time placeholder env. Runtime values are bound from apps/web/wrangler.toml [env.staging.vars] at Workers execution.
+      - name: Build web app (OpenNext Workers bundle)
+        env:
+          ENVIRONMENT: staging
+          NEXT_PUBLIC_API_BASE_URL: https://ubm-hyogo-api-staging.daishimanju.workers.dev
+          PUBLIC_API_BASE_URL: https://ubm-hyogo-api-staging.daishimanju.workers.dev
+          INTERNAL_API_BASE_URL: https://ubm-hyogo-api-staging.daishimanju.workers.dev
+          AUTH_URL: https://ubm-hyogo-web-staging.daishimanju.workers.dev
+          SENTRY_ENVIRONMENT: staging
+          NEXT_PUBLIC_SENTRY_ENVIRONMENT: staging
+          SENTRY_TRACES_SAMPLE_RATE: "0.2"
+          NEXT_PUBLIC_SENTRY_TRACES_SAMPLE_RATE: "0.2"
+        run: mise exec -- pnpm --filter @ubm-hyogo/web build:cloudflare
 
-      - name: Deploy web app to Cloudflare Pages
+      # NOTE(issue-762): step-scoped CF deploy secret (see Deploy step env) is the current safe baseline.
+      # Keep GitHub OIDC token permission and OIDC exchange out of web-cd until Cloudflare documents
+      # supported Workers deploy OIDC in wrangler-action. See docs/30-workflows/issue-762-cf-oidc-staging-proof-prod-cutover/.
+      - name: Deploy to Cloudflare Workers (staging)
         id: deploy
-        uses: cloudflare/wrangler-action@v3
-        with:
-          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          accountId: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
-          wranglerVersion: 4.85.0
-          workingDirectory: apps/web
-          command: pages deploy .next --project-name=${{ vars.CLOUDFLARE_PAGES_PROJECT }}-staging --branch=dev
-          gitHubToken: ${{ secrets.GITHUB_TOKEN }}
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          set -o pipefail
+          if [ -z "${CLOUDFLARE_API_TOKEN:-}" ]; then
+            echo "::error::CLOUDFLARE_API_TOKEN is empty. Confirm GitHub Environment 'staging' has CLOUDFLARE_API_TOKEN registered."
+            exit 1
+          fi
+          bash scripts/cf.sh deploy --config apps/web/wrangler.toml --env staging 2>&1 | tee web-cd-staging-deploy.log
+
+      - name: Verify deploy log redaction (staging)
+        env:
+          CLOUDFLARE_ACCOUNT_ID: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
+        run: bash scripts/redaction-check.sh --log web-cd-staging-deploy.log --account-id "$CLOUDFLARE_ACCOUNT_ID"
 
   deploy-production:
     if: github.ref_name == 'main'
@@ -55,9 +77,10 @@ jobs:
       name: production
     permissions:
       contents: read
-      deployments: write
     steps:
       - uses: actions/checkout@v4
+
+      - uses: jdx/mise-action@v2
 
       - uses: pnpm/action-setup@v4
         with:
@@ -69,18 +92,39 @@ jobs:
           cache: pnpm
 
       - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+        run: mise exec -- pnpm install --frozen-lockfile
 
-      - name: Build web app
-        run: pnpm --filter @ubm-hyogo/web build
+      # NOTE: build-time placeholder env. Runtime values are bound from apps/web/wrangler.toml [env.production.vars] at Workers execution.
+      - name: Build web app (OpenNext Workers bundle)
+        env:
+          ENVIRONMENT: production
+          NEXT_PUBLIC_API_BASE_URL: https://ubm-hyogo-api.daishimanju.workers.dev
+          PUBLIC_API_BASE_URL: https://ubm-hyogo-api.daishimanju.workers.dev
+          INTERNAL_API_BASE_URL: https://ubm-hyogo-api.daishimanju.workers.dev
+          AUTH_URL: https://ubm-hyogo-web-production.daishimanju.workers.dev
+          SENTRY_ENVIRONMENT: production
+          NEXT_PUBLIC_SENTRY_ENVIRONMENT: production
+          SENTRY_TRACES_SAMPLE_RATE: "0.1"
+          NEXT_PUBLIC_SENTRY_TRACES_SAMPLE_RATE: "0.1"
+        run: mise exec -- pnpm --filter @ubm-hyogo/web build:cloudflare
 
-      - name: Deploy web app to Cloudflare Pages
+      # NOTE(issue-762): step-scoped CF deploy secret (see Deploy step env) is the current safe baseline.
+      # Keep GitHub OIDC token permission and OIDC exchange out of web-cd until Cloudflare documents
+      # supported Workers deploy OIDC in wrangler-action. See docs/30-workflows/issue-762-cf-oidc-staging-proof-prod-cutover/.
+      - name: Deploy to Cloudflare Workers (production)
         id: deploy
-        uses: cloudflare/wrangler-action@v3
-        with:
-          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          accountId: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
-          wranglerVersion: 4.85.0
-          workingDirectory: apps/web
-          command: pages deploy .next --project-name=${{ vars.CLOUDFLARE_PAGES_PROJECT }} --branch=main
-          gitHubToken: ${{ secrets.GITHUB_TOKEN }}
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          set -o pipefail
+          if [ -z "${CLOUDFLARE_API_TOKEN:-}" ]; then
+            echo "::error::CLOUDFLARE_API_TOKEN is empty. Confirm GitHub Environment 'production' has CLOUDFLARE_API_TOKEN registered."
+            exit 1
+          fi
+          bash scripts/cf.sh deploy --config apps/web/wrangler.toml --env production 2>&1 | tee web-cd-production-deploy.log
+
+      - name: Verify deploy log redaction (production)
+        env:
+          CLOUDFLARE_ACCOUNT_ID: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
+        run: bash scripts/redaction-check.sh --log web-cd-production-deploy.log --account-id "$CLOUDFLARE_ACCOUNT_ID"

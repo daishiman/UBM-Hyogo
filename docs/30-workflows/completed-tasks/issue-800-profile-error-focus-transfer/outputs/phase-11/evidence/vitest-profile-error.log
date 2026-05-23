@@ -1,0 +1,9 @@
+Command: pnpm exec vitest run apps/web/app/profile/__tests__/error.component.spec.tsx
+Exit code: 0
+Date: 2026-05-19T13:48:25+09:00
+
+Result:
+- Test Files: 1 passed
+- Tests: 7 passed
+- Spec: apps/web/app/profile/__tests__/error.component.spec.tsx
+

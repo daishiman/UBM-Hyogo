@@ -1,0 +1,83 @@
+{
+  "schemaVersion": 1,
+  "taskId": "ut-17-followup-002-alert-relay-dedup-kv",
+  "title": "alert-relay dedup を Cloudflare KV namespace へ移行",
+  "metadata": {
+    "taskType": "implementation",
+    "visualEvidence": "NON_VISUAL",
+    "workflow_state": "implemented-local-runtime-pending",
+    "implementation_mode": "new",
+    "sourceIssue": "#634",
+    "sourceIssueState": "closed_unresolved",
+    "parentTask": "ut-17-cloudflare-analytics-alerts",
+    "canonicalRoot": "docs/30-workflows/ut-17-followup-002-alert-relay-dedup-kv",
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-05-14T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/ut-17-followup-002-alert-relay-dedup-kv/index.md",
+        "approver": "daishiman",
+        "notes": "spec_review: Phase 1-13 spec finalized; KV namespace dedup design captured under canonicalRoot"
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "passed",
+        "passed_at": "2026-05-14T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/ut-17-followup-002-alert-relay-dedup-kv/phase-12.md",
+        "approver": "daishiman",
+        "notes": "validator_green: local implementation complete (alert-relay KV persistence); Phase 12 strict outputs present"
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/ut-17-followup-002-alert-relay-dedup-kv/phase-11.md",
+        "approver": "daishiman",
+        "notes": "runtime_pending: KV namespace creation, wrangler.toml real namespace ids, deploy, Slack runtime smoke are user-gated and tracked separately"
+      }
+    ]
+  },
+  "phases": [
+    { "phase": 1, "name": "要件定義", "status": "completed", "outputs": ["outputs/phase-01/requirements.md"] },
+    { "phase": 2, "name": "設計", "status": "completed", "outputs": ["outputs/phase-02/design.md"] },
+    { "phase": 3, "name": "設計レビュー", "status": "completed", "outputs": ["outputs/phase-03/design-review.md"] },
+    { "phase": 4, "name": "テスト作成", "status": "completed", "outputs": ["outputs/phase-04/test-plan.md"] },
+    { "phase": 5, "name": "実装", "status": "completed", "outputs": ["outputs/phase-05/implementation-plan.md"] },
+    { "phase": 6, "name": "テスト拡充", "status": "completed", "outputs": ["outputs/phase-06/test-supplement.md"] },
+    { "phase": 7, "name": "カバレッジ確認", "status": "completed", "outputs": ["outputs/phase-07/coverage.md"] },
+    { "phase": 8, "name": "リファクタリング", "status": "completed", "outputs": ["outputs/phase-08/refactor.md"] },
+    { "phase": 9, "name": "品質保証", "status": "completed", "outputs": ["outputs/phase-09/qa.md"] },
+    { "phase": 10, "name": "最終レビュー", "status": "completed", "outputs": ["outputs/phase-10/final-review.md"] },
+    { "phase": 11, "name": "手動テスト", "status": "completed", "outputs": ["outputs/phase-11/manual-test-result.md"] },
+    { "phase": 12, "name": "ドキュメント更新", "status": "completed", "outputs": [
+      "outputs/phase-12/main.md",
+      "outputs/phase-12/implementation-guide.md",
+      "outputs/phase-12/system-spec-update-summary.md",
+      "outputs/phase-12/documentation-changelog.md",
+      "outputs/phase-12/unassigned-task-detection.md",
+      "outputs/phase-12/skill-feedback-report.md",
+      "outputs/phase-12/phase12-task-spec-compliance-check.md"
+    ] },
+    { "phase": 13, "name": "PR作成", "status": "blocked_pending_user_approval", "outputs": [] }
+  ],
+  "phase12StrictOutputs": [
+    "outputs/phase-12/main.md",
+    "outputs/phase-12/implementation-guide.md",
+    "outputs/phase-12/system-spec-update-summary.md",
+    "outputs/phase-12/documentation-changelog.md",
+    "outputs/phase-12/unassigned-task-detection.md",
+    "outputs/phase-12/skill-feedback-report.md",
+    "outputs/phase-12/phase12-task-spec-compliance-check.md"
+  ],
+  "runtimeEvidenceBoundary": {
+    "status": "implemented-local-runtime-pending",
+    "reason": "KV namespace creation, wrangler.toml real namespace ids, deploy, Slack runtime smoke, commit, push, and PR require explicit user approval.",
+    "canonicalPaths": [
+      "outputs/phase-11/manual-test-result.md",
+      "outputs/phase-11/evidence/typecheck.txt",
+      "outputs/phase-11/evidence/lint.txt",
+      "outputs/phase-11/evidence/api-test.txt"
+    ]
+  }
+}

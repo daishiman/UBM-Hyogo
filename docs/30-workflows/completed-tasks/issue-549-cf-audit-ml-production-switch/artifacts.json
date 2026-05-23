@@ -13,11 +13,45 @@
     "localImplemented": "observation scripts + fallback alert + leakage grep directory input + focused tests",
     "sourceUnassignedTask": "docs/30-workflows/completed-tasks/issue-515-production-ml-switch.md",
     "parentSpec": "docs/30-workflows/completed-tasks/issue-515-cf-audit-logs-ml-anomaly/",
-    "gateConditions": [
+    "gateConditions_legacy": [
       "Gate-A: FU-03-C (#548) offline replay shows ML > threshold (precision/recall)",
       "Gate-B: fallback rate and Issue body redaction within tolerance",
       "Gate-C: rollback approval (CODEOWNERS) obtained",
       "Gate-D: if Gate-A fails, keep threshold and re-evaluate artifact in stage"
+    ],
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-05-10T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-549-cf-audit-ml-production-switch/outputs/phase-12/main.md",
+        "approver": "daishiman",
+        "notes": "FU-03-C (#548) offline replay shows ML > threshold; Phase 12 strict 7 outputs present"
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-549-cf-audit-ml-production-switch/outputs/phase-12/main.md",
+        "approver": "CODEOWNERS:apps-api",
+        "notes": "fallback rate / Issue body redaction tolerance check is gated on production switch"
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-549-cf-audit-ml-production-switch/outputs/phase-12/main.md",
+        "approver": "CODEOWNERS:apps-api",
+        "notes": "rollback approval (CODEOWNERS) is acquired at production switch time"
+      },
+      {
+        "gate_id": "Gate-D",
+        "status": "waived",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-549-cf-audit-ml-production-switch/outputs/phase-12/main.md",
+        "approver": "daishiman",
+        "notes": "Gate-A passed → fallback re-evaluation path is not exercised; waived"
+      }
     ]
   },
   "parentIssue": "https://github.com/daishiman/UBM-Hyogo/issues/549",

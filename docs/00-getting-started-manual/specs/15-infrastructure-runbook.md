@@ -16,6 +16,12 @@ UBM 兵庫支部会メンバーサイトの Cloudflare Workers Cron Triggers、D
 
 legacy Sheets hourly sync (`0 * * * *`) は retry tick 追加時に手動限定へ寄せ、top-level / staging / production の cron 本数を3本以内に維持する。実 deploy / rollback / cron disable は 09c または緊急運用で実行する。
 
+## Issue #616 Miniflare / undici upstream tracking
+
+Issue #577 で採用した `apps/api/package.json#scripts.test:coverage` の `--maxWorkers=1 --minWorkers=1` は、Miniflare / undici / workerd の socket / keep-alive / port reuse 改善が確認されるまで維持する。月次または Miniflare メジャー更新時に `docs/30-workflows/completed-tasks/task-issue-577-followup-002-miniflare-undici-upstream-tracking/` の Phase 5 runbook を実行し、`cloudflare/workers-sdk` / `nodejs/undici` / `cloudflare/workerd` release を triage する。
+
+改善検知時のみ `--maxWorkers=2 → 4 → auto` の順に A/B 評価を行う。採用条件は候補 N の連続 3 回 133/133 PASS、0 EADDRNOTAVAIL、coverage regression なし。候補 N が失敗した場合、より大きい候補は実行せず `ab-summary.md` に skip 理由を残す。採用時は `--minWorkers` を削除し `--maxWorkers=<採用N>` だけを正本化する。2026-05-11 の triage では改善なしのため current cap を維持する。
+
 ## D1 / Worker 対応表
 
 | 環境 | Worker | DB binding | D1 database_name |
@@ -79,6 +85,88 @@ Switch 手順:
 3. fallback rate > 5% が 3 hour 連続、leakage grep positive、または Issue 起票数が baseline を超過した場合は `CF_AUDIT_CLASSIFIER=threshold` へ戻す PR を作る。
 
 Rollback では D1 `classifier_used` / `classifier_version` / `confidence` を削除しない。model artifact 不整合が続く場合は artifact 再選定 Issue へ差し戻す。
+
+## Issue #588 fallback alert Slack / mail extension
+
+Issue #588 は Issue #549 の fallback rate alert を、GitHub Issue 起票のみから GitHub Issue + Slack + mail HTTP webhook へ拡張する。実装状態は `implemented-local-runtime-pending / implementation / NON_VISUAL`。`scripts/cf-audit-log/observation/fallback-rate-alert.ts` が `outputs/observation/*.json` の hourly snapshot を評価し、fallback rate > 5% が 3 hour 連続した場合のみ通知する。
+
+Runtime contract:
+
+| Destination | Env | Behavior |
+| --- | --- | --- |
+| GitHub Issue | `GITHUB_TOKEN`, `GITHUB_REPOSITORY` | 必須 audit trail。失敗は throw 伝播 |
+| Slack | `SLACK_WEBHOOK_INCIDENT` | optional。Issue #520 の incident channel 正本名。未設定時 no-op。失敗は stderr に記録して継続 |
+| Mail HTTP webhook | `EMAIL_WEBHOOK_URL`, `EMAIL_FROM`, `EMAIL_TO` | optional。3 変数のいずれかが未設定なら no-op。失敗は stderr に記録して継続 |
+
+Notification payload は `redactForNotification()` を必ず経由し、32+ hex、`userId=...`、`tenantId=...`、Bearer token、Slack webhook URL を伏せる。GitHub Issue body は既存 audit trail として `buildIssueBody()` を維持するが、Slack/mail body は redacted body のみを使う。
+
+`.github/workflows/cf-audit-log-monitor.yml` は `analyze.ts` 実行後に `outputs/observation/*.json` が存在する場合だけ fallback-rate alert step を実行する。Issue #518 HOLD 中は `dry_run=true` が強制されるため、Slack/mail 実送信と production completion は user-approved runtime wave または自然発生 incident の観測まで pending とする。Secret / variable mutation、HOLD removal、commit、push、PR は user 明示承認後のみ実行する。
+
+## Issue #587 audit-log ML model artifact rotation
+
+Issue #587 は Issue #549 の production switch 後に、次世代 ML model artifact を candidate evaluation → canary → promotion → rollback の 4 段で入れ替えるための contract である。本サイクルで rotation scripts (`scripts/cf-audit-log/rotation/artifact-canary.ts`, `rotation-evidence-collector.ts`)、focused vitest、canary workflow (`.github/workflows/cf-audit-log-artifact-canary.yml`) を整備済み。実 production promotion は Gate-R0〜R3 と user approval 後に別サイクルで実施する。詳細手順は `docs/30-workflows/runbooks/ml-model-artifact-rotation.md` を正本 runbook contract とする。
+
+Rotation prerequisites:
+
+1. Gate-R0: Issue #549 runtime boundary or equivalent approval evidence exists.
+2. Gate-R1: candidate offline replay is no worse than baseline for precision / recall proxy.
+3. Gate-R2: fallback rate < 5%, p95 latency <= 1.5x baseline, leakage hits = 0.
+4. Gate-R3: previous production artifact reference and rollback owner are recorded.
+
+Rotation order:
+
+1. Read only op reference names: `CF_AUDIT_ML_MODEL_PATH_PROD`, `CF_AUDIT_ML_MODEL_PATH_CANDIDATE`, and `CF_AUDIT_ML_MODEL_PATH_PREVIOUS`.
+2. Run canary dry-run and write aggregate metrics to `outputs/phase-11/evidence/canary-dry-run.json`.
+3. Run leakage grep and dataset grep before attaching any evidence.
+4. If gates pass, open a promotion PR with `Refs #549, #587`. Do not include resolved artifact values.
+5. Roll back by restoring the production artifact reference to the previous op-managed value. If classifier behavior is unstable, follow Issue #549 and set `CF_AUDIT_CLASSIFIER=threshold`.
+
+Do not drop D1 `classifier_used` / `classifier_version` / `confidence` during rotation rollback. Evidence may contain op reference names, classifier versions, run ids, and aggregate metrics only.
+
+## Issue #586 post-switch 7 day close-out（Refs #549）
+
+Issue #586 は #549 の close-out として、Issue #518 で HOLD 化していた `cf-audit-log-monitor.yml` の hourly schedule を復活させ、production hourly run に 3 つの post-step（leakage grep / fallback rate alert / artifact upload）を組み込み、`cf-audit-log-7day-summary.yml` で 168 hourly snapshots を集約して `pass_runtime_synced` 昇格を判定する。
+
+3 段昇格:
+
+1. **`implemented_local_runtime_pending`**（merge 前）: workflow YAML 改修 + SSOT 4 ファイル + Phase 11 local 5 evidence + Phase 12 strict 7 outputs
+2. **`pass_boundary_synced_runtime_pending`**（merge 後 D+0）: production env で `vars.CF_AUDIT_CLASSIFIER=ml` 設定済み + hourly run が成功
+3. **`pass_runtime_synced`**（D+7）: 168 hourly snapshots 集約完了 + leakage grep 7 日連続 clean + fallback rate mean ≤ 5%
+
+Evidence canonical path:
+
+- 本サイクル: `docs/30-workflows/issue-586-post-switch-7day-close-out/outputs/phase-11/evidence/{typecheck,lint,test,build,grep-gate}.log`
+- D+7: `docs/30-workflows/issue-586-post-switch-7day-close-out/outputs/phase-11/evidence/{hourly-run-7day.md,hourly-run-7day-summary.json,leakage-grep-7day.log,issue-rate-comparison.md}`
+
+Rollback は `gh variable set CF_AUDIT_CLASSIFIER --env production --body "threshold"` の env 1 行戻し。D1 schema には触らない（forward-safe）。
+
+## Issue #720 read-only monitor environment separation
+
+`cf-audit-log-monitor.yml` is a read-only monitoring workflow. It fetches Cloudflare audit data,
+builds hourly snapshots, and sends notifications; it does not deploy, migrate, or mutate
+production infrastructure. Therefore it must not use `environment: production`, because the
+production deployment environment applies branch policy to every run and blocks scheduled runs
+from `dev`.
+
+Operational rule:
+
+| Workflow category | `environment: production` | Credential location |
+| --- | --- | --- |
+| Deploy / rollback / schema apply | Required | Environment-level secrets |
+| Read-only monitoring / notification | Do not use | Repository-level read-only or notification secrets, user-gated |
+
+Repository-level mirroring widens access to credentials, so only monitor-specific read-only
+Cloudflare tokens and notification webhooks may be mirrored. Mutation-capable deploy tokens stay
+environment-scoped. Secret and variable mirroring, push, PR, workflow dispatch, and production
+secret cleanup require explicit user approval.
+
+Issue #772 current-state addendum (2026-05-17):
+
+- The current recovery workflow is `docs/30-workflows/issue-772-cf-audit-monitor-runtime-restoration-and-cleanup/`.
+- Issue #772 remains closed and must be referenced with `Refs #772` only.
+- The original cleanup task is reclassified from "delete production environment monitor secrets" to "confirm no-op cleanup if name-only inventory still shows no production environment monitor secrets".
+- Runtime restoration is not considered complete until user-approved repository-level monitor secrets / variables are present, `workflow_dispatch dry_run=true` succeeds, and six consecutive hourly `cf-audit-log-monitor.yml` runs succeed.
+- Production deployment credentials such as `CLOUDFLARE_API_TOKEN` remain environment-scoped and are outside the monitor cleanup surface.
 
 ## Issue #548 audit-log model selection promotion
 
@@ -238,6 +326,58 @@ rollback 実行後 24 時間以内に、production 担当者は以下を実施�
 | G4 | old long-lived token revoke | user approval after 24h parallel run with old-token last_used_on unchanged |
 
 G2 では `d1-migration-verify.yml` の `CLOUDFLARE_API_TOKEN_STAGING` 参照も impact check 対象に含める。Rollback は長命 Token の 24h 一時再注入だけを許可し、恒久運用へ戻さない。24h を超える場合は incident / follow-up として扱い、Token 値・hash・OIDC JWT 生値は evidence に残さない。
+
+## CF Audit Log post-switch recovery (2 周目 7 日観測)
+
+Issue #586 の D+7 集計で `Gate-RUNTIME-7DAY` / `Gate-LEAKAGE-CLEAN-7DAY` が満たされなかった場合の recovery 2 周目運用。Issue #655 / `docs/30-workflows/issue-655-d7-recovery-2nd-cycle/` を正本とする。
+
+### D'+0 定義
+
+root cause 修正 PR (PR-A) を `dev` に merge した後、`cf-audit-log-monitor.yml` の hourly schedule で **最初に `conclusion=success` となった hourly run** の `created_at` (ISO8601 UTC) を D'+0 と定義する。D'+7 = D'+0 + 168 hour。
+
+```bash
+gh run list --workflow=cf-audit-log-monitor.yml --status=success --limit 1 \
+  --json createdAt,htmlUrl
+```
+
+確定した D'+0 は `outputs/phase-11/evidence/recovery-rootcause.md` の frontmatter `d_prime_zero` フィールドに記載する。
+
+### artifact retention
+
+`cf-audit-log-monitor.yml` の `actions/upload-artifact@v4` step は `retention-days: 8` を維持する。recovery aggregation 起動時 (D'+7) に過去 artifact が 404 にならないための必須条件。
+
+### 最大 2 周制限 (Gate-MAX-CYCLE-2)
+
+recovery は最大 2 周まで。2 周目でも snapshots 欠損 / leakage positive が発生した場合は本 runbook の運用では昇格不可とし、infrastructure team へ escalation する。canonical workflow state は `runtime_pending` に据え置き、運用ラベル `escalated` を `recovery-rootcause.md` に追記する。3 周目の自動起動は行わない。
+
+### recovery window 中の code freeze
+
+D'+0 〜 D'+7 の間、以下 path への新規 PR は freeze (Cross-cycle evidence 汚染防止):
+
+- `.github/workflows/cf-audit-log-*.yml`
+- `scripts/cf-audit-log/**`
+
+例外: artifact retention 漏れなど recovery 継続自体に必要な緊急修正のみ許可。
+
+### evidence path 分離
+
+| 種別 | 1 周目 (Issue #586) | 2 周目 (Issue #655) |
+| --- | --- | --- |
+| run URL 一覧 | `hourly-run-7day.md` | `hourly-run-7day-recovery.md` |
+| 集計 JSON | `hourly-run-7day-summary.json` | `hourly-run-7day-summary-recovery.json` |
+| leakage log | `leakage-grep-7day.log` | `leakage-grep-7day-recovery.log` |
+| daily check | `hourly-run-daily-check.md` | `hourly-run-daily-check-recovery.md` |
+| issue rate 比較 | `issue-rate-comparison.md` | `issue-rate-comparison-recovery.md` |
+
+### recovery aggregation 起動コマンド
+
+```bash
+gh workflow run cf-audit-log-7day-summary.yml \
+  -f recovery_mode=true \
+  -f since=<D'+0 ISO8601 UTC>
+```
+
+`recovery_mode=true` のとき `since` は必須。validate step が exit 1 で reject する。
 
 ## 参照
 

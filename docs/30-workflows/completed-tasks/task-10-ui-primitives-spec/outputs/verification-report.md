@@ -14,7 +14,7 @@
 | 情報 | 0 |
 | **結果** | **✅ PASS** |
 
-> 注記: この PASS は task-specification-creator の構造検証 PASS。runtime screenshot / axe と `build:cloudflare` は PASS ではない。現状態は `implemented-local-build-blocked / VISUAL_ON_EXECUTION` で、詳細は `outputs/phase-12/phase12-task-spec-compliance-check.md` を参照。
+> 注記: 2026-05-11 に follow-up 001 / 002 を同 cycle 実行し、runtime screenshot / axe と `build:cloudflare` は PASS へ更新済み。現状態は `runtime-evidence-captured / VISUAL_ON_EXECUTION`。
 
 ## Phase別検証結果
 

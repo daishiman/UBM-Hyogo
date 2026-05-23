@@ -5,14 +5,12 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 import { STABLE_KEY } from "@ubm-hyogo/shared";
 import type {
   MeProfileStatusSummary,
   PendingRequests,
 } from "../../../src/lib/api/me-types";
 import type {
-  QueueAccepted,
   RequestQueueType,
   VisibilityDesiredState,
 } from "../../../src/lib/api/me-requests.types";
@@ -35,18 +33,17 @@ export function RequestActionPanel({
   rulesConsent,
   pendingRequests,
 }: RequestActionPanelProps) {
-  const router = useRouter();
   const [visibilityDialogState, setVisibilityDialogState] =
     useState<VisibilityDesiredState | null>(null);
   const [deleteOpen, setDeleteOpen] = useState(false);
-  const [optimistic, setOptimistic] = useState<{
-    type: RequestQueueType;
-    createdAt: string;
-  } | null>(null);
 
   if (rulesConsent !== "consented") {
     return (
-      <section aria-label="本人申請" data-testid="request-action-panel-disabled">
+      <section
+        aria-label="本人申請"
+        data-region="request-action-panel"
+        data-testid="request-action-panel-disabled"
+      >
         <h2>本人による申請</h2>
         <p>
           会則同意の更新が必要です。Google Form での再回答後にこのパネルを有効化します。
@@ -55,36 +52,34 @@ export function RequestActionPanel({
     );
   }
 
-  const onSubmitted = (accepted: QueueAccepted) => {
-    setOptimistic({ type: accepted.type, createdAt: accepted.createdAt });
-    // server pending を fetch し直して durable な banner を表示する（S1）
-    router.refresh();
+  const onSubmitted = () => {
+    // refresh は dialog 側で close 前に schedule 済み。parent は local state を持たない。
   };
 
-  // server pending を最優先（S1）。submit 直後の体感のため optimistic を fallback として併用。
+  // server pending のみを正本にする。楽観的 UI は採用しない。
   const visibilityPending = pendingRequests?.visibility
     ? {
         type: "visibility_request" as const,
         createdAt: pendingRequests.visibility.createdAt,
       }
-    : optimistic?.type === "visibility_request"
-      ? optimistic
-      : null;
+    : null;
   const deletePending = pendingRequests?.delete
     ? {
         type: "delete_request" as const,
         createdAt: pendingRequests.delete.createdAt,
       }
-    : optimistic?.type === "delete_request"
-      ? optimistic
-      : null;
+    : null;
 
   const showHideButton = publishState === "public";
   const showRepublishButton =
     publishState === "hidden" || publishState === "member_only";
 
   return (
-    <section aria-label="本人申請" data-testid="request-action-panel">
+    <section
+      aria-label="本人申請"
+      data-region="request-action-panel"
+      data-testid="request-action-panel"
+    >
       <h2>本人による申請</h2>
       {visibilityPending ? (
         <RequestPendingBanner
@@ -104,6 +99,7 @@ export function RequestActionPanel({
             type="button"
             onClick={() => setVisibilityDialogState("hidden")}
             disabled={visibilityPending !== null}
+            data-region="visibility-request-dialog"
             data-testid="open-hide-dialog"
           >
             公開を停止する
@@ -114,6 +110,7 @@ export function RequestActionPanel({
             type="button"
             onClick={() => setVisibilityDialogState("public")}
             disabled={visibilityPending !== null}
+            data-region="visibility-request-dialog"
             data-testid="open-republish-dialog"
           >
             再公開を申請する
@@ -123,6 +120,7 @@ export function RequestActionPanel({
           type="button"
           onClick={() => setDeleteOpen(true)}
           disabled={deletePending !== null}
+          data-region="delete-request-dialog"
           data-testid="open-delete-dialog"
         >
           退会を申請する

@@ -104,7 +104,7 @@ TypeScript 側の API Worker Env 型は `apps/api/src/env.ts` の `Env` interfac
 
 | 変数名 | 用途 / 配置 / 備考 |
 | --- | --- |
-| `AUTH_SECRET` | Auth.js JWT 署名共有秘密 (HS256)。apps/web secret。Auth.js v5、1Password→Cloudflare Secrets |
+| `AUTH_SECRET` | Auth.js JWT 署名共有秘密 (HS256)。apps/web + apps/api secret。同一値必須。Auth.js v5 と API 側 `verifySessionJwt`、1Password→Cloudflare Secrets |
 | `AUTH_GOOGLE_ID` | Google OAuth client id。apps/web secret。Google Cloud Console OAuth client |
 | `AUTH_GOOGLE_SECRET` | Google OAuth client secret。apps/web secret。漏洩時 fail-closed |
 | `INTERNAL_AUTH_SECRET` | apps/web → apps/api `/auth/session-resolve` 共有秘密。両 worker secret に同値、service-binding 経由 internal-only |
@@ -480,11 +480,13 @@ CD 有効化に必要な GitHub Actions 値は、1Password Environments を正�
 
 | 変数名 | 種別 | 設定方法 | 必須 | 用途 |
 | --- | --- | --- | --- | --- |
-| `CLOUDFLARE_API_TOKEN` | Secret | GitHub environment secrets (`staging` / `production`) | Yes | Pages / Workers / D1 deploy |
+| `CLOUDFLARE_API_TOKEN` | Secret | GitHub environment secrets (`staging` / `production`) | Yes | web-cd deploy token。backend-ci の D1 / Workers deploy は分割 token（`CF_TOKEN_D1_*` / `CF_TOKEN_WORKERS_*`）を使う |
+| `CF_TOKEN_D1_STAGING` / `CF_TOKEN_D1_PRODUCTION` | Secret | GitHub environment secrets (`staging` / `production`) | Yes for backend-ci | backend-ci D1 migration step。`with.apiToken` と step-level `env.CLOUDFLARE_API_TOKEN` に同じ scoped secret を渡す |
+| `CF_TOKEN_WORKERS_STAGING` / `CF_TOKEN_WORKERS_PRODUCTION` | Secret | GitHub environment secrets (`staging` / `production`) | Yes for backend-ci | backend-ci Workers deploy step。`with.apiToken` と step-level `env.CLOUDFLARE_API_TOKEN` に同じ scoped secret を渡す |
 | `CLOUDFLARE_ACCOUNT_ID` | Variable | GitHub repository variable | Yes | Cloudflare account 識別。workflow では `${{ vars.CLOUDFLARE_ACCOUNT_ID }}` で参照 |
 | `CF_TOKEN_ISSUED_AT` | Variable | GitHub repository variable | Yes | Cloudflare API Token production 発行日。`.github/workflows/cf-token-rotation-reminder.yml` が 85 日経過判定に使用 |
 | `DISCORD_WEBHOOK_URL` | Secret | GitHub repository secret | No | CD 結果通知 |
-| `CLOUDFLARE_PAGES_PROJECT` | Variable | GitHub repository variable | Yes | Pages project 名。suffix 連結の可視性確保のため Secret にしない |
+| `CLOUDFLARE_PAGES_PROJECT` | Variable | GitHub repository variable | Deleted by Issue #638 | Issue #331 cleanup 後の `web-cd.yml` では未参照。rollback POST は別途 user approval marker 後のみ。復元値は `ubm-hyogo-web` |
 
 運用ルール:
 

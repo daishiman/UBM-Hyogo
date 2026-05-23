@@ -41,6 +41,22 @@ logs/
 *.log
 .evidence/
 outputs/post-release-dashboard/**
+!docs/30-workflows/issue-586-post-switch-7day-close-out/outputs/phase-11/evidence/
+!docs/30-workflows/issue-586-post-switch-7day-close-out/outputs/phase-11/evidence/*.log
+# Phase 11 evidence logs（issue-730 evidence-existence validator が物理実在を検証するため
+# task workflow root 配下の outputs/phase-11/*.log は tracked にする）
+!docs/30-workflows/**/outputs/phase-11/*.log
+!docs/30-workflows/**/outputs/phase-11/**/*.log
+# Phase 11 evidence logs ディレクトリ全体（axe.json 等の non-log 拡張子も tracked にする / L-DEVSYNC-014 拡張）
+!docs/30-workflows/**/outputs/phase-11/logs/
+!docs/30-workflows/**/outputs/phase-11/logs/**
+# Phase 07 implementation evidence logs（phase-11 evidence inventory が phase-07 *.log を
+# 物理証跡として claim するパターンを許可するため tracked にする / PR #855 staging-auth-secret-binding-recovery）
+!docs/30-workflows/**/outputs/phase-07/*.log
+!docs/30-workflows/**/outputs/phase-07/**/*.log
+# Phase 08 runtime evidence outputs（curl/backend-ci の text/log 証跡を tracked にする）
+!docs/30-workflows/**/outputs/phase-08/*.log
+!docs/30-workflows/**/outputs/phase-08/**/*.log
 
 # Environment
 .env
@@ -106,3 +122,12 @@ apps/*/docs/
 
 # lefthook 開発者個別 override（ADR-04）
 lefthook-local.yml
+
+# LHCI authenticated storage state（実値 cookie を含むため commit 禁止）
+apps/web/.lhci/
+apps/web/.lighthouseci/
+apps/web/.lighthouseci-authenticated/
+.lighthouseci-authenticated/
+
+# actionlint ローカルバイナリ（リポジトリ管理対象外）
+actionlint

@@ -1,0 +1,80 @@
+{
+  "taskId": "issue-630-authenticated-profile-lhci-a11y",
+  "taskType": "implementation",
+  "visualEvidence": "NON_VISUAL",
+  "metadata": {
+    "taskType": "implementation",
+    "visualEvidence": "NON_VISUAL",
+    "scope": "authenticated /profile LHCI a11y gate implementation",
+    "workflow_state": "implemented-local-runtime-pending",
+    "implementation_status": "implementation_complete_local_runtime_pending",
+    "issueState": "CLOSED",
+    "issueClosedAt": "2026-05-12T06:26:21Z",
+    "issue": 630,
+    "parentIssues": [608],
+    "canonicalRoot": "docs/30-workflows/issue-630-authenticated-profile-lhci-a11y/",
+    "createdAt": "2026-05-12",
+    "refsPolicy": "Refs #630",
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-05-12T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-630-authenticated-profile-lhci-a11y/index.md",
+        "approver": "daishiman",
+        "notes": "spec_review: Phase 1-13 spec finalized; scope and DoD captured under canonicalRoot"
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "passed",
+        "passed_at": "2026-05-12T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-630-authenticated-profile-lhci-a11y/phase-12.md",
+        "approver": "daishiman",
+        "notes": "validator_green: local implementation complete (lhci-auth-storage, lhci-profile-mock-api, lighthouse.yml authenticated job); Phase 12 strict outputs present"
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-630-authenticated-profile-lhci-a11y/phase-11.md",
+        "approver": "daishiman",
+        "notes": "runtime_pending: GitHub Actions LHCI runtime artifact collection is user-gated and tracked separately"
+      }
+    ]
+  },
+  "phases": [
+    { "phase": 1, "status": "completed", "path": "phase-01.md" },
+    { "phase": 2, "status": "completed", "path": "phase-02.md" },
+    { "phase": 3, "status": "completed", "path": "phase-03.md" },
+    { "phase": 4, "status": "completed", "path": "phase-04.md" },
+    { "phase": 5, "status": "completed", "path": "phase-05.md" },
+    { "phase": 6, "status": "completed", "path": "phase-06.md" },
+    { "phase": 7, "status": "completed", "path": "phase-07.md" },
+    { "phase": 8, "status": "completed", "path": "phase-08.md" },
+    { "phase": 9, "status": "completed", "path": "phase-09.md" },
+    { "phase": 10, "status": "completed", "path": "phase-10.md" },
+    { "phase": 11, "status": "runtime_pending", "path": "phase-11.md" },
+    { "phase": 12, "status": "completed", "path": "phase-12.md" },
+    { "phase": 13, "status": "runtime_pending", "path": "phase-13.md" }
+  ],
+  "phase12StrictOutputs": [
+    "outputs/phase-12/main.md",
+    "outputs/phase-12/implementation-guide.md",
+    "outputs/phase-12/system-spec-update-summary.md",
+    "outputs/phase-12/documentation-changelog.md",
+    "outputs/phase-12/unassigned-task-detection.md",
+    "outputs/phase-12/skill-feedback-report.md",
+    "outputs/phase-12/phase12-task-spec-compliance-check.md"
+  ],
+  "runtimeEvidenceBoundary": {
+    "status": "local_static_pass_runtime_pending",
+    "reason": "local implementation and static evidence are in this branch; GitHub Actions LHCI runtime artifact collection remains user-gated and will be referenced with Refs #630",
+    "canonicalPaths": [
+      "outputs/phase-11/evidence/typecheck.log",
+      "outputs/phase-11/evidence/lint.log",
+      "outputs/phase-11/evidence/test.log",
+      "outputs/phase-11/evidence/lhci-authenticated-profile.html",
+      "outputs/phase-11/evidence/lhci-authenticated-profile.json"
+    ]
+  }
+}

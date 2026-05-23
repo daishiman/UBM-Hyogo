@@ -14,6 +14,49 @@ retention purge / production destructive D1 mutation / 物理削除 cron 等、
 
 ---
 
+## 0. Governance mutation user 明示承認 gate（2026-05-09 stage-3-impl 由来 / 必須）
+
+`gh api -X PUT` / `gh api -X POST` / `gh api -X DELETE` 等の **GitHub governance mutation API**（branch protection / required status checks / repository settings 等）、および同等カテゴリの不可逆 governance mutation（`wrangler deploy`、`d1 migrations apply`、`gh secret set` 等）は、**AI / Claude Code が user 明示承認なしに実行することを禁止する**。
+
+タスク仕様書 template のメタ情報・Phase 13 実行手順・PR description 草案には次の必須項目を **コピーペースト可能な逐語形式** で含めること:
+
+| 項目 | 必須記述 |
+| --- | --- |
+| `governance_mutation_user_gate` | `true`（artifacts.json `metadata` に明示） |
+| `mutation_commands` | 実行予定の `gh api -X PUT` / `wrangler` / `d1 migrations apply` 等を **literal 一覧** で列挙 |
+| `read_only_evidence_allowed_pre_gate` | AI が user 承認前に実行可能な操作（`gh api`（GET）/ `gh api -X GET` / `bash scripts/cf.sh whoami` / `bash scripts/cf.sh d1 migrations list` 等の **read-only**）のみ列挙 |
+| `user_approval_marker` | `outputs/phase-13/user-approval-<timestamp>.md` に user の明示承認文言（`Approve Gate C` 等）を物理保存 |
+
+### AI 実行可否分類（このルール全 governance mutation タスクに適用）
+
+| 操作カテゴリ | AI 実行可否（user 承認前） | 例 |
+| --- | --- | --- |
+| read-only evidence 取得 | **可** | `gh api repos/.../branches/<branch>/protection`（GET）、`bash scripts/cf.sh d1 migrations list`、`gh api repos/.../actions/workflows`（GET） |
+| draft / template 生成 | **可** | `outputs/phase-13/branch-protection-payload-<branch>.json` の **作成** / lint |
+| mutation 実行（不可逆） | **不可** | `gh api -X PUT .../protection`、`gh api -X POST .../required_status_checks`、`wrangler deploy`、`d1 migrations apply`、`gh secret set` |
+| commit / push / PR 作成 | **不可（user 承認後のみ）** | `git commit` / `git push` / `gh pr create` |
+
+### 承認 evidence の物理保存
+
+user 承認は **会話ログだけに残さず**、次のいずれかの形式で workflow に物理保存する:
+
+- `outputs/phase-13/user-approval-<task-id>-<timestamp>.md` に user 文言を逐語転記（タイムスタンプ ISO8601 必須）
+- `phase12-task-spec-compliance-check.md` の `user_approval_received` 行に文言と日時を引用
+
+承認なしに mutation を実行した場合、当該 commit は revert 対象とし、`unassigned-task-detection.md` に「governance mutation user gate 違反」として再掲する。
+
+### 適用例（e2e-quality-uplift stage-3-impl 3c）
+
+3c では `gh api -X PUT repos/.../branches/dev/protection` の実行を AI が即時実行するリスクが顕在化。以降は次の手順を必須とする:
+
+1. AI は `gh api repos/.../branches/dev/protection`（GET）で current state を取得 → `outputs/phase-13/branch-protection-current-dev.json` に保存（read-only evidence、AI 実行可）
+2. AI は payload draft を `outputs/phase-13/branch-protection-payload-dev.json` に作成（template 生成、AI 実行可）
+3. AI は user に「Gate C: `gh api -X PUT` 実行承認待ち」を提示
+4. user 明示承認（`outputs/phase-13/user-approval-3c-<timestamp>.md` に保存）後にのみ AI が `gh api -X PUT` を実行
+5. 直後 fresh GET → 集合一致確認 → `phase12-task-spec-compliance-check.md` の `governance_mutation_executed` 行に `completed (runtime PASS / approved at <timestamp>)` を記録
+
+---
+
 ## 1. Gate 三層分離（Gate A / B / C）
 
 不可逆タスクの Phase 13 では従来の単一承認ではなく **3-gate** に必ず分割する。

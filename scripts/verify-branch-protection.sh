@@ -2,6 +2,7 @@
 set -euo pipefail
 
 REPO="${REPO:-daishiman/UBM-Hyogo}"
+ROOT="$(git rev-parse --show-toplevel)"
 
 require_json() {
   local label="$1"
@@ -19,22 +20,34 @@ require_json() {
 check_branch() {
   local branch="$1"
   local response
+  local expected_contexts
+  local expected_strict
+
+  expected_contexts="$(jq -c '.contexts' "${ROOT}/.github/branch-protection/${branch}.json")"
+  expected_strict="$(jq -r '.strict // false' "${ROOT}/.github/branch-protection/${branch}.json")"
   response="$(gh api "repos/${REPO}/branches/${branch}/protection" \
     --jq '{
       contexts: .required_status_checks.contexts,
-      reviews: .required_pull_request_reviews.required_approving_review_count,
+      strict: .required_status_checks.strict,
+      reviews: .required_pull_request_reviews,
       force_push: .allow_force_pushes.enabled,
       deletions: .allow_deletions.enabled,
       enforce_admins: .enforce_admins.enabled,
-      dismiss_stale: .required_pull_request_reviews.dismiss_stale_reviews
+      linear_history: .required_linear_history.enabled,
+      lock_branch: .lock_branch.enabled,
+      conversation_resolution: .required_conversation_resolution.enabled
     }')"
 
-  require_json "${branch}.contexts" "$(jq -c '.contexts' <<<"$response")" '["ci","Validate Build"]'
-  require_json "${branch}.reviews" "$(jq -r '.reviews' <<<"$response")" '0'
+  require_json "${branch}.contexts" "$(jq -c '.contexts | sort' <<<"$response")" "$(jq -c 'sort' <<<"$expected_contexts")"
+  require_json "${branch}.strict" "$(jq -r '.strict' <<<"$response")" "$expected_strict"
+  require_json "${branch}.reviews" "$(jq -r '.reviews' <<<"$response")" 'null'
   require_json "${branch}.force_push" "$(jq -r '.force_push' <<<"$response")" 'false'
   require_json "${branch}.deletions" "$(jq -r '.deletions' <<<"$response")" 'false'
-  require_json "${branch}.enforce_admins" "$(jq -r '.enforce_admins' <<<"$response")" 'false'
-  require_json "${branch}.dismiss_stale" "$(jq -r '.dismiss_stale' <<<"$response")" 'false'
+  require_json "${branch}.enforce_admins" "$(jq -r '.enforce_admins' <<<"$response")" 'true'
+  require_json "${branch}.linear_history" "$(jq -r '.linear_history' <<<"$response")" 'true'
+  require_json "${branch}.lock_branch" "$(jq -r '.lock_branch' <<<"$response")" 'false'
+  require_json "${branch}.conversation_resolution" "$(jq -r '.conversation_resolution' <<<"$response")" 'true'
+  printf 'OK(%s): no drift\n' "$branch"
 }
 
 check_environment() {

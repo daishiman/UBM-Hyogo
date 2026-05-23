@@ -1,0 +1,51 @@
+{
+  "workflow_id": "issue-655-d7-recovery-2nd-cycle",
+  "state": "IMPLEMENTED_LOCAL_RUNTIME_PENDING",
+  "runtime_boundary": "pending_user_approval",
+  "paths": [
+    {
+      "path": "outputs/phase-11/evidence/hourly-run-1st-cycle-listing.json",
+      "status": "runtime_pending_user_approval",
+      "template": "outputs/phase-11/evidence/hourly-run-1st-cycle-listing.json.RUNTIME_PENDING_USER_APPROVAL.md"
+    },
+    {
+      "path": "outputs/phase-11/evidence/recovery-rootcause.md",
+      "status": "completed",
+      "template": "outputs/phase-11/evidence/recovery-rootcause.md.RUNTIME_PENDING_USER_APPROVAL.md"
+    },
+    {
+      "path": "outputs/phase-11/evidence/local-verify.log",
+      "status": "completed"
+    },
+    {
+      "path": "outputs/phase-11/evidence/ci-dry-run.md",
+      "status": "runtime_pending_user_approval",
+      "template": "outputs/phase-11/evidence/ci-dry-run.md.RUNTIME_PENDING_USER_APPROVAL.md"
+    },
+    {
+      "path": "outputs/phase-11/evidence/recovery-d-minus-1.log",
+      "status": "runtime_pending_user_approval"
+    },
+    {
+      "path": "outputs/phase-11/evidence/hourly-run-daily-check-recovery.md",
+      "status": "runtime_pending_user_approval"
+    },
+    {
+      "path": "outputs/phase-11/evidence/hourly-run-7day-recovery.md",
+      "status": "runtime_pending_user_approval"
+    },
+    {
+      "path": "outputs/phase-11/evidence/hourly-run-7day-summary-recovery.json",
+      "status": "runtime_pending_user_approval",
+      "template": "outputs/phase-11/evidence/hourly-run-7day-summary-recovery.json.RUNTIME_PENDING_USER_APPROVAL.md"
+    },
+    {
+      "path": "outputs/phase-11/evidence/leakage-grep-7day-recovery.log",
+      "status": "runtime_pending_user_approval"
+    },
+    {
+      "path": "outputs/phase-11/evidence/issue-rate-comparison-recovery.md",
+      "status": "runtime_pending_user_approval"
+    }
+  ]
+}

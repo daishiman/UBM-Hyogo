@@ -1,0 +1,17 @@
+diff --git a/lefthook.yml b/lefthook.yml
+index 738274cc..aee48f2c 100644
+--- a/lefthook.yml
++++ b/lefthook.yml
+@@ -27,6 +27,12 @@ pre-commit:
+         🚫 ブランチと無関係なタスクディレクトリが含まれています。
+         意図的に含める場合: git commit --no-verify
+         除外する場合:       git restore --staged <path>
++    block-test-suffix:
++      run: bash scripts/hooks/block-test-suffix.sh
++      stage_fixed: false
++      fail_text: |
++        🚫 *.test.{ts,tsx} ファイルは追加禁止です（ADR: *.spec.{ts,tsx} に統一）。
++        末尾を .spec.ts(x) に rename してから再 stage してください。
+ 
+ post-merge:
+   parallel: false

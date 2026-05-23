@@ -1,0 +1,25 @@
+[C1 OK] no raw <input> in admin / public DensityToggle
+[C2 OK] MeetingPanel uses useAdminMutation trigger (features)
+[C2 OK] TagQueuePanel uses useAdminMutation trigger (features)
+[C2 OK] SchemaDiffPanel uses useAdminMutation trigger (features)
+[C2 OK] RequestQueuePanel uses useAdminMutation trigger (features)
+[C3 OK] apps/web/app/(admin)/admin/page.tsx renders Breadcrumb directly or through AdminPageHeader
+[C3 OK] apps/web/app/(admin)/admin/members/page.tsx renders Breadcrumb directly or through AdminPageHeader
+[C3 OK] apps/web/app/(admin)/admin/tags/page.tsx renders Breadcrumb directly or through AdminPageHeader
+[C3 OK] apps/web/app/(admin)/admin/meetings/page.tsx renders Breadcrumb directly or through AdminPageHeader
+[C3 OK] apps/web/app/(admin)/admin/schema/page.tsx renders Breadcrumb directly or through AdminPageHeader
+[C3 OK] apps/web/app/(admin)/admin/requests/page.tsx renders Breadcrumb directly or through AdminPageHeader
+[C3 OK] apps/web/app/(admin)/admin/identity-conflicts/page.tsx renders Breadcrumb directly or through AdminPageHeader
+[C3 OK] apps/web/app/(admin)/admin/audit/page.tsx renders Breadcrumb directly or through AdminPageHeader
+[C4 OK] no legacy @/lib/useAdminMutation reference in admin/
+[C5 OK] apps/web/src/features/admin/components/_members/MembersTable.tsx renders EmptyState
+[C5 OK] apps/web/src/components/admin/MeetingPanel.tsx renders EmptyState
+[C5 OK] apps/web/src/components/admin/TagQueuePanel.tsx renders EmptyState
+[C5 OK] apps/web/src/components/admin/SchemaDiffPanel.tsx renders EmptyState
+[C5 OK] apps/web/src/components/admin/RequestQueuePanel.tsx renders EmptyState
+[C5 OK] apps/web/src/components/admin/AuditLogPanel.tsx renders EmptyState
+[C5 OK] apps/web/app/(admin)/admin/identity-conflicts/page.tsx renders EmptyState
+[C6 OK] apps/web/src/features/admin/components/_members/MembersTable.tsx renders Pagination
+[C6 OK] apps/web/src/components/admin/RequestQueuePanel.tsx renders Pagination
+[C6 OK] apps/web/src/components/admin/AuditLogPanel.tsx renders Pagination
+verify-primitive-adoption: PASS

@@ -1,0 +1,56 @@
+{
+  "allow_deletions": {
+    "enabled": false
+  },
+  "allow_force_pushes": {
+    "enabled": false
+  },
+  "allow_fork_syncing": {
+    "enabled": false
+  },
+  "block_creations": {
+    "enabled": false
+  },
+  "enforce_admins": {
+    "enabled": false,
+    "url": "https://api.github.com/repos/daishiman/UBM-Hyogo/branches/dev/protection/enforce_admins"
+  },
+  "lock_branch": {
+    "enabled": false
+  },
+  "required_conversation_resolution": {
+    "enabled": true
+  },
+  "required_linear_history": {
+    "enabled": false
+  },
+  "required_signatures": {
+    "enabled": false,
+    "url": "https://api.github.com/repos/daishiman/UBM-Hyogo/branches/dev/protection/required_signatures"
+  },
+  "required_status_checks": {
+    "checks": [
+      {
+        "app_id": 15368,
+        "context": "ci"
+      },
+      {
+        "app_id": 15368,
+        "context": "Validate Build"
+      },
+      {
+        "app_id": 15368,
+        "context": "coverage-gate"
+      }
+    ],
+    "contexts": [
+      "ci",
+      "Validate Build",
+      "coverage-gate"
+    ],
+    "contexts_url": "https://api.github.com/repos/daishiman/UBM-Hyogo/branches/dev/protection/required_status_checks/contexts",
+    "strict": false,
+    "url": "https://api.github.com/repos/daishiman/UBM-Hyogo/branches/dev/protection/required_status_checks"
+  },
+  "url": "https://api.github.com/repos/daishiman/UBM-Hyogo/branches/dev/protection"
+}

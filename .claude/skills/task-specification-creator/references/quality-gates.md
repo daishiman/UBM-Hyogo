@@ -70,15 +70,29 @@ UI / API / boundary を伴うタスクの仕様書 (`docs/30-workflows/<feature>
 - skip / fixme を含む spec ファイルは Phase 11 evidence で「skip count = 0」を AC matrix に明記する（仕様書側で記述）。
 - regression guard として `grep -rn "test.describe.skip\|test\.skip(true" apps/*/playwright/tests/` が 0 件を返すことを Phase 11 evidence に含めることを推奨。
 
+#### `it.todo` / `test.todo` 残留禁止（Phase 6 close-out gate）
+
+`it.todo("...")` / `test.todo("...")` は実装未着手 placeholder のため Phase 6 close-out 時点で **必ず実装または削除する**。残留したまま Phase 6 を閉じることを禁止する（task-15 admin dashboard の a11y todo 残留事例を踏まえた規約）。
+
+- Phase 6 close-out gate: `grep -rn "\bit\.todo\|\btest\.todo" apps/*/src apps/*/playwright/tests packages/*/src` の hit が 0 件であることを Phase 11 evidence (`todo-count.txt`) に記録する。1 件でも残れば FAIL。
+- a11y / accessibility 系 todo は同 cycle 内で **実 assertion へ昇格**させる（例: `axe-core` / `@axe-core/playwright` の `expect(results.violations).toEqual([])`）。
+- どうしても skip が必要な場合のみ `test.skip("reason: <issue-url>")` を使用し、理由コメントと追跡 Issue を inline 必須。`test.skip` の総数は Phase 11 evidence で 0 を期待し、>0 の場合は `unassigned-task` へ formalize する。
+- CI gate として `.github/workflows/*.yml` に `todo-count` step を組み込み、`it.todo` / `test.todo` の出現で job を fail させる。
+
 ### 7.4 Phase 11 evidence への落とし込み
 
 VISUAL タスクは `phase-template-phase11.md` の screenshot evidence に加え、以下 3 件を `outputs/phase-11/evidence/` に必ず残す:
 
 ```
-e2e-run.log              # 該当 spec のフル実行ログ（pass/fail 集計が末尾にあるもの）
+e2e-run.txt              # 該当 spec のフル実行ログ（pass/fail 集計が末尾にある tracked evidence）
+e2e-list.txt             # 対象 spec の列挙結果（実行対象 drift 防止）
 e2e-skip-count.txt       # skip 集計（0 を期待）
 runner-version.txt       # @playwright/test / vitest 等のバージョン固定証跡
 ```
+
+`*.log` が repository `.gitignore` で無視される環境では、`.log` を canonical evidence にしない。Phase 12 compliance は `git check-ignore` または `git status --short -- <evidence>` で evidence が追跡可能な path であることを確認する。untracked / ignored evidence だけを PASS 根拠にすることは禁止。
+
+Next.js Server Component / route handler などが Node 側で `fetch()` する E2E では、Playwright の `page.route()` は server-side fetch を捕捉しない。server state を検証する AC は、mock API server、test seed、または `INTERNAL_API_BASE_URL` 差し替えなど、server fetch 経路に効く仕組みを Phase 4 までに用意し、Phase 11 evidence にその起動 path を記録する。
 
 NON_VISUAL タスクは [phase-11-non-visual-alternative-evidence.md](phase-11-non-visual-alternative-evidence.md) の L3 in-memory test layer と統合する。
 
@@ -117,6 +131,25 @@ Phase 12 の `phase12-task-spec-compliance-check.md` で、次の 8 点を **チ
 6. §7.2 (2) dev server 自動起動
 7. §7.2 (3) CI gate 化
 8. §7.5 E2E lines coverage ≥ 80%（リポジトリ閾値・タスク閾値の両方）
+
+### 7.7 a11y focus management gate（error boundary / dialog / loading skeleton）
+
+focus 移譲を伴う UI 実装（error boundary 統一構造、dialog mount focus、loading skeleton 切替時 focus 引継ぎ等）を含む `taskType=implementation` タスクは、Phase 6 / Phase 11 で次を必須検証する。詳細パターンとアンチパターンは [patterns-a11y-focus-management.md](patterns-a11y-focus-management.md) を参照する。
+
+#### Phase 6 (test plan) 必須項目
+
+1. focused test で **`vi.spyOn(HTMLElement.prototype, 'focus')` を必須化** し、`expect(spy).toHaveBeenCalledWith({ preventScroll: true })` の **引数完全一致** assertion を 1 ケース以上含める（`toHaveBeenCalled()` のみは FAIL）。
+2. `preventScroll: true` の default 渡し検証 + caller `{ preventScroll: false }` opt-out 検証を independent な 2 ケースとして持つ。
+3. error boundary 統合 spec では `expect(document.activeElement).toBe(getByRole('heading', { level: 1 }))` で actual focus 移譲も assert する（spy 単体では layout 副作用を検出できないため不足）。
+4. `useAutoFocusOnMount`（`apps/web/src/lib/a11y/useAutoFocusOnMount.ts`）を標準 hook として採用し、各 error boundary に inline `useEffect(() => ref.current?.focus(), [])` を新規追加しない（drift 禁止）。
+
+#### Phase 11 (evidence) 必須項目
+
+1. `outputs/phase-11/evidence/focus-management-spec-run.txt` に該当 spec の vitest フル実行ログ（pass 集計末尾あり）を tracked path で保存する。
+2. `outputs/phase-11/evidence/focus-management-spec-list.txt` に `grep -rn "useAutoFocusOnMount" apps/web/src` 結果を保存し、利用箇所 drift 0 を担保する。
+3. VISUAL ルート統合タスクのみ `outputs/phase-11/screenshots/error-boundary-focus-<route>.png` で focus ring 可視状態を残す。NON_VISUAL hook 単体タスクは [phase-11-non-visual-alternative-evidence.md](phase-11-non-visual-alternative-evidence.md) L3 in-memory test layer に従い screenshot は要求しない。
+
+> 該当パターンの実装例（hook 定義 / error.tsx 利用 / focused spec の最小サンプル）と 5 アンチパターン一覧は [patterns-a11y-focus-management.md](patterns-a11y-focus-management.md) を参照。
 
 ## 検証コマンド
 

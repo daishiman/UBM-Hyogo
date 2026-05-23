@@ -106,3 +106,13 @@ issue_number: 315
 | 対応     | Cloudflare R2 export + Workers Cron + 外部 SIEM（Datadog / Splunk / Logpush）の組合せ選定、retention policy、PII masking、コスト見積を本タスクで運用要件として確定する |
 | 再発防止 | 監査ログを扱うタスクは MVP スコープを切る段階で「長期保管・改ざん検知・外部監査提出」の有無を必ず明示し、必要なら別タスクとして同時に立てる運用にする             |
 | 学び     | 監査ログは「記録する」より「証跡として後から提出できる状態に保つ」のほうが運用コストが大きく、MVP 設計時点で連携先 SIEM・retention・コスト見積を確定しておくべき   |
+
+---
+
+## Canonical Workflow Supersession（2026-05-18）
+
+status: `superseded`
+
+canonical_workflow: `docs/30-workflows/issue-315-audit-log-application-cold-storage/`
+
+Issue #315 は CLOSED 後に canonical workflow root が未生成のまま残っていたため、`closed-issue-canonical-workflow-recovery` パターンで後付け生成した。外部 SIEM 連携は solo dev 無料運用ポリシーに対して過剰なため却下し、application `audit_log` の長期保管は Cloudflare R2 + Object Lock + redacted JSONL export で実装する。

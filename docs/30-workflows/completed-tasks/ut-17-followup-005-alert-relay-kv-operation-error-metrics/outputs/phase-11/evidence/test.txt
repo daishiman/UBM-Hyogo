@@ -1,0 +1,10 @@
+Command: ESBUILD_BINARY_PATH="$PWD/node_modules/@esbuild/darwin-arm64/bin/esbuild" mise exec -- pnpm --filter @ubm-hyogo/api test -- alert-relay
+Date: 2026-05-16
+Result: PASS
+
+Summary:
+- Vitest ran with project-local esbuild binary because the default environment hit host/binary mismatch (`0.27.3` host vs `0.25.4` binary) before config load.
+- Test files: 48 passed.
+- Tests: 294 passed.
+- Focused target included `apps/api/src/routes/internal/__tests__/alert-relay.spec.ts` with 27 tests.
+- New UT-17-FU-005 assertions covered KV get fail-open logging, KV put structured logging, success-path zero warn, hash-failure fail-safe logging, isolateId stability, hash determinism, console.warn sink failure, and non-`Error` throw `errorClass`.

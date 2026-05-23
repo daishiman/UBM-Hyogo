@@ -1,0 +1,27 @@
+{
+  "task_id": "07c-followup-002-attendance-visual-smoke",
+  "captured_at": "2026-05-15T03:41:53Z",
+  "provenance": "local-mock",
+  "project": "desktop-chromium",
+  "command": "PLAYWRIGHT_EVIDENCE_TASK=07c-followup-002 pnpm --filter @ubm-hyogo/web exec playwright test playwright/tests/attendance.spec.ts --project=desktop-chromium --trace on",
+  "result": "passed",
+  "tests": {
+    "total": 4,
+    "passed": 4,
+    "failed": 0,
+    "skipped": 0
+  },
+  "screenshots": [
+    "screenshots/attendance-deleted-excluded.png",
+    "screenshots/attendance-already-registered.png",
+    "screenshots/attendance-dup-1.png",
+    "screenshots/attendance-dup-2.png",
+    "screenshots/attendance-delete-before.png",
+    "screenshots/attendance-delete-after.png"
+  ],
+  "trace": "trace/attendance-delete-trace.zip",
+  "staging_replacement_plan": {
+    "owner": "task-09a-staging-deploy-smoke",
+    "status": "runtime_pending_user_gate"
+  }
+}

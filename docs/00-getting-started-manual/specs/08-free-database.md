@@ -54,13 +54,12 @@ GitHub Actions が `CLOUDFLARE_API_TOKEN` / `CLOUDFLARE_ACCOUNT_ID` でデプロ
 
 | ファイル | サービス | build output |
 |---------|---------|-------------|
-| `apps/web/wrangler.toml` | Cloudflare Pages (フロントエンド) | `.next` |
+| `apps/web/wrangler.toml` | Cloudflare Workers + OpenNext (フロントエンド) | `.open-next/worker.js` + `.open-next/assets` |
 | `apps/api/wrangler.toml` | Cloudflare Workers (API) | `src/index.ts` |
 
 TypeScript 側の API Worker Env 型は `apps/api/src/env.ts` の `Env` interface を正本とする。D1 binding `DB`、非機密 vars、Cloudflare Secrets を追加・変更する場合は、`apps/api/wrangler.toml` と `apps/api/src/env.ts` を同じ変更単位で同期する。
 
-Pages の初回プロジェクト作成は Cloudflare Dashboard → Connect to Git で行う。
-CI/CD パイプライン (`wrangler pages deploy`) からは `apps/web/wrangler.toml` の `name` を参照する。
+Web CD は `pnpm --filter @ubm-hyogo/web build:cloudflare` で OpenNext Workers bundle を生成し、`bash scripts/cf.sh deploy --config apps/web/wrangler.toml --env <staging|production>` でデプロイする。旧 GitHub repository variable `CLOUDFLARE_PAGES_PROJECT` は Issue #638 で削除済みで、現行 `web-cd.yml` からは未参照である。Cloudflare Pages project 本体の物理削除は別タスク `issue-331-followup-002` の責務として残る。
 
 ---
 
@@ -257,6 +256,34 @@ CREATE INDEX IF NOT EXISTS idx_admin_notes_pending_requests
 `visibility_request` / `delete_request` は申請 queue として作成時に
 `request_status='pending'` を設定する。resolve/reject は
 `WHERE request_status='pending'` の条件付き UPDATE で処理済み行の再更新を防ぐ。
+
+### member_tags
+
+```sql
+CREATE TABLE IF NOT EXISTS member_tags (
+  member_id    TEXT NOT NULL,
+  tag_id       TEXT NOT NULL,
+  source       TEXT NOT NULL,
+  confidence   REAL,
+  assigned_at  TEXT NOT NULL DEFAULT (datetime('now')),
+  assigned_by  TEXT,
+  PRIMARY KEY (member_id, tag_id)
+);
+```
+
+現行 6 列構成を D1 schema の正本として確定する。`assigned_via_queue_id` 列は **追加しない**
+（[ADR 0002](../../decisions/0002-member-tags-assigned-via-queue-id-decision.md)）。
+
+- `tag_id` は `tag_definitions.tag_id`（surrogate key）への FK 相当。仕様文書の旧 draft にあった
+  `tag_code` 表記は `tag_definitions.code` を別名参照したものであり、本テーブルでは `tag_id` を正とする。
+- `source` は付与経路の識別子。queue 経由で確定した row は `source = 'admin_queue'` で識別する
+  （`apps/api/src/repository/memberTags.ts:74` の `VALUES (?1, ?2, 'admin_queue', 1.0, ?3)`）。
+- queue ↔ member_tags の trace は `audit_log` で担保する。
+  - `target_type = 'tag_queue'`
+  - `target_id = queueId`
+  - `action IN ('admin.tag.queue_resolved', 'admin.tag.queue_rejected', 'admin.tag.queue_dlq_moved')`
+- 再評価トリガ（ADR 0002 参照）: (a) 監査 UI で「特定 queue 由来タグ一覧」を 1 クエリ表示する要件、
+  (b) `audit_log` の保持期間短縮または物理削除方針で queue 追跡履歴を保持できなくなる場合、(c) D1 read で audit join 性能問題。
 
 ### tag_assignment_queue
 

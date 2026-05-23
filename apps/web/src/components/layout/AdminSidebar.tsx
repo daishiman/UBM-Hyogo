@@ -17,6 +17,13 @@ const items = [
 export function AdminSidebar() {
   return (
     <nav aria-label="管理メニュー" className="admin-sidebar">
+      <Link
+        href="/"
+        aria-label="ホームに戻る"
+        className="mb-4 inline-flex items-center rounded-sm border border-[var(--ubm-color-border-default)] px-3 py-2 text-sm font-semibold text-[var(--ubm-color-accent)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--ubm-color-accent)]"
+      >
+        UBM兵庫
+      </Link>
       <ul>
         {items.map((it) => (
           <li key={it.href}>

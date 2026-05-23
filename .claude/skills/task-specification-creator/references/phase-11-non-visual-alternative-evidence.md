@@ -103,6 +103,21 @@ Issue #546 CF audit logs 90 day baseline observation（2026-05-08）の close-ou
 - [ ] ゼロ件 evidence を PASS に使う readiness 前提を明記した
 - [ ] 欠測データは `PENDING_RUNTIME_EVIDENCE` marker artifact として実体化した
 
+### HOLD / deleted workflow lifecycle marker
+
+Issue #581 CF audit logs 90 day re-observation reminder（2026-05-09）の close-out feedback を反映。上流 workflow が HOLD 化され、watchdog workflow などが削除済みの場合は、存在しない GitHub Actions workflow API を叩かない。削除済み workflow の evidence path は run history array ではなく lifecycle marker object とし、Phase 2 schema / Phase 3 command / Phase 4 verification / Phase 11 completion condition を同じ object contract に揃える。
+
+```json
+{
+  "workflow": "cf-audit-log-monitor-watchdog.yml",
+  "status": "deleted_by_issue_518_hold",
+  "source": "docs/30-workflows/completed-tasks/issue-518-cf-audit-logs-monitoring-hold/",
+  "gateAUse": "watchdog heartbeat is not available during HOLD; Gate-A uses monitor run history plus this lifecycle marker"
+}
+```
+
+P-1 などの入口 gate で早期終了する場合は、runtime strict evidence を捏造しない。`precondition-check.md` / `main.md` / `manual-smoke-log.md` / `gate-decision.md` の最小 4 ファイルを Phase 11 の完了条件として明記し、strict file list 全件要求と矛盾させない。
+
 ## Env-name contract alignment evidence（Auth / Mail / Magic Link）
 
 05b-A auth mail env contract alignment（2026-05-01）の close-out feedback を反映。実装は既に `MAIL_PROVIDER_KEY` / `MAIL_FROM_ADDRESS` / `AUTH_URL` を使っているが、manual specs や provisioning runbook に provider 固有名が残る場合は、docs-only / NON_VISUAL の env-name contract task として扱う。
@@ -175,6 +190,20 @@ UT-07B-FU-03 production migration apply runbook（2026-05-02）の close-out fee
 - [ ] production apply 未実行を `implementation-guide.md` と `system-spec-update-summary.md` に明記した
 - [ ] Phase 13 が user approval gate のまま残っている
 - [ ] secret value / token / account id / raw production output を evidence に転記していない
+
+## Phase 12 compliance check における Phase 11 evidence 実在性 validator（Refs #730）
+
+`outputs/phase-12/phase12-task-spec-compliance-check.md` の `## Phase 11 evidence file inventory` または `## 4. Phase 11 evidence file inventory` 表は、`scripts/lib/phase12-compliance/verify-compliance-file.ts` から自動検証される。表に `Status = present` と書いた evidence は、workflow root 配下に物理ファイルが存在しなければ `reason: "missing-evidence"` で fail する。空 path やディレクトリ path は evidence file ではないため fail とする。
+
+正規 status は小文字の `present` / `pending` / `n/a` を使う。`present` だけが実在チェック対象で、`pending` / `n/a` は実在未要求として扱う。`Present` などの表記揺れや未知 status は invalid claim として fail し、`present` とみなしてはならない。
+
+Path は workflow root 相対を原則とし、絶対パスや `../` による root 外参照は許可しない。docs-only / NON_VISUAL タスクの代表的な検査対象は `outputs/phase-11/main.md`、`outputs/phase-11/manual-test-result.md`、`outputs/phase-11/manual-smoke-log.md`、`outputs/phase-11/link-checklist.md` の 4 ファイルである。
+
+この validator は evidence の内容妥当性までは検査しない。中身の品質、実行ログの exit code、redaction、runtime smoke の真偽は、各タスクの Phase 11 / Phase 12 で別途検証する。
+
+### 二層 status 運用（present / pending / n/a）
+
+`present` 行は validator が物理ファイル存在を強制検査する **対象**。`pending` 行は inventory ledger としての記録専用で、validator 検査対象外（別タスク gate / runtime 観測待ち / N-day 観測などで後続取得予定の evidence を一覧として保持するために使う）。`n/a` 行は取得不要が確定したもの。詳細運用・昇格パス・落とし穴は [phase11-evidence-two-tier-status.md](phase11-evidence-two-tier-status.md) を参照。
 
 ## Cloudflare Workers production preflight evidence template（docs-only infrastructure verification）
 
@@ -386,6 +415,20 @@ followup_task: <FU-NN-slug or N/A>
 ```
 
 これにより Phase 11 自体は PASS とし、runtime 完了後に同ファイルを実値で上書きする運用とする。`unassigned-task-detection-guide.md` の Followup Task 命名規約と組み合わせ、FU として fully tracked にする。
+
+## Read-only audit task の Phase-5 / Phase-11 役割（task-24 L-TASK24-002）
+
+`apps/` / `packages/` を改変しない read-only invariant audit task（例: task-24）では、通常 implementation の Phase 役割を以下のように読み替える。task-spec-creator で task type = `audit / read-only` を選択した場合の規定テンプレ。
+
+| Phase | 通常 implementation | read-only audit での代替 |
+| --- | --- | --- |
+| Phase 5 | unit test 実装 | grep-evidence 収集 + 集計 TSV（`outputs/phase-5/{audit-runner.sh, matrix.tsv, grep-evidence.txt, violations.md}`） |
+| Phase 11 | smoke / visual evidence | matrix snapshot + audit-runner stdout（visual evidence は `NON_VISUAL`、`outputs/phase-11/{matrix-snapshot.md, audit-runner.log}`） |
+
+- Phase 1 acceptance criteria に **matrix shape**（rows / cols / cell vocabulary）を SSOT として明記する。task-24 では `rows = 22 tasks × cols = 6 invariants × cell vocabulary = COMPLIANT | VIOLATION | N/A` を固定し、消費側（後続 mapping task）は cell vocabulary のみで分岐できるよう保証した（L-TASK24-001）。
+- `audit-runner.sh` の I/O contract（exit code 意味論 / 出力 dir / 生成ファイル名 + schema / 再実行 idempotency）は Phase 2 design output の「runner contract」節に SSOT 化し、implementation-guide からは link 参照のみとする（L-TASK24-003）。
+- Phase 11 main.md には `visualEvidence: NON_VISUAL` 宣言と「audit のため smoke 不要、matrix snapshot が代替」を明記し、Phase 12 strict 7 compliance check で missing 判定にならないようにする。
+- mini-template: `phase-template-audit-task.md` を参照。
 
 ## 関連
 

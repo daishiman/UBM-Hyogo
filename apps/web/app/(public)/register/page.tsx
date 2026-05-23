@@ -1,54 +1,60 @@
+// serial-05: /(public)/register — blueprint 09e:473-560
 // `/register` 登録案内 (Server Component)
-// AC-11 — responderUrl + form-preview を表示
-// 不変条件 #1: stableKey 経由のみ参照
-// 不変条件 #9: `/no-access` を経由しない
+// task-12 で RegisterCallout primitive 接続。
+// 不変条件 #2: consent キーは publicConsent / rulesConsent
+// 不変条件 #7: 外部 link 遷移（target="_blank"）。iframe 不採用
 
+import type { Metadata } from "next";
 import type { z } from "zod";
 
 import { FormPreviewViewZ } from "@ubm-hyogo/shared";
 
+import { buildPageMetadata } from "@/lib/seo/site-metadata";
+
 import { FormPreviewSections } from "../../../src/components/public/FormPreviewSections";
+import { RegisterCallout } from "../../../src/components/public/RegisterCallout";
+import { FORM_RESPONDER_URL } from "../../../src/lib/constants/form";
 import { fetchPublic } from "../../../src/lib/fetch/public";
 
 type FormPreviewView = z.infer<typeof FormPreviewViewZ>;
 
-// 01-api-schema.md の固定値。env override 時は preview.responderUrl を採用。
-const FALLBACK_RESPONDER_URL =
-  "https://docs.google.com/forms/d/e/1FAIpQLSeWfv-R8nblYVqqcCTwcvVsFyVVHFeKYxn96NEm1zNXeydtVQ/viewform";
-
 export const dynamic = "force-dynamic";
 export const revalidate = 600;
 
+export async function generateMetadata(): Promise<Metadata> {
+  return buildPageMetadata({
+    title: "入会案内",
+    description:
+      "UBM 兵庫支部会への入会フォーム案内。Google Form に遷移します",
+    path: "/register",
+  });
+}
+
 export default async function RegisterPage() {
   let preview: FormPreviewView | null = null;
-  let responderUrl = FALLBACK_RESPONDER_URL;
+  let responderUrl: string = FORM_RESPONDER_URL;
   let previewError: string | null = null;
 
   try {
     preview = await fetchPublic<FormPreviewView>("/public/form-preview", {
       revalidate: 600,
     });
-    responderUrl = preview.responderUrl ?? FALLBACK_RESPONDER_URL;
+    responderUrl = preview.responderUrl ?? FORM_RESPONDER_URL;
   } catch (_err) {
-    // F-08: form-preview 取得失敗時も responderUrl 経由の登録導線は維持する
-    previewError = "フォーム情報を取得できませんでした。登録は下のリンクから進めてください。";
+    previewError =
+      "フォーム情報を取得できませんでした。登録は下のリンクから進めてください。";
   }
 
   return (
-    <main data-page="register">
-      <h1>UBM 兵庫支部会への登録</h1>
-      <p>
-        登録は以下の流れで進みます: Google Form 回答 → 自動同期 → ログイン → マイページ確認。
-      </p>
-      <a
-        href={responderUrl}
-        target="_blank"
-        rel="noopener noreferrer"
-        data-role="responder-link"
-        data-variant="primary"
-      >
-        Google Form で登録する
-      </a>
+    <main data-page="register" className="stack-lg" data-route="public" data-section-rhythm="comfortable">
+      <header className="page-head">
+        <p className="eyebrow">REGISTER</p>
+        <h1>UBM 兵庫支部会への登録</h1>
+        <p className="muted">
+          登録は次の流れで進みます: Google Form 回答 → 自動同期 → ログイン → マイページ確認。
+        </p>
+      </header>
+      <RegisterCallout responderUrl={responderUrl} />
       {previewError ? (
         <p role="alert" data-role="preview-error">
           {previewError}

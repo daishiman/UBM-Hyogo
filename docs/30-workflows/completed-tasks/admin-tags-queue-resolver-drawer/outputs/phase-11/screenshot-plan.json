@@ -1,0 +1,12 @@
+{
+  "mode": "VISUAL",
+  "viewport": "1280x800",
+  "route": "/admin/tags",
+  "screens": [
+    "admin-tags-drawer-closed.png",
+    "admin-tags-drawer-confirmed-open.png",
+    "admin-tags-drawer-rejected-open.png",
+    "admin-tags-drawer-validation-error.png",
+    "admin-tags-drawer-terminal-disabled.png"
+  ]
+}

@@ -32,6 +32,10 @@
 | 7 day observation | `outputs/phase-11/evidence/hourly-run-7day.md` | production switch merge 後 |
 | build | `outputs/phase-11/evidence/build.log` | workflow YAML PR 前 |
 
+## Machine-readable manifest
+
+Canonical evidence path の機械可読正本は `outputs/phase-11/canonical-paths.json`。検証 schema は `.claude/skills/task-specification-creator/schemas/phase11-evidence-canonical-paths.schema.json`、CLI は `pnpm validate:phase11-paths`。
+
 ## AC 境界
 
 AC-3 / AC-4 の local script 契約、AC-8 の focused test、AC-10 の skeleton dry-run は本サイクルで evidence を取得済み。AC-1 / AC-5 の workflow YAML への post-step 注入と env=ml 切替、実 ML artifact load、7 日 observation、PR 本文 `Refs #549` は Gate-0〜C 通過後の別 PR で完了させる。global typecheck / lint は既存 Sentry dependency missing により known-failure として扱う。

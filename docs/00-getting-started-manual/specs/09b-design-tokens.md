@@ -99,7 +99,7 @@ accent と status の base token は背景、badge、border、focus ring など�
 
 | token | stone value | source | role |
 | --- | --- | --- | --- |
-| `--ubm-color-accent` | `oklch(0.58 0.10 55)` | `--accent` L12 | brand emphasis |
+| `--ubm-color-accent` | `oklch(0.52 0.10 55)` | `--accent` L12 | brand emphasis |
 | `--ubm-color-accent-soft` | `oklch(0.95 0.03 65)` | `--accent-soft` L13 | accent background |
 | `--ubm-color-accent-ink` | `oklch(0.38 0.10 55)` | `--accent-ink` L14 | readable accent text |
 | `--ubm-color-ok` | `oklch(0.55 0.10 155)` | `--ok` L15 | success / ok |
@@ -141,7 +141,7 @@ Warm and cool override only surface / text / border / accent values.
 | `--text` | `--ubm-color-text-primary` | `#1a1917` |
 | `--text-2` | `--ubm-color-text-secondary` | `#57554e` |
 | `--text-3` | `--ubm-color-text-muted` | `#8a877e` |
-| `--accent` | `--ubm-color-accent` | `oklch(0.58 0.10 55)` |
+| `--accent` | `--ubm-color-accent` | `oklch(0.52 0.10 55)` |
 | `--accent-soft` | `--ubm-color-accent-soft` | `oklch(0.95 0.03 65)` |
 | `--accent-ink` | `--ubm-color-accent-ink` | `oklch(0.38 0.10 55)` |
 | `--ok` | `--ubm-color-ok` | `oklch(0.55 0.10 155)` |
@@ -166,9 +166,9 @@ Warm and cool override only surface / text / border / accent values.
 | `--text` | `--ubm-color-text-primary` | `#22180a` |
 | `--text-2` | `--ubm-color-text-secondary` | `#6b5a42` |
 | `--text-3` | `--ubm-color-text-muted` | `#9a8a6e` |
-| `--accent` | `--ubm-color-accent` | `oklch(0.62 0.14 50)` |
+| `--accent` | `--ubm-color-accent` | `oklch(0.52 0.13 50)` |
 | `--accent-soft` | `--ubm-color-accent-soft` | `oklch(0.94 0.05 60)` |
-| `--accent-ink` | `--ubm-color-accent-ink` | `oklch(0.40 0.13 50)` |
+| `--accent-ink` | `--ubm-color-accent-ink` | `oklch(0.36 0.12 50)` |
 
 ### 3.4.3 Cool Theme
 
@@ -316,7 +316,7 @@ This keeps Style Dictionary, custom verifiers, and human review on the same sche
       "strong": { "value": "#d6d3cc", "css": "--ubm-color-border-strong" }
     },
     "accent": {
-      "base": { "value": "oklch(0.58 0.10 55)", "css": "--ubm-color-accent" },
+      "base": { "value": "oklch(0.52 0.10 55)", "css": "--ubm-color-accent" },
       "soft": { "value": "oklch(0.95 0.03 65)", "css": "--ubm-color-accent-soft" },
       "ink": { "value": "oklch(0.38 0.10 55)", "css": "--ubm-color-accent-ink" }
     },
@@ -348,9 +348,9 @@ This keeps Style Dictionary, custom verifiers, and human review on the same sche
         "text-primary": { "value": "#22180a", "css": "--ubm-color-text-primary" },
         "text-secondary": { "value": "#6b5a42", "css": "--ubm-color-text-secondary" },
         "text-muted": { "value": "#9a8a6e", "css": "--ubm-color-text-muted" },
-        "accent": { "value": "oklch(0.62 0.14 50)", "css": "--ubm-color-accent" },
+        "accent": { "value": "oklch(0.52 0.13 50)", "css": "--ubm-color-accent" },
         "accent-soft": { "value": "oklch(0.94 0.05 60)", "css": "--ubm-color-accent-soft" },
-        "accent-ink": { "value": "oklch(0.40 0.13 50)", "css": "--ubm-color-accent-ink" }
+        "accent-ink": { "value": "oklch(0.36 0.12 50)", "css": "--ubm-color-accent-ink" }
       },
       "cool": {
         "surface-bg": { "value": "#f1f3f5", "css": "--ubm-color-surface-bg" },
@@ -465,6 +465,8 @@ task-09 は本ファイルの §9 JSON と §3〜§8 表を参照し、`apps/web
 task-09 の `tokens.css` は `:root` に stone values を置き、`[data-theme="warm"]` と `[data-theme="cool"]` に 12 個ずつ override を置く。
 `ok` / `warn` / `danger` / `info` は 3 theme 共通であり、warm / cool block に重複して書かない。
 task-18 の verifier は `tokens.css` と本ファイル §9 の CSS names を比較し、欠落 0 を gate にする。
+また `apps/web/src/styles/globals.css` の `@theme inline` bridge も検査対象に含め、`--ubm-*` 正本 token から Tailwind utility token への接続漏れを CI で検出する。
+設計値の変更は本仕様書を先に更新する別 workflow とし、task-18 では転記漏れ・bridge 欠落の同期補正だけを許可する。
 
 ## 11. Dark Mode Placeholder
 

@@ -9,6 +9,10 @@
 //       本 middleware は瞬間的な burst を抑える役割に留める。
 
 import type { MiddlewareHandler } from "hono";
+import {
+  buildRateLimitedResponse,
+  toHonoResponse,
+} from "./edge-rate-limit-headers";
 import type { SessionGuardEnv, SessionGuardVariables } from "./session-guard";
 
 interface RateLimitState {
@@ -45,10 +49,8 @@ export const rateLimitSelfRequest: MiddlewareHandler<{
       1,
       Math.ceil((RATE_LIMIT_WINDOW_MS - (now - state.windowStart)) / 1000),
     );
-    return c.json(
-      { code: "RATE_LIMITED", retryAfter: retryAfterSec },
-      429,
-      { "Retry-After": String(retryAfterSec) },
+    return toHonoResponse(
+      buildRateLimitedResponse({ retryAfterSec, reason: "app" }),
     );
   }
   state.count += 1;

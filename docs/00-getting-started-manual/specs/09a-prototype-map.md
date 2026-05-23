@@ -111,14 +111,14 @@ New primitives are not allowed for missing screens.
 
 | element | source | production target |
 |---------|--------|-------------------|
-| `App` shell | `app.jsx L24-L117` | `apps/web/src/app/layout.tsx` |
+| `App` shell | `app.jsx L24-L117` | `apps/web/app/layout.tsx` |
 | `ROUTES` map | `app.jsx L11-L22` | Next.js filesystem routes; no runtime map |
-| `Sidebar` | `app.jsx L119-L164` | `apps/web/src/app/(admin)/layout.tsx` |
-| `Topbar` | `app.jsx L166-L191` | `apps/web/src/app/(public)/layout.tsx` |
-| `MinimalBar` | `app.jsx L193-L211` | `apps/web/src/app/login/layout.tsx` or local minimal shell |
+| `Sidebar` | `app.jsx L119-L164` | `apps/web/app/(admin)/layout.tsx` |
+| `Topbar` | `app.jsx L166-L191` | `apps/web/app/(public)/layout.tsx` |
+| `MinimalBar` | `app.jsx L193-L211` | `apps/web/app/login/layout.tsx` or local minimal shell |
 | `TweaksPanel` | `app.jsx L213-L251` | 不採用: EDITMODE-only control panel |
-| `data-theme="warm"` | `styles.css L42-L70` | 不採用: token choice belongs to task-08 |
-| `data-theme="cool"` | `styles.css L42-L70` | 不採用: token choice belongs to task-08 |
+| `data-theme="warm"` | `styles.css L42-L70` | 採用: root/member shell の theme token override として `apps/web/app/layout.tsx` / `(member)/layout.tsx` に配置 |
+| `data-theme="cool"` | `styles.css L42-L70` | 採用: admin shell の theme token override として `apps/web/app/(admin)/layout.tsx` に配置 |
 
 ### 4.2 Prototype source to 09c-09h spec mapping
 
@@ -277,8 +277,8 @@ task-10で確定する primitive と feature components の組合せだけで構
 |------|--------|----------|--------|
 | `TweaksPanel` | `app.jsx L213-L251` | 不採用 | EDITMODE-only tuning panel |
 | `AvatarStoreProvider` | `primitives.jsx L20-L28` | 不採用 | localStorage photo store is not production MVP behavior |
-| `data-theme="warm"` | `styles.css L42-L70` | 不採用 | theme selection is not user-facing MVP scope |
-| `data-theme="cool"` | `styles.css L42-L70` | 不採用 | theme selection is not user-facing MVP scope |
+| `data-theme="warm"` | `styles.css L42-L70` | 採用 | root/member shell の固定 theme token override。ユーザー切替 UI はスコープ外 |
+| `data-theme="cool"` | `styles.css L42-L70` | 採用 | admin shell の固定 theme token override。ユーザー切替 UI はスコープ外 |
 | `styles.css` token values | `styles.css L1-L1012` | 不採用 | token values belong to task-08 |
 
 ## 9. Verification checklist

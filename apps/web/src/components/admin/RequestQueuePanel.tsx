@@ -6,6 +6,9 @@
 import { useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { resolveAdminRequest } from "../../lib/admin/api";
+import { EmptyState } from "../ui/EmptyState";
+import { Pagination } from "../ui/Pagination";
+import { AdminMutationError, useAdminMutation } from "../../features/admin/hooks/useAdminMutation";
 
 export type RequestNoteType = "visibility_request" | "delete_request";
 
@@ -53,7 +56,20 @@ const summarizePayload = (payload: unknown): string => {
 
 export function RequestQueuePanel({ initial, type }: Props) {
   const router = useRouter();
-  const items = initial.items;
+  const requestResolveMutation = useAdminMutation<unknown>("/api/admin/requests/resolve", "POST", {
+    refreshOnSuccess: false,
+    mutationFn: async (payload) => {
+      const { noteId, ...body } = payload as {
+        noteId: string;
+        resolution: "approve" | "reject";
+        resolutionNote?: string;
+      };
+      const r = await resolveAdminRequest(noteId, body);
+      if (!r.ok) throw new AdminMutationError(r.status, r.error);
+      return r.data;
+    },
+  });
+  const [items, setItems] = useState(initial.items);
   const [selectedId, setSelectedId] = useState<string | null>(
     items[0]?.noteId ?? null,
   );
@@ -61,6 +77,7 @@ export function RequestQueuePanel({ initial, type }: Props) {
     null,
   );
   const [resolutionNote, setResolutionNote] = useState("");
+  const [validationError, setValidationError] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
   const [toast, setToast] = useState<string | null>(null);
 
@@ -88,29 +105,46 @@ export function RequestQueuePanel({ initial, type }: Props) {
   const closeConfirm = () => {
     setConfirming(null);
     setResolutionNote("");
+    setValidationError(null);
   };
 
   const onSubmit = async () => {
     if (!current || !confirming) return;
+    const trimmedNote = resolutionNote.trim();
+    if (confirming === "reject" && !trimmedNote) {
+      setValidationError("却下理由を入力してください");
+      return;
+    }
     setBusy(true);
-    const r = await resolveAdminRequest(current.noteId, {
-      resolution: confirming,
-      ...(resolutionNote.trim() ? { resolutionNote: resolutionNote.trim() } : {}),
-    });
-    setBusy(false);
-    if (!r.ok) {
-      if (r.status === 409) {
+    let ok = true;
+    try {
+      await requestResolveMutation.trigger(
+        {
+          noteId: current.noteId,
+          resolution: confirming,
+          ...(trimmedNote ? { resolutionNote: trimmedNote } : {}),
+        },
+      );
+    } catch (e) {
+      ok = false;
+      if (e instanceof AdminMutationError && e.status === 409) {
         setToast("他の管理者が既に処理済みです。一覧を再読込します");
         closeConfirm();
         router.refresh();
-        return;
+      } else {
+        setToast(`処理に失敗しました: ${e instanceof Error ? e.message : "unknown error"}`);
       }
-      setToast(`処理に失敗しました: ${r.error}`);
-      return;
     }
+    setBusy(false);
+    if (!ok) return;
     setToast(
       confirming === "approve" ? "依頼を承認しました" : "依頼を却下しました",
     );
+    setItems((prev) => {
+      const next = prev.filter((item) => item.noteId !== current.noteId);
+      setSelectedId(next[0]?.noteId ?? null);
+      return next;
+    });
     closeConfirm();
     router.refresh();
   };
@@ -139,7 +173,11 @@ export function RequestQueuePanel({ initial, type }: Props) {
         style={{ display: "grid", gridTemplateColumns: "1fr 2fr", gap: 12 }}
       >
         <ul aria-label="依頼一覧">
-          {items.length === 0 && <li>未処理の依頼はありません</li>}
+          {items.length === 0 && (
+            <li>
+              <EmptyState title="未処理の依頼はありません" />
+            </li>
+          )}
           {items.map((it) => (
             <li key={it.noteId}>
               <button
@@ -159,7 +197,7 @@ export function RequestQueuePanel({ initial, type }: Props) {
         </ul>
 
         <div aria-label="依頼詳細">
-          {!current && <p>左の一覧から依頼を選択してください。</p>}
+          {!current && <EmptyState title="左の一覧から依頼を選択してください。" />}
           {current && (
             <article aria-labelledby="admin-request-detail-h">
               <h2 id="admin-request-detail-h">依頼詳細</h2>
@@ -213,9 +251,15 @@ export function RequestQueuePanel({ initial, type }: Props) {
       </div>
 
       {initial.nextCursor && (
-        <button type="button" onClick={onNextPage} aria-label="次の依頼ページ">
-          次のページ
-        </button>
+        <Pagination
+          current={1}
+          hasPrev={false}
+          hasNext={Boolean(initial.nextCursor)}
+          onPrev={() => {}}
+          onNext={onNextPage}
+          nextLabel="次の依頼ページ"
+          nextAriaLabel="次の依頼ページ"
+        />
       )}
 
       {confirming && current && (
@@ -239,14 +283,20 @@ export function RequestQueuePanel({ initial, type }: Props) {
             </p>
           )}
           <label>
-            メモ（任意・最大 500 文字、PII を含めない）
+            {confirming === "reject"
+              ? "却下理由（必須・最大 500 文字、PII を含めない）"
+              : "メモ（任意・最大 500 文字、PII を含めない）"}
             <textarea
               value={resolutionNote}
-              onChange={(e) => setResolutionNote(e.target.value.slice(0, 500))}
+              onChange={(e) => {
+                setResolutionNote(e.target.value.slice(0, 500));
+                setValidationError(null);
+              }}
               maxLength={500}
               rows={3}
             />
           </label>
+          {validationError && <p role="alert">{validationError}</p>}
           <div role="group" aria-label="確認">
             <button type="button" onClick={onSubmit} disabled={busy}>
               {confirming === "approve" ? "承認を実行" : "却下を実行"}

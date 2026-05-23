@@ -24,8 +24,8 @@
 | Web mirror types | `apps/web/src/lib/api/me-types.ts`（`PendingRequests` / `MeProfileResponse.pendingRequests` mirror、API contract と shape 一致） |
 | Web SSR | `apps/web/app/profile/page.tsx`（Server Component で `profileRes.pendingRequests` を `RequestActionPanel` に props 渡し） |
 | Web UI | `apps/web/app/profile/_components/RequestActionPanel.tsx`（server pending を最優先、local state は submit-in-flight のみ、`RequestPendingBanner` 表示・申請ボタン disabled） |
-| Web type tests | `apps/web/src/lib/api/me-types.test-d.ts`（mirror 型の shape 一致テスト） |
-| Web unit tests | `apps/web/app/profile/_components/RequestActionPanel.test.tsx`（banner + disabled state coverage） |
+| Web type tests | `apps/web/src/lib/api/me-types.spec-d.ts`（mirror 型の shape 一致テスト） |
+| Web unit tests | `apps/web/app/profile/_components/RequestActionPanel.component.spec.tsx`（banner + disabled state coverage） |
 | Playwright E2E | `apps/web/playwright/tests/profile-pending-sticky.spec.ts`（reload 後 sticky 表示の E2E。staging smoke / authenticated capture 待ち） |
 
 ## Contract

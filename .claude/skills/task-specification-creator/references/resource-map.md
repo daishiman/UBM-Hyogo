@@ -17,7 +17,7 @@
 | [update-system-specs.md](../agents/update-system-specs.md) | Phase 12 Task 2 | system spec 同期 |
 | [generate-unassigned-task.md](../agents/generate-unassigned-task.md) | Phase 12 Task 4 | 未タスク formalize |
 
-## references/（36ファイル）
+## references/（38ファイル）
 
 ### workflow core
 
@@ -44,6 +44,8 @@
 | [phase-template-phase11.md](phase-template-phase11.md) | Phase 11 作成時 | manual test template |
 | [phase-template-phase12.md](phase-template-phase12.md) | Phase 12 作成時 | documentation template |
 | [phase-template-phase13.md](phase-template-phase13.md) | Phase 13 作成時 | approval / PR template |
+| [workflow-state-vocabulary.md](workflow-state-vocabulary.md) | workflow_state / phase status / runtime pending boundary の確認時 | 状態語彙、必要証跡、reclassify ルール、禁止表記 |
+| [phase12-compliance-check-template.md](phase12-compliance-check-template.md) | Phase 12 compliance-check 作成・再監査時 | 観点、検証コマンド、drift パターン、4条件 verdict template |
 
 ### Phase 11/12 family
 
@@ -73,6 +75,8 @@
 | [patterns-workflow-generation.md](patterns-workflow-generation.md) | workflow 設計時 | phase / lane / artifact パターン |
 | [patterns-validation-and-audit.md](patterns-validation-and-audit.md) | validator 失敗時 | line budget、mirror、audit パターン |
 | [patterns-phase12-sync.md](patterns-phase12-sync.md) | Phase 12 失敗時 | implementation guide、spec sync、未タスク化パターン |
+| [patterns-parallel-sub-workflow.md](patterns-parallel-sub-workflow.md) | `parallel-NN-*` / `serial-NN-*` を持つ workflow 設計時 | root / sub 二重 artifacts.json / `sub_workflow` フィールド / Phase 11-12 outputs parity / 命名規約 / VISUAL_ON_EXECUTION の sub→serial 集約 |
+| [patterns-prototype-driven-css.md](patterns-prototype-driven-css.md) | プロトタイプ → `apps/web` CSS 移植系タスクの仕様作成時 | Phase 5 設計（`@layer components` 末尾追加 / data-attr selector）/ `tokens.css` 色責務と `globals.css` rhythm 責務の SRP / HEX 直書き禁止と `verify-design-tokens` CI gate |
 
 ### logs and archives
 
@@ -89,6 +93,10 @@
 | Reference | 読み込み条件 | 内容 |
 | --- | --- | --- |
 | [unassigned-task-guidelines.md](unassigned-task-guidelines.md) | 未タスク出力時 | 未タスク仕様ルール |
+| [unassigned-task-required-sections.md](unassigned-task-required-sections.md) | 未タスク作成時 / proto-spec 配置時 | 4 セクション必須 + §6 governance YAML + §8 単一ファイル proto-spec フォーマット（軽量 7 セクション） |
+| [closed-issue-canonical-workflow-recovery.md](closed-issue-canonical-workflow-recovery.md) | CLOSED Issue で canonical workflow root が欠落していた場合の後付け生成 / governance YAML 契約参照時 | 後付け 5 段手順、`status: consumed` 保全、`Refs #<n>` 限定運用、YAML フロントマター 4 フィールド契約 |
+| [shared-file-parallel-edit-pattern.md](shared-file-parallel-edit-pattern.md) | 複数 parallel-XX タスクで `globals.css` 等 cascade 系共有ファイルを編集する設計時 | マーカー責務分離 / 先着優先 / `merge=union` 不可ルール / Phase 2/4/5/11/12 組込み |
+| [phase11-evidence-two-tier-status.md](phase11-evidence-two-tier-status.md) | Phase 11 evidence inventory に `pending` 行を含める場合 / 別タスク gate evidence を ledger 化する場合 | `present` (validator 検査) / `pending` (inventory ledger) / `n/a` (取得不要確定) の二層運用と昇格パス |
 
 ### project workflow examples
 
@@ -102,12 +110,15 @@
 | --- | --- | --- |
 | [non-visual-governance-pattern.md](../lessons-learned/non-visual-governance-pattern.md) | governance 設定変更を扱う NON_VISUAL implementation タスク作成時 | Phase 8 単一 YAML 入力契約 / `gh api check-runs` 並走 / 二重承認ゲート |
 | [shell-script-redaction-tasks.md](../lessons-learned/shell-script-redaction-tasks.md) | shell script + redaction 不変条件を含む小〜中規模 implementation タスク作成時 | Phase 1-2 統合判断 / redaction-rules.md 集約 / POSIX regex 設計 / shellcheck Phase 9 統合 |
+| [n-day-close-out-cross-run-aggregation.md](../lessons-learned/n-day-close-out-cross-run-aggregation.md) | post-switch / N 日 baseline / time-windowed close-out など、production runtime 観測が時間経過に依存するタスク作成時 | cross-run artifact aggregation pattern（`actions/download-artifact@v4` same-run 制限 + `gh api` 経路）/ skeleton zero metrics gate / 3 段昇格状態語彙（`implemented_local_runtime_pending` → `pass_boundary_synced_runtime_pending` → `pass_runtime_synced`）/ Part 1 ドラフト逐語コピペ運用 |
 
 ### approval-gated NON_VISUAL implementation 導線
 
 | キーワード | 関連ファイル |
 | --- | --- |
 | approval-gated implementation / 三役ゲート / rollback payload 上書き禁止 / コミット粒度 5 単位 / Phase 13 fresh GET / `Refs #<issue>` | [phase-template-phase13.md](phase-template-phase13.md) §approval-gated / [phase-template-phase13-detail.md](phase-template-phase13-detail.md) §approval-gated 詳細手順 / [phase-11-non-visual-alternative-evidence.md](phase-11-non-visual-alternative-evidence.md) / [phase-12-spec.md](phase-12-spec.md) / [quality-gates.md](quality-gates.md) / 実例: `docs/30-workflows/completed-tasks/utgov001-second-stage-reapply/phase-13.md` |
+| branch protection PUT / dev・main 個別 drift / governance mutation user gate / read-only pre-gate / branch-specific evidence 分離 | [governance-branch-protection-pattern.md](governance-branch-protection-pattern.md) / [non-visual-irreversible-task-rules.md](non-visual-irreversible-task-rules.md) §0 / 実例: e2e-quality-uplift stage-3-impl 3c |
+| Server Component E2E / `page.route()` 禁則 / `INTERNAL_API_BASE_URL` 差し替え / mock API server / seed fixture / tracked evidence | [server-component-e2e-pattern.md](server-component-e2e-pattern.md) / [quality-gates.md](quality-gates.md) §7 / 実例: e2e-quality-uplift stage-3-impl 3b |
 
 ## schemas/（8ファイル）
 
@@ -168,3 +179,5 @@
 | 2026-03-03 | screenshot / evidence sync 関連の reference と script を追加 |
 | 2026-04-27 | UT-08 monitoring-alert-design を `spec_created` NON_VISUAL workflow 例として追加 |
 | 2026-05-02 | `lessons-learned/` セクションを resource-map に追加し、shell script + redaction タスク向け lesson を登録 |
+| 2026-05-16 | Issue #718 legacy CF token revocation を契機に `references/closed-issue-canonical-workflow-recovery.md` を新設し supporting guides に登録。あわせて `changelog/20260516-issue718-closed-canonical-recovery-and-governance-yaml.md` を追加（CLOSED Issue で canonical workflow root が欠落していた場合の後付け生成 / `status: consumed` 保全 / governance YAML フロントマター 4 フィールド契約） |
+| 2026-05-18 | `ui-prototype-design-system-foundation/parallel-01-globals-css-rhythm` 知見から `references/patterns-parallel-sub-workflow.md`（root / sub artifacts.json 二重構造、`sub_workflow` フィールド、Phase 11-12 outputs parity、`parallel-NN-*` / `serial-NN-*` 命名、VISUAL_ON_EXECUTION の sub→serial 集約）と `references/patterns-prototype-driven-css.md`（プロトタイプ SSOT 移植 Phase 5 設計、`tokens.css` 色責務 と `globals.css` rhythm 責務の SRP、HEX 直書き禁止と `verify-design-tokens` CI gate）を新設し pattern family に登録 |

@@ -33,7 +33,10 @@ import {
   auditQueryRoute,
   runScheduledSync,
 } from "./sync";
-import { runResponseSync } from "./jobs/sync-forms-responses";
+import {
+  runResponseSync,
+  type ResponseSyncEnv,
+} from "./jobs/sync-forms-responses";
 import {
   resolveRetentionPurgeOptions,
   runRetentionPurge,
@@ -61,8 +64,10 @@ import { createResendSender } from "./services/mail/magic-link-mailer";
 import { createSessionResolveRoute } from "./routes/auth/session-resolve";
 import { createMeSessionResolver } from "./middleware/me-session-resolver";
 import { auditCorrelationRunRoute } from "./routes/audit-correlation";
+import { createAlertRelayRoute } from "./routes/internal/alert-relay";
 import { scheduledAuditCorrelation } from "./audit-correlation/scheduled";
 import type { AuditCorrelationRuntimeEnv } from "./audit-correlation/run-correlation";
+import { runAlertRelayHealthcheck } from "./scheduled/healthcheck";
 
 function timingSafeEqual(a: string, b: string): boolean {
   let mismatch = a.length ^ b.length;
@@ -134,7 +139,16 @@ export const hasNotificationMailConfig = (
   );
 };
 
-function buildFormsClient(env: Env): GoogleFormsClient {
+// ut-17-followup-002: buildFormsClient は admin route の `(env: AdminResponsesSyncEnv) => ...`
+// slot に渡せる必要があるため、Env 全体ではなく ResponseSyncEnv（admin env が継承する型）と
+// Forms 認証に必要な optional fields のみを受け取る narrowed env で定義する。
+interface FormsClientEnv extends ResponseSyncEnv {
+  readonly GOOGLE_SERVICE_ACCOUNT_EMAIL?: string;
+  readonly GOOGLE_PRIVATE_KEY?: string;
+  readonly FORM_ID?: string;
+}
+
+function buildFormsClient(env: FormsClientEnv): GoogleFormsClient {
   if (!env.GOOGLE_SERVICE_ACCOUNT_EMAIL || !env.GOOGLE_PRIVATE_KEY) {
     throw new Error(
       "GOOGLE_SERVICE_ACCOUNT_EMAIL / GOOGLE_PRIVATE_KEY が未設定です",
@@ -264,6 +278,9 @@ app.route("/admin/smoke/observability", createSmokeObservabilityRoute());
 
 // Issue #553 — internal audit-correlation run endpoint (Bearer token authz)
 app.route("/internal/audit-correlation", auditCorrelationRunRoute);
+
+// UT-17 — Cloudflare Notifications generic webhook → Slack 日本語化リレー
+app.route("/internal/alert-relay", createAlertRelayRoute());
 
 app.get("/health", (c) =>
   c.json({
@@ -486,6 +503,7 @@ export default {
           }
         })(),
       );
+      ctx.waitUntil(runAlertRelayHealthcheck(env, event));
       return;
     }
     if (cron === "0 * * * *") {

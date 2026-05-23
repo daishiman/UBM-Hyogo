@@ -1,0 +1,5 @@
+See current git diff for:
+- apps/web/src/features/admin/hooks/useAdminMutation.ts
+- apps/web/src/features/admin/hooks/__tests__/useAdminMutation.spec.ts
+
+Summary: 401 changed to AuthRequiredError with /login?redirect=... redirect DI; non-2xx changed to FetchAuthedError; tests updated for 401 / 403 / 5xx / reset.

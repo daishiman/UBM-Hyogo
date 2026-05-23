@@ -14,7 +14,9 @@ description: |
   reminder Issue 自動起票, post-release observation, scheduled issue automation,
   D+7 / D+30 reminder, idempotent issue creation,
   monthly idempotent PR, [auto-summary] prefix, auto/post-release-30day-summary,
-  closed issue reference, Refs-only pattern
+  closed issue reference, Refs-only pattern,
+  governance drift, branch protection drift, enforce_admins drift, lock_branch drift,
+  required_status_checks drift, separate-PR remediation, O-2 同 PR 修正禁止
   Use when managing GitHub issues, creating issues from task specs, or selecting optimal next task.
 tags:
   - github
@@ -382,6 +384,7 @@ GitHub Issue を自動発行するため、追加 hook 実装は不要。
 | `scheduled-reminder-issue-pattern.md` | GitHub Actions schedule + gh CLI による idempotent reminder Issue 自動起票パターン |
 | `scheduled-pr-idempotency.md` | 月次冪等 scheduled PR 自動化（branch 命名 + title prefix + open PR 検知 silent skip） |
 | `closed-issue-reference-pattern.md`   | CLOSED Issue を `Refs #XXX` のみで後続 PR から参照する正本パターン（`Closes` / `Fixes` 禁止、再オープン禁止） |
+| `governance-drift-issue-template.md`  | branch protection drift（`enforce_admins` / `lock_branch` / `required_status_checks.contexts` 等）検出時の別 Issue 起票テンプレ（同 PR 修正禁止 / O-2 運用ルール正本・stage-3-impl 3c 由来） |
 
 ---
 
