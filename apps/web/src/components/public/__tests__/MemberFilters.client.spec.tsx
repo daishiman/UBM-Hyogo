@@ -65,4 +65,66 @@ describe("MemberFilters", () => {
     fireEvent.click(fooBtn);
     expect(replaceMock).toHaveBeenCalled();
   });
+
+  it("topTags を渡すと TagPicker chip が描画される", () => {
+    const { container } = render(
+      <MemberFilters
+        initial={baseInitial}
+        topTags={[
+          { code: "ai", label: "AI", count: 3 },
+          { code: "design", label: "デザイン", count: 1 },
+        ]}
+      />,
+    );
+    const chips = container.querySelectorAll(
+      '[data-component="tag-picker"] [data-component="tag-pill"]',
+    );
+    expect(chips).toHaveLength(2);
+    fireEvent.click(chips[0] as HTMLElement);
+    const lastCall = replaceMock.mock.calls.at(-1)?.[0] as string;
+    expect(lastCall).toContain("tag=ai");
+  });
+
+  it("選択済みが上限に達すると未選択 chip は aria-disabled で no-op", () => {
+    const { container } = render(
+      <MemberFilters
+        initial={{ ...baseInitial, tag: ["a", "b", "c", "d", "e"] }}
+        topTags={[{ code: "f", label: "F", count: 1 }]}
+      />,
+    );
+    const chip = container.querySelector(
+      '[data-component="tag-picker"] [data-tag-code="f"]',
+    ) as HTMLElement;
+    expect(chip.getAttribute("aria-disabled")).toBe("true");
+    fireEvent.click(chip);
+    expect(replaceMock).not.toHaveBeenCalled();
+    expect(
+      container.querySelector('[data-role="tag-limit-hint"]'),
+    ).toBeTruthy();
+  });
+
+  it("clear-all ボタンで /members に router.replace される", () => {
+    render(
+      <MemberFilters initial={{ ...baseInitial, tag: ["foo"] }} />,
+    );
+    const clearBtn = screen.getByRole("button", { name: "すべてクリア" });
+    fireEvent.click(clearBtn);
+    expect(replaceMock).toHaveBeenCalledWith("/members");
+  });
+
+  it("mobile summary 行 (filters-summary-mobile) が描画され expanded を切替できる", () => {
+    const { container } = render(<MemberFilters initial={baseInitial} />);
+    const summary = container.querySelector(
+      '[data-component="filters-summary-mobile"]',
+    ) as HTMLElement;
+    expect(summary).toBeTruthy();
+    expect(summary.getAttribute("aria-expanded")).toBe("false");
+    const root = container.querySelector(
+      '[data-component="member-filters"]',
+    ) as HTMLElement;
+    expect(root.getAttribute("data-expanded")).toBe("false");
+    fireEvent.click(summary);
+    expect(summary.getAttribute("aria-expanded")).toBe("true");
+    expect(root.getAttribute("data-expanded")).toBe("true");
+  });
 });

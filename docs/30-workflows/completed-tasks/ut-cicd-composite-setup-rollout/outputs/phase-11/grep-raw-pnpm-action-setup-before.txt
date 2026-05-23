@@ -1,0 +1,16 @@
+HEAD:.github/workflows/backend-ci.yml:25:      - uses: pnpm/action-setup@v4
+HEAD:.github/workflows/backend-ci.yml:101:      - uses: pnpm/action-setup@v4
+HEAD:.github/workflows/ci.yml:162:      - uses: pnpm/action-setup@v4
+HEAD:.github/workflows/cloudflare-alerts-drift.yml:39:      - uses: pnpm/action-setup@v4
+HEAD:.github/workflows/cloudflare-alerts-drift.yml:65:      - uses: pnpm/action-setup@v4
+HEAD:.github/workflows/cloudflare-analytics-export.yml:41:        uses: pnpm/action-setup@v4
+HEAD:.github/workflows/d1-migration-verify.yml:20:      - uses: pnpm/action-setup@v4
+HEAD:.github/workflows/lighthouse.yml:19:      - uses: pnpm/action-setup@v4
+HEAD:.github/workflows/post-release-dashboard.yml:39:      - uses: pnpm/action-setup@v4
+HEAD:.github/workflows/validate-build.yml:33:      - uses: pnpm/action-setup@v4
+HEAD:.github/workflows/verify-esbuild.yml:18:      - uses: pnpm/action-setup@v4
+HEAD:.github/workflows/verify-gate-metadata.yml:28:        uses: pnpm/action-setup@v4
+HEAD:.github/workflows/verify-indexes.yml:29:      - uses: pnpm/action-setup@v4
+HEAD:.github/workflows/verify-phase12-compliance.yml:32:      - uses: pnpm/action-setup@v4
+HEAD:.github/workflows/web-cd.yml:26:      - uses: pnpm/action-setup@v4
+HEAD:.github/workflows/web-cd.yml:85:      - uses: pnpm/action-setup@v4

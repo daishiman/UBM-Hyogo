@@ -1,3 +1,4 @@
+// serial-05: /(admin)/admin/members — blueprint 09g:162-280
 // task-15: /admin/members 一覧 (Server) + Client shell
 // 12-search-tags: q / zone / filter / sort / page を URL 正本として扱う。
 // AC-1: profile 本文 input/textarea を出さない（drawer は read-only）

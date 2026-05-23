@@ -1,4 +1,5 @@
 "use client";
+// serial-05: error — blueprint 09h:fallback
 
 import Link from "next/link";
 import { useEffect, useRef } from "react";
@@ -33,7 +34,7 @@ export default function RouteError({ error, reset }: Props) {
   const isDev = process.env.NODE_ENV !== "production";
 
   return (
-    <main className="mx-auto max-w-2xl px-6 py-16">
+    <main className="mx-auto max-w-2xl px-6 py-16" data-route="public" data-section-rhythm="compact">
       <Card role="alert" aria-live="assertive" data-page="error">
         <CardHeader>
           <h1
