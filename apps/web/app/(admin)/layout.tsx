@@ -1,5 +1,7 @@
-// parallel-03 S-02: Admin AppShell。data-theme="cool" / data-shell / data-route 契約。
-// 不変条件 #11 維持: session.isAdmin !== true は redirect（middleware と二段防御）。
+// task-15 W5 / parallel-03 S-02: admin gate + 2 カラム grid + AdminSidebar + Admin AppShell。
+// data-theme="cool" / data-shell / data-route 契約。
+// 不変条件 #11 維持: session.isAdmin !== true は redirect（root proxy.ts と layout 内 auth() の二段防御）。
+// admin 配下に proxy.ts は配置しない（root proxy.ts と layout 内 auth() で完結、Edge cost 削減）。
 import type { ReactNode } from "react";
 import { redirect } from "next/navigation";
 

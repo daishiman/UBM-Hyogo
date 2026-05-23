@@ -1,6 +1,7 @@
 // serial-05: /(admin)/admin/schema — blueprint 09g:521-640
 // 06c: /admin/schema 差分解消画面
 // 不変条件 #14: schema 解消はこの画面のみ
+import Link from "next/link";
 import { fetchAdmin } from "../../../../src/lib/admin/server-fetch";
 import { Breadcrumb } from "@/components/admin/Breadcrumb";
 import { SchemaDiffPanel } from "../../../../src/components/admin/SchemaDiffPanel";
@@ -28,6 +29,9 @@ export default async function AdminSchemaPage() {
   return (
     <>
       <Breadcrumb items={[{ label: "管理", href: "/admin" }, { label: "Form schema" }]} />
+      <nav aria-label="schema sub navigation">
+        <Link href="/admin/schema/history">resolve 履歴を見る</Link>
+      </nav>
       <section aria-labelledby="schema-form-h">
         <h1 id="schema-form-h">Form schema 概要</h1>
         <ul>
