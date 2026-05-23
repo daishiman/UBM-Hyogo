@@ -30,20 +30,8 @@ jobs:
         if: steps.ready.outputs.value == 'false'
         run: echo "::notice::package.json / pnpm-workspace.yaml not found — build validation skipped"
 
-      - uses: pnpm/action-setup@v4
+      - uses: ./.github/actions/setup-project
         if: steps.ready.outputs.value == 'true'
-        with:
-          version: 10.33.2
-
-      - uses: actions/setup-node@v4
-        if: steps.ready.outputs.value == 'true'
-        with:
-          node-version: '24'
-          cache: pnpm
-
-      - name: Install dependencies
-        if: steps.ready.outputs.value == 'true'
-        run: pnpm install --frozen-lockfile
 
       - name: Build
         if: steps.ready.outputs.value == 'true'

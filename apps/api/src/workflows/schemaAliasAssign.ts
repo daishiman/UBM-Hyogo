@@ -114,6 +114,17 @@ const fetchQuestionLabel = async (
   return r?.label ?? null;
 };
 
+const fetchDiffQueueLabel = async (
+  c: DbCtx,
+  diffId: string,
+): Promise<string | null> => {
+  const r = await c.db
+    .prepare("SELECT label FROM schema_diff_queue WHERE diff_id = ?1 LIMIT 1")
+    .bind(diffId)
+    .first<{ label: string }>();
+  return r?.label ?? null;
+};
+
 /**
  * 同 revision_id 内で同 stable_key を持つ別 questionId を列挙する。
  */
@@ -522,11 +533,14 @@ export const schemaAliasAssign = async (
     };
   }
 
+  const diffQueueLabel = input.diffId ? await fetchDiffQueueLabel(c, input.diffId) : null;
+  const questionText =
+    diffQueueLabel ?? (await fetchQuestionLabel(c, input.questionId, question.revision_id));
   const alias = await insertManualAlias(c, {
     revisionId: question.revision_id,
     stableKey: asStableKey(input.stableKey),
     aliasQuestionId: input.questionId,
-    aliasLabel: await fetchQuestionLabel(c, input.questionId, question.revision_id),
+    aliasLabel: questionText,
     resolvedBy: input.actorId,
   });
   if (input.diffId) {
@@ -547,6 +561,7 @@ export const schemaAliasAssign = async (
       stableKey: input.stableKey,
       aliasId: alias.id,
       questionId: input.questionId,
+      questionText,
       diffId: input.diffId ?? null,
       affectedResponseFields: backfilled.result.updated,
     },

@@ -36,14 +36,10 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - uses: pnpm/action-setup@v4
+      - uses: ./.github/actions/setup-project
         with:
-          version: 10.33.2
-
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '24'
-          cache: pnpm
+          install: 'false'
+          cache: ''
 
       - name: Verify analytics token presence
         env:

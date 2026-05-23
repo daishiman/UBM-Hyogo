@@ -27,7 +27,7 @@
 
 `q` に含まれる `%` / `_` / `\` は SQL LIKE のワイルドカードではなく、利用者が入力した文字として扱う。API は `escapeLikePattern` と `LIKE ? ESCAPE '\'` でこの境界を保証する。
 
-`tag` は repeated query parameter として扱い、重複を除き、先頭 5 件まで採用する。複数指定時は AND 条件で検索し、SQL は `HAVING COUNT(DISTINCT td.code) = <tag count>` で全 tag を持つ member だけを返す。Web UI は URL から既存 tag を復元し、選択済み tag の削除と条件クリアを提供する。新規 tag 候補選択 UI は 06a 後続タスクで扱う。
+`tag` は repeated query parameter として扱い、重複を除き、先頭 5 件まで採用する。複数指定時は AND 条件で検索し、SQL は `HAVING COUNT(DISTINCT td.code) = <tag count>` で全 tag を持つ member だけを返す。Web UI は URL から既存 tag を復元し、選択済み tag の削除と条件クリアを提供する。`GET /public/members` は tag 候補 picker 用に `topTags: { code, label, count }[]` を最大 20 件返し、`/members` はこの候補を chip として表示する。5 件選択済みのとき未選択 chip は disabled 相当になり、上限 hint を表示する。
 
 ### Query parameter contract（08a-B）
 

@@ -60,10 +60,66 @@ describe("viewmodel parsers — 10 種 (AC-4 / 不変条件 #1)", () => {
         sort: "recent",
         density: "comfy",
       },
+      topTags: [],
       generatedAt: "2026-04-27T00:00:00Z",
       extra: "nope",
     });
     expect(result.success).toBe(false);
+  });
+
+  it("PublicMemberListView accepts topTags entries", () => {
+    const ok = PublicMemberListViewZ.safeParse({
+      items: [],
+      pagination: {
+        total: 0,
+        page: 1,
+        limit: 24,
+        totalPages: 0,
+        hasNext: false,
+        hasPrev: false,
+      },
+      appliedQuery: {
+        q: "",
+        zone: "all",
+        status: "all",
+        tags: [],
+        sort: "recent",
+        density: "comfy",
+      },
+      topTags: [
+        { code: "ai", label: "AI", count: 3 },
+        { code: "design", label: "デザイン", count: 1 },
+      ],
+      generatedAt: "2026-04-27T00:00:00Z",
+    });
+    expect(ok.success).toBe(true);
+
+    const tooMany = PublicMemberListViewZ.safeParse({
+      items: [],
+      pagination: {
+        total: 0,
+        page: 1,
+        limit: 24,
+        totalPages: 0,
+        hasNext: false,
+        hasPrev: false,
+      },
+      appliedQuery: {
+        q: "",
+        zone: "all",
+        status: "all",
+        tags: [],
+        sort: "recent",
+        density: "comfy",
+      },
+      topTags: Array.from({ length: 21 }, (_, i) => ({
+        code: `t${i}`,
+        label: `t${i}`,
+        count: i,
+      })),
+      generatedAt: "2026-04-27T00:00:00Z",
+    });
+    expect(tooMany.success).toBe(false);
   });
 
   it("PublicMemberProfile parses minimal valid", () => {

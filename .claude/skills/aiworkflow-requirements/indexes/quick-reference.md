@@ -13,6 +13,46 @@
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-55-notification-channel-and-optout-artifact-inventory.md` |
 | user gate | production D1 migration apply, staging/runtime evidence, commit, push, PR |
 
+## ut-cicd-composite-setup-rollout（2026-05-22）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow | `docs/30-workflows/ut-cicd-composite-setup-rollout/` |
+| status | `implemented_local_evidence_captured / implementation / NON_VISUAL / implementation_complete_pending_pr` |
+| purpose | Issue #284 の raw `actions/setup-node@v4` + `pnpm/action-setup@v4` workflow steps を existing `.github/actions/setup-project` composite action へ rollout |
+| implementation | `.github/workflows/*.yml` 13 files; direct setup action grep after = 0 |
+| exceptions | `web-cd.yml` uses `setup-strategy: mise`; `post-release-dashboard.yml` uses `install: 'false'` + `cache: ''` |
+| Phase 12 | strict 7 files present under `outputs/phase-12/` |
+| boundary | commit, push, PR, remote GitHub Actions green evidence, Issue #284 mutation are user-gated |
+
+## Issue #276 mobile FilterBar tag picker（2026-05-20）
+## Issue #277 Next.js proxy migration（2026-05-20）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/issue-277-next-proxy-migration/` |
+| 状態 | `implemented_local / implementation / NON_VISUAL / runtime_evidence_pending` |
+| issue | #277 OPEN。PR 文脈は `Refs #277` のみ。Issue close は PR merge 後 user-gated |
+| scope | `apps/web/middleware.ts` → `apps/web/proxy.ts` rename、export `middleware` → `proxy`、admin/profile gate parity |
+| tests | `apps/web/__tests__/proxy.spec.ts` with `signSessionJwt`; AC-1〜AC-7 mandatory, no `it.todo` |
+| evidence | `outputs/phase-12/phase12-task-spec-compliance-check.md`; local implementation present, Phase 11 dev-server runtime smoke pending |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-277-next-proxy-migration-artifact-inventory.md` |
+| user gate | dev-server manual smoke, commit, push, PR, issue close |
+
+## Issue #806 dynamic member OG image（2026-05-20）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/issue-806-dynamic-member-og-image/` |
+| 状態 | `implemented-local / implementation / VISUAL / local-evidence-captured` |
+| issue | #806 CLOSED; PR should use `Refs #806`; commit / push / PR / Issue mutation are user-gated |
+| parent | `docs/30-workflows/completed-tasks/issue-274-public-pages-ogp-sitemap-robots/` |
+| scope | `/members/[id]/opengraph-image` dynamic member OG image, member detail `og:image` / `twitter:image`, unit + Playwright coverage |
+| key contract | Next.js 16 App Router `params: Promise<{ id: string }>`; public profile privacy is API-owned by `apps/api/src/routes/public/member-profile.ts` and `apps/api/src/use-cases/public/get-public-member-profile.ts` |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-806-dynamic-member-og-image-artifact-inventory.md` |
+| evidence boundary | Phase 12 strict 7 present; focused unit/Playwright and Phase 11 screenshot evidence captured; commit / push / PR / deploy verification user-gated |
+
+## Issue #799 useAutoFocusOnMount hook（2026-05-19）
 ## step-06 meetings attendance implementation（2026-05-20）
 ## Issue #778 Schema Alias Rollback / Undo（2026-05-19）
 
@@ -75,13 +115,18 @@
 
 | 項目 | 値 |
 | --- | --- |
-| workflow | `docs/30-workflows/completed-tasks/issue-775-serial-05-step-03-runtime-evidence-completion/` |
-| parent | `docs/30-workflows/completed-tasks/serial-05-step-03-schema-diff-resolve/` |
-| status | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION / refs_only` |
-| implementation | `apps/web/playwright.admin-schema-diff.config.ts`, `apps/web/playwright/tests/visual/admin-schema-diff.spec.ts`, optional future real-D1 `scripts/fixtures/serial-05-step-03/seed-{diff,cleanup}.sql` |
-| evidence | parent `outputs/phase-11/screenshots/` 11 fixture-backed local runtime PNG + `outputs/phase-11/evidence/playwright.log` (`11 passed / 3 skipped`) |
-| boundary | production app/API files frozen; real D1/staging smoke user-gated; Issue #775 remains closed and PR text must use `Refs #775` only |
-| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-775-serial-05-step-03-runtime-evidence-completion-artifact-inventory.md` |
+| workflow | `docs/30-workflows/issue-276-mobile-filterbar-tag-picker/` |
+| status | `implemented_local_runtime_pending / implementation / VISUAL / implementation_complete_pending_pr` |
+| issue | #276 OPEN |
+| source trace | `docs/30-workflows/unassigned-task/task-06a-followup-003-mobile-filterbar-tag-picker.md` canonical_root_created |
+| purpose | `/members` に tag candidate chip picker、mobile sticky/collapsible summary、clear-all、5-tag limit hint を追加する実装 |
+| API boundary | existing `GET /public/members` response extension with `topTags`; no new endpoint |
+| implementation | `packages/shared/src/zod/viewmodel.ts`, public members API/view model, `MemberFilters.client.tsx`, `FiltersSummaryMobile.client.tsx`, `TagPicker.client.tsx`, public members page, focused Vitest and Playwright mobile spec |
+| evidence | `outputs/phase-11/evidence/*.png`, `outputs/phase-11/test-report.md`, `outputs/phase-12/phase12-task-spec-compliance-check.md` |
+| system specs | `docs/00-getting-started-manual/specs/01-api-schema.md`, `09-ui-ux.md`, `09e-screen-blueprints-public.md`, `12-search-tags.md` |
+| lessons-learned | `.claude/skills/aiworkflow-requirements/references/lessons-learned-issue-276-mobile-filterbar-tag-picker-2026-05.md`（L-I276-001..007） |
+| pattern reference | `.claude/skills/task-specification-creator/references/patterns-mobile-ui-primitive-3point-sync.md`（filter / picker primitive 追加時に複製） |
+| boundary | commit, push, PR, Issue mutation, and external deployment are pending user approval |
 
 ## Issue #799 useAutoFocusOnMount hook（2026-05-19）
 
@@ -117,6 +162,22 @@
 | inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-274-public-pages-ogp-sitemap-robots-artifact-inventory.md` |
 | lessons | `.claude/skills/aiworkflow-requirements/references/lessons-learned-issue-274-public-pages-ogp-sitemap-robots-2026-05.md`（L-274-001..006: site URL SSOT / sitemap degraded mode / robots env-branch / OG edge runtime / consumed trace / issue-NNN namespace 規約） |
 | user gate | implementation, runtime evidence, commit, push, PR |
+
+## Issue #777 Schema Diff Resolve History View（2026-05-20）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-777-schema-diff-resolve-history-view/` |
+| 状態 | `CONTRACT_READY_IMPLEMENTATION_PENDING / implementation / VISUAL / Phase 12 strict 7 present` |
+| source issue | #777 OPEN |
+| source task | `docs/30-workflows/unassigned-task/serial-05-step-03-followup-003-schema-diff-history-view.md` consumed |
+| parent | `docs/30-workflows/completed-tasks/serial-05-step-03-schema-diff-resolve/` |
+| API boundary | existing `/admin/audit?action=schema_diff.alias_assigned`; no new endpoint by default |
+| implementation targets | `apps/web/src/components/admin/SchemaDiffHistoryPanel.tsx`, `apps/web/app/(admin)/admin/schema/history/page.tsx`, `apps/web/src/lib/admin/api.ts` |
+| same-wave hardening | `schemaAliasAssign` audit payload now includes `questionText` for future history UI |
+| evidence | `outputs/phase-12/phase12-task-spec-compliance-check.md`; implementation/runtime evidence pending |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-777-schema-diff-resolve-history-view-artifact-inventory.md` |
+| user gate | UI implementation, authenticated admin screenshot, staging smoke, commit, push, PR |
 
 ## Issue #256 E2E coverage baseline runbook（2026-05-18）
 
@@ -171,6 +232,20 @@
 > 詳細は resource-map.md → 該当ファイル を参照
 
 ---
+
+### Issue #520 Slack Incident Channel Webhook Provisioning（2026-05-07）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/issue-520-slack-incidents-channel-webhook-provisioning/` |
+| 状態 | `implemented-local / implementation / NON_VISUAL / PASS_BOUNDARY_SYNCED_RUNTIME_PENDING` |
+| channel SSOT | `#ubm-hyogo-incidents` |
+| secret SSOT | `SLACK_WEBHOOK_INCIDENT` |
+| 1Password 正本 | `op://UBM-Hyogo/Slack Incident Webhook (<env>)/url` |
+| runbook | `docs/30-workflows/runbooks/slack-incidents-channel-provisioning.md` |
+| redaction gate | `bash scripts/redaction-grep.sh .` |
+| blocks | Issue #495 Phase 11 runtime smoke / 09c production readiness observability gate |
+| boundary | Slack / 1Password / Cloudflare / GitHub / smoke / commit / push / PR は user approval 後のみ |
 
 ### parallel-04 Shared Page Chrome（2026-05-19）
 
@@ -329,11 +404,21 @@
 | 目的 | 参照先 |
 | --- | --- |
 | workflow root | `docs/30-workflows/ui-prototype-design-system-foundation/` |
+| 状態 | `CONTRACT_READY_IMPLEMENTATION_PENDING / implementation / VISUAL` |
+| 状態 | `implemented_local_evidence_captured / implementation / VISUAL_RUNTIME_PENDING` |
+| 状態 | `spec_created / implementation / VISUAL`（parallel-01 は `runtime_pending`: local CSS selectors added, serial-07 visual evidence pending） |
+| 状態 | `spec_created / implementation / VISUAL`（parallel-01 は `runtime_pending`: local CSS selectors added, serial-07 visual evidence pending） |
 | 状態 | `spec_created / implementation / VISUAL` |
 | prototype coverage SSOT | `docs/30-workflows/ui-prototype-design-system-foundation/PROTOTYPE-COVERAGE.md` |
 | strict Phase 12 | `outputs/phase-12/{main.md,implementation-guide.md,system-spec-update-summary.md,documentation-changelog.md,unassigned-task-detection.md,skill-feedback-report.md,phase12-task-spec-compliance-check.md}` |
 | source inventory | `claude-design-prototype/{app.jsx,data.jsx,icons.jsx,index.html,pages-admin.jsx,pages-member.jsx,pages-public.jsx,primitives.jsx,styles.css}` + `specs/09a..09h` |
 | current app path rule | `apps/web/app/**` is canonical; `/login`, `/profile`, `/privacy`, `/terms` remain root app paths |
+| implementation boundary | no new API endpoint / D1 schema / Google Form change; minimal `apps/web` AppShell / selector hooks and parallel-02 G3 CSS marker blocks added; full 19-route binding and visual evidence remain user-gated work |
+| parallel-02 close-out | `apps/web/src/styles/globals.css` G3-1/2/3 markers + `MemberFilters.client.tsx` tag-pill data-component + visual harness + Playwright spec; Phase 11 9 screenshot + 5 log present, strict 7 outputs aggregated at parent root |
+| follow-up unassigned | `docs/30-workflows/unassigned-task/UT-DSF-01..07-*.md`（globals-css / AppShell / page-chrome / route blueprint / form binding / regression evidence / runtime screenshots） |
+| lessons learned | `.claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-parallel-02-prototype-css-rules-port-2026-05.md`（L-P02-001..007） |
+| implementation boundary | no new API endpoint / D1 schema / Google Form change; minimal `apps/web` AppShell / selector hooks and parallel-01 P1-1〜P1-5 CSS selectors added; full 19-route binding and visual evidence remain user-gated work |
+| implementation boundary | no new API endpoint / D1 schema / Google Form change; minimal `apps/web` AppShell / selector hooks and parallel-01 P1-1〜P1-5 CSS selectors added; full 19-route binding and visual evidence remain user-gated work |
 | implementation boundary | no new API endpoint / D1 schema / Google Form change; minimal `apps/web` AppShell / selector hooks added; full 19-route binding and visual evidence remain user-gated work |
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-ui-prototype-design-system-foundation-artifact-inventory.md` |
 | sub-workflow parallel-03 AppShell Layouts（2026-05-19） | `docs/30-workflows/ui-prototype-design-system-foundation/parallel-03-appshell-layouts/`、status `implemented_local_evidence_captured / implementation / VISUAL (public chrome only; admin/member deferred-to-serial-07)`、`implementation_mode: existing-layout-alignment`、3 layout (`apps/web/app/(public\|member\|admin)/layout.tsx`) に `data-theme` / `data-route-group` / `data-shell` / `data-route` / `data-testid` を付与、OKLch token (`var(--ubm-color-*)`) 経由のみ、既存 primitive 無改変、admin は `getSession()` 2 段防御 + redirect 維持、Phase 11 evidence は `outputs/phase-11/`、lessons-learned `.claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-parallel-03-appshell-layouts-2026-05.md` (L-PAR03-001..005) |
@@ -422,7 +507,7 @@
 
 | 目的 | 参照先 |
 | --- | --- |
-| workflow root | `docs/30-workflows/serial-05-step-03-schema-diff-resolve/` |
+| workflow root | `docs/30-workflows/completed-tasks/serial-05-step-03-schema-diff-resolve/` |
 | 状態 | `implemented-local-runtime-pending / implementation / VISUAL / PASS_BOUNDARY_SYNCED_RUNTIME_PENDING` |
 | scope | 既存 `SchemaDiffPanel` の stableKey validation / table semantics / focus / error payload / status label hardening |
 | implementation | `apps/web/src/components/admin/SchemaDiffPanel.tsx`, `apps/web/src/lib/admin/api.ts` |
@@ -746,16 +831,6 @@
 | failure cascade guard | 通知 step は `if: ${{ failure() && hashFiles('<artifact>') != '' }}` で前提 artifact を guard する（`deployment-gha.md`） |
 | Environment secret 0 件問題 | smoke 起動前に `bash scripts/smoke/provision-staging-secrets.sh` + name-only inventory を必須化（`deployment-secrets-management.md`） |
 | lessons-learned | `references/lessons-learned-ci-pipeline-recovery-2026-05.md`（L-CIPR-001〜006） |
-
-### Issue #765 1Password Vault Restructure（2026-05-18）
-
-| 目的 | 参照先 |
-| --- | --- |
-| workflow root | `docs/30-workflows/issue-765-1p-vault-restructure-oidc-cutover/` |
-| 状態 | `spec_created_blocked_by_oidc_support / implementation / NON_VISUAL` |
-| deploy token canonical candidates | `op://UBM-Hyogo/Cloudflare/api_token_staging` / `op://UBM-Hyogo/Cloudflare/api_token_production` |
-| boundary | OIDC supported deploy path / production cutover evidence が揃うまで Phase 11 mutation は blocked |
-| user gate | 1Password archive, `bash scripts/cf.sh whoami`, commit, push, PR, Gate B' physical delete |
 
 ### E2E quality uplift Stage 2 / 2a admin requests（2026-05-09）
 
@@ -1889,7 +1964,7 @@ Magic Link メール送信の env 名を、実装と aiworkflow 正本に合わ�
 | 実装ガイド | `docs/30-workflows/06b-parallel-member-login-and-profile-pages/outputs/phase-12/implementation-guide.md` |
 | login UI | `apps/web/app/login/` |
 | profile UI | `apps/web/app/profile/` |
-| middleware | `apps/web/middleware.ts`（`/profile/:path*` session gate） |
+| proxy | `apps/web/proxy.ts`（`/profile/:path*` session gate; Issue #277 migrated from legacy `middleware.ts`） |
 | URL helpers | `apps/web/src/lib/url/{login-query,login-redirect,login-state,safe-redirect}.ts` |
 | API clients | `apps/web/src/lib/fetch/authed.ts`, `apps/web/src/lib/auth/{magic-link-client,oauth-client}.ts` |
 | Phase 11 evidence | `docs/30-workflows/06b-parallel-member-login-and-profile-pages/outputs/phase-11/evidence/` |
@@ -2857,6 +2932,19 @@ packages/
 | test | `apps/web/src/features/admin/components/_dashboard/StatusDistribution.spec.tsx` |
 | contract | `GET /admin/dashboard` returns optional `byStatus`; populated 時は SVG bar chart + chip list、legacy/未提供時は existing placeholder |
 | boundary | authenticated runtime screenshots / commit / push / PR are user-gated |
+
+### issue-819 admin dashboard runtime screenshot（2026-05-20）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/issue-819-admin-dashboard-runtime-screenshot/` |
+| state | `spec_created / implementation / VISUAL_ON_EXECUTION / runtime_pending` |
+| source issue | `#819` closed 維持。PR 文脈は `Refs #819` のみ |
+| source unassigned | `docs/30-workflows/unassigned-task/step-05-followup-001-admin-dashboard-runtime-screenshot-capture.md` |
+| purpose | step-05 の dummy 16x16 PNG 2 件を authenticated admin runtime screenshot に置換し、親 workflow evidence を `runtime_completed` に進める |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-819-admin-dashboard-runtime-screenshot-artifact-inventory.md` |
+| lessons-learned | `.claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-runtime-screenshot-evidence-replacement-2026-05.md`（L-RSE-001..005） |
+| boundary | screenshot capture / parent PNG replacement / source consumed update / commit / push / PR are user-gated |
 
 ### UBM-Hyogo Admin UI 早見（06c / 2026-04-29）
 

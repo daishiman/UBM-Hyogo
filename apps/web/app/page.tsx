@@ -1,3 +1,4 @@
+// serial-05: / — blueprint 09e:67-160
 // task-11: 公開トップ。Hero / Stats / ZoneIntro / Timeline + 任意の MemberGrid (recent 6)。
 // 不変条件 #5 (D1 直接アクセス禁止): 全データは /public API 経由。
 // revalidate: stats=60s, members=30s。
@@ -45,7 +46,7 @@ export default async function HomePage() {
   return (
     <>
       <PublicHeader />
-      <main data-page="home">
+      <main data-page="home" data-route="public" data-section-rhythm="comfortable">
         <Hero
           eyebrow="UBM 兵庫支部会"
           title="兵庫から、ゆるやかに事業を伸ばす"

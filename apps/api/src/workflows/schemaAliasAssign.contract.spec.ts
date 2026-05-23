@@ -115,9 +115,14 @@ describe("schemaAliasAssign", () => {
     expect(d?.status).toBe("resolved");
 
     const a = await env.db
-      .prepare("SELECT count(*) AS c FROM audit_log WHERE action = 'schema_diff.alias_assigned'")
-      .first<{ c: number }>();
+      .prepare("SELECT count(*) AS c, after_json AS afterJson FROM audit_log WHERE action = 'schema_diff.alias_assigned'")
+      .first<{ c: number; afterJson: string }>();
     expect(a?.c).toBe(1);
+    expect(JSON.parse(a?.afterJson ?? "{}")).toMatchObject({
+      stableKey: "full_name",
+      questionId: "q1",
+      questionText: "Full name",
+    });
   });
 
   it("dryRun_no_write", async () => {

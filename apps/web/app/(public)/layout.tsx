@@ -19,7 +19,7 @@ export default function PublicLayout({
       <header data-shell="topbar">
         <PublicHeader />
       </header>
-      <main data-route="public">{children}</main>
+      <main data-route="public" data-section-rhythm="comfortable">{children}</main>
       <footer data-shell="footer">
         <PublicFooter />
       </footer>

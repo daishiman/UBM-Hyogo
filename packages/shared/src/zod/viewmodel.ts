@@ -143,6 +143,15 @@ export const PublicMemberListViewZ = z
       sort: z.enum(["recent", "name"]),
       density: z.enum(["comfy", "dense", "list"]),
     }),
+    topTags: z
+      .array(
+        z.object({
+          code: z.string().min(1),
+          label: z.string(),
+          count: z.number().int().nonnegative(),
+        }),
+      )
+      .max(20),
     generatedAt: Iso8601Z,
   })
   .strict();

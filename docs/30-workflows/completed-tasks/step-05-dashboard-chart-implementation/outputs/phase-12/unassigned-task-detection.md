@@ -13,3 +13,9 @@ API `byStatus` producer was initially a source-spec boundary, but the review cyc
 ## 配置
 
 No physical unassigned task file is created in this cycle. Runtime authenticated screenshot capture and PR publication remain user-gated, not backlog items.
+
+## Consumed Followups
+
+| Followup ID | Consumed Date | Canonical Workflow |
+| --- | --- | --- |
+| step-05-followup-001-admin-dashboard-runtime-screenshot-capture | 2026-05-20 | `docs/30-workflows/issue-819-admin-dashboard-runtime-screenshot/` |
