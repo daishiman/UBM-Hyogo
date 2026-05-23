@@ -14,6 +14,19 @@
 | inventory | `.claude/skills/aiworkflow-requirements/references/workflow-fix-admin-server-components-render-error-stg-artifact-inventory.md` |
 | boundary | staging deploy, authenticated `/admin` curl, backend-ci rerun, commit, push, PR are user-gated |
 
+## ci-green-recovery-smoke-coverage-shard（2026-05-23）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/ci-green-recovery-smoke-coverage-shard/` |
+| status | `implemented_local_evidence_captured / implementation / NON_VISUAL / runtime_ci_pending` |
+| purpose | 3 CI failures (`runtime-smoke-staging` admin 401, aggregate `coverage-gate` MISSING, `coverage-gate-shard` checkout auth) を 1 implementation cycle で解消する実装 |
+| Lane A | CI-time short-lived JWT mint with `signSessionJwt`, replacing static 24h staging bearer expiry |
+| Lane B/C | fail aggregate coverage on upstream shard failure before MISSING, plus `contents: read` / explicit checkout token hardening |
+| Phase 12 | strict 7 files present; root/output `artifacts.json` parity present |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-ci-green-recovery-smoke-coverage-shard-artifact-inventory.md` |
+| boundary | code/CI changes and runbook edit are implemented with local evidence; staging secrets, runtime CI evidence, commit, push, PR are user-gated |
+
 ## admin-ui-prototype-alignment（2026-05-23）
 
 | 目的 | 参照先 |
