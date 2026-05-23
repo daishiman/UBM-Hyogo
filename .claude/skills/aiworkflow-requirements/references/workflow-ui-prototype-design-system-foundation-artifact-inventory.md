@@ -69,7 +69,7 @@ and keep the current `apps/web/app/**` paths, including root app paths for
 | item | value |
 |------|-------|
 | sub-workflow | `docs/30-workflows/ui-prototype-design-system-foundation/parallel-03-appshell-layouts/` |
-| status | `implemented_local_evidence_captured / implementation / VISUAL (public chrome only; admin/member deferred-to-serial-07)` |
+| status | `implemented_local_evidence_captured / implementation / VISUAL (public screenshot + admin DOM scrape present; member DOM / full chrome screenshots delegated)` |
 | implementation_mode | `existing-layout-alignment`（既存 layout に data-* 契約と shell chrome を機械的に当てる mode。新規 primitive / API / D1 schema 追加なし） |
 | edited files | `apps/web/app/(public)/layout.tsx`, `apps/web/app/(admin)/layout.tsx`, `apps/web/app/(member)/layout.tsx` |
 | added specs | `apps/web/app/(public)/layout.spec.tsx`, `apps/web/app/(member)/layout.spec.tsx`, `apps/web/app/(admin)/layout.spec.tsx` |
@@ -77,11 +77,11 @@ and keep the current `apps/web/app/**` paths, including root app paths for
 | color tokens | OKLch tokens via `var(--ubm-color-*)` 経由のみ。HEX 直書きなし（`hex-scan.log` no matches） |
 | primitive preservation | `PublicHeader` / `PublicFooter` / `AdminSidebar` / `MemberHeader` / `SignOutButton` 全て props / signature 無改変 |
 | admin auth defense | `getSession()` ベースで 2 段 redirect（未認証 → `/login?next=/admin`、non-admin → `/login?gate=forbidden`）を維持。Server Component (async) + `next/navigation` redirect で test し、`vi.mock('next/navigation')` の `redirect` throw + `RedirectError` で分岐検証 |
-| visual evidence boundary | public shell の実 screenshot を本 sub-workflow で取得、admin/member full chrome は親 workflow `serial-07-regression-evidence/` に `deferred-to-serial-07` ラベルで委譲 |
-| Phase 11 evidence | `outputs/phase-11/{evidence-inventory.md, screenshot-coverage.md, screenshots/, typecheck.log, lint.log, verify-design-tokens.log, hex-scan.log, layout-specs.log, admin-layout-spec.log, web-build.log, dom-scrape-public.txt, diff-stat.txt, verify-test-suffix.log}` |
+| visual evidence boundary | public shell の実 screenshot と admin runtime DOM scrape (EV-12) を取得済み。admin/member full chrome screenshot は親 workflow `serial-07-regression-evidence/` に `deferred-to-serial-07` ラベルで委譲 |
+| Phase 11 evidence | `outputs/phase-11/{evidence-inventory.md, screenshot-coverage.md, screenshots/, typecheck.log, lint.log, verify-design-tokens.log, hex-scan.log, layout-specs.log, admin-layout-spec.log, web-build.log, dom-scrape-public.txt, dom-scrape-admin.txt, diff-stat.txt, verify-test-suffix.log}` |
 | Phase 12 evidence | parent root `outputs/phase-12/` に strict 7 集約。sub-workflow 側は Phase 11 evidence と root `phase-12-compliance-check.md` のみ保持 |
 | DoD trace | DoD-01..10 すべて充足（既存 primitive 無改変 / data-* 契約 / OKLch only / spec coverage / axe critical 0 / typecheck / lint / token gate / hex scan / build） |
-| out-of-scope | `/privacy` / `/terms` / `/profile` の route group 再配置は serial-05、admin/member runtime full chrome screenshot は serial-07 |
+| out-of-scope | `/privacy` / `/terms` / `/profile` の route group 再配置と member DOM scrape は serial-05、admin/member runtime full chrome screenshot は serial-07 |
 | user gate | commit / push / PR / serial-07 visual evidence capture |
 
 
