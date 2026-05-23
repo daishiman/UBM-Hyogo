@@ -8,15 +8,16 @@
 | タスク名 | SA Service Account key 定期ローテーション運用 SOP |
 | 優先度 | HIGH |
 | 推奨Wave | Wave 2（UT-25 完了後） |
-| 状態 | unassigned |
+| 状態 | consumed |
 | 作成日 | 2026-04-29 |
 | 既存タスク組み込み | なし（UT-25 は初回配置のみ、本タスクは継続運用 SOP の策定） |
 | 組み込み先 | - |
 | 検出元 | UT-25 Phase 11 `outputs/phase-11/main.md` §保証できない範囲 / Phase 12 `outputs/phase-12/unassigned-task-detection.md` UT-25-DERIV-01 |
+| 正本ワークフロー | `docs/30-workflows/ut-25-deriv-01-sa-key-rotation-sop/` |
 
 ## 目的
 
-UT-25 で本番配置した Google Service Account JSON key（`GOOGLE_SERVICE_ACCOUNT_JSON`）を、定期的に無停止でローテーションする運用 SOP を策定する。UT-25 のスコープでは初回配置までを runbook 化したが、key 漏洩リスク低減と Google IAM ベストプラクティス遵守のためには定期ローテーション（90 日 / 半年など）の標準作業手順が必要であり、本タスクとして分離された。新 key 発行・1Password 反映・Cloudflare Secrets 上書き・旧 key 失効猶予期間管理・無停止性確認・rollback の一連を SOP 文書として `doc/00-getting-started-manual/runbooks/` 配下に整備することがゴール。
+UT-25 で本番配置した Google Service Account JSON key（`GOOGLE_SERVICE_ACCOUNT_JSON`）を、定期的に無停止でローテーションする運用 SOP を策定する。UT-25 のスコープでは初回配置までを runbook 化したが、key 漏洩リスク低減と Google IAM ベストプラクティス遵守のためには定期ローテーション（90 日 / 半年など）の標準作業手順が必要であり、本タスクとして分離された。新 key 発行・1Password 反映・Cloudflare Secrets 上書き・旧 key 失効猶予期間管理・無停止性確認・rollback の一連を SOP 文書として `docs/30-workflows/runbooks/` 配下に整備することがゴール。
 
 ## スコープ
 
@@ -92,7 +93,7 @@ Cloudflare Secrets はセキュリティ仕様で配置後の値読み取りが�
 
 ## 完了条件
 
-- [ ] SOP 文書が `doc/00-getting-started-manual/runbooks/sa-key-rotation-sop.md` として確定している
+- [ ] SOP 文書が `docs/30-workflows/runbooks/sa-key-rotation-sop.md` として確定している
 - [ ] ローテーション頻度（90 日 / 180 日のいずれか）が採用根拠付きで明記されている
 - [ ] staging → production の上書き順序が固定されている
 - [ ] `bash scripts/cf.sh secret put` が stdin 経由のみであることと `HISTFILE=/dev/null` 併用が明記されている
@@ -108,7 +109,7 @@ Cloudflare Secrets はセキュリティ仕様で配置後の値読み取りが�
 | --- | --- | --- |
 | 必須 | docs/30-workflows/unassigned-task/UT-25-cloudflare-secrets-sa-json-deploy.md | 初回配置タスク仕様（前提） |
 | 必須 | docs/30-workflows/ut-25-cloudflare-secrets-production-deploy/outputs/phase-11/main.md | §保証できない範囲（検出元） |
-| 必須 | docs/30-workflows/ut-25-cloudflare-secrets-production-deploy/outputs/phase-12/unassigned-task-detection.md | UT-25-DERIV-01 検出記録 |
+| 必須 | docs/30-workflows/completed-tasks/ut-25-cloudflare-secrets-production-deploy/outputs/phase-12/unassigned-task-detection.md | UT-25-DERIV-01 検出記録 |
 | 必須 | .claude/skills/aiworkflow-requirements/references/deployment-secrets-management.md | Cloudflare Secrets 配置方針との整合性 |
 | 参考 | .claude/skills/aiworkflow-requirements/references/deployment-cloudflare.md | Cloudflare Workers デプロイ運用方針 |
 | 参考 | .claude/skills/aiworkflow-requirements/references/environment-variables.md | `.dev.vars` および環境変数管理方針 |
