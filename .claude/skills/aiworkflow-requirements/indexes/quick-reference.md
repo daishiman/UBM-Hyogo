@@ -14,6 +14,21 @@
 | inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-832-admin-topbar-primitive-extraction-artifact-inventory.md` |
 | boundary | authenticated screenshot / commit / push / PR は user-gated |
 
+## step-07 requests approve/reject implementation（2026-05-23）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/step-07-requests-approve-reject/` |
+| status | `implemented_local_evidence_captured / implementation / NON_VISUAL / Phase 12 strict 7 present` |
+| parent spec | `docs/30-workflows/ui-prototype-alignment-mvp-recovery/improvements/serial-05-admin-mutation-ui/step-07-requests-approve-reject/spec.md` |
+| purpose | `/admin/requests` の `visibility_request` / `delete_request` approve/reject を二段階確認 UI と 409 conflict refresh で実装するための Phase 1-13 仕様 |
+| local implementation | `apps/web/src/components/admin/RequestQueuePanel.tsx`, `RequestQueueDetail.tsx`, `RequestConfirmDialog.tsx`, focused `*.spec.tsx` |
+| API boundary | existing `POST /admin/requests/:noteId/resolve`; no D1 schema or endpoint change |
+| Phase 12 | `outputs/phase-12/phase12-task-spec-compliance-check.md` + strict 7 files present |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-step-07-requests-approve-reject-artifact-inventory.md` |
+| lessons | `.claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-step-07-requests-approve-reject-2026-05.md` |
+| user gate | authenticated runtime/staging evidence, commit, push, PR |
+
 ## ut-cicd-composite-setup-rollout（2026-05-22）
 
 | 項目 | 値 |
@@ -52,6 +67,19 @@
 | key contract | Next.js 16 App Router `params: Promise<{ id: string }>`; public profile privacy is API-owned by `apps/api/src/routes/public/member-profile.ts` and `apps/api/src/use-cases/public/get-public-member-profile.ts` |
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-806-dynamic-member-og-image-artifact-inventory.md` |
 | evidence boundary | Phase 12 strict 7 present; focused unit/Playwright and Phase 11 screenshot evidence captured; commit / push / PR / deploy verification user-gated |
+
+## fix-verify-design-tokens-og-route-exclude（2026-05-23）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/fix-verify-design-tokens-og-route-exclude/` |
+| 状態 | `implemented-local / implementation / NON_VISUAL / local-evidence-captured` |
+| upstream | Issue #806 dynamic member OG image; task-18 `verify-design-tokens` gate |
+| scope | `scripts/verify-design-tokens.ts` route handler convention exclude for `opengraph-image/route.tsx`, `twitter-image/route.tsx`, `icon/route.tsx`, `apple-icon/route.tsx` |
+| tests | `scripts/verify-design-tokens.spec.ts` C-EX-1..6 plus existing C1..7 |
+| evidence | `outputs/phase-11/verify-tokens-local.txt`, `vitest-verify-design-tokens.txt`, `drift-canary-fail.txt`, `canary-non-og-route.txt` |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-fix-verify-design-tokens-og-route-exclude-artifact-inventory.md` |
+| user gate | commit, push, PR, GitHub Actions PR checks |
 
 ## Issue #799 useAutoFocusOnMount hook（2026-05-19）
 ## step-06 meetings attendance implementation（2026-05-20）
@@ -3329,3 +3357,12 @@ UT-17 Cloudflare Notifications → alert-relay → Slack 経路を、既存 API 
 | evidence boundary | local env test / grep / build smoke は PASS。`web-cd / deploy-staging`、`backend-ci / deploy-staging`、staging HTTP 200 は dev push 後の runtime_pending |
 | artifact inventory | `references/workflow-ci-staging-deploy-failure-fix-artifact-inventory.md` |
 | user gate | Cloudflare token creation, 1Password update, `gh secret set`, commit, push, PR, dev push runtime evidence |
+### UT-25-DERIV-01 SA Key Rotation SOP（2026-05-22）
+
+| リソース | 役割 | 読み込み条件 |
+| --- | --- | --- |
+| `docs/30-workflows/completed-tasks/ut-25-deriv-01-sa-key-rotation-sop/` | `GOOGLE_SERVICE_ACCOUNT_JSON` 90 日 rotation SOP/helper workflow | SA key rotation 手順・Phase 11/12 evidence 確認時 |
+| `scripts/cf-rotate-sa-key.sh` | stdin-only Cloudflare Secret rotation helper | staging→production guard / dry-run / fingerprint helper を確認する時 |
+| `docs/30-workflows/runbooks/sa-key-rotation-sop.md` | Operator SOP | 実 rotation 前の手順確認時 |
+| `references/workflow-ut-25-deriv-01-sa-key-rotation-sop-artifact-inventory.md` | Artifact inventory | 同 wave 変更棚卸し時 |
+| `references/lessons-learned-ut-25-deriv-01-sa-key-rotation-2026-05.md` | SA key rotation 苦戦点 L-UT25SAK-001..007（stdin+history 抑止 / state guard / `secret list` name-only + UT-26 / bats fixture / 500 行近傍分割閾値 / 90 日採用根拠 / 完了記録 8 フィールド）| 次回 SOP 更新・類似 secret rotation 設計時 |

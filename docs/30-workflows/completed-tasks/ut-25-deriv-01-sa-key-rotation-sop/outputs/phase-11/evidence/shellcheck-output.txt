@@ -1,0 +1,1 @@
+# shellcheck scripts/cf-rotate-sa-key.sh

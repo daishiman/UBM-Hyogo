@@ -1,0 +1,64 @@
+{
+  "task_id": "fix-verify-design-tokens-og-route-exclude",
+  "issue": null,
+  "created_at": "2026-05-23",
+  "status": "runtime_pending",
+  "task_type": "implementation",
+  "visual_category": "NON_VISUAL",
+  "metadata": {
+    "workflow_state": "implemented-local",
+    "implementation_status": "local-evidence-captured",
+    "taskType": "implementation",
+    "visualEvidence": "NON_VISUAL",
+    "implementationCategory": "standard",
+    "spec_classification": "implementation_spec",
+    "canonical_workflow": "docs/30-workflows/completed-tasks/fix-verify-design-tokens-og-route-exclude/",
+    "parentWorkflow": "docs/30-workflows/issue-806-dynamic-member-og-image/",
+    "source_unassigned_tasks": [],
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-05-23T00:00:00+09:00",
+        "evidence_path": "docs/30-workflows/completed-tasks/fix-verify-design-tokens-og-route-exclude/outputs/phase-12/phase12-task-spec-compliance-check.md",
+        "approver": "daishiman",
+        "notes": "spec_review: Phase 1-13 implementation spec, Phase 12 strict outputs, and aiworkflow-requirements sync completed."
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "passed",
+        "passed_at": "2026-05-23T00:00:00+09:00",
+        "evidence_path": "docs/30-workflows/completed-tasks/fix-verify-design-tokens-og-route-exclude/outputs/phase-11/verify-tokens-local.txt",
+        "approver": "daishiman",
+        "notes": "implementation_review: verify-design-tokens route convention exclude, focused Vitest, local verify:tokens, and drift canaries passed."
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/fix-verify-design-tokens-og-route-exclude/outputs/phase-13/pr-creation-result.md",
+        "approver": "daishiman",
+        "notes": "external_ops: commit, push, PR, and GitHub Actions PR checks are user-gated."
+      }
+    ]
+  },
+  "phases": [
+    { "phase": 1, "name": "要件定義", "status": "completed", "output": "phase-1-requirements.md" },
+    { "phase": 2, "name": "設計", "status": "completed", "output": "phase-2-design.md" },
+    { "phase": 3, "name": "設計レビュー", "status": "completed", "output": "phase-3-design-review.md" },
+    { "phase": 4, "name": "テスト計画", "status": "completed", "output": "phase-4-test-plan.md" },
+    { "phase": 5, "name": "実装手順", "status": "completed", "output": "phase-5-implementation.md" },
+    { "phase": 6, "name": "テスト追加", "status": "completed", "output": "phase-6-test-additions.md" },
+    { "phase": 7, "name": "カバレッジ", "status": "completed", "output": "phase-7-coverage.md" },
+    { "phase": 8, "name": "リファクタ", "status": "completed", "output": "phase-8-refactor.md" },
+    { "phase": 9, "name": "QA", "status": "completed", "output": "phase-9-qa.md" },
+    { "phase": 10, "name": "最終レビュー", "status": "completed", "output": "phase-10-final-review.md" },
+    { "phase": 11, "name": "手動テスト", "status": "local-evidence-captured", "output": "outputs/phase-11/verify-tokens-local.txt" },
+    { "phase": 12, "name": "ドキュメント同期", "status": "completed", "output": "outputs/phase-12/main.md" },
+    { "phase": 13, "name": "commit-pr-release", "status": "blocked_pending_user_approval", "output": "outputs/phase-13/pr-creation-result.md" }
+  ],
+  "implementation_targets": [
+    "scripts/verify-design-tokens.ts",
+    "scripts/verify-design-tokens.spec.ts"
+  ]
+}
