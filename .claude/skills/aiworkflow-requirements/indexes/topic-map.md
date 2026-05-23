@@ -874,13 +874,13 @@ node scripts/list-specs.js --topics
 | 概要 | L8 |
 | ドキュメント構成 | L15 |
 | REST API エンドポイント一覧 | L25 |
-| エンドポイント命名規則 | L214 |
-| UBM-Hyogo Admin Sync API（03a） | L235 |
-| UBM-Hyogo Member Self-Service API（04b） | L286 |
-| Admin Dashboard Attendance Analytics API（UT-02A follow-up 002） | L312 |
-| Desktop IPC API サマリー | L326 |
-| 変更履歴 | L357 |
-| 関連ドキュメント | L374 |
+| エンドポイント命名規則 | L222 |
+| UBM-Hyogo Admin Sync API（03a） | L243 |
+| UBM-Hyogo Member Self-Service API（04b） | L294 |
+| Admin Dashboard Attendance Analytics API（UT-02A follow-up 002） | L320 |
+| Desktop IPC API サマリー | L334 |
+| 変更履歴 | L365 |
+| 関連ドキュメント | L382 |
 
 ### references/api-internal-chunk-search.md
 
@@ -2377,6 +2377,12 @@ node scripts/list-specs.js --topics
 | Same-cycle shellcheck cleanup | L28 |
 | Phase outputs | L39 |
 | Runtime boundary | L50 |
+
+### references/workflow-issue-291-forms-d1-legacy-followup-cleanup-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Runtime Boundary | L16 |
 
 ### references/workflow-issue-295-tag-queue-resolve-race-smoke-artifact-inventory.md
 
@@ -7358,7 +7364,7 @@ node scripts/list-specs.js --topics
 | 実行時のコマンド・エージェント・スキル | L2121 |
 | 昇格パターン集 | L2145 |
 | Current Active / Spec Created Tasks | L2147 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L2306 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L2307 |
 
 ### references/task-workflow-backlog-part2.md
 
@@ -7503,7 +7509,8 @@ node scripts/list-specs.js --topics
 
 | セクション | 行 |
 |------------|----|
-| 2026-05-19: parallel-04 Shared Page Chrome（spec_created + Phase 11 evidence captured） | L6 |
+| 2026-05-22: Issue #291 Forms D1 legacy follow-up cleanup | L6 |
+| 2026-05-19: parallel-04 Shared Page Chrome（spec_created + Phase 11 evidence captured） | L29 |
 
 ### references/task-workflow-completed-skill-create-ui-integration.md
 
@@ -7629,10 +7636,10 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 最近の完了タスク（2026-05） | L7 |
-| 最近の完了タスク（2026-04） | L11 |
-| 完了タスク（2026-03後半） | L132 |
-| 完了タスク（機能別アーカイブ） | L140 |
-| UT-TASK-SPEC-TEMPLATE-IMPROVEMENT-001: task-specification-creator Phase-12 テンプレート改善 | L249 |
+| 最近の完了タスク（2026-04） | L12 |
+| 完了タスク（2026-03後半） | L133 |
+| 完了タスク（機能別アーカイブ） | L141 |
+| UT-TASK-SPEC-TEMPLATE-IMPROVEMENT-001: task-specification-creator Phase-12 テンプレート改善 | L250 |
 
 ### references/task-workflow-history.md
 
