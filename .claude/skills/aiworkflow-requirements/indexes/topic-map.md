@@ -89,14 +89,14 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 1. 構成図 | L15 |
 | 2. Server-side fetch（`apps/web/src/lib/admin/server-fetch.ts`） | L49 |
-| 3. Client-side mutation（`apps/web/src/lib/admin/api.ts`） | L109 |
-| 4. BFF proxy（`apps/web/app/api/admin/[...path]/route.ts`） | L181 |
-| 5. ステータスコード処理方針 | L238 |
-| 6. 環境変数 | L270 |
-| 7. 不変条件サマリ（admin API client / proxy） | L283 |
-| 8. 関連ドキュメント | L295 |
-| 9. 06c-A Admin Dashboard 契約 (2026-05-02) | L303 |
-| 10. Self-service BFF proxy（`apps/web/app/api/me/[...path]/route.ts`） | L320 |
+| 3. Client-side mutation（`apps/web/src/lib/admin/api.ts`） | L110 |
+| 4. BFF proxy（`apps/web/app/api/admin/[...path]/route.ts`） | L182 |
+| 5. ステータスコード処理方針 | L239 |
+| 6. 環境変数 | L271 |
+| 7. 不変条件サマリ（admin API client / proxy） | L284 |
+| 8. 関連ドキュメント | L296 |
+| 9. 06c-A Admin Dashboard 契約 (2026-05-02) | L304 |
+| 10. Self-service BFF proxy（`apps/web/app/api/me/[...path]/route.ts`） | L321 |
 
 ### references/architecture-auth-security-core.md
 
