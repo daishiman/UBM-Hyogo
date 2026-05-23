@@ -66,6 +66,20 @@
 | key contract | Next.js 16 async `params: Promise<{ id: string }>`; publicConsent は API contract に委譲し web は `FetchPublicNotFoundError` mapping を検証 |
 | evidence boundary | Phase 12 strict 7 present。apps/web 実装、focused unit/Playwright、Phase 11 screenshot evidence captured。commit、push、PR、deploy verification は user-gated |
 
+### fix-verify-design-tokens-og-route-exclude（2026-05-23）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented-local / implementation / NON_VISUAL / local-evidence-captured` |
+| 成果物 | `docs/30-workflows/completed-tasks/fix-verify-design-tokens-og-route-exclude/` |
+| upstream | Issue #806 dynamic member OG image / task-18 `verify-design-tokens` |
+| 目的 | Next.js Metadata Files route handler convention (`opengraph-image/route.tsx` 等) を `verify-design-tokens` の satori 例外に追加し、PR #175 の false positive を解消する |
+| implementation targets | `scripts/verify-design-tokens.ts`, `scripts/verify-design-tokens.spec.ts` |
+| contract | `DEFAULTS.colorLiteralExcludes` が root convention と route convention の 8 pattern を単一正本として持つ。通常 `src/components` と non-OG `route.tsx` の HEX drift は引き続き検出する |
+| evidence | `outputs/phase-11/verify-tokens-local.txt`, `vitest-verify-design-tokens.txt`, `drift-canary-fail.txt`, `canary-non-og-route.txt`; Phase 12 strict 7 present |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-fix-verify-design-tokens-og-route-exclude-artifact-inventory.md` |
+| user gate | commit, push, PR, GitHub Actions PR checks |
+
 ### Issue #778 schema alias rollback / undo（2026-05-19）
 
 | 項目 | 値 |
@@ -79,6 +93,18 @@
 | evidence | Phase 12 strict 7 / root-output artifacts parity / Phase 11 runtime placeholders |
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-778-schema-alias-rollback-undo-artifact-inventory.md` |
 | user gate | staging D1 migration apply, production D1 migration apply, Playwright visual baseline, commit, push, PR |
+
+### ut-cicd-composite-setup-rollout（2026-05-22）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / NON_VISUAL / implementation_complete_pending_pr` |
+| 成果物 | `docs/30-workflows/ut-cicd-composite-setup-rollout/` |
+| 目的 | Issue #284 の composite setup rollout を current codebase に合わせ、raw setup action workflow steps を 0 件へする |
+| implementation | `.github/workflows/*.yml` 13 files migrated to `.github/actions/setup-project` |
+| preservation | `web-cd.yml` keeps mise semantics via `setup-strategy: mise`; `post-release-dashboard.yml` keeps no-install semantics via `install: 'false'` + `cache: ''` |
+| evidence | Phase 11 grep/diff files + Phase 12 strict 7 files |
+| user gate | commit, push, PR, remote GitHub Actions green evidence, Issue #284 mutation |
 
 ### task-staging-auth-secret-binding-recovery-001（2026-05-22）
 
@@ -434,6 +460,21 @@
 | 不変条件 | 既存 caller の hook 利用形と API/D1 schema は変更しない。`FetchAuthedError` constructor signature も維持 |
 | evidence | Phase 11 focused command evidence captured / Phase 12 strict 7 present |
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-i02-admin-error-type-unify-artifact-inventory.md` |
+| user gate | commit / push / PR |
+
+### parallel-i02b-admin-mutation-error-finalize（2026-05-23）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / NON_VISUAL / implementation_complete_pending_pr` |
+| 成果物 | `docs/30-workflows/completed-tasks/parallel-i02b-admin-mutation-error-finalize/` |
+| source | `docs/30-workflows/ui-prototype-alignment-mvp-recovery/improvements/integration-fixes/parallel-i02b-admin-mutation-error-finalize/spec.md` completed |
+| parent | `parallel-i02-admin-error-type-unify` DoD 143 closeout |
+| 目的 | residual `AdminMutationError` class and panel dependencies を削除し、admin mutation HTTP error を `FetchAuthedError` に統一する |
+| implementation targets | `apps/web/src/features/admin/hooks/useAdminMutation.ts`, `apps/web/src/components/admin/MeetingPanel.tsx`, `apps/web/src/components/admin/SchemaDiffPanel.tsx`, `apps/web/src/components/admin/RequestQueuePanel.tsx` |
+| evidence | typecheck PASS, lint PASS, focused Vitest 53 PASS, panel integration Vitest 41 PASS, app grep 0 |
+| invariant | `FetchAuthedError.message` は固定文言のまま維持。panel fallback は `bodyText` を読む |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-parallel-i02b-admin-mutation-error-finalize-artifact-inventory.md` |
 | user gate | commit / push / PR |
 
 ### UT-07A-FU-01 memberTags.assignTagsToMember cleanup（2026-05-15）
@@ -2230,7 +2271,10 @@ docs-only / direction-reconciliation で採用方針 A を維持する場合で�
 | --- | --- | --- | --- |
 | UT-17 follow-up 005 alert relay KV operation error metrics | implemented_local_evidence_captured / implementation / NON_VISUAL / PASS_BOUNDARY_SYNCED_RUNTIME_PENDING | `docs/30-workflows/completed-tasks/ut-17-followup-005-alert-relay-kv-operation-error-metrics/` | Issue #701. Adds fail-safe structured logging for `ALERT_DEDUP_KV.get` / `.put` failures in `apps/api/src/routes/internal/alert-relay.ts`. `KV.get` now fails open after emitting `event=alert_relay_kv_op_failed`; `KV.put` preserves `dedupPersisted:false`. `dedupeKeyHash` is SHA-256 first 12 hex or `hash_error` if hashing fails; logging sink failure is swallowed. Local evidence: API typecheck / lint / build PASS and API Vitest 48 files / 294 tests PASS with `ESBUILD_BINARY_PATH` pinned to project-local esbuild. Runtime Workers Logs tail, deploy, commit, push, and PR remain user-gated. |
 | task-alert-relay-global-scope-fix-001 | implemented_local_evidence_captured / implementation / NON_VISUAL / staging deploy job pending_user_approval | `docs/30-workflows/task-alert-relay-global-scope-fix-001/` | Fixes PR #505 backend-ci deploy-staging validation error 10021 by replacing module top-level `crypto.randomUUID()` in `apps/api/src/routes/internal/alert-relay.ts` with lazy `getIsolateId()`. Focused regression test in `apps/api/src/routes/internal/__tests__/alert-relay.spec.ts` asserts module import does not call `crypto.randomUUID`; existing structured log tests preserve stable `isolateId` semantics. `scripts/cf.sh` now maps local `deploy --env staging\|production` to `CLOUDFLARE_API_TOKEN_STAGING` / `CLOUDFLARE_API_TOKEN_PRODUCTION` 1Password fields while preserving wrangler's `CLOUDFLARE_API_TOKEN` child env contract. Local Vitest, typecheck, lint, global-scope grep, and staging dry-run evidence are captured; staging deploy job, commit, push, and PR remain user-gated. |
+| step-07-requests-approve-reject | implemented_local_evidence_captured / implementation / NON_VISUAL / Phase 12 strict 7 present | `docs/30-workflows/step-07-requests-approve-reject/` | Canonical Phase 1-13 workflow and local implementation for serial-05 admin mutation UI step-07. Implements `/admin/requests` approve/reject two-step confirmation, `useAdminMutation` + `useConfirmDialog` reuse, 409 `already_resolved` toast + refresh, extracted `RequestQueueDetail` / `RequestConfirmDialog`, and focused component tests. Existing API `POST /admin/requests/:noteId/resolve` is reused; no API/D1 change in this wave. Authenticated runtime/staging evidence, commit, push, and PR remain user-gated. |
+
 | ci-staging-deploy-failure-fix | PASS_BOUNDARY_SYNCED_RUNTIME_PENDING / implementation / NON_VISUAL | `docs/30-workflows/completed-tasks/ci-staging-deploy-failure-fix/` | Recovers dev push staging deploy failures after PR #815/#847. task-01 implemented local build-time env injection in `.github/workflows/web-cd.yml` plus `apps/web/src/lib/__tests__/build-time-env.spec.ts`; task-02 formalizes Cloudflare D1/deploy token rotation with staging/production separation. Cloudflare token creation, 1Password update, `gh secret set`, commit, push, PR, and runtime CI evidence remain user-gated. |
+| UT-25-DERIV-01 SA key rotation SOP | implemented_local_evidence_captured / implementation / NON_VISUAL | `docs/30-workflows/completed-tasks/ut-25-deriv-01-sa-key-rotation-sop/` | `GOOGLE_SERVICE_ACCOUNT_JSON` 90 day rotation SOP + stdin-only helper + record template. `scripts/cf-rotate-sa-key.sh` streams secret values to `scripts/cf.sh`, keeps dry-run side-effect-free, and requires staging `verify` before production. Inventory: `references/workflow-ut-25-deriv-01-sa-key-rotation-sop-artifact-inventory.md`. Lessons: `references/lessons-learned-ut-25-deriv-01-sa-key-rotation-2026-05.md` (L-UT25SAK-001..007: stdin+history 併用抑止 / state guard / `secret list` の name-only 検証 + UT-26 疎通 / bats fixture 隔離 / 500 行近傍 reference 分割閾値 / 90 日採用根拠 / 完了記録 8 フィールド + fingerprint 16 文字短縮). Real Cloudflare Secret mutation, Google IAM disable/delete, UT-26 runtime smoke, commit, push, and PR are user-gated. |
 | runtime-smoke-staging-secrets-restore | implemented_local_evidence_captured / implementation / NON_VISUAL / user-gated runtime evidence boundary user-gated | `docs/30-workflows/completed-tasks/runtime-smoke-staging-secrets-restore/` | 2026-05-16 runtime smoke failure follow-up。`staging-runtime-smoke` 必須 4 secret (`STAGING_API_BASE`, `STAGING_ADMIN_BEARER`, `STAGING_MEMBER_ID`, `STAGING_ME_BEARER`) を `scripts/ci/verify-env-secrets.allowlist` の `env=...;required=...;reason=...` contract に追加し、`verify-env-secrets.sh` が GitHub Environment secret name-only inventory と照合する。`runtime-smoke-staging.yml` の inline value check は最終防御として維持。secret mutation、runtime workflow rerun、commit、push、PR は user-gated。 |
 | UT-17 follow-up 004 Cloudflare Notification Policy IaC | implementation_complete / implementation / NON_VISUAL / runtime Cloudflare mutation pending_user_approval / Phase 13 pending_user_approval | `docs/30-workflows/completed-tasks/ut-17-followup-004-cloudflare-notification-policy-iac/` | Parent UT-17 T9/T10 Dashboard manual Notification Policy setup successor. Implements Cloudflare Notification Policy 4 categories / 5 policy files + webhook destination IaC under `infra/cloudflare-alerts/`, `bash scripts/cf.sh alerts {apply,diff,list}`, PR-local validate + schedule/manual read-only drift CI, token split `CLOUDFLARE_ALERTS_TOKEN_APPLY` / `CLOUDFLARE_ALERTS_TOKEN_READ`, URL drift secret `CLOUDFLARE_ALERT_RELAY_URL`, canonical webhook definition root `infra/cloudflare-alerts/webhooks/`, and Cloudflare API `PUT` update method. No Cloudflare mutation, GitHub Secret placement, commit, push, or PR executed. |
 | UT-17 Cloudflare Analytics alerts + Slack relay | implemented-local / implementation / NON_VISUAL / CODE_COMPLETE_EXTERNAL_OPS_PENDING | `docs/30-workflows/ut-17-cloudflare-analytics-alerts/` | Cloudflare usage alert workflow. Free baseline is Cloudflare Notifications email + runbook. Local Slack Japanese relay is implemented in `apps/api` as `POST /internal/alert-relay` with `cf-webhook-auth` fixed-secret auth, Japanese Block Kit formatting, Slack retry sender, focused tests, and runbooks. Body HMAC / `X-CF-Alert-Signature` are explicitly out of contract. Cloudflare Secrets, deploy, Notification Policy setup, Slack runtime smoke, commit, push, and PR remain user-gated. |

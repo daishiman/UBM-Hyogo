@@ -25,16 +25,6 @@ export interface UseAdminMutationReturn<T> {
 
 export { FetchAuthedError };
 
-export class AdminMutationError extends Error {
-  readonly status: number;
-
-  constructor(status: number, message: string) {
-    super(message);
-    this.name = "AdminMutationError";
-    this.status = status;
-  }
-}
-
 const extractErrorMessage = (bodyText: string): string | null => {
   if (bodyText.length === 0) return null;
   try {
