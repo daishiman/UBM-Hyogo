@@ -1,5 +1,19 @@
 # クイックリファレンス
 
+## UT-DSF-07 staging visual runtime evidence（2026-05-23）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow | `docs/30-workflows/ut-dsf-07-staging-visual-runtime-evidence/` |
+| status | `spec_created / implementation / VISUAL / runtime_pending` |
+| source | Issue #829 CLOSED; `docs/30-workflows/unassigned-task/UT-DSF-07-visual-runtime-production-equivalent-screenshots.md` consumed |
+| parent | `docs/30-workflows/ui-prototype-design-system-foundation/` Gate-B/C, `VISUAL_RUNTIME_PENDING` release target |
+| purpose | Cloudflare Workers staging runtime で `public-top` / `login` / `profile` / `admin-dashboard` の production-equivalent visual evidence を取得する実装仕様 |
+| Phase 11 | physical contract files present; real deploy logs and PNG screenshots are pending, not PASS |
+| Phase 12 | strict output set present under `outputs/phase-12/` |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-ut-dsf-07-staging-visual-runtime-evidence-artifact-inventory.md` |
+| user gate | staging deploy, screenshot capture, parent gate release, commit, push, PR |
+
 ## ut-cicd-composite-setup-rollout（2026-05-22）
 
 | 項目 | 値 |

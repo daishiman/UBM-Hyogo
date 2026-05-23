@@ -2,6 +2,14 @@ import { defineConfig, devices } from '@playwright/test'
 import { VIEWPORTS } from './playwright/fixtures/viewports'
 
 const isStagingSmoke = process.argv.some((arg) => arg.includes('staging-smoke'))
+// staging-visual project は staging URL（PLAYWRIGHT_STAGING_BASE_URL）に対して
+// production-equivalent runtime（Cloudflare Workers）の visual baseline を取得する。
+// local webServer は起動しない（実 staging を撮るため）。
+const isStagingVisual = process.argv.some((arg) => arg.includes('staging-visual'))
+const stagingBaseURL =
+  process.env.PLAYWRIGHT_STAGING_BASE_URL ??
+  process.env.PLAYWRIGHT_BASE_URL ??
+  'https://ubm-hyogo-web-staging.daishimanju.workers.dev'
 const isAdminRequestsRun =
   process.env.ADMIN_REQUESTS_EVIDENCE === '1' ||
   process.argv.some((arg) => arg.includes('admin-requests.spec.ts'))
@@ -51,7 +59,9 @@ const EVIDENCE_DIR =
         ? '../../docs/30-workflows/admin-member-delete-e2e-spec/outputs/phase-11/evidence'
         : isStagingSmoke
           ? '../../docs/30-workflows/task-05-error-boundary-and-staging-smoke/outputs/phase-11/evidence'
-          : isTask11PublicSmoke
+          : isStagingVisual
+            ? '../../docs/30-workflows/ut-dsf-07-staging-visual-runtime-evidence/outputs/phase-11/evidence'
+            : isTask11PublicSmoke
             ? '../../docs/30-workflows/task-11-public-top-and-member-list/outputs/phase-11/evidence'
             : isTask12PublicSmoke || isTask12Evidence
               ? '../../docs/30-workflows/task-12-member-detail-register-legal/outputs/phase-11/evidence'
@@ -71,7 +81,8 @@ const EVIDENCE_DIR =
                             ? '../../docs/30-workflows/task-18-w7-verify-tokens-and-playwright-smoke/outputs/phase-11/evidence'
                             : '../../docs/30-workflows/completed-tasks/08b-A-playwright-e2e-full-execution/outputs/phase-11/evidence')
 
-const shouldStartLocalServer = !isStagingSmoke && process.env.PLAYWRIGHT_SKIP_WEB_SERVER !== '1'
+const shouldStartLocalServer =
+  !isStagingSmoke && !isStagingVisual && process.env.PLAYWRIGHT_SKIP_WEB_SERVER !== '1'
 const localBaseURL = process.env.PLAYWRIGHT_BASE_URL || 'http://localhost:3000'
 const localServerReadyURL =
   isTask18RegressionGate || isAttendanceVisualSmoke ? `${localBaseURL}/login` : localBaseURL
@@ -156,7 +167,7 @@ export default defineConfig({
   projects: [
     {
       name: 'desktop-chromium',
-      testIgnore: [/visual\/.*\.spec\.ts$/, /visual-full\/.*\.spec\.ts$/, /full-smoke\.spec\.ts$/, ...fixtureGatedTestIgnore],
+      testIgnore: [/visual\/.*\.spec\.ts$/, /visual-staging\/.*\.spec\.ts$/, /visual-full\/.*\.spec\.ts$/, /full-smoke\.spec\.ts$/, ...fixtureGatedTestIgnore],
       use: { ...devices['Desktop Chrome'], viewport: { width: 1280, height: 800 } },
     },
     {
@@ -171,7 +182,7 @@ export default defineConfig({
     },
     {
       name: 'desktop-firefox',
-      testIgnore: [/visual\/.*\.spec\.ts$/, /visual-full\/.*\.spec\.ts$/, /full-smoke\.spec\.ts$/, ...fixtureGatedTestIgnore],
+      testIgnore: [/visual\/.*\.spec\.ts$/, /visual-staging\/.*\.spec\.ts$/, /visual-full\/.*\.spec\.ts$/, /full-smoke\.spec\.ts$/, ...fixtureGatedTestIgnore],
       use: { ...devices['Desktop Firefox'], viewport: { width: 1280, height: 800 } },
     },
     {
@@ -182,6 +193,7 @@ export default defineConfig({
       // 管理画面は desktop-chromium / desktop-firefox 側で carried されるため mobile-webkit からは除外する。
       testIgnore: [
         /visual\/.*\.spec\.ts$/,
+        /visual-staging\/.*\.spec\.ts$/,
         /visual-full\/.*\.spec\.ts$/,
         /full-smoke\.spec\.ts$/,
         /admin-pages\.spec\.ts$/,
@@ -210,8 +222,23 @@ export default defineConfig({
       name: 'staging',
       use: {
         ...devices['Desktop Chrome'],
-        baseURL: process.env.PLAYWRIGHT_STAGING_BASE_URL ?? process.env.PLAYWRIGHT_BASE_URL,
+        baseURL: stagingBaseURL,
         viewport: { width: 1280, height: 800 },
+      },
+    },
+    {
+      // production-equivalent runtime（Cloudflare Workers staging）の visual baseline 専用 project。
+      // local の visual-chromium（visual/*.spec.ts）とは testDir / snapshot 名（-staging-visual-*）で分離する。
+      // SSR データは実 staging API 由来（page.route で差し替え不可）。検証対象は OpenNext bundle の
+      // design system 描画（OKLch token / @layer / rhythm / primitives）が local と等価かどうか。
+      name: 'staging-visual',
+      testDir: './playwright/tests/visual-staging',
+      testMatch: /visual-staging\/.*\.spec\.ts$/,
+      retries: 2,
+      use: {
+        ...devices['Desktop Chrome'],
+        viewport: { width: 1280, height: 800 },
+        baseURL: stagingBaseURL,
       },
     },
     {
