@@ -1,0 +1,14 @@
+Command:
+pnpm -F "@ubm-hyogo/web" test -- --run 'apps/web/app/(admin)/admin/__tests__/error.component.spec.tsx'
+
+Result:
+PASS. The web Vitest command completed successfully. Because the package script forwards the selector after an extra `--`, Vitest executed the apps/web suite rather than only the focused file.
+
+Observed summary:
+- Test Files: 96 passed, 1 skipped (97)
+- Tests: 695 passed, 1 skipped (696)
+- Included new file: apps/web/app/(admin)/admin/__tests__/error.component.spec.tsx
+- New file result: 13 tests passed
+
+Boundary:
+Runtime browser screenshot and screen reader smoke remain user-gated VISUAL_ON_EXECUTION evidence.

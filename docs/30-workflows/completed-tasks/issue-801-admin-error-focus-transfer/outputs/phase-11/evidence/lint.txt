@@ -1,0 +1,8 @@
+Command:
+pnpm -F "@ubm-hyogo/web" lint
+
+Result:
+PASS. Exit code 0.
+
+Observed command body:
+tsc -p tsconfig.json --noEmit && eslint 'src/**/*.{ts,tsx}'

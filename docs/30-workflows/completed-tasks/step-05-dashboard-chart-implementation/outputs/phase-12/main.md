@@ -25,16 +25,16 @@
 | build log | `outputs/phase-11/evidence/build.log` | present |
 | manual checklist | `outputs/phase-11/manual-test-checklist.md` | present |
 | screenshot plan | `outputs/phase-11/screenshot-plan.json` | present |
-| placeholder screenshot | `outputs/phase-11/screenshots/admin-dashboard-placeholder.png` | present |
-| chart screenshot placeholder | `outputs/phase-11/screenshots/admin-dashboard-chart.png` | present |
+| placeholder screenshot | `outputs/phase-11/screenshots/admin-dashboard-placeholder.png` | runtime_completed (issue-819, 2026-05-20) |
+| chart screenshot | `outputs/phase-11/screenshots/admin-dashboard-chart.png` | runtime_completed (issue-819, 2026-05-20) |
 
 ## 5. 検証結果
 
-Focused Vitest and grep gate are captured locally. Full runtime screenshot and PR checks remain user-gated.
+Focused Vitest and grep gate are captured locally. Runtime authenticated admin screenshot was captured under `issue-819-admin-dashboard-runtime-screenshot` (Playwright signed-JWT admin context + mock-api `byStatus` seed) on 2026-05-20.
 
 ## 6. 残課題
 
-Runtime admin screenshot requires authenticated staging/admin context and is held at Phase 13 user gate.
+~~Runtime admin screenshot requires authenticated staging/admin context and is held at Phase 13 user gate.~~ → consumed by `issue-819-admin-dashboard-runtime-screenshot` (2026-05-20). Remaining user-gated boundaries: commit / push / PR.
 
 ## 7. 未タスク
 
