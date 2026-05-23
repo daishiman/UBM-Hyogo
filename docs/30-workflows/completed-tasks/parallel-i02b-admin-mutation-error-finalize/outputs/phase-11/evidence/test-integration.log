@@ -1,0 +1,17 @@
+mise WARN  Config files in ~/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260522-191851-wt-1/.mise.toml are not trusted.
+Trust them with `mise trust`. See https://mise.jdx.dev/cli/trust.html for more information.
+[33mThe CJS build of Vite's Node API is deprecated. See https://vite.dev/guide/troubleshooting.html#vite-cjs-node-api-deprecated for more details.[39m
+
+ RUN  v2.1.9 /Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260522-191851-wt-1
+
+ ✓ apps/web/src/components/admin/__tests__/RequestQueuePanel.component.spec.tsx (6 tests) 204ms
+ ✓ apps/web/src/components/admin/__tests__/MeetingPanel.component.spec.tsx (17 tests) 632ms
+ ✓ apps/web/src/components/admin/__tests__/SchemaDiffPanel.component.spec.tsx (18 tests) 2512ms
+   ✓ SchemaDiffPanel > BULK-PANEL-03b 51 件選択時は確定 disabled かつ role=alert で上限理由を表示 1291ms
+   ✓ SchemaDiffPanel > BULK-PANEL-03c 50 件選択時は警告なしで modal を開ける 464ms
+
+ Test Files  3 passed (3)
+      Tests  41 passed (41)
+   Start at  07:00:55
+   Duration  5.59s (transform 417ms, setup 0ms, collect 1.23s, tests 3.35s, environment 3.50s, prepare 487ms)
+

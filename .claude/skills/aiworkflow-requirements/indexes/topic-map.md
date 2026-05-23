@@ -2257,6 +2257,16 @@ node scripts/list-specs.js --topics
 | Evidence | L18 |
 | Phase 12 | L27 |
 
+### references/workflow-fix-verify-design-tokens-og-route-exclude-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Workflow | L3 |
+| Implementation Targets | L12 |
+| Evidence | L17 |
+| Phase 12 Strict Outputs | L24 |
+| Boundary | L34 |
+
 ### references/workflow-governance-design-category.md
 
 | セクション | 行 |
@@ -2946,6 +2956,16 @@ node scripts/list-specs.js --topics
 | Phase 12 strict 7 outputs | L34 |
 | Evidence | L46 |
 | User-gated boundary | L55 |
+
+### references/workflow-parallel-i02b-admin-mutation-error-finalize-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Summary | L3 |
+| Canonical Workflow | L7 |
+| Implementation Targets | L16 |
+| Evidence | L25 |
+| User Gate | L35 |
 
 ### references/workflow-parallel-i03-dialog-refresh-order-artifact-inventory.md
 
@@ -5087,6 +5107,13 @@ node scripts/list-specs.js --topics
 |------------|----|
 | メタ情報 | L3 |
 | Lessons | L12 |
+
+### references/lessons-learned-fix-verify-design-tokens-og-route-exclude-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| 教訓一覧 | L12 |
+| 関連メモ | L40 |
 
 ### references/lessons-learned-issue-106-admin-notes-repository-2026-05.md
 
@@ -7303,14 +7330,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L2017 |
-| フェーズ構造（概要） | L2026 |
-| 品質ゲート（概要） | L2057 |
-| 出力テンプレート | L2068 |
-| 実行時のコマンド・エージェント・スキル | L2091 |
-| 昇格パターン集 | L2115 |
-| Current Active / Spec Created Tasks | L2117 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L2273 |
+| ドキュメント構成 | L2046 |
+| フェーズ構造（概要） | L2055 |
+| 品質ゲート（概要） | L2086 |
+| 出力テンプレート | L2097 |
+| 実行時のコマンド・エージェント・スキル | L2120 |
+| 昇格パターン集 | L2144 |
+| Current Active / Spec Created Tasks | L2146 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L2302 |
 
 ### references/task-workflow-backlog-part2.md
 

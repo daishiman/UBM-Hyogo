@@ -52,6 +52,19 @@
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-806-dynamic-member-og-image-artifact-inventory.md` |
 | evidence boundary | Phase 12 strict 7 present; focused unit/Playwright and Phase 11 screenshot evidence captured; commit / push / PR / deploy verification user-gated |
 
+## fix-verify-design-tokens-og-route-exclude（2026-05-23）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/fix-verify-design-tokens-og-route-exclude/` |
+| 状態 | `implemented-local / implementation / NON_VISUAL / local-evidence-captured` |
+| upstream | Issue #806 dynamic member OG image; task-18 `verify-design-tokens` gate |
+| scope | `scripts/verify-design-tokens.ts` route handler convention exclude for `opengraph-image/route.tsx`, `twitter-image/route.tsx`, `icon/route.tsx`, `apple-icon/route.tsx` |
+| tests | `scripts/verify-design-tokens.spec.ts` C-EX-1..6 plus existing C1..7 |
+| evidence | `outputs/phase-11/verify-tokens-local.txt`, `vitest-verify-design-tokens.txt`, `drift-canary-fail.txt`, `canary-non-og-route.txt` |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-fix-verify-design-tokens-og-route-exclude-artifact-inventory.md` |
+| user gate | commit, push, PR, GitHub Actions PR checks |
+
 ## Issue #799 useAutoFocusOnMount hook（2026-05-19）
 ## step-06 meetings attendance implementation（2026-05-20）
 ## Issue #778 Schema Alias Rollback / Undo（2026-05-19）
@@ -382,6 +395,20 @@
 | invariant | 401 は `AuthRequiredError` + `/login?redirect=...` redirector、403 / 4xx / 5xx は `FetchAuthedError(status, bodyText)`。既存 caller の hook 利用形は互換 |
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-i02-admin-error-type-unify-artifact-inventory.md` |
 | source | `docs/30-workflows/completed-tasks/integration-fixes-i02-admin-error-type-unify.md` consumed |
+| user gate | commit / push / PR |
+
+### parallel-i02b-admin-mutation-error-finalize（2026-05-23）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/parallel-i02b-admin-mutation-error-finalize/` |
+| 状態 | `implemented_local_evidence_captured / implementation / NON_VISUAL / implementation_complete_pending_pr` |
+| scope | i02 closeout: residual `AdminMutationError` class removal and panel migration to `FetchAuthedError` |
+| implementation | `apps/web/src/features/admin/hooks/useAdminMutation.ts`, `apps/web/src/components/admin/{MeetingPanel,SchemaDiffPanel,RequestQueuePanel}.tsx` |
+| tests | `MeetingPanel.component.spec.tsx`, `SchemaDiffPanel.component.spec.tsx`, `RequestQueuePanel.component.spec.tsx`, `useAdminMutation.spec.ts` |
+| invariant | `FetchAuthedError.status` is the discriminator; user-facing fallback text reads `bodyText`, not `message` |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-parallel-i02b-admin-mutation-error-finalize-artifact-inventory.md` |
+| source | `docs/30-workflows/ui-prototype-alignment-mvp-recovery/improvements/integration-fixes/parallel-i02b-admin-mutation-error-finalize/spec.md` completed |
 | user gate | commit / push / PR |
 
 ### serial-05-step-03 schema diff resolve UI（2026-05-16）

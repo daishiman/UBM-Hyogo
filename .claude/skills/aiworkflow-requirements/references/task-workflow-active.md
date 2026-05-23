@@ -65,6 +65,20 @@
 | key contract | Next.js 16 async `params: Promise<{ id: string }>`; publicConsent は API contract に委譲し web は `FetchPublicNotFoundError` mapping を検証 |
 | evidence boundary | Phase 12 strict 7 present。apps/web 実装、focused unit/Playwright、Phase 11 screenshot evidence captured。commit、push、PR、deploy verification は user-gated |
 
+### fix-verify-design-tokens-og-route-exclude（2026-05-23）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented-local / implementation / NON_VISUAL / local-evidence-captured` |
+| 成果物 | `docs/30-workflows/completed-tasks/fix-verify-design-tokens-og-route-exclude/` |
+| upstream | Issue #806 dynamic member OG image / task-18 `verify-design-tokens` |
+| 目的 | Next.js Metadata Files route handler convention (`opengraph-image/route.tsx` 等) を `verify-design-tokens` の satori 例外に追加し、PR #175 の false positive を解消する |
+| implementation targets | `scripts/verify-design-tokens.ts`, `scripts/verify-design-tokens.spec.ts` |
+| contract | `DEFAULTS.colorLiteralExcludes` が root convention と route convention の 8 pattern を単一正本として持つ。通常 `src/components` と non-OG `route.tsx` の HEX drift は引き続き検出する |
+| evidence | `outputs/phase-11/verify-tokens-local.txt`, `vitest-verify-design-tokens.txt`, `drift-canary-fail.txt`, `canary-non-og-route.txt`; Phase 12 strict 7 present |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-fix-verify-design-tokens-og-route-exclude-artifact-inventory.md` |
+| user gate | commit, push, PR, GitHub Actions PR checks |
+
 ### Issue #778 schema alias rollback / undo（2026-05-19）
 
 | 項目 | 値 |
@@ -445,6 +459,21 @@
 | 不変条件 | 既存 caller の hook 利用形と API/D1 schema は変更しない。`FetchAuthedError` constructor signature も維持 |
 | evidence | Phase 11 focused command evidence captured / Phase 12 strict 7 present |
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-i02-admin-error-type-unify-artifact-inventory.md` |
+| user gate | commit / push / PR |
+
+### parallel-i02b-admin-mutation-error-finalize（2026-05-23）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / NON_VISUAL / implementation_complete_pending_pr` |
+| 成果物 | `docs/30-workflows/completed-tasks/parallel-i02b-admin-mutation-error-finalize/` |
+| source | `docs/30-workflows/ui-prototype-alignment-mvp-recovery/improvements/integration-fixes/parallel-i02b-admin-mutation-error-finalize/spec.md` completed |
+| parent | `parallel-i02-admin-error-type-unify` DoD 143 closeout |
+| 目的 | residual `AdminMutationError` class and panel dependencies を削除し、admin mutation HTTP error を `FetchAuthedError` に統一する |
+| implementation targets | `apps/web/src/features/admin/hooks/useAdminMutation.ts`, `apps/web/src/components/admin/MeetingPanel.tsx`, `apps/web/src/components/admin/SchemaDiffPanel.tsx`, `apps/web/src/components/admin/RequestQueuePanel.tsx` |
+| evidence | typecheck PASS, lint PASS, focused Vitest 53 PASS, panel integration Vitest 41 PASS, app grep 0 |
+| invariant | `FetchAuthedError.message` は固定文言のまま維持。panel fallback は `bodyText` を読む |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-parallel-i02b-admin-mutation-error-finalize-artifact-inventory.md` |
 | user gate | commit / push / PR |
 
 ### UT-07A-FU-01 memberTags.assignTagsToMember cleanup（2026-05-15）
