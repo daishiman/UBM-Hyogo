@@ -63,6 +63,10 @@ const DEFAULTS = {
     /\/twitter-image\.tsx$/,
     /\/icon\.tsx$/,
     /\/apple-icon\.tsx$/,
+    /\/opengraph-image\/route\.tsx$/,
+    /\/twitter-image\/route\.tsx$/,
+    /\/icon\/route\.tsx$/,
+    /\/apple-icon\/route\.tsx$/,
   ] as readonly RegExp[],
 }
 

@@ -463,3 +463,28 @@
 - Why: React component の hook 群と JSX 子要素は宣言順に semantic 依存がない（hook 命名 disjoint・JSX 子要素は独立 modal）ため、import block と同じ「追記型衝突」として扱える。両側 union が安全に成立する。`api.ts` の export 関数追加（`rollbackSchemaAlias` 対 `postSchemaAliasBulk`）、API spec / admin-management spec 内の endpoint 列追加も同じく disjoint な追記のため両側採用で整合。
 - How to apply: dev sync prompt 自律判断ルール B-3「ソースコード両側保持」の具体パターンとして、本 case を canonical example に追加。同一 component に複数 feature が並行で hook / state / JSX 子要素を追加した case は、宣言が disjoint であれば L-DEVSYNC-012 regex を `.tsx` / `.ts` にもそのまま適用してよい。手動マージは「同一 hook の signature を双方が変更した」「同一 JSX 要素の props を双方が変更した」場合のみ。
 - 事例: 2026-05-21 `feat/issue-778-schema-alias-rollback-undo` ← dev sync-merge。5 ファイル（SchemaDiffPanel.tsx ×2 block / SchemaDiffPanel.component.spec.tsx ×4 block / api.ts ×1 block / specs/01-api-schema.md ×1 block / specs/11-admin-management.md ×1 block）すべて両側 union で解消、手動編集ゼロ。
+
+## L-DEVSYNC-034: `apps/api/src/repository/_shared/generated/static-manifest.json` の unhandled は `pnpm regenerate:static-manifest` で吸収（2026-05-21 追加）
+
+- 症状: `feat/issue-276-mobile-filterbar-tag-picker` ← dev sync-merge で `apps/api/src/repository/_shared/generated/static-manifest.json` が CONFLICT。`pnpm sync:resolve` は `[WARN] unhandled conflict` を出して exit 1（resolver の UNION_TARGETS / glob 対象外、かつ自動生成物のため union では JSON 構文破壊リスクあり）。HEAD 側は Issue #276 ブランチで先行 regenerate した hash、dev 側は dev 取り込み済み別 PR の regenerate hash で、両者の `sourceSpecHash` / 派生 manifest 内容が独立に変化する。
+- 解消: `mise exec -- pnpm regenerate:static-manifest`（= `node scripts/regenerate-static-manifest.mjs`）を 1 回実行 → conflict marker 含む manifest を **正本 spec から deterministic 再生成** → `git add apps/api/src/repository/_shared/generated/static-manifest.json` で完了。手動編集ゼロ。所要数秒。
+- Why: `static-manifest.json` は `apps/api/src/repository/_shared/source-spec/*` から hash 化生成される deterministic artifact。conflict 内容を手動マージする意味はなく、正本 spec が同一なら再生成で必ず一意に決まる。Issue #276 同等の事例は `2ec2245f3 fix(issue-276): regenerate static-manifest after sync-merge` で先行 PR 内既に発生済み（同 PR 単独の固有事象ではなく dev sync-merge 一般のパターン）。
+- How to apply:
+  1. `pnpm sync:resolve` 完走後 `git status --porcelain | grep '^UU'` で残コンフリクトを確認
+  2. `apps/api/src/repository/_shared/generated/static-manifest.json` が含まれていたら `mise exec -- pnpm regenerate:static-manifest` を実行
+  3. `git add apps/api/src/repository/_shared/generated/static-manifest.json` でステージング
+  4. 他に UU が残っていなければ `git commit` で merge commit 作成可
+- 自動化候補: `scripts/sync/resolve-skill-merge-conflicts.sh` の unhandled 一覧に `apps/api/src/repository/_shared/generated/static-manifest.json` が含まれていたら `pnpm regenerate:static-manifest` を自動呼び出しする拡張。indexes:rebuild と同じく deterministic 再生成のため副作用ゼロで安全。本事例で初回特定。
+- 事例: 2026-05-21 `feat/issue-276-mobile-filterbar-tag-picker` ← dev sync-merge。`pnpm sync:resolve` で aiworkflow indexes 4 ファイル + `task-workflow-active.md` を union 自動解消、`static-manifest.json` のみ unhandled として残り、`pnpm regenerate:static-manifest` で `sha256:c90cb657d451fb1c58a520a6ab4b107740d05f65c8a86d327f367accb8d15aef` の新 hash で再生成 → `git add` → merge commit 作成 → typecheck / lint 1 発 PASS。task-specification-creator skill 側 SP-DEVSYNC-027 と対応。
+
+## L-DEVSYNC-035: `pnpm sync:resolve` 完走後も UU が残るのは「union resolve 後の git add 未実行」（2026-05-21 追加）
+
+- 症状: `pnpm sync:resolve` が `union-resolved <N> files` ログを出して exit 0 で完了するにもかかわらず、直後の `git status --porcelain` で `UU .claude/skills/aiworkflow-requirements/indexes/quick-reference.md` 等が残ったままで merge commit を作成できない。実ファイルは既に union 結合済み（conflict marker 物理消去済み）だが、git index 上は依然 unmerged 状態。
+- 原因: `scripts/sync/resolve-skill-merge-conflicts.sh` は内部で `apply_union` を呼び出してファイル本体を書き換えるが、その後の `git add` 呼び出しが gitignore 配下ファイル（例: `LOGS/_legacy.md`）で exit 1 すると、後続のファイル群に対する `git add` 呼び出しが連鎖的に実行されないシェル挙動になる場合がある（`set -e` あるいは `||` 連結漏れ）。本事例では `git add` がコール自体スキップされたため、union resolve 成功 + UU 残置という見かけ上矛盾した状態が再現した。
+- 解消: `pnpm sync:resolve` 完走後の `git status --porcelain | grep '^UU'` で残対象を取得し、明示的に `git add` する手順を dev sync prompt 自律判断ルール B のテンプレに追加:
+  ```
+  git status --porcelain | awk '/^UU /{print $2}' | xargs -r git add
+  ```
+- Why: union resolve は ファイル本体への副作用は冪等のため重複適用も無害。残対象を機械的に `git add` するだけで index を unmerged → merged へ遷移できる。スクリプト側のエラーハンドリング修正は別途検討（gitignore 配下は `git add -f` か skip 対象化）。
+- How to apply: dev sync prompt 自律判断ルール B の resolver 後処理に「`UU` 残対象を `git status | awk | xargs git add` で吸収」を組み込む。`pnpm sync:resolve` の exit code が 0 でも 1 でも、後段の `^UU` 件数チェックを単一の真実とする運用に統一する。L-DEVSYNC-029 補強事例で `git add .claude/skills/aiworkflow-requirements/indexes/` を手動実行していた箇所が同じ症状の別表現であり、本 L-DEVSYNC-035 で正式パターン化。
+- 事例: 2026-05-21 `feat/issue-276-mobile-filterbar-tag-picker` ← dev sync-merge。`pnpm sync:resolve` 完走後 5 件（`indexes/{keywords.json, quick-reference.md, resource-map.md, topic-map.md}` + `references/task-workflow-active.md`）が UU 残置 → 明示 `git add` で全件 stage 完了 → static-manifest 再生成（L-DEVSYNC-034）と合わせて merge commit 作成。task-specification-creator skill 側 SP-DEVSYNC-027 と対応。

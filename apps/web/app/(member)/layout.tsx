@@ -18,7 +18,7 @@ export default function MemberLayout({
       <header data-shell="topbar">
         <MemberHeader />
       </header>
-      <main className="flex flex-col gap-4 p-4 md:p-6" data-route="member">
+      <main className="flex flex-col gap-4 p-4 md:p-6" data-route="member" data-section-rhythm="comfortable">
         {children}
       </main>
     </div>
