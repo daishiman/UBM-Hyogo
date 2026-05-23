@@ -227,6 +227,13 @@
 - 事例: 2026-05-23 `feat/ut-25-deriv-02-sa-key-expiry-monitoring` ← dev sync で aiworkflow indexes 3 ファイル + `task-workflow-active.md` を `pnpm sync:resolve` で union 自動解消、merge commit 後の `indexes/topic-map.md` +8/-16 drift を単独 chore commit で吸収、typecheck / lint 初回 PASS。
 - 詳細は aiworkflow-requirements 配下の L-DEVSYNC-036 を参照。
 
+### SP-DEVSYNC-029: 修正済 `sync:resolve` で skill union-only conflict は追加コミット不要（2026-05-24 追加）
+- SP-DEVSYNC-028 では「merge commit + chore(indexes) commit の 2 コミット構成が標準」としていたが、`scripts/sync/resolve-skill-merge-conflicts.sh` の rebuild トリガ修正（aiworkflow L-DEVSYNC-036）以降、conflict が skill 系（`indexes/*` + `references/task-workflow-active.md`）のみの union-only ケースでは `pnpm sync:resolve` が `indexes:rebuild` まで内包するため、merge commit **1 コミットで drift ゼロ**に収まる。
+- task 仕様書を書く際: dev sync step では「`pnpm sync:resolve` → `git commit`（merge）→ `pnpm indexes:rebuild` が no drift を返すか確認。drift が出た場合のみ SP-DEVSYNC-028 の chore(indexes) commit にフォールバック」と条件分岐で明示し、常時 2 コミットを強制しない。
+- 適用判断: conflict 一覧が `.claude/skills/*/indexes/*` + `references/task-workflow-active.md` に閉じる場合のみ。ソースコード / completed-tasks doc を含む場合は L-DEVSYNC-003 等の個別ルールを併用。
+- 事例: 2026-05-24 `feat/home-page-prototype-alignment` ← dev sync で skill 系 5 ファイル（`indexes/{keywords.json, quick-reference.md, resource-map.md, topic-map.md}` + `references/task-workflow-active.md`）のみ conflict。`pnpm sync:resolve` 一発で全自動解消（union 4 + ours 1 + 内包 rebuild）、merge commit 後 no drift、`verify-pr-ready` / push 初回 PASS、追加 chore commit 不要。
+- 詳細は aiworkflow-requirements 配下の L-DEVSYNC-037 を参照。
+
 ### SP-DEVSYNC-008: 同一 React Component への並行 feature 追加 conflict は L-DEVSYNC-033 適用
 - task 仕様書 Phase 4-5（implementation）で同一 React component に hook / state / JSX modal を追加する task が並行する場合、dev sync-merge で 3-way conflict が必発する。
 - 解消: aiworkflow-requirements `lessons-learned-dev-sync-merge-conflict-resolution-2026-05.md` の **L-DEVSYNC-033** に従い、hook 命名・JSX 子要素が disjoint であれば SP-DEVSYNC-001 と同じ regex で機械的両側採用。
