@@ -1,0 +1,36 @@
+{
+  "title": "parallel-03 follow-up 001 AdminTopbar primitive extraction",
+  "type": "implementation",
+  "status": "implemented_local_evidence_captured",
+  "metadata": {
+    "workflow_id": "parallel-03-followup-001-admin-topbar-primitive-extraction",
+    "workflow_state": "implemented_local_evidence_captured",
+    "taskType": "implementation",
+    "visualEvidence": "NON_VISUAL",
+    "source_issue": "https://github.com/daishiman/UBM-Hyogo/issues/832",
+    "source_issue_relation": "Refs #832",
+    "commit_push_pr": "user_gated"
+  },
+  "phases": [
+    {
+      "phase": 11,
+      "status": "completed",
+      "artifacts": [
+        { "name": "phase-11-evidence-inventory.md" }
+      ]
+    },
+    {
+      "phase": 12,
+      "status": "completed",
+      "artifacts": [
+        { "name": "main.md" },
+        { "name": "implementation-guide.md" },
+        { "name": "system-spec-update-summary.md" },
+        { "name": "documentation-changelog.md" },
+        { "name": "unassigned-task-detection.md" },
+        { "name": "skill-feedback-report.md" },
+        { "name": "phase12-task-spec-compliance-check.md" }
+      ]
+    }
+  ]
+}

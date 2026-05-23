@@ -882,7 +882,8 @@
       "workflow-issue-516-github-audit-log-cross-source-correlation-artifact-inventory.md",
       "workflow-issue-559-task-03-followup-001-sentry-staging-runtime-evidence-artifact-inventory.md",
       "workflow-task-10-followup-001-opennext-esbuild-mismatch-artifact-inventory.md",
-      "workflow-task-25-followup-loading-state-observation-fixture-artifact-inventory.md"
+      "workflow-task-25-followup-loading-state-observation-fixture-artifact-inventory.md",
+      "workflow-ui-prototype-design-system-foundation-artifact-inventory.md"
     ],
     "up": [
       "api-endpoints.md",
@@ -25016,6 +25017,9 @@
       "workflow-ui-prototype-design-system-foundation-artifact-inventory.md"
     ],
     "Layouts": [
+      "workflow-ui-prototype-design-system-foundation-artifact-inventory.md"
+    ],
+    "AdminTopbar": [
       "workflow-ui-prototype-design-system-foundation-artifact-inventory.md"
     ],
     "rules": [
