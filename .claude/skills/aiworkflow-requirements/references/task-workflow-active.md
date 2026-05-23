@@ -8,6 +8,19 @@
 
 本ドキュメントは、複雑なタスクを単一責務の原則に基づいて分解し、各サブタスクに最適なスラッシュコマンド・エージェント・スキルの組み合わせを選定するためのガイドラインを定義する。
 
+### Issue #55 Notification Channel + Opt-out（2026-05-23）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION / production_runtime_pending_user_gate` |
+| 成果物 | `docs/30-workflows/issue-55-notification-channel-and-optout/` |
+| 目的 | Issue #55 の残ギャップである `NotificationChannel` 抽象化と opt-out 遵守を 1 workflow でローカル実装し、production/staging runtime operation は user gate に分離する |
+| contract | `member_status.notification_opt_out`, `notification_outbox.channel`, `notification_ledger.event_type in (..., skipped_opt_out, unknown_channel)`, `PATCH /admin/members/:memberId/notification-pref`, admin `MemberDrawer` toggle |
+| implementation targets | `apps/api/src/services/notification/{channel.ts,registry.ts,channels/mail.ts}`, `apps/api/src/repository/{notificationOutbox.ts,memberNotificationPreference.ts}`, `apps/api/src/workflows/notificationDispatchTick.ts`, `apps/api/src/routes/admin/member-notification-pref.ts`, `apps/api/migrations/0020_notification_channel_and_opt_out.sql`, `apps/web/src/features/admin/components/_members/MemberDrawer.tsx`, `apps/web/src/lib/admin/api.ts` |
+| Phase 12 | strict 7 outputs + root/output artifacts parity + Phase 11 local evidence present |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-55-notification-channel-and-optout-artifact-inventory.md` |
+| user gate | production D1 migration apply, staging/runtime evidence, commit, push, PR |
+
 ### UT-25-DERIV-02 SA key expiry monitoring（2026-05-22）
 
 | 項目 | 値 |

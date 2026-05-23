@@ -2646,6 +2646,16 @@ node scripts/list-specs.js --topics
 | Synthetic vs Production Boundary（不変条件） | L34 |
 | Gate Conditions (production model promotion 前提) | L40 |
 
+### references/workflow-issue-55-notification-channel-and-optout-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Metadata | L3 |
+| Canonical Workflow Files | L13 |
+| Implementation Targets | L23 |
+| Current-Code Alignment Decisions | L38 |
+| User-Gated Items | L48 |
+
 ### references/workflow-issue-554-audit-correlation-branch-protection-required-check-artifact-inventory.md
 
 | セクション | 行 |
@@ -7357,14 +7367,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L2047 |
-| フェーズ構造（概要） | L2056 |
-| 品質ゲート（概要） | L2087 |
-| 出力テンプレート | L2098 |
-| 実行時のコマンド・エージェント・スキル | L2121 |
-| 昇格パターン集 | L2145 |
-| Current Active / Spec Created Tasks | L2147 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L2307 |
+| ドキュメント構成 | L2060 |
+| フェーズ構造（概要） | L2069 |
+| 品質ゲート（概要） | L2100 |
+| 出力テンプレート | L2111 |
+| 実行時のコマンド・エージェント・スキル | L2134 |
+| 昇格パターン集 | L2158 |
+| Current Active / Spec Created Tasks | L2160 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L2320 |
 
 ### references/task-workflow-backlog-part2.md
 
