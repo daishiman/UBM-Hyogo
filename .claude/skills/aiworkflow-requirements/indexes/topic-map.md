@@ -2541,6 +2541,19 @@ node scripts/list-specs.js --topics
 | Current Canonical Set | L13 |
 | Boundary | L29 |
 
+### references/workflow-issue-520-slack-incidents-channel-webhook-provisioning-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| canonical root | L3 |
+| root artifacts | L7 |
+| phase 12 required artifacts | L16 |
+| implementation artifacts | L28 |
+| production runtime evidence templates (Phase 11) | L37 |
+| same-wave skill sync | L45 |
+| boundary | L58 |
+| deferred evidence | L64 |
+
 ### references/workflow-issue-526-ci-actionlint-shellcheck-gate-artifact-inventory.md
 
 | セクション | 行 |
@@ -7267,7 +7280,7 @@ node scripts/list-specs.js --topics
 | 実行時のコマンド・エージェント・スキル | L2057 |
 | 昇格パターン集 | L2081 |
 | Current Active / Spec Created Tasks | L2083 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L2238 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L2240 |
 
 ### references/task-workflow-backlog-part2.md
 

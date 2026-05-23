@@ -19,9 +19,16 @@ fi
 #   non-merge commit のみを対象とする。feature 単体 push は全変更を対象にする（従来通り）。
 MERGE_COUNT=$(git log --merges --format=%H "$BASE..HEAD" 2>/dev/null | wc -l | tr -d ' ')
 if [ "${MERGE_COUNT:-0}" -ge 1 ]; then
-  # merge commit を除外し、feature ブランチ固有の commit が触った artifacts.json のみ抽出
-  CHANGED=$(git log --no-merges --name-only --format= "$BASE..HEAD" -- '**/artifacts.json' 2>/dev/null | sort -u | sed '/^$/d' || true)
-  echo "[gate-metadata-guard] merge commit を ${MERGE_COUNT} 件検出。non-merge commit 由来の artifacts.json のみ検証します。" >&2
+  # sync-merge で取り込んだ dev 側 non-merge commit を除外するため、本ブランチ独自の commit のみを
+  # `--first-parent --no-merges` で抽出する。本ブランチの分岐元は merge-base で確定し、その範囲内で
+  # 本ブランチ単独の commit が触った artifacts.json のみを評価対象にする。
+  FORK_BASE=$(git merge-base HEAD "$BASE" 2>/dev/null || true)
+  if [ -n "$FORK_BASE" ]; then
+    CHANGED=$(git log --first-parent --no-merges --name-only --format= "$FORK_BASE..HEAD" -- '**/artifacts.json' 2>/dev/null | sort -u | sed '/^$/d' || true)
+  else
+    CHANGED=$(git log --first-parent --no-merges --name-only --format= "$BASE..HEAD" -- '**/artifacts.json' 2>/dev/null | sort -u | sed '/^$/d' || true)
+  fi
+  echo "[gate-metadata-guard] merge commit を ${MERGE_COUNT} 件検出。本ブランチ独自 (first-parent / non-merge) の artifacts.json のみ検証します。" >&2
 else
   CHANGED=$(git diff --name-only "$BASE...HEAD" -- '**/artifacts.json' 2>/dev/null || true)
 fi
