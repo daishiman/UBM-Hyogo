@@ -51,6 +51,20 @@
 | key contract | Next.js 16 async `params: Promise<{ id: string }>`; publicConsent は API contract に委譲し web は `FetchPublicNotFoundError` mapping を検証 |
 | evidence boundary | Phase 12 strict 7 present。apps/web 実装、focused unit/Playwright、Phase 11 screenshot evidence captured。commit、push、PR、deploy verification は user-gated |
 
+### fix-verify-design-tokens-og-route-exclude（2026-05-23）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented-local / implementation / NON_VISUAL / local-evidence-captured` |
+| 成果物 | `docs/30-workflows/completed-tasks/fix-verify-design-tokens-og-route-exclude/` |
+| upstream | Issue #806 dynamic member OG image / task-18 `verify-design-tokens` |
+| 目的 | Next.js Metadata Files route handler convention (`opengraph-image/route.tsx` 等) を `verify-design-tokens` の satori 例外に追加し、PR #175 の false positive を解消する |
+| implementation targets | `scripts/verify-design-tokens.ts`, `scripts/verify-design-tokens.spec.ts` |
+| contract | `DEFAULTS.colorLiteralExcludes` が root convention と route convention の 8 pattern を単一正本として持つ。通常 `src/components` と non-OG `route.tsx` の HEX drift は引き続き検出する |
+| evidence | `outputs/phase-11/verify-tokens-local.txt`, `vitest-verify-design-tokens.txt`, `drift-canary-fail.txt`, `canary-non-og-route.txt`; Phase 12 strict 7 present |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-fix-verify-design-tokens-og-route-exclude-artifact-inventory.md` |
+| user gate | commit, push, PR, GitHub Actions PR checks |
+
 ### Issue #778 schema alias rollback / undo（2026-05-19）
 
 | 項目 | 値 |
