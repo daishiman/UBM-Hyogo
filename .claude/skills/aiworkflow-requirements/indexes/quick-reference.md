@@ -3343,3 +3343,12 @@ UT-17 Cloudflare Notifications → alert-relay → Slack 経路を、既存 API 
 | evidence boundary | local env test / grep / build smoke は PASS。`web-cd / deploy-staging`、`backend-ci / deploy-staging`、staging HTTP 200 は dev push 後の runtime_pending |
 | artifact inventory | `references/workflow-ci-staging-deploy-failure-fix-artifact-inventory.md` |
 | user gate | Cloudflare token creation, 1Password update, `gh secret set`, commit, push, PR, dev push runtime evidence |
+### UT-25-DERIV-01 SA Key Rotation SOP（2026-05-22）
+
+| リソース | 役割 | 読み込み条件 |
+| --- | --- | --- |
+| `docs/30-workflows/completed-tasks/ut-25-deriv-01-sa-key-rotation-sop/` | `GOOGLE_SERVICE_ACCOUNT_JSON` 90 日 rotation SOP/helper workflow | SA key rotation 手順・Phase 11/12 evidence 確認時 |
+| `scripts/cf-rotate-sa-key.sh` | stdin-only Cloudflare Secret rotation helper | staging→production guard / dry-run / fingerprint helper を確認する時 |
+| `docs/30-workflows/runbooks/sa-key-rotation-sop.md` | Operator SOP | 実 rotation 前の手順確認時 |
+| `references/workflow-ut-25-deriv-01-sa-key-rotation-sop-artifact-inventory.md` | Artifact inventory | 同 wave 変更棚卸し時 |
+| `references/lessons-learned-ut-25-deriv-01-sa-key-rotation-2026-05.md` | SA key rotation 苦戦点 L-UT25SAK-001..007（stdin+history 抑止 / state guard / `secret list` name-only + UT-26 / bats fixture / 500 行近傍分割閾値 / 90 日採用根拠 / 完了記録 8 フィールド）| 次回 SOP 更新・類似 secret rotation 設計時 |
