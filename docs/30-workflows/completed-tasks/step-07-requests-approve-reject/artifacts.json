@@ -18,6 +18,32 @@
     "prerequisites": [
       "step-01-useAdminMutation",
       "step-06-useConfirmDialog"
+    ],
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-05-23T00:00:00+09:00",
+        "evidence_path": "docs/30-workflows/completed-tasks/step-07-requests-approve-reject/outputs/phase-12/phase12-task-spec-compliance-check.md",
+        "approver": "daishiman",
+        "notes": "spec_review: Phase 1-12 spec compliance verified"
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "passed",
+        "passed_at": "2026-05-23T00:00:00+09:00",
+        "evidence_path": "docs/30-workflows/completed-tasks/step-07-requests-approve-reject/outputs/phase-11/manual-test.md",
+        "approver": "daishiman",
+        "notes": "implementation_review: NON_VISUAL manual-test evidence (focused Vitest, primitive adoption, design-token grep gates)"
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/step-07-requests-approve-reject/outputs/phase-13/pr-summary.md",
+        "approver": "daishiman",
+        "notes": "external_ops: PR review / staging smoke pending"
+      }
     ]
   },
   "phases": {
