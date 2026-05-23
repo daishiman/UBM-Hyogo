@@ -1,0 +1,5 @@
+Command:
+if rg -n "AdminMutationError" apps/web -g '*.ts' -g '*.tsx'; then exit 1; else printf 'PASS: AdminMutationError grep returned 0 matches in apps/web (*.ts, *.tsx)\n'; fi
+
+Result:
+PASS: AdminMutationError grep returned 0 matches in apps/web (*.ts, *.tsx)

@@ -16,7 +16,8 @@
 | # | 検出ギャップ | 該当 parallel | 実コード evidence |
 |---|-------------|--------------|------------------|
 | i01 | (完了) `ToastProvider` が root layout に配置済み | p-08 DoD 達成 | `apps/web/app/layout.tsx` が `<ToastProvider>{children}</ToastProvider>` で wrap |
-| i02 | `useAdminMutation` が独自 `AdminMutationHttpError` を定義し `FetchAuthedError` / `AuthRequiredError` と乖離 | p-08 ↔ p-10 | `apps/web/src/features/admin/hooks/useAdminMutation.ts:58` で独自 class 定義 / `apps/web/src/lib/fetch/authed.ts:17,24` に既存 error class |
+| i02 | (完了) `useAdminMutation` の 401/非2xx と 3 panel の mutation error class を `AuthRequiredError` / `FetchAuthedError` へ統一 | p-08 ↔ p-10 / DoD 143 達成 | `apps/web/src/features/admin/hooks/useAdminMutation.ts` / `MeetingPanel.tsx` / `SchemaDiffPanel.tsx` / `RequestQueuePanel.tsx`、`AdminMutationError` grep 0 件 |
+| i02b | (完了) i02 の hook 内部 migration 後に残っていた `AdminMutationError` class と 3 panel 依存を削除（2026-05-23 closeout） | i02 closeout | canonical workflow `docs/30-workflows/completed-tasks/parallel-i02b-admin-mutation-error-finalize/`、focused tests 53 PASS、integration tests 41 PASS |
 | i03 | dialog の `router.refresh()` 呼び出し位置が spec と乖離（close 後発火リスク） | p-02 spec 違反 | `RequestActionPanel.tsx:57` で `refresh()` を onSubmitted callback に置く実装。spec は dialog 内で close 前 |
 | i04 | (完了) `CallToActionCTA` を HomePage に実装済み | p-06 DoD 達成 | `apps/web/app/page.tsx` が `CallToActionCTA` を mount、`apps/web/src/components/public/CallToActionCTA.tsx` 作成済み、Phase 11 screenshot 3 件保存 |
 | i05 | (完了) `/login/loading.tsx` 新規作成 + `/login/error.tsx` の focus 管理 / alert 強化を実装済み | p-07 DoD line 141, 142 達成 | `apps/web/app/login/loading.tsx` が `role=status` / `aria-busy=true` / `aria-live=polite`、`error.tsx` が `useRef` / `tabIndex={-1}` / `aria-live=assertive` |
@@ -30,6 +31,7 @@ integration-fixes/
 ├─ index.md  (本書)
 ├─ parallel-i01-toastprovider-root-mount/spec.md
 ├─ parallel-i02-admin-error-type-unify/spec.md
+├─ parallel-i02b-admin-mutation-error-finalize/spec.md
 ├─ parallel-i03-dialog-refresh-order/spec.md
 ├─ parallel-i04-homepage-cta/spec.md
 ├─ parallel-i05-login-loading-and-error-focus/spec.md
@@ -75,7 +77,8 @@ integration-fixes/
 | spec | 状態 | 追跡場所 |
 | --- | --- | --- |
 | i01 | completed locally | `docs/30-workflows/completed-tasks/i01-toastprovider-root-mount/` |
-| i02 | spec_ready_implementation_pending | `parallel-i02-admin-error-type-unify/spec.md` / `docs/30-workflows/unassigned-task/integration-fixes-i02-admin-error-type-unify.md` |
+| i02 | completed locally | `parallel-i02-admin-error-type-unify/spec.md` / `docs/30-workflows/completed-tasks/parallel-i02b-admin-mutation-error-finalize/`（DoD 143 達成） |
+| i02b | completed locally | `parallel-i02b-admin-mutation-error-finalize/spec.md` / `docs/30-workflows/completed-tasks/parallel-i02b-admin-mutation-error-finalize/` |
 | i03 | spec_ready_implementation_pending | `parallel-i03-dialog-refresh-order/spec.md` / `docs/30-workflows/unassigned-task/integration-fixes-i03-dialog-refresh-order.md` |
 | i04 | completed locally | `docs/30-workflows/integration-fixes-i04-homepage-cta-implementation/` / `parallel-i04-homepage-cta/spec.md` / `docs/30-workflows/unassigned-task/integration-fixes-i04-homepage-cta.md` |
 | i05 | implemented_local_evidence_captured | `docs/30-workflows/parallel-i05-login-loading-and-error-focus/` / `parallel-i05-login-loading-and-error-focus/spec.md` / `docs/30-workflows/unassigned-task/integration-fixes-i05-login-loading-and-error-focus.md`（consumed） |

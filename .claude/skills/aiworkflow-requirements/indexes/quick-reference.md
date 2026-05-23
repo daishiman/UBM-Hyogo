@@ -1,5 +1,18 @@
 # クイックリファレンス
 
+## ut-cicd-composite-setup-rollout（2026-05-22）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow | `docs/30-workflows/ut-cicd-composite-setup-rollout/` |
+| status | `implemented_local_evidence_captured / implementation / NON_VISUAL / implementation_complete_pending_pr` |
+| purpose | Issue #284 の raw `actions/setup-node@v4` + `pnpm/action-setup@v4` workflow steps を existing `.github/actions/setup-project` composite action へ rollout |
+| implementation | `.github/workflows/*.yml` 13 files; direct setup action grep after = 0 |
+| exceptions | `web-cd.yml` uses `setup-strategy: mise`; `post-release-dashboard.yml` uses `install: 'false'` + `cache: ''` |
+| Phase 12 | strict 7 files present under `outputs/phase-12/` |
+| boundary | commit, push, PR, remote GitHub Actions green evidence, Issue #284 mutation are user-gated |
+
+## Issue #276 mobile FilterBar tag picker（2026-05-20）
 ## Issue #277 Next.js proxy migration（2026-05-20）
 
 | 目的 | 参照先 |
@@ -25,6 +38,19 @@
 | key contract | Next.js 16 App Router `params: Promise<{ id: string }>`; public profile privacy is API-owned by `apps/api/src/routes/public/member-profile.ts` and `apps/api/src/use-cases/public/get-public-member-profile.ts` |
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-806-dynamic-member-og-image-artifact-inventory.md` |
 | evidence boundary | Phase 12 strict 7 present; focused unit/Playwright and Phase 11 screenshot evidence captured; commit / push / PR / deploy verification user-gated |
+
+## fix-verify-design-tokens-og-route-exclude（2026-05-23）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/fix-verify-design-tokens-og-route-exclude/` |
+| 状態 | `implemented-local / implementation / NON_VISUAL / local-evidence-captured` |
+| upstream | Issue #806 dynamic member OG image; task-18 `verify-design-tokens` gate |
+| scope | `scripts/verify-design-tokens.ts` route handler convention exclude for `opengraph-image/route.tsx`, `twitter-image/route.tsx`, `icon/route.tsx`, `apple-icon/route.tsx` |
+| tests | `scripts/verify-design-tokens.spec.ts` C-EX-1..6 plus existing C1..7 |
+| evidence | `outputs/phase-11/verify-tokens-local.txt`, `vitest-verify-design-tokens.txt`, `drift-canary-fail.txt`, `canary-non-og-route.txt` |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-fix-verify-design-tokens-og-route-exclude-artifact-inventory.md` |
+| user gate | commit, push, PR, GitHub Actions PR checks |
 
 ## Issue #799 useAutoFocusOnMount hook（2026-05-19）
 ## step-06 meetings attendance implementation（2026-05-20）
@@ -89,13 +115,18 @@
 
 | 項目 | 値 |
 | --- | --- |
-| workflow | `docs/30-workflows/completed-tasks/issue-775-serial-05-step-03-runtime-evidence-completion/` |
-| parent | `docs/30-workflows/completed-tasks/serial-05-step-03-schema-diff-resolve/` |
-| status | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION / refs_only` |
-| implementation | `apps/web/playwright.admin-schema-diff.config.ts`, `apps/web/playwright/tests/visual/admin-schema-diff.spec.ts`, optional future real-D1 `scripts/fixtures/serial-05-step-03/seed-{diff,cleanup}.sql` |
-| evidence | parent `outputs/phase-11/screenshots/` 11 fixture-backed local runtime PNG + `outputs/phase-11/evidence/playwright.log` (`11 passed / 3 skipped`) |
-| boundary | production app/API files frozen; real D1/staging smoke user-gated; Issue #775 remains closed and PR text must use `Refs #775` only |
-| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-775-serial-05-step-03-runtime-evidence-completion-artifact-inventory.md` |
+| workflow | `docs/30-workflows/issue-276-mobile-filterbar-tag-picker/` |
+| status | `implemented_local_runtime_pending / implementation / VISUAL / implementation_complete_pending_pr` |
+| issue | #276 OPEN |
+| source trace | `docs/30-workflows/unassigned-task/task-06a-followup-003-mobile-filterbar-tag-picker.md` canonical_root_created |
+| purpose | `/members` に tag candidate chip picker、mobile sticky/collapsible summary、clear-all、5-tag limit hint を追加する実装 |
+| API boundary | existing `GET /public/members` response extension with `topTags`; no new endpoint |
+| implementation | `packages/shared/src/zod/viewmodel.ts`, public members API/view model, `MemberFilters.client.tsx`, `FiltersSummaryMobile.client.tsx`, `TagPicker.client.tsx`, public members page, focused Vitest and Playwright mobile spec |
+| evidence | `outputs/phase-11/evidence/*.png`, `outputs/phase-11/test-report.md`, `outputs/phase-12/phase12-task-spec-compliance-check.md` |
+| system specs | `docs/00-getting-started-manual/specs/01-api-schema.md`, `09-ui-ux.md`, `09e-screen-blueprints-public.md`, `12-search-tags.md` |
+| lessons-learned | `.claude/skills/aiworkflow-requirements/references/lessons-learned-issue-276-mobile-filterbar-tag-picker-2026-05.md`（L-I276-001..007） |
+| pattern reference | `.claude/skills/task-specification-creator/references/patterns-mobile-ui-primitive-3point-sync.md`（filter / picker primitive 追加時に複製） |
+| boundary | commit, push, PR, Issue mutation, and external deployment are pending user approval |
 
 ## Issue #799 useAutoFocusOnMount hook（2026-05-19）
 
@@ -201,6 +232,20 @@
 > 詳細は resource-map.md → 該当ファイル を参照
 
 ---
+
+### Issue #520 Slack Incident Channel Webhook Provisioning（2026-05-07）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/issue-520-slack-incidents-channel-webhook-provisioning/` |
+| 状態 | `implemented-local / implementation / NON_VISUAL / PASS_BOUNDARY_SYNCED_RUNTIME_PENDING` |
+| channel SSOT | `#ubm-hyogo-incidents` |
+| secret SSOT | `SLACK_WEBHOOK_INCIDENT` |
+| 1Password 正本 | `op://UBM-Hyogo/Slack Incident Webhook (<env>)/url` |
+| runbook | `docs/30-workflows/runbooks/slack-incidents-channel-provisioning.md` |
+| redaction gate | `bash scripts/redaction-grep.sh .` |
+| blocks | Issue #495 Phase 11 runtime smoke / 09c production readiness observability gate |
+| boundary | Slack / 1Password / Cloudflare / GitHub / smoke / commit / push / PR は user approval 後のみ |
 
 ### parallel-04 Shared Page Chrome（2026-05-19）
 
@@ -337,6 +382,20 @@
 | invariant | 401 は `AuthRequiredError` + `/login?redirect=...` redirector、403 / 4xx / 5xx は `FetchAuthedError(status, bodyText)`。既存 caller の hook 利用形は互換 |
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-i02-admin-error-type-unify-artifact-inventory.md` |
 | source | `docs/30-workflows/completed-tasks/integration-fixes-i02-admin-error-type-unify.md` consumed |
+| user gate | commit / push / PR |
+
+### parallel-i02b-admin-mutation-error-finalize（2026-05-23）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/parallel-i02b-admin-mutation-error-finalize/` |
+| 状態 | `implemented_local_evidence_captured / implementation / NON_VISUAL / implementation_complete_pending_pr` |
+| scope | i02 closeout: residual `AdminMutationError` class removal and panel migration to `FetchAuthedError` |
+| implementation | `apps/web/src/features/admin/hooks/useAdminMutation.ts`, `apps/web/src/components/admin/{MeetingPanel,SchemaDiffPanel,RequestQueuePanel}.tsx` |
+| tests | `MeetingPanel.component.spec.tsx`, `SchemaDiffPanel.component.spec.tsx`, `RequestQueuePanel.component.spec.tsx`, `useAdminMutation.spec.ts` |
+| invariant | `FetchAuthedError.status` is the discriminator; user-facing fallback text reads `bodyText`, not `message` |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-parallel-i02b-admin-mutation-error-finalize-artifact-inventory.md` |
+| source | `docs/30-workflows/ui-prototype-alignment-mvp-recovery/improvements/integration-fixes/parallel-i02b-admin-mutation-error-finalize/spec.md` completed |
 | user gate | commit / push / PR |
 
 ### serial-05-step-03 schema diff resolve UI（2026-05-16）
@@ -787,16 +846,6 @@
 | failure cascade guard | 通知 step は `if: ${{ failure() && hashFiles('<artifact>') != '' }}` で前提 artifact を guard する（`deployment-gha.md`） |
 | Environment secret 0 件問題 | smoke 起動前に `bash scripts/smoke/provision-staging-secrets.sh` + name-only inventory を必須化（`deployment-secrets-management.md`） |
 | lessons-learned | `references/lessons-learned-ci-pipeline-recovery-2026-05.md`（L-CIPR-001〜006） |
-
-### Issue #765 1Password Vault Restructure（2026-05-18）
-
-| 目的 | 参照先 |
-| --- | --- |
-| workflow root | `docs/30-workflows/issue-765-1p-vault-restructure-oidc-cutover/` |
-| 状態 | `spec_created_blocked_by_oidc_support / implementation / NON_VISUAL` |
-| deploy token canonical candidates | `op://UBM-Hyogo/Cloudflare/api_token_staging` / `op://UBM-Hyogo/Cloudflare/api_token_production` |
-| boundary | OIDC supported deploy path / production cutover evidence が揃うまで Phase 11 mutation は blocked |
-| user gate | 1Password archive, `bash scripts/cf.sh whoami`, commit, push, PR, Gate B' physical delete |
 
 ### E2E quality uplift Stage 2 / 2a admin requests（2026-05-09）
 

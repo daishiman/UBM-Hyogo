@@ -117,7 +117,36 @@ describe("createPublicRouter", () => {
         page: 2,
         limit: 100,
       },
+      topTags: [],
     });
+  });
+
+  it("GET /members は topTags 集計結果を返す（issue-276）", async () => {
+    const app = new Hono();
+    app.onError(errorHandler);
+    app.route("/public", createPublicRouter());
+    const env = buildEnv({
+      DB: createPublicD1Mock({
+        publicMembers: [
+          buildPublicMemberRow({ member_id: "m-1", current_response_id: "r-1" }),
+        ],
+        publicMemberCount: 1,
+        responseFieldsByResponseId: {
+          "r-1": [buildResponseFieldRow()],
+        },
+        topTags: [
+          { code: "ai", label: "AI", count: 3 },
+          { code: "design", label: "デザイン", count: 1 },
+        ],
+      }),
+    });
+    const res = await app.request("/public/members", {}, env);
+    expect(res.status).toBe(200);
+    const body = (await res.json()) as { topTags: Array<{ code: string; count: number }> };
+    expect(body.topTags).toEqual([
+      { code: "ai", label: "AI", count: 3 },
+      { code: "design", label: "デザイン", count: 1 },
+    ]);
   });
 
   it("GET /members/:memberId は不適格なら 404 (UBM-1404)", async () => {

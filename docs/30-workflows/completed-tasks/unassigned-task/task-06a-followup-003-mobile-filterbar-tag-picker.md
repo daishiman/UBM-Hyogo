@@ -7,7 +7,9 @@
 | 分類 | UI/UX 改善 |
 | 対象機能 | `/members` FilterBar |
 | 優先度 | 中 |
-| ステータス | 未実施 |
+| ステータス | canonical_root_created |
+| Canonical workflow | `docs/30-workflows/issue-276-mobile-filterbar-tag-picker/` |
+| GitHub Issue | #276 |
 | 発見元 | 06a 30種思考法レビュー |
 | 発見日 | 2026-04-29 |
 
