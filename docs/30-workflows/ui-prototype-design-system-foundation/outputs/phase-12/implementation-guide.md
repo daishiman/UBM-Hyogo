@@ -25,8 +25,9 @@
 2. Route Coverage Matrix の `current_app_path` を編集対象の正とする。
 3. `serial-05` は page blueprint と primitive composition、`serial-06` は response_fields binding、`parallel-01/02` は CSS / selector、`parallel-03/04` は shell / fallback を担当する。
 4. `parallel-04` の root fallback 4 画面は `parallel-04-shared-page-chrome/outputs/phase-11/*.png` を参照する。
-5. 実装後は `serial-07` の Playwright visual evidence で top / members-list / member-detail / admin-dashboard を取得する。
-6. `/login` / `/profile` / `/privacy` / `/terms` は root 配下を編集し、route group 配下へ新規作成しない。
+5. `serial-05` の route marker / blueprint binding evidence は `serial-05-page-routes-blueprint-binding/outputs/phase-11/` の static logs と route inventory を参照する。
+6. 実装後は `serial-07` の Playwright visual evidence で top / members-list / member-detail / admin-dashboard を取得する。
+7. `/login` / `/profile` / `/privacy` / `/terms` は root 配下を編集し、route group 配下へ新規作成しない。
 
 ### Sub-workflow Guides
 
@@ -50,6 +51,14 @@ rg -n "pages-public.jsx|pages-member.jsx|pages-admin.jsx|styles.css|09e|09f|09g|
   docs/30-workflows/ui-prototype-design-system-foundation/PROTOTYPE-COVERAGE.md
 
 mise exec -- pnpm --filter @ubm-hyogo/web test apps/web/src/components/public/__tests__/MemberDetailSections.component.spec.tsx
+ENVIRONMENT=local \
+NEXT_PUBLIC_API_BASE_URL=http://127.0.0.1:8787 \
+PUBLIC_API_BASE_URL=http://127.0.0.1:8787 \
+INTERNAL_API_BASE_URL=http://127.0.0.1:8787 \
+AUTH_URL=http://localhost:3000 \
+AUTH_SECRET=local-build-auth-secret-32-bytes \
+SENTRY_ENVIRONMENT=local \
+SENTRY_TRACES_SAMPLE_RATE=0 \
 mise exec -- pnpm --filter @ubm-hyogo/web build
 ```
 
@@ -60,3 +69,6 @@ screenshots are captured under
 `parallel-04-shared-page-chrome/outputs/phase-11/`. Full 19-route visual
 regression screenshots are still owned by
 `serial-07-regression-evidence/outputs/phase-11/screenshots/`.
+`serial-05-page-routes-blueprint-binding/outputs/phase-11/` records local
+static evidence for route marker, build, lint, typecheck, adapter unit, token,
+and grep gates.

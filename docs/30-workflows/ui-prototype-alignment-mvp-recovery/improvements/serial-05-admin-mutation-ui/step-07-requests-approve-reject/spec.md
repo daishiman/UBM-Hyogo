@@ -45,21 +45,24 @@ apps/web/app/(admin)/admin/requests/
 ```
 POST /api/admin/requests/:noteId/resolve
 {
-  "action": "approve" | "reject",
+  "resolution": "approve" | "reject",
   "resolutionNote": "optional reason (reject 時は必須)"
 }
 
 Response (200):
-{ "ok": true, "resolvedAt": "2026-05-15T10:00:00Z" }
+{ "ok": true, "noteId": "...", "requestStatus": "resolved" | "rejected", "resolvedAt": "2026-05-15T10:00:00Z", "memberAfter": { ... } }
+
+Error (400):
+{ "ok": false, "error": "invalid json" | "<zod message>" | "unsupported note type" }
 
 Error (404):
-{ "ok": false, "error": "NOT_FOUND" }
+{ "ok": false, "error": "note not found" | "member_status_not_found" }
 
 Error (409):
-{ "ok": false, "error": "ALREADY_RESOLVED" }
+{ "ok": false, "error": "already_resolved", "currentStatus": "resolved" | "rejected" | null }
 
 Error (422):
-{ "ok": false, "error": "INVALID_REQUEST_TYPE" }
+{ "ok": false, "error": "invalid desiredState in request payload" }
 ```
 
 ### 4.2 RequestQueueDetail.tsx
@@ -165,29 +168,29 @@ export function RequestConfirmDialog({
 ## 7. テスト方針
 
 ### RequestQueuePanel.component.spec.tsx
-- [✓] initial 렌더링 (list + detail)
-- [✓] item select → detail 더新
-- [✓] approve button → dialog 표시
-- [✓] reject button → dialog 표시
-- [✓] 200 response → toast + list update
-- [✓] 409 response (ALREADY_RESOLVED) → toast "他の管理者が既に処理済み" + refresh
-- [✓] filter params (type, cursor) handling
+- [ ] initial render (list + detail)
+- [ ] item select → detail refresh
+- [ ] approve button → dialog display
+- [ ] reject button → dialog display
+- [ ] 200 response → toast + list update
+- [ ] 409 response (`already_resolved`) → toast "他の管理者が既に処理済み" + refresh
+- [ ] filter params (type, cursor) handling
 
 ### RequestQueueDetail.spec.tsx
-- [✓] render item 내용
-- [✓] approve button → onApprove callback
-- [✓] reject button → onReject callback
-- [✓] busy=true → buttons disabled
-- [✓] RequestNoteType label 표시 (visibility_request / delete_request)
+- [ ] render item content
+- [ ] approve button → onApprove callback
+- [ ] reject button → onReject callback
+- [ ] busy=true → buttons disabled
+- [ ] RequestNoteType label display (visibility_request / delete_request)
 
 ### RequestConfirmDialog.spec.tsx
-- [✓] open={true} → `<dialog>`.showModal() 呼び出し
-- [✓] ESC キー → close + onClose callback
-- [✓] cancel button → close
-- [✓] kind='reject' & requireNote=true & note="" → validation error
-- [✓] submit button → onSubmit(note) 呼び出し
-- [✓] isDestructive=true (delete_request approve) → 赤色警告表示
-- [✓] busy=true → buttons disabled
+- [ ] open={true} → `<dialog>`.showModal() 呼び出し
+- [ ] ESC キー → close + onClose callback
+- [ ] cancel button → close
+- [ ] kind='reject' & requireNote=true & note="" → validation error
+- [ ] submit button → onSubmit(note) 呼び出し
+- [ ] isDestructive=true (delete_request approve) → 赤色警告表示
+- [ ] busy=true → buttons disabled
 
 ## 8. ローカル実行コマンド
 
@@ -200,8 +203,8 @@ pnpm test apps/web --run -- RequestConfirmDialog.spec.tsx
 # dev server
 pnpm dev
 # → http://localhost:3000/admin/requests (login 後)
-# → request item select → detail 표시
-# → approve / reject button → dialog 표시
+# → request item select → detail display
+# → approve / reject button → dialog display
 # → submit → toast
 
 # e2e smoke test
@@ -211,23 +214,23 @@ pnpm e2e:smoke
 ## 9. DoD (Definition of Done)
 
 ### 実装完了
-- [✓] RequestQueuePanel.tsx refactor (hook 統合)
-- [✓] RequestQueueDetail.tsx 新規実装
-- [✓] RequestConfirmDialog.tsx 新規実装 (`<dialog>` element)
-- [✓] unit test green
+- [ ] RequestQueuePanel.tsx refactor (hook 統合)
+- [ ] RequestQueueDetail.tsx 新規実装
+- [ ] RequestConfirmDialog.tsx 新規実装 (`<dialog>` element)
+- [ ] unit test green
 
 ### 品質
-- [✓] TypeScript strict mode
-- [✓] design token 色 使用 (HEX 直書き 禁止)
-- [✓] a11y: dialog role, aria-label, label↔input
-- [✓] isDestructive=true 時の赤色警告表示
+- [ ] TypeScript strict mode
+- [ ] design token 色 使用 (HEX 直書き 禁止)
+- [ ] a11y: dialog role, aria-label, label↔input
+- [ ] isDestructive=true 時の赤色警告表示
 
 ### 動作確認
-- [✓] dialog showModal() / close()
-- [✓] reject 時 note validation
-- [✓] 409 conflict → toast + refresh
-- [✓] approve/reject → mutation 後 list update
-- [✓] smoke test PASS
+- [ ] dialog showModal() / close()
+- [ ] reject 時 note validation
+- [ ] 409 conflict → toast + refresh
+- [ ] approve/reject → mutation 後 list update
+- [ ] smoke test PASS
 
 ## 10. リスク・制約
 
