@@ -294,6 +294,8 @@ Issue #378 以降、Forms response sync の tag candidate enqueue は `TAG_QUEUE
 
 Sheets sync auth は UT-03 で実装した `packages/integrations/google/src/sheets/auth.ts` を使う。`GOOGLE_SERVICE_ACCOUNT_JSON` を Cloudflare Secret として注入し、任意で `SHEETS_SCOPES` を指定する。未指定時の scope は `https://www.googleapis.com/auth/spreadsheets.readonly`。JWT signing は Workers WebCrypto (`RSASSA-PKCS1-v1_5` + SHA-256) を使い、token endpoint の `expires_in` に従って cache し、失効 5 分前に再取得する。UT-09 / UT-21 は `@ubm-hyogo/integrations-google` の `sheets` namespace export 経由で `getSheetsAccessToken()` を呼ぶ。
 
+UT-25-DERIV-02 は `GOOGLE_SERVICE_ACCOUNT_JSON` の Google 側 key 失効・権限剥奪を Sheets API 401/403 で検出する。`SHEETS_AUTH_401_KEY_INVALID` と `SHEETS_AUTH_403_FORBIDDEN` は別 code とし、5xx / 429 / network timeout は `SHEETS_AUTH_OTHER` として alert 対象外にする。Healthcheck は新規 cron を追加せず、既存 `*/15 * * * *` 分岐に `ctx.waitUntil(runSheetsAuthHealthcheck(...))` で相乗りする。Alert payload は `category: "sheets-auth"` と rollback runbook URL を含める。
+
 
 staging / production では `[triggers]` と `[env.staging.triggers]` の両方に `*/15 * * * *` を明示する。未設定 secret の場合、cron は response sync を開始せずスキップする。
 

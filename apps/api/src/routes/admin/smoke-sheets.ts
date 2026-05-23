@@ -1,4 +1,5 @@
-// UT-26: Sheets API E2E smoke route。dev/staging 限定。production では 404 を返す。
+// UT-26: Sheets API E2E smoke route。dev/staging 限定が既定。
+// production では SMOKE_SHEETS_ALLOW_PRODUCTION=true の明示設定時だけ有効化する。
 //
 // 目的:
 //   Cloudflare Workers Edge Runtime 上で Google Sheets API v4 への
@@ -24,7 +25,9 @@ export interface SmokeSheetsEnv {
   readonly ENVIRONMENT?: "production" | "staging" | "development";
   readonly SMOKE_ADMIN_TOKEN?: string;
   readonly SHEETS_SPREADSHEET_ID?: string;
+  readonly GOOGLE_SERVICE_ACCOUNT_JSON?: string;
   readonly GOOGLE_SHEETS_SA_JSON?: string;
+  readonly SMOKE_SHEETS_ALLOW_PRODUCTION?: string;
 }
 
 export interface SmokeDeps {
@@ -63,8 +66,11 @@ export function createSmokeSheetsRoute(deps: SmokeDeps = {}) {
   const now = deps.now ?? (() => Date.now());
 
   app.get("/", async (c) => {
-    // 1) production では 404 (mount しない方針)
-    if (c.env.ENVIRONMENT === "production") {
+    // 1) production は rotation smoke 時だけ明示的に開く。
+    if (
+      c.env.ENVIRONMENT === "production" &&
+      c.env.SMOKE_SHEETS_ALLOW_PRODUCTION !== "true"
+    ) {
       return c.notFound();
     }
 
@@ -91,7 +97,8 @@ export function createSmokeSheetsRoute(deps: SmokeDeps = {}) {
     const sheetName = extractSheetName(requestedRange);
 
     // env validation
-    const saJson = c.env.GOOGLE_SHEETS_SA_JSON;
+    const saJson =
+      c.env.GOOGLE_SERVICE_ACCOUNT_JSON ?? c.env.GOOGLE_SHEETS_SA_JSON;
     const spreadsheetId = c.env.SHEETS_SPREADSHEET_ID;
     if (!saJson || !spreadsheetId) {
       return c.json(
@@ -99,7 +106,7 @@ export function createSmokeSheetsRoute(deps: SmokeDeps = {}) {
           ok: false,
           errorCode: "CONFIG_MISSING" satisfies SmokeErrorCode,
           message:
-            "GOOGLE_SHEETS_SA_JSON / SHEETS_SPREADSHEET_ID が未設定です",
+            "GOOGLE_SERVICE_ACCOUNT_JSON / SHEETS_SPREADSHEET_ID が未設定です",
           hint: "wrangler secret put で設定してください",
         },
         500,
@@ -125,7 +132,7 @@ export function createSmokeSheetsRoute(deps: SmokeDeps = {}) {
           ok: false,
           errorCode: "CONFIG_MISSING" satisfies SmokeErrorCode,
           message: "Service Account JSON の parse に失敗しました",
-          hint: "GOOGLE_SHEETS_SA_JSON が有効な JSON か確認してください",
+          hint: "GOOGLE_SERVICE_ACCOUNT_JSON が有効な JSON か確認してください",
         },
         500,
       );
