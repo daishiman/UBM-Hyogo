@@ -1,5 +1,20 @@
 # クイックリファレンス
 
+## home-page-prototype-alignment（2026-05-23）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/home-page-prototype-alignment/` |
+| status | `implemented / implementation / VISUAL / local runtime screenshots captured` |
+| purpose | public home `/` の prototype drift を `legacy-public.css` selector rules と `CallToActionCTA` data-role cleanup で解消 |
+| historical parent | `docs/30-workflows/ui-prototype-alignment-mvp-recovery/` |
+| current implementation owner | `docs/30-workflows/ui-prototype-design-system-foundation/`（prototype/system foundation の現行 SSOT） |
+| implementation targets | `apps/web/src/styles/legacy-public.css`, `apps/web/src/components/public/CallToActionCTA.tsx`, `apps/web/src/components/public/__tests__/CallToActionCTA.component.spec.tsx`, `apps/web/app/opengraph-image.tsx`, `apps/web/app/(public)/members/[id]/opengraph-image/route.tsx` |
+| Phase 12 | `outputs/phase-12/phase12-task-spec-compliance-check.md` + strict 7 present |
+| evidence | `outputs/phase-11/screenshots/home-desktop-2026-05-23.png`, `outputs/phase-11/screenshots/home-mobile-2026-05-23.png` |
+| boundary | staging deploy, commit, push, PR are user-gated |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-home-page-prototype-alignment-artifact-inventory.md` |
+
 ## Issue #277 Next.js proxy migration（2026-05-20）
 
 | 目的 | 参照先 |

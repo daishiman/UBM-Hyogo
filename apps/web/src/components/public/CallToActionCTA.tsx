@@ -18,26 +18,22 @@ export function CallToActionCTA({
   ctaLabel = "回答フォームを開く",
 }: CallToActionCTAProps): ReactElement {
   return (
-    <section
-      data-component="call-to-action-cta"
-      data-variant="dark"
-      className="call-to-action-cta"
-    >
-      <div className="call-to-action-cta__inner">
-        <div className="call-to-action-cta__copy">
-          <p className="call-to-action-cta__eyebrow">FOR MEMBERS</p>
-          <h2 className="call-to-action-cta__heading">{heading}</h2>
-          <p className="call-to-action-cta__body">{body}</p>
+    <section data-component="call-to-action-cta" data-variant="dark">
+      <div data-role="inner">
+        <div data-role="copy">
+          <p data-role="eyebrow">FOR MEMBERS</p>
+          <h2 data-role="heading">{heading}</h2>
+          <p data-role="body">{body}</p>
         </div>
         <a
           href={responderUrl}
           target="_blank"
           rel="noopener noreferrer"
-          data-role="call-to-action-cta-button"
-          className="cta-button cta-button--accent"
+          data-role="cta-button"
+          data-variant="accent"
         >
           <span>{ctaLabel}</span>
-          <Icon name="external-link" size="sm" className="call-to-action-cta__button-icon" />
+          <Icon name="external-link" size="sm" />
         </a>
       </div>
     </section>

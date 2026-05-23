@@ -8,6 +8,22 @@
 
 本ドキュメントは、複雑なタスクを単一責務の原則に基づいて分解し、各サブタスクに最適なスラッシュコマンド・エージェント・スキルの組み合わせを選定するためのガイドラインを定義する。
 
+### home-page-prototype-alignment（2026-05-23）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented / implementation / VISUAL / local runtime screenshots captured` |
+| 成果物 | `docs/30-workflows/home-page-prototype-alignment/` |
+| historical parent | `docs/30-workflows/ui-prototype-alignment-mvp-recovery/` |
+| current implementation owner | `docs/30-workflows/ui-prototype-design-system-foundation/` |
+| 目的 | public home `/` の prototype drift を `legacy-public.css` selector rules と `CallToActionCTA` data-role cleanup で解消 |
+| implementation targets | `apps/web/src/styles/legacy-public.css`, `apps/web/src/components/public/CallToActionCTA.tsx`, `apps/web/src/components/public/__tests__/CallToActionCTA.component.spec.tsx`, `apps/web/app/opengraph-image.tsx`, `apps/web/app/(public)/members/[id]/opengraph-image/route.tsx` |
+| 実行順 | task-01 CSS marker block → task-02 CTA selector rewrite（同一 `legacy-public.css` 編集のため直列） |
+| Phase 11 | local screenshots: `outputs/phase-11/screenshots/home-desktop-2026-05-23.png`, `outputs/phase-11/screenshots/home-mobile-2026-05-23.png` |
+| Phase 12 | strict 7 outputs + canonical compliance check present |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-home-page-prototype-alignment-artifact-inventory.md` |
+| user gate | staging deploy, commit, push, PR |
+
 ### Issue #277 Next.js proxy migration（2026-05-20）
 
 | 項目 | 値 |
