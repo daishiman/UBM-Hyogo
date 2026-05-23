@@ -1,7 +1,12 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { cleanup, screen, waitFor, render } from "@testing-library/react";
+import { cleanup, fireEvent, screen, waitFor, render } from "@testing-library/react";
 import type { AdminMemberDetailView } from "@ubm-hyogo/shared";
 import { asMemberId, asResponseEmail, asResponseId } from "@ubm-hyogo/shared";
+
+vi.mock("next/navigation", () => ({
+  useRouter: () => ({ refresh: vi.fn(), push: vi.fn(), replace: vi.fn() }),
+}));
+
 import { MemberDrawer } from "../_members/MemberDrawer";
 
 afterEach(() => {
@@ -17,6 +22,7 @@ const detail: AdminMemberDetailView = {
     rulesConsent: "consented",
     publishState: "public",
     isDeleted: false,
+    notificationOptOut: false,
   },
   profile: {
     memberId: asMemberId("member/@id 01"),
@@ -62,5 +68,50 @@ describe("MemberDrawer", () => {
         cache: "no-store",
       });
     });
+  });
+
+  it("notification opt-out checkbox sends PATCH and updates visible state", async () => {
+    const fetchMock = vi.spyOn(globalThis, "fetch").mockImplementation(
+      async (input, init) => {
+        if (String(input).includes("/notification-pref")) {
+          expect(init?.method).toBe("PATCH");
+          expect(init?.body).toBe(JSON.stringify({ notificationOptOut: true }));
+          return {
+            ok: true,
+            headers: new Headers({ "content-type": "application/json" }),
+            json: async () => ({
+              ok: true,
+              memberId: "member/@id 01",
+              notificationOptOut: true,
+            }),
+          } as Response;
+        }
+        return {
+          ok: true,
+          json: async () => detail,
+        } as Response;
+      },
+    );
+
+    render(<MemberDrawer memberId="member/@id 01" onClose={() => {}} />);
+
+    const checkbox = await screen.findByRole("checkbox", {
+      name: "通知をオプトアウト",
+    }) as HTMLInputElement;
+    expect(checkbox.checked).toBe(false);
+
+    fireEvent.click(checkbox);
+
+    await waitFor(() => {
+      expect(fetchMock).toHaveBeenCalledWith(
+        "/api/admin/members/member%2F%40id%2001/notification-pref",
+        expect.objectContaining({
+          method: "PATCH",
+          body: JSON.stringify({ notificationOptOut: true }),
+        }),
+      );
+    });
+    expect(checkbox.checked).toBe(true);
+    expect(screen.getByText("true")).toBeTruthy();
   });
 });

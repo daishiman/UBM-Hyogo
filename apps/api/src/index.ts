@@ -15,6 +15,7 @@ import {
 import { adminDashboardRoute } from "./routes/admin/dashboard";
 import { adminMembersRoute } from "./routes/admin/members";
 import { adminMemberStatusRoute } from "./routes/admin/member-status";
+import { adminMemberNotificationPrefRoute } from "./routes/admin/member-notification-pref";
 import { adminMemberNotesRoute } from "./routes/admin/member-notes";
 import { adminMemberDeleteRoute } from "./routes/admin/member-delete";
 import { adminTagsQueueRoute } from "./routes/admin/tags-queue";
@@ -52,7 +53,9 @@ import { TAG_QUEUE_TICK_CRON } from "./repository/tagQueue";
 import { runTagQueueRetryTick } from "./workflows/tagQueueRetryTick";
 import { runNotificationDispatchTick } from "./workflows/notificationDispatchTick";
 import { createOutboxRepository } from "./repository/notificationOutbox";
-import { createMailDispatcher } from "./services/notification/dispatcher";
+import { loadNotificationOptOut } from "./repository/memberNotificationPreference";
+import { createMailNotificationChannel } from "./services/notification/channels/mail";
+import { createNotificationChannelRegistry } from "./services/notification/registry";
 import { buildNotificationMessage } from "./services/notification/templates";
 import { errorHandler, notFoundHandler } from "./middleware/error-handler";
 import { createPublicRouter } from "./routes/public";
@@ -260,6 +263,7 @@ app.route(
 app.route("/admin", adminDashboardRoute);
 app.route("/admin", adminMembersRoute);
 app.route("/admin", adminMemberStatusRoute);
+app.route("/admin", adminMemberNotificationPrefRoute);
 app.route("/admin", adminMemberNotesRoute);
 app.route("/admin", adminMemberDeleteRoute);
 app.route("/admin", adminTagsQueueRoute);
@@ -415,21 +419,26 @@ export default {
           if (hasNotificationMailConfig(env)) {
             const fromAddress = env.MAIL_FROM_ADDRESS!.trim();
             const mailSender = createResendSender({ apiKey: env.MAIL_PROVIDER_KEY! });
+            const mailChannel = createMailNotificationChannel({
+              mailSender,
+              fromAddress,
+              buildMessage: (row, from) =>
+                buildNotificationMessage({
+                  to: row.recipientEmail,
+                  from,
+                  outcome: row.outcome,
+                  requestType: row.requestType,
+                  reasonSummary: row.reasonSummary,
+                }),
+            });
+            const registry = createNotificationChannelRegistry({ mail: mailChannel });
+            const tickCtx = dbCtx({ DB: env.DB });
             tasks.push(
               runNotificationDispatchTick({
-                outbox: createOutboxRepository(dbCtx({ DB: env.DB })),
-                dispatcher: createMailDispatcher({
-                  mailSender,
-                  fromAddress,
-                  buildMessage: (row, from) =>
-                    buildNotificationMessage({
-                      to: row.recipientEmail,
-                      from,
-                      outcome: row.outcome,
-                      requestType: row.requestType,
-                      reasonSummary: row.reasonSummary,
-                    }),
+                outbox: createOutboxRepository(tickCtx, {
+                  isOptedOut: (memberId) => loadNotificationOptOut(tickCtx, memberId),
                 }),
+                registry,
                 now: () => new Date(),
               }),
             );

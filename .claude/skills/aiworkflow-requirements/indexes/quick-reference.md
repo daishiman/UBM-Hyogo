@@ -15,6 +15,19 @@
 | lessons-learned | `.claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-apps-web-security-headers-hardening-2026-05.md` (L-AWSHH-001..004) |
 | user gate | staging/production response verification, commit, push, PR |
 
+## Issue #55 Notification Channel + Opt-out（2026-05-23）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/issue-55-notification-channel-and-optout/` |
+| status | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION / production_runtime_pending_user_gate` |
+| purpose | Close the remaining Issue #55 gaps by introducing a `NotificationChannel` abstraction and an operator-managed member notification opt-out gate. |
+| current-code alignment | Store opt-out on `member_status.notification_opt_out`; add `notification_outbox.channel`; expand `notification_ledger.event_type` for `skipped_opt_out` and `unknown_channel`; use admin `MemberDrawer`, not a nonexistent member detail page route. |
+| implementation targets | `apps/api/src/services/notification/{channel.ts,registry.ts,channels/mail.ts}`, `apps/api/src/repository/{notificationOutbox.ts,memberNotificationPreference.ts}`, `apps/api/src/workflows/notificationDispatchTick.ts`, `apps/api/src/routes/admin/member-notification-pref.ts`, `apps/api/migrations/0020_notification_channel_and_opt_out.sql`, `apps/web/src/features/admin/components/_members/MemberDrawer.tsx`, `apps/web/src/lib/admin/api.ts` |
+| Phase 12 | `outputs/phase-12/phase12-task-spec-compliance-check.md` + strict 7 files present; Phase 11 local UI/D1 evidence present |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-55-notification-channel-and-optout-artifact-inventory.md` |
+| user gate | production D1 migration apply, staging/runtime evidence, commit, push, PR |
+
 ## UT-25-DERIV-02 SA key expiry monitoring（2026-05-22）
 
 | 項目 | 値 |

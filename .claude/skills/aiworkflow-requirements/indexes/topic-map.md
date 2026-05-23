@@ -874,13 +874,13 @@ node scripts/list-specs.js --topics
 | 概要 | L8 |
 | ドキュメント構成 | L15 |
 | REST API エンドポイント一覧 | L25 |
-| エンドポイント命名規則 | L214 |
-| UBM-Hyogo Admin Sync API（03a） | L235 |
-| UBM-Hyogo Member Self-Service API（04b） | L286 |
-| Admin Dashboard Attendance Analytics API（UT-02A follow-up 002） | L312 |
-| Desktop IPC API サマリー | L326 |
-| 変更履歴 | L357 |
-| 関連ドキュメント | L374 |
+| エンドポイント命名規則 | L222 |
+| UBM-Hyogo Admin Sync API（03a） | L243 |
+| UBM-Hyogo Member Self-Service API（04b） | L294 |
+| Admin Dashboard Attendance Analytics API（UT-02A follow-up 002） | L320 |
+| Desktop IPC API サマリー | L334 |
+| 変更履歴 | L365 |
+| 関連ドキュメント | L382 |
 
 ### references/api-internal-chunk-search.md
 
@@ -2396,6 +2396,12 @@ node scripts/list-specs.js --topics
 | Phase outputs | L39 |
 | Runtime boundary | L50 |
 
+### references/workflow-issue-291-forms-d1-legacy-followup-cleanup-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Runtime Boundary | L16 |
+
 ### references/workflow-issue-295-tag-queue-resolve-race-smoke-artifact-inventory.md
 
 ### references/workflow-issue-300-direct-stable-key-update-guard-artifact-inventory.md
@@ -2657,6 +2663,16 @@ node scripts/list-specs.js --topics
 | Evidence | L27 |
 | Synthetic vs Production Boundary（不変条件） | L34 |
 | Gate Conditions (production model promotion 前提) | L40 |
+
+### references/workflow-issue-55-notification-channel-and-optout-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Metadata | L3 |
+| Canonical Workflow Files | L13 |
+| Implementation Targets | L23 |
+| Current-Code Alignment Decisions | L38 |
+| User-Gated Items | L48 |
 
 ### references/workflow-issue-554-audit-correlation-branch-protection-required-check-artifact-inventory.md
 
@@ -7370,14 +7386,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L2061 |
-| フェーズ構造（概要） | L2070 |
-| 品質ゲート（概要） | L2101 |
-| 出力テンプレート | L2112 |
-| 実行時のコマンド・エージェント・スキル | L2135 |
-| 昇格パターン集 | L2159 |
-| Current Active / Spec Created Tasks | L2161 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L2320 |
+| ドキュメント構成 | L2074 |
+| フェーズ構造（概要） | L2083 |
+| 品質ゲート（概要） | L2114 |
+| 出力テンプレート | L2125 |
+| 実行時のコマンド・エージェント・スキル | L2148 |
+| 昇格パターン集 | L2172 |
+| Current Active / Spec Created Tasks | L2174 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L2334 |
 
 ### references/task-workflow-backlog-part2.md
 
@@ -7522,7 +7538,8 @@ node scripts/list-specs.js --topics
 
 | セクション | 行 |
 |------------|----|
-| 2026-05-19: parallel-04 Shared Page Chrome（spec_created + Phase 11 evidence captured） | L6 |
+| 2026-05-22: Issue #291 Forms D1 legacy follow-up cleanup | L6 |
+| 2026-05-19: parallel-04 Shared Page Chrome（spec_created + Phase 11 evidence captured） | L29 |
 
 ### references/task-workflow-completed-skill-create-ui-integration.md
 
@@ -7648,10 +7665,10 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 最近の完了タスク（2026-05） | L7 |
-| 最近の完了タスク（2026-04） | L11 |
-| 完了タスク（2026-03後半） | L132 |
-| 完了タスク（機能別アーカイブ） | L140 |
-| UT-TASK-SPEC-TEMPLATE-IMPROVEMENT-001: task-specification-creator Phase-12 テンプレート改善 | L249 |
+| 最近の完了タスク（2026-04） | L12 |
+| 完了タスク（2026-03後半） | L133 |
+| 完了タスク（機能別アーカイブ） | L141 |
+| UT-TASK-SPEC-TEMPLATE-IMPROVEMENT-001: task-specification-creator Phase-12 テンプレート改善 | L250 |
 
 ### references/task-workflow-history.md
 
