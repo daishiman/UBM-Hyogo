@@ -1,8 +1,9 @@
 // serial-05: /(admin)/admin/tags — blueprint 09g:281-400
 // 06c: /admin/tags キュー画面
 // AC-2 の受け先: ?memberId=... を保持する
-import { fetchAdmin } from "../../../../src/lib/admin/server-fetch";
+import { safeServerFetch } from "../../../../src/lib/admin/safe-server-fetch";
 import { Breadcrumb } from "@/components/admin/Breadcrumb";
+import { AdminSectionError } from "../../../../src/features/admin/components/_shared";
 import { TagQueuePanel } from "../../../../src/components/admin/TagQueuePanel";
 import type { TagQueueStatus } from "../../../../src/components/admin/TagQueuePanel";
 
@@ -37,15 +38,23 @@ export default async function AdminTagsPage({
   })();
   const focusMemberId = sp["memberId"];
   const qs = status ? `?status=${status}` : "";
-  const data = await fetchAdmin<QueueListView>(`/admin/tags/queue${qs}`);
+  const result = await safeServerFetch<QueueListView>(`/admin/tags/queue${qs}`);
   return (
     <section className="flex flex-col gap-4">
       <Breadcrumb items={[{ label: "管理", href: "/admin" }, { label: "タグキュー" }]} />
-      <TagQueuePanel
-        initial={data}
-        filter={status}
-        focusMemberId={focusMemberId ?? null}
-      />
+      {result.ok ? (
+        <TagQueuePanel
+          initial={result.data}
+          filter={status}
+          focusMemberId={focusMemberId ?? null}
+        />
+      ) : (
+        <AdminSectionError
+          sectionLabel="タグキュー"
+          code={result.error.code}
+          message={result.error.message}
+        />
+      )}
     </section>
   );
 }
