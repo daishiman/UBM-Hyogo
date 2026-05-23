@@ -1,0 +1,26 @@
+# bats scripts/__tests__/cf-rotate-sa-key.bats
+1..24
+ok 1 enforce_history_off sets HISTFILE
+ok 2 fingerprint outputs 16 lowercase hex
+ok 3 fingerprint rejects empty stdin
+ok 4 put-staging dry-run does not call cf.sh or write state
+ok 5 put-staging invokes cf.sh secret put through stdin
+ok 6 put-staging requires op ref
+ok 7 put-staging requires fingerprint
+ok 8 invalid env is rejected
+ok 9 cf.sh failure exits 4 without leaking value
+ok 10 production refuses without staging state
+ok 11 production accepts after staging state
+ok 12 verify succeeds when secret name is present after real staging put
+ok 13 verify staging refuses to unlock without real staging put
+ok 14 verify exits 5 when secret name is absent
+ok 15 tail timeout exits 6
+ok 16 helper rejects literal TTY input for fingerprint
+ok 17 put-production dry-run remains locked after staging dry-run only
+ok 18 put-staging consumes stdin without writing value to state
+ok 19 put-production target must match env
+ok 20 put-production fingerprint must match verified staging state
+ok 21 put-production op-ref must match verified staging state
+ok 22 tail rejects non-numeric seconds
+ok 23 verify rejects invalid env
+ok 24 unknown subcommand exits usage

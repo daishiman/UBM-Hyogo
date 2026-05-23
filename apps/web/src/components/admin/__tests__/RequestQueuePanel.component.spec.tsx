@@ -46,6 +46,17 @@ describe("RequestQueuePanel", () => {
     mockResolve.mockReset();
     mockPush.mockReset();
     mockRefresh.mockReset();
+    // jsdom does not implement HTMLDialogElement.showModal / close
+    if (typeof HTMLDialogElement !== "undefined") {
+      HTMLDialogElement.prototype.showModal = function () {
+        this.setAttribute("open", "");
+        (this as { open: boolean }).open = true;
+      };
+      HTMLDialogElement.prototype.close = function () {
+        this.removeAttribute("open");
+        (this as { open: boolean }).open = false;
+      };
+    }
   });
 
   it("TC-21: 初期表示で pending 一覧と type タブを描画", () => {
