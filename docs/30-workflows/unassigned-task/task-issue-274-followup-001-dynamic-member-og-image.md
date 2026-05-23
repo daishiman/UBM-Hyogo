@@ -5,10 +5,13 @@
 | --- | --- |
 | タスクID | task-issue-274-followup-001-dynamic-member-og-image |
 | 発見元 | `docs/30-workflows/issue-274-public-pages-ogp-sitemap-robots/` Phase 12 |
-| ステータス | 未実施 |
-| 分類 | implementation / VISUAL |
+| ステータス | consumed / canonical spec created |
+| 分類 | implementation / VISUAL_ON_EXECUTION |
 | canonical parent | `docs/30-workflows/issue-274-public-pages-ogp-sitemap-robots/` |
+| canonical workflow | `docs/30-workflows/issue-806-dynamic-member-og-image/` |
 | GitHub Issue | https://github.com/daishiman/UBM-Hyogo/issues/806 |
+
+> This one-pager is retained as a physical source trace. Implementation planning has moved to `docs/30-workflows/issue-806-dynamic-member-og-image/`.
 
 ## 苦戦箇所【記入必須】
 Root `opengraph-image.tsx` はサイト共通画像として十分だが、member detail を SNS 共有すると member 固有の名前や肩書きが画像に出ない。root SEO 実装と同じ cycle に含めると sitemap / robots / root metadata の小さな実装に member detail rendering と profile fetch の関心が混ざる。
@@ -26,10 +29,9 @@ Root `opengraph-image.tsx` はサイト共通画像として十分だが、membe
 
 ## スコープ
 含む:
-- `/members/[id]/opengraph-image.tsx`
+- `/members/[id]/opengraph-image/route.tsx`
 - member detail `generateMetadata` の image path 差し替え
 
 含まない:
 - sitemap / robots / root OG image
 - API endpoint 追加
-

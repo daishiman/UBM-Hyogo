@@ -2339,6 +2339,14 @@ node scripts/list-specs.js --topics
 | Evidence Boundary | L24 |
 | Captured Evidence | L27 |
 
+### references/workflow-issue-277-next-proxy-migration-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Implementation Targets | L10 |
+| Evidence | L21 |
+| User Gate | L30 |
+
 ### references/workflow-issue-290-workflow-lint-gate-artifact-inventory.md
 
 | セクション | 行 |
@@ -2532,6 +2540,19 @@ node scripts/list-specs.js --topics
 | Metadata | L3 |
 | Current Canonical Set | L13 |
 | Boundary | L29 |
+
+### references/workflow-issue-520-slack-incidents-channel-webhook-provisioning-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| canonical root | L3 |
+| root artifacts | L7 |
+| phase 12 required artifacts | L16 |
+| implementation artifacts | L28 |
+| production runtime evidence templates (Phase 11) | L37 |
+| same-wave skill sync | L45 |
+| boundary | L58 |
+| deferred evidence | L64 |
 
 ### references/workflow-issue-526-ci-actionlint-shellcheck-gate-artifact-inventory.md
 
@@ -2784,6 +2805,16 @@ node scripts/list-specs.js --topics
 | Implementation Targets | L35 |
 | Runtime Boundary | L49 |
 
+### references/workflow-issue-777-schema-diff-resolve-history-view-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Canonical Root | L3 |
+| State | L7 |
+| Workflow Artifacts | L11 |
+| Source And Parent | L39 |
+| Implementation Boundary | L46 |
+
 ### references/workflow-issue-778-schema-alias-rollback-undo-artifact-inventory.md
 
 | セクション | 行 |
@@ -2794,6 +2825,37 @@ node scripts/list-specs.js --topics
 | Boundary | L31 |
 
 ### references/workflow-issue-799-use-auto-focus-on-mount-hook-artifact-inventory.md
+
+### references/workflow-issue-800-profile-error-focus-transfer-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| State | L22 |
+| useAutoFocusOnMount hook | L28 |
+| Error focus management pattern | L32 |
+
+### references/workflow-issue-801-admin-error-focus-transfer-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| State | L15 |
+
+### references/workflow-issue-806-dynamic-member-og-image-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Workflow | L3 |
+| Implementation Targets | L13 |
+| Evidence Boundary | L21 |
+| Required Runtime Evidence | L25 |
+| Phase 12 Strict Outputs | L32 |
+
+### references/workflow-issue-819-admin-dashboard-runtime-screenshot-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Phase 12 Strict 7 | L42 |
+| User-Gated Boundary | L54 |
 
 ### references/workflow-light-theme-contrast-regression-guard.md
 
@@ -3011,7 +3073,7 @@ node scripts/list-specs.js --topics
 
 | セクション | 行 |
 |------------|----|
-| Phase 12 Strict 7 | L27 |
+| Phase 12 Strict 7 | L29 |
 
 ### references/workflow-step-06-meetings-attendance-implementation-artifact-inventory.md
 
@@ -3605,9 +3667,10 @@ node scripts/list-specs.js --topics
 | parallel-02 prototype CSS rules port (2026-05-19 close-out) | L88 |
 | Follow-up unassigned tasks (proto-spec) | L99 |
 | Difficulties summary (parallel-02) | L111 |
-| P1-1〜P1-5 Selector ↔ Token ↔ 09 Spec Mapping (parallel-01) | L145 |
-| Sub-workflows | L190 |
-| P1-1〜P1-5 Selector ↔ Token ↔ 09 Spec Mapping (parallel-01) | L199 |
+| Sub-workflow: serial-05 Page Routes Blueprint Binding（2026-05-22 spec validation） | L145 |
+| P1-1〜P1-5 Selector ↔ Token ↔ 09 Spec Mapping (parallel-01) | L158 |
+| Sub-workflows | L203 |
+| P1-1〜P1-5 Selector ↔ Token ↔ 09 Spec Mapping (parallel-01) | L212 |
 
 ### references/workflow-ui-ux-visual-baseline-drift.md
 
@@ -4089,7 +4152,7 @@ node scripts/list-specs.js --topics
 
 | セクション | 行 |
 |------------|----|
-| 1. 二段防御 middleware | L54 |
+| 1. 二段防御 proxy | L54 |
 | 2. service-binding 経由の internal API call | L65 |
 | 3. /auth/session-resolve internal-only endpoint | L86 |
 | 4. OpenNext post-build worker patch | L97 |
@@ -7228,6 +7291,14 @@ node scripts/list-specs.js --topics
 | 昇格パターン集 | L1990 |
 | Current Active / Spec Created Tasks | L1992 |
 | UT-17 followup-003 alert-relay weekly healthcheck cron | L2149 |
+| ドキュメント構成 | L1983 |
+| フェーズ構造（概要） | L1992 |
+| 品質ゲート（概要） | L2023 |
+| 出力テンプレート | L2034 |
+| 実行時のコマンド・エージェント・スキル | L2057 |
+| 昇格パターン集 | L2081 |
+| Current Active / Spec Created Tasks | L2083 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L2240 |
 
 ### references/task-workflow-backlog-part2.md
 

@@ -1,3 +1,4 @@
+// serial-05: /(admin)/admin/identity-conflicts — blueprint 09g:741-840
 // issue-194-03b-followup-001-email-conflict-identity-merge
 // admin identity-conflicts list page
 //   - admin gate は (admin)/layout.tsx で済 / API 呼び出しは fetchAdmin proxy
@@ -25,7 +26,7 @@ export default async function AdminIdentityConflictsPage({
   const data = await fetchAdmin<ListIdentityConflictsResponse>(path);
 
   return (
-    <main className="mx-auto max-w-5xl px-6 py-8">
+    <main className="mx-auto max-w-5xl px-6 py-8" data-route="admin" data-section-rhythm="compact">
       <Breadcrumb items={[{ label: "管理", href: "/admin" }, { label: "Identity 重複候補" }]} />
       <header className="mb-6">
         <h1 className="text-2xl font-semibold tracking-tight">Identity 重複候補</h1>

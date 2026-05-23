@@ -4,6 +4,14 @@
 
 Next.js 16 の warning に従い、06b/05a の `apps/web/middleware.ts` route gate を `proxy` convention へ移行する。
 
+## Canonical Workflow
+
+| Field | Value |
+|---|---|
+| status | `consumed` |
+| canonical_workflow | `docs/30-workflows/issue-277-next-proxy-migration/` |
+| note | This completed-task note is the historical parent. Active Phase 1-13 execution and compliance evidence live in the canonical workflow root above. |
+
 ## Why
 
 2026-04-29 の Phase 11 evidence 取得時、Next.js dev server が `"middleware" file convention is deprecated. Please use "proxy" instead.` を出した。現状は typecheck / runtime smoke は通るが、将来バージョンで route gate の保守負荷が上がる。

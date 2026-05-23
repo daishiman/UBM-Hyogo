@@ -1,3 +1,4 @@
+// serial-05: /(admin)/admin/meetings — blueprint 09g:401-520
 // 06c: /admin/meetings 開催日 + attendance
 // 不変条件 #15: attendance 候補は !isDeleted のみ。重複 POST は disabled / 422 toast
 import type { AdminMemberListView } from "@ubm-hyogo/shared";

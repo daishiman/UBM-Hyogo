@@ -1,3 +1,4 @@
+// serial-05: not-found — blueprint 09h:fallback
 import Link from "next/link";
 import { Card, CardContent } from "../src/components/ui/Card";
 import { EmptyState } from "../src/components/ui/EmptyState";
@@ -8,6 +9,8 @@ export default function NotFound() {
       aria-labelledby="not-found-title"
       data-page="not-found"
       data-testid="not-found"
+      data-route="public"
+      data-section-rhythm="comfortable"
       className="mx-auto max-w-xl px-6 py-16"
     >
       <h1 id="not-found-title" className="sr-only">
