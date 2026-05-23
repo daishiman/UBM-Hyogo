@@ -8,7 +8,7 @@
     "workflow_state": "implemented_local_evidence_captured",
     "implementation_status": "implementation_complete_pending_pr",
     "sourceSpec": "docs/30-workflows/ui-prototype-alignment-mvp-recovery/improvements/integration-fixes/parallel-i02b-admin-mutation-error-finalize/spec.md",
-    "canonicalRoot": "docs/30-workflows/parallel-i02b-admin-mutation-error-finalize",
+    "canonicalRoot": "docs/30-workflows/completed-tasks/parallel-i02b-admin-mutation-error-finalize",
     "parentWorkflow": "docs/30-workflows/ui-prototype-alignment-mvp-recovery/improvements/integration-fixes/parallel-i02-admin-error-type-unify/spec.md",
     "prBaseBranch": "dev",
     "gates": [
@@ -16,7 +16,7 @@
         "gate_id": "Gate-A",
         "status": "passed",
         "passed_at": "2026-05-23T07:00:00+09:00",
-        "evidence_path": "docs/30-workflows/parallel-i02b-admin-mutation-error-finalize/outputs/phase-11/evidence/ac-verification.log",
+        "evidence_path": "docs/30-workflows/completed-tasks/parallel-i02b-admin-mutation-error-finalize/outputs/phase-11/evidence/ac-verification.log",
         "approver": "daishiman",
         "notes": "AC-1..AC-8 local evidence captured"
       },
@@ -24,7 +24,7 @@
         "gate_id": "Gate-D",
         "status": "pending",
         "passed_at": null,
-        "evidence_path": "docs/30-workflows/parallel-i02b-admin-mutation-error-finalize/outputs/phase-13/pr-summary.md",
+        "evidence_path": "docs/30-workflows/completed-tasks/parallel-i02b-admin-mutation-error-finalize/outputs/phase-13/pr-summary.md",
         "approver": "daishiman",
         "notes": "commit / push / PR are user-gated"
       }
