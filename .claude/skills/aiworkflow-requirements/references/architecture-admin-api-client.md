@@ -76,6 +76,7 @@ const resolveApiBase = (): string => {
 - Cloudflare Workers runtime binding 正本である `getEnv().INTERNAL_API_BASE_URL` を末尾 `/` 除去して使用する。
 - `apps/web/src/lib/admin/server-fetch.ts` に localhost fallback は置かない。未設定・不正 URL は `EnvSchema.parse` の failure として fail-fast し、staging の Server Components render error を digest と runtime log で検出可能にする。
 - ローカル E2E / mock API は環境変数注入で切り替える。`apps/web/src` 配下へ `127.0.0.1` endpoint を焼き込まない。
+- **E2E env 解決の落とし穴（2026-05-24 fix）**: `next.config.ts` の `initOpenNextCloudflareForDev()` により dev:webpack でも `getCloudflareContext()` が機能する。`getEnv()` → `readRawEnv()` は cloudflare context（= `wrangler.toml [vars]` の本番 `INTERNAL_API_BASE_URL`）を**優先**するため、Playwright webServer が process.env に注入する `INTERNAL_API_BASE_URL=http://127.0.0.1:8787`（mock API）が無視され、SSR server-fetch が本番 API へ飛んで **401** になる。fixture を持つ admin spec は実 fetch 前に short-circuit するため顕在化せず、fixture の無い meetings detail / attendance だけが落ちる。対処は `readRawEnv()` で `PLAYWRIGHT_TEST=1` のときだけ `{ ...cloudflareEnv, ...processEnv }` と process.env override を優先（本番 Workers は process.env に config が無いので no-op）。`server-fetch.ts` を `process.env` 直読みから `getEnv()` に移行する際は、この dev cloudflare-context 優先順位を必ず考慮する。
 
 ### 2.3 認証ヘッダ
 

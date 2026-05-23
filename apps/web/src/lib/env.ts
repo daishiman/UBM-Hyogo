@@ -41,7 +41,17 @@ function readProcessEnv(): RawEnv {
 }
 
 export function readRawEnv(): RawEnv {
-  return readCloudflareEnv() ?? readProcessEnv();
+  const cloudflareEnv = readCloudflareEnv();
+  if (cloudflareEnv === undefined) return readProcessEnv();
+  // Playwright e2e は webServer (`next dev --webpack`) に
+  // INTERNAL_API_BASE_URL=http://127.0.0.1:8787（mock API）等を process.env で注入する。
+  // OpenNext dev の cloudflare context は wrangler.toml [vars]（本番 API URL）を返すため、
+  // PLAYWRIGHT_TEST=1 のときだけ process.env の上書きを優先し、SSR server-fetch を
+  // mock API へ向ける。本番 Workers ランタイムでは process.env に config が無いので影響しない。
+  if (readProcessEnv()["PLAYWRIGHT_TEST"] === "1") {
+    return { ...cloudflareEnv, ...readProcessEnv() };
+  }
+  return cloudflareEnv;
 }
 
 export function getEnv(rawEnv: RawEnv = readRawEnv()): Env {

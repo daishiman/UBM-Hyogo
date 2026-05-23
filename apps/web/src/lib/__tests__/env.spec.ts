@@ -98,6 +98,43 @@ describe("env", () => {
     expect(readRawEnv()).toMatchObject({ ENVIRONMENT: "staging" });
   });
 
+  it("readRawEnv lets process.env override Cloudflare env under PLAYWRIGHT_TEST", () => {
+    // Playwright e2e は webServer に INTERNAL_API_BASE_URL=mock を process.env 注入する。
+    // OpenNext dev の cloudflare context（本番 URL）より process.env を優先させる。
+    cloudflareContext.mockImplementation(() => ({
+      env: {
+        ...validEnv,
+        INTERNAL_API_BASE_URL: "https://ubm-hyogo-api.daishimanju.workers.dev",
+      },
+    }));
+    vi.stubEnv("PLAYWRIGHT_TEST", "1");
+    vi.stubEnv("INTERNAL_API_BASE_URL", "http://127.0.0.1:8787");
+    try {
+      expect(readRawEnv()).toMatchObject({
+        INTERNAL_API_BASE_URL: "http://127.0.0.1:8787",
+      });
+    } finally {
+      vi.unstubAllEnvs();
+    }
+  });
+
+  it("readRawEnv keeps Cloudflare env when PLAYWRIGHT_TEST is unset", () => {
+    cloudflareContext.mockImplementation(() => ({
+      env: {
+        ...validEnv,
+        INTERNAL_API_BASE_URL: "https://ubm-hyogo-api.daishimanju.workers.dev",
+      },
+    }));
+    vi.stubEnv("INTERNAL_API_BASE_URL", "http://127.0.0.1:8787");
+    try {
+      expect(readRawEnv()).toMatchObject({
+        INTERNAL_API_BASE_URL: "https://ubm-hyogo-api.daishimanju.workers.dev",
+      });
+    } finally {
+      vi.unstubAllEnvs();
+    }
+  });
+
   it("getPublicEnv returns only the public subset", () => {
     expect(getPublicEnv({ ...validEnv, AUTH_SECRET: "x".repeat(32) })).toEqual({
       ENVIRONMENT: "local",
