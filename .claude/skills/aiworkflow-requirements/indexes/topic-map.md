@@ -3015,6 +3015,16 @@ node scripts/list-specs.js --topics
 
 ### references/workflow-step-06-meetings-attendance-implementation-artifact-inventory.md
 
+### references/workflow-step-07-requests-approve-reject-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Metadata | L3 |
+| Workflow Files | L12 |
+| Phase 12 Strict 7 | L32 |
+| Local Implementation Targets | L44 |
+| Boundary | L55 |
+
 ### references/workflow-task-03-w2-par-sentry-workers-sdk-unify-artifact-inventory.md
 
 | セクション | 行 |
@@ -7217,7 +7227,7 @@ node scripts/list-specs.js --topics
 | 実行時のコマンド・エージェント・スキル | L1966 |
 | 昇格パターン集 | L1990 |
 | Current Active / Spec Created Tasks | L1992 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L2147 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L2149 |
 
 ### references/task-workflow-backlog-part2.md
 
