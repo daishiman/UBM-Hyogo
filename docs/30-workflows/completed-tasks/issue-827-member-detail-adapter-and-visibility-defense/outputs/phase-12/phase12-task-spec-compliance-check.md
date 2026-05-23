@@ -34,7 +34,7 @@ Issue #827 is synchronized as `implemented_local_evidence_captured / implementat
 | lint | outputs/phase-11/lint.log | present |
 | build | outputs/phase-11/build.log | present |
 | visual baseline status | outputs/phase-11/visual-snapshot-status.md | present |
-| PR pre-flight | outputs/phase-11/verify-pr-ready.log | present: Phase 12 compliance and gate metadata pass; index drift remains until user-gated commit |
+| PR pre-flight | outputs/phase-11/verify-pr-ready.log | present |
 
 ## 5. Phase 12 strict 7 file inventory
 
