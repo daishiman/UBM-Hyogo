@@ -16,6 +16,32 @@
       "commit",
       "push",
       "PR creation"
+    ],
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-05-23T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-55-notification-channel-and-optout/outputs/phase-12/phase12-task-spec-compliance-check.md",
+        "approver": "daishiman",
+        "notes": "spec_review: Phase 1-13 spec + local implementation completed"
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "passed",
+        "passed_at": "2026-05-23T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-55-notification-channel-and-optout/outputs/phase-11/phase-11-manual-test.md",
+        "approver": "daishiman",
+        "notes": "implementation_review: local D1 evidence + admin drawer opt-out screenshot captured"
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-55-notification-channel-and-optout/phase-13-pr-creation.md",
+        "approver": "daishiman",
+        "notes": "external_ops: D1 production migration apply, staging smoke, PR review"
+      }
     ]
   },
   "phases": [
