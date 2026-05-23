@@ -13,6 +13,11 @@
 // 不変条件 #11: admin / profile 画面 HTML を未認証に SSR させない。
 import { NextResponse, type NextRequest } from "next/server";
 import { decodeAuthSessionJwt } from "@ubm-hyogo/shared";
+import { getPublicEnv } from "@/lib/env";
+import {
+  applySecurityHeaders,
+  type SecurityHeaderConfig,
+} from "@/lib/security-headers";
 
 const SESSION_COOKIE_NAMES = [
   "__Secure-authjs.session-token",
@@ -49,8 +54,21 @@ const sessionToken = (req: NextRequest): string | undefined => {
   return undefined;
 };
 
+const buildSecurityHeaderConfig = (): SecurityHeaderConfig => {
+  const env = getPublicEnv();
+  return {
+    cspMode: "report-only",
+    apiBaseUrl: env.NEXT_PUBLIC_API_BASE_URL,
+    authOrigin: "https://accounts.google.com",
+  };
+};
+
 const guardedMiddleware = async (req: NextRequest) => {
   const { pathname } = req.nextUrl;
+  if (!pathname.startsWith("/admin") && !pathname.startsWith("/profile")) {
+    return NextResponse.next();
+  }
+
   const claims = await decodeAuthSessionJwt(authSecret(req), sessionToken(req));
 
   if (pathname.startsWith("/admin")) {
@@ -76,11 +94,12 @@ const guardedMiddleware = async (req: NextRequest) => {
 };
 
 export async function middleware(req: NextRequest) {
-  return guardedMiddleware(req);
+  const response = await guardedMiddleware(req);
+  return applySecurityHeaders(response, buildSecurityHeaderConfig());
 }
 
 export default middleware;
 
 export const config = {
-  matcher: ["/admin/:path*", "/profile/:path*"],
+  matcher: ["/((?!_next/static|_next/image|favicon.ico).*)"],
 };

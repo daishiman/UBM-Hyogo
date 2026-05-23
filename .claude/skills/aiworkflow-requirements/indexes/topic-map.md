@@ -1743,6 +1743,15 @@ node scripts/list-specs.js --topics
 | TASK-IMP-IPC-LAYER-INTEGRITY-FIX-001 の読み分け | L17 |
 | 関連ドキュメント | L23 |
 
+### references/security-web-response-headers.md
+
+| セクション | 行 |
+|------------|----|
+| Canonical Contract | L3 |
+| Env Boundary | L16 |
+| User-gated Follow-ups | L20 |
+| Workflow | L29 |
+
 ---
 
 ## 技術スタック
@@ -2220,6 +2229,15 @@ node scripts/list-specs.js --topics
 | 関連改善タスク | L109 |
 | 関連ドキュメント | L117 |
 | 変更履歴 | L131 |
+
+### references/workflow-apps-web-security-headers-hardening-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Workflow Root | L3 |
+| Implementation | L12 |
+| System Spec Sync | L21 |
+| Boundary | L32 |
 
 ### references/workflow-ci-staging-deploy-failure-fix-artifact-inventory.md
 
@@ -4223,7 +4241,8 @@ node scripts/list-specs.js --topics
 | Long-term analytics evidence | L290 |
 | c-A production execution workflow | L296 |
 | CI build-time env injection for OpenNext Workers | L311 |
-| 変更履歴 | L321 |
+| Response security headers via middleware | L321 |
+| 変更履歴 | L338 |
 
 ### references/deployment-cloudflare-ut06-gate.md
 
@@ -7251,14 +7270,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L1970 |
-| フェーズ構造（概要） | L1979 |
-| 品質ゲート（概要） | L2010 |
-| 出力テンプレート | L2021 |
-| 実行時のコマンド・エージェント・スキル | L2044 |
-| 昇格パターン集 | L2068 |
-| Current Active / Spec Created Tasks | L2070 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L2225 |
+| ドキュメント構成 | L1984 |
+| フェーズ構造（概要） | L1993 |
+| 品質ゲート（概要） | L2024 |
+| 出力テンプレート | L2035 |
+| 実行時のコマンド・エージェント・スキル | L2058 |
+| 昇格パターン集 | L2082 |
+| Current Active / Spec Created Tasks | L2084 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L2239 |
 
 ### references/task-workflow-backlog-part2.md
 

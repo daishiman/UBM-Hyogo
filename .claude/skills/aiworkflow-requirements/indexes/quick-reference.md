@@ -1,5 +1,20 @@
 # クイックリファレンス
 
+## apps-web-security-headers-hardening（2026-05-23）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/apps-web-security-headers-hardening/` |
+| status | `implemented_local_evidence_captured / implementation / NON_VISUAL` |
+| scope | `apps/web` response security headers via middleware |
+| implementation | `apps/web/src/lib/security-headers.ts`, `apps/web/middleware.ts`, `apps/web/src/lib/security-headers.spec.ts`, `apps/web/playwright/tests/security-headers.spec.ts` |
+| contract | CSP is `Content-Security-Policy-Report-Only`; `Permissions-Policy` excludes `browsing-topics`; Trusted Types enforcement is not emitted |
+| env | `getPublicEnv().NEXT_PUBLIC_API_BASE_URL` is the canonical API URL; `NEXT_PUBLIC_API_ORIGIN` is not used |
+| Phase 12 | strict 7 outputs present; root/output artifacts parity present |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-apps-web-security-headers-hardening-artifact-inventory.md` |
+| lessons-learned | `.claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-apps-web-security-headers-hardening-2026-05.md` (L-AWSHH-001..004) |
+| user gate | staging/production response verification, commit, push, PR |
+
 ## Issue #806 dynamic member OG image（2026-05-20）
 
 | 目的 | 参照先 |

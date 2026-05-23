@@ -1,0 +1,21 @@
+{
+  "workflow": "apps-web-security-headers-hardening",
+  "status": "implemented_local_evidence_captured",
+  "metadata": {
+    "taskType": "implementation",
+    "visualEvidence": "NON_VISUAL",
+    "workflow_state": "implemented_local_evidence_captured",
+    "scope": "apps/web middleware response security headers",
+    "implementation_mode": "new",
+    "runtime_boundary": "staging/production response verification, commit, push, and PR are user-gated"
+  },
+  "phase12_strict_outputs": [
+    "outputs/phase-12/main.md",
+    "outputs/phase-12/implementation-guide.md",
+    "outputs/phase-12/system-spec-update-summary.md",
+    "outputs/phase-12/documentation-changelog.md",
+    "outputs/phase-12/unassigned-task-detection.md",
+    "outputs/phase-12/skill-feedback-report.md",
+    "outputs/phase-12/phase12-task-spec-compliance-check.md"
+  ]
+}
