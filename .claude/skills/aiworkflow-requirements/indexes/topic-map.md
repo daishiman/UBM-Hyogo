@@ -7352,7 +7352,7 @@ node scripts/list-specs.js --topics
 | 実行時のコマンド・エージェント・スキル | L2107 |
 | 昇格パターン集 | L2131 |
 | Current Active / Spec Created Tasks | L2133 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L2291 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L2292 |
 
 ### references/task-workflow-backlog-part2.md
 
