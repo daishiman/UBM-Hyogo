@@ -8,6 +8,20 @@
 
 本ドキュメントは、複雑なタスクを単一責務の原則に基づいて分解し、各サブタスクに最適なスラッシュコマンド・エージェント・スキルの組み合わせを選定するためのガイドラインを定義する。
 
+### Issue #827 member detail adapter and visibility defense（2026-05-23）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / NON_VISUAL` |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-827-member-detail-adapter-and-visibility-defense/` |
+| Issue | #827 CLOSED。PR 文脈は `Refs #827` のみ |
+| 目的 | `/members/[id]` public member detail に pure adapter を追加し、UI 層でも `visibility === "public"` を再確認する二重防御を入れる |
+| implementation targets | `apps/web/src/lib/adapters/member-detail.ts`, `apps/web/src/lib/adapters/__tests__/member-detail.spec.ts`, `apps/web/src/components/public/MemberDetailSections.tsx`, `apps/web/src/components/public/__tests__/MemberDetailSections.component.spec.tsx`, `apps/web/app/(public)/members/[id]/page.tsx` |
+| contract | adapter は最初に全 section fields を `visibility="public"` に正規化し、その `allSections` を `MemberLinks` / `MemberActivity` へ渡す。`detailSections` は `activity` を除外し、`shortText/paragraph/date/radio/checkbox/dropdown` のみを含む。`url` は `MemberLinks`、`activity` は `MemberActivity` が消費する |
+| evidence | apps/web Vitest 888 PASS、workspace typecheck/lint PASS、web build PASS。Phase 12 strict 7 / root-output artifacts parity present |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-827-member-detail-adapter-and-visibility-defense-artifact-inventory.md` |
+| user gate | commit / push / PR / issue mutation / deployment verification |
+
 ### Issue #276 mobile FilterBar tag picker（2026-05-20）
 ### Issue #277 Next.js proxy migration（2026-05-20）
 
