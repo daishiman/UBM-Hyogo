@@ -33,6 +33,7 @@ const makeRow = (override: Partial<NotificationOutboxRow> = {}): NotificationOut
   requestType: "visibility_request",
   reasonSummary: null,
   status: "dispatching",
+  channel: "mail",
   retryCount: 0,
   nextAttemptAt: "2026-05-06T00:00:00Z",
   lastError: null,
@@ -196,6 +197,45 @@ describe("runNotificationDispatchTick", () => {
       now: () => FIXED_NOW,
     });
     expect(result).toEqual({ claimed: 3, sent: 1, failed: 1, dlq: 1 });
+  });
+
+  it("Issue #55: registry に未登録の channel は dispatcher を呼ばず dlq + ledger 'unknown_channel'", async () => {
+    const { outbox, state } = makeFakeOutbox([
+      makeRow({ channel: "line" as unknown as "mail" }),
+    ]);
+    const registry = {
+      resolve: () => undefined,
+      kinds: () => ["mail"] as const,
+    };
+    const result = await runNotificationDispatchTick({
+      outbox,
+      registry,
+      now: () => FIXED_NOW,
+    });
+    expect(result).toEqual({ claimed: 1, sent: 0, failed: 0, dlq: 1 });
+    expect(state.rows[0]!.status).toBe("dlq");
+    expect(state.ledger.map((x) => x.eventType)).toEqual(["unknown_channel"]);
+  });
+
+  it("Issue #55: registry で mail を resolve した場合は従来通り送信", async () => {
+    const { outbox, state } = makeFakeOutbox([makeRow()]);
+    const mailChannel = {
+      kind: "mail" as const,
+      async dispatch() {
+        return { ok: true, providerMessageId: "msg_reg", retryable: false };
+      },
+    };
+    const registry = {
+      resolve: (k: string) => (k === "mail" ? mailChannel : undefined),
+      kinds: () => ["mail"] as const,
+    };
+    const result = await runNotificationDispatchTick({
+      outbox,
+      registry,
+      now: () => FIXED_NOW,
+    });
+    expect(result).toEqual({ claimed: 1, sent: 1, failed: 0, dlq: 0 });
+    expect(state.rows[0]!.status).toBe("sent");
   });
 
   it("dispatcher throw は sanitized error で retryable failure として pending に戻す", async () => {

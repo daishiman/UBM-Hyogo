@@ -64,18 +64,26 @@ REST API、Desktop IPC APIの詳細は以下の分割ドキュメントで定義
 
 ### 管理同期 API（apps/api）
 
+現行正本は Forms API split endpoint（`/admin/sync/schema` + `/admin/sync/responses`）+ `sync_jobs` ledger（issue-291 / `task-sync-forms-d1-legacy-umbrella-001` で確定）。単一 `POST /admin/sync` / `GET /admin/sync/audit` / `sync_audit_logs` / Google Sheets API v4 経路は **新設禁止の legacy**。
+
 | メソッド | パス | 説明 | 認証 |
 | --- | --- | --- | --- |
-| POST | /admin/sync | Google Sheets 由来の既存同期ジョブを手動実行（互換 mount） | `SYNC_ADMIN_TOKEN` Bearer |
-| POST | /admin/sync/run | u-04 正本 manual sync。Google Sheets 回答を fetch → map → D1 upsert し、`sync_job_logs` に audit row を作成する | `SYNC_ADMIN_TOKEN` Bearer |
-| POST | /admin/sync/backfill | u-04 backfill。Sheets 全件を正として `member_responses` を再投入する。admin-managed 列には触れない | `SYNC_ADMIN_TOKEN` Bearer |
-| GET | /admin/sync/audit?limit=N | u-04 audit ledger の最新行を `started_at DESC` で返す。limit は 1〜100 に clamp | `SYNC_ADMIN_TOKEN` Bearer |
-| POST | /admin/sync/responses | Google Forms `forms.responses.list` を D1 に取り込み、`current_response_id` と consent snapshot を更新 | `SYNC_ADMIN_TOKEN` Bearer |
-| GET | /admin/smoke/sheets | Google Sheets API v4 `spreadsheets.values.get` の dev/staging E2E smoke。production は 404 | `SMOKE_ADMIN_TOKEN` Bearer |
+| POST | /admin/sync/schema | Google Forms `forms.get` の live schema を D1 の `schema_versions` / `schema_questions` に同期し、stableKey 未解決 question を `schema_diff_queue` へ投入する（03a 管轄） | `SYNC_ADMIN_TOKEN` Bearer |
+| POST | /admin/sync/responses | Google Forms `forms.responses.list` を D1 に取り込み、`current_response_id` と consent snapshot を更新する（03b 管轄） | `SYNC_ADMIN_TOKEN` Bearer |
 
-u-04 (`docs/30-workflows/completed-tasks/u-04-serial-sheets-to-d1-sync-implementation/`) では `apps/api/src/sync/` を正本実装とする。manual / scheduled / backfill の 3 経路は `withSyncMutex` で直列化し、論理 `sync_audit` の物理 ledger である `sync_job_logs` に `running -> success|failed|skipped` を記録する。scheduled sync は HTTP endpoint ではなく Cloudflare Workers `scheduled()` handler から `runScheduledSync(env)` を呼び出し、MVP では timestamp drift を避けるため毎時全件 upsert する。
+`POST /admin/sync/responses` は `fullSync=true` と `cursor=<submittedAt|responseId>` を query として受け付ける。`cursor` は Google API の `pageToken` ではなく、処理済み response の high-water mark として扱う。二重起動時は `409 Conflict` を返す。両 endpoint の進捗 ledger は `sync_jobs` テーブル（02c 管轄）に集約し、`sync_audit` / `sync_audit_logs` / `sync_audit_outbox` は新設しない。
 
-`POST /admin/sync/responses` は `fullSync=true` と `cursor=<submittedAt|responseId>` を query として受け付ける。`cursor` は Google API の `pageToken` ではなく、処理済み response の high-water mark として扱う。二重起動時は `409 Conflict` を返す。
+#### historical（UT-09 / u-04 legacy、新設禁止）
+
+| メソッド | パス | 廃止理由 |
+| --- | --- | --- |
+| POST | /admin/sync | UT-09 で廃止された単一同期 mount。Forms split endpoint に置換済み |
+| POST | /admin/sync/run | u-04 Sheets→D1 manual sync。Forms `forms.responses.list` 経由に置換済み |
+| POST | /admin/sync/backfill | u-04 Sheets backfill。`fullSync=true` の `/admin/sync/responses` に置換済み |
+| GET | /admin/sync/audit | `sync_audit` 物理 ledger を前提とした audit 取得。`sync_jobs` に集約済みで再開しない |
+| GET | /admin/smoke/sheets | Google Sheets API v4 `spreadsheets.values.get` の dev/staging smoke。Sheets API 自体が legacy のため新設しない |
+
+historical 行の close-out は `docs/30-workflows/completed-tasks/task-sync-forms-d1-legacy-umbrella-001/` を参照。
 
 ### 管理バックオフィス API（apps/api / 04c）
 

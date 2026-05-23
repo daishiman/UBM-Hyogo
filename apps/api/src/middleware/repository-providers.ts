@@ -13,6 +13,7 @@ import { createAdminNotesProvider } from "../repository/adminNotes";
 import { createAuditLogProvider } from "../repository/auditLog";
 import { createMemberTagsProvider } from "../repository/memberTags";
 import { createOutboxRepository } from "../repository/notificationOutbox";
+import { loadNotificationOptOut } from "../repository/memberNotificationPreference";
 import { createTagDefinitionsProvider } from "../repository/tagDefinitions";
 import { createTagQueueProvider } from "../repository/tagQueue";
 import type {
@@ -52,7 +53,12 @@ export const writeTagNoteProviderMiddleware: MiddlewareHandler<{
   if (!existing) c.set("ctx", dbCtx);
   c.set("adminNotesProvider", createAdminNotesProvider(dbCtx));
   c.set("auditLogProvider", createAuditLogProvider(dbCtx));
-  c.set("notificationOutboxProvider", createOutboxRepository(dbCtx));
+  c.set(
+    "notificationOutboxProvider",
+    createOutboxRepository(dbCtx, {
+      isOptedOut: (memberId) => loadNotificationOptOut(dbCtx, memberId),
+    }),
+  );
   c.set("tagDefinitionsProvider", createTagDefinitionsProvider(dbCtx));
   c.set("tagQueueProvider", createTagQueueProvider(dbCtx));
   c.set("memberTagsProvider", createMemberTagsProvider(dbCtx));
@@ -64,7 +70,9 @@ export const createWriteTagNoteProviderBundle = (
 ): WriteTagNoteProviderBundle => ({
   adminNotesProvider: createAdminNotesProvider(dbCtx),
   auditLogProvider: createAuditLogProvider(dbCtx),
-  notificationOutboxProvider: createOutboxRepository(dbCtx),
+  notificationOutboxProvider: createOutboxRepository(dbCtx, {
+    isOptedOut: (memberId) => loadNotificationOptOut(dbCtx, memberId),
+  }),
   tagDefinitionsProvider: createTagDefinitionsProvider(dbCtx),
   tagQueueProvider: createTagQueueProvider(dbCtx),
   memberTagsProvider: createMemberTagsProvider(dbCtx),

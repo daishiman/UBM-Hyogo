@@ -229,6 +229,83 @@ describe("notificationOutbox repository", () => {
   });
 });
 
+describe("notificationOutbox opt-out gate (issue-55)", () => {
+  let env: InMemoryD1;
+  beforeEach(async () => {
+    env = await setupD1();
+  });
+
+  const seedStatus = async (memberId: string, optOut: 0 | 1) => {
+    await env.db
+      .prepare(
+        `INSERT INTO member_status (member_id, public_consent, rules_consent, publish_state, is_deleted, notification_opt_out, updated_at)
+         VALUES (?1, 'consented', 'consented', 'member_only', 0, ?2, ?3)`,
+      )
+      .bind(memberId, optOut, "2026-05-23T00:00:00Z")
+      .run();
+  };
+
+  it("opt-out=1 の member への enqueue は { ok:false, reason:'opt_out' } を返し outbox に行を作らない", async () => {
+    await seedStatus("m_opt", 1);
+    let counter = 0;
+    const repo = createOutboxRepository(env.ctx, {
+      newId: () => `nid_${++counter}`,
+      isOptedOut: async (mid) => {
+        const row = await env.ctx.db
+          .prepare("SELECT notification_opt_out FROM member_status WHERE member_id=?1")
+          .bind(mid)
+          .first<{ notification_opt_out: number }>();
+        return Number(row?.notification_opt_out ?? 0) === 1;
+      },
+    });
+    const r = await repo.enqueue({
+      noteId: "note_opt",
+      memberId: "m_opt",
+      recipientEmail: "u@example.com",
+      outcome: "approved",
+      requestType: "visibility_request",
+      nowIso: "2026-05-23T00:00:00Z",
+    });
+    expect(r.ok).toBe(false);
+    expect(r.reason).toBe("opt_out");
+
+    const outbox = await env.db
+      .prepare("SELECT COUNT(*) AS n FROM notification_outbox WHERE member_id=?1")
+      .bind("m_opt")
+      .first<{ n: number }>();
+    expect(outbox?.n).toBe(0);
+
+    const ledger = await env.db
+      .prepare("SELECT event_type FROM notification_ledger")
+      .all<{ event_type: string }>();
+    expect(ledger.results.map((x) => x.event_type)).toContain("skipped_opt_out");
+  });
+
+  it("opt-out=0 の member への enqueue は従来通り pending 行を作る", async () => {
+    await seedStatus("m_ok", 0);
+    let counter = 0;
+    const repo = createOutboxRepository(env.ctx, {
+      newId: () => `nid_${++counter}`,
+      isOptedOut: async () => false,
+    });
+    const r = await repo.enqueue({
+      noteId: "note_ok",
+      memberId: "m_ok",
+      recipientEmail: "u@example.com",
+      outcome: "approved",
+      requestType: "visibility_request",
+      nowIso: "2026-05-23T00:00:00Z",
+    });
+    expect(r.ok).toBe(true);
+    const row = await env.db
+      .prepare("SELECT status, channel FROM notification_outbox WHERE note_id=?1")
+      .bind("note_ok")
+      .first<{ status: string; channel: string }>();
+    expect(row?.status).toBe("pending");
+    expect(row?.channel).toBe("mail");
+  });
+});
+
 describe("sanitizeReasonSummary unit", () => {
   it("AC-9: 制御文字除去 + trim + 200 char truncate", () => {
     expect(sanitizeReasonSummary("  hello world  ")).toBe("helloworld");
