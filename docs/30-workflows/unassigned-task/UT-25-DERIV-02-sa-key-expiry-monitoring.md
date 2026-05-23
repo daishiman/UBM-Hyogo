@@ -8,15 +8,18 @@
 | タスク名 | SA key 失効監視（Sheets API 401/403 検出と alert 経路整備） |
 | 優先度 | HIGH |
 | 推奨Wave | Wave 3（UT-26 完了後） |
-| 状態 | unassigned |
+| 状態 | consumed |
 | 作成日 | 2026-04-29 |
 | 既存タスク組み込み | なし（UT-08 監視設計とは独立。SA key 失効固有の検出・alert 経路を扱う） |
-| 組み込み先 | - |
+| 組み込み先 | `docs/30-workflows/ut-25-deriv-02-sa-key-expiry-monitoring/` |
+| canonical_workflow | `docs/30-workflows/ut-25-deriv-02-sa-key-expiry-monitoring/` |
 | 検出元 | UT-25 Phase 11 `outputs/phase-11/main.md` §保証できない範囲（2. SA key 失効監視） |
 
 ## 目的
 
 UT-25 で配置した `GOOGLE_SERVICE_ACCOUNT_JSON` シークレットの裏側で動作している Google Service Account key が、Google 側で失効・無効化（鍵削除 / SA 無効化 / Sheets API 権限剥奪）された場合に、本番運用中の `apps/api` Workers が**沈黙故障する**ことを防ぐ。Sheets API の 401/403 応答を検出し、Cloudflare Workers logs / Sentry / 定期 health check を組み合わせた alert 経路を整備する。失効検出時の rollback 経路は UT-25 Phase 13 の `rollback-runbook.md` を逆参照する。
+
+> Consumed trace (2026-05-22): canonical workflow root は `docs/30-workflows/ut-25-deriv-02-sa-key-expiry-monitoring/`。本ファイルは source trace として保持し、実行・Phase 12 strict 7・aiworkflow 正本同期は canonical workflow root 側で管理する。
 
 ## スコープ
 
@@ -114,7 +117,7 @@ health check 実装は `apps/api` 本体のジョブと同じ binding（`GOOGLE_
 | 種別 | パス | 用途 |
 | --- | --- | --- |
 | 必須 | docs/30-workflows/ut-25-cloudflare-secrets-production-deploy/outputs/phase-11/main.md | §保証できない範囲（本タスクの検出元） |
-| 必須 | docs/30-workflows/ut-25-cloudflare-secrets-production-deploy/outputs/phase-13/rollback-runbook.md | 失効検出時の対応経路（逆参照先） |
+| 必須 | docs/30-workflows/completed-tasks/ut-25-cloudflare-secrets-production-deploy/outputs/phase-13/rollback-runbook.md | 失効検出時の対応経路（逆参照先） |
 | 必須 | docs/30-workflows/unassigned-task/UT-25-cloudflare-secrets-sa-json-deploy.md | SA key 配置の前提タスク |
 | 必須 | docs/30-workflows/unassigned-task/UT-26-sheets-api-e2e-smoke-test.md | 疎通 baseline 確立の前提タスク |
 | 参考 | docs/30-workflows/unassigned-task/UT-08-monitoring-alert-design.md | 監視 / alert 設計の上位方針 |
