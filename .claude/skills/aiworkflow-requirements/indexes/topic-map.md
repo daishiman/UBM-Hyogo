@@ -2257,6 +2257,16 @@ node scripts/list-specs.js --topics
 | Evidence | L18 |
 | Phase 12 | L27 |
 
+### references/workflow-fix-verify-design-tokens-og-route-exclude-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Workflow | L3 |
+| Implementation Targets | L12 |
+| Evidence | L17 |
+| Phase 12 Strict Outputs | L24 |
+| Boundary | L34 |
+
 ### references/workflow-governance-design-category.md
 
 | セクション | 行 |
@@ -5088,6 +5098,13 @@ node scripts/list-specs.js --topics
 | メタ情報 | L3 |
 | Lessons | L12 |
 
+### references/lessons-learned-fix-verify-design-tokens-og-route-exclude-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| 教訓一覧 | L12 |
+| 関連メモ | L40 |
+
 ### references/lessons-learned-issue-106-admin-notes-repository-2026-05.md
 
 | セクション | 行 |
@@ -7303,14 +7320,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L2019 |
-| フェーズ構造（概要） | L2028 |
-| 品質ゲート（概要） | L2059 |
-| 出力テンプレート | L2070 |
-| 実行時のコマンド・エージェント・スキル | L2093 |
-| 昇格パターン集 | L2117 |
-| Current Active / Spec Created Tasks | L2119 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L2275 |
+| ドキュメント構成 | L2033 |
+| フェーズ構造（概要） | L2042 |
+| 品質ゲート（概要） | L2073 |
+| 出力テンプレート | L2084 |
+| 実行時のコマンド・エージェント・スキル | L2107 |
+| 昇格パターン集 | L2131 |
+| Current Active / Spec Created Tasks | L2133 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L2289 |
 
 ### references/task-workflow-backlog-part2.md
 
