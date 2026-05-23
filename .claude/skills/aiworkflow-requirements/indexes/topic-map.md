@@ -2221,6 +2221,12 @@ node scripts/list-specs.js --topics
 | 関連ドキュメント | L117 |
 | 変更履歴 | L131 |
 
+### references/workflow-ci-green-recovery-smoke-coverage-shard-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Contract | L21 |
+
 ### references/workflow-ci-staging-deploy-failure-fix-artifact-inventory.md
 
 | セクション | 行 |
@@ -7330,14 +7336,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L2033 |
-| フェーズ構造（概要） | L2042 |
-| 品質ゲート（概要） | L2073 |
-| 出力テンプレート | L2084 |
-| 実行時のコマンド・エージェント・スキル | L2107 |
-| 昇格パターン集 | L2131 |
-| Current Active / Spec Created Tasks | L2133 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L2291 |
+| ドキュメント構成 | L2046 |
+| フェーズ構造（概要） | L2055 |
+| 品質ゲート（概要） | L2086 |
+| 出力テンプレート | L2097 |
+| 実行時のコマンド・エージェント・スキル | L2120 |
+| 昇格パターン集 | L2144 |
+| Current Active / Spec Created Tasks | L2146 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L2304 |
 
 ### references/task-workflow-backlog-part2.md
 
