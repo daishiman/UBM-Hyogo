@@ -135,7 +135,7 @@ Phase 12 は次の **6 必須タスク** を実行し、最低 7 ファイルを
 5. スキルフィードバックレポート作成（**改善点なしでも出力必須**。章立ては「テンプレ改善 / ワークフロー改善 / ドキュメント改善」の 3 観点固定）
 6. タスク仕様書コンプライアンスチェック（`outputs/phase-12/phase12-task-spec-compliance-check.md`）
 
-詳細仕様（Part 1/2 セルフチェック・Step 1-A〜1-D ルール・`spec_created` close-out・docs-only → code 再判定）は [references/phase-12-spec.md](references/phase-12-spec.md)。`spec_created` / docs-only / NON_VISUAL は root workflow state を据え置き、Phase status と 7 ファイル実体・current/baseline 監査値で検証する。よくある漏れ（UBM-009〜017 含む）と苦戦防止 Tips は [references/phase-12-pitfalls.md](references/phase-12-pitfalls.md)。**parallel sub-workflow（`parallel-NN-*/` を持つ workflow）では root と各 sub の両方で canonical 9 headings / strict 7 outputs / Phase 12 compliance-check を保持する**（詳細: [references/patterns-parallel-sub-workflow.md](references/patterns-parallel-sub-workflow.md)）。
+詳細仕様（Part 1/2 セルフチェック・Step 1-A〜1-D ルール・`spec_created` close-out・docs-only → code 再判定）は [references/phase-12-spec.md](references/phase-12-spec.md)。`spec_created` / docs-only / NON_VISUAL は root workflow state を据え置き、Phase status と 7 ファイル実体・current/baseline 監査値で検証する。よくある漏れ（UBM-009〜017 含む）と苦戦防止 Tips は [references/phase-12-pitfalls.md](references/phase-12-pitfalls.md)。**parent + sub-workflow 構造では Phase 12 strict 7 outputs を parent root に集約し、sub-workflow 配下へ複製しない。sub 側に置ける Phase 12 doc は `phase-12-compliance-check.md` のみ**（SSOT: [references/phase12-strict-7-workflow-root-parity-gate.md](references/phase12-strict-7-workflow-root-parity-gate.md)、構造補足: [references/patterns-parallel-sub-workflow.md](references/patterns-parallel-sub-workflow.md)）。
 
 ## 重要ルール（要約）
 
@@ -185,9 +185,7 @@ Phase 12 は次の **6 必須タスク** を実行し、最低 7 ファイルを
 | Completed Tasks Path Normalization（Phase 13 完了後の `completed-tasks/<category>/` 移動 / `Refs #XXX` 連結 / metadata 据え置き） | [references/completed-tasks-policy.md](references/completed-tasks-policy.md) |
 | 共有ファイル並列編集パターン（`parallel-XX` マーカー責務分離 / 先着優先 / `merge=union` 不可な cascade 系ファイル） | [references/shared-file-parallel-edit-pattern.md](references/shared-file-parallel-edit-pattern.md) |
 | Phase 11 evidence 二層 status 運用（`present` validator 検査 / `pending` inventory ledger / `n/a` 不要確定） | [references/phase11-evidence-two-tier-status.md](references/phase11-evidence-two-tier-status.md) |
-| parallel sub-workflow 構造（root / sub artifacts.json 二重構造 / `sub_workflow` フィールド / Phase 11-12 outputs parity / `parallel-NN-*` vs `serial-NN-*` 命名 / VISUAL_ON_EXECUTION の sub→serial 集約） | [references/patterns-parallel-sub-workflow.md](references/patterns-parallel-sub-workflow.md) |
-| prototype-driven CSS 移植（`claude-design-prototype` SSOT / `@layer components` 末尾追加 / `tokens.css` 色責務 と `globals.css` rhythm 責務の SRP / HEX 直書き禁止 と `verify-design-tokens` CI gate） | [references/patterns-prototype-driven-css.md](references/patterns-prototype-driven-css.md) |
-| parallel sub-workflow 構造（root / sub artifacts.json 二重構造 / `sub_workflow` フィールド / Phase 11-12 outputs parity / `parallel-NN-*` vs `serial-NN-*` 命名 / VISUAL_ON_EXECUTION の sub→serial 集約） | [references/patterns-parallel-sub-workflow.md](references/patterns-parallel-sub-workflow.md) |
+| parallel/serial sub-workflow 構造（root / sub artifacts.json 二重構造 / `sub_workflow` フィールド / Phase 11 evidence sub 配置 + Phase 12 strict 7 parent root 集約 / `parallel-NN-*` vs `serial-NN-*` 命名 / VISUAL_ON_EXECUTION の sub→serial 集約 / sub 配下に許される Phase 12 doc は `phase-12-compliance-check.md` のみ） | [references/patterns-parallel-sub-workflow.md](references/patterns-parallel-sub-workflow.md), [references/phase12-strict-7-workflow-root-parity-gate.md](references/phase12-strict-7-workflow-root-parity-gate.md) |
 | prototype-driven CSS 移植（`claude-design-prototype` SSOT / `@layer components` 末尾追加 / `tokens.css` 色責務 と `globals.css` rhythm 責務の SRP / HEX 直書き禁止 と `verify-design-tokens` CI gate） | [references/patterns-prototype-driven-css.md](references/patterns-prototype-driven-css.md) |
 
 ## 最小 workflow

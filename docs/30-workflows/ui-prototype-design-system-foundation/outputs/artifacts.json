@@ -12,6 +12,11 @@
         "status": "runtime_pending",
         "implementation_status": "local_css_selectors_added",
         "runtime_boundary": "serial-07 visual evidence pending"
+      },
+      "serial-05-page-routes-blueprint-binding": {
+        "status": "implemented_local_evidence_captured",
+        "implementation_status": "route_markers_and_static_gates_captured",
+        "runtime_boundary": "serial-07 visual evidence pending"
       }
     },
     "gates": [

@@ -1,3 +1,4 @@
+// serial-05: /privacy — blueprint 09e:561-620
 // /privacy 静的ページ。task-12 で LegalProse primitive を経由して typography 統一。
 // 文面は法務確認後に更新する想定（現時点は最小限の暫定版）。
 
@@ -12,7 +13,7 @@ export const metadata: Metadata = {
 
 export default function PrivacyPage() {
   return (
-    <main data-page="privacy">
+    <main data-page="privacy" data-route="public" data-section-rhythm="comfortable">
       <LegalProse>
         <h1>プライバシーポリシー</h1>
         <p>
