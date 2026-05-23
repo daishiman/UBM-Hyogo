@@ -149,6 +149,7 @@ describe("viewmodel parsers — 10 種 (AC-4 / 不変条件 #1)", () => {
           rulesConsent: "consented",
           publishState: "public",
           isDeleted: false,
+          notificationOptOut: false,
         },
         profile: {
           memberId: "m_1",

@@ -199,6 +199,7 @@ export interface AdminMemberDetailView {
     rulesConsent: ConsentStatus;
     publishState: PublishState;
     isDeleted: boolean;
+    notificationOptOut: boolean;
   };
   profile: MemberProfile;
   audit: Array<{

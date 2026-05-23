@@ -61,6 +61,17 @@ export const patchMemberStatus = (
   body: { publishState?: "public" | "member_only" | "hidden"; hiddenReason?: string | null },
 ) => call(`/members/${encodeURIComponent(memberId)}/status`, "PATCH", body);
 
+// Issue #55: member の通知 opt-out 切替
+export const patchMemberNotificationPref = (
+  memberId: string,
+  body: { notificationOptOut: boolean },
+) =>
+  call(
+    `/members/${encodeURIComponent(memberId)}/notification-pref`,
+    "PATCH",
+    body,
+  );
+
 export const postMemberNote = (memberId: string, body: string) =>
   call(`/members/${encodeURIComponent(memberId)}/notes`, "POST", { body });
 

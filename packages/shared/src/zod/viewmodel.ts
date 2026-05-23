@@ -270,6 +270,7 @@ export const AdminMemberDetailViewZ = z
       rulesConsent: ConsentStatusZ,
       publishState: PublishStateZ,
       isDeleted: z.boolean(),
+      notificationOptOut: z.boolean(),
     }),
     profile: MemberProfileZ,
     audit: z.array(
