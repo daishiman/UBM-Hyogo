@@ -15,7 +15,7 @@ import {
 import { FormField } from "../ui/FormField";
 import { Input } from "../ui/Input";
 import { EmptyState } from "../ui/EmptyState";
-import { AdminMutationError, useAdminMutation } from "../../features/admin/hooks/useAdminMutation";
+import { FetchAuthedError, useAdminMutation } from "../../features/admin/hooks/useAdminMutation";
 import { useConfirmDialog } from "../../features/admin/hooks/useConfirmDialog";
 import { ConfirmDialog } from "../ui/ConfirmDialog";
 
@@ -53,8 +53,14 @@ const unwrapAdminResult = async <T,>(result: Promise<{
   error: string;
 }>): Promise<T> => {
   const r = await result;
-  if (!r.ok) throw new AdminMutationError(r.status, r.error);
+  if (!r.ok) throw new FetchAuthedError(r.status, r.error);
   return r.data as T;
+};
+
+const getAdminMutationMessage = (error: unknown): string => {
+  if (error instanceof FetchAuthedError) return error.bodyText;
+  if (error instanceof Error) return error.message;
+  return "unknown error";
 };
 
 // 不変条件 #15: UI 側 filter 二重防御
@@ -140,7 +146,7 @@ export function MeetingPanel({ meetings, candidates }: Props) {
       await meetingCreateMutation.trigger({ title: title.trim(), heldOn, note: note.trim() || null });
     } catch (e) {
       ok = false;
-      setToast(`開催追加に失敗: ${e instanceof Error ? e.message : "unknown error"}`);
+      setToast(`開催追加に失敗: ${getAdminMutationMessage(e)}`);
     }
     setBusy(false);
     if (!ok) return;
@@ -163,9 +169,9 @@ export function MeetingPanel({ meetings, candidates }: Props) {
         { sessionId, memberId, attended: true },
       );
     } catch (e) {
-      if (e instanceof AdminMutationError && e.status === 422) setToast("削除済み会員は登録できません");
-      else if (e instanceof AdminMutationError && e.status === 409) setToast("この会員は既に出席登録されています");
-      else setToast(`登録に失敗: ${e instanceof Error ? e.message : "unknown error"}`);
+      if (e instanceof FetchAuthedError && e.status === 422) setToast("削除済み会員は登録できません");
+      else if (e instanceof FetchAuthedError && e.status === 409) setToast("この会員は既に出席登録されています");
+      else setToast(`登録に失敗: ${getAdminMutationMessage(e)}`);
       return;
     }
     setAttended((s) => {
@@ -191,7 +197,7 @@ export function MeetingPanel({ meetings, candidates }: Props) {
         },
       );
     } catch (e) {
-      setToast(`開催更新に失敗: ${e instanceof Error ? e.message : "unknown error"}`);
+      setToast(`開催更新に失敗: ${getAdminMutationMessage(e)}`);
       return;
     }
     setToast("開催日を更新しました");
@@ -206,7 +212,7 @@ export function MeetingPanel({ meetings, candidates }: Props) {
       try {
         await attendanceMutation.trigger({ sessionId, memberId, attended: false });
       } catch (e) {
-        if (e instanceof AdminMutationError && e.status === 404) {
+        if (e instanceof FetchAuthedError && e.status === 404) {
           setAttended((s) => {
             const next = { ...s };
             const cur = new Set(next[sessionId] ?? []);
@@ -217,7 +223,7 @@ export function MeetingPanel({ meetings, candidates }: Props) {
           setToast("既に出席解除されています");
           return;
         } else {
-          setToast(`削除に失敗: ${e instanceof Error ? e.message : "unknown error"}`);
+          setToast(`削除に失敗: ${getAdminMutationMessage(e)}`);
         }
         throw e;
       }
@@ -237,7 +243,7 @@ export function MeetingPanel({ meetings, candidates }: Props) {
           deletedAt: new Date().toISOString(),
         });
       } catch (e) {
-        setToast(`開催削除に失敗: ${e instanceof Error ? e.message : "unknown error"}`);
+        setToast(`開催削除に失敗: ${getAdminMutationMessage(e)}`);
         throw e;
       }
       setToast("開催日を削除しました");

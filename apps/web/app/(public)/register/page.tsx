@@ -1,3 +1,4 @@
+// serial-05: /(public)/register — blueprint 09e:473-560
 // `/register` 登録案内 (Server Component)
 // task-12 で RegisterCallout primitive 接続。
 // 不変条件 #2: consent キーは publicConsent / rulesConsent
@@ -45,7 +46,7 @@ export default async function RegisterPage() {
   }
 
   return (
-    <main data-page="register" className="stack-lg">
+    <main data-page="register" className="stack-lg" data-route="public" data-section-rhythm="comfortable">
       <header className="page-head">
         <p className="eyebrow">REGISTER</p>
         <h1>UBM 兵庫支部会への登録</h1>

@@ -517,8 +517,8 @@ const MemberListPage = ({ nav, tweaks }) => {
 
 | データ | endpoint | 入力 query | 出力 schema | fallback |
 |--------|----------|-----------|-------------|----------|
-| 一覧 | `GET /public/members` | `{ q?: string; zone?: ZoneId; status?: MemberStatus; tag?: string[]; sort?: "recent"\|"name"; density?: "comfy"\|"dense"\|"list"; page?: number; limit?: number }` | `PublicMemberListView`（`items`, `pagination: { total, page, limit }`, `appliedQuery`, `generatedAt`） | `{ items: [], pagination: { total: 0, page: 1, limit: 20 } }` |
-| タグ候補 | API 接続なし | prototype / 09h fixture 由来の固定 filter catalog | 追加 endpoint なし。`GET /public/members` の repeated `tag` query に選択値だけ渡す | 空 catalog 時は tag row を非表示 |
+| 一覧 | `GET /public/members` | `{ q?: string; zone?: ZoneId; status?: MemberStatus; tag?: string[]; sort?: "recent"\|"name"; density?: "comfy"\|"dense"\|"list"; page?: number; limit?: number }` | `PublicMemberListView`（`items`, `pagination: { total, page, limit }`, `appliedQuery`, `topTags`, `generatedAt`） | `{ items: [], pagination: { total: 0, page: 1, limit: 20 }, topTags: [] }` |
+| タグ候補 | `GET /public/members` の `topTags` | 公開 member に紐づく active tag を最大 20 件 | 追加 endpoint なし。`{ code, label, count }[]` を chip picker に渡し、選択値は repeated `tag` query で送る | 空 catalog 時は tag row を非表示 |
 
 URL query に状態を映す（Next.js `useSearchParams` / `router.replace`）:
 
@@ -527,7 +527,7 @@ URL query に状態を映す（Next.js `useSearchParams` / `router.replace`）:
 | `q` | `q` | `生成AI` |
 | `zoneF` | `zone` | `1→10`（`all` のとき省略） |
 | `statusF` | `status` | `会員`（`all` のとき省略） |
-| `tagF` | `tags` | `AI・データ,DX推進`（カンマ区切り） |
+| `tagF` | `tag` | `tag=ai&tag=dx`（repeated query） |
 | `sort` | `sort` | `recent` / `name` |
 | `density` | `density` | `comfy` / `dense` / `list`（既定 `tweaks.density`） |
 | ページ | `page` | `1`〜（既定 1） |

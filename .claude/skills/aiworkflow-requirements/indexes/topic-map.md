@@ -2339,6 +2339,17 @@ node scripts/list-specs.js --topics
 | Evidence Boundary | L24 |
 | Captured Evidence | L27 |
 
+### references/workflow-issue-276-mobile-filterbar-tag-picker-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Metadata | L3 |
+| Canonical Files | L13 |
+| Planned Implementation Targets | L23 |
+| Runtime Boundary | L32 |
+| Lessons Learned | L36 |
+| Pattern Reference | L42 |
+
 ### references/workflow-issue-277-next-proxy-migration-artifact-inventory.md
 
 | セクション | 行 |
@@ -2540,6 +2551,19 @@ node scripts/list-specs.js --topics
 | Metadata | L3 |
 | Current Canonical Set | L13 |
 | Boundary | L29 |
+
+### references/workflow-issue-520-slack-incidents-channel-webhook-provisioning-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| canonical root | L3 |
+| root artifacts | L7 |
+| phase 12 required artifacts | L16 |
+| implementation artifacts | L28 |
+| production runtime evidence templates (Phase 11) | L37 |
+| same-wave skill sync | L45 |
+| boundary | L58 |
+| deferred evidence | L64 |
 
 ### references/workflow-issue-526-ci-actionlint-shellcheck-gate-artifact-inventory.md
 
@@ -2919,6 +2943,16 @@ node scripts/list-specs.js --topics
 | Phase 12 strict 7 outputs | L34 |
 | Evidence | L46 |
 | User-gated boundary | L55 |
+
+### references/workflow-parallel-i02b-admin-mutation-error-finalize-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Summary | L3 |
+| Canonical Workflow | L7 |
+| Implementation Targets | L16 |
+| Evidence | L25 |
+| User Gate | L35 |
 
 ### references/workflow-parallel-i03-dialog-refresh-order-artifact-inventory.md
 
@@ -3651,9 +3685,10 @@ node scripts/list-specs.js --topics
 | parallel-02 prototype CSS rules port (2026-05-19 close-out) | L88 |
 | Follow-up unassigned tasks (proto-spec) | L99 |
 | Difficulties summary (parallel-02) | L111 |
-| P1-1〜P1-5 Selector ↔ Token ↔ 09 Spec Mapping (parallel-01) | L145 |
-| Sub-workflows | L190 |
-| P1-1〜P1-5 Selector ↔ Token ↔ 09 Spec Mapping (parallel-01) | L199 |
+| Sub-workflow: serial-05 Page Routes Blueprint Binding（2026-05-22 spec validation） | L145 |
+| P1-1〜P1-5 Selector ↔ Token ↔ 09 Spec Mapping (parallel-01) | L158 |
+| Sub-workflows | L203 |
+| P1-1〜P1-5 Selector ↔ Token ↔ 09 Spec Mapping (parallel-01) | L212 |
 
 ### references/workflow-ui-ux-visual-baseline-drift.md
 
@@ -5112,6 +5147,15 @@ node scripts/list-specs.js --topics
 | L-274-005: 起票元 unassigned 2 件は consumed trace として保持する | L83 |
 | L-274-006: `issue-NNN` namespace は legacy-ordinal-family-register の table 行追加不要 | L102 |
 | 参照 | L119 |
+
+### references/lessons-learned-issue-276-mobile-filterbar-tag-picker-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| 背景 | L10 |
+| 教訓一覧 | L20 |
+| 後発タスクへの転記チェックリスト（filter / picker primitive 追加時に複製） | L70 |
+| 参照 | L84 |
 
 ### references/lessons-learned-issue-290-workflow-lint-gate-2026-05.md
 
@@ -7274,6 +7318,14 @@ node scripts/list-specs.js --topics
 | 昇格パターン集 | L2095 |
 | Current Active / Spec Created Tasks | L2097 |
 | UT-17 followup-003 alert-relay weekly healthcheck cron | L2252 |
+| ドキュメント構成 | L2019 |
+| フェーズ構造（概要） | L2028 |
+| 品質ゲート（概要） | L2059 |
+| 出力テンプレート | L2070 |
+| 実行時のコマンド・エージェント・スキル | L2093 |
+| 昇格パターン集 | L2117 |
+| Current Active / Spec Created Tasks | L2119 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L2275 |
 
 ### references/task-workflow-backlog-part2.md
 

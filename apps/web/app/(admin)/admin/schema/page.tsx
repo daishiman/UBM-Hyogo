@@ -1,3 +1,4 @@
+// serial-05: /(admin)/admin/schema — blueprint 09g:521-640
 // 06c: /admin/schema 差分解消画面
 // 不変条件 #14: schema 解消はこの画面のみ
 import Link from "next/link";

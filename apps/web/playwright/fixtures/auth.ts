@@ -159,6 +159,14 @@ function publicMembersBody(params = new URLSearchParams()) {
     items: [buildMember({ memberId: 'sample-001', fullName: '佐藤 サンプル' })],
     pagination: { total: 1, page: 1, limit: 50, totalPages: 1, hasNext: false, hasPrev: false },
     appliedQuery: { q: '', zone: 'all', status: 'public', tags: [], sort: 'recent', density: 'comfy' },
+    topTags: [
+      { code: 'ai', label: 'AI', count: 3 },
+      { code: 'design', label: 'デザイン', count: 1 },
+      { code: 'startup', label: 'スタートアップ', count: 5 },
+      { code: 'kobe', label: '神戸', count: 4 },
+      { code: 'dx', label: 'DX', count: 2 },
+      { code: 'community', label: 'コミュニティ', count: 1 },
+    ],
     generatedAt: '2026-05-12T00:00:00.000Z',
   }
 }
