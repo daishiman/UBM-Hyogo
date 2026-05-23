@@ -83,7 +83,7 @@ wrangler secret put SLACK_BOT_TOKEN --env <env>
 | `DATABASE_URL` | Cloudflare D1 接続 URL | production / staging |
 | `SLACK_BOT_TOKEN` | Slack Bot Token（通知機能） | production / staging |
 | `DISCORD_WEBHOOK_URL` | Discord Webhook（内部通知） | production / staging |
-| `GOOGLE_SERVICE_ACCOUNT_JSON` | Google Sheets API 用 Service Account JSON key。`apps/api/src/jobs/sheets-fetcher.ts` / `sync-sheets-to-d1.ts` が `env.GOOGLE_SERVICE_ACCOUNT_JSON` として参照する正本名。値は `wrangler secret list` でも参照不可（name のみ） | production / staging |
+| `GOOGLE_SERVICE_ACCOUNT_JSON` | Google Forms API 用 Service Account JSON key（current、issue-291 で確定）。Forms split endpoint（`/admin/sync/schema` / `/admin/sync/responses`）の auth に使用。historical: u-04 legacy では Google Sheets API（`apps/api/src/jobs/sheets-fetcher.ts` / `sync-sheets-to-d1.ts`）でも同 secret を参照していた。値は `wrangler secret list` でも参照不可（name のみ） | production / staging |
 | `MAIL_PROVIDER_KEY` | Magic Link メール送信 provider API key。`apps/api/src/index.ts` の mail sender factory が参照する正本名。値は 1Password 正本から stdin 投入し、docs / logs / PR に転記しない | production / staging |
 | `AUDIT_CORRELATION_SALT` | audit-correlation fingerprintHash 生成用 salt。1Password `op://CloudflareSecurity/AuditCorrelationSalt/value` が正本。値は docs / logs / PR / evidence に残さない | production / staging |
 | `AUDIT_CORRELATION_SALT_PREVIOUS` | Issue #555 rotation window 中だけ存在する previous salt。1Password `op://CloudflareSecurity/AuditCorrelationSaltPrevious/value` が正本。window 終了後に Cloudflare Secrets と 1Password から削除 / archive する | production / staging |
