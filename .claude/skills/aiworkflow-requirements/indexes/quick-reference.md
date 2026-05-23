@@ -14,6 +14,24 @@
 | inventory | `.claude/skills/aiworkflow-requirements/references/workflow-fix-admin-server-components-render-error-stg-artifact-inventory.md` |
 | boundary | staging deploy, authenticated `/admin` curl, backend-ci rerun, commit, push, PR are user-gated |
 
+## admin-ui-prototype-alignment（2026-05-23）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/admin-ui-prototype-alignment/` |
+| 状態 | `implemented_local_runtime_pending / implementation / VISUAL / 11 admin routes` |
+| scope | 11 admin routes（dashboard / attendance / members / tags / meetings / meetings/[id] / schema / schema/history / requests / identity-conflicts / audit）の prototype alignment + 共通 component 6 種 + per-section degrade pattern |
+| per-section degrade | `apps/web/src/lib/result.ts`（`SafeResult<T>`）+ `apps/web/src/lib/admin/safe-server-fetch.ts` で throw を normalize → `Promise.all` 後に section 毎に `result.ok` 分岐 → `AdminSectionError` で degrade。`error.tsx` は renderer crash 専用に縮小（L-AUIP-001 / 再利用 Pattern 1） |
+| 共通 component | `apps/web/src/features/admin/components/_shared/{AdminSectionCard,AdminSectionError,AdminEmptyState,AdminStat,AdminTable,AdminQueuePanel}.tsx` + `index.ts` barrel export |
+| import 強制 | barrel 経由のみ。深 path import を ESLint `no-restricted-imports` で deny、grep gate `rg "from ['\"]@/features/admin/components/_shared/[A-Z]"` 0 件を Phase 5 DoD に組込（L-AUIP-003 / 再利用 Pattern 2） |
+| design token | 新規 component は OKLch token のみ（`var(--ubm-color-*)`）。既存 `*Panel.tsx` の HEX 移行は別 wave へ分離（L-AUIP-004） |
+| server/client boundary | server page = throw-only / view-compute-only、client wrapper = state/event-only の twin principle。`TagsClientShell` / `RequestsClientShell` で state ownership を Phase 2 fix（L-AUIP-005） |
+| scope cutoff | Phase 4 test plan に scope lock TC を列挙し、test fail = scope miss として early detect（L-AUIP-006 / 再利用 Pattern 5） |
+| lessons-learned | `.claude/skills/aiworkflow-requirements/references/lessons-learned-admin-ui-prototype-alignment-2026-05.md`（L-AUIP-001..006 + 再利用可能パターン 5 件） |
+| changelog | `.claude/skills/aiworkflow-requirements/changelog/20260523-admin-ui-prototype-alignment.md` |
+| 出典 | `docs/30-workflows/admin-ui-prototype-alignment/outputs/phase-12/implementation-guide.md` / `system-spec-update-summary.md` / `skill-feedback-report.md` / `phase12-task-spec-compliance-check.md` / `unassigned-task-detection.md` |
+| user gate | authenticated runtime screenshots / staging refresh / commit / push / PR |
+
 ## Issue #55 Notification Channel + Opt-out（2026-05-23）
 
 | 項目 | 値 |

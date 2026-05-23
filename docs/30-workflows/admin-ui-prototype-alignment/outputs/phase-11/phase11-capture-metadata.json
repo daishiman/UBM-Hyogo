@@ -1,0 +1,15 @@
+{
+  "taskId": "admin-ui-prototype-alignment",
+  "status": "pending_user_gate",
+  "visualEvidence": "VISUAL",
+  "claimedRuntimeScreenshots": false,
+  "claimedStagingRoute200": false,
+  "pendingReason": "authenticated admin runtime screenshot capture and staging refresh are user-gated",
+  "placeholderFiles": [
+    "outputs/phase-11/screenshots/pending-placeholder.png"
+  ],
+  "requiredScreenshots": {
+    "normal": 20,
+    "degrade": 5
+  }
+}
