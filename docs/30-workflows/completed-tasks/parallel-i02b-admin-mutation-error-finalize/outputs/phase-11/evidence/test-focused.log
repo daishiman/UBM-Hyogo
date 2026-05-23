@@ -1,0 +1,45 @@
+mise WARN  Config files in ~/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260522-191851-wt-1/.mise.toml are not trusted.
+Trust them with `mise trust`. See https://mise.jdx.dev/cli/trust.html for more information.
+[33mThe CJS build of Vite's Node API is deprecated. See https://vite.dev/guide/troubleshooting.html#vite-cjs-node-api-deprecated for more details.[39m
+
+ RUN  v2.1.9 /Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260522-191851-wt-1
+
+ ✓ apps/web/src/features/admin/hooks/__tests__/useAdminMutation.spec.ts (12 tests) 62ms
+ ✓ apps/web/src/components/admin/__tests__/RequestQueuePanel.component.spec.tsx (6 tests) 3178ms
+   ✓ RequestQueuePanel > TC-21: 初期表示で pending 一覧と type タブを描画 548ms
+   ✓ RequestQueuePanel > TC-22: 承認ボタンで confirmation modal が開く 874ms
+   ✓ RequestQueuePanel > TC-23: delete_request 承認で破壊的操作の警告が出る 362ms
+   ✓ RequestQueuePanel > TC-26: nextCursor があれば次ページへ遷移できる 1215ms
+ ✓ apps/web/src/components/admin/__tests__/MeetingPanel.component.spec.tsx (17 tests) 8555ms
+   ✓ MeetingPanel.filterCandidates > 既存 attendance を初期状態から disabled にする 1436ms
+   ✓ MeetingPanel — empty / mutation / authz > createMeeting 成功: 引数が正しく入力をクリアして toast 表示 344ms
+   ✓ MeetingPanel — empty / mutation / authz > createMeeting: note 空の場合は null を渡す 391ms
+   ✓ MeetingPanel — empty / mutation / authz > createMeeting バリデーション: title 空または heldOn が不正だと API 呼ばれない 315ms
+   ✓ MeetingPanel — empty / mutation / authz > addAttendance 成功: 出席者リストに追加 307ms
+   ✓ MeetingPanel — empty / mutation / authz > addAttendance 422: 削除済み会員 toast 992ms
+   ✓ MeetingPanel — empty / mutation / authz > addAttendance 409: 既に出席登録 toast 342ms
+   ✓ MeetingPanel — empty / mutation / authz > addAttendance その他エラー: 登録に失敗 toast 1129ms
+   ✓ MeetingPanel — empty / mutation / authz > removeAttendance 成功: 出席者リストから削除 395ms
+   ✓ MeetingPanel — empty / mutation / authz > removeAttendance 失敗: 削除に失敗 toast 814ms
+   ✓ MeetingPanel — empty / mutation / authz > 編集 details から updateMeeting を呼び、MVP 範囲外の CSV リンクは表示しない 663ms
+   ✓ MeetingPanel — empty / mutation / authz > 削除 button は deletedAt 付き updateMeeting を呼ぶ 979ms
+ ✓ apps/web/src/components/admin/__tests__/SchemaDiffPanel.component.spec.tsx (18 tests) 16915ms
+   ✓ SchemaDiffPanel > happy: 4 ペインに分類して見出しと total を表示する 1253ms
+   ✓ SchemaDiffPanel > mutation 成功: 割当→postSchemaAlias 呼出、toast/refresh、form クローズ 582ms
+   ✓ SchemaDiffPanel > mutation 失敗 (authz-fail): 403 forbidden で role=alert、form は閉じない 926ms
+   ✓ SchemaDiffPanel > UI-02 retryable continuation: status で「Back-fill 再試行可能」と補助文を表示し、form は開いたまま 1854ms
+   ✓ SchemaDiffPanel > UI-03 422 validation error: alert で「入力内容に誤り」を含む 351ms
+   ✓ SchemaDiffPanel > UI-04 409 conflict: alert で「他の操作と競合」を含む 727ms
+   ✓ SchemaDiffPanel > UI-05 retryable 後に再 submit→200 success: retryable label が消え success label が出る 951ms
+   ✓ SchemaDiffPanel > 「閉じる」ボタンで form がクローズされる 683ms
+   ✓ SchemaDiffPanel > UI-06 client-side regex validation: 不正な stableKey で submit すると postSchemaAlias を呼ばず validation_error feedback 1313ms
+   ✓ SchemaDiffPanel > BULK-PANEL-02 カテゴリヘッダ select-all で全行が選択 336ms
+   ✓ SchemaDiffPanel > BULK-PANEL-03 0 件選択時に Bulk Resolve 確定 button が disabled 600ms
+   ✓ SchemaDiffPanel > BULK-PANEL-03b 51 件選択時は確定 disabled かつ role=alert で上限理由を表示 3135ms
+   ✓ SchemaDiffPanel > BULK-PANEL-03c 50 件選択時は警告なしで modal を開ける 3368ms
+
+ Test Files  4 passed (4)
+      Tests  53 passed (53)
+   Start at  06:52:51
+   Duration  30.11s (transform 2.94s, setup 0ms, collect 10.20s, tests 28.71s, environment 21.25s, prepare 3.04s)
+

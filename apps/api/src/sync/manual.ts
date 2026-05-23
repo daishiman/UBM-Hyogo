@@ -14,6 +14,7 @@ import { mapSheetRows } from "./mapping";
 import { upsertMemberResponses } from "./upsert";
 import { requireSyncAdmin, type SyncAdminEnv } from "../middleware/require-sync-admin";
 import { resolveServiceAccountJson } from "../jobs/sync-sheets-to-d1";
+import { logSheetsAuthFailure } from "../jobs/sheets-auth-logger";
 import type { SyncEnvBase, AuditDeps, DiffSummary } from "./types";
 
 interface ManualEnv extends SyncEnvBase, SyncAdminEnv {}
@@ -64,6 +65,10 @@ export async function runFetchMapUpsert(
               throw new RateLimitError(err.status);
             }
           }
+          logSheetsAuthFailure(err, {
+            jobName: "manual-sync",
+            spreadsheetId: e.SHEETS_SPREADSHEET_ID,
+          });
           throw err;
         }
       },

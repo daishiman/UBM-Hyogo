@@ -4,6 +4,15 @@
 
 ```yaml
 issue_number: 291
+status: consumed
+consumed_at: 2026-05-22
+canonical_workflow: docs/30-workflows/issue-291-forms-d1-legacy-followup-cleanup/
+recovery_note: |
+  closed-issue-canonical-workflow-recovery パターン適用。
+  この unassigned-task は canonical workflow root に昇格済み。
+  以後の作業は canonical_workflow を正本とし、本ファイルは履歴のみ保持する。
+  GitHub Issue #291 は CLOSED 状態のため、関連 PR では `Refs #291` のみを使用し
+  `Closes #291` は付与しない（自動再 close を避ける）。
 ```
 
 | 項目 | 内容 |
@@ -16,7 +25,7 @@ issue_number: 291
 | 対象機能 | Google Forms sync / D1 projection / legacy umbrella governance |
 | 優先度 | 中 |
 | 見積もり規模 | 中規模 |
-| ステータス | 未実施 |
+| ステータス | consumed（canonical workflow root へ昇格済み） |
 | 発見元 | phase12-final-doc-update 30種思考法レビュー |
 | 発見日 | 2026-04-30 |
 
@@ -240,8 +249,7 @@ rg -n "Google Sheets API|spreadsheets\.values\.get|sync_audit|/admin/sync\b" \
 rg -l "task-sync-forms-d1-legacy-umbrella-001" \
   docs/30-workflows/completed-tasks/03a-parallel-forms-schema-sync-and-stablekey-alias-queue \
   docs/30-workflows/completed-tasks/03b-parallel-forms-response-sync-and-current-response-resolver \
-  docs/30-workflows/04c-parallel-admin-backoffice-api-endpoints \
-  docs/30-workflows/02-application-implementation/09b-parallel-cron-triggers-monitoring-and-release-runbook \
+  .claude/skills/aiworkflow-requirements/references/task-workflow-active.md \
   docs/30-workflows/completed-tasks/02c-parallel-admin-notes-audit-sync-jobs-and-data-access-boundary
 
 rg -n "^(<<<<<<<|=======|>>>>>>>)" .claude/skills/aiworkflow-requirements/references docs/30-workflows
