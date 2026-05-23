@@ -3108,6 +3108,16 @@ node scripts/list-specs.js --topics
 
 ### references/workflow-step-06-meetings-attendance-implementation-artifact-inventory.md
 
+### references/workflow-step-07-requests-approve-reject-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Metadata | L3 |
+| Workflow Files | L12 |
+| Phase 12 Strict 7 | L32 |
+| Local Implementation Targets | L44 |
+| Boundary | L55 |
+
 ### references/workflow-task-03-w2-par-sentry-workers-sdk-unify-artifact-inventory.md
 
 | セクション | 行 |
@@ -3879,6 +3889,8 @@ node scripts/list-specs.js --topics
 | Evidence | L19 |
 | User-Gated | L27 |
 
+### references/workflow-ut-25-deriv-01-sa-key-rotation-sop-artifact-inventory.md
+
 ### references/workflow-ut-25-deriv-02-sa-key-expiry-monitoring-artifact-inventory.md
 
 | セクション | 行 |
@@ -4371,16 +4383,17 @@ node scripts/list-specs.js --topics
 | GitHub Actions Secret Preflight Gate（2026-05-16） | L23 |
 | 管理場所の判断フロー | L51 |
 | Cloudflare Secrets（ランタイム） | L68 |
-| GitHub Secrets / Variables（CI/CD 用） | L135 |
-| wrangler.toml の環境別設定 | L289 |
-| ローカル開発での設定 | L321 |
-| Cloudflare CLI ラッパー: `scripts/cf.sh`（UT-06 派生 / 2026-04-27） | L360 |
-| セキュリティ原則 | L395 |
-| Cloudflare API Token の作成手順 | L406 |
-| Cloudflare API Token 90 日 rotation runbook（Issue #407 / 2026-05-06） | L421 |
-| UT-27: GitHub Secrets / Variables 同期運用（2026-04-29） | L532 |
-| U-FIX-CF-ACCT-01-DERIV-02: Cloudflare deploy token split | L576 |
-| 変更履歴 | L626 |
+| GitHub Secrets / Variables（CI/CD 用） | L137 |
+| wrangler.toml の環境別設定 | L291 |
+| ローカル開発での設定 | L323 |
+| Cloudflare CLI ラッパー: `scripts/cf.sh`（UT-06 派生 / 2026-04-27） | L362 |
+| セキュリティ原則 | L397 |
+| Cloudflare API Token の作成手順 | L408 |
+| Cloudflare API Token 90 日 rotation runbook（Issue #407 / 2026-05-06） | L423 |
+| UT-27: GitHub Secrets / Variables 同期運用（2026-04-29） | L534 |
+| U-FIX-CF-ACCT-01-DERIV-02: Cloudflare deploy token split | L578 |
+| 関連 SOP | L628 |
+| 変更履歴 | L632 |
 
 ### references/deployment.md
 
@@ -6013,6 +6026,18 @@ node scripts/list-specs.js --topics
 | 適用範囲 | L55 |
 | 関連リンク | L62 |
 
+### references/lessons-learned-ut-25-deriv-01-sa-key-rotation-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| L-UT25SAK-001: secret 値は stdin パイプ専用、shell 履歴は併用抑止する | L3 |
+| L-UT25SAK-002: state guard でローテーション順序を物理的に強制する | L7 |
+| L-UT25SAK-003: 値検証は UT-26 経由でのみ可能、`secret list` は name 確認まで | L11 |
+| L-UT25SAK-004: bats テストは helper の副作用を隔離するため tmp HOME / tmp HISTFILE を fixture 化する | L15 |
+| L-UT25SAK-005: aiworkflow-requirements の 500 行超過 reference は新規追加分が 1〜2 行でも分割タイミングを記録する | L19 |
+| L-UT25SAK-006: 90 日採用根拠は SOP 冒頭に必ず明記する | L23 |
+| L-UT25SAK-007: 完了記録テンプレは 8 必須フィールド + fingerprint 頭 16 文字のみ | L27 |
+
 ### references/lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md
 
 | セクション | 行 |
@@ -7333,7 +7358,7 @@ node scripts/list-specs.js --topics
 | 実行時のコマンド・エージェント・スキル | L2121 |
 | 昇格パターン集 | L2145 |
 | Current Active / Spec Created Tasks | L2147 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L2303 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L2306 |
 
 ### references/task-workflow-backlog-part2.md
 
