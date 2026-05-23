@@ -1,0 +1,20 @@
+AC-1 class definition removed:
+AC-2 panel FetchAuthedError references:
+apps/web/src/components/admin/MeetingPanel.tsx:18:import { FetchAuthedError, useAdminMutation } from "../../features/admin/hooks/useAdminMutation";
+apps/web/src/components/admin/MeetingPanel.tsx:54:  if (!r.ok) throw new FetchAuthedError(r.status, r.error);
+apps/web/src/components/admin/MeetingPanel.tsx:59:  if (error instanceof FetchAuthedError) return error.bodyText;
+apps/web/src/components/admin/MeetingPanel.tsx:170:      if (e instanceof FetchAuthedError && e.status === 422) setToast("削除済み会員は登録できません");
+apps/web/src/components/admin/MeetingPanel.tsx:171:      else if (e instanceof FetchAuthedError && e.status === 409) setToast("この会員は既に出席登録されています");
+apps/web/src/components/admin/SchemaDiffPanel.tsx:26:import { FetchAuthedError, useAdminMutation } from "../../features/admin/hooks/useAdminMutation";
+apps/web/src/components/admin/SchemaDiffPanel.tsx:110:  if (error instanceof FetchAuthedError) return error.bodyText;
+apps/web/src/components/admin/SchemaDiffPanel.tsx:128:        throw new FetchAuthedError(r.status, message);
+apps/web/src/components/admin/SchemaDiffPanel.tsx:209:      if (e instanceof FetchAuthedError && e.status === 422) {
+apps/web/src/components/admin/SchemaDiffPanel.tsx:216:      if (e instanceof FetchAuthedError && e.status === 409) {
+apps/web/src/components/admin/RequestQueuePanel.tsx:11:import { FetchAuthedError, useAdminMutation } from "../../features/admin/hooks/useAdminMutation";
+apps/web/src/components/admin/RequestQueuePanel.tsx:68:      if (!r.ok) throw new FetchAuthedError(r.status, r.error);
+apps/web/src/components/admin/RequestQueuePanel.tsx:130:      if (e instanceof FetchAuthedError && e.status === 409) {
+AC-3 AdminMutationError apps/web residual count:
+       0
+AC-7 public hook signature:
+22:  readonly error: Error | null;
+26:export { FetchAuthedError };
