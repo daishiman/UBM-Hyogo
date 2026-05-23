@@ -35,7 +35,33 @@
       "ut26_smoke_contract_test": "apps/api/src/routes/admin/smoke-sheets.contract.spec.ts"
     },
     "workflow_state": "implemented_local_evidence_captured",
-    "implementation_status": "implementation_complete_pending_pr"
+    "implementation_status": "implementation_complete_pending_pr",
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-05-22T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/ut-25-deriv-01-sa-key-rotation-sop/outputs/phase-12/phase12-task-spec-compliance-check.md",
+        "approver": "daishiman",
+        "notes": "spec_review: Phase 1-13 spec + local implementation completed"
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "passed",
+        "passed_at": "2026-05-22T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/ut-25-deriv-01-sa-key-rotation-sop/outputs/phase-11/manual-test-result.md",
+        "approver": "daishiman",
+        "notes": "implementation_review: cf-rotate-sa-key helper + bats + sop runbook + ut-26 canonical secret sync"
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/ut-25-deriv-01-sa-key-rotation-sop/outputs/phase-13/pr-summary.md",
+        "approver": "daishiman",
+        "notes": "external_ops: actual Cloudflare Secret rotation + Google IAM disable/delete + UT-26 staging/production smoke"
+      }
+    ]
   },
   "phases": {
     "phase-1": {
