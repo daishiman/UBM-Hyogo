@@ -5,6 +5,7 @@
 import { parseLoginQuery } from "../../src/lib/url/login-query";
 import { LoginCard } from "./_components/LoginCard";
 import { LoginPanel } from "./_components/LoginPanel.client";
+import { LoginShell } from "./_components/LoginShell";
 
 interface LoginPageProps {
   // Next 16: searchParams は Promise（async 解決）
@@ -15,10 +16,11 @@ interface LoginPageProps {
 
 const TITLES: Record<string, { title: string; subtitle?: string }> = {
   input: {
-    title: "UBM 兵庫支部会へログイン",
-    subtitle: "登録済みのメールアドレスでログインしてください。",
+    title: "会員ログイン",
+    subtitle:
+      "Googleフォームにご登録のメールアドレス宛に、ログイン用のマジックリンクをお送りします。",
   },
-  sent: { title: "メールを確認してください" },
+  sent: { title: "メールをご確認ください" },
   unregistered: { title: "アカウントが見つかりません" },
   deleted: { title: "アカウントが削除されています" },
   rules_declined: { title: "利用規約の同意が必要です" },
@@ -37,7 +39,7 @@ export default async function LoginPage({ searchParams }: LoginPageProps) {
     ...(q.gate !== undefined ? { gate: q.gate } : {}),
   };
   return (
-    <main>
+    <LoginShell>
       <LoginCard
         state={q.state}
         title={meta.title}
@@ -45,6 +47,6 @@ export default async function LoginPage({ searchParams }: LoginPageProps) {
       >
         <LoginPanel {...panelProps} />
       </LoginCard>
-    </main>
+    </LoginShell>
   );
 }

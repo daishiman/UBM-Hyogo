@@ -2867,6 +2867,15 @@ node scripts/list-specs.js --topics
 | 関連ドキュメント | L142 |
 | 変更履歴 | L152 |
 
+### references/workflow-login-page-prototype-alignment-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Metadata | L3 |
+| Implementation Targets | L12 |
+| Skill Compliance | L28 |
+| Boundaries | L36 |
+
 ### references/workflow-onboarding-wizard-alignment.md
 
 | セクション | 行 |
@@ -7251,14 +7260,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L1970 |
-| フェーズ構造（概要） | L1979 |
-| 品質ゲート（概要） | L2010 |
-| 出力テンプレート | L2021 |
-| 実行時のコマンド・エージェント・スキル | L2044 |
-| 昇格パターン集 | L2068 |
-| Current Active / Spec Created Tasks | L2070 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L2225 |
+| ドキュメント構成 | L1982 |
+| フェーズ構造（概要） | L1991 |
+| 品質ゲート（概要） | L2022 |
+| 出力テンプレート | L2033 |
+| 実行時のコマンド・エージェント・スキル | L2056 |
+| 昇格パターン集 | L2080 |
+| Current Active / Spec Created Tasks | L2082 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L2237 |
 
 ### references/task-workflow-backlog-part2.md
 

@@ -29,13 +29,15 @@ describe("LoginCard", () => {
     expect(root.getAttribute("data-state")).toBe("sent");
   });
 
-  it("ロゴ alt が UBM 兵庫支部会", () => {
+  it("brand mark と 2 段タイトルを描画する", () => {
     render(
       <LoginCard state="input" title="t">
         <span>body</span>
       </LoginCard>,
     );
-    expect(screen.getByRole("img", { name: "UBM 兵庫支部会" })).toBeTruthy();
+    expect(screen.getByText("兵")).toBeTruthy();
+    expect(screen.getByText("UBM兵庫支部会")).toBeTruthy();
+    expect(screen.getByText("Member Portal")).toBeTruthy();
   });
 
   it("footerSlot が描画される", () => {
