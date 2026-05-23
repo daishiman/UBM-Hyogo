@@ -5,6 +5,7 @@ description: |
   Mockプロバイダーを使ったサービス層の契約テストが主な用途。
   インターフェース契約の変更時に既存Mockとの互換性を保証し、不変条件を網羅する。
   `apps/api` 配下の D1 binding 依存 repository test / Hono route contract test / `require-admin` authz matrix も対象。
+  Playwright runtime screenshot（in-process mock server `__test__` seed 経由で element-level PNG 撮影）パターンも canonical 化済み。
 
   Anchors:
   • Contract Testing / 適用: インターフェース契約検証 / 目的: Mock→実装の互換性保証
@@ -12,7 +13,8 @@ description: |
 
   Trigger:
   「統合テスト作成」「integration test」「MockClient」「テスト追加」「契約テスト」
-  「テストケース追加」「Late Chunking テスト」「IEmbeddingClient テスト」等が発動条件。
+  「テストケース追加」「Late Chunking テスト」「IEmbeddingClient テスト」
+  「runtime screenshot」「Playwright mock control endpoint」「__test__ seed」等が発動条件。
 tags:
   - integration-test
   - vitest
@@ -118,6 +120,7 @@ MockClientを使ったサービス層の契約テストを中心に、インタ�
 - **API contract test pattern（08a 由来正本）**: See [references/api-contract-test-pattern.md](references/api-contract-test-pattern.md)
 - **Authorization matrix test pattern（08a 由来正本）**: See [references/authz-matrix-pattern.md](references/authz-matrix-pattern.md)
 - **Cloudflare Worker scheduled handler / redact-safe contract test pattern（Issue #553 由来正本）**: See [references/cloudflare-scheduled-and-redact-safe-pattern.md](references/cloudflare-scheduled-and-redact-safe-pattern.md)
+- **Playwright runtime screenshot pattern（issue-819 由来正本）**: See [references/playwright-runtime-screenshot-pattern.md](references/playwright-runtime-screenshot-pattern.md)
 
 ### scripts/
 
@@ -127,6 +130,7 @@ MockClientを使ったサービス層の契約テストを中心に、インタ�
 
 | Version | Date       | Changes                                                  |
 |---------|------------|----------------------------------------------------------|
+| 1.4.0   | 2026-05-20 | issue-819 admin dashboard runtime screenshot 由来パターンを反映: in-process mock server (`scripts/e2e-mock-api.mjs`) に `POST /__test__/<feature>` control endpoint を追加 / fixture (`MockApi` type) に setter を公開 / signed JWT admin context で 2-state（placeholder / populated）element-level `locator.screenshot({ path })` 撮影 / task dir + 親 workflow dir 両方への `copyFile` 同期を [references/playwright-runtime-screenshot-pattern.md](references/playwright-runtime-screenshot-pattern.md) として canonical 化。アンチパターンとして dummy small-byte PNG / untracked spec の Phase-11 evidence 化 / single-state-only capture / `page.route()` による Server Component fetch mock を明記 |
 | 1.3.0   | 2026-05-08 | Issue #553 (live audit-correlation endpoint) 由来パターンを反映: Cloudflare Worker `scheduled` handler の `ctx.waitUntil` 観測 / redact-safe serialize-then-grep / D1 `INSERT OR IGNORE` Fake stmt の UNIQUE 制約再現 / internal token authz 4 軸（unset 含む）/ test fixture placeholder と CI grep gate の整合を [references/cloudflare-scheduled-and-redact-safe-pattern.md](references/cloudflare-scheduled-and-redact-safe-pattern.md) として canonical 化 |
 | 1.2.0   | 2026-04-30 | 08a partial close-out 同期: `apps/api` 向け API contract test pattern / authz matrix pattern の 2 reference を追加。SKILL.md description を `apps/api` D1 binding 依存 repository test / Hono route contract test / authz matrix にも拡張 |
 | 1.1.0   | 2026-04-21 | TASK-EMB-LATE-CHUNKING-TOKEN-PROVIDER-001の知見を元に完成 |

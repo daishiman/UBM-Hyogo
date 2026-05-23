@@ -149,6 +149,19 @@
 | same-cycle sync | `ui-ux-admin-dashboard.md`, quick-reference, resource-map, artifact inventory, changelog |
 | evidence boundary | focused component test / grep gate / Phase 12 strict 7 present。authenticated runtime screenshots, commit, push, PR は user-gated |
 
+### issue-819 admin dashboard runtime screenshot（2026-05-20）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `spec_created / implementation / VISUAL_ON_EXECUTION / runtime_pending` |
+| 成果物 | `docs/30-workflows/issue-819-admin-dashboard-runtime-screenshot/` |
+| source issue | `#819` closed 維持。PR 文脈は `Refs #819` のみ |
+| source unassigned | `docs/30-workflows/unassigned-task/step-05-followup-001-admin-dashboard-runtime-screenshot-capture.md` |
+| 目的 | step-05 admin dashboard chart workflow の dummy screenshot evidence 2 件を authenticated runtime PNG に置換し、親 workflow の runtime screenshot boundary を消し込む |
+| implementation targets | parent PNG evidence, parent Phase 11/12 evidence docs, source unassigned consumed marker |
+| same-cycle sync | quick-reference, task-workflow-active, artifact inventory, changelog, Phase 12 strict 7 |
+| evidence boundary | runtime screenshot capture, parent evidence replacement, source consumed update, commit, push, PR are user-gated |
+
 ### Issue #256 E2E coverage baseline runbook（2026-05-18）
 
 | 項目 | 値 |

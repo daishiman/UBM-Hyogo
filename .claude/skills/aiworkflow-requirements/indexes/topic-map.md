@@ -2829,6 +2829,13 @@ node scripts/list-specs.js --topics
 | Required Runtime Evidence | L25 |
 | Phase 12 Strict Outputs | L32 |
 
+### references/workflow-issue-819-admin-dashboard-runtime-screenshot-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Phase 12 Strict 7 | L42 |
+| User-Gated Boundary | L54 |
+
 ### references/workflow-light-theme-contrast-regression-guard.md
 
 | セクション | 行 |
@@ -3045,7 +3052,7 @@ node scripts/list-specs.js --topics
 
 | セクション | 行 |
 |------------|----|
-| Phase 12 Strict 7 | L27 |
+| Phase 12 Strict 7 | L29 |
 
 ### references/workflow-step-06-meetings-attendance-implementation-artifact-inventory.md
 
@@ -7244,14 +7251,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L1957 |
-| フェーズ構造（概要） | L1966 |
-| 品質ゲート（概要） | L1997 |
-| 出力テンプレート | L2008 |
-| 実行時のコマンド・エージェント・スキル | L2031 |
-| 昇格パターン集 | L2055 |
-| Current Active / Spec Created Tasks | L2057 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L2212 |
+| ドキュメント構成 | L1970 |
+| フェーズ構造（概要） | L1979 |
+| 品質ゲート（概要） | L2010 |
+| 出力テンプレート | L2021 |
+| 実行時のコマンド・エージェント・スキル | L2044 |
+| 昇格パターン集 | L2068 |
+| Current Active / Spec Created Tasks | L2070 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L2225 |
 
 ### references/task-workflow-backlog-part2.md
 
