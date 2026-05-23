@@ -2257,6 +2257,16 @@ node scripts/list-specs.js --topics
 | Evidence | L18 |
 | Phase 12 | L27 |
 
+### references/workflow-fix-verify-design-tokens-og-route-exclude-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Workflow | L3 |
+| Implementation Targets | L12 |
+| Evidence | L17 |
+| Phase 12 Strict Outputs | L24 |
+| Boundary | L34 |
+
 ### references/workflow-governance-design-category.md
 
 | セクション | 行 |
@@ -2937,6 +2947,16 @@ node scripts/list-specs.js --topics
 | Evidence | L46 |
 | User-gated boundary | L55 |
 
+### references/workflow-parallel-i02b-admin-mutation-error-finalize-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Summary | L3 |
+| Canonical Workflow | L7 |
+| Implementation Targets | L16 |
+| Evidence | L25 |
+| User Gate | L35 |
+
 ### references/workflow-parallel-i03-dialog-refresh-order-artifact-inventory.md
 
 | セクション | 行 |
@@ -3087,6 +3107,16 @@ node scripts/list-specs.js --topics
 | Phase 12 Strict 7 | L29 |
 
 ### references/workflow-step-06-meetings-attendance-implementation-artifact-inventory.md
+
+### references/workflow-step-07-requests-approve-reject-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Metadata | L3 |
+| Workflow Files | L12 |
+| Phase 12 Strict 7 | L32 |
+| Local Implementation Targets | L44 |
+| Boundary | L55 |
 
 ### references/workflow-task-03-w2-par-sentry-workers-sdk-unify-artifact-inventory.md
 
@@ -5080,6 +5110,13 @@ node scripts/list-specs.js --topics
 |------------|----|
 | メタ情報 | L3 |
 | Lessons | L12 |
+
+### references/lessons-learned-fix-verify-design-tokens-og-route-exclude-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| 教訓一覧 | L12 |
+| 関連メモ | L40 |
 
 ### references/lessons-learned-issue-106-admin-notes-repository-2026-05.md
 
@@ -7308,14 +7345,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L2004 |
-| フェーズ構造（概要） | L2013 |
-| 品質ゲート（概要） | L2044 |
-| 出力テンプレート | L2055 |
-| 実行時のコマンド・エージェント・スキル | L2078 |
-| 昇格パターン集 | L2102 |
-| Current Active / Spec Created Tasks | L2104 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L2261 |
+| ドキュメント構成 | L2033 |
+| フェーズ構造（概要） | L2042 |
+| 品質ゲート（概要） | L2073 |
+| 出力テンプレート | L2084 |
+| 実行時のコマンド・エージェント・スキル | L2107 |
+| 昇格パターン集 | L2131 |
+| Current Active / Spec Created Tasks | L2133 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L2291 |
 
 ### references/task-workflow-backlog-part2.md
 
