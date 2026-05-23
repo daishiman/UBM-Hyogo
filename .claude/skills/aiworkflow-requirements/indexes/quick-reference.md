@@ -1,5 +1,65 @@
 # クイックリファレンス
 
+## admin-ui-prototype-alignment（2026-05-23）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/admin-ui-prototype-alignment/` |
+| 状態 | `implemented_local_runtime_pending / implementation / VISUAL / 11 admin routes` |
+| scope | 11 admin routes（dashboard / attendance / members / tags / meetings / meetings/[id] / schema / schema/history / requests / identity-conflicts / audit）の prototype alignment + 共通 component 6 種 + per-section degrade pattern |
+| per-section degrade | `apps/web/src/lib/result.ts`（`SafeResult<T>`）+ `apps/web/src/lib/admin/safe-server-fetch.ts` で throw を normalize → `Promise.all` 後に section 毎に `result.ok` 分岐 → `AdminSectionError` で degrade。`error.tsx` は renderer crash 専用に縮小（L-AUIP-001 / 再利用 Pattern 1） |
+| 共通 component | `apps/web/src/features/admin/components/_shared/{AdminSectionCard,AdminSectionError,AdminEmptyState,AdminStat,AdminTable,AdminQueuePanel}.tsx` + `index.ts` barrel export |
+| import 強制 | barrel 経由のみ。深 path import を ESLint `no-restricted-imports` で deny、grep gate `rg "from ['\"]@/features/admin/components/_shared/[A-Z]"` 0 件を Phase 5 DoD に組込（L-AUIP-003 / 再利用 Pattern 2） |
+| design token | 新規 component は OKLch token のみ（`var(--ubm-color-*)`）。既存 `*Panel.tsx` の HEX 移行は別 wave へ分離（L-AUIP-004） |
+| server/client boundary | server page = throw-only / view-compute-only、client wrapper = state/event-only の twin principle。`TagsClientShell` / `RequestsClientShell` で state ownership を Phase 2 fix（L-AUIP-005） |
+| scope cutoff | Phase 4 test plan に scope lock TC を列挙し、test fail = scope miss として early detect（L-AUIP-006 / 再利用 Pattern 5） |
+| lessons-learned | `.claude/skills/aiworkflow-requirements/references/lessons-learned-admin-ui-prototype-alignment-2026-05.md`（L-AUIP-001..006 + 再利用可能パターン 5 件） |
+| changelog | `.claude/skills/aiworkflow-requirements/changelog/20260523-admin-ui-prototype-alignment.md` |
+| 出典 | `docs/30-workflows/admin-ui-prototype-alignment/outputs/phase-12/implementation-guide.md` / `system-spec-update-summary.md` / `skill-feedback-report.md` / `phase12-task-spec-compliance-check.md` / `unassigned-task-detection.md` |
+| user gate | authenticated runtime screenshots / staging refresh / commit / push / PR |
+
+## Issue #55 Notification Channel + Opt-out（2026-05-23）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/issue-55-notification-channel-and-optout/` |
+| status | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION / production_runtime_pending_user_gate` |
+| purpose | Close the remaining Issue #55 gaps by introducing a `NotificationChannel` abstraction and an operator-managed member notification opt-out gate. |
+| current-code alignment | Store opt-out on `member_status.notification_opt_out`; add `notification_outbox.channel`; expand `notification_ledger.event_type` for `skipped_opt_out` and `unknown_channel`; use admin `MemberDrawer`, not a nonexistent member detail page route. |
+| implementation targets | `apps/api/src/services/notification/{channel.ts,registry.ts,channels/mail.ts}`, `apps/api/src/repository/{notificationOutbox.ts,memberNotificationPreference.ts}`, `apps/api/src/workflows/notificationDispatchTick.ts`, `apps/api/src/routes/admin/member-notification-pref.ts`, `apps/api/migrations/0020_notification_channel_and_opt_out.sql`, `apps/web/src/features/admin/components/_members/MemberDrawer.tsx`, `apps/web/src/lib/admin/api.ts` |
+| Phase 12 | `outputs/phase-12/phase12-task-spec-compliance-check.md` + strict 7 files present; Phase 11 local UI/D1 evidence present |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-55-notification-channel-and-optout-artifact-inventory.md` |
+| user gate | production D1 migration apply, staging/runtime evidence, commit, push, PR |
+
+## UT-25-DERIV-02 SA key expiry monitoring（2026-05-22）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow | `docs/30-workflows/ut-25-deriv-02-sa-key-expiry-monitoring/` |
+| status | `implemented_local_runtime_pending / implementation / NON_VISUAL` |
+| source | `docs/30-workflows/unassigned-task/UT-25-DERIV-02-sa-key-expiry-monitoring.md` (`status: consumed`) |
+| purpose | detect Google Service Account key expiry or permission loss for `GOOGLE_SERVICE_ACCOUNT_JSON` via Sheets API 401/403 classification |
+| implementation | `apps/api/src/jobs/sheets-auth-classifier.ts`, `apps/api/src/jobs/sheets-auth-logger.ts`, `apps/api/src/scheduled/sheets-auth-healthcheck.ts`, sync injection targets, scheduled wiring, `alert-relay.ts` payload extension |
+| invariant | no new cron; healthcheck piggybacks existing `*/15 * * * *`; 401/403 are distinct; 5xx/429/network are not sheets-auth alerts |
+| Phase 12 | `outputs/phase-12/phase12-task-spec-compliance-check.md` + strict 7 files present |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-ut-25-deriv-02-sa-key-expiry-monitoring-artifact-inventory.md` |
+| boundary | staging invalidation, Workers tail, production deploy, commit, push, PR are user-gated |
+
+## step-07 requests approve/reject implementation（2026-05-23）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/step-07-requests-approve-reject/` |
+| status | `implemented_local_evidence_captured / implementation / NON_VISUAL / Phase 12 strict 7 present` |
+| parent spec | `docs/30-workflows/ui-prototype-alignment-mvp-recovery/improvements/serial-05-admin-mutation-ui/step-07-requests-approve-reject/spec.md` |
+| purpose | `/admin/requests` の `visibility_request` / `delete_request` approve/reject を二段階確認 UI と 409 conflict refresh で実装するための Phase 1-13 仕様 |
+| local implementation | `apps/web/src/components/admin/RequestQueuePanel.tsx`, `RequestQueueDetail.tsx`, `RequestConfirmDialog.tsx`, focused `*.spec.tsx` |
+| API boundary | existing `POST /admin/requests/:noteId/resolve`; no D1 schema or endpoint change |
+| Phase 12 | `outputs/phase-12/phase12-task-spec-compliance-check.md` + strict 7 files present |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-step-07-requests-approve-reject-artifact-inventory.md` |
+| lessons | `.claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-step-07-requests-approve-reject-2026-05.md` |
+| user gate | authenticated runtime/staging evidence, commit, push, PR |
+
 ## ut-cicd-composite-setup-rollout（2026-05-22）
 
 | 項目 | 値 |
@@ -3328,3 +3388,12 @@ UT-17 Cloudflare Notifications → alert-relay → Slack 経路を、既存 API 
 | evidence boundary | local env test / grep / build smoke は PASS。`web-cd / deploy-staging`、`backend-ci / deploy-staging`、staging HTTP 200 は dev push 後の runtime_pending |
 | artifact inventory | `references/workflow-ci-staging-deploy-failure-fix-artifact-inventory.md` |
 | user gate | Cloudflare token creation, 1Password update, `gh secret set`, commit, push, PR, dev push runtime evidence |
+### UT-25-DERIV-01 SA Key Rotation SOP（2026-05-22）
+
+| リソース | 役割 | 読み込み条件 |
+| --- | --- | --- |
+| `docs/30-workflows/completed-tasks/ut-25-deriv-01-sa-key-rotation-sop/` | `GOOGLE_SERVICE_ACCOUNT_JSON` 90 日 rotation SOP/helper workflow | SA key rotation 手順・Phase 11/12 evidence 確認時 |
+| `scripts/cf-rotate-sa-key.sh` | stdin-only Cloudflare Secret rotation helper | staging→production guard / dry-run / fingerprint helper を確認する時 |
+| `docs/30-workflows/runbooks/sa-key-rotation-sop.md` | Operator SOP | 実 rotation 前の手順確認時 |
+| `references/workflow-ut-25-deriv-01-sa-key-rotation-sop-artifact-inventory.md` | Artifact inventory | 同 wave 変更棚卸し時 |
+| `references/lessons-learned-ut-25-deriv-01-sa-key-rotation-2026-05.md` | SA key rotation 苦戦点 L-UT25SAK-001..007（stdin+history 抑止 / state guard / `secret list` name-only + UT-26 / bats fixture / 500 行近傍分割閾値 / 90 日採用根拠 / 完了記録 8 フィールド）| 次回 SOP 更新・類似 secret rotation 設計時 |

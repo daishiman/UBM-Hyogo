@@ -23,7 +23,7 @@ function buildEnv(overrides: Record<string, unknown> = {}) {
     ENVIRONMENT: "development" as const,
     SMOKE_ADMIN_TOKEN: VALID_TOKEN,
     SHEETS_SPREADSHEET_ID: SPREADSHEET_ID,
-    GOOGLE_SHEETS_SA_JSON: SA_JSON,
+    GOOGLE_SERVICE_ACCOUNT_JSON: SA_JSON,
     ...overrides,
   };
 }
@@ -53,6 +53,21 @@ describe("createSmokeSheetsRoute", () => {
       buildEnv({ ENVIRONMENT: "production" }),
     );
     expect(res.status).toBe(404);
+  });
+
+  it("production 環境でも明示許可時は smoke を実行できる", async () => {
+    const app = createSmokeSheetsRoute({
+      createFetcher: () => makeFetcher(async () => ({ range: "Sheet1!A1:B2" })),
+    });
+    const res = await app.request(
+      "/",
+      { method: "GET", headers: { authorization: `Bearer ${VALID_TOKEN}` } },
+      buildEnv({
+        ENVIRONMENT: "production",
+        SMOKE_SHEETS_ALLOW_PRODUCTION: "true",
+      }),
+    );
+    expect(res.status).toBe(200);
   });
 
   it("Authorization ヘッダなしで 401", async () => {
@@ -183,14 +198,49 @@ describe("createSmokeSheetsRoute", () => {
     expect(body.errorCode).toBe("RATE_LIMITED");
   });
 
-  it("GOOGLE_SHEETS_SA_JSON 未設定で errorCode='CONFIG_MISSING'", async () => {
+  it("canonical GOOGLE_SERVICE_ACCOUNT_JSON が legacy alias より優先される", async () => {
+    let usedJson = "";
+    const app = createSmokeSheetsRoute({
+      createFetcher: (json) => {
+        usedJson = json;
+        return makeFetcher(async () => ({ range: "x" }));
+      },
+    });
+    const res = await app.request(
+      "/",
+      { method: "GET", headers: { authorization: `Bearer ${VALID_TOKEN}` } },
+      buildEnv({ GOOGLE_SHEETS_SA_JSON: "legacy" }),
+    );
+    expect(res.status).toBe(200);
+    expect(usedJson).toBe(SA_JSON);
+  });
+
+  it("legacy GOOGLE_SHEETS_SA_JSON alias も移行期間は受け付ける", async () => {
     const app = createSmokeSheetsRoute({
       createFetcher: () => makeFetcher(async () => ({ range: "x" })),
     });
     const res = await app.request(
       "/",
       { method: "GET", headers: { authorization: `Bearer ${VALID_TOKEN}` } },
-      buildEnv({ GOOGLE_SHEETS_SA_JSON: undefined }),
+      buildEnv({
+        GOOGLE_SERVICE_ACCOUNT_JSON: undefined,
+        GOOGLE_SHEETS_SA_JSON: SA_JSON,
+      }),
+    );
+    expect(res.status).toBe(200);
+  });
+
+  it("GOOGLE_SERVICE_ACCOUNT_JSON 未設定で errorCode='CONFIG_MISSING'", async () => {
+    const app = createSmokeSheetsRoute({
+      createFetcher: () => makeFetcher(async () => ({ range: "x" })),
+    });
+    const res = await app.request(
+      "/",
+      { method: "GET", headers: { authorization: `Bearer ${VALID_TOKEN}` } },
+      buildEnv({
+        GOOGLE_SERVICE_ACCOUNT_JSON: undefined,
+        GOOGLE_SHEETS_SA_JSON: undefined,
+      }),
     );
     expect(res.status).toBe(500);
     const body = (await res.json()) as { errorCode: string };

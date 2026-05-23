@@ -1,0 +1,9 @@
+{
+  "status": "spec_created",
+  "workflowRoot": "docs/30-workflows/admin-ui-prototype-alignment",
+  "outputDir": "docs/30-workflows/admin-ui-prototype-alignment/outputs/phase-11/screenshots",
+  "screens": ["dashboard", "members", "tags", "schema", "meetings"],
+  "viewports": ["desktop", "tablet", "mobile", "wide"],
+  "degradeScreens": ["dashboard", "members", "tags", "schema", "meetings"],
+  "executed": false
+}
