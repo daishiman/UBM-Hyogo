@@ -1,0 +1,84 @@
+{
+  "workflow_id": "issue-276-mobile-filterbar-tag-picker",
+  "version": "1.0.0",
+  "created_at": "2026-05-20",
+  "canonical_workflow_root": "docs/30-workflows/completed-tasks/issue-276-mobile-filterbar-tag-picker/",
+  "github_issue": 276,
+  "github_issue_state": "open",
+  "parent_workflow": "docs/30-workflows/completed-tasks/06a-parallel-public-landing-directory-and-registration-pages/",
+  "source_unassigned_task": "docs/30-workflows/unassigned-task/task-06a-followup-003-mobile-filterbar-tag-picker.md",
+  "metadata": {
+    "taskType": "implementation",
+    "visualEvidence": "VISUAL",
+    "workflow_state": "implemented_local_runtime_pending",
+    "implementation_status": "implementation_complete_phase11_evidence_pending",
+    "scope": "public_members_mobile_filterbar_tag_picker",
+    "runtime_boundary": "Local API/Web implementation is present in apps/ and packages/. Phase 11 visual evidence is captured under this workflow root when the focused Playwright spec runs. Commit, push, PR, and external deployment remain user-gated.",
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-05-20T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-276-mobile-filterbar-tag-picker/index.md",
+        "approver": "daishiman",
+        "notes": "spec_review: Phase 1-13 implementation specification created and local implementation aligned for Issue #276."
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "passed",
+        "passed_at": "2026-05-20T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-276-mobile-filterbar-tag-picker/outputs/phase-12/phase12-task-spec-compliance-check.md",
+        "approver": "daishiman",
+        "notes": "validator_green: Phase 12 strict 7 outputs, root/output artifacts mirror, and implementation sync are present."
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-276-mobile-filterbar-tag-picker/phase-13.md",
+        "approver": "daishiman",
+        "notes": "external_ops: commit, push, PR, and external deployment remain pending user approval."
+      }
+    ]
+  },
+  "phases": [
+    { "phase": 1, "file": "phase-01.md", "status": "completed" },
+    { "phase": 2, "file": "phase-02.md", "status": "completed" },
+    { "phase": 3, "file": "phase-03.md", "status": "completed" },
+    { "phase": 4, "file": "phase-04.md", "status": "completed" },
+    { "phase": 5, "file": "phase-05.md", "status": "completed" },
+    { "phase": 6, "file": "phase-06.md", "status": "completed" },
+    { "phase": 7, "file": "phase-07.md", "status": "completed" },
+    { "phase": 8, "file": "phase-08.md", "status": "completed" },
+    { "phase": 9, "file": "phase-09.md", "status": "completed" },
+    { "phase": 10, "file": "phase-10.md", "status": "completed" },
+    { "phase": 11, "file": "phase-11.md", "status": "runtime_evidence_pending" },
+    { "phase": 12, "file": "phase-12.md", "status": "completed" },
+    { "phase": 13, "file": "phase-13.md", "status": "pending_user_approval" }
+  ],
+  "outputs": {
+    "phase_11": [
+      "outputs/phase-11/main.md",
+      "outputs/phase-11/evidence/mobile-initial.png",
+      "outputs/phase-11/evidence/mobile-expanded.png",
+      "outputs/phase-11/evidence/mobile-limit-reached.png",
+      "outputs/phase-11/evidence/desktop-picker-and-selected.png",
+      "outputs/phase-11/test-report.md",
+      "outputs/phase-11/screenshot-plan.json",
+      "outputs/phase-11/manual-test-result.md",
+      "outputs/phase-11/manual-test-report.md",
+      "outputs/phase-11/discovered-issues.md",
+      "outputs/phase-11/ui-sanity-visual-review.md",
+      "outputs/phase-11/phase11-capture-metadata.json"
+    ],
+    "phase_12": [
+      "outputs/phase-12/main.md",
+      "outputs/phase-12/implementation-guide.md",
+      "outputs/phase-12/system-spec-update-summary.md",
+      "outputs/phase-12/documentation-changelog.md",
+      "outputs/phase-12/unassigned-task-detection.md",
+      "outputs/phase-12/skill-feedback-report.md",
+      "outputs/phase-12/phase12-task-spec-compliance-check.md"
+    ]
+  }
+}

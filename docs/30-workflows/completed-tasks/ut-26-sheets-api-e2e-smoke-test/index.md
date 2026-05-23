@@ -25,10 +25,11 @@
 | --- | --- | --- |
 | 2026-04-29 | Issue #41 は CLOSED のまま reopen せず、UT-26 仕様書と後続 PR から "Re-link to closed issue #41" として参照する | task-specification-creator Phase 12 の CLOSED Issue governance。Issue ライフサイクルと仕様作成履歴を切り離し、双方向リンクだけを維持する |
 | 2026-04-29 | 現行コードの `GOOGLE_SHEETS_SA_JSON` / `packages/integrations/google/src/forms/auth.ts` と、本仕様の `GOOGLE_SHEETS_SA_JSON` / `sheets-fetcher.ts` 表記差分は Phase 2 実装前ゲートで解消する | aiworkflow-requirements の正本照合。未決の env 名・export path を前提に実装しない |
+| 2026-05-22 | UT-25-DERIV-01 key rotation review により smoke route は `GOOGLE_SERVICE_ACCOUNT_JSON` canonical-first、`GOOGLE_SHEETS_SA_JSON` legacy fallback へ同期する | rotation SOP が mutate する secret 名と smoke が検証する secret 名を一致させるため。production smoke は既定 404 のまま、user-gated rotation window 中だけ `SMOKE_SHEETS_ALLOW_PRODUCTION=true` で明示許可する |
 
 ## 目的
 
-UT-03 で実装した `apps/api/src/jobs/sheets-fetcher.ts` モジュールと UT-25 で配置した `GOOGLE_SHEETS_SA_JSON` シークレットを使い、実際の Google Sheets API v4 への認証・データ取得疎通を Cloudflare Workers の Edge Runtime 上で確認する。fetch mock では検出できない JWT 署名（Web Crypto API / RSA-SHA256）・OAuth 2.0 token endpoint・`spreadsheets.values.get` の end-to-end 動作と、アクセストークンキャッシュ・401/403 エラーハンドリングの実機挙動を保証し、後続 UT-09（Sheets→D1 同期ジョブ）が本番 Sheets API に安全にアクセスできる前提を確立する。
+UT-03 で実装した `apps/api/src/jobs/sheets-fetcher.ts` モジュールと UT-25 で配置した canonical `GOOGLE_SERVICE_ACCOUNT_JSON` シークレットを使い、実際の Google Sheets API v4 への認証・データ取得疎通を Cloudflare Workers の Edge Runtime 上で確認する。`GOOGLE_SHEETS_SA_JSON` は legacy fallback のみ。fetch mock では検出できない JWT 署名（Web Crypto API / RSA-SHA256）・OAuth 2.0 token endpoint・`spreadsheets.values.get` の end-to-end 動作と、アクセストークンキャッシュ・401/403 エラーハンドリングの実機挙動を保証し、後続 UT-09（Sheets→D1 同期ジョブ）が本番 Sheets API に安全にアクセスできる前提を確立する。
 
 ## スコープ
 
@@ -58,7 +59,7 @@ UT-03 で実装した `apps/api/src/jobs/sheets-fetcher.ts` モジュールと U
 | 種別 | 対象 | 理由 |
 | --- | --- | --- |
 | 上流 | UT-03（Sheets API 認証方式設定） | `sheets-fetcher.ts` の実装が存在しないと疎通確認スクリプトが作成できない |
-| 上流 | UT-25（Cloudflare Secrets 本番配置） | `GOOGLE_SHEETS_SA_JSON` が staging に配置済みでないと認証フローが動作しない |
+| 上流 | UT-25（Cloudflare Secrets 本番配置） | `GOOGLE_SERVICE_ACCOUNT_JSON` が staging に配置済みでないと認証フローが動作しない |
 | 上流 | 01c-parallel-google-workspace-bootstrap | Service Account に対象 Sheets の閲覧権限が共有設定されていること |
 | 下流 | UT-09（Sheets→D1 同期ジョブ実装） | 本タスク完了により本番 Sheets API へのアクセスが保証される |
 | 下流 | UT-10（エラーハンドリング標準化） | 本タスクで観測した 401/403/429 挙動を formalize 対象として渡す |

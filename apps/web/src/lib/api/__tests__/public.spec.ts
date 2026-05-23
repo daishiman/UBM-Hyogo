@@ -63,6 +63,7 @@ const baseListResponse = (
     sort: "recent",
     density: "comfy",
   },
+  topTags: [],
   generatedAt: "2026-05-09T00:00:00.000Z",
 });
 

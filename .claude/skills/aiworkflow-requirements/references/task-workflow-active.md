@@ -21,6 +21,7 @@
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-mypage-prototype-alignment-artifact-inventory.md` |
 | user gate | commit, push, PR |
 
+### Issue #276 mobile FilterBar tag picker（2026-05-20）
 ### Issue #277 Next.js proxy migration（2026-05-20）
 
 | 項目 | 値 |
@@ -64,6 +65,20 @@
 | key contract | Next.js 16 async `params: Promise<{ id: string }>`; publicConsent は API contract に委譲し web は `FetchPublicNotFoundError` mapping を検証 |
 | evidence boundary | Phase 12 strict 7 present。apps/web 実装、focused unit/Playwright、Phase 11 screenshot evidence captured。commit、push、PR、deploy verification は user-gated |
 
+### fix-verify-design-tokens-og-route-exclude（2026-05-23）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented-local / implementation / NON_VISUAL / local-evidence-captured` |
+| 成果物 | `docs/30-workflows/completed-tasks/fix-verify-design-tokens-og-route-exclude/` |
+| upstream | Issue #806 dynamic member OG image / task-18 `verify-design-tokens` |
+| 目的 | Next.js Metadata Files route handler convention (`opengraph-image/route.tsx` 等) を `verify-design-tokens` の satori 例外に追加し、PR #175 の false positive を解消する |
+| implementation targets | `scripts/verify-design-tokens.ts`, `scripts/verify-design-tokens.spec.ts` |
+| contract | `DEFAULTS.colorLiteralExcludes` が root convention と route convention の 8 pattern を単一正本として持つ。通常 `src/components` と non-OG `route.tsx` の HEX drift は引き続き検出する |
+| evidence | `outputs/phase-11/verify-tokens-local.txt`, `vitest-verify-design-tokens.txt`, `drift-canary-fail.txt`, `canary-non-og-route.txt`; Phase 12 strict 7 present |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-fix-verify-design-tokens-og-route-exclude-artifact-inventory.md` |
+| user gate | commit, push, PR, GitHub Actions PR checks |
+
 ### Issue #778 schema alias rollback / undo（2026-05-19）
 
 | 項目 | 値 |
@@ -77,6 +92,18 @@
 | evidence | Phase 12 strict 7 / root-output artifacts parity / Phase 11 runtime placeholders |
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-778-schema-alias-rollback-undo-artifact-inventory.md` |
 | user gate | staging D1 migration apply, production D1 migration apply, Playwright visual baseline, commit, push, PR |
+
+### ut-cicd-composite-setup-rollout（2026-05-22）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / NON_VISUAL / implementation_complete_pending_pr` |
+| 成果物 | `docs/30-workflows/ut-cicd-composite-setup-rollout/` |
+| 目的 | Issue #284 の composite setup rollout を current codebase に合わせ、raw setup action workflow steps を 0 件へする |
+| implementation | `.github/workflows/*.yml` 13 files migrated to `.github/actions/setup-project` |
+| preservation | `web-cd.yml` keeps mise semantics via `setup-strategy: mise`; `post-release-dashboard.yml` keeps no-install semantics via `install: 'false'` + `cache: ''` |
+| evidence | Phase 11 grep/diff files + Phase 12 strict 7 files |
+| user gate | commit, push, PR, remote GitHub Actions green evidence, Issue #284 mutation |
 
 ### task-staging-auth-secret-binding-recovery-001（2026-05-22）
 
@@ -140,12 +167,16 @@
 
 | 項目 | 値 |
 | --- | --- |
-| ステータス | `spec_created_blocked_by_oidc_support / implementation / NON_VISUAL` |
-| 成果物 | `docs/30-workflows/issue-765-1p-vault-restructure-oidc-cutover/` |
-| source | `docs/30-workflows/unassigned-task/issue-717-followup-003-1password-restructure.md` |
-| 目的 | Cloudflare deploy token の 1Password op:// path を `op://UBM-Hyogo/Cloudflare/api_token_staging` / `api_token_production` へ整理する条件付き仕様 |
-| boundary | aiworkflow current contract では `web-cd` の `CLOUDFLARE_API_TOKEN` direct-token path が維持されているため、OIDC supported deploy path / production cutover evidence まで Phase 11 mutation は blocked |
-| user gate | 1Password archive, `bash scripts/cf.sh whoami`, commit, push, PR, Gate B' physical delete |
+| ステータス | `implemented_local_runtime_pending / implementation / VISUAL / implementation_complete_pending_pr` |
+| 成果物 | `docs/30-workflows/issue-276-mobile-filterbar-tag-picker/` |
+| Issue | #276 OPEN |
+| source | `docs/30-workflows/unassigned-task/task-06a-followup-003-mobile-filterbar-tag-picker.md` canonical_root_created |
+| 目的 | `/members` の tag candidate picker、mobile collapsible summary、clear-all、5-tag limit hint を実装するための Phase 1-13 仕様 |
+| API boundary | 既存 `GET /public/members` の `topTags` response 追加。新 endpoint / D1 schema / Google Form 仕様変更は行わない |
+| planned targets | `packages/shared/src/zod/viewmodel.ts`, public members API/view-model, `apps/web/src/components/public/MemberFilters.client.tsx`, `apps/web/app/(public)/members/page.tsx`, focused Vitest, Playwright mobile spec |
+| evidence | `docs/30-workflows/issue-276-mobile-filterbar-tag-picker/outputs/phase-11/main.md`, `docs/30-workflows/issue-276-mobile-filterbar-tag-picker/outputs/phase-12/phase12-task-spec-compliance-check.md` |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-276-mobile-filterbar-tag-picker-artifact-inventory.md` |
+| user gate | implementation / runtime screenshots / coverage / commit / push / PR / Issue mutation |
 
 ### Issue #799 useAutoFocusOnMount hook（2026-05-19）
 
@@ -430,6 +461,21 @@
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-i02-admin-error-type-unify-artifact-inventory.md` |
 | user gate | commit / push / PR |
 
+### parallel-i02b-admin-mutation-error-finalize（2026-05-23）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / NON_VISUAL / implementation_complete_pending_pr` |
+| 成果物 | `docs/30-workflows/completed-tasks/parallel-i02b-admin-mutation-error-finalize/` |
+| source | `docs/30-workflows/ui-prototype-alignment-mvp-recovery/improvements/integration-fixes/parallel-i02b-admin-mutation-error-finalize/spec.md` completed |
+| parent | `parallel-i02-admin-error-type-unify` DoD 143 closeout |
+| 目的 | residual `AdminMutationError` class and panel dependencies を削除し、admin mutation HTTP error を `FetchAuthedError` に統一する |
+| implementation targets | `apps/web/src/features/admin/hooks/useAdminMutation.ts`, `apps/web/src/components/admin/MeetingPanel.tsx`, `apps/web/src/components/admin/SchemaDiffPanel.tsx`, `apps/web/src/components/admin/RequestQueuePanel.tsx` |
+| evidence | typecheck PASS, lint PASS, focused Vitest 53 PASS, panel integration Vitest 41 PASS, app grep 0 |
+| invariant | `FetchAuthedError.message` は固定文言のまま維持。panel fallback は `bodyText` を読む |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-parallel-i02b-admin-mutation-error-finalize-artifact-inventory.md` |
+| user gate | commit / push / PR |
+
 ### UT-07A-FU-01 memberTags.assignTagsToMember cleanup（2026-05-15）
 
 | 項目 | 値 |
@@ -464,6 +510,8 @@
 | 項目 | 値 |
 | --- | --- |
 | ステータス | `implemented-local-runtime-pending / implementation / VISUAL / PASS_BOUNDARY_SYNCED_RUNTIME_PENDING` |
+| 成果物 | `docs/30-workflows/serial-05-step-03-schema-diff-resolve/` |
+| ステータス | `implemented-local-runtime-pending / implementation / VISUAL / PASS_BOUNDARY_SYNCED_RUNTIME_PENDING` |
 | 成果物 | `docs/30-workflows/completed-tasks/serial-05-step-03-schema-diff-resolve/` |
 | ステータス | `completed / implementation / VISUAL / PASS` |
 | 成果物 | `docs/30-workflows/completed-tasks/serial-05-step-03-schema-diff-resolve/` |
@@ -472,6 +520,8 @@
 | implementation targets | `apps/web/src/components/admin/SchemaDiffPanel.tsx`, `apps/web/src/lib/admin/api.ts`, `apps/web/src/components/admin/__tests__/SchemaDiffPanel.component.spec.tsx`, `apps/web/src/lib/admin/__tests__/api.spec.ts` |
 | API boundary | 既存 `GET /admin/schema/diff` / `POST /admin/schema/aliases` を利用。新 endpoint / D1 schema / env gate 追加なし |
 | UI contract | 4 ペイン table semantics、stableKey regex `/^[a-zA-Z][a-zA-Z0-9_]*$/`、row select 後 input focus、409 `existingStableKey` / 422 `existingQuestionIds` 表示、202 retryable status、queued/resolved 日本語 label |
+| evidence | `docs/30-workflows/serial-05-step-03-schema-diff-resolve/outputs/phase-11/evidence/`, `docs/30-workflows/serial-05-step-03-schema-diff-resolve/outputs/phase-12/phase12-task-spec-compliance-check.md` |
+| user gate | runtime screenshots、staging smoke、commit、push、PR |
 | evidence | `docs/30-workflows/completed-tasks/serial-05-step-03-schema-diff-resolve/outputs/phase-11/evidence/`, `docs/30-workflows/completed-tasks/serial-05-step-03-schema-diff-resolve/outputs/phase-12/phase12-task-spec-compliance-check.md` |
 | user gate | runtime screenshots、staging smoke、commit、push、PR |
 | evidence | `docs/30-workflows/completed-tasks/serial-05-step-03-schema-diff-resolve/outputs/phase-11/evidence/`, `docs/30-workflows/completed-tasks/serial-05-step-03-schema-diff-resolve/outputs/phase-11/screenshots/`, `docs/30-workflows/completed-tasks/serial-05-step-03-schema-diff-resolve/outputs/phase-12/phase12-task-spec-compliance-check.md` |
@@ -2193,7 +2243,6 @@ docs-only / direction-reconciliation で採用方針 A を維持する場合で�
 | 07a-parallel-tag-assignment-queue-resolve-workflow | completed / Phase 1-12 完了 / Phase 13 pending_user_approval / NON_VISUAL | `docs/30-workflows/completed-tasks/07a-parallel-tag-assignment-queue-resolve-workflow/` | tag assignment queue resolve workflow を `apps/api` に実装。`POST /admin/tags/queue/:queueId/resolve` は `{ action: "confirmed", tagCodes }` / `{ action: "rejected", reason }` を受け、guarded update 成功後だけ `member_tags` / `audit_log` を更新する。`queued/reviewing -> resolved/rejected`、同一 payload idempotent、409 race/state conflict、422 unknown tag/deleted member。03b response sync hook から未タグ member の candidate queue を自動投入。apps/web admin client と `TagQueuePanel`、packages/shared zod/type も `rejected` と resolve body に追従。検証: api typecheck PASS / web typecheck PASS / shared typecheck PASS / api Vitest 69 files 406 tests PASS / web Vitest 13 files 72 tests PASS。固有教訓 `references/lessons-learned-07a-tag-queue-resolve-2026-04.md`（L-07A-001〜007）。Follow-up: UT-07A-01 / UT-07A-03（UT-07A-02 と UT-07A-04 は consumed） |
 | issue-109-ut-02a-tag-assignment-queue-management | implemented-local / implementation / NON_VISUAL / Phase 1-12 completed / Phase 13 pending_user_approval / Issue #109 CLOSED | `docs/30-workflows/completed-tasks/issue-109-ut-02a-tag-assignment-queue-management/` | 02a `memberTags.ts` read-only 境界を維持したまま、Forms sync から `tag_assignment_queue` へ candidate を投入する write-side repository / workflow を実装。`enqueueTagCandidate(env, payload)` は `createIdempotent` 経由で `<memberId>:<responseId>` key を使い、migration `0009_tag_queue_idempotency_retry.sql` で idempotency / retry / DLQ 列を追加。admin queue は `status=dlq` filter を許可。manual specs 08/11/12 と Phase 12 7 outputs は同一 wave 同期済み。open follow-up: `task-issue-109-dlq-requeue-api-001.md`, `task-issue-109-tag-queue-pause-flag-001.md`。consumed: `task-issue-109-retry-tick-and-dlq-audit-001.md`（issue-377へ昇格済み）、`task-schema-diff-queue-faked1-compat-001.md`（Issue #379 current GREEN verification で consumed trace 化済み）。 |
 | issue-377-retry-tick-and-dlq-audit | implemented-local / implementation / NON_VISUAL / Phase 1-12 completed / Phase 13 pending_user_approval / Issue #377 CLOSED | `docs/30-workflows/issue-377-retry-tick-and-dlq-audit/` | UT-02A retry/DLQ primitives を scheduled cron で駆動。`apps/api/src/workflows/tagQueueRetryTick.ts` は retry tick 対象条件（`reason='retry_tick'` / `attempt_count > 0` / `last_error IS NOT NULL` / `next_visible_at IS NOT NULL`）を満たす queued row のみ処理し、plain human-review queued row は skip。default scheduled path でも `incrementRetryWithDlqAudit` を呼び、max retry 超過 / non-retryable error では `status='dlq'` と `admin.tag.queue_dlq_moved` audit (`target_type='tag_queue'`) を D1 batch で同時記録する。`apps/api/wrangler.toml` は top-level / staging / production を3 cron以内に維持し、legacy Sheets hourly は手動限定。Focused evidence: `tagQueueRetryTick.test.ts` 7 tests PASS + api typecheck PASS。Phase 13 は `Refs #377` のみ、commit / push / PR / deploy は user-gated。 |
-| ut-07c-followup-001-attendance-csv-import | implemented_local_evidence_captured / implementation / VISUAL / Phase 1-12 completed / Phase 13 pending_user_approval / Issue #312 | `docs/30-workflows/ut-07c-followup-001-attendance-csv-import/` | meeting attendance CSV 一括 import を `apps/api` / `apps/web` に実装済み。新 endpoint は `POST /admin/meetings/:sessionId/attendance/import?dryRun=true|false`、CSV parse は apps/web client 側、API payload は JSON rows、500 行超過は client/API の二段防御。`dryRun=false` 明示時のみ commit、省略/typo は dry-run。service は Hono `Context` を受けず `DbCtx` / actor / `auditLogProvider` を明示依存にし、commit 時は D1 batch で `member_attendance` insert と `attendance.import.add` audit insert を同一境界に投入する。row status は `ok` / `duplicate` / `deleted_member` / `unknown_member` / `invalid`、`memberId_email_mismatch` と空 row を invalid とする。focused API route 13 / API service 13 / web parser+UI 13 PASS、Phase 11 local Playwright screenshots S1-S4 captured、Phase 12 strict 7 actual outputs present。commit / push / PR は user-gated。 |
 | 07c-parallel-meeting-attendance-and-admin-audit-log-workflow | completed / Phase 1-12 完了 / Phase 13 pending_user_approval / NON_VISUAL | `docs/30-workflows/completed-tasks/07c-parallel-meeting-attendance-and-admin-audit-log-workflow/` | apps/api attendance 3 endpoint を 05a `requireAdmin` 配下で実装。`GET /admin/meetings/:sessionId/attendance/candidates` は session 不在 `404 session_not_found`、削除済み・登録済み member 除外。`POST /admin/meetings/:sessionId/attendance` は duplicate `409 attendance_already_recorded` / deleted `422 member_is_deleted` / session 不在 `404 session_not_found`。`DELETE /admin/meetings/:sessionId/attendance/:memberId` は row 不在を `404 attendance_not_found` に集約。add/remove 成功時のみ `audit_log` に `attendance.add` / `attendance.remove` を append（target_type=`meeting`, target_id=sessionId）。Phase 11 は API-only のため Vitest smoke evidence、visual は 08b/09a に委譲。固有教訓 `references/lessons-learned-07c-attendance-audit-2026-04.md`（L-07C-001〜005）。 |
 | 07c-followup-003-audit-log-browsing-ui | completed / Phase 1-12 完了 / Phase 13 blocked_user_approval / VISUAL | `docs/30-workflows/completed-tasks/07c-followup-003-audit-log-browsing-ui/` | `/admin/audit` 監査ログ閲覧 UI と `GET /admin/audit` を実装。API は `requireAdmin`、複合 filter、UTC range、cursor pagination、limit 1-100、maskedBefore/maskedAfter projection、broken JSON parseError を提供し raw `before_json` / `after_json` を返さない。Web は admin proxy 経由の read-only table/filter/disclosure UI、JST 入力・表示、UI 側 PII 再 mask、AdminSidebar 導線を追加。検証: api typecheck PASS / web typecheck PASS / api Vitest 82 files 493 tests PASS / focused web Vitest 2 files 7 tests PASS。web 全体 test は既存 `/no-access` invariant で FAIL（本差分外）。Phase 11 screenshot 7 件を保存。 |
 | 08a-parallel-api-contract-repository-and-authorization-tests | member_only / Phase 1-10 completed / Phase 11-12 member_only / Phase 13 pending_user_approval / NON_VISUAL | `docs/30-workflows/08a-parallel-api-contract-repository-and-authorization-tests/` | apps/api の API contract / repository / authz / brand type / invariant tests を整備。Phase 11 実測は 74 files / 442 tests PASS、coverage は Statements 84.18% / Branches 84.13% / Functions 83.37% / Lines 84.18% で AC-6 PARTIAL。代表 authz matrix + route tests で現状を観測し、全 endpoint generated matrix と public use-case coverage 補強は `docs/30-workflows/unassigned-task/UT-08A-01-public-use-case-coverage-hardening.md` に formalize。UI route なしのため screenshot 不要、Phase 11 evidence は `outputs/phase-11/evidence/{test-run.log,coverage-report.txt,ci-workflow.yml}`。Phase 12 close-out: `outputs/phase-12/{main,implementation-guide,documentation-changelog,system-spec-update-summary,unassigned-task-detection,skill-feedback-report,phase12-task-spec-compliance-check}.md`（全 6 + 1 揃い）。Follow-up は UT-08A-01〜06 の計 6 本を `unassigned-task/` に formalize（02 visual regression / 03 production load test / 04 D1 migration test guideline / 05 shared package type test / 06 test suffix rename）。task root path drift（`02-application-implementation/` → `30-workflows/` 直下）を `legacy-ordinal-family-register.md` の Task Root Path Drift Register に記録。 |
@@ -2221,7 +2270,10 @@ docs-only / direction-reconciliation で採用方針 A を維持する場合で�
 | --- | --- | --- | --- |
 | UT-17 follow-up 005 alert relay KV operation error metrics | implemented_local_evidence_captured / implementation / NON_VISUAL / PASS_BOUNDARY_SYNCED_RUNTIME_PENDING | `docs/30-workflows/completed-tasks/ut-17-followup-005-alert-relay-kv-operation-error-metrics/` | Issue #701. Adds fail-safe structured logging for `ALERT_DEDUP_KV.get` / `.put` failures in `apps/api/src/routes/internal/alert-relay.ts`. `KV.get` now fails open after emitting `event=alert_relay_kv_op_failed`; `KV.put` preserves `dedupPersisted:false`. `dedupeKeyHash` is SHA-256 first 12 hex or `hash_error` if hashing fails; logging sink failure is swallowed. Local evidence: API typecheck / lint / build PASS and API Vitest 48 files / 294 tests PASS with `ESBUILD_BINARY_PATH` pinned to project-local esbuild. Runtime Workers Logs tail, deploy, commit, push, and PR remain user-gated. |
 | task-alert-relay-global-scope-fix-001 | implemented_local_evidence_captured / implementation / NON_VISUAL / staging deploy job pending_user_approval | `docs/30-workflows/task-alert-relay-global-scope-fix-001/` | Fixes PR #505 backend-ci deploy-staging validation error 10021 by replacing module top-level `crypto.randomUUID()` in `apps/api/src/routes/internal/alert-relay.ts` with lazy `getIsolateId()`. Focused regression test in `apps/api/src/routes/internal/__tests__/alert-relay.spec.ts` asserts module import does not call `crypto.randomUUID`; existing structured log tests preserve stable `isolateId` semantics. `scripts/cf.sh` now maps local `deploy --env staging\|production` to `CLOUDFLARE_API_TOKEN_STAGING` / `CLOUDFLARE_API_TOKEN_PRODUCTION` 1Password fields while preserving wrangler's `CLOUDFLARE_API_TOKEN` child env contract. Local Vitest, typecheck, lint, global-scope grep, and staging dry-run evidence are captured; staging deploy job, commit, push, and PR remain user-gated. |
+| step-07-requests-approve-reject | implemented_local_evidence_captured / implementation / NON_VISUAL / Phase 12 strict 7 present | `docs/30-workflows/step-07-requests-approve-reject/` | Canonical Phase 1-13 workflow and local implementation for serial-05 admin mutation UI step-07. Implements `/admin/requests` approve/reject two-step confirmation, `useAdminMutation` + `useConfirmDialog` reuse, 409 `already_resolved` toast + refresh, extracted `RequestQueueDetail` / `RequestConfirmDialog`, and focused component tests. Existing API `POST /admin/requests/:noteId/resolve` is reused; no API/D1 change in this wave. Authenticated runtime/staging evidence, commit, push, and PR remain user-gated. |
+
 | ci-staging-deploy-failure-fix | PASS_BOUNDARY_SYNCED_RUNTIME_PENDING / implementation / NON_VISUAL | `docs/30-workflows/completed-tasks/ci-staging-deploy-failure-fix/` | Recovers dev push staging deploy failures after PR #815/#847. task-01 implemented local build-time env injection in `.github/workflows/web-cd.yml` plus `apps/web/src/lib/__tests__/build-time-env.spec.ts`; task-02 formalizes Cloudflare D1/deploy token rotation with staging/production separation. Cloudflare token creation, 1Password update, `gh secret set`, commit, push, PR, and runtime CI evidence remain user-gated. |
+| UT-25-DERIV-01 SA key rotation SOP | implemented_local_evidence_captured / implementation / NON_VISUAL | `docs/30-workflows/completed-tasks/ut-25-deriv-01-sa-key-rotation-sop/` | `GOOGLE_SERVICE_ACCOUNT_JSON` 90 day rotation SOP + stdin-only helper + record template. `scripts/cf-rotate-sa-key.sh` streams secret values to `scripts/cf.sh`, keeps dry-run side-effect-free, and requires staging `verify` before production. Inventory: `references/workflow-ut-25-deriv-01-sa-key-rotation-sop-artifact-inventory.md`. Lessons: `references/lessons-learned-ut-25-deriv-01-sa-key-rotation-2026-05.md` (L-UT25SAK-001..007: stdin+history 併用抑止 / state guard / `secret list` の name-only 検証 + UT-26 疎通 / bats fixture 隔離 / 500 行近傍 reference 分割閾値 / 90 日採用根拠 / 完了記録 8 フィールド + fingerprint 16 文字短縮). Real Cloudflare Secret mutation, Google IAM disable/delete, UT-26 runtime smoke, commit, push, and PR are user-gated. |
 | runtime-smoke-staging-secrets-restore | implemented_local_evidence_captured / implementation / NON_VISUAL / user-gated runtime evidence boundary user-gated | `docs/30-workflows/completed-tasks/runtime-smoke-staging-secrets-restore/` | 2026-05-16 runtime smoke failure follow-up。`staging-runtime-smoke` 必須 4 secret (`STAGING_API_BASE`, `STAGING_ADMIN_BEARER`, `STAGING_MEMBER_ID`, `STAGING_ME_BEARER`) を `scripts/ci/verify-env-secrets.allowlist` の `env=...;required=...;reason=...` contract に追加し、`verify-env-secrets.sh` が GitHub Environment secret name-only inventory と照合する。`runtime-smoke-staging.yml` の inline value check は最終防御として維持。secret mutation、runtime workflow rerun、commit、push、PR は user-gated。 |
 | UT-17 follow-up 004 Cloudflare Notification Policy IaC | implementation_complete / implementation / NON_VISUAL / runtime Cloudflare mutation pending_user_approval / Phase 13 pending_user_approval | `docs/30-workflows/completed-tasks/ut-17-followup-004-cloudflare-notification-policy-iac/` | Parent UT-17 T9/T10 Dashboard manual Notification Policy setup successor. Implements Cloudflare Notification Policy 4 categories / 5 policy files + webhook destination IaC under `infra/cloudflare-alerts/`, `bash scripts/cf.sh alerts {apply,diff,list}`, PR-local validate + schedule/manual read-only drift CI, token split `CLOUDFLARE_ALERTS_TOKEN_APPLY` / `CLOUDFLARE_ALERTS_TOKEN_READ`, URL drift secret `CLOUDFLARE_ALERT_RELAY_URL`, canonical webhook definition root `infra/cloudflare-alerts/webhooks/`, and Cloudflare API `PUT` update method. No Cloudflare mutation, GitHub Secret placement, commit, push, or PR executed. |
 | UT-17 Cloudflare Analytics alerts + Slack relay | implemented-local / implementation / NON_VISUAL / CODE_COMPLETE_EXTERNAL_OPS_PENDING | `docs/30-workflows/ut-17-cloudflare-analytics-alerts/` | Cloudflare usage alert workflow. Free baseline is Cloudflare Notifications email + runbook. Local Slack Japanese relay is implemented in `apps/api` as `POST /internal/alert-relay` with `cf-webhook-auth` fixed-secret auth, Japanese Block Kit formatting, Slack retry sender, focused tests, and runbooks. Body HMAC / `X-CF-Alert-Signature` are explicitly out of contract. Cloudflare Secrets, deploy, Notification Policy setup, Slack runtime smoke, commit, push, and PR remain user-gated. |

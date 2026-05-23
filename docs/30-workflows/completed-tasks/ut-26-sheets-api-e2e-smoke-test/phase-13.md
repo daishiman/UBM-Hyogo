@@ -113,7 +113,7 @@ kill %1
 
 #### 概要
 
-UT-26 に基づき、Cloudflare Workers Edge Runtime から Google Sheets API v4 への end-to-end 疎通を実機検証するための仕様書 13 Phase および dev/staging 限定 smoke route `GET /admin/smoke/sheets` を整備する。fetch mock では検出不能だった JWT 署名（Web Crypto API / RSA-SHA256）・OAuth 2.0 token endpoint・`spreadsheets.values.get` の HTTP 200 取得・アクセストークン in-memory キャッシュ・401/403/429 エラー分類を保証し、403 発生時の 4 ステップ切り分け runbook（SA 共有 / JSON 改行 / Sheets API 有効化 / spreadsheetId 取り違え）を残す。
+UT-26 に基づき、Cloudflare Workers Edge Runtime から Google Sheets API v4 への end-to-end 疎通を実機検証するための仕様書 13 Phase および dev/staging 限定 smoke route `GET /admin/smoke/sheets` を整備する。現在の route は `GOOGLE_SERVICE_ACCOUNT_JSON` を canonical secret として優先し、`GOOGLE_SHEETS_SA_JSON` は legacy fallback とする。production は既定 404 で、key rotation の user-gated verification window 中だけ `SMOKE_SHEETS_ALLOW_PRODUCTION=true` で明示的に smoke を許可する。fetch mock では検出不能だった JWT 署名（Web Crypto API / RSA-SHA256）・OAuth 2.0 token endpoint・`spreadsheets.values.get` の HTTP 200 取得・アクセストークン in-memory キャッシュ・401/403/429 エラー分類を保証し、403 発生時の 4 ステップ切り分け runbook（SA 共有 / JSON 改行 / Sheets API 有効化 / spreadsheetId 取り違え）を残す。
 
 #### 動機
 
@@ -157,10 +157,10 @@ UT-26 に基づき、Cloudflare Workers Edge Runtime から Google Sheets API v4
 
 - **破壊的変更なし**（既存ルートに影響しない、新規 dev/staging 限定 route のみ追加）
 - 新規 D1 テーブル: なし
-- 新規 Cloudflare Secret: なし（UT-25 で配置済の `GOOGLE_SHEETS_SA_JSON` を参照のみ）
+- 新規 Cloudflare Secret: なし（UT-25 で配置済の `GOOGLE_SERVICE_ACCOUNT_JSON` を参照のみ。`GOOGLE_SHEETS_SA_JSON` は legacy fallback）
 - 新規 Variable: `SHEETS_SPREADSHEET_ID` / `SMOKE_ADMIN_TOKEN`（dev / staging のみ。production には設定しない）
 - 後方互換性: 既存 API クライアントへの影響なし
-- production には smoke route が mount されないことを compliance check で確認済
+- production は既定 404。key rotation 検証時のみ `SMOKE_SHEETS_ALLOW_PRODUCTION=true` で user-gated smoke を許可する
 
 ### ステップ 4: PR 作成（user 承認後のみ）
 
