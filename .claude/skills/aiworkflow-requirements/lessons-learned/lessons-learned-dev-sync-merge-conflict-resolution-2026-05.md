@@ -488,3 +488,10 @@
 - Why: union resolve は ファイル本体への副作用は冪等のため重複適用も無害。残対象を機械的に `git add` するだけで index を unmerged → merged へ遷移できる。スクリプト側のエラーハンドリング修正は別途検討（gitignore 配下は `git add -f` か skip 対象化）。
 - How to apply: dev sync prompt 自律判断ルール B の resolver 後処理に「`UU` 残対象を `git status | awk | xargs git add` で吸収」を組み込む。`pnpm sync:resolve` の exit code が 0 でも 1 でも、後段の `^UU` 件数チェックを単一の真実とする運用に統一する。L-DEVSYNC-029 補強事例で `git add .claude/skills/aiworkflow-requirements/indexes/` を手動実行していた箇所が同じ症状の別表現であり、本 L-DEVSYNC-035 で正式パターン化。
 - 事例: 2026-05-21 `feat/issue-276-mobile-filterbar-tag-picker` ← dev sync-merge。`pnpm sync:resolve` 完走後 5 件（`indexes/{keywords.json, quick-reference.md, resource-map.md, topic-map.md}` + `references/task-workflow-active.md`）が UU 残置 → 明示 `git add` で全件 stage 完了 → static-manifest 再生成（L-DEVSYNC-034）と合わせて merge commit 作成。task-specification-creator skill 側 SP-DEVSYNC-027 と対応。
+
+## L-DEVSYNC-036: `sync:resolve` の union-only ケースで `indexes:rebuild` がスキップされ pre-push `indexes-drift-guard` が fail（2026-05-23 追加）
+- 症状: union 対象（`indexes/topic-map.md` 等）のみが conflict で、`apply_ours`（JSON 派生物）が無いケースでは、`scripts/sync/resolve-skill-merge-conflicts.sh` が `indexes:rebuild` を呼ばずに終了 → merge commit 時点では union 済みの drift が残ったまま → pre-push `indexes-drift-guard` で blocked。
+- Why: 旧実装は `apply_ours` 件数だけを rebuild トリガにしていた。union resolve でも `topic-map.md` の重複行除去・正規化が必要なため、indexes 配下の union 対象でも rebuild が必須。
+- 解消: スクリプト側に `need_rebuild` フラグを導入し、`apply_union` 要素のパスが `.claude/skills/*/indexes/*` に該当する場合または `apply_ours` が非空の場合に `indexes:rebuild` を呼ぶよう修正。
+- How to apply: dev sync 後に pre-push が `indexes-drift-guard` で fail したら `pnpm indexes:rebuild` を明示実行 → drift 差分を `chore(indexes): rebuild skill indexes after dev sync` で commit → 再 push。修正済 `sync:resolve` 利用後は本症状は再発しない想定。
+- 事例: 2026-05-23 `feat/step-07-requests-approve-reject` ← dev sync-merge。union 3 件（`indexes/{quick-reference.md, resource-map.md, topic-map.md}`）のみ conflict、`apply_ours` 0 件 → rebuild スキップ → push で `topic-map.md` に 1 file/9 行 drift 検出。スクリプト修正 + 手動 rebuild commit で push 成立。
