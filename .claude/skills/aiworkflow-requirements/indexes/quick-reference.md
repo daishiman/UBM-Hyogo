@@ -1,5 +1,6 @@
 # クイックリファレンス
 
+## Issue #276 mobile FilterBar tag picker（2026-05-20）
 ## Issue #277 Next.js proxy migration（2026-05-20）
 
 | 目的 | 参照先 |
@@ -89,13 +90,18 @@
 
 | 項目 | 値 |
 | --- | --- |
-| workflow | `docs/30-workflows/completed-tasks/issue-775-serial-05-step-03-runtime-evidence-completion/` |
-| parent | `docs/30-workflows/completed-tasks/serial-05-step-03-schema-diff-resolve/` |
-| status | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION / refs_only` |
-| implementation | `apps/web/playwright.admin-schema-diff.config.ts`, `apps/web/playwright/tests/visual/admin-schema-diff.spec.ts`, optional future real-D1 `scripts/fixtures/serial-05-step-03/seed-{diff,cleanup}.sql` |
-| evidence | parent `outputs/phase-11/screenshots/` 11 fixture-backed local runtime PNG + `outputs/phase-11/evidence/playwright.log` (`11 passed / 3 skipped`) |
-| boundary | production app/API files frozen; real D1/staging smoke user-gated; Issue #775 remains closed and PR text must use `Refs #775` only |
-| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-775-serial-05-step-03-runtime-evidence-completion-artifact-inventory.md` |
+| workflow | `docs/30-workflows/issue-276-mobile-filterbar-tag-picker/` |
+| status | `implemented_local_runtime_pending / implementation / VISUAL / implementation_complete_pending_pr` |
+| issue | #276 OPEN |
+| source trace | `docs/30-workflows/unassigned-task/task-06a-followup-003-mobile-filterbar-tag-picker.md` canonical_root_created |
+| purpose | `/members` に tag candidate chip picker、mobile sticky/collapsible summary、clear-all、5-tag limit hint を追加する実装 |
+| API boundary | existing `GET /public/members` response extension with `topTags`; no new endpoint |
+| implementation | `packages/shared/src/zod/viewmodel.ts`, public members API/view model, `MemberFilters.client.tsx`, `FiltersSummaryMobile.client.tsx`, `TagPicker.client.tsx`, public members page, focused Vitest and Playwright mobile spec |
+| evidence | `outputs/phase-11/evidence/*.png`, `outputs/phase-11/test-report.md`, `outputs/phase-12/phase12-task-spec-compliance-check.md` |
+| system specs | `docs/00-getting-started-manual/specs/01-api-schema.md`, `09-ui-ux.md`, `09e-screen-blueprints-public.md`, `12-search-tags.md` |
+| lessons-learned | `.claude/skills/aiworkflow-requirements/references/lessons-learned-issue-276-mobile-filterbar-tag-picker-2026-05.md`（L-I276-001..007） |
+| pattern reference | `.claude/skills/task-specification-creator/references/patterns-mobile-ui-primitive-3point-sync.md`（filter / picker primitive 追加時に複製） |
+| boundary | commit, push, PR, Issue mutation, and external deployment are pending user approval |
 
 ## Issue #799 useAutoFocusOnMount hook（2026-05-19）
 
@@ -800,16 +806,6 @@
 | failure cascade guard | 通知 step は `if: ${{ failure() && hashFiles('<artifact>') != '' }}` で前提 artifact を guard する（`deployment-gha.md`） |
 | Environment secret 0 件問題 | smoke 起動前に `bash scripts/smoke/provision-staging-secrets.sh` + name-only inventory を必須化（`deployment-secrets-management.md`） |
 | lessons-learned | `references/lessons-learned-ci-pipeline-recovery-2026-05.md`（L-CIPR-001〜006） |
-
-### Issue #765 1Password Vault Restructure（2026-05-18）
-
-| 目的 | 参照先 |
-| --- | --- |
-| workflow root | `docs/30-workflows/issue-765-1p-vault-restructure-oidc-cutover/` |
-| 状態 | `spec_created_blocked_by_oidc_support / implementation / NON_VISUAL` |
-| deploy token canonical candidates | `op://UBM-Hyogo/Cloudflare/api_token_staging` / `op://UBM-Hyogo/Cloudflare/api_token_production` |
-| boundary | OIDC supported deploy path / production cutover evidence が揃うまで Phase 11 mutation は blocked |
-| user gate | 1Password archive, `bash scripts/cf.sh whoami`, commit, push, PR, Gate B' physical delete |
 
 ### E2E quality uplift Stage 2 / 2a admin requests（2026-05-09）
 
