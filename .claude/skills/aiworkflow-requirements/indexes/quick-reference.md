@@ -1,5 +1,32 @@
 # クイックリファレンス
 
+## Issue #277 Next.js proxy migration（2026-05-20）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/issue-277-next-proxy-migration/` |
+| 状態 | `implemented_local / implementation / NON_VISUAL / runtime_evidence_pending` |
+| issue | #277 OPEN。PR 文脈は `Refs #277` のみ。Issue close は PR merge 後 user-gated |
+| scope | `apps/web/middleware.ts` → `apps/web/proxy.ts` rename、export `middleware` → `proxy`、admin/profile gate parity |
+| tests | `apps/web/__tests__/proxy.spec.ts` with `signSessionJwt`; AC-1〜AC-7 mandatory, no `it.todo` |
+| evidence | `outputs/phase-12/phase12-task-spec-compliance-check.md`; local implementation present, Phase 11 dev-server runtime smoke pending |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-277-next-proxy-migration-artifact-inventory.md` |
+| user gate | dev-server manual smoke, commit, push, PR, issue close |
+
+## Issue #806 dynamic member OG image（2026-05-20）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/issue-806-dynamic-member-og-image/` |
+| 状態 | `implemented-local / implementation / VISUAL / local-evidence-captured` |
+| issue | #806 CLOSED; PR should use `Refs #806`; commit / push / PR / Issue mutation are user-gated |
+| parent | `docs/30-workflows/completed-tasks/issue-274-public-pages-ogp-sitemap-robots/` |
+| scope | `/members/[id]/opengraph-image` dynamic member OG image, member detail `og:image` / `twitter:image`, unit + Playwright coverage |
+| key contract | Next.js 16 App Router `params: Promise<{ id: string }>`; public profile privacy is API-owned by `apps/api/src/routes/public/member-profile.ts` and `apps/api/src/use-cases/public/get-public-member-profile.ts` |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-806-dynamic-member-og-image-artifact-inventory.md` |
+| evidence boundary | Phase 12 strict 7 present; focused unit/Playwright and Phase 11 screenshot evidence captured; commit / push / PR / deploy verification user-gated |
+
+## Issue #799 useAutoFocusOnMount hook（2026-05-19）
 ## step-06 meetings attendance implementation（2026-05-20）
 ## Issue #778 Schema Alias Rollback / Undo（2026-05-19）
 
@@ -104,6 +131,22 @@
 | inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-274-public-pages-ogp-sitemap-robots-artifact-inventory.md` |
 | lessons | `.claude/skills/aiworkflow-requirements/references/lessons-learned-issue-274-public-pages-ogp-sitemap-robots-2026-05.md`（L-274-001..006: site URL SSOT / sitemap degraded mode / robots env-branch / OG edge runtime / consumed trace / issue-NNN namespace 規約） |
 | user gate | implementation, runtime evidence, commit, push, PR |
+
+## Issue #777 Schema Diff Resolve History View（2026-05-20）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-777-schema-diff-resolve-history-view/` |
+| 状態 | `CONTRACT_READY_IMPLEMENTATION_PENDING / implementation / VISUAL / Phase 12 strict 7 present` |
+| source issue | #777 OPEN |
+| source task | `docs/30-workflows/unassigned-task/serial-05-step-03-followup-003-schema-diff-history-view.md` consumed |
+| parent | `docs/30-workflows/completed-tasks/serial-05-step-03-schema-diff-resolve/` |
+| API boundary | existing `/admin/audit?action=schema_diff.alias_assigned`; no new endpoint by default |
+| implementation targets | `apps/web/src/components/admin/SchemaDiffHistoryPanel.tsx`, `apps/web/app/(admin)/admin/schema/history/page.tsx`, `apps/web/src/lib/admin/api.ts` |
+| same-wave hardening | `schemaAliasAssign` audit payload now includes `questionText` for future history UI |
+| evidence | `outputs/phase-12/phase12-task-spec-compliance-check.md`; implementation/runtime evidence pending |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-777-schema-diff-resolve-history-view-artifact-inventory.md` |
+| user gate | UI implementation, authenticated admin screenshot, staging smoke, commit, push, PR |
 
 ## Issue #256 E2E coverage baseline runbook（2026-05-18）
 
@@ -316,6 +359,10 @@
 | 目的 | 参照先 |
 | --- | --- |
 | workflow root | `docs/30-workflows/ui-prototype-design-system-foundation/` |
+| 状態 | `CONTRACT_READY_IMPLEMENTATION_PENDING / implementation / VISUAL` |
+| 状態 | `implemented_local_evidence_captured / implementation / VISUAL_RUNTIME_PENDING` |
+| 状態 | `spec_created / implementation / VISUAL`（parallel-01 は `runtime_pending`: local CSS selectors added, serial-07 visual evidence pending） |
+| 状態 | `spec_created / implementation / VISUAL`（parallel-01 は `runtime_pending`: local CSS selectors added, serial-07 visual evidence pending） |
 | 状態 | `spec_created / implementation / VISUAL` |
 | prototype coverage SSOT | `docs/30-workflows/ui-prototype-design-system-foundation/PROTOTYPE-COVERAGE.md` |
 | strict Phase 12 | `outputs/phase-12/{main.md,implementation-guide.md,system-spec-update-summary.md,documentation-changelog.md,unassigned-task-detection.md,skill-feedback-report.md,phase12-task-spec-compliance-check.md}` |
@@ -409,7 +456,7 @@
 
 | 目的 | 参照先 |
 | --- | --- |
-| workflow root | `docs/30-workflows/serial-05-step-03-schema-diff-resolve/` |
+| workflow root | `docs/30-workflows/completed-tasks/serial-05-step-03-schema-diff-resolve/` |
 | 状態 | `implemented-local-runtime-pending / implementation / VISUAL / PASS_BOUNDARY_SYNCED_RUNTIME_PENDING` |
 | scope | 既存 `SchemaDiffPanel` の stableKey validation / table semantics / focus / error payload / status label hardening |
 | implementation | `apps/web/src/components/admin/SchemaDiffPanel.tsx`, `apps/web/src/lib/admin/api.ts` |
@@ -1876,7 +1923,7 @@ Magic Link メール送信の env 名を、実装と aiworkflow 正本に合わ�
 | 実装ガイド | `docs/30-workflows/06b-parallel-member-login-and-profile-pages/outputs/phase-12/implementation-guide.md` |
 | login UI | `apps/web/app/login/` |
 | profile UI | `apps/web/app/profile/` |
-| middleware | `apps/web/middleware.ts`（`/profile/:path*` session gate） |
+| proxy | `apps/web/proxy.ts`（`/profile/:path*` session gate; Issue #277 migrated from legacy `middleware.ts`） |
 | URL helpers | `apps/web/src/lib/url/{login-query,login-redirect,login-state,safe-redirect}.ts` |
 | API clients | `apps/web/src/lib/fetch/authed.ts`, `apps/web/src/lib/auth/{magic-link-client,oauth-client}.ts` |
 | Phase 11 evidence | `docs/30-workflows/06b-parallel-member-login-and-profile-pages/outputs/phase-11/evidence/` |
@@ -2844,6 +2891,19 @@ packages/
 | test | `apps/web/src/features/admin/components/_dashboard/StatusDistribution.spec.tsx` |
 | contract | `GET /admin/dashboard` returns optional `byStatus`; populated 時は SVG bar chart + chip list、legacy/未提供時は existing placeholder |
 | boundary | authenticated runtime screenshots / commit / push / PR are user-gated |
+
+### issue-819 admin dashboard runtime screenshot（2026-05-20）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/issue-819-admin-dashboard-runtime-screenshot/` |
+| state | `spec_created / implementation / VISUAL_ON_EXECUTION / runtime_pending` |
+| source issue | `#819` closed 維持。PR 文脈は `Refs #819` のみ |
+| source unassigned | `docs/30-workflows/unassigned-task/step-05-followup-001-admin-dashboard-runtime-screenshot-capture.md` |
+| purpose | step-05 の dummy 16x16 PNG 2 件を authenticated admin runtime screenshot に置換し、親 workflow evidence を `runtime_completed` に進める |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-819-admin-dashboard-runtime-screenshot-artifact-inventory.md` |
+| lessons-learned | `.claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-runtime-screenshot-evidence-replacement-2026-05.md`（L-RSE-001..005） |
+| boundary | screenshot capture / parent PNG replacement / source consumed update / commit / push / PR are user-gated |
 
 ### UBM-Hyogo Admin UI 早見（06c / 2026-04-29）
 

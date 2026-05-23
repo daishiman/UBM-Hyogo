@@ -22,6 +22,8 @@
 | Phase 11 aria-label evidence | `docs/30-workflows/step-05-dashboard-chart-implementation/outputs/phase-11/evidence/a11y-aria-label.txt` | component-test-backed |
 | Phase 11 screenshot artifact | `docs/30-workflows/step-05-dashboard-chart-implementation/outputs/phase-11/screenshots/admin-dashboard-placeholder.png` | placeholder_artifact_only |
 | Phase 11 screenshot artifact | `docs/30-workflows/step-05-dashboard-chart-implementation/outputs/phase-11/screenshots/admin-dashboard-chart.png` | placeholder_artifact_only |
+| runtime screenshot execution workflow | `docs/30-workflows/issue-819-admin-dashboard-runtime-screenshot/` | spec_created_runtime_pending |
+| runtime screenshot Phase 12 compliance | `docs/30-workflows/issue-819-admin-dashboard-runtime-screenshot/outputs/phase-12/phase12-task-spec-compliance-check.md` | present |
 | system spec | `.claude/skills/aiworkflow-requirements/references/ui-ux-admin-dashboard.md` | present |
 
 ## Phase 12 Strict 7
