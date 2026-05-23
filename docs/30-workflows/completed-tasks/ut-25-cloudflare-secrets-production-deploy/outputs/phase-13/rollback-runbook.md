@@ -3,8 +3,6 @@
 > **適用対象**: Cloudflare Workers Secret `GOOGLE_SERVICE_ACCOUNT_JSON` の **誤投入後の即時巻き戻し**
 > **設計根拠**: Phase 3 §代替案 E（delete + 再 put / fail-fast）採用
 > **特性**: deploy-runbook.md と独立した自己完結ファイル（緊急時の参照性優先）
-> **監視連携**: `SHEETS_AUTH_401_KEY_INVALID` / `SHEETS_AUTH_403_FORBIDDEN` alert から来た場合は、まず alert payload の `rollbackRunbookUrl` と `jobName` / `status` / `spreadsheetId` を確認し、401 は key rollback、403 は Sheets 共有・SA 権限復旧を優先して切り分ける。
-> **失効検出フロー逆参照**: 検出側の設計・実装は [`docs/30-workflows/ut-25-deriv-02-sa-key-expiry-monitoring/`](../../../../ut-25-deriv-02-sa-key-expiry-monitoring/) を参照。alert payload の `rollbackRunbookUrl` がこの runbook を指していることを確認すること。
 
 ---
 
