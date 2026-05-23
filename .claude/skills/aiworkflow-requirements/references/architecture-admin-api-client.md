@@ -19,8 +19,8 @@ slug: architecture-admin-api-client
   │
   │  (1) Server Component 初期描画
   │      → fetchAdmin()  [server-fetch.ts]
-  │           ┌─ INTERNAL_API_BASE_URL に直接 fetch
-  │           ┕─ x-internal-auth + cookie を付与
+  │           ┌─ getEnv().INTERNAL_API_BASE_URL に fetch
+  │           ┕─ getEnv().INTERNAL_AUTH_SECRET + cookie を付与
   │
   │  (2) Client mutation (PATCH/POST/DELETE)
   │      → call() in api.ts
@@ -68,20 +68,20 @@ export async function fetchAdmin<T>(
 ### 2.2 base URL 解決
 
 ```ts
-const FALLBACK_INTERNAL_API = "http://127.0.0.1:8787";
-const resolveApiBase = () =>
-  (process.env.INTERNAL_API_BASE_URL ?? "").replace(/\/$/, "")
-  || FALLBACK_INTERNAL_API;
+const resolveApiBase = (): string => {
+  return getEnv().INTERNAL_API_BASE_URL.replace(/\/$/, "");
+};
 ```
 
-- 環境変数 `INTERNAL_API_BASE_URL` を末尾 `/` 除去して使用。
-- 未設定時は dev fallback として `http://127.0.0.1:8787`（wrangler local）。
+- Cloudflare Workers runtime binding 正本である `getEnv().INTERNAL_API_BASE_URL` を末尾 `/` 除去して使用する。
+- `apps/web/src/lib/admin/server-fetch.ts` に localhost fallback は置かない。未設定・不正 URL は `EnvSchema.parse` の failure として fail-fast し、staging の Server Components render error を digest と runtime log で検出可能にする。
+- ローカル E2E / mock API は環境変数注入で切り替える。`apps/web/src` 配下へ `127.0.0.1` endpoint を焼き込まない。
 
 ### 2.3 認証ヘッダ
 
 | ヘッダ | 値 | 由来 |
 | --- | --- | --- |
-| `x-internal-auth` | `process.env.INTERNAL_AUTH_SECRET ?? ""` | worker-to-worker 認証 |
+| `x-internal-auth` | `getEnv().INTERNAL_AUTH_SECRET ?? ""` | worker-to-worker 認証 |
 | `accept` | `application/json` | 固定 |
 | `cookie` | Next.js `cookies().toString()` | session 維持 |
 | `content-type` | `application/json`（`body` 指定時のみ） | — |
@@ -271,8 +271,8 @@ if (req.method !== "GET" && req.method !== "DELETE") {
 
 | 変数 | 用途 | 利用箇所 |
 | --- | --- | --- |
-| `INTERNAL_API_BASE_URL` | apps/web → apps/api の base URL | `server-fetch.ts`, `route.ts` |
-| `INTERNAL_AUTH_SECRET` | worker-to-worker `x-internal-auth` 値 | 同上 |
+| `INTERNAL_API_BASE_URL` | apps/web → apps/api の base URL。`server-fetch.ts` は `getEnv()` 経由で必須 parse し、未設定時の localhost fallback は持たない | `server-fetch.ts`, `route.ts` |
+| `INTERNAL_AUTH_SECRET` | worker-to-worker `x-internal-auth` 値。`EnvSchema` 上は local/test 互換のため optional、staging/production では Cloudflare Secret として必須 | 同上 |
 | `AUTH_SECRET` | Auth.js JWT 署名 | proxy の `auth()` |
 | `GOOGLE_CLIENT_ID` / `GOOGLE_CLIENT_SECRET` | OAuth | Auth.js |
 

@@ -53,6 +53,12 @@ describe("env", () => {
     expect(env.NEXT_PUBLIC_SENTRY_DSN).toBeUndefined();
     expect(env.NEXT_PUBLIC_SENTRY_ENVIRONMENT).toBeUndefined();
     expect(env.AUTH_SECRET).toBeUndefined();
+    expect(env.INTERNAL_AUTH_SECRET).toBeUndefined();
+  });
+
+  it("getEnv parses INTERNAL_AUTH_SECRET when supplied", () => {
+    const env = getEnv({ ...validEnv, INTERNAL_AUTH_SECRET: "internal-secret" });
+    expect(env.INTERNAL_AUTH_SECRET).toBe("internal-secret");
   });
 
   it("getEnv parses NEXT_PUBLIC_SENTRY_DSN when supplied as a valid URL", () => {

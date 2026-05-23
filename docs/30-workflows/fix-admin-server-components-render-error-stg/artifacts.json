@@ -1,0 +1,159 @@
+{
+  "workflow_id": "fix-admin-server-components-render-error-stg",
+  "feature": "fix-admin-server-components-render-error-stg",
+  "status": "in_progress",
+  "created": "2026-05-23T00:32:15.085Z",
+  "lastUpdated": "2026-05-23T10:54:09.000+09:00",
+  "metadata": {
+    "taskId": "TASK-FIX-ADMIN-SCR-ERR-STG-001",
+    "taskType": "implementation",
+    "visualEvidence": "NON_VISUAL",
+    "implementationCategory": "bugfix",
+    "implementation_mode": "new",
+    "workflow_state": "implemented_local_runtime_pending",
+    "implementation_status": "local_code_and_focused_tests_complete_runtime_pending",
+    "scope": "apps/web admin Server Component runtime env resolution",
+    "canonical_root": "docs/30-workflows/fix-admin-server-components-render-error-stg",
+    "related_pr": "#849",
+    "reported_digest": "167275886",
+    "runtime_boundary": "Cloudflare staging deploy, authenticated /admin curl, backend-ci rerun, commit, push, and PR are user-gated",
+    "implementation_files": [
+      "apps/web/src/lib/admin/server-fetch.ts",
+      "apps/web/src/lib/env.ts"
+    ],
+    "test_files": [
+      "apps/web/src/lib/admin/__tests__/server-fetch.env.spec.ts",
+      "apps/web/src/lib/__tests__/env.spec.ts"
+    ],
+    "phase12_strict_outputs": [
+      "outputs/phase-12/main.md",
+      "outputs/phase-12/implementation-guide.md",
+      "outputs/phase-12/system-spec-update-summary.md",
+      "outputs/phase-12/documentation-changelog.md",
+      "outputs/phase-12/unassigned-task-detection.md",
+      "outputs/phase-12/skill-feedback-report.md",
+      "outputs/phase-12/phase12-task-spec-compliance-check.md"
+    ],
+    "verify_commands": [
+      "pnpm exec vitest run --root=. --config=vitest.config.ts apps/web/src/lib/admin/__tests__/server-fetch.env.spec.ts apps/web/src/lib/__tests__/env.spec.ts"
+    ]
+  },
+  "phases": [
+    {
+      "id": 1,
+      "name": "要件定義",
+      "status": "completed",
+      "path": "outputs/phase-1/phase-1.md"
+    },
+    {
+      "id": 2,
+      "name": "設計",
+      "status": "completed",
+      "path": "outputs/phase-2/phase-2.md"
+    },
+    {
+      "id": 3,
+      "name": "設計レビュー",
+      "status": "completed",
+      "path": "outputs/phase-3/phase-3.md"
+    },
+    {
+      "id": 4,
+      "name": "テスト作成",
+      "status": "completed",
+      "path": "outputs/phase-4/phase-4.md"
+    },
+    {
+      "id": 5,
+      "name": "実装",
+      "status": "completed",
+      "path": "outputs/phase-5/phase-5.md"
+    },
+    {
+      "id": 6,
+      "name": "テスト拡充",
+      "status": "completed",
+      "path": "outputs/phase-6/phase-6.md"
+    },
+    {
+      "id": 7,
+      "name": "カバレッジ確認",
+      "status": "completed",
+      "path": "outputs/phase-7/phase-7.md"
+    },
+    {
+      "id": 8,
+      "name": "リファクタリング",
+      "status": "completed",
+      "path": "outputs/phase-8/phase-8.md"
+    },
+    {
+      "id": 9,
+      "name": "品質保証",
+      "status": "completed",
+      "path": "outputs/phase-9/phase-9.md"
+    },
+    {
+      "id": 10,
+      "name": "最終レビュー",
+      "status": "completed",
+      "path": "outputs/phase-10/phase-10.md"
+    },
+    {
+      "id": 11,
+      "name": "手動テスト",
+      "status": "runtime_pending",
+      "path": "outputs/phase-11/phase-11.md"
+    },
+    {
+      "id": 12,
+      "name": "ドキュメント更新",
+      "status": "completed",
+      "path": "outputs/phase-12/phase-12.md"
+    },
+    {
+      "id": 13,
+      "name": "PR作成",
+      "status": "pending_user_approval",
+      "path": "outputs/phase-13/phase-13.md"
+    }
+  ],
+  "dependencies": {
+    "2": [
+      "1"
+    ],
+    "3": [
+      "2"
+    ],
+    "4": [
+      "3"
+    ],
+    "5": [
+      "4"
+    ],
+    "6": [
+      "5"
+    ],
+    "7": [
+      "6"
+    ],
+    "8": [
+      "7"
+    ],
+    "9": [
+      "8"
+    ],
+    "10": [
+      "9"
+    ],
+    "11": [
+      "10"
+    ],
+    "12": [
+      "11"
+    ],
+    "13": [
+      "12"
+    ]
+  }
+}

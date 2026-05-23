@@ -6,6 +6,7 @@ export const EnvSchema = z.object({
   NEXT_PUBLIC_API_BASE_URL: z.string().url(),
   PUBLIC_API_BASE_URL: z.string().url(),
   INTERNAL_API_BASE_URL: z.string().url(),
+  INTERNAL_AUTH_SECRET: z.string().min(1).optional(),
   AUTH_URL: z.string().url(),
   SENTRY_DSN_WEB: z.string().url().optional(),
   SENTRY_ENVIRONMENT: z.enum(["local", "staging", "production"]),
