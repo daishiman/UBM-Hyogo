@@ -165,6 +165,7 @@ const publicList = (url) => {
       sort: url.searchParams.get("sort") === "name" ? "name" : "recent",
       density,
     },
+    topTags: [],
     generatedAt: NOW,
   };
 };
