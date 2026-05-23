@@ -10,7 +10,7 @@
 | 対象機能     | `apps/web/src/features/admin/components/_dashboard/StatusDistribution.tsx` SVG bar chart       |
 | 優先度       | 中                                                                                              |
 | 見積もり規模 | 小規模（0.25 人日）                                                                             |
-| ステータス   | unassigned                                                                                      |
+| ステータス   | consumed (by `issue-819-admin-dashboard-runtime-screenshot` on 2026-05-20)                      |
 | 発見元       | step-05-dashboard-chart-implementation Phase 11 / Phase 12 user-gated boundary                  |
 | 発見日       | 2026-05-18                                                                                      |
 

@@ -19,7 +19,7 @@
     "@ubm-hyogo/contracts": "workspace:*",
     "@ubm-hyogo/integrations-google": "workspace:*",
     "@ubm-hyogo/shared": "workspace:*",
-    "hono": "4.12.16"
+    "hono": "4.12.18"
   },
   "devDependencies": {
     "@cloudflare/workers-types": "4.20260426.1",
