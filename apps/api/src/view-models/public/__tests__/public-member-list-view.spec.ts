@@ -33,6 +33,7 @@ describe("toPublicMemberListView", () => {
       ],
       pagination: { total: 1, page: 1, limit: 20, totalPages: 1, hasNext: false, hasPrev: false },
       appliedQuery: baseAppliedQuery,
+      topTags: [],
       generatedAt: "2026-04-29T00:00:00+09:00",
     });
     const flat = JSON.stringify(result);
@@ -48,6 +49,7 @@ describe("toPublicMemberListView", () => {
       items: [],
       pagination: { total: 0, page: 1, limit: 20, totalPages: 0, hasNext: false, hasPrev: false },
       appliedQuery: baseAppliedQuery,
+      topTags: [],
       generatedAt: "2026-04-29T00:00:00+09:00",
     });
     expect(result.items).toEqual([]);

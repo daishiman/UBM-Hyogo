@@ -1,0 +1,74 @@
+{
+  "workflow_id": "ut-cicd-composite-setup-rollout",
+  "metadata": {
+    "workflow_state": "implemented_local_evidence_captured",
+    "taskType": "implementation",
+    "visualEvidence": "NOT_APPLICABLE",
+    "implementation_status": "implementation_complete_pending_pr",
+    "runtime_boundary": "local implementation captured: 13 workflow yaml edits; PR/remote CI pending",
+    "issue": "https://github.com/daishiman/UBM-Hyogo/issues/284",
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/ut-cicd-composite-setup-rollout/outputs/phase-12/main.md",
+        "approver": "daishiman",
+        "notes": "spec_review: Phase 1-13 readiness for composite action rollout (13 workflow)"
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/ut-cicd-composite-setup-rollout/outputs/phase-12/implementation-guide.md",
+        "approver": "daishiman",
+        "notes": "implementation_review: 13 workflow yaml edited, grep raw setup-node == 0"
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/ut-cicd-composite-setup-rollout/outputs/phase-11/ci-run-urls.md",
+        "approver": "daishiman",
+        "notes": "runtime_review: all 13 migrated workflows green on PR run"
+      }
+    ]
+  },
+  "phases": [
+    { "phase": 1, "status": "completed" },
+    { "phase": 2, "status": "completed" },
+    { "phase": 3, "status": "completed" },
+    { "phase": 4, "status": "completed" },
+    { "phase": 5, "status": "completed" },
+    { "phase": 6, "status": "completed" },
+    { "phase": 7, "status": "completed" },
+    { "phase": 8, "status": "completed" },
+    { "phase": 9, "status": "completed" },
+    { "phase": 10, "status": "completed" },
+    { "phase": 11, "status": "completed" },
+    { "phase": 12, "status": "completed" },
+    { "phase": 13, "status": "runtime_pending" }
+  ],
+  "outputs": {
+    "phase_11": [
+      "outputs/phase-11/grep-raw-setup-node-before.txt",
+      "outputs/phase-11/grep-raw-setup-node-after.txt",
+      "outputs/phase-11/grep-raw-pnpm-action-setup-before.txt",
+      "outputs/phase-11/grep-raw-pnpm-action-setup-after.txt",
+      "outputs/phase-11/grep-composite-after.txt",
+      "outputs/phase-11/workflow-diff.patch",
+      "outputs/phase-11/gh-workflow-view.log",
+      "outputs/phase-11/verify-pr-ready.log",
+      "outputs/phase-11/ci-run-urls.md"
+    ],
+    "phase_12": [
+      "outputs/phase-12/main.md",
+      "outputs/phase-12/implementation-guide.md",
+      "outputs/phase-12/system-spec-update-summary.md",
+      "outputs/phase-12/documentation-changelog.md",
+      "outputs/phase-12/unassigned-task-detection.md",
+      "outputs/phase-12/skill-feedback-report.md",
+      "outputs/phase-12/phase12-task-spec-compliance-check.md"
+    ]
+  }
+}
