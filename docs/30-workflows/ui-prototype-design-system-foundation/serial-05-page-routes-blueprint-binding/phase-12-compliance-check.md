@@ -3,7 +3,7 @@ phase: 12
 title: Compliance check — 中学生向け解説 + 不変条件適合
 workflow_id: ui-prototype-design-system-foundation
 sub_workflow: serial-05-page-routes-blueprint-binding
-status: draft
+status: spec_created
 ---
 
 # Phase 12 — Compliance check
@@ -121,6 +121,29 @@ verify-phase12-compliance が期待する canonical heading は本ファイル�
 
 - 本 SW 単体では visual baseline を固定しない（SW-07 引き継ぎ）
 - MemberDetail の response_fields 描画は SW-06 の `MemberDetail.tsx` 改修と統合する
+
+### 8.1 automation-30 compact evidence
+
+30 種の思考法は、次の 7 観点へ集約して適用する。提案だけで閉じず、Phase 5/7/10/11 と aiworkflow 正本へ反映する。
+
+| 観点 | 適用した思考法 | 本 SW での判定 |
+|------|----------------|----------------|
+| 論理分析 | 批判的思考 / 演繹 / 帰納 / アブダクション / 垂直思考 | skill 定義から sub-workflow 配置・strict 7 集約・rg gate を演繹し、standalone workflow 化を不整合として排除 |
+| 構造分解 | 要素分解 / MECE / 2軸 / プロセス思考 | 16 page routes + fallback 3 + parent strict 7 + Phase 11 evidence を分離し、重複する top-level workflow root を作らない |
+| メタ抽象 | メタ思考 / 抽象化 / ダブルループ | 「serial-05 は親 workflow 内 sub-workflow」という前提を再確認し、孤立 root ではなく既存 topology に戻す |
+| 発想拡張 | ブレスト / 水平 / 逆説 / 類推 / if / 素人思考 | 破棄ではなく、正規 path へ統合し stale path と nondeterministic grep だけを削る最小解を採用 |
+| システム | システム思考 / 因果関係分析 / 因果ループ | sub に strict 7 を複製すると SHA drift が起きるため、parent root 集約を維持 |
+| 戦略価値 | トレードオン / プラスサム / 価値提案 / 戦略的思考 | 実装仕様の価値は保持し、レビュー不能な絶対 path と重複 workflow だけを除去 |
+| 問題解決 | why / 改善 / 仮説 / 論点 / KJ法 | 論点を path topology、検証コマンド、evidence status、正本同期にクラスタ化して修正 |
+
+### 8.2 4条件再検証
+
+| 条件 | 判定 | 根拠 |
+|------|------|------|
+| 矛盾なし | PASS | `workflow_id=ui-prototype-design-system-foundation` + `sub_workflow=serial-05-page-routes-blueprint-binding` に統一 |
+| 漏れなし | PASS | Phase 1-13、19 routes、NFR、Phase 11 inventory、Phase 12 canonical 9 headings を保持 |
+| 整合性あり | PASS | repo relative path / `rg` gate / parent strict 7 集約に統一 |
+| 依存関係整合 | PASS | `parallel-01..04 → serial-05 → serial-06 → serial-07` を維持し、top-level duplicate workflow を禁止 |
 
 ## 9. 完了サインオフ
 

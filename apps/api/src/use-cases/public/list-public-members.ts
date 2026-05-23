@@ -6,6 +6,7 @@ import type { DbCtx } from "../../repository/_shared/db";
 import { STABLE_KEY } from "@ubm-hyogo/shared";
 import { listFieldsByResponseId } from "../../repository/responseFields";
 import {
+  aggregateTopTags,
   countPublicMembers,
   listPublicMembers,
 } from "../../repository/publicMembers";
@@ -65,9 +66,10 @@ export const listPublicMembersUseCase = async (
     limit: query.limit,
   };
 
-  const [memberRows, total] = await Promise.all([
+  const [memberRows, total, topTags] = await Promise.all([
     listPublicMembers(ctx, repoInput),
     countPublicMembers(ctx, repoInput),
+    aggregateTopTags(ctx),
   ]);
 
   // 各 member の summary 用 field を 1 query / member で取得。
@@ -110,6 +112,7 @@ export const listPublicMembersUseCase = async (
       sort: query.sort,
       density: query.density,
     },
+    topTags,
     generatedAt: new Date().toISOString(),
   });
 };
