@@ -68,6 +68,8 @@
 - CSV export は `meetingId, heldOn, memberId, displayName, attended` の列順で返す
 - 開催日と参加履歴はフォーム項目ではなく、管理者データとして扱う
 - 物理 table は `meeting_sessions` / `member_attendance`。web は `/api/admin/meetings*` proxy 経由で apps/api を呼び、D1 を直接参照しない
+- Web UI の破壊的操作（出席解除、開催日論理削除）は `ConfirmDialog` 経由で確認する。出席付与は非破壊操作のため確認 dialog を出さない
+- 出席解除で `404 attendance_not_found` を受けた場合は、他管理者が先に解除した状態として成功相当に扱い、UI から対象出席者を除去して「既に出席解除されています」を表示する
 
 API 正本:
 
@@ -159,6 +161,25 @@ UI は `responseEmailMasked` だけを表示し、merge reason に含まれる e
 `/admin/schema` の schema 差分解消は 07b API workflow が正本である。UI は `recommendedStableKeys` / `suggestedStableKey` を候補表示に使い、stableKey を `/^[a-zA-Z][a-zA-Z0-9_]*$/` で client/server 二重検証してから apply する。apply 後は `schema_aliases` へ manual alias を INSERT し、`schema_diff_queue` を `queued -> resolved` に進め、過去回答の `__extra__:<questionId>` を stableKey へ back-fill する。
 
 管理 UI は stableKey を直接固定せず、API の 409 / 422 境界を `role="alert"` で分けて表示する。409 `stable_key_collision` は `existingStableKey`、422 body validation は `existingQuestionIds` を保持して表示する。HTTP 202 `backfill_cpu_budget_exhausted` は失敗ではなく再試行可能 status として扱う。`recommendedStableKeys` の多言語 label 比較は UT-07B alias recommendation i18n で `NFKC + trim + whitespace 圧縮` として実装済みで、UI/API response shape は変えない。大規模 back-fill の retryable contract は `UT-07B-schema-alias-hardening-001` で扱う。
+
+### 履歴閲覧 UI（schema diff resolve history）
+
+- route: `/(admin)/admin/schema/history`（独立 page、案 α 採用）
+- data source: `/admin/audit?action=schema_diff.alias_assigned`（既存 audit endpoint、案 A 採用）
+- 表示項目: 操作日時 (ISO) / 操作者 email / before stableKey / after stableKey / question text
+- filter: 操作者 email / 期間 (from/to) / question text 部分一致
+- pagination: cursor base、50 件 / page、既存 audit endpoint の `encodeAuditCursor` を踏襲
+- 空状態: shared `EmptyState` primitive で「該当する履歴がありません」
+- a11y: landmark role + FormField 既定 label / aria-label、OKLch token のみ
+- 各行に `data-audit-id` 属性を保持（followup-004 rollback 起動 anchor）
+
+### schema alias rollback / undo（Issue #778）
+
+`/admin/schema` は、誤 resolve を D1 直接修正ではなく API + audit log 経由で取り消す。SchemaDiffPanel は resolved alias の最小 HistoryPane を持ち、各行の rollback button から confirm modal を開く。confirm modal は影響応答件数、再集計要否、actor、対象 alias を表示し、再集計実行そのものは別 follow-up に分離する。
+
+直近 resolve から 5 分以内は undo toast を表示できる。undo は専用 endpoint を持たず、`POST /admin/schema/aliases/:aliasId/rollback` を同じ `If-Match: version=<N>` header 付きで呼ぶ。version mismatch は `409` として「他の管理者が変更済み」と表示し、再読込を促す。
+
+rollback / undo 成功時は application `audit_log.action='schema_alias.rollback'` を追加し、元 resolve audit id を `after_json.relatedAuditId` に保存する。`cf_audit_log` は Cloudflare Audit Logs 取り込み専用であり、SchemaDiffPanel の admin mutation audit には使わない。
 
 ### bulk resolve（Issue #776）
 

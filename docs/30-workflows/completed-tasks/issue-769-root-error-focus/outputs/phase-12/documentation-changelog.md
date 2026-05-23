@@ -2,7 +2,7 @@
 
 ## 2026-05-17
 
-- Created root workflow `docs/30-workflows/issue-769-root-error-focus/`.
+- Created root workflow `docs/30-workflows/completed-tasks/issue-769-root-error-focus/`.
 - Added root and output `artifacts.json` with `implemented_local_evidence_captured` workflow state.
 - Added Phase 11 evidence ledger and Phase 12 strict 7 outputs.
 - Updated parent integration-fixes i06 row to local implementation complete.

@@ -40,6 +40,15 @@ export type SchemaAliasAssignResult =
       questionId: string;
       oldStableKey: string | null;
       newStableKey: string;
+      alias: {
+        id: string;
+        revisionId: string;
+        aliasQuestionId: string;
+        aliasLabel: string | null;
+        resolvedAt: string | null;
+        resolvedBy: string | null;
+        version: number;
+      };
       affectedResponseFields: number;
       queueStatus: "resolved";
       backfill: SchemaAliasBackfillResult;
@@ -101,6 +110,17 @@ const fetchQuestionLabel = async (
       "SELECT label FROM schema_questions WHERE question_id = ?1 AND revision_id = ?2 LIMIT 1",
     )
     .bind(questionId, revisionId)
+    .first<{ label: string }>();
+  return r?.label ?? null;
+};
+
+const fetchDiffQueueLabel = async (
+  c: DbCtx,
+  diffId: string,
+): Promise<string | null> => {
+  const r = await c.db
+    .prepare("SELECT label FROM schema_diff_queue WHERE diff_id = ?1 LIMIT 1")
+    .bind(diffId)
     .first<{ label: string }>();
   return r?.label ?? null;
 };
@@ -483,6 +503,9 @@ export const schemaAliasAssign = async (
   // idempotent: stable_key が既に同値でも、未完了 back-fill と queued diff resolve は続行する。
   // 途中失敗後の再 apply で recovery できるようにする。
   if (isIdempotent) {
+    if (!existingAlias) {
+      throw new Error("schema alias idempotent branch reached without existing alias");
+    }
     const backfill = await runBackfillForAssign(c, input);
     if (input.diffId) {
       await markBackfill(c, input.diffId, backfill.result.status, backfill.persistedCursor);
@@ -495,17 +518,29 @@ export const schemaAliasAssign = async (
       questionId: input.questionId,
       oldStableKey,
       newStableKey: input.stableKey,
+      alias: {
+        id: existingAlias.id,
+        revisionId: existingAlias.revisionId,
+        aliasQuestionId: existingAlias.aliasQuestionId,
+        aliasLabel: existingAlias.aliasLabel,
+        resolvedAt: existingAlias.resolvedAt,
+        resolvedBy: existingAlias.resolvedBy,
+        version: existingAlias.version,
+      },
       affectedResponseFields: backfill.result.updated,
       queueStatus: "resolved",
       backfill: backfill.result,
     };
   }
 
+  const diffQueueLabel = input.diffId ? await fetchDiffQueueLabel(c, input.diffId) : null;
+  const questionText =
+    diffQueueLabel ?? (await fetchQuestionLabel(c, input.questionId, question.revision_id));
   const alias = await insertManualAlias(c, {
     revisionId: question.revision_id,
     stableKey: asStableKey(input.stableKey),
     aliasQuestionId: input.questionId,
-    aliasLabel: await fetchQuestionLabel(c, input.questionId, question.revision_id),
+    aliasLabel: questionText,
     resolvedBy: input.actorId,
   });
   if (input.diffId) {
@@ -526,6 +561,7 @@ export const schemaAliasAssign = async (
       stableKey: input.stableKey,
       aliasId: alias.id,
       questionId: input.questionId,
+      questionText,
       diffId: input.diffId ?? null,
       affectedResponseFields: backfilled.result.updated,
     },
@@ -536,6 +572,15 @@ export const schemaAliasAssign = async (
     questionId: input.questionId,
     oldStableKey,
     newStableKey: input.stableKey,
+    alias: {
+      id: alias.id,
+      revisionId: alias.revisionId,
+      aliasQuestionId: alias.aliasQuestionId,
+      aliasLabel: alias.aliasLabel,
+      resolvedAt: alias.resolvedAt,
+      resolvedBy: alias.resolvedBy,
+      version: alias.version,
+    },
     affectedResponseFields: backfilled.result.updated,
     queueStatus: "resolved",
     backfill: backfilled.result,

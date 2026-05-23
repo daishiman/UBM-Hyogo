@@ -1,43 +1,38 @@
 import { render } from "@testing-library/react";
-import { useRef } from "react";
 import { afterEach, describe, expect, it, vi } from "vitest";
-
+import { useRef } from "react";
 import { useAutoFocusOnMount } from "../useAutoFocusOnMount";
-
-function TestHarness({ withElement }: { withElement: boolean }) {
-  const ref = useRef<HTMLDivElement>(null);
-  useAutoFocusOnMount(ref);
-  return withElement ? <div ref={ref} tabIndex={-1} data-testid="target" /> : null;
-}
 
 afterEach(() => {
   vi.restoreAllMocks();
 });
 
+function FocusHarness({ options }: { readonly options?: FocusOptions }) {
+  const headingRef = useRef<HTMLHeadingElement>(null);
+  useAutoFocusOnMount(headingRef, options);
+
+  return (
+    <h1 ref={headingRef} tabIndex={-1}>
+      Error heading
+    </h1>
+  );
+}
+
 describe("useAutoFocusOnMount", () => {
-  it("calls focus with preventScroll on mount", () => {
+  it("mount 時に ref 対象へ focus を移す", () => {
+    const { getByRole } = render(<FocusHarness />);
+    expect(document.activeElement).toBe(getByRole("heading", { level: 1 }));
+  });
+
+  it("preventScroll=true を default で渡す", () => {
     const focusSpy = vi.spyOn(HTMLElement.prototype, "focus");
-
-    render(<TestHarness withElement />);
-
-    expect(focusSpy).toHaveBeenCalledTimes(1);
+    render(<FocusHarness />);
     expect(focusSpy).toHaveBeenCalledWith({ preventScroll: true });
   });
 
-  it("does not throw when ref.current is null", () => {
+  it("options で preventScroll を明示的に opt-out できる", () => {
     const focusSpy = vi.spyOn(HTMLElement.prototype, "focus");
-
-    expect(() => render(<TestHarness withElement={false} />)).not.toThrow();
-
-    expect(focusSpy).not.toHaveBeenCalled();
-  });
-
-  it("does not refocus on rerender", () => {
-    const focusSpy = vi.spyOn(HTMLElement.prototype, "focus");
-    const { rerender } = render(<TestHarness withElement />);
-
-    rerender(<TestHarness withElement />);
-
-    expect(focusSpy).toHaveBeenCalledTimes(1);
+    render(<FocusHarness options={{ preventScroll: false }} />);
+    expect(focusSpy).toHaveBeenCalledWith({ preventScroll: false });
   });
 });

@@ -13,6 +13,8 @@ Open unassigned tasks: 0.
 - no-deferral contradiction: fixed in `parallel-03`
 - visual evidence optional wording: fixed in `parallel-04`
 - Phase 12 canonical heading over-scope: fixed in `serial-07`
+- serial-05 Phase 11 physical evidence gap: fixed by generating local logs and route inventory under `serial-05-page-routes-blueprint-binding/outputs/phase-11/`
+- local build env contract gap: fixed in `serial-05-page-routes-blueprint-binding/phase-10-local-verification.md`
 - root / outputs artifacts parity missing: fixed by `artifacts.json` and `outputs/artifacts.json`
 - Phase 12 strict 7 missing: fixed by this directory
 

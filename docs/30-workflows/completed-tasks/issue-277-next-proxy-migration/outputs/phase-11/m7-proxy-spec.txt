@@ -1,0 +1,13 @@
+mise WARN  Config files in ~/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260520-135022-wt-15/.mise.toml are not trusted.
+Trust them with `mise trust`. See https://mise.jdx.dev/cli/trust.html for more information.
+[33mThe CJS build of Vite's Node API is deprecated. See https://vite.dev/guide/troubleshooting.html#vite-cjs-node-api-deprecated for more details.[39m
+
+ RUN  v2.1.9 /Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260520-135022-wt-15
+
+ ✓ apps/web/__tests__/proxy.spec.ts (7 tests) 31ms
+
+ Test Files  1 passed (1)
+      Tests  7 passed (7)
+   Start at  16:27:57
+   Duration  3.96s (transform 286ms, setup 0ms, collect 639ms, tests 31ms, environment 2.41s, prepare 148ms)
+

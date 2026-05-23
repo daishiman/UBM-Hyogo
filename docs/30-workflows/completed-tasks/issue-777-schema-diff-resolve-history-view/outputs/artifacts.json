@@ -1,0 +1,126 @@
+{
+  "taskId": "issue-777-schema-diff-resolve-history-view",
+  "taskType": "implementation",
+  "visualEvidence": "VISUAL",
+  "workflow_state": "CONTRACT_READY_IMPLEMENTATION_PENDING",
+  "evidence_state": "SPEC_PHASE_1_TO_3_AND_API_PAYLOAD_HARDENING_AUTHORED",
+  "canonical_workflow": "docs/30-workflows/issue-777-schema-diff-resolve-history-view/",
+  "source_issue": 777,
+  "source_issue_state": "open",
+  "source_unassigned_task": "docs/30-workflows/unassigned-task/serial-05-step-03-followup-003-schema-diff-history-view.md",
+  "parent_workflow": "docs/30-workflows/completed-tasks/serial-05-step-03-schema-diff-resolve/",
+  "created_at": "2026-05-19",
+  "decisions": {
+    "endpoint_strategy": {
+      "selected": "A_reuse_admin_audit",
+      "path": "/api/admin/audit?action=schema_diff.alias_assigned",
+      "fallback": "B_new_admin_schema_history",
+      "fallback_trigger": "audit payload (maskedBefore/maskedAfter) lacks before/after stableKey or question text after Phase 5 inspection",
+      "rationale": "既存 admin/audit endpoint が actorId/actorEmail/action/targetType/targetId/maskedBefore/maskedAfter/createdAt + cursor pagination を既に提供。新 endpoint 追加なしで AC を満たせる見込み。"
+    },
+    "route_strategy": {
+      "selected": "alpha_independent_route",
+      "path": "apps/web/app/(admin)/admin/schema/history/page.tsx",
+      "rationale": "filter + 50件 pagination を担うため独立 page にする。Breadcrumb で 'admin > schema > history' 導線を貼る。"
+    },
+    "pagination": {
+      "type": "cursor",
+      "page_size": 50,
+      "encoding": "opaque base64url string (audit.ts encodeAuditCursor)",
+      "ui_state": "currentCursor (string|null) + nextCursor (string|null) + history stack[]"
+    },
+    "shared_primitives_reused": ["Pagination", "FormField", "Breadcrumb", "EmptyState"],
+    "new_primitives": [],
+    "test_suffix": "*.spec.tsx (block-test-suffix gate compliant)"
+  },
+  "current_hardening": {
+    "scope": "api_audit_payload_prerequisite",
+    "files": [
+      "apps/api/src/workflows/schemaAliasAssign.ts",
+      "apps/api/src/workflows/schemaAliasAssign.contract.spec.ts"
+    ],
+    "contract": "schema_diff.alias_assigned audit after_json includes questionText so the future history UI can satisfy AC-2 without a new endpoint"
+  },
+  "phases": {
+    "phase-01": { "file": "phase-1-requirements.md", "state": "completed" },
+    "phase-02": { "file": "phase-2-design.md", "state": "completed" },
+    "phase-03": { "file": "phase-3-design-review.md", "state": "completed" },
+    "phase-04": { "file": "phase-4-test-plan.md", "state": "not_started" },
+    "phase-05": { "file": "phase-5-implementation.md", "state": "in_progress" },
+    "phase-06": { "file": "phase-6-test-additions.md", "state": "in_progress" },
+    "phase-07": { "file": "phase-7-coverage.md", "state": "not_started" },
+    "phase-08": { "file": "phase-8-refactor.md", "state": "not_started" },
+    "phase-09": { "file": "phase-9-qa.md", "state": "not_started" },
+    "phase-10": { "file": "phase-10-final-review.md", "state": "not_started" },
+    "phase-11": { "file": "phase-11-manual-test.md", "state": "not_started" },
+    "phase-12": { "file": "outputs/phase-12/main.md", "state": "completed" },
+    "phase-13": { "file": "phase-13-pr.md", "state": "not_started" }
+  },
+  "implementation_targets": [
+    "apps/web/src/components/admin/SchemaDiffHistoryPanel.tsx",
+    "apps/web/src/components/admin/__tests__/SchemaDiffHistoryPanel.component.spec.tsx",
+    "apps/web/app/(admin)/admin/schema/history/page.tsx",
+    "apps/web/app/(admin)/admin/schema/page.tsx",
+    "apps/web/src/lib/admin/api.ts",
+    "apps/web/src/lib/admin/__tests__/api.spec.ts",
+    "apps/api/src/workflows/schemaAliasAssign.ts",
+    "apps/api/src/workflows/schemaAliasAssign.contract.spec.ts",
+    "docs/00-getting-started-manual/specs/11-admin-management.md",
+    "docs/30-workflows/completed-tasks/serial-05-step-03-schema-diff-resolve/outputs/phase-12/unassigned-task-detection.md"
+  ],
+  "acceptance_criteria": [
+    "AC-1: admin が /(admin)/admin/schema から /(admin)/admin/schema/history へ遷移でき、過去 resolve 履歴が createdAt 降順で表示される",
+    "AC-2: 各履歴行に 操作日時(ISO) / 操作者 email / before stableKey / after stableKey / question text(label) が表示される",
+    "AC-3: filter（操作者 email / 期間 from-to / question text 部分一致）が動作し cursor pagination と組合せ可能",
+    "AC-4: cursor pagination が apps/api/src/routes/admin/audit.ts の encodeAuditCursor と整合し、次の50件 / 前の50件で連続閲覧可能",
+    "AC-5: 履歴 0 件時は EmptyState primitive で「該当する履歴がありません」を表示",
+    "AC-6: shared primitive (Pagination / FormField / Breadcrumb / EmptyState) を再利用し、新規 primitive を追加しない",
+    "AC-7: 色は OKLch token のみ使用し、HEX 直書きは禁止（verify-design-tokens gate 通過）",
+    "AC-8: 新 test ファイルは *.spec.tsx のみ（block-test-suffix gate 通過）",
+    "AC-9: SchemaDiffHistoryPanel.component.spec.tsx が filter 入力 / pagination 操作 / 空状態 / fetch エラーの fail-soft feedback の 4 観点を網羅",
+    "AC-10: fetchSchemaAliasHistory() の unit spec が成功レスポンス / appliedFilters echo / cursor 引継ぎ / HTTP エラーの 4 ケースを網羅",
+    "AC-11: §2.5（endpoint）/ §2.6（route）の判断点が本 artifacts.json に記録済み",
+    "AC-12: outputs/phase-12/unassigned-task-detection.md §3 'diff history view' が consumed に更新（Phase 12）"
+  ],
+  "dod_commands": [
+    "mise exec -- pnpm --filter @ubm-hyogo/web typecheck",
+    "mise exec -- pnpm --filter @ubm-hyogo/web lint",
+    "mise exec -- pnpm --filter @ubm-hyogo/web test -- src/components/admin/__tests__/SchemaDiffHistoryPanel.component.spec.tsx",
+    "mise exec -- pnpm --filter @ubm-hyogo/web test -- src/lib/admin/__tests__/api.spec.ts",
+    "grep -nE \"#[0-9a-fA-F]{3,8}|bg-\\[#|text-\\[#\" apps/web/src/components/admin/SchemaDiffHistoryPanel.tsx apps/web/app/\\(admin\\)/admin/schema/history/page.tsx || echo OK_no_hex",
+    "grep -rn \"\\.test\\.\\(ts\\|tsx\\)\" apps/web/src/components/admin/ apps/web/app/\\(admin\\)/admin/schema/ || echo OK_no_test_suffix"
+  ],
+  "metadata": {
+    "taskType": "implementation",
+    "visualEvidence": "VISUAL",
+    "workflow_state": "CONTRACT_READY_IMPLEMENTATION_PENDING",
+    "canonicalRoot": "docs/30-workflows/issue-777-schema-diff-resolve-history-view",
+    "runtimeBoundary": "Phase 1-3 仕様書のみ本コミットで完了。Phase 4-13 の実装 / spec / runtime evidence / commit / push / PR は user-gated。",
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/issue-777-schema-diff-resolve-history-view/phase-3-design-review.md",
+        "approver": "daishiman",
+        "notes": "spec_review: Phase 1-3 requirements/design/design-review の self-review 完了時に pass"
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/issue-777-schema-diff-resolve-history-view/outputs/phase-12/main.md",
+        "approver": "daishiman",
+        "notes": "implementation_review: Phase 10 final-review + Phase 12 strict 7 outputs"
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/issue-777-schema-diff-resolve-history-view/phase-13-pr.md",
+        "approver": "daishiman",
+        "notes": "external_ops: authenticated admin runtime visual evidence + PR merge は user-gated"
+      }
+    ]
+  }
+}

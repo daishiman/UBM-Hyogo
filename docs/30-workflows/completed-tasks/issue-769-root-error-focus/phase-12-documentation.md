@@ -51,7 +51,7 @@ Phase 12 strict 7 outputs を `outputs/phase-12/` 配下に実体配置する。
 
 ## 4. documentation-changelog.md 用要旨
 
-- `docs/30-workflows/issue-769-root-error-focus/` 新規作成（Phase 1-13 + outputs）
+- `docs/30-workflows/completed-tasks/issue-769-root-error-focus/` 新規作成（Phase 1-13 + outputs）
 - `docs/30-workflows/unassigned-task/integration-fixes-i06-root-error-focus.md` のステータスを `pending → consumed_by_issue_769_local_implementation` へ更新
 - `docs/30-workflows/ui-prototype-alignment-mvp-recovery/improvements/integration-fixes/index.md` の i06 行を `implemented_local_evidence_captured` へ更新
 
