@@ -69,30 +69,32 @@ root artifacts.json には `metadata.sub_workflows` map を持たせ、各 sub �
 | --- | --- |
 | sub artifacts.json に `sub_workflow` フィールドを書かない | parser / CI gate が root と sub を区別できず compliance check が誤検出 |
 | root artifacts.json に sub の Phase status を直接展開（duplicate） | 同期 drift の温床。`sub_workflows` map の参照だけにする |
-| sub `outputs/phase-12/*.md` を省略し root にだけ置く | sub 単独で Phase 12 compliance を満たせず、CI `verify-phase12-compliance` が sub root を fail 判定する |
+| sub に strict 7 outputs を複製する | parent root 集約 SSOT と衝突し、SHA / 内容 drift の温床になる |
 
 ---
 
-## 2. root / sub の Phase 11/12 outputs parity 要件
+## 2. root / sub の Phase 11 evidence と Phase 12 strict 7 集約要件
 
-### 2-1. strict 7 outputs を root と sub の双方で保持
+### 2-1. strict 7 outputs は parent root に集約
 
 [phase12-checklist-definition.md](phase12-checklist-definition.md) の Phase 12 必須 7 outputs（`main` /
 `implementation-guide` / `phase12-task-spec-compliance-check` / `system-spec-update-summary` /
 `skill-feedback-report` / `unassigned-task-detection` / `documentation-changelog`）は、
-**親 workflow root と各 sub-workflow の両方で個別に保持** する。
+**parent workflow root の `outputs/phase-12/` に集約**する。sub-workflow 側に strict 7 を複製しない。
+sub-workflow 固有の Phase 12 文書として許容するのは `phase-12-compliance-check.md` のみ。
 
 | 配置 | strict 7 outputs |
 | --- | --- |
-| `docs/30-workflows/<workflow>/outputs/phase-12/` | 親集約版（横断観点） |
-| `docs/30-workflows/<workflow>/parallel-NN-*/outputs/phase-12/` | sub 単位の compliance / changelog / unassigned 検出 |
+| `docs/30-workflows/<workflow>/outputs/phase-12/` | parent root 集約版（SSOT） |
+| `docs/30-workflows/<workflow>/{parallel,serial}-NN-*/outputs/phase-12/` | strict 7 複製禁止 |
+| `docs/30-workflows/<workflow>/{parallel,serial}-NN-*/phase-12-compliance-check.md` | sub 単位の canonical 9 headings 確認のみ |
 
 ### 2-2. canonical 9 headings の二重保持
 
 [phase12-compliance-check-template.md](phase12-compliance-check-template.md) の canonical 9 headings は、
-親 `outputs/phase-12/phase12-task-spec-compliance-check.md` と
-sub `outputs/phase-12/phase12-task-spec-compliance-check.md`（あるいは sub のルート直下
-`phase-12-compliance-check.md`）の **両方** で fully present であること。
+親 `outputs/phase-12/phase12-task-spec-compliance-check.md` と sub ルート直下
+`phase-12-compliance-check.md` の **両方** で fully present であること。sub 側の strict 7
+`outputs/phase-12/phase12-task-spec-compliance-check.md` は作らない。
 
 - 親側 compliance check では「sub-workflow ごとの Phase 11 evidence inventory の集約表」を含める。
 - sub 側 compliance check では「自分の sub-workflow が触る apps/ scripts/ の dirty diff inventory」と、
@@ -109,16 +111,14 @@ sub `outputs/phase-12/phase12-task-spec-compliance-check.md`（あるいは sub 
 WF=docs/30-workflows/ui-prototype-design-system-foundation
 for f in \
   "$WF/outputs/phase-12/phase12-task-spec-compliance-check.md" \
-  $WF/parallel-*/outputs/phase-12/phase12-task-spec-compliance-check.md; do
+  $WF/{parallel,serial}-*-*/phase-12-compliance-check.md; do
   echo "=== $f ==="
   grep -nE '^## ' "$f" || echo "[FAIL] file missing"
 done
 
-# strict 7 outputs path existence は親 / sub 個別に
-node scripts/lib/phase12-compliance/verify-phase12-compliance.ts \
+# strict 7 outputs path existence は parent root のみ
+pnpm exec tsx scripts/verify-phase12-compliance.ts \
   --workflow-root "$WF"
-node scripts/lib/phase12-compliance/verify-phase12-compliance.ts \
-  --workflow-root "$WF/parallel-01-globals-css-rhythm"
 ```
 
 ### 2-4. 分離失敗時の典型 drift

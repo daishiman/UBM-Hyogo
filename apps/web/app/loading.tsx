@@ -1,3 +1,4 @@
+// serial-05: loading — blueprint 09h:fallback
 import { Card, CardContent } from "../src/components/ui/Card";
 
 export default function Loading() {
@@ -8,6 +9,8 @@ export default function Loading() {
       aria-busy="true"
       aria-live="polite"
       data-page="loading"
+      data-route="public"
+      data-section-rhythm="compact"
     >
       <span className="sr-only">読み込み中</span>
       <Card>
