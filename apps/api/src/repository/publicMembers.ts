@@ -217,6 +217,41 @@ export async function countAllMembers(c: DbCtx): Promise<number> {
   return r?.cnt ?? 0;
 }
 
+export interface TopTagRow {
+  code: string;
+  label: string;
+  count: number;
+}
+
+/**
+ * 公開境界の member に紐づく tag を count 降順で上位 20 件まで集計する。
+ * issue-276: MemberFilters の tag chip picker に渡す候補。
+ */
+export async function aggregateTopTags(c: DbCtx): Promise<TopTagRow[]> {
+  const r = await c.db
+    .prepare(
+      `SELECT td.code AS code, td.label AS label, COUNT(DISTINCT mi.member_id) AS count
+         FROM member_identities mi
+         JOIN member_status s ON s.member_id = mi.member_id
+         JOIN member_tags mt ON mt.member_id = mi.member_id
+         JOIN tag_definitions td ON td.tag_id = mt.tag_id
+        WHERE s.public_consent = 'consented'
+          AND s.publish_state = 'public'
+          AND s.is_deleted = 0
+          AND td.active = 1
+          AND mi.member_id NOT IN (SELECT source_member_id FROM identity_aliases)
+        GROUP BY td.code, td.label
+        ORDER BY count DESC, code ASC
+        LIMIT 20`,
+    )
+    .all<TopTagRow>();
+  return (r.results ?? []).map((row) => ({
+    code: row.code,
+    label: row.label,
+    count: Number(row.count),
+  }));
+}
+
 export async function aggregatePublicZones(
   c: DbCtx,
 ): Promise<Array<{ zone: string; count: number }>> {

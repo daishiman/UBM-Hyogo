@@ -42,6 +42,7 @@ export default defineConfig({
     include: [
       "apps/**/src/**/*.spec.{ts,tsx}",
       "apps/**/app/**/*.spec.{ts,tsx}",
+      "apps/**/__tests__/**/*.spec.{ts,tsx}",
       "apps/**/scripts/**/*.spec.{ts,tsx}",
       "apps/**/migrations/**/*.spec.ts",
       "packages/**/src/**/*.spec.{ts,tsx}",
@@ -79,6 +80,7 @@ export default defineConfig({
       include: [
         "apps/**/src/**/*.{ts,tsx}",
         "apps/**/app/**/*.{ts,tsx}",
+        "apps/web/proxy.ts",
         "packages/**/src/**/*.{ts,tsx}",
       ],
       exclude: [

@@ -34,7 +34,7 @@ slug: ui-ux-admin-dashboard
 - `getSession()` が null → `redirect("/login?next=/admin")`
 - `session.isAdmin !== true` → `redirect("/login?gate=forbidden")`
 - 通過時のみ `AdminSidebar` + `<main class="admin-main">{children}</main>` を返す
-- middleware.ts は配置しない（layout 内 auth() で完結、Edge cost 削減）
+- route-local proxy.ts は配置しない（root `apps/web/proxy.ts` と layout 内 auth() で完結、Edge cost 削減）
 
 ### 1.3 Server / Client 境界
 

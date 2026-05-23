@@ -20,7 +20,7 @@ status: draft
 | DoD-4 | `pnpm build`（next build --webpack）exit 0 | CI |
 | DoD-5 | `web-unit`（vitest）exit 0 | CI |
 | DoD-6 | `playwright-smoke / smoke (chromium)` 19 routes 全件 pass | CI |
-| DoD-7 | `playwright-smoke / visual (chromium, 4 screens)` 4 screens snapshot 取得（SW-07 と統合点） | CI / outputs/phase-11 |
+| DoD-7 | `playwright-smoke / visual (chromium, 4 screens)` 4 screens snapshot 取得（SW-07 と統合点） | CI / `serial-07-regression-evidence/outputs/phase-11/screenshots/` |
 | DoD-8 | `verify-design-tokens` exit 0（HEX 0 件） | CI |
 | DoD-9 | `verify-test-suffix` exit 0 | CI |
 | DoD-10 | adapter 層 unit test が `apps/web/src/lib/adapters/__tests__/` 配下に揃う | local + CI |
@@ -45,7 +45,11 @@ snapshot は Playwright 既定の `apps/web/playwright/tests/visual/*.spec.ts-sn
 
 - `playwright-smoke.json`（19 routes 結果サマリ）
 - `verify-design-tokens.log`
-- `screenshots/`（4 screens, SW-07 と統合）
+- static gate logs（`typecheck.log` / `lint.log` / `build.log` / `adapter-unit.log` / `grep-gates.log`）
+- `routes-inventory.md`（19 routes と blueprint 行範囲）
+
+4 screens runtime screenshots は SW-07 の
+`serial-07-regression-evidence/outputs/phase-11/screenshots/` に集約する。
 
 詳細は Phase 11 で列挙。
 

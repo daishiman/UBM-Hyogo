@@ -2,7 +2,8 @@
 // matcher: /admin/:path*, /profile/:path*
 //
 // /admin 配下:
-//   - 未ログイン or isAdmin=false → /login?gate=admin_required
+//   - 未ログイン → /login?gate=admin_required
+//   - ログイン済 + isAdmin=false → 403 Forbidden
 //   - ログイン済 + isAdmin=true → next()
 // /profile 配下（06b 追加）:
 //   - 未ログイン → /login?redirect=<元path>
@@ -76,7 +77,6 @@ const guardedMiddleware = async (req: NextRequest) => {
       return buildAdminLoginRedirect(req);
     }
     if (!claims.isAdmin) {
-      // 認証済 non-admin: /login redirect ではなく 403 を返す（一段防御 + UX）
       return new NextResponse("Forbidden", {
         status: 403,
         headers: { "content-type": "text/plain; charset=utf-8" },
@@ -102,4 +102,5 @@ export default middleware;
 
 export const config = {
   matcher: ["/((?!_next/static|_next/image|favicon.ico).*)"],
+  runtime: "experimental-edge",
 };

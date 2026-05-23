@@ -165,6 +165,14 @@ const publicList = (url) => {
       sort: url.searchParams.get("sort") === "name" ? "name" : "recent",
       density,
     },
+    topTags: [
+      { code: "ai", label: "AI", count: 12 },
+      { code: "design", label: "Design", count: 9 },
+      { code: "startup", label: "Startup", count: 8 },
+      { code: "kobe", label: "Kobe", count: 7 },
+      { code: "dx", label: "DX", count: 6 },
+      { code: "community", label: "Community", count: 5 },
+    ],
     generatedAt: NOW,
   };
 };

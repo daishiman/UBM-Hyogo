@@ -14,7 +14,7 @@
     "preview:cloudflare": "pnpm build:cloudflare && opennextjs-cloudflare preview",
     "typecheck": "tsc -p tsconfig.json --noEmit",
     "test": "vitest run --passWithNoTests --root=../.. --config=vitest.config.ts apps/web",
-    "test:coverage": "vitest run --passWithNoTests --root=../.. --config=vitest.config.ts --coverage --coverage.reportsDirectory=apps/web/coverage --coverage.include=\"apps/web/src/**/*.{ts,tsx}\" apps/web",
+    "test:coverage": "vitest run --passWithNoTests --root=../.. --config=vitest.config.ts --coverage --coverage.reportsDirectory=apps/web/coverage --coverage.include=\"apps/web/src/**/*.{ts,tsx}\" --coverage.include=\"apps/web/proxy.ts\" apps/web",
     "test:coverage:web": "pnpm run test:coverage",
     "test:e2e": "playwright test",
     "e2e": "playwright test",
