@@ -70,7 +70,7 @@ status: draft
 
 - `outputs/phase-11/playwright-smoke.json`
 - `outputs/phase-11/verify-design-tokens.log`
-- `outputs/phase-11/screenshots/{top,members-list,member-detail,admin-dashboard}.png`
+- `serial-07-regression-evidence/outputs/phase-11/screenshots/{top,members-list,member-detail,admin-dashboard}.png`
 - `outputs/phase-11/routes-inventory.md`
 
 ## Out of scope

@@ -12,7 +12,7 @@ status: runtime_pending
 
 ## 1. Summary verdict
 
-runtime_pending (`implemented_local_evidence_captured / VISUAL_RUNTIME_PENDING`). `parallel-02-prototype-css-rules-port` now has the canonical Phase 12 heading structure, sub-workflow strict 7 outputs, parser-compatible Phase 11 inventory, a real `globals.css` implementation aligned with G3-1 / G3-2 / G3-3, active tag DOM binding, focus-within card focus, and local Playwright screenshot evidence. Production-equivalent visual evidence remains under the root workflow `VISUAL_RUNTIME_PENDING` boundary.
+runtime_pending (`implemented_local_evidence_captured / VISUAL_RUNTIME_PENDING`). `parallel-02-prototype-css-rules-port` now has the canonical Phase 12 heading structure, parser-compatible Phase 11 inventory, a real `globals.css` implementation aligned with G3-1 / G3-2 / G3-3, active tag DOM binding, focus-within card focus, and local Playwright screenshot evidence. Phase 12 strict 7 outputs are aggregated at the parent workflow root. Production-equivalent visual evidence remains under the root workflow `VISUAL_RUNTIME_PENDING` boundary.
 
 ### 中学生にも分かる説明
 
@@ -27,7 +27,7 @@ runtime_pending (`implemented_local_evidence_captured / VISUAL_RUNTIME_PENDING`)
 | `apps/web/app/visual-harness/[name]/*` | local visual harness | deterministic parallel-02 visual scenario added |
 | `apps/web/playwright/tests/visual/parallel-02-css-rules.spec.ts` | local visual evidence | writes 9 Phase 11 screenshots |
 | `parallel-02-prototype-css-rules-port/phase-*.md` | implementation spec | route notation, evidence table, DoD, and compliance headings aligned |
-| `parallel-02-prototype-css-rules-port/outputs/phase-12/*` | Phase 12 strict 7 | sub-workflow strict 7 materialized |
+| parent `outputs/phase-12/*` | Phase 12 strict 7 | parent workflow root aggregation; sub-workflow strict 7 duplication removed |
 | `apps/api/**`, `packages/**` | no change | no API / D1 / package contract change |
 
 ## 3. `workflow_state` and phase status consistency
@@ -63,13 +63,13 @@ runtime_pending (`implemented_local_evidence_captured / VISUAL_RUNTIME_PENDING`)
 
 | Path | Status |
 |------|--------|
-| `outputs/phase-12/main.md` | present |
-| `outputs/phase-12/implementation-guide.md` | present |
-| `outputs/phase-12/system-spec-update-summary.md` | present |
-| `outputs/phase-12/documentation-changelog.md` | present |
-| `outputs/phase-12/unassigned-task-detection.md` | present |
-| `outputs/phase-12/skill-feedback-report.md` | present |
-| `outputs/phase-12/phase12-task-spec-compliance-check.md` | present |
+| parent `outputs/phase-12/main.md` | present |
+| parent `outputs/phase-12/implementation-guide.md` | present |
+| parent `outputs/phase-12/system-spec-update-summary.md` | present |
+| parent `outputs/phase-12/documentation-changelog.md` | present |
+| parent `outputs/phase-12/unassigned-task-detection.md` | present |
+| parent `outputs/phase-12/skill-feedback-report.md` | present |
+| parent `outputs/phase-12/phase12-task-spec-compliance-check.md` | present |
 
 | implementation-guide depth | Status |
 | --- | --- |
@@ -100,6 +100,6 @@ No archive/delete action. Stale `/(public)/members` URL notation was corrected t
 | condition | result | evidence |
 |-----------|--------|----------|
 | 矛盾なし | runtime_pending | CSS, DOM binding, Phase 6, Phase 8, Phase 11, and Phase 12 now describe the same G3 contract; root visual completion remains pending |
-| 漏れなし | runtime_pending | 13 phase files, strict 7 outputs, 9 local screenshots, 5 logs, and state boundary are listed |
+| 漏れなし | runtime_pending | 13 phase files, parent strict 7 outputs, 9 local screenshots, 5 logs, and state boundary are listed |
 | 整合性あり | runtime_pending | canonical heading names, evidence table columns, runtime URL notation, and `VISUAL_RUNTIME_PENDING` vocabulary are unified |
 | 依存関係整合 | runtime_pending | parallel-02 owns CSS hooks and minimal tag-pill DOM binding; root/serial runtime coverage remains downstream |

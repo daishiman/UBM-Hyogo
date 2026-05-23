@@ -25,9 +25,9 @@ status: draft
 
 ### 1.1 公開層
 
-| # | route | file（絶対 path） | 新/編 | export | blueprint 行範囲 | 使用 component import | API endpoint |
+| # | route | file（repo relative path） | 新/編 | export | blueprint 行範囲 | 使用 component import | API endpoint |
 |---|-------|------------------|--------|--------|------------------|-----------------------|--------------|
-| 1 | `/` | `/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260518-101514-wt-4/apps/web/app/page.tsx` | 編 | `export default async function HomePage()` | `09e:67-160` | `Hero`, `Stats`, `ZoneIntro`, `Timeline`, `MemberGrid`, `PublicHeader`, `PublicFooter`（`../src/components/public/*`） | `getStats`, `listMembersRaw` (`../src/lib/api/public`) |
+| 1 | `/` | `apps/web/app/page.tsx` | 編 | `export default async function HomePage()` | `09e:67-160` | `Hero`, `Stats`, `ZoneIntro`, `Timeline`, `MemberGrid`, `PublicHeader`, `PublicFooter`（`../src/components/public/*`） | `getStats`, `listMembersRaw` (`../src/lib/api/public`) |
 | 2 | `/(public)/members` | `apps/web/app/(public)/members/page.tsx` | 編 | `export default async function MembersPage({ searchParams })` | `09e:208-338` | `MemberFilters.client`, `MemberGrid`, `MemberTable`, `EmptyState`, `Pagination`（ui） | `listMembers` (`../../../src/lib/api/public`) |
 | 3 | `/(public)/members/[id]` | `apps/web/app/(public)/members/[id]/page.tsx` | 編 | `export default async function MemberDetailPage({ params })` | `09e:339-472` | `MemberDetailSections`, `MemberLinks`, `MemberTags`, `ProfileHero`, `Card`, `KVList`, `Badge` | `getMember` + adapter `toBlueprintMember` |
 | 4 | `/(public)/register` | `apps/web/app/(public)/register/page.tsx` | 編 | `export default async function RegisterPage()` | `09e:473-560` | `Hero`, `FormPreviewSections`, `RegisterCallout`, `Card`, `Button`, `Banner` | `getFormPreview` (public) |
