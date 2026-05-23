@@ -9,7 +9,25 @@
     "visualEvidence": "NON_VISUAL",
     "source_issue": "https://github.com/daishiman/UBM-Hyogo/issues/832",
     "source_issue_relation": "Refs #832",
-    "commit_push_pr": "user_gated"
+    "commit_push_pr": "user_gated",
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-05-23T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/parallel-03-followup-001-admin-topbar-primitive-extraction/outputs/phase-12/phase12-task-spec-compliance-check.md",
+        "approver": "daishiman",
+        "notes": "spec_review: Phase 1-13 spec + AdminTopbar primitive extraction local implementation completed"
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "passed",
+        "passed_at": "2026-05-23T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/parallel-03-followup-001-admin-topbar-primitive-extraction/outputs/phase-12/implementation-guide.md",
+        "approver": "daishiman",
+        "notes": "implementation_review: AdminTopbar.tsx + spec + (admin)/layout.tsx inline header replacement, NON_VISUAL refactor"
+      }
+    ]
   },
   "phases": [
     {
