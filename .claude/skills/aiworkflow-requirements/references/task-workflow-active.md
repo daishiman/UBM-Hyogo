@@ -8,6 +8,20 @@
 
 本ドキュメントは、複雑なタスクを単一責務の原則に基づいて分解し、各サブタスクに最適なスラッシュコマンド・エージェント・スキルの組み合わせを選定するためのガイドラインを定義する。
 
+### UT-25-DERIV-02 SA key expiry monitoring（2026-05-22）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_runtime_pending / implementation / NON_VISUAL` |
+| 成果物 | `docs/30-workflows/ut-25-deriv-02-sa-key-expiry-monitoring/` |
+| source | `docs/30-workflows/unassigned-task/UT-25-DERIV-02-sa-key-expiry-monitoring.md` |
+| 目的 | `GOOGLE_SERVICE_ACCOUNT_JSON` の Google 側 key 失効・権限剥奪を Sheets API 401/403 として検出し、構造化ログと既存 alert-relay 経路で通知する |
+| implementation targets | `apps/api/src/jobs/sheets-auth-classifier.ts`, `apps/api/src/jobs/sheets-auth-logger.ts`, `apps/api/src/scheduled/sheets-auth-healthcheck.ts`, `apps/api/src/sync/backfill.ts`, `apps/api/src/sync/manual.ts`, `apps/api/src/jobs/sync-sheets-to-d1.ts`, `apps/api/src/index.ts`, `apps/api/src/routes/internal/alert-relay.ts` |
+| invariant | 新規 cron 追加なし。既存 `*/15 * * * *` へ `ctx.waitUntil` で相乗り。401/403 を code レベルで分離。5xx/429/network は alert 対象外。 |
+| Phase 12 | strict 7 outputs + canonical compliance check present; 2026-05-23 review corrected dedup threshold and state metadata |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-ut-25-deriv-02-sa-key-expiry-monitoring-artifact-inventory.md` |
+| user gate | staging secret invalidation dry-run, staging/prod deploy/tail evidence, commit, push, PR |
+
 ### Issue #276 mobile FilterBar tag picker（2026-05-20）
 ### Issue #277 Next.js proxy migration（2026-05-20）
 

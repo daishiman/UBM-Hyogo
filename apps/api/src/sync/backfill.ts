@@ -17,6 +17,7 @@ import { mapSheetRows } from "./mapping";
 import { buildUpsertStatements } from "./upsert";
 import { requireSyncAdmin, type SyncAdminEnv } from "../middleware/require-sync-admin";
 import { resolveServiceAccountJson } from "../jobs/sync-sheets-to-d1";
+import { logSheetsAuthFailure } from "../jobs/sheets-auth-logger";
 import type { AuditDeps, SyncEnvBase, DiffSummary } from "./types";
 
 interface BackfillEnv extends SyncEnvBase, SyncAdminEnv {}
@@ -65,6 +66,10 @@ async function performBackfill(
               throw new RateLimitError(err.status);
             }
           }
+          logSheetsAuthFailure(err, {
+            jobName: "backfill",
+            spreadsheetId: e.SHEETS_SPREADSHEET_ID,
+          });
           throw err;
         }
       },

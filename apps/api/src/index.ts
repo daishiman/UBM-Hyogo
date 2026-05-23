@@ -68,6 +68,7 @@ import { createAlertRelayRoute } from "./routes/internal/alert-relay";
 import { scheduledAuditCorrelation } from "./audit-correlation/scheduled";
 import type { AuditCorrelationRuntimeEnv } from "./audit-correlation/run-correlation";
 import { runAlertRelayHealthcheck } from "./scheduled/healthcheck";
+import { runSheetsAuthHealthcheck } from "./scheduled/sheets-auth-healthcheck";
 
 function timingSafeEqual(a: string, b: string): boolean {
   let mismatch = a.length ^ b.length;
@@ -458,6 +459,10 @@ export default {
       } catch (_err) {
         // GOOGLE secret 未設定など: cron 単位では fail させずスキップ
       }
+      // UT-25-DERIV-02: SA key 失効を能動検出する health check に相乗り（新 cron は追加しない）
+      ctx.waitUntil(
+        runSheetsAuthHealthcheck(env, event).then(() => undefined).catch(() => undefined),
+      );
       // Issue #553: 同 */15 cron で live audit-correlation を起動する。
       // env 未設定時 (staging 投入前) は scheduled.ts 内で AuditCorrelationEnvError として log だけ残し、cron は fail させない。
       if (
