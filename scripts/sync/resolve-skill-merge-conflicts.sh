@@ -105,10 +105,17 @@ for path in $UNMERGED; do
   fi
 done
 
+need_rebuild=0
+
 if [ "${#apply_union[@]}" -gt 0 ]; then
   echo "[resolve-skill-merge-conflicts] union-resolving ${#apply_union[@]} files..."
   union_resolve "${apply_union[@]}"
   git add -- "${apply_union[@]}"
+  for f in "${apply_union[@]}"; do
+    case "$f" in
+      .claude/skills/*/indexes/*) need_rebuild=1 ;;
+    esac
+  done
 fi
 
 if [ "${#apply_ours[@]}" -gt 0 ]; then
@@ -118,6 +125,10 @@ if [ "${#apply_ours[@]}" -gt 0 ]; then
     git add -- "$f"
     echo "  ours: $f"
   done
+  need_rebuild=1
+fi
+
+if [ "$need_rebuild" -eq 1 ]; then
   echo "[resolve-skill-merge-conflicts] running pnpm indexes:rebuild..."
   mise exec -- pnpm indexes:rebuild >/dev/null
   git add -A .claude/skills/aiworkflow-requirements/indexes/

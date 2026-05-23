@@ -1,0 +1,13 @@
+mise WARN  Config files in ~/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260523-104618-wt-18/.mise.toml are not trusted.
+Trust them with `mise trust`. See https://mise.jdx.dev/cli/trust.html for more information.
+
+> ubm-hyogo@0.1.0 verify:tokens /Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260523-104618-wt-18
+> node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --experimental-strip-types scripts/verify-design-tokens.ts
+
+✗ token drift detected (1):
+  apps/web/app/_canary_not_og/route.tsx:1          09b: (missing)                           tokens.css: #ff0000                      [forbidden-color-literal]
+hint: 09b        = /Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260523-104618-wt-18/docs/00-getting-started-manual/specs/09b-design-tokens.md
+      tokens.css = /Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260523-104618-wt-18/apps/web/src/styles/tokens.css
+      globals    = /Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260523-104618-wt-18/apps/web/src/styles/globals.css (@theme inline block)
+ ELIFECYCLE  Command failed with exit code 1.
+exit=1

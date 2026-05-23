@@ -1,0 +1,39 @@
+{
+  "schemaVersion": "1.0.0",
+  "taskId": "fix-verify-design-tokens-og-route-exclude",
+  "workflowDir": "docs/30-workflows/completed-tasks/fix-verify-design-tokens-og-route-exclude",
+  "evidence": [
+    {
+      "id": "focused-vitest",
+      "kind": "test",
+      "path": "outputs/phase-11/vitest-verify-design-tokens.txt",
+      "command": "mise exec -- pnpm vitest run scripts/verify-design-tokens.spec.ts",
+      "acquiredBy": "implementation_cycle",
+      "requiredForCloseout": true
+    },
+    {
+      "id": "verify-tokens-local",
+      "kind": "grep-gate",
+      "path": "outputs/phase-11/verify-tokens-local.txt",
+      "command": "mise exec -- pnpm verify:tokens",
+      "acquiredBy": "implementation_cycle",
+      "requiredForCloseout": true
+    },
+    {
+      "id": "drift-canary",
+      "kind": "grep-gate",
+      "path": "outputs/phase-11/drift-canary-fail.txt",
+      "command": "temporary apps/web/src/lib/_drift_canary.ts then mise exec -- pnpm verify:tokens",
+      "acquiredBy": "implementation_cycle",
+      "requiredForCloseout": true
+    },
+    {
+      "id": "non-og-route-canary",
+      "kind": "grep-gate",
+      "path": "outputs/phase-11/canary-non-og-route.txt",
+      "command": "temporary apps/web/app/_canary_not_og/route.tsx then mise exec -- pnpm verify:tokens",
+      "acquiredBy": "implementation_cycle",
+      "requiredForCloseout": true
+    }
+  ]
+}

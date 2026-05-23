@@ -1,0 +1,16 @@
+HEAD:.github/workflows/backend-ci.yml:29:      - uses: actions/setup-node@v4
+HEAD:.github/workflows/backend-ci.yml:105:      - uses: actions/setup-node@v4
+HEAD:.github/workflows/ci.yml:167:      - uses: actions/setup-node@v4
+HEAD:.github/workflows/cloudflare-alerts-drift.yml:43:      - uses: actions/setup-node@v4
+HEAD:.github/workflows/cloudflare-alerts-drift.yml:69:      - uses: actions/setup-node@v4
+HEAD:.github/workflows/cloudflare-analytics-export.yml:46:        uses: actions/setup-node@v4
+HEAD:.github/workflows/d1-migration-verify.yml:24:      - uses: actions/setup-node@v4
+HEAD:.github/workflows/lighthouse.yml:23:      - uses: actions/setup-node@v4
+HEAD:.github/workflows/post-release-dashboard.yml:43:      - uses: actions/setup-node@v4
+HEAD:.github/workflows/validate-build.yml:38:      - uses: actions/setup-node@v4
+HEAD:.github/workflows/verify-esbuild.yml:22:      - uses: actions/setup-node@v4
+HEAD:.github/workflows/verify-gate-metadata.yml:33:        uses: actions/setup-node@v4
+HEAD:.github/workflows/verify-indexes.yml:33:      - uses: actions/setup-node@v4
+HEAD:.github/workflows/verify-phase12-compliance.yml:36:      - uses: actions/setup-node@v4
+HEAD:.github/workflows/web-cd.yml:30:      - uses: actions/setup-node@v4
+HEAD:.github/workflows/web-cd.yml:89:      - uses: actions/setup-node@v4

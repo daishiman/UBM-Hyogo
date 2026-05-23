@@ -93,8 +93,11 @@ wrangler secret put SLACK_BOT_TOKEN --env <env>
 - `wrangler` は直接呼ばず、必ず `bash scripts/cf.sh secret put/list/delete --config apps/api/wrangler.toml --env <env>` 経由で実行する。
 - 値は `op read "op://<Vault>/<Item>/<Field>" | bash scripts/cf.sh secret put ...` の stdin 経由で投入する。secret 値、JSON 内容、`private_key` の一部を文書・ログ・PR本文に転記しない。
 - staging-first 固定。production への投入は staging の `secret list` name 確認後だけ実施する。
+- rotation helper は `op://` 参照と 16 桁 fingerprint を staging put / staging verify / production put の state に結び、古い verify marker や別 key の marker で production を解錠しない。
+- UT-26 smoke route は `GOOGLE_SERVICE_ACCOUNT_JSON` を優先して検証し、legacy `GOOGLE_SHEETS_SA_JSON` は移行期間の fallback とする。production smoke は既定 404 で、key rotation の user-gated window 中だけ `SMOKE_SHEETS_ALLOW_PRODUCTION=true` で明示的に有効化する。
 - rollback は `secret delete` 後、1Password の旧 revision から同じ secret 名へ再投入する。
 - `GOOGLE_SHEETS_SA_JSON` は移行期間の legacy alias として実装側のみ許容し、Cloudflare Workers Secret の正本名は `GOOGLE_SERVICE_ACCOUNT_JSON` に統一する。
+- UT-25-DERIV-02 の sheets-auth alert から復旧する場合、401 (`SHEETS_AUTH_401_KEY_INVALID`) は key rollback / rotation を優先し、403 (`SHEETS_AUTH_403_FORBIDDEN`) は Spreadsheet 共有・SA disabled・scope 権限を先に確認する。Alert payload の `rollbackRunbookUrl` は `docs/30-workflows/completed-tasks/ut-25-cloudflare-secrets-production-deploy/outputs/phase-13/rollback-runbook.md` を指す。
 
 ### Auth mail env 投入ルール（05b-A / 2026-05-01）
 
@@ -622,10 +625,15 @@ names.
 
 WAF operations use `op://UBM-Hyogo/Cloudflare-WAF/api_token_waf` and are not deploy-token canonical paths. Evidence must remain path-only and must not include token values, token previews, suffixes, account IDs, value hashes, or resolved 1Password URIs.
 
+## 関連 SOP
+
+- SA Service Account JSON key 定期ローテーション: `docs/30-workflows/runbooks/sa-key-rotation-sop.md`
+
 ## 変更履歴
 
 | 日付 | バージョン | 変更内容 |
 | ---- | ---------- | -------- |
+| 2026-05-22 | 1.4.8 | UT-25-DERIV-01 を同期。`GOOGLE_SERVICE_ACCOUNT_JSON` の 90 日 rotation SOP、stdin-only helper、staging verify before production guard、completion record template を関連 SOP として登録。実 Cloudflare Secret mutation / Google IAM disable-delete は user-gated。 |
 | 2026-05-21 | 1.4.7 | `task-alert-relay-global-scope-fix-001` を同期。local `scripts/cf.sh deploy --env staging\|production` は `Employee/ubm-hyogo-env` の `CLOUDFLARE_API_TOKEN_STAGING` / `CLOUDFLARE_API_TOKEN_PRODUCTION` を読み、child env `CLOUDFLARE_API_TOKEN` として wrangler に渡す。CI / wrangler-action の正本 secret 名は引き続き environment-scoped `CLOUDFLARE_API_TOKEN`。 |
 | 2026-05-20 | 1.4.6 | `ci-staging-deploy-failure-fix` を同期。current `backend-ci.yml` / `web-cd.yml` は GitHub Environment `CLOUDFLARE_API_TOKEN` を正本名として使い、`CF_TOKEN_D1_*` / `CF_TOKEN_WORKERS_*` は historical split names として扱う。staging / production token 値は environment ごとに分離し、D1:Edit + Workers Scripts:Edit + Account Settings:Read に限定する。 |
 | 2026-05-18 | 1.4.5 | issue-765: 1Password Cloudflare deploy-token op:// path consolidation を `spec_created_blocked_by_oidc_support` として同期。canonical path は `op://UBM-Hyogo/Cloudflare/api_token_staging` / `op://UBM-Hyogo/Cloudflare/api_token_production`、legacy deploy-token path は `deprecated (#765, 2026-05-18)`。actual archive / `cf.sh whoami` / physical delete は user-gated。 |
