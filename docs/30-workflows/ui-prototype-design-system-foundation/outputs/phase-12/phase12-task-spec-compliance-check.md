@@ -2,14 +2,14 @@
 
 ## 1. Summary verdict
 
-runtime_pending (`implemented_local_evidence_captured / VISUAL_RUNTIME_PENDING`). `ui-prototype-design-system-foundation` now has root / outputs artifacts parity, strict 7 Phase 12 outputs, prototype coverage SSOT, corrected current app paths, initial code hooks for AppShell / selector contracts, local static evidence, and parallel-02 local screenshots. This is not root visual completion.
+runtime_pending / RUNTIME VISUAL PARTIAL (`implemented_local_evidence_captured / VISUAL_RUNTIME_PENDING`). `ui-prototype-design-system-foundation` now has root / outputs artifacts parity, strict 7 Phase 12 outputs, prototype coverage SSOT, corrected current app paths, initial code hooks for AppShell / selector contracts, local static evidence, parallel-02 local screenshots, and serial-05 route binding evidence. `parallel-03` has captured a public AppShell screenshot; admin/member full runtime screenshots remain serial-07 evidence. This is not root visual completion.
 
 ## 2. Changed-files classification
 
 | area | classification | note |
 |------|----------------|------|
 | `docs/30-workflows/ui-prototype-design-system-foundation/**` | implementation-spec documentation | taskType remains `implementation`; Phase 12 is spec-readiness |
-| `apps/web/**` | implementation delta | AppShell data hooks, selector CSS, tag/visibility markers, plus parallel-04 root fallback chrome (`layout.tsx`, `error.tsx`, `not-found.tsx`, `loading.tsx`) |
+| `apps/web/**` | implementation delta | AppShell data hooks, selector CSS, tag/visibility markers, parallel-04 root fallback chrome, and serial-05 route marker / rhythm binding across 19 routes |
 | `packages/**` | no change | no package diff introduced |
 
 ## 3. `workflow_state` and phase status consistency
@@ -41,6 +41,14 @@ runtime_pending (`implemented_local_evidence_captured / VISUAL_RUNTIME_PENDING`)
 | visual | `parallel-02-prototype-css-rules-port/outputs/phase-11/visibility-public.png` | present | local selector screenshot |
 | visual | `parallel-02-prototype-css-rules-port/outputs/phase-11/visibility-member.png` | present | local selector screenshot |
 | visual | `parallel-02-prototype-css-rules-port/outputs/phase-11/visibility-admin.png` | present | local selector screenshot |
+| visual | `parallel-03-appshell-layouts/outputs/phase-11/screenshots/public-shell.png` | present | parallel-03 public AppShell screenshot |
+| static | `serial-05-page-routes-blueprint-binding/outputs/phase-11/typecheck.log` | present | route binding local typecheck |
+| static | `serial-05-page-routes-blueprint-binding/outputs/phase-11/lint.log` | present | route binding local lint |
+| static | `serial-05-page-routes-blueprint-binding/outputs/phase-11/build.log` | present | route binding local build with required env |
+| static | `serial-05-page-routes-blueprint-binding/outputs/phase-11/adapter-unit.log` | present | adapter-focused vitest command |
+| static | `serial-05-page-routes-blueprint-binding/outputs/phase-11/verify-design-tokens.log` | present | design token runtime spec |
+| static | `serial-05-page-routes-blueprint-binding/outputs/phase-11/grep-gates.log` | present | G-1..G-8 route/static gates |
+| static | `serial-05-page-routes-blueprint-binding/outputs/phase-11/routes-inventory.md` | present | 19 route rows + blueprint ranges |
 | visual | `serial-07-regression-evidence/outputs/phase-11/screenshots/top.png` | pending | required during implementation run |
 | visual | `serial-07-regression-evidence/outputs/phase-11/screenshots/members-list.png` | pending | required during implementation run |
 | visual | `serial-07-regression-evidence/outputs/phase-11/screenshots/member-detail.png` | pending | required during implementation run |
@@ -68,7 +76,7 @@ runtime_pending (`implemented_local_evidence_captured / VISUAL_RUNTIME_PENDING`)
 
 ## 7. Runtime or user-gated boundary
 
-parallel-04 fallback screenshots and parallel-02 local selector screenshots are captured in this cycle. Full 19-route blueprint binding and serial-07 production-equivalent visual regression evidence are still tracked by the active workflow phases; this file does not claim full-route runtime completion.
+Parallel-02 local selector screenshots, parallel-03 public AppShell screenshot, parallel-04 root fallback screenshots, and serial-05 static route-binding evidence are captured in this cycle. Authenticated admin and member route-group runtime evidence remain tracked by serial-07. Production-equivalent visual regression evidence is still tracked by the active workflow phases; this file does not claim root visual completion.
 
 parallel-04 keeps `visualEvidence: VISUAL` because root fallback screenshots are part of the acceptance surface. Phase 11 records EV-12..15 as present; serial-07 remains the owner for full route visual regression.
 
@@ -80,7 +88,7 @@ No archive/delete action. Stale app path and route-group inferred paths were cor
 
 | condition | result |
 |-----------|--------|
-| 矛盾なし | runtime_pending |
-| 漏れなし | runtime_pending |
+| 矛盾なし | runtime_pending (spec readiness PASS; runtime visual partial) |
+| 漏れなし | runtime_pending (serial-07 admin/member captures remain open tracked evidence) |
 | 整合性あり | runtime_pending |
 | 依存関係整合 | runtime_pending |

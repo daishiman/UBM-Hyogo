@@ -9,6 +9,8 @@
 - root `artifacts.json`: added
 - `outputs/artifacts.json`: added
 - Phase 12 strict 7 files: added under `outputs/phase-12/`
+- `serial-05-page-routes-blueprint-binding/outputs/phase-11/{typecheck,lint,build,adapter-unit,verify-design-tokens,grep-gates}.log`: physical local evidence added
+- `serial-05-page-routes-blueprint-binding/outputs/phase-11/routes-inventory.md`: 19 route / blueprint mapping evidence added
 - root `index.md`: `prototype_coverage` metadata and SSOT section added
 - `apps/web/app/layout.tsx`, `error.tsx`, `not-found.tsx`, `loading.tsx`: parallel-04 root chrome contract implemented in same cycle
 - `.claude/skills/aiworkflow-requirements/indexes/quick-reference.md`: workflow entry added
@@ -23,4 +25,4 @@
 
 ## Step 2: Domain Sync
 
-新規 API endpoint / D1 schema / Google Form 仕様の変更はない。UI prototype reflection の範囲内で、既存正本 09a-09h を参照する。
+新規 API endpoint / D1 schema / Google Form 仕様の変更はない。UI prototype reflection の範囲内で、既存正本 09a-09h を参照する。serial-05 の build evidence は Next.js build-time env contract（`ENVIRONMENT=local` と API base URL 群）を必要条件として Phase 10 に明記した。

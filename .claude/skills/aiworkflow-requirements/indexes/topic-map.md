@@ -2339,6 +2339,25 @@ node scripts/list-specs.js --topics
 | Evidence Boundary | L24 |
 | Captured Evidence | L27 |
 
+### references/workflow-issue-276-mobile-filterbar-tag-picker-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Metadata | L3 |
+| Canonical Files | L13 |
+| Planned Implementation Targets | L23 |
+| Runtime Boundary | L32 |
+| Lessons Learned | L36 |
+| Pattern Reference | L42 |
+
+### references/workflow-issue-277-next-proxy-migration-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Implementation Targets | L10 |
+| Evidence | L21 |
+| User Gate | L30 |
+
 ### references/workflow-issue-290-workflow-lint-gate-artifact-inventory.md
 
 | セクション | 行 |
@@ -2532,6 +2551,19 @@ node scripts/list-specs.js --topics
 | Metadata | L3 |
 | Current Canonical Set | L13 |
 | Boundary | L29 |
+
+### references/workflow-issue-520-slack-incidents-channel-webhook-provisioning-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| canonical root | L3 |
+| root artifacts | L7 |
+| phase 12 required artifacts | L16 |
+| implementation artifacts | L28 |
+| production runtime evidence templates (Phase 11) | L37 |
+| same-wave skill sync | L45 |
+| boundary | L58 |
+| deferred evidence | L64 |
 
 ### references/workflow-issue-526-ci-actionlint-shellcheck-gate-artifact-inventory.md
 
@@ -2784,7 +2816,57 @@ node scripts/list-specs.js --topics
 | Implementation Targets | L35 |
 | Runtime Boundary | L49 |
 
+### references/workflow-issue-777-schema-diff-resolve-history-view-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Canonical Root | L3 |
+| State | L7 |
+| Workflow Artifacts | L11 |
+| Source And Parent | L39 |
+| Implementation Boundary | L46 |
+
+### references/workflow-issue-778-schema-alias-rollback-undo-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Canonical Root | L3 |
+| Source And Parent | L12 |
+| Contract | L23 |
+| Boundary | L31 |
+
 ### references/workflow-issue-799-use-auto-focus-on-mount-hook-artifact-inventory.md
+
+### references/workflow-issue-800-profile-error-focus-transfer-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| State | L22 |
+| useAutoFocusOnMount hook | L28 |
+| Error focus management pattern | L32 |
+
+### references/workflow-issue-801-admin-error-focus-transfer-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| State | L15 |
+
+### references/workflow-issue-806-dynamic-member-og-image-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Workflow | L3 |
+| Implementation Targets | L13 |
+| Evidence Boundary | L21 |
+| Required Runtime Evidence | L25 |
+| Phase 12 Strict Outputs | L32 |
+
+### references/workflow-issue-819-admin-dashboard-runtime-screenshot-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Phase 12 Strict 7 | L42 |
+| User-Gated Boundary | L54 |
 
 ### references/workflow-light-theme-contrast-regression-guard.md
 
@@ -3012,7 +3094,9 @@ node scripts/list-specs.js --topics
 
 | セクション | 行 |
 |------------|----|
-| Phase 12 Strict 7 | L27 |
+| Phase 12 Strict 7 | L29 |
+
+### references/workflow-step-06-meetings-attendance-implementation-artifact-inventory.md
 
 ### references/workflow-task-03-w2-par-sentry-workers-sdk-unify-artifact-inventory.md
 
@@ -3590,12 +3674,14 @@ node scripts/list-specs.js --topics
 | Canonical Sources | L17 |
 | Workflow Outputs | L39 |
 | Implementation Boundary | L57 |
-| parallel-02 prototype CSS rules port (2026-05-19 close-out) | L67 |
-| Follow-up unassigned tasks (proto-spec) | L78 |
-| Difficulties summary (parallel-02) | L90 |
-| P1-1〜P1-5 Selector ↔ Token ↔ 09 Spec Mapping (parallel-01) | L124 |
-| Sub-workflows | L169 |
-| P1-1〜P1-5 Selector ↔ Token ↔ 09 Spec Mapping (parallel-01) | L178 |
+| Sub-workflow: parallel-03 AppShell Layouts（2026-05-19） | L67 |
+| parallel-02 prototype CSS rules port (2026-05-19 close-out) | L88 |
+| Follow-up unassigned tasks (proto-spec) | L99 |
+| Difficulties summary (parallel-02) | L111 |
+| Sub-workflow: serial-05 Page Routes Blueprint Binding（2026-05-22 spec validation） | L145 |
+| P1-1〜P1-5 Selector ↔ Token ↔ 09 Spec Mapping (parallel-01) | L158 |
+| Sub-workflows | L203 |
+| P1-1〜P1-5 Selector ↔ Token ↔ 09 Spec Mapping (parallel-01) | L212 |
 
 ### references/workflow-ui-ux-visual-baseline-drift.md
 
@@ -4077,7 +4163,7 @@ node scripts/list-specs.js --topics
 
 | セクション | 行 |
 |------------|----|
-| 1. 二段防御 middleware | L54 |
+| 1. 二段防御 proxy | L54 |
 | 2. service-binding 経由の internal API call | L65 |
 | 3. /auth/session-resolve internal-only endpoint | L86 |
 | 4. OpenNext post-build worker patch | L97 |
@@ -4970,6 +5056,17 @@ node scripts/list-specs.js --topics
 | 実行タイミングまとめ | L78 |
 | 関連リソース | L87 |
 
+### references/lessons-learned-d1-batch-atomicity-and-soft-delete-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| L-DBATCH-001: `db.batch()` の atomicity 仕様引用を Phase 02 design で必須化する | L7 |
+| L-SOFTDEL-001: `FROM <table>` の全箇所に `AND deleted_at IS NULL` を grep gate で強制する | L17 |
+| L-OPTLOCK-001: `If-Match: version=N` の parse 失敗（400）と version 衝突（409）を route handler 層で明確に分離する | L27 |
+| L-AUDITREL-001: `audit_log` と `cf_audit_log` の責務分離を SKILL ドキュメントで明示する | L38 |
+| L-SCOPE-001: bulk rollback / notification / recompute は followup に分離し、CONST_007 例外宣言を `index.md` 冒頭に必須化する | L47 |
+| 参考 | L59 |
+
 ### references/lessons-learned-docs-only-lifecycle.md
 
 | セクション | 行 |
@@ -5043,6 +5140,15 @@ node scripts/list-specs.js --topics
 | L-274-005: 起票元 unassigned 2 件は consumed trace として保持する | L83 |
 | L-274-006: `issue-NNN` namespace は legacy-ordinal-family-register の table 行追加不要 | L102 |
 | 参照 | L119 |
+
+### references/lessons-learned-issue-276-mobile-filterbar-tag-picker-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| 背景 | L10 |
+| 教訓一覧 | L20 |
+| 後発タスクへの転記チェックリスト（filter / picker primitive 追加時に複製） | L70 |
+| 参照 | L84 |
 
 ### references/lessons-learned-issue-290-workflow-lint-gate-2026-05.md
 
@@ -6722,6 +6828,18 @@ node scripts/list-specs.js --topics
 | 11. Issue #546 Cloudflare Audit Logs 90 Day Baseline Observation（2026-05-08） | L412 |
 | 12. Issue #514 Cloudflare Audit Logs Cold Storage / R2 Export Contract（2026-05-07） | L428 |
 
+### references/pattern-d1-soft-delete-optimistic-lock-batch.md
+
+| セクション | 行 |
+|------------|----|
+| メタ情報 | L7 |
+| 適用シーン | L18 |
+| パターン構成 | L29 |
+| 苦戦箇所と対策 | L120 |
+| grep gate | L132 |
+| 参考実装（Issue #778） | L145 |
+| 関連パターン | L164 |
+
 ### references/patterns-advanced.md
 
 | セクション | 行 |
@@ -7185,14 +7303,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L1875 |
-| フェーズ構造（概要） | L1884 |
-| 品質ゲート（概要） | L1915 |
-| 出力テンプレート | L1926 |
-| 実行時のコマンド・エージェント・スキル | L1949 |
-| 昇格パターン集 | L1973 |
-| Current Active / Spec Created Tasks | L1975 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L2130 |
+| ドキュメント構成 | L2007 |
+| フェーズ構造（概要） | L2016 |
+| 品質ゲート（概要） | L2047 |
+| 出力テンプレート | L2058 |
+| 実行時のコマンド・エージェント・スキル | L2081 |
+| 昇格パターン集 | L2105 |
+| Current Active / Spec Created Tasks | L2107 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L2263 |
 
 ### references/task-workflow-backlog-part2.md
 

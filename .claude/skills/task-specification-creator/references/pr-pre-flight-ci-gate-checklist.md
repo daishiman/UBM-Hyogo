@@ -283,3 +283,88 @@ grep -rn 'getByRole("status")\|getByRole(\x27status\x27)' apps/web/playwright/te
 4. 修正だけで再 push（baseline snapshot 更新は不要 — strict-mode は要素数判定のため）
 
 詳細: `.claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-dev-sync-merge-conflict-resolution-2026-05.md` L-DEVSYNC-031。
+
+## 12. parallel sub-workflow が同一 artifact-inventory.md に独立 H2 を追加する 3-way conflict（L-DEVSYNC-032）
+
+`ui-prototype-design-system-foundation` のような並列ワークフローでは、`parallel-02 / parallel-03` 等の sub-workflow が **同一 inventory ファイル**（`workflow-<workflow>-artifact-inventory.md` / `phase-12/phase12-task-spec-compliance-check.md` / `phase-12/main.md`）に**独立 H2 ブロック / 独立 evidence table 行**を追記する設計で、構造的に dev sync-merge で 3-way conflict が頻発する。`.gitattributes` を `references/workflow-*.md` で `merge=union` 化していないのは sub-workflow ブロックの順序・表構造保持のため。
+
+### 自律解消ルール（B-10 / B-11）
+
+- **B-10「parallel sub-workflow 独立 H2 / 独立 row 追加の union 採用」**:
+  - artifact-inventory.md / `phase12-task-spec-compliance-check.md` / Phase 11 evidence inventory で HEAD と dev が **異なる H2 / 異なる table row** を独立追加した conflict は、marker のみ削除して両側ブロックを `HEAD → dev` の順で連結する。
+  - 同一 H2 / 同一 row を両側で編集している場合のみ意味的競合として個別判断（多くは「partial → runtime_pending」「PASS → runtime_pending」等の status vocabulary 更新を dev 側に寄せる）。
+- **B-11「単一 className トークン非競合変更の連結採用」**:
+  - `<element className="...">` で HEAD と dev が同 class 文字列の**異なるトークン**を追加・置換しているだけのコンフリクトは、両トークンを 1 行に併記。
+  - 同じトークンを異なる値に変更している場合（例: `grid-cols-[240px_1fr]` ↔ `grid-cols-[272px_1fr]`）は、SSOT spec（`docs/00-getting-started-manual/specs/09h-shell-and-fixtures.md` 等）が後追いで更新された側を採用。本ケースでは dev 側が SSOT 更新済みのため dev 採用。
+
+### Phase 11 evidence inventory 結合の追加注意
+
+- HEAD と dev が **column 構造**を変更している場合（`| Path | Status |` 3 列 ↔ `| Classification | Path | Status | Note |` 4 列）、4 列側を採用し、3 列側の row を 4 列に整形して merge する。`Classification` 列が空欄になる場合は `visual` / `log` / `evidence` 等の adminer convention を補完する。
+
+詳細: `.claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-dev-sync-merge-conflict-resolution-2026-05.md` L-DEVSYNC-032。
+
+## 13. spec docs (`docs/00-getting-started-manual/specs/*.md`) の独立節追加に対する手動 union 解消（L-DEVSYNC-033）
+
+`pnpm sync:resolve` の resolver は spec docs を union 対象に含めていない（`.gitattributes` の `merge=union` 対象は LOGS / SKILL-changelog / lessons-learned 等のみ）。`docs/00-getting-started-manual/specs/01-api-schema.md` / `11-admin-management.md` 等で、HEAD 側が issue A の独立節を追加し dev 側が issue B の独立節を追加するケースは構造的に conflict marker を残す。
+
+### 自律解消ルール（B-12）
+
+- **B-12「spec docs 独立節追加の手動 union」**: HEAD section と dev section が**意味的に独立な節**（別 H3 / 別 paragraph）の追加だった場合、conflict marker (`<<<<<<<` / `|||||||` / `=======` / `>>>>>>>`) のみ除去して **HEAD section + dev section** の順で残す手動 union を採用する。base section (`||||||| <sha>`) は通常空（両側追加のため）なので削除のみで足りる。
+- 同一節内の同一行 / 同一 sentence への両側変更は独立節追加ではない。最新 SSOT（後追い変更があった側、通常 dev）を採用するか、両方の意図を保持する書き換えを行う。
+
+### 推奨処方（Edit ツール bytes mismatch 回避）
+
+JP 全角括弧（`（` `）`）等を含む長文 conflict block は Edit ツールで bytes-level mismatch が頻発する。`python3 + re` でブロック単位置換する以下のワンライナーが確実:
+
+```python
+import re
+pattern = re.compile(r'<<<<<<< HEAD\n(.*?)(?:\|\|\|\|\|\|\| [^\n]*\n(.*?))?=======\n(.*?)>>>>>>> dev\n', re.DOTALL)
+new = pattern.sub(lambda m: m.group(1) + m.group(3), text)
+```
+
+詳細: `.claude/skills/aiworkflow-requirements/changelog/20260522-dev-sync-issue777-spec-docs-union-manual-resolve.md`。
+
+## 14. dev sync 直後の `verify-indexes-up-to-date` drift 先回り（標準フロー）
+
+`pnpm sync:resolve` で `.claude/skills/aiworkflow-requirements/SKILL.md` / `indexes/topic-map.md` を union 解消した直後は、`pnpm indexes:rebuild` を実行すると `topic-map.md` に正規化差分（行順 / 重複除去）が出ることがある。push してから CI で `verify-indexes-up-to-date` gate に落ちる事故を防ぐため、以下を**マージコミット作成後・push 前**に必ず実行する:
+
+```bash
+pnpm sync:resolve              # conflict 解消
+git commit --no-edit           # マージコミット
+pnpm indexes:rebuild           # ← drift があれば差分が出る
+git diff --quiet || git commit -am "chore: rebuild aiworkflow indexes after dev sync merge"
+git push
+```
+
+詳細: `.claude/skills/aiworkflow-requirements/changelog/20260522-dev-sync-skill-md-topic-map-content-conflict-resolved.md`。
+
+## 15. dev sync `static-manifest.json` unhandled は `pnpm regenerate:static-manifest` で吸収（SP-DEVSYNC-027 / L-DEVSYNC-034・035）
+
+`pnpm sync:resolve` 完走後 `apps/api/src/repository/_shared/generated/static-manifest.json` が `[WARN] unhandled conflict` で残る case。手動 union は JSON 構造を破壊するため禁止。正本 spec から deterministic 再生成して `git add` するだけで吸収できる。さらに `pnpm sync:resolve` 完走後でも `^UU` が残る（resolve は成功したが `git add` がスキップされた）case があるため、明示 `git add` を必ず併用する。
+
+### 自律手順
+
+```bash
+# 1) sync:resolve 完走
+mise exec -- pnpm sync:resolve  # exit 0/1 を問わない（後段の ^UU 件数を真実とする）
+
+# 2) UU 残対象を明示 git add（union resolve は本体に副作用済み）
+git status --porcelain | awk '/^UU /{print $2}' | xargs -r git add
+
+# 3) static-manifest.json が UU だった場合のみ再生成
+if git status --porcelain | grep -q 'apps/api/src/repository/_shared/generated/static-manifest.json'; then
+  mise exec -- pnpm regenerate:static-manifest
+  git add apps/api/src/repository/_shared/generated/static-manifest.json
+fi
+
+# 4) 残コンフリクト 0 を確認してから commit
+test -z "$(git status --porcelain | grep '^UU')" && git commit --no-edit
+```
+
+### Why
+
+- `static-manifest.json` は `apps/api/src/repository/_shared/source-spec/*` から hash 化生成される deterministic artifact。両側の conflict 内容に意味はなく、正本 spec が同一なら再生成で必ず一意になる
+- `pnpm sync:resolve` の exit code は `git add` 副作用（gitignore 競合等）に影響され信頼できない。`^UU` 件数を単一の真実とする
+- `regenerate:static-manifest` / `indexes:rebuild` はいずれも冪等な deterministic 再生成で副作用ゼロ。conflict 残存時の常用処方として安全
+
+詳細: `.claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-dev-sync-merge-conflict-resolution-2026-05.md` §L-DEVSYNC-034 / §L-DEVSYNC-035。事例: 2026-05-21 `feat/issue-276-mobile-filterbar-tag-picker` ← dev sync-merge。

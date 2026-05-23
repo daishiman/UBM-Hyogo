@@ -85,6 +85,7 @@ const state = {
   pendingRequests: {},
   attendance: new Set(), // `${sessionId}:${memberId}`
   adminDashboardUnresolvedSchema: 0,
+  adminDashboardByStatus: undefined,
   meetingsSeed: defaultMeetingsSeed(),
 };
 
@@ -92,6 +93,7 @@ const resetState = () => {
   state.pendingRequests = {};
   state.attendance = new Set();
   state.adminDashboardUnresolvedSchema = 0;
+  state.adminDashboardByStatus = undefined;
   state.meetingsSeed = defaultMeetingsSeed();
 };
 
@@ -163,6 +165,14 @@ const publicList = (url) => {
       sort: url.searchParams.get("sort") === "name" ? "name" : "recent",
       density,
     },
+    topTags: [
+      { code: "ai", label: "AI", count: 12 },
+      { code: "design", label: "Design", count: 9 },
+      { code: "startup", label: "Startup", count: 8 },
+      { code: "kobe", label: "Kobe", count: 7 },
+      { code: "dx", label: "DX", count: 6 },
+      { code: "community", label: "Community", count: 5 },
+    ],
     generatedAt: NOW,
   };
 };
@@ -384,6 +394,18 @@ const server = createServer(async (req, res) => {
       adminDashboardUnresolvedSchema: state.adminDashboardUnresolvedSchema,
     });
   }
+  if (req.method === "POST" && pathname === "/__test__/admin-dashboard-by-status") {
+    const body = await readBody(req);
+    if (body && Array.isArray(body.slices)) {
+      state.adminDashboardByStatus = body.slices;
+    } else {
+      state.adminDashboardByStatus = undefined;
+    }
+    return writeJson(res, 200, {
+      ok: true,
+      adminDashboardByStatus: state.adminDashboardByStatus ?? null,
+    });
+  }
 
   // /health: status field を含む（contract test の string match 対象）
   if (req.method === "GET" && pathname === "/health") {
@@ -477,6 +499,7 @@ const server = createServer(async (req, res) => {
         },
         recentActions: [],
         generatedAt: NOW,
+        ...(state.adminDashboardByStatus ? { byStatus: state.adminDashboardByStatus } : {}),
       },
       schemas.AdminDashboardZ,
     );

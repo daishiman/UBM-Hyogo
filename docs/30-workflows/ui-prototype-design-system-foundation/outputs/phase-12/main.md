@@ -9,7 +9,8 @@ UI prototype design system foundation の Phase 12 集約サマリー。
 - `/login` / `/profile` / `/privacy` / `/terms` は root 配下の既存 app router path を編集対象とする、と明記した。
 - `serial-00-design/` は Phase 1-3 の非実行 preface、実装サブワークフローは Phase 1-13 と定義した。
 - `parallel-04-shared-page-chrome` の root fallback 4 ファイルを同一サイクルで実装し、`layout.tsx` の `tokens.css` import / `viewport` export、`error.tsx` / `not-found.tsx` / `loading.tsx` の Card / EmptyState 派生を反映した。
+- `serial-05-page-routes-blueprint-binding` の 19 route marker / `data-route` / `data-section-rhythm` binding を同一サイクルで実コードへ反映し、Phase 11 の static logs / route inventory を物理生成した。
 
 ## Boundary
 
-本サイクルは仕様書の準拠改善に加えて、CONST_004 に基づく最小 `apps/web/app/**` 実装差分を含む。parallel-04 の root fallback screenshots は同一サイクルで取得済み。さらに parallel-02 wave で `apps/web` の最小 implementation hook を補正し、typecheck / lint / build / grep evidence と local screenshot 9 件を取得した。対象 workflow は `implemented_local_evidence_captured / implementation / VISUAL_RUNTIME_PENDING` とし、full 19-route visual regression / production-equivalent runtime screenshot / commit / push / PR は `serial-07-regression-evidence/` の user-gated 実行に残す。
+本サイクルは仕様書の準拠改善に加えて、CONST_004 に基づく最小 `apps/web/app/**` 実装差分（parallel-02 prototype CSS rules port、parallel-03 AppShell layout data hooks と layout specs、parallel-04 root fallback、serial-05 route blueprint marker / rhythm binding を含む）を同一 wave で補正し、typecheck / lint / build / adapter unit / verify-design-tokens / grep evidence と parallel-02 local screenshot 9 件、parallel-04 root fallback screenshots を取得した。対象 workflow は `implemented_local_evidence_captured / implementation / VISUAL_RUNTIME_PENDING` とし、production-equivalent runtime screenshot / serial-07 visual regression evidence / commit / push / PR は user-gated として `PROTOTYPE-COVERAGE.md` および `serial-07-regression-evidence/` に従って継続する。

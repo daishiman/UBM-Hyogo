@@ -36,10 +36,13 @@ type PendingRequests = {
   }
 }
 
+type StatusSliceSeed = { status: 'public' | 'member_only' | 'hidden'; count: number }
+
 type MockApiState = {
   pendingRequests: PendingRequests
   visibilityPost?: { status: number; body: unknown }
   adminDashboardUnresolvedSchema?: number
+  adminDashboardByStatus?: ReadonlyArray<StatusSliceSeed>
   meetingsSeed: MockMeetingsSeed
 }
 
@@ -49,6 +52,7 @@ type MockApi = {
   setDeletePending: (createdAt?: string) => Promise<void>
   setVisibilityError: (status: number, body: unknown) => void
   setAdminDashboardUnresolvedSchema: (count: number) => Promise<void>
+  setAdminDashboardByStatus: (slices: ReadonlyArray<StatusSliceSeed> | undefined) => Promise<void>
   seedMeetings: (seed?: MockMeetingsSeed) => Promise<void>
   seedUnregisteredMeeting: () => Promise<void>
 }
@@ -136,6 +140,7 @@ function adminDashboardBody() {
       },
     ],
     generatedAt: '2026-05-10T01:05:00.000Z',
+    ...(state.adminDashboardByStatus ? { byStatus: state.adminDashboardByStatus } : {}),
   }
 }
 
@@ -144,6 +149,14 @@ function publicMembersBody() {
     items: [buildMember({ memberId: 'sample-001', fullName: '佐藤 サンプル' })],
     pagination: { total: 1, page: 1, limit: 50, totalPages: 1, hasNext: false, hasPrev: false },
     appliedQuery: { q: '', zone: 'all', status: 'public', tags: [], sort: 'recent', density: 'comfy' },
+    topTags: [
+      { code: 'ai', label: 'AI', count: 3 },
+      { code: 'design', label: 'デザイン', count: 1 },
+      { code: 'startup', label: 'スタートアップ', count: 5 },
+      { code: 'kobe', label: '神戸', count: 4 },
+      { code: 'dx', label: 'DX', count: 2 },
+      { code: 'community', label: 'コミュニティ', count: 1 },
+    ],
     generatedAt: '2026-05-12T00:00:00.000Z',
   }
 }
@@ -547,8 +560,23 @@ async function ensureMockApi(): Promise<void> {
         state.pendingRequests = {}
         delete state.visibilityPost
         delete state.adminDashboardUnresolvedSchema
+        delete state.adminDashboardByStatus
         state.meetingsSeed = defaultAttendanceSeed()
         response(res, 200, { ok: true })
+        return
+      }
+      if (req.method === 'POST' && url.pathname === '/__test__/admin-dashboard-by-status') {
+        readJson(req)
+          .then((body) => {
+            const parsed = body as { slices?: ReadonlyArray<StatusSliceSeed> }
+            if (parsed.slices === undefined) {
+              delete state.adminDashboardByStatus
+            } else {
+              state.adminDashboardByStatus = parsed.slices
+            }
+            response(res, 200, { ok: true })
+          })
+          .catch(() => response(res, 400, { error: 'invalid_json' }))
         return
       }
       const memberDetailMatch = url.pathname.match(/^\/admin\/members\/([^/]+)$/)
@@ -637,6 +665,7 @@ const mockApi: MockApi = {
     state.pendingRequests = {}
     delete state.visibilityPost
     delete state.adminDashboardUnresolvedSchema
+    delete state.adminDashboardByStatus
     state.meetingsSeed = defaultAttendanceSeed()
     await postControl('/__test__/reset')
   },
@@ -665,6 +694,14 @@ const mockApi: MockApi = {
   setAdminDashboardUnresolvedSchema: async (count) => {
     state.adminDashboardUnresolvedSchema = count
     await postControl('/__test__/admin-dashboard', { unresolvedSchema: count })
+  },
+  setAdminDashboardByStatus: async (slices) => {
+    if (slices === undefined) {
+      delete state.adminDashboardByStatus
+    } else {
+      state.adminDashboardByStatus = slices
+    }
+    await postControl('/__test__/admin-dashboard-by-status', { slices })
   },
   seedMeetings: async (seed = defaultAttendanceSeed()) => {
     state.meetingsSeed = seed

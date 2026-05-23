@@ -1,3 +1,4 @@
+// serial-05: /(admin)/admin — blueprint 09g:4-161
 // task-15: /admin ダッシュボード
 // AC: GET /admin/dashboard 1 fetch 集約 (KPI 4 + recentActions)
 // `byZone` / `byStatus` は API 未提供、web local mapper で optional placeholder

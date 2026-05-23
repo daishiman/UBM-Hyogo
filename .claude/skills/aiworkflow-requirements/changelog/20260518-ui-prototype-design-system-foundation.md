@@ -26,10 +26,19 @@ selector implementation and admin shell width alignment.
 - Synced parallel-01 Phase 11 artifacts to all required evidence files and marked serial-07 screenshots as delegated pending rather than completed.
 - Synced quick-reference, resource-map, task-workflow-active, artifact inventory, SKILL.md, SKILL-changelog, and LOGS.
 
+## Changes (2026-05-22, serial-05 page routes blueprint binding close-out)
+
+- Implementation: `apps/web/app/**` 19 routes 全 `page.tsx` + 3 layout (`(public)/(member)/(admin)`) に `// serial-05: <route> — blueprint 09X:LLL-MMM` marker と `<main data-route>` `data-section-rhythm` 属性を差分最小追加。新 primitive / API endpoint / D1 schema 変更なし (NFR-3/4 維持)。
+- Evidence: Phase 11 sub `outputs/phase-11/` に 8 件 present (`typecheck.log`, `lint.log`, `build.log`, `adapter-unit.log`, `verify-design-tokens.log`, `grep-gates.log`, `grep-gate-results.md`, `routes-inventory.md`); grep gate G-1..G-8 全 PASS。Phase 12 strict 7 は parent root `outputs/phase-12/` に集約 (L-PARA04-003 / L-S05-001 parity); sub の `outputs/phase-12/` と空 `outputs/phase-1..10/` 削除済。
+- Lessons learned: 新規 `lessons-learned-serial-05-page-routes-blueprint-binding-2026-05.md` (L-S05-001..004: sub strict 7 複製禁止 / 空 phase dir 起票禁止 / 差分最小 + data-* 契約 / build env schema 依存 local command 明記)。
+- Compliance frontmatter: sub `phase-12-compliance-check.md` `status: draft → spec_created`。
+- Indexes / docs: resource-map / artifact-inventory § Sub-workflow: serial-05 / SKILL.md top entry / SKILL-changelog / LOGS / 本 dated changelog を同 wave 同期。`task-specification-creator/references/phase12-strict-7-workflow-root-parity-gate.md` および `patterns-parallel-sub-workflow.md` も SSOT 整合済。
+- Boundary: commit / push / PR / serial-07 19 routes 全体 visual regression は user-gated。
+
 ## Changes (2026-05-19, parallel-02 close-out)
 
 - Implementation: `apps/web/src/styles/globals.css` G3-1 / G3-2 / G3-3 start/end marker blocks, `apps/web/src/components/public/MemberFilters.client.tsx` (`data-component="tag-pill"` + `aria-selected`), `apps/web/app/visual-harness/[name]/{page.tsx,VisualScenarios.client.tsx}`, `apps/web/playwright/tests/visual/parallel-02-css-rules.spec.ts`.
-- Evidence: Phase 11 9 screenshots + 5 logs (Status=present), canonical 9 headings PASS, strict 7 outputs (root + sub) all present.
+- Evidence: Phase 11 9 screenshots + 5 logs (Status=present), canonical 9 headings PASS, strict 7 outputs are aggregated at the parent root.
 - Follow-up unassigned: 7 proto-specs added under `docs/30-workflows/unassigned-task/UT-DSF-01..07-*.md` (parallel-01 globals-css rhythm / parallel-03 AppShell / parallel-04 page chrome / serial-05 route blueprint binding / serial-06 form response binding / serial-07 regression evidence / runtime production-equivalent screenshots).
 - Lessons learned: new `.claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-parallel-02-prototype-css-rules-port-2026-05.md` (L-P02-001..007 + OP-P02-1..7).
 - Indexes: quick-reference adds `VISUAL_RUNTIME_PENDING` status-vocabulary table and shared `globals.css` parallel-edit marker convention; resource-map refreshes the entry to 2026-05-19 with lessons-learned + changelog cross-links; topic-map adds the new lessons-learned section index and an explicit topic "parallel CSS rules port / shared globals.css 並列編集規約".
