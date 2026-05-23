@@ -2855,6 +2855,16 @@ node scripts/list-specs.js --topics
 | Evidence | L46 |
 | User-gated boundary | L55 |
 
+### references/workflow-parallel-i02b-admin-mutation-error-finalize-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Summary | L3 |
+| Canonical Workflow | L7 |
+| Implementation Targets | L16 |
+| Evidence | L25 |
+| User Gate | L35 |
+
 ### references/workflow-parallel-i03-dialog-refresh-order-artifact-inventory.md
 
 | セクション | 行 |
@@ -7175,14 +7185,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L1860 |
-| フェーズ構造（概要） | L1869 |
-| 品質ゲート（概要） | L1900 |
-| 出力テンプレート | L1911 |
-| 実行時のコマンド・エージェント・スキル | L1934 |
-| 昇格パターン集 | L1958 |
-| Current Active / Spec Created Tasks | L1960 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L2115 |
+| ドキュメント構成 | L1875 |
+| フェーズ構造（概要） | L1884 |
+| 品質ゲート（概要） | L1915 |
+| 出力テンプレート | L1926 |
+| 実行時のコマンド・エージェント・スキル | L1949 |
+| 昇格パターン集 | L1973 |
+| Current Active / Spec Created Tasks | L1975 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L2130 |
 
 ### references/task-workflow-backlog-part2.md
 

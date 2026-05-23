@@ -23,7 +23,7 @@ import {
 import { FormField } from "../ui/FormField";
 import { Input } from "../ui/Input";
 import { EmptyState } from "../ui/EmptyState";
-import { AdminMutationError, useAdminMutation } from "../../features/admin/hooks/useAdminMutation";
+import { FetchAuthedError, useAdminMutation } from "../../features/admin/hooks/useAdminMutation";
 
 const BULK_LIMIT = 50;
 
@@ -106,6 +106,12 @@ function buildSchemaAliasErrorMessage(
   return fallback;
 }
 
+const getSchemaAliasErrorMessage = (error: unknown): string => {
+  if (error instanceof FetchAuthedError) return error.bodyText;
+  if (error instanceof Error) return error.message;
+  return "unknown error";
+};
+
 export function SchemaDiffPanel({ initial }: { readonly initial: SchemaDiffListView }) {
   const router = useRouter();
   const schemaAliasMutation = useAdminMutation<SchemaAliasApplyBody>("/api/admin/schema/aliases", "POST", {
@@ -119,7 +125,7 @@ export function SchemaDiffPanel({ initial }: { readonly initial: SchemaDiffListV
       if (!r.ok) {
         const errPayload = (r.data ?? null) as SchemaAliasApplyBody | null;
         const message = buildSchemaAliasErrorMessage(r.status, r.error, errPayload);
-        throw new AdminMutationError(r.status, message);
+        throw new FetchAuthedError(r.status, message);
       }
       if (isSchemaAliasRetryableContinuation(r)) return r.data as SchemaAliasApplyBody;
       return r.data as SchemaAliasApplyBody;
@@ -200,23 +206,23 @@ export function SchemaDiffPanel({ initial }: { readonly initial: SchemaDiffListV
       });
     } catch (e) {
       setBusy(false);
-      if (e instanceof AdminMutationError && e.status === 422) {
+      if (e instanceof FetchAuthedError && e.status === 422) {
         setFeedback({
           kind: "validation_error",
-          label: `入力内容に誤りがあります: ${e.message}`,
+          label: `入力内容に誤りがあります: ${e.bodyText}`,
         });
         return;
       }
-      if (e instanceof AdminMutationError && e.status === 409) {
+      if (e instanceof FetchAuthedError && e.status === 409) {
         setFeedback({
           kind: "conflict_error",
-          label: `他の操作と競合しました: ${e.message}`,
+          label: `他の操作と競合しました: ${e.bodyText}`,
         });
         return;
       }
       setFeedback({
         kind: "error",
-        label: `失敗: ${e instanceof Error ? e.message : "unknown error"}`,
+        label: `失敗: ${getSchemaAliasErrorMessage(e)}`,
       });
       return;
     }

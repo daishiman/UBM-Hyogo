@@ -314,6 +314,21 @@
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-i02-admin-error-type-unify-artifact-inventory.md` |
 | user gate | commit / push / PR |
 
+### parallel-i02b-admin-mutation-error-finalize（2026-05-23）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / NON_VISUAL / implementation_complete_pending_pr` |
+| 成果物 | `docs/30-workflows/completed-tasks/parallel-i02b-admin-mutation-error-finalize/` |
+| source | `docs/30-workflows/ui-prototype-alignment-mvp-recovery/improvements/integration-fixes/parallel-i02b-admin-mutation-error-finalize/spec.md` completed |
+| parent | `parallel-i02-admin-error-type-unify` DoD 143 closeout |
+| 目的 | residual `AdminMutationError` class and panel dependencies を削除し、admin mutation HTTP error を `FetchAuthedError` に統一する |
+| implementation targets | `apps/web/src/features/admin/hooks/useAdminMutation.ts`, `apps/web/src/components/admin/MeetingPanel.tsx`, `apps/web/src/components/admin/SchemaDiffPanel.tsx`, `apps/web/src/components/admin/RequestQueuePanel.tsx` |
+| evidence | typecheck PASS, lint PASS, focused Vitest 53 PASS, panel integration Vitest 41 PASS, app grep 0 |
+| invariant | `FetchAuthedError.message` は固定文言のまま維持。panel fallback は `bodyText` を読む |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-parallel-i02b-admin-mutation-error-finalize-artifact-inventory.md` |
+| user gate | commit / push / PR |
+
 ### UT-07A-FU-01 memberTags.assignTagsToMember cleanup（2026-05-15）
 
 | 項目 | 値 |

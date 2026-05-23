@@ -1,0 +1,61 @@
+{
+  "schemaVersion": 1,
+  "taskId": "parallel-i02b-admin-mutation-error-finalize",
+  "title": "AdminMutationError class removal and panel FetchAuthedError unification",
+  "metadata": {
+    "taskType": "implementation",
+    "visualEvidence": "NON_VISUAL",
+    "workflow_state": "implemented_local_evidence_captured",
+    "implementation_status": "implementation_complete_pending_pr",
+    "sourceSpec": "docs/30-workflows/ui-prototype-alignment-mvp-recovery/improvements/integration-fixes/parallel-i02b-admin-mutation-error-finalize/spec.md",
+    "canonicalRoot": "docs/30-workflows/parallel-i02b-admin-mutation-error-finalize",
+    "parentWorkflow": "docs/30-workflows/ui-prototype-alignment-mvp-recovery/improvements/integration-fixes/parallel-i02-admin-error-type-unify/spec.md",
+    "prBaseBranch": "dev",
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-05-23T07:00:00+09:00",
+        "evidence_path": "docs/30-workflows/parallel-i02b-admin-mutation-error-finalize/outputs/phase-11/evidence/ac-verification.log",
+        "approver": "daishiman",
+        "notes": "AC-1..AC-8 local evidence captured"
+      },
+      {
+        "gate_id": "Gate-D",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/parallel-i02b-admin-mutation-error-finalize/outputs/phase-13/pr-summary.md",
+        "approver": "daishiman",
+        "notes": "commit / push / PR are user-gated"
+      }
+    ]
+  },
+  "phases": [
+    { "phase": 1, "name": "分析・スコープ確定", "status": "completed", "outputs": ["phase-1.md"] },
+    { "phase": 2, "name": "設計", "status": "completed", "outputs": ["phase-2.md"] },
+    { "phase": 3, "name": "システム仕様整合", "status": "completed", "outputs": ["phase-3.md"] },
+    { "phase": 4, "name": "実装", "status": "completed", "outputs": ["phase-4.md"] },
+    { "phase": 5, "name": "単体テスト", "status": "completed", "outputs": ["phase-5.md", "outputs/phase-11/evidence/test-focused.log"] },
+    { "phase": 6, "name": "静的検証", "status": "completed", "outputs": ["phase-6.md", "outputs/phase-11/evidence/typecheck.log", "outputs/phase-11/evidence/lint.log", "outputs/phase-11/evidence/grep-gate.log"] },
+    { "phase": 7, "name": "統合テスト", "status": "completed", "outputs": ["phase-7.md", "outputs/phase-11/evidence/test-integration.log"] },
+    { "phase": 8, "name": "受入検証", "status": "completed", "outputs": ["phase-8.md", "outputs/phase-11/evidence/ac-verification.log"] },
+    { "phase": 9, "name": "パフォーマンス", "status": "completed", "outputs": ["phase-9.md"] },
+    { "phase": 10, "name": "ガバナンス", "status": "completed", "outputs": ["phase-10.md"] },
+    { "phase": 11, "name": "NON_VISUAL evidence", "status": "completed", "outputs": ["phase-11.md", "outputs/phase-11/main.md", "outputs/phase-11/manual-smoke-log.md", "outputs/phase-11/link-checklist.md"] },
+    { "phase": 12, "name": "正本同期", "status": "completed", "outputs": ["phase-12.md", "outputs/phase-12/main.md", "outputs/phase-12/implementation-guide.md", "outputs/phase-12/system-spec-update-summary.md", "outputs/phase-12/documentation-changelog.md", "outputs/phase-12/unassigned-task-detection.md", "outputs/phase-12/skill-feedback-report.md", "outputs/phase-12/phase12-task-spec-compliance-check.md"] },
+    { "phase": 13, "name": "承認ゲート", "status": "pending", "outputs": ["phase-13.md"] }
+  ],
+  "externalOpsPending": ["commit", "push", "pr"],
+  "implementedFiles": [
+    "apps/web/src/features/admin/hooks/useAdminMutation.ts",
+    "apps/web/src/components/admin/MeetingPanel.tsx",
+    "apps/web/src/components/admin/SchemaDiffPanel.tsx",
+    "apps/web/src/components/admin/RequestQueuePanel.tsx"
+  ],
+  "targetFiles": [
+    "apps/web/src/features/admin/hooks/useAdminMutation.ts",
+    "apps/web/src/components/admin/MeetingPanel.tsx",
+    "apps/web/src/components/admin/SchemaDiffPanel.tsx",
+    "apps/web/src/components/admin/RequestQueuePanel.tsx"
+  ]
+}
