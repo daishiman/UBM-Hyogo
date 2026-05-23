@@ -54,6 +54,19 @@
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-806-dynamic-member-og-image-artifact-inventory.md` |
 | evidence boundary | Phase 12 strict 7 present; focused unit/Playwright and Phase 11 screenshot evidence captured; commit / push / PR / deploy verification user-gated |
 
+## fix-verify-design-tokens-og-route-exclude（2026-05-23）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/fix-verify-design-tokens-og-route-exclude/` |
+| 状態 | `implemented-local / implementation / NON_VISUAL / local-evidence-captured` |
+| upstream | Issue #806 dynamic member OG image; task-18 `verify-design-tokens` gate |
+| scope | `scripts/verify-design-tokens.ts` route handler convention exclude for `opengraph-image/route.tsx`, `twitter-image/route.tsx`, `icon/route.tsx`, `apple-icon/route.tsx` |
+| tests | `scripts/verify-design-tokens.spec.ts` C-EX-1..6 plus existing C1..7 |
+| evidence | `outputs/phase-11/verify-tokens-local.txt`, `vitest-verify-design-tokens.txt`, `drift-canary-fail.txt`, `canary-non-og-route.txt` |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-fix-verify-design-tokens-og-route-exclude-artifact-inventory.md` |
+| user gate | commit, push, PR, GitHub Actions PR checks |
+
 ## Issue #799 useAutoFocusOnMount hook（2026-05-19）
 ## step-06 meetings attendance implementation（2026-05-20）
 ## Issue #778 Schema Alias Rollback / Undo（2026-05-19）
