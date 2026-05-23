@@ -1,0 +1,12 @@
+{
+  "workflow_id": "issue-276-mobile-filterbar-tag-picker",
+  "captured_at": "2026-05-20",
+  "source": "focused-playwright",
+  "command": "pnpm --filter @ubm-hyogo/web exec playwright test members-filter-mobile --project=desktop-chromium --reporter=line",
+  "screenshots": [
+    "outputs/phase-11/evidence/mobile-initial.png",
+    "outputs/phase-11/evidence/mobile-expanded.png",
+    "outputs/phase-11/evidence/mobile-limit-reached.png",
+    "outputs/phase-11/evidence/desktop-picker-and-selected.png"
+  ]
+}

@@ -1,3 +1,4 @@
+// serial-05: /(public)/members — blueprint 09e:208-338
 // task-11: `/members` 公開メンバー一覧 (Server Component)
 // AC-2 / AC-3 / AC-5 / AC-6 — searchParams を zod parse → listMembers 経由で取得
 // 不変条件 #5: public API 経由のみ
@@ -47,9 +48,9 @@ export default async function MembersPage({ searchParams }: MembersPageProps) {
   });
 
   return (
-    <main data-page="members" data-density={search.density}>
+    <main data-page="members" data-density={search.density} data-route="public" data-section-rhythm="comfortable">
       <h1>メンバー一覧</h1>
-      <MemberFilters initial={search} />
+      <MemberFilters initial={search} topTags={list.topTags} />
       {list.items.length === 0 ? (
         <EmptyState
           title="該当するメンバーがいません"
