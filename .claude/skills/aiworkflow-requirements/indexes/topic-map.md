@@ -2118,6 +2118,12 @@ node scripts/list-specs.js --topics
 |------------|----|
 | Boundary | L16 |
 
+### references/workflow-admin-ui-prototype-alignment-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Contract | L16 |
+
 ### references/workflow-ai-chat-llm-integration-fix-artifact-inventory.md
 
 | セクション | 行 |
@@ -5072,6 +5078,20 @@ node scripts/list-specs.js --topics
 | L-ATQRD-006: completed-tasks/ relocation requires path drift sweep | L23 |
 | L-ATQRD-007: Phase 12 strict-7 verdict labels must use workflow_state vocabulary | L27 |
 
+### references/lessons-learned-admin-ui-prototype-alignment-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| L-AUIP-001: Error boundary 戦略の per-section 分散化 | L12 |
+| L-AUIP-002: 共通 component の Props contract は仕様書 Phase 2 で確定する | L22 |
+| L-AUIP-003: barrel import 強制を CI gate に | L32 |
+| L-AUIP-004: design token 移行は phase 分離で deadlock 回避 | L42 |
+| L-AUIP-005: server/client boundary を architecture diagram で明示 | L52 |
+| L-AUIP-006: scope cutoff は Phase 4 test contract で lock | L62 |
+| 再利用可能パターン | L72 |
+| 関連未タスク / 後続 wave 連携 | L108 |
+| 参照 | L114 |
+
 ### references/lessons-learned-ci-pipeline-recovery-2026-05.md
 
 | セクション | 行 |
@@ -7376,14 +7396,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L2072 |
-| フェーズ構造（概要） | L2081 |
-| 品質ゲート（概要） | L2112 |
-| 出力テンプレート | L2123 |
-| 実行時のコマンド・エージェント・スキル | L2146 |
-| 昇格パターン集 | L2170 |
-| Current Active / Spec Created Tasks | L2172 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L2332 |
+| ドキュメント構成 | L2087 |
+| フェーズ構造（概要） | L2096 |
+| 品質ゲート（概要） | L2127 |
+| 出力テンプレート | L2138 |
+| 実行時のコマンド・エージェント・スキル | L2161 |
+| 昇格パターン集 | L2185 |
+| Current Active / Spec Created Tasks | L2187 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L2347 |
 
 ### references/task-workflow-backlog-part2.md
 
