@@ -5704,6 +5704,7 @@
       "workflow-admin-ui-prototype-alignment-artifact-inventory.md",
       "workflow-ai-chat-llm-integration-fix-artifact-inventory.md",
       "workflow-aiworkflow-requirements-line-budget-reform-artifact-inventory.md",
+      "workflow-ci-green-recovery-smoke-coverage-shard-artifact-inventory.md",
       "workflow-fix-verify-design-tokens-og-route-exclude-artifact-inventory.md",
       "workflow-issue-274-public-pages-ogp-sitemap-robots-artifact-inventory.md",
       "workflow-issue-290-workflow-lint-gate-artifact-inventory.md",
@@ -7078,6 +7079,7 @@
       "workflow-06b-b-profile-self-service-request-ui-artifact-inventory.md",
       "workflow-06b-c-profile-logged-in-visual-evidence-artifact-inventory.md",
       "workflow-admin-ui-prototype-alignment-artifact-inventory.md",
+      "workflow-ci-green-recovery-smoke-coverage-shard-artifact-inventory.md",
       "workflow-e2e-quality-uplift-stage-0-3-artifact-inventory.md",
       "workflow-i02-admin-error-type-unify-artifact-inventory.md",
       "workflow-issue-352-postmortem-template-automation-artifact-inventory.md",
@@ -7876,6 +7878,7 @@
       "lessons-learned-ci-pipeline-recovery-2026-05.md",
       "lessons-learned-ci-test-recovery-coverage-80-2026-05-04.md",
       "observability-monitoring.md",
+      "workflow-ci-green-recovery-smoke-coverage-shard-artifact-inventory.md",
       "workflow-issue-655-d7-recovery-2nd-cycle-artifact-inventory.md",
       "workflow-task-runtime-smoke-admin-members-500-recovery-001-artifact-inventory.md",
       "workflow-task-staging-auth-secret-binding-recovery-001-artifact-inventory.md"
@@ -12027,6 +12030,7 @@
       "skill-ledger-gitignore-policy.md",
       "skill-ledger-overview.md",
       "testing-playwright-e2e.md",
+      "workflow-ci-green-recovery-smoke-coverage-shard-artifact-inventory.md",
       "workflow-issue-495-09b-A-sentry-slack-runtime-smoke-prod-extension-artifact-inventory.md",
       "workflow-issue-531-runtime-smoke-attendance-provider-artifact-inventory.md",
       "workflow-issue-572-attendance-provider-production-runtime-smoke-artifact-inventory.md",
@@ -12651,6 +12655,7 @@
       "workflow-ai-chat-llm-integration-fix.md",
       "workflow-ai-runtime-authmode-unification.md",
       "workflow-aiworkflow-requirements-line-budget-reform-artifact-inventory.md",
+      "workflow-ci-green-recovery-smoke-coverage-shard-artifact-inventory.md",
       "workflow-fix-verify-design-tokens-og-route-exclude-artifact-inventory.md",
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
       "workflow-issue-274-public-pages-ogp-sitemap-robots-artifact-inventory.md",
@@ -14230,6 +14235,7 @@
     ],
     "ci": [
       "lessons-learned-ci-test-recovery-coverage-80-2026-05-04.md",
+      "workflow-ci-green-recovery-smoke-coverage-shard-artifact-inventory.md",
       "workflow-ci-staging-deploy-failure-fix-artifact-inventory.md",
       "workflow-task-verify-indexes-up-to-date-ci-artifact-inventory.md"
     ],
@@ -14240,6 +14246,7 @@
       "lessons-learned-ut-coverage-2026-05-wave.md",
       "logs-archive-2026-03-notification-history-sigterm-guard.md",
       "logs-archive-2026-03-workflow02-screenshot-guard.md",
+      "workflow-ci-green-recovery-smoke-coverage-shard-artifact-inventory.md",
       "workflow-task-25-ui-mvp-w8-par-routes-smoke-coverage-artifact-inventory.md"
     ],
     "hard": [
@@ -14661,6 +14668,7 @@
       "workflow-ai-chat-llm-integration-fix.md",
       "workflow-ai-runtime-authmode-unification.md",
       "workflow-aiworkflow-requirements-line-budget-reform-artifact-inventory.md",
+      "workflow-ci-green-recovery-smoke-coverage-shard-artifact-inventory.md",
       "workflow-fix-verify-design-tokens-og-route-exclude-artifact-inventory.md",
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
       "workflow-issue-274-public-pages-ogp-sitemap-robots-artifact-inventory.md",
@@ -22834,7 +22842,8 @@
       "task-workflow-completed-recent-2026-04d.md"
     ],
     "shard": [
-      "task-workflow-completed-recent-2026-05.md"
+      "task-workflow-completed-recent-2026-05.md",
+      "workflow-ci-green-recovery-smoke-coverage-shard-artifact-inventory.md"
     ],
     "Page": [
       "task-workflow-completed-recent-2026-05.md",
@@ -24544,6 +24553,9 @@
       "workflow-apikey-chat-tool-integration-alignment.md",
       "workflow-light-theme-global-remediation.md",
       "workflow-onboarding-wizard-alignment.md"
+    ],
+    "green": [
+      "workflow-ci-green-recovery-smoke-coverage-shard-artifact-inventory.md"
     ],
     "operations": [
       "workflow-ci-staging-deploy-failure-fix-artifact-inventory.md",
