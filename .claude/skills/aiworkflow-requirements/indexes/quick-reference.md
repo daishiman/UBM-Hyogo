@@ -1,5 +1,20 @@
 # クイックリファレンス
 
+## step-07 requests approve/reject implementation（2026-05-23）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/step-07-requests-approve-reject/` |
+| status | `implemented_local_evidence_captured / implementation / NON_VISUAL / Phase 12 strict 7 present` |
+| parent spec | `docs/30-workflows/ui-prototype-alignment-mvp-recovery/improvements/serial-05-admin-mutation-ui/step-07-requests-approve-reject/spec.md` |
+| purpose | `/admin/requests` の `visibility_request` / `delete_request` approve/reject を二段階確認 UI と 409 conflict refresh で実装するための Phase 1-13 仕様 |
+| local implementation | `apps/web/src/components/admin/RequestQueuePanel.tsx`, `RequestQueueDetail.tsx`, `RequestConfirmDialog.tsx`, focused `*.spec.tsx` |
+| API boundary | existing `POST /admin/requests/:noteId/resolve`; no D1 schema or endpoint change |
+| Phase 12 | `outputs/phase-12/phase12-task-spec-compliance-check.md` + strict 7 files present |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-step-07-requests-approve-reject-artifact-inventory.md` |
+| lessons | `.claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-step-07-requests-approve-reject-2026-05.md` |
+| user gate | authenticated runtime/staging evidence, commit, push, PR |
+
 ## ut-cicd-composite-setup-rollout（2026-05-22）
 
 | 項目 | 値 |
