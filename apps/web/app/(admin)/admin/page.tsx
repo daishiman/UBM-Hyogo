@@ -1,9 +1,9 @@
 // serial-05: /(admin)/admin — blueprint 09g:4-161
-// task-15: /admin ダッシュボード
+// task-15 + admin-ui-prototype-alignment: /admin ダッシュボード
 // AC: GET /admin/dashboard 1 fetch 集約 (KPI 4 + recentActions)
-// `byZone` / `byStatus` は API 未提供、web local mapper で optional placeholder
+// 失敗時は per-section AdminSectionError に degrade (page 全体 throw を廃止)
 import type { AdminDashboardView } from "@ubm-hyogo/shared";
-import { fetchAdmin } from "../../../src/lib/admin/server-fetch";
+import { safeServerFetch } from "../../../src/lib/admin/safe-server-fetch";
 import { toAdminDashboardUi } from "../../../src/lib/admin/admin-dashboard-ui";
 import {
   AdminPageHeader,
@@ -13,12 +13,12 @@ import {
   RecentActionsTable,
   SchemaAlertCard,
 } from "../../../src/features/admin/components";
+import { AdminSectionError } from "../../../src/features/admin/components/_shared";
 
 export const dynamic = "force-dynamic";
 
 export default async function AdminDashboardPage() {
-  const view = await fetchAdmin<AdminDashboardView>("/admin/dashboard");
-  const ui = toAdminDashboardUi(view);
+  const result = await safeServerFetch<AdminDashboardView>("/admin/dashboard");
 
   return (
     <section aria-labelledby="admin-dashboard-h" className="flex flex-col gap-4">
@@ -30,6 +30,23 @@ export default async function AdminDashboardPage() {
       <h1 id="admin-dashboard-h" className="sr-only">
         ダッシュボード
       </h1>
+      {result.ok ? (
+        <DashboardSections view={result.data} />
+      ) : (
+        <AdminSectionError
+          sectionLabel="ダッシュボード"
+          code={result.error.code}
+          message={result.error.message}
+        />
+      )}
+    </section>
+  );
+}
+
+function DashboardSections({ view }: { view: AdminDashboardView }) {
+  const ui = toAdminDashboardUi(view);
+  return (
+    <>
       {ui.totals.unresolvedSchema > 0 ? <SchemaAlertCard count={ui.totals.unresolvedSchema} /> : null}
       <KpiGrid totals={ui.totals} />
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
@@ -38,6 +55,6 @@ export default async function AdminDashboardPage() {
       </div>
       <StatusDistribution slices={ui.byStatus} />
       <p className="text-xs text-[var(--ubm-color-text-muted)]">生成日時: {ui.generatedAt}</p>
-    </section>
+    </>
   );
 }
