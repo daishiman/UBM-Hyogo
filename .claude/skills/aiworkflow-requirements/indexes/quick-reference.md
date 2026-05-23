@@ -1,5 +1,17 @@
 # クイックリファレンス
 
+## ut-cicd-composite-setup-rollout（2026-05-22）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow | `docs/30-workflows/ut-cicd-composite-setup-rollout/` |
+| status | `implemented_local_evidence_captured / implementation / NON_VISUAL / implementation_complete_pending_pr` |
+| purpose | Issue #284 の raw `actions/setup-node@v4` + `pnpm/action-setup@v4` workflow steps を existing `.github/actions/setup-project` composite action へ rollout |
+| implementation | `.github/workflows/*.yml` 13 files; direct setup action grep after = 0 |
+| exceptions | `web-cd.yml` uses `setup-strategy: mise`; `post-release-dashboard.yml` uses `install: 'false'` + `cache: ''` |
+| Phase 12 | strict 7 files present under `outputs/phase-12/` |
+| boundary | commit, push, PR, remote GitHub Actions green evidence, Issue #284 mutation are user-gated |
+
 ## step-06 meetings attendance implementation（2026-05-20）
 ## Issue #778 Schema Alias Rollback / Undo（2026-05-19）
 

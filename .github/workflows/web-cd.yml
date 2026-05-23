@@ -21,19 +21,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - uses: jdx/mise-action@v2
-
-      - uses: pnpm/action-setup@v4
+      - uses: ./.github/actions/setup-project
         with:
-          version: 10.33.2
-
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '24'
-          cache: pnpm
-
-      - name: Install dependencies
-        run: mise exec -- pnpm install --frozen-lockfile
+          setup-strategy: mise
 
       # NOTE: build-time placeholder env. Runtime values are bound from apps/web/wrangler.toml [env.staging.vars] at Workers execution.
       - name: Build web app (OpenNext Workers bundle)
@@ -80,19 +70,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - uses: jdx/mise-action@v2
-
-      - uses: pnpm/action-setup@v4
+      - uses: ./.github/actions/setup-project
         with:
-          version: 10.33.2
-
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '24'
-          cache: pnpm
-
-      - name: Install dependencies
-        run: mise exec -- pnpm install --frozen-lockfile
+          setup-strategy: mise
 
       # NOTE: build-time placeholder env. Runtime values are bound from apps/web/wrangler.toml [env.production.vars] at Workers execution.
       - name: Build web app (OpenNext Workers bundle)
