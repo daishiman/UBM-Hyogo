@@ -8,6 +8,7 @@ import { ctx } from "../../repository/_shared/db";
 import { adminEmail, asAdminId } from "../../repository/_shared/brand";
 import type { AdminEmail, AdminId } from "../../repository/_shared/brand";
 import { list as listDiffs, findById as findDiffById } from "../../repository/schemaDiffQueue";
+import { listRecentResolvedAliases } from "../../repository/schemaAliases";
 import {
   recommendAliases,
   type RecommendExistingInput,
@@ -23,7 +24,26 @@ import type {
 } from "../../workflows/schemaAliasAssign";
 import { resolveBackfillCursorModeWithLog } from "../../workflows/schemaAliasBackfillBatch";
 import { enqueueBackfill } from "../../workflows/schemaAliasEnqueue";
+import {
+  schemaAliasRollback,
+  SchemaAliasRollbackFailure,
+} from "../../workflows/schemaAliasRollback";
 import type { AdminRouteEnv } from "./_shared";
+
+const RollbackBodyZ = z.object({
+  reason: z.string().max(500).optional(),
+});
+
+const IF_MATCH_PATTERN = /version=(\d+)/;
+
+const parseIfMatch = (header: string | undefined): number | null => {
+  if (!header) return null;
+  const m = IF_MATCH_PATTERN.exec(header);
+  if (!m) return null;
+  const n = Number(m[1]);
+  if (!Number.isFinite(n) || n < 0) return null;
+  return n;
+};
 
 const AliasBodyZ = z.object({
   diffId: z.string().min(1).optional(),
@@ -164,7 +184,10 @@ export const createAdminSchemaRoute = () => {
 
   app.get("/schema/diff", async (c) => {
     const db = ctx({ DB: c.env.DB });
-    const items = await listDiffs(db);
+    const [items, resolvedAliases] = await Promise.all([
+      listDiffs(db),
+      listRecentResolvedAliases(db, 10),
+    ]);
     const recommendations = await buildRecommendations(c.env.DB, items);
     const enriched = items.map((it) => ({
       ...it,
@@ -172,7 +195,24 @@ export const createAdminSchemaRoute = () => {
         ? (recommendations.get(it.questionId) ?? [])
         : [],
     }));
-    return c.json({ total: enriched.length, items: enriched }, 200);
+    return c.json({
+      total: enriched.length,
+      items: enriched,
+      resolvedAliases: resolvedAliases.map((alias) => ({
+        id: alias.id,
+        revisionId: alias.revisionId,
+        stableKey: alias.stableKey,
+        aliasQuestionId: alias.aliasQuestionId,
+        aliasLabel: alias.aliasLabel,
+        resolvedAt: alias.resolvedAt,
+        resolvedBy: alias.resolvedBy,
+        version: alias.version,
+        impact: {
+          affectedResponseCount: alias.affectedResponseCount,
+          recomputeRequired: alias.affectedResponseCount > 0,
+        },
+      })),
+    }, 200);
   });
 
   app.post("/schema/aliases", async (c) => {
@@ -331,6 +371,66 @@ export const createAdminSchemaRoute = () => {
       },
       202,
     );
+  });
+
+  // Issue #778: POST /admin/schema/aliases/:aliasId/rollback
+  // - If-Match: version=<N> 必須（楽観ロック）
+  // - body: { reason?: string (<=500) }
+  // - 成功: 200 { aliasId, rolledBackAt, relatedAuditId, newVersion, impact }
+  // - 失敗: 400 / 404 / 409 / 500
+  app.post("/schema/aliases/:aliasId/rollback", async (c) => {
+    const aliasId = c.req.param("aliasId");
+    if (!aliasId) {
+      return c.json({ error: "bad_request", message: "aliasId required" }, 400);
+    }
+    const expectedVersion = parseIfMatch(c.req.header("If-Match"));
+    if (expectedVersion === null) {
+      return c.json(
+        {
+          error: "bad_request",
+          message: "If-Match header required, format: version=<N>",
+        },
+        400,
+      );
+    }
+    let raw: unknown = {};
+    try {
+      raw = await c.req.json();
+    } catch {
+      raw = {};
+    }
+    const parsed = RollbackBodyZ.safeParse(raw);
+    if (!parsed.success) {
+      return c.json(
+        { error: "bad_request", message: parsed.error.message },
+        400,
+      );
+    }
+
+    const authUser = c.get("authUser");
+    const actor: string = authUser?.email ?? "unknown";
+    const db = ctx({ DB: c.env.DB });
+
+    try {
+      const result = await schemaAliasRollback(db, {
+        aliasId,
+        expectedVersion,
+        actor,
+        reason: parsed.data.reason ?? null,
+      });
+      return c.json(result, 200);
+    } catch (err) {
+      if (err instanceof SchemaAliasRollbackFailure) {
+        const status =
+          err.kind === "version_mismatch"
+            ? 409
+            : err.kind === "not_found" || err.kind === "already_deleted"
+              ? 404
+              : 500;
+        return c.json({ error: err.kind, message: err.message }, status);
+      }
+      throw err;
+    }
   });
 
   // UT-07B-FU-01: GET /admin/schema/aliases/:diffId/backfill

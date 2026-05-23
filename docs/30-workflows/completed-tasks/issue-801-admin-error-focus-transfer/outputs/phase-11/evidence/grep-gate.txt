@@ -1,0 +1,5 @@
+Command:
+rg -n 'text-\[var\(|bg-\[var\(|border-\[var\(|ubm-color-' 'apps/web/app/(admin)/admin/error.tsx' 'apps/web/app/(admin)/admin/__tests__/error.component.spec.tsx'
+
+Result:
+PASS for implementation. No stale arbitrary token classes are present in `error.tsx`. The test file contains negative assertions for these strings by design.

@@ -16,6 +16,7 @@ export * from "./Banner";
 export * from "./Search";
 export * from "./Drawer";
 export * from "./Modal";
+export * from "./ConfirmDialog";
 export * from "./Toast";
 export * from "./KVList";
 export * from "./LinkPills";

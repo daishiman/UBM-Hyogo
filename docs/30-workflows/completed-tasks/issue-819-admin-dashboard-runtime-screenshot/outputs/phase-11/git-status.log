@@ -1,0 +1,30 @@
+On branch feat/step-05-followup-001-runtime-screenshot
+Your branch is behind 'origin/dev' by 1 commit, and can be fast-forwarded.
+  (use "git pull" to update your local branch)
+
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+	modified:   .claude/skills/aiworkflow-requirements/LOGS/_legacy.md
+	modified:   .claude/skills/aiworkflow-requirements/SKILL-changelog.md
+	modified:   .claude/skills/aiworkflow-requirements/SKILL.md
+	modified:   .claude/skills/aiworkflow-requirements/indexes/quick-reference.md
+	modified:   .claude/skills/aiworkflow-requirements/indexes/resource-map.md
+	modified:   .claude/skills/aiworkflow-requirements/references/task-workflow-active.md
+	modified:   .claude/skills/aiworkflow-requirements/references/workflow-step-05-dashboard-chart-implementation-artifact-inventory.md
+	modified:   apps/web/playwright/fixtures/auth.ts
+	modified:   docs/30-workflows/completed-tasks/08b-A-playwright-e2e-full-execution/outputs/phase-11/evidence/monocart/index.html
+	modified:   docs/30-workflows/completed-tasks/08b-A-playwright-e2e-full-execution/outputs/phase-11/evidence/monocart/index.json
+	modified:   docs/30-workflows/completed-tasks/08b-A-playwright-e2e-full-execution/outputs/phase-11/evidence/playwright-report/html/index.html
+	modified:   docs/30-workflows/completed-tasks/08b-A-playwright-e2e-full-execution/outputs/phase-11/evidence/playwright-report/results.json
+	modified:   docs/30-workflows/completed-tasks/step-05-dashboard-chart-implementation/outputs/phase-11/screenshots/admin-dashboard-chart.png
+	modified:   docs/30-workflows/completed-tasks/step-05-dashboard-chart-implementation/outputs/phase-11/screenshots/admin-dashboard-placeholder.png
+	modified:   scripts/e2e-mock-api.mjs
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+	.claude/skills/aiworkflow-requirements/changelog/20260520-issue-819-admin-dashboard-runtime-screenshot.md
+	apps/web/playwright/tests/issue-819-status-distribution.spec.ts
+	docs/30-workflows/issue-819-admin-dashboard-runtime-screenshot/
+
+no changes added to commit (use "git add" and/or "git commit -a")

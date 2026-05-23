@@ -21,7 +21,7 @@ feat(issue-769): root error.tsx h1 auto-focus for screen reader
 - Issue: #769
 - 親 workflow: `docs/30-workflows/ui-prototype-alignment-mvp-recovery/improvements/integration-fixes/`
 - 親 spec: `docs/30-workflows/ui-prototype-alignment-mvp-recovery/improvements/integration-fixes/parallel-i06-root-error-focus/spec.md`
-- 本タスク workflow: `docs/30-workflows/issue-769-root-error-focus/`
+- 本タスク workflow: `docs/30-workflows/completed-tasks/issue-769-root-error-focus/`
 - 消費される未タスク: `docs/30-workflows/unassigned-task/integration-fixes-i06-root-error-focus.md`（status: consumed_by_issue_769_local_implementation）
 
 ## Summary
@@ -59,9 +59,9 @@ feat(issue-769): root error.tsx h1 auto-focus for screen reader
 
 ## Documentation Changes
 
-- `docs/30-workflows/issue-769-root-error-focus/` — Phase 1-13 仕様一式
-- `docs/30-workflows/issue-769-root-error-focus/outputs/phase-11/manual-smoke-log.md` — manual a11y observation
-- `docs/30-workflows/issue-769-root-error-focus/outputs/phase-12/{implementation-guide,system-spec-update-summary,documentation-changelog,skill-feedback-report,unassigned-task-detection,phase12-task-spec-compliance-check,main}.md`
+- `docs/30-workflows/completed-tasks/issue-769-root-error-focus/` — Phase 1-13 仕様一式
+- `docs/30-workflows/completed-tasks/issue-769-root-error-focus/outputs/phase-11/manual-smoke-log.md` — manual a11y observation
+- `docs/30-workflows/completed-tasks/issue-769-root-error-focus/outputs/phase-12/{implementation-guide,system-spec-update-summary,documentation-changelog,skill-feedback-report,unassigned-task-detection,phase12-task-spec-compliance-check,main}.md`
 - `docs/30-workflows/unassigned-task/integration-fixes-i06-root-error-focus.md` → status `consumed_by_issue_769_local_implementation`
 - `docs/30-workflows/ui-prototype-alignment-mvp-recovery/improvements/integration-fixes/index.md` — i06 行を `implemented_local_evidence_captured` に更新
 

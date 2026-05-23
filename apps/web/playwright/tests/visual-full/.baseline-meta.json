@@ -1,7 +1,7 @@
 {
   "$schema": "../../../../docs/30-workflows/task-709-visual-baseline-runtime-capture/schemas/baseline-meta.schema.json",
-  "captured_at_commit_sha": "153dafbd237da4668b07fd720564ebd3768c8f1b",
-  "captured_at": "2026-05-22T09:54:34Z",
+  "captured_at_commit_sha": "3070653c396a818e7119b2dda61ca7825d242af5",
+  "captured_at": "2026-05-22T22:10:01Z",
   "captured_via": "playwright-visual-baseline-update.yml#workflow_dispatch",
   "captured_run_ids": [
     "25961476237",
@@ -11,7 +11,8 @@
     "26101682046",
     "26128917753",
     "26170273931",
-    "26280741223"
+    "26280741223",
+    "26314107860"
   ],
   "viewport_dimensions": {
     "desktop": {
@@ -39,5 +40,5 @@
   "refresh_workflow": ".github/workflows/playwright-visual-baseline-update.yml",
   "refresh_command_hint": "gh workflow run playwright-visual-baseline-update.yml -f reason=\"<why>\" -r <feature-branch>",
   "notes": "captured_at_commit_sha からの rendering_relevant_paths diff が空でない場合、baseline は stale。scripts/visual-baseline-status.sh で診断可能。",
-  "last_refresh_reason": "sync after dev merge (153dafbd2) - admin AppShell layouts +43px height drift"
+  "last_refresh_reason": "dev sync 取り込みで apps/web/src/components/admin/SchemaDiff* が更新され admin-schema visual baseline drift (23270 px). issue #776 bulk resolve modal 等の真変更による正当な更新"
 }

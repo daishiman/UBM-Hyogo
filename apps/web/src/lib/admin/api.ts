@@ -7,6 +7,7 @@ import type {
   AdminRequestResolveBody,
   TagQueueResolveBody,
 } from "@ubm-hyogo/shared";
+import { z } from "zod";
 
 export interface AdminMutationOk<T = unknown> {
   ok: true;
@@ -86,6 +87,15 @@ export interface SchemaAliasApplySuccessBody {
   ok: true;
   mode: "apply";
   confirmed: true;
+  alias?: {
+    id: string;
+    revisionId: string;
+    aliasQuestionId: string;
+    aliasLabel: string | null;
+    resolvedAt: string | null;
+    resolvedBy: string | null;
+    version: number;
+  };
   backfill: {
     status: SchemaAliasBackfillStatus;
     remaining?: number;
@@ -113,6 +123,76 @@ export const postSchemaAlias = (body: {
   diffId?: string;
 }): Promise<AdminMutationResult<SchemaAliasApplyBody>> =>
   call<SchemaAliasApplyBody>(`/schema/aliases`, "POST", body);
+
+export interface RollbackSchemaAliasInput {
+  aliasId: string;
+  version: number;
+  reason?: string;
+}
+
+export interface RollbackSchemaAliasResult {
+  aliasId: string;
+  rolledBackAt: string;
+  relatedAuditId: string | null;
+  newVersion: number;
+  impact: {
+    affectedResponseCount: number;
+    recomputeRequired: boolean;
+  };
+}
+
+export class RollbackApiError extends Error {
+  readonly status: number;
+  readonly code: string;
+  constructor(status: number, code: string, message?: string) {
+    super(message ?? `${code} (status ${status})`);
+    this.status = status;
+    this.code = code;
+    this.name = "RollbackApiError";
+  }
+}
+
+export async function rollbackSchemaAlias(
+  input: RollbackSchemaAliasInput,
+): Promise<RollbackSchemaAliasResult> {
+  let res: Response;
+  try {
+    res = await fetch(
+      `/api/admin/schema/aliases/${encodeURIComponent(input.aliasId)}/rollback`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "If-Match": `version=${input.version}`,
+        },
+        body: JSON.stringify({ reason: input.reason }),
+      },
+    );
+  } catch (e) {
+    throw new RollbackApiError(0, "network_error", e instanceof Error ? e.message : "network error");
+  }
+  let body: unknown = null;
+  const ct = res.headers.get("content-type") ?? "";
+  if (ct.includes("application/json")) {
+    try {
+      body = await res.json();
+    } catch {
+      // ignore
+    }
+  }
+  if (!res.ok) {
+    const code =
+      typeof body === "object" && body !== null && "error" in body
+        ? String((body as { error: unknown }).error)
+        : "unknown";
+    const message =
+      typeof body === "object" && body !== null && "message" in body
+        ? String((body as { message: unknown }).message)
+        : undefined;
+    throw new RollbackApiError(res.status, code, message);
+  }
+  return body as RollbackSchemaAliasResult;
+}
 
 // Issue #776: schema alias bulk resolve — client-side bounded fan-out helper.
 // 不変条件: 既存 endpoint surface (POST /admin/schema/aliases) のみを使用する。
@@ -267,3 +347,142 @@ export const removeAttendance = (sessionId: string, memberId: string) =>
     memberId,
     attended: false,
   });
+
+// ---- issue-777: schema alias resolve 履歴 (案 A: /admin/audit?action=schema_diff.alias_assigned) ----
+
+export const SchemaAliasHistoryItemZ = z
+  .object({
+    auditId: z.string().min(1),
+    actorEmail: z.string().nullable(),
+    createdAt: z.string().min(1),
+    beforeStableKey: z.string().nullable(),
+    afterStableKey: z.string().nullable(),
+    questionText: z.string().nullable(),
+  })
+  .strict();
+export type SchemaAliasHistoryItem = z.infer<typeof SchemaAliasHistoryItemZ>;
+
+const AppliedFiltersZ = z
+  .object({
+    action: z.string().nullable(),
+    actorEmail: z.string().nullable(),
+    targetType: z.string().nullable(),
+    targetId: z.string().nullable(),
+    from: z.string().nullable(),
+    to: z.string().nullable(),
+    limit: z.number(),
+  })
+  .strict();
+
+export const SchemaAliasHistoryResponseZ = z
+  .object({
+    ok: z.literal(true),
+    items: z.array(SchemaAliasHistoryItemZ),
+    nextCursor: z.string().nullable(),
+    appliedFilters: AppliedFiltersZ,
+  })
+  .strict();
+export type SchemaAliasHistoryResponse = z.infer<typeof SchemaAliasHistoryResponseZ>;
+
+export interface FetchSchemaAliasHistoryParams {
+  actorEmail?: string;
+  from?: string;
+  to?: string;
+  questionTextLike?: string;
+  cursor?: string;
+}
+
+const SCHEMA_ALIAS_RESOLVE_ACTION = "schema_diff.alias_assigned";
+const SCHEMA_ALIAS_HISTORY_LIMIT = 50;
+
+function readStringField(value: unknown, key: string): string | null {
+  if (value && typeof value === "object" && !Array.isArray(value)) {
+    const v = (value as Record<string, unknown>)[key];
+    return typeof v === "string" ? v : null;
+  }
+  return null;
+}
+
+function defaultAppliedFilters(): SchemaAliasHistoryResponse["appliedFilters"] {
+  return {
+    action: SCHEMA_ALIAS_RESOLVE_ACTION,
+    actorEmail: null,
+    targetType: null,
+    targetId: null,
+    from: null,
+    to: null,
+    limit: SCHEMA_ALIAS_HISTORY_LIMIT,
+  };
+}
+
+function normalizeAppliedFilters(value: unknown): SchemaAliasHistoryResponse["appliedFilters"] {
+  if (!value || typeof value !== "object" || Array.isArray(value)) {
+    return defaultAppliedFilters();
+  }
+  return {
+    ...defaultAppliedFilters(),
+    ...(value as Partial<SchemaAliasHistoryResponse["appliedFilters"]>),
+  };
+}
+
+interface AuditRowLike {
+  auditId: string;
+  actorEmail: string | null;
+  createdAt: string;
+  maskedBefore: unknown;
+  maskedAfter: unknown;
+}
+
+function projectAuditRowsToHistory(raw: unknown): SchemaAliasHistoryResponse {
+  if (!raw || typeof raw !== "object") {
+    return { ok: true, items: [], nextCursor: null, appliedFilters: defaultAppliedFilters() };
+  }
+  const obj = raw as { items?: unknown; nextCursor?: unknown; appliedFilters?: unknown };
+  const items = Array.isArray(obj.items) ? obj.items : [];
+  const nextCursor =
+    typeof obj.nextCursor === "string" || obj.nextCursor === null
+      ? (obj.nextCursor as string | null)
+      : null;
+  return {
+    ok: true,
+    items: items
+      .filter(
+        (row): row is AuditRowLike =>
+          Boolean(row) &&
+          typeof row === "object" &&
+          typeof (row as { auditId?: unknown }).auditId === "string",
+      )
+      .map((row) => ({
+        auditId: row.auditId,
+        actorEmail: row.actorEmail,
+        createdAt: row.createdAt,
+        beforeStableKey: readStringField(row.maskedBefore, "stableKey"),
+        afterStableKey: readStringField(row.maskedAfter, "stableKey"),
+        questionText:
+          readStringField(row.maskedAfter, "questionText") ??
+          readStringField(row.maskedBefore, "questionText"),
+      })),
+    nextCursor,
+    appliedFilters: normalizeAppliedFilters(obj.appliedFilters),
+  };
+}
+
+export async function fetchSchemaAliasHistory(
+  params: FetchSchemaAliasHistoryParams = {},
+): Promise<SchemaAliasHistoryResponse> {
+  const q = new URLSearchParams();
+  q.set("action", SCHEMA_ALIAS_RESOLVE_ACTION);
+  q.set("limit", String(SCHEMA_ALIAS_HISTORY_LIMIT));
+  if (params.actorEmail) q.set("actorEmail", params.actorEmail.toLowerCase());
+  if (params.from) q.set("from", params.from);
+  if (params.to) q.set("to", params.to);
+  if (params.cursor) q.set("cursor", params.cursor);
+
+  const res = await fetch(`/api/admin/audit?${q.toString()}`, { method: "GET" });
+  if (!res.ok) {
+    throw new Error(`fetchSchemaAliasHistory failed: HTTP ${res.status}`);
+  }
+  const raw = (await res.json()) as unknown;
+  const projected = projectAuditRowsToHistory(raw);
+  return SchemaAliasHistoryResponseZ.parse(projected);
+}

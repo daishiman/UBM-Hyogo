@@ -191,6 +191,15 @@
 - 事例（2026-05-20 再現・parallel-03 wave 2 度目 dev 取り込み）: `feat/ui-prototype-design-system-foundation-parallel-03-appshell-layouts` で `phase-12/main.md` の `## Boundary` と `phase12-task-spec-compliance-check.md` の `## 7. Runtime or user-gated boundary` の 2 ファイルが narrative 3-way conflict。HEAD（parallel-03 AppShell + parallel-02 CSS port）と dev（parallel-04 root fallback）の異なる sub-workflow 群を独立追記しただけで意味的競合は無く、結合 1 段落で解消。task spec を書く際: ui-prototype-design-system-foundation 配下の sub-workflow ブランチでは Phase 12 narrative セクション（`main.md` `## Boundary` / `phase12-task-spec-compliance-check.md` `## 7. Runtime or user-gated boundary`）が再現的に narrative conflict 化することを Phase 5 手順に明記し、両 wave のキー語彙（`parallel-02 CSS rules port` / `parallel-03 AppShell layout` / `parallel-04 root fallback` / `serial-07 visual regression` 等）を保持した結合段落を作る方針を採る。
 - 詳細は aiworkflow-requirements 配下の L-DEVSYNC-025 を参照。
 
+### SP-DEVSYNC-026: integration-fixes/index.md の i06/i07 status 行 3-way conflict（2026-05-21 追加）
+- 症状: `docs/30-workflows/ui-prototype-alignment-mvp-recovery/improvements/integration-fixes/index.md` の `## 7. 残タスク追跡` 表で HEAD 側と dev 側が **異なる i** 行（HEAD: i06 を `completed-tasks/issue-769-root-error-focus/` に格上げ / dev: i07 を `completed-tasks/profile-loading-skeleton-oklch/` に格上げ）を独立に更新したため、`pnpm sync:resolve` が unhandled として残す。
+- 解消: 両側の昇格状態を保持する。i06 行は HEAD 側採用、i07 行は dev 側採用で 1 行ずつ採択する union（重複行除去）を手動適用。`||||||| <base>` の base 行は破棄。
+- 自動化可否: 表中の行単位での「片側採用」は resolver スクリプト対象外（行レベル意味判断が必要）。手動解消ルールとして `lessons-learned-dev-sync-merge-conflict-resolution-2026-05.md` に追記する。
+- 適用判断: `integration-fixes/index.md` / 類似の status 追跡表（i01..i07 / parallel-NN status / serial-NN status）。
+- task spec を書く際: status 追跡表を更新する場合は **更新対象の i 番号を 1 行に限定し PR を分離**することで再発を抑制。やむを得ず複数 i を 1 PR で更新する場合は、各行をコメントで `<!-- updated-by: branch-name -->` マーキングして merge 時の片側採用判断を機械化可能にする方針を Phase 5 ガイドラインに追加する。
+- 事例: 2026-05-21 `feat/issue-800-profile-error-focus-transfer` ← dev sync で i06=HEAD / i07=dev の両側採用 union で解消、`<<<<<<< / ||||||| / =======` の 3 ブロックから 2 行を抽出して 1 ブロックに統合。
+- 詳細は aiworkflow-requirements 配下の L-DEVSYNC-033 を参照。
+
 ### SP-DEVSYNC-020: 共通の正本リンク
 - 詳細は [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] （aiworkflow-requirements 配下、L-DEVSYNC-001..025）を参照。
 - 詳細は [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] （aiworkflow-requirements 配下、L-DEVSYNC-001..032）を参照。
@@ -199,3 +208,15 @@
 - `docs/30-workflows/completed-tasks/**/outputs/phase-1[12]/*.md` で発生する 3-way conflict は、HEAD 側が `pending`/`runtime_pending`/`placeholder`、dev 側が `present`/`captured`/`PASS` を含む場合は **dev 側採用**（recovery 完了後の正本を尊重）。両側 union は evidence existence validator の二重カウントを誘発するため禁止。
 - 事例: 2026-05-20 `feat/issue-776-schema-alias-bulk-resolve` ← dev sync で `serial-05-step-03-schema-diff-resolve/outputs/phase-12/phase12-task-spec-compliance-check.md` の Phase 11 inventory 表を dev 側採用で解消。
 - 詳細は aiworkflow-requirements 配下の L-DEVSYNC-032 を参照。
+
+### SP-DEVSYNC-022: improvements/integration-fixes/index.md の HEAD/dev 別行更新衝突（2026-05-22 追加）
+- `docs/30-workflows/ui-prototype-alignment-mvp-recovery/improvements/integration-fixes/index.md` は 7 件の i01..i07 行を持つ表で、HEAD（自スコープ task）と dev（並行 wave の完了）が**別 i 行**を更新するため `pnpm sync:resolve` が `unhandled conflict` を残す。
+- 解消: L-DEVSYNC-030 の行単位両側採用を適用。HEAD が更新した行は HEAD 版、dev が更新した行は dev 版で残し、`||||||| base` セクション（旧未着手状態）は破棄する。
+- 事例: 2026-05-22 `feat/issue-801-admin-error-focus` ← dev sync で i06（HEAD: admin route segment 拡張）と i07（dev: design-token skeleton 完了 / canonical_workflow `completed-tasks/profile-loading-skeleton-oklch/`）が同じ表内で衝突。i06=HEAD 版、i07=dev 版を採用して解消。
+- 詳細は aiworkflow-requirements 配下の L-DEVSYNC-030 を参照。
+
+### SP-DEVSYNC-008: 同一 React Component への並行 feature 追加 conflict は L-DEVSYNC-033 適用
+- task 仕様書 Phase 4-5（implementation）で同一 React component に hook / state / JSX modal を追加する task が並行する場合、dev sync-merge で 3-way conflict が必発する。
+- 解消: aiworkflow-requirements `lessons-learned-dev-sync-merge-conflict-resolution-2026-05.md` の **L-DEVSYNC-033** に従い、hook 命名・JSX 子要素が disjoint であれば SP-DEVSYNC-001 と同じ regex で機械的両側採用。
+- task 仕様書側の予防策: Phase 5 step で「対象 component 内 state 追加位置」を明示し、既存 hook ブロックの末尾追記とする（先頭/中間挿入を避ける）ことで sync-merge 時の機械的解消成功率を上げる。
+- 事例: 2026-05-21 Issue #778（rollback/undo） ← dev (#776 bulk resolve) の SchemaDiffPanel.tsx / spec / api.ts / specs ×2 全 5 ファイル両側 union 解消、typecheck/lint/verify-pr-ready 全 PASS。

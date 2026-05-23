@@ -11,7 +11,7 @@ admin/meetings 画面で出席登録・削除を useAdminMutation + useConfirmDi
 
 - **変更対象**: `apps/web/app/(admin)/admin/meetings` + `apps/web/src/components/admin/MeetingPanel.tsx`
 - **新規実装**: useConfirmDialog hook (共通基盤、step-07 でも再利用)
-- **API**: `POST /api/admin/meetings/:id/attendances` (実装済), `DELETE /api/admin/meetings/:id/attendances/:memberId` (確認)
+- **API**: current UI surface は `POST /api/admin/meetings/:id/attendances` with `{ memberId, attended }`。`attended:true` で付与、`attended:false` で解除する。新規 `DELETE` endpoint は使わない
 - **UI パターン**: 出席リスト → toggle/bulk → confirm dialog → mutation → toast
 
 ## 3. 変更対象ファイル一覧
@@ -37,32 +37,32 @@ apps/web/app/(admin)/admin/meetings/
 
 ### 4.1 useConfirmDialog hook
 
-**役割**: 二段階確認 dialog 状態管理 (approve/reject + resolutionNote)
+**役割**: 二段階確認 dialog 状態管理 (approve/reject/delete/remove + optional note + context)
 
 **シグネチャ**:
 ```typescript
 interface UseConfirmDialogState {
   open: boolean;
-  kind: 'approve' | 'reject' | null;
+  kind: 'approve' | 'reject' | 'delete' | 'remove' | null;
   note: string;
 }
 
 export function useConfirmDialog(
-  onSubmit: (kind: 'approve' | 'reject', note: string) => Promise<void>,
+  onSubmit: (kind: 'approve' | 'reject' | 'delete' | 'remove', note: string, context: unknown) => Promise<void>,
   options?: {
     isDestructive?: boolean;
     requireNote?: boolean;
     maxNoteLength?: number;
   }
 ): UseConfirmDialogState & {
-  openConfirm: (kind: 'approve' | 'reject') => void;
+  openConfirm: (kind: 'approve' | 'reject' | 'delete' | 'remove', context?: unknown) => void;
   closeConfirm: () => void;
   setNote: (note: string) => void;
 };
 ```
 
 **動作フロー**:
-1. openConfirm('approve' | 'reject') → dialog 表示
+1. openConfirm(kind, context) → dialog 表示
 2. note 入力 (requireNote=true かつ kind='reject' なら必須)
 3. submit → onSubmit(kind, note)
 4. 成功 → closeConfirm()
@@ -74,15 +74,15 @@ export function useConfirmDialog(
 - useAdminMutation で attendance mutation 統一
 - useConfirmDialog で confirm state 一本化
 - attended Map は楽観 UI で更新
-- 422 (deleted member) / 409 (duplicate) は hook onError で toast
+- 404 / 409 / 422 は UI 文脈別 toast にする
 
 **API Contract**:
 ```
 POST /api/admin/meetings/:id/attendances
-{ "memberId": "m_xxx" }
+{ "memberId": "m_xxx", "attended": true }
 
 Response (200):
-{ "ok": true, "attendance": { "memberId": "m_xxx", "assignedAt": "..." } }
+{ "ok": true, "attended": true }
 
 Error (409):
 { "ok": false, "error": "DUPLICATE_ATTENDANCE" }
@@ -94,7 +94,8 @@ Error (404):
 { "ok": false, "error": "MEETING_NOT_FOUND" }
 ```
 
-DELETE `/api/admin/meetings/:id/attendances/:memberId` も同様に hook 経由で実行
+解除も同じ endpoint に `{ "memberId": "m_xxx", "attended": false }` を送る。解除時の
+`404 attendance_not_found` は他管理者が先に解除した状態として成功相当に扱う。
 
 ### 4.3 MeetingAttendancePanel.tsx
 

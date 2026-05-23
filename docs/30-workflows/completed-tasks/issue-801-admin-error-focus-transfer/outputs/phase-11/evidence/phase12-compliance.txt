@@ -1,0 +1,11 @@
+Command:
+pnpm verify:phase12-compliance --root docs/30-workflows/issue-801-admin-error-focus-transfer
+
+Result:
+PASS. Exit code 0.
+
+Observed command body:
+node --experimental-strip-types --disable-warning=MODULE_TYPELESS_PACKAGE_JSON scripts/verify-phase12-compliance.ts --root docs/30-workflows/issue-801-admin-error-focus-transfer
+
+Boundary:
+This evidence file was added during the final review cycle after Phase 12 compliance began tracking the explicit phase12-compliance evidence path.
