@@ -1,5 +1,19 @@
 # クイックリファレンス
 
+## members-page-prototype-alignment（2026-05-23）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/members-page-prototype-alignment/` |
+| 状態 | `implemented_local_evidence_captured / implementation / VISUAL` |
+| scope | 公開 `/members` と public chrome を frozen prototype `MemberListPage` / CSS に整合。既存 `GET /public/members` と URL query helper は不変 |
+| implementation targets | `PublicHeader.tsx`, `PublicFooter.tsx`, `DensityToggle.client.tsx`, `MemberFilters.client.tsx`, `MemberCard.tsx`, `MemberGrid.tsx`, `MemberTable.tsx`, `EmptyState.tsx`, `Segmented.tsx`, `legacy-public.css`, `app/(public)/members/page.tsx` |
+| Phase 12 | `outputs/phase-12/phase12-task-spec-compliance-check.md` + strict 7 present |
+| Phase 11 | `outputs/phase-11/screenshots/EV-1..6` + Playwright report present |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-members-page-prototype-alignment-artifact-inventory.md` |
+| lessons | `.claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-members-page-prototype-alignment-2026-05.md` |
+| user gate | staging deploy, production-equivalent visual evidence, commit, push, PR |
+
 ## Issue #277 Next.js proxy migration（2026-05-20）
 
 | 目的 | 参照先 |

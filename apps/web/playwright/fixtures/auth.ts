@@ -144,7 +144,17 @@ function adminDashboardBody() {
   }
 }
 
-function publicMembersBody() {
+function publicMembersBody(params = new URLSearchParams()) {
+  const q = params.get('q') ?? ''
+  if (q.startsWith('zzznotfound')) {
+    return {
+      items: [],
+      pagination: { total: 0, page: 1, limit: 50, totalPages: 0, hasNext: false, hasPrev: false },
+      appliedQuery: { q, zone: 'all', status: 'public', tags: [], sort: 'recent', density: 'comfy' },
+      generatedAt: '2026-05-12T00:00:00.000Z',
+    }
+  }
+
   return {
     items: [buildMember({ memberId: 'sample-001', fullName: '佐藤 サンプル' })],
     pagination: { total: 1, page: 1, limit: 50, totalPages: 1, hasNext: false, hasPrev: false },
@@ -466,7 +476,7 @@ async function ensureMockApi(): Promise<void> {
         return
       }
       if (req.method === 'GET' && url.pathname === '/public/members') {
-        response(res, 200, publicMembersBody())
+        response(res, 200, publicMembersBody(url.searchParams))
         return
       }
       if (req.method === 'GET' && url.pathname === '/public/members/sample-001') {

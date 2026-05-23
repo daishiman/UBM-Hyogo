@@ -7,6 +7,7 @@ const searchParams = new URLSearchParams();
 vi.mock("next/navigation", () => ({
   useRouter: () => ({ replace: replaceMock }),
   useSearchParams: () => searchParams,
+  usePathname: () => "/members",
 }));
 
 import { DensityToggle } from "../DensityToggle.client";
@@ -18,33 +19,32 @@ beforeEach(() => {
 afterEach(() => cleanup());
 
 describe("DensityToggle", () => {
-  it("3 種の radio を radiogroup として描画し value で選択状態を反映する", () => {
-    render(<DensityToggle value="comfy" />);
+  it("3 種の radio を Segmented として描画し value で aria-checked を反映する", () => {
+    const { container } = render(<DensityToggle value="comfy" />);
     expect(
       screen.getByRole("radiogroup", { name: "表示密度" }),
     ).toBeTruthy();
-    const radios = screen.getAllByRole("radio") as HTMLInputElement[];
+    expect(
+      container.querySelector('[data-component="density-toggle"]'),
+    ).toBeTruthy();
+    const radios = screen.getAllByRole("radio");
     expect(radios).toHaveLength(3);
-    expect(radios.find((r) => r.value === "comfy")?.checked).toBe(true);
-    expect(radios.find((r) => r.value === "dense")?.checked).toBe(false);
-    expect(radios.find((r) => r.value === "list")?.checked).toBe(false);
+    expect(screen.getByRole("radio", { name: "ゆったり" }).getAttribute("aria-checked")).toBe("true");
+    expect(screen.getByRole("radio", { name: "密" }).getAttribute("aria-checked")).toBe("false");
+    expect(screen.getByRole("radio", { name: "リスト" }).getAttribute("aria-checked")).toBe("false");
   });
 
   it("comfy 選択時は density param を削除して /members に replace する", () => {
     render(<DensityToggle value="dense" />);
-    const comfy = screen
-      .getAllByRole("radio")
-      .find((r) => (r as HTMLInputElement).value === "comfy") as HTMLInputElement;
-    fireEvent.click(comfy);
-    expect(replaceMock).toHaveBeenCalledWith("/members");
+    fireEvent.click(screen.getByRole("radio", { name: "ゆったり" }));
+    expect(replaceMock).toHaveBeenCalledWith("/members", { scroll: false });
   });
 
   it("dense 選択時は density=dense を URL に付与する", () => {
     render(<DensityToggle value="comfy" />);
-    const dense = screen
-      .getAllByRole("radio")
-      .find((r) => (r as HTMLInputElement).value === "dense") as HTMLInputElement;
-    fireEvent.click(dense);
-    expect(replaceMock).toHaveBeenCalledWith("/members?density=dense");
+    fireEvent.click(screen.getByRole("radio", { name: "密" }));
+    expect(replaceMock).toHaveBeenCalledWith("/members?density=dense", {
+      scroll: false,
+    });
   });
 });

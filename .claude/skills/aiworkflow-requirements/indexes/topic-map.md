@@ -2875,6 +2875,13 @@ node scripts/list-specs.js --topics
 | 関連ドキュメント | L142 |
 | 変更履歴 | L152 |
 
+### references/workflow-members-page-prototype-alignment-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| State | L25 |
+| Boundary | L31 |
+
 ### references/workflow-onboarding-wizard-alignment.md
 
 | セクション | 行 |
@@ -7259,14 +7266,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L1983 |
-| フェーズ構造（概要） | L1992 |
-| 品質ゲート（概要） | L2023 |
-| 出力テンプレート | L2034 |
-| 実行時のコマンド・エージェント・スキル | L2057 |
-| 昇格パターン集 | L2081 |
-| Current Active / Spec Created Tasks | L2083 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L2238 |
+| ドキュメント構成 | L1997 |
+| フェーズ構造（概要） | L2006 |
+| 品質ゲート（概要） | L2037 |
+| 出力テンプレート | L2048 |
+| 実行時のコマンド・エージェント・スキル | L2071 |
+| 昇格パターン集 | L2095 |
+| Current Active / Spec Created Tasks | L2097 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L2252 |
 
 ### references/task-workflow-backlog-part2.md
 

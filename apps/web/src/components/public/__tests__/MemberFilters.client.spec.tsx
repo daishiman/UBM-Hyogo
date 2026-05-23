@@ -7,6 +7,7 @@ const searchParams = new URLSearchParams();
 vi.mock("next/navigation", () => ({
   useRouter: () => ({ replace: replaceMock }),
   useSearchParams: () => searchParams,
+  usePathname: () => "/members",
 }));
 
 import { MemberFilters } from "../MemberFilters.client";
@@ -28,16 +29,27 @@ beforeEach(() => {
 afterEach(() => cleanup());
 
 describe("MemberFilters", () => {
-  it("Search / 2 つの Select / Segmented / DensityToggle をレンダーする", () => {
+  it("form[role=search] / 3 つの Select / クリアボタンをレンダーする", () => {
     const { container } = render(<MemberFilters initial={baseInitial} />);
     expect(
       container.querySelector('[data-component="member-filters"]'),
     ).toBeTruthy();
+    expect(
+      container.querySelector(
+        '[data-component="member-filters"][role="search"]',
+      ),
+    ).toBeTruthy();
     expect(screen.getByLabelText("ゾーンで絞り込み")).toBeTruthy();
     expect(screen.getByLabelText("種別で絞り込み")).toBeTruthy();
+    expect(screen.getByLabelText("並び替え")).toBeTruthy();
     expect(
-      screen.getByRole("radiogroup", { name: "表示密度" }),
+      container.querySelector('[data-role="filter-grid"]'),
     ).toBeTruthy();
+    const clearBtn = container.querySelector(
+      '[data-role="clear"]',
+    ) as HTMLButtonElement | null;
+    expect(clearBtn).toBeTruthy();
+    expect(clearBtn?.disabled).toBe(true);
   });
 
   it("ゾーンを選択すると router.replace が呼ばれる", () => {
@@ -64,5 +76,20 @@ describe("MemberFilters", () => {
     expect(fooBtn.getAttribute("aria-selected")).toBe("true");
     fireEvent.click(fooBtn);
     expect(replaceMock).toHaveBeenCalled();
+  });
+
+  it("フィルタ条件があるときクリアボタンが活性化し、押下で /members に遷移する", () => {
+    const { container } = render(
+      <MemberFilters
+        initial={{ ...baseInitial, q: "山田" }}
+      />,
+    );
+    const clearBtn = container.querySelector(
+      '[data-component="member-filters"] [data-role="clear"]',
+    ) as HTMLButtonElement;
+    expect(clearBtn).toBeTruthy();
+    expect(clearBtn.disabled).toBe(false);
+    fireEvent.click(clearBtn);
+    expect(replaceMock).toHaveBeenLastCalledWith("/members");
   });
 });

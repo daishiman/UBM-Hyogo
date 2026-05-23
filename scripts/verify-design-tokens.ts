@@ -60,9 +60,13 @@ const DEFAULTS = {
   colorLiteralRoots: ['apps/web/app', 'apps/web/src'],
   colorLiteralExcludes: [
     /\/opengraph-image\.tsx$/,
+    /\/opengraph-image\/route\.tsx$/,
     /\/twitter-image\.tsx$/,
+    /\/twitter-image\/route\.tsx$/,
     /\/icon\.tsx$/,
+    /\/icon\/route\.tsx$/,
     /\/apple-icon\.tsx$/,
+    /\/apple-icon\/route\.tsx$/,
   ] as readonly RegExp[],
 }
 

@@ -8,6 +8,20 @@
 
 本ドキュメントは、複雑なタスクを単一責務の原則に基づいて分解し、各サブタスクに最適なスラッシュコマンド・エージェント・スキルの組み合わせを選定するためのガイドラインを定義する。
 
+### members-page-prototype-alignment（2026-05-23）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / VISUAL` |
+| 成果物 | `docs/30-workflows/completed-tasks/members-page-prototype-alignment/` |
+| 目的 | 公開 `/members` と public header/footer を frozen prototype `MemberListPage` / CSS に合わせる active implementation workflow |
+| 正本 | `docs/00-getting-started-manual/claude-design-prototype/pages-public.jsx`, `docs/00-getting-started-manual/claude-design-prototype/styles.css`, `docs/00-getting-started-manual/specs/09e-screen-blueprints-public.md` |
+| implementation targets | `apps/web/src/components/public/{PublicHeader,PublicFooter,DensityToggle.client,MemberFilters.client,MemberCard,MemberGrid,MemberTable}.tsx`, `apps/web/src/components/feedback/EmptyState.tsx`, `apps/web/src/components/ui/Segmented.tsx`, `apps/web/src/styles/legacy-public.css`, `apps/web/app/(public)/members/page.tsx` |
+| boundary | Existing `GET /public/members` and `apps/web/src/lib/url/members-search.ts` remain unchanged. No API endpoint, D1 schema, Auth.js, Google Form, or Cloudflare binding change. |
+| evidence | Phase 12 strict 7 present. Phase 11 local screenshots `EV-1..6`, runtime notes, and Playwright report are physically present. |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-members-page-prototype-alignment-artifact-inventory.md` |
+| user gate | staging deploy, production-equivalent visual evidence, commit, push, PR |
+
 ### Issue #277 Next.js proxy migration（2026-05-20）
 
 | 項目 | 値 |
