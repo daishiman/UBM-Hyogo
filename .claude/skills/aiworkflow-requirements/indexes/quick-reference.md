@@ -1,5 +1,18 @@
 # クイックリファレンス
 
+## Issue #277 Next.js proxy migration（2026-05-20）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/issue-277-next-proxy-migration/` |
+| 状態 | `implemented_local / implementation / NON_VISUAL / runtime_evidence_pending` |
+| issue | #277 OPEN。PR 文脈は `Refs #277` のみ。Issue close は PR merge 後 user-gated |
+| scope | `apps/web/middleware.ts` → `apps/web/proxy.ts` rename、export `middleware` → `proxy`、admin/profile gate parity |
+| tests | `apps/web/__tests__/proxy.spec.ts` with `signSessionJwt`; AC-1〜AC-7 mandatory, no `it.todo` |
+| evidence | `outputs/phase-12/phase12-task-spec-compliance-check.md`; local implementation present, Phase 11 dev-server runtime smoke pending |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-277-next-proxy-migration-artifact-inventory.md` |
+| user gate | dev-server manual smoke, commit, push, PR, issue close |
+
 ## Issue #806 dynamic member OG image（2026-05-20）
 
 | 目的 | 参照先 |
@@ -1910,7 +1923,7 @@ Magic Link メール送信の env 名を、実装と aiworkflow 正本に合わ�
 | 実装ガイド | `docs/30-workflows/06b-parallel-member-login-and-profile-pages/outputs/phase-12/implementation-guide.md` |
 | login UI | `apps/web/app/login/` |
 | profile UI | `apps/web/app/profile/` |
-| middleware | `apps/web/middleware.ts`（`/profile/:path*` session gate） |
+| proxy | `apps/web/proxy.ts`（`/profile/:path*` session gate; Issue #277 migrated from legacy `middleware.ts`） |
 | URL helpers | `apps/web/src/lib/url/{login-query,login-redirect,login-state,safe-redirect}.ts` |
 | API clients | `apps/web/src/lib/fetch/authed.ts`, `apps/web/src/lib/auth/{magic-link-client,oauth-client}.ts` |
 | Phase 11 evidence | `docs/30-workflows/06b-parallel-member-login-and-profile-pages/outputs/phase-11/evidence/` |
