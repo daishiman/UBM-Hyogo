@@ -194,6 +194,127 @@ export async function rollbackSchemaAlias(
   return body as RollbackSchemaAliasResult;
 }
 
+// Issue #836: schema alias recompute（rollback 後の reverse-backfill）helper。
+// 不変条件 #5/#12: web → API fetch のみ。D1 直接アクセスなし。triggerKey は送らない（server 導出）。
+export interface RecomputeSchemaAliasInput {
+  aliasId: string;
+  reason?: string;
+}
+
+export interface RecomputeSchemaAliasResult {
+  jobId: string;
+  aliasId: string;
+  status: "completed" | "running";
+  affectedCount: number;
+  processedCount: number;
+  updatedCount: number;
+  deletedCollisionCount: number;
+  recomputeAuditId: string;
+  relatedRollbackAuditId: string | null;
+}
+
+export interface RecomputeStatusResult {
+  jobId: string;
+  aliasId: string;
+  status: "pending" | "running" | "completed" | "failed";
+  affectedCount: number;
+  processedCount: number;
+  updatedCount: number;
+  deletedCollisionCount: number;
+  lastError: string | null;
+  updatedAt: string;
+}
+
+export class RecomputeApiError extends Error {
+  readonly status: number;
+  readonly code: string;
+  constructor(status: number, code: string, message?: string) {
+    super(message ?? `${code} (status ${status})`);
+    this.status = status;
+    this.code = code;
+    this.name = "RecomputeApiError";
+  }
+}
+
+export async function recomputeSchemaAlias(
+  input: RecomputeSchemaAliasInput,
+): Promise<RecomputeSchemaAliasResult> {
+  let res: Response;
+  try {
+    res = await fetch(
+      `/api/admin/schema/aliases/${encodeURIComponent(input.aliasId)}/recompute`,
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ reason: input.reason }),
+      },
+    );
+  } catch (e) {
+    throw new RecomputeApiError(
+      0,
+      "network_error",
+      e instanceof Error ? e.message : "network error",
+    );
+  }
+  let body: unknown = null;
+  const ct = res.headers.get("content-type") ?? "";
+  if (ct.includes("application/json")) {
+    try {
+      body = await res.json();
+    } catch {
+      // ignore
+    }
+  }
+  if (!res.ok) {
+    const code =
+      typeof body === "object" && body !== null && "error" in body
+        ? String((body as { error: unknown }).error)
+        : "unknown";
+    const message =
+      typeof body === "object" && body !== null && "message" in body
+        ? String((body as { message: unknown }).message)
+        : undefined;
+    throw new RecomputeApiError(res.status, code, message);
+  }
+  return body as RecomputeSchemaAliasResult;
+}
+
+export async function getSchemaAliasRecomputeStatus(
+  aliasId: string,
+): Promise<RecomputeStatusResult | null> {
+  let res: Response;
+  try {
+    res = await fetch(
+      `/api/admin/schema/aliases/${encodeURIComponent(aliasId)}/recompute`,
+      { method: "GET" },
+    );
+  } catch (e) {
+    throw new RecomputeApiError(
+      0,
+      "network_error",
+      e instanceof Error ? e.message : "network error",
+    );
+  }
+  let body: unknown = null;
+  const ct = res.headers.get("content-type") ?? "";
+  if (ct.includes("application/json")) {
+    try {
+      body = await res.json();
+    } catch {
+      // ignore
+    }
+  }
+  if (!res.ok) {
+    const code =
+      typeof body === "object" && body !== null && "error" in body
+        ? String((body as { error: unknown }).error)
+        : "unknown";
+    throw new RecomputeApiError(res.status, code);
+  }
+  if (body === null) return null;
+  return body as RecomputeStatusResult;
+}
+
 // Issue #776: schema alias bulk resolve — client-side bounded fan-out helper.
 // 不変条件: 既存 endpoint surface (POST /admin/schema/aliases) のみを使用する。
 // `postSchemaAlias` / `isSchemaAliasRetryableContinuation` を変更せず薄い wrapper として共存する。

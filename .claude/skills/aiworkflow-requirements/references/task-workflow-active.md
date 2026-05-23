@@ -8,6 +8,20 @@
 
 本ドキュメントは、複雑なタスクを単一責務の原則に基づいて分解し、各サブタスクに最適なスラッシュコマンド・エージェント・スキルの組み合わせを選定するためのガイドラインを定義する。
 
+### Issue #836 schema alias recompute trigger（2026-05-23）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `spec_created / implementation / VISUAL / Phase 12 strict 7 present / runtime_pending` |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-836-schema-alias-recompute-trigger/` |
+| Issue | #836 CLOSED。PR 文脈は `Refs #836` のみ |
+| source | `docs/30-workflows/completed-tasks/serial-05-step-03-followup-005-schema-alias-recompute-trigger.md` consumed via canonical workflow |
+| parent | `docs/30-workflows/completed-tasks/issue-778-schema-alias-rollback-undo/` |
+| 目的 | rollback 済み schema alias の `response_fields.stable_key` を admin 明示操作で `__extra__:{questionId}` へ reverse-backfill し、job status + audit で追跡する |
+| contract | server-derived triggerKey、job UNIQUE、lease claim、SQL-level idempotency、`schema_alias.recompute` audit |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-836-schema-alias-recompute-trigger-artifact-inventory.md` |
+| evidence boundary | Phase 12 strict 7 present。実装、D1 migration apply、authenticated runtime visual evidence、commit、push、PR は user-gated |
+
 ### Issue #276 mobile FilterBar tag picker（2026-05-20）
 ### Issue #277 Next.js proxy migration（2026-05-20）
 
