@@ -10,7 +10,7 @@ import { resolveAdminRequest } from "../../lib/admin/api";
 import { EmptyState } from "../ui/EmptyState";
 import { Pagination } from "../ui/Pagination";
 import {
-  AdminMutationError,
+  FetchAuthedError,
   useAdminMutation,
 } from "../../features/admin/hooks/useAdminMutation";
 import { useConfirmDialog } from "../../features/admin/hooks/useConfirmDialog";
@@ -79,7 +79,7 @@ export function RequestQueuePanel({ initial, type }: Props) {
           resolutionNote?: string;
         };
         const r = await resolveAdminRequest(noteId, body);
-        if (!r.ok) throw new AdminMutationError(r.status, r.error);
+        if (!r.ok) throw new FetchAuthedError(r.status, r.error);
         return r.data;
       },
     },
@@ -98,13 +98,13 @@ export function RequestQueuePanel({ initial, type }: Props) {
         ...(note ? { resolutionNote: note } : {}),
       });
     } catch (e) {
-      if (e instanceof AdminMutationError && e.status === 409) {
+      if (e instanceof FetchAuthedError && e.status === 409) {
         setToast("他の管理者が既に処理済みです。一覧を再読込します");
         confirm.closeConfirm();
         router.refresh();
         return;
       }
-      if (e instanceof AdminMutationError && e.status === 404) {
+      if (e instanceof FetchAuthedError && e.status === 404) {
         setToast("対象が見つかりません");
         confirm.closeConfirm();
         router.refresh();

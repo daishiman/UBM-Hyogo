@@ -386,6 +386,20 @@
 | source | `docs/30-workflows/completed-tasks/integration-fixes-i02-admin-error-type-unify.md` consumed |
 | user gate | commit / push / PR |
 
+### parallel-i02b-admin-mutation-error-finalize（2026-05-23）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/parallel-i02b-admin-mutation-error-finalize/` |
+| 状態 | `implemented_local_evidence_captured / implementation / NON_VISUAL / implementation_complete_pending_pr` |
+| scope | i02 closeout: residual `AdminMutationError` class removal and panel migration to `FetchAuthedError` |
+| implementation | `apps/web/src/features/admin/hooks/useAdminMutation.ts`, `apps/web/src/components/admin/{MeetingPanel,SchemaDiffPanel,RequestQueuePanel}.tsx` |
+| tests | `MeetingPanel.component.spec.tsx`, `SchemaDiffPanel.component.spec.tsx`, `RequestQueuePanel.component.spec.tsx`, `useAdminMutation.spec.ts` |
+| invariant | `FetchAuthedError.status` is the discriminator; user-facing fallback text reads `bodyText`, not `message` |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-parallel-i02b-admin-mutation-error-finalize-artifact-inventory.md` |
+| source | `docs/30-workflows/ui-prototype-alignment-mvp-recovery/improvements/integration-fixes/parallel-i02b-admin-mutation-error-finalize/spec.md` completed |
+| user gate | commit / push / PR |
+
 ### serial-05-step-03 schema diff resolve UI（2026-05-16）
 ### Runtime Smoke Staging Secrets Restore（2026-05-16）
 
