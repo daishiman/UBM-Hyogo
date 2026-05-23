@@ -162,6 +162,17 @@ UI は `responseEmailMasked` だけを表示し、merge reason に含まれる e
 
 管理 UI は stableKey を直接固定せず、API の 409 / 422 境界を `role="alert"` で分けて表示する。409 `stable_key_collision` は `existingStableKey`、422 body validation は `existingQuestionIds` を保持して表示する。HTTP 202 `backfill_cpu_budget_exhausted` は失敗ではなく再試行可能 status として扱う。`recommendedStableKeys` の多言語 label 比較は UT-07B alias recommendation i18n で `NFKC + trim + whitespace 圧縮` として実装済みで、UI/API response shape は変えない。大規模 back-fill の retryable contract は `UT-07B-schema-alias-hardening-001` で扱う。
 
+### 履歴閲覧 UI（schema diff resolve history）
+
+- route: `/(admin)/admin/schema/history`（独立 page、案 α 採用）
+- data source: `/admin/audit?action=schema_diff.alias_assigned`（既存 audit endpoint、案 A 採用）
+- 表示項目: 操作日時 (ISO) / 操作者 email / before stableKey / after stableKey / question text
+- filter: 操作者 email / 期間 (from/to) / question text 部分一致
+- pagination: cursor base、50 件 / page、既存 audit endpoint の `encodeAuditCursor` を踏襲
+- 空状態: shared `EmptyState` primitive で「該当する履歴がありません」
+- a11y: landmark role + FormField 既定 label / aria-label、OKLch token のみ
+- 各行に `data-audit-id` 属性を保持（followup-004 rollback 起動 anchor）
+
 ### schema alias rollback / undo（Issue #778）
 
 `/admin/schema` は、誤 resolve を D1 直接修正ではなく API + audit log 経由で取り消す。SchemaDiffPanel は resolved alias の最小 HistoryPane を持ち、各行の rollback button から confirm modal を開く。confirm modal は影響応答件数、再集計要否、actor、対象 alias を表示し、再集計実行そのものは別 follow-up に分離する。

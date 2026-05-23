@@ -2339,6 +2339,14 @@ node scripts/list-specs.js --topics
 | Evidence Boundary | L24 |
 | Captured Evidence | L27 |
 
+### references/workflow-issue-277-next-proxy-migration-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Implementation Targets | L10 |
+| Evidence | L21 |
+| User Gate | L30 |
+
 ### references/workflow-issue-290-workflow-lint-gate-artifact-inventory.md
 
 | セクション | 行 |
@@ -2797,6 +2805,16 @@ node scripts/list-specs.js --topics
 | Implementation Targets | L35 |
 | Runtime Boundary | L49 |
 
+### references/workflow-issue-777-schema-diff-resolve-history-view-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Canonical Root | L3 |
+| State | L7 |
+| Workflow Artifacts | L11 |
+| Source And Parent | L39 |
+| Implementation Boundary | L46 |
+
 ### references/workflow-issue-778-schema-alias-rollback-undo-artifact-inventory.md
 
 | セクション | 行 |
@@ -2831,6 +2849,13 @@ node scripts/list-specs.js --topics
 | Evidence Boundary | L21 |
 | Required Runtime Evidence | L25 |
 | Phase 12 Strict Outputs | L32 |
+
+### references/workflow-issue-819-admin-dashboard-runtime-screenshot-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Phase 12 Strict 7 | L42 |
+| User-Gated Boundary | L54 |
 
 ### references/workflow-light-theme-contrast-regression-guard.md
 
@@ -3048,7 +3073,7 @@ node scripts/list-specs.js --topics
 
 | セクション | 行 |
 |------------|----|
-| Phase 12 Strict 7 | L27 |
+| Phase 12 Strict 7 | L29 |
 
 ### references/workflow-step-06-meetings-attendance-implementation-artifact-inventory.md
 
@@ -4116,7 +4141,7 @@ node scripts/list-specs.js --topics
 
 | セクション | 行 |
 |------------|----|
-| 1. 二段防御 middleware | L54 |
+| 1. 二段防御 proxy | L54 |
 | 2. service-binding 経由の internal API call | L65 |
 | 3. /auth/session-resolve internal-only endpoint | L86 |
 | 4. OpenNext post-build worker patch | L97 |
@@ -7247,14 +7272,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L1936 |
-| フェーズ構造（概要） | L1945 |
-| 品質ゲート（概要） | L1976 |
-| 出力テンプレート | L1987 |
-| 実行時のコマンド・エージェント・スキル | L2010 |
-| 昇格パターン集 | L2034 |
-| Current Active / Spec Created Tasks | L2036 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L2193 |
+| ドキュメント構成 | L1983 |
+| フェーズ構造（概要） | L1992 |
+| 品質ゲート（概要） | L2023 |
+| 出力テンプレート | L2034 |
+| 実行時のコマンド・エージェント・スキル | L2057 |
+| 昇格パターン集 | L2081 |
+| Current Active / Spec Created Tasks | L2083 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L2240 |
 
 ### references/task-workflow-backlog-part2.md
 
