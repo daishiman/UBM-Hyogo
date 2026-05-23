@@ -12,6 +12,7 @@ import {
   type SheetsValueRange,
 } from "./sheets-fetcher";
 import { mapSheetRows, type MemberRow } from "./mappers/sheets-to-members";
+import { logSheetsAuthFailure } from "./sheets-auth-logger";
 import { STABLE_KEY, type SyncTriggerType } from "@ubm-hyogo/shared";
 import { withRetry } from "../utils/with-retry";
 import { WriteQueue } from "../utils/write-queue";
@@ -90,7 +91,16 @@ export async function runSync(
 
     const fetcher = options.fetcher ?? buildDefaultFetcher(env);
     const range = env.SYNC_RANGE ?? "Form Responses 1!A1:ZZ10000";
-    const valueRange: SheetsValueRange = await fetcher.fetchRange(range);
+    let valueRange: SheetsValueRange;
+    try {
+      valueRange = await fetcher.fetchRange(range);
+    } catch (err) {
+      logSheetsAuthFailure(err, {
+        jobName: "sync-sheets-to-d1",
+        spreadsheetId: env.SHEETS_SPREADSHEET_ID,
+      });
+      throw err;
+    }
     const values = valueRange.values ?? [];
     const { rows, skipped } = mapSheetRows(values);
 

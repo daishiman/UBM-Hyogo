@@ -1,0 +1,173 @@
+{
+  "task_id": "UT-25-DERIV-01",
+  "task_name": "SA Service Account key 定期ローテーション運用 SOP",
+  "task_path": "docs/30-workflows/ut-25-deriv-01-sa-key-rotation-sop",
+  "implementation_mode": "new",
+  "task_type": "implementation",
+  "source_issue": 242,
+  "created_date": "2026-05-22",
+  "wave": 2,
+  "execution_mode": "serial",
+  "depends_on": [
+    "docs/30-workflows/completed-tasks/ut-25-cloudflare-secrets-production-deploy",
+    "docs/30-workflows/completed-tasks/ut-26-sheets-api-e2e-smoke-test"
+  ],
+  "blocks": [
+    "docs/30-workflows/unassigned-task/UT-25-DERIV-02-sa-key-expiry-monitoring.md",
+    "docs/30-workflows/unassigned-task/UT-25-DERIV-03-cf-secrets-audit-log.md"
+  ],
+  "metadata": {
+    "taskType": "implementation",
+    "docs_only": false,
+    "scope": "sa_key_rotation_sop",
+    "visualEvidence": "NON_VISUAL",
+    "priority": "HIGH",
+    "wave_label": "Wave 2 (HIGH)",
+    "parent_task": "UT-25",
+    "parent_spec": "docs/30-workflows/unassigned-task/UT-25-DERIV-01-sa-key-rotation-sop.md",
+    "spec_kind": "implementation_spec",
+    "artifact_canonical_names": {
+      "sop_document": "docs/30-workflows/runbooks/sa-key-rotation-sop.md",
+      "rotation_helper": "scripts/cf-rotate-sa-key.sh",
+      "record_template": "docs/30-workflows/runbooks/sa-key-rotation-records/TEMPLATE.md",
+      "bash_test_suite": "scripts/__tests__/cf-rotate-sa-key.bats",
+      "ut26_smoke_route": "apps/api/src/routes/admin/smoke-sheets.ts",
+      "ut26_smoke_contract_test": "apps/api/src/routes/admin/smoke-sheets.contract.spec.ts"
+    },
+    "workflow_state": "implemented_local_evidence_captured",
+    "implementation_status": "implementation_complete_pending_pr",
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-05-22T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/ut-25-deriv-01-sa-key-rotation-sop/outputs/phase-12/phase12-task-spec-compliance-check.md",
+        "approver": "daishiman",
+        "notes": "spec_review: Phase 1-13 spec + local implementation completed"
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "passed",
+        "passed_at": "2026-05-22T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/ut-25-deriv-01-sa-key-rotation-sop/outputs/phase-11/manual-test-result.md",
+        "approver": "daishiman",
+        "notes": "implementation_review: cf-rotate-sa-key helper + bats + sop runbook + ut-26 canonical secret sync"
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/ut-25-deriv-01-sa-key-rotation-sop/outputs/phase-13/pr-summary.md",
+        "approver": "daishiman",
+        "notes": "external_ops: actual Cloudflare Secret rotation + Google IAM disable/delete + UT-26 staging/production smoke"
+      }
+    ]
+  },
+  "phases": {
+    "phase-1": {
+      "name": "要件定義",
+      "status": "completed",
+      "artifacts": [
+        "phase-1.md"
+      ]
+    },
+    "phase-2": {
+      "name": "設計",
+      "status": "completed",
+      "artifacts": [
+        "phase-2.md"
+      ]
+    },
+    "phase-3": {
+      "name": "設計レビュー",
+      "status": "completed",
+      "artifacts": [
+        "phase-3.md"
+      ]
+    },
+    "phase-4": {
+      "name": "テスト作成 (TDD RED)",
+      "status": "completed",
+      "artifacts": [
+        "phase-4.md"
+      ]
+    },
+    "phase-5": {
+      "name": "実装 (TDD GREEN)",
+      "status": "completed",
+      "artifacts": [
+        "phase-5.md"
+      ]
+    },
+    "phase-6": {
+      "name": "テスト拡充 (異常系)",
+      "status": "completed",
+      "artifacts": [
+        "phase-6.md"
+      ]
+    },
+    "phase-7": {
+      "name": "カバレッジ確認",
+      "status": "completed",
+      "artifacts": [
+        "phase-7.md"
+      ]
+    },
+    "phase-8": {
+      "name": "リファクタリング",
+      "status": "completed",
+      "artifacts": [
+        "phase-8.md"
+      ]
+    },
+    "phase-9": {
+      "name": "品質保証",
+      "status": "completed",
+      "artifacts": [
+        "phase-9.md"
+      ]
+    },
+    "phase-10": {
+      "name": "最終レビュー",
+      "status": "completed",
+      "artifacts": [
+        "phase-10.md"
+      ]
+    },
+    "phase-11": {
+      "name": "手動テスト (NON_VISUAL 代替証跡)",
+      "status": "completed",
+      "artifacts": [
+        "phase-11.md"
+      ]
+    },
+    "phase-12": {
+      "name": "ドキュメント更新",
+      "status": "completed",
+      "artifacts": [
+        "phase-12.md"
+      ]
+    },
+    "phase-13": {
+      "name": "PR 作成",
+      "status": "pending_user_approval",
+      "artifacts": [
+        "phase-13.md"
+      ]
+    }
+  },
+  "specs_referenced": [
+    "docs/30-workflows/unassigned-task/UT-25-DERIV-01-sa-key-rotation-sop.md",
+    "docs/30-workflows/completed-tasks/ut-25-cloudflare-secrets-production-deploy/outputs/phase-13/rollback-runbook.md",
+    "scripts/cf.sh",
+    "CLAUDE.md",
+    ".claude/skills/aiworkflow-requirements/references/deployment-secrets-management.md"
+  ],
+  "secrets_referenced": [
+    "GOOGLE_SERVICE_ACCOUNT_JSON",
+    "CLOUDFLARE_API_TOKEN"
+  ],
+  "invariants_touched": [
+    5
+  ]
+}

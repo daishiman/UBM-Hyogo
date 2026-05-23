@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import type { AdminMemberDetailView } from "@ubm-hyogo/shared";
 import { Drawer } from "../../../../components/ui/Drawer";
 import { formatJstDateTime } from "../../../../lib/format/datetime";
+import { useAdminMutation } from "../../hooks/useAdminMutation";
 
 export interface MemberDrawerProps {
   readonly memberId: string;
@@ -89,7 +90,22 @@ export function MemberDrawer({ memberId, onClose }: MemberDrawerProps) {
                 <dt className="w-32 text-[var(--ubm-color-text-muted)]">isDeleted</dt>
                 <dd>{String(data.status.isDeleted)}</dd>
               </div>
+              <div className="flex gap-2">
+                <dt className="w-32 text-[var(--ubm-color-text-muted)]">notificationOptOut</dt>
+                <dd>{String(data.status.notificationOptOut)}</dd>
+              </div>
             </dl>
+            <NotificationOptOutToggle
+              memberId={memberId}
+              initial={data.status.notificationOptOut}
+              onUpdated={(next) =>
+                setData((prev) =>
+                  prev
+                    ? { ...prev, status: { ...prev.status, notificationOptOut: next } }
+                    : prev,
+                )
+              }
+            />
           </section>
 
           <section>
@@ -123,5 +139,65 @@ export function MemberDrawer({ memberId, onClose }: MemberDrawerProps) {
         </div>
       )}
     </Drawer>
+  );
+}
+
+interface NotificationOptOutToggleProps {
+  readonly memberId: string;
+  readonly initial: boolean;
+  readonly onUpdated: (next: boolean) => void;
+}
+
+function NotificationOptOutToggle({
+  memberId,
+  initial,
+  onUpdated,
+}: NotificationOptOutToggleProps) {
+  const [checked, setChecked] = useState<boolean>(initial);
+  const { trigger, isLoading } = useAdminMutation<{
+    ok: boolean;
+    memberId: string;
+    notificationOptOut: boolean;
+  }>(
+    `/api/admin/members/${encodeURIComponent(memberId)}/notification-pref`,
+    "PATCH",
+    {
+      successMessage: (data) =>
+        data.notificationOptOut
+          ? "✓ 通知をオプトアウトしました"
+          : "✓ 通知を再開しました",
+      onSuccess: (data) => {
+        setChecked(data.notificationOptOut);
+        onUpdated(data.notificationOptOut);
+      },
+      refreshOnSuccess: false,
+    },
+  );
+
+  return (
+    <div className="mt-3 flex items-center gap-2 border-t border-[var(--ubm-color-border-default)] pt-3">
+      <input
+        id={`notif-opt-out-${memberId}`}
+        type="checkbox"
+        checked={checked}
+        disabled={isLoading}
+        onChange={(e) => {
+          const next = e.currentTarget.checked;
+          setChecked(next);
+          trigger({ notificationOptOut: next }).catch(() => {
+            // useAdminMutation 側で toast 済み。元値に戻す。
+            setChecked(!next);
+          });
+        }}
+        aria-label="通知をオプトアウト"
+        className="h-4 w-4"
+      />
+      <label
+        htmlFor={`notif-opt-out-${memberId}`}
+        className="text-sm text-[var(--ubm-color-text-default)]"
+      >
+        通知をオプトアウト
+      </label>
+    </div>
   );
 }

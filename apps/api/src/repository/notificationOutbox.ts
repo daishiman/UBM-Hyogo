@@ -16,12 +16,15 @@ import type { DbCtx } from "./_shared/db";
 export type NotificationOutcome = "approved" | "rejected";
 export type NotificationRequestType = "visibility_request" | "delete_request";
 export type NotificationOutboxStatus = "pending" | "dispatching" | "sent" | "dlq";
+export type NotificationChannelKind = "mail";
 export type NotificationLedgerEvent =
   | "enqueued"
   | "dispatching"
   | "sent"
   | "failed"
-  | "dlq";
+  | "dlq"
+  | "skipped_opt_out"
+  | "unknown_channel";
 
 export interface NotificationOutboxRow {
   notificationId: string;
@@ -32,6 +35,7 @@ export interface NotificationOutboxRow {
   requestType: NotificationRequestType;
   reasonSummary: string | null;
   status: NotificationOutboxStatus;
+  channel: NotificationChannelKind | string;
   retryCount: number;
   nextAttemptAt: string;
   lastError: string | null;
@@ -47,13 +51,14 @@ export interface EnqueueNotificationInput {
   outcome: NotificationOutcome;
   requestType: NotificationRequestType;
   reasonSummaryRaw?: string | null;
+  channel?: NotificationChannelKind;
   nowIso: string;
 }
 
 export interface EnqueueResult {
   ok: boolean;
   notificationId?: string;
-  reason?: "duplicate" | "db_error";
+  reason?: "duplicate" | "db_error" | "opt_out";
 }
 
 export interface NotificationOutboxRepository {
@@ -93,6 +98,11 @@ export interface NotificationOutboxRepository {
 
 export interface CreateOutboxRepositoryDeps {
   newId?: () => string;
+  /**
+   * Issue #55: opt-out gate. true を返す member への enqueue は skip + ledger 'skipped_opt_out'.
+   * 未指定時は常に false を返すデフォルト挙動。
+   */
+  isOptedOut?: (memberId: string) => Promise<boolean>;
 }
 
 const CONTROL_CHAR_RE = /[\x00-\x08\x0B-\x1F\x7F]/g;
@@ -113,6 +123,7 @@ interface RawOutboxRow {
   request_type: string;
   reason_summary: string | null;
   status: string;
+  channel: string;
   retry_count: number;
   next_attempt_at: string;
   last_error: string | null;
@@ -130,6 +141,7 @@ const toRow = (r: RawOutboxRow): NotificationOutboxRow => ({
   requestType: r.request_type as NotificationRequestType,
   reasonSummary: r.reason_summary,
   status: r.status as NotificationOutboxStatus,
+  channel: (r.channel ?? "mail") as NotificationChannelKind,
   retryCount: Number(r.retry_count),
   nextAttemptAt: r.next_attempt_at,
   lastError: r.last_error,
@@ -139,24 +151,57 @@ const toRow = (r: RawOutboxRow): NotificationOutboxRow => ({
 });
 
 const SELECT_COLS =
-  "notification_id, note_id, member_id, recipient_email, outcome, request_type, reason_summary, status, retry_count, next_attempt_at, last_error, provider_message_id, created_at, updated_at";
+  "notification_id, note_id, member_id, recipient_email, outcome, request_type, reason_summary, status, channel, retry_count, next_attempt_at, last_error, provider_message_id, created_at, updated_at";
 
 export const createOutboxRepository = (
   c: DbCtx,
   deps: CreateOutboxRepositoryDeps = {},
 ): NotificationOutboxRepository => {
   const newId = deps.newId ?? (() => crypto.randomUUID());
+  const isOptedOut = deps.isOptedOut;
   return {
     async enqueue(input) {
       const notificationId = newId();
       const reasonSummary = sanitizeReasonSummary(input.reasonSummaryRaw ?? null);
+      const channel: NotificationChannelKind = input.channel ?? "mail";
+
+      // Issue #55: opt-out gate — outbox 行は作らず ledger に skipped_opt_out のみ残す。
+      if (isOptedOut) {
+        const optedOut = await isOptedOut(input.memberId);
+        if (optedOut) {
+          try {
+            await c.db
+              .prepare(
+                `INSERT INTO notification_ledger (ledger_id, notification_id, event_type, attempt, detail_json, created_at)
+                 VALUES (?1, ?2, 'skipped_opt_out', 0, ?3, ?4)`,
+              )
+              .bind(
+                newId(),
+                notificationId,
+                JSON.stringify({
+                  memberId: input.memberId,
+                  noteId: input.noteId,
+                  outcome: input.outcome,
+                  requestType: input.requestType,
+                  channel,
+                }),
+                input.nowIso,
+              )
+              .run();
+          } catch {
+            // ledger 失敗は opt_out 判定を覆さない (skip は意図された動作)
+          }
+          return { ok: false, reason: "opt_out" };
+        }
+      }
+
       try {
         const insertOutbox = c.db.prepare(
             `INSERT INTO notification_outbox
               (notification_id, note_id, member_id, recipient_email, outcome, request_type,
-               reason_summary, status, retry_count, next_attempt_at, last_error,
+               reason_summary, status, channel, retry_count, next_attempt_at, last_error,
                provider_message_id, created_at, updated_at)
-             VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, 'pending', 0, ?8, NULL, NULL, ?9, ?10)`,
+             VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, 'pending', ?8, 0, ?9, NULL, NULL, ?10, ?11)`,
           )
           .bind(
             notificationId,
@@ -166,6 +211,7 @@ export const createOutboxRepository = (
             input.outcome,
             input.requestType,
             reasonSummary,
+            channel,
             input.nowIso,
             input.nowIso,
             input.nowIso,
