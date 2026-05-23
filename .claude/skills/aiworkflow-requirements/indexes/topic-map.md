@@ -2868,6 +2868,12 @@ node scripts/list-specs.js --topics
 | Phase 12 Strict 7 | L42 |
 | User-Gated Boundary | L54 |
 
+### references/workflow-issue-832-admin-topbar-primitive-extraction-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Boundaries | L16 |
+
 ### references/workflow-light-theme-contrast-regression-guard.md
 
 | セクション | 行 |
@@ -7303,14 +7309,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L2019 |
-| フェーズ構造（概要） | L2028 |
-| 品質ゲート（概要） | L2059 |
-| 出力テンプレート | L2070 |
-| 実行時のコマンド・エージェント・スキル | L2093 |
-| 昇格パターン集 | L2117 |
-| Current Active / Spec Created Tasks | L2119 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L2275 |
+| ドキュメント構成 | L2034 |
+| フェーズ構造（概要） | L2043 |
+| 品質ゲート（概要） | L2074 |
+| 出力テンプレート | L2085 |
+| 実行時のコマンド・エージェント・スキル | L2108 |
+| 昇格パターン集 | L2132 |
+| Current Active / Spec Created Tasks | L2134 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L2290 |
 
 ### references/task-workflow-backlog-part2.md
 
