@@ -247,3 +247,13 @@
 - task 仕様書を書く際: `apps/web` の env 参照経路を変更する（`process.env` → `getEnv()` 統一を含む）task は、Phase 5 に「dev:webpack の cloudflare-context が process.env より優先される点を確認し、e2e mock API 切替が壊れないことを `PLAYWRIGHT_TEST` 経路で担保する」、Phase 11 evidence に「fixture を持たない SSR fetch 系 spec（meetings detail / attendance）の e2e 緑」を明示する。
 - 関連: fixture 追加経路は [[SP-DEVSYNC-016]]（`scripts/e2e-mock-api.mjs` server-side mock）。env 正本仕様は aiworkflow-requirements `references/architecture-admin-api-client.md` §2.2。
 - Why: 「env アクセスを getEnv に一本化」という正しい invariant 遵守が、dev local の env 解決順序という別レイヤの仕様と衝突して e2e のみ壊す盲点。grep で気付けないため lessons-learned 化して再発時の切り分け時間を消す。
+
+### SP-DEVSYNC-030: design-token 並行 a11y 修正衝突は task 仕様書で「3 SSOT 統一 + visual baseline 再生成」を逐語化（2026-05-24 追加）
+- prototype alignment / a11y contrast 系 task が並行すると、`--ubm-color-text-muted` 等の design-token が HEAD/dev 双方で**異なる HEX 値**へ darken される並行修正衝突が dev sync-merge で発生する。append-only 両側採用（SP-DEVSYNC-001）は同一 token 二重宣言になるため**適用禁止**。
+- 解消: aiworkflow-requirements `lessons-learned-dev-sync-merge-conflict-resolution-2026-05.md` の **L-DEVSYNC-038** に従い、(1) canonical dev 値へ 1 値統一、(2) `apps/web/src/styles/tokens.css` + `docs/00-getting-started-manual/specs/09b-design-tokens.md` の table 行 + 同 JSON `value` の **3 SSOT すべて**へ同値適用、(3) `verify-design-tokens` gate（tokens.css ↔ spec 一致検査）で担保。
+- task 仕様書を書く際の予防策:
+  - design-token を変更する task は Phase 5 step に「token 値の正本は 3 箇所（tokens.css / spec table / spec JSON）。1 箇所変更時は必ず 3 箇所同時更新し `verify-design-tokens` 相当を pre-push 確認」を逐語明示する。
+  - prototype alignment / token 変更を含む task は Phase 4 (test-plan) と Phase 11 (evidence) に「visual baseline (`-linux.png`) が token 変更で stale 化する。darwin ローカル再生成不可のため dev sync 後 push で CI fail したら `playwright-visual-baseline-update.yml` を workflow_dispatch 再生成」を必ず織り込む（[[L-VISBASE-001]] 連携）。
+  - 並行衝突の予防として、同種の a11y contrast 修正 task を複数 wave で走らせる場合は「token 値は dev を待って 1 本化」を SCOPE に明記し、HEAD/dev 二重 darken を避ける。
+- 事例: 2026-05-24 `feat/home-page-prototype-alignment` ← dev sync で `--ubm-color-text-muted` を HEAD `#76664a` / dev `#7d6a4d` の並行 darken 衝突として検出、dev `#7d6a4d` を 3 SSOT へ統一。visual baseline は Linux 再生成を follow-up 化、typecheck/lint/verify-pr-ready 初回 PASS。
+- 詳細は aiworkflow-requirements 配下の L-DEVSYNC-038 を参照。
