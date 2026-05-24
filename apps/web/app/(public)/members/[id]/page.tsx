@@ -10,6 +10,7 @@ import type { z } from "zod";
 
 import { PublicMemberProfileZ } from "@ubm-hyogo/shared";
 
+import { buildMemberDetailViewModel } from "@/lib/adapters/member-detail";
 import { buildPageMetadata } from "@/lib/seo/site-metadata";
 
 import { MemberActivity } from "../../../../src/components/public/MemberActivity";
@@ -78,10 +79,8 @@ export default async function MemberDetailPage({
     notFound();
   }
 
-  // activity セクションは MemberActivity 側で取り出すため汎用 sections では除外する
-  const detailSections = profile.publicSections.filter(
-    (s) => s.key !== "activity",
-  );
+  const { detailSections, allSections } =
+    buildMemberDetailViewModel(profile);
 
   return (
     <main data-page="member-detail" className="stack-lg" data-route="public" data-section-rhythm="comfortable">
@@ -99,8 +98,8 @@ export default async function MemberDetailPage({
       />
       <MemberTags tags={profile.tags} />
       <MemberDetailSections sections={detailSections} />
-      <MemberLinks sections={profile.publicSections} />
-      <MemberActivity sections={profile.publicSections} />
+      <MemberLinks sections={allSections} />
+      <MemberActivity sections={allSections} />
     </main>
   );
 }

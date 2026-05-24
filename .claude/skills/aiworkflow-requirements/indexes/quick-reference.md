@@ -1,5 +1,18 @@
 # クイックリファレンス
 
+## Issue #827 member detail adapter and visibility defense（2026-05-23）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-827-member-detail-adapter-and-visibility-defense/` |
+| 状態 | `implemented_local_evidence_captured / implementation / NON_VISUAL` |
+| issue | #827 CLOSED; PR should use `Refs #827`; commit / push / PR / issue mutation are user-gated |
+| scope | public member detail web-side pure adapter and visibility double-defense |
+| implementation | `apps/web/src/lib/adapters/member-detail.ts`, `MemberDetailSections.tsx`, `/members/[id]/page.tsx` |
+| contract | adapter first filters all section fields to `visibility="public"` for `MemberLinks` / `MemberActivity`; detail sections then include only non-activity kinds `shortText` / `paragraph` / `date` / `radio` / `checkbox` / `dropdown`; `url` remains for `MemberLinks`; `activity` remains for `MemberActivity` |
+| evidence | apps/web Vitest 888 PASS, workspace typecheck/lint PASS, web build PASS with required local env |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-827-member-detail-adapter-and-visibility-defense-artifact-inventory.md` |
+
 ## home-page-prototype-alignment（2026-05-23）
 
 | 項目 | 値 |
