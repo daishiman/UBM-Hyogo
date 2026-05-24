@@ -162,9 +162,21 @@ request_json() {
     local redacted_body
     local failure_reason=""
     redacted_body="$(head -c 2000 "$body_file" | tr -d '\0' | bash "$REDACT")"
+    # reason は redact 済み body から error 種別のみを判定し JWT 文字列は出力しない（不変条件 3）。
+    # 判定順: 500(auth misconfigured) → 401(unauthorized) → 403(forbidden)。
     if printf '%s' "$redacted_body" | jq -e '.error == "auth misconfigured"' >/dev/null 2>&1 ||
       printf '%s' "$redacted_body" | grep -Eq '"error"[[:space:]]*:[[:space:]]*"auth misconfigured"'; then
       failure_reason="auth-secret-binding-missing"
+    elif [[ "$status" == "401" ]] && {
+      printf '%s' "$redacted_body" | jq -e '.error == "unauthorized"' >/dev/null 2>&1 ||
+        printf '%s' "$redacted_body" | grep -Eq '"error"[[:space:]]*:[[:space:]]*"unauthorized"'
+    }; then
+      failure_reason="auth-token-invalid-or-expired"
+    elif [[ "$status" == "403" ]] && {
+      printf '%s' "$redacted_body" | jq -e '.error == "forbidden"' >/dev/null 2>&1 ||
+        printf '%s' "$redacted_body" | grep -Eq '"error"[[:space:]]*:[[:space:]]*"forbidden"'
+    }; then
+      failure_reason="auth-not-admin"
     fi
     {
       printf '===== %s GET =====\n' "$label"
