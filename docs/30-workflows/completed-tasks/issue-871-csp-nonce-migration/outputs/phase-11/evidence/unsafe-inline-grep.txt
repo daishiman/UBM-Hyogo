@@ -1,0 +1,14 @@
+Command:
+rg "'unsafe-inline'" apps/web/src apps/web/middleware.ts apps/web/__tests__/middleware.spec.ts
+
+Result:
+PASS
+
+Observed summary:
+- 0 matches
+- rg exit code: 1 (expected for no matches)
+
+Scope:
+- apps/web/src
+- apps/web/middleware.ts
+- apps/web/__tests__/middleware.spec.ts
