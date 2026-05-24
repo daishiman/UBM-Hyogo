@@ -8,6 +8,74 @@
 
 本ドキュメントは、複雑なタスクを単一責務の原則に基づいて分解し、各サブタスクに最適なスラッシュコマンド・エージェント・スキルの組み合わせを選定するためのガイドラインを定義する。
 
+### login-page-prototype-alignment（2026-05-23）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_visual_evidence_captured / implementation / VISUAL_ON_EXECUTION` |
+| 成果物 | `docs/30-workflows/completed-tasks/login-page-prototype-alignment/` |
+| 目的 | 既存 `/login` route を prototype LoginPage に整合し、Magic Link primary / OR / Google secondary / brand block / sent state を正本化する |
+| 実装対象 | `apps/web/app/login/**`, `apps/web/src/components/ui/{Icon,icons}.ts(x)`, `apps/web/src/styles/auth.css`, `apps/web/playwright/tests/login-smoke.spec.ts` |
+| system spec | `docs/00-getting-started-manual/specs/13-mvp-auth.md` |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-login-page-prototype-alignment-artifact-inventory.md` |
+| boundary | `/api/auth/*`, Auth.js handler, `apps/api/**`, D1 schema は不変。staging visual smoke / commit / push / PR は user-gated |
+
+### fix-admin-server-components-render-error-stg（2026-05-23）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_runtime_pending / implementation / NON_VISUAL` |
+| 成果物 | `docs/30-workflows/fix-admin-server-components-render-error-stg/` |
+| 関連 PR | #849 admin dashboard runtime smoke |
+| 目的 | staging `/admin` Server Components render error digest `167275886` を、admin Server Component fetch の env 解決修正で復旧する |
+| in-cycle implementation | `apps/web/src/lib/admin/server-fetch.ts` の `getEnv()` 経由化と localhost fallback 撤去、`apps/web/src/lib/env.ts` の `INTERNAL_AUTH_SECRET` optional schema 追加 |
+| tests | `apps/web/src/lib/admin/__tests__/server-fetch.env.spec.ts`, `apps/web/src/lib/__tests__/env.spec.ts`（focused Vitest 13 PASS） |
+| Phase 12 | strict 7 outputs + canonical compliance check present |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-fix-admin-server-components-render-error-stg-artifact-inventory.md` |
+| user gate | Cloudflare staging deploy, authenticated `/admin` curl, backend-ci rerun, commit, push, PR |
+
+### apps-web-security-headers-hardening（2026-05-23）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / NON_VISUAL` |
+| 成果物 | `docs/30-workflows/apps-web-security-headers-hardening/` |
+| 目的 | `apps/web` Workers response に CSP report-only / Permissions-Policy / hardening headers を追加する |
+| implementation targets | `apps/web/src/lib/security-headers.ts`, `apps/web/middleware.ts`, `apps/web/src/lib/security-headers.spec.ts`, `apps/web/playwright/tests/security-headers.spec.ts` |
+| contract | CSP は初期 report-only。`Permissions-Policy` は `browsing-topics` を列挙しない。`require-trusted-types-for` / `trusted-types` は出力しない |
+| env | `NEXT_PUBLIC_API_BASE_URL` を `getPublicEnv()` 経由で読む。`NEXT_PUBLIC_API_ORIGIN` は未存在のため使わない |
+| evidence | Phase 12 strict 7 / root-output artifacts parity / unit + Playwright smoke spec |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-apps-web-security-headers-hardening-artifact-inventory.md` |
+| user gate | staging/production response verification, commit, push, PR |
+
+### ci-green-recovery-smoke-coverage-shard（2026-05-23）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / NON_VISUAL / runtime_ci_pending` |
+| 成果物 | `docs/30-workflows/ci-green-recovery-smoke-coverage-shard/` |
+| 目的 | runtime-smoke staging admin 401、coverage-gate MISSING、coverage-gate-shard checkout failure の 3 CI 失敗を 1 implementation cycle で恒久解消する実装 |
+| lanes | A=`ci-runtime-mint`, B=`downstream-of-C + clearer diagnostics`, C=`permissions/token hardening + shard-failure diagnostics` |
+| implementation targets | `scripts/smoke/mint-staging-bearers.mts`, `scripts/smoke/runtime-attendance-provider.sh`, `.github/workflows/runtime-smoke-staging.yml`, `.github/workflows/ci.yml`, `scripts/coverage-guard.sh`, runtime smoke secret runbook |
+| evidence boundary | Phase 12 strict 7 present。Phase 11 は NON_VISUAL 代替証跡でローカル mint parity / smoke shell reason 分類 PASS。runtime CI evidence は user-gated |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-ci-green-recovery-smoke-coverage-shard-artifact-inventory.md` |
+| user gate | staging secret placement, runtime CI rerun evidence, commit, push, PR |
+
+### admin-ui-prototype-alignment（2026-05-23）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_runtime_pending / implementation / VISUAL` |
+| 成果物 | `docs/30-workflows/admin-ui-prototype-alignment/` |
+| 目的 | `/admin` 配下 11 route を prototype 正本に整合し、server fetch 失敗を page 全体停止ではなく per-section degrade へ局所化する |
+| primary spec | `docs/00-getting-started-manual/specs/09g-screen-blueprints-admin.md` |
+| prototype source | `docs/00-getting-started-manual/claude-design-prototype/pages-admin.jsx` |
+| implementation targets | `apps/web/app/(admin)/admin/**`, `apps/web/src/features/admin/components/_shared/**`, `apps/web/src/lib/admin/safe-server-fetch.ts` |
+| boundary | API / D1 schema / Auth.js middleware contract は変更しない。`_shared` は 6 component + barrel + helper。retry button は v1 では出さず page reload 導線に統一 |
+| Phase 12 | strict 7 outputs + canonical compliance check present |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-ui-prototype-alignment-artifact-inventory.md` |
+| user gate | authenticated runtime screenshots, staging refresh, commit, push, PR |
+
 ### Issue #55 Notification Channel + Opt-out（2026-05-23）
 
 | 項目 | 値 |
@@ -523,7 +591,7 @@
 
 | 項目 | 値 |
 | --- | --- |
-| ステータス | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION / local_visual_evidence_captured` |
+| ステータス | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION / local_static_evidence_captured` |
 | 成果物 | `docs/30-workflows/completed-tasks/step-06-meetings-attendance-implementation/` |
 | 親 workflow | `docs/30-workflows/ui-prototype-alignment-mvp-recovery/improvements/serial-05-admin-mutation-ui/` |
 | source | `docs/30-workflows/ui-prototype-alignment-mvp-recovery/improvements/serial-05-admin-mutation-ui/step-06-meetings-attendance/spec.md` |
@@ -601,7 +669,7 @@
 
 | 項目 | 値 |
 | --- | --- |
-| ステータス | `implemented_local_visual_evidence_captured / implementation / VISUAL / Phase 13 blocked_pending_user_approval` |
+| ステータス | `implemented_local_evidence_captured / implementation / VISUAL / Phase 13 blocked_pending_user_approval` |
 | 成果物 | `docs/30-workflows/serial-05-step-02-identity-conflicts-merge/` |
 | 親 workflow | `docs/30-workflows/ui-prototype-alignment-mvp-recovery/improvements/serial-05-admin-mutation-ui/` |
 | 目的 | `/admin/identity-conflicts` の既存 row-local merge / dismiss UI を `useAdminMutation` に寄せ、400 / 409 error mapping、reason retention、inline alert、visual evidence を hardening する |

@@ -89,14 +89,14 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 1. 構成図 | L15 |
 | 2. Server-side fetch（`apps/web/src/lib/admin/server-fetch.ts`） | L49 |
-| 3. Client-side mutation（`apps/web/src/lib/admin/api.ts`） | L109 |
-| 4. BFF proxy（`apps/web/app/api/admin/[...path]/route.ts`） | L181 |
-| 5. ステータスコード処理方針 | L238 |
-| 6. 環境変数 | L270 |
-| 7. 不変条件サマリ（admin API client / proxy） | L283 |
-| 8. 関連ドキュメント | L295 |
-| 9. 06c-A Admin Dashboard 契約 (2026-05-02) | L303 |
-| 10. Self-service BFF proxy（`apps/web/app/api/me/[...path]/route.ts`） | L320 |
+| 3. Client-side mutation（`apps/web/src/lib/admin/api.ts`） | L110 |
+| 4. BFF proxy（`apps/web/app/api/admin/[...path]/route.ts`） | L182 |
+| 5. ステータスコード処理方針 | L239 |
+| 6. 環境変数 | L271 |
+| 7. 不変条件サマリ（admin API client / proxy） | L284 |
+| 8. 関連ドキュメント | L296 |
+| 9. 06c-A Admin Dashboard 契約 (2026-05-02) | L304 |
+| 10. Self-service BFF proxy（`apps/web/app/api/me/[...path]/route.ts`） | L321 |
 
 ### references/architecture-auth-security-core.md
 
@@ -1743,6 +1743,15 @@ node scripts/list-specs.js --topics
 | TASK-IMP-IPC-LAYER-INTEGRITY-FIX-001 の読み分け | L17 |
 | 関連ドキュメント | L23 |
 
+### references/security-web-response-headers.md
+
+| セクション | 行 |
+|------------|----|
+| Canonical Contract | L3 |
+| Env Boundary | L16 |
+| User-gated Follow-ups | L20 |
+| Workflow | L29 |
+
 ---
 
 ## 技術スタック
@@ -2118,6 +2127,12 @@ node scripts/list-specs.js --topics
 |------------|----|
 | Boundary | L16 |
 
+### references/workflow-admin-ui-prototype-alignment-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Contract | L16 |
+
 ### references/workflow-ai-chat-llm-integration-fix-artifact-inventory.md
 
 | セクション | 行 |
@@ -2221,6 +2236,21 @@ node scripts/list-specs.js --topics
 | 関連ドキュメント | L117 |
 | 変更履歴 | L131 |
 
+### references/workflow-apps-web-security-headers-hardening-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Workflow Root | L3 |
+| Implementation | L12 |
+| System Spec Sync | L21 |
+| Boundary | L32 |
+
+### references/workflow-ci-green-recovery-smoke-coverage-shard-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Contract | L21 |
+
 ### references/workflow-ci-staging-deploy-failure-fix-artifact-inventory.md
 
 | セクション | 行 |
@@ -2248,6 +2278,12 @@ node scripts/list-specs.js --topics
 | Implementation Artifacts | L12 |
 | Evidence Artifacts | L24 |
 | Boundary | L39 |
+
+### references/workflow-fix-admin-server-components-render-error-stg-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Runtime Boundary | L14 |
 
 ### references/workflow-fix-cf-deploy-esbuild-import-source-staging-failure-artifact-inventory.md
 
@@ -2932,6 +2968,15 @@ node scripts/list-specs.js --topics
 | 関連改善タスク | L132 |
 | 関連ドキュメント | L142 |
 | 変更履歴 | L152 |
+
+### references/workflow-login-page-prototype-alignment-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Metadata | L3 |
+| Implementation Targets | L12 |
+| Skill Compliance | L28 |
+| Boundaries | L36 |
 
 ### references/workflow-onboarding-wizard-alignment.md
 
@@ -4318,7 +4363,8 @@ node scripts/list-specs.js --topics
 | Long-term analytics evidence | L290 |
 | c-A production execution workflow | L296 |
 | CI build-time env injection for OpenNext Workers | L311 |
-| 変更履歴 | L321 |
+| Response security headers via middleware | L321 |
+| 変更履歴 | L338 |
 
 ### references/deployment-cloudflare-ut06-gate.md
 
@@ -5070,6 +5116,20 @@ node scripts/list-specs.js --topics
 | L-ATQRD-005: success toast action must not depend on async React state | L19 |
 | L-ATQRD-006: completed-tasks/ relocation requires path drift sweep | L23 |
 | L-ATQRD-007: Phase 12 strict-7 verdict labels must use workflow_state vocabulary | L27 |
+
+### references/lessons-learned-admin-ui-prototype-alignment-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| L-AUIP-001: Error boundary 戦略の per-section 分散化 | L12 |
+| L-AUIP-002: 共通 component の Props contract は仕様書 Phase 2 で確定する | L22 |
+| L-AUIP-003: barrel import 強制を CI gate に | L32 |
+| L-AUIP-004: design token 移行は phase 分離で deadlock 回避 | L42 |
+| L-AUIP-005: server/client boundary を architecture diagram で明示 | L52 |
+| L-AUIP-006: scope cutoff は Phase 4 test contract で lock | L62 |
+| 再利用可能パターン | L72 |
+| 関連未タスク / 後続 wave 連携 | L108 |
+| 参照 | L114 |
 
 ### references/lessons-learned-ci-pipeline-recovery-2026-05.md
 
@@ -7375,14 +7435,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L2076 |
-| フェーズ構造（概要） | L2085 |
-| 品質ゲート（概要） | L2116 |
-| 出力テンプレート | L2127 |
-| 実行時のコマンド・エージェント・スキル | L2150 |
-| 昇格パターン集 | L2174 |
-| Current Active / Spec Created Tasks | L2176 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L2336 |
+| ドキュメント構成 | L2144 |
+| フェーズ構造（概要） | L2153 |
+| 品質ゲート（概要） | L2184 |
+| 出力テンプレート | L2195 |
+| 実行時のコマンド・エージェント・スキル | L2218 |
+| 昇格パターン集 | L2242 |
+| Current Active / Spec Created Tasks | L2244 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L2404 |
 
 ### references/task-workflow-backlog-part2.md
 

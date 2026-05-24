@@ -65,6 +65,7 @@
   },
   "devDependencies": {
     "@cloudflare/workers-types": "4.20260426.1",
+    "@ubm-hyogo/shared": "workspace:*",
     "@testing-library/jest-dom": "^6.0.0",
     "@testing-library/react": "^16.0.0",
     "@types/react": "19.2.7",

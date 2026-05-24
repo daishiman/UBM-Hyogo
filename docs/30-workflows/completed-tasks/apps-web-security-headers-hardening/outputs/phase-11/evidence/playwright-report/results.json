@@ -1,0 +1,540 @@
+{
+  "config": {
+    "configFile": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260523-091326-wt-5/apps/web/playwright.config.ts",
+    "rootDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260523-091326-wt-5/apps/web/playwright/tests",
+    "forbidOnly": false,
+    "fullyParallel": true,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260523-091326-wt-5/docs/30-workflows/apps-web-security-headers-hardening/outputs/phase-11/evidence/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "desktop-chromium",
+        "name": "desktop-chromium",
+        "testDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260523-091326-wt-5/apps/web/playwright/tests",
+        "testIgnore": [
+          "/visual\\/.*\\.spec\\.ts$/",
+          "/visual-full\\/.*\\.spec\\.ts$/",
+          "/full-smoke\\.spec\\.ts$/",
+          "**/admin-identity-conflicts.spec.ts",
+          "**/admin-requests.spec.ts",
+          "**/admin-schema-conflicts-audit.spec.ts",
+          "**/admin-member-delete.spec.ts",
+          "**/issue776-schema-bulk-resolve.spec.ts"
+        ],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 60000
+      },
+      {
+        "outputDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260523-091326-wt-5/docs/30-workflows/apps-web-security-headers-hardening/outputs/phase-11/evidence/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "smoke-chromium",
+        "name": "smoke-chromium",
+        "testDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260523-091326-wt-5/apps/web/playwright/tests",
+        "testIgnore": [
+          "**/admin-identity-conflicts.spec.ts",
+          "**/admin-requests.spec.ts",
+          "**/admin-schema-conflicts-audit.spec.ts",
+          "**/admin-member-delete.spec.ts",
+          "**/issue776-schema-bulk-resolve.spec.ts"
+        ],
+        "testMatch": [
+          "/full-smoke\\.spec\\.ts$/"
+        ],
+        "timeout": 60000
+      },
+      {
+        "outputDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260523-091326-wt-5/docs/30-workflows/apps-web-security-headers-hardening/outputs/phase-11/evidence/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "visual-chromium",
+        "name": "visual-chromium",
+        "testDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260523-091326-wt-5/apps/web/playwright/tests",
+        "testIgnore": [
+          "**/admin-identity-conflicts.spec.ts",
+          "**/admin-requests.spec.ts",
+          "**/admin-schema-conflicts-audit.spec.ts",
+          "**/admin-member-delete.spec.ts",
+          "**/issue776-schema-bulk-resolve.spec.ts"
+        ],
+        "testMatch": [
+          "/visual\\/.*\\.spec\\.ts$/"
+        ],
+        "timeout": 60000
+      },
+      {
+        "outputDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260523-091326-wt-5/docs/30-workflows/apps-web-security-headers-hardening/outputs/phase-11/evidence/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "desktop-firefox",
+        "name": "desktop-firefox",
+        "testDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260523-091326-wt-5/apps/web/playwright/tests",
+        "testIgnore": [
+          "/visual\\/.*\\.spec\\.ts$/",
+          "/visual-full\\/.*\\.spec\\.ts$/",
+          "/full-smoke\\.spec\\.ts$/",
+          "**/admin-identity-conflicts.spec.ts",
+          "**/admin-requests.spec.ts",
+          "**/admin-schema-conflicts-audit.spec.ts",
+          "**/admin-member-delete.spec.ts",
+          "**/issue776-schema-bulk-resolve.spec.ts"
+        ],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 60000
+      },
+      {
+        "outputDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260523-091326-wt-5/docs/30-workflows/apps-web-security-headers-hardening/outputs/phase-11/evidence/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "mobile-webkit",
+        "name": "mobile-webkit",
+        "testDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260523-091326-wt-5/apps/web/playwright/tests",
+        "testIgnore": [
+          "/visual\\/.*\\.spec\\.ts$/",
+          "/visual-full\\/.*\\.spec\\.ts$/",
+          "/full-smoke\\.spec\\.ts$/",
+          "/admin-pages\\.spec\\.ts$/",
+          "/admin-tags-resolve-drawer\\.spec\\.ts$/",
+          "/task15-admin-screenshots\\.spec\\.ts$/",
+          "**/admin-identity-conflicts.spec.ts",
+          "**/admin-requests.spec.ts",
+          "**/admin-schema-conflicts-audit.spec.ts",
+          "**/admin-member-delete.spec.ts",
+          "**/issue776-schema-bulk-resolve.spec.ts"
+        ],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 60000
+      },
+      {
+        "outputDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260523-091326-wt-5/docs/30-workflows/apps-web-security-headers-hardening/outputs/phase-11/evidence/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "visual-full-chromium-desktop",
+        "name": "visual-full-chromium-desktop",
+        "testDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260523-091326-wt-5/apps/web/playwright/tests/visual-full",
+        "testIgnore": [
+          "**/admin-identity-conflicts.spec.ts",
+          "**/admin-requests.spec.ts",
+          "**/admin-schema-conflicts-audit.spec.ts",
+          "**/admin-member-delete.spec.ts",
+          "**/issue776-schema-bulk-resolve.spec.ts"
+        ],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 60000
+      },
+      {
+        "outputDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260523-091326-wt-5/docs/30-workflows/apps-web-security-headers-hardening/outputs/phase-11/evidence/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "visual-full-chromium-tablet",
+        "name": "visual-full-chromium-tablet",
+        "testDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260523-091326-wt-5/apps/web/playwright/tests/visual-full",
+        "testIgnore": [
+          "**/admin-identity-conflicts.spec.ts",
+          "**/admin-requests.spec.ts",
+          "**/admin-schema-conflicts-audit.spec.ts",
+          "**/admin-member-delete.spec.ts",
+          "**/issue776-schema-bulk-resolve.spec.ts"
+        ],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 60000
+      },
+      {
+        "outputDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260523-091326-wt-5/docs/30-workflows/apps-web-security-headers-hardening/outputs/phase-11/evidence/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "visual-full-chromium-mobile",
+        "name": "visual-full-chromium-mobile",
+        "testDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260523-091326-wt-5/apps/web/playwright/tests/visual-full",
+        "testIgnore": [
+          "**/admin-identity-conflicts.spec.ts",
+          "**/admin-requests.spec.ts",
+          "**/admin-schema-conflicts-audit.spec.ts",
+          "**/admin-member-delete.spec.ts",
+          "**/issue776-schema-bulk-resolve.spec.ts"
+        ],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 60000
+      },
+      {
+        "outputDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260523-091326-wt-5/docs/30-workflows/apps-web-security-headers-hardening/outputs/phase-11/evidence/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "staging",
+        "name": "staging",
+        "testDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260523-091326-wt-5/apps/web/playwright/tests",
+        "testIgnore": [
+          "**/admin-identity-conflicts.spec.ts",
+          "**/admin-requests.spec.ts",
+          "**/admin-schema-conflicts-audit.spec.ts",
+          "**/admin-member-delete.spec.ts",
+          "**/issue776-schema-bulk-resolve.spec.ts"
+        ],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 60000
+      },
+      {
+        "outputDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260523-091326-wt-5/docs/30-workflows/apps-web-security-headers-hardening/outputs/phase-11/evidence/test-results",
+        "repeatEach": 1,
+        "retries": 2,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "staging-smoke",
+        "name": "staging-smoke",
+        "testDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260523-091326-wt-5/apps/web/tests/e2e",
+        "testIgnore": [
+          "**/admin-identity-conflicts.spec.ts",
+          "**/admin-requests.spec.ts",
+          "**/admin-schema-conflicts-audit.spec.ts",
+          "**/admin-member-delete.spec.ts",
+          "**/issue776-schema-bulk-resolve.spec.ts"
+        ],
+        "testMatch": [
+          "/staging-smoke\\.spec\\.ts$/"
+        ],
+        "timeout": 60000
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "html",
+        {
+          "outputFolder": "../../docs/30-workflows/apps-web-security-headers-hardening/outputs/phase-11/evidence/playwright-report/html",
+          "open": "never"
+        }
+      ],
+      [
+        "json",
+        {
+          "outputFile": "../../docs/30-workflows/apps-web-security-headers-hardening/outputs/phase-11/evidence/playwright-report/results.json"
+        }
+      ],
+      [
+        "list",
+        null
+      ],
+      [
+        "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260523-091326-wt-5/node_modules/monocart-reporter/lib/index.js",
+        {
+          "name": "UBM-Hyogo E2E",
+          "outputFile": "../../docs/30-workflows/apps-web-security-headers-hardening/outputs/phase-11/evidence/monocart/index.html",
+          "coverage": {
+            "outputDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260523-091326-wt-5/apps/web/coverage",
+            "reports": [
+              [
+                "v8",
+                {
+                  "outputDir": "coverage/v8"
+                }
+              ],
+              "json-summary",
+              [
+                "lcovonly",
+                {
+                  "outputFile": "coverage/lcov.info"
+                }
+              ]
+            ]
+          }
+        }
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.59.1",
+    "workers": 1,
+    "webServer": null
+  },
+  "suites": [
+    {
+      "title": "security-headers.spec.ts",
+      "file": "security-headers.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "security headers",
+          "file": "security-headers.spec.ts",
+          "line": 3,
+          "column": 6,
+          "specs": [
+            {
+              "title": "public top page emits CSP report-only and Permissions-Policy",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "desktop-chromium",
+                  "projectName": "desktop-chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 2218,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-05-23T04:58:43.082Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "9e3ea47c3dd308804f1b-23a19327d3de4ba65033",
+              "file": "security-headers.spec.ts",
+              "line": 4,
+              "column": 3
+            },
+            {
+              "title": "login page emits security headers",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "desktop-chromium",
+                  "projectName": "desktop-chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 31689,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-05-23T04:58:45.370Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "9e3ea47c3dd308804f1b-3d15db36c0aff15ae6d4",
+              "file": "security-headers.spec.ts",
+              "line": 16,
+              "column": 3
+            },
+            {
+              "title": "admin redirect emits CSP report-only and Permissions-Policy",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "desktop-chromium",
+                  "projectName": "desktop-chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 349,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-05-23T04:59:17.117Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "9e3ea47c3dd308804f1b-a9ee104af45ba901f693",
+              "file": "security-headers.spec.ts",
+              "line": 26,
+              "column": 3
+            },
+            {
+              "title": "Permissions-Policy does not include browsing-topics",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "desktop-chromium",
+                  "projectName": "desktop-chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 22,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-05-23T04:59:17.486Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "9e3ea47c3dd308804f1b-775be07803b262e0cc8d",
+              "file": "security-headers.spec.ts",
+              "line": 38,
+              "column": 3
+            },
+            {
+              "title": "admin redirect response also includes security headers",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "desktop-chromium",
+                  "projectName": "desktop-chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 99,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-05-23T04:59:17.524Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "9e3ea47c3dd308804f1b-29b9c2f80ffc6276abd4",
+              "file": "security-headers.spec.ts",
+              "line": 47,
+              "column": 3
+            },
+            {
+              "title": "CSP connect-src includes configured API base URL",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "desktop-chromium",
+                  "projectName": "desktop-chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 93,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-05-23T04:59:17.681Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "9e3ea47c3dd308804f1b-5f8b7f83ab87c59c1729",
+              "file": "security-headers.spec.ts",
+              "line": 58,
+              "column": 3
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-05-23T04:56:38.813Z",
+    "duration": 159231.58899999998,
+    "expected": 6,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  }
+}
