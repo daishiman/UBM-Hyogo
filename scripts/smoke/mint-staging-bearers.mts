@@ -6,7 +6,7 @@
 
 import { appendFileSync } from "node:fs";
 import { pathToFileURL } from "node:url";
-import { signSessionJwt } from "@ubm-hyogo/shared";
+import { signSessionJwt, verifySessionJwt } from "@ubm-hyogo/shared";
 import type { MemberId } from "@ubm-hyogo/shared";
 
 interface MintedBearers {
@@ -39,6 +39,20 @@ export async function mintStagingBearers(env: {
     isAdmin: false,
     ttlSeconds,
   });
+  const [adminClaims, meClaims] = await Promise.all([
+    verifySessionJwt(adminBearer, env.authSecret),
+    verifySessionJwt(meBearer, env.authSecret),
+  ]);
+  if (
+    !adminClaims ||
+    !meClaims ||
+    adminClaims.memberId !== env.adminMemberId ||
+    adminClaims.isAdmin !== true ||
+    meClaims.memberId !== env.meMemberId ||
+    meClaims.isAdmin !== false
+  ) {
+    throw new Error("minted bearer self verification failed");
+  }
   return { adminBearer, meBearer, memberId: env.adminMemberId };
 }
 

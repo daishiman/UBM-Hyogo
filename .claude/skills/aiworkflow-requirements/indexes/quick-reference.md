@@ -14,6 +14,22 @@
 | inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-837-schema-alias-bulk-rollback-artifact-inventory.md` |
 | user gate | authenticated runtime screenshot, staging smoke, commit, push, PR, Issue mutation |
 
+## runtime-smoke-staging-mint-recurrence-fix（2026-05-24）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/runtime-smoke-staging-mint-recurrence-fix/` |
+| status | `implemented_local_evidence_captured / implementation / NON_VISUAL / runtime rerun user-gated` |
+| purpose | 24h TTL 静的 bearer のサイレント失効による 401 周期再発を構造排除（`ci-green-recovery-smoke-coverage-shard` の mint path 導入の follow-up） |
+| 方針 | Option C: 静的 fallback を維持しつつ smoke 前 **鮮度ゲート** + 401 **reason 二分** + mint **署名後自己検証** |
+| 鮮度ゲート | `scripts/smoke/bearer-freshness-gate.mts`。`exp - now < 21600s（6h）` または decode 不能で smoke 前に loud fail（`FRESHNESS_THRESHOLD_SECONDS` で上書き、token 非露出） |
+| 401 診断早見 | `exp <= now` → `auth-token-expired`（bearer 再発行 / mint path 有効化）, `exp > now` → `auth-secret-drift`（署名鍵=検証鍵 再同期）。500 → `auth-secret-binding-missing`、403 → `auth-not-admin`。詳細は SSOT §4 |
+| mint 自己検証 | `scripts/smoke/mint-staging-bearers.mts` が署名直後 `verifySessionJwt` round-trip、不整合なら token 非露出で throw（AC-4）。test は `@ubm-hyogo/shared` を `vi.mock` で `verifySessionJwt=null` 固定 |
+| SSOT | `docs/30-workflows/runtime-smoke-staging-mint-recurrence-fix/reference/bearer-lifecycle-ssot.md`（TTL / secret 同期不変条件 / reason ディシジョンツリーの唯一の正本） |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-runtime-smoke-staging-mint-recurrence-fix-artifact-inventory.md` |
+| lessons-learned | `.claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-runtime-smoke-staging-mint-recurrence-2026-05.md`（L-RSMR-001..006） |
+| boundary | `STAGING_AUTH_SECRET` 投入による mint path 恒久化・staging runtime rerun・GitHub/Cloudflare secret mutation・commit・push・PR は user-gated |
+
 ## members-page-prototype-alignment（2026-05-23）
 
 | 目的 | 参照先 |
