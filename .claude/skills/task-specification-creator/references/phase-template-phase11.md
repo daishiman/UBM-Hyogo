@@ -89,6 +89,20 @@ scheduled GitHub Actions の D+7 / D+30 / 90日観測のように、複数 run �
 runtime pending 内訳を G1-G4 単位で表記する。runtime evidence が後続タスクで取得される場合は、
 `unassigned-task-detection.md` の formalize 先と evidence path を併記する。
 
+## Runtime smoke manual-command promotion gate（2026-05-24 / Issue #864）
+
+NON_VISUAL / runtime smoke / CI gate タスクで Phase 11 に手動 `curl`、`bash scripts/cf.sh tail`、独自 smoke runner などを記載する場合、その手順を「将来実装予定」として残して PASS しない。Phase 11 close-out 前に次を同一 wave で確認する。
+
+| Gate | 必須確認 |
+| --- | --- |
+| CLI/script existence | Phase 11 が参照する `scripts/*.sh` / `scripts/cf.sh <subcommand>` / helper が実ファイルとして存在し、focused test で unknown command にならない |
+| runner contract | manual curl 手順が deploy ごとに必要な場合、同等の runner と CI job へ昇格するか、user-gated runtime boundary として `PASS_BOUNDARY_SYNCED_RUNTIME_PENDING` に留める |
+| tail timing | Workers log / render-error digest を gate する runner は、対象 HTTP probe の前に `wrangler tail` / `cf.sh tail` capture を開始し、probe 中のログを取り逃がさない |
+| redaction | runtime log / summary artifact は redaction filter を通し、Cookie / Authorization / bearer / webhook URL を grep gate で検出する |
+| state wording | local runner / CI yaml まで実装済みで staging 実走のみ未実行なら `implemented_local_runtime_pending`。仕様書のみなら `spec_created`。両者を混同しない |
+
+適用例: `issue-864-admin-staging-runtime-smoke-ci-gate` では親 Phase 11 の手動 `cf.sh tail` + authenticated `/admin` curl を、`scripts/cf.sh tail` / `scripts/smoke/runtime-admin-web.sh` / `web-cd.yml admin-runtime-smoke` へ同一 wave で昇格した。
+
 #### `manual-evidence-deferred.md` 分離ルール（UT-07B-FU-02 由来 / 2026-05-06）
 
 UI screenshot を後続取得する小規模 implementation / VISUAL_ON_EXECUTION では、**component evidence PASS** と **manual screenshot pending** を物理ファイルレベルで分離する。`outputs/phase-12` のみを根拠に Phase 11 boundary を PASS 扱いしてはならない。

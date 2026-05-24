@@ -2938,6 +2938,12 @@ node scripts/list-specs.js --topics
 | Phase 12 Strict 7 | L42 |
 | User-Gated Boundary | L54 |
 
+### references/workflow-issue-864-admin-staging-runtime-smoke-ci-gate-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| State | L15 |
+
 ### references/workflow-light-theme-contrast-regression-guard.md
 
 | セクション | 行 |
@@ -7435,14 +7441,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L2144 |
-| フェーズ構造（概要） | L2153 |
-| 品質ゲート（概要） | L2184 |
-| 出力テンプレート | L2195 |
-| 実行時のコマンド・エージェント・スキル | L2218 |
-| 昇格パターン集 | L2242 |
-| Current Active / Spec Created Tasks | L2244 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L2404 |
+| ドキュメント構成 | L2155 |
+| フェーズ構造（概要） | L2164 |
+| 品質ゲート（概要） | L2195 |
+| 出力テンプレート | L2206 |
+| 実行時のコマンド・エージェント・スキル | L2229 |
+| 昇格パターン集 | L2253 |
+| Current Active / Spec Created Tasks | L2255 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L2415 |
 
 ### references/task-workflow-backlog-part2.md
 

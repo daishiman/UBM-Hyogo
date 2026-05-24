@@ -149,6 +149,19 @@ describe('AdminLayout', () => {
 - Server Component を直接 `await Component(props)` で実行する。`@testing-library/react` の `render` は async server component に対応していないため使わない
 - `redirect` の throw を `try/catch` で握り潰して assert すると失敗パスが見えなくなる。**必ず `rejects.toThrow` を使う**
 
+## Server Component runtime smoke token-compatibility gate（2026-05-24 / Issue #864）
+
+Authenticated Server Component route を staging / production runtime smoke で叩く場合、HTTP probe は UI route の手前にある edge middleware と route/layout 側の session resolver の **両方**を通過する必要がある。Phase 1/2 で次を確認してから runner を実装する。
+
+| 確認 | 判定 |
+| --- | --- |
+| edge gate | `middleware.ts` / `proxy.ts` が読む cookie 名と decode helper |
+| route gate | layout/page の `getSession()` / Auth.js `auth()` が使う `session.strategy` と `jwt.encode/decode` |
+| cookie mint | edge と route が同一 JWT 契約なら shared encode helper を再利用。Auth.js default JWE 等で非対称なら runner 実装前に互換 encode/decode を追加 |
+| tests | mint helper は pure function として focused `*.spec.ts` で decode round-trip を検証し、runner は curl/tail stub で 200 / redirect / 403 / render-error digest を分類する |
+
+適用例: `issue-864-admin-staging-runtime-smoke-ci-gate` は `apps/web/src/lib/auth.ts` が `session.strategy="jwt"` かつ `encodeAuthSessionJwt` / `decodeAuthSessionJwt` を Auth.js adapter に使うことを確認し、`mint-staging-session-cookie.mts` が同じ HS256 contract の cookie を発行する。
+
 ## 関連 reference
 
 - [quality-gates.md](quality-gates.md) — §7 テスト常時実行可能性 DoD / §7.5 E2E lines coverage ≥ 80%

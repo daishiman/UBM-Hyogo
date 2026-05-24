@@ -8,6 +8,17 @@
 
 本ドキュメントは、複雑なタスクを単一責務の原則に基づいて分解し、各サブタスクに最適なスラッシュコマンド・エージェント・スキルの組み合わせを選定するためのガイドラインを定義する。
 
+### issue-864-admin-staging-runtime-smoke-ci-gate（2026-05-24）
+
+| 項目 | 値 |
+| --- | --- |
+| state | `implemented_local_runtime_pending / implementation / NON_VISUAL` |
+| root | `docs/30-workflows/completed-tasks/issue-864-admin-staging-runtime-smoke-ci-gate/` |
+| purpose | staging deploy 後に authenticated `/admin` を叩き Server Components render error digest `167275886` / `error.boundary.caught` を CI で検出する gate |
+| implementation targets | `scripts/cf.sh tail`, `scripts/smoke/mint-staging-session-cookie.mts`, `scripts/smoke/runtime-admin-web.sh`, `.github/workflows/web-cd.yml admin-runtime-smoke` |
+| tests | `scripts/smoke/__tests__/mint-staging-session-cookie.spec.ts`, `scripts/smoke/__tests__/runtime-admin-web.test.sh` |
+| user gate | Cloudflare staging deploy, real `/admin` probe, commit, push, PR |
+
 ### home-page-prototype-alignment（2026-05-23）
 
 | 項目 | 値 |
