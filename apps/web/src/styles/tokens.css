@@ -107,7 +107,8 @@
   --ubm-color-border-strong: #d8c9b0;
   --ubm-color-text-primary: #22180a;
   --ubm-color-text-secondary: #6b5a42;
-  --ubm-color-text-muted: #9a8a6e;
+  /* WCAG AA 4.5:1 fix: #9a8a6e gave 3.0–3.3 contrast on warm surfaces (a11y gate fail). #736449 ≥4.6 on all warm bg/panel. */
+  --ubm-color-text-muted: #736449;
   --ubm-color-accent: oklch(0.52 0.13 50);
   --ubm-color-accent-soft: oklch(0.94 0.05 60);
   --ubm-color-accent-ink: oklch(0.36 0.12 50);

@@ -146,11 +146,16 @@ function adminDashboardBody() {
 
 function publicMembersBody(params = new URLSearchParams()) {
   const q = params.get('q') ?? ''
-  if (q.startsWith('zzznotfound')) {
+  // 負例クエリは contracts fixture `fixtures.public.negativeQuery`（"zzz_no_match_zzz"）が正本。
+  // CI では scripts/e2e-mock-api.mjs（q === negativeQuery 完全一致）が応答するため、規約を揃える。
+  if (q === 'zzz_no_match_zzz') {
     return {
       items: [],
       pagination: { total: 0, page: 1, limit: 50, totalPages: 0, hasNext: false, hasPrev: false },
       appliedQuery: { q, zone: 'all', status: 'public', tags: [], sort: 'recent', density: 'comfy' },
+      // PublicMemberListViewZ は .strict() かつ topTags 必須。空系でも省略すると parse が throw し
+      // ページが error boundary に落ちて EmptyState が描画されない（empty-state spec timeout の原因）。
+      topTags: [],
       generatedAt: '2026-05-12T00:00:00.000Z',
     }
   }

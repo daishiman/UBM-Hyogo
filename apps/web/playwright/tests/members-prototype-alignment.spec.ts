@@ -63,7 +63,10 @@ test.describe("members prototype alignment", () => {
     });
 
     await page.setViewportSize({ width: 1280, height: 800 });
-    await page.goto(`/members?q=zzznotfound-${Date.now()}`);
+    // 負例クエリは contracts fixture `fixtures.public.negativeQuery`（"zzz_no_match_zzz"）が正本。
+    // SSR mock は CI では scripts/e2e-mock-api.mjs（q === negativeQuery 完全一致）が応答するため、
+    // 独自 prefix（旧 zzznotfound-）だと空にならず EmptyState が出ない。public-top-and-list.spec.ts と同一規約。
+    await page.goto("/members?q=zzz_no_match_zzz");
     await expect(page.locator('[data-component="empty-state"]')).toBeVisible();
     await page.screenshot({
       path: screenshotPath("EV-5-empty-desktop.png"),
@@ -87,7 +90,7 @@ test.describe("members prototype alignment", () => {
         "",
         `- Captured at: ${new Date().toISOString()}`,
         "- Source: Playwright local dev server via `members-prototype-alignment.spec.ts`",
-        "- Routes: `/members`, `/members?density=dense`, `/members?density=list`, `/members?q=zzznotfound`",
+        "- Routes: `/members`, `/members?density=dense`, `/members?density=list`, `/members?q=zzz_no_match_zzz`",
         "- Result: required selectors visible and screenshots written to `outputs/phase-11/screenshots/`.",
         "",
       ].join("\n"),
