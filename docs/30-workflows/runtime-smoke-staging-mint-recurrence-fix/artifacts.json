@@ -1,0 +1,83 @@
+{
+  "task_id": "runtime-smoke-staging-mint-recurrence-fix",
+  "created_at": "2026-05-24",
+  "status": "implemented_local_evidence_captured",
+  "task_type": "implementation",
+  "visual_category": "NON_VISUAL",
+  "implementation_mode": "new",
+  "metadata": {
+    "workflow_state": "implemented_local_evidence_captured",
+    "implementation_status": "implemented-local",
+    "taskType": "implementation",
+    "visualEvidence": "NON_VISUAL",
+    "implementationCategory": "ci-recurrence-prevention",
+    "spec_classification": "implementation_spec",
+    "canonical_workflow": "docs/30-workflows/runtime-smoke-staging-mint-recurrence-fix/",
+    "base_branch": "dev",
+    "work_branch": "docs/runtime-smoke-staging-mint-recurrence-spec",
+    "adopted_strategy": "option-c-static-fallback-retained-plus-freshness-gate",
+    "root_cause": "permanent-mint-fix-inert-due-to-unprovisioned-STAGING_AUTH_SECRET-then-silent-degradation-to-expiring-static-bearer-with-no-pre-flight-detection-gate",
+    "acceptance_criteria": [
+      { "id": "AC-1", "title": "pre-flight bearer freshness gate", "depends_on": [] },
+      { "id": "AC-2", "title": "active auth-path visibility notice", "depends_on": [] },
+      { "id": "AC-3", "title": "401 reason split expired vs secret-drift", "depends_on": [] },
+      { "id": "AC-4", "title": "mint self-verify via verifySessionJwt", "depends_on": [] },
+      { "id": "AC-5", "title": "bearer/secret lifecycle SSOT", "depends_on": [] },
+      { "id": "AC-6", "title": "static fallback retained (no hard removal)", "depends_on": [] },
+      { "id": "AC-7", "title": "leak/contract invariants preserved", "depends_on": ["AC-1", "AC-2", "AC-3", "AC-4"] }
+    ],
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-05-24T00:00:00+09:00",
+        "evidence_path": "docs/30-workflows/runtime-smoke-staging-mint-recurrence-fix/phase-3-design-review.md",
+        "approver": "daishiman",
+        "notes": "spec_review: Phase 1-13 implementation spec created for runtime-smoke staging 401 recurrence prevention (Option C)"
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/runtime-smoke-staging-mint-recurrence-fix/phase-11-manual-test.md",
+        "approver": "daishiman",
+        "notes": "implementation_review: code/CI/runbook changes implemented locally with focused tests; runtime staging rerun remains user-gated"
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/runtime-smoke-staging-mint-recurrence-fix/phase-13-pr.md",
+        "approver": "daishiman",
+        "notes": "external_ops: commit, push, PR, STAGING_AUTH_SECRET provisioning are user-gated"
+      }
+    ]
+  },
+  "phases": [
+    { "phase": 1, "name": "要件定義", "status": "completed", "output": "phase-1-requirements.md" },
+    { "phase": 2, "name": "設計", "status": "completed", "output": "phase-2-design.md" },
+    { "phase": 3, "name": "設計レビュー", "status": "completed", "output": "phase-3-design-review.md" },
+    { "phase": 4, "name": "テスト計画", "status": "completed", "output": "phase-4-test-plan.md" },
+    { "phase": 5, "name": "実装手順", "status": "completed", "output": "phase-5-implementation.md" },
+    { "phase": 6, "name": "テスト追加", "status": "completed", "output": "phase-6-test-additions.md" },
+    { "phase": 7, "name": "カバレッジ", "status": "completed", "output": "phase-7-coverage.md" },
+    { "phase": 8, "name": "リファクタ", "status": "completed", "output": "phase-8-refactor.md" },
+    { "phase": 9, "name": "QA", "status": "completed", "output": "phase-9-qa.md" },
+    { "phase": 10, "name": "最終レビュー", "status": "completed", "output": "phase-10-final-review.md" },
+    { "phase": 11, "name": "手動テスト", "status": "completed", "output": "phase-11-manual-test.md" },
+    { "phase": 12, "name": "ドキュメント同期", "status": "completed", "output": "phase-12-documentation.md" },
+    { "phase": 13, "name": "commit-pr-release", "status": "blocked_pending_user_approval", "output": "phase-13-pr.md" }
+  ],
+  "implementation_targets": [
+    "scripts/smoke/bearer-freshness-gate.mts",
+    "scripts/smoke/__tests__/bearer-freshness-gate.spec.ts",
+    "docs/30-workflows/runtime-smoke-staging-mint-recurrence-fix/reference/bearer-lifecycle-ssot.md",
+    ".github/workflows/runtime-smoke-staging.yml",
+    "scripts/smoke/runtime-attendance-provider.sh",
+    "scripts/smoke/mint-staging-bearers.mts",
+    "scripts/smoke/__tests__/mint-staging-bearers.spec.ts",
+    "scripts/smoke/__tests__/mint-staging-bearers-self-verify.spec.ts",
+    "scripts/smoke/__tests__/runtime-attendance-provider.test.sh",
+    "docs/30-workflows/completed-tasks/ci-secret-alignment-and-runtime-smoke-recovery/runbooks/secret-provisioning.md"
+  ]
+}
