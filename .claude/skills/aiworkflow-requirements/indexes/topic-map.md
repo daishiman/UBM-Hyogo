@@ -3026,6 +3026,8 @@ node scripts/list-specs.js --topics
 |------------|----|
 | Boundary | L19 |
 
+### references/workflow-runtime-smoke-staging-mint-recurrence-fix-artifact-inventory.md
+
 ### references/workflow-serial-05-step-03-schema-diff-resolve-artifact-inventory.md
 
 | セクション | 行 |
@@ -4412,16 +4414,16 @@ node scripts/list-specs.js --topics
 | 管理場所の判断フロー | L51 |
 | Cloudflare Secrets（ランタイム） | L68 |
 | GitHub Secrets / Variables（CI/CD 用） | L137 |
-| wrangler.toml の環境別設定 | L291 |
-| ローカル開発での設定 | L323 |
-| Cloudflare CLI ラッパー: `scripts/cf.sh`（UT-06 派生 / 2026-04-27） | L362 |
-| セキュリティ原則 | L397 |
-| Cloudflare API Token の作成手順 | L408 |
-| Cloudflare API Token 90 日 rotation runbook（Issue #407 / 2026-05-06） | L423 |
-| UT-27: GitHub Secrets / Variables 同期運用（2026-04-29） | L534 |
-| U-FIX-CF-ACCT-01-DERIV-02: Cloudflare deploy token split | L578 |
-| 関連 SOP | L628 |
-| 変更履歴 | L632 |
+| wrangler.toml の環境別設定 | L294 |
+| ローカル開発での設定 | L326 |
+| Cloudflare CLI ラッパー: `scripts/cf.sh`（UT-06 派生 / 2026-04-27） | L365 |
+| セキュリティ原則 | L400 |
+| Cloudflare API Token の作成手順 | L411 |
+| Cloudflare API Token 90 日 rotation runbook（Issue #407 / 2026-05-06） | L426 |
+| UT-27: GitHub Secrets / Variables 同期運用（2026-04-29） | L537 |
+| U-FIX-CF-ACCT-01-DERIV-02: Cloudflare deploy token split | L581 |
+| 関連 SOP | L631 |
+| 変更履歴 | L635 |
 
 ### references/deployment.md
 
@@ -7393,14 +7395,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L2088 |
-| フェーズ構造（概要） | L2097 |
-| 品質ゲート（概要） | L2128 |
-| 出力テンプレート | L2139 |
-| 実行時のコマンド・エージェント・スキル | L2162 |
-| 昇格パターン集 | L2186 |
-| Current Active / Spec Created Tasks | L2188 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L2348 |
+| ドキュメント構成 | L2100 |
+| フェーズ構造（概要） | L2109 |
+| 品質ゲート（概要） | L2140 |
+| 出力テンプレート | L2151 |
+| 実行時のコマンド・エージェント・スキル | L2174 |
+| 昇格パターン集 | L2198 |
+| Current Active / Spec Created Tasks | L2200 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L2360 |
 
 ### references/task-workflow-backlog-part2.md
 

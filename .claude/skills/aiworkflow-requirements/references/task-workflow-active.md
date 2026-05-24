@@ -8,6 +8,18 @@
 
 本ドキュメントは、複雑なタスクを単一責務の原則に基づいて分解し、各サブタスクに最適なスラッシュコマンド・エージェント・スキルの組み合わせを選定するためのガイドラインを定義する。
 
+### runtime-smoke-staging-mint-recurrence-fix（2026-05-24）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / NON_VISUAL / runtime_rerun_user_gated` |
+| 成果物 | `docs/30-workflows/runtime-smoke-staging-mint-recurrence-fix/` |
+| 目的 | `runtime-smoke-staging / smoke` の 24h bearer 失効再発を、鮮度ゲート・auth path 可視化・401 reason 細分化・mint self-verify で再発不能化する |
+| implementation targets | `scripts/smoke/bearer-freshness-gate.mts`, `scripts/smoke/runtime-attendance-provider.sh`, `scripts/smoke/mint-staging-bearers.mts`, `.github/workflows/runtime-smoke-staging.yml`, secret provisioning runbook |
+| local evidence | `pnpm exec vitest run scripts/smoke/__tests__/bearer-freshness-gate.spec.ts scripts/smoke/__tests__/mint-staging-bearers.spec.ts` PASS; `bash scripts/smoke/__tests__/runtime-attendance-provider.test.sh` PASS |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-runtime-smoke-staging-mint-recurrence-fix-artifact-inventory.md` |
+| user gate | GitHub secret mutation, Cloudflare secret mutation, staging runtime rerun, commit, push, PR |
+
 ### ci-green-recovery-smoke-coverage-shard（2026-05-23）
 
 | 項目 | 値 |

@@ -36,7 +36,6 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: setup project
-        if: env.STAGING_AUTH_SECRET != ''
         uses: ./.github/actions/setup-project
 
       - name: mint staging bearers
@@ -65,6 +64,7 @@ jobs:
             echo "STAGING_ADMIN_BEARER=$admin"
             echo "STAGING_ME_BEARER=$me"
             echo "STAGING_MEMBER_ID=$mid"
+            echo "RUNTIME_SMOKE_AUTH_PATH=minted"
           } >> "$GITHUB_ENV"
 
       - name: verify required staging secrets
@@ -84,10 +84,19 @@ jobs:
 
       - name: mask staging credentials
         run: |
+          if [ -z "${RUNTIME_SMOKE_AUTH_PATH:-}" ]; then
+            echo "RUNTIME_SMOKE_AUTH_PATH=static-fallback" >> "$GITHUB_ENV"
+            echo "::notice::runtime-smoke auth path: static-fallback (STAGING_AUTH_SECRET not provisioned)"
+          else
+            echo "::notice::runtime-smoke auth path: $RUNTIME_SMOKE_AUTH_PATH"
+          fi
           echo "::add-mask::$STAGING_ADMIN_BEARER"
           echo "::add-mask::$STAGING_ME_BEARER"
           echo "::add-mask::$STAGING_API_BASE"
           echo "::add-mask::$STAGING_MEMBER_ID"
+
+      - name: verify bearer freshness
+        run: pnpm exec tsx scripts/smoke/bearer-freshness-gate.mts
 
       - name: run runtime smoke
         run: |

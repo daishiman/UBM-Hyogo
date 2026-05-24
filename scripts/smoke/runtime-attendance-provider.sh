@@ -133,6 +133,11 @@ fail_and_exit() {
   exit 1
 }
 
+classify_unauthorized_bearer() {
+  local bearer="$1"
+  pnpm exec tsx -e "import { explainAuthFailureFromBearer } from './scripts/smoke/bearer-freshness-gate.mts'; console.log(explainAuthFailureFromBearer({ token: process.argv[1] ?? '' }));" "$bearer"
+}
+
 request_json() {
   local label="$1"
   local url="$2"
@@ -171,7 +176,7 @@ request_json() {
       printf '%s' "$redacted_body" | jq -e '.error == "unauthorized"' >/dev/null 2>&1 ||
         printf '%s' "$redacted_body" | grep -Eq '"error"[[:space:]]*:[[:space:]]*"unauthorized"'
     }; then
-      failure_reason="auth-token-invalid-or-expired"
+      failure_reason="$(classify_unauthorized_bearer "$bearer")"
     elif [[ "$status" == "403" ]] && {
       printf '%s' "$redacted_body" | jq -e '.error == "forbidden"' >/dev/null 2>&1 ||
         printf '%s' "$redacted_body" | grep -Eq '"error"[[:space:]]*:[[:space:]]*"forbidden"'

@@ -11,6 +11,10 @@ RUNNER="$SCRIPT_DIR/../runtime-attendance-provider.sh"
 
 fail=0
 
+fake_jwt_with_exp() {
+  node -e 'const exp=Number(process.argv[1]); const b=(v)=>Buffer.from(JSON.stringify(v)).toString("base64url"); console.log(`${b({alg:"HS256",typ:"JWT"})}.${b({exp})}.sig`)' "$1"
+}
+
 # --- T-4-1: --out-dir + --ci-summary 指定時に summary.json が出力される ---
 TEST_DIR="$(mktemp -d)"
 trap 'rm -rf "$TEST_DIR"' EXIT
@@ -204,7 +208,7 @@ else
   echo "PASS [T-4-6] auth misconfigured is classified as AUTH_SECRET binding missing"
 fi
 
-# --- T-4-7: 401 unauthorized は bearer 失効/改ざんとして分類する ---
+# --- T-4-7: 401 unauthorized かつ exp 未来は AUTH_SECRET drift として分類する ---
 TEST_DIR5="$(mktemp -d)"
 FAKE_BIN3="$TEST_DIR5/bin"
 mkdir -p "$FAKE_BIN3"
@@ -240,7 +244,7 @@ set +e
 PATH="$FAKE_BIN3:$PATH" \
 STAGING_API_BASE=http://staging.example.test \
 STAGING_API_HOST_ALLOW_REGEX=staging.example.test \
-STAGING_ADMIN_BEARER=stub-admin \
+STAGING_ADMIN_BEARER="$(fake_jwt_with_exp $(( $(date +%s) + 3600 )))" \
 STAGING_MEMBER_ID=stub-member \
 STAGING_ME_BEARER=stub-me \
   bash "$RUNNER" staging --out-dir "$TEST_DIR5" --ci-summary >/dev/null 2>&1
@@ -249,19 +253,44 @@ set -e
 if [[ "$ec" -ne 1 ]]; then
   echo "FAIL [T-4-7] 401 unauthorized should exit 1, got $ec"
   fail=$((fail + 1))
-elif ! grep -Fq 'reason=auth-token-invalid-or-expired' "$TEST_DIR5/runtime-smoke.log"; then
-  echo "FAIL [T-4-7] runtime-smoke.log lacks auth-token-invalid-or-expired reason"
+elif ! grep -Fq 'reason=auth-secret-drift' "$TEST_DIR5/runtime-smoke.log"; then
+  echo "FAIL [T-4-7] runtime-smoke.log lacks auth-secret-drift reason"
   fail=$((fail + 1))
-elif ! jq -e '.routes[0].reason == "auth-token-invalid-or-expired"' "$TEST_DIR5/summary.json" >/dev/null 2>&1; then
-  echo "FAIL [T-4-7] summary.json lacks auth-token-invalid-or-expired reason"
+elif ! jq -e '.routes[0].reason == "auth-secret-drift"' "$TEST_DIR5/summary.json" >/dev/null 2>&1; then
+  echo "FAIL [T-4-7] summary.json lacks auth-secret-drift reason"
   fail=$((fail + 1))
 else
-  echo "PASS [T-4-7] 401 unauthorized is classified as token invalid/expired"
+  echo "PASS [T-4-7] 401 unauthorized with future exp is classified as AUTH_SECRET drift"
 fi
 
-# --- T-4-8: 403 forbidden は admin 権限不足として分類する ---
+# --- T-4-8: 401 unauthorized かつ exp 過去は bearer expired として分類する ---
 TEST_DIR6="$(mktemp -d)"
-FAKE_BIN4="$TEST_DIR6/bin"
+set +e
+PATH="$FAKE_BIN3:$PATH" \
+STAGING_API_BASE=http://staging.example.test \
+STAGING_API_HOST_ALLOW_REGEX=staging.example.test \
+STAGING_ADMIN_BEARER="$(fake_jwt_with_exp $(( $(date +%s) - 60 )))" \
+STAGING_MEMBER_ID=stub-member \
+STAGING_ME_BEARER=stub-me \
+  bash "$RUNNER" staging --out-dir "$TEST_DIR6" --ci-summary >/dev/null 2>&1
+ec=$?
+set -e
+if [[ "$ec" -ne 1 ]]; then
+  echo "FAIL [T-4-8] 401 unauthorized should exit 1, got $ec"
+  fail=$((fail + 1))
+elif ! grep -Fq 'reason=auth-token-expired' "$TEST_DIR6/runtime-smoke.log"; then
+  echo "FAIL [T-4-8] runtime-smoke.log lacks auth-token-expired reason"
+  fail=$((fail + 1))
+elif ! jq -e '.routes[0].reason == "auth-token-expired"' "$TEST_DIR6/summary.json" >/dev/null 2>&1; then
+  echo "FAIL [T-4-8] summary.json lacks auth-token-expired reason"
+  fail=$((fail + 1))
+else
+  echo "PASS [T-4-8] 401 unauthorized with past exp is classified as bearer expired"
+fi
+
+# --- T-4-9: 403 forbidden は admin 権限不足として分類する ---
+TEST_DIR7="$(mktemp -d)"
+FAKE_BIN4="$TEST_DIR7/bin"
 mkdir -p "$FAKE_BIN4"
 cat > "$FAKE_BIN4/curl" <<'SH'
 #!/usr/bin/env bash
@@ -298,20 +327,20 @@ STAGING_API_HOST_ALLOW_REGEX=staging.example.test \
 STAGING_ADMIN_BEARER=stub-admin \
 STAGING_MEMBER_ID=stub-member \
 STAGING_ME_BEARER=stub-me \
-  bash "$RUNNER" staging --out-dir "$TEST_DIR6" --ci-summary >/dev/null 2>&1
+  bash "$RUNNER" staging --out-dir "$TEST_DIR7" --ci-summary >/dev/null 2>&1
 ec=$?
 set -e
 if [[ "$ec" -ne 1 ]]; then
-  echo "FAIL [T-4-8] 403 forbidden should exit 1, got $ec"
+  echo "FAIL [T-4-9] 403 forbidden should exit 1, got $ec"
   fail=$((fail + 1))
-elif ! grep -Fq 'reason=auth-not-admin' "$TEST_DIR6/runtime-smoke.log"; then
-  echo "FAIL [T-4-8] runtime-smoke.log lacks auth-not-admin reason"
+elif ! grep -Fq 'reason=auth-not-admin' "$TEST_DIR7/runtime-smoke.log"; then
+  echo "FAIL [T-4-9] runtime-smoke.log lacks auth-not-admin reason"
   fail=$((fail + 1))
-elif ! jq -e '.routes[0].reason == "auth-not-admin"' "$TEST_DIR6/summary.json" >/dev/null 2>&1; then
-  echo "FAIL [T-4-8] summary.json lacks auth-not-admin reason"
+elif ! jq -e '.routes[0].reason == "auth-not-admin"' "$TEST_DIR7/summary.json" >/dev/null 2>&1; then
+  echo "FAIL [T-4-9] summary.json lacks auth-not-admin reason"
   fail=$((fail + 1))
 else
-  echo "PASS [T-4-8] 403 forbidden is classified as not-admin"
+  echo "PASS [T-4-9] 403 forbidden is classified as not-admin"
 fi
 
 if [[ "$fail" -ne 0 ]]; then
