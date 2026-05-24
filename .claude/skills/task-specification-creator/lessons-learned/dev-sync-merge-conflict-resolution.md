@@ -293,3 +293,13 @@
 - **並行 worktree 運用の注記**: 同一ブランチを複数 worktree/agent で触る task は「`git push` reject（`cannot lock ref ... is at X but expected Y`）時はまず `git fetch` → `git diff HEAD origin/<branch> --stat` が空なら remote が等価コミット保有、`--set-upstream-to` 追従で足りる（force-push 不要）」を運用注記に入れる。
 - 事例: 2026-05-24 `feat/serial-06-form-response-binding`（PR #888）。`scripts/e2e-mock-api.mjs` を `auth.ts publicMemberProfileBody()` に整合（`member_display_name`/`session_task18`/`kobe(zone)`、重複 activity section 削除、`longText`→`paragraph`）→ dev #892/#893 を 2 段 sync-merge → baseline 再撮影 → 最終 head で e2e/smoke/visual-full 全 PASS、PR `CLEAN`。
 - 詳細は aiworkflow-requirements 配下の L-DEVSYNC-039 を参照。
+
+### SP-DEVSYNC-033: sync-merge 前に「stat-dirty な tracked」と「他タスク PR の stale untracked 漏れ込み」を切り分け、後者は CONST_019 から除外する（2026-05-24 追加）
+- ブランチ主題と乖離した大量変更が `git status` に出た sync-merge では、commit/push 前に必ず以下の切り分けを実施する手順を運用知見として持つ。task 実装フローでも「PR 作成前の作業ツリー健全性チェック」として適用する。
+  - **stat-dirty の除外**: ` M`（space-M）の tracked は `git diff HEAD --stat` が空なら実内容は HEAD 一致の stat-dirty（mtime のみ）。`git diff HEAD` を 1 回走らせれば index refresh で消える。汚れの実体は untracked 群、と最初に確定する。
+  - **stale 漏れ込みの判定**: untracked 群が他タスク PR の成果物なら、`git log HEAD..dev` の取り込み対象コミットと照合し `git cat-file -e "dev:<path>"` + `diff -q <(git show dev:<path>) <path>` で **dev に committed 済 かつ IDENTICAL** を確認。一致すれば「並行 worktree から漏れ込み→当該 PR が dev へマージ済」の stale コピーと確定。
+  - **除外の根拠**: CONST_019「全変更包含」は当該ブランチ起因の変更にのみ適用。dev に同一内容で既存の漏れ込みコピーを `git add -A` で commit すると**無関係 PR を汚染**するため除外する。
+  - **退避手順**: 削除（`git clean -fd`）ではなく `git stash push -u`（内容は dev にあり非破壊・復元可能）で退避してから `git merge dev`。merge/verify/push 後に IDENTICAL 確認済みなら stash を drop。
+- task 仕様書テンプレへの織り込み: 並行 worktree 運用前提の task は Phase 13（PR 作成）の pre-flight に「作業ツリーに主題外変更があれば stat-dirty / stale 漏れ込みを切り分け、stale は stash 退避してから merge」を逐語化する。`bash scripts/verify-pr-ready.sh` は untracked 漏れ込みを検出しないため、この切り分けは人/agent 側の手続きで担保する。
+- 事例: 2026-05-24 `docs/issue-863-admin-runtime-alert-policy-spec` ← dev sync-merge。tracked 50+ ` M`（全 stat-dirty）+ untracked 20 件（#888/#887/#893/#892 の stale コピー、IDENTICAL 確認）を切り分け、untracked を `git stash push -u` 退避 → clean tree で `git merge dev` → `pnpm sync:resolve` で index conflict 自動解消 → merge `9d059ad00` → typecheck/lint 初回 PASS、無関係成果物の混入ゼロ。
+- 詳細は aiworkflow-requirements 配下の L-DEVSYNC-040 を参照。
