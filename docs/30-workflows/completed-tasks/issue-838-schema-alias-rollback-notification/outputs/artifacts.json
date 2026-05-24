@@ -110,6 +110,32 @@
   "metadata": {
     "taskType": "feat",
     "visualEvidence": "NON_VISUAL",
-    "runtimeBoundary": "staging_provider_smoke_user_gated"
+    "runtimeBoundary": "staging_provider_smoke_user_gated",
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-05-24T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-838-schema-alias-rollback-notification/outputs/phase-12/phase12-task-spec-compliance-check.md",
+        "approver": "daishiman",
+        "notes": "spec_review: Phase 1-13 spec + local implementation completed (best-effort rollback notification + audit)"
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "passed",
+        "passed_at": "2026-05-24T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-838-schema-alias-rollback-notification/outputs/phase-12/implementation-guide.md",
+        "approver": "daishiman",
+        "notes": "implementation_review: schemaAliasRollbackNotification dispatch/redaction/audit + route best-effort wiring + focused tests"
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/unassigned-task/issue-838-followup-001-staging-rollback-notification-smoke.md",
+        "approver": "daishiman",
+        "notes": "external_ops: staging secrets + staging rollback provider smoke (user-gated runtime boundary)"
+      }
+    ]
   }
 }
