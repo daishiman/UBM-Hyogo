@@ -2970,6 +2970,14 @@ node scripts/list-specs.js --topics
 | Planned Implementation Targets | L26 |
 | Boundary | L38 |
 
+### references/workflow-issue-837-schema-alias-bulk-rollback-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Implementation Targets | L11 |
+| Evidence | L20 |
+| Contract | L28 |
+
 ### references/workflow-issue-857-internal-alert-relay-binding-wiring-artifact-inventory.md
 
 | セクション | 行 |
@@ -7526,14 +7534,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L2271 |
-| フェーズ構造（概要） | L2280 |
-| 品質ゲート（概要） | L2311 |
-| 出力テンプレート | L2322 |
-| 実行時のコマンド・エージェント・スキル | L2345 |
-| 昇格パターン集 | L2369 |
-| Current Active / Spec Created Tasks | L2371 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L2531 |
+| ドキュメント構成 | L2287 |
+| フェーズ構造（概要） | L2296 |
+| 品質ゲート（概要） | L2327 |
+| 出力テンプレート | L2338 |
+| 実行時のコマンド・エージェント・スキル | L2361 |
+| 昇格パターン集 | L2385 |
+| Current Active / Spec Created Tasks | L2387 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L2547 |
 
 ### references/task-workflow-backlog-part2.md
 
