@@ -14,6 +14,133 @@
 | inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-832-admin-topbar-primitive-extraction-artifact-inventory.md` |
 | boundary | authenticated screenshot / commit / push / PR は user-gated |
 
+## Issue #827 member detail adapter and visibility defense（2026-05-23）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-827-member-detail-adapter-and-visibility-defense/` |
+| 状態 | `implemented_local_evidence_captured / implementation / NON_VISUAL` |
+| issue | #827 CLOSED; PR should use `Refs #827`; commit / push / PR / issue mutation are user-gated |
+| scope | public member detail web-side pure adapter and visibility double-defense |
+| implementation | `apps/web/src/lib/adapters/member-detail.ts`, `MemberDetailSections.tsx`, `/members/[id]/page.tsx` |
+| contract | adapter first filters all section fields to `visibility="public"` for `MemberLinks` / `MemberActivity`; detail sections then include only non-activity kinds `shortText` / `paragraph` / `date` / `radio` / `checkbox` / `dropdown`; `url` remains for `MemberLinks`; `activity` remains for `MemberActivity` |
+| evidence | apps/web Vitest 888 PASS, workspace typecheck/lint PASS, web build PASS with required local env |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-827-member-detail-adapter-and-visibility-defense-artifact-inventory.md` |
+
+## home-page-prototype-alignment（2026-05-23）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/home-page-prototype-alignment/` |
+| status | `implemented / implementation / VISUAL / local runtime screenshots captured` |
+| purpose | public home `/` の prototype drift を `legacy-public.css` selector rules と `CallToActionCTA` data-role cleanup で解消 |
+| historical parent | `docs/30-workflows/ui-prototype-alignment-mvp-recovery/` |
+| current implementation owner | `docs/30-workflows/ui-prototype-design-system-foundation/`（prototype/system foundation の現行 SSOT） |
+| implementation targets | `apps/web/src/styles/legacy-public.css`, `apps/web/src/components/public/CallToActionCTA.tsx`, `apps/web/src/components/public/__tests__/CallToActionCTA.component.spec.tsx`, `apps/web/app/opengraph-image.tsx`, `apps/web/app/(public)/members/[id]/opengraph-image/route.tsx` |
+| Phase 12 | `outputs/phase-12/phase12-task-spec-compliance-check.md` + strict 7 present |
+| evidence | `outputs/phase-11/screenshots/home-desktop-2026-05-23.png`, `outputs/phase-11/screenshots/home-mobile-2026-05-23.png` |
+| boundary | staging deploy, commit, push, PR are user-gated |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-home-page-prototype-alignment-artifact-inventory.md` |
+
+## login-page-prototype-alignment（2026-05-23）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/login-page-prototype-alignment/` |
+| 状態 | `implemented_local_visual_evidence_captured / implementation / VISUAL_ON_EXECUTION` |
+| system spec | `docs/00-getting-started-manual/specs/13-mvp-auth.md` |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-login-page-prototype-alignment-artifact-inventory.md` |
+| implementation | `apps/web/app/login/**`, `apps/web/src/components/ui/{Icon,icons}.ts(x)`, `apps/web/src/styles/auth.css`, `apps/web/playwright/tests/login-smoke.spec.ts` |
+| UI contract | Magic Link primary -> OR divider -> Google secondary, brand block, sent inbox state |
+| boundary | `/api/auth/*`, Auth.js handler, D1 schema, `apps/api/**` are unchanged; staging visual smoke, commit, push, PR are user-gated |
+
+## fix-admin-server-components-render-error-stg（2026-05-23）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow | `docs/30-workflows/fix-admin-server-components-render-error-stg/` |
+| status | `implemented_local_runtime_pending / implementation / NON_VISUAL` |
+| purpose | recover staging `/admin` Server Components render error digest `167275886` by routing admin server fetch env access through `getEnv()` and removing localhost fallback |
+| implementation | `apps/web/src/lib/admin/server-fetch.ts`, `apps/web/src/lib/env.ts` |
+| tests | `apps/web/src/lib/admin/__tests__/server-fetch.env.spec.ts`, `apps/web/src/lib/__tests__/env.spec.ts` |
+| spec sync | `references/architecture-admin-api-client.md` now defines `fetchAdmin()` base URL / internal auth resolution via `getEnv()` with no localhost fallback |
+| Phase 12 | `outputs/phase-12/phase12-task-spec-compliance-check.md` + strict 7 files present |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-fix-admin-server-components-render-error-stg-artifact-inventory.md` |
+| boundary | staging deploy, authenticated `/admin` curl, backend-ci rerun, commit, push, PR are user-gated |
+
+## apps-web-security-headers-hardening（2026-05-23）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/apps-web-security-headers-hardening/` |
+| status | `implemented_local_evidence_captured / implementation / NON_VISUAL` |
+| scope | `apps/web` response security headers via middleware |
+| implementation | `apps/web/src/lib/security-headers.ts`, `apps/web/middleware.ts`, `apps/web/src/lib/security-headers.spec.ts`, `apps/web/playwright/tests/security-headers.spec.ts` |
+| contract | CSP is `Content-Security-Policy-Report-Only`; `Permissions-Policy` excludes `browsing-topics`; Trusted Types enforcement is not emitted |
+| env | `getPublicEnv().NEXT_PUBLIC_API_BASE_URL` is the canonical API URL; `NEXT_PUBLIC_API_ORIGIN` is not used |
+| Phase 12 | strict 7 outputs present; root/output artifacts parity present |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-apps-web-security-headers-hardening-artifact-inventory.md` |
+| lessons-learned | `.claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-apps-web-security-headers-hardening-2026-05.md` (L-AWSHH-001..004) |
+| user gate | staging/production response verification, commit, push, PR |
+
+## ci-green-recovery-smoke-coverage-shard（2026-05-23）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/ci-green-recovery-smoke-coverage-shard/` |
+| status | `implemented_local_evidence_captured / implementation / NON_VISUAL / runtime_ci_pending` |
+| purpose | 3 CI failures (`runtime-smoke-staging` admin 401, aggregate `coverage-gate` MISSING, `coverage-gate-shard` checkout auth) を 1 implementation cycle で解消する実装 |
+| Lane A | CI-time short-lived JWT mint with `signSessionJwt`, replacing static 24h staging bearer expiry |
+| Lane B/C | fail aggregate coverage on upstream shard failure before MISSING, plus `contents: read` / explicit checkout token hardening |
+| Phase 12 | strict 7 files present; root/output `artifacts.json` parity present |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-ci-green-recovery-smoke-coverage-shard-artifact-inventory.md` |
+| boundary | code/CI changes and runbook edit are implemented with local evidence; staging secrets, runtime CI evidence, commit, push, PR are user-gated |
+
+## admin-ui-prototype-alignment（2026-05-23）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/admin-ui-prototype-alignment/` |
+| 状態 | `implemented_local_runtime_pending / implementation / VISUAL / 11 admin routes` |
+| scope | 11 admin routes（dashboard / attendance / members / tags / meetings / meetings/[id] / schema / schema/history / requests / identity-conflicts / audit）の prototype alignment + 共通 component 6 種 + per-section degrade pattern |
+| per-section degrade | `apps/web/src/lib/result.ts`（`SafeResult<T>`）+ `apps/web/src/lib/admin/safe-server-fetch.ts` で throw を normalize → `Promise.all` 後に section 毎に `result.ok` 分岐 → `AdminSectionError` で degrade。`error.tsx` は renderer crash 専用に縮小（L-AUIP-001 / 再利用 Pattern 1） |
+| 共通 component | `apps/web/src/features/admin/components/_shared/{AdminSectionCard,AdminSectionError,AdminEmptyState,AdminStat,AdminTable,AdminQueuePanel}.tsx` + `index.ts` barrel export |
+| import 強制 | barrel 経由のみ。深 path import を ESLint `no-restricted-imports` で deny、grep gate `rg "from ['\"]@/features/admin/components/_shared/[A-Z]"` 0 件を Phase 5 DoD に組込（L-AUIP-003 / 再利用 Pattern 2） |
+| design token | 新規 component は OKLch token のみ（`var(--ubm-color-*)`）。既存 `*Panel.tsx` の HEX 移行は別 wave へ分離（L-AUIP-004） |
+| server/client boundary | server page = throw-only / view-compute-only、client wrapper = state/event-only の twin principle。`TagsClientShell` / `RequestsClientShell` で state ownership を Phase 2 fix（L-AUIP-005） |
+| scope cutoff | Phase 4 test plan に scope lock TC を列挙し、test fail = scope miss として early detect（L-AUIP-006 / 再利用 Pattern 5） |
+| lessons-learned | `.claude/skills/aiworkflow-requirements/references/lessons-learned-admin-ui-prototype-alignment-2026-05.md`（L-AUIP-001..006 + 再利用可能パターン 5 件） |
+| changelog | `.claude/skills/aiworkflow-requirements/changelog/20260523-admin-ui-prototype-alignment.md` |
+| 出典 | `docs/30-workflows/admin-ui-prototype-alignment/outputs/phase-12/implementation-guide.md` / `system-spec-update-summary.md` / `skill-feedback-report.md` / `phase12-task-spec-compliance-check.md` / `unassigned-task-detection.md` |
+| user gate | authenticated runtime screenshots / staging refresh / commit / push / PR |
+
+## Issue #55 Notification Channel + Opt-out（2026-05-23）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/issue-55-notification-channel-and-optout/` |
+| status | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION / production_runtime_pending_user_gate` |
+| purpose | Close the remaining Issue #55 gaps by introducing a `NotificationChannel` abstraction and an operator-managed member notification opt-out gate. |
+| current-code alignment | Store opt-out on `member_status.notification_opt_out`; add `notification_outbox.channel`; expand `notification_ledger.event_type` for `skipped_opt_out` and `unknown_channel`; use admin `MemberDrawer`, not a nonexistent member detail page route. |
+| implementation targets | `apps/api/src/services/notification/{channel.ts,registry.ts,channels/mail.ts}`, `apps/api/src/repository/{notificationOutbox.ts,memberNotificationPreference.ts}`, `apps/api/src/workflows/notificationDispatchTick.ts`, `apps/api/src/routes/admin/member-notification-pref.ts`, `apps/api/migrations/0020_notification_channel_and_opt_out.sql`, `apps/web/src/features/admin/components/_members/MemberDrawer.tsx`, `apps/web/src/lib/admin/api.ts` |
+| Phase 12 | `outputs/phase-12/phase12-task-spec-compliance-check.md` + strict 7 files present; Phase 11 local UI/D1 evidence present |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-55-notification-channel-and-optout-artifact-inventory.md` |
+| user gate | production D1 migration apply, staging/runtime evidence, commit, push, PR |
+
+## UT-25-DERIV-02 SA key expiry monitoring（2026-05-22）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow | `docs/30-workflows/ut-25-deriv-02-sa-key-expiry-monitoring/` |
+| status | `implemented_local_runtime_pending / implementation / NON_VISUAL` |
+| source | `docs/30-workflows/unassigned-task/UT-25-DERIV-02-sa-key-expiry-monitoring.md` (`status: consumed`) |
+| purpose | detect Google Service Account key expiry or permission loss for `GOOGLE_SERVICE_ACCOUNT_JSON` via Sheets API 401/403 classification |
+| implementation | `apps/api/src/jobs/sheets-auth-classifier.ts`, `apps/api/src/jobs/sheets-auth-logger.ts`, `apps/api/src/scheduled/sheets-auth-healthcheck.ts`, sync injection targets, scheduled wiring, `alert-relay.ts` payload extension |
+| invariant | no new cron; healthcheck piggybacks existing `*/15 * * * *`; 401/403 are distinct; 5xx/429/network are not sheets-auth alerts |
+| Phase 12 | `outputs/phase-12/phase12-task-spec-compliance-check.md` + strict 7 files present |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-ut-25-deriv-02-sa-key-expiry-monitoring-artifact-inventory.md` |
+| boundary | staging invalidation, Workers tail, production deploy, commit, push, PR are user-gated |
+
 ## step-07 requests approve/reject implementation（2026-05-23）
 
 | 項目 | 値 |
@@ -1035,7 +1162,7 @@
 | 状態 | `implemented-local / implementation / NON_VISUAL / IMPLEMENTED_LOCAL_RUNTIME_PENDING / Phase 13 pending_user_approval` |
 | 実装正本 | `apps/web/wrangler.toml`, `apps/web/.dev.vars.example`, `apps/web/src/lib/env.ts`, `apps/web/src/lib/__tests__/env.test.ts` |
 | env contract | `[vars]` / `[env.staging.vars]` / `[env.production.vars]` に `ENVIRONMENT`, `NEXT_PUBLIC_API_BASE_URL`, `PUBLIC_API_BASE_URL`, `INTERNAL_API_BASE_URL`, `AUTH_URL`, `SENTRY_ENVIRONMENT`, `SENTRY_TRACES_SAMPLE_RATE` を配置 |
-| secret boundary | `SENTRY_DSN_WEB` / `AUTH_SECRET` は Cloudflare Secrets / 1Password 正本。`wrangler.toml` に値を書かない |
+| secret boundary | `SENTRY_DSN_WEB` / `AUTH_SECRET` / `INTERNAL_AUTH_SECRET` は Cloudflare Secrets / 1Password 正本。`wrangler.toml` に値を書かない |
 | downstream | task-03 は `SENTRY_*`、task-04/05/18 は `getEnv()` / grep gate を利用 |
 | evidence | `outputs/phase-12/phase12-task-spec-compliance-check.md`。Cloudflare dry-run / secret put / commit / push / PR は user approval 後 |
 | lessons | `references/lessons-learned-task-02-w2-wrangler-env-injection-2026-05.md`（L-T02W2-001..005: getEnv() 単一窓口 / zod throw を error.tsx に委譲 / public env schema 分離 / vars vs Secrets 境界 / NON_VISUAL platform evidence 5 点） |

@@ -1,0 +1,74 @@
+{
+  "workflow_id": "ut-25-deriv-02-sa-key-expiry-monitoring",
+  "feature": "ut-25-deriv-02-sa-key-expiry-monitoring",
+  "created": "2026-05-22T00:00:00+09:00",
+  "lastUpdated": "2026-05-23T00:00:00+09:00",
+  "status": "implemented_local_runtime_pending",
+  "metadata": {
+    "taskType": "implementation",
+    "visualEvidence": "NON_VISUAL",
+    "workflow_state": "implemented_local_runtime_pending",
+    "implementation_status": "implementation_complete_runtime_evidence_pending",
+    "implementationCategory": "standard",
+    "github_issue": 243,
+    "parent_workflow": "docs/30-workflows/unassigned-task/UT-25-DERIV-02-sa-key-expiry-monitoring.md",
+    "parent_spec": "docs/30-workflows/unassigned-task/UT-25-DERIV-02-sa-key-expiry-monitoring.md",
+    "source_unassigned_task": "docs/30-workflows/unassigned-task/UT-25-DERIV-02-sa-key-expiry-monitoring.md",
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/ut-25-deriv-02-sa-key-expiry-monitoring/index.md",
+        "approver": "daishiman",
+        "notes": "spec_review: scope / phases / canonical 9 headings 整合確認"
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/ut-25-deriv-02-sa-key-expiry-monitoring/phase-11-evidence-inventory.md",
+        "approver": "daishiman",
+        "notes": "local_evidence: typecheck / lint / vitest / staging dry-run ログ"
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/ut-25-deriv-02-sa-key-expiry-monitoring/outputs/phase-12/phase12-task-spec-compliance-check.md",
+        "approver": "daishiman",
+        "notes": "phase12: canonical 9 headings / phase 11 evidence parity"
+      },
+      {
+        "gate_id": "Gate-D",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/ut-25-deriv-02-sa-key-expiry-monitoring/phase-13-commit-pr-draft.md",
+        "approver": "daishiman",
+        "notes": "commit / push / PR は user 承認後のみ実施。base=dev"
+      }
+    ],
+    "ci_gates": [
+      "typecheck",
+      "lint",
+      "verify-phase12-compliance",
+      "gate-metadata:validate",
+      "vitest"
+    ]
+  },
+  "phases": {
+    "1": { "status": "implemented_local", "artifacts": ["phase-01-requirements.md"] },
+    "2": { "status": "implemented_local", "artifacts": ["phase-02-architecture.md"] },
+    "3": { "status": "implemented_local", "artifacts": ["phase-03-task-breakdown.md"] },
+    "4": { "status": "implemented_local", "artifacts": ["phase-04-contracts.md"] },
+    "5": { "status": "implemented_local", "artifacts": ["phase-05-implementation-guide.md"] },
+    "6": { "status": "implemented_local", "artifacts": ["phase-06-test-strategy.md"] },
+    "7": { "status": "implemented_local", "artifacts": ["phase-07-quality-gates.md"] },
+    "8": { "status": "implemented_local", "artifacts": ["phase-08-dod.md"] },
+    "9": { "status": "implemented_local", "artifacts": ["phase-09-risks.md"] },
+    "10": { "status": "implemented_local", "artifacts": ["phase-10-local-verification.md"] },
+    "11": { "status": "local_focused_evidence_captured_runtime_pending", "artifacts": ["phase-11-evidence-inventory.md"] },
+    "12": { "status": "implemented_local_runtime_pending", "artifacts": ["outputs/phase-12/phase12-task-spec-compliance-check.md"] },
+    "13": { "status": "pending", "artifacts": ["phase-13-commit-pr-draft.md"] }
+  }
+}

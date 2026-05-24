@@ -1,0 +1,5 @@
+source: apps/api/src/repository/__tests__/notificationOutbox.repository.spec.ts
+scenario: opt-out=1 enqueue skips outbox creation and records ledger event
+expected ledger.event_type: skipped_opt_out
+expected outbox rows for member: 0
+verified command: pnpm -F @ubm-hyogo/api test -- --run apps/api/src/repository/__tests__/notificationOutbox.repository.spec.ts

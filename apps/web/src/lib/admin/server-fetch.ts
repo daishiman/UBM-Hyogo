@@ -7,18 +7,15 @@ import {
   AdminMemberListViewZ,
   ListIdentityConflictsResponseZ,
 } from "@ubm-hyogo/shared";
+import { getEnv } from "../env";
 import type { AdminAuditListResponse } from "./types";
 
-const FALLBACK_INTERNAL_API = "http://127.0.0.1:8787";
-
 const resolveApiBase = (): string => {
-  const v = process.env["INTERNAL_API_BASE_URL"];
-  if (v && v.length > 0) return v.replace(/\/$/, "");
-  return FALLBACK_INTERNAL_API;
+  return getEnv().INTERNAL_API_BASE_URL.replace(/\/$/, "");
 };
 
 const resolveInternalSecret = (): string =>
-  process.env["INTERNAL_AUTH_SECRET"] ?? "";
+  getEnv().INTERNAL_AUTH_SECRET ?? "";
 
 export interface AdminFetchOptions {
   readonly method?: "GET" | "POST" | "PATCH" | "DELETE";

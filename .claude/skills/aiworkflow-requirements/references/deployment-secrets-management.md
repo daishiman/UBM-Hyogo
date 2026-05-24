@@ -83,7 +83,7 @@ wrangler secret put SLACK_BOT_TOKEN --env <env>
 | `DATABASE_URL` | Cloudflare D1 接続 URL | production / staging |
 | `SLACK_BOT_TOKEN` | Slack Bot Token（通知機能） | production / staging |
 | `DISCORD_WEBHOOK_URL` | Discord Webhook（内部通知） | production / staging |
-| `GOOGLE_SERVICE_ACCOUNT_JSON` | Google Sheets API 用 Service Account JSON key。`apps/api/src/jobs/sheets-fetcher.ts` / `sync-sheets-to-d1.ts` が `env.GOOGLE_SERVICE_ACCOUNT_JSON` として参照する正本名。値は `wrangler secret list` でも参照不可（name のみ） | production / staging |
+| `GOOGLE_SERVICE_ACCOUNT_JSON` | Google Forms API 用 Service Account JSON key（current、issue-291 で確定）。Forms split endpoint（`/admin/sync/schema` / `/admin/sync/responses`）の auth に使用。historical: u-04 legacy では Google Sheets API（`apps/api/src/jobs/sheets-fetcher.ts` / `sync-sheets-to-d1.ts`）でも同 secret を参照していた。値は `wrangler secret list` でも参照不可（name のみ） | production / staging |
 | `MAIL_PROVIDER_KEY` | Magic Link メール送信 provider API key。`apps/api/src/index.ts` の mail sender factory が参照する正本名。値は 1Password 正本から stdin 投入し、docs / logs / PR に転記しない | production / staging |
 | `AUDIT_CORRELATION_SALT` | audit-correlation fingerprintHash 生成用 salt。1Password `op://CloudflareSecurity/AuditCorrelationSalt/value` が正本。値は docs / logs / PR / evidence に残さない | production / staging |
 | `AUDIT_CORRELATION_SALT_PREVIOUS` | Issue #555 rotation window 中だけ存在する previous salt。1Password `op://CloudflareSecurity/AuditCorrelationSaltPrevious/value` が正本。window 終了後に Cloudflare Secrets と 1Password から削除 / archive する | production / staging |
@@ -97,6 +97,7 @@ wrangler secret put SLACK_BOT_TOKEN --env <env>
 - UT-26 smoke route は `GOOGLE_SERVICE_ACCOUNT_JSON` を優先して検証し、legacy `GOOGLE_SHEETS_SA_JSON` は移行期間の fallback とする。production smoke は既定 404 で、key rotation の user-gated window 中だけ `SMOKE_SHEETS_ALLOW_PRODUCTION=true` で明示的に有効化する。
 - rollback は `secret delete` 後、1Password の旧 revision から同じ secret 名へ再投入する。
 - `GOOGLE_SHEETS_SA_JSON` は移行期間の legacy alias として実装側のみ許容し、Cloudflare Workers Secret の正本名は `GOOGLE_SERVICE_ACCOUNT_JSON` に統一する。
+- UT-25-DERIV-02 の sheets-auth alert から復旧する場合、401 (`SHEETS_AUTH_401_KEY_INVALID`) は key rollback / rotation を優先し、403 (`SHEETS_AUTH_403_FORBIDDEN`) は Spreadsheet 共有・SA disabled・scope 権限を先に確認する。Alert payload の `rollbackRunbookUrl` は `docs/30-workflows/completed-tasks/ut-25-cloudflare-secrets-production-deploy/outputs/phase-13/rollback-runbook.md` を指す。
 
 ### Auth mail env 投入ルール（05b-A / 2026-05-01）
 

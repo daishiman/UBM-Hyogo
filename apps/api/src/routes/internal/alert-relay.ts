@@ -13,6 +13,123 @@ import {
 } from "../../lib/cloudflare-alert-formatter";
 import { sendSlackMessage } from "../../lib/slack-sender";
 import type { CloudflareNotificationPayload } from "../../types/cloudflare-notification";
+import type { Context } from "hono";
+
+export interface SheetsAuthAlertPayload {
+  readonly category: "sheets-auth";
+  readonly code: "SHEETS_AUTH_401_KEY_INVALID" | "SHEETS_AUTH_403_FORBIDDEN";
+  readonly status: number;
+  readonly message: string;
+  readonly jobName: string;
+  readonly spreadsheetId?: string;
+  readonly ts: string;
+  readonly rollbackRunbookUrl?: string;
+}
+
+function isSheetsAuthAlertPayload(p: unknown): p is SheetsAuthAlertPayload {
+  if (!p || typeof p !== "object") return false;
+  const o = p as Record<string, unknown>;
+  return (
+    o.category === "sheets-auth" &&
+    (o.code === "SHEETS_AUTH_401_KEY_INVALID" ||
+      o.code === "SHEETS_AUTH_403_FORBIDDEN") &&
+    typeof o.status === "number" &&
+    typeof o.message === "string" &&
+    typeof o.jobName === "string" &&
+    typeof o.ts === "string"
+  );
+}
+
+function tenMinuteWindow(ts: number): number {
+  return Math.floor(ts / (10 * 60_000));
+}
+
+function parseSheetsAuthSeenCount(value: string | null): number {
+  if (value === null) return 0;
+  const parsed = Number.parseInt(value, 10);
+  return Number.isFinite(parsed) && parsed > 0 ? parsed : 1;
+}
+
+async function handleSheetsAuthAlert(
+  c: Context<{ Bindings: AlertRelayEnv }>,
+  payload: SheetsAuthAlertPayload,
+  webhookUrl: string,
+  deps: AlertRelayDeps,
+  dedupeTtlMs: number,
+  now: () => number,
+): Promise<Response> {
+  const tsMs = Date.parse(payload.ts);
+  const windowKey = tenMinuteWindow(Number.isFinite(tsMs) ? tsMs : now());
+  const dedupeKey = `alert:sheets-auth:${payload.code}:${windowKey}`;
+
+  let seen: string | null = null;
+  try {
+    seen = await c.env.ALERT_DEDUP_KV.get(dedupeKey);
+  } catch (error) {
+    await logKvOperationError("get", error, dedupeKey);
+  }
+  const seenCount = parseSheetsAuthSeenCount(seen);
+  if (seenCount >= 2) {
+    return c.json({ ok: true, deduped: true, count: seenCount + 1 });
+  }
+
+  const runbookUrl =
+    payload.rollbackRunbookUrl ??
+    "https://github.com/daishiman/UBM-Hyogo/blob/main/docs/30-workflows/completed-tasks/ut-25-cloudflare-secrets-production-deploy/outputs/phase-13/rollback-runbook.md";
+
+  const text = `:rotating_light: Google Sheets API SA key 失効検知 (${payload.code})`;
+  const message = {
+    text,
+    blocks: [
+      {
+        type: "header",
+        text: { type: "plain_text", text: ":rotating_light: SA key 失効検知" },
+      },
+      {
+        type: "section",
+        fields: [
+          { type: "mrkdwn", text: `*code*\n${payload.code}` },
+          { type: "mrkdwn", text: `*status*\n${payload.status}` },
+          { type: "mrkdwn", text: `*jobName*\n${payload.jobName}` },
+          { type: "mrkdwn", text: `*ts*\n${payload.ts}` },
+        ],
+      },
+      {
+        type: "section",
+        text: {
+          type: "mrkdwn",
+          text: `*対応 runbook*: <${runbookUrl}|rollback-runbook.md>\n*message*: ${payload.message.slice(0, 300)}`,
+        },
+      },
+    ],
+  } as const;
+
+  const sendOptions: {
+    fetch?: typeof fetch;
+    maxRetries?: number;
+    sleep?: (ms: number) => Promise<void>;
+  } = {};
+  if (deps.fetch !== undefined) sendOptions.fetch = deps.fetch;
+  if (deps.maxRetries !== undefined) sendOptions.maxRetries = deps.maxRetries;
+  if (deps.sleep !== undefined) sendOptions.sleep = deps.sleep;
+  const result = await sendSlackMessage(webhookUrl, message, sendOptions);
+
+  if (!result.ok) {
+    return c.json(
+      { ok: false, attempts: result.attempts, status: result.status, error: "slack delivery failed" },
+      502,
+    );
+  }
+  try {
+    await c.env.ALERT_DEDUP_KV.put(dedupeKey, String(seenCount + 1), {
+      expirationTtl: Math.ceil(Math.max(dedupeTtlMs, 10 * 60 * 1000) / 1000),
+    });
+  } catch (error) {
+    await logKvOperationError("put", error, dedupeKey);
+    return c.json({ ok: true, attempts: result.attempts, dedupPersisted: false });
+  }
+  return c.json({ ok: true, attempts: result.attempts });
+}
 
 let cachedIsolateId: string | undefined;
 
@@ -31,7 +148,8 @@ export interface AlertRelayEnv extends VerifyCfWebhookAuthEnv {
   readonly CF_ALERT_DASHBOARD_URL?: string;
   readonly CF_ALERT_RUNBOOK_URL?: string;
   // ut-17-followup-002: isolate 跨ぎ dedup を永続化する Cloudflare KV namespace。
-  // value は "1" 固定、metadata 不使用、TTL は dedupeTtlMs を秒換算した expirationTtl。
+  // generic alert は value "1"、sheets-auth は同一 10 分窓の送信 count。
+  // metadata 不使用、TTL は dedupeTtlMs を秒換算した expirationTtl。
   readonly ALERT_DEDUP_KV: KVNamespace;
 }
 
@@ -100,9 +218,11 @@ export function createAlertRelayRoute(deps: AlertRelayDeps = {}): Hono<{ Binding
   const now = deps.now ?? Date.now;
 
   app.post("/", verifyCfWebhookAuth, async (c) => {
-    let payload: CloudflareNotificationPayload;
+    let payload: CloudflareNotificationPayload | SheetsAuthAlertPayload;
     try {
-      payload = (await c.req.json()) as CloudflareNotificationPayload;
+      payload = (await c.req.json()) as
+        | CloudflareNotificationPayload
+        | SheetsAuthAlertPayload;
     } catch {
       return c.json({ error: "invalid json" }, 400);
     }
@@ -110,6 +230,11 @@ export function createAlertRelayRoute(deps: AlertRelayDeps = {}): Hono<{ Binding
     const webhookUrl = c.env.SLACK_WEBHOOK_URL;
     if (!webhookUrl) {
       return c.json({ error: "slack webhook not configured" }, 503);
+    }
+
+    // UT-25-DERIV-02: sheets-auth カテゴリは専用の dedup キー + 固定 Slack message を使う。
+    if (isSheetsAuthAlertPayload(payload)) {
+      return handleSheetsAuthAlert(c, payload, webhookUrl, deps, dedupeTtlMs, now);
     }
 
     const timestamp =
