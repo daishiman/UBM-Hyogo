@@ -107,6 +107,19 @@
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-778-schema-alias-rollback-undo-artifact-inventory.md` |
 | user gate | staging D1 migration apply, production D1 migration apply, Playwright visual baseline, commit, push, PR |
 
+### Issue #838 schema alias rollback notification（2026-05-24）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / NON_VISUAL / runtime_pending` |
+| 成果物 | `docs/30-workflows/issue-838-schema-alias-rollback-notification/` |
+| parent | Issue #778 schema alias rollback / undo |
+| 目的 | rollback 成功後に operations notification を best-effort で送信し、通知結果を application `audit_log` に残す |
+| implementation targets | `apps/api/src/workflows/schemaAliasRollbackNotification.ts`, `apps/api/src/routes/admin/schema.ts`, `apps/api/src/routes/admin/_shared.ts` |
+| contract | Slack `SLACK_WEBHOOK_INCIDENT` 優先（`SLACK_WEBHOOK_URL` fallback）→ mail `MAIL_PROVIDER_KEY` / `MAIL_FROM_ADDRESS` / `OPS_NOTIFICATION_EMAIL` fallback。通知 failure は rollback 200 を壊さない。audit action は `schema_alias.rollback_notification` |
+| evidence | focused Vitest 13 PASS、`pnpm --filter @ubm-hyogo/api typecheck` PASS、Phase 12 strict 7 present |
+| user gate | staging provider smoke, Cloudflare secret mutation, commit, push, PR |
+
 ### ut-cicd-composite-setup-rollout（2026-05-22）
 
 | 項目 | 値 |

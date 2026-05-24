@@ -1,5 +1,17 @@
 # クイックリファレンス
 
+## Issue #838 Schema Alias Rollback Notification（2026-05-24）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/issue-838-schema-alias-rollback-notification/` |
+| status | `implemented_local_evidence_captured / implementation / NON_VISUAL / runtime_pending` |
+| purpose | Send best-effort operations notification after successful schema alias rollback and record notification status in application `audit_log`. |
+| implementation targets | `apps/api/src/workflows/schemaAliasRollbackNotification.ts`, `apps/api/src/routes/admin/schema.ts`, `apps/api/src/routes/admin/_shared.ts` |
+| contract | Slack `SLACK_WEBHOOK_INCIDENT` preferred, legacy `SLACK_WEBHOOK_URL` fallback, mail fallback via `MAIL_PROVIDER_KEY` / `MAIL_FROM_ADDRESS` / `OPS_NOTIFICATION_EMAIL`; failure does not break rollback 200. |
+| audit | `schema_alias.rollback_notification` with redacted `after_json={ status, channel, attempts, errorClass, dispatchedAt }` |
+| Phase 12 | strict 7 files present; Phase 11 local evidence present and staging provider smoke user-gated |
+
 ## Issue #55 Notification Channel + Opt-out（2026-05-23）
 
 | 項目 | 値 |

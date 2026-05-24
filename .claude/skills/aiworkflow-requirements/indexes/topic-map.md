@@ -874,13 +874,13 @@ node scripts/list-specs.js --topics
 | 概要 | L8 |
 | ドキュメント構成 | L15 |
 | REST API エンドポイント一覧 | L25 |
-| エンドポイント命名規則 | L222 |
-| UBM-Hyogo Admin Sync API（03a） | L243 |
-| UBM-Hyogo Member Self-Service API（04b） | L294 |
-| Admin Dashboard Attendance Analytics API（UT-02A follow-up 002） | L320 |
-| Desktop IPC API サマリー | L334 |
-| 変更履歴 | L365 |
-| 関連ドキュメント | L382 |
+| エンドポイント命名規則 | L224 |
+| UBM-Hyogo Admin Sync API（03a） | L245 |
+| UBM-Hyogo Member Self-Service API（04b） | L297 |
+| Admin Dashboard Attendance Analytics API（UT-02A follow-up 002） | L323 |
+| Desktop IPC API サマリー | L337 |
+| 変更履歴 | L368 |
+| 関連ドキュメント | L385 |
 
 ### references/api-internal-chunk-search.md
 
@@ -973,11 +973,11 @@ node scripts/list-specs.js --topics
 | マイグレーション管理 | L102 |
 | テスト戦略 | L160 |
 | UBM-Hyogo D1 Repository 契約（02b） | L190 |
-| Schema Drift ADR Gate | L222 |
-| エラーハンドリング | L241 |
-| Conversation DB 初期化パターン | L272 |
-| UBM-Hyogo Schema Sync Contract（03a） | L274 |
-| ベクトル検索実装（DiskANN） | L394 |
+| Schema Drift ADR Gate | L223 |
+| エラーハンドリング | L242 |
+| Conversation DB 初期化パターン | L273 |
+| UBM-Hyogo Schema Sync Contract（03a） | L275 |
+| ベクトル検索実装（DiskANN） | L395 |
 
 ### references/database-implementation-details.md
 
@@ -7367,14 +7367,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L2060 |
-| フェーズ構造（概要） | L2069 |
-| 品質ゲート（概要） | L2100 |
-| 出力テンプレート | L2111 |
-| 実行時のコマンド・エージェント・スキル | L2134 |
-| 昇格パターン集 | L2158 |
-| Current Active / Spec Created Tasks | L2160 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L2320 |
+| ドキュメント構成 | L2073 |
+| フェーズ構造（概要） | L2082 |
+| 品質ゲート（概要） | L2113 |
+| 出力テンプレート | L2124 |
+| 実行時のコマンド・エージェント・スキル | L2147 |
+| 昇格パターン集 | L2171 |
+| Current Active / Spec Created Tasks | L2173 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L2333 |
 
 ### references/task-workflow-backlog-part2.md
 
