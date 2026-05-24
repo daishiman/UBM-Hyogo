@@ -89,14 +89,14 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 1. 構成図 | L15 |
 | 2. Server-side fetch（`apps/web/src/lib/admin/server-fetch.ts`） | L49 |
-| 3. Client-side mutation（`apps/web/src/lib/admin/api.ts`） | L109 |
-| 4. BFF proxy（`apps/web/app/api/admin/[...path]/route.ts`） | L181 |
-| 5. ステータスコード処理方針 | L238 |
-| 6. 環境変数 | L270 |
-| 7. 不変条件サマリ（admin API client / proxy） | L283 |
-| 8. 関連ドキュメント | L295 |
-| 9. 06c-A Admin Dashboard 契約 (2026-05-02) | L303 |
-| 10. Self-service BFF proxy（`apps/web/app/api/me/[...path]/route.ts`） | L320 |
+| 3. Client-side mutation（`apps/web/src/lib/admin/api.ts`） | L110 |
+| 4. BFF proxy（`apps/web/app/api/admin/[...path]/route.ts`） | L182 |
+| 5. ステータスコード処理方針 | L239 |
+| 6. 環境変数 | L271 |
+| 7. 不変条件サマリ（admin API client / proxy） | L284 |
+| 8. 関連ドキュメント | L296 |
+| 9. 06c-A Admin Dashboard 契約 (2026-05-02) | L304 |
+| 10. Self-service BFF proxy（`apps/web/app/api/me/[...path]/route.ts`） | L321 |
 
 ### references/architecture-auth-security-core.md
 
@@ -2278,6 +2278,12 @@ node scripts/list-specs.js --topics
 | Implementation Artifacts | L12 |
 | Evidence Artifacts | L24 |
 | Boundary | L39 |
+
+### references/workflow-fix-admin-server-components-render-error-stg-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Runtime Boundary | L14 |
 
 ### references/workflow-fix-cf-deploy-esbuild-import-source-staging-failure-artifact-inventory.md
 
@@ -7421,14 +7427,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L2114 |
-| フェーズ構造（概要） | L2123 |
-| 品質ゲート（概要） | L2154 |
-| 出力テンプレート | L2165 |
-| 実行時のコマンド・エージェント・スキル | L2188 |
-| 昇格パターン集 | L2212 |
-| Current Active / Spec Created Tasks | L2214 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L2374 |
+| ドキュメント構成 | L2128 |
+| フェーズ構造（概要） | L2137 |
+| 品質ゲート（概要） | L2168 |
+| 出力テンプレート | L2179 |
+| 実行時のコマンド・エージェント・スキル | L2202 |
+| 昇格パターン集 | L2226 |
+| Current Active / Spec Created Tasks | L2228 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L2388 |
 
 ### references/task-workflow-backlog-part2.md
 

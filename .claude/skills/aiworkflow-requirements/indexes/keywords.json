@@ -3605,6 +3605,7 @@
       "workflow-2b-admin-identity-conflicts-spec-artifact-inventory.md",
       "workflow-admin-member-delete-e2e-spec-artifact-inventory.md",
       "workflow-admin-ui-prototype-alignment-artifact-inventory.md",
+      "workflow-fix-admin-server-components-render-error-stg-artifact-inventory.md",
       "workflow-i02-admin-error-type-unify-artifact-inventory.md",
       "workflow-issue-106-admin-member-notes-repository-task-spec-artifact-inventory.md",
       "workflow-issue-801-admin-error-focus-transfer-artifact-inventory.md",
@@ -3622,7 +3623,8 @@
       "lessons-learned-admin-ui-prototype-alignment-2026-05.md",
       "lessons-learned-task-14-my-profile-and-requests-2026-05.md",
       "lessons-learned-task-15-admin-dashboard-and-members-2026-05.md",
-      "lessons-learned-task-25-followup-loading-state-observation-fixture-2026-05.md"
+      "lessons-learned-task-25-followup-loading-state-observation-fixture-2026-05.md",
+      "workflow-fix-admin-server-components-render-error-stg-artifact-inventory.md"
     ],
     "ts": [
       "architecture-admin-api-client.md",
@@ -4620,6 +4622,7 @@
       "workflow-admin-member-delete-e2e-spec-artifact-inventory.md",
       "workflow-apps-web-security-headers-hardening-artifact-inventory.md",
       "workflow-e2e-stage-2-2d-contract-artifact-inventory.md",
+      "workflow-fix-admin-server-components-render-error-stg-artifact-inventory.md",
       "workflow-fix-verify-design-tokens-og-route-exclude-artifact-inventory.md",
       "workflow-i01-toastprovider-root-mount-artifact-inventory.md",
       "workflow-i02-admin-error-type-unify-artifact-inventory.md",
@@ -5706,6 +5709,7 @@
       "workflow-ai-chat-llm-integration-fix-artifact-inventory.md",
       "workflow-aiworkflow-requirements-line-budget-reform-artifact-inventory.md",
       "workflow-ci-green-recovery-smoke-coverage-shard-artifact-inventory.md",
+      "workflow-fix-admin-server-components-render-error-stg-artifact-inventory.md",
       "workflow-fix-verify-design-tokens-og-route-exclude-artifact-inventory.md",
       "workflow-issue-274-public-pages-ogp-sitemap-robots-artifact-inventory.md",
       "workflow-issue-290-workflow-lint-gate-artifact-inventory.md",
@@ -6804,6 +6808,7 @@
       "workflow-06b-c-runtime-evidence-execution-artifact-inventory.md",
       "workflow-ai-runtime-authmode-unification.md",
       "workflow-ai-runtime-execution-responsibility-realignment.md",
+      "workflow-fix-admin-server-components-render-error-stg-artifact-inventory.md",
       "workflow-i01-toastprovider-root-mount-artifact-inventory.md",
       "workflow-issue-256-e2e-coverage-baseline-runbook-artifact-inventory.md",
       "workflow-issue-276-mobile-filterbar-tag-picker-artifact-inventory.md",
@@ -10975,6 +10980,7 @@
       "lessons-learned-parallel-i06-root-error-focus-2026-05.md",
       "lessons-learned-task-25-followup-loading-state-observation-fixture-2026-05.md",
       "lessons-learned-task-26-error-tsx-token-utility-migration-2026-05.md",
+      "workflow-fix-admin-server-components-render-error-stg-artifact-inventory.md",
       "workflow-i02-admin-error-type-unify-artifact-inventory.md",
       "workflow-issue-769-root-error-focus-artifact-inventory.md",
       "workflow-issue-800-profile-error-focus-transfer-artifact-inventory.md",
@@ -12661,6 +12667,7 @@
       "workflow-ai-runtime-authmode-unification.md",
       "workflow-aiworkflow-requirements-line-budget-reform-artifact-inventory.md",
       "workflow-ci-green-recovery-smoke-coverage-shard-artifact-inventory.md",
+      "workflow-fix-admin-server-components-render-error-stg-artifact-inventory.md",
       "workflow-fix-verify-design-tokens-og-route-exclude-artifact-inventory.md",
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
       "workflow-issue-274-public-pages-ogp-sitemap-robots-artifact-inventory.md",
@@ -13993,7 +14000,8 @@
       "lessons-learned-admin-tags-queue-resolver-drawer-2026-05.md",
       "lessons-learned-task-11-public-top-and-member-list-2026-05.md",
       "logs-archive-2026-01-feature-structure-workspace-chat-edit.md",
-      "logs-archive-2026-01-skill-selector-todo-scan-template.md"
+      "logs-archive-2026-01-skill-selector-todo-scan-template.md",
+      "workflow-fix-admin-server-components-render-error-stg-artifact-inventory.md"
     ],
     "premise": [
       "lessons-learned-admin-tags-queue-resolver-drawer-2026-05.md"
@@ -14525,6 +14533,7 @@
       "logs-archive-2026-01-skill-selector-todo-scan-template.md",
       "observability-monitoring.md",
       "workflow-ci-staging-deploy-failure-fix-artifact-inventory.md",
+      "workflow-fix-admin-server-components-render-error-stg-artifact-inventory.md",
       "workflow-fix-cf-deploy-esbuild-import-source-staging-failure-artifact-inventory.md",
       "workflow-fix-verify-design-tokens-og-route-exclude-artifact-inventory.md",
       "workflow-issue-720-cf-audit-monitor-env-protection-fix-artifact-inventory.md",
@@ -14677,6 +14686,7 @@
       "workflow-ai-runtime-authmode-unification.md",
       "workflow-aiworkflow-requirements-line-budget-reform-artifact-inventory.md",
       "workflow-ci-green-recovery-smoke-coverage-shard-artifact-inventory.md",
+      "workflow-fix-admin-server-components-render-error-stg-artifact-inventory.md",
       "workflow-fix-verify-design-tokens-og-route-exclude-artifact-inventory.md",
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
       "workflow-issue-274-public-pages-ogp-sitemap-robots-artifact-inventory.md",
@@ -22327,7 +22337,8 @@
       "skill-ledger-fragment-spec.md"
     ],
     "render": [
-      "skill-ledger-fragment-spec.md"
+      "skill-ledger-fragment-spec.md",
+      "workflow-fix-admin-server-components-render-error-stg-artifact-inventory.md"
     ],
     "append": [
       "skill-ledger-fragment-spec.md",
@@ -24588,6 +24599,9 @@
     ],
     "Aware": [
       "workflow-e2e-quality-uplift-stage-0-3-artifact-inventory.md"
+    ],
+    "stg": [
+      "workflow-fix-admin-server-components-render-error-stg-artifact-inventory.md"
     ],
     "Targets": [
       "workflow-fix-verify-design-tokens-og-route-exclude-artifact-inventory.md",
