@@ -1026,6 +1026,11 @@ production env monitor secret cleanup は user-gated。
 # 2026-05-20 issue-277-next-proxy-migration
 
 - Issue #277 Next.js proxy migration を `implemented_local / implementation / NON_VISUAL / runtime_evidence_pending` として同期。Next.js 16 の auth gate convention に合わせ `apps/web/middleware.ts` → `apps/web/proxy.ts` を rename し、named/default export を `proxy` に統一（`SESSION_COOKIE_NAMES` / `decodeAuthSessionJwt` / `config.matcher` は同値維持）。`apps/web/__tests__/proxy.spec.ts` で AC-1..AC-7（未ログイン admin、未ログイン profile、認証済 non-admin、認証済 admin、`/profile/edit?tab=tags` query 保持、matcher 適用範囲、stale middleware.ts 参照不在）を実テスト化し、`it.todo` close-out を排除。`NextResponse.redirect(url)` 既定 status を 307 に統一して 302/307 drift を解消。`vitest.config.ts` の `coverage.include` と `apps/web/package.json` の双方に `proxy.ts` パスを追加。`apps/web/app/(admin)/layout.tsx` のコメントを「route-local proxy」に補正。`docs/30-workflows/issue-277-next-proxy-migration/` に Phase 1-13 + outputs/phase-{11,12} + strict 7（main / implementation-guide / system-spec-update-summary / documentation-changelog / unassigned-task-detection / skill-feedback-report / phase12-task-spec-compliance-check）を配置。aiworkflow `references/workflow-issue-277-next-proxy-migration-artifact-inventory.md`、`references/auth-google-oauth-cf-integration.md`、`references/task-workflow-active.md`、`references/ui-ux-admin-dashboard.md`、`indexes/resource-map.md`、`indexes/quick-reference.md`、`indexes/topic-map.md`、`indexes/keywords.json`、`changelog/20260520-issue277-next-proxy-migration.md`、SKILL-changelog、新規 `lessons-learned/lessons-learned-issue-277-next-proxy-migration-2026-05.md`（L-I277-001..006: convention rename / 307 unify / it.todo 排除 / coverage include 二重指定 / strict 7 同一 wave / grep noise 防止）を同一 wave で反映。新規 follow-up は 0（unassigned-task-detection.md で deferred ではなく明示的非目標と判定）。dev-server runtime smoke / commit / push / PR / Issue #277 close は user-gated。
+# 2026-05-23 serial-06 form response binding topology sync
+
+- `serial-06-form-response-binding` standalone root drift を canonical parent sub-workflow へ統合。
+- Parent artifacts / outputs artifacts の `metadata.sub_workflows` に serial-06 を登録。
+- `workflow-ui-prototype-design-system-foundation-artifact-inventory.md` と SKILL-changelog に strict7-parent-aggregated 状態を同期。
 
 # 2026-05-23 issue-827-member-detail-adapter-and-visibility-defense
 

@@ -1,50 +1,71 @@
+// serial-06-form-response-binding: PublicMemberProfile → MemberDetail props 正規化 adapter
+// - visibility filter: visibility === "public" 以外は除外（UI 側の二重防御 / 正本は API 側）
+// - unknown kind: FieldKindZ 不適合は silent skip（production console を汚さない）
+// - immutability: 入力 mutate 禁止（pure function）
 import type { z } from "zod";
 
-import type { PublicMemberProfileZ } from "@ubm-hyogo/shared";
+import {
+  FieldKindZ,
+  type PublicMemberProfileZ,
+} from "@ubm-hyogo/shared";
 
-type PublicMemberProfile = z.infer<typeof PublicMemberProfileZ>;
-type Section = PublicMemberProfile["publicSections"][number];
-type Field = Section["fields"][number];
+export type PublicMemberProfile = z.infer<typeof PublicMemberProfileZ>;
+type RawSection = PublicMemberProfile["publicSections"][number];
+type RawField = RawSection["fields"][number];
+export type FieldKind = z.infer<typeof FieldKindZ>;
 
-const DISPLAYABLE_KINDS = new Set<Field["kind"]>([
-  "shortText",
-  "paragraph",
-  "date",
-  "radio",
-  "checkbox",
-  "dropdown",
-]);
-
-export interface MemberDetailViewModel {
-  detailSections: ReadonlyArray<Section>;
-  allSections: ReadonlyArray<Section>;
+export interface NormalizedField {
+  stableKey: string;
+  label: string;
+  value: RawField["value"];
+  kind: FieldKind;
 }
 
-function isDisplayableKind(kind: Field["kind"]): boolean {
-  return DISPLAYABLE_KINDS.has(kind);
+export interface NormalizedSection {
+  key: string;
+  title: string;
+  fields: ReadonlyArray<NormalizedField>;
 }
 
-function filterVisibleFields(fields: ReadonlyArray<Field>): Field[] {
-  return fields.filter(
-    (field) =>
-      field.visibility === "public" && isDisplayableKind(field.kind),
-  );
+export interface MemberDetailProps {
+  memberId: string;
+  summary: PublicMemberProfile["summary"];
+  sections: ReadonlyArray<NormalizedSection>;
+  attendance: PublicMemberProfile["attendance"];
+  tags: PublicMemberProfile["tags"];
 }
 
-export function buildMemberDetailViewModel(
+function normalizeField(field: RawField): NormalizedField | null {
+  if (field.visibility !== "public") return null;
+  const parsed = FieldKindZ.safeParse(field.kind);
+  if (!parsed.success) return null;
+  return {
+    stableKey: field.stableKey,
+    label: field.label,
+    value: field.value,
+    kind: parsed.data,
+  };
+}
+
+function normalizeSection(section: RawSection): NormalizedSection | null {
+  const fields = section.fields
+    .map(normalizeField)
+    .filter((f): f is NormalizedField => f !== null);
+  if (fields.length === 0) return null;
+  return { key: section.key, title: section.title, fields };
+}
+
+export function toMemberDetailProps(
   profile: PublicMemberProfile,
-): MemberDetailViewModel {
-  const allSections = profile.publicSections.map((section) => ({
-    ...section,
-    fields: section.fields.filter((field) => field.visibility === "public"),
-  }));
-  const detailSections = allSections
-    .filter((section) => section.key !== "activity")
-    .map((section) => ({
-      ...section,
-      fields: filterVisibleFields(section.fields),
-    }))
-    .filter((section) => section.fields.length > 0);
-
-  return { detailSections, allSections };
+): MemberDetailProps {
+  const sections = profile.publicSections
+    .map(normalizeSection)
+    .filter((s): s is NormalizedSection => s !== null);
+  return {
+    memberId: profile.memberId,
+    summary: profile.summary,
+    sections,
+    attendance: profile.attendance,
+    tags: profile.tags,
+  };
 }

@@ -198,6 +198,32 @@ Phase 12 の成果物ファイル名がテンプレートと一致している�
 | `skill-feedback-report.md` | 改善点 or 「なし」明記 | 同左 | 同左（観察事項を含む） |
 | `phase12-task-spec-compliance-check.md` | Task 12-1〜12-6 全項目 | 同左 + NON_VISUAL 代替証跡項目 | 同左 + spec_created 専用項目（planned wording 残無し等） |
 
+## sub-workflow（`serial-NN-*` / `parallel-NN-*`）での strict 7 取り扱い
+
+parent + sub-workflow 構造では **sub-workflow 配下に strict 7 を生成しない**。許される Phase 12 doc は `phase-12-compliance-check.md`（canonical 9 headings + checklist）のみ。
+
+| 配置 | sub 配下に置く | parent root に集約 |
+|------|----------------|---------------------|
+| `phase-12-compliance-check.md`（canonical 9 headings） | ✅ | — |
+| `implementation-guide.md` / `documentation-changelog.md` / `system-spec-update-summary.md` / `skill-feedback-report.md` / `unassigned-task-detection.md` / `phase12-task-spec-compliance-check.md` / `main.md` (strict 7) | ❌ | ✅ |
+| `phase-12-documentation.md` のような独自命名 docs | ❌（strict 7 の `documentation-changelog.md` と混同するため作成禁止） | — |
+
+SSOT: [phase12-strict-7-workflow-root-parity-gate.md](phase12-strict-7-workflow-root-parity-gate.md)。serial-06 form response binding（2026-05-23）で `phase-12-documentation.md` を物理削除し parent root の strict 7 へ統合した実例を同 reference §「参考例: serial-06」参照。
+
+## Part 1 中学生レベル説明の例（adapter 層タスク）
+
+adapter / pure function 層タスクの implementation-guide.md Part 1 では「盛り付け係」アナロジーが理解しやすい。
+
+> 給食センターから運ばれてきた料理（API レスポンス）を、教室で食べやすいように皿に盛り付け直す係。料理を作る（DB に書く）わけでも、給食センターと交渉する（API を呼ぶ）わけでもなく、**受け取った材料の形だけを整える**。だから盛り付け係は「水道」も「火」も使わない（I/O を持たない）= pure function。同じ材料を渡せば必ず同じ盛り付けになる（テスト 100% branch coverage が可能）。
+
+このアナロジーで以下の不変条件を生徒にも伝わる形で説明できる:
+
+- pure function / I/O 無し → 「水道も火も使わない」
+- TypeScript 型 export → 「盛り付け前と盛り付け後の見本写真」
+- 100% branch coverage → 「全パターンの盛り付けを 1 度ずつ試しておく」
+- unknown kind silent skip → 「見たことのないおかずは黙って横に避ける（残飯入れに捨てたり、給食センターに電話したりしない）」
+- visibility 二重防御 → 「給食センター側でアレルギー食材を抜く + 盛り付け係でも念のため確認 + 配膳時にも目視」
+
 ## 関連ガイド
 
 - [phase-12-documentation-guide.md](phase-12-documentation-guide.md) — Task 12-1〜12-6 の詳細手順
