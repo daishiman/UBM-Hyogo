@@ -2962,6 +2962,14 @@ node scripts/list-specs.js --topics
 | Planned Implementation Targets | L26 |
 | Boundary | L38 |
 
+### references/workflow-issue-857-internal-alert-relay-binding-wiring-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Implementation Targets | L11 |
+| Evidence | L20 |
+| User-Gated Boundary | L28 |
+
 ### references/workflow-light-theme-contrast-regression-guard.md
 
 | セクション | 行 |
@@ -7510,14 +7518,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L2244 |
-| フェーズ構造（概要） | L2253 |
-| 品質ゲート（概要） | L2284 |
-| 出力テンプレート | L2295 |
-| 実行時のコマンド・エージェント・スキル | L2318 |
-| 昇格パターン集 | L2342 |
-| Current Active / Spec Created Tasks | L2344 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L2504 |
+| ドキュメント構成 | L2257 |
+| フェーズ構造（概要） | L2266 |
+| 品質ゲート（概要） | L2297 |
+| 出力テンプレート | L2308 |
+| 実行時のコマンド・エージェント・スキル | L2331 |
+| 昇格パターン集 | L2355 |
+| Current Active / Spec Created Tasks | L2357 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L2517 |
 
 ### references/task-workflow-backlog-part2.md
 

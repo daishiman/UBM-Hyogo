@@ -8,6 +8,19 @@
 
 本ドキュメントは、複雑なタスクを単一責務の原則に基づいて分解し、各サブタスクに最適なスラッシュコマンド・エージェント・スキルの組み合わせを選定するためのガイドラインを定義する。
 
+### issue-857 internal alert relay binding wiring（2026-05-24）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / NON_VISUAL / implementation_complete_pending_pr` |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-857-internal-alert-relay-binding-wiring/` |
+| issue | #857 CLOSED。PR 文脈は `Refs #857` のみ |
+| 目的 | sheets-auth healthcheck の `postAlertRelay()` が `missing API_INTERNAL_BASE_URL or token` no-op に落ちないよう、API Worker の production/staging vars に self-subrequest base URL を配線する |
+| implementation targets | `apps/api/wrangler.toml`, `apps/api/src/env.ts`, `apps/api/src/scheduled/sheets-auth-healthcheck.binding.spec.ts`, `apps/api/src/scheduled/sheets-auth-healthcheck.contract.spec.ts` |
+| contract | 受信 `verify-cf-webhook-auth.ts` は `CF_WEBHOOK_AUTH_SECRET` 単一照合。別値 `INTERNAL_ALERT_TOKEN` は投入せず fallback を正本化 |
+| evidence | `outputs/phase-11/main.md`, focused Vitest log, strict 7 `outputs/phase-12/` |
+| user gate | Cloudflare secret list / staging deploy / Workers tail / controlled SA key invalidation / commit / push / PR |
+
 ### step-08 audit filter/paging verify（2026-05-24）
 
 | 項目 | 値 |

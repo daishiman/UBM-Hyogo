@@ -1,5 +1,19 @@
 # クイックリファレンス
 
+## issue-857 internal alert relay binding wiring（2026-05-24）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow | `docs/30-workflows/completed-tasks/issue-857-internal-alert-relay-binding-wiring/` |
+| status | `implemented_local_evidence_captured / implementation / NON_VISUAL / implementation_complete_pending_pr` |
+| issue | #857 CLOSED; PR wording is `Refs #857` only |
+| purpose | wire `API_INTERNAL_BASE_URL` into both API Worker env vars so sheets-auth healthcheck can POST to `/internal/alert-relay` |
+| implementation | `apps/api/wrangler.toml`, `apps/api/src/env.ts`, `apps/api/src/scheduled/sheets-auth-healthcheck.binding.spec.ts`, `apps/api/src/scheduled/sheets-auth-healthcheck.contract.spec.ts` |
+| contract | receiver validates `CF_WEBHOOK_AUTH_SECRET`; separate `INTERNAL_ALERT_TOKEN` provisioning is intentionally not used |
+| Phase 12 | strict 7 outputs present; root/output artifacts present |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-857-internal-alert-relay-binding-wiring-artifact-inventory.md` |
+| user gate | Cloudflare secret list, staging deploy/tail, SA key invalidation dry-run, commit, push, PR |
+
 ## step-08 audit filter/paging verify（2026-05-24）
 
 | 項目 | 値 |
