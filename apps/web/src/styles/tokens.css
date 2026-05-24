@@ -107,7 +107,10 @@
   --ubm-color-border-strong: #d8c9b0;
   --ubm-color-text-primary: #22180a;
   --ubm-color-text-secondary: #6b5a42;
-  --ubm-color-text-muted: #9a8a6e;
+  /* WCAG 2 AA 4.5:1 against --ubm-color-surface-panel (#fffcf6).
+     Previous #9a8a6e gave 3.28:1 (axe a11y fail on /login .en and OR divider).
+     #7d6a4d gives ~5.13:1. */
+  --ubm-color-text-muted: #7d6a4d;
   --ubm-color-accent: oklch(0.52 0.13 50);
   --ubm-color-accent-soft: oklch(0.94 0.05 60);
   --ubm-color-accent-ink: oklch(0.36 0.12 50);

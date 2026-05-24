@@ -9,6 +9,7 @@ import { Banner } from "../../../src/components/ui/Banner";
 import { GoogleOAuthButton } from "./GoogleOAuthButton.client";
 import { LoginStatus } from "./LoginStatus";
 import { MagicLinkForm } from "./MagicLinkForm.client";
+import { OrDivider } from "./OrDivider";
 
 export interface LoginPanelProps {
   readonly state: LoginGateState;
@@ -18,10 +19,16 @@ export interface LoginPanelProps {
   readonly gate?: string;
 }
 
-export function LoginPanel({ state, redirect, error, gate }: LoginPanelProps) {
+export function LoginPanel({
+  state,
+  email,
+  redirect,
+  error,
+  gate,
+}: LoginPanelProps) {
   if (state === "input") {
     return (
-      <section data-panel="input">
+      <section className="auth-stack" data-panel="input">
         {gate === "admin_required" ? (
           <Banner tone="warning" title="管理者権限が必要です">
             管理者アカウントでログインしてください。
@@ -32,10 +39,11 @@ export function LoginPanel({ state, redirect, error, gate }: LoginPanelProps) {
             {error}
           </Banner>
         ) : null}
-        <GoogleOAuthButton redirect={redirect} />
         <MagicLinkForm redirect={redirect} />
-        <p>
-          未登録の方は <a href="/register">会員登録ページから新規登録</a>
+        <OrDivider />
+        <GoogleOAuthButton redirect={redirect} />
+        <p className="auth-register-link">
+          会員でない方は <a href="/register">メンバー登録</a> から
         </p>
       </section>
     );
@@ -43,6 +51,7 @@ export function LoginPanel({ state, redirect, error, gate }: LoginPanelProps) {
   return (
     <LoginStatus
       state={state}
+      {...(email !== undefined ? { email } : {})}
       redirect={redirect}
       {...(error !== undefined ? { error } : {})}
     />

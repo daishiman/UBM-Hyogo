@@ -1,5 +1,17 @@
 # クイックリファレンス
 
+## login-page-prototype-alignment（2026-05-23）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/login-page-prototype-alignment/` |
+| 状態 | `implemented_local_visual_evidence_captured / implementation / VISUAL_ON_EXECUTION` |
+| system spec | `docs/00-getting-started-manual/specs/13-mvp-auth.md` |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-login-page-prototype-alignment-artifact-inventory.md` |
+| implementation | `apps/web/app/login/**`, `apps/web/src/components/ui/{Icon,icons}.ts(x)`, `apps/web/src/styles/auth.css`, `apps/web/playwright/tests/login-smoke.spec.ts` |
+| UI contract | Magic Link primary -> OR divider -> Google secondary, brand block, sent inbox state |
+| boundary | `/api/auth/*`, Auth.js handler, D1 schema, `apps/api/**` are unchanged; staging visual smoke, commit, push, PR are user-gated |
+
 ## fix-admin-server-components-render-error-stg（2026-05-23）
 
 | 項目 | 値 |
