@@ -13,6 +13,7 @@
     "26314107860",
     "26315562296",
     "26346031061",
+    "26348808238",
     "26350145184"
   ],
   "viewport_dimensions": {
@@ -41,5 +42,5 @@
   "refresh_workflow": ".github/workflows/playwright-visual-baseline-update.yml",
   "refresh_command_hint": "gh workflow run playwright-visual-baseline-update.yml -f reason=\"<why>\" -r <feature-branch>",
   "notes": "captured_at_commit_sha からの rendering_relevant_paths diff が空でない場合、baseline は stale。scripts/visual-baseline-status.sh で診断可能。",
-  "last_refresh_reason": "serial-06: /members/[id] を MemberDetailSections → MemberDetail composing primitive に変更 + mock-api field kind を longText→paragraph 修正したため members-detail visual baseline を再撮影 (L-DEVSYNC-009)"
+  "last_refresh_reason": "serial-06: /members/[id] を MemberDetailSections → MemberDetail composing primitive に変更 + mock-api fixture を auth.ts 整合 (member_display_name / session_task18) したため members-detail visual baseline を再撮影予定 (L-DEVSYNC-009)。dev #892 home page prototype alignment redesign + text-muted #7d6a4d 統一を取り込み済み。"
 }

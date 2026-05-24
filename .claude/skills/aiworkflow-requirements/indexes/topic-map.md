@@ -2313,6 +2313,14 @@ node scripts/list-specs.js --topics
 | 4. 関連ファイル | L86 |
 | 変更履歴 | L93 |
 
+### references/workflow-home-page-prototype-alignment-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Classification | L16 |
+| Implementation Targets | L20 |
+| Boundary | L28 |
+
 ### references/workflow-i01-toastprovider-root-mount-artifact-inventory.md
 
 | セクション | 行 |
@@ -7428,14 +7436,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L2128 |
-| フェーズ構造（概要） | L2137 |
-| 品質ゲート（概要） | L2168 |
-| 出力テンプレート | L2179 |
-| 実行時のコマンド・エージェント・スキル | L2202 |
-| 昇格パターン集 | L2226 |
-| Current Active / Spec Created Tasks | L2228 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L2388 |
+| ドキュメント構成 | L2144 |
+| フェーズ構造（概要） | L2153 |
+| 品質ゲート（概要） | L2184 |
+| 出力テンプレート | L2195 |
+| 実行時のコマンド・エージェント・スキル | L2218 |
+| 昇格パターン集 | L2242 |
+| Current Active / Spec Created Tasks | L2244 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L2404 |
 
 ### references/task-workflow-backlog-part2.md
 
