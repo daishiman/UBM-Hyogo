@@ -216,8 +216,27 @@
 - 事例: 2026-05-22 `feat/issue-801-admin-error-focus` ← dev sync で i06（HEAD: admin route segment 拡張）と i07（dev: design-token skeleton 完了 / canonical_workflow `completed-tasks/profile-loading-skeleton-oklch/`）が同じ表内で衝突。i06=HEAD 版、i07=dev 版を採用して解消。
 - 詳細は aiworkflow-requirements 配下の L-DEVSYNC-030 を参照。
 
+### SP-DEVSYNC-028: `verify-pr-ready` の `indexes:rebuild drift` は merge commit 後の独立 chore commit テンプレで吸収（2026-05-23 追加）
+- 症状: dev sync-merge 後の `bash scripts/verify-pr-ready.sh` で `verify:phase12-compliance` / `gate-metadata:validate` は PASS だが `FAIL indexes:rebuild drift` のみが残る。`pnpm sync:resolve` の union 解消で merge commit に入った `indexes/topic-map.md` 等が、deterministic 再生成（カテゴリソート・重複除去）で +N / -2N の差分を生じる。
+- 解消（テンプレ 3 ステップ）:
+  1. `pnpm sync:resolve` → conflict 解消 → merge commit 作成
+  2. `pnpm indexes:rebuild` → drift 出現を確認
+  3. `git add .claude/skills/aiworkflow-requirements/indexes/ && git commit -m "chore(indexes): rebuild skill indexes after dev sync union merge"`
+- 適用判断: `verify-pr-ready` 失敗が `indexes:rebuild drift` 単独の場合のみ機械適用してよい。複数 gate fail なら `references/pr-pre-flight-ci-gate-checklist.md` §1〜§5 で原因切り分け。
+- task 仕様書を書く際: dev sync を Phase 5 に含む task では「merge commit + chore(indexes) commit の 2 コミット構成が標準。`verify-pr-ready` を merge commit 直後と chore commit 直後の 2 回叩いて drift 吸収を機械確認する」を逐語明示する。
+- 事例: 2026-05-23 `feat/ut-25-deriv-02-sa-key-expiry-monitoring` ← dev sync で aiworkflow indexes 3 ファイル + `task-workflow-active.md` を `pnpm sync:resolve` で union 自動解消、merge commit 後の `indexes/topic-map.md` +8/-16 drift を単独 chore commit で吸収、typecheck / lint 初回 PASS。
+- 詳細は aiworkflow-requirements 配下の L-DEVSYNC-036 を参照。
+
 ### SP-DEVSYNC-008: 同一 React Component への並行 feature 追加 conflict は L-DEVSYNC-033 適用
 - task 仕様書 Phase 4-5（implementation）で同一 React component に hook / state / JSX modal を追加する task が並行する場合、dev sync-merge で 3-way conflict が必発する。
 - 解消: aiworkflow-requirements `lessons-learned-dev-sync-merge-conflict-resolution-2026-05.md` の **L-DEVSYNC-033** に従い、hook 命名・JSX 子要素が disjoint であれば SP-DEVSYNC-001 と同じ regex で機械的両側採用。
 - task 仕様書側の予防策: Phase 5 step で「対象 component 内 state 追加位置」を明示し、既存 hook ブロックの末尾追記とする（先頭/中間挿入を避ける）ことで sync-merge 時の機械的解消成功率を上げる。
 - 事例: 2026-05-21 Issue #778（rollback/undo） ← dev (#776 bulk resolve) の SchemaDiffPanel.tsx / spec / api.ts / specs ×2 全 5 ファイル両側 union 解消、typecheck/lint/verify-pr-ready 全 PASS。
+
+### SP-DEVSYNC-029: `process.env` 直読み → `getEnv()` 移行は dev cloudflare-context 優先で e2e が 401 になる（2026-05-24 追加）
+- 症状: `apps/web` の server-side fetch を `process.env["INTERNAL_API_BASE_URL"]` 直読みから `getEnv().INTERNAL_API_BASE_URL` へ統一する task の後、e2e (mobile-webkit 等) で `admin api /admin/meetings/sess-1 failed: 401` が多発。fixture (`PLAYWRIGHT_*_FIXTURE`) を持つ admin spec は実 fetch 前に short-circuit するため緑のまま、fixture の無い meetings detail / attendance / issue-819 系だけが落ちるため「特定 spec 群だけ謎の 401」に見える。
+- 原因: `next.config.ts` の `initOpenNextCloudflareForDev()` により dev:webpack でも `getCloudflareContext()` が機能し、`env.ts` の `readRawEnv()` が cloudflare context（= `wrangler.toml [vars]` の**本番** `INTERNAL_API_BASE_URL`）を **process.env より優先**する。Playwright webServer が process.env へ注入する `INTERNAL_API_BASE_URL=http://127.0.0.1:8787`（mock API）が無視され、SSR fetch が本番 API へ飛んで認証なし 401。
+- 解消（恒久対応）: `readRawEnv()` で `PLAYWRIGHT_TEST=1`（Playwright `localEnv` が必ず注入）のときだけ `{ ...cloudflareEnv, ...processEnv }` と process.env override を優先する。本番 Workers は process.env に config を持たないので no-op。unit は `apps/web/src/lib/__tests__/env.spec.ts` に override / non-override 両ケースを追加。
+- task 仕様書を書く際: `apps/web` の env 参照経路を変更する（`process.env` → `getEnv()` 統一を含む）task は、Phase 5 に「dev:webpack の cloudflare-context が process.env より優先される点を確認し、e2e mock API 切替が壊れないことを `PLAYWRIGHT_TEST` 経路で担保する」、Phase 11 evidence に「fixture を持たない SSR fetch 系 spec（meetings detail / attendance）の e2e 緑」を明示する。
+- 関連: fixture 追加経路は [[SP-DEVSYNC-016]]（`scripts/e2e-mock-api.mjs` server-side mock）。env 正本仕様は aiworkflow-requirements `references/architecture-admin-api-client.md` §2.2。
+- Why: 「env アクセスを getEnv に一本化」という正しい invariant 遵守が、dev local の env 解決順序という別レイヤの仕様と衝突して e2e のみ壊す盲点。grep で気付けないため lessons-learned 化して再発時の切り分け時間を消す。
