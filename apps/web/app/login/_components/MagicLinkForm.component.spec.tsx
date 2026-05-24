@@ -80,7 +80,7 @@ describe("MagicLinkForm cooldown / U-03", () => {
       vi.advanceTimersByTime(31_000);
     });
     expect(button.disabled).toBe(false);
-    expect(button.textContent).toBe("メールリンクを送信");
+    expect(button.textContent).toBe("マジックリンクを送る");
   });
 
   it("送信失敗時は local error ではなく URL query state=error に遷移する", async () => {

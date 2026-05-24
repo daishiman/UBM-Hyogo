@@ -2,28 +2,38 @@
 // 不変条件 #6: ui-primitives Banner 経由で OKLch tokens のみ使用。
 
 import { Banner } from "../../../src/components/ui/Banner";
+import { Icon } from "../../../src/components/ui/Icon";
 import { FORM_RESPONDER_URL } from "../../../src/lib/constants/form";
 import type { LoginGateState } from "../../../src/lib/url/login-query";
 
 export interface LoginStatusProps {
   readonly state: Exclude<LoginGateState, "input">;
   readonly redirect: string;
+  readonly email?: string;
   readonly error?: string;
 }
 
-export function LoginStatus({ state, redirect, error }: LoginStatusProps) {
+export function LoginStatus({ state, redirect, email, error }: LoginStatusProps) {
   const inputHref = `/login?state=input&redirect=${encodeURIComponent(redirect)}`;
 
   switch (state) {
     case "sent":
       return (
-        <div data-status="sent">
-          <Banner tone="success" title="ログイン用メールを送信しました">
-            メール内のリンクからログインしてください（60 秒後に再送可能）。
-          </Banner>
+        <div className="auth-status auth-status--sent" data-status="sent">
+          <div className="auth-status__icon" aria-hidden="true">
+            <Icon name="inbox" size="xl" />
+          </div>
+          <h2>メールをご確認ください</h2>
           <p>
-            <a href={inputHref}>別のメールアドレスで再送する</a>
+            <b>{email ?? "ご登録メールアドレス"}</b>{" "}
+            宛にログイン用のリンクをお送りしました。
+            <br />
+            数分以内に届かない場合は迷惑メールをご確認ください。
           </p>
+          <a className="ui-button ui-button-ghost ui-button-sm" href={inputHref}>
+            <Icon name="arrow-left" size="sm" />
+            戻る
+          </a>
         </div>
       );
     case "unregistered":

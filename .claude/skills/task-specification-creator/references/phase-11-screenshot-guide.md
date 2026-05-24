@@ -160,6 +160,40 @@ Server Component の `fetch()` は Playwright `page.route()` で intercept で�
 - `NODE_ENV !== "production"` で active な branch のみ許可（production には絶対に branch しない）
 - Phase 4 設計時に「fetch 起点が SSR か CSR か」を分類し、SSR なら fixture 戦略を明記する
 
+## Local dev screenshot capture 規約（login-page-prototype-alignment / 2026-05-23 追記）
+
+local `next dev` で Phase 11 screenshot を取得する場合、以下を spec で固定する（出典: lessons-learned-login-page-prototype-alignment-2026-05.md L-LOGIN-001..003）。
+
+### `page.screenshot({ path })` の保存先制御
+
+- `page.screenshot({ path })` は引数 path を絶対視するため、`PLAYWRIGHT_EVIDENCE_DIR` env だけでは保存先を切り替えられない。
+- spec 内で **`const EVIDENCE_DIR = path.resolve(process.env.PLAYWRIGHT_EVIDENCE_DIR ?? '<canonical default>', '...')`** を SSOT として作り、workflow root を `completed-tasks/` 等へ move した際は spec 側の canonical default も同 wave で更新する。
+- artifact inventory に `playwright spec EVIDENCE_DIR` 行を明示し path drift を検知可能にする。
+
+### Next.js dev overlay の非表示
+
+`next dev` の debug toolbar (`nextjs-portal` 系) が screenshot に写り込むため、capture 前に `hideDevOverlay()` helper を呼ぶ:
+
+```ts
+async function hideDevOverlay(page: Page) {
+  await page.addStyleTag({
+    content: `
+      nextjs-portal,
+      [data-nextjs-toast],
+      [data-nextjs-dialog-overlay],
+      #__next-build-watcher,
+      .__next-dev-overlay-mount,
+      [data-nextjs-dev-tools-button] { display: none !important; }
+    `,
+  });
+}
+```
+
+### `waitUntil` 既定
+
+local dev mode の HMR / overlay により `waitUntil: 'load'` は 30s timeout を頻発する。
+visual smoke / Phase 11 screenshot では **`waitUntil: 'domcontentloaded'`** を既定とし、初期 SSR HTML が DOM に到達した時点で capture する。
+
 ## Apple UI/UX 観点
 
 - hierarchy が明確か
