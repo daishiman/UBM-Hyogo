@@ -15,7 +15,7 @@
 
 - 分離理由: 集計バッチ仕様の合意未済（集計 view が複数候補）
 - 実施時期目安: 集計 view 仕様確定後
-- 実施場所: `docs/30-workflows/unassigned-task/serial-05-step-03-followup-005-schema-alias-recompute-trigger.md`
+- 実施場所: `docs/30-workflows/completed-tasks/serial-05-step-03-followup-005-schema-alias-recompute-trigger.md`
 - 本タスクとの関係: rollback modal で「再集計要否 warning」を表示するのみ、再集計実行は本タスク外
 
 ### followup-006: bulk rollback
