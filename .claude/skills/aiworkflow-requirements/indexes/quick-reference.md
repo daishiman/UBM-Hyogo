@@ -1,5 +1,101 @@
 # クイックリファレンス
 
+## Issue #837 schema alias bulk rollback（2026-05-24）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/issue-837-schema-alias-bulk-rollback/` |
+| status | `implemented_local_evidence_captured / implementation / VISUAL / runtime_screenshot_pending_user_gate` |
+| source | Issue #837 CLOSED / `docs/30-workflows/unassigned-task/serial-05-step-03-followup-006-schema-alias-bulk-rollback.md` consumed |
+| purpose | `/admin/schema` HistoryPane に複数 alias rollback selection / confirm modal / partial failure handling を追加 |
+| implementation | `apps/web/src/lib/admin/api.ts`, `apps/web/src/components/admin/SchemaDiffPanel.tsx`, `SchemaDiffBulkRollbackModal.tsx`, `hooks/useSchemaDiffBulkRollbackSelection.ts` |
+| API boundary | existing `POST /admin/schema/aliases/:aliasId/rollback`; no new endpoint / no D1 schema change |
+| evidence | typecheck PASS, focused Vitest 69 PASS, Phase 12 strict files present |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-837-schema-alias-bulk-rollback-artifact-inventory.md` |
+| user gate | authenticated runtime screenshot, staging smoke, commit, push, PR, Issue mutation |
+
+## issue-857 internal alert relay binding wiring（2026-05-24）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow | `docs/30-workflows/completed-tasks/issue-857-internal-alert-relay-binding-wiring/` |
+| status | `implemented_local_evidence_captured / implementation / NON_VISUAL / implementation_complete_pending_pr` |
+| issue | #857 CLOSED; PR wording is `Refs #857` only |
+| purpose | wire `API_INTERNAL_BASE_URL` into both API Worker env vars so sheets-auth healthcheck can POST to `/internal/alert-relay` |
+| implementation | `apps/api/wrangler.toml`, `apps/api/src/env.ts`, `apps/api/src/scheduled/sheets-auth-healthcheck.binding.spec.ts`, `apps/api/src/scheduled/sheets-auth-healthcheck.contract.spec.ts` |
+| contract | receiver validates `CF_WEBHOOK_AUTH_SECRET`; separate `INTERNAL_ALERT_TOKEN` provisioning is intentionally not used |
+| Phase 12 | strict 7 outputs present; root/output artifacts present |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-857-internal-alert-relay-binding-wiring-artifact-inventory.md` |
+| user gate | Cloudflare secret list, staging deploy/tail, SA key invalidation dry-run, commit, push, PR |
+
+## step-08 audit filter/paging verify（2026-05-24）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/step-08-audit-filter-paging-verify/` |
+| status | `verified_current_no_code_change_pending_pr / implementation / NON_VISUAL / verify_existing` |
+| source spec | `docs/30-workflows/ui-prototype-alignment-mvp-recovery/improvements/serial-05-admin-mutation-ui/step-08-audit-filter-paging/spec.md` |
+| purpose | `/admin/audit` filter / cursor paging / PII masking の監査OK結論をコード変更ゼロで回帰検証する仕様 |
+| existing implementation | `apps/web/app/(admin)/admin/audit/page.tsx`, `apps/web/src/components/admin/AuditLogPanel.tsx`, `apps/api/src/routes/admin/audit.ts`, `apps/api/src/repository/auditLog.ts`, `apps/api/src/lib/audit/redact.ts` |
+| Phase 12 | `outputs/phase-12/phase12-task-spec-compliance-check.md` + strict 7 files present |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-step-08-audit-filter-paging-verify-artifact-inventory.md` |
+| boundary | Phase 11 local regression evidence captured; commit, push, PR are user-gated |
+
+## Issue #836 schema alias recompute trigger（2026-05-23）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-836-schema-alias-recompute-trigger/` |
+| status | `spec_created / implementation / VISUAL / Phase 12 strict 7 present / runtime_pending` |
+| issue | #836 CLOSED。PR 文脈は `Refs #836` のみ |
+| source | `docs/30-workflows/completed-tasks/serial-05-step-03-followup-005-schema-alias-recompute-trigger.md` consumed |
+| parent | `docs/30-workflows/completed-tasks/issue-778-schema-alias-rollback-undo/` |
+| contract | recompute = rollback 済み alias の `response_fields.stable_key` reverse-backfill。`triggerKey` は server-side derivation、job UNIQUE + lease + SQL idempotency で二重変動を防ぐ |
+| endpoints | `POST /admin/schema/aliases/:aliasId/recompute`, `GET /admin/schema/aliases/:aliasId/recompute` |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-836-schema-alias-recompute-trigger-artifact-inventory.md` |
+| user gate | apps/api/apps/web 実装、D1 migration apply、authenticated visual/runtime evidence、commit、push、PR |
+
+## UT-DSF-07 staging visual runtime evidence（2026-05-23）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow | `docs/30-workflows/ut-dsf-07-staging-visual-runtime-evidence/` |
+| status | `spec_created / implementation / VISUAL / runtime_pending` |
+| source | Issue #829 CLOSED; `docs/30-workflows/unassigned-task/UT-DSF-07-visual-runtime-production-equivalent-screenshots.md` consumed |
+| parent | `docs/30-workflows/ui-prototype-design-system-foundation/` Gate-B/C, `VISUAL_RUNTIME_PENDING` release target |
+| purpose | Cloudflare Workers staging runtime で `public-top` / `login` / `profile` / `admin-dashboard` の production-equivalent visual evidence を取得する実装仕様 |
+| Phase 11 | physical contract files present; real deploy logs and PNG screenshots are pending, not PASS |
+| Phase 12 | strict output set present under `outputs/phase-12/` |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-ut-dsf-07-staging-visual-runtime-evidence-artifact-inventory.md` |
+| user gate | staging deploy, screenshot capture, parent gate release, commit, push, PR |
+
+## Issue #832 AdminTopbar primitive extraction（2026-05-23）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow | `docs/30-workflows/completed-tasks/issue-832-admin-topbar-primitive-extraction/` |
+| status | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION / implementation_complete_pending_pr` |
+| issue | #832 CLOSED。PR 文脈は `Refs #832` のみ |
+| source | `docs/30-workflows/completed-tasks/parallel-03-followup-001-admin-topbar-primitive-extraction.md` consumed |
+| implementation | `apps/web/src/components/layout/AdminTopbar.tsx`, `apps/web/app/(admin)/layout.tsx`, `apps/web/src/components/layout/__tests__/AdminTopbar.spec.tsx` |
+| contract | `data-shell="topbar"` は primitive root、`data-route-group="admin"` / `data-theme="cool"` は layout wrapper に残置。OKLch token のみ。 |
+| evidence | `AdminTopbar.spec.tsx` 9 cases + existing `(admin)/layout.spec.tsx` PASS; Phase 12 strict 7 present |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-832-admin-topbar-primitive-extraction-artifact-inventory.md` |
+| boundary | authenticated screenshot / commit / push / PR は user-gated |
+
+## mypage-prototype-alignment（2026-05-23）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/mypage-prototype-alignment/` |
+| 状態 | `implemented_local_evidence_captured / implementation / VISUAL / existing-ui-alignment` |
+| scope | existing `/profile` を prototype `MyProfilePage` に合わせ、Google Form 再回答 CTA、VisibilitySummary、ProfilePreview、RevalidateModal、danger-zone、MemberHeader 動線を実装 |
+| API boundary | Existing `/me`, `/me/profile`, `/me/visibility-request`, `/me/delete-request` only. No `PATCH /me/profile`, D1 schema, Google Form schema, or primitive API change |
+| key UI contract | `/profile` page action uses `/members/{memberId}` when public; global `MemberHeader` public nav uses generic `/members` |
+| Phase 12 | strict 7 present; Phase 11 screenshots captured and PASS |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-mypage-prototype-alignment-artifact-inventory.md` |
+| user gate | commit, push, PR |
+
 ## runtime-smoke-staging-mint-recurrence-fix（2026-05-24）
 
 | 項目 | 値 |
@@ -607,6 +703,8 @@
 | implementation boundary | no new API endpoint / D1 schema / Google Form change; minimal `apps/web` AppShell / selector hooks and parallel-01 P1-1〜P1-5 CSS selectors added; full 19-route binding and visual evidence remain user-gated work |
 | implementation boundary | no new API endpoint / D1 schema / Google Form change; minimal `apps/web` AppShell / selector hooks added; full 19-route binding and visual evidence remain user-gated work |
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-ui-prototype-design-system-foundation-artifact-inventory.md` |
+| sub-workflow parallel-03 AppShell Layouts（2026-05-19 / EV-12 updated 2026-05-23） | `docs/30-workflows/ui-prototype-design-system-foundation/parallel-03-appshell-layouts/`、status `implemented_local_evidence_captured / implementation / VISUAL (public screenshot + admin DOM scrape present; member DOM / full chrome screenshots delegated)`、`implementation_mode: existing-layout-alignment`、3 layout (`apps/web/app/(public\|member\|admin)/layout.tsx`) に `data-theme` / `data-route-group` / `data-shell` / `data-route` / `data-testid` を付与、OKLch token (`var(--ubm-color-*)`) 経由のみ、既存 primitive 無改変、admin は `getSession()` 2 段防御 + redirect 維持、Phase 11 evidence は `outputs/phase-11/`（EV-12 `dom-scrape-admin.txt` present / `parallel-03-admin-shell-scrape.spec.ts`）、lessons-learned `.claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-parallel-03-appshell-layouts-2026-05.md` (L-PAR03-001..005) |
+| follow-up 001 AdminTopbar extraction（2026-05-23） | `docs/30-workflows/parallel-03-followup-001-admin-topbar-primitive-extraction/`、status `implemented_local_evidence_captured / implementation / NON_VISUAL`、source unassigned consumed、`apps/web/src/components/layout/AdminTopbar.tsx` を追加し `(admin)/layout.tsx` の inline `<header data-shell="topbar">` を `<AdminTopbar />` に置換、`apps/web/src/components/layout/__tests__/AdminTopbar.spec.tsx` 追加。親 parallel-03 の successor contract として `data-shell="topbar"` は primitive root、`data-route-group` / `data-theme` は wrapper 側に残す。DOM 同型 + existing layout spec + serial-07 visual owner 継続により screenshot baseline 追加なし。commit / push / PR は user-gated |
 | sub-workflow serial-06 Form Response Binding（2026-05-23） | `docs/30-workflows/ui-prototype-design-system-foundation/serial-06-form-response-binding/`、status `spec_created / implementation / VISUAL / strict7-parent-aggregated`、adapter/page/MemberDetail/fixture/spec の実装仕様。standalone `docs/30-workflows/serial-06-form-response-binding/` は禁止 duplicate topology、Phase 12 strict 7 は parent root 集約、sub 側は `phase-12-compliance-check.md` のみ |
 | sub-workflow parallel-03 AppShell Layouts（2026-05-19） | `docs/30-workflows/ui-prototype-design-system-foundation/parallel-03-appshell-layouts/`、status `implemented_local_evidence_captured / implementation / VISUAL (public chrome only; admin/member deferred-to-serial-07)`、`implementation_mode: existing-layout-alignment`、3 layout (`apps/web/app/(public\|member\|admin)/layout.tsx`) に `data-theme` / `data-route-group` / `data-shell` / `data-route` / `data-testid` を付与、OKLch token (`var(--ubm-color-*)`) 経由のみ、既存 primitive 無改変、admin は `getSession()` 2 段防御 + redirect 維持、Phase 11 evidence は `outputs/phase-11/`、lessons-learned `.claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-parallel-03-appshell-layouts-2026-05.md` (L-PAR03-001..005) |
 

@@ -8,6 +8,12 @@
 
 `docs/30-workflows/completed-tasks/issue-863-admin-error-alert-policy-iac/` の 30種思考法レビューで、Sentry alert IaC が実コード差分を伴うため `implemented_local_runtime_pending` に統一した。Issue Alert API の native 形状（project `/rules/`、`actionMatch`/`conditions`/`filterMatch`/tag filters/Slack action）へ `infra/sentry-alerts` CLI と mock fixture を補正し、manifest schema required と schema-contract test を追加した。Phase 12 implementation-guide validator 要件（今回作ったもの、APIシグネチャ、使用例、エッジケース、設定項目と定数一覧、テスト構成）を満たすよう同期。mock mode は `scripts/with-env.sh` で op wrapper を迂回し、`SENTRY_ALERTS_MOCK_DIR=... pnpm sentry-alerts:diff --ci --json` を secret なしで再現可能にした。Sentry apply、staging 通知疎通、commit/push/PR は user-gated のまま未実行。
 
+## 2026-05-24 - Issue #837 schema alias bulk rollback automation-30 close-out
+
+- `docs/30-workflows/issue-837-schema-alias-bulk-rollback/` の `implementation` task が `spec_created` / code未実装で閉じていたため、CONST_004/005 に従い同サイクルで実装へ昇格。
+- `apps/web` 実装、focused Vitest 69 PASS、typecheck PASS、manual specs 01/11、aiworkflow ledgers、source unassigned consumed trace を同一 wave で反映。
+- Runtime screenshot / staging smoke / commit / push / PR は user-gated 境界として残す。
+
 ## 2026-05-17 - Issue #749 primitive adoption tracker review
 
 `docs/30-workflows/completed-tasks/issue-749-primitive-adoption-tracker/` の 30 種思考法レビューを反映した。実コード差分を伴う workflow は docs-only / spec-created のラベルに固定せず、`implemented_local_evidence_captured` として Phase 11 local evidence、Phase 12 strict 7、root artifacts、skill sync を同一サイクルで揃える。route SSOT は moved completed root の `docs/30-workflows/completed-tasks/ui-prototype-alignment-mvp-recovery/SCOPE.md` を参照し、コピーした route matrix の stale row を Phase 4/7/11 gate へ波及させない。primitive adoption gate は import-only や `void` placeholder ではなく、実 JSX rendering / `useAdminMutation().trigger()` / EmptyState / Pagination を検査する。未タスク候補は同一サイクルで解消可能なら unassigned-task 化せず、`unassigned-task-detection.md` に 0 件と解消理由を記録する。
@@ -2734,3 +2740,8 @@ AC-1〜AC-6 全達成。Phase 10 判定: PASS（MINOR 0件）
 
 - Applied Phase 11 evidence existence and Phase 12 strict 7 compliance rules to `docs/30-workflows/issue-256-e2e-coverage-baseline-runbook/`.
 - Confirmed CLOSED Issue PR wording uses `Refs #256` instead of close keywords.
+
+# 2026-05-23 Issue #836 closed issue freshness tables
+
+- Promoted Issue #836 schema alias recompute trigger feedback into `closed-issue-canonical-workflow-recovery.md`: CLOSED Issue recovery Phase 1 must include current-codebase implementation status and original-assumption/current-reality/optimized-policy tables.
+- Source follow-up 005 is consumed via `docs/30-workflows/completed-tasks/issue-836-schema-alias-recompute-trigger/`.

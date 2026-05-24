@@ -160,8 +160,27 @@ CLOSED Issue 由来の recovery では、Phase 13 の `status` は `blocked` / `
 | --- | --- | --- | --- |
 | Issue #718 | `docs/30-workflows/issue-718-legacy-cf-token-revocation/` | 旧 Cloudflare API token revocation（dashboard 操作 + secrets rotation） | unassigned-task `docs/30-workflows/unassigned-task/issue-640-followup-002-legacy-token-revocation.md` を consumed 化、`Refs #718` のみ |
 | Issue #775 | `docs/30-workflows/completed-tasks/issue-775-serial-05-step-03-runtime-evidence-completion/` | runtime visual evidence completion（fixture-backed Playwright で 11 PNG capture、production app/API code は frozen） | unassigned-task `docs/30-workflows/completed-tasks/serial-05-step-03-followup-001-runtime-evidence-completion.md` を consumed 化、`Refs #775` のみ。screenshots は parent `completed-tasks/serial-05-step-03-schema-diff-resolve/outputs/phase-11/screenshots/` に一本化し、recovery root は README pointer のみ。legacy placeholder は `.placeholder.txt` へ退避し PASS inventory から除外。`metadata.gates` 配下に `passed_at` / `approver` 必須。詳細教訓: [aiworkflow-requirements/references/lessons-learned-issue-775-serial-05-step-03-runtime-evidence-completion-2026-05.md](../../aiworkflow-requirements/references/lessons-learned-issue-775-serial-05-step-03-runtime-evidence-completion-2026-05.md) |
+| Issue #836 | `docs/30-workflows/completed-tasks/issue-836-schema-alias-recompute-trigger/` | CLOSED Issue の最新コード最適化 spec 化（schema alias recompute trigger） | unassigned-task `docs/30-workflows/completed-tasks/serial-05-step-03-followup-005-schema-alias-recompute-trigger.md` を `consumed_via_issue_836_recompute_trigger_spec` に更新。Issue 文面の「派生集計」は現コードでは `response_fields.stable_key` が実体だったため、Phase 1 に「確認対象 / 現コードベース実態 / 結論」と「原典想定 / 現コード実態 / 最適化方針」の 2 表を必須証跡として置き、recompute = reverse-backfill へ再定義した。`Refs #836` のみ、CLOSED 維持。 |
 
 ---
+
+## 7. CLOSED Issue 鮮度調査テーブル（Issue #836 由来）
+
+CLOSED Issue を reopen せず canonical workflow 化する場合、Phase 1 には次の 2 つの表を置く。Issue 本文ではなく current codebase を一次根拠にするための gate であり、古い issue 文面に引きずられた過剰実装を防ぐ。
+
+### 7.1 実装済み判定表
+
+| 確認対象 | 現コードベース実態 | 結論 |
+| --- | --- | --- |
+| endpoint / workflow / UI / audit 等の実装対象 | `rg` / file read / route inventory で確認した現在の有無 | 未実装 / 実装済み / stale-current のいずれか |
+
+### 7.2 最新コードへの最適化表
+
+| 観点 | 原典 Issue の想定 | 現コードベース実態 | 採る方針 |
+| --- | --- | --- | --- |
+| 対象データ / 操作 / 実行契機 | Issue 作成時の抽象語 | 実在するテーブル・関数・UI 状態 | 最小差分で根本原因へ届く再定義 |
+
+この 2 表で「不要なら不要」「必要なら current implementation に最適化」を分岐し、`metadata.spec_creation_strategy = "optimize_to_current_codebase"` を `artifacts.json` に記録する。
 
 ## 関連 reference
 

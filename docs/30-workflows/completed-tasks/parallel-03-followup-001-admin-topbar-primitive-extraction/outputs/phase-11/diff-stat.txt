@@ -1,0 +1,23 @@
+ .../skills/aiworkflow-requirements/LOGS/_legacy.md |  6 ++
+ .../aiworkflow-requirements/SKILL-changelog.md     |  1 +
+ .../indexes/quick-reference.md                     |  1 +
+ .../indexes/resource-map.md                        |  1 +
+ .../references/task-workflow-active.md             |  1 +
+ ...-design-system-foundation-artifact-inventory.md | 12 ++++
+ apps/web/app/(admin)/layout.tsx                    | 14 +----
+ .../phase-12/phase12-task-spec-compliance-check.md | 67 ++++++++++++----------
+ .../phase-01-requirements.md                       |  1 -
+ .../phase-02-architecture.md                       |  1 -
+ .../phase-03-task-breakdown.md                     |  1 -
+ .../phase-04-interface-contract.md                 |  1 -
+ .../phase-05-implementation-guide.md               |  1 -
+ .../phase-06-test-strategy.md                      |  5 +-
+ .../phase-07-quality-gates.md                      |  7 +--
+ .../phase-08-dod.md                                |  1 -
+ .../phase-09-risks.md                              |  1 -
+ .../phase-10-local-verification.md                 |  7 +--
+ .../phase-11-evidence-inventory.md                 | 23 ++++----
+ .../phase-12-compliance-check.md                   |  3 +-
+ .../phase-13-commit-pr.md                          |  5 +-
+ ...llowup-001-admin-topbar-primitive-extraction.md | 16 +++---
+ 22 files changed, 91 insertions(+), 85 deletions(-)
