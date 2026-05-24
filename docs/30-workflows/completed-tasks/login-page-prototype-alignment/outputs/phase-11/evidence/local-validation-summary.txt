@@ -1,0 +1,42 @@
+login-page-prototype-alignment local validation summary
+date: 2026-05-23
+timezone: Asia/Tokyo
+
+Commands executed:
+
+1. mise exec -- pnpm --filter @ubm-hyogo/web test -- --run apps/web/app/login/_components/MagicLinkForm.component.spec.tsx apps/web/app/login/_components/__tests__/LoginPanel.component.spec.tsx apps/web/app/login/_components/__tests__/LoginCard.component.spec.tsx apps/web/src/components/ui/__tests__/primitives.component.spec.tsx
+   Result: PASS. Because the package test script appends the requested files after an existing apps/web target, Vitest executed the full web suite: 120 files passed, 1 skipped; 865 tests passed, 1 skipped.
+
+2. mise exec -- pnpm --filter @ubm-hyogo/web typecheck
+   Result: PASS.
+
+3. mise exec -- pnpm --filter @ubm-hyogo/web lint
+   Result: PASS.
+
+4. mise exec -- pnpm --filter @ubm-hyogo/web verify-design-tokens
+   Result: PASS. tokens.runtime.spec.ts: 9 tests passed.
+
+5. rg -n '#[0-9a-fA-F]{3,8}' apps/web/src/styles/auth.css apps/web/app/login || true
+   Result: PASS. No matches.
+
+6. node -e JSON.parse(...) for workflow root artifacts and outputs artifacts
+   Result: PASS. json ok.
+
+7. mise exec -- pnpm --filter @ubm-hyogo/web build
+   Result: FAIL due to missing build-time env: ENVIRONMENT and NEXT_PUBLIC_API_BASE_URL. This is an environment precondition, not a login implementation failure.
+
+8. ENVIRONMENT=local NEXT_PUBLIC_API_BASE_URL=http://127.0.0.1:8787 PUBLIC_API_BASE_URL=http://127.0.0.1:8787 AUTH_SECRET=build-placeholder AUTH_URL=http://localhost:3000 mise exec -- pnpm --filter @ubm-hyogo/web build
+   Result: PASS. Next.js production build completed. Existing warning: Sentry/Prisma OpenTelemetry dynamic dependency.
+
+9. mise exec -- pnpm --filter @ubm-hyogo/web exec playwright install chromium
+   Result: PASS. Local Chromium/headless-shell browser binaries installed for screenshot capture.
+
+10. PLAYWRIGHT_SKIP_WEB_SERVER=1 PLAYWRIGHT_EVIDENCE_DIR=../../docs/30-workflows/login-page-prototype-alignment/outputs/phase-11/evidence mise exec -- pnpm --filter @ubm-hyogo/web exec playwright test playwright/tests/login-smoke.spec.ts --project=desktop-chromium
+   Result: PASS. 9 tests passed. Screenshots saved under outputs/phase-11/screenshots/.
+
+11. mise exec -- pnpm --filter @ubm-hyogo/web lint
+   Result: PASS.
+
+Notes:
+- `mise` emitted the existing untrusted .mise.toml warning; commands still executed.
+- Staging visual smoke, commit, push, and PR remain user-gated.

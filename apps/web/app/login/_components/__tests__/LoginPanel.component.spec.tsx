@@ -27,10 +27,24 @@ describe("LoginPanel / 6 状態", () => {
   it("input: form / Google ボタン / register リンクが出る", () => {
     render(<LoginPanel state="input" redirect="/profile" />);
     expect(screen.getByLabelText("メールアドレス")).toBeTruthy();
+    expect(screen.getByPlaceholderText("you@example.com")).toBeTruthy();
+    expect(
+      screen.getByRole("button", { name: "マジックリンクを送る" }),
+    ).toBeTruthy();
+    expect(screen.getByText("OR")).toBeTruthy();
     expect(screen.getByRole("button", { name: /google/i })).toBeTruthy();
     expect(
-      screen.getByRole("link", { name: "会員登録ページから新規登録" }).getAttribute("href"),
+      screen.getByRole("link", { name: "メンバー登録" }).getAttribute("href"),
     ).toBe("/register");
+  });
+
+  it("input: Magic Link が OR と Google より前に出る", () => {
+    const { container } = render(<LoginPanel state="input" redirect="/profile" />);
+    const text = container.textContent ?? "";
+    expect(text.indexOf("マジックリンクを送る")).toBeLessThan(
+      text.indexOf("OR"),
+    );
+    expect(text.indexOf("OR")).toBeLessThan(text.indexOf("Googleでログイン"));
   });
 
   it("input + gate=admin_required: warn Banner が出る", () => {
@@ -41,10 +55,17 @@ describe("LoginPanel / 6 状態", () => {
   });
 
   it("sent: success Banner と再送リンクが出る", () => {
-    render(<LoginPanel state="sent" redirect="/profile" />);
-    expect(screen.getByText(/メールを送信しました/)).toBeTruthy();
+    render(
+      <LoginPanel
+        state="sent"
+        redirect="/profile"
+        email="user@example.com"
+      />,
+    );
+    expect(screen.getByRole("heading", { name: "メールをご確認ください" })).toBeTruthy();
+    expect(screen.getByText("user@example.com")).toBeTruthy();
     expect(
-      screen.getByRole("link", { name: "別のメールアドレスで再送する" }),
+      screen.getByRole("link", { name: "戻る" }),
     ).toBeTruthy();
   });
 
