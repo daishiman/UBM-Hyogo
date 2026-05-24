@@ -32,6 +32,9 @@ jobs:
       # 署名鍵が設定されていれば mint step が実行毎に短命 JWT を発行する（失効不能）。
       # 未設定時は mint step を skip し、上記の静的 bearer を使う後方互換 fallback。
       STAGING_AUTH_SECRET: ${{ secrets.STAGING_AUTH_SECRET }}
+      # staging では freshness gate を warn-only にして、静的 bearer の寿命切れで
+      # smoke 全体が毎回 fail するのを防ぐ。'1' にすると従来の hard-fail へ復帰できる。
+      RUNTIME_SMOKE_FRESHNESS_ENFORCE: '0'
     steps:
       - uses: actions/checkout@v4
 
@@ -96,6 +99,8 @@ jobs:
           echo "::add-mask::$STAGING_MEMBER_ID"
 
       - name: verify bearer freshness
+        # warn-only（RUNTIME_SMOKE_FRESHNESS_ENFORCE=0）。stale/expired は warning を出すが
+        # smoke は実 API チェックへ進む。'1' で hard-fail に戻せる。
         run: pnpm exec tsx scripts/smoke/bearer-freshness-gate.mts
 
       - name: run runtime smoke

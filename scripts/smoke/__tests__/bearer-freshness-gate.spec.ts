@@ -3,6 +3,8 @@ import { signSessionJwt } from "@ubm-hyogo/shared";
 import {
   classifyBearerFreshness,
   decodeJwtExp,
+  decodeJwtSubject,
+  evaluateFreshnessGate,
   explainAuthFailureFromBearer,
 } from "../bearer-freshness-gate.mts";
 
@@ -66,5 +68,74 @@ describe("bearer-freshness-gate", () => {
     });
     expect(explainAuthFailureFromBearer({ token: expired, nowSeconds: NOW })).toBe("auth-token-expired");
     expect(explainAuthFailureFromBearer({ token: future, nowSeconds: NOW })).toBe("auth-secret-drift");
+  });
+
+  it("decodes the JWT subject (memberId) for the production allowlist", async () => {
+    const token = await signSessionJwt(SECRET, {
+      memberId: "member-allow-1",
+      email: "member@example.com",
+      isAdmin: false,
+      nowSeconds: NOW,
+      ttlSeconds: 600,
+    });
+    expect(decodeJwtSubject(token)).toBe("member-allow-1");
+    expect(decodeJwtSubject("not-a-jwt")).toBeNull();
+  });
+
+  describe("evaluateFreshnessGate", () => {
+    async function staleToken() {
+      return signSessionJwt(SECRET, {
+        memberId: "member-1",
+        email: "member@example.com",
+        isAdmin: true,
+        nowSeconds: NOW,
+        ttlSeconds: 100,
+      });
+    }
+
+    it("warn-only mode does not fail on a stale bearer (exit 0, warning level)", async () => {
+      const outcome = evaluateFreshnessGate({
+        checks: [{ label: "STAGING_ADMIN_BEARER", token: await staleToken() }],
+        thresholdSeconds: 21_600,
+        enforce: false,
+        nowSeconds: NOW,
+        authPath: "static-fallback",
+      });
+      expect(outcome.exitCode).toBe(0);
+      expect(outcome.messages.some((m) => m.level === "warning")).toBe(true);
+      expect(outcome.messages.some((m) => m.level === "error")).toBe(false);
+    });
+
+    it("enforce mode fails on a stale bearer (exit 1, error level)", async () => {
+      const outcome = evaluateFreshnessGate({
+        checks: [{ label: "STAGING_ADMIN_BEARER", token: await staleToken() }],
+        thresholdSeconds: 21_600,
+        enforce: true,
+        nowSeconds: NOW,
+        authPath: "minted",
+      });
+      expect(outcome.exitCode).toBe(1);
+      expect(outcome.messages.some((m) => m.level === "error")).toBe(true);
+    });
+
+    it("passes (exit 0) when every bearer is fresh, regardless of enforce flag", async () => {
+      const fresh = await signSessionJwt(SECRET, {
+        memberId: "member-1",
+        email: "member@example.com",
+        isAdmin: true,
+        nowSeconds: NOW,
+        ttlSeconds: 21_601,
+      });
+      for (const enforce of [true, false]) {
+        const outcome = evaluateFreshnessGate({
+          checks: [{ label: "STAGING_ADMIN_BEARER", token: fresh }],
+          thresholdSeconds: 21_600,
+          enforce,
+          nowSeconds: NOW,
+        });
+        expect(outcome.exitCode).toBe(0);
+        expect(outcome.messages.some((m) => m.level === "error" || m.level === "warning")).toBe(false);
+      }
+    });
   });
 });
