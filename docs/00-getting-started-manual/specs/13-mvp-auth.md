@@ -7,8 +7,8 @@
   -> 認証不要
 
 会員ページ
-  -> Google OAuth を主導線
-  -> Magic Link を補助導線
+  -> Magic Link を主導線
+  -> Google OAuth を補助導線
 
 管理ページ
   -> 会員認証 + admin_users
@@ -42,6 +42,30 @@
 | 未登録 | Google Form 登録へ誘導 |
 | 規約未同意 | 再回答へ誘導 |
 | 削除済み | 管理者連絡を案内 |
+
+---
+
+## MVP `/login` UI 契約（2026-05-23 prototype alignment）
+
+`/login` の認証機能 contract は維持し、画面構造は
+`docs/00-getting-started-manual/claude-design-prototype/pages-member.jsx` の
+LoginPage を正本として整合する。
+
+| 要素 | 正本 |
+| --- | --- |
+| shell | `.auth-shell` full-page centered layout |
+| card | `.auth-card` 420px max panel |
+| brand | `.brand-mark` の「兵」 + `.brand-title` の `UBM兵庫支部会` / `Member Portal` |
+| h1 | `会員ログイン` |
+| subtitle | `Googleフォームにご登録のメールアドレス宛に、ログイン用のマジックリンクをお送りします。` |
+| primary CTA | Magic Link form。email placeholder `you@example.com`、button `マジックリンクを送る`、send icon、block lg |
+| separator | OR divider。両端 hairline + uppercase `OR` |
+| secondary CTA | `Googleでログイン` ghost button、google icon、block lg |
+| register CTA | `会員でない方は メンバー登録 から` |
+| sent state | 56px inbox icon block、`メールをご確認ください`、email 強調、`戻る` link |
+
+実装 wave: `docs/30-workflows/login-page-prototype-alignment/`。
+Auth.js / Magic Link API / D1 access boundary は変更しない。
 
 ---
 
