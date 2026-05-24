@@ -436,6 +436,10 @@ export async function buildAdminMemberDetailView(
       rulesConsent: status.rules_consent as ConsentStatus,
       publishState: status.publish_state as PublishState,
       isDeleted: status.is_deleted === 1,
+      notificationOptOut:
+        Number(
+          (status as { notification_opt_out?: number | null }).notification_opt_out ?? 0,
+        ) === 1,
     },
     profile,
     audit: adminNotes,

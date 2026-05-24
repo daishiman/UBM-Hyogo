@@ -4,6 +4,20 @@
 実装コードは task-15 / task-16 / task-17 が担当し、本書は画面構造、コピー、状態、API 接続、a11y、参照先だけを固定する。
 apps/web は `/api/admin/...` proxy と `fetchAdmin` 経由で apps/api を呼び、D1 を直接参照しない。
 
+2026-05-23 admin-ui-prototype-alignment 追記:
+
+- admin 画面の回復可能な server fetch 失敗は、page 全体の `error.tsx`
+  へ投げず、該当 section だけを `AdminSectionError` で degrade する。
+- 共有表示部品の正本実装は
+  `apps/web/src/features/admin/components/_shared/` の 6 component
+  (`AdminSectionCard`, `AdminSectionError`, `AdminEmptyState`, `AdminStat`,
+  `AdminTable`, `AdminQueuePanel`) と barrel export。
+- recoverable fetch は
+  `apps/web/src/lib/admin/safe-server-fetch.ts` の `safeServerFetch<T>()`
+  で `SafeResult<T>` に正規化する。API / D1 schema / Auth.js middleware
+  contract は変更しない。
+- retry button は v1 では追加せず、section error 内の再読み込み案内に統一する。
+
 不変条件:
 
 1. AdminSidebar は §1 に集約し、各画面では再定義しない。

@@ -5,6 +5,7 @@
 
 import { useState } from "react";
 import { Button } from "../../../src/components/ui/Button";
+import { Icon } from "../../../src/components/ui/Icon";
 import { signInWithGoogle } from "../../../src/lib/auth/oauth-client";
 
 export interface GoogleOAuthButtonProps {
@@ -23,8 +24,17 @@ export function GoogleOAuthButton({ redirect }: GoogleOAuthButtonProps) {
     }
   };
   return (
-    <Button type="button" onClick={onClick} disabled={busy} loading={busy}>
-      Google でログイン
+    <Button
+      type="button"
+      variant="ghost"
+      size="lg"
+      block
+      leftIcon={<Icon name="google" size="md" />}
+      onClick={onClick}
+      disabled={busy}
+      loading={busy}
+    >
+      Googleでログイン
     </Button>
   );
 }
