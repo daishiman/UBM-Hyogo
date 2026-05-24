@@ -1,5 +1,18 @@
 # クイックリファレンス
 
+## step-08 audit filter/paging verify（2026-05-24）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/step-08-audit-filter-paging-verify/` |
+| status | `verified_current_no_code_change_pending_pr / implementation / NON_VISUAL / verify_existing` |
+| source spec | `docs/30-workflows/ui-prototype-alignment-mvp-recovery/improvements/serial-05-admin-mutation-ui/step-08-audit-filter-paging/spec.md` |
+| purpose | `/admin/audit` filter / cursor paging / PII masking の監査OK結論をコード変更ゼロで回帰検証する仕様 |
+| existing implementation | `apps/web/app/(admin)/admin/audit/page.tsx`, `apps/web/src/components/admin/AuditLogPanel.tsx`, `apps/api/src/routes/admin/audit.ts`, `apps/api/src/repository/auditLog.ts`, `apps/api/src/lib/audit/redact.ts` |
+| Phase 12 | `outputs/phase-12/phase12-task-spec-compliance-check.md` + strict 7 files present |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-step-08-audit-filter-paging-verify-artifact-inventory.md` |
+| boundary | Phase 11 local regression evidence captured; commit, push, PR are user-gated |
+
 ## Issue #836 schema alias recompute trigger（2026-05-23）
 
 | 項目 | 値 |

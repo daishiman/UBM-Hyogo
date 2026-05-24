@@ -1,0 +1,16 @@
+mise WARN  Config files in ~/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260523-225300-wt-19/.mise.toml are not trusted.
+Trust them with `mise trust`. See https://mise.jdx.dev/cli/trust.html for more information.
+[33mThe CJS build of Vite's Node API is deprecated. See https://vite.dev/guide/troubleshooting.html#vite-cjs-node-api-deprecated for more details.[39m
+
+ RUN  v2.1.9 /Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260523-225300-wt-19
+
+ ✓ apps/api/src/routes/admin/audit.contract.spec.ts (9 tests) 3020ms
+   ✓ admin audit route > authz: 未認証は 401 798ms
+   ✓ admin audit route > GET /audit: filters, JST range, masked JSON projection, raw JSON 非露出 334ms
+   ✓ admin audit route > GET /audit: UTC ISO range query を受け付ける 309ms
+
+ Test Files  1 passed (1)
+      Tests  9 passed (9)
+   Start at  07:40:29
+   Duration  3.86s (transform 211ms, setup 0ms, collect 582ms, tests 3.02s, environment 0ms, prepare 55ms)
+

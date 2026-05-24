@@ -8,6 +8,20 @@
 
 本ドキュメントは、複雑なタスクを単一責務の原則に基づいて分解し、各サブタスクに最適なスラッシュコマンド・エージェント・スキルの組み合わせを選定するためのガイドラインを定義する。
 
+### step-08 audit filter/paging verify（2026-05-24）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `verified_current_no_code_change_pending_pr / implementation / NON_VISUAL / verify_existing` |
+| 成果物 | `docs/30-workflows/completed-tasks/step-08-audit-filter-paging-verify/` |
+| source | `docs/30-workflows/ui-prototype-alignment-mvp-recovery/improvements/serial-05-admin-mutation-ui/step-08-audit-filter-paging/spec.md` |
+| 目的 | `/admin/audit` の filter / cursor paging / PII masking が監査OK結論どおり維持されていることを、コード変更ゼロの回帰検証仕様として固定する |
+| existing targets | `apps/web/app/(admin)/admin/audit/page.tsx`, `apps/web/src/components/admin/AuditLogPanel.tsx`, `apps/api/src/routes/admin/audit.ts`, `apps/api/src/repository/auditLog.ts`, `apps/api/src/lib/audit/redact.ts` |
+| invariant | 新規API / DB schema / UI implementation 追加なし。bonus 3件（CSV export / Saved filters / Real-time update）は scope-out記録であり未タスク新規作成なし。 |
+| Phase 12 | strict 7 outputs + canonical compliance check present; root/output artifacts parity and gate metadata present |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-step-08-audit-filter-paging-verify-artifact-inventory.md` |
+| user gate | commit, push, PR（Phase 11 local regression evidence captured） |
+
 ### Issue #836 schema alias recompute trigger（2026-05-23）
 
 | 項目 | 値 |
