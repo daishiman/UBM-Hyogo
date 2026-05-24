@@ -21,7 +21,7 @@ export function Avatar({ memberId, name, hue, size = "md", className }: AvatarPr
       role="img"
       aria-label={name}
       data-size={size}
-      className={className}
+      className={["ui-avatar", className].filter(Boolean).join(" ")}
       style={{ background: `hsl(${resolvedHue} 70% 60%)` }}
     >
       {initial}

@@ -12,6 +12,76 @@
 | artifact inventory | `references/workflow-issue-864-admin-staging-runtime-smoke-ci-gate-artifact-inventory.md` |
 | user gate | Cloudflare staging deploy, real authenticated `/admin` probe, commit, push, PR |
 
+## Issue #832 AdminTopbar primitive extraction（2026-05-23）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow | `docs/30-workflows/completed-tasks/issue-832-admin-topbar-primitive-extraction/` |
+| status | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION / implementation_complete_pending_pr` |
+| issue | #832 CLOSED。PR 文脈は `Refs #832` のみ |
+| source | `docs/30-workflows/completed-tasks/parallel-03-followup-001-admin-topbar-primitive-extraction.md` consumed |
+| implementation | `apps/web/src/components/layout/AdminTopbar.tsx`, `apps/web/app/(admin)/layout.tsx`, `apps/web/src/components/layout/__tests__/AdminTopbar.spec.tsx` |
+| contract | `data-shell="topbar"` は primitive root、`data-route-group="admin"` / `data-theme="cool"` は layout wrapper に残置。OKLch token のみ。 |
+| evidence | `AdminTopbar.spec.tsx` 9 cases + existing `(admin)/layout.spec.tsx` PASS; Phase 12 strict 7 present |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-832-admin-topbar-primitive-extraction-artifact-inventory.md` |
+| boundary | authenticated screenshot / commit / push / PR は user-gated |
+
+## mypage-prototype-alignment（2026-05-23）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/mypage-prototype-alignment/` |
+| 状態 | `implemented_local_evidence_captured / implementation / VISUAL / existing-ui-alignment` |
+| scope | existing `/profile` を prototype `MyProfilePage` に合わせ、Google Form 再回答 CTA、VisibilitySummary、ProfilePreview、RevalidateModal、danger-zone、MemberHeader 動線を実装 |
+| API boundary | Existing `/me`, `/me/profile`, `/me/visibility-request`, `/me/delete-request` only. No `PATCH /me/profile`, D1 schema, Google Form schema, or primitive API change |
+| key UI contract | `/profile` page action uses `/members/{memberId}` when public; global `MemberHeader` public nav uses generic `/members` |
+| Phase 12 | strict 7 present; Phase 11 screenshots captured and PASS |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-mypage-prototype-alignment-artifact-inventory.md` |
+| user gate | commit, push, PR |
+
+## runtime-smoke-staging-mint-recurrence-fix（2026-05-24）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/runtime-smoke-staging-mint-recurrence-fix/` |
+| status | `implemented_local_evidence_captured / implementation / NON_VISUAL / runtime rerun user-gated` |
+| purpose | 24h TTL 静的 bearer のサイレント失効による 401 周期再発を構造排除（`ci-green-recovery-smoke-coverage-shard` の mint path 導入の follow-up） |
+| 方針 | Option C: 静的 fallback を維持しつつ smoke 前 **鮮度ゲート** + 401 **reason 二分** + mint **署名後自己検証** |
+| 鮮度ゲート | `scripts/smoke/bearer-freshness-gate.mts`。`exp - now < 21600s（6h）` または decode 不能で smoke 前に loud fail（`FRESHNESS_THRESHOLD_SECONDS` で上書き、token 非露出） |
+| 401 診断早見 | `exp <= now` → `auth-token-expired`（bearer 再発行 / mint path 有効化）, `exp > now` → `auth-secret-drift`（署名鍵=検証鍵 再同期）。500 → `auth-secret-binding-missing`、403 → `auth-not-admin`。詳細は SSOT §4 |
+| mint 自己検証 | `scripts/smoke/mint-staging-bearers.mts` が署名直後 `verifySessionJwt` round-trip、不整合なら token 非露出で throw（AC-4）。test は `@ubm-hyogo/shared` を `vi.mock` で `verifySessionJwt=null` 固定 |
+| SSOT | `docs/30-workflows/runtime-smoke-staging-mint-recurrence-fix/reference/bearer-lifecycle-ssot.md`（TTL / secret 同期不変条件 / reason ディシジョンツリーの唯一の正本） |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-runtime-smoke-staging-mint-recurrence-fix-artifact-inventory.md` |
+| lessons-learned | `.claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-runtime-smoke-staging-mint-recurrence-2026-05.md`（L-RSMR-001..006） |
+| boundary | `STAGING_AUTH_SECRET` 投入による mint path 恒久化・staging runtime rerun・GitHub/Cloudflare secret mutation・commit・push・PR は user-gated |
+
+## members-page-prototype-alignment（2026-05-23）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/members-page-prototype-alignment/` |
+| 状態 | `implemented_local_evidence_captured / implementation / VISUAL` |
+| scope | 公開 `/members` と public chrome を frozen prototype `MemberListPage` / CSS に整合。既存 `GET /public/members` と URL query helper は不変 |
+| implementation targets | `PublicHeader.tsx`, `PublicFooter.tsx`, `DensityToggle.client.tsx`, `MemberFilters.client.tsx`, `MemberCard.tsx`, `MemberGrid.tsx`, `MemberTable.tsx`, `EmptyState.tsx`, `Segmented.tsx`, `legacy-public.css`, `app/(public)/members/page.tsx` |
+| Phase 12 | `outputs/phase-12/phase12-task-spec-compliance-check.md` + strict 7 present |
+| Phase 11 | `outputs/phase-11/screenshots/EV-1..6` + Playwright report present |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-members-page-prototype-alignment-artifact-inventory.md` |
+| lessons | `.claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-members-page-prototype-alignment-2026-05.md` |
+| user gate | staging deploy, production-equivalent visual evidence, commit, push, PR |
+
+## Issue #827 member detail adapter and visibility defense（2026-05-23）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-827-member-detail-adapter-and-visibility-defense/` |
+| 状態 | `implemented_local_evidence_captured / implementation / NON_VISUAL` |
+| issue | #827 CLOSED; PR should use `Refs #827`; commit / push / PR / issue mutation are user-gated |
+| scope | public member detail web-side pure adapter and visibility double-defense |
+| implementation | `apps/web/src/lib/adapters/member-detail.ts`, `MemberDetailSections.tsx`, `/members/[id]/page.tsx` |
+| contract | adapter first filters all section fields to `visibility="public"` for `MemberLinks` / `MemberActivity`; detail sections then include only non-activity kinds `shortText` / `paragraph` / `date` / `radio` / `checkbox` / `dropdown`; `url` remains for `MemberLinks`; `activity` remains for `MemberActivity` |
+| evidence | apps/web Vitest 888 PASS, workspace typecheck/lint PASS, web build PASS with required local env |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-827-member-detail-adapter-and-visibility-defense-artifact-inventory.md` |
+
 ## home-page-prototype-alignment（2026-05-23）
 
 | 項目 | 値 |
@@ -576,6 +646,7 @@
 | implementation boundary | no new API endpoint / D1 schema / Google Form change; minimal `apps/web` AppShell / selector hooks and parallel-01 P1-1〜P1-5 CSS selectors added; full 19-route binding and visual evidence remain user-gated work |
 | implementation boundary | no new API endpoint / D1 schema / Google Form change; minimal `apps/web` AppShell / selector hooks added; full 19-route binding and visual evidence remain user-gated work |
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-ui-prototype-design-system-foundation-artifact-inventory.md` |
+| sub-workflow serial-06 Form Response Binding（2026-05-23） | `docs/30-workflows/ui-prototype-design-system-foundation/serial-06-form-response-binding/`、status `spec_created / implementation / VISUAL / strict7-parent-aggregated`、adapter/page/MemberDetail/fixture/spec の実装仕様。standalone `docs/30-workflows/serial-06-form-response-binding/` は禁止 duplicate topology、Phase 12 strict 7 は parent root 集約、sub 側は `phase-12-compliance-check.md` のみ |
 | sub-workflow parallel-03 AppShell Layouts（2026-05-19） | `docs/30-workflows/ui-prototype-design-system-foundation/parallel-03-appshell-layouts/`、status `implemented_local_evidence_captured / implementation / VISUAL (public chrome only; admin/member deferred-to-serial-07)`、`implementation_mode: existing-layout-alignment`、3 layout (`apps/web/app/(public\|member\|admin)/layout.tsx`) に `data-theme` / `data-route-group` / `data-shell` / `data-route` / `data-testid` を付与、OKLch token (`var(--ubm-color-*)`) 経由のみ、既存 primitive 無改変、admin は `getSession()` 2 段防御 + redirect 維持、Phase 11 evidence は `outputs/phase-11/`、lessons-learned `.claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-parallel-03-appshell-layouts-2026-05.md` (L-PAR03-001..005) |
 
 ### Issue #749 Primitive Adoption Tracker（2026-05-17）

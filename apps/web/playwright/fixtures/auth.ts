@@ -97,7 +97,60 @@ function response(res: ServerResponse, status: number, body: unknown): void {
 function profileBody() {
   return {
     profile: {
-      sections: [],
+      sections: [
+        {
+          key: 'basic',
+          title: '基本情報',
+          fields: [
+            {
+              stableKey: 'fullName',
+              label: '氏名',
+              value: '山田 太郎',
+              kind: 'shortText',
+              visibility: 'public',
+              source: 'forms',
+            },
+            {
+              stableKey: 'nickname',
+              label: 'ニックネーム',
+              value: 'やまだ',
+              kind: 'shortText',
+              visibility: 'public',
+              source: 'forms',
+            },
+            {
+              stableKey: 'occupation',
+              label: '職業',
+              value: '地域プロジェクト担当',
+              kind: 'shortText',
+              visibility: 'member',
+              source: 'forms',
+            },
+            {
+              stableKey: 'location',
+              label: '活動エリア',
+              value: '兵庫県神戸市',
+              kind: 'shortText',
+              visibility: 'member',
+              source: 'forms',
+            },
+          ],
+        },
+        {
+          key: 'consent',
+          title: '同意情報',
+          fields: [
+            {
+              stableKey: 'publicConsent',
+              label: '公開許可',
+              value: true,
+              kind: 'checkbox',
+              visibility: 'admin',
+              source: 'forms',
+            },
+          ],
+        },
+      ],
       attendance: [],
       attendanceMeta: { hasMore: false, nextCursor: null },
     },
@@ -107,8 +160,8 @@ function profileBody() {
       publishState: 'public',
       isDeleted: false,
     },
-    editResponseUrl: 'https://forms.example.test/edit',
-    fallbackResponderUrl: 'https://forms.example.test/responder',
+    editResponseUrl: 'https://docs.google.com/forms/d/e/mock-form/viewform?usp=pp_url',
+    fallbackResponderUrl: 'https://docs.google.com/forms/d/e/mock-form/viewform',
     pendingRequests: state.pendingRequests,
   }
 }
@@ -144,7 +197,22 @@ function adminDashboardBody() {
   }
 }
 
-function publicMembersBody() {
+function publicMembersBody(params = new URLSearchParams()) {
+  const q = params.get('q') ?? ''
+  // 負例クエリは contracts fixture `fixtures.public.negativeQuery`（"zzz_no_match_zzz"）が正本。
+  // CI では scripts/e2e-mock-api.mjs（q === negativeQuery 完全一致）が応答するため、規約を揃える。
+  if (q === 'zzz_no_match_zzz') {
+    return {
+      items: [],
+      pagination: { total: 0, page: 1, limit: 50, totalPages: 0, hasNext: false, hasPrev: false },
+      appliedQuery: { q, zone: 'all', status: 'public', tags: [], sort: 'recent', density: 'comfy' },
+      // PublicMemberListViewZ は .strict() かつ topTags 必須。空系でも省略すると parse が throw し
+      // ページが error boundary に落ちて EmptyState が描画されない（empty-state spec timeout の原因）。
+      topTags: [],
+      generatedAt: '2026-05-12T00:00:00.000Z',
+    }
+  }
+
   return {
     items: [buildMember({ memberId: 'sample-001', fullName: '佐藤 サンプル' })],
     pagination: { total: 1, page: 1, limit: 50, totalPages: 1, hasNext: false, hasPrev: false },
@@ -474,7 +542,7 @@ async function ensureMockApi(): Promise<void> {
         return
       }
       if (req.method === 'GET' && url.pathname === '/public/members') {
-        response(res, 200, publicMembersBody())
+        response(res, 200, publicMembersBody(url.searchParams))
         return
       }
       if (req.method === 'GET' && url.pathname === '/public/members/sample-001') {

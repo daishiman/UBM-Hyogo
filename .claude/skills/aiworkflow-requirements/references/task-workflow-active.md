@@ -19,6 +19,59 @@
 | tests | `scripts/smoke/__tests__/mint-staging-session-cookie.spec.ts`, `scripts/smoke/__tests__/runtime-admin-web.test.sh` |
 | user gate | Cloudflare staging deploy, real `/admin` probe, commit, push, PR |
 
+### mypage-prototype-alignment（2026-05-23）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / VISUAL / existing-ui-alignment` |
+| 成果物 | `docs/30-workflows/mypage-prototype-alignment/` |
+| 目的 | existing `/profile` を prototype `MyProfilePage` 準拠へ整え、Google Form 再回答 CTA、VisibilitySummary、ProfilePreview、RevalidateModal、danger-zone、MemberHeader 動線を実装する |
+| implementation targets | `apps/web/app/profile/page.tsx`, `apps/web/app/profile/_components/**`, `apps/web/app/profile/_lib/**`, `apps/web/src/components/layout/MemberHeader.tsx` |
+| API boundary | existing `/me/*` only。新 endpoint / D1 schema / Google Form schema / primitive API change なし |
+| Phase 12 | strict 7 present。Phase 11 screenshots captured |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-mypage-prototype-alignment-artifact-inventory.md` |
+| user gate | commit, push, PR |
+
+### runtime-smoke-staging-mint-recurrence-fix（2026-05-24）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / NON_VISUAL / runtime_rerun_user_gated` |
+| 成果物 | `docs/30-workflows/runtime-smoke-staging-mint-recurrence-fix/` |
+| 目的 | `runtime-smoke-staging / smoke` の 24h bearer 失効再発を、鮮度ゲート・auth path 可視化・401 reason 細分化・mint self-verify で再発不能化する |
+| implementation targets | `scripts/smoke/bearer-freshness-gate.mts`, `scripts/smoke/runtime-attendance-provider.sh`, `scripts/smoke/mint-staging-bearers.mts`, `.github/workflows/runtime-smoke-staging.yml`, secret provisioning runbook |
+| local evidence | `pnpm exec vitest run scripts/smoke/__tests__/bearer-freshness-gate.spec.ts scripts/smoke/__tests__/mint-staging-bearers.spec.ts` PASS; `bash scripts/smoke/__tests__/runtime-attendance-provider.test.sh` PASS |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-runtime-smoke-staging-mint-recurrence-fix-artifact-inventory.md` |
+| user gate | GitHub secret mutation, Cloudflare secret mutation, staging runtime rerun, commit, push, PR |
+
+### members-page-prototype-alignment（2026-05-23）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / VISUAL` |
+| 成果物 | `docs/30-workflows/completed-tasks/members-page-prototype-alignment/` |
+| 目的 | 公開 `/members` と public header/footer を frozen prototype `MemberListPage` / CSS に合わせる active implementation workflow |
+| 正本 | `docs/00-getting-started-manual/claude-design-prototype/pages-public.jsx`, `docs/00-getting-started-manual/claude-design-prototype/styles.css`, `docs/00-getting-started-manual/specs/09e-screen-blueprints-public.md` |
+| implementation targets | `apps/web/src/components/public/{PublicHeader,PublicFooter,DensityToggle.client,MemberFilters.client,MemberCard,MemberGrid,MemberTable}.tsx`, `apps/web/src/components/feedback/EmptyState.tsx`, `apps/web/src/components/ui/Segmented.tsx`, `apps/web/src/styles/legacy-public.css`, `apps/web/app/(public)/members/page.tsx` |
+| boundary | Existing `GET /public/members` and `apps/web/src/lib/url/members-search.ts` remain unchanged. No API endpoint, D1 schema, Auth.js, Google Form, or Cloudflare binding change. |
+| evidence | Phase 12 strict 7 present. Phase 11 local screenshots `EV-1..6`, runtime notes, and Playwright report are physically present. |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-members-page-prototype-alignment-artifact-inventory.md` |
+| user gate | staging deploy, production-equivalent visual evidence, commit, push, PR |
+
+### Issue #827 member detail adapter and visibility defense（2026-05-23）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / NON_VISUAL` |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-827-member-detail-adapter-and-visibility-defense/` |
+| Issue | #827 CLOSED。PR 文脈は `Refs #827` のみ |
+| 目的 | `/members/[id]` public member detail に pure adapter を追加し、UI 層でも `visibility === "public"` を再確認する二重防御を入れる |
+| implementation targets | `apps/web/src/lib/adapters/member-detail.ts`, `apps/web/src/lib/adapters/__tests__/member-detail.spec.ts`, `apps/web/src/components/public/MemberDetailSections.tsx`, `apps/web/src/components/public/__tests__/MemberDetailSections.component.spec.tsx`, `apps/web/app/(public)/members/[id]/page.tsx` |
+| contract | adapter は最初に全 section fields を `visibility="public"` に正規化し、その `allSections` を `MemberLinks` / `MemberActivity` へ渡す。`detailSections` は `activity` を除外し、`shortText/paragraph/date/radio/checkbox/dropdown` のみを含む。`url` は `MemberLinks`、`activity` は `MemberActivity` が消費する |
+| evidence | apps/web Vitest 888 PASS、workspace typecheck/lint PASS、web build PASS。Phase 12 strict 7 / root-output artifacts parity present |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-827-member-detail-adapter-and-visibility-defense-artifact-inventory.md` |
+| user gate | commit / push / PR / issue mutation / deployment verification |
+
 ### home-page-prototype-alignment（2026-05-23）
 
 | 項目 | 値 |
@@ -143,6 +196,21 @@
 | implementation targets | `apps/web/middleware.ts`, `apps/web/proxy.ts`, `apps/web/app/(admin)/layout.tsx`, `apps/web/__tests__/proxy.spec.ts`, `apps/web/package.json`, `vitest.config.ts` |
 | evidence boundary | Local implementation present。Phase 12 strict 7 present。Focused tests/build evidence and dev-server smoke remain runtime evidence gates; commit / push / PR / Issue close are user-gated |
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-277-next-proxy-migration-artifact-inventory.md` |
+
+### Issue #832 AdminTopbar primitive extraction（2026-05-23）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION / implementation_complete_pending_pr` |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-832-admin-topbar-primitive-extraction/` |
+| Issue | #832 CLOSED。PR 文脈は `Refs #832` のみ |
+| source | `docs/30-workflows/completed-tasks/parallel-03-followup-001-admin-topbar-primitive-extraction.md` consumed |
+| parent | `docs/30-workflows/ui-prototype-design-system-foundation/parallel-03-appshell-layouts/` |
+| 目的 | `(admin)/layout.tsx` の inline `<header data-shell="topbar">` を `AdminTopbar` Server Component primitive へ抽出する |
+| implementation targets | `apps/web/src/components/layout/AdminTopbar.tsx`, `apps/web/src/components/layout/__tests__/AdminTopbar.spec.tsx`, `apps/web/app/(admin)/layout.tsx` |
+| evidence | `@ubm-hyogo/web` Vitest suite PASS、`AdminTopbar.spec.tsx` 9 cases、existing `(admin)/layout.spec.tsx` 4 cases PASS、Phase 12 strict 7 present |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-832-admin-topbar-primitive-extraction-artifact-inventory.md` |
+| user gate | authenticated browser screenshot, commit, push, PR |
 
 ### Issue #777 schema diff resolve history view（2026-05-20）
 
