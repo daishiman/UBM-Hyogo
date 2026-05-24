@@ -233,6 +233,7 @@
 - 適用判断: conflict 一覧が `.claude/skills/*/indexes/*` + `references/task-workflow-active.md` に閉じる場合のみ。ソースコード / completed-tasks doc を含む場合は L-DEVSYNC-003 等の個別ルールを併用。
 - 事例: 2026-05-24 `feat/home-page-prototype-alignment` ← dev sync で skill 系 5 ファイル（`indexes/{keywords.json, quick-reference.md, resource-map.md, topic-map.md}` + `references/task-workflow-active.md`）のみ conflict。`pnpm sync:resolve` 一発で全自動解消（union 4 + ours 1 + 内包 rebuild）、merge commit 後 no drift、`verify-pr-ready` / push 初回 PASS、追加 chore commit 不要。
 - 事例（2 回目・再現確認）: 2026-05-24 `feat/issue-827-member-detail-adapter-and-visibility-defense` ← dev sync。conflict は前事例と**同一の 5 ファイル**（`aiworkflow-requirements/SKILL.md` + `indexes/{keywords.json, quick-reference.md, resource-map.md, topic-map.md}` + `references/task-workflow-active.md`）に閉じ、`pnpm sync:resolve` 一発で全自動解消、merge commit 1 コミット後 `pnpm indexes:rebuild` no drift、`verify-pr-ready` 全 gate PASS（ERROR 0）、typecheck / lint / push 初回 PASS、追加 chore commit 不要。条件分岐（drift 出現時のみ SP-DEVSYNC-028 フォールバック）が 2 ブランチ連続で「フォールバック不要」側に倒れたことを確認。
+- 事例（3 回目・rebuild トリガが indexes/*.md union 側の variant）: 2026-05-24 `feat/issue-832-admin-topbar-primitive-extraction` ← dev sync（ローカル dev = origin/dev 済で dev 同期は no-op、feature は 3 ahead / 2 behind）。conflict は **4 ファイル**（`aiworkflow-requirements/SKILL.md` + `indexes/{quick-reference.md, resource-map.md, topic-map.md}`、すべて union）で、**`indexes/keywords.json` は git auto-merge され CONFLICT に含まれなかった**点が前 2 事例と異なる。それでも `pnpm sync:resolve` は indexes/*.md の union 解消が `need_rebuild` を発火させ `pnpm indexes:rebuild`（keywords 5091）を内包実行、merge commit `0a8c15f71` 後の確認 rebuild は drift 0、typecheck / lint 初回 PASS、追加 chore commit 不要。**rebuild トリガは「keywords.json ours」だけでなく「indexes/*.md union」でも発火する**ことを確認し、SP-DEVSYNC-029 の「フォールバック不要」結論が conflict ファイル組合せに依らず成立することを 3 ブランチ連続で裏付け。
 - 詳細は aiworkflow-requirements 配下の L-DEVSYNC-037 を参照。
 
 ### SP-DEVSYNC-008: 同一 React Component への並行 feature 追加 conflict は L-DEVSYNC-033 適用
@@ -255,6 +256,17 @@
 - task 仕様書を書く際: `apps/web` の env 参照経路を変更する（`process.env` → `getEnv()` 統一を含む）task は、Phase 5 に「dev:webpack の cloudflare-context が process.env より優先される点を確認し、e2e mock API 切替が壊れないことを `PLAYWRIGHT_TEST` 経路で担保する」、Phase 11 evidence に「fixture を持たない SSR fetch 系 spec（meetings detail / attendance）の e2e 緑」を明示する。
 - 関連: fixture 追加経路は [[SP-DEVSYNC-016]]（`scripts/e2e-mock-api.mjs` server-side mock）。env 正本仕様は aiworkflow-requirements `references/architecture-admin-api-client.md` §2.2。
 - Why: 「env アクセスを getEnv に一本化」という正しい invariant 遵守が、dev local の env 解決順序という別レイヤの仕様と衝突して e2e のみ壊す盲点。grep で気付けないため lessons-learned 化して再発時の切り分け時間を消す。
+
+### SP-DEVSYNC-030: 修正済 `sync:resolve` 利用後は dev sync を「merge commit 単独 + 後追い rebuild 確認」に簡略化（2026-05-24 追加）
+- 症状（運用更新）: SP-DEVSYNC-028 で「dev sync を含む task は merge commit + chore(indexes) commit の 2 コミット構成が標準」と明示していたが、`scripts/sync/resolve-skill-merge-conflicts.sh` の `need_rebuild` フラグ修正（L-DEVSYNC-036 2件目）以降、`apply_ours`（`indexes/keywords.json`）を含む conflict では `pnpm sync:resolve` 内で `indexes:rebuild` が自動実行され、merge commit 時点で drift ゼロになる。この場合 chore(indexes) commit は不要で、1 コミット構成で push まで完結する。
+- 解消（更新後テンプレ）:
+  1. `pnpm sync:resolve` → `git status --porcelain | grep '^UU'` で残コンフリクト確認（あれば `awk | xargs git add`）
+  2. `git commit --no-edit` で merge commit 作成
+  3. `pnpm indexes:rebuild` を後追い → **drift ゼロなら追加コミット不要**／drift 出現時のみ SP-DEVSYNC-028 の chore(indexes) commit にフォールバック
+  4. `pnpm typecheck && pnpm lint` 確認 → push
+- task 仕様書を書く際: dev sync を Phase 5 に含む task では「merge commit 後に `pnpm indexes:rebuild` を後追いし、drift ゼロを確認して push（resolver が rebuild 済のため 1 コミット構成が既定）。drift が残る場合のみ chore(indexes) commit を分離する」と記述する。SP-DEVSYNC-028 の「2 コミット構成が標準」は「resolver が rebuild できないケース（古い resolver / `apply_ours` も union 対象も無いケース）に限定したフォールバック」へ位置付けを更新する。
+- 事例: 2026-05-24 `feat/mypage-prototype-alignment` ← dev sync-merge（8 behind / 3 ahead）。`pnpm sync:resolve` で 6 ファイル（`SKILL.md` + `indexes/{quick-reference,resource-map,topic-map}.md` union、`indexes/keywords.json` apply_ours、`references/task-workflow-active.md` union）解消、resolver 内 `indexes:rebuild` 自動実行 → merge commit 作成 → 後追い `pnpm indexes:rebuild` で drift ゼロ確認、chore commit 不要。typecheck / lint 全パッケージ初回 PASS。
+- 詳細は aiworkflow-requirements 配下の L-DEVSYNC-037 を参照。
 
 ### SP-DEVSYNC-030: `SKILL.md` union + `keywords.json` ours の最頻 conflict は `sync:resolve` 1 発完遂で手動 rebuild commit 不要（2026-05-24 追加）
 - 症状（正常系の確定）: dev sync-merge の content conflict が `SKILL.md`（union）+ `indexes/keywords.json`（ours = JSON 派生物）の 2 件だけのとき、`mise exec -- pnpm sync:resolve` が union 結合・`--ours` 採用・`pnpm indexes:rebuild` の自動呼び出しまでを 1 回で完遂する。完了後は UU 残置 0、merge commit 後に確認 rebuild しても drift 0。
@@ -283,6 +295,13 @@
 - 事例: 2026-05-24 `feat/home-page-prototype-alignment` ← dev sync で `--ubm-color-text-muted` を HEAD `#76664a` / dev `#7d6a4d` の並行 darken 衝突として検出、dev `#7d6a4d` を 3 SSOT へ統一。push 後 e2e a11y が footer copyright on bg-2（4.16:1）で fail（home ブランチに pre-merge から潜在）→ public-footer の color を `text-secondary`（5.31:1）へ変更して解消、token は dev 値維持。
 - 詳細は aiworkflow-requirements 配下の L-DEVSYNC-038 を参照。
 
+### SP-DEVSYNC-031: 並列 worktree の concurrent-merge race — 自律 sync は stale status で判断せず fresh 再確認（2026-05-24 追加）
+- 並列 worktree 運用（9〜30 WT）では、同一ブランチに対し別ターミナル/エージェントが dev sync-merge を**同時進行**させることがあり、`git status` が「clean」→「conflicts fixed but still merging」→「merge committed」と観測タイミングで遷移して見える TOCTOU race が起きる。自律 branch-sync prompt の「現在 WT は単一アクター」前提が破れるケース。
+- 解消: aiworkflow-requirements `lessons-learned-dev-sync-merge-conflict-resolution-2026-05.md` の **L-DEVSYNC-039** に従う。`git merge dev` が `MERGE_HEAD exists` で弾かれても **`--abort`/`--reset --hard` を自律実行しない**（別アクターの正当な進行中 merge を破壊しうる＝自律判断ルール D「破壊的判断は AI が行わない」に整合）。数秒おいて `git log`/`git rev-list --left-right --count HEAD...origin/dev`/`git grep` で fresh 再確認し、parents=`<旧HEAD>`+`origin/dev`・behind 0・conflict マーカー残存ゼロの正当 merge commit なら受容、CI gate を自分で再実行して緑なら push。
+- task 仕様書を書く際の含意: 並列 wave で同一ブランチ/同一画面に触れる task を複数立てる場合、SCOPE に「dev sync は 1 WT 1 アクターで実施。並列 merge race を避けるため同一ブランチへの同時 sync を禁止」を明記する。CI gate（typecheck / lint / `gate-metadata:validate` / `indexes:rebuild` no drift）は**最終的に push する WT 側で必ず自分で回す**ことを Phase 13（PR）step に逐語化し、別アクターが作った merge commit を無検証で push しない。
+- 事例: 2026-05-24 `feat/admin-topbar-primitive-extraction` ← dev sync。`git status` clean 確認直後の `git merge dev` が `MERGE_HEAD exists` で弾かれ、別アクターが同時に同一 WT で merge を完走させていた（merge commit `01b0434f9`、parents=`cb23c556d`+origin/dev `51c3cb3ce`）。`--abort` せず fresh 再確認で正当性検証（behind 0・marker 0）→ 受容。conflict は skill 系 union のみ（L-DEVSYNC-039 = union-only no-drift の 3 回目再現）で `indexes:rebuild` no drift、`gate-metadata` ERROR 0、typecheck / lint 初回 PASS。
+- 詳細は aiworkflow-requirements 配下の L-DEVSYNC-039 を参照。
+
 ### SP-DEVSYNC-031: union 解消した手動 ledger の重複 entry は「merge 由来 / upstream 既存」を両親 count で判別してから直す（2026-05-24 追加）
 - 症状: `pnpm sync:resolve` が `indexes/{quick-reference,resource-map}-map.md`（= `indexes:rebuild` 非生成の**手動 ledger**）を `merge=union` で連結した後、同一見出し ID（例 `TASK-RT-06`）が 2 回出現する。SP-DEVSYNC-018 / L-DEVSYNC-012 の「重複 entry のみ除去」を反射的に適用すると、dev 正本に元からあった重複まで消して scope 外 diff を生む危険がある。
 - 判別: merge commit の両親 SHA を `git log --format=%P -1 <merge-sha>` で取り、`git show <parent>:<path> | grep -c '<token>'` を HEAD / dev 双方で計測 → merge 結果の `grep -c` と比較。**結果数 == max(両親) なら upstream 既存重複（本ブランチで直さない）／結果数 == 両親の和 なら union が作った新規重複（新しい版を残し旧版を削除）**。
@@ -299,3 +318,15 @@
 - **並行 worktree 運用の注記**: 同一ブランチを複数 worktree/agent で触る task は「`git push` reject（`cannot lock ref ... is at X but expected Y`）時はまず `git fetch` → `git diff HEAD origin/<branch> --stat` が空なら remote が等価コミット保有、`--set-upstream-to` 追従で足りる（force-push 不要）」を運用注記に入れる。
 - 事例: 2026-05-24 `feat/serial-06-form-response-binding`（PR #888）。`scripts/e2e-mock-api.mjs` を `auth.ts publicMemberProfileBody()` に整合（`member_display_name`/`session_task18`/`kobe(zone)`、重複 activity section 削除、`longText`→`paragraph`）→ dev #892/#893 を 2 段 sync-merge → baseline 再撮影 → 最終 head で e2e/smoke/visual-full 全 PASS、PR `CLEAN`。
 - 詳細は aiworkflow-requirements 配下の L-DEVSYNC-039 を参照。
+
+### SP-DEVSYNC-033: legacy-ordinal-family-register.md の先頭 quote block 3-way conflict は spec 上「両側 NOTE 保持 + 最新日付統一」を逐語化（2026-05-24 追加）
+
+- 事象: dev sync-merge で `references/legacy-ordinal-family-register.md` 先頭の `> 最終更新日: <date>` + `> NOTE (...)` 行群が両側追加の 3-way conflict として発生。`pnpm sync:resolve` は `WARN unhandled conflict` で手動 resolve に委ねる。
+- Why: 本 register は wave ごとに「register-skip 宣言 NOTE」を先頭 quote block へ追記する SSOT 運用のため、base `> 最終更新日:` 行が複数 wave で同時更新されると diff3 hunk に膨らむ。table 本体（§Current Alias Overrides 等）は触らない wave が大半で、quote block 限定の union が安全。
+- How to apply（task 仕様書での逐語化）:
+  - Phase 5（実装）/ Phase 9（QA）の sync-merge 節に「`legacy-ordinal-family-register.md` の手動 resolve 手順」として以下を明記:
+    1. `grep -n -E '^(<<<<<<<|=======|>>>>>>>|\|\|\|\|\|\|\|)'` で conflict 範囲が先頭 quote block 内か確認
+    2. 範囲内なら両側 `> NOTE` 行を**両方保持**、`> 最終更新日:` 行はより新しい日付 1 本に統一（古い行は重複削除）
+    3. 範囲が table 本体に及ぶ場合は L-DEVSYNC-032/033 の table-merge ルール（行単位の片側採用 union）に切替
+- 検証: marker grep ゼロ + `verify:phase12-compliance` PASS + `indexes:rebuild` drift は別 chore commit で吸収（SP-DEVSYNC-029 既知パターン併発）。
+- 参照: aiworkflow-requirements L-DEVSYNC-040。
