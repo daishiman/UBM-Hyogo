@@ -107,7 +107,9 @@
   --ubm-color-border-strong: #d8c9b0;
   --ubm-color-text-primary: #22180a;
   --ubm-color-text-secondary: #6b5a42;
-  /* WCAG AA 4.5:1 fix: #9a8a6e gave 3.0–3.3 contrast on warm surfaces (a11y gate fail). #736449 ≥4.6 on all warm bg/panel. */
+  /* WCAG 2 AA 4.5:1 fix. worst case は最暗 warm surface --ubm-color-surface-bg-2 (#eee5d5):
+     #9a8a6e=3.28:1 / #7d6a4d=4.15:1 はいずれも AA 未達（axe serious、footer copyright 等）。
+     #736449 は bg-2 で 4.61:1、panel(#fffcf6) で ~5.4:1 と全 warm surface で AA 充足。 */
   --ubm-color-text-muted: #736449;
   --ubm-color-accent: oklch(0.52 0.13 50);
   --ubm-color-accent-soft: oklch(0.94 0.05 60);

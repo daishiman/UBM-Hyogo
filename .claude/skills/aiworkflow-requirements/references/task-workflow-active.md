@@ -22,6 +22,18 @@
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-members-page-prototype-alignment-artifact-inventory.md` |
 | user gate | staging deploy, production-equivalent visual evidence, commit, push, PR |
 
+### login-page-prototype-alignment（2026-05-23）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_visual_evidence_captured / implementation / VISUAL_ON_EXECUTION` |
+| 成果物 | `docs/30-workflows/completed-tasks/login-page-prototype-alignment/` |
+| 目的 | 既存 `/login` route を prototype LoginPage に整合し、Magic Link primary / OR / Google secondary / brand block / sent state を正本化する |
+| 実装対象 | `apps/web/app/login/**`, `apps/web/src/components/ui/{Icon,icons}.ts(x)`, `apps/web/src/styles/auth.css`, `apps/web/playwright/tests/login-smoke.spec.ts` |
+| system spec | `docs/00-getting-started-manual/specs/13-mvp-auth.md` |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-login-page-prototype-alignment-artifact-inventory.md` |
+| boundary | `/api/auth/*`, Auth.js handler, `apps/api/**`, D1 schema は不変。staging visual smoke / commit / push / PR は user-gated |
+
 ### fix-admin-server-components-render-error-stg（2026-05-23）
 
 | 項目 | 値 |
@@ -577,7 +589,7 @@
 
 | 項目 | 値 |
 | --- | --- |
-| ステータス | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION / local_visual_evidence_captured` |
+| ステータス | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION / local_static_evidence_captured` |
 | 成果物 | `docs/30-workflows/completed-tasks/step-06-meetings-attendance-implementation/` |
 | 親 workflow | `docs/30-workflows/ui-prototype-alignment-mvp-recovery/improvements/serial-05-admin-mutation-ui/` |
 | source | `docs/30-workflows/ui-prototype-alignment-mvp-recovery/improvements/serial-05-admin-mutation-ui/step-06-meetings-attendance/spec.md` |
@@ -655,7 +667,7 @@
 
 | 項目 | 値 |
 | --- | --- |
-| ステータス | `implemented_local_visual_evidence_captured / implementation / VISUAL / Phase 13 blocked_pending_user_approval` |
+| ステータス | `implemented_local_evidence_captured / implementation / VISUAL / Phase 13 blocked_pending_user_approval` |
 | 成果物 | `docs/30-workflows/serial-05-step-02-identity-conflicts-merge/` |
 | 親 workflow | `docs/30-workflows/ui-prototype-alignment-mvp-recovery/improvements/serial-05-admin-mutation-ui/` |
 | 目的 | `/admin/identity-conflicts` の既存 row-local merge / dismiss UI を `useAdminMutation` に寄せ、400 / 409 error mapping、reason retention、inline alert、visual evidence を hardening する |
