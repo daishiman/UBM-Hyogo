@@ -241,6 +241,13 @@
 - task 仕様書側の予防策: Phase 5 step で「対象 component 内 state 追加位置」を明示し、既存 hook ブロックの末尾追記とする（先頭/中間挿入を避ける）ことで sync-merge 時の機械的解消成功率を上げる。
 - 事例: 2026-05-21 Issue #778（rollback/undo） ← dev (#776 bulk resolve) の SchemaDiffPanel.tsx / spec / api.ts / specs ×2 全 5 ファイル両側 union 解消、typecheck/lint/verify-pr-ready 全 PASS。
 
+### SP-DEVSYNC-030: `.ts` curated list/array の「dedup × entry追加」3-way conflict は和集合（重複排除）＋検証スクリプト確認（2026-05-24 追加）
+- task 仕様書 Phase 4-5 で CI gate スクリプト（`scripts/verify-design-tokens.ts` の `colorLiteralExcludes` 等の exclude/allowlist 配列）を複数の並行 task が編集する場合、dev sync-merge で `.ts` ソースの curated list に 3-way conflict が必発する。`.gitattributes` union 対象外かつ `pnpm sync:resolve` の glob 対象外のため手動 semantic union が必要。
+- 解消: 片側が重複行を dedup・もう片側が entry/コメントを追加する典型では、(1) entry 集合を和集合化し配列内重複を排除、(2) コメントは両側追加分を保持、(3) 該当 list を消費する verify スクリプト（`pnpm verify:tokens` 等）を実行して機能担保。純粋 append-only（SP-DEVSYNC-001/008 の import/hook 両側採用）と違い「重複排除を伴う和集合」である点が差分。
+- task 仕様書を書く際: CI gate スクリプトの curated list を変更する task では Phase 5 step に「list への追記は配列末尾の正規ブロックに集約し、既存 entry の重複追加を避ける」「dev sync 後に当該 verify スクリプトを叩いて list 機能を確認する」を逐語明示し、sync-merge 時の機械的解消成功率を上げる。
+- 事例: 2026-05-24 `feat/members-page-prototype-alignment-spec` ← dev (`fix/verify-design-tokens-og-route-exclude`) の `colorLiteralExcludes` 配列衝突を、HEAD の重複 regex 削除（dedup）と dev のコメント追加を両立させて解消。`pnpm verify:tokens` が `88 tracked in sync` を返し PASS、typecheck / lint / gate-metadata / phase12-compliance 全 PASS。
+- 詳細は aiworkflow-requirements 配下の L-DEVSYNC-037 を参照。
+
 ### SP-DEVSYNC-029: `process.env` 直読み → `getEnv()` 移行は dev cloudflare-context 優先で e2e が 401 になる（2026-05-24 追加）
 - 症状: `apps/web` の server-side fetch を `process.env["INTERNAL_API_BASE_URL"]` 直読みから `getEnv().INTERNAL_API_BASE_URL` へ統一する task の後、e2e (mobile-webkit 等) で `admin api /admin/meetings/sess-1 failed: 401` が多発。fixture (`PLAYWRIGHT_*_FIXTURE`) を持つ admin spec は実 fetch 前に short-circuit するため緑のまま、fixture の無い meetings detail / attendance / issue-819 系だけが落ちるため「特定 spec 群だけ謎の 401」に見える。
 - 原因: `next.config.ts` の `initOpenNextCloudflareForDev()` により dev:webpack でも `getCloudflareContext()` が機能し、`env.ts` の `readRawEnv()` が cloudflare context（= `wrangler.toml [vars]` の**本番** `INTERNAL_API_BASE_URL`）を **process.env より優先**する。Playwright webServer が process.env へ注入する `INTERNAL_API_BASE_URL=http://127.0.0.1:8787`（mock API）が無視され、SSR fetch が本番 API へ飛んで認証なし 401。

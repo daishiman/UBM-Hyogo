@@ -15,7 +15,10 @@ describe("MemberGrid", () => {
     const { container } = render(<MemberGrid items={items} density="comfy" />);
     const grid = container.querySelector('[data-component="member-grid"]');
     expect(grid?.getAttribute("data-density")).toBe("comfy");
-    expect(container.querySelectorAll("li")).toHaveLength(2);
+    expect(grid?.children).toHaveLength(2);
+    expect(
+      container.querySelectorAll('[data-component="member-card"]'),
+    ).toHaveLength(2);
   });
 
   it("density=dense 時に data-density 属性が反映される (variant)", () => {
@@ -30,6 +33,6 @@ describe("MemberGrid", () => {
     const { container } = render(<MemberGrid items={[]} density="comfy" />);
     const grid = container.querySelector('[data-component="member-grid"]');
     expect(grid).toBeTruthy();
-    expect(container.querySelectorAll("li")).toHaveLength(0);
+    expect(grid?.children).toHaveLength(0);
   });
 });
