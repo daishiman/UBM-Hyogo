@@ -256,6 +256,17 @@
 - 関連: fixture 追加経路は [[SP-DEVSYNC-016]]（`scripts/e2e-mock-api.mjs` server-side mock）。env 正本仕様は aiworkflow-requirements `references/architecture-admin-api-client.md` §2.2。
 - Why: 「env アクセスを getEnv に一本化」という正しい invariant 遵守が、dev local の env 解決順序という別レイヤの仕様と衝突して e2e のみ壊す盲点。grep で気付けないため lessons-learned 化して再発時の切り分け時間を消す。
 
+### SP-DEVSYNC-030: 修正済 `sync:resolve` 利用後は dev sync を「merge commit 単独 + 後追い rebuild 確認」に簡略化（2026-05-24 追加）
+- 症状（運用更新）: SP-DEVSYNC-028 で「dev sync を含む task は merge commit + chore(indexes) commit の 2 コミット構成が標準」と明示していたが、`scripts/sync/resolve-skill-merge-conflicts.sh` の `need_rebuild` フラグ修正（L-DEVSYNC-036 2件目）以降、`apply_ours`（`indexes/keywords.json`）を含む conflict では `pnpm sync:resolve` 内で `indexes:rebuild` が自動実行され、merge commit 時点で drift ゼロになる。この場合 chore(indexes) commit は不要で、1 コミット構成で push まで完結する。
+- 解消（更新後テンプレ）:
+  1. `pnpm sync:resolve` → `git status --porcelain | grep '^UU'` で残コンフリクト確認（あれば `awk | xargs git add`）
+  2. `git commit --no-edit` で merge commit 作成
+  3. `pnpm indexes:rebuild` を後追い → **drift ゼロなら追加コミット不要**／drift 出現時のみ SP-DEVSYNC-028 の chore(indexes) commit にフォールバック
+  4. `pnpm typecheck && pnpm lint` 確認 → push
+- task 仕様書を書く際: dev sync を Phase 5 に含む task では「merge commit 後に `pnpm indexes:rebuild` を後追いし、drift ゼロを確認して push（resolver が rebuild 済のため 1 コミット構成が既定）。drift が残る場合のみ chore(indexes) commit を分離する」と記述する。SP-DEVSYNC-028 の「2 コミット構成が標準」は「resolver が rebuild できないケース（古い resolver / `apply_ours` も union 対象も無いケース）に限定したフォールバック」へ位置付けを更新する。
+- 事例: 2026-05-24 `feat/mypage-prototype-alignment` ← dev sync-merge（8 behind / 3 ahead）。`pnpm sync:resolve` で 6 ファイル（`SKILL.md` + `indexes/{quick-reference,resource-map,topic-map}.md` union、`indexes/keywords.json` apply_ours、`references/task-workflow-active.md` union）解消、resolver 内 `indexes:rebuild` 自動実行 → merge commit 作成 → 後追い `pnpm indexes:rebuild` で drift ゼロ確認、chore commit 不要。typecheck / lint 全パッケージ初回 PASS。
+- 詳細は aiworkflow-requirements 配下の L-DEVSYNC-037 を参照。
+
 ### SP-DEVSYNC-030: `SKILL.md` union + `keywords.json` ours の最頻 conflict は `sync:resolve` 1 発完遂で手動 rebuild commit 不要（2026-05-24 追加）
 - 症状（正常系の確定）: dev sync-merge の content conflict が `SKILL.md`（union）+ `indexes/keywords.json`（ours = JSON 派生物）の 2 件だけのとき、`mise exec -- pnpm sync:resolve` が union 結合・`--ours` 採用・`pnpm indexes:rebuild` の自動呼び出しまでを 1 回で完遂する。完了後は UU 残置 0、merge commit 後に確認 rebuild しても drift 0。
 - task 仕様書を書く際: dev sync を Phase 5 に含む task では、conflict 解消手順を「① `pnpm sync:resolve` → ② `git diff --name-only --diff-filter=U` が空を確認 → ③ `git add -A && git commit --no-edit` → ④ 確認用 `pnpm indexes:rebuild` で `git status --porcelain` 空を検証」の 4 ステップで逐語明示する。**SP-DEVSYNC-028 の手動 chore(indexes) commit は本パターンでは不要**（resolver が rebuild 済み）と但し書きを置き、`keywords.json` を ours 採用した場合は L-DEVSYNC-036 の `need_rebuild` が発火するため後追い drift が出ない理由まで書く。
@@ -282,6 +293,12 @@
   - task 仕様書を書く際: design-token / AppShell surface（`data-shell="footer"` 等）を触る task の Phase 4 (test-plan) に「token × surface の全組合せ contrast を最暗 surface まで列挙し AA 検証。最暗 surface で未達なら usage 面修正（より濃い token へ）を優先」を逐語明示する。
 - 事例: 2026-05-24 `feat/home-page-prototype-alignment` ← dev sync で `--ubm-color-text-muted` を HEAD `#76664a` / dev `#7d6a4d` の並行 darken 衝突として検出、dev `#7d6a4d` を 3 SSOT へ統一。push 後 e2e a11y が footer copyright on bg-2（4.16:1）で fail（home ブランチに pre-merge から潜在）→ public-footer の color を `text-secondary`（5.31:1）へ変更して解消、token は dev 値維持。
 - 詳細は aiworkflow-requirements 配下の L-DEVSYNC-038 を参照。
+
+### SP-DEVSYNC-031: union 解消した手動 ledger の重複 entry は「merge 由来 / upstream 既存」を両親 count で判別してから直す（2026-05-24 追加）
+- 症状: `pnpm sync:resolve` が `indexes/{quick-reference,resource-map}-map.md`（= `indexes:rebuild` 非生成の**手動 ledger**）を `merge=union` で連結した後、同一見出し ID（例 `TASK-RT-06`）が 2 回出現する。SP-DEVSYNC-018 / L-DEVSYNC-012 の「重複 entry のみ除去」を反射的に適用すると、dev 正本に元からあった重複まで消して scope 外 diff を生む危険がある。
+- 判別: merge commit の両親 SHA を `git log --format=%P -1 <merge-sha>` で取り、`git show <parent>:<path> | grep -c '<token>'` を HEAD / dev 双方で計測 → merge 結果の `grep -c` と比較。**結果数 == max(両親) なら upstream 既存重複（本ブランチで直さない）／結果数 == 両親の和 なら union が作った新規重複（新しい版を残し旧版を削除）**。
+- task 仕様書を書く際: dev 同期 merge を含む task の Phase 5 手順に「`pnpm sync:resolve` 後、手動 ledger（quick-reference / resource-map）に重複見出しが出たら両親 count 比較で merge 由来か判定し、upstream 既存重複は是正しない」を逐語明示する。Phase 11 evidence に両親 count と結果 count の数値を残す。
+- 事例: 2026-05-24 `docs/runtime-smoke-staging-mint-recurrence-spec` ← dev sync で conflict 4 件を `pnpm sync:resolve` が 1 発解消。`quick-reference.md` の `TASK-RT-06` が 2 回出現したが HEAD=2 / dev=2 / 結果=2 で upstream 既存重複と確定し是正せず。`keywords.json` JSON valid・`indexes:rebuild` drift ゼロ。詳細は aiworkflow-requirements 配下の L-DEVSYNC-039 を参照。
 
 ### SP-DEVSYNC-032: SSR fetch 画面の task は「e2e server mock fixture (`e2e-mock-api.mjs`) を `auth.ts` shape + zod enum へ整合」「描画変更後の visual baseline 再撮影順序」を仕様書に逐語化（2026-05-24 追加）
 - server component の `fetch`（`fetchPublicOrNotFound` 等）を持つ画面の task では、dev sync 後に **e2e が「mock fixture と画面期待値の不一致」で落ちる**構造的リスクがある。task 仕様書（特に Phase 4 test-plan / Phase 5 implementation）に以下を逐語で織り込む。

@@ -509,6 +509,17 @@
 - How to apply: dev sync 後に pre-push が `indexes-drift-guard` で fail したら `pnpm indexes:rebuild` を明示実行 → drift 差分を `chore(indexes): rebuild skill indexes after dev sync` で commit → 再 push。修正済 `sync:resolve` 利用後は本症状は再発しない想定。
 - 事例: 2026-05-23 `feat/step-07-requests-approve-reject` ← dev sync-merge。union 3 件（`indexes/{quick-reference.md, resource-map.md, topic-map.md}`）のみ conflict、`apply_ours` 0 件 → rebuild スキップ → push で `topic-map.md` に 1 file/9 行 drift 検出。スクリプト修正 + 手動 rebuild commit で push 成立。
 
+## L-DEVSYNC-037: 修正済 `sync:resolve`（`need_rebuild` フラグ導入後）は merge commit 単独で drift ゼロを実現し別 chore commit が不要（2026-05-24 追加）
+- 症状（解消後の正常系）: L-DEVSYNC-036 で導入した `need_rebuild` フラグにより、`apply_ours`（`indexes/keywords.json`）を含む conflict では `pnpm sync:resolve` の内部で `pnpm indexes:rebuild` が**自動実行**される。その結果、merge commit を作成した時点で `git status --porcelain` が空（drift ゼロ）になり、SP-DEVSYNC-028 / L-DEVSYNC-036(1件目) で標準化していた「merge commit 後の別 chore(indexes) commit」が**不要**になる。
+- 検証: merge commit 直後に `pnpm indexes:rebuild` を後追い実行しても `git status --porcelain` が空のままであることを確認すれば、resolver 内 rebuild が効いた証跡になる。drift が出る場合のみ L-DEVSYNC-036 の手動 rebuild commit にフォールバックする。
+- Why: 旧運用（L-DEVSYNC-036(2件目) 修正前）は「union-only ケースで rebuild スキップ → pre-push `indexes-drift-guard` で fail」が頻発し、毎回 merge commit + chore(indexes) commit の 2 コミット構成を要した。`need_rebuild` フラグ（`apply_union` パスが `.claude/skills/*/indexes/*` に該当 **または** `apply_ours` 非空で rebuild）により、union-only / ours 混在いずれのケースでも resolver 完走時点で indexes が正規化済みになる。これにより「2 コミット構成が標準」だった前提が「resolver が rebuild した場合は 1 コミット」に更新される。
+- How to apply: dev sync prompt 自律判断ルール B の resolver 後処理を次の分岐に更新する:
+  1. `pnpm sync:resolve` 完走 → `git status --porcelain | grep '^UU'` で残コンフリクトを確認（あれば `awk | xargs git add`、L-DEVSYNC-035）
+  2. merge commit 作成（`git commit --no-edit`、`staged-task-dir-guard` は `MERGE_HEAD` 存在時 auto-skip）
+  3. `pnpm indexes:rebuild` を後追い → **drift ゼロなら追加コミット不要（本 L-DEVSYNC-037）**／drift 出現時のみ L-DEVSYNC-036 の chore(indexes) commit で吸収
+  4. `pnpm typecheck && pnpm lint` を確認して push
+- 事例: 2026-05-24 `feat/mypage-prototype-alignment` ← dev sync-merge（8 behind / 3 ahead）。`pnpm sync:resolve` で 6 ファイル（`SKILL.md` + `indexes/{quick-reference,resource-map,topic-map}.md` を union、`indexes/keywords.json` を `apply_ours`、`references/task-workflow-active.md` を union）解消、`apply_ours` 非空のため resolver 内 `indexes:rebuild` 自動実行 → merge commit 作成 → 後追い `pnpm indexes:rebuild` で drift ゼロ確認、chore commit 不要。typecheck / lint 全パッケージ初回 PASS。task-specification-creator skill 側 SP-DEVSYNC-030 と対応。
+
 ## L-DEVSYNC-037: `SKILL.md` union + `keywords.json` ours + 自動 `indexes:rebuild` を `sync:resolve` 1 発で完遂し UU 残置 0 / drift 0 を回帰確認（2026-05-24 追加）
 - 症状（=正常系の確定）: dev → feature の sync-merge で content conflict が `SKILL.md`（union 対象）と `indexes/keywords.json`（JSON 派生物 = ours 対象）の 2 件のみ発生。`mise exec -- pnpm sync:resolve` を 1 回実行するだけで「`SKILL.md` を union 結合」「`keywords.json` を `--ours` 採用」「`pnpm indexes:rebuild` を自動呼び出し」が連続実行され、完了後 `git diff --name-only --diff-filter=U` が空・`git add -A && git commit` 後に `pnpm indexes:rebuild` を再実行しても drift 0。
 - Why: L-DEVSYNC-036 で導入した `need_rebuild` フラグ（`apply_ours` 非空 **または** `apply_union` パスが `indexes/*` に該当時に rebuild）が、`keywords.json` を ours 採用したことで発火し、merge commit 前の時点で keywords.json と派生 index 群（topic-map / resource-map / quick-reference）が deterministic に再生成されるため、後追い `indexes:rebuild` で drift が出ない。L-DEVSYNC-035（union 後 UU 残置）も再現せず、resolver の `git add` が全件適用された。
@@ -553,6 +564,18 @@
   - 検証コマンド（merge 後・push 前に必ず）: `node` で `text-muted` 候補 × `{panel #fffcf6, bg #f7f2ea, bg-2 #eee5d5}` の contrast を全計算し、**最小値が 4.5 以上**を確認する。pre-flight gate（`verify-pr-ready`）は axe を回さないため、token を触る sync は push 後 e2e `a11y.spec.ts` で初めて落ちる。
   - 正しい修正は **token 値の更なる darken ではなく usage 面の修正**: footer は最暗 surface なので copyright 文字色を `text-muted` → `text-secondary (#6b5a42=5.31:1)` に変更（footer link は既に text-secondary で視覚一貫）。これにより token は dev canonical `#7d6a4d` のまま維持でき、(1) 将来 feature→dev での token 再衝突を回避、(2) 全 muted 文字の site-wide 変更を避け visual baseline の blast radius を footer 局所に最小化、の二重メリット。token 自体を darken すると全 muted 文字 + 全 visual baseline に波及するため避ける。
 - 事例: 2026-05-24 `feat/home-page-prototype-alignment` ← dev sync-merge。`--ubm-color-text-muted` を HEAD `#76664a` / dev `#7d6a4d` の並行 a11y 修正衝突として検出、canonical dev 値 `#7d6a4d` を tokens.css + 09b-design-tokens.md table + JSON の 3 SSOT へ統一。`.baseline-meta.json` は HEAD の `captured_at`/sha 採用・`captured_run_ids` union・`last_refresh_reason` に token 統一を明記。**初回 push 後 e2e `a11y.spec.ts` の color-contrast が /members・/members/m-1・/register で fail（footer copyright `#7d6a4d` on `#eee5d5` = 4.16:1）→ home ブランチに pre-merge から潜在していた違反と判明（6d28973f1 でも e2e failure）→ public-footer の color を `text-secondary` へ変更して 5.31:1 で解消、token は dev 値維持**。task-specification-creator skill 側 SP-DEVSYNC-030 と対応。
+
+## L-DEVSYNC-039: union 解消した手動 ledger の「重複 entry」は merge 由来か upstream 既存かを両親 count で判別する
+- 背景: `pnpm sync:resolve` は `indexes/{quick-reference,resource-map,topic-map}-map.md` を `merge=union` で連結する。union は両側の行を機械的に concat するため、SP-DEVSYNC-018 / L-DEVSYNC-012 が言う「重複 entry のみ除去」を実行する前に **その重複が今回の merge で初めて生じたのか、両親（HEAD / dev）に元から存在したのか**を必ず切り分ける。`quick-reference.md` / `resource-map.md` は `indexes:rebuild` の自動生成対象外（**手動 ledger**, [[reference_indexes_rebuild_scope]] と整合）なので、rebuild では重複が消えず判断を人手に委ねる点が罠。
+- 判別手順（merge commit 直後・push 前）:
+  1. 重複が疑われる entry トークン（例: 見出し ID `TASK-RT-06`）を決める
+  2. `git show <HEAD-parent>:<path> | grep -c '<token>'` と `git show <dev-parent>:<path> | grep -c '<token>'` で両親の出現数を取る（parent SHA は `git log --format=%P -1 <merge-sha>` の 2 値）
+  3. merge 結果の出現数 `grep -c '<token>' <path>` と比較
+  4. **判定**: 結果数 == max(両親) → 今回 merge は新規重複を作っていない（= upstream 既存重複）。結果数 == 両親の和 → union が新規重複を作った（手動で片側を除去すべき）
+- 何を直し、何を直さないか:
+  - **新規重複（和になった）**: 新旧版が両方残るので、status を更新した**新しい版だけ残し旧版ブロックを削除**（L-DEVSYNC-012 の「重複 entry 除去」を適用）。
+  - **upstream 既存重複（max のまま）**: dev = staging-validated 正本に元からある重複は **この feature ブランチで直さない**。直すと dev に対して無関係な diff が生まれ scope を越える（CONST 違反）。dev 側で別途是正する。
+- 事例: 2026-05-24 `docs/runtime-smoke-staging-mint-recurrence-spec` ← dev sync-merge。conflict 4 件（`indexes/{quick-reference,resource-map,topic-map}.md` + `references/task-workflow-active.md`）を `pnpm sync:resolve` が 1 発 union 解消、手動編集ゼロ。解消後 `quick-reference.md` の `TASK-RT-06` 見出しが 2 回出現したため上記手順で検証 → 両親とも既に 2 回（HEAD=2 / dev=2）、merge 結果も 2 で **upstream 既存重複と確定 → 本ブランチでは是正せず**。`members-page-prototype`（dev #887 新規 entry）も dev=4 / 結果=4 で新規重複なしを確認。`keywords.json` は JSON.parse valid・`indexes:rebuild` 冪等（drift ゼロ）。`pnpm typecheck` / `pnpm lint` PASS。task-specification-creator skill 側 SP-DEVSYNC-031 と対応。
 
 ## L-DEVSYNC-039: server-side fetch を使う画面の sync-merge は **e2e server mock fixture (`scripts/e2e-mock-api.mjs`) を `auth.ts` shape + zod enum に整合**させ、描画変更後は visual baseline を**マージ順序を踏まえて再キャプチャ**する（2026-05-24 追加）
 - 症状: serial-06 で `/members/[id]` を `MemberDetailSections` → `MemberDetail` composing primitive + `PublicMemberProfileZ.parse()` に変更した状態で dev を sync-merge後、(1) page が `Invalid option ... publicSections[0].fields[0].kind` の **ZodError** で 500、(2) e2e `serial-06-member-detail.spec.ts` の `[data-stable-key="member_display_name"]` not found、(3) `visual-full members-detail` の baseline mismatch、が連鎖的に発生。

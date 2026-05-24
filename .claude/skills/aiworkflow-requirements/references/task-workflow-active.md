@@ -8,6 +8,31 @@
 
 本ドキュメントは、複雑なタスクを単一責務の原則に基づいて分解し、各サブタスクに最適なスラッシュコマンド・エージェント・スキルの組み合わせを選定するためのガイドラインを定義する。
 
+### mypage-prototype-alignment（2026-05-23）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / VISUAL / existing-ui-alignment` |
+| 成果物 | `docs/30-workflows/mypage-prototype-alignment/` |
+| 目的 | existing `/profile` を prototype `MyProfilePage` 準拠へ整え、Google Form 再回答 CTA、VisibilitySummary、ProfilePreview、RevalidateModal、danger-zone、MemberHeader 動線を実装する |
+| implementation targets | `apps/web/app/profile/page.tsx`, `apps/web/app/profile/_components/**`, `apps/web/app/profile/_lib/**`, `apps/web/src/components/layout/MemberHeader.tsx` |
+| API boundary | existing `/me/*` only。新 endpoint / D1 schema / Google Form schema / primitive API change なし |
+| Phase 12 | strict 7 present。Phase 11 screenshots captured |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-mypage-prototype-alignment-artifact-inventory.md` |
+| user gate | commit, push, PR |
+
+### runtime-smoke-staging-mint-recurrence-fix（2026-05-24）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / NON_VISUAL / runtime_rerun_user_gated` |
+| 成果物 | `docs/30-workflows/runtime-smoke-staging-mint-recurrence-fix/` |
+| 目的 | `runtime-smoke-staging / smoke` の 24h bearer 失効再発を、鮮度ゲート・auth path 可視化・401 reason 細分化・mint self-verify で再発不能化する |
+| implementation targets | `scripts/smoke/bearer-freshness-gate.mts`, `scripts/smoke/runtime-attendance-provider.sh`, `scripts/smoke/mint-staging-bearers.mts`, `.github/workflows/runtime-smoke-staging.yml`, secret provisioning runbook |
+| local evidence | `pnpm exec vitest run scripts/smoke/__tests__/bearer-freshness-gate.spec.ts scripts/smoke/__tests__/mint-staging-bearers.spec.ts` PASS; `bash scripts/smoke/__tests__/runtime-attendance-provider.test.sh` PASS |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-runtime-smoke-staging-mint-recurrence-fix-artifact-inventory.md` |
+| user gate | GitHub secret mutation, Cloudflare secret mutation, staging runtime rerun, commit, push, PR |
+
 ### members-page-prototype-alignment（2026-05-23）
 
 | 項目 | 値 |
