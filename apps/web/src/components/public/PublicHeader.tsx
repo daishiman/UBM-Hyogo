@@ -6,7 +6,11 @@ const NAV_ITEMS = [
   { href: "/register", label: "登録" },
 ];
 
-export function PublicHeader() {
+export interface PublicHeaderProps {
+  currentPath?: string;
+}
+
+export function PublicHeader({ currentPath }: PublicHeaderProps = {}) {
   return (
     <header data-component="public-header">
       <a href="/" data-role="brand">
@@ -14,11 +18,21 @@ export function PublicHeader() {
       </a>
       <nav aria-label="メインナビゲーション">
         <ul>
-          {NAV_ITEMS.map((item) => (
-            <li key={item.href}>
-              <a href={item.href}>{item.label}</a>
-            </li>
-          ))}
+          {NAV_ITEMS.map((item) => {
+            const isActive =
+              currentPath === item.href ||
+              (item.href !== "/" && currentPath?.startsWith(item.href));
+            return (
+              <li key={item.href}>
+                <a
+                  href={item.href}
+                  aria-current={isActive ? "page" : undefined}
+                >
+                  {item.label}
+                </a>
+              </li>
+            );
+          })}
         </ul>
       </nav>
       <a href="/login" data-role="auth-cta">
