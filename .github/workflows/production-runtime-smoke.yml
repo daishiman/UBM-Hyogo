@@ -1,0 +1,109 @@
+# 目的: production の attendanceProvider runtime smoke を「許可された特定 test ユーザー」の
+#       bearer に限定して手動実行する。本番 API を毎デプロイで叩かないよう workflow_dispatch 限定。
+# trigger: workflow_dispatch のみ（auto trigger なし）。
+# 特定ユーザー限定: PRODUCTION_SMOKE_ALLOWED_SUBJECTS の allowlist に bearer subject が
+#                   含まれなければ runtime-attendance-provider.sh が exit 2 で拒否する。
+# freshness 緩和: RUNTIME_SMOKE_FRESHNESS_ENFORCE=0（warn-only）。
+name: production-runtime-smoke
+
+on:
+  workflow_dispatch:
+    inputs:
+      reason:
+        description: "manual run reason"
+        required: false
+        default: "ad-hoc production smoke"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: production-runtime-smoke
+  cancel-in-progress: false
+
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    environment: production-runtime-smoke
+    timeout-minutes: 10
+    env:
+      PRODUCTION_API_BASE: ${{ secrets.PRODUCTION_API_BASE }}
+      PRODUCTION_ADMIN_BEARER: ${{ secrets.PRODUCTION_ADMIN_BEARER }}
+      PRODUCTION_MEMBER_ID: ${{ secrets.PRODUCTION_MEMBER_ID }}
+      PRODUCTION_ME_BEARER: ${{ secrets.PRODUCTION_ME_BEARER }}
+      # 本番 smoke を許可する bearer subject(memberId) の allowlist（カンマ/空白区切り）。
+      # 登録された特定 test ユーザー以外の bearer では smoke を拒否する。
+      PRODUCTION_SMOKE_ALLOWED_SUBJECTS: ${{ secrets.PRODUCTION_SMOKE_ALLOWED_SUBJECTS }}
+      # freshness gate は warn-only（本番ではこの種の鮮度テストを緩和）。'1' で hard-fail に復帰。
+      RUNTIME_SMOKE_FRESHNESS_ENFORCE: '0'
+      # freshness gate が検査する bearer env をプロダクション系へ向ける。
+      RUNTIME_SMOKE_BEARER_ENVS: 'PRODUCTION_ADMIN_BEARER,PRODUCTION_ME_BEARER'
+      RUNTIME_SMOKE_AUTH_PATH: 'production-static'
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: setup project
+        uses: ./.github/actions/setup-project
+
+      - name: verify required production secrets
+        run: |
+          missing=()
+          for name in PRODUCTION_API_BASE PRODUCTION_ADMIN_BEARER PRODUCTION_MEMBER_ID PRODUCTION_ME_BEARER PRODUCTION_SMOKE_ALLOWED_SUBJECTS; do
+            if [ -z "${!name:-}" ]; then
+              missing+=("$name")
+            fi
+          done
+
+          if [ "${#missing[@]}" -gt 0 ]; then
+            printf "::error::missing secrets in environment 'production-runtime-smoke': %s\n" "${missing[*]}"
+            echo "::error::register via 'gh secret set <NAME> --env production-runtime-smoke'"
+            exit 1
+          fi
+
+      - name: mask production credentials
+        run: |
+          echo "::notice::runtime-smoke auth path: production-static (allowlist-restricted bearers)"
+          echo "::add-mask::$PRODUCTION_ADMIN_BEARER"
+          echo "::add-mask::$PRODUCTION_ME_BEARER"
+          echo "::add-mask::$PRODUCTION_API_BASE"
+          echo "::add-mask::$PRODUCTION_MEMBER_ID"
+          echo "::add-mask::$PRODUCTION_SMOKE_ALLOWED_SUBJECTS"
+
+      - name: verify bearer freshness
+        # warn-only（RUNTIME_SMOKE_FRESHNESS_ENFORCE=0）。stale/expired は warning を出すが続行。
+        run: pnpm exec tsx scripts/smoke/bearer-freshness-gate.mts
+
+      - name: run runtime smoke
+        # allowlist 違反の bearer は runtime-attendance-provider.sh が exit 2 で拒否する。
+        run: |
+          mkdir -p ci-evidence
+          bash scripts/smoke/runtime-attendance-provider.sh production --out-dir ci-evidence --ci-summary
+
+      - name: redaction grep gate
+        if: always()
+        run: |
+          leak_files="$(grep -rEl 'Cookie:|authorization:|Bearer [A-Za-z0-9_-]{20,}|hooks\.slack\.com/services/[A-Z0-9]|sentry\.io/[0-9]+/[0-9]+|xox[bp]-' ci-evidence/ || true)"
+          if [ -n "$leak_files" ]; then
+            echo "::error::redaction grep gate failed; leaking content is suppressed"
+            printf '%s\n' "$leak_files" | sed 's#^#leak-candidate-file=#'
+            exit 1
+          fi
+
+      - name: upload evidence artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: production-runtime-smoke-${{ github.run_id }}
+          path: ci-evidence/
+          retention-days: 30
+
+      - name: post failure summary to Slack
+        if: ${{ failure() && hashFiles('ci-evidence/summary.json') != '' }}
+        env:
+          SLACK_WEBHOOK_INCIDENT: ${{ secrets.SLACK_WEBHOOK_INCIDENT }}
+        run: |
+          if [ -z "${SLACK_WEBHOOK_INCIDENT:-}" ]; then
+            echo "::error::SLACK_WEBHOOK_INCIDENT is required for failure notification"
+            exit 1
+          fi
+          bash scripts/smoke/ci-summary-post.sh ci-evidence

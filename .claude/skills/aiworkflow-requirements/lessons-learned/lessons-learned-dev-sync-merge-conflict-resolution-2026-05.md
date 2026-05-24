@@ -555,6 +555,18 @@
   - 正しい修正は **token 値の更なる darken ではなく usage 面の修正**: footer は最暗 surface なので copyright 文字色を `text-muted` → `text-secondary (#6b5a42=5.31:1)` に変更（footer link は既に text-secondary で視覚一貫）。これにより token は dev canonical `#7d6a4d` のまま維持でき、(1) 将来 feature→dev での token 再衝突を回避、(2) 全 muted 文字の site-wide 変更を避け visual baseline の blast radius を footer 局所に最小化、の二重メリット。token 自体を darken すると全 muted 文字 + 全 visual baseline に波及するため避ける。
 - 事例: 2026-05-24 `feat/home-page-prototype-alignment` ← dev sync-merge。`--ubm-color-text-muted` を HEAD `#76664a` / dev `#7d6a4d` の並行 a11y 修正衝突として検出、canonical dev 値 `#7d6a4d` を tokens.css + 09b-design-tokens.md table + JSON の 3 SSOT へ統一。`.baseline-meta.json` は HEAD の `captured_at`/sha 採用・`captured_run_ids` union・`last_refresh_reason` に token 統一を明記。**初回 push 後 e2e `a11y.spec.ts` の color-contrast が /members・/members/m-1・/register で fail（footer copyright `#7d6a4d` on `#eee5d5` = 4.16:1）→ home ブランチに pre-merge から潜在していた違反と判明（6d28973f1 でも e2e failure）→ public-footer の color を `text-secondary` へ変更して 5.31:1 で解消、token は dev 値維持**。task-specification-creator skill 側 SP-DEVSYNC-030 と対応。
 
+## L-DEVSYNC-039: union 解消した手動 ledger の「重複 entry」は merge 由来か upstream 既存かを両親 count で判別する
+- 背景: `pnpm sync:resolve` は `indexes/{quick-reference,resource-map,topic-map}-map.md` を `merge=union` で連結する。union は両側の行を機械的に concat するため、SP-DEVSYNC-018 / L-DEVSYNC-012 が言う「重複 entry のみ除去」を実行する前に **その重複が今回の merge で初めて生じたのか、両親（HEAD / dev）に元から存在したのか**を必ず切り分ける。`quick-reference.md` / `resource-map.md` は `indexes:rebuild` の自動生成対象外（**手動 ledger**, [[reference_indexes_rebuild_scope]] と整合）なので、rebuild では重複が消えず判断を人手に委ねる点が罠。
+- 判別手順（merge commit 直後・push 前）:
+  1. 重複が疑われる entry トークン（例: 見出し ID `TASK-RT-06`）を決める
+  2. `git show <HEAD-parent>:<path> | grep -c '<token>'` と `git show <dev-parent>:<path> | grep -c '<token>'` で両親の出現数を取る（parent SHA は `git log --format=%P -1 <merge-sha>` の 2 値）
+  3. merge 結果の出現数 `grep -c '<token>' <path>` と比較
+  4. **判定**: 結果数 == max(両親) → 今回 merge は新規重複を作っていない（= upstream 既存重複）。結果数 == 両親の和 → union が新規重複を作った（手動で片側を除去すべき）
+- 何を直し、何を直さないか:
+  - **新規重複（和になった）**: 新旧版が両方残るので、status を更新した**新しい版だけ残し旧版ブロックを削除**（L-DEVSYNC-012 の「重複 entry 除去」を適用）。
+  - **upstream 既存重複（max のまま）**: dev = staging-validated 正本に元からある重複は **この feature ブランチで直さない**。直すと dev に対して無関係な diff が生まれ scope を越える（CONST 違反）。dev 側で別途是正する。
+- 事例: 2026-05-24 `docs/runtime-smoke-staging-mint-recurrence-spec` ← dev sync-merge。conflict 4 件（`indexes/{quick-reference,resource-map,topic-map}.md` + `references/task-workflow-active.md`）を `pnpm sync:resolve` が 1 発 union 解消、手動編集ゼロ。解消後 `quick-reference.md` の `TASK-RT-06` 見出しが 2 回出現したため上記手順で検証 → 両親とも既に 2 回（HEAD=2 / dev=2）、merge 結果も 2 で **upstream 既存重複と確定 → 本ブランチでは是正せず**。`members-page-prototype`（dev #887 新規 entry）も dev=4 / 結果=4 で新規重複なしを確認。`keywords.json` は JSON.parse valid・`indexes:rebuild` 冪等（drift ゼロ）。`pnpm typecheck` / `pnpm lint` PASS。task-specification-creator skill 側 SP-DEVSYNC-031 と対応。
+
 ## L-DEVSYNC-039: server-side fetch を使う画面の sync-merge は **e2e server mock fixture (`scripts/e2e-mock-api.mjs`) を `auth.ts` shape + zod enum に整合**させ、描画変更後は visual baseline を**マージ順序を踏まえて再キャプチャ**する（2026-05-24 追加）
 - 症状: serial-06 で `/members/[id]` を `MemberDetailSections` → `MemberDetail` composing primitive + `PublicMemberProfileZ.parse()` に変更した状態で dev を sync-merge後、(1) page が `Invalid option ... publicSections[0].fields[0].kind` の **ZodError** で 500、(2) e2e `serial-06-member-detail.spec.ts` の `[data-stable-key="member_display_name"]` not found、(3) `visual-full members-detail` の baseline mismatch、が連鎖的に発生。
 - Why（核心: 2 系統の mock の使い分け = [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-016 の延長）:
