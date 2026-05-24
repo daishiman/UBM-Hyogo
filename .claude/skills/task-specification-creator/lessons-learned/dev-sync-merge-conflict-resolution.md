@@ -240,3 +240,10 @@
 - task 仕様書を書く際: `apps/web` の env 参照経路を変更する（`process.env` → `getEnv()` 統一を含む）task は、Phase 5 に「dev:webpack の cloudflare-context が process.env より優先される点を確認し、e2e mock API 切替が壊れないことを `PLAYWRIGHT_TEST` 経路で担保する」、Phase 11 evidence に「fixture を持たない SSR fetch 系 spec（meetings detail / attendance）の e2e 緑」を明示する。
 - 関連: fixture 追加経路は [[SP-DEVSYNC-016]]（`scripts/e2e-mock-api.mjs` server-side mock）。env 正本仕様は aiworkflow-requirements `references/architecture-admin-api-client.md` §2.2。
 - Why: 「env アクセスを getEnv に一本化」という正しい invariant 遵守が、dev local の env 解決順序という別レイヤの仕様と衝突して e2e のみ壊す盲点。grep で気付けないため lessons-learned 化して再発時の切り分け時間を消す。
+
+### SP-DEVSYNC-030: `SKILL.md` union + `keywords.json` ours の最頻 conflict は `sync:resolve` 1 発完遂で手動 rebuild commit 不要（2026-05-24 追加）
+- 症状（正常系の確定）: dev sync-merge の content conflict が `SKILL.md`（union）+ `indexes/keywords.json`（ours = JSON 派生物）の 2 件だけのとき、`mise exec -- pnpm sync:resolve` が union 結合・`--ours` 採用・`pnpm indexes:rebuild` の自動呼び出しまでを 1 回で完遂する。完了後は UU 残置 0、merge commit 後に確認 rebuild しても drift 0。
+- task 仕様書を書く際: dev sync を Phase 5 に含む task では、conflict 解消手順を「① `pnpm sync:resolve` → ② `git diff --name-only --diff-filter=U` が空を確認 → ③ `git add -A && git commit --no-edit` → ④ 確認用 `pnpm indexes:rebuild` で `git status --porcelain` 空を検証」の 4 ステップで逐語明示する。**SP-DEVSYNC-028 の手動 chore(indexes) commit は本パターンでは不要**（resolver が rebuild 済み）と但し書きを置き、`keywords.json` を ours 採用した場合は L-DEVSYNC-036 の `need_rebuild` が発火するため後追い drift が出ない理由まで書く。
+- 分岐判断: 解消後に `indexes:rebuild` で drift が出る → SP-DEVSYNC-028（union-only で keywords.json が conflict に含まれなかったケース）。drift が出ない → 本 SP-DEVSYNC-030（keywords.json が ours 解消されたケース）。判別は「`sync:resolve` ログに `taking --ours for ... keywords.json` が出たか」で機械確定。
+- 事例: 2026-05-24 `feat/serial-06-form-response-binding` ← dev sync-merge。`SKILL.md` + `keywords.json` の 2 conflict を `pnpm sync:resolve` で完遂（keywords 5072 件再生成）、UU 残置 0、merge commit `85ca3619f`、確認 rebuild drift 0、typecheck / lint 初回 PASS。
+- 詳細は aiworkflow-requirements 配下の [[L-DEVSYNC-037]] を参照。
