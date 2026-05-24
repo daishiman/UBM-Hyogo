@@ -3308,6 +3308,7 @@
       "workflow-issue-801-admin-error-focus-transfer-artifact-inventory.md",
       "workflow-issue-806-dynamic-member-og-image-artifact-inventory.md",
       "workflow-issue-819-admin-dashboard-runtime-screenshot-artifact-inventory.md",
+      "workflow-issue-832-admin-topbar-primitive-extraction-artifact-inventory.md",
       "workflow-parallel-04-shared-page-chrome-artifact-inventory.md",
       "workflow-parallel-i02b-admin-mutation-error-finalize-artifact-inventory.md",
       "workflow-parallel-i03-dialog-refresh-order-artifact-inventory.md",
@@ -4600,6 +4601,7 @@
       "workflow-issue-777-schema-diff-resolve-history-view-artifact-inventory.md",
       "workflow-issue-778-schema-alias-rollback-undo-artifact-inventory.md",
       "workflow-issue-799-use-auto-focus-on-mount-hook-artifact-inventory.md",
+      "workflow-issue-832-admin-topbar-primitive-extraction-artifact-inventory.md",
       "workflow-task-issue-299-schema-questions-fallback-retirement-artifact-inventory.md",
       "workflow-ut-17-cloudflare-analytics-alerts-artifact-inventory.md"
     ],
@@ -12401,6 +12403,7 @@
       "workflow-issue-554-audit-correlation-branch-protection-required-check-artifact-inventory.md",
       "workflow-issue-603-phase12-compliance-check-ci-gate-artifact-inventory.md",
       "workflow-issue-730-phase11-evidence-existence-validator-artifact-inventory.md",
+      "workflow-issue-832-admin-topbar-primitive-extraction-artifact-inventory.md",
       "workflow-login-page-prototype-alignment-artifact-inventory.md"
     ],
     "公開": [
@@ -16437,6 +16440,7 @@
       "workflow-issue-800-profile-error-focus-transfer-artifact-inventory.md",
       "workflow-issue-801-admin-error-focus-transfer-artifact-inventory.md",
       "workflow-issue-819-admin-dashboard-runtime-screenshot-artifact-inventory.md",
+      "workflow-issue-832-admin-topbar-primitive-extraction-artifact-inventory.md",
       "workflow-mypage-prototype-alignment-artifact-inventory.md",
       "workflow-parallel-04-shared-page-chrome-artifact-inventory.md",
       "workflow-parallel-09-ux-cross-cutting-artifact-inventory.md",
@@ -24296,6 +24300,7 @@
       "workflow-issue-800-profile-error-focus-transfer-artifact-inventory.md",
       "workflow-issue-801-admin-error-focus-transfer-artifact-inventory.md",
       "workflow-issue-819-admin-dashboard-runtime-screenshot-artifact-inventory.md",
+      "workflow-issue-832-admin-topbar-primitive-extraction-artifact-inventory.md",
       "workflow-mypage-prototype-alignment-artifact-inventory.md",
       "workflow-parallel-04-shared-page-chrome-artifact-inventory.md",
       "workflow-parallel-09-ux-cross-cutting-artifact-inventory.md",
@@ -25141,6 +25146,16 @@
       "workflow-issue-800-profile-error-focus-transfer-artifact-inventory.md",
       "workflow-issue-801-admin-error-focus-transfer-artifact-inventory.md"
     ],
+    "AdminTopbar": [
+      "workflow-issue-832-admin-topbar-primitive-extraction-artifact-inventory.md",
+      "workflow-ui-prototype-design-system-foundation-artifact-inventory.md"
+    ],
+    "Primitive": [
+      "workflow-issue-832-admin-topbar-primitive-extraction-artifact-inventory.md"
+    ],
+    "Extraction": [
+      "workflow-issue-832-admin-topbar-primitive-extraction-artifact-inventory.md"
+    ],
     "ライトテーマ": [
       "workflow-light-theme-contrast-regression-guard.md"
     ],
@@ -25541,9 +25556,6 @@
       "workflow-ui-prototype-design-system-foundation-artifact-inventory.md"
     ],
     "Layouts": [
-      "workflow-ui-prototype-design-system-foundation-artifact-inventory.md"
-    ],
-    "AdminTopbar": [
       "workflow-ui-prototype-design-system-foundation-artifact-inventory.md"
     ],
     "rules": [

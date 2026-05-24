@@ -73,6 +73,12 @@ LOGS は archive index 方式へ再編した。最新更新は本ファイル、
 - Implemented `apps/web/src/components/layout/AdminTopbar.tsx`, replaced `(admin)/layout.tsx` inline topbar with `<AdminTopbar />`, and added `apps/web/src/components/layout/__tests__/AdminTopbar.spec.tsx`.
 - Updated source unassigned consumed trace, quick-reference, resource-map, task-workflow-active, artifact inventory, SKILL-changelog, and Phase 12 compliance. Commit / push / PR remain user-gated.
 
+## 2026-05-23 Issue #832 AdminTopbar primitive extraction
+
+- Synced `docs/30-workflows/completed-tasks/issue-832-admin-topbar-primitive-extraction/` as `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION / implementation_complete_pending_pr`.
+- Implemented `AdminTopbar` Server Component, replaced `(admin)/layout.tsx` inline topbar, and added focused component coverage.
+- Updated source one-pager consumed trace, Phase 12 strict 7 outputs, quick-reference, resource-map, task-workflow-active, artifact inventory, changelog, and SKILL-changelog. Commit / push / PR / authenticated browser screenshot remain user-gated.
+
 ## 2026-05-17 Issue #770 profile loading skeleton
 
 - Synced `docs/30-workflows/issue-770-profile-loading-skeleton/` as `implemented_local_runtime_pending / implementation / VISUAL`.

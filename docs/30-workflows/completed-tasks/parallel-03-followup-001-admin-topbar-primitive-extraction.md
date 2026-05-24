@@ -10,17 +10,19 @@
 | 対象機能     | admin AppShell topbar slot（breadcrumb slot / actions slot）                                        |
 | 優先度       | 中                                                                                                  |
 | 見積もり規模 | 小規模                                                                                              |
-| ステータス   | consumed（canonical workflow: `docs/30-workflows/parallel-03-followup-001-admin-topbar-primitive-extraction/`） |
+| ステータス   | consumed / implemented via canonical workflow                                                       |
 | 発見元       | parallel-03 Phase 12                                                                                |
 | 発見日       | 2026-05-19                                                                                          |
+| 完了日       | 2026-05-23                                                                                          |
 
 ## Canonical Workflow Status
 
 - 親 workflow: `docs/30-workflows/ui-prototype-design-system-foundation/parallel-03-appshell-layouts/`
-- canonical workflow: `docs/30-workflows/parallel-03-followup-001-admin-topbar-primitive-extraction/`
-- consumed trace: 2026-05-23 に Phase 1-13 仕様書化し、同 wave で `apps/web/src/components/layout/AdminTopbar.tsx` / `apps/web/app/(admin)/layout.tsx` / `apps/web/src/components/layout/__tests__/AdminTopbar.spec.tsx` へ実装反映済み。
+- canonical workflow: `docs/30-workflows/completed-tasks/issue-832-admin-topbar-primitive-extraction/`
+- consumed_at: 2026-05-23
+- consumed_by: Issue #832 AdminTopbar primitive extraction（`apps/web/src/components/layout/AdminTopbar.tsx` / `apps/web/src/components/layout/__tests__/AdminTopbar.spec.tsx` / `apps/web/app/(admin)/layout.tsx`）
 - deferred 宣言: `phase-13-commit-pr.md` line 192「AdminTopbar の primitive 化は本 workflow の必須成果物ではない。parallel-03 では inline JSX の topbar slot を完了形とする」
-- 現状実装: `apps/web/app/(admin)/layout.tsx` は `<AdminTopbar />` 呼び出しに置換済み。topbar root は `apps/web/src/components/layout/AdminTopbar.tsx` の `<header data-shell="topbar">` が所有する。
+- 現状実装: canonical workflow で `AdminTopbar` primitive に抽出済み。旧 inline `<header data-shell="topbar">` は `apps/web/app/(admin)/layout.tsx` から除去済み
 - 既存 primitive 群（先行整備済み）:
   - `apps/web/src/components/layout/AdminSidebar.tsx`
   - `apps/web/src/components/layout/PublicHeader.tsx`
@@ -61,7 +63,7 @@ parallel-03 (AppShell Layouts) では `(public)` / `(member)` / `(admin)` の 3 
 - `apps/web/src/components/layout/AdminTopbar.tsx` が新規追加され、AdminSidebar と対称な props 設計を持つ
 - `(admin)/layout.tsx` の topbar JSX が `<AdminTopbar />`（または slot props 付き呼び出し）1 行に置換
 - `(admin)/layout.spec.tsx` の既存 data-* 契約検証が修正なしで pass
-- `apps/web/src/components/layout/__tests__/AdminTopbar.spec.tsx` を新規追加し primitive 単体契約を検証（neighbor 慣習に合わせて source 指示の直下配置から補正）
+- `apps/web/src/components/layout/AdminTopbar.spec.tsx` を新規追加し primitive 単体契約を検証
 - axe critical violation 0 を維持
 
 ### 2.3 スコープ
@@ -83,7 +85,7 @@ parallel-03 (AppShell Layouts) では `(public)` / `(member)` / `(admin)` の 3 
 ### 2.4 成果物
 
 - `apps/web/src/components/layout/AdminTopbar.tsx`
-- `apps/web/src/components/layout/__tests__/AdminTopbar.spec.tsx`
+- `apps/web/src/components/layout/AdminTopbar.spec.tsx`
 - `apps/web/app/(admin)/layout.tsx` の差分（inline JSX 削除 + primitive 呼び出し）
 
 ---
@@ -110,7 +112,7 @@ parallel-03 (AppShell Layouts) では `(public)` / `(member)` / `(admin)` の 3 
 | ファイル                                              | 種別       | 内容                                          |
 | ----------------------------------------------------- | ---------- | --------------------------------------------- |
 | `apps/web/src/components/layout/AdminTopbar.tsx`      | 新規追加   | primitive 本体                                |
-| `apps/web/src/components/layout/__tests__/AdminTopbar.spec.tsx` | 新規追加   | primitive 単体契約 spec                       |
+| `apps/web/src/components/layout/AdminTopbar.spec.tsx` | 新規追加   | primitive 単体契約 spec                       |
 | `apps/web/app/(admin)/layout.tsx`                     | 既存変更   | inline `<header>` を `<AdminTopbar />` に置換 |
 
 ### 3.3 置換イメージ
@@ -173,7 +175,7 @@ parallel-03 実装中に observed した点を後続が即解決できるよう�
 
 ### 5.1 Unit (primitive 単体)
 
-`apps/web/src/components/layout/__tests__/AdminTopbar.spec.tsx` で以下を assert:
+`apps/web/src/components/layout/AdminTopbar.spec.tsx` で以下を assert:
 
 - props 省略時に `data-shell="topbar"` を持つ `<header>` が描画される
 - 既定 breadcrumb スロットがテキスト「管理」を含む
@@ -194,7 +196,7 @@ parallel-03 実装中に observed した点を後続が即解決できるよう�
 ### 5.4 検証コマンド
 
 ```bash
-mise exec -- pnpm exec vitest run apps/web/src/components/layout/__tests__/AdminTopbar.spec.tsx
+mise exec -- pnpm --dir apps/web exec vitest run src/components/layout/AdminTopbar.spec.tsx
 mise exec -- pnpm --dir apps/web exec vitest run app/\(admin\)/layout.spec.tsx
 mise exec -- pnpm typecheck
 mise exec -- pnpm lint

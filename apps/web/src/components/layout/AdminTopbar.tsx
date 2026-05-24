@@ -1,12 +1,12 @@
 import type { ReactNode } from "react";
 
-export type AdminTopbarProps = {
+type AdminTopbarProps = {
   readonly breadcrumb?: ReactNode;
   readonly actions?: ReactNode;
 };
 
 export function AdminTopbar({ breadcrumb, actions }: AdminTopbarProps = {}) {
-  const hasActions = actions != null;
+  const hasActions = actions !== undefined;
 
   return (
     <header
