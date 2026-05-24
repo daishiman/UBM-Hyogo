@@ -116,7 +116,7 @@ const buildPublicProfile = (id) => ({
           stableKey: "profile:introduction",
           label: "自己紹介",
           value: "UBM Hyogo member",
-          kind: "longText",
+          kind: "paragraph",
           visibility: "public",
           source: "forms",
         },
