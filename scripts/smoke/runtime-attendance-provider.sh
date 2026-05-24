@@ -116,8 +116,11 @@ assert_bearer_subject_allowed() {
   local bearer="$2"
   local allow="$3"
   local sub
+  # tsx ではなく node の型ストリップ実行（Node 24+）を使う。CI の install-free な
+  # shell-lint レーンでは node_modules/tsx が無いため pnpm exec tsx だと exit 254 で落ちる。
+  # .mts は外部依存ゼロ（Buffer + 標準 JS のみ）なので node で直接 import できる。
   sub="$(
-    pnpm exec tsx -e \
+    node --input-type=module -e \
       "import { decodeJwtSubject } from './scripts/smoke/bearer-freshness-gate.mts'; process.stdout.write(decodeJwtSubject(process.argv[1] ?? '') ?? '');" \
       "$bearer" 2>/dev/null
   )"
@@ -184,7 +187,8 @@ fail_and_exit() {
 
 classify_unauthorized_bearer() {
   local bearer="$1"
-  pnpm exec tsx -e "import { explainAuthFailureFromBearer } from './scripts/smoke/bearer-freshness-gate.mts'; console.log(explainAuthFailureFromBearer({ token: process.argv[1] ?? '' }));" "$bearer"
+  # node の型ストリップ実行（Node 24+）。install-free な shell-lint レーンでも tsx 不要で動く。
+  node --input-type=module -e "import { explainAuthFailureFromBearer } from './scripts/smoke/bearer-freshness-gate.mts'; console.log(explainAuthFailureFromBearer({ token: process.argv[1] ?? '' }));" "$bearer"
 }
 
 request_json() {
