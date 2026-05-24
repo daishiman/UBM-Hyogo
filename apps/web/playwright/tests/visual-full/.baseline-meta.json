@@ -1,10 +1,9 @@
 {
   "$schema": "../../../../docs/30-workflows/task-709-visual-baseline-runtime-capture/schemas/baseline-meta.schema.json",
-  "captured_at_commit_sha": "f3bb23b49c12e1ae8c25036b9af5c46ac6a81ba4",
-  "captured_at": "2026-05-24T03:55:45Z",
+  "captured_at_commit_sha": "c5f3fca698bf8964bbd00bf71dfa6f805de61e9c",
+  "captured_at": "2026-05-24T04:34:01Z",
   "captured_via": "playwright-visual-baseline-update.yml#workflow_dispatch",
   "captured_run_ids": [
-    "25982741998",
     "26022102232",
     "26101682046",
     "26128917753",
@@ -13,7 +12,8 @@
     "26314107860",
     "26315562296",
     "26346031061",
-    "26351125393"
+    "26351125393",
+    "26351823832"
   ],
   "viewport_dimensions": {
     "desktop": {
@@ -41,5 +41,5 @@
   "refresh_workflow": ".github/workflows/playwright-visual-baseline-update.yml",
   "refresh_command_hint": "gh workflow run playwright-visual-baseline-update.yml -f reason=\"<why>\" -r <feature-branch>",
   "notes": "captured_at_commit_sha からの rendering_relevant_paths diff が空でない場合、baseline は stale。scripts/visual-baseline-status.sh で診断可能。",
-  "last_refresh_reason": "members-page prototype alignment merge (f3bb23b49): PublicHeader 共有 shell +13px (members/members-detail/register) と legacy-public.css/tokens.css による root +143px で visual-full / smoke baseline が stale。captured SHA 04a8b6fc は本ブランチUI変更前。"
+  "last_refresh_reason": "dev sync-merge (c5f3fca69): dev #892 home-page alignment + #893 member-detail を取り込み、root/member-detail の描画が変化。本ブランチ members-page alignment と合成した最終UIに対し visual-full/smoke baseline を再生成。warm text-muted は a11y 実測で #736449 を維持。"
 }
