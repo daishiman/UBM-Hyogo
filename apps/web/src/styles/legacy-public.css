@@ -706,7 +706,10 @@
     padding: 32px 28px;
     margin-top: 40px;
     border-top: 1px solid var(--ubm-color-border-default);
-    color: var(--ubm-color-text-muted);
+    /* footer は [data-shell="footer"] により surface-bg-2 (#eee5d5) 上に乗るため、
+       text-muted (#7d6a4d=4.16:1) では WCAG AA 4.5:1 未達。text-secondary (#6b5a42=5.31:1)
+       を採用して copyright (12px) を AA 準拠にする（footer link は既に text-secondary）。 */
+    color: var(--ubm-color-text-secondary);
     font-size: 12px;
   }
 
