@@ -167,6 +167,20 @@ Future implementation must use `PROTOTYPE-COVERAGE.md` and keep the current
 | dependency chain | `parallel-01..04` → `serial-05-page-routes-blueprint-binding` → `serial-06-form-response-binding` → `serial-07-regression-evidence` |
 | user gate | commit / push / PR / runtime visual evidence |
 
+## Sub-workflow: serial-06 Form Response Binding（2026-05-23 spec validation）
+
+| item | value |
+|------|-------|
+| sub-workflow | `docs/30-workflows/ui-prototype-design-system-foundation/serial-06-form-response-binding/` |
+| status | `spec_created / implementation / VISUAL / strict7-parent-aggregated` |
+| topology rule | `serial-06` is a sub-workflow of `ui-prototype-design-system-foundation`; do not create standalone `docs/30-workflows/serial-06-form-response-binding/` |
+| Phase 12 strict 7 | parent root only: `docs/30-workflows/ui-prototype-design-system-foundation/outputs/phase-12/` |
+| sub allowed Phase 12 file | `phase-12-compliance-check.md` only; sub `outputs/phase-12/*` is duplicate drift |
+| implementation scope | `apps/web/app/(public)/members/[id]/page.tsx`, `apps/web/src/lib/adapters/member-detail.ts`, `apps/web/src/components/public/MemberDetail.tsx`, fixture and focused specs |
+| evidence boundary | Phase 11 includes serial-06 local runtime screenshot `outputs/phase-11/screenshots/public-member-detail.png` and DOM scrape; production-equivalent 19-route visual evidence remains serial-07 owned |
+| dependency chain | `parallel-01..04` → `serial-05-page-routes-blueprint-binding` → `serial-06-form-response-binding` → `serial-07-regression-evidence` |
+| user gate | implementation execution / runtime visual evidence / commit / push / PR |
+
 ## P1-1〜P1-5 Selector ↔ Token ↔ 09 Spec Mapping (parallel-01)
 
 `apps/web/src/styles/globals.css` の `@layer components` に追加した data-attr

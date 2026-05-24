@@ -1,0 +1,50 @@
+{
+  "$schema": "../../../.claude/skills/task-specification-creator/schemas/artifact-definition.json",
+  "workflow_id": "members-page-prototype-alignment",
+  "created_at": "2026-05-23",
+  "status": "implemented_local_evidence_captured",
+  "metadata": {
+    "taskType": "implementation",
+    "visualEvidence": "VISUAL",
+    "implementationCategory": "standard",
+    "implementation_mode": "existing-ui-alignment",
+    "workflow_state": "implemented_local_evidence_captured",
+    "scope": "single-cycle",
+    "single_cycle_completion": true,
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-05-23T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/members-page-prototype-alignment/outputs/phase-12/phase12-task-spec-compliance-check.md",
+        "approver": "daishiman",
+        "notes": "spec_review: Phase 1-12 completed; canonical 9-headings + Phase 11 evidence verified"
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "passed",
+        "passed_at": "2026-05-23T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/members-page-prototype-alignment/outputs/phase-11/runtime-notes.md",
+        "approver": "daishiman",
+        "notes": "implementation_review: components migrated to OKLch tokens + Playwright smoke + 6 visual evidence PNGs"
+      }
+    ]
+  },
+  "phases": [
+    { "id": 1, "file": "phase-1-requirements.md", "status": "completed" },
+    { "id": 2, "file": "phase-2-design.md", "status": "completed" },
+    { "id": 3, "file": "phase-3-design-review.md", "status": "completed" },
+    { "id": 4, "file": "phase-4-test-plan.md", "status": "completed" },
+    { "id": 5, "file": "phase-5-implementation.md", "status": "completed" },
+    { "id": 6, "file": "phase-6-test-additions.md", "status": "completed" },
+    { "id": 7, "file": "phase-7-coverage.md", "status": "completed" },
+    { "id": 8, "file": "phase-8-refactor.md", "status": "completed" },
+    { "id": 9, "file": "phase-9-qa.md", "status": "completed" },
+    { "id": 10, "file": "phase-10-final-review.md", "status": "completed" },
+    { "id": 11, "file": "phase-11-manual-test.md", "status": "completed" },
+    { "id": 12, "file": "phase-12-documentation.md", "status": "completed" },
+    { "id": 13, "file": "phase-13-pr.md", "status": "pending" }
+  ],
+  "source": "../artifacts.json",
+  "mirror_note": "Output artifact mirror for task-specification-creator Phase 12 parity gate. Root artifacts.json is mirrored after local implementation and Phase 11 evidence capture."
+}

@@ -2987,6 +2987,13 @@ node scripts/list-specs.js --topics
 | Skill Compliance | L28 |
 | Boundaries | L36 |
 
+### references/workflow-members-page-prototype-alignment-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| State | L25 |
+| Boundary | L31 |
+
 ### references/workflow-onboarding-wizard-alignment.md
 
 | セクション | 行 |
@@ -3778,9 +3785,10 @@ node scripts/list-specs.js --topics
 | Follow-up unassigned tasks (proto-spec) | L111 |
 | Difficulties summary (parallel-02) | L123 |
 | Sub-workflow: serial-05 Page Routes Blueprint Binding（2026-05-22 spec validation） | L157 |
-| P1-1〜P1-5 Selector ↔ Token ↔ 09 Spec Mapping (parallel-01) | L170 |
-| Sub-workflows | L215 |
-| P1-1〜P1-5 Selector ↔ Token ↔ 09 Spec Mapping (parallel-01) | L224 |
+| Sub-workflow: serial-06 Form Response Binding（2026-05-23 spec validation） | L170 |
+| P1-1〜P1-5 Selector ↔ Token ↔ 09 Spec Mapping (parallel-01) | L184 |
+| Sub-workflows | L229 |
+| P1-1〜P1-5 Selector ↔ Token ↔ 09 Spec Mapping (parallel-01) | L238 |
 
 ### references/workflow-ui-ux-visual-baseline-drift.md
 
@@ -7456,14 +7464,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L2159 |
-| フェーズ構造（概要） | L2168 |
-| 品質ゲート（概要） | L2199 |
-| 出力テンプレート | L2210 |
-| 実行時のコマンド・エージェント・スキル | L2233 |
-| 昇格パターン集 | L2257 |
-| Current Active / Spec Created Tasks | L2259 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L2419 |
+| ドキュメント構成 | L2173 |
+| フェーズ構造（概要） | L2182 |
+| 品質ゲート（概要） | L2213 |
+| 出力テンプレート | L2224 |
+| 実行時のコマンド・エージェント・スキル | L2247 |
+| 昇格パターン集 | L2271 |
+| Current Active / Spec Created Tasks | L2273 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L2433 |
 
 ### references/task-workflow-backlog-part2.md
 
