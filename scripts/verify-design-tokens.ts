@@ -71,14 +71,14 @@ export const DEFAULTS: VerifyDesignTokenDefaults = {
   colorLiteralExcludes: [
     // Next.js Metadata Files root convention: app/.../opengraph-image.tsx
     /\/opengraph-image\.tsx$/,
-    /\/twitter-image\.tsx$/,
-    /\/icon\.tsx$/,
-    /\/apple-icon\.tsx$/,
     // Next.js Metadata Files route convention: app/.../opengraph-image/route.tsx
     // next/og ImageResponse (satori) cannot resolve CSS variables, so literal colors are required here.
     /\/opengraph-image\/route\.tsx$/,
+    /\/twitter-image\.tsx$/,
     /\/twitter-image\/route\.tsx$/,
+    /\/icon\.tsx$/,
     /\/icon\/route\.tsx$/,
+    /\/apple-icon\.tsx$/,
     /\/apple-icon\/route\.tsx$/,
   ] as readonly RegExp[],
 }
