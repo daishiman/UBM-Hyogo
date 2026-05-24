@@ -2930,6 +2930,14 @@ node scripts/list-specs.js --topics
 | Phase 12 Strict 7 | L42 |
 | User-Gated Boundary | L54 |
 
+### references/workflow-issue-857-internal-alert-relay-binding-wiring-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Implementation Targets | L11 |
+| Evidence | L20 |
+| User-Gated Boundary | L28 |
+
 ### references/workflow-light-theme-contrast-regression-guard.md
 
 | セクション | 行 |
@@ -7418,14 +7426,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L2116 |
-| フェーズ構造（概要） | L2125 |
-| 品質ゲート（概要） | L2156 |
-| 出力テンプレート | L2167 |
-| 実行時のコマンド・エージェント・スキル | L2190 |
-| 昇格パターン集 | L2214 |
-| Current Active / Spec Created Tasks | L2216 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L2376 |
+| ドキュメント構成 | L2129 |
+| フェーズ構造（概要） | L2138 |
+| 品質ゲート（概要） | L2169 |
+| 出力テンプレート | L2180 |
+| 実行時のコマンド・エージェント・スキル | L2203 |
+| 昇格パターン集 | L2227 |
+| Current Active / Spec Created Tasks | L2229 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L2389 |
 
 ### references/task-workflow-backlog-part2.md
 
