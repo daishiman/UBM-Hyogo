@@ -3808,14 +3808,15 @@ node scripts/list-specs.js --topics
 | Workflow Outputs | L39 |
 | Implementation Boundary | L57 |
 | Sub-workflow: parallel-03 AppShell Layouts（2026-05-19） | L67 |
-| parallel-02 prototype CSS rules port (2026-05-19 close-out) | L88 |
-| Follow-up unassigned tasks (proto-spec) | L99 |
-| Difficulties summary (parallel-02) | L111 |
-| Sub-workflow: serial-05 Page Routes Blueprint Binding（2026-05-22 spec validation） | L145 |
-| Sub-workflow: serial-06 Form Response Binding（2026-05-23 spec validation） | L158 |
-| P1-1〜P1-5 Selector ↔ Token ↔ 09 Spec Mapping (parallel-01) | L172 |
-| Sub-workflows | L217 |
-| P1-1〜P1-5 Selector ↔ Token ↔ 09 Spec Mapping (parallel-01) | L226 |
+| AdminTopbar follow-up 001（2026-05-23） | L87 |
+| parallel-02 prototype CSS rules port (2026-05-19 close-out) | L100 |
+| Follow-up unassigned tasks (proto-spec) | L111 |
+| Difficulties summary (parallel-02) | L123 |
+| Sub-workflow: serial-05 Page Routes Blueprint Binding（2026-05-22 spec validation） | L157 |
+| Sub-workflow: serial-06 Form Response Binding（2026-05-23 spec validation） | L170 |
+| P1-1〜P1-5 Selector ↔ Token ↔ 09 Spec Mapping (parallel-01) | L184 |
+| Sub-workflows | L229 |
+| P1-1〜P1-5 Selector ↔ Token ↔ 09 Spec Mapping (parallel-01) | L238 |
 
 ### references/workflow-ui-ux-visual-baseline-drift.md
 
@@ -4033,6 +4034,15 @@ node scripts/list-specs.js --topics
 | Phase 12 Strict Files | L18 |
 | Gate Boundary | L32 |
 | Same-Wave Sync | L39 |
+
+### references/workflow-ut-dsf-07-staging-visual-runtime-evidence-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Metadata | L3 |
+| Workflow Artifacts | L13 |
+| Implementation Targets | L26 |
+| Boundary | L35 |
 
 ### references/workflow-ut-gov-004-artifact-inventory.md
 
@@ -4763,15 +4773,15 @@ node scripts/list-specs.js --topics
 
 | セクション | 行 |
 |------------|----|
-| 概要 | L25 |
-| 使い方 | L33 |
-| Current Alias Overrides（個別互換行） | L40 |
-| Family Summary | L86 |
-| Detailed Register | L107 |
-| Section Extract Register (2026-03-17) | L288 |
-| 500-Line Split Register (2026-03-16) | L299 |
-| Fragment Migration Register (2026-04-28) | L321 |
-| Task Root Path Drift Register (2026-04-30 追記) | L348 |
+| 概要 | L26 |
+| 使い方 | L34 |
+| Current Alias Overrides（個別互換行） | L41 |
+| Family Summary | L87 |
+| Detailed Register | L108 |
+| Section Extract Register (2026-03-17) | L289 |
+| 500-Line Split Register (2026-03-16) | L300 |
+| Fragment Migration Register (2026-04-28) | L322 |
+| Task Root Path Drift Register (2026-04-30 追記) | L349 |
 
 ### references/lessons-fetch-service-binding-testing.md
 
@@ -7492,14 +7502,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L2226 |
-| フェーズ構造（概要） | L2235 |
-| 品質ゲート（概要） | L2266 |
-| 出力テンプレート | L2277 |
-| 実行時のコマンド・エージェント・スキル | L2300 |
-| 昇格パターン集 | L2324 |
-| Current Active / Spec Created Tasks | L2326 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L2486 |
+| ドキュメント構成 | L2230 |
+| フェーズ構造（概要） | L2239 |
+| 品質ゲート（概要） | L2270 |
+| 出力テンプレート | L2281 |
+| 実行時のコマンド・エージェント・スキル | L2304 |
+| 昇格パターン集 | L2328 |
+| Current Active / Spec Created Tasks | L2330 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L2490 |
 
 ### references/task-workflow-backlog-part2.md
 
