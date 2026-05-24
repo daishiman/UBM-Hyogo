@@ -4411,6 +4411,7 @@
       "workflow-issue-772-cf-audit-monitor-runtime-restoration-artifact-inventory.md",
       "workflow-issue-775-serial-05-step-03-runtime-evidence-completion-artifact-inventory.md",
       "workflow-issue-819-admin-dashboard-runtime-screenshot-artifact-inventory.md",
+      "workflow-runtime-smoke-staging-mint-recurrence-fix-artifact-inventory.md",
       "workflow-task-05a-form-preview-503-001-artifact-inventory.md",
       "workflow-task-709-visual-baseline-runtime-capture-artifact-inventory.md",
       "workflow-task-issue-494-09a-A-exec-staging-smoke-runtime-artifact-inventory.md",
@@ -7838,6 +7839,7 @@
       "workflow-fix-cf-deploy-esbuild-import-source-staging-failure-artifact-inventory.md",
       "workflow-issue-531-runtime-smoke-attendance-provider-artifact-inventory.md",
       "workflow-issue-559-task-03-followup-001-sentry-staging-runtime-evidence-artifact-inventory.md",
+      "workflow-runtime-smoke-staging-mint-recurrence-fix-artifact-inventory.md",
       "workflow-task-05-error-boundary-and-staging-smoke-artifact-inventory.md",
       "workflow-task-issue-494-09a-A-exec-staging-smoke-runtime-artifact-inventory.md",
       "workflow-task-staging-auth-secret-binding-recovery-001-artifact-inventory.md",
@@ -12079,6 +12081,7 @@
       "workflow-issue-495-09b-A-sentry-slack-runtime-smoke-prod-extension-artifact-inventory.md",
       "workflow-issue-531-runtime-smoke-attendance-provider-artifact-inventory.md",
       "workflow-issue-572-attendance-provider-production-runtime-smoke-artifact-inventory.md",
+      "workflow-runtime-smoke-staging-mint-recurrence-fix-artifact-inventory.md",
       "workflow-task-05-error-boundary-and-staging-smoke-artifact-inventory.md",
       "workflow-task-06a-followup-001-real-workers-d1-smoke-artifact-inventory.md",
       "workflow-task-18-w7-verify-tokens-and-playwright-smoke-artifact-inventory.md",
@@ -14587,6 +14590,7 @@
       "workflow-fix-cf-deploy-esbuild-import-source-staging-failure-artifact-inventory.md",
       "workflow-fix-verify-design-tokens-og-route-exclude-artifact-inventory.md",
       "workflow-issue-720-cf-audit-monitor-env-protection-fix-artifact-inventory.md",
+      "workflow-runtime-smoke-staging-mint-recurrence-fix-artifact-inventory.md",
       "workflow-skill-md-codex-validation-fix-artifact-inventory.md",
       "workflow-task-alert-relay-global-scope-fix-001-artifact-inventory.md",
       "workflow-web-app-route-bundle-parse-fix-artifact-inventory.md"
@@ -16435,6 +16439,7 @@
       "workflow-parallel-i02b-admin-mutation-error-finalize-artifact-inventory.md",
       "workflow-parallel-i03-dialog-refresh-order-artifact-inventory.md",
       "workflow-parallel-i06-root-error-focus-artifact-inventory.md",
+      "workflow-runtime-smoke-staging-mint-recurrence-fix-artifact-inventory.md",
       "workflow-skill-lifecycle-created-skill-usage-journey.md",
       "workflow-skill-md-codex-validation-fix-artifact-inventory.md",
       "workflow-step-05-dashboard-chart-implementation-artifact-inventory.md",
@@ -24291,6 +24296,7 @@
       "workflow-parallel-i02b-admin-mutation-error-finalize-artifact-inventory.md",
       "workflow-parallel-i03-dialog-refresh-order-artifact-inventory.md",
       "workflow-parallel-i06-root-error-focus-artifact-inventory.md",
+      "workflow-runtime-smoke-staging-mint-recurrence-fix-artifact-inventory.md",
       "workflow-skill-lifecycle-created-skill-usage-journey.md",
       "workflow-skill-md-codex-validation-fix-artifact-inventory.md",
       "workflow-step-05-dashboard-chart-implementation-artifact-inventory.md",
@@ -25175,6 +25181,12 @@
     ],
     "oklch": [
       "workflow-profile-loading-skeleton-oklch-artifact-inventory.md"
+    ],
+    "mint": [
+      "workflow-runtime-smoke-staging-mint-recurrence-fix-artifact-inventory.md"
+    ],
+    "recurrence": [
+      "workflow-runtime-smoke-staging-mint-recurrence-fix-artifact-inventory.md"
     ],
     "識別子": [
       "workflow-skill-identifier-branded-type-resolution.md"
