@@ -1,0 +1,11 @@
+Command:
+mise exec -- pnpm exec vitest run --root=. --config=vitest.d1.config.ts --coverage --coverage.include='apps/api/src/routes/admin/audit.ts' --coverage.include='apps/api/src/lib/audit/redact.ts' apps/api/src/routes/admin/audit.contract.spec.ts
+
+Result:
+Test Files 1 passed (1)
+Tests 9 passed (9)
+
+Coverage summary:
+All files: statements 91.44, branches 85.6, functions 86.66, lines 91.44
+audit.ts: statements 96.48, branches 87.23, functions 100, lines 96.48
+redact.ts: statements 81.9, branches 81.57, functions 66.66, lines 81.9

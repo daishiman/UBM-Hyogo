@@ -14,6 +14,8 @@ import type {
   RequestQueueType,
   VisibilityDesiredState,
 } from "../../../src/lib/api/me-requests.types";
+import { Button } from "../../../src/components/ui/Button";
+import { Icon } from "../../../src/components/ui/Icon";
 import { VisibilityRequestDialog } from "./VisibilityRequestDialog";
 import { DeleteRequestDialog } from "./DeleteRequestDialog";
 import { RequestPendingBanner } from "./RequestPendingBanner";
@@ -43,8 +45,11 @@ export function RequestActionPanel({
         aria-label="本人申請"
         data-region="request-action-panel"
         data-testid="request-action-panel-disabled"
+        className="ui-card card-pad-lg danger-zone"
+        data-tone="danger"
       >
-        <h2>本人による申請</h2>
+        <div className="eyebrow" data-tone="danger">DANGER ZONE</div>
+        <h2>公開の停止・退会</h2>
         <p>
           会則同意の更新が必要です。Google Form での再回答後にこのパネルを有効化します。
         </p>
@@ -79,8 +84,14 @@ export function RequestActionPanel({
       aria-label="本人申請"
       data-region="request-action-panel"
       data-testid="request-action-panel"
+      className="ui-card card-pad-lg danger-zone"
+      data-tone="danger"
     >
-      <h2>本人による申請</h2>
+      <div className="eyebrow" data-tone="danger">DANGER ZONE</div>
+      <h2>公開の停止・退会</h2>
+      <p className="muted">
+        プロフィール公開の停止や退会の申請を行います。送信後は管理者の処理を待つことになります。
+      </p>
       {visibilityPending ? (
         <RequestPendingBanner
           type={visibilityPending.type}
@@ -93,38 +104,44 @@ export function RequestActionPanel({
           createdAt={deletePending.createdAt}
         />
       ) : null}
-      <div>
+      <div className="btn-row">
         {showHideButton ? (
-          <button
-            type="button"
+          <Button
+            variant="danger"
+            size="sm"
+            leftIcon={<Icon name="x" />}
             onClick={() => setVisibilityDialogState("hidden")}
             disabled={visibilityPending !== null}
             data-region="visibility-request-dialog"
             data-testid="open-hide-dialog"
           >
             公開を停止する
-          </button>
+          </Button>
         ) : null}
         {showRepublishButton ? (
-          <button
-            type="button"
+          <Button
+            variant="soft"
+            size="sm"
+            leftIcon={<Icon name="check" />}
             onClick={() => setVisibilityDialogState("public")}
             disabled={visibilityPending !== null}
             data-region="visibility-request-dialog"
             data-testid="open-republish-dialog"
           >
             再公開を申請する
-          </button>
+          </Button>
         ) : null}
-        <button
-          type="button"
+        <Button
+          variant="danger"
+          size="sm"
+          leftIcon={<Icon name="x" />}
           onClick={() => setDeleteOpen(true)}
           disabled={deletePending !== null}
           data-region="delete-request-dialog"
           data-testid="open-delete-dialog"
         >
           退会を申請する
-        </button>
+        </Button>
       </div>
       <VisibilityRequestDialog
         desiredState={visibilityDialogState ?? "hidden"}

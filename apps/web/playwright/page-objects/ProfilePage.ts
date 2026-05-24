@@ -4,7 +4,8 @@ import { BasePage } from './BasePage'
 export class ProfilePage extends BasePage {
   readonly url = '/profile'
   readonly userName = this.page.getByRole('heading', { level: 1, name: 'マイページ' })
-  readonly editResponseUrlButton = this.page.locator('[data-cta="edit-response"]')
+  readonly editResponseUrlButton = this.page.locator('[data-cta="edit-cta-header"]')
+  readonly openRevalidateFormLink = this.page.locator('[data-cta="open-revalidate-form"]')
 
   // 不変条件 #4: 自前の編集 form は持たず、Google Form viewform 経由のみ
   async assertNoEditFormVisible(): Promise<void> {
@@ -13,8 +14,10 @@ export class ProfilePage extends BasePage {
   }
 
   async clickEditResponseUrl(): Promise<Page> {
-    const popupPromise = this.page.waitForEvent('popup')
     await this.editResponseUrlButton.click()
+    await expect(this.page.getByRole('dialog', { name: '情報を最新化しますか？' })).toBeVisible()
+    const popupPromise = this.page.waitForEvent('popup')
+    await this.openRevalidateFormLink.click()
     return popupPromise
   }
 }

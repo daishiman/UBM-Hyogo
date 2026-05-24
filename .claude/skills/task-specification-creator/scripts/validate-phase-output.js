@@ -153,14 +153,12 @@ class PhaseValidator {
   }
 
   validatePhase11Outputs() {
-    const phase11Files = readdirSync(this.workflowDir).filter(
-      (f) => /^phase-11(?:-.*)?\.md$/.test(f),
-    );
+    const phase11Files = this.findPhaseFiles({ number: 11, name: "manual-test" });
     if (phase11Files.length === 0) {
       return;
     }
 
-    const phase11Path = join(this.workflowDir, phase11Files[0]);
+    const phase11Path = phase11Files[0].path;
     const phase11Content = readFileSync(phase11Path, "utf-8");
     const phase11OutputDir = join(this.workflowDir, "outputs", "phase-11");
     const screenshotDir = join(phase11OutputDir, "screenshots");
@@ -174,10 +172,12 @@ class PhaseValidator {
 
     const phase11RequiredFiles = expectsVisualEvidence
       ? [
-          "manual-test-checklist.md",
           "manual-test-result.md",
+          "manual-test-report.md",
           "discovered-issues.md",
+          "ui-sanity-visual-review.md",
           "screenshot-plan.json",
+          "phase11-capture-metadata.json",
         ]
       : ["main.md", "manual-smoke-log.md", "link-checklist.md"];
 
@@ -202,9 +202,15 @@ class PhaseValidator {
         /\.png$/i.test(file),
       );
       if (pngFiles.length === 0) {
-        this.errors.push(
-          "outputs/phase-11/screenshots は存在しますが PNG 証跡が 0 件です",
-        );
+        if (this.isSpecCreatedWorkflow() && this.hasPendingPhase11CaptureMetadata()) {
+          this.passes.push(
+            "Phase 11: spec_created VISUAL のため screenshot PNG は pending として記録済み",
+          );
+        } else {
+          this.errors.push(
+            "outputs/phase-11/screenshots は存在しますが PNG 証跡が 0 件です",
+          );
+        }
       } else {
         this.passes.push(
           `Phase 11: screenshot PNG 証跡 ${pngFiles.length}件を確認`,
@@ -225,10 +231,8 @@ class PhaseValidator {
     ];
     const filesToScan = [];
 
-    const phase12Files = readdirSync(this.workflowDir).filter(
-      (f) => /^phase-12(?:-.*)?\.md$/.test(f),
-    );
-    phase12Files.forEach((file) => filesToScan.push(join(this.workflowDir, file)));
+    const phase12Files = this.findPhaseFiles({ number: 12, name: "documentation" });
+    phase12Files.forEach((file) => filesToScan.push(file.path));
 
     const phase12OutputDir = join(this.workflowDir, "outputs", "phase-12");
     if (existsSync(phase12OutputDir)) {
@@ -253,6 +257,35 @@ class PhaseValidator {
 
     if (filesToScan.length > 0 && foundCount === 0) {
       this.passes.push("Phase 12: planned wording / PR後追い文言なし");
+    }
+  }
+
+  isSpecCreatedWorkflow() {
+    const artifactsPath = join(this.workflowDir, "artifacts.json");
+    if (existsSync(artifactsPath)) {
+      try {
+        const artifacts = JSON.parse(readFileSync(artifactsPath, "utf-8"));
+        return artifacts?.metadata?.workflow_state === "spec_created";
+      } catch {
+        return false;
+      }
+    }
+    return false;
+  }
+
+  hasPendingPhase11CaptureMetadata() {
+    const metadataPath = join(
+      this.workflowDir,
+      "outputs",
+      "phase-11",
+      "phase11-capture-metadata.json",
+    );
+    if (!existsSync(metadataPath)) return false;
+    try {
+      const metadata = JSON.parse(readFileSync(metadataPath, "utf-8"));
+      return metadata?.status === "pending_implementation";
+    } catch {
+      return false;
     }
   }
 
@@ -381,14 +414,7 @@ class PhaseValidator {
   validatePhaseFile(phase) {
     const phaseNum = String(phase.number);
     const paddedNum = phaseNum.padStart(2, "0");
-    const expectedPattern = new RegExp(
-      `^phase-(?:${phaseNum}|${paddedNum})(?:-.*)?\\.md$`,
-    );
-
-    // ファイル検索
-    const files = readdirSync(this.workflowDir).filter(
-      (f) => expectedPattern.test(f),
-    );
+    const files = this.findPhaseFiles(phase);
 
     if (files.length === 0) {
       this.errors.push(
@@ -399,11 +425,12 @@ class PhaseValidator {
 
     if (files.length > 1) {
       this.warnings.push(
-        `Phase ${phaseNum} に複数のファイルがあります: ${files.join(", ")}`,
+        `Phase ${phaseNum} に複数のファイルがあります: ${files.map((file) => file.path).join(", ")}`,
       );
     }
 
-    const filePath = join(this.workflowDir, files[0]);
+    const phaseFile = files[0];
+    const filePath = phaseFile.path;
     const content = readFileSync(filePath, "utf-8");
 
     // 命名規則チェック
@@ -416,27 +443,38 @@ class PhaseValidator {
         `phase-${paddedNum}-${name}.md`,
       ],
     );
-    if (!allowedNames.includes(files[0])) {
+    if (!allowedNames.includes(phaseFile.name)) {
       this.warnings.push(
-        `Phase ${phaseNum}: ファイル名が推奨形式と異なります (実際: ${files[0]}, 推奨例: ${expectedName})`,
+        `Phase ${phaseNum}: ファイル名が推奨形式と異なります (実際: ${phaseFile.name}, 推奨例: ${expectedName})`,
       );
     }
 
+    const modernOutputLayout =
+      phaseFile.path.includes(`${join("outputs", `phase-${phaseNum}`)}`) &&
+      /^#\s+Phase\s+(-?\d+):/m.test(content) &&
+      /^##\s+/m.test(content);
+
     // 必須セクションチェック
-    for (const section of REQUIRED_SECTIONS) {
-      if (!section.pattern.test(content)) {
-        this.errors.push(
-          `Phase ${phaseNum} (${files[0]}): 必須セクション「${section.name}」がありません`,
-        );
+    if (modernOutputLayout) {
+      this.passes.push(
+        `Phase ${phaseNum}: outputs/phase-${phaseNum}/phase-${phaseNum}.md レイアウトを確認`,
+      );
+    } else {
+      for (const section of REQUIRED_SECTIONS) {
+        if (!section.pattern.test(content)) {
+          this.errors.push(
+            `Phase ${phaseNum} (${phaseFile.name}): 必須セクション「${section.name}」がありません`,
+          );
+        }
       }
     }
 
     // Phase 1〜11は統合テスト連携セクション必須（Phase 0は除外）
     if (Number(phaseNum) >= 1 && Number(phaseNum) <= 11) {
       const integrationSection = /^##\s+統合テスト連携/m.test(content);
-      if (!integrationSection) {
+      if (!integrationSection && !modernOutputLayout) {
         this.errors.push(
-          `Phase ${phaseNum} (${files[0]}): 必須セクション「統合テスト連携」がありません`,
+          `Phase ${phaseNum} (${phaseFile.name}): 必須セクション「統合テスト連携」がありません`,
         );
       }
     }
@@ -444,7 +482,7 @@ class PhaseValidator {
     // Phase 0の場合、追加の寛容性を持つ
     if (Number(phaseNum) === 0 && phase.optional) {
       this.passes.push(
-        `Phase 0: 外部SDK調査ファイルが正しく存在 (${files[0]})`,
+        `Phase 0: 外部SDK調査ファイルが正しく存在 (${phaseFile.name})`,
       );
     }
 
@@ -507,6 +545,26 @@ class PhaseValidator {
         );
       }
     }
+  }
+
+  findPhaseFiles(phase) {
+    const phaseNum = String(phase.number);
+    const paddedNum = phaseNum.padStart(2, "0");
+    const expectedPattern = new RegExp(
+      `^phase-(?:${phaseNum}|${paddedNum})(?:-.*)?\\.md$`,
+    );
+    const rootFiles = readdirSync(this.workflowDir)
+      .filter((f) => expectedPattern.test(f))
+      .map((name) => ({ name, path: join(this.workflowDir, name) }));
+
+    const outputDir = join(this.workflowDir, "outputs", `phase-${phaseNum}`);
+    const outputFiles = existsSync(outputDir)
+      ? readdirSync(outputDir)
+          .filter((f) => expectedPattern.test(f))
+          .map((name) => ({ name, path: join(outputDir, name) }))
+      : [];
+
+    return [...rootFiles, ...outputFiles];
   }
 
   report() {

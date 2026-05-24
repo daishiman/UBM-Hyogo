@@ -8,12 +8,17 @@
 | タスク名 | production-equivalent (Cloudflare Workers staging) での screenshot 取得 + root Gate-B/C 通過 |
 | 優先度 | MEDIUM |
 | 推奨Wave | Wave 3 |
-| 状態 | unassigned |
+| 状態 | consumed |
 | 作成日 | 2026-05-19 |
 | 既存タスク組み込み | あり |
 | 組み込み先 | ui-prototype-design-system-foundation root workflow Gate-B/C（`VISUAL_RUNTIME_PENDING`） |
+| canonical_workflow | `docs/30-workflows/ut-dsf-07-staging-visual-runtime-evidence/` |
 
 ## 目的
+
+> Consumed trace (2026-05-23): 本 unassigned task は
+> `docs/30-workflows/ut-dsf-07-staging-visual-runtime-evidence/` の Phase 1-13 canonical workflow に昇格済み。
+> 以後の実装・runtime evidence 取得・PR 文面は canonical workflow を正本とする。
 
 ui-prototype-design-system-foundation root workflow の Gate-B / Gate-C が要求する
 **production-equivalent runtime での visual evidence** を確立する。UT-DSF-06（serial-07）で取得した
