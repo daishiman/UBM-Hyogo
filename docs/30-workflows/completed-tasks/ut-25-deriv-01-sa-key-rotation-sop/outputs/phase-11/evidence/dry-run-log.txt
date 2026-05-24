@@ -1,0 +1,2 @@
+# dry-run
+[DRY-RUN] would put GOOGLE_SERVICE_ACCOUNT_JSON to staging via scripts/cf.sh; op_ref=op://Vault/Item/Field

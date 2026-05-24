@@ -1,7 +1,8 @@
 // ut-02a-followup-002: /admin/dashboard/attendance
 // 3 ブロック: overview カード / by-session テーブル / ranking テーブル
 // 不変条件 #5: D1 直接アクセス禁止 — fetchAdmin 経由で内部 API を呼ぶ
-import { fetchAdmin } from "../../../../../src/lib/admin/server-fetch";
+import { safeServerFetch } from "../../../../../src/lib/admin/safe-server-fetch";
+import { AdminSectionError } from "../../../../../src/features/admin/components/_shared";
 
 export const dynamic = "force-dynamic";
 
@@ -29,12 +30,12 @@ interface MemberAttendanceRanking {
 const fmtPct = (rate: number): string => `${(rate * 100).toFixed(1)}%`;
 
 export default async function AdminAttendanceDashboardPage() {
-  const [overview, bySession, ranking] = await Promise.all([
-    fetchAdmin<AttendanceOverview>("/admin/dashboard/attendance/overview"),
-    fetchAdmin<SessionAttendanceRow[]>(
+  const [overviewR, bySessionR, rankingR] = await Promise.all([
+    safeServerFetch<AttendanceOverview>("/admin/dashboard/attendance/overview"),
+    safeServerFetch<SessionAttendanceRow[]>(
       "/admin/dashboard/attendance/by-session?limit=20",
     ),
-    fetchAdmin<MemberAttendanceRanking[]>(
+    safeServerFetch<MemberAttendanceRanking[]>(
       "/admin/dashboard/attendance/ranking?limit=20",
     ),
   ]);
@@ -43,19 +44,33 @@ export default async function AdminAttendanceDashboardPage() {
     <section aria-labelledby="admin-attendance-dashboard-h">
       <h1 id="admin-attendance-dashboard-h">出席ダッシュボード</h1>
 
-      <div
-        className="kpi-grid"
-        role="group"
-        aria-label="出席サマリー"
-        data-testid="attendance-overview"
-      >
-        <KpiCard label="総セッション数" value={String(overview.totalSessions)} />
-        <KpiCard label="対象会員数" value={String(overview.totalMembers)} />
-        <KpiCard label="全体出席率" value={fmtPct(overview.overallRate)} />
-      </div>
+      {overviewR.ok ? (
+        <div
+          className="kpi-grid"
+          role="group"
+          aria-label="出席サマリー"
+          data-testid="attendance-overview"
+        >
+          <KpiCard label="総セッション数" value={String(overviewR.data.totalSessions)} />
+          <KpiCard label="対象会員数" value={String(overviewR.data.totalMembers)} />
+          <KpiCard label="全体出席率" value={fmtPct(overviewR.data.overallRate)} />
+        </div>
+      ) : (
+        <AdminSectionError
+          sectionLabel="出席サマリー"
+          code={overviewR.error.code}
+          message={overviewR.error.message}
+        />
+      )}
 
       <h2>セッション別出席状況</h2>
-      {bySession.length === 0 ? (
+      {!bySessionR.ok ? (
+        <AdminSectionError
+          sectionLabel="セッション別出席状況"
+          code={bySessionR.error.code}
+          message={bySessionR.error.message}
+        />
+      ) : bySessionR.data.length === 0 ? (
         <p data-testid="attendance-by-session-empty">データがありません</p>
       ) : (
         <table data-testid="attendance-by-session-table">
@@ -68,7 +83,7 @@ export default async function AdminAttendanceDashboardPage() {
             </tr>
           </thead>
           <tbody>
-            {bySession.map((s) => (
+            {bySessionR.data.map((s) => (
               <tr key={s.sessionId}>
                 <td>{s.heldOn}</td>
                 <td>{s.title}</td>
@@ -81,7 +96,13 @@ export default async function AdminAttendanceDashboardPage() {
       )}
 
       <h2>会員別出席ランキング</h2>
-      {ranking.length === 0 ? (
+      {!rankingR.ok ? (
+        <AdminSectionError
+          sectionLabel="会員別出席ランキング"
+          code={rankingR.error.code}
+          message={rankingR.error.message}
+        />
+      ) : rankingR.data.length === 0 ? (
         <p data-testid="attendance-ranking-empty">データがありません</p>
       ) : (
         <table data-testid="attendance-ranking-table">
@@ -93,7 +114,7 @@ export default async function AdminAttendanceDashboardPage() {
             </tr>
           </thead>
           <tbody>
-            {ranking.map((m) => (
+            {rankingR.data.map((m) => (
               <tr key={m.memberId}>
                 <td>{m.displayName || m.memberId}</td>
                 <td>{m.attendedCount}</td>
