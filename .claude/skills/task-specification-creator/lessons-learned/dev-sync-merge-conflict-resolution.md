@@ -241,6 +241,13 @@
 - task 仕様書側の予防策: Phase 5 step で「対象 component 内 state 追加位置」を明示し、既存 hook ブロックの末尾追記とする（先頭/中間挿入を避ける）ことで sync-merge 時の機械的解消成功率を上げる。
 - 事例: 2026-05-21 Issue #778（rollback/undo） ← dev (#776 bulk resolve) の SchemaDiffPanel.tsx / spec / api.ts / specs ×2 全 5 ファイル両側 union 解消、typecheck/lint/verify-pr-ready 全 PASS。
 
+### SP-DEVSYNC-030: `.ts` curated list/array の「dedup × entry追加」3-way conflict は和集合（重複排除）＋検証スクリプト確認（2026-05-24 追加）
+- task 仕様書 Phase 4-5 で CI gate スクリプト（`scripts/verify-design-tokens.ts` の `colorLiteralExcludes` 等の exclude/allowlist 配列）を複数の並行 task が編集する場合、dev sync-merge で `.ts` ソースの curated list に 3-way conflict が必発する。`.gitattributes` union 対象外かつ `pnpm sync:resolve` の glob 対象外のため手動 semantic union が必要。
+- 解消: 片側が重複行を dedup・もう片側が entry/コメントを追加する典型では、(1) entry 集合を和集合化し配列内重複を排除、(2) コメントは両側追加分を保持、(3) 該当 list を消費する verify スクリプト（`pnpm verify:tokens` 等）を実行して機能担保。純粋 append-only（SP-DEVSYNC-001/008 の import/hook 両側採用）と違い「重複排除を伴う和集合」である点が差分。
+- task 仕様書を書く際: CI gate スクリプトの curated list を変更する task では Phase 5 step に「list への追記は配列末尾の正規ブロックに集約し、既存 entry の重複追加を避ける」「dev sync 後に当該 verify スクリプトを叩いて list 機能を確認する」を逐語明示し、sync-merge 時の機械的解消成功率を上げる。
+- 事例: 2026-05-24 `feat/members-page-prototype-alignment-spec` ← dev (`fix/verify-design-tokens-og-route-exclude`) の `colorLiteralExcludes` 配列衝突を、HEAD の重複 regex 削除（dedup）と dev のコメント追加を両立させて解消。`pnpm verify:tokens` が `88 tracked in sync` を返し PASS、typecheck / lint / gate-metadata / phase12-compliance 全 PASS。
+- 詳細は aiworkflow-requirements 配下の L-DEVSYNC-037 を参照。
+
 ### SP-DEVSYNC-029: `process.env` 直読み → `getEnv()` 移行は dev cloudflare-context 優先で e2e が 401 になる（2026-05-24 追加）
 - 症状: `apps/web` の server-side fetch を `process.env["INTERNAL_API_BASE_URL"]` 直読みから `getEnv().INTERNAL_API_BASE_URL` へ統一する task の後、e2e (mobile-webkit 等) で `admin api /admin/meetings/sess-1 failed: 401` が多発。fixture (`PLAYWRIGHT_*_FIXTURE`) を持つ admin spec は実 fetch 前に short-circuit するため緑のまま、fixture の無い meetings detail / attendance / issue-819 系だけが落ちるため「特定 spec 群だけ謎の 401」に見える。
 - 原因: `next.config.ts` の `initOpenNextCloudflareForDev()` により dev:webpack でも `getCloudflareContext()` が機能し、`env.ts` の `readRawEnv()` が cloudflare context（= `wrangler.toml [vars]` の**本番** `INTERNAL_API_BASE_URL`）を **process.env より優先**する。Playwright webServer が process.env へ注入する `INTERNAL_API_BASE_URL=http://127.0.0.1:8787`（mock API）が無視され、SSR fetch が本番 API へ飛んで認証なし 401。
@@ -248,6 +255,20 @@
 - task 仕様書を書く際: `apps/web` の env 参照経路を変更する（`process.env` → `getEnv()` 統一を含む）task は、Phase 5 に「dev:webpack の cloudflare-context が process.env より優先される点を確認し、e2e mock API 切替が壊れないことを `PLAYWRIGHT_TEST` 経路で担保する」、Phase 11 evidence に「fixture を持たない SSR fetch 系 spec（meetings detail / attendance）の e2e 緑」を明示する。
 - 関連: fixture 追加経路は [[SP-DEVSYNC-016]]（`scripts/e2e-mock-api.mjs` server-side mock）。env 正本仕様は aiworkflow-requirements `references/architecture-admin-api-client.md` §2.2。
 - Why: 「env アクセスを getEnv に一本化」という正しい invariant 遵守が、dev local の env 解決順序という別レイヤの仕様と衝突して e2e のみ壊す盲点。grep で気付けないため lessons-learned 化して再発時の切り分け時間を消す。
+
+### SP-DEVSYNC-030: `SKILL.md` union + `keywords.json` ours の最頻 conflict は `sync:resolve` 1 発完遂で手動 rebuild commit 不要（2026-05-24 追加）
+- 症状（正常系の確定）: dev sync-merge の content conflict が `SKILL.md`（union）+ `indexes/keywords.json`（ours = JSON 派生物）の 2 件だけのとき、`mise exec -- pnpm sync:resolve` が union 結合・`--ours` 採用・`pnpm indexes:rebuild` の自動呼び出しまでを 1 回で完遂する。完了後は UU 残置 0、merge commit 後に確認 rebuild しても drift 0。
+- task 仕様書を書く際: dev sync を Phase 5 に含む task では、conflict 解消手順を「① `pnpm sync:resolve` → ② `git diff --name-only --diff-filter=U` が空を確認 → ③ `git add -A && git commit --no-edit` → ④ 確認用 `pnpm indexes:rebuild` で `git status --porcelain` 空を検証」の 4 ステップで逐語明示する。**SP-DEVSYNC-028 の手動 chore(indexes) commit は本パターンでは不要**（resolver が rebuild 済み）と但し書きを置き、`keywords.json` を ours 採用した場合は L-DEVSYNC-036 の `need_rebuild` が発火するため後追い drift が出ない理由まで書く。
+- 分岐判断: 解消後に `indexes:rebuild` で drift が出る → SP-DEVSYNC-028（union-only で keywords.json が conflict に含まれなかったケース）。drift が出ない → 本 SP-DEVSYNC-030（keywords.json が ours 解消されたケース）。判別は「`sync:resolve` ログに `taking --ours for ... keywords.json` が出たか」で機械確定。
+- 事例: 2026-05-24 `feat/serial-06-form-response-binding` ← dev sync-merge。`SKILL.md` + `keywords.json` の 2 conflict を `pnpm sync:resolve` で完遂（keywords 5072 件再生成）、UU 残置 0、merge commit `85ca3619f`、確認 rebuild drift 0、typecheck / lint 初回 PASS。
+- 詳細は aiworkflow-requirements 配下の [[L-DEVSYNC-037]] を参照。
+
+### SP-DEVSYNC-031: conflict が `SKILL.md` 単独（indexes は auto-merge）の場合も `sync:resolve` 後 drift 0 で手動 rebuild commit 不要（2026-05-24 追加）
+- 症状（正常系の確定）: dev sync-merge の content conflict が **`SKILL.md`（union）1 件のみ**で、`indexes/keywords.json` 含む派生物は git の auto-merge で衝突せず結合済み（`git merge` 出力に `Auto-merging indexes/...` は出るが `CONFLICT` 行は `SKILL.md` だけ）のケース。`mise exec -- pnpm sync:resolve` は `SKILL.md` を union 解消するが **`indexes:rebuild` は呼ばない**（`apply_ours` 0 件・`apply_union` が `indexes/*` 非該当で `need_rebuild` 不発火）。それでも確認用 `pnpm indexes:rebuild` は no-op で drift 0、pre-push `indexes-drift-guard` も通過する。
+- task 仕様書を書く際: dev sync を Phase 5 に含む task では、SP-DEVSYNC-030 の 4 ステップ手順に「**conflict が `SKILL.md` 単独で indexes が `Auto-merging` のみ（CONFLICT なし）の場合も、indexes は既に正しく結合済みのため確認 rebuild は no-op・手動 chore commit 不要**」という分岐を併記する。SP-DEVSYNC-028 の手動 rebuild が必要なのは indexes 派生物**自体が CONFLICT した**場合に限る、と境界を明示する。
+- 分岐判断（3 分岐に整理）: ① indexes/* が CONFLICT → 解消後 rebuild で drift 出る → SP-DEVSYNC-028（手動 chore commit 要）。② `keywords.json` が ours 解消された → resolver 自動 rebuild 済み → SP-DEVSYNC-030（drift 0）。③ conflict が `SKILL.md` 単独・indexes は auto-merge → resolver rebuild 呼ばずとも確認 rebuild が no-op → 本 SP-DEVSYNC-031（drift 0）。いずれも「確認用 `pnpm indexes:rebuild` → `git status --porcelain` 空」を最終ゲートにすれば取りこぼさない。
+- 事例: 2026-05-24 `feat/serial-06-form-response-binding` ← dev sync-merge（1 commit behind: login page #890 取り込み）。`aiworkflow-requirements/SKILL.md` のみ CONFLICT、`SKILL-changelog.md` / `indexes/{keywords.json,topic-map.md,resource-map.md,quick-reference.md}` は Auto-merging で衝突回避。`pnpm sync:resolve` で union 解消（rebuild 呼び出しなし）→ UU 残置 0 → 確認 rebuild drift 0 → typecheck PASS。
+- 詳細は aiworkflow-requirements 配下の [[L-DEVSYNC-038]] を参照。
 
 ### SP-DEVSYNC-030: design-token 並行 a11y 修正衝突は task 仕様書で「3 SSOT 統一 + visual baseline 再生成」を逐語化（2026-05-24 追加）
 - prototype alignment / a11y contrast 系 task が並行すると、`--ubm-color-text-muted` 等の design-token が HEAD/dev 双方で**異なる HEX 値**へ darken される並行修正衝突が dev sync-merge で発生する。append-only 両側採用（SP-DEVSYNC-001）は同一 token 二重宣言になるため**適用禁止**。
@@ -261,3 +282,14 @@
   - task 仕様書を書く際: design-token / AppShell surface（`data-shell="footer"` 等）を触る task の Phase 4 (test-plan) に「token × surface の全組合せ contrast を最暗 surface まで列挙し AA 検証。最暗 surface で未達なら usage 面修正（より濃い token へ）を優先」を逐語明示する。
 - 事例: 2026-05-24 `feat/home-page-prototype-alignment` ← dev sync で `--ubm-color-text-muted` を HEAD `#76664a` / dev `#7d6a4d` の並行 darken 衝突として検出、dev `#7d6a4d` を 3 SSOT へ統一。push 後 e2e a11y が footer copyright on bg-2（4.16:1）で fail（home ブランチに pre-merge から潜在）→ public-footer の color を `text-secondary`（5.31:1）へ変更して解消、token は dev 値維持。
 - 詳細は aiworkflow-requirements 配下の L-DEVSYNC-038 を参照。
+
+### SP-DEVSYNC-032: SSR fetch 画面の task は「e2e server mock fixture (`e2e-mock-api.mjs`) を `auth.ts` shape + zod enum へ整合」「描画変更後の visual baseline 再撮影順序」を仕様書に逐語化（2026-05-24 追加）
+- server component の `fetch`（`fetchPublicOrNotFound` 等）を持つ画面の task では、dev sync 後に **e2e が「mock fixture と画面期待値の不一致」で落ちる**構造的リスクがある。task 仕様書（特に Phase 4 test-plan / Phase 5 implementation）に以下を逐語で織り込む。
+  - **2 系統 mock の使い分け明示**: SSR `fetch` は Playwright `page.route()`（`apps/web/playwright/fixtures/auth.ts`）を**経由しない**。server-side mock `scripts/e2e-mock-api.mjs` の fixture が SSR 画面の正本。「画面が SSR fetch なら `e2e-mock-api.mjs` を直す／CSR fetch なら `auth.ts` の `page.route()` を直す」を Phase 4 に明記（[[L-DEVSYNC-016]] / L-DEVSYNC-039 連携）。
+  - **zod enum 制約**: 画面に `*.parse()`（例 `PublicMemberProfileZ`）を入れる task は、mock fixture の値が **`FieldKindZ` enum（`packages/shared/src/zod/primitives.ts`）に厳格一致**することを Phase 5 step に必須化（`longText` は不在＝`paragraph` が正）。parse 導入で fixture の正しさが顕在化する点を注記。
+  - **fixture の単一正本化**: e2e が参照する `data-stable-key` / `data-section` は `auth.ts` の body 関数が canonical。`e2e-mock-api.mjs` の対応 `build*()` を field 単位（`stableKey`/`label`/`value`/`kind`/`visibility`/`source`）で 1:1 に揃える、を Phase 5 に明示。
+  - **strict-mode 二重マッチ回避**: component が attendance 等から自動生成する section（`MemberActivity` の `data-section="activity"`）と mock の `publicSections` が同じ `data-section` を出さないよう、mock 側から重複 section を削る、を Phase 4 の test-plan 注意点に明記。
+- **visual baseline 再撮影の順序を SCOPE に明記**: rendering を変える task で baseline 再撮影が必要な場合、「dev に rendering_relevant_paths を触る後続コミットが控えているなら **dev を先に取り込んでから baseline をキャプチャ**」を SCOPE/Phase 11 に逐語化（撮影後の dev merge で再 stale 化を防ぐ）。baseline commit は GITHUB_TOKEN push で CI 未トリガ（[[L-DEVSYNC-009-A]]）→ pull 後 user push で再トリガ、も注記。
+- **並行 worktree 運用の注記**: 同一ブランチを複数 worktree/agent で触る task は「`git push` reject（`cannot lock ref ... is at X but expected Y`）時はまず `git fetch` → `git diff HEAD origin/<branch> --stat` が空なら remote が等価コミット保有、`--set-upstream-to` 追従で足りる（force-push 不要）」を運用注記に入れる。
+- 事例: 2026-05-24 `feat/serial-06-form-response-binding`（PR #888）。`scripts/e2e-mock-api.mjs` を `auth.ts publicMemberProfileBody()` に整合（`member_display_name`/`session_task18`/`kobe(zone)`、重複 activity section 削除、`longText`→`paragraph`）→ dev #892/#893 を 2 段 sync-merge → baseline 再撮影 → 最終 head で e2e/smoke/visual-full 全 PASS、PR `CLEAN`。
+- 詳細は aiworkflow-requirements 配下の L-DEVSYNC-039 を参照。

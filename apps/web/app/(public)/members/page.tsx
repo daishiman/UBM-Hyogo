@@ -10,6 +10,7 @@ import { connection } from "next/server";
 import { buildPageMetadata } from "@/lib/seo/site-metadata";
 
 import { EmptyState } from "../../../src/components/feedback/EmptyState";
+import { DensityToggle } from "../../../src/components/public/DensityToggle.client";
 import { MemberFilters } from "../../../src/components/public/MemberFilters.client";
 import { MemberGrid } from "../../../src/components/public/MemberGrid";
 import { MemberTable } from "../../../src/components/public/MemberTable";
@@ -48,8 +49,22 @@ export default async function MembersPage({ searchParams }: MembersPageProps) {
   });
 
   return (
-    <main data-page="members" data-density={search.density} data-route="public" data-section-rhythm="comfortable">
-      <h1>メンバー一覧</h1>
+    <main
+      data-page="members"
+      data-density={search.density}
+      data-route="public"
+      data-section-rhythm="comfortable"
+    >
+      <header className="page-head">
+        <div>
+          <div className="eyebrow">MEMBERS</div>
+          <h1>メンバー一覧</h1>
+          <p data-role="lead">
+            UBM 兵庫支部会のメンバー紹介。職種・拠点・関心領域から探せます。
+          </p>
+        </div>
+        <DensityToggle value={search.density} />
+      </header>
       <MemberFilters initial={search} topTags={list.topTags} />
       {list.items.length === 0 ? (
         <EmptyState

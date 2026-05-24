@@ -113,23 +113,9 @@ const buildPublicProfile = (id) => ({
       title: "プロフィール",
       fields: [
         {
-          stableKey: "profile:introduction",
-          label: "自己紹介",
-          value: "UBM Hyogo member",
-          kind: "longText",
-          visibility: "public",
-          source: "forms",
-        },
-      ],
-    },
-    {
-      key: "activity",
-      title: "活動",
-      fields: [
-        {
-          stableKey: "activity:summary",
-          label: "活動サマリ",
-          value: "アクティブ",
+          stableKey: "member_display_name",
+          label: "表示名",
+          value: "佐藤 サンプル",
           kind: "shortText",
           visibility: "public",
           source: "forms",
@@ -137,9 +123,11 @@ const buildPublicProfile = (id) => ({
       ],
     },
   ],
-  attendance: [{ sessionId: "s-1", title: "定例会", heldOn: "2026-05-01" }],
+  attendance: [
+    { sessionId: "session_task18", title: "2026年5月 定例会", heldOn: "2026-05-12" },
+  ],
   attendanceMeta: { hasMore: false, nextCursor: null },
-  tags: [{ code: "engineer", label: "Engineer", category: "skill" }],
+  tags: [{ code: "kobe", label: "Kobe", category: "zone" }],
 });
 
 const publicList = (url) => {
