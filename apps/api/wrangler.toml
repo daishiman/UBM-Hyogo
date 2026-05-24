@@ -50,6 +50,7 @@ name = "ubm-hyogo-api"
 
 [env.production.vars]
 ENVIRONMENT = "production"
+ALLOWED_ORIGINS = "https://ubm-hyogo-web-production.daishimanju.workers.dev,https://www.ubm-hyogo.com"
 MAIL_FROM_ADDRESS = "noreply@ubm-hyogo.example"
 AUTH_URL = "https://api.ubm-hyogo.workers.dev"
 SHEET_ID = "10XQqUko2A5jFXT-J0ibvPt3KUX56divqEk6kDccH5vw"
@@ -131,6 +132,7 @@ name = "ubm-hyogo-api-staging"
 
 [env.staging.vars]
 ENVIRONMENT = "staging"
+ALLOWED_ORIGINS = "https://ubm-hyogo-web-staging.daishimanju.workers.dev"
 MAIL_FROM_ADDRESS = "noreply@staging.ubm-hyogo.example"
 AUTH_URL = "https://api-staging.ubm-hyogo.workers.dev"
 SHEET_ID = "10XQqUko2A5jFXT-J0ibvPt3KUX56divqEk6kDccH5vw"
