@@ -17,6 +17,11 @@
         "status": "implemented_local_evidence_captured",
         "implementation_status": "route_markers_and_static_gates_captured",
         "runtime_boundary": "serial-07 visual evidence pending"
+      },
+      "serial-06-form-response-binding": {
+        "status": "spec_created",
+        "implementation_status": "adapter_page_binding_spec_ready",
+        "runtime_boundary": "serial-07 visual evidence pending"
       }
     },
     "gates": [

@@ -40,6 +40,9 @@ const isTask18FullVisualEvidence =
 const isAttendanceVisualSmoke =
   process.env.PLAYWRIGHT_EVIDENCE_TASK === '07c-followup-002' ||
   process.argv.some((arg) => arg.includes('attendance.spec.ts'))
+const isMembersPrototypeAlignment =
+  process.env.PLAYWRIGHT_EVIDENCE_TASK === 'members-page-prototype-alignment' ||
+  process.argv.some((arg) => arg.includes('members-prototype-alignment.spec.ts'))
 
 const EVIDENCE_DIR =
   process.env.PLAYWRIGHT_EVIDENCE_DIR ??
@@ -65,6 +68,8 @@ const EVIDENCE_DIR =
                       ? '../../docs/30-workflows/completed-tasks/task-10-followup-002-runtime-visual-axe-evidence/outputs/phase-11/evidence'
                       : isAttendanceVisualSmoke
                         ? '../../docs/30-workflows/07c-followup-002-attendance-visual-smoke/outputs/phase-11'
+                        : isMembersPrototypeAlignment
+                          ? '../../docs/30-workflows/members-page-prototype-alignment/outputs/phase-11'
                         : isTask18FullVisualEvidence
                           ? '../../docs/30-workflows/task-18-fu-full-visual-regression-suite/outputs/phase-11/evidence'
                           : isTask18RegressionGate
@@ -74,7 +79,9 @@ const EVIDENCE_DIR =
 const shouldStartLocalServer = !isStagingSmoke && process.env.PLAYWRIGHT_SKIP_WEB_SERVER !== '1'
 const localBaseURL = process.env.PLAYWRIGHT_BASE_URL || 'http://localhost:3000'
 const localServerReadyURL =
-  isTask18RegressionGate || isAttendanceVisualSmoke ? `${localBaseURL}/login` : localBaseURL
+  isTask18RegressionGate || isAttendanceVisualSmoke || isMembersPrototypeAlignment
+    ? `${localBaseURL}/login`
+    : localBaseURL
 const localPort = new URL(localBaseURL).port || '3000'
 const localCoverageDir = `${process.cwd()}/coverage/v8`
 const localEnv =
@@ -245,6 +252,8 @@ export default defineConfig({
                       ? `${localEnv} PLAYWRIGHT_ISSUE776_SCHEMA_BULK_FIXTURE=1 pnpm --filter @ubm-hyogo/web dev:webpack`
                       : isTask10Followup002Evidence
                         ? `${localEnv} ENABLE_PRIMITIVES_HARNESS=1 pnpm --filter @ubm-hyogo/web dev:webpack`
+                        : isMembersPrototypeAlignment
+                          ? `${localEnv} pnpm --filter @ubm-hyogo/web exec next dev --webpack -p ${localPort}`
                         : isTask18RegressionGate
                           ? `${localEnv} PLAYWRIGHT_ADMIN_REQUESTS_FIXTURE=1 PLAYWRIGHT_ADMIN_IDENTITY_CONFLICTS_FIXTURE=1 PLAYWRIGHT_TASK17_ADMIN_FIXTURE=1 pnpm --filter @ubm-hyogo/web dev:webpack`
                           : `${localEnv} pnpm --filter @ubm-hyogo/web dev:webpack`,
