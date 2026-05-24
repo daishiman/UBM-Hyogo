@@ -4026,6 +4026,15 @@ node scripts/list-specs.js --topics
 | Gate Boundary | L32 |
 | Same-Wave Sync | L39 |
 
+### references/workflow-ut-dsf-07-staging-visual-runtime-evidence-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Metadata | L3 |
+| Workflow Artifacts | L13 |
+| Implementation Targets | L26 |
+| Boundary | L35 |
+
 ### references/workflow-ut-gov-004-artifact-inventory.md
 
 | セクション | 行 |
@@ -7483,14 +7492,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L2214 |
-| フェーズ構造（概要） | L2223 |
-| 品質ゲート（概要） | L2254 |
-| 出力テンプレート | L2265 |
-| 実行時のコマンド・エージェント・スキル | L2288 |
-| 昇格パターン集 | L2312 |
-| Current Active / Spec Created Tasks | L2314 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L2474 |
+| ドキュメント構成 | L2216 |
+| フェーズ構造（概要） | L2225 |
+| 品質ゲート（概要） | L2256 |
+| 出力テンプレート | L2267 |
+| 実行時のコマンド・エージェント・スキル | L2290 |
+| 昇格パターン集 | L2314 |
+| Current Active / Spec Created Tasks | L2316 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L2476 |
 
 ### references/task-workflow-backlog-part2.md
 
