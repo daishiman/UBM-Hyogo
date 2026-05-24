@@ -22,8 +22,11 @@ export function EmptyState({
 }: EmptyStateProps) {
   return (
     <div role="status" data-component="empty-state">
+      <div data-role="icon" aria-hidden="true" />
       <p data-role="title">{title}</p>
-      {description ? <p data-role="description">{description}</p> : null}
+      {description ? (
+        <p data-role="description">{description}</p>
+      ) : null}
       {resetHref ? (
         <a href={resetHref} data-role="reset">
           {resetLabel}
