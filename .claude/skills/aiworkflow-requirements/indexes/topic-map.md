@@ -2894,6 +2894,14 @@ node scripts/list-specs.js --topics
 | Phase 12 Strict 7 | L42 |
 | User-Gated Boundary | L54 |
 
+### references/workflow-issue-837-schema-alias-bulk-rollback-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Implementation Targets | L11 |
+| Evidence | L20 |
+| Contract | L28 |
+
 ### references/workflow-light-theme-contrast-regression-guard.md
 
 | セクション | 行 |
@@ -7367,14 +7375,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L2060 |
-| フェーズ構造（概要） | L2069 |
-| 品質ゲート（概要） | L2100 |
-| 出力テンプレート | L2111 |
-| 実行時のコマンド・エージェント・スキル | L2134 |
-| 昇格パターン集 | L2158 |
-| Current Active / Spec Created Tasks | L2160 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L2320 |
+| ドキュメント構成 | L2076 |
+| フェーズ構造（概要） | L2085 |
+| 品質ゲート（概要） | L2116 |
+| 出力テンプレート | L2127 |
+| 実行時のコマンド・エージェント・スキル | L2150 |
+| 昇格パターン集 | L2174 |
+| Current Active / Spec Created Tasks | L2176 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L2336 |
 
 ### references/task-workflow-backlog-part2.md
 

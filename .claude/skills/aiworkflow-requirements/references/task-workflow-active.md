@@ -79,6 +79,22 @@
 | key contract | Next.js 16 async `params: Promise<{ id: string }>`; publicConsent は API contract に委譲し web は `FetchPublicNotFoundError` mapping を検証 |
 | evidence boundary | Phase 12 strict 7 present。apps/web 実装、focused unit/Playwright、Phase 11 screenshot evidence captured。commit、push、PR、deploy verification は user-gated |
 
+### Issue #837 schema alias bulk rollback（2026-05-24）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / VISUAL / runtime_screenshot_pending_user_gate` |
+| 成果物 | `docs/30-workflows/issue-837-schema-alias-bulk-rollback/` |
+| source | Issue #837 CLOSED / `docs/30-workflows/unassigned-task/serial-05-step-03-followup-006-schema-alias-bulk-rollback.md` consumed |
+| parent | `docs/30-workflows/issue-778-schema-alias-rollback-undo/` |
+| template | `docs/30-workflows/completed-tasks/issue-776-schema-alias-bulk-resolve/` |
+| 目的 | `/admin/schema` HistoryPane の resolved alias に bulk rollback selection / confirm modal / partial failure handling を追加 |
+| contract | 新 endpoint / D1 schema 変更なし。`rollbackSchemaAliasBulk` が既存 `POST /admin/schema/aliases/:aliasId/rollback` を concurrency 8 / 最大 50 件で fan-out し、per-alias `If-Match: version=<N>` と per-alias audit を維持 |
+| implementation targets | `apps/web/src/lib/admin/api.ts`, `apps/web/src/components/admin/SchemaDiffPanel.tsx`, `apps/web/src/components/admin/SchemaDiffBulkRollbackModal.tsx`, `apps/web/src/components/admin/hooks/useSchemaDiffBulkRollbackSelection.ts` |
+| evidence | typecheck PASS、focused Vitest 69 PASS、Phase 12 strict files present |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-837-schema-alias-bulk-rollback-artifact-inventory.md` |
+| user gate | authenticated runtime screenshot, staging smoke, commit, push, PR, Issue mutation |
+
 ### fix-verify-design-tokens-og-route-exclude（2026-05-23）
 
 | 項目 | 値 |

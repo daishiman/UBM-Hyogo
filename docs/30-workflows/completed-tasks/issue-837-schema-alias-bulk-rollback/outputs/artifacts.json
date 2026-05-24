@@ -1,0 +1,189 @@
+{
+  "task_name": "issue-837-schema-alias-bulk-rollback",
+  "task_path": "docs/30-workflows/issue-837-schema-alias-bulk-rollback",
+  "wave": null,
+  "execution_mode": "implemented-local",
+  "depends_on": [
+    "docs/30-workflows/completed-tasks/issue-778-schema-alias-rollback-undo/",
+    "docs/30-workflows/completed-tasks/issue-776-schema-alias-bulk-resolve/",
+    "docs/30-workflows/unassigned-task/serial-05-step-03-followup-006-schema-alias-bulk-rollback.md"
+  ],
+  "blocks": [],
+  "created_at": "2026-05-23T00:00:00+09:00",
+  "status": "implemented_local_evidence_captured",
+  "metadata": {
+    "taskType": "implementation",
+    "visualEvidence": "VISUAL",
+    "workflow_state": "implemented_local_evidence_captured",
+    "implementation_status": "IMPLEMENTED_LOCAL_EVIDENCE_CAPTURED",
+    "implementation_mode": "feature-extension-existing-api-client-fanout",
+    "source_issue": "https://github.com/daishiman/UBM-Hyogo/issues/837",
+    "source_issue_state": "CLOSED",
+    "source_unassigned_task": "docs/30-workflows/unassigned-task/serial-05-step-03-followup-006-schema-alias-bulk-rollback.md",
+    "parent_workflow": "docs/30-workflows/completed-tasks/issue-778-schema-alias-rollback-undo/",
+    "template_workflow": "docs/30-workflows/completed-tasks/issue-776-schema-alias-bulk-resolve/",
+    "pr_base": "dev",
+    "governance_mutation_user_gate": false,
+    "artifact_mirror": "root artifacts.json and outputs/artifacts.json are byte-identical",
+    "planned_visual_evidence_files": [
+      "outputs/phase-11/bulk-rollback-select-desktop-1280.png",
+      "outputs/phase-11/bulk-rollback-modal-desktop-1280.png",
+      "outputs/phase-11/bulk-rollback-partial-failure-desktop-1280.png",
+      "outputs/phase-11/bulk-rollback-success-desktop-1280.png",
+      "outputs/phase-11/bulk-rollback-select-mobile-375.png",
+      "outputs/phase-11/bulk-rollback-modal-mobile-375.png",
+      "outputs/phase-11/perf-30rows.md",
+      "outputs/phase-11/a11y-manual-check.md"
+    ],
+    "visual_runtime_status": "pending_user_gate",
+    "local_evidence_files": [
+      "outputs/phase-11/typecheck-local.txt",
+      "outputs/phase-11/focused-vitest-local.txt"
+    ]
+  },
+  "phases": [
+    {
+      "phase": 1,
+      "name": "Requirements",
+      "file": "phase-01-requirements.md",
+      "status": "completed",
+      "outputs": [
+        "phase-01-requirements.md"
+      ]
+    },
+    {
+      "phase": 2,
+      "name": "Design",
+      "file": "phase-02-design.md",
+      "status": "completed",
+      "outputs": [
+        "phase-02-design.md"
+      ]
+    },
+    {
+      "phase": 3,
+      "name": "Design Review",
+      "file": "phase-03-design-review.md",
+      "status": "completed",
+      "outputs": [
+        "phase-03-design-review.md"
+      ]
+    },
+    {
+      "phase": 4,
+      "name": "Test Creation",
+      "file": "phase-04-test-creation.md",
+      "status": "completed",
+      "outputs": [
+        "phase-04-test-creation.md"
+      ]
+    },
+    {
+      "phase": 5,
+      "name": "Implementation Plan",
+      "file": "phase-05-implementation.md",
+      "status": "completed",
+      "outputs": [
+        "phase-05-implementation.md"
+      ]
+    },
+    {
+      "phase": 6,
+      "name": "Test Expansion",
+      "file": "phase-06-test-expansion.md",
+      "status": "completed",
+      "outputs": [
+        "phase-06-test-expansion.md"
+      ]
+    },
+    {
+      "phase": 7,
+      "name": "Coverage Check",
+      "file": "phase-07-coverage-check.md",
+      "status": "completed",
+      "outputs": [
+        "phase-07-coverage-check.md"
+      ]
+    },
+    {
+      "phase": 8,
+      "name": "Refactoring",
+      "file": "phase-08-refactoring.md",
+      "status": "completed",
+      "outputs": [
+        "phase-08-refactoring.md"
+      ]
+    },
+    {
+      "phase": 9,
+      "name": "Quality Assurance",
+      "file": "phase-09-quality-assurance.md",
+      "status": "completed",
+      "outputs": [
+        "phase-09-quality-assurance.md"
+      ]
+    },
+    {
+      "phase": 10,
+      "name": "Final Review",
+      "file": "phase-10-final-review.md",
+      "status": "completed",
+      "outputs": [
+        "phase-10-final-review.md"
+      ]
+    },
+    {
+      "phase": 11,
+      "name": "Manual Test / Evidence Plan",
+      "file": "phase-11-manual-test.md",
+      "status": "completed",
+      "outputs": [
+        "phase-11-manual-test.md",
+        "outputs/phase-11/typecheck-local.txt",
+        "outputs/phase-11/focused-vitest-local.txt"
+      ]
+    },
+    {
+      "phase": 12,
+      "name": "Phase 12 strict 7",
+      "file": "outputs/phase-12/main.md",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-12/main.md",
+        "outputs/phase-12/implementation-guide.md",
+        "outputs/phase-12/system-spec-update-summary.md",
+        "outputs/phase-12/documentation-changelog.md",
+        "outputs/phase-12/unassigned-task-detection.md",
+        "outputs/phase-12/skill-feedback-report.md",
+        "outputs/phase-12/phase12-task-spec-compliance-check.md"
+      ]
+    },
+    {
+      "phase": 13,
+      "name": "PR Creation",
+      "file": "phase-13-pr-creation.md",
+      "status": "pending_user_approval",
+      "outputs": [
+        "phase-13-pr-creation.md"
+      ],
+      "user_approval_required": true
+    }
+  ],
+  "mutation_commands": {
+    "typecheck": "mise exec -- pnpm typecheck",
+    "lint": "mise exec -- pnpm lint",
+    "test": "mise exec -- pnpm exec vitest run --root=../.. --config=vitest.config.ts apps/web/src/lib/admin/__tests__/api.spec.ts apps/web/src/components/admin/hooks/__tests__/useSchemaDiffBulkRollbackSelection.spec.tsx apps/web/src/components/admin/__tests__/SchemaDiffBulkRollbackModal.component.spec.tsx apps/web/src/components/admin/__tests__/SchemaDiffPanel.component.spec.tsx",
+    "build": "mise exec -- pnpm --filter @ubm-hyogo/web build",
+    "design_tokens": "mise exec -- pnpm verify-design-tokens",
+    "phase12_compliance": "mise exec -- pnpm verify:phase12-compliance",
+    "visual_evidence": "PLAYWRIGHT_EVIDENCE_TASK=issue-837-schema-alias-bulk-rollback mise exec -- pnpm --filter @ubm-hyogo/web exec playwright test playwright/tests/issue837-schema-bulk-rollback.spec.ts --project=desktop-chromium"
+  },
+  "invariants": [
+    "既存 API endpoint surface のみ使用（POST /admin/schema/aliases/:aliasId/rollback を fan-out）",
+    "rollbackSchemaAlias / RollbackApiError / single rollback UI / bulk resolve UI の既存 contract を破壊しない",
+    "D1 schema / API route は変更しない",
+    "design token (OKLch) のみ・HEX 禁止",
+    "env access は getEnv()/getPublicEnv() 経由",
+    "*.spec.tsx / *.spec.ts のみ・*.test.* 禁止"
+  ]
+}

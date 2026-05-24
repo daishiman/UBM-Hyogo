@@ -9,6 +9,7 @@ vi.mock("next/navigation", () => ({
 
 const postSchemaAliasMock = vi.fn();
 const rollbackSchemaAliasMock = vi.fn();
+const rollbackSchemaAliasBulkMock = vi.fn();
 const postSchemaAliasBulkMock = vi.fn();
 vi.mock("../../../lib/admin/api", async () => {
   const actual =
@@ -19,6 +20,7 @@ vi.mock("../../../lib/admin/api", async () => {
     ...actual,
     postSchemaAlias: (...args: unknown[]) => postSchemaAliasMock(...args),
     rollbackSchemaAlias: (...args: unknown[]) => rollbackSchemaAliasMock(...args),
+    rollbackSchemaAliasBulk: (...args: unknown[]) => rollbackSchemaAliasBulkMock(...args),
     postSchemaAliasBulk: (...args: unknown[]) => postSchemaAliasBulkMock(...args),
   };
 });
@@ -54,6 +56,7 @@ afterEach(() => {
   refreshMock.mockReset();
   postSchemaAliasMock.mockReset();
   rollbackSchemaAliasMock.mockReset();
+  rollbackSchemaAliasBulkMock.mockReset();
   postSchemaAliasBulkMock.mockReset();
 });
 
@@ -68,6 +71,22 @@ beforeEach(() => {
       backfill: { status: "completed" },
     },
   });
+  rollbackSchemaAliasBulkMock.mockImplementation(
+    async (
+      rows: Array<{ aliasId: string; version: number }>,
+      options?: { onRowResult?: (result: unknown, index: number) => void },
+    ) => {
+      const results = [];
+      for (let index = 0; index < rows.length; index++) {
+        const row = rows[index]!;
+        const data = await rollbackSchemaAliasMock(row);
+        const result = { aliasId: row.aliasId, status: "success" as const, data };
+        options?.onRowResult?.(result, index);
+        results.push(result);
+      }
+      return { results };
+    },
+  );
 });
 
 describe("SchemaDiffPanel", () => {
@@ -722,6 +741,63 @@ describe("SchemaDiffPanel", () => {
     );
     fireEvent.click(screen.getByRole("button", { name: /lbl-x/ }));
     expect(screen.getByRole("form", { name: "stableKey alias 割当" })).toBeTruthy();
+  });
+
+  it("BULK-ROLLBACK-PANEL-01 HistoryPane で複数 alias を選択し bulk rollback modal を開ける", () => {
+    render(
+      <SchemaDiffPanel
+        initial={{ total: 0, items: [] }}
+        resolvedAliases={[
+          resolvedAlias({ id: "alias-1", aliasLabel: "Full name" }),
+          resolvedAlias({ id: "alias-2", aliasLabel: "Email", stableKey: "email" }),
+        ]}
+      />,
+    );
+    fireEvent.click(screen.getByRole("button", { name: "Bulk Rollback" }));
+    fireEvent.click(screen.getByLabelText("select alias Full name"));
+    fireEvent.click(screen.getByLabelText("select alias Email"));
+    expect(screen.getByTestId("bulk-rollback-selection-summary").textContent).toContain(
+      "2 件選択中",
+    );
+    fireEvent.click(screen.getByRole("button", { name: "Bulk Rollback 確認" }));
+    const modal = screen.getByTestId("bulk-rollback-modal");
+    expect(modal).toBeTruthy();
+    expect(modal.textContent).toContain("Full name");
+    expect(modal.textContent).toContain("Email");
+  });
+
+  it("BULK-ROLLBACK-PANEL-02 bulk rollback 成功時に行を履歴から除去し refresh", async () => {
+    rollbackSchemaAliasMock.mockResolvedValue({
+      aliasId: "alias-1",
+      rolledBackAt: "2026-05-19T01:00:00.000Z",
+      relatedAuditId: "aud-1",
+      newVersion: 2,
+      impact: { affectedResponseCount: 1, recomputeRequired: false },
+    });
+    render(
+      <SchemaDiffPanel
+        initial={{ total: 0, items: [] }}
+        resolvedAliases={[
+          resolvedAlias({ id: "alias-1", aliasLabel: "Full name" }),
+          resolvedAlias({ id: "alias-2", aliasLabel: "Email", stableKey: "email" }),
+        ]}
+      />,
+    );
+    fireEvent.click(screen.getByRole("button", { name: "Bulk Rollback" }));
+    fireEvent.click(screen.getByLabelText("select alias Full name"));
+    fireEvent.click(screen.getByRole("button", { name: "Bulk Rollback 確認" }));
+    fireEvent.click(screen.getByRole("button", { name: "一括で取り消す" }));
+    await waitFor(() => {
+      expect(rollbackSchemaAliasMock).toHaveBeenCalledWith({
+        aliasId: "alias-1",
+        version: 1,
+      });
+    });
+    await waitFor(() => {
+      expect(screen.queryByText("Full name")).toBeNull();
+      expect(screen.getByText("Email")).toBeTruthy();
+      expect(refreshMock).toHaveBeenCalled();
+    });
   });
 
   it("suggestedStableKey が input の初期値として設定される", () => {

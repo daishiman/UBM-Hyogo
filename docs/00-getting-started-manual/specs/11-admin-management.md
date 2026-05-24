@@ -189,6 +189,14 @@ bulk endpoint は新設せず、既存 API endpoint surface のみを使用す�
 
 選択上限は **50 件** とし、51 件以上を選択した場合は `role="alert"` で警告を出して確定を不可にする。modal は既存 `Modal` primitive（focus trap / Esc close 内蔵）を再利用し、`isSubmitting=true` の間は確定 / キャンセル / Esc を一律無視する。色は OKLch design token (`apps/web/src/styles/tokens.css`) のみを使用し、HEX 直書きや `bg-[#xxx]` は禁止（`verify-design-tokens` gate）。
 
+### bulk rollback（Issue #837）
+
+`/admin/schema` の HistoryPane は single rollback と並走する **bulk rollback mode** を備える。`Bulk Rollback` トグルで表示中の resolved alias 行に checkbox を出し、選択件数と 50 件上限を表示する。`Bulk Rollback 確認` から confirm modal を開き、対象 alias、stableKey、resolvedAt、既知の影響応答件数、再集計要否を確認してから一括取消を実行する。
+
+bulk rollback は新 endpoint を作らず、既存 `POST /admin/schema/aliases/:aliasId/rollback` を `rollbackSchemaAliasBulk` から **client-side bounded fan-out（concurrency 8 / 最大 50 件）** で呼ぶ。各 row は `{ aliasId, version }` を保持し、`If-Match: version=<N>` は単体 rollback helper が送る。transaction 境界は per-alias 独立 commit とし、1 件の `409 version_mismatch` は他の成功 row を巻き戻さない。UI は全成功 / 部分成功 / 全失敗を summary と row-level error で区別する。
+
+audit は single rollback と同じ per-alias `schema_alias.rollback` を正本とする。batch parent-child audit 構造は D1 schema / API surface 変更を要するため初期 bulk rollback の必須要件にはしない。
+
 ## tag assignment queue（UT-02A / 07a）
 
 Forms 同期から発生する tag candidate は `tag_assignment_queue` に投入し、管理者が `/admin/tags/queue` で確認する。`GET /admin/tags/queue?status=dlq` は retry 上限超過行を表示できる。通常の確認結果は `POST /admin/tags/queue/:queueId/resolve` で `resolved` / `rejected` に進める。

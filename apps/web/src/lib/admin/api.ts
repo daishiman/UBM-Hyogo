@@ -152,6 +152,8 @@ export interface RollbackSchemaAliasResult {
   };
 }
 
+export const BULK_ROLLBACK_MAX_ROWS = 50;
+
 export class RollbackApiError extends Error {
   readonly status: number;
   readonly code: string;
@@ -204,6 +206,38 @@ export async function rollbackSchemaAlias(
   }
   return body as RollbackSchemaAliasResult;
 }
+
+export interface SchemaAliasRollbackBulkRow {
+  aliasId: string;
+  version: number;
+  reason?: string;
+}
+
+export interface SchemaAliasRollbackBulkRowResult {
+  aliasId: string;
+  status: "success" | "error";
+  data?: RollbackSchemaAliasResult;
+  error?: {
+    kind: "version_mismatch" | "not_found" | "forbidden" | "network" | "other";
+    message: string;
+    httpStatus?: number;
+  };
+}
+
+export interface SchemaAliasRollbackBulkOptions {
+  onRowResult?: (result: SchemaAliasRollbackBulkRowResult, index: number) => void;
+  concurrency?: number;
+}
+
+const rollbackErrorKind = (
+  error: RollbackApiError,
+): NonNullable<SchemaAliasRollbackBulkRowResult["error"]>["kind"] => {
+  if (error.status === 409) return "version_mismatch";
+  if (error.status === 404) return "not_found";
+  if (error.status === 401 || error.status === 403) return "forbidden";
+  if (error.status === 0) return "network";
+  return "other";
+};
 
 // Issue #776: schema alias bulk resolve — client-side bounded fan-out helper.
 // 不変条件: 既存 endpoint surface (POST /admin/schema/aliases) のみを使用する。
@@ -308,6 +342,57 @@ export const postSchemaAliasBulk = async (
           message: e instanceof Error ? e.message : String(e),
         },
       };
+    }
+    options.onRowResult?.(result, index);
+    return result;
+  });
+  return { results };
+};
+
+// Issue #837: schema alias bulk rollback — existing single rollback endpoint only.
+// Each row is committed independently by the server-side single rollback workflow.
+export const rollbackSchemaAliasBulk = async (
+  rows: ReadonlyArray<SchemaAliasRollbackBulkRow>,
+  options: SchemaAliasRollbackBulkOptions = {},
+): Promise<{ results: SchemaAliasRollbackBulkRowResult[] }> => {
+  if (rows.length === 0) return { results: [] };
+  if (rows.length > BULK_ROLLBACK_MAX_ROWS) {
+    throw new RollbackApiError(
+      0,
+      "bulk_limit_exceeded",
+      `bulk rollback supports at most ${BULK_ROLLBACK_MAX_ROWS} rows`,
+    );
+  }
+  const results = await runWithConcurrency(rows, options.concurrency ?? 8, async (row, index) => {
+    let result: SchemaAliasRollbackBulkRowResult;
+    try {
+      const data = await rollbackSchemaAlias(row);
+      result = {
+        aliasId: row.aliasId,
+        status: "success",
+        data,
+      };
+    } catch (e) {
+      if (e instanceof RollbackApiError) {
+        result = {
+          aliasId: row.aliasId,
+          status: "error",
+          error: {
+            kind: rollbackErrorKind(e),
+            message: e.message,
+            httpStatus: e.status,
+          },
+        };
+      } else {
+        result = {
+          aliasId: row.aliasId,
+          status: "error",
+          error: {
+            kind: "network",
+            message: e instanceof Error ? e.message : String(e),
+          },
+        };
+      }
     }
     options.onRowResult?.(result, index);
     return result;
