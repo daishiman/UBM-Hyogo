@@ -1,0 +1,43 @@
+{
+  "mode": "VISUAL",
+  "taskId": "mypage-prototype-alignment",
+  "baseUrl": "http://127.0.0.1:3000",
+  "route": "/profile",
+  "viewport": {
+    "width": 1280,
+    "height": 900
+  },
+  "shots": [
+    {
+      "tc": "TC-11-01",
+      "name": "profile-page-default.png",
+      "selector": "main[data-route='member']",
+      "fullPage": true
+    },
+    {
+      "tc": "TC-11-02",
+      "name": "status-banner-public.png",
+      "selector": "[aria-label='公開状態']",
+      "fullPage": false
+    },
+    {
+      "tc": "TC-11-03",
+      "name": "visibility-summary.png",
+      "selector": "[aria-label='公開範囲サマリ']",
+      "fullPage": false
+    },
+    {
+      "tc": "TC-11-04",
+      "name": "revalidate-modal-open.png",
+      "selector": "[role='dialog']",
+      "fullPage": false,
+      "action": "openRevalidateModal"
+    },
+    {
+      "tc": "TC-11-05",
+      "name": "member-header-nav.png",
+      "selector": "[data-testid='member-header']",
+      "fullPage": false
+    }
+  ]
+}

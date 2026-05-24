@@ -8,6 +8,19 @@
 
 本ドキュメントは、複雑なタスクを単一責務の原則に基づいて分解し、各サブタスクに最適なスラッシュコマンド・エージェント・スキルの組み合わせを選定するためのガイドラインを定義する。
 
+### mypage-prototype-alignment（2026-05-23）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / VISUAL / existing-ui-alignment` |
+| 成果物 | `docs/30-workflows/mypage-prototype-alignment/` |
+| 目的 | existing `/profile` を prototype `MyProfilePage` 準拠へ整え、Google Form 再回答 CTA、VisibilitySummary、ProfilePreview、RevalidateModal、danger-zone、MemberHeader 動線を実装する |
+| implementation targets | `apps/web/app/profile/page.tsx`, `apps/web/app/profile/_components/**`, `apps/web/app/profile/_lib/**`, `apps/web/src/components/layout/MemberHeader.tsx` |
+| API boundary | existing `/me/*` only。新 endpoint / D1 schema / Google Form schema / primitive API change なし |
+| Phase 12 | strict 7 present。Phase 11 screenshots captured |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-mypage-prototype-alignment-artifact-inventory.md` |
+| user gate | commit, push, PR |
+
 ### runtime-smoke-staging-mint-recurrence-fix（2026-05-24）
 
 | 項目 | 値 |
@@ -172,6 +185,21 @@
 | implementation targets | `apps/web/middleware.ts`, `apps/web/proxy.ts`, `apps/web/app/(admin)/layout.tsx`, `apps/web/__tests__/proxy.spec.ts`, `apps/web/package.json`, `vitest.config.ts` |
 | evidence boundary | Local implementation present。Phase 12 strict 7 present。Focused tests/build evidence and dev-server smoke remain runtime evidence gates; commit / push / PR / Issue close are user-gated |
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-277-next-proxy-migration-artifact-inventory.md` |
+
+### Issue #832 AdminTopbar primitive extraction（2026-05-23）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION / implementation_complete_pending_pr` |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-832-admin-topbar-primitive-extraction/` |
+| Issue | #832 CLOSED。PR 文脈は `Refs #832` のみ |
+| source | `docs/30-workflows/completed-tasks/parallel-03-followup-001-admin-topbar-primitive-extraction.md` consumed |
+| parent | `docs/30-workflows/ui-prototype-design-system-foundation/parallel-03-appshell-layouts/` |
+| 目的 | `(admin)/layout.tsx` の inline `<header data-shell="topbar">` を `AdminTopbar` Server Component primitive へ抽出する |
+| implementation targets | `apps/web/src/components/layout/AdminTopbar.tsx`, `apps/web/src/components/layout/__tests__/AdminTopbar.spec.tsx`, `apps/web/app/(admin)/layout.tsx` |
+| evidence | `@ubm-hyogo/web` Vitest suite PASS、`AdminTopbar.spec.tsx` 9 cases、existing `(admin)/layout.spec.tsx` 4 cases PASS、Phase 12 strict 7 present |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-832-admin-topbar-primitive-extraction-artifact-inventory.md` |
+| user gate | authenticated browser screenshot, commit, push, PR |
 
 ### Issue #777 schema diff resolve history view（2026-05-20）
 
