@@ -3792,9 +3792,10 @@ node scripts/list-specs.js --topics
 | Follow-up unassigned tasks (proto-spec) | L99 |
 | Difficulties summary (parallel-02) | L111 |
 | Sub-workflow: serial-05 Page Routes Blueprint Binding（2026-05-22 spec validation） | L145 |
-| P1-1〜P1-5 Selector ↔ Token ↔ 09 Spec Mapping (parallel-01) | L158 |
-| Sub-workflows | L203 |
-| P1-1〜P1-5 Selector ↔ Token ↔ 09 Spec Mapping (parallel-01) | L212 |
+| Sub-workflow: serial-06 Form Response Binding（2026-05-23 spec validation） | L158 |
+| P1-1〜P1-5 Selector ↔ Token ↔ 09 Spec Mapping (parallel-01) | L172 |
+| Sub-workflows | L217 |
+| P1-1〜P1-5 Selector ↔ Token ↔ 09 Spec Mapping (parallel-01) | L226 |
 
 ### references/workflow-ui-ux-visual-baseline-drift.md
 

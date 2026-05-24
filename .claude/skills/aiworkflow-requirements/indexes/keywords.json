@@ -8053,7 +8053,8 @@
     "Response": [
       "deployment-cloudflare-opennext-workers.md",
       "observability-monitoring.md",
-      "security-web-response-headers.md"
+      "security-web-response-headers.md",
+      "workflow-ui-prototype-design-system-foundation-artifact-inventory.md"
     ],
     "security": [
       "deployment-cloudflare-opennext-workers.md",
@@ -23908,7 +23909,8 @@
       "ui-ux-forms.md"
     ],
     "Form": [
-      "ui-ux-forms.md"
+      "ui-ux-forms.md",
+      "workflow-ui-prototype-design-system-foundation-artifact-inventory.md"
     ],
     "constants": [
       "ui-ux-forms.md"

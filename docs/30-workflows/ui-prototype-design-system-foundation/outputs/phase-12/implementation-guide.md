@@ -26,7 +26,7 @@
 3. `serial-05` は page blueprint と primitive composition、`serial-06` は response_fields binding、`parallel-01/02` は CSS / selector、`parallel-03/04` は shell / fallback を担当する。
 4. `parallel-04` の root fallback 4 画面は `parallel-04-shared-page-chrome/outputs/phase-11/*.png` を参照する。
 5. `serial-05` の route marker / blueprint binding evidence は `serial-05-page-routes-blueprint-binding/outputs/phase-11/` の static logs と route inventory を参照する。
-6. 実装後は `serial-07` の Playwright visual evidence で top / members-list / member-detail / admin-dashboard を取得する。
+6. `serial-06` の member-detail smoke screenshot は sub-workflow `outputs/phase-11/screenshots/public-member-detail.png` を参照し、production-equivalent 19-route visual evidence は `serial-07` で取得する。
 7. `/login` / `/profile` / `/privacy` / `/terms` は root 配下を編集し、route group 配下へ新規作成しない。
 
 ### Sub-workflow Guides
@@ -72,3 +72,6 @@ regression screenshots are still owned by
 `serial-05-page-routes-blueprint-binding/outputs/phase-11/` records local
 static evidence for route marker, build, lint, typecheck, adapter unit, token,
 and grep gates.
+`serial-06-form-response-binding/outputs/phase-11/screenshots/public-member-detail.png`
+records the local API-backed member detail screenshot; production-equivalent
+19-route screenshots remain owned by `serial-07-regression-evidence`.

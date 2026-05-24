@@ -1,157 +1,69 @@
+// serial-06-form-response-binding: adapter unit spec (8 cases / branch coverage 100% 目標)
 import { describe, expect, it } from "vitest";
 
-import { buildMemberDetailViewModel } from "../member-detail";
+import { PublicMemberProfileZ } from "@ubm-hyogo/shared";
 
-type Profile = Parameters<typeof buildMemberDetailViewModel>[0];
-type Section = Profile["publicSections"][number];
-type Field = Section["fields"][number];
+import { samplePublicMemberProfile } from "../../../fixtures/public-member-profile";
+import { toMemberDetailProps } from "../member-detail";
 
-function makeField(overrides: Partial<Field> = {}): Field {
-  return {
-    stableKey: "basic:fullName",
-    label: "氏名",
-    value: "山田 太郎",
-    kind: "shortText",
-    visibility: "public",
-    source: "forms",
-    ...overrides,
-  } as Field;
-}
+describe("toMemberDetailProps", () => {
+  it("fixture は PublicMemberProfileZ.parse を通過する", () => {
+    expect(() =>
+      PublicMemberProfileZ.parse(samplePublicMemberProfile),
+    ).not.toThrow();
+  });
 
-function makeSection(overrides: Partial<Section> = {}): Section {
-  return {
-    key: "basic",
-    title: "基本情報",
-    fields: [makeField()],
-    ...overrides,
-  } as Section;
-}
+  it("happy path: summary / attendance / tags をそのまま伝播する", () => {
+    const result = toMemberDetailProps(samplePublicMemberProfile);
+    expect(result.memberId).toBe(samplePublicMemberProfile.memberId);
+    expect(result.summary).toEqual(samplePublicMemberProfile.summary);
+    expect(result.attendance).toEqual(samplePublicMemberProfile.attendance);
+    expect(result.tags).toEqual(samplePublicMemberProfile.tags);
+    expect(result.sections.length).toBeGreaterThan(0);
+  });
 
-function makeProfile(sections: Section[]): Profile {
-  return {
-    memberId: "member-1",
-    summary: {
-      fullName: "山田 太郎",
-      nickname: "",
-      location: "",
-      occupation: "",
-      ubmZone: null,
-      ubmMembershipType: null,
-    },
-    publicSections: sections,
-    attendance: [],
-    tags: [],
-  };
-}
+  it("visibility=member field を除外する", () => {
+    const result = toMemberDetailProps(samplePublicMemberProfile);
+    const all = result.sections.flatMap((s) => s.fields);
+    expect(all.find((f) => f.stableKey === "responseEmail")).toBeUndefined();
+  });
 
-describe("buildMemberDetailViewModel", () => {
-  it("keeps activity only in allSections after public visibility filtering (TC-A-01)", () => {
-    const activity = makeSection({
-      key: "activity",
-      title: "活動",
-      fields: [
-        makeField({ stableKey: "activity:public" }),
-        makeField({ stableKey: "activity:admin", visibility: "admin" }),
-      ],
+  it("visibility=admin のみで構成された section は丸ごと除外", () => {
+    const result = toMemberDetailProps(samplePublicMemberProfile);
+    expect(result.sections.find((s) => s.key === "consent")).toBeUndefined();
+  });
+
+  it("unknown kind を silent skip する", () => {
+    const tampered = structuredClone(samplePublicMemberProfile);
+    (tampered.publicSections[0].fields[0].kind as unknown as string) =
+      "unknown_kind_xyz";
+    const result = toMemberDetailProps(tampered);
+    const basic = result.sections.find((s) => s.key === "basic");
+    expect(basic?.fields.find((f) => f.stableKey === "fullName")).toBeUndefined();
+    expect(basic?.fields.find((f) => f.stableKey === "nickname")).toBeDefined();
+  });
+
+  it("入力を mutate しない", () => {
+    const snapshot = structuredClone(samplePublicMemberProfile);
+    toMemberDetailProps(samplePublicMemberProfile);
+    expect(samplePublicMemberProfile).toEqual(snapshot);
+  });
+
+  it("publicSections が空のとき sections === []", () => {
+    const result = toMemberDetailProps({
+      ...samplePublicMemberProfile,
+      publicSections: [],
     });
-    const profile = makeProfile([makeSection(), activity]);
-
-    const viewModel = buildMemberDetailViewModel(profile);
-
-    expect(viewModel.detailSections.map((section) => section.key)).toEqual([
-      "basic",
-    ]);
-    expect(viewModel.allSections.map((section) => section.key)).toEqual([
-      "basic",
-      "activity",
-    ]);
-    expect(viewModel.allSections[1]?.fields.map((field) => field.stableKey)).toEqual([
-      "activity:public",
-    ]);
+    expect(result.sections).toEqual([]);
   });
 
-  it("filters non-public fields defensively (TC-A-02)", () => {
-    const profile = makeProfile([
-      makeSection({
-        fields: [
-          makeField({ stableKey: "public", visibility: "public" }),
-          makeField({ stableKey: "member", visibility: "member" }),
-          makeField({ stableKey: "admin", visibility: "admin" }),
-        ],
-      }),
-    ]);
-
-    expect(
-      buildMemberDetailViewModel(profile).detailSections[0]?.fields.map(
-        (field) => field.stableKey,
-      ),
-    ).toEqual(["public"]);
-  });
-
-  it("filters url fields from detail sections (TC-A-03)", () => {
-    const profile = makeProfile([
-      makeSection({
-        fields: [
-          makeField({ stableKey: "links:site", kind: "url" }),
-          makeField({ stableKey: "basic:fullName", kind: "shortText" }),
-        ],
-      }),
-    ]);
-
-    expect(
-      buildMemberDetailViewModel(profile).detailSections[0]?.fields.map(
-        (field) => field.stableKey,
-      ),
-    ).toEqual(["basic:fullName"]);
-  });
-
-  it("silently skips non-display kinds (TC-A-04)", () => {
-    const profile = makeProfile([
-      makeSection({
-        fields: [
-          makeField({ stableKey: "ok", kind: "paragraph" }),
-          makeField({ stableKey: "unknown", kind: "unknown" }),
-          makeField({ stableKey: "system", kind: "system" }),
-          makeField({ stableKey: "consent", kind: "consent" }),
-        ],
-      }),
-    ]);
-
-    expect(
-      buildMemberDetailViewModel(profile).detailSections[0]?.fields.map(
-        (field) => field.stableKey,
-      ),
-    ).toEqual(["ok"]);
-  });
-
-  it("removes sections emptied by filtering (TC-A-05)", () => {
-    const profile = makeProfile([
-      makeSection({
-        fields: [makeField({ stableKey: "links:only", kind: "url" })],
-      }),
-    ]);
-
-    expect(buildMemberDetailViewModel(profile).detailSections).toEqual([]);
-  });
-
-  it("does not mutate the input profile (TC-A-06)", () => {
-    const profile = makeProfile([
-      makeSection({
-        fields: [
-          makeField({ stableKey: "public" }),
-          makeField({ stableKey: "admin", visibility: "admin" }),
-        ],
-      }),
-    ]);
-    const before = structuredClone(profile);
-
-    expect(buildMemberDetailViewModel(profile)).toEqual(
-      buildMemberDetailViewModel(profile),
-    );
-    expect(profile).toEqual(before);
-    expect(profile.publicSections[0]?.fields.map((field) => field.stableKey)).toEqual([
-      "public",
-      "admin",
-    ]);
+  it("出力 field には visibility / source キーが含まれない", () => {
+    const result = toMemberDetailProps(samplePublicMemberProfile);
+    for (const section of result.sections) {
+      for (const field of section.fields) {
+        expect(field).not.toHaveProperty("visibility");
+        expect(field).not.toHaveProperty("source");
+      }
+    }
   });
 });
