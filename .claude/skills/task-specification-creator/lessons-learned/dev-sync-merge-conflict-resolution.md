@@ -294,6 +294,12 @@
 - 事例: 2026-05-24 `feat/home-page-prototype-alignment` ← dev sync で `--ubm-color-text-muted` を HEAD `#76664a` / dev `#7d6a4d` の並行 darken 衝突として検出、dev `#7d6a4d` を 3 SSOT へ統一。push 後 e2e a11y が footer copyright on bg-2（4.16:1）で fail（home ブランチに pre-merge から潜在）→ public-footer の color を `text-secondary`（5.31:1）へ変更して解消、token は dev 値維持。
 - 詳細は aiworkflow-requirements 配下の L-DEVSYNC-038 を参照。
 
+### SP-DEVSYNC-031: union 解消した手動 ledger の重複 entry は「merge 由来 / upstream 既存」を両親 count で判別してから直す（2026-05-24 追加）
+- 症状: `pnpm sync:resolve` が `indexes/{quick-reference,resource-map}-map.md`（= `indexes:rebuild` 非生成の**手動 ledger**）を `merge=union` で連結した後、同一見出し ID（例 `TASK-RT-06`）が 2 回出現する。SP-DEVSYNC-018 / L-DEVSYNC-012 の「重複 entry のみ除去」を反射的に適用すると、dev 正本に元からあった重複まで消して scope 外 diff を生む危険がある。
+- 判別: merge commit の両親 SHA を `git log --format=%P -1 <merge-sha>` で取り、`git show <parent>:<path> | grep -c '<token>'` を HEAD / dev 双方で計測 → merge 結果の `grep -c` と比較。**結果数 == max(両親) なら upstream 既存重複（本ブランチで直さない）／結果数 == 両親の和 なら union が作った新規重複（新しい版を残し旧版を削除）**。
+- task 仕様書を書く際: dev 同期 merge を含む task の Phase 5 手順に「`pnpm sync:resolve` 後、手動 ledger（quick-reference / resource-map）に重複見出しが出たら両親 count 比較で merge 由来か判定し、upstream 既存重複は是正しない」を逐語明示する。Phase 11 evidence に両親 count と結果 count の数値を残す。
+- 事例: 2026-05-24 `docs/runtime-smoke-staging-mint-recurrence-spec` ← dev sync で conflict 4 件を `pnpm sync:resolve` が 1 発解消。`quick-reference.md` の `TASK-RT-06` が 2 回出現したが HEAD=2 / dev=2 / 結果=2 で upstream 既存重複と確定し是正せず。`keywords.json` JSON valid・`indexes:rebuild` drift ゼロ。詳細は aiworkflow-requirements 配下の L-DEVSYNC-039 を参照。
+
 ### SP-DEVSYNC-032: SSR fetch 画面の task は「e2e server mock fixture (`e2e-mock-api.mjs`) を `auth.ts` shape + zod enum へ整合」「描画変更後の visual baseline 再撮影順序」を仕様書に逐語化（2026-05-24 追加）
 - server component の `fetch`（`fetchPublicOrNotFound` 等）を持つ画面の task では、dev sync 後に **e2e が「mock fixture と画面期待値の不一致」で落ちる**構造的リスクがある。task 仕様書（特に Phase 4 test-plan / Phase 5 implementation）に以下を逐語で織り込む。
   - **2 系統 mock の使い分け明示**: SSR `fetch` は Playwright `page.route()`（`apps/web/playwright/fixtures/auth.ts`）を**経由しない**。server-side mock `scripts/e2e-mock-api.mjs` の fixture が SSR 画面の正本。「画面が SSR fetch なら `e2e-mock-api.mjs` を直す／CSR fetch なら `auth.ts` の `page.route()` を直す」を Phase 4 に明記（[[L-DEVSYNC-016]] / L-DEVSYNC-039 連携）。
