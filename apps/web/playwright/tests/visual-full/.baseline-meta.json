@@ -1,13 +1,9 @@
 {
   "$schema": "../../../../docs/30-workflows/task-709-visual-baseline-runtime-capture/schemas/baseline-meta.schema.json",
-  "captured_at_commit_sha": "c5f3fca698bf8964bbd00bf71dfa6f805de61e9c",
-  "captured_at": "2026-05-24T04:34:01Z",
+  "captured_at_commit_sha": "4c4df4c8b3e433217c9eb293df573cdbfd9c8314",
+  "captured_at": "2026-05-24T05:59:35Z",
   "captured_via": "playwright-visual-baseline-update.yml#workflow_dispatch",
   "captured_run_ids": [
-    "26022102232",
-    "26101682046",
-    "26128917753",
-    "26170273931",
     "26280741223",
     "26314107860",
     "26315562296",
@@ -16,7 +12,8 @@
     "26350145184",
     "26351125393",
     "26351646816",
-    "26351823832"
+    "26351823832",
+    "26353340702"
   ],
   "viewport_dimensions": {
     "desktop": {
@@ -44,5 +41,5 @@
   "refresh_workflow": ".github/workflows/playwright-visual-baseline-update.yml",
   "refresh_command_hint": "gh workflow run playwright-visual-baseline-update.yml -f reason=\"<why>\" -r <feature-branch>",
   "notes": "captured_at_commit_sha からの rendering_relevant_paths diff が空でない場合、baseline は stale。scripts/visual-baseline-status.sh で診断可能。",
-  "last_refresh_reason": "serial-06 (mock-api fixture auth.ts 整合 / MemberDetail composing primitive) ← dev #887 members-page alignment + #892 home + #893 member-detail を sync-merge。warm text-muted を dev canonical #736449（最暗 surface bg-2 で 4.61:1, 実測 axe 通過）へ統一したため全画面の muted 文字描画が変化。最終合成 UI に対し visual-full/smoke baseline を再生成 (L-DEVSYNC-009 / L-DEVSYNC-039)。"
+  "last_refresh_reason": "dev #887 members-page alignment + text-muted #736449 統一を sync-merge。全画面 muted 文字 + members-detail (serial-06 描画) の baseline 再撮影 (L-DEVSYNC-039)"
 }
