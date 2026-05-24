@@ -2947,6 +2947,12 @@ node scripts/list-specs.js --topics
 | Evidence | L22 |
 | Boundary | L32 |
 
+### references/workflow-issue-832-admin-topbar-primitive-extraction-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Boundaries | L16 |
+
 ### references/workflow-light-theme-contrast-regression-guard.md
 
 | セクション | 行 |
@@ -2993,6 +2999,17 @@ node scripts/list-specs.js --topics
 |------------|----|
 | State | L25 |
 | Boundary | L31 |
+
+### references/workflow-mypage-prototype-alignment-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Metadata | L3 |
+| Current Canonical Artifacts | L15 |
+| Implementation Targets | L26 |
+| Contract Summary | L36 |
+| Evidence Boundary | L46 |
+| Same-Wave Sync | L50 |
 
 ### references/workflow-onboarding-wizard-alignment.md
 
@@ -3782,14 +3799,15 @@ node scripts/list-specs.js --topics
 | Workflow Outputs | L39 |
 | Implementation Boundary | L57 |
 | Sub-workflow: parallel-03 AppShell Layouts（2026-05-19） | L67 |
-| parallel-02 prototype CSS rules port (2026-05-19 close-out) | L88 |
-| Follow-up unassigned tasks (proto-spec) | L99 |
-| Difficulties summary (parallel-02) | L111 |
-| Sub-workflow: serial-05 Page Routes Blueprint Binding（2026-05-22 spec validation） | L145 |
-| Sub-workflow: serial-06 Form Response Binding（2026-05-23 spec validation） | L158 |
-| P1-1〜P1-5 Selector ↔ Token ↔ 09 Spec Mapping (parallel-01) | L172 |
-| Sub-workflows | L217 |
-| P1-1〜P1-5 Selector ↔ Token ↔ 09 Spec Mapping (parallel-01) | L226 |
+| AdminTopbar follow-up 001（2026-05-23） | L87 |
+| parallel-02 prototype CSS rules port (2026-05-19 close-out) | L100 |
+| Follow-up unassigned tasks (proto-spec) | L111 |
+| Difficulties summary (parallel-02) | L123 |
+| Sub-workflow: serial-05 Page Routes Blueprint Binding（2026-05-22 spec validation） | L157 |
+| Sub-workflow: serial-06 Form Response Binding（2026-05-23 spec validation） | L170 |
+| P1-1〜P1-5 Selector ↔ Token ↔ 09 Spec Mapping (parallel-01) | L184 |
+| Sub-workflows | L229 |
+| P1-1〜P1-5 Selector ↔ Token ↔ 09 Spec Mapping (parallel-01) | L238 |
 
 ### references/workflow-ui-ux-visual-baseline-drift.md
 
@@ -4007,6 +4025,15 @@ node scripts/list-specs.js --topics
 | Phase 12 Strict Files | L18 |
 | Gate Boundary | L32 |
 | Same-Wave Sync | L39 |
+
+### references/workflow-ut-dsf-07-staging-visual-runtime-evidence-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Metadata | L3 |
+| Workflow Artifacts | L13 |
+| Implementation Targets | L26 |
+| Boundary | L35 |
 
 ### references/workflow-ut-gov-004-artifact-inventory.md
 
@@ -4737,15 +4764,15 @@ node scripts/list-specs.js --topics
 
 | セクション | 行 |
 |------------|----|
-| 概要 | L24 |
-| 使い方 | L32 |
-| Current Alias Overrides（個別互換行） | L39 |
-| Family Summary | L85 |
-| Detailed Register | L106 |
-| Section Extract Register (2026-03-17) | L287 |
-| 500-Line Split Register (2026-03-16) | L298 |
-| Fragment Migration Register (2026-04-28) | L320 |
-| Task Root Path Drift Register (2026-04-30 追記) | L347 |
+| 概要 | L26 |
+| 使い方 | L34 |
+| Current Alias Overrides（個別互換行） | L41 |
+| Family Summary | L87 |
+| Detailed Register | L108 |
+| Section Extract Register (2026-03-17) | L289 |
+| 500-Line Split Register (2026-03-16) | L300 |
+| Fragment Migration Register (2026-04-28) | L322 |
+| Task Root Path Drift Register (2026-04-30 追記) | L349 |
 
 ### references/lessons-fetch-service-binding-testing.md
 
@@ -6328,8 +6355,8 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 概要 | L3 |
 | 仕様書インデックス | L7 |
-| 利用順序 | L118 |
-| 関連ドキュメント | L123 |
+| 利用順序 | L119 |
+| 関連ドキュメント | L124 |
 
 ### references/llm-embedding.md
 
@@ -7465,14 +7492,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L2197 |
-| フェーズ構造（概要） | L2206 |
-| 品質ゲート（概要） | L2237 |
-| 出力テンプレート | L2248 |
-| 実行時のコマンド・エージェント・スキル | L2271 |
-| 昇格パターン集 | L2295 |
-| Current Active / Spec Created Tasks | L2297 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L2457 |
+| ドキュメント構成 | L2229 |
+| フェーズ構造（概要） | L2238 |
+| 品質ゲート（概要） | L2269 |
+| 出力テンプレート | L2280 |
+| 実行時のコマンド・エージェント・スキル | L2303 |
+| 昇格パターン集 | L2327 |
+| Current Active / Spec Created Tasks | L2329 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L2489 |
 
 ### references/task-workflow-backlog-part2.md
 

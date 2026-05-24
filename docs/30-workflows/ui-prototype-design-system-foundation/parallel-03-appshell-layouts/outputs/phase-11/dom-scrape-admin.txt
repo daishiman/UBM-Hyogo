@@ -1,0 +1,7 @@
+# EV-12 admin AppShell DOM scrape (parallel-03-followup-002)
+# captured via apps/web/playwright/tests/parallel-03-admin-shell-scrape.spec.ts
+# route: /admin (admin session fixture, mock API)
+<div class="ubm-admin-shell grid min-h-screen grid-cols-1 grid-rows-[auto_1fr] bg-[var(--ubm-color-surface-bg)] text-[var(--ubm-color-text-primary)] md:grid-cols-[272px_1fr]" data-theme="cool" data-route-group="admin" data-testid="admin-shell">
+<aside class="border-r border-[var(--ubm-color-border-default)] md:row-span-2" data-shell="sidebar">
+<header class="flex items-center justify-between border-b border-[var(--ubm-color-border-default)] px-4 py-3" data-shell="topbar">
+<main class="flex flex-col gap-4 p-4 md:p-6" data-route="admin" data-section-rhythm="compact">

@@ -1,8 +1,9 @@
-// serial-05: /profile — blueprint 09f:111-280
+// workflow: mypage-prototype-alignment / Phase 5 / 統合
 // 06b: /profile Server Component（read-only）。
 // 不変条件 #4: 本文編集 UI は描画しない（申請 button は admin queue への依頼だけを作る）。
 // 不変条件 #5: D1 直接禁止。`fetchAuthed` 経由で API Worker を叩く。
 // 不変条件 #7: session.memberId のみ参照。responseId は API レスポンス内のみ使用。
+// 旧 PublicVisibilityBanner / 旧 KVList 版 StatusSummary / 旧素リンク EditCta の live import は撤去。
 
 import { notFound, redirect } from "next/navigation";
 import type {
@@ -14,13 +15,16 @@ import {
   FetchAuthedError,
   fetchAuthed,
 } from "../../src/lib/fetch/authed";
-import { PublicVisibilityBanner } from "./_components/PublicVisibilityBanner";
-import { StatusSummary } from "./_components/StatusSummary";
+import { ProfileHeader } from "./_components/ProfileHeader";
+import { StatusBanner } from "./_components/StatusSummary";
+import { VisibilitySummary } from "./_components/VisibilitySummary";
+import { ProfilePreview } from "./_components/ProfilePreview";
 import { ProfileFields } from "./_components/ProfileFields";
 import { EditCta } from "./_components/EditCta";
 import { AttendanceList } from "./_components/AttendanceList";
 import { RequestActionPanel } from "./_components/RequestActionPanel";
 import { MemberHeader } from "../../src/components/layout/MemberHeader";
+import { pickProfileSummary } from "./_lib/profile-summary";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
@@ -45,24 +49,34 @@ export default async function ProfilePage() {
 
   const { profile, statusSummary, editResponseUrl, fallbackResponderUrl } =
     profileRes;
+  const summary = pickProfileSummary(profile.sections);
 
   return (
     <>
       <MemberHeader />
       <main data-route="member" data-section-rhythm="comfortable">
-        <h1>マイページ</h1>
-        <PublicVisibilityBanner
+        <ProfileHeader
+          memberId={me.user.memberId}
           publishState={statusSummary.publishState}
-          authGateState={me.authGateState}
+          editResponseUrl={editResponseUrl}
+          fallbackResponderUrl={fallbackResponderUrl}
         />
-        <StatusSummary
+        <StatusBanner
           statusSummary={statusSummary}
           authGateState={me.authGateState}
+        />
+        <VisibilitySummary sections={profile.sections} />
+        <ProfilePreview
+          memberId={me.user.memberId}
+          displayName={summary.displayName}
+          subtitle={summary.subtitle}
+          chips={summary.chips}
         />
         <ProfileFields sections={profile.sections} />
         <EditCta
           editResponseUrl={editResponseUrl}
           fallbackResponderUrl={fallbackResponderUrl}
+          variant="inline"
         />
         <RequestActionPanel
           publishState={statusSummary.publishState}
