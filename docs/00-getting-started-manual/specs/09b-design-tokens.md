@@ -165,7 +165,7 @@ Warm and cool override only surface / text / border / accent values.
 | `--border-2` | `--ubm-color-border-strong` | `#d8c9b0` |
 | `--text` | `--ubm-color-text-primary` | `#22180a` |
 | `--text-2` | `--ubm-color-text-secondary` | `#6b5a42` |
-| `--text-3` | `--ubm-color-text-muted` | `#9a8a6e` |
+| `--text-3` | `--ubm-color-text-muted` | `#76664a` |
 | `--accent` | `--ubm-color-accent` | `oklch(0.52 0.13 50)` |
 | `--accent-soft` | `--ubm-color-accent-soft` | `oklch(0.94 0.05 60)` |
 | `--accent-ink` | `--ubm-color-accent-ink` | `oklch(0.36 0.12 50)` |
@@ -347,7 +347,7 @@ This keeps Style Dictionary, custom verifiers, and human review on the same sche
         "border-strong": { "value": "#d8c9b0", "css": "--ubm-color-border-strong" },
         "text-primary": { "value": "#22180a", "css": "--ubm-color-text-primary" },
         "text-secondary": { "value": "#6b5a42", "css": "--ubm-color-text-secondary" },
-        "text-muted": { "value": "#9a8a6e", "css": "--ubm-color-text-muted" },
+        "text-muted": { "value": "#76664a", "css": "--ubm-color-text-muted" },
         "accent": { "value": "oklch(0.52 0.13 50)", "css": "--ubm-color-accent" },
         "accent-soft": { "value": "oklch(0.94 0.05 60)", "css": "--ubm-color-accent-soft" },
         "accent-ink": { "value": "oklch(0.36 0.12 50)", "css": "--ubm-color-accent-ink" }
