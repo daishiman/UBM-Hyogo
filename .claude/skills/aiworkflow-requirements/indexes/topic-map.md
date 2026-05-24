@@ -2930,6 +2930,12 @@ node scripts/list-specs.js --topics
 | Phase 12 Strict 7 | L42 |
 | User-Gated Boundary | L54 |
 
+### references/workflow-issue-863-admin-error-alert-policy-iac-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Contract | L18 |
+
 ### references/workflow-light-theme-contrast-regression-guard.md
 
 | セクション | 行 |
@@ -7434,7 +7440,7 @@ node scripts/list-specs.js --topics
 | 実行時のコマンド・エージェント・スキル | L2202 |
 | 昇格パターン集 | L2226 |
 | Current Active / Spec Created Tasks | L2228 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L2388 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L2389 |
 
 ### references/task-workflow-backlog-part2.md
 

@@ -22,3 +22,4 @@ scripts/audit-correlation/** @daishiman
 .github/workflows/audit-correlation-verify.yml @daishiman
 docs/30-workflows/** @daishiman
 .claude/skills/**/references/** @daishiman
+infra/sentry-alerts/** @daishiman
