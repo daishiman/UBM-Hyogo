@@ -22,6 +22,20 @@
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-members-page-prototype-alignment-artifact-inventory.md` |
 | user gate | staging deploy, production-equivalent visual evidence, commit, push, PR |
 
+### fix-admin-server-components-render-error-stg（2026-05-23）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_runtime_pending / implementation / NON_VISUAL` |
+| 成果物 | `docs/30-workflows/fix-admin-server-components-render-error-stg/` |
+| 関連 PR | #849 admin dashboard runtime smoke |
+| 目的 | staging `/admin` Server Components render error digest `167275886` を、admin Server Component fetch の env 解決修正で復旧する |
+| in-cycle implementation | `apps/web/src/lib/admin/server-fetch.ts` の `getEnv()` 経由化と localhost fallback 撤去、`apps/web/src/lib/env.ts` の `INTERNAL_AUTH_SECRET` optional schema 追加 |
+| tests | `apps/web/src/lib/admin/__tests__/server-fetch.env.spec.ts`, `apps/web/src/lib/__tests__/env.spec.ts`（focused Vitest 13 PASS） |
+| Phase 12 | strict 7 outputs + canonical compliance check present |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-fix-admin-server-components-render-error-stg-artifact-inventory.md` |
+| user gate | Cloudflare staging deploy, authenticated `/admin` curl, backend-ci rerun, commit, push, PR |
+
 ### apps-web-security-headers-hardening（2026-05-23）
 
 | 項目 | 値 |
