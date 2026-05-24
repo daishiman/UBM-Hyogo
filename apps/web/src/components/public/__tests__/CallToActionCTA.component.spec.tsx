@@ -81,4 +81,25 @@ describe("CallToActionCTA", () => {
     render(<CallToActionCTA responderUrl="https://x.example/" />);
     expect(screen.getByText("FOR MEMBERS")).not.toBeNull();
   });
+
+  it("uses data-role driven structure (data-role: inner/copy/eyebrow/heading/body/cta-button)", () => {
+    const { container } = render(<CallToActionCTA responderUrl="https://x.example/" />);
+    const section = container.querySelector('[data-component="call-to-action-cta"]');
+    expect(section).not.toBeNull();
+    expect(section?.querySelector('[data-role="inner"]')).not.toBeNull();
+    expect(section?.querySelector('[data-role="copy"]')).not.toBeNull();
+    expect(section?.querySelector('[data-role="eyebrow"]')).not.toBeNull();
+    expect(section?.querySelector('[data-role="heading"]')).not.toBeNull();
+    expect(section?.querySelector('[data-role="body"]')).not.toBeNull();
+    const button = section?.querySelector('[data-role="cta-button"]');
+    expect(button).not.toBeNull();
+    expect(button?.getAttribute("data-variant")).toBe("accent");
+  });
+
+  it("does not retain legacy BEM-like className 'call-to-action-cta__*'", () => {
+    const { container } = render(<CallToActionCTA responderUrl="https://x.example/" />);
+    const html = container.innerHTML;
+    expect(html.includes("call-to-action-cta__")).toBe(false);
+    expect(html.includes("cta-button--accent")).toBe(false);
+  });
 });

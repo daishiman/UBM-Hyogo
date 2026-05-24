@@ -1,7 +1,7 @@
 {
   "$schema": "../../../../docs/30-workflows/task-709-visual-baseline-runtime-capture/schemas/baseline-meta.schema.json",
-  "captured_at_commit_sha": "04a8b6fc34a63e592ad19864d5d5f372868b1b64",
-  "captured_at": "2026-05-23T23:18:56Z",
+  "captured_at_commit_sha": "c0a9b0a6ef197f0f123b9bc9ba66c534353e7f2a",
+  "captured_at": "2026-05-24T01:50:23Z",
   "captured_via": "playwright-visual-baseline-update.yml#workflow_dispatch",
   "captured_run_ids": [
     "25961551972",
@@ -13,7 +13,8 @@
     "26280741223",
     "26314107860",
     "26315562296",
-    "26346031061"
+    "26346031061",
+    "26348808238"
   ],
   "viewport_dimensions": {
     "desktop": {
@@ -41,5 +42,5 @@
   "refresh_workflow": ".github/workflows/playwright-visual-baseline-update.yml",
   "refresh_command_hint": "gh workflow run playwright-visual-baseline-update.yml -f reason=\"<why>\" -r <feature-branch>",
   "notes": "captured_at_commit_sha からの rendering_relevant_paths diff が空でない場合、baseline は stale。scripts/visual-baseline-status.sh で診断可能。",
-  "last_refresh_reason": "visual-full baseline staleness after dev #889 admin-ui prototype alignment merge into fix/admin-server-components-render-error"
+  "last_refresh_reason": "home page prototype alignment redesign (public-top taller 1626→1694px) + warm text-muted contrast fix; dev sync-merge unified text-muted to canonical #7d6a4d. Baselines stale after token unification — regenerate visual baselines on Linux via workflow_dispatch."
 }
