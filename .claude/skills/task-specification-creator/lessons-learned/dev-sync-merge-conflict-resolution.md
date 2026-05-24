@@ -227,8 +227,36 @@
 - 事例: 2026-05-23 `feat/ut-25-deriv-02-sa-key-expiry-monitoring` ← dev sync で aiworkflow indexes 3 ファイル + `task-workflow-active.md` を `pnpm sync:resolve` で union 自動解消、merge commit 後の `indexes/topic-map.md` +8/-16 drift を単独 chore commit で吸収、typecheck / lint 初回 PASS。
 - 詳細は aiworkflow-requirements 配下の L-DEVSYNC-036 を参照。
 
+### SP-DEVSYNC-029: 修正済 `sync:resolve` で skill union-only conflict は追加コミット不要（2026-05-24 追加）
+- SP-DEVSYNC-028 では「merge commit + chore(indexes) commit の 2 コミット構成が標準」としていたが、`scripts/sync/resolve-skill-merge-conflicts.sh` の rebuild トリガ修正（aiworkflow L-DEVSYNC-036）以降、conflict が skill 系（`indexes/*` + `references/task-workflow-active.md`）のみの union-only ケースでは `pnpm sync:resolve` が `indexes:rebuild` まで内包するため、merge commit **1 コミットで drift ゼロ**に収まる。
+- task 仕様書を書く際: dev sync step では「`pnpm sync:resolve` → `git commit`（merge）→ `pnpm indexes:rebuild` が no drift を返すか確認。drift が出た場合のみ SP-DEVSYNC-028 の chore(indexes) commit にフォールバック」と条件分岐で明示し、常時 2 コミットを強制しない。
+- 適用判断: conflict 一覧が `.claude/skills/*/indexes/*` + `references/task-workflow-active.md` に閉じる場合のみ。ソースコード / completed-tasks doc を含む場合は L-DEVSYNC-003 等の個別ルールを併用。
+- 事例: 2026-05-24 `feat/home-page-prototype-alignment` ← dev sync で skill 系 5 ファイル（`indexes/{keywords.json, quick-reference.md, resource-map.md, topic-map.md}` + `references/task-workflow-active.md`）のみ conflict。`pnpm sync:resolve` 一発で全自動解消（union 4 + ours 1 + 内包 rebuild）、merge commit 後 no drift、`verify-pr-ready` / push 初回 PASS、追加 chore commit 不要。
+- 詳細は aiworkflow-requirements 配下の L-DEVSYNC-037 を参照。
+
 ### SP-DEVSYNC-008: 同一 React Component への並行 feature 追加 conflict は L-DEVSYNC-033 適用
 - task 仕様書 Phase 4-5（implementation）で同一 React component に hook / state / JSX modal を追加する task が並行する場合、dev sync-merge で 3-way conflict が必発する。
 - 解消: aiworkflow-requirements `lessons-learned-dev-sync-merge-conflict-resolution-2026-05.md` の **L-DEVSYNC-033** に従い、hook 命名・JSX 子要素が disjoint であれば SP-DEVSYNC-001 と同じ regex で機械的両側採用。
 - task 仕様書側の予防策: Phase 5 step で「対象 component 内 state 追加位置」を明示し、既存 hook ブロックの末尾追記とする（先頭/中間挿入を避ける）ことで sync-merge 時の機械的解消成功率を上げる。
 - 事例: 2026-05-21 Issue #778（rollback/undo） ← dev (#776 bulk resolve) の SchemaDiffPanel.tsx / spec / api.ts / specs ×2 全 5 ファイル両側 union 解消、typecheck/lint/verify-pr-ready 全 PASS。
+
+### SP-DEVSYNC-029: `process.env` 直読み → `getEnv()` 移行は dev cloudflare-context 優先で e2e が 401 になる（2026-05-24 追加）
+- 症状: `apps/web` の server-side fetch を `process.env["INTERNAL_API_BASE_URL"]` 直読みから `getEnv().INTERNAL_API_BASE_URL` へ統一する task の後、e2e (mobile-webkit 等) で `admin api /admin/meetings/sess-1 failed: 401` が多発。fixture (`PLAYWRIGHT_*_FIXTURE`) を持つ admin spec は実 fetch 前に short-circuit するため緑のまま、fixture の無い meetings detail / attendance / issue-819 系だけが落ちるため「特定 spec 群だけ謎の 401」に見える。
+- 原因: `next.config.ts` の `initOpenNextCloudflareForDev()` により dev:webpack でも `getCloudflareContext()` が機能し、`env.ts` の `readRawEnv()` が cloudflare context（= `wrangler.toml [vars]` の**本番** `INTERNAL_API_BASE_URL`）を **process.env より優先**する。Playwright webServer が process.env へ注入する `INTERNAL_API_BASE_URL=http://127.0.0.1:8787`（mock API）が無視され、SSR fetch が本番 API へ飛んで認証なし 401。
+- 解消（恒久対応）: `readRawEnv()` で `PLAYWRIGHT_TEST=1`（Playwright `localEnv` が必ず注入）のときだけ `{ ...cloudflareEnv, ...processEnv }` と process.env override を優先する。本番 Workers は process.env に config を持たないので no-op。unit は `apps/web/src/lib/__tests__/env.spec.ts` に override / non-override 両ケースを追加。
+- task 仕様書を書く際: `apps/web` の env 参照経路を変更する（`process.env` → `getEnv()` 統一を含む）task は、Phase 5 に「dev:webpack の cloudflare-context が process.env より優先される点を確認し、e2e mock API 切替が壊れないことを `PLAYWRIGHT_TEST` 経路で担保する」、Phase 11 evidence に「fixture を持たない SSR fetch 系 spec（meetings detail / attendance）の e2e 緑」を明示する。
+- 関連: fixture 追加経路は [[SP-DEVSYNC-016]]（`scripts/e2e-mock-api.mjs` server-side mock）。env 正本仕様は aiworkflow-requirements `references/architecture-admin-api-client.md` §2.2。
+- Why: 「env アクセスを getEnv に一本化」という正しい invariant 遵守が、dev local の env 解決順序という別レイヤの仕様と衝突して e2e のみ壊す盲点。grep で気付けないため lessons-learned 化して再発時の切り分け時間を消す。
+
+### SP-DEVSYNC-030: design-token 並行 a11y 修正衝突は task 仕様書で「3 SSOT 統一 + visual baseline 再生成」を逐語化（2026-05-24 追加）
+- prototype alignment / a11y contrast 系 task が並行すると、`--ubm-color-text-muted` 等の design-token が HEAD/dev 双方で**異なる HEX 値**へ darken される並行修正衝突が dev sync-merge で発生する。append-only 両側採用（SP-DEVSYNC-001）は同一 token 二重宣言になるため**適用禁止**。
+- 解消: aiworkflow-requirements `lessons-learned-dev-sync-merge-conflict-resolution-2026-05.md` の **L-DEVSYNC-038** に従い、(1) canonical dev 値へ 1 値統一、(2) `apps/web/src/styles/tokens.css` + `docs/00-getting-started-manual/specs/09b-design-tokens.md` の table 行 + 同 JSON `value` の **3 SSOT すべて**へ同値適用、(3) `verify-design-tokens` gate（tokens.css ↔ spec 一致検査）で担保。
+- task 仕様書を書く際の予防策:
+  - design-token を変更する task は Phase 5 step に「token 値の正本は 3 箇所（tokens.css / spec table / spec JSON）。1 箇所変更時は必ず 3 箇所同時更新し `verify-design-tokens` 相当を pre-push 確認」を逐語明示する。
+  - prototype alignment / token 変更を含む task は Phase 4 (test-plan) と Phase 11 (evidence) に「visual baseline (`-linux.png`) が token 変更で stale 化する。darwin ローカル再生成不可のため dev sync 後 push で CI fail したら `playwright-visual-baseline-update.yml` を workflow_dispatch 再生成」を必ず織り込む（[[L-VISBASE-001]] 連携）。
+  - 並行衝突の予防として、同種の a11y contrast 修正 task を複数 wave で走らせる場合は「token 値は dev を待って 1 本化」を SCOPE に明記し、HEAD/dev 二重 darken を避ける。
+- **⚠️ a11y 退行の盲点（task 仕様書に必ず織り込む）**: design-token のコントラスト値は「根拠コメントに書かれた surface」だけでなく **その token が実際に乗る全 surface のうち最暗のもの**で AA を検証する。`text-muted` を AppShell footer (`surface-bg-2 #eee5d5`) 上の copyright に使うと、panel 想定で calibrate された値（dev `#7d6a4d`=5.08:1 on panel）でも **4.16:1 で AA 未達**になる。token 衝突を「値統一」だけで閉じると、pre-flight gate（`verify-pr-ready` は axe 非実行）を素通りし push 後 e2e `a11y.spec.ts` で初めて落ちる。
+  - 正しい修正方針: token を更に darken せず **usage 面（footer の color を `text-muted` → `text-secondary`）で修正**する。token は dev canonical 値を維持でき、将来 feature→dev 再衝突回避 + visual baseline blast radius 最小化の二重メリット。
+  - task 仕様書を書く際: design-token / AppShell surface（`data-shell="footer"` 等）を触る task の Phase 4 (test-plan) に「token × surface の全組合せ contrast を最暗 surface まで列挙し AA 検証。最暗 surface で未達なら usage 面修正（より濃い token へ）を優先」を逐語明示する。
+- 事例: 2026-05-24 `feat/home-page-prototype-alignment` ← dev sync で `--ubm-color-text-muted` を HEAD `#76664a` / dev `#7d6a4d` の並行 darken 衝突として検出、dev `#7d6a4d` を 3 SSOT へ統一。push 後 e2e a11y が footer copyright on bg-2（4.16:1）で fail（home ブランチに pre-merge から潜在）→ public-footer の color を `text-secondary`（5.31:1）へ変更して解消、token は dev 値維持。
+- 詳細は aiworkflow-requirements 配下の L-DEVSYNC-038 を参照。

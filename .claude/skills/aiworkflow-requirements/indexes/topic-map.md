@@ -89,14 +89,14 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 1. 構成図 | L15 |
 | 2. Server-side fetch（`apps/web/src/lib/admin/server-fetch.ts`） | L49 |
-| 3. Client-side mutation（`apps/web/src/lib/admin/api.ts`） | L109 |
-| 4. BFF proxy（`apps/web/app/api/admin/[...path]/route.ts`） | L181 |
-| 5. ステータスコード処理方針 | L238 |
-| 6. 環境変数 | L270 |
-| 7. 不変条件サマリ（admin API client / proxy） | L283 |
-| 8. 関連ドキュメント | L295 |
-| 9. 06c-A Admin Dashboard 契約 (2026-05-02) | L303 |
-| 10. Self-service BFF proxy（`apps/web/app/api/me/[...path]/route.ts`） | L320 |
+| 3. Client-side mutation（`apps/web/src/lib/admin/api.ts`） | L110 |
+| 4. BFF proxy（`apps/web/app/api/admin/[...path]/route.ts`） | L182 |
+| 5. ステータスコード処理方針 | L239 |
+| 6. 環境変数 | L271 |
+| 7. 不変条件サマリ（admin API client / proxy） | L284 |
+| 8. 関連ドキュメント | L296 |
+| 9. 06c-A Admin Dashboard 契約 (2026-05-02) | L304 |
+| 10. Self-service BFF proxy（`apps/web/app/api/me/[...path]/route.ts`） | L321 |
 
 ### references/architecture-auth-security-core.md
 
@@ -1743,6 +1743,15 @@ node scripts/list-specs.js --topics
 | TASK-IMP-IPC-LAYER-INTEGRITY-FIX-001 の読み分け | L17 |
 | 関連ドキュメント | L23 |
 
+### references/security-web-response-headers.md
+
+| セクション | 行 |
+|------------|----|
+| Canonical Contract | L3 |
+| Env Boundary | L16 |
+| User-gated Follow-ups | L20 |
+| Workflow | L29 |
+
 ---
 
 ## 技術スタック
@@ -2227,6 +2236,21 @@ node scripts/list-specs.js --topics
 | 関連ドキュメント | L117 |
 | 変更履歴 | L131 |
 
+### references/workflow-apps-web-security-headers-hardening-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Workflow Root | L3 |
+| Implementation | L12 |
+| System Spec Sync | L21 |
+| Boundary | L32 |
+
+### references/workflow-ci-green-recovery-smoke-coverage-shard-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Contract | L21 |
+
 ### references/workflow-ci-staging-deploy-failure-fix-artifact-inventory.md
 
 | セクション | 行 |
@@ -2255,6 +2279,12 @@ node scripts/list-specs.js --topics
 | Evidence Artifacts | L24 |
 | Boundary | L39 |
 
+### references/workflow-fix-admin-server-components-render-error-stg-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Runtime Boundary | L14 |
+
 ### references/workflow-fix-cf-deploy-esbuild-import-source-staging-failure-artifact-inventory.md
 
 | セクション | 行 |
@@ -2282,6 +2312,14 @@ node scripts/list-specs.js --topics
 | 3. SKILL.md 入口導線 | L80 |
 | 4. 関連ファイル | L86 |
 | 変更履歴 | L93 |
+
+### references/workflow-home-page-prototype-alignment-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Classification | L16 |
+| Implementation Targets | L20 |
+| Boundary | L28 |
 
 ### references/workflow-i01-toastprovider-root-mount-artifact-inventory.md
 
@@ -2938,6 +2976,15 @@ node scripts/list-specs.js --topics
 | 関連改善タスク | L132 |
 | 関連ドキュメント | L142 |
 | 変更履歴 | L152 |
+
+### references/workflow-login-page-prototype-alignment-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Metadata | L3 |
+| Implementation Targets | L12 |
+| Skill Compliance | L28 |
+| Boundaries | L36 |
 
 ### references/workflow-onboarding-wizard-alignment.md
 
@@ -4324,7 +4371,8 @@ node scripts/list-specs.js --topics
 | Long-term analytics evidence | L290 |
 | c-A production execution workflow | L296 |
 | CI build-time env injection for OpenNext Workers | L311 |
-| 変更履歴 | L321 |
+| Response security headers via middleware | L321 |
+| 変更履歴 | L338 |
 
 ### references/deployment-cloudflare-ut06-gate.md
 
@@ -7395,14 +7443,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L2090 |
-| フェーズ構造（概要） | L2099 |
-| 品質ゲート（概要） | L2130 |
-| 出力テンプレート | L2141 |
-| 実行時のコマンド・エージェント・スキル | L2164 |
-| 昇格パターン集 | L2188 |
-| Current Active / Spec Created Tasks | L2190 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L2350 |
+| ドキュメント構成 | L2159 |
+| フェーズ構造（概要） | L2168 |
+| 品質ゲート（概要） | L2199 |
+| 出力テンプレート | L2210 |
+| 実行時のコマンド・エージェント・スキル | L2233 |
+| 昇格パターン集 | L2257 |
+| Current Active / Spec Created Tasks | L2259 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L2419 |
 
 ### references/task-workflow-backlog-part2.md
 

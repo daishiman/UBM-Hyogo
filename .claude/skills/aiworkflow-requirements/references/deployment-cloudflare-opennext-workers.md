@@ -318,10 +318,28 @@ Production deploy execution は `docs/30-workflows/completed-tasks/09c-A-product
 
 Regression anchor: `apps/web/src/lib/__tests__/build-time-env.spec.ts`
 
+## Response security headers via middleware
+
+`apps/web` response security headers are injected in `apps/web/middleware.ts`, not in `next.config.ts headers()`. This keeps the OpenNext Workers runtime path aligned with existing admin/profile auth middleware and allows `getPublicEnv().NEXT_PUBLIC_API_BASE_URL` to be used for CSP `connect-src`.
+
+Canonical contract:
+
+| Header | Policy |
+| --- | --- |
+| `Content-Security-Policy-Report-Only` | Initial CSP rollout. `connect-src` includes `'self'`, `NEXT_PUBLIC_API_BASE_URL`, and Google auth origin. |
+| `Permissions-Policy` | Disables privacy-sensitive browser features and does not list `browsing-topics`. |
+| Trusted Types | `require-trusted-types-for` / `trusted-types` are not emitted in this workflow. |
+| Hardening headers | `Referrer-Policy=strict-origin-when-cross-origin`, `X-Content-Type-Options=nosniff`, `X-Frame-Options=DENY`. |
+
+Workflow: `docs/30-workflows/apps-web-security-headers-hardening/`
+
+Implementation anchors: `apps/web/src/lib/security-headers.ts`, `apps/web/middleware.ts`, `apps/web/playwright/tests/security-headers.spec.ts`.
+
 ## 変更履歴
 
 | 日付 | バージョン | 変更内容 |
 | --- | --- | --- |
+| 2026-05-23 | 1.8.0 | apps-web-security-headers-hardening を同期。OpenNext Workers response security headers は `apps/web/middleware.ts` 注入を正本とし、CSP report-only / Permissions-Policy / Trusted Types 非採用境界を追加 |
 | 2026-05-20 | 1.7.0 | CI staging deploy failure fix を同期。OpenNext build-time env injection (§16) を追加し、runtime env 正本は `apps/web/wrangler.toml`、deploy secret は deploy step scoped のままに固定 |
 | 2026-05-09 | 1.6.0 | Issue #331 で `.github/workflows/web-cd.yml` の repo-side Pages deploy 残を撤去し、OpenNext Workers build + `scripts/cf.sh deploy` に同期。Cloudflare side retirement / smoke は user-gated 境界として維持 |
 | 2026-05-09 | 1.6.0 | CI pipeline recovery: §11.1 「Build mode の不変条件」を追加。`next build --webpack` を production build 正本とし、Turbopack を local dev 限定に固定。`patch-next-standalone-instrumentation.mjs --verify-only` の emit-skip ガード（commit 532d9ab5）と webpack build path 整合テスト（commit ec0556f9）を併記し、CLAUDE.md の `apps/web` env アクセス不変条件と相互参照 |

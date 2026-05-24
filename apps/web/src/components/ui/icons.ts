@@ -5,4 +5,8 @@ export type IconName =
   | "search"
   | "check"
   | "menu"
-  | "external-link";
+  | "external-link"
+  | "send"
+  | "google"
+  | "inbox"
+  | "arrow-left";
