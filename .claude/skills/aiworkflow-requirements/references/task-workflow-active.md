@@ -8,6 +8,50 @@
 
 本ドキュメントは、複雑なタスクを単一責務の原則に基づいて分解し、各サブタスクに最適なスラッシュコマンド・エージェント・スキルの組み合わせを選定するためのガイドラインを定義する。
 
+### members-page-prototype-alignment（2026-05-23）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / VISUAL` |
+| 成果物 | `docs/30-workflows/completed-tasks/members-page-prototype-alignment/` |
+| 目的 | 公開 `/members` と public header/footer を frozen prototype `MemberListPage` / CSS に合わせる active implementation workflow |
+| 正本 | `docs/00-getting-started-manual/claude-design-prototype/pages-public.jsx`, `docs/00-getting-started-manual/claude-design-prototype/styles.css`, `docs/00-getting-started-manual/specs/09e-screen-blueprints-public.md` |
+| implementation targets | `apps/web/src/components/public/{PublicHeader,PublicFooter,DensityToggle.client,MemberFilters.client,MemberCard,MemberGrid,MemberTable}.tsx`, `apps/web/src/components/feedback/EmptyState.tsx`, `apps/web/src/components/ui/Segmented.tsx`, `apps/web/src/styles/legacy-public.css`, `apps/web/app/(public)/members/page.tsx` |
+| boundary | Existing `GET /public/members` and `apps/web/src/lib/url/members-search.ts` remain unchanged. No API endpoint, D1 schema, Auth.js, Google Form, or Cloudflare binding change. |
+| evidence | Phase 12 strict 7 present. Phase 11 local screenshots `EV-1..6`, runtime notes, and Playwright report are physically present. |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-members-page-prototype-alignment-artifact-inventory.md` |
+| user gate | staging deploy, production-equivalent visual evidence, commit, push, PR |
+
+### Issue #827 member detail adapter and visibility defense（2026-05-23）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / NON_VISUAL` |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-827-member-detail-adapter-and-visibility-defense/` |
+| Issue | #827 CLOSED。PR 文脈は `Refs #827` のみ |
+| 目的 | `/members/[id]` public member detail に pure adapter を追加し、UI 層でも `visibility === "public"` を再確認する二重防御を入れる |
+| implementation targets | `apps/web/src/lib/adapters/member-detail.ts`, `apps/web/src/lib/adapters/__tests__/member-detail.spec.ts`, `apps/web/src/components/public/MemberDetailSections.tsx`, `apps/web/src/components/public/__tests__/MemberDetailSections.component.spec.tsx`, `apps/web/app/(public)/members/[id]/page.tsx` |
+| contract | adapter は最初に全 section fields を `visibility="public"` に正規化し、その `allSections` を `MemberLinks` / `MemberActivity` へ渡す。`detailSections` は `activity` を除外し、`shortText/paragraph/date/radio/checkbox/dropdown` のみを含む。`url` は `MemberLinks`、`activity` は `MemberActivity` が消費する |
+| evidence | apps/web Vitest 888 PASS、workspace typecheck/lint PASS、web build PASS。Phase 12 strict 7 / root-output artifacts parity present |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-827-member-detail-adapter-and-visibility-defense-artifact-inventory.md` |
+| user gate | commit / push / PR / issue mutation / deployment verification |
+
+### home-page-prototype-alignment（2026-05-23）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented / implementation / VISUAL / local runtime screenshots captured` |
+| 成果物 | `docs/30-workflows/home-page-prototype-alignment/` |
+| historical parent | `docs/30-workflows/ui-prototype-alignment-mvp-recovery/` |
+| current implementation owner | `docs/30-workflows/ui-prototype-design-system-foundation/` |
+| 目的 | public home `/` の prototype drift を `legacy-public.css` selector rules と `CallToActionCTA` data-role cleanup で解消 |
+| implementation targets | `apps/web/src/styles/legacy-public.css`, `apps/web/src/components/public/CallToActionCTA.tsx`, `apps/web/src/components/public/__tests__/CallToActionCTA.component.spec.tsx`, `apps/web/app/opengraph-image.tsx`, `apps/web/app/(public)/members/[id]/opengraph-image/route.tsx` |
+| 実行順 | task-01 CSS marker block → task-02 CTA selector rewrite（同一 `legacy-public.css` 編集のため直列） |
+| Phase 11 | local screenshots: `outputs/phase-11/screenshots/home-desktop-2026-05-23.png`, `outputs/phase-11/screenshots/home-mobile-2026-05-23.png` |
+| Phase 12 | strict 7 outputs + canonical compliance check present |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-home-page-prototype-alignment-artifact-inventory.md` |
+| user gate | staging deploy, commit, push, PR |
+
 ### login-page-prototype-alignment（2026-05-23）
 
 | 項目 | 値 |

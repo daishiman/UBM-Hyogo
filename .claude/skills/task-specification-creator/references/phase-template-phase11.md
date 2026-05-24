@@ -346,6 +346,49 @@ GitHub Actions OIDC、Cloudflare deploy auth、branch protection、external IdP 
 
 この matrix は `phase12-task-spec-compliance-check.md` の 4 条件（矛盾なし / 漏れなし / 整合性 / 依存関係整合）の根拠にする。
 
+## Adapter 層 phase 11 evidence pattern（serial-06 form response binding 由来）
+
+**Anchor**: 「adapter unit test evidence / Playwright fixture mock 戦略」
+
+### 適用条件
+
+- `apps/web/src/lib/adapters/**` の pure function 追加・変更タスク
+- adapter 出力が UI コンポーネントの可視性 / 分類 / 並びを決定する
+- vitest unit + Playwright E2E + visual snapshot の 3 系統で evidence を取る
+
+### 必須 evidence セット
+
+| ファイル | 役割 | PASS 条件 |
+| --- | --- | --- |
+| `outputs/phase-11/adapter-unit-test.log`（または `.txt`） | adapter pure function の vitest 実行ログ | 全 branch 通過 / coverage 100% / `it.todo` 残留 0 件 |
+| `outputs/phase-11/adapter-coverage.json` | branch / line / statement coverage（vitest c8） | adapter 対象ファイルが全て 100% （pure なので妥協不可） |
+| `outputs/phase-11/playwright-fixture-mock.log` | Playwright で fixture を `page.route()` 経由 mock した実行ログ | fixture の shape が adapter input 型と一致、Server Component 経由は `INTERNAL_API_BASE_URL` 差し替え |
+| `outputs/phase-11/visual-snapshot/*.png` | visual snapshot（baseline + 差分） | flaky 0 / OS 依存抑制（`maskColor` / `threshold` 明記） |
+| `outputs/phase-11/visibility-grep.log` | API 正規化 + adapter 再フィルター + UI assertion の 3 段 grep | 3 段すべてで「非表示対象が存在しない」ことを grep で確認 |
+
+### Fixture 配置の不変条件
+
+- adapter unit test と Playwright mock は **同一 fixture を共有**する: `apps/web/src/fixtures/<name>.ts`（`export const ...` で TypeScript として import 可能）
+- JSON ファイル + Playwright `route.fulfill({ json: ... })` 経由 / vitest からの直 import の両方で同値を使えるよう、shape は zod schema で固定
+- fixture を vitest と Playwright で別管理にしない（adapter 入出力 contract が二重定義になり drift する）
+
+### Visibility 二重防御の evidence 表現
+
+production console 汚染防止のため、unknown kind を adapter で silent skip する場合は、以下を Phase 11 evidence に明示する:
+
+| 層 | 検証 | evidence |
+|----|------|----------|
+| API 正規化層 | hidden / archived レコードを返さない | `outputs/phase-11/api-filter.log`（curl + jq 件数） |
+| adapter 再フィルター | API 由来の正規化漏れを再フィルター + unknown kind は silent skip（logger 呼ばない） | vitest branch coverage 100% + `console.warn` spy が 0 回 call されたこと |
+| UI assertion | DOM 上に hidden 要素が出ない | Playwright `expect(locator).toHaveCount(0)` / visual snapshot 差分 0 |
+
+unknown kind を `console.warn` / `logger.warn` で出すと production log に流れ込み、ログ予算を圧迫する。silent skip を選んだ場合は **同 wave で `unassigned-task-detection.md` に「unknown kind 監視は dev-mode warn として後続タスク化」** を残す（serial-06 では `serial-06-followup-002-adapter-dev-warn-unknown-kind.md` として formalize 済）。
+
+### Phase 12 compliance との接続
+
+- `phase-12-compliance-check.md`（sub 配下）の canonical 9 headings 内 `## 4. Phase 11 evidence file inventory` で上 5 ファイルを `status: present` 行として列挙する
+- parent root `outputs/phase-12/skill-feedback-report.md` に adapter pure function / fixture 共有 / visibility 二重防御 / unknown kind silent skip / vitest + Playwright + visual 3 系統 evidence の昇格知見を集約する（sub 単体に複製しない）
+
 ## Tailwind v4 / PostCSS build artifact verification（VISUAL_ON_EXECUTION build pipeline タスク）
 
 **Anchor**: 「Tailwind v4 / PostCSS build artifact verification」

@@ -107,10 +107,12 @@
   --ubm-color-border-strong: #d8c9b0;
   --ubm-color-text-primary: #22180a;
   --ubm-color-text-secondary: #6b5a42;
-  /* WCAG 2 AA 4.5:1 against --ubm-color-surface-panel (#fffcf6).
-     Previous #9a8a6e gave 3.28:1 (axe a11y fail on /login .en and OR divider).
-     #7d6a4d gives ~5.13:1. */
-  --ubm-color-text-muted: #7d6a4d;
+  /* WCAG 2 AA 4.5:1 fix. worst case は panel(#fffcf6) ではなく最暗 warm surface
+     --ubm-color-surface-bg-2 (#eee5d5)。dev は panel 基準で #7d6a4d を採用したが、
+     #7d6a4d は bg-2 で 4.15:1 と AA 未達（axe serious: footer copyright / OR divider 等）。
+     #9a8a6e=3.28:1 も同様に未達。#736449 は bg-2 で 4.61:1、panel(#fffcf6) で ~5.4:1 と
+     全 warm surface で AA 充足するため、sync-merge では実測 axe gate を通る #736449 を正とする。 */
+  --ubm-color-text-muted: #736449;
   --ubm-color-accent: oklch(0.52 0.13 50);
   --ubm-color-accent-soft: oklch(0.94 0.05 60);
   --ubm-color-accent-ink: oklch(0.36 0.12 50);
