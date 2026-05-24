@@ -2947,6 +2947,12 @@ node scripts/list-specs.js --topics
 | Evidence | L22 |
 | Boundary | L32 |
 
+### references/workflow-issue-832-admin-topbar-primitive-extraction-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Boundaries | L16 |
+
 ### references/workflow-issue-836-schema-alias-recompute-trigger-artifact-inventory.md
 
 | セクション | 行 |
@@ -3002,6 +3008,17 @@ node scripts/list-specs.js --topics
 |------------|----|
 | State | L25 |
 | Boundary | L31 |
+
+### references/workflow-mypage-prototype-alignment-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Metadata | L3 |
+| Current Canonical Artifacts | L15 |
+| Implementation Targets | L26 |
+| Contract Summary | L36 |
+| Evidence Boundary | L46 |
+| Same-Wave Sync | L50 |
 
 ### references/workflow-onboarding-wizard-alignment.md
 
@@ -4746,15 +4763,15 @@ node scripts/list-specs.js --topics
 
 | セクション | 行 |
 |------------|----|
-| 概要 | L24 |
-| 使い方 | L32 |
-| Current Alias Overrides（個別互換行） | L39 |
-| Family Summary | L85 |
-| Detailed Register | L106 |
-| Section Extract Register (2026-03-17) | L287 |
-| 500-Line Split Register (2026-03-16) | L298 |
-| Fragment Migration Register (2026-04-28) | L320 |
-| Task Root Path Drift Register (2026-04-30 追記) | L347 |
+| 概要 | L25 |
+| 使い方 | L33 |
+| Current Alias Overrides（個別互換行） | L40 |
+| Family Summary | L86 |
+| Detailed Register | L107 |
+| Section Extract Register (2026-03-17) | L288 |
+| 500-Line Split Register (2026-03-16) | L299 |
+| Fragment Migration Register (2026-04-28) | L321 |
+| Task Root Path Drift Register (2026-04-30 追記) | L348 |
 
 ### references/lessons-fetch-service-binding-testing.md
 
@@ -6337,8 +6354,8 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 概要 | L3 |
 | 仕様書インデックス | L7 |
-| 利用順序 | L118 |
-| 関連ドキュメント | L123 |
+| 利用順序 | L119 |
+| 関連ドキュメント | L124 |
 
 ### references/llm-embedding.md
 
@@ -7475,14 +7492,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L2198 |
-| フェーズ構造（概要） | L2207 |
-| 品質ゲート（概要） | L2238 |
-| 出力テンプレート | L2249 |
-| 実行時のコマンド・エージェント・スキル | L2272 |
-| 昇格パターン集 | L2296 |
-| Current Active / Spec Created Tasks | L2298 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L2458 |
+| ドキュメント構成 | L2226 |
+| フェーズ構造（概要） | L2235 |
+| 品質ゲート（概要） | L2266 |
+| 出力テンプレート | L2277 |
+| 実行時のコマンド・エージェント・スキル | L2300 |
+| 昇格パターン集 | L2324 |
+| Current Active / Spec Created Tasks | L2326 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L2486 |
 
 ### references/task-workflow-backlog-part2.md
 
