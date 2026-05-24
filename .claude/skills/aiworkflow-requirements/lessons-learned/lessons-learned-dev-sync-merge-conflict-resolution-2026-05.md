@@ -508,3 +508,14 @@
 - 解消: スクリプト側に `need_rebuild` フラグを導入し、`apply_union` 要素のパスが `.claude/skills/*/indexes/*` に該当する場合または `apply_ours` が非空の場合に `indexes:rebuild` を呼ぶよう修正。
 - How to apply: dev sync 後に pre-push が `indexes-drift-guard` で fail したら `pnpm indexes:rebuild` を明示実行 → drift 差分を `chore(indexes): rebuild skill indexes after dev sync` で commit → 再 push。修正済 `sync:resolve` 利用後は本症状は再発しない想定。
 - 事例: 2026-05-23 `feat/step-07-requests-approve-reject` ← dev sync-merge。union 3 件（`indexes/{quick-reference.md, resource-map.md, topic-map.md}`）のみ conflict、`apply_ours` 0 件 → rebuild スキップ → push で `topic-map.md` に 1 file/9 行 drift 検出。スクリプト修正 + 手動 rebuild commit で push 成立。
+
+## L-DEVSYNC-037: 修正済 `sync:resolve`（`need_rebuild` フラグ導入後）は merge commit 単独で drift ゼロを実現し別 chore commit が不要（2026-05-24 追加）
+- 症状（解消後の正常系）: L-DEVSYNC-036 で導入した `need_rebuild` フラグにより、`apply_ours`（`indexes/keywords.json`）を含む conflict では `pnpm sync:resolve` の内部で `pnpm indexes:rebuild` が**自動実行**される。その結果、merge commit を作成した時点で `git status --porcelain` が空（drift ゼロ）になり、SP-DEVSYNC-028 / L-DEVSYNC-036(1件目) で標準化していた「merge commit 後の別 chore(indexes) commit」が**不要**になる。
+- 検証: merge commit 直後に `pnpm indexes:rebuild` を後追い実行しても `git status --porcelain` が空のままであることを確認すれば、resolver 内 rebuild が効いた証跡になる。drift が出る場合のみ L-DEVSYNC-036 の手動 rebuild commit にフォールバックする。
+- Why: 旧運用（L-DEVSYNC-036(2件目) 修正前）は「union-only ケースで rebuild スキップ → pre-push `indexes-drift-guard` で fail」が頻発し、毎回 merge commit + chore(indexes) commit の 2 コミット構成を要した。`need_rebuild` フラグ（`apply_union` パスが `.claude/skills/*/indexes/*` に該当 **または** `apply_ours` 非空で rebuild）により、union-only / ours 混在いずれのケースでも resolver 完走時点で indexes が正規化済みになる。これにより「2 コミット構成が標準」だった前提が「resolver が rebuild した場合は 1 コミット」に更新される。
+- How to apply: dev sync prompt 自律判断ルール B の resolver 後処理を次の分岐に更新する:
+  1. `pnpm sync:resolve` 完走 → `git status --porcelain | grep '^UU'` で残コンフリクトを確認（あれば `awk | xargs git add`、L-DEVSYNC-035）
+  2. merge commit 作成（`git commit --no-edit`、`staged-task-dir-guard` は `MERGE_HEAD` 存在時 auto-skip）
+  3. `pnpm indexes:rebuild` を後追い → **drift ゼロなら追加コミット不要（本 L-DEVSYNC-037）**／drift 出現時のみ L-DEVSYNC-036 の chore(indexes) commit で吸収
+  4. `pnpm typecheck && pnpm lint` を確認して push
+- 事例: 2026-05-24 `feat/mypage-prototype-alignment` ← dev sync-merge（8 behind / 3 ahead）。`pnpm sync:resolve` で 6 ファイル（`SKILL.md` + `indexes/{quick-reference,resource-map,topic-map}.md` を union、`indexes/keywords.json` を `apply_ours`、`references/task-workflow-active.md` を union）解消、`apply_ours` 非空のため resolver 内 `indexes:rebuild` 自動実行 → merge commit 作成 → 後追い `pnpm indexes:rebuild` で drift ゼロ確認、chore commit 不要。typecheck / lint 全パッケージ初回 PASS。task-specification-creator skill 側 SP-DEVSYNC-030 と対応。
