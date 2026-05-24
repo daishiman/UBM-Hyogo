@@ -4748,15 +4748,15 @@ node scripts/list-specs.js --topics
 
 | セクション | 行 |
 |------------|----|
-| 概要 | L33 |
-| 使い方 | L41 |
-| Current Alias Overrides（個別互換行） | L48 |
-| Family Summary | L94 |
-| Detailed Register | L115 |
-| Section Extract Register (2026-03-17) | L296 |
-| 500-Line Split Register (2026-03-16) | L307 |
-| Fragment Migration Register (2026-04-28) | L329 |
-| Task Root Path Drift Register (2026-04-30 追記) | L356 |
+| 概要 | L26 |
+| 使い方 | L34 |
+| Current Alias Overrides（個別互換行） | L41 |
+| Family Summary | L87 |
+| Detailed Register | L108 |
+| Section Extract Register (2026-03-17) | L289 |
+| 500-Line Split Register (2026-03-16) | L300 |
+| Fragment Migration Register (2026-04-28) | L322 |
+| Task Root Path Drift Register (2026-04-30 追記) | L349 |
 
 ### references/lessons-fetch-service-binding-testing.md
 
