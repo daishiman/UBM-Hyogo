@@ -81,6 +81,14 @@
 - Deferred to derivative tasks (impl-required): `UT-CICD-DRIFT-IMPL-PAGES-VS-WORKERS-DECISION` (HIGH / DRIFT-03 起源), `UT-CICD-DRIFT-IMPL-OBSERVABILITY-MATRIX-SYNC` (HIGH / DRIFT-06), `UT-CICD-DRIFT-IMPL-COMPOSITE-SETUP` (MEDIUM), `UT-CICD-DRIFT-IMPL-REUSABLE-QUALITY` (MEDIUM), `UT-CICD-DRIFT-IMPL-WORKFLOW-LINT-GATE` (MEDIUM), `UT-CICD-DRIFT-IMPL-CRON-CONSOLIDATION` (LOW), `UT-CICD-DRIFT-IMPL-VERIFY-INDEXES-TRIGGER` (LOW)
 - Invariants: #5 (D1 access apps/api 限定) / #6 (GAS prototype non-promote) → 全 5 workflow / 両 wrangler.toml で抵触なし
 - Related: UT-GOV-001 (branch protection workflow 名整合), UT-GOV-003 (CODEOWNERS `.github/workflows/**` 整合), UT-26 (staging-deploy-smoke), 05a observability-matrix
+
+## 2026-05-23 - Issue #836 schema alias recompute trigger
+
+- Task path: `docs/30-workflows/completed-tasks/issue-836-schema-alias-recompute-trigger/`
+- Type: implementation / VISUAL / spec_created / Phase 12 strict 7 present / runtime_pending
+- Synchronized CLOSED Issue #836 without reopening it. Recompute is defined as `response_fields.stable_key` reverse-backfill, not a new aggregate view.
+- Source follow-up `docs/30-workflows/completed-tasks/serial-05-step-03-followup-005-schema-alias-recompute-trigger.md` consumed via canonical workflow.
+- Runtime implementation, D1 migration apply, visual evidence, commit, push, and PR remain user-gated.
 | 2026-05-16 | issue-717-oidc-cf-full-migration | verified_current_no_code_change_pending_pr / implementation / NON_VISUAL / conditional | Revalidated Cloudflare Workers GitHub Actions OIDC support. Official Workers GitHub Actions docs and `cloudflare/wrangler-action` README still document API token auth, so no `web-cd.yml` OIDC change was made. Added root/output artifacts parity, Phase 11 revalidation evidence, Phase 12 strict 7 outputs, aiworkflow-requirements sync, artifact inventory, changelog, and 3 formal follow-up tasks. Commit, push, PR, Cloudflare mutation, and deploy remain user-gated. |
 | 2026-05-18 | completed-tasks/fix-ci-cache-and-cf-token-pr795 | implemented_local_evidence_captured | PR #795 residual CI recovery: setup-project cache input default 'pnpm' + install:'false' caller cache:'', backend-ci scoped tokens dual injection (with.apiToken + env.CLOUDFLARE_API_TOKEN). Runtime CI / secret confirmation / commit / push / PR remain user-gated. |
 | 2026-05-19 | issue-777 | admin schema diff resolve history view 仕様書 + 実装（案 A 採用 / 独立 route） |

@@ -2736,3 +2736,8 @@ AC-1〜AC-6 全達成。Phase 10 判定: PASS（MINOR 0件）
 
 - Applied Phase 11 evidence existence and Phase 12 strict 7 compliance rules to `docs/30-workflows/issue-256-e2e-coverage-baseline-runbook/`.
 - Confirmed CLOSED Issue PR wording uses `Refs #256` instead of close keywords.
+
+# 2026-05-23 Issue #836 closed issue freshness tables
+
+- Promoted Issue #836 schema alias recompute trigger feedback into `closed-issue-canonical-workflow-recovery.md`: CLOSED Issue recovery Phase 1 must include current-codebase implementation status and original-assumption/current-reality/optimized-policy tables.
+- Source follow-up 005 is consumed via `docs/30-workflows/completed-tasks/issue-836-schema-alias-recompute-trigger/`.

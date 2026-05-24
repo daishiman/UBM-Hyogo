@@ -323,3 +323,15 @@
 - 事例: `feat/issue-837-schema-alias-bulk-rollback` の dev sync。コンフリクトが `aiworkflow-requirements/indexes/{quick-reference,resource-map,topic-map}.md`（union 対象）と `indexes/keywords.json`（`--ours` + rebuild 対象）に限定された場合、`pnpm sync:resolve` 単体で残件 0、`pnpm verify:pr-ready`（verify:phase12-compliance / gate-metadata:validate / indexes:rebuild drift）も全 PASS まで一気通貫。
 - task 仕様書を書く際: skill 配下を触るタスクの Phase 11/12 で「dev sync は `pnpm sync:resolve` → `git commit`（`MERGE_HEAD` 検出で pre-commit auto skip。`--no-verify` 禁止）→ `pnpm verify:pr-ready`」を実行順として明示する。
 - 詳細は aiworkflow-requirements 側 L-DEVSYNC-013 を参照。
+
+### SP-DEVSYNC-033: legacy-ordinal-family-register.md の先頭 quote block 3-way conflict は spec 上「両側 NOTE 保持 + 最新日付統一」を逐語化（2026-05-24 追加）
+
+- 事象: dev sync-merge で `references/legacy-ordinal-family-register.md` 先頭の `> 最終更新日: <date>` + `> NOTE (...)` 行群が両側追加の 3-way conflict として発生。`pnpm sync:resolve` は `WARN unhandled conflict` で手動 resolve に委ねる。
+- Why: 本 register は wave ごとに「register-skip 宣言 NOTE」を先頭 quote block へ追記する SSOT 運用のため、base `> 最終更新日:` 行が複数 wave で同時更新されると diff3 hunk に膨らむ。table 本体（§Current Alias Overrides 等）は触らない wave が大半で、quote block 限定の union が安全。
+- How to apply（task 仕様書での逐語化）:
+  - Phase 5（実装）/ Phase 9（QA）の sync-merge 節に「`legacy-ordinal-family-register.md` の手動 resolve 手順」として以下を明記:
+    1. `grep -n -E '^(<<<<<<<|=======|>>>>>>>|\|\|\|\|\|\|\|)'` で conflict 範囲が先頭 quote block 内か確認
+    2. 範囲内なら両側 `> NOTE` 行を**両方保持**、`> 最終更新日:` 行はより新しい日付 1 本に統一（古い行は重複削除）
+    3. 範囲が table 本体に及ぶ場合は L-DEVSYNC-032/033 の table-merge ルール（行単位の片側採用 union）に切替
+- 検証: marker grep ゼロ + `verify:phase12-compliance` PASS + `indexes:rebuild` drift は別 chore commit で吸収（SP-DEVSYNC-029 既知パターン併発）。
+- 参照: aiworkflow-requirements L-DEVSYNC-040。

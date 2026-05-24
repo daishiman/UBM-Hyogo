@@ -181,6 +181,16 @@ UI は `responseEmailMasked` だけを表示し、merge reason に含まれる e
 
 rollback / undo 成功時は application `audit_log.action='schema_alias.rollback'` を追加し、元 resolve audit id を `after_json.relatedAuditId` に保存する。`cf_audit_log` は Cloudflare Audit Logs 取り込み専用であり、SchemaDiffPanel の admin mutation audit には使わない。
 
+### schema alias recompute（Issue #836）
+
+`/admin/schema` は rollback 後の再集計を D1 直接修正ではなく API + audit log 経由で実行する。rollback 直後に自動実行せず、SchemaDiffPanel の `recomputeRequired=true` impact から admin が「再集計を実行」ボタンを押した場合のみ `POST /admin/schema/aliases/:aliasId/recompute` を呼ぶ。UI は `@/features/admin/hooks/useAdminMutation` 経由で mutation し、apps/web から D1 を直接参照しない。
+
+recompute の実体は `response_fields.stable_key` の reverse-backfill である。rollback 済み alias の `alias.stableKey` を `__extra__:{aliasQuestionId}` へ戻し、`schema_alias_recompute_jobs` に `pending / running / completed / failed` status、`affectedCount`、`processedCount`、`updatedCount`、`deletedCollisionCount`、last processed `response_id` cursor を保存する。`running` は server job が継続可能な停止点であり、UI は「再集計を続行」を表示できる。request in-flight (`submitting`) の間だけ button を disable する。
+
+冪等性は server-derived trigger key と job UNIQUE 制約で担保する。client は `triggerKey` を送らず、同一 rollback に対する再押下は既存 job を継続または completed job を冪等返却する。並行 POST は `locked_at` / `run_token` lease の conditional update で同じ running job の二重 runner を防ぐ。
+
+成功時は application `audit_log.action='schema_alias.recompute'` を 1 回だけ追加し、job に保存した `recomputeAuditId` を completed 冪等返却でも再利用する。`after_json` は `{ jobId, affectedCount, processedCount, updatedCount, deletedCollisionCount, relatedRollbackAuditId, triggerKey, reason }` を保持する。`cf_audit_log` は Cloudflare Audit Logs 取り込み専用であり、SchemaDiffPanel の admin mutation audit には使わない。
+
 ### bulk resolve（Issue #776）
 
 `/admin/schema` には single inline edit と並走する **bulk resolve mode** を備える。トグル button (`aria-pressed`) で bulk mode を有効化すると、`unresolved` / `changed` カテゴリの行のみに checkbox が描画される（`added` / `removed` 行は対象外）。カテゴリヘッダの「全選択」checkbox と行 checkbox で複数 diff を選択し、「Bulk Resolve 確定」button から確認 modal を開く。modal では各行の stableKey を個別編集 / 推奨採用 / 全行に推奨を一括適用でき、「確定」で `POST /admin/schema/aliases` を **client-side bounded fan-out（concurrency 8、入力順で結果集計）** により逐次実行する。

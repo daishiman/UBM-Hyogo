@@ -2953,6 +2953,15 @@ node scripts/list-specs.js --topics
 |------------|----|
 | Boundaries | L16 |
 
+### references/workflow-issue-836-schema-alias-recompute-trigger-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Metadata | L3 |
+| Workflow Files | L13 |
+| Planned Implementation Targets | L26 |
+| Boundary | L38 |
+
 ### references/workflow-issue-837-schema-alias-bulk-rollback-artifact-inventory.md
 
 | セクション | 行 |
@@ -2960,6 +2969,14 @@ node scripts/list-specs.js --topics
 | Implementation Targets | L11 |
 | Evidence | L20 |
 | Contract | L28 |
+
+### references/workflow-issue-857-internal-alert-relay-binding-wiring-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Implementation Targets | L11 |
+| Evidence | L20 |
+| User-Gated Boundary | L28 |
 
 ### references/workflow-light-theme-contrast-regression-guard.md
 
@@ -3229,6 +3246,14 @@ node scripts/list-specs.js --topics
 | Phase 12 Strict 7 | L32 |
 | Local Implementation Targets | L44 |
 | Boundary | L55 |
+
+### references/workflow-step-08-audit-filter-paging-verify-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Workflow Artifacts | L11 |
+| Existing Implementation Targets | L21 |
+| Boundaries | L32 |
 
 ### references/workflow-task-03-w2-par-sentry-workers-sdk-unify-artifact-inventory.md
 
@@ -4772,15 +4797,15 @@ node scripts/list-specs.js --topics
 
 | セクション | 行 |
 |------------|----|
-| 概要 | L25 |
-| 使い方 | L33 |
-| Current Alias Overrides（個別互換行） | L40 |
-| Family Summary | L86 |
-| Detailed Register | L107 |
-| Section Extract Register (2026-03-17) | L288 |
-| 500-Line Split Register (2026-03-16) | L299 |
-| Fragment Migration Register (2026-04-28) | L321 |
-| Task Root Path Drift Register (2026-04-30 追記) | L348 |
+| 概要 | L26 |
+| 使い方 | L34 |
+| Current Alias Overrides（個別互換行） | L41 |
+| Family Summary | L87 |
+| Detailed Register | L108 |
+| Section Extract Register (2026-03-17) | L289 |
+| 500-Line Split Register (2026-03-16) | L300 |
+| Fragment Migration Register (2026-04-28) | L322 |
+| Task Root Path Drift Register (2026-04-30 追記) | L349 |
 
 ### references/lessons-fetch-service-binding-testing.md
 
@@ -7036,6 +7061,7 @@ node scripts/list-specs.js --topics
 | grep gate | L132 |
 | 参考実装（Issue #778） | L145 |
 | 関連パターン | L164 |
+| Admin batch job idempotency pattern（Issue #836 recompute） | L171 |
 
 ### references/patterns-advanced.md
 
@@ -7500,14 +7526,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L2231 |
-| フェーズ構造（概要） | L2240 |
-| 品質ゲート（概要） | L2271 |
-| 出力テンプレート | L2282 |
-| 実行時のコマンド・エージェント・スキル | L2305 |
-| 昇格パターン集 | L2329 |
-| Current Active / Spec Created Tasks | L2331 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L2491 |
+| ドキュメント構成 | L2273 |
+| フェーズ構造（概要） | L2282 |
+| 品質ゲート（概要） | L2313 |
+| 出力テンプレート | L2324 |
+| 実行時のコマンド・エージェント・スキル | L2347 |
+| 昇格パターン集 | L2371 |
+| Current Active / Spec Created Tasks | L2373 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L2533 |
 
 ### references/task-workflow-backlog-part2.md
 

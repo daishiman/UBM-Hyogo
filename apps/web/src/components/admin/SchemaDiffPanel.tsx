@@ -12,7 +12,9 @@ import {
   rollbackSchemaAlias,
   rollbackSchemaAliasBulk,
   RollbackApiError,
+  recomputeSchemaAlias,
   type RollbackSchemaAliasResult,
+  type RecomputeSchemaAliasResult,
 } from "../../lib/admin/api";
 import {
   useSchemaDiffBulkSelection,
@@ -161,6 +163,32 @@ type UndoState =
 
 const UNDO_WINDOW_MS = 5 * 60 * 1000;
 
+// Issue #836: recompute（reverse-backfill）UI 状態。job の真実は server（D1）。
+// UI は API レスポンスからこの状態を導出する（UI に真実を持たない）。
+type RecomputeUiStatus = "idle" | "submitting" | "completed" | "running" | "failed";
+
+interface PostRollbackRecomputeState {
+  aliasId: string;
+  aliasLabel: string;
+  processedCount: number | null;
+}
+
+const RECOMPUTE_STATUS_LABEL: Record<RecomputeUiStatus, string> = {
+  idle: "未実行",
+  submitting: "再集計中…",
+  running: "再集計中（継続可能）",
+  completed: "再集計済み",
+  failed: "再集計に失敗",
+};
+
+const RECOMPUTE_BUTTON_LABEL: Record<RecomputeUiStatus, string> = {
+  idle: "再集計を実行",
+  submitting: "再集計を実行",
+  running: "再集計を続行",
+  completed: "再集計済み",
+  failed: "再集計を再試行",
+};
+
 interface RollbackConfirmModalProps {
   readonly alias: ResolvedAliasItem;
   readonly actorEmail: string | null;
@@ -248,10 +276,6 @@ function RollbackConfirmModal(props: RollbackConfirmModalProps) {
         <dt>操作者 (you)</dt>
         <dd>{props.actorEmail ?? "(unknown)"}</dd>
       </dl>
-      <p className="warning-text" data-role="recompute-warning">
-        ⚠ 関連する response_fields の再集計が必要になる可能性があります。
-        再集計実行は本タスク外です（別途運用フォロー）。
-      </p>
       {props.errorMessage && (
         <p role="alert" data-role="modal-error">
           {props.errorMessage}
@@ -461,6 +485,39 @@ export function SchemaDiffPanel({ initial, resolvedAliases, actorEmail }: Schema
   const [rollbackState, setRollbackState] = useState<RollbackModalState>({
     kind: "idle",
   });
+  // Issue #836: recompute UI state（reverse-backfill 実行・status バッジ）
+  const [postRollbackRecompute, setPostRollbackRecompute] =
+    useState<PostRollbackRecomputeState | null>(null);
+  const [recomputeStatus, setRecomputeStatus] = useState<RecomputeUiStatus>("idle");
+  const [recomputeError, setRecomputeError] = useState<string | null>(null);
+  const recomputeMutation = useAdminMutation<RecomputeSchemaAliasResult>(
+    "/api/admin/schema/aliases/recompute",
+    "POST",
+    {
+      refreshOnSuccess: false,
+      mutationFn: (payload) =>
+        recomputeSchemaAlias(payload as { aliasId: string }),
+      successMessage: (data) =>
+        `再集計を実行しました（処理件数: ${data.processedCount}）`,
+      onSuccess: (data) => {
+        setRecomputeStatus(data.status === "completed" ? "completed" : "running");
+        setRecomputeError(null);
+        setPostRollbackRecompute((prev) =>
+          prev ? { ...prev, processedCount: data.processedCount } : prev,
+        );
+      },
+      onError: (e) => {
+        setRecomputeStatus("failed");
+        setRecomputeError(e instanceof Error ? e.message : "再集計に失敗しました");
+      },
+    },
+  );
+  const handleRecompute = (aliasId: string) => {
+    setRecomputeStatus("submitting");
+    setRecomputeError(null);
+    // trigger は onError 後に re-throw するため、state 反映済みの reject は握り潰す。
+    void recomputeMutation.trigger({ aliasId }).catch(() => {});
+  };
   const [undoState, setUndoState] = useState<UndoState>({ kind: "hidden" });
   const [historyAliases, setHistoryAliases] = useState<ResolvedAliasItem[]>(
     () => [...(resolvedAliases ?? initial.resolvedAliases ?? [])],
@@ -493,6 +550,17 @@ export function SchemaDiffPanel({ initial, resolvedAliases, actorEmail }: Schema
       setRollbackState({ kind: "idle" });
       setUndoState({ kind: "hidden" });
       if (undoTimerRef.current) clearTimeout(undoTimerRef.current);
+      if (result.impact.recomputeRequired) {
+        setPostRollbackRecompute({
+          aliasId: result.aliasId,
+          aliasLabel: alias.aliasLabel,
+          processedCount: null,
+        });
+        setRecomputeStatus("idle");
+        setRecomputeError(null);
+      } else {
+        setPostRollbackRecompute(null);
+      }
       setFeedback({
         kind: "success",
         label: `resolve を取消しました（影響件数: ${result.impact.affectedResponseCount}${result.impact.recomputeRequired ? " / 再集計推奨" : ""}）`,
@@ -744,6 +812,38 @@ export function SchemaDiffPanel({ initial, resolvedAliases, actorEmail }: Schema
           {feedback.detail && <p>{feedback.detail}</p>}
         </div>
       )}
+      {postRollbackRecompute && (
+        <div className="recompute-action" data-role="recompute-action">
+          <p>
+            alias「{postRollbackRecompute.aliasLabel}」の rollback 後再集計
+          </p>
+          <button
+            type="button"
+            data-role="recompute-trigger"
+            disabled={recomputeStatus === "submitting"}
+            aria-disabled={recomputeStatus === "submitting"}
+            onClick={() => handleRecompute(postRollbackRecompute.aliasId)}
+          >
+            {RECOMPUTE_BUTTON_LABEL[recomputeStatus]}
+          </button>
+          <span
+            data-role="recompute-status"
+            data-status={recomputeStatus}
+            role="status"
+            aria-live="polite"
+          >
+            {RECOMPUTE_STATUS_LABEL[recomputeStatus]}
+          </span>
+          {postRollbackRecompute.processedCount !== null && (
+            <span data-role="recompute-processed-count">
+              処理件数: {postRollbackRecompute.processedCount}
+            </span>
+          )}
+          {recomputeStatus === "failed" && recomputeError && (
+            <p data-role="recompute-error">{recomputeError}</p>
+          )}
+        </div>
+      )}
 
       <div className="schema-grid" style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 8 }}>
         {TYPES.map((t) => {
@@ -864,9 +964,11 @@ export function SchemaDiffPanel({ initial, resolvedAliases, actorEmail }: Schema
 
       <HistoryPane
         aliases={historyAliases}
-        onRequestRollback={(alias) =>
-          setRollbackState({ kind: "confirm", alias })
-        }
+        onRequestRollback={(alias) => {
+          setRecomputeStatus("idle");
+          setRecomputeError(null);
+          setRollbackState({ kind: "confirm", alias });
+        }}
         bulkRollbackMode={bulkRollbackMode}
         selectedIds={bulkRollback.selectedIds}
         selectedCount={bulkRollback.selectedCount}

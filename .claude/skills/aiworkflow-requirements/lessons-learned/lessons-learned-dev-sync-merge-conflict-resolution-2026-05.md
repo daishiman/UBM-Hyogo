@@ -606,3 +606,14 @@
 - 事例: `feat/issue-837-schema-alias-bulk-rollback`（PR base=dev）。`git merge dev` で発生したコンフリクトは `aiworkflow-requirements/indexes/{quick-reference,resource-map,topic-map}.md`（union） + `indexes/keywords.json`（`--ours` + rebuild）の skill index 系のみ。
 - 解消: `pnpm sync:resolve` のみで残件 0。`pnpm typecheck` / `pnpm lint` / `bash scripts/verify-pr-ready.sh`（verify:phase12-compliance / gate-metadata:validate / indexes:rebuild drift）すべて 0 failed。pre-commit `staged-task-dir-guard` も `MERGE_HEAD` 検出で自動 skip し `--no-verify` 不要（CONST 通り）。
 - How to apply: コンフリクト発生面が `indexes/` + `LOGS/_legacy.md` + `references/task-workflow-active.md` 等の標準集合に閉じている場合、即 `pnpm sync:resolve` → `git commit`（hook auto-skip）→ `pnpm verify:pr-ready` の最短ルートが成立する。意味的競合がソースコード側に出るまでは 3 層予防（[[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-007）で実用上完結することの定期再確認。
+
+## L-DEVSYNC-040: `legacy-ordinal-family-register.md` 先頭の「`> 最終更新日:` + `> NOTE (...)` block」 diff3 conflict は両側 NOTE 保持 + 最新日付採用で機械統合可能（2026-05-24 追加）
+- 事象: `pnpm sync:resolve` が `legacy-ordinal-family-register.md` を `WARN unhandled conflict` として残置（手動 resolve 必須）。conflict は先頭 quote ブロックの「base = `> 最終更新日: 2026-05-17`」に対し、HEAD 側が `> 最終更新日: 2026-05-24` + parallel-03-followup-002 NOTE を、dev 側が `> 最終更新日: 2026-05-23` + mypage-prototype-alignment NOTE を**それぞれ独立に追加**する 3-way の典型形。両者は意味的に独立（別 wave の register 更新スキップ宣言）で、union 等価で安全に統合できる。
+- Why: 本ファイルは ordinal family rename の SSOT 兼 wave ごとの register-skip 宣言ログとして毎回 quote block を先頭に追記運用しており、後段の `### 概要` 以降の table 本体は触らない wave がほとんど。base 共通行 `> 最終更新日:` が両側で同時更新されると、git は diff3 hunk として単一ブロックに膨らませる。
+- How to apply:
+  1. resolver で `WARN unhandled conflict` が `references/legacy-ordinal-family-register.md` の場合、conflict hunk が「`> 最終更新日: <date>` + `> NOTE (...)` 行群のみ」か `grep -n -E '^(<<<<<<<|=======|>>>>>>>|\|\|\|\|\|\|\|)'` の出力範囲を確認する。
+  2. 範囲が先頭 quote block 内に閉じていれば、両側 NOTE を**両方保持**し、`> 最終更新日:` 行は**より新しい日付に統一**して 1 本に集約する（古い日付の `> 最終更新日:` 行は重複扱いで削除）。
+  3. 残った body（`### 概要` 以降）は通常 conflict なしのため触らない。
+  4. `grep -n -E '^(<<<<<<<|=======|>>>>>>>|\|\|\|\|\|\|\|)' <file>` が空であることを確認 → `git add <file>` → `git commit --no-edit`。
+- 留意: 範囲が table 本体（§Current Alias Overrides / §Family Summary / §Task Root Path Drift Register）に及ぶ場合は table-merge ルール（L-DEVSYNC-032 / L-DEVSYNC-033）に切替え、行単位の片側採用 union を行うこと。先頭 quote block 限定の本パターンとは別系統である。
+- 事例: 2026-05-24 `docs/parallel-03-admin-runtime-evidence` への dev sync-merge。`pnpm sync:resolve` で `indexes/topic-map.md` は union 自動解消、`legacy-ordinal-family-register.md` のみ unhandled として残置。本ルールに従い HEAD 側 parallel-03-followup-002 NOTE と dev 側 mypage-prototype-alignment NOTE の両方を保持し、`> 最終更新日:` を `2026-05-24` で統一。`grep` でマーカー残ゼロ確認後 `git commit --no-edit` で merge commit 完了。後続 `verify-pr-ready` で `indexes:rebuild drift` を検出（topic-map.md 9 行差分）したため独立 chore commit で解消（L-DEVSYNC-036 既知パターン）。
