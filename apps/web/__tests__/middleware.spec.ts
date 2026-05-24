@@ -1,7 +1,15 @@
-import { describe, it, expect } from "vitest";
+import { describe, it, expect, vi } from "vitest";
 import { NextRequest } from "next/server";
 import { signSessionJwt, asMemberId } from "@ubm-hyogo/shared";
-import { middleware, config as middlewareConfig } from "../middleware";
+
+vi.mock("@/lib/env", () => ({
+  getPublicEnv: () => ({
+    ENVIRONMENT: "local" as const,
+    NEXT_PUBLIC_API_BASE_URL: "http://localhost:8787",
+  }),
+}));
+
+const { middleware, config: middlewareConfig } = await import("../middleware");
 
 const TEST_SECRET = "test-secret-for-proxy-spec";
 
@@ -24,8 +32,10 @@ const makeRequest = (path: string, opts?: { cookie?: string }) => {
 };
 
 describe("middleware", () => {
-  it("matcher 設定が /admin/:path* と /profile/:path* に限定されている", () => {
-    expect(middlewareConfig.matcher).toEqual(["/admin/:path*", "/profile/:path*"]);
+  it("matcher 設定が security headers 適用のため全ルートを対象とする（静的アセット除外）", () => {
+    expect(middlewareConfig.matcher).toEqual([
+      "/((?!_next/static|_next/image|favicon.ico).*)",
+    ]);
   });
 
   it("未ログインで /admin にアクセスすると /login?gate=admin_required へ redirect する", async () => {
