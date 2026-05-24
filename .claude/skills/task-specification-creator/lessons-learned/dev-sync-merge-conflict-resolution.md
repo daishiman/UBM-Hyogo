@@ -232,6 +232,7 @@
 - task 仕様書を書く際: dev sync step では「`pnpm sync:resolve` → `git commit`（merge）→ `pnpm indexes:rebuild` が no drift を返すか確認。drift が出た場合のみ SP-DEVSYNC-028 の chore(indexes) commit にフォールバック」と条件分岐で明示し、常時 2 コミットを強制しない。
 - 適用判断: conflict 一覧が `.claude/skills/*/indexes/*` + `references/task-workflow-active.md` に閉じる場合のみ。ソースコード / completed-tasks doc を含む場合は L-DEVSYNC-003 等の個別ルールを併用。
 - 事例: 2026-05-24 `feat/home-page-prototype-alignment` ← dev sync で skill 系 5 ファイル（`indexes/{keywords.json, quick-reference.md, resource-map.md, topic-map.md}` + `references/task-workflow-active.md`）のみ conflict。`pnpm sync:resolve` 一発で全自動解消（union 4 + ours 1 + 内包 rebuild）、merge commit 後 no drift、`verify-pr-ready` / push 初回 PASS、追加 chore commit 不要。
+- 事例（2 回目・再現確認）: 2026-05-24 `feat/issue-827-member-detail-adapter-and-visibility-defense` ← dev sync。conflict は前事例と**同一の 5 ファイル**（`aiworkflow-requirements/SKILL.md` + `indexes/{keywords.json, quick-reference.md, resource-map.md, topic-map.md}` + `references/task-workflow-active.md`）に閉じ、`pnpm sync:resolve` 一発で全自動解消、merge commit 1 コミット後 `pnpm indexes:rebuild` no drift、`verify-pr-ready` 全 gate PASS（ERROR 0）、typecheck / lint / push 初回 PASS、追加 chore commit 不要。条件分岐（drift 出現時のみ SP-DEVSYNC-028 フォールバック）が 2 ブランチ連続で「フォールバック不要」側に倒れたことを確認。
 - 詳細は aiworkflow-requirements 配下の L-DEVSYNC-037 を参照。
 
 ### SP-DEVSYNC-008: 同一 React Component への並行 feature 追加 conflict は L-DEVSYNC-033 適用
