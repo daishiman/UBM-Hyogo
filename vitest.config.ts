@@ -9,6 +9,7 @@ import react from "@vitejs/plugin-react";
 // ルート `node_modules` の react / react-dom を正本として alias + dedupe で固定する。
 const rootReact = fileURLToPath(new URL("./node_modules/react", import.meta.url));
 const rootReactDom = fileURLToPath(new URL("./node_modules/react-dom", import.meta.url));
+const webSrc = fileURLToPath(new URL("./apps/web/src", import.meta.url));
 
 export default defineConfig({
   plugins: [react()],
@@ -21,6 +22,7 @@ export default defineConfig({
       { find: /^react-dom$/, replacement: `${rootReactDom}/index.js` },
       { find: /^react-dom\/client$/, replacement: `${rootReactDom}/client.js` },
       { find: /^react-dom\/test-utils$/, replacement: `${rootReactDom}/test-utils.js` },
+      { find: /^@\//, replacement: `${webSrc}/` },
     ],
   },
   optimizeDeps: {

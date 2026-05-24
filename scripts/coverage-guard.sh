@@ -334,6 +334,10 @@ done
 if [ "$MISSING" = "1" ] || [ "$FAIL" = "1" ]; then
   log "HINT: 上記の suggested test を作成し、\`pnpm test:coverage\` を再実行してください。"
   log "HINT: テスト不能領域は vitest.config.ts coverage.exclude に追加してください (要レビュー)。"
+  if [ "$MISSING" = "1" ]; then
+    log "HINT: MISSING は shard が全成功した場合のみ真の coverage 欠落です。"
+    log "HINT: coverage-gate-shard のいずれかが失敗していると artifact 未 upload で本 MISSING が出ます。先に coverage-gate-shard の結果を確認してください。"
+  fi
   exit 1
 fi
 

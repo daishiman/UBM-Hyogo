@@ -1,0 +1,87 @@
+{
+  "workflow_id": "login-page-prototype-alignment",
+  "created_at": "2026-05-23T00:00:00+09:00",
+  "status": "implemented_local_visual_evidence_captured",
+  "task_type": "implementation",
+  "visual_category": "VISUAL_ON_EXECUTION",
+  "metadata": {
+    "workflow_state": "implemented_local_visual_evidence_captured",
+    "implementation_status": "local_static_and_visual_validation_passed_staging_pending",
+    "taskType": "implementation",
+    "visualEvidence": "VISUAL_ON_EXECUTION",
+    "implementation_mode": "existing-route-alignment",
+    "canonical_workflow": "docs/30-workflows/completed-tasks/login-page-prototype-alignment/",
+    "primary_sources": [
+      "docs/00-getting-started-manual/claude-design-prototype/pages-member.jsx",
+      "docs/00-getting-started-manual/claude-design-prototype/styles.css",
+      "docs/00-getting-started-manual/specs/13-mvp-auth.md"
+    ],
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-05-23T00:00:00+09:00",
+        "evidence_path": "docs/30-workflows/completed-tasks/login-page-prototype-alignment/outputs/phase-12/phase12-task-spec-compliance-check.md",
+        "approver": "daishiman",
+        "notes": "spec_review: Phase 1-13 implementation spec and strict Phase 12 outputs created"
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "passed",
+        "passed_at": "2026-05-23T00:00:00+09:00",
+        "evidence_path": "docs/30-workflows/completed-tasks/login-page-prototype-alignment/outputs/phase-11/evidence/local-validation-summary.txt",
+        "approver": "daishiman",
+        "notes": "implementation_review: web tests, typecheck, lint, verify-design-tokens, JSON parse, and env-complete production build passed"
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/login-page-prototype-alignment/outputs/phase-13/phase-13.md",
+        "approver": "daishiman",
+        "notes": "external_ops: staging visual smoke, commit, push, and PR are user-gated"
+      }
+    ]
+  },
+  "phases": [
+    { "phase": 1, "status": "completed", "output": "outputs/phase-1/phase-1.md" },
+    { "phase": 2, "status": "completed", "output": "outputs/phase-2/phase-2.md" },
+    { "phase": 3, "status": "completed", "output": "outputs/phase-3/phase-3.md" },
+    { "phase": 4, "status": "completed", "output": "outputs/phase-4/phase-4.md" },
+    { "phase": 5, "status": "completed", "output": "outputs/phase-5/phase-5.md" },
+    { "phase": 6, "status": "completed", "output": "outputs/phase-6/phase-6.md" },
+    { "phase": 7, "status": "completed", "output": "outputs/phase-7/phase-7.md" },
+    { "phase": 8, "status": "completed", "output": "outputs/phase-8/phase-8.md" },
+    { "phase": 9, "status": "completed", "output": "outputs/phase-9/phase-9.md" },
+    { "phase": 10, "status": "completed", "output": "outputs/phase-10/phase-10.md" },
+    { "phase": 11, "status": "local_visual_evidence_captured", "output": "outputs/phase-11/phase-11.md" },
+    { "phase": 12, "status": "completed", "output": "outputs/phase-12/main.md" },
+    { "phase": 13, "status": "pending_user_approval", "output": "outputs/phase-13/phase-13.md" }
+  ],
+  "implementation_targets": [
+    "apps/web/app/login/page.tsx",
+    "apps/web/app/login/_components/LoginShell.tsx",
+    "apps/web/app/login/_components/LoginCard.tsx",
+    "apps/web/app/login/_components/LoginPanel.client.tsx",
+    "apps/web/app/login/_components/OrDivider.tsx",
+    "apps/web/app/login/_components/MagicLinkForm.client.tsx",
+    "apps/web/app/login/_components/GoogleOAuthButton.client.tsx",
+    "apps/web/app/login/_components/LoginStatus.tsx",
+    "apps/web/src/components/ui/Icon.tsx",
+    "apps/web/src/components/ui/icons.ts",
+    "apps/web/src/styles/auth.css",
+    "apps/web/src/styles/globals.css",
+    "apps/web/playwright/tests/login-smoke.spec.ts"
+  ],
+  "outputs": {
+    "phase_12": [
+      "outputs/phase-12/main.md",
+      "outputs/phase-12/implementation-guide.md",
+      "outputs/phase-12/system-spec-update-summary.md",
+      "outputs/phase-12/documentation-changelog.md",
+      "outputs/phase-12/unassigned-task-detection.md",
+      "outputs/phase-12/skill-feedback-report.md",
+      "outputs/phase-12/phase12-task-spec-compliance-check.md"
+    ]
+  }
+}
