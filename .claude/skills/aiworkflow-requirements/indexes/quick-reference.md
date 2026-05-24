@@ -12,6 +12,34 @@
 | audit | `schema_alias.rollback_notification` with redacted `after_json={ status, channel, attempts, errorClass, dispatchedAt }` |
 | Phase 12 | strict 7 files present; Phase 11 local evidence present and staging provider smoke user-gated |
 
+## Issue #827 member detail adapter and visibility defense（2026-05-23）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-827-member-detail-adapter-and-visibility-defense/` |
+| 状態 | `implemented_local_evidence_captured / implementation / NON_VISUAL` |
+| issue | #827 CLOSED; PR should use `Refs #827`; commit / push / PR / issue mutation are user-gated |
+| scope | public member detail web-side pure adapter and visibility double-defense |
+| implementation | `apps/web/src/lib/adapters/member-detail.ts`, `MemberDetailSections.tsx`, `/members/[id]/page.tsx` |
+| contract | adapter first filters all section fields to `visibility="public"` for `MemberLinks` / `MemberActivity`; detail sections then include only non-activity kinds `shortText` / `paragraph` / `date` / `radio` / `checkbox` / `dropdown`; `url` remains for `MemberLinks`; `activity` remains for `MemberActivity` |
+| evidence | apps/web Vitest 888 PASS, workspace typecheck/lint PASS, web build PASS with required local env |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-827-member-detail-adapter-and-visibility-defense-artifact-inventory.md` |
+
+## home-page-prototype-alignment（2026-05-23）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/home-page-prototype-alignment/` |
+| status | `implemented / implementation / VISUAL / local runtime screenshots captured` |
+| purpose | public home `/` の prototype drift を `legacy-public.css` selector rules と `CallToActionCTA` data-role cleanup で解消 |
+| historical parent | `docs/30-workflows/ui-prototype-alignment-mvp-recovery/` |
+| current implementation owner | `docs/30-workflows/ui-prototype-design-system-foundation/`（prototype/system foundation の現行 SSOT） |
+| implementation targets | `apps/web/src/styles/legacy-public.css`, `apps/web/src/components/public/CallToActionCTA.tsx`, `apps/web/src/components/public/__tests__/CallToActionCTA.component.spec.tsx`, `apps/web/app/opengraph-image.tsx`, `apps/web/app/(public)/members/[id]/opengraph-image/route.tsx` |
+| Phase 12 | `outputs/phase-12/phase12-task-spec-compliance-check.md` + strict 7 present |
+| evidence | `outputs/phase-11/screenshots/home-desktop-2026-05-23.png`, `outputs/phase-11/screenshots/home-mobile-2026-05-23.png` |
+| boundary | staging deploy, commit, push, PR are user-gated |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-home-page-prototype-alignment-artifact-inventory.md` |
+
 ## login-page-prototype-alignment（2026-05-23）
 
 | 目的 | 参照先 |
