@@ -1,0 +1,30 @@
+
+> ubm-hyogo@0.1.0 verify:phase12-compliance /Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260523-170433-wt-18
+> node --experimental-strip-types --disable-warning=MODULE_TYPELESS_PACKAGE_JSON scripts/verify-phase12-compliance.ts
+
+{
+  "status": "pass",
+  "template": ".claude/skills/task-specification-creator/references/phase12-compliance-check-template.md",
+  "roots": [
+    {
+      "rootPath": "docs/30-workflows/ui-prototype-design-system-foundation",
+      "workflowState": "implemented_local_evidence_captured",
+      "hasCompletedTasksAncestor": false
+    },
+    {
+      "rootPath": "docs/30-workflows/ui-prototype-design-system-foundation/parallel-03-followup-002-admin-runtime-evidence",
+      "workflowState": "implemented_local_evidence_captured",
+      "hasCompletedTasksAncestor": false
+    }
+  ],
+  "results": [
+    {
+      "ok": true,
+      "rootPath": "docs/30-workflows/ui-prototype-design-system-foundation"
+    },
+    {
+      "ok": true,
+      "rootPath": "docs/30-workflows/ui-prototype-design-system-foundation/parallel-03-followup-002-admin-runtime-evidence"
+    }
+  ]
+}

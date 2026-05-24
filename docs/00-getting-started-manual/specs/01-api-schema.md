@@ -315,6 +315,16 @@ Issue #777 schema diff resolve history view では、`/(admin)/admin/schema/hist
 
 Issue #776 の `/admin/schema` bulk resolve は **新しい bulk endpoint を追加しない**。`apps/web/src/lib/admin/api.ts#postSchemaAliasBulk` が既存 `POST /admin/schema/aliases` を concurrency 8 の client-side bounded fan-out で呼び、入力順の `success / retryable / error` row result を返す。`stableKey` validation は single edit と同じ regex（英字開始、英数字と `_` のみ）を UI 側で共有し、`status=0` は `network`、`409` は `conflict`、`422` は `invalid` として分類する。HTTP 202 `backfill_cpu_budget_exhausted` は failure ではなく retryable row として modal に残す。
 
+### Schema alias recompute API（Issue #836）
+
+`POST /admin/schema/aliases/:aliasId/recompute` は、rollback 済み alias によって古い `response_fields.stable_key` が残る状態を admin 明示操作で整復する endpoint である。request body は `{ "reason"?: string }` のみを受け取り、`triggerKey` は client から受け取らない。server は最新 rollback audit id、または fallback `${aliasId}:${version}` から trigger key を導出し、`schema_alias_recompute_jobs` の `UNIQUE(alias_id, stable_key, trigger_key)` で冪等性を担保する。
+
+成功時 response は `{ jobId, aliasId, status, affectedCount, processedCount, updatedCount, deletedCollisionCount, recomputeAuditId, relatedRollbackAuditId }`。`affectedCount` は job 作成時の対象件数、`processedCount` は処理した response id 件数、`updatedCount` は `alias.stableKey -> __extra__:{questionId}` に UPDATE した件数、`deletedCollisionCount` は既存 `__extra__` 行との衝突で stableKey 行を DELETE した件数である。既存 completed job の再実行では reverse-backfill と audit insert を再実行せず、job に保存された `recomputeAuditId` を返す。
+
+error は 400 `bad_request`、404 `not_found`、409 `not_rolled_back`、500 `batch_failed`。CPU budget に達した場合は `status="running"` と last processed `response_id` cursor を job に保存し、次の POST で lease (`locked_at` / `run_token`) を取得して継続する。application `audit_log.action='schema_alias.recompute'` の `after_json` は `{ jobId, affectedCount, processedCount, updatedCount, deletedCollisionCount, relatedRollbackAuditId, triggerKey, reason }` を保持する。`cf_audit_log` はこの admin mutation の保存先にしない。
+
+`GET /admin/schema/aliases/:aliasId/recompute` は直近 job status を返す。job 不在時は `200 null`、存在時は `{ jobId, aliasId, status, affectedCount, processedCount, updatedCount, deletedCollisionCount, lastError, updatedAt }` を返す。apps/web は `/api/admin/schema/aliases/:aliasId/recompute` proxy / `fetchAdmin` 経由で呼び、D1 を直接参照しない。
+
 ## admin identity conflict merge API（Issue #194）
 
 03b response sync が `EMAIL_CONFLICT` を記録した運用文脈では、admin が同一人物の重複 identity を手動確認して merge できる。

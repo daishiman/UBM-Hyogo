@@ -9,7 +9,8 @@
 | 分類 | follow-up / aggregation consistency |
 | 対象機能 | `/admin/schema` rollback 後の再集計 |
 | 優先度 | 中 |
-| ステータス | pending |
+| ステータス | consumed_via_issue_836_recompute_trigger_spec |
+| canonical_workflow | `docs/30-workflows/completed-tasks/issue-836-schema-alias-recompute-trigger/` |
 | 発見元 | `docs/30-workflows/issue-778-schema-alias-rollback-undo/` |
 | 発見日 | 2026-05-19 |
 
@@ -18,6 +19,10 @@
 Issue #778 の rollback / undo 本体は、誤 resolve を API + audit log 経由で取り消す経路を提供する。一方で、既に集計済みの表示や派生テーブルがある場合、alias row の soft delete だけでは過去に計算された集計結果は自動では変わらない。
 
 rollback modal では「影響応答件数」と「再集計要否」を表示するが、再集計の実行方式は集計 view の正本仕様が複数候補のため本体タスクから分離する。
+
+## Canonical workflow 昇格
+
+この follow-up は `docs/30-workflows/completed-tasks/issue-836-schema-alias-recompute-trigger/` に Phase 1-13 仕様として昇格済み。CLOSED Issue #836 は reopen せず、最新コード実態に合わせて `recompute = response_fields.stable_key` の reverse-backfill と再定義した。以後の実装・検証・正本同期は canonical workflow 側を正とし、本ファイルは原典 trace として残す。
 
 ## スコープ
 

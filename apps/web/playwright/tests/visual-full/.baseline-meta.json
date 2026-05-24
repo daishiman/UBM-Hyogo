@@ -1,19 +1,19 @@
 {
   "$schema": "../../../../docs/30-workflows/task-709-visual-baseline-runtime-capture/schemas/baseline-meta.schema.json",
-  "captured_at_commit_sha": "4c4df4c8b3e433217c9eb293df573cdbfd9c8314",
-  "captured_at": "2026-05-24T05:59:35Z",
+  "captured_at_commit_sha": "8bbb542587fa3adba5bad3a7eb82520e2c31336a",
+  "captured_at": "2026-05-24T07:52:24Z",
   "captured_via": "playwright-visual-baseline-update.yml#workflow_dispatch",
   "captured_run_ids": [
+    "26101682046",
+    "26128917753",
+    "26170273931",
     "26280741223",
     "26314107860",
     "26315562296",
     "26346031061",
-    "26348808238",
-    "26350145184",
-    "26351125393",
-    "26351646816",
-    "26351823832",
-    "26353340702"
+    "26350111084",
+    "26353406397",
+    "26355355712"
   ],
   "viewport_dimensions": {
     "desktop": {
@@ -41,5 +41,5 @@
   "refresh_workflow": ".github/workflows/playwright-visual-baseline-update.yml",
   "refresh_command_hint": "gh workflow run playwright-visual-baseline-update.yml -f reason=\"<why>\" -r <feature-branch>",
   "notes": "captured_at_commit_sha からの rendering_relevant_paths diff が空でない場合、baseline は stale。scripts/visual-baseline-status.sh で診断可能。",
-  "last_refresh_reason": "dev #887 members-page alignment + text-muted #736449 統一を sync-merge。全画面 muted 文字 + members-detail (serial-06 描画) の baseline 再撮影 (L-DEVSYNC-039)"
+  "last_refresh_reason": "dev取り込み(#888 member-detail rendering)後の full-visual-members-detail-mobile baseline stale (1176->1203px) 再生成 for PR #897"
 }

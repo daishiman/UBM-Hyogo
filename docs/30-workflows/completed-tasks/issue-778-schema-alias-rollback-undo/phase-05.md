@@ -30,7 +30,7 @@ T-01〜T-15 を実装シーケンスに整列し、変更対象ファイル一�
 | docs/00-getting-started-manual/specs/11-admin-management.md | 編集 | rollback / undo 操作仕様追記 |
 | docs/00-getting-started-manual/specs/01-api-schema.md | 編集 | endpoint 追記 |
 | docs/30-workflows/unassigned-task/serial-05-step-03-followup-003-schema-diff-history-view.md | 既存参照 | 分離 followup（重複新規作成禁止） |
-| docs/30-workflows/unassigned-task/serial-05-step-03-followup-005-schema-alias-recompute-trigger.md | 新規 | 分離 followup |
+| docs/30-workflows/completed-tasks/serial-05-step-03-followup-005-schema-alias-recompute-trigger.md | 新規 | 分離 followup |
 | docs/30-workflows/unassigned-task/serial-05-step-03-followup-006-schema-alias-bulk-rollback.md | 新規 | 分離 followup |
 | docs/30-workflows/unassigned-task/serial-05-step-03-followup-007-schema-alias-rollback-notification.md | 新規 | 分離 followup |
 | docs/30-workflows/unassigned-task/serial-05-step-03-followup-004-schema-alias-rollback-undo.md | 編集 | `consumed_via_issue_778_rollback_undo_spec` 同期 |

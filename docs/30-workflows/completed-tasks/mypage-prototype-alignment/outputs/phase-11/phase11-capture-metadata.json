@@ -1,0 +1,50 @@
+{
+  "taskId": "mypage-prototype-alignment",
+  "mode": "VISUAL",
+  "captureDate": "2026-05-23",
+  "environment": "local-playwright-fixture",
+  "status": "captured",
+  "screenshots": [
+    {
+      "tc": "TC-11-01",
+      "file": "profile-page-default.png",
+      "output": "screenshots/profile-page-default.png",
+      "status": "present",
+      "route": "/profile",
+      "viewport": "1280x800"
+    },
+    {
+      "tc": "TC-11-02",
+      "file": "status-banner-public.png",
+      "output": "screenshots/status-banner-public.png",
+      "status": "present",
+      "route": "/profile",
+      "viewport": "1280x800"
+    },
+    {
+      "tc": "TC-11-03",
+      "file": "visibility-summary.png",
+      "output": "screenshots/visibility-summary.png",
+      "status": "present",
+      "route": "/profile",
+      "viewport": "1280x800"
+    },
+    {
+      "tc": "TC-11-04",
+      "file": "revalidate-modal-open.png",
+      "output": "screenshots/revalidate-modal-open.png",
+      "status": "present",
+      "route": "/profile",
+      "viewport": "1280x800",
+      "action": "openRevalidateModal"
+    },
+    {
+      "tc": "TC-11-05",
+      "file": "member-header-nav.png",
+      "output": "screenshots/member-header-nav.png",
+      "status": "present",
+      "route": "/profile",
+      "viewport": "1280x800"
+    }
+  ]
+}
