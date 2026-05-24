@@ -275,3 +275,14 @@
   - task 仕様書を書く際: design-token / AppShell surface（`data-shell="footer"` 等）を触る task の Phase 4 (test-plan) に「token × surface の全組合せ contrast を最暗 surface まで列挙し AA 検証。最暗 surface で未達なら usage 面修正（より濃い token へ）を優先」を逐語明示する。
 - 事例: 2026-05-24 `feat/home-page-prototype-alignment` ← dev sync で `--ubm-color-text-muted` を HEAD `#76664a` / dev `#7d6a4d` の並行 darken 衝突として検出、dev `#7d6a4d` を 3 SSOT へ統一。push 後 e2e a11y が footer copyright on bg-2（4.16:1）で fail（home ブランチに pre-merge から潜在）→ public-footer の color を `text-secondary`（5.31:1）へ変更して解消、token は dev 値維持。
 - 詳細は aiworkflow-requirements 配下の L-DEVSYNC-038 を参照。
+
+### SP-DEVSYNC-032: SSR fetch 画面の task は「e2e server mock fixture (`e2e-mock-api.mjs`) を `auth.ts` shape + zod enum へ整合」「描画変更後の visual baseline 再撮影順序」を仕様書に逐語化（2026-05-24 追加）
+- server component の `fetch`（`fetchPublicOrNotFound` 等）を持つ画面の task では、dev sync 後に **e2e が「mock fixture と画面期待値の不一致」で落ちる**構造的リスクがある。task 仕様書（特に Phase 4 test-plan / Phase 5 implementation）に以下を逐語で織り込む。
+  - **2 系統 mock の使い分け明示**: SSR `fetch` は Playwright `page.route()`（`apps/web/playwright/fixtures/auth.ts`）を**経由しない**。server-side mock `scripts/e2e-mock-api.mjs` の fixture が SSR 画面の正本。「画面が SSR fetch なら `e2e-mock-api.mjs` を直す／CSR fetch なら `auth.ts` の `page.route()` を直す」を Phase 4 に明記（[[L-DEVSYNC-016]] / L-DEVSYNC-039 連携）。
+  - **zod enum 制約**: 画面に `*.parse()`（例 `PublicMemberProfileZ`）を入れる task は、mock fixture の値が **`FieldKindZ` enum（`packages/shared/src/zod/primitives.ts`）に厳格一致**することを Phase 5 step に必須化（`longText` は不在＝`paragraph` が正）。parse 導入で fixture の正しさが顕在化する点を注記。
+  - **fixture の単一正本化**: e2e が参照する `data-stable-key` / `data-section` は `auth.ts` の body 関数が canonical。`e2e-mock-api.mjs` の対応 `build*()` を field 単位（`stableKey`/`label`/`value`/`kind`/`visibility`/`source`）で 1:1 に揃える、を Phase 5 に明示。
+  - **strict-mode 二重マッチ回避**: component が attendance 等から自動生成する section（`MemberActivity` の `data-section="activity"`）と mock の `publicSections` が同じ `data-section` を出さないよう、mock 側から重複 section を削る、を Phase 4 の test-plan 注意点に明記。
+- **visual baseline 再撮影の順序を SCOPE に明記**: rendering を変える task で baseline 再撮影が必要な場合、「dev に rendering_relevant_paths を触る後続コミットが控えているなら **dev を先に取り込んでから baseline をキャプチャ**」を SCOPE/Phase 11 に逐語化（撮影後の dev merge で再 stale 化を防ぐ）。baseline commit は GITHUB_TOKEN push で CI 未トリガ（[[L-DEVSYNC-009-A]]）→ pull 後 user push で再トリガ、も注記。
+- **並行 worktree 運用の注記**: 同一ブランチを複数 worktree/agent で触る task は「`git push` reject（`cannot lock ref ... is at X but expected Y`）時はまず `git fetch` → `git diff HEAD origin/<branch> --stat` が空なら remote が等価コミット保有、`--set-upstream-to` 追従で足りる（force-push 不要）」を運用注記に入れる。
+- 事例: 2026-05-24 `feat/serial-06-form-response-binding`（PR #888）。`scripts/e2e-mock-api.mjs` を `auth.ts publicMemberProfileBody()` に整合（`member_display_name`/`session_task18`/`kobe(zone)`、重複 activity section 削除、`longText`→`paragraph`）→ dev #892/#893 を 2 段 sync-merge → baseline 再撮影 → 最終 head で e2e/smoke/visual-full 全 PASS、PR `CLEAN`。
+- 詳細は aiworkflow-requirements 配下の L-DEVSYNC-039 を参照。
