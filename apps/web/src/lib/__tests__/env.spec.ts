@@ -73,6 +73,19 @@ describe("env", () => {
     expect(env.NEXT_PUBLIC_SENTRY_TRACES_SAMPLE_RATE).toBe(0.2);
   });
 
+  it("getPublicEnv exposes the public Sentry DSN for CSP report endpoint derivation", () => {
+    expect(
+      getPublicEnv({
+        ...validEnv,
+        NEXT_PUBLIC_SENTRY_DSN: "https://abc123@o0.ingest.sentry.io/1",
+      }),
+    ).toEqual({
+      ENVIRONMENT: "local",
+      NEXT_PUBLIC_API_BASE_URL: "http://127.0.0.1:8787",
+      NEXT_PUBLIC_SENTRY_DSN: "https://abc123@o0.ingest.sentry.io/1",
+    });
+  });
+
   it("getEnv throws ZodError for invalid NEXT_PUBLIC_SENTRY_DSN", () => {
     expect(() =>
       getEnv({ ...validEnv, NEXT_PUBLIC_SENTRY_DSN: "not-a-url" }),
@@ -139,6 +152,7 @@ describe("env", () => {
     expect(getPublicEnv({ ...validEnv, AUTH_SECRET: "x".repeat(32) })).toEqual({
       ENVIRONMENT: "local",
       NEXT_PUBLIC_API_BASE_URL: "http://127.0.0.1:8787",
+      NEXT_PUBLIC_SENTRY_DSN: undefined,
     });
   });
 });
