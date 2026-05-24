@@ -13,6 +13,20 @@
 | inventory | `.claude/skills/aiworkflow-requirements/references/workflow-step-08-audit-filter-paging-verify-artifact-inventory.md` |
 | boundary | Phase 11 local regression evidence captured; commit, push, PR are user-gated |
 
+## members-page-prototype-alignment（2026-05-23）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/members-page-prototype-alignment/` |
+| 状態 | `implemented_local_evidence_captured / implementation / VISUAL` |
+| scope | 公開 `/members` と public chrome を frozen prototype `MemberListPage` / CSS に整合。既存 `GET /public/members` と URL query helper は不変 |
+| implementation targets | `PublicHeader.tsx`, `PublicFooter.tsx`, `DensityToggle.client.tsx`, `MemberFilters.client.tsx`, `MemberCard.tsx`, `MemberGrid.tsx`, `MemberTable.tsx`, `EmptyState.tsx`, `Segmented.tsx`, `legacy-public.css`, `app/(public)/members/page.tsx` |
+| Phase 12 | `outputs/phase-12/phase12-task-spec-compliance-check.md` + strict 7 present |
+| Phase 11 | `outputs/phase-11/screenshots/EV-1..6` + Playwright report present |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-members-page-prototype-alignment-artifact-inventory.md` |
+| lessons | `.claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-members-page-prototype-alignment-2026-05.md` |
+| user gate | staging deploy, production-equivalent visual evidence, commit, push, PR |
+
 ## Issue #827 member detail adapter and visibility defense（2026-05-23）
 
 | 目的 | 参照先 |
@@ -590,6 +604,7 @@
 | implementation boundary | no new API endpoint / D1 schema / Google Form change; minimal `apps/web` AppShell / selector hooks and parallel-01 P1-1〜P1-5 CSS selectors added; full 19-route binding and visual evidence remain user-gated work |
 | implementation boundary | no new API endpoint / D1 schema / Google Form change; minimal `apps/web` AppShell / selector hooks added; full 19-route binding and visual evidence remain user-gated work |
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-ui-prototype-design-system-foundation-artifact-inventory.md` |
+| sub-workflow serial-06 Form Response Binding（2026-05-23） | `docs/30-workflows/ui-prototype-design-system-foundation/serial-06-form-response-binding/`、status `spec_created / implementation / VISUAL / strict7-parent-aggregated`、adapter/page/MemberDetail/fixture/spec の実装仕様。standalone `docs/30-workflows/serial-06-form-response-binding/` は禁止 duplicate topology、Phase 12 strict 7 は parent root 集約、sub 側は `phase-12-compliance-check.md` のみ |
 | sub-workflow parallel-03 AppShell Layouts（2026-05-19） | `docs/30-workflows/ui-prototype-design-system-foundation/parallel-03-appshell-layouts/`、status `implemented_local_evidence_captured / implementation / VISUAL (public chrome only; admin/member deferred-to-serial-07)`、`implementation_mode: existing-layout-alignment`、3 layout (`apps/web/app/(public\|member\|admin)/layout.tsx`) に `data-theme` / `data-route-group` / `data-shell` / `data-route` / `data-testid` を付与、OKLch token (`var(--ubm-color-*)`) 経由のみ、既存 primitive 無改変、admin は `getSession()` 2 段防御 + redirect 維持、Phase 11 evidence は `outputs/phase-11/`、lessons-learned `.claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-parallel-03-appshell-layouts-2026-05.md` (L-PAR03-001..005) |
 
 ### Issue #749 Primitive Adoption Tracker（2026-05-17）
