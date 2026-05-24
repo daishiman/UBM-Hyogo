@@ -54,7 +54,7 @@ describe("MemberDetailSections", () => {
     expect(visibilityRows.length).toBe(rows.length);
   });
 
-  it("excludes url kind from KVList (TC-U-03)", () => {
+  it("renders pre-filtered fields without applying adapter rules (TC-U-03)", () => {
     const sec = makeSection({
       fields: [
         {
@@ -76,13 +76,13 @@ describe("MemberDetailSections", () => {
       ],
     });
     const { container } = render(<MemberDetailSections sections={[sec]} />);
-    expect(container.querySelectorAll(".kv-row").length).toBe(1);
+    expect(container.querySelectorAll(".kv-row").length).toBe(2);
     expect(
       container.querySelector('[data-stable-key="basic:fullName"]'),
     ).toBeTruthy();
     expect(
       container.querySelector('[data-stable-key="links:site"]'),
-    ).toBeFalsy();
+    ).toBeTruthy();
   });
 
   it("renders array as comma-joined and null/empty as em-dash (TC-U-04)", () => {
@@ -114,18 +114,9 @@ describe("MemberDetailSections", () => {
     expect(values).toContain("—");
   });
 
-  it("hides section when no visible fields remain", () => {
+  it("hides section when adapter passes an empty fields array", () => {
     const sec = makeSection({
-      fields: [
-        {
-          stableKey: "links:only",
-          label: "サイト",
-          value: "https://x",
-          kind: "url",
-          visibility: "public",
-          source: "forms",
-        },
-      ],
+      fields: [],
     });
     const { container } = render(<MemberDetailSections sections={[sec]} />);
     expect(container.querySelector('[data-section="basic"]')).toBeFalsy();
