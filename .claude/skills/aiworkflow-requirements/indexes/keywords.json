@@ -3178,6 +3178,7 @@
       "workflow-issue-777-schema-diff-resolve-history-view-artifact-inventory.md",
       "workflow-issue-800-profile-error-focus-transfer-artifact-inventory.md",
       "workflow-issue-801-admin-error-focus-transfer-artifact-inventory.md",
+      "workflow-members-page-prototype-alignment-artifact-inventory.md",
       "workflow-parallel-i03-dialog-refresh-order-artifact-inventory.md",
       "workflow-task-09-w3-par-tailwind-v4-setup-artifact-inventory.md",
       "workflow-task-14-my-profile-and-requests-artifact-inventory.md",
@@ -4662,6 +4663,7 @@
       "workflow-issue-806-dynamic-member-og-image-artifact-inventory.md",
       "workflow-issue-819-admin-dashboard-runtime-screenshot-artifact-inventory.md",
       "workflow-issue-827-member-detail-adapter-and-visibility-defense-artifact-inventory.md",
+      "workflow-members-page-prototype-alignment-artifact-inventory.md",
       "workflow-parallel-04-shared-page-chrome-artifact-inventory.md",
       "workflow-profile-loading-skeleton-oklch-artifact-inventory.md",
       "workflow-step-07-requests-approve-reject-artifact-inventory.md",
@@ -5740,6 +5742,7 @@
       "workflow-issue-806-dynamic-member-og-image-artifact-inventory.md",
       "workflow-issue-827-member-detail-adapter-and-visibility-defense-artifact-inventory.md",
       "workflow-login-page-prototype-alignment-artifact-inventory.md",
+      "workflow-members-page-prototype-alignment-artifact-inventory.md",
       "workflow-profile-loading-skeleton-oklch-artifact-inventory.md",
       "workflow-serial-05-step-03-schema-diff-resolve-artifact-inventory.md",
       "workflow-skill-ledger-a3-progressive-disclosure-artifact-inventory.md",
@@ -12431,7 +12434,8 @@
       "lessons-learned-06a-public-web-2026-04.md",
       "lessons-learned-06c-B-admin-members-2026-05.md",
       "workflow-home-page-prototype-alignment-artifact-inventory.md",
-      "workflow-login-page-prototype-alignment-artifact-inventory.md"
+      "workflow-login-page-prototype-alignment-artifact-inventory.md",
+      "workflow-members-page-prototype-alignment-artifact-inventory.md"
     ],
     "tsx": [
       "lessons-learned-06a-public-web-2026-04.md",
@@ -12718,6 +12722,7 @@
       "workflow-issue-806-dynamic-member-og-image-artifact-inventory.md",
       "workflow-issue-827-member-detail-adapter-and-visibility-defense-artifact-inventory.md",
       "workflow-login-page-prototype-alignment-artifact-inventory.md",
+      "workflow-members-page-prototype-alignment-artifact-inventory.md",
       "workflow-permission-fallback-abort-skip-retry.md",
       "workflow-profile-loading-skeleton-oklch-artifact-inventory.md",
       "workflow-serial-05-step-03-schema-diff-resolve-artifact-inventory.md",
@@ -12840,6 +12845,7 @@
       "lessons-learned-task-15-admin-dashboard-and-members-2026-05.md",
       "ui-ux-admin-dashboard.md",
       "workflow-06c-B-admin-members-artifact-inventory.md",
+      "workflow-members-page-prototype-alignment-artifact-inventory.md",
       "workflow-task-15-admin-dashboard-and-members-artifact-inventory.md",
       "workflow-task-runtime-smoke-admin-members-500-recovery-001-artifact-inventory.md"
     ],
@@ -14152,6 +14158,7 @@
       "workflow-admin-ui-prototype-alignment-artifact-inventory.md",
       "workflow-home-page-prototype-alignment-artifact-inventory.md",
       "workflow-login-page-prototype-alignment-artifact-inventory.md",
+      "workflow-members-page-prototype-alignment-artifact-inventory.md",
       "workflow-ui-prototype-design-system-foundation-artifact-inventory.md"
     ],
     "alignment": [
@@ -14159,7 +14166,8 @@
       "logs-archive-2026-03-auth-mode-migration-sync.md",
       "workflow-admin-ui-prototype-alignment-artifact-inventory.md",
       "workflow-home-page-prototype-alignment-artifact-inventory.md",
-      "workflow-login-page-prototype-alignment-artifact-inventory.md"
+      "workflow-login-page-prototype-alignment-artifact-inventory.md",
+      "workflow-members-page-prototype-alignment-artifact-inventory.md"
     ],
     "苦戦箇所と再利用パターン": [
       "lessons-learned-admin-ui-prototype-alignment-2026-05.md"
@@ -14745,6 +14753,7 @@
       "workflow-issue-806-dynamic-member-og-image-artifact-inventory.md",
       "workflow-issue-827-member-detail-adapter-and-visibility-defense-artifact-inventory.md",
       "workflow-login-page-prototype-alignment-artifact-inventory.md",
+      "workflow-members-page-prototype-alignment-artifact-inventory.md",
       "workflow-permission-fallback-abort-skip-retry.md",
       "workflow-profile-loading-skeleton-oklch-artifact-inventory.md",
       "workflow-serial-05-step-03-schema-diff-resolve-artifact-inventory.md",
