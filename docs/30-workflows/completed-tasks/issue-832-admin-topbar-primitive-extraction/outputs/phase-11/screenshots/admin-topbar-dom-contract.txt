@@ -1,0 +1,5 @@
+topbar HEADER
+breadcrumb true
+actions true
+routeGroup DIV
+theme DIV

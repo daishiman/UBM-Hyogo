@@ -703,6 +703,7 @@
       "workflow-issue-378-tag-queue-paused-flag-artifact-inventory.md",
       "workflow-issue-718-legacy-cf-token-revocation-artifact-inventory.md",
       "workflow-issue-775-serial-05-step-03-runtime-evidence-completion-artifact-inventory.md",
+      "workflow-mypage-prototype-alignment-artifact-inventory.md",
       "workflow-parallel-i06-root-error-focus-artifact-inventory.md",
       "workflow-task-07-prototype-mapping-table-artifact-inventory.md",
       "workflow-task-09a-A-staging-deploy-smoke-execution-artifact-inventory.md",
@@ -887,7 +888,8 @@
       "workflow-issue-516-github-audit-log-cross-source-correlation-artifact-inventory.md",
       "workflow-issue-559-task-03-followup-001-sentry-staging-runtime-evidence-artifact-inventory.md",
       "workflow-task-10-followup-001-opennext-esbuild-mismatch-artifact-inventory.md",
-      "workflow-task-25-followup-loading-state-observation-fixture-artifact-inventory.md"
+      "workflow-task-25-followup-loading-state-observation-fixture-artifact-inventory.md",
+      "workflow-ui-prototype-design-system-foundation-artifact-inventory.md"
     ],
     "up": [
       "api-endpoints.md",
@@ -3306,6 +3308,7 @@
       "workflow-issue-801-admin-error-focus-transfer-artifact-inventory.md",
       "workflow-issue-806-dynamic-member-og-image-artifact-inventory.md",
       "workflow-issue-819-admin-dashboard-runtime-screenshot-artifact-inventory.md",
+      "workflow-issue-832-admin-topbar-primitive-extraction-artifact-inventory.md",
       "workflow-parallel-04-shared-page-chrome-artifact-inventory.md",
       "workflow-parallel-i02b-admin-mutation-error-finalize-artifact-inventory.md",
       "workflow-parallel-i03-dialog-refresh-order-artifact-inventory.md",
@@ -4599,6 +4602,7 @@
       "workflow-issue-777-schema-diff-resolve-history-view-artifact-inventory.md",
       "workflow-issue-778-schema-alias-rollback-undo-artifact-inventory.md",
       "workflow-issue-799-use-auto-focus-on-mount-hook-artifact-inventory.md",
+      "workflow-issue-832-admin-topbar-primitive-extraction-artifact-inventory.md",
       "workflow-task-issue-299-schema-questions-fallback-retirement-artifact-inventory.md",
       "workflow-ut-17-cloudflare-analytics-alerts-artifact-inventory.md"
     ],
@@ -4665,6 +4669,7 @@
       "workflow-issue-819-admin-dashboard-runtime-screenshot-artifact-inventory.md",
       "workflow-issue-827-member-detail-adapter-and-visibility-defense-artifact-inventory.md",
       "workflow-members-page-prototype-alignment-artifact-inventory.md",
+      "workflow-mypage-prototype-alignment-artifact-inventory.md",
       "workflow-parallel-04-shared-page-chrome-artifact-inventory.md",
       "workflow-profile-loading-skeleton-oklch-artifact-inventory.md",
       "workflow-step-07-requests-approve-reject-artifact-inventory.md",
@@ -5890,6 +5895,7 @@
       "workflow-issue-55-notification-channel-and-optout-artifact-inventory.md",
       "workflow-issue-590-phase11-canonical-evidence-paths-artifact-inventory.md",
       "workflow-issue-616-miniflare-undici-upstream-tracking-artifact-inventory.md",
+      "workflow-mypage-prototype-alignment-artifact-inventory.md",
       "workflow-skill-lifecycle-created-skill-usage-journey.md",
       "workflow-task-07c-followup-003-audit-log-browsing-ui-artifact-inventory.md",
       "workflow-task-09-w3-par-tailwind-v4-setup-artifact-inventory.md",
@@ -6899,6 +6905,7 @@
       "workflow-issue-775-serial-05-step-03-runtime-evidence-completion-artifact-inventory.md",
       "workflow-issue-806-dynamic-member-og-image-artifact-inventory.md",
       "workflow-issue-827-member-detail-adapter-and-visibility-defense-artifact-inventory.md",
+      "workflow-mypage-prototype-alignment-artifact-inventory.md",
       "workflow-parallel-04-shared-page-chrome-artifact-inventory.md",
       "workflow-parallel-09-ux-cross-cutting-artifact-inventory.md",
       "workflow-parallel-i02b-admin-mutation-error-finalize-artifact-inventory.md",
@@ -7119,6 +7126,7 @@
       "workflow-issue-504-extended-fixture-50k-artifact-inventory.md",
       "workflow-issue-747-vitest-esbuild-arch-and-worktree-isolation-artifact-inventory.md",
       "workflow-issue-778-schema-alias-rollback-undo-artifact-inventory.md",
+      "workflow-mypage-prototype-alignment-artifact-inventory.md",
       "workflow-task-07-prototype-mapping-table-artifact-inventory.md",
       "workflow-task-08-w2-design-tokens-doc-artifact-inventory.md",
       "workflow-task-08b-A-playwright-e2e-full-execution-artifact-inventory.md",
@@ -9166,6 +9174,7 @@
       "workflow-issue-617-ci-test-time-reduction-split-artifact-inventory.md",
       "workflow-issue-718-legacy-cf-token-revocation-artifact-inventory.md",
       "workflow-login-page-prototype-alignment-artifact-inventory.md",
+      "workflow-mypage-prototype-alignment-artifact-inventory.md",
       "workflow-parallel-i06-root-error-focus-artifact-inventory.md",
       "workflow-step-07-requests-approve-reject-artifact-inventory.md",
       "workflow-task-09a-A-staging-deploy-smoke-execution-artifact-inventory.md",
@@ -10365,6 +10374,7 @@
       "workflow-issue-352-postmortem-template-automation-artifact-inventory.md",
       "workflow-issue-378-tag-queue-paused-flag-artifact-inventory.md",
       "workflow-issue-504-extended-fixture-50k-artifact-inventory.md",
+      "workflow-mypage-prototype-alignment-artifact-inventory.md",
       "workflow-parallel-04-shared-page-chrome-artifact-inventory.md",
       "workflow-parallel-i02b-admin-mutation-error-finalize-artifact-inventory.md",
       "workflow-task-07-prototype-mapping-table-artifact-inventory.md",
@@ -12397,6 +12407,7 @@
       "workflow-issue-554-audit-correlation-branch-protection-required-check-artifact-inventory.md",
       "workflow-issue-603-phase12-compliance-check-ci-gate-artifact-inventory.md",
       "workflow-issue-730-phase11-evidence-existence-validator-artifact-inventory.md",
+      "workflow-issue-832-admin-topbar-primitive-extraction-artifact-inventory.md",
       "workflow-login-page-prototype-alignment-artifact-inventory.md",
       "workflow-step-08-audit-filter-paging-verify-artifact-inventory.md"
     ],
@@ -14166,6 +14177,7 @@
       "workflow-home-page-prototype-alignment-artifact-inventory.md",
       "workflow-login-page-prototype-alignment-artifact-inventory.md",
       "workflow-members-page-prototype-alignment-artifact-inventory.md",
+      "workflow-mypage-prototype-alignment-artifact-inventory.md",
       "workflow-ui-prototype-design-system-foundation-artifact-inventory.md"
     ],
     "alignment": [
@@ -14174,7 +14186,8 @@
       "workflow-admin-ui-prototype-alignment-artifact-inventory.md",
       "workflow-home-page-prototype-alignment-artifact-inventory.md",
       "workflow-login-page-prototype-alignment-artifact-inventory.md",
-      "workflow-members-page-prototype-alignment-artifact-inventory.md"
+      "workflow-members-page-prototype-alignment-artifact-inventory.md",
+      "workflow-mypage-prototype-alignment-artifact-inventory.md"
     ],
     "苦戦箇所と再利用パターン": [
       "lessons-learned-admin-ui-prototype-alignment-2026-05.md"
@@ -16433,6 +16446,8 @@
       "workflow-issue-800-profile-error-focus-transfer-artifact-inventory.md",
       "workflow-issue-801-admin-error-focus-transfer-artifact-inventory.md",
       "workflow-issue-819-admin-dashboard-runtime-screenshot-artifact-inventory.md",
+      "workflow-issue-832-admin-topbar-primitive-extraction-artifact-inventory.md",
+      "workflow-mypage-prototype-alignment-artifact-inventory.md",
       "workflow-parallel-04-shared-page-chrome-artifact-inventory.md",
       "workflow-parallel-09-ux-cross-cutting-artifact-inventory.md",
       "workflow-parallel-i02b-admin-mutation-error-finalize-artifact-inventory.md",
@@ -18512,6 +18527,7 @@
       "workflow-issue-502-ut-07b-fu-01-followup-dlq-monitoring-dashboard-artifact-inventory.md",
       "workflow-issue-718-legacy-cf-token-revocation-artifact-inventory.md",
       "workflow-issue-775-serial-05-step-03-runtime-evidence-completion-artifact-inventory.md",
+      "workflow-mypage-prototype-alignment-artifact-inventory.md",
       "workflow-task-09a-A-staging-deploy-smoke-execution-artifact-inventory.md",
       "workflow-task-issue-494-09a-A-exec-staging-smoke-runtime-artifact-inventory.md",
       "workflow-ut-coverage-2026-05-wave-artifact-inventory.md"
@@ -22387,6 +22403,7 @@
       "workflow-issue-747-vitest-esbuild-arch-and-worktree-isolation-artifact-inventory.md",
       "workflow-issue-777-schema-diff-resolve-history-view-artifact-inventory.md",
       "workflow-issue-778-schema-alias-rollback-undo-artifact-inventory.md",
+      "workflow-mypage-prototype-alignment-artifact-inventory.md",
       "workflow-parallel-04-shared-page-chrome-artifact-inventory.md",
       "workflow-parallel-i02b-admin-mutation-error-finalize-artifact-inventory.md",
       "workflow-skill-lifecycle-created-skill-usage-journey.md",
@@ -24291,6 +24308,8 @@
       "workflow-issue-800-profile-error-focus-transfer-artifact-inventory.md",
       "workflow-issue-801-admin-error-focus-transfer-artifact-inventory.md",
       "workflow-issue-819-admin-dashboard-runtime-screenshot-artifact-inventory.md",
+      "workflow-issue-832-admin-topbar-primitive-extraction-artifact-inventory.md",
+      "workflow-mypage-prototype-alignment-artifact-inventory.md",
       "workflow-parallel-04-shared-page-chrome-artifact-inventory.md",
       "workflow-parallel-09-ux-cross-cutting-artifact-inventory.md",
       "workflow-parallel-i02b-admin-mutation-error-finalize-artifact-inventory.md",
@@ -24417,6 +24436,7 @@
       "workflow-issue-806-dynamic-member-og-image-artifact-inventory.md",
       "workflow-issue-827-member-detail-adapter-and-visibility-defense-artifact-inventory.md",
       "workflow-login-page-prototype-alignment-artifact-inventory.md",
+      "workflow-mypage-prototype-alignment-artifact-inventory.md",
       "workflow-parallel-04-shared-page-chrome-artifact-inventory.md",
       "workflow-parallel-09-ux-cross-cutting-artifact-inventory.md",
       "workflow-parallel-i02b-admin-mutation-error-finalize-artifact-inventory.md",
@@ -24462,6 +24482,7 @@
       "workflow-issue-730-phase11-evidence-existence-validator-artifact-inventory.md",
       "workflow-issue-776-schema-alias-bulk-resolve-artifact-inventory.md",
       "workflow-issue-777-schema-diff-resolve-history-view-artifact-inventory.md",
+      "workflow-mypage-prototype-alignment-artifact-inventory.md",
       "workflow-step-08-audit-filter-paging-verify-artifact-inventory.md",
       "workflow-task-07-prototype-mapping-table-artifact-inventory.md",
       "workflow-task-08b-A-playwright-e2e-full-execution-artifact-inventory.md",
@@ -24740,6 +24761,7 @@
       "workflow-issue-806-dynamic-member-og-image-artifact-inventory.md",
       "workflow-issue-827-member-detail-adapter-and-visibility-defense-artifact-inventory.md",
       "workflow-login-page-prototype-alignment-artifact-inventory.md",
+      "workflow-mypage-prototype-alignment-artifact-inventory.md",
       "workflow-parallel-04-shared-page-chrome-artifact-inventory.md",
       "workflow-parallel-i02b-admin-mutation-error-finalize-artifact-inventory.md",
       "workflow-step-07-requests-approve-reject-artifact-inventory.md",
@@ -24916,6 +24938,7 @@
       "workflow-issue-502-ut-07b-fu-01-followup-dlq-monitoring-dashboard-artifact-inventory.md",
       "workflow-issue-718-legacy-cf-token-revocation-artifact-inventory.md",
       "workflow-issue-775-serial-05-step-03-runtime-evidence-completion-artifact-inventory.md",
+      "workflow-mypage-prototype-alignment-artifact-inventory.md",
       "workflow-task-06-ui-ux-contract-rewrite-artifact-inventory.md",
       "workflow-task-09a-A-staging-deploy-smoke-execution-artifact-inventory.md",
       "workflow-task-21-w2-par-screen-blueprints-admin-artifact-inventory.md",
@@ -25135,6 +25158,16 @@
       "workflow-issue-800-profile-error-focus-transfer-artifact-inventory.md",
       "workflow-issue-801-admin-error-focus-transfer-artifact-inventory.md"
     ],
+    "AdminTopbar": [
+      "workflow-issue-832-admin-topbar-primitive-extraction-artifact-inventory.md",
+      "workflow-ui-prototype-design-system-foundation-artifact-inventory.md"
+    ],
+    "Primitive": [
+      "workflow-issue-832-admin-topbar-primitive-extraction-artifact-inventory.md"
+    ],
+    "Extraction": [
+      "workflow-issue-832-admin-topbar-primitive-extraction-artifact-inventory.md"
+    ],
     "ライトテーマ": [
       "workflow-light-theme-contrast-regression-guard.md"
     ],
@@ -25163,6 +25196,9 @@
     "Compliance": [
       "workflow-login-page-prototype-alignment-artifact-inventory.md",
       "workflow-task-09c-production-deploy-execution-001-artifact-inventory.md"
+    ],
+    "mypage": [
+      "workflow-mypage-prototype-alignment-artifact-inventory.md"
     ],
     "Wizard": [
       "workflow-onboarding-wizard-alignment.md"
