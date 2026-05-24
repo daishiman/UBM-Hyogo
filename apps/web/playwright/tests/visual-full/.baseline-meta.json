@@ -1,10 +1,9 @@
 {
   "$schema": "../../../../docs/30-workflows/task-709-visual-baseline-runtime-capture/schemas/baseline-meta.schema.json",
-  "captured_at_commit_sha": "04a8b6fc34a63e592ad19864d5d5f372868b1b64",
-  "captured_at": "2026-05-23T23:18:56Z",
+  "captured_at_commit_sha": "f3bb23b49c12e1ae8c25036b9af5c46ac6a81ba4",
+  "captured_at": "2026-05-24T03:55:45Z",
   "captured_via": "playwright-visual-baseline-update.yml#workflow_dispatch",
   "captured_run_ids": [
-    "25961551972",
     "25982741998",
     "26022102232",
     "26101682046",
@@ -13,7 +12,8 @@
     "26280741223",
     "26314107860",
     "26315562296",
-    "26346031061"
+    "26346031061",
+    "26351125393"
   ],
   "viewport_dimensions": {
     "desktop": {
@@ -41,5 +41,5 @@
   "refresh_workflow": ".github/workflows/playwright-visual-baseline-update.yml",
   "refresh_command_hint": "gh workflow run playwright-visual-baseline-update.yml -f reason=\"<why>\" -r <feature-branch>",
   "notes": "captured_at_commit_sha からの rendering_relevant_paths diff が空でない場合、baseline は stale。scripts/visual-baseline-status.sh で診断可能。",
-  "last_refresh_reason": "visual-full baseline staleness after dev #889 admin-ui prototype alignment merge into fix/admin-server-components-render-error"
+  "last_refresh_reason": "members-page prototype alignment merge (f3bb23b49): PublicHeader 共有 shell +13px (members/members-detail/register) と legacy-public.css/tokens.css による root +143px で visual-full / smoke baseline が stale。captured SHA 04a8b6fc は本ブランチUI変更前。"
 }
