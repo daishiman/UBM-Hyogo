@@ -1,5 +1,19 @@
 # クイックリファレンス
 
+## Issue #832 AdminTopbar primitive extraction（2026-05-23）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow | `docs/30-workflows/completed-tasks/issue-832-admin-topbar-primitive-extraction/` |
+| status | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION / implementation_complete_pending_pr` |
+| issue | #832 CLOSED。PR 文脈は `Refs #832` のみ |
+| source | `docs/30-workflows/completed-tasks/parallel-03-followup-001-admin-topbar-primitive-extraction.md` consumed |
+| implementation | `apps/web/src/components/layout/AdminTopbar.tsx`, `apps/web/app/(admin)/layout.tsx`, `apps/web/src/components/layout/__tests__/AdminTopbar.spec.tsx` |
+| contract | `data-shell="topbar"` は primitive root、`data-route-group="admin"` / `data-theme="cool"` は layout wrapper に残置。OKLch token のみ。 |
+| evidence | `AdminTopbar.spec.tsx` 9 cases + existing `(admin)/layout.spec.tsx` PASS; Phase 12 strict 7 present |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-832-admin-topbar-primitive-extraction-artifact-inventory.md` |
+| boundary | authenticated screenshot / commit / push / PR は user-gated |
+
 ## mypage-prototype-alignment（2026-05-23）
 
 | 目的 | 参照先 |
