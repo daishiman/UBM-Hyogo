@@ -1,0 +1,16 @@
+mise WARN  Config files in ~/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260523-142002-wt-1/.mise.toml are not trusted.
+Trust them with `mise trust`. See https://mise.jdx.dev/cli/trust.html for more information.
+[33mThe CJS build of Vite's Node API is deprecated. See https://vite.dev/guide/troubleshooting.html#vite-cjs-node-api-deprecated for more details.[39m
+
+ RUN  v2.1.9 /Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260523-142002-wt-1
+
+ ✓ apps/web/src/components/layout/__tests__/AdminTopbar.spec.tsx (5 tests) 1911ms
+   ✓ AdminTopbar > props 省略時に topbar root と既定 breadcrumb を描画する 449ms
+   ✓ AdminTopbar > breadcrumb slot と actions slot を差し替えられる 526ms
+   ✓ AdminTopbar > axe critical 違反 0 を維持する 619ms
+
+ Test Files  1 passed (1)
+      Tests  5 passed (5)
+   Start at  18:32:40
+   Duration  7.16s (transform 77ms, setup 0ms, collect 980ms, tests 1.91s, environment 2.85s, prepare 342ms)
+
