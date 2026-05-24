@@ -1749,8 +1749,8 @@ node scripts/list-specs.js --topics
 |------------|----|
 | Canonical Contract | L3 |
 | Env Boundary | L16 |
-| User-gated Follow-ups | L20 |
-| Workflow | L29 |
+| User-gated Follow-ups | L28 |
+| Workflow | L37 |
 
 ---
 
@@ -2946,6 +2946,8 @@ node scripts/list-specs.js --topics
 | Implementation Targets | L12 |
 | Evidence | L22 |
 | Boundary | L32 |
+
+### references/workflow-issue-869-csp-enforce-cutover-artifact-inventory.md
 
 ### references/workflow-light-theme-contrast-regression-guard.md
 

@@ -3,9 +3,9 @@ import { NextRequest } from "next/server";
 import { signSessionJwt, asMemberId } from "@ubm-hyogo/shared";
 
 vi.mock("@/lib/env", () => ({
-  getPublicEnv: () => ({
-    ENVIRONMENT: "local" as const,
-    NEXT_PUBLIC_API_BASE_URL: "http://localhost:8787",
+  getSecurityHeaderEnv: () => ({
+    cspMode: "report-only" as const,
+    apiBaseUrl: "http://localhost:8787",
   }),
 }));
 

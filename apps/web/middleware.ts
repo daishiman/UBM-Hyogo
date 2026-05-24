@@ -14,7 +14,7 @@
 // 不変条件 #11: admin / profile 画面 HTML を未認証に SSR させない。
 import { NextResponse, type NextRequest } from "next/server";
 import { decodeAuthSessionJwt } from "@ubm-hyogo/shared";
-import { getPublicEnv } from "@/lib/env";
+import { getSecurityHeaderEnv } from "@/lib/env";
 import {
   applySecurityHeaders,
   type SecurityHeaderConfig,
@@ -56,10 +56,10 @@ const sessionToken = (req: NextRequest): string | undefined => {
 };
 
 const buildSecurityHeaderConfig = (): SecurityHeaderConfig => {
-  const env = getPublicEnv();
+  const env = getSecurityHeaderEnv();
   return {
-    cspMode: "report-only",
-    apiBaseUrl: env.NEXT_PUBLIC_API_BASE_URL,
+    cspMode: env.cspMode,
+    apiBaseUrl: env.apiBaseUrl,
     authOrigin: "https://accounts.google.com",
   };
 };
