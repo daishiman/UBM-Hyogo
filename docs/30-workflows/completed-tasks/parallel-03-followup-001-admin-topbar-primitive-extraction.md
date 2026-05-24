@@ -10,15 +10,19 @@
 | 対象機能     | admin AppShell topbar slot（breadcrumb slot / actions slot）                                        |
 | 優先度       | 中                                                                                                  |
 | 見積もり規模 | 小規模                                                                                              |
-| ステータス   | 未実施                                                                                              |
+| ステータス   | consumed / implemented via canonical workflow                                                       |
 | 発見元       | parallel-03 Phase 12                                                                                |
 | 発見日       | 2026-05-19                                                                                          |
+| 完了日       | 2026-05-23                                                                                          |
 
 ## Canonical Workflow Status
 
 - 親 workflow: `docs/30-workflows/ui-prototype-design-system-foundation/parallel-03-appshell-layouts/`
+- canonical workflow: `docs/30-workflows/completed-tasks/issue-832-admin-topbar-primitive-extraction/`
+- consumed_at: 2026-05-23
+- consumed_by: Issue #832 AdminTopbar primitive extraction（`apps/web/src/components/layout/AdminTopbar.tsx` / `apps/web/src/components/layout/__tests__/AdminTopbar.spec.tsx` / `apps/web/app/(admin)/layout.tsx`）
 - deferred 宣言: `phase-13-commit-pr.md` line 192「AdminTopbar の primitive 化は本 workflow の必須成果物ではない。parallel-03 では inline JSX の topbar slot を完了形とする」
-- 現状実装: `apps/web/app/(admin)/layout.tsx` line 33-44（`<header data-shell="topbar">` の inline JSX）
+- 現状実装: canonical workflow で `AdminTopbar` primitive に抽出済み。旧 inline `<header data-shell="topbar">` は `apps/web/app/(admin)/layout.tsx` から除去済み
 - 既存 primitive 群（先行整備済み）:
   - `apps/web/src/components/layout/AdminSidebar.tsx`
   - `apps/web/src/components/layout/PublicHeader.tsx`

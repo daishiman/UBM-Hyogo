@@ -1,0 +1,77 @@
+{
+  "task_id": "step-08-audit-filter-paging-verify",
+  "created_at": "2026-05-23",
+  "status": "verified_current_no_code_change_pending_pr",
+  "task_type": "implementation",
+  "visual_category": "NON_VISUAL",
+  "metadata": {
+    "workflow_state": "verified_current_no_code_change_pending_pr",
+    "implementation_mode": "verify_existing",
+    "taskType": "implementation",
+    "visualEvidence": "NON_VISUAL",
+    "spec_classification": "implementation_spec",
+    "canonical_workflow": "docs/30-workflows/completed-tasks/step-08-audit-filter-paging-verify/",
+    "source_spec": "docs/30-workflows/ui-prototype-alignment-mvp-recovery/improvements/serial-05-admin-mutation-ui/step-08-audit-filter-paging/spec.md",
+    "spec_purpose": "監査結論（step-08 audit OK）をコード変更ゼロで回帰検証し、回帰保証として固定する verify_existing 仕様書",
+    "status_rationale": "verify_existing。新規コード変更なしで既存テストの回帰実行・coverage map・Phase 11 evidence・apps/packages diff zero を確認済みのため verified_current_no_code_change_pending_pr を採用。Phase 13 commit/push/PR のみ user-gated。",
+    "out_of_scope_followups": [
+      "CSV export（core 外 bonus）",
+      "Saved filters（core 外 bonus）",
+      "Real-time update / polling（core 外 bonus）"
+    ],
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-05-24T00:00:00+09:00",
+        "evidence_path": "docs/30-workflows/completed-tasks/step-08-audit-filter-paging-verify/outputs/phase-12/phase12-task-spec-compliance-check.md",
+        "approver": "daishiman",
+        "notes": "spec_review: Phase 1-13 verify_existing 仕様書群作成"
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "passed",
+        "passed_at": "2026-05-24T07:45:00+09:00",
+        "evidence_path": "docs/30-workflows/completed-tasks/step-08-audit-filter-paging-verify/outputs/phase-11/manual-test-result.md",
+        "approver": "daishiman",
+        "notes": "verification_review: regression run 実行済（Web 899 / API unit 362 / API contract D1 lane 9 / typecheck・lint PASS / apps diff 0 行）。AC-1〜AC-6 充足。evidence: outputs/phase-11/evidence/*.log"
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/step-08-audit-filter-paging-verify/outputs/phase-13/pr-creation-result.md",
+        "approver": "daishiman",
+        "notes": "external_ops: commit / push / PR は user 明示承認後のみ"
+      }
+    ]
+  },
+  "phases": [
+    { "phase": 1, "name": "要件定義", "status": "completed", "output": "phase-1-requirements.md" },
+    { "phase": 2, "name": "設計", "status": "completed", "output": "phase-2-design.md" },
+    { "phase": 3, "name": "設計レビュー", "status": "completed", "output": "phase-3-design-review.md" },
+    { "phase": 4, "name": "テスト計画", "status": "completed", "output": "phase-4-test-plan.md" },
+    { "phase": 5, "name": "実装手順（diff確認）", "status": "completed", "output": "phase-5-implementation.md" },
+    { "phase": 6, "name": "テスト追加", "status": "completed", "output": "phase-6-test-additions.md" },
+    { "phase": 7, "name": "カバレッジ", "status": "completed", "output": "phase-7-coverage.md" },
+    { "phase": 8, "name": "リファクタ", "status": "completed", "output": "phase-8-refactor.md" },
+    { "phase": 9, "name": "QA", "status": "completed", "output": "phase-9-qa.md" },
+    { "phase": 10, "name": "最終レビュー", "status": "completed", "output": "phase-10-final-review.md" },
+    { "phase": 11, "name": "手動テスト", "status": "completed", "output": "outputs/phase-11/manual-test-result.md" },
+    { "phase": 12, "name": "ドキュメント同期", "status": "completed", "output": "outputs/phase-12/phase12-task-spec-compliance-check.md" },
+    { "phase": 13, "name": "commit-pr-release", "status": "blocked_pending_user_approval", "output": "outputs/phase-13/pr-creation-result.md" }
+  ],
+  "implementation_targets": [],
+  "verification_targets": [
+    "apps/web/app/(admin)/admin/audit/page.tsx",
+    "apps/web/app/(admin)/admin/audit/audit-query.ts",
+    "apps/web/app/(admin)/admin/audit/loading.tsx",
+    "apps/web/src/components/admin/AuditLogPanel.tsx",
+    "apps/web/src/components/admin/__tests__/AuditLogPanel.component.spec.tsx",
+    "apps/web/app/(admin)/admin/audit/page.page.spec.ts",
+    "apps/api/src/routes/admin/audit.ts",
+    "apps/api/src/routes/admin/audit.contract.spec.ts",
+    "apps/api/src/repository/auditLog.ts",
+    "apps/api/src/lib/audit/redact.ts"
+  ]
+}

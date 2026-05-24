@@ -1,0 +1,18 @@
+# layout.spec.tsx unchanged evidence
+
+`apps/web/app/(admin)/layout.spec.tsx` is the existing regression gate and was NOT
+modified by this follow-up. The AdminTopbar primitive extraction keeps the admin
+layout DOM isomorphic, so the prior data-* contract assertions pass without edits.
+
+Command:
+  git diff --stat "apps/web/app/(admin)/layout.spec.tsx"
+
+Result:
+  (no output — zero diff, file unchanged)
+
+git status --porcelain "apps/web/app/(admin)/layout.spec.tsx"
+  (no output — not staged, not modified, not untracked)
+
+Interpretation: the existing admin layout spec continues to validate the
+`data-route-group="admin"` / `data-theme="cool"` / `data-testid="admin-shell"`
+wrapper contract unchanged, confirming the refactor is non-regressive.

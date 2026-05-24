@@ -58,6 +58,7 @@ const TABLES = [
   "identity_merge_audit",
   "audit_log",
   "audit_log_export_manifest",
+  "schema_alias_recompute_jobs",
   "schema_aliases",
   "magic_tokens",
   "sync_jobs",
