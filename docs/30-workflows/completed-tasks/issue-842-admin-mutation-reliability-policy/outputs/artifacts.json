@@ -1,0 +1,20 @@
+{
+  "task_id": "issue-842-admin-mutation-reliability-policy",
+  "status": "implemented",
+  "task_type": "implementation",
+  "visual_category": "NON_VISUAL",
+  "canonical_workflow": "docs/30-workflows/issue-842-admin-mutation-reliability-policy/",
+  "root_artifacts": "../../artifacts.json",
+  "phase_12": {
+    "status": "implemented",
+    "outputs": [
+      "outputs/phase-12/main.md",
+      "outputs/phase-12/implementation-guide.md",
+      "outputs/phase-12/system-spec-update-summary.md",
+      "outputs/phase-12/documentation-changelog.md",
+      "outputs/phase-12/unassigned-task-detection.md",
+      "outputs/phase-12/skill-feedback-report.md",
+      "outputs/phase-12/phase12-task-spec-compliance-check.md"
+    ]
+  }
+}
