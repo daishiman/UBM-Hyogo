@@ -14,6 +14,32 @@
   "metadata": {
     "taskType": "implementation",
     "visualEvidence": "VISUAL",
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-05-24T00:00:00+09:00",
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-837-schema-alias-bulk-rollback/outputs/phase-12/main.md",
+        "approver": "daishiman",
+        "notes": "spec_review: Phase 1-13 spec + phase12 strict 7 完了"
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "passed",
+        "passed_at": "2026-05-24T00:00:00+09:00",
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-837-schema-alias-bulk-rollback/outputs/phase-12/implementation-guide.md",
+        "approver": "daishiman",
+        "notes": "implementation_review: client-only fan-out helper + hook + modal + panel 統合・typecheck/lint/focused vitest green"
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-837-schema-alias-bulk-rollback/phase-13-pr-creation.md",
+        "approver": "daishiman",
+        "notes": "visual_runtime: runtime screenshot / staging smoke は user-gated evidence として保留"
+      }
+    ],
     "workflow_state": "implemented_local_evidence_captured",
     "implementation_status": "IMPLEMENTED_LOCAL_EVIDENCE_CAPTURED",
     "implementation_mode": "feature-extension-existing-api-client-fanout",
