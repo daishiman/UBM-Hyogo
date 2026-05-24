@@ -66,6 +66,15 @@ Phase-1 検証で 5 つの構造的な学びが抽出された。
   - evidence-only follow-up の Phase 12 compliance-check では、冒頭引用ブロックの `workflow_state` 文言を本文 verdict（`implemented_local_evidence_captured`）と一致させる。テンプレ流用時に `spec_created` 文言が残ると Four-condition verdict「矛盾なし」と正面衝突する。
 - 適用先: `parallel-03-followup-002-admin-runtime-evidence`（EV-12 admin DOM scrape）。member DOM (EV-13) は serial-05、full chrome screenshot (EV-15/16) は serial-07/#829 へ委譲済み。
 
+### L-PAR03-006: follow-up primitive 抽出時の test 配置補正と data-* 所有境界（AdminTopbar）
+
+- **Why（中学生向け）**: parallel-03 で「topbar はあとで部品にする」と先送りしていたものを follow-up 001 で実際に部品化した。そのとき (1) テストファイルの置き場所を source 指示どおりにすると周りのファイルとバラバラになる、(2) `data-*` の印をコンポーネントと外枠のどちらに貼るかを間違えると既存テストが落ちる、という 2 つのつまずきがあった。
+- **How to apply**:
+  - **test 配置**: source unassigned-task は `apps/web/src/components/layout/AdminTopbar.spec.tsx`（コンポーネント直下）を指定していたが、neighbor 慣習（`__tests__/AdminSidebar.component.spec.tsx` / `__tests__/MemberHeader.spec.tsx`）に合わせ `apps/web/src/components/layout/__tests__/AdminTopbar.spec.tsx` へ補正する。source 指示よりも実ディレクトリの既存配置慣習を優先し、consumed trace（source md）と canonical 仕様書（phase-05 / phase-06）の双方を補正後 path に更新して drift を残さない。
+  - **data-* 所有境界（successor contract）**: inline JSX を primitive 化する際、`data-shell="topbar"` は AdminTopbar primitive root の `<header>` が所有し、`data-route-group="admin"` / `data-theme="cool"` / `data-testid="admin-shell"` は `(admin)/layout.tsx` の wrapper 側に残す。これにより DOM が同型に保たれ、既存 `(admin)/layout.spec.tsx` を無修正で pass させられる（regression gate をそのまま流用）。
+  - **VISUAL boundary**: DOM 同型リファクタは `NON_VISUAL` とし、screenshot baseline を追加しない。視覚的非回帰は existing layout spec + serial-07 visual owner 継続で担保し、Phase 11 evidence は spec log / typecheck / lint / build / token gate / diff-stat で構成する。
+- 適用先: 既存 inline chrome を primitive へ抽出する後続 follow-up（breadcrumb / actions 実装など）。
+
 ## 関連ドキュメント
 
 - artifact inventory: `references/workflow-ui-prototype-design-system-foundation-artifact-inventory.md` § Sub-workflow: parallel-03 AppShell Layouts
@@ -79,3 +88,4 @@ Phase-1 検証で 5 つの構造的な学びが抽出された。
 |------|--------|
 | 2026-05-19 | parallel-03 AppShell Layouts Phase-1 検証由来の L-PAR03-001..005 を新規記録 |
 | 2026-05-24 | follow-up `parallel-03-followup-002-admin-runtime-evidence`（EV-12 admin DOM scrape 取得）由来の L-PAR03-006 を追記。evidence pending→present 昇格 follow-up の同 wave 同期と spec 固定 path vs 再現コマンド drift の教訓を記録 |
+| 2026-05-23 | follow-up 001 AdminTopbar primitive 抽出の苦戦箇所 L-PAR03-006（test 配置補正・data-* 所有境界・NON_VISUAL boundary）を追記 |

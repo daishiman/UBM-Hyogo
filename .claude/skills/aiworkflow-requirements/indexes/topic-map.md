@@ -2947,6 +2947,12 @@ node scripts/list-specs.js --topics
 | Evidence | L22 |
 | Boundary | L32 |
 
+### references/workflow-issue-832-admin-topbar-primitive-extraction-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Boundaries | L16 |
+
 ### references/workflow-light-theme-contrast-regression-guard.md
 
 | セクション | 行 |
@@ -3793,14 +3799,15 @@ node scripts/list-specs.js --topics
 | Workflow Outputs | L39 |
 | Implementation Boundary | L57 |
 | Sub-workflow: parallel-03 AppShell Layouts（2026-05-19） | L67 |
-| parallel-02 prototype CSS rules port (2026-05-19 close-out) | L88 |
-| Follow-up unassigned tasks (proto-spec) | L99 |
-| Difficulties summary (parallel-02) | L111 |
-| Sub-workflow: serial-05 Page Routes Blueprint Binding（2026-05-22 spec validation） | L145 |
-| Sub-workflow: serial-06 Form Response Binding（2026-05-23 spec validation） | L158 |
-| P1-1〜P1-5 Selector ↔ Token ↔ 09 Spec Mapping (parallel-01) | L172 |
-| Sub-workflows | L217 |
-| P1-1〜P1-5 Selector ↔ Token ↔ 09 Spec Mapping (parallel-01) | L226 |
+| AdminTopbar follow-up 001（2026-05-23） | L87 |
+| parallel-02 prototype CSS rules port (2026-05-19 close-out) | L100 |
+| Follow-up unassigned tasks (proto-spec) | L111 |
+| Difficulties summary (parallel-02) | L123 |
+| Sub-workflow: serial-05 Page Routes Blueprint Binding（2026-05-22 spec validation） | L157 |
+| Sub-workflow: serial-06 Form Response Binding（2026-05-23 spec validation） | L170 |
+| P1-1〜P1-5 Selector ↔ Token ↔ 09 Spec Mapping (parallel-01) | L184 |
+| Sub-workflows | L229 |
+| P1-1〜P1-5 Selector ↔ Token ↔ 09 Spec Mapping (parallel-01) | L238 |
 
 ### references/workflow-ui-ux-visual-baseline-drift.md
 
@@ -7476,14 +7483,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L2197 |
-| フェーズ構造（概要） | L2206 |
-| 品質ゲート（概要） | L2237 |
-| 出力テンプレート | L2248 |
-| 実行時のコマンド・エージェント・スキル | L2271 |
-| 昇格パターン集 | L2295 |
-| Current Active / Spec Created Tasks | L2297 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L2457 |
+| ドキュメント構成 | L2214 |
+| フェーズ構造（概要） | L2223 |
+| 品質ゲート（概要） | L2254 |
+| 出力テンプレート | L2265 |
+| 実行時のコマンド・エージェント・スキル | L2288 |
+| 昇格パターン集 | L2312 |
+| Current Active / Spec Created Tasks | L2314 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L2474 |
 
 ### references/task-workflow-backlog-part2.md
 

@@ -84,6 +84,18 @@ and keep the current `apps/web/app/**` paths, including root app paths for
 | out-of-scope | `/privacy` / `/terms` / `/profile` の route group 再配置と member DOM scrape は serial-05、admin/member runtime full chrome screenshot は serial-07 |
 | user gate | commit / push / PR / serial-07 visual evidence capture |
 
+## AdminTopbar follow-up 001（2026-05-23）
+
+| item | value |
+|------|-------|
+| workflow | `docs/30-workflows/parallel-03-followup-001-admin-topbar-primitive-extraction/` |
+| status | `implemented_local_evidence_captured / implementation / NON_VISUAL` |
+| source | `docs/30-workflows/unassigned-task/parallel-03-followup-001-admin-topbar-primitive-extraction.md` consumed |
+| implementation files | `apps/web/src/components/layout/AdminTopbar.tsx`, `apps/web/app/(admin)/layout.tsx`, `apps/web/src/components/layout/__tests__/AdminTopbar.spec.tsx` |
+| contract | `data-shell="topbar"` は AdminTopbar root `<header>`、`data-route-group="admin"` / `data-theme="cool"` / `data-testid="admin-shell"` は `(admin)/layout.tsx` wrapper に残す |
+| visual boundary | inline JSX から primitive への DOM 同型リファクタ。screenshot baseline は追加せず、existing layout spec と serial-07 visual owner 継続で非回帰を担保 |
+| user gate | commit / push / PR |
+
 
 ## parallel-02 prototype CSS rules port (2026-05-19 close-out)
 

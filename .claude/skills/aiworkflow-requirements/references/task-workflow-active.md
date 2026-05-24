@@ -186,6 +186,21 @@
 | evidence boundary | Local implementation present。Phase 12 strict 7 present。Focused tests/build evidence and dev-server smoke remain runtime evidence gates; commit / push / PR / Issue close are user-gated |
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-277-next-proxy-migration-artifact-inventory.md` |
 
+### Issue #832 AdminTopbar primitive extraction（2026-05-23）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION / implementation_complete_pending_pr` |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-832-admin-topbar-primitive-extraction/` |
+| Issue | #832 CLOSED。PR 文脈は `Refs #832` のみ |
+| source | `docs/30-workflows/completed-tasks/parallel-03-followup-001-admin-topbar-primitive-extraction.md` consumed |
+| parent | `docs/30-workflows/ui-prototype-design-system-foundation/parallel-03-appshell-layouts/` |
+| 目的 | `(admin)/layout.tsx` の inline `<header data-shell="topbar">` を `AdminTopbar` Server Component primitive へ抽出する |
+| implementation targets | `apps/web/src/components/layout/AdminTopbar.tsx`, `apps/web/src/components/layout/__tests__/AdminTopbar.spec.tsx`, `apps/web/app/(admin)/layout.tsx` |
+| evidence | `@ubm-hyogo/web` Vitest suite PASS、`AdminTopbar.spec.tsx` 9 cases、existing `(admin)/layout.spec.tsx` 4 cases PASS、Phase 12 strict 7 present |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-832-admin-topbar-primitive-extraction-artifact-inventory.md` |
+| user gate | authenticated browser screenshot, commit, push, PR |
+
 ### Issue #777 schema diff resolve history view（2026-05-20）
 
 | 項目 | 値 |
@@ -528,6 +543,8 @@
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-ui-prototype-design-system-foundation-artifact-inventory.md` |
 | user gate | code implementation, visual screenshots, commit, push, PR |
 | sub-workflow parallel-03 AppShell Layouts | status `implemented_local_evidence_captured / implementation / VISUAL (public screenshot + admin DOM scrape present; member DOM / full chrome screenshots delegated)`; `implementation_mode: existing-layout-alignment`; 編集 `apps/web/app/(public\|member\|admin)/layout.tsx`、追加 spec `apps/web/app/(public\|member\|admin)/layout.spec.tsx` + `apps/web/playwright/tests/parallel-03-admin-shell-scrape.spec.ts`; data-* 契約 (`data-theme` / `data-route-group` / `data-shell` / `data-route` / `data-testid`) + OKLch token (`var(--ubm-color-*)`) only + 既存 primitive 無改変 + admin 2 段防御 `getSession()` redirect; EV-12 `outputs/phase-11/dom-scrape-admin.txt` present; lessons `.claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-parallel-03-appshell-layouts-2026-05.md` (L-PAR03-001..005); member DOM は serial-05、full chrome admin/member screenshot は親 workflow `serial-07-regression-evidence/` へ deferred-to-serial-07; commit / push / PR は user-gated |
+| sub-workflow parallel-03 AppShell Layouts | status `implemented_local_evidence_captured / implementation / VISUAL (public chrome only; admin/member deferred-to-serial-07)`; `implementation_mode: existing-layout-alignment`; 編集 `apps/web/app/(public\|member\|admin)/layout.tsx`、追加 spec `apps/web/app/(public\|member\|admin)/layout.spec.tsx`; data-* 契約 (`data-theme` / `data-route-group` / `data-shell` / `data-route` / `data-testid`) + OKLch token (`var(--ubm-color-*)`) only + 既存 primitive 無改変 + admin 2 段防御 `getSession()` redirect; lessons `.claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-parallel-03-appshell-layouts-2026-05.md` (L-PAR03-001..005); full chrome admin/member screenshot は親 workflow `serial-07-regression-evidence/` へ deferred-to-serial-07; commit / push / PR は user-gated |
+| follow-up 001 AdminTopbar extraction | status `implemented_local_evidence_captured / implementation / NON_VISUAL`; canonical root `docs/30-workflows/parallel-03-followup-001-admin-topbar-primitive-extraction/`; source `docs/30-workflows/unassigned-task/parallel-03-followup-001-admin-topbar-primitive-extraction.md` consumed; implementation `apps/web/src/components/layout/AdminTopbar.tsx`, `apps/web/app/(admin)/layout.tsx`, `apps/web/src/components/layout/__tests__/AdminTopbar.spec.tsx`; successor contract: parent parallel-03 inline topbar moved into primitive, wrapper data-* remains in layout, serial-07 visual evidence owner continues; commit / push / PR are user-gated |
 | user gate | full 19-route binding, runtime visual screenshots, commit, push, PR |
 | user gate | full 19-route binding, visual screenshots, commit, push, PR |
 | user gate | full 19-route binding, visual screenshots, commit, push, PR |
