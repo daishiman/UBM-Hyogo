@@ -1,0 +1,3 @@
+Command: bash scripts/smoke/__tests__/runtime-attendance-provider.test.sh
+Result: PASS
+Covered: auth-secret-binding-missing, auth-secret-drift, auth-token-expired, auth-not-admin, redacted body persistence, summary output.
