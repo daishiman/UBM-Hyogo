@@ -33,6 +33,7 @@ describe("lib/admin/api.ts (不変条件)", () => {
     expect(typeof adminApi.resolveTagQueue).toBe("function");
     expect(typeof adminApi.postSchemaAlias).toBe("function");
     expect(typeof adminApi.rollbackSchemaAlias).toBe("function");
+    expect(typeof adminApi.rollbackSchemaAliasBulk).toBe("function");
     expect(typeof adminApi.createMeeting).toBe("function");
     expect(typeof adminApi.addAttendance).toBe("function");
     expect(typeof adminApi.removeAttendance).toBe("function");
@@ -518,6 +519,63 @@ describe("lib/admin/api.ts call() の振る舞い", () => {
       status: 0,
       code: "network_error",
       message: "offline",
+    });
+  });
+
+  it("BULK-ROLLBACK-01 rollbackSchemaAliasBulk は single rollback endpoint を行ごとに呼ぶ", async () => {
+    fetchSpy.mockResolvedValue(
+      jsonResponse(200, {
+        aliasId: "alias-1",
+        rolledBackAt: "2026-05-19T00:00:00.000Z",
+        relatedAuditId: "aud-1",
+        newVersion: 3,
+        impact: { affectedResponseCount: 2, recomputeRequired: false },
+      }),
+    );
+    const onRowResult = vi.fn();
+    const out = await adminApi.rollbackSchemaAliasBulk(
+      [
+        { aliasId: "alias-1", version: 1 },
+        { aliasId: "alias 2", version: 2 },
+      ],
+      { onRowResult },
+    );
+    expect(out.results.map((r) => r.status)).toEqual(["success", "success"]);
+    expect((fetchSpy.mock.calls[0] as [string])[0]).toBe(
+      "/api/admin/schema/aliases/alias-1/rollback",
+    );
+    expect((fetchSpy.mock.calls[1] as [string])[0]).toBe(
+      "/api/admin/schema/aliases/alias%202/rollback",
+    );
+    expect(onRowResult).toHaveBeenCalledWith(out.results[0], 0);
+  });
+
+  it("BULK-ROLLBACK-02 rollbackSchemaAliasBulk は 409 を row-level version_mismatch にする", async () => {
+    fetchSpy.mockImplementation((url: unknown) => {
+      if (String(url).includes("alias-2")) {
+        return Promise.resolve(
+          jsonResponse(409, { error: "version_mismatch", message: "race detected" }),
+        );
+      }
+      return Promise.resolve(
+        jsonResponse(200, {
+          aliasId: "alias-1",
+          rolledBackAt: "2026-05-19T00:00:00.000Z",
+          relatedAuditId: null,
+          newVersion: 2,
+          impact: { affectedResponseCount: 0, recomputeRequired: false },
+        }),
+      );
+    });
+    const out = await adminApi.rollbackSchemaAliasBulk([
+      { aliasId: "alias-1", version: 1 },
+      { aliasId: "alias-2", version: 1 },
+    ]);
+    expect(out.results.map((r) => r.status)).toEqual(["success", "error"]);
+    expect(out.results[1].error).toMatchObject({
+      kind: "version_mismatch",
+      httpStatus: 409,
+      message: "race detected",
     });
   });
 });

@@ -9,9 +9,12 @@
 | 分類 | follow-up / admin bulk operation |
 | 対象機能 | `/admin/schema` rollback |
 | 優先度 | 低 |
-| ステータス | pending |
+| ステータス | consumed |
 | 発見元 | `docs/30-workflows/issue-778-schema-alias-rollback-undo/` |
 | 発見日 | 2026-05-19 |
+| canonical_workflow | `docs/30-workflows/issue-837-schema-alias-bulk-rollback/` |
+| consumed_at | 2026-05-24 |
+| consumed_by | Issue #837 implementation cycle |
 
 ## なぜこのタスクが必要か
 
