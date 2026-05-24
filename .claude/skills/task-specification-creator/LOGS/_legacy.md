@@ -4,6 +4,12 @@
 
 このファイルは task-specification-creator の運用・改善・Phase 12 close-out 同期履歴を新しい順に記録する。
 
+## 2026-05-24 - Issue #837 schema alias bulk rollback automation-30 close-out
+
+- `docs/30-workflows/issue-837-schema-alias-bulk-rollback/` の `implementation` task が `spec_created` / code未実装で閉じていたため、CONST_004/005 に従い同サイクルで実装へ昇格。
+- `apps/web` 実装、focused Vitest 69 PASS、typecheck PASS、manual specs 01/11、aiworkflow ledgers、source unassigned consumed trace を同一 wave で反映。
+- Runtime screenshot / staging smoke / commit / push / PR は user-gated 境界として残す。
+
 ## 2026-05-17 - Issue #749 primitive adoption tracker review
 
 `docs/30-workflows/completed-tasks/issue-749-primitive-adoption-tracker/` の 30 種思考法レビューを反映した。実コード差分を伴う workflow は docs-only / spec-created のラベルに固定せず、`implemented_local_evidence_captured` として Phase 11 local evidence、Phase 12 strict 7、root artifacts、skill sync を同一サイクルで揃える。route SSOT は moved completed root の `docs/30-workflows/completed-tasks/ui-prototype-alignment-mvp-recovery/SCOPE.md` を参照し、コピーした route matrix の stale row を Phase 4/7/11 gate へ波及させない。primitive adoption gate は import-only や `void` placeholder ではなく、実 JSX rendering / `useAdminMutation().trigger()` / EmptyState / Pagination を検査する。未タスク候補は同一サイクルで解消可能なら unassigned-task 化せず、`unassigned-task-detection.md` に 0 件と解消理由を記録する。
@@ -2730,3 +2736,8 @@ AC-1〜AC-6 全達成。Phase 10 判定: PASS（MINOR 0件）
 
 - Applied Phase 11 evidence existence and Phase 12 strict 7 compliance rules to `docs/30-workflows/issue-256-e2e-coverage-baseline-runbook/`.
 - Confirmed CLOSED Issue PR wording uses `Refs #256` instead of close keywords.
+
+# 2026-05-23 Issue #836 closed issue freshness tables
+
+- Promoted Issue #836 schema alias recompute trigger feedback into `closed-issue-canonical-workflow-recovery.md`: CLOSED Issue recovery Phase 1 must include current-codebase implementation status and original-assumption/current-reality/optimized-policy tables.
+- Source follow-up 005 is consumed via `docs/30-workflows/completed-tasks/issue-836-schema-alias-recompute-trigger/`.

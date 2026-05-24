@@ -43,3 +43,4 @@ UT-25 で本番配置済みの `GOOGLE_SERVICE_ACCOUNT_JSON` シークレット�
 - 元仕様: `docs/30-workflows/unassigned-task/UT-25-DERIV-02-sa-key-expiry-monitoring.md`
 - 逆参照先: `docs/30-workflows/completed-tasks/ut-25-cloudflare-secrets-production-deploy/outputs/phase-13/rollback-runbook.md`
 - 下流連携: UT-25-DERIV-01（rotation SOP）
+- 配線フォローアップ: `docs/30-workflows/completed-tasks/issue-857-internal-alert-relay-binding-wiring/`（API_INTERNAL_BASE_URL vars 配線 / issue #857）

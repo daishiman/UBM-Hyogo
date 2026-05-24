@@ -2953,6 +2953,31 @@ node scripts/list-specs.js --topics
 |------------|----|
 | Boundaries | L16 |
 
+### references/workflow-issue-836-schema-alias-recompute-trigger-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Metadata | L3 |
+| Workflow Files | L13 |
+| Planned Implementation Targets | L26 |
+| Boundary | L38 |
+
+### references/workflow-issue-837-schema-alias-bulk-rollback-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Implementation Targets | L11 |
+| Evidence | L20 |
+| Contract | L28 |
+
+### references/workflow-issue-857-internal-alert-relay-binding-wiring-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Implementation Targets | L11 |
+| Evidence | L20 |
+| User-Gated Boundary | L28 |
+
 ### references/workflow-light-theme-contrast-regression-guard.md
 
 | セクション | 行 |
@@ -3221,6 +3246,14 @@ node scripts/list-specs.js --topics
 | Phase 12 Strict 7 | L32 |
 | Local Implementation Targets | L44 |
 | Boundary | L55 |
+
+### references/workflow-step-08-audit-filter-paging-verify-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Workflow Artifacts | L11 |
+| Existing Implementation Targets | L21 |
+| Boundaries | L32 |
 
 ### references/workflow-task-03-w2-par-sentry-workers-sdk-unify-artifact-inventory.md
 
@@ -7028,6 +7061,7 @@ node scripts/list-specs.js --topics
 | grep gate | L132 |
 | 参考実装（Issue #778） | L145 |
 | 関連パターン | L164 |
+| Admin batch job idempotency pattern（Issue #836 recompute） | L171 |
 
 ### references/patterns-advanced.md
 
@@ -7492,14 +7526,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L2229 |
-| フェーズ構造（概要） | L2238 |
-| 品質ゲート（概要） | L2269 |
-| 出力テンプレート | L2280 |
-| 実行時のコマンド・エージェント・スキル | L2303 |
-| 昇格パターン集 | L2327 |
-| Current Active / Spec Created Tasks | L2329 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L2489 |
+| ドキュメント構成 | L2286 |
+| フェーズ構造（概要） | L2295 |
+| 品質ゲート（概要） | L2326 |
+| 出力テンプレート | L2337 |
+| 実行時のコマンド・エージェント・スキル | L2360 |
+| 昇格パターン集 | L2384 |
+| Current Active / Spec Created Tasks | L2386 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L2546 |
 
 ### references/task-workflow-backlog-part2.md
 

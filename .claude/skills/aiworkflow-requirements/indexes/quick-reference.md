@@ -12,6 +12,61 @@
 | audit | `schema_alias.rollback_notification` with redacted `after_json={ status, channel, attempts, errorClass, dispatchedAt }` |
 | Phase 12 | strict 7 files present; Phase 11 local evidence present and staging provider smoke user-gated |
 
+## Issue #837 schema alias bulk rollback（2026-05-24）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/issue-837-schema-alias-bulk-rollback/` |
+| status | `implemented_local_evidence_captured / implementation / VISUAL / runtime_screenshot_pending_user_gate` |
+| source | Issue #837 CLOSED / `docs/30-workflows/unassigned-task/serial-05-step-03-followup-006-schema-alias-bulk-rollback.md` consumed |
+| purpose | `/admin/schema` HistoryPane に複数 alias rollback selection / confirm modal / partial failure handling を追加 |
+| implementation | `apps/web/src/lib/admin/api.ts`, `apps/web/src/components/admin/SchemaDiffPanel.tsx`, `SchemaDiffBulkRollbackModal.tsx`, `hooks/useSchemaDiffBulkRollbackSelection.ts` |
+| API boundary | existing `POST /admin/schema/aliases/:aliasId/rollback`; no new endpoint / no D1 schema change |
+| evidence | typecheck PASS, focused Vitest 69 PASS, Phase 12 strict files present |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-837-schema-alias-bulk-rollback-artifact-inventory.md` |
+| user gate | authenticated runtime screenshot, staging smoke, commit, push, PR, Issue mutation |
+
+## issue-857 internal alert relay binding wiring（2026-05-24）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow | `docs/30-workflows/completed-tasks/issue-857-internal-alert-relay-binding-wiring/` |
+| status | `implemented_local_evidence_captured / implementation / NON_VISUAL / implementation_complete_pending_pr` |
+| issue | #857 CLOSED; PR wording is `Refs #857` only |
+| purpose | wire `API_INTERNAL_BASE_URL` into both API Worker env vars so sheets-auth healthcheck can POST to `/internal/alert-relay` |
+| implementation | `apps/api/wrangler.toml`, `apps/api/src/env.ts`, `apps/api/src/scheduled/sheets-auth-healthcheck.binding.spec.ts`, `apps/api/src/scheduled/sheets-auth-healthcheck.contract.spec.ts` |
+| contract | receiver validates `CF_WEBHOOK_AUTH_SECRET`; separate `INTERNAL_ALERT_TOKEN` provisioning is intentionally not used |
+| Phase 12 | strict 7 outputs present; root/output artifacts present |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-857-internal-alert-relay-binding-wiring-artifact-inventory.md` |
+| user gate | Cloudflare secret list, staging deploy/tail, SA key invalidation dry-run, commit, push, PR |
+
+## step-08 audit filter/paging verify（2026-05-24）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/step-08-audit-filter-paging-verify/` |
+| status | `verified_current_no_code_change_pending_pr / implementation / NON_VISUAL / verify_existing` |
+| source spec | `docs/30-workflows/ui-prototype-alignment-mvp-recovery/improvements/serial-05-admin-mutation-ui/step-08-audit-filter-paging/spec.md` |
+| purpose | `/admin/audit` filter / cursor paging / PII masking の監査OK結論をコード変更ゼロで回帰検証する仕様 |
+| existing implementation | `apps/web/app/(admin)/admin/audit/page.tsx`, `apps/web/src/components/admin/AuditLogPanel.tsx`, `apps/api/src/routes/admin/audit.ts`, `apps/api/src/repository/auditLog.ts`, `apps/api/src/lib/audit/redact.ts` |
+| Phase 12 | `outputs/phase-12/phase12-task-spec-compliance-check.md` + strict 7 files present |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-step-08-audit-filter-paging-verify-artifact-inventory.md` |
+| boundary | Phase 11 local regression evidence captured; commit, push, PR are user-gated |
+
+## Issue #836 schema alias recompute trigger（2026-05-23）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-836-schema-alias-recompute-trigger/` |
+| status | `spec_created / implementation / VISUAL / Phase 12 strict 7 present / runtime_pending` |
+| issue | #836 CLOSED。PR 文脈は `Refs #836` のみ |
+| source | `docs/30-workflows/completed-tasks/serial-05-step-03-followup-005-schema-alias-recompute-trigger.md` consumed |
+| parent | `docs/30-workflows/completed-tasks/issue-778-schema-alias-rollback-undo/` |
+| contract | recompute = rollback 済み alias の `response_fields.stable_key` reverse-backfill。`triggerKey` は server-side derivation、job UNIQUE + lease + SQL idempotency で二重変動を防ぐ |
+| endpoints | `POST /admin/schema/aliases/:aliasId/recompute`, `GET /admin/schema/aliases/:aliasId/recompute` |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-836-schema-alias-recompute-trigger-artifact-inventory.md` |
+| user gate | apps/api/apps/web 実装、D1 migration apply、authenticated visual/runtime evidence、commit、push、PR |
+
 ## UT-DSF-07 staging visual runtime evidence（2026-05-23）
 
 | 項目 | 値 |

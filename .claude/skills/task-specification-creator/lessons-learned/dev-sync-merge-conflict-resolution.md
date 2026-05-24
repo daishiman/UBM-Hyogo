@@ -319,6 +319,11 @@
 - 事例: 2026-05-24 `feat/serial-06-form-response-binding`（PR #888）。`scripts/e2e-mock-api.mjs` を `auth.ts publicMemberProfileBody()` に整合（`member_display_name`/`session_task18`/`kobe(zone)`、重複 activity section 削除、`longText`→`paragraph`）→ dev #892/#893 を 2 段 sync-merge → baseline 再撮影 → 最終 head で e2e/smoke/visual-full 全 PASS、PR `CLEAN`。
 - 詳細は aiworkflow-requirements 配下の L-DEVSYNC-039 を参照。
 
+### SP-DEVSYNC-008: skill-index-only コンフリクトの最短経路（2026-05-24 再確認）
+- 事例: `feat/issue-837-schema-alias-bulk-rollback` の dev sync。コンフリクトが `aiworkflow-requirements/indexes/{quick-reference,resource-map,topic-map}.md`（union 対象）と `indexes/keywords.json`（`--ours` + rebuild 対象）に限定された場合、`pnpm sync:resolve` 単体で残件 0、`pnpm verify:pr-ready`（verify:phase12-compliance / gate-metadata:validate / indexes:rebuild drift）も全 PASS まで一気通貫。
+- task 仕様書を書く際: skill 配下を触るタスクの Phase 11/12 で「dev sync は `pnpm sync:resolve` → `git commit`（`MERGE_HEAD` 検出で pre-commit auto skip。`--no-verify` 禁止）→ `pnpm verify:pr-ready`」を実行順として明示する。
+- 詳細は aiworkflow-requirements 側 L-DEVSYNC-013 を参照。
+
 ### SP-DEVSYNC-033: legacy-ordinal-family-register.md の先頭 quote block 3-way conflict は spec 上「両側 NOTE 保持 + 最新日付統一」を逐語化（2026-05-24 追加）
 
 - 事象: dev sync-merge で `references/legacy-ordinal-family-register.md` 先頭の `> 最終更新日: <date>` + `> NOTE (...)` 行群が両側追加の 3-way conflict として発生。`pnpm sync:resolve` は `WARN unhandled conflict` で手動 resolve に委ねる。
