@@ -256,6 +256,17 @@
 - 関連: fixture 追加経路は [[SP-DEVSYNC-016]]（`scripts/e2e-mock-api.mjs` server-side mock）。env 正本仕様は aiworkflow-requirements `references/architecture-admin-api-client.md` §2.2。
 - Why: 「env アクセスを getEnv に一本化」という正しい invariant 遵守が、dev local の env 解決順序という別レイヤの仕様と衝突して e2e のみ壊す盲点。grep で気付けないため lessons-learned 化して再発時の切り分け時間を消す。
 
+### SP-DEVSYNC-030: 修正済 `sync:resolve` 利用後は dev sync を「merge commit 単独 + 後追い rebuild 確認」に簡略化（2026-05-24 追加）
+- 症状（運用更新）: SP-DEVSYNC-028 で「dev sync を含む task は merge commit + chore(indexes) commit の 2 コミット構成が標準」と明示していたが、`scripts/sync/resolve-skill-merge-conflicts.sh` の `need_rebuild` フラグ修正（L-DEVSYNC-036 2件目）以降、`apply_ours`（`indexes/keywords.json`）を含む conflict では `pnpm sync:resolve` 内で `indexes:rebuild` が自動実行され、merge commit 時点で drift ゼロになる。この場合 chore(indexes) commit は不要で、1 コミット構成で push まで完結する。
+- 解消（更新後テンプレ）:
+  1. `pnpm sync:resolve` → `git status --porcelain | grep '^UU'` で残コンフリクト確認（あれば `awk | xargs git add`）
+  2. `git commit --no-edit` で merge commit 作成
+  3. `pnpm indexes:rebuild` を後追い → **drift ゼロなら追加コミット不要**／drift 出現時のみ SP-DEVSYNC-028 の chore(indexes) commit にフォールバック
+  4. `pnpm typecheck && pnpm lint` 確認 → push
+- task 仕様書を書く際: dev sync を Phase 5 に含む task では「merge commit 後に `pnpm indexes:rebuild` を後追いし、drift ゼロを確認して push（resolver が rebuild 済のため 1 コミット構成が既定）。drift が残る場合のみ chore(indexes) commit を分離する」と記述する。SP-DEVSYNC-028 の「2 コミット構成が標準」は「resolver が rebuild できないケース（古い resolver / `apply_ours` も union 対象も無いケース）に限定したフォールバック」へ位置付けを更新する。
+- 事例: 2026-05-24 `feat/mypage-prototype-alignment` ← dev sync-merge（8 behind / 3 ahead）。`pnpm sync:resolve` で 6 ファイル（`SKILL.md` + `indexes/{quick-reference,resource-map,topic-map}.md` union、`indexes/keywords.json` apply_ours、`references/task-workflow-active.md` union）解消、resolver 内 `indexes:rebuild` 自動実行 → merge commit 作成 → 後追い `pnpm indexes:rebuild` で drift ゼロ確認、chore commit 不要。typecheck / lint 全パッケージ初回 PASS。
+- 詳細は aiworkflow-requirements 配下の L-DEVSYNC-037 を参照。
+
 ### SP-DEVSYNC-030: `SKILL.md` union + `keywords.json` ours の最頻 conflict は `sync:resolve` 1 発完遂で手動 rebuild commit 不要（2026-05-24 追加）
 - 症状（正常系の確定）: dev sync-merge の content conflict が `SKILL.md`（union）+ `indexes/keywords.json`（ours = JSON 派生物）の 2 件だけのとき、`mise exec -- pnpm sync:resolve` が union 結合・`--ours` 採用・`pnpm indexes:rebuild` の自動呼び出しまでを 1 回で完遂する。完了後は UU 残置 0、merge commit 後に確認 rebuild しても drift 0。
 - task 仕様書を書く際: dev sync を Phase 5 に含む task では、conflict 解消手順を「① `pnpm sync:resolve` → ② `git diff --name-only --diff-filter=U` が空を確認 → ③ `git add -A && git commit --no-edit` → ④ 確認用 `pnpm indexes:rebuild` で `git status --porcelain` 空を検証」の 4 ステップで逐語明示する。**SP-DEVSYNC-028 の手動 chore(indexes) commit は本パターンでは不要**（resolver が rebuild 済み）と但し書きを置き、`keywords.json` を ours 採用した場合は L-DEVSYNC-036 の `need_rebuild` が発火するため後追い drift が出ない理由まで書く。
