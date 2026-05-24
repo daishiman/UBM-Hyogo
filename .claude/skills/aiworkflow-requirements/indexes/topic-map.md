@@ -4764,15 +4764,15 @@ node scripts/list-specs.js --topics
 
 | セクション | 行 |
 |------------|----|
-| 概要 | L25 |
-| 使い方 | L33 |
-| Current Alias Overrides（個別互換行） | L40 |
-| Family Summary | L86 |
-| Detailed Register | L107 |
-| Section Extract Register (2026-03-17) | L288 |
-| 500-Line Split Register (2026-03-16) | L299 |
-| Fragment Migration Register (2026-04-28) | L321 |
-| Task Root Path Drift Register (2026-04-30 追記) | L348 |
+| 概要 | L26 |
+| 使い方 | L34 |
+| Current Alias Overrides（個別互換行） | L41 |
+| Family Summary | L87 |
+| Detailed Register | L108 |
+| Section Extract Register (2026-03-17) | L289 |
+| 500-Line Split Register (2026-03-16) | L300 |
+| Fragment Migration Register (2026-04-28) | L322 |
+| Task Root Path Drift Register (2026-04-30 追記) | L349 |
 
 ### references/lessons-fetch-service-binding-testing.md
 
@@ -7492,14 +7492,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L2215 |
-| フェーズ構造（概要） | L2224 |
-| 品質ゲート（概要） | L2255 |
-| 出力テンプレート | L2266 |
-| 実行時のコマンド・エージェント・スキル | L2289 |
-| 昇格パターン集 | L2313 |
-| Current Active / Spec Created Tasks | L2315 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L2475 |
+| ドキュメント構成 | L2216 |
+| フェーズ構造（概要） | L2225 |
+| 品質ゲート（概要） | L2256 |
+| 出力テンプレート | L2267 |
+| 実行時のコマンド・エージェント・スキル | L2290 |
+| 昇格パターン集 | L2314 |
+| Current Active / Spec Created Tasks | L2316 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L2476 |
 
 ### references/task-workflow-backlog-part2.md
 

@@ -27,6 +27,7 @@
 | `pnpm verify:tokens` | ✓ 88 tracked, see `verify-design-tokens.log` |
 | HEX 直書きスキャン | no matches, see `hex-scan.log` |
 | DOM scrape public | `/members` contains `data-theme="warm"` / `data-route-group="public"` / `data-shell` / `data-route`, see `dom-scrape-public.txt` |
+| DOM scrape admin (EV-12) | `/admin` contains `data-theme="cool"` / `data-route-group="admin"` / `data-shell="sidebar"` / `data-shell="topbar"` / `main[data-route="admin"]`, see `dom-scrape-admin.txt`（`parallel-03-followup-002-admin-runtime-evidence` で admin session fixture + mock API 経由 Playwright scrape として取得） |
 
 ## 視覚的検証 (VISUAL)
 
@@ -39,7 +40,7 @@
 | `screenshot-coverage.md` | present |
 | `screenshots/public-shell.png` | captured (1280x800 PNG, `/members`) |
 
-Admin / member full runtime screenshots are not claimed here. Admin requires an authenticated admin session fixture, and member currently has no child route under `(member)` because `/login` and `/profile` remain root routes. Those captures remain serial-07 integration evidence, not a hidden PASS.
+Admin runtime DOM scrape (EV-12, `dom-scrape-admin.txt`) は後続 `parallel-03-followup-002-admin-runtime-evidence`（Phase 12 完了済み・spec は `docs/30-workflows/completed-tasks/parallel-03-followup-002-admin-runtime-evidence/` へ移動済み）で admin session fixture + mock API 経由 Playwright scrape として取得済み（text evidence。`dom-scrape-admin.txt` 本体は本親 workflow の `outputs/phase-11/` に存置）。一方 admin / member の **full chrome screenshot** はここでは claim しない。Admin full chrome は authenticated admin session fixture を要し、member は `(member)` 配下に子 route がない（`/login` / `/profile` は root route のまま）。これら screenshot capture は serial-07 integration evidence に委譲し、hidden PASS は置かない。
 
 ## DoD トレース
 
