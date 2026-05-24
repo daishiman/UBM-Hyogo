@@ -10,6 +10,7 @@ import { useRouter } from "next/navigation";
 import { Field } from "../../../src/components/ui/Field";
 import { Input } from "../../../src/components/ui/Input";
 import { Button } from "../../../src/components/ui/Button";
+import { Icon } from "../../../src/components/ui/Icon";
 import { sendMagicLink } from "../../../src/lib/auth/magic-link-client";
 import { replaceLoginState } from "../../../src/lib/url/login-state";
 
@@ -58,7 +59,7 @@ export function MagicLinkForm({ redirect }: MagicLinkFormProps) {
   };
 
   const buttonLabel =
-    cooldown > 0 ? `${cooldown}s 後に再送可能` : "メールリンクを送信";
+    cooldown > 0 ? `${cooldown}s 後に再送可能` : "マジックリンクを送る";
 
   return (
     <form onSubmit={onSubmit}>
@@ -68,12 +69,18 @@ export function MagicLinkForm({ redirect }: MagicLinkFormProps) {
           type="email"
           required
           autoComplete="email"
+          inputSize="lg"
+          placeholder="you@example.com"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
       </Field>
       <Button
         type="submit"
+        variant="primary"
+        size="lg"
+        block
+        leftIcon={<Icon name="send" size="md" />}
         disabled={submitting || cooldown > 0 || email.length === 0}
       >
         {buttonLabel}

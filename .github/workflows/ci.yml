@@ -10,6 +10,11 @@ on:
   pull_request:
     branches: [main, dev]
 
+# default workflow token の権限縮退時に actions/checkout が credential を読めず
+# `could not read Username` で失敗する構造的弱点を塞ぐ（runtime-smoke-staging.yml と同形）。
+permissions:
+  contents: read
+
 jobs:
   workflow-shell-lint:
     name: workflow-shell-lint
@@ -145,6 +150,9 @@ jobs:
         group: [web, api-unit, api-d1, packages]
     steps:
       - uses: actions/checkout@v4
+        with:
+          token: ${{ github.token }}
+          persist-credentials: true
 
       - name: Check implementation readiness
         id: ready
@@ -203,6 +211,9 @@ jobs:
     if: always()
     steps:
       - uses: actions/checkout@v4
+        with:
+          token: ${{ github.token }}
+          persist-credentials: true
 
       - name: Check implementation readiness
         id: ready
@@ -228,6 +239,14 @@ jobs:
           pattern: coverage-*
           merge-multiple: true
 
+      # shard 失敗を no-run 集約より先に検知し、誤解を招く MISSING 出力ではなく
+      # 真の原因（upstream shard 失敗 → artifact 未 upload）を明示して fail closed する（AC-7）。
+      - name: Fail closed on failed shard
+        if: steps.ready.outputs.value == 'true' && needs.coverage-gate-shard.result != 'success'
+        run: |
+          echo "::error::upstream coverage-gate-shard result was '${{ needs.coverage-gate-shard.result }}' — coverage artifacts unavailable; aborting before aggregate (MISSING) check"
+          exit 1
+
       - name: Merge apps/api unit + d1 coverage
         if: steps.ready.outputs.value == 'true'
         run: |
@@ -244,12 +263,6 @@ jobs:
         env:
           CI: 'true'
         run: bash scripts/coverage-guard.sh --no-run
-
-      - name: Fail closed on failed shard
-        if: steps.ready.outputs.value == 'true' && needs.coverage-gate-shard.result != 'success'
-        run: |
-          echo "::error::coverage-gate-shard result was ${{ needs.coverage-gate-shard.result }}"
-          exit 1
 
       - name: Upload merged coverage artifact
         if: always() && steps.ready.outputs.value == 'true'

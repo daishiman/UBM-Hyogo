@@ -1,6 +1,7 @@
 @import "tailwindcss" source(none);
 @import "./tokens.css";
 @import "./legacy-public.css";
+@import "./auth.css";
 
 @source "../../app";
 @source "../components";
