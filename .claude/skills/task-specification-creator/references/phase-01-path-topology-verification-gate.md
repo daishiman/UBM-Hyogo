@@ -62,6 +62,7 @@ diff <(rg -o "apps/web/(src/)?app[^\s\"\`]*" "$PARENT"/phase-* | sort -u) \
 |--------|------------|
 | 正本仕様に stale path が残っている | 同 wave で正本仕様を補正（Step 1-A current canonical sync で記録） |
 | sub-workflow だけ stale | parent root に追随し sub-workflow phase docs を補正 |
+| `serial-NN-*` / `parallel-NN-*` が standalone `docs/30-workflows/<sub-workflow>/` に生成された | 既存 parent workflow 配下へ同 wave で統合し、standalone duplicate root は削除する。frontmatter は `workflow_id=<parent>` + `sub_workflow=<slug>` に統一し、親 `artifacts.json` / `outputs/artifacts.json` の `metadata.sub_workflows` へ登録する |
 | current topology そのものが未整備で path 不在 | Phase 5 実装対象として明示し、`spec_created` で close-out しない |
 | 旧 path を残す合理的理由がある（supersede 境界） | `phase-01-requirements.md` に supersede 境界節を追加し、stale 引用に `[superseded]` マーカー付与 |
 
@@ -93,3 +94,12 @@ Phase 12 の `system-spec-update-summary.md` Step 1-C (`Stale Contract Withdrawa
 ```
 
 exit 0 = clean / exit 1 = stale path 残存。Phase 1 entry checklist に `path-topology: OK` 行として記録する。
+
+## 参考例: serial-06 form response binding (2026-05-23)
+
+`docs/30-workflows/serial-06-form-response-binding/` に standalone root が生成されたが、親 workflow
+`docs/30-workflows/ui-prototype-design-system-foundation/` には既に `serial-06-form-response-binding/`
+sub-workflow が存在していた。解決は standalone root の保持ではなく、詳細化された Phase 1-13 を
+親配下へ統合し、frontmatter / evidence path / Phase 12 compliance / 親 artifacts を同一 wave で
+補正すること。sub-workflow の Phase 12 strict 7 は親 root 集約を維持し、sub 側には
+`phase-12-compliance-check.md` のみ置く。
