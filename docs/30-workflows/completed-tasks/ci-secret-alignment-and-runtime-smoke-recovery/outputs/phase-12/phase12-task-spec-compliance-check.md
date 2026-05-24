@@ -21,6 +21,10 @@ Umbrella aggregator has no `workflow_state`; child workflows preserve their own.
 N/A for umbrella aggregator. Per-workflow Phase 11 evidence preserved under each
 child root.
 
+| Classification | Path | Status |
+| --- | --- | --- |
+| umbrella aggregator (no own evidence) | outputs/phase-11 | n/a |
+
 ## Phase 12 strict 7 file inventory
 
 This stub file only. Per-workflow strict-7 inventory preserved under each child

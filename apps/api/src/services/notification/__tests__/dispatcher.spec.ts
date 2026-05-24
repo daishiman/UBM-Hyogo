@@ -18,6 +18,7 @@ const makeRow = (
   requestType: "visibility_request",
   reasonSummary: null,
   status: "dispatching",
+  channel: "mail",
   retryCount: 0,
   nextAttemptAt: "2026-05-06T00:00:00Z",
   lastError: null,

@@ -52,7 +52,7 @@
 | 変数名 | 種別 | 用途 | 配置 |
 | --- | --- | --- | --- |
 | `GOOGLE_FORM_ID` | Variable | response sync 対象の Google Form ID | `apps/api/wrangler.toml` |
-| `GOOGLE_SERVICE_ACCOUNT_JSON` | Secret | Google Sheets API 用 Service Account JSON key。UT-25 で配置 runbook と staging-first 手順を確定した正本名。`apps/api/src/jobs/sheets-fetcher.ts` / `sync-sheets-to-d1.ts` が参照する | Cloudflare Workers Secrets（staging / production） |
+| `GOOGLE_SERVICE_ACCOUNT_JSON` | Secret | Google Forms API 用 Service Account JSON key（current）。UT-25 で配置 runbook と staging-first 手順を確定した正本名。u-04 legacy では Google Sheets API でも参照していたが、issue-291 / `task-sync-forms-d1-legacy-umbrella-001` 以後は Forms API（`/admin/sync/schema` / `/admin/sync/responses`）専用 | Cloudflare Workers Secrets（staging / production） |
 | `GOOGLE_SHEETS_SA_JSON` | Secret | 旧 Sheets sync 実装名。移行期間の alias として実装側のみ許容し、Cloudflare Workers Secret の新規投入名には使わない | Cloudflare Secrets（legacy alias） |
 | `SHEETS_SPREADSHEET_ID` | Variable | u-04 Sheets → D1 sync の Google Sheets spreadsheet ID。`apps/api/src/sync/sheets-client.ts` が参照する | `apps/api/wrangler.toml` |
 | `SYNC_RANGE` | Variable | u-04 Sheets API range。既定は `Form Responses 1!A1:ZZ10000` | `apps/api/wrangler.toml` |
@@ -62,13 +62,13 @@
 | `GOOGLE_SERVICE_ACCOUNT_JSON` | Secret | Sheets API service account JSON key（UT-03 `packages/integrations/google/src/sheets/auth.ts`） | Cloudflare Secrets / 1Password |
 | `SHEETS_SCOPES` | Variable | Sheets API OAuth scope override。未指定時は `https://www.googleapis.com/auth/spreadsheets.readonly` | `apps/api/wrangler.toml` または env binding |
 | `SHEETS_SPREADSHEET_ID` | Variable / Secret | Sheets sync 対象 spreadsheet ID（UT-09 / UT-21 consumer） | `apps/api/wrangler.toml` または Cloudflare Secrets |
-| `SYNC_ADMIN_TOKEN` | Secret | `/admin/sync`, `/admin/sync/run`, `/admin/sync/backfill`, `/admin/sync/audit`, `/admin/sync/responses`, `/admin/sync/schema` Bearer 認証 | Cloudflare Secrets |
+| `SYNC_ADMIN_TOKEN` | Secret | `/admin/sync/schema` / `/admin/sync/responses` Bearer 認証（current）。legacy 単一 `/admin/sync` / `/admin/sync/run` / `/admin/sync/backfill` / `/admin/sync/audit` は新設禁止のため射程外 | Cloudflare Secrets |
 | `HEALTH_DB_TOKEN` | Secret | `GET /health/db` の `X-Health-Token` 検証用 token | Cloudflare Secrets |
 | `RETENTION_PURGE_MODE` | Variable | Issue #402 retention purge job の実行モード。`dry-run` が default、`apply` は staging runtime evidence 後の user-gated operation、`off` は cron branch 内で skip | `apps/api/wrangler.toml` / Cloudflare Variables |
 | `RETENTION_PURGE_LIMIT` | Variable | retention purge 1 tick あたりの処理上限。未指定時 100 | Cloudflare Variables |
 | `TAG_QUEUE_PAUSED` | Variable | Issue #378 tag assignment queue candidate enqueue emergency stop。`"true"` 完全一致のみ停止、未設定 / `"false"` / その他は enqueue 有効 | `apps/api/wrangler.toml` / Cloudflare Variables |
 
-`FORM_ID` は旧設定互換、03b 正本は `GOOGLE_FORM_ID`。`GOOGLE_SERVICE_ACCOUNT_JSON` は Sheets sync 専用の JSON 1 値契約（Forms sync の `GOOGLE_SERVICE_ACCOUNT_EMAIL` / `GOOGLE_PRIVATE_KEY` を置換しない）。`HEALTH_DB_TOKEN` は 32 byte 以上のランダム値を 1Password `op://UBM-Hyogo/cloudflare-api/HEALTH_DB_TOKEN` に保管し Cloudflare Secrets へ投入、90 日 rotation。`RETENTION_PURGE_MODE` は destructive operation gate で production default は `dry-run`、`apply` 変更は staging Phase 11 runtime evidence 確認後にユーザー明示承認を得る。`RETENTION_PURGE_LIMIT` は大規模 backlog 初回処理時のみ段階的に下げる。`TAG_QUEUE_PAUSED` は secret ではなく deploy-gated operational variable とし、緊急停止と復旧は `docs/30-workflows/runbooks/tag-queue-pause.md` を正本 runbook とする。秘密値はログ・`.env`・ドキュメント・スクリーンショットに残さない。
+`FORM_ID` は旧設定互換、03b 正本は `GOOGLE_FORM_ID`。`GOOGLE_SERVICE_ACCOUNT_JSON` は Sheets sync 専用の JSON 1 値契約（Forms sync の `GOOGLE_SERVICE_ACCOUNT_EMAIL` / `GOOGLE_PRIVATE_KEY` を置換しない）。UT-25-DERIV-02 の sheets-auth healthcheck / classifier / logger も同じ binding を参照し、401 は `SHEETS_AUTH_401_KEY_INVALID`、403 は `SHEETS_AUTH_403_FORBIDDEN`、5xx / 429 / network は `SHEETS_AUTH_OTHER` として扱う。`HEALTH_DB_TOKEN` は 32 byte 以上のランダム値を 1Password `op://UBM-Hyogo/cloudflare-api/HEALTH_DB_TOKEN` に保管し Cloudflare Secrets へ投入、90 日 rotation。`RETENTION_PURGE_MODE` は destructive operation gate で production default は `dry-run`、`apply` 変更は staging Phase 11 runtime evidence 確認後にユーザー明示承認を得る。`RETENTION_PURGE_LIMIT` は大規模 backlog 初回処理時のみ段階的に下げる。`TAG_QUEUE_PAUSED` は secret ではなく deploy-gated operational variable とし、緊急停止と復旧は `docs/30-workflows/runbooks/tag-queue-pause.md` を正本 runbook とする。秘密値はログ・`.env`・ドキュメント・スクリーンショットに残さない。
 
 TypeScript 側の API Worker Env 型は `apps/api/src/env.ts` の `Env` interface を正本とする。`apps/api/wrangler.toml` の vars / D1 binding / Secrets を追加・変更する場合は、`Env` の field とコメントも同一 wave で更新する。`apps/web` から `Env` を import することは禁止し、`scripts/lint-boundaries.mjs` が raw token と relative path 解決の両方で遮断する。
 
@@ -433,15 +433,15 @@ TypeScript 側の API Worker Env 型は `apps/api/src/env.ts` の `Env` interfac
 
 | 変数名 | 説明 | 設定方法 | 必須 |
 | ------ | ---- | -------- | ---- |
-| `SYNC_ADMIN_TOKEN` | `/admin/sync` / `/admin/sync/schema` の Bearer token | Cloudflare Secrets | Yes |
+| `SYNC_ADMIN_TOKEN` | `/admin/sync/schema` / `/admin/sync/responses` の Bearer token（current）。legacy 単一 `/admin/sync` は新設禁止 | Cloudflare Secrets | Yes |
 | `GOOGLE_FORM_ID` | schema sync 対象 Google Form ID | Cloudflare Secrets または Variables | Yes |
 | `GOOGLE_SERVICE_ACCOUNT_EMAIL` | Google Forms API service account email | Cloudflare Secrets | Yes |
 | `GOOGLE_PRIVATE_KEY` | Google Forms API service account private key。改行は `\\n` 形式でも可 | Cloudflare Secrets | Yes |
 | `HEALTH_DB_TOKEN` | `/health/db` の `X-Health-Token` 検証用 secret。1Password 正本、Cloudflare Secrets 注入、90 日 rotation | Cloudflare Secrets | Yes |
 | `GOOGLE_FORM_RESPONDER_URL` | `schema_versions.source_url` fallback 用 responder URL | Cloudflare Variables | No |
-| `GOOGLE_SHEETS_SA_JSON` | Google Sheets API v4 smoke / sync 用 Service Account JSON。平文をログ・PR・永続ファイルに残さない | Cloudflare Secrets | Yes (Sheets sync / UT-26 smoke) |
-| `SHEETS_SPREADSHEET_ID` | Google Sheets API v4 smoke / sync 対象 spreadsheetId | Cloudflare Variables or Secrets | Yes (Sheets sync / UT-26 smoke) |
-| `SMOKE_ADMIN_TOKEN` | `/admin/smoke/*` の Bearer token。Sheets smoke は dev/staging、observability smoke は staging / production で使用し、production は `x-smoke-production-confirm: YES` と G1-G4 approval gate を必須化 | Cloudflare Secrets | Yes (env-scoped smoke routes) |
+| `GOOGLE_SHEETS_SA_JSON` | historical（u-04 / UT-26 legacy）: Google Sheets API v4 smoke / sync 用 Service Account JSON。issue-291 で legacy 化、新規投入不要 | Cloudflare Secrets | No (legacy, UT-09 廃止) |
+| `SHEETS_SPREADSHEET_ID` | historical（u-04 / UT-26 legacy）: Google Sheets API v4 smoke / sync 対象 spreadsheetId。issue-291 で legacy 化、新規投入不要 | Cloudflare Variables or Secrets | No (legacy, UT-09 廃止) |
+| `SMOKE_ADMIN_TOKEN` | `/admin/smoke/*` の Bearer token。Sheets smoke は legacy（UT-09 で廃止）、observability smoke は staging / production で使用し、production は `x-smoke-production-confirm: YES` と G1-G4 approval gate を必須化 | Cloudflare Secrets | Yes (env-scoped smoke routes) |
 
 互換名: `FORMS_SA_EMAIL` / `FORMS_SA_KEY` は `GOOGLE_SERVICE_ACCOUNT_EMAIL` / `GOOGLE_PRIVATE_KEY` の移行互換として受け付ける。
 

@@ -83,6 +83,71 @@ gh run watch
 
 bearer は短命。失効時は同じ手順で `gh secret set` で上書きする。`STAGING_API_BASE` / `STAGING_MEMBER_ID` は変更頻度が低いので worker 名変更や seed 入れ直しのタイミングのみ更新する。
 
+---
+
+## CI 実行時 mint 方式（推奨・失効しない bearer 供給）
+
+> 仕様: `docs/30-workflows/ci-green-recovery-smoke-coverage-shard/`（Lane A）
+
+静的 `STAGING_ADMIN_BEARER` / `STAGING_ME_BEARER` は 24h TTL の session JWT のため、GitHub secret に静的保存すると **24h で必ず失効**し、`runtime-smoke-staging / smoke` の `admin-list` が 401 になる（`reason=auth-token-invalid-or-expired`）。
+
+これを恒久解消するため、**署名鍵 `STAGING_AUTH_SECRET` から smoke 実行毎に短命 JWT (TTL=600s) を mint する**方式に移行する。`runtime-smoke-staging.yml` の `mint staging bearers` step が `scripts/smoke/mint-staging-bearers.mts` を実行し、`STAGING_AUTH_SECRET` が設定されていれば mint した bearer を `GITHUB_ENV` に export する（未設定時は静的 bearer fallback）。
+
+### 追加 secret 5 種（mint 方式）
+
+`STAGING_AUTH_SECRET` は **staging API の `AUTH_SECRET` と同値**を投入する（不一致だと `verifySessionJwt` が失敗し 401 が継続する）。
+
+| secret 名 | 取得元（**実値はドキュメントに書かない**） | 形式例 |
+|---|---|---|
+| `STAGING_AUTH_SECRET` | staging API の `AUTH_SECRET`（Cloudflare Secrets / 1Password と同値の HS256 署名鍵） | 任意の高エントロピー文字列 |
+| `STAGING_ADMIN_MEMBER_ID` | admin アカウント (`manjumoto.daishi@senpai-lab.com`) の members.id（`d1 execute` で取得） | UUID |
+| `STAGING_ADMIN_EMAIL` | admin アカウントの email | `...@senpai-lab.com` |
+| `STAGING_ME_MEMBER_ID` | 一般会員 (`manju.manju.03.28@gmail.com`) の members.id | UUID |
+| `STAGING_ME_EMAIL` | 一般会員の email | `...@gmail.com` |
+
+### 投入手順（ユーザー gated・正規経路）
+
+```bash
+# STAGING_AUTH_SECRET は staging API の AUTH_SECRET と同一の op 参照を使う
+op read 'op://Employee/ubm-hyogo-env/STAGING_AUTH_SECRET' | \
+  gh secret set STAGING_AUTH_SECRET --env staging-runtime-smoke --body-file -
+# 同様に STAGING_ADMIN_MEMBER_ID / STAGING_ADMIN_EMAIL / STAGING_ME_MEMBER_ID / STAGING_ME_EMAIL を投入
+```
+
+`provision-staging-secrets.sh` の `SECRETS=()` 配列へ 5 種を追加する差分例（**実コミット・実行はユーザー承認後**）:
+
+```bash
+SECRETS=(
+  "STAGING_API_BASE:op://Employee/ubm-hyogo-env/STAGING_API_BASE"
+  "STAGING_ADMIN_BEARER:op://Employee/ubm-hyogo-env/STAGING_ADMIN_BEARER"
+  "STAGING_MEMBER_ID:op://Employee/ubm-hyogo-env/STAGING_MEMBER_ID"
+  "STAGING_ME_BEARER:op://Employee/ubm-hyogo-env/STAGING_ME_BEARER"
+  "SLACK_WEBHOOK_INCIDENT:op://Employee/ubm-hyogo-env/SLACK_WEBHOOK_INCIDENT_STAGING"
+  # --- mint 方式（Lane A）で追加 ---
+  "STAGING_AUTH_SECRET:op://Employee/ubm-hyogo-env/STAGING_AUTH_SECRET"
+  "STAGING_ADMIN_MEMBER_ID:op://Employee/ubm-hyogo-env/STAGING_ADMIN_MEMBER_ID"
+  "STAGING_ADMIN_EMAIL:op://Employee/ubm-hyogo-env/STAGING_ADMIN_EMAIL"
+  "STAGING_ME_MEMBER_ID:op://Employee/ubm-hyogo-env/STAGING_ME_MEMBER_ID"
+  "STAGING_ME_EMAIL:op://Employee/ubm-hyogo-env/STAGING_ME_EMAIL"
+)
+```
+
+> 注: 上記を反映する場合、`provision-staging-secrets.sh` の inventory 期待値（5 → 10 行）と「投入確認」の期待出力も合わせて更新する。
+
+### 後方互換 fallback を残す理由
+
+mint 方式移行後も静的 `STAGING_ADMIN_BEARER` / `STAGING_ME_BEARER` を残す。`STAGING_AUTH_SECRET` が未設定の環境では `mint staging bearers` step が `if: env.STAGING_AUTH_SECRET != ''` で skip され、静的 bearer がそのまま使われる（即時運用復旧経路を壊さない / AC-4）。
+
+### 即時運用復旧（mint 導入前に今すぐ緑にしたい場合）
+
+mint secret 投入前でも、失効した静的 bearer を再発行すれば一時的に緑化できる:
+
+1. staging に admin / 一般会員でログインし、DevTools Network から新しい `Authorization: Bearer eyJ...` を取得（**AI に貼らない**）。
+2. `gh secret set STAGING_ADMIN_BEARER --env staging-runtime-smoke --body-file -` 等で上書き。
+3. `gh workflow run runtime-smoke-staging.yml --ref dev && gh run watch` で再実行。
+
+ただしこれは 24h で再び失効するため、恒久解消には mint 方式（`STAGING_AUTH_SECRET` 投入）への移行を推奨する。
+
 ## 禁止事項
 
 実値の漏洩経路を AI / user の責務操作別に分解する:

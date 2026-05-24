@@ -14,10 +14,20 @@ import {
   type DispatchResult,
   type NotificationDispatcher,
 } from "../services/notification/dispatcher";
+import type { NotificationChannelRegistry } from "../services/notification/registry";
 
 export interface DispatchTickDeps {
   outbox: NotificationOutboxRepository;
-  dispatcher: NotificationDispatcher;
+  /**
+   * 単一 dispatcher (legacy / mail-only). registry が指定されている場合は無視される。
+   * いずれか片方を必ず渡す。
+   */
+  dispatcher?: NotificationDispatcher;
+  /**
+   * Issue #55: row.channel から実体を引き当てる registry。
+   * 未登録 channel の row は dispatcher を呼ばず dlq + ledger 'unknown_channel' とする。
+   */
+  registry?: NotificationChannelRegistry;
   now: () => Date;
   batchSize?: number;
   maxRetries?: number;
@@ -78,6 +88,33 @@ const dispatchOne = async (
 ): Promise<void> => {
   const nowIso = () => deps.now().toISOString();
   const attempt = row.retryCount + 1;
+
+  // Issue #55: registry が指定されている場合は row.channel から resolve。
+  let dispatcher: NotificationDispatcher | undefined = deps.dispatcher;
+  if (deps.registry) {
+    const kind = row.channel ?? "mail";
+    const resolved = deps.registry.resolve(kind);
+    if (!resolved) {
+      await deps.outbox.moveToDlq(
+        row.notificationId,
+        `unknown_channel:${kind}`,
+        nowIso(),
+      );
+      await deps.outbox.appendLedger(
+        row.notificationId,
+        "unknown_channel",
+        attempt,
+        JSON.stringify({ channel: kind }),
+        nowIso(),
+      );
+      result.dlq += 1;
+      return;
+    }
+    dispatcher = resolved;
+  }
+  if (!dispatcher) {
+    throw new Error("DispatchTickDeps: dispatcher or registry must be provided");
+  }
   await deps.outbox.appendLedger(
     row.notificationId,
     "dispatching",
@@ -85,7 +122,7 @@ const dispatchOne = async (
     null,
     nowIso(),
   );
-  const dispatchResult: DispatchResult = await deps.dispatcher.dispatch(row).catch((e) => {
+  const dispatchResult: DispatchResult = await dispatcher.dispatch(row).catch((e) => {
     const sanitized = sanitizeProviderError(
       e instanceof Error ? e.message : String(e),
     );

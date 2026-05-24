@@ -51,7 +51,17 @@ export interface VerifyOptions {
   colorLiteralRoots?: string[]
 }
 
-const DEFAULTS = {
+export interface VerifyDesignTokenDefaults {
+  specPath: string
+  tokensCssPath: string
+  globalsCssPath: string
+  includeThemeBridge: boolean
+  scanColorLiterals: boolean
+  colorLiteralRoots: string[]
+  colorLiteralExcludes: readonly RegExp[]
+}
+
+export const DEFAULTS: VerifyDesignTokenDefaults = {
   specPath: 'docs/00-getting-started-manual/specs/09b-design-tokens.md',
   tokensCssPath: 'apps/web/src/styles/tokens.css',
   globalsCssPath: 'apps/web/src/styles/globals.css',
@@ -59,7 +69,10 @@ const DEFAULTS = {
   scanColorLiterals: true,
   colorLiteralRoots: ['apps/web/app', 'apps/web/src'],
   colorLiteralExcludes: [
+    // Next.js Metadata Files root convention: app/.../opengraph-image.tsx
     /\/opengraph-image\.tsx$/,
+    // Next.js Metadata Files route convention: app/.../opengraph-image/route.tsx
+    // next/og ImageResponse (satori) cannot resolve CSS variables, so literal colors are required here.
     /\/opengraph-image\/route\.tsx$/,
     /\/twitter-image\.tsx$/,
     /\/twitter-image\/route\.tsx$/,
@@ -487,7 +500,7 @@ async function listFiles(root: string): Promise<string[]> {
   return files
 }
 
-async function scanForbiddenColorLiterals(
+export async function scanForbiddenColorLiterals(
   roots: readonly string[],
   excludes: readonly RegExp[] = DEFAULTS.colorLiteralExcludes,
 ): Promise<TokenDrift[]> {
@@ -495,9 +508,6 @@ async function scanForbiddenColorLiterals(
     .flat()
     .filter((file) => /\.(ts|tsx|css)$/.test(file))
     .filter((file) => !file.endsWith('/src/styles/tokens.css'))
-    // next/og ImageResponse は CSS variable を解決しないため HEX literal 必須。
-    .filter((file) => !file.endsWith('/app/opengraph-image.tsx'))
-    .filter((file) => !excludes.some((re) => re.test(file)))
     .filter((file) => !excludes.some((re) => re.test(file)))
   const drifts: TokenDrift[] = []
   const hexRe = /(^|[^A-Za-z0-9_-])(#[0-9A-Fa-f]{3}(?:[0-9A-Fa-f]{3})?(?:[0-9A-Fa-f]{2})?)\b/g

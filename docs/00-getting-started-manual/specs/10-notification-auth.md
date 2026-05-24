@@ -93,3 +93,25 @@ CREATE TABLE IF NOT EXISTS magic_tokens (
 1. Magic Link 発行前に `rulesConsent` と削除状態を確認する
 2. `responseEmail` 不一致を silent fail にせず登録導線へ戻す
 3. GAS prototype のログイン無し UI を本番要件にしない
+
+---
+
+## 通知 Channel 抽象 & opt-out (Issue #55)
+
+### Channel 抽象
+通知送信は `apps/api/src/services/notification/channel.ts` の `NotificationChannel` interface を共通入口とする。
+現行 `NotificationChannelKind` は `"mail"` のみ。将来 LINE / Slack を追加する際は kind を拡張し adapter を `services/notification/channels/` に追加する。
+dispatcher tick は registry (`createNotificationChannelRegistry`) 経由で row の `channel` を解決し、未登録 channel は provider 呼び出しを行わず DLQ + `ledger.event_type='unknown_channel'` を記録する。
+
+### Opt-out gate
+`member_status.notification_opt_out INTEGER NOT NULL DEFAULT 0` を正本とする。
+`notificationOutbox.enqueue` は対象 member の opt-out を確認し、`true` の場合は outbox 行を作らず `ledger.event_type='skipped_opt_out'` のみ記録し `{ ok: false, reason: 'opt_out' }` を返す。
+管理者は `PATCH /admin/members/:memberId/notification-pref` body `{ notificationOptOut: boolean }` でこのフラグを切り替える。会員自身は MVP では切り替え UI を持たない（規約・login 救済通知が止まると認証導線が破綻するため）。
+
+### Ledger event 拡張
+`notification_ledger.event_type` CHECK 制約に `skipped_opt_out` / `unknown_channel` を追加する（migration `0020`）。
+
+### 不変条件
+1. `apps/web` から `notification_outbox` / `member_status` に直接アクセスしない（`apps/api` 経由）
+2. opt-out true の member には channel 種別に関わらず送信しない
+3. `MAIL_PROVIDER_KEY` 未設定時は Magic Link は 502 fail-closed だが、outbox dispatcher は `mail_provider_unconfigured` を sanitized error として retry/dlq 経路に乗せる
