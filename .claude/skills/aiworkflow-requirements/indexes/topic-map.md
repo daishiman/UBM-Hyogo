@@ -2279,6 +2279,14 @@ node scripts/list-specs.js --topics
 | Evidence Artifacts | L24 |
 | Boundary | L39 |
 
+### references/workflow-fix-admin-scr-err-stg-fu-001-auth-env-via-getenv-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Implementation Files | L15 |
+| Test Evidence | L23 |
+| User-Gated Boundary | L32 |
+
 ### references/workflow-fix-admin-server-components-render-error-stg-artifact-inventory.md
 
 | セクション | 行 |
@@ -4570,14 +4578,14 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 変更履歴 | L6 |
 | 環境変数の分類 | L15 |
-| セキュリティベストプラクティス | L131 |
-| 環境別設定 | L205 |
-| Electron アプリでの環境変数 | L259 |
-| トラブルシューティング | L316 |
-| チーム開発での運用 | L377 |
-| 必須環境変数一覧 | L416 |
-| CI/CD環境（GitHub Secrets / Variables）（UT-27 追加 2026-04-29） | L477 |
-| 関連ドキュメント | L500 |
+| セキュリティベストプラクティス | L133 |
+| 環境別設定 | L207 |
+| Electron アプリでの環境変数 | L261 |
+| トラブルシューティング | L318 |
+| チーム開発での運用 | L379 |
+| 必須環境変数一覧 | L418 |
+| CI/CD環境（GitHub Secrets / Variables）（UT-27 追加 2026-04-29） | L479 |
+| 関連ドキュメント | L502 |
 
 ### references/error-handling-core.md
 
@@ -7418,14 +7426,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L2116 |
-| フェーズ構造（概要） | L2125 |
-| 品質ゲート（概要） | L2156 |
-| 出力テンプレート | L2167 |
-| 実行時のコマンド・エージェント・スキル | L2190 |
-| 昇格パターン集 | L2214 |
-| Current Active / Spec Created Tasks | L2216 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L2376 |
+| ドキュメント構成 | L2130 |
+| フェーズ構造（概要） | L2139 |
+| 品質ゲート（概要） | L2170 |
+| 出力テンプレート | L2181 |
+| 実行時のコマンド・エージェント・スキル | L2204 |
+| 昇格パターン集 | L2228 |
+| Current Active / Spec Created Tasks | L2230 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L2390 |
 
 ### references/task-workflow-backlog-part2.md
 
