@@ -9,6 +9,9 @@ import { fetchPublicOrNotFound } from "../../../../../src/lib/fetch/public";
 type PublicMemberProfile = z.infer<typeof PublicMemberProfileZ>;
 
 const size = { width: 1200, height: 630 } as const;
+const OG_BACKGROUND =
+  "linear-gradient(135deg, oklch(0.36 0.12 240) 0%, oklch(0.52 0.11 240) 100%)";
+const OG_TEXT = "oklch(1 0 0)";
 
 interface RouteContext {
   params: Promise<{ id: string }>;
@@ -38,8 +41,8 @@ export async function GET(_request: Request, { params }: RouteContext) {
         style={{
           width: "100%",
           height: "100%",
-          background: "linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%)",
-          color: "#ffffff",
+          background: OG_BACKGROUND,
+          color: OG_TEXT,
           display: "flex",
           flexDirection: "column",
           alignItems: "flex-start",
@@ -62,7 +65,7 @@ export async function GET(_request: Request, { params }: RouteContext) {
             marginTop: 40,
             fontSize: 96,
             fontWeight: 700,
-            letterSpacing: -2,
+            letterSpacing: 0,
             lineHeight: 1.05,
           }}
         >
