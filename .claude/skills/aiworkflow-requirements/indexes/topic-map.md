@@ -2953,6 +2953,15 @@ node scripts/list-specs.js --topics
 |------------|----|
 | Boundaries | L16 |
 
+### references/workflow-issue-836-schema-alias-recompute-trigger-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Metadata | L3 |
+| Workflow Files | L13 |
+| Planned Implementation Targets | L26 |
+| Boundary | L38 |
+
 ### references/workflow-light-theme-contrast-regression-guard.md
 
 | セクション | 行 |
@@ -7028,6 +7037,7 @@ node scripts/list-specs.js --topics
 | grep gate | L132 |
 | 参考実装（Issue #778） | L145 |
 | 関連パターン | L164 |
+| Admin batch job idempotency pattern（Issue #836 recompute） | L171 |
 
 ### references/patterns-advanced.md
 
@@ -7492,14 +7502,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L2216 |
-| フェーズ構造（概要） | L2225 |
-| 品質ゲート（概要） | L2256 |
-| 出力テンプレート | L2267 |
-| 実行時のコマンド・エージェント・スキル | L2290 |
-| 昇格パターン集 | L2314 |
-| Current Active / Spec Created Tasks | L2316 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L2476 |
+| ドキュメント構成 | L2230 |
+| フェーズ構造（概要） | L2239 |
+| 品質ゲート（概要） | L2270 |
+| 出力テンプレート | L2281 |
+| 実行時のコマンド・エージェント・スキル | L2304 |
+| 昇格パターン集 | L2328 |
+| Current Active / Spec Created Tasks | L2330 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L2490 |
 
 ### references/task-workflow-backlog-part2.md
 
