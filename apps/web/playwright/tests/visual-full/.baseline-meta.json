@@ -13,6 +13,7 @@
     "26280741223",
     "26314107860",
     "26315562296",
+    "26346031061",
     "26348808238"
   ],
   "viewport_dimensions": {
@@ -41,5 +42,5 @@
   "refresh_workflow": ".github/workflows/playwright-visual-baseline-update.yml",
   "refresh_command_hint": "gh workflow run playwright-visual-baseline-update.yml -f reason=\"<why>\" -r <feature-branch>",
   "notes": "captured_at_commit_sha からの rendering_relevant_paths diff が空でない場合、baseline は stale。scripts/visual-baseline-status.sh で診断可能。",
-  "last_refresh_reason": "home page prototype alignment redesign (public-top taller 1626→1694px) + warm text-muted contrast fix (#9a8a6e→#76664a). PR #892. Regenerate visual baselines on Linux."
+  "last_refresh_reason": "home page prototype alignment redesign (public-top taller 1626→1694px) + warm text-muted contrast fix; dev sync-merge unified text-muted to canonical #7d6a4d. Baselines stale after token unification — regenerate visual baselines on Linux via workflow_dispatch."
 }

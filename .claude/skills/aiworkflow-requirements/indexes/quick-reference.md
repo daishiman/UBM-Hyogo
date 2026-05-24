@@ -15,6 +15,47 @@
 | boundary | staging deploy, commit, push, PR are user-gated |
 | inventory | `.claude/skills/aiworkflow-requirements/references/workflow-home-page-prototype-alignment-artifact-inventory.md` |
 
+## login-page-prototype-alignment（2026-05-23）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/login-page-prototype-alignment/` |
+| 状態 | `implemented_local_visual_evidence_captured / implementation / VISUAL_ON_EXECUTION` |
+| system spec | `docs/00-getting-started-manual/specs/13-mvp-auth.md` |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-login-page-prototype-alignment-artifact-inventory.md` |
+| implementation | `apps/web/app/login/**`, `apps/web/src/components/ui/{Icon,icons}.ts(x)`, `apps/web/src/styles/auth.css`, `apps/web/playwright/tests/login-smoke.spec.ts` |
+| UI contract | Magic Link primary -> OR divider -> Google secondary, brand block, sent inbox state |
+| boundary | `/api/auth/*`, Auth.js handler, D1 schema, `apps/api/**` are unchanged; staging visual smoke, commit, push, PR are user-gated |
+
+## fix-admin-server-components-render-error-stg（2026-05-23）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow | `docs/30-workflows/fix-admin-server-components-render-error-stg/` |
+| status | `implemented_local_runtime_pending / implementation / NON_VISUAL` |
+| purpose | recover staging `/admin` Server Components render error digest `167275886` by routing admin server fetch env access through `getEnv()` and removing localhost fallback |
+| implementation | `apps/web/src/lib/admin/server-fetch.ts`, `apps/web/src/lib/env.ts` |
+| tests | `apps/web/src/lib/admin/__tests__/server-fetch.env.spec.ts`, `apps/web/src/lib/__tests__/env.spec.ts` |
+| spec sync | `references/architecture-admin-api-client.md` now defines `fetchAdmin()` base URL / internal auth resolution via `getEnv()` with no localhost fallback |
+| Phase 12 | `outputs/phase-12/phase12-task-spec-compliance-check.md` + strict 7 files present |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-fix-admin-server-components-render-error-stg-artifact-inventory.md` |
+| boundary | staging deploy, authenticated `/admin` curl, backend-ci rerun, commit, push, PR are user-gated |
+
+## apps-web-security-headers-hardening（2026-05-23）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/apps-web-security-headers-hardening/` |
+| status | `implemented_local_evidence_captured / implementation / NON_VISUAL` |
+| scope | `apps/web` response security headers via middleware |
+| implementation | `apps/web/src/lib/security-headers.ts`, `apps/web/middleware.ts`, `apps/web/src/lib/security-headers.spec.ts`, `apps/web/playwright/tests/security-headers.spec.ts` |
+| contract | CSP is `Content-Security-Policy-Report-Only`; `Permissions-Policy` excludes `browsing-topics`; Trusted Types enforcement is not emitted |
+| env | `getPublicEnv().NEXT_PUBLIC_API_BASE_URL` is the canonical API URL; `NEXT_PUBLIC_API_ORIGIN` is not used |
+| Phase 12 | strict 7 outputs present; root/output artifacts parity present |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-apps-web-security-headers-hardening-artifact-inventory.md` |
+| lessons-learned | `.claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-apps-web-security-headers-hardening-2026-05.md` (L-AWSHH-001..004) |
+| user gate | staging/production response verification, commit, push, PR |
+
 ## ci-green-recovery-smoke-coverage-shard（2026-05-23）
 
 | 項目 | 値 |
@@ -1094,7 +1135,7 @@
 | 状態 | `implemented-local / implementation / NON_VISUAL / IMPLEMENTED_LOCAL_RUNTIME_PENDING / Phase 13 pending_user_approval` |
 | 実装正本 | `apps/web/wrangler.toml`, `apps/web/.dev.vars.example`, `apps/web/src/lib/env.ts`, `apps/web/src/lib/__tests__/env.test.ts` |
 | env contract | `[vars]` / `[env.staging.vars]` / `[env.production.vars]` に `ENVIRONMENT`, `NEXT_PUBLIC_API_BASE_URL`, `PUBLIC_API_BASE_URL`, `INTERNAL_API_BASE_URL`, `AUTH_URL`, `SENTRY_ENVIRONMENT`, `SENTRY_TRACES_SAMPLE_RATE` を配置 |
-| secret boundary | `SENTRY_DSN_WEB` / `AUTH_SECRET` は Cloudflare Secrets / 1Password 正本。`wrangler.toml` に値を書かない |
+| secret boundary | `SENTRY_DSN_WEB` / `AUTH_SECRET` / `INTERNAL_AUTH_SECRET` は Cloudflare Secrets / 1Password 正本。`wrangler.toml` に値を書かない |
 | downstream | task-03 は `SENTRY_*`、task-04/05/18 は `getEnv()` / grep gate を利用 |
 | evidence | `outputs/phase-12/phase12-task-spec-compliance-check.md`。Cloudflare dry-run / secret put / commit / push / PR は user approval 後 |
 | lessons | `references/lessons-learned-task-02-w2-wrangler-env-injection-2026-05.md`（L-T02W2-001..005: getEnv() 単一窓口 / zod throw を error.tsx に委譲 / public env schema 分離 / vars vs Secrets 境界 / NON_VISUAL platform evidence 5 点） |
