@@ -97,6 +97,28 @@ done
   `phase-12-compliance-check.md` を canonical heading SSOT として参照
 - 複製は 0 件、artifacts.json parity OK、strict 7 は parent root に集約
 
+## 参考例: serial-06 form response binding (2026-05-23)
+
+adapter 層実装 sub-workflow（pure function + fixture + Playwright mock + visual snapshot）における strict 7 集約の実例。
+
+- parent root: `docs/30-workflows/ui-prototype-design-system-foundation/outputs/phase-12/` に strict 7 を集約（SSOT を維持）
+- sub-workflow: `docs/30-workflows/ui-prototype-design-system-foundation/serial-06-form-response-binding/phase-12-compliance-check.md` のみ配置
+- **削除した artifact**: 当初存在した `serial-06-form-response-binding/phase-12-documentation.md` を本 wave で物理削除し、内容は parent root の strict 7（特に `documentation-changelog.md` / `implementation-guide.md`）に統合した。`phase-12-documentation.md` という命名自体が strict 7 の `documentation-changelog.md` と混同される温床であり、sub-workflow では生成しないルールを serial-06 で正式適用。
+- sub-workflow 配下 `outputs/phase-11/` には adapter unit test JUnit / Playwright fixture mock log / generated.css grep 等の Phase 11 evidence のみ配置（strict 7 とは責務分離）
+- `outputs/phase-12/phase12-task-spec-compliance-check.md`（parent root）が sub の `phase-12-compliance-check.md` を canonical heading SSOT として参照
+- adapter pure function 100% branch coverage の sub-workflow であっても strict 7 は複製せず、`skill-feedback-report.md`（parent root）に「adapter 層 / fixture / visibility 二重防御 / unknown kind silent skip」知見を集約する
+
+### adapter 層 sub-workflow 固有の注意点
+
+| 観点 | sub 配下 OK | parent root 集約必須 |
+|------|-------------|----------------------|
+| adapter unit test evidence（vitest JUnit, coverage report） | ✅ `<sub>/outputs/phase-11/` | — |
+| Playwright fixture mock log / screenshot | ✅ `<sub>/outputs/phase-11/` | — |
+| visibility 二重防御 grep evidence（API filter / adapter filter / UI assertion） | ✅ `<sub>/outputs/phase-11/` | — |
+| `phase-12-compliance-check.md`（canonical 9 headings + checklist） | ✅ `<sub>/` 直下のみ | — |
+| `implementation-guide.md` / `documentation-changelog.md` 等 strict 7 | ❌（複製禁止） | ✅ parent root `outputs/phase-12/` |
+| `skill-feedback-report.md`（adapter 層パターン昇格） | ❌ | ✅ parent root に集約 |
+
 ## FAIL 時の対応
 
 | 検出 | アクション |

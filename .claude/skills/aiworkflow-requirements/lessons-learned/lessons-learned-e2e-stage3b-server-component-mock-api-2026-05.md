@@ -115,6 +115,41 @@ CI 失敗時の挙動を CI 本番で再現するのはコストが高い。ロ�
 
 ---
 
+## L-E2EQU3B-006: 二重 mock の serving-path 切替と negative-query 規約 drift（2026-05-24 / members-page-prototype-alignment e2e gate 由来）
+
+### What
+
+`e2e-tests-coverage-gate` で 2 件の e2e が落ちた。うち members-prototype-alignment の EmptyState spec は「local 単体実行では PASS、CI では FAIL」という serving-path 依存の不整合だった。原因は SSR mock が **2 系統**あり、実行環境でどちらが応答するかが切り替わること:
+
+- local 単体: `apps/web/playwright/fixtures/auth.ts` の `ensureMockApi()` が `:8787` を自前 bind して応答
+- CI: `.github/workflows/e2e-tests.yml` が full suite 前に `node scripts/e2e-mock-api.mjs` を `:8787` で先起動 → auth fixture の `ensureMockApi()` は `server.once('error')` で **`EADDRINUSE` を捕捉し既存サーバを reuse** するため、CI では e2e-mock-api.mjs が応答する
+
+spec は `/members?q=zzznotfound-${Date.now()}` という独自 prefix を使っていた。auth.ts は `q.startsWith('zzznotfound')` で空を返すが、e2e-mock-api.mjs は `q === fixtures.public.negativeQuery`（`"zzz_no_match_zzz"`、完全一致）でしか空を返さない。
+→ local（auth.ts）は空 → EmptyState 表示 → PASS。CI（e2e-mock-api.mjs）はフルリスト返却 → EmptyState 出ず → timeout FAIL。
+
+さらに副次的に、auth.ts の空系レスポンスが `topTags` を欠いており、`PublicMemberListViewZ`（`.strict()`・`topTags` 必須）の `.parse()` が throw → error boundary に落ちて EmptyState が出ない zod 不整合もあった。
+
+### Why
+
+negative-query（空結果トリガ語）の規約が **test / auth.ts / e2e-mock-api.mjs の 3 箇所で別々に定義**され、且つ EADDRINUSE フォールバックで「どちらの mock が応答するか」が local/CI で切り替わるため、片方の mock だけ直しても CI に効かない。`.strict()` schema は未知キーだけでなく必須キー欠落でも throw するため、空系 mock が正常系と shape ドリフトすると SSR が error boundary に落ちる。
+
+### How to apply
+
+- **negative-query は `packages/contracts/src/fixtures.mjs` の `fixtures.public.negativeQuery`（`"zzz_no_match_zzz"`）を単一ソースにする**。`index.spec.ts` が値を assert。test・両 mock をこの値に揃え、spec ごとの独自マジック文字列（`zzznotfound-*` 等）を作らない。既存 `public-top-and-list.spec.ts` が canonical 例。
+- **mock の空系レスポンスも `.strict()` schema の必須キーを満たす**（`topTags: []` 等）。正常系と空系で同一 schema を満たすこと。
+- **mock を 2 系統持つ場合、応答規約（条件分岐・レスポンス shape）を両系統で一致させる**。`auth.ts` と `e2e-mock-api.mjs` の `/public/members` ハンドラを同期。
+- **EmptyState 系 spec は CI serving-path で検証する**。`node scripts/e2e-mock-api.mjs &` を先起動 → `CI=1 playwright test` で再現。local の auth.ts 単体 PASS だけを根拠にしない。
+- cold-start flake（dev server 初回コンパイル遅延で member-grid / table が 10s timeout）は CI の `retries: 1` が吸収する。warm 再実行で安定 PASS を確認する。
+
+### Evidence
+
+- `apps/web/playwright/tests/members-prototype-alignment.spec.ts`: 負例クエリを `zzz_no_match_zzz` に統一
+- `apps/web/playwright/fixtures/auth.ts`: `q === 'zzz_no_match_zzz'` 判定 + 空系 `topTags: []` 追加
+- `scripts/e2e-mock-api.mjs:149`: `q === fixtures.public.negativeQuery`（既存 canonical、変更不要）
+- a11y 側 fail は別件（warm theme `--ubm-color-text-muted` の WCAG AA contrast 不足 → `#736449` で解消、`apps/web/src/styles/tokens.css` + `specs/09b-design-tokens.md`）
+
+---
+
 ## 関連
 
 - canonical workflow root: `docs/30-workflows/e2e-quality-uplift-stage-3-impl/3b-e2e-tests-hard-gate/`
