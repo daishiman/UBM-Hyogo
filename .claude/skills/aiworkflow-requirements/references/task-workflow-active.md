@@ -20,6 +20,20 @@
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-login-page-prototype-alignment-artifact-inventory.md` |
 | boundary | `/api/auth/*`, Auth.js handler, `apps/api/**`, D1 schema は不変。staging visual smoke / commit / push / PR は user-gated |
 
+### apps-web-security-headers-hardening（2026-05-23）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / NON_VISUAL` |
+| 成果物 | `docs/30-workflows/apps-web-security-headers-hardening/` |
+| 目的 | `apps/web` Workers response に CSP report-only / Permissions-Policy / hardening headers を追加する |
+| implementation targets | `apps/web/src/lib/security-headers.ts`, `apps/web/middleware.ts`, `apps/web/src/lib/security-headers.spec.ts`, `apps/web/playwright/tests/security-headers.spec.ts` |
+| contract | CSP は初期 report-only。`Permissions-Policy` は `browsing-topics` を列挙しない。`require-trusted-types-for` / `trusted-types` は出力しない |
+| env | `NEXT_PUBLIC_API_BASE_URL` を `getPublicEnv()` 経由で読む。`NEXT_PUBLIC_API_ORIGIN` は未存在のため使わない |
+| evidence | Phase 12 strict 7 / root-output artifacts parity / unit + Playwright smoke spec |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-apps-web-security-headers-hardening-artifact-inventory.md` |
+| user gate | staging/production response verification, commit, push, PR |
+
 ### ci-green-recovery-smoke-coverage-shard（2026-05-23）
 
 | 項目 | 値 |
