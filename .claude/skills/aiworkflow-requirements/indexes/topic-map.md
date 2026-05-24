@@ -2313,6 +2313,14 @@ node scripts/list-specs.js --topics
 | 4. 関連ファイル | L86 |
 | 変更履歴 | L93 |
 
+### references/workflow-home-page-prototype-alignment-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Classification | L16 |
+| Implementation Targets | L20 |
+| Boundary | L28 |
+
 ### references/workflow-i01-toastprovider-root-mount-artifact-inventory.md
 
 | セクション | 行 |
@@ -2929,6 +2937,15 @@ node scripts/list-specs.js --topics
 |------------|----|
 | Phase 12 Strict 7 | L42 |
 | User-Gated Boundary | L54 |
+
+### references/workflow-issue-827-member-detail-adapter-and-visibility-defense-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Root | L3 |
+| Implementation Targets | L12 |
+| Evidence | L22 |
+| Boundary | L32 |
 
 ### references/workflow-light-theme-contrast-regression-guard.md
 
@@ -5692,6 +5709,17 @@ node scripts/list-specs.js --topics
 | L-ISSUE-776-007: source unassigned task は Phase 12 で必ず consumed 化 | L40 |
 | クロスリファレンス | L44 |
 
+### references/lessons-learned-issue-827-member-detail-adapter-and-visibility-defense-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| L-I827-001: 可視性二重防御は public detail の全 consumer を覆う | L7 |
+| L-I827-002: docs-only に見える root も受け入れ基準で実コード要否を判定する | L14 |
+| L-I827-003: spec の schema 語彙は shared zod primitives と照合してから contract 確定 | L21 |
+| L-I827-004: filter 責務は pure adapter 境界へ集約する（3 択比較） | L28 |
+| L-I827-005: 許可リスト方式の exhaustiveness は scope 外でも follow-up 起票して規律依存を formalize する | L35 |
+| 横断教訓 | L44 |
+
 ### references/lessons-learned-issue359-production-d1-apply-2026-05.md
 
 | セクション | 行 |
@@ -6301,8 +6329,8 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 概要 | L3 |
 | 仕様書インデックス | L7 |
-| 利用順序 | L118 |
-| 関連ドキュメント | L123 |
+| 利用順序 | L123 |
+| 関連ドキュメント | L128 |
 
 ### references/llm-embedding.md
 
@@ -7438,14 +7466,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L2141 |
-| フェーズ構造（概要） | L2150 |
-| 品質ゲート（概要） | L2181 |
-| 出力テンプレート | L2192 |
-| 実行時のコマンド・エージェント・スキル | L2215 |
-| 昇格パターン集 | L2239 |
-| Current Active / Spec Created Tasks | L2241 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L2401 |
+| ドキュメント構成 | L2171 |
+| フェーズ構造（概要） | L2180 |
+| 品質ゲート（概要） | L2211 |
+| 出力テンプレート | L2222 |
+| 実行時のコマンド・エージェント・スキル | L2245 |
+| 昇格パターン集 | L2269 |
+| Current Active / Spec Created Tasks | L2271 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L2431 |
 
 ### references/task-workflow-backlog-part2.md
 
