@@ -1,10 +1,9 @@
 {
   "$schema": "../../../../docs/30-workflows/task-709-visual-baseline-runtime-capture/schemas/baseline-meta.schema.json",
-  "captured_at_commit_sha": "04a8b6fc34a63e592ad19864d5d5f372868b1b64",
-  "captured_at": "2026-05-23T23:18:56Z",
+  "captured_at_commit_sha": "891bd2b9b92e4aa99566bec847a7d7d376eb73fc",
+  "captured_at": "2026-05-24T03:00:05Z",
   "captured_via": "playwright-visual-baseline-update.yml#workflow_dispatch",
   "captured_run_ids": [
-    "25961551972",
     "25982741998",
     "26022102232",
     "26101682046",
@@ -13,7 +12,8 @@
     "26280741223",
     "26314107860",
     "26315562296",
-    "26346031061"
+    "26346031061",
+    "26350111084"
   ],
   "viewport_dimensions": {
     "desktop": {
@@ -41,5 +41,5 @@
   "refresh_workflow": ".github/workflows/playwright-visual-baseline-update.yml",
   "refresh_command_hint": "gh workflow run playwright-visual-baseline-update.yml -f reason=\"<why>\" -r <feature-branch>",
   "notes": "captured_at_commit_sha からの rendering_relevant_paths diff が空でない場合、baseline は stale。scripts/visual-baseline-status.sh で診断可能。",
-  "last_refresh_reason": "visual-full baseline staleness after dev #889 admin-ui prototype alignment merge into fix/admin-server-components-render-error"
+  "last_refresh_reason": "PR#897 /profile prototype alignment: globals.css の共有UIプリミティブ追加 + profile/MemberHeader/Avatar 刷新により login/register/members-detail/profile の visual baseline が陳腐化。両系統(visual-full 3viewport + smoke visual)を再生成して playwright-visual-full / playwright-smoke の fail を解消する。"
 }
