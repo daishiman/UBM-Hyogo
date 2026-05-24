@@ -4,6 +4,10 @@
 
 GitHub Environment `staging-runtime-smoke` に runtime smoke を実行するために必要な 5 つの secret を投入する。**実値はこのドキュメントに書かない**。各 secret の取得経路のみを示す。
 
+> Bearer TTL / `STAGING_AUTH_SECRET` 同期不変条件 / 401 診断の正本は
+> [`runtime-smoke-staging-mint-recurrence-fix/reference/bearer-lifecycle-ssot.md`](../../../runtime-smoke-staging-mint-recurrence-fix/reference/bearer-lifecycle-ssot.md)。
+> `runtime-smoke-staging.yml` は smoke 実行前に bearer の `exp` を確認し、残り 6 時間未満または decode 不能なら JWT 文字列を出さず loud fail する。
+
 ## 必要 secret 一覧
 
 | secret 名 | 取得元 | 例形式（**実値ではない**） |
@@ -89,7 +93,7 @@ bearer は短命。失効時は同じ手順で `gh secret set` で上書きす�
 
 > 仕様: `docs/30-workflows/ci-green-recovery-smoke-coverage-shard/`（Lane A）
 
-静的 `STAGING_ADMIN_BEARER` / `STAGING_ME_BEARER` は 24h TTL の session JWT のため、GitHub secret に静的保存すると **24h で必ず失効**し、`runtime-smoke-staging / smoke` の `admin-list` が 401 になる（`reason=auth-token-invalid-or-expired`）。
+静的 `STAGING_ADMIN_BEARER` / `STAGING_ME_BEARER` は 24h TTL の session JWT のため、GitHub secret に静的保存すると **24h で必ず失効**し、`runtime-smoke-staging / smoke` の `admin-list` が 401 になる。現行 smoke runner はこの 401 を `auth-token-expired` として分類する（旧分類は `auth-token-invalid-or-expired`）。
 
 これを恒久解消するため、**署名鍵 `STAGING_AUTH_SECRET` から smoke 実行毎に短命 JWT (TTL=600s) を mint する**方式に移行する。`runtime-smoke-staging.yml` の `mint staging bearers` step が `scripts/smoke/mint-staging-bearers.mts` を実行し、`STAGING_AUTH_SECRET` が設定されていれば mint した bearer を `GITHUB_ENV` に export する（未設定時は静的 bearer fallback）。
 
