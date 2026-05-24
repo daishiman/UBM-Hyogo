@@ -14,6 +14,19 @@
 | inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-832-admin-topbar-primitive-extraction-artifact-inventory.md` |
 | boundary | authenticated screenshot / commit / push / PR は user-gated |
 
+## mypage-prototype-alignment（2026-05-23）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/mypage-prototype-alignment/` |
+| 状態 | `implemented_local_evidence_captured / implementation / VISUAL / existing-ui-alignment` |
+| scope | existing `/profile` を prototype `MyProfilePage` に合わせ、Google Form 再回答 CTA、VisibilitySummary、ProfilePreview、RevalidateModal、danger-zone、MemberHeader 動線を実装 |
+| API boundary | Existing `/me`, `/me/profile`, `/me/visibility-request`, `/me/delete-request` only. No `PATCH /me/profile`, D1 schema, Google Form schema, or primitive API change |
+| key UI contract | `/profile` page action uses `/members/{memberId}` when public; global `MemberHeader` public nav uses generic `/members` |
+| Phase 12 | strict 7 present; Phase 11 screenshots captured and PASS |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-mypage-prototype-alignment-artifact-inventory.md` |
+| user gate | commit, push, PR |
+
 ## runtime-smoke-staging-mint-recurrence-fix（2026-05-24）
 
 | 項目 | 値 |
