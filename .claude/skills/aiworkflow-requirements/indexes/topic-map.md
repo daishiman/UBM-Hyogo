@@ -2970,6 +2970,14 @@ node scripts/list-specs.js --topics
 | Implementation Targets | L20 |
 | Boundary | L32 |
 
+### references/workflow-issue-857-internal-alert-relay-binding-wiring-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Implementation Targets | L11 |
+| Evidence | L20 |
+| User-Gated Boundary | L28 |
+
 ### references/workflow-light-theme-contrast-regression-guard.md
 
 | セクション | 行 |
@@ -3238,6 +3246,14 @@ node scripts/list-specs.js --topics
 | Phase 12 Strict 7 | L32 |
 | Local Implementation Targets | L44 |
 | Boundary | L55 |
+
+### references/workflow-step-08-audit-filter-paging-verify-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Workflow Artifacts | L11 |
+| Existing Implementation Targets | L21 |
+| Boundaries | L32 |
 
 ### references/workflow-task-03-w2-par-sentry-workers-sdk-unify-artifact-inventory.md
 
@@ -7510,14 +7526,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L2245 |
-| フェーズ構造（概要） | L2254 |
-| 品質ゲート（概要） | L2285 |
-| 出力テンプレート | L2296 |
-| 実行時のコマンド・エージェント・スキル | L2319 |
-| 昇格パターン集 | L2343 |
-| Current Active / Spec Created Tasks | L2345 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L2505 |
+| ドキュメント構成 | L2272 |
+| フェーズ構造（概要） | L2281 |
+| 品質ゲート（概要） | L2312 |
+| 出力テンプレート | L2323 |
+| 実行時のコマンド・エージェント・スキル | L2346 |
+| 昇格パターン集 | L2370 |
+| Current Active / Spec Created Tasks | L2372 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L2532 |
 
 ### references/task-workflow-backlog-part2.md
 
