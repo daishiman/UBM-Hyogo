@@ -97,7 +97,60 @@ function response(res: ServerResponse, status: number, body: unknown): void {
 function profileBody() {
   return {
     profile: {
-      sections: [],
+      sections: [
+        {
+          key: 'basic',
+          title: '基本情報',
+          fields: [
+            {
+              stableKey: 'fullName',
+              label: '氏名',
+              value: '山田 太郎',
+              kind: 'shortText',
+              visibility: 'public',
+              source: 'forms',
+            },
+            {
+              stableKey: 'nickname',
+              label: 'ニックネーム',
+              value: 'やまだ',
+              kind: 'shortText',
+              visibility: 'public',
+              source: 'forms',
+            },
+            {
+              stableKey: 'occupation',
+              label: '職業',
+              value: '地域プロジェクト担当',
+              kind: 'shortText',
+              visibility: 'member',
+              source: 'forms',
+            },
+            {
+              stableKey: 'location',
+              label: '活動エリア',
+              value: '兵庫県神戸市',
+              kind: 'shortText',
+              visibility: 'member',
+              source: 'forms',
+            },
+          ],
+        },
+        {
+          key: 'consent',
+          title: '同意情報',
+          fields: [
+            {
+              stableKey: 'publicConsent',
+              label: '公開許可',
+              value: true,
+              kind: 'checkbox',
+              visibility: 'admin',
+              source: 'forms',
+            },
+          ],
+        },
+      ],
       attendance: [],
       attendanceMeta: { hasMore: false, nextCursor: null },
     },
@@ -107,8 +160,8 @@ function profileBody() {
       publishState: 'public',
       isDeleted: false,
     },
-    editResponseUrl: 'https://forms.example.test/edit',
-    fallbackResponderUrl: 'https://forms.example.test/responder',
+    editResponseUrl: 'https://docs.google.com/forms/d/e/mock-form/viewform?usp=pp_url',
+    fallbackResponderUrl: 'https://docs.google.com/forms/d/e/mock-form/viewform',
     pendingRequests: state.pendingRequests,
   }
 }
