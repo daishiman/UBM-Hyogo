@@ -1,0 +1,14 @@
+Command:
+mise exec -- pnpm exec vitest run --root=. --config=vitest.config.ts --coverage --coverage.include='apps/web/src/components/admin/AuditLogPanel.tsx' --coverage.include='apps/web/app/(admin)/admin/audit/audit-query.ts' --coverage.include='apps/web/app/(admin)/admin/audit/page.tsx' apps/web/src/components/admin/__tests__/AuditLogPanel.component.spec.tsx 'apps/web/app/(admin)/admin/audit/page.page.spec.ts'
+
+Result:
+Test Files 2 passed (2)
+Tests 41 passed (41)
+
+Coverage summary:
+All files: statements 100, branches 98.83, functions 100, lines 100
+audit-query.ts: statements 100, branches 100, functions 100, lines 100
+AuditLogPanel.tsx: statements 100, branches 98.76, functions 100, lines 100
+
+Note:
+page.tsx was included, but V8 did not emit a separate row. Page smoke is covered by page.page.spec.ts (2 tests).
