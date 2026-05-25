@@ -2962,6 +2962,15 @@ node scripts/list-specs.js --topics
 | Planned Implementation Targets | L26 |
 | Boundary | L38 |
 
+### references/workflow-issue-883-adapter-dev-warn-unknown-kind-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Root | L3 |
+| Implementation Targets | L12 |
+| Evidence | L20 |
+| Boundary | L32 |
+
 ### references/workflow-light-theme-contrast-regression-guard.md
 
 | セクション | 行 |
@@ -7510,14 +7519,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L2244 |
-| フェーズ構造（概要） | L2253 |
-| 品質ゲート（概要） | L2284 |
-| 出力テンプレート | L2295 |
-| 実行時のコマンド・エージェント・スキル | L2318 |
-| 昇格パターン集 | L2342 |
-| Current Active / Spec Created Tasks | L2344 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L2504 |
+| ドキュメント構成 | L2259 |
+| フェーズ構造（概要） | L2268 |
+| 品質ゲート（概要） | L2299 |
+| 出力テンプレート | L2310 |
+| 実行時のコマンド・エージェント・スキル | L2333 |
+| 昇格パターン集 | L2357 |
+| Current Active / Spec Created Tasks | L2359 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L2519 |
 
 ### references/task-workflow-backlog-part2.md
 

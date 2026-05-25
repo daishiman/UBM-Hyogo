@@ -4,6 +4,12 @@
 
 このファイルは task-specification-creator の運用・改善・Phase 12 close-out 同期履歴を新しい順に記録する。
 
+## 2026-05-25 - Issue #883 adapter dev warn unknown kind close-out feedback
+
+`docs/30-workflows/completed-tasks/issue-883-adapter-dev-warn-unknown-kind/` の 30 種思考法レビューを反映した。実装仕様書を `spec_only_pending_implementation` として残すと CONST_004/005 と矛盾するため、同一サイクルで実コード3ファイル、Phase 11 evidence、Phase 12 strict 7、aiworkflow ledger 同期まで完了させ、`implemented_local_evidence_captured` に再分類した。
+
+DCE grep は `apps/web/.next/` 全体を対象にすると webpack cache (`.next/cache`) の source pack が false positive になるため、production artifact (`apps/web/.next/server` / `apps/web/.open-next`) を対象にする。Phase 10/11/12 ではこの境界を明記し、cache hit を bundle 残存と誤判定しない。
+
 ## 2026-05-17 - Issue #749 primitive adoption tracker review
 
 `docs/30-workflows/completed-tasks/issue-749-primitive-adoption-tracker/` の 30 種思考法レビューを反映した。実コード差分を伴う workflow は docs-only / spec-created のラベルに固定せず、`implemented_local_evidence_captured` として Phase 11 local evidence、Phase 12 strict 7、root artifacts、skill sync を同一サイクルで揃える。route SSOT は moved completed root の `docs/30-workflows/completed-tasks/ui-prototype-alignment-mvp-recovery/SCOPE.md` を参照し、コピーした route matrix の stale row を Phase 4/7/11 gate へ波及させない。primitive adoption gate は import-only や `void` placeholder ではなく、実 JSX rendering / `useAdminMutation().trigger()` / EmptyState / Pagination を検査する。未タスク候補は同一サイクルで解消可能なら unassigned-task 化せず、`unassigned-task-detection.md` に 0 件と解消理由を記録する。
@@ -1217,7 +1223,7 @@ UT-SDK-07-SHARED-IPC-CHANNEL-CONTRACT-001 Phase 12 close-out による引き継�
   - ErrorCards atoms リファクタリング（generate-step/ErrorCards.tsx に3種統合 / P47 Record型マッピング）
   - store/index.ts に個別セレクタ9点追加（P31対策）
   - SkillCreateWizard 統合（resolveStage / bridgeLocalError / onRetry接続）
-  - 114テスト全PASS（GenerateStep 44件 / useStreamingProgress 29件 / useCancelGeneration 4件 / SkillCreateWizard 37件）
+  - 114テスト全PASS（GenerateStep 44件 / useStreamingProgress 210件 / useCancelGeneration 4件 / SkillCreateWizard 37件）
   - 未タスク4件: TASK-SC-07-IPC-CANCEL / TASK-SC-07-DEBOUNCE / TASK-SC-07-OPEN-SETTINGS / TASK-SC-07-PARSE-ERROR-CODE
 
 ---
@@ -2176,7 +2182,7 @@ AC-1〜AC-6 全達成。Phase 10 判定: PASS（MINOR 0件）
 - **Result**: success
 - **Notes**:
   - Task01-Task10 に `verify-all-specs` / `validate-phase-output` を適用し、10/10 PASS を確認
-  - `validate-phase11-screenshot-coverage` / `validate-phase12-implementation-guide` は `phase-12-documentation=completed` workflow（Step-01）に限定し、他9件は `not_started` 由来の未適用として判定
+  - `validate-phase11-screenshot-coverage` / `validate-phase12-implementation-guide` は `phase-12-documentation=completed` workflow（Step-01）に限定し、他10件は `not_started` 由来の未適用として判定
   - 判定マトリクスを `workflow-ai-runtime-authmode-unification.md` / `task-workflow.md` / `lessons-learned.md` へ同期し、`all PASS` 記録の適用範囲を明確化
 
 ---
@@ -2541,7 +2547,7 @@ AC-1〜AC-6 全達成。Phase 10 判定: PASS（MINOR 0件）
 | 種別     | documentation / spec-alignment                                                                                                                                                                                   |
 | 変更対象 | `docs/30-workflows/step-04-seq-task-05-schema-extension/`（phase-2 / phase-12 / phase-13 / outputs / unassigned-task）                                                                                           |
 | 結果     | Phase 12 の実装ガイド・未タスク・skill-feedback を `provider-registry.ts` 前提へ同期し、Phase 13 の PR 準備と最終確認を current facts へ是正。`TASK-LLM-MOD-05-PROVIDER-CONFIGS-TYPE-DEDUP` を削除済みとして整理 |
-| 検証     | `provider.test.ts` 41 PASS、`llm.test.ts` 59 PASS / 1 skipped、workflow 内検索で旧想定パスの残存を解消確認                                                                                                       |
+| 検証     | `provider.test.ts` 41 PASS、`llm.test.ts` 510 PASS / 1 skipped、workflow 内検索で旧想定パスの残存を解消確認                                                                                                       |
 
 ### 2026-04-04 - TASK-RT-03-VERIFY-IMPROVE-PANEL-001 close-out sync
 

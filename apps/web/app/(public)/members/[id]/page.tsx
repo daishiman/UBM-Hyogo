@@ -5,10 +5,9 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
-import { PublicMemberProfileZ } from "@ubm-hyogo/shared";
-
 import { MemberDetail } from "../../../../src/components/public/MemberDetail";
 import {
+  PublicMemberProfileWithUnknownKindZ,
   toMemberDetailProps,
   type PublicMemberProfile,
 } from "../../../../src/lib/adapters/member-detail";
@@ -16,6 +15,16 @@ import { fetchPublicOrNotFound } from "../../../../src/lib/fetch/public";
 import { buildPageMetadata } from "@/lib/seo/site-metadata";
 
 export const dynamic = "force-dynamic";
+
+const onUnknownKind =
+  process.env.NODE_ENV === "development"
+    ? (field: PublicMemberProfile["publicSections"][number]["fields"][number]) =>
+        console.warn(
+          "[member-detail] unknown kind",
+          field.kind,
+          field.stableKey,
+        )
+    : undefined;
 
 interface MemberDetailPageProps {
   params: Promise<{ id: string }>;
@@ -28,7 +37,7 @@ async function fetchProfile(id: string): Promise<PublicMemberProfile | null> {
       { revalidate: 0 },
     );
     // fail-close: zod parse 失敗時は error.tsx boundary で補足
-    return PublicMemberProfileZ.parse(raw);
+    return PublicMemberProfileWithUnknownKindZ.parse(raw);
   } catch (e) {
     if (e instanceof Error && e.name === "FetchPublicNotFoundError") {
       return null;
@@ -71,7 +80,7 @@ export default async function MemberDetailPage({
   if (!profile) {
     notFound();
   }
-  const props = toMemberDetailProps(profile);
+  const props = toMemberDetailProps(profile, { onUnknownKind });
   return (
     <main data-route="public" data-section-rhythm="comfortable">
       <a href="/members" data-role="back" className="back-link">
