@@ -2135,6 +2135,12 @@ node scripts/list-specs.js --topics
 |------------|----|
 | Contract | L16 |
 
+### references/workflow-admin-ui-prototype-alignment-followup-002-section-error-retry-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Contract | L15 |
+
 ### references/workflow-ai-chat-llm-integration-fix-artifact-inventory.md
 
 | セクション | 行 |
@@ -3051,6 +3057,18 @@ node scripts/list-specs.js --topics
 | Implementation targets | L12 |
 | Evidence | L19 |
 | Source / parent | L27 |
+
+### references/workflow-issue-879-safe-server-fetch-member-public-horizontal-expansion-artifact-inventory.md
+
+### references/workflow-issue-880-public-segment-error-loading-boundary-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Summary | L3 |
+| Artifacts | L13 |
+| Implementation targets | L27 |
+| Skill knowledge synced | L36 |
+| User-gated operations | L43 |
 
 ### references/workflow-issue-882-terms-prefetch-env-validation-fix-artifact-inventory.md
 
@@ -7606,14 +7624,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L2395 |
-| フェーズ構造（概要） | L2404 |
-| 品質ゲート（概要） | L2435 |
-| 出力テンプレート | L2446 |
-| 実行時のコマンド・エージェント・スキル | L2469 |
-| 昇格パターン集 | L2493 |
-| Current Active / Spec Created Tasks | L2495 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L2656 |
+| ドキュメント構成 | L2438 |
+| フェーズ構造（概要） | L2447 |
+| 品質ゲート（概要） | L2478 |
+| 出力テンプレート | L2489 |
+| 実行時のコマンド・エージェント・スキル | L2512 |
+| 昇格パターン集 | L2536 |
+| Current Active / Spec Created Tasks | L2538 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L2699 |
 
 ### references/task-workflow-backlog-part2.md
 
