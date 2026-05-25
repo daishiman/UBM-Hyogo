@@ -152,6 +152,8 @@ export interface RollbackSchemaAliasResult {
   };
 }
 
+export const BULK_ROLLBACK_MAX_ROWS = 50;
+
 export class RollbackApiError extends Error {
   readonly status: number;
   readonly code: string;
@@ -203,6 +205,159 @@ export async function rollbackSchemaAlias(
     throw new RollbackApiError(res.status, code, message);
   }
   return body as RollbackSchemaAliasResult;
+}
+
+export interface SchemaAliasRollbackBulkRow {
+  aliasId: string;
+  version: number;
+  reason?: string;
+}
+
+export interface SchemaAliasRollbackBulkRowResult {
+  aliasId: string;
+  status: "success" | "error";
+  data?: RollbackSchemaAliasResult;
+  error?: {
+    kind: "version_mismatch" | "not_found" | "forbidden" | "network" | "other";
+    message: string;
+    httpStatus?: number;
+  };
+}
+
+export interface SchemaAliasRollbackBulkOptions {
+  onRowResult?: (result: SchemaAliasRollbackBulkRowResult, index: number) => void;
+  concurrency?: number;
+}
+
+const rollbackErrorKind = (
+  error: RollbackApiError,
+): NonNullable<SchemaAliasRollbackBulkRowResult["error"]>["kind"] => {
+  if (error.status === 409) return "version_mismatch";
+  if (error.status === 404) return "not_found";
+  if (error.status === 401 || error.status === 403) return "forbidden";
+  if (error.status === 0) return "network";
+  return "other";
+};
+
+// Issue #836: schema alias recompute（rollback 後の reverse-backfill）helper。
+// 不変条件 #5/#12: web → API fetch のみ。D1 直接アクセスなし。triggerKey は送らない（server 導出）。
+export interface RecomputeSchemaAliasInput {
+  aliasId: string;
+  reason?: string;
+}
+
+export interface RecomputeSchemaAliasResult {
+  jobId: string;
+  aliasId: string;
+  status: "completed" | "running";
+  affectedCount: number;
+  processedCount: number;
+  updatedCount: number;
+  deletedCollisionCount: number;
+  recomputeAuditId: string;
+  relatedRollbackAuditId: string | null;
+}
+
+export interface RecomputeStatusResult {
+  jobId: string;
+  aliasId: string;
+  status: "pending" | "running" | "completed" | "failed";
+  affectedCount: number;
+  processedCount: number;
+  updatedCount: number;
+  deletedCollisionCount: number;
+  lastError: string | null;
+  updatedAt: string;
+}
+
+export class RecomputeApiError extends Error {
+  readonly status: number;
+  readonly code: string;
+  constructor(status: number, code: string, message?: string) {
+    super(message ?? `${code} (status ${status})`);
+    this.status = status;
+    this.code = code;
+    this.name = "RecomputeApiError";
+  }
+}
+
+export async function recomputeSchemaAlias(
+  input: RecomputeSchemaAliasInput,
+): Promise<RecomputeSchemaAliasResult> {
+  let res: Response;
+  try {
+    res = await fetch(
+      `/api/admin/schema/aliases/${encodeURIComponent(input.aliasId)}/recompute`,
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ reason: input.reason }),
+      },
+    );
+  } catch (e) {
+    throw new RecomputeApiError(
+      0,
+      "network_error",
+      e instanceof Error ? e.message : "network error",
+    );
+  }
+  let body: unknown = null;
+  const ct = res.headers.get("content-type") ?? "";
+  if (ct.includes("application/json")) {
+    try {
+      body = await res.json();
+    } catch {
+      // ignore
+    }
+  }
+  if (!res.ok) {
+    const code =
+      typeof body === "object" && body !== null && "error" in body
+        ? String((body as { error: unknown }).error)
+        : "unknown";
+    const message =
+      typeof body === "object" && body !== null && "message" in body
+        ? String((body as { message: unknown }).message)
+        : undefined;
+    throw new RecomputeApiError(res.status, code, message);
+  }
+  return body as RecomputeSchemaAliasResult;
+}
+
+export async function getSchemaAliasRecomputeStatus(
+  aliasId: string,
+): Promise<RecomputeStatusResult | null> {
+  let res: Response;
+  try {
+    res = await fetch(
+      `/api/admin/schema/aliases/${encodeURIComponent(aliasId)}/recompute`,
+      { method: "GET" },
+    );
+  } catch (e) {
+    throw new RecomputeApiError(
+      0,
+      "network_error",
+      e instanceof Error ? e.message : "network error",
+    );
+  }
+  let body: unknown = null;
+  const ct = res.headers.get("content-type") ?? "";
+  if (ct.includes("application/json")) {
+    try {
+      body = await res.json();
+    } catch {
+      // ignore
+    }
+  }
+  if (!res.ok) {
+    const code =
+      typeof body === "object" && body !== null && "error" in body
+        ? String((body as { error: unknown }).error)
+        : "unknown";
+    throw new RecomputeApiError(res.status, code);
+  }
+  if (body === null) return null;
+  return body as RecomputeStatusResult;
 }
 
 // Issue #776: schema alias bulk resolve — client-side bounded fan-out helper.
@@ -308,6 +463,57 @@ export const postSchemaAliasBulk = async (
           message: e instanceof Error ? e.message : String(e),
         },
       };
+    }
+    options.onRowResult?.(result, index);
+    return result;
+  });
+  return { results };
+};
+
+// Issue #837: schema alias bulk rollback — existing single rollback endpoint only.
+// Each row is committed independently by the server-side single rollback workflow.
+export const rollbackSchemaAliasBulk = async (
+  rows: ReadonlyArray<SchemaAliasRollbackBulkRow>,
+  options: SchemaAliasRollbackBulkOptions = {},
+): Promise<{ results: SchemaAliasRollbackBulkRowResult[] }> => {
+  if (rows.length === 0) return { results: [] };
+  if (rows.length > BULK_ROLLBACK_MAX_ROWS) {
+    throw new RollbackApiError(
+      0,
+      "bulk_limit_exceeded",
+      `bulk rollback supports at most ${BULK_ROLLBACK_MAX_ROWS} rows`,
+    );
+  }
+  const results = await runWithConcurrency(rows, options.concurrency ?? 8, async (row, index) => {
+    let result: SchemaAliasRollbackBulkRowResult;
+    try {
+      const data = await rollbackSchemaAlias(row);
+      result = {
+        aliasId: row.aliasId,
+        status: "success",
+        data,
+      };
+    } catch (e) {
+      if (e instanceof RollbackApiError) {
+        result = {
+          aliasId: row.aliasId,
+          status: "error",
+          error: {
+            kind: rollbackErrorKind(e),
+            message: e.message,
+            httpStatus: e.status,
+          },
+        };
+      } else {
+        result = {
+          aliasId: row.aliasId,
+          status: "error",
+          error: {
+            kind: "network",
+            message: e instanceof Error ? e.message : String(e),
+          },
+        };
+      }
     }
     options.onRowResult?.(result, index);
     return result;

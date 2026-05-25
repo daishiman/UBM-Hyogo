@@ -57,6 +57,24 @@ Phase-1 検証で 5 つの構造的な学びが抽出された。
     - `VISUAL` / `NON_VISUAL` は visual evidence の class、`(public chrome only; admin/member deferred-to-serial-07)` のように deferred scope を括弧で補記する。
   - Phase 12 strict 7 outputs（`phase12-task-spec-compliance-check.md`, `implementation-guide.md`, ...）の verdict 行と、aiworkflow-requirements skill 側の 3 index（resource-map / quick-reference / task-workflow-active）に同じ語彙を採用する。
 
+### L-PAR03-006: EV `pending→present` 昇格は別 follow-up workflow で取得し、親台帳と spec 出力先を同 wave 同期する
+
+- **Why（中学生向け）**: parallel-03 本体では admin 画面のログインが要るので「admin の DOM を撮る」証拠（EV-12）を `pending`（あとでやる）のままにしていた。後から証拠を撮るときに、別の小さなワークフロー（`parallel-03-followup-002-admin-runtime-evidence`）を立てて撮ったが、「どこに保存されるか」の説明と、実際にプログラムが保存する場所がズレていて混乱した。
+- **How to apply**:
+  - 親 workflow で `pending` にした EV を後から取得する場合は、production code を触らない **evidence-only follow-up workflow** を別 root（`<parent>-followup-NNN-...`）で立てる。新規 production behavior がない限り artifact inventory / resource-map / quick-reference / task-workflow-active の status 文言と、親 `phase-11-evidence-inventory.md`（root 直下）と `outputs/phase-11/evidence-inventory.md`（gate 表）の **両方** を同 wave で `pending→present` 昇格させる。片方だけ更新すると resource-map の参照先実体が stale 化する。
+  - **苦戦箇所**: Playwright scrape spec が出力先 path を `process.cwd()` 相対で**ハードコード**する設計の場合、再現コマンドに `PLAYWRIGHT_EVIDENCE_DIR=...` のような env 変数を書くと「コマンド通り実行しても別の場所に書かれる」嘘の手順になる（L-PAR03-004 の path drift 系）。spec が env を読まないなら、再現コマンドから env 前置を除き「spec が固定 path に書く」旨を明記する。逆に follow-up 側 dir へ出したいなら spec を env 対応にする。spec の実コードと inventory の再現コマンドを必ず突き合わせる。
+  - evidence-only follow-up の Phase 12 compliance-check では、冒頭引用ブロックの `workflow_state` 文言を本文 verdict（`implemented_local_evidence_captured`）と一致させる。テンプレ流用時に `spec_created` 文言が残ると Four-condition verdict「矛盾なし」と正面衝突する。
+- 適用先: `parallel-03-followup-002-admin-runtime-evidence`（EV-12 admin DOM scrape）。member DOM (EV-13) は serial-05、full chrome screenshot (EV-15/16) は serial-07/#829 へ委譲済み。
+
+### L-PAR03-006: follow-up primitive 抽出時の test 配置補正と data-* 所有境界（AdminTopbar）
+
+- **Why（中学生向け）**: parallel-03 で「topbar はあとで部品にする」と先送りしていたものを follow-up 001 で実際に部品化した。そのとき (1) テストファイルの置き場所を source 指示どおりにすると周りのファイルとバラバラになる、(2) `data-*` の印をコンポーネントと外枠のどちらに貼るかを間違えると既存テストが落ちる、という 2 つのつまずきがあった。
+- **How to apply**:
+  - **test 配置**: source unassigned-task は `apps/web/src/components/layout/AdminTopbar.spec.tsx`（コンポーネント直下）を指定していたが、neighbor 慣習（`__tests__/AdminSidebar.component.spec.tsx` / `__tests__/MemberHeader.spec.tsx`）に合わせ `apps/web/src/components/layout/__tests__/AdminTopbar.spec.tsx` へ補正する。source 指示よりも実ディレクトリの既存配置慣習を優先し、consumed trace（source md）と canonical 仕様書（phase-05 / phase-06）の双方を補正後 path に更新して drift を残さない。
+  - **data-* 所有境界（successor contract）**: inline JSX を primitive 化する際、`data-shell="topbar"` は AdminTopbar primitive root の `<header>` が所有し、`data-route-group="admin"` / `data-theme="cool"` / `data-testid="admin-shell"` は `(admin)/layout.tsx` の wrapper 側に残す。これにより DOM が同型に保たれ、既存 `(admin)/layout.spec.tsx` を無修正で pass させられる（regression gate をそのまま流用）。
+  - **VISUAL boundary**: DOM 同型リファクタは `NON_VISUAL` とし、screenshot baseline を追加しない。視覚的非回帰は existing layout spec + serial-07 visual owner 継続で担保し、Phase 11 evidence は spec log / typecheck / lint / build / token gate / diff-stat で構成する。
+- 適用先: 既存 inline chrome を primitive へ抽出する後続 follow-up（breadcrumb / actions 実装など）。
+
 ## 関連ドキュメント
 
 - artifact inventory: `references/workflow-ui-prototype-design-system-foundation-artifact-inventory.md` § Sub-workflow: parallel-03 AppShell Layouts
@@ -69,3 +87,5 @@ Phase-1 検証で 5 つの構造的な学びが抽出された。
 | date | change |
 |------|--------|
 | 2026-05-19 | parallel-03 AppShell Layouts Phase-1 検証由来の L-PAR03-001..005 を新規記録 |
+| 2026-05-24 | follow-up `parallel-03-followup-002-admin-runtime-evidence`（EV-12 admin DOM scrape 取得）由来の L-PAR03-006 を追記。evidence pending→present 昇格 follow-up の同 wave 同期と spec 固定 path vs 再現コマンド drift の教訓を記録 |
+| 2026-05-23 | follow-up 001 AdminTopbar primitive 抽出の苦戦箇所 L-PAR03-006（test 配置補正・data-* 所有境界・NON_VISUAL boundary）を追記 |

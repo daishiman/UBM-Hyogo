@@ -106,8 +106,9 @@ export interface Env extends SyncEnv, ResponseSyncEnv {
   // wrangler.toml の `[[env.{staging,production}.kv_namespaces]]` で binding = "ALERT_DEDUP_KV" を割当てる。
   readonly ALERT_DEDUP_KV: KVNamespace;
 
-  // UT-25-DERIV-02: SA key 失効監視 health check → alert-relay 内部 POST 用。
-  // 未設定時は log のみで cron を fail させない（healthcheck 内で skip）。
+  // UT-25-DERIV-02 / issue-857: SA key 失効監視 health check → alert-relay 内部 POST 用。
+  // API_INTERNAL_BASE_URL は wrangler.toml の各 env vars で自 Worker public URL に固定する。
+  // 受信側は CF_WEBHOOK_AUTH_SECRET のみ照合するため、別値の INTERNAL_ALERT_TOKEN は投入しない。
   readonly API_INTERNAL_BASE_URL?: string;
   readonly INTERNAL_ALERT_TOKEN?: string;
 }
