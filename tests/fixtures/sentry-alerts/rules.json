@@ -1,0 +1,41 @@
+[
+  {
+    "id": "mock-admin-error-boundary",
+    "name": "admin-error-boundary",
+    "description": "Admin scope error.boundary.caught regression detection",
+    "environment": "staging",
+    "actionMatch": "all",
+    "filterMatch": "all",
+    "frequency": 5,
+    "conditions": [
+      {
+        "id": "sentry.rules.conditions.event_frequency.EventFrequencyCondition",
+        "value": 3,
+        "interval": "5m"
+      }
+    ],
+    "filters": [
+      {
+        "id": "sentry.rules.filters.tagged_event.TaggedEventFilter",
+        "key": "scope",
+        "match": "eq",
+        "value": "admin"
+      },
+      {
+        "id": "sentry.rules.filters.tagged_event.TaggedEventFilter",
+        "key": "event",
+        "match": "eq",
+        "value": "error.boundary.caught"
+      }
+    ],
+    "actions": [
+      {
+        "id": "sentry.integrations.slack.notify_action.SlackNotifyServiceAction",
+        "workspace": 293854098,
+        "channel": "#ubm-hyogo-incidents",
+        "tags": "environment,event,scope,digest"
+      }
+    ],
+    "dateCreated": "2026-05-24T00:00:00Z"
+  }
+]

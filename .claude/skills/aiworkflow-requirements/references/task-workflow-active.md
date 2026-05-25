@@ -8,6 +8,31 @@
 
 本ドキュメントは、複雑なタスクを単一責務の原則に基づいて分解し、各サブタスクに最適なスラッシュコマンド・エージェント・スキルの組み合わせを選定するためのガイドラインを定義する。
 
+### issue-864-admin-staging-runtime-smoke-ci-gate（2026-05-24）
+
+| 項目 | 値 |
+| --- | --- |
+| state | `implemented_local_runtime_pending / implementation / NON_VISUAL` |
+| root | `docs/30-workflows/completed-tasks/issue-864-admin-staging-runtime-smoke-ci-gate/` |
+| purpose | staging deploy 後に authenticated `/admin` を叩き Server Components render error digest `167275886` / `error.boundary.caught` を CI で検出する gate |
+| implementation targets | `scripts/cf.sh tail`, `scripts/smoke/mint-staging-session-cookie.mts`, `scripts/smoke/runtime-admin-web.sh`, `.github/workflows/web-cd.yml admin-runtime-smoke` |
+| tests | `scripts/smoke/__tests__/mint-staging-session-cookie.spec.ts`, `scripts/smoke/__tests__/runtime-admin-web.test.sh` |
+| user gate | Cloudflare staging deploy, real `/admin` probe, commit, push, PR |
+
+### fix-admin-scr-err-stg-fu-001-auth-env-via-getenv（2026-05-24）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `PASS_BOUNDARY_SYNCED_RUNTIME_PENDING / implementation / NON_VISUAL` |
+| 成果物 | `docs/30-workflows/fix-admin-scr-err-stg-fu-001-auth-env-via-getenv/` |
+| 元 issue | #862（CLOSED 維持） |
+| 目的 | apps/web auth/public fetch の env 直接参照を env.ts 公開アクセサへ統一し、staging admin render error 同型 regression を防ぐ |
+| in-cycle implementation | `apps/web/src/lib/env.ts` に google auth key + `getAuthEnv()` + `getPublicFetchEnv()` を追加、`apps/web/src/lib/auth.ts` と `apps/web/src/lib/fetch/public.ts` の direct `process.env` / `getCloudflareContext` を撤去 |
+| tests | `apps/web/src/lib/auth.spec.ts`, `apps/web/src/lib/__tests__/env.spec.ts`, `apps/web/src/lib/fetch/public.spec.ts`（focused Vitest 75 PASS） |
+| evidence | Phase 11 manual-test-result / AC grep gate / Phase 12 strict 7 / root-output artifacts parity |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-fix-admin-scr-err-stg-fu-001-auth-env-via-getenv-artifact-inventory.md` |
+| user gate | Cloudflare staging deploy, authenticated `/login -> /admin` smoke, commit, push, PR |
+
 ### issue-857 internal alert relay binding wiring（2026-05-24）
 
 | 項目 | 値 |
@@ -73,6 +98,19 @@
 | local evidence | `pnpm exec vitest run scripts/smoke/__tests__/bearer-freshness-gate.spec.ts scripts/smoke/__tests__/mint-staging-bearers.spec.ts` PASS; `bash scripts/smoke/__tests__/runtime-attendance-provider.test.sh` PASS |
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-runtime-smoke-staging-mint-recurrence-fix-artifact-inventory.md` |
 | user gate | GitHub secret mutation, Cloudflare secret mutation, staging runtime rerun, commit, push, PR |
+
+### issue-870-apps-api-security-headers（2026-05-24）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / NON_VISUAL` |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-870-apps-api-security-headers/` |
+| Issue | #870 CLOSED。PR 文脈は `Refs #870` のみ |
+| 目的 | `apps/api` 全 route に API response security headers と deny-by-default CORS を追加する |
+| implementation targets | `apps/api/src/middleware/security-headers.ts`, `apps/api/src/middleware/__tests__/security-headers.spec.ts`, `apps/api/src/index.ts`, `apps/api/src/env.ts`, `apps/api/wrangler.toml` |
+| evidence | `pnpm --filter @ubm-hyogo/api typecheck` PASS、focused Vitest 15 tests PASS、Phase 12 strict 7 present |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-870-apps-api-security-headers-artifact-inventory.md` |
+| user gate | staging/production curl, deploy, commit, push, PR |
 
 ### members-page-prototype-alignment（2026-05-23）
 
@@ -157,6 +195,20 @@
 | evidence | Phase 12 strict 7 / root-output artifacts parity / unit + Playwright smoke spec |
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-apps-web-security-headers-hardening-artifact-inventory.md` |
 | user gate | staging/production response verification, commit, push, PR |
+
+### awshh-followup-003-csp-reporting-endpoints（2026-05-24）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / NON_VISUAL` |
+| 成果物 | `docs/30-workflows/completed-tasks/awshh-followup-003-csp-reporting-endpoints/` |
+| Issue | #868 CLOSED（再オープンしない、PR 文脈は `Refs #868`） |
+| 目的 | CSP Report-Only の違反レポート送信先を Sentry CSP security endpoint へ集約し、U-AWSHH-001 enforce 切替の観測前提を作る |
+| implementation targets | `apps/web/src/lib/security-headers.ts`, `apps/web/src/lib/env.ts`, `apps/web/middleware.ts`, `apps/web/src/lib/security-headers.spec.ts`, `apps/web/src/lib/__tests__/env.spec.ts` |
+| contract | `Reporting-Endpoints: csp-endpoint="..."` と CSP `report-to csp-endpoint` / `report-uri <url>` を同一 `CSP_REPORT_GROUP` と同一導出 URL から出力する。Sentry endpoint は既存 public `NEXT_PUBLIC_SENTRY_DSN` から導出し、新規 CSP 専用 URL env は作らない |
+| boundary | `apps/api` / D1 / `apps/web/wrangler.toml` は不変更。staging deploy、Sentry 受信確認、commit、push、PR は user-gated |
+| source consumed | `docs/30-workflows/completed-tasks/unassigned-task/awshh-followup-003-reporting-endpoints.md` |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-awshh-followup-003-csp-reporting-endpoints-artifact-inventory.md` |
 
 ### ci-green-recovery-smoke-coverage-shard（2026-05-23）
 
@@ -744,6 +796,21 @@
 | evidence | `docs/30-workflows/completed-tasks/step-06-meetings-attendance-implementation/outputs/phase-11/evidence/`, `docs/30-workflows/completed-tasks/step-06-meetings-attendance-implementation/outputs/phase-11/screenshots/`, `docs/30-workflows/completed-tasks/step-06-meetings-attendance-implementation/outputs/phase-12/phase12-task-spec-compliance-check.md` |
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-step-06-meetings-attendance-implementation-artifact-inventory.md` |
 | user gate | staging / production smoke、commit、push、PR |
+
+### issue-842-admin-mutation-reliability-policy（2026-05-24）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented / implementation / NON_VISUAL / local QA PASS / Phase 12 strict 7 present` |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-842-admin-mutation-reliability-policy/` |
+| source | Issue #842 CLOSED。PR 文脈は `Refs #842` のみ。前身 one-pager `docs/30-workflows/completed-tasks/admin-mutation-timeout-policy.md` は consumed |
+| parent | `docs/30-workflows/step-06-meetings-attendance-implementation/` |
+| 目的 | admin mutation reliability policy を `useAdminMutation` に集約し、timeout / retry / idempotency-key / 404 success-relaxation / abort を caller 分散ではなく hook policy として仕様化する |
+| implementation targets | `apps/web/src/features/admin/hooks/useAdminMutation.ts`, `apps/web/src/features/admin/hooks/useConfirmDialog.ts`, `apps/web/src/features/admin/hooks/index.ts`, focused hook specs, legacy `apps/web/src/lib/useAdminMutation.ts` delete |
+| invariant | API endpoint surface / D1 schema / UI visual surface は変更しない。現 `MeetingAttendancePanel.tsx` は POST-only のため DELETE 404 caller migration はしない |
+| evidence | Phase 11 local source-level PASS / Phase 12 strict 7 present / output artifacts parity present |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-842-admin-mutation-reliability-policy-artifact-inventory.md` |
+| user gate | commit / push / PR / staging runtime evidence |
 
 ### serial-05-step-03 schema diff resolve UI（2026-05-16）
 
@@ -2531,6 +2598,7 @@ docs-only / direction-reconciliation で採用方針 A を維持する場合で�
   4. aiworkflow-requirements の同 wave 更新
 - **参考**: UT-UIUX-VISUAL-BASELINE-DRIFT-001（2026-04-03）
 | issue-627-composite-setup-action | implemented_local_user-gated runtime evidence boundary / implementation / NON_VISUAL / CI infra | `docs/30-workflows/issue-627-composite-setup-action/` | RB-02 composite setup action implemented locally. Checkout-less `.github/actions/setup-project/action.yml` consolidates Node / pnpm setup and optional install across `lighthouse`, `e2e`, `e2e-tests-coverage-gate`, `workflow-shell-lint`, `ci`, `coverage-gate`, and `build-test`. Required contexts are preserved; local static checks passed. Runtime GHA evidence, commit, push, and PR are user-gated. Issue #627 is CLOSED; use `Refs #627` only. |
+| issue-863-admin-error-alert-policy-iac | implemented_local_runtime_pending / implementation / NON_VISUAL / observability IaC | `docs/30-workflows/completed-tasks/issue-863-admin-error-alert-policy-iac/` | CLOSED Issue #863 follow-up for admin `error.boundary.caught` alerting. Local implementation promotes logger `scope`/`digest` into Sentry tags, adds `infra/sentry-alerts/` policy/schema/lib/CLI/tests, Sentry drift CI, runbook, CODEOWNERS, package scripts, source one-pager consumed pointer, and artifact inventory. Sentry API apply, staging Slack notification smoke, commit, push, and PR remain user-gated; PR wording uses `Refs #863`. |
 
 ### Task 18 W7 verify tokens and Playwright smoke（2026-05-12）
 
