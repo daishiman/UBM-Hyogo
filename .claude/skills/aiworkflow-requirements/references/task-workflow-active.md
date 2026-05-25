@@ -39,6 +39,21 @@
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-882-terms-prefetch-env-validation-fix-artifact-inventory.md` |
 | user gate | commit, push, PR, staging deploy |
 
+### Issue #913 server idempotency key persistence（2026-05-25）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / NON_VISUAL / implementation_complete_pending_pr` |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-913-server-idempotency-key-persistence/` |
+| Issue | #913 CLOSED。PR 文脈は `Refs #913` のみ |
+| parent | `docs/30-workflows/completed-tasks/issue-842-admin-mutation-reliability-policy/` |
+| 目的 | issue-842 で client header 送出まで完了していた admin mutation idempotency を、apps/api 側 D1 ledger + middleware で永続化する |
+| implementation targets | `apps/api/migrations/0021_idempotency_keys.sql`, `apps/api/src/repository/idempotency.repository.ts`, `apps/api/src/middleware/idempotency.ts`, `apps/api/src/env.ts`, admin mutation route wiring |
+| contract | key/method/path scope UNIQUE、fingerprint mismatch 422、in-flight duplicate 409、completed JSON replay、5xx/non-JSON/64KB+/save-failure は保存せず再実行可能 |
+| evidence | api typecheck PASS / api lint PASS / focused Vitest 10 tests PASS / Phase 12 strict 7 present |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-913-server-idempotency-key-persistence-artifact-inventory.md` |
+| user gate | D1 migration apply, deploy, staging runtime replay proof, commit, push, PR |
+
 ### Issue #880 public segment error/loading boundary（2026-05-24）
 
 | 項目 | 値 |

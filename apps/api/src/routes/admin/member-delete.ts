@@ -1,6 +1,7 @@
 // 04c: POST /admin/members/:memberId/delete, POST /admin/members/:memberId/restore
 import { Hono } from "hono";
 import { z } from "zod";
+import { idempotency } from "../../middleware/idempotency";
 import { requireAdmin, type RequireAuthVariables } from "../../middleware/require-admin";
 import { ctx } from "../../repository/_shared/db";
 import { asMemberId, asAdminId, adminEmail, auditAction } from "../../repository/_shared/brand";
@@ -40,6 +41,7 @@ const auditInsert = (
 export const createAdminMemberDeleteRoute = () => {
   const app = new Hono<{ Bindings: AdminRouteEnv; Variables: RequireAuthVariables }>();
   app.use("*", requireAdmin);
+  app.use("*", idempotency());
 
   app.post("/members/:memberId/delete", async (c) => {
     const memberId = c.req.param("memberId");
