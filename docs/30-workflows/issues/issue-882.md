@@ -32,7 +32,7 @@ Phase 11 では JavaScript 無効で CSS validation を切り分けて screensho
 
 ## 仕様書
 
-- `docs/30-workflows/unassigned-task/home-page-prototype-alignment-followup-001-terms-prefetch-env-validation.md`
+- `docs/30-workflows/completed-tasks/home-page-prototype-alignment-followup-001-terms-prefetch-env-validation.md`
 
 ## 発見元
 

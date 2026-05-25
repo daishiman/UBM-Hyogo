@@ -173,3 +173,96 @@ describe('verify-design-tokens colorLiteralExcludes', () => {
     expect(drifts).toEqual([])
   })
 })
+
+describe('verify-design-tokens brandIconExemptPaths', () => {
+  let workDir: string
+
+  beforeEach(async () => {
+    workDir = await mkdtemp(join(tmpdir(), 'verify-design-tokens-brand-'))
+  })
+
+  afterEach(async () => {
+    await rm(workDir, { recursive: true, force: true })
+  })
+
+  async function writeFixture(relPath: string, content: string): Promise<void> {
+    const abs = join(workDir, relPath)
+    await mkdir(dirname(abs), { recursive: true })
+    await writeFile(abs, content, 'utf8')
+  }
+
+  it('TC-EXEMPT-01 exempts brand-icons/*.svg (direct child)', async () => {
+    await writeFixture(
+      'apps/web/src/components/ui/brand-icons/google.svg',
+      '<svg><path fill="#4285F4"/></svg>\n',
+    )
+    const drifts = await scanForbiddenColorLiterals([join(workDir, 'apps/web/src')])
+    expect(drifts).toEqual([])
+  })
+
+  it('TC-EXEMPT-02 does NOT exempt brand-icons/*.tsx (wrapper components must not carry HEX)', async () => {
+    await writeFixture(
+      'apps/web/src/components/ui/brand-icons/GoogleBrandIcon.tsx',
+      `export const fill = '#EA4335'\n`,
+    )
+    const drifts = await scanForbiddenColorLiterals([join(workDir, 'apps/web/src')])
+    expect(drifts).toEqual(
+      expect.arrayContaining([expect.objectContaining({ reason: 'forbidden-color-literal' })]),
+    )
+  })
+
+  it('TC-EXEMPT-03 does NOT exempt brand-icons subdirectory (recursion guard)', async () => {
+    await writeFixture(
+      'apps/web/src/components/ui/brand-icons/sub/google.svg',
+      '<svg><path fill="#FBBC05"/></svg>\n',
+    )
+    const drifts = await scanForbiddenColorLiterals([join(workDir, 'apps/web/src')])
+    expect(drifts).toEqual(
+      expect.arrayContaining([expect.objectContaining({ reason: 'forbidden-color-literal' })]),
+    )
+  })
+
+  it('TC-EXEMPT-04 still detects HEX in regular src components (regression guard)', async () => {
+    await writeFixture(
+      'apps/web/src/components/ui/Card.tsx',
+      `export const color = '#ff0000'\n`,
+    )
+    const drifts = await scanForbiddenColorLiterals([join(workDir, 'apps/web/src')])
+    expect(drifts).toEqual(
+      expect.arrayContaining([expect.objectContaining({ reason: 'forbidden-color-literal' })]),
+    )
+  })
+
+  it('TC-EXEMPT-05 does NOT exempt brand-icons/*.css (svg only)', async () => {
+    await writeFixture(
+      'apps/web/src/components/ui/brand-icons/google.css',
+      `.g { color: #4285F4; }\n`,
+    )
+    const drifts = await scanForbiddenColorLiterals([join(workDir, 'apps/web/src')])
+    expect(drifts).toEqual(
+      expect.arrayContaining([expect.objectContaining({ reason: 'forbidden-color-literal' })]),
+    )
+  })
+
+  it('TC-EXEMPT-06 does NOT exempt brand-icons/*.ts (svg only)', async () => {
+    await writeFixture(
+      'apps/web/src/components/ui/brand-icons/colors.ts',
+      `export const c = '#34A853'\n`,
+    )
+    const drifts = await scanForbiddenColorLiterals([join(workDir, 'apps/web/src')])
+    expect(drifts).toEqual(
+      expect.arrayContaining([expect.objectContaining({ reason: 'forbidden-color-literal' })]),
+    )
+  })
+
+  it('TC-EXEMPT-07 does NOT exempt brand-icon (singular) typo directory', async () => {
+    await writeFixture(
+      'apps/web/src/components/ui/brand-icon/google.tsx',
+      `export const c = '#4285F4'\n`,
+    )
+    const drifts = await scanForbiddenColorLiterals([join(workDir, 'apps/web/src')])
+    expect(drifts).toEqual(
+      expect.arrayContaining([expect.objectContaining({ reason: 'forbidden-color-literal' })]),
+    )
+  })
+})

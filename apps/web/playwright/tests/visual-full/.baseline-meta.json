@@ -1,10 +1,9 @@
 {
   "$schema": "../../../../docs/30-workflows/task-709-visual-baseline-runtime-capture/schemas/baseline-meta.schema.json",
-  "captured_at_commit_sha": "8bbb542587fa3adba5bad3a7eb82520e2c31336a",
-  "captured_at": "2026-05-24T07:52:24Z",
+  "captured_at_commit_sha": "d48b1e92d85b13d34496a8daa3265fafbe0fda69",
+  "captured_at": "2026-05-25T04:29:55Z",
   "captured_via": "playwright-visual-baseline-update.yml#workflow_dispatch",
   "captured_run_ids": [
-    "26101682046",
     "26128917753",
     "26170273931",
     "26280741223",
@@ -13,7 +12,8 @@
     "26346031061",
     "26350111084",
     "26353406397",
-    "26355355712"
+    "26355355712",
+    "26383096067"
   ],
   "viewport_dimensions": {
     "desktop": {
@@ -41,5 +41,5 @@
   "refresh_workflow": ".github/workflows/playwright-visual-baseline-update.yml",
   "refresh_command_hint": "gh workflow run playwright-visual-baseline-update.yml -f reason=\"<why>\" -r <feature-branch>",
   "notes": "captured_at_commit_sha からの rendering_relevant_paths diff が空でない場合、baseline は stale。scripts/visual-baseline-status.sh で診断可能。",
-  "last_refresh_reason": "dev取り込み(#888 member-detail rendering)後の full-visual-members-detail-mobile baseline stale (1176->1203px) 再生成 for PR #897"
+  "last_refresh_reason": "issue-872 Google brand 4-tone icon swap changes /login Google button rendering (mobile diff 13523px=0.05 ratio)"
 }

@@ -1,17 +1,45 @@
 // serial-06-form-response-binding: PublicMemberProfile → MemberDetail props 正規化 adapter
 // - visibility filter: visibility === "public" 以外は除外（UI 側の二重防御 / 正本は API 側）
 // - unknown kind: FieldKindZ 不適合は silent skip（production console を汚さない）
+//   観測したい呼び出し側のために onUnknownKind callback を option として公開する（issue-883）
+// - exhaustiveness: FieldKind 拡張時の silent-skip を防ぐため KIND_ROUTE を
+//   `satisfies Record<FieldKind, KindRoute>` で型強制（issue-891）
 // - immutability: 入力 mutate 禁止（pure function）
-import type { z } from "zod";
+import { z } from "zod";
 
 import {
+  AnswerValueZ,
   FieldKindZ,
-  type PublicMemberProfileZ,
+  FieldSourceZ,
+  FieldVisibilityZ,
+  PublicMemberProfileZ,
+  StableKeyZ,
 } from "@ubm-hyogo/shared";
 
-export type PublicMemberProfile = z.infer<typeof PublicMemberProfileZ>;
+const SectionFieldWithUnknownKindZ = z.object({
+  stableKey: StableKeyZ,
+  label: z.string(),
+  value: AnswerValueZ,
+  kind: z.string(),
+  visibility: FieldVisibilityZ,
+  source: FieldSourceZ,
+});
+
+const SectionWithUnknownKindZ = z.object({
+  key: z.string(),
+  title: z.string(),
+  fields: z.array(SectionFieldWithUnknownKindZ),
+});
+
+export const PublicMemberProfileWithUnknownKindZ = PublicMemberProfileZ.extend({
+  publicSections: z.array(SectionWithUnknownKindZ),
+});
+
+export type PublicMemberProfile = z.infer<
+  typeof PublicMemberProfileWithUnknownKindZ
+>;
 type RawSection = PublicMemberProfile["publicSections"][number];
-type RawField = RawSection["fields"][number];
+export type RawField = z.infer<typeof SectionFieldWithUnknownKindZ>;
 export type FieldKind = z.infer<typeof FieldKindZ>;
 
 type KindRoute = "detail" | "links" | "excluded";
@@ -40,6 +68,10 @@ const LINK_KINDS: ReadonlySet<FieldKind> = new Set(
   ),
 );
 
+export interface ToMemberDetailPropsOptions {
+  onUnknownKind?: ((field: RawField) => void) | undefined;
+}
+
 export interface NormalizedField {
   stableKey: string;
   label: string;
@@ -65,10 +97,14 @@ export interface MemberDetailProps {
 function normalizeField(
   field: RawField,
   routeKinds: ReadonlySet<FieldKind>,
+  onUnknownKind?: (field: RawField) => void,
 ): NormalizedField | null {
   if (field.visibility !== "public") return null;
   const parsed = FieldKindZ.safeParse(field.kind);
-  if (!parsed.success) return null;
+  if (!parsed.success) {
+    onUnknownKind?.(field);
+    return null;
+  }
   if (!routeKinds.has(parsed.data)) return null;
   return {
     stableKey: field.stableKey,
@@ -81,9 +117,10 @@ function normalizeField(
 function normalizeSection(
   section: RawSection,
   routeKinds: ReadonlySet<FieldKind>,
+  onUnknownKind?: (field: RawField) => void,
 ): NormalizedSection | null {
   const fields = section.fields
-    .map((field) => normalizeField(field, routeKinds))
+    .map((field) => normalizeField(field, routeKinds, onUnknownKind))
     .filter((f): f is NormalizedField => f !== null);
   if (fields.length === 0) return null;
   return { key: section.key, title: section.title, fields };
@@ -91,12 +128,22 @@ function normalizeSection(
 
 export function toMemberDetailProps(
   profile: PublicMemberProfile,
+  options: ToMemberDetailPropsOptions = {},
 ): MemberDetailProps {
+  // unknown kind は profile 全体で 1 回だけ通知（detail / links 2-pass で同一 field を二重発火させない）
+  const reportedUnknown = new WeakSet<RawField>();
+  const onUnknownKindOnce = options.onUnknownKind
+    ? (field: RawField) => {
+        if (reportedUnknown.has(field)) return;
+        reportedUnknown.add(field);
+        options.onUnknownKind?.(field);
+      }
+    : undefined;
   const sections = profile.publicSections
-    .map((section) => normalizeSection(section, DETAIL_KINDS))
+    .map((section) => normalizeSection(section, DETAIL_KINDS, onUnknownKindOnce))
     .filter((s): s is NormalizedSection => s !== null);
   const linkSections = profile.publicSections
-    .map((section) => normalizeSection(section, LINK_KINDS))
+    .map((section) => normalizeSection(section, LINK_KINDS, onUnknownKindOnce))
     .filter((s): s is NormalizedSection => s !== null);
   return {
     memberId: profile.memberId,

@@ -1,0 +1,35 @@
+{
+  "workflow_id": "issue-872-google-brand-4tone-icon-and-tokens-exempt",
+  "mode": "VISUAL",
+  "rationale": "FU-LOGIN-001 consumed task: replace 1-tone currentColor 'google' Icon with official 4-tone GoogleBrandIcon. Visual evidence required to confirm 4 distinct brand colors render on /login.",
+  "shots": [
+    {
+      "id": "login-google-button-4tone",
+      "url": "/login",
+      "viewport": { "width": 1440, "height": 900 },
+      "project": "desktop-chromium",
+      "selector_focus": "button:has-text(\"Google\")",
+      "path": "outputs/phase-11/screenshots/login-google-button-4tone.png",
+      "purpose": "AC-2 (desktop): visually confirm 4-tone Google G icon renders inside ghost button"
+    },
+    {
+      "id": "login-google-button-4tone-mobile",
+      "url": "/login",
+      "viewport": { "width": 375, "height": 812 },
+      "project": "mobile-chromium",
+      "selector_focus": "button:has-text(\"Google\")",
+      "path": "outputs/phase-11/screenshots/login-google-button-4tone-mobile.png",
+      "purpose": "AC-2 (mobile): viewport regression for 4-tone Google G icon"
+    }
+  ],
+  "baseline_update_targets": [
+    "apps/web/playwright/tests/visual/login.spec.ts-snapshots/login-visual-chromium-linux.png"
+  ],
+  "heuristics": [
+    "4 colors visibly distinct (blue/green/yellow/red)",
+    "G icon left-aligned in button",
+    "G icon size 1.0em~1.25em",
+    "hover/focus does not alter G colors",
+    "no dark-mode variant (MVP)"
+  ]
+}
