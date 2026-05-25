@@ -618,6 +618,14 @@
 - 留意: 範囲が table 本体（§Current Alias Overrides / §Family Summary / §Task Root Path Drift Register）に及ぶ場合は table-merge ルール（L-DEVSYNC-032 / L-DEVSYNC-033）に切替え、行単位の片側採用 union を行うこと。先頭 quote block 限定の本パターンとは別系統である。
 - 事例: 2026-05-24 `docs/parallel-03-admin-runtime-evidence` への dev sync-merge。`pnpm sync:resolve` で `indexes/topic-map.md` は union 自動解消、`legacy-ordinal-family-register.md` のみ unhandled として残置。本ルールに従い HEAD 側 parallel-03-followup-002 NOTE と dev 側 mypage-prototype-alignment NOTE の両方を保持し、`> 最終更新日:` を `2026-05-24` で統一。`grep` でマーカー残ゼロ確認後 `git commit --no-edit` で merge commit 完了。後続 `verify-pr-ready` で `indexes:rebuild drift` を検出（topic-map.md 9 行差分）したため独立 chore commit で解消（L-DEVSYNC-036 既知パターン）。
 
+## L-DEVSYNC-041: branch-sync prompt の lock/log path は `git rev-parse --git-common-dir` 経由で解決する（2026-05-25 追加）
+
+- 症状: branch-sync prompt（`.git/.branch-sync.lock` / `.git/branch-sync-logs/<ts>.log`）の Pre-flight で `mkdir -p .git/branch-sync-logs` を発行すると、worktree 内では `.git` がテキストファイル（`gitdir: ...`）のため `mkdir: .git: Not a directory` で失敗する。L-DEVSYNC-026 の `index.lock` と同根の worktree path 解決問題が、branch-sync 自身の lock/log にも該当する。
+- Why: branch-sync prompt の lock/log は「全 worktree で 1 つ」が望ましい（多重実行検出は全 WT 横断で必要）。実体はメイン repo の `.git/` 配下に置きたい。`git rev-parse --git-dir` は worktree 専用 dir（`.git/worktrees/<wt>/`）を返すため**不適**。`git rev-parse --git-common-dir` がメイン repo の `.git/` を返すため、worktree でもメイン repo でも単一の path に解決される。
+- 加えて、既存 stale lock（>30 分）の判定は ISO8601 timestamp ではなく **mtime ベース**（`stat -f %m` on macOS）で `now - mtime > 1800` を判定する。lock 内のタイムスタンプはログ用、判定は mtime が機械的に正確。
+- How to apply: dev sync prompt / branch-sync prompt のフェーズ 0 で `GD=$(git rev-parse --git-common-dir); mkdir -p "$GD/branch-sync-logs"; LOCK="$GD/.branch-sync.lock"` の 3 行を必ず使う。`.git/` 直書き指定は worktree で破綻するため禁止。stale 判定は `stat -f %m "$LOCK"` で実施し、`date +%s` との差で 1800 秒を境界とする。
+- 事例: 2026-05-25 `feat/awshh-followup-003-csp-reporting-endpoints` ← dev sync-merge。Pre-flight で `mkdir -p .git/branch-sync-logs` が `Not a directory` で失敗 → `git rev-parse --git-common-dir` で `/.../UBM-Hyogo/.git` を解決して再試行成功。同 dir に >30 分前の stale `.branch-sync.lock` が残置（前 session の中断残り）→ mtime 5083s 経過を確認して削除・再作成。conflict は skill index 系のみで `pnpm sync:resolve` 一発完結、`pnpm indexes:rebuild` → `bash scripts/verify-pr-ready.sh` PASS で push 成功。
+
 ## L-DEVSYNC-037: `static-manifest.json` 再生成は `sync:resolve` に組み込みで自動化（2026-05-24 追加）
 
 - 症状: 2026-05-21 (L-DEVSYNC-034) に続き、2026-05-24 `docs/issue-842-admin-mutation-reliability-policy-spec` ← dev sync-merge でも `apps/api/src/repository/_shared/generated/static-manifest.json` が `[WARN] unhandled conflict` で残置。手動 `pnpm regenerate:static-manifest` + `git add` を毎回行う必要があり、L-DEVSYNC-034 の自動化候補が未実装のままだった。
