@@ -1,0 +1,16 @@
+# Local development env template for apps/api (Cloudflare Workers).
+# Copy to `.dev.vars` and inject secret refs locally. Never commit real values.
+
+ENVIRONMENT=local
+MAIL_FROM_ADDRESS=noreply@local.ubm-hyogo.example
+
+# issue-838 — schema alias rollback の運用通知 (best-effort)。
+# 未設定なら Slack 優先 → mail fallback の順で config gate により skip される。
+# Slack incident webhook (優先チャネル)。SLACK_WEBHOOK_URL は legacy fallback 名。
+SLACK_WEBHOOK_INCIDENT=op://UBM-Hyogo/Slack Incident Webhook (local)/url
+# mail fallback の運用通知先アドレス (非機密だが env で切り替える)。
+OPS_NOTIFICATION_EMAIL=ops@local.ubm-hyogo.example
+
+# Secrets: keep real values in 1Password / Cloudflare Secrets, never in git.
+# Resend API key (mail fallback の送信に使用)。
+MAIL_PROVIDER_KEY=op://UBM-Hyogo/Resend API/key
