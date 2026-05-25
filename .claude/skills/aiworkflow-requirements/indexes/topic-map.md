@@ -2966,7 +2966,7 @@ node scripts/list-specs.js --topics
 
 | セクション | 行 |
 |------------|----|
-| Status | L15 |
+| Status | L16 |
 
 ### references/workflow-light-theme-contrast-regression-guard.md
 
