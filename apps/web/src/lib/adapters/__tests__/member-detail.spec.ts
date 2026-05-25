@@ -108,3 +108,32 @@ describe("toMemberDetailProps", () => {
     }
   });
 });
+
+// === EXTENSION TEMPLATE ===
+// schema を拡張して新しい field kind / field を追加した場合、
+// 以下をコピーして describe("toMemberDetailProps", ...) 内の末尾に挿入する。
+//
+// it("<新 kind> を正しく normalize する", () => {
+//   const tampered = structuredClone(samplePublicMemberProfile);
+//   tampered.publicSections[<idx>].fields.push({
+//     stableKey: "<key>",
+//     label: "<label>",
+//     kind: "<new_kind>",
+//     value: "<value>",
+//     visibility: "public",
+//     source: "forms",
+//   });
+//   const result = toMemberDetailProps(tampered);
+//   const target = result.sections
+//     .flatMap((s) => s.fields)
+//     .find((f) => f.stableKey === "<key>");
+//   expect(target).toBeDefined();
+//   expect(target?.kind).toBe("<new_kind>");
+// });
+//
+// 拡張時の注意:
+// - 先に packages/shared/src/zod/viewmodel.ts の PublicMemberProfileZ を拡張する。
+// - 出力 field に visibility / source が含まれない不変条件を維持する。
+// - primitive 描画変更が必要なら別 PR で分割する。
+// 詳細手順: apps/web/src/lib/adapters/README.md
+// === END EXTENSION TEMPLATE ===

@@ -14,6 +14,19 @@
 | inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-895-admin-topbar-actions-client-island-artifact-inventory.md` |
 | user gate | commit, push, PR |
 
+## regression-evidence-ci-gate-foundation（2026-05-25）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/regression-evidence-ci-gate-foundation/` |
+| status | `spec_created / implementation / VISUAL / runtime_pending` |
+| canonical role | `ui-prototype-design-system-foundation/serial-07-regression-evidence` の top-level execution root |
+| purpose | Playwright visual 4 screens と CI gate 6 件で UI prototype alignment の regression を防ぐ |
+| planned visual specs | `apps/web/playwright/tests/visual/{top,members-list,member-detail,admin-dashboard}.spec.ts` |
+| Phase 12 | strict 7 files present; root/output artifacts parity present |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-regression-evidence-ci-gate-foundation-artifact-inventory.md` |
+| user gate | Playwright visual run, baseline PNG capture, branch protection mutation, commit, push, PR |
+
 ## Issue #883 adapter dev warn unknown kind（2026-05-25）
 
 | 項目 | 値 |
