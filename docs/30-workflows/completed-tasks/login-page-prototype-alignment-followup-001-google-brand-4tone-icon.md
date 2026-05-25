@@ -10,16 +10,16 @@
 | 対象機能     | `/login` の Google OAuth ボタン左に表示する Google "G" マーク (`apps/web/app/login/_components/GoogleOAuthButton.client.tsx`) |
 | 優先度       | 低                                                                                              |
 | 見積もり規模 | 小規模                                                                                          |
-| ステータス   | pending                                                                                         |
+| ステータス   | consumed by `docs/30-workflows/completed-tasks/issue-872-google-brand-4tone-icon-and-tokens-exempt/`            |
 | 発見元       | login-page-prototype-alignment Phase 12 unassigned-task-detection (FU-LOGIN-001)                |
 | 発見日       | 2026-05-23                                                                                      |
 
 ## Canonical Workflow Status
 
-- canonical_workflow: `docs/30-workflows/unassigned-task/login-page-prototype-alignment-followup-001-google-brand-4tone-icon.md`
-- 親 workflow: `docs/30-workflows/login-page-prototype-alignment/`
+- canonical_workflow: `docs/30-workflows/completed-tasks/issue-872-google-brand-4tone-icon-and-tokens-exempt/`
+- 親 workflow: `docs/30-workflows/completed-tasks/login-page-prototype-alignment/`
 - 親タスク状態: `implemented_local_visual_evidence_captured`
-- Phase 12 検知元: `docs/30-workflows/login-page-prototype-alignment/outputs/phase-12/unassigned-task-detection.md` FU-LOGIN-001
+- Phase 12 検知元: `docs/30-workflows/completed-tasks/login-page-prototype-alignment/outputs/phase-12/unassigned-task-detection.md` FU-LOGIN-001
 - 関連実装:
   - `apps/web/app/login/_components/GoogleOAuthButton.client.tsx`（現状: 1-tone `currentColor` の "G" マーク描画）
   - `apps/web/src/components/ui/icons.ts`（icon registry。新規 brand-icon 追加候補）
@@ -34,7 +34,7 @@
 
 login-page-prototype-alignment では `/login` に Google OAuth ボタンを実装し、左端に Google "G" アイコンを配置した。MVP では design tokens の OKLch 単色原則（CLAUDE.md「UI prototype alignment / MVP recovery」不変条件2「OKLch トークン正本化」）に従い、`currentColor` ベースの **1-tone モノクロ "G"** を採用して visual evidence 取得まで完了している。
 
-一方、Google の brand guideline では OAuth サインインボタンに使用する "G" マークは **公式 4-tone (青 #4285F4 / 赤 #EA4335 / 黄 #FBBC04 / 緑 #34A853)** が原則で、モノクロは "darkmode contrast 例外" 等の限定条件でのみ許容される。post-MVP の brand alignment フェーズでは 4-tone への切替が望ましいが、これは現行 design tokens の OKLch 単色原則および `verify-design-tokens` CI gate（HEX 直書き禁止 / `bg-[#xxx]` 禁止）と衝突する。
+一方、Google の brand guideline では OAuth サインインボタンに使用する "G" マークは **公式 4-tone (青 #4285F4 / 赤 #EA4335 / 黄 #FBBC05 / 緑 #34A853)** が原則で、モノクロは "darkmode contrast 例外" 等の限定条件でのみ許容される。post-MVP の brand alignment フェーズでは 4-tone への切替が望ましいが、これは現行 design tokens の OKLch 単色原則および `verify-design-tokens` CI gate（HEX 直書き禁止 / `bg-[#xxx]` 禁止）と衝突する。
 
 ### 1.2 問題点・課題
 
@@ -126,13 +126,13 @@ login-page-prototype-alignment のメインサイクルでは「visual evidence 
 - **AC-2**: `/login` 画面で Google OAuth ボタンが 4-tone (青/赤/黄/緑) で描画されることが Playwright visual snapshot で確認できる（baseline 更新済み）
 - **AC-3**: `verify-design-tokens` CI gate が brand-icons path および `--brand-*` prefix CSS variable のみ HEX を許容し、それ以外のファイルでの HEX 直書きは引き続き fail する
 - **AC-4**: `docs/00-getting-started-manual/specs/design-tokens.md` に brand-asset exempt の対象範囲・追加ルール・レビュー基準が明文化されている
-- **AC-5**: `docs/30-workflows/login-page-prototype-alignment/outputs/phase-12/unassigned-task-detection.md` の FU-LOGIN-001 行が consumed 状態に更新され、本 followup への back-reference が記録されている
+- **AC-5**: `docs/30-workflows/completed-tasks/login-page-prototype-alignment/outputs/phase-12/unassigned-task-detection.md` の FU-LOGIN-001 行が consumed 状態に更新され、本 followup への back-reference が記録されている
 
 ---
 
 ## 5. 参照資料
 
-- `docs/30-workflows/login-page-prototype-alignment/outputs/phase-12/unassigned-task-detection.md` - FU-LOGIN-001 検知元
+- `docs/30-workflows/completed-tasks/login-page-prototype-alignment/outputs/phase-12/unassigned-task-detection.md` - FU-LOGIN-001 検知元
 - `apps/web/app/login/_components/GoogleOAuthButton.client.tsx` - 現状の 1-tone 実装
 - `apps/web/src/components/ui/icons.ts` - icon registry（brand-icons 分離検討先）
 - `apps/web/src/styles/tokens.css` - OKLch design tokens 正本

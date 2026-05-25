@@ -21,6 +21,7 @@ SENTRY_ENVIRONMENT = "production"
 NEXT_PUBLIC_SENTRY_ENVIRONMENT = "production"
 SENTRY_TRACES_SAMPLE_RATE = "0.1"
 NEXT_PUBLIC_SENTRY_TRACES_SAMPLE_RATE = "0.1"
+CSP_MODE = "report-only"
 
 [env.staging]
 name = "ubm-hyogo-web-staging"
@@ -35,6 +36,7 @@ SENTRY_ENVIRONMENT = "staging"
 NEXT_PUBLIC_SENTRY_ENVIRONMENT = "staging"
 SENTRY_TRACES_SAMPLE_RATE = "0.2"
 NEXT_PUBLIC_SENTRY_TRACES_SAMPLE_RATE = "0.2"
+CSP_MODE = "enforce"
 
 [[env.staging.services]]
 binding = "API_SERVICE"
@@ -61,6 +63,7 @@ SENTRY_ENVIRONMENT = "production"
 NEXT_PUBLIC_SENTRY_ENVIRONMENT = "production"
 SENTRY_TRACES_SAMPLE_RATE = "0.1"
 NEXT_PUBLIC_SENTRY_TRACES_SAMPLE_RATE = "0.1"
+CSP_MODE = "report-only"
 
 [[env.production.services]]
 binding = "API_SERVICE"
