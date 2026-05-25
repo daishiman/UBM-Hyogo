@@ -874,13 +874,13 @@ node scripts/list-specs.js --topics
 | 概要 | L8 |
 | ドキュメント構成 | L15 |
 | REST API エンドポイント一覧 | L25 |
-| エンドポイント命名規則 | L222 |
-| UBM-Hyogo Admin Sync API（03a） | L243 |
-| UBM-Hyogo Member Self-Service API（04b） | L294 |
-| Admin Dashboard Attendance Analytics API（UT-02A follow-up 002） | L320 |
-| Desktop IPC API サマリー | L334 |
-| 変更履歴 | L365 |
-| 関連ドキュメント | L382 |
+| エンドポイント命名規則 | L224 |
+| UBM-Hyogo Admin Sync API（03a） | L245 |
+| UBM-Hyogo Member Self-Service API（04b） | L297 |
+| Admin Dashboard Attendance Analytics API（UT-02A follow-up 002） | L323 |
+| Desktop IPC API サマリー | L337 |
+| 変更履歴 | L368 |
+| 関連ドキュメント | L385 |
 
 ### references/api-internal-chunk-search.md
 
@@ -973,11 +973,11 @@ node scripts/list-specs.js --topics
 | マイグレーション管理 | L102 |
 | テスト戦略 | L160 |
 | UBM-Hyogo D1 Repository 契約（02b） | L190 |
-| Schema Drift ADR Gate | L222 |
-| エラーハンドリング | L241 |
-| Conversation DB 初期化パターン | L272 |
-| UBM-Hyogo Schema Sync Contract（03a） | L274 |
-| ベクトル検索実装（DiskANN） | L394 |
+| Schema Drift ADR Gate | L223 |
+| エラーハンドリング | L242 |
+| Conversation DB 初期化パターン | L273 |
+| UBM-Hyogo Schema Sync Contract（03a） | L275 |
+| ベクトル検索実装（DiskANN） | L395 |
 
 ### references/database-implementation-details.md
 
@@ -2953,6 +2953,39 @@ node scripts/list-specs.js --topics
 |------------|----|
 | Boundaries | L16 |
 
+### references/workflow-issue-836-schema-alias-recompute-trigger-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Metadata | L3 |
+| Workflow Files | L13 |
+| Planned Implementation Targets | L26 |
+| Boundary | L38 |
+
+### references/workflow-issue-837-schema-alias-bulk-rollback-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Implementation Targets | L11 |
+| Evidence | L20 |
+| Contract | L28 |
+
+### references/workflow-issue-842-admin-mutation-reliability-policy-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Workflow Files | L11 |
+| Implementation Targets | L20 |
+| Boundary | L32 |
+
+### references/workflow-issue-857-internal-alert-relay-binding-wiring-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Implementation Targets | L11 |
+| Evidence | L20 |
+| User-Gated Boundary | L28 |
+
 ### references/workflow-issue-874-login-staging-visual-smoke-artifact-inventory.md
 
 | セクション | 行 |
@@ -3230,6 +3263,14 @@ node scripts/list-specs.js --topics
 | Phase 12 Strict 7 | L32 |
 | Local Implementation Targets | L44 |
 | Boundary | L55 |
+
+### references/workflow-step-08-audit-filter-paging-verify-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Workflow Artifacts | L11 |
+| Existing Implementation Targets | L21 |
+| Boundaries | L32 |
 
 ### references/workflow-task-03-w2-par-sentry-workers-sdk-unify-artifact-inventory.md
 
@@ -3808,14 +3849,15 @@ node scripts/list-specs.js --topics
 | Workflow Outputs | L39 |
 | Implementation Boundary | L57 |
 | Sub-workflow: parallel-03 AppShell Layouts（2026-05-19） | L67 |
-| parallel-02 prototype CSS rules port (2026-05-19 close-out) | L88 |
-| Follow-up unassigned tasks (proto-spec) | L99 |
-| Difficulties summary (parallel-02) | L111 |
-| Sub-workflow: serial-05 Page Routes Blueprint Binding（2026-05-22 spec validation） | L145 |
-| Sub-workflow: serial-06 Form Response Binding（2026-05-23 spec validation） | L158 |
-| P1-1〜P1-5 Selector ↔ Token ↔ 09 Spec Mapping (parallel-01) | L172 |
-| Sub-workflows | L217 |
-| P1-1〜P1-5 Selector ↔ Token ↔ 09 Spec Mapping (parallel-01) | L226 |
+| AdminTopbar follow-up 001（2026-05-23） | L87 |
+| parallel-02 prototype CSS rules port (2026-05-19 close-out) | L100 |
+| Follow-up unassigned tasks (proto-spec) | L111 |
+| Difficulties summary (parallel-02) | L123 |
+| Sub-workflow: serial-05 Page Routes Blueprint Binding（2026-05-22 spec validation） | L157 |
+| Sub-workflow: serial-06 Form Response Binding（2026-05-23 spec validation） | L170 |
+| P1-1〜P1-5 Selector ↔ Token ↔ 09 Spec Mapping (parallel-01) | L184 |
+| Sub-workflows | L229 |
+| P1-1〜P1-5 Selector ↔ Token ↔ 09 Spec Mapping (parallel-01) | L238 |
 
 ### references/workflow-ui-ux-visual-baseline-drift.md
 
@@ -4033,6 +4075,15 @@ node scripts/list-specs.js --topics
 | Phase 12 Strict Files | L18 |
 | Gate Boundary | L32 |
 | Same-Wave Sync | L39 |
+
+### references/workflow-ut-dsf-07-staging-visual-runtime-evidence-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Metadata | L3 |
+| Workflow Artifacts | L13 |
+| Implementation Targets | L26 |
+| Boundary | L35 |
 
 ### references/workflow-ut-gov-004-artifact-inventory.md
 
@@ -4763,15 +4814,15 @@ node scripts/list-specs.js --topics
 
 | セクション | 行 |
 |------------|----|
-| 概要 | L25 |
-| 使い方 | L33 |
-| Current Alias Overrides（個別互換行） | L40 |
-| Family Summary | L86 |
-| Detailed Register | L107 |
-| Section Extract Register (2026-03-17) | L288 |
-| 500-Line Split Register (2026-03-16) | L299 |
-| Fragment Migration Register (2026-04-28) | L321 |
-| Task Root Path Drift Register (2026-04-30 追記) | L348 |
+| 概要 | L26 |
+| 使い方 | L34 |
+| Current Alias Overrides（個別互換行） | L41 |
+| Family Summary | L87 |
+| Detailed Register | L108 |
+| Section Extract Register (2026-03-17) | L289 |
+| 500-Line Split Register (2026-03-16) | L300 |
+| Fragment Migration Register (2026-04-28) | L322 |
+| Task Root Path Drift Register (2026-04-30 追記) | L349 |
 
 ### references/lessons-fetch-service-binding-testing.md
 
@@ -7027,6 +7078,7 @@ node scripts/list-specs.js --topics
 | grep gate | L132 |
 | 参考実装（Issue #778） | L145 |
 | 関連パターン | L164 |
+| Admin batch job idempotency pattern（Issue #836 recompute） | L171 |
 
 ### references/patterns-advanced.md
 
@@ -7491,14 +7543,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L2223 |
-| フェーズ構造（概要） | L2232 |
-| 品質ゲート（概要） | L2263 |
-| 出力テンプレート | L2274 |
-| 実行時のコマンド・エージェント・スキル | L2297 |
-| 昇格パターン集 | L2321 |
-| Current Active / Spec Created Tasks | L2323 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L2483 |
+| ドキュメント構成 | L2312 |
+| フェーズ構造（概要） | L2321 |
+| 品質ゲート（概要） | L2352 |
+| 出力テンプレート | L2363 |
+| 実行時のコマンド・エージェント・スキル | L2386 |
+| 昇格パターン集 | L2410 |
+| Current Active / Spec Created Tasks | L2412 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L2572 |
 
 ### references/task-workflow-backlog-part2.md
 

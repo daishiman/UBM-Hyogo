@@ -28,9 +28,24 @@ import {
   schemaAliasRollback,
   SchemaAliasRollbackFailure,
 } from "../../workflows/schemaAliasRollback";
+import {
+  buildRollbackNotificationPayload,
+  dispatchSchemaAliasRollbackNotification,
+  recordRollbackNotificationAudit,
+} from "../../workflows/schemaAliasRollbackNotification";
+import { createResendSender } from "../../services/mail/magic-link-mailer";
+import {
+  schemaAliasRecompute,
+  SchemaAliasRecomputeFailure,
+} from "../../workflows/schemaAliasRecompute";
+import { getLatestJobByAlias } from "../../repository/schemaAliasRecomputeJobs";
 import type { AdminRouteEnv } from "./_shared";
 
 const RollbackBodyZ = z.object({
+  reason: z.string().max(500).optional(),
+});
+
+const RecomputeBodyZ = z.object({
   reason: z.string().max(500).optional(),
 });
 
@@ -418,6 +433,28 @@ export const createAdminSchemaRoute = () => {
         actor,
         reason: parsed.data.reason ?? null,
       });
+      try {
+        const notificationResult = await dispatchSchemaAliasRollbackNotification(
+          {
+            slackWebhookUrl: c.env.SLACK_WEBHOOK_INCIDENT ?? c.env.SLACK_WEBHOOK_URL,
+            mailSender: c.env.MAIL_PROVIDER_KEY
+              ? createResendSender({ apiKey: c.env.MAIL_PROVIDER_KEY })
+              : undefined,
+            fromEmail: c.env.MAIL_FROM_ADDRESS,
+            opsEmail: c.env.OPS_NOTIFICATION_EMAIL,
+          },
+          buildRollbackNotificationPayload(result, actor),
+        );
+        await recordRollbackNotificationAudit(db, {
+          result: notificationResult,
+          aliasId: result.aliasId,
+          actorEmail: actor,
+        });
+      } catch {
+        // Rollback is the required mutation. Notification and its audit entry are
+        // best-effort auxiliary sinks and must never turn a successful rollback
+        // into an API failure.
+      }
       return c.json(result, 200);
     } catch (err) {
       if (err instanceof SchemaAliasRollbackFailure) {
@@ -431,6 +468,75 @@ export const createAdminSchemaRoute = () => {
       }
       throw err;
     }
+  });
+
+  // Issue #836: POST /admin/schema/aliases/:aliasId/recompute
+  // rollback 済み alias の response_fields を reverse-backfill する（admin 明示操作）。
+  // - body: { reason?: string (<=500) }。triggerKey は client から受け取らない（server 導出）。
+  // - 成功: 200 RecomputeResult / 失敗: 400 / 404(not_found) / 409(not_rolled_back) / 500(batch_failed)
+  app.post("/schema/aliases/:aliasId/recompute", async (c) => {
+    const aliasId = c.req.param("aliasId");
+    if (!aliasId) {
+      return c.json({ error: "bad_request", message: "aliasId required" }, 400);
+    }
+    let raw: unknown = {};
+    try {
+      raw = await c.req.json();
+    } catch {
+      raw = {};
+    }
+    const parsed = RecomputeBodyZ.safeParse(raw);
+    if (!parsed.success) {
+      return c.json(
+        { error: "bad_request", message: parsed.error.message },
+        400,
+      );
+    }
+    const authUser = c.get("authUser");
+    const actor: string = authUser?.email ?? "unknown";
+    const db = ctx({ DB: c.env.DB });
+    try {
+      const result = await schemaAliasRecompute(db, {
+        aliasId,
+        actor,
+        reason: parsed.data.reason ?? null,
+      });
+      return c.json(result, 200);
+    } catch (err) {
+      if (err instanceof SchemaAliasRecomputeFailure) {
+        const status =
+          err.kind === "not_found"
+            ? 404
+            : err.kind === "not_rolled_back"
+              ? 409
+              : 500;
+        return c.json({ error: err.kind, message: err.message }, status);
+      }
+      throw err;
+    }
+  });
+
+  // Issue #836: GET /admin/schema/aliases/:aliasId/recompute
+  // 直近の recompute job status を返す（UI バッジ / poll 用）。job 不在は body null。
+  app.get("/schema/aliases/:aliasId/recompute", async (c) => {
+    const aliasId = c.req.param("aliasId");
+    const db = ctx({ DB: c.env.DB });
+    const job = await getLatestJobByAlias(db, aliasId);
+    if (!job) return c.json(null, 200);
+    return c.json(
+      {
+        jobId: job.jobId,
+        aliasId: job.aliasId,
+        status: job.status,
+        affectedCount: job.affectedCount,
+        processedCount: job.processedCount,
+        updatedCount: job.updatedCount,
+        deletedCollisionCount: job.deletedCollisionCount,
+        lastError: job.lastError,
+        updatedAt: job.updatedAt,
+      },
+      200,
+    );
   });
 
   // UT-07B-FU-01: GET /admin/schema/aliases/:diffId/backfill

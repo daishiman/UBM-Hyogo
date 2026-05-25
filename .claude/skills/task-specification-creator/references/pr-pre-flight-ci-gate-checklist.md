@@ -338,28 +338,22 @@ git push
 
 詳細: `.claude/skills/aiworkflow-requirements/changelog/20260522-dev-sync-skill-md-topic-map-content-conflict-resolved.md`。
 
-## 15. dev sync `static-manifest.json` unhandled は `pnpm regenerate:static-manifest` で吸収（SP-DEVSYNC-027 / L-DEVSYNC-034・035）
+## 15. dev sync `static-manifest.json` unhandled は `pnpm sync:resolve` が自動再生成で吸収（SP-DEVSYNC-027 / L-DEVSYNC-034・035・036）
 
-`pnpm sync:resolve` 完走後 `apps/api/src/repository/_shared/generated/static-manifest.json` が `[WARN] unhandled conflict` で残る case。手動 union は JSON 構造を破壊するため禁止。正本 spec から deterministic 再生成して `git add` するだけで吸収できる。さらに `pnpm sync:resolve` 完走後でも `^UU` が残る（resolve は成功したが `git add` がスキップされた）case があるため、明示 `git add` を必ず併用する。
+`apps/api/src/repository/_shared/generated/static-manifest.json` は conflict 時、正本 spec から deterministic 再生成して `git add` するだけで吸収できる（手動 union は JSON 構造破壊のため禁止）。2026-05-24 の再発（`docs/issue-842-admin-mutation-reliability-policy-spec` ← dev sync-merge）を受け、`scripts/sync/resolve-skill-merge-conflicts.sh` に `REGENERATE_TARGETS` を新設し、本ファイルが unhandled 候補に出た場合は `git checkout --theirs` → `mise exec -- pnpm regenerate:static-manifest` → `git add` を**自動実行**するよう拡張済み。以後 `pnpm sync:resolve` 一発で完了する。
 
-### 自律手順
+### 自律手順（拡張版 sync:resolve で 1 step 化）
 
 ```bash
-# 1) sync:resolve 完走
-mise exec -- pnpm sync:resolve  # exit 0/1 を問わない（後段の ^UU 件数を真実とする）
+# 1) sync:resolve 完走（union resolve + keywords.json --ours + indexes:rebuild
+#    + static-manifest.json 自動再生成を一気に実行）
+mise exec -- pnpm sync:resolve
 
-# 2) UU 残対象を明示 git add（union resolve は本体に副作用済み）
-git status --porcelain | awk '/^UU /{print $2}' | xargs -r git add
-
-# 3) static-manifest.json が UU だった場合のみ再生成
-if git status --porcelain | grep -q 'apps/api/src/repository/_shared/generated/static-manifest.json'; then
-  mise exec -- pnpm regenerate:static-manifest
-  git add apps/api/src/repository/_shared/generated/static-manifest.json
-fi
-
-# 4) 残コンフリクト 0 を確認してから commit
+# 2) 残 ^UU が 0 であることを確認してから commit
 test -z "$(git status --porcelain | grep '^UU')" && git commit --no-edit
 ```
+
+旧手順（手動 regenerate）は 2026-05-24 の `scripts/sync/resolve-skill-merge-conflicts.sh` 拡張で不要化。`REGENERATE_TARGETS` 配列にエントリ追加すれば、他の deterministic generated artifact も同様に自動吸収できる。
 
 ### Why
 
@@ -367,4 +361,4 @@ test -z "$(git status --porcelain | grep '^UU')" && git commit --no-edit
 - `pnpm sync:resolve` の exit code は `git add` 副作用（gitignore 競合等）に影響され信頼できない。`^UU` 件数を単一の真実とする
 - `regenerate:static-manifest` / `indexes:rebuild` はいずれも冪等な deterministic 再生成で副作用ゼロ。conflict 残存時の常用処方として安全
 
-詳細: `.claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-dev-sync-merge-conflict-resolution-2026-05.md` §L-DEVSYNC-034 / §L-DEVSYNC-035。事例: 2026-05-21 `feat/issue-276-mobile-filterbar-tag-picker` ← dev sync-merge。
+詳細: `.claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-dev-sync-merge-conflict-resolution-2026-05.md` §L-DEVSYNC-034 / §L-DEVSYNC-035 / §L-DEVSYNC-036。事例: 2026-05-21 `feat/issue-276-mobile-filterbar-tag-picker` ← dev sync-merge（初回）、2026-05-24 `docs/issue-842-admin-mutation-reliability-policy-spec` ← dev sync-merge（再発を受け sync:resolve に自動化を取り込み）。
