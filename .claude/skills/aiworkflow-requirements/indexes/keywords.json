@@ -2206,8 +2206,10 @@
       "lessons-learned-ut-07c-followup-001-attendance-csv-import-2026-05.md",
       "lessons-learned-ut-coverage-2026-05-wave.md",
       "quality-e2e-testing.md",
+      "security-api.md",
       "ui-ux-atoms-patterns-core.md",
       "workflow-apps-web-security-headers-hardening-artifact-inventory.md",
+      "workflow-issue-870-apps-api-security-headers-artifact-inventory.md",
       "workflow-parallel-09-ux-cross-cutting-artifact-inventory.md",
       "workflow-task-05a-form-preview-503-001-artifact-inventory.md"
     ],
@@ -3688,7 +3690,9 @@
       "lessons-learned-ut-07c-followup-001-attendance-csv-import-2026-05.md",
       "lessons-learned-ut-coverage-2026-05-wave.md",
       "lessons-learned-ut07b-fu-01-schema-alias-backfill-queue-cron-split-2026-05.md",
+      "security-api.md",
       "spec-splitting-guidelines.md",
+      "workflow-issue-870-apps-api-security-headers-artifact-inventory.md",
       "workflow-task-04a-parallel-public-directory-api-endpoints-artifact-inventory.md",
       "workflow-task-05a-form-preview-503-001-artifact-inventory.md",
       "workflow-task-08a-parallel-api-contract-repository-and-authorization-tests-artifact-inventory.md"
@@ -4693,6 +4697,7 @@
       "workflow-issue-836-schema-alias-recompute-trigger-artifact-inventory.md",
       "workflow-issue-842-admin-mutation-reliability-policy-artifact-inventory.md",
       "workflow-issue-857-internal-alert-relay-binding-wiring-artifact-inventory.md",
+      "workflow-issue-870-apps-api-security-headers-artifact-inventory.md",
       "workflow-members-page-prototype-alignment-artifact-inventory.md",
       "workflow-mypage-prototype-alignment-artifact-inventory.md",
       "workflow-parallel-04-shared-page-chrome-artifact-inventory.md",
@@ -6650,6 +6655,7 @@
     ],
     "Security": [
       "cloudflare-edge-security.md",
+      "security-api.md",
       "security-web-response-headers.md"
     ],
     "WAF": [
@@ -7523,6 +7529,7 @@
       "workflow-issue-863-admin-error-alert-policy-iac-artifact-inventory.md",
       "workflow-issue-864-admin-staging-runtime-smoke-ci-gate-artifact-inventory.md",
       "workflow-issue-869-csp-enforce-cutover-artifact-inventory.md",
+      "workflow-issue-870-apps-api-security-headers-artifact-inventory.md",
       "workflow-task-issue-191-production-d1-schema-aliases-apply-001-artifact-inventory.md",
       "workflow-task-issue-191-schema-aliases-implementation-001-artifact-inventory.md",
       "workflow-task-issue-346-08a-canonical-workflow-tree-restore-artifact-inventory.md",
@@ -8112,6 +8119,7 @@
     "Response": [
       "deployment-cloudflare-opennext-workers.md",
       "observability-monitoring.md",
+      "security-api.md",
       "security-web-response-headers.md",
       "workflow-ui-prototype-design-system-foundation-artifact-inventory.md"
     ],
@@ -8119,11 +8127,13 @@
       "deployment-cloudflare-opennext-workers.md",
       "spec-splitting-guidelines.md",
       "task-workflow-completed-skill-lifecycle-security.md",
-      "workflow-apps-web-security-headers-hardening-artifact-inventory.md"
+      "workflow-apps-web-security-headers-hardening-artifact-inventory.md",
+      "workflow-issue-870-apps-api-security-headers-artifact-inventory.md"
     ],
     "headers": [
       "deployment-cloudflare-opennext-workers.md",
-      "workflow-apps-web-security-headers-hardening-artifact-inventory.md"
+      "workflow-apps-web-security-headers-hardening-artifact-inventory.md",
+      "workflow-issue-870-apps-api-security-headers-artifact-inventory.md"
     ],
     "via": [
       "deployment-cloudflare-opennext-workers.md",
@@ -16535,6 +16545,7 @@
       "workflow-issue-842-admin-mutation-reliability-policy-artifact-inventory.md",
       "workflow-issue-857-internal-alert-relay-binding-wiring-artifact-inventory.md",
       "workflow-issue-864-admin-staging-runtime-smoke-ci-gate-artifact-inventory.md",
+      "workflow-issue-870-apps-api-security-headers-artifact-inventory.md",
       "workflow-mypage-prototype-alignment-artifact-inventory.md",
       "workflow-parallel-04-shared-page-chrome-artifact-inventory.md",
       "workflow-parallel-09-ux-cross-cutting-artifact-inventory.md",
@@ -22317,6 +22328,10 @@
     "認証・認可フロー": [
       "security-api.md"
     ],
+    "Headers": [
+      "security-api.md",
+      "security-web-response-headers.md"
+    ],
     "依存関係セキュリティ": [
       "security-api.md"
     ],
@@ -22466,9 +22481,6 @@
     ],
     "連携セキュリティ": [
       "security-skill-ipc-core.md"
-    ],
-    "Headers": [
-      "security-web-response-headers.md"
     ],
     "Canonical": [
       "security-web-response-headers.md",
@@ -24412,6 +24424,7 @@
       "workflow-issue-842-admin-mutation-reliability-policy-artifact-inventory.md",
       "workflow-issue-857-internal-alert-relay-binding-wiring-artifact-inventory.md",
       "workflow-issue-864-admin-staging-runtime-smoke-ci-gate-artifact-inventory.md",
+      "workflow-issue-870-apps-api-security-headers-artifact-inventory.md",
       "workflow-mypage-prototype-alignment-artifact-inventory.md",
       "workflow-parallel-04-shared-page-chrome-artifact-inventory.md",
       "workflow-parallel-09-ux-cross-cutting-artifact-inventory.md",

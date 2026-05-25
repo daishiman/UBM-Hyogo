@@ -1627,8 +1627,9 @@ node scripts/list-specs.js --topics
 | 認証・認可フロー | L10 |
 | レート制限 | L29 |
 | CORS設定 | L46 |
-| 依存関係セキュリティ | L55 |
-| 関連ドキュメント | L80 |
+| apps/api Response Security Headers | L53 |
+| 依存関係セキュリティ | L70 |
+| 関連ドキュメント | L95 |
 
 ### references/security-electron-ipc-examples.md
 
@@ -3018,6 +3019,12 @@ node scripts/list-specs.js --topics
 | State | L15 |
 
 ### references/workflow-issue-869-csp-enforce-cutover-artifact-inventory.md
+
+### references/workflow-issue-870-apps-api-security-headers-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Boundary | L19 |
 
 ### references/workflow-light-theme-contrast-regression-guard.md
 
@@ -7567,14 +7574,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L2340 |
-| フェーズ構造（概要） | L2349 |
-| 品質ゲート（概要） | L2380 |
-| 出力テンプレート | L2391 |
-| 実行時のコマンド・エージェント・スキル | L2414 |
-| 昇格パターン集 | L2438 |
-| Current Active / Spec Created Tasks | L2440 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L2601 |
+| ドキュメント構成 | L2353 |
+| フェーズ構造（概要） | L2362 |
+| 品質ゲート（概要） | L2393 |
+| 出力テンプレート | L2404 |
+| 実行時のコマンド・エージェント・スキル | L2427 |
+| 昇格パターン集 | L2451 |
+| Current Active / Spec Created Tasks | L2453 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L2614 |
 
 ### references/task-workflow-backlog-part2.md
 
