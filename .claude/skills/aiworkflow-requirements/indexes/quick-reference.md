@@ -15,6 +15,19 @@
 | lessons-learned | `.claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-issue-880-public-segment-error-loading-boundary-2026-05.md`（L-PUBERR-001 production-guarded smoke route / L-PUBERR-002 worktree webServer timeout 回避 / L-PUBERR-003 scope と route-group 1:1） |
 | user gate | commit, push, PR, GitHub issue mutation |
 
+## issue-879 safeServerFetch member/public horizontal expansion（2026-05-24）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow | `docs/30-workflows/completed-tasks/issue-879-safe-server-fetch-member-public-horizontal-expansion/` |
+| status | `implemented_local_evidence_captured / implementation / NON_VISUAL / implementation_complete_pending_pr` |
+| issue | #879 CLOSED。PR body は `Refs #879` |
+| implementation | `apps/web/src/lib/server-fetch/safe-fetch.ts`, `apps/web/src/lib/admin/safe-server-fetch.ts`, `apps/web/src/components/{public,member}/SectionError.tsx`, `/profile`, `/members`, `/members/[id]` pages |
+| contract | auth redirect and public member 404 remain fatal framework signals; transient member/public fetch failures render SectionError and keep page chrome/filter/backlink visible |
+| evidence | focused Vitest 20 PASS, web typecheck PASS, design-token gate PASS, web lint PASS |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-879-safe-server-fetch-member-public-horizontal-expansion-artifact-inventory.md` |
+| boundary | commit / push / PR / Issue mutation are user-gated |
+
 ## issue-872-google-brand-4tone-icon-and-tokens-exempt（2026-05-24）
 
 | 項目 | 値 |

@@ -3052,6 +3052,8 @@ node scripts/list-specs.js --topics
 | Evidence | L19 |
 | Source / parent | L27 |
 
+### references/workflow-issue-879-safe-server-fetch-member-public-horizontal-expansion-artifact-inventory.md
+
 ### references/workflow-issue-880-public-segment-error-loading-boundary-artifact-inventory.md
 
 | セクション | 行 |
@@ -7610,14 +7612,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L2393 |
-| フェーズ構造（概要） | L2402 |
-| 品質ゲート（概要） | L2433 |
-| 出力テンプレート | L2444 |
-| 実行時のコマンド・エージェント・スキル | L2467 |
-| 昇格パターン集 | L2491 |
-| Current Active / Spec Created Tasks | L2493 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L2654 |
+| ドキュメント構成 | L2406 |
+| フェーズ構造（概要） | L2415 |
+| 品質ゲート（概要） | L2446 |
+| 出力テンプレート | L2457 |
+| 実行時のコマンド・エージェント・スキル | L2480 |
+| 昇格パターン集 | L2504 |
+| Current Active / Spec Created Tasks | L2506 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L2667 |
 
 ### references/task-workflow-backlog-part2.md
 
