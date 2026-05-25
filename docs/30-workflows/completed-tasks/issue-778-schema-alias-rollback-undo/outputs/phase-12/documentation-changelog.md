@@ -14,7 +14,7 @@
 - `docs/30-workflows/issue-778-schema-alias-rollback-undo/outputs/phase-12/{main,implementation-guide,system-spec-update-summary,documentation-changelog,unassigned-task-detection,skill-feedback-report,phase12-task-spec-compliance-check}.md`
 - `docs/30-workflows/issue-778-schema-alias-rollback-undo/outputs/phase-13/pr-summary.md`
 - `docs/30-workflows/unassigned-task/serial-05-step-03-followup-003-schema-diff-history-view.md`（既存参照。重複作成なし）
-- `docs/30-workflows/unassigned-task/serial-05-step-03-followup-005-schema-alias-recompute-trigger.md`
+- `docs/30-workflows/completed-tasks/serial-05-step-03-followup-005-schema-alias-recompute-trigger.md`
 - `docs/30-workflows/unassigned-task/serial-05-step-03-followup-006-schema-alias-bulk-rollback.md`
 - `docs/30-workflows/unassigned-task/serial-05-step-03-followup-007-schema-alias-rollback-notification.md`
 

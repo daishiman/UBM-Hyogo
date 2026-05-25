@@ -10,12 +10,15 @@
 | 対象機能     | `apps/web/src/features/admin/hooks/useAdminMutation` を利用する admin 配下全 destructive mutation |
 | 優先度       | 中（P2）                                                                                          |
 | 見積もり規模 | 中（policy 設計 + hook シグネチャ拡張 + 既存 caller 横展開 + spec/test 追記）                     |
-| ステータス   | pending                                                                                          |
+| ステータス   | consumed_by_canonical_workflow                                                                   |
 | 発見元       | `step-06-meetings-attendance-implementation` Phase 12 `unassigned-task-detection.md`              |
 | 発見日       | 2026-05-19                                                                                        |
 
 ## Canonical Workflow Status
 
+- 正規 workflow: `docs/30-workflows/completed-tasks/issue-842-admin-mutation-reliability-policy/`
+- 正規化日: 2026-05-24
+- 状態: `consumed_by_canonical_workflow`（本 one-pager は履歴参照として保持し、実行時は正規 workflow を参照する）
 - 親 workflow: `docs/30-workflows/step-06-meetings-attendance-implementation/`
 - 親 workflow 状態: `implemented_local_evidence_captured`（step-06 単独スコープでは完了。timeout policy は admin 全体に波及するため切り出し）
 - 発見元 evidence: `docs/30-workflows/step-06-meetings-attendance-implementation/outputs/phase-12/unassigned-task-detection.md`（"mutation timeout policy" 行）
@@ -205,4 +208,5 @@ step-06 では `DELETE /meetings/:id/attendances/:userId` で 404 `attendance_no
 | priority | P2    |
 | scope    | cross-admin (features/admin/hooks/useAdminMutation 配下の全 caller) |
 | parent   | docs/30-workflows/step-06-meetings-attendance-implementation/ |
-| status   | pending |
+| status   | consumed_by_canonical_workflow |
+| canonical_workflow | docs/30-workflows/completed-tasks/issue-842-admin-mutation-reliability-policy/ |
