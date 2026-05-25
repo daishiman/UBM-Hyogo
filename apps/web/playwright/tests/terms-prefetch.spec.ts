@@ -2,6 +2,7 @@ import { expect, test } from "../fixtures/coverage";
 
 // issue-882 の責務は「/terms の RSC prefetch が env validation で 5xx / Zod throw を露出しない」こと。
 // CSP report-only / nonce / stylesheet 系の console.error（origin/dev の issue-869 由来）は本テストの対象外。
+// 参照: aiworkflow-requirements L-DEVSYNC-042 / task-specification-creator SP-DEVSYNC-036。
 const TERMS_ENV_ERROR_PATTERNS: RegExp[] = [
   /ZodError/i,
   /Invalid environment/i,
