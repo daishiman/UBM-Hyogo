@@ -29,20 +29,26 @@ const STATES = [
 ] as const
 
 async function hideDevOverlay(page: Page) {
-  await page.addStyleTag({
-    content: `
-      nextjs-portal,
-      [data-nextjs-dev-tools-button],
-      [data-nextjs-toast],
-      [data-nextjs-dialog-overlay],
-      [data-nextjs-dialog],
-      [data-nextjs-build-error],
-      [data-nextjs-terminal] {
-        display: none !important;
-        visibility: hidden !important;
-      }
-    `,
-  })
+  // WebKit は Report-Only CSP の style-src でも addStyleTag を reject するため try/catch で許容する。
+  // 注入は dev overlay 抑制目的の cosmetic で機能アサーションには影響しない。
+  try {
+    await page.addStyleTag({
+      content: `
+        nextjs-portal,
+        [data-nextjs-dev-tools-button],
+        [data-nextjs-toast],
+        [data-nextjs-dialog-overlay],
+        [data-nextjs-dialog],
+        [data-nextjs-build-error],
+        [data-nextjs-terminal] {
+          display: none !important;
+          visibility: hidden !important;
+        }
+      `,
+    })
+  } catch {
+    // CSP 拒否時は overlay 抑制をスキップし screenshot をそのまま継続
+  }
 }
 
 test.describe('login-page-prototype-alignment /login state machine smoke', () => {

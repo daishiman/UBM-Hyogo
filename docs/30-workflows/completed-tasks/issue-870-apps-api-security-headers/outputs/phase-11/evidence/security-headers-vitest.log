@@ -1,0 +1,4 @@
+pnpm exec vitest run apps/api/src/middleware/__tests__/security-headers.spec.ts
+
+PASS apps/api/src/middleware/__tests__/security-headers.spec.ts
+15 tests passed.
