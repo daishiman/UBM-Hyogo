@@ -7,7 +7,8 @@ import { resolve } from 'node:path'
 
 const EVIDENCE_DIR = resolve(
   process.cwd(),
-  '../../docs/30-workflows/login-page-prototype-alignment/outputs/phase-11/screenshots',
+  process.env.PLAYWRIGHT_EVIDENCE_DIR ??
+    '../../docs/30-workflows/completed-tasks/login-page-prototype-alignment/outputs/phase-11/screenshots',
 )
 
 const SCREENSHOT_BY_STATE = {

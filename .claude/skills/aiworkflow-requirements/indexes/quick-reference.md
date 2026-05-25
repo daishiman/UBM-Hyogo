@@ -97,6 +97,19 @@
 | UI contract | Magic Link primary -> OR divider -> Google secondary, brand block, sent inbox state |
 | boundary | `/api/auth/*`, Auth.js handler, D1 schema, `apps/api/**` are unchanged; staging visual smoke, commit, push, PR are user-gated |
 
+## issue-874-login-staging-visual-smoke（2026-05-24）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-874-login-staging-visual-smoke/` |
+| 状態 | `implemented_local_runtime_pending / implementation / VISUAL` |
+| source | FU-LOGIN-003 from `docs/30-workflows/completed-tasks/login-page-prototype-alignment/outputs/phase-12/unassigned-task-detection.md` |
+| implementation | `apps/web/playwright/tests/login-smoke.spec.ts`, `scripts/run-login-staging-smoke.sh` |
+| contract | `PLAYWRIGHT_EVIDENCE_DIR` overrides explicit screenshot output path; default keeps completed parent local baseline path |
+| evidence | Phase 12 strict 7 present; staging deploy / staging smoke / 7 PNG evidence remain user-gated |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-874-login-staging-visual-smoke-artifact-inventory.md` |
+| boundary | deploy, staging runtime smoke, visual diff, commit, push, PR are user-gated |
+
 ## fix-admin-server-components-render-error-stg（2026-05-23）
 
 | 項目 | 値 |
