@@ -684,8 +684,10 @@
       "lessons-learned-issue-401-admin-request-notification-2026-05.md",
       "lessons-learned-task-21-09g-admin-blueprint-2026-05.md",
       "lessons-learned-ut07b-fu-02-admin-schema-alias-retry-label-2026-05.md",
+      "pattern-d1-soft-delete-optimistic-lock-batch.md",
       "ui-ux-admin-dashboard.md",
       "workflow-issue-399-admin-queue-resolve-staging-visual-evidence-artifact-inventory.md",
+      "workflow-issue-842-admin-mutation-reliability-policy-artifact-inventory.md",
       "workflow-task-21-w2-par-screen-blueprints-admin-artifact-inventory.md"
     ],
     "Sync": [
@@ -858,6 +860,7 @@
       "workflow-ut-25-deriv-01-sa-key-rotation-sop-artifact-inventory.md",
       "workflow-ut-cicd-drift-impl-observability-matrix-sync-artifact-inventory.md",
       "workflow-ut-coverage-2026-05-wave-artifact-inventory.md",
+      "workflow-ut-dsf-07-staging-visual-runtime-evidence-artifact-inventory.md",
       "workflow-ut-gov-004-artifact-inventory.md",
       "workflow-ut08-monitoring-alert-design-artifact-inventory.md",
       "workflow-utgov001-second-stage-reapply-artifact-inventory.md"
@@ -3309,6 +3312,10 @@
       "workflow-issue-806-dynamic-member-og-image-artifact-inventory.md",
       "workflow-issue-819-admin-dashboard-runtime-screenshot-artifact-inventory.md",
       "workflow-issue-832-admin-topbar-primitive-extraction-artifact-inventory.md",
+      "workflow-issue-836-schema-alias-recompute-trigger-artifact-inventory.md",
+      "workflow-issue-837-schema-alias-bulk-rollback-artifact-inventory.md",
+      "workflow-issue-842-admin-mutation-reliability-policy-artifact-inventory.md",
+      "workflow-issue-857-internal-alert-relay-binding-wiring-artifact-inventory.md",
       "workflow-issue-879-safe-server-fetch-member-public-horizontal-expansion-artifact-inventory.md",
       "workflow-parallel-04-shared-page-chrome-artifact-inventory.md",
       "workflow-parallel-i02b-admin-mutation-error-finalize-artifact-inventory.md",
@@ -3316,6 +3323,7 @@
       "workflow-parallel-i06-root-error-focus-artifact-inventory.md",
       "workflow-step-05-dashboard-chart-implementation-artifact-inventory.md",
       "workflow-step-07-requests-approve-reject-artifact-inventory.md",
+      "workflow-step-08-audit-filter-paging-verify-artifact-inventory.md",
       "workflow-task-05-error-boundary-and-staging-smoke-artifact-inventory.md",
       "workflow-task-06a-A-public-web-real-workers-d1-smoke-execution-artifact-inventory.md",
       "workflow-task-07-prototype-mapping-table-artifact-inventory.md",
@@ -3349,6 +3357,7 @@
       "workflow-ut-17-followup-005-alert-relay-kv-operation-error-metrics-artifact-inventory.md",
       "workflow-ut-25-deriv-01-sa-key-rotation-sop-artifact-inventory.md",
       "workflow-ut-branch-flow-dev-staging-sync-artifact-inventory.md",
+      "workflow-ut-dsf-07-staging-visual-runtime-evidence-artifact-inventory.md",
       "workflow-ut-gov-004-artifact-inventory.md",
       "workflow-utgov001-second-stage-reapply-artifact-inventory.md"
     ],
@@ -4488,7 +4497,8 @@
       "deployment-cloudflare.md",
       "skill-ledger-gitattributes-policy.md",
       "skill-ledger-gitignore-policy.md",
-      "workflow-e2e-quality-uplift-stage-0-3-artifact-inventory.md"
+      "workflow-e2e-quality-uplift-stage-0-3-artifact-inventory.md",
+      "workflow-issue-842-admin-mutation-reliability-policy-artifact-inventory.md"
     ],
     "Issue": [
       "audit-correlation.md",
@@ -4603,6 +4613,7 @@
       "workflow-issue-778-schema-alias-rollback-undo-artifact-inventory.md",
       "workflow-issue-799-use-auto-focus-on-mount-hook-artifact-inventory.md",
       "workflow-issue-832-admin-topbar-primitive-extraction-artifact-inventory.md",
+      "workflow-issue-842-admin-mutation-reliability-policy-artifact-inventory.md",
       "workflow-task-issue-299-schema-questions-fallback-retirement-artifact-inventory.md",
       "workflow-ut-17-cloudflare-analytics-alerts-artifact-inventory.md"
     ],
@@ -4668,6 +4679,9 @@
       "workflow-issue-806-dynamic-member-og-image-artifact-inventory.md",
       "workflow-issue-819-admin-dashboard-runtime-screenshot-artifact-inventory.md",
       "workflow-issue-827-member-detail-adapter-and-visibility-defense-artifact-inventory.md",
+      "workflow-issue-836-schema-alias-recompute-trigger-artifact-inventory.md",
+      "workflow-issue-842-admin-mutation-reliability-policy-artifact-inventory.md",
+      "workflow-issue-857-internal-alert-relay-binding-wiring-artifact-inventory.md",
       "workflow-members-page-prototype-alignment-artifact-inventory.md",
       "workflow-mypage-prototype-alignment-artifact-inventory.md",
       "workflow-parallel-04-shared-page-chrome-artifact-inventory.md",
@@ -4698,7 +4712,8 @@
       "workflow-ut-15-waf-rate-limiting-rules-setup-artifact-inventory.md",
       "workflow-ut-17-cloudflare-analytics-alerts-artifact-inventory.md",
       "workflow-ut-17-followup-002-alert-relay-dedup-kv-artifact-inventory.md",
-      "workflow-ut-coverage-2026-05-wave-artifact-inventory.md"
+      "workflow-ut-coverage-2026-05-wave-artifact-inventory.md",
+      "workflow-ut-dsf-07-staging-visual-runtime-evidence-artifact-inventory.md"
     ],
     "Live": [
       "audit-correlation.md"
@@ -4711,7 +4726,8 @@
       "audit-correlation.md"
     ],
     "wiring": [
-      "audit-correlation.md"
+      "audit-correlation.md",
+      "workflow-issue-857-internal-alert-relay-binding-wiring-artifact-inventory.md"
     ],
     "implementation": [
       "audit-correlation.md",
@@ -5069,6 +5085,7 @@
       "lessons-learned-task-spec-2d-contract-stage-2-2026-05.md",
       "lessons-learned-ut-coverage-2026-05-wave.md",
       "patterns-kv-dedup.md",
+      "workflow-issue-857-internal-alert-relay-binding-wiring-artifact-inventory.md",
       "workflow-task-staging-auth-secret-binding-recovery-001-artifact-inventory.md"
     ],
     "経由の": [
@@ -5078,7 +5095,8 @@
     "internal": [
       "auth-google-oauth-cf-integration.md",
       "claude-code-agents-workflow.md",
-      "lessons-learned-05a-authjs-admin-gate-2026-04.md"
+      "lessons-learned-05a-authjs-admin-gate-2026-04.md",
+      "workflow-issue-857-internal-alert-relay-binding-wiring-artifact-inventory.md"
     ],
     "call": [
       "auth-google-oauth-cf-integration.md",
@@ -5411,6 +5429,8 @@
       "workflow-issue-191-schema-aliases-artifact-inventory.md",
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
       "workflow-issue-776-schema-alias-bulk-resolve-artifact-inventory.md",
+      "workflow-issue-836-schema-alias-recompute-trigger-artifact-inventory.md",
+      "workflow-issue-837-schema-alias-bulk-rollback-artifact-inventory.md",
       "workflow-serial-05-step-03-schema-diff-resolve-artifact-inventory.md",
       "workflow-task-07b-parallel-schema-diff-alias-assignment-workflow-artifact-inventory.md",
       "workflow-task-17-admin-schema-conflicts-audit-artifact-inventory.md",
@@ -5838,6 +5858,7 @@
       "lessons-learned-parallel-i03-dialog-refresh-order-2026-05.md",
       "lessons-learned-task-25-followup-loading-state-observation-fixture-2026-05.md",
       "lessons-learned-ut-gov-001-2026-04.md",
+      "pattern-d1-soft-delete-optimistic-lock-batch.md",
       "workflow-issue-800-profile-error-focus-transfer-artifact-inventory.md"
     ],
     "との接続": [
@@ -6802,7 +6823,8 @@
     ],
     "Existing": [
       "data-retention-policy.md",
-      "lessons-learned-issue-560-next-standalone-instrumentation-patch-2026-05.md"
+      "lessons-learned-issue-560-next-standalone-instrumentation-patch-2026-05.md",
+      "workflow-step-08-audit-filter-paging-verify-artifact-inventory.md"
     ],
     "Soft": [
       "data-retention-policy.md",
@@ -6865,7 +6887,8 @@
       "workflow-ut-07a-01-member-tags-assign-cleanup-artifact-inventory.md",
       "workflow-ut-07b-fu-01-schema-alias-backfill-queue-cron-split-artifact-inventory.md",
       "workflow-ut-15-waf-rate-limiting-rules-setup-artifact-inventory.md",
-      "workflow-ut-17-cloudflare-analytics-alerts-artifact-inventory.md"
+      "workflow-ut-17-cloudflare-analytics-alerts-artifact-inventory.md",
+      "workflow-ut-dsf-07-staging-visual-runtime-evidence-artifact-inventory.md"
     ],
     "Evidence": [
       "data-retention-policy.md",
@@ -6904,6 +6927,8 @@
       "workflow-issue-775-serial-05-step-03-runtime-evidence-completion-artifact-inventory.md",
       "workflow-issue-806-dynamic-member-og-image-artifact-inventory.md",
       "workflow-issue-827-member-detail-adapter-and-visibility-defense-artifact-inventory.md",
+      "workflow-issue-837-schema-alias-bulk-rollback-artifact-inventory.md",
+      "workflow-issue-857-internal-alert-relay-binding-wiring-artifact-inventory.md",
       "workflow-mypage-prototype-alignment-artifact-inventory.md",
       "workflow-parallel-04-shared-page-chrome-artifact-inventory.md",
       "workflow-parallel-09-ux-cross-cutting-artifact-inventory.md",
@@ -6928,7 +6953,8 @@
       "workflow-ut-07b-schema-alias-hardening-artifact-inventory.md",
       "workflow-ut-07c-followup-001-attendance-csv-import-artifact-inventory.md",
       "workflow-ut-17-followup-005-alert-relay-kv-error-metrics-artifact-inventory.md",
-      "workflow-ut-17-followup-005-alert-relay-kv-operation-error-metrics-artifact-inventory.md"
+      "workflow-ut-17-followup-005-alert-relay-kv-operation-error-metrics-artifact-inventory.md",
+      "workflow-ut-dsf-07-staging-visual-runtime-evidence-artifact-inventory.md"
     ],
     "管理者リポジトリ境界仕様": [
       "database-admin-repository-boundary.md"
@@ -7126,6 +7152,7 @@
       "workflow-issue-504-extended-fixture-50k-artifact-inventory.md",
       "workflow-issue-747-vitest-esbuild-arch-and-worktree-isolation-artifact-inventory.md",
       "workflow-issue-778-schema-alias-rollback-undo-artifact-inventory.md",
+      "workflow-issue-837-schema-alias-bulk-rollback-artifact-inventory.md",
       "workflow-mypage-prototype-alignment-artifact-inventory.md",
       "workflow-task-07-prototype-mapping-table-artifact-inventory.md",
       "workflow-task-08-w2-design-tokens-doc-artifact-inventory.md",
@@ -7193,6 +7220,8 @@
       "lessons-learned-task-26-error-tsx-token-utility-migration-2026-05.md",
       "lessons-learned-ut-02a-tag-assignment-queue-2026-05.md",
       "workflow-issue-776-schema-alias-bulk-resolve-artifact-inventory.md",
+      "workflow-issue-836-schema-alias-recompute-trigger-artifact-inventory.md",
+      "workflow-issue-837-schema-alias-bulk-rollback-artifact-inventory.md",
       "workflow-task-07b-parallel-schema-diff-alias-assignment-workflow-artifact-inventory.md"
     ],
     "back": [
@@ -7471,6 +7500,9 @@
       "workflow-issue-806-dynamic-member-og-image-artifact-inventory.md",
       "workflow-issue-819-admin-dashboard-runtime-screenshot-artifact-inventory.md",
       "workflow-issue-827-member-detail-adapter-and-visibility-defense-artifact-inventory.md",
+      "workflow-issue-836-schema-alias-recompute-trigger-artifact-inventory.md",
+      "workflow-issue-837-schema-alias-bulk-rollback-artifact-inventory.md",
+      "workflow-issue-857-internal-alert-relay-binding-wiring-artifact-inventory.md",
       "workflow-issue-879-safe-server-fetch-member-public-horizontal-expansion-artifact-inventory.md",
       "workflow-task-issue-191-production-d1-schema-aliases-apply-001-artifact-inventory.md",
       "workflow-task-issue-191-schema-aliases-implementation-001-artifact-inventory.md",
@@ -9127,7 +9159,8 @@
     "Mutation": [
       "gate-c-external-mutation-pattern.md",
       "pattern-d1-soft-delete-optimistic-lock-batch.md",
-      "release-runbook.md"
+      "release-runbook.md",
+      "workflow-issue-842-admin-mutation-reliability-policy-artifact-inventory.md"
     ],
     "Pattern": [
       "gate-c-external-mutation-pattern.md",
@@ -9174,6 +9207,7 @@
       "workflow-issue-55-notification-channel-and-optout-artifact-inventory.md",
       "workflow-issue-617-ci-test-time-reduction-split-artifact-inventory.md",
       "workflow-issue-718-legacy-cf-token-revocation-artifact-inventory.md",
+      "workflow-issue-836-schema-alias-recompute-trigger-artifact-inventory.md",
       "workflow-login-page-prototype-alignment-artifact-inventory.md",
       "workflow-mypage-prototype-alignment-artifact-inventory.md",
       "workflow-parallel-i06-root-error-focus-artifact-inventory.md",
@@ -9194,7 +9228,8 @@
       "workflow-ut-07b-fu-03-production-migration-apply-runbook-artifact-inventory.md",
       "workflow-ut-07b-schema-alias-hardening-artifact-inventory.md",
       "workflow-ut-07c-followup-001-attendance-csv-import-artifact-inventory.md",
-      "workflow-ut-cicd-drift-impl-observability-matrix-sync-artifact-inventory.md"
+      "workflow-ut-cicd-drift-impl-observability-matrix-sync-artifact-inventory.md",
+      "workflow-ut-dsf-07-staging-visual-runtime-evidence-artifact-inventory.md"
     ],
     "Structured": [
       "gate-metadata.md"
@@ -10077,6 +10112,7 @@
       "lessons-learned-verify-indexes-ci-2026-04.md",
       "task-workflow-completed-skill-lifecycle-ui-verify.md",
       "workflow-fix-verify-design-tokens-og-route-exclude-artifact-inventory.md",
+      "workflow-step-08-audit-filter-paging-verify-artifact-inventory.md",
       "workflow-task-18-w7-verify-tokens-and-playwright-smoke-artifact-inventory.md",
       "workflow-task-verify-indexes-up-to-date-ci-artifact-inventory.md"
     ],
@@ -11315,7 +11351,8 @@
       "lessons-learned-03b-followup-005-sync-jobs-design-spec-2026-05.md",
       "lessons-learned-03b-response-sync-2026-04.md",
       "lessons-learned-09c-incident-runbook-slack-delivery-2026-05.md",
-      "lessons-learned-u-ut01-07-fu01-canonical-sync-receiver-2026-05.md"
+      "lessons-learned-u-ut01-07-fu01-canonical-sync-receiver-2026-05.md",
+      "pattern-d1-soft-delete-optimistic-lock-batch.md"
     ],
     "type": [
       "lessons-learned-03b-followup-005-sync-jobs-design-spec-2026-05.md",
@@ -11685,6 +11722,7 @@
       "workflow-issue-555-audit-correlation-salt-rotation-artifact-inventory.md",
       "workflow-issue-720-cf-audit-monitor-env-protection-fix-artifact-inventory.md",
       "workflow-issue-772-cf-audit-monitor-runtime-restoration-artifact-inventory.md",
+      "workflow-step-08-audit-filter-paging-verify-artifact-inventory.md",
       "workflow-task-17-admin-schema-conflicts-audit-artifact-inventory.md",
       "workflow-task-24-ui-mvp-w8-par-invariant-audit-artifact-inventory.md",
       "workflow-task-issue-191-production-d1-schema-aliases-apply-001-artifact-inventory.md",
@@ -12407,7 +12445,8 @@
       "workflow-issue-603-phase12-compliance-check-ci-gate-artifact-inventory.md",
       "workflow-issue-730-phase11-evidence-existence-validator-artifact-inventory.md",
       "workflow-issue-832-admin-topbar-primitive-extraction-artifact-inventory.md",
-      "workflow-login-page-prototype-alignment-artifact-inventory.md"
+      "workflow-login-page-prototype-alignment-artifact-inventory.md",
+      "workflow-step-08-audit-filter-paging-verify-artifact-inventory.md"
     ],
     "公開": [
       "lessons-learned-06a-public-web-2026-04.md",
@@ -12737,6 +12776,7 @@
       "workflow-issue-775-serial-05-step-03-runtime-evidence-completion-artifact-inventory.md",
       "workflow-issue-806-dynamic-member-og-image-artifact-inventory.md",
       "workflow-issue-827-member-detail-adapter-and-visibility-defense-artifact-inventory.md",
+      "workflow-issue-836-schema-alias-recompute-trigger-artifact-inventory.md",
       "workflow-login-page-prototype-alignment-artifact-inventory.md",
       "workflow-members-page-prototype-alignment-artifact-inventory.md",
       "workflow-permission-fallback-abort-skip-retry.md",
@@ -12900,7 +12940,8 @@
       "lessons-learned-issue-276-mobile-filterbar-tag-picker-2026-05.md",
       "lessons-learned-issue-827-member-detail-adapter-and-visibility-defense-2026-05.md",
       "logs-archive-2026-02-env-infra-ipc-auth-ui.md",
-      "ui-ux-atoms-patterns-core.md"
+      "ui-ux-atoms-patterns-core.md",
+      "workflow-step-08-audit-filter-paging-verify-artifact-inventory.md"
     ],
     "語彙は": [
       "lessons-learned-06c-B-admin-members-2026-05.md",
@@ -13628,7 +13669,8 @@
       "workflow-issue-399-admin-queue-resolve-staging-visual-evidence-artifact-inventory.md",
       "workflow-issue-762-cf-oidc-staging-proof-prod-cutover-artifact-inventory.md",
       "workflow-task-09a-A-staging-deploy-smoke-execution-artifact-inventory.md",
-      "workflow-task-09a-parallel-staging-deploy-smoke-and-forms-sync-validation-artifact-inventory.md"
+      "workflow-task-09a-parallel-staging-deploy-smoke-and-forms-sync-validation-artifact-inventory.md",
+      "workflow-ut-dsf-07-staging-visual-runtime-evidence-artifact-inventory.md"
     ],
     "Smoke": [
       "lessons-learned-09a-staging-smoke-forms-sync-validation-2026-05.md",
@@ -13849,7 +13891,8 @@
     ],
     "rollback": [
       "lessons-learned-09b-cron-monitoring-release-runbook-2026-05.md",
-      "lessons-learned-d1-batch-atomicity-and-soft-delete-2026-05.md"
+      "lessons-learned-d1-batch-atomicity-and-soft-delete-2026-05.md",
+      "workflow-issue-837-schema-alias-bulk-rollback-artifact-inventory.md"
     ],
     "pages": [
       "lessons-learned-09b-cron-monitoring-release-runbook-2026-05.md",
@@ -14528,14 +14571,17 @@
       "lessons-learned-issue-372-attendance-pagination-2026-05.md",
       "lessons-learned-issue-776-schema-alias-bulk-resolve-2026-05.md",
       "lessons-learned-ut07b-fu-01-schema-alias-backfill-queue-cron-split-2026-05.md",
-      "workflow-issue-776-schema-alias-bulk-resolve-artifact-inventory.md"
+      "workflow-issue-776-schema-alias-bulk-resolve-artifact-inventory.md",
+      "workflow-issue-837-schema-alias-bulk-rollback-artifact-inventory.md"
     ],
     "notification": [
       "lessons-learned-d1-batch-atomicity-and-soft-delete-2026-05.md",
       "lessons-learned-issue-401-admin-request-notification-2026-05.md"
     ],
     "recompute": [
-      "lessons-learned-d1-batch-atomicity-and-soft-delete-2026-05.md"
+      "lessons-learned-d1-batch-atomicity-and-soft-delete-2026-05.md",
+      "pattern-d1-soft-delete-optimistic-lock-batch.md",
+      "workflow-issue-836-schema-alias-recompute-trigger-artifact-inventory.md"
     ],
     "に分離し": [
       "lessons-learned-d1-batch-atomicity-and-soft-delete-2026-05.md"
@@ -14770,6 +14816,7 @@
       "workflow-issue-775-serial-05-step-03-runtime-evidence-completion-artifact-inventory.md",
       "workflow-issue-806-dynamic-member-og-image-artifact-inventory.md",
       "workflow-issue-827-member-detail-adapter-and-visibility-defense-artifact-inventory.md",
+      "workflow-issue-836-schema-alias-recompute-trigger-artifact-inventory.md",
       "workflow-login-page-prototype-alignment-artifact-inventory.md",
       "workflow-members-page-prototype-alignment-artifact-inventory.md",
       "workflow-permission-fallback-abort-skip-retry.md",
@@ -15563,7 +15610,8 @@
       "lessons-learned-issue-399-admin-queue-visual-evidence-2026-05.md",
       "workflow-06b-c-profile-logged-in-visual-evidence-artifact-inventory.md",
       "workflow-07c-followup-002-attendance-visual-smoke-artifact-inventory.md",
-      "workflow-issue-399-admin-queue-resolve-staging-visual-evidence-artifact-inventory.md"
+      "workflow-issue-399-admin-queue-resolve-staging-visual-evidence-artifact-inventory.md",
+      "workflow-ut-dsf-07-staging-visual-runtime-evidence-artifact-inventory.md"
     ],
     "planned": [
       "lessons-learned-issue-399-admin-queue-visual-evidence-2026-05.md",
@@ -16445,6 +16493,9 @@
       "workflow-issue-801-admin-error-focus-transfer-artifact-inventory.md",
       "workflow-issue-819-admin-dashboard-runtime-screenshot-artifact-inventory.md",
       "workflow-issue-832-admin-topbar-primitive-extraction-artifact-inventory.md",
+      "workflow-issue-837-schema-alias-bulk-rollback-artifact-inventory.md",
+      "workflow-issue-842-admin-mutation-reliability-policy-artifact-inventory.md",
+      "workflow-issue-857-internal-alert-relay-binding-wiring-artifact-inventory.md",
       "workflow-issue-879-safe-server-fetch-member-public-horizontal-expansion-artifact-inventory.md",
       "workflow-mypage-prototype-alignment-artifact-inventory.md",
       "workflow-parallel-04-shared-page-chrome-artifact-inventory.md",
@@ -16457,6 +16508,7 @@
       "workflow-skill-md-codex-validation-fix-artifact-inventory.md",
       "workflow-step-05-dashboard-chart-implementation-artifact-inventory.md",
       "workflow-step-07-requests-approve-reject-artifact-inventory.md",
+      "workflow-step-08-audit-filter-paging-verify-artifact-inventory.md",
       "workflow-task-03-w2-par-sentry-workers-sdk-unify-artifact-inventory.md",
       "workflow-task-03b-followup-005-sync-jobs-design-spec-artifact-inventory.md",
       "workflow-task-04a-parallel-public-directory-api-endpoints-artifact-inventory.md",
@@ -16531,6 +16583,7 @@
       "workflow-ut-branch-flow-dev-staging-sync-artifact-inventory.md",
       "workflow-ut-cicd-drift-impl-observability-matrix-sync-artifact-inventory.md",
       "workflow-ut-coverage-2026-05-wave-artifact-inventory.md",
+      "workflow-ut-dsf-07-staging-visual-runtime-evidence-artifact-inventory.md",
       "workflow-ut-gov-004-artifact-inventory.md",
       "workflow-utgov001-second-stage-reapply-artifact-inventory.md",
       "workflow-web-app-route-bundle-parse-fix-artifact-inventory.md"
@@ -16995,7 +17048,8 @@
       "workflow-serial-05-step-03-schema-diff-resolve-artifact-inventory.md",
       "workflow-step-05-dashboard-chart-implementation-artifact-inventory.md",
       "workflow-step-06-meetings-attendance-implementation-artifact-inventory.md",
-      "workflow-step-07-requests-approve-reject-artifact-inventory.md"
+      "workflow-step-07-requests-approve-reject-artifact-inventory.md",
+      "workflow-step-08-audit-filter-paging-verify-artifact-inventory.md"
     ],
     "SchemaDiffPanel": [
       "lessons-learned-issue-775-serial-05-step-03-runtime-evidence-completion-2026-05.md"
@@ -18329,7 +18383,8 @@
     ],
     "trigger": [
       "lessons-learned-u-ut01-08-sync-enum-canonical-2026-04.md",
-      "lessons-learned-ut07b-fu-01-schema-alias-backfill-queue-cron-split-2026-05.md"
+      "lessons-learned-ut07b-fu-01-schema-alias-backfill-queue-cron-split-2026-05.md",
+      "workflow-issue-836-schema-alias-recompute-trigger-artifact-inventory.md"
     ],
     "統一": [
       "lessons-learned-u-ut01-08-sync-enum-canonical-2026-04.md",
@@ -18460,7 +18515,8 @@
       "lessons-learned-ut-02a-tag-assignment-queue-2026-05.md"
     ],
     "idempotency": [
-      "lessons-learned-ut-02a-tag-assignment-queue-2026-05.md"
+      "lessons-learned-ut-02a-tag-assignment-queue-2026-05.md",
+      "pattern-d1-soft-delete-optimistic-lock-batch.md"
     ],
     "設計に": [
       "lessons-learned-ut-02a-tag-assignment-queue-2026-05.md"
@@ -18839,12 +18895,14 @@
       "lessons-learned-ut-17-followup-003-healthcheck-cron-2026-05.md",
       "task-workflow-active.md",
       "workflow-issue-588-fallback-alert-slack-mail-extension-artifact-inventory.md",
+      "workflow-issue-857-internal-alert-relay-binding-wiring-artifact-inventory.md",
       "workflow-task-alert-relay-global-scope-fix-001-artifact-inventory.md",
       "workflow-ut-17-cloudflare-analytics-alerts-artifact-inventory.md"
     ],
     "relay": [
       "lessons-learned-ut-17-followup-003-healthcheck-cron-2026-05.md",
       "task-workflow-active.md",
+      "workflow-issue-857-internal-alert-relay-binding-wiring-artifact-inventory.md",
       "workflow-task-alert-relay-global-scope-fix-001-artifact-inventory.md",
       "workflow-ut-17-cloudflare-analytics-alerts-artifact-inventory.md"
     ],
@@ -22443,6 +22501,7 @@
       "workflow-issue-720-cf-audit-monitor-env-protection-fix-artifact-inventory.md",
       "workflow-issue-770-profile-loading-skeleton-artifact-inventory.md",
       "workflow-issue-819-admin-dashboard-runtime-screenshot-artifact-inventory.md",
+      "workflow-issue-857-internal-alert-relay-binding-wiring-artifact-inventory.md",
       "workflow-parallel-09-ux-cross-cutting-artifact-inventory.md",
       "workflow-parallel-i02b-admin-mutation-error-finalize-artifact-inventory.md",
       "workflow-parallel-i03-dialog-refresh-order-artifact-inventory.md",
@@ -24306,6 +24365,9 @@
       "workflow-issue-801-admin-error-focus-transfer-artifact-inventory.md",
       "workflow-issue-819-admin-dashboard-runtime-screenshot-artifact-inventory.md",
       "workflow-issue-832-admin-topbar-primitive-extraction-artifact-inventory.md",
+      "workflow-issue-837-schema-alias-bulk-rollback-artifact-inventory.md",
+      "workflow-issue-842-admin-mutation-reliability-policy-artifact-inventory.md",
+      "workflow-issue-857-internal-alert-relay-binding-wiring-artifact-inventory.md",
       "workflow-issue-879-safe-server-fetch-member-public-horizontal-expansion-artifact-inventory.md",
       "workflow-mypage-prototype-alignment-artifact-inventory.md",
       "workflow-parallel-04-shared-page-chrome-artifact-inventory.md",
@@ -24318,6 +24380,7 @@
       "workflow-skill-md-codex-validation-fix-artifact-inventory.md",
       "workflow-step-05-dashboard-chart-implementation-artifact-inventory.md",
       "workflow-step-07-requests-approve-reject-artifact-inventory.md",
+      "workflow-step-08-audit-filter-paging-verify-artifact-inventory.md",
       "workflow-task-03-w2-par-sentry-workers-sdk-unify-artifact-inventory.md",
       "workflow-task-03b-followup-005-sync-jobs-design-spec-artifact-inventory.md",
       "workflow-task-04a-parallel-public-directory-api-endpoints-artifact-inventory.md",
@@ -24392,6 +24455,7 @@
       "workflow-ut-branch-flow-dev-staging-sync-artifact-inventory.md",
       "workflow-ut-cicd-drift-impl-observability-matrix-sync-artifact-inventory.md",
       "workflow-ut-coverage-2026-05-wave-artifact-inventory.md",
+      "workflow-ut-dsf-07-staging-visual-runtime-evidence-artifact-inventory.md",
       "workflow-ut-gov-004-artifact-inventory.md",
       "workflow-utgov001-second-stage-reapply-artifact-inventory.md",
       "workflow-web-app-route-bundle-parse-fix-artifact-inventory.md"
@@ -24432,6 +24496,10 @@
       "workflow-issue-777-schema-diff-resolve-history-view-artifact-inventory.md",
       "workflow-issue-806-dynamic-member-og-image-artifact-inventory.md",
       "workflow-issue-827-member-detail-adapter-and-visibility-defense-artifact-inventory.md",
+      "workflow-issue-836-schema-alias-recompute-trigger-artifact-inventory.md",
+      "workflow-issue-837-schema-alias-bulk-rollback-artifact-inventory.md",
+      "workflow-issue-842-admin-mutation-reliability-policy-artifact-inventory.md",
+      "workflow-issue-857-internal-alert-relay-binding-wiring-artifact-inventory.md",
       "workflow-login-page-prototype-alignment-artifact-inventory.md",
       "workflow-mypage-prototype-alignment-artifact-inventory.md",
       "workflow-parallel-04-shared-page-chrome-artifact-inventory.md",
@@ -24440,6 +24508,7 @@
       "workflow-parallel-i03-dialog-refresh-order-artifact-inventory.md",
       "workflow-parallel-i06-root-error-focus-artifact-inventory.md",
       "workflow-step-07-requests-approve-reject-artifact-inventory.md",
+      "workflow-step-08-audit-filter-paging-verify-artifact-inventory.md",
       "workflow-task-07-prototype-mapping-table-artifact-inventory.md",
       "workflow-task-09-w3-par-tailwind-v4-setup-artifact-inventory.md",
       "workflow-task-10-followup-001-opennext-esbuild-mismatch-artifact-inventory.md",
@@ -24457,7 +24526,8 @@
       "workflow-ut-15-waf-rate-limiting-rules-setup-artifact-inventory.md",
       "workflow-ut-17-followup-002-alert-relay-dedup-kv-artifact-inventory.md",
       "workflow-ut-17-followup-005-alert-relay-kv-error-metrics-artifact-inventory.md",
-      "workflow-ut-17-followup-005-alert-relay-kv-operation-error-metrics-artifact-inventory.md"
+      "workflow-ut-17-followup-005-alert-relay-kv-operation-error-metrics-artifact-inventory.md",
+      "workflow-ut-dsf-07-staging-visual-runtime-evidence-artifact-inventory.md"
     ],
     "Artifacts": [
       "workflow-03a-stablekey-literal-lint-enforcement-artifact-inventory.md",
@@ -24479,6 +24549,7 @@
       "workflow-issue-776-schema-alias-bulk-resolve-artifact-inventory.md",
       "workflow-issue-777-schema-diff-resolve-history-view-artifact-inventory.md",
       "workflow-mypage-prototype-alignment-artifact-inventory.md",
+      "workflow-step-08-audit-filter-paging-verify-artifact-inventory.md",
       "workflow-task-07-prototype-mapping-table-artifact-inventory.md",
       "workflow-task-08b-A-playwright-e2e-full-execution-artifact-inventory.md",
       "workflow-task-09-w3-par-tailwind-v4-setup-artifact-inventory.md",
@@ -24495,7 +24566,8 @@
       "workflow-ut-07b-schema-alias-hardening-artifact-inventory.md",
       "workflow-ut-15-waf-rate-limiting-rules-setup-artifact-inventory.md",
       "workflow-ut-17-followup-002-alert-relay-dedup-kv-artifact-inventory.md",
-      "workflow-ut-cicd-drift-impl-observability-matrix-sync-artifact-inventory.md"
+      "workflow-ut-cicd-drift-impl-observability-matrix-sync-artifact-inventory.md",
+      "workflow-ut-dsf-07-staging-visual-runtime-evidence-artifact-inventory.md"
     ],
     "Open": [
       "workflow-03a-stablekey-literal-lint-enforcement-artifact-inventory.md",
@@ -24538,6 +24610,8 @@
       "workflow-issue-55-notification-channel-and-optout-artifact-inventory.md",
       "workflow-issue-747-vitest-esbuild-arch-and-worktree-isolation-artifact-inventory.md",
       "workflow-issue-775-serial-05-step-03-runtime-evidence-completion-artifact-inventory.md",
+      "workflow-issue-836-schema-alias-recompute-trigger-artifact-inventory.md",
+      "workflow-issue-842-admin-mutation-reliability-policy-artifact-inventory.md",
       "workflow-parallel-09-ux-cross-cutting-artifact-inventory.md",
       "workflow-parallel-i03-dialog-refresh-order-artifact-inventory.md",
       "workflow-step-07-requests-approve-reject-artifact-inventory.md",
@@ -24755,16 +24829,22 @@
       "workflow-issue-776-schema-alias-bulk-resolve-artifact-inventory.md",
       "workflow-issue-806-dynamic-member-og-image-artifact-inventory.md",
       "workflow-issue-827-member-detail-adapter-and-visibility-defense-artifact-inventory.md",
+      "workflow-issue-836-schema-alias-recompute-trigger-artifact-inventory.md",
+      "workflow-issue-837-schema-alias-bulk-rollback-artifact-inventory.md",
+      "workflow-issue-842-admin-mutation-reliability-policy-artifact-inventory.md",
+      "workflow-issue-857-internal-alert-relay-binding-wiring-artifact-inventory.md",
       "workflow-login-page-prototype-alignment-artifact-inventory.md",
       "workflow-mypage-prototype-alignment-artifact-inventory.md",
       "workflow-parallel-04-shared-page-chrome-artifact-inventory.md",
       "workflow-parallel-i02b-admin-mutation-error-finalize-artifact-inventory.md",
       "workflow-step-07-requests-approve-reject-artifact-inventory.md",
+      "workflow-step-08-audit-filter-paging-verify-artifact-inventory.md",
       "workflow-task-09-w3-par-tailwind-v4-setup-artifact-inventory.md",
       "workflow-task-761-visual-full-required-status-check-artifact-inventory.md",
       "workflow-task-issue-346-08a-canonical-workflow-tree-restore-artifact-inventory.md",
       "workflow-ut-07c-followup-001-attendance-csv-import-artifact-inventory.md",
-      "workflow-ut-17-followup-005-alert-relay-kv-error-metrics-artifact-inventory.md"
+      "workflow-ut-17-followup-005-alert-relay-kv-error-metrics-artifact-inventory.md",
+      "workflow-ut-dsf-07-staging-visual-runtime-evidence-artifact-inventory.md"
     ],
     "Outputs": [
       "workflow-fix-verify-design-tokens-og-route-exclude-artifact-inventory.md",
@@ -24923,6 +25003,7 @@
     ],
     "Planned": [
       "workflow-issue-276-mobile-filterbar-tag-picker-artifact-inventory.md",
+      "workflow-issue-836-schema-alias-recompute-trigger-artifact-inventory.md",
       "workflow-ut-17-followup-002-alert-relay-dedup-kv-artifact-inventory.md"
     ],
     "Same": [
@@ -25084,6 +25165,7 @@
       "workflow-issue-55-notification-channel-and-optout-artifact-inventory.md",
       "workflow-issue-588-fallback-alert-slack-mail-extension-artifact-inventory.md",
       "workflow-issue-819-admin-dashboard-runtime-screenshot-artifact-inventory.md",
+      "workflow-issue-857-internal-alert-relay-binding-wiring-artifact-inventory.md",
       "workflow-ut-17-followup-005-alert-relay-kv-operation-error-metrics-artifact-inventory.md"
     ],
     "Items": [
@@ -25161,6 +25243,9 @@
     ],
     "Extraction": [
       "workflow-issue-832-admin-topbar-primitive-extraction-artifact-inventory.md"
+    ],
+    "Reliability": [
+      "workflow-issue-842-admin-mutation-reliability-policy-artifact-inventory.md"
     ],
     "safeServerFetch": [
       "workflow-issue-879-safe-server-fetch-member-public-horizontal-expansion-artifact-inventory.md"
@@ -25352,6 +25437,9 @@
     ],
     "reject": [
       "workflow-step-07-requests-approve-reject-artifact-inventory.md"
+    ],
+    "paging": [
+      "workflow-step-08-audit-filter-paging-verify-artifact-inventory.md"
     ],
     "workers": [
       "workflow-task-03-w2-par-sentry-workers-sdk-unify-artifact-inventory.md",
@@ -25669,6 +25757,9 @@
     ],
     "Workflows": [
       "workflow-ut-coverage-2026-05-wave-artifact-inventory.md"
+    ],
+    "DSF": [
+      "workflow-ut-dsf-07-staging-visual-runtime-evidence-artifact-inventory.md"
     ],
     "phases": [
       "workflow-ut-gov-004-artifact-inventory.md",

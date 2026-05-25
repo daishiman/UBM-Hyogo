@@ -874,13 +874,13 @@ node scripts/list-specs.js --topics
 | 概要 | L8 |
 | ドキュメント構成 | L15 |
 | REST API エンドポイント一覧 | L25 |
-| エンドポイント命名規則 | L222 |
-| UBM-Hyogo Admin Sync API（03a） | L243 |
-| UBM-Hyogo Member Self-Service API（04b） | L294 |
-| Admin Dashboard Attendance Analytics API（UT-02A follow-up 002） | L320 |
-| Desktop IPC API サマリー | L334 |
-| 変更履歴 | L365 |
-| 関連ドキュメント | L382 |
+| エンドポイント命名規則 | L224 |
+| UBM-Hyogo Admin Sync API（03a） | L245 |
+| UBM-Hyogo Member Self-Service API（04b） | L297 |
+| Admin Dashboard Attendance Analytics API（UT-02A follow-up 002） | L323 |
+| Desktop IPC API サマリー | L337 |
+| 変更履歴 | L368 |
+| 関連ドキュメント | L385 |
 
 ### references/api-internal-chunk-search.md
 
@@ -973,11 +973,11 @@ node scripts/list-specs.js --topics
 | マイグレーション管理 | L102 |
 | テスト戦略 | L160 |
 | UBM-Hyogo D1 Repository 契約（02b） | L190 |
-| Schema Drift ADR Gate | L222 |
-| エラーハンドリング | L241 |
-| Conversation DB 初期化パターン | L272 |
-| UBM-Hyogo Schema Sync Contract（03a） | L274 |
-| ベクトル検索実装（DiskANN） | L394 |
+| Schema Drift ADR Gate | L223 |
+| エラーハンドリング | L242 |
+| Conversation DB 初期化パターン | L273 |
+| UBM-Hyogo Schema Sync Contract（03a） | L275 |
+| ベクトル検索実装（DiskANN） | L395 |
 
 ### references/database-implementation-details.md
 
@@ -2953,6 +2953,39 @@ node scripts/list-specs.js --topics
 |------------|----|
 | Boundaries | L16 |
 
+### references/workflow-issue-836-schema-alias-recompute-trigger-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Metadata | L3 |
+| Workflow Files | L13 |
+| Planned Implementation Targets | L26 |
+| Boundary | L38 |
+
+### references/workflow-issue-837-schema-alias-bulk-rollback-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Implementation Targets | L11 |
+| Evidence | L20 |
+| Contract | L28 |
+
+### references/workflow-issue-842-admin-mutation-reliability-policy-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Workflow Files | L11 |
+| Implementation Targets | L20 |
+| Boundary | L32 |
+
+### references/workflow-issue-857-internal-alert-relay-binding-wiring-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Implementation Targets | L11 |
+| Evidence | L20 |
+| User-Gated Boundary | L28 |
+
 ### references/workflow-issue-879-safe-server-fetch-member-public-horizontal-expansion-artifact-inventory.md
 
 ### references/workflow-light-theme-contrast-regression-guard.md
@@ -3223,6 +3256,14 @@ node scripts/list-specs.js --topics
 | Phase 12 Strict 7 | L32 |
 | Local Implementation Targets | L44 |
 | Boundary | L55 |
+
+### references/workflow-step-08-audit-filter-paging-verify-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Workflow Artifacts | L11 |
+| Existing Implementation Targets | L21 |
+| Boundaries | L32 |
 
 ### references/workflow-task-03-w2-par-sentry-workers-sdk-unify-artifact-inventory.md
 
@@ -4028,6 +4069,15 @@ node scripts/list-specs.js --topics
 | Gate Boundary | L32 |
 | Same-Wave Sync | L39 |
 
+### references/workflow-ut-dsf-07-staging-visual-runtime-evidence-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Metadata | L3 |
+| Workflow Artifacts | L13 |
+| Implementation Targets | L26 |
+| Boundary | L35 |
+
 ### references/workflow-ut-gov-004-artifact-inventory.md
 
 | セクション | 行 |
@@ -4757,15 +4807,15 @@ node scripts/list-specs.js --topics
 
 | セクション | 行 |
 |------------|----|
-| 概要 | L25 |
-| 使い方 | L33 |
-| Current Alias Overrides（個別互換行） | L40 |
-| Family Summary | L86 |
-| Detailed Register | L107 |
-| Section Extract Register (2026-03-17) | L288 |
-| 500-Line Split Register (2026-03-16) | L299 |
-| Fragment Migration Register (2026-04-28) | L321 |
-| Task Root Path Drift Register (2026-04-30 追記) | L348 |
+| 概要 | L26 |
+| 使い方 | L34 |
+| Current Alias Overrides（個別互換行） | L41 |
+| Family Summary | L87 |
+| Detailed Register | L108 |
+| Section Extract Register (2026-03-17) | L289 |
+| 500-Line Split Register (2026-03-16) | L300 |
+| Fragment Migration Register (2026-04-28) | L322 |
+| Task Root Path Drift Register (2026-04-30 追記) | L349 |
 
 ### references/lessons-fetch-service-binding-testing.md
 
@@ -7021,6 +7071,7 @@ node scripts/list-specs.js --topics
 | grep gate | L132 |
 | 参考実装（Issue #778） | L145 |
 | 関連パターン | L164 |
+| Admin batch job idempotency pattern（Issue #836 recompute） | L171 |
 
 ### references/patterns-advanced.md
 
@@ -7485,14 +7536,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L2226 |
-| フェーズ構造（概要） | L2235 |
-| 品質ゲート（概要） | L2266 |
-| 出力テンプレート | L2277 |
-| 実行時のコマンド・エージェント・スキル | L2300 |
-| 昇格パターン集 | L2324 |
-| Current Active / Spec Created Tasks | L2326 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L2486 |
+| ドキュメント構成 | L2314 |
+| フェーズ構造（概要） | L2323 |
+| 品質ゲート（概要） | L2354 |
+| 出力テンプレート | L2365 |
+| 実行時のコマンド・エージェント・スキル | L2388 |
+| 昇格パターン集 | L2412 |
+| Current Active / Spec Created Tasks | L2414 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L2574 |
 
 ### references/task-workflow-backlog-part2.md
 

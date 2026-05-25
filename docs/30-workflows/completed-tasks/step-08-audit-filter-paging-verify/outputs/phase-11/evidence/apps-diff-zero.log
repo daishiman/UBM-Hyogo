@@ -1,0 +1,9 @@
+Commands:
+git status --short -- apps packages
+git diff -- apps packages
+
+Result:
+Both commands produced no output.
+
+Interpretation:
+apps/ and packages/ have no dirty files and no diff in this worktree.
