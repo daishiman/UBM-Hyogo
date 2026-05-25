@@ -1,5 +1,17 @@
 # クイックリファレンス
 
+### Issue #864 admin staging runtime smoke CI gate（2026-05-24）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-864-admin-staging-runtime-smoke-ci-gate/` |
+| state | `implemented_local_runtime_pending / implementation / NON_VISUAL` |
+| purpose | staging deploy 後に authenticated `/admin` を実トラフィックで叩き、Server Components render error digest `167275886` と `error.boundary.caught` を CI で検出する |
+| implementation | `scripts/cf.sh tail`, `scripts/smoke/mint-staging-session-cookie.mts`, `scripts/smoke/runtime-admin-web.sh`, `.github/workflows/web-cd.yml admin-runtime-smoke` |
+| tests | `scripts/smoke/__tests__/mint-staging-session-cookie.spec.ts`, `scripts/smoke/__tests__/runtime-admin-web.test.sh` |
+| artifact inventory | `references/workflow-issue-864-admin-staging-runtime-smoke-ci-gate-artifact-inventory.md` |
+| user gate | Cloudflare staging deploy, real authenticated `/admin` probe, commit, push, PR |
+
 ## fix-admin-scr-err-stg-fu-001-auth-env-via-getenv（2026-05-24）
 
 | 項目 | 値 |
