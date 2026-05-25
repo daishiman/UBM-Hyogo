@@ -80,7 +80,7 @@ describe("useConfirmDialog", () => {
     expect(result.current.submitting).toBe(false);
   });
 
-  it("U7: submit 中の closeConfirm は no-op", async () => {
+  it("U7（改訂）: submit 中の closeConfirm は dialog を閉じ、onCancelMutation 未指定でも安全", async () => {
     let resolveFn: (() => void) | null = null;
     const onSubmit = vi.fn().mockImplementation(
       () =>
@@ -95,14 +95,90 @@ describe("useConfirmDialog", () => {
       submitPromise = result.current.submit();
     });
     await waitFor(() => expect(result.current.submitting).toBe(true));
+    // 新仕様: submit 中の close = 明示キャンセル → INITIAL に戻る（onCancelMutation 未指定でも例外なし）
     act(() => result.current.closeConfirm());
-    expect(result.current.open).toBe(true);
-    expect(result.current.submitting).toBe(true);
+    expect(result.current.open).toBe(false);
+    expect(result.current.submitting).toBe(false);
+    expect(result.current.kind).toBe(null);
+    // 進行中だった onSubmit の resolve は state を変えない（既に INITIAL）
     await act(async () => {
       resolveFn?.();
       await submitPromise!;
     });
     expect(result.current.open).toBe(false);
+  });
+
+  it("U10: submit 中の closeConfirm で onCancelMutation が呼ばれ INITIAL に戻る", async () => {
+    let resolveFn: (() => void) | null = null;
+    const onSubmit = vi.fn().mockImplementation(
+      () =>
+        new Promise<void>((resolve) => {
+          resolveFn = resolve;
+        }),
+    );
+    const onCancelMutation = vi.fn();
+    const { result } = renderHook(() =>
+      useConfirmDialog(onSubmit, { onCancelMutation }),
+    );
+    act(() => result.current.openConfirm("delete"));
+    let submitPromise: Promise<void>;
+    act(() => {
+      submitPromise = result.current.submit();
+    });
+    await waitFor(() => expect(result.current.submitting).toBe(true));
+    act(() => result.current.closeConfirm());
+    expect(onCancelMutation).toHaveBeenCalledTimes(1);
+    expect(result.current.open).toBe(false);
+    expect(result.current.kind).toBe(null);
+    expect(result.current.submitting).toBe(false);
+    await act(async () => {
+      resolveFn?.();
+      await submitPromise!;
+    });
+  });
+
+  it("U11: 非 submit 中の closeConfirm では onCancelMutation を呼ばない", () => {
+    const onSubmit = vi.fn().mockResolvedValue(undefined);
+    const onCancelMutation = vi.fn();
+    const { result } = renderHook(() =>
+      useConfirmDialog(onSubmit, { onCancelMutation }),
+    );
+    act(() => result.current.openConfirm("approve"));
+    act(() => result.current.closeConfirm());
+    expect(onCancelMutation).not.toHaveBeenCalled();
+    expect(result.current.open).toBe(false);
+    expect(result.current.kind).toBe(null);
+  });
+
+  it("U12: rerender で onCancelMutation が差し替わっても最新が呼ばれる", async () => {
+    let resolveFn: (() => void) | null = null;
+    const onSubmit = vi.fn().mockImplementation(
+      () =>
+        new Promise<void>((resolve) => {
+          resolveFn = resolve;
+        }),
+    );
+    const oldFn = vi.fn();
+    const newFn = vi.fn();
+    const { result, rerender } = renderHook(
+      ({ cb }: { cb: () => void }) =>
+        useConfirmDialog(onSubmit, { onCancelMutation: cb }),
+      { initialProps: { cb: oldFn } },
+    );
+    act(() => result.current.openConfirm("delete"));
+    let submitPromise: Promise<void>;
+    act(() => {
+      submitPromise = result.current.submit();
+    });
+    await waitFor(() => expect(result.current.submitting).toBe(true));
+    rerender({ cb: newFn });
+    act(() => result.current.closeConfirm());
+    expect(newFn).toHaveBeenCalledTimes(1);
+    expect(oldFn).not.toHaveBeenCalled();
+    await act(async () => {
+      resolveFn?.();
+      await submitPromise!;
+    });
   });
 
   it("U7b: submit 中の二重 submit は no-op", async () => {
