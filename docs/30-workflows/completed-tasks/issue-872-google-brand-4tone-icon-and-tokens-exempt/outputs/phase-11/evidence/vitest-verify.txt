@@ -1,0 +1,14 @@
+mise WARN  Config files in ~/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260524-180416-wt-3/.mise.toml are not trusted.
+Trust them with `mise trust`. See https://mise.jdx.dev/cli/trust.html for more information.
+[33mThe CJS build of Vite's Node API is deprecated. See https://vite.dev/guide/troubleshooting.html#vite-cjs-node-api-deprecated for more details.[39m
+
+ RUN  v2.1.9 /Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260524-180416-wt-3
+
+ ✓ scripts/verify-design-tokens.spec.ts (20 tests) 2028ms
+   ✓ verify-design-tokens brandIconExemptPaths > TC-EXEMPT-03 does NOT exempt brand-icons subdirectory (recursion guard) 377ms
+
+ Test Files  1 passed (1)
+      Tests  20 passed (20)
+   Start at  07:10:39
+   Duration  6.02s (transform 182ms, setup 0ms, collect 196ms, tests 2.03s, environment 2.28s, prepare 461ms)
+

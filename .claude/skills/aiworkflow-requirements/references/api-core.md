@@ -202,9 +202,11 @@
 
 | 設定項目                         | 開発環境                                               | 本番環境         |
 | -------------------------------- | ------------------------------------------------------ | ---------------- |
-| Access-Control-Allow-Origin      | localhost:\*                                           | 本番ドメインのみ |
-| Access-Control-Allow-Methods     | GET, POST, PATCH, DELETE, OPTIONS                      | 同左             |
-| Access-Control-Allow-Headers     | Authorization, Content-Type, X-Request-ID, X-Agent-Key | 同左             |
+| Access-Control-Allow-Origin      | `ALLOWED_ORIGINS` に列挙した exact origin のみ         | `ALLOWED_ORIGINS` に列挙した exact origin のみ |
+| Access-Control-Allow-Methods     | GET, HEAD, POST, PUT, PATCH, DELETE, OPTIONS           | 同左             |
+| Access-Control-Allow-Headers     | Authorization, Content-Type, X-Request-ID              | 同左             |
 | Access-Control-Allow-Credentials | true                                                   | true             |
+
+`apps/api` の CORS は `apps/api/src/middleware/security-headers.ts` の `corsFromEnv()` が担当する。denied origin には CORS allow headers を返さず、preflight でも request header echo はしない。
 
 ---

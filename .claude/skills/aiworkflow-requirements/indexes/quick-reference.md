@@ -14,6 +14,61 @@
 | inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-883-adapter-dev-warn-unknown-kind-artifact-inventory.md` |
 | boundary | commit, push, PR are user-gated |
 
+## issue-879 safeServerFetch member/public horizontal expansion（2026-05-24）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow | `docs/30-workflows/completed-tasks/issue-879-safe-server-fetch-member-public-horizontal-expansion/` |
+| status | `implemented_local_evidence_captured / implementation / NON_VISUAL / implementation_complete_pending_pr` |
+| issue | #879 CLOSED。PR body は `Refs #879` |
+| implementation | `apps/web/src/lib/server-fetch/safe-fetch.ts`, `apps/web/src/lib/admin/safe-server-fetch.ts`, `apps/web/src/components/{public,member}/SectionError.tsx`, `/profile`, `/members`, `/members/[id]` pages |
+| contract | auth redirect and public member 404 remain fatal framework signals; transient member/public fetch failures render SectionError and keep page chrome/filter/backlink visible |
+| evidence | focused Vitest 20 PASS, web typecheck PASS, design-token gate PASS, web lint PASS |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-879-safe-server-fetch-member-public-horizontal-expansion-artifact-inventory.md` |
+| boundary | commit / push / PR / Issue mutation are user-gated |
+
+## issue-872-google-brand-4tone-icon-and-tokens-exempt（2026-05-24）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-872-google-brand-4tone-icon-and-tokens-exempt/` |
+| status | `local_static_pass_browser_pending / implementation / VISUAL` |
+| source | Issue #872 / FU-LOGIN-001 from `login-page-prototype-alignment` |
+| purpose | Google OAuth button を official 4-tone SVG asset wrapper へ置換する仕様と、`verify-design-tokens` の brand SVG exempt を定義 |
+| invariant | HEX literal は `apps/web/src/components/ui/brand-icons/*.svg` のみ exempt。`GoogleBrandIcon.tsx` / nested SVG / `.ts` / `.css` は exempt しない |
+| Phase 12 | strict 7 present + validator entry `outputs/phase-12/phase-12.md` |
+| Phase 11 | VISUAL auxiliary files present; render PNG present; browser screenshots pending local disk cleanup (`ENOSPC`) |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-872-google-brand-4tone-icon-and-tokens-exempt-artifact-inventory.md` |
+| user gate | browser screenshot recapture after disk cleanup, visual baseline update, commit, push, PR |
+
+## issue-871-csp-nonce-migration（2026-05-24）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-871-csp-nonce-migration/` |
+| status | `implemented_local_evidence_captured / implementation / NON_VISUAL` |
+| issue | #871 CLOSED; PR should use `Refs #871`; commit / push / PR / issue mutation are user-gated |
+| purpose | `apps/web` CSP nonce migration and removal of direct inline fallback from `script-src` / `style-src` |
+| implementation | `apps/web/src/lib/security-headers.ts`, `apps/web/middleware.ts`, `apps/web/src/lib/security-headers.spec.ts`, `apps/web/__tests__/middleware.spec.ts`, `apps/web/playwright/tests/security-headers.spec.ts` |
+| contract | request-scoped nonce via middleware; `script-src 'self' 'nonce-<n>' 'strict-dynamic'`; `style-src` / `style-src-elem` nonce; `style-src-attr` transitional compatibility; report-only mode unchanged |
+| evidence | `outputs/phase-11/canonical-paths.json`, focused Vitest 17 PASS, unsafe-inline grep 0 hit |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-871-csp-nonce-migration-artifact-inventory.md` |
+| user gate | Playwright HTTP smoke execution, staging/production response verification, commit, push, PR |
+
+## awshh-followup-003-csp-reporting-endpoints（2026-05-24）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/awshh-followup-003-csp-reporting-endpoints/` |
+| 状態 | `implemented_local_evidence_captured / implementation / NON_VISUAL` |
+| issue | #868 CLOSED; PR should use `Refs #868`; issue mutation / commit / push / PR are user-gated |
+| scope | apps/web CSP report-only observation path。`Reporting-Endpoints`、CSP `report-to`、legacy `report-uri` を出力し、Sentry CSP security endpoint へ集約 |
+| implementation | `apps/web/src/lib/security-headers.ts`, `apps/web/src/lib/env.ts`, `apps/web/middleware.ts`, `apps/web/src/lib/security-headers.spec.ts`, `apps/web/src/lib/__tests__/env.spec.ts` |
+| contract | 新規 CSP 専用 URL env は増やさず、既存 public `NEXT_PUBLIC_SENTRY_DSN` から `buildSentryCspReportUrl()` で endpoint を導出。未設定 / 不正 DSN は report 系未出力 |
+| boundary | `apps/api` / D1 / `apps/web/wrangler.toml` は不変更。staging deploy、Sentry 受信確認、commit、push、PR は user-gated |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-awshh-followup-003-csp-reporting-endpoints-artifact-inventory.md` |
+| lessons | `.claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-awshh-followup-003-csp-reporting-endpoints-2026-05.md` |
+
 ### Issue #864 admin staging runtime smoke CI gate（2026-05-24）
 
 | 項目 | 値 |
@@ -166,6 +221,20 @@
 | lessons-learned | `.claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-runtime-smoke-staging-mint-recurrence-2026-05.md`（L-RSMR-001..006） |
 | boundary | `STAGING_AUTH_SECRET` 投入による mint path 恒久化・staging runtime rerun・GitHub/Cloudflare secret mutation・commit・push・PR は user-gated |
 
+## issue-870-apps-api-security-headers（2026-05-24）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-870-apps-api-security-headers/` |
+| status | `implemented_local_evidence_captured / implementation / NON_VISUAL` |
+| scope | `apps/api` global response security headers and deny-by-default CORS |
+| implementation | `apps/api/src/middleware/security-headers.ts`, `apps/api/src/index.ts`, `apps/api/src/env.ts`, `apps/api/wrangler.toml` |
+| tests | `apps/api/src/middleware/__tests__/security-headers.spec.ts` |
+| contract | `X-Content-Type-Options: nosniff`, HSTS, `Referrer-Policy: no-referrer`, conditional no-store, exact-origin `ALLOWED_ORIGINS`, credentials true |
+| Phase 12 | strict 7 outputs present |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-870-apps-api-security-headers-artifact-inventory.md` |
+| user gate | staging/production curl, deploy, commit, push, PR |
+
 ## members-page-prototype-alignment（2026-05-23）
 
 | 目的 | 参照先 |
@@ -220,6 +289,19 @@
 | UI contract | Magic Link primary -> OR divider -> Google secondary, brand block, sent inbox state |
 | boundary | `/api/auth/*`, Auth.js handler, D1 schema, `apps/api/**` are unchanged; staging visual smoke, commit, push, PR are user-gated |
 
+## issue-874-login-staging-visual-smoke（2026-05-24）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-874-login-staging-visual-smoke/` |
+| 状態 | `implemented_local_runtime_pending / implementation / VISUAL` |
+| source | FU-LOGIN-003 from `docs/30-workflows/completed-tasks/login-page-prototype-alignment/outputs/phase-12/unassigned-task-detection.md` |
+| implementation | `apps/web/playwright/tests/login-smoke.spec.ts`, `scripts/run-login-staging-smoke.sh` |
+| contract | `PLAYWRIGHT_EVIDENCE_DIR` overrides explicit screenshot output path; default keeps completed parent local baseline path |
+| evidence | Phase 12 strict 7 present; staging deploy / staging smoke / 7 PNG evidence remain user-gated |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-874-login-staging-visual-smoke-artifact-inventory.md` |
+| boundary | deploy, staging runtime smoke, visual diff, commit, push, PR are user-gated |
+
 ## fix-admin-server-components-render-error-stg（2026-05-23）
 
 | 項目 | 値 |
@@ -242,12 +324,25 @@
 | status | `implemented_local_evidence_captured / implementation / NON_VISUAL` |
 | scope | `apps/web` response security headers via middleware |
 | implementation | `apps/web/src/lib/security-headers.ts`, `apps/web/middleware.ts`, `apps/web/src/lib/security-headers.spec.ts`, `apps/web/playwright/tests/security-headers.spec.ts` |
-| contract | CSP is `Content-Security-Policy-Report-Only`; `Permissions-Policy` excludes `browsing-topics`; Trusted Types enforcement is not emitted |
-| env | `getPublicEnv().NEXT_PUBLIC_API_BASE_URL` is the canonical API URL; `NEXT_PUBLIC_API_ORIGIN` is not used |
+| contract | CSP header mode is env-driven via `CSP_MODE`; `report-only` emits `Content-Security-Policy-Report-Only`, `enforce` emits `Content-Security-Policy`; `Permissions-Policy` excludes `browsing-topics`; Trusted Types enforcement is not emitted |
+| env | `getSecurityHeaderEnv()` is the middleware boundary for `CSP_MODE` + `NEXT_PUBLIC_API_BASE_URL`; `NEXT_PUBLIC_API_ORIGIN` is not used |
 | Phase 12 | strict 7 outputs present; root/output artifacts parity present |
 | inventory | `.claude/skills/aiworkflow-requirements/references/workflow-apps-web-security-headers-hardening-artifact-inventory.md` |
 | lessons-learned | `.claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-apps-web-security-headers-hardening-2026-05.md` (L-AWSHH-001..004) |
 | user gate | staging/production response verification, commit, push, PR |
+
+## issue-869-csp-enforce-cutover（2026-05-24）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-869-csp-enforce-cutover/` |
+| status | `implemented_local_evidence_captured / implementation / NON_VISUAL / runtime deploy user-gated` |
+| issue | #869 CLOSED; do not reopen; PR should use `Refs #869` only |
+| implementation | `apps/web/src/lib/env.ts`, `apps/web/middleware.ts`, `apps/web/wrangler.toml`, `apps/web/src/lib/__tests__/env.spec.ts`, `apps/web/playwright/tests/security-headers.spec.ts` |
+| contract | `CSP_MODE` zod enum defaults to `report-only`; staging wrangler var is `enforce`; production remains `report-only` until explicit cutover |
+| system spec | `.claude/skills/aiworkflow-requirements/references/security-web-response-headers.md` |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-869-csp-enforce-cutover-artifact-inventory.md` |
+| boundary | staging/production deploy and curl evidence, production enforce final cutover, commit, push, PR are user-gated |
 
 ## ci-green-recovery-smoke-coverage-shard（2026-05-23）
 

@@ -329,7 +329,8 @@
 - 事例: 2026-05-24 `docs/issue-863-admin-runtime-alert-policy-spec` ← dev sync-merge。tracked 50+ ` M`（全 stat-dirty）+ untracked 20 件（#888/#887/#893/#892 の stale コピー、IDENTICAL 確認）を切り分け、untracked を `git stash push -u` 退避 → clean tree で `git merge dev` → `pnpm sync:resolve` で index conflict 自動解消 → merge `9d059ad00` → typecheck/lint 初回 PASS、無関係成果物の混入ゼロ。
 - 詳細は aiworkflow-requirements 配下の L-DEVSYNC-040 を参照。
 
-### SP-DEVSYNC-008: skill-index-only コンフリクトの最短経路（2026-05-24 再確認 / 2026-05-25 再々確認）
+### SP-DEVSYNC-008: skill-index-only コンフリクトの最短経路（2026-05-24 再確認 / 2026-05-25 再々確認 / 2026-05-25 issue-874 で 3 回目確認）
+- 3 回目確認 (2026-05-25 issue-874): `feat/issue-874-login-staging-visual-smoke` への dev sync-merge（behind 5 / ahead 2）。conflict は `indexes/topic-map.md`（union） + `indexes/keywords.json`（`--ours` + rebuild）の標準 2 ファイルのみ。`pnpm sync:resolve` 単体で残件 0。worktree で `.git` が file のため branch-sync prompt の `mkdir .git/branch-sync-logs` は直接失敗 → `git rev-parse --git-common-dir` 経由解決（L-DEVSYNC-041）の運用も再確認。task 仕様書テンプレ Phase 11/12 の sync-merge 節は本最短経路を 3 sprint 連続で変更不要。
 - 再々確認 (2026-05-25): `docs/issue-863-admin-runtime-alert-policy-spec` の 2 回目の dev sync-merge（behind 9 / ahead 4）。conflict は `indexes/topic-map.md`（union） + `indexes/keywords.json`（`--ours` + rebuild）の標準 2 ファイル のみで、`pnpm sync:resolve` 単体で残件 0、merge commit `745d2dd6d` 完了。task 仕様書テンプレ Phase 11/12 の sync-merge 節は本最短経路を変更せず維持してよい。
 - 事例: `feat/issue-837-schema-alias-bulk-rollback` の dev sync。コンフリクトが `aiworkflow-requirements/indexes/{quick-reference,resource-map,topic-map}.md`（union 対象）と `indexes/keywords.json`（`--ours` + rebuild 対象）に限定された場合、`pnpm sync:resolve` 単体で残件 0、`pnpm verify:pr-ready`（verify:phase12-compliance / gate-metadata:validate / indexes:rebuild drift）も全 PASS まで一気通貫。
 - task 仕様書を書く際: skill 配下を触るタスクの Phase 11/12 で「dev sync は `pnpm sync:resolve` → `git commit`（`MERGE_HEAD` 検出で pre-commit auto skip。`--no-verify` 禁止）→ `pnpm verify:pr-ready`」を実行順として明示する。
@@ -346,3 +347,31 @@
     3. 範囲が table 本体に及ぶ場合は L-DEVSYNC-032/033 の table-merge ルール（行単位の片側採用 union）に切替
 - 検証: marker grep ゼロ + `verify:phase12-compliance` PASS + `indexes:rebuild` drift は別 chore commit で吸収（SP-DEVSYNC-029 既知パターン併発）。
 - 参照: aiworkflow-requirements L-DEVSYNC-040。
+
+### SP-DEVSYNC-034: branch-sync prompt の lock/log path は worktree-aware に解決する（2026-05-25 追加）
+
+- 事象: branch-sync prompt の Pre-flight で `mkdir -p .git/branch-sync-logs` をそのまま発行すると、worktree 内では `.git` がテキストファイル（`gitdir: ...`）のため `mkdir: .git: Not a directory` で即失敗する。lock も同様に `.git/.branch-sync.lock` 直書きは破綻。
+- Why: branch-sync の lock/log は「全 worktree 横断で単一」が必要（多重実行検出のため）。実体はメイン repo の `.git/` 配下に置く必要があるが、`git rev-parse --git-dir` は worktree 専用 dir（`.git/worktrees/<wt>/`）を返すため**不適**。`git rev-parse --git-common-dir` がメイン repo の `.git/` を一意に返す。
+- How to apply（task 仕様書での逐語化）:
+  - branch-sync / dev-sync 系プロンプトを task 仕様書に書く際、Pre-flight フェーズに以下 3 行を逐語埋め込む:
+    ```
+    GD=$(git rev-parse --git-common-dir)
+    mkdir -p "$GD/branch-sync-logs"
+    LOCK="$GD/.branch-sync.lock"
+    ```
+  - stale lock 判定は ISO8601 timestamp ではなく `stat -f %m "$LOCK"`（macOS）/ `stat -c %Y`（Linux）の mtime を `date +%s` と比較し 1800 秒境界で判定する。lock 内 timestamp はログ用に留める。
+  - `.git/` 直書き path は worktree で破綻するため、task 仕様書の例示でも禁止する。
+- 検証: 本パターンを再現する事例で `mkdir -p` が `Not a directory` で失敗するか、failure 後の `git rev-parse --git-common-dir` リトライで成功するかを Phase 11 evidence に記録する。
+- 参照: aiworkflow-requirements L-DEVSYNC-041（同根の `index.lock` 問題は L-DEVSYNC-026）。
+
+### SP-DEVSYNC-035: 並列 feature の同一 fetch 関数衝突は「Result wrapping 採用 × parser 拡張保持」で機械統合（2026-05-25 追加）
+
+- 事象: dev sync-merge で `apps/web/app/(public)/members/[id]/page.tsx` の `fetchProfile` 内で 3-way conflict。HEAD = issue-883（adapter dev-warn unknown kind）が `PublicMemberProfileWithUnknownKindZ.parse(raw)` へ schema を差し替え、dev = issue-879（safeServerFetch 横展開）が同関数の戻り値を `{ ok: true, data } | { ok: false, error }` の Result 型へ wrapping。`>>>>>>> dev` 側の `result.data` を使う `return` 文と `<<<<<<< HEAD` 側の `raw`（既に削除済み変数）を参照する `return` 文が両側に並ぶ。
+- Why: 「呼び出し規約変更（fetch 戻り値型）」と「副作用追加（unknown kind 警告のための parser 拡張）」は意味的に直交する。Result wrapping の方が呼び出し側 (page 本体) に波及するため上位レイヤーとして優先し、parser 拡張は wrapping 内部の `result.data` を新 parser に通す形で吸収すれば両意図とも保持できる。
+- How to apply（task 仕様書での逐語化）:
+  - fetch 関数 (`safeServerFetch` ラッパー化) と parser 拡張 (`*WithUnknownKindZ`) を同 sprint で並走させる task では、Phase 7 に「両者衝突時の統合手順」を明示する:
+    1. 戻り値型は **dev 側 Result wrapping を採用**（呼び出し側の if 分岐が既に dev に存在するため）
+    2. parse 行は **HEAD 側 `*WithUnknownKindZ.parse(result.data)`** を採用
+    3. 呼び出し側 (page) では `!profileResult.ok` 分岐後、`toMemberDetailProps(profileResult.data, { onUnknownKind })` のように **dev 側 ok 分岐 × HEAD 側 option 引数** を結合
+  - 検証: `grep -E '<<<<<<<|>>>>>>>|=======' <path>` 0 件 + `pnpm typecheck` PASS + 既存 page spec の SectionError 表示 + unknown-kind warn の両方の it ブロックが green。
+- 参照: aiworkflow-requirements L-DEVSYNC-042（同事例の resolver 側パターン）。

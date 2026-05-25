@@ -1627,8 +1627,9 @@ node scripts/list-specs.js --topics
 | 認証・認可フロー | L10 |
 | レート制限 | L29 |
 | CORS設定 | L46 |
-| 依存関係セキュリティ | L55 |
-| 関連ドキュメント | L80 |
+| apps/api Response Security Headers | L53 |
+| 依存関係セキュリティ | L70 |
+| 関連ドキュメント | L95 |
 
 ### references/security-electron-ipc-examples.md
 
@@ -1748,9 +1749,10 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | Canonical Contract | L3 |
-| Env Boundary | L16 |
-| User-gated Follow-ups | L20 |
-| Workflow | L29 |
+| Env Boundary | L18 |
+| CSP Nonce Contract | L30 |
+| User-gated Follow-ups | L45 |
+| Workflow | L54 |
 
 ---
 
@@ -2244,6 +2246,17 @@ node scripts/list-specs.js --topics
 | Implementation | L12 |
 | System Spec Sync | L21 |
 | Boundary | L32 |
+
+### references/workflow-awshh-followup-003-csp-reporting-endpoints-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Workflow Root | L3 |
+| Implementation | L12 |
+| Phase Outputs | L22 |
+| System Spec Sync | L30 |
+| Consumed Source | L41 |
+| Boundary | L47 |
 
 ### references/workflow-ci-green-recovery-smoke-coverage-shard-artifact-inventory.md
 
@@ -3005,6 +3018,41 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | State | L15 |
+
+### references/workflow-issue-869-csp-enforce-cutover-artifact-inventory.md
+
+### references/workflow-issue-870-apps-api-security-headers-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Boundary | L19 |
+
+### references/workflow-issue-871-csp-nonce-migration-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Metadata | L3 |
+| Implementation | L14 |
+| Evidence | L24 |
+| Contract | L34 |
+
+### references/workflow-issue-872-google-brand-4tone-icon-and-tokens-exempt-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Scope | L12 |
+| User-Gated Boundary | L18 |
+
+### references/workflow-issue-874-login-staging-visual-smoke-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Workflow | L3 |
+| Implementation targets | L12 |
+| Evidence | L19 |
+| Source / parent | L27 |
+
+### references/workflow-issue-879-safe-server-fetch-member-public-horizontal-expansion-artifact-inventory.md
 
 ### references/workflow-issue-883-adapter-dev-warn-unknown-kind-artifact-inventory.md
 
@@ -7563,14 +7611,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L2341 |
-| フェーズ構造（概要） | L2350 |
-| 品質ゲート（概要） | L2381 |
-| 出力テンプレート | L2392 |
-| 実行時のコマンド・エージェント・スキル | L2415 |
-| 昇格パターン集 | L2439 |
-| Current Active / Spec Created Tasks | L2441 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L2602 |
+| ドキュメント構成 | L2407 |
+| フェーズ構造（概要） | L2416 |
+| 品質ゲート（概要） | L2447 |
+| 出力テンプレート | L2458 |
+| 実行時のコマンド・エージェント・スキル | L2481 |
+| 昇格パターン集 | L2505 |
+| Current Active / Spec Created Tasks | L2507 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L2668 |
 
 ### references/task-workflow-backlog-part2.md
 

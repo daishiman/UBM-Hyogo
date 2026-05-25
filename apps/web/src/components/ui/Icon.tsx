@@ -110,15 +110,6 @@ function iconGlyph(name: IconName): ReactNode {
           <path d="M22 2 11 13" />
         </svg>
       );
-    case "google":
-      return (
-        <svg {...common} viewBox="0 0 24 24">
-          <path d="M21 12.2c0-.7-.1-1.3-.2-1.9H12v3.6h5c-.2 1.1-.9 2-1.8 2.6v2.2h2.9c1.7-1.6 2.9-3.9 2.9-6.5Z" />
-          <path d="M12 21c2.4 0 4.5-.8 6-2.2l-2.9-2.2c-.8.5-1.8.9-3.1.9-2.3 0-4.3-1.6-5-3.7H4v2.3C5.5 19 8.5 21 12 21Z" />
-          <path d="M7 13.8a5.4 5.4 0 0 1 0-3.6V7.9H4a9 9 0 0 0 0 8.2Z" />
-          <path d="M12 6.5c1.3 0 2.5.5 3.4 1.3L18 5.2A9 9 0 0 0 4 7.9l3 2.3c.7-2.1 2.7-3.7 5-3.7Z" />
-        </svg>
-      );
     case "inbox":
       return (
         <svg {...common}>
