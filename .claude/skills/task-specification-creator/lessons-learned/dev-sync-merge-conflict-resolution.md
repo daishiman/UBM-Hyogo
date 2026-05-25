@@ -365,3 +365,4 @@
   - `.git/` 直書き path は worktree で破綻するため、task 仕様書の例示でも禁止する。
 - 検証: 本パターンを再現する事例で `mkdir -p` が `Not a directory` で失敗するか、failure 後の `git rev-parse --git-common-dir` リトライで成功するかを Phase 11 evidence に記録する。
 - 参照: aiworkflow-requirements L-DEVSYNC-041（同根の `index.lock` 問題は L-DEVSYNC-026）。
+- 追加事例: 2026-05-25 PM `feat/issue-880-public-segment-error-loading-boundary` ← dev sync-merge で 77 分経過の stale lock を mtime 判定で検出・自動削除し再取得。conflict は skill index 6 ファイル（SKILL.md + indexes 4 + references/task-workflow-active.md + indexes/keywords.json）すべて `pnpm sync:resolve` で完結、手動介入ゼロ。後続 `pnpm typecheck` / `pnpm lint` / `bash scripts/verify-pr-ready.sh`（gate-metadata 445/0 + verify:phase12 + indexes drift なし）すべて green。本 SOP は単発実装ではなく 2 連続 session で同等条件を機械的に解決できる再現性を確保したため、Phase 5 / Phase 9 sync-merge 節の「逐語埋め込み 3 行」をデフォルトテンプレに昇格して問題ない。
