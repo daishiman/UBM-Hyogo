@@ -7,6 +7,11 @@ vi.mock("@/lib/env", () => ({
     cspMode: "report-only" as const,
     apiBaseUrl: "http://localhost:8787",
   }),
+  getPublicEnv: () => ({
+    ENVIRONMENT: "local" as const,
+    NEXT_PUBLIC_API_BASE_URL: "http://localhost:8787",
+    NEXT_PUBLIC_SENTRY_DSN: undefined,
+  }),
 }));
 
 const { middleware, config: middlewareConfig } = await import("../middleware");
