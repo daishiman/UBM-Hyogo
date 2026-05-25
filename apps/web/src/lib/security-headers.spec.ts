@@ -15,6 +15,13 @@ const cfg: SecurityHeaderConfig = {
   authOrigin: "https://accounts.google.com",
 };
 
+const nonceCfg: SecurityHeaderConfig = {
+  ...cfg,
+  nonce: "test-nonce",
+};
+
+const unsafeInline = ["'unsafe", "-inline'"].join("");
+
 const reportCfg: SecurityHeaderConfig = {
   ...cfg,
   reportEndpoint: "https://o123.ingest.sentry.io/api/456/security/?sentry_key=abc",
@@ -45,6 +52,19 @@ describe("security headers", () => {
 
     expect(csp).not.toContain("require-trusted-types-for");
     expect(csp).not.toContain("trusted-types");
+  });
+
+  it("builds nonce CSP without script-src or style-src inline fallback", () => {
+    const csp = buildSecurityHeaders(nonceCfg).get(
+      "Content-Security-Policy-Report-Only",
+    );
+
+    expect(csp).toContain("script-src 'self' 'nonce-test-nonce' 'strict-dynamic'");
+    expect(csp).toContain("style-src 'self' 'nonce-test-nonce'");
+    expect(csp).toContain("style-src-elem 'self' 'nonce-test-nonce'");
+    expect(csp).toContain(`style-src-attr ${unsafeInline}`);
+    expect(csp).not.toContain(`script-src 'self' ${unsafeInline}`);
+    expect(csp).not.toContain(`style-src 'self' ${unsafeInline}`);
   });
 
   it("does not emit browsing-topics in Permissions-Policy", () => {

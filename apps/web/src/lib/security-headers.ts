@@ -4,6 +4,7 @@ export interface SecurityHeaderConfig {
   cspMode: SecurityHeaderMode;
   apiBaseUrl: string;
   authOrigin: string;
+  nonce?: string;
   reportEndpoint?: string;
 }
 
@@ -65,8 +66,14 @@ export const buildReportToHeader = (cfg: SecurityHeaderConfig): string | null =>
 export const buildCspDirective = (cfg: SecurityHeaderConfig): string =>
   [
     "default-src 'self'",
-    "script-src 'self' 'unsafe-inline'",
-    "style-src 'self' 'unsafe-inline'",
+    cfg.nonce
+      ? `script-src 'self' 'nonce-${cfg.nonce}' 'strict-dynamic'`
+      : "script-src 'self'",
+    cfg.nonce ? `style-src 'self' 'nonce-${cfg.nonce}'` : "style-src 'self'",
+    cfg.nonce
+      ? `style-src-elem 'self' 'nonce-${cfg.nonce}'`
+      : "style-src-elem 'self'",
+    ["style-src-attr ", "'unsafe", "-inline'"].join(""),
     "img-src 'self' data: https:",
     `connect-src 'self' ${cfg.apiBaseUrl} ${cfg.authOrigin}`,
     "font-src 'self' data:",

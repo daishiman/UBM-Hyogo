@@ -1,0 +1,15 @@
+Command:
+mise exec -- pnpm --filter @ubm-hyogo/web exec vitest run --root=../.. --config=vitest.config.ts apps/web/src/lib/security-headers.spec.ts apps/web/__tests__/middleware.spec.ts
+
+Result:
+PASS
+
+Observed summary:
+- apps/web/src/lib/security-headers.spec.ts: 9 tests passed
+- apps/web/__tests__/middleware.spec.ts: 8 tests passed
+- Test files: 2 passed
+- Tests: 17 passed
+
+Notes:
+- mise warned that the local .mise.toml is not trusted; command still executed.
+- Vite emitted its existing CJS Node API deprecation warning.
