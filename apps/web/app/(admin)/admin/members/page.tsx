@@ -71,7 +71,7 @@ export default async function AdminMembersPage({
       <AdminPageHeader
         title="会員管理"
         description={result.ok ? `${result.data.total} 件の会員` : "読み込みに失敗"}
-        breadcrumbs={[{ label: "管理", href: "/admin" }, { label: "会員管理" }]}
+        breadcrumbs={[{ label: "会員管理" }]}
         actions={
           <button
             type="button"

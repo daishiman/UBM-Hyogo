@@ -41,7 +41,7 @@ export default async function AdminTagsPage({
   const result = await safeServerFetch<QueueListView>(`/admin/tags/queue${qs}`);
   return (
     <section className="flex flex-col gap-4">
-      <Breadcrumb items={[{ label: "管理", href: "/admin" }, { label: "タグキュー" }]} />
+      <Breadcrumb items={[{ label: "タグキュー" }]} />
       {result.ok ? (
         <TagQueuePanel
           initial={result.data}

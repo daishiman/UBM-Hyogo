@@ -5,6 +5,7 @@
 import type { ReactNode } from "react";
 import { redirect } from "next/navigation";
 
+import { Breadcrumb } from "../../src/components/admin/Breadcrumb";
 import { AdminSidebar } from "../../src/components/layout/AdminSidebar";
 import { AdminTopbar } from "../../src/components/layout/AdminTopbar";
 import { getSession } from "../../src/lib/session";
@@ -33,7 +34,9 @@ export default async function AdminLayout({
       >
         <AdminSidebar />
       </aside>
-      <AdminTopbar />
+      <AdminTopbar
+        breadcrumb={<Breadcrumb items={[{ label: "管理" }]} />}
+      />
       <main className="flex flex-col gap-4 p-4 md:p-6" data-route="admin" data-section-rhythm="compact">
         {children}
       </main>

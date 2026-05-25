@@ -17,7 +17,7 @@ export default async function AdminMeetingsPage() {
   ]);
   return (
     <section className="flex flex-col gap-4">
-      <Breadcrumb items={[{ label: "管理", href: "/admin" }, { label: "開催日 / 出席管理" }]} />
+      <Breadcrumb items={[{ label: "開催日 / 出席管理" }]} />
       {meetingsResult.ok && membersResult.ok ? (
         <MeetingPanel
           meetings={meetingsResult.data}

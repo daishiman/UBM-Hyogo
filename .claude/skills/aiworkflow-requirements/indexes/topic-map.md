@@ -3000,6 +3000,15 @@ node scripts/list-specs.js --topics
 |------------|----|
 | Contract | L18 |
 
+### references/workflow-issue-894-admin-topbar-breadcrumb-integration-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Summary | L3 |
+| Implementation artifacts | L12 |
+| Evidence | L21 |
+| User-gated boundary | L29 |
+
 ### references/workflow-light-theme-contrast-regression-guard.md
 
 | セクション | 行 |
@@ -7548,14 +7557,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L2315 |
-| フェーズ構造（概要） | L2324 |
-| 品質ゲート（概要） | L2355 |
-| 出力テンプレート | L2366 |
-| 実行時のコマンド・エージェント・スキル | L2389 |
-| 昇格パターン集 | L2413 |
-| Current Active / Spec Created Tasks | L2415 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L2576 |
+| ドキュメント構成 | L2329 |
+| フェーズ構造（概要） | L2338 |
+| 品質ゲート（概要） | L2369 |
+| 出力テンプレート | L2380 |
+| 実行時のコマンド・エージェント・スキル | L2403 |
+| 昇格パターン集 | L2427 |
+| Current Active / Spec Created Tasks | L2429 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L2590 |
 
 ### references/task-workflow-backlog-part2.md
 

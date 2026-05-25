@@ -8,6 +8,20 @@
 
 本ドキュメントは、複雑なタスクを単一責務の原則に基づいて分解し、各サブタスクに最適なスラッシュコマンド・エージェント・スキルの組み合わせを選定するためのガイドラインを定義する。
 
+### issue-894-admin-topbar-breadcrumb-integration（2026-05-25）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / VISUAL / implementation_complete_pending_pr` |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-894-admin-topbar-breadcrumb-integration/` |
+| Issue | #894 CLOSED。PR 文脈は `Refs #894` のみ |
+| 目的 | AdminTopbar が root breadcrumb「管理」を所有し、page-local breadcrumb は現在地のみを表示するよう責務を分離する |
+| implementation targets | `apps/web/app/(admin)/layout.tsx`, `apps/web/app/(admin)/admin/**/page.tsx`, `apps/web/app/(admin)/layout.spec.tsx`, `apps/web/src/components/admin/__tests__/Breadcrumb.spec.tsx` |
+| contract | `Breadcrumb` の最終 item は current span。AdminTopbar は root breadcrumb「管理」を静的 current label として所有し、admin 配下の page-local breadcrumb から `{ label: "管理", href: "/admin" }` を除去して grep gate 0 hit で再発を防ぐ |
+| evidence | layout Vitest 4 PASS、Breadcrumb Vitest 3 PASS、typecheck PASS、lint PASS、grep gate 0 hit、authenticated admin screenshot present、Phase 12 strict 7 present |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-894-admin-topbar-breadcrumb-integration-artifact-inventory.md` |
+| user gate | commit, push, PR, Issue mutation |
+
 ### fix-admin-scr-err-stg-fu-001-auth-env-via-getenv（2026-05-24）
 
 | 項目 | 値 |

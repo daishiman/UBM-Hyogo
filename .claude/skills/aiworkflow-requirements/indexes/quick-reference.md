@@ -1,5 +1,19 @@
 # クイックリファレンス
 
+## issue-894-admin-topbar-breadcrumb-integration（2026-05-25）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-894-admin-topbar-breadcrumb-integration/` |
+| status | `implemented_local_evidence_captured / implementation / VISUAL / implementation_complete_pending_pr` |
+| issue | #894 CLOSED; PR wording is `Refs #894` only |
+| purpose | Move admin root breadcrumb ownership to `AdminTopbar`; page-local breadcrumbs show current page only |
+| implementation | `apps/web/app/(admin)/layout.tsx`, 8 `apps/web/app/(admin)/admin/**/page.tsx` breadcrumb consumers, focused layout/Breadcrumb specs, authenticated admin screenshot evidence |
+| tests | `apps/web/app/(admin)/layout.spec.tsx` (4 PASS), `apps/web/src/components/admin/__tests__/Breadcrumb.spec.tsx` (2 PASS), workspace typecheck/lint PASS |
+| Phase 12 | strict 7 files present under `outputs/phase-12/` |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-894-admin-topbar-breadcrumb-integration-artifact-inventory.md` |
+| user gate | commit, push, PR, Issue mutation |
+
 ## fix-admin-scr-err-stg-fu-001-auth-env-via-getenv（2026-05-24）
 
 | 項目 | 値 |

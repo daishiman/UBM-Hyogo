@@ -445,3 +445,13 @@ dev → feature の sync-merge で発生した conflict 解消ルール（aiwork
 - **L-DEVSYNC-030 (improvements 系 index / completed-tasks のステータス行 3-way conflict)**: `docs/30-workflows/<umbrella>/improvements/<sub>/index.md` および対応する `completed-tasks/<sub>-iNN-*.md` の **ステータス表行** で diff3 conflict が発生した際は、**行単位で両側採用**（HEAD が自スコープ task の完了を、dev が他スコープ task の完了を別行で更新するため）。`||||||| base` セクションは破棄。`completed-tasks/iNN-*.md` 内のメタ情報表は HEAD 側の実装完了情報を base に、dev 側のみが追加した key（`canonical_workflow` / `consumed_by`）を merge して統合する。Phase 12 の implementation-guide で improvements 系 spec の状態遷移を記述する際、**自 task の完了行のみ更新し、他 i 行には触れない**ことを明示し、merge 時の干渉を最小化する。
 
 これら 3 件は本 skill の `evidence-sync-rules.md` / `patterns-phase12-sync.md` で扱う「Phase 12 strict 7 / sync gate」と整合する追加ガード。
+
+## layout / page 共有 UI primitive の責務分離（issue-894 由来汎化）
+
+issue-894（admin topbar breadcrumb 二重描画解消）実装で得た知見を、UI primitive を layout / page で共有する後続タスク（admin actions slot / page-header 系 / public breadcrumb 等）の Phase 仕様に予め埋め込む。詳細は aiworkflow-requirements `lessons-learned-issue-894-admin-topbar-breadcrumb-integration-2026-05.md` L-I894-001..005 参照。
+
+- **L-I894-001 (layout-owned vs page-owned 軸の Phase 3 必須化)**: layout と page が同一 RSC primitive（`Breadcrumb` / `PageHeader` / `StatusBadge` 等）を共有する spec では、Phase 3 component API に「layout-owned / page-owned」の責務軸表を必須セクションとして含める。両層に同じ宣言が出ると差分発生時に表記揺れが起き、後付けの grep gate で再発防止する必要が生じる。
+- **L-I894-002 (UI 文字列重複の grep gate 化)**: 「管理」「ホーム」など layout 所有の root 文字列を page から除去する仕様は、Phase 7 quality-gates に `rg '"<root-string>"' apps/web/app/<segment>/**/page.tsx` の 0 hit gate を embed する。実装単発で終わらせると将来の page 追加で再混入する。`source_issue_state_verified` evidence と並列に Phase 11 / Phase 12 で grep gate 結果を保存する。
+- **L-I894-003 (RSC 維持のため layout から static 値を slot prop で渡す)**: 「現在地表示」のためだけに `usePathname` で client 化するのは過剰。layout が静的部分を所有し、page が動的部分を server で導出して slot prop として渡せば全段 RSC 境界を維持できる。Phase 2 architecture で「client 化を選ぶ場合の理由（pathname dependency / interactive state）」を明示する選択肢を必須化する。
+- **L-I894-004 (ARIA derived state contract の Phase 6 必須化)**: `aria-current="page"` 等の ARIA derived state を持つ primitive は、Phase 6 test-strategy で「href 有無 × 最終 item か否か」の 2 軸を spec で固定する。primitive 側 spec が contract を、consumer 側 spec が wiring を担当する責務分離を明示する。
+- **L-I894-005 (CLOSED issue + コード未解決パターン)**: GitHub Issue の状態と実コード状態は乖離しうる。Phase 1 で `gh issue view <num> --json state,number,title` を実行して state を実測し、`CLOSED` で未解決なら reopen ではなく `artifacts.json.metadata.source_issue_relation = "Refs #<num>"` で追加 PR を出す経路を取る。`artifacts.json.metadata.source_issue_state_verified` に実測コマンドと実測日時を明示する。`github-issue-manager` skill の Phase 1 トリアージにも同テンプレートを embed する。
