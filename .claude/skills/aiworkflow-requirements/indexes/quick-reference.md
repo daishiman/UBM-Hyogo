@@ -1,5 +1,35 @@
 # クイックリファレンス
 
+## admin-ui-prototype-alignment follow-up 002 section error retry（2026-05-25）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/admin-ui-prototype-alignment-followup-002-section-error-retry/` |
+| status | `implementation_reviewed / implementation / NON_VISUAL / local evidence PASS` |
+| issue | #881 CLOSED。PR 文脈は `Refs #881` のみ |
+| parent | `docs/30-workflows/admin-ui-prototype-alignment/` |
+| purpose | `AdminSectionError` の retry CTA を client boundary 経由で実装する仕様。page server component は維持し、`router.refresh()` は `AdminSectionErrorClient` 内に閉じ込める |
+| Phase 12 | `outputs/phase-12/phase12-task-spec-compliance-check.md` + strict 7 files + local evidence present |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-ui-prototype-alignment-followup-002-section-error-retry-artifact-inventory.md` |
+| lessons | `.claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-admin-section-error-retry-2026-05.md`（L-ASR-001..005）、`.claude/skills/task-specification-creator/lessons-learned/rsc-client-boundary-callback-injection.md`（L-RSC-001..005） |
+| local evidence | focused Vitest 19+2 PASS including `jest-axe` (AC-3/AC-4 transition assertion 追加); root lint/typecheck PASS; design-token and client-boundary grep PASS |
+| user gate | commit, push, PR |
+
+## Issue #880 public segment error/loading boundary（2026-05-24）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow | `docs/30-workflows/completed-tasks/issue-880-public-segment-error-loading-boundary/` |
+| status | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION` |
+| issue | #880 OPEN at spec creation; PR/Issue mutation user-gated |
+| parent | `docs/30-workflows/ui-prototype-design-system-foundation/serial-06-form-response-binding/` |
+| purpose | Add explicit `(public)` route-group `error.tsx` / `loading.tsx` and Playwright force-throw smoke to resolve serial-06 precondition drift |
+| implementation targets | `apps/web/app/(public)/error.tsx`, `apps/web/app/(public)/loading.tsx`, `apps/web/app/(public)/error-boundary-smoke/page.tsx`, `apps/web/playwright/tests/public-error-boundary.spec.ts` |
+| Phase 11/12 | screenshot + focused Playwright report captured; strict 7 present |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-880-public-segment-error-loading-boundary-artifact-inventory.md` |
+| lessons-learned | `.claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-issue-880-public-segment-error-loading-boundary-2026-05.md`（L-PUBERR-001 production-guarded smoke route / L-PUBERR-002 worktree webServer timeout 回避 / L-PUBERR-003 scope と route-group 1:1） |
+| user gate | commit, push, PR, GitHub issue mutation |
+
 ## issue-879 safeServerFetch member/public horizontal expansion（2026-05-24）
 
 | 項目 | 値 |
