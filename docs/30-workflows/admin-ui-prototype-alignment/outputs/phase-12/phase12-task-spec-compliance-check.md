@@ -59,7 +59,7 @@ creation.
 | File | Trigger | Status |
 | --- | --- | --- |
 | docs/30-workflows/unassigned-task/admin-ui-prototype-alignment-followup-001-safe-server-fetch-horizontal-expansion.md | member/public 同形 fetch failure 観測 | present |
-| docs/30-workflows/unassigned-task/admin-ui-prototype-alignment-followup-002-admin-section-error-retry-cta.md | staging runtime 再読込負荷 / reviewer 要請 | present |
+| docs/30-workflows/completed-tasks/unassigned-task/admin-ui-prototype-alignment-followup-002-admin-section-error-retry-cta.md | staging runtime 再読込負荷 / reviewer 要請 | present |
 
 ## 6. Skill/reference/system spec same-wave sync
 
