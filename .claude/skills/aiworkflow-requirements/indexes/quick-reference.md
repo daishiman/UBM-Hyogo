@@ -14,6 +14,62 @@
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-871-csp-nonce-migration-artifact-inventory.md` |
 | user gate | Playwright HTTP smoke execution, staging/production response verification, commit, push, PR |
 
+## fix-admin-scr-err-stg-fu-001-auth-env-via-getenv（2026-05-24）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/fix-admin-scr-err-stg-fu-001-auth-env-via-getenv/` |
+| status | `PASS_BOUNDARY_SYNCED_RUNTIME_PENDING / implementation / NON_VISUAL` |
+| scope | `apps/web` 認証境界 (`auth.ts`) と public fetch 境界 (`fetch/public.ts`) の env 参照を `env.ts` アクセサ経由へ統一 |
+| implementation | `apps/web/src/lib/env.ts`, `apps/web/src/lib/auth.ts`, `apps/web/src/lib/fetch/public.ts` |
+| tests | `apps/web/src/lib/auth.spec.ts`, `apps/web/src/lib/__tests__/env.spec.ts`, `apps/web/src/lib/fetch/public.spec.ts`（3 files / 75 tests PASS） |
+| spec sync | `references/environment-variables.md` が `getEnv()` / `getPublicEnv()` / `getAuthEnv()` / `getPublicFetchEnv()` の用途別アクセサ契約を正本化。`getAuthEnv()` は safeParse partial + `API_SERVICE` binding 同梱で invariant #11 fail-closed を維持 |
+| Phase 12 | `outputs/phase-12/phase12-task-spec-compliance-check.md` + strict 7 files present |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-fix-admin-scr-err-stg-fu-001-auth-env-via-getenv-artifact-inventory.md` |
+| lessons-learned | `.claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-fix-admin-scr-err-stg-fu-001-auth-env-via-getenv-2026-05.md` (L-AUTHENV-001..005) |
+| source | unassigned `fix-admin-scr-err-stg-followup-001-auth-env-via-getenv-migration.md`（consumed）/ issue #862（CLOSED kept closed）/ parent PR #849 #877 |
+| boundary | Cloudflare staging deploy, authenticated `/login -> /admin` smoke (AC-7), commit, push, PR are user-gated |
+
+## Issue #838 Schema Alias Rollback Notification（2026-05-24）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/issue-838-schema-alias-rollback-notification/` |
+| status | `implemented_local_evidence_captured / implementation / NON_VISUAL / runtime_pending` |
+| purpose | Send best-effort operations notification after successful schema alias rollback and record notification status in application `audit_log`. |
+| implementation targets | `apps/api/src/workflows/schemaAliasRollbackNotification.ts`, `apps/api/src/routes/admin/schema.ts`, `apps/api/src/routes/admin/_shared.ts` |
+| contract | Slack `SLACK_WEBHOOK_INCIDENT` preferred, legacy `SLACK_WEBHOOK_URL` fallback, mail fallback via `MAIL_PROVIDER_KEY` / `MAIL_FROM_ADDRESS` / `OPS_NOTIFICATION_EMAIL`; failure does not break rollback 200. |
+| audit | `schema_alias.rollback_notification` with redacted `after_json={ status, channel, attempts, errorClass, dispatchedAt }` |
+| Phase 12 | strict 7 files present; Phase 11 local evidence present and staging provider smoke user-gated |
+
+## Issue #837 schema alias bulk rollback（2026-05-24）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/issue-837-schema-alias-bulk-rollback/` |
+| status | `implemented_local_evidence_captured / implementation / VISUAL / runtime_screenshot_pending_user_gate` |
+| source | Issue #837 CLOSED / `docs/30-workflows/unassigned-task/serial-05-step-03-followup-006-schema-alias-bulk-rollback.md` consumed |
+| purpose | `/admin/schema` HistoryPane に複数 alias rollback selection / confirm modal / partial failure handling を追加 |
+| implementation | `apps/web/src/lib/admin/api.ts`, `apps/web/src/components/admin/SchemaDiffPanel.tsx`, `SchemaDiffBulkRollbackModal.tsx`, `hooks/useSchemaDiffBulkRollbackSelection.ts` |
+| API boundary | existing `POST /admin/schema/aliases/:aliasId/rollback`; no new endpoint / no D1 schema change |
+| evidence | typecheck PASS, focused Vitest 69 PASS, Phase 12 strict files present |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-837-schema-alias-bulk-rollback-artifact-inventory.md` |
+| user gate | authenticated runtime screenshot, staging smoke, commit, push, PR, Issue mutation |
+
+## issue-857 internal alert relay binding wiring（2026-05-24）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow | `docs/30-workflows/completed-tasks/issue-857-internal-alert-relay-binding-wiring/` |
+| status | `implemented_local_evidence_captured / implementation / NON_VISUAL / implementation_complete_pending_pr` |
+| issue | #857 CLOSED; PR wording is `Refs #857` only |
+| purpose | wire `API_INTERNAL_BASE_URL` into both API Worker env vars so sheets-auth healthcheck can POST to `/internal/alert-relay` |
+| implementation | `apps/api/wrangler.toml`, `apps/api/src/env.ts`, `apps/api/src/scheduled/sheets-auth-healthcheck.binding.spec.ts`, `apps/api/src/scheduled/sheets-auth-healthcheck.contract.spec.ts` |
+| contract | receiver validates `CF_WEBHOOK_AUTH_SECRET`; separate `INTERNAL_ALERT_TOKEN` provisioning is intentionally not used |
+| Phase 12 | strict 7 outputs present; root/output artifacts present |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-857-internal-alert-relay-binding-wiring-artifact-inventory.md` |
+| user gate | Cloudflare secret list, staging deploy/tail, SA key invalidation dry-run, commit, push, PR |
+
 ## step-08 audit filter/paging verify（2026-05-24）
 
 | 項目 | 値 |
@@ -397,9 +453,22 @@
 | system spec | `docs/00-getting-started-manual/specs/11-admin-management.md`（`useConfirmDialog` / `/attendances` alias contract 反映） |
 | inventory | `.claude/skills/aiworkflow-requirements/references/workflow-step-06-meetings-attendance-implementation-artifact-inventory.md` |
 | lessons | `.claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-step-06-meetings-attendance-confirm-dialog-2026-05.md`（L-STEP06-001..004: confirm dialog 共通化 / focus trap pitfall / admin mutation 統一 / legacy 単数 route と複数形 alias 混同回避） |
-| follow-up | `docs/30-workflows/unassigned-task/admin-mutation-timeout-policy.md`（useAdminMutation timeout policy formalize） |
+| follow-up | `docs/30-workflows/completed-tasks/issue-842-admin-mutation-reliability-policy/`（useAdminMutation timeout policy canonical workflow; one-pager consumed） |
 | evidence | `outputs/phase-11/evidence/test.log` (52 Vitest PASS), `outputs/phase-11/evidence/e2e-attendance.log` (5 Playwright PASS), `outputs/phase-11/screenshots/*.png` (5 枚) |
 | user gate | commit / push / PR / staging smoke / production smoke |
+
+## Issue #842 admin mutation reliability policy（2026-05-24）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-842-admin-mutation-reliability-policy/` |
+| 状態 | `implemented / implementation / NON_VISUAL / local QA PASS / Phase 12 strict 7 present` |
+| source | Issue #842 CLOSED; PR wording is `Refs #842`; one-pager `docs/30-workflows/completed-tasks/admin-mutation-timeout-policy.md` consumed |
+| scope | `useAdminMutation` に timeout / idempotent retry / idempotency-key / 404 policy / abort を集約し、`useConfirmDialog` close から cancel callback を渡す実装仕様 |
+| implementation targets | `apps/web/src/features/admin/hooks/useAdminMutation.ts`, `useConfirmDialog.ts`, hook barrel/tests, legacy `apps/web/src/lib/useAdminMutation.ts` delete |
+| stale optimization | current `MeetingAttendancePanel.tsx` is POST-only; DELETE 404 success-relaxation is provided as hook policy but no caller is forcibly migrated in the spec-created cycle |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-842-admin-mutation-reliability-policy-artifact-inventory.md` |
+| user gate | commit, push, PR, staging runtime evidence |
 
 ## Issue #274 public pages OGP / sitemap / robots（2026-05-17）
 
