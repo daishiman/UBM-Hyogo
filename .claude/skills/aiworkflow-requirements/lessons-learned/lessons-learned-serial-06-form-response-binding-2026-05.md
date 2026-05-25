@@ -102,4 +102,4 @@
   - `docs/30-workflows/unassigned-task/serial-06-followup-001-public-segment-error-loading-boundary.md`
   - `docs/30-workflows/unassigned-task/serial-06-followup-002-adapter-dev-warn-unknown-kind.md`
   - `docs/30-workflows/unassigned-task/serial-06-followup-003-phase-6-playwright-topology-sync.md`
-  - `docs/30-workflows/unassigned-task/serial-06-followup-004-adapter-schema-extension-pipeline.md`
+  - `docs/30-workflows/completed-tasks/issue-885-adapter-schema-extension-pipeline/`
