@@ -301,8 +301,8 @@ PR作成完了後は、PR URL、採用ブランチ、実行した自動修復、
 
 ### `apps/web` env アクセス不変条件（task-02 wrangler-env-injection）
 
-- `apps/web` ランタイムでの env 参照は **`apps/web/src/lib/env.ts` の `getEnv()` / `getPublicEnv()` 経由のみ** とする。`process.env.*` を直接参照することを禁止する。
-- `getEnv()` は zod schema で検証し、parse 失敗時は throw する。throw は `apps/web/src/app/error.tsx`（task-05）の error boundary で補足する設計のため、try/catch で握り潰さない。
+- `apps/web` ランタイムでの env 参照は **`apps/web/src/lib/env.ts` の公開アクセサ（`getEnv()` / `getPublicEnv()` / `getAuthEnv()` / `getPublicFetchEnv()`）経由のみ** とする。`process.env.*` を直接参照することを禁止する。
+- `getEnv()` は zod schema で検証し、parse 失敗時は throw する。throw は `apps/web/src/app/error.tsx`（task-05）の error boundary で補足する設計のため、try/catch で握り潰さない。認証境界は invariant #11（fail-closed）を優先し、`getAuthEnv()` の safeParse 経由で未登録扱いへ閉じる。
 - 非機密 var は `apps/web/wrangler.toml` の `[vars]` / `[env.staging.vars]` / `[env.production.vars]` で管理。機密値は `bash scripts/cf.sh secret put` で Cloudflare Secrets に投入し、`.dev.vars.example` には `op://Vault/Item/Field` 参照のみを記す。
 - `127.0.0.1:8888` などローカル限定エンドポイントの `apps/web/src` 配下への焼き込みは禁止（task-18 regression smoke で grep gate）。
 - `apps/web` の production build は OpenNext Workers 互換のため `next build --webpack` を正本とする。Next.js 16 の Turbopack は local dev 用に限定し、Cloudflare Workers deploy bundle へ `[project]/...` 仮想 module specifier を混入させない。

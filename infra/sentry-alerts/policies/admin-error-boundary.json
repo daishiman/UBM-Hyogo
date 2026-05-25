@@ -1,0 +1,25 @@
+{
+  "$schema": "../schema/policy.schema.json",
+  "name": "admin-error-boundary",
+  "description": "Admin scope error.boundary.caught regression detection",
+  "environment": "staging",
+  "action_match": "all",
+  "filter_match": "all",
+  "filters": [
+    { "field": "event", "value": "error.boundary.caught" },
+    { "field": "scope", "value": "admin" }
+  ],
+  "frequency": {
+    "window_minutes": 5,
+    "threshold": 3
+  },
+  "notification_interval_minutes": 5,
+  "actions": [
+    {
+      "type": "slack",
+      "target": "#ubm-hyogo-incidents",
+      "workspace_id_env": "SENTRY_SLACK_WORKSPACE_ID",
+      "tags": ["environment", "event", "scope", "digest"]
+    }
+  ]
+}

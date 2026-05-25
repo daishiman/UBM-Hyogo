@@ -7,7 +7,14 @@ vi.mock("@opennextjs/cloudflare", () => ({
   getCloudflareContext: () => cloudflareContext(),
 }));
 
-import { getEnv, getPublicEnv, readRawEnv } from "../env";
+import {
+  getAuthEnv,
+  getEnv,
+  getPublicEnv,
+  getPublicFetchEnv,
+  getSecurityHeaderEnv,
+  readRawEnv,
+} from "../env";
 
 const validEnv = {
   ENVIRONMENT: "local",
@@ -61,6 +68,22 @@ describe("env", () => {
     expect(env.INTERNAL_AUTH_SECRET).toBe("internal-secret");
   });
 
+  it("getEnv parses optional auth provider keys when supplied", () => {
+    const env = getEnv({
+      ...validEnv,
+      GOOGLE_CLIENT_ID: "gid",
+      GOOGLE_CLIENT_SECRET: "gsec",
+      AUTH_GOOGLE_ID: "agid",
+      AUTH_GOOGLE_SECRET: "agsec",
+    });
+    expect(env).toMatchObject({
+      GOOGLE_CLIENT_ID: "gid",
+      GOOGLE_CLIENT_SECRET: "gsec",
+      AUTH_GOOGLE_ID: "agid",
+      AUTH_GOOGLE_SECRET: "agsec",
+    });
+  });
+
   it("getEnv parses NEXT_PUBLIC_SENTRY_DSN when supplied as a valid URL", () => {
     const env = getEnv({
       ...validEnv,
@@ -71,6 +94,19 @@ describe("env", () => {
     expect(env.NEXT_PUBLIC_SENTRY_DSN).toBe("https://abc123@o0.ingest.sentry.io/1");
     expect(env.NEXT_PUBLIC_SENTRY_ENVIRONMENT).toBe("staging");
     expect(env.NEXT_PUBLIC_SENTRY_TRACES_SAMPLE_RATE).toBe(0.2);
+  });
+
+  it("getPublicEnv exposes the public Sentry DSN for CSP report endpoint derivation", () => {
+    expect(
+      getPublicEnv({
+        ...validEnv,
+        NEXT_PUBLIC_SENTRY_DSN: "https://abc123@o0.ingest.sentry.io/1",
+      }),
+    ).toEqual({
+      ENVIRONMENT: "local",
+      NEXT_PUBLIC_API_BASE_URL: "http://127.0.0.1:8787",
+      NEXT_PUBLIC_SENTRY_DSN: "https://abc123@o0.ingest.sentry.io/1",
+    });
   });
 
   it("getEnv throws ZodError for invalid NEXT_PUBLIC_SENTRY_DSN", () => {
@@ -139,6 +175,82 @@ describe("env", () => {
     expect(getPublicEnv({ ...validEnv, AUTH_SECRET: "x".repeat(32) })).toEqual({
       ENVIRONMENT: "local",
       NEXT_PUBLIC_API_BASE_URL: "http://127.0.0.1:8787",
+      NEXT_PUBLIC_SENTRY_DSN: undefined,
     });
+  });
+
+  it("getSecurityHeaderEnv defaults CSP_MODE to report-only", () => {
+    expect(getSecurityHeaderEnv(validEnv)).toEqual({
+      cspMode: "report-only",
+      apiBaseUrl: "http://127.0.0.1:8787",
+    });
+  });
+
+  it("getSecurityHeaderEnv returns enforce when CSP_MODE is enforce", () => {
+    expect(getSecurityHeaderEnv({ ...validEnv, CSP_MODE: "enforce" })).toEqual({
+      cspMode: "enforce",
+      apiBaseUrl: "http://127.0.0.1:8787",
+    });
+  });
+
+  it("getSecurityHeaderEnv throws ZodError for invalid CSP_MODE", () => {
+    expect(() =>
+      getSecurityHeaderEnv({ ...validEnv, CSP_MODE: "invalid-value" }),
+    ).toThrow(ZodError);
+  });
+
+  it("getAuthEnv returns auth keys and service binding without throwing", () => {
+    const binding = { fetch: vi.fn() as unknown as typeof fetch };
+    expect(
+      getAuthEnv({
+        ENVIRONMENT: "staging",
+        AUTH_URL: "https://web.example.com",
+        AUTH_SECRET: "0123456789abcdef",
+        GOOGLE_CLIENT_ID: "gid",
+        GOOGLE_CLIENT_SECRET: "gsec",
+        INTERNAL_API_BASE_URL: "https://api.example.com",
+        INTERNAL_AUTH_SECRET: "internal",
+        API_SERVICE: binding,
+      }),
+    ).toMatchObject({
+      ENVIRONMENT: "staging",
+      AUTH_URL: "https://web.example.com",
+      AUTH_SECRET: "0123456789abcdef",
+      GOOGLE_CLIENT_ID: "gid",
+      GOOGLE_CLIENT_SECRET: "gsec",
+      INTERNAL_API_BASE_URL: "https://api.example.com",
+      INTERNAL_AUTH_SECRET: "internal",
+      API_SERVICE: binding,
+    });
+  });
+
+  it("getAuthEnv fail-closes to an empty object on invalid auth config", () => {
+    expect(
+      getAuthEnv({
+        ENVIRONMENT: "qa",
+        AUTH_URL: "not-a-url",
+        INTERNAL_API_BASE_URL: "also-not-a-url",
+      }),
+    ).toEqual({});
+  });
+
+  it("getPublicFetchEnv keeps public fetch resolution in env.ts", () => {
+    const binding = { fetch: vi.fn() as unknown as typeof fetch };
+    vi.stubEnv("NODE_ENV", "test");
+    vi.stubEnv("PUBLIC_API_BASE_URL", "https://process.example.com");
+    try {
+      expect(
+        getPublicFetchEnv({
+          API_SERVICE: binding,
+          PUBLIC_API_BASE_URL: "https://cloudflare.example.com",
+        }),
+      ).toEqual({
+        API_SERVICE: binding,
+        PUBLIC_API_BASE_URL: "https://process.example.com",
+        NODE_ENV: "test",
+      });
+    } finally {
+      vi.unstubAllEnvs();
+    }
   });
 });
