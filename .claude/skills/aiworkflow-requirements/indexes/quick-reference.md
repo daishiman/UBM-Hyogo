@@ -1,5 +1,20 @@
 # クイックリファレンス
 
+## Issue #880 public segment error/loading boundary（2026-05-24）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow | `docs/30-workflows/completed-tasks/issue-880-public-segment-error-loading-boundary/` |
+| status | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION` |
+| issue | #880 OPEN at spec creation; PR/Issue mutation user-gated |
+| parent | `docs/30-workflows/ui-prototype-design-system-foundation/serial-06-form-response-binding/` |
+| purpose | Add explicit `(public)` route-group `error.tsx` / `loading.tsx` and Playwright force-throw smoke to resolve serial-06 precondition drift |
+| implementation targets | `apps/web/app/(public)/error.tsx`, `apps/web/app/(public)/loading.tsx`, `apps/web/app/(public)/error-boundary-smoke/page.tsx`, `apps/web/playwright/tests/public-error-boundary.spec.ts` |
+| Phase 11/12 | screenshot + focused Playwright report captured; strict 7 present |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-880-public-segment-error-loading-boundary-artifact-inventory.md` |
+| lessons-learned | `.claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-issue-880-public-segment-error-loading-boundary-2026-05.md`（L-PUBERR-001 production-guarded smoke route / L-PUBERR-002 worktree webServer timeout 回避 / L-PUBERR-003 scope と route-group 1:1） |
+| user gate | commit, push, PR, GitHub issue mutation |
+
 ## issue-879 safeServerFetch member/public horizontal expansion（2026-05-24）
 
 | 項目 | 値 |
