@@ -1,0 +1,116 @@
+{
+  "workflow_id": "issue-872-google-brand-4tone-icon-and-tokens-exempt",
+  "created_at": "2026-05-24T00:00:00+09:00",
+  "status": "local_static_pass_browser_pending",
+  "task_type": "implementation",
+  "visual_category": "VISUAL",
+  "metadata": {
+    "workflow_state": "local_static_pass_browser_pending",
+    "implementation_status": "local_static_pass_browser_pending",
+    "taskType": "implementation",
+    "visualEvidence": "VISUAL",
+    "implementation_mode": "new",
+    "canonical_workflow": "docs/30-workflows/issue-872-google-brand-4tone-icon-and-tokens-exempt/",
+    "source_issue": "https://github.com/daishiman/UBM-Hyogo/issues/872",
+    "source_followup_id": "FU-LOGIN-001",
+    "parent_workflow": "docs/30-workflows/completed-tasks/login-page-prototype-alignment/",
+    "scope": {
+      "include": [
+        "Google 4-tone SVG brand asset specification",
+        "GoogleBrandIcon SVG wrapper specification",
+        "verify-design-tokens svg-only brand exempt specification",
+        "parent FU-LOGIN-001 consumed trace",
+        "aiworkflow-requirements same-wave sync"
+      ],
+      "exclude": [
+        "visual baseline update",
+        "browser screenshot recapture after local disk cleanup",
+        "staging deployment",
+        "commit",
+        "push",
+        "PR"
+      ],
+      "implementation_boundary": "app code and static validation complete; browser screenshot/build evidence pending local ENOSPC resolution"
+    },
+    "primary_sources": [
+      "apps/web/app/login/_components/GoogleOAuthButton.client.tsx",
+      "apps/web/src/components/ui/Icon.tsx",
+      "apps/web/src/components/ui/icons.ts",
+      "scripts/verify-design-tokens.ts",
+      "scripts/verify-design-tokens.spec.ts",
+      "docs/00-getting-started-manual/specs/09b-design-tokens.md"
+    ],
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/issue-872-google-brand-4tone-icon-and-tokens-exempt/outputs/phase-3/phase-3.md",
+        "approver": "daishiman",
+        "notes": "spec_review: Phase 1-9 + Phase 12 implementation spec review"
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/issue-872-google-brand-4tone-icon-and-tokens-exempt/outputs/phase-9/phase-9.md",
+        "approver": "daishiman",
+        "notes": "implementation_review: typecheck / lint / build / verify-design-tokens / vitest / playwright local PASS"
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/issue-872-google-brand-4tone-icon-and-tokens-exempt/outputs/phase-12/phase-12.md",
+        "approver": "daishiman",
+        "notes": "external_ops: commit / push / PR / staging visual baseline は user-gated"
+      }
+    ]
+  },
+  "phases": [
+    { "phase": 1, "status": "spec_created", "output": "outputs/phase-1/phase-1.md" },
+    { "phase": 2, "status": "spec_created", "output": "outputs/phase-2/phase-2.md" },
+    { "phase": 3, "status": "spec_created", "output": "outputs/phase-3/phase-3.md" },
+    { "phase": 4, "status": "spec_created", "output": "outputs/phase-4/phase-4.md" },
+    { "phase": 5, "status": "spec_created", "output": "outputs/phase-5/phase-5.md" },
+    { "phase": 6, "status": "spec_created", "output": "outputs/phase-6/phase-6.md" },
+    { "phase": 7, "status": "spec_created", "output": "outputs/phase-7/phase-7.md" },
+    { "phase": 8, "status": "spec_created", "output": "outputs/phase-8/phase-8.md" },
+    { "phase": 9, "status": "spec_created", "output": "outputs/phase-9/phase-9.md" },
+    { "phase": 10, "status": "spec_created", "output": "outputs/phase-10/phase-10.md" },
+    { "phase": 11, "status": "local_static_pass_browser_pending", "output": "outputs/phase-11/phase-11.md" },
+    { "phase": 12, "status": "local_static_pass_browser_pending", "output": "outputs/phase-12/phase-12.md" },
+    { "phase": 13, "status": "pending_user_approval", "output": "outputs/phase-13/phase-13.md" }
+  ],
+  "implementation_targets": [
+    "apps/web/src/components/ui/brand-icons/google.svg",
+    "apps/web/src/components/ui/brand-icons/GoogleBrandIcon.tsx",
+    "apps/web/app/login/_components/GoogleOAuthButton.client.tsx",
+    "apps/web/src/components/ui/icons.ts",
+    "apps/web/src/components/ui/Icon.tsx",
+    "scripts/verify-design-tokens.ts",
+    "scripts/verify-design-tokens.spec.ts",
+    "docs/00-getting-started-manual/specs/09b-design-tokens.md",
+    "apps/web/playwright/tests/visual/login.spec.ts-snapshots/",
+    "docs/30-workflows/completed-tasks/login-page-prototype-alignment/outputs/phase-12/unassigned-task-detection.md",
+    "docs/30-workflows/unassigned-task/login-page-prototype-alignment-followup-001-google-brand-4tone-icon.md",
+    ".claude/skills/aiworkflow-requirements/indexes/quick-reference.md",
+    ".claude/skills/aiworkflow-requirements/indexes/resource-map.md",
+    ".claude/skills/aiworkflow-requirements/references/task-workflow-active.md",
+    ".claude/skills/aiworkflow-requirements/SKILL-changelog.md",
+    ".claude/skills/aiworkflow-requirements/references/workflow-issue-872-google-brand-4tone-icon-and-tokens-exempt-artifact-inventory.md",
+    "docs/30-workflows/LOGS.md"
+  ],
+  "outputs": {
+    "phase_12": [
+      "outputs/phase-12/phase-12.md",
+      "outputs/phase-12/main.md",
+      "outputs/phase-12/implementation-guide.md",
+      "outputs/phase-12/system-spec-update-summary.md",
+      "outputs/phase-12/documentation-changelog.md",
+      "outputs/phase-12/unassigned-task-detection.md",
+      "outputs/phase-12/skill-feedback-report.md",
+      "outputs/phase-12/phase12-task-spec-compliance-check.md"
+    ]
+  }
+}

@@ -155,3 +155,10 @@ CLAUDE.md と整合する不変条件:
 - `docs/00-getting-started-manual/google-form/01-design.md`
 - CLAUDE.md「UI prototype alignment / MVP recovery」「フォーム固定値」「重要な不変条件」
 - `.claude/skills/task-specification-creator/references/phase-12-spec.md`
+
+## followup-001 formalization backfill（2026-05-24）
+
+- `apps/web/app/(public)/error.tsx` / `loading.tsx` precondition drift は Issue #880 として formalize 済み。
+- canonical workflow: `docs/30-workflows/completed-tasks/issue-880-public-segment-error-loading-boundary/`
+- status: `spec_created / implementation / VISUAL_ON_EXECUTION`
+- boundary: actual apps/web implementation and Playwright screenshot evidence remain pending and user-gated; this note is a formalization backfill, not runtime PASS evidence.

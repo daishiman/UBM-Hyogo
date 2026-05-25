@@ -2,7 +2,7 @@
 // 3 ブロック: overview カード / by-session テーブル / ranking テーブル
 // 不変条件 #5: D1 直接アクセス禁止 — fetchAdmin 経由で内部 API を呼ぶ
 import { safeServerFetch } from "../../../../../src/lib/admin/safe-server-fetch";
-import { AdminSectionError } from "../../../../../src/features/admin/components/_shared";
+import { AdminSectionErrorClient } from "../../../../../src/features/admin/components/_shared";
 
 export const dynamic = "force-dynamic";
 
@@ -56,7 +56,7 @@ export default async function AdminAttendanceDashboardPage() {
           <KpiCard label="全体出席率" value={fmtPct(overviewR.data.overallRate)} />
         </div>
       ) : (
-        <AdminSectionError
+        <AdminSectionErrorClient
           sectionLabel="出席サマリー"
           code={overviewR.error.code}
           message={overviewR.error.message}
@@ -65,7 +65,7 @@ export default async function AdminAttendanceDashboardPage() {
 
       <h2>セッション別出席状況</h2>
       {!bySessionR.ok ? (
-        <AdminSectionError
+        <AdminSectionErrorClient
           sectionLabel="セッション別出席状況"
           code={bySessionR.error.code}
           message={bySessionR.error.message}
@@ -97,7 +97,7 @@ export default async function AdminAttendanceDashboardPage() {
 
       <h2>会員別出席ランキング</h2>
       {!rankingR.ok ? (
-        <AdminSectionError
+        <AdminSectionErrorClient
           sectionLabel="会員別出席ランキング"
           code={rankingR.error.code}
           message={rankingR.error.message}
