@@ -1,0 +1,82 @@
+{
+  "task_id": "issue-863-admin-error-alert-policy-iac",
+  "issue": "https://github.com/daishiman/UBM-Hyogo/issues/863",
+  "created_at": "2026-05-24",
+  "status": "implemented_local_runtime_pending",
+  "task_type": "implementation",
+  "visual_category": "NON_VISUAL",
+  "metadata": {
+    "workflow_state": "implemented_local_runtime_pending",
+    "implementation_status": "implemented_local_runtime_pending",
+    "taskType": "implementation",
+    "visualEvidence": "NON_VISUAL",
+    "implementationCategory": "standard",
+    "spec_classification": "implementation_spec",
+    "canonical_workflow": "docs/30-workflows/completed-tasks/issue-863-admin-error-alert-policy-iac/",
+    "parentWorkflow": "docs/30-workflows/fix-admin-server-components-render-error-stg/",
+    "source_unassigned_tasks": [
+      "docs/30-workflows/unassigned-task/fix-admin-scr-err-stg-followup-002-admin-runtime-sentry-alert-policy.md"
+    ],
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-05-24T00:00:00+09:00",
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-863-admin-error-alert-policy-iac/outputs/phase-12/phase12-task-spec-compliance-check.md",
+        "approver": "daishiman",
+        "notes": "spec_review: Phase 1-13 implementation spec and strict Phase 12 outputs created (issue optimized to current code: Sentry as error-telemetry SSOT)"
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-863-admin-error-alert-policy-iac/outputs/phase-11/manual-test-result.md",
+        "approver": "daishiman",
+        "notes": "implementation_review: logger.ts tag promotion, infra/sentry-alerts IaC, drift CI, runbook, CODEOWNERS, and package scripts are implemented locally; staging notification smoke remains runtime_pending"
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-863-admin-error-alert-policy-iac/outputs/phase-13/pr-creation-result.md",
+        "approver": "daishiman",
+        "notes": "external_ops: commit, push, PR, Sentry API apply, and staging deploy verification are user-gated"
+      }
+    ]
+  },
+  "phases": [
+    { "phase": 1, "name": "要件定義", "status": "completed", "output": "phase-1-requirements.md" },
+    { "phase": 2, "name": "設計", "status": "completed", "output": "phase-2-design.md" },
+    { "phase": 3, "name": "設計レビュー", "status": "completed", "output": "phase-3-design-review.md" },
+    { "phase": 4, "name": "テスト計画", "status": "completed", "output": "phase-4-test-plan.md" },
+    { "phase": 5, "name": "実装手順", "status": "completed", "output": "phase-5-implementation.md" },
+    { "phase": 6, "name": "テスト追加", "status": "completed", "output": "phase-6-test-additions.md" },
+    { "phase": 7, "name": "カバレッジ", "status": "completed", "output": "phase-7-coverage.md" },
+    { "phase": 8, "name": "リファクタ", "status": "completed", "output": "phase-8-refactor.md" },
+    { "phase": 9, "name": "QA", "status": "completed", "output": "phase-9-qa.md" },
+    { "phase": 10, "name": "最終レビュー", "status": "completed", "output": "phase-10-final-review.md" },
+    { "phase": 11, "name": "手動テスト", "status": "implemented_local_runtime_pending", "output": "outputs/phase-11/manual-test-result.md" },
+    { "phase": 12, "name": "ドキュメント同期", "status": "completed", "output": "outputs/phase-12/main.md" },
+    { "phase": 13, "name": "commit-pr-release", "status": "blocked_pending_user_approval", "output": "outputs/phase-13/pr-creation-result.md" }
+  ],
+  "implementation_targets": [
+    "apps/web/src/lib/logger.ts",
+    "apps/web/src/lib/__tests__/logger.spec.ts",
+    "infra/sentry-alerts/policies/admin-error-boundary.json",
+    "infra/sentry-alerts/schema/policy.schema.json",
+    "infra/sentry-alerts/lib/types.ts",
+    "infra/sentry-alerts/lib/load.ts",
+    "infra/sentry-alerts/lib/diff.ts",
+    "infra/sentry-alerts/lib/api-client.ts",
+    "infra/sentry-alerts/lib/canonicalize.ts",
+    "infra/sentry-alerts/lib/cli.ts",
+    "infra/sentry-alerts/lib/__tests__/schema-contract.spec.ts",
+    "infra/sentry-alerts/lib/__tests__/load.spec.ts",
+    "infra/sentry-alerts/lib/__tests__/diff.spec.ts",
+    "infra/sentry-alerts/README.md",
+    ".github/workflows/sentry-alerts-drift.yml",
+    "docs/30-workflows/runbooks/issue-863-admin-error-boundary-alert-response.md",
+    ".github/CODEOWNERS",
+    "package.json"
+  ]
+}

@@ -1,0 +1,51 @@
+name: sentry-alerts-drift
+
+on:
+  schedule:
+    - cron: "0 0 1 * *"
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - "infra/sentry-alerts/**"
+      - ".github/workflows/sentry-alerts-drift.yml"
+      - "package.json"
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/setup-project
+      - name: Validate Sentry alert manifests and CLI
+        run: pnpm test:sentry-alerts
+
+  diff:
+    if: github.event_name != 'pull_request'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      SENTRY_ORG: ${{ vars.SENTRY_ORG }}
+      SENTRY_PROJECT: ${{ vars.SENTRY_PROJECT }}
+      SENTRY_AUTH_TOKEN_READ: ${{ secrets.SENTRY_AUTH_TOKEN_READ }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/setup-project
+      - name: Run drift diff (read-only)
+        run: |
+          set +e
+          pnpm sentry-alerts:diff --ci --json > sentry-alerts-drift.json
+          status=$?
+          cat sentry-alerts-drift.json
+          exit $status
+      - name: Upload drift artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: sentry-alerts-drift-${{ github.run_id }}
+          path: sentry-alerts-drift.json
+          if-no-files-found: ignore

@@ -12,7 +12,6 @@
 //   AUTH_URL, INTERNAL_API_BASE_URL, INTERNAL_AUTH_SECRET
 
 import type { NextRequest } from "next/server";
-import { getCloudflareContext } from "@opennextjs/cloudflare";
 import {
   decodeAuthSessionJwt,
   encodeAuthSessionJwt,
@@ -20,27 +19,7 @@ import {
   type GateReason,
   type SessionResolveResponse,
 } from "@ubm-hyogo/shared";
-
-export interface AuthEnv {
-  ENVIRONMENT?: string;
-  API_SERVICE?: { fetch: typeof fetch };
-  AUTH_SECRET?: string;
-  AUTH_URL?: string;
-  GOOGLE_CLIENT_ID?: string;
-  GOOGLE_CLIENT_SECRET?: string;
-  AUTH_GOOGLE_ID?: string;
-  AUTH_GOOGLE_SECRET?: string;
-  INTERNAL_API_BASE_URL?: string;
-  INTERNAL_AUTH_SECRET?: string;
-}
-
-const cloudflareEnv = (): AuthEnv => {
-  try {
-    return getCloudflareContext().env as AuthEnv;
-  } catch {
-    return {};
-  }
-};
+import { getAuthEnv, type AuthEnv } from "./env";
 
 const globalEnv = (): AuthEnv =>
   ((globalThis as typeof globalThis & { __UBM_AUTH_ENV__?: AuthEnv }).__UBM_AUTH_ENV__ ??
@@ -53,25 +32,9 @@ const definedEnv = (entries: ReadonlyArray<readonly [keyof AuthEnv, unknown]>): 
     ),
   ) as AuthEnv;
 
-const processEnv = (): AuthEnv => {
-  if (typeof process === "undefined") return {};
-  return definedEnv([
-    ["ENVIRONMENT", process.env["ENVIRONMENT"]],
-    ["AUTH_SECRET", process.env["AUTH_SECRET"]],
-    ["AUTH_URL", process.env["AUTH_URL"]],
-    ["GOOGLE_CLIENT_ID", process.env["GOOGLE_CLIENT_ID"]],
-    ["GOOGLE_CLIENT_SECRET", process.env["GOOGLE_CLIENT_SECRET"]],
-    ["AUTH_GOOGLE_ID", process.env["AUTH_GOOGLE_ID"]],
-    ["AUTH_GOOGLE_SECRET", process.env["AUTH_GOOGLE_SECRET"]],
-    ["INTERNAL_API_BASE_URL", process.env["INTERNAL_API_BASE_URL"]],
-    ["INTERNAL_AUTH_SECRET", process.env["INTERNAL_AUTH_SECRET"]],
-  ]);
-};
-
 const env = (): AuthEnv => ({
-  ...processEnv(),
+  ...getAuthEnv(),
   ...globalEnv(),
-  ...cloudflareEnv(),
 });
 
 const requestEnv = (request: NextRequest | undefined): AuthEnv => {

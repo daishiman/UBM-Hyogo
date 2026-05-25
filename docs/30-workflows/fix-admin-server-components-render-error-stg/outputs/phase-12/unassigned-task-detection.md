@@ -12,7 +12,7 @@
 | --- | --- | --- | --- |
 | fix-admin-scr-err-stg-followup-001 | `apps/web/src/auth.ts` の env 参照を `getEnv()` 経由に統一 | 中 | `docs/30-workflows/unassigned-task/fix-admin-scr-err-stg-followup-001-auth-env-via-getenv-migration.md` |
 | fix-admin-scr-err-stg-followup-002 | admin scope `error.boundary.caught` Sentry / Cloudflare alert policy IaC 化 | 中 | `docs/30-workflows/unassigned-task/fix-admin-scr-err-stg-followup-002-admin-runtime-sentry-alert-policy.md` |
-| fix-admin-scr-err-stg-followup-003 | Phase 11 staging runtime smoke の GitHub Actions post-deploy gate 化 | 高 | `docs/30-workflows/unassigned-task/fix-admin-scr-err-stg-followup-003-staging-runtime-smoke-ci-gate.md` |
+| fix-admin-scr-err-stg-followup-003 | Phase 11 staging runtime smoke の GitHub Actions post-deploy gate 化 | 高 | `docs/30-workflows/completed-tasks/fix-admin-scr-err-stg-followup-003-staging-runtime-smoke-ci-gate.md`（issue-864 として formalize 済み・#864 CLOSED・completed-tasks へ移動済み） |
 
 ## Rationale (boundary 判定)
 

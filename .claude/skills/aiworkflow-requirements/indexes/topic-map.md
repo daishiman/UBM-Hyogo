@@ -874,13 +874,13 @@ node scripts/list-specs.js --topics
 | 概要 | L8 |
 | ドキュメント構成 | L15 |
 | REST API エンドポイント一覧 | L25 |
-| エンドポイント命名規則 | L222 |
-| UBM-Hyogo Admin Sync API（03a） | L243 |
-| UBM-Hyogo Member Self-Service API（04b） | L294 |
-| Admin Dashboard Attendance Analytics API（UT-02A follow-up 002） | L320 |
-| Desktop IPC API サマリー | L334 |
-| 変更履歴 | L365 |
-| 関連ドキュメント | L382 |
+| エンドポイント命名規則 | L224 |
+| UBM-Hyogo Admin Sync API（03a） | L245 |
+| UBM-Hyogo Member Self-Service API（04b） | L297 |
+| Admin Dashboard Attendance Analytics API（UT-02A follow-up 002） | L323 |
+| Desktop IPC API サマリー | L337 |
+| 変更履歴 | L368 |
+| 関連ドキュメント | L385 |
 
 ### references/api-internal-chunk-search.md
 
@@ -973,11 +973,11 @@ node scripts/list-specs.js --topics
 | マイグレーション管理 | L102 |
 | テスト戦略 | L160 |
 | UBM-Hyogo D1 Repository 契約（02b） | L190 |
-| Schema Drift ADR Gate | L222 |
-| エラーハンドリング | L241 |
-| Conversation DB 初期化パターン | L272 |
-| UBM-Hyogo Schema Sync Contract（03a） | L274 |
-| ベクトル検索実装（DiskANN） | L394 |
+| Schema Drift ADR Gate | L223 |
+| エラーハンドリング | L242 |
+| Conversation DB 初期化パターン | L273 |
+| UBM-Hyogo Schema Sync Contract（03a） | L275 |
+| ベクトル検索実装（DiskANN） | L395 |
 
 ### references/database-implementation-details.md
 
@@ -1748,9 +1748,9 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | Canonical Contract | L3 |
-| Env Boundary | L16 |
-| User-gated Follow-ups | L20 |
-| Workflow | L29 |
+| Env Boundary | L18 |
+| User-gated Follow-ups | L22 |
+| Workflow | L31 |
 
 ---
 
@@ -2245,6 +2245,17 @@ node scripts/list-specs.js --topics
 | System Spec Sync | L21 |
 | Boundary | L32 |
 
+### references/workflow-awshh-followup-003-csp-reporting-endpoints-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Workflow Root | L3 |
+| Implementation | L12 |
+| Phase Outputs | L22 |
+| System Spec Sync | L30 |
+| Consumed Source | L41 |
+| Boundary | L47 |
+
 ### references/workflow-ci-green-recovery-smoke-coverage-shard-artifact-inventory.md
 
 | セクション | 行 |
@@ -2278,6 +2289,14 @@ node scripts/list-specs.js --topics
 | Implementation Artifacts | L12 |
 | Evidence Artifacts | L24 |
 | Boundary | L39 |
+
+### references/workflow-fix-admin-scr-err-stg-fu-001-auth-env-via-getenv-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Implementation Files | L15 |
+| Test Evidence | L23 |
+| User-Gated Boundary | L32 |
 
 ### references/workflow-fix-admin-server-components-render-error-stg-artifact-inventory.md
 
@@ -2970,6 +2989,14 @@ node scripts/list-specs.js --topics
 | Evidence | L20 |
 | Contract | L28 |
 
+### references/workflow-issue-842-admin-mutation-reliability-policy-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Workflow Files | L11 |
+| Implementation Targets | L20 |
+| Boundary | L32 |
+
 ### references/workflow-issue-857-internal-alert-relay-binding-wiring-artifact-inventory.md
 
 | セクション | 行 |
@@ -2977,6 +3004,18 @@ node scripts/list-specs.js --topics
 | Implementation Targets | L11 |
 | Evidence | L20 |
 | User-Gated Boundary | L28 |
+
+### references/workflow-issue-863-admin-error-alert-policy-iac-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Contract | L18 |
+
+### references/workflow-issue-864-admin-staging-runtime-smoke-ci-gate-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| State | L15 |
 
 ### references/workflow-light-theme-contrast-regression-guard.md
 
@@ -4666,14 +4705,14 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 変更履歴 | L6 |
 | 環境変数の分類 | L15 |
-| セキュリティベストプラクティス | L131 |
-| 環境別設定 | L205 |
-| Electron アプリでの環境変数 | L259 |
-| トラブルシューティング | L316 |
-| チーム開発での運用 | L377 |
-| 必須環境変数一覧 | L416 |
-| CI/CD環境（GitHub Secrets / Variables）（UT-27 追加 2026-04-29） | L477 |
-| 関連ドキュメント | L500 |
+| セキュリティベストプラクティス | L133 |
+| 環境別設定 | L207 |
+| Electron アプリでの環境変数 | L261 |
+| トラブルシューティング | L318 |
+| チーム開発での運用 | L379 |
+| 必須環境変数一覧 | L418 |
+| CI/CD環境（GitHub Secrets / Variables）（UT-27 追加 2026-04-29） | L479 |
+| 関連ドキュメント | L502 |
 
 ### references/error-handling-core.md
 
@@ -7526,14 +7565,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L2273 |
-| フェーズ構造（概要） | L2282 |
-| 品質ゲート（概要） | L2313 |
-| 出力テンプレート | L2324 |
-| 実行時のコマンド・エージェント・スキル | L2347 |
-| 昇格パターン集 | L2371 |
-| Current Active / Spec Created Tasks | L2373 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L2533 |
+| ドキュメント構成 | L2340 |
+| フェーズ構造（概要） | L2349 |
+| 品質ゲート（概要） | L2380 |
+| 出力テンプレート | L2391 |
+| 実行時のコマンド・エージェント・スキル | L2414 |
+| 昇格パターン集 | L2438 |
+| Current Active / Spec Created Tasks | L2440 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L2601 |
 
 ### references/task-workflow-backlog-part2.md
 

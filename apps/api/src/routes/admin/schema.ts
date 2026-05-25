@@ -29,6 +29,12 @@ import {
   SchemaAliasRollbackFailure,
 } from "../../workflows/schemaAliasRollback";
 import {
+  buildRollbackNotificationPayload,
+  dispatchSchemaAliasRollbackNotification,
+  recordRollbackNotificationAudit,
+} from "../../workflows/schemaAliasRollbackNotification";
+import { createResendSender } from "../../services/mail/magic-link-mailer";
+import {
   schemaAliasRecompute,
   SchemaAliasRecomputeFailure,
 } from "../../workflows/schemaAliasRecompute";
@@ -427,6 +433,28 @@ export const createAdminSchemaRoute = () => {
         actor,
         reason: parsed.data.reason ?? null,
       });
+      try {
+        const notificationResult = await dispatchSchemaAliasRollbackNotification(
+          {
+            slackWebhookUrl: c.env.SLACK_WEBHOOK_INCIDENT ?? c.env.SLACK_WEBHOOK_URL,
+            mailSender: c.env.MAIL_PROVIDER_KEY
+              ? createResendSender({ apiKey: c.env.MAIL_PROVIDER_KEY })
+              : undefined,
+            fromEmail: c.env.MAIL_FROM_ADDRESS,
+            opsEmail: c.env.OPS_NOTIFICATION_EMAIL,
+          },
+          buildRollbackNotificationPayload(result, actor),
+        );
+        await recordRollbackNotificationAudit(db, {
+          result: notificationResult,
+          aliasId: result.aliasId,
+          actorEmail: actor,
+        });
+      } catch {
+        // Rollback is the required mutation. Notification and its audit entry are
+        // best-effort auxiliary sinks and must never turn a successful rollback
+        // into an API failure.
+      }
       return c.json(result, 200);
     } catch (err) {
       if (err instanceof SchemaAliasRollbackFailure) {
