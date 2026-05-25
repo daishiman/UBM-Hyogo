@@ -151,6 +151,16 @@
 
 ---
 
+## 公開ページ metadata / prefetch 契約
+
+- root layout の metadata 生成は `apps/web/src/lib/seo/site-metadata.ts` を正本とする。
+- `getEnv()` / `getPublicEnv()` は env 不備を throw する厳格 API として維持する。
+- metadata 生成経路だけは `getPublicEnvSafe()` を使い、public env が未解決の runtime でも RSC prefetch を 500 にしない。
+- fallback は `ENVIRONMENT=local` 相当の URL と noindex/nofollow を使い、production indexable な metadata にはしない。
+- `/terms` など静的公開ページの Next.js prefetch は、metadata env validation 由来の console error / 4xx を出してはならない。
+
+---
+
 ## 実装メモ
 
 - `claude-design-prototype/` の route key は `landing / members / member-form / login / my / admin-dashboard / admin-members / admin-tags / schema-diff`

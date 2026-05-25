@@ -3312,6 +3312,7 @@
       "workflow-issue-819-admin-dashboard-runtime-screenshot-artifact-inventory.md",
       "workflow-issue-832-admin-topbar-primitive-extraction-artifact-inventory.md",
       "workflow-issue-836-schema-alias-recompute-trigger-artifact-inventory.md",
+      "workflow-issue-882-terms-prefetch-env-validation-fix-artifact-inventory.md",
       "workflow-parallel-04-shared-page-chrome-artifact-inventory.md",
       "workflow-parallel-i02b-admin-mutation-error-finalize-artifact-inventory.md",
       "workflow-parallel-i03-dialog-refresh-order-artifact-inventory.md",
@@ -5223,6 +5224,7 @@
       "lessons-learned-task-18-w7-verify-tokens-and-playwright-smoke-2026-05.md",
       "lessons-learned-task-25-followup-loading-state-observation-fixture-2026-05.md",
       "workflow-issue-720-cf-audit-monitor-env-protection-fix-artifact-inventory.md",
+      "workflow-issue-882-terms-prefetch-env-validation-fix-artifact-inventory.md",
       "workflow-task-03-w2-par-sentry-workers-sdk-unify-artifact-inventory.md"
     ],
     "層化": [
@@ -7483,6 +7485,7 @@
       "workflow-issue-819-admin-dashboard-runtime-screenshot-artifact-inventory.md",
       "workflow-issue-827-member-detail-adapter-and-visibility-defense-artifact-inventory.md",
       "workflow-issue-836-schema-alias-recompute-trigger-artifact-inventory.md",
+      "workflow-issue-882-terms-prefetch-env-validation-fix-artifact-inventory.md",
       "workflow-task-issue-191-production-d1-schema-aliases-apply-001-artifact-inventory.md",
       "workflow-task-issue-191-schema-aliases-implementation-001-artifact-inventory.md",
       "workflow-task-issue-346-08a-canonical-workflow-tree-restore-artifact-inventory.md",
@@ -9225,6 +9228,7 @@
       "ui-ux-prototype-map.md",
       "workflow-issue-399-admin-queue-resolve-staging-visual-evidence-artifact-inventory.md",
       "workflow-issue-503-ut-07b-fu-01-followup-cursor-semantics-migration-artifact-inventory.md",
+      "workflow-issue-882-terms-prefetch-env-validation-fix-artifact-inventory.md",
       "workflow-task-18-w7-verify-tokens-and-playwright-smoke-artifact-inventory.md",
       "workflow-task-24-ui-mvp-w8-par-invariant-audit-artifact-inventory.md",
       "workflow-task-25-followup-loading-state-observation-fixture-artifact-inventory.md"
@@ -14622,6 +14626,7 @@
       "workflow-fix-cf-deploy-esbuild-import-source-staging-failure-artifact-inventory.md",
       "workflow-fix-verify-design-tokens-og-route-exclude-artifact-inventory.md",
       "workflow-issue-720-cf-audit-monitor-env-protection-fix-artifact-inventory.md",
+      "workflow-issue-882-terms-prefetch-env-validation-fix-artifact-inventory.md",
       "workflow-runtime-smoke-staging-mint-recurrence-fix-artifact-inventory.md",
       "workflow-skill-md-codex-validation-fix-artifact-inventory.md",
       "workflow-task-alert-relay-global-scope-fix-001-artifact-inventory.md",
@@ -16192,6 +16197,7 @@
       "lessons-learned-issue-532-write-tag-note-provider-ctx-injection-2026-05.md",
       "lessons-learned-issue-776-schema-alias-bulk-resolve-2026-05.md",
       "workflow-ai-chat-llm-integration-fix-artifact-inventory.md",
+      "workflow-issue-882-terms-prefetch-env-validation-fix-artifact-inventory.md",
       "workflow-skill-md-codex-validation-fix-artifact-inventory.md",
       "workflow-ui-prototype-design-system-foundation-artifact-inventory.md"
     ],
@@ -16468,6 +16474,7 @@
       "workflow-issue-801-admin-error-focus-transfer-artifact-inventory.md",
       "workflow-issue-819-admin-dashboard-runtime-screenshot-artifact-inventory.md",
       "workflow-issue-832-admin-topbar-primitive-extraction-artifact-inventory.md",
+      "workflow-issue-882-terms-prefetch-env-validation-fix-artifact-inventory.md",
       "workflow-mypage-prototype-alignment-artifact-inventory.md",
       "workflow-parallel-04-shared-page-chrome-artifact-inventory.md",
       "workflow-parallel-09-ux-cross-cutting-artifact-inventory.md",
@@ -24333,6 +24340,7 @@
       "workflow-issue-801-admin-error-focus-transfer-artifact-inventory.md",
       "workflow-issue-819-admin-dashboard-runtime-screenshot-artifact-inventory.md",
       "workflow-issue-832-admin-topbar-primitive-extraction-artifact-inventory.md",
+      "workflow-issue-882-terms-prefetch-env-validation-fix-artifact-inventory.md",
       "workflow-mypage-prototype-alignment-artifact-inventory.md",
       "workflow-parallel-04-shared-page-chrome-artifact-inventory.md",
       "workflow-parallel-09-ux-cross-cutting-artifact-inventory.md",
@@ -25199,6 +25207,12 @@
     ],
     "Extraction": [
       "workflow-issue-832-admin-topbar-primitive-extraction-artifact-inventory.md"
+    ],
+    "terms": [
+      "workflow-issue-882-terms-prefetch-env-validation-fix-artifact-inventory.md"
+    ],
+    "prefetch": [
+      "workflow-issue-882-terms-prefetch-env-validation-fix-artifact-inventory.md"
     ],
     "ライトテーマ": [
       "workflow-light-theme-contrast-regression-guard.md"

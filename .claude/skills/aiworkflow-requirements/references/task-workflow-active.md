@@ -8,6 +8,22 @@
 
 本ドキュメントは、複雑なタスクを単一責務の原則に基づいて分解し、各サブタスクに最適なスラッシュコマンド・エージェント・スキルの組み合わせを選定するためのガイドラインを定義する。
 
+### Issue #882 terms prefetch env validation fix（2026-05-25）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / NON_VISUAL` |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-882-terms-prefetch-env-validation-fix/` |
+| Issue | #882 CLOSED。PR 文脈は `Refs #882` のみ |
+| source | `docs/30-workflows/completed-tasks/home-page-prototype-alignment-followup-001-terms-prefetch-env-validation.md` consumed |
+| 目的 | `/` の JS 有効 hydration 中に `/terms` RSC prefetch が root metadata env validation throw で 500 になる経路を解消する |
+| implementation targets | `apps/web/src/lib/env.ts`, `apps/web/src/lib/seo/site-metadata.ts`, `apps/web/src/lib/__tests__/env.spec.ts`, `apps/web/src/lib/seo/__tests__/site-metadata.spec.ts`, `apps/web/playwright/tests/terms-prefetch.spec.ts` |
+| system spec | `docs/00-getting-started-manual/specs/05-pages.md` |
+| invariant | `getEnv()` / `getPublicEnv()` の throw 契約と EnvSchema 必須項目は変更しない。metadata generation のみ `getPublicEnvSafe()` + local fallback + noindex にする。 |
+| evidence | web Vitest 1030 PASS、web typecheck PASS、web lint PASS、Playwright `/terms` prefetch smoke PASS |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-882-terms-prefetch-env-validation-fix-artifact-inventory.md` |
+| user gate | commit, push, PR, staging deploy |
+
 ### step-08 audit filter/paging verify（2026-05-24）
 
 | 項目 | 値 |

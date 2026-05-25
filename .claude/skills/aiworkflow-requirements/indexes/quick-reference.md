@@ -1,5 +1,20 @@
 # クイックリファレンス
 
+## Issue #882 terms prefetch env validation fix（2026-05-25）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-882-terms-prefetch-env-validation-fix/` |
+| status | `implemented_local_evidence_captured / implementation / NON_VISUAL` |
+| issue | #882 CLOSED。PR 文脈は `Refs #882` のみ |
+| parent/source | parent `docs/30-workflows/completed-tasks/home-page-prototype-alignment/`; source follow-up `docs/30-workflows/completed-tasks/home-page-prototype-alignment-followup-001-terms-prefetch-env-validation.md` consumed |
+| implementation | `apps/web/src/lib/env.ts` adds `getPublicEnvSafe()`; `apps/web/src/lib/seo/site-metadata.ts` uses metadata-only local fallback + noindex |
+| system spec | `docs/00-getting-started-manual/specs/05-pages.md` records the public metadata env fallback contract |
+| tests | `apps/web/src/lib/__tests__/env.spec.ts`, `apps/web/src/lib/seo/__tests__/site-metadata.spec.ts`, `apps/web/playwright/tests/terms-prefetch.spec.ts` |
+| evidence | web Vitest 1030 PASS, web typecheck PASS, web lint PASS, Playwright `/terms` prefetch smoke PASS |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-882-terms-prefetch-env-validation-fix-artifact-inventory.md` |
+| boundary | `getEnv()` / `getPublicEnv()` throw contract unchanged. commit / push / PR / staging deploy are user-gated |
+
 ## step-08 audit filter/paging verify（2026-05-24）
 
 | 項目 | 値 |

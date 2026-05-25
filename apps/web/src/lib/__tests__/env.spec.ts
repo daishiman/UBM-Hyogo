@@ -7,7 +7,7 @@ vi.mock("@opennextjs/cloudflare", () => ({
   getCloudflareContext: () => cloudflareContext(),
 }));
 
-import { getEnv, getPublicEnv, readRawEnv } from "../env";
+import { getEnv, getPublicEnv, getPublicEnvSafe, readRawEnv } from "../env";
 
 const validEnv = {
   ENVIRONMENT: "local",
@@ -140,5 +140,17 @@ describe("env", () => {
       ENVIRONMENT: "local",
       NEXT_PUBLIC_API_BASE_URL: "http://127.0.0.1:8787",
     });
+  });
+
+  it("getPublicEnvSafe returns the public subset for valid env", () => {
+    expect(getPublicEnvSafe(validEnv)).toEqual({
+      ENVIRONMENT: "local",
+      NEXT_PUBLIC_API_BASE_URL: "http://127.0.0.1:8787",
+    });
+  });
+
+  it("getPublicEnvSafe returns undefined instead of throwing for invalid env", () => {
+    expect(getPublicEnvSafe({})).toBeUndefined();
+    expect(() => getPublicEnv({})).toThrow(ZodError);
   });
 });
