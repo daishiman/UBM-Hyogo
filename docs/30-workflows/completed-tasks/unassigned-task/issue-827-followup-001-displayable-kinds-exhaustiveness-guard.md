@@ -1,5 +1,10 @@
 ## メタ情報
 
+> **Status (2026-05-25): superseded / consumed.**
+> This unassigned follow-up was formalized and implemented by
+> `docs/30-workflows/issue-891-member-detail-kind-exhaustiveness-guard/`.
+> Keep this file as historical trace from issue #827 Phase 12; do not treat it as active backlog.
+
 | 項目         | 内容                                                                 |
 | ------------ | -------------------------------------------------------------------- |
 | タスクID     | issue-827-followup-001-displayable-kinds-exhaustiveness-guard         |
@@ -9,7 +14,7 @@
 | 対象機能     | `apps/web/src/lib/adapters/member-detail.ts` の `DISPLAYABLE_KINDS`  |
 | 優先度       | 低（要件発生待ち・enum 拡張時の保険）                                |
 | 見積もり規模 | 小規模                                                               |
-| ステータス   | 未実施                                                               |
+| ステータス   | superseded / consumed by `docs/30-workflows/issue-891-member-detail-kind-exhaustiveness-guard/` |
 | 発見元       | issue-827 Phase 9 リスク R-01（独立精査による検出 / current）        |
 | 発見日       | 2026-05-23                                                           |
 | 関連タスク差分確認 | 既存 unassigned に `FieldKind` 網羅性ガード系タスクなし（重複なし） |

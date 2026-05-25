@@ -3085,6 +3085,16 @@ node scripts/list-specs.js --topics
 | Evidence | L20 |
 | Boundary | L32 |
 
+### references/workflow-issue-891-member-detail-kind-exhaustiveness-guard-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Summary | L3 |
+| Implementation Targets | L13 |
+| Phase 11 Evidence | L23 |
+| Phase 12 strict 7 Files | L32 |
+| Boundary | L42 |
+
 ### references/workflow-light-theme-contrast-regression-guard.md
 
 | セクション | 行 |
@@ -5894,6 +5904,17 @@ node scripts/list-specs.js --topics
 | L-I827-005: 許可リスト方式の exhaustiveness は scope 外でも follow-up 起票して規律依存を formalize する | L35 |
 | 横断教訓 | L44 |
 
+### references/lessons-learned-issue-891-member-detail-kind-exhaustiveness-guard-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| L-I891-001: allowlist の exhaustiveness は `as const satisfies Record<Enum, Route>` で型強制へ昇格する | L9 |
+| L-I891-002: 「除外」と「別 route」を `KindRoute` 3 値で明示分離する | L16 |
+| L-I891-003: 純粋関数 adapter の内部定数は `__testInternals` 経由で spec から exhaustiveness 検証する | L23 |
+| L-I891-004: closed issue の "spec_created" は実コード差分の有無で再分類する | L30 |
+| L-I891-005: 起票元 unassigned task は削除でなく consumed trace を残し completed-tasks/unassigned-task/ へ移送する | L37 |
+| 横断教訓 | L46 |
+
 ### references/lessons-learned-issue359-production-d1-apply-2026-05.md
 
 | セクション | 行 |
@@ -6503,8 +6524,8 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 概要 | L3 |
 | 仕様書インデックス | L7 |
-| 利用順序 | L119 |
-| 関連ドキュメント | L124 |
+| 利用順序 | L120 |
+| 関連ドキュメント | L125 |
 
 ### references/llm-embedding.md
 
@@ -7641,14 +7662,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L2465 |
-| フェーズ構造（概要） | L2474 |
-| 品質ゲート（概要） | L2505 |
-| 出力テンプレート | L2516 |
-| 実行時のコマンド・エージェント・スキル | L2539 |
-| 昇格パターン集 | L2563 |
-| Current Active / Spec Created Tasks | L2565 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L2726 |
+| ドキュメント構成 | L2479 |
+| フェーズ構造（概要） | L2488 |
+| 品質ゲート（概要） | L2519 |
+| 出力テンプレート | L2530 |
+| 実行時のコマンド・エージェント・スキル | L2553 |
+| 昇格パターン集 | L2577 |
+| Current Active / Spec Created Tasks | L2579 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L2740 |
 
 ### references/task-workflow-backlog-part2.md
 
