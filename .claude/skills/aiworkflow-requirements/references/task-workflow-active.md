@@ -8,6 +8,21 @@
 
 本ドキュメントは、複雑なタスクを単一責務の原則に基づいて分解し、各サブタスクに最適なスラッシュコマンド・エージェント・スキルの組み合わせを選定するためのガイドラインを定義する。
 
+### issue-872-google-brand-4tone-icon-and-tokens-exempt（2026-05-24）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `local_static_pass_browser_pending / implementation / VISUAL` |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-872-google-brand-4tone-icon-and-tokens-exempt/` |
+| source | Issue #872 / FU-LOGIN-001 |
+| 目的 | `/login` Google OAuth button の 1-tone icon を official 4-tone SVG asset wrapper へ置換する実装仕様を作り、`verify-design-tokens` の brand SVG exempt 境界を定義する |
+| implementation targets | `apps/web/src/components/ui/brand-icons/google.svg`, `apps/web/src/components/ui/brand-icons/GoogleBrandIcon.tsx`, `apps/web/app/login/_components/GoogleOAuthButton.client.tsx`, `scripts/verify-design-tokens.ts`, `scripts/verify-design-tokens.spec.ts`, `docs/00-getting-started-manual/specs/09b-design-tokens.md` |
+| invariant | `apps/web/src/components/ui/brand-icons/*.svg` のみ HEX exempt。`.tsx`, nested SVG, `.ts`, `.css` は exempt しない |
+| Phase 12 | strict 7 present + validator entry `outputs/phase-12/phase-12.md` |
+| Phase 11 | required VISUAL auxiliary files present; render PNG present; browser screenshots pending local disk cleanup (`ENOSPC`) |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-872-google-brand-4tone-icon-and-tokens-exempt-artifact-inventory.md` |
+| user gate | browser screenshot recapture after disk cleanup, visual baseline update, commit, push, PR |
+
 ### issue-864-admin-staging-runtime-smoke-ci-gate（2026-05-24）
 
 | 項目 | 値 |

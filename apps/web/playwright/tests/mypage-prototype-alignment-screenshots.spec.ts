@@ -8,10 +8,17 @@ const PHASE11_DIR = resolve(
 const SCREENSHOT_DIR = join(PHASE11_DIR, 'screenshots')
 
 async function prepare(page: import('@playwright/test').Page): Promise<void> {
-  await page.addStyleTag({
-    content:
-      '*, *::before, *::after { animation: none !important; transition: none !important; caret-color: transparent !important; }',
-  })
+  // WebKit は Report-Only CSP の style-src でも addStyleTag を reject するため try/catch で許容する。
+  // 注入は animation 停止目的の screenshot 安定化で機能アサーションには影響しない。
+  try {
+    await page.addStyleTag({
+      content:
+        '*, *::before, *::after { animation: none !important; transition: none !important; caret-color: transparent !important; }',
+    })
+  } catch {
+    // CSP 拒否時は emulateMedia による reducedMotion fallback で最低限の animation 抑制を保つ
+    await page.emulateMedia({ reducedMotion: 'reduce' })
+  }
 }
 
 async function screenshot(

@@ -649,3 +649,15 @@
 - Why: 本ファイルは `apps/api/src/repository/_shared/source-spec/*` から hash 化生成される deterministic artifact。手動工程化しても結果は一意なので、resolver に組み込んで dev sync prompt の自律判断ルール B 内で完結させる方が漏れない。`git checkout --theirs` を起点にするのは、ours の hash が古いことが多く再生成後の diff が増えるのを避けるため（再生成結果は theirs/ours どちらが起点でも spec が同一なら同一になる）。
 - How to apply: dev sync prompt 自律判断ルール B の resolver 後処理で `pnpm sync:resolve` 一発を期待する。`^UU` 残のうち `static-manifest.json` は呼ばずに済むようになった。新規 deterministic artifact が conflict 対象に増えた場合は `REGENERATE_TARGETS` 配列にエントリ追加する（task-specification-creator skill §15 と対応）。
 - 事例: 2026-05-24 `docs/issue-842-admin-mutation-reliability-policy-spec` ← dev sync-merge。初回は手動 regenerate で吸収後、同 commit 内で resolver 拡張をスキル反映として実装。task-specification-creator skill 側 `pr-pre-flight-ci-gate-checklist.md` §15 を「`sync:resolve` 一発完結」に更新済み。
+
+## L-DEVSYNC-041: `apps/web/src/lib/env.ts` の並列 export 追加（CSP / Auth 系）3-way conflict は両側 export 保持 + import 集約で機械統合可能（2026-05-25 追加）
+
+- 事象: dev sync-merge で `apps/web/src/lib/env.ts` と `apps/web/src/lib/__tests__/env.spec.ts` が `WARN unhandled conflict`。HEAD 側（CSP enforce cutover）が `getSecurityHeaderEnv` + `SecurityHeaderEnvSchema` を、dev 側（auth env 統一 / [[project_issue862_auth_env_spec]]）が `getAuthEnv` / `getPublicFetchEnv` + `AuthEnvSchema` / `ServiceBinding` 型を**それぞれ独立に追加**する典型的な並列 export 追加パターン。conflict hunk は (1) import 行、(2) schema/型宣言ブロック直前、(3) export 関数末尾の3箇所に分散して現れる。
+- Why: `env.ts` は `EnvSchema.pick(...)` ベースで領域別 getter を追加していく拡張点であり、複数 issue が同 sprint で独立に新 getter を生やすと git は連続した 3-way hunk として diff3 表示する。両者は意味的に完全独立で union 等価で安全に統合できる。
+- How to apply:
+  1. resolver で `WARN unhandled conflict: apps/web/src/lib/env.ts` を見たら、hunk が「(a) `EnvSchema.pick(...)` schema 宣言の追加」「(b) `export function get*Env(...)`」「(c) test 側の import 行と describe 内 it ブロック」の組み合わせかを確認する。
+  2. (a) と (b) は両側 schema / 関数を**両方保持**して順序を維持（HEAD → dev の順で連結）。test 側 import 行は両側 named import を集約して 1 文に統合（multi-line import が ESLint 設定上許容されているなら multi-line に展開）。
+  3. test の `it(...)` ブロックは両側を順次保持し、`describe` 終端の `});` を 1 つだけ残す（diff3 が `>>>>>>>` を `});` の直前に置きがちなので二重閉じに注意）。
+  4. `grep -n -E '^(<<<<<<<|=======|>>>>>>>|\|\|\|\|\|\|\|)' apps/web/src/lib/env.ts apps/web/src/lib/__tests__/env.spec.ts` が空であることを確認 → `git add` → `git commit --no-edit`。
+- 留意: 同一 schema key（例: 両側が `CSP_MODE` を別形で定義）に競合があれば union 不可。本パターンは「両側が EnvSchema 既存 key の異なる subset を pick / 異なる関数名で export」する場合に限り成立する。同じ関数名・同じ schema 名への両側 mutation は L-DEVSYNC-013 系の意味的競合として最終レポート対象。
+- 事例: 2026-05-25 `docs/issue-869-csp-enforce-cutover-spec` ← dev sync-merge。HEAD = `getSecurityHeaderEnv` (#869 / CSP enforce)、dev = `getAuthEnv` / `getPublicFetchEnv` (#862 / auth env 統一)。両側 schema 宣言（`SecurityHeaderEnvSchema` / `AuthEnvSchema` + `ServiceBinding` 型 + `PublicFetchEnv` interface）と関数を両保持、test 側 import を `getAuthEnv, getEnv, getPublicEnv, getPublicFetchEnv, getSecurityHeaderEnv, readRawEnv` の multi-line に集約、`it` ブロック 3+3 を両側順次保持して `describe` 終端 `});` を 1 本に整理。conflict marker grep 0 確認後 merge commit。task-specification-creator skill 側 SP-DEVSYNC-034 と対応。

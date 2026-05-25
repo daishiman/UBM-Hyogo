@@ -15,6 +15,34 @@
 | local evidence | focused Vitest 19+2 PASS including `jest-axe` (AC-3/AC-4 transition assertion 追加); root lint/typecheck PASS; design-token and client-boundary grep PASS |
 | user gate | commit, push, PR |
 
+## issue-872-google-brand-4tone-icon-and-tokens-exempt（2026-05-24）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-872-google-brand-4tone-icon-and-tokens-exempt/` |
+| status | `local_static_pass_browser_pending / implementation / VISUAL` |
+| source | Issue #872 / FU-LOGIN-001 from `login-page-prototype-alignment` |
+| purpose | Google OAuth button を official 4-tone SVG asset wrapper へ置換する仕様と、`verify-design-tokens` の brand SVG exempt を定義 |
+| invariant | HEX literal は `apps/web/src/components/ui/brand-icons/*.svg` のみ exempt。`GoogleBrandIcon.tsx` / nested SVG / `.ts` / `.css` は exempt しない |
+| Phase 12 | strict 7 present + validator entry `outputs/phase-12/phase-12.md` |
+| Phase 11 | VISUAL auxiliary files present; render PNG present; browser screenshots pending local disk cleanup (`ENOSPC`) |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-872-google-brand-4tone-icon-and-tokens-exempt-artifact-inventory.md` |
+| user gate | browser screenshot recapture after disk cleanup, visual baseline update, commit, push, PR |
+
+## issue-871-csp-nonce-migration（2026-05-24）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-871-csp-nonce-migration/` |
+| status | `implemented_local_evidence_captured / implementation / NON_VISUAL` |
+| issue | #871 CLOSED; PR should use `Refs #871`; commit / push / PR / issue mutation are user-gated |
+| purpose | `apps/web` CSP nonce migration and removal of direct inline fallback from `script-src` / `style-src` |
+| implementation | `apps/web/src/lib/security-headers.ts`, `apps/web/middleware.ts`, `apps/web/src/lib/security-headers.spec.ts`, `apps/web/__tests__/middleware.spec.ts`, `apps/web/playwright/tests/security-headers.spec.ts` |
+| contract | request-scoped nonce via middleware; `script-src 'self' 'nonce-<n>' 'strict-dynamic'`; `style-src` / `style-src-elem` nonce; `style-src-attr` transitional compatibility; report-only mode unchanged |
+| evidence | `outputs/phase-11/canonical-paths.json`, focused Vitest 17 PASS, unsafe-inline grep 0 hit |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-871-csp-nonce-migration-artifact-inventory.md` |
+| user gate | Playwright HTTP smoke execution, staging/production response verification, commit, push, PR |
+
 ## awshh-followup-003-csp-reporting-endpoints（2026-05-24）
 
 | 目的 | 参照先 |
@@ -271,12 +299,25 @@
 | status | `implemented_local_evidence_captured / implementation / NON_VISUAL` |
 | scope | `apps/web` response security headers via middleware |
 | implementation | `apps/web/src/lib/security-headers.ts`, `apps/web/middleware.ts`, `apps/web/src/lib/security-headers.spec.ts`, `apps/web/playwright/tests/security-headers.spec.ts` |
-| contract | CSP is `Content-Security-Policy-Report-Only`; `Permissions-Policy` excludes `browsing-topics`; Trusted Types enforcement is not emitted |
-| env | `getPublicEnv().NEXT_PUBLIC_API_BASE_URL` is the canonical API URL; `NEXT_PUBLIC_API_ORIGIN` is not used |
+| contract | CSP header mode is env-driven via `CSP_MODE`; `report-only` emits `Content-Security-Policy-Report-Only`, `enforce` emits `Content-Security-Policy`; `Permissions-Policy` excludes `browsing-topics`; Trusted Types enforcement is not emitted |
+| env | `getSecurityHeaderEnv()` is the middleware boundary for `CSP_MODE` + `NEXT_PUBLIC_API_BASE_URL`; `NEXT_PUBLIC_API_ORIGIN` is not used |
 | Phase 12 | strict 7 outputs present; root/output artifacts parity present |
 | inventory | `.claude/skills/aiworkflow-requirements/references/workflow-apps-web-security-headers-hardening-artifact-inventory.md` |
 | lessons-learned | `.claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-apps-web-security-headers-hardening-2026-05.md` (L-AWSHH-001..004) |
 | user gate | staging/production response verification, commit, push, PR |
+
+## issue-869-csp-enforce-cutover（2026-05-24）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-869-csp-enforce-cutover/` |
+| status | `implemented_local_evidence_captured / implementation / NON_VISUAL / runtime deploy user-gated` |
+| issue | #869 CLOSED; do not reopen; PR should use `Refs #869` only |
+| implementation | `apps/web/src/lib/env.ts`, `apps/web/middleware.ts`, `apps/web/wrangler.toml`, `apps/web/src/lib/__tests__/env.spec.ts`, `apps/web/playwright/tests/security-headers.spec.ts` |
+| contract | `CSP_MODE` zod enum defaults to `report-only`; staging wrangler var is `enforce`; production remains `report-only` until explicit cutover |
+| system spec | `.claude/skills/aiworkflow-requirements/references/security-web-response-headers.md` |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-869-csp-enforce-cutover-artifact-inventory.md` |
+| boundary | staging/production deploy and curl evidence, production enforce final cutover, commit, push, PR are user-gated |
 
 ## ci-green-recovery-smoke-coverage-shard（2026-05-23）
 
