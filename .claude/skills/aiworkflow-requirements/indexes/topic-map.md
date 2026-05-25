@@ -2279,6 +2279,14 @@ node scripts/list-specs.js --topics
 | Evidence Artifacts | L24 |
 | Boundary | L39 |
 
+### references/workflow-fix-admin-scr-err-stg-fu-001-auth-env-via-getenv-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Implementation Files | L15 |
+| Test Evidence | L23 |
+| User-Gated Boundary | L32 |
+
 ### references/workflow-fix-admin-server-components-render-error-stg-artifact-inventory.md
 
 | セクション | 行 |
@@ -2969,6 +2977,14 @@ node scripts/list-specs.js --topics
 | Implementation Targets | L11 |
 | Evidence | L20 |
 | Contract | L28 |
+
+### references/workflow-issue-842-admin-mutation-reliability-policy-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Workflow Files | L11 |
+| Implementation Targets | L20 |
+| Boundary | L32 |
 
 ### references/workflow-issue-857-internal-alert-relay-binding-wiring-artifact-inventory.md
 
@@ -4672,14 +4688,14 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 変更履歴 | L6 |
 | 環境変数の分類 | L15 |
-| セキュリティベストプラクティス | L131 |
-| 環境別設定 | L205 |
-| Electron アプリでの環境変数 | L259 |
-| トラブルシューティング | L316 |
-| チーム開発での運用 | L377 |
-| 必須環境変数一覧 | L416 |
-| CI/CD環境（GitHub Secrets / Variables）（UT-27 追加 2026-04-29） | L477 |
-| 関連ドキュメント | L500 |
+| セキュリティベストプラクティス | L133 |
+| 環境別設定 | L207 |
+| Electron アプリでの環境変数 | L261 |
+| トラブルシューティング | L318 |
+| チーム開発での運用 | L379 |
+| 必須環境変数一覧 | L418 |
+| CI/CD環境（GitHub Secrets / Variables）（UT-27 追加 2026-04-29） | L479 |
+| 関連ドキュメント | L502 |
 
 ### references/error-handling-core.md
 
@@ -7532,14 +7548,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L2297 |
-| フェーズ構造（概要） | L2306 |
-| 品質ゲート（概要） | L2337 |
-| 出力テンプレート | L2348 |
-| 実行時のコマンド・エージェント・スキル | L2371 |
-| 昇格パターン集 | L2395 |
-| Current Active / Spec Created Tasks | L2397 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L2557 |
+| ドキュメント構成 | L2326 |
+| フェーズ構造（概要） | L2335 |
+| 品質ゲート（概要） | L2366 |
+| 出力テンプレート | L2377 |
+| 実行時のコマンド・エージェント・スキル | L2400 |
+| 昇格パターン集 | L2424 |
+| Current Active / Spec Created Tasks | L2426 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L2586 |
 
 ### references/task-workflow-backlog-part2.md
 

@@ -19,6 +19,20 @@
 | tests | `scripts/smoke/__tests__/mint-staging-session-cookie.spec.ts`, `scripts/smoke/__tests__/runtime-admin-web.test.sh` |
 | user gate | Cloudflare staging deploy, real `/admin` probe, commit, push, PR |
 
+### fix-admin-scr-err-stg-fu-001-auth-env-via-getenv（2026-05-24）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `PASS_BOUNDARY_SYNCED_RUNTIME_PENDING / implementation / NON_VISUAL` |
+| 成果物 | `docs/30-workflows/fix-admin-scr-err-stg-fu-001-auth-env-via-getenv/` |
+| 元 issue | #862（CLOSED 維持） |
+| 目的 | apps/web auth/public fetch の env 直接参照を env.ts 公開アクセサへ統一し、staging admin render error 同型 regression を防ぐ |
+| in-cycle implementation | `apps/web/src/lib/env.ts` に google auth key + `getAuthEnv()` + `getPublicFetchEnv()` を追加、`apps/web/src/lib/auth.ts` と `apps/web/src/lib/fetch/public.ts` の direct `process.env` / `getCloudflareContext` を撤去 |
+| tests | `apps/web/src/lib/auth.spec.ts`, `apps/web/src/lib/__tests__/env.spec.ts`, `apps/web/src/lib/fetch/public.spec.ts`（focused Vitest 75 PASS） |
+| evidence | Phase 11 manual-test-result / AC grep gate / Phase 12 strict 7 / root-output artifacts parity |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-fix-admin-scr-err-stg-fu-001-auth-env-via-getenv-artifact-inventory.md` |
+| user gate | Cloudflare staging deploy, authenticated `/login -> /admin` smoke, commit, push, PR |
+
 ### issue-857 internal alert relay binding wiring（2026-05-24）
 
 | 項目 | 値 |
@@ -755,6 +769,21 @@
 | evidence | `docs/30-workflows/completed-tasks/step-06-meetings-attendance-implementation/outputs/phase-11/evidence/`, `docs/30-workflows/completed-tasks/step-06-meetings-attendance-implementation/outputs/phase-11/screenshots/`, `docs/30-workflows/completed-tasks/step-06-meetings-attendance-implementation/outputs/phase-12/phase12-task-spec-compliance-check.md` |
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-step-06-meetings-attendance-implementation-artifact-inventory.md` |
 | user gate | staging / production smoke、commit、push、PR |
+
+### issue-842-admin-mutation-reliability-policy（2026-05-24）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented / implementation / NON_VISUAL / local QA PASS / Phase 12 strict 7 present` |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-842-admin-mutation-reliability-policy/` |
+| source | Issue #842 CLOSED。PR 文脈は `Refs #842` のみ。前身 one-pager `docs/30-workflows/completed-tasks/admin-mutation-timeout-policy.md` は consumed |
+| parent | `docs/30-workflows/step-06-meetings-attendance-implementation/` |
+| 目的 | admin mutation reliability policy を `useAdminMutation` に集約し、timeout / retry / idempotency-key / 404 success-relaxation / abort を caller 分散ではなく hook policy として仕様化する |
+| implementation targets | `apps/web/src/features/admin/hooks/useAdminMutation.ts`, `apps/web/src/features/admin/hooks/useConfirmDialog.ts`, `apps/web/src/features/admin/hooks/index.ts`, focused hook specs, legacy `apps/web/src/lib/useAdminMutation.ts` delete |
+| invariant | API endpoint surface / D1 schema / UI visual surface は変更しない。現 `MeetingAttendancePanel.tsx` は POST-only のため DELETE 404 caller migration はしない |
+| evidence | Phase 11 local source-level PASS / Phase 12 strict 7 present / output artifacts parity present |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-842-admin-mutation-reliability-policy-artifact-inventory.md` |
+| user gate | commit / push / PR / staging runtime evidence |
 
 ### serial-05-step-03 schema diff resolve UI（2026-05-16）
 
