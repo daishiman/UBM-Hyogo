@@ -1,5 +1,21 @@
 # クイックリファレンス
 
+## fix-admin-scr-err-stg-fu-001-auth-env-via-getenv（2026-05-24）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/fix-admin-scr-err-stg-fu-001-auth-env-via-getenv/` |
+| status | `PASS_BOUNDARY_SYNCED_RUNTIME_PENDING / implementation / NON_VISUAL` |
+| scope | `apps/web` 認証境界 (`auth.ts`) と public fetch 境界 (`fetch/public.ts`) の env 参照を `env.ts` アクセサ経由へ統一 |
+| implementation | `apps/web/src/lib/env.ts`, `apps/web/src/lib/auth.ts`, `apps/web/src/lib/fetch/public.ts` |
+| tests | `apps/web/src/lib/auth.spec.ts`, `apps/web/src/lib/__tests__/env.spec.ts`, `apps/web/src/lib/fetch/public.spec.ts`（3 files / 75 tests PASS） |
+| spec sync | `references/environment-variables.md` が `getEnv()` / `getPublicEnv()` / `getAuthEnv()` / `getPublicFetchEnv()` の用途別アクセサ契約を正本化。`getAuthEnv()` は safeParse partial + `API_SERVICE` binding 同梱で invariant #11 fail-closed を維持 |
+| Phase 12 | `outputs/phase-12/phase12-task-spec-compliance-check.md` + strict 7 files present |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-fix-admin-scr-err-stg-fu-001-auth-env-via-getenv-artifact-inventory.md` |
+| lessons-learned | `.claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-fix-admin-scr-err-stg-fu-001-auth-env-via-getenv-2026-05.md` (L-AUTHENV-001..005) |
+| source | unassigned `fix-admin-scr-err-stg-followup-001-auth-env-via-getenv-migration.md`（consumed）/ issue #862（CLOSED kept closed）/ parent PR #849 #877 |
+| boundary | Cloudflare staging deploy, authenticated `/login -> /admin` smoke (AC-7), commit, push, PR are user-gated |
+
 ## Issue #838 Schema Alias Rollback Notification（2026-05-24）
 
 | 項目 | 値 |
