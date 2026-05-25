@@ -1,0 +1,29 @@
+{
+  "task_id": "issue-880-public-segment-error-loading-boundary",
+  "workflow_root": "docs/30-workflows/completed-tasks/issue-880-public-segment-error-loading-boundary/",
+  "source": "../artifacts.json",
+  "status": "implemented_local_evidence_captured",
+  "task_type": "implementation",
+  "visual_category": "VISUAL_ON_EXECUTION",
+  "phase_12_outputs": [
+    "outputs/phase-12/main.md",
+    "outputs/phase-12/implementation-guide.md",
+    "outputs/phase-12/system-spec-update-summary.md",
+    "outputs/phase-12/documentation-changelog.md",
+    "outputs/phase-12/unassigned-task-detection.md",
+    "outputs/phase-12/skill-feedback-report.md",
+    "outputs/phase-12/phase12-task-spec-compliance-check.md"
+  ],
+  "implementation_targets": [
+    "apps/web/app/(public)/error.tsx",
+    "apps/web/app/(public)/loading.tsx",
+    "apps/web/app/(public)/error-boundary-smoke/page.tsx",
+    "apps/web/playwright/tests/public-error-boundary.spec.ts"
+  ],
+  "user_gated": [
+    "commit",
+    "push",
+    "PR creation",
+    "GitHub issue mutation"
+  ]
+}

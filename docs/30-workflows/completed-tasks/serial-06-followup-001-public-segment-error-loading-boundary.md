@@ -3,7 +3,9 @@
 ## メタ情報
 
 ```yaml
-issue_number: TBD
+issue_number: 880
+canonical_workflow: docs/30-workflows/issue-880-public-segment-error-loading-boundary/
+status: consumed_by_issue_880
 ```
 
 | 項目         | 内容                                                                                       |
@@ -14,7 +16,7 @@ issue_number: TBD
 | 対象機能     | `(public)` segment の error / loading boundary                                            |
 | 優先度       | 中                                                                                         |
 | 見積もり規模 | 小規模                                                                                     |
-| ステータス   | 未実施                                                                                     |
+| ステータス   | consumed（Issue #880 / canonical workflow 実装・local evidence 取得済）                  |
 | 発見元       | serial-06-form-response-binding Phase 12 implementation-guide §「仕様との差分・判断記録」 |
 | 発見日       | 2026-05-23                                                                                 |
 
@@ -129,7 +131,7 @@ serial-06 Phase 5 §0 precondition は `apps/web/app/(public)/error.tsx` / `load
 
 ### Phase 4: テスト
 
-- Playwright force-throw（`__test__/error-trigger` route）で boundary 発火
+- Playwright force-throw（`/error-boundary-smoke` route）で boundary 発火
 - visual snapshot は `serial-07-regression-evidence` baseline に合流
 
 ### Phase 5: evidence
@@ -148,9 +150,9 @@ serial-06 Phase 5 §0 precondition は `apps/web/app/(public)/error.tsx` / `load
 
 ## 6. 完了条件
 
-- [ ] `apps/web/app/(public)/error.tsx` 配置済み
-- [ ] `apps/web/app/(public)/loading.tsx` 配置済み
-- [ ] `pnpm --filter @ubm-hyogo/web typecheck` / `lint` green
-- [ ] Playwright smoke 1 ケース pass
-- [ ] design tokens grep gate pass
-- [ ] serial-06 Phase 12 compliance check への backfill 完了
+- [x] `apps/web/app/(public)/error.tsx` 配置済み
+- [x] `apps/web/app/(public)/loading.tsx` 配置済み
+- [x] `pnpm typecheck` / `pnpm lint` green
+- [x] Playwright smoke 1 spec / 2 ケース pass
+- [x] design tokens grep gate pass
+- [x] serial-06 Phase 12 compliance check への backfill 完了
