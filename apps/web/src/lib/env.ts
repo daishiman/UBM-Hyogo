@@ -26,6 +26,7 @@ export type Env = z.infer<typeof EnvSchema>;
 const PublicEnvSchema = EnvSchema.pick({
   ENVIRONMENT: true,
   NEXT_PUBLIC_API_BASE_URL: true,
+  NEXT_PUBLIC_SENTRY_DSN: true,
 });
 
 type RawEnv = Record<string, unknown>;
@@ -86,7 +87,10 @@ export function getEnv(rawEnv: RawEnv = readRawEnv()): Env {
   return EnvSchema.parse(rawEnv);
 }
 
-export function getPublicEnv(rawEnv: RawEnv = readRawEnv()): Pick<Env, "ENVIRONMENT" | "NEXT_PUBLIC_API_BASE_URL"> {
+export function getPublicEnv(rawEnv: RawEnv = readRawEnv()): Pick<
+  Env,
+  "ENVIRONMENT" | "NEXT_PUBLIC_API_BASE_URL" | "NEXT_PUBLIC_SENTRY_DSN"
+> {
   return PublicEnvSchema.parse(rawEnv);
 }
 

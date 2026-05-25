@@ -699,6 +699,7 @@
       "lessons-learned-09a-staging-smoke-forms-sync-validation-2026-05.md",
       "lessons-learned-issue-195-03b-followup-sync-shared-modules-owner-2026-05.md",
       "workflow-apps-web-security-headers-hardening-artifact-inventory.md",
+      "workflow-awshh-followup-003-csp-reporting-endpoints-artifact-inventory.md",
       "workflow-i01-toastprovider-root-mount-artifact-inventory.md",
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
       "workflow-issue-352-postmortem-template-automation-artifact-inventory.md",
@@ -3267,6 +3268,7 @@
       "workflow-07c-followup-002-attendance-visual-smoke-artifact-inventory.md",
       "workflow-2b-admin-identity-conflicts-spec-artifact-inventory.md",
       "workflow-apps-web-security-headers-hardening-artifact-inventory.md",
+      "workflow-awshh-followup-003-csp-reporting-endpoints-artifact-inventory.md",
       "workflow-ci-staging-deploy-failure-fix-artifact-inventory.md",
       "workflow-e2e-stage-2-2d-contract-artifact-inventory.md",
       "workflow-fix-verify-design-tokens-og-route-exclude-artifact-inventory.md",
@@ -4655,6 +4657,7 @@
       "workflow-2b-admin-identity-conflicts-spec-artifact-inventory.md",
       "workflow-admin-member-delete-e2e-spec-artifact-inventory.md",
       "workflow-apps-web-security-headers-hardening-artifact-inventory.md",
+      "workflow-awshh-followup-003-csp-reporting-endpoints-artifact-inventory.md",
       "workflow-e2e-stage-2-2d-contract-artifact-inventory.md",
       "workflow-fix-admin-scr-err-stg-fu-001-auth-env-via-getenv-artifact-inventory.md",
       "workflow-fix-admin-server-components-render-error-stg-artifact-inventory.md",
@@ -5634,6 +5637,7 @@
       "workflow-06b-b-profile-self-service-request-ui-artifact-inventory.md",
       "workflow-06b-c-profile-logged-in-visual-evidence-artifact-inventory.md",
       "workflow-06b-c-runtime-evidence-execution-artifact-inventory.md",
+      "workflow-awshh-followup-003-csp-reporting-endpoints-artifact-inventory.md",
       "workflow-e2e-quality-uplift-stage-0-3-artifact-inventory.md",
       "workflow-fix-cf-deploy-esbuild-import-source-staging-failure-artifact-inventory.md",
       "workflow-fix-verify-design-tokens-og-route-exclude-artifact-inventory.md",
@@ -8479,6 +8483,7 @@
       "lessons-learned-ut-17-followup-003-healthcheck-cron-2026-05.md",
       "task-workflow-active.md",
       "workflow-02c-followup-002-fixtures-prod-build-exclusion-artifact-inventory.md",
+      "workflow-awshh-followup-003-csp-reporting-endpoints-artifact-inventory.md",
       "workflow-issue-517-followup-auto-summary-foundation-artifact-inventory.md",
       "workflow-task-03b-followup-005-sync-jobs-design-spec-artifact-inventory.md",
       "workflow-task-04b-followup-001-admin-queue-request-status-metadata-artifact-inventory.md",
@@ -9498,6 +9503,7 @@
     "System": [
       "interfaces-agent-sdk-integration.md",
       "workflow-apps-web-security-headers-hardening-artifact-inventory.md",
+      "workflow-awshh-followup-003-csp-reporting-endpoints-artifact-inventory.md",
       "workflow-i01-toastprovider-root-mount-artifact-inventory.md",
       "workflow-issue-352-postmortem-template-automation-artifact-inventory.md",
       "workflow-issue-378-tag-queue-paused-flag-artifact-inventory.md",
@@ -10464,6 +10470,7 @@
     "Root": [
       "legacy-ordinal-family-register.md",
       "workflow-apps-web-security-headers-hardening-artifact-inventory.md",
+      "workflow-awshh-followup-003-csp-reporting-endpoints-artifact-inventory.md",
       "workflow-issue-331-cicd-runtime-warning-cleanup-artifact-inventory.md",
       "workflow-issue-531-runtime-smoke-attendance-provider-artifact-inventory.md",
       "workflow-issue-560-next-standalone-instrumentation-patch-artifact-inventory.md",
@@ -11255,6 +11262,7 @@
       "task-workflow-active.md",
       "task-workflow.md",
       "workflow-apps-web-security-headers-hardening-artifact-inventory.md",
+      "workflow-awshh-followup-003-csp-reporting-endpoints-artifact-inventory.md",
       "workflow-issue-352-postmortem-template-automation-artifact-inventory.md",
       "workflow-issue-378-tag-queue-paused-flag-artifact-inventory.md",
       "workflow-issue-533-public-profile-builder-attendance-injection-artifact-inventory.md",
@@ -15218,6 +15226,7 @@
     ],
     "Consumed": [
       "lessons-learned-issue-350-long-term-observation-2026-05.md",
+      "workflow-awshh-followup-003-csp-reporting-endpoints-artifact-inventory.md",
       "workflow-issue-256-e2e-coverage-baseline-runbook-artifact-inventory.md",
       "workflow-issue-331-cicd-runtime-warning-cleanup-artifact-inventory.md",
       "workflow-task-09a-parallel-staging-deploy-smoke-and-forms-sync-validation-artifact-inventory.md"
@@ -16450,6 +16459,7 @@
       "workflow-2b-admin-identity-conflicts-spec-artifact-inventory.md",
       "workflow-admin-member-delete-e2e-spec-artifact-inventory.md",
       "workflow-apps-web-security-headers-hardening-artifact-inventory.md",
+      "workflow-awshh-followup-003-csp-reporting-endpoints-artifact-inventory.md",
       "workflow-ci-staging-deploy-failure-fix-artifact-inventory.md",
       "workflow-e2e-quality-uplift-stage-0-3-artifact-inventory.md",
       "workflow-e2e-stage-2-2d-contract-artifact-inventory.md",
@@ -17022,6 +17032,7 @@
     "Source": [
       "lessons-learned-issue-770-profile-loading-skeleton-2026-05.md",
       "lessons-learned-issue359-production-d1-apply-2026-05.md",
+      "workflow-awshh-followup-003-csp-reporting-endpoints-artifact-inventory.md",
       "workflow-issue-777-schema-diff-resolve-history-view-artifact-inventory.md",
       "workflow-issue-778-schema-alias-rollback-undo-artifact-inventory.md",
       "workflow-task-issue-191-production-d1-schema-aliases-apply-001-artifact-inventory.md"
@@ -24325,6 +24336,7 @@
       "workflow-2b-admin-identity-conflicts-spec-artifact-inventory.md",
       "workflow-admin-member-delete-e2e-spec-artifact-inventory.md",
       "workflow-apps-web-security-headers-hardening-artifact-inventory.md",
+      "workflow-awshh-followup-003-csp-reporting-endpoints-artifact-inventory.md",
       "workflow-ci-staging-deploy-failure-fix-artifact-inventory.md",
       "workflow-e2e-quality-uplift-stage-0-3-artifact-inventory.md",
       "workflow-e2e-stage-2-2d-contract-artifact-inventory.md",
@@ -24494,6 +24506,7 @@
       "workflow-03a-stablekey-literal-lint-enforcement-artifact-inventory.md",
       "workflow-07c-followup-002-attendance-visual-smoke-artifact-inventory.md",
       "workflow-apps-web-security-headers-hardening-artifact-inventory.md",
+      "workflow-awshh-followup-003-csp-reporting-endpoints-artifact-inventory.md",
       "workflow-e2e-stage-2-2d-contract-artifact-inventory.md",
       "workflow-fix-admin-scr-err-stg-fu-001-auth-env-via-getenv-artifact-inventory.md",
       "workflow-fix-cf-deploy-esbuild-import-source-staging-failure-artifact-inventory.md",
@@ -24816,6 +24829,51 @@
       "workflow-light-theme-global-remediation.md",
       "workflow-onboarding-wizard-alignment.md"
     ],
+    "awshh": [
+      "workflow-awshh-followup-003-csp-reporting-endpoints-artifact-inventory.md"
+    ],
+    "csp": [
+      "workflow-awshh-followup-003-csp-reporting-endpoints-artifact-inventory.md"
+    ],
+    "reporting": [
+      "workflow-awshh-followup-003-csp-reporting-endpoints-artifact-inventory.md"
+    ],
+    "endpoints": [
+      "workflow-awshh-followup-003-csp-reporting-endpoints-artifact-inventory.md",
+      "workflow-task-04a-parallel-public-directory-api-endpoints-artifact-inventory.md"
+    ],
+    "Outputs": [
+      "workflow-awshh-followup-003-csp-reporting-endpoints-artifact-inventory.md",
+      "workflow-fix-verify-design-tokens-og-route-exclude-artifact-inventory.md",
+      "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
+      "workflow-issue-526-ci-actionlint-shellcheck-gate-artifact-inventory.md",
+      "workflow-issue-616-miniflare-undici-upstream-tracking-artifact-inventory.md",
+      "workflow-issue-806-dynamic-member-og-image-artifact-inventory.md",
+      "workflow-parallel-04-shared-page-chrome-artifact-inventory.md",
+      "workflow-skill-md-codex-validation-fix-artifact-inventory.md",
+      "workflow-task-03b-followup-005-sync-jobs-design-spec-artifact-inventory.md",
+      "workflow-task-04a-parallel-public-directory-api-endpoints-artifact-inventory.md",
+      "workflow-task-04b-followup-001-admin-queue-request-status-metadata-artifact-inventory.md",
+      "workflow-task-05b-B-magic-link-callback-credentials-provider-artifact-inventory.md",
+      "workflow-task-05b-parallel-magic-link-provider-and-auth-gate-state-artifact-inventory.md",
+      "workflow-task-06-ui-ux-contract-rewrite-artifact-inventory.md",
+      "workflow-task-06a-A-public-web-real-workers-d1-smoke-execution-artifact-inventory.md",
+      "workflow-task-06a-followup-001-real-workers-d1-smoke-artifact-inventory.md",
+      "workflow-task-07b-parallel-schema-diff-alias-assignment-workflow-artifact-inventory.md",
+      "workflow-task-07c-followup-003-audit-log-browsing-ui-artifact-inventory.md",
+      "workflow-task-08a-parallel-api-contract-repository-and-authorization-tests-artifact-inventory.md",
+      "workflow-task-09a-parallel-staging-deploy-smoke-and-forms-sync-validation-artifact-inventory.md",
+      "workflow-task-09b-parallel-cron-triggers-monitoring-and-release-runbook-artifact-inventory.md",
+      "workflow-task-18-w7-verify-tokens-and-playwright-smoke-artifact-inventory.md",
+      "workflow-task-20-w2-screen-blueprints-public-and-member-artifact-inventory.md",
+      "workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md",
+      "workflow-task-lefthook-multi-worktree-reinstall-artifact-inventory.md",
+      "workflow-task-sync-forms-d1-legacy-umbrella-artifact-inventory.md",
+      "workflow-task-verify-indexes-up-to-date-ci-artifact-inventory.md",
+      "workflow-task-worktree-environment-isolation-artifact-inventory.md",
+      "workflow-ui-prototype-design-system-foundation-artifact-inventory.md",
+      "workflow-ut-06-fu-a-prod-route-secret-001-artifact-inventory.md"
+    ],
     "green": [
       "workflow-ci-green-recovery-smoke-coverage-shard-artifact-inventory.md"
     ],
@@ -24895,37 +24953,6 @@
       "workflow-ut-07c-followup-001-attendance-csv-import-artifact-inventory.md",
       "workflow-ut-17-followup-005-alert-relay-kv-error-metrics-artifact-inventory.md",
       "workflow-ut-dsf-07-staging-visual-runtime-evidence-artifact-inventory.md"
-    ],
-    "Outputs": [
-      "workflow-fix-verify-design-tokens-og-route-exclude-artifact-inventory.md",
-      "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
-      "workflow-issue-526-ci-actionlint-shellcheck-gate-artifact-inventory.md",
-      "workflow-issue-616-miniflare-undici-upstream-tracking-artifact-inventory.md",
-      "workflow-issue-806-dynamic-member-og-image-artifact-inventory.md",
-      "workflow-parallel-04-shared-page-chrome-artifact-inventory.md",
-      "workflow-skill-md-codex-validation-fix-artifact-inventory.md",
-      "workflow-task-03b-followup-005-sync-jobs-design-spec-artifact-inventory.md",
-      "workflow-task-04a-parallel-public-directory-api-endpoints-artifact-inventory.md",
-      "workflow-task-04b-followup-001-admin-queue-request-status-metadata-artifact-inventory.md",
-      "workflow-task-05b-B-magic-link-callback-credentials-provider-artifact-inventory.md",
-      "workflow-task-05b-parallel-magic-link-provider-and-auth-gate-state-artifact-inventory.md",
-      "workflow-task-06-ui-ux-contract-rewrite-artifact-inventory.md",
-      "workflow-task-06a-A-public-web-real-workers-d1-smoke-execution-artifact-inventory.md",
-      "workflow-task-06a-followup-001-real-workers-d1-smoke-artifact-inventory.md",
-      "workflow-task-07b-parallel-schema-diff-alias-assignment-workflow-artifact-inventory.md",
-      "workflow-task-07c-followup-003-audit-log-browsing-ui-artifact-inventory.md",
-      "workflow-task-08a-parallel-api-contract-repository-and-authorization-tests-artifact-inventory.md",
-      "workflow-task-09a-parallel-staging-deploy-smoke-and-forms-sync-validation-artifact-inventory.md",
-      "workflow-task-09b-parallel-cron-triggers-monitoring-and-release-runbook-artifact-inventory.md",
-      "workflow-task-18-w7-verify-tokens-and-playwright-smoke-artifact-inventory.md",
-      "workflow-task-20-w2-screen-blueprints-public-and-member-artifact-inventory.md",
-      "workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md",
-      "workflow-task-lefthook-multi-worktree-reinstall-artifact-inventory.md",
-      "workflow-task-sync-forms-d1-legacy-umbrella-artifact-inventory.md",
-      "workflow-task-verify-indexes-up-to-date-ci-artifact-inventory.md",
-      "workflow-task-worktree-environment-isolation-artifact-inventory.md",
-      "workflow-ui-prototype-design-system-foundation-artifact-inventory.md",
-      "workflow-ut-06-fu-a-prod-route-secret-001-artifact-inventory.md"
     ],
     "Category": [
       "workflow-governance-design-category.md"
@@ -25488,9 +25515,6 @@
     "確定値・列定義": [
       "workflow-task-03b-followup-005-sync-jobs-design-spec-artifact-inventory.md",
       "workflow-task-04b-followup-001-admin-queue-request-status-metadata-artifact-inventory.md"
-    ],
-    "endpoints": [
-      "workflow-task-04a-parallel-public-directory-api-endpoints-artifact-inventory.md"
     ],
     "主要実装物": [
       "workflow-task-04a-parallel-public-directory-api-endpoints-artifact-inventory.md",

@@ -1748,9 +1748,9 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | Canonical Contract | L3 |
-| Env Boundary | L16 |
-| User-gated Follow-ups | L20 |
-| Workflow | L29 |
+| Env Boundary | L18 |
+| User-gated Follow-ups | L22 |
+| Workflow | L31 |
 
 ---
 
@@ -2244,6 +2244,17 @@ node scripts/list-specs.js --topics
 | Implementation | L12 |
 | System Spec Sync | L21 |
 | Boundary | L32 |
+
+### references/workflow-awshh-followup-003-csp-reporting-endpoints-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Workflow Root | L3 |
+| Implementation | L12 |
+| Phase Outputs | L22 |
+| System Spec Sync | L30 |
+| Consumed Source | L41 |
+| Boundary | L47 |
 
 ### references/workflow-ci-green-recovery-smoke-coverage-shard-artifact-inventory.md
 
@@ -7554,14 +7565,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L2326 |
-| フェーズ構造（概要） | L2335 |
-| 品質ゲート（概要） | L2366 |
-| 出力テンプレート | L2377 |
-| 実行時のコマンド・エージェント・スキル | L2400 |
-| 昇格パターン集 | L2424 |
-| Current Active / Spec Created Tasks | L2426 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L2587 |
+| ドキュメント構成 | L2340 |
+| フェーズ構造（概要） | L2349 |
+| 品質ゲート（概要） | L2380 |
+| 出力テンプレート | L2391 |
+| 実行時のコマンド・エージェント・スキル | L2414 |
+| 昇格パターン集 | L2438 |
+| Current Active / Spec Created Tasks | L2440 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L2601 |
 
 ### references/task-workflow-backlog-part2.md
 
