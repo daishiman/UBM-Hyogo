@@ -17,6 +17,7 @@ import { decodeAuthSessionJwt } from "@ubm-hyogo/shared";
 import { getPublicEnv, getSecurityHeaderEnv } from "@/lib/env";
 import {
   applySecurityHeaders,
+  buildCspDirective,
   buildSentryCspReportUrl,
   type SecurityHeaderConfig,
 } from "@/lib/security-headers";
@@ -71,10 +72,30 @@ const buildSecurityHeaderConfig = (): SecurityHeaderConfig => {
   return cfg;
 };
 
-const guardedMiddleware = async (req: NextRequest) => {
+const generateNonce = (): string => {
+  const bytes = new Uint8Array(16);
+  crypto.getRandomValues(bytes);
+  let binary = "";
+  for (const byte of bytes) {
+    binary += String.fromCharCode(byte);
+  }
+  return btoa(binary);
+};
+
+const nextWithRequestHeaders = (requestHeaders: Headers): NextResponse =>
+  NextResponse.next({
+    request: {
+      headers: requestHeaders,
+    },
+  });
+
+const guardedMiddleware = async (
+  req: NextRequest,
+  requestHeaders: Headers,
+) => {
   const { pathname } = req.nextUrl;
   if (!pathname.startsWith("/admin") && !pathname.startsWith("/profile")) {
-    return NextResponse.next();
+    return nextWithRequestHeaders(requestHeaders);
   }
 
   const claims = await decodeAuthSessionJwt(authSecret(req), sessionToken(req));
@@ -89,20 +110,31 @@ const guardedMiddleware = async (req: NextRequest) => {
         headers: { "content-type": "text/plain; charset=utf-8" },
       });
     }
-    return NextResponse.next();
+    return nextWithRequestHeaders(requestHeaders);
   }
   if (pathname.startsWith("/profile")) {
     if (!claims) {
       return buildProfileLoginRedirect(req);
     }
-    return NextResponse.next();
+    return nextWithRequestHeaders(requestHeaders);
   }
-  return NextResponse.next();
+  return nextWithRequestHeaders(requestHeaders);
 };
 
 export async function middleware(req: NextRequest) {
-  const response = await guardedMiddleware(req);
-  return applySecurityHeaders(response, buildSecurityHeaderConfig());
+  const nonce = generateNonce();
+  const securityHeaderConfig = {
+    ...buildSecurityHeaderConfig(),
+    nonce,
+  };
+  const csp = buildCspDirective(securityHeaderConfig);
+  const requestHeaders = new Headers(req.headers);
+  requestHeaders.set("x-nonce", nonce);
+  requestHeaders.set("Content-Security-Policy", csp);
+
+  const response = await guardedMiddleware(req, requestHeaders);
+  response.headers.set("x-nonce", nonce);
+  return applySecurityHeaders(response, securityHeaderConfig);
 }
 
 export default middleware;

@@ -1750,8 +1750,9 @@ node scripts/list-specs.js --topics
 |------------|----|
 | Canonical Contract | L3 |
 | Env Boundary | L18 |
-| User-gated Follow-ups | L30 |
-| Workflow | L39 |
+| CSP Nonce Contract | L30 |
+| User-gated Follow-ups | L45 |
+| Workflow | L62 |
 
 ---
 
@@ -3025,6 +3026,15 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | Boundary | L19 |
+
+### references/workflow-issue-871-csp-nonce-migration-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Metadata | L3 |
+| Implementation | L14 |
+| Evidence | L24 |
+| Contract | L34 |
 
 ### references/workflow-light-theme-contrast-regression-guard.md
 

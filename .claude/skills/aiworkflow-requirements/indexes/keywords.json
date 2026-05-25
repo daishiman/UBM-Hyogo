@@ -2581,6 +2581,7 @@
       "lessons-learned-ut07b-fu04-production-migration-already-applied-verification-2026-05.md",
       "workflow-issue-277-next-proxy-migration-artifact-inventory.md",
       "workflow-issue-503-ut-07b-fu-01-followup-cursor-semantics-migration-artifact-inventory.md",
+      "workflow-issue-871-csp-nonce-migration-artifact-inventory.md",
       "workflow-light-theme-global-remediation.md"
     ],
     "renderer": [
@@ -3322,6 +3323,7 @@
       "workflow-issue-842-admin-mutation-reliability-policy-artifact-inventory.md",
       "workflow-issue-857-internal-alert-relay-binding-wiring-artifact-inventory.md",
       "workflow-issue-864-admin-staging-runtime-smoke-ci-gate-artifact-inventory.md",
+      "workflow-issue-871-csp-nonce-migration-artifact-inventory.md",
       "workflow-parallel-04-shared-page-chrome-artifact-inventory.md",
       "workflow-parallel-i02b-admin-mutation-error-finalize-artifact-inventory.md",
       "workflow-parallel-i03-dialog-refresh-order-artifact-inventory.md",
@@ -6952,6 +6954,7 @@
       "workflow-issue-827-member-detail-adapter-and-visibility-defense-artifact-inventory.md",
       "workflow-issue-837-schema-alias-bulk-rollback-artifact-inventory.md",
       "workflow-issue-857-internal-alert-relay-binding-wiring-artifact-inventory.md",
+      "workflow-issue-871-csp-nonce-migration-artifact-inventory.md",
       "workflow-mypage-prototype-alignment-artifact-inventory.md",
       "workflow-parallel-04-shared-page-chrome-artifact-inventory.md",
       "workflow-parallel-09-ux-cross-cutting-artifact-inventory.md",
@@ -7176,6 +7179,7 @@
       "workflow-issue-778-schema-alias-rollback-undo-artifact-inventory.md",
       "workflow-issue-837-schema-alias-bulk-rollback-artifact-inventory.md",
       "workflow-issue-863-admin-error-alert-policy-iac-artifact-inventory.md",
+      "workflow-issue-871-csp-nonce-migration-artifact-inventory.md",
       "workflow-mypage-prototype-alignment-artifact-inventory.md",
       "workflow-task-07-prototype-mapping-table-artifact-inventory.md",
       "workflow-task-08-w2-design-tokens-doc-artifact-inventory.md",
@@ -7530,6 +7534,7 @@
       "workflow-issue-864-admin-staging-runtime-smoke-ci-gate-artifact-inventory.md",
       "workflow-issue-869-csp-enforce-cutover-artifact-inventory.md",
       "workflow-issue-870-apps-api-security-headers-artifact-inventory.md",
+      "workflow-issue-871-csp-nonce-migration-artifact-inventory.md",
       "workflow-task-issue-191-production-d1-schema-aliases-apply-001-artifact-inventory.md",
       "workflow-task-issue-191-schema-aliases-implementation-001-artifact-inventory.md",
       "workflow-task-issue-346-08a-canonical-workflow-tree-restore-artifact-inventory.md",
@@ -9240,6 +9245,7 @@
       "workflow-issue-617-ci-test-time-reduction-split-artifact-inventory.md",
       "workflow-issue-718-legacy-cf-token-revocation-artifact-inventory.md",
       "workflow-issue-836-schema-alias-recompute-trigger-artifact-inventory.md",
+      "workflow-issue-871-csp-nonce-migration-artifact-inventory.md",
       "workflow-login-page-prototype-alignment-artifact-inventory.md",
       "workflow-mypage-prototype-alignment-artifact-inventory.md",
       "workflow-parallel-i06-root-error-focus-artifact-inventory.md",
@@ -16546,6 +16552,7 @@
       "workflow-issue-857-internal-alert-relay-binding-wiring-artifact-inventory.md",
       "workflow-issue-864-admin-staging-runtime-smoke-ci-gate-artifact-inventory.md",
       "workflow-issue-870-apps-api-security-headers-artifact-inventory.md",
+      "workflow-issue-871-csp-nonce-migration-artifact-inventory.md",
       "workflow-mypage-prototype-alignment-artifact-inventory.md",
       "workflow-parallel-04-shared-page-chrome-artifact-inventory.md",
       "workflow-parallel-09-ux-cross-cutting-artifact-inventory.md",
@@ -22540,6 +22547,12 @@
       "workflow-ut-cicd-drift-impl-observability-matrix-sync-artifact-inventory.md",
       "workflow-ut-coverage-2026-05-wave-artifact-inventory.md"
     ],
+    "CSP": [
+      "security-web-response-headers.md"
+    ],
+    "Nonce": [
+      "security-web-response-headers.md"
+    ],
     "User": [
       "security-web-response-headers.md",
       "workflow-ci-staging-deploy-failure-fix-artifact-inventory.md",
@@ -22596,7 +22609,8 @@
       "skill-ledger-fragment-spec.md"
     ],
     "nonce": [
-      "skill-ledger-fragment-spec.md"
+      "skill-ledger-fragment-spec.md",
+      "workflow-issue-871-csp-nonce-migration-artifact-inventory.md"
     ],
     "再生成リトライ": [
       "skill-ledger-fragment-spec.md"
@@ -24425,6 +24439,7 @@
       "workflow-issue-857-internal-alert-relay-binding-wiring-artifact-inventory.md",
       "workflow-issue-864-admin-staging-runtime-smoke-ci-gate-artifact-inventory.md",
       "workflow-issue-870-apps-api-security-headers-artifact-inventory.md",
+      "workflow-issue-871-csp-nonce-migration-artifact-inventory.md",
       "workflow-mypage-prototype-alignment-artifact-inventory.md",
       "workflow-parallel-04-shared-page-chrome-artifact-inventory.md",
       "workflow-parallel-09-ux-cross-cutting-artifact-inventory.md",
@@ -24558,6 +24573,7 @@
       "workflow-issue-837-schema-alias-bulk-rollback-artifact-inventory.md",
       "workflow-issue-842-admin-mutation-reliability-policy-artifact-inventory.md",
       "workflow-issue-857-internal-alert-relay-binding-wiring-artifact-inventory.md",
+      "workflow-issue-871-csp-nonce-migration-artifact-inventory.md",
       "workflow-login-page-prototype-alignment-artifact-inventory.md",
       "workflow-mypage-prototype-alignment-artifact-inventory.md",
       "workflow-parallel-04-shared-page-chrome-artifact-inventory.md",
@@ -24852,7 +24868,8 @@
     ],
     "csp": [
       "workflow-awshh-followup-003-csp-reporting-endpoints-artifact-inventory.md",
-      "workflow-issue-869-csp-enforce-cutover-artifact-inventory.md"
+      "workflow-issue-869-csp-enforce-cutover-artifact-inventory.md",
+      "workflow-issue-871-csp-nonce-migration-artifact-inventory.md"
     ],
     "reporting": [
       "workflow-awshh-followup-003-csp-reporting-endpoints-artifact-inventory.md"

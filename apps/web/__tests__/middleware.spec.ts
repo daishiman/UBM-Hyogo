@@ -77,4 +77,24 @@ describe("middleware", () => {
     const res = await middleware(makeRequest("/profile", { cookie: await makeCookie(false) }));
     expect(res.headers.get("x-middleware-next")).toBe("1");
   });
+
+  it("全レスポンスに request ごとの nonce CSP を付与する", async () => {
+    const first = await middleware(makeRequest("/"));
+    const second = await middleware(makeRequest("/"));
+    const firstCsp = first.headers.get("Content-Security-Policy-Report-Only") ?? "";
+    const secondCsp = second.headers.get("Content-Security-Policy-Report-Only") ?? "";
+    const firstNonce = first.headers.get("x-nonce") ?? "";
+    const secondNonce = second.headers.get("x-nonce") ?? "";
+    const unsafeInline = ["'unsafe", "-inline'"].join("");
+
+    expect(firstNonce).toMatch(/^[A-Za-z0-9+/]+={0,2}$/);
+    expect(secondNonce).toMatch(/^[A-Za-z0-9+/]+={0,2}$/);
+    expect(firstNonce).not.toBe(secondNonce);
+    expect(firstCsp).toContain(`script-src 'self' 'nonce-${firstNonce}' 'strict-dynamic'`);
+    expect(firstCsp).toContain(`style-src 'self' 'nonce-${firstNonce}'`);
+    expect(firstCsp).toContain(`style-src-attr ${unsafeInline}`);
+    expect(firstCsp).not.toContain(`script-src 'self' ${unsafeInline}`);
+    expect(firstCsp).not.toContain(`style-src 'self' ${unsafeInline}`);
+    expect(secondCsp).toContain(`script-src 'self' 'nonce-${secondNonce}' 'strict-dynamic'`);
+  });
 });
