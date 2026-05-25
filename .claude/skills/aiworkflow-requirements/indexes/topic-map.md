@@ -1748,9 +1748,9 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | Canonical Contract | L3 |
-| Env Boundary | L24 |
-| User-gated Follow-ups | L42 |
-| Workflow | L51 |
+| Env Boundary | L18 |
+| User-gated Follow-ups | L30 |
+| Workflow | L39 |
 
 ---
 
