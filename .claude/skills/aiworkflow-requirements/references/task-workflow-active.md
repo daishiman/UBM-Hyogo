@@ -22,6 +22,17 @@
 | lessons-learned | `.claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-issue-880-public-segment-error-loading-boundary-2026-05.md`（L-PUBERR-001..003） |
 | user gate | commit, push, PR, GitHub issue mutation |
 
+### issue-864-admin-staging-runtime-smoke-ci-gate（2026-05-24）
+
+| 項目 | 値 |
+| --- | --- |
+| state | `implemented_local_runtime_pending / implementation / NON_VISUAL` |
+| root | `docs/30-workflows/completed-tasks/issue-864-admin-staging-runtime-smoke-ci-gate/` |
+| purpose | staging deploy 後に authenticated `/admin` を叩き Server Components render error digest `167275886` / `error.boundary.caught` を CI で検出する gate |
+| implementation targets | `scripts/cf.sh tail`, `scripts/smoke/mint-staging-session-cookie.mts`, `scripts/smoke/runtime-admin-web.sh`, `.github/workflows/web-cd.yml admin-runtime-smoke` |
+| tests | `scripts/smoke/__tests__/mint-staging-session-cookie.spec.ts`, `scripts/smoke/__tests__/runtime-admin-web.test.sh` |
+| user gate | Cloudflare staging deploy, real `/admin` probe, commit, push, PR |
+
 ### fix-admin-scr-err-stg-fu-001-auth-env-via-getenv（2026-05-24）
 
 | 項目 | 値 |
@@ -101,6 +112,19 @@
 | local evidence | `pnpm exec vitest run scripts/smoke/__tests__/bearer-freshness-gate.spec.ts scripts/smoke/__tests__/mint-staging-bearers.spec.ts` PASS; `bash scripts/smoke/__tests__/runtime-attendance-provider.test.sh` PASS |
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-runtime-smoke-staging-mint-recurrence-fix-artifact-inventory.md` |
 | user gate | GitHub secret mutation, Cloudflare secret mutation, staging runtime rerun, commit, push, PR |
+
+### issue-870-apps-api-security-headers（2026-05-24）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / NON_VISUAL` |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-870-apps-api-security-headers/` |
+| Issue | #870 CLOSED。PR 文脈は `Refs #870` のみ |
+| 目的 | `apps/api` 全 route に API response security headers と deny-by-default CORS を追加する |
+| implementation targets | `apps/api/src/middleware/security-headers.ts`, `apps/api/src/middleware/__tests__/security-headers.spec.ts`, `apps/api/src/index.ts`, `apps/api/src/env.ts`, `apps/api/wrangler.toml` |
+| evidence | `pnpm --filter @ubm-hyogo/api typecheck` PASS、focused Vitest 15 tests PASS、Phase 12 strict 7 present |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-870-apps-api-security-headers-artifact-inventory.md` |
+| user gate | staging/production curl, deploy, commit, push, PR |
 
 ### members-page-prototype-alignment（2026-05-23）
 
@@ -185,6 +209,20 @@
 | evidence | Phase 12 strict 7 / root-output artifacts parity / unit + Playwright smoke spec |
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-apps-web-security-headers-hardening-artifact-inventory.md` |
 | user gate | staging/production response verification, commit, push, PR |
+
+### awshh-followup-003-csp-reporting-endpoints（2026-05-24）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / NON_VISUAL` |
+| 成果物 | `docs/30-workflows/completed-tasks/awshh-followup-003-csp-reporting-endpoints/` |
+| Issue | #868 CLOSED（再オープンしない、PR 文脈は `Refs #868`） |
+| 目的 | CSP Report-Only の違反レポート送信先を Sentry CSP security endpoint へ集約し、U-AWSHH-001 enforce 切替の観測前提を作る |
+| implementation targets | `apps/web/src/lib/security-headers.ts`, `apps/web/src/lib/env.ts`, `apps/web/middleware.ts`, `apps/web/src/lib/security-headers.spec.ts`, `apps/web/src/lib/__tests__/env.spec.ts` |
+| contract | `Reporting-Endpoints: csp-endpoint="..."` と CSP `report-to csp-endpoint` / `report-uri <url>` を同一 `CSP_REPORT_GROUP` と同一導出 URL から出力する。Sentry endpoint は既存 public `NEXT_PUBLIC_SENTRY_DSN` から導出し、新規 CSP 専用 URL env は作らない |
+| boundary | `apps/api` / D1 / `apps/web/wrangler.toml` は不変更。staging deploy、Sentry 受信確認、commit、push、PR は user-gated |
+| source consumed | `docs/30-workflows/completed-tasks/unassigned-task/awshh-followup-003-reporting-endpoints.md` |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-awshh-followup-003-csp-reporting-endpoints-artifact-inventory.md` |
 
 ### ci-green-recovery-smoke-coverage-shard（2026-05-23）
 

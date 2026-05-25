@@ -1627,8 +1627,9 @@ node scripts/list-specs.js --topics
 | 認証・認可フロー | L10 |
 | レート制限 | L29 |
 | CORS設定 | L46 |
-| 依存関係セキュリティ | L55 |
-| 関連ドキュメント | L80 |
+| apps/api Response Security Headers | L53 |
+| 依存関係セキュリティ | L70 |
+| 関連ドキュメント | L95 |
 
 ### references/security-electron-ipc-examples.md
 
@@ -1748,9 +1749,10 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | Canonical Contract | L3 |
-| Env Boundary | L16 |
-| User-gated Follow-ups | L20 |
-| Workflow | L29 |
+| Env Boundary | L18 |
+| CSP Nonce Contract | L30 |
+| User-gated Follow-ups | L45 |
+| Workflow | L54 |
 
 ---
 
@@ -2244,6 +2246,17 @@ node scripts/list-specs.js --topics
 | Implementation | L12 |
 | System Spec Sync | L21 |
 | Boundary | L32 |
+
+### references/workflow-awshh-followup-003-csp-reporting-endpoints-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Workflow Root | L3 |
+| Implementation | L12 |
+| Phase Outputs | L22 |
+| System Spec Sync | L30 |
+| Consumed Source | L41 |
+| Boundary | L47 |
 
 ### references/workflow-ci-green-recovery-smoke-coverage-shard-artifact-inventory.md
 
@@ -2999,6 +3012,29 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | Contract | L18 |
+
+### references/workflow-issue-864-admin-staging-runtime-smoke-ci-gate-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| State | L15 |
+
+### references/workflow-issue-869-csp-enforce-cutover-artifact-inventory.md
+
+### references/workflow-issue-870-apps-api-security-headers-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Boundary | L19 |
+
+### references/workflow-issue-871-csp-nonce-migration-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Metadata | L3 |
+| Implementation | L14 |
+| Evidence | L24 |
+| Contract | L34 |
 
 ### references/workflow-issue-880-public-segment-error-loading-boundary-artifact-inventory.md
 
@@ -7558,14 +7594,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L2329 |
-| フェーズ構造（概要） | L2338 |
-| 品質ゲート（概要） | L2369 |
-| 出力テンプレート | L2380 |
-| 実行時のコマンド・エージェント・スキル | L2403 |
-| 昇格パターン集 | L2427 |
-| Current Active / Spec Created Tasks | L2429 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L2590 |
+| ドキュメント構成 | L2367 |
+| フェーズ構造（概要） | L2376 |
+| 品質ゲート（概要） | L2407 |
+| 出力テンプレート | L2418 |
+| 実行時のコマンド・エージェント・スキル | L2441 |
+| 昇格パターン集 | L2465 |
+| Current Active / Spec Created Tasks | L2467 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L2628 |
 
 ### references/task-workflow-backlog-part2.md
 

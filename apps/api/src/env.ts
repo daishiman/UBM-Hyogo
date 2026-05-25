@@ -40,6 +40,7 @@ export interface Env extends SyncEnv, ResponseSyncEnv {
 
   // wrangler.toml [vars] ENVIRONMENT
   readonly ENVIRONMENT?: "production" | "staging" | "development";
+  readonly ALLOWED_ORIGINS?: string;
   readonly RETENTION_PURGE_MODE?: "off" | "dry-run" | "apply";
   readonly RETENTION_PURGE_LIMIT?: string;
   // issue #378: Forms sync -> tag_assignment_queue candidate enqueue emergency stop.
