@@ -60,6 +60,99 @@ jobs:
           CLOUDFLARE_ACCOUNT_ID: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
         run: bash scripts/redaction-check.sh --log web-cd-staging-deploy.log --account-id "$CLOUDFLARE_ACCOUNT_ID"
 
+  admin-runtime-smoke:
+    if: github.ref_name == 'dev'
+    needs: deploy-staging
+    runs-on: ubuntu-latest
+    environment:
+      name: staging-runtime-smoke
+    permissions:
+      contents: read
+    timeout-minutes: 10
+    env:
+      STAGING_WEB_BASE: ${{ secrets.STAGING_WEB_BASE }}
+      STAGING_AUTH_SECRET: ${{ secrets.STAGING_AUTH_SECRET }}
+      STAGING_ADMIN_MEMBER_ID: ${{ secrets.STAGING_ADMIN_MEMBER_ID }}
+      STAGING_ADMIN_EMAIL: ${{ secrets.STAGING_ADMIN_EMAIL }}
+      CLOUDFLARE_ACCOUNT_ID: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
+      CF_WORKER_NAME: ubm-hyogo-web-staging
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: ./.github/actions/setup-project
+        with:
+          setup-strategy: mise
+
+      # NOTE: CLOUDFLARE_API_TOKEN は job-level env に置かず、これを必要とする step だけに
+      # step-scoped env として渡す（workflow-env-scope.test.sh / setup・install step への漏洩防止）。
+      - name: check runtime smoke prerequisites
+        id: prereq
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+        run: |
+          missing=()
+          for name in STAGING_WEB_BASE STAGING_AUTH_SECRET STAGING_ADMIN_MEMBER_ID STAGING_ADMIN_EMAIL CLOUDFLARE_API_TOKEN CLOUDFLARE_ACCOUNT_ID; do
+            if [ -z "${!name:-}" ]; then
+              missing+=("$name")
+            fi
+          done
+          if [ "${#missing[@]}" -gt 0 ]; then
+            printf 'skip_reason=missing:%s\n' "${missing[*]}" >> "$GITHUB_OUTPUT"
+            printf '::notice::admin runtime smoke skipped; missing staging-runtime-smoke secret/var names: %s\n' "${missing[*]}"
+            exit 0
+          fi
+          echo 'skip_reason=' >> "$GITHUB_OUTPUT"
+
+      - name: mint admin session cookie
+        if: steps.prereq.outputs.skip_reason == ''
+        env:
+          MINT_TTL_SECONDS: '600'
+        run: |
+          mint_out="$(mktemp)"
+          GITHUB_OUTPUT="$mint_out" pnpm exec tsx scripts/smoke/mint-staging-session-cookie.mts
+          cookie="$(grep '^admin_session_cookie=' "$mint_out" | tail -n1 | cut -d= -f2-)"
+          rm -f "$mint_out"
+          echo "::add-mask::$cookie"
+          echo "STAGING_ADMIN_SESSION_COOKIE=$cookie" >> "$GITHUB_ENV"
+
+      - name: run admin runtime smoke
+        if: steps.prereq.outputs.skip_reason == ''
+        env:
+          CF_TAIL_SECONDS: '25'
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+        run: |
+          mkdir -p ci-evidence
+          bash scripts/smoke/runtime-admin-web.sh staging --out-dir ci-evidence --ci-summary
+
+      - name: redaction grep gate
+        if: always() && steps.prereq.outputs.skip_reason == ''
+        run: |
+          leak_files="$(grep -rEl 'Cookie:|authorization:|Bearer [A-Za-z0-9_-]{20,}|hooks\.slack\.com/services/[A-Z0-9]|sentry\.io/[0-9]+/[0-9]+|xox[bp]-|__Secure-authjs\.session-token=[A-Za-z0-9._~+\/=-]+' ci-evidence/ || true)"
+          if [ -n "$leak_files" ]; then
+            echo "::error::redaction grep gate failed; leaking content is suppressed"
+            printf '%s\n' "$leak_files" | sed 's#^#leak-candidate-file=#'
+            exit 1
+          fi
+
+      - name: upload admin runtime smoke evidence
+        if: always() && steps.prereq.outputs.skip_reason == ''
+        uses: actions/upload-artifact@v4
+        with:
+          name: admin-runtime-smoke-staging-${{ github.run_id }}
+          path: ci-evidence/
+          retention-days: 30
+
+      - name: post failure summary to Slack
+        if: ${{ failure() && steps.prereq.outputs.skip_reason == '' && hashFiles('ci-evidence/summary.json') != '' }}
+        env:
+          SLACK_WEBHOOK_INCIDENT: ${{ secrets.SLACK_WEBHOOK_INCIDENT }}
+        run: |
+          if [ -z "${SLACK_WEBHOOK_INCIDENT:-}" ]; then
+            echo "::notice::SLACK_WEBHOOK_INCIDENT is not configured; skipping Slack notification"
+            exit 0
+          fi
+          bash scripts/smoke/ci-summary-post.sh ci-evidence
+
   deploy-production:
     if: github.ref_name == 'main'
     runs-on: ubuntu-latest

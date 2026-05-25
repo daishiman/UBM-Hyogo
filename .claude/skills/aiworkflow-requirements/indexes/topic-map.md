@@ -3011,6 +3011,12 @@ node scripts/list-specs.js --topics
 |------------|----|
 | Contract | L18 |
 
+### references/workflow-issue-864-admin-staging-runtime-smoke-ci-gate-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| State | L15 |
+
 ### references/workflow-light-theme-contrast-regression-guard.md
 
 | セクション | 行 |
@@ -7567,6 +7573,14 @@ node scripts/list-specs.js --topics
 | 昇格パターン集 | L2427 |
 | Current Active / Spec Created Tasks | L2429 |
 | UT-17 followup-003 alert-relay weekly healthcheck cron | L2590 |
+| ドキュメント構成 | L2326 |
+| フェーズ構造（概要） | L2335 |
+| 品質ゲート（概要） | L2366 |
+| 出力テンプレート | L2377 |
+| 実行時のコマンド・エージェント・スキル | L2400 |
+| 昇格パターン集 | L2424 |
+| Current Active / Spec Created Tasks | L2426 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L2587 |
 
 ### references/task-workflow-backlog-part2.md
 
