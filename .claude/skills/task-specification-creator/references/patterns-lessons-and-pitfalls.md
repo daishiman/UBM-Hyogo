@@ -445,6 +445,8 @@ dev → feature の sync-merge で発生した conflict 解消ルール（aiwork
 - **L-DEVSYNC-030 (improvements 系 index / completed-tasks のステータス行 3-way conflict)**: `docs/30-workflows/<umbrella>/improvements/<sub>/index.md` および対応する `completed-tasks/<sub>-iNN-*.md` の **ステータス表行** で diff3 conflict が発生した際は、**行単位で両側採用**（HEAD が自スコープ task の完了を、dev が他スコープ task の完了を別行で更新するため）。`||||||| base` セクションは破棄。`completed-tasks/iNN-*.md` 内のメタ情報表は HEAD 側の実装完了情報を base に、dev 側のみが追加した key（`canonical_workflow` / `consumed_by`）を merge して統合する。Phase 12 の implementation-guide で improvements 系 spec の状態遷移を記述する際、**自 task の完了行のみ更新し、他 i 行には触れない**ことを明示し、merge 時の干渉を最小化する。
 
 これら 3 件は本 skill の `evidence-sync-rules.md` / `patterns-phase12-sync.md` で扱う「Phase 12 strict 7 / sync gate」と整合する追加ガード。
+
+- **L-DEVSYNC-043 (`pnpm sync:resolve` 中の worktree `index.lock` 失敗)**: sync-merge を伴う Phase（特に Phase 5 / Phase 12 の skill index 更新 + Phase 13 PR 前）で `pnpm sync:resolve` が `fatal: Unable to create '.../worktrees/<wt>/index.lock'` で失敗するケースを runbook 化する。**仕様書側の Phase 12 implementation-guide / Phase 13 PR pre-flight チェックリスト**に「`pnpm sync:resolve` 失敗時は `rm -f $(git rev-parse --git-dir)/index.lock` を試す」troubleshoot 行を含めること（worktree 環境では `.git` がファイルなので `.git/index.lock` 直接除去はできない）。詳細手順は aiworkflow-requirements skill L-DEVSYNC-043 を参照。
 ## Playwright / Server Component topology
 
 - **pitfall - Server Component fetch + `page.route()` 不整合**: Next.js SSR fetch は Node 側で起きるため Playwright の `page.route()` で intercept できない。in-process mockApi fixture（`INTERNAL_API_BASE_URL` 差し替え）または standalone mock server を使う。詳細 SSOT: [`server-component-e2e-pattern.md`](./server-component-e2e-pattern.md) / [`quality-gates.md` §SSR fetch](./quality-gates.md) / [`phase-11-screenshot-guide.md`](./phase-11-screenshot-guide.md)。

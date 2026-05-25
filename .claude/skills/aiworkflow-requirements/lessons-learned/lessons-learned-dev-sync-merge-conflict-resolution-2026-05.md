@@ -707,3 +707,14 @@
 - How to apply: dev sync-merge 開始時に `git merge dev --no-edit` の conflict 一覧を先に確認し、`.claude/skills/*/indexes/` + `LOGS/_legacy.md` + `references/task-workflow-active.md` の標準集合に閉じている場合、即 `pnpm sync:resolve` → conflict marker grep 0 確認 → `git add -A` → `git commit -m "merge: sync <branch> with dev"` の最短ルートを取る。`--no-verify` は付けない（hook 側で auto-skip するため不要、付けると CONST_001 違反扱い）。本ケースは追加で `apps/web/src/lib/env.ts` 等のソース conflict も発生しなかったため L-DEVSYNC-041（並列 export 追加）の手動 union 工程もスキップできた。
 - 留意: HEAD 側のソースコード変更が大きい（特に `apps/web/src/lib/env.ts` / `middleware.ts` / spec test 系を触っている）場合は L-DEVSYNC-041 系手動 union が再発する可能性が高い。本パターンは「HEAD 側の主要差分が `apps/web/src/components/admin/` + skill 反映のみ」のような body 境界が明確なケースで成立する。
 - 事例: 2026-05-25 `feat/admin-section-error-retry` (HEAD = `4a44c558c` AdminSectionErrorClient + skill sync) ← dev (`db031fc66` issue-872 brand icon)。dev 取り込みコミット数 3（#869 / #871 / #872）、conflict 3 ファイル全て skill indexes、resolver 完結時間 < 5 秒、後続 `typecheck` / `lint` パス。
+
+## L-DEVSYNC-043: `pnpm sync:resolve` が worktree git-dir の stale `index.lock` で失敗する場合は `git rev-parse --git-dir` 経由で除去（2026-05-26 追加）
+
+- 事象: `feat/issue-894-admin-topbar-breadcrumb` で `git merge dev` → conflict 6 ファイル発生後 `pnpm sync:resolve` 実行時、union 処理途中で `fatal: Unable to create '/Users/dm/.../UBM-Hyogo/.git/worktrees/task-20260525-112126-wt-13/index.lock': File exists.` で `ELIFECYCLE Command failed with exit code 128`。worktree 環境では `.git` はファイル（gitdir pointer）で `.git/worktrees/<name>/index.lock` が実体。前回 git 操作の異常終了で残った stale lock が原因。
+- Why: worktree の `index.lock` は親 repo の `.git/worktrees/<wt-name>/` 配下にあり、worktree 内 `.git` 直下にはない。`ls .git/index.lock` 等で確認しても見えず、原因特定が遅れる。`pnpm sync:resolve` は内部で `git checkout` 系を走らせるため、ここで lock 衝突が顕在化する。
+- How to apply:
+  1. `pnpm sync:resolve` が `Unable to create '.../index.lock'` で落ちたら、まず `GITDIR=$(git rev-parse --git-dir)` で worktree 実体 git-dir を取得（worktree 内では `.git/worktrees/<name>` が返る、メイン WT では `.git` が返る）。
+  2. `rm -f "$GITDIR/index.lock"` で除去（lock 内に書かれた PID プロセスが生きていないことを `ls "$GITDIR"/*.lock` で前後確認）。
+  3. `pnpm sync:resolve` を再実行。union 処理は冪等なので途中失敗からの再開で問題なし。
+- 留意: 同種の stale lock として `HEAD.lock` / `packed-refs.lock` / `<branch>.lock` も同 path に発生しうる。除去前に必ず PID プロセス生存確認（`ps -p <pid>`）を行うこと。中断シグナルで死んだ前回 git の残骸であれば安全に削除可能だが、別端末で並列実行中の git が掴んでいる場合は削除禁止。本件は単一端末で前回 `git commit` 系が SIGINT / network glitch で死んだ後、別 prompt で再開した際に再現した。
+- 事例: 2026-05-26 `feat/issue-894-admin-topbar-breadcrumb` ← dev sync-merge。`pnpm sync:resolve` 1 回目失敗 → `rm -f $(git rev-parse --git-dir)/index.lock` → 2 回目で union 完結（skill indexes/quick-reference + resource-map + topic-map + task-workflow-active union、keywords.json `--ours` + `indexes:rebuild`）。typecheck / lint / verify-pr-ready 3 gate 全 PASS で merge commit 確定。task-specification-creator skill 側「dev-sync merge conflict（lint scope / version table）の Phase 仕様反映」セクションに `index.lock` troubleshoot 追補と対応。
