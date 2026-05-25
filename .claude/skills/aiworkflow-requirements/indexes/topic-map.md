@@ -1750,9 +1750,9 @@ node scripts/list-specs.js --topics
 |------------|----|
 | Canonical Contract | L3 |
 | Env Boundary | L18 |
-| CSP Nonce Contract | L22 |
-| User-gated Follow-ups | L37 |
-| Workflow | L46 |
+| CSP Nonce Contract | L30 |
+| User-gated Follow-ups | L45 |
+| Workflow | L54 |
 
 ---
 
@@ -3019,6 +3019,8 @@ node scripts/list-specs.js --topics
 |------------|----|
 | State | L15 |
 
+### references/workflow-issue-869-csp-enforce-cutover-artifact-inventory.md
+
 ### references/workflow-issue-870-apps-api-security-headers-artifact-inventory.md
 
 | セクション | 行 |
@@ -3033,6 +3035,13 @@ node scripts/list-specs.js --topics
 | Implementation | L14 |
 | Evidence | L24 |
 | Contract | L34 |
+
+### references/workflow-issue-872-google-brand-4tone-icon-and-tokens-exempt-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Scope | L12 |
+| User-Gated Boundary | L18 |
 
 ### references/workflow-issue-879-safe-server-fetch-member-public-horizontal-expansion-artifact-inventory.md
 
@@ -7584,14 +7593,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L2366 |
-| フェーズ構造（概要） | L2375 |
-| 品質ゲート（概要） | L2406 |
-| 出力テンプレート | L2417 |
-| 実行時のコマンド・エージェント・スキル | L2440 |
-| 昇格パターン集 | L2464 |
-| Current Active / Spec Created Tasks | L2466 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L2627 |
+| ドキュメント構成 | L2381 |
+| フェーズ構造（概要） | L2390 |
+| 品質ゲート（概要） | L2421 |
+| 出力テンプレート | L2432 |
+| 実行時のコマンド・エージェント・スキル | L2455 |
+| 昇格パターン集 | L2479 |
+| Current Active / Spec Created Tasks | L2481 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L2642 |
 
 ### references/task-workflow-backlog-part2.md
 

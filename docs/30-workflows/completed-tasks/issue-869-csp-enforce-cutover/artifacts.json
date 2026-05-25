@@ -1,0 +1,55 @@
+{
+  "workflow": "issue-869-csp-enforce-cutover",
+  "status": "implemented_local_evidence_captured",
+  "metadata": {
+    "task_id": "TASK-AWSHH-FU-001-CSP-ENFORCE-CUTOVER",
+    "issue_number": 869,
+    "issue_status": "CLOSED",
+    "issue_closed_reason": "GitHub 上は CLOSED 済み（2026-05-24）。ユーザー指示により reopen せず CLOSED のまま実装仕様書を作成する",
+    "spec_purpose": "運用正本化",
+    "spec_created": true,
+    "taskType": "implementation",
+    "visualEvidence": "NON_VISUAL",
+    "workflow_state": "implemented_local_evidence_captured",
+    "scope": "apps/web CSP report-only -> enforce env-driven cutover mechanism",
+    "implementation_mode": "new",
+    "runtime_boundary": "staging/production deploy, production enforce cutover, commit, push, and PR are user-gated",
+    "source_followup": "U-AWSHH-001 (apps-web-security-headers-hardening Phase 12 unassigned-task-detection)",
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-05-24T17:00:00+09:00",
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-869-csp-enforce-cutover/outputs/phase-12/phase12-task-spec-compliance-check.md",
+        "approver": "daishiman",
+        "notes": "spec_review: Phase 1-12 spec-from-closed-issue (CSP report-only -> enforce env-driven cutover) complete; verify:phase12-compliance pass"
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "passed",
+        "passed_at": "2026-05-24T21:20:00+09:00",
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-869-csp-enforce-cutover/outputs/phase-11/manual-test-result.md",
+        "approver": "daishiman",
+        "notes": "runtime_smoke: local Vitest suite and Playwright security-headers smoke passed in report-only and enforce modes; staging/production curl and production final cutover remain user-gated"
+      }
+    ]
+  },
+  "implementation_mode": "new",
+  "task_type": "implementation",
+  "visual_evidence": "NON_VISUAL",
+  "phases": {
+    "phase-1": { "status": "completed", "artifact": "outputs/phase-1/requirements.md" },
+    "phase-2": { "status": "completed", "artifact": "outputs/phase-2/design.md" },
+    "phase-3": { "status": "completed", "artifact": "outputs/phase-3/design-review.md" },
+    "phase-4": { "status": "completed", "artifact": "outputs/phase-4/test-plan.md" },
+    "phase-5": { "status": "completed", "artifact": "outputs/phase-5/implementation-plan.md" },
+    "phase-6": { "status": "completed", "artifact": "outputs/phase-6/test-implementation-result.md" },
+    "phase-7": { "status": "completed", "artifact": "outputs/phase-7/integration-result.md" },
+    "phase-8": { "status": "completed", "artifact": "outputs/phase-8/quality-gate.md" },
+    "phase-9": { "status": "completed", "artifact": "outputs/phase-9/qa-result.md" },
+    "phase-10": { "status": "completed", "artifact": "outputs/phase-10/final-review.md" },
+    "phase-11": { "status": "completed", "mode": "NON_VISUAL", "artifact": "outputs/phase-11/manual-test-result.md" },
+    "phase-12": { "status": "completed", "artifact": "outputs/phase-12/phase12-task-spec-compliance-check.md" },
+    "phase-13": { "status": "blocked", "reason": "user explicit approval required" }
+  }
+}
