@@ -3054,6 +3054,12 @@ node scripts/list-specs.js --topics
 
 ### references/workflow-issue-879-safe-server-fetch-member-public-horizontal-expansion-artifact-inventory.md
 
+### references/workflow-issue-911-meeting-attendance-unregister-ui-treat404-wiring-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Notes | L17 |
+
 ### references/workflow-light-theme-contrast-regression-guard.md
 
 | セクション | 行 |
@@ -7602,14 +7608,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L2392 |
-| フェーズ構造（概要） | L2401 |
-| 品質ゲート（概要） | L2432 |
-| 出力テンプレート | L2443 |
-| 実行時のコマンド・エージェント・スキル | L2466 |
-| 昇格パターン集 | L2490 |
-| Current Active / Spec Created Tasks | L2492 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L2653 |
+| ドキュメント構成 | L2406 |
+| フェーズ構造（概要） | L2415 |
+| 品質ゲート（概要） | L2446 |
+| 出力テンプレート | L2457 |
+| 実行時のコマンド・エージェント・スキル | L2480 |
+| 昇格パターン集 | L2504 |
+| Current Active / Spec Created Tasks | L2506 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L2667 |
 
 ### references/task-workflow-backlog-part2.md
 

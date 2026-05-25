@@ -846,10 +846,24 @@
 | parent | `docs/30-workflows/step-06-meetings-attendance-implementation/` |
 | 目的 | admin mutation reliability policy を `useAdminMutation` に集約し、timeout / retry / idempotency-key / 404 success-relaxation / abort を caller 分散ではなく hook policy として仕様化する |
 | implementation targets | `apps/web/src/features/admin/hooks/useAdminMutation.ts`, `apps/web/src/features/admin/hooks/useConfirmDialog.ts`, `apps/web/src/features/admin/hooks/index.ts`, focused hook specs, legacy `apps/web/src/lib/useAdminMutation.ts` delete |
-| invariant | API endpoint surface / D1 schema / UI visual surface は変更しない。現 `MeetingAttendancePanel.tsx` は POST-only のため DELETE 404 caller migration はしない |
+| invariant | API endpoint surface / D1 schema / UI visual surface は変更しない。Issue #842 時点では caller migration なしだったが、Issue #911 で `MeetingAttendancePanel.tsx` の unregister caller に `treat404AsSuccess` を配線済み |
 | evidence | Phase 11 local source-level PASS / Phase 12 strict 7 present / output artifacts parity present |
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-842-admin-mutation-reliability-policy-artifact-inventory.md` |
 | user gate | commit / push / PR / staging runtime evidence |
+
+### issue-911-meeting-attendance-unregister-ui-treat404-wiring（2026-05-25）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / NON_VISUAL / Phase 13 pending_user_approval` |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-911-meeting-attendance-unregister-ui-treat404-wiring/` |
+| parent | `docs/30-workflows/completed-tasks/issue-842-admin-mutation-reliability-policy/` |
+| 目的 | `MeetingAttendancePanel` に出席解除 CTA、unregister mutation、UI logger event を追加し、404 `attendance_not_found` race を「既に解除済みです」へ収束させる |
+| implementation targets | `apps/web/app/(admin)/admin/meetings/[id]/MeetingAttendancePanel.tsx`, `apps/web/app/(admin)/admin/meetings/[id]/__tests__/MeetingAttendancePanel.spec.tsx` |
+| API boundary | existing `POST /api/admin/meetings/:id/attendances` `{ memberId, attended:false }` only; new DELETE endpoint / `apps/api` / D1 schema diff なし |
+| evidence | Phase 11 local logs: MeetingAttendancePanel 14 tests PASS、useAdminMutation 33 tests PASS、web typecheck/lint PASS、production DELETE caller grep 0 件 |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-911-meeting-attendance-unregister-ui-treat404-wiring-artifact-inventory.md` |
+| user gate | commit / push / PR / staging runtime smoke |
 
 ### serial-05-step-03 schema diff resolve UI（2026-05-16）
 

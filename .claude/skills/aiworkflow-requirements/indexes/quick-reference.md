@@ -559,9 +559,26 @@
 | source | Issue #842 CLOSED; PR wording is `Refs #842`; one-pager `docs/30-workflows/completed-tasks/admin-mutation-timeout-policy.md` consumed |
 | scope | `useAdminMutation` に timeout / idempotent retry / idempotency-key / 404 policy / abort を集約し、`useConfirmDialog` close から cancel callback を渡す実装仕様 |
 | implementation targets | `apps/web/src/features/admin/hooks/useAdminMutation.ts`, `useConfirmDialog.ts`, hook barrel/tests, legacy `apps/web/src/lib/useAdminMutation.ts` delete |
-| stale optimization | current `MeetingAttendancePanel.tsx` is POST-only; DELETE 404 success-relaxation is provided as hook policy but no caller is forcibly migrated in the spec-created cycle |
+| stale optimization | Issue #842 provided the `treat404AsSuccess` hook policy without forcing caller migration; Issue #911 now consumes it in `MeetingAttendancePanel.tsx` for unregister 404 convergence |
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-842-admin-mutation-reliability-policy-artifact-inventory.md` |
 | user gate | commit, push, PR, staging runtime evidence |
+
+## Issue #911 meeting attendance unregister UI（2026-05-25）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-911-meeting-attendance-unregister-ui-treat404-wiring/` |
+| 状態 | `implemented_local_evidence_captured / implementation / NON_VISUAL / Phase 13 pending_user_approval` |
+| parent | `docs/30-workflows/completed-tasks/issue-842-admin-mutation-reliability-policy/` |
+| scope | `/admin/meetings/[id]` attendance candidate row に出席解除 CTA、unregister mutation、UI logger event を追加し、解除 404 race を success-equivalent に収束 |
+| implementation | `apps/web/app/(admin)/admin/meetings/[id]/MeetingAttendancePanel.tsx` |
+| tests | `apps/web/app/(admin)/admin/meetings/[id]/__tests__/MeetingAttendancePanel.spec.tsx` |
+| API contract | Existing `POST /api/admin/meetings/:id/attendances` `{ memberId, attended:false }`; no new DELETE endpoint / no D1 schema diff |
+| hook policy | Existing `useAdminMutation` `treat404AsSuccess: { toast: "既に解除済みです" }`; hook implementation unchanged |
+| evidence | Phase 11 local logs: MeetingAttendancePanel 14 tests PASS, useAdminMutation 33 tests PASS, web typecheck/lint PASS, production DELETE caller grep 0 件 |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-911-meeting-attendance-unregister-ui-treat404-wiring-artifact-inventory.md` |
+| lessons | `.claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-issue-911-meeting-attendance-unregister-ui-2026-05.md` |
+| user gate | commit, push, PR, staging runtime smoke |
 
 ## Issue #274 public pages OGP / sitemap / robots（2026-05-17）
 
