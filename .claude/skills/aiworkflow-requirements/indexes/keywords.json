@@ -3325,6 +3325,7 @@
       "workflow-issue-857-internal-alert-relay-binding-wiring-artifact-inventory.md",
       "workflow-issue-864-admin-staging-runtime-smoke-ci-gate-artifact-inventory.md",
       "workflow-issue-871-csp-nonce-migration-artifact-inventory.md",
+      "workflow-issue-874-login-staging-visual-smoke-artifact-inventory.md",
       "workflow-issue-880-public-segment-error-loading-boundary-artifact-inventory.md",
       "workflow-parallel-04-shared-page-chrome-artifact-inventory.md",
       "workflow-parallel-i02b-admin-mutation-error-finalize-artifact-inventory.md",
@@ -6048,6 +6049,7 @@
       "task-workflow-completed-ui-ux-visual-baseline-drift.md",
       "testing-playwright-e2e.md",
       "ui-ux-components.md",
+      "workflow-issue-874-login-staging-visual-smoke-artifact-inventory.md",
       "workflow-task-18-fu-full-visual-regression-suite-artifact-inventory.md",
       "workflow-task-709-visual-baseline-runtime-capture-artifact-inventory.md",
       "workflow-task-761-visual-full-required-status-check-artifact-inventory.md",
@@ -6959,6 +6961,7 @@
       "workflow-issue-837-schema-alias-bulk-rollback-artifact-inventory.md",
       "workflow-issue-857-internal-alert-relay-binding-wiring-artifact-inventory.md",
       "workflow-issue-871-csp-nonce-migration-artifact-inventory.md",
+      "workflow-issue-874-login-staging-visual-smoke-artifact-inventory.md",
       "workflow-mypage-prototype-alignment-artifact-inventory.md",
       "workflow-parallel-04-shared-page-chrome-artifact-inventory.md",
       "workflow-parallel-09-ux-cross-cutting-artifact-inventory.md",
@@ -7540,6 +7543,7 @@
       "workflow-issue-870-apps-api-security-headers-artifact-inventory.md",
       "workflow-issue-871-csp-nonce-migration-artifact-inventory.md",
       "workflow-issue-872-google-brand-4tone-icon-and-tokens-exempt-artifact-inventory.md",
+      "workflow-issue-874-login-staging-visual-smoke-artifact-inventory.md",
       "workflow-issue-880-public-segment-error-loading-boundary-artifact-inventory.md",
       "workflow-task-issue-191-production-d1-schema-aliases-apply-001-artifact-inventory.md",
       "workflow-task-issue-191-schema-aliases-implementation-001-artifact-inventory.md",
@@ -7915,6 +7919,7 @@
       "workflow-issue-531-runtime-smoke-attendance-provider-artifact-inventory.md",
       "workflow-issue-559-task-03-followup-001-sentry-staging-runtime-evidence-artifact-inventory.md",
       "workflow-issue-864-admin-staging-runtime-smoke-ci-gate-artifact-inventory.md",
+      "workflow-issue-874-login-staging-visual-smoke-artifact-inventory.md",
       "workflow-runtime-smoke-staging-mint-recurrence-fix-artifact-inventory.md",
       "workflow-task-05-error-boundary-and-staging-smoke-artifact-inventory.md",
       "workflow-task-issue-494-09a-A-exec-staging-smoke-runtime-artifact-inventory.md",
@@ -12177,6 +12182,7 @@
       "workflow-issue-531-runtime-smoke-attendance-provider-artifact-inventory.md",
       "workflow-issue-572-attendance-provider-production-runtime-smoke-artifact-inventory.md",
       "workflow-issue-864-admin-staging-runtime-smoke-ci-gate-artifact-inventory.md",
+      "workflow-issue-874-login-staging-visual-smoke-artifact-inventory.md",
       "workflow-runtime-smoke-staging-mint-recurrence-fix-artifact-inventory.md",
       "workflow-task-05-error-boundary-and-staging-smoke-artifact-inventory.md",
       "workflow-task-06a-followup-001-real-workers-d1-smoke-artifact-inventory.md",
@@ -12831,6 +12837,7 @@
       "workflow-issue-836-schema-alias-recompute-trigger-artifact-inventory.md",
       "workflow-issue-863-admin-error-alert-policy-iac-artifact-inventory.md",
       "workflow-issue-869-csp-enforce-cutover-artifact-inventory.md",
+      "workflow-issue-874-login-staging-visual-smoke-artifact-inventory.md",
       "workflow-issue-880-public-segment-error-loading-boundary-artifact-inventory.md",
       "workflow-login-page-prototype-alignment-artifact-inventory.md",
       "workflow-members-page-prototype-alignment-artifact-inventory.md",
@@ -13797,6 +13804,7 @@
       "lessons-learned-ut07b-fu-01-schema-alias-backfill-queue-cron-split-2026-05.md",
       "workflow-ai-chat-llm-integration-fix.md",
       "workflow-ai-runtime-authmode-unification.md",
+      "workflow-issue-874-login-staging-visual-smoke-artifact-inventory.md",
       "workflow-skill-lifecycle-evaluation-scoring-gate.md",
       "workflow-workspace-parent-reference-sweep-guard.md"
     ],
@@ -14880,6 +14888,7 @@
       "workflow-issue-836-schema-alias-recompute-trigger-artifact-inventory.md",
       "workflow-issue-863-admin-error-alert-policy-iac-artifact-inventory.md",
       "workflow-issue-869-csp-enforce-cutover-artifact-inventory.md",
+      "workflow-issue-874-login-staging-visual-smoke-artifact-inventory.md",
       "workflow-issue-880-public-segment-error-loading-boundary-artifact-inventory.md",
       "workflow-login-page-prototype-alignment-artifact-inventory.md",
       "workflow-members-page-prototype-alignment-artifact-inventory.md",
@@ -17074,6 +17083,7 @@
       "workflow-awshh-followup-003-csp-reporting-endpoints-artifact-inventory.md",
       "workflow-issue-777-schema-diff-resolve-history-view-artifact-inventory.md",
       "workflow-issue-778-schema-alias-rollback-undo-artifact-inventory.md",
+      "workflow-issue-874-login-staging-visual-smoke-artifact-inventory.md",
       "workflow-task-issue-191-production-d1-schema-aliases-apply-001-artifact-inventory.md"
     ],
     "中間ステータスの再利用": [
@@ -24595,6 +24605,7 @@
       "workflow-issue-842-admin-mutation-reliability-policy-artifact-inventory.md",
       "workflow-issue-857-internal-alert-relay-binding-wiring-artifact-inventory.md",
       "workflow-issue-871-csp-nonce-migration-artifact-inventory.md",
+      "workflow-issue-874-login-staging-visual-smoke-artifact-inventory.md",
       "workflow-issue-880-public-segment-error-loading-boundary-artifact-inventory.md",
       "workflow-login-page-prototype-alignment-artifact-inventory.md",
       "workflow-mypage-prototype-alignment-artifact-inventory.md",
@@ -25312,6 +25323,7 @@
     ],
     "targets": [
       "workflow-issue-617-ci-test-time-reduction-split-artifact-inventory.md",
+      "workflow-issue-874-login-staging-visual-smoke-artifact-inventory.md",
       "workflow-issue-880-public-segment-error-loading-boundary-artifact-inventory.md",
       "workflow-task-21-w2-par-screen-blueprints-admin-artifact-inventory.md"
     ],
@@ -25400,6 +25412,11 @@
     "exempt": [
       "workflow-issue-872-google-brand-4tone-icon-and-tokens-exempt-artifact-inventory.md"
     ],
+    "login": [
+      "workflow-issue-874-login-staging-visual-smoke-artifact-inventory.md",
+      "workflow-login-page-prototype-alignment-artifact-inventory.md",
+      "workflow-task-13-login-rebuild-artifact-inventory.md"
+    ],
     "knowledge": [
       "workflow-issue-880-public-segment-error-loading-boundary-artifact-inventory.md"
     ],
@@ -25426,10 +25443,6 @@
     ],
     "仕様作成追補": [
       "workflow-light-theme-global-remediation.md"
-    ],
-    "login": [
-      "workflow-login-page-prototype-alignment-artifact-inventory.md",
-      "workflow-task-13-login-rebuild-artifact-inventory.md"
     ],
     "Compliance": [
       "workflow-login-page-prototype-alignment-artifact-inventory.md",
