@@ -8,6 +8,18 @@
 
 本ドキュメントは、複雑なタスクを単一責務の原則に基づいて分解し、各サブタスクに最適なスラッシュコマンド・エージェント・スキルの組み合わせを選定するためのガイドラインを定義する。
 
+### regression-evidence-ci-gate-foundation（2026-05-25）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/regression-evidence-ci-gate-foundation/` |
+| ステータス | `spec_created / implementation / VISUAL / runtime_pending` |
+| canonical role | `ui-prototype-design-system-foundation/serial-07-regression-evidence` の top-level execution root |
+| prerequisite | `serial-00` から `serial-06-form-response-binding` までの green completion |
+| planned implementation | `apps/web/playwright/tests/visual/{top,members-list,member-detail,admin-dashboard}.spec.ts` と Chromium/Linux baseline PNG |
+| evidence | root/output artifacts parity、Phase 12 strict 7 present。Phase 11 runtime visual evidence は user-gated |
+| user gate | Playwright visual run、baseline PNG commit、branch protection mutation、commit、push、PR |
+
 ### issue-864-admin-staging-runtime-smoke-ci-gate（2026-05-24）
 
 | 項目 | 値 |
