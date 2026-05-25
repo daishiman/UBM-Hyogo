@@ -329,6 +329,8 @@
 - 事例: 2026-05-24 `docs/issue-863-admin-runtime-alert-policy-spec` ← dev sync-merge。tracked 50+ ` M`（全 stat-dirty）+ untracked 20 件（#888/#887/#893/#892 の stale コピー、IDENTICAL 確認）を切り分け、untracked を `git stash push -u` 退避 → clean tree で `git merge dev` → `pnpm sync:resolve` で index conflict 自動解消 → merge `9d059ad00` → typecheck/lint 初回 PASS、無関係成果物の混入ゼロ。
 - 詳細は aiworkflow-requirements 配下の L-DEVSYNC-040 を参照。
 
+### SP-DEVSYNC-008: skill-index-only コンフリクトの最短経路（2026-05-24 再確認 / 2026-05-25 再々確認 / 2026-05-25 再々々確認）
+- 再々々確認 (2026-05-25): `feat/admin-section-error-retry`（HEAD = AdminSectionErrorClient + L-ASR-001..005 / L-RSC-001..005 skill 反映）に dev（#869 CSP enforce / #871 CSP nonce / #872 Google brand icon の 3 PR 取り込み）を sync-merge。conflict は `.claude/skills/aiworkflow-requirements/indexes/{quick-reference,resource-map,topic-map}.md` の 3 ファイルのみで、`pnpm sync:resolve` 単体で残件 0、merge commit 完了。`MERGE_HEAD` 検出で pre-commit `staged-task-dir-guard` 自動 skip により `--no-verify` 不要。後続 `pnpm typecheck` / `pnpm lint` いずれも exit 0。本最短経路は累積 3 回の独立再確認を経ており、task 仕様書テンプレ Phase 11/12 の sync-merge 節は変更不要。詳細根拠は aiworkflow-requirements 側 L-DEVSYNC-042（happy-path 再確認エントリ）。
 ### SP-DEVSYNC-008: skill-index-only コンフリクトの最短経路（2026-05-24 再確認 / 2026-05-25 再々確認 / 2026-05-25 issue-874 で 3 回目確認）
 - 3 回目確認 (2026-05-25 issue-874): `feat/issue-874-login-staging-visual-smoke` への dev sync-merge（behind 5 / ahead 2）。conflict は `indexes/topic-map.md`（union） + `indexes/keywords.json`（`--ours` + rebuild）の標準 2 ファイルのみ。`pnpm sync:resolve` 単体で残件 0。worktree で `.git` が file のため branch-sync prompt の `mkdir .git/branch-sync-logs` は直接失敗 → `git rev-parse --git-common-dir` 経由解決（L-DEVSYNC-041）の運用も再確認。task 仕様書テンプレ Phase 11/12 の sync-merge 節は本最短経路を 3 sprint 連続で変更不要。
 - 再々確認 (2026-05-25): `docs/issue-863-admin-runtime-alert-policy-spec` の 2 回目の dev sync-merge（behind 9 / ahead 4）。conflict は `indexes/topic-map.md`（union） + `indexes/keywords.json`（`--ours` + rebuild）の標準 2 ファイル のみで、`pnpm sync:resolve` 単体で残件 0、merge commit `745d2dd6d` 完了。task 仕様書テンプレ Phase 11/12 の sync-merge 節は本最短経路を変更せず維持してよい。
@@ -363,3 +365,55 @@
   - `.git/` 直書き path は worktree で破綻するため、task 仕様書の例示でも禁止する。
 - 検証: 本パターンを再現する事例で `mkdir -p` が `Not a directory` で失敗するか、failure 後の `git rev-parse --git-common-dir` リトライで成功するかを Phase 11 evidence に記録する。
 - 参照: aiworkflow-requirements L-DEVSYNC-041（同根の `index.lock` 問題は L-DEVSYNC-026）。
+
+### SP-DEVSYNC-035: 並列 feature の同一 fetch 関数衝突は「Result wrapping 採用 × parser 拡張保持」で機械統合（2026-05-25 追加）
+
+- 事象: dev sync-merge で `apps/web/app/(public)/members/[id]/page.tsx` の `fetchProfile` 内で 3-way conflict。HEAD = issue-883（adapter dev-warn unknown kind）が `PublicMemberProfileWithUnknownKindZ.parse(raw)` へ schema を差し替え、dev = issue-879（safeServerFetch 横展開）が同関数の戻り値を `{ ok: true, data } | { ok: false, error }` の Result 型へ wrapping。`>>>>>>> dev` 側の `result.data` を使う `return` 文と `<<<<<<< HEAD` 側の `raw`（既に削除済み変数）を参照する `return` 文が両側に並ぶ。
+- Why: 「呼び出し規約変更（fetch 戻り値型）」と「副作用追加（unknown kind 警告のための parser 拡張）」は意味的に直交する。Result wrapping の方が呼び出し側 (page 本体) に波及するため上位レイヤーとして優先し、parser 拡張は wrapping 内部の `result.data` を新 parser に通す形で吸収すれば両意図とも保持できる。
+- How to apply（task 仕様書での逐語化）:
+  - fetch 関数 (`safeServerFetch` ラッパー化) と parser 拡張 (`*WithUnknownKindZ`) を同 sprint で並走させる task では、Phase 7 に「両者衝突時の統合手順」を明示する:
+    1. 戻り値型は **dev 側 Result wrapping を採用**（呼び出し側の if 分岐が既に dev に存在するため）
+    2. parse 行は **HEAD 側 `*WithUnknownKindZ.parse(result.data)`** を採用
+    3. 呼び出し側 (page) では `!profileResult.ok` 分岐後、`toMemberDetailProps(profileResult.data, { onUnknownKind })` のように **dev 側 ok 分岐 × HEAD 側 option 引数** を結合
+  - 検証: `grep -E '<<<<<<<|>>>>>>>|=======' <path>` 0 件 + `pnpm typecheck` PASS + 既存 page spec の SectionError 表示 + unknown-kind warn の両方の it ブロックが green。
+- 参照: aiworkflow-requirements L-DEVSYNC-042（同事例の resolver 側パターン）。
+
+### SP-DEVSYNC-035: `apps/web/src/lib/env.ts` への getter 追加 issue は Phase 5 で「並列 export 追加 conflict」を予告し、merge dry-run を推奨する（2026-05-25 追加）
+
+- 事象: `env.ts` への新 getter / 新 `EnvSchema.pick(...)` 追加が短期間に 3 回連続 conflict した（#869 `getSecurityHeaderEnv` ↔ #862 `getAuthEnv`、#882 `getPublicEnvSafe` ↔ #869、後続 issue も同パターンが想定）。`pnpm sync:resolve` の `REGENERATE_TARGETS` で吸収可能な deterministic artifact と違い、`env.ts` は意味的差分を含むため自動解消対象外で必ず手動 resolve を要する。
+- Why: `env.ts` は領域別 getter を継続追加する拡張点で、複数 issue が同 sprint で独立に新 export を生やす構造的問題。aiworkflow-requirements L-DEVSYNC-041 で「両側 export 保持 + import 集約」の機械統合パターンが確立済みなので、task 仕様書側はそれを Phase 5 で予告し、merge 前に conflict 範囲を確認する dry-run コマンドを Phase 9 / Phase 11 evidence に逐語埋め込む。
+- How to apply（task 仕様書での逐語化）:
+  - 対象判定: 仕様書の編集対象に `apps/web/src/lib/env.ts` が含まれる場合に本パターンを適用する。
+  - Phase 5（実装）に「dev sync 時の env.ts 並列 export 追加 conflict 予告」節を追加し、L-DEVSYNC-041 の 3 ステップ（import 集約 / schema 両保持 / it ブロック両保持）を逐語コピーする。
+  - Phase 9（QA）に dev sync dry-run 手順を埋め込む:
+    ```
+    git fetch origin dev
+    git merge --no-commit --no-ff origin/dev || true
+    git status --porcelain | grep "^UU apps/web/src/lib/env" && echo "env.ts conflict expected — apply L-DEVSYNC-041"
+    git merge --abort
+    ```
+  - Phase 11 evidence に「`env.ts` conflict 解消後の `grep -nE '^(<<<<<<<|=======|>>>>>>>)' apps/web/src/lib/env.ts apps/web/src/lib/__tests__/env.spec.ts` 0 件」を必須項目化。
+- 検証: `pr-pre-flight-ci-gate-checklist.md` §3（dev sync）の checklist に「env.ts に getter 追加がある場合は merge dry-run で conflict 範囲を確認した」項目を追加する。
+- 参照: aiworkflow-requirements L-DEVSYNC-041 の再発事例。本知見は task 仕様書側の予防策（実装前の予告 + dry-run 推奨）であり、解消手順は L-DEVSYNC-041 を唯一の正本とする。
+
+### SP-DEVSYNC-036: Playwright assertion で `console.error` / `pageerror` を**全件 toEqual([])** すると他 issue の副作用で fragile になる（2026-05-25 追加）
+
+- 事象: 2026-05-25 `fix/issue-882` の e2e（`apps/web/playwright/tests/terms-prefetch.spec.ts`）が dev sync-merge 後の CI で `e2e (mobile-webkit)` / `e2e (desktop-firefox)` で失敗。test は `page.on("console")` で全 `console.error` を `errors[]` に push して `expect(errors).toEqual([])` していた。ローカルでは pass していたが、dev merge で取り込んだ **#869 CSP report-only モード**が「`[Report Only] Refused to apply a stylesheet...`」「`frame-ancestors' is ignored when delivered in a report-only policy`」等の console.error を多発させ、`toEqual([])` が破綻。
+- Why: issue-882 の test 責務は「`/terms` RSC prefetch が env validation で 5xx / Zod throw を露出しない」こと。**全 `console.error` の不在**を assertion することは over-specification で、他 issue（CSP / nonce / a11y warning 等）が将来 console output を増やすたびに本 test が無関係に fragile に壊れる。Playwright e2e の assertion は「該当 issue が責任を持つ pattern のみ」に限定すべき。
+- How to apply（task 仕様書での逐語化）:
+  - 仕様書 Phase 5 / Phase 9 で「`console.error` / `pageerror` の broad-catch assertion 禁止」を明記する。
+  - 必ず issue 固有の正規表現 patterns を配列で宣言し、`isXxxError(text: string): boolean` のヘルパで filter してから push する。例:
+    ```ts
+    const TERMS_ENV_ERROR_PATTERNS: RegExp[] = [
+      /ZodError/i,
+      /Invalid environment/i,
+      /env\.ts/i,
+      /terms.*prefetch/i,
+    ];
+    const isTermsEnvError = (text: string) => TERMS_ENV_ERROR_PATTERNS.some((p) => p.test(text));
+    ```
+  - Phase 11 evidence に「assertion patterns が issue 範囲に閉じている根拠（patterns 一覧 + 排除した他 issue 由来 noise の例）」を必須項目化。
+  - test review 時の checklist 項目: `toEqual([])` / `toHaveLength(0)` が `page.on("console")` / `page.on("pageerror")` の **未 filter 配列**を対象としていないか。
+- 検証: 本 spec を変更する PR の lefthook pre-push に既存 `verify-conflict-markers` / `lint` に加え、broad-catch pattern を grep する project local rule を追加（task-spec-creator 内では仕様書化のみ、実 hook は skill scope 外）。
+- 事例: 2026-05-25 `fix/issue-882-terms-prefetch-env-validation` 修正で `TERMS_ENV_ERROR_PATTERNS` filter を導入し、CSP report-only の console.error を assertion 対象から除外。同種パターンは過去にも `axe` 系・`hydration warning` 系で経験あり（[[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-007-A の visual baseline drift と同根の「他 issue 副作用で fragile になる test」family）。
+- 追加事例: 2026-05-25 PM `feat/issue-880-public-segment-error-loading-boundary` ← dev sync-merge で 77 分経過の stale lock を mtime 判定で検出・自動削除し再取得。conflict は skill index 6 ファイル（SKILL.md + indexes 4 + references/task-workflow-active.md + indexes/keywords.json）すべて `pnpm sync:resolve` で完結、手動介入ゼロ。後続 `pnpm typecheck` / `pnpm lint` / `bash scripts/verify-pr-ready.sh`（gate-metadata 445/0 + verify:phase12 + indexes drift なし）すべて green。本 SOP は単発実装ではなく 2 連続 session で同等条件を機械的に解決できる再現性を確保したため、Phase 5 / Phase 9 sync-merge 節の「逐語埋め込み 3 行」をデフォルトテンプレに昇格して問題ない。

@@ -2135,6 +2135,12 @@ node scripts/list-specs.js --topics
 |------------|----|
 | Contract | L16 |
 
+### references/workflow-admin-ui-prototype-alignment-followup-002-section-error-retry-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Contract | L15 |
+
 ### references/workflow-ai-chat-llm-integration-fix-artifact-inventory.md
 
 | セクション | 行 |
@@ -3053,6 +3059,31 @@ node scripts/list-specs.js --topics
 | Source / parent | L27 |
 
 ### references/workflow-issue-879-safe-server-fetch-member-public-horizontal-expansion-artifact-inventory.md
+
+### references/workflow-issue-880-public-segment-error-loading-boundary-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Summary | L3 |
+| Artifacts | L13 |
+| Implementation targets | L27 |
+| Skill knowledge synced | L36 |
+| User-gated operations | L43 |
+
+### references/workflow-issue-882-terms-prefetch-env-validation-fix-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Status | L16 |
+
+### references/workflow-issue-883-adapter-dev-warn-unknown-kind-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Root | L3 |
+| Implementation Targets | L12 |
+| Evidence | L20 |
+| Boundary | L32 |
 
 ### references/workflow-light-theme-contrast-regression-guard.md
 
@@ -7602,14 +7633,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L2392 |
-| フェーズ構造（概要） | L2401 |
-| 品質ゲート（概要） | L2432 |
-| 出力テンプレート | L2443 |
-| 実行時のコマンド・エージェント・スキル | L2466 |
-| 昇格パターン集 | L2490 |
-| Current Active / Spec Created Tasks | L2492 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L2653 |
+| ドキュメント構成 | L2453 |
+| フェーズ構造（概要） | L2462 |
+| 品質ゲート（概要） | L2493 |
+| 出力テンプレート | L2504 |
+| 実行時のコマンド・エージェント・スキル | L2527 |
+| 昇格パターン集 | L2551 |
+| Current Active / Spec Created Tasks | L2553 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L2714 |
 
 ### references/task-workflow-backlog-part2.md
 
