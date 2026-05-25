@@ -4,6 +4,10 @@
 
 このファイルは task-specification-creator の運用・改善・Phase 12 close-out 同期履歴を新しい順に記録する。
 
+## 2026-05-24 - Issue #863 Sentry alert IaC implementation review
+
+`docs/30-workflows/completed-tasks/issue-863-admin-error-alert-policy-iac/` の 30種思考法レビューで、Sentry alert IaC が実コード差分を伴うため `implemented_local_runtime_pending` に統一した。Issue Alert API の native 形状（project `/rules/`、`actionMatch`/`conditions`/`filterMatch`/tag filters/Slack action）へ `infra/sentry-alerts` CLI と mock fixture を補正し、manifest schema required と schema-contract test を追加した。Phase 12 implementation-guide validator 要件（今回作ったもの、APIシグネチャ、使用例、エッジケース、設定項目と定数一覧、テスト構成）を満たすよう同期。mock mode は `scripts/with-env.sh` で op wrapper を迂回し、`SENTRY_ALERTS_MOCK_DIR=... pnpm sentry-alerts:diff --ci --json` を secret なしで再現可能にした。Sentry apply、staging 通知疎通、commit/push/PR は user-gated のまま未実行。
+
 ## 2026-05-24 - Issue #837 schema alias bulk rollback automation-30 close-out
 
 - `docs/30-workflows/issue-837-schema-alias-bulk-rollback/` の `implementation` task が `spec_created` / code未実装で閉じていたため、CONST_004/005 に従い同サイクルで実装へ昇格。

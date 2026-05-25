@@ -3661,3 +3661,6 @@ UT-17 Cloudflare Notifications → alert-relay → Slack 経路を、既存 API 
 | `docs/30-workflows/runbooks/sa-key-rotation-sop.md` | Operator SOP | 実 rotation 前の手順確認時 |
 | `references/workflow-ut-25-deriv-01-sa-key-rotation-sop-artifact-inventory.md` | Artifact inventory | 同 wave 変更棚卸し時 |
 | `references/lessons-learned-ut-25-deriv-01-sa-key-rotation-2026-05.md` | SA key rotation 苦戦点 L-UT25SAK-001..007（stdin+history 抑止 / state guard / `secret list` name-only + UT-26 / bats fixture / 500 行近傍分割閾値 / 90 日採用根拠 / 完了記録 8 フィールド）| 次回 SOP 更新・類似 secret rotation 設計時 |
+| `docs/30-workflows/completed-tasks/issue-863-admin-error-alert-policy-iac/` | Issue #863 admin error boundary Sentry alert IaC workflow | admin `error.boundary.caught` alert policy、Sentry tag 昇格、drift CI、runbook を確認する時 |
+| `infra/sentry-alerts/` | Sentry alert policy IaC for admin runtime error detection | Sentry alert rule manifest / CLI / drift diff を確認・更新する時 |
+| `references/workflow-issue-863-admin-error-alert-policy-iac-artifact-inventory.md` | Issue #863 workflow artifact inventory | 同 wave 変更棚卸し時 |

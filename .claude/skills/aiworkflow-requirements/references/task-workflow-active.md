@@ -2571,6 +2571,7 @@ docs-only / direction-reconciliation で採用方針 A を維持する場合で�
   4. aiworkflow-requirements の同 wave 更新
 - **参考**: UT-UIUX-VISUAL-BASELINE-DRIFT-001（2026-04-03）
 | issue-627-composite-setup-action | implemented_local_user-gated runtime evidence boundary / implementation / NON_VISUAL / CI infra | `docs/30-workflows/issue-627-composite-setup-action/` | RB-02 composite setup action implemented locally. Checkout-less `.github/actions/setup-project/action.yml` consolidates Node / pnpm setup and optional install across `lighthouse`, `e2e`, `e2e-tests-coverage-gate`, `workflow-shell-lint`, `ci`, `coverage-gate`, and `build-test`. Required contexts are preserved; local static checks passed. Runtime GHA evidence, commit, push, and PR are user-gated. Issue #627 is CLOSED; use `Refs #627` only. |
+| issue-863-admin-error-alert-policy-iac | implemented_local_runtime_pending / implementation / NON_VISUAL / observability IaC | `docs/30-workflows/completed-tasks/issue-863-admin-error-alert-policy-iac/` | CLOSED Issue #863 follow-up for admin `error.boundary.caught` alerting. Local implementation promotes logger `scope`/`digest` into Sentry tags, adds `infra/sentry-alerts/` policy/schema/lib/CLI/tests, Sentry drift CI, runbook, CODEOWNERS, package scripts, source one-pager consumed pointer, and artifact inventory. Sentry API apply, staging Slack notification smoke, commit, push, and PR remain user-gated; PR wording uses `Refs #863`. |
 
 ### Task 18 W7 verify tokens and Playwright smoke（2026-05-12）
 

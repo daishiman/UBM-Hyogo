@@ -2994,6 +2994,12 @@ node scripts/list-specs.js --topics
 | Evidence | L20 |
 | User-Gated Boundary | L28 |
 
+### references/workflow-issue-863-admin-error-alert-policy-iac-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Contract | L18 |
+
 ### references/workflow-issue-864-admin-staging-runtime-smoke-ci-gate-artifact-inventory.md
 
 | セクション | 行 |
@@ -7555,7 +7561,7 @@ node scripts/list-specs.js --topics
 | 実行時のコマンド・エージェント・スキル | L2400 |
 | 昇格パターン集 | L2424 |
 | Current Active / Spec Created Tasks | L2426 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L2586 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L2587 |
 
 ### references/task-workflow-backlog-part2.md
 
