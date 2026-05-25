@@ -1,5 +1,7 @@
 # safeServerFetch / SafeResult helper を member / public 層 server component へ横展開 - タスク指示書
 
+> Consumed: 2026-05-24 に `docs/30-workflows/issue-879-safe-server-fetch-member-public-horizontal-expansion/` へ Phase 1-13 化し、実装・focused evidence まで完了。以後の正本は canonical workflow を参照する。
+
 ## メタ情報
 
 | 項目         | 内容                                                                                                       |
@@ -7,7 +9,7 @@
 | タスクID     | admin-ui-prototype-alignment-followup-001-safe-server-fetch-horizontal-expansion                           |
 | タスク名     | safeServerFetch / SafeResult helper を member / public 層 server component へ横展開                        |
 | 分類         | 改善                                                                                                       |
-| 対象機能     | `apps/web/app/(member)/profile/page.tsx` および `apps/web/app/(public)/members/page.tsx` 等の server fetch |
+| 対象機能     | `apps/web/app/profile/page.tsx` および `apps/web/app/(public)/members/page.tsx` 等の server fetch |
 | 優先度       | 中                                                                                                         |
 | 見積もり規模 | 小規模                                                                                                     |
 | ステータス   | 未実施                                                                                                     |
@@ -22,7 +24,7 @@
 - 既存 primitive / helper 群（admin 層で先行整備済み）:
   - `apps/web/src/lib/admin/safe-server-fetch.ts`
   - `apps/web/src/lib/result.ts`（`SafeResult<T>` 型）
-  - `apps/web/src/components/admin/AdminSectionError.tsx`（仮称・per-section error UI）
+  - `apps/web/src/features/admin/components/_shared/AdminSectionError.tsx`（既存 per-section error UI）
   - `apps/web/app/(admin)/admin/page.tsx`（per-section degrade 適用済み）
 
 ---
@@ -37,7 +39,7 @@ admin-ui-prototype-alignment では admin dashboard を複数の section（membe
 
 ### 1.2 問題点・課題
 
-- `apps/web/app/(member)/profile/page.tsx` で `fetchMember` が 1 endpoint でも throw すると profile 画面全体が error boundary 行きになる
+- `apps/web/app/profile/page.tsx` で member profile fetch が 1 endpoint でも throw すると profile 画面全体が error boundary 行きになる
 - `apps/web/app/(public)/members/page.tsx` / `apps/web/app/(public)/members/[id]/page.tsx` も同様で、tag fetch 失敗で member 一覧自体が見られなくなる可能性がある
 - admin 層と member / public 層で fetch エラー伝播モデルが非対称になり、観測 / 保守コストが増える
 - per-section degrade を後から個別 page に手書きすると、SafeResult discriminated union の narrowing パターンが page ごとに分岐し、回帰しやすい
@@ -59,8 +61,8 @@ admin 層で確立した `safeServerFetch` / `SafeResult<T>` / per-section error
 ### 2.2 最終ゴール
 
 - member / public 層で利用可能な `safeServerFetch` 共通 helper が `apps/web/src/lib/public/safe-server-fetch.ts` または `apps/web/src/lib/server-fetch/safe-fetch.ts` として整備される（共通化方向は §3.1 で 2 案併記）
-- `apps/web/app/(member)/profile/page.tsx` および `apps/web/app/(public)/members/page.tsx` / `[id]/page.tsx` が `SafeResult<T>` を介して per-section degrade を行う
-- `apps/web/src/components/{public,member}/SectionError.tsx` が新規追加され、既存 `AdminSectionError` と props shape が統一される
+- `apps/web/app/profile/page.tsx` および `apps/web/app/(public)/members/page.tsx` / `[id]/page.tsx` が `SafeResult<T>` を介して per-section degrade を行う
+- `apps/web/src/components/{public,member}/SectionError.tsx` が新規追加され、public / member 間の props shape が統一される。既存 `AdminSectionError` は admin API 互換維持対象
 - 既存 API endpoint surface / D1 binding を一切変更しない
 - 既存 spec が pass し、横展開対象 page に対応する `.spec.tsx` が追加される
 
@@ -71,7 +73,7 @@ admin 層で確立した `safeServerFetch` / `SafeResult<T>` / per-section error
 - `safeServerFetch` 共通化（admin 専用から共通 lib への抽出 or 並列の public/member 用 helper 追加）
 - `SafeResult<T>` 型の export 経路整備（barrel export）
 - `SectionError` 系 UI コンポーネントの public / member 用バリアント追加
-- `(member)/profile/page.tsx` / `(public)/members/page.tsx` / `(public)/members/[id]/page.tsx` の置換
+- `app/profile/page.tsx` / `(public)/members/page.tsx` / `(public)/members/[id]/page.tsx` の置換
 - 対応 `.spec.tsx` の新規追加 or 既存修正
 
 #### 含まないもの
@@ -86,7 +88,7 @@ admin 層で確立した `safeServerFetch` / `SafeResult<T>` / per-section error
 - `apps/web/src/lib/public/safe-server-fetch.ts` または `apps/web/src/lib/server-fetch/safe-fetch.ts`（共通化方向は §3.1 で 2 案併記）
 - `apps/web/src/components/public/SectionError.tsx`
 - `apps/web/src/components/member/SectionError.tsx`
-- `apps/web/app/(member)/profile/page.tsx` の差分
+- `apps/web/app/profile/page.tsx` の差分
 - `apps/web/app/(public)/members/page.tsx` の差分
 - `apps/web/app/(public)/members/[id]/page.tsx` の差分
 - 対応 spec ファイル群（`.spec.tsx`）
@@ -134,7 +136,7 @@ type SectionErrorProps = {
 };
 ```
 
-`AdminSectionError` と同じ props shape を `PublicSectionError` / `MemberSectionError` でも採用し、barrel export で `import { SectionError } from "@/components/public"` のように layer 別に取り出す。
+`PublicSectionError` / `MemberSectionError` は同じ props shape を採用し、barrel export で `import { SectionError } from "@/components/public"` のように layer 別に取り出す。`AdminSectionError` は既存 admin call site 互換のため `sectionLabel` / `code` / `correlationId` / `message` API を維持する。
 
 ### 3.4 変更ファイル一覧
 
@@ -144,7 +146,7 @@ type SectionErrorProps = {
 | `apps/web/src/lib/admin/safe-server-fetch.ts`           | 既存変更 | 共通 lib への re-export 化（案 B 採用時）     |
 | `apps/web/src/components/public/SectionError.tsx`       | 新規追加 | public 層 per-section error UI                |
 | `apps/web/src/components/member/SectionError.tsx`       | 新規追加 | member 層 per-section error UI                |
-| `apps/web/app/(member)/profile/page.tsx`                | 既存変更 | `safeServerFetch` + `SectionError` へ置換     |
+| `apps/web/app/profile/page.tsx`                         | 既存変更 | `safeServerFetch` + `SectionError` へ置換     |
 | `apps/web/app/(public)/members/page.tsx`                | 既存変更 | `safeServerFetch` + `SectionError` へ置換     |
 | `apps/web/app/(public)/members/[id]/page.tsx`           | 既存変更 | `safeServerFetch` + `SectionError` へ置換     |
 | 対応 `.spec.tsx`                                        | 追加     | per-section degrade 契約検証                  |
@@ -200,7 +202,7 @@ admin 層で実装中に observed した点を、後続が即解決できるよ�
 ### 4.3 per-section error UI コンポーネントの抽象化方針
 
 - `AdminSectionError` は admin theme（cool）配色を前提にしている可能性があるため、public / member layer では theme（warm / member-specific）に合わせた variant が必要
-- barrel export を `@/components/{admin,public,member}/SectionError` の 3 経路で揃え、props shape は完全一致させる（§3.3）
+- public / member の SectionError 経路を揃え、props shape は完全一致させる（§3.3）。admin は既存 `_shared/AdminSectionError` API を維持する
 - 共通実装に寄せたい誘惑があるが、theme / layout context が違うため **shape 統一・実装は layer ごと** のほうが OKLch token 参照が素直になる
 - Storybook / 視覚回帰がある場合は 3 layer × default/with-detail/with-retry の 9 ケースを用意
 
@@ -232,7 +234,7 @@ admin 層で実装中に observed した点を、後続が即解決できるよ�
 
 ### 5.2 Unit (SectionError primitive)
 
-`apps/web/src/components/{public,member}/SectionError.spec.tsx` で以下を assert:
+`apps/web/src/components/{public,member}/__tests__/SectionError.spec.tsx` で以下を assert:
 
 - props 省略時の既定 title が描画される
 - `detail` props 注入時に detail テキストが描画される
@@ -249,7 +251,7 @@ admin 層で実装中に observed した点を、後続が即解決できるよ�
 
 対象 spec:
 
-- `apps/web/app/(member)/profile/page.spec.tsx`
+- `apps/web/app/profile/page.spec.tsx`
 - `apps/web/app/(public)/members/page.spec.tsx`
 - `apps/web/app/(public)/members/[id]/page.spec.tsx`
 
@@ -262,9 +264,9 @@ admin 層で実装中に observed した点を、後続が即解決できるよ�
 
 ```bash
 mise exec -- pnpm --dir apps/web exec vitest run src/lib/server-fetch
-mise exec -- pnpm --dir apps/web exec vitest run src/components/public/SectionError.spec.tsx
-mise exec -- pnpm --dir apps/web exec vitest run src/components/member/SectionError.spec.tsx
-mise exec -- pnpm --dir apps/web exec vitest run app/\(member\)/profile/page.spec.tsx
+mise exec -- pnpm --dir apps/web exec vitest run src/components/public/__tests__/SectionError.spec.tsx
+mise exec -- pnpm --dir apps/web exec vitest run src/components/member/__tests__/SectionError.spec.tsx
+mise exec -- pnpm --dir apps/web exec vitest run app/profile/page.spec.tsx
 mise exec -- pnpm --dir apps/web exec vitest run app/\(public\)/members/page.spec.tsx
 mise exec -- pnpm --dir apps/web exec vitest run app/\(public\)/members/\[id\]/page.spec.tsx
 mise exec -- pnpm typecheck
@@ -276,8 +278,8 @@ mise exec -- pnpm lint
 ## 6. 受け入れ条件（DoD）
 
 - **AC-1**: `safeServerFetch` 共通 helper が `apps/web/src/lib/server-fetch/safe-fetch.ts`（案 B）または `apps/web/src/lib/public/safe-server-fetch.ts`（案 A）に整備され、member / public 層から import 可能
-- **AC-2**: `apps/web/app/(member)/profile/page.tsx` / `apps/web/app/(public)/members/page.tsx` / `apps/web/app/(public)/members/[id]/page.tsx` の server fetch がすべて `SafeResult<T>` を介する形に置換されている
-- **AC-3**: `apps/web/src/components/public/SectionError.tsx` / `apps/web/src/components/member/SectionError.tsx` が新規追加され、`AdminSectionError` と props shape が一致している
+- **AC-2**: `apps/web/app/profile/page.tsx` / `apps/web/app/(public)/members/page.tsx` / `apps/web/app/(public)/members/[id]/page.tsx` の server fetch がすべて `SafeResult<T>` を介する形に置換されている
+- **AC-3**: `apps/web/src/components/public/SectionError.tsx` / `apps/web/src/components/member/SectionError.tsx` が新規追加され、public / member 間の props shape が一致している。`AdminSectionError` の既存 API は互換維持されている
 - **AC-4**: 1 endpoint 失敗時に該当 section のみ `SectionError` 表示で degrade し、page 自体は描画される（spec で検証済み）
 - **AC-5**: 既存 API endpoint surface / D1 binding を一切変更していない（CLAUDE.md UI prototype alignment 不変条件 #1 / #5 遵守）
 - **AC-6**: 新規 primitive・新規 visual 仕様を導入していない（不変条件 3 遵守）
@@ -297,7 +299,7 @@ mise exec -- pnpm lint
 - 既存型: `apps/web/src/lib/result.ts`
 - admin 適用 page 例: `apps/web/app/(admin)/admin/page.tsx`
 - 横展開対象 page:
-  - `apps/web/app/(member)/profile/page.tsx`
+  - `apps/web/app/profile/page.tsx`
   - `apps/web/app/(public)/members/page.tsx`
   - `apps/web/app/(public)/members/[id]/page.tsx`
 - design token 正本: `apps/web/src/styles/tokens.css` / `docs/00-getting-started-manual/specs/design-tokens.md`

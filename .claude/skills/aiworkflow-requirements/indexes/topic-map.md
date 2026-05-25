@@ -2135,6 +2135,12 @@ node scripts/list-specs.js --topics
 |------------|----|
 | Contract | L16 |
 
+### references/workflow-admin-ui-prototype-alignment-followup-002-section-error-retry-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Contract | L15 |
+
 ### references/workflow-ai-chat-llm-integration-fix-artifact-inventory.md
 
 | セクション | 行 |
@@ -3035,6 +3041,34 @@ node scripts/list-specs.js --topics
 | Implementation | L14 |
 | Evidence | L24 |
 | Contract | L34 |
+
+### references/workflow-issue-872-google-brand-4tone-icon-and-tokens-exempt-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Scope | L12 |
+| User-Gated Boundary | L18 |
+
+### references/workflow-issue-874-login-staging-visual-smoke-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Workflow | L3 |
+| Implementation targets | L12 |
+| Evidence | L19 |
+| Source / parent | L27 |
+
+### references/workflow-issue-879-safe-server-fetch-member-public-horizontal-expansion-artifact-inventory.md
+
+### references/workflow-issue-880-public-segment-error-loading-boundary-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Summary | L3 |
+| Artifacts | L13 |
+| Implementation targets | L27 |
+| Skill knowledge synced | L36 |
+| User-gated operations | L43 |
 
 ### references/workflow-issue-903-parallel-03-followup-005-member-runtime-evidence-artifact-inventory.md
 
@@ -7593,14 +7627,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L2353 |
-| フェーズ構造（概要） | L2362 |
-| 品質ゲート（概要） | L2393 |
-| 出力テンプレート | L2404 |
-| 実行時のコマンド・エージェント・スキル | L2427 |
-| 昇格パターン集 | L2451 |
-| Current Active / Spec Created Tasks | L2453 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L2614 |
+| ドキュメント構成 | L2422 |
+| フェーズ構造（概要） | L2431 |
+| 品質ゲート（概要） | L2462 |
+| 出力テンプレート | L2473 |
+| 実行時のコマンド・エージェント・スキル | L2496 |
+| 昇格パターン集 | L2520 |
+| Current Active / Spec Created Tasks | L2522 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L2683 |
 
 ### references/task-workflow-backlog-part2.md
 

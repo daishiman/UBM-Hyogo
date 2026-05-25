@@ -1,5 +1,62 @@
 # クイックリファレンス
 
+## admin-ui-prototype-alignment follow-up 002 section error retry（2026-05-25）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/admin-ui-prototype-alignment-followup-002-section-error-retry/` |
+| status | `implementation_reviewed / implementation / NON_VISUAL / local evidence PASS` |
+| issue | #881 CLOSED。PR 文脈は `Refs #881` のみ |
+| parent | `docs/30-workflows/admin-ui-prototype-alignment/` |
+| purpose | `AdminSectionError` の retry CTA を client boundary 経由で実装する仕様。page server component は維持し、`router.refresh()` は `AdminSectionErrorClient` 内に閉じ込める |
+| Phase 12 | `outputs/phase-12/phase12-task-spec-compliance-check.md` + strict 7 files + local evidence present |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-ui-prototype-alignment-followup-002-section-error-retry-artifact-inventory.md` |
+| lessons | `.claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-admin-section-error-retry-2026-05.md`（L-ASR-001..005）、`.claude/skills/task-specification-creator/lessons-learned/rsc-client-boundary-callback-injection.md`（L-RSC-001..005） |
+| local evidence | focused Vitest 19+2 PASS including `jest-axe` (AC-3/AC-4 transition assertion 追加); root lint/typecheck PASS; design-token and client-boundary grep PASS |
+| user gate | commit, push, PR |
+
+## Issue #880 public segment error/loading boundary（2026-05-24）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow | `docs/30-workflows/completed-tasks/issue-880-public-segment-error-loading-boundary/` |
+| status | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION` |
+| issue | #880 OPEN at spec creation; PR/Issue mutation user-gated |
+| parent | `docs/30-workflows/ui-prototype-design-system-foundation/serial-06-form-response-binding/` |
+| purpose | Add explicit `(public)` route-group `error.tsx` / `loading.tsx` and Playwright force-throw smoke to resolve serial-06 precondition drift |
+| implementation targets | `apps/web/app/(public)/error.tsx`, `apps/web/app/(public)/loading.tsx`, `apps/web/app/(public)/error-boundary-smoke/page.tsx`, `apps/web/playwright/tests/public-error-boundary.spec.ts` |
+| Phase 11/12 | screenshot + focused Playwright report captured; strict 7 present |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-880-public-segment-error-loading-boundary-artifact-inventory.md` |
+| lessons-learned | `.claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-issue-880-public-segment-error-loading-boundary-2026-05.md`（L-PUBERR-001 production-guarded smoke route / L-PUBERR-002 worktree webServer timeout 回避 / L-PUBERR-003 scope と route-group 1:1） |
+| user gate | commit, push, PR, GitHub issue mutation |
+
+## issue-879 safeServerFetch member/public horizontal expansion（2026-05-24）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow | `docs/30-workflows/completed-tasks/issue-879-safe-server-fetch-member-public-horizontal-expansion/` |
+| status | `implemented_local_evidence_captured / implementation / NON_VISUAL / implementation_complete_pending_pr` |
+| issue | #879 CLOSED。PR body は `Refs #879` |
+| implementation | `apps/web/src/lib/server-fetch/safe-fetch.ts`, `apps/web/src/lib/admin/safe-server-fetch.ts`, `apps/web/src/components/{public,member}/SectionError.tsx`, `/profile`, `/members`, `/members/[id]` pages |
+| contract | auth redirect and public member 404 remain fatal framework signals; transient member/public fetch failures render SectionError and keep page chrome/filter/backlink visible |
+| evidence | focused Vitest 20 PASS, web typecheck PASS, design-token gate PASS, web lint PASS |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-879-safe-server-fetch-member-public-horizontal-expansion-artifact-inventory.md` |
+| boundary | commit / push / PR / Issue mutation are user-gated |
+
+## issue-872-google-brand-4tone-icon-and-tokens-exempt（2026-05-24）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-872-google-brand-4tone-icon-and-tokens-exempt/` |
+| status | `local_static_pass_browser_pending / implementation / VISUAL` |
+| source | Issue #872 / FU-LOGIN-001 from `login-page-prototype-alignment` |
+| purpose | Google OAuth button を official 4-tone SVG asset wrapper へ置換する仕様と、`verify-design-tokens` の brand SVG exempt を定義 |
+| invariant | HEX literal は `apps/web/src/components/ui/brand-icons/*.svg` のみ exempt。`GoogleBrandIcon.tsx` / nested SVG / `.ts` / `.css` は exempt しない |
+| Phase 12 | strict 7 present + validator entry `outputs/phase-12/phase-12.md` |
+| Phase 11 | VISUAL auxiliary files present; render PNG present; browser screenshots pending local disk cleanup (`ENOSPC`) |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-872-google-brand-4tone-icon-and-tokens-exempt-artifact-inventory.md` |
+| user gate | browser screenshot recapture after disk cleanup, visual baseline update, commit, push, PR |
+
 ## issue-871-csp-nonce-migration（2026-05-24）
 
 | 項目 | 値 |
@@ -247,6 +304,19 @@
 | implementation | `apps/web/app/login/**`, `apps/web/src/components/ui/{Icon,icons}.ts(x)`, `apps/web/src/styles/auth.css`, `apps/web/playwright/tests/login-smoke.spec.ts` |
 | UI contract | Magic Link primary -> OR divider -> Google secondary, brand block, sent inbox state |
 | boundary | `/api/auth/*`, Auth.js handler, D1 schema, `apps/api/**` are unchanged; staging visual smoke, commit, push, PR are user-gated |
+
+## issue-874-login-staging-visual-smoke（2026-05-24）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-874-login-staging-visual-smoke/` |
+| 状態 | `implemented_local_runtime_pending / implementation / VISUAL` |
+| source | FU-LOGIN-003 from `docs/30-workflows/completed-tasks/login-page-prototype-alignment/outputs/phase-12/unassigned-task-detection.md` |
+| implementation | `apps/web/playwright/tests/login-smoke.spec.ts`, `scripts/run-login-staging-smoke.sh` |
+| contract | `PLAYWRIGHT_EVIDENCE_DIR` overrides explicit screenshot output path; default keeps completed parent local baseline path |
+| evidence | Phase 12 strict 7 present; staging deploy / staging smoke / 7 PNG evidence remain user-gated |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-874-login-staging-visual-smoke-artifact-inventory.md` |
+| boundary | deploy, staging runtime smoke, visual diff, commit, push, PR are user-gated |
 
 ## fix-admin-server-components-render-error-stg（2026-05-23）
 

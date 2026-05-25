@@ -7,6 +7,9 @@ export type {
 export { AdminSectionError } from "./AdminSectionError";
 export type { AdminSectionErrorProps } from "./AdminSectionError";
 
+export { AdminSectionErrorClient } from "./AdminSectionErrorClient";
+export type { AdminSectionErrorClientProps } from "./AdminSectionErrorClient";
+
 export { AdminEmptyState } from "./AdminEmptyState";
 export type {
   AdminEmptyStateProps,

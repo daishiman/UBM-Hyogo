@@ -1,0 +1,13 @@
+# Focused Vitest Log
+
+Command:
+
+```bash
+pnpm --dir apps/web exec vitest run src/lib/server-fetch src/lib/admin/__tests__/safe-server-fetch.spec.ts src/components/public/__tests__/SectionError.spec.tsx src/components/member/__tests__/SectionError.spec.tsx app/profile/page.spec.tsx "app/(public)/members/page.spec.tsx" "app/(public)/members/[id]/page.spec.tsx" --root=../.. --config=vitest.config.ts
+```
+
+Result: PASS
+
+- Test Files: 7 passed
+- Tests: 21 passed
+- Covered branches: common safe fetch, admin adapter compatibility, public/member SectionError, `/profile` degrade, `/members` degrade, `/members/[id]` generic failure degrade and 404 notFound preservation.
