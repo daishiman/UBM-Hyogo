@@ -1752,7 +1752,7 @@ node scripts/list-specs.js --topics
 | Env Boundary | L18 |
 | CSP Nonce Contract | L22 |
 | User-gated Follow-ups | L37 |
-| Workflow | L54 |
+| Workflow | L46 |
 
 ---
 
