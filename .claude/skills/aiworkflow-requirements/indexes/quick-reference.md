@@ -1,5 +1,17 @@
 # クイックリファレンス
 
+## issue-900-workflow-permissions-least-privilege-audit（2026-05-25）
+
+| key | value |
+| --- | --- |
+| status | `implemented_local_evidence_captured / implementation / NON_VISUAL` |
+| workflow root | `docs/30-workflows/completed-tasks/issue-900-workflow-permissions-least-privilege-audit/` |
+| purpose | all GitHub Actions workflows declare top-level least-privilege token permissions |
+| baseline | top-level `permissions: contents: read`; job-level write overrides remain job-scoped |
+| guard | `scripts/verify-workflow-top-level-permissions.sh` in `.github/workflows/ci.yml` after actionlint |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-900-workflow-permissions-least-privilege-audit-artifact-inventory.md` |
+| user gate | commit, push, PR, remote CI observation |
+
 ## awshh-followup-003-csp-reporting-endpoints（2026-05-24）
 
 | 目的 | 参照先 |

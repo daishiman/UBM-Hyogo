@@ -10,6 +10,9 @@ concurrency:
   group: backend-ci-${{ github.ref_name }}
   cancel-in-progress: true
 
+permissions:
+  contents: read
+
 jobs:
   deploy-staging:
     if: github.ref_name == 'dev'
