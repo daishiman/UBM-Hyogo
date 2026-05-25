@@ -99,6 +99,19 @@
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-runtime-smoke-staging-mint-recurrence-fix-artifact-inventory.md` |
 | user gate | GitHub secret mutation, Cloudflare secret mutation, staging runtime rerun, commit, push, PR |
 
+### issue-870-apps-api-security-headers（2026-05-24）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / NON_VISUAL` |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-870-apps-api-security-headers/` |
+| Issue | #870 CLOSED。PR 文脈は `Refs #870` のみ |
+| 目的 | `apps/api` 全 route に API response security headers と deny-by-default CORS を追加する |
+| implementation targets | `apps/api/src/middleware/security-headers.ts`, `apps/api/src/middleware/__tests__/security-headers.spec.ts`, `apps/api/src/index.ts`, `apps/api/src/env.ts`, `apps/api/wrangler.toml` |
+| evidence | `pnpm --filter @ubm-hyogo/api typecheck` PASS、focused Vitest 15 tests PASS、Phase 12 strict 7 present |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-870-apps-api-security-headers-artifact-inventory.md` |
+| user gate | staging/production curl, deploy, commit, push, PR |
+
 ### members-page-prototype-alignment（2026-05-23）
 
 | 項目 | 値 |
