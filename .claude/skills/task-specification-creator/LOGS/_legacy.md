@@ -4,6 +4,10 @@
 
 このファイルは task-specification-creator の運用・改善・Phase 12 close-out 同期履歴を新しい順に記録する。
 
+## 2026-05-25 - Issue #908 runtime evidence follow-up pattern
+
+`docs/30-workflows/completed-tasks/issue-908-staging-rollback-notification-runtime-smoke/` の automation-30 改善で、runtime evidence follow-up を spec-only のまま閉じず、`scripts/runtime-smoke/schema-alias-rollback.sh` と親 evidence placeholder を同一 cycle で物理作成する運用へ補正した。親 Phase 11 / Gate-C は pending のまま実在 path に cross-link し、staging deploy / rollback POST / D1 mutation / completion promotion は user-gated として分離する。この再利用可能パターンを `references/patterns-runtime-evidence-followup.md` に追加。
+
 ## 2026-05-24 - Issue #863 Sentry alert IaC implementation review
 
 `docs/30-workflows/completed-tasks/issue-863-admin-error-alert-policy-iac/` の 30種思考法レビューで、Sentry alert IaC が実コード差分を伴うため `implemented_local_runtime_pending` に統一した。Issue Alert API の native 形状（project `/rules/`、`actionMatch`/`conditions`/`filterMatch`/tag filters/Slack action）へ `infra/sentry-alerts` CLI と mock fixture を補正し、manifest schema required と schema-contract test を追加した。Phase 12 implementation-guide validator 要件（今回作ったもの、APIシグネチャ、使用例、エッジケース、設定項目と定数一覧、テスト構成）を満たすよう同期。mock mode は `scripts/with-env.sh` で op wrapper を迂回し、`SENTRY_ALERTS_MOCK_DIR=... pnpm sentry-alerts:diff --ci --json` を secret なしで再現可能にした。Sentry apply、staging 通知疎通、commit/push/PR は user-gated のまま未実行。

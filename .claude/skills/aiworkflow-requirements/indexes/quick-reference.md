@@ -82,6 +82,16 @@
 | audit | `schema_alias.rollback_notification` with redacted `after_json={ status, channel, attempts, errorClass, dispatchedAt }` |
 | Phase 12 | strict 7 files present; Phase 11 local evidence present and staging provider smoke user-gated |
 
+## Issue #908 Staging Rollback Notification Runtime Smoke（2026-05-25）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-908-staging-rollback-notification-runtime-smoke/` |
+| status | `implemented_local_runtime_pending / implementation / NON_VISUAL` |
+| helper | `scripts/runtime-smoke/schema-alias-rollback.sh` |
+| parent evidence | `docs/30-workflows/completed-tasks/issue-838-schema-alias-rollback-notification/outputs/phase-11/evidence/staging-smoke.md` |
+| boundary | staging deploy / rollback POST / D1 mutation / provider evidence population / parent completion promotion / commit / push / PR are user-gated |
+
 ## Issue #837 schema alias bulk rollback（2026-05-24）
 
 | 項目 | 値 |
