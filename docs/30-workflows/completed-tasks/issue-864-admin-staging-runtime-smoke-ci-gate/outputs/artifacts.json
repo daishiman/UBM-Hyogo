@@ -1,0 +1,187 @@
+{
+  "workflow_id": "issue-864-admin-staging-runtime-smoke-ci-gate",
+  "feature": "issue-864-admin-staging-runtime-smoke-ci-gate",
+  "status": "implemented_local_runtime_pending",
+  "created": "2026-05-24T00:00:00.000+09:00",
+  "lastUpdated": "2026-05-24T13:38:00.000+09:00",
+  "metadata": {
+    "taskId": "TASK-ISSUE-864-ADMIN-STAGING-RUNTIME-SMOKE-CI-GATE-001",
+    "taskType": "implementation",
+    "visualEvidence": "NON_VISUAL",
+    "implementationCategory": "ci-gate",
+    "implementation_mode": "new",
+    "workflow_state": "implemented_local_runtime_pending",
+    "scope": "post-deploy staging authenticated /admin runtime smoke CI gate",
+    "canonical_root": "docs/30-workflows/completed-tasks/issue-864-admin-staging-runtime-smoke-ci-gate",
+    "related_issue": "#864",
+    "related_pr": "#877, #862, #863",
+    "parent_task": "docs/30-workflows/fix-admin-server-components-render-error-stg",
+    "reported_digest": "167275886",
+    "runtime_boundary": "Local runner/helper/workflow wiring and focused tests are implemented; Cloudflare staging deploy, real authenticated /admin probe, commit, push, and PR are user-gated",
+    "implementation_files": [
+      "scripts/cf.sh",
+      "scripts/smoke/runtime-admin-web.sh",
+      "scripts/smoke/mint-staging-session-cookie.mts",
+      ".github/workflows/web-cd.yml",
+      ".claude/skills/task-specification-creator/references/phase-template-phase11.md",
+      ".claude/skills/task-specification-creator/references/server-component-e2e-pattern.md",
+      ".claude/skills/aiworkflow-requirements/references/workflow-issue-864-admin-staging-runtime-smoke-ci-gate-artifact-inventory.md"
+    ],
+    "test_files": [
+      "scripts/smoke/__tests__/runtime-admin-web.test.sh",
+      "scripts/smoke/__tests__/mint-staging-session-cookie.spec.ts"
+    ],
+    "phase12_strict_outputs": [
+      "outputs/phase-12/main.md",
+      "outputs/phase-12/implementation-guide.md",
+      "outputs/phase-12/system-spec-update-summary.md",
+      "outputs/phase-12/documentation-changelog.md",
+      "outputs/phase-12/unassigned-task-detection.md",
+      "outputs/phase-12/skill-feedback-report.md",
+      "outputs/phase-12/phase12-task-spec-compliance-check.md"
+    ],
+    "verify_commands": [
+      "bash scripts/smoke/__tests__/runtime-admin-web.test.sh",
+      "pnpm exec vitest run scripts/smoke/__tests__/mint-staging-session-cookie.spec.ts",
+      "pnpm typecheck",
+      "pnpm lint",
+      "go run github.com/rhysd/actionlint/cmd/actionlint@v1.7.7 .github/workflows/web-cd.yml"
+    ],
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-05-24T00:00:00+09:00",
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-864-admin-staging-runtime-smoke-ci-gate/outputs/phase-12/phase12-task-spec-compliance-check.md",
+        "approver": "daishiman",
+        "notes": "local_implementation: runner/helper/workflow wiring, focused tests, skill sync, and aiworkflow sync complete"
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-864-admin-staging-runtime-smoke-ci-gate/outputs/phase-11/manual-test-result.md",
+        "approver": "daishiman",
+        "notes": "runtime_smoke: Cloudflare staging deploy + real authenticated /admin probe pending user-gated execution"
+      }
+    ]
+  },
+  "phases": [
+    {
+      "id": 1,
+      "name": "要件定義",
+      "status": "completed",
+      "path": "outputs/phase-1/phase-1.md"
+    },
+    {
+      "id": 2,
+      "name": "設計",
+      "status": "completed",
+      "path": "outputs/phase-2/phase-2.md"
+    },
+    {
+      "id": 3,
+      "name": "設計レビュー",
+      "status": "completed",
+      "path": "outputs/phase-3/phase-3.md"
+    },
+    {
+      "id": 4,
+      "name": "テスト作成",
+      "status": "completed",
+      "path": "outputs/phase-4/phase-4.md"
+    },
+    {
+      "id": 5,
+      "name": "実装",
+      "status": "completed",
+      "path": "outputs/phase-5/phase-5.md"
+    },
+    {
+      "id": 6,
+      "name": "テスト拡充",
+      "status": "completed",
+      "path": "outputs/phase-6/phase-6.md"
+    },
+    {
+      "id": 7,
+      "name": "カバレッジ確認",
+      "status": "completed",
+      "path": "outputs/phase-7/phase-7.md"
+    },
+    {
+      "id": 8,
+      "name": "リファクタリング",
+      "status": "completed",
+      "path": "outputs/phase-8/phase-8.md"
+    },
+    {
+      "id": 9,
+      "name": "品質保証",
+      "status": "completed",
+      "path": "outputs/phase-9/phase-9.md"
+    },
+    {
+      "id": 10,
+      "name": "最終レビュー",
+      "status": "completed",
+      "path": "outputs/phase-10/phase-10.md"
+    },
+    {
+      "id": 11,
+      "name": "手動テスト",
+      "status": "completed",
+      "path": "outputs/phase-11/phase-11.md"
+    },
+    {
+      "id": 12,
+      "name": "ドキュメント更新",
+      "status": "completed",
+      "path": "outputs/phase-12/phase-12.md"
+    },
+    {
+      "id": 13,
+      "name": "PR作成",
+      "status": "pending_user_approval",
+      "path": "outputs/phase-13/phase-13.md"
+    }
+  ],
+  "dependencies": {
+    "2": [
+      "1"
+    ],
+    "3": [
+      "2"
+    ],
+    "4": [
+      "3"
+    ],
+    "5": [
+      "4"
+    ],
+    "6": [
+      "5"
+    ],
+    "7": [
+      "6"
+    ],
+    "8": [
+      "7"
+    ],
+    "9": [
+      "8"
+    ],
+    "10": [
+      "9"
+    ],
+    "11": [
+      "10"
+    ],
+    "12": [
+      "11"
+    ],
+    "13": [
+      "12"
+    ]
+  }
+}

@@ -7,7 +7,14 @@ vi.mock("@opennextjs/cloudflare", () => ({
   getCloudflareContext: () => cloudflareContext(),
 }));
 
-import { getEnv, getPublicEnv, getSecurityHeaderEnv, readRawEnv } from "../env";
+import {
+  getAuthEnv,
+  getEnv,
+  getPublicEnv,
+  getPublicFetchEnv,
+  getSecurityHeaderEnv,
+  readRawEnv,
+} from "../env";
 
 const validEnv = {
   ENVIRONMENT: "local",
@@ -59,6 +66,22 @@ describe("env", () => {
   it("getEnv parses INTERNAL_AUTH_SECRET when supplied", () => {
     const env = getEnv({ ...validEnv, INTERNAL_AUTH_SECRET: "internal-secret" });
     expect(env.INTERNAL_AUTH_SECRET).toBe("internal-secret");
+  });
+
+  it("getEnv parses optional auth provider keys when supplied", () => {
+    const env = getEnv({
+      ...validEnv,
+      GOOGLE_CLIENT_ID: "gid",
+      GOOGLE_CLIENT_SECRET: "gsec",
+      AUTH_GOOGLE_ID: "agid",
+      AUTH_GOOGLE_SECRET: "agsec",
+    });
+    expect(env).toMatchObject({
+      GOOGLE_CLIENT_ID: "gid",
+      GOOGLE_CLIENT_SECRET: "gsec",
+      AUTH_GOOGLE_ID: "agid",
+      AUTH_GOOGLE_SECRET: "agsec",
+    });
   });
 
   it("getEnv parses NEXT_PUBLIC_SENTRY_DSN when supplied as a valid URL", () => {
@@ -160,5 +183,60 @@ describe("env", () => {
     expect(() =>
       getSecurityHeaderEnv({ ...validEnv, CSP_MODE: "invalid-value" }),
     ).toThrow(ZodError);
+  });
+
+  it("getAuthEnv returns auth keys and service binding without throwing", () => {
+    const binding = { fetch: vi.fn() as unknown as typeof fetch };
+    expect(
+      getAuthEnv({
+        ENVIRONMENT: "staging",
+        AUTH_URL: "https://web.example.com",
+        AUTH_SECRET: "0123456789abcdef",
+        GOOGLE_CLIENT_ID: "gid",
+        GOOGLE_CLIENT_SECRET: "gsec",
+        INTERNAL_API_BASE_URL: "https://api.example.com",
+        INTERNAL_AUTH_SECRET: "internal",
+        API_SERVICE: binding,
+      }),
+    ).toMatchObject({
+      ENVIRONMENT: "staging",
+      AUTH_URL: "https://web.example.com",
+      AUTH_SECRET: "0123456789abcdef",
+      GOOGLE_CLIENT_ID: "gid",
+      GOOGLE_CLIENT_SECRET: "gsec",
+      INTERNAL_API_BASE_URL: "https://api.example.com",
+      INTERNAL_AUTH_SECRET: "internal",
+      API_SERVICE: binding,
+    });
+  });
+
+  it("getAuthEnv fail-closes to an empty object on invalid auth config", () => {
+    expect(
+      getAuthEnv({
+        ENVIRONMENT: "qa",
+        AUTH_URL: "not-a-url",
+        INTERNAL_API_BASE_URL: "also-not-a-url",
+      }),
+    ).toEqual({});
+  });
+
+  it("getPublicFetchEnv keeps public fetch resolution in env.ts", () => {
+    const binding = { fetch: vi.fn() as unknown as typeof fetch };
+    vi.stubEnv("NODE_ENV", "test");
+    vi.stubEnv("PUBLIC_API_BASE_URL", "https://process.example.com");
+    try {
+      expect(
+        getPublicFetchEnv({
+          API_SERVICE: binding,
+          PUBLIC_API_BASE_URL: "https://cloudflare.example.com",
+        }),
+      ).toEqual({
+        API_SERVICE: binding,
+        PUBLIC_API_BASE_URL: "https://process.example.com",
+        NODE_ENV: "test",
+      });
+    } finally {
+      vi.unstubAllEnvs();
+    }
   });
 });

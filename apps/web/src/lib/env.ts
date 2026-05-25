@@ -8,6 +8,10 @@ export const EnvSchema = z.object({
   INTERNAL_API_BASE_URL: z.string().url(),
   INTERNAL_AUTH_SECRET: z.string().min(1).optional(),
   AUTH_URL: z.string().url(),
+  GOOGLE_CLIENT_ID: z.string().min(1).optional(),
+  GOOGLE_CLIENT_SECRET: z.string().min(1).optional(),
+  AUTH_GOOGLE_ID: z.string().min(1).optional(),
+  AUTH_GOOGLE_SECRET: z.string().min(1).optional(),
   SENTRY_DSN_WEB: z.string().url().optional(),
   SENTRY_ENVIRONMENT: z.enum(["local", "staging", "production"]),
   SENTRY_TRACES_SAMPLE_RATE: z.coerce.number().min(0).max(1),
@@ -31,6 +35,30 @@ const SecurityHeaderEnvSchema = EnvSchema.pick({
 });
 
 type RawEnv = Record<string, unknown>;
+type ServiceBinding = { fetch: typeof fetch };
+
+const AuthEnvSchema = EnvSchema.pick({
+  ENVIRONMENT: true,
+  AUTH_SECRET: true,
+  AUTH_URL: true,
+  GOOGLE_CLIENT_ID: true,
+  GOOGLE_CLIENT_SECRET: true,
+  AUTH_GOOGLE_ID: true,
+  AUTH_GOOGLE_SECRET: true,
+  INTERNAL_API_BASE_URL: true,
+  INTERNAL_AUTH_SECRET: true,
+}).partial();
+
+export type AuthEnv = z.infer<typeof AuthEnvSchema> & {
+  API_SERVICE?: ServiceBinding;
+};
+
+export interface PublicFetchEnv {
+  API_SERVICE?: ServiceBinding;
+  PUBLIC_API_BASE_URL?: string;
+  NODE_ENV?: string;
+  PLAYWRIGHT_TEST?: string;
+}
 
 function readCloudflareEnv(): RawEnv | undefined {
   try {
@@ -75,5 +103,32 @@ export function getSecurityHeaderEnv(
   return {
     cspMode: parsed.CSP_MODE,
     apiBaseUrl: parsed.NEXT_PUBLIC_API_BASE_URL,
+  };
+}
+
+export function getAuthEnv(rawEnv: RawEnv = readRawEnv()): AuthEnv {
+  const parsed = AuthEnvSchema.safeParse(rawEnv);
+  const base = parsed.success ? parsed.data : {};
+  const binding = rawEnv["API_SERVICE"];
+  if (binding === undefined) return base;
+  return { ...base, API_SERVICE: binding as ServiceBinding };
+}
+
+export function getPublicFetchEnv(rawEnv: RawEnv = readRawEnv()): PublicFetchEnv {
+  const processEnv = readProcessEnv();
+  const baseUrl =
+    typeof processEnv["PUBLIC_API_BASE_URL"] === "string"
+      ? processEnv["PUBLIC_API_BASE_URL"]
+      : typeof rawEnv["PUBLIC_API_BASE_URL"] === "string"
+        ? rawEnv["PUBLIC_API_BASE_URL"]
+        : undefined;
+  const binding = rawEnv["API_SERVICE"];
+  return {
+    ...(binding === undefined ? {} : { API_SERVICE: binding as ServiceBinding }),
+    ...(baseUrl === undefined ? {} : { PUBLIC_API_BASE_URL: baseUrl }),
+    ...(typeof processEnv["NODE_ENV"] === "string" ? { NODE_ENV: processEnv["NODE_ENV"] } : {}),
+    ...(typeof processEnv["PLAYWRIGHT_TEST"] === "string"
+      ? { PLAYWRIGHT_TEST: processEnv["PLAYWRIGHT_TEST"] }
+      : {}),
   };
 }
