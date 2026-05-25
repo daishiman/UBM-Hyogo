@@ -59,6 +59,7 @@ export interface VerifyDesignTokenDefaults {
   scanColorLiterals: boolean
   colorLiteralRoots: string[]
   colorLiteralExcludes: readonly RegExp[]
+  brandIconExemptPaths: readonly RegExp[]
 }
 
 export const DEFAULTS: VerifyDesignTokenDefaults = {
@@ -80,6 +81,12 @@ export const DEFAULTS: VerifyDesignTokenDefaults = {
     /\/icon\/route\.tsx$/,
     /\/apple-icon\.tsx$/,
     /\/apple-icon\/route\.tsx$/,
+  ] as readonly RegExp[],
+  // Brand assets specified by external brand owners (Google / etc.).
+  // Direct children of components/ui/brand-icons/ only — subdirectories are NOT exempt.
+  // See docs/00-getting-started-manual/specs/09b-design-tokens.md "brand-asset exempt path".
+  brandIconExemptPaths: [
+    /\/components\/ui\/brand-icons\/[^/]+\.svg$/,
   ] as readonly RegExp[],
 }
 
@@ -503,12 +510,14 @@ async function listFiles(root: string): Promise<string[]> {
 export async function scanForbiddenColorLiterals(
   roots: readonly string[],
   excludes: readonly RegExp[] = DEFAULTS.colorLiteralExcludes,
+  brandIconExempts: readonly RegExp[] = DEFAULTS.brandIconExemptPaths,
 ): Promise<TokenDrift[]> {
   const files = (await Promise.all(roots.map((root) => listFiles(root))))
     .flat()
-    .filter((file) => /\.(ts|tsx|css)$/.test(file))
+    .filter((file) => /\.(ts|tsx|css|svg)$/.test(file))
     .filter((file) => !file.endsWith('/src/styles/tokens.css'))
     .filter((file) => !excludes.some((re) => re.test(file)))
+    .filter((file) => !brandIconExempts.some((re) => re.test(file)))
   const drifts: TokenDrift[] = []
   const hexRe = /(^|[^A-Za-z0-9_-])(#[0-9A-Fa-f]{3}(?:[0-9A-Fa-f]{3})?(?:[0-9A-Fa-f]{2})?)\b/g
   const arbitraryRe = /\b(?:bg|text|border|from|to|via)-\[#[0-9A-Fa-f]{3,8}\]/g

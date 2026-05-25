@@ -1750,9 +1750,9 @@ node scripts/list-specs.js --topics
 |------------|----|
 | Canonical Contract | L3 |
 | Env Boundary | L18 |
-| CSP Nonce Contract | L22 |
-| User-gated Follow-ups | L37 |
-| Workflow | L46 |
+| CSP Nonce Contract | L30 |
+| User-gated Follow-ups | L45 |
+| Workflow | L54 |
 
 ---
 
@@ -3019,6 +3019,8 @@ node scripts/list-specs.js --topics
 |------------|----|
 | State | L15 |
 
+### references/workflow-issue-869-csp-enforce-cutover-artifact-inventory.md
+
 ### references/workflow-issue-870-apps-api-security-headers-artifact-inventory.md
 
 | セクション | 行 |
@@ -3033,6 +3035,34 @@ node scripts/list-specs.js --topics
 | Implementation | L14 |
 | Evidence | L24 |
 | Contract | L34 |
+
+### references/workflow-issue-872-google-brand-4tone-icon-and-tokens-exempt-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Scope | L12 |
+| User-Gated Boundary | L18 |
+
+### references/workflow-issue-874-login-staging-visual-smoke-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Workflow | L3 |
+| Implementation targets | L12 |
+| Evidence | L19 |
+| Source / parent | L27 |
+
+### references/workflow-issue-879-safe-server-fetch-member-public-horizontal-expansion-artifact-inventory.md
+
+### references/workflow-issue-880-public-segment-error-loading-boundary-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Summary | L3 |
+| Artifacts | L13 |
+| Implementation targets | L27 |
+| Skill knowledge synced | L36 |
+| User-gated operations | L43 |
 
 ### references/workflow-light-theme-contrast-regression-guard.md
 
@@ -7582,14 +7612,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L2353 |
-| フェーズ構造（概要） | L2362 |
-| 品質ゲート（概要） | L2393 |
-| 出力テンプレート | L2404 |
-| 実行時のコマンド・エージェント・スキル | L2427 |
-| 昇格パターン集 | L2451 |
-| Current Active / Spec Created Tasks | L2453 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L2614 |
+| ドキュメント構成 | L2406 |
+| フェーズ構造（概要） | L2415 |
+| 品質ゲート（概要） | L2446 |
+| 出力テンプレート | L2457 |
+| 実行時のコマンド・エージェント・スキル | L2480 |
+| 昇格パターン集 | L2504 |
+| Current Active / Spec Created Tasks | L2506 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L2667 |
 
 ### references/task-workflow-backlog-part2.md
 

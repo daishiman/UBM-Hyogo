@@ -7,7 +7,14 @@ vi.mock("@opennextjs/cloudflare", () => ({
   getCloudflareContext: () => cloudflareContext(),
 }));
 
-import { getAuthEnv, getEnv, getPublicEnv, getPublicFetchEnv, readRawEnv } from "../env";
+import {
+  getAuthEnv,
+  getEnv,
+  getPublicEnv,
+  getPublicFetchEnv,
+  getSecurityHeaderEnv,
+  readRawEnv,
+} from "../env";
 
 const validEnv = {
   ENVIRONMENT: "local",
@@ -170,6 +177,26 @@ describe("env", () => {
       NEXT_PUBLIC_API_BASE_URL: "http://127.0.0.1:8787",
       NEXT_PUBLIC_SENTRY_DSN: undefined,
     });
+  });
+
+  it("getSecurityHeaderEnv defaults CSP_MODE to report-only", () => {
+    expect(getSecurityHeaderEnv(validEnv)).toEqual({
+      cspMode: "report-only",
+      apiBaseUrl: "http://127.0.0.1:8787",
+    });
+  });
+
+  it("getSecurityHeaderEnv returns enforce when CSP_MODE is enforce", () => {
+    expect(getSecurityHeaderEnv({ ...validEnv, CSP_MODE: "enforce" })).toEqual({
+      cspMode: "enforce",
+      apiBaseUrl: "http://127.0.0.1:8787",
+    });
+  });
+
+  it("getSecurityHeaderEnv throws ZodError for invalid CSP_MODE", () => {
+    expect(() =>
+      getSecurityHeaderEnv({ ...validEnv, CSP_MODE: "invalid-value" }),
+    ).toThrow(ZodError);
   });
 
   it("getAuthEnv returns auth keys and service binding without throwing", () => {

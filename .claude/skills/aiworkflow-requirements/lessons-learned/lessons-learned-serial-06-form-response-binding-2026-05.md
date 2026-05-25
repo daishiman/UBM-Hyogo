@@ -99,7 +99,7 @@
 - 前 sub-workflow lessons: [[lessons-learned-serial-05-page-routes-blueprint-binding-2026-05]]
 - 後続 sub-workflow（予定）: `serial-07-regression-evidence`（19 routes 全体 visual regression owned）
 - follow-up unassigned tasks:
-  - `docs/30-workflows/unassigned-task/serial-06-followup-001-public-segment-error-loading-boundary.md`
+  - `docs/30-workflows/completed-tasks/serial-06-followup-001-public-segment-error-loading-boundary.md`
   - `docs/30-workflows/unassigned-task/serial-06-followup-002-adapter-dev-warn-unknown-kind.md`
   - `docs/30-workflows/unassigned-task/serial-06-followup-003-phase-6-playwright-topology-sync.md`
   - `docs/30-workflows/unassigned-task/serial-06-followup-004-adapter-schema-extension-pipeline.md`
