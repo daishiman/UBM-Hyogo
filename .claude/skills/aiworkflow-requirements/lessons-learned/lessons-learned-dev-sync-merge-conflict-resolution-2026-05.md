@@ -720,3 +720,14 @@
   4. resolver 拡張は不要。コード union は危険なので resolver 側で自動化せず、L-DEVSYNC-043 を手動 union ルールとして spec template に組み込む（task-specification-creator patterns-lessons-and-pitfalls.md「parallel adapter signature extension」項目参照）。
 - 留意: 片側が「同じ引数名」を別意味で追加している場合は orthogonal でないため、最終レポートに記録し人間判断を仰ぐ（callback と routing set のような明確に意味が分かれる場合のみ自動 union 適用可）。リネーム提案は元 issue へ feedback。
 - 事例: 2026-05-26 `feat/issue-891-...` ← dev sync-merge。`pnpm sync:resolve` が skill index 5 + `keywords.json --ours` を解消、unhandled は patterns-lessons + adapter impl + adapter spec の 3 ファイル。patterns-lessons は L-DEVSYNC-042（末尾並列 section 両側保持）で解消、adapter 2 ファイルは本 L-DEVSYNC-043 で signature union 化。typecheck / lint 共に green、`pnpm sync:check` で他 worktree 影響なし確認、push 待ち。
+
+## L-DEVSYNC-044: spec の EOF 末尾並列追加（HEAD = `describe` 追加 / dev = trailing comment block 追加）は両側保持で union（2026-05-26 追加・再発確認）
+
+- 事象: `feat/issue-891-member-detail-kind-exhaustiveness-guard` ← dev 二次 sync-merge（#939 regression-evidence + #941 issue-885 adapter pipeline）で `apps/web/src/lib/adapters/__tests__/member-detail.spec.ts` のみ `WARN unhandled conflict`。HEAD は `describe("KIND_ROUTE exhaustiveness", ...)` + `describe("toMemberDetailProps の分類除外", ...)` の追加、dev は `// === EXTENSION TEMPLATE ===` 〜 `// === END EXTENSION TEMPLATE ===` のトレーリングコメントブロック追加。diff3 marker (`||||||| d1dc22705`) 付きで隣接 hunk として競合するが、両側とも **既存 `});` 後の純粋な末尾追記**で意味的に直交。
+- Why: spec 末尾の「テスト追加」と「拡張テンプレート comment」は同じ EOF 位置に追加される構造的副産物で、commit graph 上は無関係。コード union は禁止（L-DEVSYNC-043 留意）だが、本ケースは **隣接挿入の順序のみが衝突**しており両側を直列に並べれば意味が保たれる。
+- How to apply:
+  1. `WARN unhandled conflict` で spec ファイル 1 件のみ、conflict hunk が `<<<<<<< HEAD ... describe(...) ... ||||||| <sha> ======= ... // === ... TEMPLATE === ... >>>>>>> origin/dev` の形（base が空）なら両側追記パターンと判定。
+  2. HEAD 側の `describe(...) { ... });` をそのまま残し、続けて空行 + dev 側の comment block を配置。conflict marker 3 種（`<<<<<<<` / `|||||||` / `=======` / `>>>>>>>`）を Edit で個別に除去。
+  3. `grep -nE '^(<<<<<<<|=======|>>>>>>>|\|\|\|\|\|\|\|)' <path>` でマーカー残ゼロ → `git add -A` → typecheck / lint → commit。本パターンは signature 変更を伴わないため typecheck はほぼ自動 pass。
+- 留意: 同じ EOF 末尾追記でも、片側が `export const X = ...` を追加 + 他方が `export const Y = ...` を追加するソース module の場合は L-DEVSYNC-041（並列 export 追加）系で処理する。本 L-DEVSYNC-044 は **spec / docs / README の末尾追記**に限定して適用する。
+- 事例: 2026-05-26 `feat/issue-891-...` ← dev (`5b043e359` issue-885 / `67f1b3a17` regression-evidence)。skill index 5 + spec 1 の計 6 conflict、resolver が前者 5 件を union 解消、spec 1 件のみ本 lesson で手動 union 化。後続 `git status` clean、typecheck / lint green。

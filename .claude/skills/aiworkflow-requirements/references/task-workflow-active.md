@@ -22,6 +22,18 @@
 | evidence | focused adapter tests / typecheck / test-internals grep / Phase 12 strict 7 |
 | user gate | commit / push / PR / visual baseline update |
 
+### regression-evidence-ci-gate-foundation（2026-05-25）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/regression-evidence-ci-gate-foundation/` |
+| ステータス | `spec_created / implementation / VISUAL / runtime_pending` |
+| canonical role | `ui-prototype-design-system-foundation/serial-07-regression-evidence` の top-level execution root |
+| prerequisite | `serial-00` から `serial-06-form-response-binding` までの green completion |
+| planned implementation | `apps/web/playwright/tests/visual/{top,members-list,member-detail,admin-dashboard}.spec.ts` と Chromium/Linux baseline PNG |
+| evidence | root/output artifacts parity、Phase 12 strict 7 present。Phase 11 runtime visual evidence は user-gated |
+| user gate | Playwright visual run、baseline PNG commit、branch protection mutation、commit、push、PR |
+
 ### Issue #883 adapter dev warn unknown kind（2026-05-25）
 
 | 項目 | 値 |
