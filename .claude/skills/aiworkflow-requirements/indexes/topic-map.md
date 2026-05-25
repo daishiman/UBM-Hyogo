@@ -3036,6 +3036,13 @@ node scripts/list-specs.js --topics
 | Evidence | L24 |
 | Contract | L34 |
 
+### references/workflow-issue-872-google-brand-4tone-icon-and-tokens-exempt-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Scope | L12 |
+| User-Gated Boundary | L18 |
+
 ### references/workflow-light-theme-contrast-regression-guard.md
 
 | セクション | 行 |
@@ -7584,14 +7591,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L2353 |
-| フェーズ構造（概要） | L2362 |
-| 品質ゲート（概要） | L2393 |
-| 出力テンプレート | L2404 |
-| 実行時のコマンド・エージェント・スキル | L2427 |
-| 昇格パターン集 | L2451 |
-| Current Active / Spec Created Tasks | L2453 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L2614 |
+| ドキュメント構成 | L2368 |
+| フェーズ構造（概要） | L2377 |
+| 品質ゲート（概要） | L2408 |
+| 出力テンプレート | L2419 |
+| 実行時のコマンド・エージェント・スキル | L2442 |
+| 昇格パターン集 | L2466 |
+| Current Active / Spec Created Tasks | L2468 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L2629 |
 
 ### references/task-workflow-backlog-part2.md
 
