@@ -1,0 +1,105 @@
+{
+  "workflow_id": "issue-836-schema-alias-recompute-trigger",
+  "version": "1.0.0",
+  "created_at": "2026-05-23",
+  "parent_workflow": "docs/30-workflows/completed-tasks/issue-778-schema-alias-rollback-undo/",
+  "parent_issue": 836,
+  "issue_state": "CLOSED",
+  "issue_closed_at": "2026-05-23T10:24:48Z",
+  "spec_creation_strategy": "optimize_to_current_codebase",
+  "metadata": {
+    "taskType": "implementation",
+    "implementation_mode": "new",
+    "visualEvidence": "VISUAL",
+    "workflow_state": "local_implementation_complete_runtime_pending",
+    "implementation_status": "local_implementation_complete_runtime_pending",
+    "governance_mutation_user_gate": true,
+    "mutation_commands": [
+      "bash scripts/cf.sh d1 migrations apply ubm-hyogo-db --env staging",
+      "bash scripts/cf.sh d1 migrations apply ubm-hyogo-db-prod --env production",
+      "git push origin docs/issue-836-schema-alias-recompute-trigger-spec",
+      "gh pr create --base dev"
+    ],
+    "user_approval_marker": "required before each mutation command",
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-05-23T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-836-schema-alias-recompute-trigger/index.md",
+        "approver": "daishiman",
+        "notes": "spec_review: Phase 1-13 spec finalized; recompute=reverse-backfill optimization to current code; bulk/notification/queue-fanout は CONST_007 例外として明示分離"
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "passed",
+        "passed_at": "2026-05-23T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-836-schema-alias-recompute-trigger/outputs/phase-12/phase12-task-spec-compliance-check.md",
+        "approver": "daishiman",
+        "notes": "validator_green: Phase 12 strict 7 outputs present; canonical heading compliance check generated"
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-836-schema-alias-recompute-trigger/phase-11.md",
+        "approver": "daishiman",
+        "notes": "runtime_pending: staging migration apply + visual baseline + recompute runtime evidence は user-gated"
+      }
+    ]
+  },
+  "phases": {
+    "phase-01": { "status": "spec_created", "file": "phase-01.md" },
+    "phase-02": {
+      "status": "spec_created",
+      "file": "phase-02.md",
+      "outputs": [
+        "outputs/phase-02/api-contract.md",
+        "outputs/phase-02/d1-schema-migration.md",
+        "outputs/phase-02/recompute-algorithm.md",
+        "outputs/phase-02/ui-state-machine.md"
+      ]
+    },
+    "phase-03": { "status": "spec_created", "file": "phase-03.md" },
+    "phase-04": { "status": "spec_created", "file": "phase-04.md" },
+    "phase-05": { "status": "spec_created", "file": "phase-05.md" },
+    "phase-06": { "status": "spec_created", "file": "phase-06.md" },
+    "phase-07": { "status": "spec_created", "file": "phase-07.md" },
+    "phase-08": { "status": "spec_created", "file": "phase-08.md" },
+    "phase-09": { "status": "spec_created", "file": "phase-09.md" },
+    "phase-10": { "status": "spec_created", "file": "phase-10.md" },
+    "phase-11": {
+      "status": "runtime_pending",
+      "file": "phase-11.md",
+      "outputs": [
+        "outputs/phase-11/visual-baseline.md",
+        "outputs/phase-11/migration-apply.md",
+        "outputs/phase-11/recompute-runtime.md"
+      ]
+    },
+    "phase-12": {
+      "status": "spec_created",
+      "file": "phase-12.md",
+      "outputs": [
+        "outputs/phase-12/main.md",
+        "outputs/phase-12/implementation-guide.md",
+        "outputs/phase-12/system-spec-update-summary.md",
+        "outputs/phase-12/documentation-changelog.md",
+        "outputs/phase-12/unassigned-task-detection.md",
+        "outputs/phase-12/skill-feedback-report.md",
+        "outputs/phase-12/phase12-task-spec-compliance-check.md"
+      ]
+    },
+    "phase-13": {
+      "status": "blocked",
+      "file": "phase-13.md",
+      "outputs": ["outputs/phase-13/pr-summary.md"]
+    }
+  },
+  "user_gated_operations": [
+    "bash scripts/cf.sh d1 migrations apply ubm-hyogo-db --env staging",
+    "bash scripts/cf.sh d1 migrations apply ubm-hyogo-db-prod --env production",
+    "git push origin docs/issue-836-schema-alias-recompute-trigger-spec",
+    "gh pr create --base dev"
+  ]
+}

@@ -218,6 +218,7 @@ Turso の Embedded Replicas は、ローカルの SQLite ファイルとクラ�
 - `schemaDiffQueue.resolve(ctx, diffId, by)` は存在しない `diffId` を成功扱いにせず not found error を返す。
 - `attendance.addAttendance()` は `(member_id, session_id)` の PK 制約を重複防止の最終防衛線にする。削除済み除外は INSERT 前確認で行い、07c の API / audit 実装で操作直前の再確認と監査ログを担保する。07c API は candidates でも session 存在を確認し、不在時は `session_not_found` を返す。
 - `attendance.listAttendableMembers()` の `fullName` / `occupation` は 02a の response 系統合まで placeholder であり、04c/07c では表示値を別契約で補完する。
+- Issue #838 rollback notification は既存 `audit_log` schema を拡張せず、`action='schema_alias.rollback_notification'`, `target_type='schema_alias'`, `target_id=<aliasId>`, `before_json=NULL`, `after_json={ status, channel, attempts, errorClass, dispatchedAt }` を append する。通知 audit は auxiliary sink であり、dispatch / audit append の失敗は rollback の 200 response を壊さない。`after_json` に actor email 生値・stableKey・provider URL/token は含めない。
 
 ## Schema Drift ADR Gate
 

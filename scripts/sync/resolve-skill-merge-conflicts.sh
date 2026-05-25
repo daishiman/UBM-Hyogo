@@ -41,6 +41,16 @@ OURS_THEN_REBUILD_TARGETS=(
   ".claude/skills/aiworkflow-requirements/indexes/keywords.json"
 )
 
+# --- 3. deterministic regenerate 対象（正本 spec から再生成可能な generated artifact） ---
+# L-DEVSYNC-034 / SP-DEVSYNC-027: static-manifest.json は source-spec から hash 化生成される
+# deterministic artifact のため、conflict marker を含んでいても
+# `pnpm regenerate:static-manifest` で確定再生成すれば一意の結果が得られる
+# （手動マージ不要・副作用ゼロ）。lessons-learned に最低 2 回再発（2026-05-21, 2026-05-24）の
+# 実績があり pattern として確定。
+REGENERATE_TARGETS=(
+  "apps/api/src/repository/_shared/generated/static-manifest.json|mise exec -- pnpm regenerate:static-manifest"
+)
+
 UNMERGED=$(git diff --name-only --diff-filter=U)
 if [ -z "$UNMERGED" ]; then
   echo "[resolve-skill-merge-conflicts] no unmerged paths" >&2
@@ -83,6 +93,7 @@ PYEOF
 
 apply_union=()
 apply_ours=()
+apply_regenerate=()  # 各要素は "<path>|<regenerate command>" 形式
 for path in $UNMERGED; do
   matched=0
   for t in "${UNION_TARGETS[@]}"; do
@@ -91,6 +102,15 @@ for path in $UNMERGED; do
   if [ "$matched" -eq 0 ]; then
     for t in "${OURS_THEN_REBUILD_TARGETS[@]}"; do
       if [ "$path" = "$t" ]; then apply_ours+=("$path"); matched=1; break; fi
+    done
+  fi
+  # deterministic regenerate 対象（正本 spec から再生成可能な generated artifact）
+  if [ "$matched" -eq 0 ]; then
+    for entry in "${REGENERATE_TARGETS[@]}"; do
+      target_path="${entry%%|*}"
+      if [ "$path" = "$target_path" ]; then
+        apply_regenerate+=("$entry"); matched=1; break
+      fi
     done
   fi
   # pattern-based union targets (append-only logs / lessons-learned)
@@ -132,6 +152,21 @@ if [ "$need_rebuild" -eq 1 ]; then
   echo "[resolve-skill-merge-conflicts] running pnpm indexes:rebuild..."
   mise exec -- pnpm indexes:rebuild >/dev/null
   git add -A .claude/skills/aiworkflow-requirements/indexes/
+fi
+
+if [ "${#apply_regenerate[@]}" -gt 0 ]; then
+  echo "[resolve-skill-merge-conflicts] deterministic-regenerating ${#apply_regenerate[@]} generated artifacts..."
+  for entry in "${apply_regenerate[@]}"; do
+    target_path="${entry%%|*}"
+    regen_cmd="${entry#*|}"
+    # conflict marker を一度 theirs で消してから再生成（再生成は input=正本 spec のため
+    # ours/theirs どちらを起点にしても結果は同一だが、ours 側の手元 hash が古い場合に
+    # 余計な diff を避けるため theirs を採用）
+    git checkout --theirs -- "$target_path"
+    echo "  regenerating $target_path via: $regen_cmd"
+    eval "$regen_cmd" >/dev/null
+    git add -- "$target_path"
+  done
 fi
 
 REMAINING=$(git diff --name-only --diff-filter=U)

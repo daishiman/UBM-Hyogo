@@ -154,6 +154,8 @@ UT-07A-02 close-out で schema 正本は `packages/shared/src/schemas/admin/tag-
 - `stableKey` は `/^[a-zA-Z][a-zA-Z0-9_]*$/` に一致する必要がある。UI も同じ regex で client-side validation し、input `pattern` / `aria-invalid` / validation alert `aria-describedby` を接続する。
 - collision は同一 `revision_id` 内の別 `question_id` が同じ stableKey を持つ場合に `422 stable_key_collision` + `existingQuestionIds` を返す。既存 alias conflict は `409` + `existingStableKey`、body validation は `422`、diff 不在は `404`、diff と request question mismatch は `409`。
 - back-fill は batch 100 / CPU budget 25s を上限とし、`deleted_members` に紐づく `member_identities.current_response_id` は対象外にする。既に同 response に新 stableKey 行がある場合は extra 行を削除して冪等性を保つ。CPU budget exhausted は HTTP 202 + retryable body とし、`backfill.status='exhausted'`、`code='backfill_cpu_budget_exhausted'`、`retryable=true`、`queueStatus='resolved'` を返す。`schema_diff_queue.backfill_status` / `backfill_cursor` は continuation 状態を保持し、`exhausted` / `in_progress` / `failed` の diff は再実行対象として一覧可能にする。
+- Issue #838: `POST /admin/schema/aliases/:aliasId/rollback` 成功後は best-effort operations notification を dispatch する。Slack は `SLACK_WEBHOOK_INCIDENT` 優先（legacy `SLACK_WEBHOOK_URL` fallback）、mail fallback は `MAIL_PROVIDER_KEY` / `MAIL_FROM_ADDRESS` / `OPS_NOTIFICATION_EMAIL` の 3 点成立時のみ実行する。通知失敗・未設定・audit 追記失敗は rollback transaction / 200 response を壊さない。
+- 通知結果は application `audit_log` に `action='schema_alias.rollback_notification'`, `target_type='schema_alias'`, `target_id=<aliasId>` として追記する。`after_json` は `{ status, channel, attempts, errorClass, dispatchedAt }` のみで、actor email 生値・stableKey・provider URL/token を含めない。
 
 ### 認証セッション解決 API（apps/api / 05a）
 
@@ -274,6 +276,7 @@ UT-07B-FU-01（schema alias back-fill queue/cron split）以降、apply mode の
 | Method | Path | 認可 | 用途 |
 | ------ | ---- | ---- | ---- |
 | GET | `/admin/schema/aliases/:diffId/backfill` | Auth.js admin JWT + `admin_users.active` | UT-07B-FU-01: back-fill 状態取得。`{ ok, diffId, questionId, backfill: { status, remaining, retryCount, lastProcessedAt, lastError, internalStatus, failedItems } }` を返す。公開 `status` は `pending|running|exhausted|completed`。internal `failed` は `status:'exhausted'` + `internalStatus:'failed'`。404 は不在 diff |
+| POST | `/admin/schema/aliases/:aliasId/rollback` | Auth.js admin JWT + `admin_users.active` + `If-Match: version=<N>` | Issue #778 rollback 本体。Issue #838 以降、成功後に best-effort operations notification を実行し、`schema_alias.rollback_notification` audit entry を追記する。通知系 failure は rollback response を壊さない |
 
 ### UBM-Hyogo Admin Schema Sync API（03a）
 

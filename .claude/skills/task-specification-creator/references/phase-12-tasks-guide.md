@@ -100,7 +100,7 @@ Phase 12 は「成果物ファイルが存在する」だけでは完了扱い�
 | 必須ファイル | 確認コマンド |
 | ------------ | ------------ |
 | `outputs/phase-11/screenshots/screenshot-plan.json` | `ls outputs/phase-11/screenshots/screenshot-plan.json` |
-| `outputs/phase-11/screenshots/phase11-capture-metadata.json` | `ls outputs/phase-11/screenshots/phase11-capture-metadata.json` |
+| `outputs/phase-11/screenshots/phase11-capture-metadata.json` | `ls outputs/phase-11/screenshots/phase11-capture-metadata.json` <br>※ `status=pending_implementation` のとき `validate-phase-output.js` は screenshot pending boundary として認識し、spec_created ワークフローでは PNG 0 件を PASS と扱う（実装着手後に FAIL へ昇格）。 |
 | `outputs/phase-11/screenshot-coverage.md` | `ls outputs/phase-11/screenshot-coverage.md` |
 | `outputs/phase-11/screenshots/*.png`（1件以上） | `ls outputs/phase-11/screenshots/*.png \| wc -l` > 0 |
 
