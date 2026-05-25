@@ -116,6 +116,9 @@ Playwright 実行時は 2 通りの戦略を選択可能。本 sub-workflow で�
 | A: 実 D1 seed | `bash scripts/cf.sh d1 execute ubm-hyogo-db-dev --local --command "INSERT ..."` | serial-07 で採用 |
 | B: in-process mock API fixture | `apps/web/playwright/fixtures/auth.ts` の `mockApi` が SSR fetch 先 `http://127.0.0.1:8787/public/members/sample-001` を返す | **本 sub-workflow で採用** |
 
+> **重要 - 戦略 A ではなく B を採用する根本理由**:
+> Next.js Server Component の `fetch()` は Node ランタイム側で実行されるため、Playwright `page.route()` は intercept できない（`page.route()` はブラウザ側初期化リクエストのみ対象）。SSR fetch を mock するには in-process fixture（`mockApi` が `INTERNAL_API_BASE_URL` を差し替える方式）か standalone mock server が必要。詳細は `.claude/skills/task-specification-creator/references/server-component-e2e-pattern.md` を参照。
+
 ### 3.2 assertion
 
 | # | 観点 | assertion |

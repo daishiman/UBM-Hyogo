@@ -8,6 +8,76 @@
 
 本ドキュメントは、複雑なタスクを単一責務の原則に基づいて分解し、各サブタスクに最適なスラッシュコマンド・エージェント・スキルの組み合わせを選定するためのガイドラインを定義する。
 
+### regression-evidence-ci-gate-foundation（2026-05-25）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/regression-evidence-ci-gate-foundation/` |
+| ステータス | `spec_created / implementation / VISUAL / runtime_pending` |
+| canonical role | `ui-prototype-design-system-foundation/serial-07-regression-evidence` の top-level execution root |
+| prerequisite | `serial-00` から `serial-06-form-response-binding` までの green completion |
+| planned implementation | `apps/web/playwright/tests/visual/{top,members-list,member-detail,admin-dashboard}.spec.ts` と Chromium/Linux baseline PNG |
+| evidence | root/output artifacts parity、Phase 12 strict 7 present。Phase 11 runtime visual evidence は user-gated |
+| user gate | Playwright visual run、baseline PNG commit、branch protection mutation、commit、push、PR |
+
+### Issue #883 adapter dev warn unknown kind（2026-05-25）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / NON_VISUAL / Phase 1-12 completed / Phase 13 pending_user_approval` |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-883-adapter-dev-warn-unknown-kind/` |
+| Issue | #883 CLOSED。PR 文脈は `Refs #883` のみ |
+| parent | `docs/30-workflows/completed-tasks/issue-827-member-detail-adapter-and-visibility-defense/` |
+| 目的 | `toMemberDetailProps` の pure 性と production silent skip を維持しつつ、dev 環境のみ unknown kind を `console.warn` で観測できる optional callback を追加する |
+| implementation targets | `apps/web/src/lib/adapters/member-detail.ts`, `apps/web/src/lib/adapters/__tests__/member-detail.spec.ts`, `apps/web/app/(public)/members/[id]/page.tsx` |
+| contract | adapter は `options.onUnknownKind` を unknown kind skip branch で呼ぶだけにし、環境判定と `console.warn` は page.tsx 側に閉じる。production artifact grep は `.next/server` / `.open-next` を対象にし、webpack cache は DCE 判定対象外 |
+| evidence | typecheck PASS, lint PASS, adapter spec 10 PASS, apps/web test 1028 PASS / 1 skipped, production build PASS, DCE grep `0` |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-883-adapter-dev-warn-unknown-kind-artifact-inventory.md` |
+| user gate | commit / push / PR |
+
+### Issue #882 terms prefetch env validation fix（2026-05-25）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / NON_VISUAL` |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-882-terms-prefetch-env-validation-fix/` |
+| Issue | #882 CLOSED。PR 文脈は `Refs #882` のみ |
+| source | `docs/30-workflows/completed-tasks/home-page-prototype-alignment-followup-001-terms-prefetch-env-validation.md` consumed |
+| 目的 | `/` の JS 有効 hydration 中に `/terms` RSC prefetch が root metadata env validation throw で 500 になる経路を解消する |
+| implementation targets | `apps/web/src/lib/env.ts`, `apps/web/src/lib/seo/site-metadata.ts`, `apps/web/src/lib/__tests__/env.spec.ts`, `apps/web/src/lib/seo/__tests__/site-metadata.spec.ts`, `apps/web/playwright/tests/terms-prefetch.spec.ts` |
+| system spec | `docs/00-getting-started-manual/specs/05-pages.md` |
+| invariant | `getEnv()` / `getPublicEnv()` の throw 契約と EnvSchema 必須項目は変更しない。metadata generation のみ `getPublicEnvSafe()` + local fallback + noindex にする。 |
+| evidence | web Vitest 1030 PASS、web typecheck PASS、web lint PASS、Playwright `/terms` prefetch smoke PASS |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-882-terms-prefetch-env-validation-fix-artifact-inventory.md` |
+| user gate | commit, push, PR, staging deploy |
+
+### Issue #880 public segment error/loading boundary（2026-05-24）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION` |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-880-public-segment-error-loading-boundary/` |
+| 目的 | `(public)` route group 専用の `error.tsx` / `loading.tsx` と Playwright force-throw smoke を実装し、serial-06 precondition drift を解消する |
+| parent | `docs/30-workflows/ui-prototype-design-system-foundation/serial-06-form-response-binding/` |
+| implementation targets | `apps/web/app/(public)/error.tsx`, `apps/web/app/(public)/loading.tsx`, `apps/web/app/(public)/error-boundary-smoke/page.tsx`, `apps/web/playwright/tests/public-error-boundary.spec.ts` |
+| Phase 11/12 | screenshot + focused Playwright report captured; strict 7 present |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-880-public-segment-error-loading-boundary-artifact-inventory.md` |
+| lessons-learned | `.claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-issue-880-public-segment-error-loading-boundary-2026-05.md`（L-PUBERR-001..003） |
+| user gate | commit, push, PR, GitHub issue mutation |
+
+### issue-879-safe-server-fetch-member-public-horizontal-expansion（2026-05-24）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / NON_VISUAL / implementation_complete_pending_pr` |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-879-safe-server-fetch-member-public-horizontal-expansion/` |
+| Issue | #879 CLOSED。PR 文脈は `Refs #879` のみ |
+| 目的 | admin-only `safeServerFetch` / `SafeResult<T>` per-section degrade pattern を member/public server component へ横展開する |
+| implementation targets | `apps/web/src/lib/server-fetch/safe-fetch.ts`, `apps/web/src/lib/admin/safe-server-fetch.ts`, `apps/web/src/components/{public,member}/SectionError.tsx`, `apps/web/app/profile/page.tsx`, `apps/web/app/(public)/members/page.tsx`, `apps/web/app/(public)/members/[id]/page.tsx` |
+| evidence | focused Vitest 20 PASS、web typecheck PASS、design-token gate PASS、web lint PASS |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-879-safe-server-fetch-member-public-horizontal-expansion-artifact-inventory.md` |
+| user gate | commit, push, PR, Issue mutation |
+
 ### issue-872-google-brand-4tone-icon-and-tokens-exempt（2026-05-24）
 
 | 項目 | 値 |
@@ -197,6 +267,17 @@
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-login-page-prototype-alignment-artifact-inventory.md` |
 | boundary | `/api/auth/*`, Auth.js handler, `apps/api/**`, D1 schema は不変。staging visual smoke / commit / push / PR は user-gated |
 
+### issue-874-login-staging-visual-smoke（2026-05-24）
+
+| 項目 | 値 |
+| --- | --- |
+| 状態 | `implemented_local_runtime_pending / implementation / VISUAL` |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-874-login-staging-visual-smoke/` |
+| source | FU-LOGIN-003 from `docs/30-workflows/completed-tasks/login-page-prototype-alignment/outputs/phase-12/unassigned-task-detection.md` |
+| implementation | `apps/web/playwright/tests/login-smoke.spec.ts`, `scripts/run-login-staging-smoke.sh` |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-874-login-staging-visual-smoke-artifact-inventory.md` |
+| boundary | staging deploy / staging smoke / 7 PNG / visual diff / commit / push / PR は user-gated |
+
 ### fix-admin-server-components-render-error-stg（2026-05-23）
 
 | 項目 | 値 |
@@ -266,6 +347,22 @@
 | Phase 12 | strict 7 outputs + canonical compliance check present |
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-ui-prototype-alignment-artifact-inventory.md` |
 | user gate | authenticated runtime screenshots, staging refresh, commit, push, PR |
+
+### admin-ui-prototype-alignment follow-up 002 section error retry（2026-05-25）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implementation_reviewed / implementation / NON_VISUAL / local evidence PASS` |
+| 成果物 | `docs/30-workflows/completed-tasks/admin-ui-prototype-alignment-followup-002-section-error-retry/` |
+| issue | `#881` CLOSED。PR 文脈は `Refs #881` のみ |
+| 目的 | `AdminSectionError` を server compatible のまま retry CTA 対応し、`AdminSectionErrorClient` client boundary で `router.refresh()` を注入する実装仕様 |
+| source | `docs/30-workflows/completed-tasks/unassigned-task/admin-ui-prototype-alignment-followup-002-admin-section-error-retry-cta.md` |
+| parent | `docs/30-workflows/admin-ui-prototype-alignment/` |
+| implementation targets | `apps/web/src/features/admin/components/_shared/AdminSectionError.tsx`, `AdminSectionErrorClient.tsx`, `_shared/index.ts`, admin page error JSX, focused component specs |
+| Phase 12 | strict 7 outputs + root/output artifacts parity + local evidence sync present |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-ui-prototype-alignment-followup-002-section-error-retry-artifact-inventory.md` |
+| local evidence | focused Vitest 19 PASS including `jest-axe` violation 0; root lint/typecheck PASS; design-token gate PASS; admin page client-boundary grep PASS |
+| user gate | commit, push, PR |
 
 ### Issue #55 Notification Channel + Opt-out（2026-05-23）
 
@@ -527,7 +624,7 @@
 
 | 項目 | 値 |
 | --- | --- |
-| ステータス | `spec_created / implementation / VISUAL_ON_EXECUTION / runtime_pending` |
+| ステータス | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION / runtime_pending` |
 | 成果物 | `docs/30-workflows/issue-819-admin-dashboard-runtime-screenshot/` |
 | source issue | `#819` closed 維持。PR 文脈は `Refs #819` のみ |
 | source unassigned | `docs/30-workflows/unassigned-task/step-05-followup-001-admin-dashboard-runtime-screenshot-capture.md` |
@@ -2275,7 +2372,7 @@
 | 成果物 | `docs/30-workflows/ut-web-cov-03-auth-fetch-lib-coverage/` |
 | 対象 | apps/web auth/fetch/session lib 7 本（`auth.ts` / `magic-link-client.ts` / `oauth-client.ts` / `session.ts` / `fetch/authed.ts` / `fetch/public.ts` / `api/me-types.ts`） |
 | 境界 | 旧 docs-only 指定は CONST_004 により撤回。仕様書 root は wave nested path から top-level workflow root へ移動済み。apps/web test file 実装と coverage 実測は完了。commit・push・PR は Phase 13 user approval まで未実行 |
-| 検証 | root/outputs `artifacts.json` parity、Phase 1-13 specs、Phase 11 NON_VISUAL measured evidence、Phase 12 strict 7 files、`pnpm --filter @ubm-hyogo/web test:coverage` PASS（40 files / 359 tests） |
+| 検証 | root/outputs `artifacts.json` parity、Phase 1-13 specs、Phase 11 NON_VISUAL measured evidence、Phase 12 strict 7 files、`pnpm --filter @ubm-hyogo/web test:coverage` PASS（40 files / 3510 tests） |
 
 ### 03b Response Sync Follow-ups（2026-05-02）
 
@@ -2595,7 +2692,7 @@ docs-only / direction-reconciliation で採用方針 A を維持する場合で�
 | 06a-A-public-web-real-workers-d1-smoke-execution | spec_created / implementation-spec / docs-only / VISUAL_ON_EXECUTION / Phase 1-12 completed / Phase 13 pending_user_approval | `docs/30-workflows/06a-A-public-web-real-workers-d1-smoke-execution/` | 06a follow-up 001 の execution-oriented successor。既存 `completed-tasks/06a-followup-001-public-web-real-workers-d1-smoke/` を履歴・設計正本として残しつつ、実行時の local + staging real Workers/D1 smoke 手順、evidence path、Phase 11 10 screenshots, Phase 12 strict 7 outputs、root/outputs `artifacts.json` parity、user approval gate を current execution root に固定する。`apps/web/wrangler.toml` の staging / production API URL と `scripts/cf.sh` wrapper は既存で足りるため、本 spec wave は code/env/CI を変更しない。actual curl log / screenshot は Phase 11 実行後に保存し、planned evidence を PASS と扱わない。actual Phase 11 evidence completion が 08b / 09a の下流解放条件。inventory: `references/workflow-task-06a-A-public-web-real-workers-d1-smoke-execution-artifact-inventory.md`。 |
 | issue-347-cloudflare-analytics-export-decision | spec_created / docs-only / NON_VISUAL / Phase 1-12 completed / Phase 13 blocked_pending_user_approval | `docs/30-workflows/completed-tasks/issue-347-cloudflare-analytics-export-decision/` | Cloudflare Analytics long-term evidence decision。GraphQL Analytics API aggregate-only export を canonical とし、CSV fallback / screenshot reject、4 metric groups / 5 scalar values、12 件 retention、PII 非保存、Logpush 不採用を正本化。Runtime production sample は Cloudflare dashboard session / API token が必要なため user approval 後の operation cycle で取得し、現 workflow は schema sample / redaction check / Free plan constraints / aiworkflow 同期までを完了範囲とする。Automation follow-up source `docs/30-workflows/completed-tasks/task-issue-347-cloudflare-analytics-export-automation-001.md` は Issue #484 spec に consumed。Issue #347 は CLOSED 維持、`Refs #347` のみ。 |
 | issue-484-cloudflare-analytics-export-automation | implemented-local / implementation / NON_VISUAL / code evidence captured / runtime Cloudflare export pending_user_approval / Phase 13 blocked_pending_user_approval | `docs/30-workflows/issue-484-cloudflare-analytics-export-automation/` | Issue #347 automation follow-up を current implementation spec へ昇格。`scripts/fetch-cloudflare-analytics.ts`、`.github/workflows/cloudflare-analytics-export.yml`、redaction gate、multi-bucket summation、persisted zone/account redaction、active retention 12、`CLOUDFLARE_ANALYTICS_API_TOKEN` / `CLOUDFLARE_ACCOUNT_TAG`、schedule/manual one-export-per-month branch guard を固定。Runtime Cloudflare export / PR creation / token-backed workflow run は user approval 後の implementation cycle。 |
-| task-spec-2a-admin-requests-e2e | implemented-local-runtime-pass / implementation / NON_VISUAL / Phase 11 desktop Chromium E2E PASS / Phase 12 strict outputs present | `docs/30-workflows/task-spec-2a-admin-requests-e2e/` | Stage 2 subtask 2a implementation is present: `apps/web/playwright/tests/admin-requests.spec.ts`, Auth.js-compatible Playwright session fixture, guarded SSR initial-data fixture (`PLAYWRIGHT_ADMIN_REQUESTS_FIXTURE=1` + `NODE_ENV !== "production"`), and RequestQueuePanel reject validation/row removal. Desktop Chromium E2E passed 6/6. member admin-gate expectation follows current proxy `/login?gate=admin_required`. |
+| task-spec-2a-admin-requests-e2e | implemented-local-runtime-pass / implementation / NON_VISUAL / Phase 11 desktop Chromium E2E PASS / Phase 12 strict outputs present | `docs/30-workflows/task-spec-2a-admin-requests-e2e/` | Stage 2 subtask 2a implementation is present: `apps/web/playwright/tests/admin-requests.spec.ts`, Auth.js-compatible Playwright session fixture, guarded SSR initial-data fixture (`PLAYWRIGHT_ADMIN_REQUESTS_FIXTURE=1` + `NODE_ENV === "development"`), and RequestQueuePanel reject validation/row removal. Desktop Chromium E2E passed 6/6. member admin-gate expectation follows current proxy `/login?gate=admin_required`. |
 | e2e-quality-uplift-stage-3-impl/3a-lighthouse-ci | spec_created / implementation / NON_VISUAL / user-gated runtime evidence boundary | `docs/30-workflows/e2e-quality-uplift-stage-3-impl/3a-lighthouse-ci/` | Stage 3 subtask 3a。`lighthouse-ci` context、`.github/workflows/lighthouse.yml`、`lighthouserc.json`、4 route Lighthouse assertion、Q-02 `/profile` degradation decisionを固定。Parent umbrella archive is `docs/30-workflows/completed-tasks/e2e-quality-uplift-stage-3/`. Runtime CI evidence, commit, push, and PR are user-gated. |
 | issue-630-authenticated-profile-lhci-a11y | implemented-local-runtime-pending / implementation / NON_VISUAL / CLOSED issue reconciliation | `docs/30-workflows/issue-630-authenticated-profile-lhci-a11y/` | Issue #630 successor。authenticated `/profile` Lighthouse a11y measurement を local 実装済み。test session JWT storageState 生成、mock API、LHCI puppeteer cookie 注入 + final URL pre-check、`lighthouserc.authenticated.json`、unauth `lighthouserc.json` から `/profile` 除外、`.github/workflows/lighthouse.yml` 二段化、`tsx` devDependency 追加、EXT-X1 backlog 接続を固定。Issue #630 は 2026-05-12T06:26:21Z に CLOSED 済みのため PR は `Refs #630`。runtime LHCI artifact / GitHub Secret mutation / commit / push / PR は user-gated。苦戦箇所は `references/lessons-learned-issue-630-authenticated-profile-lhci-a11y-2026-05.md` の L-I630-001..005 を参照（CLOSED issue PR ref policy / `signSessionJwt` spec-vs-impl 整合 / filter exec での `tsx` 依存 / LHCI cwd 起点 / Server Component LHCI の deterministic mock backend）。 |
 | e2e-quality-uplift-stage-3-impl/3b-e2e-tests-hard-gate | implemented-local / implementation / NON_VISUAL / IMPLEMENTED_LOCAL_RUNTIME_PENDING | `docs/30-workflows/e2e-quality-uplift-stage-3-impl/3b-e2e-tests-hard-gate/` | Stage 3 subtask 3b は 2026-05-10 に local 実装完了。`.github/workflows/e2e-tests.yml` を `e2e-tests-coverage-gate` job として書き換え、`scripts/e2e-mock-api.mjs` deterministic mock API、`apps/web/src/lib/fetch/public.ts` の `PUBLIC_API_BASE_URL` 優先化（service binding より HTTP fallback を優先し CI mock 差し替えを成立）、`apps/web/playwright.config.ts` の monocart-reporter 配列末尾追加、`scripts/coverage-gate-e2e.sh`（line coverage 80% gate / `THRESHOLD_FIXTURE` override / `set -euo pipefail` / quality-gates.md path コメント付与）、devDeps `monocart-reporter@^2.9.0` / `c8@^10.1.0` を反映。fixture（pass 85.0% / fail-79 79.99% / missing）でローカル検証 PASS。実 CI run（T-3b-8..16, AC-3b-1..6）と branch protection mutation は PR / user-gated。苦戦箇所は `lessons-learned/lessons-learned-e2e-quality-uplift-stages-2026-05.md` の L-E2EQU-013..015 を参照。 |

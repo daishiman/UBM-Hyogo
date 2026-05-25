@@ -32,7 +32,7 @@ admin-ui-prototype-alignment v1 では `AdminSectionError` は静的テキスト
 
 ## 仕様書
 
-`docs/30-workflows/unassigned-task/admin-ui-prototype-alignment-followup-002-admin-section-error-retry-cta.md`
+`docs/30-workflows/completed-tasks/unassigned-task/admin-ui-prototype-alignment-followup-002-admin-section-error-retry-cta.md`
 
 ## 親 workflow
 

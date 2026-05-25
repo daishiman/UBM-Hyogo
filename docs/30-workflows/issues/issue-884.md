@@ -30,7 +30,7 @@ serial-06 Phase 6 spec は `apps/web/tests/e2e/` + `page.route` mock を前提�
 
 ## 仕様書
 
-`docs/30-workflows/unassigned-task/serial-06-followup-003-phase-6-playwright-topology-sync.md`
+`docs/30-workflows/completed-tasks/unassigned-task/serial-06-followup-003-phase-6-playwright-topology-sync.md`
 
 ## 発見元
 
