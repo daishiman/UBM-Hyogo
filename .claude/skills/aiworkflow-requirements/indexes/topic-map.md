@@ -3085,6 +3085,14 @@ node scripts/list-specs.js --topics
 | Evidence | L20 |
 | Boundary | L32 |
 
+### references/workflow-issue-912-idempotent-attendance-remove-retry-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Classification | L13 |
+| Implementation Targets | L17 |
+| Boundaries | L27 |
+
 ### references/workflow-light-theme-contrast-regression-guard.md
 
 | セクション | 行 |
@@ -5886,6 +5894,16 @@ node scripts/list-specs.js --topics
 | L-I827-005: 許可リスト方式の exhaustiveness は scope 外でも follow-up 起票して規律依存を formalize する | L35 |
 | 横断教訓 | L44 |
 
+### references/lessons-learned-issue-912-idempotent-attendance-remove-retry-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| L-I912-001: Existing idempotent endpoint can be bypassed by combined POST caller | L3 |
+| L-I912-002: Retry caller must avoid `mutationFn` | L7 |
+| L-I912-003: Dynamic path callers can use `trigger(payload, endpointOverride)` | L11 |
+| L-I912-004: DELETE payload must be fixed in the spec | L15 |
+| L-I912-005: Idempotency-Key value identity belongs to hook policy, not caller specs | L19 |
+
 ### references/lessons-learned-issue359-production-d1-apply-2026-05.md
 
 | セクション | 行 |
@@ -6495,8 +6513,8 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 概要 | L3 |
 | 仕様書インデックス | L7 |
-| 利用順序 | L119 |
-| 関連ドキュメント | L124 |
+| 利用順序 | L120 |
+| 関連ドキュメント | L125 |
 
 ### references/llm-embedding.md
 
@@ -7633,14 +7651,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L2453 |
-| フェーズ構造（概要） | L2462 |
-| 品質ゲート（概要） | L2493 |
-| 出力テンプレート | L2504 |
-| 実行時のコマンド・エージェント・スキル | L2527 |
-| 昇格パターン集 | L2551 |
-| Current Active / Spec Created Tasks | L2553 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L2714 |
+| ドキュメント構成 | L2468 |
+| フェーズ構造（概要） | L2477 |
+| 品質ゲート（概要） | L2508 |
+| 出力テンプレート | L2519 |
+| 実行時のコマンド・エージェント・スキル | L2542 |
+| 昇格パターン集 | L2566 |
+| Current Active / Spec Created Tasks | L2568 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L2729 |
 
 ### references/task-workflow-backlog-part2.md
 

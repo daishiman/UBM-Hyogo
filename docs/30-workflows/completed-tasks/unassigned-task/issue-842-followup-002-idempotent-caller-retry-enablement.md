@@ -13,13 +13,15 @@
 | 優先度根拠   | 冪等 caller の登場に依存。トリガ条件が満たされるまで着手不可                                                                         |
 | 見積もり規模 | 小規模                                                                                                                              |
 | 規模根拠     | hook 基盤は実装済み。新 caller 側の opt-in 宣言 + spec 追加が主                                                                      |
-| ステータス   | 未実施                                                                                                                                |
+| ステータス   | consumed_by_issue_912_local_implemented_pending_pr                                                                                    |
 | 発見元       | issue-842-admin-mutation-reliability-policy Phase 1 AC-3 最適化                                                                        |
 | 発見日       | 2026-05-24                                                                                                                            |
 
 ## Canonical Workflow Status
 
 - 親 workflow: `docs/30-workflows/completed-tasks/issue-842-admin-mutation-reliability-policy/`
+- consumed workflow: `docs/30-workflows/issue-912-idempotent-attendance-remove-retry/`
+- current state: `implemented_local_evidence_captured / implementation / NON_VISUAL`。2026-05-25 に既存 `DELETE /meetings/:sessionId/attendance/:memberId` endpoint と `MeetingPanel` caller の前提依存成立を確認し、同サイクルで apps/web 実装・focused Vitest 証跡取得まで完了。commit / push / PR 完了後に `completed-tasks/unassigned-task/` へ移動する。
 - AC-3 最適化の根拠: `docs/30-workflows/completed-tasks/issue-842-admin-mutation-reliability-policy/phase-1-requirements.md` §4 AC-3 / `index.md`「issue 陳腐化への最適化方針」表（retry は opt-in・既定オフ・idempotent method 限定）
 - 現状実装（実装済み・本タスクの土台）:
   - retry / idempotencyKey / overload 本体: `apps/web/src/features/admin/hooks/useAdminMutation.ts`

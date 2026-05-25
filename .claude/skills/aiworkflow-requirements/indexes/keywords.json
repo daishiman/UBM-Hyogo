@@ -2904,6 +2904,7 @@
       "lessons-learned-issue-518-cf-audit-logs-hold-2026-05.md",
       "lessons-learned-issue-765-1password-vault-restructure-2026-05.md",
       "lessons-learned-issue-827-member-detail-adapter-and-visibility-defense-2026-05.md",
+      "lessons-learned-issue-912-idempotent-attendance-remove-retry-2026-05.md",
       "lessons-learned-parallel-i03-dialog-refresh-order-2026-05.md",
       "lessons-learned-parallel-i06-root-error-focus-2026-05.md",
       "lessons-learned-step-05-dashboard-chart-2026-05.md",
@@ -3329,6 +3330,7 @@
       "workflow-issue-879-safe-server-fetch-member-public-horizontal-expansion-artifact-inventory.md",
       "workflow-issue-880-public-segment-error-loading-boundary-artifact-inventory.md",
       "workflow-issue-882-terms-prefetch-env-validation-fix-artifact-inventory.md",
+      "workflow-issue-912-idempotent-attendance-remove-retry-artifact-inventory.md",
       "workflow-parallel-04-shared-page-chrome-artifact-inventory.md",
       "workflow-parallel-i02b-admin-mutation-error-finalize-artifact-inventory.md",
       "workflow-parallel-i03-dialog-refresh-order-artifact-inventory.md",
@@ -3731,6 +3733,7 @@
       "lessons-learned-issue-377-retry-tick-dlq-audit-2026-05.md",
       "lessons-learned-issue-623-vitest-spec-suffix-convergence-2026-05.md",
       "lessons-learned-issue-765-1password-vault-restructure-2026-05.md",
+      "lessons-learned-issue-912-idempotent-attendance-remove-retry-2026-05.md",
       "lessons-learned-issue359-production-d1-apply-2026-05.md",
       "lessons-learned-issue590-phase11-canonical-paths-completed-tasks-move-drift-2026-05.md",
       "lessons-learned-parallel-i03-dialog-refresh-order-2026-05.md",
@@ -4932,6 +4935,7 @@
       "lessons-learned-issue-775-serial-05-step-03-runtime-evidence-completion-2026-05.md",
       "lessons-learned-issue-776-schema-alias-bulk-resolve-2026-05.md",
       "lessons-learned-issue-827-member-detail-adapter-and-visibility-defense-2026-05.md",
+      "lessons-learned-issue-912-idempotent-attendance-remove-retry-2026-05.md",
       "lessons-learned-issue359-production-d1-apply-2026-05.md",
       "lessons-learned-issue590-phase11-canonical-paths-completed-tasks-move-drift-2026-05.md",
       "lessons-learned-lefthook-mwr-runbook-2026-04.md",
@@ -5181,7 +5185,8 @@
       "lessons-learned-05a-authjs-admin-gate-2026-04.md",
       "lessons-learned-06c-A-admin-dashboard-2026-05.md",
       "lessons-learned-admin-tags-queue-resolver-drawer-2026-05.md",
-      "lessons-learned-issue-191-schema-aliases-2026-04.md"
+      "lessons-learned-issue-191-schema-aliases-2026-04.md",
+      "lessons-learned-issue-912-idempotent-attendance-remove-retry-2026-05.md"
     ],
     "OpenNext": [
       "auth-google-oauth-cf-integration.md",
@@ -5341,6 +5346,7 @@
       "auth-google-oauth-cf-integration.md",
       "lessons-learned-04b-member-self-service.md",
       "lessons-learned-issue-515-cf-audit-logs-ml-anomaly-2026-05.md",
+      "lessons-learned-issue-912-idempotent-attendance-remove-retry-2026-05.md",
       "workflow-ut-02a-attendance-profile-integration-artifact-inventory.md"
     ],
     "重複回避": [
@@ -6861,6 +6867,7 @@
     "Existing": [
       "data-retention-policy.md",
       "lessons-learned-issue-560-next-standalone-instrumentation-patch-2026-05.md",
+      "lessons-learned-issue-912-idempotent-attendance-remove-retry-2026-05.md",
       "workflow-step-08-audit-filter-paging-verify-artifact-inventory.md"
     ],
     "Soft": [
@@ -7515,6 +7522,7 @@
       "lessons-learned-issue-346-08a-canonical-workflow-tree-restore-2026-05.md",
       "lessons-learned-issue-548-ml-model-selection-2026-05.md",
       "lessons-learned-issue-720-cf-audit-monitor-env-protection-fix-2026-05.md",
+      "lessons-learned-issue-912-idempotent-attendance-remove-retry-2026-05.md",
       "release-runbook.md",
       "workflow-issue-106-admin-member-notes-repository-task-spec-artifact-inventory.md",
       "workflow-issue-191-schema-aliases-artifact-inventory.md",
@@ -7558,6 +7566,7 @@
       "workflow-issue-880-public-segment-error-loading-boundary-artifact-inventory.md",
       "workflow-issue-882-terms-prefetch-env-validation-fix-artifact-inventory.md",
       "workflow-issue-883-adapter-dev-warn-unknown-kind-artifact-inventory.md",
+      "workflow-issue-912-idempotent-attendance-remove-retry-artifact-inventory.md",
       "workflow-task-issue-191-production-d1-schema-aliases-apply-001-artifact-inventory.md",
       "workflow-task-issue-191-schema-aliases-implementation-001-artifact-inventory.md",
       "workflow-task-issue-346-08a-canonical-workflow-tree-restore-artifact-inventory.md",
@@ -10601,6 +10610,7 @@
       "lessons-learned-issue-765-1password-vault-restructure-2026-05.md",
       "lessons-learned-issue-770-profile-loading-skeleton-2026-05.md",
       "lessons-learned-issue-827-member-detail-adapter-and-visibility-defense-2026-05.md",
+      "lessons-learned-issue-912-idempotent-attendance-remove-retry-2026-05.md",
       "lessons-learned-issue359-production-d1-apply-2026-05.md",
       "lessons-learned-issue590-phase11-canonical-paths-completed-tasks-move-drift-2026-05.md",
       "lessons-learned-lefthook-mwr-runbook-2026-04.md",
@@ -11470,6 +11480,7 @@
       "lessons-learned-issue-191-schema-aliases-2026-04.md",
       "lessons-learned-issue-290-workflow-lint-gate-2026-05.md",
       "lessons-learned-issue-720-cf-audit-monitor-env-protection-fix-2026-05.md",
+      "lessons-learned-issue-912-idempotent-attendance-remove-retry-2026-05.md",
       "lessons-learned-issue359-production-d1-apply-2026-05.md",
       "lessons-learned-ut07b-fu03-production-migration-runbook-2026-05.md"
     ],
@@ -11480,6 +11491,7 @@
       "lessons-learned-03b-followup-006-per-sync-cap-alert-2026-05.md",
       "lessons-learned-06b-profile-logged-in-visual-evidence-2026-04.md",
       "lessons-learned-admin-tags-queue-resolver-drawer-2026-05.md",
+      "lessons-learned-issue-912-idempotent-attendance-remove-retry-2026-05.md",
       "lessons-learned-issue359-production-d1-apply-2026-05.md",
       "lessons-learned-parallel-i06-root-error-focus-2026-05.md",
       "lessons-learned-ut-03-sheets-auth-2026-04.md",
@@ -11488,6 +11500,7 @@
     ],
     "the": [
       "lessons-learned-03b-followup-006-per-sync-cap-alert-2026-05.md",
+      "lessons-learned-issue-912-idempotent-attendance-remove-retry-2026-05.md",
       "lessons-learned-issue359-production-d1-apply-2026-05.md"
     ],
     "Emit": [
@@ -11923,9 +11936,11 @@
       "lessons-learned-04c-admin-backoffice-2026-04.md",
       "lessons-learned-07c-attendance-audit-2026-04.md",
       "lessons-learned-issue-372-attendance-pagination-2026-05.md",
+      "lessons-learned-issue-912-idempotent-attendance-remove-retry-2026-05.md",
       "lessons-learned-ut-07c-followup-001-attendance-csv-import-2026-05.md",
       "workflow-issue-372-attendance-pagination-artifact-inventory.md",
       "workflow-issue-572-attendance-provider-production-runtime-smoke-artifact-inventory.md",
+      "workflow-issue-912-idempotent-attendance-remove-retry-artifact-inventory.md",
       "workflow-step-06-meetings-attendance-implementation-artifact-inventory.md",
       "workflow-ut-02a-attendance-profile-integration-artifact-inventory.md",
       "workflow-ut-02a-followup-001-attendance-write-operations-artifact-inventory.md",
@@ -12448,6 +12463,7 @@
     "use": [
       "lessons-learned-05a-form-preview-503-2026-05.md",
       "lessons-learned-admin-tags-queue-resolver-drawer-2026-05.md",
+      "lessons-learned-issue-912-idempotent-attendance-remove-retry-2026-05.md",
       "lessons-learned-ut-coverage-2026-05-wave.md"
     ],
     "case": [
@@ -12521,6 +12537,7 @@
       "workflow-issue-603-phase12-compliance-check-ci-gate-artifact-inventory.md",
       "workflow-issue-730-phase11-evidence-existence-validator-artifact-inventory.md",
       "workflow-issue-832-admin-topbar-primitive-extraction-artifact-inventory.md",
+      "workflow-issue-912-idempotent-attendance-remove-retry-artifact-inventory.md",
       "workflow-login-page-prototype-alignment-artifact-inventory.md",
       "workflow-step-08-audit-filter-paging-verify-artifact-inventory.md"
     ],
@@ -13197,6 +13214,7 @@
     "hook": [
       "lessons-learned-06c-C-admin-tags-2026-05.md",
       "lessons-learned-admin-tags-queue-resolver-drawer-2026-05.md",
+      "lessons-learned-issue-912-idempotent-attendance-remove-retry-2026-05.md",
       "lessons-learned-skill-ledger-t6-hook-idempotency-2026-04.md",
       "lessons-learned-sync-merge-hook-skip-2026-04.md",
       "workflow-issue-799-use-auto-focus-on-mount-hook-artifact-inventory.md",
@@ -13223,6 +13241,7 @@
       "lessons-learned-issue-191-schema-aliases-2026-04.md",
       "lessons-learned-issue-290-workflow-lint-gate-2026-05.md",
       "lessons-learned-issue-720-cf-audit-monitor-env-protection-fix-2026-05.md",
+      "lessons-learned-issue-912-idempotent-attendance-remove-retry-2026-05.md",
       "lessons-learned-issue359-production-d1-apply-2026-05.md",
       "lessons-learned-ut07b-fu03-production-migration-runbook-2026-05.md"
     ],
@@ -13268,6 +13287,7 @@
       "lessons-learned-06c-E-admin-meetings-2026-05.md",
       "lessons-learned-issue-191-schema-aliases-2026-04.md",
       "lessons-learned-issue-290-workflow-lint-gate-2026-05.md",
+      "lessons-learned-issue-912-idempotent-attendance-remove-retry-2026-05.md",
       "lessons-learned-ut07b-fu03-production-migration-runbook-2026-05.md"
     ],
     "explicit": [
@@ -14215,10 +14235,13 @@
     ],
     "idempotent": [
       "lessons-learned-admin-tags-queue-resolver-drawer-2026-05.md",
-      "lessons-learned-ut07b-fu-01-schema-alias-backfill-queue-cron-split-2026-05.md"
+      "lessons-learned-issue-912-idempotent-attendance-remove-retry-2026-05.md",
+      "lessons-learned-ut07b-fu-01-schema-alias-backfill-queue-cron-split-2026-05.md",
+      "workflow-issue-912-idempotent-attendance-remove-retry-artifact-inventory.md"
     ],
     "belongs": [
       "lessons-learned-admin-tags-queue-resolver-drawer-2026-05.md",
+      "lessons-learned-issue-912-idempotent-attendance-remove-retry-2026-05.md",
       "lessons-learned-issue359-production-d1-apply-2026-05.md"
     ],
     "one": [
@@ -14950,6 +14973,7 @@
     ],
     "identity": [
       "lessons-learned-issue-194-identity-merge-2026-05.md",
+      "lessons-learned-issue-912-idempotent-attendance-remove-retry-2026-05.md",
       "lessons-learned-ut07b-fu-01-schema-alias-backfill-queue-cron-split-2026-05.md",
       "workflow-2b-admin-identity-conflicts-spec-artifact-inventory.md"
     ],
@@ -15558,6 +15582,7 @@
     ],
     "Retry": [
       "lessons-learned-issue-377-retry-tick-dlq-audit-2026-05.md",
+      "lessons-learned-issue-912-idempotent-attendance-remove-retry-2026-05.md",
       "lessons-learned-ut-06-fu-h-2026-04.md",
       "lessons-learned-ut07b-fu-02-admin-schema-alias-retry-label-2026-05.md",
       "workflow-issue-377-retry-tick-and-dlq-audit-artifact-inventory.md"
@@ -15575,6 +15600,7 @@
     "retry": [
       "lessons-learned-issue-377-retry-tick-dlq-audit-2026-05.md",
       "lessons-learned-issue-502-dlq-monitoring-dashboard-2026-05.md",
+      "lessons-learned-issue-912-idempotent-attendance-remove-retry-2026-05.md",
       "lessons-learned-u-ut01-09-retry-offset-2026-04.md",
       "lessons-learned-ut-02a-tag-assignment-queue-2026-05.md",
       "logs-archive-2026-03-mid-lifecycle-governance-improve.md",
@@ -15582,6 +15608,7 @@
       "task-workflow-completed-skill-lifecycle-security.md",
       "task-workflow-completed-ut-06-safety-gate.md",
       "workflow-admin-ui-prototype-alignment-followup-002-section-error-retry-artifact-inventory.md",
+      "workflow-issue-912-idempotent-attendance-remove-retry-artifact-inventory.md",
       "workflow-permission-fallback-abort-skip-retry.md"
     ],
     "は同じ": [
@@ -15909,6 +15936,7 @@
     ],
     "DELETE": [
       "lessons-learned-issue-408-cf-audit-logs-monitoring-2026-05.md",
+      "lessons-learned-issue-912-idempotent-attendance-remove-retry-2026-05.md",
       "lessons-learned-ut07b-fu-01-schema-alias-backfill-queue-cron-split-2026-05.md",
       "rag-vector-search.md"
     ],
@@ -16189,6 +16217,7 @@
       "lessons-learned-issue-517-followup-auto-summary-2026-05.md",
       "lessons-learned-issue-572-attendance-provider-production-runtime-smoke-2026-05.md",
       "lessons-learned-issue-586-post-switch-7day-close-out-2026-05.md",
+      "lessons-learned-issue-912-idempotent-attendance-remove-retry-2026-05.md",
       "lessons-learned-verify-indexes-ci-2026-04.md",
       "task-workflow-completed-recent-2026-04d.md",
       "workflow-06b-b-profile-request-pending-banner-sticky-artifact-inventory.md",
@@ -16611,6 +16640,7 @@
       "workflow-issue-872-google-brand-4tone-icon-and-tokens-exempt-artifact-inventory.md",
       "workflow-issue-879-safe-server-fetch-member-public-horizontal-expansion-artifact-inventory.md",
       "workflow-issue-882-terms-prefetch-env-validation-fix-artifact-inventory.md",
+      "workflow-issue-912-idempotent-attendance-remove-retry-artifact-inventory.md",
       "workflow-mypage-prototype-alignment-artifact-inventory.md",
       "workflow-parallel-04-shared-page-chrome-artifact-inventory.md",
       "workflow-parallel-09-ux-cross-cutting-artifact-inventory.md",
@@ -16728,7 +16758,8 @@
       "lessons-learned-issue-560-next-standalone-instrumentation-patch-2026-05.md"
     ],
     "Idempotency": [
-      "lessons-learned-issue-560-next-standalone-instrumentation-patch-2026-05.md"
+      "lessons-learned-issue-560-next-standalone-instrumentation-patch-2026-05.md",
+      "lessons-learned-issue-912-idempotent-attendance-remove-retry-2026-05.md"
     ],
     "Silent": [
       "lessons-learned-issue-560-next-standalone-instrumentation-patch-2026-05.md"
@@ -17305,6 +17336,74 @@
       "workflow-task-05b-parallel-magic-link-provider-and-auth-gate-state-artifact-inventory.md",
       "workflow-task-07b-parallel-schema-diff-alias-assignment-workflow-artifact-inventory.md",
       "workflow-task-08a-parallel-api-contract-repository-and-authorization-tests-artifact-inventory.md"
+    ],
+    "remove": [
+      "lessons-learned-issue-912-idempotent-attendance-remove-retry-2026-05.md",
+      "workflow-issue-912-idempotent-attendance-remove-retry-artifact-inventory.md"
+    ],
+    "can": [
+      "lessons-learned-issue-912-idempotent-attendance-remove-retry-2026-05.md"
+    ],
+    "bypassed": [
+      "lessons-learned-issue-912-idempotent-attendance-remove-retry-2026-05.md"
+    ],
+    "by": [
+      "lessons-learned-issue-912-idempotent-attendance-remove-retry-2026-05.md",
+      "lessons-learned-ut-02a-attendance-write-operations-2026-05.md"
+    ],
+    "combined": [
+      "lessons-learned-issue-912-idempotent-attendance-remove-retry-2026-05.md"
+    ],
+    "POST": [
+      "lessons-learned-issue-912-idempotent-attendance-remove-retry-2026-05.md"
+    ],
+    "caller": [
+      "lessons-learned-issue-912-idempotent-attendance-remove-retry-2026-05.md"
+    ],
+    "avoid": [
+      "lessons-learned-issue-912-idempotent-attendance-remove-retry-2026-05.md"
+    ],
+    "mutationFn": [
+      "lessons-learned-issue-912-idempotent-attendance-remove-retry-2026-05.md"
+    ],
+    "Dynamic": [
+      "lessons-learned-issue-912-idempotent-attendance-remove-retry-2026-05.md"
+    ],
+    "callers": [
+      "lessons-learned-issue-912-idempotent-attendance-remove-retry-2026-05.md"
+    ],
+    "trigger": [
+      "lessons-learned-issue-912-idempotent-attendance-remove-retry-2026-05.md",
+      "lessons-learned-u-ut01-08-sync-enum-canonical-2026-04.md",
+      "lessons-learned-ut07b-fu-01-schema-alias-backfill-queue-cron-split-2026-05.md",
+      "workflow-issue-836-schema-alias-recompute-trigger-artifact-inventory.md"
+    ],
+    "payload": [
+      "lessons-learned-issue-912-idempotent-attendance-remove-retry-2026-05.md",
+      "lessons-learned-ut-07c-followup-001-attendance-csv-import-2026-05.md",
+      "lessons-learned-ut-gov-001-2026-04.md"
+    ],
+    "endpointOverride": [
+      "lessons-learned-issue-912-idempotent-attendance-remove-retry-2026-05.md"
+    ],
+    "fixed": [
+      "lessons-learned-issue-912-idempotent-attendance-remove-retry-2026-05.md"
+    ],
+    "Key": [
+      "lessons-learned-issue-912-idempotent-attendance-remove-retry-2026-05.md",
+      "lessons-learned-ut-25-deriv-01-sa-key-rotation-2026-05.md",
+      "ui-ux-feature-components-core.md",
+      "workflow-issue-300-direct-stable-key-update-guard-artifact-inventory.md",
+      "workflow-ut-25-deriv-01-sa-key-rotation-sop-artifact-inventory.md"
+    ],
+    "value": [
+      "lessons-learned-issue-912-idempotent-attendance-remove-retry-2026-05.md"
+    ],
+    "policy": [
+      "lessons-learned-issue-912-idempotent-attendance-remove-retry-2026-05.md",
+      "lessons-learned-u-ut01-09-retry-offset-2026-04.md",
+      "patterns-kv-dedup.md",
+      "workflow-issue-863-admin-error-alert-policy-iac-artifact-inventory.md"
     ],
     "against": [
       "lessons-learned-issue359-production-d1-apply-2026-05.md"
@@ -18500,11 +18599,6 @@
     "決定": [
       "lessons-learned-u-ut01-07-sync-log-naming-2026-04.md"
     ],
-    "trigger": [
-      "lessons-learned-u-ut01-08-sync-enum-canonical-2026-04.md",
-      "lessons-learned-ut07b-fu-01-schema-alias-backfill-queue-cron-split-2026-05.md",
-      "workflow-issue-836-schema-alias-recompute-trigger-artifact-inventory.md"
-    ],
     "統一": [
       "lessons-learned-u-ut01-08-sync-enum-canonical-2026-04.md",
       "lessons-learned-ut-02a-attendance-write-operations-2026-05.md",
@@ -18515,11 +18609,6 @@
     ],
     "offset": [
       "lessons-learned-u-ut01-09-retry-offset-2026-04.md"
-    ],
-    "policy": [
-      "lessons-learned-u-ut01-09-retry-offset-2026-04.md",
-      "patterns-kv-dedup.md",
-      "workflow-issue-863-admin-error-alert-policy-iac-artifact-inventory.md"
     ],
     "decision": [
       "lessons-learned-u-ut01-09-retry-offset-2026-04.md"
@@ -18591,9 +18680,6 @@
     "resolved": [
       "lessons-learned-ut-02a-attendance-write-operations-2026-05.md",
       "lessons-learned-ut-02a-tag-assignment-queue-2026-05.md"
-    ],
-    "by": [
-      "lessons-learned-ut-02a-attendance-write-operations-2026-05.md"
     ],
     "として処理": [
       "lessons-learned-ut-02a-attendance-write-operations-2026-05.md"
@@ -18857,10 +18943,6 @@
     "papaparse": [
       "lessons-learned-ut-07c-followup-001-attendance-csv-import-2026-05.md"
     ],
-    "payload": [
-      "lessons-learned-ut-07c-followup-001-attendance-csv-import-2026-05.md",
-      "lessons-learned-ut-gov-001-2026-04.md"
-    ],
     "へ渡す": [
       "lessons-learned-ut-07c-followup-001-attendance-csv-import-2026-05.md"
     ],
@@ -19039,12 +19121,6 @@
     ],
     "SA": [
       "lessons-learned-ut-25-deriv-01-sa-key-rotation-2026-05.md",
-      "workflow-ut-25-deriv-01-sa-key-rotation-sop-artifact-inventory.md"
-    ],
-    "Key": [
-      "lessons-learned-ut-25-deriv-01-sa-key-rotation-2026-05.md",
-      "ui-ux-feature-components-core.md",
-      "workflow-issue-300-direct-stable-key-update-guard-artifact-inventory.md",
       "workflow-ut-25-deriv-01-sa-key-rotation-sop-artifact-inventory.md"
     ],
     "SAK": [
@@ -24507,6 +24583,7 @@
       "workflow-issue-872-google-brand-4tone-icon-and-tokens-exempt-artifact-inventory.md",
       "workflow-issue-879-safe-server-fetch-member-public-horizontal-expansion-artifact-inventory.md",
       "workflow-issue-882-terms-prefetch-env-validation-fix-artifact-inventory.md",
+      "workflow-issue-912-idempotent-attendance-remove-retry-artifact-inventory.md",
       "workflow-mypage-prototype-alignment-artifact-inventory.md",
       "workflow-parallel-04-shared-page-chrome-artifact-inventory.md",
       "workflow-parallel-09-ux-cross-cutting-artifact-inventory.md",
@@ -24644,6 +24721,7 @@
       "workflow-issue-874-login-staging-visual-smoke-artifact-inventory.md",
       "workflow-issue-880-public-segment-error-loading-boundary-artifact-inventory.md",
       "workflow-issue-883-adapter-dev-warn-unknown-kind-artifact-inventory.md",
+      "workflow-issue-912-idempotent-attendance-remove-retry-artifact-inventory.md",
       "workflow-login-page-prototype-alignment-artifact-inventory.md",
       "workflow-mypage-prototype-alignment-artifact-inventory.md",
       "workflow-parallel-04-shared-page-chrome-artifact-inventory.md",
@@ -25051,6 +25129,7 @@
       "workflow-issue-842-admin-mutation-reliability-policy-artifact-inventory.md",
       "workflow-issue-857-internal-alert-relay-binding-wiring-artifact-inventory.md",
       "workflow-issue-883-adapter-dev-warn-unknown-kind-artifact-inventory.md",
+      "workflow-issue-912-idempotent-attendance-remove-retry-artifact-inventory.md",
       "workflow-login-page-prototype-alignment-artifact-inventory.md",
       "workflow-mypage-prototype-alignment-artifact-inventory.md",
       "workflow-parallel-04-shared-page-chrome-artifact-inventory.md",
@@ -25099,6 +25178,7 @@
       "workflow-issue-256-e2e-coverage-baseline-runbook-artifact-inventory.md",
       "workflow-issue-331-cicd-runtime-warning-cleanup-artifact-inventory.md",
       "workflow-issue-560-next-standalone-instrumentation-patch-artifact-inventory.md",
+      "workflow-issue-912-idempotent-attendance-remove-retry-artifact-inventory.md",
       "workflow-ut-02a-attendance-profile-integration-artifact-inventory.md",
       "workflow-ut-02a-followup-001-attendance-write-operations-artifact-inventory.md",
       "workflow-ut-15-waf-rate-limiting-rules-setup-artifact-inventory.md"
