@@ -61,6 +61,28 @@ describe("runSheetsAuthHealthcheck", () => {
     expect(body.code).toBe("SHEETS_AUTH_401_KEY_INVALID");
   });
 
+  it("INTERNAL_ALERT_TOKEN 未設定でも CF_WEBHOOK_AUTH_SECRET で alert-relay POST する", async () => {
+    const fetcher = makeFetcher(async () => {
+      throw new SheetsFetchError("unauthorized", 401);
+    });
+    const fetchSpy = vi.fn(async () => new Response("{}", { status: 200 }));
+    const env = {
+      ...baseEnv,
+      INTERNAL_ALERT_TOKEN: undefined,
+      CF_WEBHOOK_AUTH_SECRET: "cf-secret",
+    } as unknown as Env;
+
+    await runSheetsAuthHealthcheck(env, dummyEvent, {
+      fetcher,
+      fetch: fetchSpy as unknown as typeof fetch,
+    });
+
+    expect(fetchSpy).toHaveBeenCalledTimes(1);
+    const calls = fetchSpy.mock.calls as unknown as Array<[unknown, RequestInit]>;
+    expect(String(calls[0]![0])).toBe("https://api.example.com/internal/alert-relay");
+    expect(calls[0]![1].headers).toMatchObject({ "cf-webhook-auth": "cf-secret" });
+  });
+
   it("403 の場合 SHEETS_AUTH_403_FORBIDDEN で alert-relay POST", async () => {
     const fetcher = makeFetcher(async () => {
       throw new SheetsFetchError("forbidden", 403);

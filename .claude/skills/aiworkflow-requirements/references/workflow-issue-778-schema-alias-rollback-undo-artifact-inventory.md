@@ -16,7 +16,7 @@
 | source unassigned task | `docs/30-workflows/unassigned-task/serial-05-step-03-followup-004-schema-alias-rollback-undo.md` |
 | parent workflow | `docs/30-workflows/completed-tasks/serial-05-step-03-schema-diff-resolve/` |
 | existing history follow-up | `docs/30-workflows/unassigned-task/serial-05-step-03-followup-003-schema-diff-history-view.md` |
-| split follow-up | `docs/30-workflows/unassigned-task/serial-05-step-03-followup-005-schema-alias-recompute-trigger.md` |
+| split follow-up | `docs/30-workflows/completed-tasks/serial-05-step-03-followup-005-schema-alias-recompute-trigger.md` |
 | split follow-up | `docs/30-workflows/unassigned-task/serial-05-step-03-followup-006-schema-alias-bulk-rollback.md` |
 | split follow-up | `docs/30-workflows/unassigned-task/serial-05-step-03-followup-007-schema-alias-rollback-notification.md` |
 

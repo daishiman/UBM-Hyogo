@@ -1,0 +1,4 @@
+
+> @ubm-hyogo/api@0.1.0 lint /Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260524-102907-wt-20/apps/api
+> tsc -p tsconfig.json --noEmit
+
