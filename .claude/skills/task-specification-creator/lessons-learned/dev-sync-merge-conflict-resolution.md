@@ -381,3 +381,24 @@
   - Phase 11 evidence に「`env.ts` conflict 解消後の `grep -nE '^(<<<<<<<|=======|>>>>>>>)' apps/web/src/lib/env.ts apps/web/src/lib/__tests__/env.spec.ts` 0 件」を必須項目化。
 - 検証: `pr-pre-flight-ci-gate-checklist.md` §3（dev sync）の checklist に「env.ts に getter 追加がある場合は merge dry-run で conflict 範囲を確認した」項目を追加する。
 - 参照: aiworkflow-requirements L-DEVSYNC-041 の再発事例。本知見は task 仕様書側の予防策（実装前の予告 + dry-run 推奨）であり、解消手順は L-DEVSYNC-041 を唯一の正本とする。
+
+### SP-DEVSYNC-036: Playwright assertion で `console.error` / `pageerror` を**全件 toEqual([])** すると他 issue の副作用で fragile になる（2026-05-25 追加）
+
+- 事象: 2026-05-25 `fix/issue-882` の e2e（`apps/web/playwright/tests/terms-prefetch.spec.ts`）が dev sync-merge 後の CI で `e2e (mobile-webkit)` / `e2e (desktop-firefox)` で失敗。test は `page.on("console")` で全 `console.error` を `errors[]` に push して `expect(errors).toEqual([])` していた。ローカルでは pass していたが、dev merge で取り込んだ **#869 CSP report-only モード**が「`[Report Only] Refused to apply a stylesheet...`」「`frame-ancestors' is ignored when delivered in a report-only policy`」等の console.error を多発させ、`toEqual([])` が破綻。
+- Why: issue-882 の test 責務は「`/terms` RSC prefetch が env validation で 5xx / Zod throw を露出しない」こと。**全 `console.error` の不在**を assertion することは over-specification で、他 issue（CSP / nonce / a11y warning 等）が将来 console output を増やすたびに本 test が無関係に fragile に壊れる。Playwright e2e の assertion は「該当 issue が責任を持つ pattern のみ」に限定すべき。
+- How to apply（task 仕様書での逐語化）:
+  - 仕様書 Phase 5 / Phase 9 で「`console.error` / `pageerror` の broad-catch assertion 禁止」を明記する。
+  - 必ず issue 固有の正規表現 patterns を配列で宣言し、`isXxxError(text: string): boolean` のヘルパで filter してから push する。例:
+    ```ts
+    const TERMS_ENV_ERROR_PATTERNS: RegExp[] = [
+      /ZodError/i,
+      /Invalid environment/i,
+      /env\.ts/i,
+      /terms.*prefetch/i,
+    ];
+    const isTermsEnvError = (text: string) => TERMS_ENV_ERROR_PATTERNS.some((p) => p.test(text));
+    ```
+  - Phase 11 evidence に「assertion patterns が issue 範囲に閉じている根拠（patterns 一覧 + 排除した他 issue 由来 noise の例）」を必須項目化。
+  - test review 時の checklist 項目: `toEqual([])` / `toHaveLength(0)` が `page.on("console")` / `page.on("pageerror")` の **未 filter 配列**を対象としていないか。
+- 検証: 本 spec を変更する PR の lefthook pre-push に既存 `verify-conflict-markers` / `lint` に加え、broad-catch pattern を grep する project local rule を追加（task-spec-creator 内では仕様書化のみ、実 hook は skill scope 外）。
+- 事例: 2026-05-25 `fix/issue-882-terms-prefetch-env-validation` 修正で `TERMS_ENV_ERROR_PATTERNS` filter を導入し、CSP report-only の console.error を assertion 対象から除外。同種パターンは過去にも `axe` 系・`hydration warning` 系で経験あり（[[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-007-A の visual baseline drift と同根の「他 issue 副作用で fragile になる test」family）。
