@@ -1,5 +1,11 @@
 # apps/web/src/auth.ts の env 参照を getEnv() 経由に統一 - タスク指示書
 
+> **Consumed pointer（2026-05-24 追記）**: 本単一ファイル仕様は canonical workflow
+> [`docs/30-workflows/fix-admin-scr-err-stg-fu-001-auth-env-via-getenv/`](../fix-admin-scr-err-stg-fu-001-auth-env-via-getenv/index.md)
+> に Phase 1-13 として formalize 済み。local 実装・focused regression（75 tests green）・AC grep gate（AC-1/AC-2/AC-5）は完了。
+> 残作業は staging runtime smoke（AC-7）/ commit / push / PR のみで user-gated。本ファイルは削除せず昇格 trace として live 位置に保持する。
+> `workflow_state = consumed`（実体は canonical workflow の `PASS_BOUNDARY_SYNCED_RUNTIME_PENDING`）。
+
 ## メタ情報
 
 | 項目         | 内容                                                                                  |
