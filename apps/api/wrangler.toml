@@ -51,6 +51,9 @@ name = "ubm-hyogo-api"
 [env.production.vars]
 ENVIRONMENT = "production"
 MAIL_FROM_ADDRESS = "noreply@ubm-hyogo.example"
+# issue-838 — schema alias rollback の運用通知先 (mail fallback)。
+# 空のままなら mail fallback は config gate で skip される (Slack 優先)。
+OPS_NOTIFICATION_EMAIL = ""
 AUTH_URL = "https://api.ubm-hyogo.workers.dev"
 # issue-857: SA key expiry healthcheck self-subrequest target for /internal/alert-relay.
 API_INTERNAL_BASE_URL = "https://api.ubm-hyogo.workers.dev"
@@ -134,6 +137,9 @@ name = "ubm-hyogo-api-staging"
 [env.staging.vars]
 ENVIRONMENT = "staging"
 MAIL_FROM_ADDRESS = "noreply@staging.ubm-hyogo.example"
+# issue-838 — schema alias rollback の運用通知先 (mail fallback)。
+# 空のままなら mail fallback は config gate で skip される (Slack 優先)。
+OPS_NOTIFICATION_EMAIL = ""
 AUTH_URL = "https://api-staging.ubm-hyogo.workers.dev"
 # issue-857: SA key expiry healthcheck self-subrequest target for /internal/alert-relay.
 API_INTERNAL_BASE_URL = "https://api-staging.ubm-hyogo.workers.dev"
