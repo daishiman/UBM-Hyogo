@@ -19,12 +19,27 @@
 
 Use `getPublicEnv().NEXT_PUBLIC_API_BASE_URL` for CSP `connect-src`. Use `getPublicEnv().NEXT_PUBLIC_SENTRY_DSN` only to derive the Sentry CSP security endpoint. `NEXT_PUBLIC_API_ORIGIN` and a separate `NEXT_PUBLIC_SENTRY_CSP_REPORT_URL` are not current env contracts and must not be introduced for this purpose.
 
+## CSP Nonce Contract
+
+Issue #871 / U-AWSHH-002 is implemented locally in `docs/30-workflows/completed-tasks/issue-871-csp-nonce-migration/`.
+
+Current `apps/web` nonce flow:
+
+- `apps/web/middleware.ts` generates a fresh 16-byte base64 nonce for each request with Edge-compatible Web Crypto APIs.
+- The same nonce is placed in request header `x-nonce`, request `Content-Security-Policy` for App Router nonce parsing, response `x-nonce`, and response CSP.
+- `apps/web/src/lib/security-headers.ts` accepts `SecurityHeaderConfig.nonce?: string`.
+- With nonce present, `script-src` is `script-src 'self' 'nonce-<n>' 'strict-dynamic'`.
+- With nonce present, `style-src` and `style-src-elem` require `nonce-<n>`.
+- Existing React `style={{ ... }}` usage remains compatible through explicit `style-src-attr` separation. This is a transitional boundary, not an enforce-mode completion claim.
+- Response mode remains `Content-Security-Policy-Report-Only`; enforce mode is still a separate user-gated workflow.
+- Literal `'unsafe-inline'` must not appear in `apps/web/src`, `apps/web/middleware.ts`, or the middleware focused spec. The grep gate is `rg "'unsafe-inline'" apps/web/src apps/web/middleware.ts apps/web/__tests__/middleware.spec.ts`.
+
 ## User-gated Follow-ups
 
 | ID | Boundary |
 | --- | --- |
 | U-AWSHH-001 | CSP enforce switch after report-only observation |
-| U-AWSHH-002 | nonce-based CSP hardening and removal of `'unsafe-inline'` |
+| U-AWSHH-002 | implemented locally by `docs/30-workflows/completed-tasks/issue-871-csp-nonce-migration/`; staging/production verification remains user-gated |
 | ~~U-AWSHH-003~~ | Consumed by `docs/30-workflows/completed-tasks/awshh-followup-003-csp-reporting-endpoints/` (Issue #868, implemented local / runtime receive pending) |
 | U-AWSHH-004 | Equivalent `apps/api` response header hardening |
 
