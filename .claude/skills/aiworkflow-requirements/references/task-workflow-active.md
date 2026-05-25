@@ -8,6 +8,21 @@
 
 本ドキュメントは、複雑なタスクを単一責務の原則に基づいて分解し、各サブタスクに最適なスラッシュコマンド・エージェント・スキルの組み合わせを選定するためのガイドラインを定義する。
 
+### issue-872-google-brand-4tone-icon-and-tokens-exempt（2026-05-24）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `local_static_pass_browser_pending / implementation / VISUAL` |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-872-google-brand-4tone-icon-and-tokens-exempt/` |
+| source | Issue #872 / FU-LOGIN-001 |
+| 目的 | `/login` Google OAuth button の 1-tone icon を official 4-tone SVG asset wrapper へ置換する実装仕様を作り、`verify-design-tokens` の brand SVG exempt 境界を定義する |
+| implementation targets | `apps/web/src/components/ui/brand-icons/google.svg`, `apps/web/src/components/ui/brand-icons/GoogleBrandIcon.tsx`, `apps/web/app/login/_components/GoogleOAuthButton.client.tsx`, `scripts/verify-design-tokens.ts`, `scripts/verify-design-tokens.spec.ts`, `docs/00-getting-started-manual/specs/09b-design-tokens.md` |
+| invariant | `apps/web/src/components/ui/brand-icons/*.svg` のみ HEX exempt。`.tsx`, nested SVG, `.ts`, `.css` は exempt しない |
+| Phase 12 | strict 7 present + validator entry `outputs/phase-12/phase-12.md` |
+| Phase 11 | required VISUAL auxiliary files present; render PNG present; browser screenshots pending local disk cleanup (`ENOSPC`) |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-872-google-brand-4tone-icon-and-tokens-exempt-artifact-inventory.md` |
+| user gate | browser screenshot recapture after disk cleanup, visual baseline update, commit, push, PR |
+
 ### issue-864-admin-staging-runtime-smoke-ci-gate（2026-05-24）
 
 | 項目 | 値 |
@@ -113,6 +128,19 @@
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-899-static-bearer-fallback-retirement-artifact-inventory.md` |
 | user gate | workflow edit PR, runtime smoke rerun, `gh secret delete STAGING_ADMIN_BEARER/STAGING_ME_BEARER`, commit, push, PR |
 
+### issue-870-apps-api-security-headers（2026-05-24）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / NON_VISUAL` |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-870-apps-api-security-headers/` |
+| Issue | #870 CLOSED。PR 文脈は `Refs #870` のみ |
+| 目的 | `apps/api` 全 route に API response security headers と deny-by-default CORS を追加する |
+| implementation targets | `apps/api/src/middleware/security-headers.ts`, `apps/api/src/middleware/__tests__/security-headers.spec.ts`, `apps/api/src/index.ts`, `apps/api/src/env.ts`, `apps/api/wrangler.toml` |
+| evidence | `pnpm --filter @ubm-hyogo/api typecheck` PASS、focused Vitest 15 tests PASS、Phase 12 strict 7 present |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-870-apps-api-security-headers-artifact-inventory.md` |
+| user gate | staging/production curl, deploy, commit, push, PR |
+
 ### members-page-prototype-alignment（2026-05-23）
 
 | 項目 | 値 |
@@ -196,6 +224,20 @@
 | evidence | Phase 12 strict 7 / root-output artifacts parity / unit + Playwright smoke spec |
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-apps-web-security-headers-hardening-artifact-inventory.md` |
 | user gate | staging/production response verification, commit, push, PR |
+
+### awshh-followup-003-csp-reporting-endpoints（2026-05-24）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / NON_VISUAL` |
+| 成果物 | `docs/30-workflows/completed-tasks/awshh-followup-003-csp-reporting-endpoints/` |
+| Issue | #868 CLOSED（再オープンしない、PR 文脈は `Refs #868`） |
+| 目的 | CSP Report-Only の違反レポート送信先を Sentry CSP security endpoint へ集約し、U-AWSHH-001 enforce 切替の観測前提を作る |
+| implementation targets | `apps/web/src/lib/security-headers.ts`, `apps/web/src/lib/env.ts`, `apps/web/middleware.ts`, `apps/web/src/lib/security-headers.spec.ts`, `apps/web/src/lib/__tests__/env.spec.ts` |
+| contract | `Reporting-Endpoints: csp-endpoint="..."` と CSP `report-to csp-endpoint` / `report-uri <url>` を同一 `CSP_REPORT_GROUP` と同一導出 URL から出力する。Sentry endpoint は既存 public `NEXT_PUBLIC_SENTRY_DSN` から導出し、新規 CSP 専用 URL env は作らない |
+| boundary | `apps/api` / D1 / `apps/web/wrangler.toml` は不変更。staging deploy、Sentry 受信確認、commit、push、PR は user-gated |
+| source consumed | `docs/30-workflows/completed-tasks/unassigned-task/awshh-followup-003-reporting-endpoints.md` |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-awshh-followup-003-csp-reporting-endpoints-artifact-inventory.md` |
 
 ### ci-green-recovery-smoke-coverage-shard（2026-05-23）
 

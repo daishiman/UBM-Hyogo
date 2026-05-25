@@ -50,6 +50,21 @@
 | 開発 | localhost:3000, localhost:3001 |
 | 本番 | 本番ドメインのみ               |
 
+## apps/api Response Security Headers
+
+`apps/api` emits API response hardening headers from `apps/api/src/middleware/security-headers.ts`, registered globally in `apps/api/src/index.ts` immediately after `new Hono<{ Bindings: Env }>()`.
+
+| Header | Value / Rule |
+| --- | --- |
+| `X-Content-Type-Options` | `nosniff` on every response |
+| `Referrer-Policy` | `no-referrer` on every response |
+| `Strict-Transport-Security` | `max-age=31536000; includeSubDomains` |
+| `Cache-Control` | `no-store` only for `/me`, `/auth`, `/admin`, `/internal` when the route did not already set Cache-Control |
+
+API CORS is deny-by-default. `ALLOWED_ORIGINS` is a comma-separated exact-origin allowlist in `apps/api/wrangler.toml` and `apps/api/src/env.ts`. Allowed origins receive `Access-Control-Allow-Origin: <origin>` and `Access-Control-Allow-Credentials: true`; denied origins receive no CORS allow headers. Preflight responses use fixed allow methods / headers and do not echo arbitrary requested headers.
+
+Workflow: `docs/30-workflows/completed-tasks/issue-870-apps-api-security-headers/`.
+
 ---
 
 ## 依存関係セキュリティ

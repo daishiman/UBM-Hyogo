@@ -7,7 +7,14 @@ vi.mock("@opennextjs/cloudflare", () => ({
   getCloudflareContext: () => cloudflareContext(),
 }));
 
-import { getAuthEnv, getEnv, getPublicEnv, getPublicFetchEnv, readRawEnv } from "../env";
+import {
+  getAuthEnv,
+  getEnv,
+  getPublicEnv,
+  getPublicFetchEnv,
+  getSecurityHeaderEnv,
+  readRawEnv,
+} from "../env";
 
 const validEnv = {
   ENVIRONMENT: "local",
@@ -89,6 +96,19 @@ describe("env", () => {
     expect(env.NEXT_PUBLIC_SENTRY_TRACES_SAMPLE_RATE).toBe(0.2);
   });
 
+  it("getPublicEnv exposes the public Sentry DSN for CSP report endpoint derivation", () => {
+    expect(
+      getPublicEnv({
+        ...validEnv,
+        NEXT_PUBLIC_SENTRY_DSN: "https://abc123@o0.ingest.sentry.io/1",
+      }),
+    ).toEqual({
+      ENVIRONMENT: "local",
+      NEXT_PUBLIC_API_BASE_URL: "http://127.0.0.1:8787",
+      NEXT_PUBLIC_SENTRY_DSN: "https://abc123@o0.ingest.sentry.io/1",
+    });
+  });
+
   it("getEnv throws ZodError for invalid NEXT_PUBLIC_SENTRY_DSN", () => {
     expect(() =>
       getEnv({ ...validEnv, NEXT_PUBLIC_SENTRY_DSN: "not-a-url" }),
@@ -155,7 +175,28 @@ describe("env", () => {
     expect(getPublicEnv({ ...validEnv, AUTH_SECRET: "x".repeat(32) })).toEqual({
       ENVIRONMENT: "local",
       NEXT_PUBLIC_API_BASE_URL: "http://127.0.0.1:8787",
+      NEXT_PUBLIC_SENTRY_DSN: undefined,
     });
+  });
+
+  it("getSecurityHeaderEnv defaults CSP_MODE to report-only", () => {
+    expect(getSecurityHeaderEnv(validEnv)).toEqual({
+      cspMode: "report-only",
+      apiBaseUrl: "http://127.0.0.1:8787",
+    });
+  });
+
+  it("getSecurityHeaderEnv returns enforce when CSP_MODE is enforce", () => {
+    expect(getSecurityHeaderEnv({ ...validEnv, CSP_MODE: "enforce" })).toEqual({
+      cspMode: "enforce",
+      apiBaseUrl: "http://127.0.0.1:8787",
+    });
+  });
+
+  it("getSecurityHeaderEnv throws ZodError for invalid CSP_MODE", () => {
+    expect(() =>
+      getSecurityHeaderEnv({ ...validEnv, CSP_MODE: "invalid-value" }),
+    ).toThrow(ZodError);
   });
 
   it("getAuthEnv returns auth keys and service binding without throwing", () => {

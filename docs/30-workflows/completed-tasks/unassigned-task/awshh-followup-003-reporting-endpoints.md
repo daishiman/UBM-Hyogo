@@ -17,11 +17,21 @@ issue_number: 868
 | 対象機能     | CSP 違反レポートの集約観測基盤                                |
 | 優先度       | 中                                                            |
 | 見積もり規模 | 中規模                                                        |
-| ステータス   | 未実施                                                        |
+| ステータス   | consumed                                                      |
 | 発見元       | apps-web-security-headers-hardening Phase 12                  |
 | 発見日       | 2026-05-23                                                    |
 
 ---
+
+## Consumed Trace
+
+| 項目 | 値 |
+| --- | --- |
+| status | CONSUMED |
+| consumed_at | 2026-05-24 |
+| canonical_workflow | `docs/30-workflows/completed-tasks/awshh-followup-003-csp-reporting-endpoints/` |
+| resolution | 既存 `NEXT_PUBLIC_SENTRY_DSN` から Sentry CSP security endpoint を導出し、`Reporting-Endpoints` / CSP `report-to` / `report-uri` を `apps/web` に実装する canonical workflow へ昇格 |
+| issue | #868（CLOSED 維持、再オープンしない） |
 
 ## 1. なぜこのタスクが必要か（Why）
 

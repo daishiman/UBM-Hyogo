@@ -634,6 +634,14 @@
 - 留意: 範囲が table 本体（§Current Alias Overrides / §Family Summary / §Task Root Path Drift Register）に及ぶ場合は table-merge ルール（L-DEVSYNC-032 / L-DEVSYNC-033）に切替え、行単位の片側採用 union を行うこと。先頭 quote block 限定の本パターンとは別系統である。
 - 事例: 2026-05-24 `docs/parallel-03-admin-runtime-evidence` への dev sync-merge。`pnpm sync:resolve` で `indexes/topic-map.md` は union 自動解消、`legacy-ordinal-family-register.md` のみ unhandled として残置。本ルールに従い HEAD 側 parallel-03-followup-002 NOTE と dev 側 mypage-prototype-alignment NOTE の両方を保持し、`> 最終更新日:` を `2026-05-24` で統一。`grep` でマーカー残ゼロ確認後 `git commit --no-edit` で merge commit 完了。後続 `verify-pr-ready` で `indexes:rebuild drift` を検出（topic-map.md 9 行差分）したため独立 chore commit で解消（L-DEVSYNC-036 既知パターン）。
 
+## L-DEVSYNC-041: branch-sync prompt の lock/log path は `git rev-parse --git-common-dir` 経由で解決する（2026-05-25 追加）
+
+- 症状: branch-sync prompt（`.git/.branch-sync.lock` / `.git/branch-sync-logs/<ts>.log`）の Pre-flight で `mkdir -p .git/branch-sync-logs` を発行すると、worktree 内では `.git` がテキストファイル（`gitdir: ...`）のため `mkdir: .git: Not a directory` で失敗する。L-DEVSYNC-026 の `index.lock` と同根の worktree path 解決問題が、branch-sync 自身の lock/log にも該当する。
+- Why: branch-sync prompt の lock/log は「全 worktree で 1 つ」が望ましい（多重実行検出は全 WT 横断で必要）。実体はメイン repo の `.git/` 配下に置きたい。`git rev-parse --git-dir` は worktree 専用 dir（`.git/worktrees/<wt>/`）を返すため**不適**。`git rev-parse --git-common-dir` がメイン repo の `.git/` を返すため、worktree でもメイン repo でも単一の path に解決される。
+- 加えて、既存 stale lock（>30 分）の判定は ISO8601 timestamp ではなく **mtime ベース**（`stat -f %m` on macOS）で `now - mtime > 1800` を判定する。lock 内のタイムスタンプはログ用、判定は mtime が機械的に正確。
+- How to apply: dev sync prompt / branch-sync prompt のフェーズ 0 で `GD=$(git rev-parse --git-common-dir); mkdir -p "$GD/branch-sync-logs"; LOCK="$GD/.branch-sync.lock"` の 3 行を必ず使う。`.git/` 直書き指定は worktree で破綻するため禁止。stale 判定は `stat -f %m "$LOCK"` で実施し、`date +%s` との差で 1800 秒を境界とする。
+- 事例: 2026-05-25 `feat/awshh-followup-003-csp-reporting-endpoints` ← dev sync-merge。Pre-flight で `mkdir -p .git/branch-sync-logs` が `Not a directory` で失敗 → `git rev-parse --git-common-dir` で `/.../UBM-Hyogo/.git` を解決して再試行成功。同 dir に >30 分前の stale `.branch-sync.lock` が残置（前 session の中断残り）→ mtime 5083s 経過を確認して削除・再作成。conflict は skill index 系のみで `pnpm sync:resolve` 一発完結、`pnpm indexes:rebuild` → `bash scripts/verify-pr-ready.sh` PASS で push 成功。
+
 ## L-DEVSYNC-037: `static-manifest.json` 再生成は `sync:resolve` に組み込みで自動化（2026-05-24 追加）
 
 - 症状: 2026-05-21 (L-DEVSYNC-034) に続き、2026-05-24 `docs/issue-842-admin-mutation-reliability-policy-spec` ← dev sync-merge でも `apps/api/src/repository/_shared/generated/static-manifest.json` が `[WARN] unhandled conflict` で残置。手動 `pnpm regenerate:static-manifest` + `git add` を毎回行う必要があり、L-DEVSYNC-034 の自動化候補が未実装のままだった。
@@ -641,3 +649,15 @@
 - Why: 本ファイルは `apps/api/src/repository/_shared/source-spec/*` から hash 化生成される deterministic artifact。手動工程化しても結果は一意なので、resolver に組み込んで dev sync prompt の自律判断ルール B 内で完結させる方が漏れない。`git checkout --theirs` を起点にするのは、ours の hash が古いことが多く再生成後の diff が増えるのを避けるため（再生成結果は theirs/ours どちらが起点でも spec が同一なら同一になる）。
 - How to apply: dev sync prompt 自律判断ルール B の resolver 後処理で `pnpm sync:resolve` 一発を期待する。`^UU` 残のうち `static-manifest.json` は呼ばずに済むようになった。新規 deterministic artifact が conflict 対象に増えた場合は `REGENERATE_TARGETS` 配列にエントリ追加する（task-specification-creator skill §15 と対応）。
 - 事例: 2026-05-24 `docs/issue-842-admin-mutation-reliability-policy-spec` ← dev sync-merge。初回は手動 regenerate で吸収後、同 commit 内で resolver 拡張をスキル反映として実装。task-specification-creator skill 側 `pr-pre-flight-ci-gate-checklist.md` §15 を「`sync:resolve` 一発完結」に更新済み。
+
+## L-DEVSYNC-041: `apps/web/src/lib/env.ts` の並列 export 追加（CSP / Auth 系）3-way conflict は両側 export 保持 + import 集約で機械統合可能（2026-05-25 追加）
+
+- 事象: dev sync-merge で `apps/web/src/lib/env.ts` と `apps/web/src/lib/__tests__/env.spec.ts` が `WARN unhandled conflict`。HEAD 側（CSP enforce cutover）が `getSecurityHeaderEnv` + `SecurityHeaderEnvSchema` を、dev 側（auth env 統一 / [[project_issue862_auth_env_spec]]）が `getAuthEnv` / `getPublicFetchEnv` + `AuthEnvSchema` / `ServiceBinding` 型を**それぞれ独立に追加**する典型的な並列 export 追加パターン。conflict hunk は (1) import 行、(2) schema/型宣言ブロック直前、(3) export 関数末尾の3箇所に分散して現れる。
+- Why: `env.ts` は `EnvSchema.pick(...)` ベースで領域別 getter を追加していく拡張点であり、複数 issue が同 sprint で独立に新 getter を生やすと git は連続した 3-way hunk として diff3 表示する。両者は意味的に完全独立で union 等価で安全に統合できる。
+- How to apply:
+  1. resolver で `WARN unhandled conflict: apps/web/src/lib/env.ts` を見たら、hunk が「(a) `EnvSchema.pick(...)` schema 宣言の追加」「(b) `export function get*Env(...)`」「(c) test 側の import 行と describe 内 it ブロック」の組み合わせかを確認する。
+  2. (a) と (b) は両側 schema / 関数を**両方保持**して順序を維持（HEAD → dev の順で連結）。test 側 import 行は両側 named import を集約して 1 文に統合（multi-line import が ESLint 設定上許容されているなら multi-line に展開）。
+  3. test の `it(...)` ブロックは両側を順次保持し、`describe` 終端の `});` を 1 つだけ残す（diff3 が `>>>>>>>` を `});` の直前に置きがちなので二重閉じに注意）。
+  4. `grep -n -E '^(<<<<<<<|=======|>>>>>>>|\|\|\|\|\|\|\|)' apps/web/src/lib/env.ts apps/web/src/lib/__tests__/env.spec.ts` が空であることを確認 → `git add` → `git commit --no-edit`。
+- 留意: 同一 schema key（例: 両側が `CSP_MODE` を別形で定義）に競合があれば union 不可。本パターンは「両側が EnvSchema 既存 key の異なる subset を pick / 異なる関数名で export」する場合に限り成立する。同じ関数名・同じ schema 名への両側 mutation は L-DEVSYNC-013 系の意味的競合として最終レポート対象。
+- 事例: 2026-05-25 `docs/issue-869-csp-enforce-cutover-spec` ← dev sync-merge。HEAD = `getSecurityHeaderEnv` (#869 / CSP enforce)、dev = `getAuthEnv` / `getPublicFetchEnv` (#862 / auth env 統一)。両側 schema 宣言（`SecurityHeaderEnvSchema` / `AuthEnvSchema` + `ServiceBinding` 型 + `PublicFetchEnv` interface）と関数を両保持、test 側 import を `getAuthEnv, getEnv, getPublicEnv, getPublicFetchEnv, getSecurityHeaderEnv, readRawEnv` の multi-line に集約、`it` ブロック 3+3 を両側順次保持して `describe` 終端 `});` を 1 本に整理。conflict marker grep 0 確認後 merge commit。task-specification-creator skill 側 SP-DEVSYNC-034 と対応。

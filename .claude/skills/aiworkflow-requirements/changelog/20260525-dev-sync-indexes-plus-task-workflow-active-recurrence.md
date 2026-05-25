@@ -12,3 +12,4 @@
 - 意義: `20260522-*-standard-flow` 系で文書化された 3 層予防（`.gitattributes merge=union` + `pnpm sync:resolve` + lessons-learned）が再現性をもって機能していることを再確認。本 skill 群への新規ルール追加は不要、運用通り。
 - 検証順: `pnpm sync:resolve` → `git commit` (lefthook pass) → `pnpm typecheck` → `pnpm lint`。
 - 関連: `task-specification-creator/changelog/20260525-dev-sync-indexes-plus-task-workflow-active-recurrence.md`
+- 再現#2 (同日): ブランチ `docs/issue-872-google-brand-4tone-icon-spec` ← `origin/dev`。UU は本 skill の `SKILL.md` を加えた 6 ファイル + `docs/30-workflows/LOGS.md`（`merge=union` 自動結合）。`pnpm sync:resolve` 1 発で full resolve、手動編集ゼロ。3 層予防（`.gitattributes merge=union` + `pnpm sync:resolve` + lessons-learned）が同日 2 回連続で再現性を実証。新規ルール追加なしの判断を維持。
