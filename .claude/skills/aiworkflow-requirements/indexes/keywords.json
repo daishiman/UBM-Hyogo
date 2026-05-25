@@ -687,6 +687,7 @@
       "pattern-d1-soft-delete-optimistic-lock-batch.md",
       "ui-ux-admin-dashboard.md",
       "workflow-issue-399-admin-queue-resolve-staging-visual-evidence-artifact-inventory.md",
+      "workflow-issue-842-admin-mutation-reliability-policy-artifact-inventory.md",
       "workflow-task-21-w2-par-screen-blueprints-admin-artifact-inventory.md"
     ],
     "Sync": [
@@ -3313,6 +3314,7 @@
       "workflow-issue-832-admin-topbar-primitive-extraction-artifact-inventory.md",
       "workflow-issue-836-schema-alias-recompute-trigger-artifact-inventory.md",
       "workflow-issue-837-schema-alias-bulk-rollback-artifact-inventory.md",
+      "workflow-issue-842-admin-mutation-reliability-policy-artifact-inventory.md",
       "workflow-issue-857-internal-alert-relay-binding-wiring-artifact-inventory.md",
       "workflow-parallel-04-shared-page-chrome-artifact-inventory.md",
       "workflow-parallel-i02b-admin-mutation-error-finalize-artifact-inventory.md",
@@ -4496,7 +4498,8 @@
       "deployment-cloudflare.md",
       "skill-ledger-gitattributes-policy.md",
       "skill-ledger-gitignore-policy.md",
-      "workflow-e2e-quality-uplift-stage-0-3-artifact-inventory.md"
+      "workflow-e2e-quality-uplift-stage-0-3-artifact-inventory.md",
+      "workflow-issue-842-admin-mutation-reliability-policy-artifact-inventory.md"
     ],
     "Issue": [
       "audit-correlation.md",
@@ -4611,6 +4614,7 @@
       "workflow-issue-778-schema-alias-rollback-undo-artifact-inventory.md",
       "workflow-issue-799-use-auto-focus-on-mount-hook-artifact-inventory.md",
       "workflow-issue-832-admin-topbar-primitive-extraction-artifact-inventory.md",
+      "workflow-issue-842-admin-mutation-reliability-policy-artifact-inventory.md",
       "workflow-task-issue-299-schema-questions-fallback-retirement-artifact-inventory.md",
       "workflow-ut-17-cloudflare-analytics-alerts-artifact-inventory.md"
     ],
@@ -4678,6 +4682,7 @@
       "workflow-issue-819-admin-dashboard-runtime-screenshot-artifact-inventory.md",
       "workflow-issue-827-member-detail-adapter-and-visibility-defense-artifact-inventory.md",
       "workflow-issue-836-schema-alias-recompute-trigger-artifact-inventory.md",
+      "workflow-issue-842-admin-mutation-reliability-policy-artifact-inventory.md",
       "workflow-issue-857-internal-alert-relay-binding-wiring-artifact-inventory.md",
       "workflow-members-page-prototype-alignment-artifact-inventory.md",
       "workflow-mypage-prototype-alignment-artifact-inventory.md",
@@ -9158,7 +9163,8 @@
     "Mutation": [
       "gate-c-external-mutation-pattern.md",
       "pattern-d1-soft-delete-optimistic-lock-batch.md",
-      "release-runbook.md"
+      "release-runbook.md",
+      "workflow-issue-842-admin-mutation-reliability-policy-artifact-inventory.md"
     ],
     "Pattern": [
       "gate-c-external-mutation-pattern.md",
@@ -16495,6 +16501,7 @@
       "workflow-issue-819-admin-dashboard-runtime-screenshot-artifact-inventory.md",
       "workflow-issue-832-admin-topbar-primitive-extraction-artifact-inventory.md",
       "workflow-issue-837-schema-alias-bulk-rollback-artifact-inventory.md",
+      "workflow-issue-842-admin-mutation-reliability-policy-artifact-inventory.md",
       "workflow-issue-857-internal-alert-relay-binding-wiring-artifact-inventory.md",
       "workflow-mypage-prototype-alignment-artifact-inventory.md",
       "workflow-parallel-04-shared-page-chrome-artifact-inventory.md",
@@ -24366,6 +24373,7 @@
       "workflow-issue-819-admin-dashboard-runtime-screenshot-artifact-inventory.md",
       "workflow-issue-832-admin-topbar-primitive-extraction-artifact-inventory.md",
       "workflow-issue-837-schema-alias-bulk-rollback-artifact-inventory.md",
+      "workflow-issue-842-admin-mutation-reliability-policy-artifact-inventory.md",
       "workflow-issue-857-internal-alert-relay-binding-wiring-artifact-inventory.md",
       "workflow-mypage-prototype-alignment-artifact-inventory.md",
       "workflow-parallel-04-shared-page-chrome-artifact-inventory.md",
@@ -24497,6 +24505,7 @@
       "workflow-issue-827-member-detail-adapter-and-visibility-defense-artifact-inventory.md",
       "workflow-issue-836-schema-alias-recompute-trigger-artifact-inventory.md",
       "workflow-issue-837-schema-alias-bulk-rollback-artifact-inventory.md",
+      "workflow-issue-842-admin-mutation-reliability-policy-artifact-inventory.md",
       "workflow-issue-857-internal-alert-relay-binding-wiring-artifact-inventory.md",
       "workflow-login-page-prototype-alignment-artifact-inventory.md",
       "workflow-mypage-prototype-alignment-artifact-inventory.md",
@@ -24610,6 +24619,7 @@
       "workflow-issue-747-vitest-esbuild-arch-and-worktree-isolation-artifact-inventory.md",
       "workflow-issue-775-serial-05-step-03-runtime-evidence-completion-artifact-inventory.md",
       "workflow-issue-836-schema-alias-recompute-trigger-artifact-inventory.md",
+      "workflow-issue-842-admin-mutation-reliability-policy-artifact-inventory.md",
       "workflow-parallel-09-ux-cross-cutting-artifact-inventory.md",
       "workflow-parallel-i03-dialog-refresh-order-artifact-inventory.md",
       "workflow-step-07-requests-approve-reject-artifact-inventory.md",
@@ -24851,6 +24861,7 @@
       "workflow-issue-827-member-detail-adapter-and-visibility-defense-artifact-inventory.md",
       "workflow-issue-836-schema-alias-recompute-trigger-artifact-inventory.md",
       "workflow-issue-837-schema-alias-bulk-rollback-artifact-inventory.md",
+      "workflow-issue-842-admin-mutation-reliability-policy-artifact-inventory.md",
       "workflow-issue-857-internal-alert-relay-binding-wiring-artifact-inventory.md",
       "workflow-login-page-prototype-alignment-artifact-inventory.md",
       "workflow-mypage-prototype-alignment-artifact-inventory.md",
@@ -25255,6 +25266,9 @@
     ],
     "Extraction": [
       "workflow-issue-832-admin-topbar-primitive-extraction-artifact-inventory.md"
+    ],
+    "Reliability": [
+      "workflow-issue-842-admin-mutation-reliability-policy-artifact-inventory.md"
     ],
     "ライトテーマ": [
       "workflow-light-theme-contrast-regression-guard.md"
