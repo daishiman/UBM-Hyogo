@@ -8,6 +8,22 @@
 
 本ドキュメントは、複雑なタスクを単一責務の原則に基づいて分解し、各サブタスクに最適なスラッシュコマンド・エージェント・スキルの組み合わせを選定するためのガイドラインを定義する。
 
+### issue-901-authenticated-profile-admin-staging-visual（2026-05-25）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `spec_created / implementation / VISUAL / runtime_pending` |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-901-authenticated-profile-admin-staging-visual/` |
+| Issue | #901 CLOSED。PR 文脈は `Refs #901` のみ |
+| source | `docs/30-workflows/completed-tasks/UT-DSF-07-FU-01-authenticated-profile-admin-staging-visual.md` consumed |
+| parent | `docs/30-workflows/ut-dsf-07-staging-visual-runtime-evidence/` |
+| 目的 | `signSessionJwt(secret, input)` を再利用した TTL=600s storageState 生成で、authenticated `/profile` と `/admin` の staging visual baseline を専用 Playwright project で取得する |
+| planned targets | `apps/web/playwright/scripts/mint-staging-storage-state.ts`, `apps/web/playwright/tests/visual-staging-authenticated/*.spec.ts`, `apps/web/playwright.config.ts`, `apps/web/app/profile/page.tsx`, `apps/web/app/(admin)/admin/page.tsx`, `apps/web/.gitignore`, `.github/workflows/playwright-staging-visual-authenticated.yml` |
+| invariant | 新規 API endpoint / D1 schema / Google Form 変更 / production deploy なし。storageState JSON は git 管理しない |
+| Phase 12 | strict 7 present。Phase 11 runtime logs and PNG screenshots are pending |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-901-authenticated-profile-admin-staging-visual-artifact-inventory.md` |
+| user gate | implementation, staging visual capture, parent gate release, commit, push, PR |
+
 ### issue-864-admin-staging-runtime-smoke-ci-gate（2026-05-24）
 
 | 項目 | 値 |

@@ -3024,6 +3024,15 @@ node scripts/list-specs.js --topics
 |------------|----|
 | Boundary | L19 |
 
+### references/workflow-issue-901-authenticated-profile-admin-staging-visual-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Metadata | L3 |
+| Workflow Artifacts | L14 |
+| Implementation Targets | L27 |
+| Boundary | L39 |
+
 ### references/workflow-light-theme-contrast-regression-guard.md
 
 | セクション | 行 |
@@ -4113,6 +4122,7 @@ node scripts/list-specs.js --topics
 | Workflow Artifacts | L13 |
 | Implementation Targets | L26 |
 | Boundary | L35 |
+| Authenticated Visual Child Workflow | L39 |
 
 ### references/workflow-ut-gov-004-artifact-inventory.md
 
@@ -7572,14 +7582,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L2353 |
-| フェーズ構造（概要） | L2362 |
-| 品質ゲート（概要） | L2393 |
-| 出力テンプレート | L2404 |
-| 実行時のコマンド・エージェント・スキル | L2427 |
-| 昇格パターン集 | L2451 |
-| Current Active / Spec Created Tasks | L2453 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L2614 |
+| ドキュメント構成 | L2369 |
+| フェーズ構造（概要） | L2378 |
+| 品質ゲート（概要） | L2409 |
+| 出力テンプレート | L2420 |
+| 実行時のコマンド・エージェント・スキル | L2443 |
+| 昇格パターン集 | L2467 |
+| Current Active / Spec Created Tasks | L2469 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L2630 |
 
 ### references/task-workflow-backlog-part2.md
 
