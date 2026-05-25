@@ -1,0 +1,12 @@
+# Design Token Gate Log
+
+Command:
+
+```bash
+pnpm --filter @ubm-hyogo/web verify-design-tokens
+```
+
+Result: PASS
+
+- Test Files: 1 passed
+- Tests: 9 passed

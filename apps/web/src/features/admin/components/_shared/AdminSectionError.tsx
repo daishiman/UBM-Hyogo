@@ -6,6 +6,9 @@ export interface AdminSectionErrorProps {
   correlationId?: string;
   message?: string;
   className?: string;
+  onRetry?: () => void;
+  retryLabel?: string;
+  isRetrying?: boolean;
 }
 
 export function AdminSectionError({
@@ -14,6 +17,9 @@ export function AdminSectionError({
   correlationId,
   message,
   className,
+  onRetry,
+  retryLabel = "再読み込み",
+  isRetrying = false,
 }: AdminSectionErrorProps) {
   return (
     <div
@@ -46,6 +52,22 @@ export function AdminSectionError({
           </>
         ) : null}
       </dl>
+      {onRetry ? (
+        <button
+          type="button"
+          data-testid="admin-section-error-retry"
+          className="admin-section-error__retry"
+          aria-label={`${sectionLabel} を再読み込み`}
+          aria-busy={isRetrying ? "true" : "false"}
+          disabled={isRetrying}
+          onClick={() => {
+            if (isRetrying) return;
+            onRetry();
+          }}
+        >
+          {isRetrying ? `${retryLabel}中…` : retryLabel}
+        </button>
+      ) : null}
     </div>
   );
 }
