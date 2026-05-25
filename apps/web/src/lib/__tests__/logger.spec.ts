@@ -57,6 +57,48 @@ describe("logger", () => {
     expect(errorSpy).toHaveBeenCalledTimes(1);
   });
 
+  it("promotes string scope and digest to Sentry tags while keeping extras", () => {
+    const err = new Error("boom");
+    logger.error({
+      event: "error.boundary.caught",
+      scope: "admin",
+      digest: "167275886",
+      error: err,
+    });
+    expect(captureException).toHaveBeenCalledWith(
+      err,
+      expect.objectContaining({
+        tags: expect.objectContaining({
+          event: "error.boundary.caught",
+          runtime: "browser",
+          scope: "admin",
+          digest: "167275886",
+        }),
+        extras: expect.objectContaining({
+          scope: "admin",
+          digest: "167275886",
+        }),
+      }),
+    );
+  });
+
+  it("does not promote non-string scope or digest to Sentry tags", () => {
+    logger.error({
+      event: "error.boundary.caught",
+      scope: 123,
+      digest: { value: "167275886" },
+    });
+    expect(captureException).toHaveBeenCalledWith(
+      expect.any(Error),
+      expect.objectContaining({
+        tags: {
+          event: "error.boundary.caught",
+          runtime: "browser",
+        },
+      }),
+    );
+  });
+
   it("keeps err as a backward-compatible alias for error()", () => {
     const err = new Error("legacy boom");
     logger.error({ event: "legacy", err });
@@ -69,10 +111,18 @@ describe("logger", () => {
   });
 
   it("calls captureMessage with level=warning on warn()", () => {
-    logger.warn({ event: "z" });
+    logger.warn({ event: "z", scope: "admin", digest: "d1" });
     expect(captureMessage).toHaveBeenCalledWith(
       "z",
-      expect.objectContaining({ level: "warning" }),
+      expect.objectContaining({
+        level: "warning",
+        tags: expect.objectContaining({
+          event: "z",
+          runtime: "browser",
+          scope: "admin",
+          digest: "d1",
+        }),
+      }),
     );
     expect(warnSpy).toHaveBeenCalledTimes(1);
   });
