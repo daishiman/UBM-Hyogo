@@ -362,3 +362,48 @@ test -z "$(git status --porcelain | grep '^UU')" && git commit --no-edit
 - `regenerate:static-manifest` / `indexes:rebuild` はいずれも冪等な deterministic 再生成で副作用ゼロ。conflict 残存時の常用処方として安全
 
 詳細: `.claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-dev-sync-merge-conflict-resolution-2026-05.md` §L-DEVSYNC-034 / §L-DEVSYNC-035 / §L-DEVSYNC-036。事例: 2026-05-21 `feat/issue-276-mobile-filterbar-tag-picker` ← dev sync-merge（初回）、2026-05-24 `docs/issue-842-admin-mutation-reliability-policy-spec` ← dev sync-merge（再発を受け sync:resolve に自動化を取り込み）。
+
+## 16. dev sync `apps/web/src/lib/env.ts` 並列 export 追加 conflict（SP-DEVSYNC-034 / L-DEVSYNC-041）
+
+`apps/web/src/lib/env.ts` は `EnvSchema.pick(...)` ベースで領域別 getter（`getEnv` / `getPublicEnv` / `getSecurityHeaderEnv` / `getAuthEnv` / `getPublicFetchEnv` 等）を追加していく拡張点。複数 issue が同 sprint で**独立に新 getter を生やす**と、git は (a) 型・schema 宣言ブロック、(b) `export function` 末尾、(c) test 側の `import` 行 + `it(...)` ブロックの3箇所に分散した 3-way conflict を残す。`pnpm sync:resolve` は spec docs 同様 `env.ts` を union 対象に含めていないため `WARN unhandled conflict` として残る。
+
+### 自律解消手順（union 等価・両側保持）
+
+1. **schema / 型宣言**（`SecurityHeaderEnvSchema` / `AuthEnvSchema` / `ServiceBinding` 等）は両側を順次保持して連結。
+2. **`export function` 群**も両側を順次保持。同名関数の両側 mutation がない限り意味的競合は発生しない。
+3. **test 側 `import` 行** は両側 named import を集約して 1 文に統合（ESLint 設定上 multi-line が許容されているなら multi-line 展開）。例: `import { getAuthEnv, getEnv, getPublicEnv, getPublicFetchEnv, getSecurityHeaderEnv, readRawEnv } from "../env";`
+4. **test 側 `it(...)` ブロック** は両側を順次保持。diff3 が `>>>>>>>` を `describe` 終端の `});` 直前に置きがちなので、二重閉じ `});\n});` を残さない（1 本に整理）。
+5. `grep -n -E '^(<<<<<<<|=======|>>>>>>>|\|\|\|\|\|\|\|)' apps/web/src/lib/env.ts apps/web/src/lib/__tests__/env.spec.ts` が空であることを確認 → `git add` → `git commit --no-edit`。
+
+### 判定基準（union 適用可否）
+
+- ✅ **union 可**: 両側が `EnvSchema` 既存 key の**異なる subset** を `pick` し、**異なる関数名** で export する場合
+- ❌ **union 不可（意味的競合）**: 同一 schema 名・同一関数名への両側 mutation、または同一 EnvSchema key の両側型変更がある場合 → 最終レポート対象（L-DEVSYNC-013 系）
+
+### Why
+
+- 本ファイルは「領域別 getter を追加していく拡張点」として設計されており、独立 getter の並列追加は構造的に頻発する。`getEnv`/`getPublicEnv`/`getSecurityHeaderEnv`/`getAuthEnv`/`getPublicFetchEnv` のように関数名が一意である限り、union 統合で意味は完全保存される
+- `pnpm sync:resolve` の `REGENERATE_TARGETS` には組み込めない（deterministic 再生成ではなく手書きコードのため）。手動 union resolve を最短経路として手順化する
+
+詳細: `.claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-dev-sync-merge-conflict-resolution-2026-05.md` §L-DEVSYNC-041。事例: 2026-05-25 `docs/issue-869-csp-enforce-cutover-spec` ← dev sync-merge（HEAD = `getSecurityHeaderEnv` (#869) / dev = `getAuthEnv` + `getPublicFetchEnv` (#862)）。
+
+## 17. dev sync `patterns-lessons-and-pitfalls.md` 末尾並列 section 追加 conflict（L-DEVSYNC-042）
+
+本 skill の `references/patterns-lessons-and-pitfalls.md` は Phase 12 で促進された新パターンを**末尾に追記**する SSOT。同 sprint で複数 issue から並列に section が増えると、base の最終行で両側 hunk が連続して diff3 が単一ブロックを残す。`pnpm sync:resolve` は本ファイルを `UNION_MERGE_TARGETS` に含めていないため `WARN unhandled conflict` として残る。
+
+### 自律解消手順（union 等価・両側保持）
+
+1. conflict 範囲がファイル末尾 1 箇所に閉じているか確認: `grep -n -E '^(<<<<<<<|=======|>>>>>>>|\|\|\|\|\|\|\|)' .claude/skills/task-specification-creator/references/patterns-lessons-and-pitfalls.md`
+2. 末尾限定なら、HEAD section 本文 → `|||||||` base 行群を破棄 → dev section 本文の順で**両方の section heading + 本文を保持**し marker 3 種（`<<<<<<<` / `|||||||` / `=======` / `>>>>>>>`）を削除。
+3. `grep` でマーカー残ゼロ確認 → `git add <file>` → `git commit --no-edit`。
+
+### 判定基準
+
+- ✅ **union 可**: 範囲が末尾 append-only かつ section heading（`## ...`）が両側で別物。各 section は別 pattern domain で意味的に独立
+- ❌ **union 不可**: 範囲がファイル中央の既存 section 内（同 heading 配下に両側が `-` bullet 追加）→ L-DEVSYNC-030 / table-merge ルールに切替え、bullet 単位の片側採用 union を行う
+
+### 推奨拡張
+
+`scripts/sync/resolve-skill-merge-conflicts.sh` の union-merge 対象に `.claude/skills/*/references/patterns-lessons-and-pitfalls.md` を追加すれば、本パターンも `pnpm sync:resolve` 一発完結に昇格する。
+
+詳細: `.claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-dev-sync-merge-conflict-resolution-2026-05.md` §L-DEVSYNC-042。事例: 2026-05-25 `docs/issue-884-serial06-phase6-topology-sync-backfill` ← dev sync-merge。
