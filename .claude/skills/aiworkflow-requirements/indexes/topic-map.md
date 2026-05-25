@@ -1627,8 +1627,9 @@ node scripts/list-specs.js --topics
 | 認証・認可フロー | L10 |
 | レート制限 | L29 |
 | CORS設定 | L46 |
-| 依存関係セキュリティ | L55 |
-| 関連ドキュメント | L80 |
+| apps/api Response Security Headers | L53 |
+| 依存関係セキュリティ | L70 |
+| 関連ドキュメント | L95 |
 
 ### references/security-electron-ipc-examples.md
 
@@ -3016,6 +3017,12 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | State | L15 |
+
+### references/workflow-issue-870-apps-api-security-headers-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Boundary | L19 |
 
 ### references/workflow-issue-872-google-brand-4tone-icon-and-tokens-exempt-artifact-inventory.md
 
@@ -7572,14 +7579,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L2355 |
-| フェーズ構造（概要） | L2364 |
-| 品質ゲート（概要） | L2395 |
-| 出力テンプレート | L2406 |
-| 実行時のコマンド・エージェント・スキル | L2429 |
-| 昇格パターン集 | L2453 |
-| Current Active / Spec Created Tasks | L2455 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L2616 |
+| ドキュメント構成 | L2368 |
+| フェーズ構造（概要） | L2377 |
+| 品質ゲート（概要） | L2408 |
+| 出力テンプレート | L2419 |
+| 実行時のコマンド・エージェント・スキル | L2442 |
+| 昇格パターン集 | L2466 |
+| Current Active / Spec Created Tasks | L2468 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L2629 |
 
 ### references/task-workflow-backlog-part2.md
 

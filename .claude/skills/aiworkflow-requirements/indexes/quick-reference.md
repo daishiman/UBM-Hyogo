@@ -180,6 +180,20 @@
 | lessons-learned | `.claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-runtime-smoke-staging-mint-recurrence-2026-05.md`（L-RSMR-001..006） |
 | boundary | `STAGING_AUTH_SECRET` 投入による mint path 恒久化・staging runtime rerun・GitHub/Cloudflare secret mutation・commit・push・PR は user-gated |
 
+## issue-870-apps-api-security-headers（2026-05-24）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-870-apps-api-security-headers/` |
+| status | `implemented_local_evidence_captured / implementation / NON_VISUAL` |
+| scope | `apps/api` global response security headers and deny-by-default CORS |
+| implementation | `apps/api/src/middleware/security-headers.ts`, `apps/api/src/index.ts`, `apps/api/src/env.ts`, `apps/api/wrangler.toml` |
+| tests | `apps/api/src/middleware/__tests__/security-headers.spec.ts` |
+| contract | `X-Content-Type-Options: nosniff`, HSTS, `Referrer-Policy: no-referrer`, conditional no-store, exact-origin `ALLOWED_ORIGINS`, credentials true |
+| Phase 12 | strict 7 outputs present |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-870-apps-api-security-headers-artifact-inventory.md` |
+| user gate | staging/production curl, deploy, commit, push, PR |
+
 ## members-page-prototype-alignment（2026-05-23）
 
 | 目的 | 参照先 |
