@@ -1,0 +1,22 @@
+{
+  "task_id": "issue-895-admin-topbar-actions-client-island",
+  "status": "implemented_local_evidence_captured",
+  "updated_at": "2026-05-25T00:00:00+09:00",
+  "canonical_workflow": "docs/30-workflows/issue-895-admin-topbar-actions-client-island/",
+  "phase_11": "outputs/phase-11/manual-test-result.md",
+  "phase_12": [
+    "outputs/phase-12/implementation-guide.md",
+    "outputs/phase-12/system-spec-update-summary.md",
+    "outputs/phase-12/documentation-changelog.md",
+    "outputs/phase-12/unassigned-task-detection.md",
+    "outputs/phase-12/skill-feedback-report.md",
+    "outputs/phase-12/phase12-task-spec-compliance-check.md"
+  ],
+  "implementation_targets": [
+    "apps/web/src/features/admin/components/_layout/AdminTopbarActions.tsx",
+    "apps/web/src/features/admin/components/_layout/__tests__/AdminTopbarActions.spec.tsx",
+    "apps/web/app/(admin)/layout.tsx",
+    "apps/web/app/(admin)/layout.spec.tsx"
+  ],
+  "commit_push_pr": "user_gated"
+}
