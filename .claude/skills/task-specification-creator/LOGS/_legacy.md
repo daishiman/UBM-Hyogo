@@ -2745,3 +2745,7 @@ AC-1〜AC-6 全達成。Phase 10 判定: PASS（MINOR 0件）
 
 - Promoted Issue #836 schema alias recompute trigger feedback into `closed-issue-canonical-workflow-recovery.md`: CLOSED Issue recovery Phase 1 must include current-codebase implementation status and original-assumption/current-reality/optimized-policy tables.
 - Source follow-up 005 is consumed via `docs/30-workflows/completed-tasks/issue-836-schema-alias-recompute-trigger/`.
+# 2026-05-25 issue-903 member runtime evidence
+
+- Added `lessons-learned/issue-903-member-runtime-evidence.md`.
+- Captured guidance for delegated evidence validation, URL-stable route group moves, route-move static invariant drift, runtime scrape selector dedupe, and same-wave system-spec path synchronization.

@@ -3036,6 +3036,15 @@ node scripts/list-specs.js --topics
 | Evidence | L24 |
 | Contract | L34 |
 
+### references/workflow-issue-903-parallel-03-followup-005-member-runtime-evidence-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Workflow | L5 |
+| Code | L14 |
+| Evidence | L25 |
+| Boundary | L39 |
+
 ### references/workflow-light-theme-contrast-regression-guard.md
 
 | セクション | 行 |

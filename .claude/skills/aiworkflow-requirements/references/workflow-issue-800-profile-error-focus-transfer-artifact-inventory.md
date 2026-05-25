@@ -7,8 +7,8 @@
 | shared focus hook | `apps/web/src/lib/a11y/useAutoFocusOnMount.ts` |
 | hook focused test | `apps/web/src/lib/a11y/__tests__/useAutoFocusOnMount.spec.tsx` |
 | root implementation refactor | `apps/web/app/error.tsx` |
-| profile implementation | `apps/web/app/profile/error.tsx` |
-| profile focused test | `apps/web/app/profile/__tests__/error.component.spec.tsx` |
+| profile implementation | `apps/web/app/(member)/profile/error.tsx` |
+| profile focused test | `apps/web/app/(member)/profile/__tests__/error.component.spec.tsx` |
 | login implementation | `apps/web/app/login/error.tsx` |
 | login focused test | `apps/web/app/login/__tests__/error.component.spec.tsx` |
 | admin implementation | `apps/web/app/(admin)/admin/error.tsx` |

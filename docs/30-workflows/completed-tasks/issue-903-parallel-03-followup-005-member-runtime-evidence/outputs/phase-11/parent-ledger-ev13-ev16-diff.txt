@@ -1,0 +1,35 @@
+diff --git a/docs/30-workflows/ui-prototype-design-system-foundation/parallel-03-appshell-layouts/phase-11-evidence-inventory.md b/docs/30-workflows/ui-prototype-design-system-foundation/parallel-03-appshell-layouts/phase-11-evidence-inventory.md
+index fe83b8cb8..380f58cba 100644
+--- a/docs/30-workflows/ui-prototype-design-system-foundation/parallel-03-appshell-layouts/phase-11-evidence-inventory.md
++++ b/docs/30-workflows/ui-prototype-design-system-foundation/parallel-03-appshell-layouts/phase-11-evidence-inventory.md
+@@ -28,10 +28,10 @@ status: spec_created
+ | EV-10 | git diff stat | `outputs/phase-11/evidence-inventory.md` | present | diff summary recorded in outputs evidence inventory |
+ | EV-11 | DOM scrape (public) | `outputs/phase-11/dom-scrape-public.txt` | present | dev server `/members` scrape |
+ | EV-12 | DOM scrape (admin) | `outputs/phase-11/dom-scrape-admin.txt` | present | `pnpm --filter @ubm-hyogo/web exec playwright test playwright/tests/parallel-03-admin-shell-scrape.spec.ts --project=desktop-chromium --reporter=line`（spec が出力先 `parallel-03-appshell-layouts/outputs/phase-11/dom-scrape-admin.txt` を `process.cwd()` 相対の固定 path に書き込む。`PLAYWRIGHT_EVIDENCE_DIR` 等の env 変数には依存しない — L-PAR03-004 path drift 回避）; current grep target: `data-(theme\|route-group\|shell\|route\|testid)=` |
+-| EV-13 | DOM scrape (member) | `outputs/phase-11/dom-scrape-member.txt` | pending | `(member)` route group 内 route 実装後に scrape。`/login` は対象外。serial-05-page-routes-blueprint-binding に委譲 |
++| EV-13 | DOM scrape (member) | `outputs/phase-11/dom-scrape-member.txt` | present | issue-903 で `/profile` を `(member)` route group 配下へ移動し、`parallel-03-member-shell-scrape.spec.ts` で `data-theme="warm"` / `data-route-group="member"` / `data-testid="member-shell"` を取得 |
+ | EV-14 | screenshot (public) | `outputs/phase-11/screenshots/public-shell.png` | present | local dev `/members` Playwright screenshot |
+ | EV-15 | screenshot (admin) | serial-07 admin authenticated capture | pending | admin full chrome screenshot は serial-07-regression-evidence / UT-DSF-07 (#829) に委譲 |
+-| EV-16 | screenshot (member) | serial-07 member route capture | pending | member route 欠如 + full chrome baseline は serial-07-regression-evidence / UT-DSF-07 (#829) に委譲 |
++| EV-16 | screenshot (member) | `outputs/phase-11/screenshots/member-shell.png` | present | issue-903 で `/profile` member shell 1280x800 baseline を取得。full chrome multi-viewport baseline は引き続き serial-07 / UT-DSF-07 (#829) |
+ | EV-17 | screenshot plan | `outputs/phase-11/screenshots/screenshot-plan.json` | present | VISUAL task gate 用に撮影対象・viewport・mode を記録 |
+ | EV-18 | capture metadata | `outputs/phase-11/screenshots/phase11-capture-metadata.json` | present | taskId / route / viewport / capturedAt を記録 |
+ | EV-19 | screenshot coverage | `outputs/phase-11/screenshot-coverage.md` | present | 撮影対象と取得済み PNG の対応表 |
+@@ -47,7 +47,7 @@ status: spec_created
+ | EV-14..16 | | ◯（route 別の補助 screenshot） |
+ | EV-17..20 | ◯ | |
+ 
+-`visualEvidence: VISUAL` workflow なので、Phase 12 に進む前に EV-17..20 を満たす。Admin/member の runtime screenshot は serial-07 に明示委譲し、本サブワークフローは public shell PNG と DOM scrape を present evidence として扱う。EV-12 は `parallel-03-followup-002-admin-runtime-evidence`（Phase 12 完了済み・spec は `docs/30-workflows/completed-tasks/` 配下へ移動済み）で admin runtime DOM scrape を取得済み。画像証跡なしの PASS 相当判定は置かない。
++`visualEvidence: VISUAL` workflow なので、Phase 12 に進む前に EV-17..20 を満たす。EV-12 は `parallel-03-followup-002-admin-runtime-evidence`（Phase 12 完了済み・spec は `docs/30-workflows/completed-tasks/` 配下へ移動済み）で admin runtime DOM scrape を取得済み。EV-13/EV-16 は issue-903 で `/profile` を `(member)` route group 配下へ移動して取得済み。Admin full chrome screenshot と member multi-viewport baseline は serial-07 / UT-DSF-07 (#829) に委譲する。画像証跡なしの PASS 相当判定は置かない。
+ 
+ ## 3. 証跡保存ディレクトリ
+ 
+@@ -83,7 +83,7 @@ docs/30-workflows/ui-prototype-design-system-foundation/parallel-03-appshell-lay
+ 
+ - EV-01..09: 全 step 完了後、Phase 7 ゲート実行時にまとめて取得
+ - EV-10: PR 直前
+-- EV-11..16: DOM scrape / route 別補助 screenshot が必要な場合。EV-12 は `parallel-03-admin-shell-scrape.spec.ts` で取得済み、EV-13/15/16 は上表の委譲先で扱う
++- EV-11..16: DOM scrape / route 別補助 screenshot が必要な場合。EV-12 は `parallel-03-admin-shell-scrape.spec.ts`、EV-13/EV-16 は `parallel-03-member-shell-scrape.spec.ts` で取得済み。EV-15 と full chrome multi-viewport baseline は上表の委譲先で扱う
+ - EV-17..20: Phase 12 着手前に必ず取得または参照先 path と user gate を記録
+ 
+ ## 6. evidence 欠落時のフォールバック
