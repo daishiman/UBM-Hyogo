@@ -4,7 +4,7 @@
 import Link from "next/link";
 import { safeServerFetch } from "../../../../src/lib/admin/safe-server-fetch";
 import { Breadcrumb } from "@/components/admin/Breadcrumb";
-import { AdminSectionError } from "../../../../src/features/admin/components/_shared";
+import { AdminSectionErrorClient } from "../../../../src/features/admin/components/_shared";
 import { SchemaDiffPanel } from "../../../../src/components/admin/SchemaDiffPanel";
 import type { SchemaDiffItem, SchemaDiffListView } from "../../../../src/components/admin/SchemaDiffPanel";
 
@@ -45,7 +45,7 @@ export default async function AdminSchemaPage() {
       {result.ok ? (
         <SchemaDiffPanel initial={result.data} />
       ) : (
-        <AdminSectionError
+        <AdminSectionErrorClient
           sectionLabel="Schema diff"
           code={result.error.code}
           message={result.error.message}

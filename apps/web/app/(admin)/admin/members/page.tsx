@@ -19,7 +19,7 @@ import {
   AdminPageHeader,
   MembersClientShell,
 } from "../../../../src/features/admin/components";
-import { AdminSectionError } from "../../../../src/features/admin/components/_shared";
+import { AdminSectionErrorClient } from "../../../../src/features/admin/components/_shared";
 
 export const dynamic = "force-dynamic";
 
@@ -95,7 +95,7 @@ export default async function AdminMembersPage({
           pageSize={result.data.pageSize ?? PAGE_SIZE}
         />
       ) : (
-        <AdminSectionError
+        <AdminSectionErrorClient
           sectionLabel="会員管理"
           code={result.error.code}
           message={result.error.message}

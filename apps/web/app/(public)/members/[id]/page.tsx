@@ -5,32 +5,60 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
-import { PublicMemberProfileZ } from "@ubm-hyogo/shared";
-
 import { MemberDetail } from "../../../../src/components/public/MemberDetail";
+import { SectionError } from "../../../../src/components/public/SectionError";
 import {
+  PublicMemberProfileWithUnknownKindZ,
   toMemberDetailProps,
   type PublicMemberProfile,
 } from "../../../../src/lib/adapters/member-detail";
-import { fetchPublicOrNotFound } from "../../../../src/lib/fetch/public";
+import {
+  FetchPublicNotFoundError,
+  fetchPublicOrNotFound,
+} from "../../../../src/lib/fetch/public";
+import type { SafeResultError } from "../../../../src/lib/result";
+import { safeServerFetch } from "../../../../src/lib/server-fetch/safe-fetch";
 import { buildPageMetadata } from "@/lib/seo/site-metadata";
 
 export const dynamic = "force-dynamic";
+
+const onUnknownKind =
+  process.env.NODE_ENV === "development"
+    ? (field: PublicMemberProfile["publicSections"][number]["fields"][number]) =>
+        console.warn(
+          "[member-detail] unknown kind",
+          field.kind,
+          field.stableKey,
+        )
+    : undefined;
 
 interface MemberDetailPageProps {
   params: Promise<{ id: string }>;
 }
 
-async function fetchProfile(id: string): Promise<PublicMemberProfile | null> {
+type ProfileFetchResult =
+  | { ok: true; data: PublicMemberProfile }
+  | { ok: false; error: SafeResultError }
+  | null;
+
+async function fetchProfile(id: string): Promise<ProfileFetchResult> {
   try {
-    const raw = await fetchPublicOrNotFound<unknown>(
-      `/public/members/${encodeURIComponent(id)}`,
-      { revalidate: 0 },
+    const result = await safeServerFetch(
+      () =>
+        fetchPublicOrNotFound<unknown>(
+          `/public/members/${encodeURIComponent(id)}`,
+          { revalidate: 0 },
+        ),
+      {
+        codePrefix: "PUBLIC_FETCH",
+        rethrowOn: [FetchPublicNotFoundError],
+      },
     );
+    if (!result.ok) return result;
     // fail-close: zod parse 失敗時は error.tsx boundary で補足
-    return PublicMemberProfileZ.parse(raw);
+    return { ok: true, data: PublicMemberProfileWithUnknownKindZ.parse(result.data) };
   } catch (e) {
-    if (e instanceof Error && e.name === "FetchPublicNotFoundError") {
+    if (e instanceof FetchPublicNotFoundError) {
       return null;
     }
     throw e;
@@ -41,8 +69,8 @@ export async function generateMetadata({
   params,
 }: MemberDetailPageProps): Promise<Metadata> {
   const { id } = await params;
-  const profile = await fetchProfile(id);
-  if (!profile) {
+  const profileResult = await fetchProfile(id);
+  if (!profileResult) {
     return buildPageMetadata({
       title: "メンバーが見つかりません",
       description:
@@ -51,6 +79,16 @@ export async function generateMetadata({
       twitterCard: "summary",
     });
   }
+  if (!profileResult.ok) {
+    return buildPageMetadata({
+      title: "メンバー情報を読み込めません",
+      description:
+        "UBM 兵庫支部会メンバー情報の読み込みに失敗しました",
+      path: `/members/${id}`,
+      twitterCard: "summary",
+    });
+  }
+  const profile = profileResult.data;
   const occ = profile.summary.occupation;
   return buildPageMetadata({
     title: profile.summary.fullName,
@@ -67,11 +105,25 @@ export default async function MemberDetailPage({
   params,
 }: MemberDetailPageProps) {
   const { id } = await params;
-  const profile = await fetchProfile(id);
-  if (!profile) {
+  const profileResult = await fetchProfile(id);
+  if (!profileResult) {
     notFound();
   }
-  const props = toMemberDetailProps(profile);
+  if (!profileResult.ok) {
+    return (
+      <main data-route="public" data-section-rhythm="comfortable">
+        <a href="/members" data-role="back" className="back-link">
+          ← メンバー一覧に戻る
+        </a>
+        <SectionError
+          title="メンバー情報を読み込めませんでした"
+          detail={profileResult.error.message}
+          retryHref={`/members/${encodeURIComponent(id)}`}
+        />
+      </main>
+    );
+  }
+  const props = toMemberDetailProps(profileResult.data, { onUnknownKind });
   return (
     <main data-route="public" data-section-rhythm="comfortable">
       <a href="/members" data-role="back" className="back-link">

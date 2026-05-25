@@ -3,7 +3,7 @@
 // AC-2 の受け先: ?memberId=... を保持する
 import { safeServerFetch } from "../../../../src/lib/admin/safe-server-fetch";
 import { Breadcrumb } from "@/components/admin/Breadcrumb";
-import { AdminSectionError } from "../../../../src/features/admin/components/_shared";
+import { AdminSectionErrorClient } from "../../../../src/features/admin/components/_shared";
 import { TagQueuePanel } from "../../../../src/components/admin/TagQueuePanel";
 import type { TagQueueStatus } from "../../../../src/components/admin/TagQueuePanel";
 
@@ -49,7 +49,7 @@ export default async function AdminTagsPage({
           focusMemberId={focusMemberId ?? null}
         />
       ) : (
-        <AdminSectionError
+        <AdminSectionErrorClient
           sectionLabel="タグキュー"
           code={result.error.code}
           message={result.error.message}

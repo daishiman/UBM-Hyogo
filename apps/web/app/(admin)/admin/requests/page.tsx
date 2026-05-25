@@ -3,7 +3,7 @@
 // 不変条件 #5: server fetch は admin proxy 経由のみ。
 import { safeServerFetch } from "../../../../src/lib/admin/safe-server-fetch";
 import { Breadcrumb } from "@/components/admin/Breadcrumb";
-import { AdminSectionError } from "../../../../src/features/admin/components/_shared";
+import { AdminSectionErrorClient } from "../../../../src/features/admin/components/_shared";
 import {
   RequestQueuePanel,
   type RequestQueueListView,
@@ -50,7 +50,7 @@ export default async function AdminRequestsPage({
           type={type}
         />
       ) : (
-        <AdminSectionError
+        <AdminSectionErrorClient
           sectionLabel="依頼キュー"
           code={result.error.code}
           message={result.error.message}

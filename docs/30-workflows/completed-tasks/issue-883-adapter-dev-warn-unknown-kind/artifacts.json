@@ -1,0 +1,86 @@
+{
+  "task_id": "issue-883-adapter-dev-warn-unknown-kind",
+  "issue": "https://github.com/daishiman/UBM-Hyogo/issues/883",
+  "created_at": "2026-05-25",
+  "status": "implemented_local_evidence_captured",
+  "task_type": "implementation",
+  "visual_category": "NON_VISUAL",
+  "metadata": {
+    "workflow_state": "implemented_local_evidence_captured",
+    "implementation_status": "completed",
+    "taskType": "implementation",
+    "visualEvidence": "NON_VISUAL",
+    "implementationCategory": "standard",
+    "spec_classification": "implementation_spec",
+    "canonical_workflow": "docs/30-workflows/completed-tasks/issue-883-adapter-dev-warn-unknown-kind/",
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-05-25T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-883-adapter-dev-warn-unknown-kind/outputs/phase-12/phase12-task-spec-compliance-check.md",
+        "approver": "daishiman",
+        "notes": "spec_review: Phase 1-13 implementation spec + artifacts.json created; verify gates executed in Phase 11/12"
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "passed",
+        "passed_at": "2026-05-25T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-883-adapter-dev-warn-unknown-kind/outputs/phase-11/focused-tests.log",
+        "approver": "daishiman",
+        "notes": "implementation_review: adapter signature extension, spec +2 cases, page.tsx callback wiring, typecheck/lint/build/DCE-grep evidence captured"
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-883-adapter-dev-warn-unknown-kind/outputs/phase-13/pr-creation-result.md",
+        "approver": "daishiman",
+        "notes": "external_ops: commit, push, PR (--base dev) are user-gated. Issue #883 remains CLOSED (no reopen)."
+      }
+    ]
+  },
+  "phases": [
+    { "phase": 1, "name": "要件定義", "status": "completed", "output": "phase-01-requirements.md" },
+    { "phase": 2, "name": "アーキテクチャ", "status": "completed", "output": "phase-02-architecture.md" },
+    { "phase": 3, "name": "タスク分解", "status": "completed", "output": "phase-03-task-breakdown.md" },
+    { "phase": 4, "name": "コントラクト", "status": "completed", "output": "phase-04-contracts.md" },
+    { "phase": 5, "name": "実装ガイド", "status": "completed", "output": "phase-05-implementation-guide.md" },
+    { "phase": 6, "name": "テスト戦略", "status": "completed", "output": "phase-06-test-strategy.md" },
+    { "phase": 7, "name": "品質ゲート", "status": "completed", "output": "phase-07-quality-gates.md" },
+    { "phase": 8, "name": "Definition of Done", "status": "completed", "output": "phase-08-definition-of-done.md" },
+    { "phase": 9, "name": "リスクと緩和策", "status": "completed", "output": "phase-09-risks-and-mitigations.md" },
+    { "phase": 10, "name": "ローカル検証", "status": "completed", "output": "phase-10-local-verification.md" },
+    { "phase": 11, "name": "証跡インベントリ", "status": "completed", "output": "phase-11-evidence-inventory.md" },
+    { "phase": 12, "name": "ドキュメント同期", "status": "completed", "output": "phase-12-documentation.md" },
+    { "phase": 13, "name": "commit-pr-release", "status": "pending", "output": "phase-13-commit-and-pr.md" }
+  ],
+  "implementation_targets": [
+    "apps/web/src/lib/adapters/member-detail.ts",
+    "apps/web/src/lib/adapters/__tests__/member-detail.spec.ts",
+    "apps/web/app/(public)/members/[id]/page.tsx"
+  ],
+  "outputs": {
+    "phase_11": [
+      "outputs/phase-11/main.md",
+      "outputs/phase-11/manual-smoke-log.md",
+      "outputs/phase-11/link-checklist.md",
+      "outputs/phase-11/typecheck.log",
+      "outputs/phase-11/lint.log",
+      "outputs/phase-11/adapter-test.log",
+      "outputs/phase-11/focused-tests.log",
+      "outputs/phase-11/build.log",
+      "outputs/phase-11/dce-grep.txt",
+      "outputs/phase-11/visual-snapshot-status.md"
+    ],
+    "phase_12": [
+      "outputs/phase-12/main.md",
+      "outputs/phase-12/implementation-guide.md",
+      "outputs/phase-12/system-spec-update-summary.md",
+      "outputs/phase-12/documentation-changelog.md",
+      "outputs/phase-12/unassigned-task-detection.md",
+      "outputs/phase-12/skill-feedback-report.md",
+      "outputs/phase-12/phase12-task-spec-compliance-check.md"
+    ]
+  }
+}
