@@ -1750,9 +1750,9 @@ node scripts/list-specs.js --topics
 |------------|----|
 | Canonical Contract | L3 |
 | Env Boundary | L18 |
-| CSP Nonce Contract | L22 |
-| User-gated Follow-ups | L37 |
-| Workflow | L46 |
+| CSP Nonce Contract | L30 |
+| User-gated Follow-ups | L45 |
+| Workflow | L54 |
 
 ---
 
@@ -3018,6 +3018,8 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | State | L15 |
+
+### references/workflow-issue-869-csp-enforce-cutover-artifact-inventory.md
 
 ### references/workflow-issue-870-apps-api-security-headers-artifact-inventory.md
 

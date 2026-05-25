@@ -5790,6 +5790,7 @@
       "workflow-issue-806-dynamic-member-og-image-artifact-inventory.md",
       "workflow-issue-827-member-detail-adapter-and-visibility-defense-artifact-inventory.md",
       "workflow-issue-863-admin-error-alert-policy-iac-artifact-inventory.md",
+      "workflow-issue-869-csp-enforce-cutover-artifact-inventory.md",
       "workflow-login-page-prototype-alignment-artifact-inventory.md",
       "workflow-members-page-prototype-alignment-artifact-inventory.md",
       "workflow-profile-loading-skeleton-oklch-artifact-inventory.md",
@@ -7533,6 +7534,7 @@
       "workflow-issue-857-internal-alert-relay-binding-wiring-artifact-inventory.md",
       "workflow-issue-863-admin-error-alert-policy-iac-artifact-inventory.md",
       "workflow-issue-864-admin-staging-runtime-smoke-ci-gate-artifact-inventory.md",
+      "workflow-issue-869-csp-enforce-cutover-artifact-inventory.md",
       "workflow-issue-870-apps-api-security-headers-artifact-inventory.md",
       "workflow-issue-871-csp-nonce-migration-artifact-inventory.md",
       "workflow-issue-872-google-brand-4tone-icon-and-tokens-exempt-artifact-inventory.md",
@@ -12822,6 +12824,7 @@
       "workflow-issue-827-member-detail-adapter-and-visibility-defense-artifact-inventory.md",
       "workflow-issue-836-schema-alias-recompute-trigger-artifact-inventory.md",
       "workflow-issue-863-admin-error-alert-policy-iac-artifact-inventory.md",
+      "workflow-issue-869-csp-enforce-cutover-artifact-inventory.md",
       "workflow-login-page-prototype-alignment-artifact-inventory.md",
       "workflow-members-page-prototype-alignment-artifact-inventory.md",
       "workflow-permission-fallback-abort-skip-retry.md",
@@ -14868,6 +14871,7 @@
       "workflow-issue-827-member-detail-adapter-and-visibility-defense-artifact-inventory.md",
       "workflow-issue-836-schema-alias-recompute-trigger-artifact-inventory.md",
       "workflow-issue-863-admin-error-alert-policy-iac-artifact-inventory.md",
+      "workflow-issue-869-csp-enforce-cutover-artifact-inventory.md",
       "workflow-login-page-prototype-alignment-artifact-inventory.md",
       "workflow-members-page-prototype-alignment-artifact-inventory.md",
       "workflow-permission-fallback-abort-skip-retry.md",
@@ -15996,7 +16000,8 @@
       "lessons-learned-issue-514-cf-audit-logs-cold-storage-r2-export-2026-05.md"
     ],
     "enforce": [
-      "lessons-learned-issue-514-cf-audit-logs-cold-storage-r2-export-2026-05.md"
+      "lessons-learned-issue-514-cf-audit-logs-cold-storage-r2-export-2026-05.md",
+      "workflow-issue-869-csp-enforce-cutover-artifact-inventory.md"
     ],
     "ML": [
       "lessons-learned-issue-515-cf-audit-logs-ml-anomaly-2026-05.md",
@@ -24871,6 +24876,7 @@
     ],
     "csp": [
       "workflow-awshh-followup-003-csp-reporting-endpoints-artifact-inventory.md",
+      "workflow-issue-869-csp-enforce-cutover-artifact-inventory.md",
       "workflow-issue-871-csp-nonce-migration-artifact-inventory.md"
     ],
     "reporting": [
@@ -25358,6 +25364,9 @@
     ],
     "iac": [
       "workflow-issue-863-admin-error-alert-policy-iac-artifact-inventory.md"
+    ],
+    "cutover": [
+      "workflow-issue-869-csp-enforce-cutover-artifact-inventory.md"
     ],
     "google": [
       "workflow-issue-872-google-brand-4tone-icon-and-tokens-exempt-artifact-inventory.md"
