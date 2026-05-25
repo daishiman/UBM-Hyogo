@@ -10,6 +10,10 @@ fi
 
 ENV_FILE="${ENV_FILE:-./.env}"
 
+if [ -n "${SENTRY_ALERTS_MOCK_DIR:-}" ] || [ -n "${CF_ALERTS_MOCK_DIR:-}" ]; then
+  exec "$@"
+fi
+
 if command -v op >/dev/null 2>&1 && [ -f "$ENV_FILE" ]; then
   exec op run --env-file="$ENV_FILE" -- "$@"
 else

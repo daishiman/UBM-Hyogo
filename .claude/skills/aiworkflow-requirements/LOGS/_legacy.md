@@ -1040,6 +1040,12 @@ production env monitor secret cleanup は user-gated。
 - Added artifact inventory `references/workflow-admin-ui-prototype-alignment-artifact-inventory.md`.
 - Boundary: no API / D1 schema / Auth.js middleware contract change; runtime screenshots and PR creation are user-gated.
 
+# 2026-05-24 issue-863-admin-error-alert-policy-iac
+
+- Synced `docs/30-workflows/completed-tasks/issue-863-admin-error-alert-policy-iac/` as `implemented_local_runtime_pending / implementation / NON_VISUAL` (moved to completed-tasks on 2026-05-24 after Phase 12 close-out).
+- Implemented logger `scope` / `digest` Sentry tag promotion, `infra/sentry-alerts/` policy/schema/lib/CLI/tests, Sentry drift CI, runbook, CODEOWNERS, package scripts, source one-pager consumed pointer, quick-reference/resource-map/task-workflow-active, changelog, and artifact inventory.
+- Sentry API apply, staging Slack notification smoke, commit, push, and PR remain user-gated. Issue #863 is CLOSED; use `Refs #863` only.
+
 # 2026-05-23 Issue #836 schema alias recompute trigger
 
 - Synced `docs/30-workflows/completed-tasks/issue-836-schema-alias-recompute-trigger/` as `spec_created / implementation / VISUAL / Phase 12 strict 7 present / runtime_pending`.
