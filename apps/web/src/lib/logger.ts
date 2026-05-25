@@ -67,6 +67,19 @@ const RUNTIME_TAG = (): string => {
   return "workers";
 };
 
+function buildSentryTags(
+  fields: LogFields,
+  payload: Record<string, unknown>,
+): Record<string, string> {
+  const tags: Record<string, string> = {
+    event: fields.event,
+    runtime: String(payload.runtime),
+  };
+  if (typeof payload.scope === "string") tags.scope = payload.scope;
+  if (typeof payload.digest === "string") tags.digest = payload.digest;
+  return tags;
+}
+
 function emit(
   level: LogLevel,
   base: Partial<LogFields>,
@@ -94,16 +107,17 @@ function emit(
 
   // Sentry breadcrumb / capture。観測系の失敗をユーザー画面へ伝播させない。
   try {
+    const tags = buildSentryTags(fields, payload);
     if (level === "error") {
       void captureException(fields.error ?? fields.err ?? new Error(fields.event), {
         level: "error",
-        tags: { event: fields.event, runtime: String(payload.runtime) },
+        tags,
         extras: payload,
       });
     } else if (level === "warn") {
       void captureMessage(fields.event, {
         level: "warning",
-        tags: { event: fields.event },
+        tags,
         extras: payload,
       });
     }

@@ -58,6 +58,7 @@ import { createMailNotificationChannel } from "./services/notification/channels/
 import { createNotificationChannelRegistry } from "./services/notification/registry";
 import { buildNotificationMessage } from "./services/notification/templates";
 import { errorHandler, notFoundHandler } from "./middleware/error-handler";
+import { corsFromEnv, securityHeaders } from "./middleware/security-headers";
 import { createPublicRouter } from "./routes/public";
 import { createMeRoute } from "./routes/me";
 import { createSmokeSheetsRoute } from "./routes/admin/smoke-sheets";
@@ -182,6 +183,9 @@ function buildFormsClient(env: FormsClientEnv): GoogleFormsClient {
 }
 
 const app = new Hono<{ Bindings: Env }>();
+
+app.use("*", securityHeaders());
+app.use("*", corsFromEnv());
 
 app.notFound(notFoundHandler);
 app.onError(errorHandler);
