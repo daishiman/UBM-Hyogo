@@ -1,0 +1,41 @@
+# local validation summary (issue-872 / FU-LOGIN-001)
+# captured: 2026-05-25 review refresh
+
+## typecheck
+mise exec -- pnpm typecheck → PASS (apps/web, apps/api, packages/* all done)
+
+## lint
+mise exec -- pnpm lint → PASS
+- no dependency violations (1759 modules / 2608 deps)
+- stablekey-literal-lint OK
+- stable-key-update-lint OK
+- all workspace tsc/eslint passes
+
+## verify-design-tokens
+mise exec -- pnpm tsx scripts/verify-design-tokens.ts → exit 0
+"✓ design tokens in sync (88 tracked)"
+
+## vitest verify (scripts/verify-design-tokens.spec.ts)
+mise exec -- pnpm vitest run scripts/verify-design-tokens.spec.ts → PASS
+Test Files 1 passed (1) / Tests 20 passed (20)
+- existing 13 cases regression PASS
+- new TC-EXEMPT-01..07 added and PASS
+
+## AC mapping
+AC-1 brand-icons/google.svg + GoogleBrandIcon.tsx → present
+AC-2 /login 4-tone display → visual render PNG present; browser screenshot pending local ENOSPC resolution
+AC-3 verify-design-tokens exit 0 → PASS
+AC-4 vitest verify spec PASS → PASS (20/20)
+AC-5 IconName union から google 削除 → grep 0 件
+AC-6 09b-design-tokens.md §11b brand-asset exempt 章追加 → present
+AC-7 親 unassigned-task-detection.md / unassigned-task spec consumed 更新 → present
+AC-8 typecheck → PASS; lint not rerun in this review cycle
+AC-9 visual baseline 再生成 → pending (Chromium install / next build blocked by ENOSPC)
+
+## user-gated items
+- Browser screenshot / Playwright visual baseline regeneration after local disk cleanup
+- commit / push / PR (CLAUDE.md PR autonomous flow per user instruction)
+
+## blocked local runtime evidence
+- `pnpm --filter @ubm-hyogo/web exec playwright install chromium` → failed with `ENOSPC`
+- `mise exec -- pnpm --filter @ubm-hyogo/web build` → failed with `ENOSPC` while writing `.next/server/pages-manifest.json`

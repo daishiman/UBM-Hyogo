@@ -6,7 +6,7 @@
 
 | ID | 内容 | 種別 | 切り出し理由 |
 |----|------|------|---------------|
-| FU-LOGIN-001 | Google brand 4-tone 正規アイコンの導入 + design tokens への brand-color exempt path 追加 | post-MVP candidate | brand guideline 調整・design tokens の exempt rule 議論が独立スコープ。MVP は 1-tone `currentColor` で許容 |
+| FU-LOGIN-001 | Google brand 4-tone 正規アイコンの導入 + design tokens への brand-color exempt path 追加 | consumed by `docs/30-workflows/completed-tasks/issue-872-google-brand-4tone-icon-and-tokens-exempt/` | Issue #872 workflow がローカル実装完了として消費（`apps/web/src/components/ui/brand-icons/google.svg` + `GoogleBrandIcon.tsx` + `verify-design-tokens` brand-asset exempt 追加）。visual baseline 更新・commit/push/PR は user-gated |
 | FU-LOGIN-002 | brand-mark を画像アセット (UBM 公式ロゴ) に差し替え | post-MVP candidate | アセット入稿待ち。"兵" 文字暫定 |
 | FU-LOGIN-003 | staging 環境での visual smoke | infrastructure | consumed by `docs/30-workflows/completed-tasks/issue-874-login-staging-visual-smoke/`。local implementation / helper は同 workflow で反映済み、staging deploy + PNG evidence は user-gated runtime pending |
 | FU-LOGIN-004 | i18n (英語ロケール対応) | future-scope | MVP 範囲外 |
