@@ -291,6 +291,22 @@
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-ui-prototype-alignment-artifact-inventory.md` |
 | user gate | authenticated runtime screenshots, staging refresh, commit, push, PR |
 
+### admin-ui-prototype-alignment follow-up 002 section error retry（2026-05-25）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implementation_reviewed / implementation / NON_VISUAL / local evidence PASS` |
+| 成果物 | `docs/30-workflows/completed-tasks/admin-ui-prototype-alignment-followup-002-section-error-retry/` |
+| issue | `#881` CLOSED。PR 文脈は `Refs #881` のみ |
+| 目的 | `AdminSectionError` を server compatible のまま retry CTA 対応し、`AdminSectionErrorClient` client boundary で `router.refresh()` を注入する実装仕様 |
+| source | `docs/30-workflows/completed-tasks/unassigned-task/admin-ui-prototype-alignment-followup-002-admin-section-error-retry-cta.md` |
+| parent | `docs/30-workflows/admin-ui-prototype-alignment/` |
+| implementation targets | `apps/web/src/features/admin/components/_shared/AdminSectionError.tsx`, `AdminSectionErrorClient.tsx`, `_shared/index.ts`, admin page error JSX, focused component specs |
+| Phase 12 | strict 7 outputs + root/output artifacts parity + local evidence sync present |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-ui-prototype-alignment-followup-002-section-error-retry-artifact-inventory.md` |
+| local evidence | focused Vitest 19 PASS including `jest-axe` violation 0; root lint/typecheck PASS; design-token gate PASS; admin page client-boundary grep PASS |
+| user gate | commit, push, PR |
+
 ### Issue #55 Notification Channel + Opt-out（2026-05-23）
 
 | 項目 | 値 |
