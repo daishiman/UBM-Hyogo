@@ -366,6 +366,18 @@
 - 検証: 本パターンを再現する事例で `mkdir -p` が `Not a directory` で失敗するか、failure 後の `git rev-parse --git-common-dir` リトライで成功するかを Phase 11 evidence に記録する。
 - 参照: aiworkflow-requirements L-DEVSYNC-041（同根の `index.lock` 問題は L-DEVSYNC-026）。
 
+### SP-DEVSYNC-035: 並列 feature の同一 fetch 関数衝突は「Result wrapping 採用 × parser 拡張保持」で機械統合（2026-05-25 追加）
+
+- 事象: dev sync-merge で `apps/web/app/(public)/members/[id]/page.tsx` の `fetchProfile` 内で 3-way conflict。HEAD = issue-883（adapter dev-warn unknown kind）が `PublicMemberProfileWithUnknownKindZ.parse(raw)` へ schema を差し替え、dev = issue-879（safeServerFetch 横展開）が同関数の戻り値を `{ ok: true, data } | { ok: false, error }` の Result 型へ wrapping。`>>>>>>> dev` 側の `result.data` を使う `return` 文と `<<<<<<< HEAD` 側の `raw`（既に削除済み変数）を参照する `return` 文が両側に並ぶ。
+- Why: 「呼び出し規約変更（fetch 戻り値型）」と「副作用追加（unknown kind 警告のための parser 拡張）」は意味的に直交する。Result wrapping の方が呼び出し側 (page 本体) に波及するため上位レイヤーとして優先し、parser 拡張は wrapping 内部の `result.data` を新 parser に通す形で吸収すれば両意図とも保持できる。
+- How to apply（task 仕様書での逐語化）:
+  - fetch 関数 (`safeServerFetch` ラッパー化) と parser 拡張 (`*WithUnknownKindZ`) を同 sprint で並走させる task では、Phase 7 に「両者衝突時の統合手順」を明示する:
+    1. 戻り値型は **dev 側 Result wrapping を採用**（呼び出し側の if 分岐が既に dev に存在するため）
+    2. parse 行は **HEAD 側 `*WithUnknownKindZ.parse(result.data)`** を採用
+    3. 呼び出し側 (page) では `!profileResult.ok` 分岐後、`toMemberDetailProps(profileResult.data, { onUnknownKind })` のように **dev 側 ok 分岐 × HEAD 側 option 引数** を結合
+  - 検証: `grep -E '<<<<<<<|>>>>>>>|=======' <path>` 0 件 + `pnpm typecheck` PASS + 既存 page spec の SectionError 表示 + unknown-kind warn の両方の it ブロックが green。
+- 参照: aiworkflow-requirements L-DEVSYNC-042（同事例の resolver 側パターン）。
+
 ### SP-DEVSYNC-035: `apps/web/src/lib/env.ts` への getter 追加 issue は Phase 5 で「並列 export 追加 conflict」を予告し、merge dry-run を推奨する（2026-05-25 追加）
 
 - 事象: `env.ts` への新 getter / 新 `EnvSchema.pick(...)` 追加が短期間に 3 回連続 conflict した（#869 `getSecurityHeaderEnv` ↔ #862 `getAuthEnv`、#882 `getPublicEnvSafe` ↔ #869、後続 issue も同パターンが想定）。`pnpm sync:resolve` の `REGENERATE_TARGETS` で吸収可能な deterministic artifact と違い、`env.ts` は意味的差分を含むため自動解消対象外で必ず手動 resolve を要する。

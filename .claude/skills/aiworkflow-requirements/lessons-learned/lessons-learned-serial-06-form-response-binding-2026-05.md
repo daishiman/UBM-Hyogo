@@ -32,7 +32,7 @@
   - `apps/web/src/lib/adapters/__tests__/member-detail.spec.ts`（vitest 8 case）
   - `apps/web/app/(public)/members/[id]/page.tsx`（fetch 層）
   - `apps/web/src/components/public/MemberDetail.tsx`（primitive 層）
-  - follow-up: `docs/30-workflows/unassigned-task/serial-06-followup-002-adapter-dev-warn-unknown-kind.md`
+  - follow-up: `docs/30-workflows/completed-tasks/serial-06-followup-002-adapter-dev-warn-unknown-kind.md`
 - **Related**: L-S05-003（既存 primitive + data-* 契約方式）
 
 ## L-S06-003: fixture 配置規約（`apps/web/src/fixtures/`）
@@ -99,6 +99,8 @@
 - 前 sub-workflow lessons: [[lessons-learned-serial-05-page-routes-blueprint-binding-2026-05]]
 - 後続 sub-workflow（予定）: `serial-07-regression-evidence`（19 routes 全体 visual regression owned）
 - follow-up unassigned tasks:
+  - `docs/30-workflows/unassigned-task/serial-06-followup-001-public-segment-error-loading-boundary.md`
+  - `docs/30-workflows/completed-tasks/serial-06-followup-002-adapter-dev-warn-unknown-kind.md`
   - `docs/30-workflows/completed-tasks/serial-06-followup-001-public-segment-error-loading-boundary.md`
   - `docs/30-workflows/unassigned-task/serial-06-followup-002-adapter-dev-warn-unknown-kind.md`
   - `docs/30-workflows/unassigned-task/serial-06-followup-003-phase-6-playwright-topology-sync.md`
