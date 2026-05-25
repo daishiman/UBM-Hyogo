@@ -16,6 +16,7 @@ function rootFromChangedFile(repoRoot: string, filePath: string, opts?: { delete
   if (!first) return null;
   if (first === "unassigned-task") return null;
   if (first === "runbooks") return null;
+  if (first === "issues") return null;
   if (segments.length < 2) return null;
   if (first === "completed-tasks" && segments.length === 2 && segments[1]?.endsWith(".md")) {
     return null;

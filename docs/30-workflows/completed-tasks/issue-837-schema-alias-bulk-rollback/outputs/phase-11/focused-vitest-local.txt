@@ -1,0 +1,16 @@
+# Focused Vitest evidence
+
+Command:
+
+```bash
+mise exec -- pnpm exec vitest run --root=../.. --config=vitest.config.ts apps/web/src/lib/admin/__tests__/api.spec.ts apps/web/src/components/admin/hooks/__tests__/useSchemaDiffBulkRollbackSelection.spec.tsx apps/web/src/components/admin/__tests__/SchemaDiffBulkRollbackModal.component.spec.tsx apps/web/src/components/admin/__tests__/SchemaDiffPanel.component.spec.tsx
+```
+
+Result: PASS
+
+Observed output:
+
+```text
+Test Files  4 passed (4)
+Tests       73 passed (73)
+```

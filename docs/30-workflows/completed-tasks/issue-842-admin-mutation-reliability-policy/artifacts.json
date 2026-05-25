@@ -1,0 +1,77 @@
+{
+  "task_id": "issue-842-admin-mutation-reliability-policy",
+  "issue": "https://github.com/daishiman/UBM-Hyogo/issues/842",
+  "created_at": "2026-05-24",
+  "implemented_at": "2026-05-24",
+  "status": "implemented",
+  "task_type": "implementation",
+  "visual_category": "NON_VISUAL",
+  "metadata": {
+    "workflow_state": "implemented",
+    "implementation_status": "completed",
+    "taskType": "implementation",
+    "visualEvidence": "NON_VISUAL",
+    "implementationCategory": "standard",
+    "spec_classification": "implementation_spec",
+    "canonical_workflow": "docs/30-workflows/completed-tasks/issue-842-admin-mutation-reliability-policy/",
+    "source_one_pager": "docs/30-workflows/completed-tasks/admin-mutation-timeout-policy.md",
+    "parent_workflow": "docs/30-workflows/step-06-meetings-attendance-implementation/",
+    "issue_state": "CLOSED",
+    "pr_reference_style": "Refs #842",
+    "stale_optimizations": [
+      "AC-6: DELETE attendance 未実装のため treat404AsSuccess は汎用 policy 基盤のみ実装。MeetingAttendancePanel は不変",
+      "AC-3: retry は idempotent method 限定・opt-in 既定オフ（現 caller は全て POST/PATCH）",
+      "AC-7: legacy lib/useAdminMutation は 0 caller の dead code のため物理削除（re-export 不能）"
+    ],
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-05-24T00:00:00+09:00",
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-842-admin-mutation-reliability-policy/phase-3-design-review.md",
+        "approver": "daishiman",
+        "notes": "spec_review: Phase 1-13 implementation spec created (design GO). issue staleness optimized to current code"
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "passed",
+        "passed_at": "2026-05-24T09:00:00+09:00",
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-842-admin-mutation-reliability-policy/outputs/phase-11/manual-test-result.md",
+        "approver": "daishiman",
+        "notes": "implementation_review: code implemented, local QA all PASS (typecheck 0 / lint 0 / hooks 46 tests / web 953 passed / build OK). Phase 10 Go. commit/PR/push remain user-gated"
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-842-admin-mutation-reliability-policy/outputs/phase-13/pr-creation-result.md",
+        "approver": "daishiman",
+        "notes": "external_ops: commit, push, PR are user-gated"
+      }
+    ]
+  },
+  "phases": [
+    { "phase": 1, "name": "要件定義", "status": "implemented", "output": "phase-1-requirements.md" },
+    { "phase": 2, "name": "設計", "status": "implemented", "output": "phase-2-design.md" },
+    { "phase": 3, "name": "設計レビュー", "status": "implemented", "output": "phase-3-design-review.md" },
+    { "phase": 4, "name": "テスト計画", "status": "implemented", "output": "phase-4-test-plan.md" },
+    { "phase": 5, "name": "実装手順", "status": "implemented", "output": "phase-5-implementation.md" },
+    { "phase": 6, "name": "テスト拡充", "status": "implemented", "output": "phase-6-test-additions.md" },
+    { "phase": 7, "name": "カバレッジ確認", "status": "implemented", "output": "phase-7-coverage.md" },
+    { "phase": 8, "name": "リファクタリング", "status": "implemented", "output": "phase-8-refactor.md" },
+    { "phase": 9, "name": "品質保証", "status": "implemented", "output": "phase-9-qa.md" },
+    { "phase": 10, "name": "最終レビュー", "status": "implemented", "output": "phase-10-final-review.md" },
+    { "phase": 11, "name": "手動テスト", "status": "implemented", "output": "phase-11-manual-test.md" },
+    { "phase": 12, "name": "ドキュメント更新", "status": "implemented", "output": "phase-12-documentation.md" },
+    { "phase": 13, "name": "PR作成", "status": "pending", "output": "phase-13-pr.md" }
+  ],
+  "implementation_targets": [
+    "apps/web/src/features/admin/hooks/useAdminMutation.ts",
+    "apps/web/src/features/admin/hooks/useConfirmDialog.ts",
+    "apps/web/src/features/admin/hooks/index.ts",
+    "apps/web/src/features/admin/hooks/__tests__/useAdminMutation.spec.ts",
+    "apps/web/src/features/admin/hooks/__tests__/useConfirmDialog.spec.tsx",
+    "apps/web/src/lib/useAdminMutation.ts (DELETE)",
+    "apps/web/src/lib/__tests__/useAdminMutation.spec.tsx (DELETE)"
+  ]
+}

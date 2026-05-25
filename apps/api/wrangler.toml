@@ -52,7 +52,12 @@ name = "ubm-hyogo-api"
 ENVIRONMENT = "production"
 ALLOWED_ORIGINS = "https://ubm-hyogo-web-production.daishimanju.workers.dev,https://www.ubm-hyogo.com"
 MAIL_FROM_ADDRESS = "noreply@ubm-hyogo.example"
+# issue-838 — schema alias rollback の運用通知先 (mail fallback)。
+# 空のままなら mail fallback は config gate で skip される (Slack 優先)。
+OPS_NOTIFICATION_EMAIL = ""
 AUTH_URL = "https://api.ubm-hyogo.workers.dev"
+# issue-857: SA key expiry healthcheck self-subrequest target for /internal/alert-relay.
+API_INTERNAL_BASE_URL = "https://api.ubm-hyogo.workers.dev"
 SHEET_ID = "10XQqUko2A5jFXT-J0ibvPt3KUX56divqEk6kDccH5vw"
 FORM_ID = "119ec539YYGmkUEnSYlhI-zMXtvljVpvDFMm7nfhp7Xg"
 GOOGLE_FORM_ID = "119ec539YYGmkUEnSYlhI-zMXtvljVpvDFMm7nfhp7Xg"
@@ -134,7 +139,12 @@ name = "ubm-hyogo-api-staging"
 ENVIRONMENT = "staging"
 ALLOWED_ORIGINS = "https://ubm-hyogo-web-staging.daishimanju.workers.dev"
 MAIL_FROM_ADDRESS = "noreply@staging.ubm-hyogo.example"
+# issue-838 — schema alias rollback の運用通知先 (mail fallback)。
+# 空のままなら mail fallback は config gate で skip される (Slack 優先)。
+OPS_NOTIFICATION_EMAIL = ""
 AUTH_URL = "https://api-staging.ubm-hyogo.workers.dev"
+# issue-857: SA key expiry healthcheck self-subrequest target for /internal/alert-relay.
+API_INTERNAL_BASE_URL = "https://api-staging.ubm-hyogo.workers.dev"
 SHEET_ID = "10XQqUko2A5jFXT-J0ibvPt3KUX56divqEk6kDccH5vw"
 FORM_ID = "119ec539YYGmkUEnSYlhI-zMXtvljVpvDFMm7nfhp7Xg"
 GOOGLE_FORM_ID = "119ec539YYGmkUEnSYlhI-zMXtvljVpvDFMm7nfhp7Xg"

@@ -1,0 +1,18 @@
+Command:
+git status --short
+
+Result:
+M .claude/skills/aiworkflow-requirements/LOGS/_legacy.md
+M .claude/skills/aiworkflow-requirements/SKILL-changelog.md
+M .claude/skills/aiworkflow-requirements/SKILL.md
+M .claude/skills/aiworkflow-requirements/indexes/keywords.json
+M .claude/skills/aiworkflow-requirements/indexes/quick-reference.md
+M .claude/skills/aiworkflow-requirements/indexes/resource-map.md
+M .claude/skills/aiworkflow-requirements/indexes/topic-map.md
+M .claude/skills/aiworkflow-requirements/references/task-workflow-active.md
+?? .claude/skills/aiworkflow-requirements/changelog/20260524-step-08-audit-filter-paging-verify.md
+?? .claude/skills/aiworkflow-requirements/references/workflow-step-08-audit-filter-paging-verify-artifact-inventory.md
+?? docs/30-workflows/step-08-audit-filter-paging-verify/
+
+Interpretation:
+Only workflow documentation/evidence and aiworkflow-requirements same-wave sync files are dirty. apps/ and packages/ have no dirty files.

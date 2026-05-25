@@ -10,6 +10,8 @@ export type ConfirmKind = "approve" | "reject" | "delete" | "remove";
 export interface UseConfirmDialogOptions {
   readonly requireNote?: boolean;
   readonly maxNoteLength?: number;
+  /** dialog close（キャンセル）時に進行中 mutation を止めるコールバック（例: `useAdminMutation().abort`）。 */
+  readonly onCancelMutation?: () => void;
 }
 
 export interface UseConfirmDialogState {
@@ -46,6 +48,10 @@ export function useConfirmDialog(
   useEffect(() => {
     onSubmitRef.current = onSubmit;
   }, [onSubmit]);
+  const onCancelMutationRef = useRef(options.onCancelMutation);
+  useEffect(() => {
+    onCancelMutationRef.current = options.onCancelMutation;
+  }, [options.onCancelMutation]);
 
   const requireNoteOpt = options.requireNote;
   const maxNoteLengthOpt = options.maxNoteLength;
@@ -70,7 +76,14 @@ export function useConfirmDialog(
   }, []);
 
   const closeConfirm = useCallback(() => {
-    setState((s) => (s.submitting ? s : INITIAL));
+    setState((s) => {
+      if (s.submitting) {
+        // submit 中の close = 明示キャンセル。進行中 mutation を abort して dialog も閉じる。
+        onCancelMutationRef.current?.();
+        return INITIAL;
+      }
+      return s.open ? INITIAL : s;
+    });
   }, []);
 
   const setNote = useCallback((note: string) => {
