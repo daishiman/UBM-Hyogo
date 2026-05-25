@@ -632,3 +632,11 @@
   4. `grep -n -E '^(<<<<<<<|=======|>>>>>>>|\|\|\|\|\|\|\|)' <file>` が空であることを確認 → `git add <file>` → `git commit --no-edit`。
 - 留意: 範囲が table 本体（§Current Alias Overrides / §Family Summary / §Task Root Path Drift Register）に及ぶ場合は table-merge ルール（L-DEVSYNC-032 / L-DEVSYNC-033）に切替え、行単位の片側採用 union を行うこと。先頭 quote block 限定の本パターンとは別系統である。
 - 事例: 2026-05-24 `docs/parallel-03-admin-runtime-evidence` への dev sync-merge。`pnpm sync:resolve` で `indexes/topic-map.md` は union 自動解消、`legacy-ordinal-family-register.md` のみ unhandled として残置。本ルールに従い HEAD 側 parallel-03-followup-002 NOTE と dev 側 mypage-prototype-alignment NOTE の両方を保持し、`> 最終更新日:` を `2026-05-24` で統一。`grep` でマーカー残ゼロ確認後 `git commit --no-edit` で merge commit 完了。後続 `verify-pr-ready` で `indexes:rebuild drift` を検出（topic-map.md 9 行差分）したため独立 chore commit で解消（L-DEVSYNC-036 既知パターン）。
+
+## L-DEVSYNC-037: `static-manifest.json` 再生成は `sync:resolve` に組み込みで自動化（2026-05-24 追加）
+
+- 症状: 2026-05-21 (L-DEVSYNC-034) に続き、2026-05-24 `docs/issue-842-admin-mutation-reliability-policy-spec` ← dev sync-merge でも `apps/api/src/repository/_shared/generated/static-manifest.json` が `[WARN] unhandled conflict` で残置。手動 `pnpm regenerate:static-manifest` + `git add` を毎回行う必要があり、L-DEVSYNC-034 の自動化候補が未実装のままだった。
+- 解消: `scripts/sync/resolve-skill-merge-conflicts.sh` に `REGENERATE_TARGETS` 配列を新設（`<path>|<regenerate command>` 形式）。`apply_regenerate[]` に集約し、本体処理の最後で `git checkout --theirs <path>` → `eval <regenerate command>` → `git add <path>` を自動実行する。`static-manifest.json` 以外の deterministic generated artifact も配列に追記するだけで同様に自動吸収できる。
+- Why: 本ファイルは `apps/api/src/repository/_shared/source-spec/*` から hash 化生成される deterministic artifact。手動工程化しても結果は一意なので、resolver に組み込んで dev sync prompt の自律判断ルール B 内で完結させる方が漏れない。`git checkout --theirs` を起点にするのは、ours の hash が古いことが多く再生成後の diff が増えるのを避けるため（再生成結果は theirs/ours どちらが起点でも spec が同一なら同一になる）。
+- How to apply: dev sync prompt 自律判断ルール B の resolver 後処理で `pnpm sync:resolve` 一発を期待する。`^UU` 残のうち `static-manifest.json` は呼ばずに済むようになった。新規 deterministic artifact が conflict 対象に増えた場合は `REGENERATE_TARGETS` 配列にエントリ追加する（task-specification-creator skill §15 と対応）。
+- 事例: 2026-05-24 `docs/issue-842-admin-mutation-reliability-policy-spec` ← dev sync-merge。初回は手動 regenerate で吸収後、同 commit 内で resolver 拡張をスキル反映として実装。task-specification-creator skill 側 `pr-pre-flight-ci-gate-checklist.md` §15 を「`sync:resolve` 一発完結」に更新済み。
