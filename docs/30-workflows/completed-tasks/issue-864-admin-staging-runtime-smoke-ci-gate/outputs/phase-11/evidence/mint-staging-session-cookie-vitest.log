@@ -1,0 +1,11 @@
+
+ RUN  v2.1.9 /Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260524-124324-wt-9
+
+ ✓ scripts/smoke/__tests__/mint-staging-session-cookie.spec.ts (5 tests) 641ms
+   ✓ mintStagingSessionCookie > creates the Auth.js session cookie name used by middleware 350ms
+
+ Test Files  1 passed (1)
+      Tests  5 passed (5)
+   Start at  15:56:56
+   Duration  78.90s (transform 8.71s, setup 0ms, collect 12.01s, tests 641ms, environment 19.46s, prepare 7.75s)
+

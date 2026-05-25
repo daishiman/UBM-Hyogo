@@ -1,0 +1,8 @@
+PASS [arg-required]
+PASS [staging-only]
+PASS [admin-pass]
+PASS [redirect]
+PASS [forbidden]
+PASS [body-render-error]
+PASS [tail-render-error]
+runtime-admin-web tests PASS

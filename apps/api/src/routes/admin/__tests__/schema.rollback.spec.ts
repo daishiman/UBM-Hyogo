@@ -240,7 +240,7 @@ describe("admin schema rollback route", () => {
     // audit_log に rollback 記録
     const audit = await env.db
       .prepare(
-        `SELECT action, after_json FROM audit_log WHERE target_type = 'schema_alias' AND target_id = 'a-ok' ORDER BY created_at DESC LIMIT 1`,
+        `SELECT action, after_json FROM audit_log WHERE target_type = 'schema_alias' AND target_id = 'a-ok' AND action = 'schema_alias.rollback' ORDER BY created_at DESC LIMIT 1`,
       )
       .first<{ action: string; after_json: string }>();
     expect(audit?.action).toBe("schema_alias.rollback");
@@ -251,6 +251,40 @@ describe("admin schema rollback route", () => {
     };
     expect(after.reason).toBe("operator typo");
     expect(after.rolledBackAt).toBeTruthy();
+  });
+
+  it("200 successful rollback records skipped notification audit without breaking rollback", async () => {
+    await insertAlias(env, "a-skip", { aliasQuestionId: "q-skip", version: 1 });
+    const app = createAdminSchemaRoute();
+    const res = await app.request(
+      "/schema/aliases/a-skip/rollback",
+      {
+        method: "POST",
+        headers: {
+          ...(await adminAuthHeader()),
+          "If-Match": "version=1",
+          "content-type": "application/json",
+        },
+        body: JSON.stringify({}),
+      },
+      makeEnv(env),
+    );
+    expect(res.status).toBe(200);
+    const audit = await env.db
+      .prepare(
+        `SELECT action, after_json FROM audit_log
+         WHERE target_type = 'schema_alias' AND target_id = 'a-skip'
+           AND action = 'schema_alias.rollback_notification'
+         ORDER BY created_at DESC LIMIT 1`,
+      )
+      .first<{ action: string; after_json: string }>();
+    expect(audit?.action).toBe("schema_alias.rollback_notification");
+    const after = JSON.parse(audit?.after_json ?? "{}") as {
+      status?: string;
+      channel?: string;
+      attempts?: number;
+    };
+    expect(after).toMatchObject({ status: "skipped", channel: "none", attempts: 0 });
   });
 
   it("impact: response_fields の件数を返す", async () => {
