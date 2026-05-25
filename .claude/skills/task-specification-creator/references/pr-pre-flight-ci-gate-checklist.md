@@ -386,3 +386,24 @@ test -z "$(git status --porcelain | grep '^UU')" && git commit --no-edit
 - `pnpm sync:resolve` の `REGENERATE_TARGETS` には組み込めない（deterministic 再生成ではなく手書きコードのため）。手動 union resolve を最短経路として手順化する
 
 詳細: `.claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-dev-sync-merge-conflict-resolution-2026-05.md` §L-DEVSYNC-041。事例: 2026-05-25 `docs/issue-869-csp-enforce-cutover-spec` ← dev sync-merge（HEAD = `getSecurityHeaderEnv` (#869) / dev = `getAuthEnv` + `getPublicFetchEnv` (#862)）。
+
+## 17. dev sync `patterns-lessons-and-pitfalls.md` 末尾並列 section 追加 conflict（L-DEVSYNC-042）
+
+本 skill の `references/patterns-lessons-and-pitfalls.md` は Phase 12 で促進された新パターンを**末尾に追記**する SSOT。同 sprint で複数 issue から並列に section が増えると、base の最終行で両側 hunk が連続して diff3 が単一ブロックを残す。`pnpm sync:resolve` は本ファイルを `UNION_MERGE_TARGETS` に含めていないため `WARN unhandled conflict` として残る。
+
+### 自律解消手順（union 等価・両側保持）
+
+1. conflict 範囲がファイル末尾 1 箇所に閉じているか確認: `grep -n -E '^(<<<<<<<|=======|>>>>>>>|\|\|\|\|\|\|\|)' .claude/skills/task-specification-creator/references/patterns-lessons-and-pitfalls.md`
+2. 末尾限定なら、HEAD section 本文 → `|||||||` base 行群を破棄 → dev section 本文の順で**両方の section heading + 本文を保持**し marker 3 種（`<<<<<<<` / `|||||||` / `=======` / `>>>>>>>`）を削除。
+3. `grep` でマーカー残ゼロ確認 → `git add <file>` → `git commit --no-edit`。
+
+### 判定基準
+
+- ✅ **union 可**: 範囲が末尾 append-only かつ section heading（`## ...`）が両側で別物。各 section は別 pattern domain で意味的に独立
+- ❌ **union 不可**: 範囲がファイル中央の既存 section 内（同 heading 配下に両側が `-` bullet 追加）→ L-DEVSYNC-030 / table-merge ルールに切替え、bullet 単位の片側採用 union を行う
+
+### 推奨拡張
+
+`scripts/sync/resolve-skill-merge-conflicts.sh` の union-merge 対象に `.claude/skills/*/references/patterns-lessons-and-pitfalls.md` を追加すれば、本パターンも `pnpm sync:resolve` 一発完結に昇格する。
+
+詳細: `.claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-dev-sync-merge-conflict-resolution-2026-05.md` §L-DEVSYNC-042。事例: 2026-05-25 `docs/issue-884-serial06-phase6-topology-sync-backfill` ← dev sync-merge。

@@ -688,6 +688,18 @@
 - 留意: broad-catch は test 作成時には「漏れなく検知できる」という安心感があるが、monorepo の dev 進化速度が高い本 repo では確実に fragile。新規 e2e test review checklist に「`page.on('console'|'pageerror')` の未 filter assertion がないか」を入れる。
 - 事例: 2026-05-25 `fix/issue-882` で `TERMS_ENV_ERROR_PATTERNS = [/ZodError/i, /Invalid environment/i, /env\.ts/i, /terms.*prefetch/i, /prefetch.*terms/i]` + `isTermsEnvError(text)` helper を導入して CSP report-only noise を除外。再 push で CI green。task-specification-creator skill SP-DEVSYNC-036 と対応。
 
+## L-DEVSYNC-042: `patterns-lessons-and-pitfalls.md` 末尾並列 section 追加は両側保持 union で機械統合可能（2026-05-25 追加）
+
+- 事象: dev sync-merge で `.claude/skills/task-specification-creator/references/patterns-lessons-and-pitfalls.md` が `WARN unhandled conflict`。HEAD 側（issue-884 serial06 Phase6 topology sync 系）が「Playwright / Server Component topology」section を、dev 側（issue-879 safe-server-fetch / issue-872 brand asset）が「layer-specific helper の horizontal expansion」「Design-token exempt artifact」 2 section を、いずれもファイル末尾の append-only として追加。base は同末尾行で両側 hunk が連続するため diff3 が単一ブロック化する。
+- Why: 本ファイルは Phase 12 で促進された新パターンを末尾に追記する SSOT 兼 lesson 集積簿で、同 sprint で複数 issue から並列に section が増える。各 section は意味的に独立（別 pattern domain）で union 等価で安全に統合できる。
+- How to apply:
+  1. resolver で `WARN unhandled conflict: .claude/skills/task-specification-creator/references/patterns-lessons-and-pitfalls.md` を見たら、conflict 範囲がファイル末尾 1 箇所に閉じているか `grep -n -E '^(<<<<<<<|=======|>>>>>>>|\|\|\|\|\|\|\|)' <file>` で確認。
+  2. 範囲末尾限定なら、HEAD 側 section → `|||||||` base 行群を破棄 → dev 側 section の順で**両方の section 本文を保持**し marker 3 種を全削除する。section heading（`## ...`）が両側で独立していれば衝突しない。
+  3. `grep` でマーカー残ゼロ確認 → `git add <file>` → merge commit を `git commit --no-edit` で確定。
+- 留意: 範囲がファイル中央の既存 section 内に入り込む場合（同じ heading 配下に両側が `-` bullet を追加するパターン）は union が崩れやすい。その場合は L-DEVSYNC-030 / table-merge ルールに切替えて bullet 単位の片側採用 union を行う。本パターンは「末尾 append-only かつ section heading が別物」の場合に限り成立する。
+- 推奨拡張: `scripts/sync/resolve-skill-merge-conflicts.sh` の `UNION_MERGE_TARGETS` 系候補として `.claude/skills/*/references/patterns-lessons-and-pitfalls.md` を追加すれば、本パターンも `pnpm sync:resolve` 一発完結に昇格できる（次回 resolver 拡張時の TODO）。
+- 事例: 2026-05-25 `docs/issue-884-serial06-phase6-topology-sync-backfill` ← dev sync-merge。HEAD 末尾の Playwright topology section と dev 末尾の helper / brand asset 2 section を両側保持で union 統合。conflict marker grep 0 確認後 merge commit、`bash scripts/verify-pr-ready.sh` 一発 PASS で push 成功。
+
 ## L-DEVSYNC-042: `feat/admin-section-error-retry` ← dev sync-merge は skill indexes 3 件のみで `pnpm sync:resolve` 完結（2026-05-25 追加・happy-path 再確認）
 
 - 事象: `feat/admin-section-error-retry`（HEAD = AdminSectionErrorClient + L-ASR-001..005 / L-RSC-001..005 反映）に dev（#869 CSP enforce cutover / #871 CSP nonce / #872 Google brand icon / etc.）を取り込んだ際、conflict は `.claude/skills/aiworkflow-requirements/indexes/{quick-reference,resource-map,topic-map}.md` の 3 件のみで、`pnpm sync:resolve` 一発で union 解消 → `git add -A` → `git commit -m "merge: sync <branch> with dev"` で完結。CLAUDE.md sync-merge セクションの「pre-commit `staged-task-dir-guard` / pre-push `coverage-guard` が `MERGE_HEAD` 検出で自動 skip」が機能し `--no-verify` 不要。`pnpm typecheck` / `pnpm lint` いずれも green。
