@@ -1,5 +1,19 @@
 # クイックリファレンス
 
+## awshh-followup-003-csp-reporting-endpoints（2026-05-24）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/awshh-followup-003-csp-reporting-endpoints/` |
+| 状態 | `implemented_local_evidence_captured / implementation / NON_VISUAL` |
+| issue | #868 CLOSED; PR should use `Refs #868`; issue mutation / commit / push / PR are user-gated |
+| scope | apps/web CSP report-only observation path。`Reporting-Endpoints`、CSP `report-to`、legacy `report-uri` を出力し、Sentry CSP security endpoint へ集約 |
+| implementation | `apps/web/src/lib/security-headers.ts`, `apps/web/src/lib/env.ts`, `apps/web/middleware.ts`, `apps/web/src/lib/security-headers.spec.ts`, `apps/web/src/lib/__tests__/env.spec.ts` |
+| contract | 新規 CSP 専用 URL env は増やさず、既存 public `NEXT_PUBLIC_SENTRY_DSN` から `buildSentryCspReportUrl()` で endpoint を導出。未設定 / 不正 DSN は report 系未出力 |
+| boundary | `apps/api` / D1 / `apps/web/wrangler.toml` は不変更。staging deploy、Sentry 受信確認、commit、push、PR は user-gated |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-awshh-followup-003-csp-reporting-endpoints-artifact-inventory.md` |
+| lessons | `.claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-awshh-followup-003-csp-reporting-endpoints-2026-05.md` |
+
 ### Issue #864 admin staging runtime smoke CI gate（2026-05-24）
 
 | 項目 | 値 |

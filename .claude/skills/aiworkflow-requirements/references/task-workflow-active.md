@@ -196,6 +196,20 @@
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-apps-web-security-headers-hardening-artifact-inventory.md` |
 | user gate | staging/production response verification, commit, push, PR |
 
+### awshh-followup-003-csp-reporting-endpoints（2026-05-24）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / NON_VISUAL` |
+| 成果物 | `docs/30-workflows/completed-tasks/awshh-followup-003-csp-reporting-endpoints/` |
+| Issue | #868 CLOSED（再オープンしない、PR 文脈は `Refs #868`） |
+| 目的 | CSP Report-Only の違反レポート送信先を Sentry CSP security endpoint へ集約し、U-AWSHH-001 enforce 切替の観測前提を作る |
+| implementation targets | `apps/web/src/lib/security-headers.ts`, `apps/web/src/lib/env.ts`, `apps/web/middleware.ts`, `apps/web/src/lib/security-headers.spec.ts`, `apps/web/src/lib/__tests__/env.spec.ts` |
+| contract | `Reporting-Endpoints: csp-endpoint="..."` と CSP `report-to csp-endpoint` / `report-uri <url>` を同一 `CSP_REPORT_GROUP` と同一導出 URL から出力する。Sentry endpoint は既存 public `NEXT_PUBLIC_SENTRY_DSN` から導出し、新規 CSP 専用 URL env は作らない |
+| boundary | `apps/api` / D1 / `apps/web/wrangler.toml` は不変更。staging deploy、Sentry 受信確認、commit、push、PR は user-gated |
+| source consumed | `docs/30-workflows/completed-tasks/unassigned-task/awshh-followup-003-reporting-endpoints.md` |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-awshh-followup-003-csp-reporting-endpoints-artifact-inventory.md` |
+
 ### ci-green-recovery-smoke-coverage-shard（2026-05-23）
 
 | 項目 | 値 |
