@@ -23,6 +23,36 @@
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-883-adapter-dev-warn-unknown-kind-artifact-inventory.md` |
 | user gate | commit / push / PR |
 
+### Issue #882 terms prefetch env validation fix（2026-05-25）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / NON_VISUAL` |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-882-terms-prefetch-env-validation-fix/` |
+| Issue | #882 CLOSED。PR 文脈は `Refs #882` のみ |
+| source | `docs/30-workflows/completed-tasks/home-page-prototype-alignment-followup-001-terms-prefetch-env-validation.md` consumed |
+| 目的 | `/` の JS 有効 hydration 中に `/terms` RSC prefetch が root metadata env validation throw で 500 になる経路を解消する |
+| implementation targets | `apps/web/src/lib/env.ts`, `apps/web/src/lib/seo/site-metadata.ts`, `apps/web/src/lib/__tests__/env.spec.ts`, `apps/web/src/lib/seo/__tests__/site-metadata.spec.ts`, `apps/web/playwright/tests/terms-prefetch.spec.ts` |
+| system spec | `docs/00-getting-started-manual/specs/05-pages.md` |
+| invariant | `getEnv()` / `getPublicEnv()` の throw 契約と EnvSchema 必須項目は変更しない。metadata generation のみ `getPublicEnvSafe()` + local fallback + noindex にする。 |
+| evidence | web Vitest 1030 PASS、web typecheck PASS、web lint PASS、Playwright `/terms` prefetch smoke PASS |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-882-terms-prefetch-env-validation-fix-artifact-inventory.md` |
+| user gate | commit, push, PR, staging deploy |
+
+### Issue #880 public segment error/loading boundary（2026-05-24）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION` |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-880-public-segment-error-loading-boundary/` |
+| 目的 | `(public)` route group 専用の `error.tsx` / `loading.tsx` と Playwright force-throw smoke を実装し、serial-06 precondition drift を解消する |
+| parent | `docs/30-workflows/ui-prototype-design-system-foundation/serial-06-form-response-binding/` |
+| implementation targets | `apps/web/app/(public)/error.tsx`, `apps/web/app/(public)/loading.tsx`, `apps/web/app/(public)/error-boundary-smoke/page.tsx`, `apps/web/playwright/tests/public-error-boundary.spec.ts` |
+| Phase 11/12 | screenshot + focused Playwright report captured; strict 7 present |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-880-public-segment-error-loading-boundary-artifact-inventory.md` |
+| lessons-learned | `.claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-issue-880-public-segment-error-loading-boundary-2026-05.md`（L-PUBERR-001..003） |
+| user gate | commit, push, PR, GitHub issue mutation |
+
 ### issue-879-safe-server-fetch-member-public-horizontal-expansion（2026-05-24）
 
 | 項目 | 値 |
@@ -292,6 +322,22 @@
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-ui-prototype-alignment-artifact-inventory.md` |
 | user gate | authenticated runtime screenshots, staging refresh, commit, push, PR |
 
+### admin-ui-prototype-alignment follow-up 002 section error retry（2026-05-25）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implementation_reviewed / implementation / NON_VISUAL / local evidence PASS` |
+| 成果物 | `docs/30-workflows/completed-tasks/admin-ui-prototype-alignment-followup-002-section-error-retry/` |
+| issue | `#881` CLOSED。PR 文脈は `Refs #881` のみ |
+| 目的 | `AdminSectionError` を server compatible のまま retry CTA 対応し、`AdminSectionErrorClient` client boundary で `router.refresh()` を注入する実装仕様 |
+| source | `docs/30-workflows/completed-tasks/unassigned-task/admin-ui-prototype-alignment-followup-002-admin-section-error-retry-cta.md` |
+| parent | `docs/30-workflows/admin-ui-prototype-alignment/` |
+| implementation targets | `apps/web/src/features/admin/components/_shared/AdminSectionError.tsx`, `AdminSectionErrorClient.tsx`, `_shared/index.ts`, admin page error JSX, focused component specs |
+| Phase 12 | strict 7 outputs + root/output artifacts parity + local evidence sync present |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-ui-prototype-alignment-followup-002-section-error-retry-artifact-inventory.md` |
+| local evidence | focused Vitest 19 PASS including `jest-axe` violation 0; root lint/typecheck PASS; design-token gate PASS; admin page client-boundary grep PASS |
+| user gate | commit, push, PR |
+
 ### Issue #55 Notification Channel + Opt-out（2026-05-23）
 
 | 項目 | 値 |
@@ -552,7 +598,7 @@
 
 | 項目 | 値 |
 | --- | --- |
-| ステータス | `spec_created / implementation / VISUAL_ON_EXECUTION / runtime_pending` |
+| ステータス | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION / runtime_pending` |
 | 成果物 | `docs/30-workflows/issue-819-admin-dashboard-runtime-screenshot/` |
 | source issue | `#819` closed 維持。PR 文脈は `Refs #819` のみ |
 | source unassigned | `docs/30-workflows/unassigned-task/step-05-followup-001-admin-dashboard-runtime-screenshot-capture.md` |

@@ -14,6 +14,51 @@
 | inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-883-adapter-dev-warn-unknown-kind-artifact-inventory.md` |
 | boundary | commit, push, PR are user-gated |
 
+## Issue #882 terms prefetch env validation fix（2026-05-25）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-882-terms-prefetch-env-validation-fix/` |
+| status | `implemented_local_evidence_captured / implementation / NON_VISUAL` |
+| issue | #882 CLOSED。PR 文脈は `Refs #882` のみ |
+| parent/source | parent `docs/30-workflows/completed-tasks/home-page-prototype-alignment/`; source follow-up `docs/30-workflows/completed-tasks/home-page-prototype-alignment-followup-001-terms-prefetch-env-validation.md` consumed |
+| implementation | `apps/web/src/lib/env.ts` adds `getPublicEnvSafe()`; `apps/web/src/lib/seo/site-metadata.ts` uses metadata-only local fallback + noindex |
+| system spec | `docs/00-getting-started-manual/specs/05-pages.md` records the public metadata env fallback contract |
+| tests | `apps/web/src/lib/__tests__/env.spec.ts`, `apps/web/src/lib/seo/__tests__/site-metadata.spec.ts`, `apps/web/playwright/tests/terms-prefetch.spec.ts` |
+| evidence | web Vitest 1030 PASS, web typecheck PASS, web lint PASS, Playwright `/terms` prefetch smoke PASS |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-882-terms-prefetch-env-validation-fix-artifact-inventory.md` |
+| boundary | `getEnv()` / `getPublicEnv()` throw contract unchanged. commit / push / PR / staging deploy are user-gated |
+
+## admin-ui-prototype-alignment follow-up 002 section error retry（2026-05-25）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/admin-ui-prototype-alignment-followup-002-section-error-retry/` |
+| status | `implementation_reviewed / implementation / NON_VISUAL / local evidence PASS` |
+| issue | #881 CLOSED。PR 文脈は `Refs #881` のみ |
+| parent | `docs/30-workflows/admin-ui-prototype-alignment/` |
+| purpose | `AdminSectionError` の retry CTA を client boundary 経由で実装する仕様。page server component は維持し、`router.refresh()` は `AdminSectionErrorClient` 内に閉じ込める |
+| Phase 12 | `outputs/phase-12/phase12-task-spec-compliance-check.md` + strict 7 files + local evidence present |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-ui-prototype-alignment-followup-002-section-error-retry-artifact-inventory.md` |
+| lessons | `.claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-admin-section-error-retry-2026-05.md`（L-ASR-001..005）、`.claude/skills/task-specification-creator/lessons-learned/rsc-client-boundary-callback-injection.md`（L-RSC-001..005） |
+| local evidence | focused Vitest 19+2 PASS including `jest-axe` (AC-3/AC-4 transition assertion 追加); root lint/typecheck PASS; design-token and client-boundary grep PASS |
+| user gate | commit, push, PR |
+
+## Issue #880 public segment error/loading boundary（2026-05-24）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow | `docs/30-workflows/completed-tasks/issue-880-public-segment-error-loading-boundary/` |
+| status | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION` |
+| issue | #880 OPEN at spec creation; PR/Issue mutation user-gated |
+| parent | `docs/30-workflows/ui-prototype-design-system-foundation/serial-06-form-response-binding/` |
+| purpose | Add explicit `(public)` route-group `error.tsx` / `loading.tsx` and Playwright force-throw smoke to resolve serial-06 precondition drift |
+| implementation targets | `apps/web/app/(public)/error.tsx`, `apps/web/app/(public)/loading.tsx`, `apps/web/app/(public)/error-boundary-smoke/page.tsx`, `apps/web/playwright/tests/public-error-boundary.spec.ts` |
+| Phase 11/12 | screenshot + focused Playwright report captured; strict 7 present |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-880-public-segment-error-loading-boundary-artifact-inventory.md` |
+| lessons-learned | `.claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-issue-880-public-segment-error-loading-boundary-2026-05.md`（L-PUBERR-001 production-guarded smoke route / L-PUBERR-002 worktree webServer timeout 回避 / L-PUBERR-003 scope と route-group 1:1） |
+| user gate | commit, push, PR, GitHub issue mutation |
+
 ## issue-879 safeServerFetch member/public horizontal expansion（2026-05-24）
 
 | 項目 | 値 |
