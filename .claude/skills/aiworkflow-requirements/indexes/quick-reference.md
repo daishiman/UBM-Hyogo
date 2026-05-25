@@ -182,6 +182,23 @@
 | inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-857-internal-alert-relay-binding-wiring-artifact-inventory.md` |
 | user gate | Cloudflare secret list, staging deploy/tail, SA key invalidation dry-run, commit, push, PR |
 
+## Issue #917 alert relay runtime fire evidence（2026-05-25）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-917-alert-relay-runtime-fire-evidence/` |
+| status | `implemented_local_evidence_captured / implementation / NON_VISUAL / runtime_observation` |
+| issue | #917 CLOSED; PR wording is `Refs #917` only |
+| purpose | make relay POST responseStatus observable in Workers tail, then capture user-gated staging runtime evidence that SA key invalidation makes `sheets-auth-healthcheck` actually fire `/internal/alert-relay` after issue-857 base URL wiring |
+| source | `docs/30-workflows/unassigned-task/UT-25-DERIV-02-FU-02-alert-relay-runtime-fire-evidence.md` remains unconsumed until runtime evidence is captured |
+| upstream | `docs/30-workflows/completed-tasks/issue-857-internal-alert-relay-binding-wiring/` |
+| parent | `docs/30-workflows/ut-25-deriv-02-sa-key-expiry-monitoring/` |
+| implementation | `apps/api/src/scheduled/sheets-auth-healthcheck.ts`, `apps/api/src/scheduled/sheets-auth-healthcheck.contract.spec.ts` |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-917-alert-relay-runtime-fire-evidence-artifact-inventory.md` |
+| lesson | `.claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-issue-917-alert-relay-runtime-fire-evidence-2026-05.md` |
+| local evidence | focused Vitest 8 PASS for relay POST 200/401 responseStatus logging |
+| user gate | Cloudflare secret list, staging deploy/tail, controlled SA key invalidation, evidence MD creation, issue-857 back-reference update, source consumed conversion, commit, push, PR |
+
 ## step-08 audit filter/paging verify（2026-05-24）
 
 | 項目 | 値 |
