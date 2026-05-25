@@ -7,6 +7,8 @@
 | Header | Canonical behavior |
 | --- | --- |
 | `Content-Security-Policy-Report-Only` / `Content-Security-Policy` | Header name is selected by `CSP_MODE`: `report-only` emits report-only, `enforce` emits enforced CSP. Local/default and production stay `report-only`; staging is configured as `enforce`. |
+| `Reporting-Endpoints` / `Report-To` | When a Sentry public/browser DSN is available, emit both `Reporting-Endpoints: csp-endpoint="<derived Sentry CSP security endpoint>"` and legacy `Report-To` JSON with the same group/url. The endpoint is derived from `NEXT_PUBLIC_SENTRY_DSN`; do not add a separate CSP report URL env. |
+| CSP reporting directives | When a report endpoint is derived, append `report-to csp-endpoint` and legacy `report-uri <derived-url>`. All reporting headers/directives use the same `CSP_REPORT_GROUP` / endpoint source. |
 | `Permissions-Policy` | Disable `accelerometer`, `camera`, `geolocation`, `gyroscope`, `magnetometer`, `microphone`, `payment`, `usb`. Do not emit `browsing-topics`. |
 | Trusted Types | Do not emit `require-trusted-types-for` or `trusted-types` in this workflow. |
 | `Referrer-Policy` | `strict-origin-when-cross-origin` |
@@ -15,7 +17,7 @@
 
 ## Env Boundary
 
-Use `getSecurityHeaderEnv()` for CSP runtime configuration. It returns `{ cspMode, apiBaseUrl }` from `CSP_MODE` and `NEXT_PUBLIC_API_BASE_URL`, with `CSP_MODE` defaulting to `report-only`. `NEXT_PUBLIC_API_ORIGIN` is not a current env contract and must not be introduced for this purpose.
+Use `getSecurityHeaderEnv()` for CSP runtime configuration. It returns `{ cspMode, apiBaseUrl }` from `CSP_MODE` and `NEXT_PUBLIC_API_BASE_URL`, with `CSP_MODE` defaulting to `report-only`. Use `getPublicEnv().NEXT_PUBLIC_SENTRY_DSN` only to derive the Sentry CSP security endpoint. `NEXT_PUBLIC_API_ORIGIN` and a separate `NEXT_PUBLIC_SENTRY_CSP_REPORT_URL` are not current env contracts and must not be introduced for this purpose.
 
 `apps/web/wrangler.toml` owns environment defaults:
 
@@ -31,7 +33,7 @@ Use `getSecurityHeaderEnv()` for CSP runtime configuration. It returns `{ cspMod
 | --- | --- |
 | U-AWSHH-001 | Implemented locally by `issue-869-csp-enforce-cutover`; production cutover remains a user-gated config/deploy decision after observation |
 | U-AWSHH-002 | nonce-based CSP hardening and removal of `'unsafe-inline'` |
-| U-AWSHH-003 | Reporting-Endpoints / Report-To aggregation |
+| ~~U-AWSHH-003~~ | Consumed by `docs/30-workflows/completed-tasks/awshh-followup-003-csp-reporting-endpoints/` (Issue #868, implemented local / runtime receive pending) |
 | U-AWSHH-004 | Equivalent `apps/api` response header hardening |
 
 ## Workflow

@@ -14,9 +14,10 @@
 // 不変条件 #11: admin / profile 画面 HTML を未認証に SSR させない。
 import { NextResponse, type NextRequest } from "next/server";
 import { decodeAuthSessionJwt } from "@ubm-hyogo/shared";
-import { getSecurityHeaderEnv } from "@/lib/env";
+import { getPublicEnv, getSecurityHeaderEnv } from "@/lib/env";
 import {
   applySecurityHeaders,
+  buildSentryCspReportUrl,
   type SecurityHeaderConfig,
 } from "@/lib/security-headers";
 
@@ -56,12 +57,18 @@ const sessionToken = (req: NextRequest): string | undefined => {
 };
 
 const buildSecurityHeaderConfig = (): SecurityHeaderConfig => {
-  const env = getSecurityHeaderEnv();
-  return {
-    cspMode: env.cspMode,
-    apiBaseUrl: env.apiBaseUrl,
+  const securityEnv = getSecurityHeaderEnv();
+  const publicEnv = getPublicEnv();
+  const reportEndpoint = buildSentryCspReportUrl(publicEnv.NEXT_PUBLIC_SENTRY_DSN);
+  const cfg: SecurityHeaderConfig = {
+    cspMode: securityEnv.cspMode,
+    apiBaseUrl: securityEnv.apiBaseUrl,
     authOrigin: "https://accounts.google.com",
   };
+  if (reportEndpoint) {
+    cfg.reportEndpoint = reportEndpoint;
+  }
+  return cfg;
 };
 
 const guardedMiddleware = async (req: NextRequest) => {
