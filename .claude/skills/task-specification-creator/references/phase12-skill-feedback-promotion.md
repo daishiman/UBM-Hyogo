@@ -118,6 +118,21 @@ source unassigned-task が「Dashboard-only」「IaC 不要」と読める場合
 - [ ] mirror directory が存在する skill は mirror sync と `diff -qr` を実行した
 - [ ] workflow が docs-only `spec_created` から `enforced_dry_run` などへ再分類された場合は root/outputs `artifacts.json`、`phase12-task-spec-compliance-check.md`、`system-spec-update-summary.md`、SKILL changelog、resource-map / quick-reference / task-workflow-active を **同 wave** で更新した（reclassification は 7 同期点を 1 wave で消化する）
 
+## Spec-from-closed-issue implementation closeout rule
+
+CLOSED Issue 由来の後付け workflow でも、Phase 1 で `taskType=implementation` と判定した場合は、仕様書作成だけで close-out しない。実装可能な範囲は同一 cycle で実コード・実設定・実テストへ反映し、GitHub Issue state だけを user-gated / refs-only boundary として残す。
+
+| Gate | 必須条件 |
+| --- | --- |
+| issue state boundary | `issue_status: CLOSED` と `Refs #NNN only` を明記し、reopen / close mutation はしない |
+| implementation truthfulness | コード差分が入ったら `spec_created` / `実装完了時に反映` のままにせず、root/output artifacts・Phase 12 compliance・system spec update summary を `implemented_local_evidence_captured` 等へ再分類する |
+| partial surface rule | 既存 lib / SSOT が完了済みなら変更禁止を宣言し、残存 surface（例: env 配線 / config / smoke）だけに scope を絞る |
+| production cutover boundary | production 実切替が config/deploy ops のみなら `implementation-guide.md` に runbook を置き、`unassigned-task-detection.md` では新規未タスクではなく user-gated operation として扱う |
+| environment vars table | staging / production で env var 値が異なる場合、Phase 5 / implementation guide / system spec に三段対比表（default, staging, production）を置く |
+| dependency label | 関連 Issue は `soft dependency` / `independent surface` / `blocker` のいずれかで分類し、soft dependency を blocker として誤昇格しない |
+
+実例: issue-869 CSP enforce cutover では、親 workflow で `security-headers.ts` の CSP header-name switching は実装済みだったため lib API は変更禁止とし、`apps/web/src/lib/env.ts` の `CSP_MODE` + `getSecurityHeaderEnv()`、`apps/web/middleware.ts` の env-driven wiring、`apps/web/wrangler.toml` の staging enforce / production report-only vars、unit / Playwright smoke だけを同一 cycle で実装した。GitHub Issue #869 は CLOSED 維持、production enforce final cutover と PR は user-gated。
+
 ## Workers Global Scope and Secret-Bridge Promotion Rule
 
 Cloudflare Workers deploy blocker fixes must route reusable findings to the

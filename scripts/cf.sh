@@ -270,6 +270,48 @@ else
   WRANGLER_BIN="wrangler"
 fi
 
+if [ "$1" = "tail" ]; then
+  shift
+  if [ "$#" -lt 1 ]; then
+    echo "usage: $0 tail <worker-name> [--env <staging|production>] [--format json|pretty]" >&2
+    exit 64
+  fi
+  worker_name="$1"
+  shift
+  tail_seconds="${CF_TAIL_SECONDS:-25}"
+  case "$tail_seconds" in
+    ''|*[!0-9]*)
+      echo "[cf.sh] CF_TAIL_SECONDS must be a positive integer" >&2
+      exit 64
+      ;;
+  esac
+  if [ "$tail_seconds" -lt 1 ]; then
+    echo "[cf.sh] CF_TAIL_SECONDS must be >= 1" >&2
+    exit 64
+  fi
+  if command -v timeout >/dev/null 2>&1; then
+    timeout_cmd=(timeout "$tail_seconds")
+  elif command -v gtimeout >/dev/null 2>&1; then
+    timeout_cmd=(gtimeout "$tail_seconds")
+  else
+    timeout_cmd=()
+  fi
+  if [ "${CF_SH_SKIP_WITH_ENV:-0}" = "1" ]; then
+    if [ "${#timeout_cmd[@]}" -gt 0 ]; then
+      "${timeout_cmd[@]}" "$WRANGLER_BIN" tail "$worker_name" "$@" || status=$?
+    else
+      "$WRANGLER_BIN" tail "$worker_name" "$@" || status=$?
+    fi
+    case "${status:-0}" in 0|124|143) exit 0 ;; *) exit "$status" ;; esac
+  fi
+  if [ "${#timeout_cmd[@]}" -gt 0 ]; then
+    "$REPO_ROOT/scripts/with-env.sh" mise exec -- "${timeout_cmd[@]}" "$WRANGLER_BIN" tail "$worker_name" "$@" || status=$?
+  else
+    "$REPO_ROOT/scripts/with-env.sh" mise exec -- "$WRANGLER_BIN" tail "$worker_name" "$@" || status=$?
+  fi
+  case "${status:-0}" in 0|124|143) exit 0 ;; *) exit "$status" ;; esac
+fi
+
 if [ "$1" = "deploy" ] && printf '%s\n' "$@" | grep -qx -- "--config"; then
   prev=""
   for arg in "$@"; do
