@@ -964,6 +964,10 @@ AC-1〜AC-6 全達成。Phase 10 判定: PASS（MINOR 0件）
 - Runtime Slack/mail delivery, HOLD removal, secret mutation, commit, push, and PR remain user-gated.
 - Added lessons-learned `lessons-learned/lessons-learned-issue-588-fallback-alert-slack-mail-extension-2026-05.md` (L-588-001..004: notification 3-point sync, best-effort isolation, twin-layer redaction, closed-source supersede).
 
+# 2026-05-24 issue-869-csp-enforce-cutover
+
+- Issue #869 CSP enforce cutover を `implemented_local_evidence_captured / implementation / NON_VISUAL / runtime deploy user-gated` として同期。`CSP_MODE` zod enum + `getSecurityHeaderEnv()`、middleware env-driven CSP mode、wrangler staging enforce / production report-only vars、unit / Playwright mode-aware header assertionsを同一 cycle で実装。`security-web-response-headers.md`、quick-reference、resource-map、artifact inventoryを更新。staging/production deploy and curl evidence、production final enforce cutover、commit、push、PR は user-gated。
+
 # 2026-05-11
 
 - task-10 runtime evidence sync: follow-up 001 resolved OpenNext esbuild host/binary mismatch with `pnpm.overrides.esbuild = 0.25.4`; `build:cloudflare` PASS evidence captured. follow-up 002 captured runtime screenshot and axe report for 11 UI primitives via `/smoke/ui-primitives` and Playwright. `Stat` axe structure violation was fixed in `apps/web/src/components/ui/Stat.tsx`. Commit / push / PR remain user-gated.
