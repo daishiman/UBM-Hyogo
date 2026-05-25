@@ -8,6 +8,19 @@
 
 本ドキュメントは、複雑なタスクを単一責務の原則に基づいて分解し、各サブタスクに最適なスラッシュコマンド・エージェント・スキルの組み合わせを選定するためのガイドラインを定義する。
 
+### issue-879-safe-server-fetch-member-public-horizontal-expansion（2026-05-24）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / NON_VISUAL / implementation_complete_pending_pr` |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-879-safe-server-fetch-member-public-horizontal-expansion/` |
+| Issue | #879 CLOSED。PR 文脈は `Refs #879` のみ |
+| 目的 | admin-only `safeServerFetch` / `SafeResult<T>` per-section degrade pattern を member/public server component へ横展開する |
+| implementation targets | `apps/web/src/lib/server-fetch/safe-fetch.ts`, `apps/web/src/lib/admin/safe-server-fetch.ts`, `apps/web/src/components/{public,member}/SectionError.tsx`, `apps/web/app/profile/page.tsx`, `apps/web/app/(public)/members/page.tsx`, `apps/web/app/(public)/members/[id]/page.tsx` |
+| evidence | focused Vitest 20 PASS、web typecheck PASS、design-token gate PASS、web lint PASS |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-879-safe-server-fetch-member-public-horizontal-expansion-artifact-inventory.md` |
+| user gate | commit, push, PR, Issue mutation |
+
 ### issue-872-google-brand-4tone-icon-and-tokens-exempt（2026-05-24）
 
 | 項目 | 値 |

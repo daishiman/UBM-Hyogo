@@ -12,7 +12,6 @@ import type {
 } from "../../src/lib/api/me-types";
 import {
   AuthRequiredError,
-  FetchAuthedError,
   fetchAuthed,
 } from "../../src/lib/fetch/authed";
 import { ProfileHeader } from "./_components/ProfileHeader";
@@ -24,6 +23,8 @@ import { EditCta } from "./_components/EditCta";
 import { AttendanceList } from "./_components/AttendanceList";
 import { RequestActionPanel } from "./_components/RequestActionPanel";
 import { MemberHeader } from "../../src/components/layout/MemberHeader";
+import { SectionError } from "../../src/components/member/SectionError";
+import { safeServerFetch } from "../../src/lib/server-fetch/safe-fetch";
 import { pickProfileSummary } from "./_lib/profile-summary";
 
 export const dynamic = "force-dynamic";
@@ -31,22 +32,46 @@ export const revalidate = 0;
 
 export default async function ProfilePage() {
   let me: MeSessionResponse;
-  let profileRes: MeProfileResponse;
   try {
-    [me, profileRes] = await Promise.all([
-      fetchAuthed<MeSessionResponse>("/me"),
-      fetchAuthed<MeProfileResponse>("/me/profile"),
-    ]);
+    me = await fetchAuthed<MeSessionResponse>("/me");
   } catch (err) {
     if (err instanceof AuthRequiredError) {
-      redirect("/login?redirect=/profile");
-    }
-    if (err instanceof FetchAuthedError && err.status === 404) {
-      notFound();
+      return redirect("/login?redirect=/profile");
     }
     throw err;
   }
 
+  const profileResult = await safeServerFetch(
+    () => fetchAuthed<MeProfileResponse>("/me/profile"),
+    { codePrefix: "MEMBER_FETCH", rethrowOn: [AuthRequiredError] },
+  );
+
+  if (!profileResult.ok) {
+    if (profileResult.error.code === "MEMBER_FETCH_404") {
+      notFound();
+    }
+
+    return (
+      <>
+        <MemberHeader />
+        <main data-route="member" data-section-rhythm="comfortable">
+          <ProfileHeader
+            memberId={me.user.memberId}
+            publishState="hidden"
+            editResponseUrl={null}
+            fallbackResponderUrl=""
+          />
+          <SectionError
+            title="プロフィールを読み込めませんでした"
+            detail={profileResult.error.message}
+            retryHref="/profile"
+          />
+        </main>
+      </>
+    );
+  }
+
+  const profileRes = profileResult.data;
   const { profile, statusSummary, editResponseUrl, fallbackResponderUrl } =
     profileRes;
   const summary = pickProfileSummary(profile.sections);
