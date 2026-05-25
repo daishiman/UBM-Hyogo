@@ -8,6 +8,20 @@
 
 本ドキュメントは、複雑なタスクを単一責務の原則に基づいて分解し、各サブタスクに最適なスラッシュコマンド・エージェント・スキルの組み合わせを選定するためのガイドラインを定義する。
 
+### fix-admin-scr-err-stg-fu-001-auth-env-via-getenv（2026-05-24）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `PASS_BOUNDARY_SYNCED_RUNTIME_PENDING / implementation / NON_VISUAL` |
+| 成果物 | `docs/30-workflows/fix-admin-scr-err-stg-fu-001-auth-env-via-getenv/` |
+| 元 issue | #862（CLOSED 維持） |
+| 目的 | apps/web auth/public fetch の env 直接参照を env.ts 公開アクセサへ統一し、staging admin render error 同型 regression を防ぐ |
+| in-cycle implementation | `apps/web/src/lib/env.ts` に google auth key + `getAuthEnv()` + `getPublicFetchEnv()` を追加、`apps/web/src/lib/auth.ts` と `apps/web/src/lib/fetch/public.ts` の direct `process.env` / `getCloudflareContext` を撤去 |
+| tests | `apps/web/src/lib/auth.spec.ts`, `apps/web/src/lib/__tests__/env.spec.ts`, `apps/web/src/lib/fetch/public.spec.ts`（focused Vitest 75 PASS） |
+| evidence | Phase 11 manual-test-result / AC grep gate / Phase 12 strict 7 / root-output artifacts parity |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-fix-admin-scr-err-stg-fu-001-auth-env-via-getenv-artifact-inventory.md` |
+| user gate | Cloudflare staging deploy, authenticated `/login -> /admin` smoke, commit, push, PR |
+
 ### issue-857 internal alert relay binding wiring（2026-05-24）
 
 | 項目 | 値 |
