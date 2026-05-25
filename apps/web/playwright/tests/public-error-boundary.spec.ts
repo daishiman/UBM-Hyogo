@@ -43,9 +43,17 @@ test.describe("(public) error boundary @smoke", () => {
 
   test("focus moves to heading on boundary mount", async ({ page }) => {
     await page.goto("/error-boundary-smoke");
-    const activeTag = await page.evaluate(
-      () => document.activeElement?.tagName?.toLowerCase() ?? null,
-    );
-    expect(activeTag).toBe("h1");
+    await expect(
+      page.locator('[data-page="error"]').getByRole("heading", { level: 1 }),
+    ).toBeVisible();
+    await expect
+      .poll(
+        () =>
+          page.evaluate(
+            () => document.activeElement?.tagName?.toLowerCase() ?? null,
+          ),
+        { timeout: 5000 },
+      )
+      .toBe("h1");
   });
 });
