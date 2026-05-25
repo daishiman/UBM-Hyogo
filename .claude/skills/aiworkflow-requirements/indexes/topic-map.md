@@ -3043,6 +3043,15 @@ node scripts/list-specs.js --topics
 | Scope | L12 |
 | User-Gated Boundary | L18 |
 
+### references/workflow-issue-874-login-staging-visual-smoke-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Workflow | L3 |
+| Implementation targets | L12 |
+| Evidence | L19 |
+| Source / parent | L27 |
+
 ### references/workflow-light-theme-contrast-regression-guard.md
 
 | セクション | 行 |
@@ -7591,14 +7600,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L2368 |
-| フェーズ構造（概要） | L2377 |
-| 品質ゲート（概要） | L2408 |
-| 出力テンプレート | L2419 |
-| 実行時のコマンド・エージェント・スキル | L2442 |
-| 昇格パターン集 | L2466 |
-| Current Active / Spec Created Tasks | L2468 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L2629 |
+| ドキュメント構成 | L2379 |
+| フェーズ構造（概要） | L2388 |
+| 品質ゲート（概要） | L2419 |
+| 出力テンプレート | L2430 |
+| 実行時のコマンド・エージェント・スキル | L2453 |
+| 昇格パターン集 | L2477 |
+| Current Active / Spec Created Tasks | L2479 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L2640 |
 
 ### references/task-workflow-backlog-part2.md
 
