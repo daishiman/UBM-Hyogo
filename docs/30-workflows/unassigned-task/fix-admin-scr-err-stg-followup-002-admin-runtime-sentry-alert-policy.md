@@ -10,10 +10,13 @@
 | 対象機能     | apps/web admin scope runtime error 検知                                               |
 | 優先度       | 中                                                                                    |
 | 見積もり規模 | 小規模                                                                                |
-| ステータス   | 未実施                                                                                |
+| ステータス   | consumed                                                                              |
 | 発見元       | TASK-FIX-ADMIN-SCR-ERR-STG-001 close-out review                                       |
 | 発見日       | 2026-05-23                                                                            |
 | 親 workflow  | `docs/30-workflows/fix-admin-server-components-render-error-stg/`                     |
+| canonical workflow | `docs/30-workflows/completed-tasks/issue-863-admin-error-alert-policy-iac/`                     |
+
+> Consumed: 2026-05-24 に `docs/30-workflows/completed-tasks/issue-863-admin-error-alert-policy-iac/` へ昇格。Issue #863 は CLOSED のまま `Refs #863` で扱う。実装対象（logger tag 昇格 / `infra/sentry-alerts/` IaC / drift CI / runbook / CODEOWNERS / package scripts）は同 workflow の実装サイクルでローカル反映済み。Sentry API apply、staging notification smoke、commit/push/PR は user-gated。
 
 ---
 

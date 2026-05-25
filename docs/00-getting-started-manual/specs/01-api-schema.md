@@ -315,6 +315,8 @@ Issue #777 schema diff resolve history view では、`/(admin)/admin/schema/hist
 
 Issue #776 の `/admin/schema` bulk resolve は **新しい bulk endpoint を追加しない**。`apps/web/src/lib/admin/api.ts#postSchemaAliasBulk` が既存 `POST /admin/schema/aliases` を concurrency 8 の client-side bounded fan-out で呼び、入力順の `success / retryable / error` row result を返す。`stableKey` validation は single edit と同じ regex（英字開始、英数字と `_` のみ）を UI 側で共有し、`status=0` は `network`、`409` は `conflict`、`422` は `invalid` として分類する。HTTP 202 `backfill_cpu_budget_exhausted` は failure ではなく retryable row として modal に残す。
 
+Issue #837 の `/admin/schema` bulk rollback も **新しい bulk endpoint を追加しない**。`apps/web/src/lib/admin/api.ts#rollbackSchemaAliasBulk` が既存 `POST /admin/schema/aliases/:aliasId/rollback` を concurrency 8 / 最大 50 件の client-side bounded fan-out で呼び、入力順の `{ aliasId, status, data?, error? }` row result を返す。各 row の `version` は単体 rollback helper の `If-Match: version=<N>` に渡す。`409` は `version_mismatch`、`404` は `not_found`、`401/403` は `forbidden`、network failure は `network` として分類する。transaction 境界と audit は per-alias 単位で、部分失敗は成功分を rollback 済みとして確定し失敗 row だけを UI に残す。
+
 ### Schema alias recompute API（Issue #836）
 
 `POST /admin/schema/aliases/:aliasId/recompute` は、rollback 済み alias によって古い `response_fields.stable_key` が残る状態を admin 明示操作で整復する endpoint である。request body は `{ "reason"?: string }` のみを受け取り、`triggerKey` は client から受け取らない。server は最新 rollback audit id、または fallback `${aliasId}:${version}` から trigger key を導出し、`schema_alias_recompute_jobs` の `UNIQUE(alias_id, stable_key, trigger_key)` で冪等性を担保する。

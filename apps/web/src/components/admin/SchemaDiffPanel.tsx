@@ -10,6 +10,7 @@ import {
   postSchemaAliasBulk,
   isSchemaAliasRetryableContinuation,
   rollbackSchemaAlias,
+  rollbackSchemaAliasBulk,
   RollbackApiError,
   recomputeSchemaAlias,
   type RollbackSchemaAliasResult,
@@ -19,7 +20,9 @@ import {
   useSchemaDiffBulkSelection,
   type BulkRowState,
 } from "./hooks/useSchemaDiffBulkSelection";
+import { useSchemaDiffBulkRollbackSelection } from "./hooks/useSchemaDiffBulkRollbackSelection";
 import { SchemaDiffBulkResolveModal } from "./SchemaDiffBulkResolveModal";
+import { SchemaDiffBulkRollbackModal } from "./SchemaDiffBulkRollbackModal";
 import {
   isStableKeyValid,
   normalizeStableKey,
@@ -303,9 +306,21 @@ function RollbackConfirmModal(props: RollbackConfirmModalProps) {
 interface HistoryPaneProps {
   readonly aliases: ReadonlyArray<ResolvedAliasItem>;
   readonly onRequestRollback: (alias: ResolvedAliasItem) => void;
+  readonly bulkRollbackMode: boolean;
+  readonly selectedIds: ReadonlySet<string>;
+  readonly selectedCount: number;
+  readonly bulkLimitExceeded: boolean;
+  readonly onToggleBulkRollbackMode: () => void;
+  readonly onToggleBulkRollbackAlias: (aliasId: string) => void;
+  readonly onSelectAllBulkRollbackAliases: (aliasIds: string[]) => void;
+  readonly onConfirmBulkRollback: () => void;
 }
 
 function HistoryPane(props: HistoryPaneProps) {
+  const visibleAliases = props.aliases.slice(0, 10);
+  const allSelected =
+    visibleAliases.length > 0 &&
+    visibleAliases.every((alias) => props.selectedIds.has(alias.id));
   if (props.aliases.length === 0) {
     return (
       <section aria-labelledby="schema-alias-history-h">
@@ -317,9 +332,69 @@ function HistoryPane(props: HistoryPaneProps) {
   return (
     <section aria-labelledby="schema-alias-history-h">
       <h2 id="schema-alias-history-h">resolve 履歴</h2>
+      <div>
+        <button
+          type="button"
+          onClick={props.onToggleBulkRollbackMode}
+          aria-pressed={props.bulkRollbackMode}
+        >
+          {props.bulkRollbackMode ? "Bulk Rollback を終了" : "Bulk Rollback"}
+        </button>
+        {props.bulkRollbackMode && (
+          <>
+            <span data-testid="bulk-rollback-selection-summary">
+              {props.selectedCount} 件選択中
+            </span>
+            <button
+              type="button"
+              onClick={props.onConfirmBulkRollback}
+              disabled={props.selectedCount === 0 || props.bulkLimitExceeded}
+              aria-describedby={
+                props.bulkLimitExceeded ? "bulk-rollback-limit-warning" : undefined
+              }
+            >
+              Bulk Rollback 確認
+            </button>
+          </>
+        )}
+      </div>
+      {props.bulkRollbackMode && props.bulkLimitExceeded && (
+        <p
+          id="bulk-rollback-limit-warning"
+          role="alert"
+          data-feedback-kind="bulk_rollback_warning"
+        >
+          一度に選択できるのは最大 {BULK_LIMIT} 件です（現在 {props.selectedCount} 件選択中）。
+        </p>
+      )}
       <ul role="list" data-component="schema-alias-history">
-        {props.aliases.slice(0, 10).map((a) => (
+        {props.bulkRollbackMode && (
+          <li>
+            <label>
+              <input
+                type="checkbox"
+                aria-label="resolve 履歴を全選択"
+                checked={allSelected}
+                onChange={() =>
+                  props.onSelectAllBulkRollbackAliases(
+                    visibleAliases.map((alias) => alias.id),
+                  )
+                }
+              />
+              <span>表示中の履歴を全選択</span>
+            </label>
+          </li>
+        )}
+        {visibleAliases.map((a) => (
           <li key={a.id} data-alias-id={a.id}>
+            {props.bulkRollbackMode && (
+              <input
+                type="checkbox"
+                aria-label={`select alias ${a.aliasLabel}`}
+                checked={props.selectedIds.has(a.id)}
+                onChange={() => props.onToggleBulkRollbackAlias(a.id)}
+              />
+            )}
             <span>{a.aliasLabel}</span>
             <code>{a.stableKey}</code>
             <time dateTime={a.resolvedAt}>{a.resolvedAt}</time>
@@ -541,6 +616,19 @@ export function SchemaDiffPanel({ initial, resolvedAliases, actorEmail }: Schema
     },
   });
 
+  const [bulkRollbackMode, setBulkRollbackMode] = useState(false);
+  const bulkRollback = useSchemaDiffBulkRollbackSelection({
+    rollbackSchemaAliasBulk,
+    onRowsSucceeded: (aliasIds) => {
+      setHistoryAliases((prev) => prev.filter((alias) => !aliasIds.includes(alias.id)));
+      setFeedback({
+        kind: "success",
+        label: `resolve を ${aliasIds.length} 件取消しました`,
+      });
+      router.refresh();
+    },
+  });
+
   const onSelect = (it: SchemaDiffItem) => {
     setActive(it);
     setStableKey(it.suggestedStableKey ?? it.stableKey ?? "");
@@ -661,6 +749,15 @@ export function SchemaDiffPanel({ initial, resolvedAliases, actorEmail }: Schema
   const bulkWarning = bulkLimitExceeded
     ? `一度に選択できるのは最大 ${BULK_LIMIT} 件です（現在 ${bulk.breakdown.total} 件選択中）。`
     : null;
+
+  const bulkRollbackLimitExceeded = bulkRollback.selectedCount > BULK_LIMIT;
+  const onConfirmBulkRollback = () => {
+    if (bulkRollback.selectedCount === 0 || bulkRollbackLimitExceeded) return;
+    const aliases = historyAliases.filter((alias) =>
+      bulkRollback.selectedIds.has(alias.id),
+    );
+    bulkRollback.openModal(aliases);
+  };
 
   return (
     <section aria-labelledby="schema-diff-h">
@@ -872,6 +969,17 @@ export function SchemaDiffPanel({ initial, resolvedAliases, actorEmail }: Schema
           setRecomputeError(null);
           setRollbackState({ kind: "confirm", alias });
         }}
+        bulkRollbackMode={bulkRollbackMode}
+        selectedIds={bulkRollback.selectedIds}
+        selectedCount={bulkRollback.selectedCount}
+        bulkLimitExceeded={bulkRollbackLimitExceeded}
+        onToggleBulkRollbackMode={() => {
+          setBulkRollbackMode((value) => !value);
+          if (bulkRollbackMode) bulkRollback.clearSelection();
+        }}
+        onToggleBulkRollbackAlias={bulkRollback.toggle}
+        onSelectAllBulkRollbackAliases={bulkRollback.selectAll}
+        onConfirmBulkRollback={onConfirmBulkRollback}
       />
 
       {(rollbackState.kind === "confirm" ||
@@ -913,6 +1021,16 @@ export function SchemaDiffPanel({ initial, resolvedAliases, actorEmail }: Schema
           void bulk.submit();
         }}
         onClose={bulk.closeModal}
+      />
+      <SchemaDiffBulkRollbackModal
+        open={bulkRollback.modalOpen}
+        rows={bulkRollback.rows}
+        summary={bulkRollback.summary}
+        isSubmitting={bulkRollback.isSubmitting}
+        onSubmit={() => {
+          void bulkRollback.submit();
+        }}
+        onClose={bulkRollback.closeModal}
       />
     </section>
   );
