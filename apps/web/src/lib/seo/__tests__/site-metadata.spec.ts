@@ -8,16 +8,16 @@ import {
   SITE,
 } from "../site-metadata";
 
-type PublicEnv = ReturnType<typeof envMod.getPublicEnv>;
+type PublicEnv = NonNullable<ReturnType<typeof envMod.getPublicEnvSafe>>;
 
 describe("site-metadata", () => {
-  let publicEnvSpy: { mockReturnValue: (v: PublicEnv) => unknown };
+  let publicEnvSpy: { mockReturnValue: (v: PublicEnv | undefined) => unknown };
 
   beforeEach(() => {
     publicEnvSpy = vi.spyOn(
-      envMod as unknown as { getPublicEnv: () => PublicEnv },
-      "getPublicEnv",
-    ) as unknown as { mockReturnValue: (v: PublicEnv) => unknown };
+      envMod as unknown as { getPublicEnvSafe: () => PublicEnv | undefined },
+      "getPublicEnvSafe",
+    ) as unknown as { mockReturnValue: (v: PublicEnv | undefined) => unknown };
   });
 
   afterEach(() => vi.restoreAllMocks());
@@ -50,6 +50,11 @@ describe("site-metadata", () => {
       });
       expect(getSiteUrl().toString()).toContain("localhost:3000");
     });
+
+    it("returns localhost when public env parsing fails", () => {
+      publicEnvSpy.mockReturnValue(undefined);
+      expect(getSiteUrl().toString()).toBe("http://localhost:3000/");
+    });
   });
 
   describe("buildBaseMetadata", () => {
@@ -75,6 +80,14 @@ describe("site-metadata", () => {
         index: true,
         follow: true,
       });
+    });
+
+    it("falls back to noindex metadata when public env parsing fails", () => {
+      publicEnvSpy.mockReturnValue(undefined);
+      expect(() => buildBaseMetadata()).not.toThrow();
+      const md = buildBaseMetadata();
+      expect(String(md.metadataBase)).toBe("http://localhost:3000/");
+      expect(md.robots).toEqual({ index: false, follow: false });
     });
   });
 

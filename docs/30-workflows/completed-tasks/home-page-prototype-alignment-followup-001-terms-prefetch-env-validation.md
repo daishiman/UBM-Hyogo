@@ -13,13 +13,15 @@ issue_number: 882
 | 分類 | bugfix / runtime |
 | 対象機能 | `apps/web` 公開ページ runtime / Next.js prefetch |
 | 優先度 | High |
-| 状態 | unassigned |
+| 状態 | consumed_by_canonical_workflow |
 | 発見元 | `home-page-prototype-alignment` Phase 11 manual test + Phase 12 implementation-guide |
 | 発見日 | 2026-05-23 |
 | 前提 | `home-page-prototype-alignment` task-01 / task-02 完了済み（Phase 12 までクローズ） |
 | 既存 issue | なし（gh issue / 既存 unassigned-task に該当エントリなし） |
 
 ## 背景
+
+> 2026-05-25 追記: 本 follow-up は `docs/30-workflows/issue-882-terms-prefetch-env-validation-fix/` に canonical workflow として昇格し、同 workflow 内の実装で吸収済み。未実施 unassigned としては扱わない。
 
 `home-page-prototype-alignment` の Phase 11 manual test で `next start` + deterministic mock API による `/` の表示検証を行った際、**JavaScript 有効状態で `/` を開くと、ヘッダ等から prefetch される `/terms` route の env validation throw が原因で client-side error が発生**することが判明した。
 
