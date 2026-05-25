@@ -183,6 +183,17 @@
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-login-page-prototype-alignment-artifact-inventory.md` |
 | boundary | `/api/auth/*`, Auth.js handler, `apps/api/**`, D1 schema は不変。staging visual smoke / commit / push / PR は user-gated |
 
+### issue-874-login-staging-visual-smoke（2026-05-24）
+
+| 項目 | 値 |
+| --- | --- |
+| 状態 | `implemented_local_runtime_pending / implementation / VISUAL` |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-874-login-staging-visual-smoke/` |
+| source | FU-LOGIN-003 from `docs/30-workflows/completed-tasks/login-page-prototype-alignment/outputs/phase-12/unassigned-task-detection.md` |
+| implementation | `apps/web/playwright/tests/login-smoke.spec.ts`, `scripts/run-login-staging-smoke.sh` |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-874-login-staging-visual-smoke-artifact-inventory.md` |
+| boundary | staging deploy / staging smoke / 7 PNG / visual diff / commit / push / PR は user-gated |
+
 ### fix-admin-server-components-render-error-stg（2026-05-23）
 
 | 項目 | 値 |
