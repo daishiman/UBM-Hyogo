@@ -1,0 +1,63 @@
+{
+  "workflow": "issue-871-csp-nonce-migration",
+  "status": "implemented_local_evidence_captured",
+  "metadata": {
+    "taskType": "implementation",
+    "visualEvidence": "NON_VISUAL",
+    "workflow_state": "implemented_local_evidence_captured",
+    "issue_number": 871,
+    "issue_state": "closed",
+    "scope": "apps/web CSP nonce migration — remove direct inline fallback from script-src / style-src",
+    "implementation_mode": "modify",
+    "runtime_boundary": "local implementation and focused tests are complete; staging/production verification, commit, push, and PR are user-gated",
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-05-24T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-871-csp-nonce-migration/outputs/phase-12/phase12-task-spec-compliance-check.md",
+        "approver": "daishiman",
+        "notes": "spec_review: Phase 1-13 task specification and same-wave implementation reconciled"
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "passed",
+        "passed_at": "2026-05-24T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-871-csp-nonce-migration/outputs/phase-11/evidence/vitest-focused.log",
+        "approver": "daishiman",
+        "notes": "implementation_review: middleware nonce generation, CSP builder nonce support, focused Vitest, and grep gate completed locally"
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-871-csp-nonce-migration/outputs/phase-13/pr-gate.md",
+        "approver": "daishiman",
+        "notes": "external_ops: staging/production CSP nonce response verification + route violation-zero smoke post-deploy"
+      }
+    ]
+  },
+  "implementation_mode": "modify",
+  "task_type": "implementation",
+  "visual_evidence": "NON_VISUAL",
+  "phases": {
+    "phase-1": { "status": "completed", "artifact": "outputs/phase-1/requirements.md" },
+    "phase-2": { "status": "completed", "artifact": "outputs/phase-2/design.md" },
+    "phase-3": { "status": "completed", "artifact": "outputs/phase-3/design-review.md" },
+    "phase-4": { "status": "completed", "artifact": "outputs/phase-4/test-plan.md" },
+    "phase-5": { "status": "completed", "artifact": "outputs/phase-5/implementation-plan.md" },
+    "phase-6": { "status": "completed", "artifact": "outputs/phase-6/test-implementation-result.md" },
+    "phase-7": { "status": "completed", "artifact": "outputs/phase-7/integration-result.md" },
+    "phase-8": { "status": "completed", "artifact": "outputs/phase-8/quality-gate.md" },
+    "phase-9": { "status": "completed", "artifact": "outputs/phase-9/qa-result.md" },
+    "phase-10": { "status": "completed", "artifact": "outputs/phase-10/final-review.md" },
+    "phase-11": {
+      "status": "completed",
+      "mode": "NON_VISUAL",
+      "artifact": "outputs/phase-11/manual-test-result.md",
+      "canonical_paths": "outputs/phase-11/canonical-paths.json"
+    },
+    "phase-12": { "status": "completed", "artifact": "outputs/phase-12/phase12-task-spec-compliance-check.md" },
+    "phase-13": { "status": "pending_user_approval", "reason": "commit + push + PR require explicit user approval" }
+  }
+}

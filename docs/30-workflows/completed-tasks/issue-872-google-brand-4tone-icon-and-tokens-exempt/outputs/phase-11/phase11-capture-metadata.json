@@ -1,0 +1,18 @@
+{
+  "workflow_id": "issue-872-google-brand-4tone-icon-and-tokens-exempt",
+  "mode": "VISUAL",
+  "status": "local_static_pass_browser_pending",
+  "reason": "Static validation and rsvg visual render evidence were captured. Browser screenshots remain pending because Chromium install and next build failed with ENOSPC on the local filesystem.",
+  "expected_screenshots": [
+    {
+      "id": "login-google-brand-icon-desktop",
+      "path": "outputs/phase-11/screenshots/login-google-button-4tone.png",
+      "viewport": "desktop"
+    },
+    {
+      "id": "login-google-brand-icon-mobile",
+      "path": "outputs/phase-11/screenshots/login-google-button-4tone-mobile.png",
+      "viewport": "mobile"
+    }
+  ]
+}
