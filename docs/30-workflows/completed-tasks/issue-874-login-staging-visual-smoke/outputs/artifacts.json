@@ -1,0 +1,92 @@
+{
+  "workflow_id": "issue-874-login-staging-visual-smoke",
+  "workflow_state": "implemented_local_runtime_pending",
+  "created_at": "2026-05-24T00:00:00+09:00",
+  "status": "runtime_pending",
+  "task_type": "implementation",
+  "visual_category": "VISUAL",
+  "metadata": {
+    "workflow_state": "implemented_local_runtime_pending",
+    "implementation_status": "local_validation_ready_staging_pending",
+    "taskType": "implementation",
+    "visualEvidence": "VISUAL",
+    "implementation_mode": "new",
+    "canonical_workflow": "docs/30-workflows/completed-tasks/issue-874-login-staging-visual-smoke/",
+    "source_issue": "https://github.com/daishiman/UBM-Hyogo/issues/874",
+    "source_followup_id": "FU-LOGIN-003",
+    "parent_workflow": "docs/30-workflows/completed-tasks/login-page-prototype-alignment/",
+    "primary_sources": [
+      "apps/web/playwright/tests/login-smoke.spec.ts",
+      "apps/web/playwright.config.ts",
+      "scripts/run-login-staging-smoke.sh",
+      "docs/30-workflows/completed-tasks/login-page-prototype-alignment-followup-003-staging-visual-smoke.md",
+      "docs/30-workflows/completed-tasks/login-page-prototype-alignment/outputs/phase-12/unassigned-task-detection.md"
+    ],
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-874-login-staging-visual-smoke/outputs/phase-3/phase-3.md",
+        "approver": "daishiman",
+        "notes": "spec_review: Phase 1-9 + Phase 12 implementation spec review"
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-874-login-staging-visual-smoke/outputs/phase-9/phase-9.md",
+        "approver": "daishiman",
+        "notes": "implementation_review: typecheck / lint / shellcheck / staging smoke 0 fail"
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-874-login-staging-visual-smoke/outputs/phase-12/phase-12.md",
+        "approver": "daishiman",
+        "notes": "external_ops: staging deploy / staging smoke 実行 / commit / push / PR は user-gated"
+      }
+    ]
+  },
+  "phases": [
+    { "phase": 1, "status": "runtime_pending", "output": "outputs/phase-1/phase-1.md" },
+    { "phase": 2, "status": "runtime_pending", "output": "outputs/phase-2/phase-2.md" },
+    { "phase": 3, "status": "runtime_pending", "output": "outputs/phase-3/phase-3.md" },
+    { "phase": 4, "status": "runtime_pending", "output": "outputs/phase-4/phase-4.md" },
+    { "phase": 5, "status": "runtime_pending", "output": "outputs/phase-5/phase-5.md" },
+    { "phase": 6, "status": "runtime_pending", "output": "outputs/phase-6/phase-6.md" },
+    { "phase": 7, "status": "runtime_pending", "output": "outputs/phase-7/phase-7.md" },
+    { "phase": 8, "status": "runtime_pending", "output": "outputs/phase-8/phase-8.md" },
+    { "phase": 9, "status": "runtime_pending", "output": "outputs/phase-9/phase-9.md" },
+    { "phase": 10, "status": "pending", "output": "outputs/phase-10/phase-10.md" },
+    { "phase": 11, "status": "pending", "output": "outputs/phase-11/phase-11.md" },
+    { "phase": 12, "status": "runtime_pending", "output": "outputs/phase-12/phase-12.md" },
+    { "phase": 13, "status": "pending_user_approval", "output": "outputs/phase-13/phase-13.md" }
+  ],
+  "implementation_targets": [
+    "apps/web/playwright/tests/login-smoke.spec.ts",
+    "scripts/run-login-staging-smoke.sh",
+    "docs/30-workflows/completed-tasks/issue-874-login-staging-visual-smoke/outputs/phase-11/staging-screenshots/login-input.png",
+    "docs/30-workflows/completed-tasks/issue-874-login-staging-visual-smoke/outputs/phase-11/staging-screenshots/login-sent.png",
+    "docs/30-workflows/completed-tasks/issue-874-login-staging-visual-smoke/outputs/phase-11/staging-screenshots/login-unregistered.png",
+    "docs/30-workflows/completed-tasks/issue-874-login-staging-visual-smoke/outputs/phase-11/staging-screenshots/login-rules-declined.png",
+    "docs/30-workflows/completed-tasks/issue-874-login-staging-visual-smoke/outputs/phase-11/staging-screenshots/login-deleted.png",
+    "docs/30-workflows/completed-tasks/issue-874-login-staging-visual-smoke/outputs/phase-11/staging-screenshots/login-error.png",
+    "docs/30-workflows/completed-tasks/issue-874-login-staging-visual-smoke/outputs/phase-11/staging-screenshots/login-input-mobile.png",
+    "docs/30-workflows/completed-tasks/login-page-prototype-alignment-followup-003-staging-visual-smoke.md",
+    "docs/30-workflows/completed-tasks/login-page-prototype-alignment/outputs/phase-12/unassigned-task-detection.md"
+  ],
+  "outputs": {
+    "phase_12": [
+      "outputs/phase-12/main.md",
+      "outputs/phase-12/phase-12.md",
+      "outputs/phase-12/implementation-guide.md",
+      "outputs/phase-12/system-spec-update-summary.md",
+      "outputs/phase-12/documentation-changelog.md",
+      "outputs/phase-12/unassigned-task-detection.md",
+      "outputs/phase-12/skill-feedback-report.md",
+      "outputs/phase-12/phase12-task-spec-compliance-check.md"
+    ]
+  }
+}

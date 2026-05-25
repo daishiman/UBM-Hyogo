@@ -7,7 +7,15 @@ vi.mock("@opennextjs/cloudflare", () => ({
   getCloudflareContext: () => cloudflareContext(),
 }));
 
-import { getAuthEnv, getEnv, getPublicEnv, getPublicFetchEnv, readRawEnv } from "../env";
+import {
+  getAuthEnv,
+  getEnv,
+  getPublicEnv,
+  getPublicEnvSafe,
+  getPublicFetchEnv,
+  getSecurityHeaderEnv,
+  readRawEnv,
+} from "../env";
 
 const validEnv = {
   ENVIRONMENT: "local",
@@ -171,6 +179,39 @@ describe("env", () => {
       NEXT_PUBLIC_SENTRY_DSN: undefined,
     });
   });
+
+  it("getPublicEnvSafe returns the public subset for valid env", () => {
+    expect(getPublicEnvSafe(validEnv)).toEqual({
+      ENVIRONMENT: "local",
+      NEXT_PUBLIC_API_BASE_URL: "http://127.0.0.1:8787",
+    });
+  });
+
+  it("getPublicEnvSafe returns undefined instead of throwing for invalid env", () => {
+    expect(getPublicEnvSafe({})).toBeUndefined();
+    expect(() => getPublicEnv({})).toThrow(ZodError);
+  });
+
+  it("getSecurityHeaderEnv defaults CSP_MODE to report-only", () => {
+    expect(getSecurityHeaderEnv(validEnv)).toEqual({
+      cspMode: "report-only",
+      apiBaseUrl: "http://127.0.0.1:8787",
+    });
+  });
+
+  it("getSecurityHeaderEnv returns enforce when CSP_MODE is enforce", () => {
+    expect(getSecurityHeaderEnv({ ...validEnv, CSP_MODE: "enforce" })).toEqual({
+      cspMode: "enforce",
+      apiBaseUrl: "http://127.0.0.1:8787",
+    });
+  });
+
+  it("getSecurityHeaderEnv throws ZodError for invalid CSP_MODE", () => {
+    expect(() =>
+      getSecurityHeaderEnv({ ...validEnv, CSP_MODE: "invalid-value" }),
+    ).toThrow(ZodError);
+  });
+
 
   it("getAuthEnv returns auth keys and service binding without throwing", () => {
     const binding = { fetch: vi.fn() as unknown as typeof fetch };

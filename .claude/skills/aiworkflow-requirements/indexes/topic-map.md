@@ -1750,9 +1750,9 @@ node scripts/list-specs.js --topics
 |------------|----|
 | Canonical Contract | L3 |
 | Env Boundary | L18 |
-| CSP Nonce Contract | L22 |
-| User-gated Follow-ups | L37 |
-| Workflow | L46 |
+| CSP Nonce Contract | L30 |
+| User-gated Follow-ups | L45 |
+| Workflow | L54 |
 
 ---
 
@@ -2134,6 +2134,12 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | Contract | L16 |
+
+### references/workflow-admin-ui-prototype-alignment-followup-002-section-error-retry-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Contract | L15 |
 
 ### references/workflow-ai-chat-llm-integration-fix-artifact-inventory.md
 
@@ -3019,6 +3025,8 @@ node scripts/list-specs.js --topics
 |------------|----|
 | State | L15 |
 
+### references/workflow-issue-869-csp-enforce-cutover-artifact-inventory.md
+
 ### references/workflow-issue-870-apps-api-security-headers-artifact-inventory.md
 
 | セクション | 行 |
@@ -3033,6 +3041,49 @@ node scripts/list-specs.js --topics
 | Implementation | L14 |
 | Evidence | L24 |
 | Contract | L34 |
+
+### references/workflow-issue-872-google-brand-4tone-icon-and-tokens-exempt-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Scope | L12 |
+| User-Gated Boundary | L18 |
+
+### references/workflow-issue-874-login-staging-visual-smoke-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Workflow | L3 |
+| Implementation targets | L12 |
+| Evidence | L19 |
+| Source / parent | L27 |
+
+### references/workflow-issue-879-safe-server-fetch-member-public-horizontal-expansion-artifact-inventory.md
+
+### references/workflow-issue-880-public-segment-error-loading-boundary-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Summary | L3 |
+| Artifacts | L13 |
+| Implementation targets | L27 |
+| Skill knowledge synced | L36 |
+| User-gated operations | L43 |
+
+### references/workflow-issue-882-terms-prefetch-env-validation-fix-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Status | L16 |
+
+### references/workflow-issue-883-adapter-dev-warn-unknown-kind-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Root | L3 |
+| Implementation Targets | L12 |
+| Evidence | L20 |
+| Boundary | L32 |
 
 ### references/workflow-light-theme-contrast-regression-guard.md
 
@@ -7590,14 +7641,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L2365 |
-| フェーズ構造（概要） | L2374 |
-| 品質ゲート（概要） | L2405 |
-| 出力テンプレート | L2416 |
-| 実行時のコマンド・エージェント・スキル | L2439 |
-| 昇格パターン集 | L2463 |
-| Current Active / Spec Created Tasks | L2465 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L2626 |
+| ドキュメント構成 | L2465 |
+| フェーズ構造（概要） | L2474 |
+| 品質ゲート（概要） | L2505 |
+| 出力テンプレート | L2516 |
+| 実行時のコマンド・エージェント・スキル | L2539 |
+| 昇格パターン集 | L2563 |
+| Current Active / Spec Created Tasks | L2565 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L2726 |
 
 ### references/task-workflow-backlog-part2.md
 
