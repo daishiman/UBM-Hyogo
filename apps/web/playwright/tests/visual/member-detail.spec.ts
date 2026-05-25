@@ -1,10 +1,8 @@
 import { expect, test } from '../../fixtures/auth'
-import { buildMember } from '../../../src/test-utils/fixtures/public'
 
 test('member detail baseline', async ({ page, mockApi }) => {
   void mockApi
-  const member = buildMember()
-  await page.goto(`/members/${member.memberId}`)
+  await page.goto('/members/sample-001')
   await page.locator('[data-page="public-member-detail"]').waitFor({ state: 'visible' })
   await page.addStyleTag({
     content:
