@@ -3070,6 +3070,12 @@ node scripts/list-specs.js --topics
 | Skill knowledge synced | L36 |
 | User-gated operations | L43 |
 
+### references/workflow-issue-882-terms-prefetch-env-validation-fix-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Status | L16 |
+
 ### references/workflow-light-theme-contrast-regression-guard.md
 
 | セクション | 行 |
@@ -7618,14 +7624,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L2422 |
-| フェーズ構造（概要） | L2431 |
-| 品質ゲート（概要） | L2462 |
-| 出力テンプレート | L2473 |
-| 実行時のコマンド・エージェント・スキル | L2496 |
-| 昇格パターン集 | L2520 |
-| Current Active / Spec Created Tasks | L2522 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L2683 |
+| ドキュメント構成 | L2438 |
+| フェーズ構造（概要） | L2447 |
+| 品質ゲート（概要） | L2478 |
+| 出力テンプレート | L2489 |
+| 実行時のコマンド・エージェント・スキル | L2512 |
+| 昇格パターン集 | L2536 |
+| Current Active / Spec Created Tasks | L2538 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L2699 |
 
 ### references/task-workflow-backlog-part2.md
 
