@@ -1,5 +1,47 @@
 # クイックリファレンス
 
+## awshh-followup-003-csp-reporting-endpoints（2026-05-24）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/awshh-followup-003-csp-reporting-endpoints/` |
+| 状態 | `implemented_local_evidence_captured / implementation / NON_VISUAL` |
+| issue | #868 CLOSED; PR should use `Refs #868`; issue mutation / commit / push / PR are user-gated |
+| scope | apps/web CSP report-only observation path。`Reporting-Endpoints`、CSP `report-to`、legacy `report-uri` を出力し、Sentry CSP security endpoint へ集約 |
+| implementation | `apps/web/src/lib/security-headers.ts`, `apps/web/src/lib/env.ts`, `apps/web/middleware.ts`, `apps/web/src/lib/security-headers.spec.ts`, `apps/web/src/lib/__tests__/env.spec.ts` |
+| contract | 新規 CSP 専用 URL env は増やさず、既存 public `NEXT_PUBLIC_SENTRY_DSN` から `buildSentryCspReportUrl()` で endpoint を導出。未設定 / 不正 DSN は report 系未出力 |
+| boundary | `apps/api` / D1 / `apps/web/wrangler.toml` は不変更。staging deploy、Sentry 受信確認、commit、push、PR は user-gated |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-awshh-followup-003-csp-reporting-endpoints-artifact-inventory.md` |
+| lessons | `.claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-awshh-followup-003-csp-reporting-endpoints-2026-05.md` |
+
+### Issue #864 admin staging runtime smoke CI gate（2026-05-24）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-864-admin-staging-runtime-smoke-ci-gate/` |
+| state | `implemented_local_runtime_pending / implementation / NON_VISUAL` |
+| purpose | staging deploy 後に authenticated `/admin` を実トラフィックで叩き、Server Components render error digest `167275886` と `error.boundary.caught` を CI で検出する |
+| implementation | `scripts/cf.sh tail`, `scripts/smoke/mint-staging-session-cookie.mts`, `scripts/smoke/runtime-admin-web.sh`, `.github/workflows/web-cd.yml admin-runtime-smoke` |
+| tests | `scripts/smoke/__tests__/mint-staging-session-cookie.spec.ts`, `scripts/smoke/__tests__/runtime-admin-web.test.sh` |
+| artifact inventory | `references/workflow-issue-864-admin-staging-runtime-smoke-ci-gate-artifact-inventory.md` |
+| user gate | Cloudflare staging deploy, real authenticated `/admin` probe, commit, push, PR |
+
+## fix-admin-scr-err-stg-fu-001-auth-env-via-getenv（2026-05-24）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/fix-admin-scr-err-stg-fu-001-auth-env-via-getenv/` |
+| status | `PASS_BOUNDARY_SYNCED_RUNTIME_PENDING / implementation / NON_VISUAL` |
+| scope | `apps/web` 認証境界 (`auth.ts`) と public fetch 境界 (`fetch/public.ts`) の env 参照を `env.ts` アクセサ経由へ統一 |
+| implementation | `apps/web/src/lib/env.ts`, `apps/web/src/lib/auth.ts`, `apps/web/src/lib/fetch/public.ts` |
+| tests | `apps/web/src/lib/auth.spec.ts`, `apps/web/src/lib/__tests__/env.spec.ts`, `apps/web/src/lib/fetch/public.spec.ts`（3 files / 75 tests PASS） |
+| spec sync | `references/environment-variables.md` が `getEnv()` / `getPublicEnv()` / `getAuthEnv()` / `getPublicFetchEnv()` の用途別アクセサ契約を正本化。`getAuthEnv()` は safeParse partial + `API_SERVICE` binding 同梱で invariant #11 fail-closed を維持 |
+| Phase 12 | `outputs/phase-12/phase12-task-spec-compliance-check.md` + strict 7 files present |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-fix-admin-scr-err-stg-fu-001-auth-env-via-getenv-artifact-inventory.md` |
+| lessons-learned | `.claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-fix-admin-scr-err-stg-fu-001-auth-env-via-getenv-2026-05.md` (L-AUTHENV-001..005) |
+| source | unassigned `fix-admin-scr-err-stg-followup-001-auth-env-via-getenv-migration.md`（consumed）/ issue #862（CLOSED kept closed）/ parent PR #849 #877 |
+| boundary | Cloudflare staging deploy, authenticated `/login -> /admin` smoke (AC-7), commit, push, PR are user-gated |
+
 ## Issue #838 Schema Alias Rollback Notification（2026-05-24）
 
 | 項目 | 値 |
@@ -123,6 +165,20 @@
 | inventory | `.claude/skills/aiworkflow-requirements/references/workflow-runtime-smoke-staging-mint-recurrence-fix-artifact-inventory.md` |
 | lessons-learned | `.claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-runtime-smoke-staging-mint-recurrence-2026-05.md`（L-RSMR-001..006） |
 | boundary | `STAGING_AUTH_SECRET` 投入による mint path 恒久化・staging runtime rerun・GitHub/Cloudflare secret mutation・commit・push・PR は user-gated |
+
+## issue-870-apps-api-security-headers（2026-05-24）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-870-apps-api-security-headers/` |
+| status | `implemented_local_evidence_captured / implementation / NON_VISUAL` |
+| scope | `apps/api` global response security headers and deny-by-default CORS |
+| implementation | `apps/api/src/middleware/security-headers.ts`, `apps/api/src/index.ts`, `apps/api/src/env.ts`, `apps/api/wrangler.toml` |
+| tests | `apps/api/src/middleware/__tests__/security-headers.spec.ts` |
+| contract | `X-Content-Type-Options: nosniff`, HSTS, `Referrer-Policy: no-referrer`, conditional no-store, exact-origin `ALLOWED_ORIGINS`, credentials true |
+| Phase 12 | strict 7 outputs present |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-870-apps-api-security-headers-artifact-inventory.md` |
+| user gate | staging/production curl, deploy, commit, push, PR |
 
 ## members-page-prototype-alignment（2026-05-23）
 
@@ -3646,3 +3702,6 @@ UT-17 Cloudflare Notifications → alert-relay → Slack 経路を、既存 API 
 | `docs/30-workflows/runbooks/sa-key-rotation-sop.md` | Operator SOP | 実 rotation 前の手順確認時 |
 | `references/workflow-ut-25-deriv-01-sa-key-rotation-sop-artifact-inventory.md` | Artifact inventory | 同 wave 変更棚卸し時 |
 | `references/lessons-learned-ut-25-deriv-01-sa-key-rotation-2026-05.md` | SA key rotation 苦戦点 L-UT25SAK-001..007（stdin+history 抑止 / state guard / `secret list` name-only + UT-26 / bats fixture / 500 行近傍分割閾値 / 90 日採用根拠 / 完了記録 8 フィールド）| 次回 SOP 更新・類似 secret rotation 設計時 |
+| `docs/30-workflows/completed-tasks/issue-863-admin-error-alert-policy-iac/` | Issue #863 admin error boundary Sentry alert IaC workflow | admin `error.boundary.caught` alert policy、Sentry tag 昇格、drift CI、runbook を確認する時 |
+| `infra/sentry-alerts/` | Sentry alert policy IaC for admin runtime error detection | Sentry alert rule manifest / CLI / drift diff を確認・更新する時 |
+| `references/workflow-issue-863-admin-error-alert-policy-iac-artifact-inventory.md` | Issue #863 workflow artifact inventory | 同 wave 変更棚卸し時 |

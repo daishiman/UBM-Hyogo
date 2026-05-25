@@ -7,55 +7,37 @@
 //    → service-binding `API_SERVICE.fetch()` を常に優先
 //    (同一 account workers.dev への外向き fetch loopback 404 を回避)
 // 2. test / Playwright (NODE_ENV=test / PLAYWRIGHT_TEST=1) かつ PUBLIC_API_BASE_URL 明示時
-//    → process.env.PUBLIC_API_BASE_URL の HTTP fetch
+//    → env.ts が解決した PUBLIC_API_BASE_URL の HTTP fetch
 //    (CI 上の deterministic mock API へ差し替え可能にするため)
 // 3. それ以外 (local `next dev` で service binding 不在)
-//    → process.env.PUBLIC_API_BASE_URL の HTTP fetch
+//    → env.ts が解決した PUBLIC_API_BASE_URL の HTTP fetch
 //
 // 注: test runtime 判定 isTestOrPlaywright() は apps/web env 不変条件
-// (env 参照は getEnv()/getPublicEnv() 経由) の例外として 1 箇所に閉じる。
+// (env 参照は env.ts 経由) に従い getPublicFetchEnv() 側に閉じる。
 // 関連先行: task-05a-fetchpublic-service-binding-001 (逆方向 fallback 設計)
 
-import { getCloudflareContext } from "@opennextjs/cloudflare";
+import { getPublicFetchEnv } from "../env";
 
 const DEFAULT_BASE_URL = "http://localhost:8787";
 
-interface ServiceBinding {
-  fetch: typeof fetch;
-}
-
-interface PublicEnv {
-  API_SERVICE?: ServiceBinding;
-  PUBLIC_API_BASE_URL?: string;
-}
-
-function readEnv(): PublicEnv {
-  try {
-    return getCloudflareContext().env as PublicEnv;
-  } catch {
-    return {};
-  }
-}
-
 function getBaseUrl(): string {
-  const env = readEnv();
-  return process.env.PUBLIC_API_BASE_URL ?? env.PUBLIC_API_BASE_URL ?? DEFAULT_BASE_URL;
+  return getPublicFetchEnv().PUBLIC_API_BASE_URL ?? DEFAULT_BASE_URL;
 }
 
-// test runtime 判定。apps/web env 不変条件(getEnv()/getPublicEnv() 経由) の例外として
-// このヘルパ 1 箇所のみで process.env を直参照する。
 function isTestOrPlaywright(): boolean {
+  const env = getPublicFetchEnv();
   return (
-    process.env.NODE_ENV === "test" ||
-    process.env.PLAYWRIGHT_TEST === "1"
+    env.NODE_ENV === "test" ||
+    env.PLAYWRIGHT_TEST === "1"
   );
 }
 
-function getServiceBinding(): ServiceBinding | undefined {
+function getServiceBinding(): { fetch: typeof fetch } | undefined {
+  const env = getPublicFetchEnv();
   // test/CI 限定: PUBLIC_API_BASE_URL 明示時に HTTP fallback を優先(mock API 差し替えのため)
-  if (isTestOrPlaywright() && process.env.PUBLIC_API_BASE_URL) return undefined;
+  if (isTestOrPlaywright() && env.PUBLIC_API_BASE_URL) return undefined;
   // production / staging: PUBLIC_API_BASE_URL の有無に関わらず service binding を最優先
-  return readEnv().API_SERVICE;
+  return env.API_SERVICE;
 }
 
 function logTransport(transport: "service-binding" | "http-fallback", path: string, status: number) {

@@ -17,6 +17,7 @@ import { decodeAuthSessionJwt } from "@ubm-hyogo/shared";
 import { getPublicEnv } from "@/lib/env";
 import {
   applySecurityHeaders,
+  buildSentryCspReportUrl,
   type SecurityHeaderConfig,
 } from "@/lib/security-headers";
 
@@ -57,11 +58,16 @@ const sessionToken = (req: NextRequest): string | undefined => {
 
 const buildSecurityHeaderConfig = (): SecurityHeaderConfig => {
   const env = getPublicEnv();
-  return {
+  const reportEndpoint = buildSentryCspReportUrl(env.NEXT_PUBLIC_SENTRY_DSN);
+  const cfg: SecurityHeaderConfig = {
     cspMode: "report-only",
     apiBaseUrl: env.NEXT_PUBLIC_API_BASE_URL,
     authOrigin: "https://accounts.google.com",
   };
+  if (reportEndpoint) {
+    cfg.reportEndpoint = reportEndpoint;
+  }
+  return cfg;
 };
 
 const guardedMiddleware = async (req: NextRequest) => {
