@@ -1,7 +1,7 @@
 ---
-status: unassigned
+status: consumed
 parent: UT-DSF-07
-canonical_workflow: null
+canonical_workflow: docs/30-workflows/completed-tasks/issue-902-members-staging-visual-baseline/
 ---
 
 # UT-DSF-07-FU-02: public members-list / member-detail の staging-visual baseline 拡張
@@ -28,11 +28,13 @@ dependencies: []
 | タスク名 | `/members`（一覧）・`/members/[id]`（詳細）の production-equivalent (Cloudflare Workers staging) visual baseline 取得 |
 | 優先度 | LOW |
 | 推奨Wave | Wave 3 |
-| 状態 | unassigned |
+| 状態 | consumed |
 | 作成日 | 2026-05-23 |
 | 親タスク | UT-DSF-07（`docs/30-workflows/ut-dsf-07-staging-visual-runtime-evidence/`） |
 | 親 workflow | ui-prototype-design-system-foundation |
-| 既存タスク組み込み | なし（UT-DSF-07 のフォロー差分タスク） |
+| 既存タスク組み込み | `docs/30-workflows/completed-tasks/issue-902-members-staging-visual-baseline/` に昇格済み |
+
+> Consumed on 2026-05-25 by `docs/30-workflows/completed-tasks/issue-902-members-staging-visual-baseline/`. Source issue #902 remains CLOSED; use `Refs #902` only.
 
 ## 目的
 

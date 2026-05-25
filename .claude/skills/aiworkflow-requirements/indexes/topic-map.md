@@ -3064,6 +3064,15 @@ node scripts/list-specs.js --topics
 | Skill knowledge synced | L36 |
 | User-gated operations | L43 |
 
+### references/workflow-issue-902-members-staging-visual-baseline-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Metadata | L3 |
+| Implementation Targets | L13 |
+| Evidence | L21 |
+| Boundary | L29 |
+
 ### references/workflow-light-theme-contrast-regression-guard.md
 
 | セクション | 行 |
@@ -6474,8 +6483,8 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 概要 | L3 |
 | 仕様書インデックス | L7 |
-| 利用順序 | L119 |
-| 関連ドキュメント | L124 |
+| 利用順序 | L120 |
+| 関連ドキュメント | L125 |
 
 ### references/llm-embedding.md
 
@@ -7612,14 +7621,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L2406 |
-| フェーズ構造（概要） | L2415 |
-| 品質ゲート（概要） | L2446 |
-| 出力テンプレート | L2457 |
-| 実行時のコマンド・エージェント・スキル | L2480 |
-| 昇格パターン集 | L2504 |
-| Current Active / Spec Created Tasks | L2506 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L2667 |
+| ドキュメント構成 | L2408 |
+| フェーズ構造（概要） | L2417 |
+| 品質ゲート（概要） | L2448 |
+| 出力テンプレート | L2459 |
+| 実行時のコマンド・エージェント・スキル | L2482 |
+| 昇格パターン集 | L2506 |
+| Current Active / Spec Created Tasks | L2508 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L2669 |
 
 ### references/task-workflow-backlog-part2.md
 
