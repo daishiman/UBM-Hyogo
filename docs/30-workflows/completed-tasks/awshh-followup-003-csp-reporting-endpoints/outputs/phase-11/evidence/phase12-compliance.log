@@ -1,0 +1,17 @@
+{
+  "status": "pass",
+  "template": ".claude/skills/task-specification-creator/references/phase12-compliance-check-template.md",
+  "roots": [
+    {
+      "rootPath": "docs/30-workflows/completed-tasks/awshh-followup-003-csp-reporting-endpoints",
+      "workflowState": "implemented_local_evidence_captured",
+      "hasCompletedTasksAncestor": false
+    }
+  ],
+  "results": [
+    {
+      "ok": true,
+      "rootPath": "docs/30-workflows/completed-tasks/awshh-followup-003-csp-reporting-endpoints"
+    }
+  ]
+}

@@ -7,24 +7,24 @@
 | タスクID     | login-page-prototype-alignment-followup-003-staging-visual-smoke                                |
 | タスク名     | login-page staging 環境 Playwright visual smoke runtime evidence 取得                            |
 | 分類         | infrastructure / runtime evidence completion                                                    |
-| 対象機能     | `/login` route 6 state visual smoke の staging 環境（Cloudflare Workers `dev` 環境）での再走     |
+| 対象機能     | `/login` route 7 state visual smoke の staging 環境（Cloudflare Workers `dev` 環境）での再走     |
 | 優先度       | 中                                                                                              |
 | 見積もり規模 | 小規模                                                                                          |
-| ステータス   | pending (staging deploy gate 待ち)                                                              |
+| ステータス   | consumed by `docs/30-workflows/completed-tasks/issue-874-login-staging-visual-smoke/` (staging runtime pending) |
 | 発見元       | login-page-prototype-alignment Phase 12                                                         |
 | 発見日       | 2026-05-23                                                                                      |
 
 ## Canonical Workflow Status
 
-- canonical_workflow: `docs/30-workflows/login-page-prototype-alignment/`
-- 親 workflow: `docs/30-workflows/login-page-prototype-alignment/`
+- canonical_workflow: `docs/30-workflows/completed-tasks/issue-874-login-staging-visual-smoke/`
+- 親 workflow: `docs/30-workflows/completed-tasks/login-page-prototype-alignment/`
 - 親タスク状態: `implemented_local_visual_evidence_captured`
-- 遷移先タスク状態: `implementation_completed`
-- Phase 11 evidence 状態（local）: `completed`（local URL 起動 + 6 state screenshot 取得済み）
-- Phase 11 evidence 状態（staging）: `pending`（本 followup で消化）
+- 遷移先タスク状態: `implemented_local_runtime_pending`（staging evidence 取得後に `implemented_staging_visual_evidence_captured`）
+- Phase 11 evidence 状態（local）: `completed`（local URL 起動 + 8 screenshot 取得済み）
+- Phase 11 evidence 状態（staging）: `pending`（Issue #874 workflow Phase 11 で user-gated 実行）
 - 関連 outputs:
-  - `docs/30-workflows/login-page-prototype-alignment/outputs/phase-12/unassigned-task-detection.md`（FU-LOGIN-003）
-  - `docs/30-workflows/login-page-prototype-alignment/outputs/phase-11/main.md`（local evidence design）
+  - `docs/30-workflows/completed-tasks/login-page-prototype-alignment/outputs/phase-12/unassigned-task-detection.md`（FU-LOGIN-003）
+  - `docs/30-workflows/completed-tasks/login-page-prototype-alignment/outputs/phase-11/main.md`（local evidence design）
 - 関連実装:
   - `apps/web/playwright/tests/login-smoke.spec.ts`
   - `apps/web/src/app/(auth)/login/page.tsx`
@@ -37,7 +37,7 @@
 
 ### 1.1 背景
 
-login-page-prototype-alignment では `docs/00-getting-started-manual/claude-design-prototype/` の login 画面プロトタイプを正本に `/login` を実装し、Phase 11 で `apps/web/playwright/tests/login-smoke.spec.ts` を用いた visual smoke を **local URL (`http://127.0.0.1:8788` または `pnpm --dir apps/web dev` の dev URL)** に対して走らせ、6 state（idle / focused-email / oauth-loading / magic-link-sent / error / mobile-375）の screenshot を `outputs/phase-11/screenshots/` に取得済み。これにより local visual evidence は `completed`。
+login-page-prototype-alignment では `docs/00-getting-started-manual/claude-design-prototype/` の login 画面プロトタイプを正本に `/login` を実装し、Phase 11 で `apps/web/playwright/tests/login-smoke.spec.ts` を用いた visual smoke を **local URL (`http://127.0.0.1:8788` または `pnpm --dir apps/web dev` の dev URL)** に対して走らせ、8 screenshot（input / sent / unregistered / rules_declined / deleted / error / input-mobile / gate-admin）を `outputs/phase-11/screenshots/` に取得済み。これにより local visual evidence は `completed`。
 
 しかし、Cloudflare Workers 上の **staging 環境（`dev` ブランチ deploy 先）** では以下が local と構造的に異なる:
 
@@ -66,12 +66,12 @@ local では検知できない visual 差分が staging で初めて出る可能
 
 ### 2.1 目的
 
-staging 環境 URL に対して `apps/web/playwright/tests/login-smoke.spec.ts` を再走し、6 state screenshot を staging baseline として取得。local baseline との pixel diff を確認して、構造的差分が allowable な範囲（フォント rendering 差・CDN cache header 差のみ）に収まることを確認する。
+staging 環境 URL に対して `apps/web/playwright/tests/login-smoke.spec.ts` を再走し、7 screenshot（input / sent / unregistered / rules_declined / deleted / error / input-mobile）を staging baseline として取得。local baseline との目視 diff を確認して、構造的差分が allowable な範囲（フォント rendering 差・CDN cache header 差のみ）に収まることを確認する。
 
 ### 2.2 最終ゴール
 
 - staging URL（`dev` 環境 deploy 後の Cloudflare Workers URL）に対する `login-smoke.spec.ts` が 0 fail で完走
-- 6 state screenshot が staging evidence path に取得済み
+- 7 screenshot が staging evidence path に取得済み
 - local baseline との diff が allowable 範囲内（major regression なし）であることを目視レビューで確認
 - FU-LOGIN-003 が consumed に更新
 
@@ -80,7 +80,7 @@ staging 環境 URL に対して `apps/web/playwright/tests/login-smoke.spec.ts` 
 #### 含むもの
 
 - staging URL（`dev` 環境）に対する `login-smoke.spec.ts` の再実行
-- 6 state screenshot 再取得（idle / focused-email / oauth-loading / magic-link-sent / error / mobile-375）
+- 7 screenshot 再取得（input / sent / unregistered / rules_declined / deleted / error / input-mobile）
 - local baseline との diff 確認（目視 + 必要なら `pixelmatch` 等）
 - `outputs/phase-12/unassigned-task-detection.md` の FU-LOGIN-003 を consumed に更新
 
@@ -88,12 +88,12 @@ staging 環境 URL に対して `apps/web/playwright/tests/login-smoke.spec.ts` 
 
 - production smoke（`main` deploy 後の別 followup として切り出す）
 - CI workflow への visual job 組込み（task-18 visual-design-tokens / task-22 regression smoke の責務）
-- spec 自体の書き換え（既存 spec を staging URL 向けに env で切替）
+- spec ロジック自体の書き換え（保存先 env override の最小差分は Issue #874 workflow で消化済み）
 - 新規 state 追加（プロトタイプ正本順位違反）
 
 ### 2.4 成果物
 
-- staging evidence 6 PNG（path 命名は §3.2 で確定）
+- staging evidence 7 PNG（path 命名は Issue #874 workflow で確定）
 - local vs staging diff レビューメモ
 - FU-LOGIN-003 consumed 更新差分
 
@@ -113,7 +113,7 @@ staging 環境 URL に対して `apps/web/playwright/tests/login-smoke.spec.ts` 
 
 `apps/web/playwright/tests/login-smoke.spec.ts` は `page.screenshot({ path: '...' })` で evidence path を spec 内に直書きしているため、環境変数で staging evidence path に動的切替できない。対処方針:
 
-1. spec の `path` を `process.env.PLAYWRIGHT_EVIDENCE_DIR ?? 'docs/30-workflows/login-page-prototype-alignment/outputs/phase-11/screenshots'` で env-override 可能にする最小改修
+1. spec の `path` を `process.env.PLAYWRIGHT_EVIDENCE_DIR ?? 'docs/30-workflows/completed-tasks/login-page-prototype-alignment/outputs/phase-11/screenshots'` で env-override 可能にする最小改修
 2. または staging 実行時にだけ別 evidence dir に出力する config をもう 1 本追加（`playwright.login-staging.config.ts`）
 
 最小改修案（1）を推奨。spec の書き換えはこのタスクのスコープ外と§2.3 で宣言しているが、env-override のための 1 行差分は許容範囲とし、§2.3 の「spec 自体の書き換え」は logic 変更を指すものとする。
@@ -135,10 +135,10 @@ staging では Cloudflare CDN cache miss 時に初回 TTFB が local より大�
 ## 4. 受入条件 (AC)
 
 - **AC-1**: staging URL（`dev` 環境 Cloudflare Workers URL）に対し `pnpm --dir apps/web exec playwright test apps/web/playwright/tests/login-smoke.spec.ts --reporter=line` が 0 fail / 0 flaky で完走
-- **AC-2**: staging evidence 6 PNG（idle / focused-email / oauth-loading / magic-link-sent / error / mobile-375）が staging 用 evidence dir に保存済み、各ファイルが non-empty かつ ≤ 500KB
-- **AC-3**: local baseline 6 PNG との diff を目視レビューし、構造的回帰（要素欠落 / レイアウト崩れ / OKLch token 違反由来の色差）が無いことを確認
+- **AC-2**: staging evidence 7 PNG（input / sent / unregistered / rules_declined / deleted / error / input-mobile）が staging 用 evidence dir に保存済み、各ファイルが non-empty かつ ≤ 500KB
+- **AC-3**: local baseline 7 PNG との diff を目視レビューし、構造的回帰（要素欠落 / レイアウト崩れ / OKLch token 違反由来の色差）が無いことを確認
 - **AC-4**: spec 内 evidence path が `process.env.PLAYWRIGHT_EVIDENCE_DIR` で env-override 可能になっており、local 既定値は従来通り
-- **AC-5**: `docs/30-workflows/login-page-prototype-alignment/outputs/phase-12/unassigned-task-detection.md` の FU-LOGIN-003 が consumed に更新
+- **AC-5**: `docs/30-workflows/completed-tasks/login-page-prototype-alignment/outputs/phase-12/unassigned-task-detection.md` の FU-LOGIN-003 が consumed に更新
 - **AC-6**: staging deploy は `bash scripts/cf.sh deploy --config apps/web/wrangler.toml --env staging` 経由で user 承認後に実行された記録が followup §3 完了記録に残る
 - **AC-7**: production smoke（`main` deploy 後）は別 followup として切り出され、本 followup には混入させない
 
@@ -146,8 +146,8 @@ staging では Cloudflare CDN cache miss 時に初回 TTFB が local より大�
 
 ## 5. 参照資料
 
-- `docs/30-workflows/login-page-prototype-alignment/outputs/phase-12/unassigned-task-detection.md` - FU-LOGIN-003 検知元
-- `docs/30-workflows/login-page-prototype-alignment/outputs/phase-11/main.md` - local visual evidence 設計
+- `docs/30-workflows/completed-tasks/login-page-prototype-alignment/outputs/phase-12/unassigned-task-detection.md` - FU-LOGIN-003 検知元
+- `docs/30-workflows/completed-tasks/login-page-prototype-alignment/outputs/phase-11/main.md` - local visual evidence 設計
 - `docs/30-workflows/unassigned-task/parallel-09-followup-001-playwright-visual-evidence-completion.md` - フォーマット参考 / ENOSPC リカバリ知見
 - `apps/web/playwright/tests/login-smoke.spec.ts` - 再走対象 spec
 - `apps/web/src/app/(auth)/login/page.tsx` - 対象 route 実装

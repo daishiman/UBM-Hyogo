@@ -1,0 +1,34 @@
+{
+  "taskId": "issue-871-csp-nonce-migration",
+  "workflowDir": "docs/30-workflows/completed-tasks/issue-871-csp-nonce-migration",
+  "schemaVersion": "1.0.0",
+  "evidence": [
+    {
+      "id": "vitest-focused",
+      "kind": "test",
+      "path": "outputs/phase-11/evidence/vitest-focused.log",
+      "command": "mise exec -- pnpm --filter @ubm-hyogo/web exec vitest run --root=../.. --config=vitest.config.ts apps/web/src/lib/security-headers.spec.ts apps/web/__tests__/middleware.spec.ts",
+      "acquiredBy": "implementation_cycle",
+      "requiredForCloseout": true,
+      "notes": "2 files / 17 tests PASS after CSP nonce implementation"
+    },
+    {
+      "id": "unsafe-inline-grep",
+      "kind": "grep-gate",
+      "path": "outputs/phase-11/evidence/unsafe-inline-grep.txt",
+      "command": "rg \"'unsafe-inline'\" apps/web/src apps/web/middleware.ts apps/web/__tests__/middleware.spec.ts",
+      "acquiredBy": "implementation_cycle",
+      "requiredForCloseout": true,
+      "notes": "0 hits; rg exits 1 when no match"
+    },
+    {
+      "id": "playwright-security-headers",
+      "kind": "runtime-observation",
+      "path": "outputs/phase-11/evidence/playwright-security-headers.log",
+      "command": "mise exec -- pnpm --filter @ubm-hyogo/web exec playwright test playwright/tests/security-headers.spec.ts --project=desktop-chromium",
+      "acquiredBy": "implementation_cycle",
+      "requiredForCloseout": true,
+      "notes": "7 tests PASS via local Next dev server"
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+Command:
+mise exec -- pnpm --filter @ubm-hyogo/web exec playwright test playwright/tests/security-headers.spec.ts --project=desktop-chromium
+
+Result:
+PASS
+
+Observed summary:
+- 7 tests passed
+- 1 project: desktop-chromium
+- Duration: 24.6s
+
+Relevant warnings:
+- mise warned that the local .mise.toml is not trusted; command still executed.
+- Next.js warned that middleware file convention is deprecated in favor of proxy.
+- Local API fallback at 127.0.0.1:8787 was unavailable for page data fetches, but the HTTP security header assertions still passed.

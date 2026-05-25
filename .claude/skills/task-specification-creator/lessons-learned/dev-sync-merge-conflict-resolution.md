@@ -329,7 +329,8 @@
 - 事例: 2026-05-24 `docs/issue-863-admin-runtime-alert-policy-spec` ← dev sync-merge。tracked 50+ ` M`（全 stat-dirty）+ untracked 20 件（#888/#887/#893/#892 の stale コピー、IDENTICAL 確認）を切り分け、untracked を `git stash push -u` 退避 → clean tree で `git merge dev` → `pnpm sync:resolve` で index conflict 自動解消 → merge `9d059ad00` → typecheck/lint 初回 PASS、無関係成果物の混入ゼロ。
 - 詳細は aiworkflow-requirements 配下の L-DEVSYNC-040 を参照。
 
-### SP-DEVSYNC-008: skill-index-only コンフリクトの最短経路（2026-05-24 再確認 / 2026-05-25 再々確認）
+### SP-DEVSYNC-008: skill-index-only コンフリクトの最短経路（2026-05-24 再確認 / 2026-05-25 再々確認 / 2026-05-25 issue-874 で 3 回目確認）
+- 3 回目確認 (2026-05-25 issue-874): `feat/issue-874-login-staging-visual-smoke` への dev sync-merge（behind 5 / ahead 2）。conflict は `indexes/topic-map.md`（union） + `indexes/keywords.json`（`--ours` + rebuild）の標準 2 ファイルのみ。`pnpm sync:resolve` 単体で残件 0。worktree で `.git` が file のため branch-sync prompt の `mkdir .git/branch-sync-logs` は直接失敗 → `git rev-parse --git-common-dir` 経由解決（L-DEVSYNC-041）の運用も再確認。task 仕様書テンプレ Phase 11/12 の sync-merge 節は本最短経路を 3 sprint 連続で変更不要。
 - 再々確認 (2026-05-25): `docs/issue-863-admin-runtime-alert-policy-spec` の 2 回目の dev sync-merge（behind 9 / ahead 4）。conflict は `indexes/topic-map.md`（union） + `indexes/keywords.json`（`--ours` + rebuild）の標準 2 ファイル のみで、`pnpm sync:resolve` 単体で残件 0、merge commit `745d2dd6d` 完了。task 仕様書テンプレ Phase 11/12 の sync-merge 節は本最短経路を変更せず維持してよい。
 - 事例: `feat/issue-837-schema-alias-bulk-rollback` の dev sync。コンフリクトが `aiworkflow-requirements/indexes/{quick-reference,resource-map,topic-map}.md`（union 対象）と `indexes/keywords.json`（`--ours` + rebuild 対象）に限定された場合、`pnpm sync:resolve` 単体で残件 0、`pnpm verify:pr-ready`（verify:phase12-compliance / gate-metadata:validate / indexes:rebuild drift）も全 PASS まで一気通貫。
 - task 仕様書を書く際: skill 配下を触るタスクの Phase 11/12 で「dev sync は `pnpm sync:resolve` → `git commit`（`MERGE_HEAD` 検出で pre-commit auto skip。`--no-verify` 禁止）→ `pnpm verify:pr-ready`」を実行順として明示する。
@@ -346,3 +347,37 @@
     3. 範囲が table 本体に及ぶ場合は L-DEVSYNC-032/033 の table-merge ルール（行単位の片側採用 union）に切替
 - 検証: marker grep ゼロ + `verify:phase12-compliance` PASS + `indexes:rebuild` drift は別 chore commit で吸収（SP-DEVSYNC-029 既知パターン併発）。
 - 参照: aiworkflow-requirements L-DEVSYNC-040。
+
+### SP-DEVSYNC-034: branch-sync prompt の lock/log path は worktree-aware に解決する（2026-05-25 追加）
+
+- 事象: branch-sync prompt の Pre-flight で `mkdir -p .git/branch-sync-logs` をそのまま発行すると、worktree 内では `.git` がテキストファイル（`gitdir: ...`）のため `mkdir: .git: Not a directory` で即失敗する。lock も同様に `.git/.branch-sync.lock` 直書きは破綻。
+- Why: branch-sync の lock/log は「全 worktree 横断で単一」が必要（多重実行検出のため）。実体はメイン repo の `.git/` 配下に置く必要があるが、`git rev-parse --git-dir` は worktree 専用 dir（`.git/worktrees/<wt>/`）を返すため**不適**。`git rev-parse --git-common-dir` がメイン repo の `.git/` を一意に返す。
+- How to apply（task 仕様書での逐語化）:
+  - branch-sync / dev-sync 系プロンプトを task 仕様書に書く際、Pre-flight フェーズに以下 3 行を逐語埋め込む:
+    ```
+    GD=$(git rev-parse --git-common-dir)
+    mkdir -p "$GD/branch-sync-logs"
+    LOCK="$GD/.branch-sync.lock"
+    ```
+  - stale lock 判定は ISO8601 timestamp ではなく `stat -f %m "$LOCK"`（macOS）/ `stat -c %Y`（Linux）の mtime を `date +%s` と比較し 1800 秒境界で判定する。lock 内 timestamp はログ用に留める。
+  - `.git/` 直書き path は worktree で破綻するため、task 仕様書の例示でも禁止する。
+- 検証: 本パターンを再現する事例で `mkdir -p` が `Not a directory` で失敗するか、failure 後の `git rev-parse --git-common-dir` リトライで成功するかを Phase 11 evidence に記録する。
+- 参照: aiworkflow-requirements L-DEVSYNC-041（同根の `index.lock` 問題は L-DEVSYNC-026）。
+
+### SP-DEVSYNC-035: `apps/web/src/lib/env.ts` への getter 追加 issue は Phase 5 で「並列 export 追加 conflict」を予告し、merge dry-run を推奨する（2026-05-25 追加）
+
+- 事象: `env.ts` への新 getter / 新 `EnvSchema.pick(...)` 追加が短期間に 3 回連続 conflict した（#869 `getSecurityHeaderEnv` ↔ #862 `getAuthEnv`、#882 `getPublicEnvSafe` ↔ #869、後続 issue も同パターンが想定）。`pnpm sync:resolve` の `REGENERATE_TARGETS` で吸収可能な deterministic artifact と違い、`env.ts` は意味的差分を含むため自動解消対象外で必ず手動 resolve を要する。
+- Why: `env.ts` は領域別 getter を継続追加する拡張点で、複数 issue が同 sprint で独立に新 export を生やす構造的問題。aiworkflow-requirements L-DEVSYNC-041 で「両側 export 保持 + import 集約」の機械統合パターンが確立済みなので、task 仕様書側はそれを Phase 5 で予告し、merge 前に conflict 範囲を確認する dry-run コマンドを Phase 9 / Phase 11 evidence に逐語埋め込む。
+- How to apply（task 仕様書での逐語化）:
+  - 対象判定: 仕様書の編集対象に `apps/web/src/lib/env.ts` が含まれる場合に本パターンを適用する。
+  - Phase 5（実装）に「dev sync 時の env.ts 並列 export 追加 conflict 予告」節を追加し、L-DEVSYNC-041 の 3 ステップ（import 集約 / schema 両保持 / it ブロック両保持）を逐語コピーする。
+  - Phase 9（QA）に dev sync dry-run 手順を埋め込む:
+    ```
+    git fetch origin dev
+    git merge --no-commit --no-ff origin/dev || true
+    git status --porcelain | grep "^UU apps/web/src/lib/env" && echo "env.ts conflict expected — apply L-DEVSYNC-041"
+    git merge --abort
+    ```
+  - Phase 11 evidence に「`env.ts` conflict 解消後の `grep -nE '^(<<<<<<<|=======|>>>>>>>)' apps/web/src/lib/env.ts apps/web/src/lib/__tests__/env.spec.ts` 0 件」を必須項目化。
+- 検証: `pr-pre-flight-ci-gate-checklist.md` §3（dev sync）の checklist に「env.ts に getter 追加がある場合は merge dry-run で conflict 範囲を確認した」項目を追加する。
+- 参照: aiworkflow-requirements L-DEVSYNC-041 の再発事例。本知見は task 仕様書側の予防策（実装前の予告 + dry-run 推奨）であり、解消手順は L-DEVSYNC-041 を唯一の正本とする。
