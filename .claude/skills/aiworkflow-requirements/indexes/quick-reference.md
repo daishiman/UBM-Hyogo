@@ -152,7 +152,6 @@
 | lessons-learned | `.claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-runtime-smoke-staging-mint-recurrence-2026-05.md`（L-RSMR-001..006） |
 | boundary | `STAGING_AUTH_SECRET` 投入による mint path 恒久化・staging runtime rerun・GitHub/Cloudflare secret mutation・commit・push・PR は user-gated |
 
-||||||| Stash base
 ## issue-870-apps-api-security-headers（2026-05-24）
 
 | 項目 | 値 |

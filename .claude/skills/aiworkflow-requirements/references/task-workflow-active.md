@@ -99,7 +99,6 @@
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-runtime-smoke-staging-mint-recurrence-fix-artifact-inventory.md` |
 | user gate | GitHub secret mutation, Cloudflare secret mutation, staging runtime rerun, commit, push, PR |
 
-||||||| Stash base
 ### issue-870-apps-api-security-headers（2026-05-24）
 
 | 項目 | 値 |
