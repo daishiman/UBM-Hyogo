@@ -1,0 +1,9 @@
+# Typecheck Log
+
+Command:
+
+```bash
+pnpm --filter @ubm-hyogo/web typecheck
+```
+
+Result: PASS
