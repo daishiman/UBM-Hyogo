@@ -100,6 +100,11 @@ export function getPublicEnv(rawEnv: RawEnv = readRawEnv()): Pick<
   return PublicEnvSchema.parse(rawEnv);
 }
 
+export function getPublicEnvSafe(rawEnv: RawEnv = readRawEnv()): Pick<Env, "ENVIRONMENT" | "NEXT_PUBLIC_API_BASE_URL"> | undefined {
+  const parsed = PublicEnvSchema.safeParse(rawEnv);
+  return parsed.success ? parsed.data : undefined;
+}
+
 export function getSecurityHeaderEnv(
   rawEnv: RawEnv = readRawEnv(),
 ): { cspMode: Env["CSP_MODE"]; apiBaseUrl: Env["NEXT_PUBLIC_API_BASE_URL"] } {
