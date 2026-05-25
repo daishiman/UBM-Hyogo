@@ -1748,9 +1748,9 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | Canonical Contract | L3 |
-| Env Boundary | L16 |
-| User-gated Follow-ups | L20 |
-| Workflow | L29 |
+| Env Boundary | L18 |
+| User-gated Follow-ups | L22 |
+| Workflow | L31 |
 
 ---
 
@@ -2245,6 +2245,17 @@ node scripts/list-specs.js --topics
 | System Spec Sync | L21 |
 | Boundary | L32 |
 
+### references/workflow-awshh-followup-003-csp-reporting-endpoints-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Workflow Root | L3 |
+| Implementation | L12 |
+| Phase Outputs | L22 |
+| System Spec Sync | L30 |
+| Consumed Source | L41 |
+| Boundary | L47 |
+
 ### references/workflow-ci-green-recovery-smoke-coverage-shard-artifact-inventory.md
 
 | セクション | 行 |
@@ -2278,6 +2289,14 @@ node scripts/list-specs.js --topics
 | Implementation Artifacts | L12 |
 | Evidence Artifacts | L24 |
 | Boundary | L39 |
+
+### references/workflow-fix-admin-scr-err-stg-fu-001-auth-env-via-getenv-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Implementation Files | L15 |
+| Test Evidence | L23 |
+| User-Gated Boundary | L32 |
 
 ### references/workflow-fix-admin-server-components-render-error-stg-artifact-inventory.md
 
@@ -2970,6 +2989,14 @@ node scripts/list-specs.js --topics
 | Evidence | L20 |
 | Contract | L28 |
 
+### references/workflow-issue-842-admin-mutation-reliability-policy-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Workflow Files | L11 |
+| Implementation Targets | L20 |
+| Boundary | L32 |
+
 ### references/workflow-issue-857-internal-alert-relay-binding-wiring-artifact-inventory.md
 
 | セクション | 行 |
@@ -2977,6 +3004,18 @@ node scripts/list-specs.js --topics
 | Implementation Targets | L11 |
 | Evidence | L20 |
 | User-Gated Boundary | L28 |
+
+### references/workflow-issue-863-admin-error-alert-policy-iac-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Contract | L18 |
+
+### references/workflow-issue-864-admin-staging-runtime-smoke-ci-gate-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| State | L15 |
 
 ### references/workflow-issue-872-google-brand-4tone-icon-and-tokens-exempt-artifact-inventory.md
 
@@ -4673,14 +4712,14 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 変更履歴 | L6 |
 | 環境変数の分類 | L15 |
-| セキュリティベストプラクティス | L131 |
-| 環境別設定 | L205 |
-| Electron アプリでの環境変数 | L259 |
-| トラブルシューティング | L316 |
-| チーム開発での運用 | L377 |
-| 必須環境変数一覧 | L416 |
-| CI/CD環境（GitHub Secrets / Variables）（UT-27 追加 2026-04-29） | L477 |
-| 関連ドキュメント | L500 |
+| セキュリティベストプラクティス | L133 |
+| 環境別設定 | L207 |
+| Electron アプリでの環境変数 | L261 |
+| トラブルシューティング | L318 |
+| チーム開発での運用 | L379 |
+| 必須環境変数一覧 | L418 |
+| CI/CD環境（GitHub Secrets / Variables）（UT-27 追加 2026-04-29） | L479 |
+| 関連ドキュメント | L502 |
 
 ### references/error-handling-core.md
 
@@ -7533,14 +7572,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L2301 |
-| フェーズ構造（概要） | L2310 |
-| 品質ゲート（概要） | L2341 |
-| 出力テンプレート | L2352 |
-| 実行時のコマンド・エージェント・スキル | L2375 |
-| 昇格パターン集 | L2399 |
-| Current Active / Spec Created Tasks | L2401 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L2561 |
+| ドキュメント構成 | L2355 |
+| フェーズ構造（概要） | L2364 |
+| 品質ゲート（概要） | L2395 |
+| 出力テンプレート | L2406 |
+| 実行時のコマンド・エージェント・スキル | L2429 |
+| 昇格パターン集 | L2453 |
+| Current Active / Spec Created Tasks | L2455 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L2616 |
 
 ### references/task-workflow-backlog-part2.md
 
