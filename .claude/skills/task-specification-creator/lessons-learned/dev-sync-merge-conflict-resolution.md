@@ -329,7 +329,8 @@
 - 事例: 2026-05-24 `docs/issue-863-admin-runtime-alert-policy-spec` ← dev sync-merge。tracked 50+ ` M`（全 stat-dirty）+ untracked 20 件（#888/#887/#893/#892 の stale コピー、IDENTICAL 確認）を切り分け、untracked を `git stash push -u` 退避 → clean tree で `git merge dev` → `pnpm sync:resolve` で index conflict 自動解消 → merge `9d059ad00` → typecheck/lint 初回 PASS、無関係成果物の混入ゼロ。
 - 詳細は aiworkflow-requirements 配下の L-DEVSYNC-040 を参照。
 
-### SP-DEVSYNC-008: skill-index-only コンフリクトの最短経路（2026-05-24 再確認 / 2026-05-25 再々確認）
+### SP-DEVSYNC-008: skill-index-only コンフリクトの最短経路（2026-05-24 再確認 / 2026-05-25 再々確認 / 2026-05-25 issue-874 で 3 回目確認）
+- 3 回目確認 (2026-05-25 issue-874): `feat/issue-874-login-staging-visual-smoke` への dev sync-merge（behind 5 / ahead 2）。conflict は `indexes/topic-map.md`（union） + `indexes/keywords.json`（`--ours` + rebuild）の標準 2 ファイルのみ。`pnpm sync:resolve` 単体で残件 0。worktree で `.git` が file のため branch-sync prompt の `mkdir .git/branch-sync-logs` は直接失敗 → `git rev-parse --git-common-dir` 経由解決（L-DEVSYNC-041）の運用も再確認。task 仕様書テンプレ Phase 11/12 の sync-merge 節は本最短経路を 3 sprint 連続で変更不要。
 - 再々確認 (2026-05-25): `docs/issue-863-admin-runtime-alert-policy-spec` の 2 回目の dev sync-merge（behind 9 / ahead 4）。conflict は `indexes/topic-map.md`（union） + `indexes/keywords.json`（`--ours` + rebuild）の標準 2 ファイル のみで、`pnpm sync:resolve` 単体で残件 0、merge commit `745d2dd6d` 完了。task 仕様書テンプレ Phase 11/12 の sync-merge 節は本最短経路を変更せず維持してよい。
 - 事例: `feat/issue-837-schema-alias-bulk-rollback` の dev sync。コンフリクトが `aiworkflow-requirements/indexes/{quick-reference,resource-map,topic-map}.md`（union 対象）と `indexes/keywords.json`（`--ours` + rebuild 対象）に限定された場合、`pnpm sync:resolve` 単体で残件 0、`pnpm verify:pr-ready`（verify:phase12-compliance / gate-metadata:validate / indexes:rebuild drift）も全 PASS まで一気通貫。
 - task 仕様書を書く際: skill 配下を触るタスクの Phase 11/12 で「dev sync は `pnpm sync:resolve` → `git commit`（`MERGE_HEAD` 検出で pre-commit auto skip。`--no-verify` 禁止）→ `pnpm verify:pr-ready`」を実行順として明示する。
@@ -362,3 +363,4 @@
   - `.git/` 直書き path は worktree で破綻するため、task 仕様書の例示でも禁止する。
 - 検証: 本パターンを再現する事例で `mkdir -p` が `Not a directory` で失敗するか、failure 後の `git rev-parse --git-common-dir` リトライで成功するかを Phase 11 evidence に記録する。
 - 参照: aiworkflow-requirements L-DEVSYNC-041（同根の `index.lock` 問題は L-DEVSYNC-026）。
+- 追加事例: 2026-05-25 PM `feat/issue-880-public-segment-error-loading-boundary` ← dev sync-merge で 77 分経過の stale lock を mtime 判定で検出・自動削除し再取得。conflict は skill index 6 ファイル（SKILL.md + indexes 4 + references/task-workflow-active.md + indexes/keywords.json）すべて `pnpm sync:resolve` で完結、手動介入ゼロ。後続 `pnpm typecheck` / `pnpm lint` / `bash scripts/verify-pr-ready.sh`（gate-metadata 445/0 + verify:phase12 + indexes drift なし）すべて green。本 SOP は単発実装ではなく 2 連続 session で同等条件を機械的に解決できる再現性を確保したため、Phase 5 / Phase 9 sync-merge 節の「逐語埋め込み 3 行」をデフォルトテンプレに昇格して問題ない。

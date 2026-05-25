@@ -1750,8 +1750,9 @@ node scripts/list-specs.js --topics
 |------------|----|
 | Canonical Contract | L3 |
 | Env Boundary | L18 |
-| User-gated Follow-ups | L22 |
-| Workflow | L31 |
+| CSP Nonce Contract | L30 |
+| User-gated Follow-ups | L45 |
+| Workflow | L54 |
 
 ---
 
@@ -3018,11 +3019,50 @@ node scripts/list-specs.js --topics
 |------------|----|
 | State | L15 |
 
+### references/workflow-issue-869-csp-enforce-cutover-artifact-inventory.md
+
 ### references/workflow-issue-870-apps-api-security-headers-artifact-inventory.md
 
 | セクション | 行 |
 |------------|----|
 | Boundary | L19 |
+
+### references/workflow-issue-871-csp-nonce-migration-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Metadata | L3 |
+| Implementation | L14 |
+| Evidence | L24 |
+| Contract | L34 |
+
+### references/workflow-issue-872-google-brand-4tone-icon-and-tokens-exempt-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Scope | L12 |
+| User-Gated Boundary | L18 |
+
+### references/workflow-issue-874-login-staging-visual-smoke-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Workflow | L3 |
+| Implementation targets | L12 |
+| Evidence | L19 |
+| Source / parent | L27 |
+
+### references/workflow-issue-879-safe-server-fetch-member-public-horizontal-expansion-artifact-inventory.md
+
+### references/workflow-issue-880-public-segment-error-loading-boundary-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Summary | L3 |
+| Artifacts | L13 |
+| Implementation targets | L27 |
+| Skill knowledge synced | L36 |
+| User-gated operations | L43 |
 
 ### references/workflow-issue-900-workflow-permissions-least-privilege-audit-artifact-inventory.md
 
@@ -7588,14 +7628,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L2367 |
-| フェーズ構造（概要） | L2376 |
-| 品質ゲート（概要） | L2407 |
-| 出力テンプレート | L2418 |
-| 実行時のコマンド・エージェント・スキル | L2441 |
-| 昇格パターン集 | L2465 |
-| Current Active / Spec Created Tasks | L2467 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L2628 |
+| ドキュメント構成 | L2420 |
+| フェーズ構造（概要） | L2429 |
+| 品質ゲート（概要） | L2460 |
+| 出力テンプレート | L2471 |
+| 実行時のコマンド・エージェント・スキル | L2494 |
+| 昇格パターン集 | L2518 |
+| Current Active / Spec Created Tasks | L2520 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L2681 |
 
 ### references/task-workflow-backlog-part2.md
 

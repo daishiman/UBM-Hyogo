@@ -22,6 +22,48 @@
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-900-workflow-permissions-least-privilege-audit-artifact-inventory.md` |
 | user gate | commit, push, PR, remote CI observation |
 
+### Issue #880 public segment error/loading boundary（2026-05-24）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION` |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-880-public-segment-error-loading-boundary/` |
+| 目的 | `(public)` route group 専用の `error.tsx` / `loading.tsx` と Playwright force-throw smoke を実装し、serial-06 precondition drift を解消する |
+| parent | `docs/30-workflows/ui-prototype-design-system-foundation/serial-06-form-response-binding/` |
+| implementation targets | `apps/web/app/(public)/error.tsx`, `apps/web/app/(public)/loading.tsx`, `apps/web/app/(public)/error-boundary-smoke/page.tsx`, `apps/web/playwright/tests/public-error-boundary.spec.ts` |
+| Phase 11/12 | screenshot + focused Playwright report captured; strict 7 present |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-880-public-segment-error-loading-boundary-artifact-inventory.md` |
+| lessons-learned | `.claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-issue-880-public-segment-error-loading-boundary-2026-05.md`（L-PUBERR-001..003） |
+| user gate | commit, push, PR, GitHub issue mutation |
+
+### issue-879-safe-server-fetch-member-public-horizontal-expansion（2026-05-24）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / NON_VISUAL / implementation_complete_pending_pr` |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-879-safe-server-fetch-member-public-horizontal-expansion/` |
+| Issue | #879 CLOSED。PR 文脈は `Refs #879` のみ |
+| 目的 | admin-only `safeServerFetch` / `SafeResult<T>` per-section degrade pattern を member/public server component へ横展開する |
+| implementation targets | `apps/web/src/lib/server-fetch/safe-fetch.ts`, `apps/web/src/lib/admin/safe-server-fetch.ts`, `apps/web/src/components/{public,member}/SectionError.tsx`, `apps/web/app/profile/page.tsx`, `apps/web/app/(public)/members/page.tsx`, `apps/web/app/(public)/members/[id]/page.tsx` |
+| evidence | focused Vitest 20 PASS、web typecheck PASS、design-token gate PASS、web lint PASS |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-879-safe-server-fetch-member-public-horizontal-expansion-artifact-inventory.md` |
+| user gate | commit, push, PR, Issue mutation |
+
+### issue-872-google-brand-4tone-icon-and-tokens-exempt（2026-05-24）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `local_static_pass_browser_pending / implementation / VISUAL` |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-872-google-brand-4tone-icon-and-tokens-exempt/` |
+| source | Issue #872 / FU-LOGIN-001 |
+| 目的 | `/login` Google OAuth button の 1-tone icon を official 4-tone SVG asset wrapper へ置換する実装仕様を作り、`verify-design-tokens` の brand SVG exempt 境界を定義する |
+| implementation targets | `apps/web/src/components/ui/brand-icons/google.svg`, `apps/web/src/components/ui/brand-icons/GoogleBrandIcon.tsx`, `apps/web/app/login/_components/GoogleOAuthButton.client.tsx`, `scripts/verify-design-tokens.ts`, `scripts/verify-design-tokens.spec.ts`, `docs/00-getting-started-manual/specs/09b-design-tokens.md` |
+| invariant | `apps/web/src/components/ui/brand-icons/*.svg` のみ HEX exempt。`.tsx`, nested SVG, `.ts`, `.css` は exempt しない |
+| Phase 12 | strict 7 present + validator entry `outputs/phase-12/phase-12.md` |
+| Phase 11 | required VISUAL auxiliary files present; render PNG present; browser screenshots pending local disk cleanup (`ENOSPC`) |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-872-google-brand-4tone-icon-and-tokens-exempt-artifact-inventory.md` |
+| user gate | browser screenshot recapture after disk cleanup, visual baseline update, commit, push, PR |
+
 ### issue-864-admin-staging-runtime-smoke-ci-gate（2026-05-24）
 
 | 項目 | 値 |
@@ -181,6 +223,17 @@
 | system spec | `docs/00-getting-started-manual/specs/13-mvp-auth.md` |
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-login-page-prototype-alignment-artifact-inventory.md` |
 | boundary | `/api/auth/*`, Auth.js handler, `apps/api/**`, D1 schema は不変。staging visual smoke / commit / push / PR は user-gated |
+
+### issue-874-login-staging-visual-smoke（2026-05-24）
+
+| 項目 | 値 |
+| --- | --- |
+| 状態 | `implemented_local_runtime_pending / implementation / VISUAL` |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-874-login-staging-visual-smoke/` |
+| source | FU-LOGIN-003 from `docs/30-workflows/completed-tasks/login-page-prototype-alignment/outputs/phase-12/unassigned-task-detection.md` |
+| implementation | `apps/web/playwright/tests/login-smoke.spec.ts`, `scripts/run-login-staging-smoke.sh` |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-874-login-staging-visual-smoke-artifact-inventory.md` |
+| boundary | staging deploy / staging smoke / 7 PNG / visual diff / commit / push / PR は user-gated |
 
 ### fix-admin-server-components-render-error-stg（2026-05-23）
 
@@ -512,7 +565,7 @@
 
 | 項目 | 値 |
 | --- | --- |
-| ステータス | `spec_created / implementation / VISUAL_ON_EXECUTION / runtime_pending` |
+| ステータス | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION / runtime_pending` |
 | 成果物 | `docs/30-workflows/issue-819-admin-dashboard-runtime-screenshot/` |
 | source issue | `#819` closed 維持。PR 文脈は `Refs #819` のみ |
 | source unassigned | `docs/30-workflows/unassigned-task/step-05-followup-001-admin-dashboard-runtime-screenshot-capture.md` |
