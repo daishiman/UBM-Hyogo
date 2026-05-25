@@ -15,6 +15,20 @@
 | lessons-learned | `.claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-issue-880-public-segment-error-loading-boundary-2026-05.md`（L-PUBERR-001 production-guarded smoke route / L-PUBERR-002 worktree webServer timeout 回避 / L-PUBERR-003 scope と route-group 1:1） |
 | user gate | commit, push, PR, GitHub issue mutation |
 
+## issue-872-google-brand-4tone-icon-and-tokens-exempt（2026-05-24）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-872-google-brand-4tone-icon-and-tokens-exempt/` |
+| status | `local_static_pass_browser_pending / implementation / VISUAL` |
+| source | Issue #872 / FU-LOGIN-001 from `login-page-prototype-alignment` |
+| purpose | Google OAuth button を official 4-tone SVG asset wrapper へ置換する仕様と、`verify-design-tokens` の brand SVG exempt を定義 |
+| invariant | HEX literal は `apps/web/src/components/ui/brand-icons/*.svg` のみ exempt。`GoogleBrandIcon.tsx` / nested SVG / `.ts` / `.css` は exempt しない |
+| Phase 12 | strict 7 present + validator entry `outputs/phase-12/phase-12.md` |
+| Phase 11 | VISUAL auxiliary files present; render PNG present; browser screenshots pending local disk cleanup (`ENOSPC`) |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-872-google-brand-4tone-icon-and-tokens-exempt-artifact-inventory.md` |
+| user gate | browser screenshot recapture after disk cleanup, visual baseline update, commit, push, PR |
+
 ## issue-871-csp-nonce-migration（2026-05-24）
 
 | 項目 | 値 |

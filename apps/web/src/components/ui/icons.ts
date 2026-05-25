@@ -7,6 +7,5 @@ export type IconName =
   | "menu"
   | "external-link"
   | "send"
-  | "google"
   | "inbox"
   | "arrow-left";
