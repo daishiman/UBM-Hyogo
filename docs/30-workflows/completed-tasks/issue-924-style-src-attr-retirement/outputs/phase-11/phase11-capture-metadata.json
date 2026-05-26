@@ -1,0 +1,5 @@
+{
+  "workflow": "issue-924-style-src-attr-retirement",
+  "status": "pending_implementation",
+  "reason": "browser visual regression is user-gated"
+}

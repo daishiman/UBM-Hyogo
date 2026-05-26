@@ -507,3 +507,47 @@ Next.js server component の `redirect()` / `notFound()` を SafeResult に閉�
 ### Anti-pattern
 
 - exempt path を「pattern template として汎用化したいから」と理由なく広げる（例: `apps/web/src/components/**/*.svg`）。**brand-icon 専用 dir に物理的に閉じ込める**こと。CONST_007 (unassigned-task は実装過程で実際に発見されたもののみ) に準拠し、speculative な exempt 拡張は避ける。
+
+---
+
+## CSP directive 撤去パターン（issue-924 L-I924-001..005 汎化）
+
+CSP の `style-src-attr` や `script-src-attr` 等 *-attr 系 directive を撤去するとき、または `'unsafe-inline'` を CSP から外すときに繰り返し当たる落とし穴。コード置換と invariant gate を同一サイクルで整える指針。
+
+### L-I924-001 (invariant grep gate は最小トリガを取る)
+
+- **NG**: `style={{` 限定の grep で「inline style ゼロ」を主張する。prop-forward `style={style}` と条件式 `style={cond ? styleA : undefined}` が漏れる。
+- **OK**: grep は **`style={` 最低粒度**で検索。除外は CSP 対象外 route の path allowlist で明示。
+- **Why**: CSP `style-src-attr` は inline style の **生成経路を問わず** block する。prop か条件か直書きかを区別しない。gate もそれに合わせる。
+- **適用 phase**: Phase 4 test-plan で invariant gate の pattern を確定、Phase 5 implementation-plan で除外 path 表を固定。
+
+### L-I924-002 (VISUAL タスクは static-sanity と full-regression を分離)
+
+- **NG**: 19 route の visual baseline が取れなかったため `workflow_state` を fail / pending に倒し、ローカル static evidence まで保留扱いにする。
+- **OK**: `outputs/phase-11/screenshots/*-static-sanity.png` 1 枚で **CSS / DOM の local sanity** を closing。`workflow_state = local_static_pass_browser_pending` を採り、full route visual regression は常に user-gated（PASS 表記しない）。
+- **Why**: worktree dev server の初回コンパイル遅延等で full regression が取れないケースは構造的に発生する。local sanity と full regression は別 evidence boundary。
+
+### L-I924-003 (`ImageResponse` 等 CSP 非対象 route は path allowlist 除外)
+
+- **NG**: grep の pattern 側で `next/og` import を見て自動除外しようとする。import 形だけで除外可否は決まらず誤検出する。
+- **OK**: `apps/web/app/og/**` 等 path allowlist で **明示列挙**。Phase 5 で「除外ファイル」を表化、Phase 11 evidence で「除外確認」と「対象スキャン PASS」を別行で記録。
+- **Why**: 除外境界は **物理 path** で固定する（L-BRAND-001 と同じ責務分離パターン）。
+
+### L-I924-004 (置換は A 静的 / B 動的離散 / C 連続値 に分類してから着手)
+
+- **NG**: 全 inline style を「とりあえず className 化」する。`width: ${percent}%` の連続値や bucket 色制約付き動的値で詰まる。
+- **OK**: Phase 5 で置換を 3 区分に表化し作業順序を **A → C → B** に固定（B は token 整備が前提のため最後）:
+  - 区分 A: 静的 → Tailwind utility / CSS module class
+  - 区分 B: 動的・離散有限 → `data-bucket="N"` 等の属性 + CSS rule（`tokens.css` OKLch に集約）
+  - 区分 C: 動的・連続値 → SVG `<rect width="...">` に置換し HTML inline style から逃がす
+- **Why**: 区分判定なしで進めると「ほぼ完了したが連続値だけ残った」状態で行き詰まり、CONST_007 を口実に B/C を unassigned 切り出ししたくなる。先に分類すれば 1 サイクルで closing できる。
+
+### L-I924-005 (CSP directive 削除と spec assertion 更新を 1 commit に束ねる)
+
+- **NG**: `security-headers.ts` の directive 削除と Vitest / Playwright spec の assertion 更新を別 PR に分ける。
+- **OK**: `security-headers.ts` / focused spec / Playwright smoke spec / middleware spec の修正を **1 commit に同梱**。Phase 4 test-plan で「assertion 更新対象」を表化し、Phase 5 で修正順を「directive 削除 → spec 更新 → grep gate 強化 → 置換実装」に固定。
+- **Why**: header 値は spec が同じ directive を見ているため、削除側だけ先に merge すると CI が割れる。directive と test は 1 単位。
+
+### Anti-pattern（CSP directive 撤去）
+
+- 「invariant gate を後で追加すれば良い」と Phase 5 で gate 配線を Phase 11 に先送りする。Phase 5 でコード置換を始めると **grep gate なしでの「目視確認」期間** ができ、レビューサイクルで residual がほぼ確実に出る。invariant gate は **コード置換と同 wave** で `pnpm lint` / lefthook に配線するのが正解。

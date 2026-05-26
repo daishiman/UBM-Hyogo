@@ -38,7 +38,7 @@ Current `apps/web` nonce flow:
 - `apps/web/src/lib/security-headers.ts` accepts `SecurityHeaderConfig.nonce?: string`.
 - With nonce present, `script-src` is `script-src 'self' 'nonce-<n>' 'strict-dynamic'`.
 - With nonce present, `style-src` and `style-src-elem` require `nonce-<n>`.
-- Existing React `style={{ ... }}` usage remains compatible through explicit `style-src-attr` separation. This is a transitional boundary, not an enforce-mode completion claim.
+- `style-src-attr` is not emitted. React `style={...}` props are forbidden in CSP-relevant `apps/web/src` and `apps/web/app` TSX because they serialize to DOM `style="..."` attributes. The local invariant gate is `bash scripts/verify-no-inline-style.sh`, which searches `style={` rather than only object-literal `style={{` so prop-forwarding cases are not missed. `ImageResponse` OG image routes are excluded because they render PNG output, not browser DOM.
 - Response mode remains `Content-Security-Policy-Report-Only`; enforce mode is still a separate user-gated workflow.
 - Literal `'unsafe-inline'` must not appear in `apps/web/src`, `apps/web/middleware.ts`, or the middleware focused spec. The grep gate is `rg "'unsafe-inline'" apps/web/src apps/web/middleware.ts apps/web/__tests__/middleware.spec.ts`.
 
@@ -50,11 +50,14 @@ Current `apps/web` nonce flow:
 | U-AWSHH-002 | implemented locally by `docs/30-workflows/completed-tasks/issue-871-csp-nonce-migration/`; staging/production verification remains user-gated |
 | ~~U-AWSHH-003~~ | Consumed by `docs/30-workflows/completed-tasks/awshh-followup-003-csp-reporting-endpoints/` (Issue #868, implemented local / runtime receive pending) |
 | U-AWSHH-004 | Equivalent `apps/api` response header hardening |
+| ~~U-AWSHH-005~~ | Consumed by `docs/30-workflows/completed-tasks/issue-924-style-src-attr-retirement/` (Issue #924, local static pass / browser pending) |
 
 ## Workflow
 
 Canonical parent workflow root: `docs/30-workflows/apps-web-security-headers-hardening/`
 
 CSP enforce cutover workflow root: `docs/30-workflows/completed-tasks/issue-869-csp-enforce-cutover/`
+
+Style attribute retirement workflow root: `docs/30-workflows/completed-tasks/issue-924-style-src-attr-retirement/`
 
 Artifact inventory: `references/workflow-apps-web-security-headers-hardening-artifact-inventory.md`

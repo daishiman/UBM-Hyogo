@@ -85,16 +85,14 @@ describe("middleware", () => {
     const secondCsp = second.headers.get("Content-Security-Policy-Report-Only") ?? "";
     const firstNonce = first.headers.get("x-nonce") ?? "";
     const secondNonce = second.headers.get("x-nonce") ?? "";
-    const unsafeInline = ["'unsafe", "-inline'"].join("");
-
     expect(firstNonce).toMatch(/^[A-Za-z0-9+/]+={0,2}$/);
     expect(secondNonce).toMatch(/^[A-Za-z0-9+/]+={0,2}$/);
     expect(firstNonce).not.toBe(secondNonce);
     expect(firstCsp).toContain(`script-src 'self' 'nonce-${firstNonce}' 'strict-dynamic'`);
     expect(firstCsp).toContain(`style-src 'self' 'nonce-${firstNonce}'`);
-    expect(firstCsp).toContain(`style-src-attr ${unsafeInline}`);
-    expect(firstCsp).not.toContain(`script-src 'self' ${unsafeInline}`);
-    expect(firstCsp).not.toContain(`style-src 'self' ${unsafeInline}`);
+    expect(firstCsp).not.toContain("style-src-attr");
+    expect(firstCsp).not.toContain("script-src 'self' 'unsafe-inline'");
+    expect(firstCsp).not.toContain("style-src 'self' 'unsafe-inline'");
     expect(secondCsp).toContain(`script-src 'self' 'nonce-${secondNonce}' 'strict-dynamic'`);
   });
 });

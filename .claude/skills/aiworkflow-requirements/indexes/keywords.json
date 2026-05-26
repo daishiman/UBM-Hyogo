@@ -3329,6 +3329,7 @@
       "workflow-issue-879-safe-server-fetch-member-public-horizontal-expansion-artifact-inventory.md",
       "workflow-issue-880-public-segment-error-loading-boundary-artifact-inventory.md",
       "workflow-issue-882-terms-prefetch-env-validation-fix-artifact-inventory.md",
+      "workflow-issue-924-style-src-attr-retirement-artifact-inventory.md",
       "workflow-parallel-04-shared-page-chrome-artifact-inventory.md",
       "workflow-parallel-i02b-admin-mutation-error-finalize-artifact-inventory.md",
       "workflow-parallel-i03-dialog-refresh-order-artifact-inventory.md",
@@ -3606,7 +3607,8 @@
       "architecture-admin-api-client.md",
       "lessons-learned-06b-b-profile-request-pending-banner-sticky-2026-05.md",
       "lessons-learned-task-11-public-top-and-member-list-2026-05.md",
-      "quality-e2e-testing.md"
+      "quality-e2e-testing.md",
+      "workflow-issue-924-style-src-attr-retirement-artifact-inventory.md"
     ],
     "lib": [
       "architecture-admin-api-client.md",
@@ -4708,6 +4710,7 @@
       "workflow-issue-870-apps-api-security-headers-artifact-inventory.md",
       "workflow-issue-872-google-brand-4tone-icon-and-tokens-exempt-artifact-inventory.md",
       "workflow-issue-883-adapter-dev-warn-unknown-kind-artifact-inventory.md",
+      "workflow-issue-924-style-src-attr-retirement-artifact-inventory.md",
       "workflow-members-page-prototype-alignment-artifact-inventory.md",
       "workflow-mypage-prototype-alignment-artifact-inventory.md",
       "workflow-parallel-04-shared-page-chrome-artifact-inventory.md",
@@ -7558,6 +7561,7 @@
       "workflow-issue-880-public-segment-error-loading-boundary-artifact-inventory.md",
       "workflow-issue-882-terms-prefetch-env-validation-fix-artifact-inventory.md",
       "workflow-issue-883-adapter-dev-warn-unknown-kind-artifact-inventory.md",
+      "workflow-issue-924-style-src-attr-retirement-artifact-inventory.md",
       "workflow-task-issue-191-production-d1-schema-aliases-apply-001-artifact-inventory.md",
       "workflow-task-issue-191-schema-aliases-implementation-001-artifact-inventory.md",
       "workflow-task-issue-346-08a-canonical-workflow-tree-restore-artifact-inventory.md",
@@ -12861,6 +12865,7 @@
       "workflow-issue-874-login-staging-visual-smoke-artifact-inventory.md",
       "workflow-issue-880-public-segment-error-loading-boundary-artifact-inventory.md",
       "workflow-issue-883-adapter-dev-warn-unknown-kind-artifact-inventory.md",
+      "workflow-issue-924-style-src-attr-retirement-artifact-inventory.md",
       "workflow-login-page-prototype-alignment-artifact-inventory.md",
       "workflow-members-page-prototype-alignment-artifact-inventory.md",
       "workflow-permission-fallback-abort-skip-retry.md",
@@ -14919,6 +14924,7 @@
       "workflow-issue-874-login-staging-visual-smoke-artifact-inventory.md",
       "workflow-issue-880-public-segment-error-loading-boundary-artifact-inventory.md",
       "workflow-issue-883-adapter-dev-warn-unknown-kind-artifact-inventory.md",
+      "workflow-issue-924-style-src-attr-retirement-artifact-inventory.md",
       "workflow-login-page-prototype-alignment-artifact-inventory.md",
       "workflow-members-page-prototype-alignment-artifact-inventory.md",
       "workflow-permission-fallback-abort-skip-retry.md",
@@ -25482,6 +25488,16 @@
     "kind": [
       "workflow-issue-883-adapter-dev-warn-unknown-kind-artifact-inventory.md"
     ],
+    "style": [
+      "workflow-issue-924-style-src-attr-retirement-artifact-inventory.md"
+    ],
+    "attr": [
+      "workflow-issue-924-style-src-attr-retirement-artifact-inventory.md"
+    ],
+    "retirement": [
+      "workflow-issue-924-style-src-attr-retirement-artifact-inventory.md",
+      "workflow-task-issue-299-schema-questions-fallback-retirement-artifact-inventory.md"
+    ],
     "ライトテーマ": [
       "workflow-light-theme-contrast-regression-guard.md"
     ],
@@ -25845,9 +25861,6 @@
       "workflow-task-issue-359-production-d1-out-of-band-apply-audit-001-artifact-inventory.md"
     ],
     "questions": [
-      "workflow-task-issue-299-schema-questions-fallback-retirement-artifact-inventory.md"
-    ],
-    "retirement": [
       "workflow-task-issue-299-schema-questions-fallback-retirement-artifact-inventory.md"
     ],
     "Historical": [
