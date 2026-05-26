@@ -94,6 +94,7 @@ accent と status の base token は背景、badge、border、focus ring など�
 | `--ubm-color-text-primary` | `#1a1917` | `--text` L9 | primary text |
 | `--ubm-color-text-secondary` | `#57554e` | `--text-2` L10 | secondary text |
 | `--ubm-color-text-muted` | `#8a877e` | `--text-3` L11 | muted text |
+| `--ubm-color-link-default` | `var(--ubm-color-accent)` | `--accent` L12 | default text link |
 
 ### 3.2 Accent / Status
 
@@ -256,6 +257,7 @@ Letter spacing は原則 0 とし、prototype の `.en` 例外は implementation
 | `--ubm-text-xl` | `20px` | page heading |
 | `--ubm-text-2xl` | `24px` | hero subheading |
 | `--ubm-text-3xl` | `32px` | hero heading |
+| `--ubm-eyebrow-tracking` | `0.12em` | compact eyebrow label tracking |
 
 ## 7. Spacing Tokens
 
@@ -310,6 +312,9 @@ This keeps Style Dictionary, custom verifiers, and human review on the same sche
       "primary": { "value": "#1a1917", "css": "--ubm-color-text-primary" },
       "secondary": { "value": "#57554e", "css": "--ubm-color-text-secondary" },
       "muted": { "value": "#8a877e", "css": "--ubm-color-text-muted" }
+    },
+    "link": {
+      "default": { "value": "{color.accent.base}", "css": "--ubm-color-link-default" }
     },
     "border": {
       "default": { "value": "#e7e5df", "css": "--ubm-color-border-default" },
@@ -396,7 +401,8 @@ This keeps Style Dictionary, custom verifiers, and human review on the same sche
     "lg": { "value": "16px", "css": "--ubm-text-lg" },
     "xl": { "value": "20px", "css": "--ubm-text-xl" },
     "2xl": { "value": "24px", "css": "--ubm-text-2xl" },
-    "3xl": { "value": "32px", "css": "--ubm-text-3xl" }
+    "3xl": { "value": "32px", "css": "--ubm-text-3xl" },
+    "eyebrow-tracking": { "value": "0.12em", "css": "--ubm-eyebrow-tracking" }
   },
   "spacing": {
     "0": { "value": "0", "css": "--ubm-space-0" },

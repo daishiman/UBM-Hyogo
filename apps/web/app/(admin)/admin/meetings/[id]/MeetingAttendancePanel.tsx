@@ -22,7 +22,13 @@ interface Detail {
   attendees: Array<{ memberId: string }>;
 }
 
-export function MeetingAttendancePanel({ detail }: { readonly detail: Detail }) {
+export function MeetingAttendancePanel({
+  detail,
+  showHeading = true,
+}: {
+  readonly detail: Detail;
+  readonly showHeading?: boolean;
+}) {
   const attendanceLogger = logger.child({
     scope: "admin",
     component: "MeetingAttendancePanel",
@@ -122,10 +128,15 @@ export function MeetingAttendancePanel({ detail }: { readonly detail: Detail }) 
   };
 
   return (
-    <section aria-labelledby="meeting-detail-h">
-      <h1 id="meeting-detail-h">
-        {detail.heldOn} — {detail.title}
-      </h1>
+    <section
+      aria-labelledby={showHeading ? "meeting-detail-h" : undefined}
+      aria-label={showHeading ? undefined : `${detail.heldOn} — ${detail.title}`}
+    >
+      {showHeading ? (
+        <h1 id="meeting-detail-h">
+          {detail.heldOn} — {detail.title}
+        </h1>
+      ) : null}
       {toast && (
         <p role="status" data-testid="toast">
           {toast}

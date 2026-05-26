@@ -4,10 +4,14 @@
 //   - admin gate は (admin)/layout.tsx で済 / API 呼び出しは fetchAdmin proxy
 //   - 不変条件 #3: responseEmail は API 側で既に部分マスク済 (raw email を表示しない)
 //   - 不変条件 #5: D1 直接アクセスなし
+import Link from "next/link";
 import { safeServerFetch } from "../../../../src/lib/admin/safe-server-fetch";
-import { Breadcrumb } from "@/components/admin/Breadcrumb";
-import { EmptyState } from "../../../../src/components/ui/EmptyState";
-import { AdminSectionErrorClient } from "../../../../src/features/admin/components/_shared";
+import {
+  AdminEmptyState,
+  AdminSectionCard,
+  AdminSectionErrorClient,
+} from "../../../../src/features/admin/components/_shared";
+import { AdminPageHeader } from "../../../../src/features/admin/components/_layout/AdminPageHeader";
 import type { ListIdentityConflictsResponse } from "@ubm-hyogo/shared";
 import { IdentityConflictRow } from "../../../../src/components/admin/IdentityConflictRow";
 
@@ -27,15 +31,13 @@ export default async function AdminIdentityConflictsPage({
   const result = await safeServerFetch<ListIdentityConflictsResponse>(path);
 
   return (
-    <main className="mx-auto max-w-5xl px-6 py-8" data-route="admin" data-section-rhythm="compact">
-      <Breadcrumb items={[{ label: "Identity 重複候補" }]} />
-      <header className="mb-6">
-        <h1 className="text-2xl font-semibold tracking-tight">Identity 重複候補</h1>
-        <p className="mt-2 text-sm text-zinc-600">
-          name + 所属が完全一致する identity 候補を表示します。merge は二段階確認が必要です。
-          別人の場合は「別人マーク」で再検出を抑止できます。
-        </p>
-      </header>
+    <section className="flex flex-col gap-4" data-route="admin" data-section-rhythm="compact">
+      <AdminPageHeader
+        eyebrow="ADMIN / IDENTITY"
+        title="Identity 重複候補"
+        description="name + 所属が完全一致する identity 候補。merge は二段階確認"
+        breadcrumbs={[{ label: "管理", href: "/admin" }, { label: "Identity 重複候補" }]}
+      />
 
       {!result.ok ? (
         <AdminSectionErrorClient
@@ -44,10 +46,13 @@ export default async function AdminIdentityConflictsPage({
           message={result.error.message}
         />
       ) : result.data.items.length === 0 ? (
-        <EmptyState title="現在、merge 候補はありません。" />
+        <AdminEmptyState title="現在、merge 候補はありません。" icon="shield" />
       ) : (
-        <>
-          <ul className="divide-y divide-zinc-200 rounded-md border border-zinc-200">
+        <AdminSectionCard
+          title="候補一覧"
+          description="候補ごとに merge または別人マークを判断します。"
+        >
+          <ul className="divide-y divide-[var(--ubm-color-border-default)] rounded-md border border-[var(--ubm-color-border-default)]">
             {result.data.items.map((item) => (
               <li key={item.conflictId} className="px-4 py-3">
                 <IdentityConflictRow item={item} />
@@ -56,16 +61,16 @@ export default async function AdminIdentityConflictsPage({
           </ul>
           {result.data.nextCursor && (
             <div className="mt-6 text-right">
-              <a
+              <Link
                 href={`?cursor=${encodeURIComponent(result.data.nextCursor)}`}
-                className="text-sm text-blue-600 underline-offset-2 hover:underline"
+                className="text-sm text-[var(--ubm-color-link-default)] underline-offset-2 hover:underline"
               >
                 次のページ →
-              </a>
+              </Link>
             </div>
           )}
-        </>
+        </AdminSectionCard>
       )}
-    </main>
+    </section>
   );
 }

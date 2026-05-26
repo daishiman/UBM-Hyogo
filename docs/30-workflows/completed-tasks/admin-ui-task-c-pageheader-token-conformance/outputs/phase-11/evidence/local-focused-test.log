@@ -1,0 +1,33 @@
+2026-05-26 local focused verification
+
+Command attempted:
+mise exec -- pnpm --filter web test -- AdminPageHeader admin-page-header-adoption tokens.runtime
+
+Result:
+Initial run executed the full apps/web Vitest suite because the filter was interpreted broadly.
+It found local test defects only:
+- admin-page-header-adoption.spec.ts repo root resolved to apps/ instead of repo root
+- AdminPageHeader.spec.tsx used jest-dom matchers that are not installed in this Vitest setup
+- primitive-adoption.spec.ts accepted <EmptyState> but not <AdminEmptyState>
+
+Fix applied in this cycle:
+- apps/web/src/__tests__/admin-page-header-adoption.spec.ts path root corrected
+- apps/web/src/features/admin/components/_layout/__tests__/AdminPageHeader.spec.tsx assertions changed to native Vitest
+- apps/web/src/components/admin/__tests__/primitive-adoption.spec.ts accepts AdminEmptyState as the admin primitive
+
+Final rerun evidence is captured in the task close-out summary.
+
+Final verification:
+- `mise exec -- pnpm verify:tokens` PASS: design tokens in sync (90 tracked)
+- `mise exec -- pnpm exec vitest run apps/web/src/__tests__/admin-page-header-adoption.spec.ts apps/web/src/features/admin/components/_layout/__tests__/AdminPageHeader.spec.tsx apps/web/src/__tests__/tokens.runtime.spec.ts apps/web/src/components/admin/__tests__/primitive-adoption.spec.ts` PASS: 4 files / 52 tests
+- `PLAYWRIGHT_BASE_URL=http://localhost:3107 PLAYWRIGHT_EVIDENCE_TASK=task-18-w7 PLAYWRIGHT_EVIDENCE_DIR=../../docs/30-workflows/admin-ui-task-c-pageheader-token-conformance/outputs/phase-11 mise exec -- pnpm --filter @ubm-hyogo/web exec playwright test playwright/tests/admin-pageheader-task-c.spec.ts --project=desktop-chromium` PASS: 9 screenshots / 9 tests
+- `mise exec -- pnpm --filter @ubm-hyogo/web test -- ...focused Task C files...` PASS: web Vitest suite 162 files / 1173 tests, 1 skipped
+- structure grep for Task C page `AdminPageHeader`, direct `Breadcrumb`, page-local `<main>`, and page-layer Tailwind palette literals produced no output
+- `mise exec -- pnpm typecheck` PASS
+- `mise exec -- pnpm lint` PASS
+- `git diff --check` PASS
+
+Remediation during final review:
+- Playwright found duplicate h1 landmarks where `AdminPageHeader` and legacy panels both rendered page headings.
+- Added backwards-compatible `showHeading` / `showChrome` props and disabled legacy panel chrome only from Task C pages.
+- Re-ran Playwright on a clean port and captured 9 PNG screenshots plus `manual-test-result.md`.

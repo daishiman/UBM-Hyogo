@@ -2133,13 +2133,20 @@ node scripts/list-specs.js --topics
 
 | セクション | 行 |
 |------------|----|
-| Contract | L16 |
+| Contract | L18 |
 
 ### references/workflow-admin-ui-prototype-alignment-followup-002-section-error-retry-artifact-inventory.md
 
 | セクション | 行 |
 |------------|----|
 | Contract | L15 |
+
+### references/workflow-admin-ui-task-c-pageheader-token-conformance-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Contract | L20 |
+| Lessons Learned | L36 |
 
 ### references/workflow-ai-chat-llm-integration-fix-artifact-inventory.md
 
@@ -7754,14 +7761,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L2610 |
-| フェーズ構造（概要） | L2619 |
-| 品質ゲート（概要） | L2650 |
-| 出力テンプレート | L2661 |
-| 実行時のコマンド・エージェント・スキル | L2684 |
-| 昇格パターン集 | L2708 |
-| Current Active / Spec Created Tasks | L2710 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L2871 |
+| ドキュメント構成 | L2625 |
+| フェーズ構造（概要） | L2634 |
+| 品質ゲート（概要） | L2665 |
+| 出力テンプレート | L2676 |
+| 実行時のコマンド・エージェント・スキル | L2699 |
+| 昇格パターン集 | L2723 |
+| Current Active / Spec Created Tasks | L2725 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L2886 |
 
 ### references/task-workflow-backlog-part2.md
 

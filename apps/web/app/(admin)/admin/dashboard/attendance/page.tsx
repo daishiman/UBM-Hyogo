@@ -3,6 +3,7 @@
 // 不変条件 #5: D1 直接アクセス禁止 — fetchAdmin 経由で内部 API を呼ぶ
 import { safeServerFetch } from "../../../../../src/lib/admin/safe-server-fetch";
 import { AdminSectionErrorClient } from "../../../../../src/features/admin/components/_shared";
+import { AdminPageHeader } from "../../../../../src/features/admin/components/_layout/AdminPageHeader";
 
 export const dynamic = "force-dynamic";
 
@@ -41,8 +42,18 @@ export default async function AdminAttendanceDashboardPage() {
   ]);
 
   return (
-    <section aria-labelledby="admin-attendance-dashboard-h">
-      <h1 id="admin-attendance-dashboard-h">出席ダッシュボード</h1>
+    <section className="flex flex-col gap-4" aria-labelledby="admin-attendance-dashboard-h">
+      <AdminPageHeader
+        eyebrow="ADMIN / DASHBOARD"
+        title="出席ダッシュボード"
+        description="出席率の overview / by-session / ranking"
+        breadcrumbs={[
+          { label: "管理", href: "/admin" },
+          { label: "ダッシュボード", href: "/admin/dashboard" },
+          { label: "出席" },
+        ]}
+        headingId="admin-attendance-dashboard-h"
+      />
 
       {overviewR.ok ? (
         <div

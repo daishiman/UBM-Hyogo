@@ -18,6 +18,21 @@
 | 出典 | `docs/30-workflows/admin-ui-prototype-alignment/outputs/phase-12/implementation-guide.md` / `system-spec-update-summary.md` / `skill-feedback-report.md` / `phase12-task-spec-compliance-check.md` / `unassigned-task-detection.md` |
 | user gate | authenticated runtime screenshots / staging refresh / commit / push / PR |
 
+## admin-ui-task-c-pageheader-token-conformance（2026-05-26）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/admin-ui-task-c-pageheader-token-conformance/` |
+| status | `implemented_local_evidence_captured / implementation / VISUAL` |
+| parent | `docs/30-workflows/admin-ui-prototype-alignment/` Task C |
+| purpose | 9 admin pages を `AdminPageHeader` へ統一し、`identity-conflicts/page.tsx` の独自 `<main>` と page-layer Tailwind palette literals を撤去する |
+| implementation | `apps/web/app/(admin)/admin/{tags,meetings,meetings/[id],schema,schema/history,requests,identity-conflicts,audit,dashboard/attendance}/page.tsx`, `apps/web/src/features/admin/components/_layout/AdminPageHeader.tsx`, `apps/web/src/components/admin/{MeetingPanel,RequestQueuePanel,AuditLogPanel,SchemaDiffHistoryPanel}.tsx`, `apps/web/app/(admin)/admin/meetings/[id]/MeetingAttendancePanel.tsx`, `apps/web/src/styles/tokens.css` |
+| contract | `AdminPageHeader` is the single page-head component; `eyebrow` and `headingId` are additive. Legacy panel h1/chrome can be suppressed from Task C pages via backwards-compatible `showHeading` / `showChrome` props. API / D1 / auth / Google Form schema unchanged. |
+| tests | `apps/web/src/__tests__/admin-page-header-adoption.spec.ts`, `apps/web/src/features/admin/components/_layout/__tests__/AdminPageHeader.spec.tsx`, `apps/web/playwright/tests/admin-pageheader-task-c.spec.ts`, token runtime spec, primitive adoption gate |
+| Phase 11/12 | 9 local authenticated screenshots present; strict 7 present; root/output artifacts parity present |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-ui-task-c-pageheader-token-conformance-artifact-inventory.md` |
+| user gate | staging authenticated screenshots, visual baseline refresh, commit, push, PR |
+
 ## register-page-prototype-alignment（2026-05-26）
 
 | 項目 | 値 |
