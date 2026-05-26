@@ -248,6 +248,9 @@ Rules:
 - Repository-scoped secrets must not store staging runtime credentials.
 - The smoke workflow is invoked through reusable `workflow_call` from `backend-ci.yml`; no repository-scoped dispatch token is required for Issue #571.
 - `scripts/ci/verify-env-secrets.allowlist` declares the smoke-required 4 secrets with `env=staging-runtime-smoke;required=...`; this is a required Environment contract, not a repository fallback and not a mute.
+- `runtime-smoke-staging.yml` must run `setup-project` before smoke even when `STAGING_AUTH_SECRET` is absent, because the static fallback path also runs `scripts/smoke/bearer-freshness-gate.mts` through `pnpm exec tsx`.
+- Before smoke execution, admin / me bearer `exp` must be decoded without printing JWT content. `exp - now < 21600` or decode failure is a loud fail. This prevents silent fallback to an expired static bearer.
+- 401 `unauthorized` diagnostics are split by bearer `exp`: `auth-token-expired` when `exp <= now`, `auth-secret-drift` when `exp > now` or decode is impossible. The latter means `STAGING_AUTH_SECRET` and staging API `AUTH_SECRET` must be re-synced.
 - Evidence may record secret names and placement only. Values, value hashes, token fragments, webhook URLs, and decoded cookies are forbidden in docs, logs, artifacts, PR body, and commit messages.
 - Before runtime execution, validate both name-only secret inventory and a value-without-printing staging marker check for `STAGING_API_BASE`.
 - `scripts/smoke/provision-staging-secrets.sh` verifies the final environment inventory by secret name only. Runtime smoke success is not implied until a user-approved Actions run produces fresh evidence.

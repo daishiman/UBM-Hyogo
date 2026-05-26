@@ -10,13 +10,16 @@ import { connection } from "next/server";
 import { buildPageMetadata } from "@/lib/seo/site-metadata";
 
 import { EmptyState } from "../../../src/components/feedback/EmptyState";
+import { DensityToggle } from "../../../src/components/public/DensityToggle.client";
 import { MemberFilters } from "../../../src/components/public/MemberFilters.client";
 import { MemberGrid } from "../../../src/components/public/MemberGrid";
+import { SectionError } from "../../../src/components/public/SectionError";
 import { MemberTable } from "../../../src/components/public/MemberTable";
 import {
   PUBLIC_API_REVALIDATE,
   listMembers,
 } from "../../../src/lib/api/public";
+import { safeServerFetch } from "../../../src/lib/server-fetch/safe-fetch";
 import {
   parseSearchParams,
   type MembersSearch,
@@ -43,27 +46,56 @@ export default async function MembersPage({ searchParams }: MembersPageProps) {
   await connection();
   const sp = await searchParams;
   const search: MembersSearch = parseSearchParams(sp);
-  const list = await listMembers(search, {
-    revalidate: PUBLIC_API_REVALIDATE.members,
-  });
+  const listResult = await safeServerFetch(
+    () =>
+      listMembers(search, {
+        revalidate: PUBLIC_API_REVALIDATE.members,
+      }),
+    { codePrefix: "PUBLIC_FETCH" },
+  );
 
   return (
-    <main data-page="members" data-density={search.density} data-route="public" data-section-rhythm="comfortable">
-      <h1>メンバー一覧</h1>
-      <MemberFilters initial={search} topTags={list.topTags} />
-      {list.items.length === 0 ? (
+    <main
+      data-page="members"
+      data-density={search.density}
+      data-route="public"
+      data-section-rhythm="comfortable"
+    >
+      <header className="page-head">
+        <div>
+          <div className="eyebrow">MEMBERS</div>
+          <h1>メンバー一覧</h1>
+          <p data-role="lead">
+            UBM 兵庫支部会のメンバー紹介。職種・拠点・関心領域から探せます。
+          </p>
+        </div>
+        <DensityToggle value={search.density} />
+      </header>
+      <MemberFilters
+        initial={search}
+        topTags={listResult.ok ? listResult.data.topTags : []}
+      />
+      {!listResult.ok ? (
+        <SectionError
+          title="メンバー一覧を読み込めませんでした"
+          detail={listResult.error.message}
+          retryHref="/members"
+        />
+      ) : listResult.data.items.length === 0 ? (
         <EmptyState
           title="該当するメンバーがいません"
           description="検索条件を変更するか、絞り込みをクリアしてください。"
           resetHref="/members"
         />
       ) : search.density === "list" ? (
-        <MemberTable items={list.items} />
+        <MemberTable items={listResult.data.items} />
       ) : (
-        <MemberGrid items={list.items} density={search.density} />
+        <MemberGrid items={listResult.data.items} density={search.density} />
       )}
       <p data-role="pagination-meta">
-        {list.pagination.total} 件中 {list.items.length} 件表示
+        {listResult.ok
+          ? `${listResult.data.pagination.total} 件中 ${listResult.data.items.length} 件表示`
+          : "メンバー件数を読み込めませんでした"}
       </p>
     </main>
   );

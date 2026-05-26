@@ -9,6 +9,7 @@ import react from "@vitejs/plugin-react";
 // ルート `node_modules` の react / react-dom を正本として alias + dedupe で固定する。
 const rootReact = fileURLToPath(new URL("./node_modules/react", import.meta.url));
 const rootReactDom = fileURLToPath(new URL("./node_modules/react-dom", import.meta.url));
+const webSrc = fileURLToPath(new URL("./apps/web/src", import.meta.url));
 
 export default defineConfig({
   plugins: [react()],
@@ -21,6 +22,7 @@ export default defineConfig({
       { find: /^react-dom$/, replacement: `${rootReactDom}/index.js` },
       { find: /^react-dom\/client$/, replacement: `${rootReactDom}/client.js` },
       { find: /^react-dom\/test-utils$/, replacement: `${rootReactDom}/test-utils.js` },
+      { find: /^@\//, replacement: `${webSrc}/` },
     ],
   },
   optimizeDeps: {
@@ -48,6 +50,7 @@ export default defineConfig({
       "packages/**/src/**/*.spec.{ts,tsx}",
       "scripts/**/*.spec.ts",
       "infra/cloudflare-alerts/lib/__tests__/**/*.spec.ts",
+      "infra/sentry-alerts/lib/__tests__/**/*.spec.ts",
     ],
     // issue-617: D1 binding を使う apps/api test は vitest.d1.config.ts に分離。
     // Phase 4 classification.md (docs/30-workflows/issue-617-ci-test-time-reduction-split/) を正本。

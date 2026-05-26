@@ -16,7 +16,7 @@ line budget、mirror parity、workflow validator、scoped audit の失敗を短�
 
 1. `quick_validate.js`: structure と reference link。
 2. `validate_all.js`: broken link、禁止ファイル、frontmatter。
-3. `validate-phase-output.js`: workflow 仕様の構造。
+3. `validate-phase-output.js`: workflow 仕様の構造。modern `outputs/phase-N/phase-N.md` レイアウトを自動検出し、Phase title + section presence で検証する（旧 root 直下 `phase-N-*.md` も継続サポート）。`spec_created` + `phase11-capture-metadata.json#status=pending_implementation` のときは screenshot PNG 0 件を pending boundary として PASS と扱う。
 4. `verify-all-specs.js`: phase 依存と warning の洗い出し。
 
 ## パターン3: `.claude` と `.agents` の差分確認
@@ -62,6 +62,18 @@ UI screenshot が不要でも、以下は残す:
 - archive discoverability
 - mirror parity
 - validator replay
+
+## パターン8: auth leak grep gate
+
+Authenticated visual / runtime smoke のように cookie や JWT を一時生成するタスクでは、実装ログ・Phase 11 evidence・tracked files に次が残らないことを dedicated grep gate で検証する。
+
+| 検査 | 期待 |
+| --- | --- |
+| JWT prefix `eyJ` | tracked evidence 0 hit |
+| `authjs.session-token=` の値 | 0 hit（cookie 名の言及のみ可） |
+| `STAGING_AUTH_SECRET=` の値 | 0 hit（env 名の言及のみ可） |
+
+storageState は `.gitignore` 済みの ephemeral path に限定し、HTML report や artifact upload の対象からも除外する。
 
 ## 再利用チェックリスト
 

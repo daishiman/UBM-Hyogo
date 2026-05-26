@@ -69,7 +69,7 @@ and keep the current `apps/web/app/**` paths, including root app paths for
 | item | value |
 |------|-------|
 | sub-workflow | `docs/30-workflows/ui-prototype-design-system-foundation/parallel-03-appshell-layouts/` |
-| status | `implemented_local_evidence_captured / implementation / VISUAL (public chrome only; admin/member deferred-to-serial-07)` |
+| status | `implemented_local_evidence_captured / implementation / VISUAL (public screenshot + admin DOM scrape present; member DOM / full chrome screenshots delegated)` |
 | implementation_mode | `existing-layout-alignment`（既存 layout に data-* 契約と shell chrome を機械的に当てる mode。新規 primitive / API / D1 schema 追加なし） |
 | edited files | `apps/web/app/(public)/layout.tsx`, `apps/web/app/(admin)/layout.tsx`, `apps/web/app/(member)/layout.tsx` |
 | added specs | `apps/web/app/(public)/layout.spec.tsx`, `apps/web/app/(member)/layout.spec.tsx`, `apps/web/app/(admin)/layout.spec.tsx` |
@@ -77,12 +77,24 @@ and keep the current `apps/web/app/**` paths, including root app paths for
 | color tokens | OKLch tokens via `var(--ubm-color-*)` 経由のみ。HEX 直書きなし（`hex-scan.log` no matches） |
 | primitive preservation | `PublicHeader` / `PublicFooter` / `AdminSidebar` / `MemberHeader` / `SignOutButton` 全て props / signature 無改変 |
 | admin auth defense | `getSession()` ベースで 2 段 redirect（未認証 → `/login?next=/admin`、non-admin → `/login?gate=forbidden`）を維持。Server Component (async) + `next/navigation` redirect で test し、`vi.mock('next/navigation')` の `redirect` throw + `RedirectError` で分岐検証 |
-| visual evidence boundary | public shell の実 screenshot を本 sub-workflow で取得、admin/member full chrome は親 workflow `serial-07-regression-evidence/` に `deferred-to-serial-07` ラベルで委譲 |
-| Phase 11 evidence | `outputs/phase-11/{evidence-inventory.md, screenshot-coverage.md, screenshots/, typecheck.log, lint.log, verify-design-tokens.log, hex-scan.log, layout-specs.log, admin-layout-spec.log, web-build.log, dom-scrape-public.txt, diff-stat.txt, verify-test-suffix.log}` |
+| visual evidence boundary | public shell の実 screenshot と admin runtime DOM scrape (EV-12) を取得済み。admin/member full chrome screenshot は親 workflow `serial-07-regression-evidence/` に `deferred-to-serial-07` ラベルで委譲 |
+| Phase 11 evidence | `outputs/phase-11/{evidence-inventory.md, screenshot-coverage.md, screenshots/, typecheck.log, lint.log, verify-design-tokens.log, hex-scan.log, layout-specs.log, admin-layout-spec.log, web-build.log, dom-scrape-public.txt, dom-scrape-admin.txt, diff-stat.txt, verify-test-suffix.log}` |
 | Phase 12 evidence | parent root `outputs/phase-12/` に strict 7 集約。sub-workflow 側は Phase 11 evidence と root `phase-12-compliance-check.md` のみ保持 |
 | DoD trace | DoD-01..10 すべて充足（既存 primitive 無改変 / data-* 契約 / OKLch only / spec coverage / axe critical 0 / typecheck / lint / token gate / hex scan / build） |
-| out-of-scope | `/privacy` / `/terms` / `/profile` の route group 再配置は serial-05、admin/member runtime full chrome screenshot は serial-07 |
+| out-of-scope | `/privacy` / `/terms` / `/profile` の route group 再配置と member DOM scrape は serial-05、admin/member runtime full chrome screenshot は serial-07 |
 | user gate | commit / push / PR / serial-07 visual evidence capture |
+
+## AdminTopbar follow-up 001（2026-05-23）
+
+| item | value |
+|------|-------|
+| workflow | `docs/30-workflows/parallel-03-followup-001-admin-topbar-primitive-extraction/` |
+| status | `implemented_local_evidence_captured / implementation / NON_VISUAL` |
+| source | `docs/30-workflows/unassigned-task/parallel-03-followup-001-admin-topbar-primitive-extraction.md` consumed |
+| implementation files | `apps/web/src/components/layout/AdminTopbar.tsx`, `apps/web/app/(admin)/layout.tsx`, `apps/web/src/components/layout/__tests__/AdminTopbar.spec.tsx` |
+| contract | `data-shell="topbar"` は AdminTopbar root `<header>`、`data-route-group="admin"` / `data-theme="cool"` / `data-testid="admin-shell"` は `(admin)/layout.tsx` wrapper に残す |
+| visual boundary | inline JSX から primitive への DOM 同型リファクタ。screenshot baseline は追加せず、existing layout spec と serial-07 visual owner 継続で非回帰を担保 |
+| user gate | commit / push / PR |
 
 
 ## parallel-02 prototype CSS rules port (2026-05-19 close-out)
@@ -155,6 +167,20 @@ Future implementation must use `PROTOTYPE-COVERAGE.md` and keep the current
 | dependency chain | `parallel-01..04` → `serial-05-page-routes-blueprint-binding` → `serial-06-form-response-binding` → `serial-07-regression-evidence` |
 | user gate | commit / push / PR / runtime visual evidence |
 
+## Sub-workflow: serial-06 Form Response Binding（2026-05-23 spec validation）
+
+| item | value |
+|------|-------|
+| sub-workflow | `docs/30-workflows/ui-prototype-design-system-foundation/serial-06-form-response-binding/` |
+| status | `spec_created / implementation / VISUAL / strict7-parent-aggregated` |
+| topology rule | `serial-06` is a sub-workflow of `ui-prototype-design-system-foundation`; do not create standalone `docs/30-workflows/serial-06-form-response-binding/` |
+| Phase 12 strict 7 | parent root only: `docs/30-workflows/ui-prototype-design-system-foundation/outputs/phase-12/` |
+| sub allowed Phase 12 file | `phase-12-compliance-check.md` only; sub `outputs/phase-12/*` is duplicate drift |
+| implementation scope | `apps/web/app/(public)/members/[id]/page.tsx`, `apps/web/src/lib/adapters/member-detail.ts`, `apps/web/src/components/public/MemberDetail.tsx`, fixture and focused specs |
+| evidence boundary | Phase 11 includes serial-06 local runtime screenshot `outputs/phase-11/screenshots/public-member-detail.png` and DOM scrape; production-equivalent 19-route visual evidence remains serial-07 owned |
+| dependency chain | `parallel-01..04` → `serial-05-page-routes-blueprint-binding` → `serial-06-form-response-binding` → `serial-07-regression-evidence` |
+| user gate | implementation execution / runtime visual evidence / commit / push / PR |
+
 ## P1-1〜P1-5 Selector ↔ Token ↔ 09 Spec Mapping (parallel-01)
 
 `apps/web/src/styles/globals.css` の `@layer components` に追加した data-attr
@@ -208,6 +234,17 @@ Future implementation must use `PROTOTYPE-COVERAGE.md` and keep the current
 
 Phase 12 strict 7 outputs は parent root `outputs/phase-12/` に集約し、sub-workflow には
 複製しない（parent-sub-workflow strict7 aggregation parity）。
+
+## Serial-07 regression evidence canonical execution root（2026-05-25）
+
+| item | value |
+| --- | --- |
+| canonical execution root | `docs/30-workflows/regression-evidence-ci-gate-foundation/` |
+| upstream source | `docs/30-workflows/ui-prototype-design-system-foundation/serial-07-regression-evidence/` |
+| status | `spec_created / implementation / VISUAL / runtime_pending` |
+| purpose | Top-level workflow for Playwright visual 4 screens, baseline PNG capture, `verify-design-tokens`, `verify-pr-ready`, and branch-protection required-check candidate documentation |
+| ownership rule | Treat the top-level root as the execution SSOT. Keep the parent serial-07 path as historical/upstream source context, not a second active execution root. |
+| user gate | Playwright visual run, baseline PNG commit, branch protection mutation, commit, push, PR |
 
 ## P1-1〜P1-5 Selector ↔ Token ↔ 09 Spec Mapping (parallel-01)
 

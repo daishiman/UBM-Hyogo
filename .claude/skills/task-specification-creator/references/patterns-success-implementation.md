@@ -5,6 +5,20 @@
 
 ## 仕様書修正タスクの「差分監査」と「全体監査」分離（UT-SKILL-IPC-PRELOAD-EXTENSION-001）
 
+## Authenticated Runtime TTL 600s 統一パターン
+
+- **状況**: staging smoke / authenticated visual / storageState mint がそれぞれ session JWT を生成する場合。
+- **問題**: TTL が 24h などに分散すると freshness gate、secret drift 判定、再実行時の flake 原因が揺れる。
+- **解決パターン**:
+  1. `signSessionJwt(secret, input)` の `ttlSeconds` を 600 に統一する。
+  2. mint 直後に verifier / smoke path で self-verify し、失敗を `auth-secret-drift` として切り分ける。
+  3. Playwright setup project や smoke setup step の直後に実行本体を走らせ、TTL 内に完了する順序を固定する。
+- **効果**:
+  - runtime smoke と authenticated visual の失効・freshness 判定が同じ規約で扱える。
+  - 長寿命 cookie を evidence に残すリスクを下げられる。
+- **発見日**: 2026-05-25
+- **関連タスク**: Issue #901 authenticated profile/admin staging visual
+
 - **状況**: Phase 12で未タスク監査を行う際、リポジトリ全体には既存違反が多く、今回変更分の判定が埋もれる
 - **問題**: `audit-unassigned-tasks.js` を全体実行すると既存違反が大量に出力され、今回タスク固有の漏れ（Open Item）を見落としやすい
 - **解決パターン**:

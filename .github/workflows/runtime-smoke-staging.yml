@@ -29,8 +29,46 @@ jobs:
       STAGING_ADMIN_BEARER: ${{ secrets.STAGING_ADMIN_BEARER }}
       STAGING_MEMBER_ID: ${{ secrets.STAGING_MEMBER_ID }}
       STAGING_ME_BEARER: ${{ secrets.STAGING_ME_BEARER }}
+      # 署名鍵が設定されていれば mint step が実行毎に短命 JWT を発行する（失効不能）。
+      # 未設定時は mint step を skip し、上記の静的 bearer を使う後方互換 fallback。
+      STAGING_AUTH_SECRET: ${{ secrets.STAGING_AUTH_SECRET }}
+      # staging では freshness gate を warn-only にして、静的 bearer の寿命切れで
+      # smoke 全体が毎回 fail するのを防ぐ。'1' にすると従来の hard-fail へ復帰できる。
+      RUNTIME_SMOKE_FRESHNESS_ENFORCE: '0'
     steps:
       - uses: actions/checkout@v4
+
+      - name: setup project
+        uses: ./.github/actions/setup-project
+
+      - name: mint staging bearers
+        # STAGING_AUTH_SECRET が設定された環境でのみ短命 JWT を mint。
+        # 未設定時は skip し、静的 STAGING_ADMIN_BEARER / STAGING_ME_BEARER を使う（AC-4 fallback）。
+        if: env.STAGING_AUTH_SECRET != ''
+        env:
+          STAGING_AUTH_SECRET: ${{ secrets.STAGING_AUTH_SECRET }}
+          STAGING_ADMIN_MEMBER_ID: ${{ secrets.STAGING_ADMIN_MEMBER_ID }}
+          STAGING_ADMIN_EMAIL: ${{ secrets.STAGING_ADMIN_EMAIL }}
+          STAGING_ME_MEMBER_ID: ${{ secrets.STAGING_ME_MEMBER_ID }}
+          STAGING_ME_EMAIL: ${{ secrets.STAGING_ME_EMAIL }}
+          MINT_TTL_SECONDS: '600'
+        run: |
+          mint_out="$(mktemp)"
+          GITHUB_OUTPUT="$mint_out" pnpm exec tsx scripts/smoke/mint-staging-bearers.mts
+          admin="$(grep '^admin_bearer=' "$mint_out" | tail -n1 | cut -d= -f2-)"
+          me="$(grep '^me_bearer=' "$mint_out" | tail -n1 | cut -d= -f2-)"
+          mid="$(grep '^member_id=' "$mint_out" | tail -n1 | cut -d= -f2-)"
+          rm -f "$mint_out"
+          # mask を GITHUB_ENV export より前に必ず適用し JWT 平文露出のレースを排除（不変条件 3）。
+          echo "::add-mask::$admin"
+          echo "::add-mask::$me"
+          echo "::add-mask::$mid"
+          {
+            echo "STAGING_ADMIN_BEARER=$admin"
+            echo "STAGING_ME_BEARER=$me"
+            echo "STAGING_MEMBER_ID=$mid"
+            echo "RUNTIME_SMOKE_AUTH_PATH=minted"
+          } >> "$GITHUB_ENV"
 
       - name: verify required staging secrets
         run: |
@@ -49,10 +87,21 @@ jobs:
 
       - name: mask staging credentials
         run: |
+          if [ -z "${RUNTIME_SMOKE_AUTH_PATH:-}" ]; then
+            echo "RUNTIME_SMOKE_AUTH_PATH=static-fallback" >> "$GITHUB_ENV"
+            echo "::notice::runtime-smoke auth path: static-fallback (STAGING_AUTH_SECRET not provisioned)"
+          else
+            echo "::notice::runtime-smoke auth path: $RUNTIME_SMOKE_AUTH_PATH"
+          fi
           echo "::add-mask::$STAGING_ADMIN_BEARER"
           echo "::add-mask::$STAGING_ME_BEARER"
           echo "::add-mask::$STAGING_API_BASE"
           echo "::add-mask::$STAGING_MEMBER_ID"
+
+      - name: verify bearer freshness
+        # warn-only（RUNTIME_SMOKE_FRESHNESS_ENFORCE=0）。stale/expired は warning を出すが
+        # smoke は実 API チェックへ進む。'1' で hard-fail に戻せる。
+        run: pnpm exec tsx scripts/smoke/bearer-freshness-gate.mts
 
       - name: run runtime smoke
         run: |

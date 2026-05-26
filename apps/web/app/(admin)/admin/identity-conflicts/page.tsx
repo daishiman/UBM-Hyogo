@@ -7,7 +7,7 @@
 import { safeServerFetch } from "../../../../src/lib/admin/safe-server-fetch";
 import { Breadcrumb } from "@/components/admin/Breadcrumb";
 import { EmptyState } from "../../../../src/components/ui/EmptyState";
-import { AdminSectionError } from "../../../../src/features/admin/components/_shared";
+import { AdminSectionErrorClient } from "../../../../src/features/admin/components/_shared";
 import type { ListIdentityConflictsResponse } from "@ubm-hyogo/shared";
 import { IdentityConflictRow } from "../../../../src/components/admin/IdentityConflictRow";
 
@@ -28,7 +28,7 @@ export default async function AdminIdentityConflictsPage({
 
   return (
     <main className="mx-auto max-w-5xl px-6 py-8" data-route="admin" data-section-rhythm="compact">
-      <Breadcrumb items={[{ label: "管理", href: "/admin" }, { label: "Identity 重複候補" }]} />
+      <Breadcrumb items={[{ label: "Identity 重複候補" }]} />
       <header className="mb-6">
         <h1 className="text-2xl font-semibold tracking-tight">Identity 重複候補</h1>
         <p className="mt-2 text-sm text-zinc-600">
@@ -38,7 +38,7 @@ export default async function AdminIdentityConflictsPage({
       </header>
 
       {!result.ok ? (
-        <AdminSectionError
+        <AdminSectionErrorClient
           sectionLabel="Identity 重複候補"
           code={result.error.code}
           message={result.error.message}

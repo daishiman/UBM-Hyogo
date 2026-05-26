@@ -165,3 +165,20 @@ await db.batch([
 
 - `gate-c-external-mutation-pattern.md` — 不可逆 mutation 一般の Gate C ゲートパターン（D1 mutation は内部 mutation のため対象外。Cloudflare 外部 SaaS state 変更時のみ Gate C を併用）
 - `database-schema-07b-schema-alias-assignment.md` — `schema_aliases` の primary schema 正本
+
+---
+
+## Admin batch job idempotency pattern（Issue #836 recompute）
+
+rollback 後の整復、bulk mutation、再実行可能な admin batch job では、job ledger と SQL 冪等性の二重防御を使う。Issue #836 の schema alias recompute では、`schema_alias_recompute_jobs` を追加し、`response_fields.stable_key` を `alias.stable_key` から `__extra__:{question_id}` へ戻す reverse-backfill をこの pattern で設計した。
+
+| 要素 | 推奨契約 |
+| --- | --- |
+| idempotency key | 対象 resource id + mutation semantic key + server-derived `trigger_key` |
+| unique index | `UNIQUE(resource_id, semantic_key, trigger_key)` |
+| status | `pending` / `running` / `completed` / `failed` |
+| progress | `affected_count`, `processed_count`, `updated_count`, `deleted_collision_count`, `cursor`, `last_error`, `updated_at` |
+| concurrency guard | `locked_at` / `locked_by` / `run_token` の conditional claim lease |
+| audit relation | job に `recompute_audit_id` 等の初回 audit id を保存し、completed 冪等返却時に再利用 |
+
+再実行時の completed job は batch 本体と audit insert を再実行しない。running job は lease 未期限切れなら current status を返し、期限切れなら same job を claim して cursor から継続する。batch 本体も「すでに目的状態なら更新対象 0 件」になる `WHERE` 条件にし、job ledger だけに依存しない。

@@ -1,7 +1,20 @@
-import { describe, it, expect } from "vitest";
+import { describe, it, expect, vi } from "vitest";
 import { NextRequest } from "next/server";
 import { signSessionJwt, asMemberId } from "@ubm-hyogo/shared";
-import { middleware, config as middlewareConfig } from "../middleware";
+
+vi.mock("@/lib/env", () => ({
+  getSecurityHeaderEnv: () => ({
+    cspMode: "report-only" as const,
+    apiBaseUrl: "http://localhost:8787",
+  }),
+  getPublicEnv: () => ({
+    ENVIRONMENT: "local" as const,
+    NEXT_PUBLIC_API_BASE_URL: "http://localhost:8787",
+    NEXT_PUBLIC_SENTRY_DSN: undefined,
+  }),
+}));
+
+const { middleware, config: middlewareConfig } = await import("../middleware");
 
 const TEST_SECRET = "test-secret-for-proxy-spec";
 
@@ -24,8 +37,10 @@ const makeRequest = (path: string, opts?: { cookie?: string }) => {
 };
 
 describe("middleware", () => {
-  it("matcher 設定が /admin/:path* と /profile/:path* に限定されている", () => {
-    expect(middlewareConfig.matcher).toEqual(["/admin/:path*", "/profile/:path*"]);
+  it("matcher 設定が security headers 適用のため全ルートを対象とする（静的アセット除外）", () => {
+    expect(middlewareConfig.matcher).toEqual([
+      "/((?!_next/static|_next/image|favicon.ico).*)",
+    ]);
   });
 
   it("未ログインで /admin にアクセスすると /login?gate=admin_required へ redirect する", async () => {
@@ -61,5 +76,25 @@ describe("middleware", () => {
   it("認証済で /profile にアクセスすると NextResponse.next() 相当を返す", async () => {
     const res = await middleware(makeRequest("/profile", { cookie: await makeCookie(false) }));
     expect(res.headers.get("x-middleware-next")).toBe("1");
+  });
+
+  it("全レスポンスに request ごとの nonce CSP を付与する", async () => {
+    const first = await middleware(makeRequest("/"));
+    const second = await middleware(makeRequest("/"));
+    const firstCsp = first.headers.get("Content-Security-Policy-Report-Only") ?? "";
+    const secondCsp = second.headers.get("Content-Security-Policy-Report-Only") ?? "";
+    const firstNonce = first.headers.get("x-nonce") ?? "";
+    const secondNonce = second.headers.get("x-nonce") ?? "";
+    const unsafeInline = ["'unsafe", "-inline'"].join("");
+
+    expect(firstNonce).toMatch(/^[A-Za-z0-9+/]+={0,2}$/);
+    expect(secondNonce).toMatch(/^[A-Za-z0-9+/]+={0,2}$/);
+    expect(firstNonce).not.toBe(secondNonce);
+    expect(firstCsp).toContain(`script-src 'self' 'nonce-${firstNonce}' 'strict-dynamic'`);
+    expect(firstCsp).toContain(`style-src 'self' 'nonce-${firstNonce}'`);
+    expect(firstCsp).toContain(`style-src-attr ${unsafeInline}`);
+    expect(firstCsp).not.toContain(`script-src 'self' ${unsafeInline}`);
+    expect(firstCsp).not.toContain(`style-src 'self' ${unsafeInline}`);
+    expect(secondCsp).toContain(`script-src 'self' 'nonce-${secondNonce}' 'strict-dynamic'`);
   });
 });

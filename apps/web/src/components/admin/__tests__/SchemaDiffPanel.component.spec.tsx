@@ -9,7 +9,9 @@ vi.mock("next/navigation", () => ({
 
 const postSchemaAliasMock = vi.fn();
 const rollbackSchemaAliasMock = vi.fn();
+const rollbackSchemaAliasBulkMock = vi.fn();
 const postSchemaAliasBulkMock = vi.fn();
+const recomputeSchemaAliasMock = vi.fn();
 vi.mock("../../../lib/admin/api", async () => {
   const actual =
     await vi.importActual<typeof import("../../../lib/admin/api")>(
@@ -19,7 +21,9 @@ vi.mock("../../../lib/admin/api", async () => {
     ...actual,
     postSchemaAlias: (...args: unknown[]) => postSchemaAliasMock(...args),
     rollbackSchemaAlias: (...args: unknown[]) => rollbackSchemaAliasMock(...args),
+    rollbackSchemaAliasBulk: (...args: unknown[]) => rollbackSchemaAliasBulkMock(...args),
     postSchemaAliasBulk: (...args: unknown[]) => postSchemaAliasBulkMock(...args),
+    recomputeSchemaAlias: (...args: unknown[]) => recomputeSchemaAliasMock(...args),
   };
 });
 
@@ -54,7 +58,9 @@ afterEach(() => {
   refreshMock.mockReset();
   postSchemaAliasMock.mockReset();
   rollbackSchemaAliasMock.mockReset();
+  rollbackSchemaAliasBulkMock.mockReset();
   postSchemaAliasBulkMock.mockReset();
+  recomputeSchemaAliasMock.mockReset();
 });
 
 beforeEach(() => {
@@ -68,6 +74,22 @@ beforeEach(() => {
       backfill: { status: "completed" },
     },
   });
+  rollbackSchemaAliasBulkMock.mockImplementation(
+    async (
+      rows: Array<{ aliasId: string; version: number }>,
+      options?: { onRowResult?: (result: unknown, index: number) => void },
+    ) => {
+      const results = [];
+      for (let index = 0; index < rows.length; index++) {
+        const row = rows[index]!;
+        const data = await rollbackSchemaAliasMock(row);
+        const result = { aliasId: row.aliasId, status: "success" as const, data };
+        options?.onRowResult?.(result, index);
+        results.push(result);
+      }
+      return { results };
+    },
+  );
 });
 
 describe("SchemaDiffPanel", () => {
@@ -450,8 +472,11 @@ describe("SchemaDiffPanel", () => {
     });
     await waitFor(() => {
       expect(screen.queryByRole("dialog")).toBeNull();
-      expect(screen.getByRole("status").textContent).toContain("resolve を取消しました");
-      expect(screen.getByRole("status").textContent).toContain("3");
+      const success = screen
+        .getAllByRole("status")
+        .find((node) => node.getAttribute("data-feedback-kind") === "success");
+      expect(success?.textContent).toContain("resolve を取消しました");
+      expect(success?.textContent).toContain("3");
     });
     expect(refreshMock).toHaveBeenCalled();
   });
@@ -724,6 +749,63 @@ describe("SchemaDiffPanel", () => {
     expect(screen.getByRole("form", { name: "stableKey alias 割当" })).toBeTruthy();
   });
 
+  it("BULK-ROLLBACK-PANEL-01 HistoryPane で複数 alias を選択し bulk rollback modal を開ける", () => {
+    render(
+      <SchemaDiffPanel
+        initial={{ total: 0, items: [] }}
+        resolvedAliases={[
+          resolvedAlias({ id: "alias-1", aliasLabel: "Full name" }),
+          resolvedAlias({ id: "alias-2", aliasLabel: "Email", stableKey: "email" }),
+        ]}
+      />,
+    );
+    fireEvent.click(screen.getByRole("button", { name: "Bulk Rollback" }));
+    fireEvent.click(screen.getByLabelText("select alias Full name"));
+    fireEvent.click(screen.getByLabelText("select alias Email"));
+    expect(screen.getByTestId("bulk-rollback-selection-summary").textContent).toContain(
+      "2 件選択中",
+    );
+    fireEvent.click(screen.getByRole("button", { name: "Bulk Rollback 確認" }));
+    const modal = screen.getByTestId("bulk-rollback-modal");
+    expect(modal).toBeTruthy();
+    expect(modal.textContent).toContain("Full name");
+    expect(modal.textContent).toContain("Email");
+  });
+
+  it("BULK-ROLLBACK-PANEL-02 bulk rollback 成功時に行を履歴から除去し refresh", async () => {
+    rollbackSchemaAliasMock.mockResolvedValue({
+      aliasId: "alias-1",
+      rolledBackAt: "2026-05-19T01:00:00.000Z",
+      relatedAuditId: "aud-1",
+      newVersion: 2,
+      impact: { affectedResponseCount: 1, recomputeRequired: false },
+    });
+    render(
+      <SchemaDiffPanel
+        initial={{ total: 0, items: [] }}
+        resolvedAliases={[
+          resolvedAlias({ id: "alias-1", aliasLabel: "Full name" }),
+          resolvedAlias({ id: "alias-2", aliasLabel: "Email", stableKey: "email" }),
+        ]}
+      />,
+    );
+    fireEvent.click(screen.getByRole("button", { name: "Bulk Rollback" }));
+    fireEvent.click(screen.getByLabelText("select alias Full name"));
+    fireEvent.click(screen.getByRole("button", { name: "Bulk Rollback 確認" }));
+    fireEvent.click(screen.getByRole("button", { name: "一括で取り消す" }));
+    await waitFor(() => {
+      expect(rollbackSchemaAliasMock).toHaveBeenCalledWith({
+        aliasId: "alias-1",
+        version: 1,
+      });
+    });
+    await waitFor(() => {
+      expect(screen.queryByText("Full name")).toBeNull();
+      expect(screen.getByText("Email")).toBeTruthy();
+      expect(refreshMock).toHaveBeenCalled();
+    });
+  });
+
   it("suggestedStableKey が input の初期値として設定される", () => {
     render(
       <SchemaDiffPanel
@@ -743,5 +825,132 @@ describe("SchemaDiffPanel", () => {
     fireEvent.click(screen.getByRole("button", { name: /lbl-s/ }));
     const input = screen.getByLabelText(/新しい stableKey/) as HTMLInputElement;
     expect(input.value).toBe("suggested_key");
+  });
+
+  // Issue #836 (T-13U〜T-15U): rollback 完了後 recompute action
+  const recomputeAlias = (over: Partial<{ id: string }> = {}) => ({
+    ...resolvedAlias({ id: over.id ?? "alias-rc" }),
+    impact: { affectedResponseCount: 3, recomputeRequired: true },
+  });
+
+  const openRollbackModal = (aliasId: string) => {
+    render(
+      <SchemaDiffPanel
+        initial={{ total: 0, items: [] }}
+        resolvedAliases={[recomputeAlias({ id: aliasId })]}
+        actorEmail="admin@example.com"
+      />,
+    );
+    fireEvent.click(
+      screen.getByRole("button", { name: /alias Full name の resolve を取り消す/ }),
+    );
+  };
+
+  const rollbackThenExposeRecompute = async (aliasId: string) => {
+    rollbackSchemaAliasMock.mockResolvedValueOnce({
+      aliasId,
+      rolledBackAt: "2026-05-19T01:00:00.000Z",
+      relatedAuditId: "rb-1",
+      newVersion: 2,
+      impact: { affectedResponseCount: 3, recomputeRequired: true },
+    });
+    openRollbackModal(aliasId);
+    expect(document.querySelector('[data-role="recompute-trigger"]')).toBeNull();
+    fireEvent.click(screen.getByRole("button", { name: /^取り消す$/ }));
+    await waitFor(() => {
+      expect(screen.queryByRole("dialog")).toBeNull();
+      expect(document.querySelector('[data-role="recompute-trigger"]')).not.toBeNull();
+    });
+  };
+
+  it("T-13U: rollback 完了後の recompute-trigger 押下で recomputeSchemaAlias が { aliasId } で呼ばれる", async () => {
+    recomputeSchemaAliasMock.mockResolvedValueOnce({
+      jobId: "job-1",
+      aliasId: "alias-rc",
+      status: "completed",
+      affectedCount: 3,
+      processedCount: 3,
+      updatedCount: 3,
+      deletedCollisionCount: 0,
+      recomputeAuditId: "aud-1",
+      relatedRollbackAuditId: "rb-1",
+    });
+    await rollbackThenExposeRecompute("alias-rc");
+    const trigger = document.querySelector(
+      '[data-role="recompute-trigger"]',
+    ) as HTMLButtonElement;
+    expect(trigger).not.toBeNull();
+    fireEvent.click(trigger);
+    await waitFor(() => {
+      expect(recomputeSchemaAliasMock).toHaveBeenCalledWith({ aliasId: "alias-rc" });
+      expect(document.querySelector('[data-role="recompute-processed-count"]')?.textContent).toContain("3");
+    });
+  });
+
+  it("T-14U: submitting 中はボタン disabled、running 返却後は続行ボタン + running バッジ", async () => {
+    let resolveFn: (v: unknown) => void = () => {};
+    recomputeSchemaAliasMock.mockReturnValueOnce(
+      new Promise((r) => {
+        resolveFn = r;
+      }),
+    );
+    await rollbackThenExposeRecompute("alias-rc");
+    const trigger = document.querySelector(
+      '[data-role="recompute-trigger"]',
+    ) as HTMLButtonElement;
+    fireEvent.click(trigger);
+
+    // submitting 中は disabled
+    expect(
+      (document.querySelector('[data-role="recompute-trigger"]') as HTMLButtonElement)
+        .disabled,
+    ).toBe(true);
+
+    await act(async () => {
+      resolveFn({
+        jobId: "job-1",
+        aliasId: "alias-rc",
+        status: "running",
+        affectedCount: 5,
+        processedCount: 2,
+        updatedCount: 2,
+        deletedCollisionCount: 0,
+        recomputeAuditId: "aud-1",
+        relatedRollbackAuditId: null,
+      });
+      await Promise.resolve();
+    });
+
+    await waitFor(() => {
+      const status = document.querySelector('[data-role="recompute-status"]');
+      expect(status?.getAttribute("data-status")).toBe("running");
+      const btn = document.querySelector(
+        '[data-role="recompute-trigger"]',
+      ) as HTMLButtonElement;
+      expect(btn.disabled).toBe(false);
+      expect(btn.textContent).toContain("再集計を続行");
+    });
+  });
+
+  it("T-15U: reject で failed バッジ + recompute-error 表示、旧 recompute-warning は DOM に無い", async () => {
+    const { RecomputeApiError } = await vi.importActual<
+      typeof import("../../../lib/admin/api")
+    >("../../../lib/admin/api");
+    recomputeSchemaAliasMock.mockRejectedValueOnce(
+      new RecomputeApiError(500, "batch_failed", "reverse backfill failed"),
+    );
+    await rollbackThenExposeRecompute("alias-rc");
+    const trigger = document.querySelector(
+      '[data-role="recompute-trigger"]',
+    ) as HTMLButtonElement;
+    fireEvent.click(trigger);
+
+    await waitFor(() => {
+      const status = document.querySelector('[data-role="recompute-status"]');
+      expect(status?.getAttribute("data-status")).toBe("failed");
+      const err = document.querySelector('[data-role="recompute-error"]');
+      expect(err?.textContent).toContain("reverse backfill failed");
+    });
+    expect(document.querySelector('[data-role="recompute-warning"]')).toBeNull();
   });
 });

@@ -33,6 +33,7 @@ describe("lib/admin/api.ts (不変条件)", () => {
     expect(typeof adminApi.resolveTagQueue).toBe("function");
     expect(typeof adminApi.postSchemaAlias).toBe("function");
     expect(typeof adminApi.rollbackSchemaAlias).toBe("function");
+    expect(typeof adminApi.rollbackSchemaAliasBulk).toBe("function");
     expect(typeof adminApi.createMeeting).toBe("function");
     expect(typeof adminApi.addAttendance).toBe("function");
     expect(typeof adminApi.removeAttendance).toBe("function");
@@ -519,6 +520,157 @@ describe("lib/admin/api.ts call() の振る舞い", () => {
       code: "network_error",
       message: "offline",
     });
+  });
+
+  it("BULK-ROLLBACK-01 rollbackSchemaAliasBulk は single rollback endpoint を行ごとに呼ぶ", async () => {
+    fetchSpy.mockResolvedValue(
+      jsonResponse(200, {
+        aliasId: "alias-1",
+        rolledBackAt: "2026-05-19T00:00:00.000Z",
+        relatedAuditId: "aud-1",
+        newVersion: 3,
+        impact: { affectedResponseCount: 2, recomputeRequired: false },
+      }),
+    );
+    const onRowResult = vi.fn();
+    const out = await adminApi.rollbackSchemaAliasBulk(
+      [
+        { aliasId: "alias-1", version: 1 },
+        { aliasId: "alias 2", version: 2 },
+      ],
+      { onRowResult },
+    );
+    expect(out.results.map((r) => r.status)).toEqual(["success", "success"]);
+    expect((fetchSpy.mock.calls[0] as [string])[0]).toBe(
+      "/api/admin/schema/aliases/alias-1/rollback",
+    );
+    expect((fetchSpy.mock.calls[1] as [string])[0]).toBe(
+      "/api/admin/schema/aliases/alias%202/rollback",
+    );
+    expect(onRowResult).toHaveBeenCalledWith(out.results[0], 0);
+  });
+
+  it("BULK-ROLLBACK-02 rollbackSchemaAliasBulk は 409 を row-level version_mismatch にする", async () => {
+    fetchSpy.mockImplementation((url: unknown) => {
+      if (String(url).includes("alias-2")) {
+        return Promise.resolve(
+          jsonResponse(409, { error: "version_mismatch", message: "race detected" }),
+        );
+      }
+      return Promise.resolve(
+        jsonResponse(200, {
+          aliasId: "alias-1",
+          rolledBackAt: "2026-05-19T00:00:00.000Z",
+          relatedAuditId: null,
+          newVersion: 2,
+          impact: { affectedResponseCount: 0, recomputeRequired: false },
+        }),
+      );
+    });
+    const out = await adminApi.rollbackSchemaAliasBulk([
+      { aliasId: "alias-1", version: 1 },
+      { aliasId: "alias-2", version: 1 },
+    ]);
+    expect(out.results.map((r) => r.status)).toEqual(["success", "error"]);
+    expect(out.results[1].error).toMatchObject({
+      kind: "version_mismatch",
+      httpStatus: 409,
+      message: "race detected",
+    });
+  });
+});
+
+// Issue #836 (T-12): recompute helper の path / body / error 変換
+describe("recomputeSchemaAlias() / getSchemaAliasRecomputeStatus()", () => {
+  let fetchSpy: ReturnType<typeof vi.fn>;
+  beforeEach(() => {
+    fetchSpy = vi.fn();
+    globalThis.fetch = fetchSpy as unknown as typeof fetch;
+  });
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
+
+  it("recomputeSchemaAlias: encode 済み path に POST し reason body を送る（triggerKey は送らない）", async () => {
+    fetchSpy.mockResolvedValue(
+      jsonResponse(200, {
+        jobId: "job-1",
+        aliasId: "a 1",
+        status: "completed",
+        affectedCount: 3,
+        processedCount: 3,
+        updatedCount: 3,
+        deletedCollisionCount: 0,
+        recomputeAuditId: "aud-1",
+        relatedRollbackAuditId: "rb-1",
+      }),
+    );
+    const res = await adminApi.recomputeSchemaAlias({
+      aliasId: "a 1",
+      reason: "operator typo",
+    });
+    expect(res.status).toBe("completed");
+    expect(res.processedCount).toBe(3);
+    const [url, init] = fetchSpy.mock.calls[0] as [string, RequestInit];
+    expect(url).toBe("/api/admin/schema/aliases/a%201/recompute");
+    expect(init.method).toBe("POST");
+    const body = JSON.parse(init.body as string) as Record<string, unknown>;
+    expect(body).toEqual({ reason: "operator typo" });
+    expect(body).not.toHaveProperty("triggerKey");
+  });
+
+  it("recomputeSchemaAlias: 409 JSON error を RecomputeApiError に変換する", async () => {
+    fetchSpy.mockResolvedValue(
+      jsonResponse(409, { error: "not_rolled_back", message: "not rolled back" }),
+    );
+    await expect(
+      adminApi.recomputeSchemaAlias({ aliasId: "a1" }),
+    ).rejects.toMatchObject({
+      name: "RecomputeApiError",
+      status: 409,
+      code: "not_rolled_back",
+      message: "not rolled back",
+    });
+  });
+
+  it("recomputeSchemaAlias: network error を status=0 に変換する", async () => {
+    fetchSpy.mockRejectedValue(new Error("offline"));
+    await expect(
+      adminApi.recomputeSchemaAlias({ aliasId: "a1" }),
+    ).rejects.toMatchObject({
+      name: "RecomputeApiError",
+      status: 0,
+      code: "network_error",
+      message: "offline",
+    });
+  });
+
+  it("getSchemaAliasRecomputeStatus: body null のとき null を返す", async () => {
+    fetchSpy.mockResolvedValue(jsonResponse(200, null));
+    const res = await adminApi.getSchemaAliasRecomputeStatus("a1");
+    expect(res).toBeNull();
+    const [url, init] = fetchSpy.mock.calls[0] as [string, RequestInit];
+    expect(url).toBe("/api/admin/schema/aliases/a1/recompute");
+    expect(init.method).toBe("GET");
+  });
+
+  it("getSchemaAliasRecomputeStatus: job 行が存在するとき status を返す", async () => {
+    fetchSpy.mockResolvedValue(
+      jsonResponse(200, {
+        jobId: "job-1",
+        aliasId: "a1",
+        status: "running",
+        affectedCount: 5,
+        processedCount: 2,
+        updatedCount: 2,
+        deletedCollisionCount: 0,
+        lastError: null,
+        updatedAt: "2026-05-19T00:00:00.000Z",
+      }),
+    );
+    const res = await adminApi.getSchemaAliasRecomputeStatus("a1");
+    expect(res?.status).toBe("running");
+    expect(res?.processedCount).toBe(2);
   });
 });
 

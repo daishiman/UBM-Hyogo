@@ -89,6 +89,20 @@ scheduled GitHub Actions の D+7 / D+30 / 90日観測のように、複数 run �
 runtime pending 内訳を G1-G4 単位で表記する。runtime evidence が後続タスクで取得される場合は、
 `unassigned-task-detection.md` の formalize 先と evidence path を併記する。
 
+## Runtime smoke manual-command promotion gate（2026-05-24 / Issue #864）
+
+NON_VISUAL / runtime smoke / CI gate タスクで Phase 11 に手動 `curl`、`bash scripts/cf.sh tail`、独自 smoke runner などを記載する場合、その手順を「将来実装予定」として残して PASS しない。Phase 11 close-out 前に次を同一 wave で確認する。
+
+| Gate | 必須確認 |
+| --- | --- |
+| CLI/script existence | Phase 11 が参照する `scripts/*.sh` / `scripts/cf.sh <subcommand>` / helper が実ファイルとして存在し、focused test で unknown command にならない |
+| runner contract | manual curl 手順が deploy ごとに必要な場合、同等の runner と CI job へ昇格するか、user-gated runtime boundary として `PASS_BOUNDARY_SYNCED_RUNTIME_PENDING` に留める |
+| tail timing | Workers log / render-error digest を gate する runner は、対象 HTTP probe の前に `wrangler tail` / `cf.sh tail` capture を開始し、probe 中のログを取り逃がさない |
+| redaction | runtime log / summary artifact は redaction filter を通し、Cookie / Authorization / bearer / webhook URL を grep gate で検出する |
+| state wording | local runner / CI yaml まで実装済みで staging 実走のみ未実行なら `implemented_local_runtime_pending`。仕様書のみなら `spec_created`。両者を混同しない |
+
+適用例: `issue-864-admin-staging-runtime-smoke-ci-gate` では親 Phase 11 の手動 `cf.sh tail` + authenticated `/admin` curl を、`scripts/cf.sh tail` / `scripts/smoke/runtime-admin-web.sh` / `web-cd.yml admin-runtime-smoke` へ同一 wave で昇格した。
+
 #### `manual-evidence-deferred.md` 分離ルール（UT-07B-FU-02 由来 / 2026-05-06）
 
 UI screenshot を後続取得する小規模 implementation / VISUAL_ON_EXECUTION では、**component evidence PASS** と **manual screenshot pending** を物理ファイルレベルで分離する。`outputs/phase-12` のみを根拠に Phase 11 boundary を PASS 扱いしてはならない。
@@ -345,6 +359,49 @@ GitHub Actions OIDC、Cloudflare deploy auth、branch protection、external IdP 
 | runtime boundary | spec-created cycle で未実行の external mutation / deploy / revoke を明記 |
 
 この matrix は `phase12-task-spec-compliance-check.md` の 4 条件（矛盾なし / 漏れなし / 整合性 / 依存関係整合）の根拠にする。
+
+## Adapter 層 phase 11 evidence pattern（serial-06 form response binding 由来）
+
+**Anchor**: 「adapter unit test evidence / Playwright fixture mock 戦略」
+
+### 適用条件
+
+- `apps/web/src/lib/adapters/**` の pure function 追加・変更タスク
+- adapter 出力が UI コンポーネントの可視性 / 分類 / 並びを決定する
+- vitest unit + Playwright E2E + visual snapshot の 3 系統で evidence を取る
+
+### 必須 evidence セット
+
+| ファイル | 役割 | PASS 条件 |
+| --- | --- | --- |
+| `outputs/phase-11/adapter-unit-test.log`（または `.txt`） | adapter pure function の vitest 実行ログ | 全 branch 通過 / coverage 100% / `it.todo` 残留 0 件 |
+| `outputs/phase-11/adapter-coverage.json` | branch / line / statement coverage（vitest c8） | adapter 対象ファイルが全て 100% （pure なので妥協不可） |
+| `outputs/phase-11/playwright-fixture-mock.log` | Playwright で fixture を `page.route()` 経由 mock した実行ログ | fixture の shape が adapter input 型と一致、Server Component 経由は `INTERNAL_API_BASE_URL` 差し替え |
+| `outputs/phase-11/visual-snapshot/*.png` | visual snapshot（baseline + 差分） | flaky 0 / OS 依存抑制（`maskColor` / `threshold` 明記） |
+| `outputs/phase-11/visibility-grep.log` | API 正規化 + adapter 再フィルター + UI assertion の 3 段 grep | 3 段すべてで「非表示対象が存在しない」ことを grep で確認 |
+
+### Fixture 配置の不変条件
+
+- adapter unit test と Playwright mock は **同一 fixture を共有**する: `apps/web/src/fixtures/<name>.ts`（`export const ...` で TypeScript として import 可能）
+- JSON ファイル + Playwright `route.fulfill({ json: ... })` 経由 / vitest からの直 import の両方で同値を使えるよう、shape は zod schema で固定
+- fixture を vitest と Playwright で別管理にしない（adapter 入出力 contract が二重定義になり drift する）
+
+### Visibility 二重防御の evidence 表現
+
+production console 汚染防止のため、unknown kind を adapter で silent skip する場合は、以下を Phase 11 evidence に明示する:
+
+| 層 | 検証 | evidence |
+|----|------|----------|
+| API 正規化層 | hidden / archived レコードを返さない | `outputs/phase-11/api-filter.log`（curl + jq 件数） |
+| adapter 再フィルター | API 由来の正規化漏れを再フィルター + unknown kind は silent skip（logger 呼ばない） | vitest branch coverage 100% + `console.warn` spy が 0 回 call されたこと |
+| UI assertion | DOM 上に hidden 要素が出ない | Playwright `expect(locator).toHaveCount(0)` / visual snapshot 差分 0 |
+
+unknown kind を `console.warn` / `logger.warn` で出すと production log に流れ込み、ログ予算を圧迫する。silent skip を選んだ場合は **同 wave で `unassigned-task-detection.md` に「unknown kind 監視は dev-mode warn として後続タスク化」** を残す（serial-06 では `serial-06-followup-002-adapter-dev-warn-unknown-kind.md` として formalize 済）。
+
+### Phase 12 compliance との接続
+
+- `phase-12-compliance-check.md`（sub 配下）の canonical 9 headings 内 `## 4. Phase 11 evidence file inventory` で上 5 ファイルを `status: present` 行として列挙する
+- parent root `outputs/phase-12/skill-feedback-report.md` に adapter pure function / fixture 共有 / visibility 二重防御 / unknown kind silent skip / vitest + Playwright + visual 3 系統 evidence の昇格知見を集約する（sub 単体に複製しない）
 
 ## Tailwind v4 / PostCSS build artifact verification（VISUAL_ON_EXECUTION build pipeline タスク）
 

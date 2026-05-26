@@ -22,8 +22,7 @@ export function MemberDetailSections({ sections }: MemberDetailSectionsProps) {
   return (
     <>
       {sections.map((section) => {
-        const visibleFields = section.fields.filter((f) => f.kind !== "url");
-        if (visibleFields.length === 0) return null;
+        if (section.fields.length === 0) return null;
         return (
           <section
             key={section.key}
@@ -32,7 +31,7 @@ export function MemberDetailSections({ sections }: MemberDetailSectionsProps) {
           >
             <h2 className="detail-section-title">{section.title}</h2>
             <dl className="kv-list">
-              {visibleFields.map((field) => (
+              {section.fields.map((field) => (
                 <div
                   key={field.stableKey}
                   className="kv-row"

@@ -149,6 +149,50 @@ describe('AdminLayout', () => {
 - Server Component を直接 `await Component(props)` で実行する。`@testing-library/react` の `render` は async server component に対応していないため使わない
 - `redirect` の throw を `try/catch` で握り潰して assert すると失敗パスが見えなくなる。**必ず `rejects.toThrow` を使う**
 
+## Server Component runtime smoke token-compatibility gate（2026-05-24 / Issue #864）
+
+Authenticated Server Component route を staging / production runtime smoke で叩く場合、HTTP probe は UI route の手前にある edge middleware と route/layout 側の session resolver の **両方**を通過する必要がある。Phase 1/2 で次を確認してから runner を実装する。
+
+| 確認 | 判定 |
+| --- | --- |
+| edge gate | `middleware.ts` / `proxy.ts` が読む cookie 名と decode helper |
+| route gate | layout/page の `getSession()` / Auth.js `auth()` が使う `session.strategy` と `jwt.encode/decode` |
+| cookie mint | edge と route が同一 JWT 契約なら shared encode helper を再利用。Auth.js default JWE 等で非対称なら runner 実装前に互換 encode/decode を追加 |
+| tests | mint helper は pure function として focused `*.spec.ts` で decode round-trip を検証し、runner は curl/tail stub で 200 / redirect / 403 / render-error digest を分類する |
+
+適用例: `issue-864-admin-staging-runtime-smoke-ci-gate` は `apps/web/src/lib/auth.ts` が `session.strategy="jwt"` かつ `encodeAuthSessionJwt` / `decodeAuthSessionJwt` を Auth.js adapter に使うことを確認し、`mint-staging-session-cookie.mts` が同じ HS256 contract の cookie を発行する。
+
+## 二重 mock の serving-path 切替と negative-query 規約の単一ソース化（2026-05-24 追加 / members-page-prototype-alignment e2e gate 由来）
+
+SSR mock が**2系統**存在し、実行環境でどちらが応答するかが切り替わる構成では、テストの期待値とモックの応答規約を**単一ソースに固定**しないと「local は PASS / CI は FAIL（またはその逆）」が起きる。
+
+### 構成と落とし穴
+
+| 系統 | 起動主体 | 応答する条件 |
+| --- | --- | --- |
+| `apps/web/playwright/fixtures/auth.ts` 内蔵 HTTP server | テストプロセスの `ensureMockApi()` が `:8787` に bind | local 単体実行（8787 が空いている時） |
+| `scripts/e2e-mock-api.mjs` | CI の `.github/workflows/e2e-tests.yml` が full suite 前に先起動 | CI（auth fixture の `ensureMockApi()` は **EADDRINUSE フォールバックで既存サーバを再利用**するため） |
+
+`ensureMockApi()` は `server.once('error', ...)` で `EADDRINUSE` を捕捉すると自前 server を起動せず `waitForMockApiReady()` で既存（= e2e-mock-api.mjs）を reuse する。
+→ **同じ spec でも local では auth.ts、CI では e2e-mock-api.mjs が応答する**。片方だけ直すと CI で効かない。
+
+### 不変条件
+
+1. **negative-query（空結果を返す検索語）は contracts fixture を単一ソースにする**。`packages/contracts/src/fixtures.mjs` の `fixtures.public.negativeQuery`（`"zzz_no_match_zzz"`）が正本で、`index.spec.ts` が値を assert する。テスト・両 mock はこの値に揃える。独自 prefix（`zzznotfound-${Date.now()}` 等）を spec ごとに作らない。
+2. **mock の空系レスポンスも `.strict()` zod schema の必須キーを満たす**。`PublicMemberListViewZ` は `.strict()` かつ `topTags` 必須。空系で `topTags` を省略すると `listMembers()` 内の `.parse()` が throw → ページが error boundary に落ち、EmptyState が描画されず spec が timeout する。正常系と空系で同一 schema を満たすこと。
+3. **mock を 2 系統持つ場合は応答規約（条件分岐・キー）を両系統で一致させる**。`auth.ts` と `e2e-mock-api.mjs` の `/public/members` ハンドラは同じ negative-query 判定（`q === fixtures.public.negativeQuery`）と同じレスポンス shape にする。
+
+### Phase 別チェック追記
+
+- Phase 4 / 6：spec が使う negative-query / empty-state トリガ語は contracts fixture を import or 同値参照する。spec 独自のマジック文字列を増やさない。
+- Phase 11：EmptyState 系 spec は CI serving-path（e2e-mock-api.mjs を 8787 先起動 → `CI=1 playwright test`）でも green を確認する。local の auth.ts 単体 PASS だけを根拠にしない。
+
+```bash
+# CI 相当の serving-path 再現（e2e-mock-api.mjs を先起動してから spec 実行）
+node scripts/e2e-mock-api.mjs > /tmp/e2e-mock-api.log 2>&1 &
+CI=1 pnpm --filter @ubm-hyogo/web exec playwright test tests/<spec>.spec.ts --project=desktop-chromium
+```
+
 ## 関連 reference
 
 - [quality-gates.md](quality-gates.md) — §7 テスト常時実行可能性 DoD / §7.5 E2E lines coverage ≥ 80%

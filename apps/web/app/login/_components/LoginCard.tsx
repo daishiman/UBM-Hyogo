@@ -23,31 +23,21 @@ export function LoginCard({
 }: LoginCardProps) {
   return (
     <Card
+      className="auth-card"
       data-testid="login-card"
       data-component="login-card"
       data-state={state}
     >
-      <header>
-        <svg
-          aria-label="UBM 兵庫支部会"
-          role="img"
-          viewBox="0 0 64 64"
-          width="48"
-          height="48"
-        >
-          <title>UBM 兵庫支部会</title>
-          <circle cx="32" cy="32" r="28" fill="var(--color-accent-soft)" />
-          <text
-            x="32"
-            y="38"
-            textAnchor="middle"
-            fontSize="20"
-            fontWeight="700"
-            fill="var(--color-accent-ink)"
-          >
-            UBM
-          </text>
-        </svg>
+      <header className="auth-card__header">
+        <div className="brand" aria-label="UBM 兵庫支部会">
+          <div className="brand-mark" aria-hidden="true">
+            兵
+          </div>
+          <div className="brand-title">
+            <span className="jp">UBM兵庫支部会</span>
+            <span className="en">Member Portal</span>
+          </div>
+        </div>
         <h1>{title}</h1>
         {subtitle ? <p>{subtitle}</p> : null}
       </header>

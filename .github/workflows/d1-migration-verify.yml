@@ -9,6 +9,9 @@ on:
       - "package.json"
       - "pnpm-lock.yaml"
 
+permissions:
+  contents: read
+
 jobs:
   d1-migration-verify:
     runs-on: ubuntu-latest

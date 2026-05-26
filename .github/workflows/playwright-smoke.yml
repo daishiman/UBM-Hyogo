@@ -18,10 +18,26 @@ on:
         description: 'Optional deployed base URL'
         required: false
         type: string
+      staging_visual_base_url:
+        description: 'Cloudflare Workers staging URL for the staging-visual project (e.g. https://ubm-hyogo-web-staging.daishimanju.workers.dev). When set, the staging-visual job runs against it.'
+        required: false
+        type: string
+      staging_visual_update_snapshots:
+        description: 'Generate/refresh staging-visual baselines (-staging-visual-chromium-linux.png). Use for the first capture, then download the artifact and commit it.'
+        required: false
+        type: boolean
+        default: false
+      staging_visual_member_detail_id:
+        description: 'Optional representative member id for /members/[id] staging visual baseline. When empty, that dynamic-route test is skipped.'
+        required: false
+        type: string
 
 concurrency:
   group: playwright-smoke-${{ github.ref }}
   cancel-in-progress: true
+
+permissions:
+  contents: read
 
 jobs:
   smoke:
@@ -81,4 +97,44 @@ jobs:
         with:
           name: playwright-visual-artifacts
           path: docs/30-workflows/task-18-w7-verify-tokens-and-playwright-smoke/outputs/phase-11/evidence/test-results
+          if-no-files-found: ignore
+
+  # issue-902: production-equivalent runtime (Cloudflare Workers staging) の visual baseline。
+  # manual deploy 後に workflow_dispatch で staging URL を渡したときのみ実行する ops gate。
+  # baseline 正本は本 job（ubuntu-latest）が生成する -staging-visual-chromium-linux.png。
+  # macOS local 生成 baseline はコミットしない（docs/30-workflows/issue-902-.../phase-04 §4）。
+  staging-visual:
+    name: staging-visual (chromium, 6 screens)
+    runs-on: ubuntu-latest
+    if: github.event_name == 'workflow_dispatch' && inputs.staging_visual_base_url != ''
+    timeout-minutes: 15
+    env:
+      PLAYWRIGHT_STAGING_BASE_URL: ${{ inputs.staging_visual_base_url }}
+      PLAYWRIGHT_MEMBER_DETAIL_ID: ${{ inputs.staging_visual_member_detail_id || '' }}
+      PLAYWRIGHT_SKIP_WEB_SERVER: '1'
+      # reporter / test-results 出力を本 workflow の evidence dir に向ける（apps/web を cwd とした相対）
+      PLAYWRIGHT_EVIDENCE_DIR: ../../docs/30-workflows/completed-tasks/issue-902-members-staging-visual-baseline/outputs/phase-11/evidence
+    steps:
+      - uses: actions/checkout@v4
+      - uses: jdx/mise-action@v2
+      - name: Install deps
+        run: mise exec -- pnpm install --frozen-lockfile
+      - name: Install Chromium
+        run: mise exec -- pnpm --filter @ubm-hyogo/web exec playwright install --with-deps chromium
+      - name: Run staging visual (6 screens)
+        run: |
+          mise exec -- pnpm --filter @ubm-hyogo/web e2e:visual:staging ${{ inputs.staging_visual_update_snapshots && '--update-snapshots' || '' }}
+      - name: Upload staging-visual baselines
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: staging-visual-baselines
+          path: apps/web/playwright/tests/visual-staging/**/*-staging-visual-chromium-linux.png
+          if-no-files-found: warn
+      - name: Upload staging-visual diff artifacts
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: staging-visual-artifacts
+          path: docs/30-workflows/completed-tasks/issue-902-members-staging-visual-baseline/outputs/phase-11/evidence/test-results
           if-no-files-found: ignore

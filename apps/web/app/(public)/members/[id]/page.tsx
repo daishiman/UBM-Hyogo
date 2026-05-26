@@ -1,42 +1,64 @@
-// serial-05: /(public)/members/[id] — blueprint 09e:339-472
-// `/members/[id]` 公開メンバー詳細 (Server Component)
-// task-12 で primitives 接続を再構成。
-// 不変条件 #1: stableKey 経由でのみ field を参照（直書き禁止、全 KV row に data-stable-key）
-// 不変条件 #5: web から D1 直接禁止 → public API 経由のみ
-
+// serial-06-form-response-binding: /(public)/members/[id]
+// - serial-05 で配線した page skeleton に adapter + MemberDetail composing primitive を接続
+// - 既存 fetchPublicOrNotFound 経由 (不変条件 #5: web から D1 直接禁止)
+// - visibility filter は adapter の二重防御 (正本は API 側 getPublicMemberProfileUseCase)
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import type { z } from "zod";
 
-import { PublicMemberProfileZ } from "@ubm-hyogo/shared";
-
+import { MemberDetail } from "../../../../src/components/public/MemberDetail";
+import { SectionError } from "../../../../src/components/public/SectionError";
+import {
+  PublicMemberProfileWithUnknownKindZ,
+  toMemberDetailProps,
+  type PublicMemberProfile,
+} from "../../../../src/lib/adapters/member-detail";
+import {
+  FetchPublicNotFoundError,
+  fetchPublicOrNotFound,
+} from "../../../../src/lib/fetch/public";
+import type { SafeResultError } from "../../../../src/lib/result";
+import { safeServerFetch } from "../../../../src/lib/server-fetch/safe-fetch";
 import { buildPageMetadata } from "@/lib/seo/site-metadata";
 
-import { MemberActivity } from "../../../../src/components/public/MemberActivity";
-import { MemberDetailSections } from "../../../../src/components/public/MemberDetailSections";
-import { MemberLinks } from "../../../../src/components/public/MemberLinks";
-import { MemberTags } from "../../../../src/components/public/MemberTags";
-import { ProfileHero } from "../../../../src/components/public/ProfileHero";
-import { fetchPublicOrNotFound } from "../../../../src/lib/fetch/public";
-
-type PublicMemberProfile = z.infer<typeof PublicMemberProfileZ>;
-
 export const dynamic = "force-dynamic";
+
+const onUnknownKind =
+  process.env.NODE_ENV === "development"
+    ? (field: PublicMemberProfile["publicSections"][number]["fields"][number]) =>
+        console.warn(
+          "[member-detail] unknown kind",
+          field.kind,
+          field.stableKey,
+        )
+    : undefined;
 
 interface MemberDetailPageProps {
   params: Promise<{ id: string }>;
 }
 
-async function fetchProfile(
-  id: string,
-): Promise<PublicMemberProfile | null> {
+type ProfileFetchResult =
+  | { ok: true; data: PublicMemberProfile }
+  | { ok: false; error: SafeResultError }
+  | null;
+
+async function fetchProfile(id: string): Promise<ProfileFetchResult> {
   try {
-    return await fetchPublicOrNotFound<PublicMemberProfile>(
-      `/public/members/${encodeURIComponent(id)}`,
-      { revalidate: 0 },
+    const result = await safeServerFetch(
+      () =>
+        fetchPublicOrNotFound<unknown>(
+          `/public/members/${encodeURIComponent(id)}`,
+          { revalidate: 0 },
+        ),
+      {
+        codePrefix: "PUBLIC_FETCH",
+        rethrowOn: [FetchPublicNotFoundError],
+      },
     );
+    if (!result.ok) return result;
+    // fail-close: zod parse 失敗時は error.tsx boundary で補足
+    return { ok: true, data: PublicMemberProfileWithUnknownKindZ.parse(result.data) };
   } catch (e) {
-    if (e instanceof Error && e.name === "FetchPublicNotFoundError") {
+    if (e instanceof FetchPublicNotFoundError) {
       return null;
     }
     throw e;
@@ -47,8 +69,8 @@ export async function generateMetadata({
   params,
 }: MemberDetailPageProps): Promise<Metadata> {
   const { id } = await params;
-  const profile = await fetchProfile(id);
-  if (!profile) {
+  const profileResult = await fetchProfile(id);
+  if (!profileResult) {
     return buildPageMetadata({
       title: "メンバーが見つかりません",
       description:
@@ -57,11 +79,21 @@ export async function generateMetadata({
       twitterCard: "summary",
     });
   }
+  if (!profileResult.ok) {
+    return buildPageMetadata({
+      title: "メンバー情報を読み込めません",
+      description:
+        "UBM 兵庫支部会メンバー情報の読み込みに失敗しました",
+      path: `/members/${id}`,
+      twitterCard: "summary",
+    });
+  }
+  const profile = profileResult.data;
   const occ = profile.summary.occupation;
   return buildPageMetadata({
     title: profile.summary.fullName,
     description: `${profile.summary.fullName}${
-      occ ? `（${occ}）` : ""
+      occ ? `(${occ})` : ""
     }の UBM 兵庫支部会プロフィール`,
     path: `/members/${id}`,
     twitterCard: "summary",
@@ -73,34 +105,31 @@ export default async function MemberDetailPage({
   params,
 }: MemberDetailPageProps) {
   const { id } = await params;
-  const profile = await fetchProfile(id);
-  if (!profile) {
+  const profileResult = await fetchProfile(id);
+  if (!profileResult) {
     notFound();
   }
-
-  // activity セクションは MemberActivity 側で取り出すため汎用 sections では除外する
-  const detailSections = profile.publicSections.filter(
-    (s) => s.key !== "activity",
-  );
-
+  if (!profileResult.ok) {
+    return (
+      <main data-route="public" data-section-rhythm="comfortable">
+        <a href="/members" data-role="back" className="back-link">
+          ← メンバー一覧に戻る
+        </a>
+        <SectionError
+          title="メンバー情報を読み込めませんでした"
+          detail={profileResult.error.message}
+          retryHref={`/members/${encodeURIComponent(id)}`}
+        />
+      </main>
+    );
+  }
+  const props = toMemberDetailProps(profileResult.data, { onUnknownKind });
   return (
-    <main data-page="member-detail" className="stack-lg" data-route="public" data-section-rhythm="comfortable">
+    <main data-route="public" data-section-rhythm="comfortable">
       <a href="/members" data-role="back" className="back-link">
         ← メンバー一覧に戻る
       </a>
-      <ProfileHero
-        memberId={profile.memberId}
-        fullName={profile.summary.fullName}
-        nickname={profile.summary.nickname}
-        occupation={profile.summary.occupation}
-        location={profile.summary.location}
-        ubmZone={profile.summary.ubmZone}
-        ubmMembershipType={profile.summary.ubmMembershipType}
-      />
-      <MemberTags tags={profile.tags} />
-      <MemberDetailSections sections={detailSections} />
-      <MemberLinks sections={profile.publicSections} />
-      <MemberActivity sections={profile.publicSections} />
+      <MemberDetail {...props} />
     </main>
   );
 }

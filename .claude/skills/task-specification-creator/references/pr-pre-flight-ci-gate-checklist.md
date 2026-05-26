@@ -338,28 +338,22 @@ git push
 
 詳細: `.claude/skills/aiworkflow-requirements/changelog/20260522-dev-sync-skill-md-topic-map-content-conflict-resolved.md`。
 
-## 15. dev sync `static-manifest.json` unhandled は `pnpm regenerate:static-manifest` で吸収（SP-DEVSYNC-027 / L-DEVSYNC-034・035）
+## 15. dev sync `static-manifest.json` unhandled は `pnpm sync:resolve` が自動再生成で吸収（SP-DEVSYNC-027 / L-DEVSYNC-034・035・036）
 
-`pnpm sync:resolve` 完走後 `apps/api/src/repository/_shared/generated/static-manifest.json` が `[WARN] unhandled conflict` で残る case。手動 union は JSON 構造を破壊するため禁止。正本 spec から deterministic 再生成して `git add` するだけで吸収できる。さらに `pnpm sync:resolve` 完走後でも `^UU` が残る（resolve は成功したが `git add` がスキップされた）case があるため、明示 `git add` を必ず併用する。
+`apps/api/src/repository/_shared/generated/static-manifest.json` は conflict 時、正本 spec から deterministic 再生成して `git add` するだけで吸収できる（手動 union は JSON 構造破壊のため禁止）。2026-05-24 の再発（`docs/issue-842-admin-mutation-reliability-policy-spec` ← dev sync-merge）を受け、`scripts/sync/resolve-skill-merge-conflicts.sh` に `REGENERATE_TARGETS` を新設し、本ファイルが unhandled 候補に出た場合は `git checkout --theirs` → `mise exec -- pnpm regenerate:static-manifest` → `git add` を**自動実行**するよう拡張済み。以後 `pnpm sync:resolve` 一発で完了する。
 
-### 自律手順
+### 自律手順（拡張版 sync:resolve で 1 step 化）
 
 ```bash
-# 1) sync:resolve 完走
-mise exec -- pnpm sync:resolve  # exit 0/1 を問わない（後段の ^UU 件数を真実とする）
+# 1) sync:resolve 完走（union resolve + keywords.json --ours + indexes:rebuild
+#    + static-manifest.json 自動再生成を一気に実行）
+mise exec -- pnpm sync:resolve
 
-# 2) UU 残対象を明示 git add（union resolve は本体に副作用済み）
-git status --porcelain | awk '/^UU /{print $2}' | xargs -r git add
-
-# 3) static-manifest.json が UU だった場合のみ再生成
-if git status --porcelain | grep -q 'apps/api/src/repository/_shared/generated/static-manifest.json'; then
-  mise exec -- pnpm regenerate:static-manifest
-  git add apps/api/src/repository/_shared/generated/static-manifest.json
-fi
-
-# 4) 残コンフリクト 0 を確認してから commit
+# 2) 残 ^UU が 0 であることを確認してから commit
 test -z "$(git status --porcelain | grep '^UU')" && git commit --no-edit
 ```
+
+旧手順（手動 regenerate）は 2026-05-24 の `scripts/sync/resolve-skill-merge-conflicts.sh` 拡張で不要化。`REGENERATE_TARGETS` 配列にエントリ追加すれば、他の deterministic generated artifact も同様に自動吸収できる。
 
 ### Why
 
@@ -367,4 +361,49 @@ test -z "$(git status --porcelain | grep '^UU')" && git commit --no-edit
 - `pnpm sync:resolve` の exit code は `git add` 副作用（gitignore 競合等）に影響され信頼できない。`^UU` 件数を単一の真実とする
 - `regenerate:static-manifest` / `indexes:rebuild` はいずれも冪等な deterministic 再生成で副作用ゼロ。conflict 残存時の常用処方として安全
 
-詳細: `.claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-dev-sync-merge-conflict-resolution-2026-05.md` §L-DEVSYNC-034 / §L-DEVSYNC-035。事例: 2026-05-21 `feat/issue-276-mobile-filterbar-tag-picker` ← dev sync-merge。
+詳細: `.claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-dev-sync-merge-conflict-resolution-2026-05.md` §L-DEVSYNC-034 / §L-DEVSYNC-035 / §L-DEVSYNC-036。事例: 2026-05-21 `feat/issue-276-mobile-filterbar-tag-picker` ← dev sync-merge（初回）、2026-05-24 `docs/issue-842-admin-mutation-reliability-policy-spec` ← dev sync-merge（再発を受け sync:resolve に自動化を取り込み）。
+
+## 16. dev sync `apps/web/src/lib/env.ts` 並列 export 追加 conflict（SP-DEVSYNC-034 / L-DEVSYNC-041）
+
+`apps/web/src/lib/env.ts` は `EnvSchema.pick(...)` ベースで領域別 getter（`getEnv` / `getPublicEnv` / `getSecurityHeaderEnv` / `getAuthEnv` / `getPublicFetchEnv` 等）を追加していく拡張点。複数 issue が同 sprint で**独立に新 getter を生やす**と、git は (a) 型・schema 宣言ブロック、(b) `export function` 末尾、(c) test 側の `import` 行 + `it(...)` ブロックの3箇所に分散した 3-way conflict を残す。`pnpm sync:resolve` は spec docs 同様 `env.ts` を union 対象に含めていないため `WARN unhandled conflict` として残る。
+
+### 自律解消手順（union 等価・両側保持）
+
+1. **schema / 型宣言**（`SecurityHeaderEnvSchema` / `AuthEnvSchema` / `ServiceBinding` 等）は両側を順次保持して連結。
+2. **`export function` 群**も両側を順次保持。同名関数の両側 mutation がない限り意味的競合は発生しない。
+3. **test 側 `import` 行** は両側 named import を集約して 1 文に統合（ESLint 設定上 multi-line が許容されているなら multi-line 展開）。例: `import { getAuthEnv, getEnv, getPublicEnv, getPublicFetchEnv, getSecurityHeaderEnv, readRawEnv } from "../env";`
+4. **test 側 `it(...)` ブロック** は両側を順次保持。diff3 が `>>>>>>>` を `describe` 終端の `});` 直前に置きがちなので、二重閉じ `});\n});` を残さない（1 本に整理）。
+5. `grep -n -E '^(<<<<<<<|=======|>>>>>>>|\|\|\|\|\|\|\|)' apps/web/src/lib/env.ts apps/web/src/lib/__tests__/env.spec.ts` が空であることを確認 → `git add` → `git commit --no-edit`。
+
+### 判定基準（union 適用可否）
+
+- ✅ **union 可**: 両側が `EnvSchema` 既存 key の**異なる subset** を `pick` し、**異なる関数名** で export する場合
+- ❌ **union 不可（意味的競合）**: 同一 schema 名・同一関数名への両側 mutation、または同一 EnvSchema key の両側型変更がある場合 → 最終レポート対象（L-DEVSYNC-013 系）
+
+### Why
+
+- 本ファイルは「領域別 getter を追加していく拡張点」として設計されており、独立 getter の並列追加は構造的に頻発する。`getEnv`/`getPublicEnv`/`getSecurityHeaderEnv`/`getAuthEnv`/`getPublicFetchEnv` のように関数名が一意である限り、union 統合で意味は完全保存される
+- `pnpm sync:resolve` の `REGENERATE_TARGETS` には組み込めない（deterministic 再生成ではなく手書きコードのため）。手動 union resolve を最短経路として手順化する
+
+詳細: `.claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-dev-sync-merge-conflict-resolution-2026-05.md` §L-DEVSYNC-041。事例: 2026-05-25 `docs/issue-869-csp-enforce-cutover-spec` ← dev sync-merge（HEAD = `getSecurityHeaderEnv` (#869) / dev = `getAuthEnv` + `getPublicFetchEnv` (#862)）。
+
+## 17. dev sync `patterns-lessons-and-pitfalls.md` 末尾並列 section 追加 conflict（L-DEVSYNC-042）
+
+本 skill の `references/patterns-lessons-and-pitfalls.md` は Phase 12 で促進された新パターンを**末尾に追記**する SSOT。同 sprint で複数 issue から並列に section が増えると、base の最終行で両側 hunk が連続して diff3 が単一ブロックを残す。`pnpm sync:resolve` は本ファイルを `UNION_MERGE_TARGETS` に含めていないため `WARN unhandled conflict` として残る。
+
+### 自律解消手順（union 等価・両側保持）
+
+1. conflict 範囲がファイル末尾 1 箇所に閉じているか確認: `grep -n -E '^(<<<<<<<|=======|>>>>>>>|\|\|\|\|\|\|\|)' .claude/skills/task-specification-creator/references/patterns-lessons-and-pitfalls.md`
+2. 末尾限定なら、HEAD section 本文 → `|||||||` base 行群を破棄 → dev section 本文の順で**両方の section heading + 本文を保持**し marker 3 種（`<<<<<<<` / `|||||||` / `=======` / `>>>>>>>`）を削除。
+3. `grep` でマーカー残ゼロ確認 → `git add <file>` → `git commit --no-edit`。
+
+### 判定基準
+
+- ✅ **union 可**: 範囲が末尾 append-only かつ section heading（`## ...`）が両側で別物。各 section は別 pattern domain で意味的に独立
+- ❌ **union 不可**: 範囲がファイル中央の既存 section 内（同 heading 配下に両側が `-` bullet 追加）→ L-DEVSYNC-030 / table-merge ルールに切替え、bullet 単位の片側採用 union を行う
+
+### 推奨拡張
+
+`scripts/sync/resolve-skill-merge-conflicts.sh` の union-merge 対象に `.claude/skills/*/references/patterns-lessons-and-pitfalls.md` を追加すれば、本パターンも `pnpm sync:resolve` 一発完結に昇格する。
+
+詳細: `.claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-dev-sync-merge-conflict-resolution-2026-05.md` §L-DEVSYNC-042。事例: 2026-05-25 `docs/issue-884-serial06-phase6-topology-sync-backfill` ← dev sync-merge。

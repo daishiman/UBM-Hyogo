@@ -1,7 +1,7 @@
 // serial-05: /(admin)/admin — blueprint 09g:4-161
 // task-15 + admin-ui-prototype-alignment: /admin ダッシュボード
 // AC: GET /admin/dashboard 1 fetch 集約 (KPI 4 + recentActions)
-// 失敗時は per-section AdminSectionError に degrade (page 全体 throw を廃止)
+// 失敗時は per-section AdminSectionErrorClient に degrade (page 全体 throw を廃止)
 import type { AdminDashboardView } from "@ubm-hyogo/shared";
 import { safeServerFetch } from "../../../src/lib/admin/safe-server-fetch";
 import { toAdminDashboardUi } from "../../../src/lib/admin/admin-dashboard-ui";
@@ -13,7 +13,7 @@ import {
   RecentActionsTable,
   SchemaAlertCard,
 } from "../../../src/features/admin/components";
-import { AdminSectionError } from "../../../src/features/admin/components/_shared";
+import { AdminSectionErrorClient } from "../../../src/features/admin/components/_shared";
 
 export const dynamic = "force-dynamic";
 
@@ -21,11 +21,15 @@ export default async function AdminDashboardPage() {
   const result = await safeServerFetch<AdminDashboardView>("/admin/dashboard");
 
   return (
-    <section aria-labelledby="admin-dashboard-h" className="flex flex-col gap-4">
+    <section
+      aria-labelledby="admin-dashboard-h"
+      className="flex flex-col gap-4"
+      data-testid="admin-dashboard-root"
+    >
       <AdminPageHeader
         title="ダッシュボード"
         description="UBM 兵庫支部会のメンバー状況と直近のアクション"
-        breadcrumbs={[{ label: "管理", href: "/admin" }, { label: "ダッシュボード" }]}
+        breadcrumbs={[{ label: "ダッシュボード" }]}
       />
       <h1 id="admin-dashboard-h" className="sr-only">
         ダッシュボード
@@ -33,7 +37,7 @@ export default async function AdminDashboardPage() {
       {result.ok ? (
         <DashboardSections view={result.data} />
       ) : (
-        <AdminSectionError
+        <AdminSectionErrorClient
           sectionLabel="ダッシュボード"
           code={result.error.code}
           message={result.error.message}

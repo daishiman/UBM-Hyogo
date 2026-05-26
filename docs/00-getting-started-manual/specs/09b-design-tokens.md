@@ -165,7 +165,7 @@ Warm and cool override only surface / text / border / accent values.
 | `--border-2` | `--ubm-color-border-strong` | `#d8c9b0` |
 | `--text` | `--ubm-color-text-primary` | `#22180a` |
 | `--text-2` | `--ubm-color-text-secondary` | `#6b5a42` |
-| `--text-3` | `--ubm-color-text-muted` | `#9a8a6e` |
+| `--text-3` | `--ubm-color-text-muted` | `#736449` |
 | `--accent` | `--ubm-color-accent` | `oklch(0.52 0.13 50)` |
 | `--accent-soft` | `--ubm-color-accent-soft` | `oklch(0.94 0.05 60)` |
 | `--accent-ink` | `--ubm-color-accent-ink` | `oklch(0.36 0.12 50)` |
@@ -347,7 +347,7 @@ This keeps Style Dictionary, custom verifiers, and human review on the same sche
         "border-strong": { "value": "#d8c9b0", "css": "--ubm-color-border-strong" },
         "text-primary": { "value": "#22180a", "css": "--ubm-color-text-primary" },
         "text-secondary": { "value": "#6b5a42", "css": "--ubm-color-text-secondary" },
-        "text-muted": { "value": "#9a8a6e", "css": "--ubm-color-text-muted" },
+        "text-muted": { "value": "#736449", "css": "--ubm-color-text-muted" },
         "accent": { "value": "oklch(0.52 0.13 50)", "css": "--ubm-color-accent" },
         "accent-soft": { "value": "oklch(0.94 0.05 60)", "css": "--ubm-color-accent-soft" },
         "accent-ink": { "value": "oklch(0.36 0.12 50)", "css": "--ubm-color-accent-ink" }
@@ -483,8 +483,37 @@ Dark mode は MVP 非対応であり、本タスクでは値を決めない。
 Dark mode task が着手されたら、§9 JSON の `color.theme.dark` を追加し、§3 の表にも dark override を追記する。
 それまでは placeholder を検証対象に含めるが、contrast PASS とは扱わない。
 
+## 11b. Brand-asset exempt path
+
+外部 brand owner（Google / Apple / GitHub 等）が公式に指定するブランドアセットは、OKLch token システムの外側に配置し、`apps/web/src/components/ui/brand-icons/` 直下に置く。`scripts/verify-design-tokens.ts` の `DEFAULTS.brandIconExemptPaths` で **直下の `.svg` のみ** HEX 直書きを許容する。
+
+### 対象パス
+
+- `apps/web/src/components/ui/brand-icons/*.svg`
+
+> subdirectory（`brand-icons/<vendor>/...`）は exempt 対象外。`.tsx` / `.ts` / `.css` も exempt 対象外。
+
+### 追加基準
+
+- 外部 brand owner（Google Identity Guidelines 等）が公式に色値を指定している brand asset であること
+- `.tsx` wrapper は SVG asset を表示するだけにし、HEX 直書きを置かない
+- プロジェクト独自の brand-mark（UBM 兵庫支部会等）は OKLch token 経由で管理し、本 exempt は使わない
+
+### レビュー基準
+
+- 新規追加時は本仕様書に owner / 出典 URL を併記する
+- HEX 直書きは公式色のみ。透明度・派生色は OKLch token を使う
+- `brand-icons/` の subdirectory には絶対に置かない（CI gate で fail）
+
+### 現在登録されている brand asset
+
+| asset | owner | 出典 |
+| --- | --- | --- |
+| `google.svg` | Google LLC | Google Identity Guidelines (4-tone "G") |
+
 ## 12. 改訂履歴
 
 | Version | Date | Changes |
 | --- | --- | --- |
 | v2026.05.07-initial | 2026-05-07 | 初版。prototype `styles.css` L1-L70 の stone / warm / cool 値、radius、shadow、font、spacing、motion を `--ubm-*` 正本名で固定。旧 `09c-primitives.md` 短縮 token 互換 mapping、Style Dictionary 互換 JSON、Tailwind v4 `@theme inline` guide、sRGB fallback、dark mode placeholder を追加。 |
+| v2026.05.24-brand-asset-exempt | 2026-05-24 | §11b brand-asset exempt path を追加。Google 4-tone "G" を `apps/web/src/components/ui/brand-icons/` 直下の `.svg` 例外で許可し、`.tsx` wrapper は HEX 禁止。issue #872 / FU-LOGIN-001。 |
