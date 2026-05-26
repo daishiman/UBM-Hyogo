@@ -1,5 +1,19 @@
 # クイックリファレンス
 
+## public-header-my-profile-nav-alignment（2026-05-26）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/public-header-my-profile-nav-alignment/` |
+| status | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION / browser_smoke_pending_user_gate` |
+| parent | `docs/30-workflows/ui-prototype-alignment-mvp-recovery/` |
+| purpose | 公開ヘッダのログイン中 CTA を `/profile` の「マイページ」に切り替え、公開層からマイページへ 1 click で到達可能にする |
+| implementation | `PublicHeader` は sync presentational、`PublicHeaderWithPath` は `usePathname()` island、`SessionAwarePublicHeader` は `getSession()` server wrapper |
+| tests | `PublicHeader.spec.tsx`, `SessionAwarePublicHeader.spec.tsx`, `(public)/layout.spec.tsx` |
+| Phase 12 | strict 7 present; root/output artifacts parity present |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-public-header-my-profile-nav-alignment-artifact-inventory.md` |
+| boundary | browser/session smoke, commit, push, PR are user-gated |
+
 ## Issue #883 adapter dev warn unknown kind（2026-05-25）
 
 | 項目 | 値 |

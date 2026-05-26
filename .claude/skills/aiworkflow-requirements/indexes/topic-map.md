@@ -3232,6 +3232,17 @@ node scripts/list-specs.js --topics
 |------------|----|
 | Boundary | L19 |
 
+### references/workflow-public-header-my-profile-nav-alignment-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Metadata | L3 |
+| Current Canonical Artifacts | L14 |
+| Implementation Targets | L25 |
+| Contract Summary | L35 |
+| Evidence Boundary | L45 |
+| Same-Wave Sync | L49 |
+
 ### references/workflow-runtime-smoke-staging-mint-recurrence-fix-artifact-inventory.md
 
 ### references/workflow-serial-05-step-03-schema-diff-resolve-artifact-inventory.md
@@ -7633,14 +7644,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L2453 |
-| フェーズ構造（概要） | L2462 |
-| 品質ゲート（概要） | L2493 |
-| 出力テンプレート | L2504 |
-| 実行時のコマンド・エージェント・スキル | L2527 |
-| 昇格パターン集 | L2551 |
-| Current Active / Spec Created Tasks | L2553 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L2714 |
+| ドキュメント構成 | L2467 |
+| フェーズ構造（概要） | L2476 |
+| 品質ゲート（概要） | L2507 |
+| 出力テンプレート | L2518 |
+| 実行時のコマンド・エージェント・スキル | L2541 |
+| 昇格パターン集 | L2565 |
+| Current Active / Spec Created Tasks | L2567 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L2728 |
 
 ### references/task-workflow-backlog-part2.md
 

@@ -8,6 +8,20 @@
 
 本ドキュメントは、複雑なタスクを単一責務の原則に基づいて分解し、各サブタスクに最適なスラッシュコマンド・エージェント・スキルの組み合わせを選定するためのガイドラインを定義する。
 
+### public-header-my-profile-nav-alignment（2026-05-26）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION / browser_smoke_pending_user_gate` |
+| 成果物 | `docs/30-workflows/completed-tasks/public-header-my-profile-nav-alignment/` |
+| parent | `docs/30-workflows/ui-prototype-alignment-mvp-recovery/` |
+| 目的 | 公開層ヘッダでログイン中ユーザーに `/profile` CTA を出し、プロトタイプで要求されたマイページ最短動線を回復する |
+| implementation targets | `apps/web/src/components/public/PublicHeader.tsx`, `PublicHeaderWithPath.tsx`, `SessionAwarePublicHeader.tsx`, `apps/web/app/(public)/layout.tsx`, `apps/web/app/page.tsx` |
+| contract | presentational header は sync 維持。pathname は `usePathname()` client island、session は `getSession()` server wrapper に分離。重複する `マイページ` nav + CTA は作らず CTA 一本に集約 |
+| evidence | focused Vitest local PASS, Phase 12 strict 7 present, root/output artifacts parity present |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-public-header-my-profile-nav-alignment-artifact-inventory.md` |
+| user gate | browser/session smoke, commit, push, PR |
+
 ### Issue #883 adapter dev warn unknown kind（2026-05-25）
 
 | 項目 | 値 |
