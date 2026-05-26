@@ -14,6 +14,20 @@
 | inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-894-admin-topbar-breadcrumb-integration-artifact-inventory.md` |
 | user gate | commit, push, PR, Issue mutation |
 
+## Issue #895 AdminTopbar actions client island（2026-05-25）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-895-admin-topbar-actions-client-island/` |
+| status | `implemented_local_evidence_captured / implementation / NON_VISUAL / implementation_complete_pending_pr` |
+| source | `docs/30-workflows/completed-tasks/parallel-03-followup-004-admin-topbar-actions-buttons.md` consumed |
+| purpose | `AdminTopbar.actions` に admin global actions client island を注入し、既存 `SignOutButton` を topbar へ集約する |
+| implementation | `apps/web/src/features/admin/components/_layout/AdminTopbarActions.tsx`, `apps/web/src/features/admin/components/_layout/__tests__/AdminTopbarActions.spec.tsx`, `apps/web/app/(admin)/layout.tsx`, `apps/web/app/(admin)/layout.spec.tsx` |
+| contract | topbar actions = global admin shell actions; `AdminPageHeader.actions` = page-specific actions. `AdminTopbar` and `(admin)/layout.tsx` remain server components. |
+| Phase 12 | strict 7 files present under `outputs/phase-12/`; Phase 11 local evidence present; screenshot N/A (`NON_VISUAL`) |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-895-admin-topbar-actions-client-island-artifact-inventory.md` |
+| user gate | commit, push, PR |
+
 ## Issue #891 member detail kind exhaustiveness guard（2026-05-25）
 
 | 項目 | 値 |
