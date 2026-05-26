@@ -99,7 +99,7 @@ async function postAlertRelay(
     return;
   }
   try {
-    await fetchImpl(`${base}/internal/alert-relay`, {
+    const response = await fetchImpl(`${base}/internal/alert-relay`, {
       method: "POST",
       headers: {
         "content-type": "application/json",
@@ -116,6 +116,11 @@ async function postAlertRelay(
         rollbackRunbookUrl:
           "https://github.com/daishiman/UBM-Hyogo/blob/main/docs/30-workflows/completed-tasks/ut-25-cloudflare-secrets-production-deploy/outputs/phase-13/rollback-runbook.md",
       }),
+    });
+    console.error({
+      event: "sheets.auth.alert_relay_post",
+      responseStatus: response.status,
+      code: cls.code,
     });
   } catch (e) {
     // 通知失敗は飲み込む（cron 全体を落とさない）

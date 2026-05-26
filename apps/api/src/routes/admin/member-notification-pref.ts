@@ -2,6 +2,7 @@
 // admin operator が member の通知オプトアウトを切り替える endpoint。
 import { Hono } from "hono";
 import { z } from "zod";
+import { idempotency } from "../../middleware/idempotency";
 import { requireAdmin, type RequireAuthVariables } from "../../middleware/require-admin";
 import { ctx } from "../../repository/_shared/db";
 import { updateNotificationOptOut } from "../../repository/memberNotificationPreference";
@@ -17,6 +18,7 @@ export const createAdminMemberNotificationPrefRoute = () => {
     Variables: RequireAuthVariables;
   }>();
   app.use("*", requireAdmin);
+  app.use("*", idempotency());
 
   app.patch("/members/:memberId/notification-pref", async (c) => {
     const memberId = c.req.param("memberId");

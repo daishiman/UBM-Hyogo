@@ -54,6 +54,13 @@ describe("runSheetsAuthHealthcheck", () => {
     expect(result.ok).toBe(false);
     expect(result.classification.code).toBe("SHEETS_AUTH_401_KEY_INVALID");
     expect(fetchSpy).toHaveBeenCalledTimes(1);
+    expect(errSpy).toHaveBeenCalledWith(
+      expect.objectContaining({
+        event: "sheets.auth.alert_relay_post",
+        responseStatus: 200,
+        code: "SHEETS_AUTH_401_KEY_INVALID",
+      }),
+    );
     const calls = fetchSpy.mock.calls as unknown as Array<[unknown, RequestInit]>;
     expect(String(calls[0]![0])).toBe("https://api.example.com/internal/alert-relay");
     const body = JSON.parse(String(calls[0]![1].body));
@@ -94,6 +101,35 @@ describe("runSheetsAuthHealthcheck", () => {
     });
     expect(result.classification.code).toBe("SHEETS_AUTH_403_FORBIDDEN");
     expect(fetchSpy).toHaveBeenCalledTimes(1);
+    expect(errSpy).toHaveBeenCalledWith(
+      expect.objectContaining({
+        event: "sheets.auth.alert_relay_post",
+        responseStatus: 200,
+        code: "SHEETS_AUTH_403_FORBIDDEN",
+      }),
+    );
+  });
+
+  it("alert-relay が 401 を返した場合も responseStatus を runtime evidence 用に記録する", async () => {
+    const fetcher = makeFetcher(async () => {
+      throw new SheetsFetchError("unauthorized", 401);
+    });
+    const fetchSpy = vi.fn(async () => new Response("{}", { status: 401 }));
+
+    const result = await runSheetsAuthHealthcheck(baseEnv, dummyEvent, {
+      fetcher,
+      fetch: fetchSpy as unknown as typeof fetch,
+    });
+
+    expect(result.ok).toBe(false);
+    expect(fetchSpy).toHaveBeenCalledTimes(1);
+    expect(errSpy).toHaveBeenCalledWith(
+      expect.objectContaining({
+        event: "sheets.auth.alert_relay_post",
+        responseStatus: 401,
+        code: "SHEETS_AUTH_401_KEY_INVALID",
+      }),
+    );
   });
 
   it("500 は isAuthFailure=false / alert-relay POST されない", async () => {
