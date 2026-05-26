@@ -44,6 +44,7 @@ type MockApiState = {
   adminDashboardUnresolvedSchema?: number
   adminDashboardByStatus?: ReadonlyArray<StatusSliceSeed>
   meetingsSeed: MockMeetingsSeed
+  publicHomeEmpty?: boolean
 }
 
 type MockApi = {
@@ -55,6 +56,7 @@ type MockApi = {
   setAdminDashboardByStatus: (slices: ReadonlyArray<StatusSliceSeed> | undefined) => Promise<void>
   seedMeetings: (seed?: MockMeetingsSeed) => Promise<void>
   seedUnregisteredMeeting: () => Promise<void>
+  setPublicHomeEmpty: (empty: boolean) => Promise<void>
 }
 
 const STANDALONE_BASE = `http://127.0.0.1:${MOCK_API_PORT}`
@@ -201,7 +203,7 @@ function publicMembersBody(params = new URLSearchParams()) {
   const q = params.get('q') ?? ''
   // 負例クエリは contracts fixture `fixtures.public.negativeQuery`（"zzz_no_match_zzz"）が正本。
   // CI では scripts/e2e-mock-api.mjs（q === negativeQuery 完全一致）が応答するため、規約を揃える。
-  if (q === 'zzz_no_match_zzz') {
+  if (state.publicHomeEmpty || q === 'zzz_no_match_zzz') {
     return {
       items: [],
       pagination: { total: 0, page: 1, limit: 50, totalPages: 0, hasNext: false, hasPrev: false },
@@ -227,6 +229,22 @@ function publicMembersBody(params = new URLSearchParams()) {
     ],
     generatedAt: '2026-05-12T00:00:00.000Z',
   }
+}
+
+function publicStatsBody() {
+  return buildStats({
+    publicMemberCount: state.publicHomeEmpty ? 0 : 1,
+    generatedAt: '2026-05-12T00:00:00.000Z',
+    recentMeetings: state.publicHomeEmpty
+      ? []
+      : [
+          {
+            sessionId: 'session-public-home-202605',
+            title: '2026年5月 定例会',
+            heldOn: '2026-05-09',
+          },
+        ],
+  })
 }
 
 function publicMemberProfileBody() {
@@ -538,7 +556,7 @@ async function ensureMockApi(): Promise<void> {
         return
       }
       if (req.method === 'GET' && url.pathname === '/public/stats') {
-        response(res, 200, buildStats({ generatedAt: '2026-05-12T00:00:00.000Z' }))
+        response(res, 200, publicStatsBody())
         return
       }
       if (req.method === 'GET' && url.pathname === '/public/members') {
@@ -624,11 +642,21 @@ async function ensureMockApi(): Promise<void> {
           .catch(() => response(res, 400, { error: 'invalid_json' }))
         return
       }
+      if (req.method === 'POST' && url.pathname === '/__test__/public-home') {
+        readJson(req)
+          .then((body) => {
+            state.publicHomeEmpty = Boolean((body as { empty?: unknown }).empty)
+            response(res, 200, { ok: true, publicHomeEmpty: state.publicHomeEmpty })
+          })
+          .catch(() => response(res, 400, { error: 'invalid_json' }))
+        return
+      }
       if (req.method === 'POST' && url.pathname === '/__test__/reset') {
         state.pendingRequests = {}
         delete state.visibilityPost
         delete state.adminDashboardUnresolvedSchema
         delete state.adminDashboardByStatus
+        delete state.publicHomeEmpty
         state.meetingsSeed = defaultAttendanceSeed()
         response(res, 200, { ok: true })
         return
@@ -734,6 +762,7 @@ const mockApi: MockApi = {
     delete state.visibilityPost
     delete state.adminDashboardUnresolvedSchema
     delete state.adminDashboardByStatus
+    delete state.publicHomeEmpty
     state.meetingsSeed = defaultAttendanceSeed()
     await postControl('/__test__/reset')
   },
@@ -779,6 +808,10 @@ const mockApi: MockApi = {
     const seed = unregisteredAttendanceSeed()
     state.meetingsSeed = seed
     await postControl('/__test__/seed-meetings', seed)
+  },
+  setPublicHomeEmpty: async (empty) => {
+    state.publicHomeEmpty = empty
+    await postControl('/__test__/public-home', { empty })
   },
 }
 
