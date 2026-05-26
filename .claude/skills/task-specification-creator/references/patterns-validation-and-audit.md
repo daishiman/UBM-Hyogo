@@ -63,6 +63,18 @@ UI screenshot が不要でも、以下は残す:
 - mirror parity
 - validator replay
 
+## パターン8: auth leak grep gate
+
+Authenticated visual / runtime smoke のように cookie や JWT を一時生成するタスクでは、実装ログ・Phase 11 evidence・tracked files に次が残らないことを dedicated grep gate で検証する。
+
+| 検査 | 期待 |
+| --- | --- |
+| JWT prefix `eyJ` | tracked evidence 0 hit |
+| `authjs.session-token=` の値 | 0 hit（cookie 名の言及のみ可） |
+| `STAGING_AUTH_SECRET=` の値 | 0 hit（env 名の言及のみ可） |
+
+storageState は `.gitignore` 済みの ephemeral path に限定し、HTML report や artifact upload の対象からも除外する。
+
 ## 再利用チェックリスト
 
 - [ ] `quick_validate.js` と `validate_all.js` の結果を分けて記録した

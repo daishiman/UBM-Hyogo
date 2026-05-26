@@ -1,0 +1,16 @@
+{
+  "taskId": "issue-908-staging-rollback-notification-runtime-smoke",
+  "workflowDir": "docs/30-workflows/issue-908-staging-rollback-notification-runtime-smoke",
+  "schemaVersion": "1.0.0",
+  "evidence": [
+    {
+      "id": "manual-test-execution-plan",
+      "kind": "runtime-observation",
+      "path": "outputs/phase-11/manual-test-execution-plan.md",
+      "command": "Review Phase 11 manual execution plan before user-gated staging runtime smoke",
+      "acquiredBy": "spec_created",
+      "requiredForCloseout": true,
+      "notes": "Runtime values are captured in the parent evidence placeholder after user approval."
+    }
+  ]
+}

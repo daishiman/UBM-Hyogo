@@ -369,7 +369,7 @@ TASK-UI-00-DESIGN-FOUNDATION で追加した Molecules / Organisms は、アプ�
 
 ### 06b-B profile 申請 UI への流用
 
-VisibilityRequest / DeleteRequest（`apps/web/app/profile/_components/`）は、独自に「ログイン済みかどうか」を判定せず、authGateState を購読して `state !== "active"` の場合は送信ボタンを disabled にする。これにより:
+VisibilityRequest / DeleteRequest（`apps/web/app/(member)/profile/_components/`）は、独自に「ログイン済みかどうか」を判定せず、authGateState を購読して `state !== "active"` の場合は送信ボタンを disabled にする。これにより:
 
 - gating ロジックが一箇所に集約され、ボタンごとの実装ばらつきを防ぐ。
 - `error-handling-core.md` の `SelfRequestError(code: "unauthorized")` を受信した場合は state を `expired` または `needs-magic-link` へ遷移させ、UI が同じ disabled 表示に収束する。
