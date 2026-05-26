@@ -3134,6 +3134,15 @@ node scripts/list-specs.js --topics
 | Implementation Targets | L27 |
 | Boundary | L39 |
 
+### references/workflow-issue-902-members-staging-visual-baseline-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Metadata | L3 |
+| Implementation Targets | L13 |
+| Evidence | L21 |
+| Boundary | L29 |
+
 ### references/workflow-issue-903-parallel-03-followup-005-member-runtime-evidence-artifact-inventory.md
 
 | セクション | 行 |
@@ -6582,8 +6591,8 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 概要 | L3 |
 | 仕様書インデックス | L7 |
-| 利用順序 | L120 |
-| 関連ドキュメント | L125 |
+| 利用順序 | L121 |
+| 関連ドキュメント | L126 |
 
 ### references/llm-embedding.md
 
@@ -7720,14 +7729,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L2551 |
-| フェーズ構造（概要） | L2560 |
-| 品質ゲート（概要） | L2591 |
-| 出力テンプレート | L2602 |
-| 実行時のコマンド・エージェント・スキル | L2625 |
-| 昇格パターン集 | L2649 |
-| Current Active / Spec Created Tasks | L2651 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L2812 |
+| ドキュメント構成 | L2553 |
+| フェーズ構造（概要） | L2562 |
+| 品質ゲート（概要） | L2593 |
+| 出力テンプレート | L2604 |
+| 実行時のコマンド・エージェント・スキル | L2627 |
+| 昇格パターン集 | L2651 |
+| Current Active / Spec Created Tasks | L2653 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L2814 |
 
 ### references/task-workflow-backlog-part2.md
 

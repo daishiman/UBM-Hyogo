@@ -1106,3 +1106,8 @@ production env monitor secret cleanup は user-gated。
 - Registered `/profile` route group move, member AppShell scrape spec, parent EV-13/EV-16 evidence, artifact inventory, and strict 7 close-out.
 - Synchronized current profile physical paths across indexes, active workflow guide, profile artifact inventories, static invariant catalog, and state-management reference.
 - Commit, push, PR, and Issue mutation remain user-gated.
+# 2026-05-25 Issue #902 members staging visual baseline
+
+- Registered `docs/30-workflows/completed-tasks/issue-902-members-staging-visual-baseline/` as `implemented_local_runtime_pending / implementation / VISUAL`.
+- Added `members-list` and env-gated `member-detail` staging visual specs plus `playwright-smoke.yml` 6-screen dispatch input support.
+- Source unassigned task consumed; quick-reference / resource-map / task-workflow-active / artifact inventory / changelog synchronized. Staging deploy, CI baseline PNG generation, commit, push, and PR remain user-gated.
