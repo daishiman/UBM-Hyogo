@@ -631,3 +631,19 @@ GitHub Actions の transient 失敗（`actions/download-artifact` archive downlo
   3. **空コミット (`git commit --allow-empty`) は使わない**。empty commit は tree-hash 不変で `pull_request synchronize` が workflow run を schedule しないケースがあり、PR を BLOCKED 状態に陥らせる（既存の `feedback_visual_baseline_github_token_retrigger.md` は GITHUB_TOKEN 検知遅延向けで本ケースに適用できない）。
   4. CI re-trigger 目的で `apps/*/src/...` 実装側ファイルを触らない。code-change diff が PR review に紛れる。
 - **gh api SHA 照合**: `gh api repos/.../actions/runs?head_sha=<sha>` で workflow run 登録を確認する際は **full 40-char SHA**（`git rev-parse HEAD`）を渡す。short SHA prefix では match しない。bash の `python3 -c "...$VAR..."` 変数展開漏れで「0 件」と誤判定する事故あり、SHA は environment variable ではなく argv / stdin か直接 string literal で渡す。
+
+## API method/path 切替時の Playwright mock fixture 追従（2026-05-26）
+
+admin API の method/endpoint を切替える PR（例: issue-912 で `POST /attendances` → `DELETE /attendance/:memberId`）では、本実装・vitest spec・runtime smoke と合わせて `apps/web/playwright/fixtures/auth.ts` の mock handler も**同一 PR で追従**させる必要がある。漏れた場合、mock の末尾 fallback `response(res, 404, { error: 'MOCK_API_NOT_FOUND' })` が新 endpoint への request を吸収してしまい、UI 側の idempotent 404 分岐（"既に出席解除されています"）に silent に流れ、`smoke (chromium)` / `e2e (desktop-chromium)` が "出席を削除しました" を期待する toast assertion で fail する。
+
+- **L-APIMETH-001 (Phase 4 contracts)**: API method / path を変更する仕様書では Phase 4 contracts に「`apps/web/playwright/fixtures/auth.ts` の新 endpoint handler 追加」「旧 endpoint handler の取り扱い（残置 / 削除）」を必ず明記する。`grep -nE "POST|DELETE|method ===" apps/web/playwright/fixtures/auth.ts` を Phase 6 acceptance に含めて漏れを防ぐ。
+- **L-APIMETH-002 (idempotent endpoint の mock 表現)**: idempotent DELETE/PUT の場合、mock も冪等にする。1回目=200/204、2回目以降=404 で `attendees` 配列を実際に更新する handler を書き、retry/idempotency path が test 側でも到達可能にする。状態を持たない `return 204 always` にすると、UI 側の "既に削除済" 分岐が一切踏まれず regression を検出できない。
+- **L-APIMETH-003 (CI signal の二重化)**: typecheck / lint は mock 漏れを検出できない。Playwright `smoke` / `e2e` が API endpoint surface 変更の正本検証 gate であり、PR では verify-conflict-markers ではなく `playwright-smoke` の green を必須 check に含める運用を維持する。
+- **L-APIMETH-004 (二系統 mock の同時追従)**: Playwright には mock が**二系統**存在する。`playwright-smoke.yml` は `apps/web/playwright/fixtures/auth.ts`（in-process fixture）を使い、`e2e-tests.yml` は `scripts/e2e-mock-api.mjs`（別 Node プロセス・stand-alone mock）を起動する。同じ症状（404 fall-through → idempotent 分岐の toast）が出るが、片方だけ直すと workflow 片側のみ green になり「smoke は通ったのに e2e-tests-coverage-gate が落ち続ける」という asymmetric failure が起きる。Phase 4 contracts と Phase 6 acceptance grep には**両ファイルを明記**する: `grep -nE "POST|DELETE|method ===" apps/web/playwright/fixtures/auth.ts scripts/e2e-mock-api.mjs`。
+
+### Anti-pattern
+
+- mock fixture の末尾に `response(res, 404, ...)` fallback を残したまま新 endpoint handler 追加を後続 PR に分割 → fallback が新 request を吸収し、UI 側の idempotent 404 分岐に silent fall-through → toast assertion が新 PR で fail。
+- mock を always 200 success にする → UI の "既に削除済" toast 分岐が一切踏まれず、本番で初めて該当分岐の regression が出る。
+- handler を mock に追加する代わりに `test.skip` / `test.fixme` で逃がす → playwright が API shape の正本検証 gate なのに gate が空洞化する。
+- `apps/web/playwright/fixtures/auth.ts` のみ追従し `scripts/e2e-mock-api.mjs` を忘れる → `playwright-smoke` は green になるが `e2e-tests-coverage-gate` (3 shard) が同症状で fail し続け、原因切り分けで時間を浪費する。
