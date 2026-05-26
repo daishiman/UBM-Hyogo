@@ -162,6 +162,10 @@ Authenticated Server Component route を staging / production runtime smoke で�
 
 適用例: `issue-864-admin-staging-runtime-smoke-ci-gate` は `apps/web/src/lib/auth.ts` が `session.strategy="jwt"` かつ `encodeAuthSessionJwt` / `decodeAuthSessionJwt` を Auth.js adapter に使うことを確認し、`mint-staging-session-cookie.mts` が同じ HS256 contract の cookie を発行する。
 
+### Multi-environment mint helper extension（2026-05-25 / Issue #922）
+
+staging で確立した Server Component runtime smoke を production へ横展開する場合、mint helper を複製せず env prefix resolution を純粋関数として追加する。`resolveEnvPrefix("staging") = "STAGING"` / `resolveEnvPrefix("production") = "PRODUCTION"` を focused test で固定し、unsupported env は exit 2 にする。CLI は後方互換のため引数なしを staging とし、production job だけ `production` 引数を渡す。
+
 ## 二重 mock の serving-path 切替と negative-query 規約の単一ソース化（2026-05-24 追加 / members-page-prototype-alignment e2e gate 由来）
 
 SSR mock が**2系統**存在し、実行環境でどちらが応答するかが切り替わる構成では、テストの期待値とモックの応答規約を**単一ソースに固定**しないと「local は PASS / CI は FAIL（またはその逆）」が起きる。
