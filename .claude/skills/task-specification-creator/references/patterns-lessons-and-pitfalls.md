@@ -538,3 +538,23 @@ dev sync-merge で同一の pure adapter / pure function 関数が **HEAD 側と
 - 片側 take（HEAD のみ採用して dev 側の callback を捨てる、または逆）→ 失われた振る舞いが test green でも実機で silent regression。
 - 引数名衝突の自動 union（同じ位置に意味が違う引数を両方差し込む）→ 呼び出し側 type-check fail。意味衝突は最終レポートに記録し人間判断。
 - `UNION_MERGE_TARGETS` への adapter ソース追加 → コード union による意味壊しが将来再現するため禁止。
+
+## Playwright spec / setup の ESM `__dirname` 対応（2026-05-26）
+
+`apps/web/playwright/playwright.config.ts` が ESM 化されていると、その下の spec / setup / teardown ファイルでも CommonJS の `__dirname` は**未定義**になり実行時 `ReferenceError: __dirname is not defined in ES module scope` で全 test が即 fail する（CI: `authenticated-visual` ジョブで再発確認、Issue #901 PR #946）。lint / typecheck では検出されない（型定義上は globalThis 扱い）ため CI まで気付かない。
+
+- **L-PWESM-001 (`__dirname` 復元パターン)**: Playwright の spec / setup / teardown で `__dirname` を参照する場合は必ず以下 3 行を冒頭に追加する。
+  ```ts
+  import path from "node:path";
+  import { fileURLToPath } from "node:url";
+  const __dirname = path.dirname(fileURLToPath(import.meta.url));
+  ```
+  既存実装の正本: `apps/web/playwright/tests/profile-readonly.spec.ts:1-6`。
+- **L-PWESM-002 (storageState 参照)**: `test.use({ storageState: join(__dirname, "..", ".auth", "*.json") })` 形式は authenticated visual / e2e で頻出。spec 追加時は spec template に上記 3 行を含めるか、`playwright/fixtures/auth-paths.ts` のような共通モジュールに集約して spec 側から `__dirname` 直参照を排除する。
+- **L-PWESM-003 (Phase 4 test plan)**: 新規 Playwright spec を仕様書に書く Phase 4 では「ESM `__dirname` 復元 import 3 行 OR 共通 fixture 経由」を acceptance に含める。typecheck / lint では落ちないため Phase 6 で `pnpm exec playwright test --list` を local で 1 回走らせてエラーが出ないことを確認する gate を含める。
+- **L-PWESM-004 (cookie/token leak guard との依存)**: `__dirname` 解決失敗で setup が落ちると teardown も実行されず、`apps/web/playwright/.auth` が残留して後続の `Cookie/token leak guard` step も連鎖 fail する。一見独立した 2 つの fail を見たら、まず setup の ESM エラーを疑う。
+
+### Anti-pattern
+
+- spec / setup を CommonJS 前提のテンプレ（`__dirname` 直書き）で量産する → Playwright config 側を ESM 化したタイミングで全 authenticated spec が同時 fail。
+- `import.meta.dirname`（Node 20.11+）への置換 → Playwright が ts-node / esbuild loader 経由で実行する場合に `import.meta.dirname` が undefined になる環境がある（CI ubuntu 上で再現確認）。`fileURLToPath` 経由が最も移植性が高い。

@@ -3,10 +3,12 @@
 // for the staging-visual-authenticated project. Runs once per Playwright invocation.
 
 import { existsSync, readFileSync } from "node:fs";
-import { join } from "node:path";
+import path, { join } from "node:path";
+import { fileURLToPath } from "node:url";
 import { test as setup, expect } from "@playwright/test";
 import { mintStagingStorageState } from "../../scripts/mint-staging-storage-state";
 
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const AUTH_DIR = join(__dirname, "..", "..", ".auth");
 export const MEMBER_STATE = join(AUTH_DIR, "member.storageState.json");
 export const ADMIN_STATE = join(AUTH_DIR, "admin.storageState.json");

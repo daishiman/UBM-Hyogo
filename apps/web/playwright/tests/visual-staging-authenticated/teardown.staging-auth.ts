@@ -3,8 +3,11 @@
 // staging-visual run completes. Defense-in-depth on top of CI artifact filtering.
 
 import { rm } from "node:fs/promises";
-import { join } from "node:path";
+import path, { join } from "node:path";
+import { fileURLToPath } from "node:url";
 import { test as teardown } from "@playwright/test";
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 teardown("remove storageState", async () => {
   await rm(join(__dirname, "..", "..", ".auth"), { recursive: true, force: true });

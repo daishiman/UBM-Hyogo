@@ -2,8 +2,11 @@
 // Authenticated /profile staging visual baseline. Uses storageState minted by
 // setup.staging-auth.ts (member role).
 
-import { join } from "node:path";
+import path, { join } from "node:path";
+import { fileURLToPath } from "node:url";
 import { expect, test } from "@playwright/test";
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 test.use({
   storageState: join(__dirname, "..", "..", ".auth", "member.storageState.json"),
