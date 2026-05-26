@@ -3118,6 +3118,13 @@ node scripts/list-specs.js --topics
 | Implementation Targets | L21 |
 | User-Gated Boundary | L29 |
 
+### references/workflow-issue-900-workflow-permissions-least-privilege-audit-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Implementation Targets | L13 |
+| Evidence | L32 |
+
 ### references/workflow-issue-901-authenticated-profile-admin-staging-visual-artifact-inventory.md
 
 | セクション | 行 |
@@ -4660,21 +4667,21 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 概要 | L10 |
 | ワークフロー構成 | L38 |
-| CI ワークフロー要件（PR 時） | L68 |
-| キャッシュ戦略 | L104 |
-| 並列実行の活用 | L127 |
-| CD ワークフロー要件（dev / main マージ時） | L183 |
-| Backend ワークフロー要件（dev / main マージ時） | L213 |
-| モニタリングとアラート | L241 |
-| GitHub Secrets の要件 | L275 |
-| Issue #638 CLOUDFLARE_PAGES_PROJECT deletion current state | L303 |
-| UT-27: GitHub Secrets / Variables 配置決定（2026-04-29） | L325 |
-| Workflow lint scope の不変条件（CI recovery / 2026-05-09） | L347 |
-| setup-project cache input 不変条件（PR #795 residual CI recovery / 2026-05-18） | L358 |
-| Failure cascade 抑止 pattern（CI recovery / 2026-05-09） | L368 |
-| Lessons learned (PR #795 由来 / 2026-05-18) | L389 |
-| Post-release dashboard automation (Issue #351 / 2026-05-05) | L395 |
-| post-release-30day-auto-summary | L432 |
+| CI ワークフロー要件（PR 時） | L70 |
+| キャッシュ戦略 | L106 |
+| 並列実行の活用 | L129 |
+| CD ワークフロー要件（dev / main マージ時） | L185 |
+| Backend ワークフロー要件（dev / main マージ時） | L215 |
+| モニタリングとアラート | L243 |
+| GitHub Secrets の要件 | L277 |
+| Issue #638 CLOUDFLARE_PAGES_PROJECT deletion current state | L305 |
+| UT-27: GitHub Secrets / Variables 配置決定（2026-04-29） | L327 |
+| Workflow lint scope の不変条件（CI recovery / 2026-05-09） | L349 |
+| setup-project cache input 不変条件（PR #795 residual CI recovery / 2026-05-18） | L360 |
+| Failure cascade 抑止 pattern（CI recovery / 2026-05-09） | L370 |
+| Lessons learned (PR #795 由来 / 2026-05-18) | L391 |
+| Post-release dashboard automation (Issue #351 / 2026-05-05) | L397 |
+| post-release-30day-auto-summary | L434 |
 
 ### references/deployment-history.md
 
@@ -5947,6 +5954,15 @@ node scripts/list-specs.js --topics
 | L-I891-004: closed issue の "spec_created" は実コード差分の有無で再分類する | L30 |
 | L-I891-005: 起票元 unassigned task は削除でなく consumed trace を残し completed-tasks/unassigned-task/ へ移送する | L37 |
 | 横断教訓 | L46 |
+
+### references/lessons-learned-issue-900-workflow-permissions-least-privilege-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| L-WFPERM-001: top-level permissions 不在は構造的脆弱性 | L3 |
+| L-WFPERM-002: least-privilege は 2 階層で組む | L7 |
+| L-WFPERM-003: actionlint 1.7.7 を最終ゲートに、push 前は grep で自己検証 | L11 |
+| L-WFPERM-004: 防御的 hardening は失敗観測を待たず先回り適用 | L15 |
 
 ### references/lessons-learned-issue359-production-d1-apply-2026-05.md
 
@@ -7695,14 +7711,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L2537 |
-| フェーズ構造（概要） | L2546 |
-| 品質ゲート（概要） | L2577 |
-| 出力テンプレート | L2588 |
-| 実行時のコマンド・エージェント・スキル | L2611 |
-| 昇格パターン集 | L2635 |
-| Current Active / Spec Created Tasks | L2637 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L2798 |
+| ドキュメント構成 | L2551 |
+| フェーズ構造（概要） | L2560 |
+| 品質ゲート（概要） | L2591 |
+| 出力テンプレート | L2602 |
+| 実行時のコマンド・エージェント・スキル | L2625 |
+| 昇格パターン集 | L2649 |
+| Current Active / Spec Created Tasks | L2651 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L2812 |
 
 ### references/task-workflow-backlog-part2.md
 

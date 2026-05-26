@@ -43,22 +43,43 @@ jobs:
       PLAYWRIGHT_STAGING_BASE_URL: ${{ vars.PLAYWRIGHT_STAGING_BASE_URL }}
       PLAYWRIGHT_SKIP_WEB_SERVER: '1'
     steps:
+      - name: Gate on staging secrets availability
+        id: secrets-gate
+        # workflow_dispatch では secrets 投入後に手動 trigger される前提なので必須。
+        # pull_request では未投入 PR を block しないよう、secrets 不在を success-skip 扱いにする
+        # (baseline 更新は workflow_dispatch / dev branch の secrets 投入後 push 経由で実行する設計)。
+        run: |
+          set -euo pipefail
+          if [ -z "${STAGING_AUTH_SECRET:-}" ] || [ -z "${STAGING_ADMIN_MEMBER_ID:-}" ] || [ -z "${STAGING_ADMIN_EMAIL:-}" ] || [ -z "${STAGING_ME_MEMBER_ID:-}" ] || [ -z "${STAGING_ME_EMAIL:-}" ] || [ -z "${STAGING_WORKER_HOST:-}" ]; then
+            if [ "${GITHUB_EVENT_NAME}" = "workflow_dispatch" ]; then
+              echo "::error::workflow_dispatch では staging-visual-authenticated environment の secrets が必須です"
+              exit 1
+            fi
+            echo "::notice::staging-visual-authenticated secrets 未投入 — pull_request では graceful skip (success)"
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "skip=false" >> "$GITHUB_OUTPUT"
+          fi
       - uses: actions/checkout@v4
+        if: steps.secrets-gate.outputs.skip != 'true'
       - uses: ./.github/actions/setup-project
+        if: steps.secrets-gate.outputs.skip != 'true'
       - name: Install playwright browsers
+        if: steps.secrets-gate.outputs.skip != 'true'
         run: pnpm --filter @ubm-hyogo/web exec playwright install --with-deps chromium
       - name: Run authenticated staging visual baseline
+        if: steps.secrets-gate.outputs.skip != 'true'
         run: |
           pnpm --filter @ubm-hyogo/web exec playwright test \
             --project=staging-visual-authenticated
       - name: Copy baseline PNGs to evidence dir
-        if: success()
+        if: success() && steps.secrets-gate.outputs.skip != 'true'
         run: |
           set -euo pipefail
           mkdir -p docs/30-workflows/completed-tasks/issue-901-authenticated-profile-admin-staging-visual/outputs/phase-11/screenshots
           find apps/web/playwright/tests/visual-staging-authenticated -name '*-authenticated-staging-visual-chromium-linux.png' -print -exec cp {} docs/30-workflows/completed-tasks/issue-901-authenticated-profile-admin-staging-visual/outputs/phase-11/screenshots/ \;
       - name: Cookie/token leak guard (grep gate)
-        if: always()
+        if: always() && steps.secrets-gate.outputs.skip != 'true'
         run: |
           set -euo pipefail
           # storageState directory must be empty / removed by teardown.
@@ -68,7 +89,7 @@ jobs:
           fi
           bash scripts/lib/grep-no-auth-leak.sh
       - name: Upload Playwright report
-        if: always()
+        if: always() && steps.secrets-gate.outputs.skip != 'true'
         uses: actions/upload-artifact@v4
         with:
           name: playwright-report-authenticated

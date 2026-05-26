@@ -16,6 +16,18 @@
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-901-authenticated-profile-admin-staging-visual-artifact-inventory.md` |
 | user gate | implementation, staging screenshot capture, parent gate release, commit, push, PR |
 
+## issue-900-workflow-permissions-least-privilege-audit（2026-05-25）
+
+| key | value |
+| --- | --- |
+| status | `implemented_local_evidence_captured / implementation / NON_VISUAL` |
+| workflow root | `docs/30-workflows/completed-tasks/issue-900-workflow-permissions-least-privilege-audit/` |
+| purpose | all GitHub Actions workflows declare top-level least-privilege token permissions |
+| baseline | top-level `permissions: contents: read`; job-level write overrides remain job-scoped |
+| guard | `scripts/verify-workflow-top-level-permissions.sh` in `.github/workflows/ci.yml` after actionlint |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-900-workflow-permissions-least-privilege-audit-artifact-inventory.md` |
+| user gate | commit, push, PR, remote CI observation |
+
 ## issue-894-admin-topbar-breadcrumb-integration（2026-05-25）
 
 | 項目 | 値 |
