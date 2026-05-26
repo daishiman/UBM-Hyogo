@@ -1,0 +1,32 @@
+{
+  "schemaVersion": "1.0.0",
+  "taskId": "issue-901-authenticated-profile-admin-staging-visual",
+  "workflowDir": "docs/30-workflows/completed-tasks/issue-901-authenticated-profile-admin-staging-visual",
+  "evidence": [
+    {
+      "id": "phase11-contract-index",
+      "kind": "test",
+      "path": "outputs/phase-11/main.md",
+      "command": "test -f docs/30-workflows/completed-tasks/issue-901-authenticated-profile-admin-staging-visual/outputs/phase-11/main.md",
+      "acquiredBy": "spec_created",
+      "requiredForCloseout": true,
+      "notes": "Spec-created Phase 11 boundary. Runtime logs and PNG files remain pending until Gate-B/C."
+    },
+    {
+      "id": "screenshot-plan",
+      "kind": "test",
+      "path": "outputs/phase-11/screenshot-plan.json",
+      "command": "test -f docs/30-workflows/completed-tasks/issue-901-authenticated-profile-admin-staging-visual/outputs/phase-11/screenshot-plan.json",
+      "acquiredBy": "spec_created",
+      "requiredForCloseout": true
+    },
+    {
+      "id": "storagestate-generation",
+      "kind": "test",
+      "path": "outputs/phase-11/storagestate-generation.md",
+      "command": "test -f docs/30-workflows/completed-tasks/issue-901-authenticated-profile-admin-staging-visual/outputs/phase-11/storagestate-generation.md",
+      "acquiredBy": "spec_created",
+      "requiredForCloseout": true
+    }
+  ]
+}

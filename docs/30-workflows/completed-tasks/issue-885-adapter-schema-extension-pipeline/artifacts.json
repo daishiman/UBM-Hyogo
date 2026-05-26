@@ -1,0 +1,77 @@
+{
+  "workflow_id": "issue-885-adapter-schema-extension-pipeline",
+  "title": "issue-885-adapter-schema-extension-pipeline",
+  "type": "implementation",
+  "status": "implemented_local_evidence_captured",
+  "metadata": {
+    "workflow_state": "implemented_local_evidence_captured",
+    "taskType": "implementation",
+    "visualEvidence": "NON_VISUAL",
+    "source_issue": 885,
+    "runtime_boundary": "no runtime deployment required",
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-05-25T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-885-adapter-schema-extension-pipeline/outputs/phase-12/phase12-task-spec-compliance-check.md",
+        "approver": "codex",
+        "notes": "Phase 12 strict 7 and canonical heading compliance passed locally"
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "passed",
+        "passed_at": "2026-05-25T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-885-adapter-schema-extension-pipeline/outputs/phase-11/walkthrough.md",
+        "approver": "codex",
+        "notes": "NON_VISUAL walkthrough evidence captured"
+      }
+    ]
+  },
+  "phases": [
+    {
+      "phase": 11,
+      "status": "completed",
+      "artifacts": [
+        {
+          "name": "walkthrough",
+          "path": "outputs/phase-11/walkthrough.md"
+        }
+      ]
+    },
+    {
+      "phase": 12,
+      "status": "completed",
+      "artifacts": [
+        {
+          "name": "main",
+          "path": "outputs/phase-12/main.md"
+        },
+        {
+          "name": "implementation-guide",
+          "path": "outputs/phase-12/implementation-guide.md"
+        },
+        {
+          "name": "system-spec-update-summary",
+          "path": "outputs/phase-12/system-spec-update-summary.md"
+        },
+        {
+          "name": "documentation-changelog",
+          "path": "outputs/phase-12/documentation-changelog.md"
+        },
+        {
+          "name": "unassigned-task-detection",
+          "path": "outputs/phase-12/unassigned-task-detection.md"
+        },
+        {
+          "name": "skill-feedback-report",
+          "path": "outputs/phase-12/skill-feedback-report.md"
+        },
+        {
+          "name": "phase12-task-spec-compliance-check",
+          "path": "outputs/phase-12/phase12-task-spec-compliance-check.md"
+        }
+      ]
+    }
+  ]
+}

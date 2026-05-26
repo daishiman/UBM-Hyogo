@@ -1,0 +1,101 @@
+name: playwright-staging-visual-authenticated
+
+# workflow: issue-901-authenticated-profile-admin-staging-visual / Phase 5 §6 / T-09
+# Authenticated /profile (member) と /admin (admin) の staging visual baseline を撮る。
+# storageState は CI 内で ephemeral に mint → 消費 → 破棄。git にも artifact にも残さない。
+
+on:
+  workflow_dispatch:
+    inputs:
+      reason:
+        description: 'なぜ authenticated baseline 更新が必要か（必須）'
+        required: true
+        type: string
+  pull_request:
+    paths:
+      - 'apps/web/playwright/tests/visual-staging-authenticated/**'
+      - 'apps/web/playwright/scripts/mint-staging-storage-state.ts'
+      - 'apps/web/playwright.config.ts'
+      - 'packages/shared/src/auth.ts'
+      - 'scripts/lib/grep-no-auth-leak.sh'
+      - '.github/workflows/playwright-staging-visual-authenticated.yml'
+
+permissions:
+  contents: read
+  pull-requests: write
+
+concurrency:
+  group: playwright-staging-visual-authenticated-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  authenticated-visual:
+    runs-on: ubuntu-latest
+    environment: staging-visual-authenticated
+    timeout-minutes: 20
+    env:
+      STAGING_AUTH_SECRET: ${{ secrets.STAGING_AUTH_SECRET }}
+      STAGING_ADMIN_MEMBER_ID: ${{ secrets.STAGING_ADMIN_MEMBER_ID }}
+      STAGING_ADMIN_EMAIL: ${{ secrets.STAGING_ADMIN_EMAIL }}
+      STAGING_ME_MEMBER_ID: ${{ secrets.STAGING_ME_MEMBER_ID }}
+      STAGING_ME_EMAIL: ${{ secrets.STAGING_ME_EMAIL }}
+      STAGING_WORKER_HOST: ${{ vars.STAGING_WORKER_HOST }}
+      PLAYWRIGHT_STAGING_BASE_URL: ${{ vars.PLAYWRIGHT_STAGING_BASE_URL }}
+      PLAYWRIGHT_SKIP_WEB_SERVER: '1'
+    steps:
+      - name: Gate on staging secrets availability
+        id: secrets-gate
+        # workflow_dispatch では secrets 投入後に手動 trigger される前提なので必須。
+        # pull_request では未投入 PR を block しないよう、secrets 不在を success-skip 扱いにする
+        # (baseline 更新は workflow_dispatch / dev branch の secrets 投入後 push 経由で実行する設計)。
+        run: |
+          set -euo pipefail
+          if [ -z "${STAGING_AUTH_SECRET:-}" ] || [ -z "${STAGING_ADMIN_MEMBER_ID:-}" ] || [ -z "${STAGING_ADMIN_EMAIL:-}" ] || [ -z "${STAGING_ME_MEMBER_ID:-}" ] || [ -z "${STAGING_ME_EMAIL:-}" ] || [ -z "${STAGING_WORKER_HOST:-}" ]; then
+            if [ "${GITHUB_EVENT_NAME}" = "workflow_dispatch" ]; then
+              echo "::error::workflow_dispatch では staging-visual-authenticated environment の secrets が必須です"
+              exit 1
+            fi
+            echo "::notice::staging-visual-authenticated secrets 未投入 — pull_request では graceful skip (success)"
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "skip=false" >> "$GITHUB_OUTPUT"
+          fi
+      - uses: actions/checkout@v4
+        if: steps.secrets-gate.outputs.skip != 'true'
+      - uses: ./.github/actions/setup-project
+        if: steps.secrets-gate.outputs.skip != 'true'
+      - name: Install playwright browsers
+        if: steps.secrets-gate.outputs.skip != 'true'
+        run: pnpm --filter @ubm-hyogo/web exec playwright install --with-deps chromium
+      - name: Run authenticated staging visual baseline
+        if: steps.secrets-gate.outputs.skip != 'true'
+        run: |
+          pnpm --filter @ubm-hyogo/web exec playwright test \
+            --project=staging-visual-authenticated
+      - name: Copy baseline PNGs to evidence dir
+        if: success() && steps.secrets-gate.outputs.skip != 'true'
+        run: |
+          set -euo pipefail
+          mkdir -p docs/30-workflows/completed-tasks/issue-901-authenticated-profile-admin-staging-visual/outputs/phase-11/screenshots
+          find apps/web/playwright/tests/visual-staging-authenticated -name '*-authenticated-staging-visual-chromium-linux.png' -print -exec cp {} docs/30-workflows/completed-tasks/issue-901-authenticated-profile-admin-staging-visual/outputs/phase-11/screenshots/ \;
+      - name: Cookie/token leak guard (grep gate)
+        if: always() && steps.secrets-gate.outputs.skip != 'true'
+        run: |
+          set -euo pipefail
+          # storageState directory must be empty / removed by teardown.
+          if [ -d apps/web/playwright/.auth ]; then
+            echo "FAIL: apps/web/playwright/.auth still exists after teardown"
+            exit 1
+          fi
+          bash scripts/lib/grep-no-auth-leak.sh
+      - name: Upload Playwright report
+        if: always() && steps.secrets-gate.outputs.skip != 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report-authenticated
+          path: |
+            docs/30-workflows/completed-tasks/issue-901-authenticated-profile-admin-staging-visual/outputs/phase-11/playwright-report
+            apps/web/playwright/tests/visual-staging-authenticated/**/test-results
+            !apps/web/playwright/.auth
+          if-no-files-found: ignore
+          retention-days: 14

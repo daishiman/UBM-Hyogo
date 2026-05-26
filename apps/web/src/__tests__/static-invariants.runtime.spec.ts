@@ -112,8 +112,8 @@ const isPlaywrightHarnessFile = (file: string): boolean =>
   file.includes(`${WEB_ROOT}/playwright/`);
 
 describe("static invariants / 06b", () => {
-  it("S-01: app/profile 配下に 'questionId' が出現しない", async () => {
-    const files = await walk(join(WEB_ROOT, "app/profile"));
+  it("S-01: app/(member)/profile 配下に 'questionId' が出現しない", async () => {
+    const files = await walk(join(WEB_ROOT, "app/(member)/profile"));
     const hits = await findMatches(files, "questionId", {
       stripComments: true,
     });
@@ -123,10 +123,10 @@ describe("static invariants / 06b", () => {
     ).toHaveLength(0);
   });
 
-  it("S-02: app/login と app/profile に 'localStorage' が出現しない", async () => {
+  it("S-02: app/login と app/(member)/profile に 'localStorage' が出現しない", async () => {
     const files = [
       ...(await walk(join(WEB_ROOT, "app/login"))),
-      ...(await walk(join(WEB_ROOT, "app/profile"))),
+      ...(await walk(join(WEB_ROOT, "app/(member)/profile"))),
     ];
     const hits = await findMatches(files, "localStorage", {
       stripComments: true,
@@ -155,12 +155,12 @@ describe("static invariants / 06b", () => {
     ).toHaveLength(0);
   });
 
-  it("S-04: app/profile 配下にプロフィール本文編集 UI が現れない", async () => {
+  it("S-04: app/(member)/profile 配下にプロフィール本文編集 UI が現れない", async () => {
     // 不変条件 #4: プロフィール本文（displayName/email/kana/address/phone 等）の
     // アプリ内編集 form を禁止する。
     // 06b-B により本人申請 dialog（VisibilityRequest / DeleteRequest）に reason textarea と
     // 不可逆同意 checkbox が導入されたため、許容範囲を本文 field と html <form> に限定する。
-    const files = await walk(join(WEB_ROOT, "app/profile"));
+    const files = await walk(join(WEB_ROOT, "app/(member)/profile"));
     const hits = await findAnyMatches(files, [
       /<form\b/,
       // submit 形式の form 送信
@@ -175,9 +175,9 @@ describe("static invariants / 06b", () => {
     ).toHaveLength(0);
   });
 
-  it("S-04b: app/profile/_components/Request*.tsx に本文 field 名が現れない", async () => {
+  it("S-04b: app/(member)/profile/_components/Request*.tsx に本文 field 名が現れない", async () => {
     // phase-05 ステップ11 の grep gate を unit test で固定化。
-    const files = (await walk(join(WEB_ROOT, "app/profile/_components"))).filter(
+    const files = (await walk(join(WEB_ROOT, "app/(member)/profile/_components"))).filter(
       (f) =>
         /Request[A-Z][A-Za-z]*\.tsx$/.test(f) &&
         !f.endsWith(".component.spec.tsx"),

@@ -1,0 +1,26 @@
+{
+  "workflow_id": "issue-901-authenticated-profile-admin-staging-visual",
+  "schema_version": 1,
+  "screenshots": [
+    {
+      "id": "profile-authenticated",
+      "spec": "apps/web/playwright/tests/visual-staging-authenticated/profile-authenticated.spec.ts",
+      "url_pattern": "/profile",
+      "auth_role": "member",
+      "baseline_suffix": "-authenticated-staging-visual-chromium-linux.png",
+      "evidence_path": "outputs/phase-11/screenshots/profile-authenticated.png",
+      "visibility_assert_testid": "profile-authenticated-root",
+      "max_diff_pixel_ratio": 0.05
+    },
+    {
+      "id": "admin-dashboard-authenticated",
+      "spec": "apps/web/playwright/tests/visual-staging-authenticated/admin-dashboard-authenticated.spec.ts",
+      "url_pattern": "/admin",
+      "auth_role": "admin",
+      "baseline_suffix": "-authenticated-staging-visual-chromium-linux.png",
+      "evidence_path": "outputs/phase-11/screenshots/admin-dashboard-authenticated.png",
+      "visibility_assert_testid": "admin-dashboard-root",
+      "max_diff_pixel_ratio": 0.05
+    }
+  ]
+}

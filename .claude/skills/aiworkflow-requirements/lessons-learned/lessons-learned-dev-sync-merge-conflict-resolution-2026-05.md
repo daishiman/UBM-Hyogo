@@ -527,6 +527,7 @@
 - How to apply: conflict が `SKILL.md` + `indexes/keywords.json` の組合せ（最頻パターン）なら `pnpm sync:resolve` → `git add -A && git commit --no-edit` → 確認用に `pnpm indexes:rebuild` を 1 回叩いて `git status --porcelain` が空であることだけ検証すれば push 可。L-DEVSYNC-036 の手動 rebuild chore commit は **不要**（resolver が既に rebuild 済み）。pre-push `indexes-drift-guard` も通過する。
 - 適用判断: resolver 完走後 `git diff --name-only --diff-filter=U` が空 かつ `git grep -lE '^(<<<<<<<|>>>>>>>)'` が 0 件なら機械確定。markdown 罫線（`======= ...`）の誤検知は `^=======$` 完全一致で除外する。
 - 事例: 2026-05-24 `feat/serial-06-form-response-binding` ← dev sync-merge（9 commits behind）。content conflict は `SKILL.md` + `indexes/keywords.json` の 2 件のみ、その他 changelog/lessons-learned/references は git auto-merge（A 追加）。`pnpm sync:resolve` で union 1 + ours 1 + 自動 rebuild（keywords 5072 件）を完遂 → UU 残置 0 → merge commit `85ca3619f` → 確認 rebuild で drift 0 → typecheck / lint 初回 PASS。L-DEVSYNC-036 の rebuild 自動化が定常運用で効いていることの回帰確認。task-specification-creator skill 側 SP-DEVSYNC-030 と対応。
+- 事例（4 回目再現・6 ファイル full set + verify-pr-ready 3 gate PASS）: 2026-05-26 `feat/issue-900-workflow-permissions-audit` ← dev sync-merge（7 commits behind / 3 ahead）。content conflict は **6 ファイル**（`SKILL.md` + `indexes/{keywords.json, quick-reference.md, resource-map.md, topic-map.md}` + `references/task-workflow-active.md`）。`pnpm sync:resolve` 一発で union 5 + `--ours` 1（`keywords.json`）+ 自動 `indexes:rebuild`（keywords 5121 件）を完遂 → UU 残置 0 → merge commit `9c9987ab3` → `bash scripts/verify-pr-ready.sh` で `verify:phase12-compliance` / `gate-metadata:validate` / `indexes:rebuild`（no drift）の 3 gate 全 PASS（ERROR=0、WARN=341 既存）、typecheck / lint 初回 PASS、追加 chore commit 不要。L-DEVSYNC-037 のフォールバック不要結論を **4 ブランチ連続**で回帰確認（task-specification-creator skill 側 SP-DEVSYNC-029 case 4 と対応）。
 
 ## L-DEVSYNC-038: conflict が `SKILL.md` 単独（`indexes/*` は全て git auto-merge 成功）の場合、`sync:resolve` は rebuild を呼ばないが手動 rebuild も drift 0（2026-05-24 追加）
 - 症状（=正常系の確定）: dev → feature の sync-merge で content conflict が **`SKILL.md`（union 対象）1 件のみ**発生し、`indexes/keywords.json` / `indexes/{topic,resource,quick-reference}-map.md` は **git の auto-merge で衝突せず結合済み**（`Auto-merging ...` ログのみ・CONFLICT 行なし）。`mise exec -- pnpm sync:resolve` は `union-resolving 1 files` → `union-resolved SKILL.md` → `all skill / index conflicts resolved` で完了する。このとき resolver は **`indexes:rebuild` を呼ばない**（`apply_ours` 0 件・`apply_union` 対象が `SKILL.md` のみで `indexes/*` パスに該当しないため `need_rebuild` 不発火）。
@@ -707,3 +708,99 @@
 - How to apply: dev sync-merge 開始時に `git merge dev --no-edit` の conflict 一覧を先に確認し、`.claude/skills/*/indexes/` + `LOGS/_legacy.md` + `references/task-workflow-active.md` の標準集合に閉じている場合、即 `pnpm sync:resolve` → conflict marker grep 0 確認 → `git add -A` → `git commit -m "merge: sync <branch> with dev"` の最短ルートを取る。`--no-verify` は付けない（hook 側で auto-skip するため不要、付けると CONST_001 違反扱い）。本ケースは追加で `apps/web/src/lib/env.ts` 等のソース conflict も発生しなかったため L-DEVSYNC-041（並列 export 追加）の手動 union 工程もスキップできた。
 - 留意: HEAD 側のソースコード変更が大きい（特に `apps/web/src/lib/env.ts` / `middleware.ts` / spec test 系を触っている）場合は L-DEVSYNC-041 系手動 union が再発する可能性が高い。本パターンは「HEAD 側の主要差分が `apps/web/src/components/admin/` + skill 反映のみ」のような body 境界が明確なケースで成立する。
 - 事例: 2026-05-25 `feat/admin-section-error-retry` (HEAD = `4a44c558c` AdminSectionErrorClient + skill sync) ← dev (`db031fc66` issue-872 brand icon)。dev 取り込みコミット数 3（#869 / #871 / #872）、conflict 3 ファイル全て skill indexes、resolver 完結時間 < 5 秒、後続 `typecheck` / `lint` パス。
+
+## L-DEVSYNC-043: `pnpm sync:resolve` が worktree git-dir の stale `index.lock` で失敗する場合は `git rev-parse --git-dir` 経由で除去（2026-05-26 追加）
+
+- 事象: `feat/issue-894-admin-topbar-breadcrumb` で `git merge dev` → conflict 6 ファイル発生後 `pnpm sync:resolve` 実行時、union 処理途中で `fatal: Unable to create '/Users/dm/.../UBM-Hyogo/.git/worktrees/task-20260525-112126-wt-13/index.lock': File exists.` で `ELIFECYCLE Command failed with exit code 128`。worktree 環境では `.git` はファイル（gitdir pointer）で `.git/worktrees/<name>/index.lock` が実体。前回 git 操作の異常終了で残った stale lock が原因。
+- Why: worktree の `index.lock` は親 repo の `.git/worktrees/<wt-name>/` 配下にあり、worktree 内 `.git` 直下にはない。`ls .git/index.lock` 等で確認しても見えず、原因特定が遅れる。`pnpm sync:resolve` は内部で `git checkout` 系を走らせるため、ここで lock 衝突が顕在化する。
+- How to apply:
+  1. `pnpm sync:resolve` が `Unable to create '.../index.lock'` で落ちたら、まず `GITDIR=$(git rev-parse --git-dir)` で worktree 実体 git-dir を取得（worktree 内では `.git/worktrees/<name>` が返る、メイン WT では `.git` が返る）。
+  2. `rm -f "$GITDIR/index.lock"` で除去（lock 内に書かれた PID プロセスが生きていないことを `ls "$GITDIR"/*.lock` で前後確認）。
+  3. `pnpm sync:resolve` を再実行。union 処理は冪等なので途中失敗からの再開で問題なし。
+- 留意: 同種の stale lock として `HEAD.lock` / `packed-refs.lock` / `<branch>.lock` も同 path に発生しうる。除去前に必ず PID プロセス生存確認（`ps -p <pid>`）を行うこと。中断シグナルで死んだ前回 git の残骸であれば安全に削除可能だが、別端末で並列実行中の git が掴んでいる場合は削除禁止。本件は単一端末で前回 `git commit` 系が SIGINT / network glitch で死んだ後、別 prompt で再開した際に再現した。
+- 事例: 2026-05-26 `feat/issue-894-admin-topbar-breadcrumb` ← dev sync-merge。`pnpm sync:resolve` 1 回目失敗 → `rm -f $(git rev-parse --git-dir)/index.lock` → 2 回目で union 完結（skill indexes/quick-reference + resource-map + topic-map + task-workflow-active union、keywords.json `--ours` + `indexes:rebuild`）。typecheck / lint / verify-pr-ready 3 gate 全 PASS で merge commit 確定。task-specification-creator skill 側「dev-sync merge conflict（lint scope / version table）の Phase 仕様反映」セクションに `index.lock` troubleshoot 追補と対応。
+
+## L-DEVSYNC-043: 同一 adapter 関数 signature への並列拡張 conflict は「引数列の union 化」で統合する（2026-05-26 追加）
+
+- 事象: `feat/issue-891-member-detail-kind-exhaustiveness-guard` ← dev sync-merge で `apps/web/src/lib/adapters/member-detail.ts` と同 spec が `pnpm sync:resolve` の `WARN unhandled conflict`。HEAD = issue-891（`KIND_ROUTE satisfies Record<FieldKind, KindRoute>` + `DETAIL_KINDS` / `LINK_KINDS` 派生 + `normalizeField(field, routeKinds)` への引数追加）、dev = issue-883（`onUnknownKind?: (field) => void` callback + `normalizeField(field, onUnknownKind)` への引数追加）。両方が **同じ純関数の signature を独立に拡張**しているため diff3 が単一の隣接 hunk として競合し、片側 take では仕様欠落になる。
+- Why: pure adapter / pure function は spec の Phase 4 contracts に signature を SSOT として固定するが、別 issue が同時期に「signature を 1 引数追加」する拡張系修正を独立に行うと、merge tool は構造を理解しないため WARN unhandled になる。両仕様とも振る舞いが orthogonal（exhaustiveness 強制 と observability callback）で、両側保持が唯一正しい結果。`pnpm sync:resolve` の `UNION_MERGE_TARGETS` には `apps/web/src/lib/adapters/*.ts` は **意図的に含めない**（コード union は意味壊し）。
+- How to apply:
+  1. `WARN unhandled conflict` で adapter ソース 2 ファイル（impl + spec）が出たら、HEAD 側引数と dev 側引数を**両方 signature に並べる**（順序ルール: 必須引数 → routing 用 → observability callback → options）。
+     例: `normalizeField(field, routeKinds, onUnknownKind?)`、`normalizeSection(section, routeKinds, onUnknownKind?)`、呼び出し側は `options.onUnknownKind` で配線。
+  2. spec ファイルの `import` 行 conflict は、HEAD 側 export（`__testInternals` 等）と dev 側 export（`PublicMemberProfileWithUnknownKindZ` 等）を**カンマ並べ 1 行で union**。`describe` ブロックは両側追記を保持（テスト件数は両側合計、削除しない）。
+  3. resolver 完了後 `grep -nE '^(<<<<<<<|=======|>>>>>>>|\|\|\|\|\|\|\|)' apps/web/src/lib/adapters/` でマーカー残ゼロ確認 → `pnpm typecheck`（signature の orthogonal 統合が型整合するかを最初にゲート） → `pnpm lint` → `git add -A` → `git commit -m "merge: sync <branch> with dev"`。
+  4. resolver 拡張は不要。コード union は危険なので resolver 側で自動化せず、L-DEVSYNC-043 を手動 union ルールとして spec template に組み込む（task-specification-creator patterns-lessons-and-pitfalls.md「parallel adapter signature extension」項目参照）。
+- 留意: 片側が「同じ引数名」を別意味で追加している場合は orthogonal でないため、最終レポートに記録し人間判断を仰ぐ（callback と routing set のような明確に意味が分かれる場合のみ自動 union 適用可）。リネーム提案は元 issue へ feedback。
+- 事例: 2026-05-26 `feat/issue-891-...` ← dev sync-merge。`pnpm sync:resolve` が skill index 5 + `keywords.json --ours` を解消、unhandled は patterns-lessons + adapter impl + adapter spec の 3 ファイル。patterns-lessons は L-DEVSYNC-042（末尾並列 section 両側保持）で解消、adapter 2 ファイルは本 L-DEVSYNC-043 で signature union 化。typecheck / lint 共に green、`pnpm sync:check` で他 worktree 影響なし確認、push 待ち。
+
+## L-DEVSYNC-044: spec の EOF 末尾並列追加（HEAD = `describe` 追加 / dev = trailing comment block 追加）は両側保持で union（2026-05-26 追加・再発確認）
+
+- 事象: `feat/issue-891-member-detail-kind-exhaustiveness-guard` ← dev 二次 sync-merge（#939 regression-evidence + #941 issue-885 adapter pipeline）で `apps/web/src/lib/adapters/__tests__/member-detail.spec.ts` のみ `WARN unhandled conflict`。HEAD は `describe("KIND_ROUTE exhaustiveness", ...)` + `describe("toMemberDetailProps の分類除外", ...)` の追加、dev は `// === EXTENSION TEMPLATE ===` 〜 `// === END EXTENSION TEMPLATE ===` のトレーリングコメントブロック追加。diff3 marker (`||||||| d1dc22705`) 付きで隣接 hunk として競合するが、両側とも **既存 `});` 後の純粋な末尾追記**で意味的に直交。
+- Why: spec 末尾の「テスト追加」と「拡張テンプレート comment」は同じ EOF 位置に追加される構造的副産物で、commit graph 上は無関係。コード union は禁止（L-DEVSYNC-043 留意）だが、本ケースは **隣接挿入の順序のみが衝突**しており両側を直列に並べれば意味が保たれる。
+- How to apply:
+  1. `WARN unhandled conflict` で spec ファイル 1 件のみ、conflict hunk が `<<<<<<< HEAD ... describe(...) ... ||||||| <sha> ======= ... // === ... TEMPLATE === ... >>>>>>> origin/dev` の形（base が空）なら両側追記パターンと判定。
+  2. HEAD 側の `describe(...) { ... });` をそのまま残し、続けて空行 + dev 側の comment block を配置。conflict marker 3 種（`<<<<<<<` / `|||||||` / `=======` / `>>>>>>>`）を Edit で個別に除去。
+  3. `grep -nE '^(<<<<<<<|=======|>>>>>>>|\|\|\|\|\|\|\|)' <path>` でマーカー残ゼロ → `git add -A` → typecheck / lint → commit。本パターンは signature 変更を伴わないため typecheck はほぼ自動 pass。
+- 留意: 同じ EOF 末尾追記でも、片側が `export const X = ...` を追加 + 他方が `export const Y = ...` を追加するソース module の場合は L-DEVSYNC-041（並列 export 追加）系で処理する。本 L-DEVSYNC-044 は **spec / docs / README の末尾追記**に限定して適用する。
+- 事例: 2026-05-26 `feat/issue-891-...` ← dev (`5b043e359` issue-885 / `67f1b3a17` regression-evidence)。skill index 5 + spec 1 の計 6 conflict、resolver が前者 5 件を union 解消、spec 1 件のみ本 lesson で手動 union 化。後続 `git status` clean、typecheck / lint green。
+
+## L-DEVSYNC-045: route group rename + dev 側 UI primitive swap の二重 conflict は「HEAD path 採用 + dev 追記 import を `@/` alias に正規化」で統合する（2026-05-26 追加）
+
+- 事象: `feat/issue-903-member-runtime-evidence` ← dev sync-merge で `apps/web/app/(member)/profile/_components/{DeleteRequestDialog,VisibilityRequestDialog}.tsx` 2 ファイルが `pnpm sync:resolve` の `WARN unhandled conflict`。HEAD = issue-903 で `apps/web/app/profile/_components/` → `apps/web/app/(member)/profile/_components/` への route group migration + import を `@/lib/api/me-requests.types` の path alias に統一。dev = `apps/web/app/profile/_components/` の同位置で `<input>` / `<textarea>` → `<Input>` / `<Textarea>` (`../../../src/components/ui`) へ swap。conflict hunk は import 末尾の `} from "..."` 行のみだが、conflict marker の trailing `:path` 部分（`<<<<<<< HEAD:apps/web/app/(member)/profile/...` / `>>>>>>> dev:apps/web/app/profile/...`）が rename 同時発生を示す。
+- Why: `git merge` は rename detection で本体 JSX は HEAD 側の新 path に追従して auto-merge するが、import 行のみが「dev 側で 1 行追加」されたため diff3 が単一隣接 hunk として競合する。片側 take だと、HEAD 側採用 → UI primitive swap が消滅 / dev 側採用 → 旧 relative path に逆戻り + route group 外しで build 不一致、いずれも spec 退行。両側を path alias で正規化統合するのが唯一正しい結果。
+- How to apply:
+  1. `WARN unhandled conflict` の対象が `app/(group)/...` 配下で、conflict marker の `:path` suffix が HEAD / dev で異なる場合 = route group rename + dev 追加の二重発生パターンと判定。
+  2. HEAD 側の path alias 表記（`@/lib/...` / `@/components/ui` 等、`apps/web/tsconfig.json` の `paths` 定義に整合）を採用し、dev 側で新規追加された import（例: `import { Input, Textarea } from "../../../src/components/ui"`) を **`@/components/ui` に正規化して 1 行追加**する。
+  3. conflict marker 4 種（`<<<<<<<` / `|||||||` / `=======` / `>>>>>>>`）を Edit で単一 hunk 置換、`grep -nE '^(<<<<<<<|=======|>>>>>>>|\|\|\|\|\|\|\|)' <path>` でマーカー残ゼロ確認。
+  4. `git add -A <path>` → typecheck（path alias 解決と UI component 型整合が同時 gate）→ lint → `git commit -m "merge: sync <branch> with dev"`。本パターンは body JSX が auto-merge 済みなので import 行 1 箇所のみで完結。
+- 留意: dev 側 import が relative path（`../../../src/...`）で書かれている場合、HEAD 側の path alias 体系（`@/*` → `./src/*`）に**必ず正規化**する。relative path のまま残すと route group 配下の depth 計算が狂って build break する（`(member)` セグメントは URL には現れないが file system では実在のため `../../../src` の相対起点が 1 段ずれる）。route group migration を含む sync-merge では import resolution の最終ゲートとして `pnpm typecheck` 必須。
+- 事例: 2026-05-26 `feat/issue-903-member-runtime-evidence` ← dev (`1e9ed5e88` issue-894 admin topbar breadcrumb 含む 9 commit)。skill index 2 (`indexes/topic-map.md` union + `keywords.json --ours + rebuild`) を resolver で自動解消、unhandled は `DeleteRequestDialog.tsx` / `VisibilityRequestDialog.tsx` の 2 ファイルのみ。本 L-DEVSYNC-045 の手順で `@/lib/api/me-requests.types` + `@/components/ui` への正規化統合、conflict marker 全除去、typecheck / lint green、merge commit 確定。
+
+## L-DEVSYNC-046: GitHub アカウント suspended 中に triggered された CI run の checkout 403 と空コミット retrigger 不発（2026-05-26 追加）
+
+- 事象: dev sync-merge の push 自体は成功（pre-push hook 全通過）したが、PR rollup で 3 件 fail (`lighthouse-ci` / `e2e-tests-coverage-gate` / `coverage-gate`) を観測。失敗 log は全て `remote: Your account is suspended ... fatal: unable to access '.../UBM-Hyogo/': The requested URL returned error: 403` の checkout 段階での 403。`gh run rerun <id>` は `run <id> cannot be rerun; its workflow file may be broken` で拒否、`gh run cancel` も `Cannot cancel a workflow run that is completed` で受け付けず（run 自体は conclusion=null / status=queued の不整合状態）。回復のため空コミット `git commit --allow-empty -m "ci: retrigger checks ..."` を push したが、新 sha に対して `repos/{owner}/{repo}/actions/runs?head_sha=<new>` が `total_count: 0` のまま、check-suites も GitHub Actions の suite 自体が生成されない状態が継続。
+- Why: GitHub Account suspended 中は actions/checkout が `git fetch` 段階で 403 を返すため、workflow run は started 状態のまま checkout failure → run status は `queued`/`conclusion: null` のまま GitHub 内部の status machine に取り残される。`gh run rerun` は「未完了 run の再実行は不能」「`workflow file may be broken` の broken は workflow YAML の構文ではなく run の internal state を指す」二重の意味で拒否される。suspended 解除後も既存の queued run が dispatch queue を保持し、新 sha で trigger された pull_request event の workflow dispatch が抑制される（concurrency group とは独立した GitHub 側の internal queue 抑制）。空コミットの commit message に `[skip ci]` が含まれずとも、抑制状態下では新 workflow が起動しない。
+- How to apply:
+  1. CI rollup で `Your account is suspended` 系の checkout 403 を観測したら、まず該当 run id を `gh api repos/<owner>/<repo>/actions/runs/<id>` で status / conclusion を直接確認する（`gh run list` の表示と乖離するため API 経由で fact を取る）。
+  2. アカウント復旧確認: 同 sha で `success` 済の他 workflow が存在することを `gh run list --branch <name> --json status,conclusion,name,headSha` で確認（複数 workflow が同 sha で `success` 帰着していれば、403 は一過性のアカウント状態起因と確定）。
+  3. `gh run rerun <id>` / `gh run rerun <id> --failed` を試行（成功すれば終了）。`workflow file may be broken` で拒否される場合は (4) へ。
+  4. 空コミット `git commit --allow-empty -m "ci: retrigger checks after account suspension recovery"` を push して新 sha を生成。`gh api repos/<owner>/<repo>/actions/runs?head_sha=<new>` で 5 分以内に `total_count > 0` になれば回復。
+  5. 5 分待っても `total_count: 0` が続く場合は GitHub Actions 側の internal queue 抑制が継続している。`.claude/skills/*/lessons-learned/*.md` 等への意味ある単一行追記コミットを 1 件 push し、新 sha で再起動を試みる（空コミットでは抑制されるが、ファイル変更を含む commit では event dispatch が解放されるケースがある）。
+  6. それでも triggered されない場合は、queued 状態の旧 run id を `gh api -X POST repos/<owner>/<repo>/actions/runs/<id>/force-cancel` で強制解放してから (4) を再試行する（通常の `cancel` ではなく `force-cancel` が必要）。
+- 留意: `gh run rerun` の `workflow file may be broken` エラーメッセージは workflow YAML の syntax error と誤読しやすいが、本ケースでは「workflow file は健全だが run の internal state が broken」を意味する。`gh workflow view <name>` で workflow 自体が `active` なら syntax は健全。本 lesson は dev sync-merge そのものの conflict 解消とは独立した CI infra recovery topic だが、sync-merge 直後の push で suspended 期間と重なるケースが多いため本ファイルに収録する。
+- 事例: 2026-05-26 `feat/issue-922-production-admin-runtime-smoke-gate` ← dev sync-merge 後の rollup で `lighthouse-ci` / `e2e-tests-coverage-gate` / `coverage-gate` の 3 件 fail。失敗 sha は `cf8e382e3`、log は account suspended 403。手順 (3) `gh run rerun` は broken エラーで拒否、(4) 空コミット `c29324c26` push 後 5 分経過しても `total_count: 0`、(5) 本 L-DEVSYNC-046 自身の追記コミットで dispatch 解放を試みた。
+
+## L-DEVSYNC-046: aiworkflow skill index 群のみの conflict は `pnpm sync:resolve` 単独で完結（unhandled ゼロパス・2026-05-26 再現確認）
+
+- 事象: `feat/issue-913-server-idempotency-key-persistence` ← dev sync-merge (origin/dev `a21759722` で 10 commit behind / 2 commit ahead) で `SKILL.md` + `indexes/topic-map.md` + `indexes/keywords.json` の 3 ファイルのみ CONFLICT。`indexes/quick-reference.md` と `indexes/resource-map.md` は auto-merge 成功、ソース・spec・docs には conflict なし。
+- Why: 並列に動いていた他 worktree（issue-894/895/899/900/901/902/903 等）が aiworkflow indexes へ末尾 entry 追加・lessons-learned 新規ファイル追加のみを行ったため、`.gitattributes merge=union` 対象 2 ファイル + `--ours` 対象 1 ファイルだけが衝突。L-DEVSYNC-001..007 で定義済みの「3 層予防」第 2 層 resolver の standard happy path に完全一致。
+- How to apply:
+  1. `git merge origin/dev` 後 `CONFLICT` 行が `.claude/skills/aiworkflow-requirements/{SKILL.md,indexes/topic-map.md,indexes/keywords.json}` の 3 件以下に閉じている場合 = resolver の standard path と判定。
+  2. `pnpm sync:resolve` 単独で完結。unhandled 報告がなければ追加の手動 union は不要。
+  3. `git status` で `UU` ゼロ確認 → `git add -A` → `git commit -m "merge: sync <branch> with dev"`。typecheck / lint 任意（skill files は build 経路外）。
+- 留意: ソース conflict が 1 件でも混じる場合は本 happy path から外れる。L-DEVSYNC-040 系（並列 export 追加）/ L-DEVSYNC-043 系（adapter signature union）/ L-DEVSYNC-045（route group rename + import 正規化）のいずれかにフォールバック。
+- 事例: 2026-05-26 `feat/issue-913-...` ← dev (`a21759722` issue-903 member runtime evidence 含む 10 commit)。`pnpm sync:resolve` 出力 `[resolve-skill-merge-conflicts] all skill / index conflicts resolved`、unhandled なし、ソース無傷で 1 commit で完結。
+
+## L-DEVSYNC-047: 空コミット (`git commit --allow-empty`) は GitHub Actions の `pull_request` workflow を発火しない（2026-05-26 確認）
+
+- 事象: e2e-tests-coverage-gate の `actions/download-artifact` transient infra 失敗を「空コミット push で CI 再発火」しようとしたが、push 後 10 分以上経過しても `gh api repos/.../actions/runs?head_sha=<empty-commit-sha>` が `total_count=0`。`gh run rerun --failed` で queue した古い run も長時間 queued のまま進行せず、PR は `mergeStateStatus=BLOCKED`（new HEAD に required check が存在しない状態）に陥った。
+- Why: `pull_request synchronize` event は head SHA 変更で発火するが、empty commit は tree hash が変わらない（base に対する diff が空）ため、`paths` / `paths-ignore` 評価以前に GitHub 側で run scheduling 自体がスキップされるケースがある。同じ理屈で、required status check は PR head SHA に紐付くため、empty commit で head を進めると「古い HEAD の check は残るが、新 HEAD には check が走らず BLOCKED」状態が発生する。`feedback_visual_baseline_github_token_retrigger.md` の「空コミットで required checks 再トリガー」は GITHUB_TOKEN による push の検知遅延を回避する用途であり、本件のような workflow path filter / tree-unchanged トリガー回避には適用できない（混同注意）。
+- How to apply:
+  1. transient infra failure（artifact download / runner provisioning timeout 等）の再 trigger は **`gh run rerun --failed <run-id>`** を優先する。これは同一 head SHA で job だけ re-queue するため required check の鏡像が崩れない。
+  2. `gh run rerun` が長時間 queued のまま動かない場合（runner backlog）、empty commit ではなく **実ファイル変更を含む 1 commit** を作る。最小コストは「既に編集中の lessons-learned ファイルへ 1 行 trailer 追記」「`docs/30-workflows/LOGS.md` への entry 1 行追加」等の `merge=union` 対象ファイル変更（並列 worktree との conflict 自動解消対象なので追加コストゼロ）。
+  3. 実装側ファイル (`apps/*/src/...`) を「CI 再 trigger 目的」で触らない。code-change diff が PR review に紛れ込む。
+  4. push 後 2 分以内に `gh api repos/.../actions/runs?head_sha=<full-40-char-sha>` で `total_count` を確認し、0 のままなら 1 で説明した実ファイル変更にフォールバック。
+- 留意: `gh api` 呼び出しでは **full 40-char SHA** を使う（short SHA prefix では match しない）。`git rev-parse HEAD` で取得する。bash の `python3 -c "...$VAR..."` heredoc 変数展開漏れで「0 件」と誤判定するケースがあるため、SHA は環境変数経由ではなく argv / stdin 経由で渡すか直接 string literal にする。
+- 事例: 2026-05-26 `feat/issue-913-...` PR #952。`546ba38b8` 上の e2e-tests-coverage-gate が `actions/download-artifact` archive download 1-attempt failure で fail、`gh run rerun --failed 26447008462` を実行するも 30 分以上 queued。empty commit `59c3b51fe`（"chore: retrigger CI ..."）を push したが `head_sha=59c3b51feb6b6ef0d1e9b4636c53652052be85c2` の workflow_run は 0 件登録、PR が BLOCKED 化。本 lesson 追記 (`merge=union` 対象 lessons-learned md への実変更) commit で復旧。
+
+## L-DEVSYNC-048: GitHub Actions の全リポジトリレベル queue stall は webhook 到達後も新規 schedule をブロックする（2026-05-26 確認）
+
+- 事象: 11:00Z〜13:18Z (≈2h18m) の間、リポジトリ全体で workflow_run が 1 件も新規 schedule されない infra outage 発生。`gh api repos/.../events` 上では PushEvent は届いており GitHub は push 自体は受信しているが、Actions backend が schedule を発火しない。`gh api repos/.../actions/runs?per_page=30 --jq '.workflow_runs | [.[] | select(.created_at > "<停滞開始>")] | length'` が `0` を返し続ける。
+- Why: GitHub Actions は webhook 受信 → workflow scheduling → runner allocation の 3 段階を経るが、step 2 で停止しても push 自体は成功する。`gh run rerun --failed` も新規 schedule を必要とするため同じ理由で queued 状態に固着する。停滞中は **どんな commit（empty / real-change / merge）を push しても新規 run は登録されない**。
+- How to apply:
+  1. CI 再 trigger 系の作業 (L-DEVSYNC-047) を試して 5 分以上 workflow_run が 0 のままなら、**まず GitHub 側 outage を疑う**。判定コマンド: `gh api repos/.../actions/runs?per_page=30 --jq '.workflow_runs[0:5] | .[] | .created_at + " " + .name'` で最新 schedule 時刻を確認し、自 push 時刻より明確に古い（10 分以上差）かつ他ブランチ runs も止まっている場合は outage 確定。
+  2. Outage 中は **push を増やさない**。各 push は head SHA を進めるが run は登録されないため、PR の `mergeStateStatus=BLOCKED` 状態を悪化させるだけ（required check の鏡像が古い HEAD から外れる）。
+  3. 復旧確認は `gh api repos/.../events --jq '.[0:5] | .[] | .created_at + " " + .type'` で最新 PushEvent が schedule に追従しているかと、`gh api repos/.../actions/runs?per_page=5` の `.created_at` が現在時刻に近い run を持つかを併せて見る。
+  4. 復旧後は当該 PR の HEAD に対して空でない 1 commit を push して webhook を再投げ込みする（outage 期間中の push はリトライ schedule されない実例あり）。
+- 留意: GitHub Status (`https://www.githubstatus.com/`) の Actions 項目が green でも個別リポジトリ単位で stall するケースがある（webhook routing partition）。public な incident にならないことが多いため、`gh api` ベースの自前 detection を runbook 化しておく。
+- 事例: 2026-05-26 PR #952。`546ba38b8` の e2e infra failure 直後、`ba78e993e2a197e296793ff6fc0e026d26187c36` 含む 2 件の push が schedule されず 2h18m 停滞。13:19Z 復旧後、他ブランチ runs (`503dff35d7`) が schedule された段階で当方 PR にも 1 commit 追加 push して新規 run 群を確保。
