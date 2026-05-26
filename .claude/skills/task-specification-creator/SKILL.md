@@ -31,6 +31,7 @@ allowed-tools:
 
 | Version | Date | Changes |
 | --- | --- | --- |
+| v2026.05.25-issue908-runtime-evidence-followup-pattern | 2026-05-25 | Runtime evidence follow-up では helper script と evidence placeholder を同一 cycle でローカル実装し、staging deploy / rollback POST / D1 mutation / completion promotion のみ user-gated とする rule を `references/patterns-runtime-evidence-followup.md` に追加。 |
 | v2026.05.25-authenticated-staging-visual-pattern | 2026-05-25 | Issue #901 authenticated profile/admin staging visual の automation-30 改善を反映。`signSessionJwt(secret, input)` + Playwright storageState setup project、authenticated baseline suffix、auth leak grep gate、TTL=600s 統一、closed issue AC 1:1 展開を references に追加。 |
 | v2026.05.24-issue-869-spec-from-closed-implementation-closeout | 2026-05-24 | Issue #869 CSP enforce cutover feedback を `references/phase12-skill-feedback-promotion.md` へ反映。CLOSED Issue 由来でも `taskType=implementation` なら仕様書作成のみで閉じず、実装可能なコード・設定・テストを同一 cycle で反映し、Issue state / production cutover / PR のみ user-gated とする rule を追加。 |
 | v2026.05.23-validate-phase-output-modern-layout | 2026-05-23 | `validate-phase-output.js` を現行 `outputs/phase-N/phase-N.md` レイアウト対応へ更新。spec_created / VISUAL workflow では `phase11-capture-metadata.json#status=pending_implementation` がある場合、screenshot PNG 0 件を pending boundary として扱う。 |
