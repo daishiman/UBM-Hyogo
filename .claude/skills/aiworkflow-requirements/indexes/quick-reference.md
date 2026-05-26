@@ -293,6 +293,19 @@
 | lessons-learned | `.claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-runtime-smoke-staging-mint-recurrence-2026-05.md`（L-RSMR-001..006） |
 | boundary | `STAGING_AUTH_SECRET` 投入による mint path 恒久化・staging runtime rerun・GitHub/Cloudflare secret mutation・commit・push・PR は user-gated |
 
+## issue-899-static-bearer-fallback-retirement（2026-05-25）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-899-static-bearer-fallback-retirement/` |
+| status | `spec_created / implementation / NON_VISUAL / implementation_pending` |
+| purpose | runtime-smoke-staging の静的 bearer fallback を物理撤去し、mint-only + freshness hard-fail 既定へ恒久化する実装仕様 |
+| prerequisite | #916 `STAGING_AUTH_SECRET` provisioning + mint path smoke green |
+| implementation targets | `.github/workflows/runtime-smoke-staging.yml`, `secret-provisioning.md`, `bearer-lifecycle-ssot.md` |
+| Phase 12 | strict 7 present; root/output artifacts parity present; 30-method compact evidence included |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-899-static-bearer-fallback-retirement-artifact-inventory.md` |
+| boundary | workflow edit / runtime smoke rerun / static secret physical delete / commit / push / PR are user-gated |
+
 ## issue-870-apps-api-security-headers（2026-05-24）
 
 | 項目 | 値 |

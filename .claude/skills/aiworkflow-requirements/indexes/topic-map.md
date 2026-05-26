@@ -3095,6 +3095,14 @@ node scripts/list-specs.js --topics
 | Phase 12 strict 7 Files | L32 |
 | Boundary | L42 |
 
+### references/workflow-issue-899-static-bearer-fallback-retirement-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Specification Artifacts | L11 |
+| Implementation Targets | L21 |
+| User-Gated Boundary | L29 |
+
 ### references/workflow-light-theme-contrast-regression-guard.md
 
 | セクション | 行 |
@@ -7662,14 +7670,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L2479 |
-| フェーズ構造（概要） | L2488 |
-| 品質ゲート（概要） | L2519 |
-| 出力テンプレート | L2530 |
-| 実行時のコマンド・エージェント・スキル | L2553 |
-| 昇格パターン集 | L2577 |
-| Current Active / Spec Created Tasks | L2579 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L2740 |
+| ドキュメント構成 | L2493 |
+| フェーズ構造（概要） | L2502 |
+| 品質ゲート（概要） | L2533 |
+| 出力テンプレート | L2544 |
+| 実行時のコマンド・エージェント・スキル | L2567 |
+| 昇格パターン集 | L2591 |
+| Current Active / Spec Created Tasks | L2593 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L2754 |
 
 ### references/task-workflow-backlog-part2.md
 
