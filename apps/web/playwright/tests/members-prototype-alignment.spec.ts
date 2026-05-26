@@ -5,7 +5,7 @@ import { expect, test } from "../fixtures/auth";
 
 const workflowRoot = join(
   process.cwd(),
-  "../../docs/30-workflows/members-page-prototype-alignment",
+  "../../docs/30-workflows/members-list-prototype-alignment",
 );
 const screenshotDir = join(workflowRoot, "outputs/phase-11/screenshots");
 const runtimeNotesPath = join(workflowRoot, "outputs/phase-11/runtime-notes.md");
@@ -24,7 +24,7 @@ test.describe("members prototype alignment", () => {
   }) => {
     void mockApi;
     await page.setViewportSize({ width: 1280, height: 800 });
-    await page.goto("/members");
+    await page.goto("/members", { waitUntil: "domcontentloaded" });
     const publicHeader = page.locator('[data-component="public-header"]');
     await expect(publicHeader).toBeVisible();
     await expect(publicHeader.getByRole("link", { name: "ログイン" })).toBeVisible();
@@ -48,14 +48,15 @@ test.describe("members prototype alignment", () => {
 
     await page.getByRole("radio", { name: "リスト" }).click();
     await expect(page).toHaveURL(/density=list/);
-    await expect(page.locator('table[data-component="member-table"]')).toBeVisible();
+    await expect(page.locator('[data-component="member-grid"][data-density="list"]')).toBeVisible();
+    await expect(page.locator('[data-role="list-head"]')).toBeVisible();
     await page.screenshot({
       path: screenshotPath("EV-3-list-desktop.png"),
       fullPage: true,
     });
 
     await page.setViewportSize({ width: 375, height: 800 });
-    await page.goto("/members");
+    await page.goto("/members", { waitUntil: "domcontentloaded" });
     await expect(page.locator('[data-component="member-filters"]')).toBeVisible();
     await page.screenshot({
       path: screenshotPath("EV-4-comfy-mobile.png"),
@@ -66,14 +67,14 @@ test.describe("members prototype alignment", () => {
     // 負例クエリは contracts fixture `fixtures.public.negativeQuery`（"zzz_no_match_zzz"）が正本。
     // SSR mock は CI では scripts/e2e-mock-api.mjs（q === negativeQuery 完全一致）が応答するため、
     // 独自 prefix（旧 zzznotfound-）だと空にならず EmptyState が出ない。public-top-and-list.spec.ts と同一規約。
-    await page.goto("/members?q=zzz_no_match_zzz");
+    await page.goto("/members?q=zzz_no_match_zzz", { waitUntil: "domcontentloaded" });
     await expect(page.locator('[data-component="empty-state"]')).toBeVisible();
     await page.screenshot({
       path: screenshotPath("EV-5-empty-desktop.png"),
       fullPage: true,
     });
 
-    await page.goto("/members");
+    await page.goto("/members", { waitUntil: "domcontentloaded" });
     const login = page.getByRole("link", { name: "ログイン" });
     await login.focus();
     await expect(login).toBeFocused();

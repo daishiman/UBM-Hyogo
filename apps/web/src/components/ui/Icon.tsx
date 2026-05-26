@@ -124,5 +124,27 @@ function iconGlyph(name: IconName): ReactNode {
           <path d="M19 12H5" />
         </svg>
       );
+    case "briefcase":
+      return (
+        <svg {...common}>
+          <path d="M10 6V5a2 2 0 0 1 2-2h0a2 2 0 0 1 2 2v1" />
+          <rect x="3" y="6" width="18" height="14" rx="2" />
+          <path d="M3 12h18" />
+          <path d="M12 12v2" />
+        </svg>
+      );
+    case "map-pin":
+      return (
+        <svg {...common}>
+          <path d="M20 10c0 5-8 11-8 11s-8-6-8-11a8 8 0 0 1 16 0Z" />
+          <circle cx="12" cy="10" r="3" />
+        </svg>
+      );
+    case "chevron-right":
+      return (
+        <svg {...common}>
+          <path d="m9 18 6-6-6-6" />
+        </svg>
+      );
   }
 }

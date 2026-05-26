@@ -297,6 +297,20 @@
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-members-page-prototype-alignment-artifact-inventory.md` |
 | user gate | staging deploy, production-equivalent visual evidence, commit, push, PR |
 
+### members-list-prototype-alignment（2026-05-26）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / VISUAL / visual_runtime_pending` |
+| 成果物 | `docs/30-workflows/completed-tasks/members-list-prototype-alignment/` |
+| 目的 | `/members` list density を `MemberGrid` 一本へ統一し、現行 `PublicMemberListItem` contract 内で prototype alignment を進める |
+| implementation targets | `apps/web/app/(public)/members/page.tsx`, `apps/web/src/components/public/{MemberCard,MemberGrid,MemberFilters.client,TagPicker.client}.tsx`, `apps/web/src/components/feedback/EmptyState.tsx`, `apps/web/src/components/ui/{Icon.tsx,icons.ts}`, `apps/web/src/styles/legacy-public.css` |
+| boundary | `GET /public/members` response schema, D1, Auth.js, Google Form, Cloudflare binding は不変更。`MemberTable` は legacy 互換として残置し `/members` route から非参照。 |
+| evidence | `pnpm --filter @ubm-hyogo/web typecheck` PASS、web Vitest 157 files / 1146 tests PASS。Playwright visual は local webServer readiness で pending。 |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-members-list-prototype-alignment-artifact-inventory.md` |
+| lessons | `.claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-members-list-prototype-alignment-2026-05.md` (L-MLPA-001..005) |
+| user gate | commit, push, PR, staging deploy |
+
 ### Issue #827 member detail adapter and visibility defense（2026-05-23）
 
 | 項目 | 値 |
