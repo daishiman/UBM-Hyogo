@@ -1,5 +1,23 @@
 # Smoke Scripts
 
+## runtime-admin-web.sh
+
+`runtime-admin-web.sh` verifies an authenticated `/admin` page response and Workers tail output for the web Worker. It accepts only `staging` or `production`.
+
+```bash
+# Staging uses STAGING_WEB_BASE and STAGING_ADMIN_SESSION_COOKIE.
+bash scripts/smoke/runtime-admin-web.sh staging --out-dir ci-evidence --ci-summary
+
+# Production uses PRODUCTION_WEB_BASE and PRODUCTION_ADMIN_SESSION_COOKIE.
+bash scripts/smoke/runtime-admin-web.sh production --out-dir ci-evidence --ci-summary
+```
+
+`mint-staging-session-cookie.mts` keeps the historical filename for compatibility. Run it with no env argument for staging, or with `production` to read `PRODUCTION_AUTH_SECRET`, `PRODUCTION_ADMIN_MEMBER_ID`, and `PRODUCTION_ADMIN_EMAIL`.
+
+```bash
+GITHUB_OUTPUT="$mint_out" pnpm exec tsx scripts/smoke/mint-staging-session-cookie.mts production
+```
+
 ## tag-queue-race.mjs
 
 `tag-queue-race.mjs` verifies that concurrent resolves for the same tag queue item produce exactly one winner and `race_lost` losers.

@@ -24,6 +24,20 @@
 | lessons | `.claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-issue-924-style-src-attr-retirement-2026-05.md`（L-I924-001..005: broad `style={` grep gate / static-sanity vs full-visual の区別 / `ImageResponse` allowlist / A 静的・B 動的離散・C 連続値の置換区分 / directive 削除と spec 同期更新） |
 | user gate | full 19-route browser visual regression, staging CSP response verification, commit, push, PR |
 
+### public-header-my-profile-nav-alignment（2026-05-26）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION / browser_smoke_pending_user_gate` |
+| 成果物 | `docs/30-workflows/completed-tasks/public-header-my-profile-nav-alignment/` |
+| parent | `docs/30-workflows/ui-prototype-alignment-mvp-recovery/` |
+| 目的 | 公開層ヘッダでログイン中ユーザーに `/profile` CTA を出し、プロトタイプで要求されたマイページ最短動線を回復する |
+| implementation targets | `apps/web/src/components/public/PublicHeader.tsx`, `PublicHeaderWithPath.tsx`, `SessionAwarePublicHeader.tsx`, `apps/web/app/(public)/layout.tsx`, `apps/web/app/page.tsx` |
+| contract | presentational header は sync 維持。pathname は `usePathname()` client island、session は `getSession()` server wrapper に分離。重複する `マイページ` nav + CTA は作らず CTA 一本に集約 |
+| evidence | focused Vitest local PASS, Phase 12 strict 7 present, root/output artifacts parity present |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-public-header-my-profile-nav-alignment-artifact-inventory.md` |
+| user gate | browser/session smoke, commit, push, PR |
+
 ### admin-ui-prototype-alignment（2026-05-23）
 
 | 項目 | 値 |
@@ -168,6 +182,21 @@
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-882-terms-prefetch-env-validation-fix-artifact-inventory.md` |
 | user gate | commit, push, PR, staging deploy |
 
+### Issue #913 server idempotency key persistence（2026-05-25）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / NON_VISUAL / implementation_complete_pending_pr` |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-913-server-idempotency-key-persistence/` |
+| Issue | #913 CLOSED。PR 文脈は `Refs #913` のみ |
+| parent | `docs/30-workflows/completed-tasks/issue-842-admin-mutation-reliability-policy/` |
+| 目的 | issue-842 で client header 送出まで完了していた admin mutation idempotency を、apps/api 側 D1 ledger + middleware で永続化する |
+| implementation targets | `apps/api/migrations/0021_idempotency_keys.sql`, `apps/api/src/repository/idempotency.repository.ts`, `apps/api/src/middleware/idempotency.ts`, `apps/api/src/env.ts`, admin mutation route wiring |
+| contract | key/method/path scope UNIQUE、fingerprint mismatch 422、in-flight duplicate 409、completed JSON replay、5xx/non-JSON/64KB+/save-failure は保存せず再実行可能 |
+| evidence | api typecheck PASS / api lint PASS / focused Vitest 10 tests PASS / Phase 12 strict 7 present |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-913-server-idempotency-key-persistence-artifact-inventory.md` |
+| user gate | D1 migration apply, deploy, staging runtime replay proof, commit, push, PR |
+
 ### Issue #880 public segment error/loading boundary（2026-05-24）
 
 | 項目 | 値 |
@@ -220,6 +249,20 @@
 | implementation targets | `scripts/cf.sh tail`, `scripts/smoke/mint-staging-session-cookie.mts`, `scripts/smoke/runtime-admin-web.sh`, `.github/workflows/web-cd.yml admin-runtime-smoke` |
 | tests | `scripts/smoke/__tests__/mint-staging-session-cookie.spec.ts`, `scripts/smoke/__tests__/runtime-admin-web.test.sh` |
 | user gate | Cloudflare staging deploy, real `/admin` probe, commit, push, PR |
+
+### issue-922-production-admin-runtime-smoke-gate（2026-05-25）
+
+| 項目 | 値 |
+| --- | --- |
+| state | `implemented_local_runtime_pending / implementation / NON_VISUAL` |
+| root | `docs/30-workflows/completed-tasks/issue-922-production-admin-runtime-smoke-gate/` |
+| parent | `docs/30-workflows/completed-tasks/issue-864-admin-staging-runtime-smoke-ci-gate/` |
+| purpose | staging deploy 後の authenticated `/admin` runtime smoke gate を production deploy 後にも対称展開し、Server Components render error digest `167275886` / `error.boundary.caught` を CI で検出する |
+| implementation targets | `scripts/smoke/runtime-admin-web.sh`, `scripts/smoke/mint-staging-session-cookie.mts`, `.github/workflows/web-cd.yml admin-runtime-smoke-production` |
+| tests | `scripts/smoke/__tests__/runtime-admin-web.test.sh`, `scripts/smoke/__tests__/mint-staging-session-cookie.spec.ts` |
+| evidence | Phase 11 shell contract log + vitest log present, Phase 12 strict 7 present |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-922-production-admin-runtime-smoke-gate-artifact-inventory.md` |
+| user gate | `production-runtime-smoke` GitHub Environment secrets, real production `/admin` probe, intentional regression fail evidence, `main` required status check PUT, commit, push, PR |
 
 ### fix-admin-scr-err-stg-fu-001-auth-env-via-getenv（2026-05-24）
 

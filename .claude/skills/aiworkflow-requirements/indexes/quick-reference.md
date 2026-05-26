@@ -14,6 +14,35 @@
 | inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-924-style-src-attr-retirement-artifact-inventory.md` |
 | boundary | `ImageResponse` routes excluded; browser visual regression, staging verification, commit, push, PR are user-gated |
 
+## Issue #922 production admin runtime smoke gate（2026-05-25）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-922-production-admin-runtime-smoke-gate/` |
+| status | `implemented_local_runtime_pending / implementation / NON_VISUAL` |
+| issue | #922 CLOSED。PR 文脈は `Refs #922` のみ |
+| parent | `docs/30-workflows/completed-tasks/issue-864-admin-staging-runtime-smoke-ci-gate/` |
+| purpose | staging deploy 後の authenticated `/admin` runtime smoke gate を production deploy 後にも対称展開する |
+| implementation | `scripts/smoke/runtime-admin-web.sh`, `scripts/smoke/mint-staging-session-cookie.mts`, `.github/workflows/web-cd.yml admin-runtime-smoke-production` |
+| tests | `scripts/smoke/__tests__/runtime-admin-web.test.sh`, `scripts/smoke/__tests__/mint-staging-session-cookie.spec.ts` |
+| evidence | shell contract PASS, vitest 9 PASS, Phase 12 strict 7 present |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-922-production-admin-runtime-smoke-gate-artifact-inventory.md` |
+| boundary | production-runtime-smoke Environment secrets, real production `/admin` probe, intentional regression evidence, required status check PUT, commit, push, PR are user-gated |
+
+## public-header-my-profile-nav-alignment（2026-05-26）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/public-header-my-profile-nav-alignment/` |
+| status | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION / browser_smoke_pending_user_gate` |
+| parent | `docs/30-workflows/ui-prototype-alignment-mvp-recovery/` |
+| purpose | 公開ヘッダのログイン中 CTA を `/profile` の「マイページ」に切り替え、公開層からマイページへ 1 click で到達可能にする |
+| implementation | `PublicHeader` は sync presentational、`PublicHeaderWithPath` は `usePathname()` island、`SessionAwarePublicHeader` は `getSession()` server wrapper |
+| tests | `PublicHeader.spec.tsx`, `SessionAwarePublicHeader.spec.tsx`, `(public)/layout.spec.tsx` |
+| Phase 12 | strict 7 present; root/output artifacts parity present |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-public-header-my-profile-nav-alignment-artifact-inventory.md` |
+| boundary | browser/session smoke, commit, push, PR are user-gated |
+
 ## admin-ui-prototype-alignment（2026-05-23）
 
 | 目的 | 参照先 |
@@ -172,6 +201,21 @@
 | lessons | `.claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-admin-section-error-retry-2026-05.md`（L-ASR-001..005）、`.claude/skills/task-specification-creator/lessons-learned/rsc-client-boundary-callback-injection.md`（L-RSC-001..005） |
 | local evidence | focused Vitest 19+2 PASS including `jest-axe` (AC-3/AC-4 transition assertion 追加); root lint/typecheck PASS; design-token and client-boundary grep PASS |
 | user gate | commit, push, PR |
+
+## Issue #913 server idempotency key persistence（2026-05-25）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow | `docs/30-workflows/completed-tasks/issue-913-server-idempotency-key-persistence/` |
+| status | `implemented_local_evidence_captured / implementation / NON_VISUAL / implementation_complete_pending_pr` |
+| issue | #913 CLOSED; PR wording is `Refs #913` |
+| parent | `docs/30-workflows/completed-tasks/issue-842-admin-mutation-reliability-policy/` |
+| purpose | Persist and replay admin mutation `Idempotency-Key` requests server-side so client retry/header support is actually enforced by apps/api |
+| implementation | `apps/api/migrations/0021_idempotency_keys.sql`, `apps/api/src/repository/idempotency.repository.ts`, `apps/api/src/middleware/idempotency.ts`, admin route wiring |
+| contract | `(idempotency_key, method, path)` UNIQUE, request fingerprint mismatch 422, in-flight duplicate 409, completed JSON replay, 5xx/non-JSON/64KB+ rollback |
+| evidence | api typecheck PASS, api lint PASS, focused middleware Vitest 3 PASS, focused repository Vitest 3 PASS |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-913-server-idempotency-key-persistence-artifact-inventory.md` |
+| user gate | D1 migration apply, deploy, staging runtime replay proof, commit, push, PR |
 
 ## Issue #880 public segment error/loading boundary（2026-05-24）
 
