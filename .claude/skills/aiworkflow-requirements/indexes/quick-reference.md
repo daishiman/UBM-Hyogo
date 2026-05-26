@@ -19,7 +19,6 @@
 ## issue-900-workflow-permissions-least-privilege-audit（2026-05-25）
 
 | key | value |
-| --- | --- |
 | status | `implemented_local_evidence_captured / implementation / NON_VISUAL` |
 | workflow root | `docs/30-workflows/completed-tasks/issue-900-workflow-permissions-least-privilege-audit/` |
 | purpose | all GitHub Actions workflows declare top-level least-privilege token permissions |
@@ -30,8 +29,6 @@
 
 ## issue-894-admin-topbar-breadcrumb-integration（2026-05-25）
 
-| 項目 | 値 |
-| --- | --- |
 | workflow root | `docs/30-workflows/completed-tasks/issue-894-admin-topbar-breadcrumb-integration/` |
 | status | `implemented_local_evidence_captured / implementation / VISUAL / implementation_complete_pending_pr` |
 | issue | #894 CLOSED; PR wording is `Refs #894` only |
@@ -44,8 +41,6 @@
 
 ## Issue #895 AdminTopbar actions client island（2026-05-25）
 
-| 項目 | 値 |
-| --- | --- |
 | workflow root | `docs/30-workflows/completed-tasks/issue-895-admin-topbar-actions-client-island/` |
 | status | `implemented_local_evidence_captured / implementation / NON_VISUAL / implementation_complete_pending_pr` |
 | source | `docs/30-workflows/completed-tasks/parallel-03-followup-004-admin-topbar-actions-buttons.md` consumed |
@@ -55,6 +50,18 @@
 | Phase 12 | strict 7 files present under `outputs/phase-12/`; Phase 11 local evidence present; screenshot N/A (`NON_VISUAL`) |
 | inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-895-admin-topbar-actions-client-island-artifact-inventory.md` |
 | user gate | commit, push, PR |
+
+||||||| Stash base
+## Issue #247 apps/web OpenNext config regression tests（2026-05-26）
+
+| workflow root | `docs/30-workflows/completed-tasks/issue-247-apps-web-opennext-config-regression-tests/` |
+| status | `implemented_local_evidence_captured / implementation / NON_VISUAL / Phase 13 pending` |
+| issue | #247; commit / push / PR / issue mutation are user-gated |
+| purpose | OpenNext Workers wrangler config drift を focused Vitest + CI step で fail-fast にする |
+| implementation | `apps/web/__tests__/opennext-config-regression.spec.ts`, `.github/workflows/ci.yml` |
+| contract | `pages_build_output_dir` 禁止、`.open-next` assets binding、package deploy script 禁止、`.assetsignore` required lines |
+| system spec | `.claude/skills/aiworkflow-requirements/references/deployment-cloudflare-opennext-workers.md` |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-247-apps-web-opennext-config-regression-tests-artifact-inventory.md` |
 
 ## Issue #891 member detail kind exhaustiveness guard（2026-05-25）
 

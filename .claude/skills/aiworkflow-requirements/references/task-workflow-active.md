@@ -26,8 +26,6 @@
 
 ### issue-900-workflow-permissions-least-privilege-audit（2026-05-25）
 
-| 項目 | 値 |
-| --- | --- |
 | state | `implemented_local_evidence_captured / implementation / NON_VISUAL` |
 | root | `docs/30-workflows/completed-tasks/issue-900-workflow-permissions-least-privilege-audit/` |
 | issue | #900 CLOSED。PR 文脈は `Refs #900` のみ |
@@ -40,8 +38,6 @@
 
 ### issue-894-admin-topbar-breadcrumb-integration（2026-05-25）
 
-| 項目 | 値 |
-| --- | --- |
 | ステータス | `implemented_local_evidence_captured / implementation / VISUAL / implementation_complete_pending_pr` |
 | 成果物 | `docs/30-workflows/completed-tasks/issue-894-admin-topbar-breadcrumb-integration/` |
 | Issue | #894 CLOSED。PR 文脈は `Refs #894` のみ |
@@ -54,8 +50,6 @@
 
 ### Issue #895 AdminTopbar actions client island（2026-05-25）
 
-| 項目 | 値 |
-| --- | --- |
 | ステータス | `implemented_local_evidence_captured / implementation / NON_VISUAL / implementation_complete_pending_pr` |
 | 成果物 | `docs/30-workflows/completed-tasks/issue-895-admin-topbar-actions-client-island/` |
 | source | `docs/30-workflows/completed-tasks/parallel-03-followup-004-admin-topbar-actions-buttons.md` consumed |
@@ -65,6 +59,19 @@
 | evidence | Phase 11 local evidence + Phase 12 strict 7 present。screenshot は `NON_VISUAL` のため N/A |
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-895-admin-topbar-actions-client-island-artifact-inventory.md` |
 | user gate | commit, push, PR |
+
+||||||| Stash base
+### issue-247-apps-web-opennext-config-regression-tests（2026-05-26）
+
+| ステータス | `implemented_local_evidence_captured / implementation / NON_VISUAL / Phase 1-12 completed / Phase 13 pending` |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-247-apps-web-opennext-config-regression-tests/` |
+| Issue | #247。commit / push / PR / Issue mutation は user-gated |
+| parent/source | parent `docs/30-workflows/completed-tasks/ut-06-followup-A-opennext-workers-migration.md`; source unassigned `docs/30-workflows/completed-tasks/issue-247-apps-web-opennext-config-regression-tests/UT-06-FU-A-open-next-config-regression-tests.md` |
+| 目的 | OpenNext Workers `apps/web/wrangler.toml` の Pages 形式逆戻り、assets binding drift、deploy script drift、`.assetsignore` drift を CI で検出する |
+| implementation targets | `apps/web/__tests__/opennext-config-regression.spec.ts`, `.github/workflows/ci.yml` |
+| system spec | `.claude/skills/aiworkflow-requirements/references/deployment-cloudflare-opennext-workers.md` |
+| evidence | focused Vitest guard PASS、Phase 12 strict 7、root/output artifacts parity |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-247-apps-web-opennext-config-regression-tests-artifact-inventory.md` |
 
 ### issue-891-member-detail-kind-exhaustiveness-guard（2026-05-25）
 
