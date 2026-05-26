@@ -6009,6 +6009,7 @@ node scripts/list-specs.js --topics
 | L-I912-004: DELETE payload must be fixed in the spec | L15 |
 | L-I912-005: Idempotency-Key value identity belongs to hook policy, not caller specs | L19 |
 | L-I912-006: Playwright mock fixture must follow API method/endpoint shape changes | L23 |
+| L-I912-007: Two Playwright mock surfaces — fixture and standalone — must stay in lockstep | L27 |
 
 ### references/lessons-learned-issue359-production-d1-apply-2026-05.md
 
