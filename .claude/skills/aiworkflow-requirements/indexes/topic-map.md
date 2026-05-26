@@ -2135,6 +2135,12 @@ node scripts/list-specs.js --topics
 |------------|----|
 | Contract | L16 |
 
+### references/workflow-admin-ui-prototype-alignment-followup-002-section-error-retry-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Contract | L15 |
+
 ### references/workflow-ai-chat-llm-integration-fix-artifact-inventory.md
 
 | セクション | 行 |
@@ -3064,6 +3070,31 @@ node scripts/list-specs.js --topics
 | Skill knowledge synced | L36 |
 | User-gated operations | L43 |
 
+### references/workflow-issue-882-terms-prefetch-env-validation-fix-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Status | L16 |
+
+### references/workflow-issue-883-adapter-dev-warn-unknown-kind-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Root | L3 |
+| Implementation Targets | L12 |
+| Evidence | L20 |
+| Boundary | L32 |
+
+### references/workflow-issue-891-member-detail-kind-exhaustiveness-guard-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Summary | L3 |
+| Implementation Targets | L13 |
+| Phase 11 Evidence | L23 |
+| Phase 12 strict 7 Files | L32 |
+| Boundary | L42 |
+
 ### references/workflow-issue-900-workflow-permissions-least-privilege-audit-artifact-inventory.md
 
 | セクション | 行 |
@@ -3217,6 +3248,13 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | Boundary | L19 |
+
+### references/workflow-regression-evidence-ci-gate-foundation-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Runtime Boundary | L19 |
+| Canonical Ownership | L23 |
 
 ### references/workflow-runtime-smoke-staging-mint-recurrence-fix-artifact-inventory.md
 
@@ -3933,7 +3971,8 @@ node scripts/list-specs.js --topics
 | Sub-workflow: serial-06 Form Response Binding（2026-05-23 spec validation） | L170 |
 | P1-1〜P1-5 Selector ↔ Token ↔ 09 Spec Mapping (parallel-01) | L184 |
 | Sub-workflows | L229 |
-| P1-1〜P1-5 Selector ↔ Token ↔ 09 Spec Mapping (parallel-01) | L238 |
+| Serial-07 regression evidence canonical execution root（2026-05-25） | L238 |
+| P1-1〜P1-5 Selector ↔ Token ↔ 09 Spec Mapping (parallel-01) | L249 |
 
 ### references/workflow-ui-ux-visual-baseline-drift.md
 
@@ -4890,15 +4929,15 @@ node scripts/list-specs.js --topics
 
 | セクション | 行 |
 |------------|----|
-| 概要 | L26 |
-| 使い方 | L34 |
-| Current Alias Overrides（個別互換行） | L41 |
-| Family Summary | L87 |
-| Detailed Register | L108 |
-| Section Extract Register (2026-03-17) | L289 |
-| 500-Line Split Register (2026-03-16) | L300 |
-| Fragment Migration Register (2026-04-28) | L322 |
-| Task Root Path Drift Register (2026-04-30 追記) | L349 |
+| 概要 | L27 |
+| 使い方 | L35 |
+| Current Alias Overrides（個別互換行） | L42 |
+| Family Summary | L88 |
+| Detailed Register | L109 |
+| Section Extract Register (2026-03-17) | L290 |
+| 500-Line Split Register (2026-03-16) | L301 |
+| Fragment Migration Register (2026-04-28) | L323 |
+| Task Root Path Drift Register (2026-04-30 追記) | L350 |
 
 ### references/lessons-fetch-service-binding-testing.md
 
@@ -5872,6 +5911,17 @@ node scripts/list-specs.js --topics
 | L-I827-005: 許可リスト方式の exhaustiveness は scope 外でも follow-up 起票して規律依存を formalize する | L35 |
 | 横断教訓 | L44 |
 
+### references/lessons-learned-issue-891-member-detail-kind-exhaustiveness-guard-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| L-I891-001: allowlist の exhaustiveness は `as const satisfies Record<Enum, Route>` で型強制へ昇格する | L9 |
+| L-I891-002: 「除外」と「別 route」を `KindRoute` 3 値で明示分離する | L16 |
+| L-I891-003: 純粋関数 adapter の内部定数は `__testInternals` 経由で spec から exhaustiveness 検証する | L23 |
+| L-I891-004: closed issue の "spec_created" は実コード差分の有無で再分類する | L30 |
+| L-I891-005: 起票元 unassigned task は削除でなく consumed trace を残し completed-tasks/unassigned-task/ へ移送する | L37 |
+| 横断教訓 | L46 |
+
 ### references/lessons-learned-issue-900-workflow-permissions-least-privilege-2026-05.md
 
 | セクション | 行 |
@@ -6490,8 +6540,8 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 概要 | L3 |
 | 仕様書インデックス | L7 |
-| 利用順序 | L119 |
-| 関連ドキュメント | L124 |
+| 利用順序 | L120 |
+| 関連ドキュメント | L125 |
 
 ### references/llm-embedding.md
 
@@ -7628,14 +7678,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L2420 |
-| フェーズ構造（概要） | L2429 |
-| 品質ゲート（概要） | L2460 |
-| 出力テンプレート | L2471 |
-| 実行時のコマンド・エージェント・スキル | L2494 |
-| 昇格パターン集 | L2518 |
-| Current Active / Spec Created Tasks | L2520 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L2681 |
+| ドキュメント構成 | L2493 |
+| フェーズ構造（概要） | L2502 |
+| 品質ゲート（概要） | L2533 |
+| 出力テンプレート | L2544 |
+| 実行時のコマンド・エージェント・スキル | L2567 |
+| 昇格パターン集 | L2591 |
+| Current Active / Spec Created Tasks | L2593 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L2754 |
 
 ### references/task-workflow-backlog-part2.md
 

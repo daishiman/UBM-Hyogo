@@ -235,6 +235,17 @@ Future implementation must use `PROTOTYPE-COVERAGE.md` and keep the current
 Phase 12 strict 7 outputs は parent root `outputs/phase-12/` に集約し、sub-workflow には
 複製しない（parent-sub-workflow strict7 aggregation parity）。
 
+## Serial-07 regression evidence canonical execution root（2026-05-25）
+
+| item | value |
+| --- | --- |
+| canonical execution root | `docs/30-workflows/regression-evidence-ci-gate-foundation/` |
+| upstream source | `docs/30-workflows/ui-prototype-design-system-foundation/serial-07-regression-evidence/` |
+| status | `spec_created / implementation / VISUAL / runtime_pending` |
+| purpose | Top-level workflow for Playwright visual 4 screens, baseline PNG capture, `verify-design-tokens`, `verify-pr-ready`, and branch-protection required-check candidate documentation |
+| ownership rule | Treat the top-level root as the execution SSOT. Keep the parent serial-07 path as historical/upstream source context, not a second active execution root. |
+| user gate | Playwright visual run, baseline PNG commit, branch protection mutation, commit, push, PR |
+
 ## P1-1〜P1-5 Selector ↔ Token ↔ 09 Spec Mapping (parallel-01)
 
 `apps/web/src/styles/globals.css` の `@layer components` に追加した data-attr
