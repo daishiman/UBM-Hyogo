@@ -688,6 +688,7 @@
       "ui-ux-admin-dashboard.md",
       "workflow-issue-399-admin-queue-resolve-staging-visual-evidence-artifact-inventory.md",
       "workflow-issue-842-admin-mutation-reliability-policy-artifact-inventory.md",
+      "workflow-issue-901-authenticated-profile-admin-staging-visual-artifact-inventory.md",
       "workflow-task-21-w2-par-screen-blueprints-admin-artifact-inventory.md"
     ],
     "Sync": [
@@ -3340,6 +3341,7 @@
       "workflow-issue-895-admin-topbar-actions-client-island-artifact-inventory.md",
       "workflow-issue-899-static-bearer-fallback-retirement-artifact-inventory.md",
       "workflow-issue-900-workflow-permissions-least-privilege-audit-artifact-inventory.md",
+      "workflow-issue-901-authenticated-profile-admin-staging-visual-artifact-inventory.md",
       "workflow-issue-908-staging-rollback-notification-runtime-smoke-artifact-inventory.md",
       "workflow-parallel-04-shared-page-chrome-artifact-inventory.md",
       "workflow-parallel-i02b-admin-mutation-error-finalize-artifact-inventory.md",
@@ -4656,6 +4658,7 @@
       "workflow-issue-832-admin-topbar-primitive-extraction-artifact-inventory.md",
       "workflow-issue-842-admin-mutation-reliability-policy-artifact-inventory.md",
       "workflow-issue-895-admin-topbar-actions-client-island-artifact-inventory.md",
+      "workflow-issue-901-authenticated-profile-admin-staging-visual-artifact-inventory.md",
       "workflow-task-issue-299-schema-questions-fallback-retirement-artifact-inventory.md",
       "workflow-ut-17-cloudflare-analytics-alerts-artifact-inventory.md"
     ],
@@ -4731,6 +4734,7 @@
       "workflow-issue-883-adapter-dev-warn-unknown-kind-artifact-inventory.md",
       "workflow-issue-891-member-detail-kind-exhaustiveness-guard-artifact-inventory.md",
       "workflow-issue-899-static-bearer-fallback-retirement-artifact-inventory.md",
+      "workflow-issue-901-authenticated-profile-admin-staging-visual-artifact-inventory.md",
       "workflow-members-page-prototype-alignment-artifact-inventory.md",
       "workflow-mypage-prototype-alignment-artifact-inventory.md",
       "workflow-parallel-04-shared-page-chrome-artifact-inventory.md",
@@ -9329,6 +9333,7 @@
       "workflow-issue-718-legacy-cf-token-revocation-artifact-inventory.md",
       "workflow-issue-836-schema-alias-recompute-trigger-artifact-inventory.md",
       "workflow-issue-871-csp-nonce-migration-artifact-inventory.md",
+      "workflow-issue-901-authenticated-profile-admin-staging-visual-artifact-inventory.md",
       "workflow-login-page-prototype-alignment-artifact-inventory.md",
       "workflow-mypage-prototype-alignment-artifact-inventory.md",
       "workflow-parallel-i06-root-error-focus-artifact-inventory.md",
@@ -12795,6 +12800,7 @@
       "workflow-06b-b-profile-request-pending-banner-sticky-artifact-inventory.md",
       "workflow-06b-b-profile-self-service-request-ui-artifact-inventory.md",
       "workflow-issue-533-public-profile-builder-attendance-injection-artifact-inventory.md",
+      "workflow-issue-901-authenticated-profile-admin-staging-visual-artifact-inventory.md",
       "workflow-task-06b-B-profile-self-service-request-ui-artifact-inventory.md"
     ],
     "Pending": [
@@ -13833,6 +13839,7 @@
       "observability-monitoring.md",
       "workflow-issue-399-admin-queue-resolve-staging-visual-evidence-artifact-inventory.md",
       "workflow-issue-762-cf-oidc-staging-proof-prod-cutover-artifact-inventory.md",
+      "workflow-issue-901-authenticated-profile-admin-staging-visual-artifact-inventory.md",
       "workflow-task-09a-A-staging-deploy-smoke-execution-artifact-inventory.md",
       "workflow-task-09a-parallel-staging-deploy-smoke-and-forms-sync-validation-artifact-inventory.md",
       "workflow-ut-dsf-07-staging-visual-runtime-evidence-artifact-inventory.md"
@@ -15812,6 +15819,7 @@
       "workflow-06b-c-profile-logged-in-visual-evidence-artifact-inventory.md",
       "workflow-07c-followup-002-attendance-visual-smoke-artifact-inventory.md",
       "workflow-issue-399-admin-queue-resolve-staging-visual-evidence-artifact-inventory.md",
+      "workflow-issue-901-authenticated-profile-admin-staging-visual-artifact-inventory.md",
       "workflow-ut-dsf-07-staging-visual-runtime-evidence-artifact-inventory.md"
     ],
     "planned": [
@@ -16712,6 +16720,7 @@
       "workflow-issue-895-admin-topbar-actions-client-island-artifact-inventory.md",
       "workflow-issue-899-static-bearer-fallback-retirement-artifact-inventory.md",
       "workflow-issue-900-workflow-permissions-least-privilege-audit-artifact-inventory.md",
+      "workflow-issue-901-authenticated-profile-admin-staging-visual-artifact-inventory.md",
       "workflow-issue-908-staging-rollback-notification-runtime-smoke-artifact-inventory.md",
       "workflow-mypage-prototype-alignment-artifact-inventory.md",
       "workflow-parallel-04-shared-page-chrome-artifact-inventory.md",
@@ -24709,6 +24718,7 @@
       "workflow-issue-895-admin-topbar-actions-client-island-artifact-inventory.md",
       "workflow-issue-899-static-bearer-fallback-retirement-artifact-inventory.md",
       "workflow-issue-900-workflow-permissions-least-privilege-audit-artifact-inventory.md",
+      "workflow-issue-901-authenticated-profile-admin-staging-visual-artifact-inventory.md",
       "workflow-issue-908-staging-rollback-notification-runtime-smoke-artifact-inventory.md",
       "workflow-mypage-prototype-alignment-artifact-inventory.md",
       "workflow-parallel-04-shared-page-chrome-artifact-inventory.md",
@@ -24851,6 +24861,7 @@
       "workflow-issue-894-admin-topbar-breadcrumb-integration-artifact-inventory.md",
       "workflow-issue-899-static-bearer-fallback-retirement-artifact-inventory.md",
       "workflow-issue-900-workflow-permissions-least-privilege-audit-artifact-inventory.md",
+      "workflow-issue-901-authenticated-profile-admin-staging-visual-artifact-inventory.md",
       "workflow-login-page-prototype-alignment-artifact-inventory.md",
       "workflow-mypage-prototype-alignment-artifact-inventory.md",
       "workflow-parallel-04-shared-page-chrome-artifact-inventory.md",
@@ -24901,6 +24912,7 @@
       "workflow-issue-777-schema-diff-resolve-history-view-artifact-inventory.md",
       "workflow-issue-880-public-segment-error-loading-boundary-artifact-inventory.md",
       "workflow-issue-899-static-bearer-fallback-retirement-artifact-inventory.md",
+      "workflow-issue-901-authenticated-profile-admin-staging-visual-artifact-inventory.md",
       "workflow-issue-908-staging-rollback-notification-runtime-smoke-artifact-inventory.md",
       "workflow-mypage-prototype-alignment-artifact-inventory.md",
       "workflow-step-08-audit-filter-paging-verify-artifact-inventory.md",
@@ -25266,6 +25278,7 @@
       "workflow-issue-891-member-detail-kind-exhaustiveness-guard-artifact-inventory.md",
       "workflow-issue-899-static-bearer-fallback-retirement-artifact-inventory.md",
       "workflow-issue-900-workflow-permissions-least-privilege-audit-artifact-inventory.md",
+      "workflow-issue-901-authenticated-profile-admin-staging-visual-artifact-inventory.md",
       "workflow-login-page-prototype-alignment-artifact-inventory.md",
       "workflow-mypage-prototype-alignment-artifact-inventory.md",
       "workflow-parallel-04-shared-page-chrome-artifact-inventory.md",
@@ -25714,6 +25727,10 @@
     ],
     "Specification": [
       "workflow-issue-899-static-bearer-fallback-retirement-artifact-inventory.md"
+    ],
+    "Authenticated": [
+      "workflow-issue-901-authenticated-profile-admin-staging-visual-artifact-inventory.md",
+      "workflow-ut-dsf-07-staging-visual-runtime-evidence-artifact-inventory.md"
     ],
     "ライトテーマ": [
       "workflow-light-theme-contrast-regression-guard.md"
@@ -26211,6 +26228,9 @@
       "workflow-ut-coverage-2026-05-wave-artifact-inventory.md"
     ],
     "DSF": [
+      "workflow-ut-dsf-07-staging-visual-runtime-evidence-artifact-inventory.md"
+    ],
+    "Child": [
       "workflow-ut-dsf-07-staging-visual-runtime-evidence-artifact-inventory.md"
     ],
     "phases": [

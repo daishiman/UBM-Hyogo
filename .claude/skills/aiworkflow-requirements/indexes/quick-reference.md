@@ -1,5 +1,21 @@
 # クイックリファレンス
 
+## Issue #901 authenticated profile/admin staging visual（2026-05-25）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-901-authenticated-profile-admin-staging-visual/` |
+| status | `spec_created / implementation / VISUAL / runtime_pending` |
+| issue | #901 CLOSED。PR 文脈は `Refs #901` のみ |
+| source | `docs/30-workflows/completed-tasks/UT-DSF-07-FU-01-authenticated-profile-admin-staging-visual.md` consumed |
+| parent | `docs/30-workflows/ut-dsf-07-staging-visual-runtime-evidence/` の `VISUAL_RUNTIME_AUTHENTICATED_PENDING` |
+| purpose | `signSessionJwt(secret, input)` 由来の ephemeral storageState で `/profile` member session と `/admin` admin session の authenticated staging visual baseline を取得する実装仕様 |
+| implementation targets | `apps/web/playwright/scripts/mint-staging-storage-state.ts`, `apps/web/playwright/tests/visual-staging-authenticated/*.spec.ts`, `apps/web/playwright.config.ts`, `apps/web/app/profile/page.tsx`, `apps/web/app/(admin)/admin/page.tsx`, `apps/web/.gitignore`, `.github/workflows/playwright-staging-visual-authenticated.yml` |
+| Phase 11 | contract files present; runtime logs and PNG screenshots are pending, not PASS |
+| Phase 12 | strict 7 present under `outputs/phase-12/` |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-901-authenticated-profile-admin-staging-visual-artifact-inventory.md` |
+| user gate | implementation, staging screenshot capture, parent gate release, commit, push, PR |
+
 ## issue-900-workflow-permissions-least-privilege-audit（2026-05-25）
 
 | key | value |
