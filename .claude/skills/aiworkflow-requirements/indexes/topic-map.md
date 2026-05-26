@@ -3152,6 +3152,15 @@ node scripts/list-specs.js --topics
 | Evidence | L25 |
 | Boundary | L39 |
 
+### references/workflow-issue-908-staging-rollback-notification-runtime-smoke-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Summary | L3 |
+| Local Artifacts | L12 |
+| User-Gated Runtime Artifacts | L21 |
+| Skill Sync | L31 |
+
 ### references/workflow-issue-911-meeting-attendance-unregister-ui-treat404-wiring-artifact-inventory.md
 
 | セクション | 行 |
@@ -7735,14 +7744,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L2567 |
-| フェーズ構造（概要） | L2576 |
-| 品質ゲート（概要） | L2607 |
-| 出力テンプレート | L2618 |
-| 実行時のコマンド・エージェント・スキル | L2641 |
-| 昇格パターン集 | L2665 |
-| Current Active / Spec Created Tasks | L2667 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L2828 |
+| ドキュメント構成 | L2581 |
+| フェーズ構造（概要） | L2590 |
+| 品質ゲート（概要） | L2621 |
+| 出力テンプレート | L2632 |
+| 実行時のコマンド・エージェント・スキル | L2655 |
+| 昇格パターン集 | L2679 |
+| Current Active / Spec Created Tasks | L2681 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L2842 |
 
 ### references/task-workflow-backlog-part2.md
 
