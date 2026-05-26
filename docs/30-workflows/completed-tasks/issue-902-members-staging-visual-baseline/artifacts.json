@@ -1,0 +1,70 @@
+{
+  "workflow": "issue-902-members-staging-visual-baseline",
+  "workflow_id": "issue-902-members-staging-visual-baseline",
+  "status": "implemented_local_runtime_pending",
+  "metadata": {
+    "taskType": "implementation",
+    "visualEvidence": "VISUAL",
+    "workflow_state": "implemented_local_runtime_pending",
+    "issue_number": 902,
+    "issue_state": "closed",
+    "scope": "Add /members and /members/[id] staging-visual specs (UT-DSF-07-FU-02) — expand staging-visual project from 4 to 6 screens",
+    "implementation_mode": "modify",
+    "parent_workflow": "ut-dsf-07-staging-visual-runtime-evidence",
+    "parent_gate": "VISUAL_RUNTIME_PENDING",
+    "source_unassigned_task": "docs/30-workflows/unassigned-task/UT-DSF-07-FU-02-members-list-detail-staging-visual.md",
+    "expected_runtime_screenshots": [
+      "apps/web/playwright/tests/visual-staging/members-list.spec.ts-snapshots/members-list-staging-visual-chromium-linux.png",
+      "apps/web/playwright/tests/visual-staging/member-detail.spec.ts-snapshots/member-detail-staging-visual-chromium-linux.png"
+    ],
+    "runtime_boundary": "local spec authoring and code implementation are complete; CI baseline PNG generation, staging deploy verification, commit/push/PR are user-gated",
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-05-25T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-902-members-staging-visual-baseline/index.md",
+        "approver": "daishiman",
+        "notes": "spec_review: Phase 1-13 spec for UT-DSF-07-FU-02 staging visual baseline (members-list / member-detail)"
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "passed",
+        "passed_at": "2026-05-25T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-902-members-staging-visual-baseline/outputs/phase-5/implementation-plan.md",
+        "approver": "daishiman",
+        "notes": "implementation_review: 2 spec files + workflow job name/input update; local list/typecheck evidence captured in Phase 11"
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-902-members-staging-visual-baseline/outputs/phase-13/pr-gate.md",
+        "approver": "daishiman",
+        "notes": "external_ops: staging deploy + CI baseline PNG generation + commit/push/PR"
+      }
+    ]
+  },
+  "implementation_mode": "modify",
+  "task_type": "implementation",
+  "visual_evidence": "VISUAL",
+  "phases": {
+    "phase-1": { "status": "completed", "artifact": "outputs/phase-1/requirements.md" },
+    "phase-2": { "status": "completed", "artifact": "outputs/phase-2/design.md" },
+    "phase-3": { "status": "completed", "artifact": "outputs/phase-3/design-review.md" },
+    "phase-4": { "status": "completed", "artifact": "outputs/phase-4/test-plan.md" },
+    "phase-5": { "status": "completed", "artifact": "outputs/phase-5/implementation-plan.md" },
+    "phase-6": { "status": "completed", "artifact": "outputs/phase-6/test-implementation-result.md" },
+    "phase-7": { "status": "completed", "artifact": "outputs/phase-7/integration-result.md" },
+    "phase-8": { "status": "completed", "artifact": "outputs/phase-8/quality-gate.md" },
+    "phase-9": { "status": "completed", "artifact": "outputs/phase-9/qa-result.md" },
+    "phase-10": { "status": "completed", "artifact": "outputs/phase-10/final-review.md" },
+    "phase-11": {
+      "status": "completed",
+      "mode": "VISUAL",
+      "artifact": "outputs/phase-11/evidence-inventory.md"
+    },
+    "phase-12": { "status": "completed", "artifact": "outputs/phase-12/phase12-task-spec-compliance-check.md" },
+    "phase-13": { "status": "pending_user_approval", "artifact": "outputs/phase-13/pr-gate.md", "reason": "commit + push + PR require explicit user approval" }
+  }
+}
