@@ -8,6 +8,19 @@
 
 本ドキュメントは、複雑なタスクを単一責務の原則に基づいて分解し、各サブタスクに最適なスラッシュコマンド・エージェント・スキルの組み合わせを選定するためのガイドラインを定義する。
 
+### google-form-reflection-diagnostics（2026-05-26）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_runtime_pending / implementation / VISUAL` |
+| 成果物 | `docs/30-workflows/completed-tasks/google-form-reflection-diagnostics/` |
+| 目的 | Google Form 31 項目が admin / profile / public 3 経路で反映されない事象を H1 ingest / H2 identity / H3 visibility / H4 alias に切り分ける |
+| implementation targets | `apps/api/src/diagnostics/{schema,forms-pipeline,member-diagnosis}.ts`, `apps/api/src/index.ts`, `apps/web/app/(admin)/admin/sync-status/page.tsx`, `apps/web/src/features/admin/diagnostics/{types,api}.ts`, `apps/web/src/features/admin/components/_members/{MemberDiagnosticsPanel,MemberDrawer}.tsx` |
+| API contract | `GET /admin/diagnostics/forms-pipeline`, `GET /admin/diagnostics/member/:memberId`。read-only 集計、PII 値なし、secret readiness は boolean のみ |
+| Phase 12 | strict 7 outputs + root/output artifacts parity present |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-google-form-reflection-diagnostics-artifact-inventory.md` |
+| user gate | staging deploy / authenticated `/admin/sync-status` screenshot / member drawer screenshot / Spec-B issue filing / commit / push / PR |
+
 ### issue-891-member-detail-kind-exhaustiveness-guard（2026-05-25）
 
 | 項目 | 値 |

@@ -1,5 +1,18 @@
 # クイックリファレンス
 
+## google-form-reflection-diagnostics（2026-05-26）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/google-form-reflection-diagnostics/` |
+| status | `implemented_local_runtime_pending / implementation / VISUAL` |
+| purpose | Google Form 31 項目が admin / profile / public 3 経路で反映されない事象を H1 ingest / H2 identity / H3 visibility / H4 alias に切り分ける |
+| implementation | `apps/api/src/diagnostics/*`, `apps/web/app/(admin)/admin/sync-status/page.tsx`, `apps/web/src/features/admin/diagnostics/*`, `apps/web/src/features/admin/components/_members/MemberDiagnosticsPanel.tsx` |
+| API | `GET /admin/diagnostics/forms-pipeline`, `GET /admin/diagnostics/member/:memberId` |
+| invariant | secret readiness は boolean のみ。`GOOGLE_SERVICE_ACCOUNT_EMAIL` / `GOOGLE_PRIVATE_KEY` / `GOOGLE_FORM_ID` / `AUTH_SECRET` の実値・末尾・hash は返さない |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-google-form-reflection-diagnostics-artifact-inventory.md` |
+| user gate | staging deploy, authenticated screenshots, Spec-B issue filing, commit, push, PR |
+
 ## Issue #891 member detail kind exhaustiveness guard（2026-05-25）
 
 | 項目 | 値 |

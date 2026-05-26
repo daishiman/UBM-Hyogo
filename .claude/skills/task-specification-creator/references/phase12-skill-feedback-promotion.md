@@ -57,6 +57,26 @@ done
 
 実例: Issue #533 public profile attendance では `pnpm --filter @ubm-hyogo/api test -- <file>` が対象 file を絞り込まなかったため、root config を明示した `pnpm exec vitest run --root=. --config=vitest.config.ts <exact files>` を canonical focused command にした。pnpm filter 経由の package script が test runner へ file 引数を渡さない repo では、Phase 1 baseline / Phase 4 test plan / Phase 9 QA / Phase 11 evidence / Phase 12 compliance の全箇所を、実測 PASS した root Vitest command にそろえる。
 
+## Implementation Target Physical Existence Gate
+
+`taskType=implementation` の workflow が `artifacts.json.metadata.implementation_files`、Phase 3 task breakdown、Phase 5 implementation guide、Phase 8 DoD のいずれかで実コード対象を列挙した場合、Phase 12 は「仕様書がある」だけで PASS にしない。同一 wave で次のどちらかへ必ず正規化する。
+
+| 分岐 | 必須対応 |
+| --- | --- |
+| 実装する | 列挙した current path に実コード / 実テスト差分を入れ、root/output `artifacts.json`、Phase 12 compliance、aiworkflow ledgers を `implemented_local_*` へ再分類する |
+| 実装しない | `taskType` / workflow state / DoD / implementation_files を spec-only 実態へ下げ、実装ファイルを「予定」として PASS しない。実装が本当に user-gated なら gate 名・理由・実施場所を Phase 12 に明記する |
+
+検証コマンド例:
+
+```bash
+jq -r '.metadata.implementation_files[]?' docs/30-workflows/<workflow>/artifacts.json |
+while IFS= read -r path; do
+  test -e "$path" || { echo "missing implementation target: $path" >&2; exit 1; }
+done
+```
+
+実例: `google-form-reflection-diagnostics` では初期状態が `implementation / VISUAL` かつ diagnostics API / `/admin/sync-status` / Member Drawer パネルを implementation_files に列挙していたが、差分は仕様書のみだった。同 wave で `apps/api/src/diagnostics/*`、`apps/web/app/(admin)/admin/sync-status/page.tsx`、`apps/web/src/features/admin/diagnostics/*`、`MemberDiagnosticsPanel` を実装し、存在しない `apps/web/src/app` path と `GOOGLE_FORMS_API_KEY` drift を補正した。
+
 ## Client Hook Shared Error Contract Gate
 
 Client hook が HTTP / auth error を扱う場合、既存 shared error class と redirect helper を Phase 1-5 で探索し、hook 内に独自 Error class や独自 query 語彙を作らない。Phase 12 では次の 4 点を同一 wave で確認する。
