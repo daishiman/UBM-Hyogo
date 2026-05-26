@@ -173,6 +173,21 @@
 | local evidence | focused Vitest 19+2 PASS including `jest-axe` (AC-3/AC-4 transition assertion 追加); root lint/typecheck PASS; design-token and client-boundary grep PASS |
 | user gate | commit, push, PR |
 
+## Issue #913 server idempotency key persistence（2026-05-25）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow | `docs/30-workflows/completed-tasks/issue-913-server-idempotency-key-persistence/` |
+| status | `implemented_local_evidence_captured / implementation / NON_VISUAL / implementation_complete_pending_pr` |
+| issue | #913 CLOSED; PR wording is `Refs #913` |
+| parent | `docs/30-workflows/completed-tasks/issue-842-admin-mutation-reliability-policy/` |
+| purpose | Persist and replay admin mutation `Idempotency-Key` requests server-side so client retry/header support is actually enforced by apps/api |
+| implementation | `apps/api/migrations/0021_idempotency_keys.sql`, `apps/api/src/repository/idempotency.repository.ts`, `apps/api/src/middleware/idempotency.ts`, admin route wiring |
+| contract | `(idempotency_key, method, path)` UNIQUE, request fingerprint mismatch 422, in-flight duplicate 409, completed JSON replay, 5xx/non-JSON/64KB+ rollback |
+| evidence | api typecheck PASS, api lint PASS, focused middleware Vitest 3 PASS, focused repository Vitest 3 PASS |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-913-server-idempotency-key-persistence-artifact-inventory.md` |
+| user gate | D1 migration apply, deploy, staging runtime replay proof, commit, push, PR |
+
 ## Issue #880 public segment error/loading boundary（2026-05-24）
 
 | 項目 | 値 |
@@ -787,6 +802,20 @@
 | stale optimization | Issue #842 provided the `treat404AsSuccess` hook policy without forcing caller migration; Issue #911 now consumes it in `MeetingAttendancePanel.tsx` for unregister 404 convergence |
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-842-admin-mutation-reliability-policy-artifact-inventory.md` |
 | user gate | commit, push, PR, staging runtime evidence |
+
+## Issue #912 idempotent attendance remove retry（2026-05-25）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-912-idempotent-attendance-remove-retry/` |
+| 状態 | `implemented_local_evidence_captured / implementation / NON_VISUAL / focused Vitest PASS / Phase 13 blocked` |
+| source | Issue #912 CLOSED; PR wording is `Refs #912`; source one-pager `docs/30-workflows/completed-tasks/unassigned-task/issue-842-followup-002-idempotent-caller-retry-enablement.md` is marked `consumed_by_issue_912_local_implemented_pending_pr` and will move to consumed after commit/PR |
+| scope | `MeetingPanel` attendance remove path を existing DELETE endpoint + `useAdminMutation` retry/idempotencyKey opt-in へ切替。add path は POST + `mutationFn` 維持 |
+| implementation targets | `apps/web/src/lib/admin/api.ts`, `apps/web/src/components/admin/MeetingPanel.tsx`, `apps/web/src/lib/admin/__tests__/api.spec.ts`, `apps/web/src/components/admin/__tests__/MeetingPanel.component.spec.tsx` |
+| evidence | `docs/30-workflows/completed-tasks/issue-912-idempotent-attendance-remove-retry/outputs/phase-11/evidence/focused-vitest.log`（97 tests PASS） |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-912-idempotent-attendance-remove-retry-artifact-inventory.md` |
+| lessons | `.claude/skills/aiworkflow-requirements/references/lessons-learned-issue-912-idempotent-attendance-remove-retry-2026-05.md` |
+| user gate | commit, push, PR, staging/runtime evidence |
 
 ## Issue #911 meeting attendance unregister UI（2026-05-25）
 
