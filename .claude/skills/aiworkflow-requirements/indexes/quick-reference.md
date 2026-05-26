@@ -1,5 +1,88 @@
 # クイックリファレンス
 
+## Issue #901 authenticated profile/admin staging visual（2026-05-25）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-901-authenticated-profile-admin-staging-visual/` |
+| status | `spec_created / implementation / VISUAL / runtime_pending` |
+| issue | #901 CLOSED。PR 文脈は `Refs #901` のみ |
+| source | `docs/30-workflows/completed-tasks/UT-DSF-07-FU-01-authenticated-profile-admin-staging-visual.md` consumed |
+| parent | `docs/30-workflows/ut-dsf-07-staging-visual-runtime-evidence/` の `VISUAL_RUNTIME_AUTHENTICATED_PENDING` |
+| purpose | `signSessionJwt(secret, input)` 由来の ephemeral storageState で `/profile` member session と `/admin` admin session の authenticated staging visual baseline を取得する実装仕様 |
+| implementation targets | `apps/web/playwright/scripts/mint-staging-storage-state.ts`, `apps/web/playwright/tests/visual-staging-authenticated/*.spec.ts`, `apps/web/playwright.config.ts`, `apps/web/app/profile/page.tsx`, `apps/web/app/(admin)/admin/page.tsx`, `apps/web/.gitignore`, `.github/workflows/playwright-staging-visual-authenticated.yml` |
+| Phase 11 | contract files present; runtime logs and PNG screenshots are pending, not PASS |
+| Phase 12 | strict 7 present under `outputs/phase-12/` |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-901-authenticated-profile-admin-staging-visual-artifact-inventory.md` |
+| user gate | implementation, staging screenshot capture, parent gate release, commit, push, PR |
+
+## issue-900-workflow-permissions-least-privilege-audit（2026-05-25）
+
+| key | value |
+| --- | --- |
+| status | `implemented_local_evidence_captured / implementation / NON_VISUAL` |
+| workflow root | `docs/30-workflows/completed-tasks/issue-900-workflow-permissions-least-privilege-audit/` |
+| purpose | all GitHub Actions workflows declare top-level least-privilege token permissions |
+| baseline | top-level `permissions: contents: read`; job-level write overrides remain job-scoped |
+| guard | `scripts/verify-workflow-top-level-permissions.sh` in `.github/workflows/ci.yml` after actionlint |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-900-workflow-permissions-least-privilege-audit-artifact-inventory.md` |
+| user gate | commit, push, PR, remote CI observation |
+
+## issue-894-admin-topbar-breadcrumb-integration（2026-05-25）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-894-admin-topbar-breadcrumb-integration/` |
+| status | `implemented_local_evidence_captured / implementation / VISUAL / implementation_complete_pending_pr` |
+| issue | #894 CLOSED; PR wording is `Refs #894` only |
+| purpose | Move admin root breadcrumb ownership to `AdminTopbar`; page-local breadcrumbs show current page only |
+| implementation | `apps/web/app/(admin)/layout.tsx`, 8 `apps/web/app/(admin)/admin/**/page.tsx` breadcrumb consumers, focused layout/Breadcrumb specs, authenticated admin screenshot evidence |
+| tests | `apps/web/app/(admin)/layout.spec.tsx` (4 PASS), `apps/web/src/components/admin/__tests__/Breadcrumb.spec.tsx` (2 PASS), workspace typecheck/lint PASS |
+| Phase 12 | strict 7 files present under `outputs/phase-12/` |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-894-admin-topbar-breadcrumb-integration-artifact-inventory.md` |
+| user gate | commit, push, PR, Issue mutation |
+
+## Issue #895 AdminTopbar actions client island（2026-05-25）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-895-admin-topbar-actions-client-island/` |
+| status | `implemented_local_evidence_captured / implementation / NON_VISUAL / implementation_complete_pending_pr` |
+| source | `docs/30-workflows/completed-tasks/parallel-03-followup-004-admin-topbar-actions-buttons.md` consumed |
+| purpose | `AdminTopbar.actions` に admin global actions client island を注入し、既存 `SignOutButton` を topbar へ集約する |
+| implementation | `apps/web/src/features/admin/components/_layout/AdminTopbarActions.tsx`, `apps/web/src/features/admin/components/_layout/__tests__/AdminTopbarActions.spec.tsx`, `apps/web/app/(admin)/layout.tsx`, `apps/web/app/(admin)/layout.spec.tsx` |
+| contract | topbar actions = global admin shell actions; `AdminPageHeader.actions` = page-specific actions. `AdminTopbar` and `(admin)/layout.tsx` remain server components. |
+| Phase 12 | strict 7 files present under `outputs/phase-12/`; Phase 11 local evidence present; screenshot N/A (`NON_VISUAL`) |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-895-admin-topbar-actions-client-island-artifact-inventory.md` |
+| user gate | commit, push, PR |
+
+## Issue #891 member detail kind exhaustiveness guard（2026-05-25）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-891-member-detail-kind-exhaustiveness-guard/` |
+| status | `implemented_local_evidence_captured / implementation / NON_VISUAL / Phase 13 pending_user_approval` |
+| issue | #891 CLOSED; source follow-up from issue #827 consumed |
+| purpose | `FieldKindZ` 全 kind を `KIND_ROUTE` で網羅分類し、分類漏れを typecheck と adapter spec で fail-fast にする |
+| implementation | `apps/web/src/lib/adapters/member-detail.ts`, `apps/web/src/lib/adapters/__tests__/member-detail.spec.ts`, `apps/web/src/components/public/MemberDetail.tsx` |
+| contract | `KIND_ROUTE satisfies Record<FieldKind, KindRoute>`; detail output is derived from `KIND_ROUTE === "detail"` and url links are derived from `KIND_ROUTE === "links"` into `MemberLinks` |
+| system specs | `docs/00-getting-started-manual/specs/04-types.md`, `docs/00-getting-started-manual/specs/09-ui-ux.md` |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-891-member-detail-kind-exhaustiveness-guard-artifact-inventory.md` |
+| user gate | commit, push, PR, visual baseline update |
+
+## regression-evidence-ci-gate-foundation（2026-05-25）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/regression-evidence-ci-gate-foundation/` |
+| status | `spec_created / implementation / VISUAL / runtime_pending` |
+| canonical role | `ui-prototype-design-system-foundation/serial-07-regression-evidence` の top-level execution root |
+| purpose | Playwright visual 4 screens と CI gate 6 件で UI prototype alignment の regression を防ぐ |
+| planned visual specs | `apps/web/playwright/tests/visual/{top,members-list,member-detail,admin-dashboard}.spec.ts` |
+| Phase 12 | strict 7 files present; root/output artifacts parity present |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-regression-evidence-ci-gate-foundation-artifact-inventory.md` |
+| user gate | Playwright visual run, baseline PNG capture, branch protection mutation, commit, push, PR |
+
 ## Issue #883 adapter dev warn unknown kind（2026-05-25）
 
 | 項目 | 値 |
@@ -223,6 +306,20 @@
 | inventory | `.claude/skills/aiworkflow-requirements/references/workflow-ut-dsf-07-staging-visual-runtime-evidence-artifact-inventory.md` |
 | user gate | staging deploy, screenshot capture, parent gate release, commit, push, PR |
 
+## Issue #902 members staging visual baseline（2026-05-25）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow | `docs/30-workflows/completed-tasks/issue-902-members-staging-visual-baseline/` |
+| status | `implemented_local_runtime_pending / implementation / VISUAL` |
+| source | Issue #902 CLOSED; `docs/30-workflows/completed-tasks/UT-DSF-07-FU-02-members-list-detail-staging-visual.md` consumed |
+| parent | `docs/30-workflows/ut-dsf-07-staging-visual-runtime-evidence/` |
+| implementation | `apps/web/playwright/tests/visual-staging/{members-list,member-detail}.spec.ts`, `.github/workflows/playwright-smoke.yml` |
+| purpose | Extend `staging-visual` coverage from 4 to 6 public runtime screens: `/members` and env-gated `/members/[id]`. |
+| evidence | `outputs/phase-11/evidence/playwright-list-staging-visual.txt` lists 6 tests; focused web typecheck log present. |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-902-members-staging-visual-baseline-artifact-inventory.md` |
+| user gate | staging deploy verification, CI baseline PNG generation, commit, push, PR |
+
 ## Issue #832 AdminTopbar primitive extraction（2026-05-23）
 
 | 項目 | 値 |
@@ -265,6 +362,19 @@
 | inventory | `.claude/skills/aiworkflow-requirements/references/workflow-runtime-smoke-staging-mint-recurrence-fix-artifact-inventory.md` |
 | lessons-learned | `.claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-runtime-smoke-staging-mint-recurrence-2026-05.md`（L-RSMR-001..006） |
 | boundary | `STAGING_AUTH_SECRET` 投入による mint path 恒久化・staging runtime rerun・GitHub/Cloudflare secret mutation・commit・push・PR は user-gated |
+
+## issue-899-static-bearer-fallback-retirement（2026-05-25）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-899-static-bearer-fallback-retirement/` |
+| status | `spec_created / implementation / NON_VISUAL / implementation_pending` |
+| purpose | runtime-smoke-staging の静的 bearer fallback を物理撤去し、mint-only + freshness hard-fail 既定へ恒久化する実装仕様 |
+| prerequisite | #916 `STAGING_AUTH_SECRET` provisioning + mint path smoke green |
+| implementation targets | `.github/workflows/runtime-smoke-staging.yml`, `secret-provisioning.md`, `bearer-lifecycle-ssot.md` |
+| Phase 12 | strict 7 present; root/output artifacts parity present; 30-method compact evidence included |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-899-static-bearer-fallback-retirement-artifact-inventory.md` |
+| boundary | workflow edit / runtime smoke rerun / static secret physical delete / commit / push / PR are user-gated |
 
 ## issue-870-apps-api-security-headers（2026-05-24）
 

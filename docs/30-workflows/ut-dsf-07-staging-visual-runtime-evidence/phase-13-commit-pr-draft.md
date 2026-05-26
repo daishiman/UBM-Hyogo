@@ -139,5 +139,5 @@ EOF
 | アクション | 担当 | タイミング |
 |----------|------|---------|
 | branch protection に required status check 候補を追加 | user 明示承認後 | governance change |
-| 認証後 profile / admin の staging visual を別タスク化 | user 判断 | フォロー（Phase 9 §5） |
+| 認証後 profile / admin の staging visual | child workflow `docs/30-workflows/completed-tasks/issue-901-authenticated-profile-admin-staging-visual/` | CLOSED Issue #901 を `Refs #901` で扱う canonical workflow root を作成済み。authenticated baseline 取得と parent gate release は child Gate-C 後 |
 | 本 workflow を `completed-tasks/` に移動 | user 明示承認後 | close-out operation |

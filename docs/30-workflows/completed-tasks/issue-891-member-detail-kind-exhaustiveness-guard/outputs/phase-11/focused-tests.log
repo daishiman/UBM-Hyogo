@@ -1,0 +1,11 @@
+[33mThe CJS build of Vite's Node API is deprecated. See https://vite.dev/guide/troubleshooting.html#vite-cjs-node-api-deprecated for more details.[39m
+
+ RUN  v2.1.9 /Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260525-102421-wt-2
+
+ ✓ apps/web/src/lib/adapters/__tests__/member-detail.spec.ts (14 tests) 31ms
+
+ Test Files  1 passed (1)
+      Tests  14 passed (14)
+   Start at  12:48:44
+   Duration  16.72s (transform 1.40s, setup 0ms, collect 1.56s, tests 31ms, environment 3.52s, prepare 1.94s)
+

@@ -527,6 +527,7 @@
 - How to apply: conflict が `SKILL.md` + `indexes/keywords.json` の組合せ（最頻パターン）なら `pnpm sync:resolve` → `git add -A && git commit --no-edit` → 確認用に `pnpm indexes:rebuild` を 1 回叩いて `git status --porcelain` が空であることだけ検証すれば push 可。L-DEVSYNC-036 の手動 rebuild chore commit は **不要**（resolver が既に rebuild 済み）。pre-push `indexes-drift-guard` も通過する。
 - 適用判断: resolver 完走後 `git diff --name-only --diff-filter=U` が空 かつ `git grep -lE '^(<<<<<<<|>>>>>>>)'` が 0 件なら機械確定。markdown 罫線（`======= ...`）の誤検知は `^=======$` 完全一致で除外する。
 - 事例: 2026-05-24 `feat/serial-06-form-response-binding` ← dev sync-merge（9 commits behind）。content conflict は `SKILL.md` + `indexes/keywords.json` の 2 件のみ、その他 changelog/lessons-learned/references は git auto-merge（A 追加）。`pnpm sync:resolve` で union 1 + ours 1 + 自動 rebuild（keywords 5072 件）を完遂 → UU 残置 0 → merge commit `85ca3619f` → 確認 rebuild で drift 0 → typecheck / lint 初回 PASS。L-DEVSYNC-036 の rebuild 自動化が定常運用で効いていることの回帰確認。task-specification-creator skill 側 SP-DEVSYNC-030 と対応。
+- 事例（4 回目再現・6 ファイル full set + verify-pr-ready 3 gate PASS）: 2026-05-26 `feat/issue-900-workflow-permissions-audit` ← dev sync-merge（7 commits behind / 3 ahead）。content conflict は **6 ファイル**（`SKILL.md` + `indexes/{keywords.json, quick-reference.md, resource-map.md, topic-map.md}` + `references/task-workflow-active.md`）。`pnpm sync:resolve` 一発で union 5 + `--ours` 1（`keywords.json`）+ 自動 `indexes:rebuild`（keywords 5121 件）を完遂 → UU 残置 0 → merge commit `9c9987ab3` → `bash scripts/verify-pr-ready.sh` で `verify:phase12-compliance` / `gate-metadata:validate` / `indexes:rebuild`（no drift）の 3 gate 全 PASS（ERROR=0、WARN=341 既存）、typecheck / lint 初回 PASS、追加 chore commit 不要。L-DEVSYNC-037 のフォールバック不要結論を **4 ブランチ連続**で回帰確認（task-specification-creator skill 側 SP-DEVSYNC-029 case 4 と対応）。
 
 ## L-DEVSYNC-038: conflict が `SKILL.md` 単独（`indexes/*` は全て git auto-merge 成功）の場合、`sync:resolve` は rebuild を呼ばないが手動 rebuild も drift 0（2026-05-24 追加）
 - 症状（=正常系の確定）: dev → feature の sync-merge で content conflict が **`SKILL.md`（union 対象）1 件のみ**発生し、`indexes/keywords.json` / `indexes/{topic,resource,quick-reference}-map.md` は **git の auto-merge で衝突せず結合済み**（`Auto-merging ...` ログのみ・CONFLICT 行なし）。`mise exec -- pnpm sync:resolve` は `union-resolving 1 files` → `union-resolved SKILL.md` → `all skill / index conflicts resolved` で完了する。このとき resolver は **`indexes:rebuild` を呼ばない**（`apply_ours` 0 件・`apply_union` 対象が `SKILL.md` のみで `indexes/*` パスに該当しないため `need_rebuild` 不発火）。
@@ -688,6 +689,18 @@
 - 留意: broad-catch は test 作成時には「漏れなく検知できる」という安心感があるが、monorepo の dev 進化速度が高い本 repo では確実に fragile。新規 e2e test review checklist に「`page.on('console'|'pageerror')` の未 filter assertion がないか」を入れる。
 - 事例: 2026-05-25 `fix/issue-882` で `TERMS_ENV_ERROR_PATTERNS = [/ZodError/i, /Invalid environment/i, /env\.ts/i, /terms.*prefetch/i, /prefetch.*terms/i]` + `isTermsEnvError(text)` helper を導入して CSP report-only noise を除外。再 push で CI green。task-specification-creator skill SP-DEVSYNC-036 と対応。
 
+## L-DEVSYNC-042: `patterns-lessons-and-pitfalls.md` 末尾並列 section 追加は両側保持 union で機械統合可能（2026-05-25 追加）
+
+- 事象: dev sync-merge で `.claude/skills/task-specification-creator/references/patterns-lessons-and-pitfalls.md` が `WARN unhandled conflict`。HEAD 側（issue-884 serial06 Phase6 topology sync 系）が「Playwright / Server Component topology」section を、dev 側（issue-879 safe-server-fetch / issue-872 brand asset）が「layer-specific helper の horizontal expansion」「Design-token exempt artifact」 2 section を、いずれもファイル末尾の append-only として追加。base は同末尾行で両側 hunk が連続するため diff3 が単一ブロック化する。
+- Why: 本ファイルは Phase 12 で促進された新パターンを末尾に追記する SSOT 兼 lesson 集積簿で、同 sprint で複数 issue から並列に section が増える。各 section は意味的に独立（別 pattern domain）で union 等価で安全に統合できる。
+- How to apply:
+  1. resolver で `WARN unhandled conflict: .claude/skills/task-specification-creator/references/patterns-lessons-and-pitfalls.md` を見たら、conflict 範囲がファイル末尾 1 箇所に閉じているか `grep -n -E '^(<<<<<<<|=======|>>>>>>>|\|\|\|\|\|\|\|)' <file>` で確認。
+  2. 範囲末尾限定なら、HEAD 側 section → `|||||||` base 行群を破棄 → dev 側 section の順で**両方の section 本文を保持**し marker 3 種を全削除する。section heading（`## ...`）が両側で独立していれば衝突しない。
+  3. `grep` でマーカー残ゼロ確認 → `git add <file>` → merge commit を `git commit --no-edit` で確定。
+- 留意: 範囲がファイル中央の既存 section 内に入り込む場合（同じ heading 配下に両側が `-` bullet を追加するパターン）は union が崩れやすい。その場合は L-DEVSYNC-030 / table-merge ルールに切替えて bullet 単位の片側採用 union を行う。本パターンは「末尾 append-only かつ section heading が別物」の場合に限り成立する。
+- 推奨拡張: `scripts/sync/resolve-skill-merge-conflicts.sh` の `UNION_MERGE_TARGETS` 系候補として `.claude/skills/*/references/patterns-lessons-and-pitfalls.md` を追加すれば、本パターンも `pnpm sync:resolve` 一発完結に昇格できる（次回 resolver 拡張時の TODO）。
+- 事例: 2026-05-25 `docs/issue-884-serial06-phase6-topology-sync-backfill` ← dev sync-merge。HEAD 末尾の Playwright topology section と dev 末尾の helper / brand asset 2 section を両側保持で union 統合。conflict marker grep 0 確認後 merge commit、`bash scripts/verify-pr-ready.sh` 一発 PASS で push 成功。
+
 ## L-DEVSYNC-042: `feat/admin-section-error-retry` ← dev sync-merge は skill indexes 3 件のみで `pnpm sync:resolve` 完結（2026-05-25 追加・happy-path 再確認）
 
 - 事象: `feat/admin-section-error-retry`（HEAD = AdminSectionErrorClient + L-ASR-001..005 / L-RSC-001..005 反映）に dev（#869 CSP enforce cutover / #871 CSP nonce / #872 Google brand icon / etc.）を取り込んだ際、conflict は `.claude/skills/aiworkflow-requirements/indexes/{quick-reference,resource-map,topic-map}.md` の 3 件のみで、`pnpm sync:resolve` 一発で union 解消 → `git add -A` → `git commit -m "merge: sync <branch> with dev"` で完結。CLAUDE.md sync-merge セクションの「pre-commit `staged-task-dir-guard` / pre-push `coverage-guard` が `MERGE_HEAD` 検出で自動 skip」が機能し `--no-verify` 不要。`pnpm typecheck` / `pnpm lint` いずれも green。
@@ -695,3 +708,38 @@
 - How to apply: dev sync-merge 開始時に `git merge dev --no-edit` の conflict 一覧を先に確認し、`.claude/skills/*/indexes/` + `LOGS/_legacy.md` + `references/task-workflow-active.md` の標準集合に閉じている場合、即 `pnpm sync:resolve` → conflict marker grep 0 確認 → `git add -A` → `git commit -m "merge: sync <branch> with dev"` の最短ルートを取る。`--no-verify` は付けない（hook 側で auto-skip するため不要、付けると CONST_001 違反扱い）。本ケースは追加で `apps/web/src/lib/env.ts` 等のソース conflict も発生しなかったため L-DEVSYNC-041（並列 export 追加）の手動 union 工程もスキップできた。
 - 留意: HEAD 側のソースコード変更が大きい（特に `apps/web/src/lib/env.ts` / `middleware.ts` / spec test 系を触っている）場合は L-DEVSYNC-041 系手動 union が再発する可能性が高い。本パターンは「HEAD 側の主要差分が `apps/web/src/components/admin/` + skill 反映のみ」のような body 境界が明確なケースで成立する。
 - 事例: 2026-05-25 `feat/admin-section-error-retry` (HEAD = `4a44c558c` AdminSectionErrorClient + skill sync) ← dev (`db031fc66` issue-872 brand icon)。dev 取り込みコミット数 3（#869 / #871 / #872）、conflict 3 ファイル全て skill indexes、resolver 完結時間 < 5 秒、後続 `typecheck` / `lint` パス。
+
+## L-DEVSYNC-043: `pnpm sync:resolve` が worktree git-dir の stale `index.lock` で失敗する場合は `git rev-parse --git-dir` 経由で除去（2026-05-26 追加）
+
+- 事象: `feat/issue-894-admin-topbar-breadcrumb` で `git merge dev` → conflict 6 ファイル発生後 `pnpm sync:resolve` 実行時、union 処理途中で `fatal: Unable to create '/Users/dm/.../UBM-Hyogo/.git/worktrees/task-20260525-112126-wt-13/index.lock': File exists.` で `ELIFECYCLE Command failed with exit code 128`。worktree 環境では `.git` はファイル（gitdir pointer）で `.git/worktrees/<name>/index.lock` が実体。前回 git 操作の異常終了で残った stale lock が原因。
+- Why: worktree の `index.lock` は親 repo の `.git/worktrees/<wt-name>/` 配下にあり、worktree 内 `.git` 直下にはない。`ls .git/index.lock` 等で確認しても見えず、原因特定が遅れる。`pnpm sync:resolve` は内部で `git checkout` 系を走らせるため、ここで lock 衝突が顕在化する。
+- How to apply:
+  1. `pnpm sync:resolve` が `Unable to create '.../index.lock'` で落ちたら、まず `GITDIR=$(git rev-parse --git-dir)` で worktree 実体 git-dir を取得（worktree 内では `.git/worktrees/<name>` が返る、メイン WT では `.git` が返る）。
+  2. `rm -f "$GITDIR/index.lock"` で除去（lock 内に書かれた PID プロセスが生きていないことを `ls "$GITDIR"/*.lock` で前後確認）。
+  3. `pnpm sync:resolve` を再実行。union 処理は冪等なので途中失敗からの再開で問題なし。
+- 留意: 同種の stale lock として `HEAD.lock` / `packed-refs.lock` / `<branch>.lock` も同 path に発生しうる。除去前に必ず PID プロセス生存確認（`ps -p <pid>`）を行うこと。中断シグナルで死んだ前回 git の残骸であれば安全に削除可能だが、別端末で並列実行中の git が掴んでいる場合は削除禁止。本件は単一端末で前回 `git commit` 系が SIGINT / network glitch で死んだ後、別 prompt で再開した際に再現した。
+- 事例: 2026-05-26 `feat/issue-894-admin-topbar-breadcrumb` ← dev sync-merge。`pnpm sync:resolve` 1 回目失敗 → `rm -f $(git rev-parse --git-dir)/index.lock` → 2 回目で union 完結（skill indexes/quick-reference + resource-map + topic-map + task-workflow-active union、keywords.json `--ours` + `indexes:rebuild`）。typecheck / lint / verify-pr-ready 3 gate 全 PASS で merge commit 確定。task-specification-creator skill 側「dev-sync merge conflict（lint scope / version table）の Phase 仕様反映」セクションに `index.lock` troubleshoot 追補と対応。
+
+## L-DEVSYNC-043: 同一 adapter 関数 signature への並列拡張 conflict は「引数列の union 化」で統合する（2026-05-26 追加）
+
+- 事象: `feat/issue-891-member-detail-kind-exhaustiveness-guard` ← dev sync-merge で `apps/web/src/lib/adapters/member-detail.ts` と同 spec が `pnpm sync:resolve` の `WARN unhandled conflict`。HEAD = issue-891（`KIND_ROUTE satisfies Record<FieldKind, KindRoute>` + `DETAIL_KINDS` / `LINK_KINDS` 派生 + `normalizeField(field, routeKinds)` への引数追加）、dev = issue-883（`onUnknownKind?: (field) => void` callback + `normalizeField(field, onUnknownKind)` への引数追加）。両方が **同じ純関数の signature を独立に拡張**しているため diff3 が単一の隣接 hunk として競合し、片側 take では仕様欠落になる。
+- Why: pure adapter / pure function は spec の Phase 4 contracts に signature を SSOT として固定するが、別 issue が同時期に「signature を 1 引数追加」する拡張系修正を独立に行うと、merge tool は構造を理解しないため WARN unhandled になる。両仕様とも振る舞いが orthogonal（exhaustiveness 強制 と observability callback）で、両側保持が唯一正しい結果。`pnpm sync:resolve` の `UNION_MERGE_TARGETS` には `apps/web/src/lib/adapters/*.ts` は **意図的に含めない**（コード union は意味壊し）。
+- How to apply:
+  1. `WARN unhandled conflict` で adapter ソース 2 ファイル（impl + spec）が出たら、HEAD 側引数と dev 側引数を**両方 signature に並べる**（順序ルール: 必須引数 → routing 用 → observability callback → options）。
+     例: `normalizeField(field, routeKinds, onUnknownKind?)`、`normalizeSection(section, routeKinds, onUnknownKind?)`、呼び出し側は `options.onUnknownKind` で配線。
+  2. spec ファイルの `import` 行 conflict は、HEAD 側 export（`__testInternals` 等）と dev 側 export（`PublicMemberProfileWithUnknownKindZ` 等）を**カンマ並べ 1 行で union**。`describe` ブロックは両側追記を保持（テスト件数は両側合計、削除しない）。
+  3. resolver 完了後 `grep -nE '^(<<<<<<<|=======|>>>>>>>|\|\|\|\|\|\|\|)' apps/web/src/lib/adapters/` でマーカー残ゼロ確認 → `pnpm typecheck`（signature の orthogonal 統合が型整合するかを最初にゲート） → `pnpm lint` → `git add -A` → `git commit -m "merge: sync <branch> with dev"`。
+  4. resolver 拡張は不要。コード union は危険なので resolver 側で自動化せず、L-DEVSYNC-043 を手動 union ルールとして spec template に組み込む（task-specification-creator patterns-lessons-and-pitfalls.md「parallel adapter signature extension」項目参照）。
+- 留意: 片側が「同じ引数名」を別意味で追加している場合は orthogonal でないため、最終レポートに記録し人間判断を仰ぐ（callback と routing set のような明確に意味が分かれる場合のみ自動 union 適用可）。リネーム提案は元 issue へ feedback。
+- 事例: 2026-05-26 `feat/issue-891-...` ← dev sync-merge。`pnpm sync:resolve` が skill index 5 + `keywords.json --ours` を解消、unhandled は patterns-lessons + adapter impl + adapter spec の 3 ファイル。patterns-lessons は L-DEVSYNC-042（末尾並列 section 両側保持）で解消、adapter 2 ファイルは本 L-DEVSYNC-043 で signature union 化。typecheck / lint 共に green、`pnpm sync:check` で他 worktree 影響なし確認、push 待ち。
+
+## L-DEVSYNC-044: spec の EOF 末尾並列追加（HEAD = `describe` 追加 / dev = trailing comment block 追加）は両側保持で union（2026-05-26 追加・再発確認）
+
+- 事象: `feat/issue-891-member-detail-kind-exhaustiveness-guard` ← dev 二次 sync-merge（#939 regression-evidence + #941 issue-885 adapter pipeline）で `apps/web/src/lib/adapters/__tests__/member-detail.spec.ts` のみ `WARN unhandled conflict`。HEAD は `describe("KIND_ROUTE exhaustiveness", ...)` + `describe("toMemberDetailProps の分類除外", ...)` の追加、dev は `// === EXTENSION TEMPLATE ===` 〜 `// === END EXTENSION TEMPLATE ===` のトレーリングコメントブロック追加。diff3 marker (`||||||| d1dc22705`) 付きで隣接 hunk として競合するが、両側とも **既存 `});` 後の純粋な末尾追記**で意味的に直交。
+- Why: spec 末尾の「テスト追加」と「拡張テンプレート comment」は同じ EOF 位置に追加される構造的副産物で、commit graph 上は無関係。コード union は禁止（L-DEVSYNC-043 留意）だが、本ケースは **隣接挿入の順序のみが衝突**しており両側を直列に並べれば意味が保たれる。
+- How to apply:
+  1. `WARN unhandled conflict` で spec ファイル 1 件のみ、conflict hunk が `<<<<<<< HEAD ... describe(...) ... ||||||| <sha> ======= ... // === ... TEMPLATE === ... >>>>>>> origin/dev` の形（base が空）なら両側追記パターンと判定。
+  2. HEAD 側の `describe(...) { ... });` をそのまま残し、続けて空行 + dev 側の comment block を配置。conflict marker 3 種（`<<<<<<<` / `|||||||` / `=======` / `>>>>>>>`）を Edit で個別に除去。
+  3. `grep -nE '^(<<<<<<<|=======|>>>>>>>|\|\|\|\|\|\|\|)' <path>` でマーカー残ゼロ → `git add -A` → typecheck / lint → commit。本パターンは signature 変更を伴わないため typecheck はほぼ自動 pass。
+- 留意: 同じ EOF 末尾追記でも、片側が `export const X = ...` を追加 + 他方が `export const Y = ...` を追加するソース module の場合は L-DEVSYNC-041（並列 export 追加）系で処理する。本 L-DEVSYNC-044 は **spec / docs / README の末尾追記**に限定して適用する。
+- 事例: 2026-05-26 `feat/issue-891-...` ← dev (`5b043e359` issue-885 / `67f1b3a17` regression-evidence)。skill index 5 + spec 1 の計 6 conflict、resolver が前者 5 件を union 解消、spec 1 件のみ本 lesson で手動 union 化。後続 `git status` clean、typecheck / lint green。

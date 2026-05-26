@@ -174,7 +174,7 @@ export default defineConfig({
   projects: [
     {
       name: 'desktop-chromium',
-      testIgnore: [/visual\/.*\.spec\.ts$/, /visual-staging\/.*\.spec\.ts$/, /visual-full\/.*\.spec\.ts$/, /full-smoke\.spec\.ts$/, ...fixtureGatedTestIgnore],
+      testIgnore: [/visual\/.*\.spec\.ts$/, /visual-staging\/.*\.spec\.ts$/, /visual-staging-authenticated\/.*\.(spec|ts)$/, /visual-full\/.*\.spec\.ts$/, /full-smoke\.spec\.ts$/, ...fixtureGatedTestIgnore],
       use: { ...devices['Desktop Chrome'], viewport: { width: 1280, height: 800 } },
     },
     {
@@ -189,7 +189,7 @@ export default defineConfig({
     },
     {
       name: 'desktop-firefox',
-      testIgnore: [/visual\/.*\.spec\.ts$/, /visual-staging\/.*\.spec\.ts$/, /visual-full\/.*\.spec\.ts$/, /full-smoke\.spec\.ts$/, ...fixtureGatedTestIgnore],
+      testIgnore: [/visual\/.*\.spec\.ts$/, /visual-staging\/.*\.spec\.ts$/, /visual-staging-authenticated\/.*\.(spec|ts)$/, /visual-full\/.*\.spec\.ts$/, /full-smoke\.spec\.ts$/, ...fixtureGatedTestIgnore],
       use: { ...devices['Desktop Firefox'], viewport: { width: 1280, height: 800 } },
     },
     {
@@ -201,6 +201,7 @@ export default defineConfig({
       testIgnore: [
         /visual\/.*\.spec\.ts$/,
         /visual-staging\/.*\.spec\.ts$/,
+        /visual-staging-authenticated\/.*\.(spec|ts)$/,
         /visual-full\/.*\.spec\.ts$/,
         /full-smoke\.spec\.ts$/,
         /admin-pages\.spec\.ts$/,
@@ -227,6 +228,13 @@ export default defineConfig({
     },
     {
       name: 'staging',
+      testIgnore: [
+        /visual\/.*\.spec\.ts$/,
+        /visual-staging\/.*\.spec\.ts$/,
+        /visual-full\/.*\.spec\.ts$/,
+        /full-smoke\.spec\.ts$/,
+        ...fixtureGatedTestIgnore,
+      ],
       use: {
         ...devices['Desktop Chrome'],
         baseURL: stagingBaseURL,
@@ -247,6 +255,35 @@ export default defineConfig({
         viewport: { width: 1280, height: 800 },
         baseURL: stagingBaseURL,
       },
+    },
+    {
+      // issue-901: dedicated setup project for staging-visual-authenticated.
+      // Mints member / admin storageState JSON under apps/web/playwright/.auth/.
+      name: 'setup-authenticated-staging',
+      testDir: './playwright/tests/visual-staging-authenticated',
+      testMatch: /setup\.staging-auth\.ts$/,
+      teardown: 'teardown-authenticated-staging',
+    },
+    {
+      // issue-901: authenticated staging visual baseline (profile / admin dashboard).
+      // baseline 名前空間は `*-authenticated-staging-visual-*` で UT-DSF-07 と分離。
+      name: 'staging-visual-authenticated',
+      testDir: './playwright/tests/visual-staging-authenticated',
+      testIgnore: [/setup\.staging-auth\.ts$/, /teardown\.staging-auth\.ts$/],
+      retries: 2,
+      use: {
+        ...devices['Desktop Chrome'],
+        viewport: { width: 1280, height: 800 },
+        baseURL: stagingBaseURL,
+      },
+      dependencies: ['setup-authenticated-staging'],
+      snapshotPathTemplate:
+        '{testDir}/{testFileName}-snapshots/{arg}-authenticated-staging-visual-{platform}{ext}',
+    },
+    {
+      name: 'teardown-authenticated-staging',
+      testDir: './playwright/tests/visual-staging-authenticated',
+      testMatch: /teardown\.staging-auth\.ts$/,
     },
     {
       name: 'staging-smoke',
