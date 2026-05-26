@@ -601,3 +601,19 @@ dev sync-merge で **HEAD = route group rename（`app/<route>/` → `app/(group)
 - secrets を `vars` に降格させる「妥協」→ secrets 漏洩リスクが上がる。
 - workflow から `pull_request` trigger を外す→ workflow file 自体の variation や spec 変更を CI で検知できなくなる。secrets-gate skip で trigger 自体は保持する。
 - `continue-on-error: true` で誤魔化す → 真の secrets 欠落と spec バグの双方が無視される。skip 判定を明示的に行う。
+
+## branch-sync 中の mid-flight half-state リカバリ（2026-05-27）
+
+`dev → feature` sync-merge 実行中に「`error: Unable to write index` で merge コマンド自体は exit 1、しかし `git status` は `All conflicts fixed but you are still merging` を返す」half-state を踏んだ事例。ディスク残量逼迫（99% 使用、4.5GiB 空き）と古い `index.lock`（0byte）の合わせ技で発生。AI が `git merge --abort` で巻き戻すと merge 結果ごと破棄してしまうため、状態判定を誤ると正しく解消した自動 merge を失う。
+
+- **L-BRSYNC-001 (half-state 判定)**: `git merge` が非0 exit でも、続けて `git status` を読むこと。`All conflicts fixed but you are still merging` / `git diff --name-only --diff-filter=U` が空 / `git ls-files -u` が空 → merge は実質完了済みで `git commit --no-edit` だけで成立する。`merge --abort` を反射的に打たない。
+- **L-BRSYNC-002 (stale index.lock)**: `Unable to create '...index.lock': File exists` を見たら、まず `ls -la <gitdir>/index.lock` でサイズと mtime を確認。0byte で 5分以上経過 / 該当 git 子プロセスが存在しないなら stale 確定。`unlink` 系は `.git` 配下で permission policy が効くため、ユーザ手動 `rm -f` をエスカレーション経路として spec に用意しておく。
+- **L-BRSYNC-003 (容量 pre-flight)**: branch-sync spec の Phase 0 に `df -h "$(pwd)"` を含め、空き <5GiB の閾値で警告 / <2GiB で中断ゲートを置く。空きが少ないと `Unable to write index` で merge / commit が mid-flight に倒れ、復旧コストが跳ね上がる。
+- **L-BRSYNC-004 (gitdir 解決)**: worktree では `.git` がファイルなため `mkdir -p .git/...` は失敗する。ログ / lock パス組み立ては必ず `git rev-parse --git-dir` の結果を base にする。
+- **L-BRSYNC-005 (Red List との両立)**: `index.lock` の削除は通常の `rm` で settings 上 permission prompt になり得る。完全自律実行モードであっても、`.git` 配下の破壊系操作はユーザ手動経路を最終手段として残し、AI 側は detection と提示までに留める設計が安全。
+
+### Anti-pattern
+
+- `git merge` が exit 1 を返した瞬間に `git merge --abort` を打つ → 既に解消済みの auto-merge 結果を破棄。
+- ディスク容量を確認せず merge / commit を反復 → 同じ `Unable to write index` を繰り返し、index.lock が増殖。
+- `.git` 配下を含む全 `rm -f` を AI 側で強行 → permission policy / 監査要件に抵触。stale lock 検出時はユーザに 1 行コマンドを提示し承認経由で実行する。
