@@ -12,12 +12,12 @@
 
 ## Implementation Files
 
-- `apps/web/app/profile/_components/VisibilityRequestDialog.tsx`
-- `apps/web/app/profile/_components/DeleteRequestDialog.tsx`
-- `apps/web/app/profile/_components/RequestActionPanel.tsx`
-- `apps/web/app/profile/_components/VisibilityRequestDialog.component.spec.tsx`
-- `apps/web/app/profile/_components/DeleteRequestDialog.component.spec.tsx`
-- `apps/web/app/profile/_components/RequestActionPanel.component.spec.tsx`
+- `apps/web/app/(member)/profile/_components/VisibilityRequestDialog.tsx`
+- `apps/web/app/(member)/profile/_components/DeleteRequestDialog.tsx`
+- `apps/web/app/(member)/profile/_components/RequestActionPanel.tsx`
+- `apps/web/app/(member)/profile/_components/VisibilityRequestDialog.component.spec.tsx`
+- `apps/web/app/(member)/profile/_components/DeleteRequestDialog.component.spec.tsx`
+- `apps/web/app/(member)/profile/_components/RequestActionPanel.component.spec.tsx`
 
 ## Evidence
 
