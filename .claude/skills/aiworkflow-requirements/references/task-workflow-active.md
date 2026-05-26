@@ -22,6 +22,20 @@
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-895-admin-topbar-actions-client-island-artifact-inventory.md` |
 | user gate | commit, push, PR |
 
+### issue-891-member-detail-kind-exhaustiveness-guard（2026-05-25）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / NON_VISUAL / Phase 13 pending_user_approval` |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-891-member-detail-kind-exhaustiveness-guard/` |
+| issue | #891 CLOSED。issue #827 follow-up consumed |
+| 目的 | `FieldKindZ` 全 kind を `KIND_ROUTE` で網羅分類し、enum 拡張時の分類漏れを typecheck と adapter spec で fail-fast にする |
+| implementation targets | `apps/web/src/lib/adapters/member-detail.ts`, `apps/web/src/lib/adapters/__tests__/member-detail.spec.ts`, `apps/web/src/components/public/MemberDetail.tsx` |
+| contract | `KIND_ROUTE satisfies Record<FieldKind, KindRoute>`。`DETAIL_KINDS` / `LINK_KINDS` は map から導出し、`sections` は detail、`linkSections` は url link を保持して `MemberLinks` が消費 |
+| system specs | `docs/00-getting-started-manual/specs/04-types.md`, `docs/00-getting-started-manual/specs/09-ui-ux.md` |
+| evidence | focused adapter tests / typecheck / test-internals grep / Phase 12 strict 7 |
+| user gate | commit / push / PR / visual baseline update |
+
 ### regression-evidence-ci-gate-foundation（2026-05-25）
 
 | 項目 | 値 |
@@ -197,6 +211,20 @@
 | local evidence | `pnpm exec vitest run scripts/smoke/__tests__/bearer-freshness-gate.spec.ts scripts/smoke/__tests__/mint-staging-bearers.spec.ts` PASS; `bash scripts/smoke/__tests__/runtime-attendance-provider.test.sh` PASS |
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-runtime-smoke-staging-mint-recurrence-fix-artifact-inventory.md` |
 | user gate | GitHub secret mutation, Cloudflare secret mutation, staging runtime rerun, commit, push, PR |
+
+### issue-899-static-bearer-fallback-retirement（2026-05-25）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `spec_created / implementation / NON_VISUAL / implementation_pending` |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-899-static-bearer-fallback-retirement/` |
+| issue | #899 CLOSED 維持。PR 文脈は `Refs #899` のみ |
+| prerequisite | #916 `STAGING_AUTH_SECRET` provisioning + mint path smoke green 完了後に実装 merge 可 |
+| 目的 | `.github/workflows/runtime-smoke-staging.yml` の静的 `STAGING_ADMIN_BEARER` / `STAGING_ME_BEARER` fallback、mint step skip、`static-fallback` mask 分岐、freshness warn-only env を撤去し、mint-only 運用へ恒久化する実装仕様 |
+| implementation targets | `.github/workflows/runtime-smoke-staging.yml`, `docs/30-workflows/completed-tasks/ci-secret-alignment-and-runtime-smoke-recovery/runbooks/secret-provisioning.md`, `docs/30-workflows/runtime-smoke-staging-mint-recurrence-fix/reference/bearer-lifecycle-ssot.md` |
+| Phase 12 | strict 7 present; root/output artifacts parity present; 30-method compact evidence included |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-899-static-bearer-fallback-retirement-artifact-inventory.md` |
+| user gate | workflow edit PR, runtime smoke rerun, `gh secret delete STAGING_ADMIN_BEARER/STAGING_ME_BEARER`, commit, push, PR |
 
 ### issue-870-apps-api-security-headers（2026-05-24）
 
