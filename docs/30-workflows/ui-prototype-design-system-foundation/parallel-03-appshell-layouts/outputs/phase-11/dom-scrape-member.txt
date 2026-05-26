@@ -1,0 +1,6 @@
+# EV-13 member AppShell DOM scrape (issue-903-parallel-03-followup-005)
+# captured via apps/web/playwright/tests/parallel-03-member-shell-scrape.spec.ts
+# route: /profile (member session fixture, mock API)
+<div class="grid min-h-screen grid-rows-[auto_1fr] bg-[var(--ubm-color-surface-bg)] text-[var(--ubm-color-text-primary)]" data-theme="warm" data-route-group="member" data-testid="member-shell">
+<header data-shell="topbar">
+<main class="flex flex-col gap-4 p-4 md:p-6" data-route="member" data-section-rhythm="comfortable">
