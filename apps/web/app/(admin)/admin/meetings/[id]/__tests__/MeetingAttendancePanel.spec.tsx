@@ -7,6 +7,25 @@ vi.mock("next/navigation", () => ({
   useRouter: () => ({ refresh: vi.fn() }),
 }));
 
+vi.mock("../../../../../../src/lib/logger", () => {
+  const child = vi.fn(() => ({
+    info: vi.fn(),
+    warn: vi.fn(),
+    error: vi.fn(),
+    debug: vi.fn(),
+    child,
+  }));
+  return {
+    logger: {
+      info: vi.fn(),
+      warn: vi.fn(),
+      error: vi.fn(),
+      debug: vi.fn(),
+      child,
+    },
+  };
+});
+
 const fetchMock = vi.fn();
 
 beforeEach(() => {
@@ -47,6 +66,16 @@ function err(status: number, body = "boom") {
     text: async () => JSON.stringify({ error: body }),
   };
 }
+
+const findButton = (testId: string, memberId: string) =>
+  screen
+    .getAllByTestId(testId)
+    .find((b) => (b as HTMLElement).getAttribute("data-member") === memberId)!;
+
+const lastFetchBody = () => {
+  const init = fetchMock.mock.calls.at(-1)?.[1] as RequestInit | undefined;
+  return JSON.parse(String(init?.body));
+};
 
 describe("MeetingAttendancePanel", () => {
   it("A1: isDeleted=true 候補は除外される", () => {
@@ -141,5 +170,63 @@ describe("MeetingAttendancePanel", () => {
     expect(screen.getByTestId("admin-meetings-table")).toBeTruthy();
     expect(screen.getAllByTestId("attendance-candidate").length).toBeGreaterThan(0);
     expect(screen.getAllByTestId("attendance-register").length).toBeGreaterThan(0);
+  });
+
+  it("B1: 出席解除 button は registered=true の候補にだけ表示される", () => {
+    render(<MeetingAttendancePanel detail={detail} />);
+    expect(screen.getAllByTestId("attendance-unregister")).toHaveLength(1);
+    expect(findButton("attendance-unregister", "m2").textContent).toBe("出席解除");
+    expect(
+      screen
+        .queryAllByTestId("attendance-unregister")
+        .some((b) => (b as HTMLElement).getAttribute("data-member") === "m1"),
+    ).toBe(false);
+  });
+
+  it("B2: 出席解除 click は attended=false payload を POST する", async () => {
+    fetchMock.mockResolvedValueOnce(ok());
+    render(<MeetingAttendancePanel detail={detail} />);
+    fireEvent.click(findButton("attendance-unregister", "m2"));
+    await waitFor(() => {
+      expect(fetchMock).toHaveBeenCalledWith(
+        "/api/admin/meetings/s1/attendances",
+        expect.objectContaining({ method: "POST" }),
+      );
+    });
+    expect(lastFetchBody()).toEqual({ memberId: "m2", attended: false });
+  });
+
+  it("B3: 出席解除 200 OK で Set から削除 + toast", async () => {
+    fetchMock.mockResolvedValueOnce(ok());
+    render(<MeetingAttendancePanel detail={detail} />);
+    const m2register = findButton("attendance-register", "m2");
+    fireEvent.click(findButton("attendance-unregister", "m2"));
+    expect(await screen.findByText("出席を解除しました")).toBeTruthy();
+    await waitFor(() => {
+      expect(m2register.getAttribute("data-registered")).toBe("false");
+    });
+    expect(screen.queryByTestId("attendance-unregister")).toBeNull();
+  });
+
+  it("B4: 出席解除 404 は成功相当に倒し Set から削除する", async () => {
+    fetchMock.mockResolvedValueOnce(err(404, "attendance_not_found"));
+    render(<MeetingAttendancePanel detail={detail} />);
+    const m2register = findButton("attendance-register", "m2");
+    fireEvent.click(findButton("attendance-unregister", "m2"));
+    expect(await screen.findByText("既に解除済みです")).toBeTruthy();
+    await waitFor(() => {
+      expect(m2register.getAttribute("data-registered")).toBe("false");
+    });
+    expect(screen.queryByTestId("attendance-unregister")).toBeNull();
+  });
+
+  it("B5: 出席解除 500 は失敗扱いで Set 不変", async () => {
+    fetchMock.mockResolvedValueOnce(err(500));
+    render(<MeetingAttendancePanel detail={detail} />);
+    const m2register = findButton("attendance-register", "m2");
+    fireEvent.click(findButton("attendance-unregister", "m2"));
+    expect(await screen.findByText("解除に失敗 (500)")).toBeTruthy();
+    expect(m2register.getAttribute("data-registered")).toBe("true");
+    expect(findButton("attendance-unregister", "m2")).toBeTruthy();
   });
 });

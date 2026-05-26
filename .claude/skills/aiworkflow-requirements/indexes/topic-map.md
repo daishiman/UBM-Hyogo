@@ -3161,6 +3161,12 @@ node scripts/list-specs.js --topics
 | User-Gated Runtime Artifacts | L21 |
 | Skill Sync | L31 |
 
+### references/workflow-issue-911-meeting-attendance-unregister-ui-treat404-wiring-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Notes | L17 |
+
 ### references/workflow-issue-912-idempotent-attendance-remove-retry-artifact-inventory.md
 
 | セクション | 行 |
@@ -3315,6 +3321,16 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | Boundary | L19 |
+
+### references/workflow-register-page-prototype-alignment-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Workflow | L3 |
+| Implementation Targets | L12 |
+| Test And Evidence Targets | L24 |
+| Lessons Learned | L33 |
+| Boundaries | L39 |
 
 ### references/workflow-regression-evidence-ci-gate-foundation-artifact-inventory.md
 
@@ -7758,14 +7774,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L2582 |
-| フェーズ構造（概要） | L2591 |
-| 品質ゲート（概要） | L2622 |
-| 出力テンプレート | L2633 |
-| 実行時のコマンド・エージェント・スキル | L2656 |
-| 昇格パターン集 | L2680 |
-| Current Active / Spec Created Tasks | L2682 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L2843 |
+| ドキュメント構成 | L2625 |
+| フェーズ構造（概要） | L2634 |
+| 品質ゲート（概要） | L2665 |
+| 出力テンプレート | L2676 |
+| 実行時のコマンド・エージェント・スキル | L2699 |
+| 昇格パターン集 | L2723 |
+| Current Active / Spec Created Tasks | L2725 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L2886 |
 
 ### references/task-workflow-backlog-part2.md
 

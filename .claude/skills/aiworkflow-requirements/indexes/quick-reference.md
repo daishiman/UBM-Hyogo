@@ -1,5 +1,37 @@
 # クイックリファレンス
 
+## admin-ui-prototype-alignment（2026-05-23）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/admin-ui-prototype-alignment/` |
+| 状態 | `implemented_local_runtime_pending / implementation / VISUAL / 11 admin routes` |
+| scope | 11 admin routes（dashboard / attendance / members / tags / meetings / meetings/[id] / schema / schema/history / requests / identity-conflicts / audit）の prototype alignment + 共通 component 6 種 + per-section degrade pattern |
+| per-section degrade | `apps/web/src/lib/result.ts`（`SafeResult<T>`）+ `apps/web/src/lib/admin/safe-server-fetch.ts` で throw を normalize → `Promise.all` 後に section 毎に `result.ok` 分岐 → `AdminSectionError` で degrade。`error.tsx` は renderer crash 専用に縮小（L-AUIP-001 / 再利用 Pattern 1） |
+| 共通 component | `apps/web/src/features/admin/components/_shared/{AdminSectionCard,AdminSectionError,AdminEmptyState,AdminStat,AdminTable,AdminQueuePanel}.tsx` + `index.ts` barrel export |
+| import 強制 | barrel 経由のみ。深 path import を ESLint `no-restricted-imports` で deny、grep gate `rg "from ['\"]@/features/admin/components/_shared/[A-Z]"` 0 件を Phase 5 DoD に組込（L-AUIP-003 / 再利用 Pattern 2） |
+| design token | 新規 component は OKLch token のみ（`var(--ubm-color-*)`）。既存 `*Panel.tsx` の HEX 移行は別 wave へ分離（L-AUIP-004） |
+| server/client boundary | server page = throw-only / view-compute-only、client wrapper = state/event-only の twin principle。`TagsClientShell` / `RequestsClientShell` で state ownership を Phase 2 fix（L-AUIP-005） |
+| scope cutoff | Phase 4 test plan に scope lock TC を列挙し、test fail = scope miss として early detect（L-AUIP-006 / 再利用 Pattern 5） |
+| lessons-learned | `.claude/skills/aiworkflow-requirements/references/lessons-learned-admin-ui-prototype-alignment-2026-05.md`（L-AUIP-001..006 + 再利用可能パターン 5 件） |
+| changelog | `.claude/skills/aiworkflow-requirements/changelog/20260523-admin-ui-prototype-alignment.md` |
+| 出典 | `docs/30-workflows/admin-ui-prototype-alignment/outputs/phase-12/implementation-guide.md` / `system-spec-update-summary.md` / `skill-feedback-report.md` / `phase12-task-spec-compliance-check.md` / `unassigned-task-detection.md` |
+| user gate | authenticated runtime screenshots / staging refresh / commit / push / PR |
+
+## register-page-prototype-alignment（2026-05-26）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/register-page-prototype-alignment/` |
+| status | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION / Phase 13 pending_user_approval` |
+| parent | `docs/30-workflows/ui-prototype-alignment-mvp-recovery/` task-12 系列 |
+| purpose | `/register` を prototype `MemberFormPage` に合わせ、Hero CTA / 3-step flow / collapsible FormPreview / 3 FAQ / bottom CTA へ再構成する |
+| implementation | `apps/web/app/(public)/register/page.tsx`, `apps/web/src/components/public/{RegisterHeroCallout,RegisterStepGrid,RegisterFaq,RegisterBottomCTA,FormPreviewSections}.tsx`, focused component specs, `apps/web/playwright/tests/register-prototype-alignment.spec.ts`, `apps/web/src/styles/legacy-public.css` |
+| contract | 既存 `/public/form-preview` と `FORM_RESPONDER_URL` のみ使用。D1/API/schema/auth 変更なし。`data-component="register-callout"` / `data-role="register-cta"` は後方互換で維持 |
+| Phase 12 | strict 7 present。root/output `artifacts.json` parity present |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-register-page-prototype-alignment-artifact-inventory.md` |
+| user gate | commit, push, PR, external staging observation |
+
 ## Issue #901 authenticated profile/admin staging visual（2026-05-25）
 
 | 項目 | 値 |
@@ -738,7 +770,7 @@
 | source | Issue #842 CLOSED; PR wording is `Refs #842`; one-pager `docs/30-workflows/completed-tasks/admin-mutation-timeout-policy.md` consumed |
 | scope | `useAdminMutation` に timeout / idempotent retry / idempotency-key / 404 policy / abort を集約し、`useConfirmDialog` close から cancel callback を渡す実装仕様 |
 | implementation targets | `apps/web/src/features/admin/hooks/useAdminMutation.ts`, `useConfirmDialog.ts`, hook barrel/tests, legacy `apps/web/src/lib/useAdminMutation.ts` delete |
-| stale optimization | current `MeetingAttendancePanel.tsx` is POST-only; DELETE 404 success-relaxation is provided as hook policy but no caller is forcibly migrated in the spec-created cycle |
+| stale optimization | Issue #842 provided the `treat404AsSuccess` hook policy without forcing caller migration; Issue #911 now consumes it in `MeetingAttendancePanel.tsx` for unregister 404 convergence |
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-842-admin-mutation-reliability-policy-artifact-inventory.md` |
 | user gate | commit, push, PR, staging runtime evidence |
 
@@ -755,6 +787,23 @@
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-912-idempotent-attendance-remove-retry-artifact-inventory.md` |
 | lessons | `.claude/skills/aiworkflow-requirements/references/lessons-learned-issue-912-idempotent-attendance-remove-retry-2026-05.md` |
 | user gate | commit, push, PR, staging/runtime evidence |
+
+## Issue #911 meeting attendance unregister UI（2026-05-25）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-911-meeting-attendance-unregister-ui-treat404-wiring/` |
+| 状態 | `implemented_local_evidence_captured / implementation / NON_VISUAL / Phase 13 pending_user_approval` |
+| parent | `docs/30-workflows/completed-tasks/issue-842-admin-mutation-reliability-policy/` |
+| scope | `/admin/meetings/[id]` attendance candidate row に出席解除 CTA、unregister mutation、UI logger event を追加し、解除 404 race を success-equivalent に収束 |
+| implementation | `apps/web/app/(admin)/admin/meetings/[id]/MeetingAttendancePanel.tsx` |
+| tests | `apps/web/app/(admin)/admin/meetings/[id]/__tests__/MeetingAttendancePanel.spec.tsx` |
+| API contract | Existing `POST /api/admin/meetings/:id/attendances` `{ memberId, attended:false }`; no new DELETE endpoint / no D1 schema diff |
+| hook policy | Existing `useAdminMutation` `treat404AsSuccess: { toast: "既に解除済みです" }`; hook implementation unchanged |
+| evidence | Phase 11 local logs: MeetingAttendancePanel 14 tests PASS, useAdminMutation 33 tests PASS, web typecheck/lint PASS, production DELETE caller grep 0 件 |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-911-meeting-attendance-unregister-ui-treat404-wiring-artifact-inventory.md` |
+| lessons | `.claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-issue-911-meeting-attendance-unregister-ui-2026-05.md` |
+| user gate | commit, push, PR, staging runtime smoke |
 
 ## Issue #274 public pages OGP / sitemap / robots（2026-05-17）
 
