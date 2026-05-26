@@ -3095,6 +3095,21 @@ node scripts/list-specs.js --topics
 | Phase 12 strict 7 Files | L32 |
 | Boundary | L42 |
 
+### references/workflow-issue-894-admin-topbar-breadcrumb-integration-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Summary | L3 |
+| Implementation artifacts | L12 |
+| Evidence | L21 |
+| User-gated boundary | L29 |
+
+### references/workflow-issue-895-admin-topbar-actions-client-island-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Contract | L16 |
+
 ### references/workflow-issue-899-static-bearer-fallback-retirement-artifact-inventory.md
 
 | セクション | 行 |
@@ -7680,14 +7695,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L2509 |
-| フェーズ構造（概要） | L2518 |
-| 品質ゲート（概要） | L2549 |
-| 出力テンプレート | L2560 |
-| 実行時のコマンド・エージェント・スキル | L2583 |
-| 昇格パターン集 | L2607 |
-| Current Active / Spec Created Tasks | L2609 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L2770 |
+| ドキュメント構成 | L2537 |
+| フェーズ構造（概要） | L2546 |
+| 品質ゲート（概要） | L2577 |
+| 出力テンプレート | L2588 |
+| 実行時のコマンド・エージェント・スキル | L2611 |
+| 昇格パターン集 | L2635 |
+| Current Active / Spec Created Tasks | L2637 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L2798 |
 
 ### references/task-workflow-backlog-part2.md
 

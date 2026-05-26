@@ -24,6 +24,34 @@
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-901-authenticated-profile-admin-staging-visual-artifact-inventory.md` |
 | user gate | implementation, staging visual capture, parent gate release, commit, push, PR |
 
+### issue-894-admin-topbar-breadcrumb-integration（2026-05-25）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / VISUAL / implementation_complete_pending_pr` |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-894-admin-topbar-breadcrumb-integration/` |
+| Issue | #894 CLOSED。PR 文脈は `Refs #894` のみ |
+| 目的 | AdminTopbar が root breadcrumb「管理」を所有し、page-local breadcrumb は現在地のみを表示するよう責務を分離する |
+| implementation targets | `apps/web/app/(admin)/layout.tsx`, `apps/web/app/(admin)/admin/**/page.tsx`, `apps/web/app/(admin)/layout.spec.tsx`, `apps/web/src/components/admin/__tests__/Breadcrumb.spec.tsx` |
+| contract | `Breadcrumb` の最終 item は current span。AdminTopbar は root breadcrumb「管理」を静的 current label として所有し、admin 配下の page-local breadcrumb から `{ label: "管理", href: "/admin" }` を除去して grep gate 0 hit で再発を防ぐ |
+| evidence | layout Vitest 4 PASS、Breadcrumb Vitest 3 PASS、typecheck PASS、lint PASS、grep gate 0 hit、authenticated admin screenshot present、Phase 12 strict 7 present |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-894-admin-topbar-breadcrumb-integration-artifact-inventory.md` |
+| user gate | commit, push, PR, Issue mutation |
+
+### Issue #895 AdminTopbar actions client island（2026-05-25）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / NON_VISUAL / implementation_complete_pending_pr` |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-895-admin-topbar-actions-client-island/` |
+| source | `docs/30-workflows/completed-tasks/parallel-03-followup-004-admin-topbar-actions-buttons.md` consumed |
+| 目的 | `AdminTopbar.actions` に admin global actions client island を渡し、既存ログアウト導線を topbar へ集約する |
+| implementation targets | `apps/web/src/features/admin/components/_layout/AdminTopbarActions.tsx`, `apps/web/src/features/admin/components/_layout/__tests__/AdminTopbarActions.spec.tsx`, `apps/web/app/(admin)/layout.tsx`, `apps/web/app/(admin)/layout.spec.tsx` |
+| contract | topbar actions は全 admin 共通の global 操作。ページ固有操作は `AdminPageHeader.actions`。`AdminTopbar` / `(admin)/layout.tsx` は server component のまま維持 |
+| evidence | Phase 11 local evidence + Phase 12 strict 7 present。screenshot は `NON_VISUAL` のため N/A |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-895-admin-topbar-actions-client-island-artifact-inventory.md` |
+| user gate | commit, push, PR |
+
 ### issue-891-member-detail-kind-exhaustiveness-guard（2026-05-25）
 
 | 項目 | 値 |

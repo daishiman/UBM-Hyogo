@@ -17,12 +17,15 @@ issue_number: 895
 | 対象機能     | admin AppShell topbar の actions slot（全 admin 画面共通のグローバル操作）                                    |
 | 優先度       | 低                                                                                                            |
 | 見積もり規模 | 小規模                                                                                                        |
-| ステータス   | unassigned（未着手）                                                                                          |
+| ステータス   | consumed（Issue #895 canonical workflow で実装済み）                                                          |
 | 発見元       | parallel-03-followup-001 Phase 12（スコープ外として明示 deferred された topbar actions 具体ボタン実装）       |
 | 発見日       | 2026-05-23                                                                                                    |
 
 ## Canonical Workflow Status
 
+- consumed_by: `docs/30-workflows/completed-tasks/issue-895-admin-topbar-actions-client-island/`
+- consumed_at: 2026-05-25
+- 実装: `apps/web/src/features/admin/components/_layout/AdminTopbarActions.tsx` + `(admin)/layout.tsx` actions 注入 + focused specs
 - 親 followup: `docs/30-workflows/parallel-03-followup-001-admin-topbar-primitive-extraction/`
 - deferred 根拠: parallel-03-followup-001 の §2.3「含まないもの」line 79「topbar actions の具体ボタン実装（admin 機能側の別タスク）」/ §4.4「将来 actions slot に client button を入れる場合は呼び出し側で `"use client"` boundary を作る」
 - 現状実装: AdminTopbar primitive は抽出済み（`apps/web/src/components/layout/AdminTopbar.tsx`）。`actions?: ReactNode` slot を持つが、`(admin)/layout.tsx` では `<AdminTopbar />`（props なし）で呼ばれ、actions slot は空（`aria-hidden="true"` placeholder）。
