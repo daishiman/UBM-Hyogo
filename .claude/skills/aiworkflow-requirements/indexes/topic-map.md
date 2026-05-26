@@ -3288,7 +3288,8 @@ node scripts/list-specs.js --topics
 | Workflow | L3 |
 | Implementation Targets | L12 |
 | Test And Evidence Targets | L24 |
-| Boundaries | L33 |
+| Lessons Learned | L33 |
+| Boundaries | L39 |
 
 ### references/workflow-regression-evidence-ci-gate-foundation-artifact-inventory.md
 

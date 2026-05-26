@@ -64,7 +64,7 @@ bash scripts/verify-pr-ready.sh
 - 新規: `apps/web/src/components/public/RegisterFaq.tsx`
 - 新規: `apps/web/src/components/public/RegisterBottomCTA.tsx`
 - 新規/編集: 上記対応 spec 5 ファイル
-- 仕様書: `docs/30-workflows/register-page-prototype-alignment/phase-1..13.md` + `outputs/phase-12/`
+- 仕様書: `docs/30-workflows/completed-tasks/register-page-prototype-alignment/phase-1..13.md` + `outputs/phase-12/`
 
 ## Test plan
 
@@ -87,7 +87,7 @@ evidence が無い場合はスクリーンショット節を作らない（CLAUD
 
 ## Related
 
-- workflow dir: `docs/30-workflows/register-page-prototype-alignment/`
+- workflow dir: `docs/30-workflows/completed-tasks/register-page-prototype-alignment/`
 - prototype 正本: `docs/00-getting-started-manual/claude-design-prototype/pages-member.jsx` L68-217
 ```
 

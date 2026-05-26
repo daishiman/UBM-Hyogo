@@ -11,12 +11,12 @@ canonically placed. Commit / push / PR remain user-gated.
 
 | Classification | Path | Status |
 | --- | --- | --- |
-| workflow spec | `docs/30-workflows/register-page-prototype-alignment/` | present |
-| workflow artifacts | `docs/30-workflows/register-page-prototype-alignment/artifacts.json` | present |
-| phase specs | `docs/30-workflows/register-page-prototype-alignment/phase-{1..13}-*.md` | present (created in parallel) |
-| Phase 12 strict 7 | `docs/30-workflows/register-page-prototype-alignment/outputs/phase-12/*.md` | present |
-| Phase 11 evidence | `docs/30-workflows/register-page-prototype-alignment/outputs/phase-11/README.md` | present |
-| output artifacts mirror | `docs/30-workflows/register-page-prototype-alignment/outputs/artifacts.json` | present |
+| workflow spec | `docs/30-workflows/completed-tasks/register-page-prototype-alignment/` | present |
+| workflow artifacts | `docs/30-workflows/completed-tasks/register-page-prototype-alignment/artifacts.json` | present |
+| phase specs | `docs/30-workflows/completed-tasks/register-page-prototype-alignment/phase-{1..13}-*.md` | present (created in parallel) |
+| Phase 12 strict 7 | `docs/30-workflows/completed-tasks/register-page-prototype-alignment/outputs/phase-12/*.md` | present |
+| Phase 11 evidence | `docs/30-workflows/completed-tasks/register-page-prototype-alignment/outputs/phase-11/README.md` | present |
+| output artifacts mirror | `docs/30-workflows/completed-tasks/register-page-prototype-alignment/outputs/artifacts.json` | present |
 | aiworkflow ledger | `.claude/skills/aiworkflow-requirements/indexes/quick-reference.md` | synced |
 | aiworkflow ledger | `.claude/skills/aiworkflow-requirements/indexes/resource-map.md` | synced |
 | aiworkflow ledger | `.claude/skills/aiworkflow-requirements/references/task-workflow-active.md` | synced |

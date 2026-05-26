@@ -7,7 +7,7 @@ Manual-only browser checks remain user-gated because commit / PR / staging opera
 
 Execution result on 2026-05-26:
 
-- `PLAYWRIGHT_SKIP_WEB_SERVER=1 PLAYWRIGHT_BASE_URL=http://localhost:3002 PLAYWRIGHT_EVIDENCE_DIR=../../docs/30-workflows/register-page-prototype-alignment/outputs/phase-11/evidence mise exec -- pnpm --filter @ubm-hyogo/web exec playwright test register-prototype-alignment.spec.ts --project=desktop-chromium`
+- `PLAYWRIGHT_SKIP_WEB_SERVER=1 PLAYWRIGHT_BASE_URL=http://localhost:3002 PLAYWRIGHT_EVIDENCE_DIR=../../docs/30-workflows/completed-tasks/register-page-prototype-alignment/outputs/phase-11/evidence mise exec -- pnpm --filter @ubm-hyogo/web exec playwright test register-prototype-alignment.spec.ts --project=desktop-chromium`
 - Result: 1 passed
 - axe summary: `criticalCount=0`, `violationCount=9`
 

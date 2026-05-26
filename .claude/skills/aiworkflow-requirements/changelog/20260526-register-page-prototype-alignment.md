@@ -7,4 +7,6 @@
 - 既存 `/public/form-preview` と `FORM_RESPONDER_URL` のみ利用し、D1/API/schema/auth は不変更。
 - Phase 12 strict 7、root/output artifacts parity、quick-reference / resource-map / task-workflow-active / artifact inventory を同一 wave で反映。
 
+苦戦箇所は `lessons-learned/lessons-learned-register-page-prototype-alignment-2026-05.md` に L-REGPROTO-001..005 として汎化反映（primitive rename hook 保持 / `<details open>` 初期開閉 / Playwright evidence path / 既存 primitive 構成 / pure function 集計）。
+
 Commit、push、PR、外部 staging observation は user-gated。
