@@ -58,6 +58,7 @@ docs/30-workflows/issue-<N>-<slug>/
   - `metadata.issue_state_at_recovery: "closed"`
   - `metadata.issue_reference_mode: "refs_only"` （`Closes #<n>` 禁止）
 - governance mutation を含む場合は §3 の YAML frontmatter 契約を **artifacts.json `metadata`** にも同値で展開する。
+- source proto-spec に受け入れ基準がある場合は、canonical workflow の Phase 1 に AC 対応表を作り、proto-spec AC を実装可能な判定単位へ 1:1 展開する。これにより closed issue recovery 後の網羅性を Phase 12 で機械的に監査できる。
 
 ### Step 3: unassigned-task ファイルへ consumed pointer を追記
 

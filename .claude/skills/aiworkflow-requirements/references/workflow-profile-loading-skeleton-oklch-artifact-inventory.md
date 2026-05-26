@@ -5,8 +5,8 @@
 | workflow root | `docs/30-workflows/completed-tasks/profile-loading-skeleton-oklch/` |
 | root artifacts | `docs/30-workflows/completed-tasks/profile-loading-skeleton-oklch/artifacts.json` |
 | output artifacts mirror | `docs/30-workflows/completed-tasks/profile-loading-skeleton-oklch/outputs/artifacts.json` |
-| implementation | `apps/web/app/profile/loading.tsx` |
-| tests (component) | `apps/web/app/profile/loading.spec.tsx` |
+| implementation | `apps/web/app/(member)/profile/loading.tsx` |
+| tests (component) | `apps/web/app/(member)/profile/loading.spec.tsx` |
 | tests (visual) | `apps/web/playwright/tests/visual/profile-loading-skeleton.spec.ts` |
 | visual harness route | `apps/web/app/visual-harness/[name]/page.tsx` (allowed name `profile-loading`) |
 | playwright config | `apps/web/playwright.config.ts` (`visual-chromium` project matches `visual/*.spec.ts`) |

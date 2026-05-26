@@ -35,3 +35,13 @@
 ## Boundary
 
 No new API endpoint, D1 schema, Google Form contract, or production deploy is part of the spec package. Staging deploy, screenshot capture, parent gate release, commit, push, and PR remain user-gated execution steps.
+
+## Authenticated Visual Child Workflow
+
+| Item | Value |
+| --- | --- |
+| Child workflow | `docs/30-workflows/completed-tasks/issue-901-authenticated-profile-admin-staging-visual/` |
+| Source issue | #901 CLOSED (`Refs #901` only) |
+| Source proto-spec | `docs/30-workflows/completed-tasks/UT-DSF-07-FU-01-authenticated-profile-admin-staging-visual.md` consumed |
+| Parent gate impact | Resolves the parent residual `VISUAL_RUNTIME_AUTHENTICATED_PENDING` only after child Gate-C obtains real authenticated `/profile` and `/admin` PNG evidence |
+| Boundary | Parent remains owner of unauthenticated staging visual shell; child owns member/admin authenticated storageState and screenshot evidence |

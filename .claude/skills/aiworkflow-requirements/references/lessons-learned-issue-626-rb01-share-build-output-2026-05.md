@@ -5,7 +5,7 @@
 | Workflow root | `docs/30-workflows/completed-tasks/issue-626-rb01-share-build-output-lighthouse-pr-build/` |
 | Date | 2026-05-12 |
 | State | `PASS_BOUNDARY_SYNCED_RUNTIME_PENDING / implementation / NON_VISUAL` |
-| Scope | `.github/workflows/pr-build-test.yml` への `lighthouse-ci` 統合 + `.github/workflows/lighthouse.yml` 削除 + `apps/web/.next` artifact 共有 |
+| Scope | `.github/workflows/pr-build-test.yml` への `lighthouse-ci` 統合 + Issue #626 時点の `.github/workflows/lighthouse.yml` 削除 + `apps/web/.next` artifact 共有（後続 Lighthouse work で standalone workflow は再導入済み） |
 | Issue | #626 CLOSED / parent #608 CLOSED（PR 文脈は `Refs #626, #608` のみ） |
 
 ## L-ISSUE626-001: workflow 統合時の branch protection context 名 continuity

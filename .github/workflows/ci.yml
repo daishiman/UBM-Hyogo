@@ -55,6 +55,9 @@ jobs:
       - name: Actionlint workflow syntax (all workflows)
         run: ./actionlint -color .github/workflows/*.yml
 
+      - name: Verify top-level workflow permissions
+        run: bash scripts/verify-workflow-top-level-permissions.sh
+
       - name: Validate setup-project composite action structure
         run: |
           node <<'NODE'

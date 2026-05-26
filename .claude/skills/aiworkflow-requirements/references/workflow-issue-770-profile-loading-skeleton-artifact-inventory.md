@@ -12,8 +12,8 @@
 
 | Path | Role |
 |---|---|
-| `apps/web/app/profile/loading.tsx` | OKLch skeleton loading boundary |
-| `apps/web/app/profile/loading.spec.tsx` | focused component test |
+| `apps/web/app/(member)/profile/loading.tsx` | OKLch skeleton loading boundary |
+| `apps/web/app/(member)/profile/loading.spec.tsx` | focused component test |
 
 ## Evidence
 
