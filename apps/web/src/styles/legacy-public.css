@@ -192,7 +192,7 @@
     font-weight: 700;
   }
 
-  [data-size] {
+  [data-size]:not([data-component="google-brand-icon"]):not(.ui-input):not(.ui-button) {
     display: inline-grid;
     place-items: center;
     border-radius: 50%;
@@ -200,21 +200,21 @@
     color: var(--ubm-color-surface-panel);
   }
 
-  [data-size]::after {
+  [data-size]:not([data-component="google-brand-icon"]):not(.ui-input):not(.ui-button)::after {
     content: none;
   }
 
-  [data-size="sm"] {
+  [data-size="sm"]:not([data-component="google-brand-icon"]):not(.ui-input):not(.ui-button) {
     width: 32px;
     height: 32px;
   }
 
-  [data-size="md"] {
+  [data-size="md"]:not([data-component="google-brand-icon"]):not(.ui-input):not(.ui-button) {
     width: 44px;
     height: 44px;
   }
 
-  [data-size="lg"] {
+  [data-size="lg"]:not([data-component="google-brand-icon"]):not(.ui-input):not(.ui-button) {
     width: 72px;
     height: 72px;
     font-size: 26px;

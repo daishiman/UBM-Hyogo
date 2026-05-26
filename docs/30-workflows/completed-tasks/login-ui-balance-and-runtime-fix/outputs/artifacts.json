@@ -1,0 +1,18 @@
+{
+  "task_id": "login-ui-balance-and-runtime-fix",
+  "root_artifacts": "../artifacts.json",
+  "status": "implemented_local_runtime_pending",
+  "phase_11": {
+    "manual_test_result": "phase-11/manual-test-result.md",
+    "status": "local_visual_captured_staging_pending"
+  },
+  "phase_12": {
+    "main": "phase-12/main.md",
+    "implementation_guide": "phase-12/implementation-guide.md",
+    "system_spec_update_summary": "phase-12/system-spec-update-summary.md",
+    "documentation_changelog": "phase-12/documentation-changelog.md",
+    "unassigned_task_detection": "phase-12/unassigned-task-detection.md",
+    "skill_feedback_report": "phase-12/skill-feedback-report.md",
+    "task_spec_compliance_check": "phase-12/phase12-task-spec-compliance-check.md"
+  }
+}
