@@ -24,6 +24,32 @@
       "commit",
       "push",
       "PR"
+    ],
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-05-26T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/admin-attendance-analytics-redesign/outputs/phase-12/phase12-task-spec-compliance-check.md",
+        "approver": "daishiman",
+        "notes": "spec_review: Phase 1-13 spec authored, local implementation green (api/web/shared tests + typecheck + lint)"
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "passed",
+        "passed_at": "2026-05-26T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/admin-attendance-analytics-redesign/outputs/phase-12/implementation-guide.md",
+        "approver": "daishiman",
+        "notes": "implementation_review: 8-block attendance analytics + 5 new endpoints + CSV streaming"
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/admin-attendance-analytics-redesign/outputs/phase-11/runtime-evidence.md",
+        "approver": "daishiman",
+        "notes": "external_ops: staging deploy + visual baseline + CSV runtime evidence (user-gated)"
+      }
     ]
   },
   "phases": {
