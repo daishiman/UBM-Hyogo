@@ -13,6 +13,8 @@ import {
 import { requireAdmin } from "../../middleware/require-admin";
 import { ctx } from "../../repository/_shared/db";
 import { getStatusDistribution, getTotals, listRecentActions } from "../../repository/dashboard";
+import { aggregatePublicZones } from "../../repository/publicMembers";
+import { buildByZoneSlices } from "./_shared/byZone";
 import {
   computeAttendanceOverview,
   listSessionAttendanceStats,
@@ -48,15 +50,19 @@ export const createAdminDashboardRoute = () => {
 
   app.get("/dashboard", async (c) => {
     const dbCtx = ctx({ DB: c.env.DB });
-    const [totals, byStatus, recent] = await Promise.all([
+    const [totals, byStatus, recent, rawZones] = await Promise.all([
       getTotals(dbCtx),
       getStatusDistribution(dbCtx),
       listRecentActions(dbCtx, 20),
+      aggregatePublicZones(dbCtx),
     ]);
+
+    const byZone = buildByZoneSlices(rawZones, totals.totalMembers);
 
     const view = {
       totals,
       byStatus,
+      byZone,
       recentActions: recent.map((r) => ({
         auditId: r.auditId,
         actorEmail: r.actorEmail,
