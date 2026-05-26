@@ -1,0 +1,68 @@
+{
+  "task_id": "register-page-prototype-alignment",
+  "issue": null,
+  "created_at": "2026-05-26",
+  "status": "implemented_local_evidence_captured",
+  "task_type": "implementation",
+  "visual_category": "VISUAL_ON_EXECUTION",
+  "metadata": {
+    "workflow_state": "implemented_local_evidence_captured",
+    "implementation_status": "implemented_local_evidence_captured",
+    "taskType": "implementation",
+    "visualEvidence": "VISUAL_ON_EXECUTION",
+    "implementationCategory": "standard",
+    "spec_classification": "implementation_spec",
+    "canonical_workflow": "docs/30-workflows/completed-tasks/register-page-prototype-alignment/",
+    "parentWorkflow": "docs/30-workflows/ui-prototype-alignment-mvp-recovery/",
+    "source_unassigned_tasks": [],
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/register-page-prototype-alignment/outputs/phase-12/phase12-task-spec-compliance-check.md",
+        "approver": "daishiman",
+        "notes": "spec_review: Phase 1-13 implementation spec created; compliance check generated as spec_created stage"
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/register-page-prototype-alignment/outputs/phase-11/manual-test-result.md",
+        "approver": "daishiman",
+        "notes": "implementation_review: runtime evidence captured in outputs/phase-11 (desktop/mobile screenshots, Playwright JSON, axe summary)"
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/register-page-prototype-alignment/outputs/phase-13/pr-creation-result.md",
+        "approver": "daishiman",
+        "notes": "external_ops: commit, push, PR creation are user-gated"
+      }
+    ]
+  },
+  "phases": [
+    { "phase": 1, "name": "要件定義", "status": "implemented_local_evidence_captured", "output": "phase-1-requirements.md" },
+    { "phase": 2, "name": "設計", "status": "implemented_local_evidence_captured", "output": "phase-2-design.md" },
+    { "phase": 3, "name": "設計レビュー", "status": "implemented_local_evidence_captured", "output": "phase-3-design-review.md" },
+    { "phase": 4, "name": "テスト計画", "status": "implemented_local_evidence_captured", "output": "phase-4-test-plan.md" },
+    { "phase": 5, "name": "実装手順", "status": "implemented_local_evidence_captured", "output": "phase-5-implementation.md" },
+    { "phase": 6, "name": "テスト追加", "status": "implemented_local_evidence_captured", "output": "phase-6-test-additions.md" },
+    { "phase": 7, "name": "カバレッジ", "status": "implemented_local_evidence_captured", "output": "phase-7-coverage.md" },
+    { "phase": 8, "name": "リファクタ", "status": "implemented_local_evidence_captured", "output": "phase-8-refactor.md" },
+    { "phase": 9, "name": "QA", "status": "implemented_local_evidence_captured", "output": "phase-9-qa.md" },
+    { "phase": 10, "name": "最終レビュー", "status": "implemented_local_evidence_captured", "output": "phase-10-final-review.md" },
+    { "phase": 11, "name": "手動テスト", "status": "implemented_local_evidence_captured", "output": "phase-11-manual-test.md" },
+    { "phase": 12, "name": "ドキュメント同期", "status": "implemented_local_evidence_captured", "output": "phase-12-documentation.md" },
+    { "phase": 13, "name": "commit-pr-release", "status": "pending_user_approval", "output": "phase-13-pr.md" }
+  ],
+  "implementation_targets": [
+    "apps/web/app/(public)/register/page.tsx",
+    "apps/web/src/components/public/RegisterHeroCallout.tsx",
+    "apps/web/src/components/public/FormPreviewSections.tsx",
+    "apps/web/src/components/public/RegisterStepGrid.tsx",
+    "apps/web/src/components/public/RegisterFaq.tsx",
+    "apps/web/src/components/public/RegisterBottomCTA.tsx"
+  ]
+}

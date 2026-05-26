@@ -8,6 +8,20 @@
 
 本ドキュメントは、複雑なタスクを単一責務の原則に基づいて分解し、各サブタスクに最適なスラッシュコマンド・エージェント・スキルの組み合わせを選定するためのガイドラインを定義する。
 
+### register-page-prototype-alignment（2026-05-26）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION / Phase 13 pending_user_approval` |
+| 成果物 | `docs/30-workflows/completed-tasks/register-page-prototype-alignment/` |
+| 親 workflow | `docs/30-workflows/ui-prototype-alignment-mvp-recovery/` task-12 系列 |
+| 目的 | prototype `MemberFormPage` の `/register` UI を現行 Server Component に反映し、Hero CTA / 3-step flow / collapsible FormPreview / 3 FAQ / bottom CTA を同一サイクルで実装する |
+| implementation targets | `apps/web/app/(public)/register/page.tsx`, `apps/web/src/components/public/{RegisterHeroCallout,RegisterStepGrid,RegisterFaq,RegisterBottomCTA,FormPreviewSections}.tsx`, `apps/web/src/styles/legacy-public.css`, focused component specs, `apps/web/playwright/tests/register-prototype-alignment.spec.ts` |
+| invariant | existing `/public/form-preview` only、D1/API/schema/auth 変更なし、OKLch token 経由、`data-component="register-callout"` / `data-role="register-cta"` 後方互換維持 |
+| Phase 12 | strict 7 present、root/output `artifacts.json` parity present |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-register-page-prototype-alignment-artifact-inventory.md` |
+| user gate | commit, push, PR, external staging observation |
+
 ### issue-901-authenticated-profile-admin-staging-visual（2026-05-25）
 
 | 項目 | 値 |
