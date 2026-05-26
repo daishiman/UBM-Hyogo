@@ -6,6 +6,36 @@
   "implementation_mode": "implemented_local_evidence_captured",
   "canonical_workflow": "docs/30-workflows/admin-ui-task-c-pageheader-token-conformance/",
   "root_artifacts": "../artifacts.json",
+  "metadata": {
+    "taskType": "implementation",
+    "visualEvidence": "VISUAL",
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-05-26T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/admin-ui-task-c-pageheader-token-conformance/outputs/phase-12/phase12-task-spec-compliance-check.md",
+        "approver": "daishiman",
+        "notes": "spec_review: Phase 1-13 implementation spec presence and strict 7 outputs synced locally"
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "passed",
+        "passed_at": "2026-05-26T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/admin-ui-task-c-pageheader-token-conformance/outputs/phase-11/manual-test-result.md",
+        "approver": "daishiman",
+        "notes": "implementation_review: local implementation + focused tests + token gate + 9 local authenticated screenshots captured"
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/admin-ui-task-c-pageheader-token-conformance/outputs/phase-13/pr-creation-result.md",
+        "approver": "daishiman",
+        "notes": "external_ops: commit, push, PR — user-gated"
+      }
+    ]
+  },
   "phase_11_evidence": [
     "outputs/phase-11/evidence/local-focused-test.log",
     "outputs/phase-11/01-admin-tags.png",
