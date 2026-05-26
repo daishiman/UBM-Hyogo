@@ -400,13 +400,13 @@ apps/web の React ツリー / route handler / 設定ファイルに対して、
 | S-01 | apps/web から D1 直接アクセス禁止（不変条件 #5） | `apps/web/src/**` `apps/web/app/**` | `D1Database` / `env.DB` 等の直接参照を検出したら fail |
 | S-02 | profile 本文編集 mutation 不在 | apps/web 側の admin/me client | `PATCH /me/profile` 等の本文書き換え呼び出しを検出したら fail |
 | S-03 | Auth.js session の必須経路化 | profile / me 経路の Server Component | `auth()` 呼び出し不在もしくは `isLoggedIn` ガード不在で fail |
-| S-04 | profile 本文編集 form/UI 不在（不変条件 #4 の構造保証） | `apps/web/app/profile/**` | `<form>` ないし `<button type="submit">` を検出したら fail |
+| S-04 | profile 本文編集 form/UI 不在（不変条件 #4 の構造保証） | `apps/web/app/(member)/profile/**` | `<form>` ないし `<button type="submit">` を検出したら fail |
 
 ### S-04 拡張の趣旨（06b-B profile self-service request UI）
 
 06b-B 以降、profile 配下に VisibilityRequest / DeleteRequest のような "申請" UI が同居する。これらは backend に request レコードを作るだけで本文を書き換えないため、本来 S-04 の対象外であるが、誤って `<form onSubmit>` / `<button type="submit">` パターンで実装されると不変条件 #4 を構造的に破壊し得る。よって S-04 は次の二段で fail させる:
 
-1. `apps/web/app/profile/**` 配下で `<form` 要素を検出 → fail
+1. `apps/web/app/(member)/profile/**` 配下で `<form` 要素を検出 → fail
 2. 同配下で `<button[^>]*type=["']submit["']` を検出 → fail
 
 申請 UI は `<button type="button" onClick={...}>` + fetch helper の経路で実装し、submit イベント経由のフォーム送信は **profile 配下では一切許可しない**。これにより本文編集 UI が将来的に意図せず混入する経路を構造で塞ぐ。

@@ -77,6 +77,7 @@
 | [patterns-phase12-sync.md](patterns-phase12-sync.md) | Phase 12 失敗時 | implementation guide、spec sync、未タスク化パターン |
 | [patterns-parallel-sub-workflow.md](patterns-parallel-sub-workflow.md) | `parallel-NN-*` / `serial-NN-*` を持つ workflow 設計時 | root / sub 二重 artifacts.json / `sub_workflow` フィールド / Phase 11-12 outputs parity / 命名規約 / VISUAL_ON_EXECUTION の sub→serial 集約 |
 | [patterns-prototype-driven-css.md](patterns-prototype-driven-css.md) | プロトタイプ → `apps/web` CSS 移植系タスクの仕様作成時 | Phase 5 設計（`@layer components` 末尾追加 / data-attr selector）/ `tokens.css` 色責務と `globals.css` rhythm 責務の SRP / HEX 直書き禁止と `verify-design-tokens` CI gate |
+| [patterns-runtime-evidence-followup.md](patterns-runtime-evidence-followup.md) | runtime evidence follow-up / staging provider smoke / helper script + evidence placeholder を扱う時 | helper と placeholder は同一 cycle で実装し、外部 runtime mutation と completion promotion だけ user-gated に分離する |
 
 ### logs and archives
 
