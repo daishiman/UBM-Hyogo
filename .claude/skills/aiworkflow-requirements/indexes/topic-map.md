@@ -3167,6 +3167,14 @@ node scripts/list-specs.js --topics
 |------------|----|
 | Notes | L17 |
 
+### references/workflow-issue-912-idempotent-attendance-remove-retry-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Classification | L13 |
+| Implementation Targets | L17 |
+| Boundaries | L27 |
+
 ### references/workflow-light-theme-contrast-regression-guard.md
 
 | セクション | 行 |
@@ -6007,6 +6015,18 @@ node scripts/list-specs.js --topics
 | L-WFPERM-003: actionlint 1.7.7 を最終ゲートに、push 前は grep で自己検証 | L11 |
 | L-WFPERM-004: 防御的 hardening は失敗観測を待たず先回り適用 | L15 |
 
+### references/lessons-learned-issue-912-idempotent-attendance-remove-retry-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| L-I912-001: Existing idempotent endpoint can be bypassed by combined POST caller | L3 |
+| L-I912-002: Retry caller must avoid `mutationFn` | L7 |
+| L-I912-003: Dynamic path callers can use `trigger(payload, endpointOverride)` | L11 |
+| L-I912-004: DELETE payload must be fixed in the spec | L15 |
+| L-I912-005: Idempotency-Key value identity belongs to hook policy, not caller specs | L19 |
+| L-I912-006: Playwright mock fixture must follow API method/endpoint shape changes | L23 |
+| L-I912-007: Two Playwright mock surfaces — fixture and standalone — must stay in lockstep | L27 |
+
 ### references/lessons-learned-issue359-production-d1-apply-2026-05.md
 
 | セクション | 行 |
@@ -6616,8 +6636,8 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 概要 | L3 |
 | 仕様書インデックス | L7 |
-| 利用順序 | L121 |
-| 関連ドキュメント | L126 |
+| 利用順序 | L122 |
+| 関連ドキュメント | L127 |
 
 ### references/llm-embedding.md
 
@@ -7754,14 +7774,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L2610 |
-| フェーズ構造（概要） | L2619 |
-| 品質ゲート（概要） | L2650 |
-| 出力テンプレート | L2661 |
-| 実行時のコマンド・エージェント・スキル | L2684 |
-| 昇格パターン集 | L2708 |
-| Current Active / Spec Created Tasks | L2710 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L2871 |
+| ドキュメント構成 | L2625 |
+| フェーズ構造（概要） | L2634 |
+| 品質ゲート（概要） | L2665 |
+| 出力テンプレート | L2676 |
+| 実行時のコマンド・エージェント・スキル | L2699 |
+| 昇格パターン集 | L2723 |
+| Current Active / Spec Created Tasks | L2725 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L2886 |
 
 ### references/task-workflow-backlog-part2.md
 

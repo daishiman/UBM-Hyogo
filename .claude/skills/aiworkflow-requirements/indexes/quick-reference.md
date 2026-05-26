@@ -774,6 +774,20 @@
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-842-admin-mutation-reliability-policy-artifact-inventory.md` |
 | user gate | commit, push, PR, staging runtime evidence |
 
+## Issue #912 idempotent attendance remove retry（2026-05-25）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-912-idempotent-attendance-remove-retry/` |
+| 状態 | `implemented_local_evidence_captured / implementation / NON_VISUAL / focused Vitest PASS / Phase 13 blocked` |
+| source | Issue #912 CLOSED; PR wording is `Refs #912`; source one-pager `docs/30-workflows/completed-tasks/unassigned-task/issue-842-followup-002-idempotent-caller-retry-enablement.md` is marked `consumed_by_issue_912_local_implemented_pending_pr` and will move to consumed after commit/PR |
+| scope | `MeetingPanel` attendance remove path を existing DELETE endpoint + `useAdminMutation` retry/idempotencyKey opt-in へ切替。add path は POST + `mutationFn` 維持 |
+| implementation targets | `apps/web/src/lib/admin/api.ts`, `apps/web/src/components/admin/MeetingPanel.tsx`, `apps/web/src/lib/admin/__tests__/api.spec.ts`, `apps/web/src/components/admin/__tests__/MeetingPanel.component.spec.tsx` |
+| evidence | `docs/30-workflows/completed-tasks/issue-912-idempotent-attendance-remove-retry/outputs/phase-11/evidence/focused-vitest.log`（97 tests PASS） |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-912-idempotent-attendance-remove-retry-artifact-inventory.md` |
+| lessons | `.claude/skills/aiworkflow-requirements/references/lessons-learned-issue-912-idempotent-attendance-remove-retry-2026-05.md` |
+| user gate | commit, push, PR, staging/runtime evidence |
+
 ## Issue #911 meeting attendance unregister UI（2026-05-25）
 
 | 目的 | 参照先 |
