@@ -8,6 +8,35 @@
 
 本ドキュメントは、複雑なタスクを単一責務の原則に基づいて分解し、各サブタスクに最適なスラッシュコマンド・エージェント・スキルの組み合わせを選定するためのガイドラインを定義する。
 
+### admin-ui-prototype-alignment（2026-05-23）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_runtime_pending / implementation / VISUAL` |
+| 成果物 | `docs/30-workflows/admin-ui-prototype-alignment/` |
+| 目的 | `/admin` 配下 11 route を prototype 正本に整合し、server fetch 失敗を page 全体停止ではなく per-section degrade へ局所化する |
+| primary spec | `docs/00-getting-started-manual/specs/09g-screen-blueprints-admin.md` |
+| prototype source | `docs/00-getting-started-manual/claude-design-prototype/pages-admin.jsx` |
+| implementation targets | `apps/web/app/(admin)/admin/**`, `apps/web/src/features/admin/components/_shared/**`, `apps/web/src/lib/admin/safe-server-fetch.ts` |
+| boundary | API / D1 schema / Auth.js middleware contract は変更しない。`_shared` は 6 component + barrel + helper。retry button は v1 では出さず page reload 導線に統一 |
+| Phase 12 | strict 7 outputs + canonical compliance check present |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-ui-prototype-alignment-artifact-inventory.md` |
+| user gate | authenticated runtime screenshots, staging refresh, commit, push, PR |
+
+### register-page-prototype-alignment（2026-05-26）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION / Phase 13 pending_user_approval` |
+| 成果物 | `docs/30-workflows/completed-tasks/register-page-prototype-alignment/` |
+| 親 workflow | `docs/30-workflows/ui-prototype-alignment-mvp-recovery/` task-12 系列 |
+| 目的 | prototype `MemberFormPage` の `/register` UI を現行 Server Component に反映し、Hero CTA / 3-step flow / collapsible FormPreview / 3 FAQ / bottom CTA を同一サイクルで実装する |
+| implementation targets | `apps/web/app/(public)/register/page.tsx`, `apps/web/src/components/public/{RegisterHeroCallout,RegisterStepGrid,RegisterFaq,RegisterBottomCTA,FormPreviewSections}.tsx`, `apps/web/src/styles/legacy-public.css`, focused component specs, `apps/web/playwright/tests/register-prototype-alignment.spec.ts` |
+| invariant | existing `/public/form-preview` only、D1/API/schema/auth 変更なし、OKLch token 経由、`data-component="register-callout"` / `data-role="register-cta"` 後方互換維持 |
+| Phase 12 | strict 7 present、root/output `artifacts.json` parity present |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-register-page-prototype-alignment-artifact-inventory.md` |
+| user gate | commit, push, PR, external staging observation |
+
 ### issue-901-authenticated-profile-admin-staging-visual（2026-05-25）
 
 | 項目 | 値 |
@@ -592,6 +621,20 @@
 | evidence | focused Vitest 13 PASS、`pnpm --filter @ubm-hyogo/api typecheck` PASS、Phase 12 strict 7 present |
 | user gate | staging provider smoke, Cloudflare secret mutation, commit, push, PR |
 
+### Issue #908 staging rollback notification runtime smoke（2026-05-25）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_runtime_pending / implementation / NON_VISUAL` |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-908-staging-rollback-notification-runtime-smoke/` |
+| parent | `docs/30-workflows/completed-tasks/issue-838-schema-alias-rollback-notification/` |
+| purpose | Issue #838 の staging provider smoke evidence を user-gated runtime 実行で取得するための helper と tracked placeholder を整備する |
+| implementation targets | `scripts/runtime-smoke/schema-alias-rollback.sh` |
+| evidence placeholder | `docs/30-workflows/completed-tasks/issue-838-schema-alias-rollback-notification/outputs/phase-11/evidence/staging-smoke.md` |
+| parent sync | 親 `manual-test-result.md` / `artifacts.json` は runtime pending のまま placeholder path へ cross-link |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-908-staging-rollback-notification-runtime-smoke-artifact-inventory.md` |
+| user gate | staging deploy, rollback POST, D1 mutation, provider evidence population, parent completion promotion, commit, push, PR |
+
 ### ut-cicd-composite-setup-rollout（2026-05-22）
 
 | 項目 | 値 |
@@ -1020,10 +1063,24 @@
 | parent | `docs/30-workflows/step-06-meetings-attendance-implementation/` |
 | 目的 | admin mutation reliability policy を `useAdminMutation` に集約し、timeout / retry / idempotency-key / 404 success-relaxation / abort を caller 分散ではなく hook policy として仕様化する |
 | implementation targets | `apps/web/src/features/admin/hooks/useAdminMutation.ts`, `apps/web/src/features/admin/hooks/useConfirmDialog.ts`, `apps/web/src/features/admin/hooks/index.ts`, focused hook specs, legacy `apps/web/src/lib/useAdminMutation.ts` delete |
-| invariant | API endpoint surface / D1 schema / UI visual surface は変更しない。現 `MeetingAttendancePanel.tsx` は POST-only のため DELETE 404 caller migration はしない |
+| invariant | API endpoint surface / D1 schema / UI visual surface は変更しない。Issue #842 時点では caller migration なしだったが、Issue #911 で `MeetingAttendancePanel.tsx` の unregister caller に `treat404AsSuccess` を配線済み |
 | evidence | Phase 11 local source-level PASS / Phase 12 strict 7 present / output artifacts parity present |
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-842-admin-mutation-reliability-policy-artifact-inventory.md` |
 | user gate | commit / push / PR / staging runtime evidence |
+
+### issue-911-meeting-attendance-unregister-ui-treat404-wiring（2026-05-25）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / NON_VISUAL / Phase 13 pending_user_approval` |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-911-meeting-attendance-unregister-ui-treat404-wiring/` |
+| parent | `docs/30-workflows/completed-tasks/issue-842-admin-mutation-reliability-policy/` |
+| 目的 | `MeetingAttendancePanel` に出席解除 CTA、unregister mutation、UI logger event を追加し、404 `attendance_not_found` race を「既に解除済みです」へ収束させる |
+| implementation targets | `apps/web/app/(admin)/admin/meetings/[id]/MeetingAttendancePanel.tsx`, `apps/web/app/(admin)/admin/meetings/[id]/__tests__/MeetingAttendancePanel.spec.tsx` |
+| API boundary | existing `POST /api/admin/meetings/:id/attendances` `{ memberId, attended:false }` only; new DELETE endpoint / `apps/api` / D1 schema diff なし |
+| evidence | Phase 11 local logs: MeetingAttendancePanel 14 tests PASS、useAdminMutation 33 tests PASS、web typecheck/lint PASS、production DELETE caller grep 0 件 |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-911-meeting-attendance-unregister-ui-treat404-wiring-artifact-inventory.md` |
+| user gate | commit / push / PR / staging runtime smoke |
 
 ### serial-05-step-03 schema diff resolve UI（2026-05-16）
 

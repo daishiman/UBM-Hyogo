@@ -1,0 +1,78 @@
+{
+  "feature": "issue-908-staging-rollback-notification-runtime-smoke",
+  "created": "2026-05-25T00:00:00Z",
+  "lastUpdated": "2026-05-25T00:00:00Z",
+  "status": "runtime_pending",
+  "workflow_state": "implemented_local_runtime_pending",
+  "phases": {
+    "1": { "status": "completed", "artifacts": ["phase-1-requirements.md"] },
+    "2": { "status": "completed", "artifacts": ["phase-2-design.md"] },
+    "3": { "status": "completed", "artifacts": ["phase-3-design-review.md"] },
+    "4": { "status": "completed", "artifacts": ["phase-4-test-plan.md"] },
+    "5": { "status": "completed", "artifacts": ["phase-5-implementation.md", "outputs/phase-5/green-run-result.md", "../../../scripts/runtime-smoke/schema-alias-rollback.sh", "../completed-tasks/issue-838-schema-alias-rollback-notification/outputs/phase-11/evidence/staging-smoke.md"] },
+    "6": { "status": "completed", "artifacts": ["phase-6-test-additions.md"] },
+    "7": { "status": "completed", "artifacts": ["phase-7-coverage.md"] },
+    "8": { "status": "completed", "artifacts": ["phase-8-refactor.md"] },
+    "9": { "status": "completed", "artifacts": ["phase-9-qa.md"] },
+    "10": { "status": "completed", "artifacts": ["phase-10-final-review.md", "outputs/phase-10/final-review-result.md"] },
+    "11": { "status": "runtime_pending", "artifacts": ["phase-11-manual-test.md", "outputs/phase-11/manual-test-execution-plan.md", "outputs/phase-11/canonical-paths.json"] },
+    "12": {
+      "status": "completed",
+      "artifacts": [
+        "outputs/phase-12/implementation-guide.md",
+        "outputs/phase-12/system-spec-update.md",
+        "outputs/phase-12/documentation-changelog.md",
+        "outputs/phase-12/unassigned-tasks-report.md",
+        "outputs/phase-12/skill-feedback-report.md",
+        "outputs/phase-12/phase12-task-spec-compliance-check.md"
+      ]
+    },
+    "13": { "status": "pending", "artifacts": ["phase-13-pr.md"] }
+  },
+  "dependencies": {
+    "2": ["1"],
+    "3": ["2"],
+    "4": ["3"],
+    "5": ["4"],
+    "6": ["5"],
+    "7": ["6"],
+    "8": ["7"],
+    "9": ["8"],
+    "10": ["9"],
+    "11": ["10"],
+    "12": ["11"],
+    "13": ["12"]
+  },
+  "metadata": {
+    "taskType": "implementation",
+    "visualEvidence": "NON_VISUAL",
+    "runtimeBoundary": "staging_provider_smoke_user_gated",
+    "planned_evidence_path": "docs/30-workflows/completed-tasks/issue-838-schema-alias-rollback-notification/outputs/phase-11/evidence/staging-smoke.md",
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-05-25T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-908-staging-rollback-notification-runtime-smoke/outputs/phase-12/phase12-task-spec-compliance-check.md",
+        "approver": "daishiman",
+        "notes": "spec_review: Phase 1-13 spec authored; helper script + evidence MD + parent mutation diffs defined"
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-908-staging-rollback-notification-runtime-smoke/outputs/phase-12/implementation-guide.md",
+        "approver": "daishiman",
+        "notes": "implementation_review: helper script + parent evidence placeholder created locally; runtime mutation pending user approval"
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-908-staging-rollback-notification-runtime-smoke/outputs/phase-11/manual-test-execution-plan.md",
+        "approver": "daishiman",
+        "notes": "external_ops: staging deploy + 3-scenario rollback smoke value population (user-gated runtime)"
+      }
+    ]
+  }
+}
