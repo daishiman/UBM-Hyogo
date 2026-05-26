@@ -1,0 +1,18 @@
+Command: git diff -- .github/workflows/ | head -200
+
+Summary:
+- Added top-level `permissions: contents: read` before `jobs:` in 12 workflows:
+  - backend-ci.yml
+  - d1-migration-verify.yml
+  - e2e-tests.yml
+  - lighthouse.yml
+  - playwright-smoke.yml
+  - playwright-visual-baseline-update.yml
+  - playwright-visual-full.yml
+  - validate-build.yml
+  - verify-design-tokens.yml
+  - verify-esbuild.yml
+  - verify-primitive-adoption.yml
+  - web-cd.yml
+- Added `.github/workflows/ci.yml` step `Verify top-level workflow permissions` after actionlint.
+- No workflow job names, job keys, triggers, or job-level permissions blocks were deleted by this change.

@@ -77,7 +77,7 @@ export default async function ProfilePage() {
   const summary = pickProfileSummary(profile.sections);
 
   return (
-    <>
+    <div data-testid="profile-authenticated-root">
       <ProfileHeader
         memberId={me.user.memberId}
         publishState={statusSummary.publishState}
@@ -110,6 +110,6 @@ export default async function ProfilePage() {
         attendance={profile.attendance}
         attendanceMeta={profile.attendanceMeta}
       />
-    </>
+    </div>
   );
 }
