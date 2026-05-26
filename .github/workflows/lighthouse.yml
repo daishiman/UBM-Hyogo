@@ -8,6 +8,9 @@ concurrency:
   group: lighthouse-${{ github.ref }}
   cancel-in-progress: true
 
+permissions:
+  contents: read
+
 jobs:
   lighthouse:
     name: lighthouse-ci

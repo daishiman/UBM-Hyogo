@@ -1,0 +1,86 @@
+{
+  "workflow_id": "issue-899-static-bearer-fallback-retirement",
+  "feature": "issue-899-static-bearer-fallback-retirement",
+  "status": "spec_created",
+  "created": "2026-05-25T00:00:00.000+09:00",
+  "lastUpdated": "2026-05-25T00:00:00.000+09:00",
+  "metadata": {
+    "taskId": "TASK-ISSUE-899-STATIC-BEARER-FALLBACK-RETIREMENT-001",
+    "taskType": "implementation",
+    "visualEvidence": "NON_VISUAL",
+    "implementationCategory": "ci-workflow-cleanup",
+    "implementation_mode": "edit",
+    "workflow_state": "spec_created",
+    "scope": "Physically retire static bearer fallback (STAGING_ADMIN_BEARER / STAGING_ME_BEARER) from runtime-smoke-staging.yml and make mint path permanent",
+    "canonical_root": "docs/30-workflows/issue-899-static-bearer-fallback-retirement",
+    "related_issue": "#899",
+    "parent_task": "#916 (STAGING_AUTH_SECRET provisioning & mint path smoke green prerequisite)",
+    "related_ssot": "docs/30-workflows/runtime-smoke-staging-mint-recurrence-fix/reference/bearer-lifecycle-ssot.md",
+    "related_runbook": "docs/30-workflows/completed-tasks/ci-secret-alignment-and-runtime-smoke-recovery/runbooks/secret-provisioning.md",
+    "runtime_boundary": "Spec authoring only. Workflow edit, runbook revision, SSOT update, and physical GitHub Environment secret deletion are scheduled for a separate user-gated implementation PR after prerequisite #916 is satisfied.",
+    "implementation_files": [
+      ".github/workflows/runtime-smoke-staging.yml",
+      "docs/30-workflows/completed-tasks/ci-secret-alignment-and-runtime-smoke-recovery/runbooks/secret-provisioning.md",
+      "docs/30-workflows/runtime-smoke-staging-mint-recurrence-fix/reference/bearer-lifecycle-ssot.md"
+    ],
+    "test_files": [
+      "scripts/smoke/__tests__/runtime-attendance-provider.test.sh (existing, regression coverage only)"
+    ],
+    "verify_commands": [
+      "pnpm typecheck",
+      "pnpm lint",
+      "go run github.com/rhysd/actionlint/cmd/actionlint@v1.7.7 .github/workflows/runtime-smoke-staging.yml",
+      "grep -nE 'if: env.STAGING_AUTH_SECRET' .github/workflows/runtime-smoke-staging.yml",
+      "grep -n 'static-fallback' .github/workflows/runtime-smoke-staging.yml docs/30-workflows/completed-tasks/ci-secret-alignment-and-runtime-smoke-recovery/runbooks/secret-provisioning.md",
+      "pnpm gate-metadata:validate --require-gates-for-changed docs/30-workflows/issue-899-static-bearer-fallback-retirement/artifacts.json docs/30-workflows/issue-899-static-bearer-fallback-retirement/outputs/artifacts.json",
+      "pnpm verify:phase12-compliance"
+    ],
+    "phase12_strict_outputs": [
+      "outputs/phase-12/main.md",
+      "outputs/phase-12/implementation-guide.md",
+      "outputs/phase-12/system-spec-update-summary.md",
+      "outputs/phase-12/documentation-changelog.md",
+      "outputs/phase-12/unassigned-task-detection.md",
+      "outputs/phase-12/skill-feedback-report.md",
+      "outputs/phase-12/phase12-task-spec-compliance-check.md"
+    ],
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/issue-899-static-bearer-fallback-retirement/outputs/phase-12/phase12-task-spec-compliance-check.md",
+        "approver": "daishiman",
+        "notes": "spec_compliance: pending implementation PR (workflow edit + runbook + SSOT). Prerequisite #916 must complete first."
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/issue-899-static-bearer-fallback-retirement/outputs/phase-11/manual-test-result.md",
+        "approver": "daishiman",
+        "notes": "runtime_evidence: pending user-gated `gh workflow run runtime-smoke-staging` post-merge with auth-path=minted + job=success, followed by physical `gh secret delete` of STAGING_ADMIN_BEARER / STAGING_ME_BEARER."
+      }
+    ]
+  },
+  "phases": [
+    { "id": 1, "name": "要件定義", "status": "completed", "path": "outputs/phase-1/phase-1.md" },
+    { "id": 2, "name": "設計", "status": "completed", "path": "outputs/phase-2/phase-2.md" },
+    { "id": 3, "name": "設計レビュー", "status": "completed", "path": "outputs/phase-3/phase-3.md" },
+    { "id": 4, "name": "テスト作成", "status": "completed", "path": "outputs/phase-4/phase-4.md" },
+    { "id": 5, "name": "実装手順", "status": "completed", "path": "outputs/phase-5/phase-5.md" },
+    { "id": 6, "name": "テスト拡充", "status": "completed", "path": "outputs/phase-6/phase-6.md" },
+    { "id": 7, "name": "カバレッジ確認", "status": "completed", "path": "outputs/phase-7/phase-7.md" },
+    { "id": 8, "name": "リファクタリング", "status": "completed", "path": "outputs/phase-8/phase-8.md" },
+    { "id": 9, "name": "品質保証", "status": "completed", "path": "outputs/phase-9/phase-9.md" },
+    { "id": 10, "name": "最終レビュー", "status": "completed", "path": "outputs/phase-10/phase-10.md" },
+    { "id": 11, "name": "手動テスト", "status": "completed", "path": "outputs/phase-11/phase-11.md" },
+    { "id": 12, "name": "ドキュメント更新", "status": "completed", "path": "outputs/phase-12/phase-12.md" },
+    { "id": 13, "name": "PR作成", "status": "pending_user_approval", "path": "outputs/phase-13/phase-13.md" }
+  ],
+  "dependencies": {
+    "2": ["1"], "3": ["2"], "4": ["3"], "5": ["4"], "6": ["5"],
+    "7": ["6"], "8": ["7"], "9": ["8"], "10": ["9"], "11": ["10"],
+    "12": ["11"], "13": ["12"]
+  }
+}

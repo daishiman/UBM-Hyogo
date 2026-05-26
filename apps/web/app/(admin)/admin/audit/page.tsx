@@ -59,7 +59,7 @@ export default async function AdminAuditPage({
 
   return (
     <section className="flex flex-col gap-4">
-      <Breadcrumb items={[{ label: "管理", href: "/admin" }, { label: "監査ログ" }]} />
+      <Breadcrumb items={[{ label: "監査ログ" }]} />
       {error ? (
         <AuditLogPanel data={data} values={values} error={error} />
       ) : (
