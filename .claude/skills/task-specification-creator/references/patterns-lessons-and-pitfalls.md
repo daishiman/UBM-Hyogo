@@ -551,6 +551,19 @@ dev sync-merge で同一の pure adapter / pure function 関数が **HEAD 側と
 - 片側 take（HEAD のみ採用して dev 側の callback を捨てる、または逆）→ 失われた振る舞いが test green でも実機で silent regression。
 - 引数名衝突の自動 union（同じ位置に意味が違う引数を両方差し込む）→ 呼び出し側 type-check fail。意味衝突は最終レポートに記録し人間判断。
 - `UNION_MERGE_TARGETS` への adapter ソース追加 → コード union による意味壊しが将来再現するため禁止。
+## route group migration × dev primitive swap の二重 conflict（dev sync-merge / 2026-05-26）
+
+dev sync-merge で **HEAD = route group rename（`app/<route>/` → `app/(group)/<route>/`）** と **dev = 同一ファイルでの UI primitive swap（native `<input>` → `<Input>` 等）** が並列発生した際の統合パターン。仕様起草時に import 規約を `@/*` alias 起点に固定しておくと merge 衝突時の正規化コストが消える（aiworkflow-requirements の `lessons-learned-dev-sync-merge-conflict-resolution-2026-05.md` L-DEVSYNC-045）。
+
+- **L-DEVSYNC-045 (route group + primitive swap の二重発生)**: `app/(member)/` / `app/(public)/` / `app/(admin)/` 等の route group migration を含む Phase は、Phase 12 implementation-guide で **import を必ず `@/*` path alias で書く**ことを明示し、relative path (`../../../src/...`) を spec / 実装の両方で禁止する。route group は file system 上は実在セグメントのため、relative depth が `(group)` 1 段分ずれて build break する。
+- **正規化ルール**: HEAD 側 alias 形式（`@/lib/api/me-requests.types`, `@/components/ui`）を採用し、dev 側 relative 追記を **alias に正規化して 1 行に統合**。conflict marker の trailing `:path` suffix（`<<<<<<< HEAD:apps/web/app/(member)/...` / `>>>>>>> dev:apps/web/app/...`）が rename 同時発生のシグナル。
+- **Phase 12 ガード**: route group migration を伴う仕様には pre-flight として `grep -rn "from \"\.\./" apps/web/app/(member)/` 等の relative-import 検出 gate を含め、merge 後の typecheck 前段で alias 化を強制する。
+
+### Anti-pattern
+
+- 片側 take（HEAD path だけ採用して dev の UI primitive swap を捨てる、または逆で route group 外しに戻す）→ 仕様退行。
+- relative path を残したまま route group 配下に移す → file system depth ずれで import 解決失敗、CI typecheck で初めて発覚。
+- `UNION_MERGE_TARGETS` への `apps/web/app/**/_components/*.tsx` 追加 → JSX 構造の機械 union は意味壊し、禁止。
 
 ## Playwright spec / setup の ESM `__dirname` 対応（2026-05-26）
 
