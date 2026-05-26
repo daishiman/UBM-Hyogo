@@ -1,0 +1,11 @@
+Command: grep -rn 'label: "管理"' "apps/web/app/(admin)/admin/" || echo '0 hit'
+Result: PASS
+Output: 0 hit
+
+Command: head -1 "apps/web/app/(admin)/layout.tsx"
+Result: PASS
+Output: // task-15 W5 / parallel-03 S-02: admin gate + 2 カラム grid + AdminSidebar + Admin AppShell。
+
+Command: git diff -- "apps/web/app/(admin)/" "apps/web/src/components/admin/Breadcrumb.tsx" | grep -E '^\+' | grep -E '(#[0-9a-fA-F]{3,6}|bg-\[#|text-\[#)' || echo '0 hit'
+Result: PASS
+Output: 0 hit
