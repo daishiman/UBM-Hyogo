@@ -1,0 +1,78 @@
+{
+  "task_id": "serial-06-followup-003-phase6-topology-sync-backfill",
+  "task_name": "serial-06 followup-003 Phase 6 topology sync backfill",
+  "created_at": "2026-05-25T00:00:00+09:00",
+  "status": "implemented_local_evidence_captured",
+  "task_type": "docs-only",
+  "visual_category": "NON_VISUAL",
+  "implementation_mode": "docs-only",
+  "metadata": {
+    "workflow_state": "implemented_local_evidence_captured",
+    "implementation_status": "docs_backfill_applied",
+    "taskType": "docs-only",
+    "visualEvidence": "NON_VISUAL",
+    "implementationCategory": "docs-backfill",
+    "spec_classification": "docs_only_spec",
+    "canonical_workflow": "docs/30-workflows/completed-tasks/serial-06-followup-003-phase6-topology-sync-backfill/",
+    "base_branch": "dev",
+    "work_branch": "docs/issue-884-serial06-phase6-topology-sync-backfill",
+    "issue_number": 884,
+    "issue_state_directive": "keep_open_per_user",
+    "parent_workflow": "docs/30-workflows/ui-prototype-design-system-foundation/serial-06-form-response-binding/",
+    "supersedes_unassigned_task": "docs/30-workflows/completed-tasks/unassigned-task/serial-06-followup-003-phase-6-playwright-topology-sync.md",
+    "acceptance_criteria": [
+      { "id": "AC-1", "title": "Phase 6 spec §3 に SSR fetch intercept 制約 note 追記", "depends_on": [] },
+      { "id": "AC-2", "title": "Phase 10 spec line 130/141 の page.route 文言 backfill", "depends_on": [] },
+      { "id": "AC-3", "title": "patterns-lessons-and-pitfalls.md に SSR/testDir 2 entry cross-link 追加", "depends_on": [] },
+      { "id": "AC-4", "title": "unassigned-task consumed 化 + canonical_workflow pointer", "depends_on": ["AC-1", "AC-2", "AC-3"] },
+      { "id": "AC-5", "title": "verify:phase12-compliance + gate-metadata:validate green", "depends_on": ["AC-4"] }
+    ],
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-05-25T00:00:00+09:00",
+        "evidence_path": "docs/30-workflows/completed-tasks/serial-06-followup-003-phase6-topology-sync-backfill/phase-03-task-breakdown.md",
+        "approver": "daishiman",
+        "notes": "spec_review: Phase 1-13 docs-only spec created for issue #884 residual DoD backfill"
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "passed",
+        "passed_at": "2026-05-25T00:00:00+09:00",
+        "evidence_path": "docs/30-workflows/completed-tasks/serial-06-followup-003-phase6-topology-sync-backfill/outputs/phase-12/phase12-task-spec-compliance-check.md",
+        "approver": "daishiman",
+        "notes": "implementation_review: doc edits applied; local validation commands recorded in Phase 12 evidence"
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/serial-06-followup-003-phase6-topology-sync-backfill/phase-13-commit-and-pr.md",
+        "approver": "daishiman",
+        "notes": "external_ops: commit / push / PR は user-gated。Issue #884 close は実行禁止（OPEN 保持指示）"
+      }
+    ]
+  },
+  "phases": [
+    { "phase": 1, "name": "要件定義", "status": "completed", "output": "phase-01-requirements.md" },
+    { "phase": 2, "name": "アーキテクチャ", "status": "completed", "output": "phase-02-architecture.md" },
+    { "phase": 3, "name": "タスク分解", "status": "completed", "output": "phase-03-task-breakdown.md" },
+    { "phase": 4, "name": "契約定義", "status": "completed", "output": "phase-04-contracts.md" },
+    { "phase": 5, "name": "実装ガイド", "status": "completed", "output": "phase-05-implementation-guide.md" },
+    { "phase": 6, "name": "テスト戦略", "status": "completed", "output": "phase-06-test-strategy.md" },
+    { "phase": 7, "name": "品質ゲート", "status": "completed", "output": "phase-07-quality-gates.md" },
+    { "phase": 8, "name": "DoD", "status": "completed", "output": "phase-08-definition-of-done.md" },
+    { "phase": 9, "name": "リスク", "status": "completed", "output": "phase-09-risks-and-mitigations.md" },
+    { "phase": 10, "name": "ローカル検証", "status": "completed", "output": "phase-10-local-verification.md" },
+    { "phase": 11, "name": "evidence inventory", "status": "completed", "output": "phase-11-evidence-inventory.md" },
+    { "phase": 12, "name": "compliance check", "status": "completed", "output": "phase-12-compliance-check.md" },
+    { "phase": 13, "name": "commit & PR", "status": "pending_user_approval", "output": "phase-13-commit-and-pr.md" }
+  ],
+  "implementation_targets": [
+    "docs/30-workflows/ui-prototype-design-system-foundation/serial-06-form-response-binding/phase-06-test-strategy.md",
+    "docs/30-workflows/ui-prototype-design-system-foundation/serial-06-form-response-binding/phase-10-local-verification.md",
+    ".claude/skills/task-specification-creator/references/patterns-lessons-and-pitfalls.md",
+    "docs/30-workflows/completed-tasks/unassigned-task/serial-06-followup-003-phase-6-playwright-topology-sync.md"
+  ]
+}

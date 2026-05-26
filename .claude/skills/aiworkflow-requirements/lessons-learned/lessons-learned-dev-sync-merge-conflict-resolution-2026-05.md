@@ -663,3 +663,71 @@
   4. `grep -n -E '^(<<<<<<<|=======|>>>>>>>|\|\|\|\|\|\|\|)' apps/web/src/lib/env.ts apps/web/src/lib/__tests__/env.spec.ts` が空であることを確認 → `git add` → `git commit --no-edit`。
 - 留意: 同一 schema key（例: 両側が `CSP_MODE` を別形で定義）に競合があれば union 不可。本パターンは「両側が EnvSchema 既存 key の異なる subset を pick / 異なる関数名で export」する場合に限り成立する。同じ関数名・同じ schema 名への両側 mutation は L-DEVSYNC-013 系の意味的競合として最終レポート対象。
 - 事例: 2026-05-25 `docs/issue-869-csp-enforce-cutover-spec` ← dev sync-merge。HEAD = `getSecurityHeaderEnv` (#869 / CSP enforce)、dev = `getAuthEnv` / `getPublicFetchEnv` (#862 / auth env 統一)。両側 schema 宣言（`SecurityHeaderEnvSchema` / `AuthEnvSchema` + `ServiceBinding` 型 + `PublicFetchEnv` interface）と関数を両保持、test 側 import を `getAuthEnv, getEnv, getPublicEnv, getPublicFetchEnv, getSecurityHeaderEnv, readRawEnv` の multi-line に集約、`it` ブロック 3+3 を両側順次保持して `describe` 終端 `});` を 1 本に整理。conflict marker grep 0 確認後 merge commit。task-specification-creator skill 側 SP-DEVSYNC-034 と対応。
+
+## L-DEVSYNC-042: page fetch 関数の Result wrapping × parser 拡張並列衝突は「上位 wrapping 採用 + parser 行差し替え」で機械統合（2026-05-25 追加）
+
+- 事象: `feat/issue-883-adapter-dev-warn-unknown-kind` ← dev sync-merge で `apps/web/app/(public)/members/[id]/page.tsx` の `fetchProfile` 内に 3-way conflict が 2 箇所。HEAD = issue-883 が `PublicMemberProfileWithUnknownKindZ.parse(raw)` と `toMemberDetailProps(profile, { onUnknownKind })` を導入、dev = issue-879 が同関数の戻り値を `{ ok: true, data } | { ok: false, error }` の Result 型 (`safeServerFetch` 経由) に wrap し、page 本体に SectionError 分岐を追加。両側が同じ関数の return 行と同じ page 本体の `props =` 行を差し替えるため diff3 marker が密集する。
+- Why: dev 側の Result wrapping は呼び出し側 (page 本体) の if 分岐とエラー UI（SectionError）まで波及する **上位レイヤーの規約変更**。HEAD 側 parser 拡張と onUnknownKind option は wrapping の内側で完結する **直交変更**。上位を採用しつつ内側で HEAD の意図を再適用すれば両意図保持で機械統合可能。
+- How to apply:
+  1. resolver で `apps/web/app/(public)/[*]/page.tsx` 系の unhandled conflict を見たら、HEAD/dev のどちらかが Result wrapping (`safeServerFetch` 採用) を含むかを `grep -n 'safeServerFetch\|{ ok:' <path>` で判定する。
+  2. wrapping 側を**上位として採用**: return 行は `{ ok: true, data: <parser>.parse(result.data) }`、page 本体は `if (!profileResult.ok) { return <SectionError ... /> }` を残す。
+  3. parser 拡張側を**内側で再適用**: `<parser>` を `*WithUnknownKindZ` に差し替え、`toMemberDetailProps(profileResult.data, { onUnknownKind })` のように HEAD 側 option を ok 分岐後に付与する。
+  4. `grep -nE '<<<<<<<|=======|>>>>>>>|\|\|\|\|\|\|\|' <path>` 0 件確認 → `git add` → `git commit --no-edit`。
+- 留意: 「wrapping 採用 × parser 拡張保持」は dev 側 ok 分岐後のオブジェクト名 (`profileResult.data` vs HEAD の `profile`) を統一する必要がある。grep で `profile\.` の旧参照が残っていないか確認すること。Result 型を返さない pure throw 形式の fetch を HEAD 側が温存していた場合、wrapping を捨てて HEAD を採るのは page 本体の SectionError UX を消すため避ける（UI 退行）。
+- 参照: task-specification-creator SP-DEVSYNC-035（同事例の task 仕様書側ガイド）。
+- 再発事例: 2026-05-25 `fix/issue-882-terms-prefetch-env-validation` ← dev sync-merge。HEAD = `getPublicEnvSafe` (#882 / `/terms` RSC prefetch env validation fallback)、dev = `getSecurityHeaderEnv` (#869 / CSP enforce) 等。`pnpm sync:resolve` で skill index 系（SKILL.md / quick-reference.md / resource-map.md / topic-map.md / task-workflow-active.md は union、keywords.json は `--ours` + `pnpm indexes:rebuild`）は完全自動解消、`env.ts` / `env.spec.ts` のみ `WARN unhandled conflict` として残置。本ルール通り (a) 両側 export 関数保持（順序維持）、(b) test 側 import を `getAuthEnv, getEnv, getPublicEnv, getPublicEnvSafe, getPublicFetchEnv, getSecurityHeaderEnv, readRawEnv` の multi-line に集約、(c) `it` ブロック両側順次保持で機械統合可能。**3-way の HEAD side が増えても（HEAD = #882 だが merge 親に既に #862 系コミットが含まれる多段ケース）パターン適用は同一**。typecheck / lint green 確認後 merge commit。本パターンが 3 連続再現（#869↔#862、#882↔#869）したため、`env.ts` への新 getter 追加 issue では `pr-pre-flight-ci-gate-checklist.md` §3 ローカル先回りで `git merge --no-commit origin/dev` を試して merge 前に conflict 範囲を確認することを task-specification-creator skill SP-DEVSYNC-034 にも展開する。
+
+## L-DEVSYNC-042: dev merge 後の e2e 失敗で **テスト assertion の broad-catch が他 issue の副作用で破綻**するアンチパターン（2026-05-25 追加）
+
+- 症状: 2026-05-25 `fix/issue-882` の `playwright/tests/terms-prefetch.spec.ts` が dev merge 後の CI（mobile-webkit / desktop-firefox / desktop-chromium）で失敗。ローカル green、pre-push hook 全 5 green でも CI で落ちる。原因は test 側で `page.on("console", m => m.type()==="error" && errors.push(...))` の**全 console.error 拾い** + `expect(errors).toEqual([])` という broad-catch assertion。dev merge で取り込んだ **#869 CSP report-only モード**が `[Report Only] Refused to apply a stylesheet ...` を多発させ、issue-882 と無関係に test が破綻。
+- Why: lefthook pre-push の `phase12-compliance-guard` / `coverage-guard` / `verify-esbuild` 等は spec の構造を見るだけで、test assertion の意味的 over-specification は検出できない。CI でのみ顕在化する。さらに `terms-prefetch.spec.ts` の責務は「`/terms` RSC prefetch が env validation で 5xx / Zod throw を露出しない」ことであり、CSP / a11y / hydration 等の console.error は責任範囲外。broad-catch は将来 dev に新しい issue が入るたびに**無関係に壊れる構造的 fragile**。
+- How to apply:
+  1. dev sync merge 後 e2e が失敗したら、まず failed test を `git diff origin/dev -- <test-path>` で確認し、HEAD 側で broad-catch（`toEqual([])` / `toHaveLength(0)` を `page.on(...)` の未 filter 配列に適用）を使っていないかを `grep -nE 'page\.on\("(console|pageerror)"\)' apps/web/playwright/tests/` で発見する。
+  2. 該当する場合は issue 固有の正規表現 patterns 配列 + ヘルパ関数で filter してから assertion 対象配列へ push するよう書き換える（例は task-specification-creator SP-DEVSYNC-036 参照）。
+  3. CSP report-only モードの console.error は `[Report Only]` プレフィックスで識別可能。少なくともこの prefix を含むものは大半の issue で除外して良い既知 noise。
+- 留意: broad-catch は test 作成時には「漏れなく検知できる」という安心感があるが、monorepo の dev 進化速度が高い本 repo では確実に fragile。新規 e2e test review checklist に「`page.on('console'|'pageerror')` の未 filter assertion がないか」を入れる。
+- 事例: 2026-05-25 `fix/issue-882` で `TERMS_ENV_ERROR_PATTERNS = [/ZodError/i, /Invalid environment/i, /env\.ts/i, /terms.*prefetch/i, /prefetch.*terms/i]` + `isTermsEnvError(text)` helper を導入して CSP report-only noise を除外。再 push で CI green。task-specification-creator skill SP-DEVSYNC-036 と対応。
+
+## L-DEVSYNC-042: `patterns-lessons-and-pitfalls.md` 末尾並列 section 追加は両側保持 union で機械統合可能（2026-05-25 追加）
+
+- 事象: dev sync-merge で `.claude/skills/task-specification-creator/references/patterns-lessons-and-pitfalls.md` が `WARN unhandled conflict`。HEAD 側（issue-884 serial06 Phase6 topology sync 系）が「Playwright / Server Component topology」section を、dev 側（issue-879 safe-server-fetch / issue-872 brand asset）が「layer-specific helper の horizontal expansion」「Design-token exempt artifact」 2 section を、いずれもファイル末尾の append-only として追加。base は同末尾行で両側 hunk が連続するため diff3 が単一ブロック化する。
+- Why: 本ファイルは Phase 12 で促進された新パターンを末尾に追記する SSOT 兼 lesson 集積簿で、同 sprint で複数 issue から並列に section が増える。各 section は意味的に独立（別 pattern domain）で union 等価で安全に統合できる。
+- How to apply:
+  1. resolver で `WARN unhandled conflict: .claude/skills/task-specification-creator/references/patterns-lessons-and-pitfalls.md` を見たら、conflict 範囲がファイル末尾 1 箇所に閉じているか `grep -n -E '^(<<<<<<<|=======|>>>>>>>|\|\|\|\|\|\|\|)' <file>` で確認。
+  2. 範囲末尾限定なら、HEAD 側 section → `|||||||` base 行群を破棄 → dev 側 section の順で**両方の section 本文を保持**し marker 3 種を全削除する。section heading（`## ...`）が両側で独立していれば衝突しない。
+  3. `grep` でマーカー残ゼロ確認 → `git add <file>` → merge commit を `git commit --no-edit` で確定。
+- 留意: 範囲がファイル中央の既存 section 内に入り込む場合（同じ heading 配下に両側が `-` bullet を追加するパターン）は union が崩れやすい。その場合は L-DEVSYNC-030 / table-merge ルールに切替えて bullet 単位の片側採用 union を行う。本パターンは「末尾 append-only かつ section heading が別物」の場合に限り成立する。
+- 推奨拡張: `scripts/sync/resolve-skill-merge-conflicts.sh` の `UNION_MERGE_TARGETS` 系候補として `.claude/skills/*/references/patterns-lessons-and-pitfalls.md` を追加すれば、本パターンも `pnpm sync:resolve` 一発完結に昇格できる（次回 resolver 拡張時の TODO）。
+- 事例: 2026-05-25 `docs/issue-884-serial06-phase6-topology-sync-backfill` ← dev sync-merge。HEAD 末尾の Playwright topology section と dev 末尾の helper / brand asset 2 section を両側保持で union 統合。conflict marker grep 0 確認後 merge commit、`bash scripts/verify-pr-ready.sh` 一発 PASS で push 成功。
+
+## L-DEVSYNC-042: `feat/admin-section-error-retry` ← dev sync-merge は skill indexes 3 件のみで `pnpm sync:resolve` 完結（2026-05-25 追加・happy-path 再確認）
+
+- 事象: `feat/admin-section-error-retry`（HEAD = AdminSectionErrorClient + L-ASR-001..005 / L-RSC-001..005 反映）に dev（#869 CSP enforce cutover / #871 CSP nonce / #872 Google brand icon / etc.）を取り込んだ際、conflict は `.claude/skills/aiworkflow-requirements/indexes/{quick-reference,resource-map,topic-map}.md` の 3 件のみで、`pnpm sync:resolve` 一発で union 解消 → `git add -A` → `git commit -m "merge: sync <branch> with dev"` で完結。CLAUDE.md sync-merge セクションの「pre-commit `staged-task-dir-guard` / pre-push `coverage-guard` が `MERGE_HEAD` 検出で自動 skip」が機能し `--no-verify` 不要。`pnpm typecheck` / `pnpm lint` いずれも green。
+- Why: 3 層予防（[[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-007）+ resolver の `REGENERATE_TARGETS` 自動化（L-DEVSYNC-037）+ unhandled パターン辞書（L-DEVSYNC-040..041）が累積した結果、HEAD 側がスキル系の差分のみで body のソースコード変更が限定的なケースでは sync-merge が「resolver 1 コマンド」に圧縮できることが定量再確認できた。これは「skill index 系 conflict は実害ゼロの構造的副産物」という前提が正しく機能している証跡。
+- How to apply: dev sync-merge 開始時に `git merge dev --no-edit` の conflict 一覧を先に確認し、`.claude/skills/*/indexes/` + `LOGS/_legacy.md` + `references/task-workflow-active.md` の標準集合に閉じている場合、即 `pnpm sync:resolve` → conflict marker grep 0 確認 → `git add -A` → `git commit -m "merge: sync <branch> with dev"` の最短ルートを取る。`--no-verify` は付けない（hook 側で auto-skip するため不要、付けると CONST_001 違反扱い）。本ケースは追加で `apps/web/src/lib/env.ts` 等のソース conflict も発生しなかったため L-DEVSYNC-041（並列 export 追加）の手動 union 工程もスキップできた。
+- 留意: HEAD 側のソースコード変更が大きい（特に `apps/web/src/lib/env.ts` / `middleware.ts` / spec test 系を触っている）場合は L-DEVSYNC-041 系手動 union が再発する可能性が高い。本パターンは「HEAD 側の主要差分が `apps/web/src/components/admin/` + skill 反映のみ」のような body 境界が明確なケースで成立する。
+- 事例: 2026-05-25 `feat/admin-section-error-retry` (HEAD = `4a44c558c` AdminSectionErrorClient + skill sync) ← dev (`db031fc66` issue-872 brand icon)。dev 取り込みコミット数 3（#869 / #871 / #872）、conflict 3 ファイル全て skill indexes、resolver 完結時間 < 5 秒、後続 `typecheck` / `lint` パス。
+
+## L-DEVSYNC-043: 同一 adapter 関数 signature への並列拡張 conflict は「引数列の union 化」で統合する（2026-05-26 追加）
+
+- 事象: `feat/issue-891-member-detail-kind-exhaustiveness-guard` ← dev sync-merge で `apps/web/src/lib/adapters/member-detail.ts` と同 spec が `pnpm sync:resolve` の `WARN unhandled conflict`。HEAD = issue-891（`KIND_ROUTE satisfies Record<FieldKind, KindRoute>` + `DETAIL_KINDS` / `LINK_KINDS` 派生 + `normalizeField(field, routeKinds)` への引数追加）、dev = issue-883（`onUnknownKind?: (field) => void` callback + `normalizeField(field, onUnknownKind)` への引数追加）。両方が **同じ純関数の signature を独立に拡張**しているため diff3 が単一の隣接 hunk として競合し、片側 take では仕様欠落になる。
+- Why: pure adapter / pure function は spec の Phase 4 contracts に signature を SSOT として固定するが、別 issue が同時期に「signature を 1 引数追加」する拡張系修正を独立に行うと、merge tool は構造を理解しないため WARN unhandled になる。両仕様とも振る舞いが orthogonal（exhaustiveness 強制 と observability callback）で、両側保持が唯一正しい結果。`pnpm sync:resolve` の `UNION_MERGE_TARGETS` には `apps/web/src/lib/adapters/*.ts` は **意図的に含めない**（コード union は意味壊し）。
+- How to apply:
+  1. `WARN unhandled conflict` で adapter ソース 2 ファイル（impl + spec）が出たら、HEAD 側引数と dev 側引数を**両方 signature に並べる**（順序ルール: 必須引数 → routing 用 → observability callback → options）。
+     例: `normalizeField(field, routeKinds, onUnknownKind?)`、`normalizeSection(section, routeKinds, onUnknownKind?)`、呼び出し側は `options.onUnknownKind` で配線。
+  2. spec ファイルの `import` 行 conflict は、HEAD 側 export（`__testInternals` 等）と dev 側 export（`PublicMemberProfileWithUnknownKindZ` 等）を**カンマ並べ 1 行で union**。`describe` ブロックは両側追記を保持（テスト件数は両側合計、削除しない）。
+  3. resolver 完了後 `grep -nE '^(<<<<<<<|=======|>>>>>>>|\|\|\|\|\|\|\|)' apps/web/src/lib/adapters/` でマーカー残ゼロ確認 → `pnpm typecheck`（signature の orthogonal 統合が型整合するかを最初にゲート） → `pnpm lint` → `git add -A` → `git commit -m "merge: sync <branch> with dev"`。
+  4. resolver 拡張は不要。コード union は危険なので resolver 側で自動化せず、L-DEVSYNC-043 を手動 union ルールとして spec template に組み込む（task-specification-creator patterns-lessons-and-pitfalls.md「parallel adapter signature extension」項目参照）。
+- 留意: 片側が「同じ引数名」を別意味で追加している場合は orthogonal でないため、最終レポートに記録し人間判断を仰ぐ（callback と routing set のような明確に意味が分かれる場合のみ自動 union 適用可）。リネーム提案は元 issue へ feedback。
+- 事例: 2026-05-26 `feat/issue-891-...` ← dev sync-merge。`pnpm sync:resolve` が skill index 5 + `keywords.json --ours` を解消、unhandled は patterns-lessons + adapter impl + adapter spec の 3 ファイル。patterns-lessons は L-DEVSYNC-042（末尾並列 section 両側保持）で解消、adapter 2 ファイルは本 L-DEVSYNC-043 で signature union 化。typecheck / lint 共に green、`pnpm sync:check` で他 worktree 影響なし確認、push 待ち。
+
+## L-DEVSYNC-044: spec の EOF 末尾並列追加（HEAD = `describe` 追加 / dev = trailing comment block 追加）は両側保持で union（2026-05-26 追加・再発確認）
+
+- 事象: `feat/issue-891-member-detail-kind-exhaustiveness-guard` ← dev 二次 sync-merge（#939 regression-evidence + #941 issue-885 adapter pipeline）で `apps/web/src/lib/adapters/__tests__/member-detail.spec.ts` のみ `WARN unhandled conflict`。HEAD は `describe("KIND_ROUTE exhaustiveness", ...)` + `describe("toMemberDetailProps の分類除外", ...)` の追加、dev は `// === EXTENSION TEMPLATE ===` 〜 `// === END EXTENSION TEMPLATE ===` のトレーリングコメントブロック追加。diff3 marker (`||||||| d1dc22705`) 付きで隣接 hunk として競合するが、両側とも **既存 `});` 後の純粋な末尾追記**で意味的に直交。
+- Why: spec 末尾の「テスト追加」と「拡張テンプレート comment」は同じ EOF 位置に追加される構造的副産物で、commit graph 上は無関係。コード union は禁止（L-DEVSYNC-043 留意）だが、本ケースは **隣接挿入の順序のみが衝突**しており両側を直列に並べれば意味が保たれる。
+- How to apply:
+  1. `WARN unhandled conflict` で spec ファイル 1 件のみ、conflict hunk が `<<<<<<< HEAD ... describe(...) ... ||||||| <sha> ======= ... // === ... TEMPLATE === ... >>>>>>> origin/dev` の形（base が空）なら両側追記パターンと判定。
+  2. HEAD 側の `describe(...) { ... });` をそのまま残し、続けて空行 + dev 側の comment block を配置。conflict marker 3 種（`<<<<<<<` / `|||||||` / `=======` / `>>>>>>>`）を Edit で個別に除去。
+  3. `grep -nE '^(<<<<<<<|=======|>>>>>>>|\|\|\|\|\|\|\|)' <path>` でマーカー残ゼロ → `git add -A` → typecheck / lint → commit。本パターンは signature 変更を伴わないため typecheck はほぼ自動 pass。
+- 留意: 同じ EOF 末尾追記でも、片側が `export const X = ...` を追加 + 他方が `export const Y = ...` を追加するソース module の場合は L-DEVSYNC-041（並列 export 追加）系で処理する。本 L-DEVSYNC-044 は **spec / docs / README の末尾追記**に限定して適用する。
+- 事例: 2026-05-26 `feat/issue-891-...` ← dev (`5b043e359` issue-885 / `67f1b3a17` regression-evidence)。skill index 5 + spec 1 の計 6 conflict、resolver が前者 5 件を union 解消、spec 1 件のみ本 lesson で手動 union 化。後続 `git status` clean、typecheck / lint green。

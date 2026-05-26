@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 
-import { getPublicEnv } from "../env";
+import { getPublicEnvSafe, type Env } from "../env";
 
 export const SITE = {
   name: "UBM 兵庫支部会",
@@ -17,14 +17,23 @@ const SITE_URL_MAP: Record<string, string> = {
   local: "http://localhost:3000",
 };
 
+const DEFAULT_PUBLIC_ENV = {
+  ENVIRONMENT: "local",
+  NEXT_PUBLIC_API_BASE_URL: "http://localhost:8787",
+} as const satisfies Pick<Env, "ENVIRONMENT" | "NEXT_PUBLIC_API_BASE_URL">;
+
+function resolvePublicEnv(): Pick<Env, "ENVIRONMENT" | "NEXT_PUBLIC_API_BASE_URL"> {
+  return getPublicEnvSafe() ?? DEFAULT_PUBLIC_ENV;
+}
+
 export function getSiteUrl(): URL {
-  const env = getPublicEnv();
+  const env = resolvePublicEnv();
   return new URL(SITE_URL_MAP[env.ENVIRONMENT] ?? SITE_URL_MAP.local);
 }
 
 export function buildBaseMetadata(): Metadata {
   const base = getSiteUrl();
-  const env = getPublicEnv();
+  const env = resolvePublicEnv();
   return {
     metadataBase: base,
     title: { default: SITE.name, template: `%s | ${SITE.name}` },

@@ -13,7 +13,7 @@ Detected count: 1
 
 | ID | Path | Classification | Reason |
 | --- | --- | --- | --- |
-| home-page-prototype-alignment-followup-001 | `docs/30-workflows/unassigned-task/home-page-prototype-alignment-followup-001-terms-prefetch-env-validation.md` | bugfix / runtime | Phase 11 manual test で JavaScript 有効時に `/` 描画が `/terms` route の env validation prefetch throw で阻害される事象を確認。本ワークフローは CSS selector / data-role 統一スコープのため、`/terms` env validation の根治は別タスクとして切り出した。 |
+| home-page-prototype-alignment-followup-001 | `docs/30-workflows/completed-tasks/home-page-prototype-alignment-followup-001-terms-prefetch-env-validation.md` | bugfix / runtime | Phase 11 manual test で JavaScript 有効時に `/` 描画が `/terms` route の env validation prefetch throw で阻害される事象を確認。本ワークフローは CSS selector / data-role 統一スコープのため、`/terms` env validation の根治は別タスクとして切り出した。 |
 
 ## Rationale
 

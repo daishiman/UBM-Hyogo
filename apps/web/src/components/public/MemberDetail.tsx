@@ -11,6 +11,7 @@ import type { MemberDetailProps } from "@/lib/adapters/member-detail";
 
 import { MemberActivity } from "./MemberActivity";
 import { MemberDetailSections } from "./MemberDetailSections";
+import { MemberLinks } from "./MemberLinks";
 import { MemberTags } from "./MemberTags";
 import { ProfileHero } from "./ProfileHero";
 
@@ -58,6 +59,7 @@ export function MemberDetail({
   memberId,
   summary,
   sections,
+  linkSections,
   attendance,
   tags,
 }: MemberDetailProps) {
@@ -77,6 +79,7 @@ export function MemberDetail({
         ubmMembershipType={summary.ubmMembershipType}
       />
       {tags.length > 0 ? <MemberTags tags={tags} /> : null}
+      <MemberLinks sections={toLegacySections(linkSections)} />
       <MemberDetailSections sections={toLegacySections(sections)} />
       <MemberActivity sections={toLegacyActivitySections(attendance)} />
     </article>

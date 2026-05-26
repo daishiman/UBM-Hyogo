@@ -1,0 +1,144 @@
+{
+  "task_name": "admin-ui-prototype-alignment-followup-002-section-error-retry",
+  "task_path": "docs/30-workflows/completed-tasks/admin-ui-prototype-alignment-followup-002-section-error-retry/",
+  "created_at": "2026-05-25T00:00:00+09:00",
+  "status": "implementation_reviewed",
+  "task_type": "implementation",
+  "visual_category": "NON_VISUAL",
+  "metadata": {
+    "workflow_state": "implementation_reviewed",
+    "taskType": "implementation",
+    "visualEvidence": "NON_VISUAL",
+    "implementation_mode": "new",
+    "source_issue": 881,
+    "source_issue_state": "CLOSED",
+    "parent_workflow": "admin-ui-prototype-alignment",
+    "source_unassigned_task": "docs/30-workflows/completed-tasks/unassigned-task/admin-ui-prototype-alignment-followup-002-admin-section-error-retry-cta.md",
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-05-25T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/admin-ui-prototype-alignment-followup-002-section-error-retry/index.md",
+        "approver": "daishiman",
+        "notes": "spec_review: Phase 1-13 spec readiness + issue #881 optimization decision"
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "passed",
+        "passed_at": "2026-05-25T01:34:44Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/admin-ui-prototype-alignment-followup-002-section-error-retry/phase-5-implementation.md",
+        "approver": "daishiman",
+        "notes": "implementation_review passed: AdminSectionError props extension + client wrapper + page wiring + focused unit/jest-axe spec"
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/admin-ui-prototype-alignment-followup-002-section-error-retry/outputs/phase-11/main.md",
+        "approver": "daishiman",
+        "notes": "external_ops pending: commit, push, and PR are user-gated; local evidence captured in outputs/phase-11"
+      }
+    ]
+  },
+  "phases": [
+    {
+      "phase": 1,
+      "name": "要件定義",
+      "file": "phase-01-requirements.md",
+      "status": "spec_created"
+    },
+    {
+      "phase": 2,
+      "name": "アーキテクチャ",
+      "file": "phase-2-design.md",
+      "status": "spec_created"
+    },
+    {
+      "phase": 3,
+      "name": "タスク分解",
+      "file": "phase-3-design-review.md",
+      "status": "spec_created"
+    },
+    {
+      "phase": 4,
+      "name": "データ契約",
+      "file": "phase-4-test-creation.md",
+      "status": "spec_created"
+    },
+    {
+      "phase": 5,
+      "name": "実装ガイド",
+      "file": "phase-5-implementation.md",
+      "status": "spec_created"
+    },
+    {
+      "phase": 6,
+      "name": "テスト戦略",
+      "file": "phase-6-test-expansion.md",
+      "status": "spec_created"
+    },
+    {
+      "phase": 7,
+      "name": "品質ゲート",
+      "file": "phase-7-coverage-check.md",
+      "status": "spec_created"
+    },
+    {
+      "phase": 8,
+      "name": "Definition of Done",
+      "file": "phase-8-refactoring.md",
+      "status": "spec_created"
+    },
+    {
+      "phase": 9,
+      "name": "リスク",
+      "file": "phase-9-quality-assurance.md",
+      "status": "spec_created"
+    },
+    {
+      "phase": 10,
+      "name": "ローカル検証",
+      "file": "phase-10-final-review.md",
+      "status": "spec_created"
+    },
+    {
+      "phase": 11,
+      "name": "Evidence inventory",
+      "file": "phase-11-manual-test.md",
+      "status": "spec_created"
+    },
+    {
+      "phase": 12,
+      "name": "Compliance check",
+      "file": "phase-12-documentation.md",
+      "status": "spec_created"
+    },
+    {
+      "phase": 13,
+      "name": "Commit / PR draft",
+      "file": "phase-13-pr-creation.md",
+      "status": "spec_created"
+    }
+  ],
+  "outputs": {
+    "phase_11": [
+      "outputs/phase-11/main.md",
+      "outputs/phase-11/manual-smoke-log.md",
+      "outputs/phase-11/link-checklist.md",
+      "outputs/phase-11/evidence-inventory.md",
+      "outputs/phase-11/unit-test-result.md",
+      "outputs/phase-11/axe-result.md",
+      "outputs/phase-11/grep-use-client-result.md"
+    ],
+    "phase_12": [
+      "outputs/phase-12/main.md",
+      "outputs/phase-12/implementation-guide.md",
+      "outputs/phase-12/system-spec-update-summary.md",
+      "outputs/phase-12/documentation-changelog.md",
+      "outputs/phase-12/unassigned-task-detection.md",
+      "outputs/phase-12/skill-feedback-report.md",
+      "outputs/phase-12/phase12-task-spec-compliance-check.md"
+    ]
+  }
+}
