@@ -1,0 +1,82 @@
+{
+  "title": "issue-894 AdminTopbar breadcrumb slot integration",
+  "type": "implementation",
+  "status": "implementation_complete_pending_pr",
+  "metadata": {
+    "workflow_id": "issue-894-admin-topbar-breadcrumb-integration",
+    "workflow_state": "implemented_local_evidence_captured",
+    "implementation_status": "implementation_complete_pending_pr",
+    "taskType": "implementation",
+    "visualEvidence": "VISUAL",
+    "source_issue": "https://github.com/daishiman/UBM-Hyogo/issues/894",
+    "source_issue_state_verified": "CLOSED on 2026-05-25 via gh issue view 894",
+    "source_issue_relation": "Refs #894",
+    "commit_push_pr": "user_gated",
+    "adopted_option": "B",
+    "parent_workflow": "docs/30-workflows/completed-tasks/parallel-03-followup-001-admin-topbar-primitive-extraction/",
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-05-25T12:45:00.000+09:00",
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-894-admin-topbar-breadcrumb-integration/phase-12-compliance-check.md",
+        "approver": "daishiman",
+        "notes": "spec_review: Phase 1-13 spec 完備 + canonical 9 headings + 不変条件 1-4 + RSC 維持遵守の確認"
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "passed",
+        "passed_at": "2026-05-25T12:45:00.000+09:00",
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-894-admin-topbar-breadcrumb-integration/phase-05-implementation-guide.md",
+        "approver": "daishiman",
+        "notes": "implementation_review: T1-T4 実装完了 + vitest pass + typecheck/lint 0 error + axe critical 0 + 「管理」grep 0 件"
+      }
+    ]
+  },
+  "phases": [
+    { "phase": 1, "status": "completed", "artifacts": [{ "name": "phase-01-requirements.md" }] },
+    { "phase": 2, "status": "completed", "artifacts": [{ "name": "phase-02-architecture.md" }] },
+    { "phase": 3, "status": "completed", "artifacts": [{ "name": "phase-03-task-breakdown.md" }] },
+    { "phase": 4, "status": "completed", "artifacts": [{ "name": "phase-04-interface-contract.md" }] },
+    { "phase": 5, "status": "completed", "artifacts": [{ "name": "phase-05-implementation-guide.md" }] },
+    { "phase": 6, "status": "completed", "artifacts": [{ "name": "phase-06-test-strategy.md" }] },
+    { "phase": 7, "status": "completed", "artifacts": [{ "name": "phase-07-quality-gates.md" }] },
+    { "phase": 8, "status": "completed", "artifacts": [{ "name": "phase-08-dod.md" }] },
+    { "phase": 9, "status": "completed", "artifacts": [{ "name": "phase-09-risks.md" }] },
+    { "phase": 10, "status": "completed", "artifacts": [{ "name": "phase-10-local-verification.md" }] },
+    { "phase": 11, "status": "completed", "artifacts": [{ "name": "phase-11-evidence-inventory.md" }] },
+    { "phase": 12, "status": "completed", "artifacts": [{ "name": "phase-12-compliance-check.md" }] },
+    { "phase": 13, "status": "pending_user_approval", "artifacts": [{ "name": "phase-13-commit-pr.md" }] }
+  ],
+  "scope": {
+    "files_to_change": [
+      "apps/web/app/(admin)/layout.tsx",
+      "apps/web/app/(admin)/admin/page.tsx",
+      "apps/web/app/(admin)/admin/members/page.tsx",
+      "apps/web/app/(admin)/admin/requests/page.tsx",
+      "apps/web/app/(admin)/admin/tags/page.tsx",
+      "apps/web/app/(admin)/admin/schema/page.tsx",
+      "apps/web/app/(admin)/admin/audit/page.tsx",
+      "apps/web/app/(admin)/admin/identity-conflicts/page.tsx",
+      "apps/web/app/(admin)/admin/meetings/page.tsx",
+      "apps/web/app/(admin)/layout.spec.tsx",
+      "apps/web/src/components/admin/__tests__/Breadcrumb.spec.tsx"
+    ],
+    "files_not_to_change": [
+      "apps/web/src/components/layout/AdminTopbar.tsx",
+      "apps/web/src/features/admin/components/_layout/AdminPageHeader.tsx",
+      "apps/web/src/styles/tokens.css",
+      "apps/web/src/styles/globals.css",
+      "apps/api/**",
+      "**/migrations/**"
+    ]
+  },
+  "invariants": {
+    "claude_md_invariants": [1, 2, 3, 4, 8],
+    "rsc_boundary_maintained": true,
+    "new_primitive_added": false,
+    "d1_direct_access_added": false,
+    "api_endpoint_changed": false,
+    "google_form_changed": false
+  }
+}

@@ -17,6 +17,9 @@ concurrency:
   group: verify-design-tokens-${{ github.ref }}
   cancel-in-progress: true
 
+permissions:
+  contents: read
+
 jobs:
   verify-design-tokens:
     name: verify-design-tokens

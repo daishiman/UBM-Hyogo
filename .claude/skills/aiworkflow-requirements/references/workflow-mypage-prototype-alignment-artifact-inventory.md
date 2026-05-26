@@ -27,11 +27,11 @@
 
 | Area | Implemented files |
 | --- | --- |
-| Profile page | `apps/web/app/profile/page.tsx` |
-| Profile components | `apps/web/app/profile/_components/{ProfileHeader,StatusSummary,VisibilitySummary,ProfilePreview,ProfileFields,EditCta.client,RevalidateModal,RequestActionPanel}.tsx` |
-| Profile adapters | `apps/web/app/profile/_lib/{visibility-counts,profile-summary}.ts` |
+| Profile page | `apps/web/app/(member)/profile/page.tsx` |
+| Profile components | `apps/web/app/(member)/profile/_components/{ProfileHeader,StatusSummary,VisibilitySummary,ProfilePreview,ProfileFields,EditCta.client,RevalidateModal,RequestActionPanel}.tsx` |
+| Profile adapters | `apps/web/app/(member)/profile/_lib/{visibility-counts,profile-summary}.ts` |
 | Global member nav | `apps/web/src/components/layout/MemberHeader.tsx` |
-| Tests | focused component/unit specs under `apps/web/app/profile/**` and `MemberHeader.spec.tsx` |
+| Tests | focused component/unit specs under `apps/web/app/(member)/profile/**` and `MemberHeader.spec.tsx` |
 
 ## Contract Summary
 
