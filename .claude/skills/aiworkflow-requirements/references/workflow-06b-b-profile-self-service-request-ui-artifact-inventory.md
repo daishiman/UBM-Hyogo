@@ -14,16 +14,16 @@
 
 | Area | Artifact |
 | --- | --- |
-| Profile page | `apps/web/app/profile/page.tsx` |
-| Action panel | `apps/web/app/profile/_components/RequestActionPanel.tsx` |
-| Visibility dialog | `apps/web/app/profile/_components/VisibilityRequestDialog.tsx` |
-| Delete dialog | `apps/web/app/profile/_components/DeleteRequestDialog.tsx` |
-| Pending banner | `apps/web/app/profile/_components/RequestPendingBanner.tsx` |
-| Error message | `apps/web/app/profile/_components/RequestErrorMessage.tsx` |
+| Profile page | `apps/web/app/(member)/profile/page.tsx` |
+| Action panel | `apps/web/app/(member)/profile/_components/RequestActionPanel.tsx` |
+| Visibility dialog | `apps/web/app/(member)/profile/_components/VisibilityRequestDialog.tsx` |
+| Delete dialog | `apps/web/app/(member)/profile/_components/DeleteRequestDialog.tsx` |
+| Pending banner | `apps/web/app/(member)/profile/_components/RequestPendingBanner.tsx` |
+| Error message | `apps/web/app/(member)/profile/_components/RequestErrorMessage.tsx` |
 | Same-origin proxy | `apps/web/app/api/me/visibility-request/route.ts`, `apps/web/app/api/me/delete-request/route.ts` |
 | Client helper | `apps/web/src/lib/api/me-requests.ts` |
 | Client types | `apps/web/src/lib/api/me-requests.types.ts` |
-| Focused tests | `apps/web/app/profile/_components/{RequestActionPanel,VisibilityRequestDialog,DeleteRequestDialog,RequestErrorMessage,RequestPendingBanner}.component.spec.tsx`, `apps/web/src/lib/api/me-requests.spec.ts` |
+| Focused tests | `apps/web/app/(member)/profile/_components/{RequestActionPanel,VisibilityRequestDialog,DeleteRequestDialog,RequestErrorMessage,RequestPendingBanner}.component.spec.tsx`, `apps/web/src/lib/api/me-requests.spec.ts` |
 | Static invariant | `apps/web/src/__tests__/static-invariants.runtime.spec.ts` (S-04b: Request*.tsx に responseId / 本文 field 名禁止) |
 | Playwright E2E | `apps/web/playwright/tests/profile-visibility-request.spec.ts`, `apps/web/playwright/tests/profile-delete-request.spec.ts`（`describe.skip`、Phase 11 smoke 時に unskip） |
 
