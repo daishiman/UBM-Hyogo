@@ -2,6 +2,35 @@
   "task_id": "login-ui-balance-and-runtime-fix",
   "root_artifacts": "../artifacts.json",
   "status": "implemented_local_runtime_pending",
+  "metadata": {
+    "workflow_state": "implemented_local_runtime_pending",
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/login-ui-balance-and-runtime-fix/phase-10-final-review.md",
+        "approver": "daishiman",
+        "notes": "local implementation review: focused specs, grep gate, and local visual screenshots passed"
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/login-ui-balance-and-runtime-fix/outputs/phase-11/manual-test-result.md",
+        "approver": "daishiman",
+        "notes": "local + staging review: input/button balance, Google icon, magic-link 200/202; staging deploy user-gated"
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/login-ui-balance-and-runtime-fix/outputs/phase-13/pr-creation-result.md",
+        "approver": "daishiman",
+        "notes": "external_ops: commit / push / PR are user-gated"
+      }
+    ]
+  },
   "phase_11": {
     "manual_test_result": "phase-11/manual-test-result.md",
     "status": "local_visual_captured_staging_pending"
