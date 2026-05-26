@@ -3,7 +3,11 @@
 ## メタ情報
 
 ```yaml
-issue_number: TBD
+issue_number: 884
+status: consumed
+canonical_workflow: docs/30-workflows/completed-tasks/serial-06-followup-003-phase6-topology-sync-backfill/
+consumed_at: 2026-05-25
+consumed_by_issue: 884
 ```
 
 | 項目         | 内容                                                                                       |
@@ -14,7 +18,7 @@ issue_number: TBD
 | 対象機能     | serial-06 Phase 6 仕様書 / 関連 spec                                                       |
 | 優先度       | 中                                                                                         |
 | 見積もり規模 | 小規模                                                                                     |
-| ステータス   | 未実施                                                                                     |
+| ステータス   | consumed（canonical workflow へ昇格済み）                                                  |
 | 発見元       | serial-06 Phase 12 implementation-guide §「Phase 6 §3 Playwright visual spec の配置」    |
 | 発見日       | 2026-05-23                                                                                 |
 
