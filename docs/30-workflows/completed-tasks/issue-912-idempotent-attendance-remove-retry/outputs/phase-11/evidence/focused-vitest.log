@@ -1,0 +1,16 @@
+[33mThe CJS build of Vite's Node API is deprecated. See https://vite.dev/guide/troubleshooting.html#vite-cjs-node-api-deprecated for more details.[39m
+
+ RUN  v2.1.9 /Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260525-161527-wt-14
+
+ ✓ apps/web/src/lib/admin/__tests__/api.spec.ts (44 tests) 108ms
+ ✓ apps/web/src/features/admin/hooks/__tests__/useAdminMutation.spec.ts (33 tests) 303ms
+ ✓ apps/web/src/components/admin/__tests__/MeetingPanel.component.spec.tsx (20 tests) 2808ms
+   ✓ MeetingPanel.filterCandidates > 既存 attendance を初期状態から disabled にする 318ms
+   ✓ MeetingPanel — empty / mutation / authz > removeAttendance 4xx 失敗: retry せず削除に失敗 toast (confirm 経由) 409ms
+   ✓ MeetingPanel — empty / mutation / authz > removeAttendance 5xx: DELETE は retry し Idempotency-Key を毎回送る 973ms
+
+ Test Files  3 passed (3)
+      Tests  97 passed (97)
+   Start at  19:41:42
+   Duration  13.95s (transform 2.06s, setup 0ms, collect 3.36s, tests 3.22s, environment 9.23s, prepare 3.68s)
+
