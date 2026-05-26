@@ -1,0 +1,81 @@
+{
+  "feature": "issue-882-terms-prefetch-env-validation-fix",
+  "created": "2026-05-25T07:00:00+09:00",
+  "lastUpdated": "2026-05-25T08:15:00+09:00",
+  "status": "implemented_local_evidence_captured",
+  "metadata": {
+    "taskType": "implementation",
+    "visualEvidence": "NON_VISUAL",
+    "workflow_state": "implemented_local_evidence_captured",
+    "implementation_status": "completed_local",
+    "implementationCategory": "standard",
+    "implementation_mode": "env-safe-fallback-for-metadata-prefetch",
+    "scope": "single-cycle",
+    "issue_number": 882,
+    "issue_state": "CLOSED",
+    "issue_policy": "keep_closed_refs_only",
+    "parent_workflow": "docs/30-workflows/completed-tasks/home-page-prototype-alignment/",
+    "source_observation": "docs/30-workflows/completed-tasks/home-page-prototype-alignment/outputs/phase-11/manual-test-result.md",
+    "gates": [
+      { "gate_id": "Gate-A", "status": "passed", "passed_at": "2026-05-24T23:15:00Z", "evidence_path": "docs/30-workflows/completed-tasks/issue-882-terms-prefetch-env-validation-fix/outputs/phase-12/phase12-task-spec-compliance-check.md", "approver": "CODEOWNERS:apps/web", "notes": "spec_review: Phase 1-13 spec compliance" },
+      { "gate_id": "Gate-B", "status": "passed", "passed_at": "2026-05-24T23:15:00Z", "evidence_path": "docs/30-workflows/completed-tasks/issue-882-terms-prefetch-env-validation-fix/outputs/phase-11/manual-test-result.md", "approver": "CODEOWNERS:apps/web", "notes": "implementation_review: console error 0 + prefetch 200" },
+      { "gate_id": "Gate-C", "status": "pending", "passed_at": null, "evidence_path": "docs/30-workflows/completed-tasks/issue-882-terms-prefetch-env-validation-fix/phase-13-pr-creation.md", "approver": "CODEOWNERS:apps/web", "notes": "commit / push / PR / staging deploy are user-gated" }
+    ],
+    "target_files": [
+      "apps/web/src/lib/env.ts",
+      "apps/web/src/lib/seo/site-metadata.ts",
+      "apps/web/src/lib/__tests__/env.spec.ts",
+      "apps/web/src/lib/seo/__tests__/site-metadata.spec.ts",
+      "apps/web/playwright/tests/terms-prefetch.spec.ts"
+    ],
+    "tasks": [
+      {
+        "id": "task-01",
+        "title": "getPublicEnvSafe を env.ts に追加",
+        "spec_path": "tasks/task-01-env-safe-getter.md",
+        "implementation_category": "実装仕様書",
+        "estimated_loc": 40,
+        "parallel_group": "env-core"
+      },
+      {
+        "id": "task-02",
+        "title": "site-metadata.ts を safeParse + fallback に置換",
+        "spec_path": "tasks/task-02-site-metadata-safe-fallback.md",
+        "implementation_category": "実装仕様書",
+        "estimated_loc": 70,
+        "parallel_group": "metadata-after-env-core"
+      },
+      {
+        "id": "task-03",
+        "title": "/terms prefetch console-error smoke",
+        "spec_path": "tasks/task-03-terms-prefetch-smoke.md",
+        "implementation_category": "実装仕様書",
+        "estimated_loc": 60,
+        "parallel_group": "smoke-after-metadata"
+      }
+    ]
+  },
+  "phases": {
+    "1": { "status": "completed", "artifacts": ["phase-1-requirements.md"] },
+    "2": { "status": "completed", "artifacts": ["phase-2-design.md"] },
+    "3": {
+      "status": "completed",
+      "artifacts": [
+        "phase-3-design-review.md",
+        "tasks/task-01-env-safe-getter.md",
+        "tasks/task-02-site-metadata-safe-fallback.md",
+        "tasks/task-03-terms-prefetch-smoke.md"
+      ]
+    },
+    "4": { "status": "completed", "artifacts": ["phase-4-test-creation.md"] },
+    "5": { "status": "completed", "artifacts": ["phase-5-implementation.md"] },
+    "6": { "status": "completed", "artifacts": ["phase-6-test-expansion.md"] },
+    "7": { "status": "completed", "artifacts": ["phase-7-coverage.md"] },
+    "8": { "status": "completed", "artifacts": ["phase-8-refactoring.md"] },
+    "9": { "status": "completed", "artifacts": ["phase-9-quality-assurance.md"] },
+    "10": { "status": "completed", "artifacts": ["phase-10-final-review.md"] },
+    "11": { "status": "completed", "artifacts": ["phase-11-manual-test.md", "outputs/phase-11/manual-test-result.md"] },
+    "12": { "status": "completed", "artifacts": ["phase-12-documentation.md", "outputs/phase-12/main.md", "outputs/phase-12/implementation-guide.md", "outputs/phase-12/system-spec-update-summary.md", "outputs/phase-12/documentation-changelog.md", "outputs/phase-12/unassigned-task-detection.md", "outputs/phase-12/skill-feedback-report.md", "outputs/phase-12/phase12-task-spec-compliance-check.md"] },
+    "13": { "status": "blocked", "artifacts": ["phase-13-pr-creation.md"], "notes": "user approval required for commit/push/PR" }
+  }
+}

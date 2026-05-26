@@ -7,7 +7,7 @@
 import { safeServerFetch } from "../../../../src/lib/admin/safe-server-fetch";
 import { Breadcrumb } from "@/components/admin/Breadcrumb";
 import { EmptyState } from "../../../../src/components/ui/EmptyState";
-import { AdminSectionError } from "../../../../src/features/admin/components/_shared";
+import { AdminSectionErrorClient } from "../../../../src/features/admin/components/_shared";
 import type { ListIdentityConflictsResponse } from "@ubm-hyogo/shared";
 import { IdentityConflictRow } from "../../../../src/components/admin/IdentityConflictRow";
 
@@ -38,7 +38,7 @@ export default async function AdminIdentityConflictsPage({
       </header>
 
       {!result.ok ? (
-        <AdminSectionError
+        <AdminSectionErrorClient
           sectionLabel="Identity 重複候補"
           code={result.error.code}
           message={result.error.message}

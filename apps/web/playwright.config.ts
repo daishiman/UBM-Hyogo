@@ -228,6 +228,13 @@ export default defineConfig({
     },
     {
       name: 'staging',
+      testIgnore: [
+        /visual\/.*\.spec\.ts$/,
+        /visual-staging\/.*\.spec\.ts$/,
+        /visual-full\/.*\.spec\.ts$/,
+        /full-smoke\.spec\.ts$/,
+        ...fixtureGatedTestIgnore,
+      ],
       use: {
         ...devices['Desktop Chrome'],
         baseURL: stagingBaseURL,
