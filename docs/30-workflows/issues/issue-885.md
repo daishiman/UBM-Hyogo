@@ -5,13 +5,13 @@
 ```yaml
 issue_number: 885
 title: [serial-06 followup-004] adapter schema extension pipeline 整備
-state: OPEN
+state: CLOSED
 priority: 低
 scale: 小規模
 category: followup
-status: 未実施
+status: 仕様書昇格済み / 実装済み
 created_date: 2026-05-23
-updated_date: 2026-05-23
+updated_date: 2026-05-25
 url: https://github.com/daishiman/UBM-Hyogo/issues/885
 dependencies: []
 ```
@@ -20,17 +20,17 @@ dependencies: []
 |------|------|
 | 優先度 | 低 |
 | 規模 | 小規模 |
-| ステータス | 未実施 |
+| ステータス | 仕様書昇格済み / 実装済み |
 
 ---
 
 ## 概要
 
-serial-06 adapter は現時点 `PublicMemberProfileZ` 前提。schema 拡張時の adapter 更新手順（fixture → zod → adapter spec → adapter → primitive）が暗黙知化。引き継ぎコスト高。
+serial-06 adapter は現時点 `PublicMemberProfileZ` 前提。schema 拡張時の adapter 更新手順（zod → fixture → spec → adapter → primitive）が暗黙知化。引き継ぎコスト高。
 
 ## 仕様書
 
-`docs/30-workflows/unassigned-task/serial-06-followup-004-adapter-schema-extension-pipeline.md`
+`docs/30-workflows/completed-tasks/issue-885-adapter-schema-extension-pipeline/`
 
 ## 発見元
 
@@ -39,7 +39,7 @@ serial-06 adapter は現時点 `PublicMemberProfileZ` 前提。schema 拡張時�
 
 ## 完了条件
 
-- `apps/web/src/lib/adapters/README.md` 新規作成
-- 5 ステップ checklist 記述
-- spec に extension template comment 追加
-- 8 ケース × 5 列の責務 mapping 表整備
+- `apps/web/src/lib/adapters/README.md` 新規作成済み
+- 5 ステップ checklist 記述済み
+- spec に extension template comment 追加済み
+- 8 ケース × 5 列の責務 mapping 表整備済み

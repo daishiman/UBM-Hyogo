@@ -21,6 +21,7 @@ import {
   type RequestErrorCode,
   type VisibilityDesiredState,
 } from "@/lib/api/me-requests.types";
+import { Textarea } from "@/components/ui";
 import { RequestErrorMessage } from "./RequestErrorMessage";
 
 export interface VisibilityRequestDialogProps {
@@ -135,7 +136,7 @@ export function VisibilityRequestDialog({
       <p id={descId}>{desc}</p>
       <label>
         理由（任意・最大 {REASON_MAX_LENGTH} 文字）
-        <textarea
+        <Textarea
           maxLength={REASON_MAX_LENGTH}
           value={reason}
           onChange={(e) => setReason(e.target.value)}

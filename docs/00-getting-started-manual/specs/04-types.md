@@ -48,6 +48,8 @@ export type FieldKind =
   | "checkbox"
   | "dropdown"
   | "url"
+  | "consent"
+  | "system"
   | "unknown";
 
 export type AnswerValue =
@@ -230,6 +232,14 @@ export interface MemberProfileSection {
   title: string;
   fields: MemberProfileSectionField[];
 }
+
+export type MemberDetailFieldRoute = "detail" | "links" | "excluded";
+
+// apps/web/src/lib/adapters/member-detail.ts の KIND_ROUTE が実装正本。
+// FieldKind を追加した場合は detail / links / excluded のいずれかへ必ず分類する。
+// - detail: shortText / paragraph / date / radio / checkbox / dropdown
+// - links: url
+// - excluded: consent / system / unknown
 
 export interface MemberProfile {
   memberId: string;

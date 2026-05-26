@@ -20,6 +20,7 @@ import {
   type QueueAccepted,
   type RequestErrorCode,
 } from "@/lib/api/me-requests.types";
+import { Input, Textarea } from "@/components/ui";
 import { RequestErrorMessage } from "./RequestErrorMessage";
 
 export interface DeleteRequestDialogProps {
@@ -130,7 +131,7 @@ export function DeleteRequestDialog({
       </p>
       <label>
         理由（任意・最大 {REASON_MAX_LENGTH} 文字）
-        <textarea
+        <Textarea
           maxLength={REASON_MAX_LENGTH}
           value={reason}
           onChange={(e) => setReason(e.target.value)}
@@ -138,7 +139,7 @@ export function DeleteRequestDialog({
         />
       </label>
       <label>
-        <input
+        <Input
           type="checkbox"
           checked={confirmed}
           onChange={(e) => setConfirmed(e.target.checked)}

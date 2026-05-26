@@ -30,7 +30,7 @@ dependencies: []
 
 ## 仕様書
 
-`docs/30-workflows/unassigned-task/serial-06-followup-002-adapter-dev-warn-unknown-kind.md`
+`docs/30-workflows/completed-tasks/serial-06-followup-002-adapter-dev-warn-unknown-kind.md`
 
 ## 発見元
 

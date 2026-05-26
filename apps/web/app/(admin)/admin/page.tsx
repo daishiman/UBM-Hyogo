@@ -25,7 +25,7 @@ export default async function AdminDashboardPage() {
       <AdminPageHeader
         title="ダッシュボード"
         description="UBM 兵庫支部会のメンバー状況と直近のアクション"
-        breadcrumbs={[{ label: "管理", href: "/admin" }, { label: "ダッシュボード" }]}
+        breadcrumbs={[{ label: "ダッシュボード" }]}
       />
       <h1 id="admin-dashboard-h" className="sr-only">
         ダッシュボード

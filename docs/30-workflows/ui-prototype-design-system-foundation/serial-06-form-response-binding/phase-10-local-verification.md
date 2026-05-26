@@ -127,7 +127,7 @@ bash scripts/verify-pr-ready.sh
 
 ## 7. 動作確認用 D1 seed（補助・任意）
 
-実 D1 ローカル DB に test member を seed する場合（Playwright `page.route` mock を使わない場合の補助手段）:
+実 D1 ローカル DB に test member を seed する場合（Playwright in-process mockApi fixture（戦略B）を使わない場合の補助手段）:
 
 ```bash
 # 認証確認
@@ -138,7 +138,7 @@ bash scripts/cf.sh d1 execute ubm-hyogo-db-dev --local \
   --command "INSERT INTO members (id, ...) VALUES ('member-fixture-001', ...);"
 ```
 
-詳細 seed SQL は `serial-07-regression-evidence` で確定する。本 sub-workflow では Playwright `page.route()` mock を主とする。
+詳細 seed SQL は `serial-07-regression-evidence` で確定する。本 sub-workflow では Playwright in-process mockApi fixture（戦略B）を主とする。SSR fetch intercept のため `page.route()` は使わない（Phase 6 §3 参照）。
 
 ## 8. 検証コマンド一括実行
 
