@@ -9,6 +9,9 @@ concurrency:
   group: e2e-${{ github.ref }}
   cancel-in-progress: true
 
+permissions:
+  contents: read
+
 jobs:
   # Playwright project 単位で shard 並列実行することで「1 project が失敗しても他 project は独立に進む」
   # ようにし、30 分単一タイムアウトを回避する。各 shard は 18 分 timeout、fail-fast 無効。

@@ -36,6 +36,9 @@ concurrency:
   group: playwright-smoke-${{ github.ref }}
   cancel-in-progress: true
 
+permissions:
+  contents: read
+
 jobs:
   smoke:
     name: smoke (chromium)
