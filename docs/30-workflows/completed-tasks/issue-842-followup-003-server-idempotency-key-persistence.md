@@ -27,7 +27,7 @@ user_approval_marker: outputs/phase-13/user-approval-issue-842-followup-003-serv
 | 優先度根拠   | retry の安全性を真に担保する基盤。冪等 caller 登場前に整えると望ましい                                                  |
 | 見積もり規模 | 中規模                                                                                                                 |
 | 規模根拠     | D1 migration 1 本 + Hono middleware 1 本 + repository + contract spec                                                   |
-| ステータス   | 未実施                                                                                                                 |
+| ステータス   | consumed（2026-05-25: canonical workflow `docs/30-workflows/completed-tasks/issue-913-server-idempotency-key-persistence/` で実装・検証済み） |
 | 発見元       | issue-842-admin-mutation-reliability-policy スコープ外宣言（`index.md` 「スコープ外」§ server 側 idempotency-key 永続化） |
 | 発見日       | 2026-05-24                                                                                                             |
 
@@ -44,6 +44,16 @@ user_approval_marker: outputs/phase-13/user-approval-issue-842-followup-003-serv
     - `resolveIdempotencyKey()`（L115-117）で関数/文字列を解決
   - 親 `index.md` AC-1 の通り `timeoutMs` / `retry`（idempotent 限定）/ `idempotencyKey` / `treat404AsSuccess` は client 側で完了
 - 本タスクの位置づけ: client は header を送れるが **server (apps/api) は header を読まずに毎回処理している**。retry や二重 submit が起きると同一意図のリクエストが二重実行され得る。この gap を server-side persistence で塞ぐ独立タスク。
+
+## Consumed Trace（2026-05-25）
+
+この one-pager は `docs/30-workflows/completed-tasks/issue-913-server-idempotency-key-persistence/` に昇格し、同 workflow で実装・focused tests・Phase 12 strict 7・aiworkflow sync まで完了した。
+
+- canonical workflow: `docs/30-workflows/completed-tasks/issue-913-server-idempotency-key-persistence/`
+- status: `implemented_local_evidence_captured / implementation / NON_VISUAL / implementation_complete_pending_pr`
+- implementation: `apps/api/migrations/0021_idempotency_keys.sql`, `apps/api/src/repository/idempotency.repository.ts`, `apps/api/src/middleware/idempotency.ts`, admin route wiring
+- evidence: `docs/30-workflows/completed-tasks/issue-913-server-idempotency-key-persistence/outputs/phase-11/manual-test-result.md`
+- remaining boundary: D1 apply / deploy / runtime replay proof / commit / push / PR are user-gated
 
 ---
 
@@ -93,7 +103,7 @@ apps/api 側で `Idempotency-Key` header を受け取り、同一 key の重複�
 - repository: `apps/api/src/repository/idempotency.repository.ts`（D1 binding `DB` 経由の CRUD）
 - middleware: `apps/api/src/middleware/idempotency.ts`（Hono middleware。header 検出 → 既存 record 再生 or 通過 → 結果保存）
 - 適用配線: `apps/api/src/routes/admin/` 配下の mutating route group への `app.use("*", idempotency)` 追加（既存 `requireAdmin` / `writeTagNoteProviderMiddleware` と同列の middleware として）
-- contract spec: `apps/api/src/middleware/__tests__/idempotency.contract.spec.ts`（D1 lane `vitest.d1.config.ts` で実行）
+- contract spec: `apps/api/src/middleware/__tests__/idempotency.spec.ts`（D1 lane `vitest.d1.config.ts` で実行）
 - repository 単体 spec: `apps/api/src/repository/__tests__/idempotency.repository.spec.ts`（D1 が必要なら contract.spec へ寄せる）
 
 ---
@@ -217,18 +227,19 @@ CREATE INDEX IF NOT EXISTS idx_idempotency_expires
 
 ```bash
 # 型・lint（apps/api 単体）
-mise exec -- pnpm --filter @repo/api typecheck
-mise exec -- pnpm --filter @repo/api lint
+mise exec -- pnpm --filter @ubm-hyogo/api typecheck
+mise exec -- pnpm --filter @ubm-hyogo/api lint
 
 # unit lane（contract.spec は exclude されるため middleware/repository の純ロジックのみ）
-mise exec -- pnpm --filter @repo/api test
+mise exec -- pnpm --filter @ubm-hyogo/api test
 ```
 
 期待: 全 PASS、0 error / 0 warning。
 
 ```bash
 # D1 lane（contract.spec を実行。idempotency dedupe の実 D1 挙動を検証）
-mise exec -- pnpm --filter @repo/api exec vitest run --root=../.. --config=vitest.d1.config.ts apps/api/src/middleware/__tests__/idempotency.contract.spec.ts
+mise exec -- pnpm exec vitest run --root=. --config=vitest.config.ts apps/api/src/middleware/__tests__/idempotency.spec.ts
+mise exec -- pnpm exec vitest run --root=. --config=vitest.d1.config.ts apps/api/src/repository/__tests__/idempotency.repository.spec.ts
 ```
 
 期待: 以下 5 ケースが PASS。
