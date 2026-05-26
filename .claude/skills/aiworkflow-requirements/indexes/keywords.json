@@ -3356,6 +3356,7 @@
       "workflow-issue-912-idempotent-attendance-remove-retry-artifact-inventory.md",
       "workflow-issue-913-server-idempotency-key-persistence-artifact-inventory.md",
       "workflow-issue-917-alert-relay-runtime-fire-evidence-artifact-inventory.md",
+      "workflow-issue-924-style-src-attr-retirement-artifact-inventory.md",
       "workflow-parallel-04-shared-page-chrome-artifact-inventory.md",
       "workflow-parallel-i02b-admin-mutation-error-finalize-artifact-inventory.md",
       "workflow-parallel-i03-dialog-refresh-order-artifact-inventory.md",
@@ -3635,7 +3636,8 @@
       "architecture-admin-api-client.md",
       "lessons-learned-06b-b-profile-request-pending-banner-sticky-2026-05.md",
       "lessons-learned-task-11-public-top-and-member-list-2026-05.md",
-      "quality-e2e-testing.md"
+      "quality-e2e-testing.md",
+      "workflow-issue-924-style-src-attr-retirement-artifact-inventory.md"
     ],
     "lib": [
       "architecture-admin-api-client.md",
@@ -4765,6 +4767,7 @@
       "workflow-issue-913-server-idempotency-key-persistence-artifact-inventory.md",
       "workflow-issue-917-alert-relay-runtime-fire-evidence-artifact-inventory.md",
       "workflow-issue-922-production-admin-runtime-smoke-gate-artifact-inventory.md",
+      "workflow-issue-924-style-src-attr-retirement-artifact-inventory.md",
       "workflow-members-page-prototype-alignment-artifact-inventory.md",
       "workflow-mypage-prototype-alignment-artifact-inventory.md",
       "workflow-parallel-04-shared-page-chrome-artifact-inventory.md",
@@ -7668,6 +7671,7 @@
       "workflow-issue-913-server-idempotency-key-persistence-artifact-inventory.md",
       "workflow-issue-917-alert-relay-runtime-fire-evidence-artifact-inventory.md",
       "workflow-issue-922-production-admin-runtime-smoke-gate-artifact-inventory.md",
+      "workflow-issue-924-style-src-attr-retirement-artifact-inventory.md",
       "workflow-task-issue-191-production-d1-schema-aliases-apply-001-artifact-inventory.md",
       "workflow-task-issue-191-schema-aliases-implementation-001-artifact-inventory.md",
       "workflow-task-issue-346-08a-canonical-workflow-tree-restore-artifact-inventory.md",
@@ -13030,6 +13034,7 @@
       "workflow-issue-891-member-detail-kind-exhaustiveness-guard-artifact-inventory.md",
       "workflow-issue-894-admin-topbar-breadcrumb-integration-artifact-inventory.md",
       "workflow-issue-922-production-admin-runtime-smoke-gate-artifact-inventory.md",
+      "workflow-issue-924-style-src-attr-retirement-artifact-inventory.md",
       "workflow-login-page-prototype-alignment-artifact-inventory.md",
       "workflow-members-page-prototype-alignment-artifact-inventory.md",
       "workflow-permission-fallback-abort-skip-retry.md",
@@ -15118,6 +15123,7 @@
       "workflow-issue-891-member-detail-kind-exhaustiveness-guard-artifact-inventory.md",
       "workflow-issue-894-admin-topbar-breadcrumb-integration-artifact-inventory.md",
       "workflow-issue-922-production-admin-runtime-smoke-gate-artifact-inventory.md",
+      "workflow-issue-924-style-src-attr-retirement-artifact-inventory.md",
       "workflow-login-page-prototype-alignment-artifact-inventory.md",
       "workflow-members-page-prototype-alignment-artifact-inventory.md",
       "workflow-permission-fallback-abort-skip-retry.md",
@@ -25946,6 +25952,7 @@
     ],
     "retirement": [
       "workflow-issue-899-static-bearer-fallback-retirement-artifact-inventory.md",
+      "workflow-issue-924-style-src-attr-retirement-artifact-inventory.md",
       "workflow-task-issue-299-schema-questions-fallback-retirement-artifact-inventory.md"
     ],
     "Specification": [
@@ -25972,6 +25979,12 @@
     ],
     "Synced": [
       "workflow-issue-917-alert-relay-runtime-fire-evidence-artifact-inventory.md"
+    ],
+    "style": [
+      "workflow-issue-924-style-src-attr-retirement-artifact-inventory.md"
+    ],
+    "attr": [
+      "workflow-issue-924-style-src-attr-retirement-artifact-inventory.md"
     ],
     "ライトテーマ": [
       "workflow-light-theme-contrast-regression-guard.md"

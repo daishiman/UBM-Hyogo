@@ -8,6 +8,22 @@
 
 本ドキュメントは、複雑なタスクを単一責務の原則に基づいて分解し、各サブタスクに最適なスラッシュコマンド・エージェント・スキルの組み合わせを選定するためのガイドラインを定義する。
 
+### Issue #924 style-src-attr retirement（2026-05-25）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `local_static_pass_browser_pending / implementation / VISUAL / Phase 1-12 local gates completed / Phase 13 pending_user_approval` |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-924-style-src-attr-retirement/` |
+| Issue | #924 CLOSED。PR 文脈は `Refs #924` のみ |
+| parent | `docs/30-workflows/completed-tasks/issue-871-csp-nonce-migration/` |
+| 目的 | CSP から `style-src-attr 'unsafe-inline'` を撤去し、CSP 対象 DOM の React inline style props を class/data-attr/SVG へ置換する |
+| implementation targets | `apps/web/src/lib/security-headers.ts`, CSP-relevant TSX under `apps/web/src` and `apps/web/app`, `apps/web/src/styles/globals.css`, `apps/web/src/styles/legacy-public.css`, `scripts/verify-no-inline-style.sh`, `package.json`, `lefthook.yml` |
+| invariant | `ImageResponse` routes are excluded because they generate PNG output; nonce and `CSP_MODE` contracts are unchanged |
+| evidence | typecheck PASS, focused Vitest 59 PASS, `bash scripts/verify-no-inline-style.sh` PASS after broad `style={` gate and residual `AdminTable` / `GoogleBrandIcon` cleanup; static visual sanity screenshot present |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-924-style-src-attr-retirement-artifact-inventory.md` |
+| lessons | `.claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-issue-924-style-src-attr-retirement-2026-05.md`（L-I924-001..005: broad `style={` grep gate / static-sanity vs full-visual の区別 / `ImageResponse` allowlist / A 静的・B 動的離散・C 連続値の置換区分 / directive 削除と spec 同期更新） |
+| user gate | full 19-route browser visual regression, staging CSP response verification, commit, push, PR |
+
 ### public-header-my-profile-nav-alignment（2026-05-26）
 
 | 項目 | 値 |

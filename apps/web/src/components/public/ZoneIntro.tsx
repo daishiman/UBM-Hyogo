@@ -37,14 +37,7 @@ export function ZoneIntro() {
       <h2 id="zone-intro-heading">3 つの成長ゾーン</h2>
       <ul data-role="zone-list">
         {ZONES.map((z) => (
-          <li
-            key={z.zone}
-            data-zone={z.zone}
-            style={{
-              // OKLch token を CSS variable 経由で参照（HEX 直書き禁止 / AC-8）
-              borderColor: `var(--ubm-color-zone-${z.zone === "0_to_1" ? "a" : z.zone === "1_to_10" ? "b" : "c"})`,
-            }}
-          >
+          <li key={z.zone} data-zone={z.zone}>
             <span data-role="label">{z.label}</span>
             <h3 data-role="title">{z.title}</h3>
             <p data-role="description">{z.description}</p>
