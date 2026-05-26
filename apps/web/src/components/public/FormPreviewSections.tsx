@@ -15,6 +15,10 @@ const VISIBILITY_LABEL: Record<string, string> = {
   admin: "管理者のみ",
 };
 
+function countByVisibility(fields: readonly Field[], visibility: string): number {
+  return fields.filter((field) => field.visibility === visibility).length;
+}
+
 export function FormPreviewSections({ preview }: FormPreviewSectionsProps) {
   // 不変条件 #1: stableKey 経由でのみ field を参照する。questionId は label / 内部参照に使用しない。
   const grouped = new Map<
@@ -33,32 +37,68 @@ export function FormPreviewSections({ preview }: FormPreviewSectionsProps) {
       });
     }
   }
+  const sections = [...grouped.values()];
+  const publicCount = countByVisibility(preview.fields, "public");
+  const memberCount = countByVisibility(preview.fields, "member");
+  const adminCount = countByVisibility(preview.fields, "admin");
 
   return (
-    <section data-component="form-preview-sections">
-      <p>
-        Google Form 構成を以下の {preview.sectionCount} セクションで把握できます。
-      </p>
-      {[...grouped.values()].map((section) => (
-        <section key={section.sectionKey} data-section-key={section.sectionKey}>
-          <h3>{section.sectionTitle}</h3>
+    <section data-component="form-preview-sections" aria-labelledby="form-preview-heading">
+      <div className="form-preview-header">
+        <div>
+          <p className="eyebrow">Form contents</p>
+          <h2 id="form-preview-heading">フォームの設問（プレビュー）</h2>
+          <p>
+            Google Form 構成を以下の {preview.sectionCount} セクションで把握できます。
+          </p>
+        </div>
+        <dl className="form-preview-metrics" aria-label="公開範囲別の設問数">
+          <div>
+            <dt>公開</dt>
+            <dd>{publicCount}</dd>
+          </div>
+          <div>
+            <dt>会員限定</dt>
+            <dd>{memberCount}</dd>
+          </div>
+          <div>
+            <dt>管理用</dt>
+            <dd>{adminCount}</dd>
+          </div>
+        </dl>
+      </div>
+      {sections.map((section, index) => (
+        <details
+          key={section.sectionKey}
+          data-section-key={section.sectionKey}
+          open={index === 0}
+        >
+          <summary>
+            <span className="mono">{String(index + 1).padStart(2, "0")}</span>
+            <span>
+              <strong>{section.sectionTitle}</strong>
+              <small>{section.fields.length} 項目</small>
+            </span>
+          </summary>
           <ul>
             {section.fields.map((field) => (
               <li key={field.stableKey} data-stable-key={field.stableKey}>
                 <span data-role="label">{field.label}</span>
-                <span
-                  data-role="visibility"
-                  data-visibility={field.visibility}
-                >
-                  {VISIBILITY_LABEL[field.visibility] ?? field.visibility}
+                <span className="form-preview-badges">
+                  <span
+                    data-role="visibility"
+                    data-visibility={field.visibility}
+                  >
+                    {VISIBILITY_LABEL[field.visibility] ?? field.visibility}
+                  </span>
+                  {field.required ? (
+                    <span data-role="required">必須</span>
+                  ) : null}
                 </span>
-                {field.required ? (
-                  <span data-role="required">必須</span>
-                ) : null}
               </li>
             ))}
           </ul>
-        </section>
+        </details>
       ))}
     </section>
   );
