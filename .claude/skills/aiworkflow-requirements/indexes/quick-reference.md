@@ -854,7 +854,7 @@
 | workflow root | `docs/30-workflows/completed-tasks/profile-loading-skeleton-oklch/` |
 | 状態 | `implemented_local_evidence_captured / implementation / VISUAL / implementation_complete_pending_pr` |
 | source | `docs/30-workflows/ui-prototype-alignment-mvp-recovery/improvements/integration-fixes/parallel-i07-profile-loading-skeleton/spec.md` |
-| implementation | `apps/web/app/profile/loading.tsx`, `apps/web/app/profile/loading.spec.tsx` |
+| implementation | `apps/web/app/(member)/profile/loading.tsx`, `apps/web/app/(member)/profile/loading.spec.tsx` |
 | contract | `/profile/loading.tsx` は `role=status` / `aria-busy=true` / `aria-live=polite` / `data-page=profile-loading` と avatar + 4 KV row skeleton を持つ |
 | evidence | `outputs/phase-11/evidence/{test,typecheck,lint,build,grep-gate}.log`, `outputs/phase-12/phase12-task-spec-compliance-check.md` |
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-profile-loading-skeleton-oklch-artifact-inventory.md` |
@@ -898,7 +898,7 @@
 | workflow root | `docs/30-workflows/issue-770-profile-loading-skeleton/` |
 | 状態 | `implemented_local_runtime_pending / implementation / VISUAL` |
 | source issue | #770 OPEN |
-| implementation | `apps/web/app/profile/loading.tsx`, `apps/web/app/profile/loading.spec.tsx` |
+| implementation | `apps/web/app/(member)/profile/loading.tsx`, `apps/web/app/(member)/profile/loading.spec.tsx` |
 | parent spec | `docs/30-workflows/ui-prototype-alignment-mvp-recovery/improvements/integration-fixes/parallel-i07-profile-loading-skeleton/spec.md` |
 | source task | `docs/30-workflows/unassigned-task/integration-fixes-i07-profile-loading-skeleton.md` consumed |
 | evidence | `outputs/phase-12/phase12-task-spec-compliance-check.md`, `outputs/phase-11/evidence/` |
@@ -1374,7 +1374,7 @@
 | workflow root | `docs/30-workflows/task-14-my-profile-and-requests/` |
 | 状態 | `PASS_BOUNDARY_SYNCED_RUNTIME_PENDING / implementation / VISUAL_ON_EXECUTION / IMPLEMENTED_LOCAL_RUNTIME_PENDING` |
 | route scope | `/profile` |
-| implementation targets | `apps/web/app/profile/page.tsx`, `apps/web/app/profile/_components/*` |
+| implementation targets | `apps/web/app/(member)/profile/page.tsx`, `apps/web/app/(member)/profile/_components/*` |
 | UI contract | `PublicVisibilityBanner`, `StatusSummary`, `RequestActionPanel`, `VisibilityRequestDialog`, `DeleteRequestDialog` |
 | selector contract | `public-visibility-banner`, `status-summary`, `request-action-panel`, `visibility-request-dialog`, `delete-request-dialog` |
 | API boundary | Existing `/me` self-service API only; no task-14 changes to `apps/api/src/routes/me/*` or new `apps/web/app/api/me/*` handlers |
@@ -1406,7 +1406,7 @@
 | workflow root | `docs/30-workflows/parallel-i03-dialog-refresh-order/` |
 | 状態 | `implemented_local_evidence_captured / implementation / NON_VISUAL` |
 | route scope | `/profile` |
-| implementation targets | `apps/web/app/profile/_components/{VisibilityRequestDialog,DeleteRequestDialog,RequestActionPanel}.tsx` |
+| implementation targets | `apps/web/app/(member)/profile/_components/{VisibilityRequestDialog,DeleteRequestDialog,RequestActionPanel}.tsx` |
 | contract | dialog success / 409 duplicate-pending 両分岐とも `router.refresh() -> onSubmitted(res.accepted) -> onClose()` |
 | parent boundary | `RequestActionPanel` does not call `router.refresh()` in `onSubmitted` |
 | evidence | `outputs/phase-11/visual-verification-skip.md`, `outputs/phase-12/phase12-task-spec-compliance-check.md` |
@@ -1956,7 +1956,7 @@
 | --- | --- |
 | workflow root | `docs/30-workflows/ut-05a-auth-ui-logout-button-001/` |
 | 状態 | `implemented-local-runtime-evidence-blocked / implementation / VISUAL_ON_EXECUTION / Phase 12 strict outputs present / Phase 13 blocked_until_user_approval` |
-| 実装 | `apps/web/src/components/auth/SignOutButton.tsx`, `apps/web/src/components/layout/MemberHeader.tsx`, `apps/web/app/profile/page.tsx`, `apps/web/app/(member)/layout.tsx`, `apps/web/src/components/layout/AdminSidebar.tsx` |
+| 実装 | `apps/web/src/components/auth/SignOutButton.tsx`, `apps/web/src/components/layout/MemberHeader.tsx`, `apps/web/app/(member)/profile/page.tsx`, `apps/web/app/(member)/layout.tsx`, `apps/web/src/components/layout/AdminSidebar.tsx` |
 | close-out evidence | `docs/30-workflows/ut-05a-auth-ui-logout-button-001/outputs/phase-12/phase12-task-spec-compliance-check.md` |
 | runtime evidence | `outputs/phase-11/` は placeholder。OAuth visual smoke / cookie / session evidence は未取得で PASS 扱いしない |
 | Issue 取扱 | #386 は CLOSED 維持。PR / comment は user 明示指示後のみ |
@@ -2565,7 +2565,7 @@ Magic Link メール送信の env 名を、実装と aiworkflow 正本に合わ�
 | canonical task root | `docs/30-workflows/06b-parallel-member-login-and-profile-pages/` |
 | 実装ガイド | `docs/30-workflows/06b-parallel-member-login-and-profile-pages/outputs/phase-12/implementation-guide.md` |
 | login UI | `apps/web/app/login/` |
-| profile UI | `apps/web/app/profile/` |
+| profile UI | `apps/web/app/(member)/profile/`（URL remains `/profile`） |
 | proxy | `apps/web/proxy.ts`（`/profile/:path*` session gate; Issue #277 migrated from legacy `middleware.ts`） |
 | URL helpers | `apps/web/src/lib/url/{login-query,login-redirect,login-state,safe-redirect}.ts` |
 | API clients | `apps/web/src/lib/fetch/authed.ts`, `apps/web/src/lib/auth/{magic-link-client,oauth-client}.ts` |
@@ -3352,7 +3352,7 @@ packages/
 | repository | `apps/api/src/repository/attendance.ts` (`findByMemberId(id, { limit, cursor })`) |
 | routes | `/me/attendance`, `/admin/members/:memberId/attendance` |
 | shared contract | `MemberProfile.attendance` は配列維持、`attendanceMeta?: { hasMore, nextCursor }` を optional 追加 |
-| web targets | `apps/web/app/profile/_components/AttendanceList.tsx`, `apps/web/src/components/admin/MemberDrawer.tsx` |
+| web targets | `apps/web/app/(member)/profile/_components/AttendanceList.tsx`, `apps/web/src/components/admin/MemberDrawer.tsx` |
 | scope boundary | `findByMemberIds(ids)` bulk pagination は明示スコープ外。未タスク化しない |
 | evidence | local focused tests + Phase 12 strict files: `docs/30-workflows/issue-372-attendance-pagination/outputs/phase-12/`; staging screenshots/curl remain Phase 11 pending |
 | lessons-learned | `references/lessons-learned-issue-372-attendance-pagination-2026-05.md`（L-ISSUE372-001〜006: cursor encoded/decoded 境界 / bulk と個人特化 API 分離 / `attendanceMeta` optional 追加 / miniflare EADDRNOTAVAIL focused run / 1Password CLI timeout 切り分け / Phase 11 visual evidence pending を spec sync の blocker にしない） |
@@ -3928,3 +3928,4 @@ UT-17 Cloudflare Notifications → alert-relay → Slack 経路を、既存 API 
 | `docs/30-workflows/completed-tasks/issue-863-admin-error-alert-policy-iac/` | Issue #863 admin error boundary Sentry alert IaC workflow | admin `error.boundary.caught` alert policy、Sentry tag 昇格、drift CI、runbook を確認する時 |
 | `infra/sentry-alerts/` | Sentry alert policy IaC for admin runtime error detection | Sentry alert rule manifest / CLI / drift diff を確認・更新する時 |
 | `references/workflow-issue-863-admin-error-alert-policy-iac-artifact-inventory.md` | Issue #863 workflow artifact inventory | 同 wave 変更棚卸し時 |
+| Issue #903 member AppShell runtime evidence | `/profile` under `(member)` route group; EV-13/EV-16 present | `docs/30-workflows/completed-tasks/issue-903-parallel-03-followup-005-member-runtime-evidence/`, `references/workflow-issue-903-parallel-03-followup-005-member-runtime-evidence-artifact-inventory.md` |

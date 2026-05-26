@@ -238,7 +238,7 @@
 | ステータス | `implemented_local_evidence_captured / implementation / VISUAL / existing-ui-alignment` |
 | 成果物 | `docs/30-workflows/mypage-prototype-alignment/` |
 | 目的 | existing `/profile` を prototype `MyProfilePage` 準拠へ整え、Google Form 再回答 CTA、VisibilitySummary、ProfilePreview、RevalidateModal、danger-zone、MemberHeader 動線を実装する |
-| implementation targets | `apps/web/app/profile/page.tsx`, `apps/web/app/profile/_components/**`, `apps/web/app/profile/_lib/**`, `apps/web/src/components/layout/MemberHeader.tsx` |
+| implementation targets | `apps/web/app/(member)/profile/page.tsx`, `apps/web/app/(member)/profile/_components/**`, `apps/web/app/(member)/profile/_lib/**`, `apps/web/src/components/layout/MemberHeader.tsx` |
 | API boundary | existing `/me/*` only。新 endpoint / D1 schema / Google Form schema / primitive API change なし |
 | Phase 12 | strict 7 present。Phase 11 screenshots captured |
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-mypage-prototype-alignment-artifact-inventory.md` |
@@ -644,7 +644,7 @@
 | source | `docs/30-workflows/ui-prototype-alignment-mvp-recovery/improvements/integration-fixes/parallel-i07-profile-loading-skeleton/spec.md` |
 | consumed task | `docs/30-workflows/completed-tasks/integration-fixes-i07-profile-loading-skeleton.md` |
 | 目的 | `/profile/loading.tsx` を text-only placeholder から `role=status` profile skeleton へ置換し p-07 spec 4.5 を満たす |
-| 実装 | `apps/web/app/profile/loading.tsx`, `apps/web/app/profile/loading.spec.tsx` |
+| 実装 | `apps/web/app/(member)/profile/loading.tsx`, `apps/web/app/(member)/profile/loading.spec.tsx` |
 | evidence | `docs/30-workflows/completed-tasks/profile-loading-skeleton-oklch/outputs/phase-11/evidence/`, `docs/30-workflows/completed-tasks/profile-loading-skeleton-oklch/outputs/phase-11/screenshots/profile-loading-skeleton.png`, `outputs/phase-12/phase12-task-spec-compliance-check.md` |
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-profile-loading-skeleton-oklch-artifact-inventory.md` |
 | user gate | commit / push / PR |
@@ -673,7 +673,7 @@
 | Issue | #799 CLOSED。PR 文脈は `Refs #799` |
 | source | `docs/30-workflows/unassigned-task/issue-769-followup-001-use-auto-focus-on-mount-hook.md` consumed |
 | 目的 | `useAutoFocusOnMount` hook を追加し、root / login / profile / admin error boundary の h1 focus transfer を統一する |
-| 実装 | `apps/web/src/lib/a11y/useAutoFocusOnMount.ts`, `apps/web/app/error.tsx`, `apps/web/app/login/error.tsx`, `apps/web/app/profile/error.tsx`, `apps/web/app/(admin)/admin/error.tsx` |
+| 実装 | `apps/web/src/lib/a11y/useAutoFocusOnMount.ts`, `apps/web/app/error.tsx`, `apps/web/app/login/error.tsx`, `apps/web/app/(member)/profile/error.tsx`, `apps/web/app/(admin)/admin/error.tsx` |
 | tests | `apps/web/src/lib/a11y/__tests__/useAutoFocusOnMount.spec.tsx`, route error component specs |
 | evidence | `docs/30-workflows/issue-799-use-auto-focus-on-mount-hook/outputs/phase-11/evidence/web-vitest.txt`, `docs/30-workflows/issue-799-use-auto-focus-on-mount-hook/outputs/phase-12/phase12-task-spec-compliance-check.md` |
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-799-use-auto-focus-on-mount-hook-artifact-inventory.md` |
@@ -754,7 +754,7 @@
 | source | `docs/30-workflows/unassigned-task/integration-fixes-i07-profile-loading-skeleton.md` consumed |
 | parent | `docs/30-workflows/ui-prototype-alignment-mvp-recovery/improvements/integration-fixes/parallel-i07-profile-loading-skeleton/spec.md` |
 | 目的 | `/profile/loading.tsx` を text placeholder から OKLch token skeleton に置換し、parallel-07 §4.5 を local 達成する |
-| 実装 | `apps/web/app/profile/loading.tsx`, `apps/web/app/profile/loading.spec.tsx` |
+| 実装 | `apps/web/app/(member)/profile/loading.tsx`, `apps/web/app/(member)/profile/loading.spec.tsx` |
 | 不変条件 | API / D1 schema / deployment contract 変更なし。`bg-surface-2` token utility と `.spec.tsx` 命名を維持 |
 | evidence | focused local command evidence / Phase 12 strict 7 |
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-770-profile-loading-skeleton-artifact-inventory.md` |
@@ -1502,7 +1502,7 @@
 | ステータス | implemented_local_evidence_captured / implementation / NON_VISUAL / Phase 13 pending_user_approval |
 | 成果物 | `docs/30-workflows/parallel-i03-dialog-refresh-order/` |
 | 目的 | profile request dialog の success path を `router.refresh() -> onSubmitted -> onClose()` に固定し、unmount 後 refresh race と parent 側二重発火を排除する |
-| 実装対象 | `apps/web/app/profile/_components/VisibilityRequestDialog.tsx`, `DeleteRequestDialog.tsx`, `RequestActionPanel.tsx` |
+| 実装対象 | `apps/web/app/(member)/profile/_components/VisibilityRequestDialog.tsx`, `DeleteRequestDialog.tsx`, `RequestActionPanel.tsx` |
 | test evidence | dialog 2 件の `callOrder` assertion と parent `router.refresh` 非発火 assertion |
 | source spec | `docs/30-workflows/ui-prototype-alignment-mvp-recovery/improvements/integration-fixes/parallel-i03-dialog-refresh-order/spec.md` |
 | artifact inventory | `references/workflow-parallel-i03-dialog-refresh-order-artifact-inventory.md` |
@@ -2309,7 +2309,7 @@
 | --- | --- |
 | ステータス | implemented-local-runtime-evidence-blocked / implementation / VISUAL_ON_EXECUTION / Phase 12 strict outputs present / Phase 13 blocked_until_user_approval |
 | 成果物 | `docs/30-workflows/ut-05a-auth-ui-logout-button-001/` |
-| 実装 | `apps/web/src/components/auth/SignOutButton.tsx`, `apps/web/src/components/layout/MemberHeader.tsx`, `apps/web/app/profile/page.tsx`, `apps/web/app/(member)/layout.tsx`, `apps/web/src/components/layout/AdminSidebar.tsx` |
+| 実装 | `apps/web/src/components/auth/SignOutButton.tsx`, `apps/web/src/components/layout/MemberHeader.tsx`, `apps/web/app/(member)/profile/page.tsx`, `apps/web/app/(member)/layout.tsx`, `apps/web/src/components/layout/AdminSidebar.tsx` |
 | 公開契約 | `/profile` と `/admin` のログイン済 UI に `data-testid="sign-out-button"` を配置し、Auth.js `signOut({ callbackUrl: "/login" })` を単一 component へ集約 |
 | 検証 | focused unit test / web typecheck / task-spec validator。OAuth visual smoke、session-after、cookie redaction は runtime evidence blocked |
 | 上流 / 下流 | 05a-followup-google-oauth-completion M-08 は本 workflow Phase 11 の実 evidence が揃るまで PASS にしない |
@@ -2862,3 +2862,4 @@ docs-only / direction-reconciliation で採用方針 A を維持する場合で�
 | evidence boundary | 現 wave は local implementation まで完了。51 baseline PNG、runtime CI evidence、commit、push、PR は未実行 |
 | baseline gate | baseline 未存在 CI fail の admin override は禁止。required check 化は 51 baseline と green runtime evidence が揃った後 |
 | source | `docs/30-workflows/unassigned-task/task-18-full-visual-regression-suite-001.md` |
+| issue-903-parallel-03-followup-005-member-runtime-evidence | implemented_local_evidence_captured / implementation / VISUAL / Phase 13 pending_user_approval | `docs/30-workflows/completed-tasks/issue-903-parallel-03-followup-005-member-runtime-evidence/` | Issue #903 member AppShell runtime evidence. `/profile` was moved under `apps/web/app/(member)/profile/` without URL change, `parallel-03-member-shell-scrape.spec.ts` captures EV-13 DOM scrape and EV-16 1280x800 screenshot, and parent `parallel-03-appshell-layouts/phase-11-evidence-inventory.md` marks EV-13/EV-16 present. No API/D1/Auth/Cloudflare contract change. Commit, push, PR, and Issue mutation remain user-gated. |
