@@ -1,0 +1,88 @@
+{
+  "task_id": "issue-900-workflow-permissions-least-privilege-audit",
+  "created_at": "2026-05-25",
+  "status": "implemented_local_evidence_captured",
+  "task_type": "implementation",
+  "visual_category": "NON_VISUAL",
+  "implementation_mode": "new",
+  "metadata": {
+    "workflow_state": "implemented_local_evidence_captured",
+    "implementation_status": "implemented-local",
+    "taskType": "implementation",
+    "visualEvidence": "NON_VISUAL",
+    "implementationCategory": "ci-security-hardening",
+    "spec_classification": "implementation_spec",
+    "canonical_workflow": "docs/30-workflows/completed-tasks/issue-900-workflow-permissions-least-privilege-audit/",
+    "base_branch": "dev",
+    "work_branch": "feat/issue-900-workflow-permissions-audit",
+    "issue_url": "https://github.com/daishiman/UBM-Hyogo/issues/900",
+    "issue_state": "closed",
+    "issue_state_policy": "keep_closed_per_user_directive",
+    "root_cause": "12 workflows lack top-level permissions block; default token权限縮退時に checkout-credential 失敗を再現しうる構造的弱点",
+    "acceptance_criteria": [
+      { "id": "AC-1", "title": "12 workflows に top-level permissions: contents: read を追加", "depends_on": [] },
+      { "id": "AC-2", "title": "既存 job-level permissions 宣言を維持", "depends_on": [] },
+      { "id": "AC-3", "title": "required status check の context 名を変更しない", "depends_on": [] },
+      { "id": "AC-4", "title": "actionlint 1.7.7 が全 workflow に対し PASS", "depends_on": ["AC-1", "AC-2"] },
+      { "id": "AC-5", "title": "scripts/verify-workflow-top-level-permissions.sh で回帰防止", "depends_on": ["AC-1"] },
+      { "id": "AC-6", "title": "ci.yml に verify step を追加し CI gate 化", "depends_on": ["AC-5"] }
+    ],
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-05-25T00:00:00+09:00",
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-900-workflow-permissions-least-privilege-audit/phase-3-design-review.md",
+        "approver": "daishiman",
+        "notes": "spec_review: Phase 1-13 implementation spec created"
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "passed",
+        "passed_at": "2026-05-25T00:00:00+09:00",
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-900-workflow-permissions-least-privilege-audit/outputs/phase-11/manual-test-result.md",
+        "approver": "daishiman",
+        "notes": "implementation_review: 12 workflow top-level permissions, verifier script, and ci.yml gate are implemented locally. actionlint and structural gates passed."
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-900-workflow-permissions-least-privilege-audit/phase-13-pr.md",
+        "approver": "daishiman",
+        "notes": "external_ops: commit, push, PR are user-gated; issue #900 remains CLOSED"
+      }
+    ]
+  },
+  "phases": [
+    { "phase": 1, "name": "要件定義", "status": "completed", "output": "phase-1-requirements.md" },
+    { "phase": 2, "name": "設計", "status": "completed", "output": "phase-2-design.md" },
+    { "phase": 3, "name": "設計レビュー", "status": "completed", "output": "phase-3-design-review.md" },
+    { "phase": 4, "name": "テスト計画", "status": "completed", "output": "phase-4-test-plan.md" },
+    { "phase": 5, "name": "実装手順", "status": "completed", "output": "phase-5-implementation.md" },
+    { "phase": 6, "name": "テスト追加", "status": "completed", "output": "phase-6-test-additions.md" },
+    { "phase": 7, "name": "カバレッジ", "status": "completed", "output": "phase-7-coverage.md" },
+    { "phase": 8, "name": "リファクタ", "status": "completed", "output": "phase-8-refactor.md" },
+    { "phase": 9, "name": "QA", "status": "completed", "output": "phase-9-qa.md" },
+    { "phase": 10, "name": "最終レビュー", "status": "completed", "output": "phase-10-final-review.md" },
+    { "phase": 11, "name": "手動テスト", "status": "local_evidence_captured_runtime_pending", "output": "outputs/phase-11/manual-test-result.md" },
+    { "phase": 12, "name": "ドキュメント同期", "status": "completed", "output": "outputs/phase-12/main.md" },
+    { "phase": 13, "name": "commit-pr-release", "status": "blocked_pending_user_approval", "output": "phase-13-pr.md" }
+  ],
+  "implementation_targets": [
+    ".github/workflows/backend-ci.yml",
+    ".github/workflows/d1-migration-verify.yml",
+    ".github/workflows/e2e-tests.yml",
+    ".github/workflows/lighthouse.yml",
+    ".github/workflows/playwright-smoke.yml",
+    ".github/workflows/playwright-visual-baseline-update.yml",
+    ".github/workflows/playwright-visual-full.yml",
+    ".github/workflows/validate-build.yml",
+    ".github/workflows/verify-design-tokens.yml",
+    ".github/workflows/verify-esbuild.yml",
+    ".github/workflows/verify-primitive-adoption.yml",
+    ".github/workflows/web-cd.yml",
+    "scripts/verify-workflow-top-level-permissions.sh",
+    ".github/workflows/ci.yml"
+  ]
+}

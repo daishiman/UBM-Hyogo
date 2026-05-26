@@ -39,7 +39,7 @@ export default async function AdminRequestsPage({
   );
   return (
     <section className="flex flex-col gap-4">
-      <Breadcrumb items={[{ label: "管理", href: "/admin" }, { label: "依頼キュー" }]} />
+      <Breadcrumb items={[{ label: "依頼キュー" }]} />
       {result.ok ? (
         <RequestQueuePanel
           initial={{

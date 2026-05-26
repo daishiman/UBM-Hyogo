@@ -13,6 +13,62 @@
 | inventory | `.claude/skills/aiworkflow-requirements/references/workflow-google-form-reflection-diagnostics-artifact-inventory.md` |
 | user gate | staging deploy, authenticated screenshots, Spec-B issue filing, commit, push, PR |
 
+## Issue #901 authenticated profile/admin staging visual（2026-05-25）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-901-authenticated-profile-admin-staging-visual/` |
+| status | `spec_created / implementation / VISUAL / runtime_pending` |
+| issue | #901 CLOSED。PR 文脈は `Refs #901` のみ |
+| source | `docs/30-workflows/completed-tasks/UT-DSF-07-FU-01-authenticated-profile-admin-staging-visual.md` consumed |
+| parent | `docs/30-workflows/ut-dsf-07-staging-visual-runtime-evidence/` の `VISUAL_RUNTIME_AUTHENTICATED_PENDING` |
+| purpose | `signSessionJwt(secret, input)` 由来の ephemeral storageState で `/profile` member session と `/admin` admin session の authenticated staging visual baseline を取得する実装仕様 |
+| implementation targets | `apps/web/playwright/scripts/mint-staging-storage-state.ts`, `apps/web/playwright/tests/visual-staging-authenticated/*.spec.ts`, `apps/web/playwright.config.ts`, `apps/web/app/profile/page.tsx`, `apps/web/app/(admin)/admin/page.tsx`, `apps/web/.gitignore`, `.github/workflows/playwright-staging-visual-authenticated.yml` |
+| Phase 11 | contract files present; runtime logs and PNG screenshots are pending, not PASS |
+| Phase 12 | strict 7 present under `outputs/phase-12/` |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-901-authenticated-profile-admin-staging-visual-artifact-inventory.md` |
+| user gate | implementation, staging screenshot capture, parent gate release, commit, push, PR |
+
+## issue-900-workflow-permissions-least-privilege-audit（2026-05-25）
+
+| key | value |
+| --- | --- |
+| status | `implemented_local_evidence_captured / implementation / NON_VISUAL` |
+| workflow root | `docs/30-workflows/completed-tasks/issue-900-workflow-permissions-least-privilege-audit/` |
+| purpose | all GitHub Actions workflows declare top-level least-privilege token permissions |
+| baseline | top-level `permissions: contents: read`; job-level write overrides remain job-scoped |
+| guard | `scripts/verify-workflow-top-level-permissions.sh` in `.github/workflows/ci.yml` after actionlint |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-900-workflow-permissions-least-privilege-audit-artifact-inventory.md` |
+| user gate | commit, push, PR, remote CI observation |
+
+## issue-894-admin-topbar-breadcrumb-integration（2026-05-25）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-894-admin-topbar-breadcrumb-integration/` |
+| status | `implemented_local_evidence_captured / implementation / VISUAL / implementation_complete_pending_pr` |
+| issue | #894 CLOSED; PR wording is `Refs #894` only |
+| purpose | Move admin root breadcrumb ownership to `AdminTopbar`; page-local breadcrumbs show current page only |
+| implementation | `apps/web/app/(admin)/layout.tsx`, 8 `apps/web/app/(admin)/admin/**/page.tsx` breadcrumb consumers, focused layout/Breadcrumb specs, authenticated admin screenshot evidence |
+| tests | `apps/web/app/(admin)/layout.spec.tsx` (4 PASS), `apps/web/src/components/admin/__tests__/Breadcrumb.spec.tsx` (2 PASS), workspace typecheck/lint PASS |
+| Phase 12 | strict 7 files present under `outputs/phase-12/` |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-894-admin-topbar-breadcrumb-integration-artifact-inventory.md` |
+| user gate | commit, push, PR, Issue mutation |
+
+## Issue #895 AdminTopbar actions client island（2026-05-25）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-895-admin-topbar-actions-client-island/` |
+| status | `implemented_local_evidence_captured / implementation / NON_VISUAL / implementation_complete_pending_pr` |
+| source | `docs/30-workflows/completed-tasks/parallel-03-followup-004-admin-topbar-actions-buttons.md` consumed |
+| purpose | `AdminTopbar.actions` に admin global actions client island を注入し、既存 `SignOutButton` を topbar へ集約する |
+| implementation | `apps/web/src/features/admin/components/_layout/AdminTopbarActions.tsx`, `apps/web/src/features/admin/components/_layout/__tests__/AdminTopbarActions.spec.tsx`, `apps/web/app/(admin)/layout.tsx`, `apps/web/app/(admin)/layout.spec.tsx` |
+| contract | topbar actions = global admin shell actions; `AdminPageHeader.actions` = page-specific actions. `AdminTopbar` and `(admin)/layout.tsx` remain server components. |
+| Phase 12 | strict 7 files present under `outputs/phase-12/`; Phase 11 local evidence present; screenshot N/A (`NON_VISUAL`) |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-895-admin-topbar-actions-client-island-artifact-inventory.md` |
+| user gate | commit, push, PR |
+
 ## Issue #891 member detail kind exhaustiveness guard（2026-05-25）
 
 | 項目 | 値 |
@@ -194,6 +250,16 @@
 | audit | `schema_alias.rollback_notification` with redacted `after_json={ status, channel, attempts, errorClass, dispatchedAt }` |
 | Phase 12 | strict 7 files present; Phase 11 local evidence present and staging provider smoke user-gated |
 
+## Issue #908 Staging Rollback Notification Runtime Smoke（2026-05-25）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-908-staging-rollback-notification-runtime-smoke/` |
+| status | `implemented_local_runtime_pending / implementation / NON_VISUAL` |
+| helper | `scripts/runtime-smoke/schema-alias-rollback.sh` |
+| parent evidence | `docs/30-workflows/completed-tasks/issue-838-schema-alias-rollback-notification/outputs/phase-11/evidence/staging-smoke.md` |
+| boundary | staging deploy / rollback POST / D1 mutation / provider evidence population / parent completion promotion / commit / push / PR are user-gated |
+
 ## Issue #837 schema alias bulk rollback（2026-05-24）
 
 | 項目 | 値 |
@@ -263,6 +329,20 @@
 | inventory | `.claude/skills/aiworkflow-requirements/references/workflow-ut-dsf-07-staging-visual-runtime-evidence-artifact-inventory.md` |
 | user gate | staging deploy, screenshot capture, parent gate release, commit, push, PR |
 
+## Issue #902 members staging visual baseline（2026-05-25）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow | `docs/30-workflows/completed-tasks/issue-902-members-staging-visual-baseline/` |
+| status | `implemented_local_runtime_pending / implementation / VISUAL` |
+| source | Issue #902 CLOSED; `docs/30-workflows/completed-tasks/UT-DSF-07-FU-02-members-list-detail-staging-visual.md` consumed |
+| parent | `docs/30-workflows/ut-dsf-07-staging-visual-runtime-evidence/` |
+| implementation | `apps/web/playwright/tests/visual-staging/{members-list,member-detail}.spec.ts`, `.github/workflows/playwright-smoke.yml` |
+| purpose | Extend `staging-visual` coverage from 4 to 6 public runtime screens: `/members` and env-gated `/members/[id]`. |
+| evidence | `outputs/phase-11/evidence/playwright-list-staging-visual.txt` lists 6 tests; focused web typecheck log present. |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-902-members-staging-visual-baseline-artifact-inventory.md` |
+| user gate | staging deploy verification, CI baseline PNG generation, commit, push, PR |
+
 ## Issue #832 AdminTopbar primitive extraction（2026-05-23）
 
 | 項目 | 値 |
@@ -305,6 +385,19 @@
 | inventory | `.claude/skills/aiworkflow-requirements/references/workflow-runtime-smoke-staging-mint-recurrence-fix-artifact-inventory.md` |
 | lessons-learned | `.claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-runtime-smoke-staging-mint-recurrence-2026-05.md`（L-RSMR-001..006） |
 | boundary | `STAGING_AUTH_SECRET` 投入による mint path 恒久化・staging runtime rerun・GitHub/Cloudflare secret mutation・commit・push・PR は user-gated |
+
+## issue-899-static-bearer-fallback-retirement（2026-05-25）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-899-static-bearer-fallback-retirement/` |
+| status | `spec_created / implementation / NON_VISUAL / implementation_pending` |
+| purpose | runtime-smoke-staging の静的 bearer fallback を物理撤去し、mint-only + freshness hard-fail 既定へ恒久化する実装仕様 |
+| prerequisite | #916 `STAGING_AUTH_SECRET` provisioning + mint path smoke green |
+| implementation targets | `.github/workflows/runtime-smoke-staging.yml`, `secret-provisioning.md`, `bearer-lifecycle-ssot.md` |
+| Phase 12 | strict 7 present; root/output artifacts parity present; 30-method compact evidence included |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-899-static-bearer-fallback-retirement-artifact-inventory.md` |
+| boundary | workflow edit / runtime smoke rerun / static secret physical delete / commit / push / PR are user-gated |
 
 ## issue-870-apps-api-security-headers（2026-05-24）
 
@@ -784,7 +877,7 @@
 | workflow root | `docs/30-workflows/completed-tasks/profile-loading-skeleton-oklch/` |
 | 状態 | `implemented_local_evidence_captured / implementation / VISUAL / implementation_complete_pending_pr` |
 | source | `docs/30-workflows/ui-prototype-alignment-mvp-recovery/improvements/integration-fixes/parallel-i07-profile-loading-skeleton/spec.md` |
-| implementation | `apps/web/app/profile/loading.tsx`, `apps/web/app/profile/loading.spec.tsx` |
+| implementation | `apps/web/app/(member)/profile/loading.tsx`, `apps/web/app/(member)/profile/loading.spec.tsx` |
 | contract | `/profile/loading.tsx` は `role=status` / `aria-busy=true` / `aria-live=polite` / `data-page=profile-loading` と avatar + 4 KV row skeleton を持つ |
 | evidence | `outputs/phase-11/evidence/{test,typecheck,lint,build,grep-gate}.log`, `outputs/phase-12/phase12-task-spec-compliance-check.md` |
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-profile-loading-skeleton-oklch-artifact-inventory.md` |
@@ -828,7 +921,7 @@
 | workflow root | `docs/30-workflows/issue-770-profile-loading-skeleton/` |
 | 状態 | `implemented_local_runtime_pending / implementation / VISUAL` |
 | source issue | #770 OPEN |
-| implementation | `apps/web/app/profile/loading.tsx`, `apps/web/app/profile/loading.spec.tsx` |
+| implementation | `apps/web/app/(member)/profile/loading.tsx`, `apps/web/app/(member)/profile/loading.spec.tsx` |
 | parent spec | `docs/30-workflows/ui-prototype-alignment-mvp-recovery/improvements/integration-fixes/parallel-i07-profile-loading-skeleton/spec.md` |
 | source task | `docs/30-workflows/unassigned-task/integration-fixes-i07-profile-loading-skeleton.md` consumed |
 | evidence | `outputs/phase-12/phase12-task-spec-compliance-check.md`, `outputs/phase-11/evidence/` |
@@ -1304,7 +1397,7 @@
 | workflow root | `docs/30-workflows/task-14-my-profile-and-requests/` |
 | 状態 | `PASS_BOUNDARY_SYNCED_RUNTIME_PENDING / implementation / VISUAL_ON_EXECUTION / IMPLEMENTED_LOCAL_RUNTIME_PENDING` |
 | route scope | `/profile` |
-| implementation targets | `apps/web/app/profile/page.tsx`, `apps/web/app/profile/_components/*` |
+| implementation targets | `apps/web/app/(member)/profile/page.tsx`, `apps/web/app/(member)/profile/_components/*` |
 | UI contract | `PublicVisibilityBanner`, `StatusSummary`, `RequestActionPanel`, `VisibilityRequestDialog`, `DeleteRequestDialog` |
 | selector contract | `public-visibility-banner`, `status-summary`, `request-action-panel`, `visibility-request-dialog`, `delete-request-dialog` |
 | API boundary | Existing `/me` self-service API only; no task-14 changes to `apps/api/src/routes/me/*` or new `apps/web/app/api/me/*` handlers |
@@ -1336,7 +1429,7 @@
 | workflow root | `docs/30-workflows/parallel-i03-dialog-refresh-order/` |
 | 状態 | `implemented_local_evidence_captured / implementation / NON_VISUAL` |
 | route scope | `/profile` |
-| implementation targets | `apps/web/app/profile/_components/{VisibilityRequestDialog,DeleteRequestDialog,RequestActionPanel}.tsx` |
+| implementation targets | `apps/web/app/(member)/profile/_components/{VisibilityRequestDialog,DeleteRequestDialog,RequestActionPanel}.tsx` |
 | contract | dialog success / 409 duplicate-pending 両分岐とも `router.refresh() -> onSubmitted(res.accepted) -> onClose()` |
 | parent boundary | `RequestActionPanel` does not call `router.refresh()` in `onSubmitted` |
 | evidence | `outputs/phase-11/visual-verification-skip.md`, `outputs/phase-12/phase12-task-spec-compliance-check.md` |
@@ -1886,7 +1979,7 @@
 | --- | --- |
 | workflow root | `docs/30-workflows/ut-05a-auth-ui-logout-button-001/` |
 | 状態 | `implemented-local-runtime-evidence-blocked / implementation / VISUAL_ON_EXECUTION / Phase 12 strict outputs present / Phase 13 blocked_until_user_approval` |
-| 実装 | `apps/web/src/components/auth/SignOutButton.tsx`, `apps/web/src/components/layout/MemberHeader.tsx`, `apps/web/app/profile/page.tsx`, `apps/web/app/(member)/layout.tsx`, `apps/web/src/components/layout/AdminSidebar.tsx` |
+| 実装 | `apps/web/src/components/auth/SignOutButton.tsx`, `apps/web/src/components/layout/MemberHeader.tsx`, `apps/web/app/(member)/profile/page.tsx`, `apps/web/app/(member)/layout.tsx`, `apps/web/src/components/layout/AdminSidebar.tsx` |
 | close-out evidence | `docs/30-workflows/ut-05a-auth-ui-logout-button-001/outputs/phase-12/phase12-task-spec-compliance-check.md` |
 | runtime evidence | `outputs/phase-11/` は placeholder。OAuth visual smoke / cookie / session evidence は未取得で PASS 扱いしない |
 | Issue 取扱 | #386 は CLOSED 維持。PR / comment は user 明示指示後のみ |
@@ -2495,7 +2588,7 @@ Magic Link メール送信の env 名を、実装と aiworkflow 正本に合わ�
 | canonical task root | `docs/30-workflows/06b-parallel-member-login-and-profile-pages/` |
 | 実装ガイド | `docs/30-workflows/06b-parallel-member-login-and-profile-pages/outputs/phase-12/implementation-guide.md` |
 | login UI | `apps/web/app/login/` |
-| profile UI | `apps/web/app/profile/` |
+| profile UI | `apps/web/app/(member)/profile/`（URL remains `/profile`） |
 | proxy | `apps/web/proxy.ts`（`/profile/:path*` session gate; Issue #277 migrated from legacy `middleware.ts`） |
 | URL helpers | `apps/web/src/lib/url/{login-query,login-redirect,login-state,safe-redirect}.ts` |
 | API clients | `apps/web/src/lib/fetch/authed.ts`, `apps/web/src/lib/auth/{magic-link-client,oauth-client}.ts` |
@@ -3282,7 +3375,7 @@ packages/
 | repository | `apps/api/src/repository/attendance.ts` (`findByMemberId(id, { limit, cursor })`) |
 | routes | `/me/attendance`, `/admin/members/:memberId/attendance` |
 | shared contract | `MemberProfile.attendance` は配列維持、`attendanceMeta?: { hasMore, nextCursor }` を optional 追加 |
-| web targets | `apps/web/app/profile/_components/AttendanceList.tsx`, `apps/web/src/components/admin/MemberDrawer.tsx` |
+| web targets | `apps/web/app/(member)/profile/_components/AttendanceList.tsx`, `apps/web/src/components/admin/MemberDrawer.tsx` |
 | scope boundary | `findByMemberIds(ids)` bulk pagination は明示スコープ外。未タスク化しない |
 | evidence | local focused tests + Phase 12 strict files: `docs/30-workflows/issue-372-attendance-pagination/outputs/phase-12/`; staging screenshots/curl remain Phase 11 pending |
 | lessons-learned | `references/lessons-learned-issue-372-attendance-pagination-2026-05.md`（L-ISSUE372-001〜006: cursor encoded/decoded 境界 / bulk と個人特化 API 分離 / `attendanceMeta` optional 追加 / miniflare EADDRNOTAVAIL focused run / 1Password CLI timeout 切り分け / Phase 11 visual evidence pending を spec sync の blocker にしない） |
@@ -3858,3 +3951,4 @@ UT-17 Cloudflare Notifications → alert-relay → Slack 経路を、既存 API 
 | `docs/30-workflows/completed-tasks/issue-863-admin-error-alert-policy-iac/` | Issue #863 admin error boundary Sentry alert IaC workflow | admin `error.boundary.caught` alert policy、Sentry tag 昇格、drift CI、runbook を確認する時 |
 | `infra/sentry-alerts/` | Sentry alert policy IaC for admin runtime error detection | Sentry alert rule manifest / CLI / drift diff を確認・更新する時 |
 | `references/workflow-issue-863-admin-error-alert-policy-iac-artifact-inventory.md` | Issue #863 workflow artifact inventory | 同 wave 変更棚卸し時 |
+| Issue #903 member AppShell runtime evidence | `/profile` under `(member)` route group; EV-13/EV-16 present | `docs/30-workflows/completed-tasks/issue-903-parallel-03-followup-005-member-runtime-evidence/`, `references/workflow-issue-903-parallel-03-followup-005-member-runtime-evidence-artifact-inventory.md` |

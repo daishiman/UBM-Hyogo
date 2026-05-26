@@ -3101,6 +3101,72 @@ node scripts/list-specs.js --topics
 | Phase 12 strict 7 Files | L32 |
 | Boundary | L42 |
 
+### references/workflow-issue-894-admin-topbar-breadcrumb-integration-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Summary | L3 |
+| Implementation artifacts | L12 |
+| Evidence | L21 |
+| User-gated boundary | L29 |
+
+### references/workflow-issue-895-admin-topbar-actions-client-island-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Contract | L16 |
+
+### references/workflow-issue-899-static-bearer-fallback-retirement-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Specification Artifacts | L11 |
+| Implementation Targets | L21 |
+| User-Gated Boundary | L29 |
+
+### references/workflow-issue-900-workflow-permissions-least-privilege-audit-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Implementation Targets | L13 |
+| Evidence | L32 |
+
+### references/workflow-issue-901-authenticated-profile-admin-staging-visual-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Metadata | L3 |
+| Workflow Artifacts | L14 |
+| Implementation Targets | L27 |
+| Boundary | L39 |
+
+### references/workflow-issue-902-members-staging-visual-baseline-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Metadata | L3 |
+| Implementation Targets | L13 |
+| Evidence | L21 |
+| Boundary | L29 |
+
+### references/workflow-issue-903-parallel-03-followup-005-member-runtime-evidence-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Workflow | L5 |
+| Code | L14 |
+| Evidence | L25 |
+| Boundary | L39 |
+
+### references/workflow-issue-908-staging-rollback-notification-runtime-smoke-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Summary | L3 |
+| Local Artifacts | L12 |
+| User-Gated Runtime Artifacts | L21 |
+| Skill Sync | L31 |
+
 ### references/workflow-light-theme-contrast-regression-guard.md
 
 | セクション | 行 |
@@ -4198,6 +4264,7 @@ node scripts/list-specs.js --topics
 | Workflow Artifacts | L13 |
 | Implementation Targets | L26 |
 | Boundary | L35 |
+| Authenticated Visual Child Workflow | L39 |
 
 ### references/workflow-ut-gov-004-artifact-inventory.md
 
@@ -4633,21 +4700,21 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 概要 | L10 |
 | ワークフロー構成 | L38 |
-| CI ワークフロー要件（PR 時） | L68 |
-| キャッシュ戦略 | L104 |
-| 並列実行の活用 | L127 |
-| CD ワークフロー要件（dev / main マージ時） | L183 |
-| Backend ワークフロー要件（dev / main マージ時） | L213 |
-| モニタリングとアラート | L241 |
-| GitHub Secrets の要件 | L275 |
-| Issue #638 CLOUDFLARE_PAGES_PROJECT deletion current state | L303 |
-| UT-27: GitHub Secrets / Variables 配置決定（2026-04-29） | L325 |
-| Workflow lint scope の不変条件（CI recovery / 2026-05-09） | L347 |
-| setup-project cache input 不変条件（PR #795 residual CI recovery / 2026-05-18） | L358 |
-| Failure cascade 抑止 pattern（CI recovery / 2026-05-09） | L368 |
-| Lessons learned (PR #795 由来 / 2026-05-18) | L389 |
-| Post-release dashboard automation (Issue #351 / 2026-05-05) | L395 |
-| post-release-30day-auto-summary | L432 |
+| CI ワークフロー要件（PR 時） | L70 |
+| キャッシュ戦略 | L106 |
+| 並列実行の活用 | L129 |
+| CD ワークフロー要件（dev / main マージ時） | L185 |
+| Backend ワークフロー要件（dev / main マージ時） | L215 |
+| モニタリングとアラート | L243 |
+| GitHub Secrets の要件 | L277 |
+| Issue #638 CLOUDFLARE_PAGES_PROJECT deletion current state | L305 |
+| UT-27: GitHub Secrets / Variables 配置決定（2026-04-29） | L327 |
+| Workflow lint scope の不変条件（CI recovery / 2026-05-09） | L349 |
+| setup-project cache input 不変条件（PR #795 residual CI recovery / 2026-05-18） | L360 |
+| Failure cascade 抑止 pattern（CI recovery / 2026-05-09） | L370 |
+| Lessons learned (PR #795 由来 / 2026-05-18) | L391 |
+| Post-release dashboard automation (Issue #351 / 2026-05-05) | L397 |
+| post-release-30day-auto-summary | L434 |
 
 ### references/deployment-history.md
 
@@ -5929,6 +5996,15 @@ node scripts/list-specs.js --topics
 | L-I891-005: 起票元 unassigned task は削除でなく consumed trace を残し completed-tasks/unassigned-task/ へ移送する | L37 |
 | 横断教訓 | L46 |
 
+### references/lessons-learned-issue-900-workflow-permissions-least-privilege-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| L-WFPERM-001: top-level permissions 不在は構造的脆弱性 | L3 |
+| L-WFPERM-002: least-privilege は 2 階層で組む | L7 |
+| L-WFPERM-003: actionlint 1.7.7 を最終ゲートに、push 前は grep で自己検証 | L11 |
+| L-WFPERM-004: 防御的 hardening は失敗観測を待たず先回り適用 | L15 |
+
 ### references/lessons-learned-issue359-production-d1-apply-2026-05.md
 
 | セクション | 行 |
@@ -6538,8 +6614,8 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 概要 | L3 |
 | 仕様書インデックス | L7 |
-| 利用順序 | L121 |
-| 関連ドキュメント | L126 |
+| 利用順序 | L122 |
+| 関連ドキュメント | L127 |
 
 ### references/llm-embedding.md
 
@@ -7676,14 +7752,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L2492 |
-| フェーズ構造（概要） | L2501 |
-| 品質ゲート（概要） | L2532 |
-| 出力テンプレート | L2543 |
-| 実行時のコマンド・エージェント・スキル | L2566 |
-| 昇格パターン集 | L2590 |
-| Current Active / Spec Created Tasks | L2592 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L2753 |
+| ドキュメント構成 | L2580 |
+| フェーズ構造（概要） | L2589 |
+| 品質ゲート（概要） | L2620 |
+| 出力テンプレート | L2631 |
+| 実行時のコマンド・エージェント・スキル | L2654 |
+| 昇格パターン集 | L2678 |
+| Current Active / Spec Created Tasks | L2680 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L2841 |
 
 ### references/task-workflow-backlog-part2.md
 
