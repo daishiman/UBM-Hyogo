@@ -79,7 +79,11 @@ export default async function ProfilePage() {
   return (
     <>
       <MemberHeader />
-      <main data-route="member" data-section-rhythm="comfortable">
+      <main
+        data-route="member"
+        data-section-rhythm="comfortable"
+        data-testid="profile-authenticated-root"
+      >
         <ProfileHeader
           memberId={me.user.memberId}
           publishState={statusSummary.publishState}
