@@ -3,6 +3,9 @@ import { describe, it, expect, vi, afterEach, beforeEach } from "vitest";
 import { render, cleanup } from "@testing-library/react";
 import { axe } from "../../src/test/axe";
 
+vi.mock("next-auth/react", () => ({
+  signOut: vi.fn(),
+}));
 vi.mock("../../src/lib/session", () => ({
   getSession: vi.fn(),
 }));
@@ -59,6 +62,17 @@ describe("AdminLayout", () => {
     expect(shell?.getAttribute("data-route-group")).toBe("admin");
     expect(container.querySelector('[data-shell="sidebar"]')).not.toBeNull();
     expect(container.querySelector('[data-shell="topbar"]')).not.toBeNull();
+    const topbarActions = container.querySelector(
+      '[data-component="admin-topbar-actions"]',
+    );
+    expect(topbarActions).not.toBeNull();
+    expect(topbarActions?.hasAttribute("aria-hidden")).toBe(false);
+    expect(
+      topbarActions?.querySelector('[data-testid="admin-topbar-actions-island"]'),
+    ).not.toBeNull();
+    expect(
+      topbarActions?.querySelector('[data-testid="sign-out-button"]'),
+    ).not.toBeNull();
     const main = container.querySelector('main[data-route="admin"]');
     expect(main).not.toBeNull();
     expect(main?.querySelector('[data-testid="child"]')).not.toBeNull();

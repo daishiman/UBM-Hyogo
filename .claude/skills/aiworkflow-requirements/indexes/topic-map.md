@@ -3095,6 +3095,12 @@ node scripts/list-specs.js --topics
 | Phase 12 strict 7 Files | L32 |
 | Boundary | L42 |
 
+### references/workflow-issue-895-admin-topbar-actions-client-island-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Contract | L16 |
+
 ### references/workflow-issue-899-static-bearer-fallback-retirement-artifact-inventory.md
 
 | セクション | 行 |
@@ -7686,14 +7692,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L2507 |
-| フェーズ構造（概要） | L2516 |
-| 品質ゲート（概要） | L2547 |
-| 出力テンプレート | L2558 |
-| 実行時のコマンド・エージェント・スキル | L2581 |
-| 昇格パターン集 | L2605 |
-| Current Active / Spec Created Tasks | L2607 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L2768 |
+| ドキュメント構成 | L2521 |
+| フェーズ構造（概要） | L2530 |
+| 品質ゲート（概要） | L2561 |
+| 出力テンプレート | L2572 |
+| 実行時のコマンド・エージェント・スキル | L2595 |
+| 昇格パターン集 | L2619 |
+| Current Active / Spec Created Tasks | L2621 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L2782 |
 
 ### references/task-workflow-backlog-part2.md
 

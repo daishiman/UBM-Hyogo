@@ -7,6 +7,7 @@ import { redirect } from "next/navigation";
 
 import { AdminSidebar } from "../../src/components/layout/AdminSidebar";
 import { AdminTopbar } from "../../src/components/layout/AdminTopbar";
+import { AdminTopbarActions } from "../../src/features/admin/components/_layout/AdminTopbarActions";
 import { getSession } from "../../src/lib/session";
 
 export const dynamic = "force-dynamic";
@@ -33,7 +34,7 @@ export default async function AdminLayout({
       >
         <AdminSidebar />
       </aside>
-      <AdminTopbar />
+      <AdminTopbar actions={<AdminTopbarActions />} />
       <main className="flex flex-col gap-4 p-4 md:p-6" data-route="admin" data-section-rhythm="compact">
         {children}
       </main>

@@ -3335,6 +3335,7 @@
       "workflow-issue-879-safe-server-fetch-member-public-horizontal-expansion-artifact-inventory.md",
       "workflow-issue-880-public-segment-error-loading-boundary-artifact-inventory.md",
       "workflow-issue-882-terms-prefetch-env-validation-fix-artifact-inventory.md",
+      "workflow-issue-895-admin-topbar-actions-client-island-artifact-inventory.md",
       "workflow-issue-899-static-bearer-fallback-retirement-artifact-inventory.md",
       "workflow-issue-900-workflow-permissions-least-privilege-audit-artifact-inventory.md",
       "workflow-parallel-04-shared-page-chrome-artifact-inventory.md",
@@ -3574,7 +3575,8 @@
       "architecture-admin-api-client.md",
       "lessons-learned-06c-admin-ui-2026-04.md",
       "lessons-learned-ut-03-sheets-auth-2026-04.md",
-      "ui-ux-admin-dashboard.md"
+      "ui-ux-admin-dashboard.md",
+      "workflow-issue-895-admin-topbar-actions-client-island-artifact-inventory.md"
     ],
     "BFF": [
       "architecture-admin-api-client.md",
@@ -4647,6 +4649,7 @@
       "workflow-issue-799-use-auto-focus-on-mount-hook-artifact-inventory.md",
       "workflow-issue-832-admin-topbar-primitive-extraction-artifact-inventory.md",
       "workflow-issue-842-admin-mutation-reliability-policy-artifact-inventory.md",
+      "workflow-issue-895-admin-topbar-actions-client-island-artifact-inventory.md",
       "workflow-task-issue-299-schema-questions-fallback-retirement-artifact-inventory.md",
       "workflow-ut-17-cloudflare-analytics-alerts-artifact-inventory.md"
     ],
@@ -7227,6 +7230,7 @@
       "workflow-issue-837-schema-alias-bulk-rollback-artifact-inventory.md",
       "workflow-issue-863-admin-error-alert-policy-iac-artifact-inventory.md",
       "workflow-issue-871-csp-nonce-migration-artifact-inventory.md",
+      "workflow-issue-895-admin-topbar-actions-client-island-artifact-inventory.md",
       "workflow-mypage-prototype-alignment-artifact-inventory.md",
       "workflow-task-07-prototype-mapping-table-artifact-inventory.md",
       "workflow-task-08-w2-design-tokens-doc-artifact-inventory.md",
@@ -8487,7 +8491,8 @@
       "deployment-core.md",
       "deployment-gha.md",
       "deployment-secrets-management.md",
-      "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md"
+      "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md",
+      "workflow-issue-895-admin-topbar-actions-client-island-artifact-inventory.md"
     ],
     "プレビューデプロイメント": [
       "deployment-cloudflare.md"
@@ -16682,6 +16687,7 @@
       "workflow-issue-872-google-brand-4tone-icon-and-tokens-exempt-artifact-inventory.md",
       "workflow-issue-879-safe-server-fetch-member-public-horizontal-expansion-artifact-inventory.md",
       "workflow-issue-882-terms-prefetch-env-validation-fix-artifact-inventory.md",
+      "workflow-issue-895-admin-topbar-actions-client-island-artifact-inventory.md",
       "workflow-issue-899-static-bearer-fallback-retirement-artifact-inventory.md",
       "workflow-issue-900-workflow-permissions-least-privilege-audit-artifact-inventory.md",
       "workflow-mypage-prototype-alignment-artifact-inventory.md",
@@ -24675,6 +24681,7 @@
       "workflow-issue-872-google-brand-4tone-icon-and-tokens-exempt-artifact-inventory.md",
       "workflow-issue-879-safe-server-fetch-member-public-horizontal-expansion-artifact-inventory.md",
       "workflow-issue-882-terms-prefetch-env-validation-fix-artifact-inventory.md",
+      "workflow-issue-895-admin-topbar-actions-client-island-artifact-inventory.md",
       "workflow-issue-899-static-bearer-fallback-retirement-artifact-inventory.md",
       "workflow-issue-900-workflow-permissions-least-privilege-audit-artifact-inventory.md",
       "workflow-mypage-prototype-alignment-artifact-inventory.md",
@@ -25597,6 +25604,7 @@
     ],
     "AdminTopbar": [
       "workflow-issue-832-admin-topbar-primitive-extraction-artifact-inventory.md",
+      "workflow-issue-895-admin-topbar-actions-client-island-artifact-inventory.md",
       "workflow-ui-prototype-design-system-foundation-artifact-inventory.md"
     ],
     "Primitive": [
@@ -25657,6 +25665,9 @@
     ],
     "warn": [
       "workflow-issue-883-adapter-dev-warn-unknown-kind-artifact-inventory.md"
+    ],
+    "Island": [
+      "workflow-issue-895-admin-topbar-actions-client-island-artifact-inventory.md"
     ],
     "bearer": [
       "workflow-issue-899-static-bearer-fallback-retirement-artifact-inventory.md"
