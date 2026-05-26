@@ -35,7 +35,7 @@ export default async function AdminLayout({
         <AdminSidebar />
       </aside>
       <AdminTopbar
-        breadcrumb={<Breadcrumb items={[{ label: "管理" }]} />}
+        breadcrumb={<Breadcrumb ariaLabel="breadcrumb (section)" items={[{ label: "管理" }]} />}
       />
       <main className="flex flex-col gap-4 p-4 md:p-6" data-route="admin" data-section-rhythm="compact">
         {children}
