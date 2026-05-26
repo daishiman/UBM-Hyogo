@@ -2,6 +2,12 @@
 
 > 親ファイル: [patterns.md](patterns.md)
 
+## public-header-my-profile-nav-alignment lessons (2026-05-26)
+
+- L-PUBHDR-001: Header personalization workflows should keep the presentational header sync and isolate dynamic inputs. Use a server wrapper for session and a minimal client island for pathname when real `aria-current` is required.
+- L-PUBHDR-002: Do not record same-wave skill/reference/index updates as user-gated when they are repository-local files. User gates apply to commit, push, PR, deployment, and external runtime evidence, not local canonical sync.
+- L-PUBHDR-003: Avoid duplicating the same destination and label in primary nav and CTA. For public chrome, choose one semantic owner for `/profile`; in this workflow the authenticated CTA owns the my-page action.
+
 ## 目的
 
 過去のタスク実行で発生した失敗事例と教訓を記録する。再発防止と初動短縮のためのリファレンス。
