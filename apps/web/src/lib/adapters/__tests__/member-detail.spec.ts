@@ -1,10 +1,11 @@
 // serial-06-form-response-binding: adapter unit spec (10 cases / branch coverage 100% 目標)
 import { describe, expect, it, vi } from "vitest";
 
-import { PublicMemberProfileZ } from "@ubm-hyogo/shared";
+import { FieldKindZ, PublicMemberProfileZ } from "@ubm-hyogo/shared";
 
 import { samplePublicMemberProfile } from "../../../fixtures/public-member-profile";
 import {
+  __testInternals,
   PublicMemberProfileWithUnknownKindZ,
   toMemberDetailProps,
 } from "../member-detail";
@@ -96,6 +97,7 @@ describe("toMemberDetailProps", () => {
       publicSections: [],
     });
     expect(result.sections).toEqual([]);
+    expect(result.linkSections).toEqual([]);
   });
 
   it("出力 field には visibility / source キーが含まれない", () => {
@@ -106,6 +108,62 @@ describe("toMemberDetailProps", () => {
         expect(field).not.toHaveProperty("source");
       }
     }
+  });
+});
+
+describe("KIND_ROUTE exhaustiveness", () => {
+  it("FieldKindZ.options 全件が KIND_ROUTE に存在する", () => {
+    const routed = Object.keys(__testInternals.KIND_ROUTE);
+    for (const kind of FieldKindZ.options) {
+      expect(routed).toContain(kind);
+    }
+  });
+
+  it("KIND_ROUTE のキーは FieldKindZ.options と完全一致する", () => {
+    const routed = Object.keys(__testInternals.KIND_ROUTE).sort();
+    const enumValues = [...FieldKindZ.options].sort();
+    expect(routed).toEqual(enumValues);
+  });
+});
+
+describe("toMemberDetailProps の分類除外", () => {
+  it.each(["consent", "system", "unknown"] as const)(
+    "kind = %s の field は detail / links のどちらにも含まれない",
+    (kind) => {
+      const tampered = structuredClone(samplePublicMemberProfile);
+      const target = tampered.publicSections[0].fields[0];
+      (target.kind as unknown as string) = kind;
+
+      const result = toMemberDetailProps(tampered);
+      const all = [...result.sections, ...result.linkSections].flatMap(
+        (section) => section.fields,
+      );
+
+      expect(
+        all.find((field) => field.stableKey === target.stableKey),
+      ).toBeUndefined();
+    },
+  );
+
+  it("kind = url の field は detail から除外し linkSections に残す", () => {
+    const tampered = structuredClone(samplePublicMemberProfile);
+    const target = tampered.publicSections[0].fields[0];
+    target.kind = "url";
+    target.value = "https://example.com/member";
+
+    const result = toMemberDetailProps(tampered);
+    const detailFields = result.sections.flatMap((section) => section.fields);
+    const linkFields = result.linkSections.flatMap((section) => section.fields);
+
+    expect(
+      detailFields.find((field) => field.stableKey === target.stableKey),
+    ).toBeUndefined();
+    expect(
+      linkFields.find((field) => field.stableKey === target.stableKey),
+    ).toMatchObject({
+      kind: "url",
+      value: "https://example.com/member",
+    });
   });
 });
 

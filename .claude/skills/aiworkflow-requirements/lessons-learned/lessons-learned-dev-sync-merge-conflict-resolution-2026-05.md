@@ -718,3 +718,27 @@
   3. `pnpm sync:resolve` を再実行。union 処理は冪等なので途中失敗からの再開で問題なし。
 - 留意: 同種の stale lock として `HEAD.lock` / `packed-refs.lock` / `<branch>.lock` も同 path に発生しうる。除去前に必ず PID プロセス生存確認（`ps -p <pid>`）を行うこと。中断シグナルで死んだ前回 git の残骸であれば安全に削除可能だが、別端末で並列実行中の git が掴んでいる場合は削除禁止。本件は単一端末で前回 `git commit` 系が SIGINT / network glitch で死んだ後、別 prompt で再開した際に再現した。
 - 事例: 2026-05-26 `feat/issue-894-admin-topbar-breadcrumb` ← dev sync-merge。`pnpm sync:resolve` 1 回目失敗 → `rm -f $(git rev-parse --git-dir)/index.lock` → 2 回目で union 完結（skill indexes/quick-reference + resource-map + topic-map + task-workflow-active union、keywords.json `--ours` + `indexes:rebuild`）。typecheck / lint / verify-pr-ready 3 gate 全 PASS で merge commit 確定。task-specification-creator skill 側「dev-sync merge conflict（lint scope / version table）の Phase 仕様反映」セクションに `index.lock` troubleshoot 追補と対応。
+
+## L-DEVSYNC-043: 同一 adapter 関数 signature への並列拡張 conflict は「引数列の union 化」で統合する（2026-05-26 追加）
+
+- 事象: `feat/issue-891-member-detail-kind-exhaustiveness-guard` ← dev sync-merge で `apps/web/src/lib/adapters/member-detail.ts` と同 spec が `pnpm sync:resolve` の `WARN unhandled conflict`。HEAD = issue-891（`KIND_ROUTE satisfies Record<FieldKind, KindRoute>` + `DETAIL_KINDS` / `LINK_KINDS` 派生 + `normalizeField(field, routeKinds)` への引数追加）、dev = issue-883（`onUnknownKind?: (field) => void` callback + `normalizeField(field, onUnknownKind)` への引数追加）。両方が **同じ純関数の signature を独立に拡張**しているため diff3 が単一の隣接 hunk として競合し、片側 take では仕様欠落になる。
+- Why: pure adapter / pure function は spec の Phase 4 contracts に signature を SSOT として固定するが、別 issue が同時期に「signature を 1 引数追加」する拡張系修正を独立に行うと、merge tool は構造を理解しないため WARN unhandled になる。両仕様とも振る舞いが orthogonal（exhaustiveness 強制 と observability callback）で、両側保持が唯一正しい結果。`pnpm sync:resolve` の `UNION_MERGE_TARGETS` には `apps/web/src/lib/adapters/*.ts` は **意図的に含めない**（コード union は意味壊し）。
+- How to apply:
+  1. `WARN unhandled conflict` で adapter ソース 2 ファイル（impl + spec）が出たら、HEAD 側引数と dev 側引数を**両方 signature に並べる**（順序ルール: 必須引数 → routing 用 → observability callback → options）。
+     例: `normalizeField(field, routeKinds, onUnknownKind?)`、`normalizeSection(section, routeKinds, onUnknownKind?)`、呼び出し側は `options.onUnknownKind` で配線。
+  2. spec ファイルの `import` 行 conflict は、HEAD 側 export（`__testInternals` 等）と dev 側 export（`PublicMemberProfileWithUnknownKindZ` 等）を**カンマ並べ 1 行で union**。`describe` ブロックは両側追記を保持（テスト件数は両側合計、削除しない）。
+  3. resolver 完了後 `grep -nE '^(<<<<<<<|=======|>>>>>>>|\|\|\|\|\|\|\|)' apps/web/src/lib/adapters/` でマーカー残ゼロ確認 → `pnpm typecheck`（signature の orthogonal 統合が型整合するかを最初にゲート） → `pnpm lint` → `git add -A` → `git commit -m "merge: sync <branch> with dev"`。
+  4. resolver 拡張は不要。コード union は危険なので resolver 側で自動化せず、L-DEVSYNC-043 を手動 union ルールとして spec template に組み込む（task-specification-creator patterns-lessons-and-pitfalls.md「parallel adapter signature extension」項目参照）。
+- 留意: 片側が「同じ引数名」を別意味で追加している場合は orthogonal でないため、最終レポートに記録し人間判断を仰ぐ（callback と routing set のような明確に意味が分かれる場合のみ自動 union 適用可）。リネーム提案は元 issue へ feedback。
+- 事例: 2026-05-26 `feat/issue-891-...` ← dev sync-merge。`pnpm sync:resolve` が skill index 5 + `keywords.json --ours` を解消、unhandled は patterns-lessons + adapter impl + adapter spec の 3 ファイル。patterns-lessons は L-DEVSYNC-042（末尾並列 section 両側保持）で解消、adapter 2 ファイルは本 L-DEVSYNC-043 で signature union 化。typecheck / lint 共に green、`pnpm sync:check` で他 worktree 影響なし確認、push 待ち。
+
+## L-DEVSYNC-044: spec の EOF 末尾並列追加（HEAD = `describe` 追加 / dev = trailing comment block 追加）は両側保持で union（2026-05-26 追加・再発確認）
+
+- 事象: `feat/issue-891-member-detail-kind-exhaustiveness-guard` ← dev 二次 sync-merge（#939 regression-evidence + #941 issue-885 adapter pipeline）で `apps/web/src/lib/adapters/__tests__/member-detail.spec.ts` のみ `WARN unhandled conflict`。HEAD は `describe("KIND_ROUTE exhaustiveness", ...)` + `describe("toMemberDetailProps の分類除外", ...)` の追加、dev は `// === EXTENSION TEMPLATE ===` 〜 `// === END EXTENSION TEMPLATE ===` のトレーリングコメントブロック追加。diff3 marker (`||||||| d1dc22705`) 付きで隣接 hunk として競合するが、両側とも **既存 `});` 後の純粋な末尾追記**で意味的に直交。
+- Why: spec 末尾の「テスト追加」と「拡張テンプレート comment」は同じ EOF 位置に追加される構造的副産物で、commit graph 上は無関係。コード union は禁止（L-DEVSYNC-043 留意）だが、本ケースは **隣接挿入の順序のみが衝突**しており両側を直列に並べれば意味が保たれる。
+- How to apply:
+  1. `WARN unhandled conflict` で spec ファイル 1 件のみ、conflict hunk が `<<<<<<< HEAD ... describe(...) ... ||||||| <sha> ======= ... // === ... TEMPLATE === ... >>>>>>> origin/dev` の形（base が空）なら両側追記パターンと判定。
+  2. HEAD 側の `describe(...) { ... });` をそのまま残し、続けて空行 + dev 側の comment block を配置。conflict marker 3 種（`<<<<<<<` / `|||||||` / `=======` / `>>>>>>>`）を Edit で個別に除去。
+  3. `grep -nE '^(<<<<<<<|=======|>>>>>>>|\|\|\|\|\|\|\|)' <path>` でマーカー残ゼロ → `git add -A` → typecheck / lint → commit。本パターンは signature 変更を伴わないため typecheck はほぼ自動 pass。
+- 留意: 同じ EOF 末尾追記でも、片側が `export const X = ...` を追加 + 他方が `export const Y = ...` を追加するソース module の場合は L-DEVSYNC-041（並列 export 追加）系で処理する。本 L-DEVSYNC-044 は **spec / docs / README の末尾追記**に限定して適用する。
+- 事例: 2026-05-26 `feat/issue-891-...` ← dev (`5b043e359` issue-885 / `67f1b3a17` regression-evidence)。skill index 5 + spec 1 の計 6 conflict、resolver が前者 5 件を union 解消、spec 1 件のみ本 lesson で手動 union 化。後続 `git status` clean、typecheck / lint green。
