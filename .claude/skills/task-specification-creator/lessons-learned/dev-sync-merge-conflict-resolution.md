@@ -417,3 +417,13 @@
 - 検証: 本 spec を変更する PR の lefthook pre-push に既存 `verify-conflict-markers` / `lint` に加え、broad-catch pattern を grep する project local rule を追加（task-spec-creator 内では仕様書化のみ、実 hook は skill scope 外）。
 - 事例: 2026-05-25 `fix/issue-882-terms-prefetch-env-validation` 修正で `TERMS_ENV_ERROR_PATTERNS` filter を導入し、CSP report-only の console.error を assertion 対象から除外。同種パターンは過去にも `axe` 系・`hydration warning` 系で経験あり（[[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-007-A の visual baseline drift と同根の「他 issue 副作用で fragile になる test」family）。
 - 追加事例: 2026-05-25 PM `feat/issue-880-public-segment-error-loading-boundary` ← dev sync-merge で 77 分経過の stale lock を mtime 判定で検出・自動削除し再取得。conflict は skill index 6 ファイル（SKILL.md + indexes 4 + references/task-workflow-active.md + indexes/keywords.json）すべて `pnpm sync:resolve` で完結、手動介入ゼロ。後続 `pnpm typecheck` / `pnpm lint` / `bash scripts/verify-pr-ready.sh`（gate-metadata 445/0 + verify:phase12 + indexes drift なし）すべて green。本 SOP は単発実装ではなく 2 連続 session で同等条件を機械的に解決できる再現性を確保したため、Phase 5 / Phase 9 sync-merge 節の「逐語埋め込み 3 行」をデフォルトテンプレに昇格して問題ない。
+
+### SP-DEVSYNC-037: spec ファイル EOF 末尾並列追加 conflict（HEAD = `describe` 追加 / dev = trailing comment block）は両側保持を明示する（2026-05-26 追加）
+
+- 事象: 2026-05-26 `feat/issue-891-...` ← dev 二次 sync-merge で `apps/web/src/lib/adapters/__tests__/member-detail.spec.ts` のみ resolver の WARN unhandled。HEAD 側は KIND_ROUTE exhaustiveness `describe` 追加、dev 側は #941 issue-885 由来の `// === EXTENSION TEMPLATE ===` トレーリングコメントブロック追加。両者は同じ EOF 位置への純粋追記で、片側 take すると一方の意図が失われる。
+- Why: spec / docs / README で「テスト追加」と「拡張テンプレートコメント」が同じ EOF 位置に並列追加されるのは構造的副産物。コード union（L-DEVSYNC-043 留意事項）と違い隣接挿入の順序のみが衝突するため、両側を直列に並べれば意味は保たれる。`UNION_MERGE_TARGETS` に spec / README を含めると意図しない describe 重複や comment 二重化を生むため、resolver で自動化せず手動 union を仕様書に明記する。
+- How to apply（task 仕様書での逐語化）:
+  - Phase 9 sync-merge 節に「spec EOF 末尾追記の両側保持ルール（aiworkflow-requirements L-DEVSYNC-044）」を逐語埋め込み。
+  - 仕様書 Phase 5 で spec ファイルに大規模な末尾 `describe` 追加 / トレーリングコメント追加を予定する場合、Phase 9 dry-run checklist に「`git merge --no-commit --no-ff origin/dev || true` で当該 spec の conflict 範囲を事前確認」を追加。
+  - resolver 拡張は不要（CONST: コード union は自動化しない）。
+- 参照: aiworkflow-requirements [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-044 を唯一の正本とする。本知見は task 仕様書側の予防 + 逐語埋め込み指針。
