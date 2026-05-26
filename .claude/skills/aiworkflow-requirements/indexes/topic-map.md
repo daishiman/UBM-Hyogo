@@ -2399,6 +2399,13 @@ node scripts/list-specs.js --topics
 | Branch-level deletion check | L101 |
 | Downstream task: issue-195-sync-jobs-contract-schema-consolidation-001（2026-05-04） | L105 |
 
+### references/workflow-issue-255-coverage-threshold-sync-lint-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Contract | L16 |
+| Verification | L28 |
+
 ### references/workflow-issue-256-e2e-coverage-baseline-runbook-artifact-inventory.md
 
 | セクション | 行 |
