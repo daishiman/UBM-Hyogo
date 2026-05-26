@@ -3175,6 +3175,24 @@ node scripts/list-specs.js --topics
 | Implementation Targets | L17 |
 | Boundaries | L27 |
 
+### references/workflow-issue-913-server-idempotency-key-persistence-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Metadata | L3 |
+| Implementation Artifacts | L12 |
+| Evidence | L24 |
+| User-Gated Boundary | L34 |
+
+### references/workflow-issue-917-alert-relay-runtime-fire-evidence-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Workflow Artifacts | L14 |
+| Phase 12 Strict 7 | L27 |
+| User-Gated Runtime Boundary | L39 |
+| Skill Knowledge Synced | L50 |
+
 ### references/workflow-light-theme-contrast-regression-guard.md
 
 | セクション | 行 |
@@ -7774,14 +7792,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L2625 |
-| フェーズ構造（概要） | L2634 |
-| 品質ゲート（概要） | L2665 |
-| 出力テンプレート | L2676 |
-| 実行時のコマンド・エージェント・スキル | L2699 |
-| 昇格パターン集 | L2723 |
-| Current Active / Spec Created Tasks | L2725 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L2886 |
+| ドキュメント構成 | L2640 |
+| フェーズ構造（概要） | L2649 |
+| 品質ゲート（概要） | L2680 |
+| 出力テンプレート | L2691 |
+| 実行時のコマンド・エージェント・スキル | L2714 |
+| 昇格パターン集 | L2738 |
+| Current Active / Spec Created Tasks | L2740 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L2901 |
 
 ### references/task-workflow-backlog-part2.md
 

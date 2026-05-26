@@ -614,6 +614,24 @@ dev sync-merge で **HEAD = route group rename（`app/<route>/` → `app/(group)
 - workflow から `pull_request` trigger を外す→ workflow file 自体の variation や spec 変更を CI で検知できなくなる。secrets-gate skip で trigger 自体は保持する。
 - `continue-on-error: true` で誤魔化す → 真の secrets 欠落と spec バグの双方が無視される。skip 判定を明示的に行う。
 
+## skill index-only sync-merge happy path（dev sync-merge / 2026-05-26）
+
+並列 worktree が aiworkflow-requirements の `SKILL.md` / `indexes/topic-map.md` (`merge=union`) / `indexes/keywords.json` (`--ours + rebuild`) のみを更新し、ソース・spec・docs に手を入れない場合の sync-merge は、`pnpm sync:resolve` 単独で unhandled ゼロ完結する（aiworkflow-requirements の `lessons-learned-dev-sync-merge-conflict-resolution-2026-05.md` L-DEVSYNC-046）。
+
+- **L-DEVSYNC-046 (index-only happy path)**: Phase 12 implementation-guide / Phase 13 PR pre-flight で「conflict が 3 ファイル（`SKILL.md` + `indexes/topic-map.md` + `indexes/keywords.json`）以下に閉じる場合は resolver 単独完結で OK」と明示し、追加の手動 union を試みない。逆に conflict 件数が 4 以上、もしくは `.claude/skills/*/lessons-learned/` 配下が UU で出てきた場合は L-DEVSYNC-040 系（並列 export 追加）/ L-DEVSYNC-043（adapter signature union）/ L-DEVSYNC-045（route group rename + import 正規化）のいずれかにフォールバック判定する troubleshoot 行を runbook に含める。
+- **Phase 12 sync gate への反映**: `pnpm sync:resolve` の `UNION_MERGE_TARGETS` を **skill index / lessons-learned / SKILL-changelog** に限定し続け、resolver の責務を「並列 worktree が末尾 append-only で更新するファイル」のみに固定する。`.gitattributes merge=union` 対象を追加する際は本 happy path が壊れないか（行単位の意味独立性）を spec template の review checklist に組み込む。
+
+## CI re-trigger 戦略（transient infra failure / 2026-05-26）
+
+GitHub Actions の transient 失敗（`actions/download-artifact` archive download error / runner provisioning timeout 等）で `mergeStateStatus=BLOCKED` になった PR の再 trigger 順序を Phase 12 implementation-guide / Phase 13 PR pre-flight に明文化する（aiworkflow-requirements の `lessons-learned-dev-sync-merge-conflict-resolution-2026-05.md` L-DEVSYNC-047）。
+
+- **L-DEVSYNC-047 (CI re-trigger 順序)**: Phase 13 PR pre-flight runbook に以下の優先順位を含める。
+  1. `gh run rerun --failed <run-id>` を最優先（同一 head SHA で job だけ re-queue、required check の鏡像維持）。
+  2. 10 分以上 queued のまま進行しない場合のみ、**実ファイル変更を含む 1 commit** で head を進める（最小コストは `merge=union` 対象 lessons-learned / `docs/30-workflows/LOGS.md` への trailer 1 行追記）。
+  3. **空コミット (`git commit --allow-empty`) は使わない**。empty commit は tree-hash 不変で `pull_request synchronize` が workflow run を schedule しないケースがあり、PR を BLOCKED 状態に陥らせる（既存の `feedback_visual_baseline_github_token_retrigger.md` は GITHUB_TOKEN 検知遅延向けで本ケースに適用できない）。
+  4. CI re-trigger 目的で `apps/*/src/...` 実装側ファイルを触らない。code-change diff が PR review に紛れる。
+- **gh api SHA 照合**: `gh api repos/.../actions/runs?head_sha=<sha>` で workflow run 登録を確認する際は **full 40-char SHA**（`git rev-parse HEAD`）を渡す。short SHA prefix では match しない。bash の `python3 -c "...$VAR..."` 変数展開漏れで「0 件」と誤判定する事故あり、SHA は environment variable ではなく argv / stdin か直接 string literal で渡す。
+
 ## API method/path 切替時の Playwright mock fixture 追従（2026-05-26）
 
 admin API の method/endpoint を切替える PR（例: issue-912 で `POST /attendances` → `DELETE /attendance/:memberId`）では、本実装・vitest spec・runtime smoke と合わせて `apps/web/playwright/fixtures/auth.ts` の mock handler も**同一 PR で追従**させる必要がある。漏れた場合、mock の末尾 fallback `response(res, 404, { error: 'MOCK_API_NOT_FOUND' })` が新 endpoint への request を吸収してしまい、UI 側の idempotent 404 分岐（"既に出席解除されています"）に silent に流れ、`smoke (chromium)` / `e2e (desktop-chromium)` が "出席を削除しました" を期待する toast assertion で fail する。
