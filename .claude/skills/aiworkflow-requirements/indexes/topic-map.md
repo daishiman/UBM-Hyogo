@@ -7748,31 +7748,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L2567 |
-| フェーズ構造（概要） | L2576 |
-| 品質ゲート（概要） | L2607 |
-| 出力テンプレート | L2618 |
-| 実行時のコマンド・エージェント・スキル | L2641 |
-| 昇格パターン集 | L2665 |
-| Current Active / Spec Created Tasks | L2667 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L2828 |
-||||||| Stash base
-| ドキュメント構成 | L2479 |
-| フェーズ構造（概要） | L2488 |
-| 品質ゲート（概要） | L2519 |
-| 出力テンプレート | L2530 |
-| 実行時のコマンド・エージェント・スキル | L2553 |
-| 昇格パターン集 | L2577 |
-| Current Active / Spec Created Tasks | L2579 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L2740 |
-| ドキュメント構成 | L2493 |
-| フェーズ構造（概要） | L2502 |
-| 品質ゲート（概要） | L2533 |
-| 出力テンプレート | L2544 |
-| 実行時のコマンド・エージェント・スキル | L2567 |
-| 昇格パターン集 | L2591 |
-| Current Active / Spec Created Tasks | L2593 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L2754 |
+| ドキュメント構成 | L2574 |
+| フェーズ構造（概要） | L2583 |
+| 品質ゲート（概要） | L2614 |
+| 出力テンプレート | L2625 |
+| 実行時のコマンド・エージェント・スキル | L2648 |
+| 昇格パターン集 | L2672 |
+| Current Active / Spec Created Tasks | L2674 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L2835 |
 
 ### references/task-workflow-backlog-part2.md
 
