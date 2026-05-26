@@ -1,5 +1,19 @@
 # クイックリファレンス
 
+## register-page-prototype-alignment（2026-05-26）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/register-page-prototype-alignment/` |
+| status | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION / Phase 13 pending_user_approval` |
+| parent | `docs/30-workflows/ui-prototype-alignment-mvp-recovery/` task-12 系列 |
+| purpose | `/register` を prototype `MemberFormPage` に合わせ、Hero CTA / 3-step flow / collapsible FormPreview / 3 FAQ / bottom CTA へ再構成する |
+| implementation | `apps/web/app/(public)/register/page.tsx`, `apps/web/src/components/public/{RegisterHeroCallout,RegisterStepGrid,RegisterFaq,RegisterBottomCTA,FormPreviewSections}.tsx`, focused component specs, `apps/web/playwright/tests/register-prototype-alignment.spec.ts`, `apps/web/src/styles/legacy-public.css` |
+| contract | 既存 `/public/form-preview` と `FORM_RESPONDER_URL` のみ使用。D1/API/schema/auth 変更なし。`data-component="register-callout"` / `data-role="register-cta"` は後方互換で維持 |
+| Phase 12 | strict 7 present。root/output `artifacts.json` parity present |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-register-page-prototype-alignment-artifact-inventory.md` |
+| user gate | commit, push, PR, external staging observation |
+
 ## Issue #901 authenticated profile/admin staging visual（2026-05-25）
 
 | 項目 | 値 |
