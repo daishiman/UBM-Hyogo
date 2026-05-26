@@ -1,5 +1,5 @@
 import { notFound } from "next/navigation";
-import ProfileLoading from "../../profile/loading";
+import ProfileLoading from "../../(member)/profile/loading";
 import { Parallel09VisualScenario } from "./VisualScenarios.client";
 
 export const dynamic = "force-dynamic";

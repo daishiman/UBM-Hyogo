@@ -10,7 +10,7 @@ Date: 2026-05-09
 | phase specs | `phase-01.md` through `phase-13.md` |
 | Phase 12 strict seven | `outputs/phase-12/main.md`, `implementation-guide.md`, `system-spec-update-summary.md`, `documentation-changelog.md`, `unassigned-task-detection.md`, `skill-feedback-report.md`, `phase12-task-spec-compliance-check.md` |
 | source task | `docs/30-workflows/ui-prototype-alignment-mvp-recovery/06-screens-member/task-14-w5-par-my-profile-and-requests.md` |
-| implementation targets | `apps/web/app/profile/page.tsx`, `apps/web/app/profile/_components/*`, profile smoke spec |
+| implementation targets | `apps/web/app/(member)/profile/page.tsx`, `apps/web/app/(member)/profile/_components/*`, profile smoke spec |
 | read-only API targets | `apps/api/src/routes/me/*`, `apps/web/app/api/me/*` |
 | downstream | task-18 regression smoke / verify-design-tokens |
 

@@ -1,0 +1,4 @@
+# issue-901: ephemeral Playwright authenticated storageState JSON.
+# Contains signed authjs.session-token cookie values — must not be committed.
+playwright/.auth/
+playwright/.auth/*.json

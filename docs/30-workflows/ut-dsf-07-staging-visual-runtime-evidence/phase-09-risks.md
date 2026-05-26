@@ -26,7 +26,7 @@ status: spec_created
 | 案 | 採否 | 理由 |
 |----|-----|------|
 | SSR データを mock 化して認証後画面を取得 | 不採用 | Worker サーバー fetch は `page.route()` で差し替え不可（技術的に不可能 / index.md §0.3） |
-| staging に認証 session を張って profile/admin 実画面を取得 | 不採用（フォロー候補） | secrets / 認証フロー / seed を伴い「新規 fixture/seed 追加なし」スコープと衝突。§5 にフォロー記録 |
+| staging に認証 session を張って profile/admin 実画面を取得 | 親では不採用 / 子 workflow へ移管済 | secrets / 認証フロー / seed を伴い「新規 fixture/seed 追加なし」スコープと衝突したため、本 workflow では扱わず `docs/30-workflows/completed-tasks/issue-901-authenticated-profile-admin-staging-visual/` が canonical owner |
 | 既存 `staging` project を直接使い visual spec を兼用 | 不採用 | `staging` project は testMatch 無指定で全 spec 対象になりうる。visual 専用 project で責務分離 |
 | baseline を CI artifact のみで管理 | 不採用 | regression を git diff で検出する設計を維持（local と同方針） |
 | local baseline を staging baseline に流用 | 不採用 | OpenNext bundle 描画と dev server 描画の等価性こそが検証対象（流用は目的を無効化） |
@@ -68,6 +68,6 @@ bash scripts/cf.sh deploy --config apps/web/wrangler.toml --env staging
 
 | 残留リスク | 受容理由 / フォロー |
 |----------|-------------------|
-| 認証後 profile / admin の runtime 描画は未検証 | 未認証 guard 描画で design system shell は担保。認証後画面の staging visual は別タスク（フォロー候補・未タスク化を Phase 12 で判定） |
+| 認証後 profile / admin の runtime 描画は未検証 | child workflow `docs/30-workflows/completed-tasks/issue-901-authenticated-profile-admin-staging-visual/` が canonical owner。親側では `VISUAL_RUNTIME_AUTHENTICATED_PENDING` として残し、child Gate-C で authenticated baseline 取得後に解除する |
 | SSR データ内容の正しさは検証対象外 | 本タスクの目的は design system 描画の production-equivalent 検証（index.md §0.3）。データ正しさは既存 E2E / API テストの責務 |
 | chromium minor bump による font diff | bump 頻度低・同一更新サイクルで baseline 更新して吸収 |

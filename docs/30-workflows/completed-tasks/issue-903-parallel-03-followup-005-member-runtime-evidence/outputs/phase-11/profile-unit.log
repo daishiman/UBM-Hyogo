@@ -1,0 +1,48 @@
+[33mThe CJS build of Vite's Node API is deprecated. See https://vite.dev/guide/troubleshooting.html#vite-cjs-node-api-deprecated for more details.[39m
+
+ RUN  v2.1.9 /Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260525-142045-wt-1
+
+ ✓ apps/web/app/(member)/profile/_lib/__tests__/profile-summary.spec.ts (8 tests) 13ms
+ ✓ apps/web/app/(member)/profile/_lib/__tests__/visibility-counts.spec.ts (7 tests) 13ms
+ ✓ apps/web/src/__tests__/static-invariants.runtime.spec.ts (5 tests) 1412ms
+   ✓ static invariants / 06b > S-01: app/(member)/profile 配下に 'questionId' が出現しない 336ms
+   ✓ static invariants / 06b > S-03: apps/web 全体に '/no-access' リテラルが現れない 853ms
+ ✓ apps/web/app/(member)/profile/_components/__tests__/RequestActionPanel.regression.spec.tsx (6 tests) 621ms
+ ✓ apps/web/app/(member)/profile/_components/RequestActionPanel.component.spec.tsx (11 tests) 1218ms
+   ✓ RequestActionPanel > dialog 提出後、parent 側から router.refresh は呼ばれない 308ms
+ ✓ apps/web/app/(member)/profile/_components/__tests__/RevalidateModal.component.spec.tsx (6 tests) 1600ms
+   ✓ RevalidateModal > open=true で再回答の説明文を描画する 650ms
+   ✓ RevalidateModal > editResponseUrl があるとき フォームを開くは editResponseUrl を指す 420ms
+ ✓ apps/web/app/(member)/profile/__tests__/error.component.spec.tsx (7 tests) 1352ms
+   ✓ ProfileError > mount 時に h1 へ focus を移譲する 988ms
+ ✓ apps/web/app/(member)/profile/_components/DeleteRequestDialog.component.spec.tsx (6 tests) 1851ms
+   ✓ DeleteRequestDialog > TC-U-10: 不可逆性文言が出ている / submit が aria-describedby で説明される 409ms
+   ✓ DeleteRequestDialog > TC-A-02: Tab focus を dialog 内で循環させる 587ms
+ ✓ apps/web/app/(member)/profile/_components/VisibilityRequestDialog.component.spec.tsx (8 tests) 2286ms
+   ✓ VisibilityRequestDialog > TC-U-05: open=false で dom 出ない / open=true で role=dialog 出現 623ms
+   ✓ VisibilityRequestDialog > TC-A-02: Tab focus を dialog 内で循環させる 583ms
+   ✓ VisibilityRequestDialog > 409 → エラー banner を出す（onClose しない） 324ms
+   ✓ VisibilityRequestDialog > network error は retry CTA を出す 447ms
+ ✓ apps/web/app/(member)/profile/_components/PublicVisibilityBanner.component.spec.tsx (6 tests) 145ms
+ ✓ apps/web/app/(member)/profile/_components/__tests__/DeleteRequest.component.spec.tsx (3 tests) 605ms
+   ✓ DeleteRequest > 退会申請を成功させ accepted 表示 515ms
+ ✓ apps/web/app/(member)/profile/_components/__tests__/StatusBanner.component.spec.tsx (4 tests) 218ms
+ ✓ apps/web/app/(member)/profile/_components/__tests__/ProfileHeader.component.spec.tsx (5 tests) 577ms
+   ✓ ProfileHeader > publishState=public のとき公開ページリンクが有効 359ms
+ ✓ apps/web/app/(member)/profile/_components/__tests__/VisibilitySummary.component.spec.tsx (3 tests) 240ms
+ ✓ apps/web/app/(member)/profile/_components/__tests__/VisibilityRequest.component.spec.tsx (4 tests) 672ms
+   ✓ VisibilityRequest > public → 公開停止申請を成功させる 512ms
+ ✓ apps/web/app/(member)/profile/loading.spec.tsx (4 tests) 323ms
+ ✓ apps/web/app/(member)/profile/_components/__tests__/EditCta.component.spec.tsx (5 tests) 973ms
+   ✓ EditCta > 情報を更新するボタン click で Modal が開く 480ms
+ ✓ apps/web/app/(member)/profile/_components/RequestErrorMessage.component.spec.tsx (9 tests) 630ms
+   ✓ RequestErrorMessage > renders alert with non-empty text for DUPLICATE_PENDING_REQUEST 409ms
+ ✓ apps/web/app/(member)/profile/_components/RequestPendingBanner.component.spec.tsx (3 tests) 342ms
+ ✓ apps/web/app/(member)/profile/_components/__tests__/ProfilePreview.component.spec.tsx (3 tests) 686ms
+   ✓ ProfilePreview > displayName ありのとき名前と subtitle を描画 600ms
+
+ Test Files  20 passed (20)
+      Tests  113 passed (113)
+   Start at  15:29:39
+   Duration  19.74s (transform 5.11s, setup 0ms, collect 16.67s, tests 15.78s, environment 36.86s, prepare 6.43s)
+

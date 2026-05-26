@@ -1,0 +1,11 @@
+[33mThe CJS build of Vite's Node API is deprecated. See https://vite.dev/guide/troubleshooting.html#vite-cjs-node-api-deprecated for more details.[39m
+
+ RUN  v2.1.9 /Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260525-153453-wt-6
+
+ ✓ apps/web/app/(admin)/admin/meetings/[id]/__tests__/MeetingAttendancePanel.spec.tsx (14 tests) 362ms
+
+ Test Files  1 passed (1)
+      Tests  14 passed (14)
+   Start at  19:22:23
+   Duration  7.06s (transform 1.18s, setup 0ms, collect 1.87s, tests 362ms, environment 1.47s, prepare 570ms)
+

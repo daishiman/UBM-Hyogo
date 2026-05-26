@@ -68,6 +68,17 @@ docs/30-workflows/{{FEATURE_NAME}}/outputs/phase-5/index.ts  # ダメ！
 
 ## 1. 成果物命名規則（ドキュメント成果物）
 
+### 1.0 visual baseline namespace
+
+認証状態が異なる visual baseline は同じ snapshot namespace に混在させない。未認証 staging baseline は既存 `*-staging-visual-*` を維持し、認証後 staging baseline は `*-authenticated-staging-visual-*` を使う。
+
+| 状態 | suffix |
+| --- | --- |
+| unauthenticated staging visual | `-staging-visual-chromium-linux.png` |
+| authenticated staging visual | `-authenticated-staging-visual-chromium-linux.png` |
+
+storageState JSON は evidence artifact ではなく ephemeral secret-bearing runtime file であるため、`outputs/` や git tracked path へ配置しない。
+
 ### 1.1 ディレクトリ構造
 
 ```

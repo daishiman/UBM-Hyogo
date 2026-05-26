@@ -4,6 +4,10 @@
 
 このファイルは task-specification-creator の運用・改善・Phase 12 close-out 同期履歴を新しい順に記録する。
 
+## 2026-05-25 - Issue #908 runtime evidence follow-up pattern
+
+`docs/30-workflows/completed-tasks/issue-908-staging-rollback-notification-runtime-smoke/` の automation-30 改善で、runtime evidence follow-up を spec-only のまま閉じず、`scripts/runtime-smoke/schema-alias-rollback.sh` と親 evidence placeholder を同一 cycle で物理作成する運用へ補正した。親 Phase 11 / Gate-C は pending のまま実在 path に cross-link し、staging deploy / rollback POST / D1 mutation / completion promotion は user-gated として分離する。この再利用可能パターンを `references/patterns-runtime-evidence-followup.md` に追加。
+
 ## 2026-05-25 - Issue #883 adapter dev warn unknown kind close-out feedback
 
 `docs/30-workflows/completed-tasks/issue-883-adapter-dev-warn-unknown-kind/` の 30 種思考法レビューを反映した。実装仕様書を `spec_only_pending_implementation` として残すと CONST_004/005 と矛盾するため、同一サイクルで実コード3ファイル、Phase 11 evidence、Phase 12 strict 7、aiworkflow ledger 同期まで完了させ、`implemented_local_evidence_captured` に再分類した。
@@ -2751,3 +2755,7 @@ AC-1〜AC-6 全達成。Phase 10 判定: PASS（MINOR 0件）
 
 - Promoted Issue #836 schema alias recompute trigger feedback into `closed-issue-canonical-workflow-recovery.md`: CLOSED Issue recovery Phase 1 must include current-codebase implementation status and original-assumption/current-reality/optimized-policy tables.
 - Source follow-up 005 is consumed via `docs/30-workflows/completed-tasks/issue-836-schema-alias-recompute-trigger/`.
+# 2026-05-25 issue-903 member runtime evidence
+
+- Added `lessons-learned/issue-903-member-runtime-evidence.md`.
+- Captured guidance for delegated evidence validation, URL-stable route group moves, route-move static invariant drift, runtime scrape selector dedupe, and same-wave system-spec path synchronization.

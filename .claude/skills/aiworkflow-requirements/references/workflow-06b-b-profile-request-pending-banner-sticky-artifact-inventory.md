@@ -22,10 +22,10 @@
 | Repository | `apps/api/src/repository/adminNotes.ts`（`note_type IN ('visibility_request','delete_request')` かつ `request_status='pending'` の pending-only read predicate） |
 | API tests | `apps/api/src/routes/me/index.test.ts`（no pending / visibility pending after reload / delete pending after reload / duplicate 409 の 4 ケース） |
 | Web mirror types | `apps/web/src/lib/api/me-types.ts`（`PendingRequests` / `MeProfileResponse.pendingRequests` mirror、API contract と shape 一致） |
-| Web SSR | `apps/web/app/profile/page.tsx`（Server Component で `profileRes.pendingRequests` を `RequestActionPanel` に props 渡し） |
-| Web UI | `apps/web/app/profile/_components/RequestActionPanel.tsx`（server pending を最優先、local state は submit-in-flight のみ、`RequestPendingBanner` 表示・申請ボタン disabled） |
+| Web SSR | `apps/web/app/(member)/profile/page.tsx`（Server Component で `profileRes.pendingRequests` を `RequestActionPanel` に props 渡し） |
+| Web UI | `apps/web/app/(member)/profile/_components/RequestActionPanel.tsx`（server pending を最優先、local state は submit-in-flight のみ、`RequestPendingBanner` 表示・申請ボタン disabled） |
 | Web type tests | `apps/web/src/lib/api/me-types.spec-d.ts`（mirror 型の shape 一致テスト） |
-| Web unit tests | `apps/web/app/profile/_components/RequestActionPanel.component.spec.tsx`（banner + disabled state coverage） |
+| Web unit tests | `apps/web/app/(member)/profile/_components/RequestActionPanel.component.spec.tsx`（banner + disabled state coverage） |
 | Playwright E2E | `apps/web/playwright/tests/profile-pending-sticky.spec.ts`（reload 後 sticky 表示の E2E。staging smoke / authenticated capture 待ち） |
 
 ## Contract

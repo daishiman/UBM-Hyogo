@@ -28,7 +28,7 @@ export default async function AdminIdentityConflictsPage({
 
   return (
     <main className="mx-auto max-w-5xl px-6 py-8" data-route="admin" data-section-rhythm="compact">
-      <Breadcrumb items={[{ label: "管理", href: "/admin" }, { label: "Identity 重複候補" }]} />
+      <Breadcrumb items={[{ label: "Identity 重複候補" }]} />
       <header className="mb-6">
         <h1 className="text-2xl font-semibold tracking-tight">Identity 重複候補</h1>
         <p className="mt-2 text-sm text-zinc-600">
