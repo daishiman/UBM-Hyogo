@@ -12,7 +12,7 @@ import { CallToActionCTA } from "../src/components/public/CallToActionCTA";
 import { Hero } from "../src/components/public/Hero";
 import { MemberGrid } from "../src/components/public/MemberGrid";
 import { PublicFooter } from "../src/components/public/PublicFooter";
-import { PublicHeader } from "../src/components/public/PublicHeader";
+import { SessionAwarePublicHeader } from "../src/components/public/SessionAwarePublicHeader";
 import { Stats } from "../src/components/public/Stats";
 import { Timeline } from "../src/components/public/Timeline";
 import { ZoneIntro } from "../src/components/public/ZoneIntro";
@@ -45,7 +45,7 @@ export default async function HomePage() {
 
   return (
     <>
-      <PublicHeader />
+      <SessionAwarePublicHeader />
       <main data-page="home" data-route="public" data-section-rhythm="comfortable">
         <Hero
           eyebrow="UBM 兵庫支部会"

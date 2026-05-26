@@ -1,4 +1,6 @@
-// task-11: 公開層共通ヘッダ。Server Component。
+// task-11: 公開層共通ヘッダ。sync presentational component。
+// プロトタイプ整合: ログイン中ユーザーには右上CTAで「マイページ」動線を表示し、未ログインは「ログイン」CTAを表示する。
+// セッション判定は caller (layout / page) 側で行い、props で渡す（async 化を避けて既存テスト互換を維持）。
 
 const NAV_ITEMS = [
   { href: "/", label: "ホーム" },
@@ -6,11 +8,21 @@ const NAV_ITEMS = [
   { href: "/register", label: "登録" },
 ];
 
-export interface PublicHeaderProps {
-  currentPath?: string;
+export interface PublicHeaderCurrentUser {
+  readonly memberId: string;
+  readonly name?: string;
 }
 
-export function PublicHeader({ currentPath }: PublicHeaderProps = {}) {
+export interface PublicHeaderProps {
+  currentPath?: string;
+  currentUser?: PublicHeaderCurrentUser | null;
+}
+
+export function PublicHeader({
+  currentPath,
+  currentUser,
+}: PublicHeaderProps = {}) {
+  const isAuthenticated = Boolean(currentUser);
   return (
     <header data-component="public-header">
       <a href="/" data-role="brand">
@@ -35,9 +47,20 @@ export function PublicHeader({ currentPath }: PublicHeaderProps = {}) {
           })}
         </ul>
       </nav>
-      <a href="/login" data-role="auth-cta">
-        ログイン
-      </a>
+      {isAuthenticated ? (
+        <a
+          href="/profile"
+          data-role="auth-cta"
+          data-state="authenticated"
+          aria-current={currentPath === "/profile" ? "page" : undefined}
+        >
+          マイページ
+        </a>
+      ) : (
+        <a href="/login" data-role="auth-cta" data-state="anonymous">
+          ログイン
+        </a>
+      )}
     </header>
   );
 }

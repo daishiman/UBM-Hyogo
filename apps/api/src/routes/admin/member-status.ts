@@ -2,6 +2,7 @@
 // publishState / hiddenReason 更新（不変条件 #11: admin 用 setter 経由）
 import { Hono } from "hono";
 import { z } from "zod";
+import { idempotency } from "../../middleware/idempotency";
 import { requireAdmin } from "../../middleware/require-admin";
 import { ctx } from "../../repository/_shared/db";
 import { asMemberId, asAdminId } from "../../repository/_shared/brand";
@@ -32,6 +33,7 @@ export const createAdminMemberStatusRoute = () => {
     Variables: Partial<WriteTagNoteProviderVariables>;
   }>();
   app.use("*", requireAdmin);
+  app.use("*", idempotency());
   app.use("*", writeTagNoteProviderMiddleware);
 
   app.patch("/members/:memberId/status", async (c) => {

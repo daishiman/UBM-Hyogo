@@ -39,7 +39,7 @@ describe("lib/admin/api.ts (不変条件)", () => {
     expect(typeof adminApi.removeAttendance).toBe("function");
   });
 
-  it("attendance mutation は 06c-E の { attended } alias endpoint を使う", async () => {
+  it("attendance mutation は登録POSTと解除DELETE endpoint を使い分ける", async () => {
     const calls: Array<{ input: RequestInfo | URL; init?: RequestInit }> = [];
     const originalFetch = globalThis.fetch;
     globalThis.fetch = (async (input: RequestInfo | URL, init?: RequestInit) => {
@@ -66,10 +66,9 @@ describe("lib/admin/api.ts (不変条件)", () => {
       },
     });
     expect(calls[1]).toMatchObject({
-      input: "/api/admin/meetings/s%2F1/attendances",
+      input: "/api/admin/meetings/s%2F1/attendance/m1",
       init: {
-        method: "POST",
-        body: JSON.stringify({ memberId: "m1", attended: false }),
+        method: "DELETE",
       },
     });
   });
