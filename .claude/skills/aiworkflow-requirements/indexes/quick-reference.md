@@ -316,6 +316,20 @@
 | inventory | `.claude/skills/aiworkflow-requirements/references/workflow-ut-dsf-07-staging-visual-runtime-evidence-artifact-inventory.md` |
 | user gate | staging deploy, screenshot capture, parent gate release, commit, push, PR |
 
+## Issue #902 members staging visual baseline（2026-05-25）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow | `docs/30-workflows/completed-tasks/issue-902-members-staging-visual-baseline/` |
+| status | `implemented_local_runtime_pending / implementation / VISUAL` |
+| source | Issue #902 CLOSED; `docs/30-workflows/completed-tasks/UT-DSF-07-FU-02-members-list-detail-staging-visual.md` consumed |
+| parent | `docs/30-workflows/ut-dsf-07-staging-visual-runtime-evidence/` |
+| implementation | `apps/web/playwright/tests/visual-staging/{members-list,member-detail}.spec.ts`, `.github/workflows/playwright-smoke.yml` |
+| purpose | Extend `staging-visual` coverage from 4 to 6 public runtime screens: `/members` and env-gated `/members/[id]`. |
+| evidence | `outputs/phase-11/evidence/playwright-list-staging-visual.txt` lists 6 tests; focused web typecheck log present. |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-902-members-staging-visual-baseline-artifact-inventory.md` |
+| user gate | staging deploy verification, CI baseline PNG generation, commit, push, PR |
+
 ## Issue #832 AdminTopbar primitive extraction（2026-05-23）
 
 | 項目 | 値 |
