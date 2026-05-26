@@ -10,12 +10,13 @@ export interface BreadcrumbProps {
   readonly items: ReadonlyArray<BreadcrumbItem>;
   readonly separator?: string;
   readonly className?: string;
+  readonly ariaLabel?: string;
 }
 
-export function Breadcrumb({ items, separator = "/", className }: BreadcrumbProps) {
+export function Breadcrumb({ items, separator = "/", className, ariaLabel = "breadcrumb" }: BreadcrumbProps) {
   if (items.length === 0) return null;
   return (
-    <nav aria-label="breadcrumb" data-component="breadcrumb" className={cn("ui-breadcrumb", className)}>
+    <nav aria-label={ariaLabel} data-component="breadcrumb" className={cn("ui-breadcrumb", className)}>
       <ol className="ui-breadcrumb__list">
         {items.map((item, idx) => {
           const isLast = idx === items.length - 1;

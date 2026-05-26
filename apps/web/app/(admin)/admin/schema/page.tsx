@@ -28,7 +28,7 @@ export default async function AdminSchemaPage() {
         }));
   return (
     <>
-      <Breadcrumb items={[{ label: "管理", href: "/admin" }, { label: "Form schema" }]} />
+      <Breadcrumb items={[{ label: "Form schema" }]} />
       <nav aria-label="schema sub navigation">
         <Link href="/admin/schema/history">resolve 履歴を見る</Link>
       </nav>

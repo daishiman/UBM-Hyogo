@@ -9,24 +9,22 @@ category: 改善
 target_feature: -
 priority: 低
 scale: 小規模
-status: 未実施
+status: implemented_local_runtime_pending
 source_phase: Phase 12
 created_date: 2026-05-23
 dependencies: []
-spec_path: docs/30-workflows/unassigned-task/UT-DSF-07-FU-02-members-list-detail-staging-visual.md
+spec_path: docs/30-workflows/completed-tasks/issue-902-members-staging-visual-baseline/
+source_spec_path: docs/30-workflows/completed-tasks/UT-DSF-07-FU-02-members-list-detail-staging-visual.md
 ```
 
 | 項目 | 内容 |
 |------|------|
 | 優先度 | 低 |
 | 規模 | 小規模 |
-| ステータス | 未実施 |
+| ステータス | implemented_local_runtime_pending |
 
----
-status: unassigned
-parent: UT-DSF-07
-canonical_workflow: null
----
+> Consumed on 2026-05-25 by `docs/30-workflows/completed-tasks/issue-902-members-staging-visual-baseline/`.
+> Source issue #902 remains CLOSED; use `Refs #902` only.
 
 # UT-DSF-07-FU-02: public members-list / member-detail の staging-visual baseline 拡張
 

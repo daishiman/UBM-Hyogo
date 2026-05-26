@@ -23,7 +23,7 @@
 | Path | Expected action |
 | --- | --- |
 | `.github/workflows/pr-build-test.yml` | add `lighthouse-ci` job, upload standard `.next` artifact immediately after standard `Build`, download artifact in `lighthouse-ci`, keep `build-test` / `lighthouse-ci` names |
-| `.github/workflows/lighthouse.yml` | delete after integration |
+| `.github/workflows/lighthouse.yml` | historical Issue #626 action: delete after integration. Superseded by later Lighthouse work that reintroduced the standalone workflow; current audits must inspect the existing file. |
 | `docs/30-workflows/e2e-quality-uplift/backlog.md` | update RB-01 status to `implemented-local-runtime-pending` and notes |
 | `lighthouserc.json` | read-only unless Lighthouse URL contract changes |
 
