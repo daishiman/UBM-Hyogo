@@ -57,6 +57,19 @@ done
 
 実例: Issue #533 public profile attendance では `pnpm --filter @ubm-hyogo/api test -- <file>` が対象 file を絞り込まなかったため、root config を明示した `pnpm exec vitest run --root=. --config=vitest.config.ts <exact files>` を canonical focused command にした。pnpm filter 経由の package script が test runner へ file 引数を渡さない repo では、Phase 1 baseline / Phase 4 test plan / Phase 9 QA / Phase 11 evidence / Phase 12 compliance の全箇所を、実測 PASS した root Vitest command にそろえる。
 
+## Skill-feedback No-op Truthfulness Gate
+
+`skill-feedback-report.md` が template / skill 更新 no-op と判定しても、workflow 実態の同期は省略しない。no-op は「owning rule が既に存在する」場合だけ有効であり、次の 4 点が矛盾していないことを先に確認する。
+
+| Gate | 必須条件 |
+| --- | --- |
+| implementation diff | `git status --short` で `apps/` / `packages/` / canonical specs 差分があれば `spec_created` のままにしない |
+| Phase 11 evidence | local evidence file がある場合、Phase 12 inventory に `present` として載せる |
+| system spec summary | API/spec が更新済みなら future / planned / not implemented と書かない |
+| no-op reason | no-op の根拠となる existing reference path と evidence path を明記する |
+
+実例: `admin-attendance-analytics-redesign` では `skill-feedback-report.md` が `spec_created (no impl yet)` 前提で no-op としたが、実際には `apps/api` / `apps/web` / `packages/shared` と `01-api-schema.md` に実装差分があった。既存の state vocabulary が既に禁止しているため template 追加は最小に留め、workflow artifacts と aiworkflow ledgers を `implemented_local_runtime_pending` へ同 wave 再分類した。
+
 ## Client Hook Shared Error Contract Gate
 
 Client hook が HTTP / auth error を扱う場合、既存 shared error class と redirect helper を Phase 1-5 で探索し、hook 内に独自 Error class や独自 query 語彙を作らない。Phase 12 では次の 4 点を同一 wave で確認する。

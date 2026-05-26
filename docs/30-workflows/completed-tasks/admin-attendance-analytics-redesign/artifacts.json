@@ -1,0 +1,44 @@
+{
+  "workflow": "admin-attendance-analytics-redesign",
+  "title": "Admin attendance analytics redesign",
+  "type": "implementation",
+  "created_at": "2026-05-26",
+  "branch": "detached-at-7f651a083",
+  "implementation_mode": "new",
+  "taskType": "implementation",
+  "task_classification": "UI",
+  "visualEvidence": "VISUAL",
+  "visual_mode": "VISUAL",
+  "scope": "full",
+  "status": "phase12_completed",
+  "metadata": {
+    "workflow_state": "implemented_local_runtime_pending",
+    "taskType": "implementation",
+    "visualEvidence": "VISUAL",
+    "runtime_state": "staging_visual_pending",
+    "current_ref": "7f651a083",
+    "created_date": "2026-05-26",
+    "user_gated": [
+      "staging deploy",
+      "runtime visual capture",
+      "commit",
+      "push",
+      "PR"
+    ]
+  },
+  "phases": {
+    "phase-1": { "status": "completed", "artifact": "phase-1.md" },
+    "phase-2": { "status": "completed", "artifact": "phase-2.md" },
+    "phase-3": { "status": "completed", "artifact": "phase-3.md" },
+    "phase-4": { "status": "completed", "artifact": "phase-4.md" },
+    "phase-5": { "status": "completed", "artifact": "phase-5.md" },
+    "phase-6": { "status": "completed", "artifact": "phase-6.md" },
+    "phase-7": { "status": "completed", "artifact": "phase-7.md" },
+    "phase-8": { "status": "completed", "artifact": "phase-8.md" },
+    "phase-9": { "status": "completed", "artifact": "phase-9.md" },
+    "phase-10": { "status": "completed", "artifact": "phase-10.md" },
+    "phase-11": { "status": "completed", "artifact": "phase-11.md" },
+    "phase-12": { "status": "completed", "artifact": "phase-12.md" },
+    "phase-13": { "status": "pending", "artifact": "phase-13.md" }
+  }
+}

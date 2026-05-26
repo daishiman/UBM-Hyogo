@@ -874,13 +874,13 @@ node scripts/list-specs.js --topics
 | 概要 | L8 |
 | ドキュメント構成 | L15 |
 | REST API エンドポイント一覧 | L25 |
-| エンドポイント命名規則 | L224 |
-| UBM-Hyogo Admin Sync API（03a） | L245 |
-| UBM-Hyogo Member Self-Service API（04b） | L297 |
-| Admin Dashboard Attendance Analytics API（UT-02A follow-up 002） | L323 |
-| Desktop IPC API サマリー | L337 |
-| 変更履歴 | L368 |
-| 関連ドキュメント | L385 |
+| エンドポイント命名規則 | L232 |
+| UBM-Hyogo Admin Sync API（03a） | L253 |
+| UBM-Hyogo Member Self-Service API（04b） | L305 |
+| Admin Dashboard Attendance Analytics API（UT-02A follow-up 002） | L331 |
+| Desktop IPC API サマリー | L345 |
+| 変更履歴 | L376 |
+| 関連ドキュメント | L393 |
 
 ### references/api-internal-chunk-search.md
 
@@ -2122,6 +2122,14 @@ node scripts/list-specs.js --topics
 | Canonical Files | L14 |
 | Linked Lessons | L29 |
 | Boundary | L33 |
+
+### references/workflow-admin-attendance-analytics-redesign-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Metadata | L3 |
+| Artifacts | L13 |
+| Boundary | L31 |
 
 ### references/workflow-admin-member-delete-e2e-spec-artifact-inventory.md
 
@@ -5376,6 +5384,15 @@ node scripts/list-specs.js --topics
 | L-09C-EXEC-005: Issue close 状態は `Refs #N` を使い `Closes` を再付与しない | L41 |
 | L-09C-EXEC-006: follow-up の existing detection を新規化と分離する | L49 |
 
+### references/lessons-learned-admin-attendance-analytics-redesign-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| L-ATTN-001: local implementation と staging visual evidence を分離する | L3 |
+| L-ATTN-002: API 正本更新済みのものを future 扱いに戻さない | L7 |
+| L-ATTN-003: skill-feedback no-op は実態一致が前提 | L11 |
+| L-ATTN-004: 500行超過は appendix へ責務分離する | L15 |
+
 ### references/lessons-learned-admin-tags-queue-resolver-drawer-2026-05.md
 
 | セクション | 行 |
@@ -7738,14 +7755,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L2567 |
-| フェーズ構造（概要） | L2576 |
-| 品質ゲート（概要） | L2607 |
-| 出力テンプレート | L2618 |
-| 実行時のコマンド・エージェント・スキル | L2641 |
-| 昇格パターン集 | L2665 |
-| Current Active / Spec Created Tasks | L2667 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L2828 |
+| ドキュメント構成 | L2581 |
+| フェーズ構造（概要） | L2590 |
+| 品質ゲート（概要） | L2621 |
+| 出力テンプレート | L2632 |
+| 実行時のコマンド・エージェント・スキル | L2655 |
+| 昇格パターン集 | L2679 |
+| Current Active / Spec Created Tasks | L2681 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L2842 |
 
 ### references/task-workflow-backlog-part2.md
 

@@ -95,6 +95,14 @@ historical 行の close-out は `docs/30-workflows/completed-tasks/task-sync-for
 | GET | `/admin/members` | 06c-B 正本: admin member list。`filter=published|hidden|deleted`、`q`（trim + 連続空白正規化 + max 200）、`zone=all|0_to_1|1_to_10|10_to_100`、repeated `tag`（tag code / AND / max 5）、`sort=recent|name`、`density=comfy|dense|list`、`page` を受け付け、`{ total, members, page, pageSize }` を返す | Auth.js JWT + `requireAdmin` |
 | GET | `/admin/members/:memberId` | admin member detail。admin notes は detail にのみ含める。`MemberProfile.attendance` は `attendanceProviderMiddleware`（`apps/api/src/middleware/repository-providers.ts`）で `c.var.attendanceProvider` を解決し、me 経路（`GET /me/profile`）と DI 経路を対称化（Issue #371）。Issue #372 以後、`profile.attendance` は default 50 件の先頭ページで、`profile.attendanceMeta?: { hasMore, nextCursor }` を返す | Auth.js JWT + `requireAdmin` + `attendanceProviderMiddleware` |
 | GET | `/admin/members/:memberId/attendance` | Issue #372 正本: admin member detail の attendance 継続取得。`limit?: 1..200`、`cursor?: base64url({ heldOn, sessionId })`。不正 cursor / `limit < 1` は 400、`limit > 200` は 200 に silent clamp。response は `{ records, hasMore, nextCursor }` | Auth.js JWT + `requireAdmin` |
+| GET | `/admin/dashboard/attendance/overview` | admin attendance overview。`periodFrom?` / `periodTo?` / `zone?` を default fallback で受け、`AttendanceOverviewExtZ` を返す | Auth.js JWT + `requireAdmin` |
+| GET | `/admin/dashboard/attendance/by-session` | session 別 attendance rows。`limit?` は 1..200 clamp、period / zone filter 対応 | Auth.js JWT + `requireAdmin` |
+| GET | `/admin/dashboard/attendance/ranking` | member attendance ranking rows。`limit?` は 1..200 clamp、period / zone filter 対応 | Auth.js JWT + `requireAdmin` |
+| GET | `/admin/dashboard/attendance/trend` | 月別 attendance trend。`AttendanceTrendZ` を返す | Auth.js JWT + `requireAdmin` |
+| GET | `/admin/dashboard/attendance/zone-distribution` | attendance zone distribution。`AttendanceZoneDistributionZ` を返す | Auth.js JWT + `requireAdmin` |
+| GET | `/admin/dashboard/attendance/sessions/:sessionId/attendees` | session drilldown。active members の attendees / absentees を返し、session 不在は 404 | Auth.js JWT + `requireAdmin` |
+| GET | `/admin/dashboard/attendance/absentees` | `lastN?` 連続欠席候補。period / zone filter 対応 | Auth.js JWT + `requireAdmin` |
+| GET | `/admin/dashboard/attendance/export` | filter 済み attendance を UTF-8 BOM + CRLF CSV で返す | Auth.js JWT + `requireAdmin` |
 | PATCH | `/admin/members/:memberId/status` | publish state / hidden reason を更新する | Auth.js JWT + `requireAdmin` |
 | POST | `/admin/members/:memberId/notes` | admin note を作成する | Auth.js JWT + `requireAdmin` |
 | PATCH | `/admin/members/:memberId/notes/:noteId` | admin note を更新する | Auth.js JWT + `requireAdmin` |
