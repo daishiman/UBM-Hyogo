@@ -103,6 +103,19 @@ NON_VISUAL / runtime smoke / CI gate タスクで Phase 11 に手動 `curl`、`b
 
 適用例: `issue-864-admin-staging-runtime-smoke-ci-gate` では親 Phase 11 の手動 `cf.sh tail` + authenticated `/admin` curl を、`scripts/cf.sh tail` / `scripts/smoke/runtime-admin-web.sh` / `web-cd.yml admin-runtime-smoke` へ同一 wave で昇格した。
 
+#### Multi-environment runtime smoke close-out gate（2026-05-25 / Issue #922）
+
+既存 staging runtime smoke を production へ横展開する場合は、仕様書だけを `implemented_local_runtime_pending` にして閉じない。Phase 11 close-out 前に次を同一 wave で確認する。
+
+| Gate | 必須確認 |
+| --- | --- |
+| env surface | runner は `staging|production` のみを許可し、`STAGING_*` / `PRODUCTION_*` の indirect env 参照を cross-env leak なしで分離する |
+| CI symmetry | production job は staging job と同じ prereq skip / mask / redaction grep / artifact upload / Slack summary pattern を持ち、`needs: deploy-production` + `if: github.ref_name == 'main'` を明示する |
+| focused evidence | runner shell test と mint helper vitest に production env path を追加し、Phase 11 inventory の `present` 行は物理 log を配置する |
+| user-gated boundary | production deploy 実走、GitHub Environment secret 投入、意図的 regression fail、branch protection PUT は Gate-B / Phase 13 として分離する |
+
+適用例: `issue-922-production-admin-runtime-smoke-gate` は `runtime-admin-web.sh production`、`mint-staging-session-cookie.mts production`、`web-cd.yml admin-runtime-smoke-production` を同一 wave で実装し、real production smoke のみ user-gated に残した。
+
 #### `manual-evidence-deferred.md` 分離ルール（UT-07B-FU-02 由来 / 2026-05-06）
 
 UI screenshot を後続取得する小規模 implementation / VISUAL_ON_EXECUTION では、**component evidence PASS** と **manual screenshot pending** を物理ファイルレベルで分離する。`outputs/phase-12` のみを根拠に Phase 11 boundary を PASS 扱いしてはならない。
