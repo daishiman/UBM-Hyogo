@@ -8,6 +8,74 @@
 
 本ドキュメントは、複雑なタスクを単一責務の原則に基づいて分解し、各サブタスクに最適なスラッシュコマンド・エージェント・スキルの組み合わせを選定するためのガイドラインを定義する。
 
+### issue-900-workflow-permissions-least-privilege-audit（2026-05-25）
+
+| 項目 | 値 |
+| --- | --- |
+| state | `implemented_local_evidence_captured / implementation / NON_VISUAL` |
+| root | `docs/30-workflows/completed-tasks/issue-900-workflow-permissions-least-privilege-audit/` |
+| issue | #900 CLOSED。PR 文脈は `Refs #900` のみ |
+| purpose | 全 GitHub Actions workflow に top-level `permissions:` を宣言し、default token 権限縮退時の checkout / token baseline drift を防ぐ |
+| implementation targets | 12 workflows (`backend-ci`, `d1-migration-verify`, `e2e-tests`, `lighthouse`, `playwright-smoke`, `playwright-visual-baseline-update`, `playwright-visual-full`, `validate-build`, `verify-design-tokens`, `verify-esbuild`, `verify-primitive-adoption`, `web-cd`), `.github/workflows/ci.yml`, `scripts/verify-workflow-top-level-permissions.sh` |
+| invariant | top-level は `contents: read`。既存 job-level write permissions は維持。workflow/job/context 名、trigger、secret/env、step order は変更しない |
+| evidence | verifier PASS, required context diff PASS, group-B deletion gate PASS, actionlint 1.7.7 PASS, Phase 12 strict 7 present |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-900-workflow-permissions-least-privilege-audit-artifact-inventory.md` |
+| user gate | commit, push, PR, remote CI observation |
+
+### issue-894-admin-topbar-breadcrumb-integration（2026-05-25）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / VISUAL / implementation_complete_pending_pr` |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-894-admin-topbar-breadcrumb-integration/` |
+| Issue | #894 CLOSED。PR 文脈は `Refs #894` のみ |
+| 目的 | AdminTopbar が root breadcrumb「管理」を所有し、page-local breadcrumb は現在地のみを表示するよう責務を分離する |
+| implementation targets | `apps/web/app/(admin)/layout.tsx`, `apps/web/app/(admin)/admin/**/page.tsx`, `apps/web/app/(admin)/layout.spec.tsx`, `apps/web/src/components/admin/__tests__/Breadcrumb.spec.tsx` |
+| contract | `Breadcrumb` の最終 item は current span。AdminTopbar は root breadcrumb「管理」を静的 current label として所有し、admin 配下の page-local breadcrumb から `{ label: "管理", href: "/admin" }` を除去して grep gate 0 hit で再発を防ぐ |
+| evidence | layout Vitest 4 PASS、Breadcrumb Vitest 3 PASS、typecheck PASS、lint PASS、grep gate 0 hit、authenticated admin screenshot present、Phase 12 strict 7 present |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-894-admin-topbar-breadcrumb-integration-artifact-inventory.md` |
+| user gate | commit, push, PR, Issue mutation |
+
+### Issue #895 AdminTopbar actions client island（2026-05-25）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / NON_VISUAL / implementation_complete_pending_pr` |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-895-admin-topbar-actions-client-island/` |
+| source | `docs/30-workflows/completed-tasks/parallel-03-followup-004-admin-topbar-actions-buttons.md` consumed |
+| 目的 | `AdminTopbar.actions` に admin global actions client island を渡し、既存ログアウト導線を topbar へ集約する |
+| implementation targets | `apps/web/src/features/admin/components/_layout/AdminTopbarActions.tsx`, `apps/web/src/features/admin/components/_layout/__tests__/AdminTopbarActions.spec.tsx`, `apps/web/app/(admin)/layout.tsx`, `apps/web/app/(admin)/layout.spec.tsx` |
+| contract | topbar actions は全 admin 共通の global 操作。ページ固有操作は `AdminPageHeader.actions`。`AdminTopbar` / `(admin)/layout.tsx` は server component のまま維持 |
+| evidence | Phase 11 local evidence + Phase 12 strict 7 present。screenshot は `NON_VISUAL` のため N/A |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-895-admin-topbar-actions-client-island-artifact-inventory.md` |
+| user gate | commit, push, PR |
+
+### issue-891-member-detail-kind-exhaustiveness-guard（2026-05-25）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / NON_VISUAL / Phase 13 pending_user_approval` |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-891-member-detail-kind-exhaustiveness-guard/` |
+| issue | #891 CLOSED。issue #827 follow-up consumed |
+| 目的 | `FieldKindZ` 全 kind を `KIND_ROUTE` で網羅分類し、enum 拡張時の分類漏れを typecheck と adapter spec で fail-fast にする |
+| implementation targets | `apps/web/src/lib/adapters/member-detail.ts`, `apps/web/src/lib/adapters/__tests__/member-detail.spec.ts`, `apps/web/src/components/public/MemberDetail.tsx` |
+| contract | `KIND_ROUTE satisfies Record<FieldKind, KindRoute>`。`DETAIL_KINDS` / `LINK_KINDS` は map から導出し、`sections` は detail、`linkSections` は url link を保持して `MemberLinks` が消費 |
+| system specs | `docs/00-getting-started-manual/specs/04-types.md`, `docs/00-getting-started-manual/specs/09-ui-ux.md` |
+| evidence | focused adapter tests / typecheck / test-internals grep / Phase 12 strict 7 |
+| user gate | commit / push / PR / visual baseline update |
+
+### regression-evidence-ci-gate-foundation（2026-05-25）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/regression-evidence-ci-gate-foundation/` |
+| ステータス | `spec_created / implementation / VISUAL / runtime_pending` |
+| canonical role | `ui-prototype-design-system-foundation/serial-07-regression-evidence` の top-level execution root |
+| prerequisite | `serial-00` から `serial-06-form-response-binding` までの green completion |
+| planned implementation | `apps/web/playwright/tests/visual/{top,members-list,member-detail,admin-dashboard}.spec.ts` と Chromium/Linux baseline PNG |
+| evidence | root/output artifacts parity、Phase 12 strict 7 present。Phase 11 runtime visual evidence は user-gated |
+| user gate | Playwright visual run、baseline PNG commit、branch protection mutation、commit、push、PR |
+
 ### Issue #883 adapter dev warn unknown kind（2026-05-25）
 
 | 項目 | 値 |
@@ -171,6 +239,20 @@
 | local evidence | `pnpm exec vitest run scripts/smoke/__tests__/bearer-freshness-gate.spec.ts scripts/smoke/__tests__/mint-staging-bearers.spec.ts` PASS; `bash scripts/smoke/__tests__/runtime-attendance-provider.test.sh` PASS |
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-runtime-smoke-staging-mint-recurrence-fix-artifact-inventory.md` |
 | user gate | GitHub secret mutation, Cloudflare secret mutation, staging runtime rerun, commit, push, PR |
+
+### issue-899-static-bearer-fallback-retirement（2026-05-25）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `spec_created / implementation / NON_VISUAL / implementation_pending` |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-899-static-bearer-fallback-retirement/` |
+| issue | #899 CLOSED 維持。PR 文脈は `Refs #899` のみ |
+| prerequisite | #916 `STAGING_AUTH_SECRET` provisioning + mint path smoke green 完了後に実装 merge 可 |
+| 目的 | `.github/workflows/runtime-smoke-staging.yml` の静的 `STAGING_ADMIN_BEARER` / `STAGING_ME_BEARER` fallback、mint step skip、`static-fallback` mask 分岐、freshness warn-only env を撤去し、mint-only 運用へ恒久化する実装仕様 |
+| implementation targets | `.github/workflows/runtime-smoke-staging.yml`, `docs/30-workflows/completed-tasks/ci-secret-alignment-and-runtime-smoke-recovery/runbooks/secret-provisioning.md`, `docs/30-workflows/runtime-smoke-staging-mint-recurrence-fix/reference/bearer-lifecycle-ssot.md` |
+| Phase 12 | strict 7 present; root/output artifacts parity present; 30-method compact evidence included |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-899-static-bearer-fallback-retirement-artifact-inventory.md` |
+| user gate | workflow edit PR, runtime smoke rerun, `gh secret delete STAGING_ADMIN_BEARER/STAGING_ME_BEARER`, commit, push, PR |
 
 ### issue-870-apps-api-security-headers（2026-05-24）
 
@@ -1251,7 +1333,7 @@
 | 親 Issue | Issue #626（CLOSED） / parent Stage 3 Issue #608（CLOSED） |
 | backlog | `docs/30-workflows/e2e-quality-uplift/backlog.md` RB-01 |
 | 目的 | `.github/workflows/lighthouse.yml` の standalone Lighthouse build と `.github/workflows/pr-build-test.yml` の web build を統合し、`.next` artifact を `build-test` から `lighthouse-ci` へ共有する |
-| implementation target | `.github/workflows/pr-build-test.yml` edit、`.github/workflows/lighthouse.yml` delete、RB-01 backlog status update |
+| implementation target | `.github/workflows/pr-build-test.yml` edit、Issue #626 時点の `.github/workflows/lighthouse.yml` delete、RB-01 backlog status update。後続 Lighthouse work で standalone workflow は再導入済み |
 | trigger boundary | 現行 Lighthouse の dev-base PR 境界を維持し、統合後 `lighthouse-ci` は `if: github.base_ref == 'dev'`。`build-test` は全 PR 継続 |
 | evidence boundary | Phase 11 は local command logs、read-only current branch protection JSON、dry-run PR checks pending、merge-time branch protection before/after diff pending を canonical evidence とする |
 | state vocabulary | root は `PASS_BOUNDARY_SYNCED_RUNTIME_PENDING`。local implementation + deterministic evidence は取得済み、GitHub Actions PR runtime evidence と merge-time governance diff は user-gated。N-day close-out 専用語彙は使わない |

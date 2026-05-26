@@ -64,7 +64,7 @@ focus 呼び出しは `focus({ preventScroll: true })` に固定する。root / 
 
 | 認可 | layout | 主 component | API | 状態 | 主 props | a11y | token | 視覚詳細 link | 不採用 |
 |------|--------|---------------|-----|------|----------|------|-------|----------------|--------|
-| public | public layout | MemberDetail, VisibilityBanner | GET `/public/member-profile/:id` | page standard | memberId, summary, publicFields, tags | profile section は heading 階層を保つ | color, space, radius, text | 09a, 09e | 非公開 field の表示 |
+| public | public layout | MemberDetail, VisibilityBanner | GET `/public/member-profile/:id` | page standard | memberId, summary, publicFields, linkSections, tags | profile section は heading 階層を保つ。`url` kind は links section、`consent` / `system` / `unknown` は公開 detail / links の双方から除外 | color, space, radius, text | 09a, 09e | 非公開 field の表示 |
 
 ### 2.1.4 `/(public)/register`
 

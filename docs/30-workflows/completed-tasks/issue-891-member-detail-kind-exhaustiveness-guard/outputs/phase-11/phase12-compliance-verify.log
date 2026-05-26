@@ -1,0 +1,21 @@
+
+> ubm-hyogo@0.1.0 verify:phase12-compliance /Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260525-102421-wt-2
+> node --experimental-strip-types --disable-warning=MODULE_TYPELESS_PACKAGE_JSON scripts/verify-phase12-compliance.ts docs/30-workflows/issue-891-member-detail-kind-exhaustiveness-guard
+
+{
+  "status": "pass",
+  "template": ".claude/skills/task-specification-creator/references/phase12-compliance-check-template.md",
+  "roots": [
+    {
+      "rootPath": "docs/30-workflows/issue-891-member-detail-kind-exhaustiveness-guard",
+      "workflowState": "implemented_local_evidence_captured",
+      "hasCompletedTasksAncestor": false
+    }
+  ],
+  "results": [
+    {
+      "ok": true,
+      "rootPath": "docs/30-workflows/issue-891-member-detail-kind-exhaustiveness-guard"
+    }
+  ]
+}

@@ -9,6 +9,9 @@ concurrency:
   group: visual-full-${{ github.ref }}
   cancel-in-progress: true
 
+permissions:
+  contents: read
+
 jobs:
   visual-full:
     runs-on: ubuntu-latest

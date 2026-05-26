@@ -1,0 +1,3 @@
+Command: mise exec -- pnpm lint
+Result: PASS
+Summary: dependency-cruiser no violations; stablekey lint OK; stable-key-update lint OK; workspace lint completed.
