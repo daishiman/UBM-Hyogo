@@ -3125,6 +3125,15 @@ node scripts/list-specs.js --topics
 | Implementation Targets | L13 |
 | Evidence | L32 |
 
+### references/workflow-issue-901-authenticated-profile-admin-staging-visual-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Metadata | L3 |
+| Workflow Artifacts | L14 |
+| Implementation Targets | L27 |
+| Boundary | L39 |
+
 ### references/workflow-issue-902-members-staging-visual-baseline-artifact-inventory.md
 
 | セクション | 行 |
@@ -4231,6 +4240,7 @@ node scripts/list-specs.js --topics
 | Workflow Artifacts | L13 |
 | Implementation Targets | L26 |
 | Boundary | L35 |
+| Authenticated Visual Child Workflow | L39 |
 
 ### references/workflow-ut-gov-004-artifact-inventory.md
 
@@ -7710,14 +7720,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L2537 |
-| フェーズ構造（概要） | L2546 |
-| 品質ゲート（概要） | L2577 |
-| 出力テンプレート | L2588 |
-| 実行時のコマンド・エージェント・スキル | L2611 |
-| 昇格パターン集 | L2635 |
-| Current Active / Spec Created Tasks | L2637 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L2798 |
+| ドキュメント構成 | L2553 |
+| フェーズ構造（概要） | L2562 |
+| 品質ゲート（概要） | L2593 |
+| 出力テンプレート | L2604 |
+| 実行時のコマンド・エージェント・スキル | L2627 |
+| 昇格パターン集 | L2651 |
+| Current Active / Spec Created Tasks | L2653 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L2814 |
 
 ### references/task-workflow-backlog-part2.md
 

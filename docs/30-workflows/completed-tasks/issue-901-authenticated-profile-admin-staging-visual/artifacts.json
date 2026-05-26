@@ -1,0 +1,80 @@
+{
+  "workflow_id": "issue-901-authenticated-profile-admin-staging-visual",
+  "metadata": {
+    "workflow_state": "spec_created",
+    "taskType": "implementation",
+    "visualEvidence": "VISUAL",
+    "implementation_mode": "new",
+    "source_issue": 901,
+    "source_issue_state": "closed",
+    "issue_reference_mode": "refs_only",
+    "recovered_from_unassigned": "docs/30-workflows/completed-tasks/UT-DSF-07-FU-01-authenticated-profile-admin-staging-visual.md",
+    "issue_state_at_recovery": "closed",
+    "parent_workflow": "ut-dsf-07-staging-visual-runtime-evidence",
+    "parent_gate": "VISUAL_RUNTIME_AUTHENTICATED_PENDING",
+    "runtime_evidence_state": "runtime_pending",
+    "spec_creation_strategy": "optimize_to_current_codebase",
+    "expected_runtime_screenshots": [
+      "outputs/phase-11/screenshots/profile-authenticated.png",
+      "outputs/phase-11/screenshots/admin-dashboard-authenticated.png"
+    ],
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-901-authenticated-profile-admin-staging-visual/index.md",
+        "approver": "daishiman",
+        "notes": "spec_review: Phase 1-13 spec readiness + closed-issue canonical workflow recovery decision (§0)"
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-901-authenticated-profile-admin-staging-visual/phase-05-implementation-guide.md",
+        "approver": "daishiman",
+        "notes": "implementation_review: mint-staging-storage-state CLI + Playwright staging-visual-authenticated project + 2 spec implementation + CI job wiring + .gitignore + cross-ref pending"
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-901-authenticated-profile-admin-staging-visual/phase-11-evidence-inventory.md",
+        "approver": "daishiman",
+        "notes": "external_ops: CI staging deploy + storageState mint + authenticated baseline capture + parent VISUAL_RUNTIME_AUTHENTICATED_OK release + PR / merge"
+      }
+    ]
+  },
+  "phases": [
+    { "phase": 1, "status": "spec_created" },
+    { "phase": 2, "status": "spec_created" },
+    { "phase": 3, "status": "spec_created" },
+    { "phase": 4, "status": "spec_created" },
+    { "phase": 5, "status": "spec_created" },
+    { "phase": 6, "status": "spec_created" },
+    { "phase": 7, "status": "spec_created" },
+    { "phase": 8, "status": "spec_created" },
+    { "phase": 9, "status": "spec_created" },
+    { "phase": 10, "status": "spec_created" },
+    { "phase": 11, "status": "spec_created" },
+    { "phase": 12, "status": "spec_created" },
+    { "phase": 13, "status": "spec_created" }
+  ],
+  "outputs": {
+    "phase_11": [
+      "outputs/phase-11/main.md",
+      "outputs/phase-11/screenshot-plan.json",
+      "outputs/phase-11/storagestate-generation.md",
+      "outputs/phase-11/canonical-paths.json"
+    ],
+    "phase_12": [
+      "outputs/phase-12/main.md",
+      "outputs/phase-12/implementation-guide.md",
+      "outputs/phase-12/system-spec-update-summary.md",
+      "outputs/phase-12/documentation-changelog.md",
+      "outputs/phase-12/unassigned-task-detection.md",
+      "outputs/phase-12/skill-feedback-report.md",
+      "outputs/phase-12/phase12-task-spec-compliance-check.md"
+    ]
+  }
+}

@@ -21,7 +21,11 @@ export default async function AdminDashboardPage() {
   const result = await safeServerFetch<AdminDashboardView>("/admin/dashboard");
 
   return (
-    <section aria-labelledby="admin-dashboard-h" className="flex flex-col gap-4">
+    <section
+      aria-labelledby="admin-dashboard-h"
+      className="flex flex-col gap-4"
+      data-testid="admin-dashboard-root"
+    >
       <AdminPageHeader
         title="ダッシュボード"
         description="UBM 兵庫支部会のメンバー状況と直近のアクション"

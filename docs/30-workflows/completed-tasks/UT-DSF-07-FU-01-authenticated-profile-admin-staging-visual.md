@@ -9,7 +9,9 @@ task_name: 認証後 profile（ログイン済み member）/ admin dashboard（a
 category: 改善
 priority: 中
 scale: 中規模
-status: 未実施
+status: consumed
+canonical_workflow: docs/30-workflows/issue-901-authenticated-profile-admin-staging-visual/
+consumed_at: 2026-05-25
 source_phase: Phase 12
 created_date: 2026-05-23
 dependencies: []
@@ -22,6 +24,7 @@ dependencies: []
 | 優先度 | MEDIUM |
 | 推奨Wave | Wave 3 |
 | 状態 | unassigned |
+| canonical workflow | `docs/30-workflows/issue-901-authenticated-profile-admin-staging-visual/` |
 | 作成日 | 2026-05-23 |
 | 親タスク | UT-DSF-07（staging visual runtime evidence） |
 | 親 canonical_workflow | `docs/30-workflows/ut-dsf-07-staging-visual-runtime-evidence/` |
@@ -171,3 +174,13 @@ local と等価に描画することを確立する。これにより UT-DSF-07 
 - `scripts/verify-pr-ready.sh`
 - `.claude/skills/task-specification-creator/references/unassigned-task-required-sections.md`（単一ファイル proto-spec フォーマット §8）
 - `.claude/skills/task-specification-creator/references/pr-pre-flight-ci-gate-checklist.md`
+
+---
+status: consumed
+consumed_at: 2026-05-25
+canonical_workflow: docs/30-workflows/issue-901-authenticated-profile-admin-staging-visual/
+recovery_note: |
+  Issue #901 was closed before this follow-up had a canonical Phase 1-13 workflow root.
+  The proto-spec is preserved for backward link integrity.
+  The executable workflow now lives at the canonical workflow root above and references the closed issue with Refs #901 only.
+---

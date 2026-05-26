@@ -102,6 +102,15 @@
 
 ## E2Eテスト設計パターン
 
+### Authenticated Staging Visual StorageState パターン
+
+- **状況**: staging の認証必須画面を Playwright visual baseline として撮りたいが、SSR fetch は `page.route()` で差し替えられず、Magic Link / OAuth の実フローは CI 自動化が不安定な場合。
+- **パターン**: 既存 shared auth helper の `signSessionJwt(secret, input)` を使い、TTL=600s の member/admin session JWT を mint して Playwright `storageState` に `authjs.session-token` cookie として注入する。mint は dedicated setup project で実行し、authenticated visual project は setup project に依存させる。
+- **効果**: 認証失敗は screenshot 前に setup failure として見える。未認証 baseline と authenticated baseline を `*-authenticated-staging-visual-*` suffix で分離できる。cookie 値は `.auth/` の ephemeral file に閉じ、git へ残さない。
+- **必須 gate**: storageState path を `.gitignore`、JWT/cookie/secret grep gate、visibility assert (`data-testid`) before `toHaveScreenshot`、fake PNG 禁止。
+- **発見日**: 2026-05-25
+- **関連タスク**: Issue #901 authenticated profile/admin staging visual
+
 ### ARIA属性ベースセレクタ優先パターン
 
 - **パターン**: `data-testid`やCSSクラスより`role`属性等のARIA属性を優先してセレクタを構築
@@ -397,4 +406,3 @@
   | ResourceLoader | ファイル読み込みはfs.readFile | キャッシュミス時のみI/O実行 |
 - **発見日**: 2026-02-03
 - **関連タスク**: TASK-9B-G
-
