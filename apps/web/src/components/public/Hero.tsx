@@ -17,14 +17,7 @@ export function Hero({
   secondaryCta,
 }: HeroProps) {
   return (
-    <section
-      data-component="hero"
-      style={{
-        // OKLch token から生成されるグラデ。HEX 直書きを避ける (AC-8)。
-        backgroundImage:
-          "linear-gradient(135deg, var(--ubm-color-zone-a) 0%, var(--ubm-color-zone-c) 100%)",
-      }}
-    >
+    <section data-component="hero">
       {eyebrow ? <p data-role="eyebrow">{eyebrow}</p> : null}
       <h1>{title}</h1>
       {subtitle ? <p data-role="subtitle">{subtitle}</p> : null}

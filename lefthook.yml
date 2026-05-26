@@ -64,6 +64,12 @@ pre-push:
     coverage-guard:
       run: bash scripts/coverage-guard.sh --changed
       stage_fixed: false
+    inline-style-guard:
+      run: bash scripts/verify-no-inline-style.sh
+      stage_fixed: false
+      fail_text: |
+        🚫 React inline style props are forbidden outside ImageResponse routes.
+        Use className, data-* attributes, CSS variables, or SVG attributes instead.
     indexes-drift-guard:
       run: bash scripts/hooks/indexes-drift-guard.sh
       stage_fixed: false
