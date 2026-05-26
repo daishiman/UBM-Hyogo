@@ -15,6 +15,12 @@
 
 Staging rollback smoke and real Slack/mail provider delivery are user-gated runtime operations. No Cloudflare secret mutation, deploy, D1 staging mutation, commit, push, or PR was executed in this cycle.
 
+## Staging Runtime Evidence Placeholder
+
+Tracked evidence path: `outputs/phase-11/evidence/staging-smoke.md`
+
+Status remains `local_evidence_captured_runtime_pending` until the user-gated staging helper run fills the S-sent / S-skipped / S-failed tables and the parent artifacts Gate-C is promoted from `pending` to `passed`.
+
 ## Redaction Check
 
 Local tests verify that notification payloads do not include raw actor email, stableKey, or webhook/provider URL material. The audit entry stores only `{ status, channel, attempts, errorClass, dispatchedAt }` in `after_json`.

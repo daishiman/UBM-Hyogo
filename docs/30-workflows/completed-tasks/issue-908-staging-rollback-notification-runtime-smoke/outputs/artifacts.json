@@ -1,0 +1,38 @@
+{
+  "feature": "issue-908-staging-rollback-notification-runtime-smoke",
+  "mirror_of": "../artifacts.json",
+  "lastUpdated": "2026-05-25T00:00:00Z",
+  "status": "runtime_pending",
+  "workflow_state": "implemented_local_runtime_pending",
+  "metadata": {
+    "taskType": "implementation",
+    "visualEvidence": "NON_VISUAL",
+    "runtimeBoundary": "staging_provider_smoke_user_gated",
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-05-25T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-908-staging-rollback-notification-runtime-smoke/outputs/phase-12/phase12-task-spec-compliance-check.md",
+        "approver": "daishiman",
+        "notes": "spec_review (mirror)"
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-908-staging-rollback-notification-runtime-smoke/outputs/phase-12/implementation-guide.md",
+        "approver": "daishiman",
+        "notes": "implementation_review: helper script + parent evidence placeholder created locally; runtime mutation pending (mirror)"
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-908-staging-rollback-notification-runtime-smoke/outputs/phase-11/manual-test-execution-plan.md",
+        "approver": "daishiman",
+        "notes": "external_ops pending: staging deploy + 3-scenario value population (mirror)"
+      }
+    ]
+  }
+}

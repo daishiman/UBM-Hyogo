@@ -579,6 +579,20 @@
 | evidence | focused Vitest 13 PASS、`pnpm --filter @ubm-hyogo/api typecheck` PASS、Phase 12 strict 7 present |
 | user gate | staging provider smoke, Cloudflare secret mutation, commit, push, PR |
 
+### Issue #908 staging rollback notification runtime smoke（2026-05-25）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_runtime_pending / implementation / NON_VISUAL` |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-908-staging-rollback-notification-runtime-smoke/` |
+| parent | `docs/30-workflows/completed-tasks/issue-838-schema-alias-rollback-notification/` |
+| purpose | Issue #838 の staging provider smoke evidence を user-gated runtime 実行で取得するための helper と tracked placeholder を整備する |
+| implementation targets | `scripts/runtime-smoke/schema-alias-rollback.sh` |
+| evidence placeholder | `docs/30-workflows/completed-tasks/issue-838-schema-alias-rollback-notification/outputs/phase-11/evidence/staging-smoke.md` |
+| parent sync | 親 `manual-test-result.md` / `artifacts.json` は runtime pending のまま placeholder path へ cross-link |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-908-staging-rollback-notification-runtime-smoke-artifact-inventory.md` |
+| user gate | staging deploy, rollback POST, D1 mutation, provider evidence population, parent completion promotion, commit, push, PR |
+
 ### ut-cicd-composite-setup-rollout（2026-05-22）
 
 | 項目 | 値 |
