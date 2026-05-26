@@ -588,3 +588,17 @@ dev sync-merge で同一の pure adapter / pure function 関数が **HEAD 側と
 - secrets を `vars` に降格させる「妥協」→ secrets 漏洩リスクが上がる。
 - workflow から `pull_request` trigger を外す→ workflow file 自体の variation や spec 変更を CI で検知できなくなる。secrets-gate skip で trigger 自体は保持する。
 - `continue-on-error: true` で誤魔化す → 真の secrets 欠落と spec バグの双方が無視される。skip 判定を明示的に行う。
+
+## API method/path 切替時の Playwright mock fixture 追従（2026-05-26）
+
+admin API の method/endpoint を切替える PR（例: issue-912 で `POST /attendances` → `DELETE /attendance/:memberId`）では、本実装・vitest spec・runtime smoke と合わせて `apps/web/playwright/fixtures/auth.ts` の mock handler も**同一 PR で追従**させる必要がある。漏れた場合、mock の末尾 fallback `response(res, 404, { error: 'MOCK_API_NOT_FOUND' })` が新 endpoint への request を吸収してしまい、UI 側の idempotent 404 分岐（"既に出席解除されています"）に silent に流れ、`smoke (chromium)` / `e2e (desktop-chromium)` が "出席を削除しました" を期待する toast assertion で fail する。
+
+- **L-APIMETH-001 (Phase 4 contracts)**: API method / path を変更する仕様書では Phase 4 contracts に「`apps/web/playwright/fixtures/auth.ts` の新 endpoint handler 追加」「旧 endpoint handler の取り扱い（残置 / 削除）」を必ず明記する。`grep -nE "POST|DELETE|method ===" apps/web/playwright/fixtures/auth.ts` を Phase 6 acceptance に含めて漏れを防ぐ。
+- **L-APIMETH-002 (idempotent endpoint の mock 表現)**: idempotent DELETE/PUT の場合、mock も冪等にする。1回目=200/204、2回目以降=404 で `attendees` 配列を実際に更新する handler を書き、retry/idempotency path が test 側でも到達可能にする。状態を持たない `return 204 always` にすると、UI 側の "既に削除済" 分岐が一切踏まれず regression を検出できない。
+- **L-APIMETH-003 (CI signal の二重化)**: typecheck / lint は mock 漏れを検出できない。Playwright `smoke` / `e2e` が API endpoint surface 変更の正本検証 gate であり、PR では verify-conflict-markers ではなく `playwright-smoke` の green を必須 check に含める運用を維持する。
+
+### Anti-pattern
+
+- mock fixture の末尾に `response(res, 404, ...)` fallback を残したまま新 endpoint handler 追加を後続 PR に分割 → fallback が新 request を吸収し、UI 側の idempotent 404 分岐に silent fall-through → toast assertion が新 PR で fail。
+- mock を always 200 success にする → UI の "既に削除済" toast 分岐が一切踏まれず、本番で初めて該当分岐の regression が出る。
+- handler を mock に追加する代わりに `test.skip` / `test.fixme` で逃がす → playwright が API shape の正本検証 gate なのに gate が空洞化する。

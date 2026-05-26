@@ -45,6 +45,7 @@
       "lessons-learned-issue-408-cf-audit-logs-monitoring-2026-05.md",
       "lessons-learned-issue-546-cf-audit-logs-90day-baseline-observation-2026-05.md",
       "lessons-learned-issue-776-schema-alias-bulk-resolve-2026-05.md",
+      "lessons-learned-issue-912-idempotent-attendance-remove-retry-2026-05.md",
       "lessons-learned-task-11-public-top-and-member-list-2026-05.md",
       "lessons-learned-task-14-my-profile-and-requests-2026-05.md",
       "lessons-learned-task-15-admin-dashboard-and-members-2026-05.md",
@@ -882,6 +883,7 @@
       "lessons-learned-issue-194-identity-merge-2026-05.md",
       "lessons-learned-issue-517-followup-auto-summary-2026-05.md",
       "lessons-learned-issue-827-member-detail-adapter-and-visibility-defense-2026-05.md",
+      "lessons-learned-issue-912-idempotent-attendance-remove-retry-2026-05.md",
       "lessons-learned-task-11-public-top-and-member-list-2026-05.md",
       "lessons-learned-task-18-w7-verify-tokens-and-playwright-smoke-2026-05.md",
       "lessons-learned-ut-02a-attendance-write-operations-2026-05.md",
@@ -10756,6 +10758,7 @@
     ],
     "mock": [
       "lessons-fetch-service-binding-testing.md",
+      "lessons-learned-issue-912-idempotent-attendance-remove-retry-2026-05.md",
       "lessons-learned-parallel-i03-dialog-refresh-order-2026-05.md",
       "lessons-learned-task-15-admin-dashboard-and-members-2026-05.md",
       "lessons-learned-task-17-admin-schema-conflicts-audit-2026-05.md",
@@ -10897,6 +10900,7 @@
       "lessons-learned-02c-fixture-prod-build-exclusion-2026-05.md",
       "lessons-learned-06c-admin-ui-2026-04.md",
       "lessons-learned-09b-A-sentry-slack-runtime-smoke-2026-05.md",
+      "lessons-learned-issue-912-idempotent-attendance-remove-retry-2026-05.md",
       "lessons-learned-task-15-admin-dashboard-and-members-2026-05.md",
       "lessons-learned-task-17-admin-schema-conflicts-audit-2026-05.md",
       "lessons-learned-task-18-w7-verify-tokens-and-playwright-smoke-2026-05.md",
@@ -12866,6 +12870,7 @@
     "shape": [
       "lessons-learned-06b-b-profile-request-pending-banner-sticky-2026-05.md",
       "lessons-learned-06c-B-admin-members-2026-05.md",
+      "lessons-learned-issue-912-idempotent-attendance-remove-retry-2026-05.md",
       "lessons-learned-task-24.md",
       "lessons-learned-task-spec-2d-contract-stage-2-2026-05.md"
     ],
@@ -13470,7 +13475,8 @@
       "lessons-learned-07a-tag-queue-resolve-2026-04.md"
     ],
     "changes": [
-      "lessons-learned-07a-tag-queue-resolve-2026-04.md"
+      "lessons-learned-07a-tag-queue-resolve-2026-04.md",
+      "lessons-learned-issue-912-idempotent-attendance-remove-retry-2026-05.md"
     ],
     "判定で": [
       "lessons-learned-07a-tag-queue-resolve-2026-04.md"
@@ -17614,6 +17620,17 @@
       "patterns-kv-dedup.md",
       "workflow-issue-863-admin-error-alert-policy-iac-artifact-inventory.md"
     ],
+    "Playwright": [
+      "lessons-learned-issue-912-idempotent-attendance-remove-retry-2026-05.md",
+      "lessons-learned-task-12-member-detail-register-legal-2026-05.md",
+      "lessons-learned-task-18-w7-verify-tokens-and-playwright-smoke-2026-05.md",
+      "lessons-learned-ut-07c-followup-001-attendance-csv-import-2026-05.md",
+      "testing-playwright-e2e.md",
+      "workflow-task-08b-A-playwright-e2e-full-execution-artifact-inventory.md"
+    ],
+    "method": [
+      "lessons-learned-issue-912-idempotent-attendance-remove-retry-2026-05.md"
+    ],
     "against": [
       "lessons-learned-issue359-production-d1-apply-2026-05.md"
     ],
@@ -18113,13 +18130,6 @@
     "legal": [
       "lessons-learned-task-12-member-detail-register-legal-2026-05.md",
       "workflow-task-12-member-detail-register-legal-artifact-inventory.md"
-    ],
-    "Playwright": [
-      "lessons-learned-task-12-member-detail-register-legal-2026-05.md",
-      "lessons-learned-task-18-w7-verify-tokens-and-playwright-smoke-2026-05.md",
-      "lessons-learned-ut-07c-followup-001-attendance-csv-import-2026-05.md",
-      "testing-playwright-e2e.md",
-      "workflow-task-08b-A-playwright-e2e-full-execution-artifact-inventory.md"
     ],
     "多重ルーティング": [
       "lessons-learned-task-12-member-detail-register-legal-2026-05.md"
