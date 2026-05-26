@@ -1,5 +1,20 @@
 # クイックリファレンス
 
+## Issue #922 production admin runtime smoke gate（2026-05-25）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-922-production-admin-runtime-smoke-gate/` |
+| status | `implemented_local_runtime_pending / implementation / NON_VISUAL` |
+| issue | #922 CLOSED。PR 文脈は `Refs #922` のみ |
+| parent | `docs/30-workflows/completed-tasks/issue-864-admin-staging-runtime-smoke-ci-gate/` |
+| purpose | staging deploy 後の authenticated `/admin` runtime smoke gate を production deploy 後にも対称展開する |
+| implementation | `scripts/smoke/runtime-admin-web.sh`, `scripts/smoke/mint-staging-session-cookie.mts`, `.github/workflows/web-cd.yml admin-runtime-smoke-production` |
+| tests | `scripts/smoke/__tests__/runtime-admin-web.test.sh`, `scripts/smoke/__tests__/mint-staging-session-cookie.spec.ts` |
+| evidence | shell contract PASS, vitest 9 PASS, Phase 12 strict 7 present |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-922-production-admin-runtime-smoke-gate-artifact-inventory.md` |
+| boundary | production-runtime-smoke Environment secrets, real production `/admin` probe, intentional regression evidence, required status check PUT, commit, push, PR are user-gated |
+
 ## Issue #883 adapter dev warn unknown kind（2026-05-25）
 
 | 項目 | 値 |

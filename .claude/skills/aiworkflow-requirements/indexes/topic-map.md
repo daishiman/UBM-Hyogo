@@ -3085,6 +3085,12 @@ node scripts/list-specs.js --topics
 | Evidence | L20 |
 | Boundary | L32 |
 
+### references/workflow-issue-922-production-admin-runtime-smoke-gate-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Runtime Boundary | L22 |
+
 ### references/workflow-light-theme-contrast-regression-guard.md
 
 | セクション | 行 |
@@ -7633,14 +7639,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L2453 |
-| フェーズ構造（概要） | L2462 |
-| 品質ゲート（概要） | L2493 |
-| 出力テンプレート | L2504 |
-| 実行時のコマンド・エージェント・スキル | L2527 |
-| 昇格パターン集 | L2551 |
-| Current Active / Spec Created Tasks | L2553 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L2714 |
+| ドキュメント構成 | L2467 |
+| フェーズ構造（概要） | L2476 |
+| 品質ゲート（概要） | L2507 |
+| 出力テンプレート | L2518 |
+| 実行時のコマンド・エージェント・スキル | L2541 |
+| 昇格パターン集 | L2565 |
+| Current Active / Spec Created Tasks | L2567 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L2728 |
 
 ### references/task-workflow-backlog-part2.md
 
