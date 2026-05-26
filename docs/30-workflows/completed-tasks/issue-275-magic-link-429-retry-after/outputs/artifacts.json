@@ -1,0 +1,18 @@
+{
+  "task_id": "issue-275-magic-link-429-retry-after",
+  "status": "implemented_local_evidence_captured",
+  "canonical_workflow": "docs/30-workflows/issue-275-magic-link-429-retry-after/",
+  "root_artifacts_json": "../artifacts.json",
+  "phase_11_evidence": [
+    "outputs/phase-11/manual-test-result.md"
+  ],
+  "phase_12_strict_7": [
+    "outputs/phase-12/main.md",
+    "outputs/phase-12/implementation-guide.md",
+    "outputs/phase-12/system-spec-update-summary.md",
+    "outputs/phase-12/documentation-changelog.md",
+    "outputs/phase-12/unassigned-task-detection.md",
+    "outputs/phase-12/skill-feedback-report.md",
+    "outputs/phase-12/phase12-task-spec-compliance-check.md"
+  ]
+}

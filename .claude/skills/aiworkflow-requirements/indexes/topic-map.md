@@ -2420,6 +2420,14 @@ node scripts/list-specs.js --topics
 | Evidence Boundary | L24 |
 | Captured Evidence | L27 |
 
+### references/workflow-issue-275-magic-link-429-retry-after-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Implementation | L12 |
+| Evidence | L21 |
+| User-gated | L34 |
+
 ### references/workflow-issue-276-mobile-filterbar-tag-picker-artifact-inventory.md
 
 | セクション | 行 |
@@ -5135,7 +5143,7 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 対象 | L3 |
 | Lessons | L10 |
-| Follow-up Boundaries | L75 |
+| Follow-up Boundaries | L96 |
 
 ### references/lessons-learned-06c-A-admin-dashboard-2026-05.md
 

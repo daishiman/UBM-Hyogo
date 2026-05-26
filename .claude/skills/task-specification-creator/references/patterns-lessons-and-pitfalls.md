@@ -511,3 +511,31 @@ Next.js server component の `redirect()` / `notFound()` を SafeResult に閉�
 ### Anti-pattern
 
 - exempt path を「pattern template として汎用化したいから」と理由なく広げる（例: `apps/web/src/components/**/*.svg`）。**brand-icon 専用 dir に物理的に閉じ込める**こと。CONST_007 (unassigned-task は実装過程で実際に発見されたもののみ) に準拠し、speculative な exempt 拡張は避ける。
+
+## HTTP status 別 typed error / server-truth countdown パターン（Issue #275 由来）
+
+429 等の retry 可能 status は「失敗」ではなく「server-truth に従った待機」として扱う必要があり、独立 error class や catch-all 分岐に流すと UI invariant が崩れる。Issue #275（Magic Link 429 Retry-After UI 復元）で確立した分離パターンを spec に反映する。
+
+### L-I275-001 (typed error は base error の subclass にする)
+
+- **NG**: `class RateLimitedError extends Error` のように独立 class にして、既存 callsite の `catch (e instanceof RequestError)` から漏れる。
+- **OK**: `class MagicLinkRateLimitedError extends MagicLinkRequestError` として subclass 化し、既存 catch 互換を**型階層で**担保する。
+- **Why**: catch 互換性は spec 文言ではなく型階層で保証する。Phase 3 design-review に `extends` 関係を明示し、Phase 4 test plan に `toBeInstanceOf(BaseError)` と `toBeInstanceOf(SpecificError)` の両方を入れる。
+
+### L-I275-002 (Retry-After 三段 precedence)
+
+- **NG**: header のみ / body のみで `retryAfterSec` を解決する。proxy/CDN header と middleware body のどちらか片方を取りこぼす。
+- **OK**: `Retry-After` header → JSON body `retryAfterSec` → default 60 秒の三段 precedence。負数・非整数・NaN は default にフォールバック。
+- **Why**: server-truth を取りこぼさず、かつ middleware/CDN 構成変更にロバスト。parser は pure function で export し unit test 4 ケース（header/body/both/none）で網羅。callsite 1 件なら util 化せず YAGNI 原則を守る。
+
+### L-I275-003 (rate-limit catch は早期 return / URL state 据え置き)
+
+- **NG**: 429 を一般 error 分岐へ流し `replaceLoginState("error")` で `?state=error` に遷移、または `sent` に遷移して「送信完了」と誤表示。
+- **OK**: catch ブロック先頭で `if (e instanceof RateLimitedError) { setCooldown(e.retryAfterSec); return; }` の早期 return。URL state は `input` のまま、`router.refresh()` も呼ばない。
+- **Why**: rate-limit は失敗でも完了でもなく「待機」。Phase 4 component test に「429 で URL state が変化しない」「`router.refresh` が呼ばれない」assertion を必ず含め、No-Go 条件に「429 で `?state=error|sent` 遷移」を明示する。
+
+### Phase 12 への反映項目
+
+- **implementation-guide.md**: 「中学生向け説明」で「429 は失敗じゃなくて『あと何秒待って』のサイン」「待つ間はボタンを押せなくするだけで、エラー画面は出さない」の二段で説明。
+- **system-spec-update-summary.md**: API contract spec を変更しない場合でも、client lib の typed error 追加と UI state machine 不変条件は同サイクルで spec 同期する。
+- **unassigned-task-detection.md**: reload 跨ぎ永続化 / 共通 Retry-After util / 実 API E2E は callsite と運用負荷が見合うまで起票しない（YAGNI）。

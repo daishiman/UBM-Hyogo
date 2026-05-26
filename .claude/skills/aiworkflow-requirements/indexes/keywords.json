@@ -6954,6 +6954,7 @@
       "workflow-i02-admin-error-type-unify-artifact-inventory.md",
       "workflow-issue-106-admin-member-notes-repository-task-spec-artifact-inventory.md",
       "workflow-issue-274-public-pages-ogp-sitemap-robots-artifact-inventory.md",
+      "workflow-issue-275-magic-link-429-retry-after-artifact-inventory.md",
       "workflow-issue-277-next-proxy-migration-artifact-inventory.md",
       "workflow-issue-348-09c-github-release-tag-automation-artifact-inventory.md",
       "workflow-issue-352-postmortem-template-automation-artifact-inventory.md",
@@ -7526,6 +7527,7 @@
       "workflow-issue-191-schema-aliases-artifact-inventory.md",
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
       "workflow-issue-274-public-pages-ogp-sitemap-robots-artifact-inventory.md",
+      "workflow-issue-275-magic-link-429-retry-after-artifact-inventory.md",
       "workflow-issue-276-mobile-filterbar-tag-picker-artifact-inventory.md",
       "workflow-issue-277-next-proxy-migration-artifact-inventory.md",
       "workflow-issue-351-09c-post-release-dashboard-automation-artifact-inventory.md",
@@ -9079,6 +9081,7 @@
       "lessons-learned-task-12-member-detail-register-legal-2026-05.md",
       "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md",
       "logs-archive-2026-03-ipc-fallback-phase12-sync.md",
+      "workflow-issue-275-magic-link-429-retry-after-artifact-inventory.md",
       "workflow-parallel-04-shared-page-chrome-artifact-inventory.md",
       "workflow-task-05b-B-magic-link-callback-credentials-provider-artifact-inventory.md",
       "workflow-task-05b-parallel-magic-link-provider-and-auth-gate-state-artifact-inventory.md"
@@ -15596,6 +15599,7 @@
       "task-workflow-completed-skill-lifecycle-security.md",
       "task-workflow-completed-ut-06-safety-gate.md",
       "workflow-admin-ui-prototype-alignment-followup-002-section-error-retry-artifact-inventory.md",
+      "workflow-issue-275-magic-link-429-retry-after-artifact-inventory.md",
       "workflow-permission-fallback-abort-skip-retry.md"
     ],
     "は同じ": [
@@ -16133,6 +16137,7 @@
       "lessons-learned-task-18-w7-verify-tokens-and-playwright-smoke-2026-05.md",
       "security-web-response-headers.md",
       "workflow-ci-staging-deploy-failure-fix-artifact-inventory.md",
+      "workflow-issue-275-magic-link-429-retry-after-artifact-inventory.md",
       "workflow-issue-880-public-segment-error-loading-boundary-artifact-inventory.md",
       "workflow-parallel-09-ux-cross-cutting-artifact-inventory.md"
     ],
@@ -16562,6 +16567,7 @@
       "workflow-issue-191-schema-aliases-artifact-inventory.md",
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
       "workflow-issue-256-e2e-coverage-baseline-runbook-artifact-inventory.md",
+      "workflow-issue-275-magic-link-429-retry-after-artifact-inventory.md",
       "workflow-issue-276-mobile-filterbar-tag-picker-artifact-inventory.md",
       "workflow-issue-277-next-proxy-migration-artifact-inventory.md",
       "workflow-issue-290-workflow-lint-gate-artifact-inventory.md",
@@ -22635,6 +22641,7 @@
       "security-web-response-headers.md",
       "workflow-ci-staging-deploy-failure-fix-artifact-inventory.md",
       "workflow-fix-admin-scr-err-stg-fu-001-auth-env-via-getenv-artifact-inventory.md",
+      "workflow-issue-275-magic-link-429-retry-after-artifact-inventory.md",
       "workflow-issue-277-next-proxy-migration-artifact-inventory.md",
       "workflow-issue-351-09c-post-release-dashboard-automation-artifact-inventory.md",
       "workflow-issue-517-followup-auto-summary-foundation-artifact-inventory.md",
@@ -24459,6 +24466,7 @@
       "workflow-issue-191-schema-aliases-artifact-inventory.md",
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
       "workflow-issue-256-e2e-coverage-baseline-runbook-artifact-inventory.md",
+      "workflow-issue-275-magic-link-429-retry-after-artifact-inventory.md",
       "workflow-issue-276-mobile-filterbar-tag-picker-artifact-inventory.md",
       "workflow-issue-277-next-proxy-migration-artifact-inventory.md",
       "workflow-issue-290-workflow-lint-gate-artifact-inventory.md",
@@ -24631,6 +24639,7 @@
       "workflow-i01-toastprovider-root-mount-artifact-inventory.md",
       "workflow-issue-256-e2e-coverage-baseline-runbook-artifact-inventory.md",
       "workflow-issue-274-public-pages-ogp-sitemap-robots-artifact-inventory.md",
+      "workflow-issue-275-magic-link-429-retry-after-artifact-inventory.md",
       "workflow-issue-276-mobile-filterbar-tag-picker-artifact-inventory.md",
       "workflow-issue-277-next-proxy-migration-artifact-inventory.md",
       "workflow-issue-352-postmortem-template-automation-artifact-inventory.md",
@@ -25201,6 +25210,14 @@
       "workflow-issue-274-public-pages-ogp-sitemap-robots-artifact-inventory.md",
       "workflow-task-709-visual-baseline-runtime-capture-artifact-inventory.md"
     ],
+    "magic": [
+      "workflow-issue-275-magic-link-429-retry-after-artifact-inventory.md",
+      "workflow-task-05b-B-magic-link-callback-credentials-provider-artifact-inventory.md",
+      "workflow-task-05b-parallel-magic-link-provider-and-auth-gate-state-artifact-inventory.md"
+    ],
+    "after": [
+      "workflow-issue-275-magic-link-429-retry-after-artifact-inventory.md"
+    ],
     "filterbar": [
       "workflow-issue-276-mobile-filterbar-tag-picker-artifact-inventory.md"
     ],
@@ -25725,10 +25742,6 @@
     ],
     "HEAD": [
       "workflow-task-05a-form-preview-503-001-artifact-inventory.md"
-    ],
-    "magic": [
-      "workflow-task-05b-B-magic-link-callback-credentials-provider-artifact-inventory.md",
-      "workflow-task-05b-parallel-magic-link-provider-and-auth-gate-state-artifact-inventory.md"
     ],
     "callback": [
       "workflow-task-05b-B-magic-link-callback-credentials-provider-artifact-inventory.md"

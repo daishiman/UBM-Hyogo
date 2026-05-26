@@ -72,9 +72,30 @@
 - **再発防止**: VISUAL_ON_EXECUTION follow-up を workflow root へ昇格する場合、①実 evidence root を completed/current 実体 path に固定、②unassigned task は consumed/promoted pointer 化、③Phase 11 は `NOT_EXECUTED` placeholder を PASS 扱いしない、④Phase 12 strict files は pending runtime と明記する。
 - **関連 refs**: `docs/30-workflows/completed-tasks/06b-c-runtime-evidence-execution/`, `references/workflow-06b-c-runtime-evidence-execution-artifact-inventory.md`, `scripts/capture-profile-evidence.sh`
 
+### L-I275-001: 429 typed error は既存 base error class の subclass にする
+
+- **状況**: `MagicLinkRateLimitedError` を独立した class にすると、既存 callsite の `catch (err instanceof MagicLinkRequestError)` 分岐が rate-limit を捕捉できず、`?state=error` 遷移へ落ちて UI invariant が崩れる。
+- **学び**: HTTP status 別の typed error を導入する場合、必ず**既存 base error class の subclass** にする。catch 互換性は spec ではなく型階層で担保する。
+- **再発防止**: ①Phase 3 design-review で `extends BaseError` が明示されているか確認、②No-Go 条件に「subclass 関係が壊れている」を入れる、③Phase 4 test plan に `expect(e).toBeInstanceOf(BaseError)` と `toBeInstanceOf(SpecificError)` の両方を含める。
+- **関連 refs**: `apps/web/src/lib/auth/magic-link-client.ts`, `apps/web/src/lib/auth/magic-link-client.spec.ts`
+
+### L-I275-002: Retry-After は header → body → default の三段 precedence で server-truth を担保する
+
+- **状況**: 429 応答の Retry-After は header と body の両方で返り得る。client が body のみを見ると proxy/CDN の header override を取りこぼし、header のみを見ると middleware の body 設定を無視する。どちらも server-truth から乖離する。
+- **学び**: `Retry-After` header を最優先、欠落時は body `retryAfterSec`、それも欠落時は default 60 秒に fallback する三段 precedence を client lib に閉じ込める。負数・非整数・NaN は default にフォールバックする。
+- **再発防止**: ①parser を pure function として export し unit test で 4 ケース（header/body/both/none）を網羅、②default 値は magic number ではなく named constant、③callsite が 1 件なら共通 util 化しない（YAGNI）。
+- **関連 refs**: `apps/web/src/lib/auth/magic-link-client.ts`, `apps/web/src/lib/auth/magic-link-client.spec.ts`
+
+### L-I275-003: rate-limit は failure ではなく cooldown のみ起動、URL state は遷移させない
+
+- **状況**: 429 catch を一般 error 分岐に流すと `replaceLoginState("error")` で URL `?state=error` へ遷移し、ユーザーは「送信失敗」と誤認する。実際は mail も送られていない（cooldown 中）ため、`sent` state へも遷移してはいけない。
+- **学び**: rate-limit は「失敗」ではなく「server-truth に従った待機」。catch ブロックは typed error を判別したら `setCooldown(retryAfterSec)` だけ実行して**早期 return** する。URL state は `input` のまま、`router.refresh()` も呼ばない。
+- **再発防止**: ①Phase 4 component test に「429 受信時 URL state が変わらない」assertion を入れる、②No-Go 条件に「429 で `?state=error|sent` へ遷移」を明示、③catch ブロック先頭で typed error 早期 return パターンを Phase 5 runbook に固定。
+- **関連 refs**: `apps/web/app/login/_components/MagicLinkForm.client.tsx`, `apps/web/app/login/_components/MagicLinkForm.component.spec.tsx`
+
 ## Follow-up Boundaries
 
 - 09a staging deploy smoke が成立した時点で Phase 11 を captured 化し、本タスクの root を `completed` に昇格する。
 - 親タスク 06b の Phase 11 partial captured 状態は、本タスク完了後に `references/task-workflow-active.md` 上の 06b 行で `VISUAL captured` へ更新する（06b 行自体は本 wave では変更しない）。
-- Magic Link 429 Retry-After UI 復元は `docs/30-workflows/unassigned-task/UT-06B-MAGIC-LINK-RETRY-AFTER.md` に分離。
+- Magic Link 429 Retry-After UI 復元は `docs/30-workflows/completed-tasks/issue-275-magic-link-429-retry-after/` で implemented_local_evidence_captured。source pointer `docs/30-workflows/unassigned-task/UT-06B-MAGIC-LINK-RETRY-AFTER.md` は consumed。
 - Logged-in storageState 取得 + 実 screenshot capture は `docs/30-workflows/completed-tasks/06b-c-runtime-evidence-execution/` に昇格済み。元 unassigned task は `promoted_to_workflow` pointer として残し、二重実行しない。
