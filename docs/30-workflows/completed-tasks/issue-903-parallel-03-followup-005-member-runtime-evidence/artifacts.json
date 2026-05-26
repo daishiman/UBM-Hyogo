@@ -1,0 +1,52 @@
+{
+  "feature": "issue-903-parallel-03-followup-005-member-runtime-evidence",
+  "created": "2026-05-25T00:00:00+09:00",
+  "lastUpdated": "2026-05-25T00:00:00+09:00",
+  "status": "implemented_local_evidence_captured",
+  "metadata": {
+    "taskType": "implementation",
+    "visualEvidence": "VISUAL",
+    "implementation_mode": "code_change_plus_evidence",
+    "workflow_state": "implemented_local_evidence_captured",
+    "implementation_status": "implemented_local_evidence_captured",
+    "implementationCategory": "code_change",
+    "github_issue": 903,
+    "github_issue_state": "OPEN",
+    "parent_workflow": "docs/30-workflows/ui-prototype-design-system-foundation/parallel-03-appshell-layouts/",
+    "predecessor_workflow": "docs/30-workflows/completed-tasks/parallel-03-followup-002-admin-runtime-evidence/",
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-05-25T15:30:49+09:00",
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-903-parallel-03-followup-005-member-runtime-evidence/index.md",
+        "approver": "daishiman",
+        "notes": "spec_review: issue #903 optimized to current code. /profile を (member) route group 配下へ移動して EV-13 scrape 対象 child route を本タスクで成立させる方針を採用（serial-05 着手を待たない最小自律化）。"
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "passed",
+        "passed_at": "2026-05-25T15:30:49+09:00",
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-903-parallel-03-followup-005-member-runtime-evidence/outputs/phase-11",
+        "approver": "daishiman",
+        "notes": "local_evidence: member shell DOM scrape + screenshot を取得し、親 parallel-03 台帳 EV-13/EV-16 を present へ昇格する。"
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "passed",
+        "passed_at": "2026-05-25T15:30:49+09:00",
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-903-parallel-03-followup-005-member-runtime-evidence/phase-12-compliance-check.md",
+        "approver": "daishiman",
+        "notes": "phase12: canonical 9 headings + status vocabulary present/pending/n-a only。"
+      },
+      {
+        "gate_id": "Gate-D",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-903-parallel-03-followup-005-member-runtime-evidence/phase-13-commit-pr.md",
+        "approver": "daishiman",
+        "notes": "commit / push / PR remain user-gated. base branch dev."
+      }
+    ]
+  }
+}

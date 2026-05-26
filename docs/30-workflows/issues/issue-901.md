@@ -13,7 +13,7 @@ status: 未実施
 source_phase: Phase 12
 created_date: 2026-05-23
 dependencies: []
-spec_path: docs/30-workflows/unassigned-task/UT-DSF-07-FU-01-authenticated-profile-admin-staging-visual.md
+spec_path: docs/30-workflows/completed-tasks/UT-DSF-07-FU-01-authenticated-profile-admin-staging-visual.md
 ```
 
 | 項目 | 内容 |
