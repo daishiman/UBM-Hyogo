@@ -62,6 +62,10 @@ describe("AdminLayout", () => {
     expect(shell?.getAttribute("data-route-group")).toBe("admin");
     expect(container.querySelector('[data-shell="sidebar"]')).not.toBeNull();
     expect(container.querySelector('[data-shell="topbar"]')).not.toBeNull();
+    const breadcrumbSlot = container.querySelector('[data-component="admin-breadcrumb-slot"]');
+    expect(breadcrumbSlot?.querySelector('[data-component="breadcrumb"]')).not.toBeNull();
+    expect(breadcrumbSlot?.querySelector('[aria-current="page"]')?.textContent).toBe("管理");
+    expect(breadcrumbSlot?.querySelector('a[href="/admin"]')).toBeNull();
     const topbarActions = container.querySelector(
       '[data-component="admin-topbar-actions"]',
     );

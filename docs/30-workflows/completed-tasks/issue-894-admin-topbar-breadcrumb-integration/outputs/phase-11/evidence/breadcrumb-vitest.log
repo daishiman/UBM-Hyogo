@@ -1,0 +1,4 @@
+Command: mise exec -- pnpm exec vitest run "apps/web/src/components/admin/__tests__/Breadcrumb.spec.tsx"
+Result: PASS
+Tests: 3 passed / 1 file passed
+Notes: Empty items render null. Non-final href item renders link. Final item keeps aria-current="page" as span even when href is provided.
