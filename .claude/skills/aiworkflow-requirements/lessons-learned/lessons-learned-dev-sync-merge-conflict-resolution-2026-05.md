@@ -778,3 +778,15 @@
   4. push 後 2 分以内に `gh api repos/.../actions/runs?head_sha=<full-40-char-sha>` で `total_count` を確認し、0 のままなら 1 で説明した実ファイル変更にフォールバック。
 - 留意: `gh api` 呼び出しでは **full 40-char SHA** を使う（short SHA prefix では match しない）。`git rev-parse HEAD` で取得する。bash の `python3 -c "...$VAR..."` heredoc 変数展開漏れで「0 件」と誤判定するケースがあるため、SHA は環境変数経由ではなく argv / stdin 経由で渡すか直接 string literal にする。
 - 事例: 2026-05-26 `feat/issue-913-...` PR #952。`546ba38b8` 上の e2e-tests-coverage-gate が `actions/download-artifact` archive download 1-attempt failure で fail、`gh run rerun --failed 26447008462` を実行するも 30 分以上 queued。empty commit `59c3b51fe`（"chore: retrigger CI ..."）を push したが `head_sha=59c3b51feb6b6ef0d1e9b4636c53652052be85c2` の workflow_run は 0 件登録、PR が BLOCKED 化。本 lesson 追記 (`merge=union` 対象 lessons-learned md への実変更) commit で復旧。
+
+## L-DEVSYNC-048: GitHub Actions の全リポジトリレベル queue stall は webhook 到達後も新規 schedule をブロックする（2026-05-26 確認）
+
+- 事象: 11:00Z〜13:18Z (≈2h18m) の間、リポジトリ全体で workflow_run が 1 件も新規 schedule されない infra outage 発生。`gh api repos/.../events` 上では PushEvent は届いており GitHub は push 自体は受信しているが、Actions backend が schedule を発火しない。`gh api repos/.../actions/runs?per_page=30 --jq '.workflow_runs | [.[] | select(.created_at > "<停滞開始>")] | length'` が `0` を返し続ける。
+- Why: GitHub Actions は webhook 受信 → workflow scheduling → runner allocation の 3 段階を経るが、step 2 で停止しても push 自体は成功する。`gh run rerun --failed` も新規 schedule を必要とするため同じ理由で queued 状態に固着する。停滞中は **どんな commit（empty / real-change / merge）を push しても新規 run は登録されない**。
+- How to apply:
+  1. CI 再 trigger 系の作業 (L-DEVSYNC-047) を試して 5 分以上 workflow_run が 0 のままなら、**まず GitHub 側 outage を疑う**。判定コマンド: `gh api repos/.../actions/runs?per_page=30 --jq '.workflow_runs[0:5] | .[] | .created_at + " " + .name'` で最新 schedule 時刻を確認し、自 push 時刻より明確に古い（10 分以上差）かつ他ブランチ runs も止まっている場合は outage 確定。
+  2. Outage 中は **push を増やさない**。各 push は head SHA を進めるが run は登録されないため、PR の `mergeStateStatus=BLOCKED` 状態を悪化させるだけ（required check の鏡像が古い HEAD から外れる）。
+  3. 復旧確認は `gh api repos/.../events --jq '.[0:5] | .[] | .created_at + " " + .type'` で最新 PushEvent が schedule に追従しているかと、`gh api repos/.../actions/runs?per_page=5` の `.created_at` が現在時刻に近い run を持つかを併せて見る。
+  4. 復旧後は当該 PR の HEAD に対して空でない 1 commit を push して webhook を再投げ込みする（outage 期間中の push はリトライ schedule されない実例あり）。
+- 留意: GitHub Status (`https://www.githubstatus.com/`) の Actions 項目が green でも個別リポジトリ単位で stall するケースがある（webhook routing partition）。public な incident にならないことが多いため、`gh api` ベースの自前 detection を runbook 化しておく。
+- 事例: 2026-05-26 PR #952。`546ba38b8` の e2e infra failure 直後、`ba78e993e2a197e296793ff6fc0e026d26187c36` 含む 2 件の push が schedule されず 2h18m 停滞。13:19Z 復旧後、他ブランチ runs (`503dff35d7`) が schedule された段階で当方 PR にも 1 commit 追加 push して新規 run 群を確保。
