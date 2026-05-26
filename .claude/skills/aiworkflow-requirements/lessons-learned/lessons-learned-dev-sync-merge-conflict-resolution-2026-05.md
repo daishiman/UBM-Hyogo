@@ -766,3 +766,15 @@
   3. `git status` で `UU` ゼロ確認 → `git add -A` → `git commit -m "merge: sync <branch> with dev"`。typecheck / lint 任意（skill files は build 経路外）。
 - 留意: ソース conflict が 1 件でも混じる場合は本 happy path から外れる。L-DEVSYNC-040 系（並列 export 追加）/ L-DEVSYNC-043 系（adapter signature union）/ L-DEVSYNC-045（route group rename + import 正規化）のいずれかにフォールバック。
 - 事例: 2026-05-26 `feat/issue-913-...` ← dev (`a21759722` issue-903 member runtime evidence 含む 10 commit)。`pnpm sync:resolve` 出力 `[resolve-skill-merge-conflicts] all skill / index conflicts resolved`、unhandled なし、ソース無傷で 1 commit で完結。
+
+## L-DEVSYNC-047: 空コミット (`git commit --allow-empty`) は GitHub Actions の `pull_request` workflow を発火しない（2026-05-26 確認）
+
+- 事象: e2e-tests-coverage-gate の `actions/download-artifact` transient infra 失敗を「空コミット push で CI 再発火」しようとしたが、push 後 10 分以上経過しても `gh api repos/.../actions/runs?head_sha=<empty-commit-sha>` が `total_count=0`。`gh run rerun --failed` で queue した古い run も長時間 queued のまま進行せず、PR は `mergeStateStatus=BLOCKED`（new HEAD に required check が存在しない状態）に陥った。
+- Why: `pull_request synchronize` event は head SHA 変更で発火するが、empty commit は tree hash が変わらない（base に対する diff が空）ため、`paths` / `paths-ignore` 評価以前に GitHub 側で run scheduling 自体がスキップされるケースがある。同じ理屈で、required status check は PR head SHA に紐付くため、empty commit で head を進めると「古い HEAD の check は残るが、新 HEAD には check が走らず BLOCKED」状態が発生する。`feedback_visual_baseline_github_token_retrigger.md` の「空コミットで required checks 再トリガー」は GITHUB_TOKEN による push の検知遅延を回避する用途であり、本件のような workflow path filter / tree-unchanged トリガー回避には適用できない（混同注意）。
+- How to apply:
+  1. transient infra failure（artifact download / runner provisioning timeout 等）の再 trigger は **`gh run rerun --failed <run-id>`** を優先する。これは同一 head SHA で job だけ re-queue するため required check の鏡像が崩れない。
+  2. `gh run rerun` が長時間 queued のまま動かない場合（runner backlog）、empty commit ではなく **実ファイル変更を含む 1 commit** を作る。最小コストは「既に編集中の lessons-learned ファイルへ 1 行 trailer 追記」「`docs/30-workflows/LOGS.md` への entry 1 行追加」等の `merge=union` 対象ファイル変更（並列 worktree との conflict 自動解消対象なので追加コストゼロ）。
+  3. 実装側ファイル (`apps/*/src/...`) を「CI 再 trigger 目的」で触らない。code-change diff が PR review に紛れ込む。
+  4. push 後 2 分以内に `gh api repos/.../actions/runs?head_sha=<full-40-char-sha>` で `total_count` を確認し、0 のままなら 1 で説明した実ファイル変更にフォールバック。
+- 留意: `gh api` 呼び出しでは **full 40-char SHA** を使う（short SHA prefix では match しない）。`git rev-parse HEAD` で取得する。bash の `python3 -c "...$VAR..."` heredoc 変数展開漏れで「0 件」と誤判定するケースがあるため、SHA は環境変数経由ではなく argv / stdin 経由で渡すか直接 string literal にする。
+- 事例: 2026-05-26 `feat/issue-913-...` PR #952。`546ba38b8` 上の e2e-tests-coverage-gate が `actions/download-artifact` archive download 1-attempt failure で fail、`gh run rerun --failed 26447008462` を実行するも 30 分以上 queued。empty commit `59c3b51fe`（"chore: retrigger CI ..."）を push したが `head_sha=59c3b51feb6b6ef0d1e9b4636c53652052be85c2` の workflow_run は 0 件登録、PR が BLOCKED 化。本 lesson 追記 (`merge=union` 対象 lessons-learned md への実変更) commit で復旧。
