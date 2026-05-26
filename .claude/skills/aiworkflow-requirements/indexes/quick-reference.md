@@ -1,5 +1,19 @@
 # クイックリファレンス
 
+## Issue #891 member detail kind exhaustiveness guard（2026-05-25）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-891-member-detail-kind-exhaustiveness-guard/` |
+| status | `implemented_local_evidence_captured / implementation / NON_VISUAL / Phase 13 pending_user_approval` |
+| issue | #891 CLOSED; source follow-up from issue #827 consumed |
+| purpose | `FieldKindZ` 全 kind を `KIND_ROUTE` で網羅分類し、分類漏れを typecheck と adapter spec で fail-fast にする |
+| implementation | `apps/web/src/lib/adapters/member-detail.ts`, `apps/web/src/lib/adapters/__tests__/member-detail.spec.ts`, `apps/web/src/components/public/MemberDetail.tsx` |
+| contract | `KIND_ROUTE satisfies Record<FieldKind, KindRoute>`; detail output is derived from `KIND_ROUTE === "detail"` and url links are derived from `KIND_ROUTE === "links"` into `MemberLinks` |
+| system specs | `docs/00-getting-started-manual/specs/04-types.md`, `docs/00-getting-started-manual/specs/09-ui-ux.md` |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-891-member-detail-kind-exhaustiveness-guard-artifact-inventory.md` |
+| user gate | commit, push, PR, visual baseline update |
+
 ## regression-evidence-ci-gate-foundation（2026-05-25）
 
 | 項目 | 値 |

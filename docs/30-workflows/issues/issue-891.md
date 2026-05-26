@@ -13,7 +13,7 @@ status: 未実施
 source_phase: issue-827 Phase 9 リスク R-01（独立精査による検出 / current）
 created_date: 2026-05-23
 dependencies: []
-spec_path: docs/30-workflows/unassigned-task/issue-827-followup-001-displayable-kinds-exhaustiveness-guard.md
+spec_path: docs/30-workflows/completed-tasks/unassigned-task/issue-827-followup-001-displayable-kinds-exhaustiveness-guard.md
 ```
 
 | 項目 | 内容 |
