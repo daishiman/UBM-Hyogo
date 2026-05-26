@@ -8,6 +8,20 @@
 
 本ドキュメントは、複雑なタスクを単一責務の原則に基づいて分解し、各サブタスクに最適なスラッシュコマンド・エージェント・スキルの組み合わせを選定するためのガイドラインを定義する。
 
+### issue-900-workflow-permissions-least-privilege-audit（2026-05-25）
+
+| 項目 | 値 |
+| --- | --- |
+| state | `implemented_local_evidence_captured / implementation / NON_VISUAL` |
+| root | `docs/30-workflows/completed-tasks/issue-900-workflow-permissions-least-privilege-audit/` |
+| issue | #900 CLOSED。PR 文脈は `Refs #900` のみ |
+| purpose | 全 GitHub Actions workflow に top-level `permissions:` を宣言し、default token 権限縮退時の checkout / token baseline drift を防ぐ |
+| implementation targets | 12 workflows (`backend-ci`, `d1-migration-verify`, `e2e-tests`, `lighthouse`, `playwright-smoke`, `playwright-visual-baseline-update`, `playwright-visual-full`, `validate-build`, `verify-design-tokens`, `verify-esbuild`, `verify-primitive-adoption`, `web-cd`), `.github/workflows/ci.yml`, `scripts/verify-workflow-top-level-permissions.sh` |
+| invariant | top-level は `contents: read`。既存 job-level write permissions は維持。workflow/job/context 名、trigger、secret/env、step order は変更しない |
+| evidence | verifier PASS, required context diff PASS, group-B deletion gate PASS, actionlint 1.7.7 PASS, Phase 12 strict 7 present |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-900-workflow-permissions-least-privilege-audit-artifact-inventory.md` |
+| user gate | commit, push, PR, remote CI observation |
+
 ### issue-894-admin-topbar-breadcrumb-integration（2026-05-25）
 
 | 項目 | 値 |
@@ -1305,7 +1319,7 @@
 | 親 Issue | Issue #626（CLOSED） / parent Stage 3 Issue #608（CLOSED） |
 | backlog | `docs/30-workflows/e2e-quality-uplift/backlog.md` RB-01 |
 | 目的 | `.github/workflows/lighthouse.yml` の standalone Lighthouse build と `.github/workflows/pr-build-test.yml` の web build を統合し、`.next` artifact を `build-test` から `lighthouse-ci` へ共有する |
-| implementation target | `.github/workflows/pr-build-test.yml` edit、`.github/workflows/lighthouse.yml` delete、RB-01 backlog status update |
+| implementation target | `.github/workflows/pr-build-test.yml` edit、Issue #626 時点の `.github/workflows/lighthouse.yml` delete、RB-01 backlog status update。後続 Lighthouse work で standalone workflow は再導入済み |
 | trigger boundary | 現行 Lighthouse の dev-base PR 境界を維持し、統合後 `lighthouse-ci` は `if: github.base_ref == 'dev'`。`build-test` は全 PR 継続 |
 | evidence boundary | Phase 11 は local command logs、read-only current branch protection JSON、dry-run PR checks pending、merge-time branch protection before/after diff pending を canonical evidence とする |
 | state vocabulary | root は `PASS_BOUNDARY_SYNCED_RUNTIME_PENDING`。local implementation + deterministic evidence は取得済み、GitHub Actions PR runtime evidence と merge-time governance diff は user-gated。N-day close-out 専用語彙は使わない |
