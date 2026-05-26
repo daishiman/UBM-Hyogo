@@ -1,6 +1,22 @@
 # クイックリファレンス
 
 ## google-form-reflection-diagnostics（2026-05-26）
+## Issue #922 production admin runtime smoke gate（2026-05-25）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-922-production-admin-runtime-smoke-gate/` |
+| status | `implemented_local_runtime_pending / implementation / NON_VISUAL` |
+| issue | #922 CLOSED。PR 文脈は `Refs #922` のみ |
+| parent | `docs/30-workflows/completed-tasks/issue-864-admin-staging-runtime-smoke-ci-gate/` |
+| purpose | staging deploy 後の authenticated `/admin` runtime smoke gate を production deploy 後にも対称展開する |
+| implementation | `scripts/smoke/runtime-admin-web.sh`, `scripts/smoke/mint-staging-session-cookie.mts`, `.github/workflows/web-cd.yml admin-runtime-smoke-production` |
+| tests | `scripts/smoke/__tests__/runtime-admin-web.test.sh`, `scripts/smoke/__tests__/mint-staging-session-cookie.spec.ts` |
+| evidence | shell contract PASS, vitest 9 PASS, Phase 12 strict 7 present |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-922-production-admin-runtime-smoke-gate-artifact-inventory.md` |
+| boundary | production-runtime-smoke Environment secrets, real production `/admin` probe, intentional regression evidence, required status check PUT, commit, push, PR are user-gated |
+
+## public-header-my-profile-nav-alignment（2026-05-26）
 
 | 項目 | 値 |
 | --- | --- |
@@ -287,6 +303,23 @@
 | Phase 12 | strict 7 outputs present; root/output artifacts present |
 | inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-857-internal-alert-relay-binding-wiring-artifact-inventory.md` |
 | user gate | Cloudflare secret list, staging deploy/tail, SA key invalidation dry-run, commit, push, PR |
+
+## Issue #917 alert relay runtime fire evidence（2026-05-25）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-917-alert-relay-runtime-fire-evidence/` |
+| status | `implemented_local_evidence_captured / implementation / NON_VISUAL / runtime_observation` |
+| issue | #917 CLOSED; PR wording is `Refs #917` only |
+| purpose | make relay POST responseStatus observable in Workers tail, then capture user-gated staging runtime evidence that SA key invalidation makes `sheets-auth-healthcheck` actually fire `/internal/alert-relay` after issue-857 base URL wiring |
+| source | `docs/30-workflows/unassigned-task/UT-25-DERIV-02-FU-02-alert-relay-runtime-fire-evidence.md` remains unconsumed until runtime evidence is captured |
+| upstream | `docs/30-workflows/completed-tasks/issue-857-internal-alert-relay-binding-wiring/` |
+| parent | `docs/30-workflows/ut-25-deriv-02-sa-key-expiry-monitoring/` |
+| implementation | `apps/api/src/scheduled/sheets-auth-healthcheck.ts`, `apps/api/src/scheduled/sheets-auth-healthcheck.contract.spec.ts` |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-917-alert-relay-runtime-fire-evidence-artifact-inventory.md` |
+| lesson | `.claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-issue-917-alert-relay-runtime-fire-evidence-2026-05.md` |
+| local evidence | focused Vitest 8 PASS for relay POST 200/401 responseStatus logging |
+| user gate | Cloudflare secret list, staging deploy/tail, controlled SA key invalidation, evidence MD creation, issue-857 back-reference update, source consumed conversion, commit, push, PR |
 
 ## step-08 audit filter/paging verify（2026-05-24）
 

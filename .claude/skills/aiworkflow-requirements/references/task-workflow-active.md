@@ -189,6 +189,20 @@
 | tests | `scripts/smoke/__tests__/mint-staging-session-cookie.spec.ts`, `scripts/smoke/__tests__/runtime-admin-web.test.sh` |
 | user gate | Cloudflare staging deploy, real `/admin` probe, commit, push, PR |
 
+### issue-922-production-admin-runtime-smoke-gate（2026-05-25）
+
+| 項目 | 値 |
+| --- | --- |
+| state | `implemented_local_runtime_pending / implementation / NON_VISUAL` |
+| root | `docs/30-workflows/completed-tasks/issue-922-production-admin-runtime-smoke-gate/` |
+| parent | `docs/30-workflows/completed-tasks/issue-864-admin-staging-runtime-smoke-ci-gate/` |
+| purpose | staging deploy 後の authenticated `/admin` runtime smoke gate を production deploy 後にも対称展開し、Server Components render error digest `167275886` / `error.boundary.caught` を CI で検出する |
+| implementation targets | `scripts/smoke/runtime-admin-web.sh`, `scripts/smoke/mint-staging-session-cookie.mts`, `.github/workflows/web-cd.yml admin-runtime-smoke-production` |
+| tests | `scripts/smoke/__tests__/runtime-admin-web.test.sh`, `scripts/smoke/__tests__/mint-staging-session-cookie.spec.ts` |
+| evidence | Phase 11 shell contract log + vitest log present, Phase 12 strict 7 present |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-922-production-admin-runtime-smoke-gate-artifact-inventory.md` |
+| user gate | `production-runtime-smoke` GitHub Environment secrets, real production `/admin` probe, intentional regression fail evidence, `main` required status check PUT, commit, push, PR |
+
 ### fix-admin-scr-err-stg-fu-001-auth-env-via-getenv（2026-05-24）
 
 | 項目 | 値 |
@@ -215,6 +229,23 @@
 | contract | 受信 `verify-cf-webhook-auth.ts` は `CF_WEBHOOK_AUTH_SECRET` 単一照合。別値 `INTERNAL_ALERT_TOKEN` は投入せず fallback を正本化 |
 | evidence | `outputs/phase-11/main.md`, focused Vitest log, strict 7 `outputs/phase-12/` |
 | user gate | Cloudflare secret list / staging deploy / Workers tail / controlled SA key invalidation / commit / push / PR |
+
+### issue-917 alert relay runtime fire evidence（2026-05-25）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / NON_VISUAL / runtime_observation` |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-917-alert-relay-runtime-fire-evidence/` |
+| issue | #917 CLOSED。PR 文脈は `Refs #917` のみ |
+| 目的 | issue-857 で `API_INTERNAL_BASE_URL` 配線済みになった `sheets-auth-healthcheck` → `/internal/alert-relay` 経路について、relay POST responseStatus を tail で観測可能にし、staging runtime で controlled SA key invalidation による alert relay 実発火を確認する evidence 取得仕様を固定する |
+| source | `docs/30-workflows/unassigned-task/UT-25-DERIV-02-FU-02-alert-relay-runtime-fire-evidence.md`（runtime evidence 完了まで unassigned 維持、canonical workflow pointer 追加済み） |
+| upstream | `docs/30-workflows/completed-tasks/issue-857-internal-alert-relay-binding-wiring/` |
+| parent | `docs/30-workflows/ut-25-deriv-02-sa-key-expiry-monitoring/` |
+| implementation targets | `apps/api/src/scheduled/sheets-auth-healthcheck.ts`, `apps/api/src/scheduled/sheets-auth-healthcheck.contract.spec.ts` |
+| evidence boundary | Phase 11 focused Vitest 8 PASS + docs gate present。runtime evidence MD `docs/30-workflows/ut-25-deriv-02-sa-key-expiry-monitoring/outputs/phase-11/evidence/alert-relay-fire-staging.md` は user-gated pending |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-917-alert-relay-runtime-fire-evidence-artifact-inventory.md` |
+| lessons | `.claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-issue-917-alert-relay-runtime-fire-evidence-2026-05.md` |
+| user gate | Cloudflare secret list / staging deploy / Workers tail / controlled SA key invalidation / evidence MD creation / issue-857 implementation-guide update / source consumed conversion / commit / push / PR |
 
 ### step-08 audit filter/paging verify（2026-05-24）
 

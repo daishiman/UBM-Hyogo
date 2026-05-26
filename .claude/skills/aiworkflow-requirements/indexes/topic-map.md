@@ -3167,6 +3167,12 @@ node scripts/list-specs.js --topics
 | User-Gated Runtime Artifacts | L21 |
 | Skill Sync | L31 |
 
+### references/workflow-issue-922-production-admin-runtime-smoke-gate-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Runtime Boundary | L22 |
+
 ### references/workflow-light-theme-contrast-regression-guard.md
 
 | セクション | 行 |
@@ -7752,14 +7758,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L2580 |
-| フェーズ構造（概要） | L2589 |
-| 品質ゲート（概要） | L2620 |
-| 出力テンプレート | L2631 |
-| 実行時のコマンド・エージェント・スキル | L2654 |
-| 昇格パターン集 | L2678 |
-| Current Active / Spec Created Tasks | L2680 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L2841 |
+| ドキュメント構成 | L2611 |
+| フェーズ構造（概要） | L2620 |
+| 品質ゲート（概要） | L2651 |
+| 出力テンプレート | L2662 |
+| 実行時のコマンド・エージェント・スキル | L2685 |
+| 昇格パターン集 | L2709 |
+| Current Active / Spec Created Tasks | L2711 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L2872 |
 
 ### references/task-workflow-backlog-part2.md
 
