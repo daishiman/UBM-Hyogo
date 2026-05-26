@@ -3659,6 +3659,7 @@
       "workflow-06c-C-admin-tags-artifact-inventory.md",
       "workflow-2b-admin-identity-conflicts-spec-artifact-inventory.md",
       "workflow-admin-member-delete-e2e-spec-artifact-inventory.md",
+      "workflow-admin-shell-topbar-sidebar-integration-artifact-inventory.md",
       "workflow-admin-ui-prototype-alignment-artifact-inventory.md",
       "workflow-admin-ui-prototype-alignment-followup-002-section-error-retry-artifact-inventory.md",
       "workflow-fix-admin-scr-err-stg-fu-001-auth-env-via-getenv-artifact-inventory.md",
@@ -4191,6 +4192,7 @@
       "architecture-file-conversion.md",
       "task-workflow-completed-skill-create-ui-integration.md",
       "ui-ux-components.md",
+      "workflow-admin-shell-topbar-sidebar-integration-artifact-inventory.md",
       "workflow-issue-748-jest-axe-primitive-a11y-integration-artifact-inventory.md",
       "workflow-issue-894-admin-topbar-breadcrumb-integration-artifact-inventory.md",
       "workflow-ut-02a-attendance-profile-integration-artifact-inventory.md"
@@ -5028,6 +5030,7 @@
       "lessons-learned.md",
       "release-runbook.md",
       "workflow-2b-admin-identity-conflicts-spec-artifact-inventory.md",
+      "workflow-admin-shell-topbar-sidebar-integration-artifact-inventory.md",
       "workflow-issue-256-e2e-coverage-baseline-runbook-artifact-inventory.md",
       "workflow-issue-276-mobile-filterbar-tag-picker-artifact-inventory.md",
       "workflow-issue-331-cicd-runtime-warning-cleanup-artifact-inventory.md",
@@ -5822,6 +5825,7 @@
       "workflow-06c-A-admin-dashboard-artifact-inventory.md",
       "workflow-06c-B-admin-members-artifact-inventory.md",
       "workflow-06c-C-admin-tags-artifact-inventory.md",
+      "workflow-admin-shell-topbar-sidebar-integration-artifact-inventory.md",
       "workflow-admin-ui-prototype-alignment-artifact-inventory.md",
       "workflow-admin-ui-prototype-alignment-followup-002-section-error-retry-artifact-inventory.md",
       "workflow-ai-chat-llm-integration-fix-artifact-inventory.md",
@@ -7247,6 +7251,7 @@
       "workflow-06b-b-profile-request-pending-banner-sticky-artifact-inventory.md",
       "workflow-06b-b-profile-self-service-request-ui-artifact-inventory.md",
       "workflow-06b-c-profile-logged-in-visual-evidence-artifact-inventory.md",
+      "workflow-admin-shell-topbar-sidebar-integration-artifact-inventory.md",
       "workflow-admin-ui-prototype-alignment-artifact-inventory.md",
       "workflow-admin-ui-prototype-alignment-followup-002-section-error-retry-artifact-inventory.md",
       "workflow-ci-green-recovery-smoke-coverage-shard-artifact-inventory.md",
@@ -10738,6 +10743,7 @@
       "lessons-learned-web-app-route-bundle-parse-fix-2026-05.md",
       "lessons-learned.md",
       "release-runbook.md",
+      "workflow-admin-shell-topbar-sidebar-integration-artifact-inventory.md",
       "workflow-issue-256-e2e-coverage-baseline-runbook-artifact-inventory.md",
       "workflow-issue-276-mobile-filterbar-tag-picker-artifact-inventory.md",
       "workflow-issue-331-cicd-runtime-warning-cleanup-artifact-inventory.md",
@@ -12936,6 +12942,7 @@
       "lessons-learned-task-18-w7-verify-tokens-and-playwright-smoke-2026-05.md",
       "observability-monitoring.md",
       "workflow-03a-stablekey-literal-lint-enforcement-artifact-inventory.md",
+      "workflow-admin-shell-topbar-sidebar-integration-artifact-inventory.md",
       "workflow-admin-ui-prototype-alignment-artifact-inventory.md",
       "workflow-admin-ui-prototype-alignment-followup-002-section-error-retry-artifact-inventory.md",
       "workflow-ai-chat-llm-integration-fix-artifact-inventory.md",
@@ -15013,6 +15020,7 @@
       "lessons-learned-ut-coverage-2026-05-wave.md",
       "lessons-learned-ut06-fu-a-prod-route-secret-2026-04.md",
       "workflow-03a-stablekey-literal-lint-enforcement-artifact-inventory.md",
+      "workflow-admin-shell-topbar-sidebar-integration-artifact-inventory.md",
       "workflow-admin-ui-prototype-alignment-artifact-inventory.md",
       "workflow-admin-ui-prototype-alignment-followup-002-section-error-retry-artifact-inventory.md",
       "workflow-ai-chat-llm-integration-fix-artifact-inventory.md",
@@ -16011,7 +16019,8 @@
     ],
     "shell": [
       "lessons-learned-issue-408-cf-audit-logs-monitoring-2026-05.md",
-      "lessons-learned-ut-25-deriv-01-sa-key-rotation-2026-05.md"
+      "lessons-learned-ut-25-deriv-01-sa-key-rotation-2026-05.md",
+      "workflow-admin-shell-topbar-sidebar-integration-artifact-inventory.md"
     ],
     "を防ぐ": [
       "lessons-learned-issue-408-cf-audit-logs-monitoring-2026-05.md"
@@ -25045,6 +25054,13 @@
     "Linked": [
       "workflow-2b-admin-identity-conflicts-spec-artifact-inventory.md"
     ],
+    "topbar": [
+      "workflow-admin-shell-topbar-sidebar-integration-artifact-inventory.md",
+      "workflow-issue-894-admin-topbar-breadcrumb-integration-artifact-inventory.md"
+    ],
+    "sidebar": [
+      "workflow-admin-shell-topbar-sidebar-integration-artifact-inventory.md"
+    ],
     "で更新した": [
       "workflow-ai-chat-llm-integration-fix-artifact-inventory.md"
     ],
@@ -25753,9 +25769,6 @@
     ],
     "warn": [
       "workflow-issue-883-adapter-dev-warn-unknown-kind-artifact-inventory.md"
-    ],
-    "topbar": [
-      "workflow-issue-894-admin-topbar-breadcrumb-integration-artifact-inventory.md"
     ],
     "breadcrumb": [
       "workflow-issue-894-admin-topbar-breadcrumb-integration-artifact-inventory.md"

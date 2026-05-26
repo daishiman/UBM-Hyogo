@@ -23,6 +23,22 @@
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-ui-prototype-alignment-artifact-inventory.md` |
 | user gate | authenticated runtime screenshots, staging refresh, commit, push, PR |
 
+### admin-shell-topbar-sidebar-integration（2026-05-26）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION` |
+| 成果物 | `docs/30-workflows/completed-tasks/admin-shell-topbar-sidebar-integration/` |
+| parent | `docs/30-workflows/admin-ui-prototype-alignment/` |
+| source task | `docs/30-workflows/admin-ui-prototype-alignment/tasks/task-A-admin-shell-integration.md` |
+| 目的 | AdminAppShell の topbar/sidebar を再整流し、topbar slot 経由の breadcrumb/actions 所有から page-head (`AdminPageHeader`) 集約へ方針変更する |
+| related | #894 / #895 は CLOSED 維持。既存 slot 統合を再利用せず、二重描画リスク回避のため page-head 所有へ整理 |
+| implementation targets | `apps/web/app/(admin)/layout.tsx`, `apps/web/src/components/layout/AdminSidebar.tsx`, `AdminSidebarNavItem.tsx`, `AdminBrandBlock.tsx`, `isActive.ts`, `apps/web/src/lib/admin/server-fetch.ts`, related specs, `apps/web/playwright/tests/admin-shell-topbar-sidebar-integration.spec.ts` |
+| invariant | No new API endpoint / D1 schema / Auth.js middleware change. `<Breadcrumb` 直貼り撤去は Task C owner。 |
+| Phase 11/12 | local Playwright fixture screenshots captured + strict 7 outputs + root/output artifacts parity present |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-shell-topbar-sidebar-integration-artifact-inventory.md` |
+| user gate | staging visual baseline, commit, push, PR |
+
 ### register-page-prototype-alignment（2026-05-26）
 
 | 項目 | 値 |

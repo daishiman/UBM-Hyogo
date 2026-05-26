@@ -613,3 +613,19 @@ dev sync-merge で **HEAD = route group rename（`app/<route>/` → `app/(group)
 - secrets を `vars` に降格させる「妥協」→ secrets 漏洩リスクが上がる。
 - workflow から `pull_request` trigger を外す→ workflow file 自体の variation や spec 変更を CI で検知できなくなる。secrets-gate skip で trigger 自体は保持する。
 - `continue-on-error: true` で誤魔化す → 真の secrets 欠落と spec バグの双方が無視される。skip 判定を明示的に行う。
+
+## Admin shell topbar → page-local owner 移管（2026-05-26）
+
+`admin-shell-topbar-sidebar-integration` の実装サイクルで得た、shell chrome を page-local primitive へ移管する際の汎用パターン。詳細は `aiworkflow-requirements/lessons-learned/lessons-learned-admin-shell-topbar-sidebar-integration-2026-05.md`。
+
+- **L-PGHEAD-006 (shell chrome 撤去契約)**: shell 側の chrome（topbar / breadcrumb / actions slot）を page-local primitive に移管する task では、「空 element も残さない」ことを契約として spec / phase-2-design / phase-12-compliance に明記する。空 element は a11y tree と visual rhythm の両方に残り、page-local primitive と二重 chrome を生む。AC は grep + DOM assertion の両方で固定する。
+- **L-SRVCLNT-001 (Server layout × Client interactive 境界)**: auth gating を持つ layout は Server Component で維持し、`usePathname` / `useTransition` 等の hook 依存部分のみを最小単位の Client component に分離する。「sidebar = 1 file = client」のような素直な構造は Server-only auth と衝突する。data resolution は layout (Server) で行い props 注入する。
+- **L-PUREFN-001 (active 判定純関数 + 境界 spec)**: pathname prefix-match は `/` と segment root（`/admin`）で必ず誤動作する。判定ロジックを純関数 (`isActive.ts`) として抽出し、`__tests__/isActive.spec.ts` で `/`, `/admin`, `/admin/`, `/admin/<child>`, `/admin/<child>/<id>` の 5 境界を assert する。consumer 側 spec と primitive spec を責務分離し、回帰を pure-function spec で検出する。
+- **L-DERIVE-001 (badge / count は既存 endpoint derive)**: UI primitive のために `/admin/<resource>/count` のような専用 endpoint を生やしたくなった時は、既存 endpoint の response から derive できないか先に検討する。UI prototype alignment の「既存 API endpoint surface のみ利用」不変条件と整合する。fetch fail 時は空 fallback で badge=0 に安全に消す。
+- **L-VOE-001 (VISUAL_ON_EXECUTION × 既存実装の昇格)**: dirty diff に `apps/web/**` を含む状態で `visualEvidence=VISUAL_ON_EXECUTION` の task を `spec_created / Phase 11 pending` のまま凍結する誘惑が強いが、verifier は workflow_state と差分の矛盾を検出する。同一 cycle で `workflow_state=implemented_local_evidence_captured` に promote し、`PLAYWRIGHT_*_FIXTURE=1` の env-gated fixture を server-fetch 境界に立て、mock API port 起動順に依存しない deterministic Phase 11 screenshot を確定する。staging baseline / commit / PR は引き続き user-gated。
+
+### Anti-pattern
+
+- topbar 撤去で空 `<header>` を残す → page-local primitive と二重 header になり a11y / rhythm を壊す。
+- layout 全体を `'use client'` 化して auth + active 判定を 1 ファイルで済ませる → Server-only API（`getSession` / `cookies()`）と Client hook が同居して build fail、auth boundary も client に漏れる。
+- active 判定を consumer 側 spec だけで担保する → primitive を後から差し替えた瞬間に prefix-match 誤動作が回帰し、原因切り分けが consumer 群を全部見る O(N) になる。
