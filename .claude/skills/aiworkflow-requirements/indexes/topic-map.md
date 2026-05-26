@@ -3161,6 +3161,12 @@ node scripts/list-specs.js --topics
 | User-Gated Runtime Artifacts | L21 |
 | Skill Sync | L31 |
 
+### references/workflow-issue-911-meeting-attendance-unregister-ui-treat404-wiring-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Notes | L17 |
+
 ### references/workflow-light-theme-contrast-regression-guard.md
 
 | セクション | 行 |

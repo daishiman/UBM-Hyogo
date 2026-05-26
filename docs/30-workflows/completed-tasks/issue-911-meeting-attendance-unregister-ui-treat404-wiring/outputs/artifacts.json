@@ -1,0 +1,80 @@
+{
+  "workflow_id": "issue-911-meeting-attendance-unregister-ui-treat404-wiring",
+  "workflow_state": "implemented_local_evidence_captured",
+  "created_at": "2026-05-25T00:00:00+09:00",
+  "status": "completed",
+  "task_type": "implementation",
+  "visual_category": "NON_VISUAL",
+  "metadata": {
+    "workflow_state": "implemented_local_evidence_captured",
+    "implementation_status": "local_evidence_captured",
+    "taskType": "implementation",
+    "visualEvidence": "NON_VISUAL",
+    "implementation_mode": "extend",
+    "canonical_workflow": "docs/30-workflows/completed-tasks/issue-911-meeting-attendance-unregister-ui-treat404-wiring/",
+    "source_issue": "https://github.com/daishiman/UBM-Hyogo/issues/911",
+    "parent_workflow": "docs/30-workflows/completed-tasks/issue-842-admin-mutation-reliability-policy/",
+    "primary_sources": [
+      "apps/web/app/(admin)/admin/meetings/[id]/MeetingAttendancePanel.tsx",
+      "apps/web/app/(admin)/admin/meetings/[id]/__tests__/MeetingAttendancePanel.spec.tsx",
+      "apps/web/src/features/admin/hooks/useAdminMutation.ts",
+      "apps/api/src/routes/admin/meetings.ts"
+    ],
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-05-25T00:00:00+09:00",
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-911-meeting-attendance-unregister-ui-treat404-wiring/outputs/phase-3/phase-3.md",
+        "approver": "daishiman",
+        "notes": "spec_review: Phase 1-4 設計レビュー（解除 UI scope + treat404AsSuccess 配線方針 + 既存 API surface 維持）"
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "passed",
+        "passed_at": "2026-05-25T00:00:00+09:00",
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-911-meeting-attendance-unregister-ui-treat404-wiring/outputs/phase-9/phase-9.md",
+        "approver": "daishiman",
+        "notes": "implementation_review: typecheck / lint / vitest 0 fail、register/unregister 隔離確認、API 差分 0 確認"
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-911-meeting-attendance-unregister-ui-treat404-wiring/outputs/phase-12/phase-12.md",
+        "approver": "daishiman",
+        "notes": "external_ops: staging deploy / commit / push / PR は user-gated"
+      }
+    ]
+  },
+  "phases": [
+    { "phase": 1, "status": "completed", "output": "outputs/phase-1/phase-1.md" },
+    { "phase": 2, "status": "completed", "output": "outputs/phase-2/phase-2.md" },
+    { "phase": 3, "status": "completed", "output": "outputs/phase-3/phase-3.md" },
+    { "phase": 4, "status": "completed", "output": "outputs/phase-4/phase-4.md" },
+    { "phase": 5, "status": "completed", "output": "outputs/phase-5/phase-5.md" },
+    { "phase": 6, "status": "completed", "output": "outputs/phase-6/phase-6.md" },
+    { "phase": 7, "status": "completed", "output": "outputs/phase-7/phase-7.md" },
+    { "phase": 8, "status": "completed", "output": "outputs/phase-8/phase-8.md" },
+    { "phase": 9, "status": "completed", "output": "outputs/phase-9/phase-9.md" },
+    { "phase": 10, "status": "completed", "output": "outputs/phase-10/phase-10.md" },
+    { "phase": 11, "status": "completed", "output": "outputs/phase-11/phase-11.md" },
+    { "phase": 12, "status": "completed", "output": "outputs/phase-12/phase-12.md" },
+    { "phase": 13, "status": "pending", "output": "outputs/phase-13/phase-13.md" }
+  ],
+  "implementation_targets": [
+    "apps/web/app/(admin)/admin/meetings/[id]/MeetingAttendancePanel.tsx",
+    "apps/web/app/(admin)/admin/meetings/[id]/__tests__/MeetingAttendancePanel.spec.tsx"
+  ],
+  "outputs": {
+    "phase_12": [
+      "outputs/phase-12/main.md",
+      "outputs/phase-12/implementation-guide.md",
+      "outputs/phase-12/system-spec-update-summary.md",
+      "outputs/phase-12/documentation-changelog.md",
+      "outputs/phase-12/unassigned-task-detection.md",
+      "outputs/phase-12/skill-feedback-report.md",
+      "outputs/phase-12/phase12-task-spec-compliance-check.md"
+    ]
+  }
+}
