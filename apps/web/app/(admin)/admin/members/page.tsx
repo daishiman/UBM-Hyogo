@@ -15,11 +15,10 @@ import {
   type AdminMemberSearch,
 } from "@ubm-hyogo/shared";
 import { safeServerFetch } from "../../../../src/lib/admin/safe-server-fetch";
-import {
-  AdminPageHeader,
-  MembersClientShell,
-} from "../../../../src/features/admin/components";
+import { MembersClientShell } from "../../../../src/features/admin/components";
+import { MembersPageHead } from "../../../../src/features/admin/components/_members/MembersPageHead";
 import { AdminSectionErrorClient } from "../../../../src/features/admin/components/_shared";
+import { Breadcrumb } from "../../../../src/components/admin/Breadcrumb";
 
 export const dynamic = "force-dynamic";
 
@@ -68,25 +67,14 @@ export default async function AdminMembersPage({
 
   return (
     <section aria-labelledby="admin-members-h" className="flex flex-col gap-4">
-      <AdminPageHeader
-        title="会員管理"
-        description={result.ok ? `${result.data.total} 件の会員` : "読み込みに失敗"}
-        breadcrumbs={[{ label: "会員管理" }]}
-        actions={
-          <button
-            type="button"
-            disabled
-            title="MVP 範囲外"
-            aria-disabled="true"
-            className="rounded border border-[var(--ubm-color-border-default)] px-3 py-1 text-sm text-[var(--ubm-color-text-muted)] opacity-50"
-          >
-            CSV エクスポート
-          </button>
-        }
+      <Breadcrumb
+        items={[{ label: "会員管理" }]}
+        className="text-xs text-[var(--ubm-color-text-muted)]"
       />
-      <h1 id="admin-members-h" className="sr-only">
+      <MembersPageHead total={result.ok ? result.data.total : 0} />
+      <h2 id="admin-members-h" className="sr-only">
         会員管理
-      </h1>
+      </h2>
       {result.ok ? (
         <MembersClientShell
           initial={result.data}

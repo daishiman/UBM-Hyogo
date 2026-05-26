@@ -1,5 +1,19 @@
 # クイックリファレンス
 
+## admin-ui-prototype-alignment follow-up 001 members fetch and visual（2026-05-26）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/admin-ui-prototype-alignment-followup-001-members-fetch-and-visual/` |
+| status | `implemented_local_runtime_pending / implementation / VISUAL` |
+| parent | `docs/30-workflows/admin-ui-prototype-alignment/` (`implemented_local_runtime_pending`) |
+| purpose | `/admin/members` 一覧 + drawer を prototype `pages-admin.jsx` L162-366 に整合し、staging `ADMIN_FETCH_404` を root-cause fix する |
+| local implementation | `server-fetch.ts`, `app/api/admin/[...path]/route.ts`, `apps/api/src/routes/admin/members.ts`, `_members/{MembersTable,MembersFilters,MemberDrawer}.tsx`, `members-view-model.ts`, additive ViewModel fields, focused Vitest |
+| Phase 11 | runtime screenshots and `/admin/members` 200 trace are pending user-gated staging execution |
+| Phase 12 | strict 7 files present; root/output artifacts parity present |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-ui-prototype-alignment-followup-001-members-fetch-and-visual-artifact-inventory.md` |
+| user gate | staging deploy, baseline PNG capture, commit, push, PR |
+
 ## Issue #901 authenticated profile/admin staging visual（2026-05-25）
 
 | 項目 | 値 |
