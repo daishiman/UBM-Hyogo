@@ -52,7 +52,7 @@ export default [
   },
   {
     // /profile 配下は read-only。編集 form / input / textarea を禁止する（不変条件 #4）。
-    files: ["app/profile/**/*.tsx", "app/profile/**/*.ts"],
+    files: ["app/(member)/profile/**/*.tsx", "app/(member)/profile/**/*.ts"],
     languageOptions: {
       parser: tsParser,
       parserOptions: {

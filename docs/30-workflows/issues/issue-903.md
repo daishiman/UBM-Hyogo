@@ -13,7 +13,7 @@ status: 未実施
 source_phase: Phase 12（parallel-03-followup-002 close-out の未タスク再検出）
 created_date: 2026-05-23
 dependencies: []
-spec_path: docs/30-workflows/unassigned-task/parallel-03-followup-005-member-runtime-evidence.md
+spec_path: docs/30-workflows/completed-tasks/parallel-03-followup-005-member-runtime-evidence.md
 ```
 
 | 項目 | 内容 |

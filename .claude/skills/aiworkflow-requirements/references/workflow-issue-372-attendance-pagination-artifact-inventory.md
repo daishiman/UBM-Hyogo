@@ -20,7 +20,7 @@
 | builder target | `apps/api/src/repository/_shared/builder.ts` | implemented encoded cursor deps + `attendanceMeta` injection |
 | route target | `apps/api/src/routes/me/index.ts`, `apps/api/src/routes/admin/members.ts` | implemented `/me/attendance` and admin attendance endpoint |
 | shared target | `packages/shared/src/types/viewmodel/index.ts`, `packages/shared/src/zod/viewmodel.ts` | implemented optional `attendanceMeta` |
-| web target | `apps/web/app/profile/_components/AttendanceList.tsx`, `apps/web/src/components/admin/MemberDrawer.tsx` | implemented load-more UI |
+| web target | `apps/web/app/(member)/profile/_components/AttendanceList.tsx`, `apps/web/src/components/admin/MemberDrawer.tsx` | implemented load-more UI |
 
 ## Boundary
 

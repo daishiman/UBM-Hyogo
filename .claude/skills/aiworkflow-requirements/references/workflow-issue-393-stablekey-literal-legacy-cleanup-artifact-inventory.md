@@ -25,8 +25,8 @@
 | `apps/api/src/use-cases/public/list-public-members.ts` | family D: public list use-case の literal + indexed-access 型置換 |
 | `apps/api/src/view-models/public/public-member-list-view.ts` | family D: public list view-model の literal + indexed-access 型置換 |
 | `apps/api/src/view-models/public/public-member-profile-view.ts` | family D: public profile view-model の literal + indexed-access 型置換 |
-| `apps/web/app/profile/_components/RequestActionPanel.tsx` | family E: web profile component の literal + JSX attribute literal 置換 |
-| `apps/web/app/profile/_components/StatusSummary.tsx` | family E: web profile status summary の literal + indexed-access 型置換 |
+| `apps/web/app/(member)/profile/_components/RequestActionPanel.tsx` | family E: web profile component の literal + JSX attribute literal 置換 |
+| `apps/web/app/(member)/profile/_components/StatusSummary.tsx` | family E: web profile status summary の literal + indexed-access 型置換 |
 | `apps/web/src/components/public/MemberCard.tsx` | family F: web public member card の JSX attribute literal 置換 |
 | `apps/web/src/components/public/ProfileHero.tsx` | family F: web public profile hero の JSX attribute literal 置換 |
 | `packages/shared/src/utils/consent.ts` | family G: consent util の literal 置換（SSOT 単一方向 import） |

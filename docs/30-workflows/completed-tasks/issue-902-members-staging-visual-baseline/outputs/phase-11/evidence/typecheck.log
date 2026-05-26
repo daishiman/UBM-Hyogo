@@ -1,0 +1,4 @@
+
+> @ubm-hyogo/web@0.1.0 typecheck /Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260525-133245-wt-19/apps/web
+> tsc -p tsconfig.json --noEmit
+
