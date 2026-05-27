@@ -53,7 +53,7 @@ describe("MemberCard", () => {
     expect(container.querySelector('[data-role="status"]')).toBeNull();
   });
 
-  it("hides occupation when density='list' (variant)", () => {
+  it("keeps occupation visible when density='list' (variant)", () => {
     const member = buildMember();
     const { container, rerender } = render(
       <MemberCard member={member} density="list" />,
@@ -63,7 +63,7 @@ describe("MemberCard", () => {
         .querySelector('[data-component="member-card"]')
         ?.getAttribute("data-density"),
     ).toBe("list");
-    expect(container.querySelector('[data-role="occupation"]')).toBeNull();
+    expect(container.querySelector('[data-role="occupation"]')).not.toBeNull();
 
     rerender(<MemberCard member={member} density="dense" />);
     expect(

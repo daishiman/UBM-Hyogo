@@ -7,12 +7,22 @@ import type { NextRequest } from "next/server";
 import { getAuth } from "../../../../src/lib/auth";
 import { getAuthEnv } from "../../../../src/lib/env";
 
-const FALLBACK_INTERNAL_API = "http://127.0.0.1:8787";
+// followup-001 T-5.1: INTERNAL_API_BASE_URL fallback を撤去し fail-fast 化する。
+// 旧実装は `http://127.0.0.1:8787` に fallback していたため、staging で env が
+// 漏れると pass-through proxy が localhost に空打ちし `ADMIN_FETCH_404` が発生していた。
+// 未設定なら 500 を明示返却して、UI 側で「設定不備」として表面化させる。
+const LOCAL_DEV_FALLBACK = "http://127.0.0.1:8787";
 
-const apiBase = (): string => {
+const apiBase = (): string | null => {
   const v = getAuthEnv().INTERNAL_API_BASE_URL;
   if (v && v.length > 0) return v.replace(/\/$/, "");
-  return FALLBACK_INTERNAL_API;
+  // local dev (`pnpm dev`) で env が無いケースのみ fallback を許可。
+  // staging / production は wrangler.toml で [vars] を必ず注入しているため、
+  // ここに到達したら設定不備として fail-fast する。
+  if (process.env["NODE_ENV"] !== "production" && process.env["ENVIRONMENT"] !== "staging") {
+    return LOCAL_DEV_FALLBACK;
+  }
+  return null;
 };
 
 const internalSecret = (): string => getAuthEnv().INTERNAL_AUTH_SECRET ?? "";
@@ -35,8 +45,19 @@ async function proxy(req: NextRequest, ctx: { params: Promise<{ path: string[] }
   if (denied) return denied;
 
   const { path } = await ctx.params;
+  const base = apiBase();
+  if (base === null) {
+    return new Response(
+      JSON.stringify({
+        ok: false,
+        error: "internal_api_base_url_missing",
+        message: "INTERNAL_API_BASE_URL is not configured for this environment",
+      }),
+      { status: 500, headers: { "content-type": "application/json" } },
+    );
+  }
   const url = new URL(req.url);
-  const target = `${apiBase()}/admin/${path.join("/")}${url.search}`;
+  const target = `${base}/admin/${path.join("/")}${url.search}`;
 
   const headers: Record<string, string> = {
     "x-internal-auth": internalSecret(),
