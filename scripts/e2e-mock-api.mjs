@@ -85,6 +85,7 @@ const state = {
   pendingRequests: {},
   attendance: new Set(), // `${sessionId}:${memberId}`
   adminDashboardUnresolvedSchema: 0,
+  adminDashboardByZone: undefined,
   adminDashboardByStatus: undefined,
   meetingsSeed: defaultMeetingsSeed(),
   publicHomeEmpty: false,
@@ -94,10 +95,17 @@ const resetState = () => {
   state.pendingRequests = {};
   state.attendance = new Set();
   state.adminDashboardUnresolvedSchema = 0;
+  state.adminDashboardByZone = undefined;
   state.adminDashboardByStatus = undefined;
   state.meetingsSeed = defaultMeetingsSeed();
   state.publicHomeEmpty = false;
 };
+
+const defaultAdminDashboardByZone = () => [
+  { key: "0to1", label: "0→1", hint: "立ち上げ", count: 3, total: 11, tone: "info" },
+  { key: "1to10", label: "1→10", hint: "拡大", count: 7, total: 11, tone: "accent" },
+  { key: "10to100", label: "10→100", hint: "組織化", count: 1, total: 11, tone: "ok" },
+];
 
 const publicStats = () => ({
   ...fixtures.public.stats,
@@ -419,9 +427,13 @@ const server = createServer(async (req, res) => {
     if (typeof body.unresolvedSchema === "number") {
       state.adminDashboardUnresolvedSchema = body.unresolvedSchema;
     }
+    if (Array.isArray(body.byZone)) {
+      state.adminDashboardByZone = body.byZone;
+    }
     return writeJson(res, 200, {
       ok: true,
       adminDashboardUnresolvedSchema: state.adminDashboardUnresolvedSchema,
+      adminDashboardByZone: state.adminDashboardByZone ?? defaultAdminDashboardByZone(),
     });
   }
   if (req.method === "POST" && pathname === "/__test__/admin-dashboard-by-status") {
@@ -529,6 +541,7 @@ const server = createServer(async (req, res) => {
         },
         recentActions: [],
         generatedAt: NOW,
+        byZone: state.adminDashboardByZone ?? defaultAdminDashboardByZone(),
         ...(state.adminDashboardByStatus ? { byStatus: state.adminDashboardByStatus } : {}),
       },
       schemas.AdminDashboardZ,
