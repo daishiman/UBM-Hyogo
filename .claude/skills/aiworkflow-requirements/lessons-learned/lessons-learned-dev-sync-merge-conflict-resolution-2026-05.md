@@ -835,6 +835,30 @@
 - 留意: CI gate は `<<<<<<< ` / `>>>>>>> ` / `||||||| ` の **後ろの空白込み 8 文字** で grep する。空白なし `|||||||EOL` 等は検出されない。古い resolver が space を消すケースは別途調査要。
 - 事例: 2026-05-26 `feat/issue-247-...` PR #966。`5ddb51e6a merge: sync ... with dev` push 後 `verify-conflict-markers` が `--- offending lines ---` 4件で FAIL。該当 4 行削除 commit で復旧。
 
+## L-DEVSYNC-050: dev sync で新規 lint gate (`verify-no-inline-style` 等) が降ってきた場合、feature 側の既存 inline-style は同一 merge commit で SVG `<rect>` 化 (L-I924-004 区分C) で解消する（2026-05-27 確認）
+
+- 事象: `feat/admin-attendance-analytics-redesign` ← dev (`0df8ecc55` issue-924 inline-style guard 含む) を merge 後、`pnpm lint` が `verify-no-inline-style: FAIL` で停止。本ブランチ側で先行追加していた `AttendanceTop10Ranking.tsx` / `AttendanceZoneDistributionChart.tsx` の progress bar `style={{ width: ... }}`（区分C 連続値）が新 gate に検出された。conflict ファイルではないため `pnpm sync:resolve` / `git merge` のいずれも検出できず、lint で初めて表面化する。
+- Why: dev 側で追加された invariant grep gate（`scripts/verify-no-inline-style.sh` の `style={` broad detection）は **merge 時点では textual conflict にならない**（HEAD 側ファイルはそのまま採用される）。新 gate の適用範囲が feature 側既存ファイルに及ぶケースでは、merge auto-merge 成功 → lint FAIL という gap が必然的に発生する。これは `verify-no-inline-style` に限らず、dev 側で追加される `verify-design-tokens` / `verify-test-suffix` 等の broad grep gate 系すべてに共通する pattern。
+- How to apply:
+  1. dev merge 直後の `pnpm lint` で `verify-*` 系 gate が新規 FAIL したら、**該当 gate の lessons-learned (`lessons-learned-issue-NNN-*.md`) を即時参照**して正本の置換 pattern を採用する。今回は L-I924-004 の 3 区分（A 静的 / B 動的離散 / C 動的連続）が SSOT。
+  2. 区分C（progress bar / chart bar 等の連続値 width）は SVG `<rect width={...}>` + `viewBox` + `preserveAspectRatio="none"` で逃がす（参考: `apps/web/src/features/admin/components/_dashboard/ZoneDistribution.tsx`）。HTML element の `style={{ width: ... }}` は CSP `style-src-attr` 撤去後 block されるが、SVG attribute の `width=` は別経路評価で通過する。
+  3. 置換は dev sync merge commit と **同一 commit** に含める（別 PR / 別 commit に分けると CI が乖離する。L-I924-005 と同じ整合性原則）。`git add` → 既存 merge commit に追加するか、merge commit 直後に lint-fix commit を続ける。
+  4. 該当 component に focused spec / visual baseline がある場合、SVG への DOM 構造変化（`<span>` → `<svg><rect>`）により selector / snapshot が壊れる可能性があるため `pnpm -r test` / Playwright visual を同時に確認する。今回は spec 未存在のため typecheck + lint のみで PASS 判定。
+- 留意: dev 側で追加される lint gate を pre-merge に検知する手段は現状ない。`pnpm sync:check` でリモート ahead 数だけは見えるが、追加された gate 種別までは取得できないため、**merge 後に必ず `pnpm lint` → `pnpm typecheck` → `bash scripts/verify-pr-ready.sh` を完走する運用**が唯一の防御。これは CONST_019（本ブランチで変更が上がっている内容はすべてpush）と組み合わせて、新 gate 由来の差分も漏れなく同一 PR に含めるルールとして機能する。
+- 事例: 2026-05-27 `feat/admin-attendance-analytics-redesign` ← dev (`04c569a48` login-ui balance + issue-924 inline-style guard 累積)。`4f49cf93f Merge ... into feat/admin-attendance-analytics-redesign` 直後の `pnpm lint` で 2 ファイル FAIL → L-I924-004 区分C 適用で SVG `<rect>` 化 → 同 lint コマンド PASS。spec 未存在のため visual regression は user-gated。
+
+## L-DEVSYNC-051: dev sync 後は `pnpm regenerate:static-manifest` も pre-push gate に含める（2026-05-27 確認）
+
+- 事象: `feat/admin-attendance-analytics-redesign` ← dev merge 後、local `pnpm lint` / `pnpm typecheck` / `bash scripts/verify-pr-ready.sh` がすべて green で push 成功したが、PR #971 の CI `ci` job で `pnpm verify:static-manifest` が `FAIL reason=sourceSpecHashDrift` で fail。連鎖で `coverage-gate-shard` が skip、`coverage-gate` も fail し PR が BLOCKED 化。
+- Why: `apps/api/src/repository/_shared/generated/static-manifest.json` の `sourceSpecHash` は repository 内の source spec ファイル群の集約 hash。dev 側で source spec（schema / OpenAPI 定義 / D1 migration 等）が更新されると hash が変わるが、merge では `static-manifest.json` 自体は textual conflict にならず HEAD 側のまま残るため、`verify:static-manifest` が初めて drift を検出する場面が CI になる。`bash scripts/verify-pr-ready.sh` は phase12-compliance / gate-metadata / indexes:rebuild の 3 gate のみ実行し、`verify:static-manifest` は範囲外。
+- How to apply:
+  1. dev merge 直後の pre-push 検証 sequence に **`pnpm verify:static-manifest`** を必ず追加する（`pnpm typecheck` / `pnpm lint` / `bash scripts/verify-pr-ready.sh` の 3 点セットだけでは不十分）。
+  2. FAIL 時は `pnpm regenerate:static-manifest` を実行して JSON を更新 → 単独 commit で push する。再生成は `apps/api/src/repository/_shared/generated/static-manifest.json` 1 ファイルのみで完結する。
+  3. 同種の "generated/committed artifact + sourceSpecHash drift" 系 gate（今後追加される可能性）は CLAUDE.md の「dev sync 完了条件」に追記しておく。
+  4. `scripts/verify-pr-ready.sh` 側に `verify:static-manifest` を追加組み込みするか、`bash scripts/verify-pr-ready.sh` から独立した `verify:dev-sync-postchecks` aggregate を新設すれば post-merge gap が縮まる（今回は ad-hoc 検証で十分なため未実装）。
+- 留意: `verify:static-manifest` は ci job の中盤で実行されるため failure 時に coverage-gate-shard を skip させる構造になっており、ci の 1 step fail が coverage 系 2 gate を巻き込んで PR を 3 重に BLOCKED 化する。**dev sync の day-1 検証で必ず捕捉する**運用が PR cycle time を最も短くする。
+- 事例: 2026-05-27 PR #971。`59419b258 fix(attendance): retire inline-style ...` push 後、`ci`（run 26493001182, job 78014624639）で `[verify-static-manifest] FAIL reason=sourceSpecHashDrift` 検出。`pnpm regenerate:static-manifest` で `sourceSpecHash=sha256:60001b77f2b5e9c16c0cc4de070502691d25357ba4c06b42086eadeb5e8dc228` に更新、`e604f2e98 chore(static-manifest): regenerate ...` 1 commit で復旧。
+
 ## L-DEVSYNC-050: feature branchがUI構造を全面刷新中にdevが新規Client Islandを sibling section に追加した場合、union解消では機能を失う（2026-05-27 確認）
 
 - 事象: `feat/admin-ui-followup-001-members-fetch-and-visual` で `MemberDrawer.tsx` をプロトタイプ整合（VISIBILITY/TAGS/FORM RESPONSE/DELETED 構成）に刷新。並行して dev 側 (#960 google-form-reflection-diagnostics) が同ファイルの旧構造内に `<MemberDiagnosticsPanel memberId={memberId} />` を追加していた。`git merge dev` で 2 箇所 conflict 発生（import 行 / 旧「タグ管理へ」section の末尾）。
