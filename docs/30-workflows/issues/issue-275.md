@@ -9,7 +9,7 @@ state: OPEN
 priority: 中
 scale: -
 category: 改善
-status: 未実施
+status: implemented_local_evidence_captured
 created_date: 2026-04-29
 updated_date: 2026-04-29
 url: https://github.com/daishiman/UBM-Hyogo/issues/275
@@ -20,7 +20,7 @@ dependencies: []
 |------|------|
 | 優先度 | 中 |
 | 規模 | - |
-| ステータス | 未実施 |
+| ステータス | implemented_local_evidence_captured（commit / PR / Issue mutation は user-gated） |
 
 ---
 
@@ -34,10 +34,10 @@ dependencies: []
 
 ## Acceptance Criteria
 
-- [ ] `sendMagicLink` が 429 応答時に `Retry-After` 秒数を typed error として返す
-- [ ] `MagicLinkForm` が typed error を受け、該当秒数で button disabled / countdown を開始する
-- [ ] reload 後の永続化はこの task では必須にしない。API 429 応答を受けた session 内復元を最小要件にする
-- [ ] Vitest で 429 + `Retry-After: 60` の UI 復元を検証する
+- [x] `sendMagicLink` が 429 応答時に `Retry-After` 秒数を typed error として返す
+- [x] `MagicLinkForm` が typed error を受け、該当秒数で button disabled / countdown を開始する
+- [x] reload 後の永続化はこの task では必須にしない。API 429 応答を受けた session 内復元を最小要件にする
+- [x] Vitest で 429 + `Retry-After` の UI 復元を検証する
 
 ## Dependencies
 
@@ -46,7 +46,8 @@ dependencies: []
 
 ## Source
 
-- 仕様書: `docs/30-workflows/completed-tasks/UT-06B-MAGIC-LINK-RETRY-AFTER.md`
+- 仕様書: `docs/30-workflows/completed-tasks/issue-275-magic-link-429-retry-after/`
+- source pointer: `docs/30-workflows/unassigned-task/UT-06B-MAGIC-LINK-RETRY-AFTER.md`
 - 親タスク: 06b-parallel-member-login-and-profile-pages
 
 ## Priority

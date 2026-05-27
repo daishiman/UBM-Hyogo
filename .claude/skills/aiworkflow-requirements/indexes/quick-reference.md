@@ -2664,7 +2664,7 @@ Magic Link メール送信の env 名を、実装と aiworkflow 正本に合わ�
 | Auth.js `/me` session resolver follow-up | `docs/30-workflows/06b-A-me-api-authjs-session-resolver/`（implemented-local / implementation / NON_VISUAL。`apps/api/src/middleware/me-session-resolver.ts` が Auth.js cookie / Bearer JWT を `AUTH_SECRET` で検証し、`apps/api/src/index.ts` の `/me` mount に接続済み。staging / production live smoke は 09a / 09c gate） |
 | profile self-service request UI follow-up | `docs/30-workflows/completed-tasks/06b-B-profile-self-service-request-ui/`（implemented-local / implementation / runtime-evidence-blocked / VISUAL_ON_EXECUTION。`/profile` に `RequestActionPanel`、公開停止/再公開申請 dialog、退会申請 dialog、同一 origin proxy、`/api/me/visibility-request` / `/api/me/delete-request` client helper を追加済み。ログイン済み実 screenshot は runtime capture 待ち） |
 | profile logged-in visual evidence follow-up | `docs/30-workflows/completed-tasks/06b-C-profile-logged-in-visual-evidence/`（implementation-prepared / runtime evidence pending / M-08〜M-10, M-14〜M-16） |
-| remaining follow-up | `docs/30-workflows/unassigned-task/UT-06B-MAGIC-LINK-RETRY-AFTER.md` |
+| Magic Link 429 Retry-After follow-up | `docs/30-workflows/completed-tasks/issue-275-magic-link-429-retry-after/`（implemented_local_evidence_captured / implementation / NON_VISUAL。`MagicLinkRateLimitedError` + server-truth cooldown 実装、focused specs PASS。source `UT-06B-MAGIC-LINK-RETRY-AFTER` は consumed） |
 
 ---
 
