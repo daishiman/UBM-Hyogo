@@ -22,12 +22,12 @@ export function AdminPageHeader({
   return (
     <header className="flex flex-col gap-2 border-b border-[var(--ubm-color-border-default)] pb-4">
       {breadcrumbs && breadcrumbs.length > 0 ? (
-        <Breadcrumb items={breadcrumbs} className="text-sm text-[var(--ubm-color-text-muted)]" />
+        <Breadcrumb items={breadcrumbs} className="text-sm text-[var(--ubm-color-text-secondary)]" />
       ) : null}
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
           {eyebrow ? (
-            <p className="text-[10px] font-semibold uppercase text-[var(--ubm-color-text-muted)] [letter-spacing:var(--ubm-eyebrow-tracking,0.12em)]">
+            <p className="text-[10px] font-semibold uppercase text-[var(--ubm-color-text-secondary)] [letter-spacing:var(--ubm-eyebrow-tracking,0.12em)]">
               {eyebrow}
             </p>
           ) : null}
