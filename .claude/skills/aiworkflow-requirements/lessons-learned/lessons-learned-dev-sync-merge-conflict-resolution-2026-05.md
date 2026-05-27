@@ -792,6 +792,7 @@
   3. `git status` で `UU` ゼロ確認 → `git add -A` → `git commit -m "merge: sync <branch> with dev"`。typecheck / lint 任意（skill files は build 経路外）。
 - 留意: ソース conflict が 1 件でも混じる場合は本 happy path から外れる。L-DEVSYNC-040 系（並列 export 追加）/ L-DEVSYNC-043 系（adapter signature union）/ L-DEVSYNC-045（route group rename + import 正規化）のいずれかにフォールバック。
 - 事例: 2026-05-26 `feat/issue-913-...` ← dev (`a21759722` issue-903 member runtime evidence 含む 10 commit)。`pnpm sync:resolve` 出力 `[resolve-skill-merge-conflicts] all skill / index conflicts resolved`、unhandled なし、ソース無傷で 1 commit で完結。
+- 事例: 2026-05-27 `feat/login-ui-balance-and-runtime-fix` ← dev (`dfdbf0574` google-form-reflection-diagnostics 含む)。skill index 5 ファイル (`keywords.json` / `quick-reference.md` / `resource-map.md` / `topic-map.md` / `references/task-workflow-active.md`) のみ conflict。`pnpm sync:resolve` で union 4 + ours 1 + `indexes:rebuild` 完結、ソース無傷で 1 merge commit。
 
 ## L-DEVSYNC-047: 空コミット (`git commit --allow-empty`) は GitHub Actions の `pull_request` workflow を発火しない（2026-05-26 確認）
 
