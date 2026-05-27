@@ -1,5 +1,11 @@
 # UT-06B-MAGIC-LINK-RETRY-AFTER
 
+## Canonical Status
+
+Consumed by `docs/30-workflows/completed-tasks/issue-275-magic-link-429-retry-after/` on 2026-05-26.
+
+Issue #275 remains OPEN until user-approved PR / Issue mutation. PR text must use `Refs #275`.
+
 ## Summary
 
 06b `MagicLinkForm` が API 429 `Retry-After` を受けたとき、server-side rate limit を正本として cooldown 表示を復元する。
@@ -22,4 +28,4 @@
 
 ## Priority
 
-Medium.
+Consumed.

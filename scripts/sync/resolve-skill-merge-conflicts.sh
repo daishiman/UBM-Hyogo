@@ -34,6 +34,7 @@ UNION_TARGETS=(
   ".claude/skills/aiworkflow-requirements/indexes/topic-map.md"
   ".claude/skills/aiworkflow-requirements/indexes/quick-reference.md"
   ".claude/skills/task-specification-creator/SKILL.md"
+  ".claude/skills/task-specification-creator/references/patterns-lessons-and-pitfalls.md"
 )
 
 # --- 2. --ours + rebuild 対象（JSON 派生物） ---

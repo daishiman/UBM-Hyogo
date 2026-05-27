@@ -35,7 +35,7 @@ UT-06-FU-A は `apps/web/wrangler.toml` / `apps/web/.assetsignore` / `apps/web/p
 
 ## 仕様書
 
-- `docs/30-workflows/unassigned-task/UT-06-FU-A-open-next-config-regression-tests.md`
+- `docs/30-workflows/completed-tasks/issue-247-apps-web-opennext-config-regression-tests/UT-06-FU-A-open-next-config-regression-tests.md`
 
 ## 親タスクの実装ガイド
 

@@ -20,7 +20,6 @@ export interface IconProps {
 }
 
 export function Icon({ name, size = "md", ariaLabel, className, children }: IconProps) {
-  const px = ICON_SIZE_PX[size];
   const labeled = Boolean(ariaLabel);
   const content = children ?? (name ? iconGlyph(name) : null);
   return (
@@ -28,7 +27,6 @@ export function Icon({ name, size = "md", ariaLabel, className, children }: Icon
       data-component="icon"
       data-size={size}
       className={cn("ui-icon", className)}
-      style={{ display: "inline-flex", width: px, height: px, lineHeight: 0 }}
       role={labeled ? "img" : undefined}
       aria-label={labeled ? ariaLabel : undefined}
       aria-hidden={labeled ? undefined : true}

@@ -874,13 +874,13 @@ node scripts/list-specs.js --topics
 | 概要 | L8 |
 | ドキュメント構成 | L15 |
 | REST API エンドポイント一覧 | L25 |
-| エンドポイント命名規則 | L224 |
-| UBM-Hyogo Admin Sync API（03a） | L245 |
-| UBM-Hyogo Member Self-Service API（04b） | L297 |
-| Admin Dashboard Attendance Analytics API（UT-02A follow-up 002） | L323 |
-| Desktop IPC API サマリー | L337 |
-| 変更履歴 | L368 |
-| 関連ドキュメント | L385 |
+| エンドポイント命名規則 | L226 |
+| UBM-Hyogo Admin Sync API（03a） | L247 |
+| UBM-Hyogo Member Self-Service API（04b） | L299 |
+| Admin Dashboard Attendance Analytics API（UT-02A follow-up 002） | L325 |
+| Desktop IPC API サマリー | L339 |
+| 変更履歴 | L370 |
+| 関連ドキュメント | L387 |
 
 ### references/api-internal-chunk-search.md
 
@@ -1752,7 +1752,7 @@ node scripts/list-specs.js --topics
 | Env Boundary | L18 |
 | CSP Nonce Contract | L30 |
 | User-gated Follow-ups | L45 |
-| Workflow | L54 |
+| Workflow | L55 |
 
 ---
 
@@ -2330,6 +2330,12 @@ node scripts/list-specs.js --topics
 | Phase 12 Strict Outputs | L24 |
 | Boundary | L34 |
 
+### references/workflow-google-form-reflection-diagnostics-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Skill knowledge synced | L15 |
+
 ### references/workflow-governance-design-category.md
 
 | セクション | 行 |
@@ -2399,6 +2405,16 @@ node scripts/list-specs.js --topics
 | Branch-level deletion check | L101 |
 | Downstream task: issue-195-sync-jobs-contract-schema-consolidation-001（2026-05-04） | L105 |
 
+### references/workflow-issue-247-apps-web-opennext-config-regression-tests-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Summary | L3 |
+| Implementation | L13 |
+| Evidence | L20 |
+| Same-Wave Sync | L34 |
+| User-Gated Boundary | L45 |
+
 ### references/workflow-issue-256-e2e-coverage-baseline-runbook-artifact-inventory.md
 
 | セクション | 行 |
@@ -2419,6 +2435,14 @@ node scripts/list-specs.js --topics
 | Implementation Targets | L11 |
 | Evidence Boundary | L24 |
 | Captured Evidence | L27 |
+
+### references/workflow-issue-275-magic-link-429-retry-after-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Implementation | L12 |
+| Evidence | L21 |
+| User-gated | L34 |
 
 ### references/workflow-issue-276-mobile-filterbar-tag-picker-artifact-inventory.md
 
@@ -3161,11 +3185,17 @@ node scripts/list-specs.js --topics
 | User-Gated Runtime Artifacts | L21 |
 | Skill Sync | L31 |
 
-### references/workflow-issue-911-meeting-attendance-unregister-ui-treat404-wiring-artifact-inventory.md
+### references/workflow-issue-922-production-admin-runtime-smoke-gate-artifact-inventory.md
 
 | セクション | 行 |
 |------------|----|
-| Notes | L17 |
+| Runtime Boundary | L22 |
+
+### references/workflow-issue-924-style-src-attr-retirement-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Boundary | L17 |
 
 ### references/workflow-light-theme-contrast-regression-guard.md
 
@@ -3320,16 +3350,6 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | Boundary | L19 |
-
-### references/workflow-register-page-prototype-alignment-artifact-inventory.md
-
-| セクション | 行 |
-|------------|----|
-| Workflow | L3 |
-| Implementation Targets | L12 |
-| Test And Evidence Targets | L24 |
-| Lessons Learned | L33 |
-| Boundaries | L39 |
 
 ### references/workflow-regression-evidence-ci-gate-foundation-artifact-inventory.md
 
@@ -4657,8 +4677,8 @@ node scripts/list-specs.js --topics
 | Long-term analytics evidence | L290 |
 | c-A production execution workflow | L296 |
 | CI build-time env injection for OpenNext Workers | L311 |
-| Response security headers via middleware | L321 |
-| 変更履歴 | L338 |
+| OpenNext config regression guard | L321 |
+| Response security headers via middleware | L334 |
 
 ### references/deployment-cloudflare-ut06-gate.md
 
@@ -5235,7 +5255,7 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 対象 | L3 |
 | Lessons | L10 |
-| Follow-up Boundaries | L75 |
+| Follow-up Boundaries | L96 |
 
 ### references/lessons-learned-06c-A-admin-dashboard-2026-05.md
 
@@ -5501,6 +5521,14 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 教訓一覧 | L12 |
 | 関連メモ | L40 |
+
+### references/lessons-learned-google-form-reflection-diagnostics-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| 概要 | L3 |
+| 苦戦箇所と知見 | L7 |
+| 運用知見 | L73 |
 
 ### references/lessons-learned-issue-106-admin-notes-repository-2026-05.md
 
@@ -6623,8 +6651,8 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 概要 | L3 |
 | 仕様書インデックス | L7 |
-| 利用順序 | L121 |
-| 関連ドキュメント | L126 |
+| 利用順序 | L122 |
+| 関連ドキュメント | L127 |
 
 ### references/llm-embedding.md
 
@@ -7761,14 +7789,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L2624 |
-| フェーズ構造（概要） | L2633 |
-| 品質ゲート（概要） | L2664 |
-| 出力テンプレート | L2675 |
-| 実行時のコマンド・エージェント・スキル | L2698 |
-| 昇格パターン集 | L2722 |
-| Current Active / Spec Created Tasks | L2724 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L2885 |
+| ドキュメント構成 | L2662 |
+| フェーズ構造（概要） | L2671 |
+| 品質ゲート（概要） | L2702 |
+| 出力テンプレート | L2713 |
+| 実行時のコマンド・エージェント・スキル | L2736 |
+| 昇格パターン集 | L2760 |
+| Current Active / Spec Created Tasks | L2762 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L2923 |
 
 ### references/task-workflow-backlog-part2.md
 

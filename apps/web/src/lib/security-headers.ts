@@ -73,7 +73,6 @@ export const buildCspDirective = (cfg: SecurityHeaderConfig): string =>
     cfg.nonce
       ? `style-src-elem 'self' 'nonce-${cfg.nonce}'`
       : "style-src-elem 'self'",
-    ["style-src-attr ", "'unsafe", "-inline'"].join(""),
     "img-src 'self' data: https:",
     `connect-src 'self' ${cfg.apiBaseUrl} ${cfg.authOrigin}`,
     "font-src 'self' data:",
