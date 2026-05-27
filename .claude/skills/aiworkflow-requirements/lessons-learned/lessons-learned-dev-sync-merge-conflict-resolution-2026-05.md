@@ -846,3 +846,15 @@
   4. 該当 component に focused spec / visual baseline がある場合、SVG への DOM 構造変化（`<span>` → `<svg><rect>`）により selector / snapshot が壊れる可能性があるため `pnpm -r test` / Playwright visual を同時に確認する。今回は spec 未存在のため typecheck + lint のみで PASS 判定。
 - 留意: dev 側で追加される lint gate を pre-merge に検知する手段は現状ない。`pnpm sync:check` でリモート ahead 数だけは見えるが、追加された gate 種別までは取得できないため、**merge 後に必ず `pnpm lint` → `pnpm typecheck` → `bash scripts/verify-pr-ready.sh` を完走する運用**が唯一の防御。これは CONST_019（本ブランチで変更が上がっている内容はすべてpush）と組み合わせて、新 gate 由来の差分も漏れなく同一 PR に含めるルールとして機能する。
 - 事例: 2026-05-27 `feat/admin-attendance-analytics-redesign` ← dev (`04c569a48` login-ui balance + issue-924 inline-style guard 累積)。`4f49cf93f Merge ... into feat/admin-attendance-analytics-redesign` 直後の `pnpm lint` で 2 ファイル FAIL → L-I924-004 区分C 適用で SVG `<rect>` 化 → 同 lint コマンド PASS。spec 未存在のため visual regression は user-gated。
+
+## L-DEVSYNC-051: dev sync 後は `pnpm regenerate:static-manifest` も pre-push gate に含める（2026-05-27 確認）
+
+- 事象: `feat/admin-attendance-analytics-redesign` ← dev merge 後、local `pnpm lint` / `pnpm typecheck` / `bash scripts/verify-pr-ready.sh` がすべて green で push 成功したが、PR #971 の CI `ci` job で `pnpm verify:static-manifest` が `FAIL reason=sourceSpecHashDrift` で fail。連鎖で `coverage-gate-shard` が skip、`coverage-gate` も fail し PR が BLOCKED 化。
+- Why: `apps/api/src/repository/_shared/generated/static-manifest.json` の `sourceSpecHash` は repository 内の source spec ファイル群の集約 hash。dev 側で source spec（schema / OpenAPI 定義 / D1 migration 等）が更新されると hash が変わるが、merge では `static-manifest.json` 自体は textual conflict にならず HEAD 側のまま残るため、`verify:static-manifest` が初めて drift を検出する場面が CI になる。`bash scripts/verify-pr-ready.sh` は phase12-compliance / gate-metadata / indexes:rebuild の 3 gate のみ実行し、`verify:static-manifest` は範囲外。
+- How to apply:
+  1. dev merge 直後の pre-push 検証 sequence に **`pnpm verify:static-manifest`** を必ず追加する（`pnpm typecheck` / `pnpm lint` / `bash scripts/verify-pr-ready.sh` の 3 点セットだけでは不十分）。
+  2. FAIL 時は `pnpm regenerate:static-manifest` を実行して JSON を更新 → 単独 commit で push する。再生成は `apps/api/src/repository/_shared/generated/static-manifest.json` 1 ファイルのみで完結する。
+  3. 同種の "generated/committed artifact + sourceSpecHash drift" 系 gate（今後追加される可能性）は CLAUDE.md の「dev sync 完了条件」に追記しておく。
+  4. `scripts/verify-pr-ready.sh` 側に `verify:static-manifest` を追加組み込みするか、`bash scripts/verify-pr-ready.sh` から独立した `verify:dev-sync-postchecks` aggregate を新設すれば post-merge gap が縮まる（今回は ad-hoc 検証で十分なため未実装）。
+- 留意: `verify:static-manifest` は ci job の中盤で実行されるため failure 時に coverage-gate-shard を skip させる構造になっており、ci の 1 step fail が coverage 系 2 gate を巻き込んで PR を 3 重に BLOCKED 化する。**dev sync の day-1 検証で必ず捕捉する**運用が PR cycle time を最も短くする。
+- 事例: 2026-05-27 PR #971。`59419b258 fix(attendance): retire inline-style ...` push 後、`ci`（run 26493001182, job 78014624639）で `[verify-static-manifest] FAIL reason=sourceSpecHashDrift` 検出。`pnpm regenerate:static-manifest` で `sourceSpecHash=sha256:60001b77f2b5e9c16c0cc4de070502691d25357ba4c06b42086eadeb5e8dc228` に更新、`e604f2e98 chore(static-manifest): regenerate ...` 1 commit で復旧。
