@@ -444,5 +444,5 @@
     4. 判定迷う場合は `git log -p origin/dev -- <path>` で dev 側 commit 意図を 1 行確認してから決定
   - 仕様書 Phase 5 で UI primitive 改修 task を予定する場合、Phase 9 dry-run checklist に「対象 primitive ファイルに対する `git log origin/dev ^HEAD -- <path>` で dev 側並列改修の有無を事前確認」を追加。
 - 検証: `grep -nE '^(<<<<<<<|=======|>>>>>>>|\|\|\|\|\|\|\|)' <path>` 0 件 + `pnpm typecheck` PASS + `pnpm lint` PASS + 採用 variant の既存 spec / visual baseline が green。
-- 事例: 2026-05-27 commit `57ff4402b` (`merge: sync feat/dashboard-prototype-alignment with origin/dev`)。Hero.tsx HEAD 全採用で typecheck/lint green、resolver 5 file union + 手動 1 file の標準パターンに収束。
-- 参照: aiworkflow-requirements [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-045 を併読。
+- 事例: 2026-05-27 commit `57ff4402b` (`merge: sync ...`) は typecheck/lint green だが、**pre-push `verify-no-inline-style` (issue-924) が HEAD 残置の panel variant `style={{...}}` で fail**。追加 commit `f7b493456` で panel variant の inline-style も撤去（dev 側横断ルールを残 path にも適用）し push 成功。**判定フロー step 2.5**: dev 側 commit が refactor/chore 性質の横断撤去（hook gated CI rule 適用）なら、HEAD 採用 path にも同 rule を波及させる。`git log --oneline origin/dev ^HEAD -- <path>` で commit 性質確認 + `pnpm exec lefthook run pre-push --files <path>` で事前検証を Phase 9 dry-run checklist に追記。
+- 参照: aiworkflow-requirements [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-050 / L-DEVSYNC-050-A を併読。
