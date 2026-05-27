@@ -19,7 +19,14 @@ test.describe('parallel-03 admin AppShell runtime evidence (EV-12)', () => {
     await expect(shell).toBeVisible()
     await expect(shell).toHaveAttribute('data-theme', 'cool')
     await expect(shell).toHaveAttribute('data-route-group', 'admin')
-    await expect(adminPage.locator('[data-shell="sidebar"]')).toBeVisible()
+    const viewportWidth = adminPage.viewportSize()?.width ?? 0
+    const sidebar = adminPage.locator('[data-shell="sidebar"]')
+    await expect(sidebar).toBeAttached()
+    if (viewportWidth >= 768) {
+      await expect(sidebar).toBeVisible()
+    } else {
+      await expect(sidebar).toBeHidden()
+    }
     await expect(adminPage.locator('[data-shell="topbar"]')).toHaveCount(0)
     await expect(adminPage.locator('main[data-route="admin"]')).toBeVisible()
 

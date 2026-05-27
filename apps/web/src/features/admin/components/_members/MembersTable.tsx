@@ -94,7 +94,7 @@ export function MembersTable({
               />
             </th>
             <th scope="col" className="px-2 py-2 md:px-3">メンバー</th>
-            <th scope="col" className="hidden px-2 py-2 md:table-cell md:px-3">メール</th>
+            <th scope="col" className="hidden px-2 py-2 lg:table-cell md:px-3">メール</th>
             <th scope="col" className="hidden px-2 py-2 lg:table-cell md:px-3">区画 / ステータス</th>
             <th scope="col" className="hidden px-2 py-2 lg:table-cell md:px-3">タグ</th>
             <th scope="col" className="hidden px-2 py-2 xl:table-cell md:px-3">最終更新</th>
@@ -127,7 +127,7 @@ export function MembersTable({
                 <td className="min-w-0 px-2 py-2 md:px-3">
                   <button
                     type="button"
-                    className="flex min-w-0 items-center gap-2 text-left md:gap-3"
+                    className="flex w-full min-w-0 items-center gap-2 text-left md:gap-3"
                     onClick={() => onOpenRow(m.memberId)}
                   >
                     <Avatar name={m.fullName} memberId={m.memberId} hue={stringHashHue(m.memberId)} size="sm" />
@@ -141,7 +141,7 @@ export function MembersTable({
                     </span>
                   </button>
                 </td>
-                <td className="hidden break-all px-2 py-2 font-mono text-xs text-[var(--ubm-color-text-secondary)] md:table-cell md:px-3">
+                <td className="hidden break-all px-2 py-2 font-mono text-xs text-[var(--ubm-color-text-secondary)] lg:table-cell md:px-3">
                   {maskEmail(m.responseEmail)}
                 </td>
                 <td className="hidden px-2 py-2 lg:table-cell md:px-3">
