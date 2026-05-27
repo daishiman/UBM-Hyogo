@@ -1,9 +1,13 @@
 import Link from "next/link";
 import type { AdminAuditListItem, AdminAuditListResponse } from "../../lib/admin/types";
+import { Banner } from "../ui/Banner";
+import { Button, buttonVariants } from "../ui/Button";
+import { Card } from "../ui/Card";
 import { FormField } from "../ui/FormField";
 import { Input } from "../ui/Input";
 import { EmptyState } from "../ui/EmptyState";
 import { Pagination } from "../ui/Pagination";
+import { Select } from "../ui/Select";
 
 export interface AuditSearchValues {
   readonly action?: string;
@@ -155,59 +159,71 @@ export function AuditLogPanel({
 }) {
   const items = data?.items ?? [];
   return (
-    <section aria-labelledby="admin-audit-h" data-component="admin-audit">
-      <header>
-        <h1 id="admin-audit-h">監査ログ</h1>
-      </header>
+    <section data-component="admin-audit" className="flex flex-col gap-4">
+      <Card>
+        <form
+          action="/admin/audit"
+          aria-label="監査ログフィルター"
+          className="grid grid-cols-1 items-end gap-3 md:grid-cols-2 lg:grid-cols-4"
+        >
+          <FormField name="action" label="action">
+            <Input name="action" defaultValue={values.action ?? ""} placeholder="attendance.add" />
+          </FormField>
+          <FormField name="actorEmail" label="actorEmail">
+            <Input name="actorEmail" defaultValue={values.actorEmail ?? ""} inputMode="email" />
+          </FormField>
+          <FormField name="targetType" label="targetType">
+            <Input name="targetType" defaultValue={values.targetType ?? ""} placeholder="meeting | admin_member_note" />
+          </FormField>
+          <FormField name="targetId" label="targetId">
+            <Input name="targetId" defaultValue={values.targetId ?? ""} />
+          </FormField>
+          <FormField name="from" label="from (JST)">
+            <Input name="from" type="datetime-local" defaultValue={values.fromLocal ?? ""} />
+          </FormField>
+          <FormField name="to" label="to (JST)">
+            <Input name="to" type="datetime-local" defaultValue={values.toLocal ?? ""} />
+          </FormField>
+          <FormField name="limit" label="limit">
+            <Select name="limit" defaultValue={values.limit ?? "50"}>
+              <option value="25">25</option>
+              <option value="50">50</option>
+              <option value="100">100</option>
+            </Select>
+          </FormField>
+          <div className="col-span-full flex justify-end gap-2">
+            <Button type="submit" variant="primary">
+              検索
+            </Button>
+            <Link
+              href="/admin/audit"
+              data-role="reset"
+              className={buttonVariants({ variant: "ghost", size: "md" })}
+            >
+              リセット
+            </Link>
+          </div>
+        </form>
+      </Card>
 
-      <form
-        action="/admin/audit"
-        aria-label="監査ログフィルター"
-        className="admin-audit-filter"
-      >
-        <FormField name="action" label="action">
-          <Input name="action" defaultValue={values.action ?? ""} placeholder="attendance.add" />
-        </FormField>
-        <FormField name="actorEmail" label="actorEmail">
-          <Input name="actorEmail" defaultValue={values.actorEmail ?? ""} inputMode="email" />
-        </FormField>
-        <FormField name="targetType" label="targetType">
-          <Input name="targetType" defaultValue={values.targetType ?? ""} placeholder="meeting | admin_member_note" />
-        </FormField>
-        <FormField name="targetId" label="targetId">
-          <Input name="targetId" defaultValue={values.targetId ?? ""} />
-        </FormField>
-        <FormField name="from" label="from (JST)">
-          <Input name="from" type="datetime-local" defaultValue={values.fromLocal ?? ""} />
-        </FormField>
-        <FormField name="to" label="to (JST)">
-          <Input name="to" type="datetime-local" defaultValue={values.toLocal ?? ""} />
-        </FormField>
-        <label>
-          limit
-          <select name="limit" defaultValue={values.limit ?? "50"}>
-            <option value="25">25</option>
-            <option value="50">50</option>
-            <option value="100">100</option>
-          </select>
-        </label>
-        <div>
-          <button type="submit">検索</button>
-          <Link href="/admin/audit" data-role="reset">
-            リセット
-          </Link>
-        </div>
-      </form>
-
-      {error ? <p role="alert">監査ログを読み込めませんでした: {error}</p> : null}
+      {error ? (
+        <Banner tone="warning">
+          <p>監査ログを読み込めませんでした: {error}</p>
+          {error.includes("404") ? (
+            <p className="mt-1 text-sm text-[var(--ubm-color-text-secondary)]">
+              API endpoint への疎通、staging deploy 状態、admin 認可を確認してください。
+            </p>
+          ) : null}
+        </Banner>
+      ) : null}
       {!error && items.length === 0 ? (
         <EmptyState title="該当する監査ログはありません。" />
       ) : null}
 
       {items.length > 0 ? (
-        <>
+        <Card>
           <div className="admin-audit-table-scroll">
-            <table className="admin-audit-table">
+            <table className="tbl">
               <thead>
                 <tr>
                   <th scope="col">日時 / ID</th>
@@ -231,7 +247,7 @@ export function AuditLogPanel({
             nextLabel="次のページ"
           />
           {!data?.nextCursor ? <span>次のページはありません</span> : null}
-        </>
+        </Card>
       ) : null}
     </section>
   );

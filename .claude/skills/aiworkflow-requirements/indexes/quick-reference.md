@@ -1,5 +1,18 @@
 # クイックリファレンス
 
+## admin-audit-prototype-alignment（2026-05-27）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/admin-audit-prototype-alignment/` |
+| status | `implemented_local_runtime_pending / implementation / VISUAL` |
+| purpose | `/admin/audit` を admin prototype design language に整え、staging `admin api /admin/audit?limit=50 failed: 404` を H1〜H5 で切り分けて復旧する |
+| implementation targets | `apps/web/app/(admin)/admin/audit/page.tsx`, `apps/web/src/components/admin/AuditLogPanel.tsx`, `apps/web/src/lib/admin/safe-server-fetch.ts`, `apps/api/src/routes/admin/audit.ts` |
+| contract | `AdminAuditListResponseZ` / D1 schema / auth middleware は変更しない。`Button` は `polymorphic link rendering` 非対応のため reset link は `buttonVariants` を使う。`Banner` は `tone="warning"`。 |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-audit-prototype-alignment-artifact-inventory.md` |
+| local evidence | web suite 158 files / 1158 tests PASS; api suite 66 files / 415 tests PASS; D1 audit contract 10 PASS; Phase 11 screenshots `admin-audit-{default,filtered,empty}.png` |
+| user gate | staging deploy, secret mutation, authenticated staging visual baseline, commit, push, PR |
+
 ## google-form-reflection-diagnostics（2026-05-26）
 ## Issue #924 style-src-attr retirement（2026-05-25）
 
