@@ -456,3 +456,17 @@
   - Phase 4 risk に「workflow dir rename を伴う UI feature は dev 側 sibling 追加と同位置で衝突する」を登録し、merge 前に `git log origin/dev ^HEAD -- apps/web/playwright.config.ts` で sibling 追加 commit の有無を確認するチェックを加える。
 - 事例同時発生: `.claude/skills/task-specification-creator/references/patterns-lessons-and-pitfalls.md` EOF で HEAD 側 `## DOM 構造置換 PR ...` 節 + dev 側 `## accent on accent-soft chip ...` / `## L-DEVSYNC-051 visual baseline ...` / `## L-FETCHCACHE-001 ...` 3 節が並列追加。SP-DEVSYNC-037 同パターンで両側保持＋marker 物理除去で解消（resolver 非対応の手動 union）。
 - 検証: `grep -nE '^(<<<<<<<|=======|>>>>>>>|\|\|\|\|\|\|\|)' <path>` 0 件 + `pnpm typecheck` PASS + `pnpm lint` PASS。
+
+### SP-DEVSYNC-040: invariant 強化 refactor ブランチでの source conflict は HEAD 全採用が default（2026-05-28 追加）
+
+- 事象: 2026-05-28 `feat/profile-server-components-render-error` ← origin/dev sync-merge で `apps/web/src/lib/fetch/authed.ts` のみ resolver `WARN unhandled`。3-way の HEAD は env unification (`getApiBaseEnv()` 単一 accessor + fallback 撤去 + 未設定 throw)、dev は中間形 (`getAuthEnv()` / `getPublicFetchEnv()` 別 accessor + fallback 据置)、base は `process.env` 直参照 + `127.0.0.1:8787` 焼き込み。
+- Why: HEAD のほうが `apps/web` env invariant（CLAUDE.md「`apps/web` env アクセス不変条件」task-02 wrangler-env-injection）の最終形に到達しており、dev は HEAD が置換しようとしている中間状態。HEAD 採用で dev の意図も自動達成。手動 union は invariant 違反（`process.env` 直参照復活 / fallback 焼き込み復活）を招く。
+- How to apply（task 仕様書での逐語化）:
+  - Phase 9 sync-merge 節に「**invariant 強化 refactor 判定**」を SP-DEVSYNC-038 step 2.5 の前段として追記:
+    - ブランチ名 / PR title / Phase 1 要件に **env unification / fallback retirement / invariant lock** 等の refactor 語彙があるかを確認
+    - 該当する場合、source conflict は `git checkout --ours <path>` で **HEAD 全採用が default**
+    - 採用後、HEAD で使う accessor が `apps/web/src/lib/env.ts` 等の dependency に実在することを `grep -n` で確認（dev 側に存在しない関数参照だと build 失敗）
+  - Phase 4 risk に「invariant 強化 refactor ブランチは dev 側中間形と同位置で衝突する」を登録し、merge 前に `git log -p origin/dev ^HEAD -- <path>` で dev の中間形 commit を事前把握する checklist を加える。
+- 検証: `grep -nE '^(<<<<<<<|=======|>>>>>>>|\|\|\|\|\|\|\|)' <path>` 0 件 + `pnpm typecheck` PASS + `pnpm lint` PASS + 採用 accessor の export 実在を grep で確認。
+- 適用範囲外: invariant に関係しない feature ブランチ（UI 整合 / 機能追加等）は SP-DEVSYNC-038 の 3-way 判定フロー（新 variant 追加 vs 簡素化）に戻る。
+- 参照: aiworkflow-requirements [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-054 を唯一の正本。
