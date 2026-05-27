@@ -853,3 +853,21 @@
 - 留意: HEAD 側に `data-variant` prop が新設されている場合、既存呼び出し側（`<Hero ... />` を使う page）が default variant に依存しているか確認する。本ケースでは `variant?: "card" | "panel"` の default が `"card"`（新 variant）に切り替わるため、prototype-alignment 進行中であれば意図通り。完了後 sync では `variant="panel"` 明示が必要なケースもあり得る。
 - 事例: 2026-05-27 commit `57ff4402b` (`merge: sync ...`) → typecheck/lint green。**しかし pre-push `verify-no-inline-style` (issue-924 由来) が HEAD 残置の panel variant `style={{...}}` で fail**。追加 commit `f7b493456` で panel variant の inline-style も撤去し push 成功。
 - **重要追補（L-DEVSYNC-050-A 横断ルール波及）**: 「HEAD 全採用」は **dev 側変更が CI gate (lint / inline-style / 命名規約等) を背景とする横断ルールの場合、残存する HEAD 側 path にも同じ横断ルールを適用する**。dev 側 commit が「issue 単位の横断撤去・置換」性質（refactor/chore 系、本件 issue-924 inline-style 撤去）であれば、HEAD 採用 path への横展開を忘れると pre-push hook で即 fail する。判定フロー step 2.5 として `git log --oneline origin/dev ^HEAD -- <path>` で commit 性質を確認し、横断撤去なら HEAD 採用後にローカル `pnpm exec lefthook run pre-push --files <path>` で事前検証する。task-specification-creator [[dev-sync-merge-conflict-resolution]] SP-DEVSYNC-038 に逐語埋め込み済み。
+
+## L-DEVSYNC-051: visual baseline (PNG + .baseline-meta.json) コンフリクトは作業ブランチ side (ours) 全採用が default（2026-05-27 確認）
+
+- 事象: 2026-05-27 `feat/dashboard-prototype-alignment` ← origin/dev sync-merge で `pnpm sync:resolve` が 4 skill md union 成功 / 残 6 file (`apps/web/playwright/tests/visual-full/.baseline-meta.json` + 3 full-visual PNG + 2 public PNG) を `WARN unhandled conflict` として返した。両 branch とも直近に `chore(visual): update baselines via workflow_dispatch` の自動再生成 commit を持っている (HEAD=1ff7c8948 dashboard chip-cadence a11y / dev=04c569a48 login UI rebalance)。
+- Why: visual baseline は branch ごとの UI 変更を反映した「正本スナップショット」であり、両 branch が同種の `workflow_dispatch` 経由で再生成している場合、dev side の baseline は HEAD branch が持つ独自 UI 変更（本件 chip-cadence accent-ink 色変更）を**含まない**。dev 側採用 / union / 手動 merge は不可能（PNG は binary diff）で、HEAD 側採用以外に意味のある選択肢がない。`sync:resolve` は binary / 専用ロジック未定義のため `WARN unhandled` で停止する設計が正しい。
+- How to apply:
+  1. `pnpm sync:resolve` の `WARN unhandled conflict:` 出力に `apps/web/playwright/tests/visual*/**.png` または `.baseline-meta.json` が含まれたら、迷わず **`git checkout --ours` で一括採用**する。具体例:
+     ```bash
+     git checkout --ours apps/web/playwright/tests/visual-full/.baseline-meta.json \
+       apps/web/playwright/tests/visual-full/full-visual.spec.ts-snapshots/*.png \
+       apps/web/playwright/tests/visual/*.spec.ts-snapshots/*.png
+     git add apps/web/playwright/tests/visual-full/ apps/web/playwright/tests/visual/
+     ```
+  2. 例外: HEAD branch が visual に**全く触れていない**（commit log で `playwright/tests/visual*` への変更 0 件）かつ dev 側のみ baseline 更新している場合に限り theirs 採用。判定: `git log --oneline HEAD ^origin/dev -- apps/web/playwright/tests/visual` が空なら theirs、1 件でもあれば ours。
+  3. `.baseline-meta.json` は dev / HEAD のどちらの commit SHA を baseline ref として持つかが分かれるため、ours 採用後は HEAD branch の最新 SHA に整合させる必要は**ない**（`workflow_dispatch` 再生成 commit が次にあれば自動更新される）。
+  4. ours 採用は visual regression を意味的に「HEAD branch 側が正本」と宣言する行為。staging visual smoke の実行責任は PR 作者に残る（merge 後の運用 SOP として `playwright-smoke / visual` ジョブで再検証）。
+- 留意: `pnpm sync:resolve` の現行実装はこの判定をしない。`scripts/sync/resolve-skill-merge-conflicts.sh` に `case` を追加して自動化することも可能だが、theirs 採用が必要な例外パスがあるため、**WARN として手動判定を促す現行設計を維持**するのが安全。
+- 事例: 2026-05-27 commit `05a5c89c0`（`Merge remote-tracking branch 'origin/dev' into feat/dashboard-prototype-alignment`）。`sync:resolve` で 4 md union 成功 + 6 visual baseline WARN → `git checkout --ours` 一括採用 → `pnpm typecheck` / `pnpm lint` / `bash scripts/verify-pr-ready.sh` 全 green（OK:508 WARN:341 ERROR:0）→ commit 成功。HEAD branch (dashboard prototype) の chip-cadence accent-ink baseline が保持され、dev 側 login UI baseline 更新は次回 dashboard branch 内 visual workflow_dispatch で自動取り込み。
