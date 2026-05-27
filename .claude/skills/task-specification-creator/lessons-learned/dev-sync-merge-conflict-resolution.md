@@ -456,3 +456,20 @@
   - Phase 4 risk に「workflow dir rename を伴う UI feature は dev 側 sibling 追加と同位置で衝突する」を登録し、merge 前に `git log origin/dev ^HEAD -- apps/web/playwright.config.ts` で sibling 追加 commit の有無を確認するチェックを加える。
 - 事例同時発生: `.claude/skills/task-specification-creator/references/patterns-lessons-and-pitfalls.md` EOF で HEAD 側 `## DOM 構造置換 PR ...` 節 + dev 側 `## accent on accent-soft chip ...` / `## L-DEVSYNC-051 visual baseline ...` / `## L-FETCHCACHE-001 ...` 3 節が並列追加。SP-DEVSYNC-037 同パターンで両側保持＋marker 物理除去で解消（resolver 非対応の手動 union）。
 - 検証: `grep -nE '^(<<<<<<<|=======|>>>>>>>|\|\|\|\|\|\|\|)' <path>` 0 件 + `pnpm typecheck` PASS + `pnpm lint` PASS。
+
+### SP-DEVSYNC-040: in-place 全面リデザイン feature × dev 側 followup 並列改修は「同一領域 component 群一括 take ours + spec drift 再復元」（2026-05-28 追加）
+
+- 事象: 2026-05-28 `feat/admin-members-prototype-redesign` ← origin/dev sync-merge で /admin/members 周辺 6 ファイル（`page.tsx` / `MembersFilters.tsx` / `MembersTable.tsx` / `MemberDrawer.tsx` / `MembersClientShell.tsx` / `MembersFilters.spec.tsx`）が `WARN unhandled conflict`。HEAD は単一 commit `feat(admin-members): /admin/members prototype redesign` で primitive 群追加 + 既存 component の全面置換 + spec 全面書き換え。dev は `#968` followup-001 で同 component 群に漸進的整合（既存 prop API を維持しつつ MembersPageHead / Breadcrumb 分離追加）。
+- Why: 両方とも「プロトタイプ整合」だが粒度が違う（一括 redesign vs 漸進的整合）。union 不可・dev take は redesign 全体破壊。HEAD 全採用が正解で、dev の本体機能（API 404 fix など）は conflict 外ファイルで既に auto-merge 済みのため失われない。
+- How to apply（task 仕様書での逐語化）:
+  - Phase 4 risk に「in-place redesign 単一 commit を含む feature は dev 側 followup と同一 component 群で構造的に衝突する」を登録。
+  - Phase 9 sync-merge 節に「**redesign 一括 take ours 判定フロー**」を追記:
+    1. `WARN unhandled conflict` 一覧が同一 feature 領域の component 群（5 file 以上）+ 対応する spec で構成されているか確認
+    2. `git log --oneline HEAD ^dev -- <component path>` で HEAD 側が「全面 redesign 単一 commit」か判定
+    3. 該当なら `for f in <files>; do git checkout --ours "$f"; git add "$f"; done` → `git commit --no-edit` で一括解消
+    4. **必ず追加 typecheck**: auto-merge された spec/component 周辺で **prop drift error** が出る前提で `pnpm --filter @ubm-hyogo/web typecheck` を実行。drift 検出時は `git show <redesign tip>:<spec path> > <spec path>` で HEAD 側 spec を強制復元し追加 commit `fix(<scope>): restore redesign <name> spec after dev merge`
+- 留意:
+  - 「conflict marker なしで auto-merge された spec」が最大の罠。HEAD 側 component の prop が変わっているのに spec は dev 側 prop が残るパターンが頻発する
+  - dev followup の本体機能（API path fix / route handler 等）は通常 conflict 外で auto-merge 済みのため、HEAD take しても保持される（安心して take ours できる）
+- 事例: 2026-05-28 merge commit `709f13920` + spec restore commit `8f510ba33`。typecheck 初回 `MembersTable.spec.tsx` で `summariesByMember` / `tagsByMember` / `onTogglePublish` prop が存在しない error 3 件 → HEAD redesign tip から spec 復元で green。
+- 参照: aiworkflow-requirements [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-054 を併読。

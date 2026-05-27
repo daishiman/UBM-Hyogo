@@ -987,3 +987,22 @@
 - 留意: feature branch が workflow dir rename を含む場合、dev 側で同種 prototype-alignment task が並行進行していると本パターンは構造的に再発する。Phase 4 risk に「playwright.config 三項分岐は同位置で並列改修されやすい」を登録し、merge 前に `git log origin/dev ^HEAD -- apps/web/playwright.config.ts` で sibling 追加 commit の有無を確認するチェックを runbook に組み込む。
 - 事例: 2026-05-27 commit を併発した同 sync-merge で `.claude/skills/task-specification-creator/references/patterns-lessons-and-pitfalls.md` も EOF 並列追加（HEAD=「DOM 構造置換 PR 同一 wave spec 同期」節、dev=「accent-soft chip accent-ink」「visual baseline ours 採用」「fetcher 層 no-store」3 節）で同時に WARN unhandled。SP-DEVSYNC-037 の spec EOF 両側保持パターンで base 削除 + HEAD + dev 順序保持 + marker 物理除去で解消。
 - 参照: task-specification-creator [[dev-sync-merge-conflict-resolution]] SP-DEVSYNC-039 に逐語埋め込み。
+
+## L-DEVSYNC-054: in-place 全面リデザイン feature × dev 側 followup-001 並列改修の「同一 component 群一括 take ours」パターン（2026-05-28 確認）
+
+- 事象: 2026-05-28 `feat/admin-members-prototype-redesign` ← origin/dev sync-merge で /admin/members 周辺 6 ファイルが `WARN unhandled conflict`（`apps/web/app/(admin)/admin/members/page.tsx` / `_members/MembersFilters.tsx` / `MembersTable.tsx` / `MemberDrawer.tsx` / `MembersClientShell.tsx` / `__tests__/MembersFilters.spec.tsx`）。
+  - **HEAD (我側)**: `feat(admin-members): /admin/members prototype redesign` 単一 commit で primitive 群追加 (`MemberAvatar` / `MemberPublishSwitch` / `MemberStateChip` / `PillNav` / `TagPill`)・既存 component を新 prop API に**全面置換**・focused vitest spec 群を書き直し
+  - **dev (向側)**: `#968` `followup-001 (404 fix + prototype alignment)` で同じ component 群に**漸進的整合**（MembersPageHead 追加・Breadcrumb 分離・既存 prop 維持）
+- Why: 両方とも「プロトタイプ整合」方向だが、HEAD は**一括 redesign**（component 全面書き換え + spec 全面書き換え）、dev は**漸進的整合**（既存 prop API を残しつつ component 分離追加）。粒度が違うため union 不可能・dev take は redesign 全体が壊れる。HEAD 全採用が正解だが、dev の 404 fix は `apps/web/app/api/admin/[...path]/route.ts` 等の**conflict 外ファイル**で既に自動 merge 済みのため失われない。
+- How to apply（aiworkflow runbook 手順）:
+  1. `WARN unhandled conflict` 一覧が **同一 feature 領域の component 群（5 file 以上）+ 対応する spec** で構成されている場合、`git log --oneline HEAD ^dev -- <component path>` で HEAD 側が「全面 redesign 単一 commit」かを確認
+  2. 該当なら以下を一括実行（個別判断不要）:
+     - `for f in <conflict files>; do git checkout --ours "$f"; git add "$f"; done`
+     - `git commit --no-edit` でマージ完了
+  3. **追加検証必須**: auto-merge した spec/component 周辺（特に `*.spec.tsx`）で**prop drift typecheck error** がないか `pnpm --filter @ubm-hyogo/web typecheck` で確認。drift があれば HEAD 側 spec で上書き（`git show <redesign tip>:<path> > <path>`）+ 追加 commit
+- 留意:
+  - dev 側 followup の **本体機能（API 404 fix など conflict 外で merge 済み）は HEAD take しても保持される**ため、安心して take ours できる
+  - 「conflict なしで auto-merge された spec」が一番危険。HEAD 側 component の prop が変わっているのに spec は dev 側 prop で残るパターンが頻発する → typecheck で必ず検出
+  - 追加 commit のメッセージは `fix(<scope>): restore redesign <name> spec after dev merge` で統一
+- 事例: 2026-05-28 merge commit `709f13920` + spec restore `8f510ba33`。typecheck 初回 `MembersTable.spec.tsx` で `summariesByMember` / `tagsByMember` / `onTogglePublish` prop が存在しない error 3 件 → HEAD 側 spec で復元後 typecheck/lint green。
+- 参照: task-specification-creator [[dev-sync-merge-conflict-resolution]] SP-DEVSYNC-040 に逐語埋め込み。
