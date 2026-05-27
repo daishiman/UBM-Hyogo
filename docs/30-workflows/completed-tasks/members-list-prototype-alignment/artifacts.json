@@ -1,0 +1,81 @@
+{
+  "task_id": "members-list-prototype-alignment",
+  "created_at": "2026-05-26",
+  "status": "implemented_local_evidence_captured",
+  "task_type": "implementation",
+  "visual_category": "VISUAL",
+  "implementation_mode": "new",
+  "metadata": {
+    "workflow_state": "implemented_local_evidence_captured",
+    "implementation_status": "implemented_local_unit_pass_visual_runtime_partial",
+    "taskType": "implementation",
+    "visualEvidence": "VISUAL",
+    "implementationCategory": "ui_alignment",
+    "spec_classification": "implementation_spec",
+    "canonical_workflow": "docs/30-workflows/completed-tasks/members-list-prototype-alignment/",
+    "parent_workflows": [
+      "docs/30-workflows/completed-tasks/ui-prototype-alignment-mvp-recovery/"
+    ],
+    "branch": "feat/members-list-prototype-alignment",
+    "scope_routes": [
+      "/members"
+    ],
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-05-26T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/members-list-prototype-alignment/outputs/phase-12/phase12-task-spec-compliance-check.md",
+        "approver": "daishiman",
+        "notes": "spec_review: Phase 1-13 implementation spec, Phase 12 strict 7, and same-wave code implementation are present"
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/members-list-prototype-alignment/outputs/phase-11/manual-test-result.md",
+        "approver": "daishiman",
+        "notes": "implementation_review: local unit/typecheck evidence captured; Playwright visual runtime blocked by local webServer readiness in this worktree"
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/members-list-prototype-alignment/outputs/phase-13/pr-creation-result.md",
+        "approver": "daishiman",
+        "notes": "external_ops: commit, push, PR — user-gated"
+      }
+    ]
+  },
+  "phases": [
+    { "phase": 1, "name": "要件定義", "status": "completed", "output": "phase-1-requirements.md" },
+    { "phase": 2, "name": "設計", "status": "completed", "output": "phase-2-design.md" },
+    { "phase": 3, "name": "設計レビュー", "status": "completed", "output": "phase-3-design-review.md" },
+    { "phase": 4, "name": "テスト計画", "status": "completed", "output": "phase-4-test-plan.md" },
+    { "phase": 5, "name": "実装手順", "status": "completed", "output": "phase-5-implementation.md" },
+    { "phase": 6, "name": "テスト追加", "status": "completed", "output": "phase-6-test-additions.md" },
+    { "phase": 7, "name": "カバレッジ", "status": "completed", "output": "phase-7-coverage.md" },
+    { "phase": 8, "name": "リファクタ", "status": "completed", "output": "phase-8-refactor.md" },
+    { "phase": 9, "name": "QA", "status": "completed", "output": "phase-9-qa.md" },
+    { "phase": 10, "name": "最終レビュー", "status": "completed", "output": "phase-10-final-review.md" },
+    { "phase": 11, "name": "手動テスト", "status": "partial", "output": "phase-11-manual-test.md" },
+    { "phase": 12, "name": "ドキュメント同期", "status": "completed", "output": "phase-12-documentation.md" },
+    { "phase": 13, "name": "commit-pr-release", "status": "spec_created", "output": "outputs/phase-13/main.md" }
+  ],
+  "implementation_targets": [
+    "apps/web/src/components/public/MemberCard.tsx",
+    "apps/web/src/components/public/MemberGrid.tsx",
+    "apps/web/src/components/public/MemberFilters.client.tsx",
+    "apps/web/src/components/feedback/EmptyState.tsx",
+    "apps/web/app/(public)/members/page.tsx",
+    "apps/web/src/styles/legacy-public.css",
+    "apps/web/src/components/ui/Icon.tsx",
+    "apps/web/src/components/ui/icons.ts",
+    "apps/web/src/components/public/__tests__/MemberCard.spec.tsx",
+    "apps/web/src/components/public/__tests__/MemberCard.component.spec.tsx",
+    "apps/web/src/components/public/__tests__/MemberGrid.spec.tsx",
+    "apps/web/src/components/public/__tests__/MemberFilters.client.spec.tsx",
+    "apps/web/src/components/feedback/__tests__/EmptyState.component.spec.tsx",
+    "apps/web/playwright/tests/members-prototype-alignment.spec.ts"
+  ]
+}

@@ -45,6 +45,7 @@ type MockApiState = {
   adminDashboardByStatus?: ReadonlyArray<StatusSliceSeed>
   attendanceDashboardScenario: 'all-ok' | 'overview-error' | 'by-session-empty'
   meetingsSeed: MockMeetingsSeed
+  publicHomeEmpty?: boolean
 }
 
 type MockApi = {
@@ -59,6 +60,7 @@ type MockApi = {
   ) => Promise<void>
   seedMeetings: (seed?: MockMeetingsSeed) => Promise<void>
   seedUnregisteredMeeting: () => Promise<void>
+  setPublicHomeEmpty: (empty: boolean) => Promise<void>
 }
 
 const STANDALONE_BASE = `http://127.0.0.1:${MOCK_API_PORT}`
@@ -245,7 +247,7 @@ function publicMembersBody(params = new URLSearchParams()) {
   const q = params.get('q') ?? ''
   // 負例クエリは contracts fixture `fixtures.public.negativeQuery`（"zzz_no_match_zzz"）が正本。
   // CI では scripts/e2e-mock-api.mjs（q === negativeQuery 完全一致）が応答するため、規約を揃える。
-  if (q === 'zzz_no_match_zzz') {
+  if (state.publicHomeEmpty || q === 'zzz_no_match_zzz') {
     return {
       items: [],
       pagination: { total: 0, page: 1, limit: 50, totalPages: 0, hasNext: false, hasPrev: false },
@@ -271,6 +273,22 @@ function publicMembersBody(params = new URLSearchParams()) {
     ],
     generatedAt: '2026-05-12T00:00:00.000Z',
   }
+}
+
+function publicStatsBody() {
+  return buildStats({
+    publicMemberCount: state.publicHomeEmpty ? 0 : 1,
+    generatedAt: '2026-05-12T00:00:00.000Z',
+    recentMeetings: state.publicHomeEmpty
+      ? []
+      : [
+          {
+            sessionId: 'session-public-home-202605',
+            title: '2026年5月 定例会',
+            heldOn: '2026-05-09',
+          },
+        ],
+  })
 }
 
 function publicMemberProfileBody() {
@@ -360,6 +378,81 @@ function adminMembersBody(query: URLSearchParams) {
     page: 1,
     pageSize: 50,
     members,
+  }
+}
+
+function diagnosticsFormsPipelineBody() {
+  return {
+    capturedAt: '2026-05-26T00:00:00.000Z',
+    counts: {
+      formResponses: 3,
+      responseFields: 87,
+      members: 3,
+      memberIdentities: 3,
+    },
+    latestSyncRuns: [
+      {
+        id: 'sync_fixture_001',
+        startedAt: '2026-05-26T00:00:00.000Z',
+        finishedAt: '2026-05-26T00:00:02.000Z',
+        status: 'success',
+        responsesFetched: 3,
+        errorMessage: null,
+      },
+    ],
+    secretsReadiness: {
+      googleServiceAccountEmail: true,
+      googlePrivateKey: true,
+      googleFormId: true,
+      authSecret: true,
+    },
+    aliasPendingCount: 2,
+    publicVisibility: {
+      totalMembers: 3,
+      publicConsentTrue: 2,
+      publishedTrue: 1,
+      visibleOnPublicDirectory: 1,
+      allHiddenByPublishState: false,
+    },
+    identityHealth: {
+      totalIdentities: 3,
+      identitiesWithoutMember: 0,
+      membersWithoutIdentity: 0,
+    },
+    hypothesisFlags: {
+      H1_ingestNeverRanOrAllErrors: false,
+      H2_identityMismatchSuspected: false,
+      H3_allHiddenByPublishState: false,
+      H4_aliasPendingNonZero: true,
+    },
+  }
+}
+
+function diagnosticsMemberBody(memberId: string) {
+  return {
+    capturedAt: '2026-05-26T00:00:00.000Z',
+    memberId,
+    identityMatches: {
+      byEmail: true,
+      byExternalId: true,
+      matchedFormResponseId: `response-${memberId}`,
+    },
+    responseFieldCount: 29,
+    expectedFieldCount: 31,
+    missingFieldKeys: ['ubm_membership_type', 'introduction'],
+    consent: {
+      publicConsent: true,
+      rulesConsent: true,
+    },
+    publishState: {
+      published: true,
+      visibleOnPublicDirectory: true,
+    },
+    hypothesisFlags: {
+      H2_identityMissing: false,
+      H3_hiddenByConsentOrPublish: false,
+      H4_missingFieldsNonEmpty: true,
+    },
   }
 }
 
@@ -582,7 +675,7 @@ async function ensureMockApi(): Promise<void> {
         return
       }
       if (req.method === 'GET' && url.pathname === '/public/stats') {
-        response(res, 200, buildStats({ generatedAt: '2026-05-12T00:00:00.000Z' }))
+        response(res, 200, publicStatsBody())
         return
       }
       if (req.method === 'GET' && url.pathname === '/public/members') {
@@ -621,6 +714,15 @@ async function ensureMockApi(): Promise<void> {
         response(res, 200, adminMembersBody(url.searchParams))
         return
       }
+      if (req.method === 'GET' && url.pathname === '/admin/diagnostics/forms-pipeline') {
+        response(res, 200, diagnosticsFormsPipelineBody())
+        return
+      }
+      const diagnosticsMemberMatch = url.pathname.match(/^\/admin\/diagnostics\/member\/([^/]+)$/)
+      if (req.method === 'GET' && diagnosticsMemberMatch?.[1]) {
+        response(res, 200, diagnosticsMemberBody(decodeURIComponent(diagnosticsMemberMatch[1])))
+        return
+      }
       if (req.method === 'GET' && url.pathname === '/admin/meetings') {
         response(res, 200, meetingsListBody())
         return
@@ -654,26 +756,6 @@ async function ensureMockApi(): Promise<void> {
           .catch(() => response(res, 400, { error: 'invalid_json' }))
         return
       }
-      const attendanceDeleteMatch = url.pathname.match(
-        /^\/admin\/meetings\/([^/]+)\/attendance\/([^/]+)$/,
-      )
-      if (req.method === 'DELETE' && attendanceDeleteMatch?.[1] && attendanceDeleteMatch?.[2]) {
-        const sessionId = decodeURIComponent(attendanceDeleteMatch[1])
-        const memberId = decodeURIComponent(attendanceDeleteMatch[2])
-        const meeting = findMeetingWithSelfHeal(sessionId)
-        if (!meeting) {
-          response(res, 404, { error: 'meeting_not_found' })
-          return
-        }
-        const exists = meeting.attendees.some((item) => item.memberId === memberId)
-        if (!exists) {
-          response(res, 404, { error: 'attendance_not_found' })
-          return
-        }
-        meeting.attendees = meeting.attendees.filter((item) => item.memberId !== memberId)
-        response(res, 200, { ok: true, attended: false })
-        return
-      }
       const attendanceImportMatch = url.pathname.match(
         /^\/admin\/meetings\/([^/]+)\/attendance\/import$/,
       )
@@ -704,12 +786,22 @@ async function ensureMockApi(): Promise<void> {
           .catch(() => response(res, 400, { error: 'invalid_json' }))
         return
       }
+      if (req.method === 'POST' && url.pathname === '/__test__/public-home') {
+        readJson(req)
+          .then((body) => {
+            state.publicHomeEmpty = Boolean((body as { empty?: unknown }).empty)
+            response(res, 200, { ok: true, publicHomeEmpty: state.publicHomeEmpty })
+          })
+          .catch(() => response(res, 400, { error: 'invalid_json' }))
+        return
+      }
       if (req.method === 'POST' && url.pathname === '/__test__/reset') {
         state.pendingRequests = {}
         delete state.visibilityPost
         delete state.adminDashboardUnresolvedSchema
         delete state.adminDashboardByStatus
         state.attendanceDashboardScenario = 'all-ok'
+        delete state.publicHomeEmpty
         state.meetingsSeed = defaultAttendanceSeed()
         response(res, 200, { ok: true })
         return
@@ -834,6 +926,7 @@ const mockApi: MockApi = {
     delete state.adminDashboardUnresolvedSchema
     delete state.adminDashboardByStatus
     state.attendanceDashboardScenario = 'all-ok'
+    delete state.publicHomeEmpty
     state.meetingsSeed = defaultAttendanceSeed()
     await postControl('/__test__/reset')
   },
@@ -883,6 +976,10 @@ const mockApi: MockApi = {
     const seed = unregisteredAttendanceSeed()
     state.meetingsSeed = seed
     await postControl('/__test__/seed-meetings', seed)
+  },
+  setPublicHomeEmpty: async (empty) => {
+    state.publicHomeEmpty = empty
+    await postControl('/__test__/public-home', { empty })
   },
 }
 

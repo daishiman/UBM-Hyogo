@@ -1,10 +1,8 @@
 // parallel-03 S-01: Public AppShell。data-theme="warm" / data-shell / data-route 契約。
-// プロトタイプ整合: PublicHeader をセッション解決付きの SessionAwarePublicHeader 経由で描画し、
-// ログイン中ユーザーには「マイページ」動線を露出する。layout 本体は sync を維持する（テスト互換）。
 import type { ReactNode } from "react";
 
 import { PublicFooter } from "../../src/components/public/PublicFooter";
-import { SessionAwarePublicHeader } from "../../src/components/public/SessionAwarePublicHeader";
+import { PublicHeader } from "../../src/components/public/PublicHeader";
 
 export default function PublicLayout({
   children,
@@ -19,7 +17,7 @@ export default function PublicLayout({
       data-testid="public-shell"
     >
       <header data-shell="topbar">
-        <SessionAwarePublicHeader />
+        <PublicHeader />
       </header>
       <main data-route="public" data-section-rhythm="comfortable">{children}</main>
       <footer data-shell="footer">

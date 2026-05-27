@@ -2,10 +2,12 @@
 // 不変条件 #5: web は D1 を直接参照しない。verify は API worker に委譲する。
 // AC-3: 失敗 reason は /login?error=<mapped> に対応する識別子へ正規化する。
 
+import { getAuthEnv } from "../env";
+
 const FALLBACK_INTERNAL_API = "http://127.0.0.1:8787";
 
 const resolveApiBase = (override?: string): string => {
-  const v = override ?? process.env["INTERNAL_API_BASE_URL"];
+  const v = override ?? getAuthEnv().INTERNAL_API_BASE_URL;
   if (v && v.length > 0) return v.replace(/\/$/, "");
   return FALLBACK_INTERNAL_API;
 };

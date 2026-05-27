@@ -1,0 +1,13 @@
+[33mThe CJS build of Vite's Node API is deprecated. See https://vite.dev/guide/troubleshooting.html#vite-cjs-node-api-deprecated for more details.[39m
+
+ RUN  v2.1.9 /Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260526-101300-wt-9
+
+ ✓ scripts/__tests__/coverage-threshold-lint.spec.ts (8 tests) 20425ms
+   ✓ coverage-threshold-lint > fails drift when executor threshold differs from SSOT 674ms
+   ✓ coverage-threshold-lint > prints machine-readable JSON only with --json 19269ms
+
+ Test Files  1 passed (1)
+      Tests  8 passed (8)
+   Start at  15:24:14
+   Duration  100.28s (transform 10.06s, setup 0ms, collect 6.95s, tests 20.42s, environment 31.90s, prepare 15.20s)
+

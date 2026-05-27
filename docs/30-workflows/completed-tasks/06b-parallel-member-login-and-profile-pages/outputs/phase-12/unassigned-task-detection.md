@@ -9,7 +9,7 @@
 | `/profile` の i18n（ja のみ） | MVP は ja のみ | 将来 wave |
 | Magic Link 再送 cooldown の永続化（reload 後も継続） | URL query で代替、優先度低 | 後続 wave |
 | 06b `/profile` ログイン後 visual evidence 取得 | 実 session / API fixture / staging deploy がこの review turn では未準備 | `docs/30-workflows/unassigned-task/UT-06B-PROFILE-VISUAL-EVIDENCE.md` |
-| 06b Magic Link 429 `Retry-After` UI 復元 | client cooldown は補助で、API rate limit を正本にした復元表示が未実装 | `docs/30-workflows/unassigned-task/UT-06B-MAGIC-LINK-RETRY-AFTER.md` |
+| 06b Magic Link 429 `Retry-After` UI 復元 | 2026-05-26 に `docs/30-workflows/completed-tasks/issue-275-magic-link-429-retry-after/` で implemented_local_evidence_captured。source pointer は consumed | `docs/30-workflows/unassigned-task/UT-06B-MAGIC-LINK-RETRY-AFTER.md` |
 | Next.js middleware -> proxy convention migration | Next.js 16 dev server が `middleware` file convention deprecated warning を出す | `docs/30-workflows/unassigned-task/UT-06B-NEXT-PROXY-MIGRATION.md` |
 
 ## Phase 10 引継ぎ minor

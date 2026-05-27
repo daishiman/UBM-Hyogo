@@ -2,12 +2,6 @@
 
 > 親ファイル: [patterns.md](patterns.md)
 
-## public-header-my-profile-nav-alignment lessons (2026-05-26)
-
-- L-PUBHDR-001: Header personalization workflows should keep the presentational header sync and isolate dynamic inputs. Use a server wrapper for session and a minimal client island for pathname when real `aria-current` is required.
-- L-PUBHDR-002: Do not record same-wave skill/reference/index updates as user-gated when they are repository-local files. User gates apply to commit, push, PR, deployment, and external runtime evidence, not local canonical sync.
-- L-PUBHDR-003: Avoid duplicating the same destination and label in primary nav and CTA. For public chrome, choose one semantic owner for `/profile`; in this workflow the authenticated CTA owns the my-page action.
-
 ## 目的
 
 過去のタスク実行で発生した失敗事例と教訓を記録する。再発防止と初動短縮のためのリファレンス。
@@ -453,6 +447,7 @@ dev → feature の sync-merge で発生した conflict 解消ルール（aiwork
 これら 3 件は本 skill の `evidence-sync-rules.md` / `patterns-phase12-sync.md` で扱う「Phase 12 strict 7 / sync gate」と整合する追加ガード。
 
 - **L-DEVSYNC-043 (`pnpm sync:resolve` 中の worktree `index.lock` 失敗)**: sync-merge を伴う Phase（特に Phase 5 / Phase 12 の skill index 更新 + Phase 13 PR 前）で `pnpm sync:resolve` が `fatal: Unable to create '.../worktrees/<wt>/index.lock'` で失敗するケースを runbook 化する。**仕様書側の Phase 12 implementation-guide / Phase 13 PR pre-flight チェックリスト**に「`pnpm sync:resolve` 失敗時は `rm -f $(git rev-parse --git-dir)/index.lock` を試す」troubleshoot 行を含めること（worktree 環境では `.git` がファイルなので `.git/index.lock` 直接除去はできない）。詳細手順は aiworkflow-requirements skill L-DEVSYNC-043 を参照。
+- **L-DEVSYNC-050 (dev snapshot housekeeping commit が ort auto-merge 通過率を上げる / 2026-05-27 確認)**: dev 側に `chore(dev-snapshot): housekeeping snapshot before origin/dev sync (#NNN)` 系の snapshot commit が入っている直後の sync-merge は、skill index 系 (`indexes/{keywords.json, quick-reference.md, resource-map.md, topic-map.md}` / `references/task-workflow-active.md`) も含めて **ort strategy で conflict 0 件 auto-merge** が成立しやすい。**仕様書側の Phase 13 PR pre-flight チェックリスト**に「(a) `git log origin/dev --oneline -20 | grep dev-snapshot` で直近 snapshot commit の有無を確認、(b) snapshot が直近にない場合は `pnpm sync:resolve` フォールバックを前提に手順を進める、(c) feature ブランチ側で 1 日以上 dev sync していない場合は事前 `git fetch origin dev:dev && git merge dev` を 1 回挟んで base を新鮮化する」の 3 点を含めること。長時間 sync しないまま skill index を頻繁に書き換えると 3-way base が古くなり conflict 増加する逆相関を Phase 4 risk table に記録する。詳細は aiworkflow-requirements skill L-DEVSYNC-049 直後の 2026-05-27 (3回目) 事例参照。
 
 ## enum → route exhaustiveness guard pattern（issue-891）
 
@@ -542,6 +537,34 @@ issue-894（admin topbar breadcrumb 二重描画解消）実装で得た知見�
 
 - exempt path を「pattern template として汎用化したいから」と理由なく広げる（例: `apps/web/src/components/**/*.svg`）。**brand-icon 専用 dir に物理的に閉じ込める**こと。CONST_007 (unassigned-task は実装過程で実際に発見されたもののみ) に準拠し、speculative な exempt 拡張は避ける。
 
+## HTTP status 別 typed error / server-truth countdown パターン（Issue #275 由来）
+
+429 等の retry 可能 status は「失敗」ではなく「server-truth に従った待機」として扱う必要があり、独立 error class や catch-all 分岐に流すと UI invariant が崩れる。Issue #275（Magic Link 429 Retry-After UI 復元）で確立した分離パターンを spec に反映する。
+
+### L-I275-001 (typed error は base error の subclass にする)
+
+- **NG**: `class RateLimitedError extends Error` のように独立 class にして、既存 callsite の `catch (e instanceof RequestError)` から漏れる。
+- **OK**: `class MagicLinkRateLimitedError extends MagicLinkRequestError` として subclass 化し、既存 catch 互換を**型階層で**担保する。
+- **Why**: catch 互換性は spec 文言ではなく型階層で保証する。Phase 3 design-review に `extends` 関係を明示し、Phase 4 test plan に `toBeInstanceOf(BaseError)` と `toBeInstanceOf(SpecificError)` の両方を入れる。
+
+### L-I275-002 (Retry-After 三段 precedence)
+
+- **NG**: header のみ / body のみで `retryAfterSec` を解決する。proxy/CDN header と middleware body のどちらか片方を取りこぼす。
+- **OK**: `Retry-After` header → JSON body `retryAfterSec` → default 60 秒の三段 precedence。負数・非整数・NaN は default にフォールバック。
+- **Why**: server-truth を取りこぼさず、かつ middleware/CDN 構成変更にロバスト。parser は pure function で export し unit test 4 ケース（header/body/both/none）で網羅。callsite 1 件なら util 化せず YAGNI 原則を守る。
+
+### L-I275-003 (rate-limit catch は早期 return / URL state 据え置き)
+
+- **NG**: 429 を一般 error 分岐へ流し `replaceLoginState("error")` で `?state=error` に遷移、または `sent` に遷移して「送信完了」と誤表示。
+- **OK**: catch ブロック先頭で `if (e instanceof RateLimitedError) { setCooldown(e.retryAfterSec); return; }` の早期 return。URL state は `input` のまま、`router.refresh()` も呼ばない。
+- **Why**: rate-limit は失敗でも完了でもなく「待機」。Phase 4 component test に「429 で URL state が変化しない」「`router.refresh` が呼ばれない」assertion を必ず含め、No-Go 条件に「429 で `?state=error|sent` 遷移」を明示する。
+
+### Phase 12 への反映項目
+
+- **implementation-guide.md**: 「中学生向け説明」で「429 は失敗じゃなくて『あと何秒待って』のサイン」「待つ間はボタンを押せなくするだけで、エラー画面は出さない」の二段で説明。
+- **system-spec-update-summary.md**: API contract spec を変更しない場合でも、client lib の typed error 追加と UI state machine 不変条件は同サイクルで spec 同期する。
+- **unassigned-task-detection.md**: reload 跨ぎ永続化 / 共通 Retry-After util / 実 API E2E は callsite と運用負荷が見合うまで起票しない（YAGNI）。
+
 ---
 
 ## CSP directive 撤去パターン（issue-924 L-I924-001..005 汎化）
@@ -599,6 +622,20 @@ CSP の `style-src-attr` や `script-src-attr` 等 *-attr 系 directive を撤�
 - **L-I911-003**: component spec は toast だけでなく payload、DOM state、CTA 消滅/出現を assert する。
 - **L-I911-004**: 親 workflow に「caller 未移行」などの stale note がある場合、実装 wave で正本 index も補正する。
 - **L-I911-005**: Phase 12 optional summary (`phase-12.md`) と strict 7 inventory を混同しない。
+
+---
+
+## iterated sync-merge wave での lessons union 安定化（dev sync-merge / 2026-05-27 / Issue #275 4-wave 連続取り込み）
+
+同一 feature branch で複数回 dev 取り込みを繰り返す場合、**初回の union manual resolve で構造を安定化させると 2 回目以降は ort strategy が自動 union**する。`patterns-lessons-and-pitfalls.md` のような追記専用 lessons ファイルでこの効果が顕著。
+
+- **L-ITERSYNC-001 (初回 union を構造化する)**: HEAD と dev が同じ lessons ファイルへ別 section を追記して conflict した初回は、conflict marker 削除に加え **両 section を `---` 区切り + `## <Issue 名>` H2 で分離**する。続く wave で dev 側が更に section を追加しても、独立 H2 ブロック構造のため ort が anchor を正しく特定し自動 union できる。
+- **L-ITERSYNC-002 (5-wave 連続 sync:resolve 成立条件)**: 解消対象が `indexes/keywords.json`（derived・`--ours` + rebuild）と doc 系 union ターゲットのみで、ソース実装に手が入らない wave 構成であれば、`pnpm sync:resolve` + ort で **5 連続 sprint** まで成立することを実証（39c4bf962→07b8843e8→ab0450fb3→cf155ca2f→a4df62f82→a1e3dd135→[5th merge], PR #961）。5 波目は `keywords.json` 単独 conflict、lessons ファイル系は L-ITERSYNC-001 構造化済みのため ort 自動 union。aiworkflow-requirements の [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-013 (4 回目確認) と整合。
+- **L-ITERSYNC-003 (長 session の disk hygiene)**: 同 PR 内で 4 回以上の sync-merge を回す long-running session では `/private/tmp/claude-*` の tool output cache が hundred-MB 規模に膨らみ、`git diff` 等の付随コマンドが ENOSPC で fail することがある。Phase 12 implementation-guide の operational note に「複数 wave sync 前後の `find /private/tmp/claude-* -name "*.output" -mtime +1 -delete` 実行」を追記推奨。これは spec の正本ではなく runner 環境 hygiene。
+
+### Anti-pattern
+- 2 回目以降の sync-merge で union manual resolve を再実行する（初回安定化済みなら不要 = 無駄な merge commit）。
+- ENOSPC を `pnpm sync:resolve` 失敗と誤帰責し、resolver の bug として起票する（実体は環境側の cache 飽和）。
 
 ---
 
@@ -668,35 +705,39 @@ dev sync-merge で **HEAD = route group rename（`app/<route>/` → `app/(group)
 - workflow から `pull_request` trigger を外す→ workflow file 自体の variation や spec 変更を CI で検知できなくなる。secrets-gate skip で trigger 自体は保持する。
 - `continue-on-error: true` で誤魔化す → 真の secrets 欠落と spec バグの双方が無視される。skip 判定を明示的に行う。
 
-## skill index-only sync-merge happy path（dev sync-merge / 2026-05-26）
+## prototype 整合タスクの汎化パターン（2026-05-26 / public-dashboard-prototype-alignment）
 
-並列 worktree が aiworkflow-requirements の `SKILL.md` / `indexes/topic-map.md` (`merge=union`) / `indexes/keywords.json` (`--ours + rebuild`) のみを更新し、ソース・spec・docs に手を入れない場合の sync-merge は、`pnpm sync:resolve` 単独で unhandled ゼロ完結する（aiworkflow-requirements の `lessons-learned-dev-sync-merge-conflict-resolution-2026-05.md` L-DEVSYNC-046）。
+### P-PROTO-ALIGN-001 — prototype 整合 task 不変条件 3 点セット
 
-- **L-DEVSYNC-046 (index-only happy path)**: Phase 12 implementation-guide / Phase 13 PR pre-flight で「conflict が 3 ファイル（`SKILL.md` + `indexes/topic-map.md` + `indexes/keywords.json`）以下に閉じる場合は resolver 単独完結で OK」と明示し、追加の手動 union を試みない。逆に conflict 件数が 4 以上、もしくは `.claude/skills/*/lessons-learned/` 配下が UU で出てきた場合は L-DEVSYNC-040 系（並列 export 追加）/ L-DEVSYNC-043（adapter signature union）/ L-DEVSYNC-045（route group rename + import 正規化）のいずれかにフォールバック判定する troubleshoot 行を runbook に含める。
-- **Phase 12 sync gate への反映**: `pnpm sync:resolve` の `UNION_MERGE_TARGETS` を **skill index / lessons-learned / SKILL-changelog** に限定し続け、resolver の責務を「並列 worktree が末尾 append-only で更新するファイル」のみに固定する。`.gitattributes merge=union` 対象を追加する際は本 happy path が壊れないか（行単位の意味独立性）を spec template の review checklist に組み込む。
+prototype HTML / CSS を実コードへ落とし込む task では、以下 3 点を仕様書 Phase 2-5 で必ず明文化する。
 
-## CI re-trigger 戦略（transient infra failure / 2026-05-26）
+1. **variant の後方互換維持**: 既存 variant prop は破壊変更せず、新 variant 値を union 型に追加する形でのみ表現を増やす（呼び出し元の opt-in 切替）。`satisfies Record<Variant, ...>` で exhaustiveness を compile error 化する。
+2. **section header は常時 render**: 空状態でも section の `<h2>` / CTA / aria-labelledby 構造を保ち、list 領域だけ `EmptyState` に差し替える。section ごと unmount しない。
+3. **prototype 固定値の出所コメント**: `ZONE_COUNT` / `MEETINGS_PER_YEAR` 等の magic number は module top-level `const` に固定し、`// from <prototype path> L:NN` の出所コメントを必須化する。
 
-GitHub Actions の transient 失敗（`actions/download-artifact` archive download error / runner provisioning timeout 等）で `mergeStateStatus=BLOCKED` になった PR の再 trigger 順序を Phase 12 implementation-guide / Phase 13 PR pre-flight に明文化する（aiworkflow-requirements の `lessons-learned-dev-sync-merge-conflict-resolution-2026-05.md` L-DEVSYNC-047）。
+### P-E2E-EMPTY-TOGGLE-001 — e2e empty-state は test-only toggle endpoint で扱う
 
-- **L-DEVSYNC-047 (CI re-trigger 順序)**: Phase 13 PR pre-flight runbook に以下の優先順位を含める。
-  1. `gh run rerun --failed <run-id>` を最優先（同一 head SHA で job だけ re-queue、required check の鏡像維持）。
-  2. 10 分以上 queued のまま進行しない場合のみ、**実ファイル変更を含む 1 commit** で head を進める（最小コストは `merge=union` 対象 lessons-learned / `docs/30-workflows/LOGS.md` への trailer 1 行追記）。
-  3. **空コミット (`git commit --allow-empty`) は使わない**。empty commit は tree-hash 不変で `pull_request synchronize` が workflow run を schedule しないケースがあり、PR を BLOCKED 状態に陥らせる（既存の `feedback_visual_baseline_github_token_retrigger.md` は GITHUB_TOKEN 検知遅延向けで本ケースに適用できない）。
-  4. CI re-trigger 目的で `apps/*/src/...` 実装側ファイルを触らない。code-change diff が PR review に紛れる。
-- **gh api SHA 照合**: `gh api repos/.../actions/runs?head_sha=<sha>` で workflow run 登録を確認する際は **full 40-char SHA**（`git rev-parse HEAD`）を渡す。short SHA prefix では match しない。bash の `python3 -c "...$VAR..."` 変数展開漏れで「0 件」と誤判定する事故あり、SHA は environment variable ではなく argv / stdin か直接 string literal で渡す。
+空状態の e2e 検証は production code に `?empty=1` / cookie / build flag を散らさず、`app/__test__/<scope>/empty/route.ts` のような test-only route で in-memory state を flip する設計に統一する。
 
-## API method/path 切替時の Playwright mock fixture 追従（2026-05-26）
+- **新規 toggle state を足したら必ず `/__test__/reset` に reset 処理を同期追加する**（追加忘れが flaky 化の典型原因）。
+- standalone (Next dev) と inline (workers) の 2 経路がある場合、両方の reset 経路を仕様書で点検対象として明示する。
+- Playwright 側は `request.post('/__test__/<scope>/empty')` で setup する pattern を Phase 6 test 追加 spec に書く。
 
-admin API の method/endpoint を切替える PR（例: issue-912 で `POST /attendances` → `DELETE /attendance/:memberId`）では、本実装・vitest spec・runtime smoke と合わせて `apps/web/playwright/fixtures/auth.ts` の mock handler も**同一 PR で追従**させる必要がある。漏れた場合、mock の末尾 fallback `response(res, 404, { error: 'MOCK_API_NOT_FOUND' })` が新 endpoint への request を吸収してしまい、UI 側の idempotent 404 分岐（"既に出席解除されています"）に silent に流れ、`smoke (chromium)` / `e2e (desktop-chromium)` が "出席を削除しました" を期待する toast assertion で fail する。
+## branch-sync 中の mid-flight half-state リカバリ（2026-05-27）
 
-- **L-APIMETH-001 (Phase 4 contracts)**: API method / path を変更する仕様書では Phase 4 contracts に「`apps/web/playwright/fixtures/auth.ts` の新 endpoint handler 追加」「旧 endpoint handler の取り扱い（残置 / 削除）」を必ず明記する。`grep -nE "POST|DELETE|method ===" apps/web/playwright/fixtures/auth.ts` を Phase 6 acceptance に含めて漏れを防ぐ。
-- **L-APIMETH-002 (idempotent endpoint の mock 表現)**: idempotent DELETE/PUT の場合、mock も冪等にする。1回目=200/204、2回目以降=404 で `attendees` 配列を実際に更新する handler を書き、retry/idempotency path が test 側でも到達可能にする。状態を持たない `return 204 always` にすると、UI 側の "既に削除済" 分岐が一切踏まれず regression を検出できない。
-- **L-APIMETH-003 (CI signal の二重化)**: typecheck / lint は mock 漏れを検出できない。Playwright `smoke` / `e2e` が API endpoint surface 変更の正本検証 gate であり、PR では verify-conflict-markers ではなく `playwright-smoke` の green を必須 check に含める運用を維持する。
-- **L-APIMETH-004 (二系統 mock の同時追従)**: Playwright には mock が**二系統**存在する。`playwright-smoke.yml` は `apps/web/playwright/fixtures/auth.ts`（in-process fixture）を使い、`e2e-tests.yml` は `scripts/e2e-mock-api.mjs`（別 Node プロセス・stand-alone mock）を起動する。同じ症状（404 fall-through → idempotent 分岐の toast）が出るが、片方だけ直すと workflow 片側のみ green になり「smoke は通ったのに e2e-tests-coverage-gate が落ち続ける」という asymmetric failure が起きる。Phase 4 contracts と Phase 6 acceptance grep には**両ファイルを明記**する: `grep -nE "POST|DELETE|method ===" apps/web/playwright/fixtures/auth.ts scripts/e2e-mock-api.mjs`。
+`dev → feature` sync-merge 実行中に「`error: Unable to write index` で merge コマンド自体は exit 1、しかし `git status` は `All conflicts fixed but you are still merging` を返す」half-state を踏んだ事例。ディスク残量逼迫（99% 使用、4.5GiB 空き）と古い `index.lock`（0byte）の合わせ技で発生。AI が `git merge --abort` で巻き戻すと merge 結果ごと破棄してしまうため、状態判定を誤ると正しく解消した自動 merge を失う。
+
+- **L-BRSYNC-001 (half-state 判定)**: `git merge` が非0 exit でも、続けて `git status` を読むこと。`All conflicts fixed but you are still merging` / `git diff --name-only --diff-filter=U` が空 / `git ls-files -u` が空 → merge は実質完了済みで `git commit --no-edit` だけで成立する。`merge --abort` を反射的に打たない。
+- **L-BRSYNC-002 (stale index.lock)**: `Unable to create '...index.lock': File exists` を見たら、まず `ls -la <gitdir>/index.lock` でサイズと mtime を確認。0byte で 5分以上経過 / 該当 git 子プロセスが存在しないなら stale 確定。`unlink` 系は `.git` 配下で permission policy が効くため、ユーザ手動 `rm -f` をエスカレーション経路として spec に用意しておく。
+- **L-BRSYNC-003 (容量 pre-flight)**: branch-sync spec の Phase 0 に `df -h "$(pwd)"` を含め、空き <5GiB の閾値で警告 / <2GiB で中断ゲートを置く。空きが少ないと `Unable to write index` で merge / commit が mid-flight に倒れ、復旧コストが跳ね上がる。
+- **L-BRSYNC-004 (gitdir 解決)**: worktree では `.git` がファイルなため `mkdir -p .git/...` は失敗する。ログ / lock パス組み立ては必ず `git rev-parse --git-dir` の結果を base にする。
+- **L-BRSYNC-005 (Red List との両立)**: `index.lock` の削除は通常の `rm` で settings 上 permission prompt になり得る。完全自律実行モードであっても、`.git` 配下の破壊系操作はユーザ手動経路を最終手段として残し、AI 側は detection と提示までに留める設計が安全。
 
 ### Anti-pattern
 
+- `git merge` が exit 1 を返した瞬間に `git merge --abort` を打つ → 既に解消済みの auto-merge 結果を破棄。
+- ディスク容量を確認せず merge / commit を反復 → 同じ `Unable to write index` を繰り返し、index.lock が増殖。
+- `.git` 配下を含む全 `rm -f` を AI 側で強行 → permission policy / 監査要件に抵触。stale lock 検出時はユーザに 1 行コマンドを提示し承認経由で実行する。
 - mock fixture の末尾に `response(res, 404, ...)` fallback を残したまま新 endpoint handler 追加を後続 PR に分割 → fallback が新 request を吸収し、UI 側の idempotent 404 分岐に silent fall-through → toast assertion が新 PR で fail。
 - mock を always 200 success にする → UI の "既に削除済" toast 分岐が一切踏まれず、本番で初めて該当分岐の regression が出る。
 - handler を mock に追加する代わりに `test.skip` / `test.fixme` で逃がす → playwright が API shape の正本検証 gate なのに gate が空洞化する。
@@ -741,3 +782,192 @@ UI primitive (`AdminPageHeader` / `KpiCard` / `AdminTable` / `AdminEmptyState` �
 - **L-PATSEC-001 (heading 一意化)**: 新規 pattern section の見出しは `## <pattern 名>（issue-<N> L-<TAG>-001..M 汎化）` 形式を採る（例: `## CSP directive 撤去パターン（issue-924 L-I924-001..005 汎化）`）。HEAD と dev で同 sprint に偶然同名 pattern を追加しても heading が衝突しないため、resolver の union が重複 heading を生まない。
 - **L-PATSEC-002 (末尾 append-only)**: 既存 section の中央に bullet を増やさず、必ず**ファイル末尾に新 section を append**する。中央への追加は L-DEVSYNC-030（table-merge）系の手動 union を要求し、resolver 1 発で完結しない。
 - **L-PATSEC-003 (resolver 委譲)**: 本ファイルは `scripts/sync/resolve-skill-merge-conflicts.sh` の `UNION_TARGETS` に登録済（[[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-046）。仕様書 Phase 12 で本ファイルへ section を追記するタスクは「dev sync-merge での conflict は `pnpm sync:resolve` 自動解消」と前提を置いてよい。
+
+## main 取り込み no-op 構造前提（pr-creation L-MAINNOOP-001..004 汎化）
+
+`feature/* → dev → main` の単方向 release flow（CLAUDE.md「ブランチ戦略」節）下では、feature branch が dev を merge 済みの場合 `origin/main` は HEAD の祖先となり、`git merge origin/main` は必ず `Already up to date.` で終わる。「main 取り込み・CI 失敗解消」の追加指示を受けた仕様書フェーズでは下記を契約する。
+
+- **L-MAINTAKE-001 (Phase 13 verify gates)**: PR closeout / 追加 main 取り込み指示を扱う仕様書では Phase 13 acceptance に `git merge-base --is-ancestor origin/main HEAD` と `git rev-list --left-right --count refs/heads/main...origin/main` を verify gate として明記する。true / `0 0` なら no-op を確認の上 merge を試行しない（不要な merge commit を作らない）。
+- **L-MAINTAKE-002 (CI failure 推測修正の禁止)**: 「CI 失敗を解消」指示でも `gh pr checks <PR>` を先に取得する。全 SUCCESS の場合は「失敗なし」を一次確認として返し、推測ベースの修正コミットを積まない。Phase 11 evidence にも `gh pr checks` 出力を添付する。
+- **L-MAINTAKE-003 (no-op 結果の skill sync 義務)**: 取り込み結果が no-op であっても、ユーザーがスキル反映を明示指示した場合は本 lesson のように「no-op 構造前提」を [[lessons-learned-main-merge-noop-when-dev-merged-2026-05]] に記録する。次回同種指示を受けた AI が `is-ancestor` 確認だけで完結できる。
+- **L-MAINTAKE-004 (evidence の併記)**: 「同期済み」の根拠は `Already up to date.` 単独ではなく `left-right --count = 0 0` + `gh pr checks` 集計を併記する。print-only single line は他者検証性が弱い。
+- **L-MAINTAKE-005 (dev divergence の併走 verify)**: Phase 13 acceptance では main is-ancestor に加え `gh pr view <PR> --json mergeable,mergeStateStatus` を必須にする。前回 push 後に他 PR が dev へ merge されると本 PR は `mergeStateStatus=DIRTY / mergeable=CONFLICTING` になる。main merge は no-op のままだが `git fetch origin dev && git merge origin/dev`（conflict は `pnpm sync:resolve` で自動解消）で再 sync する必要がある。
+- **L-MAINTAKE-006 (skill-only push の CI invisibility)**: `.claude/skills/**` だけを変更した push は path-filter で大半の required workflow が起動せず、`gh pr checks` 上は triage 等わずか 1〜数件しか出ない。「checks all pass」だけで blocking 判定せず、必ず `mergeStateStatus` を併読する。実 CI 再走が必要な場合は code-touching commit か dev sync merge commit を積む（空 commit は `pull_request synchronize` を起動しないため NG）。
+
+### Anti-pattern
+
+- `is-ancestor` 確認を飛ばして `git merge origin/main` を実行 → no-op merge commit が生まれ PR diff の noise になる
+- `gh pr checks` を見ずに「CI 失敗があるはず」と推測修正を積む → 不要コミットで PR review コストを増やす
+- no-op だったので lesson を残さない → 次回同種指示で同じ確認手順を再構築する無駄が発生する
+- `gh pr checks` が pass だけを見て mergeable を見ない → `DIRTY` 状態の PR を「green」と誤報告し、dev divergence の再 sync が遅れる
+
+## Dev sync 時の sibling-section conflict 解消パターン (2026-05-27)
+
+- 適用場面: feature branch が UI surface (drawer / panel / page) の section 構造を全面刷新中に、dev 側が同ファイル内へ新規 Client Island / Server Component / sibling section を追加した状態で `git merge dev` した時。
+- パターン:
+  1. import 行は両側採用（HEAD 側の adapter / type 系 + dev 側の新 Component 両方）。
+  2. dev が追加した sibling section は HEAD の旧 anchor が消失している可能性が高いため、HEAD 構造内の **semantic に最も近いセクション境界** (同種 section の前後) へ再配置する。
+  3. `pnpm sync:resolve` は `*.tsx` を union 対象外にするため、resolver 後の unresolved リストに残る `*.tsx` は機械解消不可と確定。手動 Edit で対応する。
+  4. 解消後 `grep -n '<<<<<<<\|=======\|>>>>>>>' <file>` で marker ゼロ + `pnpm typecheck` + `pnpm lint` を gate にしてから `git add`。
+- アンチパターン:
+  - dev 側が追加した新 Component を「HEAD で消失したセクション内」にそのまま残す → 構造破綻 / 旧 anchor の残骸が新構造と共存する。
+  - union 強行 → syntax error / runtime 二重描画 / lint 違反を引き起こす。
+  - dev 側追加を完全に捨てる → 新機能（本件は diagnostics panel）が feature merge 後に消える silent regression。
+- 参照: [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-050
+
+## Dev sync 時の signature 並列リファクタ統合パターン（2026-05-27）
+
+- 適用場面: feature branch が関数 signature を **型方向** で変更（戻り値 null 化 / branding / strict null など）し、dev が同関数の **value 取得経路** を抽象化（accessor 移行 / DI 化 / config-driven 化など）した状態で `git merge dev` した時。
+- パターン:
+  1. conflict block 内の **型 signature**（戻り型 / 引数型 / generics）は HEAD 側を採用（feature branch のスコープ固有 semantic を保護）。
+  2. conflict block 内の **value 取得式**（右辺 expression）は dev 側を採用（global invariant 由来の accessor 移行を遵守）。
+  3. **sibling 関数**（同種リファクタを受けた近傍関数）に HEAD 側固有の semantic 変更がなければ、dev 側へ完全追従する（HEAD 側を採用すると invariant 退行になる）。
+  4. 統合後 `pnpm typecheck` で呼び出し側（同ファイル内の上位関数 / 他モジュール）の null check / 型整合性を確認。
+- アンチパターン:
+  - HEAD 側の戻り値型変更を捨てる → fail-fast スコープ要件が退行（本件は env 漏れ時の 500 明示返却が失われる）。
+  - dev 側の accessor 移行を捨てる → invariant #11（`process.env` 直接参照禁止）違反が残置し、次回 dev sync で再 conflict。
+  - 両側を union 並列で残す → syntax error（同名関数の二重宣言 / 戻り型不一致）。
+- Anchor:
+  - 「型 = HEAD・実装 = dev」の semantic 統合判定: `git diff origin/dev..HEAD -- <file>` と `git log -1 --stat origin/dev -- <file>` で両側コミットメッセージ確認。HEAD 側が type-level semantic 変更（fail-fast / strict null / branding）なら本パターン適用。
+- 参照: [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-051
+
+## Provenance JSON metadata の 3-way conflict 解消パターン（2026-05-27）
+
+- 適用場面: `.baseline-meta.json` / `.gate-metadata.json` 等の provenance metadata JSON が、両側で workflow_dispatch 等により独立に生成 / 更新された結果 3-way conflict した時。
+- パターン:
+  1. **Scalar latest field**（`captured_at` / `passed_at` / `updated_at` 等の ISO8601 timestamp）: 両側比較し新しい側を採用。ペアになる sha / id field（`captured_at_commit_sha` / `commit_sha`）も同じ side を採用（必ず一致させる）。
+  2. **Array set field**（`captured_run_ids` / `evidence_paths` / `run_history` 等）: 両側追加要素を union 結合。重複は削除、時系列 / 数値順で order を揃える。
+  3. **Narrative field**（`last_refresh_reason` / `notes` 等）: 新しい側の文言を主、古い側を従属節として併記。両側の wave id（issue 番号 / followup id）を文字列内に残し、後追跡可能にする。
+  4. **その他 scalar field**（`viewport_dimensions` / `rendering_relevant_paths` 等 schema 不変項目）: 片側採用で OK。
+  5. JSON 構文を `python3 -c "import json; json.load(open('<path>'))"` で検証してから `git add`。
+- アンチパターン:
+  - `--ours` / `--theirs` で片側全採用 → 反対側の `captured_run_ids` / wave reason が失われ provenance 履歴に gap が生じる。
+  - timestamp は新しい側を取って sha は古い側を取る → provenance 不整合（後段 validator が SHA に該当する commit を引けず fail）。
+  - run_ids を union するが narrative reason を片側だけ採用 → 「なぜ追加 run が走ったか」が読み取れず、stale baseline 判定の根拠を失う。
+- Anchor:
+  - 「scalar latest + array set + narrative」3 種混在 JSON を見たら本パターン適用。`pnpm sync:resolve` は JSON を union 対象外（[[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-002）にするため、手動 Edit で対応する。
+- 参照: [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-052
+
+## Playwright `getByRole(name)` substring 一致による strict mode violation の追従パターン（2026-05-27）
+
+- 適用場面: 既存 e2e spec が `getByRole('button', { name: '<member name>' }).click()` を使っており、後続の feature branch で同 row 内に「<name> を編集」「<name> を公開」等 substring が一致する補助 button を追加した時。pre-existing test が CI で `strict mode violation: ... resolved to N elements` で fail する。
+- 原因: Playwright の `{ name }` フィルタはデフォルト **case-insensitive substring match**。`{ exact: true }` を付けない限り、accessible name に `<member name>` を含むすべての button が候補に上がる。さらに row 内 Avatar (`role="img"` `aria-label="<name>"`) が button 子要素にある場合、button の accessible name は「<name> <name>」のような連結文字列になるため、`{ exact: true, name: '<name>' }` でも一致しない。
+- パターン:
+  1. 既存 spec の `getByRole('button', { name: '<text>' })` を grep し、新 feature branch で同 substring を含む aria-label / 子要素を追加していないか確認。
+  2. 追加していれば spec 側を **row testid → role=button → `.first()`** 形式に書き換える（例: `page.getByTestId('admin-members-row-mem_alpha').getByRole('button').first().click()`）。
+  3. テーブル row には必ず `data-testid={admin-<resource>-row-<id>}` を付与しておく（contract）。spec から安定 selector で参照できる正本になる。
+  4. `{ exact: true }` だけでは Avatar `aria-label` 連結問題が解消しないため、accessible name に依存する selector は避ける。
+- アンチパターン:
+  - feature branch で row 内 button を追加するときに e2e spec を grep せず、CI fail で初めて気付く → dev sync merge 直後に発覚するため「dev sync 起因」と誤認しやすい（実体は feature branch 由来の test gap）。
+  - `{ exact: true }` だけで対応 → Avatar が子要素にいる場合は accessible name が `'<name> <name>'` になり依然 fail。
+  - `getByText` で代替 → button 以外の span / Avatar が一致して別の strict violation を生む。
+- 参照: [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-010（fixture 不足は dev sync 起因ではなく feature branch 由来）と同型の盲点パターン
+
+## Legacy CSS specificity 衝突は `:not()` 連鎖ではなく route-group ancestor scope で隔離する（2026-05-27 追加）
+
+dev merge で legacy CSS の汎用 attribute selector（`[data-size]` 等）に `:not(.x):not(.y)` 連鎖が追加された場合、specificity が上がって globals.css の primitive class rule を上書きすることがある。`:not(.ui-avatar)` を追加して specificity を維持しつつ要素除外する誤対処をやると、**公開ページ baseline が globals.css 側 pixel に倒れて全 viewport で diff** になる二次故障を起こす。
+
+- 検出: dev merge 直後の visual-full CI で複数 route group（公開 / admin / member）が同時に diff。`legacy-*.css` の attribute selector に `:not()` が増えていれば本パターン候補。
+- 正規パターン: route-group ancestor を前置して selector のスコープを物理分離。
+  - 公開専用 legacy: `[data-route-group="public"] [data-size]:not(...)` 形（`apps/web/app/(public)/layout.tsx` の root div 属性に依拠）
+  - admin / member: ancestor 不一致で legacy が match せず globals.css primitive が独立に勝つ
+- アンチパターン:
+  - `:not(.ui-avatar)` で逃がす → 公開 Avatar が globals.css size に倒れ baseline 全乖離
+  - baseline を即 refresh → CSS 設計衝突を baseline で覆い隠すため、後続の primitive 改修で再発
+  - `!important` で押し切る → cascade origins が混線し、後続 wave で何が勝つか追跡不能
+- 適用判断: legacy / scoped CSS と primitive / global CSS が**同名 attribute / 異 pixel** で衝突する全パターン。task spec の Phase 6/9 では「specificity ではなく selector scope で隔離」を invariants として宣言する。
+- 参照: [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-053（dev sync 起因の `[data-size]` specificity 上昇への正対処）
+
+## DOM 構造置換 PR の同一 wave spec 同期と visual baseline 更新（prototype alignment L-MLPA-006..007 汎化）
+
+`apps/web/app/**` の Server Component で DOM tag や `data-component="*"` を置換する PR（prototype alignment / primitive 統一 / component 置換）は、**focused spec だけ更新して legacy critical-route spec の selector を残置**すると `e2e-tests-coverage-gate` が PR 直前に block する。同時に DOM 寸法が変わるため `playwright-visual-full` / `playwright-smoke visual` の `-linux.png` baseline も必ず stale 化する。仕様書 Phase 11/12 で以下を契約する。
+
+- **L-DOMSWAP-001 (selector grep gate)**: `data-component` / `data-role` / tag 名（`table` / `ul` / `section`）を置換する Phase 11 では、`apps/web/playwright/**` 全体を旧 selector で grep し残存ゼロを evidence に添付する。focused spec のみ更新で「他 spec は次回直す」は禁止。
+- **L-DOMSWAP-002 (同一 wave commit 同期)**: 旧 selector → 新 selector への置換は **component 実装 commit と同一 commit / 同一 PR** で完結させる。PR 分割すると後発 PR が CI block を起こす。
+- **L-DOMSWAP-003 (visual baseline 更新は user-gated workflow_dispatch)**: 寸法変動を伴う PR は同一 wave で `playwright-visual-baseline-update.yml` (`workflow_dispatch` + `visual-baseline-approval` environment) を user 承認で trigger する。Phase 12 implementation-guide に「baseline 再生成は別 workflow 実行・本 PR の commit には含めない」と明示する。
+- **L-DOMSWAP-004 (Linux baseline SoT 維持)**: ローカル macOS で `--update-snapshots` を走らせ `-darwin.png` を commit してはならない（Linux runner で再失敗）。baseline は CI runner の `-linux.png` のみが SoT。
+- **L-DOMSWAP-005 (Phase 13 acceptance gate)**: Phase 13 acceptance に `gh pr checks <PR>` 必須化に加え `gh run list --workflow=playwright-visual-baseline-update.yml --branch=<feature> --limit=1` の確認を組み込み、baseline 再生成 run が PR push より新しいことを verify する。
+
+### Anti-pattern
+
+- focused spec だけ更新して legacy critical-route spec を放置 → CI block で merge 不能
+- DOM 寸法を変える PR で baseline を更新しない → visual diff で 100% fail
+- ローカル `--update-snapshots` の commit → `-darwin.png` 混入で Linux runner 永続 fail
+- visual baseline 更新を「次の PR でまとめてやる」と先送り → 後続 PR が常に visual fail で blocked
+
+## dev sync merge 着手前の作業ツリー pre-check と git lock 衝突対応（L-DEVSYNC-050/051 汎化）
+
+「リモート dev を取り込んでコンフリクト解消して push」系のタスク仕様書では、Phase 11 / 12 の手順に着手 pre-check を 2 項目組み込む。AI / 人間どちらが実行しても初手で破綻しないようにするため。
+
+- **L-SYNCPRE-001 (working tree drift pre-check)**: `git merge dev` の前段で `git status --porcelain | awk '{print $1}' | sort | uniq -c` を実行し、`D` (deleted) のみが大量で他種別 (`M` / `A` / `??`) ゼロの状態なら「working tree 物理欠落」パターン。`git restore .` で HEAD 一致に戻してから merge に進む。Why: index・HEAD は正常なのに working tree のみが drift しているケースで、そのまま merge すると spurious deletion が混入する。
+- **L-SYNCPRE-002 (stale index.lock 解消手順の明文化)**: `lazygit` / `git gui` / 別 Claude セッションが並走しているリポジトリで 0-byte `index.lock` が残存し restore / merge を阻む。仕様書には「TUI を閉じる」「`lsof` で保持者確認」「最終手段で `rm -f .git/worktrees/<wt>/index.lock`」の 3 段順序を明記する。`rm` が harness 権限で拒否される環境では `! rm -f <path>` をユーザーに依頼する fallback を入れる。
+- **L-SYNCPRE-003 (sync:resolve 後の orphan marker grep gate)**: `pnpm sync:resolve` 完走後でも `||||||| ` 単独 marker が残ることがあり（L-DEVSYNC-049）、commit 前に CI と同条件の grep を必ず走らせる。仕様書 Phase 11 evidence に grep 結果（empty を含む）を添付。
+- **L-SYNCPRE-004 (verify-pr-ready 一括検証)**: typecheck / lint 単独ではなく `bash scripts/verify-pr-ready.sh` を Phase 12 acceptance に必須化。`verify:phase12-compliance` / `gate-metadata:validate` / `indexes:rebuild drift` の 3 軸を一括で確認できるため。
+
+### Anti-pattern
+
+- working tree が 7000+ deletions のまま `git merge dev` を実行 → merge commit に spurious deletion が混入し review 不能
+- `rm -f index.lock` を確認なしに実行 → 真に書き込み中の writer がいた場合に index 破損
+- `pnpm sync:resolve` 後の `git status` clean だけで commit → `||||||| ` 単独 marker 残存で CI `verify-conflict-markers` FAIL
+- typecheck / lint だけで push → `verify-pr-ready.sh` 未実行で gate-metadata schema 違反が pre-push hook で発覚し push 失敗
+
+## accent on accent-soft chip は accent-ink を採る (L-CHIPCONTRAST-001 汎化)
+
+`color-mix(in oklch, var(--ubm-color-accent) 12%, transparent)` を背景に乗せた chip/pill/badge の foreground を `--ubm-color-accent` のままにすると、OKLch lightness 約 0.52（accent）× 約 0.93（tint された surface）の組合せで axe contrast が **4.39:1** に落ち WCAG 2 AA (4.5:1) を切る。仕様書 Phase で chip / badge primitive を扱う場合は次を契約する。
+
+- **L-CHIPCONTRAST-001 (token 選定ルール)**: accent-soft 系の tint を bg に取る chip / pill / badge / status indicator の text/icon foreground は `var(--ubm-color-accent-ink)` を第一候補にする。`-ink` 系（OKLch lightness ~0.36-0.38）は tint surface に対し contrast 7.0+ を確保するため WCAG 2 AA 必達点を上回る。
+- **L-CHIPCONTRAST-002 (dot/icon 区別)**: `aria-hidden` な dot / shape は text contrast 要件外のため `var(--ubm-color-accent)` を残し意匠を保つ。**「fg=ink、装飾=accent」を 1 つの chip primitive 内で分離記述**する。
+- **L-CHIPCONTRAST-003 (Phase 9 acceptance への組込)**: VISUAL_ON_EXECUTION × public/admin chip primitive を含む仕様書は Phase 9 acceptance に「e2e a11y (axe wcag2aa) で `color-contrast` violation = 0」を必須化し、Phase 11 evidence に axe JSON を添付する。Phase 13 verify では axe violation 数を最終 gate にする。
+- **L-CHIPCONTRAST-004 (token 不在時の追加経路)**: zone variant に `-ink` 系が定義されていない場合、`design-tokens.md` へ追加して全 zone (default / cool / warm) parity を取る。仕様書 Phase 8（design tokens）に「accent-soft × accent の contrast = 4.39 (worst)」の実測値も併記し再発を防ぐ。
+
+### Anti-pattern
+
+- `color-mix` で薄めた bg にそのまま `var(--ubm-color-accent)` を fg で使い「token 統一」を理由に放置 → axe で必ず fail
+- 1 chip 内の dot/icon にも `-ink` を強制適用 → 装飾の発色が抜けて意匠崩れ
+- 仕様書に axe acceptance を入れず、CI で初検出 → wave 末で reverse adjust が発生し coverage / visual baseline と同時 update が必要になる
+
+## L-DEVSYNC-051 visual baseline コンフリクト解消パターン（dev sync-merge / 2026-05-27）
+
+UI 系 feature ブランチ（prototype alignment / dashboard 等）と dev の双方が直近に `chore(visual): update baselines via workflow_dispatch` を持つ状態で sync-merge を行うと、`pnpm sync:resolve` が `apps/web/playwright/tests/visual*/**.png` と `.baseline-meta.json` を `WARN unhandled conflict` で残す。これは「両 branch がそれぞれの UI 変更を反映した正本 baseline を持つため、機械的に merge できない」設計上の正常動作。
+
+- **L-DEVSYNC-051-A (ours 全採用 default)**: visual baseline (`apps/web/playwright/tests/visual-full/**.png` / `apps/web/playwright/tests/visual/**.png` / `.baseline-meta.json`) の WARN unhandled は **`git checkout --ours <paths>` で一括採用**を default にする。feature branch 側に「独自 UI 変更」が含まれているため、dev 側 baseline は feature branch の意図を破壊する。Phase 12 implementation-guide / Phase 13 PR pre-flight に「visual baseline conflict は ours 採用 → `pnpm typecheck && pnpm lint && bash scripts/verify-pr-ready.sh` で検証 → 必要なら merge 後 `playwright-smoke / visual` ジョブで再生成」のフローを明示する。
+- **L-DEVSYNC-051-B (theirs 採用例外)**: feature branch が visual に**全く触れていない**（`git log --oneline HEAD ^origin/dev -- apps/web/playwright/tests/visual` が空）かつ dev 側のみ baseline 更新の場合に限り theirs 採用が正解。仕様書では「baseline-only sync」の判定コマンドを runbook に含める。
+- **L-DEVSYNC-051-C (Phase 4 risk への登録)**: UI 系 spec の Phase 4 risk table に「visual baseline drift × dev sync-merge の二重発生」を必ず登録し、L-DEVSYNC-050 (HEAD 全採用) と並列で L-DEVSYNC-051 (visual ours 採用) を mitigation として参照する。Phase 13 PR pre-flight check に baseline ours 採用後の `bash scripts/verify-pr-ready.sh` 必達を含める。
+- **L-DEVSYNC-051-D (resolver 自動化しない理由)**: `scripts/sync/resolve-skill-merge-conflicts.sh` に visual baseline 自動 ours を追加することは可能だが、theirs 採用例外パスがあるため**手動判定を促す WARN 設計を維持**するのが正。仕様書 Phase 12 では resolver 拡張ではなく runbook documentation を成果物として定義する。
+
+### Anti-pattern
+
+- `git checkout --theirs` を default にして feature branch の独自 UI 変更を失う → visual regression が CI で検出されず merge 後に staging で初発見
+- PNG を手動で開いて「どちらが正しいか」目視判定する → スコア化できないため再現不能、SOP として記録すべきは「ours 採用 + ジョブ再生成」の機械化された経路のみ
+- `pnpm sync:resolve` が WARN を出した時点で停止せず空 commit で push → CI の `playwright-smoke / visual` が両 baseline 不整合で fail し、誰のせいで baseline がズレたか追跡不能
+
+## L-FETCHCACHE-001 e2e mock API × Next.js fetch cache 不整合の本質修正パターン（2026-05-27）
+
+`pnpm dev:webpack` + e2e mock API のテストでは、Next.js fetch cache (`next: { revalidate: N }`) が SSR 結果を秒単位で hold するため、mock API の state 切替（`setPublicHomeEmpty(true)` 等）が 2 回目の `page.goto()` で SSR に反映されず spec が fail する。これは production code に `?nocache=...` を読む test-only 分岐を入れて凌ぐと technical debt 化するため、**fetcher 層 1 箇所で `isTestOrPlaywright()` 時に `cache: 'no-store'` を強制**するのが本質修正パターン。
+
+- **L-FETCHCACHE-001 (fetcher 層集約)**: test-only no-store branch は **必ず `apps/web/src/lib/fetch/<scope>.ts` の `doFetch()` に閉じる**。page.tsx 側 `revalidate: PUBLIC_API_REVALIDATE.xxx` 呼び出しや、route handler の searchParams 分岐に test-only logic を漏らさない。
+- **L-FETCHCACHE-002 (env gate)**: 切替判定は `NODE_ENV === 'test'` か `PLAYWRIGHT_TEST === '1'`。env アクセスは `apps/web/src/lib/env.ts` 経由（invariant: env 直接参照禁止）。Playwright webServer の env で `PLAYWRIGHT_TEST=1` を渡す既存の仕組みを利用する。
+- **L-FETCHCACHE-003 (next と cache の同時指定回避)**: Next.js は `next: { revalidate: N }` と `cache: 'no-store'` を同時に持つと runtime warning。`const { next: _next, cache: _cache, ...rest } = init` で剥がしてから `{ ...rest, cache: 'no-store' }` を返す。
+- **L-FETCHCACHE-004 (production 無影響の保証)**: 仕様書 Phase 4 acceptance に「`isTestOrPlaywright()` が false の経路で `revalidate` 値が保持されている」ことを spec で確認する unit test を含める。Phase 9 で `production build (NODE_ENV=production, PLAYWRIGHT_TEST=undefined)` での cache hit ratio が変わらないことを Lighthouse 値で確認する。
+
+### Anti-pattern
+
+- spec 側で `page.goto("/?t=" + Date.now())` の query bust → Next.js fetch cache key は外部 fetch URL ベースなので **無効**（page URL の query 変更は SSR fetch result の cache を bypass しない）
+- page.tsx に `searchParams.t` 分岐を入れて test 用 cache bypass → production code に test-only logic 混入、`Page` component の propsが test 専用 prop で汚れる
+- 該当 spec を `test.skip` で先送り → e2e mock API を使う他 spec も同じ regression を踏むため fundamental fix が常に正解
+- `revalidate: 0` に下げて regression を回避 → production で free tier 圧迫（cache hit rate が drop）し本末転倒
+
+## L-DEVSYNC-054 並列 feature の同一 cleanup hotspot / barrel への独立追加パターン（dev sync-merge / 2026-05-28）
+
+並列に進む複数 feature ブランチが、e2e mock API の reset ハンドラ（`apps/web/playwright/fixtures/auth.ts` の `/__test__/reset` および `mockApi.reset()`）や features barrel export（`apps/web/src/features/admin/components/index.ts` 等）の末尾に、互いに独立な `delete state.*` / `state.* = ...` / `export * from "./..."` 行を追加すると、sync-merge 時に必ず add-add 衝突する。`pnpm sync:resolve` の `UNION_MERGE_TARGETS` は `.ts` ソースを対象外のため `WARN unhandled` で残り、手動 union が必須。
+
+- **L-DEVSYNC-054-A (reset ハンドラ手動 union)**: 状態初期化系の cleanup 行（`delete state.X` / `state.X = default`）は両側を順序保持で並べる。同一 key を両側が触る場合のみ後勝ち判定（リセット後の期待値が壊れていないかを spec の `mockApi.reset()` 直後 assertion で確認）。
+- **L-DEVSYNC-054-B (barrel export 手動 union)**: barrel ファイル冒頭の「追記方式厳守（再ソート禁止）」コメントは契約。両側追加の `export *` / `export {}` を順序保持で並べ、dev 側を HEAD 側追加群の前に置く（HEAD が「最後に触った人」になるよう末尾を譲る）。逆順は append-only 契約違反で、後続 feature の git blame ノイズが増える。
+- **L-DEVSYNC-054-C (Phase 4 risk 登録)**: e2e mock を伴う feature 仕様の Phase 4 risk table に「reset ハンドラ / barrel への独立 add-add は dev sync-merge で構造的に発生」を登録し、Phase 12 implementation-guide に「手動 union → marker grep 0 → typecheck → lint」の 4 step を必達フローとして明示する。
+- **L-DEVSYNC-054-D (resolver 拡張しない理由)**: barrel に `const` / `default export` が混在するファイルで union が破壊的になるため、`sync:resolve` 拡張ではなく **WARN として手動 union を促す現行設計を維持**するのが正。barrel-only `.ts` 限定の自動 union を将来追加する場合は、`export *|export \{` 行がファイル行数の 80% 以上であることを resolver 側の gate にする。
+
+### Anti-pattern
+
+- `git checkout --ours` / `--theirs` で reset ハンドラを片側全採用 → 並列 feature の state 初期化が欠落し、別 spec が test 間状態残留で fail（再現に時間がかかり原因特定困難）
+- barrel に並列追加された export をアルファベット順に再ソート → append-only 契約違反、PR diff が肥大化、後続 feature が同じ位置に独立 export を追加した際に再衝突
+- `pnpm sync:resolve` が WARN を出した時点で `.ts` をスキップして commit → conflict marker (`<<<<<<<`) が source に残ったまま push、CI で `next build` が SyntaxError で fail
