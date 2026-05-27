@@ -1,5 +1,19 @@
 # クイックリファレンス
 
+## Issue #924 style-src-attr retirement（2026-05-25）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-924-style-src-attr-retirement/` |
+| status | `local_static_pass_browser_pending / implementation / VISUAL` |
+| issue | #924 CLOSED。PR 文脈は `Refs #924` のみ |
+| parent | `docs/30-workflows/completed-tasks/issue-871-csp-nonce-migration/` |
+| purpose | `style-src-attr 'unsafe-inline'` を CSP から撤去し、CSP 対象 DOM の React inline style props を禁止する |
+| implementation | `apps/web/src/lib/security-headers.ts`, CSP-relevant `apps/web/src` / `apps/web/app` TSX, `apps/web/src/styles/{globals,legacy-public}.css`, `scripts/verify-no-inline-style.sh`, `package.json`, `lefthook.yml` |
+| evidence | `bash scripts/verify-no-inline-style.sh` PASS, focused Vitest 59 PASS, web typecheck PASS, static visual sanity screenshot present |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-924-style-src-attr-retirement-artifact-inventory.md` |
+| boundary | `ImageResponse` routes excluded; browser visual regression, staging verification, commit, push, PR are user-gated |
+
 ## Issue #922 production admin runtime smoke gate（2026-05-25）
 
 | 項目 | 値 |
@@ -260,7 +274,7 @@
 | issue | #871 CLOSED; PR should use `Refs #871`; commit / push / PR / issue mutation are user-gated |
 | purpose | `apps/web` CSP nonce migration and removal of direct inline fallback from `script-src` / `style-src` |
 | implementation | `apps/web/src/lib/security-headers.ts`, `apps/web/middleware.ts`, `apps/web/src/lib/security-headers.spec.ts`, `apps/web/__tests__/middleware.spec.ts`, `apps/web/playwright/tests/security-headers.spec.ts` |
-| contract | request-scoped nonce via middleware; `script-src 'self' 'nonce-<n>' 'strict-dynamic'`; `style-src` / `style-src-elem` nonce; `style-src-attr` transitional compatibility; report-only mode unchanged |
+| contract | request-scoped nonce via middleware; `script-src 'self' 'nonce-<n>' 'strict-dynamic'`; `style-src` / `style-src-elem` nonce; `style-src-attr` retired; report-only mode unchanged |
 | evidence | `outputs/phase-11/canonical-paths.json`, focused Vitest 17 PASS, unsafe-inline grep 0 hit |
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-871-csp-nonce-migration-artifact-inventory.md` |
 | user gate | Playwright HTTP smoke execution, staging/production response verification, commit, push, PR |

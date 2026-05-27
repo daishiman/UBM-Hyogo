@@ -95,15 +95,6 @@ export function ConfirmDialog({
       role="presentation"
       className="ubm-confirm-backdrop"
       onClick={onCancel}
-      style={{
-        position: "fixed",
-        inset: 0,
-        background: "var(--ubm-color-surface-bg-2)",
-        opacity: 0.85,
-        display: "grid",
-        placeItems: "center",
-        zIndex: 1000,
-      }}
     >
       <div
         ref={dialogRef}
@@ -112,15 +103,7 @@ export function ConfirmDialog({
         aria-labelledby={titleId}
         aria-describedby={descId}
         onClick={(e) => e.stopPropagation()}
-        style={{
-          background: "var(--ubm-color-surface-panel)",
-          color: "var(--ubm-color-text-primary)",
-          border: "1px solid var(--ubm-color-border-strong)",
-          padding: "16px",
-          minWidth: "280px",
-          maxWidth: "480px",
-          borderRadius: "6px",
-        }}
+        className="ubm-confirm-dialog"
       >
         <h2 id={titleId}>{title}</h2>
         {description ? <p id={descId}>{description}</p> : null}
@@ -136,7 +119,7 @@ export function ConfirmDialog({
           </label>
         ) : null}
         {validationError ? (
-          <p role="alert" style={{ color: "var(--ubm-color-danger)" }}>
+          <p role="alert" className="ubm-confirm-error">
             {validationError}
           </p>
         ) : null}
@@ -149,14 +132,6 @@ export function ConfirmDialog({
             onClick={onConfirm}
             disabled={submitting}
             data-destructive={isDestructive ? "true" : undefined}
-            style={
-              isDestructive
-                ? {
-                    background: "var(--ubm-color-danger)",
-                    color: "var(--ubm-color-surface-panel)",
-                  }
-                : undefined
-            }
           >
             {confirmLabel}
           </button>

@@ -1752,7 +1752,7 @@ node scripts/list-specs.js --topics
 | Env Boundary | L18 |
 | CSP Nonce Contract | L30 |
 | User-gated Follow-ups | L45 |
-| Workflow | L54 |
+| Workflow | L55 |
 
 ---
 
@@ -3208,6 +3208,12 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | Runtime Boundary | L22 |
+
+### references/workflow-issue-924-style-src-attr-retirement-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Boundary | L17 |
 
 ### references/workflow-light-theme-contrast-regression-guard.md
 
@@ -7819,14 +7825,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L2691 |
-| フェーズ構造（概要） | L2700 |
-| 品質ゲート（概要） | L2731 |
-| 出力テンプレート | L2742 |
-| 実行時のコマンド・エージェント・スキル | L2765 |
-| 昇格パターン集 | L2789 |
-| Current Active / Spec Created Tasks | L2791 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L2952 |
+| ドキュメント構成 | L2707 |
+| フェーズ構造（概要） | L2716 |
+| 品質ゲート（概要） | L2747 |
+| 出力テンプレート | L2758 |
+| 実行時のコマンド・エージェント・スキル | L2781 |
+| 昇格パターン集 | L2805 |
+| Current Active / Spec Created Tasks | L2807 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L2968 |
 
 ### references/task-workflow-backlog-part2.md
 
