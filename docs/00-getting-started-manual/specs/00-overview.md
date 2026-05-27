@@ -369,6 +369,12 @@ docs/{task-id}/
 | same-wave sync | 仕様書変更時は resource-map / LOGS / lessons-learned を同一 wave で更新 |
 | 未割り当てタスク登録 | スコープ外で発見した課題は `docs/unassigned-task/` に登録し、優先度・推奨Wave・依存関係を記載する |
 
+### 2026-05-26 local implementation sync
+
+| タスク | 状態 | 内容 |
+| --- | --- | --- |
+| `login-ui-balance-and-runtime-fix` | `implemented_local_runtime_pending / implementation / VISUAL` | `/login` の input/button balance、Google brand icon の legacy `[data-size]` CSS 隔離、`apps/web` internal API base 解決の `env.ts` accessor 統一、prototype HTML の jsdelivr + `.jsx` serve contract、Phase 11 local screenshots を同一 wave で反映。staging smoke、staging visual baseline、commit、push、PR は user-gated。 |
+
 ### タスク仕様書スキル
 
 タスク仕様書の作成・更新には `task-specification-creator` スキルを使用する。
