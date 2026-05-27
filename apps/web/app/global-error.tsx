@@ -20,7 +20,7 @@ export default function GlobalError({
 
   return (
     <html lang="ja">
-      <body style={{ fontFamily: "system-ui, sans-serif", padding: "2rem" }}>
+      <body className="global-error-body">
         <main role="alert" aria-live="assertive">
           <h1>システムエラーが発生しました</h1>
           <p>ページを読み込めませんでした。再読込みしてください。</p>

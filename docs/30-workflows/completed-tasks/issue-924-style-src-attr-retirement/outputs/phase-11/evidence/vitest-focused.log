@@ -1,0 +1,5 @@
+Command: pnpm exec vitest run apps/web/src/features/admin/components/_shared/__tests__/AdminTable.spec.tsx apps/web/src/components/ui/__tests__/parallel09-primitives.component.spec.tsx apps/web/src/lib/security-headers.spec.ts apps/web/__tests__/middleware.spec.ts
+Result: PASS
+
+Test Files 4 passed
+Tests 59 passed

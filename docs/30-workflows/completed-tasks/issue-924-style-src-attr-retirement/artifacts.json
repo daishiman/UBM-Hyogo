@@ -1,0 +1,99 @@
+{
+  "workflow": "issue-924-style-src-attr-retirement",
+  "status": "local_static_pass_browser_pending",
+  "metadata": {
+    "taskType": "implementation",
+    "visualEvidence": "VISUAL",
+    "workflow_state": "local_static_pass_browser_pending",
+    "issue_number": 924,
+    "issue_state": "closed",
+    "scope": "apps/web style-src-attr 'unsafe-inline' retirement — remove 51 inline style={{...}} occurrences and drop style-src-attr directive from CSP",
+    "implementation_mode": "modify",
+    "runtime_boundary": "local code implementation and focused tests complete; browser visual regression, staging verification, commit, push, and PR are user-gated",
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-05-25T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-924-style-src-attr-retirement/outputs/phase-12/phase12-task-spec-compliance-check.md",
+        "approver": "daishiman",
+        "notes": "spec_review: Phase 1-13 task specification plus local implementation evidence"
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "passed",
+        "passed_at": "2026-05-25T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-924-style-src-attr-retirement/outputs/phase-11/manual-test-result.md",
+        "approver": "daishiman",
+        "notes": "implementation_review: inline style retirement + security-headers.ts directive removal + focused unit + grep gate; browser visual smoke remains user-gated"
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-924-style-src-attr-retirement/outputs/phase-13/pr-gate.md",
+        "approver": "daishiman",
+        "notes": "external_ops: staging CSP response verification + 19 routes visual regression observation post-deploy"
+      }
+    ]
+  },
+  "implementation_mode": "modify",
+  "task_type": "implementation",
+  "visual_evidence": "VISUAL",
+  "phases": {
+    "phase-1": {
+      "status": "completed",
+      "artifact": "outputs/phase-1/requirements.md"
+    },
+    "phase-2": {
+      "status": "completed",
+      "artifact": "outputs/phase-2/design.md"
+    },
+    "phase-3": {
+      "status": "completed",
+      "artifact": "outputs/phase-3/design-review.md"
+    },
+    "phase-4": {
+      "status": "completed",
+      "artifact": "outputs/phase-4/test-plan.md"
+    },
+    "phase-5": {
+      "status": "completed",
+      "artifact": "outputs/phase-5/implementation-plan.md"
+    },
+    "phase-6": {
+      "status": "completed",
+      "artifact": "outputs/phase-6/test-implementation-result.md"
+    },
+    "phase-7": {
+      "status": "completed",
+      "artifact": "outputs/phase-7/integration-result.md"
+    },
+    "phase-8": {
+      "status": "completed",
+      "artifact": "outputs/phase-8/quality-gate.md"
+    },
+    "phase-9": {
+      "status": "completed",
+      "artifact": "outputs/phase-9/qa-result.md"
+    },
+    "phase-10": {
+      "status": "completed",
+      "artifact": "outputs/phase-10/final-review.md"
+    },
+    "phase-11": {
+      "status": "local_static_pass_browser_pending",
+      "mode": "VISUAL",
+      "artifact": "outputs/phase-11/manual-test-result.md",
+      "canonical_paths": "outputs/phase-11/canonical-paths.json"
+    },
+    "phase-12": {
+      "status": "completed",
+      "artifact": "outputs/phase-12/phase12-task-spec-compliance-check.md"
+    },
+    "phase-13": {
+      "status": "pending_user_approval",
+      "reason": "browser visual regression, staging verification, commit, push, and PR require explicit user approval"
+    }
+  }
+}

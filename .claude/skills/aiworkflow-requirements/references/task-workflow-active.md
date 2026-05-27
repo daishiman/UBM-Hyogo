@@ -22,6 +22,50 @@
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-public-dashboard-prototype-alignment-artifact-inventory.md` |
 | user gate | implementation, local visual capture, staging refresh, commit, push, PR |
 
+### google-form-reflection-diagnostics（2026-05-26）
+### Issue #924 style-src-attr retirement（2026-05-25）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `local_static_pass_browser_pending / implementation / VISUAL / Phase 1-12 local gates completed / Phase 13 pending_user_approval` |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-924-style-src-attr-retirement/` |
+| Issue | #924 CLOSED。PR 文脈は `Refs #924` のみ |
+| parent | `docs/30-workflows/completed-tasks/issue-871-csp-nonce-migration/` |
+| 目的 | CSP から `style-src-attr 'unsafe-inline'` を撤去し、CSP 対象 DOM の React inline style props を class/data-attr/SVG へ置換する |
+| implementation targets | `apps/web/src/lib/security-headers.ts`, CSP-relevant TSX under `apps/web/src` and `apps/web/app`, `apps/web/src/styles/globals.css`, `apps/web/src/styles/legacy-public.css`, `scripts/verify-no-inline-style.sh`, `package.json`, `lefthook.yml` |
+| invariant | `ImageResponse` routes are excluded because they generate PNG output; nonce and `CSP_MODE` contracts are unchanged |
+| evidence | typecheck PASS, focused Vitest 59 PASS, `bash scripts/verify-no-inline-style.sh` PASS after broad `style={` gate and residual `AdminTable` / `GoogleBrandIcon` cleanup; static visual sanity screenshot present |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-924-style-src-attr-retirement-artifact-inventory.md` |
+| lessons | `.claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-issue-924-style-src-attr-retirement-2026-05.md`（L-I924-001..005: broad `style={` grep gate / static-sanity vs full-visual の区別 / `ImageResponse` allowlist / A 静的・B 動的離散・C 連続値の置換区分 / directive 削除と spec 同期更新） |
+| user gate | full 19-route browser visual regression, staging CSP response verification, commit, push, PR |
+
+### public-header-my-profile-nav-alignment（2026-05-26）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION / browser_smoke_pending_user_gate` |
+| 成果物 | `docs/30-workflows/completed-tasks/public-header-my-profile-nav-alignment/` |
+| parent | `docs/30-workflows/ui-prototype-alignment-mvp-recovery/` |
+| 目的 | 公開層ヘッダでログイン中ユーザーに `/profile` CTA を出し、プロトタイプで要求されたマイページ最短動線を回復する |
+| implementation targets | `apps/web/src/components/public/PublicHeader.tsx`, `PublicHeaderWithPath.tsx`, `SessionAwarePublicHeader.tsx`, `apps/web/app/(public)/layout.tsx`, `apps/web/app/page.tsx` |
+| contract | presentational header は sync 維持。pathname は `usePathname()` client island、session は `getSession()` server wrapper に分離。重複する `マイページ` nav + CTA は作らず CTA 一本に集約 |
+| evidence | focused Vitest local PASS, Phase 12 strict 7 present, root/output artifacts parity present |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-public-header-my-profile-nav-alignment-artifact-inventory.md` |
+| user gate | browser/session smoke, commit, push, PR |
+
+### admin-ui-prototype-alignment（2026-05-23）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_runtime_pending / implementation / VISUAL` |
+| 成果物 | `docs/30-workflows/completed-tasks/google-form-reflection-diagnostics/` |
+| 目的 | Google Form 31 項目が admin / profile / public 3 経路で反映されない事象を H1 ingest / H2 identity / H3 visibility / H4 alias に切り分ける |
+| implementation targets | `apps/api/src/diagnostics/{schema,forms-pipeline,member-diagnosis}.ts`, `apps/api/src/index.ts`, `apps/web/app/(admin)/admin/sync-status/page.tsx`, `apps/web/src/features/admin/diagnostics/{types,api}.ts`, `apps/web/src/features/admin/components/_members/{MemberDiagnosticsPanel,MemberDrawer}.tsx` |
+| API contract | `GET /admin/diagnostics/forms-pipeline`, `GET /admin/diagnostics/member/:memberId`。read-only 集計、PII 値なし、secret readiness は boolean のみ |
+| Phase 12 | strict 7 outputs + root/output artifacts parity present |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-google-form-reflection-diagnostics-artifact-inventory.md` |
+| user gate | staging deploy / authenticated `/admin/sync-status` screenshot / member drawer screenshot / Spec-B issue filing / commit / push / PR |
+
 ### issue-901-authenticated-profile-admin-staging-visual（2026-05-25）
 
 | 項目 | 値 |
@@ -40,8 +84,6 @@
 
 ### issue-900-workflow-permissions-least-privilege-audit（2026-05-25）
 
-| 項目 | 値 |
-| --- | --- |
 | state | `implemented_local_evidence_captured / implementation / NON_VISUAL` |
 | root | `docs/30-workflows/completed-tasks/issue-900-workflow-permissions-least-privilege-audit/` |
 | issue | #900 CLOSED。PR 文脈は `Refs #900` のみ |
@@ -54,8 +96,6 @@
 
 ### issue-894-admin-topbar-breadcrumb-integration（2026-05-25）
 
-| 項目 | 値 |
-| --- | --- |
 | ステータス | `implemented_local_evidence_captured / implementation / VISUAL / implementation_complete_pending_pr` |
 | 成果物 | `docs/30-workflows/completed-tasks/issue-894-admin-topbar-breadcrumb-integration/` |
 | Issue | #894 CLOSED。PR 文脈は `Refs #894` のみ |
@@ -68,8 +108,6 @@
 
 ### Issue #895 AdminTopbar actions client island（2026-05-25）
 
-| 項目 | 値 |
-| --- | --- |
 | ステータス | `implemented_local_evidence_captured / implementation / NON_VISUAL / implementation_complete_pending_pr` |
 | 成果物 | `docs/30-workflows/completed-tasks/issue-895-admin-topbar-actions-client-island/` |
 | source | `docs/30-workflows/completed-tasks/parallel-03-followup-004-admin-topbar-actions-buttons.md` consumed |
@@ -79,6 +117,18 @@
 | evidence | Phase 11 local evidence + Phase 12 strict 7 present。screenshot は `NON_VISUAL` のため N/A |
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-895-admin-topbar-actions-client-island-artifact-inventory.md` |
 | user gate | commit, push, PR |
+
+### issue-247-apps-web-opennext-config-regression-tests（2026-05-26）
+
+| ステータス | `implemented_local_evidence_captured / implementation / NON_VISUAL / Phase 1-12 completed / Phase 13 pending` |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-247-apps-web-opennext-config-regression-tests/` |
+| Issue | #247。commit / push / PR / Issue mutation は user-gated |
+| parent/source | parent `docs/30-workflows/completed-tasks/ut-06-followup-A-opennext-workers-migration.md`; source unassigned `docs/30-workflows/completed-tasks/issue-247-apps-web-opennext-config-regression-tests/UT-06-FU-A-open-next-config-regression-tests.md` |
+| 目的 | OpenNext Workers `apps/web/wrangler.toml` の Pages 形式逆戻り、assets binding drift、deploy script drift、`.assetsignore` drift を CI で検出する |
+| implementation targets | `apps/web/__tests__/opennext-config-regression.spec.ts`, `.github/workflows/ci.yml` |
+| system spec | `.claude/skills/aiworkflow-requirements/references/deployment-cloudflare-opennext-workers.md` |
+| evidence | focused Vitest guard PASS、Phase 12 strict 7、root/output artifacts parity |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-247-apps-web-opennext-config-regression-tests-artifact-inventory.md` |
 
 ### issue-891-member-detail-kind-exhaustiveness-guard（2026-05-25）
 
@@ -190,6 +240,20 @@
 | tests | `scripts/smoke/__tests__/mint-staging-session-cookie.spec.ts`, `scripts/smoke/__tests__/runtime-admin-web.test.sh` |
 | user gate | Cloudflare staging deploy, real `/admin` probe, commit, push, PR |
 
+### issue-922-production-admin-runtime-smoke-gate（2026-05-25）
+
+| 項目 | 値 |
+| --- | --- |
+| state | `implemented_local_runtime_pending / implementation / NON_VISUAL` |
+| root | `docs/30-workflows/completed-tasks/issue-922-production-admin-runtime-smoke-gate/` |
+| parent | `docs/30-workflows/completed-tasks/issue-864-admin-staging-runtime-smoke-ci-gate/` |
+| purpose | staging deploy 後の authenticated `/admin` runtime smoke gate を production deploy 後にも対称展開し、Server Components render error digest `167275886` / `error.boundary.caught` を CI で検出する |
+| implementation targets | `scripts/smoke/runtime-admin-web.sh`, `scripts/smoke/mint-staging-session-cookie.mts`, `.github/workflows/web-cd.yml admin-runtime-smoke-production` |
+| tests | `scripts/smoke/__tests__/runtime-admin-web.test.sh`, `scripts/smoke/__tests__/mint-staging-session-cookie.spec.ts` |
+| evidence | Phase 11 shell contract log + vitest log present, Phase 12 strict 7 present |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-922-production-admin-runtime-smoke-gate-artifact-inventory.md` |
+| user gate | `production-runtime-smoke` GitHub Environment secrets, real production `/admin` probe, intentional regression fail evidence, `main` required status check PUT, commit, push, PR |
+
 ### fix-admin-scr-err-stg-fu-001-auth-env-via-getenv（2026-05-24）
 
 | 項目 | 値 |
@@ -216,6 +280,23 @@
 | contract | 受信 `verify-cf-webhook-auth.ts` は `CF_WEBHOOK_AUTH_SECRET` 単一照合。別値 `INTERNAL_ALERT_TOKEN` は投入せず fallback を正本化 |
 | evidence | `outputs/phase-11/main.md`, focused Vitest log, strict 7 `outputs/phase-12/` |
 | user gate | Cloudflare secret list / staging deploy / Workers tail / controlled SA key invalidation / commit / push / PR |
+
+### issue-917 alert relay runtime fire evidence（2026-05-25）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / NON_VISUAL / runtime_observation` |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-917-alert-relay-runtime-fire-evidence/` |
+| issue | #917 CLOSED。PR 文脈は `Refs #917` のみ |
+| 目的 | issue-857 で `API_INTERNAL_BASE_URL` 配線済みになった `sheets-auth-healthcheck` → `/internal/alert-relay` 経路について、relay POST responseStatus を tail で観測可能にし、staging runtime で controlled SA key invalidation による alert relay 実発火を確認する evidence 取得仕様を固定する |
+| source | `docs/30-workflows/unassigned-task/UT-25-DERIV-02-FU-02-alert-relay-runtime-fire-evidence.md`（runtime evidence 完了まで unassigned 維持、canonical workflow pointer 追加済み） |
+| upstream | `docs/30-workflows/completed-tasks/issue-857-internal-alert-relay-binding-wiring/` |
+| parent | `docs/30-workflows/ut-25-deriv-02-sa-key-expiry-monitoring/` |
+| implementation targets | `apps/api/src/scheduled/sheets-auth-healthcheck.ts`, `apps/api/src/scheduled/sheets-auth-healthcheck.contract.spec.ts` |
+| evidence boundary | Phase 11 focused Vitest 8 PASS + docs gate present。runtime evidence MD `docs/30-workflows/ut-25-deriv-02-sa-key-expiry-monitoring/outputs/phase-11/evidence/alert-relay-fire-staging.md` は user-gated pending |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-917-alert-relay-runtime-fire-evidence-artifact-inventory.md` |
+| lessons | `.claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-issue-917-alert-relay-runtime-fire-evidence-2026-05.md` |
+| user gate | Cloudflare secret list / staging deploy / Workers tail / controlled SA key invalidation / evidence MD creation / issue-857 implementation-guide update / source consumed conversion / commit / push / PR |
 
 ### step-08 audit filter/paging verify（2026-05-24）
 

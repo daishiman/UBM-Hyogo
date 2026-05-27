@@ -219,7 +219,7 @@ CLAUDE.md の `apps/web` env アクセス不変条件（`apps/web/src/lib/env.ts
 | 苦戦箇所 | `lessons-learned/lessons-learned-ut06-followup-A-opennext-workers-2026-04.md` |
 | 親タスク | `docs/30-workflows/ut-06-followup-A-opennext-workers-migration/` |
 | 派生タスク (R2 cache) | `docs/30-workflows/unassigned-task/UT-06-FU-A-R2-incremental-cache-decision.md` |
-| 派生タスク (回帰テスト) | `docs/30-workflows/unassigned-task/UT-06-FU-A-open-next-config-regression-tests.md` |
+| 派生タスク (回帰テスト) | `docs/30-workflows/completed-tasks/issue-247-apps-web-opennext-config-regression-tests/UT-06-FU-A-open-next-config-regression-tests.md` |
 | 派生タスク (route/secret 監視) | `docs/30-workflows/completed-tasks/UT-06-FU-A-production-route-secret-observability.md` |
 | production preflight workflow | `docs/30-workflows/completed-tasks/ut-06-fu-a-prod-route-secret-001-worker-migration-verification/` |
 | production preflight runbook | `docs/30-workflows/completed-tasks/ut-06-fu-a-prod-route-secret-001-worker-migration-verification/outputs/phase-05/runbook.md` |
@@ -318,6 +318,19 @@ Production deploy execution は `docs/30-workflows/completed-tasks/09c-A-product
 
 Regression anchor: `apps/web/src/lib/__tests__/build-time-env.spec.ts`
 
+## OpenNext config regression guard
+
+OpenNext Workers 形式の drift は `apps/web/__tests__/opennext-config-regression.spec.ts` で機械検証する。CI は `.github/workflows/ci.yml` の `OpenNext config regression guard` step で focused Vitest を実行し、以下の不変条件を PR ブロッカーにする。
+
+| Invariant | Guard |
+| --- | --- |
+| Pages output へ戻さない | `pages_build_output_dir` 不在、`main = ".open-next/worker.js"`、`compatibility_flags = ["nodejs_compat"]` |
+| Static Assets binding を env ごとに明示 | `[assets]`, `[env.staging.assets]`, `[env.production.assets]` の `directory = ".open-next/assets"` / `binding = "ASSETS"` / `not_found_handling = "single-page-application"` |
+| deploy 経路を `scripts/cf.sh` に固定 | `apps/web/package.json` に `deploy` / `deploy:staging` / `deploy:production` script を置かない |
+| asset upload に開発成果物を含めない | `.assetsignore` に `node_modules`, `.DS_Store`, `.git`, `*.map`, `*.test.*`, `*.spec.*`, `__tests__` を保持 |
+
+正本 workflow: `docs/30-workflows/completed-tasks/issue-247-apps-web-opennext-config-regression-tests/`
+
 ## Response security headers via middleware
 
 `apps/web` response security headers are injected in `apps/web/middleware.ts`, not in `next.config.ts headers()`. This keeps the OpenNext Workers runtime path aligned with existing admin/profile auth middleware and allows `getPublicEnv().NEXT_PUBLIC_API_BASE_URL` to be used for CSP `connect-src`.
@@ -339,6 +352,7 @@ Implementation anchors: `apps/web/src/lib/security-headers.ts`, `apps/web/middle
 
 | 日付 | バージョン | 変更内容 |
 | --- | --- | --- |
+| 2026-05-26 | 1.9.0 | Issue #247 OpenNext config regression guard を同期。`apps/web/__tests__/opennext-config-regression.spec.ts` と `.github/workflows/ci.yml` focused Vitest step で Pages output drift / env assets drift / package deploy script drift / `.assetsignore` drift を機械検証する |
 | 2026-05-23 | 1.8.0 | apps-web-security-headers-hardening を同期。OpenNext Workers response security headers は `apps/web/middleware.ts` 注入を正本とし、CSP report-only / Permissions-Policy / Trusted Types 非採用境界を追加 |
 | 2026-05-20 | 1.7.0 | CI staging deploy failure fix を同期。OpenNext build-time env injection (§16) を追加し、runtime env 正本は `apps/web/wrangler.toml`、deploy secret は deploy step scoped のままに固定 |
 | 2026-05-09 | 1.6.0 | Issue #331 で `.github/workflows/web-cd.yml` の repo-side Pages deploy 残を撤去し、OpenNext Workers build + `scripts/cf.sh deploy` に同期。Cloudflare side retirement / smoke は user-gated 境界として維持 |
