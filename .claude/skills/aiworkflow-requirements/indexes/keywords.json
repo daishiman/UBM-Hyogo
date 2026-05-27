@@ -25179,12 +25179,6 @@
     "Linked": [
       "workflow-2b-admin-identity-conflicts-spec-artifact-inventory.md"
     ],
-    "pageheader": [
-      "workflow-admin-ui-task-c-pageheader-token-conformance-artifact-inventory.md"
-    ],
-    "conformance": [
-      "workflow-admin-ui-task-c-pageheader-token-conformance-artifact-inventory.md"
-    ],
     "Implemented": [
       "workflow-admin-ui-prototype-alignment-followup-001-members-fetch-and-visual-artifact-inventory.md",
       "workflow-issue-503-ut-07b-fu-01-followup-cursor-semantics-migration-artifact-inventory.md",
@@ -25196,6 +25190,12 @@
       "workflow-issue-874-login-staging-visual-smoke-artifact-inventory.md",
       "workflow-issue-880-public-segment-error-loading-boundary-artifact-inventory.md",
       "workflow-task-21-w2-par-screen-blueprints-admin-artifact-inventory.md"
+    ],
+    "pageheader": [
+      "workflow-admin-ui-task-c-pageheader-token-conformance-artifact-inventory.md"
+    ],
+    "conformance": [
+      "workflow-admin-ui-task-c-pageheader-token-conformance-artifact-inventory.md"
     ],
     "で更新した": [
       "workflow-ai-chat-llm-integration-fix-artifact-inventory.md"
