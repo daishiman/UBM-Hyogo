@@ -6,6 +6,7 @@ import type { AdminMemberDetailView } from "@ubm-hyogo/shared";
 import { Drawer } from "../../../../components/ui/Drawer";
 import { formatJstDateTime } from "../../../../lib/format/datetime";
 import { useAdminMutation } from "../../hooks/useAdminMutation";
+import { MemberDiagnosticsPanel } from "./MemberDiagnosticsPanel";
 
 export interface MemberDrawerProps {
   readonly memberId: string;
@@ -136,6 +137,8 @@ export function MemberDrawer({ memberId, onClose }: MemberDrawerProps) {
               タグ管理へ
             </Link>
           </section>
+
+          <MemberDiagnosticsPanel memberId={memberId} />
         </div>
       )}
     </Drawer>

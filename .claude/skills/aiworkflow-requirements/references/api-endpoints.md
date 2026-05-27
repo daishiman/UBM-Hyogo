@@ -103,6 +103,8 @@ historical 行の close-out は `docs/30-workflows/completed-tasks/task-sync-for
 | GET | `/admin/dashboard/attendance/sessions/:sessionId/attendees` | session drilldown。active members の attendees / absentees を返し、session 不在は 404 | Auth.js JWT + `requireAdmin` |
 | GET | `/admin/dashboard/attendance/absentees` | `lastN?` 連続欠席候補。period / zone filter 対応 | Auth.js JWT + `requireAdmin` |
 | GET | `/admin/dashboard/attendance/export` | filter 済み attendance を UTF-8 BOM + CRLF CSV で返す | Auth.js JWT + `requireAdmin` |
+| GET | `/admin/diagnostics/forms-pipeline` | Google Form 31 項目反映欠落の診断 snapshot。`sync_jobs` / `member_responses` / `response_fields` / `member_identities` / `member_status` / `schema_diff_queue` を read-only 集計し、H1 ingest / H2 identity / H3 visibility / H4 alias の boolean flags と counts を返す。secret は `googleServiceAccountEmail` / `googlePrivateKey` / `googleFormId` / `authSecret` の boolean readiness のみで実値を返さない | Auth.js JWT + `requireAdmin` |
+| GET | `/admin/diagnostics/member/:memberId` | 1 member の診断 snapshot。`current_response_id`、response field count、missing stable keys、consent / publish visibility、H2-H4 個別 flags を返す。PII 値は返さず、ID / key / boolean / count に限定する | Auth.js JWT + `requireAdmin` |
 | PATCH | `/admin/members/:memberId/status` | publish state / hidden reason を更新する | Auth.js JWT + `requireAdmin` |
 | POST | `/admin/members/:memberId/notes` | admin note を作成する | Auth.js JWT + `requireAdmin` |
 | PATCH | `/admin/members/:memberId/notes/:noteId` | admin note を更新する | Auth.js JWT + `requireAdmin` |

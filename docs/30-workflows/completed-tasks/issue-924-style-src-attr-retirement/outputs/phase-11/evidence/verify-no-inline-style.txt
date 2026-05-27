@@ -1,0 +1,6 @@
+Command: bash scripts/verify-no-inline-style.sh
+Result: PASS
+
+verify-no-inline-style: OK
+
+Review-cycle rerun: `style={` broad pattern enabled; CSP-relevant TSX residual inline style props = 0.

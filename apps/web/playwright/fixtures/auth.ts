@@ -319,6 +319,81 @@ function adminMembersBody(query: URLSearchParams) {
   }
 }
 
+function diagnosticsFormsPipelineBody() {
+  return {
+    capturedAt: '2026-05-26T00:00:00.000Z',
+    counts: {
+      formResponses: 3,
+      responseFields: 87,
+      members: 3,
+      memberIdentities: 3,
+    },
+    latestSyncRuns: [
+      {
+        id: 'sync_fixture_001',
+        startedAt: '2026-05-26T00:00:00.000Z',
+        finishedAt: '2026-05-26T00:00:02.000Z',
+        status: 'success',
+        responsesFetched: 3,
+        errorMessage: null,
+      },
+    ],
+    secretsReadiness: {
+      googleServiceAccountEmail: true,
+      googlePrivateKey: true,
+      googleFormId: true,
+      authSecret: true,
+    },
+    aliasPendingCount: 2,
+    publicVisibility: {
+      totalMembers: 3,
+      publicConsentTrue: 2,
+      publishedTrue: 1,
+      visibleOnPublicDirectory: 1,
+      allHiddenByPublishState: false,
+    },
+    identityHealth: {
+      totalIdentities: 3,
+      identitiesWithoutMember: 0,
+      membersWithoutIdentity: 0,
+    },
+    hypothesisFlags: {
+      H1_ingestNeverRanOrAllErrors: false,
+      H2_identityMismatchSuspected: false,
+      H3_allHiddenByPublishState: false,
+      H4_aliasPendingNonZero: true,
+    },
+  }
+}
+
+function diagnosticsMemberBody(memberId: string) {
+  return {
+    capturedAt: '2026-05-26T00:00:00.000Z',
+    memberId,
+    identityMatches: {
+      byEmail: true,
+      byExternalId: true,
+      matchedFormResponseId: `response-${memberId}`,
+    },
+    responseFieldCount: 29,
+    expectedFieldCount: 31,
+    missingFieldKeys: ['ubm_membership_type', 'introduction'],
+    consent: {
+      publicConsent: true,
+      rulesConsent: true,
+    },
+    publishState: {
+      published: true,
+      visibleOnPublicDirectory: true,
+    },
+    hypothesisFlags: {
+      H2_identityMissing: false,
+      H3_hiddenByConsentOrPublish: false,
+      H4_missingFieldsNonEmpty: true,
+    },
+  }
+}
+
 function adminTagsQueueBody(query: URLSearchParams) {
   const status = query.get('status')
   const items = [
@@ -559,6 +634,15 @@ async function ensureMockApi(): Promise<void> {
       }
       if (req.method === 'GET' && url.pathname === '/admin/members') {
         response(res, 200, adminMembersBody(url.searchParams))
+        return
+      }
+      if (req.method === 'GET' && url.pathname === '/admin/diagnostics/forms-pipeline') {
+        response(res, 200, diagnosticsFormsPipelineBody())
+        return
+      }
+      const diagnosticsMemberMatch = url.pathname.match(/^\/admin\/diagnostics\/member\/([^/]+)$/)
+      if (req.method === 'GET' && diagnosticsMemberMatch?.[1]) {
+        response(res, 200, diagnosticsMemberBody(decodeURIComponent(diagnosticsMemberMatch[1])))
         return
       }
       if (req.method === 'GET' && url.pathname === '/admin/meetings') {

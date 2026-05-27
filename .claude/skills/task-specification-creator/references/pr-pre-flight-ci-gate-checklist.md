@@ -407,3 +407,30 @@ test -z "$(git status --porcelain | grep '^UU')" && git commit --no-edit
 `scripts/sync/resolve-skill-merge-conflicts.sh` の union-merge 対象に `.claude/skills/*/references/patterns-lessons-and-pitfalls.md` を追加すれば、本パターンも `pnpm sync:resolve` 一発完結に昇格する。
 
 詳細: `.claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-dev-sync-merge-conflict-resolution-2026-05.md` §L-DEVSYNC-042。事例: 2026-05-25 `docs/issue-884-serial06-phase6-topology-sync-backfill` ← dev sync-merge。
+
+## 18. CI gate `verify-conflict-markers` で `||||||| Stash base` 残留が検出される（L-DEVSYNC-049）
+
+`pnpm sync:resolve` 完走 + `git status` clean + typecheck/lint green でも、push 後 `verify-conflict-markers` workflow が `||||||| Stash base` (diff3 base separator) の単独残留で fail することがある。resolver は `<<<<<<<`/`=======`/`>>>>>>>` の境界で動作するため、過去 sync の再 merge 過程で取り残された base separator は検出されずに commit に含まれる。
+
+### Pre-flight 追加チェック（commit 前必須）
+
+```bash
+git grep -nE '^(<<<<<<< |>>>>>>> |\|\|\|\|\|\|\| )' -- \
+  ':(exclude).github/workflows/verify-conflict-markers.yml' \
+  ':(exclude).claude/skills/**/lessons-learned/**' \
+  ':(exclude).claude/skills/**/dev-sync*.md' \
+  ':(exclude).claude/skills/**/SKILL-changelog.md' \
+  ':(exclude).claude/commands/**' \
+  ':(exclude)docs/30-workflows/**/dev-sync*.md' \
+  ':(exclude)docs/30-workflows/**/lessons-learned*.md' \
+  ':(exclude)scripts/sync/**'
+```
+
+ヒット時の解消は単独行削除のみ。隣接行が連続 entry/section 連結なら marker 行除去で文意は通る。
+
+### 推奨拡張
+
+1. resolver `scripts/sync/resolve-skill-merge-conflicts.sh` の最終 step に上記 grep を追加し、`pnpm sync:resolve` 内で即座に fail 検出する
+2. pre-push hook (`scripts/hooks/*`) に同 grep gate を追加（CI 到達前にローカル fail させる）
+
+詳細: `.claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-dev-sync-merge-conflict-resolution-2026-05.md` §L-DEVSYNC-049。事例: 2026-05-26 `feat/issue-247-...` PR #966。

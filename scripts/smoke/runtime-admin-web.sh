@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Authenticated /admin runtime smoke runner for the staging web Worker.
+# Authenticated /admin runtime smoke runner for the web Worker.
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -9,12 +9,18 @@ if [[ -z "$ENVIRONMENT" ]]; then
   echo "env required" >&2
   exit 2
 fi
-if [[ "$ENVIRONMENT" != "staging" ]]; then
-  echo "Only staging runtime smoke is allowed" >&2
+case "$ENVIRONMENT" in
+  staging|production) ;;
+  *)
+  echo "Only staging or production runtime smoke is allowed" >&2
   exit 2
-fi
+  ;;
+esac
 
 OUT_DIR_DEFAULT="docs/30-workflows/issue-864-admin-staging-runtime-smoke-ci-gate/outputs/phase-11/evidence"
+if [[ "$ENVIRONMENT" == "production" ]]; then
+  OUT_DIR_DEFAULT="docs/30-workflows/completed-tasks/issue-922-production-admin-runtime-smoke-gate/outputs/phase-11/evidence"
+fi
 OUT_DIR="$OUT_DIR_DEFAULT"
 CI_SUMMARY=0
 
@@ -39,16 +45,37 @@ while [[ $# -gt 0 ]]; do
   esac
 done
 
-: "${STAGING_WEB_BASE:?STAGING_WEB_BASE is required}"
-: "${STAGING_ADMIN_SESSION_COOKIE:?STAGING_ADMIN_SESSION_COOKIE is required}"
+resolve_env_vars() {
+  ENV_PREFIX="$(printf '%s' "$ENVIRONMENT" | tr '[:lower:]' '[:upper:]')"
+  WEB_BASE_VAR="${ENV_PREFIX}_WEB_BASE"
+  SESSION_COOKIE_VAR="${ENV_PREFIX}_ADMIN_SESSION_COOKIE"
+  WEB_BASE="${!WEB_BASE_VAR:-}"
+  ADMIN_SESSION_COOKIE="${!SESSION_COOKIE_VAR:-}"
+  if [[ -z "$WEB_BASE" ]]; then
+    echo "$WEB_BASE_VAR is required" >&2
+    exit 2
+  fi
+  if [[ -z "$ADMIN_SESSION_COOKIE" ]]; then
+    echo "$SESSION_COOKIE_VAR is required" >&2
+    exit 2
+  fi
+  BASE="${WEB_BASE%/}"
+  WORKER_NAME_VAR="${ENV_PREFIX}_WORKER_NAME"
+  CF_WORKER_NAME="${CF_WORKER_NAME:-${!WORKER_NAME_VAR:-ubm-hyogo-web-${ENVIRONMENT}}}"
+  TARGET_ALLOW_REGEX_VAR="${ENV_PREFIX}_WEB_HOST_ALLOW_REGEX"
+  TARGET_ALLOW_REGEX="${!TARGET_ALLOW_REGEX_VAR:-${ENVIRONMENT}|127\\.0\\.0\\.1|localhost}"
+  if [[ "$ENVIRONMENT" == "production" ]]; then
+    TARGET_ALLOW_REGEX="${!TARGET_ALLOW_REGEX_VAR:-ubm-hyogo-web-production\\.|workers\\.dev}"
+  fi
+}
+
+resolve_env_vars
 
 OUT_LOG="$OUT_DIR/runtime-smoke.log"
 SUMMARY_JSON="$OUT_DIR/summary.json"
 TMP_DIR="$(mktemp -d)"
 REDACT="$SCRIPT_DIR/redact.sh"
-BASE="${STAGING_WEB_BASE%/}"
 DIGEST="${ADMIN_RENDER_ERROR_DIGEST:-167275886}"
-CF_WORKER_NAME="${CF_WORKER_NAME:-ubm-hyogo-web-staging}"
 TAIL_FILE="$TMP_DIR/cf-tail.log"
 TAIL_PID=""
 TAIL_STARTED=0
@@ -90,18 +117,18 @@ fail_and_exit() {
   local label="$1"
   local http="$2"
   local reason="$3"
+  local exit_code="${4:-1}"
   collect_tail 0
   OVERALL_STATUS="FAIL"
   record_check "$label" "FAIL" "$http" "$reason"
   write_summary
   echo "FAIL: $label http=$http reason=$reason" >&2
-  exit 1
+  exit "$exit_code"
 }
 
-assert_staging_target() {
-  local allow_regex="${STAGING_WEB_HOST_ALLOW_REGEX:-staging|127\\.0\\.0\\.1|localhost}"
-  if ! printf '%s\n' "$BASE" | grep -Eiq "$allow_regex"; then
-    fail_and_exit "target-allowlist" "000" "target-not-staging"
+assert_target() {
+  if ! printf '%s\n' "$BASE" | grep -Eiq "$TARGET_ALLOW_REGEX"; then
+    fail_and_exit "target-allowlist" "000" "target-not-${ENVIRONMENT}" 2
   fi
 }
 
@@ -111,7 +138,7 @@ start_tail() {
   if [[ -n "${CF_TAIL_FILE:-}" ]]; then
     cat "$CF_TAIL_FILE" > "$TAIL_FILE"
   else
-    bash "$SCRIPT_DIR/../cf.sh" tail "$CF_WORKER_NAME" --env staging --format json > "$TAIL_FILE" 2>&1 &
+    bash "$SCRIPT_DIR/../cf.sh" tail "$CF_WORKER_NAME" --env "$ENVIRONMENT" --format json > "$TAIL_FILE" 2>&1 &
     TAIL_PID="$!"
     sleep "${CF_TAIL_WARMUP_SECONDS:-2}"
   fi
@@ -153,7 +180,7 @@ request_admin() {
       --max-time 30 \
       -o "$body_file" \
       -w "%{http_code}" \
-      -H "Cookie: $STAGING_ADMIN_SESSION_COOKIE" \
+      -H "Cookie: $ADMIN_SESSION_COOKIE" \
       "$BASE/admin"
   )"
   local curl_exit=$?
@@ -181,7 +208,7 @@ request_admin() {
   record_check "admin-web" "PASS" "$status" ""
 }
 
-assert_staging_target
+assert_target
 start_tail
 request_admin
 collect_tail

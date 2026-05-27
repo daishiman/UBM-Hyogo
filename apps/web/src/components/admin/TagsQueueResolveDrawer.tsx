@@ -195,8 +195,9 @@ export function TagsQueueResolveDrawer({
       </p>
       <p>
         <span
+          className="admin-tag-status-badge"
           data-testid="admin-tag-status-badge"
-          style={{ background: statusToken.tokenVar, padding: "2px 8px", borderRadius: 6 }}
+          data-status={status}
         >
           {statusToken.label}
         </span>

@@ -1,0 +1,24 @@
+{
+  "workflow": "login-ui-balance-and-runtime-fix",
+  "status": "captured_local_runtime_staging_pending",
+  "captures": [
+    {
+      "id": "login-balanced",
+      "target": "/login",
+      "output": "outputs/phase-11/screenshots/login-balanced.png",
+      "assertion": "email input and submit button share 44px height and aligned padding"
+    },
+    {
+      "id": "google-brand-icon",
+      "target": "/login",
+      "output": "outputs/phase-11/screenshots/google-brand-icon.png",
+      "assertion": "Google brand icon remains the official multicolor SVG and is not recolored by legacy CSS"
+    },
+    {
+      "id": "prototype-rendered",
+      "target": "http://127.0.0.1:5180/",
+      "output": "outputs/phase-11/screenshots/prototype-rendered.png",
+      "assertion": "prototype renders from HTTP server with .jsx application/javascript MIME"
+    }
+  ]
+}
