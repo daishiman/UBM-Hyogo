@@ -624,6 +624,20 @@ CSP の `style-src-attr` や `script-src-attr` 等 *-attr 系 directive を撤�
 
 ---
 
+## iterated sync-merge wave での lessons union 安定化（dev sync-merge / 2026-05-27 / Issue #275 4-wave 連続取り込み）
+
+同一 feature branch で複数回 dev 取り込みを繰り返す場合、**初回の union manual resolve で構造を安定化させると 2 回目以降は ort strategy が自動 union**する。`patterns-lessons-and-pitfalls.md` のような追記専用 lessons ファイルでこの効果が顕著。
+
+- **L-ITERSYNC-001 (初回 union を構造化する)**: HEAD と dev が同じ lessons ファイルへ別 section を追記して conflict した初回は、conflict marker 削除に加え **両 section を `---` 区切り + `## <Issue 名>` H2 で分離**する。続く wave で dev 側が更に section を追加しても、独立 H2 ブロック構造のため ort が anchor を正しく特定し自動 union できる。
+- **L-ITERSYNC-002 (4-wave 連続 sync:resolve 成立条件)**: 解消対象が `indexes/keywords.json`（derived・`--ours` + rebuild）と doc 系 union ターゲットのみで、ソース実装に手が入らない wave 構成であれば、`pnpm sync:resolve` + ort で 4 連続 sprint まで成立することを実証（39c4bf962→07b8843e8→ab0450fb3→cf155ca2f→a4df62f82, PR #961）。aiworkflow-requirements の [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-013 (4 回目確認) と整合。
+- **L-ITERSYNC-003 (長 session の disk hygiene)**: 同 PR 内で 4 回以上の sync-merge を回す long-running session では `/private/tmp/claude-*` の tool output cache が hundred-MB 規模に膨らみ、`git diff` 等の付随コマンドが ENOSPC で fail することがある。Phase 12 implementation-guide の operational note に「複数 wave sync 前後の `find /private/tmp/claude-* -name "*.output" -mtime +1 -delete` 実行」を追記推奨。これは spec の正本ではなく runner 環境 hygiene。
+
+### Anti-pattern
+- 2 回目以降の sync-merge で union manual resolve を再実行する（初回安定化済みなら不要 = 無駄な merge commit）。
+- ENOSPC を `pnpm sync:resolve` 失敗と誤帰責し、resolver の bug として起票する（実体は環境側の cache 飽和）。
+
+---
+
 ## parallel adapter signature extension（dev sync-merge / 2026-05-26）
 
 dev sync-merge で同一の pure adapter / pure function 関数が **HEAD 側と dev 側で独立に signature 拡張**された場合の統合パターン。spec を起草する段階で、adapter signature の進化方針をこの形式に揃えておくと merge 衝突時の解消コストが激減する（aiworkflow-requirements の `lessons-learned-dev-sync-merge-conflict-resolution-2026-05.md` L-DEVSYNC-043）。
