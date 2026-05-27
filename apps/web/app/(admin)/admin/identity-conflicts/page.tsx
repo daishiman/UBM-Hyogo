@@ -5,9 +5,13 @@
 //   - 不変条件 #3: responseEmail は API 側で既に部分マスク済 (raw email を表示しない)
 //   - 不変条件 #5: D1 直接アクセスなし
 import { safeServerFetch } from "../../../../src/lib/admin/safe-server-fetch";
-import { Breadcrumb } from "@/components/admin/Breadcrumb";
 import { EmptyState } from "../../../../src/components/ui/EmptyState";
-import { AdminSectionErrorClient } from "../../../../src/features/admin/components/_shared";
+import { Pagination } from "../../../../src/components/ui/Pagination";
+import { AdminPageHeader } from "../../../../src/features/admin/components";
+import {
+  AdminSectionCard,
+  AdminSectionErrorClient,
+} from "../../../../src/features/admin/components/_shared";
 import type { ListIdentityConflictsResponse } from "@ubm-hyogo/shared";
 import { IdentityConflictRow } from "../../../../src/components/admin/IdentityConflictRow";
 
@@ -25,17 +29,22 @@ export default async function AdminIdentityConflictsPage({
   const cursor = toSingle(sp["cursor"]);
   const path = `/admin/identity-conflicts${cursor ? `?cursor=${encodeURIComponent(cursor)}` : ""}`;
   const result = await safeServerFetch<ListIdentityConflictsResponse>(path);
+  const page = cursor ? 2 : 1;
 
   return (
-    <main className="mx-auto max-w-5xl px-6 py-8" data-route="admin" data-section-rhythm="compact">
-      <Breadcrumb items={[{ label: "Identity 重複候補" }]} />
-      <header className="mb-6">
-        <h1 className="text-2xl font-semibold tracking-tight">Identity 重複候補</h1>
-        <p className="mt-2 text-sm text-zinc-600">
-          name + 所属が完全一致する identity 候補を表示します。merge は二段階確認が必要です。
-          別人の場合は「別人マーク」で再検出を抑止できます。
-        </p>
-      </header>
+    <section aria-labelledby="admin-identity-conflicts-h" className="flex flex-col gap-4">
+      <AdminPageHeader
+        title="Identity 重複候補"
+        description={
+          result.ok
+            ? `name + 所属が一致した候補 ${result.data.items.length} 件`
+            : "候補の読み込みに失敗"
+        }
+        breadcrumbs={[{ label: "Identity 重複候補" }]}
+      />
+      <h1 id="admin-identity-conflicts-h" className="sr-only">
+        Identity 重複候補
+      </h1>
 
       {!result.ok ? (
         <AdminSectionErrorClient
@@ -46,26 +55,30 @@ export default async function AdminIdentityConflictsPage({
       ) : result.data.items.length === 0 ? (
         <EmptyState title="現在、merge 候補はありません。" />
       ) : (
-        <>
-          <ul className="divide-y divide-zinc-200 rounded-md border border-zinc-200">
+        <AdminSectionCard
+          title="候補一覧"
+          description="merge は二段階確認、別人確定は理由入力後に実行します。"
+          density="compact"
+        >
+          <ul className="flex flex-col gap-3" aria-label="Identity 重複候補一覧">
             {result.data.items.map((item) => (
-              <li key={item.conflictId} className="px-4 py-3">
+              <li key={item.conflictId}>
                 <IdentityConflictRow item={item} />
               </li>
             ))}
           </ul>
           {result.data.nextCursor && (
-            <div className="mt-6 text-right">
-              <a
-                href={`?cursor=${encodeURIComponent(result.data.nextCursor)}`}
-                className="text-sm text-blue-600 underline-offset-2 hover:underline"
-              >
-                次のページ →
-              </a>
-            </div>
+            <Pagination
+              current={page}
+              hasPrev={Boolean(cursor)}
+              hasNext
+              prevHref={cursor ? "/admin/identity-conflicts" : undefined}
+              nextHref={`?cursor=${encodeURIComponent(result.data.nextCursor)}`}
+              className="mt-4"
+            />
           )}
-        </>
+        </AdminSectionCard>
       )}
-    </main>
+    </section>
   );
 }

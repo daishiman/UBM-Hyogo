@@ -733,3 +733,19 @@ dev sync-merge で **HEAD = route group rename（`app/<route>/` → `app/(group)
 - **L-PATSEC-001 (heading 一意化)**: 新規 pattern section の見出しは `## <pattern 名>（issue-<N> L-<TAG>-001..M 汎化）` 形式を採る（例: `## CSP directive 撤去パターン（issue-924 L-I924-001..005 汎化）`）。HEAD と dev で同 sprint に偶然同名 pattern を追加しても heading が衝突しないため、resolver の union が重複 heading を生まない。
 - **L-PATSEC-002 (末尾 append-only)**: 既存 section の中央に bullet を増やさず、必ず**ファイル末尾に新 section を append**する。中央への追加は L-DEVSYNC-030（table-merge）系の手動 union を要求し、resolver 1 発で完結しない。
 - **L-PATSEC-003 (resolver 委譲)**: 本ファイルは `scripts/sync/resolve-skill-merge-conflicts.sh` の `UNION_TARGETS` に登録済（[[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-046）。仕様書 Phase 12 で本ファイルへ section を追記するタスクは「dev sync-merge での conflict は `pnpm sync:resolve` 自動解消」と前提を置いてよい。
+
+## Admin route 404 観測と prototype alignment（L-AIDC-002..007 汎化）
+
+admin route の UI prototype alignment と staging 404 復旧を 1 サイクルで扱う場合の汎化パターン。
+
+- **L-AIDC-002 (staging 404 の 5 軸切り分け)**: `ADMIN_FETCH_404` は H1 build 未デプロイ / H2 `INTERNAL_API_BASE_URL` mismatch / H3 D1 migration 未適用 / H4 auth 401→404 化 / H5 proxy path strip の 5 軸で、staging tail と curl evidence を順に潰す。仕様 Phase 4 には H1-H5 の確認コマンドと修正対象を表で固定する。
+- **L-AIDC-003 (narrow warn event)**: admin fetch の 404 観測は `safe-server-fetch.ts` で `ADMIN_FETCH_404` のみ `logger.warn({ event: "admin_fetch_404", scope: "admin", path, method, code })` として narrow event 化する。一般失敗を全て warn にしないことで Sentry noise を増やさない。
+- **L-AIDC-004 (multi-scope AC 分離)**: UI 改修 + runtime bugfix を同一 PR に入れる場合、AC / evidence / user-gated boundary を A 系 UI と B 系 runtime に分離する。Phase 12 の changed-files classification も A/B 列で書く。
+- **L-AIDC-006 (PII grep false positive 回避)**: identity 系 route の PII grep gate は raw email リテラル検出に加え、`responseEmailMasked` のような schema field 名を false positive として扱うか、検証結果に除外根拠を明記する。
+- **L-AIDC-007 (N/A spec update の根拠表)**: system spec 更新が N/A の場合も、影響し得る spec file と「なぜ更新不要か」を表で列挙する。N/A 単独表記は Phase 12 compliance で漏れに見える。
+
+### Anti-pattern
+
+- 404 復旧を「staging で要確認」の一文だけにする → H1-H5 のどこを直すべきかが後続 agent に伝わらず、実コード変更と ops 証跡が分離する。
+- `ADMIN_FETCH_FAILED` など広い失敗をすべて Sentry warn に昇格する → transient network error まで noise 化し、真の 404 復旧可否が見えにくくなる。
+- UI alignment の visual evidence と staging runtime evidence を同じ status にする → local で閉じる検証と user-gated 検証の責務境界が崩れる。

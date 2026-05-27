@@ -4,13 +4,24 @@ vi.mock("../server-fetch", () => ({
   fetchAdmin: vi.fn(),
 }));
 
+vi.mock("../../logger", () => ({
+  logger: {
+    warn: vi.fn(),
+  },
+}));
+
 import { fetchAdmin } from "../server-fetch";
+import { logger } from "../../logger";
 import { safeServerFetch } from "../safe-server-fetch";
 
 const mockedFetch = vi.mocked(fetchAdmin);
+const mockedWarn = vi.mocked(logger.warn);
 
 describe("safeServerFetch", () => {
-  beforeEach(() => mockedFetch.mockReset());
+  beforeEach(() => {
+    mockedFetch.mockReset();
+    mockedWarn.mockReset();
+  });
 
   it("TC-SSF-01: 成功時は ok=true を返す", async () => {
     mockedFetch.mockResolvedValueOnce({ value: 42 });
@@ -41,5 +52,18 @@ describe("safeServerFetch", () => {
     const res = await safeServerFetch("/admin/x");
     expect(res.ok).toBe(false);
     if (!res.ok) expect(res.error.code).toBe("ADMIN_FETCH_FAILED");
+  });
+
+  it("TC-SSF-05: 404 は admin_fetch_404 warn として観測する", async () => {
+    mockedFetch.mockRejectedValueOnce(new Error("admin api /admin/identity-conflicts failed: 404"));
+    const res = await safeServerFetch("/admin/identity-conflicts");
+    expect(res.ok).toBe(false);
+    expect(mockedWarn).toHaveBeenCalledWith({
+      event: "admin_fetch_404",
+      scope: "admin",
+      path: "/admin/identity-conflicts",
+      method: "GET",
+      code: "ADMIN_FETCH_404",
+    });
   });
 });
