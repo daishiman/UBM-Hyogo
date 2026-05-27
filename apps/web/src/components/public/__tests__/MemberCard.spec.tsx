@@ -30,7 +30,7 @@ describe("MemberCard", () => {
     expect(screen.getByText("デザイナー")).toBeTruthy();
   });
 
-  it("omits occupation in list density while preserving detail navigation", () => {
+  it("renders list density as a compact row while preserving detail navigation", () => {
     const member = buildMember({
       memberId: "mem-102",
       fullName: "田中 次郎",
@@ -42,6 +42,7 @@ describe("MemberCard", () => {
     const card = container.querySelector('[data-component="member-card"]');
     expect(card?.getAttribute("data-density")).toBe("list");
     expect(screen.getByRole("link", { name: "田中 次郎 の詳細" })).toBeTruthy();
-    expect(screen.queryByText("エンジニア")).toBeNull();
+    expect(screen.getByText("エンジニア")).toBeTruthy();
+    expect(container.querySelector('[data-role="chip-row"]')).toBeTruthy();
   });
 });

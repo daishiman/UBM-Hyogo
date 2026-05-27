@@ -3253,6 +3253,13 @@ node scripts/list-specs.js --topics
 | Code Artifacts | L20 |
 | Evidence Boundary | L36 |
 
+### references/workflow-members-list-prototype-alignment-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| State | L18 |
+| Boundary | L24 |
+
 ### references/workflow-members-page-prototype-alignment-artifact-inventory.md
 
 | セクション | 行 |
@@ -7816,14 +7823,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L2675 |
-| フェーズ構造（概要） | L2684 |
-| 品質ゲート（概要） | L2715 |
-| 出力テンプレート | L2726 |
-| 実行時のコマンド・エージェント・スキル | L2749 |
-| 昇格パターン集 | L2773 |
-| Current Active / Spec Created Tasks | L2775 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L2936 |
+| ドキュメント構成 | L2689 |
+| フェーズ構造（概要） | L2698 |
+| 品質ゲート（概要） | L2729 |
+| 出力テンプレート | L2740 |
+| 実行時のコマンド・エージェント・スキル | L2763 |
+| 昇格パターン集 | L2787 |
+| Current Active / Spec Created Tasks | L2789 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L2950 |
 
 ### references/task-workflow-backlog-part2.md
 
