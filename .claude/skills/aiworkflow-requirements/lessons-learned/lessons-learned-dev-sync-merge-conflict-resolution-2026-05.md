@@ -871,3 +871,15 @@
   4. ours 採用は visual regression を意味的に「HEAD branch 側が正本」と宣言する行為。staging visual smoke の実行責任は PR 作者に残る（merge 後の運用 SOP として `playwright-smoke / visual` ジョブで再検証）。
 - 留意: `pnpm sync:resolve` の現行実装はこの判定をしない。`scripts/sync/resolve-skill-merge-conflicts.sh` に `case` を追加して自動化することも可能だが、theirs 採用が必要な例外パスがあるため、**WARN として手動判定を促す現行設計を維持**するのが安全。
 - 事例: 2026-05-27 commit `05a5c89c0`（`Merge remote-tracking branch 'origin/dev' into feat/dashboard-prototype-alignment`）。`sync:resolve` で 4 md union 成功 + 6 visual baseline WARN → `git checkout --ours` 一括採用 → `pnpm typecheck` / `pnpm lint` / `bash scripts/verify-pr-ready.sh` 全 green（OK:508 WARN:341 ERROR:0）→ commit 成功。HEAD branch (dashboard prototype) の chip-cadence accent-ink baseline が保持され、dev 側 login UI baseline 更新は次回 dashboard branch 内 visual workflow_dispatch で自動取り込み。
+
+## L-DEVSYNC-052: e2e mock API state 切替が SSR fetch cache に追従しない既存 regression と test-only no-store bypass（2026-05-27 確認）
+
+- 事象: `feat/dashboard-prototype-alignment` PR #964 で `e2e (mobile-webkit / desktop-chromium / desktop-firefox)` 3 job が `public-dashboard-prototype-alignment.spec.ts:35 captures canonical home screenshots` で fail。fail箇所は `mockApi.setPublicHomeEmpty(true)` 直後の 2 回目 `page.goto("/")` で `[data-component="featured-members"] [data-component="empty-state"]` が 10s タイムアウトで visible にならない。dev merge **前**の 4c6347fc8 / 9307f3c2e でも同 fail が存在しており、merge 由来ではない既存 regression。
+- Why: `apps/web/app/page.tsx` の `listMembersRaw` / `getStats` は `revalidate: PUBLIC_API_REVALIDATE.members (30s)` 設定で fetch しており、Next.js dev mode でも `next.revalidate` は respected される。spec 1 回目 goto (empty=false) で fetch result が cache 化、2 回目 goto (empty=true) は cache hit のため mock API 側の state 切替が SSR 結果に追従しない。
+- How to apply:
+  1. e2e mock API を使う app では、production の cache 設定を変えずに **test/CI 環境のみ `cache: 'no-store'` を強制**する。実装場所は `apps/web/src/lib/fetch/public.ts` の `doFetch()`。`isTestOrPlaywright()` (= `NODE_ENV=test` or `PLAYWRIGHT_TEST=1`) が true の時、`init` から `next.revalidate` を剥がし `cache: 'no-store'` に差し替える。
+  2. production / staging では `revalidate` 値 (60/30/30/300 sec) はそのまま保持され Cloudflare Workers 側の無料枠運用に影響しない。test-only branch は **fetcher 層 1 箇所に閉じる**（page.tsx 側の `revalidate: PUBLIC_API_REVALIDATE.members` 呼び出しを書き換えない）のが本質的。spec 側 query parameter (`?t=Date.now()`) や production code 内 searchParams 分岐は test-only logic 混入で anti-pattern。
+  3. 検証順: `pnpm typecheck && pnpm lint` → push → CI 上で `e2e` 3 project + `e2e-tests-coverage-gate` が green になることを確認。
+  4. 同種パターン（admin/me 等の fetcher）に regression が出たら同じ「fetcher 層で `isTestOrPlaywright()` 時 no-store」原則を横展開する。各 fetcher 個別に同じガードを書く前に、共通 helper への切り出しを検討。
+- 留意: `cache: 'no-store'` と `next: { revalidate: N }` は Next.js 内で同時指定不可（runtime warning）。test-only branch では必ず `next` を剥がしてから `cache: 'no-store'` を入れる。`init.next = undefined` ではなく **destructure で除外**（`const { next, cache, ...rest } = init`）が型安全。
+- 事例: 2026-05-27 PR #964。`apps/web/src/lib/fetch/public.ts` の `doFetch()` に test-only `cache: 'no-store'` 分岐を追加（5 行）。production の revalidate 設定は全く触らず。typecheck/lint green。
