@@ -7,13 +7,13 @@
 import Link from "next/link";
 import { safeServerFetch } from "../../../../src/lib/admin/safe-server-fetch";
 import {
-  AdminEmptyState,
   AdminSectionCard,
   AdminSectionErrorClient,
 } from "../../../../src/features/admin/components/_shared";
 import { AdminPageHeader } from "../../../../src/features/admin/components/_layout/AdminPageHeader";
 import type { ListIdentityConflictsResponse } from "@ubm-hyogo/shared";
 import { IdentityConflictRow } from "../../../../src/components/admin/IdentityConflictRow";
+import { EmptyState } from "../../../../src/components/ui/EmptyState";
 
 export const dynamic = "force-dynamic";
 
@@ -46,7 +46,22 @@ export default async function AdminIdentityConflictsPage({
           message={result.error.message}
         />
       ) : result.data.items.length === 0 ? (
-        <AdminEmptyState title="現在、merge 候補はありません。" icon="shield" />
+        <EmptyState
+          className="admin-empty-state"
+          icon={
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <path d="M12 3 4 6v6c0 5 3.5 8.5 8 9 4.5-.5 8-4 8-9V6l-8-3Z" />
+            </svg>
+          }
+          title="現在、merge 候補はありません。"
+        />
       ) : (
         <AdminSectionCard
           title="候補一覧"

@@ -495,25 +495,30 @@
 
   .admin-tag-status-badge {
     border-radius: 6px;
+    font-weight: 700;
     padding: 2px 8px;
   }
 
   .admin-tag-status-badge[data-status="queued"],
   .admin-tag-status-badge[data-status="reviewing"] {
     background: var(--status-info-bg);
+    color: oklch(0.34 0.11 230);
   }
 
   .admin-tag-status-badge[data-status="confirmed"],
   .admin-tag-status-badge[data-status="resolved"] {
     background: var(--status-success-bg);
+    color: oklch(0.32 0.11 155);
   }
 
   .admin-tag-status-badge[data-status="rejected"] {
     background: var(--status-danger-bg);
+    color: oklch(0.34 0.15 25);
   }
 
   .admin-tag-status-badge[data-status="dlq"] {
     background: var(--status-neutral-bg);
+    color: var(--ubm-color-text-primary);
   }
 
   .schema-grid {
@@ -1312,10 +1317,24 @@
     height: 40px;
     color: var(--ubm-color-text-muted);
   }
+  .admin-empty-state > span {
+    display: inline-flex;
+    color: var(--ubm-color-text-muted);
+  }
+  .admin-empty-state > span > svg {
+    width: 40px;
+    height: 40px;
+  }
   .admin-empty-state__title {
     margin: 0;
     font-weight: 600;
     color: var(--ubm-color-text-primary);
+  }
+  .admin-empty-state > h2 {
+    margin: 0;
+    color: var(--ubm-color-text-primary);
+    font-size: var(--ubm-text-md);
+    font-weight: 600;
   }
   .admin-empty-state__description {
     margin: 0;
