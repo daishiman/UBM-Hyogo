@@ -21,10 +21,10 @@ import {
 
 export default function UiPrimitivesSmokePage() {
   return (
-    <main style={{ display: "grid", gap: 24, padding: 24 }}>
+    <main className="ui-smoke-page">
       <section aria-labelledby="task10-buttons">
         <h1 id="task10-buttons">Task 10 UI primitives smoke</h1>
-        <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
+        <div className="ui-smoke-wrap">
           <Button variant="primary">Primary</Button>
           <Button variant="accent">Accent</Button>
           <Button variant="soft">Soft</Button>
@@ -40,7 +40,7 @@ export default function UiPrimitivesSmokePage() {
           <CardDescription>Reusable card primitive with header, content, and footer.</CardDescription>
         </CardHeader>
         <CardContent>
-          <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
+          <div className="ui-smoke-wrap">
             <Badge tone="default">Default</Badge>
             <Badge tone="success" dot>
               Success
@@ -59,7 +59,7 @@ export default function UiPrimitivesSmokePage() {
         </CardFooter>
       </Card>
 
-      <section aria-labelledby="task10-form" style={{ display: "grid", gap: 12, maxWidth: 520 }}>
+      <section aria-labelledby="task10-form" className="ui-smoke-form">
         <h2 id="task10-form">Form primitives</h2>
         <Field label="Member name" description="Input primitive with aria-describedby passthrough">
           {(controlProps) => <Input {...controlProps} defaultValue="佐藤 花子" inputSize="md" />}
@@ -81,9 +81,9 @@ export default function UiPrimitivesSmokePage() {
         </Field>
       </section>
 
-      <section aria-labelledby="task10-status" style={{ display: "grid", gap: 12 }}>
+      <section aria-labelledby="task10-status" className="ui-smoke-section">
         <h2 id="task10-status">Status primitives</h2>
-        <div style={{ display: "grid", gap: 12, gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))" }}>
+        <div className="ui-smoke-stat-grid">
           <Stat label="公開中" value="128" delta="+12" tone="up" />
           <Stat label="未解決" value="7" delta="-3" tone="down" />
         </div>
@@ -96,9 +96,9 @@ export default function UiPrimitivesSmokePage() {
         <EmptyState title="No pending items" description="Empty state uses status semantics." action={<Button>Reload</Button>} />
       </section>
 
-      <section aria-labelledby="task10-nav" style={{ display: "grid", gap: 12 }}>
+      <section aria-labelledby="task10-nav" className="ui-smoke-section">
         <h2 id="task10-nav">Navigation primitives</h2>
-        <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
+        <div className="ui-smoke-avatar-row">
           <Avatar memberId="member-001" name="佐藤 花子" size="lg" />
           <Avatar name="山田 太郎" size="xl" hue={210} />
         </div>

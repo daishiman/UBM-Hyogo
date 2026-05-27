@@ -10,8 +10,7 @@ export function SchemaAlertCard({ count }: SchemaAlertCardProps) {
   return (
     <div
       role="alert"
-      className="flex flex-wrap items-center justify-between gap-3 rounded-[var(--ubm-radius-md)] border border-[var(--ubm-color-warn)] p-4"
-      style={{ background: "color-mix(in oklch, var(--ubm-color-warn) 8%, transparent)" }}
+      className="schema-alert-card flex flex-wrap items-center justify-between gap-3 rounded-[var(--ubm-radius-md)] border border-[var(--ubm-color-warn)] p-4"
     >
       <div>
         <strong className="block text-sm font-semibold text-[var(--ubm-color-warn)]">

@@ -1,0 +1,155 @@
+{
+  "taskId": "issue-255-coverage-threshold-sync-lint",
+  "createdAt": "2026-05-26",
+  "taskType": "implementation",
+  "visualEvidence": "NON_VISUAL",
+  "state": "implemented_local_evidence_captured",
+  "workflow_state": "implemented_local_evidence_captured",
+  "metadata": {
+    "workflow_state": "implemented_local_evidence_captured",
+    "implementation_status": "LOCAL_IMPLEMENTATION_COMPLETE",
+    "phase_status_vocabulary": "phase status uses completed/pending/blocked; workflow root records implemented_local_evidence_captured after code, CI workflow, focused Vitest, and coverage-threshold lint evidence were captured locally",
+    "taskType": "implementation",
+    "visualEvidence": "NON_VISUAL",
+    "branch": "feat/issue-255-coverage-threshold-sync-lint",
+    "baseBranch": "dev",
+    "baseRef": "origin/dev",
+    "issueRef": 255,
+    "issueState": "CLOSED",
+    "issueHandling": "Refs only; user explicitly forbade reopen",
+    "scope": "Implemented scripts/coverage-threshold-lint.ts that reads coverage threshold from aiworkflow-requirements/references/quality-requirements-advanced.md (SSOT), scripts/coverage-guard.sh (executor), and codecov.yml (optional SaaS surface) and exits 1 on mismatch. Added scripts/__tests__/coverage-threshold-lint.spec.ts (Vitest, 8 cases), .github/workflows/coverage-threshold-lint.yml, and lint:coverage-threshold package script.",
+    "rootCause": "coverage 80% threshold appears in up to 3 places and manual sync drifts silently; PR review misses single-source updates; current repo lacks codecov.yml but future Codecov adoption needs drift gate; quality-requirements-advanced.md as SSOT and coverage-guard.sh as executor have no integrity lint",
+    "fix": "tsx script reads all available sources, compares values with mismatch table, exits 1 on drift, exits 0 on match, exits 2 on SSOT/executor/optional source parse failure; dynamic 2->3 source mode when codecov.yml appears; CI workflow runs pnpm lint:coverage-threshold on every PR to main/dev.",
+    "preconditionGates": [
+      "Issue #255 verified CLOSED and initial no-implementation baseline recorded before same-cycle implementation",
+      "aiworkflow-requirements quality-requirements-advanced.md contains 80 in coverage table for apps/web|apps/api|packages/shared",
+      "scripts/coverage-guard.sh line 22 contains THRESHOLD=80"
+    ],
+    "runtimePending": "commit, push, PR creation, and GitHub Actions runtime observation require explicit user approval; local implementation and focused evidence are complete in this cycle",
+    "localEvidence": "outputs/phase-11/evidence/lint-coverage-threshold.log and outputs/phase-11/evidence/vitest-coverage-threshold-lint.log captured locally",
+    "phase12StrictOutputs": "outputs/phase-12/",
+    "constraintsApplied": {
+      "CONST_005": "detected no-code planning drift was fixed in the same execution cycle by adding script, test, CI workflow, package script, Phase 11 evidence, source-task consumed trace, and Phase 12/aiworkflow sync",
+      "CONST_007": "single-cycle scope; codecov.yml dynamic 2->3 expansion absorbs future Codecov adoption without deferring scope; aiworkflow-requirements SSOT structuring not added to unassigned-task because the lint absorbs Markdown table extraction with regex",
+      "CLAUDE_invariant_08": "test file is scripts/__tests__/coverage-threshold-lint.spec.ts (.spec.ts mandated; .test.ts forbidden by lefthook block-test-suffix and Actions verify-test-suffix)"
+    },
+    "sourceTask": "docs/30-workflows/completed-tasks/task-codecov-threshold-sync-lint-001.md consumed_by_issue_255",
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-05-26T00:00:00+09:00",
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-255-coverage-threshold-sync-lint/outputs/phase-12/phase12-task-spec-compliance-check.md",
+        "approver": "daishiman",
+        "notes": "Phase 12 strict outputs and task spec compliance check passed"
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "passed",
+        "passed_at": "2026-05-26T00:00:00+09:00",
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-255-coverage-threshold-sync-lint/outputs/phase-11/evidence/vitest-coverage-threshold-lint.log",
+        "approver": "daishiman",
+        "notes": "focused Vitest evidence captured locally"
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-255-coverage-threshold-sync-lint/phase-13.md",
+        "approver": "daishiman",
+        "notes": "commit, push, PR creation, and GitHub Actions runtime observation are user-gated"
+      }
+    ]
+  },
+  "phases": {
+    "phase-1": {
+      "status": "completed",
+      "outputs": [
+        "phase-01.md"
+      ]
+    },
+    "phase-2": {
+      "status": "completed",
+      "outputs": [
+        "phase-02.md"
+      ]
+    },
+    "phase-3": {
+      "status": "completed",
+      "outputs": [
+        "phase-03.md"
+      ]
+    },
+    "phase-4": {
+      "status": "completed",
+      "outputs": [
+        "phase-04.md"
+      ]
+    },
+    "phase-5": {
+      "status": "completed",
+      "outputs": [
+        "phase-05.md"
+      ]
+    },
+    "phase-6": {
+      "status": "completed",
+      "outputs": [
+        "phase-06.md"
+      ]
+    },
+    "phase-7": {
+      "status": "completed",
+      "outputs": [
+        "phase-07.md"
+      ]
+    },
+    "phase-8": {
+      "status": "completed",
+      "outputs": [
+        "phase-08.md"
+      ]
+    },
+    "phase-9": {
+      "status": "completed",
+      "outputs": [
+        "phase-09.md"
+      ]
+    },
+    "phase-10": {
+      "status": "completed",
+      "outputs": [
+        "phase-10.md"
+      ]
+    },
+    "phase-11": {
+      "status": "completed",
+      "outputs": [
+        "phase-11.md",
+        "outputs/phase-11/evidence/lint-coverage-threshold.log",
+        "outputs/phase-11/evidence/vitest-coverage-threshold-lint.log"
+      ],
+      "boundary": "NON_VISUAL local evidence captured; CI runtime observation remains user-gated after PR creation"
+    },
+    "phase-12": {
+      "status": "completed",
+      "outputs": [
+        "phase-12.md",
+        "outputs/phase-12/main.md",
+        "outputs/phase-12/implementation-guide.md",
+        "outputs/phase-12/documentation-changelog.md",
+        "outputs/phase-12/unassigned-task-detection.md",
+        "outputs/phase-12/skill-feedback-report.md",
+        "outputs/phase-12/system-spec-update-summary.md",
+        "outputs/phase-12/phase12-task-spec-compliance-check.md"
+      ]
+    },
+    "phase-13": {
+      "status": "blocked",
+      "blockedReason": "pending_user_approval_for_commit_push_pr",
+      "outputs": [
+        "phase-13.md"
+      ]
+    }
+  }
+}

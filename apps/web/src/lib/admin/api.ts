@@ -560,10 +560,10 @@ export const addAttendance = (sessionId: string, memberId: string) =>
   });
 
 export const removeAttendance = (sessionId: string, memberId: string) =>
-  call(
-    `/meetings/${encodeURIComponent(sessionId)}/attendance/${encodeURIComponent(memberId)}`,
-    "DELETE",
-  );
+  call(`/meetings/${encodeURIComponent(sessionId)}/attendances`, "POST", {
+    memberId,
+    attended: false,
+  });
 
 // ---- issue-777: schema alias resolve 履歴 (案 A: /admin/audit?action=schema_diff.alias_assigned) ----
 

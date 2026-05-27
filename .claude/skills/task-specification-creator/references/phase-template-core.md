@@ -85,6 +85,7 @@ Phase 1、Phase 2、Phase 3。
 ## Phase 1 のポイント
 
 - **Step 0: P50チェック（必須）** — Phase 1 開始前に対象ファイルの実装状態を `git log` と `grep` で確認し、既実装コードの重複作成を防止する（詳細: [phase-template-phase1.md](phase-template-phase1.md)）。
+- **Step 0 補助: worktree / console / dev asset 現況確認** — P50 では `git status -sb` で detached HEAD / branch 名を記録し、staging console 起点のタスクでは browser extension 由来ログ（extension 固有 host、Next.js bundle 命名と不一致、Sentry browser-extension 明示）を scope 外へ分離する。dev-only prototype/CDN asset が入力に含まれる場合は SRI 失効・MIME type・local HTTP serve の再現条件も Phase 1 で固定する。
 - **Runtime smoke 500 body-first RCA（必須）**: runtime smoke / staging smoke / backend-ci smoke の 500 復旧タスクでは、最初に artifact の bounded response body を保存・grep し、body が `auth misconfigured` / auth・config 系を示す場合は endpoint handler より先に auth middleware・runtime binding・secret/variable 注入経路を切り分ける。`secret list` は name presence のみで value usability 証明ではないため、Phase 1 で runtime curl/body evidence と区別して記録する。
 - inventory と source scope の差分を固定する。
 - acceptance criteria を番号付きで定義し、**本文に AC-1, AC-2... を列挙する**。

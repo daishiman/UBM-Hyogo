@@ -88,32 +88,12 @@ const statusLabel: Record<RowStatus, string> = {
   invalid: "invalid",
 };
 
-const statusTone: Record<RowStatus, React.CSSProperties> = {
-  ok: { background: "oklch(0.96 0.04 154)", color: "oklch(0.34 0.12 154)", borderColor: "oklch(0.82 0.14 154)" },
-  duplicate: { background: "oklch(0.96 0.04 70)", color: "oklch(0.42 0.12 54)", borderColor: "oklch(0.84 0.12 70)" },
-  deleted_member: { background: "oklch(0.96 0.04 25)", color: "oklch(0.38 0.16 25)", borderColor: "oklch(0.84 0.10 25)" },
-  unknown_member: { background: "oklch(0.96 0.03 245)", color: "oklch(0.42 0.13 245)", borderColor: "oklch(0.84 0.09 245)" },
-  invalid: { background: "oklch(0.96 0.04 300)", color: "oklch(0.40 0.14 300)", borderColor: "oklch(0.84 0.10 300)" },
-};
-
 function StatusPill({ status }: { status: RowStatus }): React.JSX.Element {
   return (
     <span
+      className="attendance-status-pill"
       data-testid="status-pill"
       data-status={status}
-      style={{
-        display: "inline-flex",
-        alignItems: "center",
-        minWidth: 88,
-        justifyContent: "center",
-        border: "1px solid",
-        borderRadius: 999,
-        padding: "2px 8px",
-        fontSize: 12,
-        lineHeight: "18px",
-        fontWeight: 600,
-        ...statusTone[status],
-      }}
     >
       {statusLabel[status]}
     </span>

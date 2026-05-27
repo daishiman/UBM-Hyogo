@@ -11,7 +11,10 @@ import { Field } from "../../../src/components/ui/Field";
 import { Input } from "../../../src/components/ui/Input";
 import { Button } from "../../../src/components/ui/Button";
 import { Icon } from "../../../src/components/ui/Icon";
-import { sendMagicLink } from "../../../src/lib/auth/magic-link-client";
+import {
+  MagicLinkRateLimitedError,
+  sendMagicLink,
+} from "../../../src/lib/auth/magic-link-client";
 import { replaceLoginState } from "../../../src/lib/url/login-state";
 
 const COOLDOWN_SECONDS = 60;
@@ -48,6 +51,10 @@ export function MagicLinkForm({ redirect }: MagicLinkFormProps) {
       replaceLoginState(res.state, redirect);
       router.refresh();
     } catch (err) {
+      if (err instanceof MagicLinkRateLimitedError) {
+        setCooldown(err.retryAfterSec);
+        return;
+      }
       const message = err instanceof Error ? err.message : "送信に失敗しました";
       replaceLoginState("error", redirect, {
         error: message.slice(0, ERROR_MAX_LENGTH),

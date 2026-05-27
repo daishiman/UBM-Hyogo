@@ -28,15 +28,14 @@ const assertNoCriticalAxe = async (page: import("@playwright/test").Page) => {
 };
 
 test.describe("public top & members list @critical-route", () => {
-  test("`/` shows hero / stats / zone-intro", async ({ page }) => {
+  test("`/` shows prototype-aligned public dashboard sections", async ({ page }) => {
     await page.goto("/");
     await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
-    await expect(
-      page.locator('[data-component="hero"]'),
-    ).toHaveCount(1);
-    await expect(
-      page.locator('[data-stat="total"]'),
-    ).toHaveCount(1);
+    await expect(page.locator('[data-component="hero"][data-variant="card"]')).toHaveCount(1);
+    await expect(page.locator('[data-component="stats"] [data-stat="members"]')).toHaveCount(1);
+    await expect(page.locator('[data-component="about-ubm"]')).toHaveCount(1);
+    await expect(page.locator('[data-component="featured-members"]')).toHaveCount(1);
+    await expect(page.locator('[data-component="timeline"]')).toHaveCount(1);
     const cta = page.locator('[data-component="call-to-action-cta"]');
     await expect(cta).toBeVisible();
     const ctaLink = cta.getByRole("link", { name: "回答フォームを開く" });

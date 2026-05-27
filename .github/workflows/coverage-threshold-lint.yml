@@ -1,0 +1,23 @@
+name: coverage-threshold-lint
+
+on:
+  push:
+    branches: [main, dev]
+  pull_request:
+    branches: [main, dev]
+
+permissions:
+  contents: read
+
+jobs:
+  coverage-threshold-lint:
+    name: coverage-threshold-lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup project
+        uses: ./.github/actions/setup-project
+
+      - name: Verify coverage threshold sources
+        run: pnpm lint:coverage-threshold
