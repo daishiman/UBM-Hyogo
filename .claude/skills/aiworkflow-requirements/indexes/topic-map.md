@@ -874,13 +874,13 @@ node scripts/list-specs.js --topics
 | 概要 | L8 |
 | ドキュメント構成 | L15 |
 | REST API エンドポイント一覧 | L25 |
-| エンドポイント命名規則 | L224 |
-| UBM-Hyogo Admin Sync API（03a） | L245 |
-| UBM-Hyogo Member Self-Service API（04b） | L297 |
-| Admin Dashboard Attendance Analytics API（UT-02A follow-up 002） | L323 |
-| Desktop IPC API サマリー | L337 |
-| 変更履歴 | L368 |
-| 関連ドキュメント | L385 |
+| エンドポイント命名規則 | L226 |
+| UBM-Hyogo Admin Sync API（03a） | L247 |
+| UBM-Hyogo Member Self-Service API（04b） | L299 |
+| Admin Dashboard Attendance Analytics API（UT-02A follow-up 002） | L325 |
+| Desktop IPC API サマリー | L339 |
+| 変更履歴 | L370 |
+| 関連ドキュメント | L387 |
 
 ### references/api-internal-chunk-search.md
 
@@ -1752,7 +1752,7 @@ node scripts/list-specs.js --topics
 | Env Boundary | L18 |
 | CSP Nonce Contract | L30 |
 | User-gated Follow-ups | L45 |
-| Workflow | L54 |
+| Workflow | L55 |
 
 ---
 
@@ -2329,6 +2329,12 @@ node scripts/list-specs.js --topics
 | Evidence | L17 |
 | Phase 12 Strict Outputs | L24 |
 | Boundary | L34 |
+
+### references/workflow-google-form-reflection-diagnostics-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Skill knowledge synced | L15 |
 
 ### references/workflow-governance-design-category.md
 
@@ -3160,6 +3166,18 @@ node scripts/list-specs.js --topics
 | Local Artifacts | L12 |
 | User-Gated Runtime Artifacts | L21 |
 | Skill Sync | L31 |
+
+### references/workflow-issue-922-production-admin-runtime-smoke-gate-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Runtime Boundary | L22 |
+
+### references/workflow-issue-924-style-src-attr-retirement-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Boundary | L17 |
 
 ### references/workflow-light-theme-contrast-regression-guard.md
 
@@ -5488,6 +5506,14 @@ node scripts/list-specs.js --topics
 | 教訓一覧 | L12 |
 | 関連メモ | L40 |
 
+### references/lessons-learned-google-form-reflection-diagnostics-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| 概要 | L3 |
+| 苦戦箇所と知見 | L7 |
+| 運用知見 | L73 |
+
 ### references/lessons-learned-issue-106-admin-notes-repository-2026-05.md
 
 | セクション | 行 |
@@ -6609,8 +6635,8 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 概要 | L3 |
 | 仕様書インデックス | L7 |
-| 利用順序 | L121 |
-| 関連ドキュメント | L126 |
+| 利用順序 | L122 |
+| 関連ドキュメント | L127 |
 
 ### references/llm-embedding.md
 
@@ -7747,14 +7773,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L2580 |
-| フェーズ構造（概要） | L2589 |
-| 品質ゲート（概要） | L2620 |
-| 出力テンプレート | L2631 |
-| 実行時のコマンド・エージェント・スキル | L2654 |
-| 昇格パターン集 | L2678 |
-| Current Active / Spec Created Tasks | L2680 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L2841 |
+| ドキュメント構成 | L2655 |
+| フェーズ構造（概要） | L2664 |
+| 品質ゲート（概要） | L2695 |
+| 出力テンプレート | L2706 |
+| 実行時のコマンド・エージェント・スキル | L2729 |
+| 昇格パターン集 | L2753 |
+| Current Active / Spec Created Tasks | L2755 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L2916 |
 
 ### references/task-workflow-backlog-part2.md
 

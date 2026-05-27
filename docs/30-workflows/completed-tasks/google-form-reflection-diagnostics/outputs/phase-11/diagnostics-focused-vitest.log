@@ -1,0 +1,20 @@
+[33mThe CJS build of Vite's Node API is deprecated. See https://vite.dev/guide/troubleshooting.html#vite-cjs-node-api-deprecated for more details.[39m
+
+ RUN  v2.1.9 /Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260526-065023-wt-7
+
+ ✓ apps/api/src/diagnostics/forms-pipeline.spec.ts (2 tests) 14ms
+ ✓ apps/web/src/features/admin/components/__tests__/MemberDrawer.spec.tsx (2 tests) 4337ms
+   ✓ MemberDrawer > 会員ごとのタグ管理リンクを percent-encoded href で表示する 3027ms
+   ✓ MemberDrawer > notification opt-out checkbox sends PATCH and updates visible state 1305ms
+ ✓ apps/api/src/diagnostics/forms-pipeline.contract.spec.ts (2 tests) 23071ms
+   ✓ GET /admin/diagnostics/forms-pipeline > returns read-only H1-H4 snapshot with boolean-only secret readiness 18800ms
+   ✓ GET /admin/diagnostics/forms-pipeline > counts status rows without identity as H2 mismatch candidates 4269ms
+ ✓ apps/api/src/diagnostics/member-diagnosis.contract.spec.ts (2 tests) 25499ms
+   ✓ GET /admin/diagnostics/member/:memberId > returns member diagnosis without exposing profile values 20443ms
+   ✓ GET /admin/diagnostics/member/:memberId > returns H2 identity missing for a member status row without identity 5054ms
+
+ Test Files  4 passed (4)
+      Tests  8 passed (8)
+   Start at  13:38:35
+   Duration  61.16s (transform 14.89s, setup 0ms, collect 46.82s, tests 52.92s, environment 15.09s, prepare 12.86s)
+

@@ -20,8 +20,6 @@ const nonceCfg: SecurityHeaderConfig = {
   nonce: "test-nonce",
 };
 
-const unsafeInline = ["'unsafe", "-inline'"].join("");
-
 const reportCfg: SecurityHeaderConfig = {
   ...cfg,
   reportEndpoint: "https://o123.ingest.sentry.io/api/456/security/?sentry_key=abc",
@@ -62,9 +60,9 @@ describe("security headers", () => {
     expect(csp).toContain("script-src 'self' 'nonce-test-nonce' 'strict-dynamic'");
     expect(csp).toContain("style-src 'self' 'nonce-test-nonce'");
     expect(csp).toContain("style-src-elem 'self' 'nonce-test-nonce'");
-    expect(csp).toContain(`style-src-attr ${unsafeInline}`);
-    expect(csp).not.toContain(`script-src 'self' ${unsafeInline}`);
-    expect(csp).not.toContain(`style-src 'self' ${unsafeInline}`);
+    expect(csp).not.toContain("style-src-attr");
+    expect(csp).not.toContain("script-src 'self' 'unsafe-inline'");
+    expect(csp).not.toContain("style-src 'self' 'unsafe-inline'");
   });
 
   it("does not emit browsing-topics in Permissions-Policy", () => {

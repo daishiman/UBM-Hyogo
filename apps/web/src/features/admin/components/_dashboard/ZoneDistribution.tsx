@@ -32,13 +32,15 @@ export function ZoneDistribution({ slices }: ZoneDistributionProps) {
         {slices.map((s) => (
           <li key={s.zone} className="flex items-center gap-3">
             <span className="w-24 shrink-0 text-xs text-[var(--ubm-color-text-secondary)]">{s.zone}</span>
-            <span
+            <svg
               className="h-2 flex-1 rounded-full"
-              style={{
-                background: `linear-gradient(90deg, var(--ubm-color-accent) ${(s.count / max) * 100}%, var(--ubm-color-border-default) ${(s.count / max) * 100}%)`,
-              }}
+              viewBox="0 0 100 8"
+              preserveAspectRatio="none"
               aria-hidden="true"
-            />
+            >
+              <rect width="100" height="8" rx="4" fill="var(--ubm-color-border-default)" />
+              <rect width={(s.count / max) * 100} height="8" rx="4" fill="var(--ubm-color-accent)" />
+            </svg>
             <span className="w-12 shrink-0 text-right text-xs tabular-nums text-[var(--ubm-color-text-primary)]">
               {s.count}
             </span>
