@@ -1,6 +1,6 @@
 // serial-05: /(public)/register — blueprint 09e:473-560
 // `/register` 登録案内 (Server Component)
-// task-12 で RegisterHeroCallout primitive 接続。
+// task-12 で RegisterCallout primitive 接続。
 // 不変条件 #2: consent キーは publicConsent / rulesConsent
 // 不変条件 #7: 外部 link 遷移（target="_blank"）。iframe 不採用
 
@@ -11,11 +11,8 @@ import { FormPreviewViewZ } from "@ubm-hyogo/shared";
 
 import { buildPageMetadata } from "@/lib/seo/site-metadata";
 
-import { RegisterBottomCTA } from "../../../src/components/public/RegisterBottomCTA";
-import { RegisterFaq } from "../../../src/components/public/RegisterFaq";
-import { RegisterHeroCallout } from "../../../src/components/public/RegisterHeroCallout";
-import { RegisterStepGrid } from "../../../src/components/public/RegisterStepGrid";
 import { FormPreviewSections } from "../../../src/components/public/FormPreviewSections";
+import { RegisterCallout } from "../../../src/components/public/RegisterCallout";
 import { FORM_RESPONDER_URL } from "../../../src/lib/constants/form";
 import { fetchPublic } from "../../../src/lib/fetch/public";
 
@@ -51,20 +48,13 @@ export default async function RegisterPage() {
   return (
     <main data-page="register" className="stack-lg" data-route="public" data-section-rhythm="comfortable">
       <header className="page-head">
-        <div>
-          <p className="eyebrow">MEMBER REGISTRATION</p>
-          <h1>メンバー登録</h1>
-          <p className="muted" data-role="lead">
-            回答は Google フォームから行います。数分で完了します。
-          </p>
-        </div>
+        <p className="eyebrow">REGISTER</p>
+        <h1>UBM 兵庫支部会への登録</h1>
+        <p className="muted">
+          登録は次の流れで進みます: Google Form 回答 → 自動同期 → ログイン → マイページ確認。
+        </p>
       </header>
-      <RegisterHeroCallout
-        responderUrl={responderUrl}
-        sectionCount={preview?.sectionCount ?? 0}
-        fieldCount={preview?.fieldCount ?? 0}
-      />
-      <RegisterStepGrid />
+      <RegisterCallout responderUrl={responderUrl} />
       {previewError ? (
         <p role="alert" data-role="preview-error">
           {previewError}
@@ -72,13 +62,9 @@ export default async function RegisterPage() {
       ) : preview ? (
         <FormPreviewSections preview={preview} />
       ) : null}
-      <RegisterFaq />
-      <p className="muted" data-role="privacy-note">
-        登録前に <a href="/privacy">プライバシーポリシー</a> と{" "}
-        <a href="/terms">利用規約</a> を確認できます。ログイン済みの方は{" "}
-        <a href="/login">ログインページ</a> に進んでください。
+      <p>
+        ログイン済みの方はそのまま <a href="/login">/login</a> に進んでください。
       </p>
-      <RegisterBottomCTA responderUrl={responderUrl} />
     </main>
   );
 }
