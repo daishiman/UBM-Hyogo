@@ -816,3 +816,15 @@
   4. 復旧後は当該 PR の HEAD に対して空でない 1 commit を push して webhook を再投げ込みする（outage 期間中の push はリトライ schedule されない実例あり）。
 - 留意: GitHub Status (`https://www.githubstatus.com/`) の Actions 項目が green でも個別リポジトリ単位で stall するケースがある（webhook routing partition）。public な incident にならないことが多いため、`gh api` ベースの自前 detection を runbook 化しておく。
 - 事例: 2026-05-26 PR #952。`546ba38b8` の e2e infra failure 直後、`ba78e993e2a197e296793ff6fc0e026d26187c36` 含む 2 件の push が schedule されず 2h18m 停滞。13:19Z 復旧後、他ブランチ runs (`503dff35d7`) が schedule された段階で当方 PR にも 1 commit 追加 push して新規 run 群を確保。
+
+## L-DEVSYNC-049: `pnpm sync:resolve` 後に孤立 `||||||| Stash base` marker が残ることがある（CI `verify-conflict-markers` で検出）（2026-05-26 確認）
+
+- 事象: `git merge dev` → `pnpm sync:resolve` で resolver 完走 → `git status` も `UU` ゼロ → typecheck/lint green → push 成功。しかし PR #966 で `verify-conflict-markers` workflow が FAIL。4 ファイル (`.claude/skills/aiworkflow-requirements/{SKILL.md, indexes/quick-reference.md, indexes/resource-map.md, references/task-workflow-active.md}`) に `||||||| Stash base` の単独行が残留。
+- Why: resolver は git merge driver の標準動作（`<<<<<<<` / `=======` / `>>>>>>>` の境界判定）に依存している。同一ブランチで複数回 merge を経た（過去の dev sync 由来の）ファイルでは、3-way merge の **base separator (`|||||||`)** が前回の解消過程で取り残されているケースがある。今回の `git merge` は新規 conflict を出さずに通った（`auto-merging` 報告のみ）ため、resolver が触らず、orphan marker が温存されたまま commit された。CI 側 `verify-conflict-markers` は `^(<<<<<<< |>>>>>>> |\|\|\|\|\|\|\| )` で grep するため `|||||||` 単独でも fail する。
+- How to apply:
+  1. `pnpm sync:resolve` 実行後、commit 前に必ず `git grep -nE '^(<<<<<<< |>>>>>>> |\|\|\|\|\|\|\| )' -- ':(exclude).github/workflows/verify-conflict-markers.yml' ':(exclude).claude/skills/**/lessons-learned/**' ':(exclude).claude/skills/**/dev-sync*.md' ':(exclude).claude/skills/**/SKILL-changelog.md' ':(exclude).claude/commands/**' ':(exclude)docs/30-workflows/**/dev-sync*.md' ':(exclude)docs/30-workflows/**/lessons-learned*.md' ':(exclude)scripts/sync/**'` を実行する（CI と同条件）。
+  2. ヒットしたら該当行を削除するだけ（隣接行が新旧 entry 連結なら、marker 行のみ消せば文意は通る）。`<<<<<<<` / `>>>>>>>` がペアで残っていないか同時に確認。
+  3. ローカル pre-push hook (`scripts/hooks/*`) に CI と同等の grep gate を追加検討（現状は CI のみで検出）。
+  4. resolver `scripts/sync/resolve-skill-merge-conflicts.sh` 側にも post-resolve sanity step として同 grep を追加すれば push 前検出が早まる。
+- 留意: CI gate は `<<<<<<< ` / `>>>>>>> ` / `||||||| ` の **後ろの空白込み 8 文字** で grep する。空白なし `|||||||EOL` 等は検出されない。古い resolver が space を消すケースは別途調査要。
+- 事例: 2026-05-26 `feat/issue-247-...` PR #966。`5ddb51e6a merge: sync ... with dev` push 後 `verify-conflict-markers` が `--- offending lines ---` 4件で FAIL。該当 4 行削除 commit で復旧。
