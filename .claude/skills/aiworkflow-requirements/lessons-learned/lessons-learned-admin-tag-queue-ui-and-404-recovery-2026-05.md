@@ -41,3 +41,27 @@ artifacts.json は root と `outputs/` 配下の 2 箇所にミラーされる�
 **Why:** 同じファイルを 2 箇所に置く設計は drift 必発で、人間レビューに任せると Phase 13 直前に発覚する。`cmp -s` は終了コードだけ返す silent diff で、CI / pre-commit に組み込みやすい。
 
 **How to apply:** workflow を作成するとき、system-spec-update-summary.md の最後に `cmp -s` コマンドを必ず書く。CI 側で `gate-metadata:validate` が両方の `evidence_path` 物理存在 + status 整合を見るので、`cmp` parity と組み合わせれば 2 箇所 mirror の drift は実質ゼロにできる。
+
+## L-ATAGUI-006: Panel 内 sr-only h1 と AdminPage h-page h1 の dual-h1 が Playwright strict-mode に抵触する（2026-05-28 CI 後追加）
+
+- 事象: 2026-05-27 PR #984（admin-tag-queue-ui-and-404）の `e2e (desktop-chromium / desktop-firefox)` が `playwright/tests/admin-tags-resolve-drawer.spec.ts:21` で `strict mode violation: getByRole('heading', { name: 'タグキュー' }) resolved to 2 elements`。原因は `TagQueuePanel.tsx` が `<h1 id="tag-queue-h" className="sr-only">タグキュー</h1>` を持ち、page-head 側にも `<h1 className="h-page">タグキュー</h1>` がある dual-h1 構造。component spec が isolation 環境で heading を assert するため sr-only h1 が必要だった、という設計トレードオフが見落とされた。
+- Why: L-PGHEAD-001..005（page-local h1 撤去 / headingId 譲渡）と整合させていなかった。`aria-labelledby` を使うために `<h1>` を panel 内に置く必要はない。**section に `aria-label` を直接付与**すれば、isolation でも統合でも `getByRole('region', { name })` で参照でき、heading の二重化を避けられる。
+- How to apply:
+  1. admin panel コンポーネントは原則 `<section aria-label="<セクション名>">` で region role を取り、内部に h1 を置かない。h2 以下の階層 heading は通常通り使ってよい。
+  2. component spec で見出しを assert していた場合は `getByRole('region', { name })` または `getByLabelText(name)` に切り替える（**heading role からの離脱**）。
+  3. e2e/playwright の `getByRole('heading', { name })` は strict-mode 既定なので、page-head と panel で同名 heading が並ぶ構造は CI で fail する。Phase 4 risk に「panel 内 heading は page-head と同名にしない/heading role を持たせない」を登録。
+  4. 検証順: 該当 component spec（isolation）→ `pnpm typecheck && pnpm lint` → e2e 該当 spec → CI。
+- 留意: AdminPageHeader 側が sectionLabel prop を取って `h1` を一元提供する場合、panel 内では更に **h1/h2 重複を作らない**こと。sr-only も heading role を持つため strict-mode に巻き込まれる。
+- 事例: PR #984 で `TagQueuePanel.tsx` の `<h1 sr-only>` を撤去し `<section aria-label="タグキュー">` に変更、component spec の `getByRole('heading')` → `getByRole('region')` に書き換え。typecheck/lint/component spec green。
+
+## L-ATAGUI-007: redesigned admin page の visual-full baseline は CI 失敗 artifact の `<name>-actual.png` で更新するのが最短経路（2026-05-28 CI 後追加）
+
+- 事象: PR #984 で `/admin/tags` を prototype 整合に再設計 → `playwright-visual-full (mobile / tablet)` が `Expected 390x1753, received 390x1826` でサイズ差 + 19319 pixel diff。intentional redesign による baseline drift。
+- Why: 全 page 高が `recovery hint`/`page-head 拡張` で +73px。`apps/web/playwright/tests/visual-full/full-visual.spec.ts-snapshots/full-visual-admin-tags-{mobile,tablet}-visual-full-chromium-{mobile,tablet}-linux.png` が古いまま。Linux runner で生成された pixel-perfect baseline を取得するには CI の `visual-full-{mobile,tablet}-diff` artifact zip 内の `test-results/<spec>/<name>-actual.png` をコピー差し替えるのが最短。
+- How to apply:
+  1. CI 失敗 run の artifact list を `gh api repos/<owner>/<repo>/actions/runs/<id>/artifacts --jq '.artifacts[] | "\(.id)\t\(.name)"'` で取得。`visual-full-<viewport>-diff` を ID 指定で `gh api .../artifacts/<id>/zip > diff.zip` ダウンロード。
+  2. 展開し `test-results/<spec名>/<snapshot名>-actual.png` を探す（`test-failed-1.png` はビューポート切り出しで full-page ではないので **使わない**）。
+  3. `apps/web/playwright/tests/visual-full/full-visual.spec.ts-snapshots/` 配下の該当 baseline へ上書きコピー。`file <png>` で `390 x 1826` 等 full-page サイズになっていることを確認。
+  4. commit → CI 再実行で当該 viewport が PASS することを確認。
+- 留意: `test-failed-1.png` は viewport size でクロップされた失敗時 attachment で baseline 代替には使えない。**`<snapshot名>-actual.png` のみ**が full-page snapshot。同 artifact 内に `expected.png` / `diff.png` も含まれるが、これらは baseline 更新には不要。
+- 事例: PR #984 で artifact `7244238021 (visual-full-mobile-diff)` / `7244417162 (visual-full-tablet-diff)` から `full-visual-admin-tags-{mobile,tablet}-actual.png` を抽出してbaseline 差し替え。次の CI run で PASS 期待。

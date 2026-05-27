@@ -95,10 +95,7 @@ export function TagQueuePanel({ initial, filter, focusMemberId }: Props) {
   };
 
   return (
-    <section aria-labelledby="tag-queue-h" className="tag-queue-panel">
-      <h1 id="tag-queue-h" className="sr-only">
-        タグキュー
-      </h1>
+    <section aria-label="タグキュー" className="tag-queue-panel">
       <div role="group" aria-label="ステータス絞込" className="chip-row">
         {STATUS_OPTIONS.map((v) => (
           <button

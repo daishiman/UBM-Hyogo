@@ -943,3 +943,15 @@ UI 系 feature ブランチ（prototype alignment / dashboard 等）と dev の�
 - page.tsx に `searchParams.t` 分岐を入れて test 用 cache bypass → production code に test-only logic 混入、`Page` component の propsが test 専用 prop で汚れる
 - 該当 spec を `test.skip` で先送り → e2e mock API を使う他 spec も同じ regression を踏むため fundamental fix が常に正解
 - `revalidate: 0` に下げて regression を回避 → production で free tier 圧迫（cache hit rate が drop）し本末転倒
+
+## Admin panel dual-h1 strict-mode + visual baseline 更新パターン (2026-05-28)
+
+- **Rule (panel heading)**: admin panel component の root は `<section aria-label="<セクション名>">` で region role を取り、内部に `<h1>` を**置かない**（sr-only h1 も含む）。AdminPageHeader 側が `h-page` h1 を一元提供する場合、panel の `<h1 sr-only>` は Playwright `getByRole('heading', { name })` の strict-mode に必ず抵触する。
+  - Why: page-head h1 と panel sr-only h1 が両方とも `heading` role + 同名で resolve され、`strict mode violation: resolved to 2 elements` でCI fail。
+  - How to apply: component spec 側は `getByRole('region', { name })` または `getByLabelText(name)` で assert する。**heading role からの離脱**が isolation/統合の両立条件。Phase 4 risk に「panel 内 sr-only h1 は page-head と dual-h1 になる」を登録。
+  - 参照: aiworkflow-requirements [[lessons-learned-admin-tag-queue-ui-and-404-recovery-2026-05]] L-ATAGUI-006 + 既存 L-PGHEAD-001..005（headingId 譲渡パターン）と整合。
+
+- **Rule (visual baseline regen)**: redesigned page の visual-full baseline drift は CI artifact `<viewport>-diff.zip` 内の `test-results/<spec>/<snapshot>-actual.png` から差し替える。`test-failed-1.png` は viewport-crop（full-page でない）なので使わない。
+  - Why: Linux runner 環境で pixel-perfect な full-page snapshot を生成するのは CI のみで再現可能。ローカル macOS で `--update-snapshots` しても pixel が一致しない（OS/font subpixel 差）。
+  - How to apply: `gh api .../actions/runs/<id>/artifacts` で `visual-full-<viewport>-diff` ID 取得 → zip ダウンロード → `<snapshot>-actual.png` を `apps/web/playwright/tests/visual-full/full-visual.spec.ts-snapshots/` に上書き → commit → CI 再実行で PASS 確認。`file <png>` で full-page サイズを必ず検証。
+  - 参照: aiworkflow-requirements [[lessons-learned-admin-tag-queue-ui-and-404-recovery-2026-05]] L-ATAGUI-007 を逐語埋め込み。

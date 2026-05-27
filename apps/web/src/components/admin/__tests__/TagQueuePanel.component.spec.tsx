@@ -54,7 +54,7 @@ describe("TagQueuePanel", () => {
         focusMemberId={null}
       />,
     );
-    expect(screen.getByRole("heading", { name: "タグキュー" })).toBeTruthy();
+    expect(screen.getByRole("region", { name: "タグキュー" })).toBeTruthy();
     expect(screen.getByText("queue: q_1")).toBeTruthy();
     expect(screen.getByText("tag-a")).toBeTruthy();
     expect(document.querySelector("strong")?.textContent).toBe("queued");
