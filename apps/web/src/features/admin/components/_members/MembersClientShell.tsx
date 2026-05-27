@@ -69,7 +69,12 @@ export function MembersClientShell({ initial, initialFilter, page, pageSize }: M
 
   return (
     <div className="flex flex-col gap-4">
-      <MembersFilters value={initialFilter} onChange={onChangeFilter} loading={pending} />
+      <MembersFilters
+        value={initialFilter}
+        onChange={onChangeFilter}
+        loading={pending}
+        totalCount={initial.total}
+      />
       <BulkActionBar selectedIds={Array.from(selected)} onComplete={onComplete} />
       <MembersTable
         items={initial.members}

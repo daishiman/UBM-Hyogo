@@ -1,4 +1,4 @@
-// task-15: MembersFilters TC-MF-01〜05
+// followup-003: MembersFilters プロトタイプ整合後の TC-MF-01〜05
 import { describe, it, expect, vi, afterEach } from "vitest";
 import { render, screen, fireEvent, cleanup } from "@testing-library/react";
 import { axe } from "jest-axe";
@@ -9,21 +9,18 @@ afterEach(() => cleanup());
 const baseValue: MembersFilterValue = { q: "", zone: "all", filter: "", sort: "recent" };
 
 describe("MembersFilters", () => {
-  it("TC-MF-01: zone select 変更で onChange 発火", () => {
-    const onChange = vi.fn();
-    render(<MembersFilters value={baseValue} onChange={onChange} zoneOptions={[
-      { value: "all", label: "全て" },
-      { value: "zone_0_1", label: "Zone 0-1" },
-    ]} />);
-    fireEvent.change(screen.getByLabelText("ゾーン"), { target: { value: "zone_0_1" } });
-    expect(onChange).toHaveBeenCalledWith({ zone: "zone_0_1" });
-  });
-
-  it("TC-MF-02: filter select 変更", () => {
+  it("TC-MF-01: PillNav で公開フィルター切替", () => {
     const onChange = vi.fn();
     render(<MembersFilters value={baseValue} onChange={onChange} />);
-    fireEvent.change(screen.getByLabelText("状態"), { target: { value: "published" } });
+    fireEvent.click(screen.getByRole("tab", { name: "公開" }));
     expect(onChange).toHaveBeenCalledWith({ filter: "published" });
+  });
+
+  it("TC-MF-02: PillNav で退会フィルター切替", () => {
+    const onChange = vi.fn();
+    render(<MembersFilters value={baseValue} onChange={onChange} />);
+    fireEvent.click(screen.getByRole("tab", { name: "退会" }));
+    expect(onChange).toHaveBeenCalledWith({ filter: "deleted" });
   });
 
   it("TC-MF-03: sort select 変更", () => {
@@ -48,6 +45,13 @@ describe("MembersFilters", () => {
     render(<MembersFilters value={baseValue} onChange={() => {}} loading />);
     const status = screen.getByRole("status");
     expect(status.textContent).toContain("更新中");
+  });
+
+  it("TC-MF-06: totalCount を表示", () => {
+    render(
+      <MembersFilters value={baseValue} onChange={() => {}} totalCount={1234} />,
+    );
+    expect(screen.getByText("1,234 件")).toBeDefined();
   });
 
   it("a11y violations 0", async () => {

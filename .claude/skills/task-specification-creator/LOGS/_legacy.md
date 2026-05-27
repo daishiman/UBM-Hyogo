@@ -4,6 +4,10 @@
 
 このファイルは task-specification-creator の運用・改善・Phase 12 close-out 同期履歴を新しい順に記録する。
 
+## 2026-05-27 - admin members prototype redesign implemented-local close-out
+
+`docs/30-workflows/completed-tasks/admin-ui-prototype-alignment-followup-003-admin-members-prototype-redesign/` の automation-30 改善で、実コード差分があるのに `spec_created` / implementation pending と記録されていた不整合を補正した。`MemberPublishSwitch` の current API response shape (`status.publish_state`) 対応、mobile admin sidebar layout fix、focused Vitest 25 PASS、web typecheck PASS、Phase 11 local screenshot 16 PNG、Phase 12 strict 7、root-only `artifacts.json` 宣言、aiworkflow artifact inventory / quick-reference / resource-map / task-workflow-active / LOGS 同期まで同一サイクルで完了した。
+
 ## 2026-05-25 - Issue #908 runtime evidence follow-up pattern
 
 `docs/30-workflows/completed-tasks/issue-908-staging-rollback-notification-runtime-smoke/` の automation-30 改善で、runtime evidence follow-up を spec-only のまま閉じず、`scripts/runtime-smoke/schema-alias-rollback.sh` と親 evidence placeholder を同一 cycle で物理作成する運用へ補正した。親 Phase 11 / Gate-C は pending のまま実在 path に cross-link し、staging deploy / rollback POST / D1 mutation / completion promotion は user-gated として分離する。この再利用可能パターンを `references/patterns-runtime-evidence-followup.md` に追加。

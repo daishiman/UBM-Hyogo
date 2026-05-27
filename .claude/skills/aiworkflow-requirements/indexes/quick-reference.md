@@ -202,6 +202,19 @@
 | local evidence | focused Vitest 19+2 PASS including `jest-axe` (AC-3/AC-4 transition assertion 追加); root lint/typecheck PASS; design-token and client-boundary grep PASS |
 | user gate | commit, push, PR |
 
+## admin-ui-prototype-alignment follow-up 003 admin members prototype redesign（2026-05-27）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/admin-ui-prototype-alignment-followup-003-admin-members-prototype-redesign/` |
+| status | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION` |
+| parent | `docs/30-workflows/admin-ui-prototype-alignment/` |
+| purpose | `/admin/members` を prototype L162-366 に合わせて in-place rewrite し、local visual evidence を取得 |
+| implementation targets | `_members/**`, `_shared/{TagPill,PillNav}.tsx`, `member-hue.ts`, admin members page, `globals.css` mobile admin shell fix |
+| Phase 11/12 | focused Vitest 25 PASS, web typecheck PASS, 16 local screenshots present; strict 7 outputs present; root-only `artifacts.json` |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-ui-prototype-alignment-followup-003-admin-members-prototype-redesign-artifact-inventory.md` |
+| user gate | staging deploy, authenticated staging visual baseline, commit, push, PR |
+
 ## Issue #913 server idempotency key persistence（2026-05-25）
 
 | 項目 | 値 |

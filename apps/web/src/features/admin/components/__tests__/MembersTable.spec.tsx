@@ -6,6 +6,10 @@ import type { AdminMemberListView } from "@ubm-hyogo/shared";
 import { asMemberId, asResponseEmail } from "@ubm-hyogo/shared";
 import { MembersTable } from "../_members/MembersTable";
 
+vi.mock("next/navigation", () => ({
+  useRouter: () => ({ refresh: vi.fn(), push: vi.fn(), replace: vi.fn() }),
+}));
+
 afterEach(() => cleanup());
 
 type Member = AdminMemberListView["members"][number];

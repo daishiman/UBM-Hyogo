@@ -1,8 +1,11 @@
-// task-15: 会員管理テーブル本体（sort / select / row action）
+// followup-003 Lane C: プロトタイプ準拠テーブル (pages-admin.jsx L223-276)
 "use client";
 import type { AdminMemberListView } from "@ubm-hyogo/shared";
 import { EmptyState } from "../../../../components/ui/EmptyState";
 import { Pagination } from "../../../../components/ui/Pagination";
+import { MemberAvatar } from "./MemberAvatar";
+import { MemberStateChipRow } from "./MemberStateChip";
+import { MemberPublishSwitch } from "./MemberPublishSwitch";
 
 type Member = AdminMemberListView["members"][number];
 
@@ -17,13 +20,6 @@ export interface MembersTableProps {
   readonly total: number;
   readonly onPageChange: (page: number) => void;
 }
-
-const STATE_LABEL: Record<string, string> = {
-  public: "公開",
-  member_only: "会員限定",
-  hidden: "非公開",
-  private: "非公開",
-};
 
 function maskEmail(email: string): string {
   const [user, domain] = email.split("@");
@@ -44,9 +40,7 @@ export function MembersTable({
   onPageChange,
 }: MembersTableProps) {
   if (items.length === 0) {
-    return (
-      <EmptyState title="該当する会員はいません" />
-    );
+    return <EmptyState title="該当する会員はいません" />;
   }
 
   const allSelected = items.every((m) => selected.has(m.memberId));
@@ -58,7 +52,7 @@ export function MembersTable({
         <caption className="sr-only">会員一覧</caption>
         <thead>
           <tr className="border-b border-[var(--ubm-color-border-default)] bg-[var(--ubm-color-surface-panel-2)] text-xs uppercase tracking-wide text-[var(--ubm-color-text-muted)]">
-            <th scope="col" className="px-3 py-2">
+            <th scope="col" className="w-10 px-3 py-2">
               <input
                 type="checkbox"
                 aria-label="全選択"
@@ -66,11 +60,13 @@ export function MembersTable({
                 onChange={onToggleSelectAll}
               />
             </th>
-            <th scope="col" className="px-3 py-2">氏名</th>
+            <th scope="col" className="px-3 py-2">メンバー</th>
             <th scope="col" className="px-3 py-2">メール</th>
-            <th scope="col" className="px-3 py-2">公開</th>
-            <th scope="col" className="px-3 py-2">同意</th>
-            <th scope="col" className="px-3 py-2">最終回答</th>
+            <th scope="col" className="px-3 py-2">ステータス</th>
+            <th scope="col" className="px-3 py-2">タグ</th>
+            <th scope="col" className="px-3 py-2">最終更新</th>
+            <th scope="col" className="w-36 px-3 py-2">公開</th>
+            <th scope="col" className="w-12 px-3 py-2 sr-only">操作</th>
           </tr>
         </thead>
         <tbody>
@@ -86,29 +82,57 @@ export function MembersTable({
                   aria-label={`${m.fullName} を選択`}
                   checked={selected.has(m.memberId)}
                   onChange={() => onToggleSelect(m.memberId)}
+                  onClick={(e) => e.stopPropagation()}
+                />
+              </td>
+              <td className="px-3 py-2">
+                <div className="flex items-center gap-2">
+                  <MemberAvatar memberId={m.memberId} fullName={m.fullName} size="sm" />
+                  <div className="flex flex-col">
+                    <button
+                      type="button"
+                      className="text-left font-semibold text-[var(--ubm-color-text-primary)] hover:text-[var(--ubm-color-accent)] hover:underline"
+                      onClick={() => onOpenRow(m.memberId)}
+                    >
+                      {m.fullName}
+                    </button>
+                  </div>
+                </div>
+              </td>
+              <td className="px-3 py-2 font-mono text-xs text-[var(--ubm-color-text-secondary)]">
+                {maskEmail(m.responseEmail)}
+              </td>
+              <td className="px-3 py-2">
+                <MemberStateChipRow
+                  publishState={m.publishState}
+                  isDeleted={m.isDeleted}
+                />
+              </td>
+              <td className="px-3 py-2 text-xs text-[var(--ubm-color-text-muted)]">
+                <span title="詳細は drawer で確認">—</span>
+              </td>
+              <td className="px-3 py-2 font-mono text-xs text-[var(--ubm-color-text-muted)]">
+                {m.lastSubmittedAt}
+              </td>
+              <td className="px-3 py-2" onClick={(e) => e.stopPropagation()}>
+                <MemberPublishSwitch
+                  memberId={m.memberId}
+                  publishState={m.publishState}
+                  isDeleted={m.isDeleted}
                 />
               </td>
               <td className="px-3 py-2">
                 <button
                   type="button"
-                  className="text-left font-medium text-[var(--ubm-color-accent)] hover:underline"
-                  onClick={() => onOpenRow(m.memberId)}
+                  aria-label={`${m.fullName} を編集`}
+                  className="rounded p-1 text-[var(--ubm-color-text-muted)] hover:bg-[var(--ubm-color-surface-panel-2)] hover:text-[var(--ubm-color-accent)]"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onOpenRow(m.memberId);
+                  }}
                 >
-                  {m.fullName}
+                  ✎
                 </button>
-              </td>
-              <td className="px-3 py-2 text-[var(--ubm-color-text-secondary)]">
-                {maskEmail(m.responseEmail)}
-              </td>
-              <td className="px-3 py-2 text-[var(--ubm-color-text-secondary)]">
-                {STATE_LABEL[m.publishState] ?? m.publishState}
-                {m.isDeleted ? "（削除済み）" : ""}
-              </td>
-              <td className="px-3 py-2 text-xs text-[var(--ubm-color-text-muted)]">
-                公開:{m.publicConsent} / 規約:{m.rulesConsent}
-              </td>
-              <td className="px-3 py-2 text-xs text-[var(--ubm-color-text-muted)]">
-                {m.lastSubmittedAt}
               </td>
             </tr>
           ))}
@@ -120,7 +144,8 @@ export function MembersTable({
         className="flex items-center justify-between border-t border-[var(--ubm-color-border-default)] px-3 py-2 text-xs text-[var(--ubm-color-text-secondary)]"
       >
         <span>
-          {total} 件中 {Math.min(total, (page - 1) * pageSize + 1)}–{Math.min(total, page * pageSize)} 件目
+          {total} 件中 {Math.min(total, (page - 1) * pageSize + 1)}–
+          {Math.min(total, page * pageSize)} 件目
         </span>
         <Pagination
           current={page}

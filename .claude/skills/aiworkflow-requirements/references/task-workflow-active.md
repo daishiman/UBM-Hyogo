@@ -541,6 +541,20 @@
 | local evidence | focused Vitest 19 PASS including `jest-axe` violation 0; root lint/typecheck PASS; design-token gate PASS; admin page client-boundary grep PASS |
 | user gate | commit, push, PR |
 
+### admin-ui-prototype-alignment follow-up 003 admin members prototype redesign（2026-05-27）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION` |
+| 成果物 | `docs/30-workflows/completed-tasks/admin-ui-prototype-alignment-followup-003-admin-members-prototype-redesign/` |
+| 目的 | `/admin/members` の prototype 準拠 in-place rewrite と local visual evidence capture |
+| parent | `docs/30-workflows/admin-ui-prototype-alignment/` |
+| predecessor | `docs/30-workflows/completed-tasks/admin-ui-prototype-alignment-followup-002-section-error-retry/` |
+| implementation targets | `apps/web/src/features/admin/components/_members/**`, `_shared/{TagPill,PillNav}.tsx`, `apps/web/src/lib/admin/member-hue.ts`, `apps/web/app/(admin)/admin/members/page.tsx`, `apps/web/src/styles/globals.css` |
+| Phase 11/12 | focused Vitest 25 PASS, web typecheck PASS, 16 local screenshots present, strict 7 outputs present + root-only artifacts declaration |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-ui-prototype-alignment-followup-003-admin-members-prototype-redesign-artifact-inventory.md` |
+| user gate | staging deploy, authenticated staging visual baseline, commit, push, PR |
+
 ### Issue #55 Notification Channel + Opt-out（2026-05-23）
 
 | 項目 | 値 |

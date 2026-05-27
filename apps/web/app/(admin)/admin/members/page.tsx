@@ -70,7 +70,7 @@ export default async function AdminMembersPage({
     <section aria-labelledby="admin-members-h" className="flex flex-col gap-4">
       <AdminPageHeader
         title="会員管理"
-        description={result.ok ? `${result.data.total} 件の会員` : "読み込みに失敗"}
+        description="回答データ・公開フラグ・タグ付けをここから操作します。"
         breadcrumbs={[{ label: "会員管理" }]}
         actions={
           <button
