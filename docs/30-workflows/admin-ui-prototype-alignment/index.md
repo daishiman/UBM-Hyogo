@@ -86,26 +86,6 @@ authenticated runtime screenshot / staging refresh / commit / push / PR は user
 | 12    | [phase-12-documentation.md](phase-12-documentation.md) | ドキュメント更新 (Part 1/2 + 5 必須成果物)               |
 | 13    | [phase-13-pr.md](phase-13-pr.md)                   | PR 作成 (user 明示承認後)                                  |
 
-## 残差分タスク仕様書 (2026-05-26 追加)
-
-既存 Phase 1-13 の上に、staging への未反映＋実コードと仕様の乖離部分を 5 タスクに切り分け、CONST_004 / CONST_005 に従い**今回サイクル内完了**前提で配置。
-
-### 子タスク配置ポリシー
-
-- `tasks/*.md` は lightweight child task spec であり、`parallel-NN-*` / `serial-NN-*` sub-workflow ではない。
-- Phase 12 strict 7 は親 workflow root の `outputs/phase-12/` に集約する。`tasks/` 配下には strict 7 を複製しない。
-- 子タスクごとの evidence は親 `outputs/phase-11/task-<A-E>/` に配置し、親 `phase12-task-spec-compliance-check.md` の Phase 11 evidence inventory へ集約する。
-- 未タスク化はデフォルト禁止。新 endpoint / external runtime / branch protection mutation など本 workflow の不変条件または user gate と衝突するものだけ、理由・実施場所・承認条件を親 Phase 12 に明記する。
-- commit / push / PR / branch protection PUT / staging deploy / CI baseline bot push 後の空 commit はすべて user-gated とし、Task A-E の本文は実行手順を定義するだけで自動実行を要求しない。
-
-| Task | File | 責務 | 依存 |
-|------|------|------|------|
-| A | [tasks/task-A-admin-shell-integration.md](tasks/task-A-admin-shell-integration.md) | AdminAppShell / Topbar / Sidebar 整流化（layout topbar slot 撤去・sidebar group 化+active highlight+schema badge） | なし（先行可） |
-| B | [tasks/task-B-dashboard-recovery-and-byZone.md](tasks/task-B-dashboard-recovery-and-byZone.md) | `/admin` 404 切り分け+復旧・`byZone` 既存 endpoint response 拡張・ZoneDistribution プロトタイプ準拠 | A 推奨後 |
-| C | [tasks/task-C-pages-pageheader-and-token-conformance.md](tasks/task-C-pages-pageheader-and-token-conformance.md) | 9 page の AdminPageHeader 統一・identity-conflicts Tailwind palette → token 移行・Breadcrumb 直貼り 0 件化 | A 後 |
-| D | [tasks/task-D-attendance-primitive-conformance.md](tasks/task-D-attendance-primitive-conformance.md) | 出席分析の features primitive 化（inline KpiCard / 裸 table 撤去 → KpiGrid+AdminTable） | C 後 |
-| E | [tasks/task-E-visual-baseline-admin-routes.md](tasks/task-E-visual-baseline-admin-routes.md) | admin 10 required routes × 4 viewport（既定 40 PNG） + env-gated detail 2 routes（最大 48 PNG）の staging-visual baseline 取得・required check 候補追加（user-gated） | A-D 後 |
-
 ## 変更対象ファイル (overview)
 
 ### 新規

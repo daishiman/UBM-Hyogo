@@ -4,6 +4,7 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import {
   MagicLinkRequestError,
+  MagicLinkRateLimitedError,
   sendMagicLink,
 } from "./magic-link-client";
 import {
@@ -67,6 +68,68 @@ describe("sendMagicLink", () => {
       expect((e as MagicLinkRequestError).status).toBe(500);
       expect((e as MagicLinkRequestError).message).toBe("HTTP 500");
     }
+  });
+
+  it("429 + Retry-After header で MagicLinkRateLimitedError を throw", async () => {
+    mockFetchOnce({
+      status: 429,
+      headers: { "Retry-After": "45" },
+      body: { error: "rate_limited", retryAfterSec: 30, reason: "app" },
+    });
+
+    try {
+      await sendMagicLink("u@example.com", "/profile");
+      throw new Error("should have thrown");
+    } catch (e) {
+      expect(e).toBeInstanceOf(MagicLinkRateLimitedError);
+      expect(e).toBeInstanceOf(MagicLinkRequestError);
+      expect((e as MagicLinkRateLimitedError).status).toBe(429);
+      expect((e as MagicLinkRateLimitedError).retryAfterSec).toBe(45);
+      expect((e as MagicLinkRateLimitedError).reason).toBe("app");
+    }
+  });
+
+  it("429 で Retry-After header がなければ body retryAfterSec を採用する", async () => {
+    mockFetchOnce({
+      status: 429,
+      body: { error: "rate_limited", retryAfterSec: 30, reason: "edge" },
+    });
+
+    await expect(sendMagicLink("u@example.com", "/profile")).rejects.toMatchObject({
+      name: "MagicLinkRateLimitedError",
+      status: 429,
+      retryAfterSec: 30,
+      reason: "edge",
+    });
+  });
+
+  it("429 で header と body が無効なら default 60 を採用する", async () => {
+    mockFetchOnce({
+      status: 429,
+      headers: { "Retry-After": "not-a-number" },
+      body: { error: "rate_limited", retryAfterSec: -1, reason: "other" },
+    });
+
+    await expect(sendMagicLink("u@example.com", "/profile")).rejects.toMatchObject({
+      name: "MagicLinkRateLimitedError",
+      status: 429,
+      retryAfterSec: 60,
+      reason: undefined,
+    });
+  });
+
+  it("429 で body が JSON でなくても default 60 を採用する", async () => {
+    mockFetchOnce({
+      status: 429,
+      headers: { "Retry-After": "0" },
+      rawBody: "not-json",
+    });
+
+    await expect(sendMagicLink("u@example.com", "/profile")).rejects.toMatchObject({
+      name: "MagicLinkRateLimitedError",
+      status: 429,
+      retryAfterSec: 60,
+    });
   });
 
   it("JSON parse 失敗時は state=sent にフォールバック", async () => {

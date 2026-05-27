@@ -62,7 +62,8 @@ describe("FormPreviewSections", () => {
     const { container } = render(<FormPreviewSections preview={preview} />);
     expect(container.querySelectorAll("[data-section-key]")).toHaveLength(0);
     expect(container.querySelectorAll("[data-stable-key]")).toHaveLength(0);
-    expect(container.textContent).toContain("6");
+    const p = container.querySelector("p");
+    expect(p?.textContent).toContain("6");
   });
 
   it("falls back to raw visibility string when label map miss (variant)", () => {

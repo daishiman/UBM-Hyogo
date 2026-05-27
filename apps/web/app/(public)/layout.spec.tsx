@@ -1,15 +1,7 @@
 // parallel-03 S-01: Public AppShell layout spec
-import { describe, it, expect, afterEach, vi } from "vitest";
+import { describe, it, expect, afterEach } from "vitest";
 import { render, cleanup } from "@testing-library/react";
 import { axe } from "../../src/test/axe";
-
-// SessionAwarePublicHeader は async Server Component で session 取得を行うため、
-// layout の構造テストでは sync mock に差し替える（既存テスト互換の維持）。
-vi.mock("../../src/components/public/SessionAwarePublicHeader", () => ({
-  SessionAwarePublicHeader: () => (
-    <div data-testid="session-aware-public-header-mock" />
-  ),
-}));
 
 import PublicLayout from "./layout";
 

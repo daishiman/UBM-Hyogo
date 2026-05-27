@@ -1,5 +1,44 @@
 # phase 12 task spec compliance check
 
+## 1. Summary verdict
+
+不変条件 #1〜#11（適用範囲）すべて OK。AC-1〜AC-12 trace 済。issue-275 (Magic Link 429 Retry-After) で本 dir の unassigned-task 1 件が consumed 済。
+
+## 2. Changed-files classification
+
+このフォローアップ wave での変更は `outputs/phase-12/unassigned-task-detection.md` の 1 行のみ（"Magic Link 429 Retry-After" 行を未着手→consumed へ反転、pointer は同 unassigned-task ファイルへ retain）。
+
+## 3. `workflow_state` and phase status consistency
+
+workflow_state: completed_with_documentation。Phase 1〜13 既達。followup の unassigned consumption は本タスク dir の workflow_state を変更しない。
+
+## 4. Phase 11 evidence file inventory
+
+| classification | path | status |
+| --- | --- | --- |
+| manual smoke evidence | outputs/phase-11/manual-smoke-evidence.md | present |
+| phase-11 main | outputs/phase-11/main.md | present |
+
+## 5. Phase 12 strict 7 file inventory
+
+strict 7 既達（main / implementation-guide / system-spec-update-summary / unassigned-task-detection / elegant-verification / documentation-changelog / skill-feedback-report）。本セクションは既存。
+
+## 6. Skill/reference/system spec same-wave sync
+
+issue-275 で aiworkflow-requirements indexes/lessons と task-specification-creator patterns-lessons-and-pitfalls.md を同期済。本 dir 由来の追加 sync は不要。
+
+## 7. Runtime or user-gated boundary
+
+本フォローアップは docs-only。staging deploy / runtime smoke / branch protection 変更を伴わず user-gated boundary を越えない。
+
+## 8. Archive/delete stale-reference gate
+
+issue-275 dir 新設に伴う stale 参照（UT-06B-MAGIC-LINK-RETRY-AFTER.md / issue-275.md / aiworkflow indexes / artifact-inventory）は本 wave で全て補修済。`pnpm indexes:rebuild` idempotent 確認済。
+
+## 9. Four-condition verdict
+
+PASS（4 条件: (a) AC/不変条件 trace 完全、(b) phase 12 strict 7 完備、(c) 同 wave sync 完了、(d) stale 参照 0 件）。
+
 ## 不変条件遵守状況
 
 | 不変条件 | 遵守 | 根拠 |
