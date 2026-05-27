@@ -14,6 +14,7 @@ export interface AvatarProps {
 
 export function Avatar({ memberId, name, hue, size = "md", className }: AvatarProps) {
   const resolvedHue = hue ?? hashStringToHue(memberId ?? name);
+  const hueBucket = Math.round((((resolvedHue % 360) + 360) % 360) / 30) % 12;
   const initial = name.trim().charAt(0) || "?";
   // Invariants #6 and #8: hue is derived from memberId, never persisted.
   return (
@@ -21,8 +22,8 @@ export function Avatar({ memberId, name, hue, size = "md", className }: AvatarPr
       role="img"
       aria-label={name}
       data-size={size}
+      data-hue={hueBucket}
       className={["ui-avatar", className].filter(Boolean).join(" ")}
-      style={{ background: `hsl(${resolvedHue} 70% 60%)` }}
     >
       {initial}
     </div>

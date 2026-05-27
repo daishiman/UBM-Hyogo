@@ -73,6 +73,7 @@ import { scheduledAuditCorrelation } from "./audit-correlation/scheduled";
 import type { AuditCorrelationRuntimeEnv } from "./audit-correlation/run-correlation";
 import { runAlertRelayHealthcheck } from "./scheduled/healthcheck";
 import { runSheetsAuthHealthcheck } from "./scheduled/sheets-auth-healthcheck";
+import { createDiagnosticsRouter } from "./diagnostics/forms-pipeline";
 
 function timingSafeEqual(a: string, b: string): boolean {
   let mismatch = a.length ^ b.length;
@@ -275,6 +276,7 @@ app.route("/admin", adminSchemaRoute);
 app.route("/admin", adminMeetingsRoute);
 app.route("/admin", adminAttendanceRoute);
 app.route("/admin", adminAuditRoute);
+app.route("/admin/diagnostics", createDiagnosticsRouter());
 // 04b-followup-004: admin queue resolve workflow
 app.route("/admin", adminRequestsRoute);
 // issue-194-03b-followup-001: admin identity-conflicts (list/merge/dismiss)

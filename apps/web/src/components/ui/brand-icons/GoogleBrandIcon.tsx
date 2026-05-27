@@ -1,5 +1,3 @@
-import type { CSSProperties } from "react";
-
 import googleIconUrl from "./google.svg";
 
 export type GoogleBrandIconSize = "sm" | "md" | "lg";
@@ -13,10 +11,9 @@ const SIZE_PX: Record<GoogleBrandIconSize, number> = {
 export interface GoogleBrandIconProps {
   readonly size?: GoogleBrandIconSize;
   readonly className?: string;
-  readonly style?: CSSProperties;
 }
 
-export function GoogleBrandIcon({ size = "md", className, style }: GoogleBrandIconProps) {
+export function GoogleBrandIcon({ size = "md", className }: GoogleBrandIconProps) {
   const px = SIZE_PX[size];
   return (
     <img
@@ -25,7 +22,6 @@ export function GoogleBrandIcon({ size = "md", className, style }: GoogleBrandIc
       height={px}
       alt=""
       className={className}
-      style={style}
       data-component="google-brand-icon"
       data-size={size}
       aria-hidden="true"
