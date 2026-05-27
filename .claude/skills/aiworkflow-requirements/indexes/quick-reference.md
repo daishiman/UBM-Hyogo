@@ -33,6 +33,21 @@
 | user gate | authenticated runtime screenshots / staging refresh / commit / push / PR |
 
 ## register-page-prototype-alignment（2026-05-26）
+## public-dashboard-prototype-alignment（2026-05-26）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/public-dashboard-prototype-alignment/` |
+| status | `implementation_reviewed / implementation / VISUAL / phase11_runtime_pending` |
+| lessons | `.claude/skills/aiworkflow-requirements/lessons-learned/public-dashboard-prototype-alignment-2026-05.md` |
+| purpose | public home `/` を prototype `pages-public.jsx` LandingPage に合わせ、Hero / Stats / About+ThreeZones / Featured / Recent Meetings / CTA の実装契約を固定する |
+| implementation targets | `apps/web/app/page.tsx`, `apps/web/src/components/public/{Hero,Stats,AboutUbm,ZoneIntro,MemberGrid,Timeline}.tsx`, `apps/web/src/styles/legacy-public.css` |
+| invariants | 新規 API endpoint / D1 schema / Google Form / npm package 追加なし。OKLch token 経由、HEX 直書き禁止 |
+| Phase 12 | strict 7 present; root/output artifacts mirror present; 30-method compact evidence included |
+| Phase 11 | screenshots and manual evaluation are pending, not PASS |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-public-dashboard-prototype-alignment-artifact-inventory.md` |
+| user gate | implementation, local visual capture, staging refresh, commit, push, PR |
+
 ## login-ui-balance-and-runtime-fix（2026-05-26）
 
 | 項目 | 値 |
