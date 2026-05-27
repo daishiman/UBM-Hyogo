@@ -1,0 +1,38 @@
+{
+  "mode": "VISUAL",
+  "status": "local_evidence_captured",
+  "routes": [
+    {
+      "route": "/admin/meetings",
+      "viewport": "desktop",
+      "states": [
+        {
+          "name": "list-default",
+          "output": "outputs/phase-11/screenshots/list-default.png"
+        },
+        {
+          "name": "list-empty",
+          "output": "outputs/phase-11/screenshots/list-empty.png"
+        },
+        {
+          "name": "list-drawer-open",
+          "output": "outputs/phase-11/screenshots/list-drawer-open.png"
+        }
+      ]
+    },
+    {
+      "route": "/admin/meetings/[id]",
+      "viewport": "desktop",
+      "states": [
+        {
+          "name": "detail-default",
+          "output": "outputs/phase-11/screenshots/detail-default.png"
+        },
+        {
+          "name": "detail-csv-preview",
+          "output": "outputs/phase-11/screenshots/detail-csv-preview.png"
+        }
+      ]
+    }
+  ]
+}

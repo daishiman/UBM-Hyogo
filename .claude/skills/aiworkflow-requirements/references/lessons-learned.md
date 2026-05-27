@@ -7,6 +7,7 @@
 ## 仕様書インデックス
 | ファイル | 役割 | 主な見出し |
 | --- | --- | --- |
+| [lessons-learned-admin-meetings-prototype-alignment-2026-05.md](lessons-learned-admin-meetings-prototype-alignment-2026-05.md) | admin meetings prototype alignment spec package lessons | L-AMTG-001〜004（spec_created と implementation complete の分離 / Phase 12 strict 7 は実装前でも必須 / runtime visual pending metadata / parent primitive reuse without API churn） |
 | [lessons-learned-issue-912-idempotent-attendance-remove-retry-2026-05.md](lessons-learned-issue-912-idempotent-attendance-remove-retry-2026-05.md) | Issue #912 idempotent attendance remove retry lessons | L-I912-001〜005（既存冪等 endpoint を combined POST caller が迂回 / retry caller は `mutationFn` 回避 / `endpointOverride` 可変 path / DELETE payload 固定 / Idempotency-Key 同一性は hook policy） |
 | [lessons-learned-task-staging-auth-secret-binding-recovery-001-2026-05.md](lessons-learned-task-staging-auth-secret-binding-recovery-001-2026-05.md) | staging AUTH_SECRET binding recovery lessons | L-AUTHSECRET-001〜003: `secret list` name-only boundary / auth body before handler fixes / cf.sh secret put local dry-run guard |
 | [lessons-learned-task-alert-relay-global-scope-fix-001-2026-05.md](lessons-learned-task-alert-relay-global-scope-fix-001-2026-05.md) | alert-relay Workers global scope and local Cloudflare deploy token bridge lessons | L-ARGSF-001〜005: Workers import-time forbidden API guard / local 1Password env-specific token field bridge / top-level grep gate / dry-run auth success boundary / Phase 12 strict outputs |

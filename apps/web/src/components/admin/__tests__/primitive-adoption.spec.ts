@@ -1,5 +1,6 @@
 import { readFileSync } from "node:fs";
-import { resolve } from "node:path";
+import { readdirSync } from "node:fs";
+import { join, resolve } from "node:path";
 import { describe, expect, it } from "vitest";
 
 // Issue #749 — primitive adoption import-tree assertions.
@@ -8,11 +9,18 @@ import { describe, expect, it } from "vitest";
 
 const REPO_ROOT = resolve(__dirname, "../../../../../..");
 const read = (p: string) => readFileSync(resolve(REPO_ROOT, p), "utf-8");
+const tsxFiles = (dir: string) =>
+  readdirSync(resolve(REPO_ROOT, dir))
+    .filter((name) => name.endsWith(".tsx"))
+    .map((name) => join(dir, name));
 
 // TagQueuePanel delegates its mutation surface to TagsQueueResolveDrawer
 // (dev architecture), so it satisfies C2 indirectly through the drawer.
 const MUTATING_PANELS: ReadonlyArray<readonly [string, string]> = [
-  ["apps/web/src/components/admin/MeetingPanel.tsx", "apps/web/src/components/admin/MeetingPanel.tsx"],
+  [
+    "apps/web/src/features/admin/components/_meetings/MeetingsClientShell.tsx",
+    "apps/web/src/features/admin/components/_meetings/MeetingsClientShell.tsx",
+  ],
   ["apps/web/src/components/admin/TagQueuePanel.tsx", "apps/web/src/components/admin/TagsQueueResolveDrawer.tsx"],
   ["apps/web/src/components/admin/SchemaDiffPanel.tsx", "apps/web/src/components/admin/SchemaDiffPanel.tsx"],
   ["apps/web/src/components/admin/RequestQueuePanel.tsx", "apps/web/src/components/admin/RequestQueuePanel.tsx"],
@@ -31,7 +39,7 @@ const ADMIN_PAGES = [
 
 const EMPTY_STATE_SURFACES = [
   "apps/web/src/features/admin/components/_members/MembersTable.tsx",
-  "apps/web/src/components/admin/MeetingPanel.tsx",
+  "apps/web/src/features/admin/components/_meetings/MeetingTimeline.tsx",
   "apps/web/src/components/admin/TagQueuePanel.tsx",
   "apps/web/src/components/admin/SchemaDiffPanel.tsx",
   "apps/web/src/components/admin/RequestQueuePanel.tsx",
@@ -72,6 +80,7 @@ describe("Issue 749 — primitive adoption", () => {
     const panels = MUTATING_PANELS.map(([panel]) => panel);
     for (const p of [
       ...panels,
+      ...tsxFiles("apps/web/src/features/admin/components/_meetings"),
       "apps/web/src/components/admin/AuditLogPanel.tsx",
       "apps/web/src/components/admin/Breadcrumb.tsx",
       "apps/web/src/components/admin/IdentityConflictRow.tsx",
@@ -83,7 +92,7 @@ describe("Issue 749 — primitive adoption", () => {
   });
 
   it.each(EMPTY_STATE_SURFACES)("%s renders EmptyState primitive (C5)", (surface) => {
-    expect(read(surface)).toMatch(/<EmptyState/);
+    expect(read(surface)).toMatch(/<(Admin)?EmptyState/);
   });
 
   it.each(PAGED_SURFACES)("%s renders Pagination primitive (C6)", (surface) => {

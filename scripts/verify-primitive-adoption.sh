@@ -17,6 +17,7 @@ FAIL=0
 #   (these are choice controls, not single-line text fields).
 C1_RAW="$(grep -rn --exclude-dir=__tests__ --include='*.tsx' '<input' \
   apps/web/src/components/admin/ \
+  apps/web/src/features/admin/components/ \
   apps/web/src/components/public/DensityToggle.client.tsx \
   2>/dev/null || true)"
 C1_OUT="$(printf '%s\n' "$C1_RAW" | awk '
@@ -48,7 +49,7 @@ fi
 #   delegate_path: optional sibling component the panel delegates mutation to
 #     (e.g. TagQueuePanel renders TagsQueueResolveDrawer which holds the hook).
 EXPECTED_PANELS=(
-  "MeetingPanel|"
+  "apps/web/src/features/admin/components/_meetings/MeetingsClientShell.tsx|"
   "TagQueuePanel|apps/web/src/components/admin/TagsQueueResolveDrawer.tsx"
   "SchemaDiffPanel|"
   "RequestQueuePanel|"
@@ -66,14 +67,20 @@ panel_uses_hook() {
 for entry in "${EXPECTED_PANELS[@]}"; do
   p="${entry%%|*}"
   delegate="${entry#*|}"
-  panel_path="apps/web/src/components/admin/${p}.tsx"
+  if [[ "$p" == apps/* ]]; then
+    panel_path="$p"
+    panel_label="$(basename "$p" .tsx)"
+  else
+    panel_path="apps/web/src/components/admin/${p}.tsx"
+    panel_label="$p"
+  fi
   if panel_uses_hook "$panel_path"; then
-    echo "[C2 OK] $p uses useAdminMutation trigger (features)"
+    echo "[C2 OK] $panel_label uses useAdminMutation trigger (features)"
   elif [ -n "$delegate" ] && panel_uses_hook "$delegate" \
     && grep -q "$(basename "$delegate" .tsx)" "$panel_path"; then
-    echo "[C2 OK] $p delegates mutation to $(basename "$delegate" .tsx) (features hook)"
+    echo "[C2 OK] $panel_label delegates mutation to $(basename "$delegate" .tsx) (features hook)"
   else
-    echo "[C2 FAIL] $p does not use features/admin/hooks/useAdminMutation trigger"
+    echo "[C2 FAIL] $panel_label does not use features/admin/hooks/useAdminMutation trigger"
     FAIL=1
   fi
 done
@@ -118,7 +125,7 @@ fi
 # --- C5: EmptyState primitive is used by admin empty-result surfaces
 EXPECTED_EMPTY_STATE=(
   "apps/web/src/features/admin/components/_members/MembersTable.tsx"
-  "apps/web/src/components/admin/MeetingPanel.tsx"
+  "apps/web/src/features/admin/components/_meetings/MeetingTimeline.tsx"
   "apps/web/src/components/admin/TagQueuePanel.tsx"
   "apps/web/src/components/admin/SchemaDiffPanel.tsx"
   "apps/web/src/components/admin/RequestQueuePanel.tsx"
@@ -126,7 +133,7 @@ EXPECTED_EMPTY_STATE=(
   "apps/web/app/(admin)/admin/identity-conflicts/page.tsx"
 )
 for p in "${EXPECTED_EMPTY_STATE[@]}"; do
-  if grep -q '<EmptyState' "$p"; then
+  if grep -qE '<(Admin)?EmptyState' "$p"; then
     echo "[C5 OK] $p renders EmptyState"
   else
     echo "[C5 FAIL] $p does not render EmptyState"

@@ -363,6 +363,64 @@ function meetingsListBody() {
   }
 }
 
+function createMeeting(body: { title?: string; heldOn?: string; note?: string | null }): {
+  status: number
+  body: unknown
+} {
+  if (!body.title?.trim() || !/^\d{4}-\d{2}-\d{2}$/.test(body.heldOn ?? '')) {
+    return { status: 400, body: { ok: false, error: 'invalid_meeting_body' } }
+  }
+  const title = body.title.trim()
+  const heldOn = body.heldOn
+  if (!heldOn) return { status: 400, body: { ok: false, error: 'invalid_meeting_body' } }
+  const sessionId = `sess-${state.meetingsSeed.meetings.length + 1}`
+  const meeting = {
+    sessionId,
+    title,
+    heldOn,
+    note: body.note ?? null,
+    createdAt: '2026-05-27T00:00:00.000Z',
+    candidates: state.meetingsSeed.members,
+    attendees: [],
+  }
+  state.meetingsSeed.meetings = [meeting, ...state.meetingsSeed.meetings]
+  return {
+    status: 201,
+    body: {
+      ok: true,
+      meeting: {
+        sessionId: meeting.sessionId,
+        title: meeting.title,
+        heldOn: meeting.heldOn,
+        note: meeting.note,
+        createdAt: meeting.createdAt,
+        attendance: meeting.attendees,
+      },
+    },
+  }
+}
+
+function updateMeeting(
+  sessionId: string,
+  body: { title?: string; heldOn?: string; note?: string | null; deletedAt?: string | null },
+): {
+  status: number
+  body: unknown
+} {
+  const meeting = findMeetingWithSelfHeal(sessionId)
+  if (!meeting) return { status: 404, body: { ok: false, error: 'meeting_not_found' } }
+  if (body.deletedAt !== undefined) {
+    state.meetingsSeed.meetings = state.meetingsSeed.meetings.filter(
+      (item) => item.sessionId !== sessionId,
+    )
+    return { status: 200, body: { ok: true } }
+  }
+  if (body.title !== undefined) meeting.title = body.title
+  if (body.heldOn !== undefined) meeting.heldOn = body.heldOn
+  if (body.note !== undefined) meeting.note = body.note
+  return { status: 200, body: { ok: true, meeting } }
+}
+
 // playwright 並列 worker 間で /__test__/seed-meetings POST が race し
 // state.meetingsSeed.meetings から sessionId が一時的に消えるケースがある
 // (例: attendance.spec.ts と attendance-csv-import.spec.ts が同時実行)。
@@ -565,6 +623,15 @@ async function ensureMockApi(): Promise<void> {
         response(res, 200, meetingsListBody())
         return
       }
+      if (req.method === 'POST' && url.pathname === '/admin/meetings') {
+        readJson(req)
+          .then((body) => {
+            const result = createMeeting(body as { title?: string; heldOn?: string; note?: string | null })
+            response(res, result.status, result.body)
+          })
+          .catch(() => response(res, 400, { ok: false, error: 'invalid_json' }))
+        return
+      }
       if (req.method === 'GET' && url.pathname === '/admin/tags/queue') {
         response(res, 200, adminTagsQueueBody(url.searchParams))
         return
@@ -573,6 +640,18 @@ async function ensureMockApi(): Promise<void> {
       if (req.method === 'GET' && meetingDetailMatch?.[1]) {
         const detail = meetingDetailBody(decodeURIComponent(meetingDetailMatch[1]))
         response(res, detail ? 200 : 404, detail ?? { error: 'meeting_not_found' })
+        return
+      }
+      if (req.method === 'PATCH' && meetingDetailMatch?.[1]) {
+        readJson(req)
+          .then((body) => {
+            const result = updateMeeting(
+              decodeURIComponent(meetingDetailMatch[1]),
+              body as { title?: string; heldOn?: string; note?: string | null; deletedAt?: string | null },
+            )
+            response(res, result.status, result.body)
+          })
+          .catch(() => response(res, 400, { ok: false, error: 'invalid_json' }))
         return
       }
       const attendanceMatch = url.pathname.match(/^\/admin\/meetings\/([^/]+)\/attendances$/)

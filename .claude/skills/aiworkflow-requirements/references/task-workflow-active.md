@@ -8,6 +8,20 @@
 
 本ドキュメントは、複雑なタスクを単一責務の原則に基づいて分解し、各サブタスクに最適なスラッシュコマンド・エージェント・スキルの組み合わせを選定するためのガイドラインを定義する。
 
+### admin-meetings-prototype-alignment（2026-05-27）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION / staging_runtime_pending_user_approval` |
+| 成果物 | `docs/30-workflows/completed-tasks/admin-meetings-prototype-alignment/` |
+| parent | `docs/30-workflows/admin-ui-prototype-alignment/` |
+| 目的 | `/admin/meetings` list と `/admin/meetings/[id]` detail を admin prototype language に合わせて実装し、Task A/B の local evidence を確定する |
+| implementation targets | `apps/web/app/(admin)/admin/meetings/page.tsx`, `apps/web/src/features/admin/components/_meetings/*`, `apps/web/app/(admin)/admin/meetings/[id]/{page,MeetingAttendancePanel,AttendanceCsvImportPanel}.tsx` |
+| contract | Existing `/admin/meetings` endpoint surface only。API response shape / D1 schema / Google Form schema 変更なし。OKLch token only、`safeServerFetch`、`useAdminMutation`、section fail-soft を維持 |
+| Phase 12 | strict 7 outputs present; root/output artifacts parity present |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-meetings-prototype-alignment-artifact-inventory.md` |
+| user gate | staging refresh/deploy, staging runtime observation, commit, push, PR |
+
 ### public-header-my-profile-nav-alignment（2026-05-26）
 
 | 項目 | 値 |

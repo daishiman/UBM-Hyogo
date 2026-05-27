@@ -8,6 +8,7 @@ import { useState } from "react";
 import { useAdminMutation } from "../../../../../src/features/admin/hooks/useAdminMutation";
 import { FetchAuthedError } from "../../../../../src/lib/fetch/errors";
 import { logger } from "../../../../../src/lib/logger";
+import { AdminSectionCard } from "../../../../../src/features/admin/components/_shared";
 
 interface Candidate {
   memberId: string;
@@ -122,10 +123,7 @@ export function MeetingAttendancePanel({ detail }: { readonly detail: Detail }) 
   };
 
   return (
-    <section aria-labelledby="meeting-detail-h">
-      <h1 id="meeting-detail-h">
-        {detail.heldOn} — {detail.title}
-      </h1>
+    <AdminSectionCard title="出席登録">
       {toast && (
         <p role="status" data-testid="toast">
           {toast}
@@ -164,6 +162,6 @@ export function MeetingAttendancePanel({ detail }: { readonly detail: Detail }) 
             </li>
           ))}
       </ul>
-    </section>
+    </AdminSectionCard>
   );
 }
