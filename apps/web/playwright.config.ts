@@ -5,7 +5,13 @@ const isStagingSmoke = process.argv.some((arg) => arg.includes('staging-smoke'))
 // staging-visual project は staging URL（PLAYWRIGHT_STAGING_BASE_URL）に対して
 // production-equivalent runtime（Cloudflare Workers）の visual baseline を取得する。
 // local webServer は起動しない（実 staging を撮るため）。
-const isStagingVisual = process.argv.some((arg) => arg.includes('staging-visual'))
+const isStagingVisual =
+  process.argv.some((arg) => arg.includes('staging-visual')) ||
+  process.argv.some((arg) => arg.includes('admin-staging-visual')) ||
+  process.argv.some((arg) => arg.includes('visual/admin-shell'))
+const isAdminStagingVisual =
+  process.argv.some((arg) => arg.includes('admin-staging-visual')) ||
+  process.argv.some((arg) => arg.includes('visual/admin-shell'))
 const stagingBaseURL =
   process.env.PLAYWRIGHT_STAGING_BASE_URL ??
   process.env.PLAYWRIGHT_BASE_URL ??
@@ -62,6 +68,8 @@ const EVIDENCE_DIR =
         ? '../../docs/30-workflows/admin-member-delete-e2e-spec/outputs/phase-11/evidence'
         : isStagingSmoke
           ? '../../docs/30-workflows/task-05-error-boundary-and-staging-smoke/outputs/phase-11/evidence'
+          : isAdminStagingVisual
+            ? '../../docs/30-workflows/completed-tasks/admin-visual-baseline-admin-routes-task-e/outputs/phase-11/evidence'
           : isStagingVisual
             ? '../../docs/30-workflows/ut-dsf-07-staging-visual-runtime-evidence/outputs/phase-11/evidence'
             : isTask11PublicSmoke
@@ -185,6 +193,8 @@ export default defineConfig({
     {
       name: 'visual-chromium',
       testMatch: /visual\/.*\.spec\.ts$/,
+      // admin-shell visual specs target staging only via admin-staging-visual-* projects.
+      testIgnore: [/visual\/admin-shell\/.*\.spec\.ts$/],
       use: { ...devices['Desktop Chrome'], viewport: { width: 1280, height: 800 } },
     },
     {
@@ -284,6 +294,64 @@ export default defineConfig({
       name: 'teardown-authenticated-staging',
       testDir: './playwright/tests/visual-staging-authenticated',
       testMatch: /teardown\.staging-auth\.ts$/,
+    },
+    // admin-visual-baseline-admin-routes-task-e: 4 viewport baselines for
+    // 10 required + 2 env-gated admin routes against staging.
+    {
+      name: 'admin-staging-visual-mobile',
+      testDir: './playwright/tests/visual/admin-shell',
+      retries: 2,
+      use: {
+        ...devices['iPhone 12'],
+        baseURL: stagingBaseURL,
+        viewport: { width: 375, height: 812 },
+        storageState: './playwright/.auth/admin.storageState.json',
+      },
+      dependencies: ['setup-authenticated-staging'],
+      snapshotPathTemplate:
+        '{testDir}/{testFileName}-snapshots/{arg}-admin-staging-visual-mobile-{platform}{ext}',
+    },
+    {
+      name: 'admin-staging-visual-tablet',
+      testDir: './playwright/tests/visual/admin-shell',
+      retries: 2,
+      use: {
+        ...devices['Desktop Chrome'],
+        baseURL: stagingBaseURL,
+        viewport: { width: 768, height: 1024 },
+        storageState: './playwright/.auth/admin.storageState.json',
+      },
+      dependencies: ['setup-authenticated-staging'],
+      snapshotPathTemplate:
+        '{testDir}/{testFileName}-snapshots/{arg}-admin-staging-visual-tablet-{platform}{ext}',
+    },
+    {
+      name: 'admin-staging-visual-desktop',
+      testDir: './playwright/tests/visual/admin-shell',
+      retries: 2,
+      use: {
+        ...devices['Desktop Chrome'],
+        baseURL: stagingBaseURL,
+        viewport: { width: 1280, height: 800 },
+        storageState: './playwright/.auth/admin.storageState.json',
+      },
+      dependencies: ['setup-authenticated-staging'],
+      snapshotPathTemplate:
+        '{testDir}/{testFileName}-snapshots/{arg}-admin-staging-visual-desktop-{platform}{ext}',
+    },
+    {
+      name: 'admin-staging-visual-wide',
+      testDir: './playwright/tests/visual/admin-shell',
+      retries: 2,
+      use: {
+        ...devices['Desktop Chrome'],
+        baseURL: stagingBaseURL,
+        viewport: { width: 1440, height: 900 },
+        storageState: './playwright/.auth/admin.storageState.json',
+      },
+      dependencies: ['setup-authenticated-staging'],
+      snapshotPathTemplate:
+        '{testDir}/{testFileName}-snapshots/{arg}-admin-staging-visual-wide-{platform}{ext}',
     },
     {
       name: 'staging-smoke',
