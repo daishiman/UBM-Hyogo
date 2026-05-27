@@ -77,6 +77,20 @@
 | inventory | `.claude/skills/aiworkflow-requirements/references/workflow-public-dashboard-prototype-alignment-artifact-inventory.md` |
 | user gate | implementation, local visual capture, staging refresh, commit, push, PR |
 
+## login-stale-link-and-profile-me-safe-fetch（2026-05-27）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/login-stale-link-and-profile-me-safe-fetch/` |
+| status | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION` |
+| purpose | `/login` stale `[object Object]` link guard and `/profile` leading `/me` safe fetch degradation |
+| implementation | `apps/web/app/(member)/profile/page.tsx`, `apps/web/src/lib/url/safe-redirect.ts`, `apps/web/src/lib/url/login-query.ts`, `apps/web/app/login/page.tsx` |
+| tests | `apps/web/app/(member)/profile/page.spec.tsx`, `apps/web/src/lib/url/login-query.spec.ts`, `apps/web/src/lib/url/login-redirect.spec.ts`, `apps/web/src/lib/url/login-state.spec.ts` |
+| contract | non-string redirect values fall back to `/profile`; `/me` 401 redirects, non-auth failures render member `SectionError`; `/me/profile` 404 remains `notFound()` |
+| Phase 12 | strict 7 present under `outputs/phase-12/`; root/output artifacts parity present |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-login-stale-link-and-profile-me-safe-fetch-artifact-inventory.md` |
+| user gate | staging deploy, authenticated profile/login screenshots, commit, push, PR |
+
 ## login-ui-balance-and-runtime-fix（2026-05-26）
 
 | 項目 | 値 |

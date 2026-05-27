@@ -51,6 +51,20 @@
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-public-dashboard-prototype-alignment-artifact-inventory.md` |
 | user gate | implementation, local visual capture, staging refresh, commit, push, PR |
 
+### login-stale-link-and-profile-me-safe-fetch（2026-05-27）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION` |
+| 成果物 | `docs/30-workflows/completed-tasks/login-stale-link-and-profile-me-safe-fetch/` |
+| 目的 | `/login` の object-shaped redirect が `[object Object]` URL へ coerce される経路を防ぎ、`/profile` の leading `/me` failure を Server Component throw ではなく SectionError に降ろす |
+| implementation targets | `apps/web/app/(member)/profile/page.tsx`, `apps/web/src/lib/url/safe-redirect.ts`, `apps/web/src/lib/url/login-query.ts`, `apps/web/app/login/page.tsx` |
+| focused tests | `apps/web/app/(member)/profile/page.spec.tsx`, `apps/web/src/lib/url/login-query.spec.ts`, `apps/web/src/lib/url/login-redirect.spec.ts`, `apps/web/src/lib/url/login-state.spec.ts` |
+| invariant | `AuthRequiredError` は `/login?redirect=/profile` redirect のまま。`/me/profile` 404 は `notFound()` のまま。non-string redirect は `/profile` fallback |
+| Phase 12 | strict 7 present。output artifacts parity present |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-login-stale-link-and-profile-me-safe-fetch-artifact-inventory.md` |
+| user gate | staging deploy、authenticated screenshots、commit、push、PR |
+
 ### login-ui-balance-and-runtime-fix（2026-05-26）
 
 | 項目 | 値 |

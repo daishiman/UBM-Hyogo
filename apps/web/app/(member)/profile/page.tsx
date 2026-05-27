@@ -24,6 +24,7 @@ import { AttendanceList } from "./_components/AttendanceList";
 import { RequestActionPanel } from "./_components/RequestActionPanel";
 import { MemberHeader } from "@/components/layout/MemberHeader";
 import { SectionError } from "@/components/member/SectionError";
+import type { SafeResult } from "@/lib/result";
 import { safeServerFetch } from "@/lib/server-fetch/safe-fetch";
 import { pickProfileSummary } from "./_lib/profile-summary";
 
@@ -31,15 +32,35 @@ export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
 export default async function ProfilePage() {
-  let me: MeSessionResponse;
+  let meResult: SafeResult<MeSessionResponse>;
   try {
-    me = await fetchAuthed<MeSessionResponse>("/me");
+    meResult = await safeServerFetch(
+      () => fetchAuthed<MeSessionResponse>("/me"),
+      { codePrefix: "MEMBER_SESSION", rethrowOn: [AuthRequiredError] },
+    );
   } catch (err) {
     if (err instanceof AuthRequiredError) {
       return redirect("/login?redirect=/profile");
     }
     throw err;
   }
+
+  if (!meResult.ok) {
+    return (
+      <>
+        <MemberHeader />
+        <main data-route="member" data-section-rhythm="comfortable">
+          <SectionError
+            title="セッション情報を取得できませんでした"
+            detail={meResult.error.message}
+            retryHref="/profile"
+          />
+        </main>
+      </>
+    );
+  }
+
+  const me = meResult.data;
 
   const profileResult = await safeServerFetch(
     () => fetchAuthed<MeProfileResponse>("/me/profile"),

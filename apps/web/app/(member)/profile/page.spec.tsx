@@ -84,6 +84,18 @@ describe("ProfilePage safe fetch degrade", () => {
     );
   });
 
+  it("degrades /me fetch failures without throwing a server component error", async () => {
+    mockedFetchAuthed.mockRejectedValueOnce(new FetchAuthedError(503, "down"));
+
+    render(await ProfilePage());
+
+    expect(redirect).not.toHaveBeenCalled();
+    expect(mockedFetchAuthed).toHaveBeenCalledTimes(1);
+    expect(screen.getByRole("alert").textContent).toContain(
+      "セッション情報を取得できませんでした",
+    );
+  });
+
   it("redirects when /me requires auth", async () => {
     mockedFetchAuthed.mockRejectedValueOnce(new AuthRequiredError());
 
