@@ -87,6 +87,7 @@ accent と status の base token は背景、badge、border、focus ring など�
 | --- | --- | --- | --- |
 | `--ubm-color-surface-bg` | `#f5f4f1` | `--bg` L3 | page background |
 | `--ubm-color-surface-bg-2` | `#ebe9e3` | `--bg-2` L4 | alternate background |
+| `--ubm-color-bg` | `var(--ubm-color-surface-bg-2)` | implementation alias | bar background alias for prototype-aligned charts |
 | `--ubm-color-surface-panel` | `#ffffff` | `--panel` L5 | card panel |
 | `--ubm-color-surface-panel-2` | `#fafaf8` | `--panel-2` L6 | subtle raised panel |
 | `--ubm-color-border-default` | `#e7e5df` | `--border` L7 | default border |
@@ -305,6 +306,7 @@ This keeps Style Dictionary, custom verifiers, and human review on the same sche
     "surface": {
       "bg": { "value": "#f5f4f1", "css": "--ubm-color-surface-bg" },
       "bg-2": { "value": "#ebe9e3", "css": "--ubm-color-surface-bg-2" },
+      "bar-bg": { "value": "var(--ubm-color-surface-bg-2)", "css": "--ubm-color-bg" },
       "panel": { "value": "#ffffff", "css": "--ubm-color-surface-panel" },
       "panel-2": { "value": "#fafaf8", "css": "--ubm-color-surface-panel-2" }
     },
