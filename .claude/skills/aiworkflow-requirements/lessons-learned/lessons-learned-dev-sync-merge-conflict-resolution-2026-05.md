@@ -878,3 +878,19 @@
   5. JSON 構文を `python3 -c "import json; json.load(open('apps/web/playwright/tests/visual-full/.baseline-meta.json'))"` で必ず検証してから `git add`。
 - 適用判断: `.baseline-meta.json` 以外でも、provenance / metadata JSON で「scalar latest field + array set field + narrative field」の混在型は全て本パターンが適用可能（例: `.gate-metadata.json` の `passed_at` + `evidence_paths` + `notes`）。
 - 事例: 2026-05-27 task-20260526-145759-wt-18 dev sync。HEAD timestamp `2026-05-27T05:15:17Z` > dev `2026-05-27T04:10:17Z` のため HEAD の SHA/timestamp 採用、`captured_run_ids` に dev 側 `26489950912` を timestamp 順で追加（HEAD `26491992893` の手前）、`last_refresh_reason` は HEAD の followup-001 文言主体に dev の login UI rebalance 文言を併記。typecheck 影響なし、visual baseline workflow 後続 dispatch にも影響なし。
+
+## L-DEVSYNC-053: dev 側で legacy CSS の `[data-size]` セレクタに `:not()` 連鎖が追加され specificity がブレた場合は、**`:not(.ui-avatar)` で逃がすのではなく ancestor `[data-route-group="public"]` でスコープ化**して隣接 route group への副作用を遮断する（2026-05-27 追加）
+
+- 事象: dev 側が `legacy-public.css` の `[data-size]` rule に `:not([data-component="google-brand-icon"]):not(.ui-input):not(.ui-button)` を追加し specificity が (0,1,0,0) → (0,4,0,0) に上昇。`apps/web/src/components/ui/Avatar.tsx` の `.ui-avatar[data-size]` (0,2,0,0) を上書きするようになり、admin/member 配下の Avatar 色味が legacy の accent 単色に倒れて visual-full の admin/profile 系 baseline と乖離。
+- 誤対処: `:not(.ui-avatar)` を `:not()` 連鎖末尾に追加して specificity を (0,5,0,0) に維持しつつ Avatar だけ除外する → 公開ページの Avatar が globals.css の `.ui-avatar` size (28/36/48/72) に倒れ、legacy size (32/44/72) で撮られた **public baseline と desktop/mobile/tablet 全 viewport で乖離**する（baseline は legacy が勝っていた頃の pixel）。
+- 正対処: legacy rule に `[data-route-group="public"]` ancestor を前置し、`:not(.ui-avatar)` は除去する。すべての `[data-size]` 系 rule（base / ::after / sm / md / lg）に同じ ancestor を前置する。
+  - 公開ページ: ancestor match で legacy (0,5,0,0) が勝つ → Avatar は legacy 32/44/72（merge 前 baseline と一致）
+  - admin / member ページ: ancestor 不一致で legacy rule が全く match せず、globals.css `.ui-avatar` (0,2,0,0) が勝つ → dev 側が意図した 28/36/48/72 が維持される
+- Why: `:not(.ui-avatar)` のような **要素除外** は cross-route の Avatar 表示を片方しか正しくできない（公開 or admin の二択トレードオフ）。route-group ancestor で**スコープを物理分離**すれば、public は legacy、admin/member は globals が独立に正本となり baseline 互換も両立する。
+- How to apply:
+  1. 公開専用 CSS（`apps/web/src/styles/legacy-public.css` 等）の Avatar / size 系 rule は **必ず ancestor `[data-route-group="public"]` を前置**する（`apps/web/app/(public)/layout.tsx` の root div 属性に依拠）。
+  2. `:not(.ui-avatar)` で逃がす衝動を抑え、specificity の問題を**スコープの問題**へ言い換える（CSS Cascade L1 module の cascade origins ではなく selector matching で隔離）。
+  3. 検証: `git diff origin/dev -- 'apps/web/src/styles/legacy-public.css'` で具体 [data-size] rule に ancestor 前置が漏れていないか grep（`grep -E '^\s*\[data-size' legacy-public.css` で 0 件であるべき）。
+  4. visual-full CI の baseline と diff が出た場合、`gh run download <run-id> -n full-visual-results -D /tmp/...` で `*-diff.png` を取得し、Avatar 矩形の pixel ズレが baseline と一致するか目視確認。
+- 適用判断: 他にも `[data-shell]` / `[data-route]` / `[data-theme]` 属性が layout 直下に立っている場合、route-group ベース scope に統一できる。globals.css の primitive と legacy CSS の primitive が**同名 attribute / 異 pixel** で衝突する全パターンが本 lessons の対象。
+- 事例: 2026-05-27 task-20260526-145759-wt-18 dev sync → PR #968。最初の merge で specificity 衝突を `:not(.ui-avatar)` で逃がした結果 desktop 公開ページが diff (`/` / `/members`)。`[data-route-group="public"]` ancestor 前置に切替えて公開 baseline 整合・admin/member dev 側維持を両立。
