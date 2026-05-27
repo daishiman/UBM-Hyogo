@@ -769,3 +769,18 @@ prototype HTML / CSS を実コードへ落とし込む task では、以下 3 �
 - `gh pr checks` を見ずに「CI 失敗があるはず」と推測修正を積む → 不要コミットで PR review コストを増やす
 - no-op だったので lesson を残さない → 次回同種指示で同じ確認手順を再構築する無駄が発生する
 - `gh pr checks` が pass だけを見て mergeable を見ない → `DIRTY` 状態の PR を「green」と誤報告し、dev divergence の再 sync が遅れる
+
+## accent on accent-soft chip は accent-ink を採る (L-CHIPCONTRAST-001 汎化)
+
+`color-mix(in oklch, var(--ubm-color-accent) 12%, transparent)` を背景に乗せた chip/pill/badge の foreground を `--ubm-color-accent` のままにすると、OKLch lightness 約 0.52（accent）× 約 0.93（tint された surface）の組合せで axe contrast が **4.39:1** に落ち WCAG 2 AA (4.5:1) を切る。仕様書 Phase で chip / badge primitive を扱う場合は次を契約する。
+
+- **L-CHIPCONTRAST-001 (token 選定ルール)**: accent-soft 系の tint を bg に取る chip / pill / badge / status indicator の text/icon foreground は `var(--ubm-color-accent-ink)` を第一候補にする。`-ink` 系（OKLch lightness ~0.36-0.38）は tint surface に対し contrast 7.0+ を確保するため WCAG 2 AA 必達点を上回る。
+- **L-CHIPCONTRAST-002 (dot/icon 区別)**: `aria-hidden` な dot / shape は text contrast 要件外のため `var(--ubm-color-accent)` を残し意匠を保つ。**「fg=ink、装飾=accent」を 1 つの chip primitive 内で分離記述**する。
+- **L-CHIPCONTRAST-003 (Phase 9 acceptance への組込)**: VISUAL_ON_EXECUTION × public/admin chip primitive を含む仕様書は Phase 9 acceptance に「e2e a11y (axe wcag2aa) で `color-contrast` violation = 0」を必須化し、Phase 11 evidence に axe JSON を添付する。Phase 13 verify では axe violation 数を最終 gate にする。
+- **L-CHIPCONTRAST-004 (token 不在時の追加経路)**: zone variant に `-ink` 系が定義されていない場合、`design-tokens.md` へ追加して全 zone (default / cool / warm) parity を取る。仕様書 Phase 8（design tokens）に「accent-soft × accent の contrast = 4.39 (worst)」の実測値も併記し再発を防ぐ。
+
+### Anti-pattern
+
+- `color-mix` で薄めた bg にそのまま `var(--ubm-color-accent)` を fg で使い「token 統一」を理由に放置 → axe で必ず fail
+- 1 chip 内の dot/icon にも `-ink` を強制適用 → 装飾の発色が抜けて意匠崩れ
+- 仕様書に axe acceptance を入れず、CI で初検出 → wave 末で reverse adjust が発生し coverage / visual baseline と同時 update が必要になる
