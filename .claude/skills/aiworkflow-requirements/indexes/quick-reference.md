@@ -112,7 +112,6 @@
 | inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-895-admin-topbar-actions-client-island-artifact-inventory.md` |
 | user gate | commit, push, PR |
 
-||||||| Stash base
 ## Issue #247 apps/web OpenNext config regression tests（2026-05-26）
 
 | workflow root | `docs/30-workflows/completed-tasks/issue-247-apps-web-opennext-config-regression-tests/` |
