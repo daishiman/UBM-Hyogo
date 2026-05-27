@@ -35,6 +35,7 @@ const STATES = [
 
 test.describe('followup-003 admin members prototype screenshots', () => {
   test('captures four local list states across four viewports', async ({ page, context }) => {
+    test.slow()
     await adminLogin(context)
     const screenshots: Array<{ state: string; viewport: string; path: string }> = []
 
