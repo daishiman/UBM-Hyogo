@@ -833,3 +833,17 @@ UI 系 feature ブランチ（prototype alignment / dashboard 等）と dev の�
 - page.tsx に `searchParams.t` 分岐を入れて test 用 cache bypass → production code に test-only logic 混入、`Page` component の propsが test 専用 prop で汚れる
 - 該当 spec を `test.skip` で先送り → e2e mock API を使う他 spec も同じ regression を踏むため fundamental fix が常に正解
 - `revalidate: 0` に下げて regression を回避 → production で free tier 圧迫（cache hit rate が drop）し本末転倒
+
+## L-DEVSYNC-052 shell 変更を伴う feature 実装での visual baseline 更新漏れ（dev sync-merge / 2026-05-27）
+
+admin shell topbar/sidebar 統合のような **viewport 寸法を変える feature 実装**で、commit 時に `apps/web/playwright/tests/visual/**.png` の baseline を同時更新しない状態で dev を sync-merge すると、コンフリクトは出ない（sync:resolve 通過）が **post-push の `playwright-smoke / visual` CI ジョブで baseline drift fail** が発生する。これは L-DEVSYNC-051 (sync 時 ours 採用) とは別軸の「実装サイクル内 baseline 同期漏れ」問題。
+
+- **L-DEVSYNC-052-A (実装時 baseline 必達)**: shell / layout / global token を触る Task の Phase 12 implementation-guide には「`apps/web/playwright/tests/visual/<scope>.spec.ts-snapshots/*-linux.png` の更新を同一 commit に含めること」を必達 AC として明記する。`viewport size`・`fullPage` を取る spec は寸法 1px でも drift で fail するため、後追い update は CI redo を強要する。
+- **L-DEVSYNC-052-B (CI artifact からの baseline 取得経路)**: ローカルが macOS で `-linux.png` を直接再生成できない場合の正規経路は **失敗 CI run の `playwright-visual-artifacts` artifact (`actual.png`) を `gh run download <run_id> --name playwright-visual-artifacts --dir <tmp>` でダウンロード → `cp <tmp>/visual-<spec>/<spec>-actual.png <repo>/apps/web/playwright/tests/visual/<spec>.spec.ts-snapshots/<spec>-visual-chromium-linux.png`**。Phase 12 runbook にこのコマンド列を一行で記録する。
+- **L-DEVSYNC-052-C (sync-merge ≠ 原因の区別)**: post-merge CI fail を「sync の責任」と誤帰責しないために、Phase 4 risk table で「baseline drift は実装 commit 時点での同期漏れが原因。sync-merge は遅延発火のトリガに過ぎない」を明示。L-DEVSYNC-051 (sync 時 ours 採用) と L-DEVSYNC-052 (実装時 baseline 必達) は補完関係。
+
+### Anti-pattern
+
+- shell 変更の commit に PNG 更新を含めず「visual baseline は別 Task で更新する」運用 → sync-merge 後の random CI fail を量産、誰の merge で fail し始めたか git bisect 不能
+- CI artifact が手元になく Linux baseline を再生成できないからと test を `test.skip` → 同種 fail を量産、本来の regression 検出能力を喪失
+- baseline 更新だけの separate PR を切る → branch 数増加・review 負荷増。**実装と同 PR で完結**が正
