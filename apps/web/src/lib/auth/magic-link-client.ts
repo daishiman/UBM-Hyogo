@@ -18,6 +18,53 @@ export class MagicLinkRequestError extends Error {
   }
 }
 
+export type MagicLinkRateLimitReason = "edge" | "app";
+
+export class MagicLinkRateLimitedError extends MagicLinkRequestError {
+  readonly retryAfterSec: number;
+  readonly reason: MagicLinkRateLimitReason | undefined;
+
+  constructor(
+    retryAfterSec: number,
+    reason?: MagicLinkRateLimitReason,
+    message = "rate_limited",
+  ) {
+    super(429, message);
+    this.name = "MagicLinkRateLimitedError";
+    this.retryAfterSec = retryAfterSec;
+    this.reason = reason;
+  }
+}
+
+const DEFAULT_RETRY_AFTER_SEC = 60;
+
+const isPositiveInteger = (value: number): boolean =>
+  Number.isFinite(value) && Number.isInteger(value) && value >= 1;
+
+const parseRetryAfterSec = (value: unknown): number | null => {
+  if (typeof value !== "number" && typeof value !== "string") return null;
+  const parsed = typeof value === "number" ? value : Number(value);
+  return isPositiveInteger(parsed) ? parsed : null;
+};
+
+const parseRateLimitBody = (
+  body: unknown,
+): {
+  readonly retryAfterSec: number | null;
+  readonly reason: MagicLinkRateLimitReason | undefined;
+} => {
+  if (!body || typeof body !== "object") {
+    return { retryAfterSec: null, reason: undefined };
+  }
+  const record = body as { retryAfterSec?: unknown; reason?: unknown };
+  const retryAfterSec = parseRetryAfterSec(record.retryAfterSec);
+  const reason =
+    record.reason === "edge" || record.reason === "app"
+      ? record.reason
+      : undefined;
+  return { retryAfterSec, reason };
+};
+
 const isLoginGateState = (value: unknown): value is LoginGateState =>
   value === "input" ||
   value === "sent" ||
@@ -39,6 +86,15 @@ export const sendMagicLink = async (
     headers: { "content-type": "application/json" },
     body: JSON.stringify({ email, redirect }),
   });
+  if (res.status === 429) {
+    const headerSec = parseRetryAfterSec(res.headers.get("Retry-After"));
+    const body = await res.json().catch(() => null);
+    const { retryAfterSec: bodySec, reason } = parseRateLimitBody(body);
+    throw new MagicLinkRateLimitedError(
+      headerSec ?? bodySec ?? DEFAULT_RETRY_AFTER_SEC,
+      reason,
+    );
+  }
   if (!res.ok && res.status !== 202) {
     const text = await res.text().catch(() => "");
     throw new MagicLinkRequestError(res.status, text || `HTTP ${res.status}`);
