@@ -1,0 +1,91 @@
+{
+  "task_id": "admin-schema-page-prototype-alignment-and-diff-fetch-fix",
+  "created_at": "2026-05-27",
+  "status": "implemented_local_evidence_captured",
+  "task_type": "implementation",
+  "visual_category": "VISUAL",
+  "implementation_mode": "modify",
+  "metadata": {
+    "workflow_state": "implemented_local_evidence_captured",
+    "implementation_status": "local_code_tests_passed_runtime_visual_pending",
+    "taskType": "implementation",
+    "visualEvidence": "VISUAL",
+    "implementationCategory": "ui_alignment_plus_api_fetch_fix",
+    "spec_classification": "implementation_spec",
+    "canonical_workflow": "docs/30-workflows/completed-tasks/admin-schema-page-prototype-alignment-and-diff-fetch-fix/",
+    "hasCompletedTasksAncestor": false,
+    "rootPath": "admin-schema-page-prototype-alignment-and-diff-fetch-fix",
+    "parent_workflows": [
+      "docs/30-workflows/completed-tasks/admin-ui-prototype-alignment/",
+      "docs/30-workflows/completed-tasks/ui-prototype-alignment-mvp-recovery/"
+    ],
+    "branch": "feat/admin-schema-page-prototype-alignment-and-diff-fetch-fix",
+    "scope_routes": [
+      "/admin/schema",
+      "/admin/schema/history"
+    ],
+    "api_endpoints_in_scope": [
+      "GET /admin/schema/diff",
+      "GET /admin/schema/history",
+      "POST /admin/schema/aliases"
+    ],
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-05-27T11:40:00+09:00",
+        "evidence_path": "docs/30-workflows/completed-tasks/admin-schema-page-prototype-alignment-and-diff-fetch-fix/outputs/phase-12/phase12-task-spec-compliance-check.md",
+        "approver": "daishiman",
+        "notes": "spec_review: Phase 1-13 implementation spec and Phase 12 strict 7 present; implementation target physical existence verified"
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/admin-schema-page-prototype-alignment-and-diff-fetch-fix/outputs/phase-11/manual-test-result.md",
+        "approver": "daishiman",
+        "notes": "implementation_review: local code/test green (web Vitest 1147 PASS) + authenticated visual runtime evidence pending"
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/admin-schema-page-prototype-alignment-and-diff-fetch-fix/outputs/phase-13/pr-creation-result.md",
+        "approver": "daishiman",
+        "notes": "external_ops: commit, push, PR — user-gated"
+      }
+    ]
+  },
+  "phases": [
+    { "phase": 1, "name": "要件定義", "status": "completed", "output": "phase-1-requirements.md" },
+    { "phase": 2, "name": "設計", "status": "completed", "output": "phase-2-design.md" },
+    { "phase": 3, "name": "設計レビュー", "status": "completed", "output": "phase-3-design-review.md" },
+    { "phase": 4, "name": "テスト計画", "status": "completed", "output": "phase-4-test-plan.md" },
+    { "phase": 5, "name": "実装手順", "status": "completed", "output": "phase-5-implementation.md" },
+    { "phase": 6, "name": "テスト追加", "status": "completed", "output": "phase-6-test-additions.md" },
+    { "phase": 7, "name": "カバレッジ", "status": "completed", "output": "phase-7-coverage.md" },
+    { "phase": 8, "name": "リファクタ", "status": "completed", "output": "phase-8-refactor.md" },
+    { "phase": 9, "name": "QA", "status": "completed", "output": "phase-9-qa.md" },
+    { "phase": 10, "name": "最終レビュー", "status": "completed", "output": "phase-10-final-review.md" },
+    { "phase": 11, "name": "手動テスト", "status": "pending_user_gate", "output": "phase-11-manual-test.md" },
+    { "phase": 12, "name": "ドキュメント同期", "status": "completed", "output": "phase-12-documentation.md" },
+    { "phase": 13, "name": "commit-pr-release", "status": "pending_user_approval", "output": "phase-13-pr.md" }
+  ],
+  "implementation_targets": [
+    "apps/web/app/(admin)/admin/schema/page.tsx",
+    "apps/web/src/components/admin/SchemaDiffPanel.tsx",
+    "apps/web/src/components/layout/AdminSidebar.tsx",
+    "apps/web/src/lib/admin/server-fetch.ts",
+    "apps/web/src/styles/globals.css",
+    "apps/web/app/(admin)/admin/schema/page.spec.tsx",
+    "apps/web/src/components/admin/__tests__/SchemaDiffPanel.component.spec.tsx",
+    "apps/web/src/components/layout/__tests__/AdminSidebar.component.spec.tsx",
+    "apps/web/playwright/page-objects/AdminSchemaPage.ts",
+    "apps/web/playwright/tests/admin-pages.spec.ts",
+    "apps/web/playwright/tests/full-smoke.spec.ts",
+    "apps/web/playwright/tests/visual/admin-schema-diff.spec.ts",
+    "apps/web/playwright/tests/admin-schema-conflicts-audit.spec.ts",
+    "apps/web/playwright/tests/issue776-schema-bulk-resolve.spec.ts",
+    "apps/api/src/routes/admin/schema.contract.spec.ts"
+  ]
+}

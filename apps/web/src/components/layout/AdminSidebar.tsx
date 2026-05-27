@@ -7,7 +7,7 @@ const items = [
   { href: "/admin/dashboard/attendance", label: "出席分析" },
   { href: "/admin/members", label: "会員管理" },
   { href: "/admin/tags", label: "タグキュー" },
-  { href: "/admin/schema", label: "schema" },
+  { href: "/admin/schema", label: "スキーマ" },
   { href: "/admin/meetings", label: "開催日" },
   { href: "/admin/requests", label: "依頼キュー" },
   { href: "/admin/identity-conflicts", label: "Identity重複" },

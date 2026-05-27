@@ -384,6 +384,15 @@ export async function fetchAdmin<T>(
 
   if (
     process.env["NODE_ENV"] !== "production" &&
+    process.env["PLAYWRIGHT_TEST"] === "1" &&
+    opts.method === undefined &&
+    path.startsWith("/admin/schema/diff")
+  ) {
+    return task17SchemaFixture() as T;
+  }
+
+  if (
+    process.env["NODE_ENV"] !== "production" &&
     process.env["PLAYWRIGHT_TASK17_ADMIN_FIXTURE"] === "1" &&
     opts.method === undefined &&
     path.startsWith("/admin/audit")

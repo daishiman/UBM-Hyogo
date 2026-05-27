@@ -691,3 +691,22 @@ dev sync-merge で **HEAD = route group rename（`app/<route>/` → `app/(group)
 - **L-PATSEC-001 (heading 一意化)**: 新規 pattern section の見出しは `## <pattern 名>（issue-<N> L-<TAG>-001..M 汎化）` 形式を採る（例: `## CSP directive 撤去パターン（issue-924 L-I924-001..005 汎化）`）。HEAD と dev で同 sprint に偶然同名 pattern を追加しても heading が衝突しないため、resolver の union が重複 heading を生まない。
 - **L-PATSEC-002 (末尾 append-only)**: 既存 section の中央に bullet を増やさず、必ず**ファイル末尾に新 section を append**する。中央への追加は L-DEVSYNC-030（table-merge）系の手動 union を要求し、resolver 1 発で完結しない。
 - **L-PATSEC-003 (resolver 委譲)**: 本ファイルは `scripts/sync/resolve-skill-merge-conflicts.sh` の `UNION_TARGETS` に登録済（[[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-046）。仕様書 Phase 12 で本ファイルへ section を追記するタスクは「dev sync-merge での conflict は `pnpm sync:resolve` 自動解消」と前提を置いてよい。
+
+---
+
+## Admin page prototype 整合 + observed API 404 同居タスクパターン（admin-schema-page-prototype-alignment-and-diff-fetch-fix L-ASCHEMA-001..005 汎化）
+
+staging で観測された `/admin/<route>` API 404 と、同 route の prototype 乖離（page layout / sidebar 表記）を同一サイクルで解消する標準分割。
+
+- **L-ASCHEMA-001 (Lane A 先行 triage)**: prototype 整合 + observed runtime error の同居タスクは、UI 着手前に Lane A（`scripts/cf.sh tail` / `curl` / deploy 同期 / mount 順）で根本原因を切り分け、Phase 2 design に切り分け表を必須化する。API surface 不変条件を破る修復に滑り込まない gate になる。
+- **L-ASCHEMA-002 (panel stats 抑止 prop)**: parent page で stats grid を集約し、child panel に `hideInlineStats?: boolean` (default `false`) を持たせる。`_shared` Primitive へ昇格させず page-local helper に閉じる。多数の派生 panel が child を参照する場合の destructive 削除リスクを断つ。
+- **L-ASCHEMA-003 (sidebar 表記併修)**: 1 行 label 統一は単独 issue 化せず、関連 UI prototype 整合タスクと同 PR に同梱し、`AdminSidebar.component.spec` 追記をチェックリスト化する。
+- **L-ASCHEMA-004 (contract spec lane 明示)**: `*.contract.spec.ts` は D1 lane（`vitest.d1.config.ts` + `singleFork`）専用。Phase 4 test plan / Phase 9 QA に lane 名と実行コマンド（`pnpm test:coverage:d1`）を明示する。
+- **L-ASCHEMA-005 (Playwright fallback chain 順)**: `apps/web/src/lib/admin/server-fetch.ts` の Playwright fallback は task-specific fixture の **後** に append する。chain 先頭挿入は既存 spec の expected fixture を上書きし、UI 404 分岐 regression を silent 200 で吸収するため禁止。
+
+### Anti-pattern
+
+- prototype 整合タスクで API endpoint surface を改修する（不変条件 #1「既存 API surface のみ接続」違反）。
+- panel の inline stats を destructive 削除し、`hideInlineStats` 同等の後方互換 prop を経由しない。
+- contract spec を unit lane に置いて「実行されない緑」を量産する。spec 数で安心するが CI で carry されていない。
+- Playwright fallback を chain 先頭に挿入し既存 fixture を上書きする。観測 404 を fixture が silent 200 で吸収し regression が取れない。

@@ -68,7 +68,7 @@ test.describe("SchemaDiffPanel runtime evidence", () => {
   for (const pane of panes) {
     test(`pane ${pane}`, async ({ adminPage }, testInfo) => {
       await adminPage.goto("/admin/schema");
-      await expect(adminPage.getByRole("heading", { name: "schema 差分" })).toBeVisible();
+      await expect(adminPage.getByRole("heading", { name: "項目別の差分" })).toBeVisible();
       const paneRegion = adminPage.locator(`[aria-labelledby="pane-${pane}"]`);
       await expect(adminPage.getByRole("heading", { name: paneHeadings[pane] })).toBeVisible();
       await expect(paneRegion).toBeVisible();
@@ -82,6 +82,7 @@ test.describe("SchemaDiffPanel runtime evidence", () => {
   test("resolve success feedback", async ({ adminPage }, testInfo) => {
     test.skip(testInfo.project.name.includes("mobile"), "resolve feedback is desktop evidence");
     await adminPage.goto("/admin/schema");
+    await expect(adminPage.getByRole("heading", { name: "項目別の差分" })).toBeVisible();
     await adminPage.getByRole("button", { name: /所属部署/ }).click();
     await adminPage.getByLabel(/新しい stableKey/).fill("member_department_new");
     await adminPage.getByRole("button", { name: "割当" }).click();
@@ -97,6 +98,7 @@ test.describe("SchemaDiffPanel runtime evidence", () => {
   test("resolve 409 feedback", async ({ adminPage }, testInfo) => {
     test.skip(testInfo.project.name.includes("mobile"), "resolve feedback is desktop evidence");
     await adminPage.goto("/admin/schema");
+    await expect(adminPage.getByRole("heading", { name: "項目別の差分" })).toBeVisible();
     await adminPage.getByRole("button", { name: /表示名/ }).click();
     await adminPage.getByLabel(/新しい stableKey/).fill("member_display_name");
     await adminPage.getByRole("button", { name: "割当" }).click();
@@ -110,6 +112,7 @@ test.describe("SchemaDiffPanel runtime evidence", () => {
   test("resolve 422 feedback", async ({ adminPage }, testInfo) => {
     test.skip(testInfo.project.name.includes("mobile"), "resolve feedback is desktop evidence");
     await adminPage.goto("/admin/schema");
+    await expect(adminPage.getByRole("heading", { name: "項目別の差分" })).toBeVisible();
     await adminPage.getByRole("button", { name: /所属部署/ }).click();
     await adminPage.getByLabel(/新しい stableKey/).fill("member_department_invalid");
     await adminPage.getByRole("button", { name: "割当" }).click();

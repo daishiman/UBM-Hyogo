@@ -21,7 +21,7 @@ describe("AdminSidebar", () => {
       ["出席分析", "/admin/dashboard/attendance"],
       ["会員管理", "/admin/members"],
       ["タグキュー", "/admin/tags"],
-      ["schema", "/admin/schema"],
+      ["スキーマ", "/admin/schema"],
       ["開催日", "/admin/meetings"],
       ["依頼キュー", "/admin/requests"],
       ["Identity重複", "/admin/identity-conflicts"],
