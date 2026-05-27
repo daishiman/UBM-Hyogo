@@ -183,15 +183,52 @@ cursor は `{ heldOn, sessionId }` を base64url JSON 化した不透明文字�
 
 ## Admin Dashboard Attendance Analytics API
 
-`ut-02a-followup-002` では admin dashboard 用の attendance aggregate API を `GET /admin/dashboard/attendance/*` に追加する。すべて既存 admin gate 配下で実行し、apps/web は `/api/admin/...` proxy / `fetchAdmin` 経由で呼ぶ。apps/web から D1 を直接参照しない。
+`ut-02a-followup-002` で導入し、`admin-attendance-analytics-redesign` (2026-05) で UI 全面刷新とともに period / zone フィルタおよび trend / zone-distribution / drilldown / absentees / export を拡張した。すべて既存 admin gate 配下で実行し、apps/web は `/api/admin/...` proxy / `fetchAdmin` 経由で呼ぶ。apps/web から D1 を直接参照しない。
+
+### 共通クエリ規約
+
+| key | 値 | 不正時 |
+|-----|----|--------|
+| `periodFrom` | `YYYY-MM-DD`（半開区間 inclusive） | null fallback (no period filter) |
+| `periodTo` | `YYYY-MM-DD`（半開区間 exclusive） | null fallback |
+| `zone` | カンマ区切り `0→1` / `1→10` / `10→100` | 不明値は drop、全 drop なら null |
+| `limit` | 1..200 整数 (default 50) | clamp |
+| `lastN` | 1..10 整数 (default 3) | clamp |
+
+**400 は返さない** — 不正値は default / clamp / null fallback で吸収する。
+
+### Endpoints
 
 | Method | Path | Query | Response |
 |--------|------|-------|----------|
-| GET | `/admin/dashboard/attendance/overview` | なし | `{ totalSessions: number; totalMembers: number; overallRate: number }` |
-| GET | `/admin/dashboard/attendance/by-session` | `limit` default 50 / max 200。不正値は 400 | `Array<{ sessionId: string; title: string; heldOn: string; attendeeCount: number; rate: number }>` |
-| GET | `/admin/dashboard/attendance/ranking` | `limit` default 50 / max 200。不正値は 400 | `Array<{ memberId: MemberId; displayName: string; attendedCount: number; rate: number }>` |
+| GET | `/admin/dashboard/attendance/overview` | `periodFrom?`, `periodTo?`, `zone?` | `AttendanceOverviewExt`: `{ totalSessions, totalMembers, overallRate, previousPeriodRate \| null, filter: AttendanceFilterEcho }` |
+| GET | `/admin/dashboard/attendance/by-session` | `limit?`, `periodFrom?`, `periodTo?`, `zone?` | `Array<SessionAttendanceRow>` (既存) |
+| GET | `/admin/dashboard/attendance/ranking` | `limit?`, `periodFrom?`, `periodTo?`, `zone?` | `Array<MemberAttendanceRanking>` (既存) |
+| GET | `/admin/dashboard/attendance/trend` | `periodFrom?`, `periodTo?`, `zone?` | `AttendanceTrend`: `{ granularity: 'month', buckets: AttendanceTrendBucket[], filter }` |
+| GET | `/admin/dashboard/attendance/zone-distribution` | `periodFrom?`, `periodTo?` | `AttendanceZoneDistribution`: `{ rows: AttendanceZoneDistributionRow[], filter }` |
+| GET | `/admin/dashboard/attendance/sessions/:sessionId/attendees` | なし | `AttendanceSessionDetail`: `{ sessionId, title, heldOn, attendees, absentees }` / 404 `ADMIN_FETCH_404` |
+| GET | `/admin/dashboard/attendance/absentees` | `lastN?`, `periodFrom?`, `periodTo?`, `zone?` | `AttendanceAbsenteeList`: `{ rows, lastN, filter }` |
+| GET | `/admin/dashboard/attendance/export` | `periodFrom?`, `periodTo?`, `zone?` | `text/csv; charset=utf-8`（BOM + CRLF）、`attachment; filename="attendance-{from}_{to}.csv"` |
 
-集計分母は `meeting_sessions.deleted_at IS NULL` の active session と `member_status.is_deleted != 1` の active member に揃える。削除済み session / 削除済み member の attendance row は `attendeeCount` / `attendedCount` / `overallRate` に含めない。
+### Zone 派生
+
+メンバー単位の `attendedCount` から SQL 側で `0` → `'0→1'`、`1..9` → `'1→10'`、`10..99` → `'10→100'`、`>=100` → `'unknown'` に正規化する。`zone` クエリ未指定時は全 zone 集計。
+
+### 集計母数
+
+`meeting_sessions.deleted_at IS NULL` の active session と `member_status.is_deleted != 1` の active member に揃える。`overallRate` は `attendCount / (totalSessions * totalMembers)` で 0..1 clamp。`previousPeriodRate` は指定期間と同じ長さ分だけ直前期間を再集計する（period 未指定時は null）。
+
+### Zod スキーマ
+
+`packages/shared/src/zod/admin-attendance.ts` に集約。`AttendanceOverviewExtZ` / `AttendanceTrendZ` / `AttendanceZoneDistributionZ` / `AttendanceSessionDetailZ` / `AttendanceAbsenteeListZ` のすべてが `.strict()`。型は `@ubm-hyogo/shared` から re-export される。
+
+### CSV エクスポート
+
+- ヘッダ: `sessionId,title,heldOn,memberId,displayName,zone,attended`
+- BOM (`﻿`) 先頭付与、改行 CRLF (Excel 互換)
+- 値内の `,` `"` 改行は二重引用符で escape
+- 1 行 1 (session × member) で active member + active session の組のみ。`attended` は 0/1
+- `Content-Disposition: attachment; filename="attendance-{periodFrom}_{periodTo}.csv"`（period 未指定時は `all`）
 
 ## Admin Meeting Attendance Management API
 
