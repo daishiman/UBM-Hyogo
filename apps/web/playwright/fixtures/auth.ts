@@ -37,6 +37,14 @@ type PendingRequests = {
 }
 
 type StatusSliceSeed = { status: 'public' | 'member_only' | 'hidden'; count: number }
+type ZoneSliceSeed = {
+  key: '0to1' | '1to10' | '10to100'
+  label: string
+  hint: string
+  count: number
+  total: number
+  tone: 'info' | 'accent' | 'ok'
+}
 
 type MockApiState = {
   pendingRequests: PendingRequests
@@ -195,6 +203,11 @@ function adminDashboardBody() {
       },
     ],
     generatedAt: '2026-05-10T01:05:00.000Z',
+    byZone: [
+      { key: '0to1', label: '0→1', hint: '立ち上げ', count: 18, total: 128, tone: 'info' },
+      { key: '1to10', label: '1→10', hint: '拡大', count: 47, total: 128, tone: 'accent' },
+      { key: '10to100', label: '10→100', hint: '組織化', count: 11, total: 128, tone: 'ok' },
+    ] satisfies ReadonlyArray<ZoneSliceSeed>,
     ...(state.adminDashboardByStatus ? { byStatus: state.adminDashboardByStatus } : {}),
   }
 }

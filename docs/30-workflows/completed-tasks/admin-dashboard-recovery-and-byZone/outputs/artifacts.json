@@ -1,0 +1,76 @@
+{
+  "task_id": "admin-dashboard-recovery-and-byZone",
+  "created_at": "2026-05-26",
+  "status": "implemented_local_runtime_pending",
+  "task_type": "implementation",
+  "visual_category": "VISUAL",
+  "implementation_mode": "implemented_local_runtime_pending",
+  "metadata": {
+    "workflow_state": "implemented_local_runtime_pending",
+    "implementation_status": "implemented_local",
+    "taskType": "implementation",
+    "visualEvidence": "VISUAL",
+    "implementationCategory": "admin_dashboard_recovery",
+    "spec_classification": "implementation_spec",
+    "canonical_workflow": "docs/30-workflows/completed-tasks/admin-dashboard-recovery-and-byZone/",
+    "parent_workflows": [
+      "docs/30-workflows/admin-ui-prototype-alignment/"
+    ],
+    "source_tasks": [
+      "docs/30-workflows/admin-ui-prototype-alignment/tasks/task-B-dashboard-recovery-and-byZone.md"
+    ],
+    "branch": "feat/admin-ui-prototype-alignment",
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-05-26T00:00:00+09:00",
+        "evidence_path": "docs/30-workflows/completed-tasks/admin-dashboard-recovery-and-byZone/outputs/phase-12/phase12-task-spec-compliance-check.md",
+        "approver": "daishiman",
+        "notes": "spec_review: Phase 1-13, root/output artifacts parity, strict 7, and aiworkflow-requirements sync present"
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/admin-dashboard-recovery-and-byZone/outputs/phase-11/manual-test-result.md",
+        "approver": "daishiman",
+        "notes": "local implementation, local authenticated Playwright screenshot evidence, and package tests are present. staging deploy, wrangler tail, and curl evidence remain user-gated"
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/admin-dashboard-recovery-and-byZone/outputs/phase-13/pr-creation-result.md",
+        "approver": "daishiman",
+        "notes": "external_ops: commit, push, and PR are user-gated"
+      }
+    ]
+  },
+  "phases": [
+    { "phase": 1, "name": "要件定義", "status": "completed", "output": "phase-1-requirements.md" },
+    { "phase": 2, "name": "設計", "status": "completed", "output": "phase-2-design.md" },
+    { "phase": 3, "name": "設計レビュー", "status": "completed", "output": "phase-3-design-review.md" },
+    { "phase": 4, "name": "テスト計画", "status": "completed", "output": "phase-4-test-plan.md" },
+    { "phase": 5, "name": "実装手順", "status": "implemented_local", "output": "phase-5-implementation.md" },
+    { "phase": 6, "name": "テスト追加", "status": "implemented_local", "output": "phase-6-test-additions.md" },
+    { "phase": 7, "name": "カバレッジ", "status": "local_tests_passed", "output": "phase-7-coverage.md" },
+    { "phase": 8, "name": "リファクタ", "status": "completed", "output": "phase-8-refactor.md" },
+    { "phase": 9, "name": "QA", "status": "local_pass_staging_pending", "output": "phase-9-qa.md" },
+    { "phase": 10, "name": "最終レビュー", "status": "local_review_complete_staging_root_cause_pending", "output": "phase-10-final-review.md" },
+    { "phase": 11, "name": "手動テスト", "status": "local_visual_captured_staging_pending", "output": "phase-11-manual-test.md" },
+    { "phase": 12, "name": "ドキュメント同期", "status": "completed", "output": "phase-12-documentation.md" },
+    { "phase": 13, "name": "commit-pr-release", "status": "pending_user_gate", "output": "phase-13-pr.md" }
+  ],
+  "implementation_targets": [
+    "packages/shared/src/zod/viewmodel.ts",
+    "apps/api/src/routes/admin/dashboard.ts",
+    "apps/api/src/routes/admin/_shared/byZone.ts",
+    "apps/web/src/lib/admin/admin-dashboard-ui.ts",
+    "apps/web/src/features/admin/components/_dashboard/ZoneDistribution.tsx",
+    "apps/web/src/lib/admin/safe-server-fetch.ts",
+    "apps/web/src/lib/admin/server-fetch.ts",
+    "apps/web/wrangler.toml",
+    "apps/web/src/styles/tokens.css"
+  ]
+}
