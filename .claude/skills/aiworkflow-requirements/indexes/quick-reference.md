@@ -541,6 +541,18 @@
 | lessons | `.claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-members-page-prototype-alignment-2026-05.md` |
 | user gate | staging deploy, production-equivalent visual evidence, commit, push, PR |
 
+## members-list-prototype-alignment（2026-05-26）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/members-list-prototype-alignment/` |
+| 状態 | `implemented_local_evidence_captured / implementation / VISUAL / visual_runtime_pending` |
+| scope | 公開 `/members` list density を `MemberGrid` 一本へ統一し、zone/status chip、occupation/location icon meta、TagPicker divider、compact EmptyState を現行 API contract 内で整合 |
+| implementation targets | `apps/web/app/(public)/members/page.tsx`, `apps/web/src/components/public/{MemberCard,MemberGrid,MemberFilters.client,TagPicker.client}.tsx`, `apps/web/src/components/feedback/EmptyState.tsx`, `apps/web/src/components/ui/{Icon.tsx,icons.ts}`, `apps/web/src/styles/legacy-public.css` |
+| evidence | typecheck PASS, web Vitest 157 files / 1146 tests PASS, Playwright visual pending on local webServer readiness |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-members-list-prototype-alignment-artifact-inventory.md` |
+| user gate | commit, push, PR, staging deploy |
+
 ## Issue #827 member detail adapter and visibility defense（2026-05-23）
 
 | 目的 | 参照先 |

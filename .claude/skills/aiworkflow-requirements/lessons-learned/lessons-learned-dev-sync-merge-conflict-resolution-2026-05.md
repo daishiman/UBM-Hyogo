@@ -895,6 +895,31 @@
 - 適用判断: 他にも `[data-shell]` / `[data-route]` / `[data-theme]` 属性が layout 直下に立っている場合、route-group ベース scope に統一できる。globals.css の primitive と legacy CSS の primitive が**同名 attribute / 異 pixel** で衝突する全パターンが本 lessons の対象。
 - 事例: 2026-05-27 task-20260526-145759-wt-18 dev sync → PR #968。最初の merge で specificity 衝突を `:not(.ui-avatar)` で逃がした結果 desktop 公開ページが diff (`/` / `/members`)。`[data-route-group="public"]` ancestor 前置に切替えて公開 baseline 整合・admin/member dev 側維持を両立。
 
+## L-DEVSYNC-050: `git merge dev` 直前に作業ツリーが「物理ファイル大量欠落」状態だと merge 解消が破綻する（2026-05-27 確認）
+
+- 事象: `git status` が `Changes not staged for commit:` で `D` (deleted) のみ 7353 件を報告。HEAD・index は正常、Working tree からのみファイルが消えている。`Your branch is up to date with origin/...` で remote とも一致。`git merge dev` を走らせると Auto-merging 自体は通るが、conflict 解消後の `pnpm sync:resolve` が「物理欠落ファイル」を対象に restore しようとするか、または rebuild 後 index が膨大な spurious deletion を抱えたまま push される。
+- Why: 別エディタ・別プロセス（典型: 他 worktree から rsync、`find -delete` 系の事故、停電中断、過去 Claude セッションの中途終了）で working tree のみ削除され、`git add -A` が走らないまま放置されたケース。`git diff HEAD --stat` で `N files changed, M deletions(-)` だけが出る（追加・変更なし）のが指紋。
+- How to apply:
+  1. `git status --porcelain | awk '{print $1}' | sort | uniq -c` を最初に走らせ、`D` だけが大量・他種別ゼロなら本パターン。
+  2. `git diff HEAD --stat | tail -1` で `N files changed, M deletions(-)` のみであることを確認（insertions が混ざっていたら別パターン）。
+  3. `git restore .` で HEAD 一致に戻す（stash 不要 — index は HEAD と一致しており、working tree のみが drift しているため）。
+  4. その後で `git fetch origin dev && git merge dev --no-edit` → `pnpm sync:resolve` → `git commit --no-edit` という通常フローを走らせる。
+- 留意: 「意図的な大量削除」が混入している可能性は事前に reflog (`git reflog -5`) と HEAD commit 内容で確認すること。HEAD commit が削除を含んでいない、かつ追跡対象外 (`??`) も無いなら restore で安全。
+- 事例: 2026-05-27 `feat/members-list-prototype-alignment` で merge dev 着手前に 7353 deletions が検出。`git restore .` で 0 件に復旧してから merge 実行で正常終了。
+
+## L-DEVSYNC-051: stale `index.lock` が concurrent lazygit に起因して残存し `git restore` / `git merge` を阻む（2026-05-27 確認）
+
+- 事象: `git restore .` が `fatal: Unable to create '.git/worktrees/<wt>/index.lock': File exists.` で停止。`ls -la` すると 0-byte の `index.lock` が残存。`ps aux | grep git` で並走中の `(git)` プロセスと、別 TTY で起動中の `lazygit` が見える。
+- Why: lazygit は監視 thread で `git status --porcelain` を周期実行し、その間 `.git/worktrees/<wt>/index.lock` を瞬間的に取得する。Claude Code 側の `git` 呼び出しと衝突したタイミングで lock の release タイミングが揃わず stale 化することがある。0-byte なので writer が書き込み前にクラッシュ／中断したサイン。
+- How to apply:
+  1. `lsof .git/worktrees/<wt>/index.lock` または `ps aux | grep -i 'lazygit\|git' | grep -v grep` で lock 保持者を確認。
+  2. 真の long-running git 子プロセスが残っていれば、それを kill するか自然終了を待つ。
+  3. lazygit 等の TUI が並走中なら、ユーザーに**一時的に閉じてもらうか**、0-byte lock であることを確認のうえ `rm -f .git/worktrees/<wt>/index.lock` で除去（claude harness の権限ポリシー次第ではユーザーに手動実行を依頼）。
+  4. その後 `git restore .` / `git merge dev` を再実行。
+- 留意: `rm` を Claude が直接実行できない権限環境では、ユーザーに `! rm -f <path>` を依頼するのが正規ルート。`--no-verify` や `git gc --prune=now` を試すのは副作用が大きいので**先に手動 rm で十分**。
+- 関連: lazygit 並走中の Claude Code セッションでは merge / rebase 等の index ロック保持型操作の前に「lazygit を閉じる or 監視 thread を一時停止する」ことを SOP 化すべき。CLAUDE.md `sync-merge` セクションへの追記候補。
+- 事例: 2026-05-27 同セッション。`git restore .` 1 回目失敗 → `rm -f index.lock` → 2 回目成功。lazygit PID 32938 並走が原因。
+
 ## L-DEVSYNC-050: UI primitive component の 3-way conflict（HEAD=新 variant 追加 / dev=旧 path 簡素化）は HEAD 全採用が default（2026-05-27）
 
 - 事象: 2026-05-27 `feat/dashboard-prototype-alignment` ← origin/dev (11 commits behind) sync-merge で `pnpm sync:resolve` が 5 file union 成功 / `apps/web/src/components/public/Hero.tsx` のみ `WARN unhandled conflict`。diff3 marker（`<<<<<<< HEAD` / `||||||| 7f651a083` / `=======` / `>>>>>>> origin/dev`）の 3 ブロックは:
@@ -943,3 +968,22 @@
   4. 同種パターン（admin/me 等の fetcher）に regression が出たら同じ「fetcher 層で `isTestOrPlaywright()` 時 no-store」原則を横展開する。各 fetcher 個別に同じガードを書く前に、共通 helper への切り出しを検討。
 - 留意: `cache: 'no-store'` と `next: { revalidate: N }` は Next.js 内で同時指定不可（runtime warning）。test-only branch では必ず `next` を剥がしてから `cache: 'no-store'` を入れる。`init.next = undefined` ではなく **destructure で除外**（`const { next, cache, ...rest } = init`）が型安全。
 - 事例: 2026-05-27 PR #964。`apps/web/src/lib/fetch/public.ts` の `doFetch()` に test-only `cache: 'no-store'` 分岐を追加（5 行）。production の revalidate 設定は全く触らず。typecheck/lint green。
+
+## L-DEVSYNC-053: playwright.config の三項分岐に「feature 側 rename × dev 側 sibling 追加」が同位置で衝突する 3-way（2026-05-27 確認）
+
+- 事象: 2026-05-27 `feat/members-list-prototype-alignment` ← origin/dev sync-merge で `apps/web/playwright.config.ts` の `EVIDENCE_DIR` ネスト三項分岐 (L86-94) が `WARN unhandled conflict`。3 ブロック構造:
+  - base (04c569a48): `isMembersPrototypeAlignment ? '.../members-page-prototype-alignment/...'`
+  - HEAD: 同分岐の path を `.../members-list-prototype-alignment/...` に **rename**（workflow dir rename と同期）
+  - dev: 同位置に **新 sibling 分岐 `: isPublicDashboardPrototypeAlignment ? '.../public-dashboard-prototype-alignment/...'`** を base path の直後に挿入
+- Why: rename（HEAD）と sibling 追加（dev）は意味的に独立。base block を捨て、HEAD の rename を残し、dev の sibling 分岐をその後に並べる「両側手動 union」が正解。片側 take すると path rename か sibling 分岐のどちらかを失う。`pnpm sync:resolve` の `UNION_MERGE_TARGETS` は `.ts` config を対象外（コード union は副作用が大きいため）であり、手動判定が default。
+- How to apply:
+  1. `WARN unhandled conflict` に `apps/web/playwright.config.ts` が含まれたら、`grep -n -E '^(<<<<<<<|=======|>>>>>>>|\|\|\|\|\|\|\|)' apps/web/playwright.config.ts` で衝突位置を確認。
+  2. 衝突箇所が `EVIDENCE_DIR` / `serverReadyURL` / `webServer.env` 等の**ネスト三項分岐**なら、以下手順で手動 union:
+     - base block (`|||||||` 〜 `=======`) を削除
+     - HEAD block の rename / 値変更を残す
+     - dev block の新 sibling 分岐（`: isXxx ? '...'`）を HEAD block の直後に並べる
+     - marker 3 行（`<<<<<<<` / `=======` / `>>>>>>>`）を物理除去
+  3. 採用後検証: `grep -nE '^(<<<<<<<|=======|>>>>>>>|\|\|\|\|\|\|\|)' apps/web/playwright.config.ts` 0 件 + `pnpm typecheck` + `pnpm lint`。型エラーが出れば dev 側 sibling 変数 (`isPublicDashboardPrototypeAlignment` 等) の定義が import / `const` 宣言で揃っていることを確認（同 PR で並列追加されているのが通常）。
+- 留意: feature branch が workflow dir rename を含む場合、dev 側で同種 prototype-alignment task が並行進行していると本パターンは構造的に再発する。Phase 4 risk に「playwright.config 三項分岐は同位置で並列改修されやすい」を登録し、merge 前に `git log origin/dev ^HEAD -- apps/web/playwright.config.ts` で sibling 追加 commit の有無を確認するチェックを runbook に組み込む。
+- 事例: 2026-05-27 commit を併発した同 sync-merge で `.claude/skills/task-specification-creator/references/patterns-lessons-and-pitfalls.md` も EOF 並列追加（HEAD=「DOM 構造置換 PR 同一 wave spec 同期」節、dev=「accent-soft chip accent-ink」「visual baseline ours 採用」「fetcher 層 no-store」3 節）で同時に WARN unhandled。SP-DEVSYNC-037 の spec EOF 両側保持パターンで base 削除 + HEAD + dev 順序保持 + marker 物理除去で解消。
+- 参照: task-specification-creator [[dev-sync-merge-conflict-resolution]] SP-DEVSYNC-039 に逐語埋め込み。

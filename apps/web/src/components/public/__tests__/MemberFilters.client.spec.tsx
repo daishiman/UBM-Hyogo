@@ -107,6 +107,9 @@ describe("MemberFilters", () => {
       '[data-component="tag-picker"] [data-component="tag-pill"]',
     );
     expect(chips).toHaveLength(2);
+    expect(
+      container.querySelector('[data-role="tag-picker-heading"]')?.textContent,
+    ).toBe("タグで絞り込み");
     fireEvent.click(chips[0] as HTMLElement);
     const lastCall = replaceMock.mock.calls.at(-1)?.[0] as string;
     expect(lastCall).toContain("tag=ai");
