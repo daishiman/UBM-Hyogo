@@ -2405,6 +2405,16 @@ node scripts/list-specs.js --topics
 | Branch-level deletion check | L101 |
 | Downstream task: issue-195-sync-jobs-contract-schema-consolidation-001（2026-05-04） | L105 |
 
+### references/workflow-issue-247-apps-web-opennext-config-regression-tests-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Summary | L3 |
+| Implementation | L13 |
+| Evidence | L20 |
+| Same-Wave Sync | L34 |
+| User-Gated Boundary | L45 |
+
 ### references/workflow-issue-256-e2e-coverage-baseline-runbook-artifact-inventory.md
 
 | セクション | 行 |
@@ -4661,8 +4671,8 @@ node scripts/list-specs.js --topics
 | Long-term analytics evidence | L290 |
 | c-A production execution workflow | L296 |
 | CI build-time env injection for OpenNext Workers | L311 |
-| Response security headers via middleware | L321 |
-| 変更履歴 | L338 |
+| OpenNext config regression guard | L321 |
+| Response security headers via middleware | L334 |
 
 ### references/deployment-cloudflare-ut06-gate.md
 
@@ -7773,14 +7783,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L2655 |
-| フェーズ構造（概要） | L2664 |
-| 品質ゲート（概要） | L2695 |
-| 出力テンプレート | L2706 |
-| 実行時のコマンド・エージェント・スキル | L2729 |
-| 昇格パターン集 | L2753 |
-| Current Active / Spec Created Tasks | L2755 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L2916 |
+| ドキュメント構成 | L2661 |
+| フェーズ構造（概要） | L2670 |
+| 品質ゲート（概要） | L2701 |
+| 出力テンプレート | L2712 |
+| 実行時のコマンド・エージェント・スキル | L2735 |
+| 昇格パターン集 | L2759 |
+| Current Active / Spec Created Tasks | L2761 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L2922 |
 
 ### references/task-workflow-backlog-part2.md
 
