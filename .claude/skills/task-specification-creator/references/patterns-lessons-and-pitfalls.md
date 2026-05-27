@@ -769,3 +769,19 @@ dev sync-merge で **HEAD = route group rename（`app/<route>/` → `app/(group)
 - DOM 寸法を変える PR で baseline を更新しない → visual diff で 100% fail
 - ローカル `--update-snapshots` の commit → `-darwin.png` 混入で Linux runner 永続 fail
 - visual baseline 更新を「次の PR でまとめてやる」と先送り → 後続 PR が常に visual fail で blocked
+
+## dev sync merge 着手前の作業ツリー pre-check と git lock 衝突対応（L-DEVSYNC-050/051 汎化）
+
+「リモート dev を取り込んでコンフリクト解消して push」系のタスク仕様書では、Phase 11 / 12 の手順に着手 pre-check を 2 項目組み込む。AI / 人間どちらが実行しても初手で破綻しないようにするため。
+
+- **L-SYNCPRE-001 (working tree drift pre-check)**: `git merge dev` の前段で `git status --porcelain | awk '{print $1}' | sort | uniq -c` を実行し、`D` (deleted) のみが大量で他種別 (`M` / `A` / `??`) ゼロの状態なら「working tree 物理欠落」パターン。`git restore .` で HEAD 一致に戻してから merge に進む。Why: index・HEAD は正常なのに working tree のみが drift しているケースで、そのまま merge すると spurious deletion が混入する。
+- **L-SYNCPRE-002 (stale index.lock 解消手順の明文化)**: `lazygit` / `git gui` / 別 Claude セッションが並走しているリポジトリで 0-byte `index.lock` が残存し restore / merge を阻む。仕様書には「TUI を閉じる」「`lsof` で保持者確認」「最終手段で `rm -f .git/worktrees/<wt>/index.lock`」の 3 段順序を明記する。`rm` が harness 権限で拒否される環境では `! rm -f <path>` をユーザーに依頼する fallback を入れる。
+- **L-SYNCPRE-003 (sync:resolve 後の orphan marker grep gate)**: `pnpm sync:resolve` 完走後でも `||||||| ` 単独 marker が残ることがあり（L-DEVSYNC-049）、commit 前に CI と同条件の grep を必ず走らせる。仕様書 Phase 11 evidence に grep 結果（empty を含む）を添付。
+- **L-SYNCPRE-004 (verify-pr-ready 一括検証)**: typecheck / lint 単独ではなく `bash scripts/verify-pr-ready.sh` を Phase 12 acceptance に必須化。`verify:phase12-compliance` / `gate-metadata:validate` / `indexes:rebuild drift` の 3 軸を一括で確認できるため。
+
+### Anti-pattern
+
+- working tree が 7000+ deletions のまま `git merge dev` を実行 → merge commit に spurious deletion が混入し review 不能
+- `rm -f index.lock` を確認なしに実行 → 真に書き込み中の writer がいた場合に index 破損
+- `pnpm sync:resolve` 後の `git status` clean だけで commit → `||||||| ` 単独 marker 残存で CI `verify-conflict-markers` FAIL
+- typecheck / lint だけで push → `verify-pr-ready.sh` 未実行で gate-metadata schema 違反が pre-push hook で発覚し push 失敗

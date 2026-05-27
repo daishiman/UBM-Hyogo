@@ -834,3 +834,28 @@
   4. resolver `scripts/sync/resolve-skill-merge-conflicts.sh` 側にも post-resolve sanity step として同 grep を追加すれば push 前検出が早まる。
 - 留意: CI gate は `<<<<<<< ` / `>>>>>>> ` / `||||||| ` の **後ろの空白込み 8 文字** で grep する。空白なし `|||||||EOL` 等は検出されない。古い resolver が space を消すケースは別途調査要。
 - 事例: 2026-05-26 `feat/issue-247-...` PR #966。`5ddb51e6a merge: sync ... with dev` push 後 `verify-conflict-markers` が `--- offending lines ---` 4件で FAIL。該当 4 行削除 commit で復旧。
+
+## L-DEVSYNC-050: `git merge dev` 直前に作業ツリーが「物理ファイル大量欠落」状態だと merge 解消が破綻する（2026-05-27 確認）
+
+- 事象: `git status` が `Changes not staged for commit:` で `D` (deleted) のみ 7353 件を報告。HEAD・index は正常、Working tree からのみファイルが消えている。`Your branch is up to date with origin/...` で remote とも一致。`git merge dev` を走らせると Auto-merging 自体は通るが、conflict 解消後の `pnpm sync:resolve` が「物理欠落ファイル」を対象に restore しようとするか、または rebuild 後 index が膨大な spurious deletion を抱えたまま push される。
+- Why: 別エディタ・別プロセス（典型: 他 worktree から rsync、`find -delete` 系の事故、停電中断、過去 Claude セッションの中途終了）で working tree のみ削除され、`git add -A` が走らないまま放置されたケース。`git diff HEAD --stat` で `N files changed, M deletions(-)` だけが出る（追加・変更なし）のが指紋。
+- How to apply:
+  1. `git status --porcelain | awk '{print $1}' | sort | uniq -c` を最初に走らせ、`D` だけが大量・他種別ゼロなら本パターン。
+  2. `git diff HEAD --stat | tail -1` で `N files changed, M deletions(-)` のみであることを確認（insertions が混ざっていたら別パターン）。
+  3. `git restore .` で HEAD 一致に戻す（stash 不要 — index は HEAD と一致しており、working tree のみが drift しているため）。
+  4. その後で `git fetch origin dev && git merge dev --no-edit` → `pnpm sync:resolve` → `git commit --no-edit` という通常フローを走らせる。
+- 留意: 「意図的な大量削除」が混入している可能性は事前に reflog (`git reflog -5`) と HEAD commit 内容で確認すること。HEAD commit が削除を含んでいない、かつ追跡対象外 (`??`) も無いなら restore で安全。
+- 事例: 2026-05-27 `feat/members-list-prototype-alignment` で merge dev 着手前に 7353 deletions が検出。`git restore .` で 0 件に復旧してから merge 実行で正常終了。
+
+## L-DEVSYNC-051: stale `index.lock` が concurrent lazygit に起因して残存し `git restore` / `git merge` を阻む（2026-05-27 確認）
+
+- 事象: `git restore .` が `fatal: Unable to create '.git/worktrees/<wt>/index.lock': File exists.` で停止。`ls -la` すると 0-byte の `index.lock` が残存。`ps aux | grep git` で並走中の `(git)` プロセスと、別 TTY で起動中の `lazygit` が見える。
+- Why: lazygit は監視 thread で `git status --porcelain` を周期実行し、その間 `.git/worktrees/<wt>/index.lock` を瞬間的に取得する。Claude Code 側の `git` 呼び出しと衝突したタイミングで lock の release タイミングが揃わず stale 化することがある。0-byte なので writer が書き込み前にクラッシュ／中断したサイン。
+- How to apply:
+  1. `lsof .git/worktrees/<wt>/index.lock` または `ps aux | grep -i 'lazygit\|git' | grep -v grep` で lock 保持者を確認。
+  2. 真の long-running git 子プロセスが残っていれば、それを kill するか自然終了を待つ。
+  3. lazygit 等の TUI が並走中なら、ユーザーに**一時的に閉じてもらうか**、0-byte lock であることを確認のうえ `rm -f .git/worktrees/<wt>/index.lock` で除去（claude harness の権限ポリシー次第ではユーザーに手動実行を依頼）。
+  4. その後 `git restore .` / `git merge dev` を再実行。
+- 留意: `rm` を Claude が直接実行できない権限環境では、ユーザーに `! rm -f <path>` を依頼するのが正規ルート。`--no-verify` や `git gc --prune=now` を試すのは副作用が大きいので**先に手動 rm で十分**。
+- 関連: lazygit 並走中の Claude Code セッションでは merge / rebase 等の index ロック保持型操作の前に「lazygit を閉じる or 監視 thread を一時停止する」ことを SOP 化すべき。CLAUDE.md `sync-merge` セクションへの追記候補。
+- 事例: 2026-05-27 同セッション。`git restore .` 1 回目失敗 → `rm -f index.lock` → 2 回目成功。lazygit PID 32938 並走が原因。
