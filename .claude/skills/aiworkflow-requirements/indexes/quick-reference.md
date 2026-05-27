@@ -43,6 +43,19 @@
 | inventory | `.claude/skills/aiworkflow-requirements/references/workflow-public-header-my-profile-nav-alignment-artifact-inventory.md` |
 | boundary | browser/session smoke, commit, push, PR are user-gated |
 
+## admin-tag-queue-ui-and-404-recovery（2026-05-27）
+
+| 項目 | 内容 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/admin-tag-queue-ui-and-404-recovery/` |
+| state | `implemented_local_runtime_pending / implementation / VISUAL` |
+| scope | `/admin/tags` prototype alignment + admin fetch 404 recovery hints |
+| implementation targets | `apps/web/app/(admin)/admin/tags/page.tsx`, `apps/web/src/components/admin/TagQueuePanel.tsx`, `apps/web/src/features/admin/components/_shared/AdminSectionError.tsx`, `apps/web/src/lib/admin/server-fetch.ts` |
+| API boundary | existing `GET /admin/tags/queue` + `POST /admin/tags/queue/:queueId/resolve`; no D1/API/schema change |
+| local evidence | `docs/30-workflows/completed-tasks/admin-tag-queue-ui-and-404-recovery/outputs/phase-11/local-vitest-summary.md` |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-tag-queue-ui-and-404-recovery-artifact-inventory.md` |
+| runtime boundary | staging visual screenshots, deploy, commit, push, and PR are user-gated |
+
 ## admin-ui-prototype-alignment（2026-05-23）
 
 | 目的 | 参照先 |

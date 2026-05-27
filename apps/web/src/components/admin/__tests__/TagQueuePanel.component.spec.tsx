@@ -58,7 +58,7 @@ describe("TagQueuePanel", () => {
     expect(screen.getByText("queue: q_1")).toBeTruthy();
     expect(screen.getByText("tag-a")).toBeTruthy();
     expect(document.querySelector("strong")?.textContent).toBe("queued");
-    fireEvent.click(screen.getByRole("button", { name: /m_2 — reviewing/ }));
+    fireEvent.click(screen.getByRole("button", { name: /m_2/ }));
     expect(screen.getByText("queue: q_2")).toBeTruthy();
   });
 
@@ -123,7 +123,7 @@ describe("TagQueuePanel", () => {
         focusMemberId="m_focus"
       />,
     );
-    fireEvent.click(screen.getByRole("button", { name: "queued" }));
+    fireEvent.click(screen.getByRole("button", { name: "未対応" }));
     expect(pushMock).toHaveBeenLastCalledWith("/admin/tags?status=queued&memberId=m_focus");
 
     fireEvent.click(screen.getByRole("button", { name: "すべて" }));
@@ -184,5 +184,53 @@ describe("TagQueuePanel", () => {
       />,
     );
     expect(screen.getByText(/重複の疑い/)).toBeTruthy();
+  });
+
+  it("queue cards render avatars for each item plus selected review header", () => {
+    render(
+      <TagQueuePanel
+        initial={{
+          total: 2,
+          items: [
+            item({ queueId: "q_1", memberId: "m_1" }),
+            item({ queueId: "q_2", memberId: "m_2" }),
+          ],
+        }}
+        filter={undefined}
+        focusMemberId={null}
+      />,
+    );
+    expect(screen.getAllByRole("img")).toHaveLength(3);
+  });
+
+  it("renders TAGGED subsection when resolved items exist", () => {
+    render(
+      <TagQueuePanel
+        initial={{
+          total: 2,
+          items: [
+            item({ queueId: "q_1", memberId: "m_1" }),
+            item({ queueId: "q_2", memberId: "m_2", status: "resolved" }),
+          ],
+        }}
+        filter={undefined}
+        focusMemberId={null}
+      />,
+    );
+    expect(screen.getByTestId("admin-tag-queue-resolved")).toBeTruthy();
+    expect(screen.getByText("TAGGED")).toBeTruthy();
+  });
+
+  it("review panel has sticky-top class", () => {
+    render(
+      <TagQueuePanel
+        initial={{ total: 1, items: [item()] }}
+        filter={undefined}
+        focusMemberId={null}
+      />,
+    );
+    expect(screen.getByTestId("admin-tag-review-panel").className).toContain(
+      "sticky-top",
+    );
   });
 });

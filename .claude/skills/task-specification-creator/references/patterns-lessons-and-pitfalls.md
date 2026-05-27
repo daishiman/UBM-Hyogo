@@ -711,3 +711,20 @@ admin API の method/endpoint を切替える PR（例: issue-912 で `POST /att
 - **L-PATSEC-001 (heading 一意化)**: 新規 pattern section の見出しは `## <pattern 名>（issue-<N> L-<TAG>-001..M 汎化）` 形式を採る（例: `## CSP directive 撤去パターン（issue-924 L-I924-001..005 汎化）`）。HEAD と dev で同 sprint に偶然同名 pattern を追加しても heading が衝突しないため、resolver の union が重複 heading を生まない。
 - **L-PATSEC-002 (末尾 append-only)**: 既存 section の中央に bullet を増やさず、必ず**ファイル末尾に新 section を append**する。中央への追加は L-DEVSYNC-030（table-merge）系の手動 union を要求し、resolver 1 発で完結しない。
 - **L-PATSEC-003 (resolver 委譲)**: 本ファイルは `scripts/sync/resolve-skill-merge-conflicts.sh` の `UNION_TARGETS` に登録済（[[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-046）。仕様書 Phase 12 で本ファイルへ section を追記するタスクは「dev sync-merge での conflict は `pnpm sync:resolve` 自動解消」と前提を置いてよい。
+
+## admin section error recovery hint + server fetch diagnostics パターン（admin-tag-queue-ui-and-404-recovery L-ATAGUI-001..005 汎化）
+
+ admin 系画面の section error 表示と server-side fetch の診断ログを同 wave で改良するときの再現テンプレ。`/admin/tags` 整備で確立し、他の admin route （members / meetings / requests / schema / identity-conflicts / audit）へ同形で展開できる。
+
+- **L-ADMSEC-001 (recovery hint 3 軸)**: `AdminSectionError` の code → hint マップは「route mismatch / base-url 誤り / deploy 遅延」「auth session / 管理者権限 / env-secret 不足」の operator が次にとる確認 action を本文に必ず入れる。code 名だけの表示や code-search 動線だけにしない。`/^ADMIN_FETCH_5\d\d$/` で 5xx 系をまとめて env-secret 確認 hint に倒すと code 追加コストが O(1) に収まる。
+- **L-SRVOBS-001 (non-prod 診断ログ最小 4 制約)**: `fetchAdmin()` 系の診断 `console.warn` は (1) `process.env.NODE_ENV !== "production"` で gate、(2) `new URL(base).host` だけ抽出し full URL / token / cookie / body を出さない、(3) `try/catch` で URL parse 失敗を `<invalid>` に倒し fetch 例外を増やさない、(4) `{host, path, status}` の 3 フィールドのみ、をテンプレ化する。Phase 6 acceptance に env spec（`server-fetch.env.spec.ts` 雛形）を必ず含める。
+- **L-ADMPAGE-001 (admin page 4 ブロック規律)**: admin route を prototype に合わせるときは `page-head + Breadcrumb + 状態 chip 行 + メイン Panel` の 4 ブロックで分解し、Panel 内は `Avatar / Button / Card / Chip / EmptyState / Icon` の既存 primitive 合成で表現できないか先に確認する。新規 primitive を生やすと token / visual baseline / structure gate の 3 系統で追従コストが線形に増える（L-PGHEAD-001..006 と整合）。Panel 改修時は props 契約と data-testid を維持し、focused component spec の再書き直しを避ける。
+- **L-UNTASK-001 (user-gated boundary と未タスクの分離)**: `workflow_state: implemented_local_runtime_pending` のときは unassigned-task-detection.md の Rationale に (a) 本 cycle で実装した項目、(b) staging / runtime user-gated step は本 workflow Phase 11 boundary であり別 backlog ではない、の 2 段を必ず書く。両者を混ぜると completed-tasks 移動時に followup issue 数が水増しされる。
+- **L-ARTPAR-001 (artifacts.json parity の `cmp -s` 固定)**: root `artifacts.json` と `outputs/artifacts.json` の parity は `cmp -s <root> <outputs>` を Phase 12 system-spec-update-summary.md の Validation command として固定する。`gate-metadata:validate` の `evidence_path` 物理存在検証と組み合わせれば、2 箇所 mirror の drift は実質ゼロに保てる。
+
+### Anti-pattern
+
+- section error code を hint なし `code` 表示だけで返す → operator が code grep に走り、env / deploy 確認に到達するまでに時間がかかる。
+- 診断ログに `Cookie` / `Authorization` / request body / full URL を入れる → staging tail / ローカルログで secret が漏れ、incident response 時にログ全削除が必要になる。
+- admin route に prototype 整合のため新 primitive を生やす → token / visual baseline / structure gate の 3 系統で追従コストが線形に増え、PR レビューが長期化する。
+- staging visual screenshot の pending を unassigned-task として detection に書く → Phase 11 user-gated boundary と二重管理になり、completed-tasks 移動時の followup 件数が水増しされる。

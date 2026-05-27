@@ -406,6 +406,19 @@ export async function fetchAdmin<T>(
     ...(opts.body !== undefined ? { body: JSON.stringify(opts.body) } : {}),
   });
   if (!res.ok) {
+    if (process.env["NODE_ENV"] !== "production" && res.status === 404) {
+      let host = "<invalid>";
+      try {
+        host = new URL(resolveApiBase()).host;
+      } catch {
+        host = "<invalid>";
+      }
+      console.warn("[admin/server-fetch] 404", {
+        host,
+        path,
+        status: res.status,
+      });
+    }
     throw new Error(`admin api ${path} failed: ${res.status}`);
   }
   return (await res.json()) as T;
