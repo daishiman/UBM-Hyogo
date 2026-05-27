@@ -87,6 +87,7 @@ const state = {
   adminDashboardUnresolvedSchema: 0,
   adminDashboardByStatus: undefined,
   meetingsSeed: defaultMeetingsSeed(),
+  publicHomeEmpty: false,
 };
 
 const resetState = () => {
@@ -95,7 +96,22 @@ const resetState = () => {
   state.adminDashboardUnresolvedSchema = 0;
   state.adminDashboardByStatus = undefined;
   state.meetingsSeed = defaultMeetingsSeed();
+  state.publicHomeEmpty = false;
 };
+
+const publicStats = () => ({
+  ...fixtures.public.stats,
+  publicMemberCount: state.publicHomeEmpty ? 0 : fixtures.public.stats.publicMemberCount,
+  recentMeetings: state.publicHomeEmpty
+    ? []
+    : [
+        {
+          sessionId: "session-public-home-202605",
+          title: "2026年5月 定例会",
+          heldOn: "2026-05-09",
+        },
+      ],
+});
 
 const buildPublicProfile = (id) => ({
   memberId: id,
@@ -134,7 +150,10 @@ const publicList = (url) => {
   const q = url.searchParams.get("q") ?? "";
   const densityRaw = url.searchParams.get("density") ?? "comfy";
   const density = ["comfy", "dense", "list"].includes(densityRaw) ? densityRaw : "comfy";
-  const items = q === fixtures.public.negativeQuery ? [] : fixtures.public.memberList.items;
+  const items =
+    state.publicHomeEmpty || q === fixtures.public.negativeQuery
+      ? []
+      : fixtures.public.memberList.items;
   return {
     items,
     pagination: {
@@ -353,6 +372,11 @@ const server = createServer(async (req, res) => {
     }
     return writeJson(res, 200, { ok: true });
   }
+  if (req.method === "POST" && pathname === "/__test__/public-home") {
+    const body = await readBody(req);
+    state.publicHomeEmpty = body.empty === true;
+    return writeJson(res, 200, { ok: true, publicHomeEmpty: state.publicHomeEmpty });
+  }
   if (req.method === "POST" && pathname === "/__test__/seed-pending") {
     const body = await readBody(req);
     if (body.visibility) {
@@ -457,7 +481,7 @@ const server = createServer(async (req, res) => {
 
   // ---- /public ----
   if (req.method === "GET" && pathname === "/public/stats") {
-    return safeJson(res, 200, fixtures.public.stats, schemas.PublicStatsZ);
+    return safeJson(res, 200, publicStats(), schemas.PublicStatsZ);
   }
   if (req.method === "GET" && pathname === "/public/members") {
     return safeJson(res, 200, publicList(url), schemas.PublicMemberListZ);

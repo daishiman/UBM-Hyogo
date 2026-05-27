@@ -29,6 +29,18 @@ describe("MemberGrid", () => {
     expect(grid?.getAttribute("data-density")).toBe("dense");
   });
 
+  it("density=list 時に prototype list header と card rows を描画する", () => {
+    const { container } = render(
+      <MemberGrid items={[buildMember()]} density="list" />,
+    );
+    const grid = container.querySelector('[data-component="member-grid"]');
+    expect(grid?.getAttribute("data-density")).toBe("list");
+    expect(container.querySelector('[data-role="list-head"]')).toBeTruthy();
+    expect(
+      container.querySelector('[data-component="member-card"][data-density="list"]'),
+    ).toBeTruthy();
+  });
+
   it("items 空配列でも grid 自体はレンダーされる (empty)", () => {
     const { container } = render(<MemberGrid items={[]} density="comfy" />);
     const grid = container.querySelector('[data-component="member-grid"]');

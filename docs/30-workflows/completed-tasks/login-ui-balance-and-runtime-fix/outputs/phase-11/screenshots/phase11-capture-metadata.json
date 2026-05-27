@@ -1,0 +1,38 @@
+{
+  "workflow": "login-ui-balance-and-runtime-fix",
+  "status": "captured_local_runtime",
+  "captured_at": "2026-05-26T07:22:49.470Z",
+  "captures": [
+    {
+      "id": "login-balanced",
+      "file": "login-balanced.png",
+      "source": "local minimal DOM using apps/web auth.css, legacy-public.css, tokens.css, and GoogleBrandIcon google.svg",
+      "viewport": "1280x900",
+      "checks": {
+        "inputHeight": 44,
+        "submitButtonHeight": 44,
+        "heightDifferencePx": 0
+      }
+    },
+    {
+      "id": "google-brand-icon",
+      "file": "google-brand-icon.png",
+      "source": "same local minimal DOM, element screenshot of Google login button",
+      "viewport": "1280x900",
+      "checks": {
+        "display": "block",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "width": "20px",
+        "height": "20px",
+        "borderTopWidth": "0px"
+      }
+    },
+    {
+      "id": "prototype-rendered",
+      "file": "prototype-rendered.png",
+      "source": "http://127.0.0.1:5180/ via scripts/serve-prototype.sh",
+      "viewport": "1440x1000"
+    }
+  ],
+  "note": "Login evidence uses actual CSS/SVG assets in a controlled DOM; Next dev startup was observed separately but staging-equivalent capture remains deployment-gated. Prototype screenshot was captured from scripts/serve-prototype.sh."
+}

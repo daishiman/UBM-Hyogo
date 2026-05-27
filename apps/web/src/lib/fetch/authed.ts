@@ -4,6 +4,7 @@
 
 import { cookies } from "next/headers";
 
+import { getAuthEnv, getPublicFetchEnv } from "../env";
 import { AuthRequiredError, FetchAuthedError } from "./errors";
 
 export { AuthRequiredError, FetchAuthedError };
@@ -11,9 +12,9 @@ export { AuthRequiredError, FetchAuthedError };
 const FALLBACK_INTERNAL_API = "http://127.0.0.1:8787";
 
 const resolveApiBase = (): string => {
-  const internal = process.env["INTERNAL_API_BASE_URL"];
+  const internal = getAuthEnv().INTERNAL_API_BASE_URL;
   if (internal && internal.length > 0) return internal.replace(/\/$/, "");
-  const pub = process.env["PUBLIC_API_BASE_URL"];
+  const pub = getPublicFetchEnv().PUBLIC_API_BASE_URL;
   if (pub && pub.length > 0) return pub.replace(/\/$/, "");
   return FALLBACK_INTERNAL_API;
 };
