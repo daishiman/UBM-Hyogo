@@ -13,13 +13,27 @@
 | 対象機能     | apps/web `wrangler.toml` / `.assetsignore` / `package.json` のインフラ設定                 |
 | 優先度       | Medium                                                                                     |
 | 見積もり規模 | 小規模                                                                                     |
-| ステータス   | spec_pending                                                                               |
+| ステータス   | consumed_by_issue_247（2026-05-26: `docs/30-workflows/issue-247-apps-web-opennext-config-regression-tests/` で実装済み。Phase 13 は user-gated） |
 | visualEvidence | NON_VISUAL                                                                               |
 | 親タスク     | UT-06-FU-A (`docs/30-workflows/ut-06-followup-A-opennext-workers-migration/`)              |
 | 発見元       | UT-06-FU-A Phase 12 unassigned-task-detection (UNASSIGNED-FU-A-003)                        |
 | 発見日       | 2026-04-29                                                                                 |
 
 ---
+
+## 消化状況（2026-05-26）
+
+本 unassigned task は Issue #247 workflow で消化済み。
+
+| 項目 | 値 |
+| --- | --- |
+| canonical workflow | `docs/30-workflows/issue-247-apps-web-opennext-config-regression-tests/` |
+| 実装 | `apps/web/__tests__/opennext-config-regression.spec.ts` |
+| CI | `.github/workflows/ci.yml` の `OpenNext config regression guard` step |
+| evidence | `docs/30-workflows/issue-247-apps-web-opennext-config-regression-tests/outputs/phase-11/manual-test-result.md` |
+| status | `implemented_local_evidence_captured / implementation / NON_VISUAL / Phase 13 pending_user_approval` |
+
+補足: 初期案では `.assetsignore` の最低条件に `_worker.js` を含めていたが、現行正本 `.claude/skills/aiworkflow-requirements/references/deployment-cloudflare-opennext-workers.md` の実値は `node_modules`, `.DS_Store`, `.git`, `*.map`, `*.test.*`, `*.spec.*`, `__tests__`。Issue #247 実装はこの正本実値を検証対象とし、OpenNext output 構造に依存する `_worker.js` は AC 固定しない。
 
 ## 苦戦箇所【記入必須】
 
@@ -28,7 +42,7 @@ UT-06-FU-A の OpenNext Workers 移行では、実装の中心が `apps/web/wran
 - `pages_build_output_dir = ".next"` が誰かの手でうっかり復活すると、Workers 形式から Pages 形式へ静かに退行する
 - `[env.staging.assets]` / `[env.production.assets]` のいずれかが欠落すると、deploy は通ってしまうが配信時に assets binding が失われる
 - `package.json` の `scripts.deploy` が再追加されると、`scripts/cf.sh` ラッパーを迂回した直接 deploy が起きうる
-- `.assetsignore` の `_worker.js` などの必須除外行が消えると、Workers エントリが assets としても配信されてしまう
+- `.assetsignore` の開発成果物除外行が消えると、テスト・ソースマップ・VCS メタデータなどが Static Assets upload に混入しうる
 
 これらは「次に同種の課題に直面したとき」に「目視レビューだけが頼り」になる構造的な弱点であり、CI で禁止キー検出と必須パターン検証を仕組み化することで、将来の同種課題を簡潔に解決できる。
 
@@ -43,7 +57,7 @@ UT-06-FU-A で apps/web を Cloudflare Pages 形式から OpenNext on Workers �
 - `wrangler.toml` トップレベルに `pages_build_output_dir` が **存在しない**
 - `[env.staging.assets]` / `[env.production.assets]` のように env-scoped で `[assets]` が存在し、`directory = ".open-next/assets"` を指す
 - `package.json` の `scripts` に `deploy` キーが **存在しない**（`scripts/cf.sh` 経由を強制）
-- `.assetsignore` に `_worker.js` 等 OpenNext が要求する必須除外行が含まれる
+- `.assetsignore` に `node_modules`, `.DS_Store`, `.git`, `*.map`, `*.test.*`, `*.spec.*`, `__tests__` が含まれる
 
 ### 1.2 問題点・課題
 
@@ -55,7 +69,7 @@ UT-06-FU-A で apps/web を Cloudflare Pages 形式から OpenNext on Workers �
 
 - Pages 形式への意図しない退行を CI で防げない
 - `scripts/cf.sh` 迂回を CI で検出できず、1Password 経由の secret 注入ルールが破られる
-- `.assetsignore` 必須除外欠落で `_worker.js` が assets としても配信される事故が再発する
+- `.assetsignore` 必須除外欠落で開発成果物が assets として配信される事故が再発する
 
 ---
 
@@ -71,7 +85,7 @@ apps/web の OpenNext Workers 設定が満たすべき構造的不変条件を *
    - `apps/web/wrangler.toml` トップレベルに `pages_build_output_dir` キーが存在しないこと
    - `apps/web/wrangler.toml` の `[env.staging.assets]` / `[env.production.assets]` が存在し `directory = ".open-next/assets"` を含むこと
    - `apps/web/package.json` の `scripts` に `deploy` キーが存在しないこと
-   - `apps/web/.assetsignore` に必須除外行（最低限 `_worker.js`）が含まれること
+   - `apps/web/.assetsignore` に必須除外行（`node_modules`, `.DS_Store`, `.git`, `*.map`, `*.test.*`, `*.spec.*`, `__tests__`）が含まれること
 2. テストは `pnpm --filter @ubm-hyogo/web test:infra`（または同等 npm script）で実行可能
 3. CI workflow（既存 `verify-*` または新規 `verify-web-infra` job）に組み込まれ、PR ブロッカーとして機能する
 4. 失敗時メッセージから「どの不変条件が破られたか」「どこを直せば通るか」が読み取れる
@@ -128,7 +142,7 @@ mise exec -- pnpm --filter @ubm-hyogo/web test:infra
   - `wrangler.toml` に `pages_build_output_dir = ".next"` を追記 → FAIL
   - `[env.production.assets]` ブロックを削除 → FAIL
   - `package.json` に `"deploy": "wrangler deploy"` を追加 → FAIL
-  - `.assetsignore` から `_worker.js` を削除 → FAIL
+  - `.assetsignore` から `__tests__` を削除 → FAIL
 
 ### 4.2 CI 検証
 
