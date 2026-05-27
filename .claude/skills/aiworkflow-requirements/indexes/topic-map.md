@@ -3360,6 +3360,15 @@ node scripts/list-specs.js --topics
 |------------|----|
 | Boundary | L19 |
 
+### references/workflow-public-dashboard-prototype-alignment-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Classification | L15 |
+| Planned Implementation Targets | L19 |
+| Boundary | L30 |
+| Lessons | L34 |
+
 ### references/workflow-regression-evidence-ci-gate-foundation-artifact-inventory.md
 
 | セクション | 行 |
@@ -7807,14 +7816,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L2661 |
-| フェーズ構造（概要） | L2670 |
-| 品質ゲート（概要） | L2701 |
-| 出力テンプレート | L2712 |
-| 実行時のコマンド・エージェント・スキル | L2735 |
-| 昇格パターン集 | L2759 |
-| Current Active / Spec Created Tasks | L2761 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L2922 |
+| ドキュメント構成 | L2675 |
+| フェーズ構造（概要） | L2684 |
+| 品質ゲート（概要） | L2715 |
+| 出力テンプレート | L2726 |
+| 実行時のコマンド・エージェント・スキル | L2749 |
+| 昇格パターン集 | L2773 |
+| Current Active / Spec Created Tasks | L2775 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L2936 |
 
 ### references/task-workflow-backlog-part2.md
 

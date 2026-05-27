@@ -1,0 +1,24 @@
+{
+  "taskId": "public-dashboard-prototype-alignment",
+  "mode": "VISUAL",
+  "visualCategory": "VISUAL",
+  "baseUrl": "http://localhost:3000",
+  "auth": { "type": "none" },
+  "viewports": [
+    { "key": "mobile", "width": 375, "height": 812 },
+    { "key": "tablet", "width": 768, "height": 1024 },
+    { "key": "laptop", "width": 1024, "height": 768 },
+    { "key": "desktop", "width": 1440, "height": 900 }
+  ],
+  "screens": [{ "key": "home", "url": "/" }],
+  "scenarios": [
+    { "key": "normal", "filenamePattern": "home-{viewport}.png" },
+    {
+      "key": "empty",
+      "apiMock": { "publicHomeEmpty": true },
+      "viewports": ["desktop", "mobile"],
+      "filenamePattern": "home-empty-{viewport}.png"
+    }
+  ],
+  "outputDir": "docs/30-workflows/public-dashboard-prototype-alignment/outputs/phase-11/"
+}

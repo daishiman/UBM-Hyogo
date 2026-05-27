@@ -705,6 +705,24 @@ dev sync-merge で **HEAD = route group rename（`app/<route>/` → `app/(group)
 - workflow から `pull_request` trigger を外す→ workflow file 自体の variation や spec 変更を CI で検知できなくなる。secrets-gate skip で trigger 自体は保持する。
 - `continue-on-error: true` で誤魔化す → 真の secrets 欠落と spec バグの双方が無視される。skip 判定を明示的に行う。
 
+## prototype 整合タスクの汎化パターン（2026-05-26 / public-dashboard-prototype-alignment）
+
+### P-PROTO-ALIGN-001 — prototype 整合 task 不変条件 3 点セット
+
+prototype HTML / CSS を実コードへ落とし込む task では、以下 3 点を仕様書 Phase 2-5 で必ず明文化する。
+
+1. **variant の後方互換維持**: 既存 variant prop は破壊変更せず、新 variant 値を union 型に追加する形でのみ表現を増やす（呼び出し元の opt-in 切替）。`satisfies Record<Variant, ...>` で exhaustiveness を compile error 化する。
+2. **section header は常時 render**: 空状態でも section の `<h2>` / CTA / aria-labelledby 構造を保ち、list 領域だけ `EmptyState` に差し替える。section ごと unmount しない。
+3. **prototype 固定値の出所コメント**: `ZONE_COUNT` / `MEETINGS_PER_YEAR` 等の magic number は module top-level `const` に固定し、`// from <prototype path> L:NN` の出所コメントを必須化する。
+
+### P-E2E-EMPTY-TOGGLE-001 — e2e empty-state は test-only toggle endpoint で扱う
+
+空状態の e2e 検証は production code に `?empty=1` / cookie / build flag を散らさず、`app/__test__/<scope>/empty/route.ts` のような test-only route で in-memory state を flip する設計に統一する。
+
+- **新規 toggle state を足したら必ず `/__test__/reset` に reset 処理を同期追加する**（追加忘れが flaky 化の典型原因）。
+- standalone (Next dev) と inline (workers) の 2 経路がある場合、両方の reset 経路を仕様書で点検対象として明示する。
+- Playwright 側は `request.post('/__test__/<scope>/empty')` で setup する pattern を Phase 6 test 追加 spec に書く。
+
 ## branch-sync 中の mid-flight half-state リカバリ（2026-05-27）
 
 `dev → feature` sync-merge 実行中に「`error: Unable to write index` で merge コマンド自体は exit 1、しかし `git status` は `All conflicts fixed but you are still merging` を返す」half-state を踏んだ事例。ディスク残量逼迫（99% 使用、4.5GiB 空き）と古い `index.lock`（0byte）の合わせ技で発生。AI が `git merge --abort` で巻き戻すと merge 結果ごと破棄してしまうため、状態判定を誤ると正しく解消した自動 merge を失う。
@@ -752,3 +770,49 @@ dev sync-merge で **HEAD = route group rename（`app/<route>/` → `app/(group)
 - `gh pr checks` を見ずに「CI 失敗があるはず」と推測修正を積む → 不要コミットで PR review コストを増やす
 - no-op だったので lesson を残さない → 次回同種指示で同じ確認手順を再構築する無駄が発生する
 - `gh pr checks` が pass だけを見て mergeable を見ない → `DIRTY` 状態の PR を「green」と誤報告し、dev divergence の再 sync が遅れる
+
+## accent on accent-soft chip は accent-ink を採る (L-CHIPCONTRAST-001 汎化)
+
+`color-mix(in oklch, var(--ubm-color-accent) 12%, transparent)` を背景に乗せた chip/pill/badge の foreground を `--ubm-color-accent` のままにすると、OKLch lightness 約 0.52（accent）× 約 0.93（tint された surface）の組合せで axe contrast が **4.39:1** に落ち WCAG 2 AA (4.5:1) を切る。仕様書 Phase で chip / badge primitive を扱う場合は次を契約する。
+
+- **L-CHIPCONTRAST-001 (token 選定ルール)**: accent-soft 系の tint を bg に取る chip / pill / badge / status indicator の text/icon foreground は `var(--ubm-color-accent-ink)` を第一候補にする。`-ink` 系（OKLch lightness ~0.36-0.38）は tint surface に対し contrast 7.0+ を確保するため WCAG 2 AA 必達点を上回る。
+- **L-CHIPCONTRAST-002 (dot/icon 区別)**: `aria-hidden` な dot / shape は text contrast 要件外のため `var(--ubm-color-accent)` を残し意匠を保つ。**「fg=ink、装飾=accent」を 1 つの chip primitive 内で分離記述**する。
+- **L-CHIPCONTRAST-003 (Phase 9 acceptance への組込)**: VISUAL_ON_EXECUTION × public/admin chip primitive を含む仕様書は Phase 9 acceptance に「e2e a11y (axe wcag2aa) で `color-contrast` violation = 0」を必須化し、Phase 11 evidence に axe JSON を添付する。Phase 13 verify では axe violation 数を最終 gate にする。
+- **L-CHIPCONTRAST-004 (token 不在時の追加経路)**: zone variant に `-ink` 系が定義されていない場合、`design-tokens.md` へ追加して全 zone (default / cool / warm) parity を取る。仕様書 Phase 8（design tokens）に「accent-soft × accent の contrast = 4.39 (worst)」の実測値も併記し再発を防ぐ。
+
+### Anti-pattern
+
+- `color-mix` で薄めた bg にそのまま `var(--ubm-color-accent)` を fg で使い「token 統一」を理由に放置 → axe で必ず fail
+- 1 chip 内の dot/icon にも `-ink` を強制適用 → 装飾の発色が抜けて意匠崩れ
+- 仕様書に axe acceptance を入れず、CI で初検出 → wave 末で reverse adjust が発生し coverage / visual baseline と同時 update が必要になる
+
+## L-DEVSYNC-051 visual baseline コンフリクト解消パターン（dev sync-merge / 2026-05-27）
+
+UI 系 feature ブランチ（prototype alignment / dashboard 等）と dev の双方が直近に `chore(visual): update baselines via workflow_dispatch` を持つ状態で sync-merge を行うと、`pnpm sync:resolve` が `apps/web/playwright/tests/visual*/**.png` と `.baseline-meta.json` を `WARN unhandled conflict` で残す。これは「両 branch がそれぞれの UI 変更を反映した正本 baseline を持つため、機械的に merge できない」設計上の正常動作。
+
+- **L-DEVSYNC-051-A (ours 全採用 default)**: visual baseline (`apps/web/playwright/tests/visual-full/**.png` / `apps/web/playwright/tests/visual/**.png` / `.baseline-meta.json`) の WARN unhandled は **`git checkout --ours <paths>` で一括採用**を default にする。feature branch 側に「独自 UI 変更」が含まれているため、dev 側 baseline は feature branch の意図を破壊する。Phase 12 implementation-guide / Phase 13 PR pre-flight に「visual baseline conflict は ours 採用 → `pnpm typecheck && pnpm lint && bash scripts/verify-pr-ready.sh` で検証 → 必要なら merge 後 `playwright-smoke / visual` ジョブで再生成」のフローを明示する。
+- **L-DEVSYNC-051-B (theirs 採用例外)**: feature branch が visual に**全く触れていない**（`git log --oneline HEAD ^origin/dev -- apps/web/playwright/tests/visual` が空）かつ dev 側のみ baseline 更新の場合に限り theirs 採用が正解。仕様書では「baseline-only sync」の判定コマンドを runbook に含める。
+- **L-DEVSYNC-051-C (Phase 4 risk への登録)**: UI 系 spec の Phase 4 risk table に「visual baseline drift × dev sync-merge の二重発生」を必ず登録し、L-DEVSYNC-050 (HEAD 全採用) と並列で L-DEVSYNC-051 (visual ours 採用) を mitigation として参照する。Phase 13 PR pre-flight check に baseline ours 採用後の `bash scripts/verify-pr-ready.sh` 必達を含める。
+- **L-DEVSYNC-051-D (resolver 自動化しない理由)**: `scripts/sync/resolve-skill-merge-conflicts.sh` に visual baseline 自動 ours を追加することは可能だが、theirs 採用例外パスがあるため**手動判定を促す WARN 設計を維持**するのが正。仕様書 Phase 12 では resolver 拡張ではなく runbook documentation を成果物として定義する。
+
+### Anti-pattern
+
+- `git checkout --theirs` を default にして feature branch の独自 UI 変更を失う → visual regression が CI で検出されず merge 後に staging で初発見
+- PNG を手動で開いて「どちらが正しいか」目視判定する → スコア化できないため再現不能、SOP として記録すべきは「ours 採用 + ジョブ再生成」の機械化された経路のみ
+- `pnpm sync:resolve` が WARN を出した時点で停止せず空 commit で push → CI の `playwright-smoke / visual` が両 baseline 不整合で fail し、誰のせいで baseline がズレたか追跡不能
+
+## L-FETCHCACHE-001 e2e mock API × Next.js fetch cache 不整合の本質修正パターン（2026-05-27）
+
+`pnpm dev:webpack` + e2e mock API のテストでは、Next.js fetch cache (`next: { revalidate: N }`) が SSR 結果を秒単位で hold するため、mock API の state 切替（`setPublicHomeEmpty(true)` 等）が 2 回目の `page.goto()` で SSR に反映されず spec が fail する。これは production code に `?nocache=...` を読む test-only 分岐を入れて凌ぐと technical debt 化するため、**fetcher 層 1 箇所で `isTestOrPlaywright()` 時に `cache: 'no-store'` を強制**するのが本質修正パターン。
+
+- **L-FETCHCACHE-001 (fetcher 層集約)**: test-only no-store branch は **必ず `apps/web/src/lib/fetch/<scope>.ts` の `doFetch()` に閉じる**。page.tsx 側 `revalidate: PUBLIC_API_REVALIDATE.xxx` 呼び出しや、route handler の searchParams 分岐に test-only logic を漏らさない。
+- **L-FETCHCACHE-002 (env gate)**: 切替判定は `NODE_ENV === 'test'` か `PLAYWRIGHT_TEST === '1'`。env アクセスは `apps/web/src/lib/env.ts` 経由（invariant: env 直接参照禁止）。Playwright webServer の env で `PLAYWRIGHT_TEST=1` を渡す既存の仕組みを利用する。
+- **L-FETCHCACHE-003 (next と cache の同時指定回避)**: Next.js は `next: { revalidate: N }` と `cache: 'no-store'` を同時に持つと runtime warning。`const { next: _next, cache: _cache, ...rest } = init` で剥がしてから `{ ...rest, cache: 'no-store' }` を返す。
+- **L-FETCHCACHE-004 (production 無影響の保証)**: 仕様書 Phase 4 acceptance に「`isTestOrPlaywright()` が false の経路で `revalidate` 値が保持されている」ことを spec で確認する unit test を含める。Phase 9 で `production build (NODE_ENV=production, PLAYWRIGHT_TEST=undefined)` での cache hit ratio が変わらないことを Lighthouse 値で確認する。
+
+### Anti-pattern
+
+- spec 側で `page.goto("/?t=" + Date.now())` の query bust → Next.js fetch cache key は外部 fetch URL ベースなので **無効**（page URL の query 変更は SSR fetch result の cache を bypass しない）
+- page.tsx に `searchParams.t` 分岐を入れて test 用 cache bypass → production code に test-only logic 混入、`Page` component の propsが test 専用 prop で汚れる
+- 該当 spec を `test.skip` で先送り → e2e mock API を使う他 spec も同じ regression を踏むため fundamental fix が常に正解
+- `revalidate: 0` に下げて regression を回避 → production で free tier 圧迫（cache hit rate が drop）し本末転倒
