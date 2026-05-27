@@ -1,5 +1,7 @@
 "use client";
 
+import type { ReactNode } from "react";
+
 // issue-276: 公開メンバー一覧 FilterBar の tag chip picker。
 // 候補 chip は role="switch" + aria-checked で選択状態を表す。
 // 上限到達時は未選択 chip を aria-disabled にし、polite hint を表示する。
@@ -15,13 +17,21 @@ export interface TagPickerProps {
   selected: string[];
   max: number;
   onToggle: (code: string) => void;
+  heading?: ReactNode;
 }
 
-export function TagPicker({ options, selected, max, onToggle }: TagPickerProps) {
+export function TagPicker({
+  options,
+  selected,
+  max,
+  onToggle,
+  heading,
+}: TagPickerProps) {
   const reached = selected.length >= max;
   if (options.length === 0) return null;
   return (
     <div data-component="tag-picker">
+      {heading ? <div data-role="tag-picker-heading">{heading}</div> : null}
       <ul data-role="tag-picker-options">
         {options.map((opt) => {
           const isSelected = selected.includes(opt.code);

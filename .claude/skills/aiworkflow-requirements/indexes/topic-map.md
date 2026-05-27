@@ -2135,6 +2135,15 @@ node scripts/list-specs.js --topics
 |------------|----|
 | Contract | L16 |
 
+### references/workflow-admin-ui-prototype-alignment-followup-001-members-fetch-and-visual-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Canonical files | L3 |
+| Registration | L14 |
+| Implemented targets | L20 |
+| Evidence boundary | L30 |
+
 ### references/workflow-admin-ui-prototype-alignment-followup-002-section-error-retry-artifact-inventory.md
 
 | セクション | 行 |
@@ -3259,6 +3268,13 @@ node scripts/list-specs.js --topics
 | Code Artifacts | L20 |
 | Evidence Boundary | L36 |
 
+### references/workflow-members-list-prototype-alignment-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| State | L18 |
+| Boundary | L24 |
+
 ### references/workflow-members-page-prototype-alignment-artifact-inventory.md
 
 | セクション | 行 |
@@ -3365,6 +3381,15 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | Boundary | L19 |
+
+### references/workflow-public-dashboard-prototype-alignment-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Classification | L15 |
+| Planned Implementation Targets | L19 |
+| Boundary | L30 |
+| Lessons | L34 |
 
 ### references/workflow-regression-evidence-ci-gate-foundation-artifact-inventory.md
 
@@ -7813,14 +7838,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L2675 |
-| フェーズ構造（概要） | L2684 |
-| 品質ゲート（概要） | L2715 |
-| 出力テンプレート | L2726 |
-| 実行時のコマンド・エージェント・スキル | L2749 |
-| 昇格パターン集 | L2773 |
-| Current Active / Spec Created Tasks | L2775 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L2936 |
+| ドキュメント構成 | L2716 |
+| フェーズ構造（概要） | L2725 |
+| 品質ゲート（概要） | L2756 |
+| 出力テンプレート | L2767 |
+| 実行時のコマンド・エージェント・スキル | L2790 |
+| 昇格パターン集 | L2814 |
+| Current Active / Spec Created Tasks | L2816 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L2977 |
 
 ### references/task-workflow-backlog-part2.md
 

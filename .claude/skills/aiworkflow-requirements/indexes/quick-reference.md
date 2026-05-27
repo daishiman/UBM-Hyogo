@@ -1,5 +1,53 @@
 # クイックリファレンス
 
+## admin-ui-prototype-alignment follow-up 001 members fetch and visual（2026-05-26）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/admin-ui-prototype-alignment-followup-001-members-fetch-and-visual/` |
+| status | `implemented_local_runtime_pending / implementation / VISUAL` |
+| parent | `docs/30-workflows/admin-ui-prototype-alignment/` (`implemented_local_runtime_pending`) |
+| purpose | `/admin/members` 一覧 + drawer を prototype `pages-admin.jsx` L162-366 に整合し、staging `ADMIN_FETCH_404` を root-cause fix する |
+| local implementation | `server-fetch.ts`, `app/api/admin/[...path]/route.ts`, `apps/api/src/routes/admin/members.ts`, `_members/{MembersTable,MembersFilters,MemberDrawer}.tsx`, `members-view-model.ts`, additive ViewModel fields, focused Vitest |
+| Phase 11 | runtime screenshots and `/admin/members` 200 trace are pending user-gated staging execution |
+| Phase 12 | strict 7 files present; root/output artifacts parity present |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-ui-prototype-alignment-followup-001-members-fetch-and-visual-artifact-inventory.md` |
+| user gate | staging deploy, baseline PNG capture, commit, push, PR |
+
+## admin-ui-prototype-alignment（2026-05-23）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/admin-ui-prototype-alignment/` |
+| 状態 | `implemented_local_runtime_pending / implementation / VISUAL / 11 admin routes` |
+| scope | 11 admin routes（dashboard / attendance / members / tags / meetings / meetings/[id] / schema / schema/history / requests / identity-conflicts / audit）の prototype alignment + 共通 component 6 種 + per-section degrade pattern |
+| per-section degrade | `apps/web/src/lib/result.ts`（`SafeResult<T>`）+ `apps/web/src/lib/admin/safe-server-fetch.ts` で throw を normalize → `Promise.all` 後に section 毎に `result.ok` 分岐 → `AdminSectionError` で degrade。`error.tsx` は renderer crash 専用に縮小（L-AUIP-001 / 再利用 Pattern 1） |
+| 共通 component | `apps/web/src/features/admin/components/_shared/{AdminSectionCard,AdminSectionError,AdminEmptyState,AdminStat,AdminTable,AdminQueuePanel}.tsx` + `index.ts` barrel export |
+| import 強制 | barrel 経由のみ。深 path import を ESLint `no-restricted-imports` で deny、grep gate `rg "from ['\"]@/features/admin/components/_shared/[A-Z]"` 0 件を Phase 5 DoD に組込（L-AUIP-003 / 再利用 Pattern 2） |
+| design token | 新規 component は OKLch token のみ（`var(--ubm-color-*)`）。既存 `*Panel.tsx` の HEX 移行は別 wave へ分離（L-AUIP-004） |
+| server/client boundary | server page = throw-only / view-compute-only、client wrapper = state/event-only の twin principle。`TagsClientShell` / `RequestsClientShell` で state ownership を Phase 2 fix（L-AUIP-005） |
+| scope cutoff | Phase 4 test plan に scope lock TC を列挙し、test fail = scope miss として early detect（L-AUIP-006 / 再利用 Pattern 5） |
+| lessons-learned | `.claude/skills/aiworkflow-requirements/references/lessons-learned-admin-ui-prototype-alignment-2026-05.md`（L-AUIP-001..006 + 再利用可能パターン 5 件） |
+| changelog | `.claude/skills/aiworkflow-requirements/changelog/20260523-admin-ui-prototype-alignment.md` |
+| 出典 | `docs/30-workflows/admin-ui-prototype-alignment/outputs/phase-12/implementation-guide.md` / `system-spec-update-summary.md` / `skill-feedback-report.md` / `phase12-task-spec-compliance-check.md` / `unassigned-task-detection.md` |
+| user gate | authenticated runtime screenshots / staging refresh / commit / push / PR |
+
+## register-page-prototype-alignment（2026-05-26）
+## public-dashboard-prototype-alignment（2026-05-26）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/public-dashboard-prototype-alignment/` |
+| status | `implementation_reviewed / implementation / VISUAL / phase11_runtime_pending` |
+| lessons | `.claude/skills/aiworkflow-requirements/lessons-learned/public-dashboard-prototype-alignment-2026-05.md` |
+| purpose | public home `/` を prototype `pages-public.jsx` LandingPage に合わせ、Hero / Stats / About+ThreeZones / Featured / Recent Meetings / CTA の実装契約を固定する |
+| implementation targets | `apps/web/app/page.tsx`, `apps/web/src/components/public/{Hero,Stats,AboutUbm,ZoneIntro,MemberGrid,Timeline}.tsx`, `apps/web/src/styles/legacy-public.css` |
+| invariants | 新規 API endpoint / D1 schema / Google Form / npm package 追加なし。OKLch token 経由、HEX 直書き禁止 |
+| Phase 12 | strict 7 present; root/output artifacts mirror present; 30-method compact evidence included |
+| Phase 11 | screenshots and manual evaluation are pending, not PASS |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-public-dashboard-prototype-alignment-artifact-inventory.md` |
+| user gate | implementation, local visual capture, staging refresh, commit, push, PR |
+
 ## login-ui-balance-and-runtime-fix（2026-05-26）
 
 | 項目 | 値 |
@@ -520,6 +568,18 @@
 | inventory | `.claude/skills/aiworkflow-requirements/references/workflow-members-page-prototype-alignment-artifact-inventory.md` |
 | lessons | `.claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-members-page-prototype-alignment-2026-05.md` |
 | user gate | staging deploy, production-equivalent visual evidence, commit, push, PR |
+
+## members-list-prototype-alignment（2026-05-26）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/members-list-prototype-alignment/` |
+| 状態 | `implemented_local_evidence_captured / implementation / VISUAL / visual_runtime_pending` |
+| scope | 公開 `/members` list density を `MemberGrid` 一本へ統一し、zone/status chip、occupation/location icon meta、TagPicker divider、compact EmptyState を現行 API contract 内で整合 |
+| implementation targets | `apps/web/app/(public)/members/page.tsx`, `apps/web/src/components/public/{MemberCard,MemberGrid,MemberFilters.client,TagPicker.client}.tsx`, `apps/web/src/components/feedback/EmptyState.tsx`, `apps/web/src/components/ui/{Icon.tsx,icons.ts}`, `apps/web/src/styles/legacy-public.css` |
+| evidence | typecheck PASS, web Vitest 157 files / 1146 tests PASS, Playwright visual pending on local webServer readiness |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-members-list-prototype-alignment-artifact-inventory.md` |
+| user gate | commit, push, PR, staging deploy |
 
 ## Issue #827 member detail adapter and visibility defense（2026-05-23）
 

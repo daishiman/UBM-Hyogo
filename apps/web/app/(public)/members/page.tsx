@@ -14,7 +14,6 @@ import { DensityToggle } from "../../../src/components/public/DensityToggle.clie
 import { MemberFilters } from "../../../src/components/public/MemberFilters.client";
 import { MemberGrid } from "../../../src/components/public/MemberGrid";
 import { SectionError } from "../../../src/components/public/SectionError";
-import { MemberTable } from "../../../src/components/public/MemberTable";
 import {
   PUBLIC_API_REVALIDATE,
   listMembers,
@@ -85,10 +84,9 @@ export default async function MembersPage({ searchParams }: MembersPageProps) {
         <EmptyState
           title="該当するメンバーがいません"
           description="検索条件を変更するか、絞り込みをクリアしてください。"
+          variant="compact"
           resetHref="/members"
         />
-      ) : search.density === "list" ? (
-        <MemberTable items={listResult.data.items} />
       ) : (
         <MemberGrid items={listResult.data.items} density={search.density} />
       )}

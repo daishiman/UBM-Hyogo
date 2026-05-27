@@ -27,21 +27,43 @@ describe("Hero", () => {
     expect(links[1]?.getAttribute("data-variant")).toBe("secondary");
   });
 
+  it("renders card variant by default with accent + serif title (card)", () => {
+    const { container } = render(
+      <Hero
+        eyebrow="UBM HYOGO · CHAPTER SITE"
+        title="兵庫で、事業を育てる人のつながりを可視化する。"
+      />,
+    );
+    const root = container.querySelector('[data-component="hero"]');
+    expect(root?.getAttribute("data-variant")).toBe("card");
+    expect(container.querySelector('[data-role="accent"]')).toBeTruthy();
+    expect(
+      container.querySelector('[data-role="title-serif"]')?.textContent,
+    ).toBe("兵庫で、事業を育てる人のつながりを可視化する。");
+    expect(container.querySelector('[data-role="eyebrow"]')?.textContent).toBe(
+      "UBM HYOGO · CHAPTER SITE",
+    );
+  });
+
   it("omits subtitle and CTAs when not provided (empty)", () => {
     const { container } = render(<Hero title="タイトルのみ" />);
     expect(screen.getByRole("heading", { level: 1 }).textContent).toBe(
       "タイトルのみ",
     );
-    expect(container.querySelector("p")).toBeNull();
     expect(container.querySelectorAll('[data-role="cta"] a')).toHaveLength(0);
   });
 
   it("renders only primary CTA when secondary is missing (variant)", () => {
-    render(
-      <Hero title="t" primaryCta={{ label: "参加", href: "/join" }} />,
-    );
+    render(<Hero title="t" primaryCta={{ label: "参加", href: "/join" }} />);
     const primary = screen.getAllByRole("link");
     expect(primary).toHaveLength(1);
     expect(primary[0]?.getAttribute("data-variant")).toBe("primary");
+  });
+
+  it("renders panel variant when explicitly requested (panel)", () => {
+    const { container } = render(<Hero variant="panel" title="t" />);
+    const root = container.querySelector('[data-component="hero"]');
+    expect(root?.getAttribute("data-variant")).toBe("panel");
+    expect(container.querySelector('[data-role="accent"]')).toBeNull();
   });
 });
