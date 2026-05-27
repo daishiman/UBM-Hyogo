@@ -799,3 +799,18 @@ dev sync-merge で **HEAD = route group rename（`app/<route>/` → `app/(group)
 - Anchor:
   - 「scalar latest + array set + narrative」3 種混在 JSON を見たら本パターン適用。`pnpm sync:resolve` は JSON を union 対象外（[[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-002）にするため、手動 Edit で対応する。
 - 参照: [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-052
+
+## Playwright `getByRole(name)` substring 一致による strict mode violation の追従パターン（2026-05-27）
+
+- 適用場面: 既存 e2e spec が `getByRole('button', { name: '<member name>' }).click()` を使っており、後続の feature branch で同 row 内に「<name> を編集」「<name> を公開」等 substring が一致する補助 button を追加した時。pre-existing test が CI で `strict mode violation: ... resolved to N elements` で fail する。
+- 原因: Playwright の `{ name }` フィルタはデフォルト **case-insensitive substring match**。`{ exact: true }` を付けない限り、accessible name に `<member name>` を含むすべての button が候補に上がる。さらに row 内 Avatar (`role="img"` `aria-label="<name>"`) が button 子要素にある場合、button の accessible name は「<name> <name>」のような連結文字列になるため、`{ exact: true, name: '<name>' }` でも一致しない。
+- パターン:
+  1. 既存 spec の `getByRole('button', { name: '<text>' })` を grep し、新 feature branch で同 substring を含む aria-label / 子要素を追加していないか確認。
+  2. 追加していれば spec 側を **row testid → role=button → `.first()`** 形式に書き換える（例: `page.getByTestId('admin-members-row-mem_alpha').getByRole('button').first().click()`）。
+  3. テーブル row には必ず `data-testid={admin-<resource>-row-<id>}` を付与しておく（contract）。spec から安定 selector で参照できる正本になる。
+  4. `{ exact: true }` だけでは Avatar `aria-label` 連結問題が解消しないため、accessible name に依存する selector は避ける。
+- アンチパターン:
+  - feature branch で row 内 button を追加するときに e2e spec を grep せず、CI fail で初めて気付く → dev sync merge 直後に発覚するため「dev sync 起因」と誤認しやすい（実体は feature branch 由来の test gap）。
+  - `{ exact: true }` だけで対応 → Avatar が子要素にいる場合は accessible name が `'<name> <name>'` になり依然 fail。
+  - `getByText` で代替 → button 以外の span / Avatar が一致して別の strict violation を生む。
+- 参照: [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-010（fixture 不足は dev sync 起因ではなく feature branch 由来）と同型の盲点パターン

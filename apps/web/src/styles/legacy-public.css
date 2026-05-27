@@ -197,7 +197,7 @@
     font-weight: 700;
   }
 
-  [data-size]:not([data-component="google-brand-icon"]):not(.ui-input):not(.ui-button) {
+  [data-size]:not([data-component="google-brand-icon"]):not(.ui-input):not(.ui-button):not(.ui-avatar) {
     display: inline-grid;
     place-items: center;
     border-radius: 50%;
@@ -205,21 +205,21 @@
     color: var(--ubm-color-surface-panel);
   }
 
-  [data-size]:not([data-component="google-brand-icon"]):not(.ui-input):not(.ui-button)::after {
+  [data-size]:not([data-component="google-brand-icon"]):not(.ui-input):not(.ui-button):not(.ui-avatar)::after {
     content: none;
   }
 
-  [data-size="sm"]:not([data-component="google-brand-icon"]):not(.ui-input):not(.ui-button) {
+  [data-size="sm"]:not([data-component="google-brand-icon"]):not(.ui-input):not(.ui-button):not(.ui-avatar) {
     width: 32px;
     height: 32px;
   }
 
-  [data-size="md"]:not([data-component="google-brand-icon"]):not(.ui-input):not(.ui-button) {
+  [data-size="md"]:not([data-component="google-brand-icon"]):not(.ui-input):not(.ui-button):not(.ui-avatar) {
     width: 44px;
     height: 44px;
   }
 
-  [data-size="lg"]:not([data-component="google-brand-icon"]):not(.ui-input):not(.ui-button) {
+  [data-size="lg"]:not([data-component="google-brand-icon"]):not(.ui-input):not(.ui-button):not(.ui-avatar) {
     width: 72px;
     height: 72px;
     font-size: 26px;

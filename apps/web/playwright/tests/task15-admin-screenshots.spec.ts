@@ -48,7 +48,13 @@ test.describe('task-15 admin dashboard and members screenshots', () => {
     await expect(adminPage.getByRole('region', { name: '一括操作' })).toBeVisible()
     await screenshot(adminPage, 'admin-members-bulk-selected.png')
 
-    await adminPage.getByRole('button', { name: '青木 太郎' }).click()
+    // followup-001: row 内に Avatar(role=img aria-label) + name span + 「を編集」「を公開」等の
+    // 補助ボタンが共存するため、row testid 経由で 1 行目の name button（最初の button）に絞る。
+    await adminPage
+      .getByTestId('admin-members-row-mem_alpha')
+      .getByRole('button')
+      .first()
+      .click()
     await expect(adminPage.getByRole('dialog', { name: '会員詳細' })).toBeVisible()
     await screenshot(adminPage, 'admin-members-drawer-open.png')
 
