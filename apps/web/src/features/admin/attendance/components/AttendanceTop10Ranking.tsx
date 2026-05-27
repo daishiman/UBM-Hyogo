@@ -19,11 +19,20 @@ export function AttendanceTop10Ranking({ rows }: Props) {
           <span className="attendance-top10-name">
             {row.displayName || row.memberId}
           </span>
-          <span
+          <svg
             className="attendance-top10-bar"
-            style={{ width: `${(row.attendedCount / maxCount) * 100}%` }}
+            viewBox="0 0 100 8"
+            preserveAspectRatio="none"
             aria-hidden="true"
-          />
+          >
+            <rect width="100" height="8" rx="4" fill="var(--ubm-color-border-default)" />
+            <rect
+              width={(row.attendedCount / maxCount) * 100}
+              height="8"
+              rx="4"
+              fill="var(--ubm-color-accent)"
+            />
+          </svg>
           <span className="attendance-top10-count">
             {row.attendedCount} 回 / {formatRate(row.rate)}
           </span>

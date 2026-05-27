@@ -834,3 +834,15 @@
   4. resolver `scripts/sync/resolve-skill-merge-conflicts.sh` 側にも post-resolve sanity step として同 grep を追加すれば push 前検出が早まる。
 - 留意: CI gate は `<<<<<<< ` / `>>>>>>> ` / `||||||| ` の **後ろの空白込み 8 文字** で grep する。空白なし `|||||||EOL` 等は検出されない。古い resolver が space を消すケースは別途調査要。
 - 事例: 2026-05-26 `feat/issue-247-...` PR #966。`5ddb51e6a merge: sync ... with dev` push 後 `verify-conflict-markers` が `--- offending lines ---` 4件で FAIL。該当 4 行削除 commit で復旧。
+
+## L-DEVSYNC-050: dev sync で新規 lint gate (`verify-no-inline-style` 等) が降ってきた場合、feature 側の既存 inline-style は同一 merge commit で SVG `<rect>` 化 (L-I924-004 区分C) で解消する（2026-05-27 確認）
+
+- 事象: `feat/admin-attendance-analytics-redesign` ← dev (`0df8ecc55` issue-924 inline-style guard 含む) を merge 後、`pnpm lint` が `verify-no-inline-style: FAIL` で停止。本ブランチ側で先行追加していた `AttendanceTop10Ranking.tsx` / `AttendanceZoneDistributionChart.tsx` の progress bar `style={{ width: ... }}`（区分C 連続値）が新 gate に検出された。conflict ファイルではないため `pnpm sync:resolve` / `git merge` のいずれも検出できず、lint で初めて表面化する。
+- Why: dev 側で追加された invariant grep gate（`scripts/verify-no-inline-style.sh` の `style={` broad detection）は **merge 時点では textual conflict にならない**（HEAD 側ファイルはそのまま採用される）。新 gate の適用範囲が feature 側既存ファイルに及ぶケースでは、merge auto-merge 成功 → lint FAIL という gap が必然的に発生する。これは `verify-no-inline-style` に限らず、dev 側で追加される `verify-design-tokens` / `verify-test-suffix` 等の broad grep gate 系すべてに共通する pattern。
+- How to apply:
+  1. dev merge 直後の `pnpm lint` で `verify-*` 系 gate が新規 FAIL したら、**該当 gate の lessons-learned (`lessons-learned-issue-NNN-*.md`) を即時参照**して正本の置換 pattern を採用する。今回は L-I924-004 の 3 区分（A 静的 / B 動的離散 / C 動的連続）が SSOT。
+  2. 区分C（progress bar / chart bar 等の連続値 width）は SVG `<rect width={...}>` + `viewBox` + `preserveAspectRatio="none"` で逃がす（参考: `apps/web/src/features/admin/components/_dashboard/ZoneDistribution.tsx`）。HTML element の `style={{ width: ... }}` は CSP `style-src-attr` 撤去後 block されるが、SVG attribute の `width=` は別経路評価で通過する。
+  3. 置換は dev sync merge commit と **同一 commit** に含める（別 PR / 別 commit に分けると CI が乖離する。L-I924-005 と同じ整合性原則）。`git add` → 既存 merge commit に追加するか、merge commit 直後に lint-fix commit を続ける。
+  4. 該当 component に focused spec / visual baseline がある場合、SVG への DOM 構造変化（`<span>` → `<svg><rect>`）により selector / snapshot が壊れる可能性があるため `pnpm -r test` / Playwright visual を同時に確認する。今回は spec 未存在のため typecheck + lint のみで PASS 判定。
+- 留意: dev 側で追加される lint gate を pre-merge に検知する手段は現状ない。`pnpm sync:check` でリモート ahead 数だけは見えるが、追加された gate 種別までは取得できないため、**merge 後に必ず `pnpm lint` → `pnpm typecheck` → `bash scripts/verify-pr-ready.sh` を完走する運用**が唯一の防御。これは CONST_019（本ブランチで変更が上がっている内容はすべてpush）と組み合わせて、新 gate 由来の差分も漏れなく同一 PR に含めるルールとして機能する。
+- 事例: 2026-05-27 `feat/admin-attendance-analytics-redesign` ← dev (`04c569a48` login-ui balance + issue-924 inline-style guard 累積)。`4f49cf93f Merge ... into feat/admin-attendance-analytics-redesign` 直後の `pnpm lint` で 2 ファイル FAIL → L-I924-004 区分C 適用で SVG `<rect>` 化 → 同 lint コマンド PASS。spec 未存在のため visual regression は user-gated。

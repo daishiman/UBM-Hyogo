@@ -24,11 +24,20 @@ export function AttendanceZoneDistributionChart({ data }: Props) {
         {data.rows.map((row) => (
           <li key={row.zone} className="attendance-zone-row">
             <span className="attendance-zone-label">{ZONE_LABEL[row.zone]}</span>
-            <span
+            <svg
               className="attendance-zone-bar"
-              style={{ width: `${Math.max(2, row.rate * 100)}%` }}
+              viewBox="0 0 100 8"
+              preserveAspectRatio="none"
               aria-hidden="true"
-            />
+            >
+              <rect width="100" height="8" rx="4" fill="var(--ubm-color-border-default)" />
+              <rect
+                width={Math.max(2, row.rate * 100)}
+                height="8"
+                rx="4"
+                fill="var(--ubm-color-accent)"
+              />
+            </svg>
             <span className="attendance-zone-count">
               {row.attendeeCount} 人 ({formatRate(row.rate)})
             </span>
