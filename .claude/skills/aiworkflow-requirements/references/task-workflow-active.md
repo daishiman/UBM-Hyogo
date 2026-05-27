@@ -8,6 +8,35 @@
 
 本ドキュメントは、複雑なタスクを単一責務の原則に基づいて分解し、各サブタスクに最適なスラッシュコマンド・エージェント・スキルの組み合わせを選定するためのガイドラインを定義する。
 
+### admin-dashboard-recovery-and-byZone（2026-05-26）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_runtime_pending / implementation / VISUAL` |
+| 成果物 | `docs/30-workflows/completed-tasks/admin-dashboard-recovery-and-byZone/` |
+| parent | `docs/30-workflows/admin-ui-prototype-alignment/` |
+| source | `docs/30-workflows/admin-ui-prototype-alignment/tasks/task-B-dashboard-recovery-and-byZone.md` |
+| 目的 | staging `/admin` の dashboard fetch 404 を H1/H2/H3 で切り分け、既存 `GET /admin/dashboard` に optional `byZone` を追加し、`ZoneDistribution` を prototype 準拠 DOM に整える |
+| implementation targets | `packages/shared/src/zod/viewmodel.ts`, `apps/api/src/routes/admin/dashboard.ts`, `apps/api/src/routes/admin/_shared/byZone.ts`, `apps/web/src/lib/admin/admin-dashboard-ui.ts`, `apps/web/src/features/admin/components/_dashboard/ZoneDistribution.tsx`, `apps/web/src/lib/admin/{safe-server-fetch,server-fetch}.ts`, `apps/web/playwright/fixtures/auth.ts`, `apps/web/playwright/tests/admin-dashboard-byzone-screenshots.spec.ts`, `apps/web/src/styles/tokens.css` |
+| invariant | 新 API endpoint / D1 schema / Google Form 変更なし。404 復旧は wrangler tail で確定した 1 系統のみ修正。必要な token alias 欠落は同 cycle 最小追加 |
+| Phase 11/12 | local screenshots present (`admin-dashboard-200-overview.png`, `admin-dashboard-byZone-detail.png`) + strict 7 outputs + root/output artifacts parity present |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-dashboard-recovery-and-byZone-artifact-inventory.md` |
+| user gate | staging deploy, wrangler tail, staging curl evidence, commit, push, PR |
+
+### admin-attendance-analytics-redesign（2026-05-26）
+
+| 項目 | 値 |
+| --- | --- |
+| state | `implemented_local_runtime_pending / implementation / VISUAL / staging_visual_pending` |
+| root | `docs/30-workflows/completed-tasks/admin-attendance-analytics-redesign/` |
+| purpose | Admin attendance analytics redesign local implementation: period/zone filter, trend, zone distribution, session drilldown, absentee follow-up, CSV export, and visual evidence plan |
+| baseline | `ut-02a-followup-002-attendance-dashboard-analytics` remains historical baseline; this workflow is the current local redesign implementation |
+| implementation targets | `apps/api/src/routes/admin/dashboard.ts`, `apps/api/src/repository/attendance-analytics.ts`, `apps/api/src/lib/{csv-export,parse-attendance-filter}.ts`, `packages/shared/src/zod/admin-attendance.ts`, `apps/web/app/(admin)/admin/dashboard/attendance/page.tsx`, `apps/web/src/features/admin/attendance/**` |
+| evidence | `outputs/phase-11/runtime-evidence.md` records local API/web/shared tests, typecheck, lint, and build; staging visual evidence pending |
+| Phase 12 | strict 7 present; root/output artifacts parity present; implemented-local state synced |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-attendance-analytics-redesign-artifact-inventory.md` |
+| user gate | staging deploy, runtime visual capture, CSV runtime verification, commit, push, PR |
+
 ### public-dashboard-prototype-alignment（2026-05-26）
 
 | 項目 | 値 |
