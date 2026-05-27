@@ -874,13 +874,13 @@ node scripts/list-specs.js --topics
 | 概要 | L8 |
 | ドキュメント構成 | L15 |
 | REST API エンドポイント一覧 | L25 |
-| エンドポイント命名規則 | L226 |
-| UBM-Hyogo Admin Sync API（03a） | L247 |
-| UBM-Hyogo Member Self-Service API（04b） | L299 |
-| Admin Dashboard Attendance Analytics API（UT-02A follow-up 002） | L325 |
-| Desktop IPC API サマリー | L339 |
-| 変更履歴 | L370 |
-| 関連ドキュメント | L387 |
+| エンドポイント命名規則 | L234 |
+| UBM-Hyogo Admin Sync API（03a） | L255 |
+| UBM-Hyogo Member Self-Service API（04b） | L307 |
+| Admin Dashboard Attendance Analytics API（UT-02A follow-up 002） | L333 |
+| Desktop IPC API サマリー | L347 |
+| 変更履歴 | L378 |
+| 関連ドキュメント | L395 |
 
 ### references/api-internal-chunk-search.md
 
@@ -2123,6 +2123,20 @@ node scripts/list-specs.js --topics
 | Linked Lessons | L29 |
 | Boundary | L33 |
 
+### references/workflow-admin-attendance-analytics-redesign-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Metadata | L3 |
+| Artifacts | L13 |
+| Boundary | L31 |
+
+### references/workflow-admin-dashboard-recovery-and-byZone-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Contract | L15 |
+
 ### references/workflow-admin-member-delete-e2e-spec-artifact-inventory.md
 
 | セクション | 行 |
@@ -2134,6 +2148,15 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | Contract | L16 |
+
+### references/workflow-admin-ui-prototype-alignment-followup-001-members-fetch-and-visual-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Canonical files | L3 |
+| Registration | L14 |
+| Implemented targets | L20 |
+| Evidence boundary | L30 |
 
 ### references/workflow-admin-ui-prototype-alignment-followup-002-section-error-retry-artifact-inventory.md
 
@@ -3261,6 +3284,13 @@ node scripts/list-specs.js --topics
 | Workflow Artifacts | L11 |
 | Code Artifacts | L20 |
 | Evidence Boundary | L36 |
+
+### references/workflow-members-list-prototype-alignment-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| State | L18 |
+| Boundary | L24 |
 
 ### references/workflow-members-page-prototype-alignment-artifact-inventory.md
 
@@ -5445,6 +5475,15 @@ node scripts/list-specs.js --topics
 | L-09C-EXEC-004: Phase 12 strict 7 filenames は drift 検出を Phase 11 終了時に前倒す | L33 |
 | L-09C-EXEC-005: Issue close 状態は `Refs #N` を使い `Closes` を再付与しない | L41 |
 | L-09C-EXEC-006: follow-up の existing detection を新規化と分離する | L49 |
+
+### references/lessons-learned-admin-attendance-analytics-redesign-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| L-ATTN-001: local implementation と staging visual evidence を分離する | L3 |
+| L-ATTN-002: API 正本更新済みのものを future 扱いに戻さない | L7 |
+| L-ATTN-003: skill-feedback no-op は実態一致が前提 | L11 |
+| L-ATTN-004: 500行超過は appendix へ責務分離する | L15 |
 
 ### references/lessons-learned-admin-tags-queue-resolver-drawer-2026-05.md
 
@@ -7825,14 +7864,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L2691 |
-| フェーズ構造（概要） | L2700 |
-| 品質ゲート（概要） | L2731 |
-| 出力テンプレート | L2742 |
-| 実行時のコマンド・エージェント・スキル | L2765 |
-| 昇格パターン集 | L2789 |
-| Current Active / Spec Created Tasks | L2791 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L2952 |
+| ドキュメント構成 | L2747 |
+| フェーズ構造（概要） | L2756 |
+| 品質ゲート（概要） | L2787 |
+| 出力テンプレート | L2798 |
+| 実行時のコマンド・エージェント・スキル | L2821 |
+| 昇格パターン集 | L2845 |
+| Current Active / Spec Created Tasks | L2847 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L3008 |
 
 ### references/task-workflow-backlog-part2.md
 

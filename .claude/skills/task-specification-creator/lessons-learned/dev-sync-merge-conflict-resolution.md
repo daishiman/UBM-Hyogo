@@ -446,3 +446,13 @@
 - 検証: `grep -nE '^(<<<<<<<|=======|>>>>>>>|\|\|\|\|\|\|\|)' <path>` 0 件 + `pnpm typecheck` PASS + `pnpm lint` PASS + 採用 variant の既存 spec / visual baseline が green。
 - 事例: 2026-05-27 commit `57ff4402b` (`merge: sync ...`) は typecheck/lint green だが、**pre-push `verify-no-inline-style` (issue-924) が HEAD 残置の panel variant `style={{...}}` で fail**。追加 commit `f7b493456` で panel variant の inline-style も撤去（dev 側横断ルールを残 path にも適用）し push 成功。**判定フロー step 2.5**: dev 側 commit が refactor/chore 性質の横断撤去（hook gated CI rule 適用）なら、HEAD 採用 path にも同 rule を波及させる。`git log --oneline origin/dev ^HEAD -- <path>` で commit 性質確認 + `pnpm exec lefthook run pre-push --files <path>` で事前検証を Phase 9 dry-run checklist に追記。
 - 参照: aiworkflow-requirements [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-050 / L-DEVSYNC-050-A を併読。
+
+### SP-DEVSYNC-039: feature 側 rename × dev 側 sibling 追加の playwright.config 3-way（2026-05-27 追加）
+
+- 事象: 2026-05-27 `feat/members-list-prototype-alignment` ← origin/dev sync-merge で `apps/web/playwright.config.ts` の `EVIDENCE_DIR` 三項分岐が 3-way conflict。HEAD 側は workflow dir rename（`members-page-prototype-alignment` → `members-list-prototype-alignment`）、dev 側は同位置の三項に **新 sibling `isPublicDashboardPrototypeAlignment` 分岐を挿入**。base は旧名のみ。
+- Why: rename と sibling 追加は意味的に独立で、`||||||| 04c569a48` block を捨てて HEAD の rename と dev の sibling を**両側手動 union**するのが正。片側 take すると path rename か sibling 分岐かのどちらかを失う。
+- How to apply（task 仕様書での逐語化）:
+  - Phase 9 sync-merge 節に「playwright.config の EVIDENCE_DIR / serverReadyURL 三項分岐は **base 削除 + HEAD path + dev sibling 全採用** の手動 union を default にする」を追記。
+  - Phase 4 risk に「workflow dir rename を伴う UI feature は dev 側 sibling 追加と同位置で衝突する」を登録し、merge 前に `git log origin/dev ^HEAD -- apps/web/playwright.config.ts` で sibling 追加 commit の有無を確認するチェックを加える。
+- 事例同時発生: `.claude/skills/task-specification-creator/references/patterns-lessons-and-pitfalls.md` EOF で HEAD 側 `## DOM 構造置換 PR ...` 節 + dev 側 `## accent on accent-soft chip ...` / `## L-DEVSYNC-051 visual baseline ...` / `## L-FETCHCACHE-001 ...` 3 節が並列追加。SP-DEVSYNC-037 同パターンで両側保持＋marker 物理除去で解消（resolver 非対応の手動 union）。
+- 検証: `grep -nE '^(<<<<<<<|=======|>>>>>>>|\|\|\|\|\|\|\|)' <path>` 0 件 + `pnpm typecheck` PASS + `pnpm lint` PASS。

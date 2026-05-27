@@ -1,11 +1,15 @@
-// task-15: AdminDashboardView の web local UI mapper。
-// `byZone` / `byStatus` は @ubm-hyogo/shared schema 外（FB-W0-01: shared を変更しない）。
-// API 未提供時は undefined を返し、UI 側で placeholder 描画する契約。
+// task-15 / admin-dashboard-recovery-and-byZone:
+// `byZone` / `byStatus` は AdminDashboardViewZ の optional 拡張として shared schema に同梱済み。
+// API 未提供時 (旧 response shape) は parseZoneSlices が undefined を返し、UI は placeholder 描画する。
 import type { AdminDashboardView } from "@ubm-hyogo/shared";
 
 export interface ZoneSlice {
-  readonly zone: string;
+  readonly key: "0to1" | "1to10" | "10to100";
+  readonly label: string;
+  readonly hint: string;
   readonly count: number;
+  readonly total: number;
+  readonly tone: "info" | "accent" | "ok";
 }
 
 export interface StatusSlice {
@@ -21,8 +25,6 @@ export interface AdminDashboardUiView {
   readonly byStatus: ReadonlyArray<StatusSlice> | undefined;
 }
 
-// API response が現行 schema (totals/recentActions/generatedAt) のみを返すケースを正常系とし、
-// 拡張フィールドが将来追加された場合に optional として吸収できるよう loose 判定する。
 export function toAdminDashboardUi(
   view: Omit<AdminDashboardView, "byStatus"> & { byZone?: unknown; byStatus?: unknown },
 ): AdminDashboardUiView {
@@ -35,20 +37,45 @@ export function toAdminDashboardUi(
   };
 }
 
-function parseZoneSlices(v: unknown): ReadonlyArray<ZoneSlice> | undefined {
-  if (!Array.isArray(v)) return undefined;
+const ZONE_KEYS = new Set(["0to1", "1to10", "10to100"]);
+const ZONE_TONES = new Set(["info", "accent", "ok"]);
+
+export function parseZoneSlices(v: unknown): ReadonlyArray<ZoneSlice> | undefined {
+  if (!Array.isArray(v) || v.length !== 3) return undefined;
   const out: ZoneSlice[] = [];
   for (const item of v) {
     if (
-      typeof item === "object" &&
-      item !== null &&
-      typeof (item as { zone?: unknown }).zone === "string" &&
-      typeof (item as { count?: unknown }).count === "number"
+      typeof item !== "object" ||
+      item === null ||
+      typeof (item as { key?: unknown }).key !== "string" ||
+      !ZONE_KEYS.has((item as { key: string }).key) ||
+      typeof (item as { label?: unknown }).label !== "string" ||
+      typeof (item as { hint?: unknown }).hint !== "string" ||
+      typeof (item as { count?: unknown }).count !== "number" ||
+      typeof (item as { total?: unknown }).total !== "number" ||
+      typeof (item as { tone?: unknown }).tone !== "string" ||
+      !ZONE_TONES.has((item as { tone: string }).tone)
     ) {
-      out.push({ zone: (item as { zone: string }).zone, count: (item as { count: number }).count });
+      return undefined;
     }
+    const i = item as {
+      key: ZoneSlice["key"];
+      label: string;
+      hint: string;
+      count: number;
+      total: number;
+      tone: ZoneSlice["tone"];
+    };
+    out.push({
+      key: i.key,
+      label: i.label,
+      hint: i.hint,
+      count: i.count,
+      total: i.total,
+      tone: i.tone,
+    });
   }
-  return out.length === 0 ? undefined : out;
+  return out;
 }
 
 function parseStatusSlices(v: unknown): ReadonlyArray<StatusSlice> | undefined {
