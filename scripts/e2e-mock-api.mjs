@@ -703,6 +703,19 @@ const server = createServer(async (req, res) => {
       return writeJson(res, 200, { ok: true, summary, rows: results, dryRun, committed });
     }
   }
+  // DELETE /admin/meetings/:sessionId/attendance/:memberId — unregister attendance
+  if (req.method === "DELETE" && /^\/admin\/meetings\/[^/]+\/attendance\/[^/]+$/.test(pathname)) {
+    const parts = pathname.split("/");
+    const sessionId = decodeURIComponent(parts[3]);
+    const memberId = decodeURIComponent(parts[5]);
+    const meeting = state.meetingsSeed.meetings.find((m) => m.sessionId === sessionId);
+    if (!meeting) return writeJson(res, 404, { error: "meeting_not_found" });
+    const exists = meeting.attendees.some((a) => a.memberId === memberId);
+    if (!exists) return writeJson(res, 404, { error: "ATTENDANCE_NOT_FOUND" });
+    meeting.attendees = meeting.attendees.filter((a) => a.memberId !== memberId);
+    state.attendance.delete(`${sessionId}:${memberId}`);
+    return writeJson(res, 200, { sessionId, memberId, removedAt: NOW });
+  }
   // legacy /attendance (singular) — back-compat for older specs
   if (req.method === "POST" && pathname.startsWith("/admin/meetings/") && pathname.endsWith("/attendance")) {
     const sessionId = pathname.split("/")[3];
