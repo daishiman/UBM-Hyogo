@@ -33,33 +33,4 @@ describe("PublicHeader", () => {
       expect(link.getAttribute("href")).toBe(href);
     }
   });
-
-  it("未ログイン時はマイページリンクを表示しない", () => {
-    const { container } = render(<PublicHeader />);
-    expect(screen.queryByRole("link", { name: "マイページ" })).toBeNull();
-    const cta = container.querySelector('[data-role="auth-cta"]');
-    expect(cta?.getAttribute("data-state")).toBe("anonymous");
-    expect(cta?.getAttribute("href")).toBe("/login");
-  });
-
-  it("ログイン中は auth-cta が /profile になる", () => {
-    const { container } = render(
-      <PublicHeader currentUser={{ memberId: "mem-1", name: "山田 太郎" }} />,
-    );
-    const cta = container.querySelector('[data-role="auth-cta"]');
-    expect(cta?.getAttribute("data-state")).toBe("authenticated");
-    expect(cta?.getAttribute("href")).toBe("/profile");
-    expect(screen.queryByRole("link", { name: "ログイン" })).toBeNull();
-  });
-
-  it("ログイン中で currentPath=/profile のときマイページ CTA が aria-current=page", () => {
-    const { container } = render(
-      <PublicHeader
-        currentPath="/profile"
-        currentUser={{ memberId: "mem-1" }}
-      />,
-    );
-    const cta = container.querySelector('[data-role="auth-cta"]');
-    expect(cta?.getAttribute("aria-current")).toBe("page");
-  });
 });

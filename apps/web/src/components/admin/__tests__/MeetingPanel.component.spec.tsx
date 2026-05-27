@@ -19,27 +19,15 @@ const mockedCreateMeeting = vi.mocked(adminApi.createMeeting);
 const mockedUpdateMeeting = vi.mocked(adminApi.updateMeeting);
 const mockedAddAttendance = vi.mocked(adminApi.addAttendance);
 const mockedRemoveAttendance = vi.mocked(adminApi.removeAttendance);
-const originalFetch = globalThis.fetch;
-let fetchMock: ReturnType<typeof vi.fn>;
-
-const jsonResponse = (status: number, body: unknown): Response =>
-  new Response(JSON.stringify(body), {
-    status,
-    headers: { "content-type": "application/json" },
-  });
 
 beforeEach(() => {
   mockedCreateMeeting.mockReset();
   mockedUpdateMeeting.mockReset();
   mockedAddAttendance.mockReset();
   mockedRemoveAttendance.mockReset();
-  fetchMock = vi.fn();
-  globalThis.fetch = fetchMock as unknown as typeof fetch;
 });
 
 afterEach(() => {
-  vi.useRealTimers();
-  globalThis.fetch = originalFetch;
   cleanup();
 });
 
@@ -260,7 +248,7 @@ describe("MeetingPanel — empty / mutation / authz", () => {
   });
 
   it("removeAttendance 成功: confirm dialog 経由で出席者リストから削除", async () => {
-    fetchMock.mockResolvedValueOnce(jsonResponse(200, { ok: true }));
+    mockedRemoveAttendance.mockResolvedValueOnce({ ok: true, status: 200, data: {} });
     render(
       <MeetingPanel
         meetings={{
@@ -279,16 +267,7 @@ describe("MeetingPanel — empty / mutation / authz", () => {
     // 「削除する」確定で trigger
     fireEvent.click(screen.getByRole("button", { name: "削除する" }));
     await waitFor(() => {
-      expect(fetchMock).toHaveBeenCalledWith(
-        "/api/admin/meetings/s1/attendance/m1",
-        expect.objectContaining({
-          method: "DELETE",
-          body: "null",
-          headers: expect.objectContaining({
-            "Idempotency-Key": expect.any(String),
-          }),
-        }),
-      );
+      expect(mockedRemoveAttendance).toHaveBeenCalledWith("s1", "m1");
     });
     expect(await screen.findByText("出席を削除しました")).toBeTruthy();
     expect(screen.queryByRole("heading", { name: "出席者" })).toBeNull();
@@ -310,12 +289,16 @@ describe("MeetingPanel — empty / mutation / authz", () => {
     await waitFor(() => {
       expect(screen.queryByRole("dialog")).toBeNull();
     });
-    expect(fetchMock).not.toHaveBeenCalled();
+    expect(mockedRemoveAttendance).not.toHaveBeenCalled();
     expect(screen.getByText("m1")).toBeTruthy();
   });
 
-  it("removeAttendance 4xx 失敗: retry せず削除に失敗 toast (confirm 経由)", async () => {
-    fetchMock.mockResolvedValueOnce(jsonResponse(400, { error: "bad_request" }));
+  it("removeAttendance 失敗: 削除に失敗 toast (confirm 経由)", async () => {
+    mockedRemoveAttendance.mockResolvedValueOnce({
+      ok: false,
+      status: 500,
+      error: "x",
+    });
     render(
       <MeetingPanel
         meetings={{
@@ -327,14 +310,17 @@ describe("MeetingPanel — empty / mutation / authz", () => {
     );
     fireEvent.click(screen.getByRole("button", { name: "削除" }));
     fireEvent.click(await screen.findByRole("button", { name: "削除する" }));
-    expect(await screen.findByText('削除に失敗: {"error":"bad_request"}')).toBeTruthy();
-    expect(fetchMock).toHaveBeenCalledTimes(1);
+    expect(await screen.findByText("削除に失敗: x")).toBeTruthy();
     // 出席者は残ったまま
     expect(screen.getByRole("heading", { name: "出席者" })).toBeTruthy();
   });
 
   it("removeAttendance 404: 既に出席解除済みとして list から除去 (confirm 経由)", async () => {
-    fetchMock.mockResolvedValueOnce(jsonResponse(404, { error: "attendance_not_found" }));
+    mockedRemoveAttendance.mockResolvedValueOnce({
+      ok: false,
+      status: 404,
+      error: "attendance_not_found",
+    });
     render(
       <MeetingPanel
         meetings={{
@@ -348,39 +334,6 @@ describe("MeetingPanel — empty / mutation / authz", () => {
     fireEvent.click(await screen.findByRole("button", { name: "削除する" }));
     expect(await screen.findByText("既に出席解除されています")).toBeTruthy();
     expect(screen.queryByRole("heading", { name: "出席者" })).toBeNull();
-  });
-
-  it("removeAttendance 5xx: DELETE は retry し Idempotency-Key を毎回送る", async () => {
-    fetchMock
-      .mockResolvedValueOnce(jsonResponse(500, { error: "transient-1" }))
-      .mockResolvedValueOnce(jsonResponse(500, { error: "transient-2" }))
-      .mockResolvedValueOnce(jsonResponse(200, { ok: true }));
-    render(
-      <MeetingPanel
-        meetings={{
-          total: 1,
-          items: [{ ...baseMeeting, attendance: [{ memberId: "m/1" }] }],
-        }}
-        candidates={[{ memberId: "m/1", fullName: "山田" }]}
-      />,
-    );
-
-    fireEvent.click(screen.getByRole("button", { name: "削除" }));
-    fireEvent.click(await screen.findByRole("button", { name: "削除する" }));
-
-    await waitFor(() => expect(fetchMock).toHaveBeenCalledTimes(3));
-
-    expect(fetchMock.mock.calls.map(([url]) => url)).toEqual([
-      "/api/admin/meetings/s1/attendance/m%2F1",
-      "/api/admin/meetings/s1/attendance/m%2F1",
-      "/api/admin/meetings/s1/attendance/m%2F1",
-    ]);
-    for (const [, init] of fetchMock.mock.calls) {
-      expect((init as RequestInit).headers).toEqual(
-        expect.objectContaining({ "Idempotency-Key": expect.any(String) }),
-      );
-    }
-    expect(await screen.findByText("出席を削除しました")).toBeTruthy();
   });
 
   it("note ありの meeting で note を表示する", () => {

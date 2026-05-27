@@ -3,9 +3,6 @@
 ## 概要
 LOGS は archive index 方式へ再編した。最新更新は本ファイル、詳細 log は references/archive から参照する。
 ## 最新更新ヘッドライン
-| 2026-05-26 - public-header-my-profile-nav-alignment sync（`docs/30-workflows/completed-tasks/public-header-my-profile-nav-alignment/` を `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION` として同期。公開ヘッダのログイン中 CTA を `/profile` の「マイページ」に切り替え、`PublicHeader` は sync presentational、`PublicHeaderWithPath` は `usePathname()` client island、`SessionAwarePublicHeader` は `getSession()` server wrapper に分離。重複する `マイページ` nav+CTA は作らず CTA 一本に集約。focused header/layout tests、Phase 12 strict 7、root/output artifacts parity、quick-reference / resource-map / task-workflow-active / artifact inventory / SKILL history を同一 wave で反映。browser/session smoke、commit、push、PR は user-gated） |
-| 2026-05-23 - admin-ui-prototype-alignment lessons-learned 反映（`references/lessons-learned-admin-ui-prototype-alignment-2026-05.md`（L-AUIP-001..006: per-section degrade / safeServerFetch SafeResult / Props contract Phase 2 確定 / barrel import CI gate / design token phase 分離 / server-client twin principle / Phase 4 test-contract scope lock）を新規作成。outputs/phase-12/unassigned-task-detection.md と phase12-task-spec-compliance-check.md の「detected 0」と「followup 2 件物理生成」の矛盾を解消。indexes は `pnpm indexes:rebuild` で再生成想定） |
-| 2026-05-26 - register-page-prototype-alignment sync（`docs/30-workflows/completed-tasks/register-page-prototype-alignment/` を `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION` として同期。`/register` を prototype `MemberFormPage` に合わせ、Hero CTA / 3-step flow / collapsible FormPreview / 3 FAQ / bottom CTA へ再構成。`RegisterHeroCallout` rename、focused component specs、Playwright smoke、Phase 12 strict 7、root/output artifacts parity、quick-reference / resource-map / task-workflow-active / artifact inventory / dated changelog を同一 wave で反映。commit / push / PR / 外部 staging observation は user-gated） |
 | 2026-05-25 - Issue #908 staging rollback notification runtime smoke sync（`docs/30-workflows/completed-tasks/issue-908-staging-rollback-notification-runtime-smoke/` を `implemented_local_runtime_pending / implementation / NON_VISUAL` として同期。`scripts/runtime-smoke/schema-alias-rollback.sh` と親 `outputs/phase-11/evidence/staging-smoke.md` placeholder を同一 wave で作成し、親 manual-test-result / artifacts Gate-C は pending のまま実在 evidence path へ cross-link。task-specification-creator runtime evidence follow-up pattern、quick-reference / resource-map / task-workflow-active / artifact inventory / changelog / SKILL history を反映。staging deploy、rollback POST、D1 mutation、provider evidence population、parent completion promotion、commit、push、PR は user-gated） |
 | 2026-05-25 - Issue #901 authenticated profile/admin staging visual sync（`docs/30-workflows/completed-tasks/issue-901-authenticated-profile-admin-staging-visual/` を `spec_created / implementation / VISUAL / runtime_pending` として同期。CLOSED Issue #901 は reopen せず `Refs #901` のみ、source proto-spec `UT-DSF-07-FU-01-authenticated-profile-admin-staging-visual.md` を consumed 化、親 UT-DSF-07 に child workflow back-reference を追加。Phase 12 strict 7、root artifacts、aiworkflow quick-reference / resource-map / task-workflow-active / artifact inventory / changelog を同一 wave で反映。実装、authenticated screenshots、parent gate release、commit、push、PR は user-gated） |
 | 2026-05-25 - issue-894 AdminTopbar breadcrumb slot integration（`docs/30-workflows/completed-tasks/issue-894-admin-topbar-breadcrumb-integration/` を `implemented_local_evidence_captured / implementation / VISUAL / implementation_complete_pending_pr` として同期。`apps/web/app/(admin)/layout.tsx` が topbar root breadcrumb を静的 current label として所有し、`apps/web/app/(admin)/admin/**/page.tsx` の page-local breadcrumb から root「管理」を除去。`Breadcrumb.spec.tsx` / layout spec / typecheck / lint / grep gate を PASS し、共有 `Breadcrumb` primitive の final item current span 契約を維持。authenticated admin screenshot を Phase 11 に保存し、Phase 12 strict 7、quick-reference / resource-map / task-workflow-active / artifact inventory / changelog を同一 wave で反映。Issue #894 は CLOSED のため `Refs #894` のみ。commit / push / PR / Issue mutation は user-gated） |
@@ -1073,18 +1070,6 @@ production env monitor secret cleanup は user-gated。
 - Registered `docs/30-workflows/admin-ui-prototype-alignment/` as `spec_created / implementation / VISUAL`.
 - Added artifact inventory `references/workflow-admin-ui-prototype-alignment-artifact-inventory.md`.
 - Boundary: no API / D1 schema / Auth.js middleware contract change; runtime screenshots and PR creation are user-gated.
-# 2026-05-23 admin-ui-prototype-alignment
-
-- Registered `docs/30-workflows/admin-ui-prototype-alignment/` as `spec_created / implementation / VISUAL`.
-- Added artifact inventory `references/workflow-admin-ui-prototype-alignment-artifact-inventory.md`.
-- Boundary: no API / D1 schema / Auth.js middleware contract change; runtime screenshots and PR creation are user-gated.
-
-# 2026-05-25 issue912-idempotent-attendance-remove-retry
-
-- Synced `docs/30-workflows/completed-tasks/issue-912-idempotent-attendance-remove-retry/` as `implemented_local_evidence_captured / implementation / NON_VISUAL`.
-- Implemented `apps/web/src/lib/admin/api.ts` `removeAttendance` DELETE route and `MeetingPanel.tsx` add/remove mutation split.
-- Captured focused Vitest evidence: `api.spec.ts`, `MeetingPanel.component.spec.tsx`, `useAdminMutation.spec.ts` (97 tests PASS).
-- Added aiworkflow artifact inventory and lessons L-I912-001..005. Commit, push, PR, staging runtime curl, and Issue mutation remain user-gated.
 
 # 2026-05-24 issue-863-admin-error-alert-policy-iac
 
