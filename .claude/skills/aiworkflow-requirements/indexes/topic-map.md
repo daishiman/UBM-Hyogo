@@ -7819,14 +7819,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L2692 |
-| フェーズ構造（概要） | L2701 |
-| 品質ゲート（概要） | L2732 |
-| 出力テンプレート | L2743 |
-| 実行時のコマンド・エージェント・スキル | L2766 |
-| 昇格パターン集 | L2790 |
-| Current Active / Spec Created Tasks | L2792 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L2953 |
+| ドキュメント構成 | L2691 |
+| フェーズ構造（概要） | L2700 |
+| 品質ゲート（概要） | L2731 |
+| 出力テンプレート | L2742 |
+| 実行時のコマンド・エージェント・スキル | L2765 |
+| 昇格パターン集 | L2789 |
+| Current Active / Spec Created Tasks | L2791 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L2952 |
 
 ### references/task-workflow-backlog-part2.md
 
