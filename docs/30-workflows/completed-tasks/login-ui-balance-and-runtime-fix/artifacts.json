@@ -1,0 +1,89 @@
+{
+  "task_id": "login-ui-balance-and-runtime-fix",
+  "created_at": "2026-05-26",
+  "status": "implemented_local_runtime_pending",
+  "task_type": "implementation",
+  "visual_category": "VISUAL",
+  "metadata": {
+    "workflow_state": "implemented_local_runtime_pending",
+    "implementation_status": "local_code_and_visual_complete_staging_pending",
+    "taskType": "implementation",
+    "visualEvidence": "VISUAL",
+    "implementationCategory": "standard",
+    "spec_classification": "implementation_spec",
+    "canonical_workflow": "docs/30-workflows/completed-tasks/login-ui-balance-and-runtime-fix/",
+    "source_observation": "staging /login console + screenshot (2026-05-26)",
+    "commit_push_pr": "user_gated",
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/login-ui-balance-and-runtime-fix/phase-10-final-review.md",
+        "approver": "daishiman",
+        "notes": "local implementation review: focused specs, grep gate, and local visual screenshots passed"
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/login-ui-balance-and-runtime-fix/outputs/phase-11/manual-test-result.md",
+        "approver": "daishiman",
+        "notes": "local + staging review: input/button balance, Google icon, magic-link 200/202; staging deploy user-gated"
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/login-ui-balance-and-runtime-fix/outputs/phase-13/pr-creation-result.md",
+        "approver": "daishiman",
+        "notes": "external_ops: commit / push / PR are user-gated"
+      }
+    ]
+  },
+  "phases": [
+    { "phase": 1,  "name": "要件定義",        "status": "completed", "output": "phase-1-requirements.md" },
+    { "phase": 2,  "name": "設計",            "status": "completed", "output": "phase-2-design.md" },
+    { "phase": 3,  "name": "設計レビュー",    "status": "completed", "output": "phase-3-design-review.md" },
+    { "phase": 4,  "name": "テスト計画",      "status": "completed", "output": "phase-4-test-plan.md" },
+    { "phase": 5,  "name": "実装手順",        "status": "completed", "output": "phase-5-implementation.md" },
+    { "phase": 6,  "name": "テスト追加",      "status": "completed", "output": "phase-6-test-additions.md" },
+    { "phase": 7,  "name": "カバレッジ",      "status": "completed", "output": "phase-7-coverage.md" },
+    { "phase": 8,  "name": "リファクタ",      "status": "completed", "output": "phase-8-refactor.md" },
+    { "phase": 9,  "name": "QA",              "status": "completed", "output": "phase-9-qa.md" },
+    { "phase": 10, "name": "最終レビュー",    "status": "completed", "output": "phase-10-final-review.md" },
+    { "phase": 11, "name": "手動テスト",      "status": "local_visual_captured_staging_pending",   "output": "outputs/phase-11/manual-test-result.md" },
+    { "phase": 12, "name": "ドキュメント同期", "status": "completed",   "output": "outputs/phase-12/main.md" },
+    { "phase": 13, "name": "commit-pr",       "status": "blocked_pending_user_approval", "output": "phase-13-pr.md" }
+  ],
+  "implementation_targets": [
+    "apps/web/src/styles/auth.css",
+    "apps/web/src/styles/legacy-public.css",
+    "apps/web/app/api/auth/magic-link/route.ts",
+    "apps/web/app/api/auth/magic-link/verify/route.ts",
+    "apps/web/app/api/auth/gate-state/route.ts",
+    "apps/web/app/api/admin/[...path]/route.ts",
+    "apps/web/app/api/me/[...path]/route.ts",
+    "apps/web/src/lib/auth/verify-magic-link.ts",
+    "apps/web/src/lib/fetch/authed.ts",
+    "docs/00-getting-started-manual/claude-design-prototype/index.html",
+    "scripts/verify-no-process-env-internal-api.sh",
+    "scripts/serve-prototype.sh"
+  ],
+  "test_targets": [
+    "apps/web/app/login/_components/__tests__/LoginPanel.component.spec.tsx",
+    "apps/web/app/login/_components/MagicLinkForm.component.spec.tsx",
+    "apps/web/app/api/auth/magic-link/route.route.spec.ts",
+    "apps/web/app/api/auth/magic-link/verify/route.route.spec.ts",
+    "apps/web/playwright/tests/visual/login.spec.ts"
+  ],
+  "invariants": [
+    "no_new_ui_primitive",
+    "oklch_tokens_only_no_hex",
+    "no_new_api_endpoint",
+    "no_d1_direct_access_from_web",
+    "no_process_env_direct_in_apps_web_src",
+    "google_brand_icon_renders_official_4color_svg"
+  ],
+  "acceptance_criteria_count": 11
+}

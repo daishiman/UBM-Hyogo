@@ -13,6 +13,34 @@
 | inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-identity-conflicts-prototype-alignment-and-404-fix-artifact-inventory.md` |
 | user gate | staging deploy/env verification, authenticated runtime curl, visual screenshots, commit, push, PR |
 
+## public-dashboard-prototype-alignment（2026-05-26）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/public-dashboard-prototype-alignment/` |
+| status | `implementation_reviewed / implementation / VISUAL / phase11_runtime_pending` |
+| lessons | `.claude/skills/aiworkflow-requirements/lessons-learned/public-dashboard-prototype-alignment-2026-05.md` |
+| purpose | public home `/` を prototype `pages-public.jsx` LandingPage に合わせ、Hero / Stats / About+ThreeZones / Featured / Recent Meetings / CTA の実装契約を固定する |
+| implementation targets | `apps/web/app/page.tsx`, `apps/web/src/components/public/{Hero,Stats,AboutUbm,ZoneIntro,MemberGrid,Timeline}.tsx`, `apps/web/src/styles/legacy-public.css` |
+| invariants | 新規 API endpoint / D1 schema / Google Form / npm package 追加なし。OKLch token 経由、HEX 直書き禁止 |
+| Phase 12 | strict 7 present; root/output artifacts mirror present; 30-method compact evidence included |
+| Phase 11 | screenshots and manual evaluation are pending, not PASS |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-public-dashboard-prototype-alignment-artifact-inventory.md` |
+| user gate | implementation, local visual capture, staging refresh, commit, push, PR |
+
+## login-ui-balance-and-runtime-fix（2026-05-26）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/login-ui-balance-and-runtime-fix/` |
+| status | `implemented_local_runtime_pending / implementation / VISUAL` |
+| purpose | `/login` input/button visual balance, Google brand icon CSS isolation, magic-link internal API env runtime fix, and prototype local serving repair |
+| implementation | `apps/web/src/styles/auth.css`, `apps/web/src/styles/legacy-public.css`, `apps/web/app/api/auth/magic-link/{route,verify/route}.ts`, `apps/web/app/api/auth/gate-state/route.ts`, `apps/web/app/api/admin/[...path]/route.ts`, `apps/web/app/api/me/[...path]/route.ts`, `apps/web/src/lib/auth/verify-magic-link.ts`, `apps/web/src/lib/fetch/authed.ts`, `scripts/verify-no-process-env-internal-api.sh`, `scripts/serve-prototype.sh` |
+| contract | production code resolves `INTERNAL_API_BASE_URL` through `apps/web/src/lib/env.ts` accessors; Google SVG remains an image and is excluded from legacy `[data-size]` circular styling |
+| Phase 12 | strict 7 present under `outputs/phase-12/`; output artifacts parity present |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-login-ui-balance-and-runtime-fix-artifact-inventory.md` |
+| user gate | Playwright visual screenshots, staging deploy/smoke, commit, push, PR |
+
 ## google-form-reflection-diagnostics（2026-05-26）
 ## Issue #924 style-src-attr retirement（2026-05-25）
 
@@ -4017,4 +4045,16 @@ UT-17 Cloudflare Notifications → alert-relay → Slack 経路を、既存 API 
 | `docs/30-workflows/completed-tasks/issue-863-admin-error-alert-policy-iac/` | Issue #863 admin error boundary Sentry alert IaC workflow | admin `error.boundary.caught` alert policy、Sentry tag 昇格、drift CI、runbook を確認する時 |
 | `infra/sentry-alerts/` | Sentry alert policy IaC for admin runtime error detection | Sentry alert rule manifest / CLI / drift diff を確認・更新する時 |
 | `references/workflow-issue-863-admin-error-alert-policy-iac-artifact-inventory.md` | Issue #863 workflow artifact inventory | 同 wave 変更棚卸し時 |
+### Issue #255 coverage threshold sync lint（2026-05-26）
+
+| key | value |
+| --- | --- |
+| workflow | `docs/30-workflows/completed-tasks/issue-255-coverage-threshold-sync-lint/` |
+| state | `implemented_local_evidence_captured / implementation / NON_VISUAL` |
+| purpose | aiworkflow SSOT / `scripts/coverage-guard.sh` / optional `codecov.yml` の coverage threshold drift を CI で検出 |
+| implementation | `scripts/coverage-threshold-lint.ts`, `scripts/__tests__/coverage-threshold-lint.spec.ts`, `.github/workflows/coverage-threshold-lint.yml`, `package.json#lint:coverage-threshold` |
+| evidence | `outputs/phase-11/evidence/lint-coverage-threshold.log`, `outputs/phase-11/evidence/vitest-coverage-threshold-lint.log` |
+| source task | `docs/30-workflows/completed-tasks/task-codecov-threshold-sync-lint-001.md` |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-255-coverage-threshold-sync-lint-artifact-inventory.md` |
+| user-gated | commit, push, PR, GitHub Actions runtime observation |
 | Issue #903 member AppShell runtime evidence | `/profile` under `(member)` route group; EV-13/EV-16 present | `docs/30-workflows/completed-tasks/issue-903-parallel-03-followup-005-member-runtime-evidence/`, `references/workflow-issue-903-parallel-03-followup-005-member-runtime-evidence-artifact-inventory.md` |

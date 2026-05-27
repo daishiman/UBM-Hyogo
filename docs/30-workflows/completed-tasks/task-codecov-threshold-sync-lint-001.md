@@ -10,11 +10,11 @@
 | 対象機能     | `scripts/coverage-threshold-lint.ts`（新規）                          |
 | 優先度       | 中                                                                    |
 | 見積もり規模 | 小規模                                                                |
-| ステータス   | 未実施 (proposed)                                                     |
+| ステータス   | consumed_by_issue_255                                                 |
 | 親タスク     | coverage-80-enforcement                                               |
 | 発見元       | coverage-80-enforcement Phase 12 unassigned-task-detection (U-5)      |
 | 発見日       | 2026-04-29                                                            |
-| 起動条件     | Codecov 導入時（現 repo に `codecov.yml` 未配置のため未着手）         |
+| 起動条件     | Issue #255 workflow で 2-source lint と optional Codecov 3-source mode として実装済み |
 
 ---
 
@@ -128,4 +128,4 @@ implementation / NON_VISUAL
 
 ## 8. 備考
 
-Codecov 導入意思決定が無い間は 2 点同期 lint で運用し、`codecov.yml` 出現を CI 側で検知して動的に 3 点モードへ昇格させる構成にすると、起動条件依存を回避できる。
+2026-05-26 に `docs/30-workflows/completed-tasks/issue-255-coverage-threshold-sync-lint/` で consumed。実装は `scripts/coverage-threshold-lint.ts`、focused test は `scripts/__tests__/coverage-threshold-lint.spec.ts`、CI gate は `.github/workflows/coverage-threshold-lint.yml`。Codecov 導入意思決定が無い間は 2 点同期 lint で運用し、`codecov.yml` 出現時に動的に 3 点モードへ昇格する。

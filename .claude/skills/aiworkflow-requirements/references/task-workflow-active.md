@@ -8,6 +8,33 @@
 
 本ドキュメントは、複雑なタスクを単一責務の原則に基づいて分解し、各サブタスクに最適なスラッシュコマンド・エージェント・スキルの組み合わせを選定するためのガイドラインを定義する。
 
+### public-dashboard-prototype-alignment（2026-05-26）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implementation_reviewed / implementation / VISUAL / phase11_runtime_pending` |
+| 成果物 | `docs/30-workflows/public-dashboard-prototype-alignment/` |
+| lessons | `.claude/skills/aiworkflow-requirements/lessons-learned/public-dashboard-prototype-alignment-2026-05.md` (L-PDPA-001..007) |
+| 目的 | public home `/` を prototype `pages-public.jsx` LandingPage に整合させる実装仕様。Hero / Stats / About+ThreeZones / Featured / Recent Meetings / CTA を 1 route に限定 |
+| planned targets | `apps/web/app/page.tsx`, `apps/web/src/components/public/{Hero,Stats,AboutUbm,ZoneIntro,MemberGrid,Timeline}.tsx`, `apps/web/src/styles/legacy-public.css` |
+| invariant | 新規 API endpoint / D1 schema / Google Form / npm package 追加なし。`legacy-public.css` は append only、色は OKLch token 経由 |
+| evidence boundary | Phase 12 strict 7 + root/output artifacts mirror present。Phase 11 screenshots / local tests / implementation are pending and not PASS |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-public-dashboard-prototype-alignment-artifact-inventory.md` |
+| user gate | implementation, local visual capture, staging refresh, commit, push, PR |
+
+### login-ui-balance-and-runtime-fix（2026-05-26）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_runtime_pending / implementation / VISUAL` |
+| 成果物 | `docs/30-workflows/completed-tasks/login-ui-balance-and-runtime-fix/` |
+| 目的 | `/login` の input/button balance、Google brand icon CSS isolation、magic-link internal API env runtime fix、prototype local serving repair |
+| implementation targets | `apps/web/src/styles/auth.css`, `apps/web/src/styles/legacy-public.css`, `apps/web/app/api/auth/magic-link/{route,verify/route}.ts`, `apps/web/app/api/auth/gate-state/route.ts`, `apps/web/app/api/admin/[...path]/route.ts`, `apps/web/app/api/me/[...path]/route.ts`, `apps/web/src/lib/auth/verify-magic-link.ts`, `apps/web/src/lib/fetch/authed.ts`, `scripts/verify-no-process-env-internal-api.sh`, `scripts/serve-prototype.sh` |
+| invariant | production code の `process.env.INTERNAL_API_BASE_URL` 直参照禁止。Google SVG は legacy `[data-size]` 円形スタイル対象外。新規 API endpoint / D1 schema 変更なし |
+| Phase 12 | strict 7 present。output artifacts parity present |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-login-ui-balance-and-runtime-fix-artifact-inventory.md` |
+| user gate | staging Playwright visual baseline、staging deploy/smoke、commit、push、PR。Phase 11 local screenshots は取得済み |
+
 ### google-form-reflection-diagnostics（2026-05-26）
 ### admin-identity-conflicts-prototype-alignment-and-404-fix（2026-05-27）
 
@@ -2970,4 +2997,17 @@ docs-only / direction-reconciliation で採用方針 A を維持する場合で�
 | evidence boundary | 現 wave は local implementation まで完了。51 baseline PNG、runtime CI evidence、commit、push、PR は未実行 |
 | baseline gate | baseline 未存在 CI fail の admin override は禁止。required check 化は 51 baseline と green runtime evidence が揃った後 |
 | source | `docs/30-workflows/unassigned-task/task-18-full-visual-regression-suite-001.md` |
+### Issue #255 coverage threshold sync lint（2026-05-26）
+
+| 項目 | 内容 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-255-coverage-threshold-sync-lint/` |
+| ステータス | `implemented_local_evidence_captured / implementation / NON_VISUAL / Phase 13 pending_user_approval` |
+| Issue | `#255` (CLOSED, `Refs #255`) |
+| 目的 | coverage 80% threshold の SSOT (`quality-requirements-advanced.md`)、executor (`scripts/coverage-guard.sh`)、任意 `codecov.yml` の drift を fail-fast で検出する |
+| implementation | `scripts/coverage-threshold-lint.ts`, `scripts/__tests__/coverage-threshold-lint.spec.ts`, `.github/workflows/coverage-threshold-lint.yml`, `package.json#lint:coverage-threshold` |
+| evidence | `pnpm lint:coverage-threshold` PASS, focused Vitest 8 PASS, Phase 11 evidence logs present |
+| source | `docs/30-workflows/completed-tasks/task-codecov-threshold-sync-lint-001.md` consumed |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-255-coverage-threshold-sync-lint-artifact-inventory.md` |
+| user gate | commit, push, PR, GitHub Actions runtime observation |
 | issue-903-parallel-03-followup-005-member-runtime-evidence | implemented_local_evidence_captured / implementation / VISUAL / Phase 13 pending_user_approval | `docs/30-workflows/completed-tasks/issue-903-parallel-03-followup-005-member-runtime-evidence/` | Issue #903 member AppShell runtime evidence. `/profile` was moved under `apps/web/app/(member)/profile/` without URL change, `parallel-03-member-shell-scrape.spec.ts` captures EV-13 DOM scrape and EV-16 1280x800 screenshot, and parent `parallel-03-appshell-layouts/phase-11-evidence-inventory.md` marks EV-13/EV-16 present. No API/D1/Auth/Cloudflare contract change. Commit, push, PR, and Issue mutation remain user-gated. |
