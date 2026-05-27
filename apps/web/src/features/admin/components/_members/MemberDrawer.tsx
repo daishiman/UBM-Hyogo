@@ -16,6 +16,7 @@ import { Switch } from "../../../../components/ui/Switch";
 import { Textarea } from "../../../../components/ui/Textarea";
 import { useAdminMutation } from "../../hooks/useAdminMutation";
 import { stringHashHue, toMemberDetail, type MemberDetail } from "../../adapters/members-view-model";
+import { MemberDiagnosticsPanel } from "./MemberDiagnosticsPanel";
 
 export interface MemberDrawerProps {
   readonly memberId: string;
@@ -193,6 +194,9 @@ export function MemberDrawer({ memberId, onClose }: MemberDrawerProps) {
                 />
               </div>
             </section>
+
+            {/* DIAGNOSTICS (Google Form reflection) */}
+            <MemberDiagnosticsPanel memberId={memberId} />
 
             {/* DELETED block (条件付き) */}
             {view.status.isDeleted ? (

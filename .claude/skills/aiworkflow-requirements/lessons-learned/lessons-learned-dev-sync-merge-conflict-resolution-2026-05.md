@@ -618,7 +618,9 @@
 - How to apply: dev sync prompt のフェーズ2開始時、`git status` が**ブランチ主題と乖離した大量変更**を示したら、まず `git diff HEAD --stat`（空＝stat-dirty）と `git log HEAD..dev` の照合で「stale 漏れ込みか／当該ブランチ変更か」を判定する。stale 漏れ込みと確定したら CONST_019 から除外し stash 退避してから merge する。これは並行 worktree 間の成果物漏れ込み（read-only audit subagent 等の副作用）が sync-merge を阻害する形で顕在化したケース。
 - 事例: 2026-05-24 `docs/issue-863-admin-runtime-alert-policy-spec` ← dev sync-merge。`git status` が member-detail/prototype-alignment 系の tracked 50+ ` M` + untracked 20 件を表示 → `git diff HEAD` 空（tracked は全 stat-dirty）→ untracked 代表 5 件が dev #888/#887/#893/#892 で committed 済 かつ `MemberDetail.tsx`/changelog/`members-prototype-alignment.spec.ts` が IDENTICAL 確認 → `git stash push -u` で退避 → clean tree で `git merge dev` → conflict は `indexes/{keywords.json, topic-map.md}` のみで `pnpm sync:resolve`（L-DEVSYNC-037）が全自動解消 → merge commit `9d059ad00` → typecheck / lint 初回 PASS。無関係成果物の混入ゼロで issue-863 ブランチを clean に保った。task-specification-creator skill 側 SP-DEVSYNC-033 と対応。
 
-### L-DEVSYNC-013: sync:resolve 一発完結ケースの再確認 (2026-05-24 / 2026-05-25 再々確認 / 2026-05-25 issue-874 で 3 回目確認)
+### L-DEVSYNC-013: sync:resolve 一発完結ケースの再確認 (2026-05-24 / 2026-05-25 再々確認 / 2026-05-25 issue-874 で 3 回目確認 / 2026-05-27 issue-275 で 4 回目確認 / 2026-05-27 issue-275 で 5 回目確認)
+- 5 回目確認 (2026-05-27 issue-275 5th wave): `feat/issue-275-magic-link-429-retry-after` ← origin/dev 取り込み 5 波目 (a1e3dd135→[merge])。origin/dev に `7df1d3688 feat(issue-247) #966` 1 commit 追加。conflict は `keywords.json` 単独で `pnpm sync:resolve`（`--ours` + rebuild）単独完結、`patterns-lessons-and-pitfalls.md` および本ファイルは L-ITERSYNC-001 構造化済みのため ort 自動 union 成立（conflict marker ゼロ）。L-ITERSYNC-001/002 の有効性を **同一 PR 内 5 波連続**で実証。
+- 4 回目確認 (2026-05-27 issue-275 iterated sync): `feat/issue-275-magic-link-429-retry-after` への 3 連続 dev sync-merge wave。初回 (39c4bf962→07b8843e8) は `keywords.json` + `patterns-lessons-and-pitfalls.md` の 2 conflict のうち後者は HEAD=L-I275 / dev=L-I911 の独立追記による union manual resolve が必要だったが、2 回目 (07b8843e8→ab0450fb3 #953 issue-917 取り込み)・3 回目 (ab0450fb3→cf155ca2f #955 issue-924 取り込み)・4 回目 (cf155ca2f→a4df62f82 #960 google-form-reflection-diagnostics 取り込み) は **全て `pnpm sync:resolve` + ort strategy 単独で完結**。`patterns-lessons-and-pitfalls.md` は初回 union 後の構造が安定したため 2 回目以降の dev 側追記は ort で自動 union された。SP-DEVSYNC-008 最短経路が **同一 PR 内 4 sprint 連続で成立**することを確認。なお 3 回目→4 回目の間で `/private/tmp/claude-501` の output cache が ENOSPC を起こし `git diff` 系がエラー終了する遠因となったため、長時間 session では `find /private/tmp/claude-501 -name "*.output" -mtime +1 -delete` で前掃除を入れる運用 tip を追記（CONST 違反ではないが detection レイテンシを増やす）。
 - 3 回目確認 (2026-05-25 issue-874): `feat/issue-874-login-staging-visual-smoke` への dev sync-merge（behind 5 / ahead 2）。conflict は `indexes/topic-map.md`（union） + `indexes/keywords.json`（`--ours` + rebuild）の標準 2 ファイルのみ。`pnpm sync:resolve` 単体で残件 0、`legacy-ordinal-family-register.md` の 3-way conflict（L-DEVSYNC-040）は発生せず最小集合で完結。L-DEVSYNC-041 の `git rev-parse --git-common-dir` 経由 lock/log path 解決もこの run で再確認（worktree 配下で `.git` が file のため `mkdir .git/branch-sync-logs` は直接失敗 → common-dir で復旧）。SP-DEVSYNC-008 最短経路の 3 sprint 連続成立を確認。
 - 再々確認 (2026-05-25): `docs/issue-863-admin-runtime-alert-policy-spec` の 2 回目の dev sync-merge（behind 9 / ahead 4）。conflict は `indexes/topic-map.md`（union） + `indexes/keywords.json`（`--ours` + rebuild）の標準 2 ファイルのみ。`pnpm sync:resolve` 単体で残件 0、merge commit `745d2dd6d` 完了。今回 `legacy-ordinal-family-register.md` の 3-way conflict（L-DEVSYNC-040）は発生せず、最小集合パターンで完結。SP-DEVSYNC-008 の最短経路がそのまま成立することを 2 sprint 連続で確認。
 - 事例: `feat/issue-837-schema-alias-bulk-rollback`（PR base=dev）。`git merge dev` で発生したコンフリクトは `aiworkflow-requirements/indexes/{quick-reference,resource-map,topic-map}.md`（union） + `indexes/keywords.json`（`--ours` + rebuild）の skill index 系のみ。
@@ -755,3 +757,88 @@
   4. `git add -A <path>` → typecheck（path alias 解決と UI component 型整合が同時 gate）→ lint → `git commit -m "merge: sync <branch> with dev"`。本パターンは body JSX が auto-merge 済みなので import 行 1 箇所のみで完結。
 - 留意: dev 側 import が relative path（`../../../src/...`）で書かれている場合、HEAD 側の path alias 体系（`@/*` → `./src/*`）に**必ず正規化**する。relative path のまま残すと route group 配下の depth 計算が狂って build break する（`(member)` セグメントは URL には現れないが file system では実在のため `../../../src` の相対起点が 1 段ずれる）。route group migration を含む sync-merge では import resolution の最終ゲートとして `pnpm typecheck` 必須。
 - 事例: 2026-05-26 `feat/issue-903-member-runtime-evidence` ← dev (`1e9ed5e88` issue-894 admin topbar breadcrumb 含む 9 commit)。skill index 2 (`indexes/topic-map.md` union + `keywords.json --ours + rebuild`) を resolver で自動解消、unhandled は `DeleteRequestDialog.tsx` / `VisibilityRequestDialog.tsx` の 2 ファイルのみ。本 L-DEVSYNC-045 の手順で `@/lib/api/me-requests.types` + `@/components/ui` への正規化統合、conflict marker 全除去、typecheck / lint green、merge commit 確定。
+
+## L-DEVSYNC-046: `patterns-lessons-and-pitfalls.md` を resolver の `UNION_TARGETS` に正式昇格（2026-05-26 追加・L-DEVSYNC-042 推奨拡張の実装）
+
+- 事象: `feat/issue-924-style-src-attr-retirement` ← dev sync-merge で `.claude/skills/task-specification-creator/references/patterns-lessons-and-pitfalls.md` が 3 回目（L-DEVSYNC-042 事例 2026-05-25 / 今回 2026-05-26 / 累積で再発確定）の `WARN unhandled conflict`。HEAD = CSP directive 撤去パターン section、base = なし、dev = DELETE-race UI wiring pattern (Issue #911) section が末尾に並列 append。`pnpm sync:resolve` が unhandled で停止し、L-DEVSYNC-042 の手動 union 手順を再演 → 末尾 append-only の section 衝突は全て両側保持 union で機械統合可能と再確認。
+- Why: 本ファイルは Phase 12 で `patterns-lessons` を accrete する SSOT で、複数 issue から並列に末尾 section が増える構造的に共通な競合源。L-DEVSYNC-042 の「推奨拡張: `UNION_MERGE_TARGETS` 候補化」を 3 回目の再発で正式実装すべきタイミング。section heading（`## ...`）が両側で独立する限り union 等価で安全。
+- How to apply:
+  1. `scripts/sync/resolve-skill-merge-conflicts.sh` の `UNION_TARGETS` に `.claude/skills/task-specification-creator/references/patterns-lessons-and-pitfalls.md` を追加（今回適用済）。
+  2. 次回以降の dev sync-merge では、本ファイルの末尾並列 section 追加は `pnpm sync:resolve` 一発で解消される。
+  3. ただし、ファイル**中央**の既存 section 内に両側が bullet を追加する pattern（L-DEVSYNC-030 系）は union が崩れるため、resolver 解消後に `pnpm typecheck` で機械検出されない意味重複（同名 lesson ID の `L-XXX-N` 重複等）を `grep -n "^### L-" <file> | sort -k2 | uniq -d -f1` で目視確認する手順を merge 後 verify に追加することが望ましい。
+  4. resolver の `union_resolve` Python は diff3 marker（`<<<<<<<` → `|||||||` ancestor 破棄 → `=======` → `>>>>>>>`）の state machine を持つため、base が空でも非空でも HEAD + dev 両方を保持する挙動は再確認済。
+- 留意: 本拡張は「末尾 append-only かつ section heading が別物」という前提に依存。同 sprint で同名 pattern (`## CSP directive 撤去パターン` 等) を HEAD と dev で同時に追加した場合は union で重複 heading が生じる。新規 section heading の命名規約として `## <pattern 名>（issue-<n> L-Y-001..N 汎化）` のように issue 番号を heading に含めることを Phase 12 ガイドに記載すべき（同名 heading 衝突を物理的に防ぐ）。
+- 事例: 2026-05-26 `feat/issue-924-style-src-attr-retirement` ← dev (`b600eae6d` merge / 含む issue-885 / issue-891 / issue-899)。conflict 7 ファイル中 6 ファイルは resolver で union/--ours+rebuild 完結、`patterns-lessons-and-pitfalls.md` のみ unhandled を手動 union（HEAD: CSP directive 撤去パターン + dev: DELETE-race UI wiring pattern 両側保持）→ resolver 拡張で次回以降は 1 発完結。section heading が `## CSP directive 撤去パターン（issue-924 L-I924-001..005 汎化）` / `## DELETE-race UI wiring pattern (Issue #911 / 2026-05-25)` と独立しており union 等価が成立。
+
+## L-DEVSYNC-046: GitHub アカウント suspended 中に triggered された CI run の checkout 403 と空コミット retrigger 不発（2026-05-26 追加）
+
+- 事象: dev sync-merge の push 自体は成功（pre-push hook 全通過）したが、PR rollup で 3 件 fail (`lighthouse-ci` / `e2e-tests-coverage-gate` / `coverage-gate`) を観測。失敗 log は全て `remote: Your account is suspended ... fatal: unable to access '.../UBM-Hyogo/': The requested URL returned error: 403` の checkout 段階での 403。`gh run rerun <id>` は `run <id> cannot be rerun; its workflow file may be broken` で拒否、`gh run cancel` も `Cannot cancel a workflow run that is completed` で受け付けず（run 自体は conclusion=null / status=queued の不整合状態）。回復のため空コミット `git commit --allow-empty -m "ci: retrigger checks ..."` を push したが、新 sha に対して `repos/{owner}/{repo}/actions/runs?head_sha=<new>` が `total_count: 0` のまま、check-suites も GitHub Actions の suite 自体が生成されない状態が継続。
+- Why: GitHub Account suspended 中は actions/checkout が `git fetch` 段階で 403 を返すため、workflow run は started 状態のまま checkout failure → run status は `queued`/`conclusion: null` のまま GitHub 内部の status machine に取り残される。`gh run rerun` は「未完了 run の再実行は不能」「`workflow file may be broken` の broken は workflow YAML の構文ではなく run の internal state を指す」二重の意味で拒否される。suspended 解除後も既存の queued run が dispatch queue を保持し、新 sha で trigger された pull_request event の workflow dispatch が抑制される（concurrency group とは独立した GitHub 側の internal queue 抑制）。空コミットの commit message に `[skip ci]` が含まれずとも、抑制状態下では新 workflow が起動しない。
+- How to apply:
+  1. CI rollup で `Your account is suspended` 系の checkout 403 を観測したら、まず該当 run id を `gh api repos/<owner>/<repo>/actions/runs/<id>` で status / conclusion を直接確認する（`gh run list` の表示と乖離するため API 経由で fact を取る）。
+  2. アカウント復旧確認: 同 sha で `success` 済の他 workflow が存在することを `gh run list --branch <name> --json status,conclusion,name,headSha` で確認（複数 workflow が同 sha で `success` 帰着していれば、403 は一過性のアカウント状態起因と確定）。
+  3. `gh run rerun <id>` / `gh run rerun <id> --failed` を試行（成功すれば終了）。`workflow file may be broken` で拒否される場合は (4) へ。
+  4. 空コミット `git commit --allow-empty -m "ci: retrigger checks after account suspension recovery"` を push して新 sha を生成。`gh api repos/<owner>/<repo>/actions/runs?head_sha=<new>` で 5 分以内に `total_count > 0` になれば回復。
+  5. 5 分待っても `total_count: 0` が続く場合は GitHub Actions 側の internal queue 抑制が継続している。`.claude/skills/*/lessons-learned/*.md` 等への意味ある単一行追記コミットを 1 件 push し、新 sha で再起動を試みる（空コミットでは抑制されるが、ファイル変更を含む commit では event dispatch が解放されるケースがある）。
+  6. それでも triggered されない場合は、queued 状態の旧 run id を `gh api -X POST repos/<owner>/<repo>/actions/runs/<id>/force-cancel` で強制解放してから (4) を再試行する（通常の `cancel` ではなく `force-cancel` が必要）。
+- 留意: `gh run rerun` の `workflow file may be broken` エラーメッセージは workflow YAML の syntax error と誤読しやすいが、本ケースでは「workflow file は健全だが run の internal state が broken」を意味する。`gh workflow view <name>` で workflow 自体が `active` なら syntax は健全。本 lesson は dev sync-merge そのものの conflict 解消とは独立した CI infra recovery topic だが、sync-merge 直後の push で suspended 期間と重なるケースが多いため本ファイルに収録する。
+- 事例: 2026-05-26 `feat/issue-922-production-admin-runtime-smoke-gate` ← dev sync-merge 後の rollup で `lighthouse-ci` / `e2e-tests-coverage-gate` / `coverage-gate` の 3 件 fail。失敗 sha は `cf8e382e3`、log は account suspended 403。手順 (3) `gh run rerun` は broken エラーで拒否、(4) 空コミット `c29324c26` push 後 5 分経過しても `total_count: 0`、(5) 本 L-DEVSYNC-046 自身の追記コミットで dispatch 解放を試みた。
+
+## L-DEVSYNC-046: aiworkflow skill index 群のみの conflict は `pnpm sync:resolve` 単独で完結（unhandled ゼロパス・2026-05-26 再現確認）
+
+- 事象: `feat/issue-913-server-idempotency-key-persistence` ← dev sync-merge (origin/dev `a21759722` で 10 commit behind / 2 commit ahead) で `SKILL.md` + `indexes/topic-map.md` + `indexes/keywords.json` の 3 ファイルのみ CONFLICT。`indexes/quick-reference.md` と `indexes/resource-map.md` は auto-merge 成功、ソース・spec・docs には conflict なし。
+- Why: 並列に動いていた他 worktree（issue-894/895/899/900/901/902/903 等）が aiworkflow indexes へ末尾 entry 追加・lessons-learned 新規ファイル追加のみを行ったため、`.gitattributes merge=union` 対象 2 ファイル + `--ours` 対象 1 ファイルだけが衝突。L-DEVSYNC-001..007 で定義済みの「3 層予防」第 2 層 resolver の standard happy path に完全一致。
+- How to apply:
+  1. `git merge origin/dev` 後 `CONFLICT` 行が `.claude/skills/aiworkflow-requirements/{SKILL.md,indexes/topic-map.md,indexes/keywords.json}` の 3 件以下に閉じている場合 = resolver の standard path と判定。
+  2. `pnpm sync:resolve` 単独で完結。unhandled 報告がなければ追加の手動 union は不要。
+  3. `git status` で `UU` ゼロ確認 → `git add -A` → `git commit -m "merge: sync <branch> with dev"`。typecheck / lint 任意（skill files は build 経路外）。
+- 留意: ソース conflict が 1 件でも混じる場合は本 happy path から外れる。L-DEVSYNC-040 系（並列 export 追加）/ L-DEVSYNC-043 系（adapter signature union）/ L-DEVSYNC-045（route group rename + import 正規化）のいずれかにフォールバック。
+- 事例: 2026-05-26 `feat/issue-913-...` ← dev (`a21759722` issue-903 member runtime evidence 含む 10 commit)。`pnpm sync:resolve` 出力 `[resolve-skill-merge-conflicts] all skill / index conflicts resolved`、unhandled なし、ソース無傷で 1 commit で完結。
+
+## L-DEVSYNC-047: 空コミット (`git commit --allow-empty`) は GitHub Actions の `pull_request` workflow を発火しない（2026-05-26 確認）
+
+- 事象: e2e-tests-coverage-gate の `actions/download-artifact` transient infra 失敗を「空コミット push で CI 再発火」しようとしたが、push 後 10 分以上経過しても `gh api repos/.../actions/runs?head_sha=<empty-commit-sha>` が `total_count=0`。`gh run rerun --failed` で queue した古い run も長時間 queued のまま進行せず、PR は `mergeStateStatus=BLOCKED`（new HEAD に required check が存在しない状態）に陥った。
+- Why: `pull_request synchronize` event は head SHA 変更で発火するが、empty commit は tree hash が変わらない（base に対する diff が空）ため、`paths` / `paths-ignore` 評価以前に GitHub 側で run scheduling 自体がスキップされるケースがある。同じ理屈で、required status check は PR head SHA に紐付くため、empty commit で head を進めると「古い HEAD の check は残るが、新 HEAD には check が走らず BLOCKED」状態が発生する。`feedback_visual_baseline_github_token_retrigger.md` の「空コミットで required checks 再トリガー」は GITHUB_TOKEN による push の検知遅延を回避する用途であり、本件のような workflow path filter / tree-unchanged トリガー回避には適用できない（混同注意）。
+- How to apply:
+  1. transient infra failure（artifact download / runner provisioning timeout 等）の再 trigger は **`gh run rerun --failed <run-id>`** を優先する。これは同一 head SHA で job だけ re-queue するため required check の鏡像が崩れない。
+  2. `gh run rerun` が長時間 queued のまま動かない場合（runner backlog）、empty commit ではなく **実ファイル変更を含む 1 commit** を作る。最小コストは「既に編集中の lessons-learned ファイルへ 1 行 trailer 追記」「`docs/30-workflows/LOGS.md` への entry 1 行追加」等の `merge=union` 対象ファイル変更（並列 worktree との conflict 自動解消対象なので追加コストゼロ）。
+  3. 実装側ファイル (`apps/*/src/...`) を「CI 再 trigger 目的」で触らない。code-change diff が PR review に紛れ込む。
+  4. push 後 2 分以内に `gh api repos/.../actions/runs?head_sha=<full-40-char-sha>` で `total_count` を確認し、0 のままなら 1 で説明した実ファイル変更にフォールバック。
+- 留意: `gh api` 呼び出しでは **full 40-char SHA** を使う（short SHA prefix では match しない）。`git rev-parse HEAD` で取得する。bash の `python3 -c "...$VAR..."` heredoc 変数展開漏れで「0 件」と誤判定するケースがあるため、SHA は環境変数経由ではなく argv / stdin 経由で渡すか直接 string literal にする。
+- 事例: 2026-05-26 `feat/issue-913-...` PR #952。`546ba38b8` 上の e2e-tests-coverage-gate が `actions/download-artifact` archive download 1-attempt failure で fail、`gh run rerun --failed 26447008462` を実行するも 30 分以上 queued。empty commit `59c3b51fe`（"chore: retrigger CI ..."）を push したが `head_sha=59c3b51feb6b6ef0d1e9b4636c53652052be85c2` の workflow_run は 0 件登録、PR が BLOCKED 化。本 lesson 追記 (`merge=union` 対象 lessons-learned md への実変更) commit で復旧。
+
+## L-DEVSYNC-048: GitHub Actions の全リポジトリレベル queue stall は webhook 到達後も新規 schedule をブロックする（2026-05-26 確認）
+
+- 事象: 11:00Z〜13:18Z (≈2h18m) の間、リポジトリ全体で workflow_run が 1 件も新規 schedule されない infra outage 発生。`gh api repos/.../events` 上では PushEvent は届いており GitHub は push 自体は受信しているが、Actions backend が schedule を発火しない。`gh api repos/.../actions/runs?per_page=30 --jq '.workflow_runs | [.[] | select(.created_at > "<停滞開始>")] | length'` が `0` を返し続ける。
+- Why: GitHub Actions は webhook 受信 → workflow scheduling → runner allocation の 3 段階を経るが、step 2 で停止しても push 自体は成功する。`gh run rerun --failed` も新規 schedule を必要とするため同じ理由で queued 状態に固着する。停滞中は **どんな commit（empty / real-change / merge）を push しても新規 run は登録されない**。
+- How to apply:
+  1. CI 再 trigger 系の作業 (L-DEVSYNC-047) を試して 5 分以上 workflow_run が 0 のままなら、**まず GitHub 側 outage を疑う**。判定コマンド: `gh api repos/.../actions/runs?per_page=30 --jq '.workflow_runs[0:5] | .[] | .created_at + " " + .name'` で最新 schedule 時刻を確認し、自 push 時刻より明確に古い（10 分以上差）かつ他ブランチ runs も止まっている場合は outage 確定。
+  2. Outage 中は **push を増やさない**。各 push は head SHA を進めるが run は登録されないため、PR の `mergeStateStatus=BLOCKED` 状態を悪化させるだけ（required check の鏡像が古い HEAD から外れる）。
+  3. 復旧確認は `gh api repos/.../events --jq '.[0:5] | .[] | .created_at + " " + .type'` で最新 PushEvent が schedule に追従しているかと、`gh api repos/.../actions/runs?per_page=5` の `.created_at` が現在時刻に近い run を持つかを併せて見る。
+  4. 復旧後は当該 PR の HEAD に対して空でない 1 commit を push して webhook を再投げ込みする（outage 期間中の push はリトライ schedule されない実例あり）。
+- 留意: GitHub Status (`https://www.githubstatus.com/`) の Actions 項目が green でも個別リポジトリ単位で stall するケースがある（webhook routing partition）。public な incident にならないことが多いため、`gh api` ベースの自前 detection を runbook 化しておく。
+- 事例: 2026-05-26 PR #952。`546ba38b8` の e2e infra failure 直後、`ba78e993e2a197e296793ff6fc0e026d26187c36` 含む 2 件の push が schedule されず 2h18m 停滞。13:19Z 復旧後、他ブランチ runs (`503dff35d7`) が schedule された段階で当方 PR にも 1 commit 追加 push して新規 run 群を確保。
+
+## L-DEVSYNC-049: `pnpm sync:resolve` 後に孤立 `||||||| Stash base` marker が残ることがある（CI `verify-conflict-markers` で検出）（2026-05-26 確認）
+
+- 事象: `git merge dev` → `pnpm sync:resolve` で resolver 完走 → `git status` も `UU` ゼロ → typecheck/lint green → push 成功。しかし PR #966 で `verify-conflict-markers` workflow が FAIL。4 ファイル (`.claude/skills/aiworkflow-requirements/{SKILL.md, indexes/quick-reference.md, indexes/resource-map.md, references/task-workflow-active.md}`) に `||||||| Stash base` の単独行が残留。
+- Why: resolver は git merge driver の標準動作（`<<<<<<<` / `=======` / `>>>>>>>` の境界判定）に依存している。同一ブランチで複数回 merge を経た（過去の dev sync 由来の）ファイルでは、3-way merge の **base separator (`|||||||`)** が前回の解消過程で取り残されているケースがある。今回の `git merge` は新規 conflict を出さずに通った（`auto-merging` 報告のみ）ため、resolver が触らず、orphan marker が温存されたまま commit された。CI 側 `verify-conflict-markers` は `^(<<<<<<< |>>>>>>> |\|\|\|\|\|\|\| )` で grep するため `|||||||` 単独でも fail する。
+- How to apply:
+  1. `pnpm sync:resolve` 実行後、commit 前に必ず `git grep -nE '^(<<<<<<< |>>>>>>> |\|\|\|\|\|\|\| )' -- ':(exclude).github/workflows/verify-conflict-markers.yml' ':(exclude).claude/skills/**/lessons-learned/**' ':(exclude).claude/skills/**/dev-sync*.md' ':(exclude).claude/skills/**/SKILL-changelog.md' ':(exclude).claude/commands/**' ':(exclude)docs/30-workflows/**/dev-sync*.md' ':(exclude)docs/30-workflows/**/lessons-learned*.md' ':(exclude)scripts/sync/**'` を実行する（CI と同条件）。
+  2. ヒットしたら該当行を削除するだけ（隣接行が新旧 entry 連結なら、marker 行のみ消せば文意は通る）。`<<<<<<<` / `>>>>>>>` がペアで残っていないか同時に確認。
+  3. ローカル pre-push hook (`scripts/hooks/*`) に CI と同等の grep gate を追加検討（現状は CI のみで検出）。
+  4. resolver `scripts/sync/resolve-skill-merge-conflicts.sh` 側にも post-resolve sanity step として同 grep を追加すれば push 前検出が早まる。
+- 留意: CI gate は `<<<<<<< ` / `>>>>>>> ` / `||||||| ` の **後ろの空白込み 8 文字** で grep する。空白なし `|||||||EOL` 等は検出されない。古い resolver が space を消すケースは別途調査要。
+- 事例: 2026-05-26 `feat/issue-247-...` PR #966。`5ddb51e6a merge: sync ... with dev` push 後 `verify-conflict-markers` が `--- offending lines ---` 4件で FAIL。該当 4 行削除 commit で復旧。
+
+## L-DEVSYNC-050: feature branchがUI構造を全面刷新中にdevが新規Client Islandを sibling section に追加した場合、union解消では機能を失う（2026-05-27 確認）
+
+- 事象: `feat/admin-ui-followup-001-members-fetch-and-visual` で `MemberDrawer.tsx` をプロトタイプ整合（VISIBILITY/TAGS/FORM RESPONSE/DELETED 構成）に刷新。並行して dev 側 (#960 google-form-reflection-diagnostics) が同ファイルの旧構造内に `<MemberDiagnosticsPanel memberId={memberId} />` を追加していた。`git merge dev` で 2 箇所 conflict 発生（import 行 / 旧「タグ管理へ」section の末尾）。
+- Why: HEAD は section 階層自体を作り替えており、dev が追加した anchor（旧「タグ管理へ」Link の直後）が HEAD には存在しない。`pnpm sync:resolve` は `*.ts(x)` を union 対象外として handlede unresolved に分類するため、機械解消は不可。union を強行すれば旧構造の残骸と新構造が同時に書かれ syntax error / runtime 二重描画になる。
+- How to apply:
+  1. ソースコード conflict のうち「dev が追加した Client Island / Server Component / 新 section」は、HEAD の新構造の **意味的に等価な位置**（同じ semantic anchor: 同種のセクション境界、同じ data-component scope）へ手動で再配置する。
+  2. 再配置先の判定基準: dev 側 anchor の直前 section が HEAD 側で残っていればその直後、消えていれば最も近い意味的同類セクションの直後（本件では FORM RESPONSE と DELETED の間）。
+  3. import 行 conflict は両側 import を残す（HEAD 側 `toMemberDetail` / dev 側 `MemberDiagnosticsPanel` どちらも必要）。
+  4. 解消後は `grep -n '<<<<<<<\|=======\|>>>>>>>' <file>` で marker 残存ゼロを確認、`pnpm typecheck` と `pnpm lint` で構造破綻なしを確認してから `git add` する。
+- 留意: 自律判断ルール B-3「両側の変更意図を保持するマージ」は本件のような「片側が構造を作り替え、もう片側が旧構造に依存した追加をした」ケースでも適用される。anchor の物理的位置ではなく semantic 位置で揃えること。
+- 事例: 2026-05-27 task-20260526-145759-wt-18 ブランチで dev merge → MemberDrawer.tsx 2 conflict 発生。import を両側採用、`MemberDiagnosticsPanel` を新構造の drawer-body 内 FORM RESPONSE と DELETED block の間へ再配置して解消。typecheck/lint green、verify-conflict-markers grep 0件。

@@ -1,0 +1,7 @@
+
+> ubm-hyogo@0.1.0 lint:coverage-threshold /Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260526-101300-wt-9
+> tsx scripts/coverage-threshold-lint.ts
+
+coverage-threshold-lint: OK (sources=2, threshold=80)
+ssot	80%	quality-requirements-advanced.md
+executor	80%	coverage-guard.sh

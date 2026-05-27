@@ -11,6 +11,8 @@ target_feature: apps/api Cloudflare Workers sheets-auth-healthcheck cron → POS
 priority: 中
 scale: 小規模
 status: 未実施
+canonical_workflow: docs/30-workflows/completed-tasks/issue-917-alert-relay-runtime-fire-evidence/
+canonical_workflow_status: spec_created
 source_phase: issue-857 Phase 12
 created_date: 2026-05-24
 dependencies: ["#857"]
@@ -27,6 +29,7 @@ dependencies: ["#857"]
 | 優先度       | 中                                                                                      |
 | 見積もり規模 | 小規模                                                                                  |
 | ステータス   | 未実施                                                                                  |
+| canonical workflow | `docs/30-workflows/completed-tasks/issue-917-alert-relay-runtime-fire-evidence/`（spec_created / runtime evidence は user-gated） |
 | 発見元       | issue-857-internal-alert-relay-binding-wiring（UT-25-DERIV-02-FU-01 の消化サイクル）    |
 | 発見日       | 2026-05-24                                                                              |
 | 親タスク     | `docs/30-workflows/ut-25-deriv-02-sa-key-expiry-monitoring/`                            |

@@ -1,0 +1,33 @@
+{
+  "workflow": "issue-924-style-src-attr-retirement",
+  "phase": "phase-11",
+  "visual_evidence_mode": "VISUAL",
+  "status": "pending",
+  "canonical_evidence_paths": {
+    "focused_vitest_log": "outputs/phase-11/evidence/vitest-focused.log",
+    "playwright_security_headers_log": "outputs/phase-11/evidence/playwright-security-headers.log",
+    "grep_gate_output": "outputs/phase-11/evidence/verify-no-inline-style.txt",
+    "visual_diff_report": "outputs/phase-11/evidence/visual-diff-report.md",
+    "visual_screenshot_diff_dir": "outputs/phase-11/evidence/screenshots/",
+    "staging_runtime_smoke": "outputs/phase-13/pr-gate.md"
+  },
+  "routes_under_test": [
+    "/",
+    "/(public)/members",
+    "/(public)/members/[id]",
+    "/(public)/register",
+    "/privacy",
+    "/terms",
+    "/login",
+    "/profile",
+    "/(admin)/admin",
+    "/(admin)/admin/members",
+    "/(admin)/admin/tags",
+    "/(admin)/admin/meetings",
+    "/(admin)/admin/schema",
+    "/(admin)/admin/requests",
+    "/(admin)/admin/identity-conflicts",
+    "/(admin)/admin/audit"
+  ],
+  "shared_routes": ["error.tsx", "not-found.tsx", "loading.tsx"]
+}

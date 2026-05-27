@@ -25,8 +25,8 @@ export default async function Parallel09VisualPage({
   if (!allowed.has(name)) notFound();
   if (name === "profile-loading") {
     return (
-      <main style={{ display: "grid", minHeight: "100vh", placeItems: "center", padding: 32 }}>
-        <div style={{ width: "min(680px, 100%)" }}>
+      <main className="visual-harness-shell">
+        <div className="visual-harness-frame">
           <ProfileLoading />
         </div>
       </main>

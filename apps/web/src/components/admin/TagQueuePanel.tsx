@@ -81,10 +81,7 @@ export function TagQueuePanel({ initial, filter, focusMemberId }: Props) {
         </p>
       )}
 
-      <div
-        className="tag-queue-grid"
-        style={{ display: "grid", gridTemplateColumns: "1fr 2fr", gap: 12 }}
-      >
+      <div className="tag-queue-grid">
         <ul aria-label="キュー一覧" data-testid="admin-tag-queue-list">
           {items.length === 0 && (
             <li>
