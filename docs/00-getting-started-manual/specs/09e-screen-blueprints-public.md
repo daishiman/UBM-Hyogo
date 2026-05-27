@@ -77,6 +77,7 @@ apps/web/app/
 - description: `UBM兵庫支部会メンバーサイトは、Googleフォームから集めた支部会メンバーの自己紹介情報を、公開情報と会員限定情報に分けて整理・公開するサイトです。`
 - 認可: public
 - prototype `nav("landing")` ↔ App Router `/`
+- implementation workflow: `docs/30-workflows/public-dashboard-prototype-alignment/` (`spec_created / implementation / VISUAL / execution_pending`)
 
 ### 1.2 レイアウト構造
 

@@ -54,16 +54,25 @@ export interface FetchPublicOptions extends Omit<RequestInit, "next"> {
 }
 
 async function doFetch(path: string, init: RequestInit & { next?: { revalidate: number } }) {
+  // Playwright e2e (PLAYWRIGHT_TEST=1) では deterministic mock API の状態切替
+  // (e.g. setPublicHomeEmpty) を SSR が即座に反映する必要があるため Next.js fetch cache を bypass。
+  // production / staging の revalidate 設定は不変。vitest (NODE_ENV=test) はfetcher の cache 引数
+  // 自体を assert する spec があるため対象外。
+  let effectiveInit = init;
+  if (getPublicFetchEnv().PLAYWRIGHT_TEST === "1") {
+    const { next: _next, cache: _cache, ...rest } = init;
+    effectiveInit = { ...rest, cache: "no-store" };
+  }
   const binding = getServiceBinding();
   if (binding) {
     // service-binding 経由: host は worker 側で無視されるが URL parse のために任意の host を使う
     const url = `https://service-binding.local${path}`;
-    const response = await binding.fetch(url, init);
+    const response = await binding.fetch(url, effectiveInit);
     logTransport("service-binding", path, response.status);
     return response;
   }
   const url = `${getBaseUrl()}${path}`;
-  const response = await fetch(url, init);
+  const response = await fetch(url, effectiveInit);
   logTransport("http-fallback", path, response.status);
   return response;
 }

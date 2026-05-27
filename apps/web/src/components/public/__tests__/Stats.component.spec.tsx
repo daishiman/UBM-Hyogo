@@ -26,28 +26,47 @@ const baseStats = {
 };
 
 describe("Stats", () => {
-  it("renders 4 anchored stat tiles", () => {
+  it("renders 4 anchored stat tiles (members/zones/meetings/sync)", () => {
     const { container } = render(<Stats stats={baseStats} />);
-    expect(container.querySelector('[data-stat="total"]')).toBeTruthy();
-    expect(container.querySelector('[data-stat="public"]')).toBeTruthy();
+    expect(container.querySelector('[data-stat="members"]')).toBeTruthy();
     expect(container.querySelector('[data-stat="zones"]')).toBeTruthy();
+    expect(container.querySelector('[data-stat="meetings"]')).toBeTruthy();
     expect(container.querySelector('[data-stat="sync"]')).toBeTruthy();
   });
 
-  it("renders member counts from stats", () => {
+  it("renders publicMemberCount as Members value", () => {
     const { container } = render(<Stats stats={baseStats} />);
     expect(
-      container.querySelector('[data-stat="total"] [data-role="value"]')
-        ?.textContent,
-    ).toBe("42");
-    expect(
-      container.querySelector('[data-stat="public"] [data-role="value"]')
+      container.querySelector('[data-stat="members"] [data-role="value"]')
         ?.textContent,
     ).toBe("30");
+  });
+
+  it("renders constant ZONE_COUNT=3 and MEETINGS_PER_YEAR=12", () => {
+    const { container } = render(<Stats stats={baseStats} />);
     expect(
       container.querySelector('[data-stat="zones"] [data-role="value"]')
         ?.textContent,
     ).toBe("3");
+    expect(
+      container.querySelector('[data-stat="meetings"] [data-role="value"]')
+        ?.textContent,
+    ).toBe("12");
+  });
+
+  it("renders sub line for every stat", () => {
+    const { container } = render(<Stats stats={baseStats} />);
+    expect(container.querySelectorAll("li[data-stat] [data-role=\"sub\"]"))
+      .toHaveLength(4);
+  });
+
+  it("renders badge-sync chip inside sync tile sub", () => {
+    const { container } = render(<Stats stats={baseStats} />);
+    const badge = container.querySelector(
+      '[data-stat="sync"] [data-role="badge-sync"]',
+    );
+    expect(badge).toBeTruthy();
+    expect(badge?.textContent).toContain("Forms 同期中");
   });
 
   it("falls back to '未同期' when generatedAt is invalid", () => {
