@@ -473,3 +473,23 @@
   - dev followup の本体機能（API path fix / route handler 等）は通常 conflict 外で auto-merge 済みのため、HEAD take しても保持される（安心して take ours できる）
 - 事例: 2026-05-28 merge commit `709f13920` + spec restore commit `8f510ba33`。typecheck 初回 `MembersTable.spec.tsx` で `summariesByMember` / `tagsByMember` / `onTogglePublish` prop が存在しない error 3 件 → HEAD redesign tip から spec 復元で green。
 - 参照: aiworkflow-requirements [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-054 を併読。
+
+### SP-DEVSYNC-041: 全面 redesign 直後の CI e2e 失敗 2 パターン — PillNav 兄弟 strict-mode collision と 複数 viewport suite の cold-compile timeout（2026-05-28 追加）
+
+- 事象: SP-DEVSYNC-040 の redesign sync-merge 完了後の CI 再修正 wave で連続発生:
+  1. `task15-admin-screenshots.spec.ts` の `getByRole('tab', { name: '公開' })` が `<select>` → PillNav 置換後に「公開」「非公開」両方マッチ → **strict mode violation**
+  2. `admin-members-prototype-redesign.spec.ts` の 4 viewport × 4 state = 16 連続 `page.goto` が Next 16 dev cold-compile（各 >10s）累積で **Test timeout of 60000ms exceeded**（ローカルでは pre-warm cache で通り CI のみ顕在化）
+- Why: PillNav に置換すると label が**他 label の prefix になり得る**（`公開` ⊂ `非公開`）。playwright `getByRole({ name })` は部分一致なので strict mode で必ず衝突する。`<select>` `<option>` だった頃は要素自体が分離していたため発覚しなかった。複数 route 訪問 suite は CI dev mode で構造的に timeout に到達する。
+- How to apply（task 仕様書での逐語化）:
+  - Phase 4 risk に「PillNav / Tab 置換は label が兄弟ラベルの prefix にならないか全テストを grep する」を登録
+  - Phase 6 test additions 節に「複数 viewport × 複数 state の phase-11 screenshot suite は `test.slow()` 必須（Next dev cold-compile absorb 目的）」を逐語化
+  - Phase 9 CI 再修正 runbook に以下手順を追記:
+    1. `grep -rn "name: '<新 label>'" apps/web/playwright/tests/` で全テスト走査
+    2. 兄弟 label の prefix になっている hit があれば `{ exact: true }` または `/^<label>$/` に書き換え
+    3. 新規 phase-11 screenshot 16+ ナビゲーション suite は `test(...)` 関数先頭で `test.slow()` を宣言
+    4. commit message: `fix(<scope>): use exact match for <label> tab to avoid strict-mode collision with <sibling>` / `fix(<scope>): mark <suite> test as slow to absorb Next dev cold-compile across NxM navigations`
+- 留意:
+  - `playwright.config.ts` の global `timeout` を上げるより**該当 test 単独で `test.slow()`** にするほうが他 suite への副作用がない
+  - `playwright-visual-full` の baseline drift は redesign 後は必ず発生し、`playwright-visual-baseline-update` workflow の `environment: visual-baseline-approval` 経由のみで更新可能。CI 再修正対象外として user-gated escalation する
+- 事例: 2026-05-28 commit `05c30022b` (PillNav exact 修正) + `5bbee59da` (test.slow 追加) で `e2e-tests-coverage-gate` 全 4 project green。`playwright-visual-full` は 8 admin route × mobile baseline drift で fail 継続 → user 報告のみ。
+- 参照: aiworkflow-requirements [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-055 を併読。

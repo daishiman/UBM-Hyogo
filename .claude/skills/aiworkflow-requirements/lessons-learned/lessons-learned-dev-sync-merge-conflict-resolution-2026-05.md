@@ -1030,3 +1030,22 @@
   - 追加 commit のメッセージは `fix(<scope>): restore redesign <name> spec after dev merge` で統一
 - 事例: 2026-05-28 merge commit `709f13920` + spec restore `8f510ba33`。typecheck 初回 `MembersTable.spec.tsx` で `summariesByMember` / `tagsByMember` / `onTogglePublish` prop が存在しない error 3 件 → HEAD 側 spec で復元後 typecheck/lint green。
 - 参照: task-specification-creator [[dev-sync-merge-conflict-resolution]] SP-DEVSYNC-040 に逐語埋め込み。
+
+## L-DEVSYNC-055: 全面 redesign 直後の CI 再修正における「PillNav 兄弟ラベル strict-mode collision」と「複数 viewport × 状態 page.goto suite の Next dev cold-compile timeout」（2026-05-28 確認）
+
+- 事象: L-DEVSYNC-054 の全面 redesign + spec restore commit (`8f510ba33`) 後の CI で 2 種の playwright e2e 失敗が連続発生:
+  1. `task15-admin-screenshots.spec.ts` の `getByRole('tab', { name: '公開' })` が **strict mode violation: resolved to 2 elements**（redesign で PillNav に置換した結果「公開」「非公開」両方が hit）
+  2. `admin-members-prototype-redesign.spec.ts` の `captures four local list states across four viewports` が **Test timeout of 60000ms exceeded** で `page.goto(/admin/members?filter=published)` 待ちのまま失敗（4 viewport × 4 state = 16 page.goto の各初回が Next dev cold compile で >10s かかり 60s timeout に到達）
+- Why:
+  1. PillNav に置換すると label "公開" は「公開」「非公開」両方の prefix になり、playwright `getByRole` の name match は**部分一致 / 正規表現マッチ**のため strict mode で衝突する。redesign 前は `<select>` `<option>` で要素自体が 1 つに絞れていたため発覚しなかった
+  2. CI runner 上の Next 16 dev server は初回 route compile が極めて遅く、同一テスト内で複数 route を順次訪問する suite は累積的に timeout に到達する。ローカルでは pre-warmed cache で通るため CI でのみ発覚
+- How to apply（CI 再修正 runbook 手順、redesign sync-merge 後の追加検証として常設）:
+  1. **redesign で PillNav / Tab に置換した場合**、置換した label が**他 label の prefix にならないか** `grep -rn "name: '<label>'" apps/web/playwright/tests/` で全テスト走査し、該当があれば `{ exact: true }` または `/^<label>$/` に書き換える
+  2. **redesign に伴う新規 phase-11 screenshot suite (複数 viewport × 状態)** は `test.slow()`（timeout 3 倍 = 180s）を `test(...)` 関数先頭で必ず宣言する。Next dev cold compile を absorb する目的を comment ではなく commit message に記す
+  3. CI 再修正コミットは `fix(<scope>): use exact match for <label> tab to avoid strict-mode collision with <sibling>` / `fix(<scope>): mark <suite> test as slow to absorb Next dev cold-compile across NxM navigations` で統一
+- 留意:
+  - 1 は redesign 直後の e2e で必ず発覚するため `test.beforeAll` で自動 grep するより、test 修正 + lessons 反映で同じ間違いを次回避けるほうが ROI 高い
+  - 2 は `apps/web/playwright.config.ts` の global timeout を上げるより**該当 test 単独で `test.slow()` 宣言**するほうが他 suite への副作用がない
+  - `playwright-visual-full` 失敗（baseline drift）は redesign 後は必ず発生し、`playwright-visual-baseline-update` workflow の `environment: visual-baseline-approval` 経由でのみ更新可能（CLAUDE.md / 既存 lessons の通り user-gated）。CI 再修正の対象外
+- 事例: 2026-05-28 commit `05c30022b` (PillNav exact 修正) + `5bbee59da` (test.slow 追加)。前者で `e2e (desktop-chromium)` の `task15-admin-screenshots` 解消、後者で `e2e-tests-coverage-gate` 全 project (desktop-chromium/firefox/mobile-chromium/mobile-webkit) green。`playwright-visual-full` は 8 admin route × mobile baseline drift で fail 継続 → user-gated 扱いで報告のみ。
+- 参照: task-specification-creator [[dev-sync-merge-conflict-resolution]] SP-DEVSYNC-041 に逐語埋め込み。
