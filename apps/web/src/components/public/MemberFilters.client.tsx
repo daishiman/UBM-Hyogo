@@ -163,6 +163,7 @@ export function MemberFilters({ initial, topTags = [] }: MemberFiltersProps) {
           selected={initial.tag}
           max={MEMBERS_SEARCH_LIMITS.TAG_LIMIT}
           onToggle={onTagToggle}
+          heading="タグで絞り込み"
         />
         <SelectedTagsBar
           selected={initial.tag}

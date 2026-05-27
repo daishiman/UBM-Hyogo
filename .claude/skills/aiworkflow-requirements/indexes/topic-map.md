@@ -2147,6 +2147,15 @@ node scripts/list-specs.js --topics
 |------------|----|
 | Contract | L16 |
 
+### references/workflow-admin-ui-prototype-alignment-followup-001-members-fetch-and-visual-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Canonical files | L3 |
+| Registration | L14 |
+| Implemented targets | L20 |
+| Evidence boundary | L30 |
+
 ### references/workflow-admin-ui-prototype-alignment-followup-002-section-error-retry-artifact-inventory.md
 
 | セクション | 行 |
@@ -3256,6 +3265,22 @@ node scripts/list-specs.js --topics
 | Skill Compliance | L28 |
 | Boundaries | L36 |
 
+### references/workflow-login-ui-balance-and-runtime-fix-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Metadata | L3 |
+| Workflow Artifacts | L11 |
+| Code Artifacts | L20 |
+| Evidence Boundary | L36 |
+
+### references/workflow-members-list-prototype-alignment-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| State | L18 |
+| Boundary | L24 |
+
 ### references/workflow-members-page-prototype-alignment-artifact-inventory.md
 
 | セクション | 行 |
@@ -3362,6 +3387,15 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | Boundary | L19 |
+
+### references/workflow-public-dashboard-prototype-alignment-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Classification | L15 |
+| Planned Implementation Targets | L19 |
+| Boundary | L30 |
+| Lessons | L34 |
 
 ### references/workflow-regression-evidence-ci-gate-foundation-artifact-inventory.md
 
@@ -7810,14 +7844,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L2660 |
-| フェーズ構造（概要） | L2669 |
-| 品質ゲート（概要） | L2700 |
-| 出力テンプレート | L2711 |
-| 実行時のコマンド・エージェント・スキル | L2734 |
-| 昇格パターン集 | L2758 |
-| Current Active / Spec Created Tasks | L2760 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L2921 |
+| ドキュメント構成 | L2714 |
+| フェーズ構造（概要） | L2723 |
+| 品質ゲート（概要） | L2754 |
+| 出力テンプレート | L2765 |
+| 実行時のコマンド・エージェント・スキル | L2788 |
+| 昇格パターン集 | L2812 |
+| Current Active / Spec Created Tasks | L2814 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L2975 |
 
 ### references/task-workflow-backlog-part2.md
 

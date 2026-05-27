@@ -1,0 +1,16 @@
+{
+  "task_id": "members-list-prototype-alignment",
+  "captured_at": "2026-05-26",
+  "status": "visual_runtime_pending",
+  "local_unit_evidence": {
+    "typecheck": "passed",
+    "vitest_web_suite": "passed"
+  },
+  "playwright": {
+    "browser_install": "passed",
+    "spec": "apps/web/playwright/tests/members-prototype-alignment.spec.ts",
+    "project": "desktop-chromium",
+    "result": "failed_webserver_timeout",
+    "evidence_root": "docs/30-workflows/members-list-prototype-alignment/outputs/phase-11"
+  }
+}

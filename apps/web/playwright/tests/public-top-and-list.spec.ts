@@ -28,15 +28,14 @@ const assertNoCriticalAxe = async (page: import("@playwright/test").Page) => {
 };
 
 test.describe("public top & members list @critical-route", () => {
-  test("`/` shows hero / stats / zone-intro", async ({ page }) => {
+  test("`/` shows prototype-aligned public dashboard sections", async ({ page }) => {
     await page.goto("/");
     await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
-    await expect(
-      page.locator('[data-component="hero"]'),
-    ).toHaveCount(1);
-    await expect(
-      page.locator('[data-stat="total"]'),
-    ).toHaveCount(1);
+    await expect(page.locator('[data-component="hero"][data-variant="card"]')).toHaveCount(1);
+    await expect(page.locator('[data-component="stats"] [data-stat="members"]')).toHaveCount(1);
+    await expect(page.locator('[data-component="about-ubm"]')).toHaveCount(1);
+    await expect(page.locator('[data-component="featured-members"]')).toHaveCount(1);
+    await expect(page.locator('[data-component="timeline"]')).toHaveCount(1);
     const cta = page.locator('[data-component="call-to-action-cta"]');
     await expect(cta).toBeVisible();
     const ctaLink = cta.getByRole("link", { name: "回答フォームを開く" });
@@ -62,12 +61,13 @@ test.describe("public top & members list @critical-route", () => {
     await assertNoCriticalAxe(page);
   });
 
-  test("`/members?density=list` shows table", async ({ page }) => {
+  test("`/members?density=list` shows list grid", async ({ page }) => {
     await page.goto("/members?density=list");
+    const listGrid = page.locator('[data-component="member-grid"][data-density="list"]');
+    await expect(listGrid).toBeVisible();
     await expect(
-      page.locator('table[data-component="member-table"]'),
-    ).toBeVisible();
-    await expect(page.locator('table[data-component="member-table"] tbody tr')).not.toHaveCount(0);
+      listGrid.locator('li:not([data-role="list-head"])'),
+    ).not.toHaveCount(0);
     await page.screenshot({
       path: screenshotPath("members-list-screenshot.png"),
       fullPage: true,
@@ -79,10 +79,13 @@ test.describe("public top & members list @critical-route", () => {
     page,
   }) => {
     await page.goto("/members?density=invalid");
-    // density=invalid → comfy fallback。table は出ない。
+    // density=invalid → comfy fallback。list density grid は出ない。
     await expect(
-      page.locator('table[data-component="member-table"]'),
+      page.locator('[data-component="member-grid"][data-density="list"]'),
     ).toHaveCount(0);
+    await expect(
+      page.locator('[data-component="member-grid"][data-density="comfy"]'),
+    ).toBeVisible();
     await assertNoCriticalAxe(page);
   });
 
