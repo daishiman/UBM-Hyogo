@@ -7847,7 +7847,7 @@ node scripts/list-specs.js --topics
 | 実行時のコマンド・エージェント・スキル | L2776 |
 | 昇格パターン集 | L2800 |
 | Current Active / Spec Created Tasks | L2802 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L2963 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L2964 |
 
 ### references/task-workflow-backlog-part2.md
 
@@ -8351,3 +8351,4 @@ node scripts/list-specs.js --topics
 | SkillLifecyclePanel 責務別props分離パターン | L82 |
 
 ---
+
