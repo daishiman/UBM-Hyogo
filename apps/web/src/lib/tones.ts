@@ -1,4 +1,17 @@
-export type ChipTone = "stone" | "warm" | "cool" | "green" | "amber" | "red";
+// followup-001 T-5.7: プロトタイプ準拠の semantic 5 種を additive 追加。
+// 既存値（stone/warm/cool/green/amber/red）は consumer 互換のため維持。
+export type ChipTone =
+  | "stone"
+  | "warm"
+  | "cool"
+  | "green"
+  | "amber"
+  | "red"
+  | "neutral"
+  | "success"
+  | "warning"
+  | "danger"
+  | "info";
 
 export function zoneTone(zone: string): ChipTone {
   if (zone === "0_to_1") return "cool";

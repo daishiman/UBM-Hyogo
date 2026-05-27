@@ -3,19 +3,27 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { act, cleanup, fireEvent, render, screen } from "@testing-library/react";
 
-// next/navigation の useRouter を最小スタブ
-vi.mock("next/navigation", () => ({
-  useRouter: () => ({ refresh: vi.fn(), push: vi.fn(), replace: vi.fn() }),
-}));
-
 const mocks = vi.hoisted(() => ({
   sendMagicLink: vi.fn(async () => ({ state: "sent" as const })),
   replaceLoginState: vi.fn(),
   routerRefresh: vi.fn(),
+  MagicLinkRateLimitedError: class MagicLinkRateLimitedError extends Error {
+    readonly status = 429;
+    readonly retryAfterSec: number;
+    readonly reason: "edge" | "app" | undefined;
+
+    constructor(retryAfterSec: number, reason?: "edge" | "app") {
+      super("rate_limited");
+      this.name = "MagicLinkRateLimitedError";
+      this.retryAfterSec = retryAfterSec;
+      this.reason = reason;
+    }
+  },
 }));
 
 // sendMagicLink を成功固定にモック
 vi.mock("../../../src/lib/auth/magic-link-client", () => ({
+  MagicLinkRateLimitedError: mocks.MagicLinkRateLimitedError,
   sendMagicLink: mocks.sendMagicLink,
 }));
 
@@ -103,5 +111,50 @@ describe("MagicLinkForm cooldown / U-03", () => {
     });
     expect(mocks.routerRefresh).toHaveBeenCalled();
     expect(screen.queryByRole("alert")).toBeNull();
+  });
+
+  it("429 rate limit 時は error state にせず server retryAfterSec で cooldown する", async () => {
+    mocks.sendMagicLink.mockRejectedValueOnce(
+      new mocks.MagicLinkRateLimitedError(45, "app"),
+    );
+    render(<MagicLinkForm redirect="/profile" />);
+
+    const input = screen.getByLabelText("メールアドレス") as HTMLInputElement;
+    await act(async () => {
+      fireEvent.change(input, { target: { value: "user@example.com" } });
+    });
+
+    const button = screen.getByRole("button") as HTMLButtonElement;
+    await act(async () => {
+      fireEvent.submit(input.closest("form")!);
+      await Promise.resolve();
+      await Promise.resolve();
+    });
+
+    expect(button.disabled).toBe(true);
+    expect(button.textContent).toMatch(/45s 後に再送可能|44s 後に再送可能/);
+    expect(mocks.replaceLoginState).not.toHaveBeenCalled();
+    expect(mocks.routerRefresh).not.toHaveBeenCalled();
+  });
+
+  it("成功時は従来通り sent state と 60s cooldown にする", async () => {
+    render(<MagicLinkForm redirect="/profile" />);
+
+    const input = screen.getByLabelText("メールアドレス") as HTMLInputElement;
+    await act(async () => {
+      fireEvent.change(input, { target: { value: "user@example.com" } });
+    });
+
+    const button = screen.getByRole("button") as HTMLButtonElement;
+    await act(async () => {
+      fireEvent.submit(input.closest("form")!);
+      await Promise.resolve();
+      await Promise.resolve();
+    });
+
+    expect(button.disabled).toBe(true);
+    expect(button.textContent).toMatch(/60s 後に再送可能|59s 後に再送可能/);
+    expect(mocks.replaceLoginState).toHaveBeenCalledWith("sent", "/profile");
+    expect(mocks.routerRefresh).toHaveBeenCalled();
   });
 });

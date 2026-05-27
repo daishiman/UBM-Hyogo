@@ -271,6 +271,11 @@ export const AdminMemberListItemZ = z.object({
   publishState: PublishStateZ,
   isDeleted: z.boolean(),
   lastSubmittedAt: Iso8601Z,
+  occupation: z.string().optional(),
+  ubmZone: z.string().nullable().optional(),
+  ubmMembershipType: z.string().nullable().optional(),
+  tags: z.array(z.object({ code: z.string(), label: z.string() })).optional(),
+  updatedAt: Iso8601Z.optional(),
 });
 
 export const AdminMemberListViewZ = z

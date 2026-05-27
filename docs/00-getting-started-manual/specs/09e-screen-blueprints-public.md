@@ -28,6 +28,17 @@
 
 認可方針: 全 6 画面とも **public**（未ログインで全フィールド閲覧可能・ただし `isPublic && !isDeleted` のメンバーのみ表示）。
 
+### 2026-05-26 `/members` current implementation note
+
+`members-list-prototype-alignment` では、現行 `GET /public/members` / `PublicMemberListItem` contract を変更せずに prototype density を移植する。`businessOverview` と list `tags` は一覧 item contract に存在しないため追加せず、`fullName` / `nickname` / `occupation` / `location` / `ubmZone` / `ubmMembershipType` のみで `comfy / dense / list` を構成する。
+
+Implementation anchors:
+
+- `/members` route は `MemberGrid` に一本化し、`density="list"` でも `MemberTable` へ分岐しない。
+- `MemberCard` は zone chip、occupation/location icon meta、status chip-row、list row chevron を持つ。
+- `MemberFilters` は TagPicker の前に divider と `タグで絞り込み` heading を持つ。
+- filtered empty state は `EmptyState variant="compact"` を使う。
+
 ### 共通 shell（`app.jsx` L97-L115 由来）
 
 ```
@@ -66,6 +77,7 @@ apps/web/app/
 - description: `UBM兵庫支部会メンバーサイトは、Googleフォームから集めた支部会メンバーの自己紹介情報を、公開情報と会員限定情報に分けて整理・公開するサイトです。`
 - 認可: public
 - prototype `nav("landing")` ↔ App Router `/`
+- implementation workflow: `docs/30-workflows/public-dashboard-prototype-alignment/` (`spec_created / implementation / VISUAL / execution_pending`)
 
 ### 1.2 レイアウト構造
 

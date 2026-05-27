@@ -51,10 +51,13 @@ SH
 
 run_case() {
   local name="$1"
-  local mode="$2"
-  local tail_text="$3"
-  local expected_exit="$4"
-  local expected_reason="$5"
+  local env_name="$2"
+  local mode="$3"
+  local tail_text="$4"
+  local expected_exit="$5"
+  local expected_reason="$6"
+  local production_web_base="${7-https://ubm-hyogo-web-production.example.test}"
+  local production_allow_regex="${8-production.example.test}"
   local dir
   dir="$(mktemp -d)"
   mkdir -p "$dir/bin"
@@ -65,8 +68,11 @@ run_case() {
   STAGING_WEB_BASE=http://staging.example.test \
   STAGING_WEB_HOST_ALLOW_REGEX=staging.example.test \
   STAGING_ADMIN_SESSION_COOKIE='__Secure-authjs.session-token=secret-cookie-value' \
+  PRODUCTION_WEB_BASE="$production_web_base" \
+  PRODUCTION_WEB_HOST_ALLOW_REGEX="$production_allow_regex" \
+  PRODUCTION_ADMIN_SESSION_COOKIE='__Secure-authjs.session-token=secret-cookie-value' \
   CF_TAIL_FILE="$dir/tail.log" \
-    bash "$RUNNER" staging --out-dir "$dir/out" --ci-summary >/dev/null 2>&1
+    bash "$RUNNER" "$env_name" --out-dir "$dir/out" --ci-summary >/dev/null 2>&1
   local ec=$?
   set -e
   if [[ "$ec" -ne "$expected_exit" ]]; then
@@ -87,6 +93,36 @@ run_case() {
   rm -rf "$dir"
 }
 
+run_missing_production_base_case() {
+  local dir
+  dir="$(mktemp -d)"
+  mkdir -p "$dir/bin"
+  make_curl_stub "$dir/bin" pass
+  printf '{"outcome":"ok"}' > "$dir/tail.log"
+  set +e
+  PATH="$dir/bin:$PATH" \
+  STAGING_WEB_BASE=http://staging.example.test \
+  STAGING_ADMIN_SESSION_COOKIE='__Secure-authjs.session-token=staging-cookie-value' \
+  PRODUCTION_ADMIN_SESSION_COOKIE='__Secure-authjs.session-token=production-cookie-value' \
+  CF_TAIL_FILE="$dir/tail.log" \
+    bash "$RUNNER" production --out-dir "$dir/out" --ci-summary >"$dir/stdout.log" 2>"$dir/stderr.log"
+  local ec=$?
+  set -e
+  if [[ "$ec" -ne 2 ]]; then
+    echo "FAIL [production-missing-web-base] expected exit 2, got $ec"
+    fail=$((fail + 1))
+  elif ! grep -Fq 'PRODUCTION_WEB_BASE is required' "$dir/stderr.log"; then
+    echo "FAIL [production-missing-web-base] missing required env message"
+    fail=$((fail + 1))
+  elif grep -Fq 'STAGING_WEB_BASE is required' "$dir/stderr.log"; then
+    echo "FAIL [production-missing-web-base] read staging env path"
+    fail=$((fail + 1))
+  else
+    echo "PASS [production-missing-web-base]"
+  fi
+  rm -rf "$dir"
+}
+
 set +e
 bash "$RUNNER" >/dev/null 2>&1
 ec=$?
@@ -99,21 +135,35 @@ else
 fi
 
 set +e
-STAGING_WEB_BASE=http://staging.example.test STAGING_ADMIN_SESSION_COOKIE=x bash "$RUNNER" production >/dev/null 2>&1
+STAGING_WEB_BASE=http://staging.example.test STAGING_ADMIN_SESSION_COOKIE=x bash "$RUNNER" preview >/dev/null 2>&1
 ec=$?
 set -e
 if [[ "$ec" -ne 2 ]]; then
-  echo "FAIL [staging-only] expected exit 2, got $ec"
+  echo "FAIL [unsupported-env] expected exit 2, got $ec"
   fail=$((fail + 1))
 else
-  echo "PASS [staging-only]"
+  echo "PASS [unsupported-env]"
 fi
 
-run_case "admin-pass" "pass" '{"outcome":"ok"}' 0 ""
-run_case "redirect" "redirect" '{"outcome":"ok"}' 1 "auth-token-invalid-or-expired"
-run_case "forbidden" "forbidden" '{"outcome":"ok"}' 1 "auth-not-admin"
-run_case "body-render-error" "render" '{"outcome":"ok"}' 1 "server-components-render-error"
-run_case "tail-render-error" "pass" '{"event":"error.boundary.caught","digest":"167275886"}' 1 "server-components-render-error"
+run_case "admin-pass" "staging" "pass" '{"outcome":"ok"}' 0 ""
+run_case "production-admin-pass" "production" "pass" '{"outcome":"ok"}' 0 ""
+run_case "production-allowlist-default" "production" "pass" '{"outcome":"ok"}' 0 "" "https://ubm-hyogo-web-production.daishimanju.workers.dev" ""
+run_case "production-allowlist-deny" "production" "pass" '{"outcome":"ok"}' 2 "target-not-production" "https://evil.example.com" ""
+run_missing_production_base_case
+run_case "redirect" "staging" "redirect" '{"outcome":"ok"}' 1 "auth-token-invalid-or-expired"
+run_case "production-redirect" "production" "redirect" '{"outcome":"ok"}' 1 "auth-token-invalid-or-expired"
+run_case "forbidden" "staging" "forbidden" '{"outcome":"ok"}' 1 "auth-not-admin"
+run_case "body-render-error" "staging" "render" '{"outcome":"ok"}' 1 "server-components-render-error"
+run_case "production-body-render-error" "production" "render" '{"outcome":"ok"}' 1 "server-components-render-error"
+run_case "tail-render-error" "staging" "pass" '{"event":"error.boundary.caught","digest":"167275886"}' 1 "server-components-render-error"
+run_case "production-tail-render-error" "production" "pass" '{"event":"error.boundary.caught","digest":"167275886"}' 1 "server-components-render-error"
+
+if grep -Fq 'ubm-hyogo-web-${ENVIRONMENT}' "$RUNNER"; then
+  echo "PASS [worker-name-default-template]"
+else
+  echo "FAIL [worker-name-default-template] missing env-specific worker default"
+  fail=$((fail + 1))
+fi
 
 if [[ "$fail" -ne 0 ]]; then
   echo "$fail runtime-admin-web test(s) failed"

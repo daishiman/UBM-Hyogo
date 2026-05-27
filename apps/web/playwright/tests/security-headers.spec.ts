@@ -106,7 +106,7 @@ test.describe("security headers", () => {
     expect(firstNonce).not.toBe(secondNonce);
     expect(firstCsp).toContain(`script-src 'self' 'nonce-${firstNonce}' 'strict-dynamic'`);
     expect(firstCsp).toContain(`style-src 'self' 'nonce-${firstNonce}'`);
-    expect(firstCsp).toContain(`style-src-attr ${unsafeInline}`);
+    expect(firstCsp).not.toContain("style-src-attr");
     expect(firstCsp).not.toContain(`script-src 'self' ${unsafeInline}`);
     expect(firstCsp).not.toContain(`style-src 'self' ${unsafeInline}`);
     expect(secondCsp).toContain(`script-src 'self' 'nonce-${secondNonce}' 'strict-dynamic'`);

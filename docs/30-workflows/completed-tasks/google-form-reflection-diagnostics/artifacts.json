@@ -1,0 +1,87 @@
+{
+  "workflow_id": "google-form-reflection-diagnostics",
+  "feature": "google-form-reflection-diagnostics",
+  "status": "in_progress",
+  "created": "2026-05-26T00:00:00+09:00",
+  "lastUpdated": "2026-05-26T00:00:00+09:00",
+  "metadata": {
+    "taskId": "GOOGLE-FORM-REFLECTION-DIAGNOSTICS",
+    "taskType": "implementation",
+    "visualEvidence": "VISUAL",
+    "implementation_mode": "diagnostics-foundation",
+    "workflow_state": "implemented_local_runtime_pending",
+    "implementation_status": "implemented_local_runtime_pending",
+    "canonical_root": "docs/30-workflows/google-form-reflection-diagnostics",
+    "upstream_source": null,
+    "runtime_boundary": "staging deploy / runtime evidence capture / Spec-B issue filing / commit / push / PR are user-gated",
+    "implementation_files": [
+      "apps/api/src/diagnostics/forms-pipeline.ts",
+      "apps/api/src/diagnostics/forms-pipeline.contract.spec.ts",
+      "apps/api/src/diagnostics/forms-pipeline.spec.ts",
+      "apps/api/src/diagnostics/member-diagnosis.ts",
+      "apps/api/src/diagnostics/member-diagnosis.contract.spec.ts",
+      "apps/api/src/index.ts",
+      "apps/web/app/(admin)/admin/sync-status/page.tsx",
+      "apps/web/src/features/admin/diagnostics/types.ts",
+      "apps/web/src/features/admin/diagnostics/api.ts",
+      "apps/web/src/features/admin/components/_members/MemberDiagnosticsPanel.tsx",
+      "apps/web/src/features/admin/components/_members/MemberDrawer.tsx"
+    ],
+    "phase12_strict_outputs": [
+      "outputs/phase-12/main.md",
+      "outputs/phase-12/implementation-guide.md",
+      "outputs/phase-12/system-spec-update-summary.md",
+      "outputs/phase-12/documentation-changelog.md",
+      "outputs/phase-12/unassigned-task-detection.md",
+      "outputs/phase-12/skill-feedback-report.md",
+      "outputs/phase-12/phase12-task-spec-compliance-check.md"
+    ],
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/google-form-reflection-diagnostics/outputs/phase-12/phase12-task-spec-compliance-check.md",
+        "approver": "daishiman",
+        "notes": "spec compliance gate validated locally; staging runtime remains user-gated"
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/google-form-reflection-diagnostics/outputs/phase-11/playwright-smoke.log",
+        "approver": "daishiman",
+        "notes": "runtime diagnosis evidence on staging is user-gated (admin/sync-status screenshot + member drawer diagnostics tab + API JSON snapshot)"
+      }
+    ]
+  },
+  "phases": [
+    { "id": 1, "name": "要件定義", "status": "spec_created", "path": "phase-01-requirements.md" },
+    { "id": 2, "name": "アーキテクチャ", "status": "spec_created", "path": "phase-02-architecture.md" },
+    { "id": 3, "name": "タスク分解", "status": "spec_created", "path": "phase-03-task-breakdown.md" },
+    { "id": 4, "name": "データ契約", "status": "spec_created", "path": "phase-04-data-contract.md" },
+    { "id": 5, "name": "実装ガイド", "status": "spec_created", "path": "phase-05-implementation-guide.md" },
+    { "id": 6, "name": "テスト方針", "status": "spec_created", "path": "phase-06-test-strategy.md" },
+    { "id": 7, "name": "品質ゲート", "status": "spec_created", "path": "phase-07-quality-gates.md" },
+    { "id": 8, "name": "DoD", "status": "spec_created", "path": "phase-08-dod.md" },
+    { "id": 9, "name": "リスク", "status": "spec_created", "path": "phase-09-risks.md" },
+    { "id": 10, "name": "ローカル検証", "status": "spec_created", "path": "phase-10-local-verification.md" },
+    { "id": 11, "name": "Evidence inventory", "status": "runtime_pending", "path": "phase-11-evidence-inventory.md" },
+    { "id": 12, "name": "Compliance", "status": "spec_created", "path": "phase-12-compliance.md" },
+    { "id": 13, "name": "Commit / PR draft", "status": "pending_user_approval", "path": "phase-13-commit-pr-draft.md" }
+  ],
+  "dependencies": {
+    "2": ["1"],
+    "3": ["2"],
+    "4": ["3"],
+    "5": ["4"],
+    "6": ["5"],
+    "7": ["6"],
+    "8": ["7"],
+    "9": ["8"],
+    "10": ["9"],
+    "11": ["10"],
+    "12": ["11"],
+    "13": ["12"]
+  }
+}
