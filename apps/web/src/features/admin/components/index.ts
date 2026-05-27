@@ -12,3 +12,4 @@ export * from "./_members/MembersFilters";
 export * from "./_members/MembersTable";
 export * from "./_members/BulkActionBar";
 export * from "./_members/MemberDrawer";
+export * from "./_members/MemberDiagnosticsPanel";

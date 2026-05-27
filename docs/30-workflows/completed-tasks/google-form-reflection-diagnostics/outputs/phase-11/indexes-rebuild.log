@@ -1,0 +1,29 @@
+
+> ubm-hyogo@0.1.0 indexes:rebuild /Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260526-065023-wt-7
+> node .claude/skills/aiworkflow-requirements/scripts/generate-index.js
+
+(node:39951) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/dm/dev/dev/%E5%80%8B%E4%BA%BA%E9%96%8B%E7%99%BA/UBM-Hyogo/.worktrees/task-20260526-065023-wt-7/.claude/skills/aiworkflow-requirements/scripts/generate-index.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260526-065023-wt-7/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+📚 インデックス生成中...
+
+📂 756ファイルを分類:
+   API設計: 8ファイル
+   その他: 343ファイル
+   アーキテクチャ: 24ファイル
+   Claude Code: 11ファイル
+   データベース: 14ファイル
+   概要・品質: 4ファイル
+   インターフェース: 46ファイル
+   セキュリティ: 13ファイル
+   技術スタック: 7ファイル
+   UI/UX: 47ファイル
+   ワークフロー: 239ファイル
+
+1. トピックマップ生成...
+   ✅ indexes/topic-map.md
+2. キーワード索引生成...
+   ✅ indexes/keywords.json (5140キーワード)
+
+✅ インデックス生成完了
