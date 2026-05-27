@@ -8,6 +8,21 @@
 
 本ドキュメントは、複雑なタスクを単一責務の原則に基づいて分解し、各サブタスクに最適なスラッシュコマンド・エージェント・スキルの組み合わせを選定するためのガイドラインを定義する。
 
+### admin-ui-task-d-attendance-primitive-conformance（2026-05-26）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION / implementation_complete_pending_pr` |
+| 成果物 | `docs/30-workflows/completed-tasks/admin-ui-task-d-attendance-primitive-conformance/` |
+| 親 workflow | `docs/30-workflows/admin-ui-prototype-alignment/` Task D |
+| 目的 | `/admin/dashboard/attendance` の inline `KpiCard` と裸 `<table>` を既存 primitive に置換する |
+| implementation targets | `apps/web/app/(admin)/admin/dashboard/attendance/page.tsx`, `apps/web/app/(admin)/admin/dashboard/attendance/AttendanceDashboardSections.client.tsx`, page-local focused spec, Playwright visual spec, mock API fixture, primitive adoption grep gate |
+| invariant | API / D1 / response shape 不変。`AdminTable` function props は client island 内で定義。`KpiGrid` は使用しない |
+| Phase 12 | strict 7 present、root/output artifacts parity present、Phase 11 screenshot 3 枚 captured |
+| evidence | focused Vitest 9 PASS、primitive adoption C1-C7 PASS、Playwright attendance visual 3 PASS |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-ui-task-d-attendance-primitive-conformance-artifact-inventory.md` |
+| user gate | commit、push、PR、staging visual baseline |
+
 ### admin-ui-prototype-alignment（2026-05-23）
 
 | 項目 | 値 |

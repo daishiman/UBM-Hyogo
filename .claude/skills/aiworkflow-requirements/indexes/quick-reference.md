@@ -1,5 +1,19 @@
 # クイックリファレンス
 
+## admin-ui-task-d-attendance-primitive-conformance（2026-05-26）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/admin-ui-task-d-attendance-primitive-conformance/` |
+| status | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION / implementation_complete_pending_pr` |
+| parent | `docs/30-workflows/admin-ui-prototype-alignment/` Task D |
+| purpose | `/admin/dashboard/attendance` を `AdminPageHeader` + `KpiCard` + `AdminTable` へ整流し、旧 inline KPI / 裸 table の孤立島を解消する |
+| implementation targets | `apps/web/app/(admin)/admin/dashboard/attendance/page.tsx`, `apps/web/app/(admin)/admin/dashboard/attendance/AttendanceDashboardSections.client.tsx`, page-local focused spec, Playwright visual spec, mock API fixture, primitive adoption grep gate |
+| boundary | API / D1 / response shape 変更なし。`AdminTable` column 関数は client island 内に閉じる。`KpiGrid` は dashboard totals 固定のため使わない |
+| Phase 12 | strict 7 present。root/output `artifacts.json` parity present。Phase 11 screenshot 3 枚 captured |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-ui-task-d-attendance-primitive-conformance-artifact-inventory.md` |
+| user gate | commit, push, PR, staging visual baseline |
+
 ## admin-ui-prototype-alignment（2026-05-23）
 
 | 目的 | 参照先 |
