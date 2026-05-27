@@ -15,9 +15,32 @@ const screenshot = async (
   await page.screenshot({ path: join(PHASE11_DIR, file), fullPage: false })
 }
 
+const gotoAdminRoute = async (
+  page: import('@playwright/test').Page,
+  path: `/admin${string}`,
+): Promise<void> => {
+  for (let attempt = 0; attempt < 3; attempt += 1) {
+    try {
+      await page.goto(path, { waitUntil: 'domcontentloaded' })
+    } catch (error) {
+      const message = error instanceof Error ? error.message : String(error)
+      if (!message.includes('interrupted by another navigation') || attempt === 2) {
+        throw error
+      }
+    }
+
+    await page.waitForTimeout(150)
+    if (new URL(page.url()).pathname === path) return
+  }
+
+  await expect(page).toHaveURL(new RegExp(`${path.replaceAll('/', '\\/')}$`))
+}
+
 test.describe('admin-shell-topbar-sidebar-integration Phase 11 screenshots', () => {
+  test.skip(({ browserName }) => browserName !== 'chromium', 'Phase 11 evidence screenshots are captured once on Chromium')
+  test.setTimeout(120_000)
+
   test('captures canonical shell/sidebar visual evidence', async ({ adminPage, mockApi }) => {
-    void mockApi
     await expect
       .poll(async () => {
         try {
@@ -30,7 +53,7 @@ test.describe('admin-shell-topbar-sidebar-integration Phase 11 screenshots', () 
       .toBe(true)
 
     await adminPage.setViewportSize({ width: 1280, height: 720 })
-    await adminPage.goto('/admin')
+    await gotoAdminRoute(adminPage, '/admin')
     await expect(adminPage.getByTestId('admin-shell')).toBeVisible()
     await expect(adminPage.locator('[data-shell="topbar"]')).toHaveCount(0)
     await expect(adminPage.locator('[data-shell="sidebar"]')).toBeVisible()
@@ -39,25 +62,25 @@ test.describe('admin-shell-topbar-sidebar-integration Phase 11 screenshots', () 
     await screenshot(adminPage, 'task-A-sidebar-desktop-1280.png')
     await screenshot(adminPage, 'task-A-topbar-removed-1280.png')
 
-    await adminPage.goto('/admin/members')
+    await gotoAdminRoute(adminPage, '/admin/members')
     await expect(adminPage.locator('[data-component="admin-nav-item"][data-active="true"]')).toHaveCount(1)
     await expect(adminPage.locator('a[href="/admin/members"][data-active="true"]')).toBeVisible()
     await screenshot(adminPage, 'task-A-sidebar-desktop-1280-members-active.png')
 
     await adminPage.setViewportSize({ width: 768, height: 1024 })
-    await adminPage.goto('/admin')
+    await gotoAdminRoute(adminPage, '/admin')
     await expect(adminPage.locator('[data-shell="sidebar"]')).toBeVisible()
     await screenshot(adminPage, 'task-A-sidebar-tablet-768.png')
 
     await adminPage.setViewportSize({ width: 375, height: 812 })
-    await adminPage.goto('/admin')
+    await gotoAdminRoute(adminPage, '/admin')
     await expect(adminPage.locator('[data-shell="sidebar"]')).toBeHidden()
     await expect(adminPage.locator('[data-shell="topbar"]')).toHaveCount(0)
     await screenshot(adminPage, 'task-A-sidebar-mobile-375.png')
 
     await adminPage.setViewportSize({ width: 1280, height: 720 })
     await mockApi.setAdminDashboardUnresolvedSchema(3)
-    await adminPage.goto('/admin/schema')
+    await gotoAdminRoute(adminPage, '/admin/schema')
     await expect(adminPage.locator('a[href="/admin/schema"]')).toContainText('3')
     await screenshot(adminPage, 'task-A-sidebar-schema-badge.png')
 
