@@ -653,3 +653,19 @@ admin API の method/endpoint を切替える PR（例: issue-912 で `POST /att
 - mock を always 200 success にする → UI の "既に削除済" toast 分岐が一切踏まれず、本番で初めて該当分岐の regression が出る。
 - handler を mock に追加する代わりに `test.skip` / `test.fixme` で逃がす → playwright が API shape の正本検証 gate なのに gate が空洞化する。
 - `apps/web/playwright/fixtures/auth.ts` のみ追従し `scripts/e2e-mock-api.mjs` を忘れる → `playwright-smoke` は green になるが `e2e-tests-coverage-gate` (3 shard) が同症状で fail し続け、原因切り分けで時間を浪費する。
+
+## Server Components render error の parity 適用パターン（2026-05-27）
+
+admin 側で既に実装済みの `safeServerFetch` ラップ + env accessor 経路是正パターンを、profile 側 (`apps/web/app/(member)/profile/page.tsx`) へ parity 適用する際に得られた一般化可能な lessons（`profile-server-components-render-error` workflow / `fix-admin-server-components-render-error-stg` の系列タスク）。
+
+- **L-PROFSCR-001 (parity-by-admin-template)**: Server Component の `try/catch + throw err;` パターンは SCR digest を誘発する。admin 側に既存実装がある場合、`safeServerFetch(fn, { codePrefix, rethrowOn: [AuthRequiredError] })` を **template-by-parity** として転用し、`AuthRequiredError` のみ rethrow / それ以外は SectionError UI 降格に固定する。route group 全体への横展開は別 followup タスクへ分離（possible-lessons-learned で済ませる）。
+- **L-PROFSCR-002 (partial env accessor 追加)**: full-schema `getEnv()` だけでは `INTERNAL_API_BASE_URL` / `PUBLIC_API_BASE_URL` の片方欠落時に PUBLIC fallback まで到達できない。Phase 4 contracts に **責務分割した部分 accessor**（例: `getApiBaseEnv()`）の追加を明記し、INTERNAL → PUBLIC → fail-fast の優先順位を accessor 内に閉じ込める。route 側で env 解決ロジックを直書きしない。
+- **L-PROFSCR-003 (localhost fallback 撤去 + grep gate)**: Cloudflare Workers の Server Component から `http://127.0.0.1:<port>` などの loopback fallback は到達不能。**完全撤去**した上で、focused spec 内に `process.env[` / `127.0.0.1` リテラル 0 件の **静的 grep gate** を置く（spec 自身が contract gate になる）。Phase 6 acceptance grep にも同一パターンを含める。
+- **L-PROFSCR-004 (focused regression spec 三点セット)**: env accessor 経路是正タスクの Phase 4 contracts には「accessor spec（partial parse 契約） + fetch helper spec（INTERNAL→PUBLIC→throw + source guard） + page spec（5xx は SectionError / 401 は redirect）」の **focused vitest 3 spec** を固定する。broader lint / build / staging runtime smoke は Phase 13 user-gated に残し、Phase 12 内で混同しない。
+- **L-PROFSCR-005 (parity タスクの owning skill 同期)**: parity 適用タスクでも owning skill (`aiworkflow-requirements` の env accessor reference 等) は **applied-with-spec-sync** ルーティングで同一サイクル更新する。「admin 側で既に同期済みだから profile 側は無修正で良い」は誤り — accessor が増えた場合 (`getApiBaseEnv()`) は accessor 一覧の正本に必ず反映する。
+
+### Anti-pattern
+
+- `try/catch` 内で `console.error(err); throw err;` のまま放置 → SCR digest 化を localhost dev では再現しづらく、staging 配備後に初めて表面化する。
+- env 解決失敗時に `?? "http://127.0.0.1:8787"` などの defensive default を残す → fail-fast を阻害し、本番の env 欠落を silent に通してしまう。
+- accessor 追加だけして spec 側 grep gate を置かない → 将来の refactor で `process.env[` 直接参照が再導入されても CI で検知できない。

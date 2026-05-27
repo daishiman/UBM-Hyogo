@@ -8,6 +8,21 @@
 
 本ドキュメントは、複雑なタスクを単一責務の原則に基づいて分解し、各サブタスクに最適なスラッシュコマンド・エージェント・スキルの組み合わせを選定するためのガイドラインを定義する。
 
+### profile-server-components-render-error（2026-05-27）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / NON_VISUAL / staging_runtime_pending_user_gate` |
+| 成果物 | `docs/30-workflows/completed-tasks/profile-server-components-render-error/` |
+| Task ID | `TASK-FIX-PROFILE-SCR-ERR-STG-001` |
+| related workflow | `docs/30-workflows/fix-admin-server-components-render-error-stg/` |
+| 目的 | staging `/profile` の Server Components render error (`digest=398449091`, `scope=profile`) を解消し、admin 側と同型の Workers env 解決契約へ整える |
+| implementation targets | `apps/web/src/lib/fetch/authed.ts`, `apps/web/app/(member)/profile/page.tsx` |
+| contract | `fetchAuthed` は env.ts の `getApiBaseEnv()` 経由で `INTERNAL_API_BASE_URL` -> `PUBLIC_API_BASE_URL` を解決し、localhost fallback を持たない。`ProfilePage` の初回 `/me` は `safeServerFetch` で AuthRequiredError のみ redirect、その他は SectionError に降格する |
+| evidence | focused Vitest 43 PASS、web typecheck PASS、web lint PASS、`authed.ts` source guard (`process.env[` 0 / `127.0.0.1` 0)、Phase 12 strict 7 present |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-profile-server-components-render-error-artifact-inventory.md` |
+| user gate | Cloudflare staging deploy、authenticated `/profile` curl、tail clean evidence、commit、push、PR |
+
 ### public-header-my-profile-nav-alignment（2026-05-26）
 
 | 項目 | 値 |

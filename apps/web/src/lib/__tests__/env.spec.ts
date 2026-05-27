@@ -8,6 +8,7 @@ vi.mock("@opennextjs/cloudflare", () => ({
 }));
 
 import {
+  getApiBaseEnv,
   getAuthEnv,
   getEnv,
   getPublicEnv,
@@ -246,6 +247,28 @@ describe("env", () => {
         INTERNAL_API_BASE_URL: "also-not-a-url",
       }),
     ).toEqual({});
+  });
+
+  it("getApiBaseEnv returns partial API base config without requiring full EnvSchema", () => {
+    expect(
+      getApiBaseEnv({
+        PUBLIC_API_BASE_URL: "https://public.example.com",
+      }),
+    ).toEqual({
+      PUBLIC_API_BASE_URL: "https://public.example.com",
+    });
+  });
+
+  it("getApiBaseEnv preserves blank strings so callers can fail fast explicitly", () => {
+    expect(
+      getApiBaseEnv({
+        INTERNAL_API_BASE_URL: "",
+        PUBLIC_API_BASE_URL: "",
+      }),
+    ).toEqual({
+      INTERNAL_API_BASE_URL: "",
+      PUBLIC_API_BASE_URL: "",
+    });
   });
 
   it("getPublicFetchEnv keeps public fetch resolution in env.ts", () => {

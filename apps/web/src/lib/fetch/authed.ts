@@ -4,18 +4,20 @@
 
 import { cookies } from "next/headers";
 
+import { getApiBaseEnv } from "@/lib/env";
 import { AuthRequiredError, FetchAuthedError } from "./errors";
 
 export { AuthRequiredError, FetchAuthedError };
 
-const FALLBACK_INTERNAL_API = "http://127.0.0.1:8787";
-
 const resolveApiBase = (): string => {
-  const internal = process.env["INTERNAL_API_BASE_URL"];
+  const env = getApiBaseEnv();
+  const internal = env.INTERNAL_API_BASE_URL;
   if (internal && internal.length > 0) return internal.replace(/\/$/, "");
-  const pub = process.env["PUBLIC_API_BASE_URL"];
+  const pub = env.PUBLIC_API_BASE_URL;
   if (pub && pub.length > 0) return pub.replace(/\/$/, "");
-  return FALLBACK_INTERNAL_API;
+  throw new Error(
+    "fetchAuthed: neither INTERNAL_API_BASE_URL nor PUBLIC_API_BASE_URL is configured",
+  );
 };
 
 const buildCookieHeader = async (): Promise<string> => {

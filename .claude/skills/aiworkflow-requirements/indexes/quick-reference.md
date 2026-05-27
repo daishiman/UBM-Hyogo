@@ -1,5 +1,20 @@
 # クイックリファレンス
 
+## profile-server-components-render-error（2026-05-27）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/profile-server-components-render-error/` |
+| status | `implemented_local_evidence_captured / implementation / NON_VISUAL / staging_runtime_pending_user_gate` |
+| task | `TASK-FIX-PROFILE-SCR-ERR-STG-001` |
+| related | `docs/30-workflows/fix-admin-server-components-render-error-stg/` |
+| purpose | staging `/profile` の Server Components render error (`digest=398449091`, `scope=profile`) を、member authed fetch の Workers env 解決是正と `/me` safe degradation で解消する |
+| implementation | `apps/web/src/lib/fetch/authed.ts` は env.ts の `getApiBaseEnv()` 経由で `INTERNAL_API_BASE_URL` -> `PUBLIC_API_BASE_URL` を解決し、localhost fallback を禁止。`apps/web/app/(member)/profile/page.tsx` は初回 `/me` を `safeServerFetch` でラップし、AuthRequiredError 以外を SectionError に降格 |
+| tests | `apps/web/src/lib/fetch/authed.spec.ts`, `apps/web/app/(member)/profile/page.spec.tsx` |
+| evidence | focused Vitest 43 PASS、web typecheck PASS、web lint PASS、`authed.ts` source guard (`process.env[` 0 / `127.0.0.1` 0)、Phase 12 strict 7 present |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-profile-server-components-render-error-artifact-inventory.md` |
+| user gate | Cloudflare staging deploy, authenticated `/profile` curl, tail clean evidence, commit, push, PR |
+
 ## Issue #922 production admin runtime smoke gate（2026-05-25）
 
 | 項目 | 値 |
