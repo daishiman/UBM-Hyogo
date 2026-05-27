@@ -31,6 +31,7 @@ allowed-tools:
 
 | Version | Date | Changes |
 | --- | --- | --- |
+| v2026.05.26-skill-feedback-noop-truthfulness | 2026-05-26 | `admin-attendance-analytics-redesign` の Phase 12 監査を反映。skill-feedback no-op は workflow state / implementation diff / Phase 11 evidence / system spec summary が一致する場合のみ有効とする gate を `references/phase12-skill-feedback-promotion.md` に追加。 |
 | v2026.05.26-spec-created-followup-same-wave-sync | 2026-05-26 | `admin-ui-prototype-alignment-followup-001` の automation-30 改善を反映。`implementation / VISUAL` follow-up では AC 表、root/output artifacts parity、Phase 12 strict 7、aiworkflow-requirements same-wave sync を完了させ、実コード差分が入った場合は `implemented_local_runtime_pending` へ再分類し、staging runtime/commit/PR のみ user-gated とする lesson を追加。 |
 | v2026.05.26-google-form-reflection-diagnostics-implementation-target-existence | 2026-05-26 | `google-form-reflection-diagnostics` feedback を `references/phase12-skill-feedback-promotion.md` へ反映。`taskType=implementation` で implementation_files / Phase 3 / Phase 5 / Phase 8 に実コード対象を列挙した場合、Phase 12 は仕様書のみで PASS にせず、実コード差分を入れて `implemented_local_*` へ再分類するか、spec-only 実態へ下げる implementation target physical existence gate を追加。 |
 | v2026.05.25-issue922-production-admin-runtime-smoke-gate | 2026-05-25 | Issue #922 production admin runtime smoke gate の同一 wave 実装反映 rule を追加。staging runtime smoke の production 横展開では runner / mint helper / CI job / focused evidence / skill sync / aiworkflow sync を同一 cycle で完了し、production 実走・secret 投入・branch protection PUT のみ user-gated とする。 |

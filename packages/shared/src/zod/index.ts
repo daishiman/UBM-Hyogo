@@ -5,3 +5,4 @@ export * from "./response";
 export * from "./identity";
 export * from "./viewmodel";
 export * from "./sync-log";
+export * from "./admin-attendance";
