@@ -2415,6 +2415,13 @@ node scripts/list-specs.js --topics
 | Same-Wave Sync | L34 |
 | User-Gated Boundary | L45 |
 
+### references/workflow-issue-255-coverage-threshold-sync-lint-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Contract | L16 |
+| Verification | L28 |
+
 ### references/workflow-issue-256-e2e-coverage-baseline-runbook-artifact-inventory.md
 
 | セクション | 行 |
@@ -6065,6 +6072,15 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 教訓一覧 | L8 |
 | 申し送り（open / baseline 未タスク） | L57 |
+
+### references/lessons-learned-main-merge-noop-when-dev-merged-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| 背景 | L11 |
+| 結論 | L22 |
+| 教訓 (Lesson IDs) | L30 |
+| 関連 | L39 |
 
 ### references/lessons-learned-parallel-i03-dialog-refresh-order-2026-05.md
 

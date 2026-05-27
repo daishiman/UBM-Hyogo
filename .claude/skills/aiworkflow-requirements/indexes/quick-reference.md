@@ -4016,4 +4016,16 @@ UT-17 Cloudflare Notifications → alert-relay → Slack 経路を、既存 API 
 | `docs/30-workflows/completed-tasks/issue-863-admin-error-alert-policy-iac/` | Issue #863 admin error boundary Sentry alert IaC workflow | admin `error.boundary.caught` alert policy、Sentry tag 昇格、drift CI、runbook を確認する時 |
 | `infra/sentry-alerts/` | Sentry alert policy IaC for admin runtime error detection | Sentry alert rule manifest / CLI / drift diff を確認・更新する時 |
 | `references/workflow-issue-863-admin-error-alert-policy-iac-artifact-inventory.md` | Issue #863 workflow artifact inventory | 同 wave 変更棚卸し時 |
+### Issue #255 coverage threshold sync lint（2026-05-26）
+
+| key | value |
+| --- | --- |
+| workflow | `docs/30-workflows/completed-tasks/issue-255-coverage-threshold-sync-lint/` |
+| state | `implemented_local_evidence_captured / implementation / NON_VISUAL` |
+| purpose | aiworkflow SSOT / `scripts/coverage-guard.sh` / optional `codecov.yml` の coverage threshold drift を CI で検出 |
+| implementation | `scripts/coverage-threshold-lint.ts`, `scripts/__tests__/coverage-threshold-lint.spec.ts`, `.github/workflows/coverage-threshold-lint.yml`, `package.json#lint:coverage-threshold` |
+| evidence | `outputs/phase-11/evidence/lint-coverage-threshold.log`, `outputs/phase-11/evidence/vitest-coverage-threshold-lint.log` |
+| source task | `docs/30-workflows/completed-tasks/task-codecov-threshold-sync-lint-001.md` |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-255-coverage-threshold-sync-lint-artifact-inventory.md` |
+| user-gated | commit, push, PR, GitHub Actions runtime observation |
 | Issue #903 member AppShell runtime evidence | `/profile` under `(member)` route group; EV-13/EV-16 present | `docs/30-workflows/completed-tasks/issue-903-parallel-03-followup-005-member-runtime-evidence/`, `references/workflow-issue-903-parallel-03-followup-005-member-runtime-evidence-artifact-inventory.md` |
