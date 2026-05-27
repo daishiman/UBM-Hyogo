@@ -33,6 +33,8 @@ PR 作成フロー実行中、ユーザーから「リモートの main をロ�
 - **L-MAINNOOP-002 (ci-failure-check-precedence)**: 「CI 失敗解消」指示を受けた場合、`gh pr checks <PR>` で実状を取得してから対処判断する。すべて SUCCESS なら「失敗なし」を一次確認として返し、推測修正に着手しない。
 - **L-MAINNOOP-003 (no-op-also-deserves-skill-sync)**: no-op 結果でも、ユーザーがスキル反映を明示指示した場合は本ファイルのように「no-op になる構造前提」を lesson として残す。次回同種指示を受けた AI が `is-ancestor` 確認だけで完結できる。
 - **L-MAINNOOP-004 (left-right-count-as-evidence)**: 「同期済み」報告の根拠は `git rev-list --left-right --count refs/heads/main...origin/main = 0 0` と `gh pr checks` の集計を併記すること。print-only の `Already up to date.` 単独では他者検証性が弱い。
+- **L-MAINNOOP-005 (dev-divergence-check-required)**: main merge が no-op でも、前回 push 後に他 PR が dev へ merge されると本 branch は `mergeStateStatus=DIRTY / mergeable=CONFLICTING` になる。「main 取り込み」指示でも必ず `gh pr view <PR> --json mergeable,mergeStateStatus` を併走し、`CONFLICTING` の場合は `git fetch origin dev && git merge origin/dev` で再 sync する。CI checks が全 SUCCESS でも mergeable が DIRTY なら未解決状態。
+- **L-MAINNOOP-006 (skill-only-push-does-not-retrigger-required-checks)**: `.claude/skills/**` だけを変更した push は path-filter で大半の required workflow が起動せず、`gh pr checks` 上 1 件（triage 等）のみ表示される。「失敗 0」と早合点せず、`mergeStateStatus` で blocking 判定する。実 CI 再走が必要なら code-touching commit か `pnpm sync:resolve` 後の dev merge commit を積む（[[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC 系参照、空 commit は NG）。
 
 ## 関連
 

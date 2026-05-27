@@ -6073,7 +6073,7 @@ node scripts/list-specs.js --topics
 | 背景 | L11 |
 | 結論 | L22 |
 | 教訓 (Lesson IDs) | L30 |
-| 関連 | L37 |
+| 関連 | L39 |
 
 ### references/lessons-learned-parallel-i03-dialog-refresh-order-2026-05.md
 
