@@ -606,20 +606,6 @@ const server = createServer(async (req, res) => {
       return writeJson(res, 200, { ok: true, attended: false });
     }
   }
-  // DELETE /attendance/:memberId — idempotent unregister (issue-912)
-  {
-    const match = pathname.match(/^\/admin\/meetings\/([^/]+)\/attendance\/([^/]+)$/);
-    if (req.method === "DELETE" && match) {
-      const sessionId = decodeURIComponent(match[1]);
-      const memberId = decodeURIComponent(match[2]);
-      const meeting = state.meetingsSeed.meetings.find((m) => m.sessionId === sessionId);
-      if (!meeting) return writeJson(res, 404, { error: "meeting_not_found" });
-      const exists = meeting.attendees.some((a) => a.memberId === memberId);
-      if (!exists) return writeJson(res, 404, { error: "attendance_not_found" });
-      meeting.attendees = meeting.attendees.filter((a) => a.memberId !== memberId);
-      return writeJson(res, 200, { ok: true, attended: false });
-    }
-  }
   // /attendance/import — CSV 一括 import (ut-07c-followup-001)
   {
     const match = pathname.match(/^\/admin\/meetings\/([^/]+)\/attendance\/import$/);

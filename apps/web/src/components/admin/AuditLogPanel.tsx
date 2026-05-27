@@ -163,13 +163,7 @@ export function AuditLogPanel({
       <form
         action="/admin/audit"
         aria-label="監査ログフィルター"
-        style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(auto-fit, minmax(150px, 1fr))",
-          gap: 12,
-          alignItems: "end",
-          marginBottom: 20,
-        }}
+        className="admin-audit-filter"
       >
         <FormField name="action" label="action">
           <Input name="action" defaultValue={values.action ?? ""} placeholder="attendance.add" />
@@ -212,8 +206,8 @@ export function AuditLogPanel({
 
       {items.length > 0 ? (
         <>
-          <div style={{ overflowX: "auto" }}>
-            <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 14 }}>
+          <div className="admin-audit-table-scroll">
+            <table className="admin-audit-table">
               <thead>
                 <tr>
                   <th scope="col">日時 / ID</th>

@@ -3,7 +3,7 @@
 // serial-05 step-06: 生 fetch を useAdminMutation に統一。
 //   - 409 conflict は楽観 UI として registered Set に追加する
 //   - 422 / 5xx は toast でユーザーに伝える
-//   - 出席登録/解除は候補行内で完結し、DELETE race の 404 は解除済みとして収束させる
+//   - 出席登録は非破壊操作のため確認 dialog は出さない（破壊操作は将来 task で追加する）
 import { useState } from "react";
 import { useAdminMutation } from "../../../../../src/features/admin/hooks/useAdminMutation";
 import { FetchAuthedError } from "../../../../../src/lib/fetch/errors";
@@ -24,10 +24,6 @@ interface Detail {
 }
 
 export function MeetingAttendancePanel({ detail }: { readonly detail: Detail }) {
-  const attendanceLogger = logger.child({
-    scope: "admin",
-    component: "MeetingAttendancePanel",
-  });
   const [registered, setRegistered] = useState<Set<string>>(
     new Set(detail.attendees.map((a) => a.memberId)),
   );
@@ -37,16 +33,6 @@ export function MeetingAttendancePanel({ detail }: { readonly detail: Detail }) 
     `/api/admin/meetings/${encodeURIComponent(detail.sessionId)}/attendances`,
     "POST",
     { refreshOnSuccess: false },
-  );
-  const unregisterMutation = useAdminMutation<
-    { readonly ok: true; readonly attended: false } | undefined
-  >(
-    `/api/admin/meetings/${encodeURIComponent(detail.sessionId)}/attendances`,
-    "POST",
-    {
-      refreshOnSuccess: false,
-      treat404AsSuccess: { toast: "既に解除済みです" },
-    },
   );
 
   const onRegister = async (memberId: string) => {
@@ -80,48 +66,6 @@ export function MeetingAttendancePanel({ detail }: { readonly detail: Detail }) 
     }
   };
 
-  const onUnregister = async (memberId: string) => {
-    if (!registered.has(memberId)) {
-      setToast("既に解除済みです");
-      return;
-    }
-    try {
-      const result = await unregisterMutation.trigger({ memberId, attended: false });
-      setRegistered((s) => {
-        const next = new Set(s);
-        next.delete(memberId);
-        return next;
-      });
-      if (result === undefined) {
-        attendanceLogger.info({
-          event: "attendance.unregister.already_removed",
-          meetingId: detail.sessionId,
-          memberId,
-        });
-      }
-      setToast(result === undefined ? "既に解除済みです" : "出席を解除しました");
-    } catch (e) {
-      if (e instanceof FetchAuthedError) {
-        attendanceLogger.error({
-          event: "attendance.unregister.failed",
-          meetingId: detail.sessionId,
-          memberId,
-          status: e.status,
-          error: e,
-        });
-        setToast(`解除に失敗 (${e.status})`);
-        return;
-      }
-      attendanceLogger.warn({
-        event: "attendance.unregister.network",
-        meetingId: detail.sessionId,
-        memberId,
-        error: e,
-      });
-      setToast(`解除に失敗 (unknown)`);
-    }
-  };
-
   return (
     <AdminSectionCard title="出席登録">
       {toast && (
@@ -148,17 +92,6 @@ export function MeetingAttendancePanel({ detail }: { readonly detail: Detail }) 
               >
                 {registered.has(c.memberId) ? "登録済" : "出席登録"}
               </button>
-              {registered.has(c.memberId) && (
-                <button
-                  type="button"
-                  data-testid="attendance-unregister"
-                  data-member={c.memberId}
-                  data-registered="true"
-                  onClick={() => onUnregister(c.memberId)}
-                >
-                  出席解除
-                </button>
-              )}
             </li>
           ))}
       </ul>

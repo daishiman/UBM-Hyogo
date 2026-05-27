@@ -45,9 +45,6 @@ export interface Env extends SyncEnv, ResponseSyncEnv {
   readonly RETENTION_PURGE_LIMIT?: string;
   // issue #378: Forms sync -> tag_assignment_queue candidate enqueue emergency stop.
   readonly TAG_QUEUE_PAUSED?: string;
-  // Issue #913: server-side Idempotency-Key replay ledger TTL override.
-  // Omitted/invalid values fall back to 24h in middleware.
-  readonly IDEMPOTENCY_TTL_SECONDS?: string;
 
   // Issue #503: schema alias back-fill shadow A/B 用 mode 切替。
   // 値域: "remaining-scan" (default) / "cursor"

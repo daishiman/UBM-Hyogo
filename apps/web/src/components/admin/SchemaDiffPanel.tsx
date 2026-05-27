@@ -845,7 +845,7 @@ export function SchemaDiffPanel({ initial, resolvedAliases, actorEmail }: Schema
         </div>
       )}
 
-      <div className="schema-grid" style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 8 }}>
+      <div className="schema-grid">
         {TYPES.map((t) => {
           const showCheckbox = bulkMode && bulkEligible(t);
           const eligibleIds = grouped[t]

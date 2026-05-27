@@ -114,15 +114,15 @@ describe("Icon (G9-4)", () => {
     ["md", 16],
     ["lg", 20],
     ["xl", 24],
-  ] as const)("size %s は %s px", (size, px) => {
+  ] as const)("size %s は data-size=%s で px は CSS rule に委譲", (size, _px) => {
     const { container } = render(
       <Icon size={size}>
         <svg />
       </Icon>,
     );
     const span = container.querySelector("[data-component=icon]") as HTMLElement;
-    expect(span.style.width).toBe(`${px}px`);
-    expect(span.style.height).toBe(`${px}px`);
+    expect(span.getAttribute("data-size")).toBe(size);
+    expect(span.getAttribute("style")).toBeNull();
   });
 });
 

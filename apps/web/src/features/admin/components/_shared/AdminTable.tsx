@@ -10,7 +10,6 @@ export interface AdminTableColumn<Row> {
   header: string;
   render?: (row: Row) => ReactNode;
   sortable?: boolean;
-  width?: string;
   align?: "left" | "right" | "center";
   accessor?: (row: Row) => string | number | null | undefined;
 }
@@ -94,7 +93,6 @@ export function AdminTable<Row>({
                 <th
                   key={col.key}
                   scope="col"
-                  style={col.width ? { width: col.width } : undefined}
                   data-align={col.align ?? "left"}
                   data-sortable={col.sortable || undefined}
                   aria-sort={
