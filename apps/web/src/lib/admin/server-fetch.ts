@@ -406,7 +406,16 @@ export async function fetchAdmin<T>(
     ...(opts.body !== undefined ? { body: JSON.stringify(opts.body) } : {}),
   });
   if (!res.ok) {
-    throw new Error(`admin api ${path} failed: ${res.status}`);
+    // followup-001 T-5.1: 404 / 5xx 切り分けのため response body を error message に含める。
+    // 機密情報は backend 側で含めない契約。最大 256 文字で truncate して logs を肥大させない。
+    let bodySnippet = "";
+    try {
+      const text = await res.text();
+      if (text) bodySnippet = ` body=${text.slice(0, 256)}`;
+    } catch {
+      // body 読み取り失敗は致命的でない（status だけで切り分け可能）
+    }
+    throw new Error(`admin api ${path} failed: ${res.status}${bodySnippet}`);
   }
   return (await res.json()) as T;
 }

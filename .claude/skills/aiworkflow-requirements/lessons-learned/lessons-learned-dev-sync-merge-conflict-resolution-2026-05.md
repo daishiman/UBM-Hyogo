@@ -835,6 +835,66 @@
 - 留意: CI gate は `<<<<<<< ` / `>>>>>>> ` / `||||||| ` の **後ろの空白込み 8 文字** で grep する。空白なし `|||||||EOL` 等は検出されない。古い resolver が space を消すケースは別途調査要。
 - 事例: 2026-05-26 `feat/issue-247-...` PR #966。`5ddb51e6a merge: sync ... with dev` push 後 `verify-conflict-markers` が `--- offending lines ---` 4件で FAIL。該当 4 行削除 commit で復旧。
 
+## L-DEVSYNC-050: feature branchがUI構造を全面刷新中にdevが新規Client Islandを sibling section に追加した場合、union解消では機能を失う（2026-05-27 確認）
+
+- 事象: `feat/admin-ui-followup-001-members-fetch-and-visual` で `MemberDrawer.tsx` をプロトタイプ整合（VISIBILITY/TAGS/FORM RESPONSE/DELETED 構成）に刷新。並行して dev 側 (#960 google-form-reflection-diagnostics) が同ファイルの旧構造内に `<MemberDiagnosticsPanel memberId={memberId} />` を追加していた。`git merge dev` で 2 箇所 conflict 発生（import 行 / 旧「タグ管理へ」section の末尾）。
+- Why: HEAD は section 階層自体を作り替えており、dev が追加した anchor（旧「タグ管理へ」Link の直後）が HEAD には存在しない。`pnpm sync:resolve` は `*.ts(x)` を union 対象外として handlede unresolved に分類するため、機械解消は不可。union を強行すれば旧構造の残骸と新構造が同時に書かれ syntax error / runtime 二重描画になる。
+- How to apply:
+  1. ソースコード conflict のうち「dev が追加した Client Island / Server Component / 新 section」は、HEAD の新構造の **意味的に等価な位置**（同じ semantic anchor: 同種のセクション境界、同じ data-component scope）へ手動で再配置する。
+  2. 再配置先の判定基準: dev 側 anchor の直前 section が HEAD 側で残っていればその直後、消えていれば最も近い意味的同類セクションの直後（本件では FORM RESPONSE と DELETED の間）。
+  3. import 行 conflict は両側 import を残す（HEAD 側 `toMemberDetail` / dev 側 `MemberDiagnosticsPanel` どちらも必要）。
+  4. 解消後は `grep -n '<<<<<<<\|=======\|>>>>>>>' <file>` で marker 残存ゼロを確認、`pnpm typecheck` と `pnpm lint` で構造破綻なしを確認してから `git add` する。
+- 留意: 自律判断ルール B-3「両側の変更意図を保持するマージ」は本件のような「片側が構造を作り替え、もう片側が旧構造に依存した追加をした」ケースでも適用される。anchor の物理的位置ではなく semantic 位置で揃えること。
+- 事例: 2026-05-27 task-20260526-145759-wt-18 ブランチで dev merge → MemberDrawer.tsx 2 conflict 発生。import を両側採用、`MemberDiagnosticsPanel` を新構造の drawer-body 内 FORM RESPONSE と DELETED block の間へ再配置して解消。typecheck/lint green、verify-conflict-markers grep 0件。
+
+## L-DEVSYNC-051: 同一関数 signature を両側が独立リファクタした場合（fail-fast 型変更 × accessor 抽象化）は「型は HEAD・実装は dev」の semantic 統合（2026-05-27 追加）
+
+- 事象: `feat/admin-ui-followup-001-members-fetch-and-visual` への dev merge で `apps/web/app/api/admin/[...path]/route.ts` の `apiBase()` 関数が 3-way conflict。
+  - HEAD: followup-001 T-5.1 で fail-fast 化（戻り型 `string` → `string | null`、env 未設定時に `null` を返し proxy 側で 500 を明示返却。`LOCAL_DEV_FALLBACK` は local dev 限定で残す）
+  - dev: invariant #11 強化で `process.env["INTERNAL_API_BASE_URL"]` → `getAuthEnv().INTERNAL_API_BASE_URL` に zod-validated accessor 経由へ統一（戻り型は `string` のまま、fallback も残置）
+  - 両側とも env アクセス層 / null 許容性という別軸のリファクタを同時に行ったため、union 解消では `<<<<<<<` / `|||||||` / `=======` marker が「2 つの正解」を並べるだけで commit 不能。
+- Why: 「fail-fast 型変更（戻り値 null 化）」は HEAD のスコープ要件（staging で env 漏れを 500 で可視化）、「accessor 抽象化」は dev のグローバル不変条件（`getAuthEnv()` 経由のみ・`process.env` 直接参照禁止）であり、どちらも捨てられない。一方を採用すると invariant #11 違反 or fail-fast 退行のどちらかが発生する。
+- How to apply:
+  1. conflict block 内の **型 signature** は HEAD 側を採用（feature ブランチ固有の semantic 変更を保護）。
+  2. conflict block 内の **value 取得手段** は dev 側を採用（global invariant に従う accessor）。
+  3. 両者を 1 行に統合: `const v = getAuthEnv().INTERNAL_API_BASE_URL;` + 戻り型 `string | null` + null fallback ロジックは HEAD のものをそのまま残す。
+  4. `internalSecret()` 等の **同じ accessor 移行を受けた sibling 関数** は dev 側に完全追従（HEAD 側にスコープ固有変更がないため）。
+  5. 解消後 `pnpm typecheck` で `apiBase()` 呼び出し側（同ファイル内 `proxy()`）の null check が型整合していることを確認。
+- 適用判断: 「戻り型が両側で違う」+ 「右辺の式が両側で違う」conflict は必ず本パターン。union resolver は対象外（`.ts` 拡張子 + 未知 conflict は手動）。`git diff origin/dev..HEAD -- <file>` と `git log -1 --stat origin/dev -- <file>` で両側 commit message を確認し、HEAD 側が type-level の semantic 変更（fail-fast / branding / strict null）なら type は HEAD、value は dev を採る。
+- 事例: 2026-05-27 task-20260526-145759-wt-18 dev sync。`apiBase` 統合後 `const apiBase = (): string | null => { const v = getAuthEnv().INTERNAL_API_BASE_URL; ... };`、`internalSecret` は dev 側 `getAuthEnv().INTERNAL_AUTH_SECRET ?? ""` をそのまま採用。typecheck/lint/verify-pr-ready 全 PASS。
+
+## L-DEVSYNC-052: `playwright/tests/visual-full/.baseline-meta.json` の captured_run_ids 配列 + captured_at_commit_sha + last_refresh_reason 3-way conflict は「最新 captured_at 採用 + run_ids 集合 union + reason 末尾追記」（2026-05-27 追加）
+
+- 事象: dev merge で `.baseline-meta.json` が 3-way conflict（HEAD と dev が独立に `gh workflow run playwright-visual-baseline-update.yml` を発火していたため）。
+  - `captured_at_commit_sha` / `captured_at`: 各 wave の workflow_dispatch HEAD SHA + timestamp（両側で別物）
+  - `captured_run_ids`: 共通 prefix（過去 8 run）+ 各側末尾 1 run（HEAD: `26491992893` / dev: `26489950912`）
+  - `last_refresh_reason`: 各 wave の文言が完全に異なる
+- Why: `.baseline-meta.json` は provenance ファイルで append-only ではない。`captured_at_commit_sha` / `captured_at` は **scalar field**（最新 1 件のみ正本）、`captured_run_ids` は **set union**（過去 run の履歴を失わないため両側保持）、`last_refresh_reason` は **narrative**（両側の reason を semantic に結合）。
+- How to apply:
+  1. `captured_at` の ISO8601 timestamp を両側比較し、新しい側を採用。`captured_at_commit_sha` も同じ side を採用（必ず ペアで揃える）。
+  2. `captured_run_ids` は両側の追加 ID を時系列順（数値昇順）に union 結合。重複は削除（過去 8 run の共通 prefix は片側のみ採用）。
+  3. `last_refresh_reason` は新しい側の文言を主、古い側を「dev取込時に … 由来の drift もマージ済」等の従属節として追記。両側の wave id（followup-001 / issue-255 等）を文字列内に残し、後から git blame せずとも由来追跡できるようにする。
+  4. 他 scalar field（`viewport_dimensions` / `rendering_relevant_paths` / `refresh_workflow` / `refresh_command_hint` / `notes`）は片側採用で OK（schema 変化がない限り両側同一）。
+  5. JSON 構文を `python3 -c "import json; json.load(open('apps/web/playwright/tests/visual-full/.baseline-meta.json'))"` で必ず検証してから `git add`。
+- 適用判断: `.baseline-meta.json` 以外でも、provenance / metadata JSON で「scalar latest field + array set field + narrative field」の混在型は全て本パターンが適用可能（例: `.gate-metadata.json` の `passed_at` + `evidence_paths` + `notes`）。
+- 事例: 2026-05-27 task-20260526-145759-wt-18 dev sync。HEAD timestamp `2026-05-27T05:15:17Z` > dev `2026-05-27T04:10:17Z` のため HEAD の SHA/timestamp 採用、`captured_run_ids` に dev 側 `26489950912` を timestamp 順で追加（HEAD `26491992893` の手前）、`last_refresh_reason` は HEAD の followup-001 文言主体に dev の login UI rebalance 文言を併記。typecheck 影響なし、visual baseline workflow 後続 dispatch にも影響なし。
+
+## L-DEVSYNC-053: dev 側で legacy CSS の `[data-size]` セレクタに `:not()` 連鎖が追加され specificity がブレた場合は、**`:not(.ui-avatar)` で逃がすのではなく ancestor `[data-route-group="public"]` でスコープ化**して隣接 route group への副作用を遮断する（2026-05-27 追加）
+
+- 事象: dev 側が `legacy-public.css` の `[data-size]` rule に `:not([data-component="google-brand-icon"]):not(.ui-input):not(.ui-button)` を追加し specificity が (0,1,0,0) → (0,4,0,0) に上昇。`apps/web/src/components/ui/Avatar.tsx` の `.ui-avatar[data-size]` (0,2,0,0) を上書きするようになり、admin/member 配下の Avatar 色味が legacy の accent 単色に倒れて visual-full の admin/profile 系 baseline と乖離。
+- 誤対処: `:not(.ui-avatar)` を `:not()` 連鎖末尾に追加して specificity を (0,5,0,0) に維持しつつ Avatar だけ除外する → 公開ページの Avatar が globals.css の `.ui-avatar` size (28/36/48/72) に倒れ、legacy size (32/44/72) で撮られた **public baseline と desktop/mobile/tablet 全 viewport で乖離**する（baseline は legacy が勝っていた頃の pixel）。
+- 正対処: legacy rule に `[data-route-group="public"]` ancestor を前置し、`:not(.ui-avatar)` は除去する。すべての `[data-size]` 系 rule（base / ::after / sm / md / lg）に同じ ancestor を前置する。
+  - 公開ページ: ancestor match で legacy (0,5,0,0) が勝つ → Avatar は legacy 32/44/72（merge 前 baseline と一致）
+  - admin / member ページ: ancestor 不一致で legacy rule が全く match せず、globals.css `.ui-avatar` (0,2,0,0) が勝つ → dev 側が意図した 28/36/48/72 が維持される
+- Why: `:not(.ui-avatar)` のような **要素除外** は cross-route の Avatar 表示を片方しか正しくできない（公開 or admin の二択トレードオフ）。route-group ancestor で**スコープを物理分離**すれば、public は legacy、admin/member は globals が独立に正本となり baseline 互換も両立する。
+- How to apply:
+  1. 公開専用 CSS（`apps/web/src/styles/legacy-public.css` 等）の Avatar / size 系 rule は **必ず ancestor `[data-route-group="public"]` を前置**する（`apps/web/app/(public)/layout.tsx` の root div 属性に依拠）。
+  2. `:not(.ui-avatar)` で逃がす衝動を抑え、specificity の問題を**スコープの問題**へ言い換える（CSS Cascade L1 module の cascade origins ではなく selector matching で隔離）。
+  3. 検証: `git diff origin/dev -- 'apps/web/src/styles/legacy-public.css'` で具体 [data-size] rule に ancestor 前置が漏れていないか grep（`grep -E '^\s*\[data-size' legacy-public.css` で 0 件であるべき）。
+  4. visual-full CI の baseline と diff が出た場合、`gh run download <run-id> -n full-visual-results -D /tmp/...` で `*-diff.png` を取得し、Avatar 矩形の pixel ズレが baseline と一致するか目視確認。
+- 適用判断: 他にも `[data-shell]` / `[data-route]` / `[data-theme]` 属性が layout 直下に立っている場合、route-group ベース scope に統一できる。globals.css の primitive と legacy CSS の primitive が**同名 attribute / 異 pixel** で衝突する全パターンが本 lessons の対象。
+- 事例: 2026-05-27 task-20260526-145759-wt-18 dev sync → PR #968。最初の merge で specificity 衝突を `:not(.ui-avatar)` で逃がした結果 desktop 公開ページが diff (`/` / `/members`)。`[data-route-group="public"]` ancestor 前置に切替えて公開 baseline 整合・admin/member dev 側維持を両立。
+
 ## L-DEVSYNC-050: `git merge dev` 直前に作業ツリーが「物理ファイル大量欠落」状態だと merge 解消が破綻する（2026-05-27 確認）
 
 - 事象: `git status` が `Changes not staged for commit:` で `D` (deleted) のみ 7353 件を報告。HEAD・index は正常、Working tree からのみファイルが消えている。`Your branch is up to date with origin/...` で remote とも一致。`git merge dev` を走らせると Auto-merging 自体は通るが、conflict 解消後の `pnpm sync:resolve` が「物理欠落ファイル」を対象に restore しようとするか、または rebuild 後 index が膨大な spurious deletion を抱えたまま push される。
