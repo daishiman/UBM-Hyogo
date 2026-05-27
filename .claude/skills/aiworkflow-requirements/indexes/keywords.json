@@ -4897,7 +4897,8 @@
       "deployment-cloudflare.md",
       "lessons-learned-03a-parallel-forms-schema-sync.md",
       "lessons-learned-03b-response-sync-2026-04.md",
-      "lessons-learned-issue-765-1password-vault-restructure-2026-05.md"
+      "lessons-learned-issue-765-1password-vault-restructure-2026-05.md",
+      "lessons-learned-main-merge-noop-when-dev-merged-2026-05.md"
     ],
     "rule": [
       "audit-correlation.md",
@@ -5357,6 +5358,7 @@
       "lessons-learned-issue-379-schema-diff-current-green-2026-05.md",
       "lessons-learned-issue-502-dlq-monitoring-dashboard-2026-05.md",
       "lessons-learned-issue-775-serial-05-step-03-runtime-evidence-completion-2026-05.md",
+      "lessons-learned-main-merge-noop-when-dev-merged-2026-05.md",
       "lessons-learned-parallel-i06-root-error-focus-2026-05.md",
       "lessons-learned-sync-merge-hook-skip-2026-04.md",
       "lessons-learned-ut-02a-tag-assignment-queue-2026-05.md",
@@ -8727,6 +8729,7 @@
     ],
     "main": [
       "deployment-gha.md",
+      "lessons-learned-main-merge-noop-when-dev-merged-2026-05.md",
       "lessons-learned-ut-cicd-drift-impl-observability-matrix-sync-2026-05.md",
       "lessons-learned-ut-coverage-2026-05-wave.md",
       "skill-ledger-fragment-spec.md"
@@ -10431,6 +10434,7 @@
     "背景": [
       "ipc-contract-checklist.md",
       "lessons-learned-issue-276-mobile-filterbar-tag-picker-2026-05.md",
+      "lessons-learned-main-merge-noop-when-dev-merged-2026-05.md",
       "lessons-learned-sync-merge-hook-skip-2026-04.md"
     ],
     "non": [
@@ -11119,7 +11123,8 @@
     "no": [
       "lessons-learned-03a-parallel-forms-schema-sync.md",
       "lessons-learned-03b-response-sync-2026-04.md",
-      "lessons-learned-06c-admin-ui-2026-04.md"
+      "lessons-learned-06c-admin-ui-2026-04.md",
+      "lessons-learned-main-merge-noop-when-dev-merged-2026-05.md"
     ],
     "AC": [
       "lessons-learned-03a-parallel-forms-schema-sync.md",
@@ -17793,6 +17798,30 @@
     "Reinstall": [
       "lessons-learned-lefthook-mwr-runbook-2026-04.md"
     ],
+    "取り込みが": [
+      "lessons-learned-main-merge-noop-when-dev-merged-2026-05.md"
+    ],
+    "になる構造前提": [
+      "lessons-learned-main-merge-noop-when-dev-merged-2026-05.md"
+    ],
+    "結論": [
+      "lessons-learned-main-merge-noop-when-dev-merged-2026-05.md",
+      "lessons-learned-sync-merge-hook-skip-2026-04.md"
+    ],
+    "教訓": [
+      "lessons-learned-main-merge-noop-when-dev-merged-2026-05.md",
+      "lessons-learned-sync-merge-hook-skip-2026-04.md",
+      "lessons-learned-ut-cicd-drift-2026-04.md",
+      "lessons-learned-ut06-fu-a-prod-route-secret-2026-04.md"
+    ],
+    "Lesson": [
+      "lessons-learned-main-merge-noop-when-dev-merged-2026-05.md",
+      "lessons-learned-sync-merge-hook-skip-2026-04.md"
+    ],
+    "IDs": [
+      "lessons-learned-main-merge-noop-when-dev-merged-2026-05.md",
+      "lessons-learned-sync-merge-hook-skip-2026-04.md"
+    ],
     "parallel": [
       "lessons-learned-parallel-i03-dialog-refresh-order-2026-05.md",
       "lessons-learned-parallel-i06-root-error-focus-2026-05.md",
@@ -18040,21 +18069,7 @@
     "自動スキップ運用": [
       "lessons-learned-sync-merge-hook-skip-2026-04.md"
     ],
-    "結論": [
-      "lessons-learned-sync-merge-hook-skip-2026-04.md"
-    ],
     "個人開発運用ポリシー": [
-      "lessons-learned-sync-merge-hook-skip-2026-04.md"
-    ],
-    "教訓": [
-      "lessons-learned-sync-merge-hook-skip-2026-04.md",
-      "lessons-learned-ut-cicd-drift-2026-04.md",
-      "lessons-learned-ut06-fu-a-prod-route-secret-2026-04.md"
-    ],
-    "Lesson": [
-      "lessons-learned-sync-merge-hook-skip-2026-04.md"
-    ],
-    "IDs": [
       "lessons-learned-sync-merge-hook-skip-2026-04.md"
     ],
     "Unify": [

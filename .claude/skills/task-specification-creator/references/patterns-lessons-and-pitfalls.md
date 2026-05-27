@@ -711,3 +711,18 @@ admin API の method/endpoint を切替える PR（例: issue-912 で `POST /att
 - **L-PATSEC-001 (heading 一意化)**: 新規 pattern section の見出しは `## <pattern 名>（issue-<N> L-<TAG>-001..M 汎化）` 形式を採る（例: `## CSP directive 撤去パターン（issue-924 L-I924-001..005 汎化）`）。HEAD と dev で同 sprint に偶然同名 pattern を追加しても heading が衝突しないため、resolver の union が重複 heading を生まない。
 - **L-PATSEC-002 (末尾 append-only)**: 既存 section の中央に bullet を増やさず、必ず**ファイル末尾に新 section を append**する。中央への追加は L-DEVSYNC-030（table-merge）系の手動 union を要求し、resolver 1 発で完結しない。
 - **L-PATSEC-003 (resolver 委譲)**: 本ファイルは `scripts/sync/resolve-skill-merge-conflicts.sh` の `UNION_TARGETS` に登録済（[[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-046）。仕様書 Phase 12 で本ファイルへ section を追記するタスクは「dev sync-merge での conflict は `pnpm sync:resolve` 自動解消」と前提を置いてよい。
+
+## main 取り込み no-op 構造前提（pr-creation L-MAINNOOP-001..004 汎化）
+
+`feature/* → dev → main` の単方向 release flow（CLAUDE.md「ブランチ戦略」節）下では、feature branch が dev を merge 済みの場合 `origin/main` は HEAD の祖先となり、`git merge origin/main` は必ず `Already up to date.` で終わる。「main 取り込み・CI 失敗解消」の追加指示を受けた仕様書フェーズでは下記を契約する。
+
+- **L-MAINTAKE-001 (Phase 13 verify gates)**: PR closeout / 追加 main 取り込み指示を扱う仕様書では Phase 13 acceptance に `git merge-base --is-ancestor origin/main HEAD` と `git rev-list --left-right --count refs/heads/main...origin/main` を verify gate として明記する。true / `0 0` なら no-op を確認の上 merge を試行しない（不要な merge commit を作らない）。
+- **L-MAINTAKE-002 (CI failure 推測修正の禁止)**: 「CI 失敗を解消」指示でも `gh pr checks <PR>` を先に取得する。全 SUCCESS の場合は「失敗なし」を一次確認として返し、推測ベースの修正コミットを積まない。Phase 11 evidence にも `gh pr checks` 出力を添付する。
+- **L-MAINTAKE-003 (no-op 結果の skill sync 義務)**: 取り込み結果が no-op であっても、ユーザーがスキル反映を明示指示した場合は本 lesson のように「no-op 構造前提」を [[lessons-learned-main-merge-noop-when-dev-merged-2026-05]] に記録する。次回同種指示を受けた AI が `is-ancestor` 確認だけで完結できる。
+- **L-MAINTAKE-004 (evidence の併記)**: 「同期済み」の根拠は `Already up to date.` 単独ではなく `left-right --count = 0 0` + `gh pr checks` 集計を併記する。print-only single line は他者検証性が弱い。
+
+### Anti-pattern
+
+- `is-ancestor` 確認を飛ばして `git merge origin/main` を実行 → no-op merge commit が生まれ PR diff の noise になる
+- `gh pr checks` を見ずに「CI 失敗があるはず」と推測修正を積む → 不要コミットで PR review コストを増やす
+- no-op だったので lesson を残さない → 次回同種指示で同じ確認手順を再構築する無駄が発生する

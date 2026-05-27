@@ -6099,6 +6099,15 @@ node scripts/list-specs.js --topics
 | 教訓一覧 | L8 |
 | 申し送り（open / baseline 未タスク） | L57 |
 
+### references/lessons-learned-main-merge-noop-when-dev-merged-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| 背景 | L11 |
+| 結論 | L22 |
+| 教訓 (Lesson IDs) | L30 |
+| 関連 | L37 |
+
 ### references/lessons-learned-parallel-i03-dialog-refresh-order-2026-05.md
 
 | セクション | 行 |
