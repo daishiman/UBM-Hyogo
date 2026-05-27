@@ -209,6 +209,6 @@ deploy / rollback / tail / secret 操作のドキュメントや scripts に直�
 - index: `docs/30-workflows/ut-06-followup-A-opennext-workers-migration/index.md`
 - 派生タスク: `docs/30-workflows/unassigned-task/task-impl-opennext-workers-migration-001.md`
 - 関連 follow-up: `docs/30-workflows/unassigned-task/UT-06-FU-A-R2-incremental-cache-decision.md`
-- 関連 follow-up: `docs/30-workflows/unassigned-task/UT-06-FU-A-open-next-config-regression-tests.md`
+- 関連 follow-up: `docs/30-workflows/completed-tasks/issue-247-apps-web-opennext-config-regression-tests/UT-06-FU-A-open-next-config-regression-tests.md`
 - 関連 follow-up: `docs/30-workflows/completed-tasks/UT-06-FU-A-production-route-secret-observability.md`（2026-04-30 close-out / workflow `docs/30-workflows/completed-tasks/ut-06-fu-a-prod-route-secret-001-worker-migration-verification/`）
 - canonical: `.claude/skills/aiworkflow-requirements/references/deployment-cloudflare.md`

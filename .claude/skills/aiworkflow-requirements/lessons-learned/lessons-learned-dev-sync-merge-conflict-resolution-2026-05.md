@@ -756,6 +756,18 @@
 - 留意: dev 側 import が relative path（`../../../src/...`）で書かれている場合、HEAD 側の path alias 体系（`@/*` → `./src/*`）に**必ず正規化**する。relative path のまま残すと route group 配下の depth 計算が狂って build break する（`(member)` セグメントは URL には現れないが file system では実在のため `../../../src` の相対起点が 1 段ずれる）。route group migration を含む sync-merge では import resolution の最終ゲートとして `pnpm typecheck` 必須。
 - 事例: 2026-05-26 `feat/issue-903-member-runtime-evidence` ← dev (`1e9ed5e88` issue-894 admin topbar breadcrumb 含む 9 commit)。skill index 2 (`indexes/topic-map.md` union + `keywords.json --ours + rebuild`) を resolver で自動解消、unhandled は `DeleteRequestDialog.tsx` / `VisibilityRequestDialog.tsx` の 2 ファイルのみ。本 L-DEVSYNC-045 の手順で `@/lib/api/me-requests.types` + `@/components/ui` への正規化統合、conflict marker 全除去、typecheck / lint green、merge commit 確定。
 
+## L-DEVSYNC-046: `patterns-lessons-and-pitfalls.md` を resolver の `UNION_TARGETS` に正式昇格（2026-05-26 追加・L-DEVSYNC-042 推奨拡張の実装）
+
+- 事象: `feat/issue-924-style-src-attr-retirement` ← dev sync-merge で `.claude/skills/task-specification-creator/references/patterns-lessons-and-pitfalls.md` が 3 回目（L-DEVSYNC-042 事例 2026-05-25 / 今回 2026-05-26 / 累積で再発確定）の `WARN unhandled conflict`。HEAD = CSP directive 撤去パターン section、base = なし、dev = DELETE-race UI wiring pattern (Issue #911) section が末尾に並列 append。`pnpm sync:resolve` が unhandled で停止し、L-DEVSYNC-042 の手動 union 手順を再演 → 末尾 append-only の section 衝突は全て両側保持 union で機械統合可能と再確認。
+- Why: 本ファイルは Phase 12 で `patterns-lessons` を accrete する SSOT で、複数 issue から並列に末尾 section が増える構造的に共通な競合源。L-DEVSYNC-042 の「推奨拡張: `UNION_MERGE_TARGETS` 候補化」を 3 回目の再発で正式実装すべきタイミング。section heading（`## ...`）が両側で独立する限り union 等価で安全。
+- How to apply:
+  1. `scripts/sync/resolve-skill-merge-conflicts.sh` の `UNION_TARGETS` に `.claude/skills/task-specification-creator/references/patterns-lessons-and-pitfalls.md` を追加（今回適用済）。
+  2. 次回以降の dev sync-merge では、本ファイルの末尾並列 section 追加は `pnpm sync:resolve` 一発で解消される。
+  3. ただし、ファイル**中央**の既存 section 内に両側が bullet を追加する pattern（L-DEVSYNC-030 系）は union が崩れるため、resolver 解消後に `pnpm typecheck` で機械検出されない意味重複（同名 lesson ID の `L-XXX-N` 重複等）を `grep -n "^### L-" <file> | sort -k2 | uniq -d -f1` で目視確認する手順を merge 後 verify に追加することが望ましい。
+  4. resolver の `union_resolve` Python は diff3 marker（`<<<<<<<` → `|||||||` ancestor 破棄 → `=======` → `>>>>>>>`）の state machine を持つため、base が空でも非空でも HEAD + dev 両方を保持する挙動は再確認済。
+- 留意: 本拡張は「末尾 append-only かつ section heading が別物」という前提に依存。同 sprint で同名 pattern (`## CSP directive 撤去パターン` 等) を HEAD と dev で同時に追加した場合は union で重複 heading が生じる。新規 section heading の命名規約として `## <pattern 名>（issue-<n> L-Y-001..N 汎化）` のように issue 番号を heading に含めることを Phase 12 ガイドに記載すべき（同名 heading 衝突を物理的に防ぐ）。
+- 事例: 2026-05-26 `feat/issue-924-style-src-attr-retirement` ← dev (`b600eae6d` merge / 含む issue-885 / issue-891 / issue-899)。conflict 7 ファイル中 6 ファイルは resolver で union/--ours+rebuild 完結、`patterns-lessons-and-pitfalls.md` のみ unhandled を手動 union（HEAD: CSP directive 撤去パターン + dev: DELETE-race UI wiring pattern 両側保持）→ resolver 拡張で次回以降は 1 発完結。section heading が `## CSP directive 撤去パターン（issue-924 L-I924-001..005 汎化）` / `## DELETE-race UI wiring pattern (Issue #911 / 2026-05-25)` と独立しており union 等価が成立。
+
 ## L-DEVSYNC-046: GitHub アカウント suspended 中に triggered された CI run の checkout 403 と空コミット retrigger 不発（2026-05-26 追加）
 
 - 事象: dev sync-merge の push 自体は成功（pre-push hook 全通過）したが、PR rollup で 3 件 fail (`lighthouse-ci` / `e2e-tests-coverage-gate` / `coverage-gate`) を観測。失敗 log は全て `remote: Your account is suspended ... fatal: unable to access '.../UBM-Hyogo/': The requested URL returned error: 403` の checkout 段階での 403。`gh run rerun <id>` は `run <id> cannot be rerun; its workflow file may be broken` で拒否、`gh run cancel` も `Cannot cancel a workflow run that is completed` で受け付けず（run 自体は conclusion=null / status=queued の不整合状態）。回復のため空コミット `git commit --allow-empty -m "ci: retrigger checks ..."` を push したが、新 sha に対して `repos/{owner}/{repo}/actions/runs?head_sha=<new>` が `total_count: 0` のまま、check-suites も GitHub Actions の suite 自体が生成されない状態が継続。
@@ -804,3 +816,15 @@
   4. 復旧後は当該 PR の HEAD に対して空でない 1 commit を push して webhook を再投げ込みする（outage 期間中の push はリトライ schedule されない実例あり）。
 - 留意: GitHub Status (`https://www.githubstatus.com/`) の Actions 項目が green でも個別リポジトリ単位で stall するケースがある（webhook routing partition）。public な incident にならないことが多いため、`gh api` ベースの自前 detection を runbook 化しておく。
 - 事例: 2026-05-26 PR #952。`546ba38b8` の e2e infra failure 直後、`ba78e993e2a197e296793ff6fc0e026d26187c36` 含む 2 件の push が schedule されず 2h18m 停滞。13:19Z 復旧後、他ブランチ runs (`503dff35d7`) が schedule された段階で当方 PR にも 1 commit 追加 push して新規 run 群を確保。
+
+## L-DEVSYNC-049: `pnpm sync:resolve` 後に孤立 `||||||| Stash base` marker が残ることがある（CI `verify-conflict-markers` で検出）（2026-05-26 確認）
+
+- 事象: `git merge dev` → `pnpm sync:resolve` で resolver 完走 → `git status` も `UU` ゼロ → typecheck/lint green → push 成功。しかし PR #966 で `verify-conflict-markers` workflow が FAIL。4 ファイル (`.claude/skills/aiworkflow-requirements/{SKILL.md, indexes/quick-reference.md, indexes/resource-map.md, references/task-workflow-active.md}`) に `||||||| Stash base` の単独行が残留。
+- Why: resolver は git merge driver の標準動作（`<<<<<<<` / `=======` / `>>>>>>>` の境界判定）に依存している。同一ブランチで複数回 merge を経た（過去の dev sync 由来の）ファイルでは、3-way merge の **base separator (`|||||||`)** が前回の解消過程で取り残されているケースがある。今回の `git merge` は新規 conflict を出さずに通った（`auto-merging` 報告のみ）ため、resolver が触らず、orphan marker が温存されたまま commit された。CI 側 `verify-conflict-markers` は `^(<<<<<<< |>>>>>>> |\|\|\|\|\|\|\| )` で grep するため `|||||||` 単独でも fail する。
+- How to apply:
+  1. `pnpm sync:resolve` 実行後、commit 前に必ず `git grep -nE '^(<<<<<<< |>>>>>>> |\|\|\|\|\|\|\| )' -- ':(exclude).github/workflows/verify-conflict-markers.yml' ':(exclude).claude/skills/**/lessons-learned/**' ':(exclude).claude/skills/**/dev-sync*.md' ':(exclude).claude/skills/**/SKILL-changelog.md' ':(exclude).claude/commands/**' ':(exclude)docs/30-workflows/**/dev-sync*.md' ':(exclude)docs/30-workflows/**/lessons-learned*.md' ':(exclude)scripts/sync/**'` を実行する（CI と同条件）。
+  2. ヒットしたら該当行を削除するだけ（隣接行が新旧 entry 連結なら、marker 行のみ消せば文意は通る）。`<<<<<<<` / `>>>>>>>` がペアで残っていないか同時に確認。
+  3. ローカル pre-push hook (`scripts/hooks/*`) に CI と同等の grep gate を追加検討（現状は CI のみで検出）。
+  4. resolver `scripts/sync/resolve-skill-merge-conflicts.sh` 側にも post-resolve sanity step として同 grep を追加すれば push 前検出が早まる。
+- 留意: CI gate は `<<<<<<< ` / `>>>>>>> ` / `||||||| ` の **後ろの空白込み 8 文字** で grep する。空白なし `|||||||EOL` 等は検出されない。古い resolver が space を消すケースは別途調査要。
+- 事例: 2026-05-26 `feat/issue-247-...` PR #966。`5ddb51e6a merge: sync ... with dev` push 後 `verify-conflict-markers` が `--- offending lines ---` 4件で FAIL。該当 4 行削除 commit で復旧。

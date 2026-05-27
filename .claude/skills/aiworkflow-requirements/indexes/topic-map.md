@@ -874,13 +874,13 @@ node scripts/list-specs.js --topics
 | 概要 | L8 |
 | ドキュメント構成 | L15 |
 | REST API エンドポイント一覧 | L25 |
-| エンドポイント命名規則 | L224 |
-| UBM-Hyogo Admin Sync API（03a） | L245 |
-| UBM-Hyogo Member Self-Service API（04b） | L297 |
-| Admin Dashboard Attendance Analytics API（UT-02A follow-up 002） | L323 |
-| Desktop IPC API サマリー | L337 |
-| 変更履歴 | L368 |
-| 関連ドキュメント | L385 |
+| エンドポイント命名規則 | L226 |
+| UBM-Hyogo Admin Sync API（03a） | L247 |
+| UBM-Hyogo Member Self-Service API（04b） | L299 |
+| Admin Dashboard Attendance Analytics API（UT-02A follow-up 002） | L325 |
+| Desktop IPC API サマリー | L339 |
+| 変更履歴 | L370 |
+| 関連ドキュメント | L387 |
 
 ### references/api-internal-chunk-search.md
 
@@ -1752,7 +1752,7 @@ node scripts/list-specs.js --topics
 | Env Boundary | L18 |
 | CSP Nonce Contract | L30 |
 | User-gated Follow-ups | L45 |
-| Workflow | L54 |
+| Workflow | L55 |
 
 ---
 
@@ -2330,6 +2330,12 @@ node scripts/list-specs.js --topics
 | Phase 12 Strict Outputs | L24 |
 | Boundary | L34 |
 
+### references/workflow-google-form-reflection-diagnostics-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Skill knowledge synced | L15 |
+
 ### references/workflow-governance-design-category.md
 
 | セクション | 行 |
@@ -2398,6 +2404,16 @@ node scripts/list-specs.js --topics
 | Validation Chain | L89 |
 | Branch-level deletion check | L101 |
 | Downstream task: issue-195-sync-jobs-contract-schema-consolidation-001（2026-05-04） | L105 |
+
+### references/workflow-issue-247-apps-web-opennext-config-regression-tests-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Summary | L3 |
+| Implementation | L13 |
+| Evidence | L20 |
+| Same-Wave Sync | L34 |
+| User-Gated Boundary | L45 |
 
 ### references/workflow-issue-256-e2e-coverage-baseline-runbook-artifact-inventory.md
 
@@ -3161,43 +3177,17 @@ node scripts/list-specs.js --topics
 | User-Gated Runtime Artifacts | L21 |
 | Skill Sync | L31 |
 
-### references/workflow-issue-911-meeting-attendance-unregister-ui-treat404-wiring-artifact-inventory.md
-
-| セクション | 行 |
-|------------|----|
-| Notes | L17 |
-
-### references/workflow-issue-912-idempotent-attendance-remove-retry-artifact-inventory.md
-
-| セクション | 行 |
-|------------|----|
-| Classification | L13 |
-| Implementation Targets | L17 |
-| Boundaries | L27 |
-
-### references/workflow-issue-913-server-idempotency-key-persistence-artifact-inventory.md
-
-| セクション | 行 |
-|------------|----|
-| Metadata | L3 |
-| Implementation Artifacts | L12 |
-| Evidence | L24 |
-| User-Gated Boundary | L34 |
-
-### references/workflow-issue-917-alert-relay-runtime-fire-evidence-artifact-inventory.md
-
-| セクション | 行 |
-|------------|----|
-| Workflow Artifacts | L14 |
-| Phase 12 Strict 7 | L27 |
-| User-Gated Runtime Boundary | L39 |
-| Skill Knowledge Synced | L50 |
-
 ### references/workflow-issue-922-production-admin-runtime-smoke-gate-artifact-inventory.md
 
 | セクション | 行 |
 |------------|----|
 | Runtime Boundary | L22 |
+
+### references/workflow-issue-924-style-src-attr-retirement-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Boundary | L17 |
 
 ### references/workflow-light-theme-contrast-regression-guard.md
 
@@ -3354,27 +3344,6 @@ node scripts/list-specs.js --topics
 | Phase 12 Strict 7 | L35 |
 | Evidence | L47 |
 | Lessons Learned | L58 |
-
-### references/workflow-public-header-my-profile-nav-alignment-artifact-inventory.md
-
-| セクション | 行 |
-|------------|----|
-| Metadata | L3 |
-| Current Canonical Artifacts | L14 |
-| Implementation Targets | L25 |
-| Contract Summary | L35 |
-| Evidence Boundary | L45 |
-| Same-Wave Sync | L49 |
-
-### references/workflow-register-page-prototype-alignment-artifact-inventory.md
-
-| セクション | 行 |
-|------------|----|
-| Workflow | L3 |
-| Implementation Targets | L12 |
-| Test And Evidence Targets | L24 |
-| Lessons Learned | L33 |
-| Boundaries | L39 |
 
 ### references/workflow-regression-evidence-ci-gate-foundation-artifact-inventory.md
 
@@ -4702,8 +4671,8 @@ node scripts/list-specs.js --topics
 | Long-term analytics evidence | L290 |
 | c-A production execution workflow | L296 |
 | CI build-time env injection for OpenNext Workers | L311 |
-| Response security headers via middleware | L321 |
-| 変更履歴 | L338 |
+| OpenNext config regression guard | L321 |
+| Response security headers via middleware | L334 |
 
 ### references/deployment-cloudflare-ut06-gate.md
 
@@ -5547,6 +5516,14 @@ node scripts/list-specs.js --topics
 | 教訓一覧 | L12 |
 | 関連メモ | L40 |
 
+### references/lessons-learned-google-form-reflection-diagnostics-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| 概要 | L3 |
+| 苦戦箇所と知見 | L7 |
+| 運用知見 | L73 |
+
 ### references/lessons-learned-issue-106-admin-notes-repository-2026-05.md
 
 | セクション | 行 |
@@ -6058,18 +6035,6 @@ node scripts/list-specs.js --topics
 | L-WFPERM-002: least-privilege は 2 階層で組む | L7 |
 | L-WFPERM-003: actionlint 1.7.7 を最終ゲートに、push 前は grep で自己検証 | L11 |
 | L-WFPERM-004: 防御的 hardening は失敗観測を待たず先回り適用 | L15 |
-
-### references/lessons-learned-issue-912-idempotent-attendance-remove-retry-2026-05.md
-
-| セクション | 行 |
-|------------|----|
-| L-I912-001: Existing idempotent endpoint can be bypassed by combined POST caller | L3 |
-| L-I912-002: Retry caller must avoid `mutationFn` | L7 |
-| L-I912-003: Dynamic path callers can use `trigger(payload, endpointOverride)` | L11 |
-| L-I912-004: DELETE payload must be fixed in the spec | L15 |
-| L-I912-005: Idempotency-Key value identity belongs to hook policy, not caller specs | L19 |
-| L-I912-006: Playwright mock fixture must follow API method/endpoint shape changes | L23 |
-| L-I912-007: Two Playwright mock surfaces — fixture and standalone — must stay in lockstep | L27 |
 
 ### references/lessons-learned-issue359-production-d1-apply-2026-05.md
 
@@ -7818,14 +7783,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L2683 |
-| フェーズ構造（概要） | L2692 |
-| 品質ゲート（概要） | L2723 |
-| 出力テンプレート | L2734 |
-| 実行時のコマンド・エージェント・スキル | L2757 |
-| 昇格パターン集 | L2781 |
-| Current Active / Spec Created Tasks | L2783 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L2944 |
+| ドキュメント構成 | L2663 |
+| フェーズ構造（概要） | L2672 |
+| 品質ゲート（概要） | L2703 |
+| 出力テンプレート | L2714 |
+| 実行時のコマンド・エージェント・スキル | L2737 |
+| 昇格パターン集 | L2761 |
+| Current Active / Spec Created Tasks | L2763 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L2924 |
 
 ### references/task-workflow-backlog-part2.md
 

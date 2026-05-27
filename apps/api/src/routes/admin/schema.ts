@@ -3,7 +3,6 @@
 // 07b 拡張: dryRun query, recommendedStableKeys 同梱, collision 409, idempotent
 import { Hono } from "hono";
 import { z } from "zod";
-import { idempotency } from "../../middleware/idempotency";
 import { requireAdmin, type RequireAuthVariables } from "../../middleware/require-admin";
 import { ctx } from "../../repository/_shared/db";
 import { adminEmail, asAdminId } from "../../repository/_shared/brand";
@@ -197,7 +196,6 @@ const failureToHttp = (
 export const createAdminSchemaRoute = () => {
   const app = new Hono<{ Bindings: AdminRouteEnv; Variables: RequireAuthVariables }>();
   app.use("*", requireAdmin);
-  app.use("*", idempotency());
 
   app.get("/schema/diff", async (c) => {
     const db = ctx({ DB: c.env.DB });

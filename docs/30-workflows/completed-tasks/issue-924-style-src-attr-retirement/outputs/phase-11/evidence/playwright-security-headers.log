@@ -1,0 +1,3 @@
+Status: pending_user_approval
+
+Browser runtime Playwright smoke is intentionally left for the user-gated visual/runtime pass. Local focused unit coverage verifies the CSP builder and middleware header string no longer emit style-src-attr.
