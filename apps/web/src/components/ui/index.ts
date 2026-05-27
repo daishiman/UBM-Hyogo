@@ -23,3 +23,4 @@ export * from "./LinkPills";
 export * from "./FormField";
 export * from "./Pagination";
 export * from "./Icon";
+export * from "./PillNav";

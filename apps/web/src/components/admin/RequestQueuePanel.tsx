@@ -186,10 +186,7 @@ export function RequestQueuePanel({ initial, type, showHeading = true }: Props) 
       </div>
       {toast && <p role="status">{toast}</p>}
 
-      <div
-        className="admin-requests-grid"
-        style={{ display: "grid", gridTemplateColumns: "1fr 2fr", gap: 12 }}
-      >
+      <div className="admin-requests-grid">
         <ul aria-label="依頼一覧">
           {items.length === 0 && (
             <li>

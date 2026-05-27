@@ -4,10 +4,12 @@
 
 import type { NextRequest } from "next/server";
 
+import { getAuthEnv } from "@/lib/env";
+
 const FALLBACK_INTERNAL_API = "http://127.0.0.1:8787";
 
 const resolveApiBase = (): string => {
-  const v = process.env["INTERNAL_API_BASE_URL"];
+  const v = getAuthEnv().INTERNAL_API_BASE_URL;
   if (v && v.length > 0) return v.replace(/\/$/, "");
   return FALLBACK_INTERNAL_API;
 };

@@ -65,11 +65,47 @@ interface MemberListRow {
   response_email: string;
   last_submitted_at: string;
   answers_json: string | null;
+  tags_json: string | null;
   public_consent: string | null;
   rules_consent: string | null;
   publish_state: string | null;
   is_deleted: number | null;
 }
+
+const readString = (src: Record<string, unknown>, key: string): string | undefined => {
+  const v = src[key];
+  return typeof v === "string" && v.length > 0 ? v : undefined;
+};
+
+const readNullableString = (
+  src: Record<string, unknown>,
+  key: string,
+): string | null | undefined => {
+  const v = src[key];
+  if (v === null) return null;
+  return typeof v === "string" && v.length > 0 ? v : undefined;
+};
+
+const parseTagsJson = (raw: string | null): Array<{ code: string; label: string }> => {
+  if (!raw) return [];
+  try {
+    const parsed = JSON.parse(raw) as unknown;
+    if (!Array.isArray(parsed)) return [];
+    return parsed.flatMap((entry) => {
+      if (entry && typeof entry === "object") {
+        const rec = entry as Record<string, unknown>;
+        const code = rec.code;
+        const label = rec.label;
+        if (typeof code === "string" && typeof label === "string") {
+          return [{ code, label }];
+        }
+      }
+      return [];
+    });
+  } catch {
+    return [];
+  }
+};
 
 const filterToSql = (filter?: AdminFilter): string => {
   if (filter === "published") {
@@ -273,6 +309,12 @@ export const createAdminMembersRoute = () => {
         .prepare(
           `SELECT mi.member_id, mi.response_email, mi.last_submitted_at,
                 mr.answers_json,
+                (
+                  SELECT json_group_array(json_object('code', td.code, 'label', td.label))
+                  FROM member_tags mt
+                  JOIN tag_definitions td ON td.tag_id = mt.tag_id
+                  WHERE mt.member_id = mi.member_id
+                ) AS tags_json,
                 ms.public_consent, ms.rules_consent, ms.publish_state, ms.is_deleted
          FROM member_identities mi
          LEFT JOIN member_responses mr ON mr.response_id = mi.current_response_id
@@ -287,11 +329,17 @@ export const createAdminMembersRoute = () => {
 
       const members = (r.results ?? []).map((row) => {
         let fullName = "";
+        let occupation: string | undefined;
+        let ubmZone: string | null | undefined;
+        let ubmMembershipType: string | null | undefined;
         if (row.answers_json) {
           try {
             const p = JSON.parse(row.answers_json) as Record<string, unknown>;
             const fn = p[STABLE_KEY.fullName];
             if (typeof fn === "string") fullName = fn;
+            occupation = readString(p, STABLE_KEY.occupation);
+            ubmZone = readNullableString(p, STABLE_KEY.ubmZone);
+            ubmMembershipType = readNullableString(p, STABLE_KEY.ubmMembershipType);
           } catch {
             // ignore
           }
@@ -305,6 +353,11 @@ export const createAdminMembersRoute = () => {
           publishState: normalizePublishState(row.publish_state),
           isDeleted: row.is_deleted === 1,
           lastSubmittedAt: normalizeIso(row.last_submitted_at),
+          occupation,
+          ubmZone,
+          ubmMembershipType,
+          tags: parseTagsJson(row.tags_json),
+          updatedAt: normalizeIso(row.last_submitted_at),
         };
       });
 

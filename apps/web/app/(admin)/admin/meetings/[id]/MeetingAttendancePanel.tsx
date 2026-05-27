@@ -43,16 +43,6 @@ export function MeetingAttendancePanel({
     "POST",
     { refreshOnSuccess: false },
   );
-  const unregisterMutation = useAdminMutation<
-    { readonly ok: true; readonly attended: false } | undefined
-  >(
-    `/api/admin/meetings/${encodeURIComponent(detail.sessionId)}/attendances`,
-    "POST",
-    {
-      refreshOnSuccess: false,
-      treat404AsSuccess: { toast: "既に解除済みです" },
-    },
-  );
 
   const onRegister = async (memberId: string) => {
     if (registered.has(memberId)) {
@@ -82,48 +72,6 @@ export function MeetingAttendancePanel({
         return;
       }
       setToast(`登録に失敗 (unknown)`);
-    }
-  };
-
-  const onUnregister = async (memberId: string) => {
-    if (!registered.has(memberId)) {
-      setToast("既に解除済みです");
-      return;
-    }
-    try {
-      const result = await unregisterMutation.trigger({ memberId, attended: false });
-      setRegistered((s) => {
-        const next = new Set(s);
-        next.delete(memberId);
-        return next;
-      });
-      if (result === undefined) {
-        attendanceLogger.info({
-          event: "attendance.unregister.already_removed",
-          meetingId: detail.sessionId,
-          memberId,
-        });
-      }
-      setToast(result === undefined ? "既に解除済みです" : "出席を解除しました");
-    } catch (e) {
-      if (e instanceof FetchAuthedError) {
-        attendanceLogger.error({
-          event: "attendance.unregister.failed",
-          meetingId: detail.sessionId,
-          memberId,
-          status: e.status,
-          error: e,
-        });
-        setToast(`解除に失敗 (${e.status})`);
-        return;
-      }
-      attendanceLogger.warn({
-        event: "attendance.unregister.network",
-        meetingId: detail.sessionId,
-        memberId,
-        error: e,
-      });
-      setToast(`解除に失敗 (unknown)`);
     }
   };
 
@@ -161,17 +109,6 @@ export function MeetingAttendancePanel({
               >
                 {registered.has(c.memberId) ? "登録済" : "出席登録"}
               </button>
-              {registered.has(c.memberId) && (
-                <button
-                  type="button"
-                  data-testid="attendance-unregister"
-                  data-member={c.memberId}
-                  data-registered="true"
-                  onClick={() => onUnregister(c.memberId)}
-                >
-                  出席解除
-                </button>
-              )}
             </li>
           ))}
       </ul>
