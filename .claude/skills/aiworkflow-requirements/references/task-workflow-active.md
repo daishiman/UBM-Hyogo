@@ -2971,4 +2971,17 @@ docs-only / direction-reconciliation で採用方針 A を維持する場合で�
 | evidence boundary | 現 wave は local implementation まで完了。51 baseline PNG、runtime CI evidence、commit、push、PR は未実行 |
 | baseline gate | baseline 未存在 CI fail の admin override は禁止。required check 化は 51 baseline と green runtime evidence が揃った後 |
 | source | `docs/30-workflows/unassigned-task/task-18-full-visual-regression-suite-001.md` |
+### Issue #255 coverage threshold sync lint（2026-05-26）
+
+| 項目 | 内容 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-255-coverage-threshold-sync-lint/` |
+| ステータス | `implemented_local_evidence_captured / implementation / NON_VISUAL / Phase 13 pending_user_approval` |
+| Issue | `#255` (CLOSED, `Refs #255`) |
+| 目的 | coverage 80% threshold の SSOT (`quality-requirements-advanced.md`)、executor (`scripts/coverage-guard.sh`)、任意 `codecov.yml` の drift を fail-fast で検出する |
+| implementation | `scripts/coverage-threshold-lint.ts`, `scripts/__tests__/coverage-threshold-lint.spec.ts`, `.github/workflows/coverage-threshold-lint.yml`, `package.json#lint:coverage-threshold` |
+| evidence | `pnpm lint:coverage-threshold` PASS, focused Vitest 8 PASS, Phase 11 evidence logs present |
+| source | `docs/30-workflows/completed-tasks/task-codecov-threshold-sync-lint-001.md` consumed |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-255-coverage-threshold-sync-lint-artifact-inventory.md` |
+| user gate | commit, push, PR, GitHub Actions runtime observation |
 | issue-903-parallel-03-followup-005-member-runtime-evidence | implemented_local_evidence_captured / implementation / VISUAL / Phase 13 pending_user_approval | `docs/30-workflows/completed-tasks/issue-903-parallel-03-followup-005-member-runtime-evidence/` | Issue #903 member AppShell runtime evidence. `/profile` was moved under `apps/web/app/(member)/profile/` without URL change, `parallel-03-member-shell-scrape.spec.ts` captures EV-13 DOM scrape and EV-16 1280x800 screenshot, and parent `parallel-03-appshell-layouts/phase-11-evidence-inventory.md` marks EV-13/EV-16 present. No API/D1/Auth/Cloudflare contract change. Commit, push, PR, and Issue mutation remain user-gated. |

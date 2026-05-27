@@ -3297,6 +3297,7 @@
       "workflow-i01-toastprovider-root-mount-artifact-inventory.md",
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
       "workflow-issue-247-apps-web-opennext-config-regression-tests-artifact-inventory.md",
+      "workflow-issue-255-coverage-threshold-sync-lint-artifact-inventory.md",
       "workflow-issue-256-e2e-coverage-baseline-runbook-artifact-inventory.md",
       "workflow-issue-274-public-pages-ogp-sitemap-robots-artifact-inventory.md",
       "workflow-issue-276-mobile-filterbar-tag-picker-artifact-inventory.md",
@@ -4884,7 +4885,8 @@
       "deployment-cloudflare.md",
       "lessons-learned-03a-parallel-forms-schema-sync.md",
       "lessons-learned-03b-response-sync-2026-04.md",
-      "lessons-learned-issue-765-1password-vault-restructure-2026-05.md"
+      "lessons-learned-issue-765-1password-vault-restructure-2026-05.md",
+      "lessons-learned-main-merge-noop-when-dev-merged-2026-05.md"
     ],
     "rule": [
       "audit-correlation.md",
@@ -5344,6 +5346,7 @@
       "lessons-learned-issue-379-schema-diff-current-green-2026-05.md",
       "lessons-learned-issue-502-dlq-monitoring-dashboard-2026-05.md",
       "lessons-learned-issue-775-serial-05-step-03-runtime-evidence-completion-2026-05.md",
+      "lessons-learned-main-merge-noop-when-dev-merged-2026-05.md",
       "lessons-learned-parallel-i06-root-error-focus-2026-05.md",
       "lessons-learned-sync-merge-hook-skip-2026-04.md",
       "lessons-learned-ut-02a-tag-assignment-queue-2026-05.md",
@@ -7269,6 +7272,7 @@
       "workflow-ci-green-recovery-smoke-coverage-shard-artifact-inventory.md",
       "workflow-e2e-quality-uplift-stage-0-3-artifact-inventory.md",
       "workflow-i02-admin-error-type-unify-artifact-inventory.md",
+      "workflow-issue-255-coverage-threshold-sync-lint-artifact-inventory.md",
       "workflow-issue-352-postmortem-template-automation-artifact-inventory.md",
       "workflow-issue-378-tag-queue-paused-flag-artifact-inventory.md",
       "workflow-issue-504-extended-fixture-50k-artifact-inventory.md",
@@ -7602,6 +7606,7 @@
       "workflow-issue-191-schema-aliases-artifact-inventory.md",
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
       "workflow-issue-247-apps-web-opennext-config-regression-tests-artifact-inventory.md",
+      "workflow-issue-255-coverage-threshold-sync-lint-artifact-inventory.md",
       "workflow-issue-274-public-pages-ogp-sitemap-robots-artifact-inventory.md",
       "workflow-issue-275-magic-link-429-retry-after-artifact-inventory.md",
       "workflow-issue-276-mobile-filterbar-tag-picker-artifact-inventory.md",
@@ -7687,6 +7692,7 @@
       "task-workflow-completed-recent-2026-04d.md",
       "workflow-ai-runtime-authmode-unification.md",
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
+      "workflow-issue-255-coverage-threshold-sync-lint-artifact-inventory.md",
       "workflow-issue-495-09b-A-sentry-slack-runtime-smoke-prod-extension-artifact-inventory.md",
       "workflow-issue-516-github-audit-log-cross-source-correlation-artifact-inventory.md",
       "workflow-issue-520-slack-incidents-channel-webhook-provisioning-artifact-inventory.md",
@@ -8744,6 +8750,7 @@
     ],
     "main": [
       "deployment-gha.md",
+      "lessons-learned-main-merge-noop-when-dev-merged-2026-05.md",
       "lessons-learned-ut-cicd-drift-impl-observability-matrix-sync-2026-05.md",
       "lessons-learned-ut-coverage-2026-05-wave.md",
       "skill-ledger-fragment-spec.md"
@@ -8778,6 +8785,7 @@
       "lessons-learned-issue-393-stablekey-literal-legacy-cleanup-2026-05.md",
       "logs-archive-2026-01-skill-selector-todo-scan-template.md",
       "workflow-03a-stablekey-literal-lint-enforcement-artifact-inventory.md",
+      "workflow-issue-255-coverage-threshold-sync-lint-artifact-inventory.md",
       "workflow-issue-290-workflow-lint-gate-artifact-inventory.md"
     ],
     "scope": [
@@ -10447,6 +10455,7 @@
     "背景": [
       "ipc-contract-checklist.md",
       "lessons-learned-issue-276-mobile-filterbar-tag-picker-2026-05.md",
+      "lessons-learned-main-merge-noop-when-dev-merged-2026-05.md",
       "lessons-learned-sync-merge-hook-skip-2026-04.md"
     ],
     "non": [
@@ -11124,7 +11133,8 @@
     "no": [
       "lessons-learned-03a-parallel-forms-schema-sync.md",
       "lessons-learned-03b-response-sync-2026-04.md",
-      "lessons-learned-06c-admin-ui-2026-04.md"
+      "lessons-learned-06c-admin-ui-2026-04.md",
+      "lessons-learned-main-merge-noop-when-dev-merged-2026-05.md"
     ],
     "AC": [
       "lessons-learned-03a-parallel-forms-schema-sync.md",
@@ -14626,6 +14636,7 @@
       "logs-archive-2026-03-notification-history-sigterm-guard.md",
       "logs-archive-2026-03-workflow02-screenshot-guard.md",
       "workflow-ci-green-recovery-smoke-coverage-shard-artifact-inventory.md",
+      "workflow-issue-255-coverage-threshold-sync-lint-artifact-inventory.md",
       "workflow-task-25-ui-mvp-w8-par-routes-smoke-coverage-artifact-inventory.md"
     ],
     "hard": [
@@ -16505,7 +16516,8 @@
       "lessons-learned-issue-532-write-tag-note-provider-ctx-injection-2026-05.md"
     ],
     "threshold": [
-      "lessons-learned-issue-532-write-tag-note-provider-ctx-injection-2026-05.md"
+      "lessons-learned-issue-532-write-tag-note-provider-ctx-injection-2026-05.md",
+      "workflow-issue-255-coverage-threshold-sync-lint-artifact-inventory.md"
     ],
     "を満たす面だけに限定する": [
       "lessons-learned-issue-532-write-tag-note-provider-ctx-injection-2026-05.md"
@@ -16747,6 +16759,7 @@
       "workflow-issue-191-schema-aliases-artifact-inventory.md",
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
       "workflow-issue-247-apps-web-opennext-config-regression-tests-artifact-inventory.md",
+      "workflow-issue-255-coverage-threshold-sync-lint-artifact-inventory.md",
       "workflow-issue-256-e2e-coverage-baseline-runbook-artifact-inventory.md",
       "workflow-issue-275-magic-link-429-retry-after-artifact-inventory.md",
       "workflow-issue-276-mobile-filterbar-tag-picker-artifact-inventory.md",
@@ -17665,6 +17678,30 @@
     "Reinstall": [
       "lessons-learned-lefthook-mwr-runbook-2026-04.md"
     ],
+    "取り込みが": [
+      "lessons-learned-main-merge-noop-when-dev-merged-2026-05.md"
+    ],
+    "になる構造前提": [
+      "lessons-learned-main-merge-noop-when-dev-merged-2026-05.md"
+    ],
+    "結論": [
+      "lessons-learned-main-merge-noop-when-dev-merged-2026-05.md",
+      "lessons-learned-sync-merge-hook-skip-2026-04.md"
+    ],
+    "教訓": [
+      "lessons-learned-main-merge-noop-when-dev-merged-2026-05.md",
+      "lessons-learned-sync-merge-hook-skip-2026-04.md",
+      "lessons-learned-ut-cicd-drift-2026-04.md",
+      "lessons-learned-ut06-fu-a-prod-route-secret-2026-04.md"
+    ],
+    "Lesson": [
+      "lessons-learned-main-merge-noop-when-dev-merged-2026-05.md",
+      "lessons-learned-sync-merge-hook-skip-2026-04.md"
+    ],
+    "IDs": [
+      "lessons-learned-main-merge-noop-when-dev-merged-2026-05.md",
+      "lessons-learned-sync-merge-hook-skip-2026-04.md"
+    ],
     "parallel": [
       "lessons-learned-parallel-i03-dialog-refresh-order-2026-05.md",
       "lessons-learned-parallel-i06-root-error-focus-2026-05.md",
@@ -17912,21 +17949,7 @@
     "自動スキップ運用": [
       "lessons-learned-sync-merge-hook-skip-2026-04.md"
     ],
-    "結論": [
-      "lessons-learned-sync-merge-hook-skip-2026-04.md"
-    ],
     "個人開発運用ポリシー": [
-      "lessons-learned-sync-merge-hook-skip-2026-04.md"
-    ],
-    "教訓": [
-      "lessons-learned-sync-merge-hook-skip-2026-04.md",
-      "lessons-learned-ut-cicd-drift-2026-04.md",
-      "lessons-learned-ut06-fu-a-prod-route-secret-2026-04.md"
-    ],
-    "Lesson": [
-      "lessons-learned-sync-merge-hook-skip-2026-04.md"
-    ],
-    "IDs": [
       "lessons-learned-sync-merge-hook-skip-2026-04.md"
     ],
     "Unify": [
@@ -19844,6 +19867,7 @@
     ],
     "Verification": [
       "lessons-learned-ut07b-fu04-production-migration-already-applied-verification-2026-05.md",
+      "workflow-issue-255-coverage-threshold-sync-lint-artifact-inventory.md",
       "workflow-issue-532-write-tag-note-provider-ctx-injection-artifact-inventory.md",
       "workflow-task-07c-followup-003-audit-log-browsing-ui-artifact-inventory.md",
       "workflow-task-09c-production-deploy-execution-001-artifact-inventory.md",
@@ -24745,6 +24769,7 @@
       "workflow-issue-191-schema-aliases-artifact-inventory.md",
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
       "workflow-issue-247-apps-web-opennext-config-regression-tests-artifact-inventory.md",
+      "workflow-issue-255-coverage-threshold-sync-lint-artifact-inventory.md",
       "workflow-issue-256-e2e-coverage-baseline-runbook-artifact-inventory.md",
       "workflow-issue-275-magic-link-429-retry-after-artifact-inventory.md",
       "workflow-issue-276-mobile-filterbar-tag-picker-artifact-inventory.md",
