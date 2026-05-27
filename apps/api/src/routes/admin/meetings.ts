@@ -1,7 +1,6 @@
 // 04c / 06c-E: GET/POST/PATCH/export admin meetings
 import { Hono } from "hono";
 import { z } from "zod";
-import { idempotency } from "../../middleware/idempotency";
 import { requireAdmin, type RequireAuthVariables } from "../../middleware/require-admin";
 import { ctx } from "../../repository/_shared/db";
 import { asAdminId, asMemberId, adminEmail, auditAction } from "../../repository/_shared/brand";
@@ -67,7 +66,6 @@ export const createAdminMeetingsRoute = () => {
     Variables: RequireAuthVariables & Partial<WriteTagNoteProviderVariables>;
   }>();
   app.use("*", requireAdmin);
-  app.use("*", idempotency());
   app.use("*", writeTagNoteProviderMiddleware);
 
   app.get("/meetings", async (c) => {

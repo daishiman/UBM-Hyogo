@@ -1027,6 +1027,13 @@ AC-1〜AC-6 全達成。Phase 10 判定: PASS（MINOR 0件）
 
 - ci-staging-deploy-failure-fix を `implemented_local_runtime_pending / implementation / NON_VISUAL` として同期。`.github/workflows/web-cd.yml` の OpenNext build step に build-time placeholder env を追加し、`apps/web/src/lib/__tests__/build-time-env.spec.ts` を新規追加。Phase 1-13 / Phase 11 runtime pending gates / Phase 12 strict 7 / root-output artifacts parity / workflow artifact inventory / deployment SSOT note / quick-reference / resource-map / task-workflow-active / lessons を同一 wave で反映。Cloudflare token creation, 1Password update, GitHub Secret mutation, commit, push, PR, and runtime CI evidence remain user-gated.
 
+# 2026-05-26 issue-247 apps/web OpenNext config regression tests
+
+- Synced `docs/30-workflows/completed-tasks/issue-247-apps-web-opennext-config-regression-tests/` as `implemented_local_evidence_captured / implementation / NON_VISUAL`.
+- Added `apps/web/__tests__/opennext-config-regression.spec.ts` and `.github/workflows/ci.yml` focused OpenNext config regression guard.
+- Updated OpenNext deployment spec, quick-reference, resource-map, task-workflow-active, artifact inventory, changelog, and lessons-learned.
+- Commit, push, PR, and GitHub Issue #247 mutation remain user-gated.
+
 # 2026-05-17
 
 - Issue #746 parallel-09 Playwright visual evidence completion を `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION / implementation_complete_visual_evidence_captured` として同期。parent canonical workflow を `docs/30-workflows/parallel-09-ux-cross-cutting/` から `docs/30-workflows/completed-tasks/parallel-09-ux-cross-cutting/` へ lifecycle path move し、`artifacts.json` / `outputs/artifacts.json` 双方の `canonicalRoot=completed-tasks/...` + `archivedFrom=docs/30-workflows/parallel-09-ux-cross-cutting/` を整合。recovery workflow `docs/30-workflows/issue-746-parallel-09-playwright-visual-evidence-completion/` を Phase 1-13 で新規配置し、`apps/web/playwright/tests/visual/parallel-09-primitives.spec.ts` の evidence 出力先を archived parent path default + `PARALLEL09_EVIDENCE_DIR` env override に補正、`apps/web/playwright.parallel09.config.ts` を webServer auto-spawn 固定（`PLAYWRIGHT_BASE_URL` 指定時のみ外部 server）に切替。`mise exec -- pnpm --dir apps/web exec playwright test --config=playwright.parallel09.config.ts --reporter=line` で 6 passed / 12 PNG capture（all non-empty / 全 ≤ 500KB）、parent `outputs/phase-11/screenshots/` に正本配置。source unassigned `parallel-09-followup-001-playwright-visual-evidence-completion.md` を `consumed (issue-746, 2026-05-17)` に更新、parent Phase-12 `unassigned-task-detection.md` の Open Runtime Boundary 節で消費反映。aiworkflow `SKILL.md` / `indexes/quick-reference.md` / `indexes/resource-map.md` / `references/task-workflow-active.md` / `references/workflow-parallel-09-ux-cross-cutting-artifact-inventory.md` を同 wave で反映。`task-specification-creator` `SKILL.md` / `SKILL-changelog.md` / `references/phase-11-screenshot-guide.md` に ENOSPC リカバリ + `__visual__` 私的 route 404 + archived path drift 防止ガイドを追記。新規 lessons L-P09-006..008（archived path drift / webServer auto-spawn / `PARALLEL09_EVIDENCE_DIR`）と `legacy-ordinal-family-register.md` §Task Root Path Drift Register に parallel-09 lifecycle path move 行を追加。commit / push / PR / GitHub Issue mutation / 19-routes consumer adoption / staging+production smoke は user-gated。
@@ -1067,18 +1074,6 @@ production env monitor secret cleanup は user-gated。
 - Registered `docs/30-workflows/admin-ui-prototype-alignment/` as `spec_created / implementation / VISUAL`.
 - Added artifact inventory `references/workflow-admin-ui-prototype-alignment-artifact-inventory.md`.
 - Boundary: no API / D1 schema / Auth.js middleware contract change; runtime screenshots and PR creation are user-gated.
-# 2026-05-23 admin-ui-prototype-alignment
-
-- Registered `docs/30-workflows/admin-ui-prototype-alignment/` as `spec_created / implementation / VISUAL`.
-- Added artifact inventory `references/workflow-admin-ui-prototype-alignment-artifact-inventory.md`.
-- Boundary: no API / D1 schema / Auth.js middleware contract change; runtime screenshots and PR creation are user-gated.
-
-# 2026-05-25 issue912-idempotent-attendance-remove-retry
-
-- Synced `docs/30-workflows/completed-tasks/issue-912-idempotent-attendance-remove-retry/` as `implemented_local_evidence_captured / implementation / NON_VISUAL`.
-- Implemented `apps/web/src/lib/admin/api.ts` `removeAttendance` DELETE route and `MeetingPanel.tsx` add/remove mutation split.
-- Captured focused Vitest evidence: `api.spec.ts`, `MeetingPanel.component.spec.tsx`, `useAdminMutation.spec.ts` (97 tests PASS).
-- Added aiworkflow artifact inventory and lessons L-I912-001..005. Commit, push, PR, staging runtime curl, and Issue mutation remain user-gated.
 
 # 2026-05-24 issue-863-admin-error-alert-policy-iac
 
@@ -1118,6 +1113,9 @@ production env monitor secret cleanup は user-gated。
 # 2026-05-23 issue-827-member-detail-adapter-and-visibility-defense
 
 - Issue #827 public member detail adapter / visibility 二重防御を `implemented_local_evidence_captured / implementation / NON_VISUAL / Phase 1-12 completed / Phase 13 pending_user_approval` として同期。web-side pure adapter `apps/web/src/lib/adapters/member-detail.ts` を新設し、`buildMemberDetailViewModel` で `allSections` を `field.visibility === "public"` フィルタ済みにしてから `MemberDetailSections` / `MemberLinks` / `MemberActivity` の 3 consumer 全てへ供給（primary renderer だけでなく links / activity も filtered data を受け取る二重防御）。`DISPLAYABLE_KINDS` allowlist で detail section の display-kind を絞り込み、空 section を除去。`apps/web/src/lib/adapters/__tests__/member-detail.spec.ts`（TC-A-01..06: activity 分離 + admin/member 除外 + url/unknown/system/consent 除外 + 空 section 除去 + pure 性）、`apps/web/src/components/public/MemberDetailSections.tsx`（filter ロジック撤去・描画専任化）、`apps/web/app/(public)/members/[id]/page.tsx`（adapter 経由 wiring）を正本化。API / D1 schema / shared zod schema / primitive signature / CSS / visual snapshot baseline は不変更。spec 内の field kind / visibility 語彙を現行 `FieldKindZ` / `FieldVisibilityZ` へ補正。Phase 11 evidence 5 件（focused-tests / typecheck / lint / build / visual-snapshot-status）、Phase 12 strict 7、root/output artifacts parity、`unassigned-task-detection` 1 件（`issue-827-followup-001-displayable-kinds-exhaustiveness-guard` / issue #891 / 分類 ref / 優先度 低 / `docs/30-workflows/unassigned-task/`）を確定。workflow root は `docs/30-workflows/completed-tasks/issue-827-member-detail-adapter-and-visibility-defense/` へ移動済み。aiworkflow `references/workflow-issue-827-member-detail-adapter-and-visibility-defense-artifact-inventory.md`、新規 `references/lessons-learned-issue-827-member-detail-adapter-and-visibility-defense-2026-05.md`（L-I827-001..005: 可視性二重防御の全 consumer carry / CONST_004 実コード再分類 / schema 語彙 stale 補正 / pure adapter 境界 3 択比較 / allowlist exhaustiveness 規律依存）、`references/lessons-learned.md` hub、`references/task-workflow-active.md`、`indexes/resource-map.md`、`indexes/quick-reference.md`、`changelog/20260523-issue827-member-detail-adapter-and-visibility-defense.md`、SKILL.md top entry / SKILL-changelog を同一 wave で反映。`indexes/topic-map.md` / `indexes/keywords.json` は `pnpm indexes:rebuild` で後段再生成。task-specification-creator / skill-creator の skill 定義変更は不要（web adapter は新規 1 例につき汎化保留）。commit / push / PR / Issue mutation / deployment verification は user-gated。
+# 2026-05-26
+
+| 2026-05-26 - issue255 coverage threshold sync lint（`docs/30-workflows/completed-tasks/issue-255-coverage-threshold-sync-lint/` を `implemented_local_evidence_captured / implementation / NON_VISUAL` として同期。`scripts/coverage-threshold-lint.ts`、focused Vitest 8 PASS、`pnpm lint:coverage-threshold` PASS、`.github/workflows/coverage-threshold-lint.yml`、root script、Phase 11 local evidence、Phase 12 strict 7、source unassigned consumed trace、quick-reference / resource-map / task-workflow-active / artifact inventory / changelog / SKILL history を同一 wave で反映。commit / push / PR / GitHub Actions runtime observation は user-gated） |
 # 2026-05-25 issue-903 member runtime evidence
 
 - Synced `docs/30-workflows/completed-tasks/issue-903-parallel-03-followup-005-member-runtime-evidence/` as `implemented_local_evidence_captured / implementation / VISUAL`.

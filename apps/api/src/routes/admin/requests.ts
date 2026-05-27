@@ -13,7 +13,6 @@ import {
   requireAdmin,
   type RequireAuthVariables,
 } from "../../middleware/require-admin";
-import { idempotency } from "../../middleware/idempotency";
 import { ctx } from "../../repository/_shared/db";
 import {
   type AdminMemberNoteRow,
@@ -237,7 +236,6 @@ export const createAdminRequestsRoute = (
     Variables: RequireAuthVariables & Partial<WriteTagNoteProviderVariables>;
   }>();
   app.use("*", requireAdmin);
-  app.use("*", idempotency());
   app.use("*", writeTagNoteProviderMiddleware);
 
   app.get("/requests", async (c) => {

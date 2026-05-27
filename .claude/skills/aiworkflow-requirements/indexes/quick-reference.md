@@ -1,5 +1,6 @@
 # クイックリファレンス
 
+## google-form-reflection-diagnostics（2026-05-26）
 ## Issue #924 style-src-attr retirement（2026-05-25）
 
 | 項目 | 値 |
@@ -87,6 +88,14 @@
 | Phase 12 | strict 7 present。root/output `artifacts.json` parity present |
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-register-page-prototype-alignment-artifact-inventory.md` |
 | user gate | commit, push, PR, external staging observation |
+| workflow root | `docs/30-workflows/completed-tasks/google-form-reflection-diagnostics/` |
+| status | `implemented_local_runtime_pending / implementation / VISUAL` |
+| purpose | Google Form 31 項目が admin / profile / public 3 経路で反映されない事象を H1 ingest / H2 identity / H3 visibility / H4 alias に切り分ける |
+| implementation | `apps/api/src/diagnostics/*`, `apps/web/app/(admin)/admin/sync-status/page.tsx`, `apps/web/src/features/admin/diagnostics/*`, `apps/web/src/features/admin/components/_members/MemberDiagnosticsPanel.tsx` |
+| API | `GET /admin/diagnostics/forms-pipeline`, `GET /admin/diagnostics/member/:memberId` |
+| invariant | secret readiness は boolean のみ。`GOOGLE_SERVICE_ACCOUNT_EMAIL` / `GOOGLE_PRIVATE_KEY` / `GOOGLE_FORM_ID` / `AUTH_SECRET` の実値・末尾・hash は返さない |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-google-form-reflection-diagnostics-artifact-inventory.md` |
+| user gate | staging deploy, authenticated screenshots, Spec-B issue filing, commit, push, PR |
 
 ## Issue #901 authenticated profile/admin staging visual（2026-05-25）
 
@@ -107,7 +116,6 @@
 ## issue-900-workflow-permissions-least-privilege-audit（2026-05-25）
 
 | key | value |
-| --- | --- |
 | status | `implemented_local_evidence_captured / implementation / NON_VISUAL` |
 | workflow root | `docs/30-workflows/completed-tasks/issue-900-workflow-permissions-least-privilege-audit/` |
 | purpose | all GitHub Actions workflows declare top-level least-privilege token permissions |
@@ -118,8 +126,6 @@
 
 ## issue-894-admin-topbar-breadcrumb-integration（2026-05-25）
 
-| 項目 | 値 |
-| --- | --- |
 | workflow root | `docs/30-workflows/completed-tasks/issue-894-admin-topbar-breadcrumb-integration/` |
 | status | `implemented_local_evidence_captured / implementation / VISUAL / implementation_complete_pending_pr` |
 | issue | #894 CLOSED; PR wording is `Refs #894` only |
@@ -132,8 +138,6 @@
 
 ## Issue #895 AdminTopbar actions client island（2026-05-25）
 
-| 項目 | 値 |
-| --- | --- |
 | workflow root | `docs/30-workflows/completed-tasks/issue-895-admin-topbar-actions-client-island/` |
 | status | `implemented_local_evidence_captured / implementation / NON_VISUAL / implementation_complete_pending_pr` |
 | source | `docs/30-workflows/completed-tasks/parallel-03-followup-004-admin-topbar-actions-buttons.md` consumed |
@@ -143,6 +147,17 @@
 | Phase 12 | strict 7 files present under `outputs/phase-12/`; Phase 11 local evidence present; screenshot N/A (`NON_VISUAL`) |
 | inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-895-admin-topbar-actions-client-island-artifact-inventory.md` |
 | user gate | commit, push, PR |
+
+## Issue #247 apps/web OpenNext config regression tests（2026-05-26）
+
+| workflow root | `docs/30-workflows/completed-tasks/issue-247-apps-web-opennext-config-regression-tests/` |
+| status | `implemented_local_evidence_captured / implementation / NON_VISUAL / Phase 13 pending` |
+| issue | #247; commit / push / PR / issue mutation are user-gated |
+| purpose | OpenNext Workers wrangler config drift を focused Vitest + CI step で fail-fast にする |
+| implementation | `apps/web/__tests__/opennext-config-regression.spec.ts`, `.github/workflows/ci.yml` |
+| contract | `pages_build_output_dir` 禁止、`.open-next` assets binding、package deploy script 禁止、`.assetsignore` required lines |
+| system spec | `.claude/skills/aiworkflow-requirements/references/deployment-cloudflare-opennext-workers.md` |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-247-apps-web-opennext-config-regression-tests-artifact-inventory.md` |
 
 ## Issue #891 member detail kind exhaustiveness guard（2026-05-25）
 
@@ -214,21 +229,6 @@
 | lessons | `.claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-admin-section-error-retry-2026-05.md`（L-ASR-001..005）、`.claude/skills/task-specification-creator/lessons-learned/rsc-client-boundary-callback-injection.md`（L-RSC-001..005） |
 | local evidence | focused Vitest 19+2 PASS including `jest-axe` (AC-3/AC-4 transition assertion 追加); root lint/typecheck PASS; design-token and client-boundary grep PASS |
 | user gate | commit, push, PR |
-
-## Issue #913 server idempotency key persistence（2026-05-25）
-
-| 項目 | 値 |
-| --- | --- |
-| workflow | `docs/30-workflows/completed-tasks/issue-913-server-idempotency-key-persistence/` |
-| status | `implemented_local_evidence_captured / implementation / NON_VISUAL / implementation_complete_pending_pr` |
-| issue | #913 CLOSED; PR wording is `Refs #913` |
-| parent | `docs/30-workflows/completed-tasks/issue-842-admin-mutation-reliability-policy/` |
-| purpose | Persist and replay admin mutation `Idempotency-Key` requests server-side so client retry/header support is actually enforced by apps/api |
-| implementation | `apps/api/migrations/0021_idempotency_keys.sql`, `apps/api/src/repository/idempotency.repository.ts`, `apps/api/src/middleware/idempotency.ts`, admin route wiring |
-| contract | `(idempotency_key, method, path)` UNIQUE, request fingerprint mismatch 422, in-flight duplicate 409, completed JSON replay, 5xx/non-JSON/64KB+ rollback |
-| evidence | api typecheck PASS, api lint PASS, focused middleware Vitest 3 PASS, focused repository Vitest 3 PASS |
-| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-913-server-idempotency-key-persistence-artifact-inventory.md` |
-| user gate | D1 migration apply, deploy, staging runtime replay proof, commit, push, PR |
 
 ## Issue #880 public segment error/loading boundary（2026-05-24）
 
@@ -858,40 +858,9 @@
 | source | Issue #842 CLOSED; PR wording is `Refs #842`; one-pager `docs/30-workflows/completed-tasks/admin-mutation-timeout-policy.md` consumed |
 | scope | `useAdminMutation` に timeout / idempotent retry / idempotency-key / 404 policy / abort を集約し、`useConfirmDialog` close から cancel callback を渡す実装仕様 |
 | implementation targets | `apps/web/src/features/admin/hooks/useAdminMutation.ts`, `useConfirmDialog.ts`, hook barrel/tests, legacy `apps/web/src/lib/useAdminMutation.ts` delete |
-| stale optimization | Issue #842 provided the `treat404AsSuccess` hook policy without forcing caller migration; Issue #911 now consumes it in `MeetingAttendancePanel.tsx` for unregister 404 convergence |
+| stale optimization | current `MeetingAttendancePanel.tsx` is POST-only; DELETE 404 success-relaxation is provided as hook policy but no caller is forcibly migrated in the spec-created cycle |
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-842-admin-mutation-reliability-policy-artifact-inventory.md` |
 | user gate | commit, push, PR, staging runtime evidence |
-
-## Issue #912 idempotent attendance remove retry（2026-05-25）
-
-| 目的 | 参照先 |
-| --- | --- |
-| workflow root | `docs/30-workflows/completed-tasks/issue-912-idempotent-attendance-remove-retry/` |
-| 状態 | `implemented_local_evidence_captured / implementation / NON_VISUAL / focused Vitest PASS / Phase 13 blocked` |
-| source | Issue #912 CLOSED; PR wording is `Refs #912`; source one-pager `docs/30-workflows/completed-tasks/unassigned-task/issue-842-followup-002-idempotent-caller-retry-enablement.md` is marked `consumed_by_issue_912_local_implemented_pending_pr` and will move to consumed after commit/PR |
-| scope | `MeetingPanel` attendance remove path を existing DELETE endpoint + `useAdminMutation` retry/idempotencyKey opt-in へ切替。add path は POST + `mutationFn` 維持 |
-| implementation targets | `apps/web/src/lib/admin/api.ts`, `apps/web/src/components/admin/MeetingPanel.tsx`, `apps/web/src/lib/admin/__tests__/api.spec.ts`, `apps/web/src/components/admin/__tests__/MeetingPanel.component.spec.tsx` |
-| evidence | `docs/30-workflows/completed-tasks/issue-912-idempotent-attendance-remove-retry/outputs/phase-11/evidence/focused-vitest.log`（97 tests PASS） |
-| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-912-idempotent-attendance-remove-retry-artifact-inventory.md` |
-| lessons | `.claude/skills/aiworkflow-requirements/references/lessons-learned-issue-912-idempotent-attendance-remove-retry-2026-05.md` |
-| user gate | commit, push, PR, staging/runtime evidence |
-
-## Issue #911 meeting attendance unregister UI（2026-05-25）
-
-| 目的 | 参照先 |
-| --- | --- |
-| workflow root | `docs/30-workflows/completed-tasks/issue-911-meeting-attendance-unregister-ui-treat404-wiring/` |
-| 状態 | `implemented_local_evidence_captured / implementation / NON_VISUAL / Phase 13 pending_user_approval` |
-| parent | `docs/30-workflows/completed-tasks/issue-842-admin-mutation-reliability-policy/` |
-| scope | `/admin/meetings/[id]` attendance candidate row に出席解除 CTA、unregister mutation、UI logger event を追加し、解除 404 race を success-equivalent に収束 |
-| implementation | `apps/web/app/(admin)/admin/meetings/[id]/MeetingAttendancePanel.tsx` |
-| tests | `apps/web/app/(admin)/admin/meetings/[id]/__tests__/MeetingAttendancePanel.spec.tsx` |
-| API contract | Existing `POST /api/admin/meetings/:id/attendances` `{ memberId, attended:false }`; no new DELETE endpoint / no D1 schema diff |
-| hook policy | Existing `useAdminMutation` `treat404AsSuccess: { toast: "既に解除済みです" }`; hook implementation unchanged |
-| evidence | Phase 11 local logs: MeetingAttendancePanel 14 tests PASS, useAdminMutation 33 tests PASS, web typecheck/lint PASS, production DELETE caller grep 0 件 |
-| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-911-meeting-attendance-unregister-ui-treat404-wiring-artifact-inventory.md` |
-| lessons | `.claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-issue-911-meeting-attendance-unregister-ui-2026-05.md` |
-| user gate | commit, push, PR, staging runtime smoke |
 
 ## Issue #274 public pages OGP / sitemap / robots（2026-05-17）
 
@@ -2734,7 +2703,7 @@ Magic Link メール送信の env 名を、実装と aiworkflow 正本に合わ�
 | Auth.js `/me` session resolver follow-up | `docs/30-workflows/06b-A-me-api-authjs-session-resolver/`（implemented-local / implementation / NON_VISUAL。`apps/api/src/middleware/me-session-resolver.ts` が Auth.js cookie / Bearer JWT を `AUTH_SECRET` で検証し、`apps/api/src/index.ts` の `/me` mount に接続済み。staging / production live smoke は 09a / 09c gate） |
 | profile self-service request UI follow-up | `docs/30-workflows/completed-tasks/06b-B-profile-self-service-request-ui/`（implemented-local / implementation / runtime-evidence-blocked / VISUAL_ON_EXECUTION。`/profile` に `RequestActionPanel`、公開停止/再公開申請 dialog、退会申請 dialog、同一 origin proxy、`/api/me/visibility-request` / `/api/me/delete-request` client helper を追加済み。ログイン済み実 screenshot は runtime capture 待ち） |
 | profile logged-in visual evidence follow-up | `docs/30-workflows/completed-tasks/06b-C-profile-logged-in-visual-evidence/`（implementation-prepared / runtime evidence pending / M-08〜M-10, M-14〜M-16） |
-| remaining follow-up | `docs/30-workflows/unassigned-task/UT-06B-MAGIC-LINK-RETRY-AFTER.md` |
+| Magic Link 429 Retry-After follow-up | `docs/30-workflows/completed-tasks/issue-275-magic-link-429-retry-after/`（implemented_local_evidence_captured / implementation / NON_VISUAL。`MagicLinkRateLimitedError` + server-truth cooldown 実装、focused specs PASS。source `UT-06B-MAGIC-LINK-RETRY-AFTER` は consumed） |
 
 ---
 
@@ -4089,4 +4058,16 @@ UT-17 Cloudflare Notifications → alert-relay → Slack 経路を、既存 API 
 | `docs/30-workflows/completed-tasks/issue-863-admin-error-alert-policy-iac/` | Issue #863 admin error boundary Sentry alert IaC workflow | admin `error.boundary.caught` alert policy、Sentry tag 昇格、drift CI、runbook を確認する時 |
 | `infra/sentry-alerts/` | Sentry alert policy IaC for admin runtime error detection | Sentry alert rule manifest / CLI / drift diff を確認・更新する時 |
 | `references/workflow-issue-863-admin-error-alert-policy-iac-artifact-inventory.md` | Issue #863 workflow artifact inventory | 同 wave 変更棚卸し時 |
+### Issue #255 coverage threshold sync lint（2026-05-26）
+
+| key | value |
+| --- | --- |
+| workflow | `docs/30-workflows/completed-tasks/issue-255-coverage-threshold-sync-lint/` |
+| state | `implemented_local_evidence_captured / implementation / NON_VISUAL` |
+| purpose | aiworkflow SSOT / `scripts/coverage-guard.sh` / optional `codecov.yml` の coverage threshold drift を CI で検出 |
+| implementation | `scripts/coverage-threshold-lint.ts`, `scripts/__tests__/coverage-threshold-lint.spec.ts`, `.github/workflows/coverage-threshold-lint.yml`, `package.json#lint:coverage-threshold` |
+| evidence | `outputs/phase-11/evidence/lint-coverage-threshold.log`, `outputs/phase-11/evidence/vitest-coverage-threshold-lint.log` |
+| source task | `docs/30-workflows/completed-tasks/task-codecov-threshold-sync-lint-001.md` |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-255-coverage-threshold-sync-lint-artifact-inventory.md` |
+| user-gated | commit, push, PR, GitHub Actions runtime observation |
 | Issue #903 member AppShell runtime evidence | `/profile` under `(member)` route group; EV-13/EV-16 present | `docs/30-workflows/completed-tasks/issue-903-parallel-03-followup-005-member-runtime-evidence/`, `references/workflow-issue-903-parallel-03-followup-005-member-runtime-evidence-artifact-inventory.md` |

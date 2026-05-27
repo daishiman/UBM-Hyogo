@@ -2,7 +2,6 @@
 // AC-5 / AC-6: sync_jobs running -> succeeded/failed の遷移と 同種 running の 409 を expose する。
 import { Hono } from "hono";
 import { adminGate, type AdminGateEnv } from "../../middleware/admin-gate";
-import { idempotency } from "../../middleware/idempotency";
 import { createGoogleFormsClient } from "@ubm-hyogo/integrations-google";
 import {
   runSchemaSync,
@@ -19,7 +18,6 @@ interface AdminSyncSchemaEnv extends AdminGateEnv {
   readonly GOOGLE_PRIVATE_KEY?: string;
   readonly FORMS_SA_EMAIL?: string;
   readonly FORMS_SA_KEY?: string;
-  readonly IDEMPOTENCY_TTL_SECONDS?: string;
 }
 
 const base64UrlEncode = (bytes: Uint8Array): string => {
@@ -96,7 +94,7 @@ export const createAdminSyncSchemaRoute = (
   depsFactory: SchemaSyncDepsFactory = makeDefaultSchemaSyncDeps,
 ) => {
   const app = new Hono<{ Bindings: AdminSyncSchemaEnv }>();
-  app.post("/sync/schema", adminGate, idempotency(), async (c) => {
+  app.post("/sync/schema", adminGate, async (c) => {
     let deps: SchemaSyncDeps;
     try {
       deps = depsFactory(c.env);
