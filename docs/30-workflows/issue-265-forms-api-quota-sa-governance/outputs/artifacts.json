@@ -1,0 +1,84 @@
+{
+  "workflow_id": "issue-265-forms-api-quota-sa-governance",
+  "feature": "issue-265-forms-api-quota-sa-governance",
+  "status": "spec_created",
+  "created": "2026-05-26T00:00:00.000+09:00",
+  "lastUpdated": "2026-05-26T00:00:00.000+09:00",
+  "metadata": {
+    "taskId": "TASK-ISSUE-265-FORMS-API-QUOTA-SA-GOVERNANCE-001",
+    "taskType": "docs-only",
+    "visualEvidence": "NON_VISUAL",
+    "implementationCategory": "docs-only-governance",
+    "implementation_mode": "create",
+    "workflow_state": "spec_created",
+    "scope": "Standalone governance doc for Forms API quota allocation, Service Account JSON separation policy, alternative GCP project switch trigger, and ops runbook. Replaces the original UT-03 handoff (UT-03 CLOSED).",
+    "canonical_root": "docs/30-workflows/issue-265-forms-api-quota-sa-governance",
+    "related_issue": "#265",
+    "source_unassigned_task": "docs/30-workflows/unassigned-task/U-UT01-06-gcp-quota-allocation-handoff.md",
+    "parent_task": "UT-01 sheets-d1-sync-design (CLOSED, superseded by Google Forms API surface)",
+    "related_completed_tasks": [
+      "docs/30-workflows/completed-tasks/ut-01-sheets-d1-sync-design",
+      "docs/30-workflows/completed-tasks/ut-03-sheets-api-auth-setup",
+      "docs/30-workflows/completed-tasks/01c-parallel-google-workspace-bootstrap",
+      "docs/30-workflows/completed-tasks/01b-parallel-zod-view-models-and-google-forms-api-client"
+    ],
+    "runtime_boundary": "Spec authoring + standalone governance doc only. Runtime quota backoff is already implemented (apps/api/src/sync/sheets-client.ts and apps/api/src/jobs/sync-forms-responses.ts). No code changes. The implementation cycle finalizes AC-1..AC-5 doc deliverables, secret/stale-ref grep, source unassigned consumed trace, and aiworkflow index sync. Issue #265 remains CLOSED per user directive.",
+    "implementation_files": [],
+    "test_files": [],
+    "verify_commands": [
+      "pnpm verify:phase12-compliance",
+      "pnpm gate-metadata:validate --require-gates-for-changed docs/30-workflows/issue-265-forms-api-quota-sa-governance/artifacts.json docs/30-workflows/issue-265-forms-api-quota-sa-governance/outputs/artifacts.json",
+      "grep -rnE 'AIza[0-9A-Za-z_-]{30,}|ya29\\.[0-9A-Za-z_-]+|BEGIN PRIVATE KEY|[a-z0-9-]+@[a-z0-9-]+\\.iam\\.gserviceaccount\\.com' docs/30-workflows/issue-265-forms-api-quota-sa-governance/"
+    ],
+    "phase12_strict_outputs": [
+      "outputs/phase-12/main.md",
+      "outputs/phase-12/implementation-guide.md",
+      "outputs/phase-12/system-spec-update-summary.md",
+      "outputs/phase-12/documentation-changelog.md",
+      "outputs/phase-12/unassigned-task-detection.md",
+      "outputs/phase-12/skill-feedback-report.md",
+      "outputs/phase-12/phase12-task-spec-compliance-check.md"
+    ],
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/issue-265-forms-api-quota-sa-governance/outputs/phase-12/phase12-task-spec-compliance-check.md",
+        "approver": "daishiman",
+        "notes": "spec authoring + canonical 9 headings + strict 7 物理配置 + AC-1..AC-5 を Forms API 文脈に再フレームしたことを user 確認後に completed 昇格"
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/issue-265-forms-api-quota-sa-governance/outputs/phase-11/phase-11.md",
+        "approver": "daishiman",
+        "notes": "AC-1 (quota allocation table) / AC-2 (SA separation policy) / AC-3 (project switch trigger) / AC-4 (ops runbook) の本文化を実装サイクルで実走"
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/issue-265-forms-api-quota-sa-governance/outputs/phase-11/phase-11.md",
+        "approver": "daishiman",
+        "notes": "AC-5 secret-grep（SA email / project ID / API Token / private key の実値非混入）+ stale-ref grep（Sheets API 文脈の残置検出）を実装サイクルで実走"
+      }
+    ]
+  },
+  "phases": [
+    { "id": 1, "name": "要件定義", "status": "completed", "path": "outputs/phase-1/phase-1.md" },
+    { "id": 2, "name": "既存資産棚卸し", "status": "completed", "path": "outputs/phase-2/phase-2.md" },
+    { "id": 3, "name": "設計", "status": "completed", "path": "outputs/phase-3/phase-3.md" },
+    { "id": 4, "name": "テスト戦略（docs-only 検証 3 件）", "status": "completed", "path": "outputs/phase-4/phase-4.md" },
+    { "id": 5, "name": "doc 執筆手順", "status": "completed", "path": "outputs/phase-5/phase-5.md" },
+    { "id": 6, "name": "依存タスク連携", "status": "completed", "path": "outputs/phase-6/phase-6.md" },
+    { "id": 7, "name": "互換性 / 既存資産更新方針", "status": "completed", "path": "outputs/phase-7/phase-7.md" },
+    { "id": 8, "name": "運用 / リスク", "status": "completed", "path": "outputs/phase-8/phase-8.md" },
+    { "id": 9, "name": "観測 / SLO 参照", "status": "completed", "path": "outputs/phase-9/phase-9.md" },
+    { "id": 10, "name": "go/no-go", "status": "completed", "path": "outputs/phase-10/phase-10.md" },
+    { "id": 11, "name": "手動テスト / NON_VISUAL 証跡", "status": "completed", "path": "outputs/phase-11/phase-11.md" },
+    { "id": 12, "name": "完了確認（strict 7 + canonical 9 headings）", "status": "completed", "path": "outputs/phase-12/phase-12.md" },
+    { "id": 13, "name": "クロージング", "status": "pending_user_approval", "path": "outputs/phase-13/phase-13.md" }
+  ]
+}

@@ -536,6 +536,34 @@ issue-894（admin topbar breadcrumb 二重描画解消）実装で得た知見�
 
 - exempt path を「pattern template として汎用化したいから」と理由なく広げる（例: `apps/web/src/components/**/*.svg`）。**brand-icon 専用 dir に物理的に閉じ込める**こと。CONST_007 (unassigned-task は実装過程で実際に発見されたもののみ) に準拠し、speculative な exempt 拡張は避ける。
 
+## HTTP status 別 typed error / server-truth countdown パターン（Issue #275 由来）
+
+429 等の retry 可能 status は「失敗」ではなく「server-truth に従った待機」として扱う必要があり、独立 error class や catch-all 分岐に流すと UI invariant が崩れる。Issue #275（Magic Link 429 Retry-After UI 復元）で確立した分離パターンを spec に反映する。
+
+### L-I275-001 (typed error は base error の subclass にする)
+
+- **NG**: `class RateLimitedError extends Error` のように独立 class にして、既存 callsite の `catch (e instanceof RequestError)` から漏れる。
+- **OK**: `class MagicLinkRateLimitedError extends MagicLinkRequestError` として subclass 化し、既存 catch 互換を**型階層で**担保する。
+- **Why**: catch 互換性は spec 文言ではなく型階層で保証する。Phase 3 design-review に `extends` 関係を明示し、Phase 4 test plan に `toBeInstanceOf(BaseError)` と `toBeInstanceOf(SpecificError)` の両方を入れる。
+
+### L-I275-002 (Retry-After 三段 precedence)
+
+- **NG**: header のみ / body のみで `retryAfterSec` を解決する。proxy/CDN header と middleware body のどちらか片方を取りこぼす。
+- **OK**: `Retry-After` header → JSON body `retryAfterSec` → default 60 秒の三段 precedence。負数・非整数・NaN は default にフォールバック。
+- **Why**: server-truth を取りこぼさず、かつ middleware/CDN 構成変更にロバスト。parser は pure function で export し unit test 4 ケース（header/body/both/none）で網羅。callsite 1 件なら util 化せず YAGNI 原則を守る。
+
+### L-I275-003 (rate-limit catch は早期 return / URL state 据え置き)
+
+- **NG**: 429 を一般 error 分岐へ流し `replaceLoginState("error")` で `?state=error` に遷移、または `sent` に遷移して「送信完了」と誤表示。
+- **OK**: catch ブロック先頭で `if (e instanceof RateLimitedError) { setCooldown(e.retryAfterSec); return; }` の早期 return。URL state は `input` のまま、`router.refresh()` も呼ばない。
+- **Why**: rate-limit は失敗でも完了でもなく「待機」。Phase 4 component test に「429 で URL state が変化しない」「`router.refresh` が呼ばれない」assertion を必ず含め、No-Go 条件に「429 で `?state=error|sent` 遷移」を明示する。
+
+### Phase 12 への反映項目
+
+- **implementation-guide.md**: 「中学生向け説明」で「429 は失敗じゃなくて『あと何秒待って』のサイン」「待つ間はボタンを押せなくするだけで、エラー画面は出さない」の二段で説明。
+- **system-spec-update-summary.md**: API contract spec を変更しない場合でも、client lib の typed error 追加と UI state machine 不変条件は同サイクルで spec 同期する。
+- **unassigned-task-detection.md**: reload 跨ぎ永続化 / 共通 Retry-After util / 実 API E2E は callsite と運用負荷が見合うまで起票しない（YAGNI）。
+
 ---
 
 ## CSP directive 撤去パターン（issue-924 L-I924-001..005 汎化）
@@ -593,6 +621,20 @@ CSP の `style-src-attr` や `script-src-attr` 等 *-attr 系 directive を撤�
 - **L-I911-003**: component spec は toast だけでなく payload、DOM state、CTA 消滅/出現を assert する。
 - **L-I911-004**: 親 workflow に「caller 未移行」などの stale note がある場合、実装 wave で正本 index も補正する。
 - **L-I911-005**: Phase 12 optional summary (`phase-12.md`) と strict 7 inventory を混同しない。
+
+---
+
+## iterated sync-merge wave での lessons union 安定化（dev sync-merge / 2026-05-27 / Issue #275 4-wave 連続取り込み）
+
+同一 feature branch で複数回 dev 取り込みを繰り返す場合、**初回の union manual resolve で構造を安定化させると 2 回目以降は ort strategy が自動 union**する。`patterns-lessons-and-pitfalls.md` のような追記専用 lessons ファイルでこの効果が顕著。
+
+- **L-ITERSYNC-001 (初回 union を構造化する)**: HEAD と dev が同じ lessons ファイルへ別 section を追記して conflict した初回は、conflict marker 削除に加え **両 section を `---` 区切り + `## <Issue 名>` H2 で分離**する。続く wave で dev 側が更に section を追加しても、独立 H2 ブロック構造のため ort が anchor を正しく特定し自動 union できる。
+- **L-ITERSYNC-002 (5-wave 連続 sync:resolve 成立条件)**: 解消対象が `indexes/keywords.json`（derived・`--ours` + rebuild）と doc 系 union ターゲットのみで、ソース実装に手が入らない wave 構成であれば、`pnpm sync:resolve` + ort で **5 連続 sprint** まで成立することを実証（39c4bf962→07b8843e8→ab0450fb3→cf155ca2f→a4df62f82→a1e3dd135→[5th merge], PR #961）。5 波目は `keywords.json` 単独 conflict、lessons ファイル系は L-ITERSYNC-001 構造化済みのため ort 自動 union。aiworkflow-requirements の [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-013 (4 回目確認) と整合。
+- **L-ITERSYNC-003 (長 session の disk hygiene)**: 同 PR 内で 4 回以上の sync-merge を回す long-running session では `/private/tmp/claude-*` の tool output cache が hundred-MB 規模に膨らみ、`git diff` 等の付随コマンドが ENOSPC で fail することがある。Phase 12 implementation-guide の operational note に「複数 wave sync 前後の `find /private/tmp/claude-* -name "*.output" -mtime +1 -delete` 実行」を追記推奨。これは spec の正本ではなく runner 環境 hygiene。
+
+### Anti-pattern
+- 2 回目以降の sync-merge で union manual resolve を再実行する（初回安定化済みなら不要 = 無駄な merge commit）。
+- ENOSPC を `pnpm sync:resolve` 失敗と誤帰責し、resolver の bug として起票する（実体は環境側の cache 飽和）。
 
 ---
 
