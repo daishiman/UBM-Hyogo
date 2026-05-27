@@ -11,6 +11,7 @@ import { MemberAvatar } from "./MemberAvatar";
 import { MemberPublishSwitch } from "./MemberPublishSwitch";
 import { MemberStateChipRow } from "./MemberStateChip";
 import { TagPill } from "../_shared/TagPill";
+import { MemberDiagnosticsPanel } from "./MemberDiagnosticsPanel";
 
 export interface MemberDrawerProps {
   readonly memberId: string;
@@ -303,6 +304,8 @@ function MemberDrawerBody({ memberId, detail, onUpdated }: MemberDrawerBodyProps
           )}
         </ul>
       </section>
+
+      <MemberDiagnosticsPanel memberId={memberId} />
     </div>
   );
 }

@@ -123,6 +123,10 @@ jobs:
         if: steps.ready.outputs.value == 'true'
         run: pnpm typecheck
 
+      - name: OpenNext config regression guard
+        if: steps.ready.outputs.value == 'true'
+        run: pnpm --filter @ubm-hyogo/web exec vitest run --root=../.. --config=vitest.config.ts apps/web/__tests__/opennext-config-regression.spec.ts
+
       - name: Lint
         if: steps.ready.outputs.value == 'true'
         run: pnpm lint

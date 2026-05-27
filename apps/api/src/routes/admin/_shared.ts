@@ -13,7 +13,6 @@ export interface AdminRouteEnv extends AdminGateEnv, RequireAuthEnv {
   readonly MAIL_PROVIDER_KEY?: string;
   readonly MAIL_FROM_ADDRESS?: string;
   readonly OPS_NOTIFICATION_EMAIL?: string;
-  readonly IDEMPOTENCY_TTL_SECONDS?: string;
 }
 
 // ISO8601 with offset を保証する。Date#toISOString() は 'Z' を返すが

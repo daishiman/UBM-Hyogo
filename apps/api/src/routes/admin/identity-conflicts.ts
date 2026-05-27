@@ -11,7 +11,6 @@ import {
   MergeIdentityRequestZ,
   DismissIdentityConflictRequestZ,
 } from "@ubm-hyogo/shared";
-import { idempotency } from "../../middleware/idempotency";
 import { requireAdmin, type RequireAuthVariables } from "../../middleware/require-admin";
 import { ctx } from "../../repository/_shared/db";
 import {
@@ -35,7 +34,6 @@ const ListQueryZ = z.object({
 export const createAdminIdentityConflictsRoute = () => {
   const app = new Hono<{ Bindings: AdminRouteEnv; Variables: RequireAuthVariables }>();
   app.use("*", requireAdmin);
-  app.use("*", idempotency());
 
   app.get("/identity-conflicts", async (c) => {
     const parsed = ListQueryZ.safeParse({
