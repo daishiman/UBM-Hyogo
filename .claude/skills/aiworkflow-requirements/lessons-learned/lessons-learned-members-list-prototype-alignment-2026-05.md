@@ -41,6 +41,20 @@
 - **解決**: focused spec は「route から実際に到達する primitive」のみを import する。legacy 互換維持の `MemberTable` には独立した `MemberTable.spec.tsx` を残し、prototype 寄せ assertion を混ぜない。
 - **逆パターン禁止**: 「念のため legacy も assert する」は spec の責務境界を壊す。互換確認は独立 spec で行う。
 
+## L-MLPA-006 — DOM 構造置換後の legacy critical-route e2e spec drift
+
+- **学び**: prototype alignment で `MemberTable` (`<table data-component="member-table">`) を `MemberGrid` (`<ul data-component="member-grid" data-density="list">`) に置換した際、focused spec (`members-prototype-alignment.spec.ts`) は更新したが、別 ファイルにある legacy critical-route spec `public-top-and-list.spec.ts:65` が旧 selector を残しており、PR 後の `e2e-tests-coverage-gate` で 3 browser project 全件 FAIL を起こした。
+- **解決**: `data-component="*"` のような stable selector を置換する場合、`apps/web/playwright/**` 全体を grep して旧 selector の残存を回収する。同一 wave で legacy critical-route spec の assertion も `<新 selector>` に同期する。
+- **適用条件**: `data-component="*"` / `data-role="*"` / DOM tag (`table` / `ul` / `section`) を伴うコンポーネント置換。
+- **逆パターン禁止**: 「focused spec を更新したから他 spec はそのうち気づく」と先送りすると、CI が PR 直前まで通って merge ブロックされる。同一 commit / 同一 wave で全 spec 同期する。
+
+## L-MLPA-007 — visual baseline は DOM 寸法変動時に必ず stale 化
+
+- **学び**: prototype alignment で page-head / filter chip layout が変わると `full-visual-{root,members}-{desktop,tablet,mobile}.png` の expected height がずれ、`visual-full` / `playwright-smoke visual (chromium, 4 screens)` が 100% fail する。
+- **解決**: DOM 構造を変える PR は同一 wave で `playwright-visual-baseline-update.yml` (`workflow_dispatch` + `visual-baseline-approval` environment) を user-gate で trigger し、`-linux.png` baseline を更新する。`.baseline-meta.json` の `captured_at_commit_sha` を新 HEAD に合わせる。
+- **適用条件**: `apps/web/app/(public)/**` / `apps/web/src/components/public/**` の DOM 構造変更を含む PR。
+- **逆パターン禁止**: ローカル macOS で `--update-snapshots` し commit してはならない（`-darwin.png` が混入し Linux runner で再失敗する）。
+
 ## 関連リソース
 
 - `docs/30-workflows/completed-tasks/members-list-prototype-alignment/outputs/phase-12/implementation-guide.md`

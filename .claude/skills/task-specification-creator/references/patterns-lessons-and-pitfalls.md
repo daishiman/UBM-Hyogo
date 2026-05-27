@@ -751,3 +751,20 @@ dev sync-merge で **HEAD = route group rename（`app/<route>/` → `app/(group)
 - `gh pr checks` を見ずに「CI 失敗があるはず」と推測修正を積む → 不要コミットで PR review コストを増やす
 - no-op だったので lesson を残さない → 次回同種指示で同じ確認手順を再構築する無駄が発生する
 - `gh pr checks` が pass だけを見て mergeable を見ない → `DIRTY` 状態の PR を「green」と誤報告し、dev divergence の再 sync が遅れる
+
+## DOM 構造置換 PR の同一 wave spec 同期と visual baseline 更新（prototype alignment L-MLPA-006..007 汎化）
+
+`apps/web/app/**` の Server Component で DOM tag や `data-component="*"` を置換する PR（prototype alignment / primitive 統一 / component 置換）は、**focused spec だけ更新して legacy critical-route spec の selector を残置**すると `e2e-tests-coverage-gate` が PR 直前に block する。同時に DOM 寸法が変わるため `playwright-visual-full` / `playwright-smoke visual` の `-linux.png` baseline も必ず stale 化する。仕様書 Phase 11/12 で以下を契約する。
+
+- **L-DOMSWAP-001 (selector grep gate)**: `data-component` / `data-role` / tag 名（`table` / `ul` / `section`）を置換する Phase 11 では、`apps/web/playwright/**` 全体を旧 selector で grep し残存ゼロを evidence に添付する。focused spec のみ更新で「他 spec は次回直す」は禁止。
+- **L-DOMSWAP-002 (同一 wave commit 同期)**: 旧 selector → 新 selector への置換は **component 実装 commit と同一 commit / 同一 PR** で完結させる。PR 分割すると後発 PR が CI block を起こす。
+- **L-DOMSWAP-003 (visual baseline 更新は user-gated workflow_dispatch)**: 寸法変動を伴う PR は同一 wave で `playwright-visual-baseline-update.yml` (`workflow_dispatch` + `visual-baseline-approval` environment) を user 承認で trigger する。Phase 12 implementation-guide に「baseline 再生成は別 workflow 実行・本 PR の commit には含めない」と明示する。
+- **L-DOMSWAP-004 (Linux baseline SoT 維持)**: ローカル macOS で `--update-snapshots` を走らせ `-darwin.png` を commit してはならない（Linux runner で再失敗）。baseline は CI runner の `-linux.png` のみが SoT。
+- **L-DOMSWAP-005 (Phase 13 acceptance gate)**: Phase 13 acceptance に `gh pr checks <PR>` 必須化に加え `gh run list --workflow=playwright-visual-baseline-update.yml --branch=<feature> --limit=1` の確認を組み込み、baseline 再生成 run が PR push より新しいことを verify する。
+
+### Anti-pattern
+
+- focused spec だけ更新して legacy critical-route spec を放置 → CI block で merge 不能
+- DOM 寸法を変える PR で baseline を更新しない → visual diff で 100% fail
+- ローカル `--update-snapshots` の commit → `-darwin.png` 混入で Linux runner 永続 fail
+- visual baseline 更新を「次の PR でまとめてやる」と先送り → 後続 PR が常に visual fail で blocked
