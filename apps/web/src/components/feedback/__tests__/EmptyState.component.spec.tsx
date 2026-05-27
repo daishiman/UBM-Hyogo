@@ -50,4 +50,13 @@ describe("EmptyState", () => {
     expect(link.getAttribute("href")).toBe("/x");
     expect(screen.getByRole("button").textContent).toBe("追加アクション");
   });
+
+  it("renders compact variant marker for filtered list empty states", () => {
+    const { container } = render(<EmptyState title="空です" variant="compact" />);
+    expect(
+      container
+        .querySelector('[data-component="empty-state"]')
+        ?.getAttribute("data-variant"),
+    ).toBe("compact");
+  });
 });

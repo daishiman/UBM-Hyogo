@@ -55,8 +55,12 @@ const isAttendanceVisualSmoke =
   process.env.PLAYWRIGHT_EVIDENCE_TASK === '07c-followup-002' ||
   process.argv.some((arg) => arg.includes('attendance.spec.ts'))
 const isMembersPrototypeAlignment =
+  process.env.PLAYWRIGHT_EVIDENCE_TASK === 'members-list-prototype-alignment' ||
   process.env.PLAYWRIGHT_EVIDENCE_TASK === 'members-page-prototype-alignment' ||
   process.argv.some((arg) => arg.includes('members-prototype-alignment.spec.ts'))
+const isPublicDashboardPrototypeAlignment =
+  process.env.PLAYWRIGHT_EVIDENCE_TASK === 'public-dashboard-prototype-alignment' ||
+  process.argv.some((arg) => arg.includes('public-dashboard-prototype-alignment.spec.ts'))
 
 const EVIDENCE_DIR =
   process.env.PLAYWRIGHT_EVIDENCE_DIR ??
@@ -87,7 +91,9 @@ const EVIDENCE_DIR =
                       : isAttendanceVisualSmoke
                         ? '../../docs/30-workflows/07c-followup-002-attendance-visual-smoke/outputs/phase-11'
                         : isMembersPrototypeAlignment
-                          ? '../../docs/30-workflows/members-page-prototype-alignment/outputs/phase-11'
+                          ? '../../docs/30-workflows/members-list-prototype-alignment/outputs/phase-11'
+                        : isPublicDashboardPrototypeAlignment
+                          ? '../../docs/30-workflows/public-dashboard-prototype-alignment/outputs/phase-11'
                         : isTask18FullVisualEvidence
                           ? '../../docs/30-workflows/task-18-fu-full-visual-regression-suite/outputs/phase-11/evidence'
                           : isTask18RegressionGate
@@ -98,7 +104,10 @@ const shouldStartLocalServer =
   !isStagingSmoke && !isStagingVisual && process.env.PLAYWRIGHT_SKIP_WEB_SERVER !== '1'
 const localBaseURL = process.env.PLAYWRIGHT_BASE_URL || 'http://localhost:3000'
 const localServerReadyURL =
-  isTask18RegressionGate || isAttendanceVisualSmoke || isMembersPrototypeAlignment
+  isTask18RegressionGate ||
+  isAttendanceVisualSmoke ||
+  isMembersPrototypeAlignment ||
+  isPublicDashboardPrototypeAlignment
     ? `${localBaseURL}/login`
     : localBaseURL
 const localPort = new URL(localBaseURL).port || '3000'
