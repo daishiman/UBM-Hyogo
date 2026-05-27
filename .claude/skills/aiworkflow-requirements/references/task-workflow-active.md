@@ -97,7 +97,7 @@
 
 | 項目 | 値 |
 | --- | --- |
-| ステータス | `spec_created / implementation / VISUAL / runtime_pending` |
+| ステータス | `implemented_local_runtime_pending / implementation / VISUAL` |
 | 成果物 | `docs/30-workflows/completed-tasks/issue-901-authenticated-profile-admin-staging-visual/` |
 | Issue | #901 CLOSED。PR 文脈は `Refs #901` のみ |
 | source | `docs/30-workflows/completed-tasks/UT-DSF-07-FU-01-authenticated-profile-admin-staging-visual.md` consumed |
@@ -419,6 +419,20 @@
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-members-page-prototype-alignment-artifact-inventory.md` |
 | user gate | staging deploy, production-equivalent visual evidence, commit, push, PR |
 
+### members-list-prototype-alignment（2026-05-26）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / VISUAL / visual_runtime_pending` |
+| 成果物 | `docs/30-workflows/completed-tasks/members-list-prototype-alignment/` |
+| 目的 | `/members` list density を `MemberGrid` 一本へ統一し、現行 `PublicMemberListItem` contract 内で prototype alignment を進める |
+| implementation targets | `apps/web/app/(public)/members/page.tsx`, `apps/web/src/components/public/{MemberCard,MemberGrid,MemberFilters.client,TagPicker.client}.tsx`, `apps/web/src/components/feedback/EmptyState.tsx`, `apps/web/src/components/ui/{Icon.tsx,icons.ts}`, `apps/web/src/styles/legacy-public.css` |
+| boundary | `GET /public/members` response schema, D1, Auth.js, Google Form, Cloudflare binding は不変更。`MemberTable` は legacy 互換として残置し `/members` route から非参照。 |
+| evidence | `pnpm --filter @ubm-hyogo/web typecheck` PASS、web Vitest 157 files / 1146 tests PASS。Playwright visual は local webServer readiness で pending。 |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-members-list-prototype-alignment-artifact-inventory.md` |
+| lessons | `.claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-members-list-prototype-alignment-2026-05.md` (L-MLPA-001..005) |
+| user gate | commit, push, PR, staging deploy |
+
 ### Issue #827 member detail adapter and visibility defense（2026-05-23）
 
 | 項目 | 値 |
@@ -541,6 +555,19 @@
 | Phase 12 | strict 7 outputs + canonical compliance check present |
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-ui-prototype-alignment-artifact-inventory.md` |
 | user gate | authenticated runtime screenshots, staging refresh, commit, push, PR |
+
+### admin-ui-prototype-alignment follow-up 001 members fetch and visual（2026-05-26）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `spec_created / implementation / VISUAL / runtime_pending` |
+| 成果物 | `docs/30-workflows/completed-tasks/admin-ui-prototype-alignment-followup-001-members-fetch-and-visual/` |
+| parent | `docs/30-workflows/admin-ui-prototype-alignment/` |
+| 目的 | `/admin/members` 一覧 + drawer の prototype alignment と `ADMIN_FETCH_404` root-cause repair を同一 implementation cycle で実施済み |
+| implemented targets | `apps/web/src/lib/admin/server-fetch.ts`, `apps/web/app/api/admin/[...path]/route.ts`, `apps/api/src/routes/admin/members.ts`, `_members/*`, `members-view-model.ts`, `packages/shared/src/{types,zod}/viewmodel.*` |
+| Phase 12 | strict 7 outputs + root/output artifacts parity present |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-ui-prototype-alignment-followup-001-members-fetch-and-visual-artifact-inventory.md` |
+| user gate | staging deploy, baseline PNG capture, commit, push, PR |
 
 ### admin-ui-prototype-alignment follow-up 002 section error retry（2026-05-25）
 

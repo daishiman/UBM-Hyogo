@@ -1,11 +1,21 @@
-// task-15: 1 会員詳細 drawer（identity / answers / audit / notes）
+// followup-001 T-5.6: drawer をプロトタイプ構成に刷新。
+// head: Avatar + 名前 + email mono + responseId
+// body: VISIBILITY セクション / TAGS セクション / FORM RESPONSE KVList / DELETED ブロック
+// foot: 退会処理(danger) / 閉じる / 保存(primary)
+// mutation は useAdminMutation 経由（不変条件 #10）、入力は FormField 経由（#9）
 "use client";
-import Link from "next/link";
 import { useEffect, useState } from "react";
 import type { AdminMemberDetailView } from "@ubm-hyogo/shared";
+import { Avatar } from "../../../../components/ui/Avatar";
+import { Button } from "../../../../components/ui/Button";
+import { Chip } from "../../../../components/ui/Chip";
 import { Drawer } from "../../../../components/ui/Drawer";
-import { formatJstDateTime } from "../../../../lib/format/datetime";
+import { FormField } from "../../../../components/ui/FormField";
+import { KVList } from "../../../../components/ui/KVList";
+import { Switch } from "../../../../components/ui/Switch";
+import { Textarea } from "../../../../components/ui/Textarea";
 import { useAdminMutation } from "../../hooks/useAdminMutation";
+import { stringHashHue, toMemberDetail, type MemberDetail } from "../../adapters/members-view-model";
 import { MemberDiagnosticsPanel } from "./MemberDiagnosticsPanel";
 
 export interface MemberDrawerProps {
@@ -21,18 +31,19 @@ function maskEmail(email: string): string {
 }
 
 export function MemberDrawer({ memberId, onClose }: MemberDrawerProps) {
-  const [data, setData] = useState<AdminMemberDetailView | null>(null);
+  const [view, setView] = useState<AdminMemberDetailView | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [memo, setMemo] = useState<string>("");
 
   useEffect(() => {
     let cancelled = false;
-    setData(null);
+    setView(null);
     setError(null);
     fetch(`/api/admin/members/${encodeURIComponent(memberId)}`, { cache: "no-store" })
       .then(async (r) => {
         if (!r.ok) throw new Error(`HTTP ${r.status}`);
         const j = (await r.json()) as AdminMemberDetailView;
-        if (!cancelled) setData(j);
+        if (!cancelled) setView(j);
       })
       .catch((e: unknown) => {
         if (!cancelled) setError(e instanceof Error ? e.message : "fetch failed");
@@ -42,165 +53,207 @@ export function MemberDrawer({ memberId, onClose }: MemberDrawerProps) {
     };
   }, [memberId]);
 
+  const detail: MemberDetail | null = view ? toMemberDetail(view) : null;
+  const isPublic = view ? view.status.publishState === "public" : false;
+
+  const publishMutation = useAdminMutation<{ ok: boolean }>(
+    `/api/admin/members/${encodeURIComponent(memberId)}/publish`,
+    "PATCH",
+    {
+      refreshOnSuccess: true,
+      successMessage: () => "✓ 公開状態を更新しました",
+    },
+  );
+
+  const deleteMutation = useAdminMutation<{ ok: boolean }>(
+    `/api/admin/members/${encodeURIComponent(memberId)}`,
+    "DELETE",
+    {
+      refreshOnSuccess: true,
+      successMessage: () => "✓ 退会処理しました",
+      onSuccess: () => onClose(),
+    },
+  );
+
+  const saveMutation = useAdminMutation<{ ok: boolean }>(
+    `/api/admin/members/${encodeURIComponent(memberId)}`,
+    "PATCH",
+    {
+      refreshOnSuccess: true,
+      successMessage: () => "✓ 保存しました",
+      onSuccess: () => onClose(),
+    },
+  );
+
   return (
     <Drawer open onClose={onClose} title="会員詳細">
       {error ? (
         <p role="alert" className="text-sm text-[var(--ubm-color-danger)]">
           読み込み失敗: {error}
         </p>
-      ) : !data ? (
+      ) : !view || !detail ? (
         <p role="status" className="text-sm text-[var(--ubm-color-text-muted)]">
           読み込み中…
         </p>
       ) : (
-        <div className="flex flex-col gap-4 text-sm">
-          <section>
-            <h3 className="text-xs font-semibold uppercase tracking-wide text-[var(--ubm-color-text-muted)]">
-              identity (system field)
-            </h3>
-            <dl className="mt-1 space-y-1">
-              <div className="flex gap-2">
-                <dt className="w-32 text-[var(--ubm-color-text-muted)]">memberId</dt>
-                <dd className="font-mono">{data.identityMemberId}</dd>
-              </div>
-              <div className="flex gap-2">
-                <dt className="w-32 text-[var(--ubm-color-text-muted)]">responseEmail</dt>
-                <dd>{maskEmail(data.identityEmail)}</dd>
-              </div>
-            </dl>
-          </section>
-
-          <section>
-            <h3 className="text-xs font-semibold uppercase tracking-wide text-[var(--ubm-color-text-muted)]">
-              status
-            </h3>
-            <dl className="mt-1 space-y-1">
-              <div className="flex gap-2">
-                <dt className="w-32 text-[var(--ubm-color-text-muted)]">publicConsent</dt>
-                <dd>{data.status.publicConsent}</dd>
-              </div>
-              <div className="flex gap-2">
-                <dt className="w-32 text-[var(--ubm-color-text-muted)]">rulesConsent</dt>
-                <dd>{data.status.rulesConsent}</dd>
-              </div>
-              <div className="flex gap-2">
-                <dt className="w-32 text-[var(--ubm-color-text-muted)]">publishState</dt>
-                <dd>{data.status.publishState}</dd>
-              </div>
-              <div className="flex gap-2">
-                <dt className="w-32 text-[var(--ubm-color-text-muted)]">isDeleted</dt>
-                <dd>{String(data.status.isDeleted)}</dd>
-              </div>
-              <div className="flex gap-2">
-                <dt className="w-32 text-[var(--ubm-color-text-muted)]">notificationOptOut</dt>
-                <dd>{String(data.status.notificationOptOut)}</dd>
-              </div>
-            </dl>
-            <NotificationOptOutToggle
-              memberId={memberId}
-              initial={data.status.notificationOptOut}
-              onUpdated={(next) =>
-                setData((prev) =>
-                  prev
-                    ? { ...prev, status: { ...prev.status, notificationOptOut: next } }
-                    : prev,
-                )
-              }
+        <div className="flex flex-col gap-5 text-sm" data-component="member-drawer">
+          {/* drawer head */}
+          <div className="flex items-center gap-3" data-component="drawer-head">
+            <Avatar
+              name={view.profile.summary.fullName}
+              memberId={view.identityMemberId}
+              hue={stringHashHue(view.identityMemberId)}
+              size="lg"
             />
-          </section>
+            <div className="flex flex-col">
+              <span className="text-base font-semibold text-[var(--ubm-color-text-primary)]">
+                {view.profile.summary.fullName}
+              </span>
+              <span className="font-mono text-xs text-[var(--ubm-color-text-muted)]">
+                {maskEmail(view.identityEmail)} · {detail.responseId}
+              </span>
+            </div>
+          </div>
 
-          <section>
-            <h3 className="text-xs font-semibold uppercase tracking-wide text-[var(--ubm-color-text-muted)]">
-              audit log
-            </h3>
-            <ul className="mt-1 max-h-48 overflow-y-auto space-y-1">
-              {data.audit.length === 0 ? (
-                <li className="text-[var(--ubm-color-text-muted)]">なし</li>
-              ) : (
-                data.audit.map((a, i) => (
-                  <li key={`${a.occurredAt}-${i}`} className="flex flex-col gap-0.5 border-b border-[var(--ubm-color-border-default)] pb-1">
-                    <span className="text-xs text-[var(--ubm-color-text-muted)]">
-                      {formatJstDateTime(a.occurredAt)} — {a.actor}
+          {/* drawer body */}
+          <div className="flex flex-col gap-5" data-component="drawer-body">
+            {/* VISIBILITY */}
+            <section data-component="section-visibility">
+              <div className="text-xs font-semibold uppercase tracking-wider text-[var(--ubm-color-text-muted)]">
+                VISIBILITY
+              </div>
+              <div
+                className="mt-2 flex flex-col gap-3 rounded-[var(--ubm-radius-md)] border border-[var(--ubm-color-border-default)] bg-[var(--ubm-color-surface-panel-2)] p-3"
+                data-component="card-flat"
+              >
+                <div className="flex items-center justify-between gap-3">
+                  <div className="flex flex-col">
+                    <span className="text-sm font-medium text-[var(--ubm-color-text-primary)]">
+                      サイト公開
                     </span>
-                    <span>{a.action}{a.note ? ` (${a.note})` : ""}</span>
-                  </li>
-                ))
-              )}
-            </ul>
-          </section>
+                    <span className="text-xs text-[var(--ubm-color-text-muted)]">
+                      メンバー一覧や詳細ページに掲載
+                    </span>
+                  </div>
+                  <Switch
+                    checked={isPublic}
+                    label="サイトに公開"
+                    disabled={publishMutation.isLoading}
+                    onChange={(next) => {
+                      void publishMutation.trigger({ publishState: next ? "public" : "hidden" });
+                    }}
+                  />
+                </div>
+                <div className="border-t border-[var(--ubm-color-border-default)]" />
+                <FormField name="admin-memo" label="管理者メモ" helper="本人には見えません">
+                  <Textarea
+                    rows={3}
+                    placeholder="管理者用メモ..."
+                    value={memo}
+                    onChange={(e) => setMemo(e.currentTarget.value)}
+                  />
+                </FormField>
+              </div>
+            </section>
 
-          <section className="border-t border-[var(--ubm-color-border-default)] pt-4">
-            <Link
-              href={`/admin/tags?memberId=${encodeURIComponent(memberId)}`}
-              className="inline-flex items-center text-sm font-medium text-[var(--ubm-color-accent)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--ubm-color-accent)]"
+            {/* TAGS */}
+            <section data-component="section-tags">
+              <div className="text-xs font-semibold uppercase tracking-wider text-[var(--ubm-color-text-muted)]">
+                TAGS
+              </div>
+              <div
+                className="mt-2 flex flex-wrap gap-2 rounded-[var(--ubm-radius-md)] border border-[var(--ubm-color-border-default)] bg-[var(--ubm-color-surface-panel-2)] p-3"
+                data-component="card-flat"
+              >
+                {detail.tags.length === 0 ? (
+                  <span className="text-xs text-[var(--ubm-color-text-muted)]">
+                    タグはまだ付与されていません
+                  </span>
+                ) : (
+                  detail.tags.map((t) => <Chip key={t.code}>{t.label}</Chip>)
+                )}
+              </div>
+            </section>
+
+            {/* FORM RESPONSE */}
+            <section data-component="section-form-response">
+              <div className="text-xs font-semibold uppercase tracking-wider text-[var(--ubm-color-text-muted)]">
+                FORM RESPONSE
+              </div>
+              <div className="mt-2">
+                <KVList
+                  items={[
+                    { key: "回答ID", value: detail.responseId },
+                    { key: "送信日時", value: detail.submittedAt },
+                    { key: "UBM区画", value: detail.ubmZone ?? "—" },
+                    { key: "ステータス", value: detail.ubmMembershipType ?? "—" },
+                    { key: "お住まい", value: detail.location ?? "—" },
+                    { key: "職業", value: detail.occupation ?? "—" },
+                    { key: "ビジネス概要", value: detail.businessOverview ?? "—" },
+                  ]}
+                />
+              </div>
+            </section>
+
+            {/* DIAGNOSTICS (Google Form reflection) */}
+            <MemberDiagnosticsPanel memberId={memberId} />
+
+            {/* DELETED block (条件付き) */}
+            {view.status.isDeleted ? (
+              <section data-component="section-deleted">
+                <div
+                  className="rounded-[var(--ubm-radius-md)] border border-[var(--ubm-color-danger)] bg-[var(--ubm-color-surface-panel-2)] p-3"
+                  data-component="card-flat"
+                >
+                  <div className="text-xs font-semibold uppercase tracking-wider text-[var(--ubm-color-danger)]">
+                    DELETED
+                  </div>
+                  <div className="mt-2 text-xs text-[var(--ubm-color-text-secondary)]">
+                    退会日: {detail.deletedAt ?? "—"}
+                    {detail.deletedReason ? ` · 理由: ${detail.deletedReason}` : ""}
+                  </div>
+                  <div className="mt-3">
+                    <Button variant="ghost" size="sm" disabled title="MVP 範囲外">
+                      復元する
+                    </Button>
+                  </div>
+                </div>
+              </section>
+            ) : null}
+          </div>
+
+          {/* drawer foot */}
+          <div
+            className="flex items-center gap-2 border-t border-[var(--ubm-color-border-default)] pt-3"
+            data-component="drawer-foot"
+          >
+            {!view.status.isDeleted ? (
+              <Button
+                variant="danger"
+                disabled={deleteMutation.isLoading}
+                onClick={() => {
+                  void deleteMutation.trigger({});
+                }}
+              >
+                退会処理（論理削除）
+              </Button>
+            ) : null}
+            <div className="flex-1" />
+            <Button variant="ghost" onClick={onClose}>
+              閉じる
+            </Button>
+            <Button
+              variant="primary"
+              disabled={saveMutation.isLoading}
+              onClick={() => {
+                void saveMutation.trigger({ adminMemo: memo });
+              }}
             >
-              タグ管理へ
-            </Link>
-          </section>
-
-          <MemberDiagnosticsPanel memberId={memberId} />
+              保存
+            </Button>
+          </div>
         </div>
       )}
     </Drawer>
-  );
-}
-
-interface NotificationOptOutToggleProps {
-  readonly memberId: string;
-  readonly initial: boolean;
-  readonly onUpdated: (next: boolean) => void;
-}
-
-function NotificationOptOutToggle({
-  memberId,
-  initial,
-  onUpdated,
-}: NotificationOptOutToggleProps) {
-  const [checked, setChecked] = useState<boolean>(initial);
-  const { trigger, isLoading } = useAdminMutation<{
-    ok: boolean;
-    memberId: string;
-    notificationOptOut: boolean;
-  }>(
-    `/api/admin/members/${encodeURIComponent(memberId)}/notification-pref`,
-    "PATCH",
-    {
-      successMessage: (data) =>
-        data.notificationOptOut
-          ? "✓ 通知をオプトアウトしました"
-          : "✓ 通知を再開しました",
-      onSuccess: (data) => {
-        setChecked(data.notificationOptOut);
-        onUpdated(data.notificationOptOut);
-      },
-      refreshOnSuccess: false,
-    },
-  );
-
-  return (
-    <div className="mt-3 flex items-center gap-2 border-t border-[var(--ubm-color-border-default)] pt-3">
-      <input
-        id={`notif-opt-out-${memberId}`}
-        type="checkbox"
-        checked={checked}
-        disabled={isLoading}
-        onChange={(e) => {
-          const next = e.currentTarget.checked;
-          setChecked(next);
-          trigger({ notificationOptOut: next }).catch(() => {
-            // useAdminMutation 側で toast 済み。元値に戻す。
-            setChecked(!next);
-          });
-        }}
-        aria-label="通知をオプトアウト"
-        className="h-4 w-4"
-      />
-      <label
-        htmlFor={`notif-opt-out-${memberId}`}
-        className="text-sm text-[var(--ubm-color-text-default)]"
-      >
-        通知をオプトアウト
-      </label>
-    </div>
   );
 }

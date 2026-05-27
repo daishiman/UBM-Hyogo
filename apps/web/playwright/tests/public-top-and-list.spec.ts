@@ -61,12 +61,13 @@ test.describe("public top & members list @critical-route", () => {
     await assertNoCriticalAxe(page);
   });
 
-  test("`/members?density=list` shows table", async ({ page }) => {
+  test("`/members?density=list` shows list grid", async ({ page }) => {
     await page.goto("/members?density=list");
+    const listGrid = page.locator('[data-component="member-grid"][data-density="list"]');
+    await expect(listGrid).toBeVisible();
     await expect(
-      page.locator('table[data-component="member-table"]'),
-    ).toBeVisible();
-    await expect(page.locator('table[data-component="member-table"] tbody tr')).not.toHaveCount(0);
+      listGrid.locator('li:not([data-role="list-head"])'),
+    ).not.toHaveCount(0);
     await page.screenshot({
       path: screenshotPath("members-list-screenshot.png"),
       fullPage: true,
@@ -78,10 +79,13 @@ test.describe("public top & members list @critical-route", () => {
     page,
   }) => {
     await page.goto("/members?density=invalid");
-    // density=invalid → comfy fallback。table は出ない。
+    // density=invalid → comfy fallback。list density grid は出ない。
     await expect(
-      page.locator('table[data-component="member-table"]'),
+      page.locator('[data-component="member-grid"][data-density="list"]'),
     ).toHaveCount(0);
+    await expect(
+      page.locator('[data-component="member-grid"][data-density="comfy"]'),
+    ).toBeVisible();
     await assertNoCriticalAxe(page);
   });
 
