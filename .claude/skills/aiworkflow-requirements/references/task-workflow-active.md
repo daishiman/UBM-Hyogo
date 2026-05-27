@@ -22,6 +22,20 @@
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-attendance-analytics-redesign-artifact-inventory.md` |
 | user gate | staging deploy, runtime visual capture, CSV runtime verification, commit, push, PR |
 
+### public-dashboard-prototype-alignment（2026-05-26）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implementation_reviewed / implementation / VISUAL / phase11_runtime_pending` |
+| 成果物 | `docs/30-workflows/public-dashboard-prototype-alignment/` |
+| lessons | `.claude/skills/aiworkflow-requirements/lessons-learned/public-dashboard-prototype-alignment-2026-05.md` (L-PDPA-001..007) |
+| 目的 | public home `/` を prototype `pages-public.jsx` LandingPage に整合させる実装仕様。Hero / Stats / About+ThreeZones / Featured / Recent Meetings / CTA を 1 route に限定 |
+| planned targets | `apps/web/app/page.tsx`, `apps/web/src/components/public/{Hero,Stats,AboutUbm,ZoneIntro,MemberGrid,Timeline}.tsx`, `apps/web/src/styles/legacy-public.css` |
+| invariant | 新規 API endpoint / D1 schema / Google Form / npm package 追加なし。`legacy-public.css` は append only、色は OKLch token 経由 |
+| evidence boundary | Phase 12 strict 7 + root/output artifacts mirror present。Phase 11 screenshots / local tests / implementation are pending and not PASS |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-public-dashboard-prototype-alignment-artifact-inventory.md` |
+| user gate | implementation, local visual capture, staging refresh, commit, push, PR |
+
 ### login-ui-balance-and-runtime-fix（2026-05-26）
 
 | 項目 | 値 |

@@ -858,3 +858,52 @@
   4. `scripts/verify-pr-ready.sh` 側に `verify:static-manifest` を追加組み込みするか、`bash scripts/verify-pr-ready.sh` から独立した `verify:dev-sync-postchecks` aggregate を新設すれば post-merge gap が縮まる（今回は ad-hoc 検証で十分なため未実装）。
 - 留意: `verify:static-manifest` は ci job の中盤で実行されるため failure 時に coverage-gate-shard を skip させる構造になっており、ci の 1 step fail が coverage 系 2 gate を巻き込んで PR を 3 重に BLOCKED 化する。**dev sync の day-1 検証で必ず捕捉する**運用が PR cycle time を最も短くする。
 - 事例: 2026-05-27 PR #971。`59419b258 fix(attendance): retire inline-style ...` push 後、`ci`（run 26493001182, job 78014624639）で `[verify-static-manifest] FAIL reason=sourceSpecHashDrift` 検出。`pnpm regenerate:static-manifest` で `sourceSpecHash=sha256:60001b77f2b5e9c16c0cc4de070502691d25357ba4c06b42086eadeb5e8dc228` に更新、`e604f2e98 chore(static-manifest): regenerate ...` 1 commit で復旧。
+
+## L-DEVSYNC-050: UI primitive component の 3-way conflict（HEAD=新 variant 追加 / dev=旧 path 簡素化）は HEAD 全採用が default（2026-05-27）
+
+- 事象: 2026-05-27 `feat/dashboard-prototype-alignment` ← origin/dev (11 commits behind) sync-merge で `pnpm sync:resolve` が 5 file union 成功 / `apps/web/src/components/public/Hero.tsx` のみ `WARN unhandled conflict`。diff3 marker（`<<<<<<< HEAD` / `||||||| 7f651a083` / `=======` / `>>>>>>> origin/dev`）の 3 ブロックは:
+  - base: `<section data-component="hero" style={{ backgroundImage: "linear-gradient(...)" }}>` の inline-style 1 variant
+  - HEAD: `<section data-variant="card">` + `<div data-role="accent" />` + `<div data-role="body">` + `<h1 data-role="title-serif">` を**新 variant 追加**（旧 path は `variant === "panel"` 早期 return で保持）
+  - dev: 同じ base から inline-style 撤去（`<section data-component="hero">` 単 variant、token CSS への移行）
+- Why: 両側とも「inline-style backgroundImage を撤去」する同方向の変更だが、HEAD は「新 variant 追加 + 旧 path は panel variant として保持」、dev は「単一 path 簡素化」と粒度が異なる。HEAD 側の `variant === "panel"` 分岐が dev の意図（旧 path 維持）を既に内包しているため、HEAD 全採用で dev の意図は自動的に supersede される。union や dev take は重複 `<section>` 生成 / 既存 variant prop API の破壊につながる。
+- How to apply:
+  1. `resolve-skill-merge-conflicts.sh` の WARN unhandled に UI primitive (`apps/web/src/components/**/*.tsx`) が含まれたら、`grep -n -E '^(<<<<<<<|=======|>>>>>>>|\|\|\|\|\|\|\|)' <path>` で 3 ブロック位置を確認する。
+  2. 以下の判定フロー:
+     - dev の変更が base からの**単純化**（行削除のみ）かつ HEAD の変更が**新 variant / 新 prop / 新 entrypoint 追加** → **HEAD 全採用が default**（dev の意図は HEAD の旧 path 保持で吸収される）
+     - dev の変更が base からの**機能追加**（field 追加 / prop 追加） → HEAD + dev の手動 union が必要
+     - 判定迷う場合は `git log -p origin/dev ^HEAD -- <path>` で dev 側 commit 意図を 1 行確認してから決定（commit message に "extract" / "simplify" / "remove" が含まれれば単純化、"add" / "support" が含まれれば機能追加）
+  3. 採用後検証: `grep -nE '^(<<<<<<<|=======|>>>>>>>|\|\|\|\|\|\|\|)' <path>` 0 件 + `pnpm typecheck` + `pnpm lint` + 採用 variant の spec / visual baseline green。
+  4. resolver 自動化は不要（UI primitive の意味判定は機械化不可能）。本ルールは手動 SOP として L-DEVSYNC-044 (spec EOF 並列追加) と並列に位置付ける。
+- 留意: HEAD 側に `data-variant` prop が新設されている場合、既存呼び出し側（`<Hero ... />` を使う page）が default variant に依存しているか確認する。本ケースでは `variant?: "card" | "panel"` の default が `"card"`（新 variant）に切り替わるため、prototype-alignment 進行中であれば意図通り。完了後 sync では `variant="panel"` 明示が必要なケースもあり得る。
+- 事例: 2026-05-27 commit `57ff4402b` (`merge: sync ...`) → typecheck/lint green。**しかし pre-push `verify-no-inline-style` (issue-924 由来) が HEAD 残置の panel variant `style={{...}}` で fail**。追加 commit `f7b493456` で panel variant の inline-style も撤去し push 成功。
+- **重要追補（L-DEVSYNC-050-A 横断ルール波及）**: 「HEAD 全採用」は **dev 側変更が CI gate (lint / inline-style / 命名規約等) を背景とする横断ルールの場合、残存する HEAD 側 path にも同じ横断ルールを適用する**。dev 側 commit が「issue 単位の横断撤去・置換」性質（refactor/chore 系、本件 issue-924 inline-style 撤去）であれば、HEAD 採用 path への横展開を忘れると pre-push hook で即 fail する。判定フロー step 2.5 として `git log --oneline origin/dev ^HEAD -- <path>` で commit 性質を確認し、横断撤去なら HEAD 採用後にローカル `pnpm exec lefthook run pre-push --files <path>` で事前検証する。task-specification-creator [[dev-sync-merge-conflict-resolution]] SP-DEVSYNC-038 に逐語埋め込み済み。
+
+## L-DEVSYNC-051: visual baseline (PNG + .baseline-meta.json) コンフリクトは作業ブランチ side (ours) 全採用が default（2026-05-27 確認）
+
+- 事象: 2026-05-27 `feat/dashboard-prototype-alignment` ← origin/dev sync-merge で `pnpm sync:resolve` が 4 skill md union 成功 / 残 6 file (`apps/web/playwright/tests/visual-full/.baseline-meta.json` + 3 full-visual PNG + 2 public PNG) を `WARN unhandled conflict` として返した。両 branch とも直近に `chore(visual): update baselines via workflow_dispatch` の自動再生成 commit を持っている (HEAD=1ff7c8948 dashboard chip-cadence a11y / dev=04c569a48 login UI rebalance)。
+- Why: visual baseline は branch ごとの UI 変更を反映した「正本スナップショット」であり、両 branch が同種の `workflow_dispatch` 経由で再生成している場合、dev side の baseline は HEAD branch が持つ独自 UI 変更（本件 chip-cadence accent-ink 色変更）を**含まない**。dev 側採用 / union / 手動 merge は不可能（PNG は binary diff）で、HEAD 側採用以外に意味のある選択肢がない。`sync:resolve` は binary / 専用ロジック未定義のため `WARN unhandled` で停止する設計が正しい。
+- How to apply:
+  1. `pnpm sync:resolve` の `WARN unhandled conflict:` 出力に `apps/web/playwright/tests/visual*/**.png` または `.baseline-meta.json` が含まれたら、迷わず **`git checkout --ours` で一括採用**する。具体例:
+     ```bash
+     git checkout --ours apps/web/playwright/tests/visual-full/.baseline-meta.json \
+       apps/web/playwright/tests/visual-full/full-visual.spec.ts-snapshots/*.png \
+       apps/web/playwright/tests/visual/*.spec.ts-snapshots/*.png
+     git add apps/web/playwright/tests/visual-full/ apps/web/playwright/tests/visual/
+     ```
+  2. 例外: HEAD branch が visual に**全く触れていない**（commit log で `playwright/tests/visual*` への変更 0 件）かつ dev 側のみ baseline 更新している場合に限り theirs 採用。判定: `git log --oneline HEAD ^origin/dev -- apps/web/playwright/tests/visual` が空なら theirs、1 件でもあれば ours。
+  3. `.baseline-meta.json` は dev / HEAD のどちらの commit SHA を baseline ref として持つかが分かれるため、ours 採用後は HEAD branch の最新 SHA に整合させる必要は**ない**（`workflow_dispatch` 再生成 commit が次にあれば自動更新される）。
+  4. ours 採用は visual regression を意味的に「HEAD branch 側が正本」と宣言する行為。staging visual smoke の実行責任は PR 作者に残る（merge 後の運用 SOP として `playwright-smoke / visual` ジョブで再検証）。
+- 留意: `pnpm sync:resolve` の現行実装はこの判定をしない。`scripts/sync/resolve-skill-merge-conflicts.sh` に `case` を追加して自動化することも可能だが、theirs 採用が必要な例外パスがあるため、**WARN として手動判定を促す現行設計を維持**するのが安全。
+- 事例: 2026-05-27 commit `05a5c89c0`（`Merge remote-tracking branch 'origin/dev' into feat/dashboard-prototype-alignment`）。`sync:resolve` で 4 md union 成功 + 6 visual baseline WARN → `git checkout --ours` 一括採用 → `pnpm typecheck` / `pnpm lint` / `bash scripts/verify-pr-ready.sh` 全 green（OK:508 WARN:341 ERROR:0）→ commit 成功。HEAD branch (dashboard prototype) の chip-cadence accent-ink baseline が保持され、dev 側 login UI baseline 更新は次回 dashboard branch 内 visual workflow_dispatch で自動取り込み。
+
+## L-DEVSYNC-052: e2e mock API state 切替が SSR fetch cache に追従しない既存 regression と test-only no-store bypass（2026-05-27 確認）
+
+- 事象: `feat/dashboard-prototype-alignment` PR #964 で `e2e (mobile-webkit / desktop-chromium / desktop-firefox)` 3 job が `public-dashboard-prototype-alignment.spec.ts:35 captures canonical home screenshots` で fail。fail箇所は `mockApi.setPublicHomeEmpty(true)` 直後の 2 回目 `page.goto("/")` で `[data-component="featured-members"] [data-component="empty-state"]` が 10s タイムアウトで visible にならない。dev merge **前**の 4c6347fc8 / 9307f3c2e でも同 fail が存在しており、merge 由来ではない既存 regression。
+- Why: `apps/web/app/page.tsx` の `listMembersRaw` / `getStats` は `revalidate: PUBLIC_API_REVALIDATE.members (30s)` 設定で fetch しており、Next.js dev mode でも `next.revalidate` は respected される。spec 1 回目 goto (empty=false) で fetch result が cache 化、2 回目 goto (empty=true) は cache hit のため mock API 側の state 切替が SSR 結果に追従しない。
+- How to apply:
+  1. e2e mock API を使う app では、production の cache 設定を変えずに **test/CI 環境のみ `cache: 'no-store'` を強制**する。実装場所は `apps/web/src/lib/fetch/public.ts` の `doFetch()`。`isTestOrPlaywright()` (= `NODE_ENV=test` or `PLAYWRIGHT_TEST=1`) が true の時、`init` から `next.revalidate` を剥がし `cache: 'no-store'` に差し替える。
+  2. production / staging では `revalidate` 値 (60/30/30/300 sec) はそのまま保持され Cloudflare Workers 側の無料枠運用に影響しない。test-only branch は **fetcher 層 1 箇所に閉じる**（page.tsx 側の `revalidate: PUBLIC_API_REVALIDATE.members` 呼び出しを書き換えない）のが本質的。spec 側 query parameter (`?t=Date.now()`) や production code 内 searchParams 分岐は test-only logic 混入で anti-pattern。
+  3. 検証順: `pnpm typecheck && pnpm lint` → push → CI 上で `e2e` 3 project + `e2e-tests-coverage-gate` が green になることを確認。
+  4. 同種パターン（admin/me 等の fetcher）に regression が出たら同じ「fetcher 層で `isTestOrPlaywright()` 時 no-store」原則を横展開する。各 fetcher 個別に同じガードを書く前に、共通 helper への切り出しを検討。
+- 留意: `cache: 'no-store'` と `next: { revalidate: N }` は Next.js 内で同時指定不可（runtime warning）。test-only branch では必ず `next` を剥がしてから `cache: 'no-store'` を入れる。`init.next = undefined` ではなく **destructure で除外**（`const { next, cache, ...rest } = init`）が型安全。
+- 事例: 2026-05-27 PR #964。`apps/web/src/lib/fetch/public.ts` の `doFetch()` に test-only `cache: 'no-store'` 分岐を追加（5 行）。production の revalidate 設定は全く触らず。typecheck/lint green。
