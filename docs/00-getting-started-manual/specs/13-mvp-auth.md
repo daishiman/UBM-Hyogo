@@ -67,6 +67,10 @@ LoginPage を正本として整合する。
 実装 wave: `docs/30-workflows/login-page-prototype-alignment/`。
 Auth.js / Magic Link API / D1 access boundary は変更しない。
 
+### `/login` balance / brand-icon fix（2026-05-26）
+
+後続 wave `docs/30-workflows/completed-tasks/login-ui-balance-and-runtime-fix/` で、`.auth-card .ui-input[data-size="lg"]` は button と同じ 44px 高さ / `--ubm-space-4` horizontal padding に揃えた。`legacy-public.css` の汎用 `[data-size]` 円形スタイルは `data-component="google-brand-icon"`、`.ui-input`、`.ui-button` を除外し、Google 公式 4 色 SVG を CSS で改変しない。
+
 ---
 
 ## MVP 公開条件

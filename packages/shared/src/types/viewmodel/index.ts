@@ -187,6 +187,11 @@ export interface AdminMemberListItem {
   publishState: PublishState;
   isDeleted: boolean;
   lastSubmittedAt: string;
+  occupation?: string;
+  ubmZone?: string | null;
+  ubmMembershipType?: string | null;
+  tags?: Array<{ code: string; label: string }>;
+  updatedAt?: string;
 }
 
 export interface AdminMemberListView {

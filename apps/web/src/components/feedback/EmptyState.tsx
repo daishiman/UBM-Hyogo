@@ -3,6 +3,7 @@ import type { ReactNode } from "react";
 export interface EmptyStateProps {
   title: string;
   description?: string;
+  variant?: "default" | "compact";
   /** 「絞り込みをクリア」など、クリア後に遷移すべき URL */
   resetHref?: string;
   resetLabel?: string;
@@ -16,12 +17,13 @@ export interface EmptyStateProps {
 export function EmptyState({
   title,
   description,
+  variant = "default",
   resetHref,
   resetLabel = "絞り込みをクリア",
   children,
 }: EmptyStateProps) {
   return (
-    <div role="status" data-component="empty-state">
+    <div role="status" data-component="empty-state" data-variant={variant}>
       <div data-role="icon" aria-hidden="true" />
       <p data-role="title">{title}</p>
       {description ? (

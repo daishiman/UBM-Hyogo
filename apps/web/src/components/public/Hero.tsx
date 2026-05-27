@@ -1,5 +1,6 @@
-// task-11: 公開トップ Hero。eyebrow + h1 + subtitle + 2 CTA + token グラデ背景。
-// AC-1 (data-component="hero" + h1 1 個) を担保。
+// public-dashboard-prototype-alignment: Hero card-on-canvas variant
+// プロトタイプ pages-public.jsx LandingPage の eyebrow + serif h1 + accent + 2 CTA を再現。
+// 既存 panel variant は task-11 互換のため残置。
 
 export interface HeroProps {
   title: string;
@@ -7,6 +8,8 @@ export interface HeroProps {
   eyebrow?: string;
   primaryCta?: { label: string; href: string };
   secondaryCta?: { label: string; href: string };
+  /** Hero variant。default: "card" (新)、"panel" は既存互換用 */
+  variant?: "card" | "panel";
 }
 
 export function Hero({
@@ -15,23 +18,48 @@ export function Hero({
   eyebrow,
   primaryCta,
   secondaryCta,
+  variant = "card",
 }: HeroProps) {
+  if (variant === "panel") {
+    return (
+      <section data-component="hero" data-variant="panel">
+        {eyebrow ? <p data-role="eyebrow">{eyebrow}</p> : null}
+        <h1>{title}</h1>
+        {subtitle ? <p data-role="subtitle">{subtitle}</p> : null}
+        <div data-role="cta">
+          {primaryCta ? (
+            <a href={primaryCta.href} data-variant="primary">
+              {primaryCta.label}
+            </a>
+          ) : null}
+          {secondaryCta ? (
+            <a href={secondaryCta.href} data-variant="secondary">
+              {secondaryCta.label}
+            </a>
+          ) : null}
+        </div>
+      </section>
+    );
+  }
   return (
-    <section data-component="hero">
-      {eyebrow ? <p data-role="eyebrow">{eyebrow}</p> : null}
-      <h1>{title}</h1>
-      {subtitle ? <p data-role="subtitle">{subtitle}</p> : null}
-      <div data-role="cta">
-        {primaryCta ? (
-          <a href={primaryCta.href} data-variant="primary">
-            {primaryCta.label}
-          </a>
-        ) : null}
-        {secondaryCta ? (
-          <a href={secondaryCta.href} data-variant="secondary">
-            {secondaryCta.label}
-          </a>
-        ) : null}
+    <section data-component="hero" data-variant="card">
+      <div data-role="accent" aria-hidden="true" />
+      <div data-role="body">
+        {eyebrow ? <p data-role="eyebrow">{eyebrow}</p> : null}
+        <h1 data-role="title-serif">{title}</h1>
+        {subtitle ? <p data-role="subtitle">{subtitle}</p> : null}
+        <div data-role="cta">
+          {primaryCta ? (
+            <a href={primaryCta.href} data-variant="primary">
+              {primaryCta.label}
+            </a>
+          ) : null}
+          {secondaryCta ? (
+            <a href={secondaryCta.href} data-variant="secondary">
+              {secondaryCta.label}
+            </a>
+          ) : null}
+        </div>
       </div>
     </section>
   );

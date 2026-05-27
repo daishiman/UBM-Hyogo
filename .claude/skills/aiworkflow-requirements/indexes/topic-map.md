@@ -2135,6 +2135,15 @@ node scripts/list-specs.js --topics
 |------------|----|
 | Contract | L16 |
 
+### references/workflow-admin-ui-prototype-alignment-followup-001-members-fetch-and-visual-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Canonical files | L3 |
+| Registration | L14 |
+| Implemented targets | L20 |
+| Evidence boundary | L30 |
+
 ### references/workflow-admin-ui-prototype-alignment-followup-002-section-error-retry-artifact-inventory.md
 
 | セクション | 行 |
@@ -2414,6 +2423,13 @@ node scripts/list-specs.js --topics
 | Evidence | L20 |
 | Same-Wave Sync | L34 |
 | User-Gated Boundary | L45 |
+
+### references/workflow-issue-255-coverage-threshold-sync-lint-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Contract | L16 |
+| Verification | L28 |
 
 ### references/workflow-issue-256-e2e-coverage-baseline-runbook-artifact-inventory.md
 
@@ -3237,6 +3253,22 @@ node scripts/list-specs.js --topics
 | Skill Compliance | L28 |
 | Boundaries | L36 |
 
+### references/workflow-login-ui-balance-and-runtime-fix-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Metadata | L3 |
+| Workflow Artifacts | L11 |
+| Code Artifacts | L20 |
+| Evidence Boundary | L36 |
+
+### references/workflow-members-list-prototype-alignment-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| State | L18 |
+| Boundary | L24 |
+
 ### references/workflow-members-page-prototype-alignment-artifact-inventory.md
 
 | セクション | 行 |
@@ -3352,6 +3384,15 @@ node scripts/list-specs.js --topics
 | Phase 12 Strict 7 | L35 |
 | Evidence | L47 |
 | Lessons Learned | L58 |
+
+### references/workflow-public-dashboard-prototype-alignment-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Classification | L15 |
+| Planned Implementation Targets | L19 |
+| Boundary | L30 |
+| Lessons | L34 |
 
 ### references/workflow-regression-evidence-ci-gate-foundation-artifact-inventory.md
 
@@ -6068,6 +6109,15 @@ node scripts/list-specs.js --topics
 | 教訓一覧 | L8 |
 | 申し送り（open / baseline 未タスク） | L57 |
 
+### references/lessons-learned-main-merge-noop-when-dev-merged-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| 背景 | L11 |
+| 結論 | L22 |
+| 教訓 (Lesson IDs) | L30 |
+| 関連 | L39 |
+
 ### references/lessons-learned-parallel-i03-dialog-refresh-order-2026-05.md
 
 | セクション | 行 |
@@ -7791,14 +7841,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L2663 |
-| フェーズ構造（概要） | L2672 |
-| 品質ゲート（概要） | L2703 |
-| 出力テンプレート | L2714 |
-| 実行時のコマンド・エージェント・スキル | L2737 |
-| 昇格パターン集 | L2761 |
-| Current Active / Spec Created Tasks | L2763 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L2924 |
+| ドキュメント構成 | L2717 |
+| フェーズ構造（概要） | L2726 |
+| 品質ゲート（概要） | L2757 |
+| 出力テンプレート | L2768 |
+| 実行時のコマンド・エージェント・スキル | L2791 |
+| 昇格パターン集 | L2815 |
+| Current Active / Spec Created Tasks | L2817 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L2978 |
 
 ### references/task-workflow-backlog-part2.md
 
