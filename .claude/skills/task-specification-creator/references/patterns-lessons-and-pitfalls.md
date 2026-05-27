@@ -447,6 +447,7 @@ dev → feature の sync-merge で発生した conflict 解消ルール（aiwork
 これら 3 件は本 skill の `evidence-sync-rules.md` / `patterns-phase12-sync.md` で扱う「Phase 12 strict 7 / sync gate」と整合する追加ガード。
 
 - **L-DEVSYNC-043 (`pnpm sync:resolve` 中の worktree `index.lock` 失敗)**: sync-merge を伴う Phase（特に Phase 5 / Phase 12 の skill index 更新 + Phase 13 PR 前）で `pnpm sync:resolve` が `fatal: Unable to create '.../worktrees/<wt>/index.lock'` で失敗するケースを runbook 化する。**仕様書側の Phase 12 implementation-guide / Phase 13 PR pre-flight チェックリスト**に「`pnpm sync:resolve` 失敗時は `rm -f $(git rev-parse --git-dir)/index.lock` を試す」troubleshoot 行を含めること（worktree 環境では `.git` がファイルなので `.git/index.lock` 直接除去はできない）。詳細手順は aiworkflow-requirements skill L-DEVSYNC-043 を参照。
+- **L-DEVSYNC-050 (dev snapshot housekeeping commit が ort auto-merge 通過率を上げる / 2026-05-27 確認)**: dev 側に `chore(dev-snapshot): housekeeping snapshot before origin/dev sync (#NNN)` 系の snapshot commit が入っている直後の sync-merge は、skill index 系 (`indexes/{keywords.json, quick-reference.md, resource-map.md, topic-map.md}` / `references/task-workflow-active.md`) も含めて **ort strategy で conflict 0 件 auto-merge** が成立しやすい。**仕様書側の Phase 13 PR pre-flight チェックリスト**に「(a) `git log origin/dev --oneline -20 | grep dev-snapshot` で直近 snapshot commit の有無を確認、(b) snapshot が直近にない場合は `pnpm sync:resolve` フォールバックを前提に手順を進める、(c) feature ブランチ側で 1 日以上 dev sync していない場合は事前 `git fetch origin dev:dev && git merge dev` を 1 回挟んで base を新鮮化する」の 3 点を含めること。長時間 sync しないまま skill index を頻繁に書き換えると 3-way base が古くなり conflict 増加する逆相関を Phase 4 risk table に記録する。詳細は aiworkflow-requirements skill L-DEVSYNC-049 直後の 2026-05-27 (3回目) 事例参照。
 
 ## enum → route exhaustiveness guard pattern（issue-891）
 
@@ -765,3 +766,36 @@ dev sync-merge で **HEAD = route group rename（`app/<route>/` → `app/(group)
   - union 強行 → syntax error / runtime 二重描画 / lint 違反を引き起こす。
   - dev 側追加を完全に捨てる → 新機能（本件は diagnostics panel）が feature merge 後に消える silent regression。
 - 参照: [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-050
+
+## Dev sync 時の signature 並列リファクタ統合パターン（2026-05-27）
+
+- 適用場面: feature branch が関数 signature を **型方向** で変更（戻り値 null 化 / branding / strict null など）し、dev が同関数の **value 取得経路** を抽象化（accessor 移行 / DI 化 / config-driven 化など）した状態で `git merge dev` した時。
+- パターン:
+  1. conflict block 内の **型 signature**（戻り型 / 引数型 / generics）は HEAD 側を採用（feature branch のスコープ固有 semantic を保護）。
+  2. conflict block 内の **value 取得式**（右辺 expression）は dev 側を採用（global invariant 由来の accessor 移行を遵守）。
+  3. **sibling 関数**（同種リファクタを受けた近傍関数）に HEAD 側固有の semantic 変更がなければ、dev 側へ完全追従する（HEAD 側を採用すると invariant 退行になる）。
+  4. 統合後 `pnpm typecheck` で呼び出し側（同ファイル内の上位関数 / 他モジュール）の null check / 型整合性を確認。
+- アンチパターン:
+  - HEAD 側の戻り値型変更を捨てる → fail-fast スコープ要件が退行（本件は env 漏れ時の 500 明示返却が失われる）。
+  - dev 側の accessor 移行を捨てる → invariant #11（`process.env` 直接参照禁止）違反が残置し、次回 dev sync で再 conflict。
+  - 両側を union 並列で残す → syntax error（同名関数の二重宣言 / 戻り型不一致）。
+- Anchor:
+  - 「型 = HEAD・実装 = dev」の semantic 統合判定: `git diff origin/dev..HEAD -- <file>` と `git log -1 --stat origin/dev -- <file>` で両側コミットメッセージ確認。HEAD 側が type-level semantic 変更（fail-fast / strict null / branding）なら本パターン適用。
+- 参照: [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-051
+
+## Provenance JSON metadata の 3-way conflict 解消パターン（2026-05-27）
+
+- 適用場面: `.baseline-meta.json` / `.gate-metadata.json` 等の provenance metadata JSON が、両側で workflow_dispatch 等により独立に生成 / 更新された結果 3-way conflict した時。
+- パターン:
+  1. **Scalar latest field**（`captured_at` / `passed_at` / `updated_at` 等の ISO8601 timestamp）: 両側比較し新しい側を採用。ペアになる sha / id field（`captured_at_commit_sha` / `commit_sha`）も同じ side を採用（必ず一致させる）。
+  2. **Array set field**（`captured_run_ids` / `evidence_paths` / `run_history` 等）: 両側追加要素を union 結合。重複は削除、時系列 / 数値順で order を揃える。
+  3. **Narrative field**（`last_refresh_reason` / `notes` 等）: 新しい側の文言を主、古い側を従属節として併記。両側の wave id（issue 番号 / followup id）を文字列内に残し、後追跡可能にする。
+  4. **その他 scalar field**（`viewport_dimensions` / `rendering_relevant_paths` 等 schema 不変項目）: 片側採用で OK。
+  5. JSON 構文を `python3 -c "import json; json.load(open('<path>'))"` で検証してから `git add`。
+- アンチパターン:
+  - `--ours` / `--theirs` で片側全採用 → 反対側の `captured_run_ids` / wave reason が失われ provenance 履歴に gap が生じる。
+  - timestamp は新しい側を取って sha は古い側を取る → provenance 不整合（後段 validator が SHA に該当する commit を引けず fail）。
+  - run_ids を union するが narrative reason を片側だけ採用 → 「なぜ追加 run が走ったか」が読み取れず、stale baseline 判定の根拠を失う。
+- Anchor:
+  - 「scalar latest + array set + narrative」3 種混在 JSON を見たら本パターン適用。`pnpm sync:resolve` は JSON を union 対象外（[[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-002）にするため、手動 Edit で対応する。
+- 参照: [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-052

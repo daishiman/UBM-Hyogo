@@ -794,6 +794,10 @@
   3. `git status` で `UU` ゼロ確認 → `git add -A` → `git commit -m "merge: sync <branch> with dev"`。typecheck / lint 任意（skill files は build 経路外）。
 - 留意: ソース conflict が 1 件でも混じる場合は本 happy path から外れる。L-DEVSYNC-040 系（並列 export 追加）/ L-DEVSYNC-043 系（adapter signature union）/ L-DEVSYNC-045（route group rename + import 正規化）のいずれかにフォールバック。
 - 事例: 2026-05-26 `feat/issue-913-...` ← dev (`a21759722` issue-903 member runtime evidence 含む 10 commit)。`pnpm sync:resolve` 出力 `[resolve-skill-merge-conflicts] all skill / index conflicts resolved`、unhandled なし、ソース無傷で 1 commit で完結。
+- 事例: 2026-05-27 `feat/login-ui-balance-and-runtime-fix` ← dev (`dfdbf0574` google-form-reflection-diagnostics 含む)。skill index 5 ファイル (`keywords.json` / `quick-reference.md` / `resource-map.md` / `topic-map.md` / `references/task-workflow-active.md`) のみ conflict。`pnpm sync:resolve` で union 4 + ours 1 + `indexes:rebuild` 完結、ソース無傷で 1 merge commit。
+- 事例: 2026-05-27 (再発) 同 `feat/login-ui-balance-and-runtime-fix` ← dev (`7df1d3688` issue-247 OpenNext config regression tests 含む)。skill 7 ファイル auto-merge + `indexes/topic-map.md` のみ 3-way conflict（CONFLICT (content)）。`pnpm sync:resolve` で union-resolve 1 + `indexes:rebuild` 完了、`git status` UU=0、L-DEVSYNC-049 grep gate も 0 件で push 可。同一 feature ブランチを 2 回続けて dev 取り込みしても happy-path 再現性が確認できた。
+- 事例: 2026-05-27 (3回目) 同 `feat/login-ui-balance-and-runtime-fix` ← dev (`7c6ac7525` `chore(dev-snapshot): housekeeping snapshot before origin/dev sync (#978)` + issue-275 magic-link 429 / issue-265 forms API quota 含む 78 ファイル変更)。**ort strategy auto-merge で conflict 0 件**（skill index 系も全 auto-merge 成功・`pnpm sync:resolve` 不要）。`Merge made by the 'ort' strategy` 出力のみで commit が直接作成され、`UU` 0 / orphan marker 0 / typecheck+lint green。短時間連続 sync では skill index 系の dev 側 churn が累積していても ort が全自動解消できるケースがあることが確認できた（dev snapshot housekeeping commit が dev 側の skill index を正規化していたため）。
+  - 派生 lesson (L-DEVSYNC-050 candidate): dev 側に **snapshot housekeeping commit** (`chore(dev-snapshot): housekeeping snapshot before origin/dev sync` 系) が入っている場合、skill index 系の merge-base ノイズが綺麗に巻き取られて auto-merge 通過率が上がる。逆に言うと、feature 側で長時間 sync しないまま skill index を頻繁に書き換えていると 3-way base が古くなり conflict が増えるため、**dev sync は 1 日 1 回以上の頻度を維持**する運用が conflict 最小化に寄与する。recovery として、merge 前に dev 側 snapshot housekeeping commit の有無を `git log origin/dev --oneline -20 | grep dev-snapshot` で確認し、直近に snapshot がない場合は手動で `pnpm indexes:rebuild` を dev 側で先行実行してから merge する選択肢もある。
 
 ## L-DEVSYNC-047: 空コミット (`git commit --allow-empty`) は GitHub Actions の `pull_request` workflow を発火しない（2026-05-26 確認）
 
@@ -842,3 +846,35 @@
   4. 解消後は `grep -n '<<<<<<<\|=======\|>>>>>>>' <file>` で marker 残存ゼロを確認、`pnpm typecheck` と `pnpm lint` で構造破綻なしを確認してから `git add` する。
 - 留意: 自律判断ルール B-3「両側の変更意図を保持するマージ」は本件のような「片側が構造を作り替え、もう片側が旧構造に依存した追加をした」ケースでも適用される。anchor の物理的位置ではなく semantic 位置で揃えること。
 - 事例: 2026-05-27 task-20260526-145759-wt-18 ブランチで dev merge → MemberDrawer.tsx 2 conflict 発生。import を両側採用、`MemberDiagnosticsPanel` を新構造の drawer-body 内 FORM RESPONSE と DELETED block の間へ再配置して解消。typecheck/lint green、verify-conflict-markers grep 0件。
+
+## L-DEVSYNC-051: 同一関数 signature を両側が独立リファクタした場合（fail-fast 型変更 × accessor 抽象化）は「型は HEAD・実装は dev」の semantic 統合（2026-05-27 追加）
+
+- 事象: `feat/admin-ui-followup-001-members-fetch-and-visual` への dev merge で `apps/web/app/api/admin/[...path]/route.ts` の `apiBase()` 関数が 3-way conflict。
+  - HEAD: followup-001 T-5.1 で fail-fast 化（戻り型 `string` → `string | null`、env 未設定時に `null` を返し proxy 側で 500 を明示返却。`LOCAL_DEV_FALLBACK` は local dev 限定で残す）
+  - dev: invariant #11 強化で `process.env["INTERNAL_API_BASE_URL"]` → `getAuthEnv().INTERNAL_API_BASE_URL` に zod-validated accessor 経由へ統一（戻り型は `string` のまま、fallback も残置）
+  - 両側とも env アクセス層 / null 許容性という別軸のリファクタを同時に行ったため、union 解消では `<<<<<<<` / `|||||||` / `=======` marker が「2 つの正解」を並べるだけで commit 不能。
+- Why: 「fail-fast 型変更（戻り値 null 化）」は HEAD のスコープ要件（staging で env 漏れを 500 で可視化）、「accessor 抽象化」は dev のグローバル不変条件（`getAuthEnv()` 経由のみ・`process.env` 直接参照禁止）であり、どちらも捨てられない。一方を採用すると invariant #11 違反 or fail-fast 退行のどちらかが発生する。
+- How to apply:
+  1. conflict block 内の **型 signature** は HEAD 側を採用（feature ブランチ固有の semantic 変更を保護）。
+  2. conflict block 内の **value 取得手段** は dev 側を採用（global invariant に従う accessor）。
+  3. 両者を 1 行に統合: `const v = getAuthEnv().INTERNAL_API_BASE_URL;` + 戻り型 `string | null` + null fallback ロジックは HEAD のものをそのまま残す。
+  4. `internalSecret()` 等の **同じ accessor 移行を受けた sibling 関数** は dev 側に完全追従（HEAD 側にスコープ固有変更がないため）。
+  5. 解消後 `pnpm typecheck` で `apiBase()` 呼び出し側（同ファイル内 `proxy()`）の null check が型整合していることを確認。
+- 適用判断: 「戻り型が両側で違う」+ 「右辺の式が両側で違う」conflict は必ず本パターン。union resolver は対象外（`.ts` 拡張子 + 未知 conflict は手動）。`git diff origin/dev..HEAD -- <file>` と `git log -1 --stat origin/dev -- <file>` で両側 commit message を確認し、HEAD 側が type-level の semantic 変更（fail-fast / branding / strict null）なら type は HEAD、value は dev を採る。
+- 事例: 2026-05-27 task-20260526-145759-wt-18 dev sync。`apiBase` 統合後 `const apiBase = (): string | null => { const v = getAuthEnv().INTERNAL_API_BASE_URL; ... };`、`internalSecret` は dev 側 `getAuthEnv().INTERNAL_AUTH_SECRET ?? ""` をそのまま採用。typecheck/lint/verify-pr-ready 全 PASS。
+
+## L-DEVSYNC-052: `playwright/tests/visual-full/.baseline-meta.json` の captured_run_ids 配列 + captured_at_commit_sha + last_refresh_reason 3-way conflict は「最新 captured_at 採用 + run_ids 集合 union + reason 末尾追記」（2026-05-27 追加）
+
+- 事象: dev merge で `.baseline-meta.json` が 3-way conflict（HEAD と dev が独立に `gh workflow run playwright-visual-baseline-update.yml` を発火していたため）。
+  - `captured_at_commit_sha` / `captured_at`: 各 wave の workflow_dispatch HEAD SHA + timestamp（両側で別物）
+  - `captured_run_ids`: 共通 prefix（過去 8 run）+ 各側末尾 1 run（HEAD: `26491992893` / dev: `26489950912`）
+  - `last_refresh_reason`: 各 wave の文言が完全に異なる
+- Why: `.baseline-meta.json` は provenance ファイルで append-only ではない。`captured_at_commit_sha` / `captured_at` は **scalar field**（最新 1 件のみ正本）、`captured_run_ids` は **set union**（過去 run の履歴を失わないため両側保持）、`last_refresh_reason` は **narrative**（両側の reason を semantic に結合）。
+- How to apply:
+  1. `captured_at` の ISO8601 timestamp を両側比較し、新しい側を採用。`captured_at_commit_sha` も同じ side を採用（必ず ペアで揃える）。
+  2. `captured_run_ids` は両側の追加 ID を時系列順（数値昇順）に union 結合。重複は削除（過去 8 run の共通 prefix は片側のみ採用）。
+  3. `last_refresh_reason` は新しい側の文言を主、古い側を「dev取込時に … 由来の drift もマージ済」等の従属節として追記。両側の wave id（followup-001 / issue-255 等）を文字列内に残し、後から git blame せずとも由来追跡できるようにする。
+  4. 他 scalar field（`viewport_dimensions` / `rendering_relevant_paths` / `refresh_workflow` / `refresh_command_hint` / `notes`）は片側採用で OK（schema 変化がない限り両側同一）。
+  5. JSON 構文を `python3 -c "import json; json.load(open('apps/web/playwright/tests/visual-full/.baseline-meta.json'))"` で必ず検証してから `git add`。
+- 適用判断: `.baseline-meta.json` 以外でも、provenance / metadata JSON で「scalar latest field + array set field + narrative field」の混在型は全て本パターンが適用可能（例: `.gate-metadata.json` の `passed_at` + `evidence_paths` + `notes`）。
+- 事例: 2026-05-27 task-20260526-145759-wt-18 dev sync。HEAD timestamp `2026-05-27T05:15:17Z` > dev `2026-05-27T04:10:17Z` のため HEAD の SHA/timestamp 採用、`captured_run_ids` に dev 側 `26489950912` を timestamp 順で追加（HEAD `26491992893` の手前）、`last_refresh_reason` は HEAD の followup-001 文言主体に dev の login UI rebalance 文言を併記。typecheck 影響なし、visual baseline workflow 後続 dispatch にも影響なし。

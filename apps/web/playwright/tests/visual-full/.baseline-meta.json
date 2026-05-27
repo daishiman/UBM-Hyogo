@@ -13,6 +13,7 @@
     "26383096067",
     "26431275613",
     "26432787256",
+    "26489950912",
     "26491992893"
   ],
   "viewport_dimensions": {
@@ -41,5 +42,5 @@
   "refresh_workflow": ".github/workflows/playwright-visual-baseline-update.yml",
   "refresh_command_hint": "gh workflow run playwright-visual-baseline-update.yml -f reason=\"<why>\" -r <feature-branch>",
   "notes": "captured_at_commit_sha からの rendering_relevant_paths diff が空でない場合、baseline は stale。scripts/visual-baseline-status.sh で診断可能。",
-  "last_refresh_reason": "followup-001 で /admin/members を MembersFilters(PillNav) + MembersTable プロトタイプ整合構造へ刷新したことに伴う visual baseline 更新(desktop/tablet/mobile)"
+  "last_refresh_reason": "followup-001 で /admin/members を MembersFilters(PillNav) + MembersTable プロトタイプ整合構造へ刷新したことに伴う visual baseline 更新(desktop/tablet/mobile)。dev取込時に login UI rebalance (issue-255) 由来の visual-full snapshots 5 routes × 3 viewports drift もマージ済。"
 }

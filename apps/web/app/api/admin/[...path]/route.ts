@@ -5,6 +5,7 @@
 
 import type { NextRequest } from "next/server";
 import { getAuth } from "../../../../src/lib/auth";
+import { getAuthEnv } from "../../../../src/lib/env";
 
 // followup-001 T-5.1: INTERNAL_API_BASE_URL fallback を撤去し fail-fast 化する。
 // 旧実装は `http://127.0.0.1:8787` に fallback していたため、staging で env が
@@ -13,7 +14,7 @@ import { getAuth } from "../../../../src/lib/auth";
 const LOCAL_DEV_FALLBACK = "http://127.0.0.1:8787";
 
 const apiBase = (): string | null => {
-  const v = process.env["INTERNAL_API_BASE_URL"];
+  const v = getAuthEnv().INTERNAL_API_BASE_URL;
   if (v && v.length > 0) return v.replace(/\/$/, "");
   // local dev (`pnpm dev`) で env が無いケースのみ fallback を許可。
   // staging / production は wrangler.toml で [vars] を必ず注入しているため、
@@ -24,7 +25,7 @@ const apiBase = (): string | null => {
   return null;
 };
 
-const internalSecret = (): string => process.env["INTERNAL_AUTH_SECRET"] ?? "";
+const internalSecret = (): string => getAuthEnv().INTERNAL_AUTH_SECRET ?? "";
 
 async function requireAdmin(): Promise<Response | null> {
   const { auth } = await getAuth();
