@@ -1,12 +1,9 @@
 {
   "$schema": "../../../../docs/30-workflows/task-709-visual-baseline-runtime-capture/schemas/baseline-meta.schema.json",
-  "captured_at_commit_sha": "89229ed837b8588550b707e4d6b97b6103c9a87e",
-  "captured_at": "2026-05-27T05:58:12Z",
+  "captured_at_commit_sha": "0865c1a1e0d6cf6116069bf121208ace15dbe4fd",
+  "captured_at": "2026-05-27T09:56:58Z",
   "captured_via": "playwright-visual-baseline-update.yml#workflow_dispatch",
   "captured_run_ids": [
-    "26315562296",
-    "26346031061",
-    "26350111084",
     "26353406397",
     "26355355712",
     "26383096067",
@@ -15,7 +12,8 @@
     "26489950912",
     "26491992893",
     "26492039712",
-    "26493400023"
+    "26493400023",
+    "26503855446"
   ],
   "viewport_dimensions": {
     "desktop": {
@@ -43,5 +41,5 @@
   "refresh_workflow": ".github/workflows/playwright-visual-baseline-update.yml",
   "refresh_command_hint": "gh workflow run playwright-visual-baseline-update.yml -f reason=\"<why>\" -r <feature-branch>",
   "notes": "captured_at_commit_sha からの rendering_relevant_paths diff が空でない場合、baseline は stale。scripts/visual-baseline-status.sh で診断可能。",
-  "last_refresh_reason": "dev sync-merge #965 (login UI + legacy-public.css) 取り込み後の root route baseline drift (1991→2015px height) を再生成。followup-001 で /admin/members を MembersFilters(PillNav) + MembersTable プロトタイプ整合構造へ刷新した分は同 baseline に内包済（admin baseline は staging-visual-authenticated 側で別管理）。"
+  "last_refresh_reason": "followup-001: scope [data-size] to public route-group made profile/login/top heights shrink 24px; regenerate baselines to reflect new layout"
 }
