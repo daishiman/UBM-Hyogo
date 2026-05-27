@@ -1,10 +1,9 @@
 {
   "$schema": "../../../../docs/30-workflows/task-709-visual-baseline-runtime-capture/schemas/baseline-meta.schema.json",
-  "captured_at_commit_sha": "99c2196cfa24db6d0ac8f285cc1d3c286f8cd686",
-  "captured_at": "2026-05-26T04:54:06Z",
+  "captured_at_commit_sha": "c0f200bede6a0602bc040648b9c1c5bee2e6ae66",
+  "captured_at": "2026-05-27T04:10:17Z",
   "captured_via": "playwright-visual-baseline-update.yml#workflow_dispatch",
   "captured_run_ids": [
-    "26280741223",
     "26314107860",
     "26315562296",
     "26346031061",
@@ -13,7 +12,8 @@
     "26355355712",
     "26383096067",
     "26431275613",
-    "26432787256"
+    "26432787256",
+    "26489950912"
   ],
   "viewport_dimensions": {
     "desktop": {
@@ -41,5 +41,5 @@
   "refresh_workflow": ".github/workflows/playwright-visual-baseline-update.yml",
   "refresh_command_hint": "gh workflow run playwright-visual-baseline-update.yml -f reason=\"<why>\" -r <feature-branch>",
   "notes": "captured_at_commit_sha からの rendering_relevant_paths diff が空でない場合、baseline は stale。scripts/visual-baseline-status.sh で診断可能。",
-  "last_refresh_reason": "2nd round: removed <main> wrapper in (member)/profile/page.tsx (delegated to layout). Baseline height changed 1801→1800px due to padding removal. Regenerate profile baselines."
+  "last_refresh_reason": "feat/login-ui-balance-and-runtime-fix: login UI rebalance + dev merge (issue-255) で visual-full snapshots に 0.03 ratio drift。5 routes × 3 viewports を再生成"
 }
