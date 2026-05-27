@@ -1,10 +1,9 @@
 {
   "$schema": "../../../../docs/30-workflows/task-709-visual-baseline-runtime-capture/schemas/baseline-meta.schema.json",
-  "captured_at_commit_sha": "99c2196cfa24db6d0ac8f285cc1d3c286f8cd686",
-  "captured_at": "2026-05-26T04:54:06Z",
+  "captured_at_commit_sha": "9307f3c2e9ddaf441aca7b677e88236cae3c3940",
+  "captured_at": "2026-05-27T05:17:50Z",
   "captured_via": "playwright-visual-baseline-update.yml#workflow_dispatch",
   "captured_run_ids": [
-    "26280741223",
     "26314107860",
     "26315562296",
     "26346031061",
@@ -13,7 +12,8 @@
     "26355355712",
     "26383096067",
     "26431275613",
-    "26432787256"
+    "26432787256",
+    "26492039712"
   ],
   "viewport_dimensions": {
     "desktop": {
@@ -41,5 +41,5 @@
   "refresh_workflow": ".github/workflows/playwright-visual-baseline-update.yml",
   "refresh_command_hint": "gh workflow run playwright-visual-baseline-update.yml -f reason=\"<why>\" -r <feature-branch>",
   "notes": "captured_at_commit_sha からの rendering_relevant_paths diff が空でない場合、baseline は stale。scripts/visual-baseline-status.sh で診断可能。",
-  "last_refresh_reason": "2nd round: removed <main> wrapper in (member)/profile/page.tsx (delegated to layout). Baseline height changed 1801→1800px due to padding removal. Regenerate profile baselines."
+  "last_refresh_reason": "dashboard prototype alignment (Hero/Stats/AboutUbm/Timeline) intentionally changes public top heights — public-top 1805→1991 / full-visual-root tablet 2184→2457"
 }
