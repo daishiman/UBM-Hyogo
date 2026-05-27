@@ -56,6 +56,7 @@ test.describe('admin-shell-topbar-sidebar-integration Phase 11 screenshots', () 
     await screenshot(adminPage, 'task-A-sidebar-mobile-375.png')
 
     await adminPage.setViewportSize({ width: 1280, height: 720 })
+    await mockApi.setAdminDashboardUnresolvedSchema(3)
     await adminPage.goto('/admin/schema')
     await expect(adminPage.locator('a[href="/admin/schema"]')).toContainText('3')
     await screenshot(adminPage, 'task-A-sidebar-schema-badge.png')

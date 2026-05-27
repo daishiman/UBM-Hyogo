@@ -20,14 +20,13 @@ test.describe('parallel-03 admin AppShell runtime evidence (EV-12)', () => {
     await expect(shell).toHaveAttribute('data-theme', 'cool')
     await expect(shell).toHaveAttribute('data-route-group', 'admin')
     await expect(adminPage.locator('[data-shell="sidebar"]')).toBeVisible()
-    await expect(adminPage.locator('[data-shell="topbar"]')).toBeVisible()
+    await expect(adminPage.locator('[data-shell="topbar"]')).toHaveCount(0)
     await expect(adminPage.locator('main[data-route="admin"]')).toBeVisible()
 
     const lines = await adminPage.evaluate(() => {
       const selectors = [
         '[data-testid="admin-shell"]',
         '[data-shell="sidebar"]',
-        '[data-shell="topbar"]',
         'main[data-route="admin"]',
       ]
       return selectors.flatMap((selector) =>
@@ -40,7 +39,7 @@ test.describe('parallel-03 admin AppShell runtime evidence (EV-12)', () => {
       )
     })
 
-    expect(lines.length).toBeGreaterThanOrEqual(4)
+    expect(lines.length).toBeGreaterThanOrEqual(3)
     const header = [
       '# EV-12 admin AppShell DOM scrape (parallel-03-followup-002)',
       '# captured via apps/web/playwright/tests/parallel-03-admin-shell-scrape.spec.ts',
@@ -52,7 +51,7 @@ test.describe('parallel-03 admin AppShell runtime evidence (EV-12)', () => {
     expect(scrape).toContain('data-route-group="admin"')
     expect(scrape).toContain('data-testid="admin-shell"')
     expect(scrape).toContain('data-shell="sidebar"')
-    expect(scrape).toContain('data-shell="topbar"')
+    expect(scrape).not.toContain('data-shell="topbar"')
     expect(scrape).toContain('data-route="admin"')
 
     await mkdir(dirname(evidencePath), { recursive: true })

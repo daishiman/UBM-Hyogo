@@ -77,14 +77,14 @@ export function MembersTable({
 
   return (
     <div
-      className="ui-card overflow-hidden rounded-[var(--ubm-radius-md)] border border-[var(--ubm-color-border-default)] bg-[var(--ubm-color-surface-panel)]"
+      className="ui-card w-full max-w-full overflow-hidden rounded-[var(--ubm-radius-md)] border border-[var(--ubm-color-border-default)] bg-[var(--ubm-color-surface-panel)]"
       data-component="members-table"
     >
-      <table className="w-full text-left text-sm">
+      <table className="w-full table-fixed text-left text-sm">
         <caption className="sr-only">会員一覧</caption>
         <thead>
           <tr className="border-b border-[var(--ubm-color-border-default)] bg-[var(--ubm-color-surface-panel-2)] text-xs uppercase tracking-wide text-[var(--ubm-color-text-muted)]">
-            <th scope="col" className="px-3 py-2 w-10">
+            <th scope="col" className="w-10 px-2 py-2 md:px-3">
               <span className="sr-only">選択</span>
               <input
                 type="checkbox"
@@ -93,13 +93,13 @@ export function MembersTable({
                 onChange={onToggleSelectAll}
               />
             </th>
-            <th scope="col" className="px-3 py-2">メンバー</th>
-            <th scope="col" className="px-3 py-2">メール</th>
-            <th scope="col" className="px-3 py-2">区画 / ステータス</th>
-            <th scope="col" className="px-3 py-2">タグ</th>
-            <th scope="col" className="px-3 py-2">最終更新</th>
-            <th scope="col" className="px-3 py-2 w-36">公開</th>
-            <th scope="col" className="px-3 py-2 w-12">
+            <th scope="col" className="px-2 py-2 md:px-3">メンバー</th>
+            <th scope="col" className="hidden px-2 py-2 md:table-cell md:px-3">メール</th>
+            <th scope="col" className="hidden px-2 py-2 lg:table-cell md:px-3">区画 / ステータス</th>
+            <th scope="col" className="hidden px-2 py-2 lg:table-cell md:px-3">タグ</th>
+            <th scope="col" className="hidden px-2 py-2 xl:table-cell md:px-3">最終更新</th>
+            <th scope="col" className="w-20 px-2 py-2 md:w-36 md:px-3">公開</th>
+            <th scope="col" className="w-12 px-2 py-2 md:px-3">
               <span className="sr-only">編集</span>
             </th>
           </tr>
@@ -116,7 +116,7 @@ export function MembersTable({
                 className="border-b border-[var(--ubm-color-border-default)] last:border-b-0 hover:bg-[var(--ubm-color-surface-panel-2)]"
                 data-testid={`admin-members-row-${m.memberId}`}
               >
-                <td className="px-3 py-2">
+                <td className="px-2 py-2 md:px-3">
                   <input
                     type="checkbox"
                     aria-label={`${m.fullName} を選択`}
@@ -124,27 +124,27 @@ export function MembersTable({
                     onChange={() => onToggleSelect(m.memberId)}
                   />
                 </td>
-                <td className="px-3 py-2">
+                <td className="min-w-0 px-2 py-2 md:px-3">
                   <button
                     type="button"
-                    className="flex items-center gap-3 text-left"
+                    className="flex min-w-0 items-center gap-2 text-left md:gap-3"
                     onClick={() => onOpenRow(m.memberId)}
                   >
                     <Avatar name={m.fullName} memberId={m.memberId} hue={stringHashHue(m.memberId)} size="sm" />
-                    <span className="flex flex-col">
-                      <span className="font-medium text-[var(--ubm-color-text-primary)]">{m.fullName}</span>
+                    <span className="flex min-w-0 flex-col">
+                      <span className="truncate font-medium text-[var(--ubm-color-text-primary)]">{m.fullName}</span>
                       {summary?.occupation ? (
-                        <span className="text-xs text-[var(--ubm-color-text-muted)]" data-component="member-occupation">
+                        <span className="truncate text-xs text-[var(--ubm-color-text-muted)]" data-component="member-occupation">
                           {summary.occupation}
                         </span>
                       ) : null}
                     </span>
                   </button>
                 </td>
-                <td className="px-3 py-2 font-mono text-xs text-[var(--ubm-color-text-secondary)]">
+                <td className="hidden break-all px-2 py-2 font-mono text-xs text-[var(--ubm-color-text-secondary)] md:table-cell md:px-3">
                   {maskEmail(m.responseEmail)}
                 </td>
-                <td className="px-3 py-2">
+                <td className="hidden px-2 py-2 lg:table-cell md:px-3">
                   <div className="flex flex-wrap items-center gap-1" data-component="member-zone-status">
                     {summary?.ubmZone ? (
                       <Chip tone={zoneTone(summary.ubmZone)} dot>
@@ -161,7 +161,7 @@ export function MembersTable({
                     ) : null}
                   </div>
                 </td>
-                <td className="px-3 py-2">
+                <td className="hidden px-2 py-2 lg:table-cell md:px-3">
                   {tags.length === 0 ? (
                     <Chip tone="warning" dot>
                       未タグ
@@ -175,26 +175,26 @@ export function MembersTable({
                     </div>
                   )}
                 </td>
-                <td className="px-3 py-2 font-mono text-xs text-[var(--ubm-color-text-muted)]">
+                <td className="hidden break-all px-2 py-2 font-mono text-xs text-[var(--ubm-color-text-muted)] xl:table-cell md:px-3">
                   {updatedAt}
                 </td>
-                <td className="px-3 py-2">
+                <td className="px-2 py-2 md:px-3">
                   {m.isDeleted ? (
                     <Chip tone="danger">退会</Chip>
                   ) : (
-                    <div className="flex items-center gap-2" data-component="publish-toggle">
+                    <div className="flex min-w-0 flex-col gap-1 md:flex-row md:items-center md:gap-2" data-component="publish-toggle">
                       <Switch
                         checked={isPublic}
                         label={`${m.fullName} を公開`}
                         onChange={(next) => onTogglePublish?.(m.memberId, next)}
                       />
-                      <span className="text-xs text-[var(--ubm-color-text-secondary)]">
+                      <span className="truncate text-xs text-[var(--ubm-color-text-secondary)]">
                         {PUBLISH_LABEL[m.publishState] ?? m.publishState}
                       </span>
                     </div>
                   )}
                 </td>
-                <td className="px-3 py-2">
+                <td className="px-2 py-2 md:px-3">
                   <Button
                     variant="ghost"
                     size="sm"
