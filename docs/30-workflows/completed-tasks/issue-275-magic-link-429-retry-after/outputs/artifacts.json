@@ -1,0 +1,48 @@
+{
+  "task_id": "issue-275-magic-link-429-retry-after",
+  "status": "implemented_local_evidence_captured",
+  "canonical_workflow": "docs/30-workflows/completed-tasks/issue-275-magic-link-429-retry-after/",
+  "root_artifacts_json": "../artifacts.json",
+  "phase_11_evidence": [
+    "outputs/phase-11/manual-test-result.md"
+  ],
+  "phase_12_strict_7": [
+    "outputs/phase-12/main.md",
+    "outputs/phase-12/implementation-guide.md",
+    "outputs/phase-12/system-spec-update-summary.md",
+    "outputs/phase-12/documentation-changelog.md",
+    "outputs/phase-12/unassigned-task-detection.md",
+    "outputs/phase-12/skill-feedback-report.md",
+    "outputs/phase-12/phase12-task-spec-compliance-check.md"
+  ],
+  "metadata": {
+    "workflow_state": "implemented_local_evidence_captured",
+    "spec_classification": "implementation_spec",
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-05-26T10:00:00+09:00",
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-275-magic-link-429-retry-after/outputs/phase-12/phase12-task-spec-compliance-check.md",
+        "approver": "daishiman",
+        "notes": "mirror of root artifacts.json"
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "passed",
+        "passed_at": "2026-05-26T10:00:00+09:00",
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-275-magic-link-429-retry-after/outputs/phase-11/manual-test-result.md",
+        "approver": "daishiman",
+        "notes": "mirror of root artifacts.json"
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-275-magic-link-429-retry-after/outputs/phase-13/pr-creation-result.md",
+        "approver": "daishiman",
+        "notes": "mirror of root artifacts.json — external_ops user-gated"
+      }
+    ]
+  }
+}

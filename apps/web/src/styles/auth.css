@@ -100,9 +100,15 @@
   }
 
   .auth-card .ui-input[data-size="lg"] {
-    min-height: 44px;
-    padding: 0 var(--ubm-space-3);
+    height: 44px;
+    padding: 0 var(--ubm-space-4);
     font-size: var(--ubm-text-base);
+    line-height: 1.25;
+  }
+
+  .auth-card .ui-input[data-size="lg"]:focus-visible {
+    outline: 2px solid var(--ubm-color-accent);
+    outline-offset: 2px;
   }
 
   .auth-card .ui-button {
@@ -128,6 +134,17 @@
 
   .auth-card .ui-button-block {
     width: 100%;
+  }
+
+  .auth-card [data-component="google-brand-icon"] {
+    border: 0;
+    background: transparent;
+    padding: 0;
+  }
+
+  .auth-card [data-component="google-brand-icon"]::before,
+  .auth-card [data-component="google-brand-icon"]::after {
+    content: none;
   }
 
   .auth-card .ui-button-primary {
