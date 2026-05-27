@@ -22,14 +22,7 @@ export function Hero({
 }: HeroProps) {
   if (variant === "panel") {
     return (
-      <section
-        data-component="hero"
-        data-variant="panel"
-        style={{
-          backgroundImage:
-            "linear-gradient(135deg, var(--ubm-color-zone-a) 0%, var(--ubm-color-zone-c) 100%)",
-        }}
-      >
+      <section data-component="hero" data-variant="panel">
         {eyebrow ? <p data-role="eyebrow">{eyebrow}</p> : null}
         <h1>{title}</h1>
         {subtitle ? <p data-role="subtitle">{subtitle}</p> : null}
