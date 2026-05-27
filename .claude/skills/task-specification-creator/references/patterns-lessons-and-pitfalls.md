@@ -2,6 +2,12 @@
 
 > 親ファイル: [patterns.md](patterns.md)
 
+## public-header-my-profile-nav-alignment lessons (2026-05-26)
+
+- L-PUBHDR-001: Header personalization workflows should keep the presentational header sync and isolate dynamic inputs. Use a server wrapper for session and a minimal client island for pathname when real `aria-current` is required.
+- L-PUBHDR-002: Do not record same-wave skill/reference/index updates as user-gated when they are repository-local files. User gates apply to commit, push, PR, deployment, and external runtime evidence, not local canonical sync.
+- L-PUBHDR-003: Avoid duplicating the same destination and label in primary nav and CTA. For public chrome, choose one semantic owner for `/profile`; in this workflow the authenticated CTA owns the my-page action.
+
 ## 目的
 
 過去のタスク実行で発生した失敗事例と教訓を記録する。再発防止と初動短縮のためのリファレンス。
@@ -538,6 +544,52 @@ issue-894（admin topbar breadcrumb 二重描画解消）実装で得た知見�
 
 ---
 
+## CSP directive 撤去パターン（issue-924 L-I924-001..005 汎化）
+
+CSP の `style-src-attr` や `script-src-attr` 等 *-attr 系 directive を撤去するとき、または `'unsafe-inline'` を CSP から外すときに繰り返し当たる落とし穴。コード置換と invariant gate を同一サイクルで整える指針。
+
+### L-I924-001 (invariant grep gate は最小トリガを取る)
+
+- **NG**: `style={{` 限定の grep で「inline style ゼロ」を主張する。prop-forward `style={style}` と条件式 `style={cond ? styleA : undefined}` が漏れる。
+- **OK**: grep は **`style={` 最低粒度**で検索。除外は CSP 対象外 route の path allowlist で明示。
+- **Why**: CSP `style-src-attr` は inline style の **生成経路を問わず** block する。prop か条件か直書きかを区別しない。gate もそれに合わせる。
+- **適用 phase**: Phase 4 test-plan で invariant gate の pattern を確定、Phase 5 implementation-plan で除外 path 表を固定。
+
+### L-I924-002 (VISUAL タスクは static-sanity と full-regression を分離)
+
+- **NG**: 19 route の visual baseline が取れなかったため `workflow_state` を fail / pending に倒し、ローカル static evidence まで保留扱いにする。
+- **OK**: `outputs/phase-11/screenshots/*-static-sanity.png` 1 枚で **CSS / DOM の local sanity** を closing。`workflow_state = local_static_pass_browser_pending` を採り、full route visual regression は常に user-gated（PASS 表記しない）。
+- **Why**: worktree dev server の初回コンパイル遅延等で full regression が取れないケースは構造的に発生する。local sanity と full regression は別 evidence boundary。
+
+### L-I924-003 (`ImageResponse` 等 CSP 非対象 route は path allowlist 除外)
+
+- **NG**: grep の pattern 側で `next/og` import を見て自動除外しようとする。import 形だけで除外可否は決まらず誤検出する。
+- **OK**: `apps/web/app/og/**` 等 path allowlist で **明示列挙**。Phase 5 で「除外ファイル」を表化、Phase 11 evidence で「除外確認」と「対象スキャン PASS」を別行で記録。
+- **Why**: 除外境界は **物理 path** で固定する（L-BRAND-001 と同じ責務分離パターン）。
+
+### L-I924-004 (置換は A 静的 / B 動的離散 / C 連続値 に分類してから着手)
+
+- **NG**: 全 inline style を「とりあえず className 化」する。`width: ${percent}%` の連続値や bucket 色制約付き動的値で詰まる。
+- **OK**: Phase 5 で置換を 3 区分に表化し作業順序を **A → C → B** に固定（B は token 整備が前提のため最後）:
+  - 区分 A: 静的 → Tailwind utility / CSS module class
+  - 区分 B: 動的・離散有限 → `data-bucket="N"` 等の属性 + CSS rule（`tokens.css` OKLch に集約）
+  - 区分 C: 動的・連続値 → SVG `<rect width="...">` に置換し HTML inline style から逃がす
+- **Why**: 区分判定なしで進めると「ほぼ完了したが連続値だけ残った」状態で行き詰まり、CONST_007 を口実に B/C を unassigned 切り出ししたくなる。先に分類すれば 1 サイクルで closing できる。
+
+### L-I924-005 (CSP directive 削除と spec assertion 更新を 1 commit に束ねる)
+
+- **NG**: `security-headers.ts` の directive 削除と Vitest / Playwright spec の assertion 更新を別 PR に分ける。
+- **OK**: `security-headers.ts` / focused spec / Playwright smoke spec / middleware spec の修正を **1 commit に同梱**。Phase 4 test-plan で「assertion 更新対象」を表化し、Phase 5 で修正順を「directive 削除 → spec 更新 → grep gate 強化 → 置換実装」に固定。
+- **Why**: header 値は spec が同じ directive を見ているため、削除側だけ先に merge すると CI が割れる。directive と test は 1 単位。
+
+### Anti-pattern（CSP directive 撤去）
+
+- 「invariant gate を後で追加すれば良い」と Phase 5 で gate 配線を Phase 11 に先送りする。Phase 5 でコード置換を始めると **grep gate なしでの「目視確認」期間** ができ、レビューサイクルで residual がほぼ確実に出る。invariant gate は **コード置換と同 wave** で `pnpm lint` / lefthook に配線するのが正解。
+
+---
+
+---
+
 ## DELETE-race UI wiring pattern (Issue #911 / 2026-05-25)
 
 既存 endpoint が「削除済み / 解除済み」を 404 で返す UI caller では、API surface を増やす前に既存 mutation policy で race を success-equivalent に倒せるか確認する。
@@ -547,6 +599,8 @@ issue-894（admin topbar breadcrumb 二重描画解消）実装で得た知見�
 - **L-I911-003**: component spec は toast だけでなく payload、DOM state、CTA 消滅/出現を assert する。
 - **L-I911-004**: 親 workflow に「caller 未移行」などの stale note がある場合、実装 wave で正本 index も補正する。
 - **L-I911-005**: Phase 12 optional summary (`phase-12.md`) と strict 7 inventory を混同しない。
+
+---
 
 ## parallel adapter signature extension（dev sync-merge / 2026-05-26）
 
@@ -614,6 +668,24 @@ dev sync-merge で **HEAD = route group rename（`app/<route>/` → `app/(group)
 - workflow から `pull_request` trigger を外す→ workflow file 自体の variation や spec 変更を CI で検知できなくなる。secrets-gate skip で trigger 自体は保持する。
 - `continue-on-error: true` で誤魔化す → 真の secrets 欠落と spec バグの双方が無視される。skip 判定を明示的に行う。
 
+## skill index-only sync-merge happy path（dev sync-merge / 2026-05-26）
+
+並列 worktree が aiworkflow-requirements の `SKILL.md` / `indexes/topic-map.md` (`merge=union`) / `indexes/keywords.json` (`--ours + rebuild`) のみを更新し、ソース・spec・docs に手を入れない場合の sync-merge は、`pnpm sync:resolve` 単独で unhandled ゼロ完結する（aiworkflow-requirements の `lessons-learned-dev-sync-merge-conflict-resolution-2026-05.md` L-DEVSYNC-046）。
+
+- **L-DEVSYNC-046 (index-only happy path)**: Phase 12 implementation-guide / Phase 13 PR pre-flight で「conflict が 3 ファイル（`SKILL.md` + `indexes/topic-map.md` + `indexes/keywords.json`）以下に閉じる場合は resolver 単独完結で OK」と明示し、追加の手動 union を試みない。逆に conflict 件数が 4 以上、もしくは `.claude/skills/*/lessons-learned/` 配下が UU で出てきた場合は L-DEVSYNC-040 系（並列 export 追加）/ L-DEVSYNC-043（adapter signature union）/ L-DEVSYNC-045（route group rename + import 正規化）のいずれかにフォールバック判定する troubleshoot 行を runbook に含める。
+- **Phase 12 sync gate への反映**: `pnpm sync:resolve` の `UNION_MERGE_TARGETS` を **skill index / lessons-learned / SKILL-changelog** に限定し続け、resolver の責務を「並列 worktree が末尾 append-only で更新するファイル」のみに固定する。`.gitattributes merge=union` 対象を追加する際は本 happy path が壊れないか（行単位の意味独立性）を spec template の review checklist に組み込む。
+
+## CI re-trigger 戦略（transient infra failure / 2026-05-26）
+
+GitHub Actions の transient 失敗（`actions/download-artifact` archive download error / runner provisioning timeout 等）で `mergeStateStatus=BLOCKED` になった PR の再 trigger 順序を Phase 12 implementation-guide / Phase 13 PR pre-flight に明文化する（aiworkflow-requirements の `lessons-learned-dev-sync-merge-conflict-resolution-2026-05.md` L-DEVSYNC-047）。
+
+- **L-DEVSYNC-047 (CI re-trigger 順序)**: Phase 13 PR pre-flight runbook に以下の優先順位を含める。
+  1. `gh run rerun --failed <run-id>` を最優先（同一 head SHA で job だけ re-queue、required check の鏡像維持）。
+  2. 10 分以上 queued のまま進行しない場合のみ、**実ファイル変更を含む 1 commit** で head を進める（最小コストは `merge=union` 対象 lessons-learned / `docs/30-workflows/LOGS.md` への trailer 1 行追記）。
+  3. **空コミット (`git commit --allow-empty`) は使わない**。empty commit は tree-hash 不変で `pull_request synchronize` が workflow run を schedule しないケースがあり、PR を BLOCKED 状態に陥らせる（既存の `feedback_visual_baseline_github_token_retrigger.md` は GITHUB_TOKEN 検知遅延向けで本ケースに適用できない）。
+  4. CI re-trigger 目的で `apps/*/src/...` 実装側ファイルを触らない。code-change diff が PR review に紛れる。
+- **gh api SHA 照合**: `gh api repos/.../actions/runs?head_sha=<sha>` で workflow run 登録を確認する際は **full 40-char SHA**（`git rev-parse HEAD`）を渡す。short SHA prefix では match しない。bash の `python3 -c "...$VAR..."` 変数展開漏れで「0 件」と誤判定する事故あり、SHA は environment variable ではなく argv / stdin か直接 string literal で渡す。
+
 ## API method/path 切替時の Playwright mock fixture 追従（2026-05-26）
 
 admin API の method/endpoint を切替える PR（例: issue-912 で `POST /attendances` → `DELETE /attendance/:memberId`）では、本実装・vitest spec・runtime smoke と合わせて `apps/web/playwright/fixtures/auth.ts` の mock handler も**同一 PR で追従**させる必要がある。漏れた場合、mock の末尾 fallback `response(res, 404, { error: 'MOCK_API_NOT_FOUND' })` が新 endpoint への request を吸収してしまい、UI 側の idempotent 404 分岐（"既に出席解除されています"）に silent に流れ、`smoke (chromium)` / `e2e (desktop-chromium)` が "出席を削除しました" を期待する toast assertion で fail する。
@@ -659,3 +731,13 @@ UI primitive (`AdminPageHeader` / `KpiCard` / `AdminTable` / `AdminEmptyState` �
 
 - 本番 API に依存して Phase 11 を撮る → flaky / 認証境界で取れない。
 - screenshot 出力先を hardcode して workflow root 外に散らす → artifact-inventory での回収が漏れる。
+
+---
+
+## 新規 pattern section heading 命名規約（dev sync-merge union 統合のため）
+
+本ファイル自体が複数 issue から末尾並列に append される SSOT であり、dev sync-merge で日常的に diff3 conflict が発生する。両側 union で安全に統合するため、新規 pattern section の heading には **issue 番号 / lesson ID prefix を必ず含める**。
+
+- **L-PATSEC-001 (heading 一意化)**: 新規 pattern section の見出しは `## <pattern 名>（issue-<N> L-<TAG>-001..M 汎化）` 形式を採る（例: `## CSP directive 撤去パターン（issue-924 L-I924-001..005 汎化）`）。HEAD と dev で同 sprint に偶然同名 pattern を追加しても heading が衝突しないため、resolver の union が重複 heading を生まない。
+- **L-PATSEC-002 (末尾 append-only)**: 既存 section の中央に bullet を増やさず、必ず**ファイル末尾に新 section を append**する。中央への追加は L-DEVSYNC-030（table-merge）系の手動 union を要求し、resolver 1 発で完結しない。
+- **L-PATSEC-003 (resolver 委譲)**: 本ファイルは `scripts/sync/resolve-skill-merge-conflicts.sh` の `UNION_TARGETS` に登録済（[[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-046）。仕様書 Phase 12 で本ファイルへ section を追記するタスクは「dev sync-merge での conflict は `pnpm sync:resolve` 自動解消」と前提を置いてよい。

@@ -7,8 +7,8 @@ import { Pagination } from "@/components/ui/Pagination";
 
 function VisualShell({ children }: { readonly children: ReactNode }) {
   return (
-    <main style={{ display: "grid", minHeight: "100vh", placeItems: "center", padding: 32 }}>
-      <div style={{ width: "min(680px, 100%)" }}>{children}</div>
+    <main className="visual-harness-shell">
+      <div className="visual-harness-frame">{children}</div>
     </main>
   );
 }
@@ -27,9 +27,9 @@ export function Parallel09VisualScenario({ name }: { readonly name: string }) {
   if (name === "icon-4sizes") {
     return (
       <VisualShell>
-        <div data-visual="icon-grid" style={{ display: "flex", alignItems: "center", gap: 24 }}>
+        <div data-visual="icon-grid" className="visual-icon-grid">
           {(["sm", "md", "lg", "xl"] as const).map((size) => (
-            <span key={size} style={{ display: "grid", justifyItems: "center", gap: 8 }}>
+            <span key={size} className="visual-icon-item">
               <Icon name="check" size={size} ariaLabel={`${size} icon`} />
               <span>{size}</span>
             </span>
@@ -56,7 +56,7 @@ export function Parallel09VisualScenario({ name }: { readonly name: string }) {
   if (name === "focus-visible") {
     return (
       <VisualShell>
-        <div data-visual="focus-grid" style={{ display: "grid", gap: 16 }}>
+        <div data-visual="focus-grid" className="visual-focus-grid">
           <button type="button" autoFocus>
             Focused button
           </button>
@@ -78,8 +78,8 @@ export function Parallel09VisualScenario({ name }: { readonly name: string }) {
   if (name === "parallel-02-css-rules") {
     return (
       <VisualShell>
-        <div style={{ display: "grid", gap: 28 }}>
-          <section style={{ display: "flex", gap: 12, alignItems: "center" }}>
+        <div className="visual-parallel02">
+          <section className="visual-tag-row">
             <button type="button" data-component="tag-pill" data-evidence="tag-pill-default">
               #kobe
             </button>
@@ -96,34 +96,34 @@ export function Parallel09VisualScenario({ name }: { readonly name: string }) {
             </button>
           </section>
 
-          <section style={{ display: "grid", gap: 12 }}>
+          <section className="visual-member-card-grid">
             <article
               data-component="member-card"
               data-evidence="member-card-default"
-              style={{ border: "1px solid var(--ubm-color-border-default)", borderRadius: "var(--ubm-radius-md)", padding: 16 }}
+              className="visual-member-card"
             >
               <a href="/members/sample-001">佐藤 サンプル</a>
-              <p style={{ margin: "8px 0 0", color: "var(--ubm-color-text-secondary)" }}>事業開発 / Kobe</p>
+              <p className="visual-member-card-meta">事業開発 / Kobe</p>
             </article>
             <article
               data-component="member-card"
               data-evidence="member-card-hover"
-              style={{ border: "1px solid var(--ubm-color-border-default)", borderRadius: "var(--ubm-radius-md)", padding: 16 }}
+              className="visual-member-card"
             >
               <a href="/members/sample-002">田中 サンプル</a>
-              <p style={{ margin: "8px 0 0", color: "var(--ubm-color-text-secondary)" }}>地域連携 / Himeji</p>
+              <p className="visual-member-card-meta">地域連携 / Himeji</p>
             </article>
             <article
               data-component="member-card"
               data-evidence="member-card-focus"
-              style={{ border: "1px solid var(--ubm-color-border-default)", borderRadius: "var(--ubm-radius-md)", padding: 16 }}
+              className="visual-member-card"
             >
               <a href="/members/sample-003">山田 サンプル</a>
-              <p style={{ margin: "8px 0 0", color: "var(--ubm-color-text-secondary)" }}>教育 / Akashi</p>
+              <p className="visual-member-card-meta">教育 / Akashi</p>
             </article>
           </section>
 
-          <section style={{ display: "grid", gap: 10 }}>
+          <section className="visual-visibility-grid">
             <p data-visibility="public" data-evidence="visibility-public">
               公開プロフィール
             </p>

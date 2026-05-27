@@ -3,6 +3,7 @@
 // resolve の状態遷移ロジックは 07a workflow (tagQueueResolve) に委譲する。
 import { Hono } from "hono";
 import { z } from "zod";
+import { idempotency } from "../../middleware/idempotency";
 import { requireAdmin, type RequireAuthVariables } from "../../middleware/require-admin";
 import { adminEmail, asAdminId } from "../../repository/_shared/brand";
 import type { DbCtx } from "../../repository/_shared/db";
@@ -43,6 +44,7 @@ export const createAdminTagsQueueRoute = () => {
     Variables: RequireAuthVariables & Partial<WriteTagNoteProviderVariables> & { ctx?: DbCtx };
   }>();
   app.use("*", requireAdmin);
+  app.use("*", idempotency());
   app.use("*", writeTagNoteProviderMiddleware);
 
   app.get("/tags/queue", async (c) => {
