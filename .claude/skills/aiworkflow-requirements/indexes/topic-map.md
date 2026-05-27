@@ -2131,6 +2131,12 @@ node scripts/list-specs.js --topics
 | Artifacts | L13 |
 | Boundary | L31 |
 
+### references/workflow-admin-dashboard-recovery-and-byZone-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Contract | L15 |
+
 ### references/workflow-admin-meetings-prototype-alignment-artifact-inventory.md
 
 | セクション | 行 |
@@ -7868,14 +7874,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L2730 |
-| フェーズ構造（概要） | L2739 |
-| 品質ゲート（概要） | L2770 |
-| 出力テンプレート | L2781 |
-| 実行時のコマンド・エージェント・スキル | L2804 |
-| 昇格パターン集 | L2828 |
-| Current Active / Spec Created Tasks | L2830 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L2991 |
+| ドキュメント構成 | L2745 |
+| フェーズ構造（概要） | L2754 |
+| 品質ゲート（概要） | L2785 |
+| 出力テンプレート | L2796 |
+| 実行時のコマンド・エージェント・スキル | L2819 |
+| 昇格パターン集 | L2843 |
+| Current Active / Spec Created Tasks | L2845 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L3006 |
 
 ### references/task-workflow-backlog-part2.md
 

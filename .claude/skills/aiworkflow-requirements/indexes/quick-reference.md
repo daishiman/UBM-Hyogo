@@ -14,6 +14,20 @@
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-meetings-prototype-alignment-artifact-inventory.md` |
 | user gate | staging refresh/deploy, staging runtime observation, commit, push, PR |
 
+## admin-dashboard-recovery-and-byZone（2026-05-26）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/admin-dashboard-recovery-and-byZone/` |
+| 状態 | `implemented_local_runtime_pending / implementation / VISUAL` |
+| parent | `docs/30-workflows/admin-ui-prototype-alignment/` |
+| source task | `docs/30-workflows/admin-ui-prototype-alignment/tasks/task-B-dashboard-recovery-and-byZone.md` |
+| scope | `/admin` dashboard fetch 404 recovery + existing `GET /admin/dashboard` optional `byZone` response extension + prototype-conformant `ZoneDistribution` |
+| implementation targets | `packages/shared/src/zod/viewmodel.ts`, `apps/api/src/routes/admin/dashboard.ts`, `apps/api/src/routes/admin/_shared/byZone.ts`, `apps/web/src/lib/admin/admin-dashboard-ui.ts`, `apps/web/src/features/admin/components/_dashboard/ZoneDistribution.tsx`, `apps/web/src/lib/admin/{safe-server-fetch,server-fetch}.ts`, `apps/web/wrangler.toml`, `apps/web/src/styles/tokens.css` |
+| Phase 12 | strict 7 outputs + root/output artifacts parity present |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-dashboard-recovery-and-byZone-artifact-inventory.md` |
+| user gate | staging deploy, wrangler tail, staging curl evidence, commit, push, PR |
+
 ## admin-attendance-analytics-redesign（2026-05-26）
 
 | 項目 | 値 |
