@@ -828,3 +828,21 @@
   4. resolver `scripts/sync/resolve-skill-merge-conflicts.sh` 側にも post-resolve sanity step として同 grep を追加すれば push 前検出が早まる。
 - 留意: CI gate は `<<<<<<< ` / `>>>>>>> ` / `||||||| ` の **後ろの空白込み 8 文字** で grep する。空白なし `|||||||EOL` 等は検出されない。古い resolver が space を消すケースは別途調査要。
 - 事例: 2026-05-26 `feat/issue-247-...` PR #966。`5ddb51e6a merge: sync ... with dev` push 後 `verify-conflict-markers` が `--- offending lines ---` 4件で FAIL。該当 4 行削除 commit で復旧。
+
+## L-DEVSYNC-050: UI primitive component の 3-way conflict（HEAD=新 variant 追加 / dev=旧 path 簡素化）は HEAD 全採用が default（2026-05-27）
+
+- 事象: 2026-05-27 `feat/dashboard-prototype-alignment` ← origin/dev (11 commits behind) sync-merge で `pnpm sync:resolve` が 5 file union 成功 / `apps/web/src/components/public/Hero.tsx` のみ `WARN unhandled conflict`。diff3 marker（`<<<<<<< HEAD` / `||||||| 7f651a083` / `=======` / `>>>>>>> origin/dev`）の 3 ブロックは:
+  - base: `<section data-component="hero" style={{ backgroundImage: "linear-gradient(...)" }}>` の inline-style 1 variant
+  - HEAD: `<section data-variant="card">` + `<div data-role="accent" />` + `<div data-role="body">` + `<h1 data-role="title-serif">` を**新 variant 追加**（旧 path は `variant === "panel"` 早期 return で保持）
+  - dev: 同じ base から inline-style 撤去（`<section data-component="hero">` 単 variant、token CSS への移行）
+- Why: 両側とも「inline-style backgroundImage を撤去」する同方向の変更だが、HEAD は「新 variant 追加 + 旧 path は panel variant として保持」、dev は「単一 path 簡素化」と粒度が異なる。HEAD 側の `variant === "panel"` 分岐が dev の意図（旧 path 維持）を既に内包しているため、HEAD 全採用で dev の意図は自動的に supersede される。union や dev take は重複 `<section>` 生成 / 既存 variant prop API の破壊につながる。
+- How to apply:
+  1. `resolve-skill-merge-conflicts.sh` の WARN unhandled に UI primitive (`apps/web/src/components/**/*.tsx`) が含まれたら、`grep -n -E '^(<<<<<<<|=======|>>>>>>>|\|\|\|\|\|\|\|)' <path>` で 3 ブロック位置を確認する。
+  2. 以下の判定フロー:
+     - dev の変更が base からの**単純化**（行削除のみ）かつ HEAD の変更が**新 variant / 新 prop / 新 entrypoint 追加** → **HEAD 全採用が default**（dev の意図は HEAD の旧 path 保持で吸収される）
+     - dev の変更が base からの**機能追加**（field 追加 / prop 追加） → HEAD + dev の手動 union が必要
+     - 判定迷う場合は `git log -p origin/dev ^HEAD -- <path>` で dev 側 commit 意図を 1 行確認してから決定（commit message に "extract" / "simplify" / "remove" が含まれれば単純化、"add" / "support" が含まれれば機能追加）
+  3. 採用後検証: `grep -nE '^(<<<<<<<|=======|>>>>>>>|\|\|\|\|\|\|\|)' <path>` 0 件 + `pnpm typecheck` + `pnpm lint` + 採用 variant の spec / visual baseline green。
+  4. resolver 自動化は不要（UI primitive の意味判定は機械化不可能）。本ルールは手動 SOP として L-DEVSYNC-044 (spec EOF 並列追加) と並列に位置付ける。
+- 留意: HEAD 側に `data-variant` prop が新設されている場合、既存呼び出し側（`<Hero ... />` を使う page）が default variant に依存しているか確認する。本ケースでは `variant?: "card" | "panel"` の default が `"card"`（新 variant）に切り替わるため、prototype-alignment 進行中であれば意図通り。完了後 sync では `variant="panel"` 明示が必要なケースもあり得る。
+- 事例: 2026-05-27 commit `57ff4402b` (`merge: sync feat/dashboard-prototype-alignment with origin/dev`)。Hero.tsx HEAD 全採用 → resolver 5 file union + 手動 1 file → typecheck/lint green。task-specification-creator [[dev-sync-merge-conflict-resolution]] SP-DEVSYNC-038 に予防ルールとして逐語埋め込み済み。
