@@ -15,6 +15,19 @@
 | inventory | `.claude/skills/aiworkflow-requirements/references/workflow-public-dashboard-prototype-alignment-artifact-inventory.md` |
 | user gate | implementation, local visual capture, staging refresh, commit, push, PR |
 
+## login-ui-balance-and-runtime-fix（2026-05-26）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/login-ui-balance-and-runtime-fix/` |
+| status | `implemented_local_runtime_pending / implementation / VISUAL` |
+| purpose | `/login` input/button visual balance, Google brand icon CSS isolation, magic-link internal API env runtime fix, and prototype local serving repair |
+| implementation | `apps/web/src/styles/auth.css`, `apps/web/src/styles/legacy-public.css`, `apps/web/app/api/auth/magic-link/{route,verify/route}.ts`, `apps/web/app/api/auth/gate-state/route.ts`, `apps/web/app/api/admin/[...path]/route.ts`, `apps/web/app/api/me/[...path]/route.ts`, `apps/web/src/lib/auth/verify-magic-link.ts`, `apps/web/src/lib/fetch/authed.ts`, `scripts/verify-no-process-env-internal-api.sh`, `scripts/serve-prototype.sh` |
+| contract | production code resolves `INTERNAL_API_BASE_URL` through `apps/web/src/lib/env.ts` accessors; Google SVG remains an image and is excluded from legacy `[data-size]` circular styling |
+| Phase 12 | strict 7 present under `outputs/phase-12/`; output artifacts parity present |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-login-ui-balance-and-runtime-fix-artifact-inventory.md` |
+| user gate | Playwright visual screenshots, staging deploy/smoke, commit, push, PR |
+
 ## google-form-reflection-diagnostics（2026-05-26）
 ## Issue #924 style-src-attr retirement（2026-05-25）
 

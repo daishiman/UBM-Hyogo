@@ -76,6 +76,10 @@ https://www.googleapis.com/auth/drive.readonly
 
 登録・未同意・削除済みを別画面へ飛ばさず、ログイン導線の中で吸収する。
 
+### Magic Link web proxy env contract（2026-05-26）
+
+`apps/web/app/api/auth/magic-link/route.ts`、`verify/route.ts`、`gate-state/route.ts`、`/api/admin/*`、`/api/me/*`、`verifyMagicLink()`、`fetchAuthed()` は `INTERNAL_API_BASE_URL` を `apps/web/src/lib/env.ts` の accessor（`getAuthEnv()` / 必要時 `getPublicFetchEnv()`）経由で解決する。production code の `process.env.INTERNAL_API_BASE_URL` 直参照は禁止し、`scripts/verify-no-process-env-internal-api.sh` で回帰検出する。
+
 ---
 
 ## サービスアカウントのセットアップ

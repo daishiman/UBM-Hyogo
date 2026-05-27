@@ -1191,6 +1191,7 @@
       "workflow-issue-504-extended-fixture-50k-artifact-inventory.md",
       "workflow-issue-55-notification-channel-and-optout-artifact-inventory.md",
       "workflow-issue-903-parallel-03-followup-005-member-runtime-evidence-artifact-inventory.md",
+      "workflow-login-ui-balance-and-runtime-fix-artifact-inventory.md",
       "workflow-ut-07a-01-member-tags-assign-cleanup-artifact-inventory.md",
       "workflow-ut-07b-fu-01-schema-alias-backfill-queue-cron-split-artifact-inventory.md",
       "workflow-ut-17-cloudflare-analytics-alerts-artifact-inventory.md"
@@ -3354,6 +3355,7 @@
       "workflow-issue-903-parallel-03-followup-005-member-runtime-evidence-artifact-inventory.md",
       "workflow-issue-908-staging-rollback-notification-runtime-smoke-artifact-inventory.md",
       "workflow-issue-924-style-src-attr-retirement-artifact-inventory.md",
+      "workflow-login-ui-balance-and-runtime-fix-artifact-inventory.md",
       "workflow-parallel-04-shared-page-chrome-artifact-inventory.md",
       "workflow-parallel-i02b-admin-mutation-error-finalize-artifact-inventory.md",
       "workflow-parallel-i03-dialog-refresh-order-artifact-inventory.md",
@@ -4479,6 +4481,7 @@
       "workflow-issue-903-parallel-03-followup-005-member-runtime-evidence-artifact-inventory.md",
       "workflow-issue-908-staging-rollback-notification-runtime-smoke-artifact-inventory.md",
       "workflow-issue-922-production-admin-runtime-smoke-gate-artifact-inventory.md",
+      "workflow-login-ui-balance-and-runtime-fix-artifact-inventory.md",
       "workflow-runtime-smoke-staging-mint-recurrence-fix-artifact-inventory.md",
       "workflow-task-05a-form-preview-503-001-artifact-inventory.md",
       "workflow-task-709-visual-baseline-runtime-capture-artifact-inventory.md",
@@ -4757,6 +4760,7 @@
       "workflow-issue-903-parallel-03-followup-005-member-runtime-evidence-artifact-inventory.md",
       "workflow-issue-922-production-admin-runtime-smoke-gate-artifact-inventory.md",
       "workflow-issue-924-style-src-attr-retirement-artifact-inventory.md",
+      "workflow-login-ui-balance-and-runtime-fix-artifact-inventory.md",
       "workflow-members-page-prototype-alignment-artifact-inventory.md",
       "workflow-mypage-prototype-alignment-artifact-inventory.md",
       "workflow-parallel-04-shared-page-chrome-artifact-inventory.md",
@@ -5867,6 +5871,7 @@
       "workflow-issue-900-workflow-permissions-least-privilege-audit-artifact-inventory.md",
       "workflow-issue-922-production-admin-runtime-smoke-gate-artifact-inventory.md",
       "workflow-login-page-prototype-alignment-artifact-inventory.md",
+      "workflow-login-ui-balance-and-runtime-fix-artifact-inventory.md",
       "workflow-members-page-prototype-alignment-artifact-inventory.md",
       "workflow-profile-loading-skeleton-oklch-artifact-inventory.md",
       "workflow-public-dashboard-prototype-alignment-artifact-inventory.md",
@@ -7050,6 +7055,7 @@
       "workflow-issue-900-workflow-permissions-least-privilege-audit-artifact-inventory.md",
       "workflow-issue-902-members-staging-visual-baseline-artifact-inventory.md",
       "workflow-issue-903-parallel-03-followup-005-member-runtime-evidence-artifact-inventory.md",
+      "workflow-login-ui-balance-and-runtime-fix-artifact-inventory.md",
       "workflow-mypage-prototype-alignment-artifact-inventory.md",
       "workflow-parallel-04-shared-page-chrome-artifact-inventory.md",
       "workflow-parallel-09-ux-cross-cutting-artifact-inventory.md",
@@ -9429,6 +9435,7 @@
       "workflow-issue-901-authenticated-profile-admin-staging-visual-artifact-inventory.md",
       "workflow-issue-902-members-staging-visual-baseline-artifact-inventory.md",
       "workflow-login-page-prototype-alignment-artifact-inventory.md",
+      "workflow-login-ui-balance-and-runtime-fix-artifact-inventory.md",
       "workflow-mypage-prototype-alignment-artifact-inventory.md",
       "workflow-parallel-i06-root-error-focus-artifact-inventory.md",
       "workflow-step-07-requests-approve-reject-artifact-inventory.md",
@@ -13024,6 +13031,7 @@
       "workflow-issue-922-production-admin-runtime-smoke-gate-artifact-inventory.md",
       "workflow-issue-924-style-src-attr-retirement-artifact-inventory.md",
       "workflow-login-page-prototype-alignment-artifact-inventory.md",
+      "workflow-login-ui-balance-and-runtime-fix-artifact-inventory.md",
       "workflow-members-page-prototype-alignment-artifact-inventory.md",
       "workflow-permission-fallback-abort-skip-retry.md",
       "workflow-profile-loading-skeleton-oklch-artifact-inventory.md",
@@ -14463,6 +14471,7 @@
       "ui-ux-feature-components-advanced.md",
       "workflow-admin-ui-prototype-alignment-artifact-inventory.md",
       "workflow-admin-ui-prototype-alignment-followup-002-section-error-retry-artifact-inventory.md",
+      "workflow-login-ui-balance-and-runtime-fix-artifact-inventory.md",
       "workflow-task-06-ui-ux-contract-rewrite-artifact-inventory.md",
       "workflow-task-24-ui-mvp-w8-par-invariant-audit-artifact-inventory.md",
       "workflow-task-25-ui-mvp-w8-par-routes-smoke-coverage-artifact-inventory.md"
@@ -14917,6 +14926,7 @@
       "workflow-fix-verify-design-tokens-og-route-exclude-artifact-inventory.md",
       "workflow-issue-720-cf-audit-monitor-env-protection-fix-artifact-inventory.md",
       "workflow-issue-882-terms-prefetch-env-validation-fix-artifact-inventory.md",
+      "workflow-login-ui-balance-and-runtime-fix-artifact-inventory.md",
       "workflow-runtime-smoke-staging-mint-recurrence-fix-artifact-inventory.md",
       "workflow-skill-md-codex-validation-fix-artifact-inventory.md",
       "workflow-task-alert-relay-global-scope-fix-001-artifact-inventory.md",
@@ -15026,6 +15036,7 @@
       "workflow-issue-377-retry-tick-and-dlq-audit-artifact-inventory.md",
       "workflow-issue-827-member-detail-adapter-and-visibility-defense-artifact-inventory.md",
       "workflow-issue-872-google-brand-4tone-icon-and-tokens-exempt-artifact-inventory.md",
+      "workflow-login-ui-balance-and-runtime-fix-artifact-inventory.md",
       "workflow-task-05-error-boundary-and-staging-smoke-artifact-inventory.md",
       "workflow-task-05b-parallel-magic-link-provider-and-auth-gate-state-artifact-inventory.md",
       "workflow-task-08a-parallel-api-contract-repository-and-authorization-tests-artifact-inventory.md",
@@ -15119,6 +15130,7 @@
       "workflow-issue-922-production-admin-runtime-smoke-gate-artifact-inventory.md",
       "workflow-issue-924-style-src-attr-retirement-artifact-inventory.md",
       "workflow-login-page-prototype-alignment-artifact-inventory.md",
+      "workflow-login-ui-balance-and-runtime-fix-artifact-inventory.md",
       "workflow-members-page-prototype-alignment-artifact-inventory.md",
       "workflow-permission-fallback-abort-skip-retry.md",
       "workflow-profile-loading-skeleton-oklch-artifact-inventory.md",
@@ -25041,6 +25053,7 @@
       "workflow-issue-899-static-bearer-fallback-retirement-artifact-inventory.md",
       "workflow-issue-901-authenticated-profile-admin-staging-visual-artifact-inventory.md",
       "workflow-issue-908-staging-rollback-notification-runtime-smoke-artifact-inventory.md",
+      "workflow-login-ui-balance-and-runtime-fix-artifact-inventory.md",
       "workflow-mypage-prototype-alignment-artifact-inventory.md",
       "workflow-step-08-audit-filter-paging-verify-artifact-inventory.md",
       "workflow-task-07-prototype-mapping-table-artifact-inventory.md",
@@ -25826,6 +25839,7 @@
     "login": [
       "workflow-issue-874-login-staging-visual-smoke-artifact-inventory.md",
       "workflow-login-page-prototype-alignment-artifact-inventory.md",
+      "workflow-login-ui-balance-and-runtime-fix-artifact-inventory.md",
       "workflow-task-13-login-rebuild-artifact-inventory.md"
     ],
     "safeServerFetch": [
@@ -25903,6 +25917,9 @@
     "Compliance": [
       "workflow-login-page-prototype-alignment-artifact-inventory.md",
       "workflow-task-09c-production-deploy-execution-001-artifact-inventory.md"
+    ],
+    "balance": [
+      "workflow-login-ui-balance-and-runtime-fix-artifact-inventory.md"
     ],
     "mypage": [
       "workflow-mypage-prototype-alignment-artifact-inventory.md"
