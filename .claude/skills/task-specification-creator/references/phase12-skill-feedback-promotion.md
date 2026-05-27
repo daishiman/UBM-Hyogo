@@ -57,6 +57,26 @@ done
 
 実例: Issue #533 public profile attendance では `pnpm --filter @ubm-hyogo/api test -- <file>` が対象 file を絞り込まなかったため、root config を明示した `pnpm exec vitest run --root=. --config=vitest.config.ts <exact files>` を canonical focused command にした。pnpm filter 経由の package script が test runner へ file 引数を渡さない repo では、Phase 1 baseline / Phase 4 test plan / Phase 9 QA / Phase 11 evidence / Phase 12 compliance の全箇所を、実測 PASS した root Vitest command にそろえる。
 
+## Implementation Target Physical Existence Gate
+
+`taskType=implementation` の workflow が `artifacts.json.metadata.implementation_files`、Phase 3 task breakdown、Phase 5 implementation guide、Phase 8 DoD のいずれかで実コード対象を列挙した場合、Phase 12 は「仕様書がある」だけで PASS にしない。同一 wave で次のどちらかへ必ず正規化する。
+
+| 分岐 | 必須対応 |
+| --- | --- |
+| 実装する | 列挙した current path に実コード / 実テスト差分を入れ、root/output `artifacts.json`、Phase 12 compliance、aiworkflow ledgers を `implemented_local_*` へ再分類する |
+| 実装しない | `taskType` / workflow state / DoD / implementation_files を spec-only 実態へ下げ、実装ファイルを「予定」として PASS しない。実装が本当に user-gated なら gate 名・理由・実施場所を Phase 12 に明記する |
+
+検証コマンド例:
+
+```bash
+jq -r '.metadata.implementation_files[]?' docs/30-workflows/<workflow>/artifacts.json |
+while IFS= read -r path; do
+  test -e "$path" || { echo "missing implementation target: $path" >&2; exit 1; }
+done
+```
+
+実例: `google-form-reflection-diagnostics` では初期状態が `implementation / VISUAL` かつ diagnostics API / `/admin/sync-status` / Member Drawer パネルを implementation_files に列挙していたが、差分は仕様書のみだった。同 wave で `apps/api/src/diagnostics/*`、`apps/web/app/(admin)/admin/sync-status/page.tsx`、`apps/web/src/features/admin/diagnostics/*`、`MemberDiagnosticsPanel` を実装し、存在しない `apps/web/src/app` path と `GOOGLE_FORMS_API_KEY` drift を補正した。
+
 ## Client Hook Shared Error Contract Gate
 
 Client hook が HTTP / auth error を扱う場合、既存 shared error class と redirect helper を Phase 1-5 で探索し、hook 内に独自 Error class や独自 query 語彙を作らない。Phase 12 では次の 4 点を同一 wave で確認する。
@@ -355,7 +375,6 @@ close-out evidence.
 
 | Task | Routing decision | Evidence |
 | --- | --- | --- |
-| Issue #912 idempotent attendance remove retry | implementation / NON_VISUAL で source one-pager が「将来 blocked」としていても、既存冪等 endpoint と caller が現コードで揃っているなら仕様書だけで閉じず同 cycle で実コードへ反映する。AC は `Idempotency-Key` 値同一性のような hook policy を caller spec へ重複定義せず、caller 責務（header 送出・retry attempt・4xx no retry）に限定する。`pnpm --filter ... test -- <files>` が file narrowing しない場合は root Vitest config 明示 command を証跡正本にする | `docs/30-workflows/completed-tasks/issue-912-idempotent-attendance-remove-retry/outputs/phase-12/skill-feedback-report.md`, `apps/web/src/components/admin/MeetingPanel.tsx`, `apps/web/src/components/admin/__tests__/MeetingPanel.component.spec.tsx` |
 | runtime smoke admin members 500 recovery | runtime smoke recovery 仕様で runner が non-200 body を捨てている場合、診断性改善を feedback prose に留めず、対象 runner と focused shell test を同 wave で更新する。CI artifact に残る body は既存 redaction filter を通す。local contract evidence で defensive handler fix が必要と判明した場合は同 cycle で実装し、staging deploy / backend-ci rerun は user-gated evidence として pending に残す | `docs/30-workflows/completed-tasks/task-runtime-smoke-admin-members-500-recovery-001/outputs/phase-12/skill-feedback-report.md`, `scripts/smoke/runtime-attendance-provider.sh`, `scripts/smoke/__tests__/runtime-attendance-provider.test.sh`, `apps/api/src/routes/admin/members.ts`, `apps/api/src/routes/admin/members.contract.spec.ts` |
 | 09a staging smoke / Forms sync validation | placeholder evidence boundary と artifacts parity は task-specification-creator、domain lesson は aiworkflow-requirements、skill update process は skill-creator へ昇格 | `references/lessons-learned-09a-staging-smoke-forms-sync-validation-2026-05.md` |
 | 09b cron monitoring / release runbook | cron env parity、rollback split、NON_VISUAL alternative evidence は aiworkflow-requirements の artifact inventory / lessons へ昇格。candidate task は existing unassigned を先に検索し、重複 formalize を避ける | `references/lessons-learned-09b-cron-monitoring-release-runbook-2026-05.md`, `references/workflow-task-09b-parallel-cron-triggers-monitoring-and-release-runbook-artifact-inventory.md` |

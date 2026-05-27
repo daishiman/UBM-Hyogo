@@ -2,7 +2,6 @@
 // 不変条件 #12: admin_member_notes は detail view にのみ含まれる。list view には混ぜない。
 import { Hono } from "hono";
 import { z } from "zod";
-import { idempotency } from "../../middleware/idempotency";
 import { requireAdmin } from "../../middleware/require-admin";
 import { asMemberId } from "../../repository/_shared/brand";
 import { adminEmail, auditAction } from "../../repository/_shared/brand";
@@ -24,7 +23,6 @@ export const createAdminMemberNotesRoute = () => {
     Variables: Partial<WriteTagNoteProviderVariables>;
   }>();
   app.use("*", requireAdmin);
-  app.use("*", idempotency());
   app.use("*", writeTagNoteProviderMiddleware);
 
   app.post("/members/:memberId/notes", async (c) => {

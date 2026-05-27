@@ -10,6 +10,7 @@ import {
   createMeeting,
   updateMeeting,
   addAttendance,
+  removeAttendance,
 } from "../../lib/admin/api";
 import { FormField } from "../ui/FormField";
 import { Input } from "../ui/Input";
@@ -102,27 +103,21 @@ export function MeetingPanel({ meetings, candidates }: Props) {
       },
     },
   );
-  const addAttendanceMutation = useAdminMutation<MeetingMutationResponse>(
+  const attendanceMutation = useAdminMutation<MeetingMutationResponse>(
     "/api/admin/meetings/attendances",
     "POST",
     {
       refreshOnSuccess: false,
       mutationFn: (payload) => {
-        const { sessionId, memberId } = payload as {
+        const { sessionId, memberId, attended: isAttended } = payload as {
           sessionId: string;
           memberId: string;
+          attended: boolean;
         };
-        return unwrapAdminResult<MeetingMutationResponse>(addAttendance(sessionId, memberId));
+        return unwrapAdminResult<MeetingMutationResponse>(
+          isAttended ? addAttendance(sessionId, memberId) : removeAttendance(sessionId, memberId),
+        );
       },
-    },
-  );
-  const removeAttendanceMutation = useAdminMutation<MeetingMutationResponse>(
-    "/api/admin/meetings/__sessionId__/attendance/__memberId__",
-    "DELETE",
-    {
-      refreshOnSuccess: false,
-      retry: { maxAttempts: 3 },
-      idempotencyKey: () => crypto.randomUUID(),
     },
   );
   const initialAttended = () =>
@@ -170,7 +165,9 @@ export function MeetingPanel({ meetings, candidates }: Props) {
       return;
     }
     try {
-      await addAttendanceMutation.trigger({ sessionId, memberId });
+      await attendanceMutation.trigger(
+        { sessionId, memberId, attended: true },
+      );
     } catch (e) {
       if (e instanceof FetchAuthedError && e.status === 422) setToast("削除済み会員は登録できません");
       else if (e instanceof FetchAuthedError && e.status === 409) setToast("この会員は既に出席登録されています");
@@ -213,10 +210,7 @@ export function MeetingPanel({ meetings, candidates }: Props) {
     if (kind === "remove") {
       const { sessionId, memberId } = ctx as { sessionId: string; memberId: string };
       try {
-        await removeAttendanceMutation.trigger(
-          null,
-          `/api/admin/meetings/${encodeURIComponent(sessionId)}/attendance/${encodeURIComponent(memberId)}`,
-        );
+        await attendanceMutation.trigger({ sessionId, memberId, attended: false });
       } catch (e) {
         if (e instanceof FetchAuthedError && e.status === 404) {
           setAttended((s) => {

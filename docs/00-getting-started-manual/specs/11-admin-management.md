@@ -61,6 +61,14 @@
 - `added / changed / removed / unresolved` を区別して表示する
 - `stableKey` 未割当を最優先で解消する
 
+### `/admin/sync-status`
+
+- Google Form 31 項目が admin / profile / public の 3 経路で反映されない事象を切り分ける診断画面
+- backend は `GET /admin/diagnostics/forms-pipeline` で `sync_jobs` / `member_responses` / `response_fields` / `member_identities` / `member_status` / `schema_diff_queue` を read-only 集計する
+- H1 ingest / H2 identity / H3 visibility / H4 alias の boolean flags と counts を表示し、修復実装の前に原因を確定する
+- secret readiness は `googleServiceAccountEmail` / `googlePrivateKey` / `googleFormId` / `authSecret` の boolean のみ。secret 実値、末尾、hash、投入日時は返さない
+- Member Drawer は `GET /admin/diagnostics/member/:memberId` を使い、個別 member の current response / response field count / missing stable keys / visibility flags を表示する
+
 ### `/admin/meetings`
 
 - 支部会の開催日を追加・編集・論理削除する
