@@ -43,11 +43,12 @@ import {
 } from "../../repository/_shared/brand";
 import { nowIso, normalizeIso, type AdminRouteEnv } from "./_shared";
 
-// limit query: invalid → clamp/default (no 400). See parse-attendance-filter.
-const resolveLimit = (raw: string | undefined): number => {
-  if (raw === undefined || raw === "") return clampAnalyticsLimit(undefined);
+const resolveLimit = (raw: string | undefined): { ok: true; value: number } | { ok: false } => {
+  if (raw === undefined || raw === "") return { ok: true, value: clampAnalyticsLimit(undefined) };
+  if (!/^\d+$/.test(raw)) return { ok: false };
   const n = Number(raw);
-  return clampAnalyticsLimit(Number.isFinite(n) ? n : undefined);
+  if (!Number.isSafeInteger(n) || n <= 0 || n > 200) return { ok: false };
+  return { ok: true, value: n };
 };
 
 export const createAdminDashboardRoute = () => {
@@ -114,7 +115,8 @@ export const createAdminDashboardRoute = () => {
     const dbCtx = ctx({ DB: c.env.DB });
     const filter = parseAttendanceFilter((k) => c.req.query(k));
     const limit = resolveLimit(c.req.query("limit"));
-    const rows = await listSessionAttendanceStatsExt(dbCtx, filter, limit);
+    if (!limit.ok) return c.json({ ok: false, error: "invalid_limit" }, 400);
+    const rows = await listSessionAttendanceStatsExt(dbCtx, filter, limit.value);
     const parsed = SessionAttendanceRowsZ.safeParse(rows);
     if (!parsed.success) {
       return c.json({ ok: false, error: parsed.error.message }, 500);
@@ -126,7 +128,8 @@ export const createAdminDashboardRoute = () => {
     const dbCtx = ctx({ DB: c.env.DB });
     const filter = parseAttendanceFilter((k) => c.req.query(k));
     const limit = resolveLimit(c.req.query("limit"));
-    const rows = await listMemberAttendanceRankingExt(dbCtx, filter, limit);
+    if (!limit.ok) return c.json({ ok: false, error: "invalid_limit" }, 400);
+    const rows = await listMemberAttendanceRankingExt(dbCtx, filter, limit.value);
     const parsed = MemberAttendanceRankingRowsZ.safeParse(rows);
     if (!parsed.success) {
       return c.json({ ok: false, error: parsed.error.message }, 500);
