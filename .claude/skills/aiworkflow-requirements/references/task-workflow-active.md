@@ -21,6 +21,35 @@
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-public-header-logged-in-nav-cleanup-artifact-inventory.md` |
 | user gate | apps/web implementation, local focused tests, Playwright auth slot evidence, staging runtime, commit, push, PR |
 
+### profile-server-components-render-error（2026-05-27）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / NON_VISUAL / staging_runtime_pending_user_gate` |
+| 成果物 | `docs/30-workflows/completed-tasks/profile-server-components-render-error/` |
+| Task ID | `TASK-FIX-PROFILE-SCR-ERR-STG-001` |
+| related workflow | `docs/30-workflows/fix-admin-server-components-render-error-stg/` |
+| 目的 | staging `/profile` の Server Components render error (`digest=398449091`, `scope=profile`) を解消し、admin 側と同型の Workers env 解決契約へ整える |
+| implementation targets | `apps/web/src/lib/fetch/authed.ts`, `apps/web/app/(member)/profile/page.tsx` |
+| contract | `fetchAuthed` は env.ts の `getApiBaseEnv()` 経由で `INTERNAL_API_BASE_URL` -> `PUBLIC_API_BASE_URL` を解決し、localhost fallback を持たない。`ProfilePage` の初回 `/me` は `safeServerFetch` で AuthRequiredError のみ redirect、その他は SectionError に降格する |
+| evidence | focused Vitest 43 PASS、web typecheck PASS、web lint PASS、`authed.ts` source guard (`process.env[` 0 / `127.0.0.1` 0)、Phase 12 strict 7 present |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-profile-server-components-render-error-artifact-inventory.md` |
+| user gate | Cloudflare staging deploy、authenticated `/profile` curl、tail clean evidence、commit、push、PR |
+
+### admin-meetings-prototype-alignment（2026-05-27）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION / staging_runtime_pending_user_approval` |
+| 成果物 | `docs/30-workflows/completed-tasks/admin-meetings-prototype-alignment/` |
+| parent | `docs/30-workflows/admin-ui-prototype-alignment/` |
+| 目的 | `/admin/meetings` list と `/admin/meetings/[id]` detail を admin prototype language に合わせて実装し、Task A/B の local evidence を確定する |
+| implementation targets | `apps/web/app/(admin)/admin/meetings/page.tsx`, `apps/web/src/features/admin/components/_meetings/*`, `apps/web/app/(admin)/admin/meetings/[id]/{page,MeetingAttendancePanel,AttendanceCsvImportPanel}.tsx` |
+| contract | Existing `/admin/meetings` endpoint surface only。API response shape / D1 schema / Google Form schema 変更なし。OKLch token only、`safeServerFetch`、`useAdminMutation`、section fail-soft を維持 |
+| Phase 12 | strict 7 outputs present; root/output artifacts parity present |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-meetings-prototype-alignment-artifact-inventory.md` |
+| user gate | staging refresh/deploy, staging runtime observation, commit, push, PR |
+
 ### admin-ui-task-d-attendance-primitive-conformance（2026-05-26）
 
 | 項目 | 値 |
@@ -122,6 +151,19 @@
 | evidence | focused Vitest local PASS, Phase 12 strict 7 present, root/output artifacts parity present |
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-public-header-my-profile-nav-alignment-artifact-inventory.md` |
 | user gate | browser/session smoke, commit, push, PR |
+
+### admin-visual-baseline-admin-routes-task-e（2026-05-27）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_runtime_pending / implementation / VISUAL` |
+| 成果物 | `docs/30-workflows/completed-tasks/admin-visual-baseline-admin-routes-task-e/` |
+| parent | `docs/30-workflows/admin-ui-prototype-alignment/` Task E |
+| 目的 | admin 10 required routes x 4 viewport の Linux staging visual baseline 40 PNG を既定とし、2 env-gated detail routes は両 seed ID がある場合のみ加えて 48 PNG にする。44 PNG partial-detail baseline は禁止 |
+| implementation targets | `apps/web/playwright/tests/visual/admin-shell/*.spec.ts`, `_helpers.ts`, `apps/web/playwright.config.ts`, `.github/workflows/playwright-smoke.yml` |
+| Phase 12 | strict 7 present、root/output `artifacts.json` parity present |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-visual-baseline-admin-routes-task-e-artifact-inventory.md` |
+| user gate | Linux baseline capture、bot push、empty retrigger commit、branch protection PUT、commit、push、PR |
 
 ### admin-ui-prototype-alignment（2026-05-23）
 

@@ -2137,6 +2137,16 @@ node scripts/list-specs.js --topics
 |------------|----|
 | Contract | L15 |
 
+### references/workflow-admin-meetings-prototype-alignment-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Metadata | L3 |
+| Root Artifacts | L12 |
+| Phase Outputs | L22 |
+| Implementation Targets | L40 |
+| Invariants | L51 |
+
 ### references/workflow-admin-member-delete-e2e-spec-artifact-inventory.md
 
 | セクション | 行 |
@@ -2184,6 +2194,13 @@ node scripts/list-specs.js --topics
 |------------|----|
 | Boundary | L15 |
 | Lessons | L19 |
+
+### references/workflow-admin-visual-baseline-admin-routes-task-e-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Contract | L16 |
+| Lessons Learned | L22 |
 
 ### references/workflow-ai-chat-llm-integration-fix-artifact-inventory.md
 
@@ -3411,6 +3428,15 @@ node scripts/list-specs.js --topics
 |------------|----|
 | Boundary | L19 |
 
+### references/workflow-profile-server-components-render-error-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Phase 1-13 Outputs | L17 |
+| Phase 12 Strict 7 | L35 |
+| Evidence | L47 |
+| Lessons Learned | L58 |
+
 ### references/workflow-public-dashboard-prototype-alignment-artifact-inventory.md
 
 | セクション | 行 |
@@ -3419,6 +3445,8 @@ node scripts/list-specs.js --topics
 | Planned Implementation Targets | L19 |
 | Boundary | L30 |
 | Lessons | L34 |
+
+### references/workflow-public-header-logged-in-nav-cleanup-artifact-inventory.md
 
 ### references/workflow-regression-evidence-ci-gate-foundation-artifact-inventory.md
 
@@ -5497,6 +5525,15 @@ node scripts/list-specs.js --topics
 | L-ATTN-003: skill-feedback no-op は実態一致が前提 | L11 |
 | L-ATTN-004: 500行超過は appendix へ責務分離する | L15 |
 
+### references/lessons-learned-admin-meetings-prototype-alignment-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| L-AMTG-001: `spec_created` と implementation complete を混同しない | L3 |
+| L-AMTG-002: 実装前でも Phase 12 strict 7 は必須 | L7 |
+| L-AMTG-003: VISUAL_ON_EXECUTION は screenshot plan と pending metadata を分離する | L11 |
+| L-AMTG-004: 親 primitive reuse で API/DB churn を避ける | L15 |
+
 ### references/lessons-learned-admin-tags-queue-resolver-drawer-2026-05.md
 
 | セクション | 行 |
@@ -6738,8 +6775,8 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 概要 | L3 |
 | 仕様書インデックス | L7 |
-| 利用順序 | L122 |
-| 関連ドキュメント | L127 |
+| 利用順序 | L124 |
+| 関連ドキュメント | L129 |
 
 ### references/llm-embedding.md
 
@@ -7876,14 +7913,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L2806 |
-| フェーズ構造（概要） | L2815 |
-| 品質ゲート（概要） | L2846 |
-| 出力テンプレート | L2857 |
-| 実行時のコマンド・エージェント・スキル | L2880 |
-| 昇格パターン集 | L2904 |
-| Current Active / Spec Created Tasks | L2906 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L3067 |
+| ドキュメント構成 | L2861 |
+| フェーズ構造（概要） | L2870 |
+| 品質ゲート（概要） | L2901 |
+| 出力テンプレート | L2912 |
+| 実行時のコマンド・エージェント・スキル | L2935 |
+| 昇格パターン集 | L2959 |
+| Current Active / Spec Created Tasks | L2961 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L3122 |
 
 ### references/task-workflow-backlog-part2.md
 

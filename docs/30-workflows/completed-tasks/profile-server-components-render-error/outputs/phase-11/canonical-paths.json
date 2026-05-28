@@ -1,0 +1,52 @@
+{
+  "taskId": "TASK-FIX-PROFILE-SCR-ERR-STG-001",
+  "workflowDir": "docs/30-workflows/completed-tasks/profile-server-components-render-error",
+  "schemaVersion": "1.0.0",
+  "evidence": [
+    {
+      "id": "focused-vitest",
+      "kind": "test",
+      "path": "outputs/phase-11/evidence/focused-vitest.log",
+      "command": "mise exec -- pnpm exec vitest run --root=. --config=vitest.config.ts apps/web/src/lib/fetch/authed.spec.ts \"apps/web/app/(member)/profile/page.spec.tsx\" apps/web/src/lib/__tests__/env.spec.ts",
+      "acquiredBy": "implementation_cycle",
+      "requiredForCloseout": true,
+      "notes": "3 files / 43 tests PASS"
+    },
+    {
+      "id": "static-source-guard",
+      "kind": "grep-gate",
+      "path": "outputs/phase-11/evidence/static-source-guard.log",
+      "command": "rg \"process\\\\.env\\\\[|127\\\\.0\\\\.0\\\\.1\" apps/web/src/lib/fetch/authed.ts; test $? -eq 1",
+      "acquiredBy": "implementation_cycle",
+      "requiredForCloseout": true,
+      "notes": "No process.env[ or 127.0.0.1 in authed.ts"
+    },
+    {
+      "id": "web-typecheck",
+      "kind": "typecheck",
+      "path": "outputs/phase-11/evidence/typecheck.log",
+      "command": "pnpm --filter @ubm-hyogo/web typecheck",
+      "acquiredBy": "implementation_cycle",
+      "requiredForCloseout": true,
+      "notes": "web TypeScript check PASS"
+    },
+    {
+      "id": "web-lint",
+      "kind": "lint",
+      "path": "outputs/phase-11/evidence/web-lint.log",
+      "command": "pnpm --filter @ubm-hyogo/web lint",
+      "acquiredBy": "implementation_cycle",
+      "requiredForCloseout": true,
+      "notes": "web lint PASS"
+    },
+    {
+      "id": "manual-test-result",
+      "kind": "runtime-observation",
+      "path": "outputs/phase-11/manual-test-result.md",
+      "command": "manual NON_VISUAL evidence inventory",
+      "acquiredBy": "implementation_cycle",
+      "requiredForCloseout": true,
+      "notes": "Staging runtime smoke remains pending_user_approval"
+    }
+  ]
+}

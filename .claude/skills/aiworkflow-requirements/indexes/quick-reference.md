@@ -1,5 +1,34 @@
 # クイックリファレンス
 
+## profile-server-components-render-error（2026-05-27）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/profile-server-components-render-error/` |
+| status | `implemented_local_evidence_captured / implementation / NON_VISUAL / staging_runtime_pending_user_gate` |
+| task | `TASK-FIX-PROFILE-SCR-ERR-STG-001` |
+| related | `docs/30-workflows/fix-admin-server-components-render-error-stg/` |
+| purpose | staging `/profile` の Server Components render error (`digest=398449091`, `scope=profile`) を、member authed fetch の Workers env 解決是正と `/me` safe degradation で解消する |
+| implementation | `apps/web/src/lib/fetch/authed.ts` は env.ts の `getApiBaseEnv()` 経由で `INTERNAL_API_BASE_URL` -> `PUBLIC_API_BASE_URL` を解決し、localhost fallback を禁止。`apps/web/app/(member)/profile/page.tsx` は初回 `/me` を `safeServerFetch` でラップし、AuthRequiredError 以外を SectionError に降格 |
+| tests | `apps/web/src/lib/fetch/authed.spec.ts`, `apps/web/app/(member)/profile/page.spec.tsx` |
+| evidence | focused Vitest 43 PASS、web typecheck PASS、web lint PASS、`authed.ts` source guard (`process.env[` 0 / `127.0.0.1` 0)、Phase 12 strict 7 present |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-profile-server-components-render-error-artifact-inventory.md` |
+| user gate | Cloudflare staging deploy, authenticated `/profile` curl, tail clean evidence, commit, push, PR |
+
+## admin-meetings-prototype-alignment（2026-05-27）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/admin-meetings-prototype-alignment/` |
+| status | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION / staging_runtime_pending_user_approval` |
+| parent | `docs/30-workflows/admin-ui-prototype-alignment/` |
+| purpose | `/admin/meetings` list と `/admin/meetings/[id]` detail を prototype-aligned admin primitives に整流する実装仕様 |
+| implementation contract | `MeetingPanel.tsx` 廃止、`apps/web/src/features/admin/components/_meetings/{MeetingsClientShell,MeetingCreateForm,MeetingTimeline,MeetingAttendanceDrawer,meetingStats}` 新設、detail panels を `AdminSectionCard` / `AdminTable` へ整流 |
+| invariant | existing admin meetings endpoints only; API response shape / D1 schema / Google Form schema unchanged; OKLch token only; `useAdminMutation` and `safeServerFetch` retained |
+| Phase 12 | strict 7 present; root/output artifacts parity present |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-meetings-prototype-alignment-artifact-inventory.md` |
+| user gate | staging refresh/deploy, staging runtime observation, commit, push, PR |
+
 ## admin-ui-task-d-attendance-primitive-conformance（2026-05-26）
 
 | 項目 | 値 |
@@ -135,6 +164,38 @@
 
 ## google-form-reflection-diagnostics（2026-05-26）
 ## Issue #924 style-src-attr retirement（2026-05-25）
+## admin-visual-baseline-admin-routes-task-e（2026-05-27）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/admin-visual-baseline-admin-routes-task-e/` |
+| 状態 | `implemented_local_runtime_pending / implementation / VISUAL / admin visual baseline` |
+| parent | `docs/30-workflows/admin-ui-prototype-alignment/` Task E |
+| scope | 10 required admin routes x 4 viewport = 40 PNG by default; 2 env-gated detail routes enable full 48 PNG only when both seed IDs are present; 44 PNG partial-detail baseline is forbidden |
+| implementation targets | `apps/web/playwright/tests/visual/admin-shell/*.spec.ts`, `apps/web/playwright/tests/visual/admin-shell/_helpers.ts`, `apps/web/playwright.config.ts`, `.github/workflows/playwright-smoke.yml` |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-visual-baseline-admin-routes-task-e-artifact-inventory.md` |
+| Phase 12 | strict 7 present; root/output `artifacts.json` parity present |
+| user gate | Linux baseline capture, bot push, empty retrigger commit, branch protection PUT, commit, push, PR |
+
+## admin-ui-prototype-alignment（2026-05-23）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/admin-ui-prototype-alignment/` |
+| 状態 | `implemented_local_runtime_pending / implementation / VISUAL / 11 admin routes` |
+| scope | 11 admin routes（dashboard / attendance / members / tags / meetings / meetings/[id] / schema / schema/history / requests / identity-conflicts / audit）の prototype alignment + 共通 component 6 種 + per-section degrade pattern |
+| per-section degrade | `apps/web/src/lib/result.ts`（`SafeResult<T>`）+ `apps/web/src/lib/admin/safe-server-fetch.ts` で throw を normalize → `Promise.all` 後に section 毎に `result.ok` 分岐 → `AdminSectionError` で degrade。`error.tsx` は renderer crash 専用に縮小（L-AUIP-001 / 再利用 Pattern 1） |
+| 共通 component | `apps/web/src/features/admin/components/_shared/{AdminSectionCard,AdminSectionError,AdminEmptyState,AdminStat,AdminTable,AdminQueuePanel}.tsx` + `index.ts` barrel export |
+| import 強制 | barrel 経由のみ。深 path import を ESLint `no-restricted-imports` で deny、grep gate `rg "from ['\"]@/features/admin/components/_shared/[A-Z]"` 0 件を Phase 5 DoD に組込（L-AUIP-003 / 再利用 Pattern 2） |
+| design token | 新規 component は OKLch token のみ（`var(--ubm-color-*)`）。既存 `*Panel.tsx` の HEX 移行は別 wave へ分離（L-AUIP-004） |
+| server/client boundary | server page = throw-only / view-compute-only、client wrapper = state/event-only の twin principle。`TagsClientShell` / `RequestsClientShell` で state ownership を Phase 2 fix（L-AUIP-005） |
+| scope cutoff | Phase 4 test plan に scope lock TC を列挙し、test fail = scope miss として early detect（L-AUIP-006 / 再利用 Pattern 5） |
+| lessons-learned | `.claude/skills/aiworkflow-requirements/references/lessons-learned-admin-ui-prototype-alignment-2026-05.md`（L-AUIP-001..006 + 再利用可能パターン 5 件） |
+| changelog | `.claude/skills/aiworkflow-requirements/changelog/20260523-admin-ui-prototype-alignment.md` |
+| 出典 | `docs/30-workflows/admin-ui-prototype-alignment/outputs/phase-12/implementation-guide.md` / `system-spec-update-summary.md` / `skill-feedback-report.md` / `phase12-task-spec-compliance-check.md` / `unassigned-task-detection.md` |
+| user gate | authenticated runtime screenshots / staging refresh / commit / push / PR |
+
+## register-page-prototype-alignment（2026-05-26）
 
 | 項目 | 値 |
 | --- | --- |
