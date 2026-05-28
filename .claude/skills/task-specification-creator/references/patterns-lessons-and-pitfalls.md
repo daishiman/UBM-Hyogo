@@ -849,6 +849,25 @@ UI primitive (`AdminPageHeader` / `KpiCard` / `AdminTable` / `AdminEmptyState` �
 - admin route に prototype 整合のため新 primitive を生やす → token / visual baseline / structure gate の 3 系統で追従コストが線形に増え、PR レビューが長期化する。
 - staging visual screenshot の pending を unassigned-task として detection に書く → Phase 11 user-gated boundary と二重管理になり、completed-tasks 移動時の followup 件数が水増しされる。
 
+---
+
+## Admin page prototype 整合 + observed API 404 同居タスクパターン（admin-schema-page-prototype-alignment-and-diff-fetch-fix L-ASCHEMA-001..005 汎化）
+
+staging で観測された `/admin/<route>` API 404 と、同 route の prototype 乖離（page layout / sidebar 表記）を同一サイクルで解消する標準分割。
+
+- **L-ASCHEMA-001 (Lane A 先行 triage)**: prototype 整合 + observed runtime error の同居タスクは、UI 着手前に Lane A（`scripts/cf.sh tail` / `curl` / deploy 同期 / mount 順）で根本原因を切り分け、Phase 2 design に切り分け表を必須化する。API surface 不変条件を破る修復に滑り込まない gate になる。
+- **L-ASCHEMA-002 (panel stats 抑止 prop)**: parent page で stats grid を集約し、child panel に `hideInlineStats?: boolean` (default `false`) を持たせる。`_shared` Primitive へ昇格させず page-local helper に閉じる。多数の派生 panel が child を参照する場合の destructive 削除リスクを断つ。
+- **L-ASCHEMA-003 (sidebar 表記併修)**: 1 行 label 統一は単独 issue 化せず、関連 UI prototype 整合タスクと同 PR に同梱し、`AdminSidebar.component.spec` 追記をチェックリスト化する。
+- **L-ASCHEMA-004 (contract spec lane 明示)**: `*.contract.spec.ts` は D1 lane（`vitest.d1.config.ts` + `singleFork`）専用。Phase 4 test plan / Phase 9 QA に lane 名と実行コマンド（`pnpm test:coverage:d1`）を明示する。
+- **L-ASCHEMA-005 (Playwright fallback chain 順)**: `apps/web/src/lib/admin/server-fetch.ts` の Playwright fallback は task-specific fixture の **後** に append する。chain 先頭挿入は既存 spec の expected fixture を上書きし、UI 404 分岐 regression を silent 200 で吸収するため禁止。
+
+### Anti-pattern
+
+- prototype 整合タスクで API endpoint surface を改修する（不変条件 #1「既存 API surface のみ接続」違反）。
+- panel の inline stats を destructive 削除し、`hideInlineStats` 同等の後方互換 prop を経由しない。
+- contract spec を unit lane に置いて「実行されない緑」を量産する。spec 数で安心するが CI で carry されていない。
+- Playwright fallback を chain 先頭に挿入し既存 fixture を上書きする。観測 404 を fixture が silent 200 で吸収し regression が取れない。
+
 ## main 取り込み no-op 構造前提（pr-creation L-MAINNOOP-001..004 汎化）
 
 `feature/* → dev → main` の単方向 release flow（CLAUDE.md「ブランチ戦略」節）下では、feature branch が dev を merge 済みの場合 `origin/main` は HEAD の祖先となり、`git merge origin/main` は必ず `Already up to date.` で終わる。「main 取り込み・CI 失敗解消」の追加指示を受けた仕様書フェーズでは下記を契約する。
@@ -1073,3 +1092,14 @@ admin-ui task A〜E が連続して dev に merge される現フェーズで、
 - **SP-DEVSYNC-055-C (resolver 単独完結の閉路)**: 「CONFLICT 発生 → `pnpm sync:resolve` → marker grep 0 → `git commit --no-edit` → `pnpm typecheck && pnpm lint` green → push」を Phase 13 の sync-merge 工程として定型化。手動 union や Edit が発生したら別 lesson (L-DEVSYNC-054 等) を参照し、resolver 単独完結の閉路を逸脱した理由を Phase 12 implementation-guide に記録する。
 - 参照: [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-055、L-DEVSYNC-046 (UNION_TARGETS 昇格)、L-DEVSYNC-042 (skill indexes union 化)。
 
+
+## L-DEVSYNC-056 page-local 旧 header を抱えた feature と AdminPageHeader primitive 導入後の dev の hybridize（dev sync-merge / 2026-05-28）
+
+並列 wave で進む admin-ui prototype alignment 系 feature branch が **page-local `page-head` / `Breadcrumb` を抱えたまま**、dev 側で **AdminPageHeader primitive 一斉導入** と **Sidebar の GROUPS/props 化** が行われた状態で sync-merge すると、`.tsx` ソース 3 件で「片側 take すると新 primitive 取り逃しか / 旧画面構造の完全消失」two-way 損失が発生する。`pnpm sync:resolve` は `.tsx` を対象外なので resolver 単独完結せず、手動 hybridize 必須。
+
+- **SP-DEVSYNC-056-A (page hybridize の default 方針)**: page-level の `<header className="page-head">…</header>` × `AdminPageHeader` 衝突は、Phase 12 implementation-guide で **「dev の新 primitive 採用を default、HEAD の richer content を新 primitive の actions/children に注入」** を必達手順に明記する。具体的には HEAD 側の `Breadcrumb` import 削除（AdminPageHeader が `breadcrumbs` prop で吸収）+ wrapper を `<section className="flex flex-col gap-4" aria-labelledby="<headingId>" data-page="...">` に統一 + HEAD が画面から撤去したデータ参照（例: `sections.map`）は dev 側のコードでも除去（build fail 防止）。`data-page` 属性は visual baseline spec が selector に使うので HEAD 側から残す。
+- **SP-DEVSYNC-056-B (Sidebar add-add の port 規約)**: Sidebar の 1 字差分（label/href/sortOrder）は dev の GROUPS 構造を **全採用**し、HEAD の差分だけを GROUPS 内 NavItemDef に **後付け移植**する。port は機械的（grep + 単一置換）で済むため Phase 12 で 1 line と明記。`AdminSidebarProps` interface 等の export 化変更は dev 側を全採用。
+- **SP-DEVSYNC-056-C (`*.component.spec.tsx` legacy stub の扱い)**: dev 側が `describe(... legacy ...).it.skip(...)` の stub に置換済みの場合、HEAD 側の旧 assertions は実装契約更新で意味を失っているため **dev を無条件 overwrite**。Phase 12 implementation-guide には「replacement spec が同 dir に存在することを `ls apps/web/src/components/<dir>/__tests__/ | grep -i <component>` で確認してから overwrite」を pre-condition として記載。
+- **SP-DEVSYNC-056-D (Phase 4 risk への登録)**: admin-ui prototype alignment 系 task の Phase 4 risk table に「同一 wave で primitive 一斉導入が dev 側に着地した場合、page-local 旧 header / Sidebar GROUPS / legacy component.spec の 3 軸で sync-merge 時に hybridize が必須」を必ず登録し、L-DEVSYNC-056 を mitigation reference として参照。resolver 拡張ではなく仕様側で risk 化するのが正（L-DEVSYNC-054 と同じ判断）。
+- **SP-DEVSYNC-056-E (検証 4 step 必達)**: hybridize 後の検証は **`git diff --diff-filter=U --name-only` 0 件 → `pnpm typecheck` Done × 全 packages → `pnpm lint` Done × 全 packages → `git commit -m "merge: sync <branch> with dev"`** の 4 step を Phase 12 implementation-guide に明記。typecheck が undefined ref を即 fail させるため、`sections.map` 等の前提変数撤去漏れを早期検出できる。
+- 参照: [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-056、L-DEVSYNC-054 (`.ts` 手動 union)、L-DEVSYNC-055 (resolver 単独完結 happy-path との対比)。

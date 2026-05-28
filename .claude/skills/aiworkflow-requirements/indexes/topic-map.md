@@ -2153,6 +2153,15 @@ node scripts/list-specs.js --topics
 |------------|----|
 | Boundary | L16 |
 
+### references/workflow-admin-schema-page-prototype-alignment-and-diff-fetch-fix-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Implementation Artifacts | L10 |
+| Workflow Artifacts | L23 |
+| Evidence | L32 |
+| Lessons | L42 |
+
 ### references/workflow-admin-shell-topbar-sidebar-integration-artifact-inventory.md
 
 | セクション | 行 |
@@ -3457,6 +3466,8 @@ node scripts/list-specs.js --topics
 | Planned Implementation Targets | L19 |
 | Boundary | L30 |
 | Lessons | L34 |
+
+### references/workflow-public-header-logged-in-nav-cleanup-artifact-inventory.md
 
 ### references/workflow-regression-evidence-ci-gate-foundation-artifact-inventory.md
 
@@ -7923,14 +7934,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L2860 |
-| フェーズ構造（概要） | L2869 |
-| 品質ゲート（概要） | L2900 |
-| 出力テンプレート | L2911 |
-| 実行時のコマンド・エージェント・スキル | L2934 |
-| 昇格パターン集 | L2958 |
-| Current Active / Spec Created Tasks | L2960 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L3121 |
+| ドキュメント構成 | L2873 |
+| フェーズ構造（概要） | L2882 |
+| 品質ゲート（概要） | L2913 |
+| 出力テンプレート | L2924 |
+| 実行時のコマンド・エージェント・スキル | L2947 |
+| 昇格パターン集 | L2971 |
+| Current Active / Spec Created Tasks | L2973 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L3134 |
 
 ### references/task-workflow-backlog-part2.md
 
