@@ -1,4 +1,5 @@
 // @vitest-environment node
+import { Hono } from "hono";
 import { describe, it, expect, beforeEach } from "vitest";
 import { setupD1, type InMemoryD1 } from "../../repository/__tests__/_setup";
 import { createAdminAuditRoute, encodeAuditCursor } from "./audit";
@@ -282,6 +283,23 @@ describe("admin audit route", () => {
     expect(second.status).toBe(200);
     const secondBody = (await second.json()) as { items: Array<{ auditId: string }> };
     expect(secondBody.items.map((i) => i.auditId)).toEqual(["audit_001"]);
+  });
+
+  // admin-audit-prototype-alignment / Task B: `/admin/audit` を root mount 経由で叩いて
+  // 200 を返す回帰ケース。H2（mount 順序衝突）の再発検知のため、`createAdminAuditRoute`
+  // 直接ではなく `new Hono().route("/admin", ...)` でラップして request する。
+  it("GET /admin/audit: routed via root mount returns 200", async () => {
+    const root = new Hono();
+    root.route("/admin", createAdminAuditRoute());
+    const res = await root.request(
+      "/admin/audit?limit=1",
+      { headers: { ...(await adminAuthHeader()) } },
+      makeEnv(env),
+    );
+    expect(res.status).toBe(200);
+    const body = (await res.json()) as { ok: true; items: unknown[] };
+    expect(body.ok).toBe(true);
+    expect(Array.isArray(body.items)).toBe(true);
   });
 
   it("GET /audit: syntactically valid but unknown cursor returns empty page", async () => {
