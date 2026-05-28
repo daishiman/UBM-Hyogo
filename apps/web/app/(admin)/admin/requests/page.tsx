@@ -1,9 +1,10 @@
 // serial-05: /(admin)/admin/requests — blueprint 09g:641-740
 // 04b-followup-004: /admin/requests admin queue resolve workflow page
+// admin-requests-prototype-alignment-and-404-fix: page-head + h1 を page.tsx 側に集約
 // 不変条件 #5: server fetch は admin proxy 経由のみ。
 import { safeServerFetch } from "../../../../src/lib/admin/safe-server-fetch";
-import { Breadcrumb } from "@/components/admin/Breadcrumb";
 import { AdminSectionErrorClient } from "../../../../src/features/admin/components/_shared";
+import { AdminPageHeader } from "../../../../src/features/admin/components/_layout/AdminPageHeader";
 import {
   RequestQueuePanel,
   type RequestQueueListView,
@@ -28,9 +29,7 @@ export default async function AdminRequestsPage({
   searchParams: Promise<Record<string, string | undefined>>;
 }) {
   const sp = await searchParams;
-  const type: RequestNoteType = isNoteType(sp["type"])
-    ? sp["type"]
-    : "visibility_request";
+  const type: RequestNoteType = isNoteType(sp["type"]) ? sp["type"] : "visibility_request";
   const cursor = typeof sp["cursor"] === "string" ? sp["cursor"] : null;
   const query = new URLSearchParams({ status: "pending", type });
   if (cursor) query.set("cursor", cursor);
@@ -39,7 +38,13 @@ export default async function AdminRequestsPage({
   );
   return (
     <section className="flex flex-col gap-4">
-      <Breadcrumb items={[{ label: "依頼キュー" }]} />
+      <AdminPageHeader
+        eyebrow="ADMIN / REQUESTS"
+        title="依頼キュー"
+        description="公開状態の変更依頼・退会依頼を確認・承認します。"
+        breadcrumbs={[{ label: "管理", href: "/admin" }, { label: "依頼キュー" }]}
+        headingId="admin-requests-h"
+      />
       {result.ok ? (
         <RequestQueuePanel
           initial={{
@@ -48,6 +53,7 @@ export default async function AdminRequestsPage({
             appliedFilters: result.data.appliedFilters ?? { status: "pending", type },
           }}
           type={type}
+          showHeading={false}
         />
       ) : (
         <AdminSectionErrorClient

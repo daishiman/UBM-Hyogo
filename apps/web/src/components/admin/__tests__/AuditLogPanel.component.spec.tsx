@@ -53,7 +53,7 @@ describe("AuditLogPanel", () => {
       />,
     );
 
-    expect(screen.getByRole("heading", { name: "監査ログ" })).toBeTruthy();
+    expect(screen.queryByRole("heading", { name: "監査ログ" })).toBeNull();
     expect(screen.getByText(/2026\/05\/01/)).toBeTruthy();
     expect(screen.getByText("after: email, count")).toBeTruthy();
     expect(document.body.textContent).not.toContain(rawEmail);
@@ -95,6 +95,33 @@ describe("AuditLogPanel", () => {
 
     rerender(<AuditLogPanel values={{ limit: "50" }} data={null} error="status 500" />);
     expect(screen.getByRole("alert").textContent).toContain("status 500");
+  });
+
+  it("renders the filter form with existing UI primitives", () => {
+    render(<AuditLogPanel values={{ limit: "50" }} data={{ items: [], nextCursor: null }} />);
+
+    expect(screen.getByRole("form", { name: "監査ログフィルター" })).toBeTruthy();
+    expect(screen.getByLabelText("action")).toBeTruthy();
+    expect(screen.getByLabelText("actorEmail")).toBeTruthy();
+    expect(screen.getByLabelText("targetType")).toBeTruthy();
+    expect(screen.getByLabelText("targetId")).toBeTruthy();
+    expect(screen.getByLabelText("from (JST)")).toBeTruthy();
+    expect(screen.getByLabelText("to (JST)")).toBeTruthy();
+    expect(screen.getByLabelText("limit").className).toContain("ui-select");
+    expect(screen.getByRole("button", { name: "検索" }).className).toContain("ui-button");
+    expect(screen.getByRole("link", { name: "リセット" }).className).toContain("ui-button");
+  });
+
+  it("renders a 404 recovery hint in the warning banner", () => {
+    render(
+      <AuditLogPanel
+        values={{ limit: "50" }}
+        data={null}
+        error="admin api /admin/audit?limit=50 failed: 404"
+      />,
+    );
+
+    expect(screen.getByRole("alert").textContent).toContain("staging deploy");
   });
 });
 

@@ -6,6 +6,9 @@ import type {
   MergeIdentityResponse,
 } from "@ubm-hyogo/shared";
 import { useAdminMutation } from "../../features/admin/hooks";
+import { Badge } from "../ui/Badge";
+import { Button } from "../ui/Button";
+import { Textarea } from "../ui/Textarea";
 
 export function IdentityConflictRow({ item }: { item: Row }) {
   const formId = useId();
@@ -71,82 +74,86 @@ export function IdentityConflictRow({ item }: { item: Row }) {
   };
 
   return (
-    <div className="flex flex-col gap-2">
-      <div className="flex items-center justify-between gap-4">
+    <div className="flex flex-col gap-3 rounded border border-[var(--ubm-color-border-default)] bg-[var(--ubm-color-surface-panel)] p-4">
+      <div className="flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
         <div className="text-sm">
-          <div className="font-mono text-xs text-zinc-500">conflict: {item.conflictId}</div>
-          <div>
-            <span className="text-zinc-500">source:</span> <span className="font-mono">{item.sourceMemberId}</span>
-            <span className="ml-2 text-zinc-500">→ target:</span>{" "}
+          <div className="font-mono text-xs text-[var(--ubm-color-text-muted)]">
+            conflict: {item.conflictId}
+          </div>
+          <div className="mt-1 flex flex-wrap items-center gap-2">
+            <Badge tone="info" outline>
+              source
+            </Badge>
+            <span className="font-mono">{item.sourceMemberId}</span>
+            <span aria-hidden="true" className="text-[var(--ubm-color-text-muted)]">
+              →
+            </span>
+            <Badge tone="accent" outline>
+              target
+            </Badge>
             <span className="font-mono">{item.candidateTargetMemberId}</span>
           </div>
-          <div className="text-zinc-500">
-            email: <span className="font-mono">{item.responseEmailMasked}</span> / matched:{" "}
-            {item.matchedFields.join(", ")}
+          <div className="mt-2 flex flex-wrap items-center gap-2 text-[var(--ubm-color-text-muted)]">
+            <span>
+              email: <span className="font-mono">{item.responseEmailMasked}</span>
+            </span>
+            <span>matched: {item.matchedFields.join(", ")}</span>
+            {item.matchedFields.map((field) => (
+              <Badge key={field} tone="default">
+                {field}
+              </Badge>
+            ))}
           </div>
         </div>
         <div className="flex shrink-0 gap-2">
           {stage === "idle" && (
             <>
-              <button
-                type="button"
-                className="rounded-md border border-zinc-300 px-3 py-1 text-sm hover:bg-zinc-50"
-                onClick={() => setStage("dismiss")}
-              >
+              <Button variant="ghost" size="sm" onClick={() => setStage("dismiss")}>
                 別人マーク
-              </button>
-              <button
-                type="button"
-                className="rounded-md bg-blue-600 px-3 py-1 text-sm text-white hover:bg-blue-700"
-                onClick={() => setStage("merge-confirm")}
-              >
+              </Button>
+              <Button variant="primary" size="sm" onClick={() => setStage("merge-confirm")}>
                 merge
-              </button>
+              </Button>
             </>
           )}
         </div>
       </div>
 
       {stage === "merge-confirm" && (
-        <div className="rounded-md border border-amber-300 bg-amber-50 p-3 text-sm">
+        <div className="rounded border border-[var(--ubm-color-warn)] bg-[var(--ubm-color-warn-soft)] p-3 text-sm">
           <p className="mb-2">
             <strong>確認 1/2:</strong> {item.sourceMemberId} を {item.candidateTargetMemberId} に統合します。
             実体本文は移動せず、canonical 解決テーブルのみ更新します。
           </p>
           <div className="flex justify-end gap-2">
-            <button
-              type="button"
-              className="rounded-md border border-zinc-300 px-3 py-1"
-              onClick={cancelMerge}
-            >
+            <Button variant="ghost" size="sm" onClick={cancelMerge}>
               キャンセル
-            </button>
-            <button
-              type="button"
-              className="rounded-md bg-amber-600 px-3 py-1 text-white"
-              onClick={() => setStage("merge-final")}
-            >
+            </Button>
+            <Button variant="accent" size="sm" onClick={() => setStage("merge-final")}>
               次へ
-            </button>
+            </Button>
           </div>
         </div>
       )}
 
       {stage === "merge-final" && (
-        <div className="rounded-md border border-red-300 bg-red-50 p-3 text-sm">
+        <div className="rounded border border-[var(--ubm-color-danger)] bg-[var(--ubm-color-danger-soft)] p-3 text-sm">
           <p className="mb-2">
             <strong>確認 2/2:</strong> merge 理由を記録します（PII は redaction されます）。
           </p>
-          <label htmlFor={mergeReasonId} className="mb-1 block text-xs font-medium text-zinc-700">
+          <label
+            htmlFor={mergeReasonId}
+            className="mb-1 block text-xs font-medium text-[var(--ubm-color-text-secondary)]"
+          >
             merge 理由
           </label>
-          <textarea
+          <Textarea
             id={mergeReasonId}
             value={mergeReason}
             onChange={(e) => setMergeReason(e.target.value)}
             aria-invalid={mergeError ? "true" : undefined}
-            aria-describedby={mergeError ? mergeErrorId : undefined}
-            className="mb-2 w-full rounded-md border border-zinc-300 p-2 text-sm"
+            {...(mergeError ? { describedBy: mergeErrorId } : {})}
+            className="mb-2 w-full rounded border p-2 text-sm"
             placeholder="例: 本人確認済 / 同一人物として統合"
             rows={2}
             maxLength={500}
@@ -155,7 +162,7 @@ export function IdentityConflictRow({ item }: { item: Row }) {
           {mergeError && (
             <p
               id={mergeErrorId}
-              className="mb-2 text-red-600"
+              className="mb-2 text-[var(--ubm-color-danger)]"
               role="alert"
               aria-live="polite"
             >
@@ -163,39 +170,38 @@ export function IdentityConflictRow({ item }: { item: Row }) {
             </p>
           )}
           <div className="flex justify-end gap-2">
-            <button
-              type="button"
-              className="rounded-md border border-zinc-300 px-3 py-1"
-              onClick={cancelMerge}
-              disabled={mergeMutation.isLoading}
-            >
+            <Button variant="ghost" size="sm" onClick={cancelMerge} disabled={mergeMutation.isLoading}>
               キャンセル
-            </button>
-            <button
-              type="button"
-              className="rounded-md bg-red-600 px-3 py-1 text-white disabled:opacity-50"
+            </Button>
+            <Button
+              variant="danger"
+              size="sm"
               onClick={onMerge}
+              loading={mergeMutation.isLoading}
               disabled={mergeMutation.isLoading || mergeReason.trim().length === 0}
             >
               merge 実行
-            </button>
+            </Button>
           </div>
         </div>
       )}
 
       {stage === "dismiss" && (
-        <div className="rounded-md border border-zinc-300 bg-zinc-50 p-3 text-sm">
+        <div className="rounded border border-[var(--ubm-color-border-default)] bg-[var(--ubm-color-surface-panel-2)] p-3 text-sm">
           <p className="mb-2">別人として確定します。再検出を抑止します。理由を記載してください。</p>
-          <label htmlFor={dismissReasonId} className="mb-1 block text-xs font-medium text-zinc-700">
+          <label
+            htmlFor={dismissReasonId}
+            className="mb-1 block text-xs font-medium text-[var(--ubm-color-text-secondary)]"
+          >
             別人マーク理由
           </label>
-          <textarea
+          <Textarea
             id={dismissReasonId}
             value={dismissReason}
             onChange={(e) => setDismissReason(e.target.value)}
             aria-invalid={dismissError ? "true" : undefined}
-            aria-describedby={dismissError ? dismissErrorId : undefined}
-            className="mb-2 w-full rounded-md border border-zinc-300 p-2 text-sm"
+            {...(dismissError ? { describedBy: dismissErrorId } : {})}
+            className="mb-2 w-full rounded border p-2 text-sm"
             placeholder="例: 同姓同名 / 別組織所属で確認済"
             rows={2}
             maxLength={500}
@@ -204,7 +210,7 @@ export function IdentityConflictRow({ item }: { item: Row }) {
           {dismissError && (
             <p
               id={dismissErrorId}
-              className="mb-2 text-red-600"
+              className="mb-2 text-[var(--ubm-color-danger)]"
               role="alert"
               aria-live="polite"
             >
@@ -212,22 +218,18 @@ export function IdentityConflictRow({ item }: { item: Row }) {
             </p>
           )}
           <div className="flex justify-end gap-2">
-            <button
-              type="button"
-              className="rounded-md border border-zinc-300 px-3 py-1"
-              onClick={cancelDismiss}
-              disabled={dismissMutation.isLoading}
-            >
+            <Button variant="ghost" size="sm" onClick={cancelDismiss} disabled={dismissMutation.isLoading}>
               キャンセル
-            </button>
-            <button
-              type="button"
-              className="rounded-md bg-zinc-700 px-3 py-1 text-white disabled:opacity-50"
+            </Button>
+            <Button
+              variant="danger"
+              size="sm"
               onClick={onDismiss}
+              loading={dismissMutation.isLoading}
               disabled={dismissMutation.isLoading || dismissReason.trim().length === 0}
             >
               別人として確定
-            </button>
+            </Button>
           </div>
         </div>
       )}

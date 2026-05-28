@@ -42,11 +42,11 @@ test.describe('attendance visual smoke (#313)', () => {
 
     await meetings.visit()
 
+    await meetings.expectAttendeePresent('sess-1', 'm-1', true)
     await expect(meetings.listPageSelectOption('sess-1', 'm-1')).toHaveJSProperty(
       'disabled',
       true,
     )
-    await meetings.expectAttendeePresent('sess-1', 'm-1', true)
     await meetings.screenshot('attendance-delete-before', 'desktop')
     await meetings.openRemoveAttendanceDialog('sess-1', 'm-1')
     await meetings.screenshot('attendance-confirm-remove', 'desktop')

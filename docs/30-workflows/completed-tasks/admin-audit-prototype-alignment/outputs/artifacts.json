@@ -1,0 +1,108 @@
+{
+  "task_id": "admin-audit-prototype-alignment",
+  "created_at": "2026-05-27",
+  "status": "implemented_local_runtime_pending",
+  "task_type": "implementation",
+  "visual_category": "VISUAL",
+  "implementation_mode": "existing-ui-alignment-plus-api-recovery",
+  "metadata": {
+    "workflow_state": "implemented_local_runtime_pending",
+    "implementation_status": "implemented_local",
+    "taskType": "implementation",
+    "visualEvidence": "VISUAL",
+    "scope": "apps/web /admin/audit UI alignment plus apps/api /admin/audit 404 recovery",
+    "implementationCategory": "ui_alignment_api_recovery",
+    "spec_classification": "implementation_spec",
+    "canonical_workflow": "docs/30-workflows/completed-tasks/admin-audit-prototype-alignment/",
+    "prototype_source": "docs/00-getting-started-manual/claude-design-prototype/pages-admin.jsx",
+    "scope_routes": [
+      "/admin/audit",
+      "/admin/audit?limit=50"
+    ],
+    "tasks": [
+      {
+        "task_id": "task-A",
+        "path": "docs/30-workflows/completed-tasks/admin-audit-prototype-alignment/tasks/task-A-ui-prototype-alignment.md",
+        "status": "implemented_local",
+        "depends_on": [],
+        "notes": "UI implementation and error-banner verification can run in parallel with Task B."
+      },
+      {
+        "task_id": "task-B",
+        "path": "docs/30-workflows/completed-tasks/admin-audit-prototype-alignment/tasks/task-B-api-404-recovery.md",
+        "status": "implemented_local_runtime_pending",
+        "depends_on": [],
+        "notes": "Normal staging visual baseline depends on API recovery or a deterministic fixture."
+      },
+      {
+        "task_id": "FU-AAUDIT-001",
+        "path": "docs/30-workflows/completed-tasks/admin-audit-prototype-alignment/unassigned-task/followup-001-admin-fetch-error-typed-class.md",
+        "status": "unassigned",
+        "issue_number": 991,
+        "depends_on": [],
+        "notes": "AdminFetchError typed class for 404 triage; user-gated implementation"
+      },
+      {
+        "task_id": "FU-AAUDIT-002",
+        "path": "docs/30-workflows/completed-tasks/admin-audit-prototype-alignment/unassigned-task/followup-002-admin-audit-authenticated-staging-visual.md",
+        "status": "unassigned",
+        "issue_number": 992,
+        "depends_on": [],
+        "notes": "Authenticated staging visual baseline for /admin/audit 3 states"
+      }
+    ],
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-05-27T00:00:00+09:00",
+        "evidence_path": "docs/30-workflows/completed-tasks/admin-audit-prototype-alignment/outputs/phase-3/phase-3.md",
+        "approver": "daishiman",
+        "notes": "Phase 1-3 implementation specification and Task A/B decomposition created"
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "passed",
+        "passed_at": "2026-05-27T16:26:14+09:00",
+        "evidence_path": "docs/30-workflows/completed-tasks/admin-audit-prototype-alignment/outputs/phase-12/phase12-task-spec-compliance-check.md",
+        "approver": "daishiman",
+        "notes": "local implementation and regression tests passed; staging env/deploy/secret evidence remains user-gated"
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/admin-audit-prototype-alignment/outputs/phase-13/pr-creation-result.md",
+        "approver": "daishiman",
+        "notes": "commit, push, PR, staging deploy, secret mutation, and authenticated visual baseline are user-gated"
+      }
+    ]
+  },
+  "phases": [
+    { "phase": 1, "name": "要件定義", "status": "completed", "output": "outputs/phase-1/phase-1.md" },
+    { "phase": 2, "name": "設計", "status": "completed", "output": "outputs/phase-2/phase-2.md" },
+    { "phase": 3, "name": "テスト設計", "status": "completed", "output": "outputs/phase-3/phase-3.md" },
+    { "phase": 4, "name": "実装計画", "status": "completed", "output": "tasks/task-A-ui-prototype-alignment.md" },
+    { "phase": 5, "name": "実装", "status": "completed", "output": "outputs/phase-12/implementation-guide.md" },
+    { "phase": 6, "name": "テスト追加", "status": "completed", "output": "outputs/phase-12/implementation-guide.md#検証" },
+    { "phase": 7, "name": "カバレッジ", "status": "completed", "output": "outputs/verification-report.md" },
+    { "phase": 8, "name": "リファクタ", "status": "completed", "output": "outputs/verification-report.md" },
+    { "phase": 9, "name": "QA", "status": "completed_local", "output": "outputs/phase-11/phase-11.md" },
+    { "phase": 10, "name": "最終レビュー", "status": "completed", "output": "outputs/verification-report.md" },
+    { "phase": 11, "name": "手動テスト", "status": "completed_local_staging_user_gate", "output": "outputs/phase-11/phase-11.md" },
+    { "phase": 12, "name": "ドキュメント同期", "status": "completed", "output": "outputs/phase-12/implementation-guide.md" },
+    { "phase": 13, "name": "commit-pr-release", "status": "pending_user_approval", "output": null }
+  ],
+  "implementation_targets": [
+    "apps/web/app/(admin)/admin/audit/page.tsx",
+    "apps/web/src/components/admin/AuditLogPanel.tsx",
+    "apps/web/src/components/admin/__tests__/AuditLogPanel.component.spec.tsx",
+    "apps/web/app/(admin)/admin/audit/page.page.spec.ts",
+    "apps/web/src/lib/admin/safe-server-fetch.ts",
+    "apps/web/src/lib/admin/__tests__/safe-server-fetch.spec.ts",
+    "apps/api/src/routes/admin/audit.contract.spec.ts",
+    "apps/api/src/index.ts",
+    "apps/api/src/index.spec.ts",
+    "apps/web/playwright/tests/visual-staging/admin-audit.spec.ts"
+  ]
+}
