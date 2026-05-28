@@ -1026,6 +1026,14 @@
 - 留意: 本ルールは「feature ブランチが invariant 強化を目的とする refactor」限定。invariant に関係しない feature ブランチで同型 conflict が起きた場合は SP-DEVSYNC-038 / L-DEVSYNC-050 の 3-way 判定フローに戻る。判別基準は「ブランチ名 / PR title に env unification / fallback retirement / invariant lock 等の refactor 語彙があるか」。
 - 事例: 2026-05-28 PR #980 `feat(profile): fix Server Components render error via env unification + safeServerFetch`。resolver の `WARN unhandled` を `git checkout --ours` で解消、typecheck/lint green、push 成功。dev 側 5 commits は skill index ファイルのみ resolver で auto-union、ソースは authed.ts 1 ファイル手動のみ。
 
+## L-DEVSYNC-054: aiworkflow skill indexes-only conflict は `pnpm sync:resolve` 単独完結（2026-05-28 再現確認）
+
+- 再現条件: `docs/admin-meetings-prototype-alignment` から `origin/dev` を merge した際、conflict は `aiworkflow-requirements` 配下の 4 union files (`indexes/quick-reference.md` / `indexes/resource-map.md` / `indexes/topic-map.md` / `references/task-workflow-active.md`) と derived `indexes/keywords.json` の計 5 ファイルのみ。`apps/web/playwright/fixtures/auth.ts` は Auto-merging で自動解消。
+- 結果: `pnpm sync:resolve` で union 4 + ours 1 + `indexes:rebuild` まで自動完了。手動介入ゼロ。`typecheck` / `lint` も green。
+- Why: L-DEVSYNC-046 と同条件の skill indexes-only conflict は resolver 単独で構造的に閉じる。本ケースで再現性を再確認。
+- How to apply: aiworkflow skill 系のみが conflict の場合、最初に `pnpm sync:resolve` を実行する（迷う前に試す）。残余 conflict なしを `git diff --name-only --diff-filter=U` で 0 確認したらそのまま `git commit --no-edit`。
+- 参照: L-DEVSYNC-046（同パターン初出）、task-specification-creator [[dev-sync-merge-conflict-resolution]]。
+
 ## L-DEVSYNC-054: 並列 feature が同一 cleanup hotspot / barrel index に独立行を追加するパターン（2026-05-28 確認）
 
 - 事象: 2026-05-28 `feat/admin-ui-task-d-attendance-primitive` ← origin/dev sync-merge で `pnpm sync:resolve` の `WARN unhandled conflict` が 2 件残った:
