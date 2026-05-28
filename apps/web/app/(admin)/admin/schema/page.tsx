@@ -3,8 +3,8 @@
 // 不変条件 #14: schema 解消はこの画面のみ
 import Link from "next/link";
 import { safeServerFetch } from "../../../../src/lib/admin/safe-server-fetch";
-import { Breadcrumb } from "@/components/admin/Breadcrumb";
 import { AdminSectionErrorClient } from "../../../../src/features/admin/components/_shared";
+import { AdminPageHeader } from "../../../../src/features/admin/components/_layout/AdminPageHeader";
 import { SchemaDiffPanel } from "../../../../src/components/admin/SchemaDiffPanel";
 import type { SchemaDiffItem, SchemaDiffListView } from "../../../../src/components/admin/SchemaDiffPanel";
 
@@ -27,13 +27,23 @@ export default async function AdminSchemaPage() {
           title: `セクション${i + 1}`,
         }));
   return (
-    <>
-      <Breadcrumb items={[{ label: "Form schema" }]} />
-      <nav aria-label="schema sub navigation">
-        <Link href="/admin/schema/history">resolve 履歴を見る</Link>
-      </nav>
-      <section aria-labelledby="schema-form-h">
-        <h1 id="schema-form-h">Form schema 概要</h1>
+    <section className="flex flex-col gap-4" aria-labelledby="schema-form-h">
+      <AdminPageHeader
+        eyebrow="ADMIN / SCHEMA"
+        title="スキーマ差分のレビュー"
+        description="Google Form の最新 schema との差分を解消する"
+        breadcrumbs={[{ label: "管理", href: "/admin" }, { label: "Form schema" }]}
+        headingId="schema-form-h"
+        actions={
+          <Link
+            href="/admin/schema/history"
+            className="text-sm text-[var(--ubm-color-link-default)] underline-offset-2 hover:underline"
+          >
+            resolve 履歴を見る
+          </Link>
+        }
+      />
+      <section aria-label="Form schema sections">
         <ul>
           {sections.map((s) => (
             <li key={s.sectionKey} data-testid="admin-schema-section">
@@ -51,7 +61,7 @@ export default async function AdminSchemaPage() {
           message={result.error.message}
         />
       )}
-    </>
+    </section>
   );
 }
 

@@ -3685,6 +3685,7 @@
       "workflow-admin-ui-prototype-alignment-artifact-inventory.md",
       "workflow-admin-ui-prototype-alignment-followup-001-members-fetch-and-visual-artifact-inventory.md",
       "workflow-admin-ui-prototype-alignment-followup-002-section-error-retry-artifact-inventory.md",
+      "workflow-admin-ui-task-c-pageheader-token-conformance-artifact-inventory.md",
       "workflow-admin-ui-task-d-attendance-primitive-conformance-artifact-inventory.md",
       "workflow-fix-admin-scr-err-stg-fu-001-auth-env-via-getenv-artifact-inventory.md",
       "workflow-fix-admin-server-components-render-error-stg-artifact-inventory.md",
@@ -5073,6 +5074,7 @@
       "release-runbook.md",
       "workflow-2b-admin-identity-conflicts-spec-artifact-inventory.md",
       "workflow-admin-shell-topbar-sidebar-integration-artifact-inventory.md",
+      "workflow-admin-ui-task-c-pageheader-token-conformance-artifact-inventory.md",
       "workflow-admin-ui-task-d-attendance-primitive-conformance-artifact-inventory.md",
       "workflow-issue-256-e2e-coverage-baseline-runbook-artifact-inventory.md",
       "workflow-issue-276-mobile-filterbar-tag-picker-artifact-inventory.md",
@@ -5877,6 +5879,7 @@
       "workflow-admin-ui-prototype-alignment-artifact-inventory.md",
       "workflow-admin-ui-prototype-alignment-followup-001-members-fetch-and-visual-artifact-inventory.md",
       "workflow-admin-ui-prototype-alignment-followup-002-section-error-retry-artifact-inventory.md",
+      "workflow-admin-ui-task-c-pageheader-token-conformance-artifact-inventory.md",
       "workflow-ai-chat-llm-integration-fix-artifact-inventory.md",
       "workflow-aiworkflow-requirements-line-budget-reform-artifact-inventory.md",
       "workflow-ci-green-recovery-smoke-coverage-shard-artifact-inventory.md",
@@ -7317,6 +7320,7 @@
       "workflow-admin-shell-topbar-sidebar-integration-artifact-inventory.md",
       "workflow-admin-ui-prototype-alignment-artifact-inventory.md",
       "workflow-admin-ui-prototype-alignment-followup-002-section-error-retry-artifact-inventory.md",
+      "workflow-admin-ui-task-c-pageheader-token-conformance-artifact-inventory.md",
       "workflow-ci-green-recovery-smoke-coverage-shard-artifact-inventory.md",
       "workflow-e2e-quality-uplift-stage-0-3-artifact-inventory.md",
       "workflow-i02-admin-error-type-unify-artifact-inventory.md",
@@ -8221,7 +8225,8 @@
       "lessons-learned-task-18-w7-verify-tokens-and-playwright-smoke-2026-05.md",
       "lessons-learned-task-26-error-tsx-token-utility-migration-2026-05.md",
       "logs-archive-2026-03-history-search-notification-center.md",
-      "testing-playwright-e2e.md"
+      "testing-playwright-e2e.md",
+      "workflow-admin-ui-task-c-pageheader-token-conformance-artifact-inventory.md"
     ],
     "Long": [
       "deployment-cloudflare-opennext-workers.md",
@@ -10878,6 +10883,7 @@
       "lessons-learned.md",
       "release-runbook.md",
       "workflow-admin-shell-topbar-sidebar-integration-artifact-inventory.md",
+      "workflow-admin-ui-task-c-pageheader-token-conformance-artifact-inventory.md",
       "workflow-issue-256-e2e-coverage-baseline-runbook-artifact-inventory.md",
       "workflow-issue-276-mobile-filterbar-tag-picker-artifact-inventory.md",
       "workflow-issue-331-cicd-runtime-warning-cleanup-artifact-inventory.md",
@@ -12503,6 +12509,7 @@
       "task-workflow-completed.md",
       "testing-playwright-e2e.md",
       "ui-ux-components.md",
+      "workflow-admin-ui-task-c-pageheader-token-conformance-artifact-inventory.md",
       "workflow-admin-ui-task-d-attendance-primitive-conformance-artifact-inventory.md",
       "workflow-issue-106-admin-member-notes-repository-task-spec-artifact-inventory.md",
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
@@ -13071,6 +13078,7 @@
       "workflow-admin-ui-prototype-alignment-artifact-inventory.md",
       "workflow-admin-ui-prototype-alignment-followup-001-members-fetch-and-visual-artifact-inventory.md",
       "workflow-admin-ui-prototype-alignment-followup-002-section-error-retry-artifact-inventory.md",
+      "workflow-admin-ui-task-c-pageheader-token-conformance-artifact-inventory.md",
       "workflow-ai-chat-llm-integration-fix-artifact-inventory.md",
       "workflow-ai-chat-llm-integration-fix.md",
       "workflow-ai-runtime-authmode-unification.md",
@@ -14656,6 +14664,7 @@
       "workflow-admin-ui-prototype-alignment-artifact-inventory.md",
       "workflow-admin-ui-prototype-alignment-followup-001-members-fetch-and-visual-artifact-inventory.md",
       "workflow-admin-ui-prototype-alignment-followup-002-section-error-retry-artifact-inventory.md",
+      "workflow-admin-ui-task-c-pageheader-token-conformance-artifact-inventory.md",
       "workflow-admin-ui-task-d-attendance-primitive-conformance-artifact-inventory.md",
       "workflow-login-ui-balance-and-runtime-fix-artifact-inventory.md",
       "workflow-task-06-ui-ux-contract-rewrite-artifact-inventory.md",
@@ -15262,6 +15271,7 @@
       "workflow-admin-ui-prototype-alignment-artifact-inventory.md",
       "workflow-admin-ui-prototype-alignment-followup-001-members-fetch-and-visual-artifact-inventory.md",
       "workflow-admin-ui-prototype-alignment-followup-002-section-error-retry-artifact-inventory.md",
+      "workflow-admin-ui-task-c-pageheader-token-conformance-artifact-inventory.md",
       "workflow-ai-chat-llm-integration-fix-artifact-inventory.md",
       "workflow-ai-chat-llm-integration-fix.md",
       "workflow-ai-runtime-authmode-unification.md",
@@ -25399,7 +25409,11 @@
       "workflow-issue-880-public-segment-error-loading-boundary-artifact-inventory.md",
       "workflow-task-21-w2-par-screen-blueprints-admin-artifact-inventory.md"
     ],
+    "pageheader": [
+      "workflow-admin-ui-task-c-pageheader-token-conformance-artifact-inventory.md"
+    ],
     "conformance": [
+      "workflow-admin-ui-task-c-pageheader-token-conformance-artifact-inventory.md",
       "workflow-admin-ui-task-d-attendance-primitive-conformance-artifact-inventory.md"
     ],
     "で更新した": [
