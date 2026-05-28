@@ -1,0 +1,14 @@
+Command:
+mise exec -- pnpm exec vitest run --root=. --config=vitest.config.ts apps/web/src/lib/fetch/authed.spec.ts 'apps/web/app/(member)/profile/page.spec.tsx' apps/web/src/lib/__tests__/env.spec.ts
+
+Result:
+PASS
+
+Summary:
+Test Files  3 passed (3)
+Tests       43 passed (43)
+
+Files:
+- apps/web/src/lib/__tests__/env.spec.ts (25 tests)
+- apps/web/src/lib/fetch/authed.spec.ts (14 tests)
+- apps/web/app/(member)/profile/page.spec.tsx (4 tests)

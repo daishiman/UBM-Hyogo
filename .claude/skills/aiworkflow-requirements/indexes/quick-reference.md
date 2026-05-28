@@ -1,5 +1,20 @@
 # クイックリファレンス
 
+## profile-server-components-render-error（2026-05-27）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/profile-server-components-render-error/` |
+| status | `implemented_local_evidence_captured / implementation / NON_VISUAL / staging_runtime_pending_user_gate` |
+| task | `TASK-FIX-PROFILE-SCR-ERR-STG-001` |
+| related | `docs/30-workflows/fix-admin-server-components-render-error-stg/` |
+| purpose | staging `/profile` の Server Components render error (`digest=398449091`, `scope=profile`) を、member authed fetch の Workers env 解決是正と `/me` safe degradation で解消する |
+| implementation | `apps/web/src/lib/fetch/authed.ts` は env.ts の `getApiBaseEnv()` 経由で `INTERNAL_API_BASE_URL` -> `PUBLIC_API_BASE_URL` を解決し、localhost fallback を禁止。`apps/web/app/(member)/profile/page.tsx` は初回 `/me` を `safeServerFetch` でラップし、AuthRequiredError 以外を SectionError に降格 |
+| tests | `apps/web/src/lib/fetch/authed.spec.ts`, `apps/web/app/(member)/profile/page.spec.tsx` |
+| evidence | focused Vitest 43 PASS、web typecheck PASS、web lint PASS、`authed.ts` source guard (`process.env[` 0 / `127.0.0.1` 0)、Phase 12 strict 7 present |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-profile-server-components-render-error-artifact-inventory.md` |
+| user gate | Cloudflare staging deploy, authenticated `/profile` curl, tail clean evidence, commit, push, PR |
+
 ## admin-meetings-prototype-alignment（2026-05-27）
 
 | 項目 | 値 |
@@ -1291,6 +1306,19 @@
 | follow-up 001 AdminTopbar extraction（2026-05-23） | `docs/30-workflows/parallel-03-followup-001-admin-topbar-primitive-extraction/`、status `implemented_local_evidence_captured / implementation / NON_VISUAL`、source unassigned consumed、`apps/web/src/components/layout/AdminTopbar.tsx` を追加し `(admin)/layout.tsx` の inline `<header data-shell="topbar">` を `<AdminTopbar />` に置換、`apps/web/src/components/layout/__tests__/AdminTopbar.spec.tsx` 追加。親 parallel-03 の successor contract として `data-shell="topbar"` は primitive root、`data-route-group` / `data-theme` は wrapper 側に残す。DOM 同型 + existing layout spec + serial-07 visual owner 継続により screenshot baseline 追加なし。commit / push / PR は user-gated |
 | sub-workflow serial-06 Form Response Binding（2026-05-23） | `docs/30-workflows/ui-prototype-design-system-foundation/serial-06-form-response-binding/`、status `spec_created / implementation / VISUAL / strict7-parent-aggregated`、adapter/page/MemberDetail/fixture/spec の実装仕様。standalone `docs/30-workflows/serial-06-form-response-binding/` は禁止 duplicate topology、Phase 12 strict 7 は parent root 集約、sub 側は `phase-12-compliance-check.md` のみ |
 | sub-workflow parallel-03 AppShell Layouts（2026-05-19） | `docs/30-workflows/ui-prototype-design-system-foundation/parallel-03-appshell-layouts/`、status `implemented_local_evidence_captured / implementation / VISUAL (public chrome only; admin/member deferred-to-serial-07)`、`implementation_mode: existing-layout-alignment`、3 layout (`apps/web/app/(public\|member\|admin)/layout.tsx`) に `data-theme` / `data-route-group` / `data-shell` / `data-route` / `data-testid` を付与、OKLch token (`var(--ubm-color-*)`) 経由のみ、既存 primitive 無改変、admin は `getSession()` 2 段防御 + redirect 維持、Phase 11 evidence は `outputs/phase-11/`、lessons-learned `.claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-parallel-03-appshell-layouts-2026-05.md` (L-PAR03-001..005) |
+
+### public-header-logged-in-nav-cleanup（2026-05-28）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/public-header-logged-in-nav-cleanup/` |
+| 状態 | `spec_created / implementation / VISUAL_ON_EXECUTION / implementation_spec_ready_pending_code` |
+| scope | PublicHeader session awareness, root/legal public shell consistency, login safe redirect, MemberHeader admin CTA, AdminSidebar public-return, Playwright auth slot coverage |
+| planned targets | `apps/web/src/lib/auth-view/*`, `apps/web/src/components/public/PublicHeader.tsx`, `apps/web/app/(public)/layout.tsx`, `apps/web/app/page.tsx`, `apps/web/app/{privacy,terms,login}/page.tsx`, `apps/web/src/components/layout/{MemberHeader,AdminSidebar}.tsx`, `apps/web/playwright/tests/auth-slot-coverage.spec.ts` |
+| strict Phase 12 | `outputs/phase-12/{main.md,implementation-guide.md,system-spec-update-summary.md,documentation-changelog.md,unassigned-task-detection.md,skill-feedback-report.md,phase12-task-spec-compliance-check.md}` |
+| invariant | no new endpoint / no D1 schema / no PII in DOM; `data-auth-state` is only `guest\|member\|admin`; route topology stays unchanged |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-public-header-logged-in-nav-cleanup-artifact-inventory.md` |
+| user gate | apps/web implementation, local focused tests, Playwright auth-slot run, staging runtime visual, commit, push, PR |
 
 ### Issue #749 Primitive Adoption Tracker（2026-05-17）
 
@@ -4208,3 +4236,13 @@ UT-17 Cloudflare Notifications → alert-relay → Slack 経路を、既存 API 
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-255-coverage-threshold-sync-lint-artifact-inventory.md` |
 | user-gated | commit, push, PR, GitHub Actions runtime observation |
 | Issue #903 member AppShell runtime evidence | `/profile` under `(member)` route group; EV-13/EV-16 present | `docs/30-workflows/completed-tasks/issue-903-parallel-03-followup-005-member-runtime-evidence/`, `references/workflow-issue-903-parallel-03-followup-005-member-runtime-evidence-artifact-inventory.md` |
+## admin-schema-page-prototype-alignment-and-diff-fetch-fix（2026-05-27）
+
+| 観点 | 値 / 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/admin-schema-page-prototype-alignment-and-diff-fetch-fix/` |
+| state | `implemented_local_evidence_captured / implementation / VISUAL / runtime_visual_pending` |
+| implementation | `apps/web/app/(admin)/admin/schema/page.tsx`, `apps/web/src/components/admin/SchemaDiffPanel.tsx`, `apps/web/src/components/layout/AdminSidebar.tsx`, `apps/web/src/lib/admin/server-fetch.ts`, `apps/web/src/styles/globals.css` |
+| system spec | `docs/00-getting-started-manual/specs/09g-screen-blueprints-admin.md` §`/admin/schema` |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-schema-page-prototype-alignment-and-diff-fetch-fix-artifact-inventory.md` |
+| evidence | web Vitest 158 files / 1147 tests PASS; local Playwright schema visual 7 PASS + Phase 11 screenshots; staging deploy and authenticated screenshots are user-gated |

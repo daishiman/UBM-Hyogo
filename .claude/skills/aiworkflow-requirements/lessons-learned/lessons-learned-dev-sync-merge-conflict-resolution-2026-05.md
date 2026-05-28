@@ -1012,6 +1012,20 @@
 - 事例: 2026-05-27 commit を併発した同 sync-merge で `.claude/skills/task-specification-creator/references/patterns-lessons-and-pitfalls.md` も EOF 並列追加（HEAD=「DOM 構造置換 PR 同一 wave spec 同期」節、dev=「accent-soft chip accent-ink」「visual baseline ours 採用」「fetcher 層 no-store」3 節）で同時に WARN unhandled。SP-DEVSYNC-037 の spec EOF 両側保持パターンで base 削除 + HEAD + dev 順序保持 + marker 物理除去で解消。
 - 参照: task-specification-creator [[dev-sync-merge-conflict-resolution]] SP-DEVSYNC-039 に逐語埋め込み。
 
+## L-DEVSYNC-054: feature ブランチの目的が "dev が今も出荷している pattern の置換" の場合、source conflict は HEAD 全採用が default（2026-05-28 追加）
+
+- 事象: 2026-05-28 `feat/profile-server-components-render-error` ← origin/dev (5 commits behind) sync-merge で `apps/web/src/lib/fetch/authed.ts` のみ resolver の `WARN unhandled conflict`。3-way:
+  - **base (7c6ac7525)**: `process.env["INTERNAL_API_BASE_URL"]` / `process.env["PUBLIC_API_BASE_URL"]` 直接参照 + `FALLBACK_INTERNAL_API = "http://127.0.0.1:8787"`
+  - **HEAD (我側)**: `getApiBaseEnv()` 単一 entrypoint で INTERNAL/PUBLIC 双方を zod 検証 + fallback 撤去 + 未設定時 throw（このブランチの存在理由そのもの）
+  - **dev (向側)**: `getAuthEnv()` / `getPublicFetchEnv()` 別 entrypoint で参照（base から1段だけ脱 process.env 化、fallback は据置）
+- Why: 両側とも「`process.env` 直接参照を `env.ts` accessor に移行する」方向で意味整合だが、HEAD は env unification + fallback 撤去まで踏み込み（`apps/web` env invariant の到達点）、dev は **HEAD が置換しようとしている中間状態**。dev 側 commit は HEAD の `getApiBaseEnv` 導入 (commit `6596ef845`) より時系列的に前。HEAD の `getApiBaseEnv` が `getAuthEnv` / `getPublicFetchEnv` を内包する supersede 関係のため、HEAD 採用で dev の意図も自動達成される。
+- How to apply:
+  1. source conflict 発生時、`git log -p HEAD ^origin/dev -- <path>` と `git log -p origin/dev ^HEAD -- <path>` の双方で「両側の commit message に同じ refactor 方向（脱 process.env / fallback 撤去 / env unification 等）が現れる」場合、HEAD のほうが**到達点が遠い**かを `apps/web` invariant（CLAUDE.md `apps/web env アクセス不変条件`）と照らして確認。
+  2. HEAD が invariant の最終形（zod 検証 + fallback 撤去 + 単一 accessor）、dev が中間形なら **`git checkout --ours <path>` で HEAD 全採用**。手動 union や dev 採用は invariant 違反 (`process.env` 直参照復活 / `127.0.0.1:8787` 焼き込み復活) を招く。
+  3. 採用後検証: `pnpm typecheck && pnpm lint` PASS + HEAD で使う accessor (`getApiBaseEnv` 等) が `apps/web/src/lib/env.ts` に `export function` として実在することを `grep -n` で確認（dev 側に存在しない関数を HEAD から参照していると merge 後 build 失敗）。
+- 留意: 本ルールは「feature ブランチが invariant 強化を目的とする refactor」限定。invariant に関係しない feature ブランチで同型 conflict が起きた場合は SP-DEVSYNC-038 / L-DEVSYNC-050 の 3-way 判定フローに戻る。判別基準は「ブランチ名 / PR title に env unification / fallback retirement / invariant lock 等の refactor 語彙があるか」。
+- 事例: 2026-05-28 PR #980 `feat(profile): fix Server Components render error via env unification + safeServerFetch`。resolver の `WARN unhandled` を `git checkout --ours` で解消、typecheck/lint green、push 成功。dev 側 5 commits は skill index ファイルのみ resolver で auto-union、ソースは authed.ts 1 ファイル手動のみ。
+
 ## L-DEVSYNC-054: aiworkflow skill indexes-only conflict は `pnpm sync:resolve` 単独完結（2026-05-28 再現確認）
 
 - 再現条件: `docs/admin-meetings-prototype-alignment` から `origin/dev` を merge した際、conflict は `aiworkflow-requirements` 配下の 4 union files (`indexes/quick-reference.md` / `indexes/resource-map.md` / `indexes/topic-map.md` / `references/task-workflow-active.md`) と derived `indexes/keywords.json` の計 5 ファイルのみ。`apps/web/playwright/fixtures/auth.ts` は Auto-merging で自動解消。
@@ -1057,3 +1071,18 @@
 - 検証: `git merge origin/dev` → 2 CONFLICT → `pnpm sync:resolve` (`union-resolved topic-map.md` + `ours keywords.json` + `indexes:rebuild`) 成功 → `git commit --no-edit` (merge commit `3eb260cf5`, lefthook 全 PASS) → `pnpm typecheck` Done × 4 packages → `pnpm lint` Done × 全 packages。残 conflict 0、stash 残留 0、未追跡 0。
 - 参照: L-DEVSYNC-042 (resolver UNION 拡張)、L-DEVSYNC-046 (patterns-lessons UNION_TARGETS 昇格)、task-specification-creator [[patterns-lessons-and-pitfalls#dev-sync-merge-conflict-resolution]]。
 
+
+## L-DEVSYNC-056: feature が page-local 旧 header を抱えたまま dev が AdminPageHeader primitive を導入したケースの hybridize（2026-05-28 確認）
+
+- 事象: `feat/admin-schema-page-prototype-alignment-and-diff-fetch-fix` ← origin/dev sync-merge で `pnpm sync:resolve` 後に source code 3 件が残った:
+  1. `apps/web/app/(admin)/admin/schema/page.tsx` — HEAD が prototype 整合のため `Breadcrumb` + `page-head` + `h-page` + CurrentRevision/Stats/RevisionAndAlias panels を full 実装。dev は `AdminPageHeader` primitive を新規導入し旧 page-head + Breadcrumb を撤去（page-shell は `<section className="flex flex-col gap-4" aria-labelledby="...">` 化）。さらに HEAD は `sections` データ自体を画面から撤去していたが dev 側は `sections.map(...)` をまだ持っており、片側 take すると undefined ref か prototype 退行のどちらかが起きる three-way semantic 衝突。
+  2. `apps/web/src/components/layout/AdminSidebar.tsx` — HEAD は schema label を `"schema"→"スキーマ"` の 1 字だけ変更。dev は `items` フラット定義を完全撤去して `GROUPS` 構造（Public/Members/Admin 3 group + icon + props）に置換しつつ `AdminSidebarProps` interface を export 化。
+  3. `apps/web/src/components/layout/__tests__/AdminSidebar.component.spec.tsx` — dev 側は spec 全体を `describe(... legacy ...).it.skip(...)` の stub に置換済み（実 spec は同 dir の `AdminSidebar.spec.tsx` へ移行）。HEAD は旧 props-less 構造に依存した 4 it block を保持していた。
+- Why: 親の admin-shell-topbar-sidebar-integration が dev 側で「page-local header の AdminPageHeader への一斉移行 + Sidebar の GROUPS/props 化」という structural primitive 導入を行った後、prototype alignment 系 feature branch が古い page-head 構造の上に追加実装を進めていたため、merge 時に「片側 take すると新 primitive を取り逃すか / 旧画面構造が完全に消える」two-way 損失が必発する。`AdminPageHeader` は新 primitive の標準であり、Sidebar は GROUPS 化が標準 (L-AVBE-001 系の admin-visual-baseline-admin-routes も依存)。component.spec の legacy stub 化も dev 側が SSOT。
+- How to apply:
+  1. page-level 衝突は **dev の新 primitive 採用を default** にし、HEAD の richer 内容構造（panels / cards / data-region など）を新 primitive の actions/children として注入する形で hybridize する。具体的には: HEAD の `Breadcrumb` import を捨てる（AdminPageHeader が breadcrumbs prop で吸収）→ `<header className="page-head">…</header>` を `<AdminPageHeader eyebrow=... title=... description=... breadcrumbs={[...]} headingId="<同一 id>" actions={…} />` に置換 → wrapper を `<section className="flex flex-col gap-4" aria-labelledby="<headingId>" data-page="...">` に統一（`data-page` 属性は visual baseline spec が selector に使うので HEAD 側から残す）→ HEAD 側が画面から撤去したデータ参照（例: `sections.map`）は dev 側のコードでも除去する（前提変数が無いと build fail）。
+  2. Sidebar の add-add は dev の GROUPS 構造を **そのまま全採用**し、HEAD の 1 字差分（label / href / sortOrder）だけを GROUPS 内 NavItemDef に **後付け移植**する。ports は機械的（`grep label.*"<旧値>"` → 該当行を新値に置換）。AdminSidebarProps interface は dev 側を全採用。
+  3. `*.component.spec.tsx` の legacy stub は **dev 側を無条件 overwrite**（HEAD の旧 assertions は実装契約の更新で意味を失っているため）。replacement spec (`AdminSidebar.spec.tsx`) が同 dir に存在することを `ls apps/web/src/components/layout/__tests__/ | grep -i <component>` で必ず確認してから overwrite する。
+  4. 検証順: `git diff --diff-filter=U --name-only` 0 件 → `pnpm typecheck` (page で undefined ref があると即 fail) → `pnpm lint` → `git commit -m "merge: sync <branch> with dev"`。
+- 留意: HEAD と dev で **同一画面の構造を双方が積極的に書き換える**パターンは、admin-ui プロトタイプ整合が wave 単位で並列実装されている期間は構造的に発生する。`pnpm sync:resolve` は `.ts/.tsx` ソースを対象外なので、手動 hybridize 必須。resolver 拡張ではなく lesson + 仕様 Phase 4 risk への記載で対処するのが正（L-DEVSYNC-054 と同じ判断）。
+- 事例: 2026-05-28 commit `c2a2bfc4e` (merge: sync feat/admin-schema-page-prototype-alignment-and-diff-fetch-fix with dev)。`pnpm sync:resolve` で skill md 1 union + keywords.json `--ours + rebuild` 成功、残り 3 `.tsx` を上記手順で hybridize。`grep -nE '^(<<<<<<<|=======|>>>>>>>|\|\|\|\|\|\|\|)' ...` 0 件 → `pnpm typecheck` Done × 6 packages → `pnpm lint` Done × 全 packages。
