@@ -2185,6 +2185,13 @@ node scripts/list-specs.js --topics
 | Boundary | L15 |
 | Lessons | L19 |
 
+### references/workflow-admin-visual-baseline-admin-routes-task-e-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Contract | L16 |
+| Lessons Learned | L22 |
+
 ### references/workflow-ai-chat-llm-integration-fix-artifact-inventory.md
 
 | セクション | 行 |
@@ -7885,14 +7892,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L2821 |
-| フェーズ構造（概要） | L2830 |
-| 品質ゲート（概要） | L2861 |
-| 出力テンプレート | L2872 |
-| 実行時のコマンド・エージェント・スキル | L2895 |
-| 昇格パターン集 | L2919 |
-| Current Active / Spec Created Tasks | L2921 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L3082 |
+| ドキュメント構成 | L2834 |
+| フェーズ構造（概要） | L2843 |
+| 品質ゲート（概要） | L2874 |
+| 出力テンプレート | L2885 |
+| 実行時のコマンド・エージェント・スキル | L2908 |
+| 昇格パターン集 | L2932 |
+| Current Active / Spec Created Tasks | L2934 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L3095 |
 
 ### references/task-workflow-backlog-part2.md
 
