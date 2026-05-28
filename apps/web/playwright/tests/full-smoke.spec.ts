@@ -22,7 +22,7 @@ const ROUTES: SmokeRoute[] = [
   { path: '/admin/members', auth: 'admin', landmark: ['main h1', '[aria-labelledby="admin-members-h"]'] },
   { path: '/admin/tags', auth: 'admin', landmark: ['main h1', 'text=タグキュー'] },
   { path: '/admin/meetings', auth: 'admin', landmark: ['main h1', 'text=開催日'] },
-  { path: '/admin/schema', auth: 'admin', landmark: ['main h1', '[data-testid="admin-schema-section"]'] },
+  { path: '/admin/schema', auth: 'admin', landmark: ['main h1', '[data-page="admin-schema"]'] },
   { path: '/admin/requests', auth: 'admin', landmark: ['main h1', 'text=依頼キュー'] },
   { path: '/admin/identity-conflicts', auth: 'admin', landmark: ['main h1'] },
   { path: '/admin/audit', auth: 'admin', landmark: ['main h1', '[data-component="admin-audit"]'] },

@@ -152,14 +152,26 @@ export function AuditLogPanel({
   data,
   values,
   error,
+  showHeading = true,
 }: {
   readonly data: AdminAuditListResponse | null;
   readonly values: AuditSearchValues;
   readonly error?: string;
+  readonly showHeading?: boolean;
 }) {
   const items = data?.items ?? [];
   return (
-    <section data-component="admin-audit" className="flex flex-col gap-4">
+    <section
+      aria-labelledby={showHeading ? "admin-audit-h" : undefined}
+      aria-label={showHeading ? undefined : "監査ログ"}
+      data-component="admin-audit"
+      className="flex flex-col gap-4"
+    >
+      {showHeading ? (
+        <header>
+          <h1 id="admin-audit-h">監査ログ</h1>
+        </header>
+      ) : null}
       <Card>
         <form
           action="/admin/audit"

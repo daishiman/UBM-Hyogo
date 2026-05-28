@@ -1,0 +1,49 @@
+{
+  "taskId": "admin-shell-topbar-sidebar-integration",
+  "status": "captured_local_playwright_fixture",
+  "visualEvidence": "VISUAL_ON_EXECUTION",
+  "capturedAt": "2026-05-26T00:00:00+09:00",
+  "baseUrl": "local-playwright-fixture",
+  "command": "PLAYWRIGHT_EVIDENCE_DIR=../../docs/30-workflows/completed-tasks/admin-shell-topbar-sidebar-integration/outputs/phase-11 PLAYWRIGHT_EVIDENCE_TASK=task-17-admin-schema-conflicts-audit pnpm -F @ubm-hyogo/web exec playwright test --project=desktop-chromium playwright/tests/admin-shell-topbar-sidebar-integration.spec.ts",
+  "screenshots": [
+    {
+      "file": "task-A-sidebar-desktop-1280.png",
+      "route": "/admin",
+      "viewport": "1280x720",
+      "status": "present"
+    },
+    {
+      "file": "task-A-sidebar-desktop-1280-members-active.png",
+      "route": "/admin/members",
+      "viewport": "1280x720",
+      "status": "present"
+    },
+    {
+      "file": "task-A-sidebar-tablet-768.png",
+      "route": "/admin",
+      "viewport": "768x1024",
+      "status": "present"
+    },
+    {
+      "file": "task-A-sidebar-mobile-375.png",
+      "route": "/admin",
+      "viewport": "375x812",
+      "status": "present"
+    },
+    {
+      "file": "task-A-sidebar-schema-badge.png",
+      "route": "/admin/schema",
+      "viewport": "1280x720",
+      "status": "present",
+      "fixture": {
+        "queuedSchemaDiffCount": 3
+      }
+    },
+    {
+      "file": "task-A-topbar-removed-1280.png",
+      "route": "/admin",
+      "viewport": "1280x720",
+      "status": "present"
+    }
+  ]
+}

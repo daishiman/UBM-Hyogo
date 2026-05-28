@@ -1,0 +1,9 @@
+Command:
+rg "process\.env\[|127\.0\.0\.1" apps/web/src/lib/fetch/authed.ts; test $? -eq 1
+
+Assertions:
+- apps/web/src/lib/fetch/authed.ts does not contain process.env[
+- apps/web/src/lib/fetch/authed.ts does not contain 127.0.0.1
+
+Result:
+PASS

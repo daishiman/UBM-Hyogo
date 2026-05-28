@@ -205,6 +205,39 @@ const issue776SchemaBulkFixture = () => ({
   }),
 });
 
+const task17DashboardFixture = () => ({
+  totals: {
+    totalMembers: 128,
+    publicMembers: 76,
+    untaggedMembers: 9,
+    unresolvedSchema: 3,
+  },
+  recentActions: [
+    {
+      auditId: "audit_task17_001",
+      actorEmail: "admin@example.test",
+      action: "admin.member.status_updated",
+      targetType: "member",
+      targetId: "mem_alpha",
+      createdAt: "2026-05-10T01:00:00.000Z",
+    },
+    {
+      auditId: "audit_task17_002",
+      actorEmail: "system@example.test",
+      action: "schema.alias.assign",
+      targetType: "schema_question",
+      targetId: "q_display_name",
+      createdAt: "2026-05-10T00:30:00.000Z",
+    },
+  ],
+  generatedAt: "2026-05-10T01:05:00.000Z",
+  byStatus: [
+    { status: "public", count: 76 },
+    { status: "member_only", count: 31 },
+    { status: "hidden", count: 21 },
+  ],
+});
+
 
 const task17AuditFixture = (path: string) => {
   const url = new URL(path, "http://internal.test");
@@ -377,6 +410,33 @@ export async function fetchAdmin<T>(
     process.env["NODE_ENV"] !== "production" &&
     process.env["PLAYWRIGHT_TASK17_ADMIN_FIXTURE"] === "1" &&
     opts.method === undefined &&
+    path === "/admin/dashboard"
+  ) {
+    return task17DashboardFixture() as T;
+  }
+
+  if (
+    process.env["NODE_ENV"] !== "production" &&
+    process.env["PLAYWRIGHT_TASK17_ADMIN_FIXTURE"] === "1" &&
+    opts.method === undefined &&
+    path.startsWith("/admin/members")
+  ) {
+    return task18MembersFixture() as T;
+  }
+
+  if (
+    process.env["NODE_ENV"] !== "production" &&
+    process.env["PLAYWRIGHT_TASK17_ADMIN_FIXTURE"] === "1" &&
+    opts.method === undefined &&
+    path.startsWith("/admin/schema/diff")
+  ) {
+    return task17SchemaFixture() as T;
+  }
+
+  if (
+    process.env["NODE_ENV"] !== "production" &&
+    process.env["PLAYWRIGHT_TEST"] === "1" &&
+    opts.method === undefined &&
     path.startsWith("/admin/schema/diff")
   ) {
     return task17SchemaFixture() as T;
@@ -406,14 +466,25 @@ export async function fetchAdmin<T>(
     ...(opts.body !== undefined ? { body: JSON.stringify(opts.body) } : {}),
   });
   if (!res.ok) {
-    // followup-001 T-5.1: 404 / 5xx 切り分けのため response body を error message に含める。
-    // 機密情報は backend 側で含めない契約。最大 256 文字で truncate して logs を肥大させない。
     let bodySnippet = "";
     try {
       const text = await res.text();
       if (text) bodySnippet = ` body=${text.slice(0, 256)}`;
     } catch {
       // body 読み取り失敗は致命的でない（status だけで切り分け可能）
+    }
+    if (process.env["NODE_ENV"] !== "production" && res.status === 404) {
+      let host = "<invalid>";
+      try {
+        host = new URL(resolveApiBase()).host;
+      } catch {
+        host = "<invalid>";
+      }
+      console.warn("[admin/server-fetch] 404", {
+        host,
+        path,
+        status: res.status,
+      });
     }
     throw new Error(`admin api ${path} failed: ${res.status}${bodySnippet}`);
   }

@@ -447,6 +447,18 @@
 - 事例: 2026-05-27 commit `57ff4402b` (`merge: sync ...`) は typecheck/lint green だが、**pre-push `verify-no-inline-style` (issue-924) が HEAD 残置の panel variant `style={{...}}` で fail**。追加 commit `f7b493456` で panel variant の inline-style も撤去（dev 側横断ルールを残 path にも適用）し push 成功。**判定フロー step 2.5**: dev 側 commit が refactor/chore 性質の横断撤去（hook gated CI rule 適用）なら、HEAD 採用 path にも同 rule を波及させる。`git log --oneline origin/dev ^HEAD -- <path>` で commit 性質確認 + `pnpm exec lefthook run pre-push --files <path>` で事前検証を Phase 9 dry-run checklist に追記。
 - 参照: aiworkflow-requirements [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-050 / L-DEVSYNC-050-A を併読。
 
+### SP-DEVSYNC-040: shell contract 変更後は旧E2E contractとvisual-full横幅を同一waveで更新する（2026-05-28 追加）
+
+- 事象: `feat/admin-shell-topbar-sidebar-integration` ← dev sync 後の PR #973 CI で `e2e (desktop-chromium / desktop-firefox / mobile-webkit)` と `visual-full (mobile/tablet)` が失敗。E2E は `parallel-03-admin-shell-scrape.spec.ts` が旧 contract の `[data-shell="topbar"]` visible を期待し続け、Task A spec は schema badge `3` を mock state 未seed のまま期待していた。visual-full は `/admin/members` table の intrinsic width が page screenshot の fullPage 幅を 390/768 から 640+/900+ に膨張させ、Linux baseline dimension mismatch になった。
+- Why: shell 変更は layout DOM contract と page-local header ownership を同時に変えるため、実装だけでなく既存 runtime evidence spec の selector contract も更新対象。さらに admin shell 内の table は desktop-first columns をそのまま残すと mobile/tablet viewport で横 overflow し、Playwright `toHaveScreenshot({ fullPage: true })` が scrollable content width を撮るため baseline サイズが変わる。
+- How to apply（task 仕様書での逐語化）:
+  - Phase 4 test plan に「shell/topbar/sidebar contract を参照する既存 Playwright spec 一覧」を列挙し、廃止 DOM は `toHaveCount(0)`、新正本 DOM は `getByTestId` / `data-shell-mode` で検証する。
+  - schema badge / KPI 等の server-layout fetch 由来値を assertion する場合、mock control endpoint と response route の両方を用意し、test 内で assertion 直前に seed する。
+  - admin table を mobile/tablet visual-full 対象に含める場合、`table-fixed`、break/truncate、breakpoint 列非表示で **page screenshot width が viewport と一致**することを Phase 9 に入れる。`min-width` + horizontal scroll は fullPage screenshot では幅膨張の原因になるため避ける。
+  - ローカル検証は Linux snapshot が無くても actual PNG の dimensions を確認する: tablet `768 x 1024`、mobile `390 x 844`。Darwin snapshot missing は CI Linux baseline 判定とは別扱い。
+- 検証: focused Playwright `admin-shell-topbar-sidebar-integration.spec.ts` / `parallel-03-admin-shell-scrape.spec.ts` PASS、MembersTable Vitest PASS、actual PNG dimensions が viewport と一致。
+- 参照: aiworkflow-requirements L-DEVSYNC-054。
+
 ### SP-DEVSYNC-039: feature 側 rename × dev 側 sibling 追加の playwright.config 3-way（2026-05-27 追加）
 
 - 事象: 2026-05-27 `feat/members-list-prototype-alignment` ← origin/dev sync-merge で `apps/web/playwright.config.ts` の `EVIDENCE_DIR` 三項分岐が 3-way conflict。HEAD 側は workflow dir rename（`members-page-prototype-alignment` → `members-list-prototype-alignment`）、dev 側は同位置の三項に **新 sibling `isPublicDashboardPrototypeAlignment` 分岐を挿入**。base は旧名のみ。
@@ -456,3 +468,48 @@
   - Phase 4 risk に「workflow dir rename を伴う UI feature は dev 側 sibling 追加と同位置で衝突する」を登録し、merge 前に `git log origin/dev ^HEAD -- apps/web/playwright.config.ts` で sibling 追加 commit の有無を確認するチェックを加える。
 - 事例同時発生: `.claude/skills/task-specification-creator/references/patterns-lessons-and-pitfalls.md` EOF で HEAD 側 `## DOM 構造置換 PR ...` 節 + dev 側 `## accent on accent-soft chip ...` / `## L-DEVSYNC-051 visual baseline ...` / `## L-FETCHCACHE-001 ...` 3 節が並列追加。SP-DEVSYNC-037 同パターンで両側保持＋marker 物理除去で解消（resolver 非対応の手動 union）。
 - 検証: `grep -nE '^(<<<<<<<|=======|>>>>>>>|\|\|\|\|\|\|\|)' <path>` 0 件 + `pnpm typecheck` PASS + `pnpm lint` PASS。
+
+### SP-DEVSYNC-040: fetch wrapper の error-handler 内に「HEAD=dev限定 warn ログ」「dev=throw 文字列の body 付与」が同位置追加されたときの順次合成 default ルール（2026-05-28 追加）
+
+- 事象: 2026-05-28 `feat/admin-tag-queue-ui-and-404` ← origin/dev sync-merge で `apps/web/src/lib/admin/server-fetch.ts` の `fetchAdmin()` `if (!res.ok)` block が `WARN unhandled conflict`。base は単純 throw、HEAD は dev 限定 404 warn、dev は error message に body snippet（先頭 256 文字）付与。両者とも機能直交な観測強化。
+- Why: error-handler 同一 block への直交追加は構造的に再発する（fetch wrapper の error 拡張は monitoring / debug 強化目的で並列改修されやすい）。片側 take は他方の観測点喪失、両側 union は body 二重消費（`Response.body used` runtime error）の risk。順次合成（① body→snippet 取得 → ② dev-warn 404 ログ → ③ snippet 付き throw）が default。
+- How to apply（task 仕様書での逐語化）:
+  - Phase 9 sync-merge 節に「**error-handler block 3-way 判定フロー**」を追記:
+    1. base / HEAD / dev を `grep -n -E '^(<<<<<<<|=======|>>>>>>>|\|\|\|\|\|\|\|)'` で位置確認
+    2. base が「単純 throw / 単純 return」かつ HEAD / dev が**同 if-branch 内の独立観測 / 副作用追加**なら順次合成 default
+    3. 並び順は「cheap な分岐先頭で副作用なし計算（body text 取得 等）」→「dev-only ログ等の condition 付き観測」→「throw / return」
+    4. `Response` 等の **1 回消費 stream** は先頭で 1 度だけ消費し、変数共有
+  - Phase 4 risk に「fetch wrapper の error 拡張は同 if-branch で並列改修されやすい」を登録。仕様書 Phase 9 dry-run checklist に `git log origin/dev ^HEAD -- <fetch wrapper path>` で error-handler 改修 commit の有無を事前確認するチェックを追加。
+- 検証: `grep -nE '^(<<<<<<<|=======|>>>>>>>|\|\|\|\|\|\|\|)' <path>` 0 件 + `pnpm typecheck` PASS + `pnpm lint` PASS + 両 commit 由来の spec が green。
+- 参照: aiworkflow-requirements [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-054 を併読。
+
+### SP-DEVSYNC-040: invariant 強化 refactor ブランチでの source conflict は HEAD 全採用が default（2026-05-28 追加）
+
+- 事象: 2026-05-28 `feat/profile-server-components-render-error` ← origin/dev sync-merge で `apps/web/src/lib/fetch/authed.ts` のみ resolver `WARN unhandled`。3-way の HEAD は env unification (`getApiBaseEnv()` 単一 accessor + fallback 撤去 + 未設定 throw)、dev は中間形 (`getAuthEnv()` / `getPublicFetchEnv()` 別 accessor + fallback 据置)、base は `process.env` 直参照 + `127.0.0.1:8787` 焼き込み。
+- Why: HEAD のほうが `apps/web` env invariant（CLAUDE.md「`apps/web` env アクセス不変条件」task-02 wrangler-env-injection）の最終形に到達しており、dev は HEAD が置換しようとしている中間状態。HEAD 採用で dev の意図も自動達成。手動 union は invariant 違反（`process.env` 直参照復活 / fallback 焼き込み復活）を招く。
+- How to apply（task 仕様書での逐語化）:
+  - Phase 9 sync-merge 節に「**invariant 強化 refactor 判定**」を SP-DEVSYNC-038 step 2.5 の前段として追記:
+    - ブランチ名 / PR title / Phase 1 要件に **env unification / fallback retirement / invariant lock** 等の refactor 語彙があるかを確認
+    - 該当する場合、source conflict は `git checkout --ours <path>` で **HEAD 全採用が default**
+    - 採用後、HEAD で使う accessor が `apps/web/src/lib/env.ts` 等の dependency に実在することを `grep -n` で確認（dev 側に存在しない関数参照だと build 失敗）
+  - Phase 4 risk に「invariant 強化 refactor ブランチは dev 側中間形と同位置で衝突する」を登録し、merge 前に `git log -p origin/dev ^HEAD -- <path>` で dev の中間形 commit を事前把握する checklist を加える。
+- 検証: `grep -nE '^(<<<<<<<|=======|>>>>>>>|\|\|\|\|\|\|\|)' <path>` 0 件 + `pnpm typecheck` PASS + `pnpm lint` PASS + 採用 accessor の export 実在を grep で確認。
+- 適用範囲外: invariant に関係しない feature ブランチ（UI 整合 / 機能追加等）は SP-DEVSYNC-038 の 3-way 判定フロー（新 variant 追加 vs 簡素化）に戻る。
+- 参照: aiworkflow-requirements [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-054 を唯一の正本。
+
+### SP-DEVSYNC-041: barrel-import vs direct-path import の 3-way + 直交 props/UI 拡張は HEAD barrel + 両側 union が default（2026-05-28 追加）
+
+- 事象: 2026-05-28 `feat/admin-audit-prototype-alignment` ← origin/dev sync-merge で `apps/web/app/(admin)/admin/audit/page.tsx` と `apps/web/src/components/admin/AuditLogPanel.tsx` の 2 ソースが `pnpm sync:resolve` 後に残る。HEAD は AdminPageHeader を **barrel `index.ts` 経由 import** + prototype 整合の Card+form filter UI 追加。dev は **`_layout/AdminPageHeader` 直接 path import** + AdminPageHeader に `eyebrow` prop 追加 + `showHeading` で `<h1>` 出し分け。base はそれぞれ旧 `Breadcrumb` import / 単純 header 構造。
+- Why: barrel が当該 export を `export * from "./_layout/AdminPageHeader"` で既に再 export している場合、両 import 形は同一実体を指す（型・実装差なし）。barrel 経由のほうが internal layout の private path への lock-in を避けられるため安定 API。`eyebrow` prop は AdminPageHeader が optional として受けるため両側 props を union 可能。`showHeading` 条件 header と Card+form filter UI 追加は構造上 orthogonal で、section ラッパに両側属性 union + 内部 children 順次配置で両立する。
+- How to apply（task 仕様書での逐語化）:
+  - Phase 9 sync-merge 節に「**barrel vs direct-path import の 3-way 判定**」を SP-DEVSYNC-038 step 2 の派生として追記:
+    1. HEAD と dev で同一 component の import path が異なる場合、まず `grep "from \"./<sub>/<Component>\"" <feature>/components/index.ts` で barrel に該当 export があるかを確認
+    2. 存在する場合は **barrel 経由 import (HEAD) を default 採用**
+    3. 存在しない場合は barrel に export を追加してから 1 に戻る
+    4. import 行差分のみの 3-way は他の意味的衝突を伴わないため、import 解消後は残りの conflict block を独立評価する
+  - 「**section ラッパ属性 + 子要素の両側 union パターン**」を追記:
+    - HEAD `className` と dev `aria-labelledby`/`aria-label` 条件分岐は orthogonal なので 1 つの section opening tag に全属性を列挙
+    - 内部 children は dev の条件付き `<header><h1>` を先頭、HEAD の新規 `<Card>` 以降を続けて配置（dev 側の出し分け契約を尊重しつつ HEAD の prototype 整合 UI を保持）
+  - Phase 4 risk に「UI prototype 整合 feature ブランチは dev 側の primitive prop 拡張（eyebrow / showHeading 等）と同位置で衝突する」を登録し、merge 前に `git log origin/dev ^HEAD -- <component path>` で primitive 拡張 commit の有無を事前確認するチェックを加える。
+- 検証: `grep -nE '^(<<<<<<<|=======|>>>>>>>|\|\|\|\|\|\|\|)' <path>` 0 件 + `pnpm typecheck` PASS + `pnpm lint` PASS + barrel 経由 import の export 実在を `grep "from \"./_layout/<Component>\"" .../components/index.ts` で確認。
+- 参照: aiworkflow-requirements [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-057 を唯一の正本。

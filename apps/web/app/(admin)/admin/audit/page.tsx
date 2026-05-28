@@ -60,14 +60,15 @@ export default async function AdminAuditPage({
   return (
     <section className="flex flex-col gap-4">
       <AdminPageHeader
+        eyebrow="ADMIN / AUDIT"
         title="監査ログ"
         description="action / actor / target / 期間で監査ログを絞り込み、PII を保護した形で参照できます。"
         breadcrumbs={[{ label: "管理", href: "/admin" }, { label: "監査ログ" }]}
       />
       {error ? (
-        <AuditLogPanel data={data} values={values} error={error} />
+        <AuditLogPanel data={data} values={values} error={error} showHeading={false} />
       ) : (
-        <AuditLogPanel data={data} values={values} />
+        <AuditLogPanel data={data} values={values} showHeading={false} />
       )}
     </section>
   );
