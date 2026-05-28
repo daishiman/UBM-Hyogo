@@ -36,15 +36,17 @@ export function RequestQueueDetail({
 }: RequestQueueDetailProps) {
   if (!item) {
     return (
-      <div aria-label="依頼詳細">
+      <aside aria-label="依頼詳細" className="card-flat card-pad-lg">
         <EmptyState title="左の一覧から依頼を選択してください。" />
-      </div>
+      </aside>
     );
   }
   return (
-    <div aria-label="依頼詳細">
+    <aside aria-label="依頼詳細" className="card card-pad-lg">
       <article aria-labelledby="admin-request-detail-h">
-        <h2 id="admin-request-detail-h">依頼詳細</h2>
+        <h3 id="admin-request-detail-h" className="h-card">
+          依頼詳細
+        </h3>
         <dl>
           <dt>noteId</dt>
           <dd>
@@ -52,9 +54,8 @@ export function RequestQueueDetail({
           </dd>
           <dt>会員</dt>
           <dd>
-            <code>{item.memberSummary.memberId}</code>（公開状態:{" "}
-            {item.memberSummary.publishState}, 削除済:{" "}
-            {item.memberSummary.isDeleted ? "はい" : "いいえ"}）
+            <code>{item.memberSummary.memberId}</code>（公開状態: {item.memberSummary.publishState},
+            削除済: {item.memberSummary.isDeleted ? "はい" : "いいえ"}）
           </dd>
           <dt>種別</dt>
           <dd>{NOTE_TYPE_LABEL[item.noteType]}</dd>
@@ -73,7 +74,7 @@ export function RequestQueueDetail({
           <dt>状態</dt>
           <dd>{item.requestStatus}</dd>
         </dl>
-        <div role="group" aria-label="操作">
+        <div className="btn-row" role="group" aria-label="操作">
           <button
             type="button"
             onClick={onApprove}
@@ -90,6 +91,6 @@ export function RequestQueueDetail({
           </button>
         </div>
       </article>
-    </div>
+    </aside>
   );
 }
