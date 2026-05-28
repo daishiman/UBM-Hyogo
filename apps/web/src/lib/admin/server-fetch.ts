@@ -205,6 +205,39 @@ const issue776SchemaBulkFixture = () => ({
   }),
 });
 
+const task17DashboardFixture = () => ({
+  totals: {
+    totalMembers: 128,
+    publicMembers: 76,
+    untaggedMembers: 9,
+    unresolvedSchema: 3,
+  },
+  recentActions: [
+    {
+      auditId: "audit_task17_001",
+      actorEmail: "admin@example.test",
+      action: "admin.member.status_updated",
+      targetType: "member",
+      targetId: "mem_alpha",
+      createdAt: "2026-05-10T01:00:00.000Z",
+    },
+    {
+      auditId: "audit_task17_002",
+      actorEmail: "system@example.test",
+      action: "schema.alias.assign",
+      targetType: "schema_question",
+      targetId: "q_display_name",
+      createdAt: "2026-05-10T00:30:00.000Z",
+    },
+  ],
+  generatedAt: "2026-05-10T01:05:00.000Z",
+  byStatus: [
+    { status: "public", count: 76 },
+    { status: "member_only", count: 31 },
+    { status: "hidden", count: 21 },
+  ],
+});
+
 
 const task17AuditFixture = (path: string) => {
   const url = new URL(path, "http://internal.test");
@@ -371,6 +404,24 @@ export async function fetchAdmin<T>(
     path.startsWith("/admin/schema/diff")
   ) {
     return issue776SchemaBulkFixture() as T;
+  }
+
+  if (
+    process.env["NODE_ENV"] !== "production" &&
+    process.env["PLAYWRIGHT_TASK17_ADMIN_FIXTURE"] === "1" &&
+    opts.method === undefined &&
+    path === "/admin/dashboard"
+  ) {
+    return task17DashboardFixture() as T;
+  }
+
+  if (
+    process.env["NODE_ENV"] !== "production" &&
+    process.env["PLAYWRIGHT_TASK17_ADMIN_FIXTURE"] === "1" &&
+    opts.method === undefined &&
+    path.startsWith("/admin/members")
+  ) {
+    return task18MembersFixture() as T;
   }
 
   if (

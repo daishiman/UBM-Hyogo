@@ -14,6 +14,20 @@
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-ui-task-d-attendance-primitive-conformance-artifact-inventory.md` |
 | user gate | commit, push, PR, staging visual baseline |
 
+## admin-dashboard-recovery-and-byZone（2026-05-26）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/admin-dashboard-recovery-and-byZone/` |
+| 状態 | `implemented_local_runtime_pending / implementation / VISUAL` |
+| parent | `docs/30-workflows/admin-ui-prototype-alignment/` |
+| source task | `docs/30-workflows/admin-ui-prototype-alignment/tasks/task-B-dashboard-recovery-and-byZone.md` |
+| scope | `/admin` dashboard fetch 404 recovery + existing `GET /admin/dashboard` optional `byZone` response extension + prototype-conformant `ZoneDistribution` |
+| implementation targets | `packages/shared/src/zod/viewmodel.ts`, `apps/api/src/routes/admin/dashboard.ts`, `apps/api/src/routes/admin/_shared/byZone.ts`, `apps/web/src/lib/admin/admin-dashboard-ui.ts`, `apps/web/src/features/admin/components/_dashboard/ZoneDistribution.tsx`, `apps/web/src/lib/admin/{safe-server-fetch,server-fetch}.ts`, `apps/web/wrangler.toml`, `apps/web/src/styles/tokens.css` |
+| Phase 12 | strict 7 outputs + root/output artifacts parity present |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-dashboard-recovery-and-byZone-artifact-inventory.md` |
+| user gate | staging deploy, wrangler tail, staging curl evidence, commit, push, PR |
+
 ## admin-attendance-analytics-redesign（2026-05-26）
 
 | 項目 | 値 |
@@ -60,6 +74,20 @@
 | changelog | `.claude/skills/aiworkflow-requirements/changelog/20260523-admin-ui-prototype-alignment.md` |
 | 出典 | `docs/30-workflows/admin-ui-prototype-alignment/outputs/phase-12/implementation-guide.md` / `system-spec-update-summary.md` / `skill-feedback-report.md` / `phase12-task-spec-compliance-check.md` / `unassigned-task-detection.md` |
 | user gate | authenticated runtime screenshots / staging refresh / commit / push / PR |
+
+## admin-shell-topbar-sidebar-integration（2026-05-26）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/admin-shell-topbar-sidebar-integration/` |
+| status | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION` |
+| parent | `docs/30-workflows/admin-ui-prototype-alignment/` |
+| purpose | Admin shell topbar slot を廃止し、breadcrumb/title/actions を page-local `AdminPageHeader` に集約。Sidebar は prototype 準拠の 3 group / 13 nav items total / active / schema badge / user-chip footer へ刷新する |
+| #894/#895 alignment | #894 root breadcrumb slot / #895 topbar actions island は CLOSED 維持。新 workflow は slot 継続ではなく page-head 集約を current contract とする |
+| implementation targets | `apps/web/app/(admin)/layout.tsx`, `apps/web/src/components/layout/AdminSidebar.tsx`, `AdminSidebarNavItem.tsx`, `AdminBrandBlock.tsx`, `isActive.ts`, `apps/web/src/lib/admin/server-fetch.ts`, related specs, `apps/web/playwright/tests/admin-shell-topbar-sidebar-integration.spec.ts` |
+| Phase 11/12 | local Playwright fixture screenshots captured; strict 7 present; root/output `artifacts.json` parity present |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-shell-topbar-sidebar-integration-artifact-inventory.md` |
+| user gate | staging visual baseline, commit, push, PR |
 
 ## register-page-prototype-alignment（2026-05-26）
 ## public-dashboard-prototype-alignment（2026-05-26）

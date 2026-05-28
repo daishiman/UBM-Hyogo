@@ -37,6 +37,14 @@ type PendingRequests = {
 }
 
 type StatusSliceSeed = { status: 'public' | 'member_only' | 'hidden'; count: number }
+type ZoneSliceSeed = {
+  key: '0to1' | '1to10' | '10to100'
+  label: string
+  hint: string
+  count: number
+  total: number
+  tone: 'info' | 'accent' | 'ok'
+}
 
 type MockApiState = {
   pendingRequests: PendingRequests
@@ -203,6 +211,11 @@ function adminDashboardBody() {
       },
     ],
     generatedAt: '2026-05-10T01:05:00.000Z',
+    byZone: [
+      { key: '0to1', label: '0→1', hint: '立ち上げ', count: 18, total: 128, tone: 'info' },
+      { key: '1to10', label: '1→10', hint: '拡大', count: 47, total: 128, tone: 'accent' },
+      { key: '10to100', label: '10→100', hint: '組織化', count: 11, total: 128, tone: 'ok' },
+    ] satisfies ReadonlyArray<ZoneSliceSeed>,
     ...(state.adminDashboardByStatus ? { byStatus: state.adminDashboardByStatus } : {}),
   }
 }
@@ -241,6 +254,29 @@ function attendanceRankingBody() {
     { memberId: 'mem_beta', displayName: '兵庫 花子', attendedCount: 7, rate: 0.7 },
     { memberId: 'mem_gamma', displayName: '神戸 次郎', attendedCount: 5, rate: 0.5 },
   ]
+}
+
+function adminSchemaDiffBody() {
+  const queuedCount = state.adminDashboardUnresolvedSchema ?? 0
+  return {
+    total: queuedCount,
+    items: Array.from({ length: queuedCount }, (_, index) => {
+      const n = String(index + 1).padStart(3, '0')
+      return {
+        diffId: `mock_schema_${n}`,
+        revisionId: 'rev_mock',
+        type: 'unresolved',
+        questionId: `q_mock_${n}`,
+        stableKey: null,
+        label: `Mock schema diff ${index + 1}`,
+        suggestedStableKey: null,
+        status: 'queued',
+        resolvedBy: null,
+        resolvedAt: null,
+        createdAt: `2026-05-10T00:${String(index).padStart(2, '0')}:00.000Z`,
+      }
+    }),
+  }
 }
 
 function publicMembersBody(params = new URLSearchParams()) {
@@ -710,6 +746,10 @@ async function ensureMockApi(): Promise<void> {
         response(res, 200, attendanceRankingBody())
         return
       }
+      if (req.method === 'GET' && url.pathname === '/admin/schema/diff') {
+        response(res, 200, adminSchemaDiffBody())
+        return
+      }
       if (req.method === 'GET' && url.pathname === '/admin/members') {
         response(res, 200, adminMembersBody(url.searchParams))
         return
@@ -820,6 +860,20 @@ async function ensureMockApi(): Promise<void> {
             }
             state.attendanceDashboardScenario = parsed.scenario
             response(res, 200, { ok: true })
+          })
+          .catch(() => response(res, 400, { error: 'invalid_json' }))
+        return
+      }
+      if (req.method === 'POST' && url.pathname === '/__test__/admin-dashboard') {
+        readJson(req)
+          .then((body) => {
+            const parsed = body as { unresolvedSchema?: number }
+            state.adminDashboardUnresolvedSchema =
+              typeof parsed.unresolvedSchema === 'number' ? parsed.unresolvedSchema : 0
+            response(res, 200, {
+              ok: true,
+              unresolvedSchema: state.adminDashboardUnresolvedSchema,
+            })
           })
           .catch(() => response(res, 400, { error: 'invalid_json' }))
         return

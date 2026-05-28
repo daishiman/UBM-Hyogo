@@ -39,6 +39,9 @@
   --status-danger-bg: var(--ubm-color-danger-soft);
   --status-neutral-bg: var(--ubm-color-surface-bg-2);
 
+  /* Bar background alias (ZoneDistribution プロトタイプ準拠) */
+  --ubm-color-bg: var(--ubm-color-surface-bg-2);
+
   /* Zone alias */
   --ubm-color-zone-a: var(--ubm-color-info);
   --ubm-color-zone-b: var(--ubm-color-accent);
