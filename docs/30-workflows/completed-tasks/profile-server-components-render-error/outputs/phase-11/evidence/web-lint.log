@@ -1,0 +1,8 @@
+Command:
+pnpm --filter @ubm-hyogo/web lint
+
+Result:
+PASS
+
+Summary:
+@ubm-hyogo/web tsc -p tsconfig.json --noEmit && eslint 'src/**/*.{ts,tsx}' completed successfully.
