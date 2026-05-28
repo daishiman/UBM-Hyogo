@@ -110,6 +110,19 @@
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-public-header-my-profile-nav-alignment-artifact-inventory.md` |
 | user gate | browser/session smoke, commit, push, PR |
 
+### admin-visual-baseline-admin-routes-task-e（2026-05-27）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_runtime_pending / implementation / VISUAL` |
+| 成果物 | `docs/30-workflows/completed-tasks/admin-visual-baseline-admin-routes-task-e/` |
+| parent | `docs/30-workflows/admin-ui-prototype-alignment/` Task E |
+| 目的 | admin 10 required routes x 4 viewport の Linux staging visual baseline 40 PNG を既定とし、2 env-gated detail routes は両 seed ID がある場合のみ加えて 48 PNG にする。44 PNG partial-detail baseline は禁止 |
+| implementation targets | `apps/web/playwright/tests/visual/admin-shell/*.spec.ts`, `_helpers.ts`, `apps/web/playwright.config.ts`, `.github/workflows/playwright-smoke.yml` |
+| Phase 12 | strict 7 present、root/output `artifacts.json` parity present |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-visual-baseline-admin-routes-task-e-artifact-inventory.md` |
+| user gate | Linux baseline capture、bot push、empty retrigger commit、branch protection PUT、commit、push、PR |
+
 ### admin-ui-prototype-alignment（2026-05-23）
 
 | 項目 | 値 |
