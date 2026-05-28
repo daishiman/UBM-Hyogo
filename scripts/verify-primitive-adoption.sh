@@ -149,9 +149,12 @@ for p in "${EXPECTED_PAGINATION[@]}"; do
   fi
 done
 
-# --- C7: admin-ui-task-d /admin/dashboard/attendance primitive adoption
+# --- C7: /admin/dashboard/attendance primitive adoption
+# admin-attendance-analytics-redesign (#971, dev) replaced the prior task-D structure
+# (page.tsx + AttendanceDashboardSections.client.tsx) with AttendanceAnalyticsPage in
+# apps/web/src/features/admin/attendance/components/. Assert the new contract.
 ATTENDANCE_PAGE="apps/web/app/(admin)/admin/dashboard/attendance/page.tsx"
-ATTENDANCE_CLIENT="apps/web/app/(admin)/admin/dashboard/attendance/AttendanceDashboardSections.client.tsx"
+ATTENDANCE_FEATURE="apps/web/src/features/admin/attendance/components/AttendanceAnalyticsPage.tsx"
 if [ -f "$ATTENDANCE_PAGE" ]; then
   C7_FAIL=0
   if [ "$(grep -c '<table' "$ATTENDANCE_PAGE")" -ne 0 ]; then
@@ -160,16 +163,10 @@ if [ -f "$ATTENDANCE_PAGE" ]; then
   if [ "$(grep -c 'function KpiCard' "$ATTENDANCE_PAGE")" -ne 0 ]; then
     echo "[C7 FAIL] $ATTENDANCE_PAGE contains inline 'function KpiCard'"; C7_FAIL=1
   fi
-  grep -q 'AdminPageHeader' "$ATTENDANCE_PAGE" || { echo "[C7 FAIL] $ATTENDANCE_PAGE missing AdminPageHeader"; C7_FAIL=1; }
-  grep -q 'AttendanceDashboardSections' "$ATTENDANCE_PAGE" || { echo "[C7 FAIL] $ATTENDANCE_PAGE missing AttendanceDashboardSections"; C7_FAIL=1; }
-  if [ -f "$ATTENDANCE_CLIENT" ]; then
-    grep -q 'AdminTable' "$ATTENDANCE_CLIENT" || { echo "[C7 FAIL] $ATTENDANCE_CLIENT missing AdminTable"; C7_FAIL=1; }
-    grep -q 'KpiCard' "$ATTENDANCE_CLIENT" || { echo "[C7 FAIL] $ATTENDANCE_CLIENT missing KpiCard"; C7_FAIL=1; }
-  else
-    echo "[C7 FAIL] $ATTENDANCE_CLIENT not found"; C7_FAIL=1
-  fi
+  grep -q 'AttendanceAnalyticsPage' "$ATTENDANCE_PAGE" || { echo "[C7 FAIL] $ATTENDANCE_PAGE missing AttendanceAnalyticsPage import"; C7_FAIL=1; }
+  [ -f "$ATTENDANCE_FEATURE" ] || { echo "[C7 FAIL] $ATTENDANCE_FEATURE not found"; C7_FAIL=1; }
   if [ "$C7_FAIL" -eq 0 ]; then
-    echo "[C7 OK] /admin/dashboard/attendance uses AdminPageHeader + KpiCard + AdminTable"
+    echo "[C7 OK] /admin/dashboard/attendance uses AttendanceAnalyticsPage (features/admin/attendance)"
   else
     FAIL=1
   fi
