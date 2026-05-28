@@ -12,6 +12,7 @@
   --ubm-color-text-primary: #1a1917;
   --ubm-color-text-secondary: #57554e;
   --ubm-color-text-muted: #8a877e;
+  --ubm-color-link-default: var(--ubm-color-accent);
 
   /* Border */
   --ubm-color-border-default: #e7e5df;
@@ -38,6 +39,9 @@
   --status-success-bg: var(--ubm-color-ok-soft);
   --status-danger-bg: var(--ubm-color-danger-soft);
   --status-neutral-bg: var(--ubm-color-surface-bg-2);
+
+  /* Bar background alias (ZoneDistribution プロトタイプ準拠) */
+  --ubm-color-bg: var(--ubm-color-surface-bg-2);
 
   /* Zone alias */
   --ubm-color-zone-a: var(--ubm-color-info);
@@ -74,6 +78,7 @@
   --ubm-text-xl: 20px;
   --ubm-text-2xl: 24px;
   --ubm-text-3xl: 32px;
+  --ubm-eyebrow-tracking: 0.12em;
 
   /* Spacing (4px grid) */
   --ubm-space-0: 0;

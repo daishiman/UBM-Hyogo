@@ -1,0 +1,84 @@
+{
+  "title": "admin-meetings-prototype-alignment",
+  "type": "implementation",
+  "status": "implemented_local_evidence_captured",
+  "feature": "admin-meetings-prototype-alignment",
+  "created": "2026-05-27",
+  "lastUpdated": "2026-05-27",
+  "branch": "docs/admin-meetings-prototype-alignment",
+  "base": "dev",
+  "metadata": {
+    "taskType": "implementation",
+    "visualEvidence": "VISUAL_ON_EXECUTION",
+    "scope": "apps/web admin meetings UI prototype alignment specification",
+    "workflow_state": "implemented_local_evidence_captured",
+    "implementation_status": "implemented_local",
+    "parentWorkflow": "docs/30-workflows/admin-ui-prototype-alignment/",
+    "userGated": [
+      "staging runtime observation",
+      "staging deploy or refresh",
+      "commit",
+      "push",
+      "PR creation"
+    ],
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-05-27T00:00:00+09:00",
+        "evidence_path": "docs/30-workflows/completed-tasks/admin-meetings-prototype-alignment/outputs/phase-12/phase12-task-spec-compliance-check.md",
+        "approver": "daishiman",
+        "notes": "spec_package strict7 + parent linkage + Phase 12 compliance check passed"
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "passed",
+        "passed_at": "2026-05-27T00:00:00+09:00",
+        "evidence_path": "docs/30-workflows/completed-tasks/admin-meetings-prototype-alignment/outputs/phase-12/phase12-task-spec-compliance-check.md",
+        "approver": "daishiman",
+        "notes": "Task A/B local implementation + focused tests + typecheck + primitive adoption gate green"
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/admin-meetings-prototype-alignment/outputs/phase-11/phase11-capture-metadata.json",
+        "approver": "daishiman",
+        "notes": "staging runtime visual / authenticated screenshots pending user-gated execution"
+      }
+    ]
+  },
+  "ui_routes": [
+    "/admin/meetings",
+    "/admin/meetings/[id]"
+  ],
+  "phases": [
+    { "id": "phase-1", "name": "requirements", "path": "outputs/phase-1/phase-1.md", "status": "completed" },
+    { "id": "phase-2", "name": "design", "path": "outputs/phase-2/phase-2.md", "status": "completed" },
+    { "id": "phase-3", "name": "design-review", "path": "outputs/phase-3/phase-3.md", "status": "completed" },
+    { "id": "phase-4", "name": "implementation-plan", "path": "outputs/phase-4/phase-4.md", "status": "completed" },
+    { "id": "phase-5", "name": "implementation", "path": "outputs/phase-5/phase-5.md", "status": "implemented_local" },
+    { "id": "phase-6", "name": "test-expansion", "path": "outputs/phase-6/phase-6.md", "status": "completed" },
+    { "id": "phase-7", "name": "coverage-check", "path": "outputs/phase-7/phase-7.md", "status": "completed" },
+    { "id": "phase-8", "name": "refactoring", "path": "outputs/phase-8/phase-8.md", "status": "completed" },
+    { "id": "phase-9", "name": "quality-assurance", "path": "outputs/phase-9/phase-9.md", "status": "completed" },
+    { "id": "phase-10", "name": "final-review", "path": "outputs/phase-10/phase-10.md", "status": "completed" },
+    { "id": "phase-11", "name": "manual-test", "path": "outputs/phase-11/phase-11.md", "status": "local_evidence_captured" },
+    { "id": "phase-12", "name": "documentation", "path": "outputs/phase-12/main.md", "status": "completed" },
+    { "id": "phase-13", "name": "pr-creation", "path": "outputs/phase-13/phase-13.md", "status": "spec_created" }
+  ],
+  "tasks": [
+    {
+      "id": "A",
+      "path": "tasks/task-A-meetings-list-redesign.md",
+      "scope": "list page redesign",
+      "status": "implemented_local"
+    },
+    {
+      "id": "B",
+      "path": "tasks/task-B-meeting-detail-alignment.md",
+      "scope": "detail page primitive alignment",
+      "status": "implemented_local"
+    }
+  ]
+}
