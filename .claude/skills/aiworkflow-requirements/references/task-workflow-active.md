@@ -23,6 +23,20 @@
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-ui-task-d-attendance-primitive-conformance-artifact-inventory.md` |
 | user gate | commit、push、PR、staging visual baseline |
 
+### admin-attendance-analytics-redesign（2026-05-26）
+
+| 項目 | 値 |
+| --- | --- |
+| state | `implemented_local_runtime_pending / implementation / VISUAL / staging_visual_pending` |
+| root | `docs/30-workflows/completed-tasks/admin-attendance-analytics-redesign/` |
+| purpose | Admin attendance analytics redesign local implementation: period/zone filter, trend, zone distribution, session drilldown, absentee follow-up, CSV export, and visual evidence plan |
+| baseline | `ut-02a-followup-002-attendance-dashboard-analytics` remains historical baseline; this workflow is the current local redesign implementation |
+| implementation targets | `apps/api/src/routes/admin/dashboard.ts`, `apps/api/src/repository/attendance-analytics.ts`, `apps/api/src/lib/{csv-export,parse-attendance-filter}.ts`, `packages/shared/src/zod/admin-attendance.ts`, `apps/web/app/(admin)/admin/dashboard/attendance/page.tsx`, `apps/web/src/features/admin/attendance/**` |
+| evidence | `outputs/phase-11/runtime-evidence.md` records local API/web/shared tests, typecheck, lint, and build; staging visual evidence pending |
+| Phase 12 | strict 7 present; root/output artifacts parity present; implemented-local state synced |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-attendance-analytics-redesign-artifact-inventory.md` |
+| user gate | staging deploy, runtime visual capture, CSV runtime verification, commit, push, PR |
+
 ### public-dashboard-prototype-alignment（2026-05-26）
 
 | 項目 | 値 |
