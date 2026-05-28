@@ -1011,3 +1011,15 @@
 - 留意: feature branch が workflow dir rename を含む場合、dev 側で同種 prototype-alignment task が並行進行していると本パターンは構造的に再発する。Phase 4 risk に「playwright.config 三項分岐は同位置で並列改修されやすい」を登録し、merge 前に `git log origin/dev ^HEAD -- apps/web/playwright.config.ts` で sibling 追加 commit の有無を確認するチェックを runbook に組み込む。
 - 事例: 2026-05-27 commit を併発した同 sync-merge で `.claude/skills/task-specification-creator/references/patterns-lessons-and-pitfalls.md` も EOF 並列追加（HEAD=「DOM 構造置換 PR 同一 wave spec 同期」節、dev=「accent-soft chip accent-ink」「visual baseline ours 採用」「fetcher 層 no-store」3 節）で同時に WARN unhandled。SP-DEVSYNC-037 の spec EOF 両側保持パターンで base 削除 + HEAD + dev 順序保持 + marker 物理除去で解消。
 - 参照: task-specification-creator [[dev-sync-merge-conflict-resolution]] SP-DEVSYNC-039 に逐語埋め込み。
+
+## L-DEVSYNC-054: shell topbar 廃止後の旧E2E selectorとadmin table intrinsic widthはCIで同時に露出する（2026-05-28 確認）
+
+- 事象: PR #973 `feat/admin-shell-topbar-sidebar-integration` の dev sync 後 CI で、`e2e` 3 project が `parallel-03-admin-shell-scrape.spec.ts` の `[data-shell="topbar"]` visible 期待と `admin-shell-topbar-sidebar-integration.spec.ts` の schema badge `3` 期待で fail。併せて `visual-full (mobile/tablet)` は `/admin/members` の actual screenshot が mobile `640+ x 844` / tablet `900+ x 1024` となり、baseline `390 x 844` / `768 x 1024` と dimension mismatch。
+- Why: Task A で topbar slot を廃止し page-local `AdminPageHeader` へ集約したが、古い AppShell evidence spec は topbar DOM を contract として残していた。schema badge は layout server fetch (`/admin/schema/diff`) 由来で、mock API に同 route と control seed が無い場合は safeServerFetch degrade で count 0 になる。visual-full は `toHaveScreenshot({ fullPage: true })` が horizontal overflow 幅を含むため、admin members table の intrinsic min-content width が viewport を超えると baseline 更新ではなく layout regression になる。
+- How to apply:
+  1. shell contract 変更では、実装差分検索に加えて `rg 'data-shell=\"topbar\"|data-shell=\"sidebar\"|admin-shell' apps/web/playwright` を必ず実行し、旧 contract spec を同 commit で更新する。廃止 DOM は `toHaveCount(0)`、残す DOM は `data-shell-mode` / `data-testid="admin-shell"` / `main[data-route="admin"]` で確認する。
+  2. layout server fetch の badge/KPI を Playwright で検証する場合、mock API fixture に actual route (`GET /admin/schema/diff`) と control route (`POST /__test__/admin-dashboard` 等) の両方を追加し、assertion 直前に seed する。control method だけ存在して route が無い状態は local でも 404 で検出できる。
+  3. visual-full 対象 page の table は mobile/tablet で page-level horizontal overflow を作らない。`min-width` + overflow-x scroll は fullPage screenshot の撮影幅を広げるため、`table-fixed`、breakpoint column hiding、truncate/break-all で viewport 内に収める。
+  4. macOS local では Linux snapshot が無く `*-darwin.png missing` で fail するため、actual PNG dimensions を `file ...actual.png` で確認する。viewport dimensions と一致すれば CI Linux の dimension mismatch は解消見込み。
+- 検証: `PLAYWRIGHT_BASE_URL=http://localhost:<free-port> ... admin-shell-topbar-sidebar-integration.spec.ts parallel-03-admin-shell-scrape.spec.ts` PASS。`visual-full` local は Darwin snapshot missing で fail するが actual PNG は tablet `768 x 1024`、mobile `390 x 844` へ戻った。`pnpm typecheck` と focused MembersTable/MembersPageHead Vitest green。
+- 参照: task-specification-creator [[dev-sync-merge-conflict-resolution]] SP-DEVSYNC-040。

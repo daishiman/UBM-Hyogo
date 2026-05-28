@@ -1,0 +1,13 @@
+{
+  "taskId": "admin-shell-topbar-sidebar-integration",
+  "status": "captured_local_playwright_fixture",
+  "outputDir": "docs/30-workflows/completed-tasks/admin-shell-topbar-sidebar-integration/outputs/phase-11/",
+  "screenshots": [
+    { "file": "task-A-sidebar-desktop-1280.png", "viewport": "1280x720", "route": "/admin", "status": "present" },
+    { "file": "task-A-sidebar-desktop-1280-members-active.png", "viewport": "1280x720", "route": "/admin/members", "status": "present" },
+    { "file": "task-A-sidebar-tablet-768.png", "viewport": "768x1024", "route": "/admin", "status": "present" },
+    { "file": "task-A-sidebar-mobile-375.png", "viewport": "375x812", "route": "/admin", "status": "present" },
+    { "file": "task-A-sidebar-schema-badge.png", "viewport": "1280x720", "route": "/admin/schema", "status": "present" },
+    { "file": "task-A-topbar-removed-1280.png", "viewport": "1280x720", "route": "/admin", "status": "present" }
+  ]
+}
