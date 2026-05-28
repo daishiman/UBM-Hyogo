@@ -1,0 +1,20 @@
+Command:
+ADMIN_SCHEMA_DIFF_EVIDENCE_DIR=../../docs/30-workflows/completed-tasks/admin-schema-page-prototype-alignment-and-diff-fetch-fix/outputs/phase-11/screenshots PLAYWRIGHT_BASE_URL=http://localhost:3107 mise exec -- pnpm --filter @ubm-hyogo/web exec playwright test playwright/tests/visual/admin-schema-diff.spec.ts --project=visual-chromium
+
+Result:
+PASS
+
+Summary:
+- 7 passed
+- Duration: 31.4s
+- Local port 3107 was used because localhost:3000 was occupied by an unrelated Cursor listener.
+- Before this run, `mise exec -- pnpm --filter @ubm-hyogo/web exec playwright install chromium` installed the missing local Chromium runtime.
+
+Screenshots:
+- outputs/phase-11/screenshots/admin-schema-diff-added-desktop.png
+- outputs/phase-11/screenshots/admin-schema-diff-changed-desktop.png
+- outputs/phase-11/screenshots/admin-schema-diff-removed-desktop.png
+- outputs/phase-11/screenshots/admin-schema-diff-unresolved-desktop.png
+- outputs/phase-11/screenshots/admin-schema-diff-resolve-success.png
+- outputs/phase-11/screenshots/admin-schema-diff-resolve-409.png
+- outputs/phase-11/screenshots/admin-schema-diff-resolve-422.png

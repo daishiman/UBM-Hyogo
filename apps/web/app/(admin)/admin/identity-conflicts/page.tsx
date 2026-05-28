@@ -32,19 +32,17 @@ export default async function AdminIdentityConflictsPage({
   const page = cursor ? 2 : 1;
 
   return (
-    <section aria-labelledby="admin-identity-conflicts-h" className="flex flex-col gap-4">
+    <section className="flex flex-col gap-4" data-route="admin" data-section-rhythm="compact">
       <AdminPageHeader
+        eyebrow="ADMIN / IDENTITY"
         title="Identity 重複候補"
         description={
           result.ok
             ? `name + 所属が一致した候補 ${result.data.items.length} 件`
             : "候補の読み込みに失敗"
         }
-        breadcrumbs={[{ label: "Identity 重複候補" }]}
+        breadcrumbs={[{ label: "管理", href: "/admin" }, { label: "Identity 重複候補" }]}
       />
-      <h1 id="admin-identity-conflicts-h" className="sr-only">
-        Identity 重複候補
-      </h1>
 
       {!result.ok ? (
         <AdminSectionErrorClient
@@ -53,7 +51,22 @@ export default async function AdminIdentityConflictsPage({
           message={result.error.message}
         />
       ) : result.data.items.length === 0 ? (
-        <EmptyState title="現在、merge 候補はありません。" />
+        <EmptyState
+          className="admin-empty-state"
+          icon={
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <path d="M12 3 4 6v6c0 5 3.5 8.5 8 9 4.5-.5 8-4 8-9V6l-8-3Z" />
+            </svg>
+          }
+          title="現在、merge 候補はありません。"
+        />
       ) : (
         <AdminSectionCard
           title="候補一覧"

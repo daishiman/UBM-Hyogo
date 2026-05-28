@@ -87,6 +87,58 @@ describe("admin members route", () => {
     expect(body.members.length).toBe(1);
   });
 
+  it("GET /members: prototype list fields are additively derived from answers_json and tags", async () => {
+    await env.db
+      .prepare("UPDATE member_responses SET answers_json = ? WHERE response_id = 'r1'")
+      .bind(
+        JSON.stringify({
+          fullName: "Test User",
+          occupation: "Engineer",
+          ubmZone: "1_to_10",
+          ubmMembershipType: "member",
+        }),
+      )
+      .run();
+    await env.db
+      .prepare(
+        "INSERT INTO tag_definitions (tag_id, code, label, category) VALUES ('tag_a','code-a','Code A','interest'), ('tag_b','code-b','Code B','interest')",
+      )
+      .run();
+    await env.db
+      .prepare(
+        "INSERT INTO member_tags (member_id, tag_id, source) VALUES ('m1','tag_a','manual'), ('m1','tag_b','manual')",
+      )
+      .run();
+
+    const app = createAdminMembersRoute();
+    const res = await app.request(
+      "/members",
+      { headers: { ...await adminAuthHeader() } },
+      makeEnv(env),
+    );
+
+    expect(res.status).toBe(200);
+    const body = (await res.json()) as {
+      members: Array<{
+        occupation?: string;
+        ubmZone?: string | null;
+        ubmMembershipType?: string | null;
+        tags?: Array<{ code: string; label: string }>;
+        updatedAt?: string;
+      }>;
+    };
+    expect(body.members[0]).toMatchObject({
+      occupation: "Engineer",
+      ubmZone: "1_to_10",
+      ubmMembershipType: "member",
+      updatedAt: "2026-04-01T00:00:00Z",
+    });
+    expect(body.members[0]?.tags).toEqual([
+      { code: "code-a", label: "Code A" },
+      { code: "code-b", label: "Code B" },
+    ]);
+  });
+
   it("GET /members/:memberId 未存在は 404", async () => {
     const app = createAdminMembersRoute();
     const res = await app.request(

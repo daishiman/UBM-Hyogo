@@ -1,19 +1,19 @@
 {
   "$schema": "../../../../docs/30-workflows/task-709-visual-baseline-runtime-capture/schemas/baseline-meta.schema.json",
-  "captured_at_commit_sha": "89229ed837b8588550b707e4d6b97b6103c9a87e",
-  "captured_at": "2026-05-27T05:58:12Z",
+  "captured_at_commit_sha": "f4dce7dfe85b60217ef246044cb829567e5f010a",
+  "captured_at": "2026-05-28T03:17:26Z",
   "captured_via": "playwright-visual-baseline-update.yml#workflow_dispatch",
   "captured_run_ids": [
-    "26315562296",
-    "26346031061",
-    "26350111084",
-    "26353406397",
-    "26355355712",
-    "26383096067",
-    "26431275613",
     "26432787256",
+    "26489950912",
+    "26491992893",
     "26492039712",
-    "26493400023"
+    "26493400023",
+    "26503855446",
+    "26506821722",
+    "26540715735",
+    "26549206362",
+    "26552192908"
   ],
   "viewport_dimensions": {
     "desktop": {
@@ -41,5 +41,5 @@
   "refresh_workflow": ".github/workflows/playwright-visual-baseline-update.yml",
   "refresh_command_hint": "gh workflow run playwright-visual-baseline-update.yml -f reason=\"<why>\" -r <feature-branch>",
   "notes": "captured_at_commit_sha からの rendering_relevant_paths diff が空でない場合、baseline は stale。scripts/visual-baseline-status.sh で診断可能。",
-  "last_refresh_reason": "dev sync-merge: dev側 #965 (login UI + legacy-public.css) 取り込み後の root route baseline drift (1991→2015px height) を再生成"
+  "last_refresh_reason": "admin-meetings mobile baseline 5px diff after dev merge (Task C+D+E integration)"
 }

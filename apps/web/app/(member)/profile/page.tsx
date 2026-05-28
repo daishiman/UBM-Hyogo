@@ -31,15 +31,35 @@ export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
 export default async function ProfilePage() {
-  let me: MeSessionResponse;
+  let meResult: Awaited<ReturnType<typeof safeServerFetch<MeSessionResponse>>>;
   try {
-    me = await fetchAuthed<MeSessionResponse>("/me");
+    meResult = await safeServerFetch(
+      () => fetchAuthed<MeSessionResponse>("/me"),
+      { codePrefix: "MEMBER_SESSION", rethrowOn: [AuthRequiredError] },
+    );
   } catch (err) {
     if (err instanceof AuthRequiredError) {
       return redirect("/login?redirect=/profile");
     }
     throw err;
   }
+
+  if (!meResult.ok) {
+    return (
+      <>
+        <MemberHeader />
+        <main data-route="member" data-section-rhythm="comfortable">
+          <SectionError
+            title="マイページを読み込めませんでした"
+            detail={meResult.error.message}
+            retryHref="/profile"
+          />
+        </main>
+      </>
+    );
+  }
+
+  const me = meResult.data;
 
   const profileResult = await safeServerFetch(
     () => fetchAuthed<MeProfileResponse>("/me/profile"),
