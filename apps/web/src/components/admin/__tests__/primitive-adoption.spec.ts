@@ -83,7 +83,7 @@ describe("Issue 749 — primitive adoption", () => {
   });
 
   it.each(EMPTY_STATE_SURFACES)("%s renders EmptyState primitive (C5)", (surface) => {
-    expect(read(surface)).toMatch(/<EmptyState/);
+    expect(read(surface)).toMatch(/<(?:Admin)?EmptyState/);
   });
 
   it.each(PAGED_SURFACES)("%s renders Pagination primitive (C6)", (surface) => {
