@@ -25,4 +25,16 @@ describe("replaceLoginState", () => {
       "/login?state=sent&redirect=%2Fprofile",
     );
   });
+
+  it("object redirect は /profile に正規化して [object Object] を生成しない", () => {
+    const replaceState = vi.fn();
+    replaceLoginState("sent", { pathname: "/admin" }, {
+      historyImpl: { replaceState },
+    });
+    expect(replaceState).toHaveBeenCalledWith(
+      null,
+      "",
+      "/login?state=sent&redirect=%2Fprofile",
+    );
+  });
 });
