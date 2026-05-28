@@ -469,6 +469,20 @@
 - 事例同時発生: `.claude/skills/task-specification-creator/references/patterns-lessons-and-pitfalls.md` EOF で HEAD 側 `## DOM 構造置換 PR ...` 節 + dev 側 `## accent on accent-soft chip ...` / `## L-DEVSYNC-051 visual baseline ...` / `## L-FETCHCACHE-001 ...` 3 節が並列追加。SP-DEVSYNC-037 同パターンで両側保持＋marker 物理除去で解消（resolver 非対応の手動 union）。
 - 検証: `grep -nE '^(<<<<<<<|=======|>>>>>>>|\|\|\|\|\|\|\|)' <path>` 0 件 + `pnpm typecheck` PASS + `pnpm lint` PASS。
 
+### SP-DEVSYNC-040: fetch wrapper の error-handler 内に「HEAD=dev限定 warn ログ」「dev=throw 文字列の body 付与」が同位置追加されたときの順次合成 default ルール（2026-05-28 追加）
+
+- 事象: 2026-05-28 `feat/admin-tag-queue-ui-and-404` ← origin/dev sync-merge で `apps/web/src/lib/admin/server-fetch.ts` の `fetchAdmin()` `if (!res.ok)` block が `WARN unhandled conflict`。base は単純 throw、HEAD は dev 限定 404 warn、dev は error message に body snippet（先頭 256 文字）付与。両者とも機能直交な観測強化。
+- Why: error-handler 同一 block への直交追加は構造的に再発する（fetch wrapper の error 拡張は monitoring / debug 強化目的で並列改修されやすい）。片側 take は他方の観測点喪失、両側 union は body 二重消費（`Response.body used` runtime error）の risk。順次合成（① body→snippet 取得 → ② dev-warn 404 ログ → ③ snippet 付き throw）が default。
+- How to apply（task 仕様書での逐語化）:
+  - Phase 9 sync-merge 節に「**error-handler block 3-way 判定フロー**」を追記:
+    1. base / HEAD / dev を `grep -n -E '^(<<<<<<<|=======|>>>>>>>|\|\|\|\|\|\|\|)'` で位置確認
+    2. base が「単純 throw / 単純 return」かつ HEAD / dev が**同 if-branch 内の独立観測 / 副作用追加**なら順次合成 default
+    3. 並び順は「cheap な分岐先頭で副作用なし計算（body text 取得 等）」→「dev-only ログ等の condition 付き観測」→「throw / return」
+    4. `Response` 等の **1 回消費 stream** は先頭で 1 度だけ消費し、変数共有
+  - Phase 4 risk に「fetch wrapper の error 拡張は同 if-branch で並列改修されやすい」を登録。仕様書 Phase 9 dry-run checklist に `git log origin/dev ^HEAD -- <fetch wrapper path>` で error-handler 改修 commit の有無を事前確認するチェックを追加。
+- 検証: `grep -nE '^(<<<<<<<|=======|>>>>>>>|\|\|\|\|\|\|\|)' <path>` 0 件 + `pnpm typecheck` PASS + `pnpm lint` PASS + 両 commit 由来の spec が green。
+- 参照: aiworkflow-requirements [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-054 を併読。
+
 ### SP-DEVSYNC-040: invariant 強化 refactor ブランチでの source conflict は HEAD 全採用が default（2026-05-28 追加）
 
 - 事象: 2026-05-28 `feat/profile-server-components-render-error` ← origin/dev sync-merge で `apps/web/src/lib/fetch/authed.ts` のみ resolver `WARN unhandled`。3-way の HEAD は env unification (`getApiBaseEnv()` 単一 accessor + fallback 撤去 + 未設定 throw)、dev は中間形 (`getAuthEnv()` / `getPublicFetchEnv()` 別 accessor + fallback 据置)、base は `process.env` 直参照 + `127.0.0.1:8787` 焼き込み。

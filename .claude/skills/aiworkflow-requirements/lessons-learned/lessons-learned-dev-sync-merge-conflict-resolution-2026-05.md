@@ -1012,6 +1012,20 @@
 - 事例: 2026-05-27 commit を併発した同 sync-merge で `.claude/skills/task-specification-creator/references/patterns-lessons-and-pitfalls.md` も EOF 並列追加（HEAD=「DOM 構造置換 PR 同一 wave spec 同期」節、dev=「accent-soft chip accent-ink」「visual baseline ours 採用」「fetcher 層 no-store」3 節）で同時に WARN unhandled。SP-DEVSYNC-037 の spec EOF 両側保持パターンで base 削除 + HEAD + dev 順序保持 + marker 物理除去で解消。
 - 参照: task-specification-creator [[dev-sync-merge-conflict-resolution]] SP-DEVSYNC-039 に逐語埋め込み。
 
+## L-DEVSYNC-054: 同一 error-handler block に「HEAD=dev-warn 404 ログ追加」「dev=error message に body snippet 包含」が同位置追加された 3-way は順次合成で両立（2026-05-28 確認）
+
+- 事象: 2026-05-28 `feat/admin-tag-queue-ui-and-404` ← origin/dev sync-merge で `apps/web/src/lib/admin/server-fetch.ts` の `fetchAdmin()` 内 `if (!res.ok)` block が `WARN unhandled conflict`。3 ブロック構造:
+  - **base (a5948394b)**: `throw new Error('admin api ${path} failed: ${res.status}');` のみ
+  - **HEAD**: `process.env.NODE_ENV !== "production" && res.status === 404` のときに `console.warn("[admin/server-fetch] 404", { host, path, status })` を追加（throw メッセージは base と同一）
+  - **dev**: `await res.text()` で先頭 256 文字を `bodySnippet` に切り出し、`throw new Error('... ${res.status}${bodySnippet}')` に文字列付与
+- Why: 両側とも `!res.ok` 直後の同一 block に**機能直交な観測強化**を追加（HEAD=dev限定 404 hostログ / dev=本番含む body snippet）。片側 take すると一方の観測点が失われる。順次合成（① body 読取 → ② 404 dev-warn → ③ snippet 付き throw）は副作用順を保てて両立する。
+- How to apply:
+  1. error-handler block の 3-way で「base = 単純 throw」「HEAD / dev = 同 if-branch に独立の観測 / 副作用追加」を検出したら、`||||||| base` block を捨て、HEAD と dev の追加を**実行順序の自然な並び**（cheap な分岐先頭 → 副作用 → throw）で並べ替える。
+  2. body の `await res.text()` は throw 前に 1 回だけ実行する。HEAD 側 dev-warn の中で再度 text 読取すると `body already consumed` ランタイムエラーになる。
+  3. 解消後検証: `grep -nE '^(<<<<<<<|=======|>>>>>>>|\|\|\|\|\|\|\|)' <path>` 0 件 + `pnpm typecheck` PASS + `pnpm lint` PASS。両 commit 由来の spec（HEAD 側 404 warn spec / dev 側 body snippet spec）がいずれも green であることを確認。
+- 留意: `Response.body` は 1 回しか消費できないので、複数の観測パス（log + throw）から body を参照する場合は**先頭で 1 回 text() し、変数で共有**する。fetch wrapper の error 拡張は今後同種パターン（5xx 詳細化 / retry hint 等）が並列追加されやすく、3-way での再発を Phase 4 risk に登録。
+- 参照: task-specification-creator [[dev-sync-merge-conflict-resolution]] SP-DEVSYNC-040 に逐語埋め込み。
+
 ## L-DEVSYNC-054: feature ブランチの目的が "dev が今も出荷している pattern の置換" の場合、source conflict は HEAD 全採用が default（2026-05-28 追加）
 
 - 事象: 2026-05-28 `feat/profile-server-components-render-error` ← origin/dev (5 commits behind) sync-merge で `apps/web/src/lib/fetch/authed.ts` のみ resolver の `WARN unhandled conflict`。3-way:
