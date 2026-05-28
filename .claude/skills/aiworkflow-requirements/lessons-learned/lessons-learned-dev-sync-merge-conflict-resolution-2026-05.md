@@ -1012,6 +1012,19 @@
 - 事例: 2026-05-27 commit を併発した同 sync-merge で `.claude/skills/task-specification-creator/references/patterns-lessons-and-pitfalls.md` も EOF 並列追加（HEAD=「DOM 構造置換 PR 同一 wave spec 同期」節、dev=「accent-soft chip accent-ink」「visual baseline ours 採用」「fetcher 層 no-store」3 節）で同時に WARN unhandled。SP-DEVSYNC-037 の spec EOF 両側保持パターンで base 削除 + HEAD + dev 順序保持 + marker 物理除去で解消。
 - 参照: task-specification-creator [[dev-sync-merge-conflict-resolution]] SP-DEVSYNC-039 に逐語埋め込み。
 
+## L-DEVSYNC-054: 並列 feature が同一 cleanup hotspot / barrel index に独立行を追加するパターン（2026-05-28 確認）
+
+- 事象: 2026-05-28 `feat/admin-ui-task-d-attendance-primitive` ← origin/dev sync-merge で `pnpm sync:resolve` の `WARN unhandled conflict` が 2 件残った:
+  1. `apps/web/playwright/fixtures/auth.ts` の `/__test__/reset` ハンドラと `mockApi.reset()` の 2 箇所で、HEAD 側が `state.attendanceDashboardScenario = 'all-ok'` を、dev 側が `delete state.publicHomeEmpty` をそれぞれ独立に **追加**（base はどちらも持たない=完全 add-add 衝突）
+  2. `apps/web/src/features/admin/components/index.ts` の barrel export 末尾で、HEAD 側が `_shared/AdminTable` / `AdminEmptyState` / `AdminSectionErrorClient` の 3 primitive を named export 群として、dev 側が `_members/MemberDiagnosticsPanel` を `export *` でそれぞれ独立に追加
+- Why: e2e mock API の reset 関数と feature barrel は「並列 feature が同時に新規 state / module を継ぎ足す構造的 hotspot」であり、`sync:resolve` の `UNION_MERGE_TARGETS` は **`.ts` ソースを対象外**（コード union は意味的に壊れる可能性があるため）。両 branch とも reset の **意味的契約**（テスト間で state を初期化）と barrel の **append-only 契約**（既存 import を壊さない順序保持）を満たしており、機械 union ではなく「両側の追加行をそのまま並べる手動 union」が正解。片側 take すると並列 feature の state cleanup / export がそれぞれ欠落し、test fail / module not found の regression に直結する。
+- How to apply:
+  1. `WARN unhandled conflict` に `apps/web/playwright/fixtures/auth.ts` の reset 系ハンドラが含まれる場合: `delete state.*` / `state.* = <default>` の追加行は **両側を順序保持で並べる**（base ブロック削除 + HEAD 追加行 + dev 追加行 + marker 物理除去）。意味的に互いに排他でない限り重複削除も不要（同 key を両側が触る場合のみ後勝ち判定が必要）。
+  2. `apps/web/src/features/admin/components/index.ts` 等の barrel export で `WARN unhandled conflict` が出た場合: ファイル冒頭コメント「追記方式厳守（task-16/17 が後続行追加するため、再ソート禁止）」が指す通り、**両側の `export * from "./..."` / `export {X, Y} from "./..."` を順序保持で並べる**。dev 側 sibling export を HEAD 側追加 export 群の **前** に置くと、HEAD branch の意図（最後に追加した primitive 群が末尾に集まる）と整合する。逆順は append-only 契約違反。
+  3. 検証順: `grep -nE '^(<<<<<<<|=======|>>>>>>>|\|\|\|\|\|\|\|)' <file>` で marker 0 件確認 → `pnpm typecheck` で型・export 重複なし → `pnpm lint` → commit。typecheck で `Module '<barrel>' has no exported member 'X'` が出たら順序ではなく export 名の typo を疑う。
+- 留意: `sync:resolve` の `UNION_MERGE_TARGETS` 拡張案として `apps/web/src/features/**/components/index.ts` を追加する選択肢はあるが、barrel に **再 export ではない値**（const 定義、default export）が混在するファイルで union が破壊的になるため、**WARN として手動 union を促す現行設計を維持**するのが安全。barrel に専念したファイル限定で resolver 拡張する場合は、`scripts/sync/resolve-skill-merge-conflicts.sh` 側で「barrel-only `.ts` の判定（`grep -E '^(export \*|export \{.*\} from)' <file> | wc -l` がファイル行数の 80% 以上）」を gate に入れる。
+- 事例: 2026-05-28 commit `aced4e447` (chore: merge origin/dev) を base に origin/dev (HEAD `bf6efe49f`) を再取り込みした sync-merge。`pnpm sync:resolve` で skill md 4 union + keywords.json `--ours + rebuild` 成功、残り 2 `.ts` を手動 union。`grep -nE '^(<<<<<<<|=======|>>>>>>>|\|\|\|\|\|\|\|)' apps/web/playwright/fixtures/auth.ts apps/web/src/features/admin/components/index.ts` 0 件 → `pnpm typecheck && pnpm lint` green → commit。
+
 ## L-DEVSYNC-054: shell topbar 廃止後の旧E2E selectorとadmin table intrinsic widthはCIで同時に露出する（2026-05-28 確認）
 
 - 事象: PR #973 `feat/admin-shell-topbar-sidebar-integration` の dev sync 後 CI で、`e2e` 3 project が `parallel-03-admin-shell-scrape.spec.ts` の `[data-shell="topbar"]` visible 期待と `admin-shell-topbar-sidebar-integration.spec.ts` の schema badge `3` 期待で fail。併せて `visual-full (mobile/tablet)` は `/admin/members` の actual screenshot が mobile `640+ x 844` / tablet `900+ x 1024` となり、baseline `390 x 844` / `768 x 1024` と dimension mismatch。

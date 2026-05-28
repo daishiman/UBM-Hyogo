@@ -1,0 +1,10 @@
+{
+  "workflow": "admin-ui-task-d-attendance-primitive-conformance",
+  "status": "captured",
+  "route": "/admin/dashboard/attendance",
+  "shots": [
+    { "path": "outputs/phase-11/screenshots/attendance-all-ok.png", "state": "captured", "description": "KpiCard 3枚、by-session AdminTable、ranking AdminTable" },
+    { "path": "outputs/phase-11/screenshots/attendance-overview-error.png", "state": "captured", "description": "overview のみ AdminSectionErrorClient" },
+    { "path": "outputs/phase-11/screenshots/attendance-by-session-empty.png", "state": "captured", "description": "by-session AdminEmptyState" }
+  ]
+}

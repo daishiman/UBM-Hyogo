@@ -776,6 +776,36 @@ prototype HTML / CSS を実コードへ落とし込む task では、以下 3 �
 - handler を mock に追加する代わりに `test.skip` / `test.fixme` で逃がす → playwright が API shape の正本検証 gate なのに gate が空洞化する。
 - `apps/web/playwright/fixtures/auth.ts` のみ追従し `scripts/e2e-mock-api.mjs` を忘れる → `playwright-smoke` は green になるが `e2e-tests-coverage-gate` (3 shard) が同症状で fail し続け、原因切り分けで時間を浪費する。
 
+## Primitive 採用タスク（admin dashboard 系 / 2026-05-26）
+
+UI primitive (`AdminPageHeader` / `KpiCard` / `AdminTable` / `AdminEmptyState` 等) を既存ページに整流するタスクの仕様で再発する設計判断。Refs: aiworkflow-requirements `lessons-learned-admin-ui-task-d-attendance-primitive-2026-05.md` (L-TASKD-001..006).
+
+- **L-PRIMADOPT-001 (関数 props は client island に閉じる)**: `AdminTable` の `accessor` / `render` / `getRowKey` のような関数 props を持つ primitive を採用する page は、`page.tsx` (Server Component) と `*.client.tsx` (`"use client"`) に責務分離する。page.tsx は fetch + `AdminPageHeader` だけに縮退させ、column 定義は client component 内 const として置く。Phase 2 設計 deliverable に「page.tsx vs client island の責務分離」を必須化する。
+- **L-PRIMADOPT-002 (closed-schema wrapper を流用しない)**: `KpiGrid` のように `AdminDashboardView["totals"]` 固定型を持つ wrapper primitive は、対象ドメイン (attendance metrics 等) に schema 拡張せず**下位 primitive (`KpiCard`) を直置き**する。Phase 2 primitive 採択表に `props signature` と `input schema 開放度` (closed / open) を併記する。
+- **L-PRIMADOPT-003 (primitive 実 API を逐語 copy)**: primitive contract の正本は仕様文書ではなく `apps/web/src/features/admin/components/_shared/*.tsx` の実 API。`AdminEmptyState.testId` のような未実装 prop を仕様化すると Phase 5 で typecheck fail する。Phase 2 deliverable に「primitive 実 API snapshot (barrel export + props 型)」を必須化し、未実装 prop が必要な場合は別タスクへ切り出す。
+- **L-PRIMADOPT-004 (barrel 追記方式)**: `apps/web/src/features/admin/components/index.ts` の barrel への primitive 追加は**追記方式 (既存行を壊さず append)** で行い、既存 import 経路を破壊しない。Phase 5 implementation step に「barrel に 1 行ずつ追記」を default 化する。
+- **L-PRIMADOPT-005 (page-scoped grep gate)**: primitive 採用回帰を防ぐため `scripts/verify-primitive-adoption.sh` に **page-scoped 番号付き grep gate (C-N)** を 1 案件 1 number で追記する。pattern は anti-pattern (`<table`, inline class 等) が当該 page path だけに出現していないことを確認する形。Phase 6 quality gate に必須化。
+
+### Anti-pattern
+
+- 関数 props 含む primitive を Server Component 直下に書く → Server→Client serialization 境界で build / runtime fail。
+- closed-schema wrapper primitive を別ドメインに流用するため schema 拡張を本タスクに混ぜる → scope crash と review コスト増加。
+- primitive 実 API を確認せず仕様文書ベースで prop を仮定する → Phase 5 typecheck fail し戻り。
+- barrel を「整理」目的で書き換える → 既存呼び出し経路が壊れ、scope 外の修正が必要になる。
+
+## Phase 11 visual evidence × Playwright mock fixture（2026-05-26）
+
+`VISUAL_ON_EXECUTION` UI タスクが Phase 11 で screenshot evidence を取得する際の mock / evidence 配線パターン。Refs: L-TASKD-005, L-DEVSYNC-* (Playwright ESM).
+
+- **L-VOEFIXTURE-001 (in-process fixture に scenario header)**: 本番 API に依存せず複数状態 (all-ok / error / empty) の screenshot を撮るため、`apps/web/playwright/fixtures/auth.ts` に `x-mock-scenario` header を読む handler を追記する。仕様 Phase 4 contracts に「mock fixture handler 追記」を 1 行で含める。
+- **L-VOEFIXTURE-002 (evidence dir 分離)**: screenshot を workflow root 配下に書くため env `PLAYWRIGHT_EVIDENCE_DIR` で出力先を上書きする。spec 側は `process.env.PLAYWRIGHT_EVIDENCE_DIR ?? "test-results"` で resolve。Phase 11 acceptance に `PLAYWRIGHT_EVIDENCE_DIR=../../docs/30-workflows/<root>/outputs/phase-11/evidence` の実行コマンドを記録する。
+- **L-VOEFIXTURE-003 (二系統 mock の同時追従)**: `apps/web/playwright/fixtures/auth.ts` (in-process) と `scripts/e2e-mock-api.mjs` (stand-alone) の **両方** を追従対象に含めるかは API surface 変更を伴うか否かで判定。primitive 採用のみで API 不変更なら fixture のみで足りる。API method/path 変更を伴う場合は L-APIMETH-004 の両ファイル追従ルールに従う。
+
+### Anti-pattern
+
+- 本番 API に依存して Phase 11 を撮る → flaky / 認証境界で取れない。
+- screenshot 出力先を hardcode して workflow root 外に散らす → artifact-inventory での回収が漏れる。
+
 ---
 
 ## 新規 pattern section heading 命名規約（dev sync-merge union 統合のため）
@@ -959,6 +989,21 @@ UI 系 feature ブランチ（prototype alignment / dashboard 等）と dev の�
 - page.tsx に `searchParams.t` 分岐を入れて test 用 cache bypass → production code に test-only logic 混入、`Page` component の propsが test 専用 prop で汚れる
 - 該当 spec を `test.skip` で先送り → e2e mock API を使う他 spec も同じ regression を踏むため fundamental fix が常に正解
 - `revalidate: 0` に下げて regression を回避 → production で free tier 圧迫（cache hit rate が drop）し本末転倒
+
+## L-DEVSYNC-054 並列 feature の同一 cleanup hotspot / barrel への独立追加パターン（dev sync-merge / 2026-05-28）
+
+並列に進む複数 feature ブランチが、e2e mock API の reset ハンドラ（`apps/web/playwright/fixtures/auth.ts` の `/__test__/reset` および `mockApi.reset()`）や features barrel export（`apps/web/src/features/admin/components/index.ts` 等）の末尾に、互いに独立な `delete state.*` / `state.* = ...` / `export * from "./..."` 行を追加すると、sync-merge 時に必ず add-add 衝突する。`pnpm sync:resolve` の `UNION_MERGE_TARGETS` は `.ts` ソースを対象外のため `WARN unhandled` で残り、手動 union が必須。
+
+- **L-DEVSYNC-054-A (reset ハンドラ手動 union)**: 状態初期化系の cleanup 行（`delete state.X` / `state.X = default`）は両側を順序保持で並べる。同一 key を両側が触る場合のみ後勝ち判定（リセット後の期待値が壊れていないかを spec の `mockApi.reset()` 直後 assertion で確認）。
+- **L-DEVSYNC-054-B (barrel export 手動 union)**: barrel ファイル冒頭の「追記方式厳守（再ソート禁止）」コメントは契約。両側追加の `export *` / `export {}` を順序保持で並べ、dev 側を HEAD 側追加群の前に置く（HEAD が「最後に触った人」になるよう末尾を譲る）。逆順は append-only 契約違反で、後続 feature の git blame ノイズが増える。
+- **L-DEVSYNC-054-C (Phase 4 risk 登録)**: e2e mock を伴う feature 仕様の Phase 4 risk table に「reset ハンドラ / barrel への独立 add-add は dev sync-merge で構造的に発生」を登録し、Phase 12 implementation-guide に「手動 union → marker grep 0 → typecheck → lint」の 4 step を必達フローとして明示する。
+- **L-DEVSYNC-054-D (resolver 拡張しない理由)**: barrel に `const` / `default export` が混在するファイルで union が破壊的になるため、`sync:resolve` 拡張ではなく **WARN として手動 union を促す現行設計を維持**するのが正。barrel-only `.ts` 限定の自動 union を将来追加する場合は、`export *|export \{` 行がファイル行数の 80% 以上であることを resolver 側の gate にする。
+
+### Anti-pattern
+
+- `git checkout --ours` / `--theirs` で reset ハンドラを片側全採用 → 並列 feature の state 初期化が欠落し、別 spec が test 間状態残留で fail（再現に時間がかかり原因特定困難）
+- barrel に並列追加された export をアルファベット順に再ソート → append-only 契約違反、PR diff が肥大化、後続 feature が同じ位置に独立 export を追加した際に再衝突
+- `pnpm sync:resolve` が WARN を出した時点で `.ts` をスキップして commit → conflict marker (`<<<<<<<`) が source に残ったまま push、CI で `next build` が SyntaxError で fail
 
 ## L-DEVSYNC-052 shell 変更を伴う feature 実装での visual baseline 更新漏れ（dev sync-merge / 2026-05-27）
 

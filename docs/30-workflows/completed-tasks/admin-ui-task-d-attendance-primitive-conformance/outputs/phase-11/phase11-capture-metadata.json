@@ -1,0 +1,15 @@
+{
+  "workflow": "admin-ui-task-d-attendance-primitive-conformance",
+  "status": "implemented_local_evidence_captured",
+  "runtimeEvidence": "captured",
+  "visualEvidence": "VISUAL_ON_EXECUTION",
+  "captureCommand": "PLAYWRIGHT_EVIDENCE_DIR=../../docs/30-workflows/completed-tasks/admin-ui-task-d-attendance-primitive-conformance/outputs/phase-11/evidence pnpm --filter @ubm-hyogo/web exec playwright test playwright/tests/admin-attendance-dashboard.spec.ts --project=desktop-chromium",
+  "route": "http://localhost:3000/admin/dashboard/attendance",
+  "capturedAt": "2026-05-27T06:59:00+09:00",
+  "screenshots": [
+    "outputs/phase-11/screenshots/attendance-all-ok.png",
+    "outputs/phase-11/screenshots/attendance-overview-error.png",
+    "outputs/phase-11/screenshots/attendance-by-session-empty.png"
+  ],
+  "result": "3 passed"
+}

@@ -13,3 +13,10 @@ export * from "./_members/MembersTable";
 export * from "./_members/BulkActionBar";
 export * from "./_members/MemberDrawer";
 export * from "./_members/MemberDiagnosticsPanel";
+// admin-ui-task-d: _shared primitive re-exports for attendance dashboard
+export { AdminTable } from "./_shared/AdminTable";
+export type { AdminTableColumn, AdminTableProps } from "./_shared/AdminTable";
+export { AdminEmptyState } from "./_shared/AdminEmptyState";
+export type { AdminEmptyStateProps, AdminEmptyStateIcon } from "./_shared/AdminEmptyState";
+export { AdminSectionErrorClient } from "./_shared/AdminSectionErrorClient";
+export type { AdminSectionErrorClientProps } from "./_shared/AdminSectionErrorClient";
