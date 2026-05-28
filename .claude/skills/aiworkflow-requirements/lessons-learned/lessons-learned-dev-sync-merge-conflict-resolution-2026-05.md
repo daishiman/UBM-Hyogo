@@ -1012,6 +1012,58 @@
 - 事例: 2026-05-27 commit を併発した同 sync-merge で `.claude/skills/task-specification-creator/references/patterns-lessons-and-pitfalls.md` も EOF 並列追加（HEAD=「DOM 構造置換 PR 同一 wave spec 同期」節、dev=「accent-soft chip accent-ink」「visual baseline ours 採用」「fetcher 層 no-store」3 節）で同時に WARN unhandled。SP-DEVSYNC-037 の spec EOF 両側保持パターンで base 削除 + HEAD + dev 順序保持 + marker 物理除去で解消。
 - 参照: task-specification-creator [[dev-sync-merge-conflict-resolution]] SP-DEVSYNC-039 に逐語埋め込み。
 
+## L-DEVSYNC-054: in-place 全面リデザイン feature × dev 側 followup-001 並列改修の「同一 component 群一括 take ours」パターン（2026-05-28 確認）
+
+- 事象: 2026-05-28 `feat/admin-members-prototype-redesign` ← origin/dev sync-merge で /admin/members 周辺 6 ファイルが `WARN unhandled conflict`（`apps/web/app/(admin)/admin/members/page.tsx` / `_members/MembersFilters.tsx` / `MembersTable.tsx` / `MemberDrawer.tsx` / `MembersClientShell.tsx` / `__tests__/MembersFilters.spec.tsx`）。
+  - **HEAD (我側)**: `feat(admin-members): /admin/members prototype redesign` 単一 commit で primitive 群追加 (`MemberAvatar` / `MemberPublishSwitch` / `MemberStateChip` / `PillNav` / `TagPill`)・既存 component を新 prop API に**全面置換**・focused vitest spec 群を書き直し
+  - **dev (向側)**: `#968` `followup-001 (404 fix + prototype alignment)` で同じ component 群に**漸進的整合**（MembersPageHead 追加・Breadcrumb 分離・既存 prop 維持）
+- Why: 両方とも「プロトタイプ整合」方向だが、HEAD は**一括 redesign**（component 全面書き換え + spec 全面書き換え）、dev は**漸進的整合**（既存 prop API を残しつつ component 分離追加）。粒度が違うため union 不可能・dev take は redesign 全体が壊れる。HEAD 全採用が正解だが、dev の 404 fix は `apps/web/app/api/admin/[...path]/route.ts` 等の**conflict 外ファイル**で既に自動 merge 済みのため失われない。
+- How to apply（aiworkflow runbook 手順）:
+  1. `WARN unhandled conflict` 一覧が **同一 feature 領域の component 群（5 file 以上）+ 対応する spec** で構成されている場合、`git log --oneline HEAD ^dev -- <component path>` で HEAD 側が「全面 redesign 単一 commit」かを確認
+  2. 該当なら以下を一括実行（個別判断不要）:
+     - `for f in <conflict files>; do git checkout --ours "$f"; git add "$f"; done`
+     - `git commit --no-edit` でマージ完了
+  3. **追加検証必須**: auto-merge した spec/component 周辺（特に `*.spec.tsx`）で**prop drift typecheck error** がないか `pnpm --filter @ubm-hyogo/web typecheck` で確認。drift があれば HEAD 側 spec で上書き（`git show <redesign tip>:<path> > <path>`）+ 追加 commit
+- 留意:
+  - dev 側 followup の **本体機能（API 404 fix など conflict 外で merge 済み）は HEAD take しても保持される**ため、安心して take ours できる
+  - 「conflict なしで auto-merge された spec」が一番危険。HEAD 側 component の prop が変わっているのに spec は dev 側 prop で残るパターンが頻発する → typecheck で必ず検出
+  - 追加 commit のメッセージは `fix(<scope>): restore redesign <name> spec after dev merge` で統一
+- 事例: 2026-05-28 merge commit `709f13920` + spec restore `8f510ba33`。typecheck 初回 `MembersTable.spec.tsx` で `summariesByMember` / `tagsByMember` / `onTogglePublish` prop が存在しない error 3 件 → HEAD 側 spec で復元後 typecheck/lint green。
+- 参照: task-specification-creator [[dev-sync-merge-conflict-resolution]] SP-DEVSYNC-040 に逐語埋め込み。
+
+## L-DEVSYNC-055: 全面 redesign 直後の CI 再修正における「PillNav 兄弟ラベル strict-mode collision」と「複数 viewport × 状態 page.goto suite の Next dev cold-compile timeout」（2026-05-28 確認）
+
+- 事象: L-DEVSYNC-054 の全面 redesign + spec restore commit (`8f510ba33`) 後の CI で 2 種の playwright e2e 失敗が連続発生:
+  1. `task15-admin-screenshots.spec.ts` の `getByRole('tab', { name: '公開' })` が **strict mode violation: resolved to 2 elements**（redesign で PillNav に置換した結果「公開」「非公開」両方が hit）
+  2. `admin-members-prototype-redesign.spec.ts` の `captures four local list states across four viewports` が **Test timeout of 60000ms exceeded** で `page.goto(/admin/members?filter=published)` 待ちのまま失敗（4 viewport × 4 state = 16 page.goto の各初回が Next dev cold compile で >10s かかり 60s timeout に到達）
+- Why:
+  1. PillNav に置換すると label "公開" は「公開」「非公開」両方の prefix になり、playwright `getByRole` の name match は**部分一致 / 正規表現マッチ**のため strict mode で衝突する。redesign 前は `<select>` `<option>` で要素自体が 1 つに絞れていたため発覚しなかった
+  2. CI runner 上の Next 16 dev server は初回 route compile が極めて遅く、同一テスト内で複数 route を順次訪問する suite は累積的に timeout に到達する。ローカルでは pre-warmed cache で通るため CI でのみ発覚
+- How to apply（CI 再修正 runbook 手順、redesign sync-merge 後の追加検証として常設）:
+  1. **redesign で PillNav / Tab に置換した場合**、置換した label が**他 label の prefix にならないか** `grep -rn "name: '<label>'" apps/web/playwright/tests/` で全テスト走査し、該当があれば `{ exact: true }` または `/^<label>$/` に書き換える
+  2. **redesign に伴う新規 phase-11 screenshot suite (複数 viewport × 状態)** は `test.slow()`（timeout 3 倍 = 180s）を `test(...)` 関数先頭で必ず宣言する。Next dev cold compile を absorb する目的を comment ではなく commit message に記す
+  3. CI 再修正コミットは `fix(<scope>): use exact match for <label> tab to avoid strict-mode collision with <sibling>` / `fix(<scope>): mark <suite> test as slow to absorb Next dev cold-compile across NxM navigations` で統一
+- 留意:
+  - 1 は redesign 直後の e2e で必ず発覚するため `test.beforeAll` で自動 grep するより、test 修正 + lessons 反映で同じ間違いを次回避けるほうが ROI 高い
+  - 2 は `apps/web/playwright.config.ts` の global timeout を上げるより**該当 test 単独で `test.slow()` 宣言**するほうが他 suite への副作用がない
+  - `playwright-visual-full` 失敗（baseline drift）は redesign 後は必ず発生し、`playwright-visual-baseline-update` workflow の `environment: visual-baseline-approval` 経由でのみ更新可能（CLAUDE.md / 既存 lessons の通り user-gated）。CI 再修正の対象外
+- 事例: 2026-05-28 commit `05c30022b` (PillNav exact 修正) + `5bbee59da` (test.slow 追加)。前者で `e2e (desktop-chromium)` の `task15-admin-screenshots` 解消、後者で `e2e-tests-coverage-gate` 全 project (desktop-chromium/firefox/mobile-chromium/mobile-webkit) green。`playwright-visual-full` は 8 admin route × mobile baseline drift で fail 継続 → user-gated 扱いで報告のみ。
+- 参照: task-specification-creator [[dev-sync-merge-conflict-resolution]] SP-DEVSYNC-041 に逐語埋め込み。
+
+## L-DEVSYNC-054: 同一 error-handler block に「HEAD=dev-warn 404 ログ追加」「dev=error message に body snippet 包含」が同位置追加された 3-way は順次合成で両立（2026-05-28 確認）
+
+- 事象: 2026-05-28 `feat/admin-tag-queue-ui-and-404` ← origin/dev sync-merge で `apps/web/src/lib/admin/server-fetch.ts` の `fetchAdmin()` 内 `if (!res.ok)` block が `WARN unhandled conflict`。3 ブロック構造:
+  - **base (a5948394b)**: `throw new Error('admin api ${path} failed: ${res.status}');` のみ
+  - **HEAD**: `process.env.NODE_ENV !== "production" && res.status === 404` のときに `console.warn("[admin/server-fetch] 404", { host, path, status })` を追加（throw メッセージは base と同一）
+  - **dev**: `await res.text()` で先頭 256 文字を `bodySnippet` に切り出し、`throw new Error('... ${res.status}${bodySnippet}')` に文字列付与
+- Why: 両側とも `!res.ok` 直後の同一 block に**機能直交な観測強化**を追加（HEAD=dev限定 404 hostログ / dev=本番含む body snippet）。片側 take すると一方の観測点が失われる。順次合成（① body 読取 → ② 404 dev-warn → ③ snippet 付き throw）は副作用順を保てて両立する。
+- How to apply:
+  1. error-handler block の 3-way で「base = 単純 throw」「HEAD / dev = 同 if-branch に独立の観測 / 副作用追加」を検出したら、`||||||| base` block を捨て、HEAD と dev の追加を**実行順序の自然な並び**（cheap な分岐先頭 → 副作用 → throw）で並べ替える。
+  2. body の `await res.text()` は throw 前に 1 回だけ実行する。HEAD 側 dev-warn の中で再度 text 読取すると `body already consumed` ランタイムエラーになる。
+  3. 解消後検証: `grep -nE '^(<<<<<<<|=======|>>>>>>>|\|\|\|\|\|\|\|)' <path>` 0 件 + `pnpm typecheck` PASS + `pnpm lint` PASS。両 commit 由来の spec（HEAD 側 404 warn spec / dev 側 body snippet spec）がいずれも green であることを確認。
+- 留意: `Response.body` は 1 回しか消費できないので、複数の観測パス（log + throw）から body を参照する場合は**先頭で 1 回 text() し、変数で共有**する。fetch wrapper の error 拡張は今後同種パターン（5xx 詳細化 / retry hint 等）が並列追加されやすく、3-way での再発を Phase 4 risk に登録。
+- 参照: task-specification-creator [[dev-sync-merge-conflict-resolution]] SP-DEVSYNC-040 に逐語埋め込み。
+
 ## L-DEVSYNC-054: feature ブランチの目的が "dev が今も出荷している pattern の置換" の場合、source conflict は HEAD 全採用が default（2026-05-28 追加）
 
 - 事象: 2026-05-28 `feat/profile-server-components-render-error` ← origin/dev (5 commits behind) sync-merge で `apps/web/src/lib/fetch/authed.ts` のみ resolver の `WARN unhandled conflict`。3-way:

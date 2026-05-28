@@ -1100,10 +1100,10 @@ node scripts/list-specs.js --topics
 | 3. /admin（Dashboard） | L77 |
 | 4. /admin/members | L130 |
 | 5. /admin/tags | L223 |
-| 6. /admin/schema | L303 |
-| 7. /admin/meetings | L358 |
-| 8. 共通の Server/Client 契約 | L427 |
-| 9. 不変条件サマリ（admin UI） | L445 |
+| 6. /admin/schema | L309 |
+| 7. /admin/meetings | L364 |
+| 8. 共通の Server/Client 契約 | L433 |
+| 9. 不変条件サマリ（admin UI） | L451 |
 
 ### references/ui-ux-advanced.md
 
@@ -2181,6 +2181,18 @@ node scripts/list-specs.js --topics
 | Contract | L17 |
 | Lessons Learned | L30 |
 
+### references/workflow-admin-tag-queue-ui-and-404-recovery-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| canonical root | L3 |
+| workflow state | L7 |
+| implementation source-of-truth | L16 |
+| phase 12 required artifacts | L27 |
+| phase 11 evidence | L39 |
+| scope notes | L48 |
+| Lessons Learned | L54 |
+
 ### references/workflow-admin-ui-prototype-alignment-artifact-inventory.md
 
 | セクション | 行 |
@@ -2201,6 +2213,12 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | Contract | L15 |
+
+### references/workflow-admin-ui-prototype-alignment-followup-003-admin-members-prototype-redesign-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Contract | L19 |
 
 ### references/workflow-admin-ui-task-c-pageheader-token-conformance-artifact-inventory.md
 
@@ -4208,6 +4226,16 @@ node scripts/list-specs.js --topics
 | 関連改善タスク | L99 |
 | 関連ドキュメント | L107 |
 | 変更履歴 | L119 |
+
+### references/workflow-unified-sidebar-shell-public-and-admin-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Summary | L5 |
+| Canonical workflow | L9 |
+| Planned implementation targets | L21 |
+| Current code anchors | L33 |
+| Gates | L42 |
 
 ### references/workflow-ut-02a-attendance-profile-integration-artifact-inventory.md
 
@@ -7934,14 +7962,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L2861 |
-| フェーズ構造（概要） | L2870 |
-| 品質ゲート（概要） | L2901 |
-| 出力テンプレート | L2912 |
-| 実行時のコマンド・エージェント・スキル | L2935 |
-| 昇格パターン集 | L2959 |
-| Current Active / Spec Created Tasks | L2961 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L3122 |
+| ドキュメント構成 | L2887 |
+| フェーズ構造（概要） | L2896 |
+| 品質ゲート（概要） | L2927 |
+| 出力テンプレート | L2938 |
+| 実行時のコマンド・エージェント・スキル | L2961 |
+| 昇格パターン集 | L2985 |
+| Current Active / Spec Created Tasks | L2987 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L3148 |
 
 ### references/task-workflow-backlog-part2.md
 

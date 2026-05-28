@@ -8,6 +8,20 @@
 
 本ドキュメントは、複雑なタスクを単一責務の原則に基づいて分解し、各サブタスクに最適なスラッシュコマンド・エージェント・スキルの組み合わせを選定するためのガイドラインを定義する。
 
+### unified-sidebar-shell-public-and-admin（2026-05-28）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `spec_created / implementation / VISUAL / implementation_pending` |
+| 成果物 | `docs/30-workflows/unified-sidebar-shell-public-and-admin/` |
+| 目的 | public / member / admin の shell を単一 collapsible `SidebarShell` primitive に統合する |
+| planned targets | `apps/web/src/components/shell/**`, `apps/web/app/(public)/layout.tsx`, `apps/web/app/(member)/layout.tsx`, `apps/web/app/(admin)/layout.tsx`, `apps/web/src/styles/tokens.css`, `apps/web/tests/e2e/sidebar-shell-*.spec.ts` |
+| nav contract | viewer=3 item、member=4 item、admin=13 item（Admin group 9 item） |
+| invariant | API / D1 / Google Form schema / Auth.js middleware 変更なし。role 判定は `SessionUser.isAdmin` のみ |
+| Phase 12 | strict 7 present、root/output artifacts parity present、30-method compact evidence present |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-unified-sidebar-shell-public-and-admin-artifact-inventory.md` |
+| user gate | apps/web implementation、local visual capture、CI baseline、commit、push、PR |
+
 ### public-header-logged-in-nav-cleanup（2026-05-28）
 
 | 項目 | 値 |
@@ -151,6 +165,18 @@
 | evidence | focused Vitest local PASS, Phase 12 strict 7 present, root/output artifacts parity present |
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-public-header-my-profile-nav-alignment-artifact-inventory.md` |
 | user gate | browser/session smoke, commit, push, PR |
+
+### admin-tag-queue-ui-and-404-recovery（2026-05-27）
+
+| 項目 | 内容 |
+| --- | --- |
+| 状態 | `implemented_local_runtime_pending / implementation / VISUAL` |
+| 成果物 | `docs/30-workflows/completed-tasks/admin-tag-queue-ui-and-404-recovery/` |
+| 目的 | `/admin/tags` を prototype-aligned queue UI に整え、`GET /admin/tags/queue` 404 時に復旧ヒントと redacted diagnostics を出す |
+| implementation targets | `apps/web/app/(admin)/admin/tags/page.tsx`, `apps/web/src/components/admin/TagQueuePanel.tsx`, `apps/web/src/features/admin/components/_shared/AdminSectionError.tsx`, `apps/web/src/lib/admin/server-fetch.ts`, `apps/web/src/styles/globals.css` |
+| API 境界 | `GET /admin/tags/queue` / `POST /admin/tags/queue/:queueId/resolve` の既存契約のみ。D1 / API / shared schema 変更なし |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-tag-queue-ui-and-404-recovery-artifact-inventory.md` |
+| user gate | staging visual evidence, deploy, commit, push, PR |
 
 ### admin-visual-baseline-admin-routes-task-e（2026-05-27）
 
@@ -729,6 +755,20 @@
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-ui-prototype-alignment-followup-002-section-error-retry-artifact-inventory.md` |
 | local evidence | focused Vitest 19 PASS including `jest-axe` violation 0; root lint/typecheck PASS; design-token gate PASS; admin page client-boundary grep PASS |
 | user gate | commit, push, PR |
+
+### admin-ui-prototype-alignment follow-up 003 admin members prototype redesign（2026-05-27）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION` |
+| 成果物 | `docs/30-workflows/completed-tasks/admin-ui-prototype-alignment-followup-003-admin-members-prototype-redesign/` |
+| 目的 | `/admin/members` の prototype 準拠 in-place rewrite と local visual evidence capture |
+| parent | `docs/30-workflows/admin-ui-prototype-alignment/` |
+| predecessor | `docs/30-workflows/completed-tasks/admin-ui-prototype-alignment-followup-002-section-error-retry/` |
+| implementation targets | `apps/web/src/features/admin/components/_members/**`, `_shared/{TagPill,PillNav}.tsx`, `apps/web/src/lib/admin/member-hue.ts`, `apps/web/app/(admin)/admin/members/page.tsx`, `apps/web/src/styles/globals.css` |
+| Phase 11/12 | focused Vitest 25 PASS, web typecheck PASS, 16 local screenshots present, strict 7 outputs present + root-only artifacts declaration |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-ui-prototype-alignment-followup-003-admin-members-prototype-redesign-artifact-inventory.md` |
+| user gate | staging deploy, authenticated staging visual baseline, commit, push, PR |
 
 ### Issue #55 Notification Channel + Opt-out（2026-05-23）
 

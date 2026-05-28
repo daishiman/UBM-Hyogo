@@ -789,6 +789,23 @@ UI primitive (`AdminPageHeader` / `KpiCard` / `AdminTable` / `AdminEmptyState` �
 - **L-PATSEC-002 (末尾 append-only)**: 既存 section の中央に bullet を増やさず、必ず**ファイル末尾に新 section を append**する。中央への追加は L-DEVSYNC-030（table-merge）系の手動 union を要求し、resolver 1 発で完結しない。
 - **L-PATSEC-003 (resolver 委譲)**: 本ファイルは `scripts/sync/resolve-skill-merge-conflicts.sh` の `UNION_TARGETS` に登録済（[[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-046）。仕様書 Phase 12 で本ファイルへ section を追記するタスクは「dev sync-merge での conflict は `pnpm sync:resolve` 自動解消」と前提を置いてよい。
 
+## admin section error recovery hint + server fetch diagnostics パターン（admin-tag-queue-ui-and-404-recovery L-ATAGUI-001..005 汎化）
+
+ admin 系画面の section error 表示と server-side fetch の診断ログを同 wave で改良するときの再現テンプレ。`/admin/tags` 整備で確立し、他の admin route （members / meetings / requests / schema / identity-conflicts / audit）へ同形で展開できる。
+
+- **L-ADMSEC-001 (recovery hint 3 軸)**: `AdminSectionError` の code → hint マップは「route mismatch / base-url 誤り / deploy 遅延」「auth session / 管理者権限 / env-secret 不足」の operator が次にとる確認 action を本文に必ず入れる。code 名だけの表示や code-search 動線だけにしない。`/^ADMIN_FETCH_5\d\d$/` で 5xx 系をまとめて env-secret 確認 hint に倒すと code 追加コストが O(1) に収まる。
+- **L-SRVOBS-001 (non-prod 診断ログ最小 4 制約)**: `fetchAdmin()` 系の診断 `console.warn` は (1) `process.env.NODE_ENV !== "production"` で gate、(2) `new URL(base).host` だけ抽出し full URL / token / cookie / body を出さない、(3) `try/catch` で URL parse 失敗を `<invalid>` に倒し fetch 例外を増やさない、(4) `{host, path, status}` の 3 フィールドのみ、をテンプレ化する。Phase 6 acceptance に env spec（`server-fetch.env.spec.ts` 雛形）を必ず含める。
+- **L-ADMPAGE-001 (admin page 4 ブロック規律)**: admin route を prototype に合わせるときは `page-head + Breadcrumb + 状態 chip 行 + メイン Panel` の 4 ブロックで分解し、Panel 内は `Avatar / Button / Card / Chip / EmptyState / Icon` の既存 primitive 合成で表現できないか先に確認する。新規 primitive を生やすと token / visual baseline / structure gate の 3 系統で追従コストが線形に増える（L-PGHEAD-001..006 と整合）。Panel 改修時は props 契約と data-testid を維持し、focused component spec の再書き直しを避ける。
+- **L-UNTASK-001 (user-gated boundary と未タスクの分離)**: `workflow_state: implemented_local_runtime_pending` のときは unassigned-task-detection.md の Rationale に (a) 本 cycle で実装した項目、(b) staging / runtime user-gated step は本 workflow Phase 11 boundary であり別 backlog ではない、の 2 段を必ず書く。両者を混ぜると completed-tasks 移動時に followup issue 数が水増しされる。
+- **L-ARTPAR-001 (artifacts.json parity の `cmp -s` 固定)**: root `artifacts.json` と `outputs/artifacts.json` の parity は `cmp -s <root> <outputs>` を Phase 12 system-spec-update-summary.md の Validation command として固定する。`gate-metadata:validate` の `evidence_path` 物理存在検証と組み合わせれば、2 箇所 mirror の drift は実質ゼロに保てる。
+
+### Anti-pattern
+
+- section error code を hint なし `code` 表示だけで返す → operator が code grep に走り、env / deploy 確認に到達するまでに時間がかかる。
+- 診断ログに `Cookie` / `Authorization` / request body / full URL を入れる → staging tail / ローカルログで secret が漏れ、incident response 時にログ全削除が必要になる。
+- admin route に prototype 整合のため新 primitive を生やす → token / visual baseline / structure gate の 3 系統で追従コストが線形に増え、PR レビューが長期化する。
+- staging visual screenshot の pending を unassigned-task として detection に書く → Phase 11 user-gated boundary と二重管理になり、completed-tasks 移動時の followup 件数が水増しされる。
+
 ---
 ---
 
@@ -986,6 +1003,18 @@ UI 系 feature ブランチ（prototype alignment / dashboard 等）と dev の�
 - page.tsx に `searchParams.t` 分岐を入れて test 用 cache bypass → production code に test-only logic 混入、`Page` component の propsが test 専用 prop で汚れる
 - 該当 spec を `test.skip` で先送り → e2e mock API を使う他 spec も同じ regression を踏むため fundamental fix が常に正解
 - `revalidate: 0` に下げて regression を回避 → production で free tier 圧迫（cache hit rate が drop）し本末転倒
+
+## Admin panel dual-h1 strict-mode + visual baseline 更新パターン (2026-05-28)
+
+- **Rule (panel heading)**: admin panel component の root は `<section aria-label="<セクション名>">` で region role を取り、内部に `<h1>` を**置かない**（sr-only h1 も含む）。AdminPageHeader 側が `h-page` h1 を一元提供する場合、panel の `<h1 sr-only>` は Playwright `getByRole('heading', { name })` の strict-mode に必ず抵触する。
+  - Why: page-head h1 と panel sr-only h1 が両方とも `heading` role + 同名で resolve され、`strict mode violation: resolved to 2 elements` でCI fail。
+  - How to apply: component spec 側は `getByRole('region', { name })` または `getByLabelText(name)` で assert する。**heading role からの離脱**が isolation/統合の両立条件。Phase 4 risk に「panel 内 sr-only h1 は page-head と dual-h1 になる」を登録。
+  - 参照: aiworkflow-requirements [[lessons-learned-admin-tag-queue-ui-and-404-recovery-2026-05]] L-ATAGUI-006 + 既存 L-PGHEAD-001..005（headingId 譲渡パターン）と整合。
+
+- **Rule (visual baseline regen)**: redesigned page の visual-full baseline drift は CI artifact `<viewport>-diff.zip` 内の `test-results/<spec>/<snapshot>-actual.png` から差し替える。`test-failed-1.png` は viewport-crop（full-page でない）なので使わない。
+  - Why: Linux runner 環境で pixel-perfect な full-page snapshot を生成するのは CI のみで再現可能。ローカル macOS で `--update-snapshots` しても pixel が一致しない（OS/font subpixel 差）。
+  - How to apply: `gh api .../actions/runs/<id>/artifacts` で `visual-full-<viewport>-diff` ID 取得 → zip ダウンロード → `<snapshot>-actual.png` を `apps/web/playwright/tests/visual-full/full-visual.spec.ts-snapshots/` に上書き → commit → CI 再実行で PASS 確認。`file <png>` で full-page サイズを必ず検証。
+  - 参照: aiworkflow-requirements [[lessons-learned-admin-tag-queue-ui-and-404-recovery-2026-05]] L-ATAGUI-007 を逐語埋め込み。
 
 ## L-DEVSYNC-054 並列 feature の同一 cleanup hotspot / barrel への独立追加パターン（dev sync-merge / 2026-05-28）
 
