@@ -1,0 +1,85 @@
+{
+  "status": "present_local_static_visual",
+  "screenshots": [
+    {
+      "tc": "TC-A1",
+      "route": "/profile",
+      "state": "publicConsent=consented",
+      "filename": "screenshots/profile-public-consent-callout-consented.png",
+      "capturedAt": "2026-05-28T01:29:16.982Z",
+      "evidenceType": "local-static-visual"
+    },
+    {
+      "tc": "TC-A2",
+      "route": "/profile",
+      "state": "publicConsent=declined",
+      "filename": "screenshots/profile-public-consent-callout-declined.png",
+      "capturedAt": "2026-05-28T01:29:17.078Z",
+      "evidenceType": "local-static-visual"
+    },
+    {
+      "tc": "TC-A3",
+      "route": "/profile",
+      "state": "publicConsent=unknown",
+      "filename": "screenshots/profile-public-consent-callout-unknown.png",
+      "capturedAt": "2026-05-28T01:29:17.120Z",
+      "evidenceType": "local-static-visual"
+    },
+    {
+      "tc": "TC-B1",
+      "route": "/admin/members",
+      "state": "drawer closed",
+      "filename": "screenshots/admin-members-bulk-republish-button.png",
+      "capturedAt": "2026-05-28T01:29:17.274Z",
+      "evidenceType": "local-static-visual"
+    },
+    {
+      "tc": "TC-B2",
+      "route": "/admin/members",
+      "state": "drawer open",
+      "filename": "screenshots/admin-members-bulk-republish-drawer-open.png",
+      "capturedAt": "2026-05-28T01:29:17.314Z",
+      "evidenceType": "local-static-visual"
+    },
+    {
+      "tc": "TC-B3",
+      "route": "/admin/members",
+      "state": "drawer running",
+      "filename": "screenshots/admin-members-bulk-republish-drawer-running.png",
+      "capturedAt": "2026-05-28T01:29:17.530Z",
+      "evidenceType": "local-static-visual"
+    },
+    {
+      "tc": "TC-B4",
+      "route": "/admin/members",
+      "state": "drawer failed",
+      "filename": "screenshots/admin-members-bulk-republish-drawer-failed.png",
+      "capturedAt": "2026-05-28T01:29:17.573Z",
+      "evidenceType": "local-static-visual"
+    },
+    {
+      "tc": "TC-C1",
+      "route": "/members",
+      "state": "allHidden fallback",
+      "filename": "screenshots/public-members-all-hidden-fallback.png",
+      "capturedAt": "2026-05-28T01:29:17.608Z",
+      "evidenceType": "local-static-visual"
+    },
+    {
+      "tc": "TC-C2",
+      "route": "/members",
+      "state": "filter empty",
+      "filename": "screenshots/public-members-filter-empty.png",
+      "capturedAt": "2026-05-28T01:29:17.719Z",
+      "evidenceType": "local-static-visual"
+    },
+    {
+      "tc": "TC-C3",
+      "route": "/members",
+      "state": "default grid",
+      "filename": "screenshots/public-members-grid-default.png",
+      "capturedAt": "2026-05-28T01:29:17.866Z",
+      "evidenceType": "local-static-visual"
+    }
+  ]
+}

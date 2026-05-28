@@ -1,5 +1,21 @@
 # クイックリファレンス
 
+## issue-958-h3-public-filter-ux（2026-05-28）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-958-h3-public-filter-ux/` |
+| status | `implemented_local_runtime_pending / implementation / VISUAL` |
+| issue | #958 CLOSED。PR 文脈は `Refs #958` のみ |
+| parent | `google-form-reflection-diagnostics` H3 visibility follow-up |
+| purpose | `publicConsent=false` / `publishState!=public` による public members 全 hidden 状態を、profile / admin / public の3面で理解・修復可能にする |
+| local implementation | `PublicConsentCallout`, `BulkRepublishDrawer`, `useBulkRepublish`, `AllHiddenFallback` |
+| API boundary | 新 endpoint なし。`GET /me/profile`, `GET /public/stats`, `PATCH /admin/members/:memberId/status` を利用 |
+| Phase 11 | 10 local static visual screenshots present; staging visual pending |
+| Phase 12 | strict 7 files present under `outputs/phase-12/`; root/output artifacts parity present |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-958-h3-public-filter-ux-artifact-inventory.md` |
+| user gate | staging verification, commit, push, PR |
+
 ## admin-attendance-analytics-redesign（2026-05-26）
 
 | 項目 | 値 |

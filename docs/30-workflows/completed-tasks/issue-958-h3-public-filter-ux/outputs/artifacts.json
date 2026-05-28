@@ -1,0 +1,61 @@
+{
+  "workflow_id": "issue-958-h3-public-filter-ux",
+  "workflow_state": "implemented_local_runtime_pending",
+  "metadata": {
+    "taskType": "implementation",
+    "visualEvidence": "VISUAL",
+    "implementation_state": "implemented_local",
+    "phase11_state": "local_static_visual_present_staging_pending",
+    "issue": 958,
+    "issue_state": "CLOSED",
+    "issue_policy": "refs_only"
+  },
+  "root_artifacts": "../artifacts.json",
+  "local_evidence": {
+    "focused_vitest": {
+      "command": "pnpm exec vitest run --root=./ --config=vitest.config.ts apps/web/app/\\(member\\)/profile/_components/__tests__/PublicConsentCallout.spec.tsx apps/web/src/components/admin/__tests__/BulkRepublishDrawer.spec.tsx apps/web/src/features/admin/hooks/__tests__/useBulkRepublish.spec.ts apps/web/src/components/public/__tests__/AllHiddenFallback.spec.tsx",
+      "result": "PASS",
+      "test_files": 4,
+      "tests": 11
+    },
+    "web_typecheck": {
+      "command": "pnpm --filter @ubm-hyogo/web typecheck",
+      "result": "PASS"
+    },
+    "web_lint": {
+      "command": "pnpm --filter @ubm-hyogo/web lint",
+      "result": "PASS"
+    },
+    "phase11_screenshots": {
+      "path": "phase-11/screenshots/",
+      "metadata": "phase-11/metadata.json",
+      "count": 10,
+      "type": "local_static_visual",
+      "result": "PRESENT"
+    }
+  },
+  "phases": {
+    "phase-01": { "status": "completed", "artifact": "../phase-01-requirements.md" },
+    "phase-02": { "status": "completed", "artifact": "../phase-02-design.md" },
+    "phase-03": { "status": "completed", "artifact": "../phase-03-design-review.md" },
+    "phase-04": { "status": "completed", "artifact": "../phase-04-test-design.md" },
+    "phase-05": { "status": "completed", "artifact": "../phase-05-implementation.md" },
+    "phase-06": { "status": "completed", "artifact": "../phase-06-test-expansion.md" },
+    "phase-07": { "status": "completed", "artifact": "../phase-07-coverage.md" },
+    "phase-08": { "status": "completed", "artifact": "../phase-08-refactor.md" },
+    "phase-09": { "status": "completed", "artifact": "../phase-09-qa.md" },
+    "phase-10": { "status": "completed", "artifact": "../phase-10-final-review.md" },
+    "phase-11": { "status": "runtime_pending", "artifact": "../phase-11-evidence-inventory.md" },
+    "phase-12": { "status": "completed", "artifact": "../phase-12-documentation.md" },
+    "phase-13": { "status": "spec_created", "artifact": "../phase-13-pr.md" }
+  },
+  "phase12": [
+    "phase-12/main.md",
+    "phase-12/implementation-guide.md",
+    "phase-12/system-spec-update-summary.md",
+    "phase-12/documentation-changelog.md",
+    "phase-12/unassigned-task-detection.md",
+    "phase-12/skill-feedback-report.md",
+    "phase-12/phase12-task-spec-compliance-check.md"
+  ]
+}

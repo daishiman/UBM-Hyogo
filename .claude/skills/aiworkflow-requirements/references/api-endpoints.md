@@ -10,6 +10,18 @@
 本ドキュメントはAIWorkflowOrchestratorプロジェクトのAPIエンドポイントのインデックスです。
 REST API、Desktop IPC APIの詳細は以下の分割ドキュメントで定義しています。
 
+### Issue #958 H3 public filter UX boundary
+
+Issue #958 (`docs/30-workflows/completed-tasks/issue-958-h3-public-filter-ux/`) is `implemented_local_runtime_pending / implementation / VISUAL`.
+
+It does not add new endpoint surface. The local implementation uses only existing contracts:
+
+- `GET /me/profile` for member-side `publicConsent`, `editResponseUrl`, and `fallbackResponderUrl`.
+- `GET /public/stats` to distinguish all-hidden public member state (`publicMemberCount === 0 && memberCount > 0`) from an actually empty directory.
+- `PATCH /admin/members/:memberId/status` for per-member republish from admin bulk UX.
+
+Direct web mutation of `publicConsent` remains forbidden; Google Form resubmission is the canonical update path.
+
 ---
 
 ## ドキュメント構成

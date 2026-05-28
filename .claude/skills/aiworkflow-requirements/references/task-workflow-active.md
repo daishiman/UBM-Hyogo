@@ -8,6 +8,23 @@
 
 本ドキュメントは、複雑なタスクを単一責務の原則に基づいて分解し、各サブタスクに最適なスラッシュコマンド・エージェント・スキルの組み合わせを選定するためのガイドラインを定義する。
 
+### issue-958-h3-public-filter-ux（2026-05-28）
+
+| 項目 | 値 |
+| --- | --- |
+| state | `implemented_local_runtime_pending / implementation / VISUAL` |
+| root | `docs/30-workflows/completed-tasks/issue-958-h3-public-filter-ux/` |
+| issue | #958 CLOSED。PR 文脈は `Refs #958` のみ |
+| parent | `docs/30-workflows/completed-tasks/google-form-reflection-diagnostics/` H3 visibility follow-up |
+| source | `docs/30-workflows/unassigned-task/google-form-reflection-diagnostics-followup-003-h3-public-filter-ux.md` |
+| purpose | H3 public filter UX repair: profile public consent callout, admin bulk republish UX, and public members all-hidden fallback |
+| implemented targets | `apps/web/app/(member)/profile/_components/PublicConsentCallout.tsx`, `apps/web/app/(member)/profile/page.tsx`, `apps/web/src/components/admin/BulkRepublishDrawer.tsx`, `apps/web/src/features/admin/hooks/useBulkRepublish.ts`, `apps/web/src/features/admin/components/_members/MembersClientShell.tsx`, `apps/web/src/components/public/AllHiddenFallback.tsx`, `apps/web/app/(public)/members/page.tsx` |
+| invariant | 新 API endpoint / D1 schema / direct `publicConsent` mutation なし。既存 `GET /me/profile`, `GET /public/stats`, `PATCH /admin/members/:memberId/status` のみ利用 |
+| Phase 11 | 10 local static visual screenshots present; staging visual pending |
+| Phase 12 | strict 7 present; root/output artifacts parity present; aiworkflow ledgers synced |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-958-h3-public-filter-ux-artifact-inventory.md` |
+| user gate | staging verification, commit, push, PR |
+
 ### admin-attendance-analytics-redesign（2026-05-26）
 
 | 項目 | 値 |
