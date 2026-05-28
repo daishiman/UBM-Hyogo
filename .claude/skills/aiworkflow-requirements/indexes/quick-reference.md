@@ -1,5 +1,18 @@
 # クイックリファレンス
 
+## admin-identity-conflicts-prototype-alignment-and-404-fix（2026-05-27）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/admin-identity-conflicts-prototype-alignment-and-404-fix/` |
+| status | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION / staging_runtime_pending_user_gate` |
+| purpose | `/admin/identity-conflicts` を admin prototype primitives に整合し、staging `ADMIN_FETCH_404` を deploy/env/runtime 境界で切り分ける |
+| implementation | `apps/web/app/(admin)/admin/identity-conflicts/page.tsx`, `apps/web/src/components/admin/IdentityConflictRow.tsx` |
+| invariant | API route / D1 schema / admin auth / proxy route は変更しない。SSR list fetch 404 は staging API deploy または `INTERNAL_API_BASE_URL` を first hypothesis として user-gated triage |
+| evidence | web typecheck PASS, web Vitest 159 files / 1154 tests PASS, root/output artifacts parity present |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-identity-conflicts-prototype-alignment-and-404-fix-artifact-inventory.md` |
+| user gate | staging deploy/env verification, authenticated runtime curl, visual screenshots, commit, push, PR |
+
 ## unified-sidebar-shell-public-and-admin（2026-05-28）
 
 | 項目 | 値 |
