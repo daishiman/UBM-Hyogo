@@ -293,45 +293,14 @@
     box-shadow: var(--ubm-shadow-xs);
   }
 
-  .ui-card-header,
-  .ui-card-content,
-  .ui-card-footer,
-  .card-pad,
-  .card-pad-lg {
-    padding: var(--ubm-space-6);
-  }
-
   .card-pad {
     padding: var(--ubm-space-5);
   }
 
-  .ui-card-title,
   .h-card {
     margin: 0;
     font-size: var(--ubm-text-xl);
     line-height: 1.3;
-  }
-
-  .h-section {
-    margin: 0;
-    font-size: var(--ubm-text-2xl);
-    line-height: 1.3;
-  }
-
-  .card-flat {
-    border: 1px solid var(--ubm-color-border-default);
-    border-radius: var(--ubm-radius-sm);
-    background: var(--ubm-color-surface-bg-2);
-  }
-
-  .stack-lg {
-    display: flex;
-    flex-direction: column;
-    gap: var(--ubm-space-6);
-  }
-
-  .page-enter {
-    animation: page-enter 0.2s cubic-bezier(0.2, 0.7, 0.3, 1);
   }
 
   .visually-hidden {
@@ -345,15 +314,17 @@
     border: 0;
   }
 
-  @keyframes page-enter {
-    from {
-      transform: translateY(8px);
-      opacity: 0;
-    }
-    to {
-      transform: translateY(0);
-      opacity: 1;
-    }
+  .ui-card-header,
+  .ui-card-content,
+  .ui-card-footer,
+  .card-pad-lg {
+    padding: var(--ubm-space-6);
+  }
+
+  .ui-card-title {
+    margin: 0;
+    font-size: var(--ubm-text-xl);
+    line-height: 1.3;
   }
 
   .ui-card-description {
@@ -520,7 +491,7 @@
   }
 
   .attendance-status-pill[data-status="deleted_member"] {
-    border-color: oklch(0.84 0.1 25);
+    border-color: oklch(0.84 0.10 25);
     background: oklch(0.96 0.04 25);
     color: oklch(0.38 0.16 25);
   }
@@ -532,9 +503,9 @@
   }
 
   .attendance-status-pill[data-status="invalid"] {
-    border-color: oklch(0.84 0.1 300);
+    border-color: oklch(0.84 0.10 300);
     background: oklch(0.96 0.04 300);
-    color: oklch(0.4 0.14 300);
+    color: oklch(0.40 0.14 300);
   }
 
   .admin-requests-grid,
@@ -574,8 +545,33 @@
 
   .schema-grid {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: var(--ubm-space-2);
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: var(--ubm-space-3);
+  }
+
+  .schema-field-card {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: var(--ubm-space-3);
+    padding: var(--ubm-space-3);
+    border: 1px solid var(--ubm-color-border-default);
+    border-left: 4px solid var(--ubm-color-border-default);
+    border-radius: var(--ubm-radius-sm);
+    background: var(--ubm-color-surface-panel);
+  }
+
+  .schema-field-card.diff-added {
+    border-left-color: var(--ubm-color-ok);
+  }
+
+  .schema-field-card.diff-changed,
+  .schema-field-card.diff-unresolved {
+    border-left-color: var(--ubm-color-warn);
+  }
+
+  .schema-field-card.diff-removed {
+    border-left-color: var(--ubm-color-danger);
   }
 
   .admin-audit-filter {
@@ -771,6 +767,51 @@
     gap: var(--ubm-space-3);
   }
 
+  .stack-lg,
+  .stack-sm {
+    display: grid;
+  }
+
+  .stack-lg {
+    gap: var(--ubm-space-6);
+  }
+
+  .stack-sm {
+    gap: var(--ubm-space-3);
+  }
+
+  .row,
+  .row-between {
+    display: flex;
+    align-items: center;
+    gap: var(--ubm-space-2);
+  }
+
+  .row-between {
+    justify-content: space-between;
+  }
+
+  .grid-2,
+  .grid-4 {
+    display: grid;
+    gap: var(--ubm-space-3);
+  }
+
+  .grid-2 {
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  }
+
+  .grid-4 {
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  }
+
+  .card-flat {
+    padding: var(--ubm-space-3);
+    border: 1px solid var(--ubm-color-border-default);
+    border-radius: var(--ubm-radius-sm);
+    background: var(--ubm-color-surface-bg);
+  }
+
   .eyebrow {
     color: var(--ubm-color-accent-ink);
     font-size: var(--ubm-text-xs);
@@ -784,15 +825,18 @@
     line-height: 1.15;
   }
 
-  .muted {
-    color: var(--ubm-color-text-secondary);
+  .h-section {
+    margin: 0;
+    font-size: var(--ubm-text-xl);
+    line-height: 1.25;
   }
 
-  .lede {
-    margin: 0;
+  .mono {
+    font-family: var(--font-mono);
+  }
+
+  .muted {
     color: var(--ubm-color-text-secondary);
-    font-size: var(--ubm-text-base);
-    line-height: 1.7;
   }
 
   .grid-3 {
