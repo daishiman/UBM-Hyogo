@@ -2163,6 +2163,18 @@ node scripts/list-specs.js --topics
 |------------|----|
 | Boundary | L16 |
 
+### references/workflow-admin-requests-prototype-alignment-and-404-fix-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Metadata | L3 |
+| Workflow Files | L12 |
+| Phase 12 Strict 7 | L35 |
+| Implemented Targets | L47 |
+| Local Evidence | L61 |
+| Boundary | L69 |
+| Lessons Learned | L75 |
+
 ### references/workflow-admin-schema-page-prototype-alignment-and-diff-fetch-fix-artifact-inventory.md
 
 | セクション | 行 |

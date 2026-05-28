@@ -4346,6 +4346,19 @@ UT-17 Cloudflare Notifications → alert-relay → Slack 経路を、既存 API 
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-255-coverage-threshold-sync-lint-artifact-inventory.md` |
 | user-gated | commit, push, PR, GitHub Actions runtime observation |
 | Issue #903 member AppShell runtime evidence | `/profile` under `(member)` route group; EV-13/EV-16 present | `docs/30-workflows/completed-tasks/issue-903-parallel-03-followup-005-member-runtime-evidence/`, `references/workflow-issue-903-parallel-03-followup-005-member-runtime-evidence-artifact-inventory.md` |
+
+### admin-requests-prototype-alignment-and-404-fix（2026-05-27）
+
+| 観点 | 値 / 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/admin-requests-prototype-alignment-and-404-fix/` |
+| state | `implemented_local_evidence_captured / implementation / VISUAL / staging runtime pending_user_approval` |
+| purpose | `/admin/requests` の staging `ADMIN_FETCH_404` mount guard と admin prototype primitive 整合の local implementation |
+| API boundary | existing `GET /admin/requests` and `POST /admin/requests/:noteId/resolve`; no new endpoint or D1 schema |
+| implemented targets | `apps/api/src/routes/admin/requests.contract.spec.ts`, `apps/api/src/routes/admin/requests.mount.spec.ts`, `/admin/requests` page/components, `apps/web/src/styles/globals.css`, `apps/web/playwright/tests/admin-requests.spec.ts` |
+| local evidence | `outputs/phase-11/screenshots/admin-requests-visibility-populated-linux.png`, focused API/Web PASS, desktop Chromium visual PASS |
+| artifact inventory | `references/workflow-admin-requests-prototype-alignment-and-404-fix-artifact-inventory.md` |
+| user gate | staging deploy, staging curl 200, staging visual baseline, commit, push, PR |
 ## admin-schema-page-prototype-alignment-and-diff-fetch-fix（2026-05-27）
 
 | 観点 | 値 / 参照先 |
