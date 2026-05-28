@@ -16,6 +16,9 @@
     "parent_workflows": [
       "docs/30-workflows/completed-tasks/ui-prototype-alignment-mvp-recovery/"
     ],
+    "child_workflows": [
+      "docs/30-workflows/completed-tasks/admin-ui-task-d-attendance-primitive-conformance/"
+    ],
     "branch": "feat/admin-ui-prototype-alignment",
     "scope_routes": [
       "/admin",

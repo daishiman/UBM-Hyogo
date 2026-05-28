@@ -447,6 +447,18 @@
 - 事例: 2026-05-27 commit `57ff4402b` (`merge: sync ...`) は typecheck/lint green だが、**pre-push `verify-no-inline-style` (issue-924) が HEAD 残置の panel variant `style={{...}}` で fail**。追加 commit `f7b493456` で panel variant の inline-style も撤去（dev 側横断ルールを残 path にも適用）し push 成功。**判定フロー step 2.5**: dev 側 commit が refactor/chore 性質の横断撤去（hook gated CI rule 適用）なら、HEAD 採用 path にも同 rule を波及させる。`git log --oneline origin/dev ^HEAD -- <path>` で commit 性質確認 + `pnpm exec lefthook run pre-push --files <path>` で事前検証を Phase 9 dry-run checklist に追記。
 - 参照: aiworkflow-requirements [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-050 / L-DEVSYNC-050-A を併読。
 
+### SP-DEVSYNC-040: shell contract 変更後は旧E2E contractとvisual-full横幅を同一waveで更新する（2026-05-28 追加）
+
+- 事象: `feat/admin-shell-topbar-sidebar-integration` ← dev sync 後の PR #973 CI で `e2e (desktop-chromium / desktop-firefox / mobile-webkit)` と `visual-full (mobile/tablet)` が失敗。E2E は `parallel-03-admin-shell-scrape.spec.ts` が旧 contract の `[data-shell="topbar"]` visible を期待し続け、Task A spec は schema badge `3` を mock state 未seed のまま期待していた。visual-full は `/admin/members` table の intrinsic width が page screenshot の fullPage 幅を 390/768 から 640+/900+ に膨張させ、Linux baseline dimension mismatch になった。
+- Why: shell 変更は layout DOM contract と page-local header ownership を同時に変えるため、実装だけでなく既存 runtime evidence spec の selector contract も更新対象。さらに admin shell 内の table は desktop-first columns をそのまま残すと mobile/tablet viewport で横 overflow し、Playwright `toHaveScreenshot({ fullPage: true })` が scrollable content width を撮るため baseline サイズが変わる。
+- How to apply（task 仕様書での逐語化）:
+  - Phase 4 test plan に「shell/topbar/sidebar contract を参照する既存 Playwright spec 一覧」を列挙し、廃止 DOM は `toHaveCount(0)`、新正本 DOM は `getByTestId` / `data-shell-mode` で検証する。
+  - schema badge / KPI 等の server-layout fetch 由来値を assertion する場合、mock control endpoint と response route の両方を用意し、test 内で assertion 直前に seed する。
+  - admin table を mobile/tablet visual-full 対象に含める場合、`table-fixed`、break/truncate、breakpoint 列非表示で **page screenshot width が viewport と一致**することを Phase 9 に入れる。`min-width` + horizontal scroll は fullPage screenshot では幅膨張の原因になるため避ける。
+  - ローカル検証は Linux snapshot が無くても actual PNG の dimensions を確認する: tablet `768 x 1024`、mobile `390 x 844`。Darwin snapshot missing は CI Linux baseline 判定とは別扱い。
+- 検証: focused Playwright `admin-shell-topbar-sidebar-integration.spec.ts` / `parallel-03-admin-shell-scrape.spec.ts` PASS、MembersTable Vitest PASS、actual PNG dimensions が viewport と一致。
+- 参照: aiworkflow-requirements L-DEVSYNC-054。
+
 ### SP-DEVSYNC-039: feature 側 rename × dev 側 sibling 追加の playwright.config 3-way（2026-05-27 追加）
 
 - 事象: 2026-05-27 `feat/members-list-prototype-alignment` ← origin/dev sync-merge で `apps/web/playwright.config.ts` の `EVIDENCE_DIR` 三項分岐が 3-way conflict。HEAD 側は workflow dir rename（`members-page-prototype-alignment` → `members-list-prototype-alignment`）、dev 側は同位置の三項に **新 sibling `isPublicDashboardPrototypeAlignment` 分岐を挿入**。base は旧名のみ。

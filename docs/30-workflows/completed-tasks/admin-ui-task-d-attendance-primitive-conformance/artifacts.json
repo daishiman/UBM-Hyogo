@@ -1,0 +1,168 @@
+{
+  "task_id": "admin-ui-task-d-attendance-primitive-conformance",
+  "created_at": "2026-05-26",
+  "status": "implemented_local_evidence_captured",
+  "task_type": "implementation",
+  "visual_category": "VISUAL_ON_EXECUTION",
+  "implementation_mode": "new",
+  "metadata": {
+    "workflow_state": "implemented_local_evidence_captured",
+    "implementation_status": "implementation_complete_pending_pr",
+    "taskType": "implementation",
+    "visualEvidence": "VISUAL_ON_EXECUTION",
+    "implementationCategory": "ui_primitive_conformance",
+    "spec_classification": "implementation_spec",
+    "canonical_workflow": "docs/30-workflows/completed-tasks/admin-ui-task-d-attendance-primitive-conformance/",
+    "parent_workflow": "docs/30-workflows/admin-ui-prototype-alignment/",
+    "source_task": "docs/30-workflows/admin-ui-prototype-alignment/tasks/task-D-attendance-primitive-conformance.md",
+    "branch": "feat/admin-ui-prototype-alignment",
+    "scope_routes": [
+      "/admin/dashboard/attendance"
+    ],
+    "phase12_strict_outputs": [
+      "outputs/phase-12/main.md",
+      "outputs/phase-12/implementation-guide.md",
+      "outputs/phase-12/system-spec-update-summary.md",
+      "outputs/phase-12/documentation-changelog.md",
+      "outputs/phase-12/unassigned-task-detection.md",
+      "outputs/phase-12/skill-feedback-report.md",
+      "outputs/phase-12/phase12-task-spec-compliance-check.md"
+    ],
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-05-26T00:00:00+09:00",
+        "evidence_path": "docs/30-workflows/completed-tasks/admin-ui-task-d-attendance-primitive-conformance/outputs/phase-12/phase12-task-spec-compliance-check.md",
+        "approver": "daishiman",
+        "notes": "spec_review: Phase 1-13 spec, artifacts parity, and Phase 12 strict 7 placeholders present"
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "passed",
+        "passed_at": "2026-05-27T06:59:00+09:00",
+        "evidence_path": "docs/30-workflows/completed-tasks/admin-ui-task-d-attendance-primitive-conformance/outputs/phase-11/manual-test-result.md",
+        "approver": "daishiman",
+        "notes": "implementation_review: code changes, focused Vitest, primitive gate, and local Playwright screenshot evidence captured"
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/admin-ui-task-d-attendance-primitive-conformance/outputs/phase-13/pr-creation-result.md",
+        "approver": "daishiman",
+        "notes": "external_ops: commit, push, PR, and staging baseline are user-gated"
+      }
+    ]
+  },
+  "phases": [
+    {
+      "phase": 1,
+      "name": "要件定義",
+      "status": "completed",
+      "output": "phase-1-requirements.md"
+    },
+    {
+      "phase": 2,
+      "name": "設計",
+      "status": "completed",
+      "output": "phase-2-design.md"
+    },
+    {
+      "phase": 3,
+      "name": "設計レビュー",
+      "status": "completed",
+      "output": "phase-3-design-review.md"
+    },
+    {
+      "phase": 4,
+      "name": "テスト計画",
+      "status": "completed",
+      "output": "phase-4-test-plan.md"
+    },
+    {
+      "phase": 5,
+      "name": "実装手順",
+      "status": "completed",
+      "output": "phase-5-implementation.md"
+    },
+    {
+      "phase": 6,
+      "name": "テスト追加",
+      "status": "completed",
+      "output": "phase-6-test-additions.md"
+    },
+    {
+      "phase": 7,
+      "name": "カバレッジ",
+      "status": "completed",
+      "output": "phase-7-coverage.md"
+    },
+    {
+      "phase": 8,
+      "name": "リファクタ",
+      "status": "completed",
+      "output": "phase-8-refactor.md"
+    },
+    {
+      "phase": 9,
+      "name": "QA",
+      "status": "completed",
+      "output": "phase-9-qa.md"
+    },
+    {
+      "phase": 10,
+      "name": "最終レビュー",
+      "status": "completed",
+      "output": "phase-10-final-review.md"
+    },
+    {
+      "phase": 11,
+      "name": "手動テスト",
+      "status": "evidence_captured",
+      "output": "outputs/phase-11/manual-test-result.md"
+    },
+    {
+      "phase": 12,
+      "name": "ドキュメント同期",
+      "status": "completed",
+      "output": "outputs/phase-12/main.md"
+    },
+    {
+      "phase": 13,
+      "name": "commit-pr-release",
+      "status": "pending_user_approval",
+      "output": "outputs/phase-13/pr-creation-result.md"
+    }
+  ],
+  "implementation_targets": [
+    "apps/web/app/(admin)/admin/dashboard/attendance/page.tsx",
+    "apps/web/app/(admin)/admin/dashboard/attendance/AttendanceDashboardSections.client.tsx",
+    "apps/web/app/(admin)/admin/dashboard/attendance/__tests__/page.spec.tsx",
+    "apps/web/playwright/tests/admin-attendance-dashboard.spec.ts",
+    "apps/web/playwright/fixtures/auth.ts",
+    "scripts/verify-primitive-adoption.sh"
+  ],
+  "outputs": {
+    "phase_11": [
+      "outputs/phase-11/screenshot-plan.json",
+      "outputs/phase-11/phase11-capture-metadata.json",
+      "outputs/phase-11/manual-test-result.md",
+      "outputs/phase-11/ui-sanity-visual-review.md",
+      "outputs/phase-11/screenshots/attendance-all-ok.png",
+      "outputs/phase-11/screenshots/attendance-overview-error.png",
+      "outputs/phase-11/screenshots/attendance-by-session-empty.png",
+      "outputs/phase-11/evidence/playwright-report/results.json",
+      "outputs/phase-11/evidence/monocart/index.html"
+    ],
+    "phase_12": [
+      "outputs/phase-12/main.md",
+      "outputs/phase-12/implementation-guide.md",
+      "outputs/phase-12/system-spec-update-summary.md",
+      "outputs/phase-12/documentation-changelog.md",
+      "outputs/phase-12/unassigned-task-detection.md",
+      "outputs/phase-12/skill-feedback-report.md",
+      "outputs/phase-12/phase12-task-spec-compliance-check.md"
+    ]
+  }
+}
