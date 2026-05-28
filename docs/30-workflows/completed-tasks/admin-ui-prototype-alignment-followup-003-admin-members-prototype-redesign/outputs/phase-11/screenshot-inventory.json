@@ -1,0 +1,121 @@
+{
+  "taskId": "admin-ui-prototype-alignment-followup-003-admin-members-prototype-redesign",
+  "capturedAt": "2026-05-27T00:00:00+09:00",
+  "environment": "local-next-dev-and-mock-api",
+  "baseURL": "http://127.0.0.1:3010",
+  "screenshots": [
+    {
+      "state": "loaded",
+      "viewport": "mobile",
+      "width": 390,
+      "height": 844,
+      "path": "outputs/phase-11/screenshots/admin-members-loaded-mobile.png"
+    },
+    {
+      "state": "empty",
+      "viewport": "mobile",
+      "width": 390,
+      "height": 844,
+      "path": "outputs/phase-11/screenshots/admin-members-empty-mobile.png"
+    },
+    {
+      "state": "published",
+      "viewport": "mobile",
+      "width": 390,
+      "height": 844,
+      "path": "outputs/phase-11/screenshots/admin-members-published-mobile.png"
+    },
+    {
+      "state": "hidden",
+      "viewport": "mobile",
+      "width": 390,
+      "height": 844,
+      "path": "outputs/phase-11/screenshots/admin-members-hidden-mobile.png"
+    },
+    {
+      "state": "loaded",
+      "viewport": "tablet",
+      "width": 834,
+      "height": 1112,
+      "path": "outputs/phase-11/screenshots/admin-members-loaded-tablet.png"
+    },
+    {
+      "state": "empty",
+      "viewport": "tablet",
+      "width": 834,
+      "height": 1112,
+      "path": "outputs/phase-11/screenshots/admin-members-empty-tablet.png"
+    },
+    {
+      "state": "published",
+      "viewport": "tablet",
+      "width": 834,
+      "height": 1112,
+      "path": "outputs/phase-11/screenshots/admin-members-published-tablet.png"
+    },
+    {
+      "state": "hidden",
+      "viewport": "tablet",
+      "width": 834,
+      "height": 1112,
+      "path": "outputs/phase-11/screenshots/admin-members-hidden-tablet.png"
+    },
+    {
+      "state": "loaded",
+      "viewport": "laptop",
+      "width": 1280,
+      "height": 800,
+      "path": "outputs/phase-11/screenshots/admin-members-loaded-laptop.png"
+    },
+    {
+      "state": "empty",
+      "viewport": "laptop",
+      "width": 1280,
+      "height": 800,
+      "path": "outputs/phase-11/screenshots/admin-members-empty-laptop.png"
+    },
+    {
+      "state": "published",
+      "viewport": "laptop",
+      "width": 1280,
+      "height": 800,
+      "path": "outputs/phase-11/screenshots/admin-members-published-laptop.png"
+    },
+    {
+      "state": "hidden",
+      "viewport": "laptop",
+      "width": 1280,
+      "height": 800,
+      "path": "outputs/phase-11/screenshots/admin-members-hidden-laptop.png"
+    },
+    {
+      "state": "loaded",
+      "viewport": "desktop",
+      "width": 1440,
+      "height": 900,
+      "path": "outputs/phase-11/screenshots/admin-members-loaded-desktop.png"
+    },
+    {
+      "state": "empty",
+      "viewport": "desktop",
+      "width": 1440,
+      "height": 900,
+      "path": "outputs/phase-11/screenshots/admin-members-empty-desktop.png"
+    },
+    {
+      "state": "published",
+      "viewport": "desktop",
+      "width": 1440,
+      "height": 900,
+      "path": "outputs/phase-11/screenshots/admin-members-published-desktop.png"
+    },
+    {
+      "state": "hidden",
+      "viewport": "desktop",
+      "width": 1440,
+      "height": 900,
+      "path": "outputs/phase-11/screenshots/admin-members-hidden-desktop.png"
+    }
+  ],
+  "note": "drawer interaction was reviewed by component tests; local visual matrix captures loaded/empty/published/hidden states."
+}
