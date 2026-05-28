@@ -7974,14 +7974,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L2914 |
-| フェーズ構造（概要） | L2923 |
-| 品質ゲート（概要） | L2954 |
-| 出力テンプレート | L2965 |
-| 実行時のコマンド・エージェント・スキル | L2988 |
-| 昇格パターン集 | L3012 |
-| Current Active / Spec Created Tasks | L3014 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L3175 |
+| ドキュメント構成 | L2929 |
+| フェーズ構造（概要） | L2938 |
+| 品質ゲート（概要） | L2969 |
+| 出力テンプレート | L2980 |
+| 実行時のコマンド・エージェント・スキル | L3003 |
+| 昇格パターン集 | L3027 |
+| Current Active / Spec Created Tasks | L3029 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L3190 |
 
 ### references/task-workflow-backlog-part2.md
 
@@ -8485,3 +8485,4 @@ node scripts/list-specs.js --topics
 | SkillLifecyclePanel 責務別props分離パターン | L82 |
 
 ---
+
