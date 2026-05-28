@@ -705,6 +705,22 @@ dev sync-merge で **HEAD = route group rename（`app/<route>/` → `app/(group)
 - workflow から `pull_request` trigger を外す→ workflow file 自体の variation や spec 変更を CI で検知できなくなる。secrets-gate skip で trigger 自体は保持する。
 - `continue-on-error: true` で誤魔化す → 真の secrets 欠落と spec バグの双方が無視される。skip 判定を明示的に行う。
 
+## Page-head 統一タスクの panel h1 / page-local `<main>` 二重所有解消（2026-05-26）
+
+admin segment / public segment 等で共通 PageHeader primitive を導入するタスクでは、既存 panel が legacy で `<h1>` を保持しているケースが多く、page-head と二重に h1 が出力され a11y / SEO 双方を壊す。`docs/30-workflows/completed-tasks/admin-ui-task-c-pageheader-token-conformance/` のサイクルで再発確認。
+
+- **L-PGHEAD-001 (二重 h1 検出 gate)**: Phase 4 test plan に「page route で h1 が 1 件のみ」を broad gate として含める。`render(<Page />)` 後 `screen.getAllByRole("heading", { level: 1 })` の length === 1 を全 page で assert する spec を 1 ファイル（例: `admin-page-header-adoption.spec.ts`）に集約し、新 page 追加時は spec の enumeration を更新せず glob で自動拡張する。
+- **L-PGHEAD-002 (後方互換 prop で chrome 抑止)**: panel 側の h1 / chrome を物理削除すると、page-head 未採用の caller を壊す。`showHeading?: boolean` / `showChrome?: boolean`（default `true`）で抑止 prop を追加する。Phase 5 spec に「default true で既存 caller 不変」を明示する。
+- **L-PGHEAD-003 (id 譲渡契約)**: panel が `aria-labelledby="xxx-h"` で自分の h1 を参照している場合、`PageHeader` に `headingId?: string` props を追加して外部から id 注入を可能にする。`showHeading={false}` の panel は `aria-labelledby` から `aria-label` に切替えて a11y を保つ。Phase 4 contracts にこの 2 系切替を明記。
+- **L-PGHEAD-004 (page-local `<main>` 撤去)**: layout が `<main>` を所有する segment で、page.tsx 側に独自 `<main>` が残っているケースを `grep -rn "<main" apps/web/app/<segment>` で全 page enumerate して 0 件を Phase 9 gate にする。Tailwind palette literals (`text-zinc-*` / `text-blue-*` / `bg-zinc-*` 等) も同 gate で `(bg|text|border|divide)-(zinc|blue|red|green|yellow)-` を grep し token 経由 (`var(--ubm-color-*)`) のみ許可。
+- **L-PGHEAD-005 (token と spec の同一 wave 同期)**: page-head が新規に使う token（例: `--ubm-color-link-default` / `--ubm-eyebrow-tracking`）を `tokens.css` に追加する場合、`docs/00-getting-started-manual/specs/09b-design-tokens.md` への反映を同一 commit に含める。Phase 12 `system-spec-update-summary.md` に新規 token を列挙する。`verify-design-tokens` は token 名の存在しか見ないため、spec 同期漏れは静かに通る。
+
+### Anti-pattern
+
+- panel h1 を物理削除して page-head に移すだけの「短絡修正」→ page-head 未採用の caller が h1 ロストで a11y 退行。後方互換 prop 経由が正解。
+- page-local `<main>` を `<div>` に置換するだけ→ semantic role が失われる。layout の `<main>` 所有を明示し、page は `<section>` で返す。
+- token を `tokens.css` だけに追加し spec を後追い→ 命名衝突 / 重複定義の温床。同一 commit で SSOT に追記する。
+
 ## Admin shell topbar → page-local owner 移管（2026-05-26）
 
 `admin-shell-topbar-sidebar-integration` の実装サイクルで得た、shell chrome を page-local primitive へ移管する際の汎用パターン。詳細は `aiworkflow-requirements/lessons-learned/lessons-learned-admin-shell-topbar-sidebar-integration-2026-05.md`。
@@ -1018,3 +1034,13 @@ admin shell topbar/sidebar 統合のような **viewport 寸法を変える feat
 - shell 変更の commit に PNG 更新を含めず「visual baseline は別 Task で更新する」運用 → sync-merge 後の random CI fail を量産、誰の merge で fail し始めたか git bisect 不能
 - CI artifact が手元になく Linux baseline を再生成できないからと test を `test.skip` → 同種 fail を量産、本来の regression 検出能力を喪失
 - baseline 更新だけの separate PR を切る → branch 数増加・review 負荷増。**実装と同 PR で完結**が正
+
+## L-DEVSYNC-055 happy-path 再確認: skill indexes 2 件のみの sync-merge は `pnpm sync:resolve` 単独で完結（2026-05-28）
+
+admin-ui task A〜E が連続して dev に merge される現フェーズで、後続 task branch (`feat/admin-ui-task-c-pageheader-token-conformance` ← origin/dev) を sync-merge した際、CONFLICT は `.claude/skills/aiworkflow-requirements/indexes/keywords.json` と `indexes/topic-map.md` の 2 件のみ。`patterns-lessons-and-pitfalls.md` は L-DEVSYNC-046 で `UNION_TARGETS` に正式昇格済みのため、両 branch 末尾 section 追加が auto-merge 通過し CONFLICT に至らなかった。`pnpm sync:resolve` 単独で完結し、source code への手動編集ゼロ。
+
+- **SP-DEVSYNC-055-A (仕様への前提化)**: admin-ui prototype alignment 系の後続 task 仕様書は Phase 4 risk table で「dev sync-merge は skill indexes 2 件のみ・resolver 完結」を default 前提として記載してよい。手動 union 行は実装 task が `apps/web/playwright/fixtures/auth.ts` 等の **WARN unhandled hotspot** に追加行を入れる場合のみ Phase 12 implementation-guide に明記。
+- **SP-DEVSYNC-055-B (local mod 事前 commit)**: sync-merge 開始前に `git status --porcelain` で local mod を確認し、Conventional Commits prefix 付きの独立 commit (`chore: include all local changes before sync`) で local 状態を確定する。これは仕様起草段階で Phase 13 PR フロー（`scripts/verify-pr-ready.sh`）の前提を満たすために必須。lefthook の commit-msg gate が `chore:` → `fix(scope):` 等に auto-rewrite するケースがあるため、メッセージ内容より prefix の存在を AC とする。
+- **SP-DEVSYNC-055-C (resolver 単独完結の閉路)**: 「CONFLICT 発生 → `pnpm sync:resolve` → marker grep 0 → `git commit --no-edit` → `pnpm typecheck && pnpm lint` green → push」を Phase 13 の sync-merge 工程として定型化。手動 union や Edit が発生したら別 lesson (L-DEVSYNC-054 等) を参照し、resolver 単独完結の閉路を逸脱した理由を Phase 12 implementation-guide に記録する。
+- 参照: [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-055、L-DEVSYNC-046 (UNION_TARGETS 昇格)、L-DEVSYNC-042 (skill indexes union 化)。
+

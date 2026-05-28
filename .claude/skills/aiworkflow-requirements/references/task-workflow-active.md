@@ -140,6 +140,21 @@
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-ui-prototype-alignment-artifact-inventory.md` |
 | user gate | authenticated runtime screenshots, staging refresh, commit, push, PR |
 
+### admin-ui-task-c-pageheader-token-conformance（2026-05-26）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / VISUAL` |
+| 成果物 | `docs/30-workflows/completed-tasks/admin-ui-task-c-pageheader-token-conformance/` |
+| parent | `docs/30-workflows/admin-ui-prototype-alignment/` Task C |
+| 目的 | 9 admin pages の header を `AdminPageHeader` へ統一し、`identity-conflicts/page.tsx` の独自 `<main>` と page-layer Tailwind palette literals を撤去する |
+| implementation targets | `apps/web/app/(admin)/admin/{tags,meetings,meetings/[id],schema,schema/history,requests,identity-conflicts,audit,dashboard/attendance}/page.tsx`, `apps/web/src/features/admin/components/_layout/AdminPageHeader.tsx`, `apps/web/src/components/admin/{MeetingPanel,RequestQueuePanel,AuditLogPanel,SchemaDiffHistoryPanel}.tsx`, `apps/web/app/(admin)/admin/meetings/[id]/MeetingAttendancePanel.tsx`, `apps/web/src/styles/tokens.css` |
+| contract | `AdminPageHeader` は唯一の page-head component。`eyebrow` / `headingId` は後方互換の追加 props。既存 panel の h1/chrome は `showHeading` / `showChrome` で Task C pages からのみ抑止できる |
+| invariant | API / D1 schema / auth / Google Form schema は変更しない |
+| evidence | local focused tests + Playwright 9 screenshots + Phase 12 strict 7 + root/output artifacts parity |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-ui-task-c-pageheader-token-conformance-artifact-inventory.md` |
+| user gate | staging authenticated screenshots, visual baseline refresh, commit, push, PR |
+
 ### admin-shell-topbar-sidebar-integration（2026-05-26）
 
 | 項目 | 値 |
@@ -169,6 +184,12 @@
 | Phase 12 | strict 7 present、root/output `artifacts.json` parity present |
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-register-page-prototype-alignment-artifact-inventory.md` |
 | user gate | commit, push, PR, external staging observation |
+
+### google-form-reflection-diagnostics（2026-05-26）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / DIAGNOSTICS` |
 | 成果物 | `docs/30-workflows/completed-tasks/google-form-reflection-diagnostics/` |
 | 目的 | Google Form 31 項目が admin / profile / public 3 経路で反映されない事象を H1 ingest / H2 identity / H3 visibility / H4 alias に切り分ける |
 | implementation targets | `apps/api/src/diagnostics/{schema,forms-pipeline,member-diagnosis}.ts`, `apps/api/src/index.ts`, `apps/web/app/(admin)/admin/sync-status/page.tsx`, `apps/web/src/features/admin/diagnostics/{types,api}.ts`, `apps/web/src/features/admin/components/_members/{MemberDiagnosticsPanel,MemberDrawer}.tsx` |

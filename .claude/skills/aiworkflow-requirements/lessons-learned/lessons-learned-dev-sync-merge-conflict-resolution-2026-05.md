@@ -1050,3 +1050,16 @@
   4. macOS local では Linux snapshot が無く `*-darwin.png missing` で fail するため、actual PNG dimensions を `file ...actual.png` で確認する。viewport dimensions と一致すれば CI Linux の dimension mismatch は解消見込み。
 - 検証: `PLAYWRIGHT_BASE_URL=http://localhost:<free-port> ... admin-shell-topbar-sidebar-integration.spec.ts parallel-03-admin-shell-scrape.spec.ts` PASS。`visual-full` local は Darwin snapshot missing で fail するが actual PNG は tablet `768 x 1024`、mobile `390 x 844` へ戻った。`pnpm typecheck` と focused MembersTable/MembersPageHead Vitest green。
 - 参照: task-specification-creator [[dev-sync-merge-conflict-resolution]] SP-DEVSYNC-040。
+
+## L-DEVSYNC-055: feat/admin-ui-task-c-pageheader-token-conformance ← origin/dev sync は skill indexes 2 件のみで `pnpm sync:resolve` 完結（2026-05-28 happy-path 再確認）
+
+- 事象: `feat/admin-ui-task-c-pageheader-token-conformance` で merge base `a9614ffb3` から origin/dev (`2ad82b5ce` — Task D `/admin/dashboard/attendance` primitive 整合 + skill 同期) を取り込んだ際、`git merge origin/dev` の自動 auto-merge 後に残った CONFLICT は `.claude/skills/aiworkflow-requirements/indexes/keywords.json` と `.claude/skills/aiworkflow-requirements/indexes/topic-map.md` の 2 件のみ。`patterns-lessons-and-pitfalls.md` は L-DEVSYNC-046 で `UNION_TARGETS` に昇格済みのため、両 branch が末尾 section に独立追加していたにもかかわらず `Auto-merging` のみで CONFLICT に至らず。`apps/web/app/(admin)/admin/dashboard/attendance/page.tsx` の `title="出席分析"→"出席ダッシュボード"` 1 行変更（local stage 済み）も dev 側の同 page primitive 化と意味的に独立しており、`chore: include all local changes before sync` の事前 commit で merge 過程に noise を持ち込まずに済んだ。
+- Why: L-DEVSYNC-046 の `patterns-lessons-and-pitfalls.md` UNION_TARGETS 正式昇格と、L-DEVSYNC-042 の skill indexes 系全面 union 化が、複数の admin-ui task branch (A/B/C/D/E) が連続して dev へ merge される現フェーズで効いている。skill 末尾 append-only pattern を厳守すれば、resolver 単独で完結し手動編集ゼロ。
+- How to apply:
+  1. dev sync 前に `git status --porcelain` で local mod を確認し、**merge 開始前に独立 commit で local 状態を確定**する（merge コンフリクト解消中に local 修正が混じると revert が難しくなる）。コミットメッセージは lefthook の commit-msg gate を通すため `chore:` `fix:` 等の Conventional Commits prefix を必ず付ける（gate が auto-rewrite する事例あり: 743d759 で `chore:` → `fix(admin):` 自動補正された）。
+  2. `git merge origin/dev` → CONFLICT 発生時は無条件で `pnpm sync:resolve` を最初に実行。resolver の `UNION_TARGETS` / `OURS_TARGETS` 拡大が効くため、skill md / patterns-lessons / indexes 系は手動編集不要。
+  3. resolver 後 `git status --short | grep -E "^(UU|AA|DD|.U|U.)"` が空であることを確認し、`git commit --no-edit` で merge commit を確定。Conventional Commits prefix を含む既定の merge メッセージはそのまま lefthook を通過する。
+  4. `pnpm typecheck && pnpm lint` green を最終ゲートに、`git push` で完了。
+- 検証: `git merge origin/dev` → 2 CONFLICT → `pnpm sync:resolve` (`union-resolved topic-map.md` + `ours keywords.json` + `indexes:rebuild`) 成功 → `git commit --no-edit` (merge commit `3eb260cf5`, lefthook 全 PASS) → `pnpm typecheck` Done × 4 packages → `pnpm lint` Done × 全 packages。残 conflict 0、stash 残留 0、未追跡 0。
+- 参照: L-DEVSYNC-042 (resolver UNION 拡張)、L-DEVSYNC-046 (patterns-lessons UNION_TARGETS 昇格)、task-specification-creator [[patterns-lessons-and-pitfalls#dev-sync-merge-conflict-resolution]]。
+
