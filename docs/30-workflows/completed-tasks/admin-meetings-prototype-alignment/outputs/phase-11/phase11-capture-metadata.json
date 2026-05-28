@@ -1,0 +1,12 @@
+{
+  "status": "local_evidence_captured",
+  "visualEvidence": "VISUAL_ON_EXECUTION",
+  "reason": "Local implementation screenshots were captured; staging runtime capture remains user-gated.",
+  "expectedScreenshots": [
+    "outputs/phase-11/screenshots/list-default.png",
+    "outputs/phase-11/screenshots/list-empty.png",
+    "outputs/phase-11/screenshots/list-drawer-open.png",
+    "outputs/phase-11/screenshots/detail-default.png",
+    "outputs/phase-11/screenshots/detail-csv-preview.png"
+  ]
+}

@@ -1,5 +1,19 @@
 # クイックリファレンス
 
+## admin-meetings-prototype-alignment（2026-05-27）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/admin-meetings-prototype-alignment/` |
+| status | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION / staging_runtime_pending_user_approval` |
+| parent | `docs/30-workflows/admin-ui-prototype-alignment/` |
+| purpose | `/admin/meetings` list と `/admin/meetings/[id]` detail を prototype-aligned admin primitives に整流する実装仕様 |
+| implementation contract | `MeetingPanel.tsx` 廃止、`apps/web/src/features/admin/components/_meetings/{MeetingsClientShell,MeetingCreateForm,MeetingTimeline,MeetingAttendanceDrawer,meetingStats}` 新設、detail panels を `AdminSectionCard` / `AdminTable` へ整流 |
+| invariant | existing admin meetings endpoints only; API response shape / D1 schema / Google Form schema unchanged; OKLch token only; `useAdminMutation` and `safeServerFetch` retained |
+| Phase 12 | strict 7 present; root/output artifacts parity present |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-meetings-prototype-alignment-artifact-inventory.md` |
+| user gate | staging refresh/deploy, staging runtime observation, commit, push, PR |
+
 ## admin-ui-task-d-attendance-primitive-conformance（2026-05-26）
 
 | 項目 | 値 |
