@@ -1,5 +1,33 @@
 # クイックリファレンス
 
+## admin-meetings-prototype-alignment（2026-05-27）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/admin-meetings-prototype-alignment/` |
+| status | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION / staging_runtime_pending_user_approval` |
+| parent | `docs/30-workflows/admin-ui-prototype-alignment/` |
+| purpose | `/admin/meetings` list と `/admin/meetings/[id]` detail を prototype-aligned admin primitives に整流する実装仕様 |
+| implementation contract | `MeetingPanel.tsx` 廃止、`apps/web/src/features/admin/components/_meetings/{MeetingsClientShell,MeetingCreateForm,MeetingTimeline,MeetingAttendanceDrawer,meetingStats}` 新設、detail panels を `AdminSectionCard` / `AdminTable` へ整流 |
+| invariant | existing admin meetings endpoints only; API response shape / D1 schema / Google Form schema unchanged; OKLch token only; `useAdminMutation` and `safeServerFetch` retained |
+| Phase 12 | strict 7 present; root/output artifacts parity present |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-meetings-prototype-alignment-artifact-inventory.md` |
+| user gate | staging refresh/deploy, staging runtime observation, commit, push, PR |
+
+## admin-ui-task-d-attendance-primitive-conformance（2026-05-26）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/admin-ui-task-d-attendance-primitive-conformance/` |
+| status | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION / implementation_complete_pending_pr` |
+| parent | `docs/30-workflows/admin-ui-prototype-alignment/` Task D |
+| purpose | `/admin/dashboard/attendance` を `AdminPageHeader` + `KpiCard` + `AdminTable` へ整流し、旧 inline KPI / 裸 table の孤立島を解消する |
+| implementation targets | `apps/web/app/(admin)/admin/dashboard/attendance/page.tsx`, `apps/web/app/(admin)/admin/dashboard/attendance/AttendanceDashboardSections.client.tsx`, page-local focused spec, Playwright visual spec, mock API fixture, primitive adoption grep gate |
+| boundary | API / D1 / response shape 変更なし。`AdminTable` column 関数は client island 内に閉じる。`KpiGrid` は dashboard totals 固定のため使わない |
+| Phase 12 | strict 7 present。root/output `artifacts.json` parity present。Phase 11 screenshot 3 枚 captured |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-ui-task-d-attendance-primitive-conformance-artifact-inventory.md` |
+| user gate | commit, push, PR, staging visual baseline |
+
 ## admin-dashboard-recovery-and-byZone（2026-05-26）
 
 | 目的 | 参照先 |
@@ -61,6 +89,35 @@
 | 出典 | `docs/30-workflows/admin-ui-prototype-alignment/outputs/phase-12/implementation-guide.md` / `system-spec-update-summary.md` / `skill-feedback-report.md` / `phase12-task-spec-compliance-check.md` / `unassigned-task-detection.md` |
 | user gate | authenticated runtime screenshots / staging refresh / commit / push / PR |
 
+## admin-ui-task-c-pageheader-token-conformance（2026-05-26）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/admin-ui-task-c-pageheader-token-conformance/` |
+| status | `implemented_local_evidence_captured / implementation / VISUAL` |
+| parent | `docs/30-workflows/admin-ui-prototype-alignment/` Task C |
+| purpose | 9 admin pages を `AdminPageHeader` へ統一し、`identity-conflicts/page.tsx` の独自 `<main>` と page-layer Tailwind palette literals を撤去する |
+| implementation | `apps/web/app/(admin)/admin/{tags,meetings,meetings/[id],schema,schema/history,requests,identity-conflicts,audit,dashboard/attendance}/page.tsx`, `apps/web/src/features/admin/components/_layout/AdminPageHeader.tsx`, `apps/web/src/components/admin/{MeetingPanel,RequestQueuePanel,AuditLogPanel,SchemaDiffHistoryPanel}.tsx`, `apps/web/app/(admin)/admin/meetings/[id]/MeetingAttendancePanel.tsx`, `apps/web/src/styles/tokens.css` |
+| contract | `AdminPageHeader` is the single page-head component; `eyebrow` and `headingId` are additive. Legacy panel h1/chrome can be suppressed from Task C pages via backwards-compatible `showHeading` / `showChrome` props. API / D1 / auth / Google Form schema unchanged. |
+| tests | `apps/web/src/__tests__/admin-page-header-adoption.spec.ts`, `apps/web/src/features/admin/components/_layout/__tests__/AdminPageHeader.spec.tsx`, `apps/web/playwright/tests/admin-pageheader-task-c.spec.ts`, token runtime spec, primitive adoption gate |
+| Phase 11/12 | 9 local authenticated screenshots present; strict 7 present; root/output artifacts parity present |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-ui-task-c-pageheader-token-conformance-artifact-inventory.md` |
+| user gate | staging authenticated screenshots, visual baseline refresh, commit, push, PR |
+
+## admin-shell-topbar-sidebar-integration（2026-05-26）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/admin-shell-topbar-sidebar-integration/` |
+| status | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION` |
+| parent | `docs/30-workflows/admin-ui-prototype-alignment/` |
+| purpose | Admin shell topbar slot を廃止し、breadcrumb/title/actions を page-local `AdminPageHeader` に集約。Sidebar は prototype 準拠の 3 group / 13 nav items total / active / schema badge / user-chip footer へ刷新する |
+| #894/#895 alignment | #894 root breadcrumb slot / #895 topbar actions island は CLOSED 維持。新 workflow は slot 継続ではなく page-head 集約を current contract とする |
+| implementation targets | `apps/web/app/(admin)/layout.tsx`, `apps/web/src/components/layout/AdminSidebar.tsx`, `AdminSidebarNavItem.tsx`, `AdminBrandBlock.tsx`, `isActive.ts`, `apps/web/src/lib/admin/server-fetch.ts`, related specs, `apps/web/playwright/tests/admin-shell-topbar-sidebar-integration.spec.ts` |
+| Phase 11/12 | local Playwright fixture screenshots captured; strict 7 present; root/output `artifacts.json` parity present |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-shell-topbar-sidebar-integration-artifact-inventory.md` |
+| user gate | staging visual baseline, commit, push, PR |
+
 ## register-page-prototype-alignment（2026-05-26）
 ## public-dashboard-prototype-alignment（2026-05-26）
 
@@ -105,6 +162,38 @@
 | user gate | staging deploy, diagnostics, backfill apply, browser smoke, commit, push, PR |
 
 ## Issue #924 style-src-attr retirement（2026-05-25）
+## admin-visual-baseline-admin-routes-task-e（2026-05-27）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/admin-visual-baseline-admin-routes-task-e/` |
+| 状態 | `implemented_local_runtime_pending / implementation / VISUAL / admin visual baseline` |
+| parent | `docs/30-workflows/admin-ui-prototype-alignment/` Task E |
+| scope | 10 required admin routes x 4 viewport = 40 PNG by default; 2 env-gated detail routes enable full 48 PNG only when both seed IDs are present; 44 PNG partial-detail baseline is forbidden |
+| implementation targets | `apps/web/playwright/tests/visual/admin-shell/*.spec.ts`, `apps/web/playwright/tests/visual/admin-shell/_helpers.ts`, `apps/web/playwright.config.ts`, `.github/workflows/playwright-smoke.yml` |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-visual-baseline-admin-routes-task-e-artifact-inventory.md` |
+| Phase 12 | strict 7 present; root/output `artifacts.json` parity present |
+| user gate | Linux baseline capture, bot push, empty retrigger commit, branch protection PUT, commit, push, PR |
+
+## admin-ui-prototype-alignment（2026-05-23）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/admin-ui-prototype-alignment/` |
+| 状態 | `implemented_local_runtime_pending / implementation / VISUAL / 11 admin routes` |
+| scope | 11 admin routes（dashboard / attendance / members / tags / meetings / meetings/[id] / schema / schema/history / requests / identity-conflicts / audit）の prototype alignment + 共通 component 6 種 + per-section degrade pattern |
+| per-section degrade | `apps/web/src/lib/result.ts`（`SafeResult<T>`）+ `apps/web/src/lib/admin/safe-server-fetch.ts` で throw を normalize → `Promise.all` 後に section 毎に `result.ok` 分岐 → `AdminSectionError` で degrade。`error.tsx` は renderer crash 専用に縮小（L-AUIP-001 / 再利用 Pattern 1） |
+| 共通 component | `apps/web/src/features/admin/components/_shared/{AdminSectionCard,AdminSectionError,AdminEmptyState,AdminStat,AdminTable,AdminQueuePanel}.tsx` + `index.ts` barrel export |
+| import 強制 | barrel 経由のみ。深 path import を ESLint `no-restricted-imports` で deny、grep gate `rg "from ['\"]@/features/admin/components/_shared/[A-Z]"` 0 件を Phase 5 DoD に組込（L-AUIP-003 / 再利用 Pattern 2） |
+| design token | 新規 component は OKLch token のみ（`var(--ubm-color-*)`）。既存 `*Panel.tsx` の HEX 移行は別 wave へ分離（L-AUIP-004） |
+| server/client boundary | server page = throw-only / view-compute-only、client wrapper = state/event-only の twin principle。`TagsClientShell` / `RequestsClientShell` で state ownership を Phase 2 fix（L-AUIP-005） |
+| scope cutoff | Phase 4 test plan に scope lock TC を列挙し、test fail = scope miss として early detect（L-AUIP-006 / 再利用 Pattern 5） |
+| lessons-learned | `.claude/skills/aiworkflow-requirements/references/lessons-learned-admin-ui-prototype-alignment-2026-05.md`（L-AUIP-001..006 + 再利用可能パターン 5 件） |
+| changelog | `.claude/skills/aiworkflow-requirements/changelog/20260523-admin-ui-prototype-alignment.md` |
+| 出典 | `docs/30-workflows/admin-ui-prototype-alignment/outputs/phase-12/implementation-guide.md` / `system-spec-update-summary.md` / `skill-feedback-report.md` / `phase12-task-spec-compliance-check.md` / `unassigned-task-detection.md` |
+| user gate | authenticated runtime screenshots / staging refresh / commit / push / PR |
+
+## register-page-prototype-alignment（2026-05-26）
 
 | 項目 | 値 |
 | --- | --- |
