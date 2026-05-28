@@ -56,7 +56,7 @@ test.describe('task-17 admin schema/conflicts/audit screenshots', () => {
     })
 
     await adminPage.goto('/admin/schema')
-    await expect(adminPage.getByRole('heading', { name: 'schema 差分' })).toBeVisible()
+    await expect(adminPage.getByRole('heading', { name: '項目別の差分' })).toBeVisible()
     await capture(adminPage, {
       tc: 'TC-01',
       name: 'admin-schema-default.png',

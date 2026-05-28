@@ -1,13 +1,21 @@
 // ut-web-cov-03 Phase 5: fetch/authed.ts unit test。
 // 観点: path 検証 / cookie 転送 / 200 / 401(AuthRequiredError) / 403/5xx(FetchAuthedError) / network-fail。
 
+import { readFileSync } from "node:fs";
+import { dirname, resolve } from "node:path";
+import { fileURLToPath } from "node:url";
+
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 const cookieList: Array<{ name: string; value: string }> = [];
+const mockGetApiBaseEnv = vi.hoisted(() => vi.fn());
 vi.mock("next/headers", () => ({
   cookies: async () => ({
     getAll: () => cookieList,
   }),
+}));
+vi.mock("@/lib/env", () => ({
+  getApiBaseEnv: mockGetApiBaseEnv,
 }));
 
 import {
@@ -26,16 +34,27 @@ const setCookies = (...cs: Array<{ name: string; value: string }>) => {
   cookieList.push(...cs);
 };
 
+const makeEnv = (
+  overrides: Partial<{
+    INTERNAL_API_BASE_URL: string;
+    PUBLIC_API_BASE_URL: string;
+  }> = {},
+) => ({
+  ENVIRONMENT: "local",
+  NEXT_PUBLIC_API_BASE_URL: "https://web.example.com",
+  PUBLIC_API_BASE_URL: "https://public.example.com",
+  INTERNAL_API_BASE_URL: "https://api.example.com",
+  ...overrides,
+});
+
 describe("fetchAuthed", () => {
   beforeEach(() => {
     setCookies();
-    process.env.INTERNAL_API_BASE_URL = "https://api.example.com";
-    delete process.env.PUBLIC_API_BASE_URL;
+    mockGetApiBaseEnv.mockReturnValue(makeEnv());
   });
   afterEach(() => {
     restoreFetch();
-    delete process.env.INTERNAL_API_BASE_URL;
-    delete process.env.PUBLIC_API_BASE_URL;
+    mockGetApiBaseEnv.mockReset();
   });
 
   it("path が / で始まらない場合 throw", async () => {
@@ -99,26 +118,33 @@ describe("fetchAuthed", () => {
   });
 
   it("INTERNAL_API_BASE_URL 末尾 / を取り除く", async () => {
-    process.env.INTERNAL_API_BASE_URL = "https://api.example.com/";
+    mockGetApiBaseEnv.mockReturnValue(
+      makeEnv({ INTERNAL_API_BASE_URL: "https://api.example.com/" }),
+    );
     const spy = mockFetchOnce({ status: 200, body: {} });
     await fetchAuthed("/x");
     expect(spy.mock.calls[0]?.[0]).toBe("https://api.example.com/x");
   });
 
   it("INTERNAL 未指定 / PUBLIC 指定で PUBLIC_API_BASE_URL を使う", async () => {
-    delete process.env.INTERNAL_API_BASE_URL;
-    process.env.PUBLIC_API_BASE_URL = "https://public.example.com";
+    mockGetApiBaseEnv.mockReturnValue(
+      makeEnv({
+        INTERNAL_API_BASE_URL: "",
+        PUBLIC_API_BASE_URL: "https://public.example.com",
+      }),
+    );
     const spy = mockFetchOnce({ status: 200, body: {} });
     await fetchAuthed("/x");
     expect(spy.mock.calls[0]?.[0]).toBe("https://public.example.com/x");
   });
 
-  it("いずれも未指定で fallback http://127.0.0.1:8787", async () => {
-    delete process.env.INTERNAL_API_BASE_URL;
-    delete process.env.PUBLIC_API_BASE_URL;
-    const spy = mockFetchOnce({ status: 200, body: {} });
-    await fetchAuthed("/x");
-    expect(spy.mock.calls[0]?.[0]).toBe("http://127.0.0.1:8787/x");
+  it("いずれも未指定で localhost fallback せず fail-fast", async () => {
+    mockGetApiBaseEnv.mockReturnValue(
+      makeEnv({ INTERNAL_API_BASE_URL: "", PUBLIC_API_BASE_URL: "" }),
+    );
+    await expect(fetchAuthed("/x")).rejects.toThrow(
+      /neither INTERNAL_API_BASE_URL nor PUBLIC_API_BASE_URL/,
+    );
   });
 
   it("init.headers をマージする", async () => {
@@ -128,6 +154,15 @@ describe("fetchAuthed", () => {
     const headers = init.headers as Headers;
     expect(headers.get("x-custom")).toBe("1");
     expect(init.method).toBe("POST");
+  });
+
+  it("source から process.env 直参照と localhost fallback を排除する", () => {
+    const source = readFileSync(
+      resolve(dirname(fileURLToPath(import.meta.url)), "authed.ts"),
+      "utf8",
+    );
+    expect(source).not.toContain("process.env[");
+    expect(source).not.toContain("127.0.0.1");
   });
 });
 

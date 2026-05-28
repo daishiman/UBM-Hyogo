@@ -48,16 +48,19 @@ export class AdminMeetingsPage extends BasePage {
   }
 
   async addAttendanceOnList(sessionId: string, memberId: string): Promise<void> {
+    await this.expandSession(sessionId)
     await this.listSelect(sessionId).selectOption(memberId)
     await this.listSession(sessionId).locator(`[data-testid="add-attendance-${sessionId}"]`).click()
   }
 
   async removeAttendanceOnList(sessionId: string, memberId: string): Promise<void> {
+    await this.expandSession(sessionId)
     await this.listRemoveButton(sessionId, memberId).click()
     await this.page.getByRole('button', { name: '削除する' }).click()
   }
 
   async openRemoveAttendanceDialog(sessionId: string, memberId: string): Promise<void> {
+    await this.expandSession(sessionId)
     await this.listRemoveButton(sessionId, memberId).click()
     await expect(this.page.getByRole('dialog')).toContainText('出席を削除しますか？')
   }
@@ -67,6 +70,7 @@ export class AdminMeetingsPage extends BasePage {
   }
 
   async openDeleteMeetingDialog(sessionId: string): Promise<void> {
+    await this.expandSession(sessionId)
     await this.listSession(sessionId).getByText('編集').click()
     await this.listSession(sessionId).getByRole('button', { name: '開催日を削除' }).click()
     await expect(this.page.getByRole('dialog')).toContainText('この開催日を削除しますか？')
@@ -81,7 +85,16 @@ export class AdminMeetingsPage extends BasePage {
     memberId: string,
     present: boolean,
   ): Promise<void> {
+    await this.expandSession(sessionId)
     await expect(this.listAttendee(sessionId, memberId)).toHaveCount(present ? 1 : 0)
+  }
+
+  private async expandSession(sessionId: string): Promise<void> {
+    const session = this.listSession(sessionId)
+    const button = session.getByRole('button').first()
+    if ((await button.getAttribute('aria-expanded')) !== 'true') {
+      await button.click()
+    }
   }
 
   private listSession(sessionId: string): Locator {

@@ -1,0 +1,8 @@
+Command:
+pnpm --filter @ubm-hyogo/web typecheck
+
+Result:
+PASS
+
+Summary:
+@ubm-hyogo/web tsc -p tsconfig.json --noEmit completed successfully.
