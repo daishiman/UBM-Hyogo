@@ -1,5 +1,18 @@
 # クイックリファレンス
 
+## issue-976-admin-fetch-service-binding（2026-05-28）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-976-admin-fetch-service-binding/` |
+| status | `implemented_local_runtime_pending / implementation / NON_VISUAL` |
+| purpose | Admin server-fetch を `API_SERVICE` service-binding 優先へ統一し、同一 Cloudflare account の workers.dev 外向き fetch loopback 404 を回避 |
+| implementation targets | `apps/web/src/lib/admin/server-fetch.ts`, `apps/web/src/lib/admin/__tests__/server-fetch-service-binding.spec.ts`, `apps/web/src/lib/admin/__tests__/server-fetch-url.spec.ts` |
+| local evidence | `outputs/phase-11/local-verification.md` focused Vitest 3 files / 9 tests PASS |
+| Phase 12 | strict outputs + root/output artifacts parity present |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-976-admin-fetch-service-binding-artifact-inventory.md` |
+| user gate | staging deploy, authenticated route proof, `wrangler tail`, commit, push, PR |
+
 ## admin-dashboard-recovery-and-byZone（2026-05-26）
 
 | 目的 | 参照先 |

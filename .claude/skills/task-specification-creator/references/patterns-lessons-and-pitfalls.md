@@ -8,6 +8,16 @@
 
 ---
 
+## Server Fetch / Service Binding
+
+### Admin server-fetch service-binding symmetry
+
+- **状況**: public fetch は Cloudflare `API_SERVICE` service-binding 優先なのに、admin server-fetch だけ `${INTERNAL_API_BASE_URL}` HTTP fetch のみで実装されていた。
+- **問題**: 同一 Cloudflare account の `workers.dev -> workers.dev` 外向き fetch が loopback 404 になり、staging `/admin/*` が `ADMIN_FETCH_404` で degrade した。
+- **解決策**: production/staging は `API_SERVICE.fetch()` を優先し、`NODE_ENV=test` / `PLAYWRIGHT_TEST=1` では HTTP fallback を維持する。`x-internal-auth` / `cookie` / body / error snippet 契約は focused spec で固定する。
+- **教訓**: fetch 経路の root cause は per-route fixture や narrow warn では解消しない。public/admin の transport symmetry を Phase 2/4 gate に入れる。
+- **発見日**: 2026-05-28
+
 ## スクリプト・正規表現関連
 
 ### Markdown見出しレベルの誤検出

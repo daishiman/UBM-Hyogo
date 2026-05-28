@@ -1,0 +1,37 @@
+{
+  "workflow_id": "issue-976-admin-fetch-service-binding",
+  "workflow_state": "implemented_local_runtime_pending",
+  "issue": 976,
+  "state": "implemented_local_runtime_pending",
+  "metadata": {
+    "workflow_state": "implemented_local_runtime_pending",
+    "taskType": "implementation",
+    "visualEvidence": "NON_VISUAL"
+  },
+  "taskType": "implementation",
+  "visualEvidence": "NON_VISUAL",
+  "implementation_files": [
+    "apps/web/src/lib/admin/server-fetch.ts",
+    "apps/web/src/lib/admin/__tests__/server-fetch-service-binding.spec.ts",
+    "apps/web/src/lib/admin/__tests__/server-fetch-url.spec.ts"
+  ],
+  "local_evidence": [
+    "docs/30-workflows/completed-tasks/issue-976-admin-fetch-service-binding/outputs/phase-11/local-verification.md"
+  ],
+  "phase12_outputs": [
+    "docs/30-workflows/completed-tasks/issue-976-admin-fetch-service-binding/outputs/phase-12/implementation-guide.md",
+    "docs/30-workflows/completed-tasks/issue-976-admin-fetch-service-binding/outputs/phase-12/system-spec-update-summary.md",
+    "docs/30-workflows/completed-tasks/issue-976-admin-fetch-service-binding/outputs/phase-12/documentation-changelog.md",
+    "docs/30-workflows/completed-tasks/issue-976-admin-fetch-service-binding/outputs/phase-12/unassigned-task-detection.md",
+    "docs/30-workflows/completed-tasks/issue-976-admin-fetch-service-binding/outputs/phase-12/skill-feedback-report.md",
+    "docs/30-workflows/completed-tasks/issue-976-admin-fetch-service-binding/outputs/phase-12/phase12-task-spec-compliance-check.md"
+  ],
+  "user_gated": [
+    "staging deploy",
+    "authenticated /admin/meetings runtime evidence",
+    "wrangler tail ADMIN_FETCH_404 absence evidence",
+    "commit",
+    "push",
+    "PR"
+  ]
+}

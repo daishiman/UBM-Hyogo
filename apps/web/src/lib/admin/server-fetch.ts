@@ -1,5 +1,6 @@
 // 06c: Server Component から admin API を呼ぶ helper。
-// 不変条件 #5: web は D1 へ直接アクセスしない。INTERNAL_API_BASE_URL 経由のみ。
+// 不変条件 #5: web は D1 へ直接アクセスしない。API worker へ service-binding 優先で到達し、
+// test / Playwright / local binding 不在時だけ INTERNAL_API_BASE_URL へ fallback する。
 // admin gate は layout.tsx で実施済みなので、ここでは worker-to-worker 認証を載せる。
 
 import { cookies } from "next/headers";
@@ -7,7 +8,7 @@ import {
   AdminMemberListViewZ,
   ListIdentityConflictsResponseZ,
 } from "@ubm-hyogo/shared";
-import { getEnv } from "../env";
+import { getEnv, getPublicFetchEnv } from "../env";
 import type { AdminAuditListResponse } from "./types";
 
 const resolveApiBase = (): string => {
@@ -16,6 +17,21 @@ const resolveApiBase = (): string => {
 
 const resolveInternalSecret = (): string =>
   getEnv().INTERNAL_AUTH_SECRET ?? "";
+
+const isTestOrPlaywright = (): boolean => {
+  const env = getPublicFetchEnv();
+  return env.NODE_ENV === "test" || env.PLAYWRIGHT_TEST === "1";
+};
+
+const getAdminServiceBinding = (): { fetch: typeof fetch } | undefined => {
+  if (isTestOrPlaywright()) return undefined;
+  return getPublicFetchEnv().API_SERVICE;
+};
+
+const getAdminFetcher = (): typeof fetch => {
+  const binding = getAdminServiceBinding();
+  return binding ? binding.fetch.bind(binding) : fetch;
+};
 
 export interface AdminFetchOptions {
   readonly method?: "GET" | "POST" | "PATCH" | "DELETE";
@@ -450,7 +466,7 @@ export async function fetchAdmin<T>(
   const cookieHeader = (await cookies()).toString();
   if (cookieHeader) headers.cookie = cookieHeader;
   if (opts.body !== undefined) headers["content-type"] = "application/json";
-  const res = await fetch(url, {
+  const res = await getAdminFetcher()(url, {
     method: opts.method ?? "GET",
     headers,
     cache: "no-store",

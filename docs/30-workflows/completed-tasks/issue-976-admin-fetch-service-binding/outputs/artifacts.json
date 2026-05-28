@@ -1,0 +1,23 @@
+{
+  "workflow_id": "issue-976-admin-fetch-service-binding",
+  "mirrors": "../artifacts.json",
+  "workflow_state": "implemented_local_runtime_pending",
+  "state": "implemented_local_runtime_pending",
+  "metadata": {
+    "workflow_state": "implemented_local_runtime_pending",
+    "taskType": "implementation",
+    "visualEvidence": "NON_VISUAL"
+  },
+  "phase11": {
+    "local": "outputs/phase-11/local-verification.md",
+    "staging": "pending_user_approval"
+  },
+  "phase12": {
+    "implementation_guide": "outputs/phase-12/implementation-guide.md",
+    "system_spec_update_summary": "outputs/phase-12/system-spec-update-summary.md",
+    "documentation_changelog": "outputs/phase-12/documentation-changelog.md",
+    "unassigned_task_detection": "outputs/phase-12/unassigned-task-detection.md",
+    "skill_feedback_report": "outputs/phase-12/skill-feedback-report.md",
+    "compliance_check": "outputs/phase-12/phase12-task-spec-compliance-check.md"
+  }
+}
