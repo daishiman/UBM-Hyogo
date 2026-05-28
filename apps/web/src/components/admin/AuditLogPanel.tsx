@@ -152,7 +152,7 @@ export function AuditLogPanel({
   data,
   values,
   error,
-  showHeading = true,
+  showHeading = false,
 }: {
   readonly data: AdminAuditListResponse | null;
   readonly values: AuditSearchValues;
