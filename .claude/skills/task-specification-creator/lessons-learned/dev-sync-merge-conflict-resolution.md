@@ -533,3 +533,17 @@
 - 検証: `grep -nE '^(<<<<<<<|=======|>>>>>>>|\|\|\|\|\|\|\|)' <path>` 0 件 + `pnpm typecheck` PASS + `pnpm lint` PASS + 採用 accessor の export 実在を grep で確認。
 - 適用範囲外: invariant に関係しない feature ブランチ（UI 整合 / 機能追加等）は SP-DEVSYNC-038 の 3-way 判定フロー（新 variant 追加 vs 簡素化）に戻る。
 - 参照: aiworkflow-requirements [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-054 を唯一の正本。
+
+
+### SP-DEVSYNC-041: skill-only conflict shape 判定で resolver 単発確定（2026-05-28 追加）
+
+- 事象: 2026-05-28 `feat/issue-958-h3-public-filter-ux` ← origin/dev sync-merge のコンフリクトが skill md 5 + derived 1 (`indexes/keywords.json`) の resolver 完全対応範囲のみ。`.ts/.tsx` source の hybridize 不要。
+- Why: feature branch の実装範囲（H3 public filter UX = 新規 `apps/web/app/(public)/members/page.tsx` 系 + `BulkRepublishDrawer` + `useBulkRepublish`）が dev 側並列実装（admin-ui modernization wave）と path orthogonal なため file-level 衝突が skill 系のみに収束する shape になった。
+- How to apply（task 仕様書での逐語化）:
+  - Phase 9 sync-merge 節に「**skill-only conflict shape の早期判定**」を SP-DEVSYNC-038 step 1 の直後に追記:
+    - `git status --porcelain | grep '^UU'` の全 path が `.claude/skills/aiworkflow-requirements/{SKILL.md,indexes/*.md,indexes/keywords.json,references/task-workflow-active.md}` のいずれかに該当するか確認
+    - 全件該当なら `pnpm sync:resolve` 単発で確定し、手動 hybridize lesson (L-DEVSYNC-056/058 / SP-DEVSYNC-038..040) を**呼び出さない**
+    - resolver stdout に `union-resolved` × N + `ours:` × keywords.json + `all skill / index conflicts resolved` が揃うことを必ず確認
+  - Phase 4 risk: feature branch の実装範囲が dev の changed paths と orthogonal な場合に該当 shape が成立しやすいことを明記。逆に `apps/web/app/(admin)/admin/**` や共有 primitive (`AdminPageHeader` / `AdminSidebar`) を触る branch は手動 hybridize 前提に戻る。
+- 検証: `git status --porcelain | grep -E '^(UU|AA|DD)'` 空 + `git diff --check` 空 + `pnpm typecheck` PASS + `pnpm lint` PASS。
+- 参照: aiworkflow-requirements [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-059。
