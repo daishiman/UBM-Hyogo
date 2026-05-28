@@ -1050,6 +1050,14 @@
 - 事例: 2026-05-28 commit `05c30022b` (PillNav exact 修正) + `5bbee59da` (test.slow 追加)。前者で `e2e (desktop-chromium)` の `task15-admin-screenshots` 解消、後者で `e2e-tests-coverage-gate` 全 project (desktop-chromium/firefox/mobile-chromium/mobile-webkit) green。`playwright-visual-full` は 8 admin route × mobile baseline drift で fail 継続 → user-gated 扱いで報告のみ。
 - 参照: task-specification-creator [[dev-sync-merge-conflict-resolution]] SP-DEVSYNC-041 に逐語埋め込み。
 
+## L-DEVSYNC-054: aiworkflow skill indexes-only conflict は `pnpm sync:resolve` 単独完結（2026-05-28 再現確認）
+
+- 再現条件: `docs/admin-meetings-prototype-alignment` から `origin/dev` を merge した際、conflict は `aiworkflow-requirements` 配下の 4 union files (`indexes/quick-reference.md` / `indexes/resource-map.md` / `indexes/topic-map.md` / `references/task-workflow-active.md`) と derived `indexes/keywords.json` の計 5 ファイルのみ。`apps/web/playwright/fixtures/auth.ts` は Auto-merging で自動解消。
+- 結果: `pnpm sync:resolve` で union 4 + ours 1 + `indexes:rebuild` まで自動完了。手動介入ゼロ。`typecheck` / `lint` も green。
+- Why: L-DEVSYNC-046 と同条件の skill indexes-only conflict は resolver 単独で構造的に閉じる。本ケースで再現性を再確認。
+- How to apply: aiworkflow skill 系のみが conflict の場合、最初に `pnpm sync:resolve` を実行する（迷う前に試す）。残余 conflict なしを `git diff --name-only --diff-filter=U` で 0 確認したらそのまま `git commit --no-edit`。
+- 参照: L-DEVSYNC-046（同パターン初出）、task-specification-creator [[dev-sync-merge-conflict-resolution]]。
+
 ## L-DEVSYNC-054: 並列 feature が同一 cleanup hotspot / barrel index に独立行を追加するパターン（2026-05-28 確認）
 
 - 事象: 2026-05-28 `feat/admin-ui-task-d-attendance-primitive` ← origin/dev sync-merge で `pnpm sync:resolve` の `WARN unhandled conflict` が 2 件残った:
