@@ -836,6 +836,26 @@ async function ensureMockApi(): Promise<void> {
           .catch(() => response(res, 400, { ok: false, error: 'invalid_json' }))
         return
       }
+      const attendanceDeleteMatch = url.pathname.match(
+        /^\/admin\/meetings\/([^/]+)\/attendance\/([^/]+)$/,
+      )
+      if (req.method === 'DELETE' && attendanceDeleteMatch?.[1] && attendanceDeleteMatch[2]) {
+        const sessionId = decodeURIComponent(attendanceDeleteMatch[1])
+        const memberId = decodeURIComponent(attendanceDeleteMatch[2])
+        const meeting = findMeetingWithSelfHeal(sessionId)
+        if (!meeting) {
+          response(res, 404, { error: 'meeting_not_found' })
+          return
+        }
+        const exists = meeting.attendees.some((item) => item.memberId === memberId)
+        if (!exists) {
+          response(res, 404, { error: 'ATTENDANCE_NOT_FOUND' })
+          return
+        }
+        meeting.attendees = meeting.attendees.filter((item) => item.memberId !== memberId)
+        response(res, 200, { sessionId, memberId, removedAt: '2026-05-09T00:00:00.000Z' })
+        return
+      }
       if (req.method === 'POST' && url.pathname === '/__test__/seed-meetings') {
         readJson(req)
           .then((body) => {
