@@ -835,6 +835,30 @@
 - 留意: CI gate は `<<<<<<< ` / `>>>>>>> ` / `||||||| ` の **後ろの空白込み 8 文字** で grep する。空白なし `|||||||EOL` 等は検出されない。古い resolver が space を消すケースは別途調査要。
 - 事例: 2026-05-26 `feat/issue-247-...` PR #966。`5ddb51e6a merge: sync ... with dev` push 後 `verify-conflict-markers` が `--- offending lines ---` 4件で FAIL。該当 4 行削除 commit で復旧。
 
+## L-DEVSYNC-050: dev sync で新規 lint gate (`verify-no-inline-style` 等) が降ってきた場合、feature 側の既存 inline-style は同一 merge commit で SVG `<rect>` 化 (L-I924-004 区分C) で解消する（2026-05-27 確認）
+
+- 事象: `feat/admin-attendance-analytics-redesign` ← dev (`0df8ecc55` issue-924 inline-style guard 含む) を merge 後、`pnpm lint` が `verify-no-inline-style: FAIL` で停止。本ブランチ側で先行追加していた `AttendanceTop10Ranking.tsx` / `AttendanceZoneDistributionChart.tsx` の progress bar `style={{ width: ... }}`（区分C 連続値）が新 gate に検出された。conflict ファイルではないため `pnpm sync:resolve` / `git merge` のいずれも検出できず、lint で初めて表面化する。
+- Why: dev 側で追加された invariant grep gate（`scripts/verify-no-inline-style.sh` の `style={` broad detection）は **merge 時点では textual conflict にならない**（HEAD 側ファイルはそのまま採用される）。新 gate の適用範囲が feature 側既存ファイルに及ぶケースでは、merge auto-merge 成功 → lint FAIL という gap が必然的に発生する。これは `verify-no-inline-style` に限らず、dev 側で追加される `verify-design-tokens` / `verify-test-suffix` 等の broad grep gate 系すべてに共通する pattern。
+- How to apply:
+  1. dev merge 直後の `pnpm lint` で `verify-*` 系 gate が新規 FAIL したら、**該当 gate の lessons-learned (`lessons-learned-issue-NNN-*.md`) を即時参照**して正本の置換 pattern を採用する。今回は L-I924-004 の 3 区分（A 静的 / B 動的離散 / C 動的連続）が SSOT。
+  2. 区分C（progress bar / chart bar 等の連続値 width）は SVG `<rect width={...}>` + `viewBox` + `preserveAspectRatio="none"` で逃がす（参考: `apps/web/src/features/admin/components/_dashboard/ZoneDistribution.tsx`）。HTML element の `style={{ width: ... }}` は CSP `style-src-attr` 撤去後 block されるが、SVG attribute の `width=` は別経路評価で通過する。
+  3. 置換は dev sync merge commit と **同一 commit** に含める（別 PR / 別 commit に分けると CI が乖離する。L-I924-005 と同じ整合性原則）。`git add` → 既存 merge commit に追加するか、merge commit 直後に lint-fix commit を続ける。
+  4. 該当 component に focused spec / visual baseline がある場合、SVG への DOM 構造変化（`<span>` → `<svg><rect>`）により selector / snapshot が壊れる可能性があるため `pnpm -r test` / Playwright visual を同時に確認する。今回は spec 未存在のため typecheck + lint のみで PASS 判定。
+- 留意: dev 側で追加される lint gate を pre-merge に検知する手段は現状ない。`pnpm sync:check` でリモート ahead 数だけは見えるが、追加された gate 種別までは取得できないため、**merge 後に必ず `pnpm lint` → `pnpm typecheck` → `bash scripts/verify-pr-ready.sh` を完走する運用**が唯一の防御。これは CONST_019（本ブランチで変更が上がっている内容はすべてpush）と組み合わせて、新 gate 由来の差分も漏れなく同一 PR に含めるルールとして機能する。
+- 事例: 2026-05-27 `feat/admin-attendance-analytics-redesign` ← dev (`04c569a48` login-ui balance + issue-924 inline-style guard 累積)。`4f49cf93f Merge ... into feat/admin-attendance-analytics-redesign` 直後の `pnpm lint` で 2 ファイル FAIL → L-I924-004 区分C 適用で SVG `<rect>` 化 → 同 lint コマンド PASS。spec 未存在のため visual regression は user-gated。
+
+## L-DEVSYNC-051: dev sync 後は `pnpm regenerate:static-manifest` も pre-push gate に含める（2026-05-27 確認）
+
+- 事象: `feat/admin-attendance-analytics-redesign` ← dev merge 後、local `pnpm lint` / `pnpm typecheck` / `bash scripts/verify-pr-ready.sh` がすべて green で push 成功したが、PR #971 の CI `ci` job で `pnpm verify:static-manifest` が `FAIL reason=sourceSpecHashDrift` で fail。連鎖で `coverage-gate-shard` が skip、`coverage-gate` も fail し PR が BLOCKED 化。
+- Why: `apps/api/src/repository/_shared/generated/static-manifest.json` の `sourceSpecHash` は repository 内の source spec ファイル群の集約 hash。dev 側で source spec（schema / OpenAPI 定義 / D1 migration 等）が更新されると hash が変わるが、merge では `static-manifest.json` 自体は textual conflict にならず HEAD 側のまま残るため、`verify:static-manifest` が初めて drift を検出する場面が CI になる。`bash scripts/verify-pr-ready.sh` は phase12-compliance / gate-metadata / indexes:rebuild の 3 gate のみ実行し、`verify:static-manifest` は範囲外。
+- How to apply:
+  1. dev merge 直後の pre-push 検証 sequence に **`pnpm verify:static-manifest`** を必ず追加する（`pnpm typecheck` / `pnpm lint` / `bash scripts/verify-pr-ready.sh` の 3 点セットだけでは不十分）。
+  2. FAIL 時は `pnpm regenerate:static-manifest` を実行して JSON を更新 → 単独 commit で push する。再生成は `apps/api/src/repository/_shared/generated/static-manifest.json` 1 ファイルのみで完結する。
+  3. 同種の "generated/committed artifact + sourceSpecHash drift" 系 gate（今後追加される可能性）は CLAUDE.md の「dev sync 完了条件」に追記しておく。
+  4. `scripts/verify-pr-ready.sh` 側に `verify:static-manifest` を追加組み込みするか、`bash scripts/verify-pr-ready.sh` から独立した `verify:dev-sync-postchecks` aggregate を新設すれば post-merge gap が縮まる（今回は ad-hoc 検証で十分なため未実装）。
+- 留意: `verify:static-manifest` は ci job の中盤で実行されるため failure 時に coverage-gate-shard を skip させる構造になっており、ci の 1 step fail が coverage 系 2 gate を巻き込んで PR を 3 重に BLOCKED 化する。**dev sync の day-1 検証で必ず捕捉する**運用が PR cycle time を最も短くする。
+- 事例: 2026-05-27 PR #971。`59419b258 fix(attendance): retire inline-style ...` push 後、`ci`（run 26493001182, job 78014624639）で `[verify-static-manifest] FAIL reason=sourceSpecHashDrift` 検出。`pnpm regenerate:static-manifest` で `sourceSpecHash=sha256:60001b77f2b5e9c16c0cc4de070502691d25357ba4c06b42086eadeb5e8dc228` に更新、`e604f2e98 chore(static-manifest): regenerate ...` 1 commit で復旧。
+
 ## L-DEVSYNC-050: feature branchがUI構造を全面刷新中にdevが新規Client Islandを sibling section に追加した場合、union解消では機能を失う（2026-05-27 確認）
 
 - 事象: `feat/admin-ui-followup-001-members-fetch-and-visual` で `MemberDrawer.tsx` をプロトタイプ整合（VISIBILITY/TAGS/FORM RESPONSE/DELETED 構成）に刷新。並行して dev 側 (#960 google-form-reflection-diagnostics) が同ファイルの旧構造内に `<MemberDiagnosticsPanel memberId={memberId} />` を追加していた。`git merge dev` で 2 箇所 conflict 発生（import 行 / 旧「タグ管理へ」section の末尾）。
@@ -987,3 +1011,28 @@
 - 留意: feature branch が workflow dir rename を含む場合、dev 側で同種 prototype-alignment task が並行進行していると本パターンは構造的に再発する。Phase 4 risk に「playwright.config 三項分岐は同位置で並列改修されやすい」を登録し、merge 前に `git log origin/dev ^HEAD -- apps/web/playwright.config.ts` で sibling 追加 commit の有無を確認するチェックを runbook に組み込む。
 - 事例: 2026-05-27 commit を併発した同 sync-merge で `.claude/skills/task-specification-creator/references/patterns-lessons-and-pitfalls.md` も EOF 並列追加（HEAD=「DOM 構造置換 PR 同一 wave spec 同期」節、dev=「accent-soft chip accent-ink」「visual baseline ours 採用」「fetcher 層 no-store」3 節）で同時に WARN unhandled。SP-DEVSYNC-037 の spec EOF 両側保持パターンで base 削除 + HEAD + dev 順序保持 + marker 物理除去で解消。
 - 参照: task-specification-creator [[dev-sync-merge-conflict-resolution]] SP-DEVSYNC-039 に逐語埋め込み。
+
+## L-DEVSYNC-054: 並列 feature が同一 cleanup hotspot / barrel index に独立行を追加するパターン（2026-05-28 確認）
+
+- 事象: 2026-05-28 `feat/admin-ui-task-d-attendance-primitive` ← origin/dev sync-merge で `pnpm sync:resolve` の `WARN unhandled conflict` が 2 件残った:
+  1. `apps/web/playwright/fixtures/auth.ts` の `/__test__/reset` ハンドラと `mockApi.reset()` の 2 箇所で、HEAD 側が `state.attendanceDashboardScenario = 'all-ok'` を、dev 側が `delete state.publicHomeEmpty` をそれぞれ独立に **追加**（base はどちらも持たない=完全 add-add 衝突）
+  2. `apps/web/src/features/admin/components/index.ts` の barrel export 末尾で、HEAD 側が `_shared/AdminTable` / `AdminEmptyState` / `AdminSectionErrorClient` の 3 primitive を named export 群として、dev 側が `_members/MemberDiagnosticsPanel` を `export *` でそれぞれ独立に追加
+- Why: e2e mock API の reset 関数と feature barrel は「並列 feature が同時に新規 state / module を継ぎ足す構造的 hotspot」であり、`sync:resolve` の `UNION_MERGE_TARGETS` は **`.ts` ソースを対象外**（コード union は意味的に壊れる可能性があるため）。両 branch とも reset の **意味的契約**（テスト間で state を初期化）と barrel の **append-only 契約**（既存 import を壊さない順序保持）を満たしており、機械 union ではなく「両側の追加行をそのまま並べる手動 union」が正解。片側 take すると並列 feature の state cleanup / export がそれぞれ欠落し、test fail / module not found の regression に直結する。
+- How to apply:
+  1. `WARN unhandled conflict` に `apps/web/playwright/fixtures/auth.ts` の reset 系ハンドラが含まれる場合: `delete state.*` / `state.* = <default>` の追加行は **両側を順序保持で並べる**（base ブロック削除 + HEAD 追加行 + dev 追加行 + marker 物理除去）。意味的に互いに排他でない限り重複削除も不要（同 key を両側が触る場合のみ後勝ち判定が必要）。
+  2. `apps/web/src/features/admin/components/index.ts` 等の barrel export で `WARN unhandled conflict` が出た場合: ファイル冒頭コメント「追記方式厳守（task-16/17 が後続行追加するため、再ソート禁止）」が指す通り、**両側の `export * from "./..."` / `export {X, Y} from "./..."` を順序保持で並べる**。dev 側 sibling export を HEAD 側追加 export 群の **前** に置くと、HEAD branch の意図（最後に追加した primitive 群が末尾に集まる）と整合する。逆順は append-only 契約違反。
+  3. 検証順: `grep -nE '^(<<<<<<<|=======|>>>>>>>|\|\|\|\|\|\|\|)' <file>` で marker 0 件確認 → `pnpm typecheck` で型・export 重複なし → `pnpm lint` → commit。typecheck で `Module '<barrel>' has no exported member 'X'` が出たら順序ではなく export 名の typo を疑う。
+- 留意: `sync:resolve` の `UNION_MERGE_TARGETS` 拡張案として `apps/web/src/features/**/components/index.ts` を追加する選択肢はあるが、barrel に **再 export ではない値**（const 定義、default export）が混在するファイルで union が破壊的になるため、**WARN として手動 union を促す現行設計を維持**するのが安全。barrel に専念したファイル限定で resolver 拡張する場合は、`scripts/sync/resolve-skill-merge-conflicts.sh` 側で「barrel-only `.ts` の判定（`grep -E '^(export \*|export \{.*\} from)' <file> | wc -l` がファイル行数の 80% 以上）」を gate に入れる。
+- 事例: 2026-05-28 commit `aced4e447` (chore: merge origin/dev) を base に origin/dev (HEAD `bf6efe49f`) を再取り込みした sync-merge。`pnpm sync:resolve` で skill md 4 union + keywords.json `--ours + rebuild` 成功、残り 2 `.ts` を手動 union。`grep -nE '^(<<<<<<<|=======|>>>>>>>|\|\|\|\|\|\|\|)' apps/web/playwright/fixtures/auth.ts apps/web/src/features/admin/components/index.ts` 0 件 → `pnpm typecheck && pnpm lint` green → commit。
+
+## L-DEVSYNC-054: shell topbar 廃止後の旧E2E selectorとadmin table intrinsic widthはCIで同時に露出する（2026-05-28 確認）
+
+- 事象: PR #973 `feat/admin-shell-topbar-sidebar-integration` の dev sync 後 CI で、`e2e` 3 project が `parallel-03-admin-shell-scrape.spec.ts` の `[data-shell="topbar"]` visible 期待と `admin-shell-topbar-sidebar-integration.spec.ts` の schema badge `3` 期待で fail。併せて `visual-full (mobile/tablet)` は `/admin/members` の actual screenshot が mobile `640+ x 844` / tablet `900+ x 1024` となり、baseline `390 x 844` / `768 x 1024` と dimension mismatch。
+- Why: Task A で topbar slot を廃止し page-local `AdminPageHeader` へ集約したが、古い AppShell evidence spec は topbar DOM を contract として残していた。schema badge は layout server fetch (`/admin/schema/diff`) 由来で、mock API に同 route と control seed が無い場合は safeServerFetch degrade で count 0 になる。visual-full は `toHaveScreenshot({ fullPage: true })` が horizontal overflow 幅を含むため、admin members table の intrinsic min-content width が viewport を超えると baseline 更新ではなく layout regression になる。
+- How to apply:
+  1. shell contract 変更では、実装差分検索に加えて `rg 'data-shell=\"topbar\"|data-shell=\"sidebar\"|admin-shell' apps/web/playwright` を必ず実行し、旧 contract spec を同 commit で更新する。廃止 DOM は `toHaveCount(0)`、残す DOM は `data-shell-mode` / `data-testid="admin-shell"` / `main[data-route="admin"]` で確認する。
+  2. layout server fetch の badge/KPI を Playwright で検証する場合、mock API fixture に actual route (`GET /admin/schema/diff`) と control route (`POST /__test__/admin-dashboard` 等) の両方を追加し、assertion 直前に seed する。control method だけ存在して route が無い状態は local でも 404 で検出できる。
+  3. visual-full 対象 page の table は mobile/tablet で page-level horizontal overflow を作らない。`min-width` + overflow-x scroll は fullPage screenshot の撮影幅を広げるため、`table-fixed`、breakpoint column hiding、truncate/break-all で viewport 内に収める。
+  4. macOS local では Linux snapshot が無く `*-darwin.png missing` で fail するため、actual PNG dimensions を `file ...actual.png` で確認する。viewport dimensions と一致すれば CI Linux の dimension mismatch は解消見込み。
+- 検証: `PLAYWRIGHT_BASE_URL=http://localhost:<free-port> ... admin-shell-topbar-sidebar-integration.spec.ts parallel-03-admin-shell-scrape.spec.ts` PASS。`visual-full` local は Darwin snapshot missing で fail するが actual PNG は tablet `768 x 1024`、mobile `390 x 844` へ戻った。`pnpm typecheck` と focused MembersTable/MembersPageHead Vitest green。
+- 参照: task-specification-creator [[dev-sync-merge-conflict-resolution]] SP-DEVSYNC-040。

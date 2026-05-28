@@ -199,6 +199,19 @@ export const AdminDashboardViewZ = z
         }),
       )
       .optional(),
+    byZone: z
+      .array(
+        z.object({
+          key: z.enum(["0to1", "1to10", "10to100"]),
+          label: z.string().min(1),
+          hint: z.string().min(1),
+          count: z.number().int().nonnegative(),
+          total: z.number().int().nonnegative(),
+          tone: z.enum(["info", "accent", "ok"]),
+        }),
+      )
+      .length(3)
+      .optional(),
     recentActions: z.array(
       z.object({
         auditId: z.string(),
