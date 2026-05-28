@@ -87,7 +87,7 @@ export default async function AdminIdentityConflictsPage({
               hasNext
               prevHref={cursor ? "/admin/identity-conflicts" : undefined}
               nextHref={`?cursor=${encodeURIComponent(result.data.nextCursor)}`}
-              className="mt-4"
+              className="mt-4 [&_a]:text-[var(--ubm-color-link-default)]"
             />
           )}
         </AdminSectionCard>
