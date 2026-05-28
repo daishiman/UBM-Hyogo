@@ -1074,3 +1074,23 @@ admin-ui task A〜E が連続して dev に merge される現フェーズで、
 - **SP-DEVSYNC-056-D (Phase 4 risk への登録)**: admin-ui prototype alignment 系 task の Phase 4 risk table に「同一 wave で primitive 一斉導入が dev 側に着地した場合、page-local 旧 header / Sidebar GROUPS / legacy component.spec の 3 軸で sync-merge 時に hybridize が必須」を必ず登録し、L-DEVSYNC-056 を mitigation reference として参照。resolver 拡張ではなく仕様側で risk 化するのが正（L-DEVSYNC-054 と同じ判断）。
 - **SP-DEVSYNC-056-E (検証 4 step 必達)**: hybridize 後の検証は **`git diff --diff-filter=U --name-only` 0 件 → `pnpm typecheck` Done × 全 packages → `pnpm lint` Done × 全 packages → `git commit -m "merge: sync <branch> with dev"`** の 4 step を Phase 12 implementation-guide に明記。typecheck が undefined ref を即 fail させるため、`sections.map` 等の前提変数撤去漏れを早期検出できる。
 - 参照: [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-056、L-DEVSYNC-054 (`.ts` 手動 union)、L-DEVSYNC-055 (resolver 単独完結 happy-path との対比)。
+
+
+## async server component prop 配線パターン（auth-aware public surface / 2026-05-28）
+
+Next.js App Router で公開層 (`/`, `/(public)/*`) の auth-state 出し分けを行う component を **async server component** 化する際の汎用パターン。Task B (`task-b-root-page-public-header-async`) で確立した L-TBPHA-001..005 を仕様起草フェーズに横展開する形で汎化する。
+
+- **L-ASCPROP-001 (auth source 集約 helper)**: 各 layout / page から `getSession()` を直接呼ばず、`apps/web/src/lib/auth-view/getAuthView()` のような **discriminated union (`guest | member | admin`) を返す helper** を 1 層挟む。auth-aware component は async server component かつ props 配線のみで mount し、認可ロジックを再解釈する責務を持たせない。Phase 2 設計で「auth source helper の有無」を必達 design AC として明示する。
+- **L-ASCPROP-002 (route group 外 entry の同時更新)**: 公開 component を async 化する Task は、その component を mount している **全 server entry を `rg "<ComponentName" apps/web/app` で grep 列挙**し、route group 内外で wiring を統一する。route 移動 (`app/page.tsx` → `app/(public)/page.tsx`) は `generateMetadata` / OG / canonical URL の再評価が必要になるため default では **route 不動 + 1 await 追加** を採用。Phase 4 risk table に「route group 外 entry の取りこぼし」を必ず登録。
+- **L-ASCPROP-003 (NON_VISUAL evidence セット)**: visual screenshot を取らない workflow では (a) `app/__tests__/<entry>.spec.tsx` で `vi.mock` による auth-state 2-3 ケース assert、(b) Phase 11 `static-source-guard.log` で **無 props mount の絶滅 grep**、(c) `data-auth-state="guest|member|admin"` 属性を component root に焼き込んだ DOM 確認 — の 3 点セットを Phase 11 evidence の必達 AC とする。`viewport` 寸法 / Linux baseline PNG は対象外。
+- **L-ASCPROP-004 (auth helper の fail-closed)**: 認証取得 helper は `getSession()` throw を `try/catch` で **guest fallback** に閉じ、SSR 全体を 500 に巻き込まない。CLAUDE.md invariant #11 (`getAuthEnv()` safeParse fail-closed) と同じ思想で、fail-closed は認証境界のみ・データ fetch 等の business path では fail-fast を維持する。Phase 2 設計で「helper 内 catch の対象は session 取得のみ」を境界として明記。
+- **L-ASCPROP-005 (parent + sub-task の同期境界)**: parent workflow が `spec_created`、sub-task が先行 implementation の場合、`system-spec-update-summary.md` の Step 1-A 同期範囲は **parent index.md の対象 task 行のみ**。parent 全体の workflow_state には触らない。境界宣言を `system-spec-update-summary.md` 末尾「親 workflow 境界」節に明記しておくと、後続 sub-task の close-out で同じ判断を機械的に再現できる。
+
+### Anti-pattern
+
+- 各 layout / page で個別に `getSession()` を呼び、admin 判定 / `profileHref` 等を再計算する → 認可ルール変更で全箇所を再編集する hidden coupling
+- async 化対象 component の mount 箇所を grep せずに進める → route group 外の root page で型・実行両面で break
+- async 化に伴って route 移動 (`app/page.tsx` → `app/(public)/page.tsx`) を default 採用 → SEO/metadata 影響で本来不要な追加 risk
+- `getSession()` throw を握り潰さず SSR 全体に伝播 → guest 訪問で 500 / `app/error.tsx` boundary に押し込む過剰反応
+
+- 参照: [[lessons-learned-task-b-root-page-public-header-async-2026-05]] L-TBPHA-001..005、CLAUDE.md invariant #11 (env fail-closed parity)、`patterns-ui-type-auth.md` (UI 層 auth type design)。

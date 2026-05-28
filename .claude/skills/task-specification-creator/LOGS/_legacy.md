@@ -4,6 +4,10 @@
 
 このファイルは task-specification-creator の運用・改善・Phase 12 close-out 同期履歴を新しい順に記録する。
 
+## 2026-05-28 - task-b-root-page-public-header-async automation-30 close-out
+
+`implementation_files` を列挙する `spec_created` workflow を docs-only close-out せず、実コード・focused tests・Phase 11 evidence・aiworkflow same-wave sync まで完了して `implemented_local_evidence_captured` に再分類。Phase 12 compliance heading は canonical 9 headings に補正し、`PASS` 断定と pending の混在を解消した。
+
 ## 2026-05-27 - admin meetings prototype alignment spec package correction
 
 `docs/30-workflows/completed-tasks/admin-meetings-prototype-alignment/` の 30 種思考法レビューで、Phase 6-10、Phase 12 strict 7、Phase 11 visual evidence ledger、root/output artifacts parity、aiworkflow same-wave sync が不足していた。実装を先走らせず、`spec_created / implementation / VISUAL_ON_EXECUTION` の境界を維持したまま、Phase 1-13 と strict 7 を補完し、runtime screenshot / implementation / commit / push / PR を user-gated として分離した。

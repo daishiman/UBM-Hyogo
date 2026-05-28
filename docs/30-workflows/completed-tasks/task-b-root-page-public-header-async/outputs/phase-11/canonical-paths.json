@@ -1,0 +1,61 @@
+{
+  "schemaVersion": "1.0.0",
+  "taskId": "TASK-PUBHDR-LOGGED-IN-NAV-CLEANUP-B-001",
+  "workflowDir": "docs/30-workflows/completed-tasks/task-b-root-page-public-header-async",
+  "evidence": [
+    {
+      "id": "manual-test-result",
+      "kind": "runtime-observation",
+      "path": "outputs/phase-11/manual-test-result.md",
+      "command": "local evidence summary for focused Vitest, typecheck, lint, and web build",
+      "acquiredBy": "implementation_cycle",
+      "requiredForCloseout": true,
+      "notes": "Staging runtime remains user-gated."
+    },
+    {
+      "id": "focused-vitest",
+      "kind": "test",
+      "path": "outputs/phase-11/evidence/focused-vitest.log",
+      "command": "mise exec -- pnpm exec vitest run apps/web/src/lib/auth-view/__tests__/resolveAuthView.spec.ts apps/web/src/components/public/__tests__/PublicHeader.spec.tsx apps/web/app/__tests__/page.spec.tsx",
+      "acquiredBy": "implementation_cycle",
+      "requiredForCloseout": true,
+      "notes": "3 files / 9 tests PASS."
+    },
+    {
+      "id": "static-source-guard",
+      "kind": "grep-gate",
+      "path": "outputs/phase-11/evidence/static-source-guard.log",
+      "command": "static source review of AuthView helper, PublicHeader auth-state rendering, public layout wiring, and root page wiring",
+      "acquiredBy": "implementation_cycle",
+      "requiredForCloseout": true,
+      "notes": "Root and public layout both pass authView."
+    },
+    {
+      "id": "typecheck",
+      "kind": "typecheck",
+      "path": "outputs/phase-11/evidence/typecheck.log",
+      "command": "mise exec -- pnpm typecheck",
+      "acquiredBy": "implementation_cycle",
+      "requiredForCloseout": true,
+      "notes": "Workspace typecheck PASS."
+    },
+    {
+      "id": "web-lint",
+      "kind": "lint",
+      "path": "outputs/phase-11/evidence/web-lint.log",
+      "command": "mise exec -- pnpm lint",
+      "acquiredBy": "implementation_cycle",
+      "requiredForCloseout": true,
+      "notes": "Workspace lint PASS."
+    },
+    {
+      "id": "web-build",
+      "kind": "build",
+      "path": "outputs/phase-11/evidence/web-build.log",
+      "command": "mise exec -- pnpm --filter @ubm-hyogo/web build",
+      "acquiredBy": "implementation_cycle",
+      "requiredForCloseout": true,
+      "notes": "Next build PASS with existing warnings."
+    }
+  ]
+}
