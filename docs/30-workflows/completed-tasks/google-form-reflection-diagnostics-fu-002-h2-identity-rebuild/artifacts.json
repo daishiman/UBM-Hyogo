@@ -36,6 +36,32 @@
       "outputs/phase-12/unassigned-task-detection.md",
       "outputs/phase-12/skill-feedback-report.md",
       "outputs/phase-12/phase12-task-spec-compliance-check.md"
+    ],
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-05-27T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/google-form-reflection-diagnostics-fu-002-h2-identity-rebuild/outputs/phase-12/phase12-task-spec-compliance-check.md",
+        "approver": "daishiman",
+        "notes": "spec_review: Phase 1-13 spec + identity-autolink local implementation completed"
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "passed",
+        "passed_at": "2026-05-27T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/google-form-reflection-diagnostics-fu-002-h2-identity-rebuild/outputs/phase-12/implementation-guide.md",
+        "approver": "daishiman",
+        "notes": "implementation_review: migration 0021 + identities.ts autolink + session-resolve wiring + 2 focused specs"
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/google-form-reflection-diagnostics-fu-002-h2-identity-rebuild/phase-10.md",
+        "approver": "daishiman",
+        "notes": "runtime_review: staging/prod D1 backup + migration apply + deployed runtime diagnostics are user-gated"
+      }
     ]
   },
   "phases": [
