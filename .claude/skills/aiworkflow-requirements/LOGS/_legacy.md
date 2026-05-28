@@ -1128,3 +1128,10 @@ production env monitor secret cleanup は user-gated。
 - Registered `docs/30-workflows/completed-tasks/issue-902-members-staging-visual-baseline/` as `implemented_local_runtime_pending / implementation / VISUAL`.
 - Added `members-list` and env-gated `member-detail` staging visual specs plus `playwright-smoke.yml` 6-screen dispatch input support.
 - Source unassigned task consumed; quick-reference / resource-map / task-workflow-active / artifact inventory / changelog synchronized. Staging deploy, CI baseline PNG generation, commit, push, and PR remain user-gated.
+
+# 2026-05-27 google-form-reflection-diagnostics-fu-002-h2-identity-rebuild
+
+- Synced `docs/30-workflows/completed-tasks/google-form-reflection-diagnostics-fu-002-h2-identity-rebuild/` as `implemented_local_runtime_pending / implementation / NON_VISUAL`.
+- Registered bridge-backed migration `0021_backfill_member_identities.sql`, identity auto-link repository helpers, `/auth/session-resolve` integration, focused D1/contract tests, and Phase 12 strict 7 outputs.
+- Updated auth API, DB schema, manual auth spec, quick-reference, resource-map, task-workflow-active, parent artifact inventory, dedicated artifact inventory, changelog, and SKILL history in the same wave.
+- Staging/prod D1 backup, migration apply, deployed diagnostics capture, 24h autolink log observation, commit, push, and PR remain user-gated.

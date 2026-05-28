@@ -104,6 +104,20 @@
 | inventory | `.claude/skills/aiworkflow-requirements/references/workflow-google-form-reflection-diagnostics-artifact-inventory.md` |
 | user gate | staging deploy, authenticated screenshots, Spec-B issue filing, commit, push, PR |
 
+## google-form-reflection-diagnostics-fu-002-h2-identity-rebuild（2026-05-27）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/google-form-reflection-diagnostics-fu-002-h2-identity-rebuild/` |
+| status | `implemented_local_runtime_pending / implementation / NON_VISUAL` |
+| parent | `docs/30-workflows/completed-tasks/google-form-reflection-diagnostics/` |
+| purpose | H2 identity gap: verified Form email exists in `member_responses` but `member_identities` is missing, causing login to fall through as unregistered |
+| implementation | migration `0021_backfill_member_identities.sql`, identity auto-link repository helpers, `/auth/session-resolve` integration |
+| invariant | `response_email` is matched by `lower(trim(...))`; `tag_assignment_queue(response_id, member_id)` is the only existing member-id bridge; bridge-less auto-link creates `autolink:<uuid>` and still requires `member_status` gates |
+| tests | `identities.autolink.spec.ts`, `session-resolve.contract.spec.ts` |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-google-form-reflection-diagnostics-fu-002-h2-identity-rebuild-artifact-inventory.md` |
+| user gate | staging/prod D1 backup, migration apply, deployed diagnostics capture, commit, push, PR |
+
 ## Issue #901 authenticated profile/admin staging visual（2026-05-25）
 
 | 項目 | 値 |
