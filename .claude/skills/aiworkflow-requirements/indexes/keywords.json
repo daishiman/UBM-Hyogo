@@ -3296,6 +3296,7 @@
       "workflow-07c-followup-002-attendance-visual-smoke-artifact-inventory.md",
       "workflow-2b-admin-identity-conflicts-spec-artifact-inventory.md",
       "workflow-admin-attendance-analytics-redesign-artifact-inventory.md",
+      "workflow-admin-identity-conflicts-prototype-alignment-and-404-fix-artifact-inventory.md",
       "workflow-admin-schema-page-prototype-alignment-and-diff-fetch-fix-artifact-inventory.md",
       "workflow-apps-web-security-headers-hardening-artifact-inventory.md",
       "workflow-awshh-followup-003-csp-reporting-endpoints-artifact-inventory.md",
@@ -3685,6 +3686,7 @@
       "workflow-2b-admin-identity-conflicts-spec-artifact-inventory.md",
       "workflow-admin-attendance-analytics-redesign-artifact-inventory.md",
       "workflow-admin-dashboard-recovery-and-byZone-artifact-inventory.md",
+      "workflow-admin-identity-conflicts-prototype-alignment-and-404-fix-artifact-inventory.md",
       "workflow-admin-meetings-prototype-alignment-artifact-inventory.md",
       "workflow-admin-member-delete-e2e-spec-artifact-inventory.md",
       "workflow-admin-schema-page-prototype-alignment-and-diff-fetch-fix-artifact-inventory.md",
@@ -5089,6 +5091,7 @@
       "lessons-learned.md",
       "release-runbook.md",
       "workflow-2b-admin-identity-conflicts-spec-artifact-inventory.md",
+      "workflow-admin-identity-conflicts-prototype-alignment-and-404-fix-artifact-inventory.md",
       "workflow-admin-schema-page-prototype-alignment-and-diff-fetch-fix-artifact-inventory.md",
       "workflow-admin-shell-topbar-sidebar-integration-artifact-inventory.md",
       "workflow-admin-tag-queue-ui-and-404-recovery-artifact-inventory.md",
@@ -7089,6 +7092,7 @@
       "workflow-06b-c-profile-logged-in-visual-evidence-artifact-inventory.md",
       "workflow-06b-c-runtime-evidence-execution-artifact-inventory.md",
       "workflow-07c-followup-002-attendance-visual-smoke-artifact-inventory.md",
+      "workflow-admin-identity-conflicts-prototype-alignment-and-404-fix-artifact-inventory.md",
       "workflow-admin-schema-page-prototype-alignment-and-diff-fetch-fix-artifact-inventory.md",
       "workflow-admin-ui-prototype-alignment-followup-001-members-fetch-and-visual-artifact-inventory.md",
       "workflow-e2e-quality-uplift-stage-0-3-artifact-inventory.md",
@@ -10926,6 +10930,7 @@
       "lessons-learned-web-app-route-bundle-parse-fix-2026-05.md",
       "lessons-learned.md",
       "release-runbook.md",
+      "workflow-admin-identity-conflicts-prototype-alignment-and-404-fix-artifact-inventory.md",
       "workflow-admin-shell-topbar-sidebar-integration-artifact-inventory.md",
       "workflow-admin-tag-queue-ui-and-404-recovery-artifact-inventory.md",
       "workflow-admin-ui-task-c-pageheader-token-conformance-artifact-inventory.md",
@@ -14547,6 +14552,7 @@
       "lessons-learned-task-06-ui-ux-contract-rewrite-2026-05.md",
       "lessons-learned-task-11-public-top-and-member-list-2026-05.md",
       "ui-ux-prototype-map.md",
+      "workflow-admin-identity-conflicts-prototype-alignment-and-404-fix-artifact-inventory.md",
       "workflow-admin-meetings-prototype-alignment-artifact-inventory.md",
       "workflow-admin-schema-page-prototype-alignment-and-diff-fetch-fix-artifact-inventory.md",
       "workflow-admin-ui-prototype-alignment-artifact-inventory.md",
@@ -14565,6 +14571,7 @@
       "lessons-learned-admin-meetings-prototype-alignment-2026-05.md",
       "lessons-learned-admin-ui-prototype-alignment-2026-05.md",
       "logs-archive-2026-03-auth-mode-migration-sync.md",
+      "workflow-admin-identity-conflicts-prototype-alignment-and-404-fix-artifact-inventory.md",
       "workflow-admin-meetings-prototype-alignment-artifact-inventory.md",
       "workflow-admin-schema-page-prototype-alignment-and-diff-fetch-fix-artifact-inventory.md",
       "workflow-admin-ui-prototype-alignment-artifact-inventory.md",
@@ -15168,6 +15175,7 @@
       "lessons-learned-web-app-route-bundle-parse-fix-2026-05.md",
       "logs-archive-2026-01-skill-selector-todo-scan-template.md",
       "observability-monitoring.md",
+      "workflow-admin-identity-conflicts-prototype-alignment-and-404-fix-artifact-inventory.md",
       "workflow-admin-schema-page-prototype-alignment-and-diff-fetch-fix-artifact-inventory.md",
       "workflow-ci-staging-deploy-failure-fix-artifact-inventory.md",
       "workflow-fix-admin-scr-err-stg-fu-001-auth-env-via-getenv-artifact-inventory.md",
@@ -15284,6 +15292,7 @@
       "lessons-learned-task-18-w7-verify-tokens-and-playwright-smoke-2026-05.md",
       "lessons-learned-ut07b-fu03-production-migration-runbook-2026-05.md",
       "workflow-admin-dashboard-recovery-and-byZone-artifact-inventory.md",
+      "workflow-admin-identity-conflicts-prototype-alignment-and-404-fix-artifact-inventory.md",
       "workflow-admin-schema-page-prototype-alignment-and-diff-fetch-fix-artifact-inventory.md",
       "workflow-admin-tag-queue-ui-and-404-recovery-artifact-inventory.md",
       "workflow-admin-ui-prototype-alignment-followup-001-members-fetch-and-visual-artifact-inventory.md",
@@ -15428,7 +15437,8 @@
     "identity": [
       "lessons-learned-issue-194-identity-merge-2026-05.md",
       "lessons-learned-ut07b-fu-01-schema-alias-backfill-queue-cron-split-2026-05.md",
-      "workflow-2b-admin-identity-conflicts-spec-artifact-inventory.md"
+      "workflow-2b-admin-identity-conflicts-spec-artifact-inventory.md",
+      "workflow-admin-identity-conflicts-prototype-alignment-and-404-fix-artifact-inventory.md"
     ],
     "確認パス": [
       "lessons-learned-issue-194-identity-merge-2026-05.md"
@@ -17019,6 +17029,7 @@
       "workflow-07c-followup-002-attendance-visual-smoke-artifact-inventory.md",
       "workflow-2b-admin-identity-conflicts-spec-artifact-inventory.md",
       "workflow-admin-attendance-analytics-redesign-artifact-inventory.md",
+      "workflow-admin-identity-conflicts-prototype-alignment-and-404-fix-artifact-inventory.md",
       "workflow-admin-meetings-prototype-alignment-artifact-inventory.md",
       "workflow-admin-member-delete-e2e-spec-artifact-inventory.md",
       "workflow-admin-schema-page-prototype-alignment-and-diff-fetch-fix-artifact-inventory.md",
@@ -18584,6 +18595,7 @@
     "conflicts": [
       "lessons-learned-task-17-admin-schema-conflicts-audit-2026-05.md",
       "workflow-2b-admin-identity-conflicts-spec-artifact-inventory.md",
+      "workflow-admin-identity-conflicts-prototype-alignment-and-404-fix-artifact-inventory.md",
       "workflow-task-17-admin-schema-conflicts-audit-artifact-inventory.md"
     ],
     "browser": [
@@ -23155,6 +23167,7 @@
       "workflow-05b-a-auth-mail-env-contract-alignment-artifact-inventory.md",
       "workflow-07c-followup-002-attendance-visual-smoke-artifact-inventory.md",
       "workflow-2b-admin-identity-conflicts-spec-artifact-inventory.md",
+      "workflow-admin-identity-conflicts-prototype-alignment-and-404-fix-artifact-inventory.md",
       "workflow-admin-ui-prototype-alignment-followup-001-members-fetch-and-visual-artifact-inventory.md",
       "workflow-issue-191-schema-aliases-artifact-inventory.md",
       "workflow-issue-256-e2e-coverage-baseline-runbook-artifact-inventory.md",
@@ -23219,6 +23232,7 @@
     ],
     "User": [
       "security-web-response-headers.md",
+      "workflow-admin-identity-conflicts-prototype-alignment-and-404-fix-artifact-inventory.md",
       "workflow-ci-staging-deploy-failure-fix-artifact-inventory.md",
       "workflow-fix-admin-scr-err-stg-fu-001-auth-env-via-getenv-artifact-inventory.md",
       "workflow-issue-247-apps-web-opennext-config-regression-tests-artifact-inventory.md",
@@ -25034,6 +25048,7 @@
       "workflow-07c-followup-002-attendance-visual-smoke-artifact-inventory.md",
       "workflow-2b-admin-identity-conflicts-spec-artifact-inventory.md",
       "workflow-admin-attendance-analytics-redesign-artifact-inventory.md",
+      "workflow-admin-identity-conflicts-prototype-alignment-and-404-fix-artifact-inventory.md",
       "workflow-admin-meetings-prototype-alignment-artifact-inventory.md",
       "workflow-admin-member-delete-e2e-spec-artifact-inventory.md",
       "workflow-admin-schema-page-prototype-alignment-and-diff-fetch-fix-artifact-inventory.md",
@@ -25227,6 +25242,7 @@
     "Implementation": [
       "workflow-03a-stablekey-literal-lint-enforcement-artifact-inventory.md",
       "workflow-07c-followup-002-attendance-visual-smoke-artifact-inventory.md",
+      "workflow-admin-identity-conflicts-prototype-alignment-and-404-fix-artifact-inventory.md",
       "workflow-admin-meetings-prototype-alignment-artifact-inventory.md",
       "workflow-admin-schema-page-prototype-alignment-and-diff-fetch-fix-artifact-inventory.md",
       "workflow-apps-web-security-headers-hardening-artifact-inventory.md",
@@ -25310,6 +25326,7 @@
       "workflow-03a-stablekey-literal-lint-enforcement-artifact-inventory.md",
       "workflow-07c-followup-002-attendance-visual-smoke-artifact-inventory.md",
       "workflow-admin-attendance-analytics-redesign-artifact-inventory.md",
+      "workflow-admin-identity-conflicts-prototype-alignment-and-404-fix-artifact-inventory.md",
       "workflow-admin-meetings-prototype-alignment-artifact-inventory.md",
       "workflow-admin-schema-page-prototype-alignment-and-diff-fetch-fix-artifact-inventory.md",
       "workflow-e2e-stage-2-2d-contract-artifact-inventory.md",
@@ -25424,6 +25441,28 @@
     ],
     "byZone": [
       "workflow-admin-dashboard-recovery-and-byZone-artifact-inventory.md"
+    ],
+    "Local": [
+      "workflow-admin-identity-conflicts-prototype-alignment-and-404-fix-artifact-inventory.md",
+      "workflow-issue-555-audit-correlation-salt-rotation-artifact-inventory.md",
+      "workflow-issue-908-staging-rollback-notification-runtime-smoke-artifact-inventory.md",
+      "workflow-step-07-requests-approve-reject-artifact-inventory.md",
+      "workflow-task-18-fu-full-visual-regression-suite-artifact-inventory.md",
+      "workflow-ut-15-waf-rate-limiting-rules-setup-artifact-inventory.md",
+      "workflow-ut-17-followup-005-alert-relay-kv-error-metrics-artifact-inventory.md"
+    ],
+    "Gated": [
+      "workflow-admin-identity-conflicts-prototype-alignment-and-404-fix-artifact-inventory.md",
+      "workflow-fix-admin-scr-err-stg-fu-001-auth-env-via-getenv-artifact-inventory.md",
+      "workflow-issue-247-apps-web-opennext-config-regression-tests-artifact-inventory.md",
+      "workflow-issue-55-notification-channel-and-optout-artifact-inventory.md",
+      "workflow-issue-588-fallback-alert-slack-mail-extension-artifact-inventory.md",
+      "workflow-issue-819-admin-dashboard-runtime-screenshot-artifact-inventory.md",
+      "workflow-issue-857-internal-alert-relay-binding-wiring-artifact-inventory.md",
+      "workflow-issue-872-google-brand-4tone-icon-and-tokens-exempt-artifact-inventory.md",
+      "workflow-issue-899-static-bearer-fallback-retirement-artifact-inventory.md",
+      "workflow-issue-908-staging-rollback-notification-runtime-smoke-artifact-inventory.md",
+      "workflow-ut-17-followup-005-alert-relay-kv-operation-error-metrics-artifact-inventory.md"
     ],
     "Outputs": [
       "workflow-admin-meetings-prototype-alignment-artifact-inventory.md",
@@ -25736,18 +25775,6 @@
     "getenv": [
       "workflow-fix-admin-scr-err-stg-fu-001-auth-env-via-getenv-artifact-inventory.md"
     ],
-    "Gated": [
-      "workflow-fix-admin-scr-err-stg-fu-001-auth-env-via-getenv-artifact-inventory.md",
-      "workflow-issue-247-apps-web-opennext-config-regression-tests-artifact-inventory.md",
-      "workflow-issue-55-notification-channel-and-optout-artifact-inventory.md",
-      "workflow-issue-588-fallback-alert-slack-mail-extension-artifact-inventory.md",
-      "workflow-issue-819-admin-dashboard-runtime-screenshot-artifact-inventory.md",
-      "workflow-issue-857-internal-alert-relay-binding-wiring-artifact-inventory.md",
-      "workflow-issue-872-google-brand-4tone-icon-and-tokens-exempt-artifact-inventory.md",
-      "workflow-issue-899-static-bearer-fallback-retirement-artifact-inventory.md",
-      "workflow-issue-908-staging-rollback-notification-runtime-smoke-artifact-inventory.md",
-      "workflow-ut-17-followup-005-alert-relay-kv-operation-error-metrics-artifact-inventory.md"
-    ],
     "knowledge": [
       "workflow-google-form-reflection-diagnostics-artifact-inventory.md",
       "workflow-issue-880-public-segment-error-loading-boundary-artifact-inventory.md"
@@ -26048,14 +26075,6 @@
     "Items": [
       "workflow-issue-55-notification-channel-and-optout-artifact-inventory.md",
       "workflow-issue-588-fallback-alert-slack-mail-extension-artifact-inventory.md"
-    ],
-    "Local": [
-      "workflow-issue-555-audit-correlation-salt-rotation-artifact-inventory.md",
-      "workflow-issue-908-staging-rollback-notification-runtime-smoke-artifact-inventory.md",
-      "workflow-step-07-requests-approve-reject-artifact-inventory.md",
-      "workflow-task-18-fu-full-visual-regression-suite-artifact-inventory.md",
-      "workflow-ut-15-waf-rate-limiting-rules-setup-artifact-inventory.md",
-      "workflow-ut-17-followup-005-alert-relay-kv-error-metrics-artifact-inventory.md"
     ],
     "Out": [
       "workflow-issue-623-vitest-spec-suffix-convergence-artifact-inventory.md"

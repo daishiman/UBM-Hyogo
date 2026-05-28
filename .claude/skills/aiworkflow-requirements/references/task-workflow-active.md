@@ -150,6 +150,19 @@
 | user gate | staging Playwright visual baseline、staging deploy/smoke、commit、push、PR。Phase 11 local screenshots は取得済み |
 
 ### google-form-reflection-diagnostics（2026-05-26）
+### admin-identity-conflicts-prototype-alignment-and-404-fix（2026-05-27）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION / staging_runtime_pending_user_gate` |
+| 成果物 | `docs/30-workflows/completed-tasks/admin-identity-conflicts-prototype-alignment-and-404-fix/` |
+| 目的 | `/admin/identity-conflicts` を `AdminPageHeader` / admin section / UI primitives へ整合し、staging `ADMIN_FETCH_404` を API deploy/env/runtime 境界で切り分ける |
+| implementation targets | `apps/web/app/(admin)/admin/identity-conflicts/page.tsx`, `apps/web/src/components/admin/IdentityConflictRow.tsx` |
+| unchanged contracts | `apps/api/src/routes/admin/identity-conflicts.ts`, `apps/web/app/api/admin/[...path]/route.ts`, D1 schema, admin auth |
+| evidence | `pnpm --filter @ubm-hyogo/web typecheck` PASS; `pnpm --filter @ubm-hyogo/web test -- IdentityConflictRow primitive-adoption` 実行で web 全体 159 files / 1154 tests PASS; root/output artifacts parity present |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-identity-conflicts-prototype-alignment-and-404-fix-artifact-inventory.md` |
+| user gate | staging deploy/env verification, authenticated runtime curl, visual screenshot capture, commit, push, PR |
+
 ### Issue #924 style-src-attr retirement（2026-05-25）
 
 | 項目 | 値 |
