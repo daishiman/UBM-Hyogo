@@ -832,6 +832,22 @@ UI primitive (`AdminPageHeader` / `KpiCard` / `AdminTable` / `AdminEmptyState` �
 - **L-PATSEC-002 (末尾 append-only)**: 既存 section の中央に bullet を増やさず、必ず**ファイル末尾に新 section を append**する。中央への追加は L-DEVSYNC-030（table-merge）系の手動 union を要求し、resolver 1 発で完結しない。
 - **L-PATSEC-003 (resolver 委譲)**: 本ファイルは `scripts/sync/resolve-skill-merge-conflicts.sh` の `UNION_TARGETS` に登録済（[[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-046）。仕様書 Phase 12 で本ファイルへ section を追記するタスクは「dev sync-merge での conflict は `pnpm sync:resolve` 自動解消」と前提を置いてよい。
 
+## Admin route 404 観測と prototype alignment（L-AIDC-002..007 汎化）
+
+admin route の UI prototype alignment と staging 404 復旧を 1 サイクルで扱う場合の汎化パターン。
+
+- **L-AIDC-002 (staging 404 の 5 軸切り分け)**: `ADMIN_FETCH_404` は H1 build 未デプロイ / H2 `INTERNAL_API_BASE_URL` mismatch / H3 D1 migration 未適用 / H4 auth 401→404 化 / H5 proxy path strip の 5 軸で、staging tail と curl evidence を順に潰す。仕様 Phase 4 には H1-H5 の確認コマンドと修正対象を表で固定する。
+- **L-AIDC-003 (narrow warn event)**: admin fetch の 404 観測は `safe-server-fetch.ts` で `ADMIN_FETCH_404` のみ `logger.warn({ event: "admin_fetch_404", scope: "admin", path, method, code })` として narrow event 化する。一般失敗を全て warn にしないことで Sentry noise を増やさない。
+- **L-AIDC-004 (multi-scope AC 分離)**: UI 改修 + runtime bugfix を同一 PR に入れる場合、AC / evidence / user-gated boundary を A 系 UI と B 系 runtime に分離する。Phase 12 の changed-files classification も A/B 列で書く。
+- **L-AIDC-006 (PII grep false positive 回避)**: identity 系 route の PII grep gate は raw email リテラル検出に加え、`responseEmailMasked` のような schema field 名を false positive として扱うか、検証結果に除外根拠を明記する。
+- **L-AIDC-007 (N/A spec update の根拠表)**: system spec 更新が N/A の場合も、影響し得る spec file と「なぜ更新不要か」を表で列挙する。N/A 単独表記は Phase 12 compliance で漏れに見える。
+
+### Anti-pattern
+
+- 404 復旧を「staging で要確認」の一文だけにする → H1-H5 のどこを直すべきかが後続 agent に伝わらず、実コード変更と ops 証跡が分離する。
+- `ADMIN_FETCH_FAILED` など広い失敗をすべて Sentry warn に昇格する → transient network error まで noise 化し、真の 404 復旧可否が見えにくくなる。
+- UI alignment の visual evidence と staging runtime evidence を同じ status にする → local で閉じる検証と user-gated 検証の責務境界が崩れる。
+
 ## admin section error recovery hint + server fetch diagnostics パターン（admin-tag-queue-ui-and-404-recovery L-ATAGUI-001..005 汎化）
 
  admin 系画面の section error 表示と server-side fetch の診断ログを同 wave で改良するときの再現テンプレ。`/admin/tags` 整備で確立し、他の admin route （members / meetings / requests / schema / identity-conflicts / audit）へ同形で展開できる。
@@ -1121,3 +1137,17 @@ admin-ui task A〜E が連続して dev に merge される現フェーズで、
 - **SP-DEVSYNC-056-D (Phase 4 risk への登録)**: admin-ui prototype alignment 系 task の Phase 4 risk table に「同一 wave で primitive 一斉導入が dev 側に着地した場合、page-local 旧 header / Sidebar GROUPS / legacy component.spec の 3 軸で sync-merge 時に hybridize が必須」を必ず登録し、L-DEVSYNC-056 を mitigation reference として参照。resolver 拡張ではなく仕様側で risk 化するのが正（L-DEVSYNC-054 と同じ判断）。
 - **SP-DEVSYNC-056-E (検証 4 step 必達)**: hybridize 後の検証は **`git diff --diff-filter=U --name-only` 0 件 → `pnpm typecheck` Done × 全 packages → `pnpm lint` Done × 全 packages → `git commit -m "merge: sync <branch> with dev"`** の 4 step を Phase 12 implementation-guide に明記。typecheck が undefined ref を即 fail させるため、`sections.map` 等の前提変数撤去漏れを早期検出できる。
 - 参照: [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-056、L-DEVSYNC-054 (`.ts` 手動 union)、L-DEVSYNC-055 (resolver 単独完結 happy-path との対比)。
+
+
+## L-DEVSYNC-058 同一 page を両 branch が独立に prototype 整合した結果の 2-way feature × modernization hybridize（dev sync-merge / 2026-05-28）
+
+同じ admin page を **HEAD は feature 拡張軸**（dynamic description / Pagination primitive / barrel import / `density="compact"`）で、**dev は admin-ui modernization 軸**（`eyebrow` / breadcrumbs `href` / token CSS vars / EmptyState icon / `data-route` attrs / `<Link>` 化）で独立に prototype 整合した状態で sync-merge すると、片側 take では feature か visual baseline のどちらかが消える 2-way 損失が発生する。L-DEVSYNC-056 の subtype だが「dev が同じ page を別軸で modernize」している点が異なり、機械化（resolver / `--ours + patch`）の ROI が低く lesson + Phase 4 risk が正。
+
+- **SP-DEVSYNC-058-A (import 経路の SSOT)**: `AdminPageHeader` は features/admin/components の barrel から import を **default** とする。Phase 12 implementation-guide で `_layout/AdminPageHeader` 直 import は redundant として撤去する旨を明記。
+- **SP-DEVSYNC-058-B (wrapper attrs hybrid)**: dev 側の `data-route="admin"` + `data-section-rhythm="compact"`（visual baseline spec の selector）は **必ず採用**。HEAD 側の `aria-labelledby` + 独立 `sr-only h1` は AdminPageHeader 内蔵 `<h1>` と二重化するため **撤去**。Phase 4 risk に「page-local sr-only h1 と primitive 内蔵 h1 の二重化」を登録。
+- **SP-DEVSYNC-058-C (AdminPageHeader props の axes 統合)**: dev の `eyebrow` + breadcrumbs `[{label:"管理",href:"/admin"},{label:"<page>"}]` を採用しつつ、HEAD の dynamic `description`（`result.ok ? \`<件数> 件\` : "失敗"`）を後付けマージ。両 axes が併存する prop 構造であることを Phase 4 で確認する pre-condition を明記。
+- **SP-DEVSYNC-058-D (EmptyState / SectionCard / list の使い分け)**: `EmptyState` は dev の icon + `className="admin-empty-state"` variant 採用（icon-less だと visual baseline が別 selector path に分岐）。`AdminSectionCard density="compact"` + 説明文は HEAD（feature spec AC）採用。`<ul>` class は IdentityConflictRow が card-like primitive なら `flex flex-col gap-3 aria-label=...` を選び `divide-y` は二重 border 防止で撤去。Phase 12 implementation-guide に「card primitive と divide-y list の混在禁止」を明記。
+- **SP-DEVSYNC-058-E (Pagination primitive 全採用)**: `Pagination` primitive がある場合は dev の手書き `<Link>` を撤去し HEAD の primitive を全採用。Phase 12 で「prev/next 両方 primitive 内蔵 → 二重化禁止」を明記。
+- **SP-DEVSYNC-058-F (Phase 4 risk への登録)**: admin-ui prototype alignment 系 task の Phase 4 risk に「同一 page を両 branch が異軸で prototype 整合した場合、import 経路 / wrapper attrs / primitive props axes / EmptyState variant / list pattern / Pagination の 6 軸で hybridize 必須」を登録し、L-DEVSYNC-058 を mitigation reference として参照。
+- **SP-DEVSYNC-058-G (検証 4 step)**: L-DEVSYNC-056 と同じ `git diff --diff-filter=U --name-only` 0 件 → `pnpm typecheck` 全 packages → `pnpm lint` 全 packages → `git commit -m "merge: sync <branch> with dev"` の 4 step を Phase 12 implementation-guide に明記。
+- 参照: [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-058、L-DEVSYNC-056 (single-side primitive 移行 hybridize)、L-DEVSYNC-046 (UNION_TARGETS)。
