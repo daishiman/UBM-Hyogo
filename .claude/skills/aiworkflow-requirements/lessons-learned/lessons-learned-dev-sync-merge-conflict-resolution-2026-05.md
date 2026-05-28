@@ -1171,3 +1171,17 @@
   - 機械化を試みるなら lesson `--ours + 後付け modernize patch` を resolver 拡張ではなく **L-DEVSYNC-058 を仕様 Phase 4 risk に明記** する方が ROI が高い（admin-ui 整合 wave は有限期間で収束する）。
 - 検証: `git diff --diff-filter=U --name-only` 0 件 → `pnpm typecheck` 全 package green → `pnpm lint` 全 package green → `git commit` (merge commit) 成立。
 - 参照: L-DEVSYNC-056 (single-side primitive 移行 hybridize)、L-DEVSYNC-046 (UNION_TARGETS)、task-specification-creator [[patterns-lessons-and-pitfalls#dev-sync-merge-conflict-resolution]]。
+
+
+## L-DEVSYNC-059: detached HEAD で working-tree に WIP を抱えた状態で dev sync-merge する場合の手順（2026-05-28 task-c 検証）
+
+- 事象: ワークツリー作成直後にブランチを切らず detached HEAD 上で実装を進めた状態（`task-c-privacy-terms-public-shell-spec`）で `branch-sync-and-push` プロンプトを実行したケース。`git merge dev` が `error: Your local changes to the following files would be overwritten by merge` で abort し、さらに union-merge 対象の `indexes/keywords.json` と `indexes/topic-map.md` が CONFLICT に到達した。L-DEVSYNC-054/055 の happy-path 経路を踏襲できることを再確認した記録。
+- Why: detached HEAD は push 不可・branch-sync-and-push のスコープ既定値（現在ブランチのみ）が確定できないため、まず **WIP を捨てずに feature branch を作成** → **WIP を 3 段階で commit**（実装 / hook が後追い生成した inventory+lessons / `indexes:rebuild` 産物）→ `git merge dev` → `pnpm sync:resolve` の順序が必須。順序を誤ると `git stash` で WIP を退避してから checkout する誘惑が出るが、stash は WT 間共有のため CONST_003（順次・並列禁止）に抵触する。
+- How to apply:
+  1. `git branch --show-current` が空（detached）の場合は **必ず最初に `git checkout -b feat/<subject>`** を発行。subject は workflow root dir 名（`docs/30-workflows/<workflow-name>/`）と一致させる。
+  2. WIP に hook（pre-commit `block-stable-key-update` 等）が後追いで inventory / lessons / indexes を生成する場合、**1 回の `git add -A && git commit` では収まらない**。期待される反復は最大 3 サイクル: (a) 実装本体、(b) hook 生成の inventory+lessons、(c) indexes 再計算差分。各サイクル後に `git status --porcelain | wc -l` が 0 になることを確認してから次に進む。
+  3. `git merge dev` 失敗時は `--no-verify` を使わず、まず未コミット変更を 2 で commit 完了させてから再実行。`git stash` は使わない（CONST_003 + WT 間共有副作用）。
+  4. `pnpm sync:resolve` 後の検証順: `git diff --diff-filter=U --name-only` 0 件 → `git commit --no-edit`（merge commit、pre-commit hooks 通過）→ `pnpm typecheck` → `pnpm lint`。今回は 2 ファイル（`keywords.json` `--ours+rebuild` / `topic-map.md` union）のみで `.tsx` conflict なし、L-DEVSYNC-055 happy-path 経路と同一。
+- 留意: WT 作成スクリプト `bash scripts/new-worktree.sh <branch>` を経由した場合は最初から feature branch がチェックアウトされるためこの問題は発生しない。手動 `git worktree add <path> <commit>` で commit 指定にした場合のみ detached HEAD になる。本 lesson は後者の救済手順。
+- 検証: 2026-05-28 `feat/task-c-privacy-terms-public-shell-spec` 作成 → 3 commit (`f86bd53c6` 実装 / `0a79987f2` inventory+lessons / `685e21680` indexes) → `git merge dev` CONFLICT 2 → `pnpm sync:resolve` → merge commit `caa505eb6` → `pnpm typecheck && pnpm lint` 全 packages green。
+- 参照: L-DEVSYNC-055 (skill indexes 2 件 happy-path)、L-DEVSYNC-054 (auth.ts / barrel 並列追加)、CONST_003 (stash 順次・並列禁止)、CONST_019 (全変更包含)。
