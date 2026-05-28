@@ -2131,11 +2131,24 @@ node scripts/list-specs.js --topics
 | Artifacts | L13 |
 | Boundary | L31 |
 
+### references/workflow-admin-dashboard-recovery-and-byZone-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Contract | L15 |
+
 ### references/workflow-admin-member-delete-e2e-spec-artifact-inventory.md
 
 | セクション | 行 |
 |------------|----|
 | Boundary | L16 |
+
+### references/workflow-admin-shell-topbar-sidebar-integration-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Contract | L17 |
+| Lessons Learned | L30 |
 
 ### references/workflow-admin-tag-queue-ui-and-404-recovery-artifact-inventory.md
 
@@ -2153,7 +2166,7 @@ node scripts/list-specs.js --topics
 
 | セクション | 行 |
 |------------|----|
-| Contract | L16 |
+| Contract | L18 |
 
 ### references/workflow-admin-ui-prototype-alignment-followup-001-members-fetch-and-visual-artifact-inventory.md
 
@@ -2169,6 +2182,27 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | Contract | L15 |
+
+### references/workflow-admin-ui-task-c-pageheader-token-conformance-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Contract | L20 |
+| Lessons Learned | L36 |
+
+### references/workflow-admin-ui-task-d-attendance-primitive-conformance-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Boundary | L15 |
+| Lessons | L19 |
+
+### references/workflow-admin-visual-baseline-admin-routes-task-e-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Contract | L16 |
+| Lessons Learned | L22 |
 
 ### references/workflow-ai-chat-llm-integration-fix-artifact-inventory.md
 
@@ -7861,14 +7895,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L2728 |
-| フェーズ構造（概要） | L2737 |
-| 品質ゲート（概要） | L2768 |
-| 出力テンプレート | L2779 |
-| 実行時のコマンド・エージェント・スキル | L2802 |
-| 昇格パターン集 | L2826 |
-| Current Active / Spec Created Tasks | L2828 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L2989 |
+| ドキュメント構成 | L2831 |
+| フェーズ構造（概要） | L2840 |
+| 品質ゲート（概要） | L2871 |
+| 出力テンプレート | L2882 |
+| 実行時のコマンド・エージェント・スキル | L2905 |
+| 昇格パターン集 | L2929 |
+| Current Active / Spec Created Tasks | L2931 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L3092 |
 
 ### references/task-workflow-backlog-part2.md
 

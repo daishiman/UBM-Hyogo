@@ -3,10 +3,11 @@
 // serial-05 step-06: 生 fetch を useAdminMutation に統一。
 //   - 409 conflict は楽観 UI として registered Set に追加する
 //   - 422 / 5xx は toast でユーザーに伝える
-//   - 出席登録は非破壊操作のため確認 dialog は出さない（破壊操作は将来 task で追加する）
+//   - 出席登録/解除は候補行内で完結し、DELETE race の 404 は解除済みとして収束させる
 import { useState } from "react";
 import { useAdminMutation } from "../../../../../src/features/admin/hooks/useAdminMutation";
 import { FetchAuthedError } from "../../../../../src/lib/fetch/errors";
+import { logger } from "../../../../../src/lib/logger";
 
 interface Candidate {
   memberId: string;
@@ -21,7 +22,17 @@ interface Detail {
   attendees: Array<{ memberId: string }>;
 }
 
-export function MeetingAttendancePanel({ detail }: { readonly detail: Detail }) {
+export function MeetingAttendancePanel({
+  detail,
+  showHeading = true,
+}: {
+  readonly detail: Detail;
+  readonly showHeading?: boolean;
+}) {
+  const attendanceLogger = logger.child({
+    scope: "admin",
+    component: "MeetingAttendancePanel",
+  });
   const [registered, setRegistered] = useState<Set<string>>(
     new Set(detail.attendees.map((a) => a.memberId)),
   );
@@ -65,10 +76,15 @@ export function MeetingAttendancePanel({ detail }: { readonly detail: Detail }) 
   };
 
   return (
-    <section aria-labelledby="meeting-detail-h">
-      <h1 id="meeting-detail-h">
-        {detail.heldOn} — {detail.title}
-      </h1>
+    <section
+      aria-labelledby={showHeading ? "meeting-detail-h" : undefined}
+      aria-label={showHeading ? undefined : `${detail.heldOn} — ${detail.title}`}
+    >
+      {showHeading ? (
+        <h1 id="meeting-detail-h">
+          {detail.heldOn} — {detail.title}
+        </h1>
+      ) : null}
       {toast && (
         <p role="status" data-testid="toast">
           {toast}

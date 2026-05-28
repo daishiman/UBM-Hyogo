@@ -47,6 +47,7 @@ export interface RequestQueueListView {
 interface Props {
   readonly initial: RequestQueueListView;
   readonly type: RequestNoteType;
+  readonly showHeading?: boolean;
 }
 
 const NOTE_TYPE_LABEL: Record<RequestNoteType, string> = {
@@ -54,7 +55,7 @@ const NOTE_TYPE_LABEL: Record<RequestNoteType, string> = {
   delete_request: "退会",
 };
 
-export function RequestQueuePanel({ initial, type }: Props) {
+export function RequestQueuePanel({ initial, type, showHeading = true }: Props) {
   const router = useRouter();
   const [items, setItems] = useState(initial.items);
   const [selectedId, setSelectedId] = useState<string | null>(
@@ -166,8 +167,11 @@ export function RequestQueuePanel({ initial, type }: Props) {
       : undefined;
 
   return (
-    <section aria-labelledby="admin-requests-h">
-      <h1 id="admin-requests-h">依頼キュー</h1>
+    <section
+      aria-labelledby={showHeading ? "admin-requests-h" : undefined}
+      aria-label={showHeading ? undefined : "依頼キュー"}
+    >
+      {showHeading ? <h1 id="admin-requests-h">依頼キュー</h1> : null}
       <div role="group" aria-label="依頼種別">
         {(["visibility_request", "delete_request"] as const).map((v) => (
           <button
