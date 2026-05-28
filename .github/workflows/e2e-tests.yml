@@ -14,11 +14,12 @@ permissions:
 
 jobs:
   # Playwright project 単位で shard 並列実行することで「1 project が失敗しても他 project は独立に進む」
-  # ようにし、30 分単一タイムアウトを回避する。各 shard は 18 分 timeout、fail-fast 無効。
+  # ようにし、30 分単一タイムアウトを回避する。各 shard は 25 分 timeout、fail-fast 無効。
+  # （2026-05: desktop-firefox が 18m を境界超過する事象が連続発生したため 18→25 に引き上げ）
   e2e:
     name: e2e (${{ matrix.project }})
     runs-on: ubuntu-latest
-    timeout-minutes: 18
+    timeout-minutes: 25
     strategy:
       fail-fast: false
       matrix:
