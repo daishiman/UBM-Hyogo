@@ -4024,6 +4024,10 @@ node scripts/list-specs.js --topics
 
 ### references/workflow-task-c-privacy-terms-public-shell-spec-artifact-inventory.md
 
+| セクション | 行 |
+|------------|----|
+| Lessons Learned | L18 |
+
 ### references/workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md
 
 | セクション | 行 |
