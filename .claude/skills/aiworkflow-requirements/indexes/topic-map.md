@@ -3455,6 +3455,8 @@ node scripts/list-specs.js --topics
 | Boundary | L30 |
 | Lessons | L34 |
 
+### references/workflow-public-header-logged-in-nav-cleanup-artifact-inventory.md
+
 ### references/workflow-regression-evidence-ci-gate-foundation-artifact-inventory.md
 
 | セクション | 行 |
@@ -7920,14 +7922,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L2848 |
-| フェーズ構造（概要） | L2857 |
-| 品質ゲート（概要） | L2888 |
-| 出力テンプレート | L2899 |
-| 実行時のコマンド・エージェント・スキル | L2922 |
-| 昇格パターン集 | L2946 |
-| Current Active / Spec Created Tasks | L2948 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L3109 |
+| ドキュメント構成 | L2861 |
+| フェーズ構造（概要） | L2870 |
+| 品質ゲート（概要） | L2901 |
+| 出力テンプレート | L2912 |
+| 実行時のコマンド・エージェント・スキル | L2935 |
+| 昇格パターン集 | L2959 |
+| Current Active / Spec Created Tasks | L2961 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L3122 |
 
 ### references/task-workflow-backlog-part2.md
 
