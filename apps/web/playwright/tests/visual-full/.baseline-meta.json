@@ -1,10 +1,9 @@
 {
   "$schema": "../../../../docs/30-workflows/task-709-visual-baseline-runtime-capture/schemas/baseline-meta.schema.json",
-  "captured_at_commit_sha": "248377d43d03d5a9f5a3a2f6f3392c380c35bac0",
-  "captured_at": "2026-05-27T11:01:40Z",
+  "captured_at_commit_sha": "f4dce7dfe85b60217ef246044cb829567e5f010a",
+  "captured_at": "2026-05-28T03:17:26Z",
   "captured_via": "playwright-visual-baseline-update.yml#workflow_dispatch",
   "captured_run_ids": [
-    "26355355712",
     "26383096067",
     "26431275613",
     "26432787256",
@@ -13,7 +12,11 @@
     "26492039712",
     "26493400023",
     "26503855446",
-    "26506821722"
+    "26506821722",
+    "26540715735",
+    "26549206362",
+    "26552141298",
+    "26552192908"
   ],
   "viewport_dimensions": {
     "desktop": {
@@ -41,5 +44,5 @@
   "refresh_workflow": ".github/workflows/playwright-visual-baseline-update.yml",
   "refresh_command_hint": "gh workflow run playwright-visual-baseline-update.yml -f reason=\"<why>\" -r <feature-branch>",
   "notes": "captured_at_commit_sha からの rendering_relevant_paths diff が空でない場合、baseline は stale。scripts/visual-baseline-status.sh で診断可能。",
-  "last_refresh_reason": "dev sync (#969 members list prototype) introduced +11px on root/public-top; regenerate baselines again"
+  "last_refresh_reason": "admin-members redesign + admin-meetings prototype-alignment (#979) baseline drift 合算; HEAD と origin/dev 双方の workflow_dispatch run_ids を結合"
 }

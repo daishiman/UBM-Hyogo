@@ -1,8 +1,0 @@
-data-route-group="public"
-data-route="public"
-data-shell="footer"
-data-shell="root"
-data-shell="topbar"
-data-testid="public-shell"
-data-theme="warm"
-data-theme="warm"
