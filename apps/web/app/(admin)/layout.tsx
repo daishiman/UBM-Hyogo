@@ -1,17 +1,22 @@
-// task-15 W5 / parallel-03 S-02: admin gate + 2 カラム grid + AdminSidebar + Admin AppShell。
-// data-theme="cool" / data-shell / data-route 契約。
+// admin-shell-topbar-sidebar-integration:
+// - AdminTopbar (固定 breadcrumb 文字列 / 空 aria-hidden actions slot) を撤去し page-head 集約に統一
+// - AdminSidebar に schemaDiffCount / userDisplayName / userEmail を server boundary で注入
 // 不変条件 #11 維持: session.isAdmin !== true は redirect（root proxy.ts と layout 内 auth() の二段防御）。
-// admin 配下に proxy.ts は配置しない（root proxy.ts と layout 内 auth() で完結、Edge cost 削減）。
 import type { ReactNode } from "react";
 import { redirect } from "next/navigation";
 
-import { Breadcrumb } from "../../src/components/admin/Breadcrumb";
 import { AdminSidebar } from "../../src/components/layout/AdminSidebar";
-import { AdminTopbar } from "../../src/components/layout/AdminTopbar";
-import { AdminTopbarActions } from "../../src/features/admin/components/_layout/AdminTopbarActions";
+import { safeServerFetch } from "../../src/lib/admin/safe-server-fetch";
 import { getSession } from "../../src/lib/session";
+import type { SchemaDiffListView } from "../../src/components/admin/SchemaDiffPanel";
 
 export const dynamic = "force-dynamic";
+
+async function loadSchemaDiffCount(): Promise<number> {
+  const result = await safeServerFetch<SchemaDiffListView>("/admin/schema/diff");
+  if (!result.ok) return 0;
+  return result.data.items.filter((item) => item.status === "queued").length;
+}
 
 export default async function AdminLayout({
   children,
@@ -22,24 +27,31 @@ export default async function AdminLayout({
   if (!session) redirect("/login?next=/admin");
   if (!session.isAdmin) redirect("/login?gate=forbidden");
 
+  const schemaDiffCount = await loadSchemaDiffCount();
+
   return (
     <div
-      className="ubm-admin-shell grid min-h-screen grid-cols-1 grid-rows-[auto_1fr] bg-[var(--ubm-color-surface-bg)] text-[var(--ubm-color-text-primary)] md:grid-cols-[272px_1fr]"
+      className="ubm-admin-shell grid min-h-screen grid-cols-1 bg-[var(--ubm-color-surface-bg)] text-[var(--ubm-color-text-primary)] md:grid-cols-[272px_1fr]"
       data-theme="cool"
       data-route-group="admin"
+      data-shell-mode="sidebar"
       data-testid="admin-shell"
     >
       <aside
-        className="border-r border-[var(--ubm-color-border-default)] md:row-span-2"
+        className="hidden border-r border-[var(--ubm-color-border-default)] md:block"
         data-shell="sidebar"
       >
-        <AdminSidebar />
+        <AdminSidebar
+          schemaDiffCount={schemaDiffCount}
+          userDisplayName={session.name ?? ""}
+          userEmail={session.email}
+        />
       </aside>
-      <AdminTopbar
-        actions={<AdminTopbarActions />}
-        breadcrumb={<Breadcrumb ariaLabel="breadcrumb (section)" items={[{ label: "管理" }]} />}
-      />
-      <main className="flex flex-col gap-4 p-4 md:p-6" data-route="admin" data-section-rhythm="compact">
+      <main
+        className="flex min-w-0 flex-col gap-4 p-4 md:p-6"
+        data-route="admin"
+        data-section-rhythm="compact"
+      >
         {children}
       </main>
     </div>

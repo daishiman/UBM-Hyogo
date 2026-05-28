@@ -212,6 +212,29 @@ function adminDashboardBody() {
   }
 }
 
+function adminSchemaDiffBody() {
+  const queuedCount = state.adminDashboardUnresolvedSchema ?? 0
+  return {
+    total: queuedCount,
+    items: Array.from({ length: queuedCount }, (_, index) => {
+      const n = String(index + 1).padStart(3, '0')
+      return {
+        diffId: `mock_schema_${n}`,
+        revisionId: 'rev_mock',
+        type: 'unresolved',
+        questionId: `q_mock_${n}`,
+        stableKey: null,
+        label: `Mock schema diff ${index + 1}`,
+        suggestedStableKey: null,
+        status: 'queued',
+        resolvedBy: null,
+        resolvedAt: null,
+        createdAt: `2026-05-10T00:${String(index).padStart(2, '0')}:00.000Z`,
+      }
+    }),
+  }
+}
+
 function publicMembersBody(params = new URLSearchParams()) {
   const q = params.get('q') ?? ''
   // 負例クエリは contracts fixture `fixtures.public.negativeQuery`（"zzz_no_match_zzz"）が正本。
@@ -721,6 +744,10 @@ async function ensureMockApi(): Promise<void> {
         response(res, 200, adminDashboardBody())
         return
       }
+      if (req.method === 'GET' && url.pathname === '/admin/schema/diff') {
+        response(res, 200, adminSchemaDiffBody())
+        return
+      }
       if (req.method === 'GET' && url.pathname === '/admin/members') {
         response(res, 200, adminMembersBody(url.searchParams))
         return
@@ -835,6 +862,20 @@ async function ensureMockApi(): Promise<void> {
         delete state.publicHomeEmpty
         state.meetingsSeed = defaultAttendanceSeed()
         response(res, 200, { ok: true })
+        return
+      }
+      if (req.method === 'POST' && url.pathname === '/__test__/admin-dashboard') {
+        readJson(req)
+          .then((body) => {
+            const parsed = body as { unresolvedSchema?: number }
+            state.adminDashboardUnresolvedSchema =
+              typeof parsed.unresolvedSchema === 'number' ? parsed.unresolvedSchema : 0
+            response(res, 200, {
+              ok: true,
+              unresolvedSchema: state.adminDashboardUnresolvedSchema,
+            })
+          })
+          .catch(() => response(res, 400, { error: 'invalid_json' }))
         return
       }
       if (req.method === 'POST' && url.pathname === '/__test__/admin-dashboard-by-status') {
