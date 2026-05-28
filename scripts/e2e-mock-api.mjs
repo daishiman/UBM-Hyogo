@@ -265,14 +265,32 @@ const adminMemberDetail = (memberId) => ({
   ],
 });
 
-const adminSchemaDiff = {
-  total: 0,
-  items: [],
-  sections: Array.from({ length: 6 }, (_, i) => ({
-    sectionKey: `section-${i + 1}`,
-    title: `セクション${i + 1}`,
-    fields: [],
-  })),
+const adminSchemaDiff = () => {
+  const queuedCount = state.adminDashboardUnresolvedSchema;
+  return {
+    total: queuedCount,
+    items: Array.from({ length: queuedCount }, (_, i) => {
+      const n = String(i + 1).padStart(3, "0");
+      return {
+        diffId: `mock_schema_${n}`,
+        revisionId: "rev_mock",
+        type: "unresolved",
+        questionId: `q_mock_${n}`,
+        stableKey: null,
+        label: `Mock schema diff ${i + 1}`,
+        suggestedStableKey: null,
+        status: "queued",
+        resolvedBy: null,
+        resolvedAt: null,
+        createdAt: `2026-05-10T00:${String(i).padStart(2, "0")}:00.000Z`,
+      };
+    }),
+    sections: Array.from({ length: 6 }, (_, i) => ({
+      sectionKey: `section-${i + 1}`,
+      title: `セクション${i + 1}`,
+      fields: [],
+    })),
+  };
 };
 
 const meetingsList = {
@@ -577,10 +595,10 @@ const server = createServer(async (req, res) => {
     return safeJson(res, 200, { total: filtered.length, items: filtered }, schemas.AdminTagQueueZ);
   }
   if (req.method === "GET" && pathname === "/admin/schema/diff") {
-    return safeJson(res, 200, adminSchemaDiff, schemas.AdminSchemaDiffZ);
+    return safeJson(res, 200, adminSchemaDiff(), schemas.AdminSchemaDiffZ);
   }
   if (req.method === "GET" && pathname === "/admin/schema") {
-    return safeJson(res, 200, adminSchemaDiff, schemas.AdminSchemaZ);
+    return safeJson(res, 200, adminSchemaDiff(), schemas.AdminSchemaZ);
   }
   if (req.method === "GET" && pathname === "/admin/meetings") {
     return writeJson(res, 200, {
@@ -702,6 +720,19 @@ const server = createServer(async (req, res) => {
       }
       return writeJson(res, 200, { ok: true, summary, rows: results, dryRun, committed });
     }
+  }
+  // DELETE /admin/meetings/:sessionId/attendance/:memberId — unregister attendance
+  if (req.method === "DELETE" && /^\/admin\/meetings\/[^/]+\/attendance\/[^/]+$/.test(pathname)) {
+    const parts = pathname.split("/");
+    const sessionId = decodeURIComponent(parts[3]);
+    const memberId = decodeURIComponent(parts[5]);
+    const meeting = state.meetingsSeed.meetings.find((m) => m.sessionId === sessionId);
+    if (!meeting) return writeJson(res, 404, { error: "meeting_not_found" });
+    const exists = meeting.attendees.some((a) => a.memberId === memberId);
+    if (!exists) return writeJson(res, 404, { error: "ATTENDANCE_NOT_FOUND" });
+    meeting.attendees = meeting.attendees.filter((a) => a.memberId !== memberId);
+    state.attendance.delete(`${sessionId}:${memberId}`);
+    return writeJson(res, 200, { sessionId, memberId, removedAt: NOW });
   }
   // legacy /attendance (singular) — back-compat for older specs
   if (req.method === "POST" && pathname.startsWith("/admin/meetings/") && pathname.endsWith("/attendance")) {

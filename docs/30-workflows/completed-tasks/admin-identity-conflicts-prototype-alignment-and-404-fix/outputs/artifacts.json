@@ -1,0 +1,46 @@
+{
+  "workflow_id": "admin-identity-conflicts-prototype-alignment-and-404-fix",
+  "status": "implemented_local_evidence_captured",
+  "task_type": "implementation",
+  "visual_category": "VISUAL_ON_EXECUTION",
+  "created_at": "2026-05-27",
+  "owner": "daishiman",
+  "branch": "feat/admin-identity-conflicts-prototype-alignment",
+  "metadata": {
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/admin-identity-conflicts-prototype-alignment-and-404-fix/outputs/phase-12/phase12-task-spec-compliance-check.md",
+        "approver": "daishiman",
+        "notes": "spec_review: Phase 1-13 と Phase 12 strict 7 outputs 作成済。web UI alignment 実装済"
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/admin-identity-conflicts-prototype-alignment-and-404-fix/outputs/phase-11/evidence/local-validation-summary.txt",
+        "approver": "daishiman",
+        "notes": "implementation_review: pnpm typecheck / pnpm --filter web lint / vitest IdentityConflictRow / playwright admin-identity-conflicts 実行 + staging 404 root-cause 切り分け evidence"
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/admin-identity-conflicts-prototype-alignment-and-404-fix/outputs/phase-13/phase-13.md",
+        "approver": "daishiman",
+        "notes": "external_ops: staging visual smoke、authenticated 404 再現／復旧確認、commit、push、PR は user-gated"
+      }
+    ]
+  },
+  "phase_12_outputs": [
+    "phase-12/main.md",
+    "phase-12/implementation-guide.md",
+    "phase-12/system-spec-update-summary.md",
+    "phase-12/documentation-changelog.md",
+    "phase-12/unassigned-task-detection.md",
+    "phase-12/skill-feedback-report.md",
+    "phase-12/phase12-task-spec-compliance-check.md"
+  ]
+}

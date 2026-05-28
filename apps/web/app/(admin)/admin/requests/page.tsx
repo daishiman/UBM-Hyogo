@@ -2,8 +2,8 @@
 // 04b-followup-004: /admin/requests admin queue resolve workflow page
 // 不変条件 #5: server fetch は admin proxy 経由のみ。
 import { safeServerFetch } from "../../../../src/lib/admin/safe-server-fetch";
-import { Breadcrumb } from "@/components/admin/Breadcrumb";
 import { AdminSectionErrorClient } from "../../../../src/features/admin/components/_shared";
+import { AdminPageHeader } from "../../../../src/features/admin/components/_layout/AdminPageHeader";
 import {
   RequestQueuePanel,
   type RequestQueueListView,
@@ -39,7 +39,12 @@ export default async function AdminRequestsPage({
   );
   return (
     <section className="flex flex-col gap-4">
-      <Breadcrumb items={[{ label: "依頼キュー" }]} />
+      <AdminPageHeader
+        eyebrow="ADMIN / REQUESTS"
+        title="依頼キュー"
+        description="公開範囲変更・削除依頼を確認して処理"
+        breadcrumbs={[{ label: "管理", href: "/admin" }, { label: "依頼キュー" }]}
+      />
       {result.ok ? (
         <RequestQueuePanel
           initial={{
@@ -48,6 +53,7 @@ export default async function AdminRequestsPage({
             appliedFilters: result.data.appliedFilters ?? { status: "pending", type },
           }}
           type={type}
+          showHeading={false}
         />
       ) : (
         <AdminSectionErrorClient
