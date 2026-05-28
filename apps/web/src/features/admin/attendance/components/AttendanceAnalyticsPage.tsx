@@ -1,6 +1,6 @@
 import { AdminSectionErrorClient } from "@/features/admin/components/_shared";
 import { fetchAttendanceAnalyticsBundle } from "@/lib/admin/fetch-attendance";
-import { readFilterFromQuery } from "../hooks/useAttendanceFilters";
+import type { AttendanceFilterState } from "../lib/read-attendance-filter";
 import { AttendanceFilterBar } from "./AttendanceFilterBar";
 import { KpiPanel } from "./KpiPanel";
 import { AttendanceTrendChart } from "./AttendanceTrendChart";
@@ -11,17 +11,10 @@ import { AttendanceTop10Ranking } from "./AttendanceTop10Ranking";
 import { AttendanceAbsenteeAlert } from "./AttendanceAbsenteeAlert";
 
 interface Props {
-  readonly searchParams: Record<string, string | string[] | undefined>;
+  readonly filterState: AttendanceFilterState;
 }
 
-const flat = (v: string | string[] | undefined): string | undefined =>
-  Array.isArray(v) ? v[0] : v;
-
-export async function AttendanceAnalyticsPage({ searchParams }: Props) {
-  const queryRecord: Record<string, string | undefined> = {};
-  for (const [k, v] of Object.entries(searchParams)) queryRecord[k] = flat(v);
-  const filterState = readFilterFromQuery(queryRecord);
-
+export async function AttendanceAnalyticsPage({ filterState }: Props) {
   const bundle = await fetchAttendanceAnalyticsBundle({
     periodFrom: filterState.periodFrom,
     periodTo: filterState.periodTo,
@@ -35,15 +28,8 @@ export async function AttendanceAnalyticsPage({ searchParams }: Props) {
     : 0;
 
   return (
-    <section
-      aria-labelledby="admin-attendance-analytics-h"
-      data-testid="attendance-analytics-page"
-      className="attendance-analytics-page"
-    >
-      <header className="attendance-analytics-header">
-        <h1 id="admin-attendance-analytics-h">出席分析</h1>
-        <AttendanceFilterBar initial={filterState} />
-      </header>
+    <div data-testid="attendance-analytics-page" className="attendance-analytics-page flex flex-col gap-4">
+      <AttendanceFilterBar initial={filterState} />
 
       {bundle.overview.ok ? (
         <KpiPanel overview={bundle.overview.data} attendeeCount={attendeeCount} />
@@ -119,6 +105,6 @@ export async function AttendanceAnalyticsPage({ searchParams }: Props) {
           message={bundle.absentees.error.message}
         />
       )}
-    </section>
+    </div>
   );
 }

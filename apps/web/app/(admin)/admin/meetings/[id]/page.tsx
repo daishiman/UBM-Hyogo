@@ -2,6 +2,7 @@
 // 不変条件 #15: 第1防御=重複登録 toast / 第2防御=削除済み member は候補に含めない
 import { safeServerFetch } from "../../../../../src/lib/admin/safe-server-fetch";
 import { AdminSectionErrorClient } from "../../../../../src/features/admin/components/_shared";
+import { AdminPageHeader } from "../../../../../src/features/admin/components/_layout/AdminPageHeader";
 import { MeetingAttendancePanel } from "./MeetingAttendancePanel";
 import { AttendanceCsvImportPanel } from "./AttendanceCsvImportPanel";
 
@@ -39,9 +40,19 @@ export default async function AdminMeetingDetailPage({ params }: Props) {
     );
   }
   return (
-    <>
-      <MeetingAttendancePanel detail={result.data} />
+    <section className="flex flex-col gap-4">
+      <AdminPageHeader
+        eyebrow="ADMIN / MEETINGS"
+        title={result.data.title}
+        description={result.data.heldOn}
+        breadcrumbs={[
+          { label: "管理", href: "/admin" },
+          { label: "開催日 / 出席管理", href: "/admin/meetings" },
+          { label: result.data.title },
+        ]}
+      />
+      <MeetingAttendancePanel detail={result.data} showHeading={false} />
       <AttendanceCsvImportPanel sessionId={id} />
-    </>
+    </section>
   );
 }
