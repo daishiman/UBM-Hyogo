@@ -149,6 +149,29 @@ for p in "${EXPECTED_PAGINATION[@]}"; do
   fi
 done
 
+# --- C7: /admin/dashboard/attendance primitive adoption
+# admin-attendance-analytics-redesign (#971, dev) replaced the prior task-D structure
+# (page.tsx + AttendanceDashboardSections.client.tsx) with AttendanceAnalyticsPage in
+# apps/web/src/features/admin/attendance/components/. Assert the new contract.
+ATTENDANCE_PAGE="apps/web/app/(admin)/admin/dashboard/attendance/page.tsx"
+ATTENDANCE_FEATURE="apps/web/src/features/admin/attendance/components/AttendanceAnalyticsPage.tsx"
+if [ -f "$ATTENDANCE_PAGE" ]; then
+  C7_FAIL=0
+  if [ "$(grep -c '<table' "$ATTENDANCE_PAGE")" -ne 0 ]; then
+    echo "[C7 FAIL] $ATTENDANCE_PAGE contains raw <table"; C7_FAIL=1
+  fi
+  if [ "$(grep -c 'function KpiCard' "$ATTENDANCE_PAGE")" -ne 0 ]; then
+    echo "[C7 FAIL] $ATTENDANCE_PAGE contains inline 'function KpiCard'"; C7_FAIL=1
+  fi
+  grep -q 'AttendanceAnalyticsPage' "$ATTENDANCE_PAGE" || { echo "[C7 FAIL] $ATTENDANCE_PAGE missing AttendanceAnalyticsPage import"; C7_FAIL=1; }
+  [ -f "$ATTENDANCE_FEATURE" ] || { echo "[C7 FAIL] $ATTENDANCE_FEATURE not found"; C7_FAIL=1; }
+  if [ "$C7_FAIL" -eq 0 ]; then
+    echo "[C7 OK] /admin/dashboard/attendance uses AttendanceAnalyticsPage (features/admin/attendance)"
+  else
+    FAIL=1
+  fi
+fi
+
 if [ "$FAIL" -ne 0 ]; then
   echo "verify-primitive-adoption: FAIL"
   exit 1
