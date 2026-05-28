@@ -1101,10 +1101,10 @@ node scripts/list-specs.js --topics
 | 3. /admin（Dashboard） | L87 |
 | 4. /admin/members | L140 |
 | 5. /admin/tags | L233 |
-| 6. /admin/schema | L313 |
-| 7. /admin/meetings | L368 |
-| 8. 共通の Server/Client 契約 | L437 |
-| 9. 不変条件サマリ（admin UI） | L455 |
+| 6. /admin/schema | L319 |
+| 7. /admin/meetings | L374 |
+| 8. 共通の Server/Client 契約 | L443 |
+| 9. 不変条件サマリ（admin UI） | L461 |
 
 ### references/ui-ux-advanced.md
 
@@ -2138,6 +2138,16 @@ node scripts/list-specs.js --topics
 |------------|----|
 | Contract | L15 |
 
+### references/workflow-admin-identity-conflicts-prototype-alignment-and-404-fix-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Canonical Workflow | L12 |
+| Implementation Artifacts | L21 |
+| Local Evidence | L30 |
+| User-Gated Evidence | L40 |
+| Lessons Learned | L49 |
+
 ### references/workflow-admin-meetings-prototype-alignment-artifact-inventory.md
 
 | セクション | 行 |
@@ -2154,12 +2164,45 @@ node scripts/list-specs.js --topics
 |------------|----|
 | Boundary | L16 |
 
+### references/workflow-admin-requests-prototype-alignment-and-404-fix-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Metadata | L3 |
+| Workflow Files | L12 |
+| Phase 12 Strict 7 | L35 |
+| Implemented Targets | L47 |
+| Local Evidence | L61 |
+| Boundary | L69 |
+| Lessons Learned | L75 |
+
+### references/workflow-admin-schema-page-prototype-alignment-and-diff-fetch-fix-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Implementation Artifacts | L10 |
+| Workflow Artifacts | L23 |
+| Evidence | L32 |
+| Lessons | L42 |
+
 ### references/workflow-admin-shell-topbar-sidebar-integration-artifact-inventory.md
 
 | セクション | 行 |
 |------------|----|
 | Contract | L17 |
 | Lessons Learned | L30 |
+
+### references/workflow-admin-tag-queue-ui-and-404-recovery-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| canonical root | L3 |
+| workflow state | L7 |
+| implementation source-of-truth | L16 |
+| phase 12 required artifacts | L27 |
+| phase 11 evidence | L39 |
+| scope notes | L48 |
+| Lessons Learned | L54 |
 
 ### references/workflow-admin-ui-prototype-alignment-artifact-inventory.md
 
@@ -2181,6 +2224,12 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | Contract | L15 |
+
+### references/workflow-admin-ui-prototype-alignment-followup-003-admin-members-prototype-redesign-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Contract | L19 |
 
 ### references/workflow-admin-ui-task-c-pageheader-token-conformance-artifact-inventory.md
 
@@ -3438,6 +3487,15 @@ node scripts/list-specs.js --topics
 |------------|----|
 | Boundary | L19 |
 
+### references/workflow-profile-server-components-render-error-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Phase 1-13 Outputs | L17 |
+| Phase 12 Strict 7 | L35 |
+| Evidence | L47 |
+| Lessons Learned | L58 |
+
 ### references/workflow-public-dashboard-prototype-alignment-artifact-inventory.md
 
 | セクション | 行 |
@@ -3446,6 +3504,8 @@ node scripts/list-specs.js --topics
 | Planned Implementation Targets | L19 |
 | Boundary | L30 |
 | Lessons | L34 |
+
+### references/workflow-public-header-logged-in-nav-cleanup-artifact-inventory.md
 
 ### references/workflow-regression-evidence-ci-gate-foundation-artifact-inventory.md
 
@@ -4186,6 +4246,16 @@ node scripts/list-specs.js --topics
 | 関連改善タスク | L99 |
 | 関連ドキュメント | L107 |
 | 変更履歴 | L119 |
+
+### references/workflow-unified-sidebar-shell-public-and-admin-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Summary | L5 |
+| Canonical workflow | L9 |
+| Planned implementation targets | L21 |
+| Current code anchors | L33 |
+| Gates | L42 |
 
 ### references/workflow-ut-02a-attendance-profile-integration-artifact-inventory.md
 
@@ -7912,14 +7982,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L2850 |
-| フェーズ構造（概要） | L2859 |
-| 品質ゲート（概要） | L2890 |
-| 出力テンプレート | L2901 |
-| 実行時のコマンド・エージェント・スキル | L2924 |
-| 昇格パターン集 | L2948 |
-| Current Active / Spec Created Tasks | L2950 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L3111 |
+| ドキュメント構成 | L2931 |
+| フェーズ構造（概要） | L2940 |
+| 品質ゲート（概要） | L2971 |
+| 出力テンプレート | L2982 |
+| 実行時のコマンド・エージェント・スキル | L3005 |
+| 昇格パターン集 | L3029 |
+| Current Active / Spec Created Tasks | L3031 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L3192 |
 
 ### references/task-workflow-backlog-part2.md
 

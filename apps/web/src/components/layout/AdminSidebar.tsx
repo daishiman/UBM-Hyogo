@@ -65,7 +65,7 @@ const GROUPS: ReadonlyArray<NavGroupDef> = [
       { href: "/admin/dashboard/attendance", label: "出席分析", icon: ICON_BAR_CHART },
       { href: "/admin/members", label: "会員管理", icon: ICON_USERS },
       { href: "/admin/tags", label: "タグキュー", icon: ICON_TAGS },
-      { href: "/admin/schema", label: "schema", icon: ICON_DATABASE, badgeKey: "schemaDiff" },
+      { href: "/admin/schema", label: "スキーマ", icon: ICON_DATABASE, badgeKey: "schemaDiff" },
       { href: "/admin/meetings", label: "開催日", icon: ICON_CALENDAR },
       { href: "/admin/requests", label: "依頼キュー", icon: ICON_INBOX },
       { href: "/admin/identity-conflicts", label: "Identity重複", icon: ICON_GIT_MERGE },

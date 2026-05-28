@@ -236,9 +236,11 @@ D1 や apps/api の repository を web 側で直接 import することは禁止
 
 実装: `apps/web/app/(admin)/admin/tags/page.tsx`
 
-- searchParams: `status` (`"queued" | "reviewing" | "resolved" | "rejected"`) / `memberId`
+- searchParams: `status` (`"queued" | "reviewing" | "resolved" | "rejected" | "dlq"`) / `memberId`
 - `fetchAdmin<QueueListView>("/admin/tags/queue${qs}")`
-- `<TagQueuePanel initial filter focusMemberId />` を返す
+- `Breadcrumb` + `page-head` (`ADMIN / TAGS`, `h-page`, muted copy) + count chips を表示し、`<TagQueuePanel initial filter focusMemberId />` を返す
+- `safeServerFetch` failure は `AdminSectionErrorClient` に `code` と `message` を渡し、`ADMIN_FETCH_401/403/404/5xx` の復旧ヒントを表示する
+- non-production の 404 は `fetchAdmin()` が `{ host, path, status }` のみを `console.warn` に出し、cookie / secret / body は出さない
 
 ### 5.2 TagQueuePanel（Client）
 
@@ -268,10 +270,14 @@ D1 や apps/api の repository を web 側で直接 import することは禁止
 
 #### レイアウト
 
+2026-05-27 `admin-tag-queue-ui-and-404-recovery` 以降、`/admin/tags` は既存 primitive を再利用した prototype-aligned layout を正本とする。新規 primitive は作らない。
+
 `grid-template-columns: 1fr 2fr`:
 
-- 左: ステータス絞込ボタン群 + キュー一覧（`<button aria-pressed>` で行選択）
-- 右: レビューパネル（`memberId` / `responseId` / `status` / 提案タグ list / `reason` / resolve ボタン）
+- 左: ステータス絞込ボタン群 + `Card` キュー一覧（`Avatar`, `Chip`, `button[aria-pressed]`）
+- 右: sticky `Card` レビューパネル（`Avatar`, `memberId`, `status`, suggested tags, `reason`, resolve `Button`）
+- `status === "resolved"` の item が存在する場合は左下に `TAGGED` 補足セクションを表示する
+- `data-testid="admin-tag-queue-list"` / `data-testid="admin-tag-review-panel"` と `aria-labelledby="tag-queue-h"` は維持する
 
 #### mutation
 

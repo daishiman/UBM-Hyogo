@@ -87,19 +87,13 @@ export function MembersClientShell({ initial, initialFilter, page, pageSize }: M
     router.refresh();
   };
 
-  // 行レベルの switch は詳細 drawer を開き、既存の useAdminMutation 経由操作に集約する。
-  const onTogglePublish = (id: string, _next: boolean) => {
-    void _next;
-    setOpenMemberId(id);
-  };
-
   return (
     <div className="flex flex-col gap-4">
       <MembersFilters
         value={initialFilter}
         onChange={onChangeFilter}
         loading={pending}
-        count={initial.total}
+        totalCount={initial.total}
       />
       <div className="flex justify-end">
         <Button
@@ -125,7 +119,6 @@ export function MembersClientShell({ initial, initialFilter, page, pageSize }: M
         onToggleSelect={onToggleSelect}
         onToggleSelectAll={onToggleSelectAll}
         onOpenRow={setOpenMemberId}
-        onTogglePublish={onTogglePublish}
         page={page}
         pageSize={pageSize}
         total={initial.total}

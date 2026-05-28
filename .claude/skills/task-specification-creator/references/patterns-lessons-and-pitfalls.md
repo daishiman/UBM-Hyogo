@@ -447,7 +447,6 @@ dev → feature の sync-merge で発生した conflict 解消ルール（aiwork
 これら 3 件は本 skill の `evidence-sync-rules.md` / `patterns-phase12-sync.md` で扱う「Phase 12 strict 7 / sync gate」と整合する追加ガード。
 
 - **L-DEVSYNC-043 (`pnpm sync:resolve` 中の worktree `index.lock` 失敗)**: sync-merge を伴う Phase（特に Phase 5 / Phase 12 の skill index 更新 + Phase 13 PR 前）で `pnpm sync:resolve` が `fatal: Unable to create '.../worktrees/<wt>/index.lock'` で失敗するケースを runbook 化する。**仕様書側の Phase 12 implementation-guide / Phase 13 PR pre-flight チェックリスト**に「`pnpm sync:resolve` 失敗時は `rm -f $(git rev-parse --git-dir)/index.lock` を試す」troubleshoot 行を含めること（worktree 環境では `.git` がファイルなので `.git/index.lock` 直接除去はできない）。詳細手順は aiworkflow-requirements skill L-DEVSYNC-043 を参照。
-- **L-DEVSYNC-050 (dev snapshot housekeeping commit が ort auto-merge 通過率を上げる / 2026-05-27 確認)**: dev 側に `chore(dev-snapshot): housekeeping snapshot before origin/dev sync (#NNN)` 系の snapshot commit が入っている直後の sync-merge は、skill index 系 (`indexes/{keywords.json, quick-reference.md, resource-map.md, topic-map.md}` / `references/task-workflow-active.md`) も含めて **ort strategy で conflict 0 件 auto-merge** が成立しやすい。**仕様書側の Phase 13 PR pre-flight チェックリスト**に「(a) `git log origin/dev --oneline -20 | grep dev-snapshot` で直近 snapshot commit の有無を確認、(b) snapshot が直近にない場合は `pnpm sync:resolve` フォールバックを前提に手順を進める、(c) feature ブランチ側で 1 日以上 dev sync していない場合は事前 `git fetch origin dev:dev && git merge dev` を 1 回挟んで base を新鮮化する」の 3 点を含めること。長時間 sync しないまま skill index を頻繁に書き換えると 3-way base が古くなり conflict 増加する逆相関を Phase 4 risk table に記録する。詳細は aiworkflow-requirements skill L-DEVSYNC-049 直後の 2026-05-27 (3回目) 事例参照。
 
 ## enum → route exhaustiveness guard pattern（issue-891）
 
@@ -537,34 +536,6 @@ issue-894（admin topbar breadcrumb 二重描画解消）実装で得た知見�
 
 - exempt path を「pattern template として汎用化したいから」と理由なく広げる（例: `apps/web/src/components/**/*.svg`）。**brand-icon 専用 dir に物理的に閉じ込める**こと。CONST_007 (unassigned-task は実装過程で実際に発見されたもののみ) に準拠し、speculative な exempt 拡張は避ける。
 
-## HTTP status 別 typed error / server-truth countdown パターン（Issue #275 由来）
-
-429 等の retry 可能 status は「失敗」ではなく「server-truth に従った待機」として扱う必要があり、独立 error class や catch-all 分岐に流すと UI invariant が崩れる。Issue #275（Magic Link 429 Retry-After UI 復元）で確立した分離パターンを spec に反映する。
-
-### L-I275-001 (typed error は base error の subclass にする)
-
-- **NG**: `class RateLimitedError extends Error` のように独立 class にして、既存 callsite の `catch (e instanceof RequestError)` から漏れる。
-- **OK**: `class MagicLinkRateLimitedError extends MagicLinkRequestError` として subclass 化し、既存 catch 互換を**型階層で**担保する。
-- **Why**: catch 互換性は spec 文言ではなく型階層で保証する。Phase 3 design-review に `extends` 関係を明示し、Phase 4 test plan に `toBeInstanceOf(BaseError)` と `toBeInstanceOf(SpecificError)` の両方を入れる。
-
-### L-I275-002 (Retry-After 三段 precedence)
-
-- **NG**: header のみ / body のみで `retryAfterSec` を解決する。proxy/CDN header と middleware body のどちらか片方を取りこぼす。
-- **OK**: `Retry-After` header → JSON body `retryAfterSec` → default 60 秒の三段 precedence。負数・非整数・NaN は default にフォールバック。
-- **Why**: server-truth を取りこぼさず、かつ middleware/CDN 構成変更にロバスト。parser は pure function で export し unit test 4 ケース（header/body/both/none）で網羅。callsite 1 件なら util 化せず YAGNI 原則を守る。
-
-### L-I275-003 (rate-limit catch は早期 return / URL state 据え置き)
-
-- **NG**: 429 を一般 error 分岐へ流し `replaceLoginState("error")` で `?state=error` に遷移、または `sent` に遷移して「送信完了」と誤表示。
-- **OK**: catch ブロック先頭で `if (e instanceof RateLimitedError) { setCooldown(e.retryAfterSec); return; }` の早期 return。URL state は `input` のまま、`router.refresh()` も呼ばない。
-- **Why**: rate-limit は失敗でも完了でもなく「待機」。Phase 4 component test に「429 で URL state が変化しない」「`router.refresh` が呼ばれない」assertion を必ず含め、No-Go 条件に「429 で `?state=error|sent` 遷移」を明示する。
-
-### Phase 12 への反映項目
-
-- **implementation-guide.md**: 「中学生向け説明」で「429 は失敗じゃなくて『あと何秒待って』のサイン」「待つ間はボタンを押せなくするだけで、エラー画面は出さない」の二段で説明。
-- **system-spec-update-summary.md**: API contract spec を変更しない場合でも、client lib の typed error 追加と UI state machine 不変条件は同サイクルで spec 同期する。
-- **unassigned-task-detection.md**: reload 跨ぎ永続化 / 共通 Retry-After util / 実 API E2E は callsite と運用負荷が見合うまで起票しない（YAGNI）。
-
 ---
 
 ## CSP directive 撤去パターン（issue-924 L-I924-001..005 汎化）
@@ -622,20 +593,6 @@ CSP の `style-src-attr` や `script-src-attr` 等 *-attr 系 directive を撤�
 - **L-I911-003**: component spec は toast だけでなく payload、DOM state、CTA 消滅/出現を assert する。
 - **L-I911-004**: 親 workflow に「caller 未移行」などの stale note がある場合、実装 wave で正本 index も補正する。
 - **L-I911-005**: Phase 12 optional summary (`phase-12.md`) と strict 7 inventory を混同しない。
-
----
-
-## iterated sync-merge wave での lessons union 安定化（dev sync-merge / 2026-05-27 / Issue #275 4-wave 連続取り込み）
-
-同一 feature branch で複数回 dev 取り込みを繰り返す場合、**初回の union manual resolve で構造を安定化させると 2 回目以降は ort strategy が自動 union**する。`patterns-lessons-and-pitfalls.md` のような追記専用 lessons ファイルでこの効果が顕著。
-
-- **L-ITERSYNC-001 (初回 union を構造化する)**: HEAD と dev が同じ lessons ファイルへ別 section を追記して conflict した初回は、conflict marker 削除に加え **両 section を `---` 区切り + `## <Issue 名>` H2 で分離**する。続く wave で dev 側が更に section を追加しても、独立 H2 ブロック構造のため ort が anchor を正しく特定し自動 union できる。
-- **L-ITERSYNC-002 (5-wave 連続 sync:resolve 成立条件)**: 解消対象が `indexes/keywords.json`（derived・`--ours` + rebuild）と doc 系 union ターゲットのみで、ソース実装に手が入らない wave 構成であれば、`pnpm sync:resolve` + ort で **5 連続 sprint** まで成立することを実証（39c4bf962→07b8843e8→ab0450fb3→cf155ca2f→a4df62f82→a1e3dd135→[5th merge], PR #961）。5 波目は `keywords.json` 単独 conflict、lessons ファイル系は L-ITERSYNC-001 構造化済みのため ort 自動 union。aiworkflow-requirements の [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-013 (4 回目確認) と整合。
-- **L-ITERSYNC-003 (長 session の disk hygiene)**: 同 PR 内で 4 回以上の sync-merge を回す long-running session では `/private/tmp/claude-*` の tool output cache が hundred-MB 規模に膨らみ、`git diff` 等の付随コマンドが ENOSPC で fail することがある。Phase 12 implementation-guide の operational note に「複数 wave sync 前後の `find /private/tmp/claude-* -name "*.output" -mtime +1 -delete` 実行」を追記推奨。これは spec の正本ではなく runner 環境 hygiene。
-
-### Anti-pattern
-- 2 回目以降の sync-merge で union manual resolve を再実行する（初回安定化済みなら不要 = 無駄な merge commit）。
-- ENOSPC を `pnpm sync:resolve` 失敗と誤帰責し、resolver の bug として起票する（実体は環境側の cache 飽和）。
 
 ---
 
@@ -776,6 +733,22 @@ prototype HTML / CSS を実コードへ落とし込む task では、以下 3 �
 - handler を mock に追加する代わりに `test.skip` / `test.fixme` で逃がす → playwright が API shape の正本検証 gate なのに gate が空洞化する。
 - `apps/web/playwright/fixtures/auth.ts` のみ追従し `scripts/e2e-mock-api.mjs` を忘れる → `playwright-smoke` は green になるが `e2e-tests-coverage-gate` (3 shard) が同症状で fail し続け、原因切り分けで時間を浪費する。
 
+## Server Components render error の parity 適用パターン（2026-05-27）
+
+admin 側で既に実装済みの `safeServerFetch` ラップ + env accessor 経路是正パターンを、profile 側 (`apps/web/app/(member)/profile/page.tsx`) へ parity 適用する際に得られた一般化可能な lessons（`profile-server-components-render-error` workflow / `fix-admin-server-components-render-error-stg` の系列タスク）。
+
+- **L-PROFSCR-001 (parity-by-admin-template)**: Server Component の `try/catch + throw err;` パターンは SCR digest を誘発する。admin 側に既存実装がある場合、`safeServerFetch(fn, { codePrefix, rethrowOn: [AuthRequiredError] })` を **template-by-parity** として転用し、`AuthRequiredError` のみ rethrow / それ以外は SectionError UI 降格に固定する。route group 全体への横展開は別 followup タスクへ分離（possible-lessons-learned で済ませる）。
+- **L-PROFSCR-002 (partial env accessor 追加)**: full-schema `getEnv()` だけでは `INTERNAL_API_BASE_URL` / `PUBLIC_API_BASE_URL` の片方欠落時に PUBLIC fallback まで到達できない。Phase 4 contracts に **責務分割した部分 accessor**（例: `getApiBaseEnv()`）の追加を明記し、INTERNAL → PUBLIC → fail-fast の優先順位を accessor 内に閉じ込める。route 側で env 解決ロジックを直書きしない。
+- **L-PROFSCR-003 (localhost fallback 撤去 + grep gate)**: Cloudflare Workers の Server Component から `http://127.0.0.1:<port>` などの loopback fallback は到達不能。**完全撤去**した上で、focused spec 内に `process.env[` / `127.0.0.1` リテラル 0 件の **静的 grep gate** を置く（spec 自身が contract gate になる）。Phase 6 acceptance grep にも同一パターンを含める。
+- **L-PROFSCR-004 (focused regression spec 三点セット)**: env accessor 経路是正タスクの Phase 4 contracts には「accessor spec（partial parse 契約） + fetch helper spec（INTERNAL→PUBLIC→throw + source guard） + page spec（5xx は SectionError / 401 は redirect）」の **focused vitest 3 spec** を固定する。broader lint / build / staging runtime smoke は Phase 13 user-gated に残し、Phase 12 内で混同しない。
+- **L-PROFSCR-005 (parity タスクの owning skill 同期)**: parity 適用タスクでも owning skill (`aiworkflow-requirements` の env accessor reference 等) は **applied-with-spec-sync** ルーティングで同一サイクル更新する。「admin 側で既に同期済みだから profile 側は無修正で良い」は誤り — accessor が増えた場合 (`getApiBaseEnv()`) は accessor 一覧の正本に必ず反映する。
+
+### Anti-pattern
+
+- `try/catch` 内で `console.error(err); throw err;` のまま放置 → SCR digest 化を localhost dev では再現しづらく、staging 配備後に初めて表面化する。
+- env 解決失敗時に `?? "http://127.0.0.1:8787"` などの defensive default を残す → fail-fast を阻害し、本番の env 欠落を silent に通してしまう。
+- accessor 追加だけして spec 側 grep gate を置かない → 将来の refactor で `process.env[` 直接参照が再導入されても CI で検知できない。
+
 ## Primitive 採用タスク（admin dashboard 系 / 2026-05-26）
 
 UI primitive (`AdminPageHeader` / `KpiCard` / `AdminTable` / `AdminEmptyState` 等) を既存ページに整流するタスクの仕様で再発する設計判断。Refs: aiworkflow-requirements `lessons-learned-admin-ui-task-d-attendance-primitive-2026-05.md` (L-TASKD-001..006).
@@ -816,19 +789,76 @@ UI primitive (`AdminPageHeader` / `KpiCard` / `AdminTable` / `AdminEmptyState` �
 - **L-PATSEC-002 (末尾 append-only)**: 既存 section の中央に bullet を増やさず、必ず**ファイル末尾に新 section を append**する。中央への追加は L-DEVSYNC-030（table-merge）系の手動 union を要求し、resolver 1 発で完結しない。
 - **L-PATSEC-003 (resolver 委譲)**: 本ファイルは `scripts/sync/resolve-skill-merge-conflicts.sh` の `UNION_TARGETS` に登録済（[[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-046）。仕様書 Phase 12 で本ファイルへ section を追記するタスクは「dev sync-merge での conflict は `pnpm sync:resolve` 自動解消」と前提を置いてよい。
 
-## main 取り込み no-op 構造前提（pr-creation L-MAINNOOP-001..004 汎化）
+## Admin route 404 観測と prototype alignment（L-AIDC-002..007 汎化）
 
-`feature/* → dev → main` の単方向 release flow（CLAUDE.md「ブランチ戦略」節）下では、feature branch が dev を merge 済みの場合 `origin/main` は HEAD の祖先となり、`git merge origin/main` は必ず `Already up to date.` で終わる。「main 取り込み・CI 失敗解消」の追加指示を受けた仕様書フェーズでは下記を契約する。
+admin route の UI prototype alignment と staging 404 復旧を 1 サイクルで扱う場合の汎化パターン。
 
-- **L-MAINTAKE-001 (Phase 13 verify gates)**: PR closeout / 追加 main 取り込み指示を扱う仕様書では Phase 13 acceptance に `git merge-base --is-ancestor origin/main HEAD` と `git rev-list --left-right --count refs/heads/main...origin/main` を verify gate として明記する。true / `0 0` なら no-op を確認の上 merge を試行しない（不要な merge commit を作らない）。
-- **L-MAINTAKE-002 (CI failure 推測修正の禁止)**: 「CI 失敗を解消」指示でも `gh pr checks <PR>` を先に取得する。全 SUCCESS の場合は「失敗なし」を一次確認として返し、推測ベースの修正コミットを積まない。Phase 11 evidence にも `gh pr checks` 出力を添付する。
-- **L-MAINTAKE-003 (no-op 結果の skill sync 義務)**: 取り込み結果が no-op であっても、ユーザーがスキル反映を明示指示した場合は本 lesson のように「no-op 構造前提」を [[lessons-learned-main-merge-noop-when-dev-merged-2026-05]] に記録する。次回同種指示を受けた AI が `is-ancestor` 確認だけで完結できる。
-- **L-MAINTAKE-004 (evidence の併記)**: 「同期済み」の根拠は `Already up to date.` 単独ではなく `left-right --count = 0 0` + `gh pr checks` 集計を併記する。print-only single line は他者検証性が弱い。
-- **L-MAINTAKE-005 (dev divergence の併走 verify)**: Phase 13 acceptance では main is-ancestor に加え `gh pr view <PR> --json mergeable,mergeStateStatus` を必須にする。前回 push 後に他 PR が dev へ merge されると本 PR は `mergeStateStatus=DIRTY / mergeable=CONFLICTING` になる。main merge は no-op のままだが `git fetch origin dev && git merge origin/dev`（conflict は `pnpm sync:resolve` で自動解消）で再 sync する必要がある。
-- **L-MAINTAKE-006 (skill-only push の CI invisibility)**: `.claude/skills/**` だけを変更した push は path-filter で大半の required workflow が起動せず、`gh pr checks` 上は triage 等わずか 1〜数件しか出ない。「checks all pass」だけで blocking 判定せず、必ず `mergeStateStatus` を併読する。実 CI 再走が必要な場合は code-touching commit か dev sync merge commit を積む（空 commit は `pull_request synchronize` を起動しないため NG）。
+- **L-AIDC-002 (staging 404 の 5 軸切り分け)**: `ADMIN_FETCH_404` は H1 build 未デプロイ / H2 `INTERNAL_API_BASE_URL` mismatch / H3 D1 migration 未適用 / H4 auth 401→404 化 / H5 proxy path strip の 5 軸で、staging tail と curl evidence を順に潰す。仕様 Phase 4 には H1-H5 の確認コマンドと修正対象を表で固定する。
+- **L-AIDC-003 (narrow warn event)**: admin fetch の 404 観測は `safe-server-fetch.ts` で `ADMIN_FETCH_404` のみ `logger.warn({ event: "admin_fetch_404", scope: "admin", path, method, code })` として narrow event 化する。一般失敗を全て warn にしないことで Sentry noise を増やさない。
+- **L-AIDC-004 (multi-scope AC 分離)**: UI 改修 + runtime bugfix を同一 PR に入れる場合、AC / evidence / user-gated boundary を A 系 UI と B 系 runtime に分離する。Phase 12 の changed-files classification も A/B 列で書く。
+- **L-AIDC-006 (PII grep false positive 回避)**: identity 系 route の PII grep gate は raw email リテラル検出に加え、`responseEmailMasked` のような schema field 名を false positive として扱うか、検証結果に除外根拠を明記する。
+- **L-AIDC-007 (N/A spec update の根拠表)**: system spec 更新が N/A の場合も、影響し得る spec file と「なぜ更新不要か」を表で列挙する。N/A 単独表記は Phase 12 compliance で漏れに見える。
 
 ### Anti-pattern
 
+- 404 復旧を「staging で要確認」の一文だけにする → H1-H5 のどこを直すべきかが後続 agent に伝わらず、実コード変更と ops 証跡が分離する。
+- `ADMIN_FETCH_FAILED` など広い失敗をすべて Sentry warn に昇格する → transient network error まで noise 化し、真の 404 復旧可否が見えにくくなる。
+- UI alignment の visual evidence と staging runtime evidence を同じ status にする → local で閉じる検証と user-gated 検証の責務境界が崩れる。
+
+## admin section error recovery hint + server fetch diagnostics パターン（admin-tag-queue-ui-and-404-recovery L-ATAGUI-001..005 汎化）
+
+ admin 系画面の section error 表示と server-side fetch の診断ログを同 wave で改良するときの再現テンプレ。`/admin/tags` 整備で確立し、他の admin route （members / meetings / requests / schema / identity-conflicts / audit）へ同形で展開できる。
+
+- **L-ADMSEC-001 (recovery hint 3 軸)**: `AdminSectionError` の code → hint マップは「route mismatch / base-url 誤り / deploy 遅延」「auth session / 管理者権限 / env-secret 不足」の operator が次にとる確認 action を本文に必ず入れる。code 名だけの表示や code-search 動線だけにしない。`/^ADMIN_FETCH_5\d\d$/` で 5xx 系をまとめて env-secret 確認 hint に倒すと code 追加コストが O(1) に収まる。
+- **L-SRVOBS-001 (non-prod 診断ログ最小 4 制約)**: `fetchAdmin()` 系の診断 `console.warn` は (1) `process.env.NODE_ENV !== "production"` で gate、(2) `new URL(base).host` だけ抽出し full URL / token / cookie / body を出さない、(3) `try/catch` で URL parse 失敗を `<invalid>` に倒し fetch 例外を増やさない、(4) `{host, path, status}` の 3 フィールドのみ、をテンプレ化する。Phase 6 acceptance に env spec（`server-fetch.env.spec.ts` 雛形）を必ず含める。
+- **L-ADMPAGE-001 (admin page 4 ブロック規律)**: admin route を prototype に合わせるときは `page-head + Breadcrumb + 状態 chip 行 + メイン Panel` の 4 ブロックで分解し、Panel 内は `Avatar / Button / Card / Chip / EmptyState / Icon` の既存 primitive 合成で表現できないか先に確認する。新規 primitive を生やすと token / visual baseline / structure gate の 3 系統で追従コストが線形に増える（L-PGHEAD-001..006 と整合）。Panel 改修時は props 契約と data-testid を維持し、focused component spec の再書き直しを避ける。
+- **L-UNTASK-001 (user-gated boundary と未タスクの分離)**: `workflow_state: implemented_local_runtime_pending` のときは unassigned-task-detection.md の Rationale に (a) 本 cycle で実装した項目、(b) staging / runtime user-gated step は本 workflow Phase 11 boundary であり別 backlog ではない、の 2 段を必ず書く。両者を混ぜると completed-tasks 移動時に followup issue 数が水増しされる。
+- **L-ARTPAR-001 (artifacts.json parity の `cmp -s` 固定)**: root `artifacts.json` と `outputs/artifacts.json` の parity は `cmp -s <root> <outputs>` を Phase 12 system-spec-update-summary.md の Validation command として固定する。`gate-metadata:validate` の `evidence_path` 物理存在検証と組み合わせれば、2 箇所 mirror の drift は実質ゼロに保てる。
+
+### Anti-pattern
+
+- section error code を hint なし `code` 表示だけで返す → operator が code grep に走り、env / deploy 確認に到達するまでに時間がかかる。
+- 診断ログに `Cookie` / `Authorization` / request body / full URL を入れる → staging tail / ローカルログで secret が漏れ、incident response 時にログ全削除が必要になる。
+- admin route に prototype 整合のため新 primitive を生やす → token / visual baseline / structure gate の 3 系統で追従コストが線形に増え、PR レビューが長期化する。
+- staging visual screenshot の pending を unassigned-task として detection に書く → Phase 11 user-gated boundary と二重管理になり、completed-tasks 移動時の followup 件数が水増しされる。
+
+---
+---
+
+## Admin page prototype 整合 + observed API 404 同居タスクパターン（admin-schema-page-prototype-alignment-and-diff-fetch-fix L-ASCHEMA-001..005 汎化）
+
+staging で観測された `/admin/<route>` API 404 と、同 route の prototype 乖離（page layout / sidebar 表記）を同一サイクルで解消する標準分割。
+
+- **L-ASCHEMA-001 (Lane A 先行 triage)**: prototype 整合 + observed runtime error の同居タスクは、UI 着手前に Lane A（`scripts/cf.sh tail` / `curl` / deploy 同期 / mount 順）で根本原因を切り分け、Phase 2 design に切り分け表を必須化する。API surface 不変条件を破る修復に滑り込まない gate になる。
+- **L-ASCHEMA-002 (panel stats 抑止 prop)**: parent page で stats grid を集約し、child panel に `hideInlineStats?: boolean` (default `false`) を持たせる。`_shared` Primitive へ昇格させず page-local helper に閉じる。多数の派生 panel が child を参照する場合の destructive 削除リスクを断つ。
+- **L-ASCHEMA-003 (sidebar 表記併修)**: 1 行 label 統一は単独 issue 化せず、関連 UI prototype 整合タスクと同 PR に同梱し、`AdminSidebar.component.spec` 追記をチェックリスト化する。
+- **L-ASCHEMA-004 (contract spec lane 明示)**: `*.contract.spec.ts` は D1 lane（`vitest.d1.config.ts` + `singleFork`）専用。Phase 4 test plan / Phase 9 QA に lane 名と実行コマンド（`pnpm test:coverage:d1`）を明示する。
+- **L-ASCHEMA-005 (Playwright fallback chain 順)**: `apps/web/src/lib/admin/server-fetch.ts` の Playwright fallback は task-specific fixture の **後** に append する。chain 先頭挿入は既存 spec の expected fixture を上書きし、UI 404 分岐 regression を silent 200 で吸収するため禁止。
+
+### Anti-pattern
+
+- prototype 整合タスクで API endpoint surface を改修する（不変条件 #1「既存 API surface のみ接続」違反）。
+- panel の inline stats を destructive 削除し、`hideInlineStats` 同等の後方互換 prop を経由しない。
+- contract spec を unit lane に置いて「実行されない緑」を量産する。spec 数で安心するが CI で carry されていない。
+- Playwright fallback を chain 先頭に挿入し既存 fixture を上書きする。観測 404 を fixture が silent 200 で吸収し regression が取れない。
+
+## main 取り込み no-op 構造前提（pr-creation L-MAINNOOP-001..004 汎化）
+
+## Admin route mount drift + UI prototype 整合 dual-task パターン（admin-requests L-ADMREQ-001..005 汎化）
+
+`/admin/requests` の staging `ADMIN_FETCH_404` (mount 落ち) と UI prototype 未整合を 1 サイクルで解消した実装から、admin 系 worker route の dual-task 仕様書テンプレートへ汎化反映。
+
+- **L-MOUNT-001 (worker entry mount gate)**: 既存 route の `*.contract.spec.ts` は `createXxxRoute()` を直接 instantiate するため、`apps/api/src/index.ts` から mount が落ちても全 PASS する。admin / member 系で外部 fetch が 404 を返した場合は、まず `*.mount.spec.ts` を追加し `import worker from "../../index"` → `worker.fetch(req, env, ctx)` で dispatch を検証。`status !== 404` をアサーション。仕様書 Phase 4 (テスト計画) に **「worker entry mount drift gate」** を独立 TC として明示する。
+- **L-P11STATUS-001 (Phase 11 evidence status enum 厳守)**: `outputs/phase-12/phase12-task-spec-compliance-check.md` の Phase 11 evidence 表に `pending_user_approval` / `pending_user_gate` 等の独自 enum を書くと `verify:phase12-compliance` が `invalid status` で fail する。正本は `VALID_STATUSES = new Set(["present", "pending", "n/a"])` (`scripts/lib/phase12-compliance/verify-phase11-evidence-existence.ts`)。staging baseline 等の user-gated 未撮影は `pending` と書き、承認ニュアンスは「Runtime or user-gated boundary」散文に分離する。
+- **L-ADMHEAD-001 (page-head h1 単独所有 + panel hidden h2)**: admin shell 配下の page では route page が `page-enter / page-head / h1` を所有し、panel/section は `<h2 className="sr-only">` + `section[aria-labelledby]` で referent を満たす。panel 側に visible h1 を残すと `document.querySelectorAll('h1').length === 1` semantic gate が fail。仕様書 Phase 2 (設計) の primitive 適用表に役割分担行を必須化する。
+- **L-EVDFLAG-001 (env-gated local screenshot capture)**: Phase 11 local authenticated screenshot は `<FEATURE>_EVIDENCE=1` + `PLAYWRIGHT_EVIDENCE_DIR=<workflow>/outputs/phase-11` の組で env-gated 起動する。spec 側で `test.skip(!process.env.<FEATURE>_EVIDENCE, ...)` を最初に置く。CI matrix は default off で smoke のみ走り、evidence capture は手動 1 回で完結する。
+- **L-DUALTASK-001 (artifacts.json mirror byte-identical)**: Task A + Task B 等 dual-track を 1 ワークフローでまとめる場合、root `artifacts.json` と `outputs/artifacts.json` の差分が出やすい。`local_evidence_files` / `planned_visual_evidence_files` を片方だけ書くと `gate-metadata:validate` 後段の `cmp` で fail。Phase 12 compliance check の Section 6 (verification commands) に `cmp <root>/artifacts.json <root>/outputs/artifacts.json` を必須行として記載する。
+
+### Anti-pattern
+
+- contract spec だけで route shape を保証したと判断 → mount drift が staging で初めて発火し ADMIN_FETCH_404 ループ。
+- Phase 11 evidence 表に `pending_user_approval` 独自 status を書く → `verify:phase12-compliance` fail で PR pre-flight ブロック。
+- root `artifacts.json` だけ更新し outputs mirror を忘れる → `gate-metadata:validate` の cmp 段で fail し、原因切り分けに時間を浪費する。
 - `is-ancestor` 確認を飛ばして `git merge origin/main` を実行 → no-op merge commit が生まれ PR diff の noise になる
 - `gh pr checks` を見ずに「CI 失敗があるはず」と推測修正を積む → 不要コミットで PR review コストを増やす
 - no-op だったので lesson を残さない → 次回同種指示で同じ確認手順を再構築する無駄が発生する
@@ -990,6 +1020,18 @@ UI 系 feature ブランチ（prototype alignment / dashboard 等）と dev の�
 - 該当 spec を `test.skip` で先送り → e2e mock API を使う他 spec も同じ regression を踏むため fundamental fix が常に正解
 - `revalidate: 0` に下げて regression を回避 → production で free tier 圧迫（cache hit rate が drop）し本末転倒
 
+## Admin panel dual-h1 strict-mode + visual baseline 更新パターン (2026-05-28)
+
+- **Rule (panel heading)**: admin panel component の root は `<section aria-label="<セクション名>">` で region role を取り、内部に `<h1>` を**置かない**（sr-only h1 も含む）。AdminPageHeader 側が `h-page` h1 を一元提供する場合、panel の `<h1 sr-only>` は Playwright `getByRole('heading', { name })` の strict-mode に必ず抵触する。
+  - Why: page-head h1 と panel sr-only h1 が両方とも `heading` role + 同名で resolve され、`strict mode violation: resolved to 2 elements` でCI fail。
+  - How to apply: component spec 側は `getByRole('region', { name })` または `getByLabelText(name)` で assert する。**heading role からの離脱**が isolation/統合の両立条件。Phase 4 risk に「panel 内 sr-only h1 は page-head と dual-h1 になる」を登録。
+  - 参照: aiworkflow-requirements [[lessons-learned-admin-tag-queue-ui-and-404-recovery-2026-05]] L-ATAGUI-006 + 既存 L-PGHEAD-001..005（headingId 譲渡パターン）と整合。
+
+- **Rule (visual baseline regen)**: redesigned page の visual-full baseline drift は CI artifact `<viewport>-diff.zip` 内の `test-results/<spec>/<snapshot>-actual.png` から差し替える。`test-failed-1.png` は viewport-crop（full-page でない）なので使わない。
+  - Why: Linux runner 環境で pixel-perfect な full-page snapshot を生成するのは CI のみで再現可能。ローカル macOS で `--update-snapshots` しても pixel が一致しない（OS/font subpixel 差）。
+  - How to apply: `gh api .../actions/runs/<id>/artifacts` で `visual-full-<viewport>-diff` ID 取得 → zip ダウンロード → `<snapshot>-actual.png` を `apps/web/playwright/tests/visual-full/full-visual.spec.ts-snapshots/` に上書き → commit → CI 再実行で PASS 確認。`file <png>` で full-page サイズを必ず検証。
+  - 参照: aiworkflow-requirements [[lessons-learned-admin-tag-queue-ui-and-404-recovery-2026-05]] L-ATAGUI-007 を逐語埋め込み。
+
 ## L-DEVSYNC-054 並列 feature の同一 cleanup hotspot / barrel への独立追加パターン（dev sync-merge / 2026-05-28）
 
 並列に進む複数 feature ブランチが、e2e mock API の reset ハンドラ（`apps/web/playwright/fixtures/auth.ts` の `/__test__/reset` および `mockApi.reset()`）や features barrel export（`apps/web/src/features/admin/components/index.ts` 等）の末尾に、互いに独立な `delete state.*` / `state.* = ...` / `export * from "./..."` 行を追加すると、sync-merge 時に必ず add-add 衝突する。`pnpm sync:resolve` の `UNION_MERGE_TARGETS` は `.ts` ソースを対象外のため `WARN unhandled` で残り、手動 union が必須。
@@ -1028,3 +1070,44 @@ admin-ui task A〜E が連続して dev に merge される現フェーズで、
 - **SP-DEVSYNC-055-C (resolver 単独完結の閉路)**: 「CONFLICT 発生 → `pnpm sync:resolve` → marker grep 0 → `git commit --no-edit` → `pnpm typecheck && pnpm lint` green → push」を Phase 13 の sync-merge 工程として定型化。手動 union や Edit が発生したら別 lesson (L-DEVSYNC-054 等) を参照し、resolver 単独完結の閉路を逸脱した理由を Phase 12 implementation-guide に記録する。
 - 参照: [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-055、L-DEVSYNC-046 (UNION_TARGETS 昇格)、L-DEVSYNC-042 (skill indexes union 化)。
 
+
+## L-DEVSYNC-056 manual-merge: admin page-head primitive 移行と panel showHeading bridging の同時 conflict（2026-05-28）
+
+admin route prototype-alignment 系 branch を `origin/dev` に sync-merge する際、`pnpm sync:resolve` 後に残る手動 conflict は「HEAD 側 branch が inline `<header className="page-head">` で page-local h1 を実装し、dev 側で admin-ui Task C の `AdminPageHeader` primitive + `showHeading?: boolean` prop bridge が完了している」二重発生パターンで固定化する。
+
+- **SP-DEVSYNC-056-A (page.tsx 解消手順を仕様で前提化)**: `apps/web/app/(admin)/admin/<route>/page.tsx` の page-head 系 conflict は **HEAD 側 markup の eyebrow / title / description / breadcrumbs / heading id を逐語抽出 → dev 側の `AdminPageHeader` 呼び出しに全 props として移植**を default 手順とする。description は HEAD 優先（branch 作業意図）、`headingId` は HEAD の h1 `id` をそのまま渡す（L-PGHEAD-001 の id ownership 保持）。wrapper element は dev の `<section className="flex flex-col gap-4">` で統一（admin section 階層では `page-enter stack-lg` を使わない）。
+- **SP-DEVSYNC-056-B (Panel 側 showHeading bridging)**: dev 側で Panel に `showHeading` prop が新設されている場合、HEAD 側 section 構造（`stack-lg` + `card card-pad` + filter h2 等）と dev の `showHeading` 条件分岐を **3 項統合**する。`aria-labelledby={showHeading ? "<panel-h-id>" : "<filter-h2-id>"}`、`{showHeading ? <h1>…</h1> : null}` の二段 gating で、page.tsx 側 `showHeading={false}` で二重 h1 抑止しつつ、Panel 単独 render の Vitest test（既定 `showHeading=true`）を温存する。default 値を変更しない（test の breakage 連鎖を避ける）。
+- **SP-DEVSYNC-056-C (resolver 拡張対象外として明示)**: page-head 系の HEAD inline markup から props を抽出する変換は context-free な text union では成立しない。`scripts/sync/resolve-skill-merge-conflicts.sh` の `UNION_MERGE_TARGETS` 拡張対象**外**として固定し、本 SSOT で手動手順を維持する。Phase 12 implementation-guide の sync-merge 工程では「resolver 完結を前提とし、page-head / panel conflict は SP-DEVSYNC-056 を参照」と一文記載する。
+- **SP-DEVSYNC-056-D (検証ゲートの順序固定)**: `grep marker 0` → `pnpm typecheck`（AdminPageHeader prop 型整合）→ `pnpm lint` → focused Panel component spec（`vitest run <X>Panel.component.spec.tsx`）で h1 / filter h2 / aria-label 両 mode 期待 PASS → commit。typecheck 単独 PASS では panel 側 a11y regression を見逃すため、focused spec の execution を AC に含める。
+
+### Anti-pattern
+
+- HEAD/dev のどちらかを `--ours` / `--theirs` で take する → page.tsx の `AdminPageHeader` import が orphan 化、または panel の `showHeading` 既定値が破壊されて test 連鎖 fail
+- Panel 側の `showHeading` default を `false` に変えて回避する → 既存 component spec が `<Panel ... />` 引数省略で render しているため、h1 期待が全件 fail。default は dev 側既定値 `true` を絶対に維持
+- `headingId` を渡さずに `AdminPageHeader` の自動 id 採番に任せる → HEAD branch の Playwright spec / aria-labelledby 参照（spec 内 fixed `admin-<x>-h`）が外れ、視認できない regression を生む。HEAD の id 値を必ず props で持ち回る
+- 参照: [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-056、L-PGHEAD-001（panel/page-head 二重 h1 抑止）、L-DEVSYNC-055（resolver 単独完結 happy-path）。
+
+## L-DEVSYNC-056 page-local 旧 header を抱えた feature と AdminPageHeader primitive 導入後の dev の hybridize（dev sync-merge / 2026-05-28）
+
+並列 wave で進む admin-ui prototype alignment 系 feature branch が **page-local `page-head` / `Breadcrumb` を抱えたまま**、dev 側で **AdminPageHeader primitive 一斉導入** と **Sidebar の GROUPS/props 化** が行われた状態で sync-merge すると、`.tsx` ソース 3 件で「片側 take すると新 primitive 取り逃しか / 旧画面構造の完全消失」two-way 損失が発生する。`pnpm sync:resolve` は `.tsx` を対象外なので resolver 単独完結せず、手動 hybridize 必須。
+
+- **SP-DEVSYNC-056-A (page hybridize の default 方針)**: page-level の `<header className="page-head">…</header>` × `AdminPageHeader` 衝突は、Phase 12 implementation-guide で **「dev の新 primitive 採用を default、HEAD の richer content を新 primitive の actions/children に注入」** を必達手順に明記する。具体的には HEAD 側の `Breadcrumb` import 削除（AdminPageHeader が `breadcrumbs` prop で吸収）+ wrapper を `<section className="flex flex-col gap-4" aria-labelledby="<headingId>" data-page="...">` に統一 + HEAD が画面から撤去したデータ参照（例: `sections.map`）は dev 側のコードでも除去（build fail 防止）。`data-page` 属性は visual baseline spec が selector に使うので HEAD 側から残す。
+- **SP-DEVSYNC-056-B (Sidebar add-add の port 規約)**: Sidebar の 1 字差分（label/href/sortOrder）は dev の GROUPS 構造を **全採用**し、HEAD の差分だけを GROUPS 内 NavItemDef に **後付け移植**する。port は機械的（grep + 単一置換）で済むため Phase 12 で 1 line と明記。`AdminSidebarProps` interface 等の export 化変更は dev 側を全採用。
+- **SP-DEVSYNC-056-C (`*.component.spec.tsx` legacy stub の扱い)**: dev 側が `describe(... legacy ...).it.skip(...)` の stub に置換済みの場合、HEAD 側の旧 assertions は実装契約更新で意味を失っているため **dev を無条件 overwrite**。Phase 12 implementation-guide には「replacement spec が同 dir に存在することを `ls apps/web/src/components/<dir>/__tests__/ | grep -i <component>` で確認してから overwrite」を pre-condition として記載。
+- **SP-DEVSYNC-056-D (Phase 4 risk への登録)**: admin-ui prototype alignment 系 task の Phase 4 risk table に「同一 wave で primitive 一斉導入が dev 側に着地した場合、page-local 旧 header / Sidebar GROUPS / legacy component.spec の 3 軸で sync-merge 時に hybridize が必須」を必ず登録し、L-DEVSYNC-056 を mitigation reference として参照。resolver 拡張ではなく仕様側で risk 化するのが正（L-DEVSYNC-054 と同じ判断）。
+- **SP-DEVSYNC-056-E (検証 4 step 必達)**: hybridize 後の検証は **`git diff --diff-filter=U --name-only` 0 件 → `pnpm typecheck` Done × 全 packages → `pnpm lint` Done × 全 packages → `git commit -m "merge: sync <branch> with dev"`** の 4 step を Phase 12 implementation-guide に明記。typecheck が undefined ref を即 fail させるため、`sections.map` 等の前提変数撤去漏れを早期検出できる。
+- 参照: [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-056、L-DEVSYNC-054 (`.ts` 手動 union)、L-DEVSYNC-055 (resolver 単独完結 happy-path との対比)。
+
+
+## L-DEVSYNC-058 同一 page を両 branch が独立に prototype 整合した結果の 2-way feature × modernization hybridize（dev sync-merge / 2026-05-28）
+
+同じ admin page を **HEAD は feature 拡張軸**（dynamic description / Pagination primitive / barrel import / `density="compact"`）で、**dev は admin-ui modernization 軸**（`eyebrow` / breadcrumbs `href` / token CSS vars / EmptyState icon / `data-route` attrs / `<Link>` 化）で独立に prototype 整合した状態で sync-merge すると、片側 take では feature か visual baseline のどちらかが消える 2-way 損失が発生する。L-DEVSYNC-056 の subtype だが「dev が同じ page を別軸で modernize」している点が異なり、機械化（resolver / `--ours + patch`）の ROI が低く lesson + Phase 4 risk が正。
+
+- **SP-DEVSYNC-058-A (import 経路の SSOT)**: `AdminPageHeader` は features/admin/components の barrel から import を **default** とする。Phase 12 implementation-guide で `_layout/AdminPageHeader` 直 import は redundant として撤去する旨を明記。
+- **SP-DEVSYNC-058-B (wrapper attrs hybrid)**: dev 側の `data-route="admin"` + `data-section-rhythm="compact"`（visual baseline spec の selector）は **必ず採用**。HEAD 側の `aria-labelledby` + 独立 `sr-only h1` は AdminPageHeader 内蔵 `<h1>` と二重化するため **撤去**。Phase 4 risk に「page-local sr-only h1 と primitive 内蔵 h1 の二重化」を登録。
+- **SP-DEVSYNC-058-C (AdminPageHeader props の axes 統合)**: dev の `eyebrow` + breadcrumbs `[{label:"管理",href:"/admin"},{label:"<page>"}]` を採用しつつ、HEAD の dynamic `description`（`result.ok ? \`<件数> 件\` : "失敗"`）を後付けマージ。両 axes が併存する prop 構造であることを Phase 4 で確認する pre-condition を明記。
+- **SP-DEVSYNC-058-D (EmptyState / SectionCard / list の使い分け)**: `EmptyState` は dev の icon + `className="admin-empty-state"` variant 採用（icon-less だと visual baseline が別 selector path に分岐）。`AdminSectionCard density="compact"` + 説明文は HEAD（feature spec AC）採用。`<ul>` class は IdentityConflictRow が card-like primitive なら `flex flex-col gap-3 aria-label=...` を選び `divide-y` は二重 border 防止で撤去。Phase 12 implementation-guide に「card primitive と divide-y list の混在禁止」を明記。
+- **SP-DEVSYNC-058-E (Pagination primitive 全採用)**: `Pagination` primitive がある場合は dev の手書き `<Link>` を撤去し HEAD の primitive を全採用。Phase 12 で「prev/next 両方 primitive 内蔵 → 二重化禁止」を明記。
+- **SP-DEVSYNC-058-F (Phase 4 risk への登録)**: admin-ui prototype alignment 系 task の Phase 4 risk に「同一 page を両 branch が異軸で prototype 整合した場合、import 経路 / wrapper attrs / primitive props axes / EmptyState variant / list pattern / Pagination の 6 軸で hybridize 必須」を登録し、L-DEVSYNC-058 を mitigation reference として参照。
+- **SP-DEVSYNC-058-G (検証 4 step)**: L-DEVSYNC-056 と同じ `git diff --diff-filter=U --name-only` 0 件 → `pnpm typecheck` 全 packages → `pnpm lint` 全 packages → `git commit -m "merge: sync <branch> with dev"` の 4 step を Phase 12 implementation-guide に明記。
+- 参照: [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-058、L-DEVSYNC-056 (single-side primitive 移行 hybridize)、L-DEVSYNC-046 (UNION_TARGETS)。

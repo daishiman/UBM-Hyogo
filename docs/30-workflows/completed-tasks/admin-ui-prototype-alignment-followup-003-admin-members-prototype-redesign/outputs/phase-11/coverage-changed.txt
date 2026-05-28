@@ -1,0 +1,5 @@
+Focused coverage proxy:
+
+- Vitest focused files: PASS (7 files / 25 tests)
+- New regression coverage: MemberPublishSwitch response shape and prop sync
+- Full coverage suite: not run in this cycle
