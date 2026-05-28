@@ -17,6 +17,32 @@
       "commit",
       "push",
       "PR"
+    ],
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-05-28T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-958-h3-public-filter-ux/outputs/phase-12/main.md",
+        "approver": "daishiman",
+        "notes": "spec_review: Phase 1-13 spec + Phase 12 strict 7 outputs completed"
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "passed",
+        "passed_at": "2026-05-28T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-958-h3-public-filter-ux/outputs/phase-12/implementation-guide.md",
+        "approver": "daishiman",
+        "notes": "implementation_review: PublicConsentCallout + BulkRepublishDrawer + useBulkRepublish + AllHiddenFallback + MembersClientShell wiring with focused vitest PASS"
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-958-h3-public-filter-ux/phase-13-pr.md",
+        "approver": "daishiman",
+        "notes": "external_ops: staging deploy + visual screenshots + browser smoke pending user-gated execution"
+      }
     ]
   },
   "branch": "feat/issue-958-h3-public-filter-ux",
