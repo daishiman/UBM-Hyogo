@@ -7962,14 +7962,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L2887 |
-| フェーズ構造（概要） | L2896 |
-| 品質ゲート（概要） | L2927 |
-| 出力テンプレート | L2938 |
-| 実行時のコマンド・エージェント・スキル | L2961 |
-| 昇格パターン集 | L2985 |
-| Current Active / Spec Created Tasks | L2987 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L3148 |
+| ドキュメント構成 | L2901 |
+| フェーズ構造（概要） | L2910 |
+| 品質ゲート（概要） | L2941 |
+| 出力テンプレート | L2952 |
+| 実行時のコマンド・エージェント・スキル | L2975 |
+| 昇格パターン集 | L2999 |
+| Current Active / Spec Created Tasks | L3001 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L3162 |
 
 ### references/task-workflow-backlog-part2.md
 
