@@ -864,6 +864,24 @@ staging で観測された `/admin/<route>` API 404 と、同 route の prototyp
 - no-op だったので lesson を残さない → 次回同種指示で同じ確認手順を再構築する無駄が発生する
 - `gh pr checks` が pass だけを見て mergeable を見ない → `DIRTY` 状態の PR を「green」と誤報告し、dev divergence の再 sync が遅れる
 
+## Admin route mount drift + UI prototype 整合 dual-task パターン（admin-audit-prototype-alignment L-AAUDIT-001..005 汎化）
+
+`/admin/<route>` の (a) staging API 404 観測と (b) bare `<form>` / page-local `<h1>` 残存 という 2 軸の課題は、`apps/web` UI 整合（Task A）と `apps/api` root mount 回帰保護（Task B）の dual-task として一括で扱うのが効率的。両 task は独立してレビュー可能で、UI 実装 / local unit test と route 配線確認は並列実行できる。
+
+- **L-ADMROUTE-001 (root mount regression test の必須化)**: admin endpoint を追加・移動する PR では `apps/api/src/index.spec.ts` に root mount 経由で `/admin/<path>?<minimal-query>` を request し **401（404 ではない）** を期待する spec を 1 件必ず追加する。`requireAdmin` middleware 経由で 401/403 が返るのが正解で、404 が返ったら mount 順序 / path duplication / handler 配線崩れの回帰。**Anti-pattern**: contract spec（200 OK with admin auth）のみで mount を保護すると、auth bypass 時の 404 を見逃す。
+- **L-ADMBANNER-001 (Banner tone 制約)**: admin UI で error 表示が必要な場合は `Banner tone="warning"` / `tone="danger"` のみを使う。`error` / `info` / `success` tone は存在しない。typecheck で fail するため新 tone 追加は別 RFC 経由。
+- **L-ADMLINKBTN-001 (link button は buttonVariants + a)**: 本 repo の `Button` primitive は polymorphic link rendering（`asChild` / `href`）を持たない。リンクとして描画する場合は `<a className={buttonVariants({ variant: "outline" })}>` で構成する。design system invariant のため `Button` を polymorphic 化しない。
+- **L-ADMHEAD-002 (page-local h1 撤去契約)**: `AdminPageHeader` を採用する admin page では、配下 panel component の page-local `<h1>` を grep で全撤去し `headingId` 譲渡パターン（`<section aria-labelledby={headingId}>`）に統一する。L-ASHELL-001（admin shell header 撤去契約）と同根。Playwright spec で `h1` count = 1 を assert することで回帰検知。
+- **L-OBSREG-001 (staging 観測文字列を regression test input に固定)**: staging で観測した error 文字列（例: `admin api /admin/audit?limit=50 failed: 404`）は必ず `safeServerFetch` 等の reason 展開 regression test の input として保存する。test fixture コメントに staging 観測 timestamp + URL を残すと、同じ文字列が再発した場合に確実に reason 展開される。L-ATAGUI-001（admin-tag-queue-ui-and-404-recovery）と同パターン。
+
+### Anti-pattern
+
+- API contract spec のみで mount を保護 → auth bypass 時の 404 や mount 順序回帰を見逃す
+- `Banner tone="error"` を書いてしまう → typecheck で fail。lint で `tone` enum を検査する gate が無いと runtime まで通る場合あり
+- `Button asChild` / `<Button href>` を期待する → primitive API ミスマッチ。コードレビューで毎回引っかかる
+- `AdminPageHeader` 採用時に panel 内 `<h1>` を残す → axe / playwright で二重 h1 警告。手戻りコスト大
+- staging 観測文字列を test に固定せず「直したつもり」で close → 同じ文字列が再発した時に検知できない
+
 ## Dev sync 時の sibling-section conflict 解消パターン (2026-05-27)
 
 - 適用場面: feature branch が UI surface (drawer / panel / page) の section 構造を全面刷新中に、dev 側が同ファイル内へ新規 Client Island / Server Component / sibling section を追加した状態で `git merge dev` した時。

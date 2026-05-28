@@ -2,7 +2,7 @@
 // 07c-followup-003: /admin/audit read-only browsing UI.
 import { safeServerFetch } from "../../../../src/lib/admin/safe-server-fetch";
 import { AuditLogPanel, type AuditSearchValues } from "../../../../src/components/admin/AuditLogPanel";
-import { AdminPageHeader } from "../../../../src/features/admin/components/_layout/AdminPageHeader";
+import { AdminPageHeader } from "../../../../src/features/admin/components";
 import type { AdminAuditListResponse } from "../../../../src/lib/admin/types";
 import { jstLocalToUtcIso } from "./audit-query";
 
@@ -62,7 +62,7 @@ export default async function AdminAuditPage({
       <AdminPageHeader
         eyebrow="ADMIN / AUDIT"
         title="監査ログ"
-        description="管理操作の履歴を条件指定で検索"
+        description="action / actor / target / 期間で監査ログを絞り込み、PII を保護した形で参照できます。"
         breadcrumbs={[{ label: "管理", href: "/admin" }, { label: "監査ログ" }]}
       />
       {error ? (

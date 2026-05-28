@@ -1152,6 +1152,21 @@
 - 留意: HEAD と dev で **同一画面の構造を双方が積極的に書き換える**パターンは、admin-ui プロトタイプ整合が wave 単位で並列実装されている期間は構造的に発生する。`pnpm sync:resolve` は `.ts/.tsx` ソースを対象外なので、手動 hybridize 必須。resolver 拡張ではなく lesson + 仕様 Phase 4 risk への記載で対処するのが正（L-DEVSYNC-054 と同じ判断）。
 - 事例: 2026-05-28 commit `c2a2bfc4e` (merge: sync feat/admin-schema-page-prototype-alignment-and-diff-fetch-fix with dev)。`pnpm sync:resolve` で skill md 1 union + keywords.json `--ours + rebuild` 成功、残り 3 `.tsx` を上記手順で hybridize。`grep -nE '^(<<<<<<<|=======|>>>>>>>|\|\|\|\|\|\|\|)' ...` 0 件 → `pnpm typecheck` Done × 6 packages → `pnpm lint` Done × 全 packages。
 
+## L-DEVSYNC-057: feature が AdminPageHeader を barrel 経由 import × dev が _layout 直 import で 3-way（2026-05-28 確認）
+
+- 事象: `feat/admin-audit-prototype-alignment` ← `origin/dev` sync-merge で `pnpm sync:resolve` 後、`apps/web/app/(admin)/admin/audit/page.tsx` と `apps/web/src/components/admin/AuditLogPanel.tsx` の 2 ソースが残る。
+  1. `audit/page.tsx` — HEAD: `import { AdminPageHeader } from "../../../../src/features/admin/components";`（barrel index 経由）+ AdminPageHeader props は `title/description/breadcrumbs`。dev: `import { AdminPageHeader } from ".../components/_layout/AdminPageHeader";`（直接 path）+ `eyebrow` prop を追加。
+  2. `AuditLogPanel.tsx` — HEAD: section に `className="flex flex-col gap-4"` + `<Card>` + `<form>` (FormField/Input/Select/Button) で prototype 整合の検索 UI を full 実装。dev: `showHeading` prop で `<header><h1>` を出し分け、section に `aria-labelledby`/`aria-label` を切替。HEAD 側は filter UI 追加に集中、dev 側は heading 出し分け契約に集中。
+- Why: barrel `index.ts` は `export * from "./_layout/AdminPageHeader"` を既に持っており、両 import 形は同一実体を指す（型・実装差なし）。`eyebrow` prop は AdminPageHeader が既に optional として受けるため両側統合可能。`showHeading` 出し分けと filter Card 追加は構造上 orthogonal で、`<section>` ラッパに両者を同時適用できる（section 属性は dev 側、その内部に dev の header 条件分岐 + HEAD の Card を順次配置）。
+- How to apply:
+  1. **import paths の HEAD vs dev**: barrel 経由（HEAD）を **default 採用**。理由は (a) `_layout/` 直接 path への依存は internal layout の private path に lock-in されるが barrel は安定 API、(b) barrel が当該 export を再 export 済みなら結果は同一。確認は `grep "from \"./_layout/<Component>\"" <feature>/components/index.ts` 1 行で完結。
+  2. **props 追加 (eyebrow など)**: HEAD と dev の両側の props 列を **union** で 1 つの JSX に統合（同 prop 名が異なる値で衝突する場合のみ「prototype alignment の意図に近い側」を優先）。本件は dev `eyebrow="ADMIN / AUDIT"` を残し、HEAD の richer `description` を採用。
+  3. **section ラッパ属性の HEAD vs dev**: HEAD `className="flex flex-col gap-4"` と dev `aria-labelledby={showHeading ? ... : undefined}` / `aria-label={showHeading ? undefined : ...}` は orthogonal なので両方付ける。section opening tag を 1 つに統合し全 attribute を列挙する形にする。
+  4. **section 内子要素の合成順序**: dev 側の条件付き `<header><h1>` を先頭に置き、HEAD 側の `<Card>` 以降を続けて配置。残りの共通 children（error Banner / empty state など）はコンフリクトしていないので triple-marker の外側がそのまま残る。
+  5. 検証: `grep -nE '^(<<<<<<<|=======|>>>>>>>|\|\|\|\|\|\|\|)' <file>` 0 件 → `pnpm typecheck` (props 不整合があれば即 fail) → `pnpm lint`。
+- 留意: barrel 経由 import を default にするポリシーは「feature 側で既存 barrel が export 済み」が前提。barrel に未掲載の component を直接 path で取り込んでいる場合は、まず barrel に export を追加してから本 lesson を適用する。`feat/admin-audit-prototype-alignment` のように feature ブランチが UI prototype 整合（structural primitive 化と独立な path 整理）を主目的とする場合、両側の意図は orthogonal で hybridize は機械的に成立する。
+- 事例: 2026-05-28 sync-merge (HEAD=`feat/admin-audit-prototype-alignment`, base=`bf6efe49f`). `pnpm sync:resolve` が aiworkflow indexes 4 件を自動解消 (3 md union + keywords.json --ours + rebuild)、残り 2 `.tsx` を上記手順で hybridize。コンフリクトマーカー 0 件確認後に merge commit。
+
 
 ## L-DEVSYNC-058: 同一 page を両 branch が独立に prototype 整合した結果の 2-way feature × modernization hybridize（2026-05-28 admin/identity-conflicts/page.tsx）
 

@@ -2132,6 +2132,14 @@ node scripts/list-specs.js --topics
 | Artifacts | L13 |
 | Boundary | L31 |
 
+### references/workflow-admin-audit-prototype-alignment-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Contract | L20 |
+| Lessons Learned | L32 |
+| Unassigned tasks (filed at Phase 12 close-out) | L42 |
+
 ### references/workflow-admin-dashboard-recovery-and-byZone-artifact-inventory.md
 
 | セクション | 行 |
@@ -7989,7 +7997,7 @@ node scripts/list-specs.js --topics
 | 実行時のコマンド・エージェント・スキル | L3005 |
 | 昇格パターン集 | L3029 |
 | Current Active / Spec Created Tasks | L3031 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L3192 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L3193 |
 
 ### references/task-workflow-backlog-part2.md
 
