@@ -2,8 +2,8 @@
 // 06c: /admin/tags キュー画面
 // AC-2 の受け先: ?memberId=... を保持する
 import { safeServerFetch } from "../../../../src/lib/admin/safe-server-fetch";
-import { Breadcrumb } from "@/components/admin/Breadcrumb";
 import { AdminSectionErrorClient } from "../../../../src/features/admin/components/_shared";
+import { AdminPageHeader } from "../../../../src/features/admin/components/_layout/AdminPageHeader";
 import { TagQueuePanel } from "../../../../src/components/admin/TagQueuePanel";
 import type { TagQueueStatus } from "../../../../src/components/admin/TagQueuePanel";
 
@@ -41,7 +41,12 @@ export default async function AdminTagsPage({
   const result = await safeServerFetch<QueueListView>(`/admin/tags/queue${qs}`);
   return (
     <section className="flex flex-col gap-4">
-      <Breadcrumb items={[{ label: "タグキュー" }]} />
+      <AdminPageHeader
+        eyebrow="ADMIN / TAGS"
+        title="タグ割当"
+        description="サジェスト由来の queue を承認・拒否・差し戻し"
+        breadcrumbs={[{ label: "管理", href: "/admin" }, { label: "タグキュー" }]}
+      />
       {result.ok ? (
         <TagQueuePanel
           initial={result.data}

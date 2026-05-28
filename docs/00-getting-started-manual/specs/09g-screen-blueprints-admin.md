@@ -708,17 +708,19 @@ Sidebar は §1 を参照し、本画面内で AdminSidebar を再定義しな�
 
 ### 6.2 コピー原文
 
-- page title: スキーマ差分レビュー
+- breadcrumb: `スキーマ`
+- eyebrow: `ADMIN / SCHEMA`
+- page title: `スキーマ差分のレビュー`
 - route label: /(admin)/admin/schema
-- primary action は画面の主目的に合わせて 1 つだけ置く。
-- secondary action は refresh / export / filter reset の順で置く。
-- empty copy は「対象がありません」で終わらせず、次に取る操作を示す。
-- error copy は retry と support handoff を含める。
+- current revision eyebrow: `CURRENT REVISION`
+- stat labels: `Unresolved` / `Added` / `Changed` / `Removed`
+- diff section title: `項目別の差分`
+- revision section title: `バージョン履歴`
+- alias section title: `紐付け履歴`
+- error copy は `AdminSectionErrorClient` に集約し、旧 `Form schema 概要` / `セクション1..6` fallback は描画しない。
 - toast success は操作対象名と結果を含める。
 - toast failure は API error code と再試行可否を含める。
 - button label は動詞で始める。
-- filter placeholder は検索対象の列名を含める。
-- drawer / modal title は対象 record の識別名を含める。
 - confirm copy は不可逆性と戻し方を明示する。
 
 ### 6.3 状態遷移
@@ -739,51 +741,47 @@ stateDiagram-v2
   error --> loading: retry
 ```
 
-### 3.4 API 表
+### 6.4 API 表
 
 | method | endpoint | trigger | 状態反映 |
 | --- | --- | --- | --- |
-| GET | `/admin/members` | page load / filter change | list, total, pagination |
-| GET | `/admin/members/:memberId` | drawer open | member detail |
-| GET | `/admin/members/:memberId/attendance` | drawer attendance more | attendance pagination |
-| PATCH | `/admin/members/:memberId/status` | status confirm | publish / hidden state |
-| POST | `/admin/members/:memberId/notes` | note submit | note list append |
-| PATCH | `/admin/members/:memberId/notes/:noteId` | note edit | note update |
-| POST | `/admin/members/:memberId/delete` | delete confirm | soft delete |
-| POST | `/admin/members/:memberId/restore` | restore confirm | restore |
+| GET | `/admin/schema/diff` | page load | diff queue + resolved alias history + recommendedStableKeys |
+| GET | `/admin/schema/history` | revision history link | schema revision history page |
+| POST | `/admin/schema/aliases?dryRun=true` | dry-run confirm | affected counts / conflicts |
+| POST | `/admin/schema/aliases` | apply confirm | alias insert + queue resolve |
 
-### 3.5 props / state
+### 6.5 props / state
 
 | name | type | scope |
 | --- | --- | --- |
-| `members` | `AdminMemberListView["members"]` | server |
-| `filter` | `published | hidden | deleted` | query |
-| `q` | `string` | query |
-| `selectedMemberId` | `MemberId | null` | client |
-| `drawer` | `open | loading | error | ready` | client |
-| `attendanceCursor` | `string | null` | drawer |
+| `diff` | `SchemaDiffListView` | server |
+| `items` | `SchemaDiffItem[]` | server/client |
+| `stats` | unresolved / added / changed / removed counts | derived |
+| `selectedDiffId` | `string | null` | client |
+| `aliasBody` | `SchemaAliasApplyBody` | form |
+| `resolvedAliases` | `ResolvedAliasItem[]` | server/client |
 
-### 3.6 a11y
+### 6.6 a11y
 
-- Table rows are keyboard selectable.
-- Drawer traps focus while open and returns focus to the source row.
-- destructive delete uses confirm Modal with dialog semantics, focus trap, and Esc close.
-- status update announces completion through live region.
+- Page has one h1 (`スキーマ差分のレビュー`).
+- Diff items expose `added` / `changed` / `removed` / `unresolved` as visible Chip text and `schema-field-card diff-{type}` class.
+- Bulk resolve / rollback controls keep visible disabled reasons.
+- Confirm Modal uses `role="dialog"` and `aria-modal="true"`.
 
-### 3.7 操作手順
+### 6.7 操作手順
 
-1. FilterBar updates query string and reloads list.
-2. Row selection opens Drawer and fetches member detail.
-3. Status change opens confirm Modal before PATCH.
-4. Tag editing navigates to `/admin/tags?memberId=...`; inline tag form is forbidden.
-5. Profile body edit is not rendered.
+1. Load `/admin/schema/diff` through `safeServerFetch`.
+2. Render page-head, current revision, stats grid-4, SchemaDiffPanel, revisions and alias history.
+3. If diff fetch fails, show only `AdminSectionErrorClient`; stale section fallback is forbidden.
+4. Select a diff row and choose candidate stableKey.
+5. Apply via `/admin/schema/aliases` only after explicit confirmation.
 
-### 3.8 参照
+### 6.8 参照
 
-- mapping: 09a members route
-- token: 09b table / drawer / form token
-- primitive: 09c DataTable / Drawer / ConfirmModal
-- icon: 09d users / search / note
+- prototype: `docs/00-getting-started-manual/claude-design-prototype/pages-admin.jsx` `SchemaDiffPage`
+- implementation: `apps/web/app/(admin)/admin/schema/page.tsx`, `apps/web/src/components/admin/SchemaDiffPanel.tsx`
+- workflow: `docs/30-workflows/completed-tasks/admin-schema-page-prototype-alignment-and-diff-fetch-fix/`
+- token: OKLch tokens only; HEX literal in page/panel is forbidden
 
 ## 4. Tags `/admin/tags`
 
@@ -1051,8 +1049,12 @@ current apply API は旧 apply endpoint ではなく `/admin/schema/aliases` で
 ### 6.2 コピー原文
 
 - eyebrow: `ADMIN / SCHEMA`
-- title: `スキーマ差分レビュー`
+- title: `スキーマ差分のレビュー`
 - diff label: `未解決の変更`
+- current revision: `CURRENT REVISION`
+- stats: `Unresolved` / `Added` / `Changed` / `Removed`
+- revision history: `REVISIONS`
+- alias history: `ALIAS HISTORY`
 - candidate label: `推奨 stableKey`
 - dry-run action: `影響を確認`
 - apply action: `alias を適用`
@@ -1182,6 +1184,7 @@ stateDiagram-v2
 | method | endpoint | trigger | 状態反映 |
 | --- | --- | --- | --- |
 | GET | `/admin/schema/diff` | page load | diff queue + recommendedStableKeys |
+| GET | `/admin/schema/history` | revision history link | history page |
 | POST | `/admin/schema/aliases?dryRun=true` | dry-run confirm | affected counts / conflicts |
 | POST | `/admin/schema/aliases` | apply confirm | alias insert + queue resolve |
 | GET | `/admin/schema/aliases/:diffId/backfill` | backfill status panel | backfill state |

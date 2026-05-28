@@ -84,6 +84,20 @@ describe("ProfilePage safe fetch degrade", () => {
     );
   });
 
+  it("degrades /me fetch failures without reaching the profile fetch", async () => {
+    mockedFetchAuthed.mockRejectedValueOnce(
+      new Error("fetchAuthed failed: 503"),
+    );
+
+    render(await ProfilePage());
+
+    expect(redirect).not.toHaveBeenCalled();
+    expect(mockedFetchAuthed).toHaveBeenCalledTimes(1);
+    expect(screen.getByRole("alert").textContent).toContain(
+      "マイページを読み込めませんでした",
+    );
+  });
+
   it("redirects when /me requires auth", async () => {
     mockedFetchAuthed.mockRejectedValueOnce(new AuthRequiredError());
 
