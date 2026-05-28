@@ -60,7 +60,7 @@ export default async function AdminTagsPage({
     <section className="flex flex-col gap-4">
       <AdminPageHeader
         eyebrow="ADMIN / TAGS"
-        title="タグキュー"
+        title="タグ割当"
         description="未解決のタグ提案をレビューし、メンバーに割り当てます。"
         breadcrumbs={[{ label: "管理", href: "/admin" }, { label: "タグキュー" }]}
       />
