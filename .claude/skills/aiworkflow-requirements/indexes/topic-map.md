@@ -2137,6 +2137,16 @@ node scripts/list-specs.js --topics
 |------------|----|
 | Contract | L15 |
 
+### references/workflow-admin-identity-conflicts-prototype-alignment-and-404-fix-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Canonical Workflow | L12 |
+| Implementation Artifacts | L21 |
+| Local Evidence | L30 |
+| User-Gated Evidence | L40 |
+| Lessons Learned | L49 |
+
 ### references/workflow-admin-meetings-prototype-alignment-artifact-inventory.md
 
 | セクション | 行 |
@@ -7950,14 +7960,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L2887 |
-| フェーズ構造（概要） | L2896 |
-| 品質ゲート（概要） | L2927 |
-| 出力テンプレート | L2938 |
-| 実行時のコマンド・エージェント・スキル | L2961 |
-| 昇格パターン集 | L2985 |
-| Current Active / Spec Created Tasks | L2987 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L3148 |
+| ドキュメント構成 | L2914 |
+| フェーズ構造（概要） | L2923 |
+| 品質ゲート（概要） | L2954 |
+| 出力テンプレート | L2965 |
+| 実行時のコマンド・エージェント・スキル | L2988 |
+| 昇格パターン集 | L3012 |
+| Current Active / Spec Created Tasks | L3014 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L3175 |
 
 ### references/task-workflow-backlog-part2.md
 

@@ -1138,3 +1138,23 @@
   4. 検証順: `git diff --diff-filter=U --name-only` 0 件 → `pnpm typecheck` (page で undefined ref があると即 fail) → `pnpm lint` → `git commit -m "merge: sync <branch> with dev"`。
 - 留意: HEAD と dev で **同一画面の構造を双方が積極的に書き換える**パターンは、admin-ui プロトタイプ整合が wave 単位で並列実装されている期間は構造的に発生する。`pnpm sync:resolve` は `.ts/.tsx` ソースを対象外なので、手動 hybridize 必須。resolver 拡張ではなく lesson + 仕様 Phase 4 risk への記載で対処するのが正（L-DEVSYNC-054 と同じ判断）。
 - 事例: 2026-05-28 commit `c2a2bfc4e` (merge: sync feat/admin-schema-page-prototype-alignment-and-diff-fetch-fix with dev)。`pnpm sync:resolve` で skill md 1 union + keywords.json `--ours + rebuild` 成功、残り 3 `.tsx` を上記手順で hybridize。`grep -nE '^(<<<<<<<|=======|>>>>>>>|\|\|\|\|\|\|\|)' ...` 0 件 → `pnpm typecheck` Done × 6 packages → `pnpm lint` Done × 全 packages。
+
+
+## L-DEVSYNC-058: 同一 page を両 branch が独立に prototype 整合した結果の 2-way feature × modernization hybridize（2026-05-28 admin/identity-conflicts/page.tsx）
+
+- 事象: `feat/admin-identity-conflicts-prototype-alignment-and-404-fix` ← origin/dev sync-merge で `pnpm sync:resolve` 後に `apps/web/app/(admin)/admin/identity-conflicts/page.tsx` 1 件だけが unresolved。HEAD と dev の **両方が同じ page を異なる方向に prototype 整合**しており機械 union 不可。
+  - HEAD 側: `AdminPageHeader` を features/admin/components の **barrel から import** + `result.data.items.length` 件数埋め込みの **dynamic description** + `Pagination` primitive + `AdminSectionCard density="compact"` + `aria-labelledby` + `sr-only h1` + `<ul className="flex flex-col gap-3" aria-label=...>` (IdentityConflictRow が card-like primitive)。
+  - dev 側 (admin-ui modernization 整合): `AdminPageHeader` を `_layout/AdminPageHeader` から **直 import** + `eyebrow="ADMIN / IDENTITY"` + breadcrumbs に `{label:"管理",href:"/admin"}` 親リンク追加 + `EmptyState` の icon prop + CSS var token classes (`text-[var(--ubm-color-link-default)]` 等) + `<a>` → `next/link Link` + `data-route="admin"` + `data-section-rhythm="compact"` + `<ul className="divide-y ...">` 旧 list pattern。
+- Why: HEAD の機能差分（件数 dynamic description / Pagination component / barrel import / density="compact"）と dev の admin-ui modernization（eyebrow / breadcrumbs href / token CSS vars / EmptyState icon / data-route attrs）はどちらも prototype-alignment 観点で残すべき価値があり、片側 take すると visual baseline か feature 意味のどちらかが失われる。L-DEVSYNC-056 の subtype だが、dev 側が "全 page を新 primitive 化" ではなく "同じ page を別軸で modernize" している点が異なる。
+- How to apply:
+  1. **import 経路**: `AdminPageHeader` は HEAD の barrel (`features/admin/components`) を採用。`_layout/AdminPageHeader` 直 import は redundant なので捨てる。
+  2. **wrapper attrs**: dev の `data-route="admin"` + `data-section-rhythm="compact"` を **必ず採用**（visual baseline spec が selector に使う）。HEAD の `aria-labelledby` + 別途 `sr-only h1` は **撤去**（AdminPageHeader 内蔵の `<h1>` と二重化になる。L-DEVSYNC-056 と同判断）。
+  3. **AdminPageHeader props 統合**: dev の `eyebrow` + breadcrumbs `[{label:"管理",href:"/admin"},{label:"<page>"}]` を採用しつつ、HEAD の dynamic `description`（`result.ok ? \`<件数> 件\` : "失敗"`）を後付けマージ。両 axis が両立する props 構造であることが前提（AdminPageHeader の actual API を確認）。
+  4. **EmptyState**: dev の icon + `className="admin-empty-state"` variant を採用。HEAD の minimal `title` のみだと visual baseline が icon-less variant を期待する別 selector path に分岐する。
+  5. **SectionCard / list**: HEAD の `AdminSectionCard density="compact"` + 説明文 "merge は二段階確認..." + `<ul className="flex flex-col gap-3" aria-label="...">` を採用（feature spec AC に紐づく文言と card-like primitive 前提）。dev の `divide-y` リスト pattern は採らない（IdentityConflictRow が borderless card のため divide-y は二重 border になる）。
+  6. **Pagination**: HEAD の `Pagination` primitive を全採用し dev の `<Link>` 手書きは撤去（Pagination が prev/next link 両方を内包するため）。
+- 留意:
+  - 「両 branch が同じ page を独立に prototype 整合する」シナリオは admin-ui-prototype-alignment の wave 並列実装期間中は構造的に頻発する。`pnpm sync:resolve` は `.ts/.tsx` 対象外なので手動 hybridize 必須。
+  - 機械化を試みるなら lesson `--ours + 後付け modernize patch` を resolver 拡張ではなく **L-DEVSYNC-058 を仕様 Phase 4 risk に明記** する方が ROI が高い（admin-ui 整合 wave は有限期間で収束する）。
+- 検証: `git diff --diff-filter=U --name-only` 0 件 → `pnpm typecheck` 全 package green → `pnpm lint` 全 package green → `git commit` (merge commit) 成立。
+- 参照: L-DEVSYNC-056 (single-side primitive 移行 hybridize)、L-DEVSYNC-046 (UNION_TARGETS)、task-specification-creator [[patterns-lessons-and-pitfalls#dev-sync-merge-conflict-resolution]]。
