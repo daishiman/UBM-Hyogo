@@ -15,10 +15,11 @@ import {
   type AdminMemberSearch,
 } from "@ubm-hyogo/shared";
 import { safeServerFetch } from "../../../../src/lib/admin/safe-server-fetch";
-import { MembersClientShell } from "../../../../src/features/admin/components";
-import { MembersPageHead } from "../../../../src/features/admin/components/_members/MembersPageHead";
+import {
+  AdminPageHeader,
+  MembersClientShell,
+} from "../../../../src/features/admin/components";
 import { AdminSectionErrorClient } from "../../../../src/features/admin/components/_shared";
-import { Breadcrumb } from "../../../../src/components/admin/Breadcrumb";
 
 export const dynamic = "force-dynamic";
 
@@ -67,14 +68,25 @@ export default async function AdminMembersPage({
 
   return (
     <section aria-labelledby="admin-members-h" className="flex flex-col gap-4">
-      <Breadcrumb
-        items={[{ label: "会員管理" }]}
-        className="text-xs text-[var(--ubm-color-text-muted)]"
+      <AdminPageHeader
+        title="会員管理"
+        description="回答データ・公開フラグ・タグ付けをここから操作します。"
+        breadcrumbs={[{ label: "会員管理" }]}
+        actions={
+          <button
+            type="button"
+            disabled
+            title="MVP 範囲外"
+            aria-disabled="true"
+            className="rounded border border-[var(--ubm-color-border-default)] px-3 py-1 text-sm text-[var(--ubm-color-text-muted)] opacity-50"
+          >
+            CSV エクスポート
+          </button>
+        }
       />
-      <MembersPageHead total={result.ok ? result.data.total : 0} />
-      <h2 id="admin-members-h" className="sr-only">
+      <h1 id="admin-members-h" className="sr-only">
         会員管理
-      </h2>
+      </h1>
       {result.ok ? (
         <MembersClientShell
           initial={result.data}
