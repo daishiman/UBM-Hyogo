@@ -1117,6 +1117,16 @@ admin route prototype-alignment 系 branch を `origin/dev` に sync-merge す�
 - 参照: [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-056、L-DEVSYNC-054 (`.ts` 手動 union)、L-DEVSYNC-055 (resolver 単独完結 happy-path との対比)。
 
 
+## L-DEVSYNC-057 add-add semantic conflict（両 branch が同 Server Component に safe-fetch + SectionError を独立追加）の branch-owning take パターン（dev sync-merge / 2026-05-28）
+
+- 事象: `fix/login-stale-link-and-profile-me-safefetch` ← `origin/dev` で `apps/web/app/(member)/profile/page.tsx` と `page.spec.tsx` が両側 add-add semantic conflict。両 branch が `safeServerFetch(() => fetchAuthed<MeSessionResponse>("/me"))` ラップ + `if (!meResult.ok)` 早期 return + SectionError 降格を**同方向に**独立追加し、差分は変数型注釈と error title 文字列の 2 点のみ。L-DEVSYNC-056 と異なり構造採用ではなく「branch 責務 (responsibility) に合致する文言/型を持つ側」を一括 take する。
+- **SP-DEVSYNC-057-A (構造同一の判定)**: add-add conflict は最初に `git diff :2:<path> :3:<path>` で両 hunk の構造差分のみを抽出。構造が完全同一で差分が文字列/型注釈のみなら hybridize 不要で **branch-owning side を `git checkout --ours`/`--theirs` で一括 take** する。Phase 12 implementation-guide の「sync-merge コンフリクト解消手順」にこの判定を分岐の先頭に置く。
+- **SP-DEVSYNC-057-B (branch 責務の機械判定)**: 「どちらが ours か」は `git log --oneline <merge-base>..HEAD -- <path>` のコミットメッセージ主語（`fix(profile)`, `fix(login,profile)` 等）と branch slug の prefix を照合して判定。本ケースでは branch slug `fix/login-stale-link-and-profile-me-safefetch` と commit `fix(login,profile): … /profile /me fetch safe wrap` が一致するため HEAD = branch-owning。Phase 12 implementation-guide に「ours 判定根拠 (commit hash + message)」を 1 行記録。
+- **SP-DEVSYNC-057-C (page + spec の pair 同期)**: page.tsx の error title 文字列を ours に揃えたら、`page.spec.tsx` の assert 文字列も**必ず同じ ours 側**を採用する。文字列が page と spec で食い違うと test fail で post-push CI が落ちるため、conflict 解消時に「pair 一致」を 1 行 checklist として明示する。grep 検証: `grep -F "<採用文字列>" apps/web/app/<route>/page.tsx apps/web/app/<route>/page.spec.tsx` で両方 hit すること。
+- **SP-DEVSYNC-057-D (resolver 化不適の根拠)**: branch context (slug / commit message) を要する判定なので `pnpm sync:resolve` への拡張は不適切（L-DEVSYNC-054 と同様）。Phase 4 risk table に「`/profile`・`/login`・admin section root などの Server Component error boundary 強化が wave 並列で進む期間は add-add semantic conflict が頻発する」を登録し、本 lesson を mitigation reference として参照する。
+- 参照: [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-057、L-DEVSYNC-056 (structural primitive 採用との対比)、L-DEVSYNC-054 (`.ts` 手動 union との対比)。
+
+
 ## L-DEVSYNC-058 同一 page を両 branch が独立に prototype 整合した結果の 2-way feature × modernization hybridize（dev sync-merge / 2026-05-28）
 
 同じ admin page を **HEAD は feature 拡張軸**（dynamic description / Pagination primitive / barrel import / `density="compact"`）で、**dev は admin-ui modernization 軸**（`eyebrow` / breadcrumbs `href` / token CSS vars / EmptyState icon / `data-route` attrs / `<Link>` 化）で独立に prototype 整合した状態で sync-merge すると、片側 take では feature か visual baseline のどちらかが消える 2-way 損失が発生する。L-DEVSYNC-056 の subtype だが「dev が同じ page を別軸で modernize」している点が異なり、機械化（resolver / `--ours + patch`）の ROI が低く lesson + Phase 4 risk が正。
