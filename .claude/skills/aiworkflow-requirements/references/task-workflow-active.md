@@ -166,6 +166,18 @@
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-public-header-my-profile-nav-alignment-artifact-inventory.md` |
 | user gate | browser/session smoke, commit, push, PR |
 
+### admin-tag-queue-ui-and-404-recovery（2026-05-27）
+
+| 項目 | 内容 |
+| --- | --- |
+| 状態 | `implemented_local_runtime_pending / implementation / VISUAL` |
+| 成果物 | `docs/30-workflows/completed-tasks/admin-tag-queue-ui-and-404-recovery/` |
+| 目的 | `/admin/tags` を prototype-aligned queue UI に整え、`GET /admin/tags/queue` 404 時に復旧ヒントと redacted diagnostics を出す |
+| implementation targets | `apps/web/app/(admin)/admin/tags/page.tsx`, `apps/web/src/components/admin/TagQueuePanel.tsx`, `apps/web/src/features/admin/components/_shared/AdminSectionError.tsx`, `apps/web/src/lib/admin/server-fetch.ts`, `apps/web/src/styles/globals.css` |
+| API 境界 | `GET /admin/tags/queue` / `POST /admin/tags/queue/:queueId/resolve` の既存契約のみ。D1 / API / shared schema 変更なし |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-tag-queue-ui-and-404-recovery-artifact-inventory.md` |
+| user gate | staging visual evidence, deploy, commit, push, PR |
+
 ### admin-visual-baseline-admin-routes-task-e（2026-05-27）
 
 | 項目 | 値 |

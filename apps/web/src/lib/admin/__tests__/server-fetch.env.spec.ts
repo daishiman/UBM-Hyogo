@@ -31,6 +31,7 @@ describe("fetchAdmin env resolution", () => {
     cloudflareContext.mockReset();
     cookies.mockReset();
     cookies.mockResolvedValue({ toString: () => "session=abc" });
+    vi.spyOn(console, "warn").mockImplementation(() => undefined);
   });
 
   it("uses getEnv() Cloudflare bindings for base URL and internal auth", async () => {
@@ -60,5 +61,36 @@ describe("fetchAdmin env resolution", () => {
 
     await expect(fetchAdmin("/admin/members")).rejects.toThrow(ZodError);
     expect(fetchMock).not.toHaveBeenCalled();
+  });
+
+  it("warns with redacted host and path for non-production 404", async () => {
+    cloudflareContext.mockReturnValue({ env: baseEnv });
+    const fetchMock = vi.fn(async () => new Response("missing", { status: 404 }));
+    vi.stubGlobal("fetch", fetchMock);
+
+    await expect(fetchAdmin("/admin/tags/queue")).rejects.toThrow(
+      "admin api /admin/tags/queue failed: 404",
+    );
+
+    expect(console.warn).toHaveBeenCalledWith("[admin/server-fetch] 404", {
+      host: "api.example.test",
+      path: "/admin/tags/queue",
+      status: 404,
+    });
+  });
+
+  it("does not warn in production 404", async () => {
+    cloudflareContext.mockReturnValue({
+      env: { ...baseEnv, ENVIRONMENT: "production" },
+    });
+    vi.stubEnv("NODE_ENV", "production");
+    const fetchMock = vi.fn(async () => new Response("missing", { status: 404 }));
+    vi.stubGlobal("fetch", fetchMock);
+
+    await expect(fetchAdmin("/admin/tags/queue")).rejects.toThrow(
+      "admin api /admin/tags/queue failed: 404",
+    );
+
+    expect(console.warn).not.toHaveBeenCalled();
   });
 });
