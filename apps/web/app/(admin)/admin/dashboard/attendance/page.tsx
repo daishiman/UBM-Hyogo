@@ -27,7 +27,7 @@ export default async function Page({
     >
       <AdminPageHeader
         eyebrow="ADMIN / DASHBOARD"
-        title="出席分析"
+        title="出席ダッシュボード"
         description="出席率の推移・区画分布・欠席フォロー対象を確認"
         breadcrumbs={[
           { label: "管理", href: "/admin" },
