@@ -1,0 +1,13 @@
+{
+  "workflow": "unified-sidebar-shell-public-and-admin",
+  "status": "pending_execution",
+  "screenshots": [
+    { "role": "viewer", "route": "/", "viewport": "1280x800", "file": "viewer-home-1280.png" },
+    { "role": "member", "route": "/profile", "viewport": "1280x800", "file": "member-profile-1280.png" },
+    { "role": "admin", "route": "/admin", "viewport": "1280x800", "file": "admin-dashboard-1280.png" },
+    { "role": "viewer", "route": "/", "viewport": "768x1024", "file": "viewer-home-768.png" },
+    { "role": "admin", "route": "/admin", "viewport": "768x1024", "file": "admin-dashboard-768.png" },
+    { "role": "viewer", "route": "/", "viewport": "375x812", "file": "viewer-home-375.png" },
+    { "role": "admin", "route": "/admin", "viewport": "375x812", "file": "admin-dashboard-375-drawer.png" }
+  ]
+}

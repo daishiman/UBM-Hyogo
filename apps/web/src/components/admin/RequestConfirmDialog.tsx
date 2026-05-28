@@ -112,7 +112,7 @@ export function RequestConfirmDialog({
           rows={3}
         />
       </FormField>
-      <div role="group" aria-label="確認">
+      <div className="btn-row" role="group" aria-label="確認">
         <button type="button" onClick={handleSubmit} disabled={busy}>
           {kind === "approve" ? "承認を実行" : "却下を実行"}
         </button>
