@@ -428,3 +428,43 @@
   - 仕様書 Phase 5 で spec ファイルに大規模な末尾 `describe` 追加 / トレーリングコメント追加を予定する場合、Phase 9 dry-run checklist に「`git merge --no-commit --no-ff origin/dev || true` で当該 spec の conflict 範囲を事前確認」を追加。
   - resolver 拡張は不要（CONST: コード union は自動化しない）。
 - 参照: aiworkflow-requirements [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-044 を唯一の正本とする。本知見は task 仕様書側の予防 + 逐語埋め込み指針。
+
+### SP-DEVSYNC-038: 同一 component で HEAD が**新 variant 追加** / dev が**旧 path 簡素化**の 3-way conflict は「HEAD 全採用」を default ルールとする（2026-05-27 追加）
+
+- 事象: 2026-05-27 `feat/dashboard-prototype-alignment` ← origin/dev (11 commits behind) sync-merge で `apps/web/src/components/public/Hero.tsx` のみ resolver の `WARN unhandled conflict`。diff3 marker（`<<<<<<< HEAD` / `||||||| 7f651a083` / `=======` / `>>>>>>> origin/dev`）の 3 ブロック構造:
+  - **base**: `<section data-component="hero" style={{ backgroundImage: "linear-gradient(...)" }}>` の inline-style 1 variant のみ
+  - **HEAD (我側)**: prototype 整合の `<section data-variant="card">` + `<div data-role="accent" />` + `<div data-role="body">` + `<h1 data-role="title-serif">` を**新 variant として追加**（`variant === "panel"` 早期 return で旧 path 残置）
+  - **dev (向側)**: 同じ base から inline-style 撤去（`<section data-component="hero">` のみ、token-css への移行）
+- Why: 両側とも「inline-style backgroundImage を撤去する」方向性で**意味的に整合**しており、HEAD は「新 variant 追加 + 旧 path は panel variant として保持」、dev は「単一 path から inline-style 撤去」と粒度が違うだけ。HEAD 側で `variant === "panel"` 分岐が既に旧 inline-style path を保持しているため、dev の簡素化は HEAD の card variant 採用で自動的に supersede される。両者 union や dev take は重複 `<section>` 生成 / 既存 variant API 破壊につながる。
+- How to apply（task 仕様書での逐語化）:
+  - Phase 9 sync-merge 節に「**3-way conflict 判定フロー**」を追記:
+    1. base / HEAD / dev の 3 ブロックを `grep -n -E '^(<<<<<<<|=======|>>>>>>>|\|\|\|\|\|\|\|)'` で位置確認
+    2. dev の変更が base からの**単純化**かつ HEAD の変更が**新 variant / 新 entrypoint 追加**なら HEAD 全採用が default（dev の意図は HEAD の新 path に内包されるため）
+    3. dev の変更が base からの**機能追加**（field 追加 / prop 追加）なら HEAD + dev の手動 union が必要
+    4. 判定迷う場合は `git log -p origin/dev -- <path>` で dev 側 commit 意図を 1 行確認してから決定
+  - 仕様書 Phase 5 で UI primitive 改修 task を予定する場合、Phase 9 dry-run checklist に「対象 primitive ファイルに対する `git log origin/dev ^HEAD -- <path>` で dev 側並列改修の有無を事前確認」を追加。
+- 検証: `grep -nE '^(<<<<<<<|=======|>>>>>>>|\|\|\|\|\|\|\|)' <path>` 0 件 + `pnpm typecheck` PASS + `pnpm lint` PASS + 採用 variant の既存 spec / visual baseline が green。
+- 事例: 2026-05-27 commit `57ff4402b` (`merge: sync ...`) は typecheck/lint green だが、**pre-push `verify-no-inline-style` (issue-924) が HEAD 残置の panel variant `style={{...}}` で fail**。追加 commit `f7b493456` で panel variant の inline-style も撤去（dev 側横断ルールを残 path にも適用）し push 成功。**判定フロー step 2.5**: dev 側 commit が refactor/chore 性質の横断撤去（hook gated CI rule 適用）なら、HEAD 採用 path にも同 rule を波及させる。`git log --oneline origin/dev ^HEAD -- <path>` で commit 性質確認 + `pnpm exec lefthook run pre-push --files <path>` で事前検証を Phase 9 dry-run checklist に追記。
+- 参照: aiworkflow-requirements [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-050 / L-DEVSYNC-050-A を併読。
+
+### SP-DEVSYNC-040: shell contract 変更後は旧E2E contractとvisual-full横幅を同一waveで更新する（2026-05-28 追加）
+
+- 事象: `feat/admin-shell-topbar-sidebar-integration` ← dev sync 後の PR #973 CI で `e2e (desktop-chromium / desktop-firefox / mobile-webkit)` と `visual-full (mobile/tablet)` が失敗。E2E は `parallel-03-admin-shell-scrape.spec.ts` が旧 contract の `[data-shell="topbar"]` visible を期待し続け、Task A spec は schema badge `3` を mock state 未seed のまま期待していた。visual-full は `/admin/members` table の intrinsic width が page screenshot の fullPage 幅を 390/768 から 640+/900+ に膨張させ、Linux baseline dimension mismatch になった。
+- Why: shell 変更は layout DOM contract と page-local header ownership を同時に変えるため、実装だけでなく既存 runtime evidence spec の selector contract も更新対象。さらに admin shell 内の table は desktop-first columns をそのまま残すと mobile/tablet viewport で横 overflow し、Playwright `toHaveScreenshot({ fullPage: true })` が scrollable content width を撮るため baseline サイズが変わる。
+- How to apply（task 仕様書での逐語化）:
+  - Phase 4 test plan に「shell/topbar/sidebar contract を参照する既存 Playwright spec 一覧」を列挙し、廃止 DOM は `toHaveCount(0)`、新正本 DOM は `getByTestId` / `data-shell-mode` で検証する。
+  - schema badge / KPI 等の server-layout fetch 由来値を assertion する場合、mock control endpoint と response route の両方を用意し、test 内で assertion 直前に seed する。
+  - admin table を mobile/tablet visual-full 対象に含める場合、`table-fixed`、break/truncate、breakpoint 列非表示で **page screenshot width が viewport と一致**することを Phase 9 に入れる。`min-width` + horizontal scroll は fullPage screenshot では幅膨張の原因になるため避ける。
+  - ローカル検証は Linux snapshot が無くても actual PNG の dimensions を確認する: tablet `768 x 1024`、mobile `390 x 844`。Darwin snapshot missing は CI Linux baseline 判定とは別扱い。
+- 検証: focused Playwright `admin-shell-topbar-sidebar-integration.spec.ts` / `parallel-03-admin-shell-scrape.spec.ts` PASS、MembersTable Vitest PASS、actual PNG dimensions が viewport と一致。
+- 参照: aiworkflow-requirements L-DEVSYNC-054。
+
+### SP-DEVSYNC-039: feature 側 rename × dev 側 sibling 追加の playwright.config 3-way（2026-05-27 追加）
+
+- 事象: 2026-05-27 `feat/members-list-prototype-alignment` ← origin/dev sync-merge で `apps/web/playwright.config.ts` の `EVIDENCE_DIR` 三項分岐が 3-way conflict。HEAD 側は workflow dir rename（`members-page-prototype-alignment` → `members-list-prototype-alignment`）、dev 側は同位置の三項に **新 sibling `isPublicDashboardPrototypeAlignment` 分岐を挿入**。base は旧名のみ。
+- Why: rename と sibling 追加は意味的に独立で、`||||||| 04c569a48` block を捨てて HEAD の rename と dev の sibling を**両側手動 union**するのが正。片側 take すると path rename か sibling 分岐かのどちらかを失う。
+- How to apply（task 仕様書での逐語化）:
+  - Phase 9 sync-merge 節に「playwright.config の EVIDENCE_DIR / serverReadyURL 三項分岐は **base 削除 + HEAD path + dev sibling 全採用** の手動 union を default にする」を追記。
+  - Phase 4 risk に「workflow dir rename を伴う UI feature は dev 側 sibling 追加と同位置で衝突する」を登録し、merge 前に `git log origin/dev ^HEAD -- apps/web/playwright.config.ts` で sibling 追加 commit の有無を確認するチェックを加える。
+- 事例同時発生: `.claude/skills/task-specification-creator/references/patterns-lessons-and-pitfalls.md` EOF で HEAD 側 `## DOM 構造置換 PR ...` 節 + dev 側 `## accent on accent-soft chip ...` / `## L-DEVSYNC-051 visual baseline ...` / `## L-FETCHCACHE-001 ...` 3 節が並列追加。SP-DEVSYNC-037 同パターンで両側保持＋marker 物理除去で解消（resolver 非対応の手動 union）。
+- 検証: `grep -nE '^(<<<<<<<|=======|>>>>>>>|\|\|\|\|\|\|\|)' <path>` 0 件 + `pnpm typecheck` PASS + `pnpm lint` PASS。

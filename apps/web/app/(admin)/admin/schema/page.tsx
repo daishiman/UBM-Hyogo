@@ -1,10 +1,10 @@
 import Link from "next/link";
 import { safeServerFetch } from "../../../../src/lib/admin/safe-server-fetch";
-import { Breadcrumb } from "@/components/admin/Breadcrumb";
 import {
   AdminSectionErrorClient,
   AdminStat,
 } from "../../../../src/features/admin/components/_shared";
+import { AdminPageHeader } from "../../../../src/features/admin/components/_layout/AdminPageHeader";
 import { SchemaDiffPanel } from "../../../../src/components/admin/SchemaDiffPanel";
 import type {
   DiffType,
@@ -135,18 +135,22 @@ export default async function AdminSchemaPage() {
   const result = await safeServerFetch<FullDiff>("/admin/schema/diff");
 
   return (
-    <div className="stack-lg" data-page="admin-schema">
-      <Breadcrumb items={[{ label: "スキーマ" }]} />
-      <header className="page-head">
-        <div>
-          <div className="eyebrow">ADMIN / SCHEMA</div>
-          <h1 className="h-page">スキーマ差分のレビュー</h1>
-          <p className="muted">
-            Googleフォームの設問変更を照合し、stableKey の割り当てと履歴確認を行います。
-          </p>
-        </div>
-      </header>
-
+    <section className="flex flex-col gap-4" aria-labelledby="schema-form-h" data-page="admin-schema">
+      <AdminPageHeader
+        eyebrow="ADMIN / SCHEMA"
+        title="スキーマ差分のレビュー"
+        description="Googleフォームの設問変更を照合し、stableKey の割り当てと履歴確認を行います。"
+        breadcrumbs={[{ label: "管理", href: "/admin" }, { label: "Form schema" }]}
+        headingId="schema-form-h"
+        actions={
+          <Link
+            href="/admin/schema/history"
+            className="text-sm text-[var(--ubm-color-link-default)] underline-offset-2 hover:underline"
+          >
+            resolve 履歴を見る
+          </Link>
+        }
+      />
       {result.ok ? (
         <>
           <CurrentRevisionCard diff={result.data} />
@@ -161,7 +165,7 @@ export default async function AdminSchemaPage() {
           message={result.error.message}
         />
       )}
-    </div>
+    </section>
   );
 }
 

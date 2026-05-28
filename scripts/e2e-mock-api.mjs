@@ -85,17 +85,41 @@ const state = {
   pendingRequests: {},
   attendance: new Set(), // `${sessionId}:${memberId}`
   adminDashboardUnresolvedSchema: 0,
+  adminDashboardByZone: undefined,
   adminDashboardByStatus: undefined,
   meetingsSeed: defaultMeetingsSeed(),
+  publicHomeEmpty: false,
 };
 
 const resetState = () => {
   state.pendingRequests = {};
   state.attendance = new Set();
   state.adminDashboardUnresolvedSchema = 0;
+  state.adminDashboardByZone = undefined;
   state.adminDashboardByStatus = undefined;
   state.meetingsSeed = defaultMeetingsSeed();
+  state.publicHomeEmpty = false;
 };
+
+const defaultAdminDashboardByZone = () => [
+  { key: "0to1", label: "0→1", hint: "立ち上げ", count: 3, total: 11, tone: "info" },
+  { key: "1to10", label: "1→10", hint: "拡大", count: 7, total: 11, tone: "accent" },
+  { key: "10to100", label: "10→100", hint: "組織化", count: 1, total: 11, tone: "ok" },
+];
+
+const publicStats = () => ({
+  ...fixtures.public.stats,
+  publicMemberCount: state.publicHomeEmpty ? 0 : fixtures.public.stats.publicMemberCount,
+  recentMeetings: state.publicHomeEmpty
+    ? []
+    : [
+        {
+          sessionId: "session-public-home-202605",
+          title: "2026年5月 定例会",
+          heldOn: "2026-05-09",
+        },
+      ],
+});
 
 const buildPublicProfile = (id) => ({
   memberId: id,
@@ -134,7 +158,10 @@ const publicList = (url) => {
   const q = url.searchParams.get("q") ?? "";
   const densityRaw = url.searchParams.get("density") ?? "comfy";
   const density = ["comfy", "dense", "list"].includes(densityRaw) ? densityRaw : "comfy";
-  const items = q === fixtures.public.negativeQuery ? [] : fixtures.public.memberList.items;
+  const items =
+    state.publicHomeEmpty || q === fixtures.public.negativeQuery
+      ? []
+      : fixtures.public.memberList.items;
   return {
     items,
     pagination: {
@@ -238,14 +265,32 @@ const adminMemberDetail = (memberId) => ({
   ],
 });
 
-const adminSchemaDiff = {
-  total: 0,
-  items: [],
-  sections: Array.from({ length: 6 }, (_, i) => ({
-    sectionKey: `section-${i + 1}`,
-    title: `セクション${i + 1}`,
-    fields: [],
-  })),
+const adminSchemaDiff = () => {
+  const queuedCount = state.adminDashboardUnresolvedSchema;
+  return {
+    total: queuedCount,
+    items: Array.from({ length: queuedCount }, (_, i) => {
+      const n = String(i + 1).padStart(3, "0");
+      return {
+        diffId: `mock_schema_${n}`,
+        revisionId: "rev_mock",
+        type: "unresolved",
+        questionId: `q_mock_${n}`,
+        stableKey: null,
+        label: `Mock schema diff ${i + 1}`,
+        suggestedStableKey: null,
+        status: "queued",
+        resolvedBy: null,
+        resolvedAt: null,
+        createdAt: `2026-05-10T00:${String(i).padStart(2, "0")}:00.000Z`,
+      };
+    }),
+    sections: Array.from({ length: 6 }, (_, i) => ({
+      sectionKey: `section-${i + 1}`,
+      title: `セクション${i + 1}`,
+      fields: [],
+    })),
+  };
 };
 
 const meetingsList = {
@@ -353,6 +398,11 @@ const server = createServer(async (req, res) => {
     }
     return writeJson(res, 200, { ok: true });
   }
+  if (req.method === "POST" && pathname === "/__test__/public-home") {
+    const body = await readBody(req);
+    state.publicHomeEmpty = body.empty === true;
+    return writeJson(res, 200, { ok: true, publicHomeEmpty: state.publicHomeEmpty });
+  }
   if (req.method === "POST" && pathname === "/__test__/seed-pending") {
     const body = await readBody(req);
     if (body.visibility) {
@@ -377,9 +427,13 @@ const server = createServer(async (req, res) => {
     if (typeof body.unresolvedSchema === "number") {
       state.adminDashboardUnresolvedSchema = body.unresolvedSchema;
     }
+    if (Array.isArray(body.byZone)) {
+      state.adminDashboardByZone = body.byZone;
+    }
     return writeJson(res, 200, {
       ok: true,
       adminDashboardUnresolvedSchema: state.adminDashboardUnresolvedSchema,
+      adminDashboardByZone: state.adminDashboardByZone ?? defaultAdminDashboardByZone(),
     });
   }
   if (req.method === "POST" && pathname === "/__test__/admin-dashboard-by-status") {
@@ -457,7 +511,7 @@ const server = createServer(async (req, res) => {
 
   // ---- /public ----
   if (req.method === "GET" && pathname === "/public/stats") {
-    return safeJson(res, 200, fixtures.public.stats, schemas.PublicStatsZ);
+    return safeJson(res, 200, publicStats(), schemas.PublicStatsZ);
   }
   if (req.method === "GET" && pathname === "/public/members") {
     return safeJson(res, 200, publicList(url), schemas.PublicMemberListZ);
@@ -487,6 +541,7 @@ const server = createServer(async (req, res) => {
         },
         recentActions: [],
         generatedAt: NOW,
+        byZone: state.adminDashboardByZone ?? defaultAdminDashboardByZone(),
         ...(state.adminDashboardByStatus ? { byStatus: state.adminDashboardByStatus } : {}),
       },
       schemas.AdminDashboardZ,
@@ -540,10 +595,10 @@ const server = createServer(async (req, res) => {
     return safeJson(res, 200, { total: filtered.length, items: filtered }, schemas.AdminTagQueueZ);
   }
   if (req.method === "GET" && pathname === "/admin/schema/diff") {
-    return safeJson(res, 200, adminSchemaDiff, schemas.AdminSchemaDiffZ);
+    return safeJson(res, 200, adminSchemaDiff(), schemas.AdminSchemaDiffZ);
   }
   if (req.method === "GET" && pathname === "/admin/schema") {
-    return safeJson(res, 200, adminSchemaDiff, schemas.AdminSchemaZ);
+    return safeJson(res, 200, adminSchemaDiff(), schemas.AdminSchemaZ);
   }
   if (req.method === "GET" && pathname === "/admin/meetings") {
     return writeJson(res, 200, {
@@ -665,6 +720,19 @@ const server = createServer(async (req, res) => {
       }
       return writeJson(res, 200, { ok: true, summary, rows: results, dryRun, committed });
     }
+  }
+  // DELETE /admin/meetings/:sessionId/attendance/:memberId — unregister attendance
+  if (req.method === "DELETE" && /^\/admin\/meetings\/[^/]+\/attendance\/[^/]+$/.test(pathname)) {
+    const parts = pathname.split("/");
+    const sessionId = decodeURIComponent(parts[3]);
+    const memberId = decodeURIComponent(parts[5]);
+    const meeting = state.meetingsSeed.meetings.find((m) => m.sessionId === sessionId);
+    if (!meeting) return writeJson(res, 404, { error: "meeting_not_found" });
+    const exists = meeting.attendees.some((a) => a.memberId === memberId);
+    if (!exists) return writeJson(res, 404, { error: "ATTENDANCE_NOT_FOUND" });
+    meeting.attendees = meeting.attendees.filter((a) => a.memberId !== memberId);
+    state.attendance.delete(`${sessionId}:${memberId}`);
+    return writeJson(res, 200, { sessionId, memberId, removedAt: NOW });
   }
   // legacy /attendance (singular) — back-compat for older specs
   if (req.method === "POST" && pathname.startsWith("/admin/meetings/") && pathname.endsWith("/attendance")) {

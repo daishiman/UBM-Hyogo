@@ -1,0 +1,52 @@
+{
+  "schemaVersion": "1.0.0",
+  "taskId": "admin-meetings-prototype-alignment",
+  "workflowDir": "docs/30-workflows/completed-tasks/admin-meetings-prototype-alignment",
+  "evidence": [
+    {
+      "id": "phase11-main",
+      "kind": "runtime-observation",
+      "path": "outputs/phase-11/main.md",
+      "command": "local implementation evidence index; staging runtime capture pending user approval",
+      "acquiredBy": "implementation_cycle",
+      "requiredForCloseout": true,
+      "notes": "Boundary ledger for VISUAL_ON_EXECUTION."
+    },
+    {
+      "id": "manual-test-result",
+      "kind": "runtime-observation",
+      "path": "outputs/phase-11/manual-test-result.md",
+      "command": "manual test result with local evidence boundary",
+      "acquiredBy": "implementation_cycle",
+      "requiredForCloseout": true,
+      "notes": "Local runtime states are captured; staging recapture remains pending user approval."
+    },
+    {
+      "id": "screenshot-plan",
+      "kind": "runtime-observation",
+      "path": "outputs/phase-11/screenshot-plan.json",
+      "command": "screenshot plan for local and staging visual capture",
+      "acquiredBy": "implementation_cycle",
+      "requiredForCloseout": true,
+      "notes": "Local PNG files are captured under outputs/phase-11/screenshots."
+    },
+    {
+      "id": "capture-metadata",
+      "kind": "runtime-observation",
+      "path": "outputs/phase-11/phase11-capture-metadata.json",
+      "command": "local_evidence_captured metadata",
+      "acquiredBy": "implementation_cycle",
+      "requiredForCloseout": true,
+      "notes": "Separates local screenshots from staging runtime evidence."
+    },
+    {
+      "id": "screenshot-coverage",
+      "kind": "runtime-observation",
+      "path": "outputs/phase-11/screenshot-coverage.md",
+      "command": "PLAYWRIGHT_BASE_URL=http://localhost:3100 PLAYWRIGHT_SKIP_WEB_SERVER=1 PLAYWRIGHT_EVIDENCE_TASK=admin-meetings-prototype-alignment mise exec -- pnpm --filter @ubm-hyogo/web exec playwright test playwright/tests/admin-meetings-prototype-alignment.spec.ts --project=desktop-chromium",
+      "acquiredBy": "implementation_cycle",
+      "requiredForCloseout": true,
+      "notes": "2 tests passed; 5 screenshots captured."
+    }
+  ]
+}
