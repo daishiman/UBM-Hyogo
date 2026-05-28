@@ -8,6 +8,22 @@
 
 本ドキュメントは、複雑なタスクを単一責務の原則に基づいて分解し、各サブタスクに最適なスラッシュコマンド・エージェント・スキルの組み合わせを選定するためのガイドラインを定義する。
 
+### issue-956-h1-ingest-recovery（2026-05-27）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `spec_created / docs-only / NON_VISUAL / runtime_pending_user_approval` |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-956-h1-ingest-recovery/` |
+| Issue | #956 CLOSED。PR 文脈は `Refs #956` のみ |
+| parent | `docs/30-workflows/completed-tasks/google-form-reflection-diagnostics/` |
+| source | `docs/30-workflows/completed-tasks/issue-956-h1-ingest-recovery/unassigned-task-specs/google-form-reflection-diagnostics-followup-001-h1-ingest-recovery.md` consumed |
+| 目的 | H1 ingest 未稼働・全 error 状態を production runtime ops で復旧するため、Cloudflare secrets readiness、cron tail、stale `sync_jobs` reset、diagnostics snapshot 差分の手順と evidence boundary を固定する |
+| runtime operations | `scripts/cf.sh secret put/list`, `scripts/cf.sh tail`, `scripts/cf.sh d1 execute ubm-hyogo-db-prod`, authenticated `/admin/diagnostics/forms-pipeline` snapshot |
+| invariant | secrets 実値は記録禁止。`snapshot-after.json` / `snapshot-diff.md` が揃うまで runtime PASS を主張しない |
+| Phase 12 | strict 7 present。root/output artifacts parity present。30種思考法 compact evidence present |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-956-h1-ingest-recovery-artifact-inventory.md` |
+| user gate | production secret mutation、production D1 SELECT/UPDATE、authenticated snapshot、cron tail、commit、push、PR |
+
 ### unified-sidebar-shell-public-and-admin（2026-05-28）
 
 | 項目 | 値 |
