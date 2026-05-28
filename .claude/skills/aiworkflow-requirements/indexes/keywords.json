@@ -3364,6 +3364,7 @@
       "workflow-issue-903-parallel-03-followup-005-member-runtime-evidence-artifact-inventory.md",
       "workflow-issue-908-staging-rollback-notification-runtime-smoke-artifact-inventory.md",
       "workflow-issue-924-style-src-attr-retirement-artifact-inventory.md",
+      "workflow-login-redirect-when-authenticated-artifact-inventory.md",
       "workflow-login-ui-balance-and-runtime-fix-artifact-inventory.md",
       "workflow-parallel-04-shared-page-chrome-artifact-inventory.md",
       "workflow-parallel-i02b-admin-mutation-error-finalize-artifact-inventory.md",
@@ -4788,6 +4789,7 @@
       "workflow-issue-903-parallel-03-followup-005-member-runtime-evidence-artifact-inventory.md",
       "workflow-issue-922-production-admin-runtime-smoke-gate-artifact-inventory.md",
       "workflow-issue-924-style-src-attr-retirement-artifact-inventory.md",
+      "workflow-login-redirect-when-authenticated-artifact-inventory.md",
       "workflow-login-ui-balance-and-runtime-fix-artifact-inventory.md",
       "workflow-members-list-prototype-alignment-artifact-inventory.md",
       "workflow-members-page-prototype-alignment-artifact-inventory.md",
@@ -5093,6 +5095,7 @@
       "workflow-issue-588-fallback-alert-slack-mail-extension-artifact-inventory.md",
       "workflow-issue-623-vitest-spec-suffix-convergence-artifact-inventory.md",
       "workflow-issue-770-profile-loading-skeleton-artifact-inventory.md",
+      "workflow-login-redirect-when-authenticated-artifact-inventory.md",
       "workflow-parallel-04-shared-page-chrome-artifact-inventory.md",
       "workflow-parallel-i03-dialog-refresh-order-artifact-inventory.md",
       "workflow-profile-server-components-render-error-artifact-inventory.md",
@@ -7112,6 +7115,7 @@
       "workflow-issue-900-workflow-permissions-least-privilege-audit-artifact-inventory.md",
       "workflow-issue-902-members-staging-visual-baseline-artifact-inventory.md",
       "workflow-issue-903-parallel-03-followup-005-member-runtime-evidence-artifact-inventory.md",
+      "workflow-login-redirect-when-authenticated-artifact-inventory.md",
       "workflow-login-ui-balance-and-runtime-fix-artifact-inventory.md",
       "workflow-mypage-prototype-alignment-artifact-inventory.md",
       "workflow-parallel-04-shared-page-chrome-artifact-inventory.md",
@@ -10909,6 +10913,7 @@
       "workflow-issue-504-extended-fixture-50k-artifact-inventory.md",
       "workflow-issue-588-fallback-alert-slack-mail-extension-artifact-inventory.md",
       "workflow-issue-770-profile-loading-skeleton-artifact-inventory.md",
+      "workflow-login-redirect-when-authenticated-artifact-inventory.md",
       "workflow-parallel-i03-dialog-refresh-order-artifact-inventory.md",
       "workflow-profile-server-components-render-error-artifact-inventory.md",
       "workflow-task-12-member-detail-register-legal-artifact-inventory.md",
@@ -17057,6 +17062,7 @@
       "workflow-issue-902-members-staging-visual-baseline-artifact-inventory.md",
       "workflow-issue-903-parallel-03-followup-005-member-runtime-evidence-artifact-inventory.md",
       "workflow-issue-908-staging-rollback-notification-runtime-smoke-artifact-inventory.md",
+      "workflow-login-redirect-when-authenticated-artifact-inventory.md",
       "workflow-mypage-prototype-alignment-artifact-inventory.md",
       "workflow-parallel-04-shared-page-chrome-artifact-inventory.md",
       "workflow-parallel-09-ux-cross-cutting-artifact-inventory.md",
@@ -17291,7 +17297,8 @@
       "lessons-learned-issue-626-rb01-share-build-output-2026-05.md"
     ],
     "authenticated": [
-      "lessons-learned-issue-630-authenticated-profile-lhci-a11y-2026-05.md"
+      "lessons-learned-issue-630-authenticated-profile-lhci-a11y-2026-05.md",
+      "workflow-login-redirect-when-authenticated-artifact-inventory.md"
     ],
     "LHCI": [
       "lessons-learned-issue-630-authenticated-profile-lhci-a11y-2026-05.md"
@@ -23756,7 +23763,8 @@
     ],
     "redirect": [
       "task-workflow-completed-skill-lifecycle-agent-view-line-budget.md",
-      "task-workflow-completed-workspace-chat-lifecycle-tests.md"
+      "task-workflow-completed-workspace-chat-lifecycle-tests.md",
+      "workflow-login-redirect-when-authenticated-artifact-inventory.md"
     ],
     "アプリケーションメニュー初期化・ズームショートカット対応": [
       "task-workflow-completed-skill-lifecycle-agent-view-line-budget.md"
@@ -25068,6 +25076,7 @@
       "workflow-issue-902-members-staging-visual-baseline-artifact-inventory.md",
       "workflow-issue-903-parallel-03-followup-005-member-runtime-evidence-artifact-inventory.md",
       "workflow-issue-908-staging-rollback-notification-runtime-smoke-artifact-inventory.md",
+      "workflow-login-redirect-when-authenticated-artifact-inventory.md",
       "workflow-mypage-prototype-alignment-artifact-inventory.md",
       "workflow-parallel-04-shared-page-chrome-artifact-inventory.md",
       "workflow-parallel-09-ux-cross-cutting-artifact-inventory.md",
@@ -25218,6 +25227,7 @@
       "workflow-issue-901-authenticated-profile-admin-staging-visual-artifact-inventory.md",
       "workflow-issue-902-members-staging-visual-baseline-artifact-inventory.md",
       "workflow-login-page-prototype-alignment-artifact-inventory.md",
+      "workflow-login-redirect-when-authenticated-artifact-inventory.md",
       "workflow-mypage-prototype-alignment-artifact-inventory.md",
       "workflow-parallel-04-shared-page-chrome-artifact-inventory.md",
       "workflow-parallel-09-ux-cross-cutting-artifact-inventory.md",
@@ -26081,6 +26091,7 @@
     "login": [
       "workflow-issue-874-login-staging-visual-smoke-artifact-inventory.md",
       "workflow-login-page-prototype-alignment-artifact-inventory.md",
+      "workflow-login-redirect-when-authenticated-artifact-inventory.md",
       "workflow-login-ui-balance-and-runtime-fix-artifact-inventory.md",
       "workflow-task-13-login-rebuild-artifact-inventory.md"
     ],
@@ -26156,6 +26167,9 @@
     "Compliance": [
       "workflow-login-page-prototype-alignment-artifact-inventory.md",
       "workflow-task-09c-production-deploy-execution-001-artifact-inventory.md"
+    ],
+    "when": [
+      "workflow-login-redirect-when-authenticated-artifact-inventory.md"
     ],
     "balance": [
       "workflow-login-ui-balance-and-runtime-fix-artifact-inventory.md"

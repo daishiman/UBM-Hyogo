@@ -63,7 +63,7 @@
 | 12 | `outputs/phase-12/*` | strict 7 |
 | 13 | `outputs/phase-13/pr-creation-result.md` | user-gated PR 境界 |
 
-Phase 4/6-13 は本改善サイクルで追加済み。現時点では「仕様書作成完了 / 実装未着手」であり、コード実装・runtime visual・commit / push / PR は後続の明示実行時に行う。
+Phase 4/6-13 は本改善サイクルで追加済み。親 workflow 全体は「仕様書作成完了 / 大半の実装未着手」だが、Task D `/login` redirect は `docs/30-workflows/completed-tasks/login-redirect-when-authenticated/` で `implemented_local_evidence_captured` まで進行済み。残タスクのコード実装・runtime visual・commit / push / PR は後続の明示実行時に行う。
 
 ## 並列実行戦略
 

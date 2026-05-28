@@ -1,5 +1,19 @@
 # クイックリファレンス
 
+## login-redirect-when-authenticated（2026-05-28）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/login-redirect-when-authenticated/` |
+| status | `implemented_local_evidence_captured / implementation / NON_VISUAL / local_focused_tests_passed` |
+| parent | `docs/30-workflows/public-header-logged-in-nav-cleanup/` Task D |
+| purpose | ログイン済みユーザーが `/login` に到達した場合、server-side で `/profile` または safe な `next` へ redirect する |
+| implementation targets | `apps/web/src/lib/url/safe-next.ts`, `apps/web/app/login/page.tsx` |
+| tests | `apps/web/src/lib/url/__tests__/safe-next.spec.ts`, `apps/web/app/login/__tests__/page.spec.tsx` |
+| evidence | `mise exec -- pnpm exec vitest run apps/web/src/lib/url/__tests__/safe-next.spec.ts apps/web/app/login/__tests__/page.spec.tsx` PASS（2 files / 22 tests） |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-login-redirect-when-authenticated-artifact-inventory.md` |
+| user gate | browser/staging runtime confirmation, commit, push, PR |
+
 ## profile-server-components-render-error（2026-05-27）
 
 | 項目 | 値 |

@@ -8,6 +8,20 @@
 
 本ドキュメントは、複雑なタスクを単一責務の原則に基づいて分解し、各サブタスクに最適なスラッシュコマンド・エージェント・スキルの組み合わせを選定するためのガイドラインを定義する。
 
+### login-redirect-when-authenticated（2026-05-28）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / NON_VISUAL / local_focused_tests_passed` |
+| 成果物 | `docs/30-workflows/completed-tasks/login-redirect-when-authenticated/` |
+| 親 workflow | `docs/30-workflows/public-header-logged-in-nav-cleanup/` Task D |
+| 目的 | ログイン済み `/login` 到達時に server-side で `/profile` または safe な `next` へ redirect し、匿名ユーザーの LoginCard 描画は維持する |
+| implementation targets | `apps/web/src/lib/url/safe-next.ts`, `apps/web/app/login/page.tsx` |
+| contract | `safeNext` は `isSafeInternalRedirect` を再利用し、query 固有の長さ 256 / colon guard を追加する。`/login` 自己ループは fallback `/profile` |
+| evidence | focused Vitest 2 files / 22 tests PASS |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-login-redirect-when-authenticated-artifact-inventory.md` |
+| user gate | browser/staging runtime confirmation、commit、push、PR |
+
 ### public-header-logged-in-nav-cleanup（2026-05-28）
 
 | 項目 | 値 |
