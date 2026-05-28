@@ -1,7 +1,6 @@
 import { AdminSectionErrorClient } from "@/features/admin/components/_shared";
-import { AdminPageHeader } from "@/features/admin/components/_layout/AdminPageHeader";
 import { fetchAttendanceAnalyticsBundle } from "@/lib/admin/fetch-attendance";
-import { readFilterFromQuery } from "../hooks/useAttendanceFilters";
+import type { AttendanceFilterState } from "../lib/read-attendance-filter";
 import { AttendanceFilterBar } from "./AttendanceFilterBar";
 import { KpiPanel } from "./KpiPanel";
 import { AttendanceTrendChart } from "./AttendanceTrendChart";
@@ -12,17 +11,10 @@ import { AttendanceTop10Ranking } from "./AttendanceTop10Ranking";
 import { AttendanceAbsenteeAlert } from "./AttendanceAbsenteeAlert";
 
 interface Props {
-  readonly searchParams: Record<string, string | string[] | undefined>;
+  readonly filterState: AttendanceFilterState;
 }
 
-const flat = (v: string | string[] | undefined): string | undefined =>
-  Array.isArray(v) ? v[0] : v;
-
-export async function AttendanceAnalyticsPage({ searchParams }: Props) {
-  const queryRecord: Record<string, string | undefined> = {};
-  for (const [k, v] of Object.entries(searchParams)) queryRecord[k] = flat(v);
-  const filterState = readFilterFromQuery(queryRecord);
-
+export async function AttendanceAnalyticsPage({ filterState }: Props) {
   const bundle = await fetchAttendanceAnalyticsBundle({
     periodFrom: filterState.periodFrom,
     periodTo: filterState.periodTo,
@@ -36,22 +28,7 @@ export async function AttendanceAnalyticsPage({ searchParams }: Props) {
     : 0;
 
   return (
-    <section
-      aria-labelledby="admin-attendance-analytics-h"
-      data-testid="attendance-analytics-page"
-      className="attendance-analytics-page flex flex-col gap-4"
-    >
-      <AdminPageHeader
-        eyebrow="ADMIN / DASHBOARD"
-        title="出席分析"
-        description="出席率の推移・区画分布・欠席フォロー対象を確認"
-        breadcrumbs={[
-          { label: "管理", href: "/admin" },
-          { label: "ダッシュボード", href: "/admin/dashboard" },
-          { label: "出席" },
-        ]}
-        headingId="admin-attendance-analytics-h"
-      />
+    <div data-testid="attendance-analytics-page" className="attendance-analytics-page flex flex-col gap-4">
       <AttendanceFilterBar initial={filterState} />
 
       {bundle.overview.ok ? (
@@ -128,6 +105,6 @@ export async function AttendanceAnalyticsPage({ searchParams }: Props) {
           message={bundle.absentees.error.message}
         />
       )}
-    </section>
+    </div>
   );
 }

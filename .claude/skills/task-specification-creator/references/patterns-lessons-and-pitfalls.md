@@ -721,8 +721,23 @@ admin segment / public segment 等で共通 PageHeader primitive を導入する
 - page-local `<main>` を `<div>` に置換するだけ→ semantic role が失われる。layout の `<main>` 所有を明示し、page は `<section>` で返す。
 - token を `tokens.css` だけに追加し spec を後追い→ 命名衝突 / 重複定義の温床。同一 commit で SSOT に追記する。
 
-## API method/path 切替時の Playwright mock fixture 追従（2026-05-26）
+## Admin shell topbar → page-local owner 移管（2026-05-26）
 
+`admin-shell-topbar-sidebar-integration` の実装サイクルで得た、shell chrome を page-local primitive へ移管する際の汎用パターン。詳細は `aiworkflow-requirements/lessons-learned/lessons-learned-admin-shell-topbar-sidebar-integration-2026-05.md`。
+
+- **L-PGHEAD-006 (shell chrome 撤去契約)**: shell 側の chrome（topbar / breadcrumb / actions slot）を page-local primitive に移管する task では、「空 element も残さない」ことを契約として spec / phase-2-design / phase-12-compliance に明記する。空 element は a11y tree と visual rhythm の両方に残り、page-local primitive と二重 chrome を生む。AC は grep + DOM assertion の両方で固定する。
+- **L-SRVCLNT-001 (Server layout × Client interactive 境界)**: auth gating を持つ layout は Server Component で維持し、`usePathname` / `useTransition` 等の hook 依存部分のみを最小単位の Client component に分離する。「sidebar = 1 file = client」のような素直な構造は Server-only auth と衝突する。data resolution は layout (Server) で行い props 注入する。
+- **L-PUREFN-001 (active 判定純関数 + 境界 spec)**: pathname prefix-match は `/` と segment root（`/admin`）で必ず誤動作する。判定ロジックを純関数 (`isActive.ts`) として抽出し、`__tests__/isActive.spec.ts` で `/`, `/admin`, `/admin/`, `/admin/<child>`, `/admin/<child>/<id>` の 5 境界を assert する。consumer 側 spec と primitive spec を責務分離し、回帰を pure-function spec で検出する。
+- **L-DERIVE-001 (badge / count は既存 endpoint derive)**: UI primitive のために `/admin/<resource>/count` のような専用 endpoint を生やしたくなった時は、既存 endpoint の response から derive できないか先に検討する。UI prototype alignment の「既存 API endpoint surface のみ利用」不変条件と整合する。fetch fail 時は空 fallback で badge=0 に安全に消す。
+- **L-VOE-001 (VISUAL_ON_EXECUTION × 既存実装の昇格)**: dirty diff に `apps/web/**` を含む状態で `visualEvidence=VISUAL_ON_EXECUTION` の task を `spec_created / Phase 11 pending` のまま凍結する誘惑が強いが、verifier は workflow_state と差分の矛盾を検出する。同一 cycle で `workflow_state=implemented_local_evidence_captured` に promote し、`PLAYWRIGHT_*_FIXTURE=1` の env-gated fixture を server-fetch 境界に立て、mock API port 起動順に依存しない deterministic Phase 11 screenshot を確定する。staging baseline / commit / PR は引き続き user-gated。
+
+### Anti-pattern
+
+- topbar 撤去で空 `<header>` を残す → page-local primitive と二重 header になり a11y / rhythm を壊す。
+- layout 全体を `'use client'` 化して auth + active 判定を 1 ファイルで済ませる → Server-only API（`getSession` / `cookies()`）と Client hook が同居して build fail、auth boundary も client に漏れる。
+- active 判定を consumer 側 spec だけで担保する → primitive を後から差し替えた瞬間に prefix-match 誤動作が回帰し、原因切り分けが consumer 群を全部見る O(N) になる。
+
+## API method/path 切替時の Playwright mock fixture 追従（2026-05-26）
 ## prototype 整合タスクの汎化パターン（2026-05-26 / public-dashboard-prototype-alignment）
 
 ### P-PROTO-ALIGN-001 — prototype 整合 task 不変条件 3 点セット
@@ -944,3 +959,17 @@ UI 系 feature ブランチ（prototype alignment / dashboard 等）と dev の�
 - page.tsx に `searchParams.t` 分岐を入れて test 用 cache bypass → production code に test-only logic 混入、`Page` component の propsが test 専用 prop で汚れる
 - 該当 spec を `test.skip` で先送り → e2e mock API を使う他 spec も同じ regression を踏むため fundamental fix が常に正解
 - `revalidate: 0` に下げて regression を回避 → production で free tier 圧迫（cache hit rate が drop）し本末転倒
+
+## L-DEVSYNC-052 shell 変更を伴う feature 実装での visual baseline 更新漏れ（dev sync-merge / 2026-05-27）
+
+admin shell topbar/sidebar 統合のような **viewport 寸法を変える feature 実装**で、commit 時に `apps/web/playwright/tests/visual/**.png` の baseline を同時更新しない状態で dev を sync-merge すると、コンフリクトは出ない（sync:resolve 通過）が **post-push の `playwright-smoke / visual` CI ジョブで baseline drift fail** が発生する。これは L-DEVSYNC-051 (sync 時 ours 採用) とは別軸の「実装サイクル内 baseline 同期漏れ」問題。
+
+- **L-DEVSYNC-052-A (実装時 baseline 必達)**: shell / layout / global token を触る Task の Phase 12 implementation-guide には「`apps/web/playwright/tests/visual/<scope>.spec.ts-snapshots/*-linux.png` の更新を同一 commit に含めること」を必達 AC として明記する。`viewport size`・`fullPage` を取る spec は寸法 1px でも drift で fail するため、後追い update は CI redo を強要する。
+- **L-DEVSYNC-052-B (CI artifact からの baseline 取得経路)**: ローカルが macOS で `-linux.png` を直接再生成できない場合の正規経路は **失敗 CI run の `playwright-visual-artifacts` artifact (`actual.png`) を `gh run download <run_id> --name playwright-visual-artifacts --dir <tmp>` でダウンロード → `cp <tmp>/visual-<spec>/<spec>-actual.png <repo>/apps/web/playwright/tests/visual/<spec>.spec.ts-snapshots/<spec>-visual-chromium-linux.png`**。Phase 12 runbook にこのコマンド列を一行で記録する。
+- **L-DEVSYNC-052-C (sync-merge ≠ 原因の区別)**: post-merge CI fail を「sync の責任」と誤帰責しないために、Phase 4 risk table で「baseline drift は実装 commit 時点での同期漏れが原因。sync-merge は遅延発火のトリガに過ぎない」を明示。L-DEVSYNC-051 (sync 時 ours 採用) と L-DEVSYNC-052 (実装時 baseline 必達) は補完関係。
+
+### Anti-pattern
+
+- shell 変更の commit に PNG 更新を含めず「visual baseline は別 Task で更新する」運用 → sync-merge 後の random CI fail を量産、誰の merge で fail し始めたか git bisect 不能
+- CI artifact が手元になく Linux baseline を再生成できないからと test を `test.skip` → 同種 fail を量産、本来の regression 検出能力を喪失
+- baseline 更新だけの separate PR を切る → branch 数増加・review 負荷増。**実装と同 PR で完結**が正
