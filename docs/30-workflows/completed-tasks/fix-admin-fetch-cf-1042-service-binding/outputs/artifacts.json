@@ -8,7 +8,33 @@
     "status": "local_tests_passed_runtime_pending",
     "created_at": "2026-05-28",
     "updated_at": "2026-05-28",
-    "hasCompletedTasksAncestor": true
+    "hasCompletedTasksAncestor": true,
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-05-28T00:00:00+09:00",
+        "evidence_path": "docs/30-workflows/completed-tasks/fix-admin-fetch-cf-1042-service-binding/outputs/phase-12/phase12-task-spec-compliance-check.md",
+        "approver": "daishiman",
+        "notes": "spec_package strict7 + Phase 12 compliance check passed"
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "passed",
+        "passed_at": "2026-05-28T00:00:00+09:00",
+        "evidence_path": "docs/30-workflows/completed-tasks/fix-admin-fetch-cf-1042-service-binding/outputs/phase-12/phase12-task-spec-compliance-check.md",
+        "approver": "daishiman",
+        "notes": "Service Binding transport + 3 focused vitest specs + typecheck/lint green"
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/fix-admin-fetch-cf-1042-service-binding/outputs/phase-11/main.md",
+        "approver": "daishiman",
+        "notes": "staging deploy / authenticated /admin smoke / wrangler tail pending user-gated execution"
+      }
+    ]
   },
   "workflow_state": "implemented_local_runtime_pending",
   "implementation_mode": "new",
