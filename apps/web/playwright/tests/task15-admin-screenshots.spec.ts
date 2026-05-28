@@ -38,7 +38,7 @@ test.describe('task-15 admin dashboard and members screenshots', () => {
     await adminPage.goto('/admin/members?filter=published')
     // followup-001: 公開状態フィルタは <select> から PillNav (role=tablist) に置換済
     await expect(
-      adminPage.getByRole('tab', { name: '公開中' }),
+      adminPage.getByRole('tab', { name: '公開', exact: true }),
     ).toHaveAttribute('aria-selected', 'true')
     await screenshot(adminPage, 'admin-members-filter-published.png')
 

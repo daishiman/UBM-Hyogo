@@ -1,5 +1,36 @@
 import { cn } from "../../../../lib/cn";
 
+type RecoveryHint = {
+  readonly title: string;
+  readonly body: string;
+};
+
+const HINT_BY_CODE: Record<string, RecoveryHint> = {
+  ADMIN_FETCH_401: {
+    title: "セッションが切れています",
+    body: "ログインし直してから、もう一度この画面を開いてください。",
+  },
+  ADMIN_FETCH_403: {
+    title: "管理者権限がありません",
+    body: "管理者アカウントでログインしているか確認してください。",
+  },
+  ADMIN_FETCH_404: {
+    title: "API に到達できません",
+    body: "INTERNAL_API_BASE_URL の向き先、または内部 API Worker の最新デプロイを確認してください。",
+  },
+  ADMIN_FETCH_500: {
+    title: "サーバー設定エラーです",
+    body: "AUTH_SECRET や内部 API 用の環境変数が staging に入っているか確認してください。",
+  },
+};
+
+function resolveRecoveryHint(code?: string): RecoveryHint | null {
+  if (!code) return null;
+  if (HINT_BY_CODE[code]) return HINT_BY_CODE[code];
+  if (/^ADMIN_FETCH_5\d\d$/.test(code)) return HINT_BY_CODE.ADMIN_FETCH_500;
+  return null;
+}
+
 export interface AdminSectionErrorProps {
   sectionLabel: string;
   code?: string;
@@ -21,6 +52,7 @@ export function AdminSectionError({
   retryLabel = "再読み込み",
   isRetrying = false,
 }: AdminSectionErrorProps) {
+  const hint = resolveRecoveryHint(code);
   return (
     <div
       role="alert"
@@ -52,6 +84,12 @@ export function AdminSectionError({
           </>
         ) : null}
       </dl>
+      {hint ? (
+        <div className="admin-section-error__hint">
+          <strong>{hint.title}</strong>
+          <p>{hint.body}</p>
+        </div>
+      ) : null}
       {onRetry ? (
         <button
           type="button"

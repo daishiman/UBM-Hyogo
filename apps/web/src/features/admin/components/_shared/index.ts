@@ -27,3 +27,9 @@ export type {
   AdminQueuePanelProps,
   AdminQueueItem,
 } from "./AdminQueuePanel";
+
+export { TagPill } from "./TagPill";
+export type { TagPillProps } from "./TagPill";
+
+export { PillNav } from "./PillNav";
+export type { PillNavProps, PillNavOption } from "./PillNav";
