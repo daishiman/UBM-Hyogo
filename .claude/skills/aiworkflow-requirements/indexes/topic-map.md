@@ -2202,6 +2202,12 @@ node scripts/list-specs.js --topics
 |------------|----|
 | Contract | L15 |
 
+### references/workflow-admin-ui-prototype-alignment-followup-003-admin-members-prototype-redesign-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Contract | L19 |
+
 ### references/workflow-admin-ui-task-c-pageheader-token-conformance-artifact-inventory.md
 
 | セクション | 行 |
