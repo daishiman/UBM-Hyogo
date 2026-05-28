@@ -8,6 +8,7 @@ import {
   parseAttendanceCsv,
   type ParsedAttendanceRow,
 } from "../../../../../src/lib/csv/parse-attendance";
+import { AdminSectionCard } from "../../../../../src/features/admin/components/_shared";
 
 type RowStatus = "ok" | "duplicate" | "deleted_member" | "unknown_member" | "invalid";
 
@@ -199,12 +200,14 @@ export function AttendanceCsvImportPanel({ sessionId }: Props): React.JSX.Elemen
           : 1;
 
   return (
-    <section
-      aria-labelledby="attendance-csv-import-h"
-      data-testid="attendance-csv-import-panel"
-      data-hydrated={hydrated ? "true" : "false"}
+    <AdminSectionCard
+      title="出席 CSV 一括登録"
+      description="memberId / email カラムを含む CSV を最大 500 行まで取り込めます"
     >
-      <h2 id="attendance-csv-import-h">出席 CSV 一括登録</h2>
+      <div
+        data-testid="attendance-csv-import-panel"
+        data-hydrated={hydrated ? "true" : "false"}
+      >
       <ol aria-label="import-steps" data-testid="import-steps">
         <li aria-current={currentStep === 1 ? "step" : undefined}>1. CSV upload</li>
         <li aria-current={currentStep === 2 ? "step" : undefined}>2. preview</li>
@@ -304,6 +307,7 @@ export function AttendanceCsvImportPanel({ sessionId }: Props): React.JSX.Elemen
           </button>
         </div>
       )}
-    </section>
+      </div>
+    </AdminSectionCard>
   );
 }
