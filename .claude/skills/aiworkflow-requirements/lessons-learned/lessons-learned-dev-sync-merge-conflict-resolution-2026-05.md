@@ -1124,6 +1124,19 @@
 - 参照: L-DEVSYNC-042 (resolver UNION 拡張)、L-DEVSYNC-046 (patterns-lessons UNION_TARGETS 昇格)、task-specification-creator [[patterns-lessons-and-pitfalls#dev-sync-merge-conflict-resolution]]。
 
 
+## L-DEVSYNC-056: admin route prototype-alignment branch ← origin/dev sync で page-head primitive 移行と showHeading bridging が同時発生（2026-05-28 確認）
+
+- 事象: `feat/admin-requests-prototype-alignment-and-404-fix` ← `origin/dev` の sync-merge で、`pnpm sync:resolve` 後に手動解消が必要だったのは `apps/web/app/(admin)/admin/requests/page.tsx` と `apps/web/src/components/admin/RequestQueuePanel.tsx` の 2 ファイル。HEAD 側は branch 独自に inline `<header className="page-head">` で page-local h1 を実装し、dev 側は admin-ui Task C の primitive 化で `AdminPageHeader` import + 呼び出しに切替えていた。さらに dev 側は Panel に `showHeading?: boolean` prop を新設して page から `showHeading={false}` で h1 を抑止する分離を導入していた。両 branch が「page-head の owner を誰にするか」という同一論点に **独立した正解**（HEAD: 旧 markup 直書き / dev: primitive + prop bridge）でアプローチしていた点が conflict の本質。
+- Why: admin route の prototype alignment 系 branch は dev 側で primitive (`AdminPageHeader`) の signature が安定化する途中。HEAD 側 branch が枝分かれした時点では prop bridge が存在せず、最新の page-head パターン（panel/page-head 二重 h1 抑止）に追従できないまま実装が進む。結果として「機能的には同じ目的」「実装は完全に独立」な double-update が発生する。これを「HEAD/dev のどちらかを採用」で処理すると、page.tsx 側の `AdminPageHeader` import が orphan になるか、panel 側の `showHeading` 既定値が破壊される。
+- How to apply:
+  1. `apps/web/app/(admin)/admin/<route>/page.tsx` 系の手動 conflict では、**HEAD の page-head 内容（eyebrow / title / description / breadcrumbs / headingId）を逐語で抽出し、dev 側の `AdminPageHeader` 呼び出しに props として全部移植する**。description は HEAD 側の最新文言を優先（branch の作業意図）。`headingId` は HEAD 側 h1 の `id` をそのまま渡す（L-PGHEAD-001: 二重 h1 抑止の id ownership を保持）。
+  2. wrapper element は **dev 側のパターン**（他の `apps/web/app/(admin)/admin/*/page.tsx` で使われている `<section className="flex flex-col gap-4">`）に合わせる。`rg -n "<section className=\"flex flex-col gap-4\">|<div className=\"page-enter stack-lg\">" apps/web/app/\(admin\)/admin` で同 task wave の他 page と整合する書式を選ぶ。HEAD 側の `page-enter stack-lg` rhythm class は admin section level では使わない（admin shell が rhythm を支配）。
+  3. Panel 側 (`apps/web/src/components/admin/<X>Panel.tsx`) で `showHeading` prop を dev 側が新設している場合、**HEAD の section 構造（`stack-lg` + `card card-pad` 等）と dev の `showHeading` 条件分岐を統合する**。`aria-labelledby` は `showHeading ? "<panel-h-id>" : "<filter-h2-id>"` の三項で切り替え、h1 自体は `showHeading ? <h1 ...>...</h1> : null` で gating。これで page.tsx 側が `showHeading={false}` を渡したときに二重 h1 を避けつつ、Panel を単独 render する Vitest test（既定 `showHeading=true`）の AC を温存できる。
+  4. 検証順: `grep -nE '^(<<<<<<<|=======|>>>>>>>|\|\|\|\|\|\|\|)' <files>` で marker 0 件 → `pnpm typecheck`（AdminPageHeader prop 型整合）→ `pnpm lint` → 該当 Panel の component spec（`*.component.spec.tsx`）を `pnpm --filter @ubm/web exec vitest run <spec>` で focused 実行し h1 / filter h2 / aria-label 期待が両 mode で通ることを確認 → commit。
+- 留意: page-head 系の手動 union を resolver に組み込もうとすると「HEAD の inline markup から props を抽出する semantic transform」が必要で、純粋な text union では成立しない（context-free な操作にならない）。`UNION_MERGE_TARGETS` 拡張対象外として手動解消を継続するのが安全。代わりに本 lesson と task-specification-creator [[patterns-lessons-and-pitfalls]] の SP-DEVSYNC-056 で手順を SSOT 化する。
+- 検証: 2026-05-28 `feat/admin-requests-prototype-alignment-and-404-fix` ← `origin/dev` の sync-merge で `pnpm sync:resolve` 後に残った `apps/web/app/(admin)/admin/requests/page.tsx` と `apps/web/src/components/admin/RequestQueuePanel.tsx` を上記手順で解消。`grep -c "<<<<<<<\|=======\|>>>>>>>" <files>` 0、`pnpm typecheck && pnpm lint` green。
+- 参照: L-DEVSYNC-054 (auth.ts / barrel 並列追加)、L-DEVSYNC-055 (skill indexes 2 件 happy-path)、task-specification-creator [[patterns-lessons-and-pitfalls#dev-sync-merge-conflict-resolution]] SP-DEVSYNC-056、L-PGHEAD-001 (panel/page-head 二重 h1 抑止)。
+
 ## L-DEVSYNC-056: feature が page-local 旧 header を抱えたまま dev が AdminPageHeader primitive を導入したケースの hybridize（2026-05-28 確認）
 
 - 事象: `feat/admin-schema-page-prototype-alignment-and-diff-fetch-fix` ← origin/dev sync-merge で `pnpm sync:resolve` 後に source code 3 件が残った:
@@ -1138,6 +1151,21 @@
   4. 検証順: `git diff --diff-filter=U --name-only` 0 件 → `pnpm typecheck` (page で undefined ref があると即 fail) → `pnpm lint` → `git commit -m "merge: sync <branch> with dev"`。
 - 留意: HEAD と dev で **同一画面の構造を双方が積極的に書き換える**パターンは、admin-ui プロトタイプ整合が wave 単位で並列実装されている期間は構造的に発生する。`pnpm sync:resolve` は `.ts/.tsx` ソースを対象外なので、手動 hybridize 必須。resolver 拡張ではなく lesson + 仕様 Phase 4 risk への記載で対処するのが正（L-DEVSYNC-054 と同じ判断）。
 - 事例: 2026-05-28 commit `c2a2bfc4e` (merge: sync feat/admin-schema-page-prototype-alignment-and-diff-fetch-fix with dev)。`pnpm sync:resolve` で skill md 1 union + keywords.json `--ours + rebuild` 成功、残り 3 `.tsx` を上記手順で hybridize。`grep -nE '^(<<<<<<<|=======|>>>>>>>|\|\|\|\|\|\|\|)' ...` 0 件 → `pnpm typecheck` Done × 6 packages → `pnpm lint` Done × 全 packages。
+
+## L-DEVSYNC-057: feature が AdminPageHeader を barrel 経由 import × dev が _layout 直 import で 3-way（2026-05-28 確認）
+
+- 事象: `feat/admin-audit-prototype-alignment` ← `origin/dev` sync-merge で `pnpm sync:resolve` 後、`apps/web/app/(admin)/admin/audit/page.tsx` と `apps/web/src/components/admin/AuditLogPanel.tsx` の 2 ソースが残る。
+  1. `audit/page.tsx` — HEAD: `import { AdminPageHeader } from "../../../../src/features/admin/components";`（barrel index 経由）+ AdminPageHeader props は `title/description/breadcrumbs`。dev: `import { AdminPageHeader } from ".../components/_layout/AdminPageHeader";`（直接 path）+ `eyebrow` prop を追加。
+  2. `AuditLogPanel.tsx` — HEAD: section に `className="flex flex-col gap-4"` + `<Card>` + `<form>` (FormField/Input/Select/Button) で prototype 整合の検索 UI を full 実装。dev: `showHeading` prop で `<header><h1>` を出し分け、section に `aria-labelledby`/`aria-label` を切替。HEAD 側は filter UI 追加に集中、dev 側は heading 出し分け契約に集中。
+- Why: barrel `index.ts` は `export * from "./_layout/AdminPageHeader"` を既に持っており、両 import 形は同一実体を指す（型・実装差なし）。`eyebrow` prop は AdminPageHeader が既に optional として受けるため両側統合可能。`showHeading` 出し分けと filter Card 追加は構造上 orthogonal で、`<section>` ラッパに両者を同時適用できる（section 属性は dev 側、その内部に dev の header 条件分岐 + HEAD の Card を順次配置）。
+- How to apply:
+  1. **import paths の HEAD vs dev**: barrel 経由（HEAD）を **default 採用**。理由は (a) `_layout/` 直接 path への依存は internal layout の private path に lock-in されるが barrel は安定 API、(b) barrel が当該 export を再 export 済みなら結果は同一。確認は `grep "from \"./_layout/<Component>\"" <feature>/components/index.ts` 1 行で完結。
+  2. **props 追加 (eyebrow など)**: HEAD と dev の両側の props 列を **union** で 1 つの JSX に統合（同 prop 名が異なる値で衝突する場合のみ「prototype alignment の意図に近い側」を優先）。本件は dev `eyebrow="ADMIN / AUDIT"` を残し、HEAD の richer `description` を採用。
+  3. **section ラッパ属性の HEAD vs dev**: HEAD `className="flex flex-col gap-4"` と dev `aria-labelledby={showHeading ? ... : undefined}` / `aria-label={showHeading ? undefined : ...}` は orthogonal なので両方付ける。section opening tag を 1 つに統合し全 attribute を列挙する形にする。
+  4. **section 内子要素の合成順序**: dev 側の条件付き `<header><h1>` を先頭に置き、HEAD 側の `<Card>` 以降を続けて配置。残りの共通 children（error Banner / empty state など）はコンフリクトしていないので triple-marker の外側がそのまま残る。
+  5. 検証: `grep -nE '^(<<<<<<<|=======|>>>>>>>|\|\|\|\|\|\|\|)' <file>` 0 件 → `pnpm typecheck` (props 不整合があれば即 fail) → `pnpm lint`。
+- 留意: barrel 経由 import を default にするポリシーは「feature 側で既存 barrel が export 済み」が前提。barrel に未掲載の component を直接 path で取り込んでいる場合は、まず barrel に export を追加してから本 lesson を適用する。`feat/admin-audit-prototype-alignment` のように feature ブランチが UI prototype 整合（structural primitive 化と独立な path 整理）を主目的とする場合、両側の意図は orthogonal で hybridize は機械的に成立する。
+- 事例: 2026-05-28 sync-merge (HEAD=`feat/admin-audit-prototype-alignment`, base=`bf6efe49f`). `pnpm sync:resolve` が aiworkflow indexes 4 件を自動解消 (3 md union + keywords.json --ours + rebuild)、残り 2 `.tsx` を上記手順で hybridize。コンフリクトマーカー 0 件確認後に merge commit。
 
 
 ## L-DEVSYNC-058: 同一 page を両 branch が独立に prototype 整合した結果の 2-way feature × modernization hybridize（2026-05-28 admin/identity-conflicts/page.tsx）
