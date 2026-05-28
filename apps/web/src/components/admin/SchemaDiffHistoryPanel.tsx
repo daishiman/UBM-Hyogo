@@ -25,6 +25,7 @@ export interface SchemaDiffHistoryFilters {
 export interface SchemaDiffHistoryPanelProps {
   readonly initialFilters: SchemaDiffHistoryFilters;
   readonly initialCursor?: string | null;
+  readonly showChrome?: boolean;
 }
 
 const EMPTY_RESPONSE: SchemaAliasHistoryResponse = {
@@ -54,6 +55,7 @@ function applyClientFilter(
 export function SchemaDiffHistoryPanel({
   initialFilters,
   initialCursor = null,
+  showChrome = true,
 }: SchemaDiffHistoryPanelProps) {
   const router = useRouter();
   const [filters, setFilters] = useState<SchemaDiffHistoryFilters>(initialFilters);
@@ -122,15 +124,23 @@ export function SchemaDiffHistoryPanel({
   const displayItems = applyClientFilter(response.items, filters.questionTextLike);
 
   return (
-    <section aria-labelledby="schema-history-h" data-page="admin-schema-history">
-      <Breadcrumb
-        items={[
-          { label: "admin", href: "/admin" },
-          { label: "schema", href: "/admin/schema" },
-          { label: "history" },
-        ]}
-      />
-      <h1 id="schema-history-h">schema alias resolve 履歴</h1>
+    <section
+      aria-labelledby={showChrome ? "schema-history-h" : undefined}
+      aria-label={showChrome ? undefined : "schema alias resolve 履歴"}
+      data-page="admin-schema-history"
+    >
+      {showChrome ? (
+        <>
+          <Breadcrumb
+            items={[
+              { label: "admin", href: "/admin" },
+              { label: "schema", href: "/admin/schema" },
+              { label: "history" },
+            ]}
+          />
+          <h1 id="schema-history-h">schema alias resolve 履歴</h1>
+        </>
+      ) : null}
 
       <form role="search" aria-label="履歴フィルタ" onSubmit={applyFilters}>
         <FormField name="actorEmail" label="操作者 email">

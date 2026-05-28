@@ -41,6 +41,7 @@ export interface RequestQueueListView {
 interface Props {
   readonly initial: RequestQueueListView;
   readonly type: RequestNoteType;
+  readonly showHeading?: boolean;
 }
 
 const NOTE_TYPE_LABEL: Record<RequestNoteType, string> = {
@@ -48,7 +49,7 @@ const NOTE_TYPE_LABEL: Record<RequestNoteType, string> = {
   delete_request: "退会",
 };
 
-export function RequestQueuePanel({ initial, type }: Props) {
+export function RequestQueuePanel({ initial, type, showHeading = true }: Props) {
   const router = useRouter();
   const [items, setItems] = useState(initial.items);
   const [selectedId, setSelectedId] = useState<string | null>(items[0]?.noteId ?? null);
@@ -146,7 +147,11 @@ export function RequestQueuePanel({ initial, type }: Props) {
       : undefined;
 
   return (
-    <section aria-labelledby="admin-requests-filter-h" className="stack-lg">
+    <section
+      aria-labelledby={showHeading ? "admin-requests-h" : "admin-requests-filter-h"}
+      className="stack-lg"
+    >
+      {showHeading ? <h1 id="admin-requests-h">依頼キュー</h1> : null}
       <div className="card card-pad">
         <h2 id="admin-requests-filter-h" className="h-section visually-hidden">
           依頼種別

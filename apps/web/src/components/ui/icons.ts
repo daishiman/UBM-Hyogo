@@ -8,4 +8,7 @@ export type IconName =
   | "external-link"
   | "send"
   | "inbox"
-  | "arrow-left";
+  | "arrow-left"
+  | "briefcase"
+  | "map-pin"
+  | "chevron-right";

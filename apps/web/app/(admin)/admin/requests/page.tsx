@@ -3,8 +3,8 @@
 // admin-requests-prototype-alignment-and-404-fix: page-head + h1 を page.tsx 側に集約
 // 不変条件 #5: server fetch は admin proxy 経由のみ。
 import { safeServerFetch } from "../../../../src/lib/admin/safe-server-fetch";
-import { Breadcrumb } from "@/components/admin/Breadcrumb";
 import { AdminSectionErrorClient } from "../../../../src/features/admin/components/_shared";
+import { AdminPageHeader } from "../../../../src/features/admin/components/_layout/AdminPageHeader";
 import {
   RequestQueuePanel,
   type RequestQueueListView,
@@ -37,15 +37,14 @@ export default async function AdminRequestsPage({
     `/admin/requests?${query.toString()}`,
   );
   return (
-    <div className="page-enter stack-lg">
-      <Breadcrumb items={[{ label: "依頼キュー" }]} />
-      <header className="page-head">
-        <p className="eyebrow">ADMIN / REQUESTS</p>
-        <h1 id="admin-requests-h" className="h-page">
-          依頼キュー
-        </h1>
-        <p className="lede">公開状態の変更依頼・退会依頼を確認・承認します。</p>
-      </header>
+    <section className="flex flex-col gap-4">
+      <AdminPageHeader
+        eyebrow="ADMIN / REQUESTS"
+        title="依頼キュー"
+        description="公開状態の変更依頼・退会依頼を確認・承認します。"
+        breadcrumbs={[{ label: "管理", href: "/admin" }, { label: "依頼キュー" }]}
+        headingId="admin-requests-h"
+      />
       {result.ok ? (
         <RequestQueuePanel
           initial={{
@@ -54,6 +53,7 @@ export default async function AdminRequestsPage({
             appliedFilters: result.data.appliedFilters ?? { status: "pending", type },
           }}
           type={type}
+          showHeading={false}
         />
       ) : (
         <AdminSectionErrorClient
@@ -62,6 +62,6 @@ export default async function AdminRequestsPage({
           message={result.error.message}
         />
       )}
-    </div>
+    </section>
   );
 }

@@ -1,8 +1,8 @@
 // serial-05: /(admin)/admin/audit — blueprint 09g:841-940
 // 07c-followup-003: /admin/audit read-only browsing UI.
 import { safeServerFetch } from "../../../../src/lib/admin/safe-server-fetch";
-import { Breadcrumb } from "@/components/admin/Breadcrumb";
 import { AuditLogPanel, type AuditSearchValues } from "../../../../src/components/admin/AuditLogPanel";
+import { AdminPageHeader } from "../../../../src/features/admin/components/_layout/AdminPageHeader";
 import type { AdminAuditListResponse } from "../../../../src/lib/admin/types";
 import { jstLocalToUtcIso } from "./audit-query";
 
@@ -59,11 +59,16 @@ export default async function AdminAuditPage({
 
   return (
     <section className="flex flex-col gap-4">
-      <Breadcrumb items={[{ label: "監査ログ" }]} />
+      <AdminPageHeader
+        eyebrow="ADMIN / AUDIT"
+        title="監査ログ"
+        description="管理操作の履歴を条件指定で検索"
+        breadcrumbs={[{ label: "管理", href: "/admin" }, { label: "監査ログ" }]}
+      />
       {error ? (
-        <AuditLogPanel data={data} values={values} error={error} />
+        <AuditLogPanel data={data} values={values} error={error} showHeading={false} />
       ) : (
-        <AuditLogPanel data={data} values={values} />
+        <AuditLogPanel data={data} values={values} showHeading={false} />
       )}
     </section>
   );
