@@ -523,8 +523,33 @@
 
   .schema-grid {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: var(--ubm-space-2);
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: var(--ubm-space-3);
+  }
+
+  .schema-field-card {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: var(--ubm-space-3);
+    padding: var(--ubm-space-3);
+    border: 1px solid var(--ubm-color-border-default);
+    border-left: 4px solid var(--ubm-color-border-default);
+    border-radius: var(--ubm-radius-sm);
+    background: var(--ubm-color-surface-panel);
+  }
+
+  .schema-field-card.diff-added {
+    border-left-color: var(--ubm-color-ok);
+  }
+
+  .schema-field-card.diff-changed,
+  .schema-field-card.diff-unresolved {
+    border-left-color: var(--ubm-color-warn);
+  }
+
+  .schema-field-card.diff-removed {
+    border-left-color: var(--ubm-color-danger);
   }
 
   .admin-audit-filter {
@@ -720,6 +745,51 @@
     gap: var(--ubm-space-3);
   }
 
+  .stack-lg,
+  .stack-sm {
+    display: grid;
+  }
+
+  .stack-lg {
+    gap: var(--ubm-space-6);
+  }
+
+  .stack-sm {
+    gap: var(--ubm-space-3);
+  }
+
+  .row,
+  .row-between {
+    display: flex;
+    align-items: center;
+    gap: var(--ubm-space-2);
+  }
+
+  .row-between {
+    justify-content: space-between;
+  }
+
+  .grid-2,
+  .grid-4 {
+    display: grid;
+    gap: var(--ubm-space-3);
+  }
+
+  .grid-2 {
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  }
+
+  .grid-4 {
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  }
+
+  .card-flat {
+    padding: var(--ubm-space-3);
+    border: 1px solid var(--ubm-color-border-default);
+    border-radius: var(--ubm-radius-sm);
+    background: var(--ubm-color-surface-bg);
+  }
+
   .eyebrow {
     color: var(--ubm-color-accent-ink);
     font-size: var(--ubm-text-xs);
@@ -731,6 +801,16 @@
     margin: 0;
     font-size: var(--ubm-text-3xl);
     line-height: 1.15;
+  }
+
+  .h-section {
+    margin: 0;
+    font-size: var(--ubm-text-xl);
+    line-height: 1.25;
+  }
+
+  .mono {
+    font-family: var(--font-mono);
   }
 
   .muted {

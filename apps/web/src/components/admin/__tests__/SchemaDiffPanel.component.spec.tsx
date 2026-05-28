@@ -112,10 +112,17 @@ describe("SchemaDiffPanel", () => {
     expect(screen.getByText("removed-1")).toBeTruthy();
     expect(screen.getByText("unresolved-1")).toBeTruthy();
     expect(screen.getByText("4 件")).toBeTruthy();
-    expect(screen.getAllByRole("table").length).toBe(4);
-    expect(screen.getAllByRole("columnheader", { name: "質問" }).length).toBe(4);
+    expect(screen.queryAllByRole("table").length).toBe(0);
+    expect(screen.getByText("added-1").closest(".schema-field-card")?.className).toContain("diff-added");
+    expect(screen.getByText("changed-1").closest(".schema-field-card")?.className).toContain("diff-changed");
+    expect(screen.getByText("removed-1").closest(".schema-field-card")?.className).toContain("diff-removed");
     expect(screen.getAllByText("未解決").length).toBeGreaterThan(0);
     expect(screen.queryByText("queued")).toBeNull();
+  });
+
+  it("hideInlineStats=true で panel 内の total 表示を抑止する", () => {
+    render(<SchemaDiffPanel initial={{ total: 0, items: [] }} hideInlineStats />);
+    expect(screen.queryByText("0 件")).toBeNull();
   });
 
   it("empty: items=[] で各ペインに「なし」表示、total=0", () => {

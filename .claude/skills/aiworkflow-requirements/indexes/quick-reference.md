@@ -4251,3 +4251,13 @@ UT-17 Cloudflare Notifications → alert-relay → Slack 経路を、既存 API 
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-255-coverage-threshold-sync-lint-artifact-inventory.md` |
 | user-gated | commit, push, PR, GitHub Actions runtime observation |
 | Issue #903 member AppShell runtime evidence | `/profile` under `(member)` route group; EV-13/EV-16 present | `docs/30-workflows/completed-tasks/issue-903-parallel-03-followup-005-member-runtime-evidence/`, `references/workflow-issue-903-parallel-03-followup-005-member-runtime-evidence-artifact-inventory.md` |
+## admin-schema-page-prototype-alignment-and-diff-fetch-fix（2026-05-27）
+
+| 観点 | 値 / 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/admin-schema-page-prototype-alignment-and-diff-fetch-fix/` |
+| state | `implemented_local_evidence_captured / implementation / VISUAL / runtime_visual_pending` |
+| implementation | `apps/web/app/(admin)/admin/schema/page.tsx`, `apps/web/src/components/admin/SchemaDiffPanel.tsx`, `apps/web/src/components/layout/AdminSidebar.tsx`, `apps/web/src/lib/admin/server-fetch.ts`, `apps/web/src/styles/globals.css` |
+| system spec | `docs/00-getting-started-manual/specs/09g-screen-blueprints-admin.md` §`/admin/schema` |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-schema-page-prototype-alignment-and-diff-fetch-fix-artifact-inventory.md` |
+| evidence | web Vitest 158 files / 1147 tests PASS; local Playwright schema visual 7 PASS + Phase 11 screenshots; staging deploy and authenticated screenshots are user-gated |
