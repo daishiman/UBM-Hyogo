@@ -1,0 +1,92 @@
+# integration-fixes — improvements の並列タスク接続検証で検出された 7 件のギャップ
+
+**[実装区分: 実装仕様書群]** — 全タスクともコード変更を伴う
+
+## 1. 背景
+
+`improvements/` 配下の parallel-01..10 を個別 PR (#737, #740, #743, #744, #745, #750 他) で順次マージしたが、
+**各タスクが宣言した「外部接続点（exports / hooks / providers / 動線 / class）」が他タスクから実際に
+利用されているか** は単体マージ時点では検証されない。
+
+本ワークフローは、コード実体での依存接続検証（実 grep / file read）で検出された 7 件の未接続/部分接続を
+管理する。2026-05-19 時点では i01 / i04 / i05 / i06 が local implementation captured で、i02 / i03 / i07 は本 index 配下の active integration-fix spec として残る。
+
+## 2. 検出結果（接続検証 evidence）
+
+| # | 検出ギャップ | 該当 parallel | 実コード evidence |
+|---|-------------|--------------|------------------|
+| i01 | (完了) `ToastProvider` が root layout に配置済み | p-08 DoD 達成 | `apps/web/app/layout.tsx` が `<ToastProvider>{children}</ToastProvider>` で wrap |
+| i02 | (完了) `useAdminMutation` の 401/非2xx と 3 panel の mutation error class を `AuthRequiredError` / `FetchAuthedError` へ統一 | p-08 ↔ p-10 / DoD 143 達成 | `apps/web/src/features/admin/hooks/useAdminMutation.ts` / `MeetingPanel.tsx` / `SchemaDiffPanel.tsx` / `RequestQueuePanel.tsx`、`AdminMutationError` grep 0 件 |
+| i02b | (完了) i02 の hook 内部 migration 後に残っていた `AdminMutationError` class と 3 panel 依存を削除（2026-05-23 closeout） | i02 closeout | canonical workflow `docs/30-workflows/completed-tasks/parallel-i02b-admin-mutation-error-finalize/`、focused tests 53 PASS、integration tests 41 PASS |
+| i03 | dialog の `router.refresh()` 呼び出し位置が spec と乖離（close 後発火リスク） | p-02 spec 違反 | `RequestActionPanel.tsx:57` で `refresh()` を onSubmitted callback に置く実装。spec は dialog 内で close 前 |
+| i04 | (完了) `CallToActionCTA` を HomePage に実装済み | p-06 DoD 達成 | `apps/web/app/page.tsx` が `CallToActionCTA` を mount、`apps/web/src/components/public/CallToActionCTA.tsx` 作成済み、Phase 11 screenshot 3 件保存 |
+| i05 | (完了) `/login/loading.tsx` 新規作成 + `/login/error.tsx` の focus 管理 / alert 強化を実装済み | p-07 DoD line 141, 142 達成 | `apps/web/app/login/loading.tsx` が `role=status` / `aria-busy=true` / `aria-live=polite`、`error.tsx` が `useRef` / `tabIndex={-1}` / `aria-live=assertive` |
+| i06 | root `error.tsx` + admin route segment `error.tsx` の h1 自動 focus 実装済み | parallel-07 spec 4.3 local implementation complete; admin child workflow issue-801 local evidence captured | `apps/web/app/error.tsx` と `apps/web/app/(admin)/admin/error.tsx` で `useRef` / `headingRef.current?.focus({ preventScroll: true })` / `tabIndex={-1}` 実装済み。admin layout (`apps/web/app/(admin)/layout.tsx`) 由来のエラー捕捉は対象外 |
+| i07 | (完了) `/profile/loading.tsx` を design-token utility skeleton に置換済み | p-07 spec 4.5 達成 | `apps/web/app/profile/loading.tsx` は `role=status` + avatar/KV skeleton、`apps/web/app/profile/loading.spec.tsx` は 4 tests PASS。canonical workflow: `docs/30-workflows/completed-tasks/profile-loading-skeleton-oklch/` |
+
+## 3. ディレクトリ構成
+
+```
+integration-fixes/
+├─ index.md  (本書)
+├─ parallel-i01-toastprovider-root-mount/spec.md
+├─ parallel-i02-admin-error-type-unify/spec.md
+├─ parallel-i02b-admin-mutation-error-finalize/spec.md
+├─ parallel-i03-dialog-refresh-order/spec.md
+├─ parallel-i04-homepage-cta/spec.md
+├─ parallel-i05-login-loading-and-error-focus/spec.md
+├─ parallel-i06-root-error-focus/spec.md
+└─ parallel-i07-profile-loading-skeleton/spec.md
+```
+
+## 4. 並列性
+
+7 件すべて編集対象ファイルが分離しており並列実行可能。
+
+| spec | 主要編集ファイル | 衝突可能性 |
+|------|----------------|----------|
+| i01 | `apps/web/app/layout.tsx` | なし |
+| i02 | `apps/web/src/features/admin/hooks/useAdminMutation.ts`, `apps/web/src/lib/fetch/authed.ts`（型 export 拡張のみ） | なし |
+| i03 | `apps/web/app/profile/_components/VisibilityRequestDialog.tsx`, `DeleteRequestDialog.tsx`, `RequestActionPanel.tsx` | なし |
+| i04 | `apps/web/app/page.tsx`, `apps/web/src/components/public/CallToActionCTA.tsx` (新規) | なし |
+| i05 | `apps/web/app/login/loading.tsx` (新規), `apps/web/app/login/error.tsx` | なし |
+| i06 | `apps/web/app/error.tsx` | なし |
+| i07 | `apps/web/app/profile/loading.tsx` | なし |
+
+## 5. 完了条件（workflow DoD）
+
+- [ ] 各 spec の DoD がすべて満たされる
+- [ ] `pnpm typecheck` / `pnpm lint` がローカル PASS
+- [ ] 単体接続確認:
+  - i01: `ToastProvider` mount 後、`useToast()` が context resolved 状態（hook console.warn なし）— local build/static evidence PASS、authenticated visual smoke は user-session gate
+  - i02: `useAdminMutation` の 401/403 path で共有 error type が throw されること（test PASS）
+  - i03: dialog 内で `router.refresh() → onSubmitted → onClose` の順序で呼び出されること（test PASS）
+  - i04: `/` 訪問時に CTA section が render されること
+  - i05: `/login/loading.tsx` 存在 + `/login/error.tsx` で h1 focus が当たること
+  - i06: root `error.tsx` で h1 focus が当たること（issue-769 local implementation evidence）
+  - i07: (完了) `/profile/loading.tsx` が skeleton で render され role=status を持つこと — canonical workflow `docs/30-workflows/completed-tasks/profile-loading-skeleton-oklch/`
+
+## 6. 不変条件（継承）
+
+`improvements/index.md` の 5 条件すべて継承（既存 API surface のみ / OKLch / prototype 正本 / D1 直接禁止 / `.spec.{ts,tsx}` 命名）。
+
+## 7. 残タスク追跡
+
+本 i01 close-out の範囲は `ToastProvider` root mount のみ。i02 / i03 / i05 / i07 は別 active spec として同ディレクトリ配下に残し、formal task は `docs/30-workflows/unassigned-task/` に登録済み。i04 / i06 は local implementation captured として canonical workflow root へ接続済みで、同表では consumed trace として扱う。
+
+| spec | 状態 | 追跡場所 |
+| --- | --- | --- |
+| i01 | completed locally | `docs/30-workflows/completed-tasks/i01-toastprovider-root-mount/` |
+| i02 | completed locally | `parallel-i02-admin-error-type-unify/spec.md` / `docs/30-workflows/completed-tasks/parallel-i02b-admin-mutation-error-finalize/`（DoD 143 達成） |
+| i02b | completed locally | `parallel-i02b-admin-mutation-error-finalize/spec.md` / `docs/30-workflows/completed-tasks/parallel-i02b-admin-mutation-error-finalize/` |
+| i03 | spec_ready_implementation_pending | `parallel-i03-dialog-refresh-order/spec.md` / `docs/30-workflows/unassigned-task/integration-fixes-i03-dialog-refresh-order.md` |
+| i04 | completed locally | `docs/30-workflows/integration-fixes-i04-homepage-cta-implementation/` / `parallel-i04-homepage-cta/spec.md` / `docs/30-workflows/unassigned-task/integration-fixes-i04-homepage-cta.md` |
+| i05 | implemented_local_evidence_captured | `docs/30-workflows/parallel-i05-login-loading-and-error-focus/` / `parallel-i05-login-loading-and-error-focus/spec.md` / `docs/30-workflows/unassigned-task/integration-fixes-i05-login-loading-and-error-focus.md`（consumed） |
+| i06 | implemented_local_evidence_captured | `parallel-i06-root-error-focus/spec.md` / root: `docs/30-workflows/completed-tasks/issue-769-root-error-focus/` / admin child: `docs/30-workflows/completed-tasks/issue-801-admin-error-focus-transfer/` / consumed sources: `docs/30-workflows/unassigned-task/integration-fixes-i06-root-error-focus.md`, `docs/30-workflows/completed-tasks/issue-769-followup-003-admin-error-focus-transfer.md` |
+| i07 | implemented_local_evidence_captured | `docs/30-workflows/completed-tasks/profile-loading-skeleton-oklch/` / source `parallel-i07-profile-loading-skeleton/spec.md` / consumed `docs/30-workflows/completed-tasks/integration-fixes-i07-profile-loading-skeleton.md` |
+
+## 8. 参照
+
+- 上位: `docs/30-workflows/ui-prototype-alignment-mvp-recovery/improvements/index.md`
+- 検証元 PR: #737, #740, #743, #744, #745, #750（および p-01..p-04 単独 merge）
+- 各 parallel spec の DoD（i01〜i05 で個別参照）

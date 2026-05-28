@@ -78,6 +78,23 @@ describe("AdminSectionErrorClient", () => {
     expect(screen.getByText("API がダウンしています")).toBeDefined();
   });
 
+  it.each([
+    ["ADMIN_FETCH_401", "セッションが切れています"],
+    ["ADMIN_FETCH_403", "管理者権限がありません"],
+    ["ADMIN_FETCH_404", "API に到達できません"],
+    ["ADMIN_FETCH_500", "サーバー設定エラーです"],
+    ["ADMIN_FETCH_503", "サーバー設定エラーです"],
+  ])("code=%s の復旧ヒントを表示する", (code, title) => {
+    render(<AdminSectionErrorClient sectionLabel="KPI" code={code} />);
+    expect(screen.getByText(title)).toBeDefined();
+  });
+
+  it("未知 code では復旧ヒントを出さない", () => {
+    render(<AdminSectionErrorClient sectionLabel="KPI" code="ADMIN_FETCH_FAILED" />);
+    expect(screen.queryByText("API に到達できません")).toBeNull();
+    expect(screen.queryByText("サーバー設定エラーです")).toBeNull();
+  });
+
   it("AC-3: useTransition pending 中は aria-busy=true / disabled=true", () => {
     useTransitionMock = () => [true, (cb: () => void) => cb()];
     render(<AdminSectionErrorClient sectionLabel="KPI" />);

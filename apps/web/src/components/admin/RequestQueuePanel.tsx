@@ -9,16 +9,10 @@ import { useRouter } from "next/navigation";
 import { resolveAdminRequest } from "../../lib/admin/api";
 import { EmptyState } from "../ui/EmptyState";
 import { Pagination } from "../ui/Pagination";
-import {
-  FetchAuthedError,
-  useAdminMutation,
-} from "../../features/admin/hooks/useAdminMutation";
+import { FetchAuthedError, useAdminMutation } from "../../features/admin/hooks/useAdminMutation";
 import { useConfirmDialog } from "../../features/admin/hooks/useConfirmDialog";
 import { RequestQueueDetail } from "./RequestQueueDetail";
-import {
-  RequestConfirmDialog,
-  type RequestConfirmKind,
-} from "./RequestConfirmDialog";
+import { RequestConfirmDialog, type RequestConfirmKind } from "./RequestConfirmDialog";
 
 export type RequestNoteType = "visibility_request" | "delete_request";
 
@@ -58,9 +52,7 @@ const NOTE_TYPE_LABEL: Record<RequestNoteType, string> = {
 export function RequestQueuePanel({ initial, type, showHeading = true }: Props) {
   const router = useRouter();
   const [items, setItems] = useState(initial.items);
-  const [selectedId, setSelectedId] = useState<string | null>(
-    items[0]?.noteId ?? null,
-  );
+  const [selectedId, setSelectedId] = useState<string | null>(items[0]?.noteId ?? null);
   const [toast, setToast] = useState<string | null>(null);
 
   const current = useMemo(
@@ -68,23 +60,19 @@ export function RequestQueuePanel({ initial, type, showHeading = true }: Props) 
     [items, selectedId],
   );
 
-  const resolveMutation = useAdminMutation<unknown>(
-    "/api/admin/requests/resolve",
-    "POST",
-    {
-      refreshOnSuccess: false,
-      mutationFn: async (payload) => {
-        const { noteId, ...body } = payload as {
-          noteId: string;
-          resolution: "approve" | "reject";
-          resolutionNote?: string;
-        };
-        const r = await resolveAdminRequest(noteId, body);
-        if (!r.ok) throw new FetchAuthedError(r.status, r.error);
-        return r.data;
-      },
+  const resolveMutation = useAdminMutation<unknown>("/api/admin/requests/resolve", "POST", {
+    refreshOnSuccess: false,
+    mutationFn: async (payload) => {
+      const { noteId, ...body } = payload as {
+        noteId: string;
+        resolution: "approve" | "reject";
+        resolutionNote?: string;
+      };
+      const r = await resolveAdminRequest(noteId, body);
+      if (!r.ok) throw new FetchAuthedError(r.status, r.error);
+      return r.data;
     },
-  );
+  });
 
   const performResolution = async (
     targetItem: RequestQueueItem | null,
@@ -111,9 +99,7 @@ export function RequestQueuePanel({ initial, type, showHeading = true }: Props) 
         router.refresh();
         return;
       }
-      setToast(
-        `処理に失敗しました: ${e instanceof Error ? e.message : "unknown error"}`,
-      );
+      setToast(`処理に失敗しました: ${e instanceof Error ? e.message : "unknown error"}`);
       return;
     }
     setToast(kind === "approve" ? "依頼を承認しました" : "依頼を却下しました");
@@ -146,19 +132,13 @@ export function RequestQueuePanel({ initial, type, showHeading = true }: Props) 
 
   const onNextPage = () => {
     if (!initial.nextCursor) return;
-    router.push(
-      `/admin/requests?type=${type}&cursor=${encodeURIComponent(initial.nextCursor)}`,
-    );
+    router.push(`/admin/requests?type=${type}&cursor=${encodeURIComponent(initial.nextCursor)}`);
   };
 
   const dialogKind: RequestConfirmKind | null =
-    confirm.kind === "approve" || confirm.kind === "reject"
-      ? confirm.kind
-      : null;
+    confirm.kind === "approve" || confirm.kind === "reject" ? confirm.kind : null;
   const dialogItem = confirm.context as RequestQueueItem | null;
-  const isDestructive =
-    dialogKind === "approve" &&
-    dialogItem?.noteType === "delete_request";
+  const isDestructive = dialogKind === "approve" && dialogItem?.noteType === "delete_request";
   const destructiveMessage =
     dialogKind === "approve" && dialogItem
       ? dialogItem.noteType === "delete_request"
@@ -168,48 +148,51 @@ export function RequestQueuePanel({ initial, type, showHeading = true }: Props) 
 
   return (
     <section
-      aria-labelledby={showHeading ? "admin-requests-h" : undefined}
-      aria-label={showHeading ? undefined : "依頼キュー"}
+      aria-labelledby={showHeading ? "admin-requests-h" : "admin-requests-filter-h"}
+      className="stack-lg"
     >
       {showHeading ? <h1 id="admin-requests-h">依頼キュー</h1> : null}
-      <div role="group" aria-label="依頼種別">
-        {(["visibility_request", "delete_request"] as const).map((v) => (
-          <button
-            key={v}
-            type="button"
-            aria-pressed={type === v}
-            onClick={() => onFilter(v)}
-          >
-            {NOTE_TYPE_LABEL[v]}
-          </button>
-        ))}
+      <div className="card card-pad">
+        <h2 id="admin-requests-filter-h" className="h-section visually-hidden">
+          依頼種別
+        </h2>
+        <div className="btn-row" role="group" aria-label="依頼種別">
+          {(["visibility_request", "delete_request"] as const).map((v) => (
+            <button key={v} type="button" aria-pressed={type === v} onClick={() => onFilter(v)}>
+              {NOTE_TYPE_LABEL[v]}
+            </button>
+          ))}
+        </div>
       </div>
       {toast && <p role="status">{toast}</p>}
 
       <div className="admin-requests-grid">
-        <ul aria-label="依頼一覧">
-          {items.length === 0 && (
-            <li>
-              <EmptyState title="未処理の依頼はありません" />
-            </li>
-          )}
-          {items.map((it) => (
-            <li key={it.noteId}>
-              <button
-                type="button"
-                onClick={() => setSelectedId(it.noteId)}
-                aria-pressed={selectedId === it.noteId}
-              >
-                <div>
-                  <code>{it.memberId}</code>
-                </div>
-                <small>
-                  {NOTE_TYPE_LABEL[it.noteType]} — {it.requestedAt}
-                </small>
-              </button>
-            </li>
-          ))}
-        </ul>
+        <div className="card card-pad-lg">
+          <h3 className="h-card">依頼一覧</h3>
+          <ul aria-label="依頼一覧">
+            {items.length === 0 && (
+              <li>
+                <EmptyState title="未処理の依頼はありません" />
+              </li>
+            )}
+            {items.map((it) => (
+              <li key={it.noteId}>
+                <button
+                  type="button"
+                  onClick={() => setSelectedId(it.noteId)}
+                  aria-pressed={selectedId === it.noteId}
+                >
+                  <div>
+                    <code>{it.memberId}</code>
+                  </div>
+                  <small>
+                    {NOTE_TYPE_LABEL[it.noteType]} — {it.requestedAt}
+                  </small>
+                </button>
+              </li>
+            ))}
+          </ul>
+        </div>
 
         <RequestQueueDetail
           item={current}
