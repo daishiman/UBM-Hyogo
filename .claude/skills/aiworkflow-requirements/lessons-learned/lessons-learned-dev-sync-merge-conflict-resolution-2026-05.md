@@ -1168,6 +1168,20 @@
 - 事例: 2026-05-28 sync-merge (HEAD=`feat/admin-audit-prototype-alignment`, base=`bf6efe49f`). `pnpm sync:resolve` が aiworkflow indexes 4 件を自動解消 (3 md union + keywords.json --ours + rebuild)、残り 2 `.tsx` を上記手順で hybridize。コンフリクトマーカー 0 件確認後に merge commit。
 
 
+## L-DEVSYNC-057: 両 branch が同一 Server Component に safe-fetch + SectionError を独立追加した parallel-degrade コンフリクトは branch-owning 側 take（2026-05-28 確認）
+
+- 事象: `fix/login-stale-link-and-profile-me-safefetch` ← origin/dev sync-merge で `pnpm sync:resolve` 後に source code 2 件が残った:
+  1. `apps/web/app/(member)/profile/page.tsx` — HEAD と origin/dev (0cc38e84c) が**両方とも**`safeServerFetch(() => fetchAuthed<MeSessionResponse>("/me"), {...})` ラップと `if (!meResult.ok) return <SectionError .../>;` 早期 return を独立に導入。差分は (a) 変数型注釈 `SafeResult<MeSessionResponse>` vs `Awaited<ReturnType<typeof safeServerFetch<MeSessionResponse>>>` (b) error title `"セッション情報を取得できませんでした"` vs `"マイページを読み込めませんでした"` の 2 点のみで、構造・retryHref・MemberHeader/SectionError prop は完全同一。three-way base には `meResult` 概念自体が無く、両側 add-add の semantic conflict。
+  2. `apps/web/app/(member)/profile/page.spec.tsx` — 同様に `degrades /me fetch failures …` の `it` block を両側が追加。HEAD は `FetchAuthedError(503, "down")` で「セッション情報を取得できませんでした」を assert、dev は generic `Error("fetchAuthed failed: 503")` で「マイページを読み込めませんでした」を assert。テスト対象シナリオは同一だが期待文字列が page.tsx の title と pair で異なる。
+- Why: parallel feature wave で `/profile` の Server Component error boundary 強化（safe-fetch degrade）が二系統で同時に進んでいた。L-DEVSYNC-056 のような「dev が新 primitive を導入し HEAD が旧構造のまま」とは異なり、**両側が同方向の改良を独立に実装**しているため、構造採用ではなく「どちらの文言/型が branch の責務 (responsibility) を正確に表しているか」で判定する。本 branch の責務は「`/profile` ページの `/me` 取得失敗を安全に降格する」ことであり、`/me` 取得失敗時は「セッション情報を取得できませんでした」の方が原因事象を正確に示す。dev 側の「マイページを読み込めませんでした」は profile fetch 失敗側 (`MEMBER_FETCH`) と区別が付かないので情報損失。型注釈も `SafeResult<T>` 直接の方が読みやすい。
+- How to apply:
+  1. add-add の semantic conflict は、まず両側の hunk が **構造的に同一か** (`git diff :2:<path> :3:<path>` で確認) を判定。同一構造で差分が文字列/型注釈のみなら、**branch slug が示す責務に合致する側**を `git checkout --ours <path>` または `--theirs <path>` で一括採用する（hybridize 不要）。spec も page と pair で同じ側を採用する（assert 文字列が page.tsx の title と束で一致しないと test fail）。
+  2. branch 責務の判定は `git log --oneline <merge-base>..HEAD -- <該当 path>` で「この branch が何を変えたか」を確認し、コミットメッセージの主語（`fix(profile)`, `fix(login,profile)` 等）が一致する側を ours とみなす。本ケースでは `3a0988f4d fix(login,profile): stale login redirect link と /profile /me fetch safe wrap` が HEAD の責務を明示している。
+  3. resolver 後の手順: `git checkout --ours <page.tsx> <page.spec.tsx>` → `git add <両 path>` → `git diff --diff-filter=U --name-only` 0 件確認 → `pnpm typecheck && pnpm lint` → `git commit --no-edit` で merge commit を確定。
+- 留意: 両側が **同 endpoint の error boundary を独立追加** するパターンは、`/profile`・`/login`・admin section root 等の Server Component で wave 並列実装期間に頻発する。`pnpm sync:resolve` 拡張で取り込むには branch context (slug / commit message) が必要なので resolver 化は不適。本 lesson で対処するのが正。
+- 事例: 2026-05-28 `fix/login-stale-link-and-profile-me-safefetch` ← `origin/dev` merge。`pnpm sync:resolve` で skill indexes 2 件 (`topic-map.md` union + `keywords.json` ours+rebuild) 完結、残 `.tsx` 2 件を `git checkout --ours` で採用。`pnpm typecheck` Done × 全 packages → `pnpm lint` 通過後に merge commit 確定。
+
+
 ## L-DEVSYNC-058: 同一 page を両 branch が独立に prototype 整合した結果の 2-way feature × modernization hybridize（2026-05-28 admin/identity-conflicts/page.tsx）
 
 - 事象: `feat/admin-identity-conflicts-prototype-alignment-and-404-fix` ← origin/dev sync-merge で `pnpm sync:resolve` 後に `apps/web/app/(admin)/admin/identity-conflicts/page.tsx` 1 件だけが unresolved。HEAD と dev の **両方が同じ page を異なる方向に prototype 整合**しており機械 union 不可。

@@ -47,4 +47,10 @@ describe("toLoginRedirect", () => {
       "/login?redirect=%2Fprofile",
     );
   });
+
+  it("object input は /profile fallback になり [object Object] を生成しない", () => {
+    expect(toLoginRedirect({ pathname: "/admin" })).toBe(
+      "/login?redirect=%2Fprofile",
+    );
+  });
 });

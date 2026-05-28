@@ -1,0 +1,30 @@
+{
+  "workflow": "login-stale-link-and-profile-me-safe-fetch",
+  "mode": "VISUAL",
+  "captures": [
+    {
+      "filename": "profile-session-error.png",
+      "route": "/profile",
+      "state": "me-5xx",
+      "viewport": "desktop-chromium",
+      "tc": "TC-S1-05",
+      "evidence": "SectionError UI rendered with MEMBER_SESSION code prefix"
+    },
+    {
+      "filename": "profile-success.png",
+      "route": "/profile",
+      "state": "success",
+      "viewport": "desktop-chromium",
+      "tc": "TC-S1-03",
+      "evidence": "ProfileHeader regression baseline"
+    },
+    {
+      "filename": "login-no-stale-link.png",
+      "route": "/login",
+      "state": "initial",
+      "viewport": "desktop-chromium",
+      "tc": "AC-1",
+      "evidence": "no /[object Object] in network panel"
+    }
+  ]
+}
