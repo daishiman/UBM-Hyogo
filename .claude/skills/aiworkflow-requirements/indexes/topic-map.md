@@ -2143,11 +2143,18 @@ node scripts/list-specs.js --topics
 |------------|----|
 | Boundary | L16 |
 
+### references/workflow-admin-shell-topbar-sidebar-integration-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Contract | L17 |
+| Lessons Learned | L30 |
+
 ### references/workflow-admin-ui-prototype-alignment-artifact-inventory.md
 
 | セクション | 行 |
 |------------|----|
-| Contract | L16 |
+| Contract | L18 |
 
 ### references/workflow-admin-ui-prototype-alignment-followup-001-members-fetch-and-visual-artifact-inventory.md
 
@@ -2169,6 +2176,20 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | Contract | L19 |
+
+### references/workflow-admin-ui-task-c-pageheader-token-conformance-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Contract | L20 |
+| Lessons Learned | L36 |
+
+### references/workflow-admin-ui-task-d-attendance-primitive-conformance-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Boundary | L15 |
+| Lessons | L19 |
 
 ### references/workflow-ai-chat-llm-integration-fix-artifact-inventory.md
 
@@ -7861,14 +7882,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L2745 |
-| フェーズ構造（概要） | L2754 |
-| 品質ゲート（概要） | L2785 |
-| 出力テンプレート | L2796 |
-| 実行時のコマンド・エージェント・スキル | L2819 |
-| 昇格パターン集 | L2843 |
-| Current Active / Spec Created Tasks | L2845 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L3006 |
+| ドキュメント構成 | L2820 |
+| フェーズ構造（概要） | L2829 |
+| 品質ゲート（概要） | L2860 |
+| 出力テンプレート | L2871 |
+| 実行時のコマンド・エージェント・スキル | L2894 |
+| 昇格パターン集 | L2918 |
+| Current Active / Spec Created Tasks | L2920 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L3081 |
 
 ### references/task-workflow-backlog-part2.md
 

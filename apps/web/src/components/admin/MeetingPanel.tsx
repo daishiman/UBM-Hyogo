@@ -71,9 +71,10 @@ export function filterCandidates<T extends { isDeleted?: boolean }>(members: T[]
 interface Props {
   readonly meetings: MeetingsListView;
   readonly candidates: MemberCandidate[];
+  readonly showHeading?: boolean;
 }
 
-export function MeetingPanel({ meetings, candidates }: Props) {
+export function MeetingPanel({ meetings, candidates, showHeading = true }: Props) {
   const router = useRouter();
   const meetingCreateMutation = useAdminMutation<MeetingMutationResponse>(
     "/api/admin/meetings",
@@ -260,8 +261,11 @@ export function MeetingPanel({ meetings, candidates }: Props) {
   };
 
   return (
-    <section aria-labelledby="meetings-h">
-      <h1 id="meetings-h">開催日 / 出席管理</h1>
+    <section
+      aria-labelledby={showHeading ? "meetings-h" : undefined}
+      aria-label={showHeading ? undefined : "開催日 / 出席管理"}
+    >
+      {showHeading ? <h1 id="meetings-h">開催日 / 出席管理</h1> : null}
       {toast && <p role="status" data-testid="attendance-toast">{toast}</p>}
 
       <form onSubmit={onCreate} aria-label="開催日追加">

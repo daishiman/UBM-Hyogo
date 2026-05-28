@@ -51,6 +51,7 @@ type MockApiState = {
   visibilityPost?: { status: number; body: unknown }
   adminDashboardUnresolvedSchema?: number
   adminDashboardByStatus?: ReadonlyArray<StatusSliceSeed>
+  attendanceDashboardScenario: 'all-ok' | 'overview-error' | 'by-session-empty'
   meetingsSeed: MockMeetingsSeed
   publicHomeEmpty?: boolean
 }
@@ -62,6 +63,9 @@ type MockApi = {
   setVisibilityError: (status: number, body: unknown) => void
   setAdminDashboardUnresolvedSchema: (count: number) => Promise<void>
   setAdminDashboardByStatus: (slices: ReadonlyArray<StatusSliceSeed> | undefined) => Promise<void>
+  setAttendanceDashboardScenario: (
+    scenario: MockApiState['attendanceDashboardScenario'],
+  ) => Promise<void>
   seedMeetings: (seed?: MockMeetingsSeed) => Promise<void>
   seedUnregisteredMeeting: () => Promise<void>
   setPublicHomeEmpty: (empty: boolean) => Promise<void>
@@ -95,7 +99,11 @@ async function waitForMockApiReady(): Promise<void> {
   throw lastError instanceof Error ? lastError : new Error('mock api did not become ready')
 }
 
-const state: MockApiState = { pendingRequests: {}, meetingsSeed: defaultAttendanceSeed() }
+const state: MockApiState = {
+  pendingRequests: {},
+  attendanceDashboardScenario: 'all-ok',
+  meetingsSeed: defaultAttendanceSeed(),
+}
 let serverPromise: Promise<void> | null = null
 let server: Server | null = null
 
@@ -209,6 +217,65 @@ function adminDashboardBody() {
       { key: '10to100', label: '10→100', hint: '組織化', count: 11, total: 128, tone: 'ok' },
     ] satisfies ReadonlyArray<ZoneSliceSeed>,
     ...(state.adminDashboardByStatus ? { byStatus: state.adminDashboardByStatus } : {}),
+  }
+}
+
+function attendanceOverviewBody() {
+  return {
+    totalSessions: 12,
+    totalMembers: 30,
+    overallRate: 0.75,
+  }
+}
+
+function attendanceBySessionBody() {
+  if (state.attendanceDashboardScenario === 'by-session-empty') return []
+  return [
+    {
+      sessionId: 'session-2026-04',
+      title: '2026年4月 定例会',
+      heldOn: '2026-04-10',
+      attendeeCount: 24,
+      rate: 0.8,
+    },
+    {
+      sessionId: 'session-2026-05',
+      title: '2026年5月 定例会',
+      heldOn: '2026-05-10',
+      attendeeCount: 18,
+      rate: 0.6,
+    },
+  ]
+}
+
+function attendanceRankingBody() {
+  return [
+    { memberId: 'mem_alpha', displayName: '青木 太郎', attendedCount: 9, rate: 0.9 },
+    { memberId: 'mem_beta', displayName: '兵庫 花子', attendedCount: 7, rate: 0.7 },
+    { memberId: 'mem_gamma', displayName: '神戸 次郎', attendedCount: 5, rate: 0.5 },
+  ]
+}
+
+function adminSchemaDiffBody() {
+  const queuedCount = state.adminDashboardUnresolvedSchema ?? 0
+  return {
+    total: queuedCount,
+    items: Array.from({ length: queuedCount }, (_, index) => {
+      const n = String(index + 1).padStart(3, '0')
+      return {
+        diffId: `mock_schema_${n}`,
+        revisionId: 'rev_mock',
+        type: 'unresolved',
+        questionId: `q_mock_${n}`,
+        stableKey: null,
+        label: `Mock schema diff ${index + 1}`,
+        suggestedStableKey: null,
+        status: 'queued',
+        resolvedBy: null,
+        resolvedAt: null,
+        createdAt: `2026-05-10T00:${String(index).padStart(2, '0')}:00.000Z`,
+      }
+    }),
   }
 }
 
@@ -663,6 +730,26 @@ async function ensureMockApi(): Promise<void> {
         response(res, 200, adminDashboardBody())
         return
       }
+      if (req.method === 'GET' && url.pathname === '/admin/dashboard/attendance/overview') {
+        if (state.attendanceDashboardScenario === 'overview-error') {
+          response(res, 500, { error: 'fixture_overview_error' })
+          return
+        }
+        response(res, 200, attendanceOverviewBody())
+        return
+      }
+      if (req.method === 'GET' && url.pathname === '/admin/dashboard/attendance/by-session') {
+        response(res, 200, attendanceBySessionBody())
+        return
+      }
+      if (req.method === 'GET' && url.pathname === '/admin/dashboard/attendance/ranking') {
+        response(res, 200, attendanceRankingBody())
+        return
+      }
+      if (req.method === 'GET' && url.pathname === '/admin/schema/diff') {
+        response(res, 200, adminSchemaDiffBody())
+        return
+      }
       if (req.method === 'GET' && url.pathname === '/admin/members') {
         response(res, 200, adminMembersBody(url.searchParams))
         return
@@ -753,9 +840,42 @@ async function ensureMockApi(): Promise<void> {
         delete state.visibilityPost
         delete state.adminDashboardUnresolvedSchema
         delete state.adminDashboardByStatus
+        state.attendanceDashboardScenario = 'all-ok'
         delete state.publicHomeEmpty
         state.meetingsSeed = defaultAttendanceSeed()
         response(res, 200, { ok: true })
+        return
+      }
+      if (req.method === 'POST' && url.pathname === '/__test__/attendance-dashboard') {
+        readJson(req)
+          .then((body) => {
+            const parsed = body as { scenario?: MockApiState['attendanceDashboardScenario'] }
+            if (
+              parsed.scenario !== 'all-ok' &&
+              parsed.scenario !== 'overview-error' &&
+              parsed.scenario !== 'by-session-empty'
+            ) {
+              response(res, 400, { error: 'invalid_attendance_dashboard_scenario' })
+              return
+            }
+            state.attendanceDashboardScenario = parsed.scenario
+            response(res, 200, { ok: true })
+          })
+          .catch(() => response(res, 400, { error: 'invalid_json' }))
+        return
+      }
+      if (req.method === 'POST' && url.pathname === '/__test__/admin-dashboard') {
+        readJson(req)
+          .then((body) => {
+            const parsed = body as { unresolvedSchema?: number }
+            state.adminDashboardUnresolvedSchema =
+              typeof parsed.unresolvedSchema === 'number' ? parsed.unresolvedSchema : 0
+            response(res, 200, {
+              ok: true,
+              unresolvedSchema: state.adminDashboardUnresolvedSchema,
+            })
+          })
+          .catch(() => response(res, 400, { error: 'invalid_json' }))
         return
       }
       if (req.method === 'POST' && url.pathname === '/__test__/admin-dashboard-by-status') {
@@ -859,6 +979,7 @@ const mockApi: MockApi = {
     delete state.visibilityPost
     delete state.adminDashboardUnresolvedSchema
     delete state.adminDashboardByStatus
+    state.attendanceDashboardScenario = 'all-ok'
     delete state.publicHomeEmpty
     state.meetingsSeed = defaultAttendanceSeed()
     await postControl('/__test__/reset')
@@ -896,6 +1017,10 @@ const mockApi: MockApi = {
       state.adminDashboardByStatus = slices
     }
     await postControl('/__test__/admin-dashboard-by-status', { slices })
+  },
+  setAttendanceDashboardScenario: async (scenario) => {
+    state.attendanceDashboardScenario = scenario
+    await postControl('/__test__/attendance-dashboard', { scenario })
   },
   seedMeetings: async (seed = defaultAttendanceSeed()) => {
     state.meetingsSeed = seed
