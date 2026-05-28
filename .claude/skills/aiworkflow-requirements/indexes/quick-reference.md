@@ -4194,3 +4194,10 @@ UT-17 Cloudflare Notifications → alert-relay → Slack 経路を、既存 API 
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-255-coverage-threshold-sync-lint-artifact-inventory.md` |
 | user-gated | commit, push, PR, GitHub Actions runtime observation |
 | Issue #903 member AppShell runtime evidence | `/profile` under `(member)` route group; EV-13/EV-16 present | `docs/30-workflows/completed-tasks/issue-903-parallel-03-followup-005-member-runtime-evidence/`, `references/workflow-issue-903-parallel-03-followup-005-member-runtime-evidence-artifact-inventory.md` |
+# members-list-ux-clarity
+
+| item | value |
+| --- | --- |
+| status | implemented_local_runtime_pending / implementation / VISUAL / 2026-05-28 |
+| workflow | `docs/30-workflows/completed-tasks/members-list-ux-clarity/` |
+| summary | `/members` の密度切替説明、即時反映ヒント、適用中filter chip、件数live regionを追加。API/schema/query正本は不変。 |
