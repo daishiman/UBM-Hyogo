@@ -1,5 +1,20 @@
 # クイックリファレンス
 
+## fix-admin-fetch-cf-1042-service-binding（2026-05-28）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/fix-admin-fetch-cf-1042-service-binding/` |
+| status | `implemented_local_runtime_pending / implementation / NON_VISUAL` |
+| purpose | `fetchAdmin` の raw HTTP Worker-to-Worker fetch を Service Binding first に切り替え、staging `/admin` の Cloudflare `error code: 1042` を解消する |
+| implementation | `apps/web/src/lib/env.ts`, `apps/web/src/lib/admin/server-fetch.ts` |
+| tests | `apps/web/src/lib/admin/__tests__/server-fetch.binding.spec.ts`, `server-fetch.http-fallback.spec.ts`, `server-fetch-url.spec.ts`, `server-fetch.env.spec.ts` |
+| transport | Cloudflare Workers runtime: `env.API_SERVICE.fetch("https://service-binding.local/...")`; test/Playwright explicit `INTERNAL_API_BASE_URL`: HTTP fallback |
+| Phase 11 | local unit evidence present; staging deploy, authenticated `/admin` smoke, wrangler tail pending user gate |
+| Phase 12 | strict 7 present; root/output artifacts parity present |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-fix-admin-fetch-cf-1042-service-binding-artifact-inventory.md` |
+| user gate | staging deploy, runtime smoke, tail, commit, push, PR |
+
 ## admin-dashboard-recovery-and-byZone（2026-05-26）
 
 | 目的 | 参照先 |

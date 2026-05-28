@@ -8,6 +8,20 @@
 
 本ドキュメントは、複雑なタスクを単一責務の原則に基づいて分解し、各サブタスクに最適なスラッシュコマンド・エージェント・スキルの組み合わせを選定するためのガイドラインを定義する。
 
+### fix-admin-fetch-cf-1042-service-binding（2026-05-28）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_runtime_pending / implementation / NON_VISUAL` |
+| 成果物 | `docs/30-workflows/completed-tasks/fix-admin-fetch-cf-1042-service-binding/` |
+| 目的 | admin Server Component `fetchAdmin` が同一 account API Worker を raw HTTP fetch して Cloudflare `error code: 1042` になる問題を、Service Binding first transport で復旧 |
+| implementation targets | `apps/web/src/lib/env.ts`, `apps/web/src/lib/admin/server-fetch.ts` |
+| tests | `apps/web/src/lib/admin/__tests__/server-fetch.binding.spec.ts`, `server-fetch.http-fallback.spec.ts`, `server-fetch-url.spec.ts`, `server-fetch.env.spec.ts` |
+| invariant | apps/web から D1 直接アクセス禁止は維持。staging/production primary transport は `API_SERVICE.fetch()`、local/test は HTTP fallback |
+| Phase 11/12 | local focused tests PASS, strict 7 outputs, root/output artifacts parity present |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-fix-admin-fetch-cf-1042-service-binding-artifact-inventory.md` |
+| user gate | staging deploy, authenticated `/admin` smoke, wrangler tail, commit, push, PR |
+
 ### admin-dashboard-recovery-and-byZone（2026-05-26）
 
 | 項目 | 値 |
