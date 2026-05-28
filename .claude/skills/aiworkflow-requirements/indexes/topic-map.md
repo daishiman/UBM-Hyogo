@@ -4022,6 +4022,8 @@ node scripts/list-specs.js --topics
 |------------|----|
 | Contract | L17 |
 
+### references/workflow-task-c-privacy-terms-public-shell-spec-artifact-inventory.md
+
 ### references/workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md
 
 | セクション | 行 |
@@ -7922,14 +7924,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L2861 |
-| フェーズ構造（概要） | L2870 |
-| 品質ゲート（概要） | L2901 |
-| 出力テンプレート | L2912 |
-| 実行時のコマンド・エージェント・スキル | L2935 |
-| 昇格パターン集 | L2959 |
-| Current Active / Spec Created Tasks | L2961 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L3122 |
+| ドキュメント構成 | L2876 |
+| フェーズ構造（概要） | L2885 |
+| 品質ゲート（概要） | L2916 |
+| 出力テンプレート | L2927 |
+| 実行時のコマンド・エージェント・スキル | L2950 |
+| 昇格パターン集 | L2974 |
+| Current Active / Spec Created Tasks | L2976 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L3137 |
 
 ### references/task-workflow-backlog-part2.md
 
