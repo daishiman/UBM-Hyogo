@@ -15,7 +15,9 @@ import {
   fetchAuthed,
 } from "@/lib/fetch/authed";
 import { ProfileHeader } from "./_components/ProfileHeader";
+import { PublicConsentCallout } from "./_components/PublicConsentCallout";
 import { StatusBanner } from "./_components/StatusSummary";
+import { FORM_RESPONDER_URL } from "@/lib/constants/form";
 import { VisibilitySummary } from "./_components/VisibilitySummary";
 import { ProfilePreview } from "./_components/ProfilePreview";
 import { ProfileFields } from "./_components/ProfileFields";
@@ -24,6 +26,7 @@ import { AttendanceList } from "./_components/AttendanceList";
 import { RequestActionPanel } from "./_components/RequestActionPanel";
 import { MemberHeader } from "@/components/layout/MemberHeader";
 import { SectionError } from "@/components/member/SectionError";
+import type { SafeResult } from "@/lib/result";
 import { safeServerFetch } from "@/lib/server-fetch/safe-fetch";
 import { pickProfileSummary } from "./_lib/profile-summary";
 
@@ -31,7 +34,7 @@ export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
 export default async function ProfilePage() {
-  let meResult: Awaited<ReturnType<typeof safeServerFetch<MeSessionResponse>>>;
+  let meResult: SafeResult<MeSessionResponse>;
   try {
     meResult = await safeServerFetch(
       () => fetchAuthed<MeSessionResponse>("/me"),
@@ -50,7 +53,7 @@ export default async function ProfilePage() {
         <MemberHeader />
         <main data-route="member" data-section-rhythm="comfortable">
           <SectionError
-            title="マイページを読み込めませんでした"
+            title="セッション情報を取得できませんでした"
             detail={meResult.error.message}
             retryHref="/profile"
           />
@@ -107,6 +110,11 @@ export default async function ProfilePage() {
       <StatusBanner
         statusSummary={statusSummary}
         authGateState={me.authGateState}
+      />
+      <PublicConsentCallout
+        publicConsent={statusSummary.publicConsent}
+        editResponseUrl={editResponseUrl}
+        responderUrl={FORM_RESPONDER_URL}
       />
       <VisibilitySummary sections={profile.sections} />
       <ProfilePreview

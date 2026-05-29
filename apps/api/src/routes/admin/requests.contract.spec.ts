@@ -3,7 +3,7 @@
 import { describe, it, expect, beforeEach } from "vitest";
 import { setupD1, type InMemoryD1 } from "../../repository/__tests__/_setup";
 import { createAdminRequestsRoute } from "./requests";
-import { adminAuthHeader, TEST_AUTH_SECRET } from "./_test-auth";
+import { adminAuthHeader, memberAuthHeader, TEST_AUTH_SECRET } from "./_test-auth";
 import { adminEmail, asMemberId } from "../../repository/_shared/brand";
 import { createWriteTagNoteProviderBundle } from "../../middleware/repository-providers";
 
@@ -19,12 +19,7 @@ const seedMember = async (env: InMemoryD1, memberId: string) => {
         (member_id, response_email, current_response_id, first_response_id, last_submitted_at, created_at, updated_at)
        VALUES (?1, ?2, ?3, ?3, ?4, ?4, ?4)`,
     )
-    .bind(
-      memberId,
-      `${memberId}@example.com`,
-      `resp_${memberId}`,
-      "2026-04-01T00:00:00Z",
-    )
+    .bind(memberId, `${memberId}@example.com`, `resp_${memberId}`, "2026-04-01T00:00:00Z")
     .run();
   await env.db
     .prepare(
@@ -96,14 +91,48 @@ describe("admin requests route — GET /admin/requests", () => {
     expect(body.items[0]!.memberId).toBe("m_alice");
   });
 
-  it("invalid query (type 不在) で 400", async () => {
-    const headers = await adminAuthHeader();
+  it("TC-A-03: 非 admin JWT は 403", async () => {
+    const headers = await memberAuthHeader();
     const res = await app.request(
-      "/requests?status=pending",
+      "/requests?status=pending&type=visibility_request",
       { headers },
       makeEnv(env),
     );
+    expect(res.status).toBe(403);
+  });
+
+  it("TC-A-04: invalid query (type 不在) で 400", async () => {
+    const headers = await adminAuthHeader();
+    const res = await app.request("/requests?status=pending", { headers }, makeEnv(env));
     expect(res.status).toBe(400);
+  });
+
+  it("TC-A-05: type=delete_request の pending を返す", async () => {
+    await createPendingRequest(env, "m_alice", "visibility_request", {
+      desiredState: "hidden",
+    });
+    await createPendingRequest(env, "m_bob", "delete_request", {});
+    const headers = await adminAuthHeader();
+    const res = await app.request(
+      "/requests?status=pending&type=delete_request",
+      { headers },
+      makeEnv(env),
+    );
+    expect(res.status).toBe(200);
+    const body = (await res.json()) as {
+      ok: boolean;
+      items: Array<{ noteType: string; memberId: string; requestStatus: string }>;
+      appliedFilters: { status: string; type: string };
+    };
+    expect(body.ok).toBe(true);
+    expect(body.appliedFilters).toEqual({
+      status: "pending",
+      type: "delete_request",
+    });
+    expect(body.items).toHaveLength(1);
+    expect(body.items[0]!.noteType).toBe("delete_request");
+    expect(body.items[0]!.requestStatus).toBe("pending");
+    expect(body.items[0]!.memberId).toBe("m_bob");
   });
 });
 
@@ -141,8 +170,9 @@ describe("admin requests route — POST /admin/requests/:noteId/resolve", () => 
     expect(body.memberAfter.publishState).toBe("hidden");
     expect(body.memberAfter.isDeleted).toBe(false);
 
-    const updated = await createWriteTagNoteProviderBundle(env.ctx).adminNotesProvider
-      .findById(note.noteId);
+    const updated = await createWriteTagNoteProviderBundle(env.ctx).adminNotesProvider.findById(
+      note.noteId,
+    );
     expect(updated?.requestStatus).toBe("resolved");
     expect(updated?.resolvedByAdminId).toBeTruthy();
     expect(updated?.body).toContain("[resolved] OK");
@@ -193,10 +223,7 @@ describe("admin requests route — POST /admin/requests/:noteId/resolve", () => 
   });
 
   it("TC-05b: member_status がない approve は note を resolved にしない", async () => {
-    await env.db
-      .prepare("DELETE FROM member_status WHERE member_id = ?1")
-      .bind("m_alice")
-      .run();
+    await env.db.prepare("DELETE FROM member_status WHERE member_id = ?1").bind("m_alice").run();
     const note = await createPendingRequest(env, "m_alice", "visibility_request", {
       desiredState: "hidden",
     });
@@ -213,8 +240,9 @@ describe("admin requests route — POST /admin/requests/:noteId/resolve", () => 
     expect(res.status).toBe(404);
     const body = (await res.json()) as { error: string };
     expect(body.error).toBe("member_status_not_found");
-    const unchanged = await createWriteTagNoteProviderBundle(env.ctx).adminNotesProvider
-      .findById(note.noteId);
+    const unchanged = await createWriteTagNoteProviderBundle(env.ctx).adminNotesProvider.findById(
+      note.noteId,
+    );
     expect(unchanged?.requestStatus).toBe("pending");
   });
 
@@ -240,8 +268,9 @@ describe("admin requests route — POST /admin/requests/:noteId/resolve", () => 
     expect(body.requestStatus).toBe("rejected");
     expect(body.memberAfter.publishState).toBe("public");
     expect(body.memberAfter.isDeleted).toBe(false);
-    const updated = await createWriteTagNoteProviderBundle(env.ctx).adminNotesProvider
-      .findById(note.noteId);
+    const updated = await createWriteTagNoteProviderBundle(env.ctx).adminNotesProvider.findById(
+      note.noteId,
+    );
     expect(updated?.requestStatus).toBe("rejected");
     expect(updated?.body).toContain("[rejected] 理由");
   });
@@ -357,16 +386,15 @@ describe("admin requests route — POST /admin/requests/:noteId/resolve", () => 
       makeEnv(env),
     );
     expect(res.status).toBe(200);
-    const updated = await createWriteTagNoteProviderBundle(env.ctx).adminNotesProvider
-      .findById(note.noteId);
+    const updated = await createWriteTagNoteProviderBundle(env.ctx).adminNotesProvider.findById(
+      note.noteId,
+    );
     expect(updated?.requestStatus).toBe("resolved");
   });
 
   it("Issue #401 AC-11: recipient email 空文字でも resolve は 200 で完了し outbox enqueue を skip", async () => {
     await env.db
-      .prepare(
-        `UPDATE member_identities SET response_email = '' WHERE member_id = ?1`,
-      )
+      .prepare(`UPDATE member_identities SET response_email = '' WHERE member_id = ?1`)
       .bind("m_alice")
       .run();
     const note = await createPendingRequest(env, "m_alice", "visibility_request", {
@@ -409,9 +437,7 @@ describe("admin requests route — POST /admin/requests/:noteId/resolve", () => 
     );
     expect(res.status).toBe(200);
     const row = await env.db
-      .prepare(
-        "SELECT reason_summary FROM notification_outbox WHERE note_id = ?1",
-      )
+      .prepare("SELECT reason_summary FROM notification_outbox WHERE note_id = ?1")
       .bind(note.noteId)
       .first<{ reason_summary: string | null }>();
     expect(row?.reason_summary).toBeNull();

@@ -202,6 +202,93 @@ export async function getFormsPipelineSnapshot(
     membersWithoutIdentity: 0,
   };
 
+  // breakdown counts (consent / publish_state)
+  const consentRow = (await env.DB.prepare(
+    `SELECT
+      SUM(CASE WHEN public_consent = 'consented' THEN 1 ELSE 0 END) AS consented,
+      SUM(CASE WHEN public_consent = 'declined' THEN 1 ELSE 0 END) AS declined,
+      SUM(CASE WHEN public_consent IS NULL OR public_consent NOT IN ('consented','declined') THEN 1 ELSE 0 END) AS unknown
+      FROM member_status`,
+  ).first<{ consented: number; declined: number; unknown: number }>()) ?? {
+    consented: 0,
+    declined: 0,
+    unknown: 0,
+  };
+  const publicConsentBreakdown = {
+    consented: toNumber(consentRow.consented),
+    declined: toNumber(consentRow.declined),
+    unknown: toNumber(consentRow.unknown),
+  };
+
+  const publishRow = (await env.DB.prepare(
+    `SELECT
+      SUM(CASE WHEN publish_state = 'public' THEN 1 ELSE 0 END) AS p_public,
+      SUM(CASE WHEN publish_state = 'member_only' THEN 1 ELSE 0 END) AS p_member_only,
+      SUM(CASE WHEN publish_state = 'hidden' THEN 1 ELSE 0 END) AS p_hidden,
+      SUM(CASE WHEN publish_state = 'published' THEN 1 ELSE 0 END) AS p_legacy_published,
+      SUM(CASE WHEN publish_state = 'private' THEN 1 ELSE 0 END) AS p_legacy_private
+      FROM member_status`,
+  ).first<{
+    p_public: number;
+    p_member_only: number;
+    p_hidden: number;
+    p_legacy_published: number;
+    p_legacy_private: number;
+  }>()) ?? {
+    p_public: 0,
+    p_member_only: 0,
+    p_hidden: 0,
+    p_legacy_published: 0,
+    p_legacy_private: 0,
+  };
+  const publishStateBreakdown = {
+    public: toNumber(publishRow.p_public),
+    member_only: toNumber(publishRow.p_member_only),
+    hidden: toNumber(publishRow.p_hidden),
+    legacy_published: toNumber(publishRow.p_legacy_published),
+    legacy_private: toNumber(publishRow.p_legacy_private),
+  };
+
+  // visiblePublicCount aligns with /api/public/members boundary.
+  const visibleRow = await env.DB.prepare(
+    `SELECT COUNT(*) AS n
+     FROM member_status s
+     WHERE s.public_consent = 'consented'
+       AND s.publish_state = 'public'
+       AND s.is_deleted = 0
+       AND NOT EXISTS (
+         SELECT 1 FROM identity_aliases ia
+         WHERE ia.source_member_id = s.member_id
+       )`,
+  ).first<{ n: number }>();
+  const visiblePublicCount = toNumber(visibleRow?.n);
+
+  // lastSuccessfulSyncAt (accept both `success` and `succeeded`)
+  const lastSyncRow = await env.DB.prepare(
+    `SELECT MAX(finished_at) AS t
+     FROM sync_jobs
+     WHERE job_type IN ('response_sync', 'forms_response_sync')
+       AND status IN ('success', 'succeeded')`,
+  ).first<{ t: string | null }>();
+  const lastSuccessfulSyncAt = lastSyncRow?.t ? normalizeIso(lastSyncRow.t) : null;
+
+  // totals
+  const totalsRow = (await env.DB.prepare(
+    `SELECT
+      (SELECT COUNT(*) FROM member_identities) AS memberIdentities,
+      (SELECT COUNT(*) FROM member_responses) AS memberResponses,
+      (SELECT COUNT(*) FROM member_status) AS memberStatus`,
+  ).first<{
+    memberIdentities: number;
+    memberResponses: number;
+    memberStatus: number;
+  }>()) ?? { memberIdentities: 0, memberResponses: 0, memberStatus: 0 };
+  const totals = {
+    memberIdentities: toNumber(totalsRow.memberIdentities),
+    memberResponses: toNumber(totalsRow.memberResponses),
+    memberStatus: toNumber(totalsRow.memberStatus),
+  };
+
   const snapshot = {
     capturedAt: new Date().toISOString(),
     counts: {
@@ -233,9 +320,61 @@ export async function getFormsPipelineSnapshot(
       publicVisibility,
       identityHealth,
     }),
+    publicConsentBreakdown,
+    publishStateBreakdown,
+    visiblePublicCount,
+    lastSuccessfulSyncAt,
+    totals,
+    diagnosis: buildDiagnosisSummary({
+      hypothesisFlags: deriveFormsPipelineHypotheses({
+        counts,
+        latestSyncRuns,
+        aliasPendingCount,
+        publicVisibility,
+        identityHealth,
+      }),
+      visiblePublicCount,
+      publishStateBreakdown,
+      publicConsentBreakdown,
+    }),
   };
 
   return FormsPipelineSnapshotSchema.parse(snapshot);
+}
+
+export function buildDiagnosisSummary(input: {
+  readonly hypothesisFlags: FormsPipelineSnapshot["hypothesisFlags"];
+  readonly visiblePublicCount: number;
+  readonly publishStateBreakdown: FormsPipelineSnapshot["publishStateBreakdown"];
+  readonly publicConsentBreakdown: FormsPipelineSnapshot["publicConsentBreakdown"];
+}): string {
+  const reasons: string[] = [];
+  if (input.hypothesisFlags.H1_ingestNeverRanOrAllErrors) {
+    reasons.push("H1: ingest が成功していない可能性");
+  }
+  if (input.hypothesisFlags.H2_identityMismatchSuspected) {
+    reasons.push("H2: identity と member_status の整合が崩れている可能性");
+  }
+  if (input.hypothesisFlags.H3_allHiddenByPublishState) {
+    reasons.push("H3: publish_state が全件非公開の可能性");
+  }
+  if (input.hypothesisFlags.H4_aliasPendingNonZero) {
+    reasons.push("H4: schema_diff_queue 残件があり alias 未反映の可能性");
+  }
+  if (input.visiblePublicCount === 0 && reasons.length === 0) {
+    if (input.publicConsentBreakdown.consented === 0) {
+      reasons.push("公開同意ユーザーが存在しない");
+    } else if (
+      input.publishStateBreakdown.public === 0 &&
+      input.publishStateBreakdown.legacy_published > 0
+    ) {
+      reasons.push("legacy publish_state='published' のみで canonical 'public' が 0 件");
+    }
+  }
+  if (reasons.length === 0) {
+    return `visible=${input.visiblePublicCount}: 既知の仮説に該当する異常は検出されませんでした。`;
+  }
+  return `visible=${input.visiblePublicCount}: ${reasons.join(" / ")}`;
 }
 
 export function createDiagnosticsRouter() {

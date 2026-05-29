@@ -1,5 +1,104 @@
 # クイックリファレンス
 
+## issue-976-admin-fetch-service-binding（2026-05-28）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-976-admin-fetch-service-binding/` |
+| status | `implemented_local_runtime_pending / implementation / NON_VISUAL` |
+| purpose | Admin server-fetch を `API_SERVICE` service-binding 優先へ統一し、同一 Cloudflare account の workers.dev 外向き fetch loopback 404 を回避 |
+| implementation targets | `apps/web/src/lib/admin/server-fetch.ts`, `apps/web/src/lib/admin/__tests__/server-fetch-service-binding.spec.ts`, `apps/web/src/lib/admin/__tests__/server-fetch-url.spec.ts` |
+| local evidence | `outputs/phase-11/local-verification.md` focused Vitest 3 files / 9 tests PASS |
+| Phase 12 | strict outputs + root/output artifacts parity present |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-976-admin-fetch-service-binding-artifact-inventory.md` |
+| user gate | staging deploy, authenticated route proof, `wrangler tail`, commit, push, PR |
+
+## fix-admin-fetch-cf-1042-service-binding（2026-05-28）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/fix-admin-fetch-cf-1042-service-binding/` |
+| status | `implemented_local_runtime_pending / implementation / NON_VISUAL` |
+| purpose | `fetchAdmin` の raw HTTP Worker-to-Worker fetch を Service Binding first に切り替え、staging `/admin` の Cloudflare `error code: 1042` を解消する |
+| implementation | `apps/web/src/lib/env.ts`, `apps/web/src/lib/admin/server-fetch.ts` |
+| tests | `apps/web/src/lib/admin/__tests__/server-fetch.binding.spec.ts`, `server-fetch.http-fallback.spec.ts`, `server-fetch-url.spec.ts`, `server-fetch.env.spec.ts` |
+| transport | Cloudflare Workers runtime: `env.API_SERVICE.fetch("https://service-binding.local/...")`; test/Playwright explicit `INTERNAL_API_BASE_URL`: HTTP fallback |
+| Phase 11 | local unit evidence present; staging deploy, authenticated `/admin` smoke, wrangler tail pending user gate |
+| Phase 12 | strict 7 present; root/output artifacts parity present |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-fix-admin-fetch-cf-1042-service-binding-artifact-inventory.md` |
+| user gate | staging deploy, runtime smoke, tail, commit, push, PR |
+
+## issue-958-h3-public-filter-ux（2026-05-28）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-958-h3-public-filter-ux/` |
+| status | `implemented_local_runtime_pending / implementation / VISUAL` |
+| issue | #958 CLOSED。PR 文脈は `Refs #958` のみ |
+| parent | `google-form-reflection-diagnostics` H3 visibility follow-up |
+| purpose | `publicConsent=false` / `publishState!=public` による public members 全 hidden 状態を、profile / admin / public の3面で理解・修復可能にする |
+| local implementation | `PublicConsentCallout`, `BulkRepublishDrawer`, `useBulkRepublish`, `AllHiddenFallback` |
+| API boundary | 新 endpoint なし。`GET /me/profile`, `GET /public/stats`, `PATCH /admin/members/:memberId/status` を利用 |
+| Phase 11 | 10 local static visual screenshots present; staging visual pending |
+| Phase 12 | strict 7 files present under `outputs/phase-12/`; root/output artifacts parity present |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-958-h3-public-filter-ux-artifact-inventory.md` |
+| user gate | staging verification, commit, push, PR |
+
+## admin-identity-conflicts-prototype-alignment-and-404-fix（2026-05-27）
+## issue-956-h1-ingest-recovery（2026-05-27）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-956-h1-ingest-recovery/` |
+| status | `spec_created / docs-only / NON_VISUAL / runtime_pending_user_approval` |
+| issue | #956 CLOSED。PR / commit 文脈は `Refs #956` のみ |
+| parent | `docs/30-workflows/completed-tasks/google-form-reflection-diagnostics/` |
+| source | `docs/30-workflows/completed-tasks/issue-956-h1-ingest-recovery/unassigned-task-specs/google-form-reflection-diagnostics-followup-001-h1-ingest-recovery.md` consumed |
+| purpose | production Google Forms → D1 ingest の H1（未稼働・全 error）を、Cloudflare secrets readiness、cron tail、stale `sync_jobs` reset、diagnostics snapshot で復旧確認する runtime ops runbook |
+| runtime ops | `bash scripts/cf.sh secret put/list --config apps/api/wrangler.toml --env production`, `cf.sh tail`, `cf.sh d1 execute ubm-hyogo-db-prod --env production`, authenticated `/admin/diagnostics/forms-pipeline` snapshot |
+| invariant | secret values are never recorded; runtime PASS is not claimed until `snapshot-after.json` and `snapshot-diff.md` exist |
+| Phase 12 | strict 7 present; root/output artifacts mirror present; 30-method compact evidence included |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-956-h1-ingest-recovery-artifact-inventory.md` |
+| user gate | production secret mutation, production D1 SELECT/UPDATE, authenticated snapshot capture, cron tail, commit, push, PR |
+
+## admin-identity-conflicts-prototype-alignment-and-404-fix（2026-05-27）
+## admin-audit-prototype-alignment（2026-05-27）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/admin-audit-prototype-alignment/` |
+| status | `implemented_local_runtime_pending / implementation / VISUAL` |
+| purpose | `/admin/audit` を admin prototype design language に整え、staging `admin api /admin/audit?limit=50 failed: 404` を H1〜H5 で切り分けて復旧する |
+| implementation targets | `apps/web/app/(admin)/admin/audit/page.tsx`, `apps/web/src/components/admin/AuditLogPanel.tsx`, `apps/web/src/lib/admin/safe-server-fetch.ts`, `apps/api/src/routes/admin/audit.ts` |
+| contract | `AdminAuditListResponseZ` / D1 schema / auth middleware は変更しない。`Button` は `polymorphic link rendering` 非対応のため reset link は `buttonVariants` を使う。`Banner` は `tone="warning"`。 |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-audit-prototype-alignment-artifact-inventory.md` |
+| local evidence | web suite 158 files / 1158 tests PASS; api suite 66 files / 415 tests PASS; D1 audit contract 10 PASS; Phase 11 screenshots `admin-audit-{default,filtered,empty}.png` |
+| user gate | staging deploy, secret mutation, authenticated staging visual baseline, commit, push, PR |
+
+## admin-identity-conflicts-prototype-alignment-and-404-fix（2026-05-27）
+| workflow root | `docs/30-workflows/completed-tasks/admin-identity-conflicts-prototype-alignment-and-404-fix/` |
+| status | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION / staging_runtime_pending_user_gate` |
+| purpose | `/admin/identity-conflicts` を admin prototype primitives に整合し、staging `ADMIN_FETCH_404` を deploy/env/runtime 境界で切り分ける |
+| implementation | `apps/web/app/(admin)/admin/identity-conflicts/page.tsx`, `apps/web/src/components/admin/IdentityConflictRow.tsx` |
+| invariant | API route / D1 schema / admin auth / proxy route は変更しない。SSR list fetch 404 は staging API deploy または `INTERNAL_API_BASE_URL` を first hypothesis として user-gated triage |
+| evidence | web typecheck PASS, web Vitest 159 files / 1154 tests PASS, root/output artifacts parity present |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-identity-conflicts-prototype-alignment-and-404-fix-artifact-inventory.md` |
+| user gate | staging deploy/env verification, authenticated runtime curl, visual screenshots, commit, push, PR |
+## unified-sidebar-shell-public-and-admin（2026-05-28）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/unified-sidebar-shell-public-and-admin/` |
+| status | `spec_created / implementation / VISUAL / implementation_pending` |
+| purpose | public / member / admin の shell を単一 collapsible `SidebarShell` primitive に統合する実装仕様 |
+| route scope | public 6 routes、member `/profile`、admin 9 routes |
+| nav contract | viewer=public 3、member=public 3 + members 1、admin=public 3 + members 1 + admin 9 = total 13 |
+| implementation targets | `apps/web/src/components/shell/**`, `(public)/(member)/(admin)/layout.tsx`, `apps/web/src/styles/tokens.css`, sidebar smoke/visual Playwright specs |
+| invariant | API / D1 / Google Form schema / Auth.js middleware / npm package 変更なし。role 判定は `SessionUser.isAdmin` のみ |
+| Phase 12 | strict 7 present、root/output `artifacts.json` parity present、30-method compact evidence present |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-unified-sidebar-shell-public-and-admin-artifact-inventory.md` |
+| user gate | apps/web implementation, local visual capture, CI baseline, commit, push, PR |
+
 ## profile-server-components-render-error（2026-05-27）
 
 | 項目 | 値 |
@@ -149,6 +248,20 @@
 | inventory | `.claude/skills/aiworkflow-requirements/references/workflow-public-dashboard-prototype-alignment-artifact-inventory.md` |
 | user gate | implementation, local visual capture, staging refresh, commit, push, PR |
 
+## login-stale-link-and-profile-me-safe-fetch（2026-05-27）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/login-stale-link-and-profile-me-safe-fetch/` |
+| status | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION` |
+| purpose | `/login` stale `[object Object]` link guard and `/profile` leading `/me` safe fetch degradation |
+| implementation | `apps/web/app/(member)/profile/page.tsx`, `apps/web/src/lib/url/safe-redirect.ts`, `apps/web/src/lib/url/login-query.ts`, `apps/web/app/login/page.tsx` |
+| tests | `apps/web/app/(member)/profile/page.spec.tsx`, `apps/web/src/lib/url/login-query.spec.ts`, `apps/web/src/lib/url/login-redirect.spec.ts`, `apps/web/src/lib/url/login-state.spec.ts` |
+| contract | non-string redirect values fall back to `/profile`; `/me` 401 redirects, non-auth failures render member `SectionError`; `/me/profile` 404 remains `notFound()` |
+| Phase 12 | strict 7 present under `outputs/phase-12/`; root/output artifacts parity present |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-login-stale-link-and-profile-me-safe-fetch-artifact-inventory.md` |
+| user gate | staging deploy, authenticated profile/login screenshots, commit, push, PR |
+
 ## login-ui-balance-and-runtime-fix（2026-05-26）
 
 | 項目 | 値 |
@@ -163,6 +276,19 @@
 | user gate | Playwright visual screenshots, staging deploy/smoke, commit, push, PR |
 
 ## google-form-reflection-diagnostics（2026-05-26）
+## members-not-displaying-form-sync-investigation（2026-05-28）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/members-not-displaying-form-sync-investigation/` |
+| status | `implemented_local_runtime_pending / implementation / VISUAL_ON_EXECUTION` |
+| purpose | staging `/members` 0 件問題の原因特定と local repair implementation |
+| API | existing `GET /admin/diagnostics/forms-pipeline`; implemented CLI-safe `GET /admin/sync/diagnostics/forms-pipeline`; implemented `POST /admin/sync/backfill-publish-state` |
+| key rules | canonical publish state is `public/member_only/hidden`; public directory requires strict `publish_state='public'`; no `member_status_history` dependency |
+| evidence | `docs/30-workflows/completed-tasks/members-not-displaying-form-sync-investigation/outputs/phase-11/local-verification.md` |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-members-not-displaying-form-sync-investigation-artifact-inventory.md` |
+| user gate | staging deploy, diagnostics, backfill apply, browser smoke, commit, push, PR |
+
 ## Issue #924 style-src-attr retirement（2026-05-25）
 ## admin-visual-baseline-admin-routes-task-e（2026-05-27）
 
@@ -290,6 +416,20 @@
 | invariant | secret readiness は boolean のみ。`GOOGLE_SERVICE_ACCOUNT_EMAIL` / `GOOGLE_PRIVATE_KEY` / `GOOGLE_FORM_ID` / `AUTH_SECRET` の実値・末尾・hash は返さない |
 | inventory | `.claude/skills/aiworkflow-requirements/references/workflow-google-form-reflection-diagnostics-artifact-inventory.md` |
 | user gate | staging deploy, authenticated screenshots, Spec-B issue filing, commit, push, PR |
+
+## google-form-reflection-diagnostics-fu-002-h2-identity-rebuild（2026-05-27）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/google-form-reflection-diagnostics-fu-002-h2-identity-rebuild/` |
+| status | `implemented_local_runtime_pending / implementation / NON_VISUAL` |
+| parent | `docs/30-workflows/completed-tasks/google-form-reflection-diagnostics/` |
+| purpose | H2 identity gap: verified Form email exists in `member_responses` but `member_identities` is missing, causing login to fall through as unregistered |
+| implementation | migration `0021_backfill_member_identities.sql`, identity auto-link repository helpers, `/auth/session-resolve` integration |
+| invariant | `response_email` is matched by `lower(trim(...))`; `tag_assignment_queue(response_id, member_id)` is the only existing member-id bridge; bridge-less auto-link creates `autolink:<uuid>` and still requires `member_status` gates |
+| tests | `identities.autolink.spec.ts`, `session-resolve.contract.spec.ts` |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-google-form-reflection-diagnostics-fu-002-h2-identity-rebuild-artifact-inventory.md` |
+| user gate | staging/prod D1 backup, migration apply, deployed diagnostics capture, commit, push, PR |
 
 ## Issue #901 authenticated profile/admin staging visual（2026-05-25）
 
@@ -423,6 +563,34 @@
 | lessons | `.claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-admin-section-error-retry-2026-05.md`（L-ASR-001..005）、`.claude/skills/task-specification-creator/lessons-learned/rsc-client-boundary-callback-injection.md`（L-RSC-001..005） |
 | local evidence | focused Vitest 19+2 PASS including `jest-axe` (AC-3/AC-4 transition assertion 追加); root lint/typecheck PASS; design-token and client-boundary grep PASS |
 | user gate | commit, push, PR |
+
+## admin-ui-prototype-alignment follow-up 003 admin members prototype redesign（2026-05-27）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/admin-ui-prototype-alignment-followup-003-admin-members-prototype-redesign/` |
+| status | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION` |
+| parent | `docs/30-workflows/admin-ui-prototype-alignment/` |
+| purpose | `/admin/members` を prototype L162-366 に合わせて in-place rewrite し、local visual evidence を取得 |
+| implementation targets | `_members/**`, `_shared/{TagPill,PillNav}.tsx`, `member-hue.ts`, admin members page, `globals.css` mobile admin shell fix |
+| Phase 11/12 | focused Vitest 25 PASS, web typecheck PASS, 16 local screenshots present; strict 7 outputs present; root-only `artifacts.json` |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-ui-prototype-alignment-followup-003-admin-members-prototype-redesign-artifact-inventory.md` |
+| user gate | staging deploy, authenticated staging visual baseline, commit, push, PR |
+
+## Issue #913 server idempotency key persistence（2026-05-25）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow | `docs/30-workflows/completed-tasks/issue-913-server-idempotency-key-persistence/` |
+| status | `implemented_local_evidence_captured / implementation / NON_VISUAL / implementation_complete_pending_pr` |
+| issue | #913 CLOSED; PR wording is `Refs #913` |
+| parent | `docs/30-workflows/completed-tasks/issue-842-admin-mutation-reliability-policy/` |
+| purpose | Persist and replay admin mutation `Idempotency-Key` requests server-side so client retry/header support is actually enforced by apps/api |
+| implementation | `apps/api/migrations/0021_idempotency_keys.sql`, `apps/api/src/repository/idempotency.repository.ts`, `apps/api/src/middleware/idempotency.ts`, admin route wiring |
+| contract | `(idempotency_key, method, path)` UNIQUE, request fingerprint mismatch 422, in-flight duplicate 409, completed JSON replay, 5xx/non-JSON/64KB+ rollback |
+| evidence | api typecheck PASS, api lint PASS, focused middleware Vitest 3 PASS, focused repository Vitest 3 PASS |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-913-server-idempotency-key-persistence-artifact-inventory.md` |
+| user gate | D1 migration apply, deploy, staging runtime replay proof, commit, push, PR |
 
 ## Issue #880 public segment error/loading boundary（2026-05-24）
 
@@ -4304,6 +4472,19 @@ UT-17 Cloudflare Notifications → alert-relay → Slack 経路を、既存 API 
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-255-coverage-threshold-sync-lint-artifact-inventory.md` |
 | user-gated | commit, push, PR, GitHub Actions runtime observation |
 | Issue #903 member AppShell runtime evidence | `/profile` under `(member)` route group; EV-13/EV-16 present | `docs/30-workflows/completed-tasks/issue-903-parallel-03-followup-005-member-runtime-evidence/`, `references/workflow-issue-903-parallel-03-followup-005-member-runtime-evidence-artifact-inventory.md` |
+
+### admin-requests-prototype-alignment-and-404-fix（2026-05-27）
+
+| 観点 | 値 / 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/admin-requests-prototype-alignment-and-404-fix/` |
+| state | `implemented_local_evidence_captured / implementation / VISUAL / staging runtime pending_user_approval` |
+| purpose | `/admin/requests` の staging `ADMIN_FETCH_404` mount guard と admin prototype primitive 整合の local implementation |
+| API boundary | existing `GET /admin/requests` and `POST /admin/requests/:noteId/resolve`; no new endpoint or D1 schema |
+| implemented targets | `apps/api/src/routes/admin/requests.contract.spec.ts`, `apps/api/src/routes/admin/requests.mount.spec.ts`, `/admin/requests` page/components, `apps/web/src/styles/globals.css`, `apps/web/playwright/tests/admin-requests.spec.ts` |
+| local evidence | `outputs/phase-11/screenshots/admin-requests-visibility-populated-linux.png`, focused API/Web PASS, desktop Chromium visual PASS |
+| artifact inventory | `references/workflow-admin-requests-prototype-alignment-and-404-fix-artifact-inventory.md` |
+| user gate | staging deploy, staging curl 200, staging visual baseline, commit, push, PR |
 ## admin-schema-page-prototype-alignment-and-diff-fetch-fix（2026-05-27）
 
 | 観点 | 値 / 参照先 |
@@ -4314,3 +4495,11 @@ UT-17 Cloudflare Notifications → alert-relay → Slack 経路を、既存 API 
 | system spec | `docs/00-getting-started-manual/specs/09g-screen-blueprints-admin.md` §`/admin/schema` |
 | inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-schema-page-prototype-alignment-and-diff-fetch-fix-artifact-inventory.md` |
 | evidence | web Vitest 158 files / 1147 tests PASS; local Playwright schema visual 7 PASS + Phase 11 screenshots; staging deploy and authenticated screenshots are user-gated |
+
+# members-list-ux-clarity
+
+| item | value |
+| --- | --- |
+| status | implemented_local_runtime_pending / implementation / VISUAL / 2026-05-28 |
+| workflow | `docs/30-workflows/completed-tasks/members-list-ux-clarity/` |
+| summary | `/members` の密度切替説明、即時反映ヒント、適用中filter chip、件数live regionを追加。API/schema/query正本は不変。 |

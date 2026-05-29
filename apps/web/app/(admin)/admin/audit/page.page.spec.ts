@@ -1,5 +1,20 @@
-import { describe, expect, it } from "vitest";
+import { cleanup, render, screen } from "@testing-library/react";
+import { afterEach, describe, expect, it, vi } from "vitest";
 import { jstLocalToUtcIso } from "./audit-query";
+
+vi.mock("../../../../src/lib/admin/safe-server-fetch", () => ({
+  safeServerFetch: vi.fn(async () => ({
+    ok: true,
+    data: { items: [], nextCursor: null },
+  })),
+}));
+
+import AdminAuditPage from "./page";
+
+afterEach(() => {
+  cleanup();
+  vi.clearAllMocks();
+});
 
 describe("admin audit page helpers", () => {
   it("converts JST datetime-local values to UTC ISO query values", () => {
@@ -10,5 +25,13 @@ describe("admin audit page helpers", () => {
   it("ignores invalid datetime-local values", () => {
     expect(jstLocalToUtcIso("2026-05-01")).toBeUndefined();
     expect(jstLocalToUtcIso(undefined)).toBeUndefined();
+  });
+
+  it("renders AdminPageHeader title and breadcrumbs", async () => {
+    render(await AdminAuditPage({ searchParams: Promise.resolve({}) }));
+
+    expect(screen.getByRole("heading", { level: 1, name: "監査ログ" })).toBeTruthy();
+    expect(screen.getByRole("link", { name: "管理" }).getAttribute("href")).toBe("/admin");
+    expect(screen.getByText("action / actor / target / 期間で監査ログを絞り込み、PII を保護した形で参照できます。")).toBeTruthy();
   });
 });

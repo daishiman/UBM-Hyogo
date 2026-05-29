@@ -1,0 +1,146 @@
+mise WARN  Config files in ~/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260527-232225-wt-13/.mise.toml are not trusted.
+Trust them with `mise trust`. See https://mise.jdx.dev/cli/trust.html for more information.
+
+> @ubm-hyogo/api@0.1.0 test /Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260527-232225-wt-13/apps/api
+> vitest run --passWithNoTests --root=../.. --config=vitest.config.ts apps/api -- --run identities.autolink session-resolve.contract forms-pipeline.spec
+
+[33mThe CJS build of Vite's Node API is deprecated. See https://vite.dev/guide/troubleshooting.html#vite-cjs-node-api-deprecated for more details.[39m
+
+ RUN  v2.1.9 /Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260527-232225-wt-13
+
+ ✓ apps/api/src/services/aliasRecommendation.spec.ts (20 tests) 9ms
+ ✓ apps/api/src/audit-correlation/__tests__/correlate.spec.ts (7 tests) 46ms
+ ✓ apps/api/src/audit-correlation/__tests__/redact.spec.ts (15 tests) 56ms
+ ✓ apps/api/src/audit-correlation/__tests__/rotation.spec.ts (9 tests) 449ms
+   ✓ rotation: HIGH alert 連続性しきい値 (≥ 99%) > rotation 直前/直後の同一 actor 100 件で 100% merge される 377ms
+ ✓ apps/api/src/middleware/__tests__/security-headers.spec.ts (15 tests) 133ms
+ ✓ apps/api/src/scheduled/sheets-auth-healthcheck.contract.spec.ts (8 tests) 36ms
+ ✓ apps/api/src/use-cases/public/__tests__/get-form-preview.spec.ts (9 tests) 11ms
+ ✓ apps/api/src/use-cases/public/__tests__/get-public-member-profile.spec.ts (6 tests) 12ms
+ ✓ apps/api/src/lib/__tests__/slack-sender.spec.ts (7 tests) 7ms
+ ✓ apps/api/src/services/mail/__tests__/magic-link-mailer.spec.ts (4 tests) 5ms
+ ✓ apps/api/src/scheduled/__tests__/healthcheck.spec.ts (4 tests) 21ms
+ ✓ apps/api/src/use-cases/public/__tests__/list-public-members.spec.ts (4 tests) 7ms
+ ✓ apps/api/src/view-models/public/__tests__/public-member-profile-view.spec.ts (6 tests) 64ms
+stderr | apps/api/src/audit-correlation/__tests__/notify-slack.spec.ts > notifyHighFindingsToSlack > counts non-ok response as not succeeded but does not throw
+audit-correlation slack notify non-ok { status: 429 }
+
+ ✓ apps/api/src/audit-correlation/__tests__/notify-slack.spec.ts (6 tests) 16ms
+ ✓ apps/api/src/audit-correlation/__tests__/github-fetch.spec.ts (4 tests) 12ms
+ ✓ apps/api/src/audit-correlation/__tests__/run-route.contract.spec.ts (5 tests) 180ms
+ ✓ apps/api/src/middleware/__tests__/edge-rate-limit-headers.spec.ts (6 tests) 5ms
+ ✓ apps/api/src/lib/__tests__/cloudflare-alert-formatter.spec.ts (11 tests) 459ms
+   ✓ formatCloudflareAlertToSlack > FMT-01: Workers payload を Block Kit に整形（日本語） 456ms
+ ✓ apps/api/src/lib/audit/__tests__/redact.spec.ts (9 tests) 52ms
+ ✓ apps/api/src/_shared/__tests__/search-query-parser.spec.ts (9 tests) 63ms
+ ✓ apps/api/src/jobs/mappers/normalize-response.spec.ts (3 tests) 4ms
+ ✓ apps/api/src/use-cases/public/__tests__/get-public-stats.spec.ts (3 tests) 443ms
+ ✓ apps/api/src/__tests__/authz-matrix.authz.spec.ts (4 tests) 622ms
+   ✓ 08a AC-3: authz matrix（代表ケース） > admin endpoint 軸 > member（isAdmin=false）→ 403 402ms
+ ✓ apps/api/src/routes/internal/__tests__/alert-relay.spec.ts (28 tests) 2733ms
+   ✓ createAlertRelayRoute > ROUTE-04: 正常 payload + Slack 200 で 200 / ok=true 1031ms
+   ✓ createAlertRelayRoute > ROUTE-05b / TC-02: 同一 alert は 5 分間 dedup して Slack へ再送しない 448ms
+   ✓ createAlertRelayRoute > TC-KV-05 / TC-LOG-01: KV get が throw しても fail-open し構造化ログを emit 303ms
+   ✓ mounted /internal/alert-relay > INDEX-01: apps/api index から mounted route に到達する 307ms
+stderr | apps/api/src/lib/__tests__/healthcheck-mail-fallback.spec.ts > sendHealthcheckFailureMail > skips safely when fallback mail config is absent
+[alertRelayHealthcheck] mail fallback skipped { reason: 'mail_config_not_ready' }
+
+ ✓ apps/api/src/lib/__tests__/healthcheck-mail-fallback.spec.ts (3 tests) 11ms
+ ✓ apps/api/src/services/admin/identity-conflict-detector.spec.ts (5 tests) 67ms
+ ✓ apps/api/src/utils/with-retry.spec.ts (6 tests) 3ms
+ ✓ apps/api/src/jobs/sheets-auth-classifier.spec.ts (7 tests) 2ms
+ ✓ apps/api/src/jobs/mappers/sheets-to-members.spec.ts (5 tests) 8ms
+ ✓ apps/api/src/jobs/sheets-auth-logger.spec.ts (3 tests) 3ms
+ ✓ apps/api/src/audit-correlation/__tests__/runbook-url.spec.ts (4 tests) 2ms
+ ✓ apps/api/src/view-models/public/__tests__/public-member-list-view.spec.ts (2 tests) 7ms
+ ✓ apps/api/src/jobs/_shared/sync-jobs-schema.spec.ts (5 tests) 10ms
+ ✓ apps/api/src/view-models/public/__tests__/public-stats-view.spec.ts (5 tests) 6ms
+ ✓ apps/api/src/diagnostics/forms-pipeline.spec.ts (2 tests) 2ms
+ ✓ apps/api/src/jobs/mappers/extract-consent.spec.ts (3 tests) 4ms
+ ✓ apps/api/src/scheduled/sheets-auth-healthcheck.binding.spec.ts (3 tests) 7ms
+ ✓ apps/api/src/view-models/public/__tests__/form-preview-view.spec.ts (1 test) 11ms
+ ✓ apps/api/src/__tests__/brand-type.spec.ts (3 tests) 2ms
+ ✓ apps/api/src/_shared/__tests__/visibility-filter.spec.ts (2 tests) 2ms
+ ✓ apps/api/src/audit-correlation/__tests__/contract.contract.spec.ts (5 tests) 200ms
+ ✓ apps/api/src/lib/__tests__/cf-webhook-auth.spec.ts (5 tests) 79ms
+ ✓ apps/api/src/schemas/tagQueueResolve.spec.ts (6 tests) 256ms
+ ✓ apps/api/src/_shared/__tests__/public-filter.spec.ts (7 tests) 2ms
+ ✓ apps/api/src/services/notification/registry.spec.ts (4 tests) 9ms
+ ✓ apps/api/src/jobs/_shared/__tests__/sync-error.spec.ts (5 tests) 13ms
+ ✓ apps/api/src/_shared/__tests__/pagination.spec.ts (5 tests) 6ms
+ ✓ apps/api/src/services/notification/channel.spec.ts (1 test) 252ms
+ ✓ apps/api/src/utils/write-queue.spec.ts (2 tests) 109ms
+ ✓ apps/api/src/workflows/notificationDispatchTick.spec.ts (8 tests) 41ms
+ ✓ apps/api/src/jobs/_shared/__tests__/ledger.spec.ts (2 tests) 284ms
+ ✓ apps/api/src/workflows/schemaAliasRollbackNotification.spec.ts (6 tests) 139ms
+ ✓ apps/api/src/services/notification/__tests__/dispatcher.spec.ts (5 tests) 3ms
+ ✓ apps/api/src/middleware/require-admin.authz.spec.ts (10 tests) 30ms
+ ✓ apps/api/src/routes/admin/__tests__/contract-stage-2.spec.ts (23 tests) 13ms
+ ✓ apps/api/src/services/notification/__tests__/templates.spec.ts (8 tests) 3ms
+ ✓ apps/api/migrations/seed/__tests__/issue-399-seed-syntax.spec.ts (5 tests) 27157ms
+   ✓ issue-399 staging seed/cleanup SQL > seed inserts 5 ISSUE399- members and 5 ISSUE399- notes 1678ms
+   ✓ issue-399 staging seed/cleanup SQL > 3 visibility_request + 2 delete_request rows are pending 728ms
+   ✓ issue-399 staging seed/cleanup SQL > cleanup removes runtime byproducts for ISSUE399 members 2154ms
+   ✓ issue-399 staging seed/cleanup SQL > cleanup is idempotent — first run zeroes out, second run remains 0 1879ms
+ ✓ apps/api/src/diagnostics/forms-pipeline.contract.spec.ts (2 tests) 44040ms
+   ✓ GET /admin/diagnostics/forms-pipeline > returns read-only H1-H4 snapshot with boolean-only secret readiness 22167ms
+   ✓ GET /admin/diagnostics/forms-pipeline > counts status rows without identity as H2 mismatch candidates 21871ms
+ ✓ apps/api/src/diagnostics/member-diagnosis.contract.spec.ts (2 tests) 40198ms
+   ✓ GET /admin/diagnostics/member/:memberId > returns member diagnosis without exposing profile values 25641ms
+   ✓ GET /admin/diagnostics/member/:memberId > returns H2 identity missing for a member status row without identity 14553ms
+ ✓ apps/api/src/notification-mail-config.spec.ts (2 tests) 1ms
+ ✓ apps/api/src/repository/__tests__/identities.autolink.spec.ts (3 tests) 51446ms
+   ✓ identity auto-link repository > builds a candidate from response history and picks first/current response deterministically 22832ms
+   ✓ identity auto-link repository > creates an identity once and returns the same row on repeated auto-link 20108ms
+   ✓ identity auto-link repository > does not overwrite an existing identity for the same email 8376ms
+ ✓ apps/api/src/repository/__tests__/auditLog-export.spec.ts (7 tests) 88284ms
+   ✓ auditLog cold storage export > TC-REP-01: listForExport は範囲内のみ返却 24534ms
+   ✓ auditLog cold storage export > TC-REP-02: insertExportManifest は (yyyy,mm,dd) UNIQUE 違反で throw 15422ms
+   ✓ auditLog cold storage export > TC-REP-03: completeExportManifest で status=completed に遷移 18685ms
+   ✓ auditLog cold storage export > TC-REP-04: failExportManifest で status=failed + error_message 記録 8240ms
+   ✓ auditLog cold storage export > TC-REP-05: purgeExportedOlderThan は completed 被覆日のみ DELETE 8598ms
+   ✓ auditLog cold storage export > TC-REP-06: failed 日付の purge は 0 件 8382ms
+   ✓ auditLog cold storage export > TC-REP-07: findExportManifestByPartition は未作成 partition を null にする 4422ms
+ ✓ apps/api/src/routes/admin/__tests__/schema.recompute.spec.ts (6 tests) 89985ms
+   ✓ admin schema recompute route > T-06: POST happy → 200 で recompute result を返す 28182ms
+   ✓ admin schema recompute route > T-07: 同 alias へ 2 回 POST → 同一 jobId・__extra__ 件数不変 25466ms
+   ✓ admin schema recompute route > T-08: 存在しない aliasId → 404 not_found 9059ms
+   ✓ admin schema recompute route > T-09: 未 rollback（deleted_at IS NULL）の alias → 409 not_rolled_back 7842ms
+   ✓ admin schema recompute route > T-10: GET status は job を返し、job 不在 alias は body null 10058ms
+   ✓ admin schema recompute route > T-11: recompute 200 後に audit_log へ schema_alias.recompute 行が記録される 9371ms
+ ✓ apps/api/src/routes/admin/__tests__/schema.rollback.spec.ts (8 tests) 94074ms
+   ✓ admin schema rollback route > 401 when unauthenticated 21506ms
+   ✓ admin schema rollback route > 400 when If-Match header missing 16851ms
+   ✓ admin schema rollback route > 404 when alias not found 17948ms
+   ✓ admin schema rollback route > 404 already_deleted when alias already soft-deleted 7962ms
+   ✓ admin schema rollback route > 409 version_mismatch when expectedVersion differs 7498ms
+   ✓ admin schema rollback route > 200 successful rollback: soft-deletes alias, restores diff queue, writes audit_log 8544ms
+   ✓ admin schema rollback route > 200 successful rollback records skipped notification audit without breaking rollback 6903ms
+   ✓ admin schema rollback route > impact: response_fields の件数を返す 6861ms
+ ✓ apps/api/src/workflows/schemaAliasRecompute.spec.ts (6 tests) 100810ms
+   ✓ schemaAliasRecompute workflow > T-01: rollback 済み alias の stable_key を __extra__:{qid} に整復する 29447ms
+   ✓ schemaAliasRecompute workflow > T-02: 同一 triggerKey の 2 回呼び出しは冪等（jobId / auditId 一致・件数不変） 26250ms
+   ✓ schemaAliasRecompute workflow > T-03: 既に __extra__ 行が存在する response は stable_key 行を DELETE し衝突回避する 12924ms
+   ✓ schemaAliasRecompute workflow > T-03B: 衝突削除と UPDATE は選択済み batch の response_id だけを処理する 8463ms
+   ✓ schemaAliasRecompute workflow > T-04: CPU budget exhausted で running 継続し、再呼び出しで completed になる 18755ms
+   ✓ schemaAliasRecompute workflow > T-05: 未 rollback（deleted_at IS NULL）の alias は not_rolled_back を throw し無変更 4951ms
+ ✓ apps/api/src/use-cases/admin/__tests__/import-attendance-bulk.spec.ts (13 tests) 123354ms
+   ✓ importAttendanceBulk > case#6: duplicate 行検出 25791ms
+   ✓ importAttendanceBulk > case#7: deleted_member 検出 (D1 insert なし) 15256ms
+   ✓ importAttendanceBulk > case#8: unknown_member 検出 19844ms
+   ✓ importAttendanceBulk > case#9: invalid (memberId/email どちらも無し) 9389ms
+   ✓ importAttendanceBulk > case#9b: memberId と email が別 member を指す → invalid + mismatch 8192ms
+   ✓ importAttendanceBulk > case#10: 成功行数 == audit_log 件数 7762ms
+   ✓ importAttendanceBulk > case#11: dry-run で副作用なし 6873ms
+   ✓ importAttendanceBulk > session 未存在は SessionNotFoundError 5204ms
+   ✓ importAttendanceBulk > F4: 同一 email 重複行は 2 行目以降 duplicate (commit 後の preview 想定) 4677ms
+   ✓ importAttendanceBulk > F4b: 同一 CSV 内で同じ member を 2 回指定した場合は 2 行目以降 duplicate 6289ms
+   ✓ importAttendanceBulk > F5: 全角 email も NFKC 正規化でマッチ 5919ms
+   ✓ importAttendanceBulk > F11: classifyImportRow 単体 — memberId_email_mismatch 4450ms
+   ✓ importAttendanceBulk > F6: D1 batch 例外時は attendance / audit_log ともに追加されない 3707ms
+
+ Test Files  66 passed (66)
+      Tests  417 passed (417)
+   Start at  06:34:40
+   Duration  195.15s (transform 51.62s, setup 0ms, collect 206.53s, tests 666.38s, environment 285.31s, prepare 49.29s)
+

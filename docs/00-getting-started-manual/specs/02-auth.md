@@ -55,10 +55,21 @@ https://www.googleapis.com/auth/drive.readonly
 ### ログイン判定
 
 1. `member_identities.response_email` を検索
-2. `current_response_id` を取得
-3. `member_status.rules_consent` を確認
-4. `member_status.is_deleted` を確認
-5. 条件を満たしたらセッションを作成
+2. identity が無く `member_responses.response_email` が一致する場合、`apps/api` 内で auto-link を試行する
+3. `current_response_id` を取得
+4. `member_status.rules_consent` を確認
+5. `member_status.is_deleted` を確認
+6. 条件を満たしたらセッションを作成
+
+### H2 identity auto-link
+
+`/auth/session-resolve` は Google OAuth / Magic Link で検証済みの email だけを受け取る internal endpoint なので、`member_identities` が無い場合に限り、同じ email を持つ `member_responses` から `member_identities` を復元する。
+
+- `response_email` は `lower(trim(...))` で正規化する。
+- `current_response_id` は最新 `submitted_at`、`first_response_id` は最古 `submitted_at` を採用する。同時刻では `response_id` で安定化する。
+- `tag_assignment_queue(response_id, member_id)` が残っている場合は、その `member_id` を既存 admin-managed data との bridge として優先する。
+- bridge が無い場合は auto-link 専用の新規 `member_id` を生成する。この場合も `member_status` が無ければ既存契約どおり `rules_declined` に倒し、勝手に同意済み扱いにはしない。
+- 既存 `member_identities` row は上書きしない。再実行・並行実行は `INSERT OR IGNORE` と再 SELECT で冪等にする。
 
 ---
 
