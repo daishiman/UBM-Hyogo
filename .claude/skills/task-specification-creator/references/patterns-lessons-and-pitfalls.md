@@ -864,6 +864,24 @@ staging で観測された `/admin/<route>` API 404 と、同 route の prototyp
 - no-op だったので lesson を残さない → 次回同種指示で同じ確認手順を再構築する無駄が発生する
 - `gh pr checks` が pass だけを見て mergeable を見ない → `DIRTY` 状態の PR を「green」と誤報告し、dev divergence の再 sync が遅れる
 
+## Admin route mount drift + UI prototype 整合 dual-task パターン（admin-audit-prototype-alignment L-AAUDIT-001..005 汎化）
+
+`/admin/<route>` の (a) staging API 404 観測と (b) bare `<form>` / page-local `<h1>` 残存 という 2 軸の課題は、`apps/web` UI 整合（Task A）と `apps/api` root mount 回帰保護（Task B）の dual-task として一括で扱うのが効率的。両 task は独立してレビュー可能で、UI 実装 / local unit test と route 配線確認は並列実行できる。
+
+- **L-ADMROUTE-001 (root mount regression test の必須化)**: admin endpoint を追加・移動する PR では `apps/api/src/index.spec.ts` に root mount 経由で `/admin/<path>?<minimal-query>` を request し **401（404 ではない）** を期待する spec を 1 件必ず追加する。`requireAdmin` middleware 経由で 401/403 が返るのが正解で、404 が返ったら mount 順序 / path duplication / handler 配線崩れの回帰。**Anti-pattern**: contract spec（200 OK with admin auth）のみで mount を保護すると、auth bypass 時の 404 を見逃す。
+- **L-ADMBANNER-001 (Banner tone 制約)**: admin UI で error 表示が必要な場合は `Banner tone="warning"` / `tone="danger"` のみを使う。`error` / `info` / `success` tone は存在しない。typecheck で fail するため新 tone 追加は別 RFC 経由。
+- **L-ADMLINKBTN-001 (link button は buttonVariants + a)**: 本 repo の `Button` primitive は polymorphic link rendering（`asChild` / `href`）を持たない。リンクとして描画する場合は `<a className={buttonVariants({ variant: "outline" })}>` で構成する。design system invariant のため `Button` を polymorphic 化しない。
+- **L-ADMHEAD-002 (page-local h1 撤去契約)**: `AdminPageHeader` を採用する admin page では、配下 panel component の page-local `<h1>` を grep で全撤去し `headingId` 譲渡パターン（`<section aria-labelledby={headingId}>`）に統一する。L-ASHELL-001（admin shell header 撤去契約）と同根。Playwright spec で `h1` count = 1 を assert することで回帰検知。
+- **L-OBSREG-001 (staging 観測文字列を regression test input に固定)**: staging で観測した error 文字列（例: `admin api /admin/audit?limit=50 failed: 404`）は必ず `safeServerFetch` 等の reason 展開 regression test の input として保存する。test fixture コメントに staging 観測 timestamp + URL を残すと、同じ文字列が再発した場合に確実に reason 展開される。L-ATAGUI-001（admin-tag-queue-ui-and-404-recovery）と同パターン。
+
+### Anti-pattern
+
+- API contract spec のみで mount を保護 → auth bypass 時の 404 や mount 順序回帰を見逃す
+- `Banner tone="error"` を書いてしまう → typecheck で fail。lint で `tone` enum を検査する gate が無いと runtime まで通る場合あり
+- `Button asChild` / `<Button href>` を期待する → primitive API ミスマッチ。コードレビューで毎回引っかかる
+- `AdminPageHeader` 採用時に panel 内 `<h1>` を残す → axe / playwright で二重 h1 警告。手戻りコスト大
+- staging 観測文字列を test に固定せず「直したつもり」で close → 同じ文字列が再発した時に検知できない
+
 ## Dev sync 時の sibling-section conflict 解消パターン (2026-05-27)
 
 - 適用場面: feature branch が UI surface (drawer / panel / page) の section 構造を全面刷新中に、dev 側が同ファイル内へ新規 Client Island / Server Component / sibling section を追加した状態で `git merge dev` した時。
@@ -1020,6 +1038,24 @@ UI 系 feature ブランチ（prototype alignment / dashboard 等）と dev の�
 - 該当 spec を `test.skip` で先送り → e2e mock API を使う他 spec も同じ regression を踏むため fundamental fix が常に正解
 - `revalidate: 0` に下げて regression を回避 → production で free tier 圧迫（cache hit rate が drop）し本末転倒
 
+## Closed-issue + Parent-implemented Runtime-ops Runbook パターン（2026-05-27 / L-I956-001..005 generalization）
+
+Parent workflow が実装責務（コード/cron/D1 schema 等）を完了済みで、production runtime での recovery 実行手順と evidence boundary だけが canonical 化されていない場合、子 workflow は「実装 task」ではなく「runtime-ops runbook 子 workflow」として独立 canonical root を持たせる。GitHub issue が CLOSED でも `Refs <issue>` で workflow を後付け生成してよい（再 open 不要）。
+
+- **L-RUNBOOK-001 (子は runbook 専用)**: `implementationCategory: runtime-ops-runbook` / `implementation_files: []` / `test_files: []` を artifacts.json metadata に明示する。Phase 5 は「実装手順」ではなく「runtime 実行手順 + redaction 契約」を記述。parent 実装 workflow への pointer (`parent_task`) を root metadata に必ず置く。
+- **L-RUNBOOK-002 (runtime-dependent followup 境界)**: Phase 12 unassigned-task-detection で候補を**列挙したうえで `Not created — runtime evidence dependent` と decision を明記**する。同一表に「if observed during the approved runtime cycle, escalate or formalize before close-out」の運用契約を併記する。`spec_created` 段階では 0 件、runtime 発火後に escalation gate で再評価。speculative 起票も未起票放置もどちらも禁止。
+- **L-RUNBOOK-003 (consumed pointer 契約)**: source unassigned proto-spec は **物理削除せず**、frontmatter に `status: consumed` / `canonical_workflow: docs/30-workflows/.../<id>/` / `consumed_at: <date>` / `issue_reference_mode: refs-only` を追記し、本文冒頭に canonical workflow への pointer 行を残す。GitHub issue 本文 link / parent Phase 12 detection からの相対リンクの dead link 化を防ぎつつ重複 workflow 生成を抑止する。
+- **L-RUNBOOK-004 (runtime PASS claim 禁止)**: Gate-B / Gate-C は `outputs/phase-11/snapshot-after.*` と `snapshot-diff.md` の物理ファイル存在 + AC mapping を必須条件とし、未充足の間は `pending` 固定。`runtime PASS is not claimed` を Phase 12 main.md / inventory / compliance-check 全てで一貫表記する。`spec_created` から `completed` への直接遷移は禁止（中間 `implemented_local_runtime_pending` or `runtime_pending_user_approval` を経由）。
+- **L-RUNBOOK-005 (redaction 5 種)**: production secret 投入 / cron tail / D1 SELECT/UPDATE の生出力には機密が混じる。evidence には **識別子 / exit code / row count / next-run timestamp のみ** を残し、(a) secret 値、(b) token preview/prefix/suffix、(c) service-account local part、(d) responder email、(e) フォーム回答本文 の 5 種は `<REDACTED>` 表記とする。「evidence 充実 = 生出力を貼る」方向に AI agent は流れがちなため、Phase 11 ledger の各行に redaction 規約を明記する。
+
+### Anti-pattern
+
+- closed issue を理由に canonical workflow root を生成しない → skill traceability gap が残り、recovery 操作が ad-hoc 化
+- runtime-dependent followup を「いつか観測したら」と speculative に起票 → backlog 汚染。逆に detection 表に書かず放置 → runtime 発火時に skip され recovery 機会を失う
+- source unassigned task を物理削除 → GitHub issue / parent detection の dead link 化が永続的
+- `spec_created` のまま `gates[*].status = passed` に進める → evidence-less PASS で skill 正本性が壊れる
+- `scripts/cf.sh tail` 出力をそのまま Phase 11 ledger に貼り付ける → secret/PII 漏洩
+
 ## Admin panel dual-h1 strict-mode + visual baseline 更新パターン (2026-05-28)
 
 - **Rule (panel heading)**: admin panel component の root は `<section aria-label="<セクション名>">` で region role を取り、内部に `<h1>` を**置かない**（sr-only h1 も含む）。AdminPageHeader 側が `h-page` h1 を一元提供する場合、panel の `<h1 sr-only>` は Playwright `getByRole('heading', { name })` の strict-mode に必ず抵触する。
@@ -1117,6 +1153,16 @@ Next.js App Router で公開層 (`/`, `/(public)/*`) の auth-state 出し分け
 - `getSession()` throw を握り潰さず SSR 全体に伝播 → guest 訪問で 500 / `app/error.tsx` boundary に押し込む過剰反応
 
 - 参照: [[lessons-learned-task-b-root-page-public-header-async-2026-05]] L-TBPHA-001..005、CLAUDE.md invariant #11 (env fail-closed parity)、`patterns-ui-type-auth.md` (UI 層 auth type design)。
+
+
+## L-DEVSYNC-057 add-add semantic conflict（両 branch が同 Server Component に safe-fetch + SectionError を独立追加）の branch-owning take パターン（dev sync-merge / 2026-05-28）
+
+- 事象: `fix/login-stale-link-and-profile-me-safefetch` ← `origin/dev` で `apps/web/app/(member)/profile/page.tsx` と `page.spec.tsx` が両側 add-add semantic conflict。両 branch が `safeServerFetch(() => fetchAuthed<MeSessionResponse>("/me"))` ラップ + `if (!meResult.ok)` 早期 return + SectionError 降格を**同方向に**独立追加し、差分は変数型注釈と error title 文字列の 2 点のみ。L-DEVSYNC-056 と異なり構造採用ではなく「branch 責務 (responsibility) に合致する文言/型を持つ側」を一括 take する。
+- **SP-DEVSYNC-057-A (構造同一の判定)**: add-add conflict は最初に `git diff :2:<path> :3:<path>` で両 hunk の構造差分のみを抽出。構造が完全同一で差分が文字列/型注釈のみなら hybridize 不要で **branch-owning side を `git checkout --ours`/`--theirs` で一括 take** する。Phase 12 implementation-guide の「sync-merge コンフリクト解消手順」にこの判定を分岐の先頭に置く。
+- **SP-DEVSYNC-057-B (branch 責務の機械判定)**: 「どちらが ours か」は `git log --oneline <merge-base>..HEAD -- <path>` のコミットメッセージ主語（`fix(profile)`, `fix(login,profile)` 等）と branch slug の prefix を照合して判定。本ケースでは branch slug `fix/login-stale-link-and-profile-me-safefetch` と commit `fix(login,profile): … /profile /me fetch safe wrap` が一致するため HEAD = branch-owning。Phase 12 implementation-guide に「ours 判定根拠 (commit hash + message)」を 1 行記録。
+- **SP-DEVSYNC-057-C (page + spec の pair 同期)**: page.tsx の error title 文字列を ours に揃えたら、`page.spec.tsx` の assert 文字列も**必ず同じ ours 側**を採用する。文字列が page と spec で食い違うと test fail で post-push CI が落ちるため、conflict 解消時に「pair 一致」を 1 行 checklist として明示する。grep 検証: `grep -F "<採用文字列>" apps/web/app/<route>/page.tsx apps/web/app/<route>/page.spec.tsx` で両方 hit すること。
+- **SP-DEVSYNC-057-D (resolver 化不適の根拠)**: branch context (slug / commit message) を要する判定なので `pnpm sync:resolve` への拡張は不適切（L-DEVSYNC-054 と同様）。Phase 4 risk table に「`/profile`・`/login`・admin section root などの Server Component error boundary 強化が wave 並列で進む期間は add-add semantic conflict が頻発する」を登録し、本 lesson を mitigation reference として参照する。
+- 参照: [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-057、L-DEVSYNC-056 (structural primitive 採用との対比)、L-DEVSYNC-054 (`.ts` 手動 union との対比)。
 
 
 ## L-DEVSYNC-058 同一 page を両 branch が独立に prototype 整合した結果の 2-way feature × modernization hybridize（dev sync-merge / 2026-05-28）

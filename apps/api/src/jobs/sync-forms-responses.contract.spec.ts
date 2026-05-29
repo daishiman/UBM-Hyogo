@@ -384,6 +384,90 @@ describe("runResponseSync", () => {
     expect(writeDataPoint).not.toHaveBeenCalled();
   });
 
+  // members-not-displaying-form-sync-investigation Task B
+  it("Task B: MEMBERS_AUTO_PUBLISH_ON_CONSENT='true' は member_only+consented を public に昇格させる", async () => {
+    const resp = makeResp({
+      answersByStableKey: {
+        publicConsent: "同意します",
+        rulesConsent: "同意します",
+      },
+    });
+    const client = makeClient([{ responses: [resp] }]);
+    const result = await runResponseSync(
+      {
+        DB: db as unknown as D1Database,
+        GOOGLE_FORM_ID: "form-1",
+        MEMBERS_AUTO_PUBLISH_ON_CONSENT: "true",
+      },
+      { trigger: "admin", client },
+    );
+    expect(result.status).toBe("succeeded");
+    const status = db.status.find((r) => r["public_consent"] === "consented");
+    expect(status?.["publish_state"]).toBe("public");
+    expect(status?.["updated_by"]).toBe("system:sync");
+  });
+
+  it("Task B: MEMBERS_AUTO_PUBLISH_ON_CONSENT='false' は publish_state を更新しない", async () => {
+    const resp = makeResp({
+      answersByStableKey: {
+        publicConsent: "同意します",
+        rulesConsent: "同意します",
+      },
+    });
+    const client = makeClient([{ responses: [resp] }]);
+    await runResponseSync(
+      {
+        DB: db as unknown as D1Database,
+        GOOGLE_FORM_ID: "form-1",
+        MEMBERS_AUTO_PUBLISH_ON_CONSENT: "false",
+      },
+      { trigger: "admin", client },
+    );
+    const status = db.status.find((r) => r["public_consent"] === "consented");
+    // FakeD1 の default publish_state は member_only のまま
+    expect(status?.["publish_state"]).toBe("member_only");
+  });
+
+  it("Task B: flag=true でも admin override (updated_by='admin@...') は維持される", async () => {
+    // 既存 identity + admin が手動で member_only にした status を seed
+    db.identities.push({
+      member_id: "m-admin",
+      response_email: "alice@example.com",
+      current_response_id: "r-existing",
+      first_response_id: "r-existing",
+      last_submitted_at: "2025-12-01T00:00:00Z",
+    });
+    db.status.push({
+      member_id: "m-admin",
+      public_consent: "unknown",
+      rules_consent: "unknown",
+      publish_state: "member_only",
+      is_deleted: 0,
+      updated_by: "admin@example.com",
+      updated_at: "2025-12-01T00:00:00Z",
+    });
+    const resp = makeResp({
+      responseId: "r-new",
+      submittedAt: "2026-04-01T00:00:00Z",
+      answersByStableKey: {
+        publicConsent: "同意します",
+        rulesConsent: "同意します",
+      },
+    });
+    const client = makeClient([{ responses: [resp] }]);
+    await runResponseSync(
+      {
+        DB: db as unknown as D1Database,
+        GOOGLE_FORM_ID: "form-1",
+        MEMBERS_AUTO_PUBLISH_ON_CONSENT: "true",
+      },
+      { trigger: "admin", client },
+    );
+    const status = db.status.find((r) => r["member_id"] === "m-admin");
+    expect(status?.["publish_state"]).toBe("member_only");
+    expect(status?.["updated_by"]).toBe("admin@example.com");
+  });
+
   it("失敗系: client.listResponses が throw すると status='failed'", async () => {
     const client = {
       getForm: vi.fn(),
