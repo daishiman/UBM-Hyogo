@@ -3,12 +3,15 @@ import type { ReactNode } from "react";
 
 import { PublicFooter } from "../../src/components/public/PublicFooter";
 import { PublicHeader } from "../../src/components/public/PublicHeader";
+import { getAuthView } from "../../src/lib/auth-view";
 
-export default function PublicLayout({
+export default async function PublicLayout({
   children,
 }: {
   readonly children: ReactNode;
 }) {
+  const authView = await getAuthView();
+
   return (
     <div
       className="grid min-h-screen grid-rows-[auto_1fr_auto] bg-[var(--ubm-color-surface-bg)] text-[var(--ubm-color-text-primary)]"
@@ -17,7 +20,7 @@ export default function PublicLayout({
       data-testid="public-shell"
     >
       <header data-shell="topbar">
-        <PublicHeader />
+        <PublicHeader authView={authView} />
       </header>
       <main data-route="public" data-section-rhythm="comfortable">{children}</main>
       <footer data-shell="footer">

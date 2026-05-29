@@ -22,6 +22,7 @@ import {
   getStats,
   listMembersRaw,
 } from "../src/lib/api/public";
+import { getAuthView } from "../src/lib/auth-view";
 import { FORM_RESPONDER_URL } from "../src/lib/constants/form";
 
 export const revalidate = 60;
@@ -36,7 +37,8 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default async function HomePage() {
   await connection();
-  const [stats, members] = await Promise.all([
+  const [authView, stats, members] = await Promise.all([
+    getAuthView(),
     getStats({ revalidate: PUBLIC_API_REVALIDATE.stats }),
     listMembersRaw("limit=6&sort=recent", {
       revalidate: PUBLIC_API_REVALIDATE.members,
@@ -45,7 +47,7 @@ export default async function HomePage() {
 
   return (
     <>
-      <PublicHeader />
+      <PublicHeader authView={authView} />
       <main data-page="home" data-route="public" data-section-rhythm="comfortable">
         <Hero
           variant="card"

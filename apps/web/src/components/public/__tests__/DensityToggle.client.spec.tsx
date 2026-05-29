@@ -32,6 +32,23 @@ describe("DensityToggle", () => {
     expect(screen.getByRole("radio", { name: "ゆったり" }).getAttribute("aria-checked")).toBe("true");
     expect(screen.getByRole("radio", { name: "密" }).getAttribute("aria-checked")).toBe("false");
     expect(screen.getByRole("radio", { name: "リスト" }).getAttribute("aria-checked")).toBe("false");
+    expect(screen.getByRole("radio", { name: "ゆったり" }).getAttribute("data-density")).toBe("comfy");
+  });
+
+  it("各密度モードの sublabel と HelpHint を描画する", () => {
+    const { container } = render(<DensityToggle value="comfy" />);
+    expect(screen.getByText("紹介文とタグまで確認")).toBeTruthy();
+    expect(screen.getByText("多くの候補を一度に比較")).toBeTruthy();
+    expect(screen.getByText("名前と区画を行で走査")).toBeTruthy();
+    expect(
+      container.querySelector('[data-component="help-hint"] summary'),
+    ).toBeTruthy();
+    fireEvent.click(container.querySelector('[data-component="help-hint"] summary') as HTMLElement);
+    expect(screen.getAllByRole("term")).toHaveLength(3);
+    expect(screen.getAllByRole("definition")).toHaveLength(3);
+    expect(
+      screen.getAllByText("カードに自己紹介、関心タグ、詳細への導線を広く表示します。"),
+    ).toHaveLength(2);
   });
 
   it("comfy 選択時は density param を削除して /members に replace する", () => {

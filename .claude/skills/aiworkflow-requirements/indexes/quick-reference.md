@@ -1,5 +1,82 @@
 # クイックリファレンス
 
+## task-b-root-page-public-header-async（2026-05-28）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/task-b-root-page-public-header-async/` |
+| status | `implemented_local_evidence_captured / implementation / NON_VISUAL / staging_runtime_pending_user_gate` |
+| parent | `docs/30-workflows/public-header-logged-in-nav-cleanup/` |
+| purpose | root `/` が `getAuthView()` を取得し、`PublicHeader authView` に配線してログイン状態 CTA を正しく出す |
+| implementation | `apps/web/src/lib/auth-view/index.ts`, `apps/web/src/components/public/PublicHeader.tsx`, `apps/web/app/(public)/layout.tsx`, `apps/web/app/page.tsx` |
+| tests | `apps/web/src/lib/auth-view/__tests__/resolveAuthView.spec.ts`, `apps/web/src/components/public/__tests__/PublicHeader.spec.tsx`, `apps/web/app/__tests__/page.spec.tsx` |
+| evidence | focused Vitest 3 files / 9 tests PASS, typecheck PASS, lint PASS, web build PASS |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-task-b-root-page-public-header-async-artifact-inventory.md` |
+| user gate | Cloudflare staging deploy, authenticated `/` curl, wrangler tail clean evidence, commit, push, PR |
+
+## admin-identity-conflicts-prototype-alignment-and-404-fix（2026-05-27）
+## issue-976-admin-fetch-service-binding（2026-05-28）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-976-admin-fetch-service-binding/` |
+| status | `implemented_local_runtime_pending / implementation / NON_VISUAL` |
+| purpose | Admin server-fetch を `API_SERVICE` service-binding 優先へ統一し、同一 Cloudflare account の workers.dev 外向き fetch loopback 404 を回避 |
+| implementation targets | `apps/web/src/lib/admin/server-fetch.ts`, `apps/web/src/lib/admin/__tests__/server-fetch-service-binding.spec.ts`, `apps/web/src/lib/admin/__tests__/server-fetch-url.spec.ts` |
+| local evidence | `outputs/phase-11/local-verification.md` focused Vitest 3 files / 9 tests PASS |
+| Phase 12 | strict outputs + root/output artifacts parity present |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-976-admin-fetch-service-binding-artifact-inventory.md` |
+| user gate | staging deploy, authenticated route proof, `wrangler tail`, commit, push, PR |
+
+## fix-admin-fetch-cf-1042-service-binding（2026-05-28）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/fix-admin-fetch-cf-1042-service-binding/` |
+| status | `implemented_local_runtime_pending / implementation / NON_VISUAL` |
+| purpose | `fetchAdmin` の raw HTTP Worker-to-Worker fetch を Service Binding first に切り替え、staging `/admin` の Cloudflare `error code: 1042` を解消する |
+| implementation | `apps/web/src/lib/env.ts`, `apps/web/src/lib/admin/server-fetch.ts` |
+| tests | `apps/web/src/lib/admin/__tests__/server-fetch.binding.spec.ts`, `server-fetch.http-fallback.spec.ts`, `server-fetch-url.spec.ts`, `server-fetch.env.spec.ts` |
+| transport | Cloudflare Workers runtime: `env.API_SERVICE.fetch("https://service-binding.local/...")`; test/Playwright explicit `INTERNAL_API_BASE_URL`: HTTP fallback |
+| Phase 11 | local unit evidence present; staging deploy, authenticated `/admin` smoke, wrangler tail pending user gate |
+| Phase 12 | strict 7 present; root/output artifacts parity present |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-fix-admin-fetch-cf-1042-service-binding-artifact-inventory.md` |
+| user gate | staging deploy, runtime smoke, tail, commit, push, PR |
+
+## issue-958-h3-public-filter-ux（2026-05-28）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-958-h3-public-filter-ux/` |
+| status | `implemented_local_runtime_pending / implementation / VISUAL` |
+| issue | #958 CLOSED。PR 文脈は `Refs #958` のみ |
+| parent | `google-form-reflection-diagnostics` H3 visibility follow-up |
+| purpose | `publicConsent=false` / `publishState!=public` による public members 全 hidden 状態を、profile / admin / public の3面で理解・修復可能にする |
+| local implementation | `PublicConsentCallout`, `BulkRepublishDrawer`, `useBulkRepublish`, `AllHiddenFallback` |
+| API boundary | 新 endpoint なし。`GET /me/profile`, `GET /public/stats`, `PATCH /admin/members/:memberId/status` を利用 |
+| Phase 11 | 10 local static visual screenshots present; staging visual pending |
+| Phase 12 | strict 7 files present under `outputs/phase-12/`; root/output artifacts parity present |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-958-h3-public-filter-ux-artifact-inventory.md` |
+| user gate | staging verification, commit, push, PR |
+
+## admin-identity-conflicts-prototype-alignment-and-404-fix（2026-05-27）
+## issue-956-h1-ingest-recovery（2026-05-27）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-956-h1-ingest-recovery/` |
+| status | `spec_created / docs-only / NON_VISUAL / runtime_pending_user_approval` |
+| issue | #956 CLOSED。PR / commit 文脈は `Refs #956` のみ |
+| parent | `docs/30-workflows/completed-tasks/google-form-reflection-diagnostics/` |
+| source | `docs/30-workflows/completed-tasks/issue-956-h1-ingest-recovery/unassigned-task-specs/google-form-reflection-diagnostics-followup-001-h1-ingest-recovery.md` consumed |
+| purpose | production Google Forms → D1 ingest の H1（未稼働・全 error）を、Cloudflare secrets readiness、cron tail、stale `sync_jobs` reset、diagnostics snapshot で復旧確認する runtime ops runbook |
+| runtime ops | `bash scripts/cf.sh secret put/list --config apps/api/wrangler.toml --env production`, `cf.sh tail`, `cf.sh d1 execute ubm-hyogo-db-prod --env production`, authenticated `/admin/diagnostics/forms-pipeline` snapshot |
+| invariant | secret values are never recorded; runtime PASS is not claimed until `snapshot-after.json` and `snapshot-diff.md` exist |
+| Phase 12 | strict 7 present; root/output artifacts mirror present; 30-method compact evidence included |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-956-h1-ingest-recovery-artifact-inventory.md` |
+| user gate | production secret mutation, production D1 SELECT/UPDATE, authenticated snapshot capture, cron tail, commit, push, PR |
+
+## admin-identity-conflicts-prototype-alignment-and-404-fix（2026-05-27）
 ## admin-audit-prototype-alignment（2026-05-27）
 
 | 項目 | 値 |
@@ -230,6 +307,19 @@
 | user gate | Playwright visual screenshots, staging deploy/smoke, commit, push, PR |
 
 ## google-form-reflection-diagnostics（2026-05-26）
+## members-not-displaying-form-sync-investigation（2026-05-28）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/members-not-displaying-form-sync-investigation/` |
+| status | `implemented_local_runtime_pending / implementation / VISUAL_ON_EXECUTION` |
+| purpose | staging `/members` 0 件問題の原因特定と local repair implementation |
+| API | existing `GET /admin/diagnostics/forms-pipeline`; implemented CLI-safe `GET /admin/sync/diagnostics/forms-pipeline`; implemented `POST /admin/sync/backfill-publish-state` |
+| key rules | canonical publish state is `public/member_only/hidden`; public directory requires strict `publish_state='public'`; no `member_status_history` dependency |
+| evidence | `docs/30-workflows/completed-tasks/members-not-displaying-form-sync-investigation/outputs/phase-11/local-verification.md` |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-members-not-displaying-form-sync-investigation-artifact-inventory.md` |
+| user gate | staging deploy, diagnostics, backfill apply, browser smoke, commit, push, PR |
+
 ## Issue #924 style-src-attr retirement（2026-05-25）
 ## admin-visual-baseline-admin-routes-task-e（2026-05-27）
 
@@ -357,6 +447,20 @@
 | invariant | secret readiness は boolean のみ。`GOOGLE_SERVICE_ACCOUNT_EMAIL` / `GOOGLE_PRIVATE_KEY` / `GOOGLE_FORM_ID` / `AUTH_SECRET` の実値・末尾・hash は返さない |
 | inventory | `.claude/skills/aiworkflow-requirements/references/workflow-google-form-reflection-diagnostics-artifact-inventory.md` |
 | user gate | staging deploy, authenticated screenshots, Spec-B issue filing, commit, push, PR |
+
+## google-form-reflection-diagnostics-fu-002-h2-identity-rebuild（2026-05-27）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/google-form-reflection-diagnostics-fu-002-h2-identity-rebuild/` |
+| status | `implemented_local_runtime_pending / implementation / NON_VISUAL` |
+| parent | `docs/30-workflows/completed-tasks/google-form-reflection-diagnostics/` |
+| purpose | H2 identity gap: verified Form email exists in `member_responses` but `member_identities` is missing, causing login to fall through as unregistered |
+| implementation | migration `0021_backfill_member_identities.sql`, identity auto-link repository helpers, `/auth/session-resolve` integration |
+| invariant | `response_email` is matched by `lower(trim(...))`; `tag_assignment_queue(response_id, member_id)` is the only existing member-id bridge; bridge-less auto-link creates `autolink:<uuid>` and still requires `member_status` gates |
+| tests | `identities.autolink.spec.ts`, `session-resolve.contract.spec.ts` |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-google-form-reflection-diagnostics-fu-002-h2-identity-rebuild-artifact-inventory.md` |
+| user gate | staging/prod D1 backup, migration apply, deployed diagnostics capture, commit, push, PR |
 
 ## Issue #901 authenticated profile/admin staging visual（2026-05-25）
 
@@ -4408,3 +4512,11 @@ UT-17 Cloudflare Notifications → alert-relay → Slack 経路を、既存 API 
 | system spec | `docs/00-getting-started-manual/specs/09g-screen-blueprints-admin.md` §`/admin/schema` |
 | inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-schema-page-prototype-alignment-and-diff-fetch-fix-artifact-inventory.md` |
 | evidence | web Vitest 158 files / 1147 tests PASS; local Playwright schema visual 7 PASS + Phase 11 screenshots; staging deploy and authenticated screenshots are user-gated |
+
+# members-list-ux-clarity
+
+| item | value |
+| --- | --- |
+| status | implemented_local_runtime_pending / implementation / VISUAL / 2026-05-28 |
+| workflow | `docs/30-workflows/completed-tasks/members-list-ux-clarity/` |
+| summary | `/members` の密度切替説明、即時反映ヒント、適用中filter chip、件数live regionを追加。API/schema/query正本は不変。 |
