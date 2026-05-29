@@ -3354,6 +3354,13 @@ node scripts/list-specs.js --topics
 | Screenshot Boundary | L28 |
 | Boundary | L32 |
 
+### references/workflow-issue-976-admin-fetch-service-binding-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| User-Gated | L13 |
+| Lessons Learned | L17 |
+
 ### references/workflow-light-theme-contrast-regression-guard.md
 
 | セクション | 行 |
@@ -3394,6 +3401,15 @@ node scripts/list-specs.js --topics
 | Skill Compliance | L28 |
 | Boundaries | L36 |
 
+### references/workflow-login-redirect-when-authenticated-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Implementation | L11 |
+| Evidence | L20 |
+| Boundary | L28 |
+| Lessons Learned | L32 |
+
 ### references/workflow-login-stale-link-and-profile-me-safe-fetch-artifact-inventory.md
 
 | セクション | 行 |
@@ -3415,6 +3431,19 @@ node scripts/list-specs.js --topics
 |------------|----|
 | State | L18 |
 | Boundary | L24 |
+
+### references/workflow-members-list-ux-clarity-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Lessons Learned | L13 |
+
+### references/workflow-members-not-displaying-form-sync-investigation-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Correctness Notes | L17 |
+| Lessons Learned | L25 |
 
 ### references/workflow-members-page-prototype-alignment-artifact-inventory.md
 
@@ -4107,6 +4136,16 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | Contract | L17 |
+
+### references/workflow-task-b-root-page-public-header-async-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Implementation Artifacts | L10 |
+| Test Artifacts | L19 |
+| Evidence | L27 |
+| Boundary | L37 |
+| Lessons Learned | L42 |
 
 ### references/workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md
 
@@ -8027,14 +8066,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L3003 |
-| フェーズ構造（概要） | L3012 |
-| 品質ゲート（概要） | L3043 |
-| 出力テンプレート | L3054 |
-| 実行時のコマンド・エージェント・スキル | L3077 |
-| 昇格パターン集 | L3101 |
-| Current Active / Spec Created Tasks | L3103 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L3265 |
+| ドキュメント構成 | L3058 |
+| フェーズ構造（概要） | L3067 |
+| 品質ゲート（概要） | L3098 |
+| 出力テンプレート | L3109 |
+| 実行時のコマンド・エージェント・スキル | L3132 |
+| 昇格パターン集 | L3156 |
+| Current Active / Spec Created Tasks | L3158 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L3320 |
 
 ### references/task-workflow-backlog-part2.md
 

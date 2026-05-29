@@ -49,6 +49,12 @@ import {
   upsertKnownField,
 } from "../repository/responseFields";
 import { setConsentSnapshot, getStatus } from "../repository/status";
+import {
+  decidePublishState,
+  isAdminOverrideStatus,
+  normalizeConsentValue,
+  normalizePublishState,
+} from "../lib/policies/auto-publish";
 import { enqueue as enqueueDiff } from "../repository/schemaDiffQueue";
 import {
   enqueueTagCandidate,
@@ -70,6 +76,9 @@ export interface ResponseSyncEnv {
   readonly TAG_QUEUE_PAUSED?: string;
   // 03b-followup-006: per-sync write cap 連続到達検知の event emit 先
   readonly SYNC_ALERTS?: AnalyticsEngineDataset;
+  // members-not-displaying-form-sync-investigation Task B:
+  // "true" のとき consent 反映後に publish_state を auto-publish policy で更新する。
+  readonly MEMBERS_AUTO_PUBLISH_ON_CONSENT?: string;
 }
 
 export interface ResponseSyncOptions {
@@ -161,6 +170,7 @@ export async function runResponseSync(
   }
   let highWater = parseHighWaterCursor(cursor);
   const tagQueuePaused = parsePaused(env);
+  const autoPublishEnabled = parseAutoPublishFlag(env);
 
   try {
     let nextPageToken: string | undefined;
@@ -176,7 +186,7 @@ export async function runResponseSync(
       });
       for (const resp of page.responses) {
         if (highWater && !isAfterHighWater(resp, highWater)) continue;
-        const estimatedWrites = estimateResponseWrites(resp);
+        const estimatedWrites = estimateResponseWrites(resp, autoPublishEnabled);
         if (processed > 0 && writes + estimatedWrites >= writeCap) {
           cursor = formatHighWaterCursor(highWater);
           stopDueToCap = true;
@@ -184,6 +194,7 @@ export async function runResponseSync(
         }
         const stats = await processResponse(env.DB, resp, {
           tagQueuePaused,
+          autoPublishEnabled,
         });
         processed += 1;
         writes += stats.writeCount;
@@ -266,7 +277,10 @@ interface PerResponseStats {
 export async function processResponse(
   db: D1Database,
   resp: MemberResponse,
-  options: { readonly tagQueuePaused?: boolean } = {},
+  options: {
+    readonly tagQueuePaused?: boolean;
+    readonly autoPublishEnabled?: boolean;
+  } = {},
 ): Promise<PerResponseStats> {
   const dbCtx = ctx({ DB: db });
   const responseId = resp.responseId as ResponseId;
@@ -375,6 +389,39 @@ export async function processResponse(
       consents.rulesConsent,
     );
     writeCount += 1;
+
+    // 6b. auto-publish policy（flag 有効時のみ）
+    if (options.autoPublishEnabled === true) {
+      const after = await getStatus(dbCtx, memberId);
+      const currentPublishState = normalizePublishState(
+        after?.publish_state as string | null | undefined,
+      );
+      const updatedBy =
+        (after?.updated_by as string | null | undefined) ?? null;
+      const isOverride = isAdminOverrideStatus({
+        currentPublishState,
+        updatedBy,
+      });
+      const nextState = decidePublishState({
+        currentPublishState,
+        publicConsent: normalizeConsentValue(consents.publicConsent),
+        hasAdminExplicitOverride: isOverride,
+        flagEnabled: true,
+      });
+      if (!isOverride && nextState !== currentPublishState) {
+        await db
+          .prepare(
+            `UPDATE member_status
+             SET publish_state = ?1,
+                 updated_by = 'system:sync',
+                 updated_at = datetime('now')
+             WHERE member_id = ?2`,
+          )
+          .bind(nextState, memberId as unknown as string)
+          .run();
+        writeCount += 1;
+      }
+    }
   }
 
   // 7. tag candidate 自動投入（07a hook）
@@ -448,11 +495,21 @@ function maxHighWater(
   return isAfterHighWater(resp, current) ? next : current;
 }
 
-function estimateResponseWrites(resp: MemberResponse): number {
+function estimateResponseWrites(
+  resp: MemberResponse,
+  autoPublishEnabled = false,
+): number {
   const knownCount = Object.keys(resp.answersByStableKey).length;
   const unknownCount = resp.unmappedQuestionIds.length;
   // member/member_response/status の基礎 write + known fields + unknown field/diff。
-  return 3 + knownCount + unknownCount * 2;
+  // auto-publish policy 有効時は publish_state UPDATE 用に +1 を見込む。
+  return 3 + knownCount + unknownCount * 2 + (autoPublishEnabled ? 1 : 0);
+}
+
+function parseAutoPublishFlag(env: ResponseSyncEnv): boolean {
+  const raw = env.MEMBERS_AUTO_PUBLISH_ON_CONSENT;
+  if (!raw) return false;
+  return raw.toLowerCase() === "true";
 }
 
 function classifyError(err: unknown): string {

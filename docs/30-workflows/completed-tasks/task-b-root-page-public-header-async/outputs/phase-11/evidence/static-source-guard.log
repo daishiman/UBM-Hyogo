@@ -1,0 +1,12 @@
+Command:
+static source review of Task B wiring
+
+Result:
+PASS
+
+Checks:
+- `apps/web/app/page.tsx` imports `getAuthView`.
+- `HomePage()` awaits `getAuthView()` in the same `Promise.all` as public data.
+- Root `/` renders `<PublicHeader authView={authView} />`.
+- `apps/web/src/components/public/PublicHeader.tsx` emits `data-auth-state`.
+- `apps/web/app/(public)/layout.tsx` also passes `authView`, keeping public layout consumers aligned with Task A.
