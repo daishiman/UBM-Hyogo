@@ -1103,3 +1103,23 @@ admin-ui task A〜E が連続して dev に merge される現フェーズで、
 - **SP-DEVSYNC-056-D (Phase 4 risk への登録)**: admin-ui prototype alignment 系 task の Phase 4 risk table に「同一 wave で primitive 一斉導入が dev 側に着地した場合、page-local 旧 header / Sidebar GROUPS / legacy component.spec の 3 軸で sync-merge 時に hybridize が必須」を必ず登録し、L-DEVSYNC-056 を mitigation reference として参照。resolver 拡張ではなく仕様側で risk 化するのが正（L-DEVSYNC-054 と同じ判断）。
 - **SP-DEVSYNC-056-E (検証 4 step 必達)**: hybridize 後の検証は **`git diff --diff-filter=U --name-only` 0 件 → `pnpm typecheck` Done × 全 packages → `pnpm lint` Done × 全 packages → `git commit -m "merge: sync <branch> with dev"`** の 4 step を Phase 12 implementation-guide に明記。typecheck が undefined ref を即 fail させるため、`sections.map` 等の前提変数撤去漏れを早期検出できる。
 - 参照: [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-056、L-DEVSYNC-054 (`.ts` 手動 union)、L-DEVSYNC-055 (resolver 単独完結 happy-path との対比)。
+
+## Parent-task promotion + DOM auth-slot 検証パターン（2026-05-28）
+
+親 workflow が確立する DOM 契約（`data-auth-state` / `data-role` 系の literal slot 属性）を、横断検証する dependent task が「7+ routes × 3+ states × regression 4+ = 21+ TC」を抱えるとき、親と同一 phase output に同居させると Phase 11 evidence ledger / Gate-A 承認単位 / Phase 12 strict 7 の境界が壊れる。本パターンは「dependent task を独立 workflow に昇格し、契約 owner と検証 owner を 2 workflow に分離する」 + 「3 状態 storageState を setup project + `dependencies` で一括生成する」 + 「DOM literal を型レベルと assertion 両輪で固定する」を組み合わせる。`public-header-auth-slot-e2e` (2026-05-28) が初出。
+
+- **L-PARENTPROMO-001 (昇格判定 3-of-2)**: dependent task の昇格判定は (a) 親実装と独立に test 追加で価値が出る (b) TC 表が親 phase-4 を圧迫する (c) CI matrix 追加が必要、の 3 軸で 2 つ以上 yes なら独立 workflow 化する。spec の Phase 1 §1.X に `parent_workflow:` フィールドで親をリンクし、親側 system-spec-update-summary には `verification_owner:` で子をリンクする双方向参照を必達 AC とする。
+- **L-AUTHSLOT-001 (storageState 一括生成)**: 3+ 状態の auth を持つ e2e は `setup-auth.spec.ts` を独立 project にし、Playwright `projects[i].dependencies: ['setup-auth']` で起動順を固定。`playwright/.auth/{state}.json` を `.gitignore` し CI でも setup project から毎回再生成。spec 内 login を禁止する gate を Phase 4 test plan に書く。
+- **L-AUTHSLOT-002 (DOM literal 型レベル固定)**: `data-auth-state` などの slot 属性 literal は `type AuthView = 'guest' | 'member' | 'admin'` の単一定義を resolver / consumer / spec の Expectation で共有。spec 側は `Expectation = AuthView | 'redirect'` で TC 表を型付けし、`toHaveAttribute('data-auth-state', expected)` で DOM assertion を打つ。Phase 2 design で「type SSOT path」と「consumer / spec の import 経路」を 1 表に集約する。
+- **L-AUTHSLOT-003 (redirect 期待の regex 整合)**: 未認証 redirect 先が middleware / server guard で query 差を持つ場合、assertion は `expect(page).toHaveURL(/\/login(\?|$)/)` で path prefix + regex 化し、query は許容。Phase 4 test plan に「redirect 期待は path prefix + regex で書く」を AC として明記し、middleware 側の redirect 先は単一 query (`?gate=...`) に閉じて 403 直返しを撤去する。
+- **L-AUTHSLOT-004 (CI matrix 非破壊追加)**: 新 e2e job は `needs: <既存 smoke>` で起動順固定、`if: github.event_name != 'schedule'` で schedule trigger 除外、`timeout-minutes: 15` で上限明示。`playwright.config.ts` の既存 project に `testIgnore` を both-or-none preflight で対称追加し、`playwright test --list` で二重実行ゼロを検証する。
+- **L-AUTHSLOT-005 (TC 名 grepability)**: ROUTES 配列を `{ path, expect: Record<State, Expectation> }` で DRY 化しつつ、`test('${state} viewing ${path}', ...)` で TC 名を生成。CI fail 時の primary lookup key を保持し、Phase 4 test plan の TC ID と template を同 wave で更新するルールを spec 内コメントに残す。
+
+### Anti-pattern
+
+- 親 workflow Task G として e2e 21+ TC を抱え込み、親側 Phase 11 evidence ledger と artifacts.json gate を圧迫 → Gate-A 承認単位が曖昧化、`completed-tasks/` 移動の境界が壊れる
+- spec 内で個別 login 呼び出しを書き散らし、login API 変更で全 spec を直す → storageState 一括生成パターンを取り入れず、CI 時間と保守コストが線形増
+- `data-auth-state` を `string` で受けて typo を CI で検出できない → 型 SSOT 不在で prod DOM 契約が静かに壊れる
+- redirect 期待を完全一致文字列で書き、middleware/server guard の経路差で flaky → regex 化を怠ると経路統合の自由度を失う
+
+参照: [[lessons-learned-public-header-auth-slot-e2e-2026-05]] L-AUTHSL-001..006、aiworkflow-requirements `references/workflow-public-header-auth-slot-e2e-artifact-inventory.md` Lessons Learned 節。
