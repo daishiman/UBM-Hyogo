@@ -613,3 +613,20 @@
 - 適用範囲外: 同一構造で field/variant だけ違う場合は SP-DEVSYNC-038/041 系の hybridize。skill-only conflict は resolver 単発（SP-DEVSYNC-043）。
 - 検証: `git diff --diff-filter=U` 0 件 + `pnpm typecheck` PASS + `pnpm lint` PASS + `vitest run apps/web/src/lib/<feature> apps/web/src/components/<area> apps/web/app`（本例 81 files / 383 tests PASS）。merge commit `060bab6bf`。
 - 参照: aiworkflow-requirements [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-063 を唯一の正本。
+
+
+### SP-DEVSYNC-045: child-branch (e2e/test coverage 追加) が parent-feature の canonical landing と sync する場合は **dev 側 wholesale `--theirs`** を仕様化（2026-05-30 追加）
+
+- 事象: 2026-05-30 `feat/public-header-auth-slot-e2e` ← origin/dev (PR #1013 = parent base の canonical landed) sync-merge。HEAD は parent base の forked-snapshot を持つだけで、固有貢献は Playwright e2e (`playwright/tests/auth-slot-coverage.spec.ts`) 追加のみ。auth-view + PublicHeader が同 feature の競合実装として 8 件 page-level conflict（types/getAuthView/resolveAuthView/index + spec + PublicHeader + spec + layout）。
+- Why: SP-DEVSYNC-044 は canonical = HEAD 側だったため `--ours` wholesale だが、本パターンは **canonical が dev 側**（parent base が先に PR #NNNN で landing 済み）に反転。child branch の固有貢献が test/coverage 追加のみで prod code 変更を含まない場合、wholesale `--theirs` で固有貢献は失われない（test ファイルは別 path にあるため conflict 対象外）。
+- How to apply（task 仕様書での逐語化）:
+  - Phase 9 sync-merge 節に「**child-branch sync-merge の reverse-canonical 判定**」を追記:
+    1. branch 命名が `feat/<parent-feature>-<child-suffix>` 形（例 `-e2e` / `-coverage` / `-visual` / `-runtime-smoke`）かつ `git diff dev...HEAD --stat -- <parent feature prod dir>` が **0 件または test-only** なら reverse-canonical（dev = canonical）と判定。
+    2. dev 側 `git log -1 --oneline <conflict file>` に **PR 番号付き squash commit** が並んでいたら canonical landing 確定。
+    3. 固有貢献の test/coverage ファイルが dev canonical の DOM/API 契約に依存しているかを `grep -nE 'data-role|data-component|data-testid|data-auth-state' <test files>` で抽出し、dev 側 (`git show :3:<component>`) に該当 attribute が存在するか cross-check。全 satisfy なら wholesale `--theirs` で regression risk なし。
+    4. `git checkout --theirs -- <unit 全ファイル一括>` → `git add` → merge commit。
+  - Phase 4 risk に「child branch が `-e2e`/`-coverage`/`-visual`/`-runtime-smoke` suffix を持つ場合は parent が PR landing 済みの可能性。merge 前に `git log origin/dev --oneline -- <parent feature dir>` で PR squash commit を確認」を登録。
+  - Phase 11/13 検証は **focused vitest（unit + consumer）を中心**にし、e2e Playwright は staging deploy 後実行へ委譲（pre-push gate に e2e は含めない）。
+- 適用範囲外: child branch が parent prod code にも踏み込んだ拡張をしている場合（`git diff dev...HEAD --stat -- <parent prod dir>` に modify がある）は SP-DEVSYNC-044（canonical=HEAD wholesale --ours）または hybridize に分岐。
+- 検証: `git diff --diff-filter=U` 0 件 + `pnpm typecheck` PASS + `pnpm lint` PASS（dev 由来の mode=warning は CI 非 fail）+ focused vitest unit/spec PASS。merge commit `fdf2f4a42`。
+- 参照: aiworkflow-requirements [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-064 を唯一の正本。SP-DEVSYNC-044（対称反転パターン）。
