@@ -1255,3 +1255,4 @@
   3. 検証: `git ls-files -u | wc -l` = 0 → `git commit -m "merge: sync <branch> with dev"` → `pnpm typecheck` 6 packages Done → `pnpm lint` Done。
 - 留意: sync-merge では CLAUDE.md ポリシーに従い `pre-commit/staged-task-dir-guard` と `pre-push/coverage-guard` が `MERGE_HEAD` 検出で自動スキップされるため `--no-verify` 不要（今回 `--no-verify` 付与は本来不要。次回からは付けない）。
 - 事例: 2026-05-29 commit `abe947433` (merge: sync feat/members-list-ux-clarity with dev)。conflict 3 件全件 resolver 完結、typecheck/lint green。
+- 再現事例 2026-05-29 (feat/issue-976-admin-fetch-service-binding ← origin/dev): conflict は同じ skill 5 件 + keywords.json の **完全同形 shape**。`apps/web/src/lib/admin/server-fetch.ts` も `Auto-merging` で textual conflict なし。resolver 完走で `git status` clean、`merge: sync feat/issue-976-admin-fetch-service-binding with dev` で merge commit 成立。**同形再現により本 lesson が "admin-ui modernization wave 中の skill-only shape は resolver 単発で機械解消可" の標準 path として確定**（page-level 接触面のない feature branch では今後も繰り返し発生する見込み）。
