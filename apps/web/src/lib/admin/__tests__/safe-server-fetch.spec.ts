@@ -40,6 +40,17 @@ describe("safeServerFetch", () => {
     }
   });
 
+  it("TC-SSF-02b: 404 は ADMIN_FETCH_404 reason として展開する", async () => {
+    mockedFetch.mockRejectedValueOnce(new Error("admin api /admin/audit?limit=50 failed: 404"));
+    const res = await safeServerFetch("/admin/audit?limit=50");
+    expect(res.ok).toBe(false);
+    if (!res.ok) {
+      expect(res.error.code).toBe("ADMIN_FETCH_404");
+      expect(res.error.message).toContain("/admin/audit?limit=50");
+      expect(res.error.message).toContain("404");
+    }
+  });
+
   it("TC-SSF-03: Error 以外の throw は UNKNOWN を返す", async () => {
     mockedFetch.mockRejectedValueOnce("string error");
     const res = await safeServerFetch("/admin/x");

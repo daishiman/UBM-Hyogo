@@ -1,0 +1,79 @@
+{
+  "workflow_id": "issue-956-h1-ingest-recovery",
+  "feature": "issue-956-h1-ingest-recovery",
+  "status": "spec_created",
+  "created": "2026-05-27T00:00:00.000+09:00",
+  "lastUpdated": "2026-05-27T00:00:00.000+09:00",
+  "metadata": {
+    "taskId": "ISSUE-956-H1-INGEST-RECOVERY",
+    "taskType": "docs-only",
+    "visualEvidence": "NON_VISUAL",
+    "implementationCategory": "runtime-ops-runbook",
+    "implementation_mode": "create",
+    "workflow_state": "spec_created",
+    "scope": "Production runtime operations runbook for H1 ingest recovery: Cloudflare secret presence, cron observation, stale sync_jobs running-row reset, and diagnostics snapshot verification. No app code changes are implied by this workflow.",
+    "canonical_root": "docs/30-workflows/completed-tasks/issue-956-h1-ingest-recovery",
+    "related_issue": "#956",
+    "issue_state_at_recovery": "closed",
+    "issue_reference_mode": "refs-only",
+    "source_unassigned_task": "docs/30-workflows/completed-tasks/issue-956-h1-ingest-recovery/unassigned-task-specs/google-form-reflection-diagnostics-followup-001-h1-ingest-recovery.md",
+    "parent_task": "docs/30-workflows/completed-tasks/google-form-reflection-diagnostics",
+    "runtime_boundary": "Runtime secret mutation, production D1 SELECT/UPDATE, authenticated diagnostics snapshot capture, cron tail observation, commit, push, and PR creation are user-gated. This wave creates the canonical spec package and SSOT registration only.",
+    "implementation_files": [],
+    "test_files": [],
+    "verify_commands": [
+      "git diff --check",
+      "bash scripts/verify-pr-ready.sh"
+    ],
+    "phase12_strict_outputs": [
+      "outputs/phase-12/main.md",
+      "outputs/phase-12/implementation-guide.md",
+      "outputs/phase-12/system-spec-update-summary.md",
+      "outputs/phase-12/documentation-changelog.md",
+      "outputs/phase-12/unassigned-task-detection.md",
+      "outputs/phase-12/skill-feedback-report.md",
+      "outputs/phase-12/phase12-task-spec-compliance-check.md"
+    ],
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-05-27T00:00:00.000+09:00",
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-956-h1-ingest-recovery/outputs/phase-12/phase12-task-spec-compliance-check.md",
+        "approver": "codex",
+        "notes": "Spec package exists with Phase 1-13, root/output artifacts mirror, strict 7 Phase 12 outputs, source unassigned consumed trace, and aiworkflow index sync."
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-956-h1-ingest-recovery/outputs/phase-11/snapshot-after.json",
+        "approver": "daishiman",
+        "notes": "Production runtime operations are intentionally user-gated because they mutate Cloudflare secrets and may update D1 sync_jobs status."
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-956-h1-ingest-recovery/outputs/phase-11/snapshot-diff.md",
+        "approver": "daishiman",
+        "notes": "H1 false, latest successful sync run, cron tail evidence, and stale running-row absence are runtime evidence and are not claimed by this spec-created wave."
+      }
+    ]
+  },
+  "phases": [
+    { "id": 1, "name": "要件定義", "status": "completed", "path": "phase-01-requirements.md" },
+    { "id": 2, "name": "アーキテクチャ / runtime surfaces", "status": "completed", "path": "phase-02-architecture.md" },
+    { "id": 3, "name": "タスク分解", "status": "completed", "path": "phase-03-task-breakdown.md" },
+    { "id": 4, "name": "データ契約", "status": "completed", "path": "phase-04-data-contract.md" },
+    { "id": 5, "name": "runtime ops 実行手順", "status": "completed", "path": "phase-05-implementation-guide.md" },
+    { "id": 6, "name": "検証戦略", "status": "completed", "path": "phase-06-test-strategy.md" },
+    { "id": 7, "name": "品質ゲート", "status": "completed", "path": "phase-07-quality-gates.md" },
+    { "id": 8, "name": "Definition of Done", "status": "completed", "path": "phase-08-dod.md" },
+    { "id": 9, "name": "リスクと対策", "status": "completed", "path": "phase-09-risks.md" },
+    { "id": 10, "name": "ローカル検証", "status": "completed", "path": "phase-10-local-verification.md" },
+    { "id": 11, "name": "evidence inventory", "status": "pending_user_approval", "path": "phase-11-evidence-inventory.md" },
+    { "id": 12, "name": "compliance / 未タスク検出", "status": "completed", "path": "phase-12-compliance.md" },
+    { "id": 13, "name": "commit / PR draft", "status": "pending_user_approval", "path": "phase-13-commit-pr-draft.md" }
+  ]
+}
