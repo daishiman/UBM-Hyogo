@@ -8,6 +8,35 @@
 
 本ドキュメントは、複雑なタスクを単一責務の原則に基づいて分解し、各サブタスクに最適なスラッシュコマンド・エージェント・スキルの組み合わせを選定するためのガイドラインを定義する。
 
+### public-header-session-aware-auth-view-base（2026-05-28）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / VISUAL / Phase 13 pending_user_approval` |
+| 成果物 | `docs/30-workflows/completed-tasks/public-header-session-aware-auth-view-base/` |
+| 親 workflow | `docs/30-workflows/public-header-logged-in-nav-cleanup/` |
+| 目的 | `AuthView` 型、`resolveAuthView()`、`getAuthView()`、`PublicHeader` auth slot、`(public)/layout.tsx` injection を Task A 基盤として実装する |
+| implementation targets | `apps/web/src/lib/auth-view/*`, `apps/web/src/components/public/PublicHeader.tsx`, `apps/web/app/(public)/layout.tsx` |
+| tests | `resolveAuthView.spec.ts`, `getAuthView.spec.ts`, `PublicHeader.spec.tsx`, `(public)/layout.spec.tsx` focused 24 PASS |
+| invariant | 新 API endpoint / D1 schema / Google Form 変更なし。DOM に PII を出さず `data-auth-state=guest/member/admin` のみ |
+| Phase 11/12 | Phase 11 local component screenshots present、strict 7 present、root/output artifacts parity present、30-method compact evidence present |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-public-header-session-aware-auth-view-base-artifact-inventory.md` |
+| user gate | staging authenticated runtime visual, commit, push, PR |
+
+### login-redirect-when-authenticated（2026-05-28）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / NON_VISUAL / local_focused_tests_passed` |
+| 成果物 | `docs/30-workflows/completed-tasks/login-redirect-when-authenticated/` |
+| 親 workflow | `docs/30-workflows/public-header-logged-in-nav-cleanup/` Task D |
+| 目的 | ログイン済み `/login` 到達時に server-side で `/profile` または safe な `next` へ redirect し、匿名ユーザーの LoginCard 描画は維持する |
+| implementation targets | `apps/web/src/lib/url/safe-next.ts`, `apps/web/app/login/page.tsx` |
+| contract | `safeNext` は `isSafeInternalRedirect` を再利用し、query 固有の長さ 256 / colon guard を追加する。`/login` 自己ループは fallback `/profile` |
+| evidence | focused Vitest 2 files / 22 tests PASS |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-login-redirect-when-authenticated-artifact-inventory.md` |
+| user gate | browser/staging runtime confirmation、commit、push、PR |
+
 ### task-b-root-page-public-header-async（2026-05-28）
 
 | 項目 | 値 |

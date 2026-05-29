@@ -14,7 +14,7 @@ export interface PublicHeaderProps {
   authView?: AuthView;
 }
 
-function AuthSlot({ authView }: { readonly authView: AuthView }) {
+function renderAuthSlot(authView: AuthView) {
   if (authView.kind === "guest") {
     return (
       <a href="/login" data-role="auth-cta">
@@ -22,17 +22,24 @@ function AuthSlot({ authView }: { readonly authView: AuthView }) {
       </a>
     );
   }
-
+  if (authView.kind === "admin") {
+    return (
+      <div data-role="auth-cta">
+        <a href={authView.profileHref} data-role="member-cta">
+          マイページ
+        </a>
+        <a href={authView.adminHref} data-role="admin-cta">
+          管理画面
+        </a>
+        <SignOutButton />
+      </div>
+    );
+  }
   return (
-    <div data-role="auth-actions">
+    <div data-role="auth-cta">
       <a href={authView.profileHref} data-role="member-cta">
         マイページ
       </a>
-      {authView.kind === "admin" ? (
-        <a href={authView.adminHref} data-role="admin-cta">
-          管理
-        </a>
-      ) : null}
       <SignOutButton />
     </div>
   );
@@ -40,16 +47,11 @@ function AuthSlot({ authView }: { readonly authView: AuthView }) {
 
 export async function PublicHeader({
   currentPath,
-  authView,
+  authView: explicitAuthView,
 }: PublicHeaderProps = {}) {
-  const resolvedAuthView = authView ?? (await getAuthView());
-
+  const authView = explicitAuthView ?? (await getAuthView());
   return (
-    <header
-      data-auth-state={resolvedAuthView.kind}
-      data-component="public-header"
-      data-testid="public-header"
-    >
+    <header data-component="public-header" data-auth-state={authView.kind}>
       <a href="/" data-role="brand">
         UBM 兵庫支部会
       </a>
@@ -72,7 +74,7 @@ export async function PublicHeader({
           })}
         </ul>
       </nav>
-      <AuthSlot authView={resolvedAuthView} />
+      {renderAuthSlot(authView)}
     </header>
   );
 }

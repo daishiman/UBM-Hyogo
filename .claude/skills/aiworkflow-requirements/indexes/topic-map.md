@@ -3413,6 +3413,15 @@ node scripts/list-specs.js --topics
 | Skill Compliance | L28 |
 | Boundaries | L36 |
 
+### references/workflow-login-redirect-when-authenticated-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Implementation | L11 |
+| Evidence | L20 |
+| Boundary | L28 |
+| Lessons Learned | L32 |
+
 ### references/workflow-login-stale-link-and-profile-me-safe-fetch-artifact-inventory.md
 
 | セクション | 行 |
@@ -3574,6 +3583,8 @@ node scripts/list-specs.js --topics
 | Lessons | L34 |
 
 ### references/workflow-public-header-logged-in-nav-cleanup-artifact-inventory.md
+
+### references/workflow-public-header-session-aware-auth-view-base-artifact-inventory.md
 
 ### references/workflow-regression-evidence-ci-gate-foundation-artifact-inventory.md
 
@@ -8060,14 +8071,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L3047 |
-| フェーズ構造（概要） | L3056 |
-| 品質ゲート（概要） | L3087 |
-| 出力テンプレート | L3098 |
-| 実行時のコマンド・エージェント・スキル | L3121 |
-| 昇格パターン集 | L3145 |
-| Current Active / Spec Created Tasks | L3147 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L3309 |
+| ドキュメント構成 | L3076 |
+| フェーズ構造（概要） | L3085 |
+| 品質ゲート（概要） | L3116 |
+| 出力テンプレート | L3127 |
+| 実行時のコマンド・エージェント・スキル | L3150 |
+| 昇格パターン集 | L3174 |
+| Current Active / Spec Created Tasks | L3176 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L3338 |
 
 ### references/task-workflow-backlog-part2.md
 
