@@ -1559,6 +1559,20 @@
 | sub-workflow serial-06 Form Response Binding（2026-05-23） | `docs/30-workflows/ui-prototype-design-system-foundation/serial-06-form-response-binding/`、status `spec_created / implementation / VISUAL / strict7-parent-aggregated`、adapter/page/MemberDetail/fixture/spec の実装仕様。standalone `docs/30-workflows/serial-06-form-response-binding/` は禁止 duplicate topology、Phase 12 strict 7 は parent root 集約、sub 側は `phase-12-compliance-check.md` のみ |
 | sub-workflow parallel-03 AppShell Layouts（2026-05-19） | `docs/30-workflows/ui-prototype-design-system-foundation/parallel-03-appshell-layouts/`、status `implemented_local_evidence_captured / implementation / VISUAL (public chrome only; admin/member deferred-to-serial-07)`、`implementation_mode: existing-layout-alignment`、3 layout (`apps/web/app/(public\|member\|admin)/layout.tsx`) に `data-theme` / `data-route-group` / `data-shell` / `data-route` / `data-testid` を付与、OKLch token (`var(--ubm-color-*)`) 経由のみ、既存 primitive 無改変、admin は `getSession()` 2 段防御 + redirect 維持、Phase 11 evidence は `outputs/phase-11/`、lessons-learned `.claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-parallel-03-appshell-layouts-2026-05.md` (L-PAR03-001..005) |
 
+### public-header-session-aware-auth-view-base（2026-05-28）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/public-header-session-aware-auth-view-base/` |
+| 状態 | `implemented_local_evidence_captured / implementation / VISUAL / Phase 13 pending_user_approval` |
+| parent | `docs/30-workflows/public-header-logged-in-nav-cleanup/` Task A |
+| implemented targets | `apps/web/src/lib/auth-view/*`, `apps/web/src/components/public/PublicHeader.tsx`, `apps/web/app/(public)/layout.tsx` |
+| tests | focused Vitest 24 PASS (`resolveAuthView`, `getAuthView`, `PublicHeader`, `PublicLayout`) |
+| Phase 11 | local component screenshots present for guest/member/admin |
+| invariant | no new endpoint / no D1 schema / no Google Form change; `data-auth-state` is only `guest\|member\|admin`; no PII in DOM |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-public-header-session-aware-auth-view-base-artifact-inventory.md` |
+| user gate | staging authenticated runtime visual, commit, push, PR |
+
 ### public-header-logged-in-nav-cleanup（2026-05-28）
 
 | 目的 | 参照先 |

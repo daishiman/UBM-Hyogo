@@ -1,0 +1,103 @@
+{
+  "workflow_id": "public-header-session-aware-auth-view-base",
+  "feature": "public-header-session-aware-auth-view-base",
+  "status": "implemented_local_evidence_captured",
+  "created": "2026-05-28T00:00:00+09:00",
+  "lastUpdated": "2026-05-28T00:00:00+09:00",
+  "metadata": {
+    "taskId": "TASK-PUBHDR-SESSION-AWARE-AUTHVIEW-BASE-001",
+    "taskType": "implementation",
+    "visualEvidence": "VISUAL",
+    "implementationCategory": "ui-auth-navigation",
+    "implementation_mode": "new",
+    "workflow_state": "implemented_local_evidence_captured",
+    "parent_workflow": "public-header-logged-in-nav-cleanup",
+    "source_task_spec": "docs/30-workflows/public-header-logged-in-nav-cleanup/tasks/task-a-public-header-session-aware.md",
+    "scope": "apps/web PublicHeader を async server component 化し、auth-view 基盤（types/resolve/get/barrel）と (public)/layout.tsx 配線を追加する。後続 Task B/C/E/G の共有基盤",
+    "canonical_root": "docs/30-workflows/completed-tasks/public-header-session-aware-auth-view-base",
+    "runtime_boundary": "Code implementation, focused local tests, and component-level Phase 11 screenshots are complete in this wave. Staging authenticated runtime visual, commit, push, and PR are user-gated.",
+    "implementation_files": [
+      "apps/web/src/lib/auth-view/types.ts",
+      "apps/web/src/lib/auth-view/resolveAuthView.ts",
+      "apps/web/src/lib/auth-view/getAuthView.ts",
+      "apps/web/src/lib/auth-view/index.ts",
+      "apps/web/src/components/public/PublicHeader.tsx",
+      "apps/web/app/(public)/layout.tsx"
+    ],
+    "test_files": [
+      "apps/web/src/lib/auth-view/__tests__/resolveAuthView.spec.ts",
+      "apps/web/src/lib/auth-view/__tests__/getAuthView.spec.ts",
+      "apps/web/src/components/public/__tests__/PublicHeader.spec.tsx",
+      "apps/web/app/(public)/layout.spec.tsx"
+    ],
+    "verify_commands": [
+      "mise exec -- pnpm typecheck",
+      "mise exec -- pnpm lint",
+      "mise exec -- pnpm --filter @ubm-hyogo/web exec vitest run --root=../.. --config=vitest.config.ts apps/web/src/lib/auth-view/__tests__/resolveAuthView.spec.ts apps/web/src/lib/auth-view/__tests__/getAuthView.spec.ts apps/web/src/components/public/__tests__/PublicHeader.spec.tsx apps/web/app/'(public)'/layout.spec.tsx"
+    ],
+    "phase12_strict_outputs": [
+      "outputs/phase-12/main.md",
+      "outputs/phase-12/implementation-guide.md",
+      "outputs/phase-12/system-spec-update-summary.md",
+      "outputs/phase-12/documentation-changelog.md",
+      "outputs/phase-12/unassigned-task-detection.md",
+      "outputs/phase-12/skill-feedback-report.md",
+      "outputs/phase-12/phase12-task-spec-compliance-check.md"
+    ],
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-05-28T00:00:00+09:00",
+        "evidence_path": "docs/30-workflows/completed-tasks/public-header-session-aware-auth-view-base/phase-3-design-review.md",
+        "approver": "daishiman",
+        "notes": "spec_review: Phase 1-13 実装仕様書を作成し設計レビューを PASS"
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "passed",
+        "passed_at": "2026-05-28T16:01:00+09:00",
+        "evidence_path": "docs/30-workflows/completed-tasks/public-header-session-aware-auth-view-base/outputs/phase-12/phase12-task-spec-compliance-check.md",
+        "approver": "daishiman",
+        "notes": "implementation_review: auth-view implementation + focused Vitest 24 PASS + typecheck PASS"
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/public-header-session-aware-auth-view-base/outputs/phase-13/pr-creation-result.md",
+        "approver": "daishiman",
+        "notes": "external_ops: staging authenticated runtime visual / commit / push / PR は user-gated"
+      }
+    ]
+  },
+  "phases": [
+    { "phase": 1, "name": "要件定義", "status": "completed", "output": "phase-1-requirements.md" },
+    { "phase": 2, "name": "設計", "status": "completed", "output": "phase-2-design.md" },
+    { "phase": 3, "name": "設計レビュー", "status": "completed", "output": "phase-3-design-review.md" },
+    { "phase": 4, "name": "テスト計画", "status": "completed", "output": "phase-4-test-plan.md" },
+    { "phase": 5, "name": "実装手順", "status": "completed", "output": "phase-5-implementation.md" },
+    { "phase": 6, "name": "テスト追加", "status": "completed", "output": "phase-6-test-additions.md" },
+    { "phase": 7, "name": "カバレッジ", "status": "completed", "output": "phase-7-coverage.md" },
+    { "phase": 8, "name": "リファクタ", "status": "completed", "output": "phase-8-refactor.md" },
+    { "phase": 9, "name": "QA", "status": "completed", "output": "phase-9-qa.md" },
+    { "phase": 10, "name": "最終レビュー", "status": "completed", "output": "phase-10-final-review.md" },
+    { "phase": 11, "name": "手動テスト", "status": "completed", "output": "phase-11-manual-test.md" },
+    { "phase": 12, "name": "ドキュメント同期", "status": "completed", "output": "phase-12-documentation.md" },
+    { "phase": 13, "name": "PR作成", "status": "pending_user_approval", "output": "phase-13-pr.md" }
+  ],
+  "dependencies": {
+    "2": ["1"],
+    "3": ["2"],
+    "4": ["3"],
+    "5": ["4"],
+    "6": ["5"],
+    "7": ["6"],
+    "8": ["7"],
+    "9": ["8"],
+    "10": ["9"],
+    "11": ["10"],
+    "12": ["11"],
+    "13": ["12"]
+  }
+}
