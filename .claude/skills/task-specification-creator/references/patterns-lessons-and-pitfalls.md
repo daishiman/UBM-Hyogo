@@ -1157,3 +1157,23 @@ admin route prototype-alignment 系 branch を `origin/dev` に sync-merge す�
 - **SP-DEVSYNC-058-F (Phase 4 risk への登録)**: admin-ui prototype alignment 系 task の Phase 4 risk に「同一 page を両 branch が異軸で prototype 整合した場合、import 経路 / wrapper attrs / primitive props axes / EmptyState variant / list pattern / Pagination の 6 軸で hybridize 必須」を登録し、L-DEVSYNC-058 を mitigation reference として参照。
 - **SP-DEVSYNC-058-G (検証 4 step)**: L-DEVSYNC-056 と同じ `git diff --diff-filter=U --name-only` 0 件 → `pnpm typecheck` 全 packages → `pnpm lint` 全 packages → `git commit -m "merge: sync <branch> with dev"` の 4 step を Phase 12 implementation-guide に明記。
 - 参照: [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-058、L-DEVSYNC-056 (single-side primitive 移行 hybridize)、L-DEVSYNC-046 (UNION_TARGETS)。
+
+
+## L-WWSL Worker bundle size-budget regression-gate パターン（implementation / 2026-05-29）
+
+Cloudflare Workers 無料プランの Worker bundle gzip 3072KiB 上限超過（`[code: 10027]` で deploy fail）のような「無料プランのリソース上限超過 fix」型 implementation task の汎化。`web-worker-size-limit-fix`（3316KiB > 3072KiB）で抽出。除去（Task A）と再発防止 gate（Task B）の dual-task 分割が定型化できる。
+
+- **L-WWSL-001（spec-only close 禁止の一般化）**: implementation task が具体的な code target（肥大化依存の特定ファイル等）を持つ場合、制約根拠が確定していても spec-only / docs-only で close しない。同サイクルで安全に実装できる範囲は実装まで完遂し `implemented_local_evidence_captured` とする。Phase 1 で task_type=implementation かつ concrete target ありなら Phase 5 実装を必須 gate に置く。
+- **L-WWSL-002（adapter/library config key は install 済み型定義で検証）**: 「効きそうな」config key（例: OpenNext の `minify`）を推測で spec に書かない。`node -e \"require.resolve\"` / 型定義 grep で実在を確認してから remediation に採用する。存在しない key は無効設定として regression spec で禁止 assert を入れる。
+- **L-WWSL-003（重量依存の除去 + 静的 fallback を第一選択）**: リソース上限が支配的制約のとき、wasm/font を bundle へ焼き込む重量依存（`next/og` 等）は依存撤去 + 静的 asset fallback を優先する。implementation-guide の Part2 に「size-budget 表（依存名 / 焼き込み KB / 削減後 KB）」を必須セクション化すると再現性が上がる。
+- **L-WWSL-004（計測対象の正確な特定 + 閾値の単一 SSOT）**: size gate の計測対象を正確に特定する（OpenNext では bootstrap `worker.js` ではなく `server-functions/.../handler.mjs`）。閾値（hard / warn）は計測 script・CI workflow・正本 spec・implementation-guide で必ず一致させ、ドリフトを禁止する。
+- **L-WWSL-005（dual-task: 除去 + 再発防止 gate）**: 「肥大化原因の依存撤去（Task A）」と「CI に bundle-budget regression gate 新設（Task B）」を 2 サブタスクに分割し、両 deploy job（staging/production）の build 後・deploy 前に gate を挿入する。除去だけで close せず再太り検知を必ず同梱する。
+
+anti-pattern:
+- ❌ 制約根拠が確定済みなのに実装可能な fix を spec-only で先送り。
+- ❌ 存在しない adapter config key を推測で追加。
+- ❌ 計測対象を bootstrap に当てて軽量と誤判定。
+- ❌ 閾値を script だけに書き spec/ドキュメントへ未同期（ドリフト）。
+- ❌ 依存撤去のみで再発防止 CI gate を入れずに close。
+
+- 参照: [[web-worker-size-limit-fix]] L-WWSL-001..004、[[workflow-web-worker-size-limit-fix-artifact-inventory]]、[[deployment-cloudflare-opennext-workers]]。

@@ -42,6 +42,9 @@ jobs:
           NEXT_PUBLIC_SENTRY_TRACES_SAMPLE_RATE: "0.2"
         run: mise exec -- pnpm --filter @ubm-hyogo/web build:cloudflare
 
+      - name: Check Worker bundle size (staging)
+        run: bash scripts/check-worker-size.sh
+
       # NOTE(issue-762): step-scoped CF deploy secret (see Deploy step env) is the current safe baseline.
       # Keep GitHub OIDC token permission and OIDC exchange out of web-cd until Cloudflare documents
       # supported Workers deploy OIDC in wrangler-action. See docs/30-workflows/issue-762-cf-oidc-staging-proof-prod-cutover/.
@@ -183,6 +186,9 @@ jobs:
           SENTRY_TRACES_SAMPLE_RATE: "0.1"
           NEXT_PUBLIC_SENTRY_TRACES_SAMPLE_RATE: "0.1"
         run: mise exec -- pnpm --filter @ubm-hyogo/web build:cloudflare
+
+      - name: Check Worker bundle size (production)
+        run: bash scripts/check-worker-size.sh
 
       # NOTE(issue-762): step-scoped CF deploy secret (see Deploy step env) is the current safe baseline.
       # Keep GitHub OIDC token permission and OIDC exchange out of web-cd until Cloudflare documents
