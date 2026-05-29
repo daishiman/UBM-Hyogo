@@ -1219,3 +1219,13 @@ admin route prototype-alignment 系 branch を `origin/dev` に sync-merge す�
 - **SP-DEVSYNC-059-D (検証ゲートの順序固定)**: resolver 完結後の検証は **`git diff --check` 空 → `pnpm typecheck` Done × 6 packages → `pnpm lint` Done × 全 packages → `git push`** の 4 step を Phase 12 implementation-guide に明記。stablekey-literal-lint が mode=warning の場合は block 対象外として扱う。
 - **SP-DEVSYNC-059-E (lesson 再現の SSOT)**: 同形再現が 2 連続 (a98fd67bb / 2026-05-29 merge) で確認済みのため、admin-ui modernization wave 終息までは Phase 12 implementation-guide の sync-merge 節で本 lesson を **default reference** として 1 行記載する（L-DEVSYNC-056/057/058 は分岐先として 1 行併記）。
 - 参照: [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-059、L-DEVSYNC-055 (resolver 単独完結 happy-path)、L-DEVSYNC-056/057/058 (手動 hybridize 分岐先)、L-DEVSYNC-046 (UNION_TARGETS)。
+
+
+## L-DEVSYNC-061 conflict 0 件 shape（add-only 取込）を sync-merge 判定フローの最上段に固定（dev sync-merge / 2026-05-29）
+
+`feat/task-c-privacy-terms-public-shell-spec` ← `dev` (取込 1 commit `37fe488e8` #1009) の sync-merge で **conflict 0 件**。dev 側差分が `docs/30-workflows/completed-tasks/members-list-ux-clarity/**` への **新規ファイル追加のみ**で、feature branch の接触面（`(public)/{privacy,terms}` + skill 索引）と path が完全 orthogonal だったため、add-add すら起きず resolver / 手動 hybridize の両方が不要だった（merge commit `fa756f644` を `git merge` が即生成）。L-DEVSYNC-059/060 の "skill-only → resolver 単発" よりさらに 1 段クリーンな最頻 shape。
+
+- **SP-DEVSYNC-061-A (判定フロー最上段)**: Phase 12 implementation-guide の sync-merge 節は **(1) `git merge dev --no-edit` → `git ls-files -u | wc -l` 0 → そのまま検証へ（resolver 不起動）/ (2) unresolved 全件 skill resolver 対象 → `pnpm sync:resolve` 単発（SP-DEVSYNC-059/060）/ (3) `.ts/.tsx` 意味的 conflict 残 → 手動 hybridize（L-DEVSYNC-056/058）** の 3 段で、必ず (1) を最初に判定する手順を明記する。`pnpm sync:resolve` を反射的に起動しない。
+- **SP-DEVSYNC-061-B (add-only 取込の低リスク評価)**: 取込 commit が completed-tasks への add-only diff（既存ファイル edit ゼロ）なら既存 semantics を変えないため、検証は `pnpm typecheck`（6 packages Done）+ `pnpm lint`（exit 0）で十分。Phase 4 risk へ「add-only 取込は runtime regression リスク低・visual baseline 再取得不要」を 1 行登録できる。
+- **SP-DEVSYNC-061-C (warning の扱い継承)**: `stablekey-literal-lint` 等 mode=warning の既存 lint warning は sync-merge 由来でない限り解消成否に含めない（exit code 0 を正）。SP-DEVSYNC-059-D の検証ゲートと同一方針。
+- 参照: [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-061、L-DEVSYNC-059/060 (skill-only resolver 単発)、L-DEVSYNC-056/058 (手動 hybridize 分岐先)。

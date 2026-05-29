@@ -1270,3 +1270,18 @@
 - 留意: sync-merge では CLAUDE.md ポリシーに従い `pre-commit/staged-task-dir-guard` と `pre-push/coverage-guard` が `MERGE_HEAD` 検出で自動スキップされるため `--no-verify` 不要（今回 `--no-verify` 付与は本来不要。次回からは付けない）。
 - 事例: 2026-05-29 commit `abe947433` (merge: sync feat/members-list-ux-clarity with dev)。conflict 3 件全件 resolver 完結、typecheck/lint green。
 - 再現事例 2026-05-29 (feat/issue-976-admin-fetch-service-binding ← origin/dev): conflict は同じ skill 5 件 + keywords.json の **完全同形 shape**。`apps/web/src/lib/admin/server-fetch.ts` も `Auto-merging` で textual conflict なし。resolver 完走で `git status` clean、`merge: sync feat/issue-976-admin-fetch-service-binding with dev` で merge commit 成立。**同形再現により本 lesson が "admin-ui modernization wave 中の skill-only shape は resolver 単発で機械解消可" の標準 path として確定**（page-level 接触面のない feature branch では今後も繰り返し発生する見込み）。
+
+
+## L-DEVSYNC-061: dev 取込が completed-tasks 新規ファイル追加のみ → conflict 0 件 → resolver すら起動不要（2026-05-29 feat/task-c-privacy-terms-public-shell-spec）
+
+- 事象: `feat/task-c-privacy-terms-public-shell-spec` ← `dev` (取込 1 commit `37fe488e8` = members 一覧 UX 明確化 #1009) の sync-merge で **conflict 0 件**。`git merge dev --no-edit` が即 merge commit `fa756f644` を生成し、`git status --porcelain` 空・`git ls-files -u` 0 件。dev 側差分は `docs/30-workflows/completed-tasks/members-list-ux-clarity/**` への **新規ファイル追加のみ**（既存ファイルへの edit ゼロ）。
+- Why: 取込対象 commit が「完了済 workflow を `completed-tasks/` 配下へ追加するだけ」の add-only diff で、feature branch 側の接触面（`(public)/{privacy,terms}` page + `(public)/layout.tsx` + skill 索引）と path が完全 orthogonal。add-add すら発生せず（同一 path への両側 add がない）、`.gitattributes merge=union` / `pnpm sync:resolve` の出番が無い最クリーン shape。L-DEVSYNC-059/060 の "skill-only conflict → resolver 単発" よりさらに 1 段クリーン（**conflict marker そのものが 0**）。
+- How to apply:
+  1. `git merge dev --no-edit` 直後に `git ls-files -u | wc -l` を確認。**0 なら resolver も手動 hybridize も一切不要** — そのまま merge commit が出来ているので追加操作なし。
+  2. `pnpm sync:resolve` を反射的に叩かない（merge 中でないと no-op だが、conflict 0 の場合は起動自体が不要な認知ノイズ）。conflict の有無を `git ls-files -u` で先に判定してから resolver 起動を決める。
+  3. 検証は `pnpm typecheck`（6 packages Done）+ `pnpm lint`（exit 0）のみで十分。add-only 取込は既存コードの semantics を変えないため runtime regression リスクは低い。
+- 留意:
+  - `pnpm lint` の `stablekey-literal-lint` warning（例: `PublicConsentCallout.tsx` の `"publicConsent"` literal 2 件）は **mode=warning で block 対象外**。sync-merge で持ち込んだものではなく既存 warning なので、conflict 解消の成否判定に含めない（exit code 0 を正とする）。
+  - sync-merge では CLAUDE.md ポリシーにより `pre-commit/staged-task-dir-guard` / `pre-push/coverage-guard` が `MERGE_HEAD` 検出で自動スキップされる。conflict 0 でも merge commit は `git merge` が自動生成するので `--no-verify` は不要。
+- 判定フロー確定: sync-merge の標準分岐は **(1) `git ls-files -u` 0 → 何もせず検証へ（本 lesson）/ (2) unresolved 全件 skill resolver 対象 → `pnpm sync:resolve` 単発（L-DEVSYNC-059/060）/ (3) source `.ts/.tsx` の意味的 conflict 残 → 手動 hybridize（L-DEVSYNC-056/058）or 独立 interface 両保持（L-DEVSYNC env.ts 系）** の 3 段。最初に (1) を必ず判定し、不要な resolver 起動を避ける。
+- 事例: 2026-05-29 commit `fa756f644` (merge: sync feat/task-c-privacy-terms-public-shell-spec with dev)。conflict 0 件、typecheck 6 packages Done、lint exit 0（stablekey warning 2 件は block 外）、push 前検証 green。
