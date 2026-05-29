@@ -37,7 +37,7 @@ test.describe('issue-276 members FilterBar tag picker', () => {
 
     await page.locator('[data-component="filters-summary-mobile"]').click()
     await expect(page.locator('[data-component="tag-picker"]')).toBeVisible()
-    await expect(page.locator('[data-role="active-tags"] li')).toHaveCount(2)
+    await expect(page.locator('[data-role="active-filters"] li')).toHaveCount(2)
     await page.screenshot({
       path: screenshotPath('mobile-expanded.png'),
       fullPage: true,
@@ -58,7 +58,7 @@ test.describe('issue-276 members FilterBar tag picker', () => {
     await page.setViewportSize({ width: 1280, height: 800 })
     await page.goto('/members?tag=ai&tag=design')
     await expect(page.locator('[data-component="tag-picker"]')).toBeVisible()
-    await expect(page.locator('[data-role="active-tags"] li')).toHaveCount(2)
+    await expect(page.locator('[data-role="active-filters"] li')).toHaveCount(2)
     await page.screenshot({
       path: screenshotPath('desktop-picker-and-selected.png'),
       fullPage: true,

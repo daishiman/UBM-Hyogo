@@ -1124,6 +1124,19 @@
 - 参照: L-DEVSYNC-042 (resolver UNION 拡張)、L-DEVSYNC-046 (patterns-lessons UNION_TARGETS 昇格)、task-specification-creator [[patterns-lessons-and-pitfalls#dev-sync-merge-conflict-resolution]]。
 
 
+## L-DEVSYNC-056: admin route prototype-alignment branch ← origin/dev sync で page-head primitive 移行と showHeading bridging が同時発生（2026-05-28 確認）
+
+- 事象: `feat/admin-requests-prototype-alignment-and-404-fix` ← `origin/dev` の sync-merge で、`pnpm sync:resolve` 後に手動解消が必要だったのは `apps/web/app/(admin)/admin/requests/page.tsx` と `apps/web/src/components/admin/RequestQueuePanel.tsx` の 2 ファイル。HEAD 側は branch 独自に inline `<header className="page-head">` で page-local h1 を実装し、dev 側は admin-ui Task C の primitive 化で `AdminPageHeader` import + 呼び出しに切替えていた。さらに dev 側は Panel に `showHeading?: boolean` prop を新設して page から `showHeading={false}` で h1 を抑止する分離を導入していた。両 branch が「page-head の owner を誰にするか」という同一論点に **独立した正解**（HEAD: 旧 markup 直書き / dev: primitive + prop bridge）でアプローチしていた点が conflict の本質。
+- Why: admin route の prototype alignment 系 branch は dev 側で primitive (`AdminPageHeader`) の signature が安定化する途中。HEAD 側 branch が枝分かれした時点では prop bridge が存在せず、最新の page-head パターン（panel/page-head 二重 h1 抑止）に追従できないまま実装が進む。結果として「機能的には同じ目的」「実装は完全に独立」な double-update が発生する。これを「HEAD/dev のどちらかを採用」で処理すると、page.tsx 側の `AdminPageHeader` import が orphan になるか、panel 側の `showHeading` 既定値が破壊される。
+- How to apply:
+  1. `apps/web/app/(admin)/admin/<route>/page.tsx` 系の手動 conflict では、**HEAD の page-head 内容（eyebrow / title / description / breadcrumbs / headingId）を逐語で抽出し、dev 側の `AdminPageHeader` 呼び出しに props として全部移植する**。description は HEAD 側の最新文言を優先（branch の作業意図）。`headingId` は HEAD 側 h1 の `id` をそのまま渡す（L-PGHEAD-001: 二重 h1 抑止の id ownership を保持）。
+  2. wrapper element は **dev 側のパターン**（他の `apps/web/app/(admin)/admin/*/page.tsx` で使われている `<section className="flex flex-col gap-4">`）に合わせる。`rg -n "<section className=\"flex flex-col gap-4\">|<div className=\"page-enter stack-lg\">" apps/web/app/\(admin\)/admin` で同 task wave の他 page と整合する書式を選ぶ。HEAD 側の `page-enter stack-lg` rhythm class は admin section level では使わない（admin shell が rhythm を支配）。
+  3. Panel 側 (`apps/web/src/components/admin/<X>Panel.tsx`) で `showHeading` prop を dev 側が新設している場合、**HEAD の section 構造（`stack-lg` + `card card-pad` 等）と dev の `showHeading` 条件分岐を統合する**。`aria-labelledby` は `showHeading ? "<panel-h-id>" : "<filter-h2-id>"` の三項で切り替え、h1 自体は `showHeading ? <h1 ...>...</h1> : null` で gating。これで page.tsx 側が `showHeading={false}` を渡したときに二重 h1 を避けつつ、Panel を単独 render する Vitest test（既定 `showHeading=true`）の AC を温存できる。
+  4. 検証順: `grep -nE '^(<<<<<<<|=======|>>>>>>>|\|\|\|\|\|\|\|)' <files>` で marker 0 件 → `pnpm typecheck`（AdminPageHeader prop 型整合）→ `pnpm lint` → 該当 Panel の component spec（`*.component.spec.tsx`）を `pnpm --filter @ubm/web exec vitest run <spec>` で focused 実行し h1 / filter h2 / aria-label 期待が両 mode で通ることを確認 → commit。
+- 留意: page-head 系の手動 union を resolver に組み込もうとすると「HEAD の inline markup から props を抽出する semantic transform」が必要で、純粋な text union では成立しない（context-free な操作にならない）。`UNION_MERGE_TARGETS` 拡張対象外として手動解消を継続するのが安全。代わりに本 lesson と task-specification-creator [[patterns-lessons-and-pitfalls]] の SP-DEVSYNC-056 で手順を SSOT 化する。
+- 検証: 2026-05-28 `feat/admin-requests-prototype-alignment-and-404-fix` ← `origin/dev` の sync-merge で `pnpm sync:resolve` 後に残った `apps/web/app/(admin)/admin/requests/page.tsx` と `apps/web/src/components/admin/RequestQueuePanel.tsx` を上記手順で解消。`grep -c "<<<<<<<\|=======\|>>>>>>>" <files>` 0、`pnpm typecheck && pnpm lint` green。
+- 参照: L-DEVSYNC-054 (auth.ts / barrel 並列追加)、L-DEVSYNC-055 (skill indexes 2 件 happy-path)、task-specification-creator [[patterns-lessons-and-pitfalls#dev-sync-merge-conflict-resolution]] SP-DEVSYNC-056、L-PGHEAD-001 (panel/page-head 二重 h1 抑止)。
+
 ## L-DEVSYNC-056: feature が page-local 旧 header を抱えたまま dev が AdminPageHeader primitive を導入したケースの hybridize（2026-05-28 確認）
 
 - 事象: `feat/admin-schema-page-prototype-alignment-and-diff-fetch-fix` ← origin/dev sync-merge で `pnpm sync:resolve` 後に source code 3 件が残った:
@@ -1138,6 +1151,35 @@
   4. 検証順: `git diff --diff-filter=U --name-only` 0 件 → `pnpm typecheck` (page で undefined ref があると即 fail) → `pnpm lint` → `git commit -m "merge: sync <branch> with dev"`。
 - 留意: HEAD と dev で **同一画面の構造を双方が積極的に書き換える**パターンは、admin-ui プロトタイプ整合が wave 単位で並列実装されている期間は構造的に発生する。`pnpm sync:resolve` は `.ts/.tsx` ソースを対象外なので、手動 hybridize 必須。resolver 拡張ではなく lesson + 仕様 Phase 4 risk への記載で対処するのが正（L-DEVSYNC-054 と同じ判断）。
 - 事例: 2026-05-28 commit `c2a2bfc4e` (merge: sync feat/admin-schema-page-prototype-alignment-and-diff-fetch-fix with dev)。`pnpm sync:resolve` で skill md 1 union + keywords.json `--ours + rebuild` 成功、残り 3 `.tsx` を上記手順で hybridize。`grep -nE '^(<<<<<<<|=======|>>>>>>>|\|\|\|\|\|\|\|)' ...` 0 件 → `pnpm typecheck` Done × 6 packages → `pnpm lint` Done × 全 packages。
+
+## L-DEVSYNC-057: feature が AdminPageHeader を barrel 経由 import × dev が _layout 直 import で 3-way（2026-05-28 確認）
+
+- 事象: `feat/admin-audit-prototype-alignment` ← `origin/dev` sync-merge で `pnpm sync:resolve` 後、`apps/web/app/(admin)/admin/audit/page.tsx` と `apps/web/src/components/admin/AuditLogPanel.tsx` の 2 ソースが残る。
+  1. `audit/page.tsx` — HEAD: `import { AdminPageHeader } from "../../../../src/features/admin/components";`（barrel index 経由）+ AdminPageHeader props は `title/description/breadcrumbs`。dev: `import { AdminPageHeader } from ".../components/_layout/AdminPageHeader";`（直接 path）+ `eyebrow` prop を追加。
+  2. `AuditLogPanel.tsx` — HEAD: section に `className="flex flex-col gap-4"` + `<Card>` + `<form>` (FormField/Input/Select/Button) で prototype 整合の検索 UI を full 実装。dev: `showHeading` prop で `<header><h1>` を出し分け、section に `aria-labelledby`/`aria-label` を切替。HEAD 側は filter UI 追加に集中、dev 側は heading 出し分け契約に集中。
+- Why: barrel `index.ts` は `export * from "./_layout/AdminPageHeader"` を既に持っており、両 import 形は同一実体を指す（型・実装差なし）。`eyebrow` prop は AdminPageHeader が既に optional として受けるため両側統合可能。`showHeading` 出し分けと filter Card 追加は構造上 orthogonal で、`<section>` ラッパに両者を同時適用できる（section 属性は dev 側、その内部に dev の header 条件分岐 + HEAD の Card を順次配置）。
+- How to apply:
+  1. **import paths の HEAD vs dev**: barrel 経由（HEAD）を **default 採用**。理由は (a) `_layout/` 直接 path への依存は internal layout の private path に lock-in されるが barrel は安定 API、(b) barrel が当該 export を再 export 済みなら結果は同一。確認は `grep "from \"./_layout/<Component>\"" <feature>/components/index.ts` 1 行で完結。
+  2. **props 追加 (eyebrow など)**: HEAD と dev の両側の props 列を **union** で 1 つの JSX に統合（同 prop 名が異なる値で衝突する場合のみ「prototype alignment の意図に近い側」を優先）。本件は dev `eyebrow="ADMIN / AUDIT"` を残し、HEAD の richer `description` を採用。
+  3. **section ラッパ属性の HEAD vs dev**: HEAD `className="flex flex-col gap-4"` と dev `aria-labelledby={showHeading ? ... : undefined}` / `aria-label={showHeading ? undefined : ...}` は orthogonal なので両方付ける。section opening tag を 1 つに統合し全 attribute を列挙する形にする。
+  4. **section 内子要素の合成順序**: dev 側の条件付き `<header><h1>` を先頭に置き、HEAD 側の `<Card>` 以降を続けて配置。残りの共通 children（error Banner / empty state など）はコンフリクトしていないので triple-marker の外側がそのまま残る。
+  5. 検証: `grep -nE '^(<<<<<<<|=======|>>>>>>>|\|\|\|\|\|\|\|)' <file>` 0 件 → `pnpm typecheck` (props 不整合があれば即 fail) → `pnpm lint`。
+- 留意: barrel 経由 import を default にするポリシーは「feature 側で既存 barrel が export 済み」が前提。barrel に未掲載の component を直接 path で取り込んでいる場合は、まず barrel に export を追加してから本 lesson を適用する。`feat/admin-audit-prototype-alignment` のように feature ブランチが UI prototype 整合（structural primitive 化と独立な path 整理）を主目的とする場合、両側の意図は orthogonal で hybridize は機械的に成立する。
+- 事例: 2026-05-28 sync-merge (HEAD=`feat/admin-audit-prototype-alignment`, base=`bf6efe49f`). `pnpm sync:resolve` が aiworkflow indexes 4 件を自動解消 (3 md union + keywords.json --ours + rebuild)、残り 2 `.tsx` を上記手順で hybridize。コンフリクトマーカー 0 件確認後に merge commit。
+
+
+## L-DEVSYNC-057: 両 branch が同一 Server Component に safe-fetch + SectionError を独立追加した parallel-degrade コンフリクトは branch-owning 側 take（2026-05-28 確認）
+
+- 事象: `fix/login-stale-link-and-profile-me-safefetch` ← origin/dev sync-merge で `pnpm sync:resolve` 後に source code 2 件が残った:
+  1. `apps/web/app/(member)/profile/page.tsx` — HEAD と origin/dev (0cc38e84c) が**両方とも**`safeServerFetch(() => fetchAuthed<MeSessionResponse>("/me"), {...})` ラップと `if (!meResult.ok) return <SectionError .../>;` 早期 return を独立に導入。差分は (a) 変数型注釈 `SafeResult<MeSessionResponse>` vs `Awaited<ReturnType<typeof safeServerFetch<MeSessionResponse>>>` (b) error title `"セッション情報を取得できませんでした"` vs `"マイページを読み込めませんでした"` の 2 点のみで、構造・retryHref・MemberHeader/SectionError prop は完全同一。three-way base には `meResult` 概念自体が無く、両側 add-add の semantic conflict。
+  2. `apps/web/app/(member)/profile/page.spec.tsx` — 同様に `degrades /me fetch failures …` の `it` block を両側が追加。HEAD は `FetchAuthedError(503, "down")` で「セッション情報を取得できませんでした」を assert、dev は generic `Error("fetchAuthed failed: 503")` で「マイページを読み込めませんでした」を assert。テスト対象シナリオは同一だが期待文字列が page.tsx の title と pair で異なる。
+- Why: parallel feature wave で `/profile` の Server Component error boundary 強化（safe-fetch degrade）が二系統で同時に進んでいた。L-DEVSYNC-056 のような「dev が新 primitive を導入し HEAD が旧構造のまま」とは異なり、**両側が同方向の改良を独立に実装**しているため、構造採用ではなく「どちらの文言/型が branch の責務 (responsibility) を正確に表しているか」で判定する。本 branch の責務は「`/profile` ページの `/me` 取得失敗を安全に降格する」ことであり、`/me` 取得失敗時は「セッション情報を取得できませんでした」の方が原因事象を正確に示す。dev 側の「マイページを読み込めませんでした」は profile fetch 失敗側 (`MEMBER_FETCH`) と区別が付かないので情報損失。型注釈も `SafeResult<T>` 直接の方が読みやすい。
+- How to apply:
+  1. add-add の semantic conflict は、まず両側の hunk が **構造的に同一か** (`git diff :2:<path> :3:<path>` で確認) を判定。同一構造で差分が文字列/型注釈のみなら、**branch slug が示す責務に合致する側**を `git checkout --ours <path>` または `--theirs <path>` で一括採用する（hybridize 不要）。spec も page と pair で同じ側を採用する（assert 文字列が page.tsx の title と束で一致しないと test fail）。
+  2. branch 責務の判定は `git log --oneline <merge-base>..HEAD -- <該当 path>` で「この branch が何を変えたか」を確認し、コミットメッセージの主語（`fix(profile)`, `fix(login,profile)` 等）が一致する側を ours とみなす。本ケースでは `3a0988f4d fix(login,profile): stale login redirect link と /profile /me fetch safe wrap` が HEAD の責務を明示している。
+  3. resolver 後の手順: `git checkout --ours <page.tsx> <page.spec.tsx>` → `git add <両 path>` → `git diff --diff-filter=U --name-only` 0 件確認 → `pnpm typecheck && pnpm lint` → `git commit --no-edit` で merge commit を確定。
+- 留意: 両側が **同 endpoint の error boundary を独立追加** するパターンは、`/profile`・`/login`・admin section root 等の Server Component で wave 並列実装期間に頻発する。`pnpm sync:resolve` 拡張で取り込むには branch context (slug / commit message) が必要なので resolver 化は不適。本 lesson で対処するのが正。
+- 事例: 2026-05-28 `fix/login-stale-link-and-profile-me-safefetch` ← `origin/dev` merge。`pnpm sync:resolve` で skill indexes 2 件 (`topic-map.md` union + `keywords.json` ours+rebuild) 完結、残 `.tsx` 2 件を `git checkout --ours` で採用。`pnpm typecheck` Done × 全 packages → `pnpm lint` 通過後に merge commit 確定。
 
 
 ## L-DEVSYNC-058: 同一 page を両 branch が独立に prototype 整合した結果の 2-way feature × modernization hybridize（2026-05-28 admin/identity-conflicts/page.tsx）
@@ -1158,3 +1200,59 @@
   - 機械化を試みるなら lesson `--ours + 後付け modernize patch` を resolver 拡張ではなく **L-DEVSYNC-058 を仕様 Phase 4 risk に明記** する方が ROI が高い（admin-ui 整合 wave は有限期間で収束する）。
 - 検証: `git diff --diff-filter=U --name-only` 0 件 → `pnpm typecheck` 全 package green → `pnpm lint` 全 package green → `git commit` (merge commit) 成立。
 - 参照: L-DEVSYNC-056 (single-side primitive 移行 hybridize)、L-DEVSYNC-046 (UNION_TARGETS)、task-specification-creator [[patterns-lessons-and-pitfalls#dev-sync-merge-conflict-resolution]]。
+
+
+## L-DEVSYNC-059: `pnpm sync:resolve` 中断による stale `index.lock` の検出と除去（2026-05-29 確認）
+
+- 事象: `feat/members-not-displaying-form-sync-investigation` ← `origin/dev` sync-merge で 5 件 conflict（aiworkflow indexes 4 件 + source 0 件 + admin layer 0 件）。`pnpm sync:resolve` 起動中にラッパー（bash の `sleep 30` 待機）が exit 143 (SIGTERM) で外側から打ち切られ、`union-resolved` 3 件 (`resource-map.md` / `topic-map.md` / `task-workflow-active.md`) は成功したが、最終 `git add` 段階で `fatal: Unable to create '...worktrees/<wt>/index.lock': File exists.` が発生。直後 `git status` で `.git/worktrees/<wt>/index.lock` が残留。
+- Why: `scripts/sync/resolve-skill-merge-conflicts.sh` は union-resolve 後に `git add` を逐次実行する。SIGTERM で stage 中の `git add` が殺されると lockfile が orphan 化する。git は他 process 動作中と誤認し以降の操作を全 block する。
+- How to apply:
+  1. `pnpm sync:resolve` を background や timeout 短すぎる sleep 越しで wait する運用を避ける（resolve 自身は数秒で完了する）。やむを得ず timeout を挟む場合は最低 60s。
+  2. lockfile 残留検出時の復旧: `git rev-parse --git-dir` で worktree git dir を取得 → `ls -la "$GITDIR/index.lock"` で stale 確認（mtime が直近で他 git process がいないこと） → `rm -f "$GITDIR/index.lock"` で除去 → 中断時点の resolve は `--ours` 等の手動 fallback で個別解消 → `git add` を改めて発行。
+  3. lockfile 存在のみで自動 `rm` は危険（実 process との race を排除できない）。直前の `pnpm sync:resolve` ログで「git add 段階で SIGTERM/exit 143」が確認できた場合のみ stale 判定する。
+- 留意: 本ケースの conflict 5 件のうち union 3 + `--ours+rebuild` 1 (`keywords.json`) で全自動解消、`.tsx` / `.ts` の hybridize は 0 件だった。 1062 file の merge 規模に対して conflict 5 件は wave 並列実装の構造的下限であり、indexes 4 + keywords 1 のパターンは L-DEVSYNC-046〜058 系の継続再現。本 lesson は **lock 復旧手順** のみを独立化する意義として追加（hybridize 系は既存 lesson でカバー）。
+- 事例: 2026-05-29 sync-merge (HEAD=`feat/members-not-displaying-form-sync-investigation`, base merge target=`f063d29dc`)。`pnpm sync:resolve` 中断 → `index.lock` 残留 → `rm -f` 後 `git checkout --ours .claude/skills/aiworkflow-requirements/indexes/keywords.json` → `git add` → `pnpm indexes:rebuild` で 5195 keywords 再生成 → `git add -A` で merge commit 待機。
+
+
+## L-DEVSYNC-059: 同一 module で HEAD/dev が **独立した interface を並列追加** → union resolve でなく「両方保持」が正解（2026-05-29 apps/web/src/lib/env.ts）
+
+- 事象: `feat/fix-admin-fetch-cf-1042-service-binding` ← origin/dev sync-merge で `pnpm sync:resolve` 後に `apps/web/src/lib/env.ts` 1 件が unresolved。HEAD と dev が **異なる名前の interface を同じファイルの同位置に独立追加** していた:
+  - HEAD: `export interface AdminFetchEnv { API_SERVICE?; INTERNAL_API_BASE_URL?; NODE_ENV?; PLAYWRIGHT_TEST? }` + 同 module 下部に `getAdminFetchEnv()` accessor (CF-1042 Service Binding 経路統一の一環)。
+  - dev: `export interface ApiBaseEnv { INTERNAL_API_BASE_URL?; PUBLIC_API_BASE_URL? }` + 同 module 下部に `getApiBaseEnv()` accessor (`/profile` Server Components render error 対応で `safe-server-fetch` 用 base URL 取り出し用)。
+- Why: 名前空間が衝突しておらず、両 interface とも **同 module 内の独立した getter で同時に referenced** されている。片側を捨てると referencing getter が compile error。これは L-DEVSYNC-046 (UNION_TARGETS skill docs) や L-DEVSYNC-058 (page hybridize) と異なり、**ソースコード `.ts` でも例外的に safe-union が成立**するパターン（add-add だが意味的に直交）。
+- How to apply:
+  1. conflict block を開き、HEAD/dev のシンボル名を確認。**異なる名前の独立 interface/type/関数** で、同 module の他 location で **両方が referenced** されているなら safe-union 候補。
+  2. 確認方法: 各シンボルについて `grep -n "<シンボル名>" <module>` を実行し、定義 + 1 件以上の reference が両側に存在することを確認。
+  3. resolution: conflict marker を撤去し **両 interface をそのまま縦に並べる**（順序は HEAD → dev 推奨。再 merge 時 diff が小さくなる）。`||||||| <base sha>` の base 側は無視。
+  4. 検証: `pnpm typecheck` で referencing getter が両方 green、`pnpm lint` 通過、`git diff --diff-filter=U` 0 件。
+- 留意:
+  - **誤適用注意**: 同名 interface への両側追加（field 違い）は safe-union 対象外。L-DEVSYNC-046 系の field-level hybridize に分岐する。
+  - 関数定義（`export function`）でも同パターンは成立するが、import 元の symbol 衝突が無いこと（barrel re-export を含めて）を必ず確認。
+  - `pnpm sync:resolve` 拡張で取り込むには **AST レベルの top-level export 名衝突判定** が必要で ROI が低い。本 lesson 経由で手動解消するのが現実解。
+- 検証: `feat/fix-admin-fetch-cf-1042-service-binding` ← dev merge。`pnpm sync:resolve` で skill 4 union + keywords ours+rebuild 完結 → `apps/web/src/lib/env.ts` のみ手動 add-add safe-union（両 interface 縦並び）→ `git add apps/web/src/lib/env.ts` → `git diff --diff-filter=U` 0 件 → merge commit 確定。
+- 参照: L-DEVSYNC-046 (UNION_TARGETS resolver), L-DEVSYNC-056 (single-side primitive migration hybridize), L-DEVSYNC-058 (page-level 2-way modernization hybridize), task-specification-creator [[patterns-lessons-and-pitfalls#dev-sync-merge-conflict-resolution]]。
+
+
+## L-DEVSYNC-059: skill-only conflict shape は `pnpm sync:resolve` 単発で 5 union + 1 --ours 完結（2026-05-28 issue-958-h3-public-filter-ux）
+
+- 事象: `feat/issue-958-h3-public-filter-ux` ← `origin/dev` sync-merge で発生したコンフリクトが **skill md 5 件 (SKILL.md / indexes/{quick-reference,resource-map,topic-map}.md / references/task-workflow-active.md) + derived 1 件 (indexes/keywords.json)** のみ。`.tsx`/`.ts` の page-level conflict は 0 件（HEAD 側の実装が dev 側で書き換えられた page と重ならない shape）。
+- Why: H3 public filter UX 系の実装は `apps/web/app/(public)/members/page.tsx` / `BulkRepublishDrawer` / `useBulkRepublish` 等 **新規ファイル中心**で、dev 側並列実装が admin-ui modernization に集中していたため file path 重複が skill 系のみに発生する shape になった。skill md は `.gitattributes` の `merge=union` 未指定（旧契約: SKILL.md は手動 hybridize）だが resolver script の対象範囲（SKILL.md / indexes md / task-workflow-active.md / keywords.json `--ours + rebuild`）に完全一致するため、resolver 単発で機械解消が成立。
+- How to apply:
+  1. sync-merge 後 `git status --porcelain | grep '^UU'` で unresolved 列挙 → 全件が skill resolver 対象範囲なら `pnpm sync:resolve` 単発で完結する（L-DEVSYNC-001/004 系の標準 path）。
+  2. 完結判定: resolver stdout の `union-resolved` 5 件 + `ours:` 1 件 (`keywords.json`) + `running pnpm indexes:rebuild` 完走 + `all skill / index conflicts resolved` 行を確認。
+  3. 検証順: `git status --porcelain | grep -E '^(UU|AA|DD)'` 空 → `git diff --check` 空 → `git add -A && git commit -m "merge: sync <branch> with dev"` → `pnpm typecheck` Done × 6 packages → `pnpm lint` Done × 全 packages → push。
+- 留意: page-level の手動 hybridize（L-DEVSYNC-056/058）は branch の **実装範囲** に依存する。skill-only shape は admin-ui modernization wave の進行中でも feature branch のコード接触面が dev の changed paths と orthogonal なら頻発する。resolver-only path が成立した場合は手動 hybridize lesson（056/058）を**呼び出さない**（不要な複雑性導入を避ける）。
+- 事例: 2026-05-28 commit `a98fd67bb` (merge: sync feat/issue-958-h3-public-filter-ux with dev)。conflict 6 件全件 resolver 完結、typecheck/lint green、stablekey-literal-lint は mode=warning のため block 対象外。
+
+
+## L-DEVSYNC-060: skill-only conflict shape の再現（2026-05-29 feat/members-list-ux-clarity）
+
+- 事象: `feat/members-list-ux-clarity` ← `origin/dev` (HEAD `746721996`) sync-merge で発生したコンフリクトが **skill md 2 件 (aiworkflow-requirements/indexes/topic-map.md, task-specification-creator/references/patterns-lessons-and-pitfalls.md) + derived 1 件 (aiworkflow-requirements/indexes/keywords.json)** のみ。`.tsx`/`.ts` の page-level conflict は 0 件。`apps/web/app/(public)/members/page.tsx` は auto-merge 成立。
+- Why: 本 feature branch の改修範囲は public members list の UX 整合（components + page）で、dev 側 7 commits は admin-ui 系 / google-form-reflection / dev-sync skill 反映が中心。重なりは skill 索引と patterns-lessons の追記行のみで、L-DEVSYNC-059 と同型の shape。
+- How to apply:
+  1. `git merge dev --no-edit` 後 `git status --porcelain | grep '^UU'` で unresolved 3 件全件 skill resolver 対象 → `pnpm sync:resolve` 単発で完結。
+  2. resolver stdout: `union-resolved 2 files` + `ours: ...keywords.json` + `running pnpm indexes:rebuild` → `all skill / index conflicts resolved`。
+  3. 検証: `git ls-files -u | wc -l` = 0 → `git commit -m "merge: sync <branch> with dev"` → `pnpm typecheck` 6 packages Done → `pnpm lint` Done。
+- 留意: sync-merge では CLAUDE.md ポリシーに従い `pre-commit/staged-task-dir-guard` と `pre-push/coverage-guard` が `MERGE_HEAD` 検出で自動スキップされるため `--no-verify` 不要（今回 `--no-verify` 付与は本来不要。次回からは付けない）。
+- 事例: 2026-05-29 commit `abe947433` (merge: sync feat/members-list-ux-clarity with dev)。conflict 3 件全件 resolver 完結、typecheck/lint green。
+- 再現事例 2026-05-29 (feat/issue-976-admin-fetch-service-binding ← origin/dev): conflict は同じ skill 5 件 + keywords.json の **完全同形 shape**。`apps/web/src/lib/admin/server-fetch.ts` も `Auto-merging` で textual conflict なし。resolver 完走で `git status` clean、`merge: sync feat/issue-976-admin-fetch-service-binding with dev` で merge commit 成立。**同形再現により本 lesson が "admin-ui modernization wave 中の skill-only shape は resolver 単発で機械解消可" の標準 path として確定**（page-level 接触面のない feature branch では今後も繰り返し発生する見込み）。

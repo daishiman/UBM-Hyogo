@@ -3,10 +3,7 @@ import { render, screen, fireEvent, waitFor, cleanup } from "@testing-library/re
 import { describe, expect, it, vi, beforeEach, afterEach } from "vitest";
 
 afterEach(() => cleanup());
-import {
-  RequestQueuePanel,
-  type RequestQueueListView,
-} from "../RequestQueuePanel";
+import { RequestQueuePanel, type RequestQueueListView } from "../RequestQueuePanel";
 
 const mockPush = vi.fn();
 const mockRefresh = vi.fn();
@@ -61,7 +58,12 @@ describe("RequestQueuePanel", () => {
 
   it("TC-21: 初期表示で pending 一覧と type タブを描画", () => {
     render(<RequestQueuePanel initial={baseView} type="visibility_request" />);
-    expect(screen.getByText("依頼キュー")).toBeDefined();
+    // page.tsx 側に h1 "依頼キュー" を集約。Panel 自身は prototype
+    // primitive の h-section + visually-hidden h2 "依頼種別" を担う。
+    const filterHeading = screen.getByRole("heading", { name: "依頼種別" });
+    expect(filterHeading.className).toContain("h-section");
+    expect(filterHeading.className).toContain("visually-hidden");
+    expect(screen.getByRole("heading", { name: "依頼一覧" }).className).toContain("h-card");
     expect(screen.getAllByText(/m_alice/).length).toBeGreaterThan(0);
     expect(screen.getByText(/desiredState: hidden/)).toBeDefined();
   });
@@ -100,9 +102,7 @@ describe("RequestQueuePanel", () => {
     fireEvent.click(screen.getByText("承認する"));
     fireEvent.click(screen.getByText("承認を実行"));
     await waitFor(() => {
-      expect(screen.getByRole("status").textContent).toContain(
-        "他の管理者が既に処理済み",
-      );
+      expect(screen.getByRole("status").textContent).toContain("他の管理者が既に処理済み");
     });
   });
 
