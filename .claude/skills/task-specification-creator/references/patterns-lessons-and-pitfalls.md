@@ -1103,3 +1103,21 @@ admin-ui task A〜E が連続して dev に merge される現フェーズで、
 - **SP-DEVSYNC-056-D (Phase 4 risk への登録)**: admin-ui prototype alignment 系 task の Phase 4 risk table に「同一 wave で primitive 一斉導入が dev 側に着地した場合、page-local 旧 header / Sidebar GROUPS / legacy component.spec の 3 軸で sync-merge 時に hybridize が必須」を必ず登録し、L-DEVSYNC-056 を mitigation reference として参照。resolver 拡張ではなく仕様側で risk 化するのが正（L-DEVSYNC-054 と同じ判断）。
 - **SP-DEVSYNC-056-E (検証 4 step 必達)**: hybridize 後の検証は **`git diff --diff-filter=U --name-only` 0 件 → `pnpm typecheck` Done × 全 packages → `pnpm lint` Done × 全 packages → `git commit -m "merge: sync <branch> with dev"`** の 4 step を Phase 12 implementation-guide に明記。typecheck が undefined ref を即 fail させるため、`sections.map` 等の前提変数撤去漏れを早期検出できる。
 - 参照: [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-056、L-DEVSYNC-054 (`.ts` 手動 union)、L-DEVSYNC-055 (resolver 単独完結 happy-path との対比)。
+
+## Admin sidebar 公開復帰 link 配置 + shared primitive 拡張回避パターン (2026-05-28)
+
+`/admin/*` AdminSidebar から旧 `ホーム` grouped nav を撤去し、footer 直前の `data-role="public-return"` anchor として公開サイト復帰 link を再配置する admin-sidebar-public-return-link タスクで確立した、call-site 1 件の特殊用途を shared primitive に逆流させない設計判断パターン。
+
+- **L-ADMRET-001 (grouped nav → footer 隣接 anchor 移設)**: 公開サイト復帰のような **コンテキスト離脱 link** は GROUPS 配列に含めず、`<aside>` 内 footer 直前の独立 anchor として `data-role="public-return" aria-label="公開サイトに戻る"` で配置する。GROUPS 内に置くと管理 route の isActive 判定と意味的に競合し、strict-mode で「現在地ハイライト」誤検出を招くため Phase 4 risk table で配置先を必ず明示する。
+- **L-ADMRET-002 (shared primitive 拡張不採用基準)**: 単一 call site の特殊 prop（`dataRole?: string` 等）のために shared primitive (`AdminSidebarNavItem`) を拡張しない。Phase 12 `unassigned-task-detection.md` で「shared primitive 拡張」候補が出たら **call site 数 ≥ 2 を必達条件**として明示し、1 件なら "Rejected. One dedicated anchor is simpler" と決め打ちで rejected の根拠にする。
+- **L-ADMRET-003 (DOM 1-hop 直前 assertion)**: 「`<footer>` の直前」のような relative-order 要件は **`nextElementSibling` の 1-hop 比較** で assertion する。Vitest 側 `expect(link.nextElementSibling?.tagName.toLowerCase()).toBe('footer')`、Playwright 側 CSS adjacent combinator `[data-role=public-return] + footer` を contract 化。`toBeVisible()` 単独や `getAllByRole(...)` の存在チェックは "immediately before" の意味を満たさない。
+- **L-ADMRET-004 (implementation_files 明示時の state 早期昇格)**: 仕様書 Phase 5 で `implementation_files` が列挙されているタスクは、同サイクル内で実コード変更が確定した瞬間に `spec_created` → `implemented_local_evidence_captured` へ昇格する。`spec_created` のまま `verify:phase12-compliance` を流すと artifacts.json と Phase 5 evidence の dual-state 矛盾を gate-metadata が検出して reject する。skill-feedback-report 「Template Improvement」節に必達 AC として登録する。
+- **L-ADMRET-005 (local Playwright visual fixture で Phase 11 自走)**: admin 単一 component の screenshot evidence は staging deploy を待たず **local Playwright visual fixture spec** で取得し `implemented_local_evidence_captured` まで自走する。`apps/web/playwright/tests/<workflow-slug>.spec.ts` で実 component を mount し、overview/hover/focus 3 state を `outputs/phase-11/screenshots/` に保存。`outputs/phase-11/visual-capture-metadata.json` にビューポート/取得時刻/spec path を残し、raw `test-results/` 配下は frozen 扱いで Phase 12 inventory に含めない。
+
+### Anti-pattern
+
+- 単一 call site の特殊 prop のために shared primitive (`AdminSidebarNavItem`) に optional prop を追加し、無関係な nav item の test surface（spec snapshot, axe scan, isActive 計算）まで再走査を強要する
+- 「`<footer>` より前にある」を `toBeVisible()` だけで満たしたとみなし、1-hop 直前検証を省略して後続 primitive 再配置 PR の無自覚 regression を許す
+- admin 単一 component の screenshot を staging deploy まで待ち、`implemented_local_runtime_pending` で workflow_state を滞留させる（local fixture で取得可能なら同サイクル内に完結させる）
+- 実コード変更が確定した後も `workflow_state: spec_created` のまま Phase 12 closeout を流し、artifacts.json と Phase 5 evidence の dual-state 矛盾を残す
+- 参照: [[lessons-learned-admin-sidebar-public-return-link-2026-05]] L-ADMRET-001..005、[[lessons-learned-admin-shell-topbar-sidebar-integration-2026-05]]（sidebar shell 親 pattern）と整合。

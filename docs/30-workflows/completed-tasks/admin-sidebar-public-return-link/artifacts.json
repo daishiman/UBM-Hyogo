@@ -1,0 +1,38 @@
+{
+  "workflow_id": "admin-sidebar-public-return-link",
+  "parent_workflow": "public-header-logged-in-nav-cleanup",
+  "metadata": {
+    "taskType": "implementation",
+    "visualEvidence": "VISUAL_ON_EXECUTION",
+    "workflow_state": "implemented_local_evidence_captured",
+    "implementation_mode": "existing-component-alignment",
+    "implementation_category": "unconditional"
+  },
+  "status": "implemented_local_evidence_captured",
+  "phases": [
+    { "id": 1,  "name": "requirements",       "status": "completed", "path": "phase-1-requirements.md" },
+    { "id": 2,  "name": "design",             "status": "completed", "path": "phase-2-design.md" },
+    { "id": 3,  "name": "design-review",      "status": "completed", "path": "phase-3-design-review.md" },
+    { "id": 4,  "name": "test-plan",          "status": "completed", "path": "phase-4-test-plan.md" },
+    { "id": 5,  "name": "implementation",     "status": "completed", "path": "phase-5-implementation.md" },
+    { "id": 6,  "name": "test-additions",     "status": "completed", "path": "phase-6-test-additions.md" },
+    { "id": 7,  "name": "coverage",           "status": "completed", "path": "phase-7-coverage.md" },
+    { "id": 8,  "name": "refactor",           "status": "completed", "path": "phase-8-refactor.md" },
+    { "id": 9,  "name": "qa",                 "status": "completed", "path": "phase-9-qa.md" },
+    { "id": 10, "name": "final-review",       "status": "completed", "path": "phase-10-final-review.md" },
+    { "id": 11, "name": "manual-test",        "status": "completed", "path": "phase-11-manual-test.md" },
+    { "id": 12, "name": "documentation",      "status": "completed", "path": "phase-12-documentation.md" },
+    { "id": 13, "name": "pr",                 "status": "pending_user_approval", "path": "phase-13-pr.md" }
+  ],
+  "gates": [],
+  "implementation_files": [
+    "apps/web/src/components/layout/AdminSidebar.tsx",
+    "apps/web/src/components/layout/__tests__/AdminSidebar.component.spec.tsx",
+    "apps/web/src/components/layout/__tests__/AdminSidebar.spec.tsx",
+    "apps/web/playwright/tests/admin-sidebar-public-return-link.spec.ts",
+    "docs/30-workflows/completed-tasks/admin-sidebar-public-return-link/outputs/phase-11/screenshots/admin-sidebar-overview.png",
+    "docs/30-workflows/completed-tasks/admin-sidebar-public-return-link/outputs/phase-11/screenshots/public-return-hover.png",
+    "docs/30-workflows/completed-tasks/admin-sidebar-public-return-link/outputs/phase-11/screenshots/public-return-focus.png",
+    "docs/30-workflows/completed-tasks/admin-sidebar-public-return-link/outputs/phase-11/visual-capture-metadata.json"
+  ]
+}

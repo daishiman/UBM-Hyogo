@@ -1097,13 +1097,13 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 1. 全体構成 | L16 |
 | 2. AdminSidebar | L51 |
-| 3. /admin（Dashboard） | L77 |
-| 4. /admin/members | L130 |
-| 5. /admin/tags | L223 |
-| 6. /admin/schema | L309 |
-| 7. /admin/meetings | L364 |
-| 8. 共通の Server/Client 契約 | L433 |
-| 9. 不変条件サマリ（admin UI） | L451 |
+| 3. /admin（Dashboard） | L87 |
+| 4. /admin/members | L140 |
+| 5. /admin/tags | L233 |
+| 6. /admin/schema | L319 |
+| 7. /admin/meetings | L374 |
+| 8. 共通の Server/Client 契約 | L443 |
+| 9. 不変条件サマリ（admin UI） | L461 |
 
 ### references/ui-ux-advanced.md
 
@@ -2168,6 +2168,12 @@ node scripts/list-specs.js --topics
 |------------|----|
 | Contract | L17 |
 | Lessons Learned | L30 |
+
+### references/workflow-admin-sidebar-public-return-link-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Lessons Learned | L20 |
 
 ### references/workflow-admin-tag-queue-ui-and-404-recovery-artifact-inventory.md
 
@@ -7950,14 +7956,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L2887 |
-| フェーズ構造（概要） | L2896 |
-| 品質ゲート（概要） | L2927 |
-| 出力テンプレート | L2938 |
-| 実行時のコマンド・エージェント・スキル | L2961 |
-| 昇格パターン集 | L2985 |
-| Current Active / Spec Created Tasks | L2987 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L3148 |
+| ドキュメント構成 | L2915 |
+| フェーズ構造（概要） | L2924 |
+| 品質ゲート（概要） | L2955 |
+| 出力テンプレート | L2966 |
+| 実行時のコマンド・エージェント・スキル | L2989 |
+| 昇格パターン集 | L3013 |
+| Current Active / Spec Created Tasks | L3015 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L3176 |
 
 ### references/task-workflow-backlog-part2.md
 

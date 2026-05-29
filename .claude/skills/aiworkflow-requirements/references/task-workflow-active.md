@@ -8,6 +8,20 @@
 
 本ドキュメントは、複雑なタスクを単一責務の原則に基づいて分解し、各サブタスクに最適なスラッシュコマンド・エージェント・スキルの組み合わせを選定するためのガイドラインを定義する。
 
+### admin-sidebar-public-return-link（2026-05-28）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION / browser_visual_pending_user_gate` |
+| 成果物 | `docs/30-workflows/completed-tasks/admin-sidebar-public-return-link/` |
+| 親 workflow | `docs/30-workflows/public-header-logged-in-nav-cleanup/` Task F |
+| 目的 | `AdminSidebar` の旧「ホーム」導線を、管理画面 footer 直前の明示的な「公開サイトに戻る」リンクへ整理する |
+| implementation targets | `apps/web/src/components/layout/AdminSidebar.tsx`, `apps/web/src/components/layout/__tests__/AdminSidebar.spec.tsx`, `apps/web/src/components/layout/__tests__/AdminSidebar.component.spec.tsx` |
+| contract | `AdminSidebarProps` / `AdminSidebarNavItem` は変更しない。`<a data-role="public-return" href="/" aria-label="公開サイトに戻る">` は sidebar 内 1 件のみで、footer の直前に置く |
+| evidence | focused Vitest 11 PASS、grep gate PASS、Phase 11 local evidence、Phase 12 strict 7、root/output artifacts parity |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-sidebar-public-return-link-artifact-inventory.md` |
+| user gate | authenticated browser screenshots、staging runtime visual、commit、push、PR |
+
 ### unified-sidebar-shell-public-and-admin（2026-05-28）
 
 | 項目 | 値 |

@@ -49,7 +49,6 @@ const GROUPS: ReadonlyArray<NavGroupDef> = [
   {
     label: "Public",
     items: [
-      { href: "/", label: "ホーム", icon: ICON_HOME },
       { href: "/members", label: "会員ディレクトリ", icon: ICON_USERS },
       { href: "/register", label: "登録", icon: ICON_USER_PLUS },
     ],
@@ -116,6 +115,16 @@ export function AdminSidebar({ schemaDiffCount, userDisplayName, userEmail }: Ad
           </section>
         ))}
       </div>
+      <a
+        href="/"
+        data-role="public-return"
+        data-component="admin-sidebar-public-return"
+        aria-label="公開サイトに戻る"
+        className="mx-1 mt-2 flex items-center gap-2 rounded px-3 py-2 text-sm text-[var(--ubm-color-text-secondary)] transition-colors hover:bg-[var(--ubm-color-surface-hover)] hover:text-[var(--ubm-color-text-primary)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--ubm-color-accent)]"
+      >
+        <span aria-hidden="true">{ICON_HOME}</span>
+        <span>公開サイトに戻る</span>
+      </a>
       <footer
         data-component="admin-sidebar-footer"
         className="flex flex-col gap-2 border-t border-[var(--ubm-color-border-default)] pt-3"

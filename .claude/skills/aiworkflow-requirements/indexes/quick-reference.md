@@ -1,5 +1,18 @@
 # クイックリファレンス
 
+## admin-sidebar-public-return-link（2026-05-28）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/admin-sidebar-public-return-link/` |
+| status | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION / browser_visual_pending_user_gate` |
+| purpose | AdminSidebar の旧「ホーム」導線を、footer 直前の「公開サイトに戻る」リンクへ意味整理する |
+| implementation | `apps/web/src/components/layout/AdminSidebar.tsx` removes grouped `/` item and adds one `<a data-role="public-return" href="/" aria-label="公開サイトに戻る">` immediately before the footer |
+| tests | `apps/web/src/components/layout/__tests__/AdminSidebar.spec.tsx`, `apps/web/src/components/layout/__tests__/AdminSidebar.component.spec.tsx` |
+| evidence | focused Vitest 11 PASS, grep gate PASS, Phase 12 strict 7 present, root/output artifacts parity present |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-sidebar-public-return-link-artifact-inventory.md` |
+| user gate | authenticated browser screenshots, staging runtime visual, commit, push, PR |
+
 ## unified-sidebar-shell-public-and-admin（2026-05-28）
 
 | 項目 | 値 |

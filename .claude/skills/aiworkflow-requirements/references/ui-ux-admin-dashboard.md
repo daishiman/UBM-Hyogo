@@ -55,7 +55,7 @@ D1 や apps/api の repository を web 側で直接 import することは禁止
 ### 2.1 構造
 
 - `<nav aria-label="管理メニュー" className="admin-sidebar">`
-- `<ul>` 配下に `<li><Link href={href}>{label}</Link></li>` を 5 件
+- Public / Members / Admin の 3 group を表示し、footer 直前に公開サイト復帰リンクを 1 件表示する
 
 ### 2.2 リンク
 
@@ -66,10 +66,20 @@ D1 や apps/api の repository を web 側で直接 import することは禁止
 | `/admin/tags` | タグキュー |
 | `/admin/schema` | schema |
 | `/admin/meetings` | 開催日 |
+| `/admin/requests` | 依頼キュー |
+| `/admin/identity-conflicts` | Identity重複 |
+| `/admin/audit` | 監査ログ |
 
-### 2.3 不変条件
+### 2.3 公開サイト復帰リンク
 
-- 上記 5 リンクは固定。順序も固定。
+| href | label | DOM contract |
+| --- | --- | --- |
+| `/` | 公開サイトに戻る | `data-role="public-return"` / `aria-label="公開サイトに戻る"` / footer 直前 |
+
+### 2.4 不変条件
+
+- Admin group のリンクは固定。順序も固定。
+- 公開サイト復帰リンクは `AdminSidebarNavItem` ではなく footer-adjacent anchor として扱う。
 - アクティブ状態のスタイル属性は実装上 CSS 側で管理（コンポーネントは `aria-current` を出さない）。
 
 ---
