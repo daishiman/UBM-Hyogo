@@ -4279,6 +4279,7 @@ node scripts/list-specs.js --topics
 | Planned implementation targets | L21 |
 | Current code anchors | L33 |
 | Gates | L42 |
+| Lessons Learned | L50 |
 
 ### references/workflow-ut-02a-attendance-profile-integration-artifact-inventory.md
 
