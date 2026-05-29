@@ -1163,6 +1163,26 @@ admin route prototype-alignment 系 branch を `origin/dev` に sync-merge す�
 - workflow を completed-tasks へ移動しても unassigned-task spec を `docs/30-workflows/unassigned-task/` に残置 → 親 detection report の path が stale 化し、close-out の正本順位が破綻する。
 
 
+## async server component prop 配線パターン（auth-aware public surface / 2026-05-28）
+
+Next.js App Router で公開層 (`/`, `/(public)/*`) の auth-state 出し分けを行う component を **async server component** 化する際の汎用パターン。Task B (`task-b-root-page-public-header-async`) で確立した L-TBPHA-001..005 を仕様起草フェーズに横展開する形で汎化する。
+
+- **L-ASCPROP-001 (auth source 集約 helper)**: 各 layout / page から `getSession()` を直接呼ばず、`apps/web/src/lib/auth-view/getAuthView()` のような **discriminated union (`guest | member | admin`) を返す helper** を 1 層挟む。auth-aware component は async server component かつ props 配線のみで mount し、認可ロジックを再解釈する責務を持たせない。Phase 2 設計で「auth source helper の有無」を必達 design AC として明示する。
+- **L-ASCPROP-002 (route group 外 entry の同時更新)**: 公開 component を async 化する Task は、その component を mount している **全 server entry を `rg "<ComponentName" apps/web/app` で grep 列挙**し、route group 内外で wiring を統一する。route 移動 (`app/page.tsx` → `app/(public)/page.tsx`) は `generateMetadata` / OG / canonical URL の再評価が必要になるため default では **route 不動 + 1 await 追加** を採用。Phase 4 risk table に「route group 外 entry の取りこぼし」を必ず登録。
+- **L-ASCPROP-003 (NON_VISUAL evidence セット)**: visual screenshot を取らない workflow では (a) `app/__tests__/<entry>.spec.tsx` で `vi.mock` による auth-state 2-3 ケース assert、(b) Phase 11 `static-source-guard.log` で **無 props mount の絶滅 grep**、(c) `data-auth-state="guest|member|admin"` 属性を component root に焼き込んだ DOM 確認 — の 3 点セットを Phase 11 evidence の必達 AC とする。`viewport` 寸法 / Linux baseline PNG は対象外。
+- **L-ASCPROP-004 (auth helper の fail-closed)**: 認証取得 helper は `getSession()` throw を `try/catch` で **guest fallback** に閉じ、SSR 全体を 500 に巻き込まない。CLAUDE.md invariant #11 (`getAuthEnv()` safeParse fail-closed) と同じ思想で、fail-closed は認証境界のみ・データ fetch 等の business path では fail-fast を維持する。Phase 2 設計で「helper 内 catch の対象は session 取得のみ」を境界として明記。
+- **L-ASCPROP-005 (parent + sub-task の同期境界)**: parent workflow が `spec_created`、sub-task が先行 implementation の場合、`system-spec-update-summary.md` の Step 1-A 同期範囲は **parent index.md の対象 task 行のみ**。parent 全体の workflow_state には触らない。境界宣言を `system-spec-update-summary.md` 末尾「親 workflow 境界」節に明記しておくと、後続 sub-task の close-out で同じ判断を機械的に再現できる。
+
+### Anti-pattern
+
+- 各 layout / page で個別に `getSession()` を呼び、admin 判定 / `profileHref` 等を再計算する → 認可ルール変更で全箇所を再編集する hidden coupling
+- async 化対象 component の mount 箇所を grep せずに進める → route group 外の root page で型・実行両面で break
+- async 化に伴って route 移動 (`app/page.tsx` → `app/(public)/page.tsx`) を default 採用 → SEO/metadata 影響で本来不要な追加 risk
+- `getSession()` throw を握り潰さず SSR 全体に伝播 → guest 訪問で 500 / `app/error.tsx` boundary に押し込む過剰反応
+
+- 参照: [[lessons-learned-task-b-root-page-public-header-async-2026-05]] L-TBPHA-001..005、CLAUDE.md invariant #11 (env fail-closed parity)、`patterns-ui-type-auth.md` (UI 層 auth type design)。
+
+
 ## L-DEVSYNC-057 add-add semantic conflict（両 branch が同 Server Component に safe-fetch + SectionError を独立追加）の branch-owning take パターン（dev sync-merge / 2026-05-28）
 
 - 事象: `fix/login-stale-link-and-profile-me-safefetch` ← `origin/dev` で `apps/web/app/(member)/profile/page.tsx` と `page.spec.tsx` が両側 add-add semantic conflict。両 branch が `safeServerFetch(() => fetchAuthed<MeSessionResponse>("/me"))` ラップ + `if (!meResult.ok)` 早期 return + SectionError 降格を**同方向に**独立追加し、差分は変数型注釈と error title 文字列の 2 点のみ。L-DEVSYNC-056 と異なり構造採用ではなく「branch 責務 (responsibility) に合致する文言/型を持つ側」を一括 take する。
@@ -1198,7 +1218,9 @@ admin route prototype-alignment 系 branch を `origin/dev` に sync-merge す�
 - 参照: [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-059、L-DEVSYNC-055 (skill indexes 2 件 happy-path)、L-DEVSYNC-054 (auth.ts / barrel 並列追加)、CONST_003 (stash 順次・並列禁止)、CONST_019 (全変更包含)。
 
 
-## L-DEVSYNC-060 skill-only conflict shape の再現 — resolver 単独完結 happy-path（dev sync-merge / 2026-05-29）
+## L-DEVSYNC-061 skill-only conflict shape の再現 — resolver 単独完結 happy-path（dev sync-merge / 2026-05-29）
+
+> 採番補正: 当初 L-DEVSYNC-060 として追加されたが aiworkflow 側 L-DEVSYNC-060（`patterns-lessons-and-pitfalls.md union 対象`）と ID 衝突していたため 061 へ採番ずらし（aiworkflow [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-062 留意と同期）。
 
 - 事象: `feat/members-list-ux-clarity` ← `origin/dev` (HEAD `746721996`) sync-merge で発生したコンフリクトが skill md 2 件 (`aiworkflow-requirements/indexes/topic-map.md`, `task-specification-creator/references/patterns-lessons-and-pitfalls.md`) + derived 1 件 (`aiworkflow-requirements/indexes/keywords.json`) のみ。`.ts/.tsx` page-level の手動 hybridize は 0 件で、L-DEVSYNC-055 / L-DEVSYNC-059 と同型 shape の再現確認。
 - Why: feature 改修範囲（public members list の UX 整合）と dev 7 commits（admin-ui 系 + google-form-reflection + dev-sync skill 反映）の path 重複が skill 索引行と patterns-lessons 追記行のみで、resolver 対象範囲に完全一致するため。
@@ -1206,7 +1228,18 @@ admin route prototype-alignment 系 branch を `origin/dev` に sync-merge す�
   - **SP-DEVSYNC-060-A (resolver 単発判定)**: `git ls-files -u` 列挙が `pnpm sync:resolve` 対象（SKILL.md / indexes md / task-workflow-active.md / keywords.json）に閉じている場合は resolver 単発で完結し、L-DEVSYNC-056/058 の手動 hybridize lesson は invoke しない（不要複雑性回避）。
   - **SP-DEVSYNC-060-B (sync-merge hook policy)**: CLAUDE.md `## sync-merge (main 取り込み) 時の hook 挙動` に従い `MERGE_HEAD` 検出時の `staged-task-dir-guard` / `coverage-guard` は自動スキップされる → sync-merge commit に `--no-verify` を付けない（付けても害は出ないが CONST_017 ポリシー違反になる）。
   - **SP-DEVSYNC-060-C (検証 4 step)**: `git ls-files -u | wc -l` = 0 → `git commit -m "merge: sync <branch> with dev"` → `pnpm typecheck` 6 packages Done → `pnpm lint` Done × 全 packages。
-- 参照: [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-060、L-DEVSYNC-059 (skill-only shape の前回確認)、L-DEVSYNC-055 (resolver 単独完結 happy-path)。
+- 参照: [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-061、L-DEVSYNC-059 (skill-only shape の前回確認)、L-DEVSYNC-055 (resolver 単独完結 happy-path)。
+
+
+## L-DEVSYNC-062 dev が ancestor の re-sync は no-op — merge 前の `--is-ancestor` ガードを Phase 12 検証に明記（dev sync-merge / 2026-05-29）
+
+- 事象: `feat/public-header-logged-in-nav-cleanup-pr-20260528` の 2 度目の `origin/dev` 同期で、前回 sync-merge commit に dev が既に取り込まれていたため `git merge dev` = `Already up to date.`（conflict 0 / resolver 不要 / merge commit 新規作成なし）。push 未済 2 commit のみ push。
+- Why: 複数回 `merge: sync ... with dev` が積まれた feature branch では、`origin/dev` が進んでいても差分が既存 merge commit に内包済みのことがあり、2 度目の merge は何もしない。
+- How to apply:
+  - **SP-DEVSYNC-062-A (ancestor ガード)**: sync-merge task の Phase 12 implementation-guide / 検証手順に「`git merge` 実行前に `git merge-base --is-ancestor dev HEAD` を実行し、ancestor 確定なら merge を no-op と判定し resolver / 手動 hybridize lesson を invoke しない」を明記。
+  - **SP-DEVSYNC-062-B (push 範囲特定)**: `git rev-list --left-right --count @{u}...HEAD` の右辺で push 未済 commit 数を確定 → typecheck/lint green を確認して `git push` のみ。no-op merge では新規 commit を作らない。
+  - **SP-DEVSYNC-062-C (lessons ID 衝突)**: 本 lessons 系は union merge 累積で同一 L-DEVSYNC-NNN ID が複数発生する。新規追記時は `grep '^## L-DEVSYNC'` で最大採番を確認し +1 する（既存重複の遡及補正は採番カスケードを避け title 識別で据え置く運用）。
+- 参照: [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-062、L-DEVSYNC-061 (skill-only shape 再現)。
 
 
 ## L-DEVSYNC-059 skill-only conflict shape の resolver 単独完結を仕様 Phase 12 の default path に固定（dev sync-merge / 2026-05-29 再現）
@@ -1239,3 +1272,14 @@ admin route prototype-alignment 系 branch を `origin/dev` に sync-merge す�
 - **SP-VISBASE-B (baseline は CI 環境で再生成)**: snapshot は `-linux` suffix 付きで CI(ubuntu) レンダリング依存。ローカル macOS の `--update-snapshots` は再 diff するため使わない。`gh workflow run playwright-visual-baseline-update.yml -f reason="<why>" --ref <branch>`（`reason` required / `environment: visual-baseline-approval` の user gate あり）で CI 上再生成 → source branch 直 push → ローカル `git pull --ff-only`。CLAUDE.md の「visual baseline user-gated」に従い、ユーザーが CI 解決を明示依頼した場合のみ実施。
 - **SP-VISBASE-C (bot push は pull_request 非トリガー → close/reopen)**: `GITHUB_TOKEN` の push は `on: pull_request`/`push` workflow を再トリガーしない仕様。baseline コミット上で PR の `statusCheckRollup` が 0 件・combined status `pending (0 statuses)` になり required checks（`gh api .../branches/dev/protection/required_status_checks -q '.contexts[]'` で列挙）が未実行のままマージ不能化する。**`gh pr close <n> && gh pr reopen <n>`** で `pull_request`(reopened) を発火させ最新 head で全 workflow を再走させる（空コミット push より履歴を汚さない）。`gh pr checks <n> --watch` で全 green を待つ（e2e ~18分は background 実行）。
 - 参照: [[lessons-learned-visual-baseline-ci-recovery-2026-05]] L-VISBASE-001/002/003。
+
+
+## L-DEVSYNC-063 add/add で「分割ファイル構成 vs 単一ファイル inline」の同一 API は分割側 one-way（2026-05-30 feat/task-c-privacy-terms-public-shell-spec）
+
+dev sync-merge で **同一の small public API（`apps/web/src/lib/auth-view/` の `AuthView`/`resolveAuthView`/`getAuthView`）が、HEAD = 複数ファイル分割 + barrel re-export、dev = 単一 `index.ts` に inline、という別設計で並行 add** され add/add conflict になった事例。spec 起草段階でこの形を予防する設計ルール（aiworkflow-requirements の `lessons-learned-dev-sync-merge-conflict-resolution-2026-05.md` L-DEVSYNC-063）。
+
+- **L-DEVSYNC-063-A (分割側 one-way)**: add/add の `index.ts` で片側が `types.ts`/`resolveAuthView.ts`/`getAuthView.ts` 等の **分割ファイルへ re-export**、もう片側が同 API を `index.ts` に inline する場合、分割ファイル群は add-only で merge では消えない。inline 側を採ると分割ファイルと **二重 export してコンパイルエラー** になるため、`git checkout --ours`（分割側）一択で選択の自由度が無い。spec の Phase 4 contracts で「lib 配下の small API は `types.ts` + 実装 + `index.ts` barrel の分割を正本構成とする」と固定し、同一 API を単一ファイル inline する派生実装を生やさない方針を明記すると、この add/add 自体を予防できる。
+- **L-DEVSYNC-063-B (barrel 採用なら mock も barrel)**: 解消後 `index.ts` が barrel re-export なら、consumer の import も spec の `vi.mock` 対象も **barrel path に統一**する（submodule path mock を残すと実体を呼んで test fail）。Phase 12 implementation-guide / Phase 11 test 設計で「mock 対象 path = 実体の import path」を 1:1 で揃えるチェックを入れる。
+- **L-DEVSYNC-063-C (同一出力型なら入力形差は consumer 非影響)**: 並行 add の 2 実装が入力 session 形（`{user:{memberId,isAdmin}}` vs flat `{memberId,isAdmin}`）で違っても **出力 discriminated union（`AuthView`）が同一**なら consumer は出力のみ消費するので挙動差ゼロ。spec で「resolver の戻り値型を SSOT 化し consumer は戻り値型のみに依存する」設計を徹底すれば、内部実装が分岐しても統合は ours 採用で安全に閉じる。
+- **L-DEVSYNC-063-D (focused vitest は root から full path)**: 解消後の検証 vitest は **repo root から `apps/web/...` full path** で実行する（apps/web cwd 相対では root config の include `apps/**` と不一致で `No test files found`）。`(public)` 等の括弧 path はクォート必須。Phase 11 manual-test の実行コマンド例にこの形を固定。
+- 参照: [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-063 / L-DEVSYNC-061 / L-PATSEC-001..003（末尾 append + lesson ID prefix 命名）。

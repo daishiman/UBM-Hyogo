@@ -23,7 +23,7 @@
 | `apps/web/app/privacy/page.tsx` | C | `<PublicHeader authView />` + `<PublicFooter />` を直接 mount + async 化 |
 | `apps/web/app/terms/page.tsx` | C | 同上 |
 | `apps/web/app/login/page.tsx` | D | 先頭で `await getSession()` → `redirect` |
-| `apps/web/src/lib/url/safeNext.ts` | D | 新規（純関数） |
+| `apps/web/src/lib/url/safe-next.ts` | D | 新規（純関数） |
 | `apps/web/src/components/layout/MemberHeader.tsx` | E | `authView` prop 受領 + admin リンク |
 | `apps/web/app/(member)/layout.tsx` | E | async 化 + `<MemberHeader authView />` |
 | `apps/web/src/components/layout/AdminSidebar.tsx` | F | 「公開サイトに戻る」リンク追加 |

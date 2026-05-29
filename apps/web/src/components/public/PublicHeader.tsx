@@ -4,8 +4,7 @@
 import type { JSX } from "react";
 
 import { SignOutButton } from "../auth/SignOutButton";
-import { getAuthView } from "../../lib/auth-view/getAuthView";
-import type { AuthView } from "../../lib/auth-view/types";
+import { getAuthView, type AuthView } from "../../lib/auth-view";
 
 const NAV_ITEMS = [
   { href: "/", label: "ホーム" },
@@ -25,7 +24,11 @@ export async function PublicHeader(
   const authView = authViewProp ?? (await getAuthView());
 
   return (
-    <header data-component="public-header" data-auth-state={authView.kind}>
+    <header
+      data-auth-state={authView.kind}
+      data-component="public-header"
+      data-testid="public-header"
+    >
       <a href="/" data-role="brand">
         UBM 兵庫支部会
       </a>

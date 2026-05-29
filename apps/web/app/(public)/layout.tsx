@@ -4,7 +4,7 @@ import type { ReactNode } from "react";
 
 import { PublicFooter } from "../../src/components/public/PublicFooter";
 import { PublicHeader } from "../../src/components/public/PublicHeader";
-import { getAuthView } from "../../src/lib/auth-view/getAuthView";
+import { getAuthView } from "../../src/lib/auth-view";
 
 export default async function PublicLayout({
   children,

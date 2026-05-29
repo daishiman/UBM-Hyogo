@@ -3,20 +3,19 @@ import { describe, it, expect, afterEach, vi } from "vitest";
 import { render, cleanup } from "@testing-library/react";
 import { axe } from "../../src/test/axe";
 
-import PublicLayout from "./layout";
-import type { AuthView } from "../../src/lib/auth-view/types";
-
-vi.mock("../../src/lib/auth-view/getAuthView", () => ({
-  getAuthView: vi.fn(async () => ({ kind: "guest" }) as AuthView),
-}));
-
 vi.mock("../../src/components/public/PublicHeader", () => ({
-  PublicHeader: () => <div data-component="public-header" />,
+  PublicHeader: () => (
+    <div data-testid="public-header-mock" data-component="public-header" />
+  ),
+}));
+vi.mock("../../src/components/public/PublicFooter", () => ({
+  PublicFooter: () => <div data-testid="public-footer-mock" />,
+}));
+vi.mock("../../src/lib/auth-view", () => ({
+  getAuthView: vi.fn(async () => ({ kind: "guest" as const })),
 }));
 
-vi.mock("../../src/components/public/PublicFooter", () => ({
-  PublicFooter: () => <div data-component="public-footer" />,
-}));
+import PublicLayout from "./layout";
 
 afterEach(() => cleanup());
 

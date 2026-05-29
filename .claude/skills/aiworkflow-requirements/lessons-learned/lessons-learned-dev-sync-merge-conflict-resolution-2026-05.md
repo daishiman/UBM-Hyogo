@@ -1259,7 +1259,22 @@
 - 事例: 2026-05-28 commit `a98fd67bb` (merge: sync feat/issue-958-h3-public-filter-ux with dev)。conflict 6 件全件 resolver 完結、typecheck/lint green、stablekey-literal-lint は mode=warning のため block 対象外。
 
 
-## L-DEVSYNC-060: skill-only conflict shape の再現（2026-05-29 feat/members-list-ux-clarity）
+## L-DEVSYNC-060: `task-specification-creator/references/patterns-lessons-and-pitfalls.md` も skill resolver の union 対象（2026-05-29 feat/public-header-logged-in-nav-cleanup-pr-20260528）
+
+- 事象: `feat/public-header-logged-in-nav-cleanup-pr-20260528` ← `origin/dev` sync-merge で発生したコンフリクトが **aiworkflow-requirements indexes 3 件 (quick-reference / resource-map / topic-map) + references/task-workflow-active.md + task-specification-creator/references/patterns-lessons-and-pitfalls.md** の 5 件。`pnpm sync:resolve` 単発で 5 件全件 `union-resolved` 完結、`indexes:rebuild` idempotent。`.ts/.tsx` の page-level conflict 0 件。
+- Why: `patterns-lessons-and-pitfalls.md` は wave 並列で「末尾追記」が累積する shape の典型（L-USS-A / L-PARSUB / L-ADMROUTE 等の節が複数 branch から同時に追加される）。`.gitattributes` の `merge=union` 直接指定が無くても、resolver script の対象範囲に含まれているため機械解消が成立する。
+- How to apply:
+  1. sync-merge 後 unresolved 一覧が `aiworkflow-requirements/{SKILL.md, indexes/*.md, references/task-workflow-active.md} + task-specification-creator/references/patterns-lessons-and-pitfalls.md` のみであれば `pnpm sync:resolve` 単発で完結する。
+  2. resolver stdout に `union-resolved .claude/skills/task-specification-creator/references/patterns-lessons-and-pitfalls.md` が含まれることを確認（漏れていれば script 側の対象リスト drift を疑う）。
+  3. 完結判定後 `git diff --diff-filter=U` 0 件 → `git add -A` → merge commit。typecheck/lint は branch の実装変更が無ければ追加検証不要（resolver は doc-only 編集のため build 影響なし）。
+- 留意: `patterns-lessons-and-pitfalls.md` の union 後は **重複節 ID（同一 L-XXX-NNN ヘッダ）** が稀に発生する。発生時は人手で ID 採番をずらすが、resolver は ID 衝突を検出しない（純粋なテキスト union）。L-DEVSYNC-061 以降で ID 衝突 detector を入れるかは ROI 次第。
+- 事例: 2026-05-29 `feat/public-header-logged-in-nav-cleanup-pr-20260528` ← `dev (8d0cd3ca3)` merge。conflict 5 件全 resolver 完結、本ブランチ実装変更なし（doc-only merge）、push 後の CI は依存無し。
+- 参照: L-DEVSYNC-059 (skill-only shape resolver-only path), L-DEVSYNC-046 (UNION_TARGETS), task-specification-creator [[patterns-lessons-and-pitfalls#dev-sync-merge-conflict-resolution]]。
+
+
+## L-DEVSYNC-061: skill-only conflict shape の再現（2026-05-29 feat/members-list-ux-clarity）
+
+> 採番補正: 本節は当初 L-DEVSYNC-060 として追加されたが、直前の `patterns-lessons-and-pitfalls.md union 対象` 節（feat/public-header-logged-in-nav-cleanup-pr-20260528）と ID が衝突していたため L-DEVSYNC-061 へ採番ずらし（L-DEVSYNC-060 留意の「union 後の重複節 ID は人手で採番をずらす」運用に従った実例。詳細は L-DEVSYNC-062）。
 
 - 事象: `feat/members-list-ux-clarity` ← `origin/dev` (HEAD `746721996`) sync-merge で発生したコンフリクトが **skill md 2 件 (aiworkflow-requirements/indexes/topic-map.md, task-specification-creator/references/patterns-lessons-and-pitfalls.md) + derived 1 件 (aiworkflow-requirements/indexes/keywords.json)** のみ。`.tsx`/`.ts` の page-level conflict は 0 件。`apps/web/app/(public)/members/page.tsx` は auto-merge 成立。
 - Why: 本 feature branch の改修範囲は public members list の UX 整合（components + page）で、dev 側 7 commits は admin-ui 系 / google-form-reflection / dev-sync skill 反映が中心。重なりは skill 索引と patterns-lessons の追記行のみで、L-DEVSYNC-059 と同型の shape。
@@ -1285,3 +1300,38 @@
   - sync-merge では CLAUDE.md ポリシーにより `pre-commit/staged-task-dir-guard` / `pre-push/coverage-guard` が `MERGE_HEAD` 検出で自動スキップされる。conflict 0 でも merge commit は `git merge` が自動生成するので `--no-verify` は不要。
 - 判定フロー確定: sync-merge の標準分岐は **(1) `git ls-files -u` 0 → 何もせず検証へ（本 lesson）/ (2) unresolved 全件 skill resolver 対象 → `pnpm sync:resolve` 単発（L-DEVSYNC-059/060）/ (3) source `.ts/.tsx` の意味的 conflict 残 → 手動 hybridize（L-DEVSYNC-056/058）or 独立 interface 両保持（L-DEVSYNC env.ts 系）** の 3 段。最初に (1) を必ず判定し、不要な resolver 起動を避ける。
 - 事例: 2026-05-29 commit `fa756f644` (merge: sync feat/task-c-privacy-terms-public-shell-spec with dev)。conflict 0 件、typecheck 6 packages Done、lint exit 0（stablekey warning 2 件は block 外）、push 前検証 green。
+- 再現事例 2026-05-29 (feat/public-header-logged-login-redirect-when-authenticated ← origin/dev, HEAD 9 ahead / branch 2 ahead): conflict 7 件 = aiworkflow `SKILL.md` + `indexes/{keywords.json,quick-reference.md,resource-map.md,topic-map.md}` + `references/task-workflow-active.md` + task-spec `SKILL.md`。`apps/web/app/login/page.tsx`（本 branch の login-redirect 実装ファイル）も `Auto-merging` で textual conflict なし。`pnpm sync:resolve` で `union-resolved 6 files` + `ours: keywords.json` + `indexes:rebuild`（5199 keywords）完走 → `git ls-files -u` 0 → `git diff --check` clean → merge commit `0ad9e3555` 成立（`MERGE_HEAD` 検出で pre-commit hook 4 件自動 skip、`--no-verify` 不付与）。`pnpm typecheck` 6 packages Done / `pnpm lint` 全 packages Done / `pnpm indexes:rebuild` 再実行 no drift。**index 派生ファイル 4 件が一度に conflict した shape でも resolver 単発で完結**することを確認（L-DEVSYNC-002 の `--ours + rebuild` が 4 index 同時衝突でも決定的に収束）。
+
+
+## L-DEVSYNC-062: dev が既に ancestor の re-sync は `git merge dev` = "Already up to date" の no-op、検証は `git merge-base --is-ancestor`（2026-05-29 feat/public-header-logged-in-nav-cleanup-pr-20260528 再同期）
+
+- 事象: `feat/public-header-logged-in-nav-cleanup-pr-20260528` を 2 度目に `origin/dev` (HEAD `37fe488e8`) と同期したところ、前回 sync-merge commit `374f5e04a` で既に dev が完全取り込み済みだったため **`git merge dev` が `Already up to date.` の no-op**。conflict 0 件、resolver 不要。`git rev-list --left-right --count dev...HEAD` = `0  8`（dev 側 ahead 0）、upstream に対しては `0  2`（push 未済の 2 commit のみ）。typecheck 6 packages Done / lint 全 packages Done で CI 失敗なし、push のみ実施。
+- Why: feature branch に過去複数回の `merge: sync ... with dev` commit が積まれている場合、`origin/dev` が前回同期時から進んでいても **その差分が既に branch の merge commit に含まれていれば** 2 度目の merge は何もしない。`git log --oneline dev..HEAD` に複数の `merge: sync` 行が並ぶ branch はこのケースに該当しやすい。
+- How to apply:
+  1. fetch 後 `git rev-list --left-right --count origin/dev...dev` でローカル dev = origin/dev を確認（`0  0` なら dev 同期スキップ）。
+  2. **merge 実行前に** `git merge-base --is-ancestor dev HEAD && echo merged` で dev が branch の ancestor か判定。`merged` が出れば `git merge dev` は no-op が確定（実行しても `Already up to date.`）。conflict 解消 lesson（L-DEVSYNC-001..061）を**呼び出さない**（不要な resolver 起動・手動 hybridize を避ける）。
+  3. `git rev-list --left-right --count @{u}...HEAD` の右辺が push 未済 commit 数。typecheck/lint green を確認して `git push` のみ。merge commit を新規作成しない（no-op なので作られない）。
+- 留意: 本 lessons ファイルは union merge の累積で **同一 L-DEVSYNC-NNN ID が複数存在する**（057×2 / 059×3 / 060×2）。L-DEVSYNC-060 が予言した「重複節 ID は人手で採番ずらし」が現実化しており、本サイクルで末尾 060（members-list）を 061 へ補正した。ただし 057/059 系の旧重複は採番カスケードを避けるため未補正のまま据え置き（参照は title で識別する運用）。ID 衝突 detector の自動化は ROI 次第で L-DEVSYNC-063 以降に委ねる。
+- 事例: 2026-05-29 再同期。dev=`37fe488e8`、branch HEAD=`374f5e04a`（既存 sync-merge）。conflict/CI 失敗 0、`origin/feat/public-header-logged-in-nav-cleanup-pr-20260528` へ 2 commit push。
+- 参照: L-DEVSYNC-059 (skill-only shape resolver-only path), L-DEVSYNC-061 (skill-only 再現), task-specification-creator [[patterns-lessons-and-pitfalls#dev-sync-merge-conflict-resolution]]。
+
+
+## L-DEVSYNC-063: add/add の `auth-view` index.ts は「dev=inline 全部入り vs branch=モジュラー分割」— inline 採用は分割ファイル群と二重 export 衝突するので branch(ours) 一択（2026-05-30 feat/task-c-privacy-terms-public-shell-spec ← origin/dev HEAD 7b2bf0537）
+
+- 事象: `feat/task-c-privacy-terms-public-shell-spec` ← `dev` (取込後 HEAD `7b2bf0537`) の 2 回目 sync-merge で conflict 8 件。内訳 = skill index 2 件 (`aiworkflow-requirements/indexes/{keywords.json,topic-map.md}`) + source `.ts/.tsx` 6 件 (`apps/web/src/lib/auth-view/{index.ts,__tests__/resolveAuthView.spec.ts}` の **add/add** + `apps/web/src/components/public/PublicHeader.tsx` + `.../__tests__/PublicHeader.spec.tsx` + `apps/web/app/(public)/{layout.tsx,layout.spec.tsx}`)。L-DEVSYNC-061 が記録した同 branch の「conflict 0 add-only」shape とは別物 — dev 側に **競合する auth-view 実装が後から入った**ため意味的 conflict に発展。
+- Why: `apps/web/src/lib/auth-view/` を巡って dev と branch が **並行に別設計の実装を add** した。
+  - branch(ours): `types.ts` / `resolveAuthView.ts` / `getAuthView.ts` に分割し `index.ts` は re-export のみ。`resolveAuthView` の入力は Auth.js 生 session 形 `{ user: { memberId, isAdmin } }`、`getAuthView` は `getAuth().auth()` 経由。
+  - dev(theirs): `index.ts` 1 枚に `AuthView` 型 + `resolveAuthView` + `getAuthView` を inline。入力は flat な `SessionUser` (`{ memberId, isAdmin }`)、`getAuthView` は既存 `getSession()` helper を再利用。
+  - **決定打**: branch 側の分割ファイル (`types.ts`/`resolveAuthView.ts`/`getAuthView.ts`) は add-only で dev のマージでは削除されない。ここで dev の inline `index.ts` を採ると、同じ `resolveAuthView`/`AuthView`/`getAuthView` を **index.ts(inline) と分割ファイルの両方が export** して二重定義コンパイルエラーになる。よって add/add の `index.ts` と `resolveAuthView.spec.ts` は **ours(モジュラー re-export) 一択**で、theirs を選ぶ余地が構造的にない。両 `resolveAuthView` は入力形が違っても **出力 `AuthView` は同一**なので、consumer (PublicHeader/layout) は `AuthView` のみ消費し挙動差は出ない。
+- How to apply:
+  1. add/add (`CONFLICT (add/add)`) を見たら、まず **「片側が分割ファイル構成・もう片側が単一ファイル inline か」** を `ls <dir>` で確認。分割ファイル群が conflict 一覧に **載っていない**（= 片側 add-only で生き残る）なら、その分割側を採らないと二重 export 衝突する。`git checkout --ours <index.ts> <spec>` → `git add`。
+  2. **import 経路の統一**: 解消後の `index.ts` が barrel re-export なら、consumer / spec の mock も barrel (`../../src/lib/auth-view`) に揃える。今回 `layout.tsx` は `getAuthView` を barrel import に統一し、`layout.spec.tsx` の `vi.mock` も barrel を mock（submodule `../auth-view/getAuthView` の mock は削除）。**import 元と mock 対象がズレると test が実体を呼んで落ちる**。
+  3. **interleave された重複 import / 重複関数定義の手当て**: source の 3-way conflict は merge が `AuthSlot` 等を上下 2 箇所に分裂させがち。マーカー外に既に ours の詳細版 (`AuthSlot` member/admin/guest 分岐 + aria-label + `SignOutButton redirectTo/label`) が残っているなら、conflict 内の theirs 簡易版は捨て、import も 1 セットに dedupe して全文を書き直す方が安全（部分 hunk 解消より誤り少ない）。`data-testid="public-header"` など theirs 由来の**加算的属性は取り込む**（test 互換のため）。
+  4. 検証は focused vitest 必須: `pnpm exec vitest run apps/web/src/lib/auth-view/__tests__/resolveAuthView.spec.ts apps/web/src/components/public/__tests__/PublicHeader.spec.tsx "apps/web/app/(public)/layout.spec.tsx"`（root から full path、`(public)` の括弧はクォート）。今回 12 passed。typecheck で二重 export を確実に検出（6 packages Done なら衝突なし）。
+- 留意:
+  - vitest を **apps/web cwd から相対 path で叩くと `No test files found`**（root vitest config の include が `apps/**/...` で cwd 基準だと不一致）。必ず **repo root から `apps/web/...` の full path** で実行する。
+  - `SignOutButton` は `redirectTo` / `label` prop と `data-testid="sign-out-button"` を持つ既存実装。ours の AuthSlot がこれらを使うので prop 互換を `grep` で先に確認してから採用（今回確認済み）。
+  - skill index 2 件は従来どおり `pnpm sync:resolve`（union + keywords `--ours + rebuild`）で機械解消。source 6 件のみ手動。**source conflict が混在する merge では resolver は skill 分だけ解消し source は WARN で残す**ので、resolver stdout の `remaining unresolved files` を source 手動対象リストとして使う。
+- 事例: 2026-05-30 sync-merge。conflict 8 件 = skill 2 (resolver) + source 6 (手動)。`git ls-files -u` 0 後 typecheck 6 Done / lint exit 0 / focused vitest 12 passed / indexes:rebuild no drift。
+- 判定フロー追補 (L-DEVSYNC-061 の 3 段への第 4 分岐): **(4) add/add で片側が分割・片側が inline の同一 API → 生き残る分割ファイルと二重 export しない側 (= 分割側 ours) を機械的に選ぶ。theirs(inline) は構造的に採れない**。L-DEVSYNC-056/058 の「source 意味的 conflict 手動 hybridize」の特殊形で、選択の自由度が無い点が特徴。
+- 参照: L-DEVSYNC-061 (同 branch の conflict-0 先行同期), L-DEVSYNC-056/058 (source 手動 hybridize), task-specification-creator [[patterns-lessons-and-pitfalls#dev-sync-merge-conflict-resolution]]。
