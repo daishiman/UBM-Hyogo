@@ -457,6 +457,7 @@ dev → feature の sync-merge で発生した conflict 解消ルール（aiwork
 これら 3 件は本 skill の `evidence-sync-rules.md` / `patterns-phase12-sync.md` で扱う「Phase 12 strict 7 / sync gate」と整合する追加ガード。
 
 - **L-DEVSYNC-043 (`pnpm sync:resolve` 中の worktree `index.lock` 失敗)**: sync-merge を伴う Phase（特に Phase 5 / Phase 12 の skill index 更新 + Phase 13 PR 前）で `pnpm sync:resolve` が `fatal: Unable to create '.../worktrees/<wt>/index.lock'` で失敗するケースを runbook 化する。**仕様書側の Phase 12 implementation-guide / Phase 13 PR pre-flight チェックリスト**に「`pnpm sync:resolve` 失敗時は `rm -f $(git rev-parse --git-dir)/index.lock` を試す」troubleshoot 行を含めること（worktree 環境では `.git` がファイルなので `.git/index.lock` 直接除去はできない）。詳細手順は aiworkflow-requirements skill L-DEVSYNC-043 を参照。
+- **L-DEVSYNC-063 (並列WT での local dev 同期判定は `git rev-parse` ハッシュ比較を正本にする)**: 9 並列 worktree 運用では、別 WT のプロセスが同タイミングで fetch/同期を走らせると共有 `dev` ref が読み取り中に更新され、`git log -1 dev` 表示や `git rev-list --count` 初回値が **stale な behind/ahead** を返す。Phase 13 PR pre-flight / sync runbook で local dev 同期判定を記述する仕様には、「**`git rev-parse dev` == `git rev-parse origin/dev` の直接ハッシュ比較を一次ソースにし、`log`/`rev-list` 表示が矛盾したら rev-parse で再確認する**」ガードを含める。両ハッシュ一致なら dev 同期は no-op として skip し、`git rev-list --count origin/dev..dev` による独自コミット検出（中断条件）の誤発火を防ぐ。詳細は aiworkflow-requirements skill L-DEVSYNC-063 を参照。
 
 ## enum → route exhaustiveness guard pattern（issue-891）
 

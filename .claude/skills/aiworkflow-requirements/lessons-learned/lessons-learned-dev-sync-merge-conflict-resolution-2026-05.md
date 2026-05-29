@@ -1285,3 +1285,15 @@
 - 留意: 本 lessons ファイルは union merge の累積で **同一 L-DEVSYNC-NNN ID が複数存在する**（057×2 / 059×3 / 060×2）。L-DEVSYNC-060 が予言した「重複節 ID は人手で採番ずらし」が現実化しており、本サイクルで末尾 060（members-list）を 061 へ補正した。ただし 057/059 系の旧重複は採番カスケードを避けるため未補正のまま据え置き（参照は title で識別する運用）。ID 衝突 detector の自動化は ROI 次第で L-DEVSYNC-063 以降に委ねる。
 - 事例: 2026-05-29 再同期。dev=`37fe488e8`、branch HEAD=`374f5e04a`（既存 sync-merge）。conflict/CI 失敗 0、`origin/feat/public-header-logged-in-nav-cleanup-pr-20260528` へ 2 commit push。
 - 参照: L-DEVSYNC-059 (skill-only shape resolver-only path), L-DEVSYNC-061 (skill-only 再現), task-specification-creator [[patterns-lessons-and-pitfalls#dev-sync-merge-conflict-resolution]]。
+
+
+## L-DEVSYNC-063: 並列WT運用では fetch 直後の `git log -1 dev` / `git rev-list --count` が stale を返す → local dev 同期判定は `git rev-parse` の直接ハッシュ比較を正本にする（2026-05-30 feat/admin-sidebar-public-return-link ← origin/dev）
+
+- 事象: `git fetch --prune origin` 直後に `git log -1 dev` が `015edc80f`（旧 HEAD）、`git log -1 origin/dev` が `7b2bf0537` を返し「local dev が origin/dev より 8 behind / 独自 3 ahead」に見えた。ところが直後の `git rev-list --count origin/dev..dev` = 0 / `dev..origin/dev` = 0 と矛盾。`git rev-parse dev` / `git rev-parse origin/dev` で直接確認すると**両者とも `7b2bf0537` で一致**しており、local dev は既に origin/dev と完全同期済みだった（dev 同期フェーズは実質 no-op）。
+- Why: 9 並列 worktree 運用では、別 WT のプロセスが同タイミングで `git fetch`/同期を走らせると、共有された `dev` ブランチ ref（worktree 間でブランチ実体は 1 つ）が**こちらの最初の読み取りと後続の読み取りの間に更新される**。`git log -1` の表示や `rev-list --count` の初回値は ref 更新前のスナップショットを掴むことがあり、stale な「behind/ahead」を報告する。これは破損ではなく並列 ref 更新のレース。
+- How to apply:
+  1. local dev と origin/dev の同期判定は **`git rev-parse dev` と `git rev-parse origin/dev` の直接ハッシュ比較**を一次ソースにする。`git log -1` 表示や `rev-list --count` の単発結果が矛盾したら、即 `rev-parse` で再確認する（表示の stale に振り回されて「独自コミットあり→中断」を誤発火させない）。
+  2. 両ハッシュが一致すれば dev 同期フェーズは no-op として skip し、そのまま `git merge dev` へ進む（CONST_001 の独自コミット検出は `git rev-list --count origin/dev..dev` を **rev-parse 一致確認後に**再評価する）。
+  3. 並列 WT 環境では「数値とハッシュの矛盾」は想定内の正常事象として扱い、最終レポートの中断事由に載せない。
+- 解消実績: conflict は skill 5 件（aiworkflow `indexes/{quick-reference,resource-map,topic-map}.md` + `references/task-workflow-active.md` + task-spec `patterns-lessons-and-pitfalls.md`）の標準 shape。`pnpm sync:resolve` で `union-resolved 5 files` + `indexes:rebuild` 完走 → `git diff --name-only --diff-filter=U` 0 → merge commit `5c2a5a002`（pre-commit hook 4 件は `MERGE_HEAD` 検出で通過、`--no-verify` 不付与）。`pnpm typecheck` 6 packages Done / `pnpm lint` exit 0（`stablekey-literal-lint` の `PublicConsentCallout.tsx` 2 件は **warning モードで CI 非 fail**・dev 取り込み済み既存ファイル）/ `pnpm indexes:rebuild` 再実行 no drift。L-DEVSYNC-059/061 と同形の resolver 単発完結を再々確認。
+- 参照: L-DEVSYNC-062 (dev=ancestor の no-op merge), L-DEVSYNC-002 (`--ours + rebuild`), L-DEVSYNC-059/061 (skill-only shape), task-specification-creator [[patterns-lessons-and-pitfalls#dev-sync-merge-conflict-resolution]]。
