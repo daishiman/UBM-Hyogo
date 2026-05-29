@@ -1,0 +1,31 @@
+# Local Validation Summary — admin-identity-conflicts-prototype-alignment-and-404-fix
+# Captured: 2026-05-27
+# Environment: Node 24.15.0 / pnpm 10.33.2 (via mise)
+
+## non-visual evidence
+
+| 検証 | コマンド | exit | 結果 |
+|------|---------|------|------|
+| typecheck | mise exec -- pnpm typecheck | 0 | PASS (all packages: shared/integrations/integrations-google/web/api) |
+| lint | mise exec -- pnpm lint | 0 | PASS (all packages) |
+| web vitest (IdentityConflictRow filter) | mise exec -- pnpm --filter @ubm-hyogo/web test -- IdentityConflictRow | 0 | PASS — 158 files / 1154 tests / 1 skipped |
+| safe-server-fetch vitest | mise exec -- pnpm --filter @ubm-hyogo/web test -- src/lib/admin/__tests__/safe-server-fetch.spec.ts | 0 | PASS — 158 files / 1154 tests / 1 skipped |
+| api contract (identity-conflicts.contract) | mise exec -- pnpm --filter @ubm-hyogo/api test -- identity-conflicts.contract | 0 | PASS — 65 files / 414 tests |
+| PII grep (apps/web identity-conflicts) | rg '@[a-z0-9.-]+\.[a-z]{2,}' apps/web/app/(admin)/admin/identity-conflicts apps/web/src/components/admin/IdentityConflictRow.tsx | n/a | 0 hits (clean) |
+| D1 grep (apps/web identity-conflicts) | rg 'D1Database|env\.DB\b' apps/web/app/(admin)/admin/identity-conflicts | n/a | 0 hits (clean) |
+| legacy hook grep | rg 'from "@/lib/useAdminMutation"' apps/web/src/components/admin/IdentityConflictRow.tsx | n/a | 0 hits (clean) |
+
+## visual evidence
+
+| 種別 | 状態 | 補足 |
+|------|------|------|
+| local screenshots (8 件) | pending (user-gated execution) | Playwright dev server 起動 + adminPage fixture が必要。spec は apps/web/playwright/tests/admin-identity-conflicts.spec.ts に存在 |
+| staging curl evidence | pending (user-gated) | Phase 13 / FU-AIDC-003 |
+| staging authenticated screenshots | pending (user-gated) | 同上 |
+
+## DoD reflection
+
+- AC-1〜AC-6 (UI alignment) 実装本体 (page.tsx / IdentityConflictRow.tsx) は git diff で確認可能。
+- AC-7 (B 系 404 修復) は staging 環境の deploy / env / D1 migration 調査が必要なため Phase 13 で user-gated 実行。
+- AC-8 (PII)/AC-9 (D1)/AC-10 (admin hook) は grep gate 0 件で達成。
+- AC-11 (typecheck/lint/build/contract) は本 summary に集約。build は OpenNext webpack build を要する重量タスクのため、Phase 13 (verify-pr-ready.sh) で再実行。

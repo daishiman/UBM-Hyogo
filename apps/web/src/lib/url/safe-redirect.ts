@@ -10,8 +10,8 @@ export const isSafeInternalRedirect = (value: string): boolean => {
 };
 
 export const normalizeRedirectPath = (
-  value: string | undefined,
+  value: unknown,
 ): string => {
-  if (value && isSafeInternalRedirect(value)) return value;
+  if (typeof value === "string" && isSafeInternalRedirect(value)) return value;
   return FALLBACK_REDIRECT;
 };
