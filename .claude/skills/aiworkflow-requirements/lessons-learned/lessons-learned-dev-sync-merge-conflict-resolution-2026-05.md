@@ -1202,6 +1202,37 @@
 - 参照: L-DEVSYNC-056 (single-side primitive 移行 hybridize)、L-DEVSYNC-046 (UNION_TARGETS)、task-specification-creator [[patterns-lessons-and-pitfalls#dev-sync-merge-conflict-resolution]]。
 
 
+## L-DEVSYNC-059: `pnpm sync:resolve` 中断による stale `index.lock` の検出と除去（2026-05-29 確認）
+
+- 事象: `feat/members-not-displaying-form-sync-investigation` ← `origin/dev` sync-merge で 5 件 conflict（aiworkflow indexes 4 件 + source 0 件 + admin layer 0 件）。`pnpm sync:resolve` 起動中にラッパー（bash の `sleep 30` 待機）が exit 143 (SIGTERM) で外側から打ち切られ、`union-resolved` 3 件 (`resource-map.md` / `topic-map.md` / `task-workflow-active.md`) は成功したが、最終 `git add` 段階で `fatal: Unable to create '...worktrees/<wt>/index.lock': File exists.` が発生。直後 `git status` で `.git/worktrees/<wt>/index.lock` が残留。
+- Why: `scripts/sync/resolve-skill-merge-conflicts.sh` は union-resolve 後に `git add` を逐次実行する。SIGTERM で stage 中の `git add` が殺されると lockfile が orphan 化する。git は他 process 動作中と誤認し以降の操作を全 block する。
+- How to apply:
+  1. `pnpm sync:resolve` を background や timeout 短すぎる sleep 越しで wait する運用を避ける（resolve 自身は数秒で完了する）。やむを得ず timeout を挟む場合は最低 60s。
+  2. lockfile 残留検出時の復旧: `git rev-parse --git-dir` で worktree git dir を取得 → `ls -la "$GITDIR/index.lock"` で stale 確認（mtime が直近で他 git process がいないこと） → `rm -f "$GITDIR/index.lock"` で除去 → 中断時点の resolve は `--ours` 等の手動 fallback で個別解消 → `git add` を改めて発行。
+  3. lockfile 存在のみで自動 `rm` は危険（実 process との race を排除できない）。直前の `pnpm sync:resolve` ログで「git add 段階で SIGTERM/exit 143」が確認できた場合のみ stale 判定する。
+- 留意: 本ケースの conflict 5 件のうち union 3 + `--ours+rebuild` 1 (`keywords.json`) で全自動解消、`.tsx` / `.ts` の hybridize は 0 件だった。 1062 file の merge 規模に対して conflict 5 件は wave 並列実装の構造的下限であり、indexes 4 + keywords 1 のパターンは L-DEVSYNC-046〜058 系の継続再現。本 lesson は **lock 復旧手順** のみを独立化する意義として追加（hybridize 系は既存 lesson でカバー）。
+- 事例: 2026-05-29 sync-merge (HEAD=`feat/members-not-displaying-form-sync-investigation`, base merge target=`f063d29dc`)。`pnpm sync:resolve` 中断 → `index.lock` 残留 → `rm -f` 後 `git checkout --ours .claude/skills/aiworkflow-requirements/indexes/keywords.json` → `git add` → `pnpm indexes:rebuild` で 5195 keywords 再生成 → `git add -A` で merge commit 待機。
+
+
+## L-DEVSYNC-059: 同一 module で HEAD/dev が **独立した interface を並列追加** → union resolve でなく「両方保持」が正解（2026-05-29 apps/web/src/lib/env.ts）
+
+- 事象: `feat/fix-admin-fetch-cf-1042-service-binding` ← origin/dev sync-merge で `pnpm sync:resolve` 後に `apps/web/src/lib/env.ts` 1 件が unresolved。HEAD と dev が **異なる名前の interface を同じファイルの同位置に独立追加** していた:
+  - HEAD: `export interface AdminFetchEnv { API_SERVICE?; INTERNAL_API_BASE_URL?; NODE_ENV?; PLAYWRIGHT_TEST? }` + 同 module 下部に `getAdminFetchEnv()` accessor (CF-1042 Service Binding 経路統一の一環)。
+  - dev: `export interface ApiBaseEnv { INTERNAL_API_BASE_URL?; PUBLIC_API_BASE_URL? }` + 同 module 下部に `getApiBaseEnv()` accessor (`/profile` Server Components render error 対応で `safe-server-fetch` 用 base URL 取り出し用)。
+- Why: 名前空間が衝突しておらず、両 interface とも **同 module 内の独立した getter で同時に referenced** されている。片側を捨てると referencing getter が compile error。これは L-DEVSYNC-046 (UNION_TARGETS skill docs) や L-DEVSYNC-058 (page hybridize) と異なり、**ソースコード `.ts` でも例外的に safe-union が成立**するパターン（add-add だが意味的に直交）。
+- How to apply:
+  1. conflict block を開き、HEAD/dev のシンボル名を確認。**異なる名前の独立 interface/type/関数** で、同 module の他 location で **両方が referenced** されているなら safe-union 候補。
+  2. 確認方法: 各シンボルについて `grep -n "<シンボル名>" <module>` を実行し、定義 + 1 件以上の reference が両側に存在することを確認。
+  3. resolution: conflict marker を撤去し **両 interface をそのまま縦に並べる**（順序は HEAD → dev 推奨。再 merge 時 diff が小さくなる）。`||||||| <base sha>` の base 側は無視。
+  4. 検証: `pnpm typecheck` で referencing getter が両方 green、`pnpm lint` 通過、`git diff --diff-filter=U` 0 件。
+- 留意:
+  - **誤適用注意**: 同名 interface への両側追加（field 違い）は safe-union 対象外。L-DEVSYNC-046 系の field-level hybridize に分岐する。
+  - 関数定義（`export function`）でも同パターンは成立するが、import 元の symbol 衝突が無いこと（barrel re-export を含めて）を必ず確認。
+  - `pnpm sync:resolve` 拡張で取り込むには **AST レベルの top-level export 名衝突判定** が必要で ROI が低い。本 lesson 経由で手動解消するのが現実解。
+- 検証: `feat/fix-admin-fetch-cf-1042-service-binding` ← dev merge。`pnpm sync:resolve` で skill 4 union + keywords ours+rebuild 完結 → `apps/web/src/lib/env.ts` のみ手動 add-add safe-union（両 interface 縦並び）→ `git add apps/web/src/lib/env.ts` → `git diff --diff-filter=U` 0 件 → merge commit 確定。
+- 参照: L-DEVSYNC-046 (UNION_TARGETS resolver), L-DEVSYNC-056 (single-side primitive migration hybridize), L-DEVSYNC-058 (page-level 2-way modernization hybridize), task-specification-creator [[patterns-lessons-and-pitfalls#dev-sync-merge-conflict-resolution]]。
+
+
 ## L-DEVSYNC-059: skill-only conflict shape は `pnpm sync:resolve` 単発で 5 union + 1 --ours 完結（2026-05-28 issue-958-h3-public-filter-ux）
 
 - 事象: `feat/issue-958-h3-public-filter-ux` ← `origin/dev` sync-merge で発生したコンフリクトが **skill md 5 件 (SKILL.md / indexes/{quick-reference,resource-map,topic-map}.md / references/task-workflow-active.md) + derived 1 件 (indexes/keywords.json)** のみ。`.tsx`/`.ts` の page-level conflict は 0 件（HEAD 側の実装が dev 側で書き換えられた page と重ならない shape）。

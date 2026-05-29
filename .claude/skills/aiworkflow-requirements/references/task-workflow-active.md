@@ -8,6 +8,20 @@
 
 本ドキュメントは、複雑なタスクを単一責務の原則に基づいて分解し、各サブタスクに最適なスラッシュコマンド・エージェント・スキルの組み合わせを選定するためのガイドラインを定義する。
 
+### fix-admin-fetch-cf-1042-service-binding（2026-05-28）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_runtime_pending / implementation / NON_VISUAL` |
+| 成果物 | `docs/30-workflows/completed-tasks/fix-admin-fetch-cf-1042-service-binding/` |
+| 目的 | admin Server Component `fetchAdmin` が同一 account API Worker を raw HTTP fetch して Cloudflare `error code: 1042` になる問題を、Service Binding first transport で復旧 |
+| implementation targets | `apps/web/src/lib/env.ts`, `apps/web/src/lib/admin/server-fetch.ts` |
+| tests | `apps/web/src/lib/admin/__tests__/server-fetch.binding.spec.ts`, `server-fetch.http-fallback.spec.ts`, `server-fetch-url.spec.ts`, `server-fetch.env.spec.ts` |
+| invariant | apps/web から D1 直接アクセス禁止は維持。staging/production primary transport は `API_SERVICE.fetch()`、local/test は HTTP fallback |
+| Phase 11/12 | local focused tests PASS, strict 7 outputs, root/output artifacts parity present |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-fix-admin-fetch-cf-1042-service-binding-artifact-inventory.md` |
+| user gate | staging deploy, authenticated `/admin` smoke, wrangler tail, commit, push, PR |
+
 ### issue-958-h3-public-filter-ux（2026-05-28）
 
 | 項目 | 値 |
@@ -183,6 +197,19 @@
 | user gate | staging Playwright visual baseline、staging deploy/smoke、commit、push、PR。Phase 11 local screenshots は取得済み |
 
 ### google-form-reflection-diagnostics（2026-05-26）
+### members-not-displaying-form-sync-investigation（2026-05-28）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_runtime_pending / implementation / VISUAL_ON_EXECUTION` |
+| 成果物 | `docs/30-workflows/completed-tasks/members-not-displaying-form-sync-investigation/` |
+| 目的 | staging `/members` が 0 件になる問題を H1 ingest / H2 identity / H3 publish_state / H4 alias に切り分け、diagnostics・auto-publish policy・backfill ops の実装仕様を固定する |
+| implementation targets | `apps/api/src/diagnostics/{forms-pipeline,schema}.ts`, `apps/api/src/routes/admin/{sync-diagnostics,sync-backfill-publish-state}.ts`, `apps/api/src/jobs/sync-forms-responses.ts`, `apps/api/wrangler.toml`, `scripts/{diagnose-members-pipeline,backfill-publish-state}.sh` |
+| invariant | public directory は `public_consent='consented' AND publish_state='public' AND is_deleted=0` + canonical alias source exclusion。canonical publish state は `public/member_only/hidden`。`member_status_history` 前提は禁止 |
+| Phase 11/12 | Gate-B local verification PASS (`outputs/phase-11/local-verification.md`) + strict 7 present。Gate-C staging runtime は pending |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-members-not-displaying-form-sync-investigation-artifact-inventory.md` |
+| user gate | staging deploy, diagnostics, backfill apply, browser smoke, commit, push, PR |
+
 ### admin-identity-conflicts-prototype-alignment-and-404-fix（2026-05-27）
 
 | 項目 | 値 |

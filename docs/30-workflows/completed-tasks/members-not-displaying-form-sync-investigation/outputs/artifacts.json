@@ -1,0 +1,121 @@
+{
+  "workflow_id": "members-not-displaying-form-sync-investigation",
+  "feature": "members-not-displaying-form-sync-investigation",
+  "status": "implemented_local_runtime_pending",
+  "created": "2026-05-28T00:00:00+09:00",
+  "lastUpdated": "2026-05-28T11:40:00+09:00",
+  "metadata": {
+    "taskId": "TASK-MEMBERS-FORM-SYNC-INVESTIGATION",
+    "taskType": "implementation",
+    "visualEvidence": "VISUAL_ON_EXECUTION",
+    "implementationCategory": "bugfix",
+    "implementation_mode": "new",
+    "workflow_state": "implemented_local_runtime_pending",
+    "implementation_status": "local_verified",
+    "spec_classification": "implementation_spec",
+    "canonical_root": "docs/30-workflows/completed-tasks/members-not-displaying-form-sync-investigation",
+    "scope": "Google Form response sync to public members visibility diagnosis and repair",
+    "runtime_boundary": "Local API implementation and focused verification completed. Cloudflare staging deploy, staging diagnostics/backfill apply, browser smoke, commit, push, and PR remain explicit user-gated execution gates.",
+    "implementation_files": [
+      "apps/api/src/diagnostics/forms-pipeline.ts",
+      "apps/api/src/diagnostics/schema.ts",
+      "apps/api/src/jobs/sync-forms-responses.ts",
+      "apps/api/src/env.ts",
+      "apps/api/wrangler.toml",
+      "apps/api/src/routes/admin/sync-backfill-publish-state.ts",
+      "apps/api/src/index.ts",
+      "scripts/diagnose-members-pipeline.sh",
+      "scripts/backfill-publish-state.sh"
+    ],
+    "test_files": [
+      "apps/api/src/diagnostics/forms-pipeline.spec.ts",
+      "apps/api/src/diagnostics/forms-pipeline.contract.spec.ts",
+      "apps/api/src/lib/policies/auto-publish.spec.ts",
+      "apps/api/src/jobs/sync-forms-responses.contract.spec.ts",
+      "apps/api/src/routes/admin/sync-diagnostics.contract.spec.ts",
+      "apps/api/src/routes/admin/sync-backfill-publish-state.spec.ts"
+    ],
+    "phase12_strict_outputs": [
+      "outputs/phase-12/main.md",
+      "outputs/phase-12/implementation-guide.md",
+      "outputs/phase-12/system-spec-update-summary.md",
+      "outputs/phase-12/documentation-changelog.md",
+      "outputs/phase-12/unassigned-task-detection.md",
+      "outputs/phase-12/skill-feedback-report.md",
+      "outputs/phase-12/phase12-task-spec-compliance-check.md"
+    ],
+    "phase11_local_outputs": [
+      "outputs/phase-11/local-verification.md"
+    ],
+    "related_workflows": [
+      "docs/30-workflows/completed-tasks/google-form-reflection-diagnostics/"
+    ],
+    "related_issues": [
+      956,
+      957,
+      958,
+      959
+    ],
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-05-28T00:00:00+09:00",
+        "evidence_path": "docs/30-workflows/completed-tasks/members-not-displaying-form-sync-investigation/outputs/phase-12/phase12-task-spec-compliance-check.md",
+        "approver": "daishiman",
+        "notes": "spec_review: Phase 1-13, task specs, strict 7 outputs, and aiworkflow ledger sync are present"
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "passed",
+        "passed_at": "2026-05-28T11:40:00+09:00",
+        "evidence_path": "docs/30-workflows/completed-tasks/members-not-displaying-form-sync-investigation/outputs/phase-11/local-verification.md",
+        "approver": "daishiman",
+        "notes": "implementation_review: app code is present; focused unit/D1 tests, typecheck, build, and script syntax checks passed locally"
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/members-not-displaying-form-sync-investigation/outputs/phase-11/diagnose-post.json",
+        "approver": "daishiman",
+        "notes": "runtime_smoke: staging deploy, diagnostics, backfill apply, and /members browser smoke are user-gated"
+      }
+    ]
+  },
+  "tasks": [
+    {
+      "id": "task-a",
+      "title": "Runtime diagnosis hardening and ops script",
+      "path": "tasks/task-a-runtime-diagnosis.md",
+      "classification": "implementation"
+    },
+    {
+      "id": "task-b",
+      "title": "Auto-publish on consent policy",
+      "path": "tasks/task-b-auto-publish-on-consent.md",
+      "classification": "implementation"
+    },
+    {
+      "id": "task-c",
+      "title": "Backfill existing records",
+      "path": "tasks/task-c-backfill-existing-records.md",
+      "classification": "implementation"
+    }
+  ],
+  "phases": [
+    { "phase": 1, "name": "Requirements", "status": "completed", "output": "phase-01-requirements.md" },
+    { "phase": 2, "name": "Architecture", "status": "completed", "output": "phase-02-architecture.md" },
+    { "phase": 3, "name": "Task breakdown", "status": "completed", "output": "phase-03-task-breakdown.md" },
+    { "phase": 4, "name": "Data contract", "status": "completed", "output": "phase-04-data-contract.md" },
+    { "phase": 5, "name": "Implementation guide", "status": "completed", "output": "phase-05-implementation-guide.md" },
+    { "phase": 6, "name": "Test strategy", "status": "completed", "output": "phase-06-test-strategy.md" },
+    { "phase": 7, "name": "Quality gates", "status": "completed", "output": "phase-07-quality-gates.md" },
+    { "phase": 8, "name": "Definition of Done", "status": "completed", "output": "phase-08-dod.md" },
+    { "phase": 9, "name": "Risks", "status": "completed", "output": "phase-09-risks.md" },
+    { "phase": 10, "name": "Local verification", "status": "completed", "output": "phase-10-local-verification.md" },
+    { "phase": 11, "name": "Evidence inventory", "status": "local_verified_runtime_pending", "output": "phase-11-evidence-inventory.md" },
+    { "phase": 12, "name": "Compliance", "status": "completed", "output": "outputs/phase-12/main.md" },
+    { "phase": 13, "name": "Commit / PR", "status": "blocked_pending_user_approval", "output": "phase-13-commit-pr-draft.md" }
+  ]
+}

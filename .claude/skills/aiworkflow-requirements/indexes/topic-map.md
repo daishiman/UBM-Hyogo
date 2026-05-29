@@ -88,15 +88,15 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 1. 構成図 | L15 |
-| 2. Server-side fetch（`apps/web/src/lib/admin/server-fetch.ts`） | L49 |
-| 3. Client-side mutation（`apps/web/src/lib/admin/api.ts`） | L110 |
-| 4. BFF proxy（`apps/web/app/api/admin/[...path]/route.ts`） | L182 |
-| 5. ステータスコード処理方針 | L239 |
-| 6. 環境変数 | L271 |
-| 7. 不変条件サマリ（admin API client / proxy） | L284 |
-| 8. 関連ドキュメント | L296 |
-| 9. 06c-A Admin Dashboard 契約 (2026-05-02) | L304 |
-| 10. Self-service BFF proxy（`apps/web/app/api/me/[...path]/route.ts`） | L321 |
+| 2. Server-side fetch（`apps/web/src/lib/admin/server-fetch.ts`） | L50 |
+| 3. Client-side mutation（`apps/web/src/lib/admin/api.ts`） | L116 |
+| 4. BFF proxy（`apps/web/app/api/admin/[...path]/route.ts`） | L188 |
+| 5. ステータスコード処理方針 | L245 |
+| 6. 環境変数 | L277 |
+| 7. 不変条件サマリ（admin API client / proxy） | L290 |
+| 8. 関連ドキュメント | L302 |
+| 9. 06c-A Admin Dashboard 契約 (2026-05-02) | L310 |
+| 10. Self-service BFF proxy（`apps/web/app/api/me/[...path]/route.ts`） | L327 |
 
 ### references/architecture-auth-security-core.md
 
@@ -2417,6 +2417,13 @@ node scripts/list-specs.js --topics
 | Evidence Artifacts | L24 |
 | Boundary | L39 |
 
+### references/workflow-fix-admin-fetch-cf-1042-service-binding-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Status | L15 |
+| Acceptance Criteria Mapping | L21 |
+
 ### references/workflow-fix-admin-scr-err-stg-fu-001-auth-env-via-getenv-artifact-inventory.md
 
 | セクション | 行 |
@@ -3414,6 +3421,13 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | Lessons Learned | L13 |
+
+### references/workflow-members-not-displaying-form-sync-investigation-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Correctness Notes | L17 |
+| Lessons Learned | L25 |
 
 ### references/workflow-members-page-prototype-alignment-artifact-inventory.md
 
@@ -8017,14 +8031,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L2976 |
-| フェーズ構造（概要） | L2985 |
-| 品質ゲート（概要） | L3016 |
-| 出力テンプレート | L3027 |
-| 実行時のコマンド・エージェント・スキル | L3050 |
-| 昇格パターン集 | L3074 |
-| Current Active / Spec Created Tasks | L3076 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L3238 |
+| ドキュメント構成 | L3003 |
+| フェーズ構造（概要） | L3012 |
+| 品質ゲート（概要） | L3043 |
+| 出力テンプレート | L3054 |
+| 実行時のコマンド・エージェント・スキル | L3077 |
+| 昇格パターン集 | L3101 |
+| Current Active / Spec Created Tasks | L3103 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L3265 |
 
 ### references/task-workflow-backlog-part2.md
 
