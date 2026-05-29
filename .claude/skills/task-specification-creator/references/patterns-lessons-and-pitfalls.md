@@ -1103,3 +1103,24 @@ admin-ui task A〜E が連続して dev に merge される現フェーズで、
 - **SP-DEVSYNC-056-D (Phase 4 risk への登録)**: admin-ui prototype alignment 系 task の Phase 4 risk table に「同一 wave で primitive 一斉導入が dev 側に着地した場合、page-local 旧 header / Sidebar GROUPS / legacy component.spec の 3 軸で sync-merge 時に hybridize が必須」を必ず登録し、L-DEVSYNC-056 を mitigation reference として参照。resolver 拡張ではなく仕様側で risk 化するのが正（L-DEVSYNC-054 と同じ判断）。
 - **SP-DEVSYNC-056-E (検証 4 step 必達)**: hybridize 後の検証は **`git diff --diff-filter=U --name-only` 0 件 → `pnpm typecheck` Done × 全 packages → `pnpm lint` Done × 全 packages → `git commit -m "merge: sync <branch> with dev"`** の 4 step を Phase 12 implementation-guide に明記。typecheck が undefined ref を即 fail させるため、`sections.map` 等の前提変数撤去漏れを早期検出できる。
 - 参照: [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-056、L-DEVSYNC-054 (`.ts` 手動 union)、L-DEVSYNC-055 (resolver 単独完結 happy-path との対比)。
+
+## L-PWCO Parent workflow Task 切り出し + auth-view discriminated union 配信パターン（2026-05-28）
+
+親 workflow の単一 Task（本件 `public-header-logged-in-nav-cleanup` Task E）を独立 workflow に切り出し、session-aware UI 配信用の最小基盤を同 cycle で実装するパターン。route group `layout.tsx` の async server component 化 + getter 1 回呼び出し + prop drilling を default 構成とする。
+
+- **L-PWCO-001 (依存最小閉包の同 cycle 実装)**: 親 workflow の Task X を独立 workflow 化する場合、依存基盤（`AuthView` resolver / async adapter 等）の「対象 Task に必要な最小境界」だけを同 cycle で実装する。親 workflow 全体の進行を待たない / 基盤を親で実装するまで `spec_created` 凍結しない。Phase 1 で「親 workflow Task X 独立化」を明示、Phase 5 implementation guide に最小実装範囲を列挙。strict 7 は親（集約）と独立（単一 close-out）の 2 レイヤで両立。
+- **L-PWCO-002 (discriminated union literal 固定)**: 権限ごとに表示要素が増減する session-aware UI は、`{ kind: "guest" } | { kind: "member"; profileHref } | { kind: "admin"; profileHref; adminHref }` 形式の discriminated union を default 選択肢にする。admin-only field (`adminHref`) を admin variant のみに置き、`isAdmin: boolean` flat shape を避ける。href 値も union field に持たせ、call site で template literal を避ける。静的 grep gate (`rg 'kind: "admin"'`) で全 caller を即時検出可能にする。
+- **L-PWCO-003 (`data-<state>` DOM 属性 contract)**: session/state 切替 UI には primitive component に `data-<state-key>` 属性（例 `data-auth-state="member"|"admin"`）を 1 つ用意し、Playwright / Vitest spec は **属性値で assertion する**。TypeScript type を test に import すると union rename で test だけ型エラー化するため、DOM attribute string を contract として固定。属性値リテラルは changelog / inventory に明記して将来の rename を防ぐ。
+- **L-PWCO-004 (route group `layout.tsx` async 化 + getter 1 回呼び出し)**: session を 2 箇所以上で必要とする route group は、route group 直下 `layout.tsx` を async server component 化し、`getAuthView()` / `getSession()` 等の getter を **1 回だけ**呼び、子 component へ prop で配信する。child / page 側で getter 再呼び出しを禁止（N+1 binding cold path 防止 / request-scope cache 相当の保証）。child の prop は optional + default で test injection を props 経由に統一。
+- **L-PWCO-005 (async adapter は fail-closed guest fallback)**: `getAuthView()` 等の auth resolver adapter は内部で getter throw を try/catch し、最小権限（`{ kind: "guest" }` 等）を返す fail-closed 契約にする。layout 側で握り潰さないことで `app/error.tsx` boundary を保ち、後段 middleware の 401/302 gate で UX 破綻を回避（invariant fail-closed と整合）。
+- **L-PWCO-006 (resolver / adapter / consumer の 3 spec 分離)**: discriminated union × server component prop drilling の test は「pure resolver spec」「async adapter spec（getter mock × throw 時 fallback）」「consumer render spec（`authView` injection × `data-*` 属性 assertion）」の 3 focused Vitest 構成を default にする。1 spec 5〜10 test に収め、回帰時の責務切り分けを spec name で即可能にする。
+
+### Anti-pattern
+
+- 親 workflow の進行待ちで独立 workflow を `spec_created` 凍結 → blocker chain で Phase 11 evidence rot
+- `isAdmin: boolean` flat prop + 別 href prop → 「admin だが href 未指定」型違反を補足できずランタイム undefined deref
+- consumer 側で `getAuthView()` 直接呼び出し → server/client 境界の暗黙化、test の getter mock 強要、N+1 binding cold path
+- DOM 属性ではなく TypeScript type export を test に import → UI 契約と test 契約の二重管理、union rename で test だけ型エラー
+- async adapter throw を layout で try/catch して握り潰し → error boundary 機能不全、middleware redirect も発火せず空白画面化
+
+参照: [[lessons-learned-member-header-admin-link-2026-05]] L-MHAL-001..006、[[lessons-learned-public-header-session-aware-auth-view-base-2026-05]] L-PHSAV-001..005（`AuthView` 基盤側の対）、`docs/00-getting-started-manual/specs/02-auth.md` `AuthView` / `MemberHeader` admin CTA 接続契約。
