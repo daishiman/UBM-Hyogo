@@ -29,7 +29,7 @@ beforeEach(() => {
 afterEach(() => cleanup());
 
 describe("MemberFilters", () => {
-  it("form[role=search] / 3 つの Select / クリアボタンをレンダーする", () => {
+  it("form[role=search] / 3 つの Select をレンダーし、説明文と紐付く", () => {
     const { container } = render(<MemberFilters initial={baseInitial} />);
     expect(
       container.querySelector('[data-component="member-filters"]'),
@@ -45,11 +45,13 @@ describe("MemberFilters", () => {
     expect(
       container.querySelector('[data-role="filter-grid"]'),
     ).toBeTruthy();
-    const clearBtn = container.querySelector(
-      '[data-role="clear"]',
-    ) as HTMLButtonElement | null;
-    expect(clearBtn).toBeTruthy();
-    expect(clearBtn?.disabled).toBe(true);
+    const form = container.querySelector(
+      '[data-component="member-filters"]',
+    ) as HTMLElement;
+    expect(form.getAttribute("aria-describedby")).toContain(
+      "member-search-live-hint",
+    );
+    expect(screen.queryByRole("button", { name: "絞り込みをクリア" })).toBeNull();
   });
 
   it("ゾーンを選択すると router.replace が呼ばれる", () => {
@@ -69,11 +71,10 @@ describe("MemberFilters", () => {
         initial={{ ...baseInitial, tag: ["foo", "bar"] }}
       />,
     );
-    const tags = container.querySelectorAll('[data-role="active-tags"] li');
+    const tags = container.querySelectorAll('[data-role="active-filters"] li');
     expect(tags).toHaveLength(2);
-    const fooBtn = screen.getByRole("button", { name: "#foo ×" });
-    expect(fooBtn.getAttribute("data-component")).toBe("tag-pill");
-    expect(fooBtn.getAttribute("aria-selected")).toBe("true");
+    const fooBtn = screen.getByRole("button", { name: "foo タグ絞り込みを解除" });
+    expect(fooBtn.getAttribute("data-component")).toBe("filter-chip");
     fireEvent.click(fooBtn);
     expect(replaceMock).toHaveBeenCalled();
   });
@@ -84,11 +85,7 @@ describe("MemberFilters", () => {
         initial={{ ...baseInitial, q: "山田" }}
       />,
     );
-    const clearBtn = container.querySelector(
-      '[data-component="member-filters"] [data-role="clear"]',
-    ) as HTMLButtonElement;
-    expect(clearBtn).toBeTruthy();
-    expect(clearBtn.disabled).toBe(false);
+    const clearBtn = screen.getByRole("button", { name: "絞り込みをクリア" });
     fireEvent.click(clearBtn);
     expect(replaceMock).toHaveBeenLastCalledWith("/members");
   });
@@ -137,9 +134,21 @@ describe("MemberFilters", () => {
     render(
       <MemberFilters initial={{ ...baseInitial, tag: ["foo"] }} />,
     );
-    const clearBtn = screen.getByRole("button", { name: "すべてクリア" });
+    const clearBtn = screen.getByRole("button", { name: "絞り込みをクリア" });
     fireEvent.click(clearBtn);
     expect(replaceMock).toHaveBeenCalledWith("/members");
+  });
+
+  it("live-filter hint と結果件数 status を描画する", () => {
+    const { container } = render(
+      <MemberFilters initial={baseInitial} totalCount={23} displayedCount={10} />,
+    );
+    expect(container.querySelector('[data-role="live-filter-hint"]')?.textContent).toBe(
+      "入力すると即反映されます",
+    );
+    expect(screen.getByRole("status").textContent).toBe(
+      "23 件中 10 件を表示しています",
+    );
   });
 
   it("mobile summary 行 (filters-summary-mobile) が描画され expanded を切替できる", () => {

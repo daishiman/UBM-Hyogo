@@ -2,6 +2,9 @@
 
 // issue-276: 選択済み tag を表示し、× で個別削除 / clear-all で一括削除する。
 
+import type { MembersSearch } from "../../lib/url/members-search";
+import { SelectedFiltersBar } from "./SelectedFiltersBar.client";
+
 export interface SelectedTagsBarProps {
   selected: string[];
   onRemove: (code: string) => void;
@@ -13,30 +16,25 @@ export function SelectedTagsBar({
   onRemove,
   onClearAll,
 }: SelectedTagsBarProps) {
-  if (selected.length === 0) return null;
+  const search: MembersSearch = {
+    q: "",
+    zone: "all",
+    status: "all",
+    tag: selected,
+    sort: "recent",
+    density: "comfy",
+  };
+
   return (
-    <div data-component="selected-tags-bar">
-      <ul data-role="active-tags">
-        {selected.map((code) => (
-          <li key={code}>
-            <button
-              type="button"
-              data-component="tag-pill"
-              aria-selected="true"
-              onClick={() => onRemove(code)}
-            >
-              #{code} ×
-            </button>
-          </li>
-        ))}
-      </ul>
-      <button
-        type="button"
-        data-role="clear-all"
-        onClick={onClearAll}
-      >
-        すべてクリア
-      </button>
-    </div>
+    <SelectedFiltersBar
+      search={search}
+      onPatch={(patch) => {
+        if (Array.isArray(patch.tag)) {
+          const removed = selected.find((code) => !patch.tag?.includes(code));
+          if (removed) onRemove(removed);
+        }
+      }}
+      onClearAll={onClearAll}
+    />
   );
 }

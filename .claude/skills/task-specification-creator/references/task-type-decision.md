@@ -18,6 +18,8 @@
 
 **判定後のルール**:
 - `docs-only` / `spec_created` のタスクは Phase 11 でスクリーンショットを作らない
+- Phase 1 で実装候補ファイルを決める前に、同階層を `ls` / `rg --files` で実測し、既存命名規則の多数派を記録する。元タスクが camelCase path を指定していても、同階層が kebab-case path + camelCase export を採用している場合は、Phase 2 で kebab-case path へ補正し、export 名だけ camelCase を維持する。
+- `taskType: implementation` でも成果が server-side redirect wiring または純関数 helper/test のみで、UI layout / rendered state / CSS / browser-visible copy を変更しない場合は、`visualEvidence: NON_VISUAL` と判定する。Phase 11 は screenshot ではなく focused unit/component test、typecheck、lint を一次証跡にする。
 - production migration apply runbook のように本番操作の手順だけを formalize し、実 production mutation を Phase 13 merge 後の承認付き別運用に残すタスクは `requirements / operations / runbook` + `NON_VISUAL` として扱う。Phase 11/12 は `DOC_PASS` で閉じ、root workflow state は `spec_created` のまま維持し、runtime PASS / production applied facts は別 task の fresh evidence でのみ記録する
 - ADR 起票 / deploy target decision / topology drift 解消のような docs-only タスクは、Phase 1 で `base case 別差分マトリクス`（cutover / 保留 / 段階移行など）を作り、以降の Phase はその表を参照する。base case 依存の記述を複数 Phase に散在させない
 - ADR 起票タスクの Phase 4 は、実装テストではなく doc-only grep（deploy target 抽出 / リンク死活 / 不変条件抵触ガード / 関連タスク重複確認）を標準検証にする

@@ -10,15 +10,15 @@
 
 | # | パス | 種別 |
 |---|------|------|
-| 1 | `apps/web/src/lib/url/safeNext.ts` | 新規（純関数） |
-| 2 | `apps/web/src/lib/url/__tests__/safeNext.spec.ts` | 新規 |
+| 1 | `apps/web/src/lib/url/safe-next.ts` | 新規（純関数） |
+| 2 | `apps/web/src/lib/url/__tests__/safe-next.spec.ts` | 新規 |
 | 3 | `apps/web/app/login/page.tsx` | 編集（getSession → redirect） |
 | 4 | `apps/web/app/login/__tests__/page.spec.tsx` | 編集（既存 spec があれば redirect ケース追加。無ければ最小限の新規） |
 
 ## 3. `safeNext` 純関数仕様
 
 ```ts
-// apps/web/src/lib/url/safeNext.ts
+// apps/web/src/lib/url/safe-next.ts
 /**
  * `searchParams.next` を安全な内部パスにだけ通すホワイトリストフィルタ。
  *
@@ -56,7 +56,7 @@ export function safeNext(raw: unknown): string | null;
 import { redirect } from "next/navigation";
 
 import { getSession } from "../../src/lib/session";
-import { safeNext } from "../../src/lib/url/safeNext";
+import { safeNext } from "../../src/lib/url/safe-next";
 // ...
 
 export default async function LoginPage(props: LoginPageProps) {
@@ -92,8 +92,8 @@ export default async function LoginPage(props: LoginPageProps) {
 mise exec -- pnpm typecheck
 mise exec -- pnpm lint
 mise exec -- pnpm --filter @ubm-hyogo/web exec vitest run \
-  src/lib/url/__tests__/safeNext.spec.ts \
-  app/login/__tests__/page.spec.tsx
+  apps/web/src/lib/url/__tests__/safe-next.spec.ts \
+  apps/web/app/login/__tests__/page.spec.tsx
 ```
 
 ## 8. DoD

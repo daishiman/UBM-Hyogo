@@ -6,7 +6,7 @@
 - `src/components/public/__tests__/PublicHeader.spec.tsx`: async render pattern with injected `authView`.
 - `app/__tests__/page.spec.tsx`: root page guest/member smoke with heavy data-fetch mocks.
 - `app/privacy/__tests__/page.spec.tsx` and `app/terms/__tests__/page.spec.tsx`: legal content plus public shell.
-- `src/lib/url/__tests__/safeNext.spec.ts`: 10 open-redirect guard cases.
+- `src/lib/url/__tests__/safe-next.spec.ts`: open-redirect and loop guard cases.
 - `app/login/__tests__/page.spec.tsx`: guest regression and logged-in redirects.
 - `src/components/layout/__tests__/MemberHeader.spec.tsx`: admin CTA conditional rendering.
 - `src/components/layout/__tests__/AdminSidebar.spec.tsx` or `AdminSidebar.component.spec.tsx`: public-return and existing admin nav regression.
