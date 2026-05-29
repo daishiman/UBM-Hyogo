@@ -3572,6 +3572,8 @@ node scripts/list-specs.js --topics
 
 ### references/workflow-public-header-logged-in-nav-cleanup-artifact-inventory.md
 
+### references/workflow-public-header-session-aware-auth-view-base-artifact-inventory.md
+
 ### references/workflow-regression-evidence-ci-gate-foundation-artifact-inventory.md
 
 | セクション | 行 |

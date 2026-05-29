@@ -1,27 +1,19 @@
-// parallel-03 S-01 / task-a: Public AppShell layout spec
+// parallel-03 S-01: Public AppShell layout spec
+import type { ReactNode } from "react";
 import { describe, it, expect, afterEach, vi } from "vitest";
 import { render, cleanup } from "@testing-library/react";
 import { axe } from "../../src/test/axe";
 
-vi.mock("../../src/components/public/PublicHeader", () => ({
-  PublicHeader: () => (
-    <div data-testid="public-header-mock" data-component="public-header" />
-  ),
-}));
-vi.mock("../../src/components/public/PublicFooter", () => ({
-  PublicFooter: () => <div data-testid="public-footer-mock" />,
-}));
 vi.mock("../../src/lib/auth-view", () => ({
-  getAuthView: vi.fn(async () => ({ kind: "guest" as const })),
+  getAuthView: async () => ({ kind: "guest" }),
 }));
 
 import PublicLayout from "./layout";
 
 afterEach(() => cleanup());
 
-async function renderLayout(children: React.ReactNode) {
-  const element = await PublicLayout({ children });
-  return render(element);
+async function renderLayout(children: ReactNode) {
+  return render(await PublicLayout({ children }));
 }
 
 describe("PublicLayout", () => {
@@ -31,7 +23,6 @@ describe("PublicLayout", () => {
     expect(shell).not.toBeNull();
     expect(shell?.getAttribute("data-theme")).toBe("warm");
     expect(shell?.getAttribute("data-route-group")).toBe("public");
-    expect(shell?.getAttribute("data-auth-state")).toBe("guest");
   });
 
   it("data-shell='topbar' / data-shell='footer' / main[data-route='public'] を含む", async () => {

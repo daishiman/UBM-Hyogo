@@ -1,7 +1,4 @@
-// task-11 / task-a: 公開層共通ヘッダ。async Server Component。
-// session 状態に応じて auth CTA を切替（guest / member / admin）。
-
-import type { JSX } from "react";
+// task-11: 公開層共通ヘッダ。Server Component。
 
 import { SignOutButton } from "../auth/SignOutButton";
 import { getAuthView, type AuthView } from "../../lib/auth-view";
@@ -13,22 +10,48 @@ const NAV_ITEMS = [
 ];
 
 export interface PublicHeaderProps {
-  readonly currentPath?: string;
-  readonly authView?: AuthView;
+  currentPath?: string;
+  authView?: AuthView;
 }
 
-export async function PublicHeader(
-  props: PublicHeaderProps = {},
-): Promise<JSX.Element> {
-  const { currentPath, authView: authViewProp } = props;
-  const authView = authViewProp ?? (await getAuthView());
-
+function renderAuthSlot(authView: AuthView) {
+  if (authView.kind === "guest") {
+    return (
+      <a href="/login" data-role="auth-cta">
+        ログイン
+      </a>
+    );
+  }
+  if (authView.kind === "admin") {
+    return (
+      <div data-role="auth-cta">
+        <a href={authView.profileHref} data-role="member-cta">
+          マイページ
+        </a>
+        <a href={authView.adminHref} data-role="admin-cta">
+          管理画面
+        </a>
+        <SignOutButton />
+      </div>
+    );
+  }
   return (
-    <header
-      data-auth-state={authView.kind}
-      data-component="public-header"
-      data-testid="public-header"
-    >
+    <div data-role="auth-cta">
+      <a href={authView.profileHref} data-role="member-cta">
+        マイページ
+      </a>
+      <SignOutButton />
+    </div>
+  );
+}
+
+export async function PublicHeader({
+  currentPath,
+  authView: explicitAuthView,
+}: PublicHeaderProps = {}) {
+  const authView = explicitAuthView ?? (await getAuthView());
+  return (
+    <header data-component="public-header" data-auth-state={authView.kind}>
       <a href="/" data-role="brand">
         UBM 兵庫支部会
       </a>
@@ -51,50 +74,7 @@ export async function PublicHeader(
           })}
         </ul>
       </nav>
-      <AuthSlot authView={authView} />
+      {renderAuthSlot(authView)}
     </header>
-  );
-}
-
-function AuthSlot({ authView }: { readonly authView: AuthView }): JSX.Element {
-  if (authView.kind === "guest") {
-    return (
-      <a href="/login" data-role="auth-cta" aria-label="ログイン">
-        ログイン
-      </a>
-    );
-  }
-  if (authView.kind === "member") {
-    return (
-      <div data-role="member-actions">
-        <a
-          href={authView.profileHref}
-          data-role="member-cta"
-          aria-label="マイページへ移動"
-        >
-          マイページ
-        </a>
-        <SignOutButton redirectTo="/" label="ログアウト" />
-      </div>
-    );
-  }
-  return (
-    <div data-role="member-actions">
-      <a
-        href={authView.profileHref}
-        data-role="member-cta"
-        aria-label="マイページへ移動"
-      >
-        マイページ
-      </a>
-      <a
-        href={authView.adminHref}
-        data-role="admin-cta"
-        aria-label="管理ダッシュボードへ移動"
-      >
-        管理
-      </a>
-      <SignOutButton redirectTo="/" label="ログアウト" />
-    </div>
   );
 }
