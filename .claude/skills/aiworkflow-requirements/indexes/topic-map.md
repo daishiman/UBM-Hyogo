@@ -2453,7 +2453,13 @@ node scripts/list-specs.js --topics
 
 | セクション | 行 |
 |------------|----|
-| Skill knowledge synced | L15 |
+| Skill knowledge synced | L16 |
+
+### references/workflow-google-form-reflection-diagnostics-fu-002-h2-identity-rebuild-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Skill knowledge synced | L17 |
 
 ### references/workflow-governance-design-category.md
 
@@ -8012,14 +8018,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L2975 |
-| フェーズ構造（概要） | L2984 |
-| 品質ゲート（概要） | L3015 |
-| 出力テンプレート | L3026 |
-| 実行時のコマンド・エージェント・スキル | L3049 |
-| 昇格パターン集 | L3073 |
-| Current Active / Spec Created Tasks | L3075 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L3237 |
+| ドキュメント構成 | L2990 |
+| フェーズ構造（概要） | L2999 |
+| 品質ゲート（概要） | L3030 |
+| 出力テンプレート | L3041 |
+| 実行時のコマンド・エージェント・スキル | L3064 |
+| 昇格パターン集 | L3088 |
+| Current Active / Spec Created Tasks | L3090 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L3252 |
 
 ### references/task-workflow-backlog-part2.md
 

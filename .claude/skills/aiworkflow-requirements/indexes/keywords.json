@@ -2454,6 +2454,7 @@
       "ui-ux-feature-components-core.md",
       "ui-ux-feature-components-reference.md",
       "workflow-google-form-reflection-diagnostics-artifact-inventory.md",
+      "workflow-google-form-reflection-diagnostics-fu-002-h2-identity-rebuild-artifact-inventory.md",
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
       "workflow-issue-526-ci-actionlint-shellcheck-gate-artifact-inventory.md",
       "workflow-issue-531-runtime-smoke-attendance-provider-artifact-inventory.md",
@@ -12664,6 +12665,7 @@
       "lessons-learned-google-form-reflection-diagnostics-2026-05.md",
       "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md",
       "workflow-google-form-reflection-diagnostics-artifact-inventory.md",
+      "workflow-google-form-reflection-diagnostics-fu-002-h2-identity-rebuild-artifact-inventory.md",
       "workflow-task-05a-form-preview-503-001-artifact-inventory.md"
     ],
     "column": [
@@ -13197,6 +13199,7 @@
       "workflow-fix-admin-server-components-render-error-stg-artifact-inventory.md",
       "workflow-fix-verify-design-tokens-og-route-exclude-artifact-inventory.md",
       "workflow-google-form-reflection-diagnostics-artifact-inventory.md",
+      "workflow-google-form-reflection-diagnostics-fu-002-h2-identity-rebuild-artifact-inventory.md",
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
       "workflow-issue-274-public-pages-ogp-sitemap-robots-artifact-inventory.md",
       "workflow-issue-351-09c-post-release-dashboard-automation-artifact-inventory.md",
@@ -15260,16 +15263,19 @@
     "google": [
       "lessons-learned-google-form-reflection-diagnostics-2026-05.md",
       "workflow-google-form-reflection-diagnostics-artifact-inventory.md",
+      "workflow-google-form-reflection-diagnostics-fu-002-h2-identity-rebuild-artifact-inventory.md",
       "workflow-issue-872-google-brand-4tone-icon-and-tokens-exempt-artifact-inventory.md"
     ],
     "reflection": [
       "lessons-learned-google-form-reflection-diagnostics-2026-05.md",
       "workflow-google-form-reflection-diagnostics-artifact-inventory.md",
+      "workflow-google-form-reflection-diagnostics-fu-002-h2-identity-rebuild-artifact-inventory.md",
       "workflow-issue-531-runtime-smoke-attendance-provider-artifact-inventory.md"
     ],
     "diagnostics": [
       "lessons-learned-google-form-reflection-diagnostics-2026-05.md",
-      "workflow-google-form-reflection-diagnostics-artifact-inventory.md"
+      "workflow-google-form-reflection-diagnostics-artifact-inventory.md",
+      "workflow-google-form-reflection-diagnostics-fu-002-h2-identity-rebuild-artifact-inventory.md"
     ],
     "苦戦箇所と知見": [
       "lessons-learned-google-form-reflection-diagnostics-2026-05.md",
@@ -15428,6 +15434,7 @@
       "workflow-fix-admin-server-components-render-error-stg-artifact-inventory.md",
       "workflow-fix-verify-design-tokens-og-route-exclude-artifact-inventory.md",
       "workflow-google-form-reflection-diagnostics-artifact-inventory.md",
+      "workflow-google-form-reflection-diagnostics-fu-002-h2-identity-rebuild-artifact-inventory.md",
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
       "workflow-issue-274-public-pages-ogp-sitemap-robots-artifact-inventory.md",
       "workflow-issue-351-09c-post-release-dashboard-automation-artifact-inventory.md",
@@ -15492,7 +15499,8 @@
       "lessons-learned-issue-194-identity-merge-2026-05.md",
       "lessons-learned-ut07b-fu-01-schema-alias-backfill-queue-cron-split-2026-05.md",
       "workflow-2b-admin-identity-conflicts-spec-artifact-inventory.md",
-      "workflow-admin-identity-conflicts-prototype-alignment-and-404-fix-artifact-inventory.md"
+      "workflow-admin-identity-conflicts-prototype-alignment-and-404-fix-artifact-inventory.md",
+      "workflow-google-form-reflection-diagnostics-fu-002-h2-identity-rebuild-artifact-inventory.md"
     ],
     "確認パス": [
       "lessons-learned-issue-194-identity-merge-2026-05.md"
@@ -15997,6 +16005,7 @@
       "lessons-learned-issue-616-miniflare-undici-upstream-tracking-2026-05.md",
       "lessons-learned-skill-ledger-t6-hook-idempotency-2026-04.md",
       "skill-ledger-gitignore-policy.md",
+      "workflow-google-form-reflection-diagnostics-fu-002-h2-identity-rebuild-artifact-inventory.md",
       "workflow-task-13-login-rebuild-artifact-inventory.md"
     ],
     "Pagination": [
@@ -25852,6 +25861,7 @@
     ],
     "fu": [
       "workflow-fix-admin-scr-err-stg-fu-001-auth-env-via-getenv-artifact-inventory.md",
+      "workflow-google-form-reflection-diagnostics-fu-002-h2-identity-rebuild-artifact-inventory.md",
       "workflow-task-18-fu-full-visual-regression-suite-artifact-inventory.md"
     ],
     "getenv": [
@@ -25859,10 +25869,12 @@
     ],
     "knowledge": [
       "workflow-google-form-reflection-diagnostics-artifact-inventory.md",
+      "workflow-google-form-reflection-diagnostics-fu-002-h2-identity-rebuild-artifact-inventory.md",
       "workflow-issue-880-public-segment-error-loading-boundary-artifact-inventory.md"
     ],
     "synced": [
       "workflow-google-form-reflection-diagnostics-artifact-inventory.md",
+      "workflow-google-form-reflection-diagnostics-fu-002-h2-identity-rebuild-artifact-inventory.md",
       "workflow-issue-880-public-segment-error-loading-boundary-artifact-inventory.md"
     ],
     "Category": [
