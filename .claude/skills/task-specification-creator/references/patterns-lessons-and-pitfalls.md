@@ -1207,7 +1207,9 @@ Next.js App Router で公開層 (`/`, `/(public)/*`) の auth-state 出し分け
 - 参照: [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-058、L-DEVSYNC-056 (single-side primitive 移行 hybridize)、L-DEVSYNC-046 (UNION_TARGETS)。
 
 
-## L-DEVSYNC-060 skill-only conflict shape の再現 — resolver 単独完結 happy-path（dev sync-merge / 2026-05-29）
+## L-DEVSYNC-061 skill-only conflict shape の再現 — resolver 単独完結 happy-path（dev sync-merge / 2026-05-29）
+
+> 採番補正: 当初 L-DEVSYNC-060 として追加されたが aiworkflow 側 L-DEVSYNC-060（`patterns-lessons-and-pitfalls.md union 対象`）と ID 衝突していたため 061 へ採番ずらし（aiworkflow [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-062 留意と同期）。
 
 - 事象: `feat/members-list-ux-clarity` ← `origin/dev` (HEAD `746721996`) sync-merge で発生したコンフリクトが skill md 2 件 (`aiworkflow-requirements/indexes/topic-map.md`, `task-specification-creator/references/patterns-lessons-and-pitfalls.md`) + derived 1 件 (`aiworkflow-requirements/indexes/keywords.json`) のみ。`.ts/.tsx` page-level の手動 hybridize は 0 件で、L-DEVSYNC-055 / L-DEVSYNC-059 と同型 shape の再現確認。
 - Why: feature 改修範囲（public members list の UX 整合）と dev 7 commits（admin-ui 系 + google-form-reflection + dev-sync skill 反映）の path 重複が skill 索引行と patterns-lessons 追記行のみで、resolver 対象範囲に完全一致するため。
@@ -1215,7 +1217,18 @@ Next.js App Router で公開層 (`/`, `/(public)/*`) の auth-state 出し分け
   - **SP-DEVSYNC-060-A (resolver 単発判定)**: `git ls-files -u` 列挙が `pnpm sync:resolve` 対象（SKILL.md / indexes md / task-workflow-active.md / keywords.json）に閉じている場合は resolver 単発で完結し、L-DEVSYNC-056/058 の手動 hybridize lesson は invoke しない（不要複雑性回避）。
   - **SP-DEVSYNC-060-B (sync-merge hook policy)**: CLAUDE.md `## sync-merge (main 取り込み) 時の hook 挙動` に従い `MERGE_HEAD` 検出時の `staged-task-dir-guard` / `coverage-guard` は自動スキップされる → sync-merge commit に `--no-verify` を付けない（付けても害は出ないが CONST_017 ポリシー違反になる）。
   - **SP-DEVSYNC-060-C (検証 4 step)**: `git ls-files -u | wc -l` = 0 → `git commit -m "merge: sync <branch> with dev"` → `pnpm typecheck` 6 packages Done → `pnpm lint` Done × 全 packages。
-- 参照: [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-060、L-DEVSYNC-059 (skill-only shape の前回確認)、L-DEVSYNC-055 (resolver 単独完結 happy-path)。
+- 参照: [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-061、L-DEVSYNC-059 (skill-only shape の前回確認)、L-DEVSYNC-055 (resolver 単独完結 happy-path)。
+
+
+## L-DEVSYNC-062 dev が ancestor の re-sync は no-op — merge 前の `--is-ancestor` ガードを Phase 12 検証に明記（dev sync-merge / 2026-05-29）
+
+- 事象: `feat/public-header-logged-in-nav-cleanup-pr-20260528` の 2 度目の `origin/dev` 同期で、前回 sync-merge commit に dev が既に取り込まれていたため `git merge dev` = `Already up to date.`（conflict 0 / resolver 不要 / merge commit 新規作成なし）。push 未済 2 commit のみ push。
+- Why: 複数回 `merge: sync ... with dev` が積まれた feature branch では、`origin/dev` が進んでいても差分が既存 merge commit に内包済みのことがあり、2 度目の merge は何もしない。
+- How to apply:
+  - **SP-DEVSYNC-062-A (ancestor ガード)**: sync-merge task の Phase 12 implementation-guide / 検証手順に「`git merge` 実行前に `git merge-base --is-ancestor dev HEAD` を実行し、ancestor 確定なら merge を no-op と判定し resolver / 手動 hybridize lesson を invoke しない」を明記。
+  - **SP-DEVSYNC-062-B (push 範囲特定)**: `git rev-list --left-right --count @{u}...HEAD` の右辺で push 未済 commit 数を確定 → typecheck/lint green を確認して `git push` のみ。no-op merge では新規 commit を作らない。
+  - **SP-DEVSYNC-062-C (lessons ID 衝突)**: 本 lessons 系は union merge 累積で同一 L-DEVSYNC-NNN ID が複数発生する。新規追記時は `grep '^## L-DEVSYNC'` で最大採番を確認し +1 する（既存重複の遡及補正は採番カスケードを避け title 識別で据え置く運用）。
+- 参照: [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-062、L-DEVSYNC-061 (skill-only shape 再現)。
 
 
 ## L-DEVSYNC-059 skill-only conflict shape の resolver 単独完結を仕様 Phase 12 の default path に固定（dev sync-merge / 2026-05-29 再現）

@@ -1258,7 +1258,9 @@
 - 参照: L-DEVSYNC-059 (skill-only shape resolver-only path), L-DEVSYNC-046 (UNION_TARGETS), task-specification-creator [[patterns-lessons-and-pitfalls#dev-sync-merge-conflict-resolution]]。
 
 
-## L-DEVSYNC-060: skill-only conflict shape の再現（2026-05-29 feat/members-list-ux-clarity）
+## L-DEVSYNC-061: skill-only conflict shape の再現（2026-05-29 feat/members-list-ux-clarity）
+
+> 採番補正: 本節は当初 L-DEVSYNC-060 として追加されたが、直前の `patterns-lessons-and-pitfalls.md union 対象` 節（feat/public-header-logged-in-nav-cleanup-pr-20260528）と ID が衝突していたため L-DEVSYNC-061 へ採番ずらし（L-DEVSYNC-060 留意の「union 後の重複節 ID は人手で採番をずらす」運用に従った実例。詳細は L-DEVSYNC-062）。
 
 - 事象: `feat/members-list-ux-clarity` ← `origin/dev` (HEAD `746721996`) sync-merge で発生したコンフリクトが **skill md 2 件 (aiworkflow-requirements/indexes/topic-map.md, task-specification-creator/references/patterns-lessons-and-pitfalls.md) + derived 1 件 (aiworkflow-requirements/indexes/keywords.json)** のみ。`.tsx`/`.ts` の page-level conflict は 0 件。`apps/web/app/(public)/members/page.tsx` は auto-merge 成立。
 - Why: 本 feature branch の改修範囲は public members list の UX 整合（components + page）で、dev 側 7 commits は admin-ui 系 / google-form-reflection / dev-sync skill 反映が中心。重なりは skill 索引と patterns-lessons の追記行のみで、L-DEVSYNC-059 と同型の shape。
@@ -1269,3 +1271,16 @@
 - 留意: sync-merge では CLAUDE.md ポリシーに従い `pre-commit/staged-task-dir-guard` と `pre-push/coverage-guard` が `MERGE_HEAD` 検出で自動スキップされるため `--no-verify` 不要（今回 `--no-verify` 付与は本来不要。次回からは付けない）。
 - 事例: 2026-05-29 commit `abe947433` (merge: sync feat/members-list-ux-clarity with dev)。conflict 3 件全件 resolver 完結、typecheck/lint green。
 - 再現事例 2026-05-29 (feat/issue-976-admin-fetch-service-binding ← origin/dev): conflict は同じ skill 5 件 + keywords.json の **完全同形 shape**。`apps/web/src/lib/admin/server-fetch.ts` も `Auto-merging` で textual conflict なし。resolver 完走で `git status` clean、`merge: sync feat/issue-976-admin-fetch-service-binding with dev` で merge commit 成立。**同形再現により本 lesson が "admin-ui modernization wave 中の skill-only shape は resolver 単発で機械解消可" の標準 path として確定**（page-level 接触面のない feature branch では今後も繰り返し発生する見込み）。
+
+
+## L-DEVSYNC-062: dev が既に ancestor の re-sync は `git merge dev` = "Already up to date" の no-op、検証は `git merge-base --is-ancestor`（2026-05-29 feat/public-header-logged-in-nav-cleanup-pr-20260528 再同期）
+
+- 事象: `feat/public-header-logged-in-nav-cleanup-pr-20260528` を 2 度目に `origin/dev` (HEAD `37fe488e8`) と同期したところ、前回 sync-merge commit `374f5e04a` で既に dev が完全取り込み済みだったため **`git merge dev` が `Already up to date.` の no-op**。conflict 0 件、resolver 不要。`git rev-list --left-right --count dev...HEAD` = `0  8`（dev 側 ahead 0）、upstream に対しては `0  2`（push 未済の 2 commit のみ）。typecheck 6 packages Done / lint 全 packages Done で CI 失敗なし、push のみ実施。
+- Why: feature branch に過去複数回の `merge: sync ... with dev` commit が積まれている場合、`origin/dev` が前回同期時から進んでいても **その差分が既に branch の merge commit に含まれていれば** 2 度目の merge は何もしない。`git log --oneline dev..HEAD` に複数の `merge: sync` 行が並ぶ branch はこのケースに該当しやすい。
+- How to apply:
+  1. fetch 後 `git rev-list --left-right --count origin/dev...dev` でローカル dev = origin/dev を確認（`0  0` なら dev 同期スキップ）。
+  2. **merge 実行前に** `git merge-base --is-ancestor dev HEAD && echo merged` で dev が branch の ancestor か判定。`merged` が出れば `git merge dev` は no-op が確定（実行しても `Already up to date.`）。conflict 解消 lesson（L-DEVSYNC-001..061）を**呼び出さない**（不要な resolver 起動・手動 hybridize を避ける）。
+  3. `git rev-list --left-right --count @{u}...HEAD` の右辺が push 未済 commit 数。typecheck/lint green を確認して `git push` のみ。merge commit を新規作成しない（no-op なので作られない）。
+- 留意: 本 lessons ファイルは union merge の累積で **同一 L-DEVSYNC-NNN ID が複数存在する**（057×2 / 059×3 / 060×2）。L-DEVSYNC-060 が予言した「重複節 ID は人手で採番ずらし」が現実化しており、本サイクルで末尾 060（members-list）を 061 へ補正した。ただし 057/059 系の旧重複は採番カスケードを避けるため未補正のまま据え置き（参照は title で識別する運用）。ID 衝突 detector の自動化は ROI 次第で L-DEVSYNC-063 以降に委ねる。
+- 事例: 2026-05-29 再同期。dev=`37fe488e8`、branch HEAD=`374f5e04a`（既存 sync-merge）。conflict/CI 失敗 0、`origin/feat/public-header-logged-in-nav-cleanup-pr-20260528` へ 2 commit push。
+- 参照: L-DEVSYNC-059 (skill-only shape resolver-only path), L-DEVSYNC-061 (skill-only 再現), task-specification-creator [[patterns-lessons-and-pitfalls#dev-sync-merge-conflict-resolution]]。
