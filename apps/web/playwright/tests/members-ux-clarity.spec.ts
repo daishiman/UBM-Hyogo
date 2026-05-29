@@ -29,10 +29,17 @@ async function expandFiltersIfCollapsed(page: import("@playwright/test").Page) {
   if ((await summary.count()) === 0) return;
   // tablet/desktop viewport では CSS で display:none となるため visible 判定で skip。
   if (!(await summary.isVisible())) return;
-  if ((await summary.getAttribute("aria-expanded")) === "false") {
-    await summary.click();
-    await expect(summary).toHaveAttribute("aria-expanded", "true");
-  }
+  // filters-body の表示で展開状態を判定する (collapsed 時は CSS `display:none`)。
+  // aria-expanded は React state 由来で hydration tick 待ちが必要なため、
+  // body visibility を実装の真実として扱う。
+  const body = page.locator(
+    '[data-component="member-filters"] [data-role="filters-body"]',
+  );
+  if (await body.isVisible()) return;
+  // sticky summary が hydration 前後で click intercept されるケースを避けるため
+  // `force` で確実に click を伝達し、その後 body の visible 化を待つ。
+  await summary.click({ force: true });
+  await expect(body).toBeVisible({ timeout: 10_000 });
 }
 
 test.describe("members UX clarity visual baseline", () => {
