@@ -1573,6 +1573,20 @@
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-member-header-admin-link-artifact-inventory.md` |
 | user gate | staging visual smoke, commit, push, PR |
 
+### public-header-session-aware-auth-view-base（2026-05-28）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/public-header-session-aware-auth-view-base/` |
+| 状態 | `implemented_local_evidence_captured / implementation / VISUAL / Phase 13 pending_user_approval` |
+| parent | `docs/30-workflows/public-header-logged-in-nav-cleanup/` Task A |
+| implemented targets | `apps/web/src/lib/auth-view/*`, `apps/web/src/components/public/PublicHeader.tsx`, `apps/web/app/(public)/layout.tsx` |
+| tests | focused Vitest 24 PASS (`resolveAuthView`, `getAuthView`, `PublicHeader`, `PublicLayout`) |
+| Phase 11 | local component screenshots present for guest/member/admin |
+| invariant | no new endpoint / no D1 schema / no Google Form change; `data-auth-state` is only `guest\|member\|admin`; no PII in DOM |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-public-header-session-aware-auth-view-base-artifact-inventory.md` |
+| user gate | staging authenticated runtime visual, commit, push, PR |
+
 ### public-header-logged-in-nav-cleanup（2026-05-28）
 
 | 目的 | 参照先 |
