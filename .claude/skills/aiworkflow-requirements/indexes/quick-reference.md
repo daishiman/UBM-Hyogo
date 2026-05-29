@@ -1,5 +1,22 @@
 # クイックリファレンス
 
+## issue-981-admin-members-table-list-enrichment（2026-05-29）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-981-admin-members-table-list-enrichment/` |
+| status | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION` |
+| issue | #981 CLOSED（2026-05-29 GitHub 実確認）。Issue state mutation は不要 |
+| parent | `admin-ui-prototype-alignment-followup-003-admin-members-prototype-redesign` |
+| purpose | `/admin/members` list row に existing response fields の occupation / zone / membership type / tags を実データ描画する |
+| implementation | `apps/web/src/features/admin/components/_members/MembersTable.tsx` |
+| tests | `apps/web/src/features/admin/components/__tests__/MembersTable.spec.tsx` |
+| boundary | `apps/api` / `packages/shared` / `MembersTableProps` は変更なし。#968 data enrichment を既存 baseline として利用 |
+| evidence | web Vitest suite 189 files / 1300 tests PASS, 2 skipped |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-981-admin-members-table-list-enrichment-artifact-inventory.md` |
+| lessons | `.claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-issue-981-admin-members-table-list-enrichment-2026-05.md`（L-I981-001..006） |
+| user gate | staging visual, staging deploy, commit, push, PR |
+
 ## fix-admin-fetch-cf-1042-service-binding（2026-05-28）
 
 | 項目 | 値 |

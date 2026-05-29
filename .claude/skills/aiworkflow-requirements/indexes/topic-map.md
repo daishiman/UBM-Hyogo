@@ -3354,6 +3354,16 @@ node scripts/list-specs.js --topics
 | Screenshot Boundary | L28 |
 | Boundary | L32 |
 
+### references/workflow-issue-981-admin-members-table-list-enrichment-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Summary | L3 |
+| Implementation Artifacts | L12 |
+| Workflow Artifacts | L19 |
+| Evidence | L32 |
+| Lessons Learned | L42 |
+
 ### references/workflow-light-theme-contrast-regression-guard.md
 
 | セクション | 行 |
@@ -8025,7 +8035,7 @@ node scripts/list-specs.js --topics
 | 実行時のコマンド・エージェント・スキル | L3064 |
 | 昇格パターン集 | L3088 |
 | Current Active / Spec Created Tasks | L3090 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L3252 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L3253 |
 
 ### references/task-workflow-backlog-part2.md
 

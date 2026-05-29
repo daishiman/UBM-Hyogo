@@ -31,6 +31,7 @@ allowed-tools:
 
 | Version | Date | Changes |
 | --- | --- | --- |
+| v2026.05.29-rendering-only-list-enrichment | 2026-05-29 | `issue-981-admin-members-table-list-enrichment` Phase 12 feedback を反映。upstream data layer が prop まで値を供給済みなのに UI が描画していない「rendering-only gap」パターンを `references/patterns-lessons-and-pitfalls.md` に汎化（L-RENDGAP-001..005 + anti-pattern 5）。gap の層判定 / 既存 primitive・tone helper 再利用 / optional field の非描画 vs 明示 fallback / overflow tooltip の wrapper pass-through / 部分欠損・境界・混在行 a11y の TC granularity を正本化。 |
 | v2026.05.28-cloudflare-worker-loopback-service-binding | 2026-05-28 | `fix-admin-fetch-cf-1042-service-binding` feedback を反映。Worker-to-Worker raw HTTP loopback 404 / `error code: 1042` は Service Binding first、implementation target 明確時は同一 wave でコード・tests・Phase 11 boundary・Phase 12 strict 7 を揃える lesson を追加。 |
 | v2026.05.28-issue958-spec-created-implementation-ux-boundary | 2026-05-28 | `issue-958-h3-public-filter-ux` の automation-30 改善を反映。implementation / VISUAL workflow を仕様作成のみで close-out する場合は `workflow_state=spec_created` と `implementation_state=implementation_pending` を併記する一方、後続同 branch で実コード差分が入った場合は `implemented_local_runtime_pending` へ同波再分類する lesson を追加。 |
 | v2026.05.26-skill-feedback-noop-truthfulness | 2026-05-26 | `admin-attendance-analytics-redesign` の Phase 12 監査を反映。skill-feedback no-op は workflow state / implementation diff / Phase 11 evidence / system spec summary が一致する場合のみ有効とする gate を `references/phase12-skill-feedback-promotion.md` に追加。 |

@@ -1157,3 +1157,26 @@ admin route prototype-alignment 系 branch を `origin/dev` に sync-merge す�
 - **SP-DEVSYNC-058-F (Phase 4 risk への登録)**: admin-ui prototype alignment 系 task の Phase 4 risk に「同一 page を両 branch が異軸で prototype 整合した場合、import 経路 / wrapper attrs / primitive props axes / EmptyState variant / list pattern / Pagination の 6 軸で hybridize 必須」を登録し、L-DEVSYNC-058 を mitigation reference として参照。
 - **SP-DEVSYNC-058-G (検証 4 step)**: L-DEVSYNC-056 と同じ `git diff --diff-filter=U --name-only` 0 件 → `pnpm typecheck` 全 packages → `pnpm lint` 全 packages → `git commit -m "merge: sync <branch> with dev"` の 4 step を Phase 12 implementation-guide に明記。
 - 参照: [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-058、L-DEVSYNC-056 (single-side primitive 移行 hybridize)、L-DEVSYNC-046 (UNION_TARGETS)。
+
+
+## 届いているデータの rendering-only list enrichment パターン（issue-981 / 2026-05-29）
+
+upstream data layer（別 issue / 別 task が既に実装済の API + zod schema）が **prop まで値を供給しているのに UI が描画していない**「rendering-only gap」を埋めるタスクの汎化。一覧テーブル row に既存 response fields（occupation / zone / membership type / tags 等）を表示する典型。API/schema/D1 を一切触らず UI 描画 + focused component spec + local visual で閉じる。
+
+- **L-RENDGAP-001 (gap の層判定を Phase 2 の最初の分岐に置く)**: 「一覧に値が出ない」を受けたら、まず data が UI prop（list view type / item zod）まで届いているかを確認する。届いていれば本タスクは **rendering-only** で、API / schema / D1 / shared を boundary 外として Phase 1 で固定する。届いていなければ data-layer task（別 issue）であり責務が異なる。この層判定を誤ると不要な endpoint / migration 追加（D1 直接アクセス禁止・API 境界 invariant 違反）を招く。Phase 2 design の冒頭に「prop に値が来ているか」分岐を必須化する。
+
+- **L-RENDGAP-002 (既存 primitive / tone helper の再利用・新規生成禁止)**: chip / badge / tone 表現は既存 UI primitive（`Chip` 等）と既存 tone helper（`zoneTone` / `statusTone` 等の `lib/tones`）を再利用し、新規 component / 新規 tone map を生やさない（UI prototype alignment「新規 primitive を生やさない」invariant）。tone helper が未知値を安全な既定 tone に落とす設計なら、enum 化されていない自由入力値でも fallback が効く。Phase 2 で「再利用する既存 primitive / helper の import 元」を列挙する。
+
+- **L-RENDGAP-003 (optional field は「非描画」と「明示 fallback」を使い分ける)**: optional な enrichment field の描画は 2 系統に分ける。(a) 値が無ければ要素ごと描画しない（空 chip / 空行を作らない）── 値の有無が運用上の意味を持たないフィールド（職業・区画等）。(b) 空を明示 fallback chip で示す（例: tags 空 → `未タグ` warning chip）── 「未設定」自体が運用シグナルのフィールド。どちらを選ぶかを Phase 4 test plan で TC（充足行 / 部分欠損行 / 完全空行）に分解する。
+
+- **L-RENDGAP-004 (overflow 集約と tooltip の pass-through 制約)**: 多値フィールド（tags 等）は `slice(0, N)` で上限表示し残りを `+M` に集約。全件は wrapper `<span title="...">` の tooltip で確認可能にする。`title` を集約 chip 自体でなく wrapper に置くのは、primitive が `title` を pass-through しない設計のため。component spec で `+M` の `title` 文字列と overflow 件数境界（N 件=集約なし / N+1 件=`+1`）を固定 assert する。
+
+- **L-RENDGAP-005 (enrichment component の TC granularity と混在行 a11y)**: list row enrichment の component spec は充足行だけでなく **部分欠損の組合せ**を網羅する（field 単独欠損、多値 0/N/N+1 件境界、falsy 値、既存 state chip との共存）。さらに「一部 enriched / 一部空」の混在行を 1 TC として a11y 検証すると、条件描画の取りこぼし（空要素の role 残留・重複 label 等）を検出できる。
+
+- **anti-pattern**:
+  1. data が prop に来ているのに endpoint / migration を追加してしまう（rendering-only を data-layer task と誤判定）。
+  2. 既存 tone helper があるのに描画箇所で色分岐をベタ書きする / 新規 chip component を作る。
+  3. optional field を全て同じ描画にし、「未設定が運用シグナルのフィールド」の空 fallback を省く。
+  4. overflow tooltip を pass-through しない primitive に直接 `title` を渡して効かない（wrapper に置くべき）。
+  5. 充足行だけ TC を書き、部分欠損・境界・混在行 a11y を網羅せず条件描画バグを見逃す。
+- 参照: aiworkflow-requirements [[lessons-learned-issue-981-admin-members-table-list-enrichment-2026-05]] L-I981-001..006。
