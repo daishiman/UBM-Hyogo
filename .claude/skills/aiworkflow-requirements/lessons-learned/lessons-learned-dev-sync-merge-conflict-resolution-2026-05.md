@@ -1243,4 +1243,16 @@
   3. 検証順: `git status --porcelain | grep -E '^(UU|AA|DD)'` 空 → `git diff --check` 空 → `git add -A && git commit -m "merge: sync <branch> with dev"` → `pnpm typecheck` Done × 6 packages → `pnpm lint` Done × 全 packages → push。
 - 留意: page-level の手動 hybridize（L-DEVSYNC-056/058）は branch の **実装範囲** に依存する。skill-only shape は admin-ui modernization wave の進行中でも feature branch のコード接触面が dev の changed paths と orthogonal なら頻発する。resolver-only path が成立した場合は手動 hybridize lesson（056/058）を**呼び出さない**（不要な複雑性導入を避ける）。
 - 事例: 2026-05-28 commit `a98fd67bb` (merge: sync feat/issue-958-h3-public-filter-ux with dev)。conflict 6 件全件 resolver 完結、typecheck/lint green、stablekey-literal-lint は mode=warning のため block 対象外。
+
+
+## L-DEVSYNC-060: skill-only conflict shape の再現（2026-05-29 feat/members-list-ux-clarity）
+
+- 事象: `feat/members-list-ux-clarity` ← `origin/dev` (HEAD `746721996`) sync-merge で発生したコンフリクトが **skill md 2 件 (aiworkflow-requirements/indexes/topic-map.md, task-specification-creator/references/patterns-lessons-and-pitfalls.md) + derived 1 件 (aiworkflow-requirements/indexes/keywords.json)** のみ。`.tsx`/`.ts` の page-level conflict は 0 件。`apps/web/app/(public)/members/page.tsx` は auto-merge 成立。
+- Why: 本 feature branch の改修範囲は public members list の UX 整合（components + page）で、dev 側 7 commits は admin-ui 系 / google-form-reflection / dev-sync skill 反映が中心。重なりは skill 索引と patterns-lessons の追記行のみで、L-DEVSYNC-059 と同型の shape。
+- How to apply:
+  1. `git merge dev --no-edit` 後 `git status --porcelain | grep '^UU'` で unresolved 3 件全件 skill resolver 対象 → `pnpm sync:resolve` 単発で完結。
+  2. resolver stdout: `union-resolved 2 files` + `ours: ...keywords.json` + `running pnpm indexes:rebuild` → `all skill / index conflicts resolved`。
+  3. 検証: `git ls-files -u | wc -l` = 0 → `git commit -m "merge: sync <branch> with dev"` → `pnpm typecheck` 6 packages Done → `pnpm lint` Done。
+- 留意: sync-merge では CLAUDE.md ポリシーに従い `pre-commit/staged-task-dir-guard` と `pre-push/coverage-guard` が `MERGE_HEAD` 検出で自動スキップされるため `--no-verify` 不要（今回 `--no-verify` 付与は本来不要。次回からは付けない）。
+- 事例: 2026-05-29 commit `abe947433` (merge: sync feat/members-list-ux-clarity with dev)。conflict 3 件全件 resolver 完結、typecheck/lint green。
 - 再現事例 2026-05-29 (feat/issue-976-admin-fetch-service-binding ← origin/dev): conflict は同じ skill 5 件 + keywords.json の **完全同形 shape**。`apps/web/src/lib/admin/server-fetch.ts` も `Auto-merging` で textual conflict なし。resolver 完走で `git status` clean、`merge: sync feat/issue-976-admin-fetch-service-binding with dev` で merge commit 成立。**同形再現により本 lesson が "admin-ui modernization wave 中の skill-only shape は resolver 単発で機械解消可" の標準 path として確定**（page-level 接触面のない feature branch では今後も繰り返し発生する見込み）。
