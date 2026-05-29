@@ -1,6 +1,5 @@
 // 06c: Server Component から admin API を呼ぶ helper。
-// 不変条件 #5: web は D1 へ直接アクセスしない。API worker へ service-binding 優先で到達し、
-// test / Playwright / local binding 不在時だけ INTERNAL_API_BASE_URL へ fallback する。
+// 不変条件 #5: web は D1 へ直接アクセスしない。INTERNAL_API_BASE_URL 経由のみ。
 // admin gate は layout.tsx で実施済みなので、ここでは worker-to-worker 認証を載せる。
 
 import { cookies } from "next/headers";
@@ -8,30 +7,54 @@ import {
   AdminMemberListViewZ,
   ListIdentityConflictsResponseZ,
 } from "@ubm-hyogo/shared";
-import { getEnv, getPublicFetchEnv } from "../env";
+import { getAdminFetchEnv, getEnv } from "../env";
 import type { AdminAuditListResponse } from "./types";
 
 const resolveApiBase = (): string => {
-  return getEnv().INTERNAL_API_BASE_URL.replace(/\/$/, "");
+  return (
+    getAdminFetchEnv().INTERNAL_API_BASE_URL ?? getEnv().INTERNAL_API_BASE_URL
+  ).replace(/\/$/, "");
 };
 
 const resolveInternalSecret = (): string =>
   getEnv().INTERNAL_AUTH_SECRET ?? "";
 
-const isTestOrPlaywright = (): boolean => {
-  const env = getPublicFetchEnv();
+function isTestOrPlaywright(): boolean {
+  const env = getAdminFetchEnv();
   return env.NODE_ENV === "test" || env.PLAYWRIGHT_TEST === "1";
-};
+}
 
-const getAdminServiceBinding = (): { fetch: typeof fetch } | undefined => {
-  if (isTestOrPlaywright()) return undefined;
-  return getPublicFetchEnv().API_SERVICE;
-};
+function getAdminServiceBinding(): { fetch: typeof fetch } | undefined {
+  const env = getAdminFetchEnv();
+  if (isTestOrPlaywright() && env.INTERNAL_API_BASE_URL) return undefined;
+  return env.API_SERVICE;
+}
 
-const getAdminFetcher = (): typeof fetch => {
-  const binding = getAdminServiceBinding();
-  return binding ? binding.fetch.bind(binding) : fetch;
-};
+async function buildAdminRequestHeaders(
+  opts: AdminFetchOptions,
+): Promise<Record<string, string>> {
+  const headers: Record<string, string> = {
+    "x-internal-auth": resolveInternalSecret(),
+    accept: "application/json",
+  };
+  const cookieHeader = (await cookies()).toString();
+  if (cookieHeader) headers.cookie = cookieHeader;
+  if (opts.body !== undefined) headers["content-type"] = "application/json";
+  return headers;
+}
+
+function logAdminTransport(
+  transport: "service-binding" | "http-fallback",
+  path: string,
+  status: number,
+): void {
+  console.log({
+    transport,
+    scope: "admin",
+    path: path.split("?")[0],
+    status,
+  });
+}
 
 export interface AdminFetchOptions {
   readonly method?: "GET" | "POST" | "PATCH" | "DELETE";
@@ -467,20 +490,22 @@ export async function fetchAdmin<T>(
     return task17AuditFixture(path) as T;
   }
 
-  const url = `${resolveApiBase()}${path}`;
-  const headers: Record<string, string> = {
-    "x-internal-auth": resolveInternalSecret(),
-    accept: "application/json",
-  };
-  const cookieHeader = (await cookies()).toString();
-  if (cookieHeader) headers.cookie = cookieHeader;
-  if (opts.body !== undefined) headers["content-type"] = "application/json";
-  const res = await getAdminFetcher()(url, {
+  const headers = await buildAdminRequestHeaders(opts);
+  const init: RequestInit = {
     method: opts.method ?? "GET",
     headers,
     cache: "no-store",
     ...(opts.body !== undefined ? { body: JSON.stringify(opts.body) } : {}),
-  });
+  };
+  const binding = getAdminServiceBinding();
+  let res: Response;
+  if (binding) {
+    res = await binding.fetch(`https://service-binding.local${path}`, init);
+    logAdminTransport("service-binding", path, res.status);
+  } else {
+    res = await fetch(`${resolveApiBase()}${path}`, init);
+    logAdminTransport("http-fallback", path, res.status);
+  }
   if (!res.ok) {
     let bodySnippet = "";
     try {

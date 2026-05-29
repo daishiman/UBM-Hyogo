@@ -8,7 +8,10 @@ vi.mock("../../env", () => ({
     INTERNAL_API_BASE_URL: "https://api.example.test/",
     INTERNAL_AUTH_SECRET: "secret",
   }),
-  getPublicFetchEnv: () => ({ NODE_ENV: "test" }),
+  getAdminFetchEnv: () => ({
+    INTERNAL_API_BASE_URL: "https://api.example.test/",
+    NODE_ENV: "test",
+  }),
 }));
 
 vi.mock("next/headers", () => ({
