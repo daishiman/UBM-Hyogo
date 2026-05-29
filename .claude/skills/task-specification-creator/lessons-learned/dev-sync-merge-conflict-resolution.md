@@ -533,3 +533,20 @@
 - 検証: `grep -nE '^(<<<<<<<|=======|>>>>>>>|\|\|\|\|\|\|\|)' <path>` 0 件 + `pnpm typecheck` PASS + `pnpm lint` PASS + 採用 accessor の export 実在を grep で確認。
 - 適用範囲外: invariant に関係しない feature ブランチ（UI 整合 / 機能追加等）は SP-DEVSYNC-038 の 3-way 判定フロー（新 variant 追加 vs 簡素化）に戻る。
 - 参照: aiworkflow-requirements [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-054 を唯一の正本。
+
+### SP-DEVSYNC-041: barrel-import vs direct-path import の 3-way + 直交 props/UI 拡張は HEAD barrel + 両側 union が default（2026-05-28 追加）
+
+- 事象: 2026-05-28 `feat/admin-audit-prototype-alignment` ← origin/dev sync-merge で `apps/web/app/(admin)/admin/audit/page.tsx` と `apps/web/src/components/admin/AuditLogPanel.tsx` の 2 ソースが `pnpm sync:resolve` 後に残る。HEAD は AdminPageHeader を **barrel `index.ts` 経由 import** + prototype 整合の Card+form filter UI 追加。dev は **`_layout/AdminPageHeader` 直接 path import** + AdminPageHeader に `eyebrow` prop 追加 + `showHeading` で `<h1>` 出し分け。base はそれぞれ旧 `Breadcrumb` import / 単純 header 構造。
+- Why: barrel が当該 export を `export * from "./_layout/AdminPageHeader"` で既に再 export している場合、両 import 形は同一実体を指す（型・実装差なし）。barrel 経由のほうが internal layout の private path への lock-in を避けられるため安定 API。`eyebrow` prop は AdminPageHeader が optional として受けるため両側 props を union 可能。`showHeading` 条件 header と Card+form filter UI 追加は構造上 orthogonal で、section ラッパに両側属性 union + 内部 children 順次配置で両立する。
+- How to apply（task 仕様書での逐語化）:
+  - Phase 9 sync-merge 節に「**barrel vs direct-path import の 3-way 判定**」を SP-DEVSYNC-038 step 2 の派生として追記:
+    1. HEAD と dev で同一 component の import path が異なる場合、まず `grep "from \"./<sub>/<Component>\"" <feature>/components/index.ts` で barrel に該当 export があるかを確認
+    2. 存在する場合は **barrel 経由 import (HEAD) を default 採用**
+    3. 存在しない場合は barrel に export を追加してから 1 に戻る
+    4. import 行差分のみの 3-way は他の意味的衝突を伴わないため、import 解消後は残りの conflict block を独立評価する
+  - 「**section ラッパ属性 + 子要素の両側 union パターン**」を追記:
+    - HEAD `className` と dev `aria-labelledby`/`aria-label` 条件分岐は orthogonal なので 1 つの section opening tag に全属性を列挙
+    - 内部 children は dev の条件付き `<header><h1>` を先頭、HEAD の新規 `<Card>` 以降を続けて配置（dev 側の出し分け契約を尊重しつつ HEAD の prototype 整合 UI を保持）
+  - Phase 4 risk に「UI prototype 整合 feature ブランチは dev 側の primitive prop 拡張（eyebrow / showHeading 等）と同位置で衝突する」を登録し、merge 前に `git log origin/dev ^HEAD -- <component path>` で primitive 拡張 commit の有無を事前確認するチェックを加える。
+- 検証: `grep -nE '^(<<<<<<<|=======|>>>>>>>|\|\|\|\|\|\|\|)' <path>` 0 件 + `pnpm typecheck` PASS + `pnpm lint` PASS + barrel 経由 import の export 実在を `grep "from \"./_layout/<Component>\"" .../components/index.ts` で確認。
+- 参照: aiworkflow-requirements [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-057 を唯一の正本。

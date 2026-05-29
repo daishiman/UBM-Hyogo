@@ -285,11 +285,33 @@
     color: var(--ubm-color-surface-panel);
   }
 
-  .ui-card {
+  .ui-card,
+  .card {
     border: 1px solid var(--ubm-color-border-default);
     border-radius: var(--ubm-radius-sm);
     background: var(--ubm-color-surface-panel);
     box-shadow: var(--ubm-shadow-xs);
+  }
+
+  .card-pad {
+    padding: var(--ubm-space-5);
+  }
+
+  .h-card {
+    margin: 0;
+    font-size: var(--ubm-text-xl);
+    line-height: 1.3;
+  }
+
+  .visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
   }
 
   .ui-card-header,
