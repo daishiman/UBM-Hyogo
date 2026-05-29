@@ -19,7 +19,8 @@ slug: architecture-admin-api-client
   │
   │  (1) Server Component 初期描画
   │      → fetchAdmin()  [server-fetch.ts]
-  │           ┌─ getEnv().INTERNAL_API_BASE_URL に fetch
+  │           ┌─ Cloudflare Workers runtime: env.API_SERVICE.fetch()
+  │           ├─ local/test/Playwright: INTERNAL_API_BASE_URL HTTP fallback
   │           ┕─ getEnv().INTERNAL_AUTH_SECRET + cookie を付与
   │
   │  (2) Client mutation (PATCH/POST/DELETE)
@@ -40,7 +41,7 @@ slug: architecture-admin-api-client
 主要原則:
 
 - 不変条件 #5: apps/web は D1 へ直接アクセスしない。**必ず apps/api 経由**。
-- Server Component → `fetchAdmin()` で apps/api を直接呼ぶ（同一 Cloudflare アカウント内 worker-to-worker fetch）。
+- Server Component → `fetchAdmin()` で apps/api を呼ぶ。Cloudflare Workers runtime では同一 account `*.workers.dev` raw HTTP loopback 404 / `error code: 1042` を避けるため `API_SERVICE` Service Binding を最優先する。
 - Client Component → 同一 origin `/api/admin/*` proxy 経由（CSRF / cookie 配送を Next.js に乗せるため）。
 - admin gate は二段: `(admin)/layout.tsx`（UI 進入時）+ `/api/admin/[...path]`（API 進入時）。
 
@@ -65,18 +66,23 @@ export async function fetchAdmin<T>(
 - `path` は `/admin/...` で始まる apps/api 側パス。
 - 戻り値は `T`（呼び出し側が型を指定）。失敗時は throw（後述）。
 
-### 2.2 base URL 解決
+### 2.2 transport / base URL 解決
 
 ```ts
-const resolveApiBase = (): string => {
-  return getEnv().INTERNAL_API_BASE_URL.replace(/\/$/, "");
-};
+if (getAdminServiceBinding()) {
+  API_SERVICE.fetch(`https://service-binding.local${path}`, init);
+} else {
+  fetch(`${resolveApiBase()}${path}`, init);
+}
 ```
 
-- Cloudflare Workers runtime binding 正本である `getEnv().INTERNAL_API_BASE_URL` を末尾 `/` 除去して使用する。
+- Cloudflare Workers runtime は `getAdminFetchEnv().API_SERVICE` を最優先する。`service-binding.local` の host は URL parse 用 placeholder で、実配送は Cloudflare Service Binding が担当する。
+- `NODE_ENV=test` または `PLAYWRIGHT_TEST=1` かつ `INTERNAL_API_BASE_URL` が明示されている場合は HTTP fallback を優先し、mock API / deterministic test に差し替える。
+- HTTP fallback では `getAdminFetchEnv().INTERNAL_API_BASE_URL` を優先し、なければ Cloudflare Workers runtime binding 正本である `getEnv().INTERNAL_API_BASE_URL` を末尾 `/` 除去して使用する。
 - `apps/web/src/lib/admin/server-fetch.ts` に localhost fallback は置かない。未設定・不正 URL は `EnvSchema.parse` の failure として fail-fast し、staging の Server Components render error を digest と runtime log で検出可能にする。
 - ローカル E2E / mock API は環境変数注入で切り替える。`apps/web/src` 配下へ `127.0.0.1` endpoint を焼き込まない。
 - **E2E env 解決の落とし穴（2026-05-24 fix）**: `next.config.ts` の `initOpenNextCloudflareForDev()` により dev:webpack でも `getCloudflareContext()` が機能する。`getEnv()` → `readRawEnv()` は cloudflare context（= `wrangler.toml [vars]` の本番 `INTERNAL_API_BASE_URL`）を**優先**するため、Playwright webServer が process.env に注入する `INTERNAL_API_BASE_URL=http://127.0.0.1:8787`（mock API）が無視され、SSR server-fetch が本番 API へ飛んで **401** になる。fixture を持つ admin spec は実 fetch 前に short-circuit するため顕在化せず、fixture の無い meetings detail / attendance だけが落ちる。対処は `readRawEnv()` で `PLAYWRIGHT_TEST=1` のときだけ `{ ...cloudflareEnv, ...processEnv }` と process.env override を優先（本番 Workers は process.env に config が無いので no-op）。`server-fetch.ts` を `process.env` 直読みから `getEnv()` に移行する際は、この dev cloudflare-context 優先順位を必ず考慮する。
+- **Service Binding 化（2026-05-28 fix）**: `fetchPublic` / auth 層と同じく admin Server Component fetch も `API_SERVICE.fetch()` を最優先する。`INTERNAL_API_BASE_URL` は HTTP fallback / local test 用であり、staging/production の primary transport ではない。
 
 ### 2.3 認証ヘッダ
 
@@ -97,7 +103,7 @@ const resolveApiBase = (): string => {
 
 ```ts
 if (!res.ok) {
-  throw new Error(`admin api ${path} failed: ${res.status}`);
+  throw new Error(`admin api ${path} failed: ${res.status}${bodySnippet}`);
 }
 ```
 

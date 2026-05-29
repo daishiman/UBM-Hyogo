@@ -8,6 +8,16 @@
 
 ---
 
+## Server Fetch / Service Binding
+
+### Admin server-fetch service-binding symmetry
+
+- **状況**: public fetch は Cloudflare `API_SERVICE` service-binding 優先なのに、admin server-fetch だけ `${INTERNAL_API_BASE_URL}` HTTP fetch のみで実装されていた。
+- **問題**: 同一 Cloudflare account の `workers.dev -> workers.dev` 外向き fetch が loopback 404 になり、staging `/admin/*` が `ADMIN_FETCH_404` で degrade した。
+- **解決策**: production/staging は `API_SERVICE.fetch()` を優先し、`NODE_ENV=test` / `PLAYWRIGHT_TEST=1` では HTTP fallback を維持する。`x-internal-auth` / `cookie` / body / error snippet 契約は focused spec で固定する。
+- **教訓**: fetch 経路の root cause は per-route fixture や narrow warn では解消しない。public/admin の transport symmetry を Phase 2/4 gate に入れる。
+- **発見日**: 2026-05-28
+
 ## スクリプト・正規表現関連
 
 ### Markdown見出しレベルの誤検出
@@ -1038,6 +1048,24 @@ UI 系 feature ブランチ（prototype alignment / dashboard 等）と dev の�
 - 該当 spec を `test.skip` で先送り → e2e mock API を使う他 spec も同じ regression を踏むため fundamental fix が常に正解
 - `revalidate: 0` に下げて regression を回避 → production で free tier 圧迫（cache hit rate が drop）し本末転倒
 
+## Closed-issue + Parent-implemented Runtime-ops Runbook パターン（2026-05-27 / L-I956-001..005 generalization）
+
+Parent workflow が実装責務（コード/cron/D1 schema 等）を完了済みで、production runtime での recovery 実行手順と evidence boundary だけが canonical 化されていない場合、子 workflow は「実装 task」ではなく「runtime-ops runbook 子 workflow」として独立 canonical root を持たせる。GitHub issue が CLOSED でも `Refs <issue>` で workflow を後付け生成してよい（再 open 不要）。
+
+- **L-RUNBOOK-001 (子は runbook 専用)**: `implementationCategory: runtime-ops-runbook` / `implementation_files: []` / `test_files: []` を artifacts.json metadata に明示する。Phase 5 は「実装手順」ではなく「runtime 実行手順 + redaction 契約」を記述。parent 実装 workflow への pointer (`parent_task`) を root metadata に必ず置く。
+- **L-RUNBOOK-002 (runtime-dependent followup 境界)**: Phase 12 unassigned-task-detection で候補を**列挙したうえで `Not created — runtime evidence dependent` と decision を明記**する。同一表に「if observed during the approved runtime cycle, escalate or formalize before close-out」の運用契約を併記する。`spec_created` 段階では 0 件、runtime 発火後に escalation gate で再評価。speculative 起票も未起票放置もどちらも禁止。
+- **L-RUNBOOK-003 (consumed pointer 契約)**: source unassigned proto-spec は **物理削除せず**、frontmatter に `status: consumed` / `canonical_workflow: docs/30-workflows/.../<id>/` / `consumed_at: <date>` / `issue_reference_mode: refs-only` を追記し、本文冒頭に canonical workflow への pointer 行を残す。GitHub issue 本文 link / parent Phase 12 detection からの相対リンクの dead link 化を防ぎつつ重複 workflow 生成を抑止する。
+- **L-RUNBOOK-004 (runtime PASS claim 禁止)**: Gate-B / Gate-C は `outputs/phase-11/snapshot-after.*` と `snapshot-diff.md` の物理ファイル存在 + AC mapping を必須条件とし、未充足の間は `pending` 固定。`runtime PASS is not claimed` を Phase 12 main.md / inventory / compliance-check 全てで一貫表記する。`spec_created` から `completed` への直接遷移は禁止（中間 `implemented_local_runtime_pending` or `runtime_pending_user_approval` を経由）。
+- **L-RUNBOOK-005 (redaction 5 種)**: production secret 投入 / cron tail / D1 SELECT/UPDATE の生出力には機密が混じる。evidence には **識別子 / exit code / row count / next-run timestamp のみ** を残し、(a) secret 値、(b) token preview/prefix/suffix、(c) service-account local part、(d) responder email、(e) フォーム回答本文 の 5 種は `<REDACTED>` 表記とする。「evidence 充実 = 生出力を貼る」方向に AI agent は流れがちなため、Phase 11 ledger の各行に redaction 規約を明記する。
+
+### Anti-pattern
+
+- closed issue を理由に canonical workflow root を生成しない → skill traceability gap が残り、recovery 操作が ad-hoc 化
+- runtime-dependent followup を「いつか観測したら」と speculative に起票 → backlog 汚染。逆に detection 表に書かず放置 → runtime 発火時に skip され recovery 機会を失う
+- source unassigned task を物理削除 → GitHub issue / parent detection の dead link 化が永続的
+- `spec_created` のまま `gates[*].status = passed` に進める → evidence-less PASS で skill 正本性が壊れる
+- `scripts/cf.sh tail` 出力をそのまま Phase 11 ledger に貼り付ける → secret/PII 漏洩
+
 ## Admin panel dual-h1 strict-mode + visual baseline 更新パターン (2026-05-28)
 
 - **Rule (panel heading)**: admin panel component の root は `<section aria-label="<セクション名>">` で region role を取り、内部に `<h1>` を**置かない**（sr-only h1 も含む）。AdminPageHeader 側が `h-page` h1 を一元提供する場合、panel の `<h1 sr-only>` は Playwright `getByRole('heading', { name })` の strict-mode に必ず抵触する。
@@ -1150,3 +1178,15 @@ admin route prototype-alignment 系 branch を `origin/dev` に sync-merge す�
 - **SP-DEVSYNC-059-D (`--no-verify` 禁止)**: merge / commit 失敗時に `--no-verify` で hooks を skip する誘惑が出るが、CLAUDE.md「--no-verify の使用は引き続き避け、hook が誤検知する場合は本セクションの方針に沿って hook 自体を改善すること」に反する。Phase 12 implementation-guide で `--no-verify` 禁止を明示し、未コミット変更を SP-DEVSYNC-059-B の 3 commit 反復で処理してから再 `git merge dev` する経路を SSOT とする。
 - **SP-DEVSYNC-059-E (検証 4 step)**: `pnpm sync:resolve` 後は L-DEVSYNC-056 と同じ `git diff --diff-filter=U --name-only` 0 件 → `git commit --no-edit`（merge commit、pre-commit hooks 通過）→ `pnpm typecheck` 全 packages → `pnpm lint` 全 packages の 4 step を Phase 12 implementation-guide に明記。今回 2026-05-28 task-c 検証では `.tsx` conflict なし、skill index 2 ファイル（`keywords.json` `--ours+rebuild` / `topic-map.md` union）のみで L-DEVSYNC-055 happy-path 経路と同一。
 - 参照: [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-059、L-DEVSYNC-055 (skill indexes 2 件 happy-path)、L-DEVSYNC-054 (auth.ts / barrel 並列追加)、CONST_003 (stash 順次・並列禁止)、CONST_019 (全変更包含)。
+
+
+## L-DEVSYNC-059 skill-only conflict shape の resolver 単独完結を仕様 Phase 12 の default path に固定（dev sync-merge / 2026-05-29 再現）
+
+`feat/issue-958-h3-public-filter-ux`（2026-05-28）と `feat/issue-976-admin-fetch-service-binding`（2026-05-29）の 2 連続で、`origin/dev` sync-merge 時のコンフリクトが **skill md 5 件 (SKILL.md / indexes/{quick-reference,resource-map,topic-map}.md / references/task-workflow-active.md) + derived keywords.json 1 件** の完全同形に収束した。feature branch のコード接触面が dev 側並列実装（admin-ui modernization 等）と orthogonal な期間は、この shape が反復発生する。
+
+- **SP-DEVSYNC-059-A (Phase 12 implementation-guide の default path)**: sync-merge 工程は **「`git merge dev` → 残 unresolved が skill md + keywords.json のみなら `pnpm sync:resolve` 単発 → resolver stdout で `union-resolved` 5 行 + `ours:` 1 行 (`keywords.json`) + `running pnpm indexes:rebuild` 完走 + `all skill / index conflicts resolved` 行を確認 → `git status --porcelain | grep -E '^(UU|AA|DD)'` 空 → `git add -A && git commit -m "merge: sync <branch> with dev"`」** を default 手順として明記する。
+- **SP-DEVSYNC-059-B (shape 判定の grep gate)**: resolver 実行の **前** に `git status --porcelain | grep -E '^(UU|AA|DD)'` で unresolved 一覧を取り、全件が `.claude/skills/(aiworkflow-requirements|task-specification-creator)/(SKILL\.md|indexes/.+\.(md|json)|references/task-workflow-active\.md)` regex に match するかを 1 行 grep で確認する。1 件でも外れたら **L-DEVSYNC-056/057/058 の手動 hybridize path に分岐**するよう Phase 12 に分岐表記を残す。
+- **SP-DEVSYNC-059-C (resolver 不適 shape の明示)**: `apps/web/**/*.tsx` / `apps/api/**/*.ts` の unresolved が含まれる shape は branch context（slug / commit 主語）依存の hybridize が必須なので resolver を **呼ばない**。Phase 4 risk に「resolver 単独完結を前提とせず、`.tsx/.ts` conflict 発生時は L-DEVSYNC-056/057/058 を mitigation として参照」を 1 行登録する。
+- **SP-DEVSYNC-059-D (検証ゲートの順序固定)**: resolver 完結後の検証は **`git diff --check` 空 → `pnpm typecheck` Done × 6 packages → `pnpm lint` Done × 全 packages → `git push`** の 4 step を Phase 12 implementation-guide に明記。stablekey-literal-lint が mode=warning の場合は block 対象外として扱う。
+- **SP-DEVSYNC-059-E (lesson 再現の SSOT)**: 同形再現が 2 連続 (a98fd67bb / 2026-05-29 merge) で確認済みのため、admin-ui modernization wave 終息までは Phase 12 implementation-guide の sync-merge 節で本 lesson を **default reference** として 1 行記載する（L-DEVSYNC-056/057/058 は分岐先として 1 行併記）。
+- 参照: [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-059、L-DEVSYNC-055 (resolver 単独完結 happy-path)、L-DEVSYNC-056/057/058 (手動 hybridize 分岐先)、L-DEVSYNC-046 (UNION_TARGETS)。

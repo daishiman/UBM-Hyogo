@@ -10,6 +10,18 @@
 
 ---
 
+## Issue #958 bulk republish boundary
+
+`docs/30-workflows/issue-958-h3-public-filter-ux/` implements admin bulk republish UX for H3 public filter repair.
+
+- 対象は hidden / member_only selected members。
+- 新 bulk endpoint は作らず、既存 `PATCH /admin/members/:memberId/status` を1件ずつ呼ぶ。
+- UI は target count、progress、success count、failure list を表示する。
+- `publicConsent` は管理画面から直接変更しない。Google Form 再回答 / sync が正規更新経路。
+- Phase 11 local static screenshots are present; staging visual capture remains pending.
+
+---
+
 ## 権限一覧
 
 | 機能 | 一般メンバー | 管理者 |

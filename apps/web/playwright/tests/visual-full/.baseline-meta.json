@@ -1,13 +1,9 @@
 {
   "$schema": "../../../../docs/30-workflows/task-709-visual-baseline-runtime-capture/schemas/baseline-meta.schema.json",
-  "captured_at_commit_sha": "f4dce7dfe85b60217ef246044cb829567e5f010a",
-  "captured_at": "2026-05-28T03:17:26Z",
+  "captured_at_commit_sha": "88f2933d101b991e79c2eed761c303a0c7fd55ad",
+  "captured_at": "2026-05-28T14:42:31Z",
   "captured_via": "playwright-visual-baseline-update.yml#workflow_dispatch",
   "captured_run_ids": [
-    "26383096067",
-    "26431275613",
-    "26432787256",
-    "26489950912",
     "26491992893",
     "26492039712",
     "26493400023",
@@ -16,7 +12,8 @@
     "26540715735",
     "26549206362",
     "26552141298",
-    "26552192908"
+    "26552192908",
+    "26581231613"
   ],
   "viewport_dimensions": {
     "desktop": {
@@ -44,5 +41,5 @@
   "refresh_workflow": ".github/workflows/playwright-visual-baseline-update.yml",
   "refresh_command_hint": "gh workflow run playwright-visual-baseline-update.yml -f reason=\"<why>\" -r <feature-branch>",
   "notes": "captured_at_commit_sha からの rendering_relevant_paths diff が空でない場合、baseline は stale。scripts/visual-baseline-status.sh で診断可能。",
-  "last_refresh_reason": "admin-members redesign + admin-meetings prototype-alignment (#979) baseline drift 合算; HEAD と origin/dev 双方の workflow_dispatch run_ids を結合"
+  "last_refresh_reason": "issue-958 PR #1000: /profile に PublicConsentCallout 追加で baseline 高さが 1612px→1688px (smoke) / 1800px→1896px (visual-full tablet) に変動。意図的な機能追加で baseline 再キャプチャが必要"
 }
