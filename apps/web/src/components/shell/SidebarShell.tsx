@@ -89,8 +89,9 @@ function SidebarShellInner({ user, navGroups, mobileTriggerSlot, children }: Sid
     >
       {/* md+: 表示 / sm: hidden（AC-E1）。幅は token で expanded / collapsed を切替。 */}
       <aside
-        className="hidden md:flex md:flex-col shrink-0 border-r border-[var(--shell-bar-border)] bg-[var(--shell-bar-bg)]"
-        style={{ width: collapsed ? "var(--shell-bar-w-collapsed)" : "var(--shell-bar-w)" }}
+        className={`hidden md:flex md:flex-col shrink-0 border-r border-[var(--shell-bar-border)] bg-[var(--shell-bar-bg)] ${
+          collapsed ? "md:w-[var(--shell-bar-w-collapsed)]" : "md:w-[var(--shell-bar-w)]"
+        }`}
         data-shell="sidebar"
       >
         {sidebarTree}
