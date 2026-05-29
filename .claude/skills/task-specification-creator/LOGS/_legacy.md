@@ -4,6 +4,10 @@
 
 このファイルは task-specification-creator の運用・改善・Phase 12 close-out 同期履歴を新しい順に記録する。
 
+## 2026-05-28 - Cloudflare Worker loopback Service Binding lesson
+
+`docs/30-workflows/completed-tasks/fix-admin-fetch-cf-1042-service-binding/` の automation-30 改善で、Worker-to-Worker raw HTTP loopback 404 / `error code: 1042` を Service Binding first transport へ補正した。implementation target が明確な workflow は spec-only のまま閉じず、同一 wave で `apps/` 実装、focused tests、Phase 11 evidence boundary、Phase 12 strict 7、aiworkflow 正本同期まで完了させる。
+
 ## 2026-05-27 - admin members prototype redesign implemented-local close-out
 
 `docs/30-workflows/completed-tasks/admin-ui-prototype-alignment-followup-003-admin-members-prototype-redesign/` の automation-30 改善で、実コード差分があるのに `spec_created` / implementation pending と記録されていた不整合を補正した。`MemberPublishSwitch` の current API response shape (`status.publish_state`) 対応、mobile admin sidebar layout fix、focused Vitest 25 PASS、web typecheck PASS、Phase 11 local screenshot 16 PNG、Phase 12 strict 7、root-only `artifacts.json` 宣言、aiworkflow artifact inventory / quick-reference / resource-map / task-workflow-active / LOGS 同期まで同一サイクルで完了した。

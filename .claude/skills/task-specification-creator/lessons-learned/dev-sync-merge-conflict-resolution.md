@@ -564,3 +564,18 @@
   - Phase 4 risk に「UI prototype 整合 feature ブランチは dev 側の primitive prop 拡張（eyebrow / showHeading 等）と同位置で衝突する」を登録し、merge 前に `git log origin/dev ^HEAD -- <component path>` で primitive 拡張 commit の有無を事前確認するチェックを加える。
 - 検証: `grep -nE '^(<<<<<<<|=======|>>>>>>>|\|\|\|\|\|\|\|)' <path>` 0 件 + `pnpm typecheck` PASS + `pnpm lint` PASS + barrel 経由 import の export 実在を `grep "from \"./_layout/<Component>\"" .../components/index.ts` で確認。
 - 参照: aiworkflow-requirements [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-057 を唯一の正本。
+
+### SP-DEVSYNC-042: add-add で **異なる名前の独立 interface/type を同 module の同位置に追加** したら両方保持が default（2026-05-29 追加）
+
+- 事象: 2026-05-29 `feat/fix-admin-fetch-cf-1042-service-binding` ← origin/dev sync-merge で `apps/web/src/lib/env.ts` の同位置に HEAD が `AdminFetchEnv` interface、dev が `ApiBaseEnv` interface を独立追加した add-add semantic conflict（同 module 下部で各々 `getAdminFetchEnv()` / `getApiBaseEnv()` が両 interface を referenced）。`pnpm sync:resolve` の汎用 union は `.ts` を対象外にしているため手動解消必須。
+- Why: 名前空間が衝突しておらず、両 interface とも **同 module 内の別 getter で同時に referenced** されている。片側 take すると referencing getter が compile error。SP-DEVSYNC-038 の「新 variant 追加 vs 簡素化」とは別軸の **直交シンボル並列追加**パターン。
+- How to apply（task 仕様書での逐語化）:
+  - Phase 9 sync-merge 節に「**直交 export 並列追加の safe-union 判定**」を SP-DEVSYNC-038 step 3 の派生として追記:
+    1. conflict block の HEAD/dev で **異なる名前** の `export interface` / `export type` / `export function` を確認
+    2. 各シンボルを `grep -n "<シンボル名>" <module>` し、定義 1 件 + 他箇所 reference 1 件以上が両方に存在することを確認
+    3. 全条件を満たすなら **conflict marker のみ撤去して両ブロックを縦に並べる**（HEAD → dev 順）
+    4. `pnpm typecheck` で referencing 全 getter green を確認
+  - Phase 4 risk に「`apps/web/src/lib/env.ts` 等の env accessor module は並列 wave で異なる context (admin / public / member) 用 interface が独立追加されやすい」を登録し、merge 前に `git log origin/dev ^HEAD -- apps/web/src/lib/env.ts` で並列追加 commit を事前確認するチェックを加える。
+- 適用範囲外: 同名 interface への両側 field 追加は SP-DEVSYNC-041 系の field hybridize に分岐。barrel re-export の name collision がある場合は per-symbol 解消が必要。
+- 検証: `grep -nE '^(<<<<<<<|=======|>>>>>>>|\|\|\|\|\|\|\|)' <module>` 0 件 + `pnpm typecheck` PASS + `pnpm lint` PASS + 両 referencing getter が両 interface を import せず inline 参照で green。
+- 参照: aiworkflow-requirements [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-059 を唯一の正本。
