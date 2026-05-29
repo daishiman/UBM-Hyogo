@@ -50,6 +50,21 @@ const seedAdmin = async (env: InMemoryD1, email: string) => {
     .run();
 };
 
+const seedResponse = async (
+  env: InMemoryD1,
+  responseId: string,
+  email: string,
+) => {
+  await env.db
+    .prepare(
+      `INSERT INTO member_responses
+        (response_id, form_id, revision_id, schema_hash, response_email, submitted_at, answers_json)
+       VALUES (?1, 'form-1', 'rev-1', 'hash-1', ?2, '2026-04-01T00:00:00Z', '{}')`,
+    )
+    .bind(responseId, email)
+    .run();
+};
+
 describe("GET /auth/session-resolve", () => {
   let env: InMemoryD1;
   beforeEach(async () => {
@@ -176,5 +191,46 @@ describe("GET /auth/session-resolve", () => {
     );
     const body = (await res.json()) as Record<string, unknown>;
     expect(body.memberId).toBe("m_001");
+  });
+
+  it("auto-link: identity 無し / response と status ありなら memberId を返す", async () => {
+    await seedResponse(env, "r_auto", "auto@example.com");
+    await env.db
+      .prepare(
+        "INSERT INTO tag_assignment_queue (queue_id, member_id, response_id) VALUES ('q-auto', 'm_auto', 'r_auto')",
+      )
+      .run();
+    await seedStatus(env, "m_auto", "consented", 0);
+
+    const app = createSessionResolveRoute();
+    const res = await app.request(
+      "/session-resolve?email=auto@example.com",
+      { headers: { "x-internal-auth": INTERNAL } },
+      makeEnv(env),
+    );
+
+    expect(res.status).toBe(200);
+    const body = (await res.json()) as Record<string, unknown>;
+    expect(body).toEqual({
+      memberId: "m_auto",
+      isAdmin: false,
+      gateReason: null,
+    });
+  });
+
+  it("auto-link: response あり / status 無しなら rules_declined に倒す", async () => {
+    await seedResponse(env, "r_auto_status_missing", "nostatus@example.com");
+
+    const app = createSessionResolveRoute();
+    const res = await app.request(
+      "/session-resolve?email=nostatus@example.com",
+      { headers: { "x-internal-auth": INTERNAL } },
+      makeEnv(env),
+    );
+
+    expect(res.status).toBe(200);
+    const body = (await res.json()) as Record<string, unknown>;
+    expect(body.memberId).toBeNull();
+    expect(body.gateReason).toBe("rules_declined");
   });
 });

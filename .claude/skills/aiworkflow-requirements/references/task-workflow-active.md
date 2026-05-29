@@ -324,6 +324,21 @@
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-google-form-reflection-diagnostics-artifact-inventory.md` |
 | user gate | staging deploy / authenticated `/admin/sync-status` screenshot / member drawer screenshot / Spec-B issue filing / commit / push / PR |
 
+### google-form-reflection-diagnostics-fu-002-h2-identity-rebuild（2026-05-27）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_runtime_pending / implementation / NON_VISUAL` |
+| 成果物 | `docs/30-workflows/completed-tasks/google-form-reflection-diagnostics-fu-002-h2-identity-rebuild/` |
+| parent | `docs/30-workflows/completed-tasks/google-form-reflection-diagnostics/` |
+| 目的 | H2 identity gap を修復し、`member_responses.response_email` に存在する verified email が `member_identities` 欠損だけで永続的に `unregistered` へ落ちる状態を防ぐ |
+| implementation targets | `apps/api/migrations/0021_backfill_member_identities.sql`, `apps/api/src/repository/identities.ts`, `apps/api/src/routes/auth/session-resolve.ts` |
+| API contract | `/auth/session-resolve` は既存 `member_identities` row を優先し、無い場合のみ `member_responses` から auto-link candidate を作る。`tag_assignment_queue(response_id, member_id)` が残る場合はその `member_id` を bridge とし、無い場合は `autolink:<uuid>` を生成する。いずれも `member_status.rules_consent` / `is_deleted` gate は迂回しない |
+| Phase 11 | NON_VISUAL local evidence captured。staging/prod D1 backup、migration apply、deployed diagnostics、24h autolink log observation は user-gated runtime evidence |
+| Phase 12 | strict 7 outputs + root/output artifacts parity present |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-google-form-reflection-diagnostics-fu-002-h2-identity-rebuild-artifact-inventory.md` |
+| user gate | staging/prod D1 backup / migration apply / deployed diagnostics capture / commit / push / PR |
+
 ### issue-901-authenticated-profile-admin-staging-visual（2026-05-25）
 
 | 項目 | 値 |

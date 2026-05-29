@@ -9,7 +9,10 @@
 import { Hono } from "hono";
 import { internalAuth, type InternalAuthEnv } from "../../middleware/internal-auth";
 import { ctx as makeCtx, type D1Db } from "../../repository/_shared/db";
-import { findIdentityByEmail } from "../../repository/identities";
+import {
+  findIdentityByEmail,
+  tryAutoLinkIdentityByEmail,
+} from "../../repository/identities";
 import { getStatus } from "../../repository/status";
 import { isActiveAdmin } from "../../repository/adminUsers";
 import {
@@ -44,7 +47,10 @@ export const createSessionResolveRoute = (): Hono<{
 
     const ctx = makeCtx({ DB: c.env.DB });
 
-    const identity = await findIdentityByEmail(ctx, asResponseEmail(email));
+    const responseEmail = asResponseEmail(email);
+    const identity =
+      (await findIdentityByEmail(ctx, responseEmail)) ??
+      (await tryAutoLinkIdentityByEmail(ctx, responseEmail));
     if (!identity) {
       return c.json({
         memberId: null,
