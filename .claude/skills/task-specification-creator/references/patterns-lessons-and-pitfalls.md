@@ -1273,5 +1273,16 @@ Next.js App Router で公開層 (`/`, `/(public)/*`) の auth-state 出し分け
 - **SP-DEVSYNC-064-C (テスト追従の整合ゲート)**: 実装とテスト（`*.spec.ts`）は必ず同じ side を採る。採用実装の signature と不整合なテストを採ると typecheck fail する旨を Phase 12 検証手順に明記（実装=HEAD・テスト=dev の混在を禁止）。
 - **SP-DEVSYNC-064-D (resolver WARN ハンドリング)**: `pnpm sync:resolve` の `WARN unhandled conflict: <path>` 行が出たら、その列挙ファイルのみ手動解消し resolver 済の skill 系は再処理しない。最後に `git grep -l '^<<<<<<< '` = 空で全 marker 消滅を確認してから `git commit`。
 - **SP-DEVSYNC-064-E (検証ゲート)**: `git diff --check` 空 → `pnpm typecheck` Done × 全 packages → `pnpm lint` Done → `git push` の順を固定。
-- anti-pattern: ① add/add を機械的に行マージし旧版コードを残す ② 実装は HEAD・テストは dev を採り signature 不整合で CI fail ③ resolver WARN を無視して skill 系まで手で触り union 結果を壊す ④ 上位版判定をせず `--theirs` で dev 旧基盤版に巻き戻す ⑤ marker 残存確認を省略して conflict marker をコミット。
-- 参照: [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-064、L-DEVSYNC-059 (skill-only resolver-only path)、L-DEVSYNC-056/057/058 (別機能 add/add hybridize 分岐先)。
+- anti-pattern: ① add/add を機械的に行マージし旧版コードを残す ② 実装は HEAD・テストは dev を採り signature 不整合で CI fail ③ resolver WARN を無視して skill 系まで手で触り union 結果を壊す ④ 上位版判定をせず `--theirs` で dev 旧基盤版に巻き戻す（**ただし SP-DEVSYNC-065 の「dev が同構造へ進化済み」ケースは除く**） ⑤ marker 残存確認を省略して conflict marker をコミット。
+- 参照: [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-064、L-DEVSYNC-059 (skill-only resolver-only path)、L-DEVSYNC-056/057/058 (別機能 add/add hybridize 分岐先)、SP-DEVSYNC-065 (再 sync で前提が変わる場合)。
+
+
+## L-DEVSYNC-065 同一 feature の**再 sync** — 「前回 `--ours` 採用」を盲目踏襲せず dev の進化を再評価（dev sync-merge / 2026-05-30）
+
+`feat/member-header-admin-link` ← `origin/dev`（`7b2bf0537`）の **2 度目** の sync-merge で、前回（L-DEVSYNC-064 / SP-DEVSYNC-064、merge `2a9e5611c`）は dev=inline 単一実装だったため HEAD 分割版を `--ours` 採用した auth-view conflict が再発した。だが今回は dev が sibling branch（L-DEVSYNC-063 の `public-header-session-aware-auth-view-base`、merge `060bab6bf`）経由で **同じ分割モジュール構造へ進化済み**。「進化段階差（inline vs module）」フレームは無効化し、「**同構造の細部相違**」フレームへ切り替えて dev 版を `--theirs` 採用した（前回と逆の結論）。sync-merge task を生成する仕様の Phase 4 risk / Phase 12 implementation-guide にこの再評価ステップを固定する。
+
+- **SP-DEVSYNC-065-A (再 sync は前回判断の前提を再評価)**: N 度目の sync で同一 feature が再 conflict したら、Phase 12 手順に「前回 lesson の `--ours`/`--theirs` 結論をそのまま適用せず、`git show :3:<path>`(theirs/dev) の構造を読み dev が前回から進化していないか確認する」を明記。dev が HEAD と同構造へ追いついていたら進化段階差フレーム（SP-DEVSYNC-064 / L-DEVSYNC-063）を捨て、本 lesson の同構造細部相違フレームへ分岐。
+- **SP-DEVSYNC-065-B (同構造細部相違の canonical 判定基準)**: 両 side が同じモジュール構造の場合、上位版判定は構造ではなく品質指標 — ①ガードがより厳密（`trim()` で空白も弾く > `length` のみ）②テストがより網羅的（境界ケース数）③共有型が 1 箇所に集約。これらを多く満たす側を canonical とし `--theirs`/`--ours` を選ぶ。Phase 12 risk に「同構造再 sync では品質指標で canonical を選ぶ」を 1 行登録。
+- **SP-DEVSYNC-065-C (consumer 互換の grep + typecheck が採否の最終根拠)**: `--theirs` 成立条件は「HEAD 固有 consumer が dev 版 API で動く」こと。仕様に「`grep -n '<consumer prop>' <consumer files>` で依存契約を確認 → literal→string 等の契約緩和なら無修正可、契約強化なら型 fail で `--ours` 継続 → `pnpm typecheck` + focused vitest(対象 + consumer 層) で機械確認後 commit」を明記。
+- anti-pattern: ① 前回 lesson の結論を機械転記し dev の進化を見落とす ② 「`--theirs`=旧基盤巻き戻し」と短絡し進化済み canonical を捨てる（SP-DEVSYNC-064 anti-④ の誤適用）③ consumer 互換を grep/typecheck せず型不整合のまま commit ④ 品質指標を見ずに「HEAD が常に上位」と決めつける。
+- 参照: [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-065、L-DEVSYNC-063/064 (dev=inline 時の進化段階差)、SP-DEVSYNC-064 (前回 `--ours` 採用)、L-DEVSYNC-024 (import block 両側採用)。
