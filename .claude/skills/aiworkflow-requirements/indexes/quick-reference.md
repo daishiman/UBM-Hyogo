@@ -1,5 +1,35 @@
 # クイックリファレンス
 
+## login-redirect-when-authenticated（2026-05-28）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/login-redirect-when-authenticated/` |
+| status | `implemented_local_evidence_captured / implementation / NON_VISUAL / local_focused_tests_passed` |
+| parent | `docs/30-workflows/public-header-logged-in-nav-cleanup/` Task D |
+| purpose | ログイン済みユーザーが `/login` に到達した場合、server-side で `/profile` または safe な `next` へ redirect する |
+| implementation targets | `apps/web/src/lib/url/safe-next.ts`, `apps/web/app/login/page.tsx` |
+| tests | `apps/web/src/lib/url/__tests__/safe-next.spec.ts`, `apps/web/app/login/__tests__/page.spec.tsx` |
+| evidence | `mise exec -- pnpm exec vitest run apps/web/src/lib/url/__tests__/safe-next.spec.ts apps/web/app/login/__tests__/page.spec.tsx` PASS（2 files / 22 tests） |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-login-redirect-when-authenticated-artifact-inventory.md` |
+| user gate | browser/staging runtime confirmation, commit, push, PR |
+
+## admin-identity-conflicts-prototype-alignment-and-404-fix（2026-05-27）
+## task-b-root-page-public-header-async（2026-05-28）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/task-b-root-page-public-header-async/` |
+| status | `implemented_local_evidence_captured / implementation / NON_VISUAL / staging_runtime_pending_user_gate` |
+| parent | `docs/30-workflows/public-header-logged-in-nav-cleanup/` |
+| purpose | root `/` が `getAuthView()` を取得し、`PublicHeader authView` に配線してログイン状態 CTA を正しく出す |
+| implementation | `apps/web/src/lib/auth-view/index.ts`, `apps/web/src/components/public/PublicHeader.tsx`, `apps/web/app/(public)/layout.tsx`, `apps/web/app/page.tsx` |
+| tests | `apps/web/src/lib/auth-view/__tests__/resolveAuthView.spec.ts`, `apps/web/src/components/public/__tests__/PublicHeader.spec.tsx`, `apps/web/app/__tests__/page.spec.tsx` |
+| evidence | focused Vitest 3 files / 9 tests PASS, typecheck PASS, lint PASS, web build PASS |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-task-b-root-page-public-header-async-artifact-inventory.md` |
+| user gate | Cloudflare staging deploy, authenticated `/` curl, wrangler tail clean evidence, commit, push, PR |
+
+## admin-identity-conflicts-prototype-alignment-and-404-fix（2026-05-27）
 ## issue-976-admin-fetch-service-binding（2026-05-28）
 
 | 項目 | 値 |
