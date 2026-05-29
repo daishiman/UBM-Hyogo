@@ -15,7 +15,7 @@ import { LoginShell } from "./_components/LoginShell";
 interface LoginPageProps {
   // Next 16: searchParams は Promise（async 解決）
   readonly searchParams?: Promise<
-    Record<string, string | string[] | undefined>
+    Record<string, unknown>
   >;
 }
 

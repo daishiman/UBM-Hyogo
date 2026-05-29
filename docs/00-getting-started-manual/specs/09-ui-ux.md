@@ -18,6 +18,16 @@ Next.js App Router の `error.tsx` では、`role="alert"` の領域内にある
 focus 呼び出しは `focus({ preventScroll: true })` に固定する。root / login / profile / admin の error boundary は同じ hook を使い、文言・layout・token の変更を伴わずに screen reader へのエラー通知を揃える。
 視覚値、余白値、フォント値、prototype の行範囲、画面 blueprints は別正本へ委譲する。
 
+## Issue #958 UI Contract
+
+`issue-958-h3-public-filter-ux` implements three UI additions while keeping existing state ownership:
+
+- `PublicConsentCalloutProps`: member profile callout for `publicConsent` states (`consented`, `declined`, `unknown`) with Google Form CTA.
+- `BulkRepublishTarget` / `BulkRepublishProgress` / `UseBulkRepublishReturn`: admin bulk republish UX with per-member PATCH progress and failure display.
+- `AllHiddenFallbackProps`: public members fallback when all members are hidden by publish/consent state, distinct from search-filter empty.
+
+All colors must use OKLch design tokens. Local static visual evidence is present; staging visual capture remains pending.
+
 ### 1.1 契約のみスコープ
 
 | 扱う | 扱わない |

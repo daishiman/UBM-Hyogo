@@ -26,7 +26,9 @@ describe("SelectedTagsBar", () => {
         onClearAll={vi.fn()}
       />,
     );
-    fireEvent.click(screen.getByRole("button", { name: "#foo ×" }));
+    fireEvent.click(
+      screen.getByRole("button", { name: "foo タグ絞り込みを解除" }),
+    );
     expect(onRemove).toHaveBeenCalledWith("foo");
   });
 
@@ -39,7 +41,7 @@ describe("SelectedTagsBar", () => {
         onClearAll={onClearAll}
       />,
     );
-    fireEvent.click(screen.getByRole("button", { name: "すべてクリア" }));
+    fireEvent.click(screen.getByRole("button", { name: "絞り込みをクリア" }));
     expect(onClearAll).toHaveBeenCalled();
   });
 });

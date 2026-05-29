@@ -47,4 +47,46 @@ describe("MembersPage safe fetch degrade", () => {
     );
     expect(screen.getByText("メンバー件数を読み込めませんでした")).toBeDefined();
   });
+
+  it("propagates totalCount and displayedCount to MemberFilters live region", async () => {
+    mockedListMembers.mockResolvedValueOnce({
+      items: Array.from({ length: 10 }).map((_, i) => ({
+        memberId: `m-${i}`,
+        fullName: `Member ${i}`,
+        nickname: null,
+        occupation: null,
+        location: null,
+        ubmZone: null,
+        ubmMembershipType: null,
+        tags: [],
+      })) as never,
+      pagination: { total: 10, page: 1, perPage: 24 } as never,
+      topTags: [],
+    } as never);
+
+    render(
+      await MembersPage({
+        searchParams: Promise.resolve({}),
+      }),
+    );
+
+    const live = screen.getByRole("status");
+    expect(live.textContent ?? "").toMatch(/10 件中 10 件/);
+  });
+
+  it("marks pagination-meta as aria-hidden machine-readable", async () => {
+    mockedListMembers.mockResolvedValueOnce({
+      items: [],
+      pagination: { total: 0, page: 1, perPage: 24 } as never,
+      topTags: [],
+    } as never);
+
+    const { container } = render(
+      await MembersPage({
+        searchParams: Promise.resolve({}),
+      }),
+    );
+    const meta = container.querySelector('[data-role="pagination-meta"]');
+    expect(meta?.getAttribute("aria-hidden")).toBe("true");
+  });
 });

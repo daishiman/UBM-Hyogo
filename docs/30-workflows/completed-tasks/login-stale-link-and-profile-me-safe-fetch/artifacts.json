@@ -1,0 +1,83 @@
+{
+  "workflow": "login-stale-link-and-profile-me-safe-fetch",
+  "workflow_state": "implemented_local_evidence_captured",
+  "implementation_mode": "new",
+  "task_classification": "ui_task_with_runtime_evidence",
+  "metadata": {
+    "workflow_state": "implemented_local_evidence_captured",
+    "taskType": "implementation",
+    "visualEvidence": "VISUAL_ON_EXECUTION",
+    "implementation_status": "local_code_and_tests_updated",
+    "runtime_boundary": "staging_deploy_and_authenticated_screenshots_user_gated",
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-05-27T14:19:52+09:00",
+        "evidence_path": "docs/30-workflows/completed-tasks/login-stale-link-and-profile-me-safe-fetch/outputs/phase-12/phase12-task-spec-compliance-check.md",
+        "approver": "codex",
+        "notes": "spec_review: Phase 1-12 spec + local code/focused tests complete"
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/login-stale-link-and-profile-me-safe-fetch/outputs/phase-11/manual-test-result.md",
+        "approver": "user",
+        "notes": "runtime_smoke: staging deploy + authenticated /profile + /login screenshots user-gated"
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/login-stale-link-and-profile-me-safe-fetch/outputs/phase-12/main.md",
+        "approver": "user",
+        "notes": "commit/push/PR user-gated"
+      }
+    ]
+  },
+  "branch": "fix/login-stale-link-and-profile-me-safe-fetch",
+  "base_branch": "dev",
+  "phases": {
+    "phase-1": { "status": "spec_created" },
+    "phase-2": { "status": "spec_created" },
+    "phase-3": { "status": "spec_created" },
+    "phase-4": { "status": "implemented_local_evidence_captured" },
+    "phase-5": { "status": "implemented_local_evidence_captured" },
+    "phase-6": { "status": "implemented_local_evidence_captured" },
+    "phase-7": { "status": "implemented_local_evidence_captured" },
+    "phase-8": { "status": "implemented_local_evidence_captured" },
+    "phase-9": { "status": "implemented_local_evidence_captured" },
+    "phase-10": { "status": "implemented_local_evidence_captured" },
+    "phase-11": {
+      "status": "runtime_pending",
+      "mode": "VISUAL_ON_EXECUTION",
+      "reason": "staging_deploy_and_authenticated_screenshots_user_gated"
+    },
+    "phase-12": { "status": "implemented_local_evidence_captured" },
+    "phase-13": { "status": "blocked", "reason": "pending_user_approval" }
+  },
+  "gates": {
+    "Gate-A": {
+      "gate_id": "Gate-A",
+      "status": "passed",
+      "passed_at": "2026-05-27T14:19:52+09:00",
+      "evidence_path": "docs/30-workflows/completed-tasks/login-stale-link-and-profile-me-safe-fetch/outputs/phase-12/phase12-task-spec-compliance-check.md",
+      "approver": "codex"
+    },
+    "Gate-B": {
+      "gate_id": "Gate-B",
+      "status": "pending",
+      "passed_at": null,
+      "evidence_path": "docs/30-workflows/completed-tasks/login-stale-link-and-profile-me-safe-fetch/outputs/phase-11/manual-test-result.md",
+      "approver": "user"
+    },
+    "Gate-C": {
+      "gate_id": "Gate-C",
+      "status": "pending",
+      "passed_at": null,
+      "evidence_path": "docs/30-workflows/completed-tasks/login-stale-link-and-profile-me-safe-fetch/outputs/phase-12/main.md",
+      "approver": "user"
+    }
+  }
+}

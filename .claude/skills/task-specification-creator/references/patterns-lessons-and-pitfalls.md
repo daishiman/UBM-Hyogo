@@ -8,6 +8,16 @@
 
 ---
 
+## Server Fetch / Service Binding
+
+### Admin server-fetch service-binding symmetry
+
+- **状況**: public fetch は Cloudflare `API_SERVICE` service-binding 優先なのに、admin server-fetch だけ `${INTERNAL_API_BASE_URL}` HTTP fetch のみで実装されていた。
+- **問題**: 同一 Cloudflare account の `workers.dev -> workers.dev` 外向き fetch が loopback 404 になり、staging `/admin/*` が `ADMIN_FETCH_404` で degrade した。
+- **解決策**: production/staging は `API_SERVICE.fetch()` を優先し、`NODE_ENV=test` / `PLAYWRIGHT_TEST=1` では HTTP fallback を維持する。`x-internal-auth` / `cookie` / body / error snippet 契約は focused spec で固定する。
+- **教訓**: fetch 経路の root cause は per-route fixture や narrow warn では解消しない。public/admin の transport symmetry を Phase 2/4 gate に入れる。
+- **発見日**: 2026-05-28
+
 ## スクリプト・正規表現関連
 
 ### Markdown見出しレベルの誤検出
@@ -864,6 +874,24 @@ staging で観測された `/admin/<route>` API 404 と、同 route の prototyp
 - no-op だったので lesson を残さない → 次回同種指示で同じ確認手順を再構築する無駄が発生する
 - `gh pr checks` が pass だけを見て mergeable を見ない → `DIRTY` 状態の PR を「green」と誤報告し、dev divergence の再 sync が遅れる
 
+## Admin route mount drift + UI prototype 整合 dual-task パターン（admin-audit-prototype-alignment L-AAUDIT-001..005 汎化）
+
+`/admin/<route>` の (a) staging API 404 観測と (b) bare `<form>` / page-local `<h1>` 残存 という 2 軸の課題は、`apps/web` UI 整合（Task A）と `apps/api` root mount 回帰保護（Task B）の dual-task として一括で扱うのが効率的。両 task は独立してレビュー可能で、UI 実装 / local unit test と route 配線確認は並列実行できる。
+
+- **L-ADMROUTE-001 (root mount regression test の必須化)**: admin endpoint を追加・移動する PR では `apps/api/src/index.spec.ts` に root mount 経由で `/admin/<path>?<minimal-query>` を request し **401（404 ではない）** を期待する spec を 1 件必ず追加する。`requireAdmin` middleware 経由で 401/403 が返るのが正解で、404 が返ったら mount 順序 / path duplication / handler 配線崩れの回帰。**Anti-pattern**: contract spec（200 OK with admin auth）のみで mount を保護すると、auth bypass 時の 404 を見逃す。
+- **L-ADMBANNER-001 (Banner tone 制約)**: admin UI で error 表示が必要な場合は `Banner tone="warning"` / `tone="danger"` のみを使う。`error` / `info` / `success` tone は存在しない。typecheck で fail するため新 tone 追加は別 RFC 経由。
+- **L-ADMLINKBTN-001 (link button は buttonVariants + a)**: 本 repo の `Button` primitive は polymorphic link rendering（`asChild` / `href`）を持たない。リンクとして描画する場合は `<a className={buttonVariants({ variant: "outline" })}>` で構成する。design system invariant のため `Button` を polymorphic 化しない。
+- **L-ADMHEAD-002 (page-local h1 撤去契約)**: `AdminPageHeader` を採用する admin page では、配下 panel component の page-local `<h1>` を grep で全撤去し `headingId` 譲渡パターン（`<section aria-labelledby={headingId}>`）に統一する。L-ASHELL-001（admin shell header 撤去契約）と同根。Playwright spec で `h1` count = 1 を assert することで回帰検知。
+- **L-OBSREG-001 (staging 観測文字列を regression test input に固定)**: staging で観測した error 文字列（例: `admin api /admin/audit?limit=50 failed: 404`）は必ず `safeServerFetch` 等の reason 展開 regression test の input として保存する。test fixture コメントに staging 観測 timestamp + URL を残すと、同じ文字列が再発した場合に確実に reason 展開される。L-ATAGUI-001（admin-tag-queue-ui-and-404-recovery）と同パターン。
+
+### Anti-pattern
+
+- API contract spec のみで mount を保護 → auth bypass 時の 404 や mount 順序回帰を見逃す
+- `Banner tone="error"` を書いてしまう → typecheck で fail。lint で `tone` enum を検査する gate が無いと runtime まで通る場合あり
+- `Button asChild` / `<Button href>` を期待する → primitive API ミスマッチ。コードレビューで毎回引っかかる
+- `AdminPageHeader` 採用時に panel 内 `<h1>` を残す → axe / playwright で二重 h1 警告。手戻りコスト大
+- staging 観測文字列を test に固定せず「直したつもり」で close → 同じ文字列が再発した時に検知できない
+
 ## Dev sync 時の sibling-section conflict 解消パターン (2026-05-27)
 
 - 適用場面: feature branch が UI surface (drawer / panel / page) の section 構造を全面刷新中に、dev 側が同ファイル内へ新規 Client Island / Server Component / sibling section を追加した状態で `git merge dev` した時。
@@ -1020,6 +1048,24 @@ UI 系 feature ブランチ（prototype alignment / dashboard 等）と dev の�
 - 該当 spec を `test.skip` で先送り → e2e mock API を使う他 spec も同じ regression を踏むため fundamental fix が常に正解
 - `revalidate: 0` に下げて regression を回避 → production で free tier 圧迫（cache hit rate が drop）し本末転倒
 
+## Closed-issue + Parent-implemented Runtime-ops Runbook パターン（2026-05-27 / L-I956-001..005 generalization）
+
+Parent workflow が実装責務（コード/cron/D1 schema 等）を完了済みで、production runtime での recovery 実行手順と evidence boundary だけが canonical 化されていない場合、子 workflow は「実装 task」ではなく「runtime-ops runbook 子 workflow」として独立 canonical root を持たせる。GitHub issue が CLOSED でも `Refs <issue>` で workflow を後付け生成してよい（再 open 不要）。
+
+- **L-RUNBOOK-001 (子は runbook 専用)**: `implementationCategory: runtime-ops-runbook` / `implementation_files: []` / `test_files: []` を artifacts.json metadata に明示する。Phase 5 は「実装手順」ではなく「runtime 実行手順 + redaction 契約」を記述。parent 実装 workflow への pointer (`parent_task`) を root metadata に必ず置く。
+- **L-RUNBOOK-002 (runtime-dependent followup 境界)**: Phase 12 unassigned-task-detection で候補を**列挙したうえで `Not created — runtime evidence dependent` と decision を明記**する。同一表に「if observed during the approved runtime cycle, escalate or formalize before close-out」の運用契約を併記する。`spec_created` 段階では 0 件、runtime 発火後に escalation gate で再評価。speculative 起票も未起票放置もどちらも禁止。
+- **L-RUNBOOK-003 (consumed pointer 契約)**: source unassigned proto-spec は **物理削除せず**、frontmatter に `status: consumed` / `canonical_workflow: docs/30-workflows/.../<id>/` / `consumed_at: <date>` / `issue_reference_mode: refs-only` を追記し、本文冒頭に canonical workflow への pointer 行を残す。GitHub issue 本文 link / parent Phase 12 detection からの相対リンクの dead link 化を防ぎつつ重複 workflow 生成を抑止する。
+- **L-RUNBOOK-004 (runtime PASS claim 禁止)**: Gate-B / Gate-C は `outputs/phase-11/snapshot-after.*` と `snapshot-diff.md` の物理ファイル存在 + AC mapping を必須条件とし、未充足の間は `pending` 固定。`runtime PASS is not claimed` を Phase 12 main.md / inventory / compliance-check 全てで一貫表記する。`spec_created` から `completed` への直接遷移は禁止（中間 `implemented_local_runtime_pending` or `runtime_pending_user_approval` を経由）。
+- **L-RUNBOOK-005 (redaction 5 種)**: production secret 投入 / cron tail / D1 SELECT/UPDATE の生出力には機密が混じる。evidence には **識別子 / exit code / row count / next-run timestamp のみ** を残し、(a) secret 値、(b) token preview/prefix/suffix、(c) service-account local part、(d) responder email、(e) フォーム回答本文 の 5 種は `<REDACTED>` 表記とする。「evidence 充実 = 生出力を貼る」方向に AI agent は流れがちなため、Phase 11 ledger の各行に redaction 規約を明記する。
+
+### Anti-pattern
+
+- closed issue を理由に canonical workflow root を生成しない → skill traceability gap が残り、recovery 操作が ad-hoc 化
+- runtime-dependent followup を「いつか観測したら」と speculative に起票 → backlog 汚染。逆に detection 表に書かず放置 → runtime 発火時に skip され recovery 機会を失う
+- source unassigned task を物理削除 → GitHub issue / parent detection の dead link 化が永続的
+- `spec_created` のまま `gates[*].status = passed` に進める → evidence-less PASS で skill 正本性が壊れる
+- `scripts/cf.sh tail` 出力をそのまま Phase 11 ledger に貼り付ける → secret/PII 漏洩
+
 ## Admin panel dual-h1 strict-mode + visual baseline 更新パターン (2026-05-28)
 
 - **Rule (panel heading)**: admin panel component の root は `<section aria-label="<セクション名>">` で region role を取り、内部に `<h1>` を**置かない**（sr-only h1 も含む）。AdminPageHeader 側が `h-page` h1 を一元提供する場合、panel の `<h1 sr-only>` は Playwright `getByRole('heading', { name })` の strict-mode に必ず抵触する。
@@ -1098,6 +1144,34 @@ admin route prototype-alignment 系 branch を `origin/dev` に sync-merge す�
 - **SP-DEVSYNC-056-E (検証 4 step 必達)**: hybridize 後の検証は **`git diff --diff-filter=U --name-only` 0 件 → `pnpm typecheck` Done × 全 packages → `pnpm lint` Done × 全 packages → `git commit -m "merge: sync <branch> with dev"`** の 4 step を Phase 12 implementation-guide に明記。typecheck が undefined ref を即 fail させるため、`sections.map` 等の前提変数撤去漏れを早期検出できる。
 - 参照: [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-056、L-DEVSYNC-054 (`.ts` 手動 union)、L-DEVSYNC-055 (resolver 単独完結 happy-path との対比)。
 
+## L-PARSUB-001..006 parent + sub-workflow 構造での Phase 12 strict 7 集約と verifier 整合パターン（2026-05-28 / members-list-ux-clarity 由来）
+
+`docs/30-workflows/<workflow>/tasks/<task-id>/` 形式で sub-task を切る workflow では、Phase 12 strict 7 を親 root へ集約しても sub-task root に `index.md` / `artifacts.json` がある限り `verify:phase12-compliance` は sub-task を独立 root として扱う。集約方針と verifier 実装の乖離を吸収する標準パターンとして固定する。
+
+- **L-PARSUB-001 (sub-task 側 compliance-check 必達)**: sub-task root にも `outputs/phase-12/phase12-task-spec-compliance-check.md` を canonical 9 heading 準拠で配置すること。Phase 12 strict 7 行は `status=n/a (parent root 集約)`、自身の compliance-check 行のみ `status=present` とする。本ファイル不在で `missing-file` reject される。
+- **L-PARSUB-002 (Phase 11 evidence status enum 固定)**: Phase 11 evidence inventory の Status 列は `present` / `pending` / `n/a` の 3 値固定（`scripts/lib/phase12-compliance/verify-phase11-evidence-existence.ts` の `VALID_STATUSES`）。`present: 24 PNGs` 等の自由記述は `invalid status` で reject される。件数・注釈は Classification か Path 列に書く。
+- **L-PARSUB-003 (Phase 11 evidence path = workflow root 配下の file)**: Path はディレクトリ不可・workflow root 配下の物理ファイル必須。`..` で root 外に抜けるパスも reject。sub-task から親 evidence を参照したい場合は `status=n/a` で path 検査を skip させる。代表 PNG 1 枚を Path に書いて `status=present` でも可。
+- **L-PARSUB-004 (sub-task 側 Phase 12 strict 7 表記)**: sub-task `phase12-task-spec-compliance-check.md` の §5 は parent root 集約済の 6 ファイルを `status=n/a (parent root 集約)`、自身の compliance-check を `status=present` で表す。Path は workflow root からの相対（`outputs/phase-12/...`）で書き、`..` で抜けない。
+- **L-PARSUB-005 (artifact-inventory に Lessons Learned 節)**: 親 workflow 用 `workflow-<name>-artifact-inventory.md` には `## Lessons Learned` 節を必ず設け、L-<short>-001..NNN 形式で named lesson を記録する。inventory の存在＝同 wave 同期完了の signal にする。
+- **L-PARSUB-006 (unassigned-task spec の併合移動)**: workflow を `completed-tasks/` へ移動する際、`docs/30-workflows/unassigned-task/` 配下の関連 follow-up spec も `completed-tasks/<workflow>/unassigned-task-specs/` へ移動し、`outputs/phase-12/unassigned-task-detection.md` の path を sed 補修する。`docs/30-workflows/unassigned-task/` は active staging 用。
+
+### Anti-pattern
+
+- 集約方針を理由に sub-task の compliance-check を省略 → `verify:phase12-compliance` が `missing-file` で fail し、CI gate 通過不能。
+- Phase 11 evidence の Status に件数や注釈を併記（`present: 24 PNGs` 等）→ `invalid status` reject。Status は 3 値 enum 固定。
+- sub-task から `../../../../outputs/phase-11/` のような root 外 path を `status=present` で書く → path traversal で reject。`n/a` 化するか root 内 file に差し替える。
+- workflow を completed-tasks へ移動しても unassigned-task spec を `docs/30-workflows/unassigned-task/` に残置 → 親 detection report の path が stale 化し、close-out の正本順位が破綻する。
+
+
+## L-DEVSYNC-057 add-add semantic conflict（両 branch が同 Server Component に safe-fetch + SectionError を独立追加）の branch-owning take パターン（dev sync-merge / 2026-05-28）
+
+- 事象: `fix/login-stale-link-and-profile-me-safefetch` ← `origin/dev` で `apps/web/app/(member)/profile/page.tsx` と `page.spec.tsx` が両側 add-add semantic conflict。両 branch が `safeServerFetch(() => fetchAuthed<MeSessionResponse>("/me"))` ラップ + `if (!meResult.ok)` 早期 return + SectionError 降格を**同方向に**独立追加し、差分は変数型注釈と error title 文字列の 2 点のみ。L-DEVSYNC-056 と異なり構造採用ではなく「branch 責務 (responsibility) に合致する文言/型を持つ側」を一括 take する。
+- **SP-DEVSYNC-057-A (構造同一の判定)**: add-add conflict は最初に `git diff :2:<path> :3:<path>` で両 hunk の構造差分のみを抽出。構造が完全同一で差分が文字列/型注釈のみなら hybridize 不要で **branch-owning side を `git checkout --ours`/`--theirs` で一括 take** する。Phase 12 implementation-guide の「sync-merge コンフリクト解消手順」にこの判定を分岐の先頭に置く。
+- **SP-DEVSYNC-057-B (branch 責務の機械判定)**: 「どちらが ours か」は `git log --oneline <merge-base>..HEAD -- <path>` のコミットメッセージ主語（`fix(profile)`, `fix(login,profile)` 等）と branch slug の prefix を照合して判定。本ケースでは branch slug `fix/login-stale-link-and-profile-me-safefetch` と commit `fix(login,profile): … /profile /me fetch safe wrap` が一致するため HEAD = branch-owning。Phase 12 implementation-guide に「ours 判定根拠 (commit hash + message)」を 1 行記録。
+- **SP-DEVSYNC-057-C (page + spec の pair 同期)**: page.tsx の error title 文字列を ours に揃えたら、`page.spec.tsx` の assert 文字列も**必ず同じ ours 側**を採用する。文字列が page と spec で食い違うと test fail で post-push CI が落ちるため、conflict 解消時に「pair 一致」を 1 行 checklist として明示する。grep 検証: `grep -F "<採用文字列>" apps/web/app/<route>/page.tsx apps/web/app/<route>/page.spec.tsx` で両方 hit すること。
+- **SP-DEVSYNC-057-D (resolver 化不適の根拠)**: branch context (slug / commit message) を要する判定なので `pnpm sync:resolve` への拡張は不適切（L-DEVSYNC-054 と同様）。Phase 4 risk table に「`/profile`・`/login`・admin section root などの Server Component error boundary 強化が wave 並列で進む期間は add-add semantic conflict が頻発する」を登録し、本 lesson を mitigation reference として参照する。
+- 参照: [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-057、L-DEVSYNC-056 (structural primitive 採用との対比)、L-DEVSYNC-054 (`.ts` 手動 union との対比)。
+
 
 ## L-DEVSYNC-058 同一 page を両 branch が独立に prototype 整合した結果の 2-way feature × modernization hybridize（dev sync-merge / 2026-05-28）
 
@@ -1111,3 +1185,26 @@ admin route prototype-alignment 系 branch を `origin/dev` に sync-merge す�
 - **SP-DEVSYNC-058-F (Phase 4 risk への登録)**: admin-ui prototype alignment 系 task の Phase 4 risk に「同一 page を両 branch が異軸で prototype 整合した場合、import 経路 / wrapper attrs / primitive props axes / EmptyState variant / list pattern / Pagination の 6 軸で hybridize 必須」を登録し、L-DEVSYNC-058 を mitigation reference として参照。
 - **SP-DEVSYNC-058-G (検証 4 step)**: L-DEVSYNC-056 と同じ `git diff --diff-filter=U --name-only` 0 件 → `pnpm typecheck` 全 packages → `pnpm lint` 全 packages → `git commit -m "merge: sync <branch> with dev"` の 4 step を Phase 12 implementation-guide に明記。
 - 参照: [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-058、L-DEVSYNC-056 (single-side primitive 移行 hybridize)、L-DEVSYNC-046 (UNION_TARGETS)。
+
+
+## L-DEVSYNC-060 skill-only conflict shape の再現 — resolver 単独完結 happy-path（dev sync-merge / 2026-05-29）
+
+- 事象: `feat/members-list-ux-clarity` ← `origin/dev` (HEAD `746721996`) sync-merge で発生したコンフリクトが skill md 2 件 (`aiworkflow-requirements/indexes/topic-map.md`, `task-specification-creator/references/patterns-lessons-and-pitfalls.md`) + derived 1 件 (`aiworkflow-requirements/indexes/keywords.json`) のみ。`.ts/.tsx` page-level の手動 hybridize は 0 件で、L-DEVSYNC-055 / L-DEVSYNC-059 と同型 shape の再現確認。
+- Why: feature 改修範囲（public members list の UX 整合）と dev 7 commits（admin-ui 系 + google-form-reflection + dev-sync skill 反映）の path 重複が skill 索引行と patterns-lessons 追記行のみで、resolver 対象範囲に完全一致するため。
+- How to apply:
+  - **SP-DEVSYNC-060-A (resolver 単発判定)**: `git ls-files -u` 列挙が `pnpm sync:resolve` 対象（SKILL.md / indexes md / task-workflow-active.md / keywords.json）に閉じている場合は resolver 単発で完結し、L-DEVSYNC-056/058 の手動 hybridize lesson は invoke しない（不要複雑性回避）。
+  - **SP-DEVSYNC-060-B (sync-merge hook policy)**: CLAUDE.md `## sync-merge (main 取り込み) 時の hook 挙動` に従い `MERGE_HEAD` 検出時の `staged-task-dir-guard` / `coverage-guard` は自動スキップされる → sync-merge commit に `--no-verify` を付けない（付けても害は出ないが CONST_017 ポリシー違反になる）。
+  - **SP-DEVSYNC-060-C (検証 4 step)**: `git ls-files -u | wc -l` = 0 → `git commit -m "merge: sync <branch> with dev"` → `pnpm typecheck` 6 packages Done → `pnpm lint` Done × 全 packages。
+- 参照: [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-060、L-DEVSYNC-059 (skill-only shape の前回確認)、L-DEVSYNC-055 (resolver 単独完結 happy-path)。
+
+
+## L-DEVSYNC-059 skill-only conflict shape の resolver 単独完結を仕様 Phase 12 の default path に固定（dev sync-merge / 2026-05-29 再現）
+
+`feat/issue-958-h3-public-filter-ux`（2026-05-28）と `feat/issue-976-admin-fetch-service-binding`（2026-05-29）の 2 連続で、`origin/dev` sync-merge 時のコンフリクトが **skill md 5 件 (SKILL.md / indexes/{quick-reference,resource-map,topic-map}.md / references/task-workflow-active.md) + derived keywords.json 1 件** の完全同形に収束した。feature branch のコード接触面が dev 側並列実装（admin-ui modernization 等）と orthogonal な期間は、この shape が反復発生する。
+
+- **SP-DEVSYNC-059-A (Phase 12 implementation-guide の default path)**: sync-merge 工程は **「`git merge dev` → 残 unresolved が skill md + keywords.json のみなら `pnpm sync:resolve` 単発 → resolver stdout で `union-resolved` 5 行 + `ours:` 1 行 (`keywords.json`) + `running pnpm indexes:rebuild` 完走 + `all skill / index conflicts resolved` 行を確認 → `git status --porcelain | grep -E '^(UU|AA|DD)'` 空 → `git add -A && git commit -m "merge: sync <branch> with dev"`」** を default 手順として明記する。
+- **SP-DEVSYNC-059-B (shape 判定の grep gate)**: resolver 実行の **前** に `git status --porcelain | grep -E '^(UU|AA|DD)'` で unresolved 一覧を取り、全件が `.claude/skills/(aiworkflow-requirements|task-specification-creator)/(SKILL\.md|indexes/.+\.(md|json)|references/task-workflow-active\.md)` regex に match するかを 1 行 grep で確認する。1 件でも外れたら **L-DEVSYNC-056/057/058 の手動 hybridize path に分岐**するよう Phase 12 に分岐表記を残す。
+- **SP-DEVSYNC-059-C (resolver 不適 shape の明示)**: `apps/web/**/*.tsx` / `apps/api/**/*.ts` の unresolved が含まれる shape は branch context（slug / commit 主語）依存の hybridize が必須なので resolver を **呼ばない**。Phase 4 risk に「resolver 単独完結を前提とせず、`.tsx/.ts` conflict 発生時は L-DEVSYNC-056/057/058 を mitigation として参照」を 1 行登録する。
+- **SP-DEVSYNC-059-D (検証ゲートの順序固定)**: resolver 完結後の検証は **`git diff --check` 空 → `pnpm typecheck` Done × 6 packages → `pnpm lint` Done × 全 packages → `git push`** の 4 step を Phase 12 implementation-guide に明記。stablekey-literal-lint が mode=warning の場合は block 対象外として扱う。
+- **SP-DEVSYNC-059-E (lesson 再現の SSOT)**: 同形再現が 2 連続 (a98fd67bb / 2026-05-29 merge) で確認済みのため、admin-ui modernization wave 終息までは Phase 12 implementation-guide の sync-merge 節で本 lesson を **default reference** として 1 行記載する（L-DEVSYNC-056/057/058 は分岐先として 1 行併記）。
+- 参照: [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-059、L-DEVSYNC-055 (resolver 単独完結 happy-path)、L-DEVSYNC-056/057/058 (手動 hybridize 分岐先)、L-DEVSYNC-046 (UNION_TARGETS)。

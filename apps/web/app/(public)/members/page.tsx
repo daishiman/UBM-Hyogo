@@ -9,6 +9,7 @@ import { connection } from "next/server";
 
 import { buildPageMetadata } from "@/lib/seo/site-metadata";
 
+import { AllHiddenFallback } from "../../../src/components/public/AllHiddenFallback";
 import { EmptyState } from "../../../src/components/feedback/EmptyState";
 import { DensityToggle } from "../../../src/components/public/DensityToggle.client";
 import { MemberFilters } from "../../../src/components/public/MemberFilters.client";
@@ -16,6 +17,7 @@ import { MemberGrid } from "../../../src/components/public/MemberGrid";
 import { SectionError } from "../../../src/components/public/SectionError";
 import {
   PUBLIC_API_REVALIDATE,
+  getStats,
   listMembers,
 } from "../../../src/lib/api/public";
 import { safeServerFetch } from "../../../src/lib/server-fetch/safe-fetch";
@@ -45,13 +47,33 @@ export default async function MembersPage({ searchParams }: MembersPageProps) {
   await connection();
   const sp = await searchParams;
   const search: MembersSearch = parseSearchParams(sp);
-  const listResult = await safeServerFetch(
-    () =>
-      listMembers(search, {
-        revalidate: PUBLIC_API_REVALIDATE.members,
-      }),
-    { codePrefix: "PUBLIC_FETCH" },
-  );
+  const [listResult, statsResult] = await Promise.all([
+    safeServerFetch(
+      () =>
+        listMembers(search, {
+          revalidate: PUBLIC_API_REVALIDATE.members,
+        }),
+      { codePrefix: "PUBLIC_FETCH" },
+    ),
+    safeServerFetch(
+      () =>
+        getStats({
+          revalidate: PUBLIC_API_REVALIDATE.stats,
+        }),
+      { codePrefix: "PUBLIC_FETCH" },
+    ),
+  ]);
+
+  const hasSearchFilters =
+    search.q !== "" ||
+    search.tag.length > 0 ||
+    search.zone !== "all" ||
+    search.status !== "all";
+
+  const allHidden =
+    statsResult.ok &&
+    statsResult.data.memberCount > 0 &&
+    statsResult.data.publicMemberCount === 0;
 
   return (
     <main
@@ -73,6 +95,8 @@ export default async function MembersPage({ searchParams }: MembersPageProps) {
       <MemberFilters
         initial={search}
         topTags={listResult.ok ? listResult.data.topTags : []}
+        totalCount={listResult.ok ? listResult.data.pagination.total : undefined}
+        displayedCount={listResult.ok ? listResult.data.items.length : undefined}
       />
       {!listResult.ok ? (
         <SectionError
@@ -80,6 +104,8 @@ export default async function MembersPage({ searchParams }: MembersPageProps) {
           detail={listResult.error.message}
           retryHref="/members"
         />
+      ) : allHidden && !hasSearchFilters && statsResult.ok ? (
+        <AllHiddenFallback memberCount={statsResult.data.memberCount} />
       ) : listResult.data.items.length === 0 ? (
         <EmptyState
           title="該当するメンバーがいません"
@@ -90,7 +116,7 @@ export default async function MembersPage({ searchParams }: MembersPageProps) {
       ) : (
         <MemberGrid items={listResult.data.items} density={search.density} />
       )}
-      <p data-role="pagination-meta">
+      <p data-role="pagination-meta" aria-hidden="true">
         {listResult.ok
           ? `${listResult.data.pagination.total} 件中 ${listResult.data.items.length} 件表示`
           : "メンバー件数を読み込めませんでした"}
