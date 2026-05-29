@@ -74,6 +74,8 @@ import type { AuditCorrelationRuntimeEnv } from "./audit-correlation/run-correla
 import { runAlertRelayHealthcheck } from "./scheduled/healthcheck";
 import { runSheetsAuthHealthcheck } from "./scheduled/sheets-auth-healthcheck";
 import { createDiagnosticsRouter } from "./diagnostics/forms-pipeline";
+import { adminSyncDiagnosticsRoute } from "./routes/admin/sync-diagnostics";
+import { adminSyncBackfillPublishStateRoute } from "./routes/admin/sync-backfill-publish-state";
 
 function timingSafeEqual(a: string, b: string): boolean {
   let mismatch = a.length ^ b.length;
@@ -277,6 +279,12 @@ app.route("/admin", adminMeetingsRoute);
 app.route("/admin", adminAttendanceRoute);
 app.route("/admin", adminAuditRoute);
 app.route("/admin/diagnostics", createDiagnosticsRouter());
+// members-not-displaying-form-sync-investigation Task A:
+// SYNC_ADMIN_TOKEN bearer で叩く CLI / runbook 用 diagnostics endpoint。
+app.route("/admin/sync", adminSyncDiagnosticsRoute);
+// members-not-displaying-form-sync-investigation Task C:
+// POST /admin/sync/backfill-publish-state (dryRun default true)
+app.route("/admin", adminSyncBackfillPublishStateRoute);
 // 04b-followup-004: admin queue resolve workflow
 app.route("/admin", adminRequestsRoute);
 // issue-194-03b-followup-001: admin identity-conflicts (list/merge/dismiss)

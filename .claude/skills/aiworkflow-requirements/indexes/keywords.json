@@ -5126,6 +5126,7 @@
       "workflow-issue-770-profile-loading-skeleton-artifact-inventory.md",
       "workflow-issue-956-h1-ingest-recovery-artifact-inventory.md",
       "workflow-issue-976-admin-fetch-service-binding-artifact-inventory.md",
+      "workflow-members-not-displaying-form-sync-investigation-artifact-inventory.md",
       "workflow-parallel-04-shared-page-chrome-artifact-inventory.md",
       "workflow-parallel-i03-dialog-refresh-order-artifact-inventory.md",
       "workflow-profile-server-components-render-error-artifact-inventory.md",
@@ -7825,6 +7826,7 @@
       "workflow-issue-516-github-audit-log-cross-source-correlation-artifact-inventory.md",
       "workflow-issue-520-slack-incidents-channel-webhook-provisioning-artifact-inventory.md",
       "workflow-issue-531-runtime-smoke-attendance-provider-artifact-inventory.md",
+      "workflow-members-not-displaying-form-sync-investigation-artifact-inventory.md",
       "workflow-skill-lifecycle-evaluation-scoring-gate.md",
       "workflow-task-03-w2-par-sentry-workers-sdk-unify-artifact-inventory.md",
       "workflow-task-03b-followup-005-sync-jobs-design-spec-artifact-inventory.md",
@@ -10985,6 +10987,7 @@
       "workflow-issue-770-profile-loading-skeleton-artifact-inventory.md",
       "workflow-issue-956-h1-ingest-recovery-artifact-inventory.md",
       "workflow-issue-976-admin-fetch-service-binding-artifact-inventory.md",
+      "workflow-members-not-displaying-form-sync-investigation-artifact-inventory.md",
       "workflow-parallel-i03-dialog-refresh-order-artifact-inventory.md",
       "workflow-profile-server-components-render-error-artifact-inventory.md",
       "workflow-task-12-member-detail-register-legal-artifact-inventory.md",
@@ -12673,6 +12676,7 @@
       "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md",
       "workflow-google-form-reflection-diagnostics-artifact-inventory.md",
       "workflow-google-form-reflection-diagnostics-fu-002-h2-identity-rebuild-artifact-inventory.md",
+      "workflow-members-not-displaying-form-sync-investigation-artifact-inventory.md",
       "workflow-task-05a-form-preview-503-001-artifact-inventory.md"
     ],
     "column": [
@@ -13236,6 +13240,7 @@
       "workflow-login-page-prototype-alignment-artifact-inventory.md",
       "workflow-login-ui-balance-and-runtime-fix-artifact-inventory.md",
       "workflow-members-list-prototype-alignment-artifact-inventory.md",
+      "workflow-members-not-displaying-form-sync-investigation-artifact-inventory.md",
       "workflow-members-page-prototype-alignment-artifact-inventory.md",
       "workflow-permission-fallback-abort-skip-retry.md",
       "workflow-profile-loading-skeleton-oklch-artifact-inventory.md",
@@ -13367,6 +13372,7 @@
       "workflow-admin-ui-prototype-alignment-followup-001-members-fetch-and-visual-artifact-inventory.md",
       "workflow-admin-ui-prototype-alignment-followup-003-admin-members-prototype-redesign-artifact-inventory.md",
       "workflow-members-list-prototype-alignment-artifact-inventory.md",
+      "workflow-members-not-displaying-form-sync-investigation-artifact-inventory.md",
       "workflow-members-page-prototype-alignment-artifact-inventory.md",
       "workflow-task-15-admin-dashboard-and-members-artifact-inventory.md",
       "workflow-task-runtime-smoke-admin-members-500-recovery-001-artifact-inventory.md"
@@ -13607,7 +13613,8 @@
       "lessons-learned-issue-290-workflow-lint-gate-2026-05.md",
       "lessons-learned-issue-720-cf-audit-monitor-env-protection-fix-2026-05.md",
       "lessons-learned-issue359-production-d1-apply-2026-05.md",
-      "lessons-learned-ut07b-fu03-production-migration-runbook-2026-05.md"
+      "lessons-learned-ut07b-fu03-production-migration-runbook-2026-05.md",
+      "workflow-members-not-displaying-form-sync-investigation-artifact-inventory.md"
     ],
     "hide": [
       "lessons-learned-06c-E-admin-meetings-2026-05.md"
@@ -15472,6 +15479,7 @@
       "workflow-login-page-prototype-alignment-artifact-inventory.md",
       "workflow-login-ui-balance-and-runtime-fix-artifact-inventory.md",
       "workflow-members-list-prototype-alignment-artifact-inventory.md",
+      "workflow-members-not-displaying-form-sync-investigation-artifact-inventory.md",
       "workflow-members-page-prototype-alignment-artifact-inventory.md",
       "workflow-permission-fallback-abort-skip-retry.md",
       "workflow-profile-loading-skeleton-oklch-artifact-inventory.md",
@@ -26014,6 +26022,7 @@
       "workflow-issue-191-schema-aliases-artifact-inventory.md",
       "workflow-issue-300-direct-stable-key-update-guard-artifact-inventory.md",
       "workflow-issue-533-public-profile-builder-attendance-injection-artifact-inventory.md",
+      "workflow-members-not-displaying-form-sync-investigation-artifact-inventory.md",
       "workflow-task-15-admin-dashboard-and-members-artifact-inventory.md",
       "workflow-task-17-admin-schema-conflicts-audit-artifact-inventory.md",
       "workflow-ut-cicd-drift-impl-observability-matrix-sync-artifact-inventory.md"
@@ -26382,6 +26391,15 @@
     ],
     "balance": [
       "workflow-login-ui-balance-and-runtime-fix-artifact-inventory.md"
+    ],
+    "displaying": [
+      "workflow-members-not-displaying-form-sync-investigation-artifact-inventory.md"
+    ],
+    "investigation": [
+      "workflow-members-not-displaying-form-sync-investigation-artifact-inventory.md"
+    ],
+    "Correctness": [
+      "workflow-members-not-displaying-form-sync-investigation-artifact-inventory.md"
     ],
     "mypage": [
       "workflow-mypage-prototype-alignment-artifact-inventory.md"
