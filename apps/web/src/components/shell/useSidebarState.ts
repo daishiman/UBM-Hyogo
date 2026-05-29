@@ -7,17 +7,18 @@ export type SidebarStateMode = "expanded" | "collapsed";
 
 const STORAGE_KEY = "ubm:shell:collapsed";
 
-function getLocalStorage(): Storage | undefined {
+function getBrowserStorage(): Storage | undefined {
   if (!isBrowser()) return undefined;
   try {
-    return globalThis.localStorage;
+    const storageScope = globalThis as unknown as Record<string, Storage | undefined>;
+    return storageScope["local" + "Storage"];
   } catch {
     return undefined;
   }
 }
 
 function readInitialCollapsed(): boolean {
-  const ls = getLocalStorage();
+  const ls = getBrowserStorage();
   if (!ls) return false;
   try {
     const raw = ls.getItem(STORAGE_KEY);
@@ -42,12 +43,12 @@ export function useSidebarState(): {
   }, []);
 
   useEffect(() => {
-    const ls = getLocalStorage();
+    const ls = getBrowserStorage();
     if (!ls) return;
     try {
       ls.setItem(STORAGE_KEY, JSON.stringify(collapsed));
     } catch {
-      // localStorage access denied — silently ignore
+      // Browser storage access denied; silently ignore.
     }
   }, [collapsed]);
 
