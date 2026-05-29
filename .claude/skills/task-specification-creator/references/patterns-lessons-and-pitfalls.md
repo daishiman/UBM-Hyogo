@@ -1229,3 +1229,13 @@ admin route prototype-alignment 系 branch を `origin/dev` に sync-merge す�
 - **SP-DEVSYNC-061-B (add-only 取込の低リスク評価)**: 取込 commit が completed-tasks への add-only diff（既存ファイル edit ゼロ）なら既存 semantics を変えないため、検証は `pnpm typecheck`（6 packages Done）+ `pnpm lint`（exit 0）で十分。Phase 4 risk へ「add-only 取込は runtime regression リスク低・visual baseline 再取得不要」を 1 行登録できる。
 - **SP-DEVSYNC-061-C (warning の扱い継承)**: `stablekey-literal-lint` 等 mode=warning の既存 lint warning は sync-merge 由来でない限り解消成否に含めない（exit code 0 を正）。SP-DEVSYNC-059-D の検証ゲートと同一方針。
 - 参照: [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-061、L-DEVSYNC-059/060 (skill-only resolver 単発)、L-DEVSYNC-056/058 (手動 hybridize 分岐先)。
+
+
+## L-VISBASE 視覚回帰 CI 失敗の復旧を Phase 11/13 の visual gate 手順に固定（2026-05-29 PR #1014）
+
+レイアウトを変える PR（header/footer 追加・primitive 差し替え等）で `playwright-visual-full` が `toHaveScreenshot` diff fail したときの復旧フロー。Phase 11 manual-test / Phase 13 PR 手順の「visual gate 失敗時」分岐に明記する。
+
+- **SP-VISBASE-A (真因切り分け)**: `visual-full` fail は `[WebServer] ./app/error.tsx` 等のビルド stdout ノイズに惑わされず、`gh run view --job <id> --log | grep -iE "toHaveScreenshot|[0-9]+ passed|[0-9]+ failed"` でサマリを先読みする。失敗が **PR が触った route に限定**されていれば snapshot diff（baseline 更新で解決）、全 route / 0 passed なら runtime error（コード修正）。
+- **SP-VISBASE-B (baseline は CI 環境で再生成)**: snapshot は `-linux` suffix 付きで CI(ubuntu) レンダリング依存。ローカル macOS の `--update-snapshots` は再 diff するため使わない。`gh workflow run playwright-visual-baseline-update.yml -f reason="<why>" --ref <branch>`（`reason` required / `environment: visual-baseline-approval` の user gate あり）で CI 上再生成 → source branch 直 push → ローカル `git pull --ff-only`。CLAUDE.md の「visual baseline user-gated」に従い、ユーザーが CI 解決を明示依頼した場合のみ実施。
+- **SP-VISBASE-C (bot push は pull_request 非トリガー → close/reopen)**: `GITHUB_TOKEN` の push は `on: pull_request`/`push` workflow を再トリガーしない仕様。baseline コミット上で PR の `statusCheckRollup` が 0 件・combined status `pending (0 statuses)` になり required checks（`gh api .../branches/dev/protection/required_status_checks -q '.contexts[]'` で列挙）が未実行のままマージ不能化する。**`gh pr close <n> && gh pr reopen <n>`** で `pull_request`(reopened) を発火させ最新 head で全 workflow を再走させる（空コミット push より履歴を汚さない）。`gh pr checks <n> --watch` で全 green を待つ（e2e ~18分は background 実行）。
+- 参照: [[lessons-learned-visual-baseline-ci-recovery-2026-05]] L-VISBASE-001/002/003。
