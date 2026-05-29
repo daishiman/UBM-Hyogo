@@ -1202,6 +1202,37 @@
 - 参照: L-DEVSYNC-056 (single-side primitive 移行 hybridize)、L-DEVSYNC-046 (UNION_TARGETS)、task-specification-creator [[patterns-lessons-and-pitfalls#dev-sync-merge-conflict-resolution]]。
 
 
+## L-DEVSYNC-059: `pnpm sync:resolve` 中断による stale `index.lock` の検出と除去（2026-05-29 確認）
+
+- 事象: `feat/members-not-displaying-form-sync-investigation` ← `origin/dev` sync-merge で 5 件 conflict（aiworkflow indexes 4 件 + source 0 件 + admin layer 0 件）。`pnpm sync:resolve` 起動中にラッパー（bash の `sleep 30` 待機）が exit 143 (SIGTERM) で外側から打ち切られ、`union-resolved` 3 件 (`resource-map.md` / `topic-map.md` / `task-workflow-active.md`) は成功したが、最終 `git add` 段階で `fatal: Unable to create '...worktrees/<wt>/index.lock': File exists.` が発生。直後 `git status` で `.git/worktrees/<wt>/index.lock` が残留。
+- Why: `scripts/sync/resolve-skill-merge-conflicts.sh` は union-resolve 後に `git add` を逐次実行する。SIGTERM で stage 中の `git add` が殺されると lockfile が orphan 化する。git は他 process 動作中と誤認し以降の操作を全 block する。
+- How to apply:
+  1. `pnpm sync:resolve` を background や timeout 短すぎる sleep 越しで wait する運用を避ける（resolve 自身は数秒で完了する）。やむを得ず timeout を挟む場合は最低 60s。
+  2. lockfile 残留検出時の復旧: `git rev-parse --git-dir` で worktree git dir を取得 → `ls -la "$GITDIR/index.lock"` で stale 確認（mtime が直近で他 git process がいないこと） → `rm -f "$GITDIR/index.lock"` で除去 → 中断時点の resolve は `--ours` 等の手動 fallback で個別解消 → `git add` を改めて発行。
+  3. lockfile 存在のみで自動 `rm` は危険（実 process との race を排除できない）。直前の `pnpm sync:resolve` ログで「git add 段階で SIGTERM/exit 143」が確認できた場合のみ stale 判定する。
+- 留意: 本ケースの conflict 5 件のうち union 3 + `--ours+rebuild` 1 (`keywords.json`) で全自動解消、`.tsx` / `.ts` の hybridize は 0 件だった。 1062 file の merge 規模に対して conflict 5 件は wave 並列実装の構造的下限であり、indexes 4 + keywords 1 のパターンは L-DEVSYNC-046〜058 系の継続再現。本 lesson は **lock 復旧手順** のみを独立化する意義として追加（hybridize 系は既存 lesson でカバー）。
+- 事例: 2026-05-29 sync-merge (HEAD=`feat/members-not-displaying-form-sync-investigation`, base merge target=`f063d29dc`)。`pnpm sync:resolve` 中断 → `index.lock` 残留 → `rm -f` 後 `git checkout --ours .claude/skills/aiworkflow-requirements/indexes/keywords.json` → `git add` → `pnpm indexes:rebuild` で 5195 keywords 再生成 → `git add -A` で merge commit 待機。
+
+
+## L-DEVSYNC-059: 同一 module で HEAD/dev が **独立した interface を並列追加** → union resolve でなく「両方保持」が正解（2026-05-29 apps/web/src/lib/env.ts）
+
+- 事象: `feat/fix-admin-fetch-cf-1042-service-binding` ← origin/dev sync-merge で `pnpm sync:resolve` 後に `apps/web/src/lib/env.ts` 1 件が unresolved。HEAD と dev が **異なる名前の interface を同じファイルの同位置に独立追加** していた:
+  - HEAD: `export interface AdminFetchEnv { API_SERVICE?; INTERNAL_API_BASE_URL?; NODE_ENV?; PLAYWRIGHT_TEST? }` + 同 module 下部に `getAdminFetchEnv()` accessor (CF-1042 Service Binding 経路統一の一環)。
+  - dev: `export interface ApiBaseEnv { INTERNAL_API_BASE_URL?; PUBLIC_API_BASE_URL? }` + 同 module 下部に `getApiBaseEnv()` accessor (`/profile` Server Components render error 対応で `safe-server-fetch` 用 base URL 取り出し用)。
+- Why: 名前空間が衝突しておらず、両 interface とも **同 module 内の独立した getter で同時に referenced** されている。片側を捨てると referencing getter が compile error。これは L-DEVSYNC-046 (UNION_TARGETS skill docs) や L-DEVSYNC-058 (page hybridize) と異なり、**ソースコード `.ts` でも例外的に safe-union が成立**するパターン（add-add だが意味的に直交）。
+- How to apply:
+  1. conflict block を開き、HEAD/dev のシンボル名を確認。**異なる名前の独立 interface/type/関数** で、同 module の他 location で **両方が referenced** されているなら safe-union 候補。
+  2. 確認方法: 各シンボルについて `grep -n "<シンボル名>" <module>` を実行し、定義 + 1 件以上の reference が両側に存在することを確認。
+  3. resolution: conflict marker を撤去し **両 interface をそのまま縦に並べる**（順序は HEAD → dev 推奨。再 merge 時 diff が小さくなる）。`||||||| <base sha>` の base 側は無視。
+  4. 検証: `pnpm typecheck` で referencing getter が両方 green、`pnpm lint` 通過、`git diff --diff-filter=U` 0 件。
+- 留意:
+  - **誤適用注意**: 同名 interface への両側追加（field 違い）は safe-union 対象外。L-DEVSYNC-046 系の field-level hybridize に分岐する。
+  - 関数定義（`export function`）でも同パターンは成立するが、import 元の symbol 衝突が無いこと（barrel re-export を含めて）を必ず確認。
+  - `pnpm sync:resolve` 拡張で取り込むには **AST レベルの top-level export 名衝突判定** が必要で ROI が低い。本 lesson 経由で手動解消するのが現実解。
+- 検証: `feat/fix-admin-fetch-cf-1042-service-binding` ← dev merge。`pnpm sync:resolve` で skill 4 union + keywords ours+rebuild 完結 → `apps/web/src/lib/env.ts` のみ手動 add-add safe-union（両 interface 縦並び）→ `git add apps/web/src/lib/env.ts` → `git diff --diff-filter=U` 0 件 → merge commit 確定。
+- 参照: L-DEVSYNC-046 (UNION_TARGETS resolver), L-DEVSYNC-056 (single-side primitive migration hybridize), L-DEVSYNC-058 (page-level 2-way modernization hybridize), task-specification-creator [[patterns-lessons-and-pitfalls#dev-sync-merge-conflict-resolution]]。
+
+
 ## L-DEVSYNC-059: skill-only conflict shape は `pnpm sync:resolve` 単発で 5 union + 1 --ours 完結（2026-05-28 issue-958-h3-public-filter-ux）
 
 - 事象: `feat/issue-958-h3-public-filter-ux` ← `origin/dev` sync-merge で発生したコンフリクトが **skill md 5 件 (SKILL.md / indexes/{quick-reference,resource-map,topic-map}.md / references/task-workflow-active.md) + derived 1 件 (indexes/keywords.json)** のみ。`.tsx`/`.ts` の page-level conflict は 0 件（HEAD 側の実装が dev 側で書き換えられた page と重ならない shape）。
@@ -1212,3 +1243,45 @@
   3. 検証順: `git status --porcelain | grep -E '^(UU|AA|DD)'` 空 → `git diff --check` 空 → `git add -A && git commit -m "merge: sync <branch> with dev"` → `pnpm typecheck` Done × 6 packages → `pnpm lint` Done × 全 packages → push。
 - 留意: page-level の手動 hybridize（L-DEVSYNC-056/058）は branch の **実装範囲** に依存する。skill-only shape は admin-ui modernization wave の進行中でも feature branch のコード接触面が dev の changed paths と orthogonal なら頻発する。resolver-only path が成立した場合は手動 hybridize lesson（056/058）を**呼び出さない**（不要な複雑性導入を避ける）。
 - 事例: 2026-05-28 commit `a98fd67bb` (merge: sync feat/issue-958-h3-public-filter-ux with dev)。conflict 6 件全件 resolver 完結、typecheck/lint green、stablekey-literal-lint は mode=warning のため block 対象外。
+
+
+## L-DEVSYNC-060: `task-specification-creator/references/patterns-lessons-and-pitfalls.md` も skill resolver の union 対象（2026-05-29 feat/public-header-logged-in-nav-cleanup-pr-20260528）
+
+- 事象: `feat/public-header-logged-in-nav-cleanup-pr-20260528` ← `origin/dev` sync-merge で発生したコンフリクトが **aiworkflow-requirements indexes 3 件 (quick-reference / resource-map / topic-map) + references/task-workflow-active.md + task-specification-creator/references/patterns-lessons-and-pitfalls.md** の 5 件。`pnpm sync:resolve` 単発で 5 件全件 `union-resolved` 完結、`indexes:rebuild` idempotent。`.ts/.tsx` の page-level conflict 0 件。
+- Why: `patterns-lessons-and-pitfalls.md` は wave 並列で「末尾追記」が累積する shape の典型（L-USS-A / L-PARSUB / L-ADMROUTE 等の節が複数 branch から同時に追加される）。`.gitattributes` の `merge=union` 直接指定が無くても、resolver script の対象範囲に含まれているため機械解消が成立する。
+- How to apply:
+  1. sync-merge 後 unresolved 一覧が `aiworkflow-requirements/{SKILL.md, indexes/*.md, references/task-workflow-active.md} + task-specification-creator/references/patterns-lessons-and-pitfalls.md` のみであれば `pnpm sync:resolve` 単発で完結する。
+  2. resolver stdout に `union-resolved .claude/skills/task-specification-creator/references/patterns-lessons-and-pitfalls.md` が含まれることを確認（漏れていれば script 側の対象リスト drift を疑う）。
+  3. 完結判定後 `git diff --diff-filter=U` 0 件 → `git add -A` → merge commit。typecheck/lint は branch の実装変更が無ければ追加検証不要（resolver は doc-only 編集のため build 影響なし）。
+- 留意: `patterns-lessons-and-pitfalls.md` の union 後は **重複節 ID（同一 L-XXX-NNN ヘッダ）** が稀に発生する。発生時は人手で ID 採番をずらすが、resolver は ID 衝突を検出しない（純粋なテキスト union）。L-DEVSYNC-061 以降で ID 衝突 detector を入れるかは ROI 次第。
+- 事例: 2026-05-29 `feat/public-header-logged-in-nav-cleanup-pr-20260528` ← `dev (8d0cd3ca3)` merge。conflict 5 件全 resolver 完結、本ブランチ実装変更なし（doc-only merge）、push 後の CI は依存無し。
+- 参照: L-DEVSYNC-059 (skill-only shape resolver-only path), L-DEVSYNC-046 (UNION_TARGETS), task-specification-creator [[patterns-lessons-and-pitfalls#dev-sync-merge-conflict-resolution]]。
+
+
+## L-DEVSYNC-061: skill-only conflict shape の再現（2026-05-29 feat/members-list-ux-clarity）
+
+> 採番補正: 本節は当初 L-DEVSYNC-060 として追加されたが、直前の `patterns-lessons-and-pitfalls.md union 対象` 節（feat/public-header-logged-in-nav-cleanup-pr-20260528）と ID が衝突していたため L-DEVSYNC-061 へ採番ずらし（L-DEVSYNC-060 留意の「union 後の重複節 ID は人手で採番をずらす」運用に従った実例。詳細は L-DEVSYNC-062）。
+
+- 事象: `feat/members-list-ux-clarity` ← `origin/dev` (HEAD `746721996`) sync-merge で発生したコンフリクトが **skill md 2 件 (aiworkflow-requirements/indexes/topic-map.md, task-specification-creator/references/patterns-lessons-and-pitfalls.md) + derived 1 件 (aiworkflow-requirements/indexes/keywords.json)** のみ。`.tsx`/`.ts` の page-level conflict は 0 件。`apps/web/app/(public)/members/page.tsx` は auto-merge 成立。
+- Why: 本 feature branch の改修範囲は public members list の UX 整合（components + page）で、dev 側 7 commits は admin-ui 系 / google-form-reflection / dev-sync skill 反映が中心。重なりは skill 索引と patterns-lessons の追記行のみで、L-DEVSYNC-059 と同型の shape。
+- How to apply:
+  1. `git merge dev --no-edit` 後 `git status --porcelain | grep '^UU'` で unresolved 3 件全件 skill resolver 対象 → `pnpm sync:resolve` 単発で完結。
+  2. resolver stdout: `union-resolved 2 files` + `ours: ...keywords.json` + `running pnpm indexes:rebuild` → `all skill / index conflicts resolved`。
+  3. 検証: `git ls-files -u | wc -l` = 0 → `git commit -m "merge: sync <branch> with dev"` → `pnpm typecheck` 6 packages Done → `pnpm lint` Done。
+- 留意: sync-merge では CLAUDE.md ポリシーに従い `pre-commit/staged-task-dir-guard` と `pre-push/coverage-guard` が `MERGE_HEAD` 検出で自動スキップされるため `--no-verify` 不要（今回 `--no-verify` 付与は本来不要。次回からは付けない）。
+- 事例: 2026-05-29 commit `abe947433` (merge: sync feat/members-list-ux-clarity with dev)。conflict 3 件全件 resolver 完結、typecheck/lint green。
+- 再現事例 2026-05-29 (feat/issue-976-admin-fetch-service-binding ← origin/dev): conflict は同じ skill 5 件 + keywords.json の **完全同形 shape**。`apps/web/src/lib/admin/server-fetch.ts` も `Auto-merging` で textual conflict なし。resolver 完走で `git status` clean、`merge: sync feat/issue-976-admin-fetch-service-binding with dev` で merge commit 成立。**同形再現により本 lesson が "admin-ui modernization wave 中の skill-only shape は resolver 単発で機械解消可" の標準 path として確定**（page-level 接触面のない feature branch では今後も繰り返し発生する見込み）。
+- 再現事例 2026-05-29 (feat/public-header-logged-login-redirect-when-authenticated ← origin/dev, HEAD 9 ahead / branch 2 ahead): conflict 7 件 = aiworkflow `SKILL.md` + `indexes/{keywords.json,quick-reference.md,resource-map.md,topic-map.md}` + `references/task-workflow-active.md` + task-spec `SKILL.md`。`apps/web/app/login/page.tsx`（本 branch の login-redirect 実装ファイル）も `Auto-merging` で textual conflict なし。`pnpm sync:resolve` で `union-resolved 6 files` + `ours: keywords.json` + `indexes:rebuild`（5199 keywords）完走 → `git ls-files -u` 0 → `git diff --check` clean → merge commit `0ad9e3555` 成立（`MERGE_HEAD` 検出で pre-commit hook 4 件自動 skip、`--no-verify` 不付与）。`pnpm typecheck` 6 packages Done / `pnpm lint` 全 packages Done / `pnpm indexes:rebuild` 再実行 no drift。**index 派生ファイル 4 件が一度に conflict した shape でも resolver 単発で完結**することを確認（L-DEVSYNC-002 の `--ours + rebuild` が 4 index 同時衝突でも決定的に収束）。
+
+
+## L-DEVSYNC-062: dev が既に ancestor の re-sync は `git merge dev` = "Already up to date" の no-op、検証は `git merge-base --is-ancestor`（2026-05-29 feat/public-header-logged-in-nav-cleanup-pr-20260528 再同期）
+
+- 事象: `feat/public-header-logged-in-nav-cleanup-pr-20260528` を 2 度目に `origin/dev` (HEAD `37fe488e8`) と同期したところ、前回 sync-merge commit `374f5e04a` で既に dev が完全取り込み済みだったため **`git merge dev` が `Already up to date.` の no-op**。conflict 0 件、resolver 不要。`git rev-list --left-right --count dev...HEAD` = `0  8`（dev 側 ahead 0）、upstream に対しては `0  2`（push 未済の 2 commit のみ）。typecheck 6 packages Done / lint 全 packages Done で CI 失敗なし、push のみ実施。
+- Why: feature branch に過去複数回の `merge: sync ... with dev` commit が積まれている場合、`origin/dev` が前回同期時から進んでいても **その差分が既に branch の merge commit に含まれていれば** 2 度目の merge は何もしない。`git log --oneline dev..HEAD` に複数の `merge: sync` 行が並ぶ branch はこのケースに該当しやすい。
+- How to apply:
+  1. fetch 後 `git rev-list --left-right --count origin/dev...dev` でローカル dev = origin/dev を確認（`0  0` なら dev 同期スキップ）。
+  2. **merge 実行前に** `git merge-base --is-ancestor dev HEAD && echo merged` で dev が branch の ancestor か判定。`merged` が出れば `git merge dev` は no-op が確定（実行しても `Already up to date.`）。conflict 解消 lesson（L-DEVSYNC-001..061）を**呼び出さない**（不要な resolver 起動・手動 hybridize を避ける）。
+  3. `git rev-list --left-right --count @{u}...HEAD` の右辺が push 未済 commit 数。typecheck/lint green を確認して `git push` のみ。merge commit を新規作成しない（no-op なので作られない）。
+- 留意: 本 lessons ファイルは union merge の累積で **同一 L-DEVSYNC-NNN ID が複数存在する**（057×2 / 059×3 / 060×2）。L-DEVSYNC-060 が予言した「重複節 ID は人手で採番ずらし」が現実化しており、本サイクルで末尾 060（members-list）を 061 へ補正した。ただし 057/059 系の旧重複は採番カスケードを避けるため未補正のまま据え置き（参照は title で識別する運用）。ID 衝突 detector の自動化は ROI 次第で L-DEVSYNC-063 以降に委ねる。
+- 事例: 2026-05-29 再同期。dev=`37fe488e8`、branch HEAD=`374f5e04a`（既存 sync-merge）。conflict/CI 失敗 0、`origin/feat/public-header-logged-in-nav-cleanup-pr-20260528` へ 2 commit push。
+- 参照: L-DEVSYNC-059 (skill-only shape resolver-only path), L-DEVSYNC-061 (skill-only 再現), task-specification-creator [[patterns-lessons-and-pitfalls#dev-sync-merge-conflict-resolution]]。

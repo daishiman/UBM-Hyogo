@@ -1,0 +1,15 @@
+Command:
+mise exec -- pnpm --filter @ubm-hyogo/web build
+
+Result:
+PASS
+
+Summary:
+- Next.js production build completed.
+- Static page generation completed: 13/13.
+- Root route `/` is dynamic server-rendered on demand.
+
+Warnings:
+- Existing Next.js warning: `middleware` file convention is deprecated; use `proxy`.
+- Existing OpenTelemetry/Sentry warning: critical dependency request expression from Prisma instrumentation trace.
+- Existing edge runtime experimental warning.
