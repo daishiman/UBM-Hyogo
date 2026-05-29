@@ -1,8 +1,0 @@
-Command: pnpm exec vitest run scripts/smoke/__tests__
-Result: PASS
-Test Files: 3 passed
-Tests: 13 passed
-Detail:
-  - bearer-freshness-gate.spec.ts: 4 passed (decodeJwtExp / classifyBearerFreshness fresh|stale|expired|invalid / explainAuthFailureFromBearer expired|drift)
-  - mint-staging-bearers.spec.ts: 8 passed (T-A1..T-A8 parity / TTL / key-mismatch / no-leak keys)
-  - mint-staging-bearers-self-verify.spec.ts: 1 passed (M-3 self-verify null -> reject, Error.message に token 非露出)

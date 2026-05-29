@@ -64,15 +64,17 @@ describe("MemberDrawer (followup-001)", () => {
     expect(screen.getAllByText(/res-1/).length).toBeGreaterThan(0);
   });
 
-  it("VISIBILITY セクションに switch と admin memo textarea を持つ", async () => {
+  it("VISIBILITY セクションに switch と 通知オプトアウト checkbox を持つ", async () => {
     vi.spyOn(globalThis, "fetch").mockResolvedValueOnce({
       ok: true,
       json: async () => mkDetail(),
     } as Response);
     render(<MemberDrawer memberId="m1" onClose={() => {}} />);
 
-    await waitFor(() => expect(screen.getByRole("switch", { name: "サイトに公開" })).toBeDefined());
-    expect(document.querySelector('textarea[placeholder*="管理者用メモ"]')).toBeTruthy();
+    await waitFor(() =>
+      expect(screen.getByRole("switch", { name: /公開状態を切替/ })).toBeDefined(),
+    );
+    expect(screen.getByRole("checkbox", { name: "通知をオプトアウト" })).toBeDefined();
   });
 
   it("FORM RESPONSE KVList に 回答ID / 送信日時 / UBM区画 等を表示する", async () => {
@@ -111,22 +113,10 @@ describe("MemberDrawer (followup-001)", () => {
     } as Response);
     render(<MemberDrawer memberId="m1" onClose={() => {}} />);
 
-    await waitFor(() => expect(screen.getByText("DELETED")).toBeDefined());
-    expect(screen.getByText(/2026-05-20/)).toBeDefined();
+    await waitFor(() => expect(screen.getAllByText("退会済み").length).toBeGreaterThan(0));
+    expect(screen.getByText(/2026\/05\/20/)).toBeDefined();
     expect(screen.getByText(/ユーザー希望/)).toBeDefined();
-    // 退会済みのときは「退会処理」ボタンは出ない
+    // redesign では「退会処理」ボタンは廃止されている
     expect(screen.queryByRole("button", { name: /退会処理/ })).toBeNull();
-  });
-
-  it("foot に 退会処理(danger) / 閉じる / 保存(primary) の 3 button を持つ", async () => {
-    vi.spyOn(globalThis, "fetch").mockResolvedValueOnce({
-      ok: true,
-      json: async () => mkDetail(),
-    } as Response);
-    render(<MemberDrawer memberId="m1" onClose={() => {}} />);
-
-    await waitFor(() => expect(screen.getByRole("button", { name: /退会処理/ })).toBeDefined());
-    expect(screen.getByRole("button", { name: "閉じる" })).toBeDefined();
-    expect(screen.getByRole("button", { name: "保存" })).toBeDefined();
   });
 });

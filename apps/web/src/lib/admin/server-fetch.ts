@@ -474,6 +474,15 @@ export async function fetchAdmin<T>(
 
   if (
     process.env["NODE_ENV"] !== "production" &&
+    process.env["PLAYWRIGHT_TEST"] === "1" &&
+    opts.method === undefined &&
+    path.startsWith("/admin/schema/diff")
+  ) {
+    return task17SchemaFixture() as T;
+  }
+
+  if (
+    process.env["NODE_ENV"] !== "production" &&
     process.env["PLAYWRIGHT_TASK17_ADMIN_FIXTURE"] === "1" &&
     opts.method === undefined &&
     path.startsWith("/admin/audit")
@@ -498,14 +507,25 @@ export async function fetchAdmin<T>(
     logAdminTransport("http-fallback", path, res.status);
   }
   if (!res.ok) {
-    // followup-001 T-5.1: 404 / 5xx 切り分けのため response body を error message に含める。
-    // 機密情報は backend 側で含めない契約。最大 256 文字で truncate して logs を肥大させない。
     let bodySnippet = "";
     try {
       const text = await res.text();
       if (text) bodySnippet = ` body=${text.slice(0, 256)}`;
     } catch {
       // body 読み取り失敗は致命的でない（status だけで切り分け可能）
+    }
+    if (process.env["NODE_ENV"] !== "production" && res.status === 404) {
+      let host = "<invalid>";
+      try {
+        host = new URL(resolveApiBase()).host;
+      } catch {
+        host = "<invalid>";
+      }
+      console.warn("[admin/server-fetch] 404", {
+        host,
+        path,
+        status: res.status,
+      });
     }
     throw new Error(`admin api ${path} failed: ${res.status}${bodySnippet}`);
   }

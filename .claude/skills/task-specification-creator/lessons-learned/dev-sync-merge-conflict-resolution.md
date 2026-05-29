@@ -468,3 +468,100 @@
   - Phase 4 risk に「workflow dir rename を伴う UI feature は dev 側 sibling 追加と同位置で衝突する」を登録し、merge 前に `git log origin/dev ^HEAD -- apps/web/playwright.config.ts` で sibling 追加 commit の有無を確認するチェックを加える。
 - 事例同時発生: `.claude/skills/task-specification-creator/references/patterns-lessons-and-pitfalls.md` EOF で HEAD 側 `## DOM 構造置換 PR ...` 節 + dev 側 `## accent on accent-soft chip ...` / `## L-DEVSYNC-051 visual baseline ...` / `## L-FETCHCACHE-001 ...` 3 節が並列追加。SP-DEVSYNC-037 同パターンで両側保持＋marker 物理除去で解消（resolver 非対応の手動 union）。
 - 検証: `grep -nE '^(<<<<<<<|=======|>>>>>>>|\|\|\|\|\|\|\|)' <path>` 0 件 + `pnpm typecheck` PASS + `pnpm lint` PASS。
+
+### SP-DEVSYNC-040: in-place 全面リデザイン feature × dev 側 followup 並列改修は「同一領域 component 群一括 take ours + spec drift 再復元」（2026-05-28 追加）
+
+- 事象: 2026-05-28 `feat/admin-members-prototype-redesign` ← origin/dev sync-merge で /admin/members 周辺 6 ファイル（`page.tsx` / `MembersFilters.tsx` / `MembersTable.tsx` / `MemberDrawer.tsx` / `MembersClientShell.tsx` / `MembersFilters.spec.tsx`）が `WARN unhandled conflict`。HEAD は単一 commit `feat(admin-members): /admin/members prototype redesign` で primitive 群追加 + 既存 component の全面置換 + spec 全面書き換え。dev は `#968` followup-001 で同 component 群に漸進的整合（既存 prop API を維持しつつ MembersPageHead / Breadcrumb 分離追加）。
+- Why: 両方とも「プロトタイプ整合」だが粒度が違う（一括 redesign vs 漸進的整合）。union 不可・dev take は redesign 全体破壊。HEAD 全採用が正解で、dev の本体機能（API 404 fix など）は conflict 外ファイルで既に auto-merge 済みのため失われない。
+- How to apply（task 仕様書での逐語化）:
+  - Phase 4 risk に「in-place redesign 単一 commit を含む feature は dev 側 followup と同一 component 群で構造的に衝突する」を登録。
+  - Phase 9 sync-merge 節に「**redesign 一括 take ours 判定フロー**」を追記:
+    1. `WARN unhandled conflict` 一覧が同一 feature 領域の component 群（5 file 以上）+ 対応する spec で構成されているか確認
+    2. `git log --oneline HEAD ^dev -- <component path>` で HEAD 側が「全面 redesign 単一 commit」か判定
+    3. 該当なら `for f in <files>; do git checkout --ours "$f"; git add "$f"; done` → `git commit --no-edit` で一括解消
+    4. **必ず追加 typecheck**: auto-merge された spec/component 周辺で **prop drift error** が出る前提で `pnpm --filter @ubm-hyogo/web typecheck` を実行。drift 検出時は `git show <redesign tip>:<spec path> > <spec path>` で HEAD 側 spec を強制復元し追加 commit `fix(<scope>): restore redesign <name> spec after dev merge`
+- 留意:
+  - 「conflict marker なしで auto-merge された spec」が最大の罠。HEAD 側 component の prop が変わっているのに spec は dev 側 prop が残るパターンが頻発する
+  - dev followup の本体機能（API path fix / route handler 等）は通常 conflict 外で auto-merge 済みのため、HEAD take しても保持される（安心して take ours できる）
+- 事例: 2026-05-28 merge commit `709f13920` + spec restore commit `8f510ba33`。typecheck 初回 `MembersTable.spec.tsx` で `summariesByMember` / `tagsByMember` / `onTogglePublish` prop が存在しない error 3 件 → HEAD redesign tip から spec 復元で green。
+- 参照: aiworkflow-requirements [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-054 を併読。
+
+### SP-DEVSYNC-041: 全面 redesign 直後の CI e2e 失敗 2 パターン — PillNav 兄弟 strict-mode collision と 複数 viewport suite の cold-compile timeout（2026-05-28 追加）
+
+- 事象: SP-DEVSYNC-040 の redesign sync-merge 完了後の CI 再修正 wave で連続発生:
+  1. `task15-admin-screenshots.spec.ts` の `getByRole('tab', { name: '公開' })` が `<select>` → PillNav 置換後に「公開」「非公開」両方マッチ → **strict mode violation**
+  2. `admin-members-prototype-redesign.spec.ts` の 4 viewport × 4 state = 16 連続 `page.goto` が Next 16 dev cold-compile（各 >10s）累積で **Test timeout of 60000ms exceeded**（ローカルでは pre-warm cache で通り CI のみ顕在化）
+- Why: PillNav に置換すると label が**他 label の prefix になり得る**（`公開` ⊂ `非公開`）。playwright `getByRole({ name })` は部分一致なので strict mode で必ず衝突する。`<select>` `<option>` だった頃は要素自体が分離していたため発覚しなかった。複数 route 訪問 suite は CI dev mode で構造的に timeout に到達する。
+- How to apply（task 仕様書での逐語化）:
+  - Phase 4 risk に「PillNav / Tab 置換は label が兄弟ラベルの prefix にならないか全テストを grep する」を登録
+  - Phase 6 test additions 節に「複数 viewport × 複数 state の phase-11 screenshot suite は `test.slow()` 必須（Next dev cold-compile absorb 目的）」を逐語化
+  - Phase 9 CI 再修正 runbook に以下手順を追記:
+    1. `grep -rn "name: '<新 label>'" apps/web/playwright/tests/` で全テスト走査
+    2. 兄弟 label の prefix になっている hit があれば `{ exact: true }` または `/^<label>$/` に書き換え
+    3. 新規 phase-11 screenshot 16+ ナビゲーション suite は `test(...)` 関数先頭で `test.slow()` を宣言
+    4. commit message: `fix(<scope>): use exact match for <label> tab to avoid strict-mode collision with <sibling>` / `fix(<scope>): mark <suite> test as slow to absorb Next dev cold-compile across NxM navigations`
+- 留意:
+  - `playwright.config.ts` の global `timeout` を上げるより**該当 test 単独で `test.slow()`** にするほうが他 suite への副作用がない
+  - `playwright-visual-full` の baseline drift は redesign 後は必ず発生し、`playwright-visual-baseline-update` workflow の `environment: visual-baseline-approval` 経由のみで更新可能。CI 再修正対象外として user-gated escalation する
+- 事例: 2026-05-28 commit `05c30022b` (PillNav exact 修正) + `5bbee59da` (test.slow 追加) で `e2e-tests-coverage-gate` 全 4 project green。`playwright-visual-full` は 8 admin route × mobile baseline drift で fail 継続 → user 報告のみ。
+- 参照: aiworkflow-requirements [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-055 を併読。
+
+### SP-DEVSYNC-040: fetch wrapper の error-handler 内に「HEAD=dev限定 warn ログ」「dev=throw 文字列の body 付与」が同位置追加されたときの順次合成 default ルール（2026-05-28 追加）
+
+- 事象: 2026-05-28 `feat/admin-tag-queue-ui-and-404` ← origin/dev sync-merge で `apps/web/src/lib/admin/server-fetch.ts` の `fetchAdmin()` `if (!res.ok)` block が `WARN unhandled conflict`。base は単純 throw、HEAD は dev 限定 404 warn、dev は error message に body snippet（先頭 256 文字）付与。両者とも機能直交な観測強化。
+- Why: error-handler 同一 block への直交追加は構造的に再発する（fetch wrapper の error 拡張は monitoring / debug 強化目的で並列改修されやすい）。片側 take は他方の観測点喪失、両側 union は body 二重消費（`Response.body used` runtime error）の risk。順次合成（① body→snippet 取得 → ② dev-warn 404 ログ → ③ snippet 付き throw）が default。
+- How to apply（task 仕様書での逐語化）:
+  - Phase 9 sync-merge 節に「**error-handler block 3-way 判定フロー**」を追記:
+    1. base / HEAD / dev を `grep -n -E '^(<<<<<<<|=======|>>>>>>>|\|\|\|\|\|\|\|)'` で位置確認
+    2. base が「単純 throw / 単純 return」かつ HEAD / dev が**同 if-branch 内の独立観測 / 副作用追加**なら順次合成 default
+    3. 並び順は「cheap な分岐先頭で副作用なし計算（body text 取得 等）」→「dev-only ログ等の condition 付き観測」→「throw / return」
+    4. `Response` 等の **1 回消費 stream** は先頭で 1 度だけ消費し、変数共有
+  - Phase 4 risk に「fetch wrapper の error 拡張は同 if-branch で並列改修されやすい」を登録。仕様書 Phase 9 dry-run checklist に `git log origin/dev ^HEAD -- <fetch wrapper path>` で error-handler 改修 commit の有無を事前確認するチェックを追加。
+- 検証: `grep -nE '^(<<<<<<<|=======|>>>>>>>|\|\|\|\|\|\|\|)' <path>` 0 件 + `pnpm typecheck` PASS + `pnpm lint` PASS + 両 commit 由来の spec が green。
+- 参照: aiworkflow-requirements [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-054 を併読。
+
+### SP-DEVSYNC-040: invariant 強化 refactor ブランチでの source conflict は HEAD 全採用が default（2026-05-28 追加）
+
+- 事象: 2026-05-28 `feat/profile-server-components-render-error` ← origin/dev sync-merge で `apps/web/src/lib/fetch/authed.ts` のみ resolver `WARN unhandled`。3-way の HEAD は env unification (`getApiBaseEnv()` 単一 accessor + fallback 撤去 + 未設定 throw)、dev は中間形 (`getAuthEnv()` / `getPublicFetchEnv()` 別 accessor + fallback 据置)、base は `process.env` 直参照 + `127.0.0.1:8787` 焼き込み。
+- Why: HEAD のほうが `apps/web` env invariant（CLAUDE.md「`apps/web` env アクセス不変条件」task-02 wrangler-env-injection）の最終形に到達しており、dev は HEAD が置換しようとしている中間状態。HEAD 採用で dev の意図も自動達成。手動 union は invariant 違反（`process.env` 直参照復活 / fallback 焼き込み復活）を招く。
+- How to apply（task 仕様書での逐語化）:
+  - Phase 9 sync-merge 節に「**invariant 強化 refactor 判定**」を SP-DEVSYNC-038 step 2.5 の前段として追記:
+    - ブランチ名 / PR title / Phase 1 要件に **env unification / fallback retirement / invariant lock** 等の refactor 語彙があるかを確認
+    - 該当する場合、source conflict は `git checkout --ours <path>` で **HEAD 全採用が default**
+    - 採用後、HEAD で使う accessor が `apps/web/src/lib/env.ts` 等の dependency に実在することを `grep -n` で確認（dev 側に存在しない関数参照だと build 失敗）
+  - Phase 4 risk に「invariant 強化 refactor ブランチは dev 側中間形と同位置で衝突する」を登録し、merge 前に `git log -p origin/dev ^HEAD -- <path>` で dev の中間形 commit を事前把握する checklist を加える。
+- 検証: `grep -nE '^(<<<<<<<|=======|>>>>>>>|\|\|\|\|\|\|\|)' <path>` 0 件 + `pnpm typecheck` PASS + `pnpm lint` PASS + 採用 accessor の export 実在を grep で確認。
+- 適用範囲外: invariant に関係しない feature ブランチ（UI 整合 / 機能追加等）は SP-DEVSYNC-038 の 3-way 判定フロー（新 variant 追加 vs 簡素化）に戻る。
+- 参照: aiworkflow-requirements [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-054 を唯一の正本。
+
+### SP-DEVSYNC-041: barrel-import vs direct-path import の 3-way + 直交 props/UI 拡張は HEAD barrel + 両側 union が default（2026-05-28 追加）
+
+- 事象: 2026-05-28 `feat/admin-audit-prototype-alignment` ← origin/dev sync-merge で `apps/web/app/(admin)/admin/audit/page.tsx` と `apps/web/src/components/admin/AuditLogPanel.tsx` の 2 ソースが `pnpm sync:resolve` 後に残る。HEAD は AdminPageHeader を **barrel `index.ts` 経由 import** + prototype 整合の Card+form filter UI 追加。dev は **`_layout/AdminPageHeader` 直接 path import** + AdminPageHeader に `eyebrow` prop 追加 + `showHeading` で `<h1>` 出し分け。base はそれぞれ旧 `Breadcrumb` import / 単純 header 構造。
+- Why: barrel が当該 export を `export * from "./_layout/AdminPageHeader"` で既に再 export している場合、両 import 形は同一実体を指す（型・実装差なし）。barrel 経由のほうが internal layout の private path への lock-in を避けられるため安定 API。`eyebrow` prop は AdminPageHeader が optional として受けるため両側 props を union 可能。`showHeading` 条件 header と Card+form filter UI 追加は構造上 orthogonal で、section ラッパに両側属性 union + 内部 children 順次配置で両立する。
+- How to apply（task 仕様書での逐語化）:
+  - Phase 9 sync-merge 節に「**barrel vs direct-path import の 3-way 判定**」を SP-DEVSYNC-038 step 2 の派生として追記:
+    1. HEAD と dev で同一 component の import path が異なる場合、まず `grep "from \"./<sub>/<Component>\"" <feature>/components/index.ts` で barrel に該当 export があるかを確認
+    2. 存在する場合は **barrel 経由 import (HEAD) を default 採用**
+    3. 存在しない場合は barrel に export を追加してから 1 に戻る
+    4. import 行差分のみの 3-way は他の意味的衝突を伴わないため、import 解消後は残りの conflict block を独立評価する
+  - 「**section ラッパ属性 + 子要素の両側 union パターン**」を追記:
+    - HEAD `className` と dev `aria-labelledby`/`aria-label` 条件分岐は orthogonal なので 1 つの section opening tag に全属性を列挙
+    - 内部 children は dev の条件付き `<header><h1>` を先頭、HEAD の新規 `<Card>` 以降を続けて配置（dev 側の出し分け契約を尊重しつつ HEAD の prototype 整合 UI を保持）
+  - Phase 4 risk に「UI prototype 整合 feature ブランチは dev 側の primitive prop 拡張（eyebrow / showHeading 等）と同位置で衝突する」を登録し、merge 前に `git log origin/dev ^HEAD -- <component path>` で primitive 拡張 commit の有無を事前確認するチェックを加える。
+- 検証: `grep -nE '^(<<<<<<<|=======|>>>>>>>|\|\|\|\|\|\|\|)' <path>` 0 件 + `pnpm typecheck` PASS + `pnpm lint` PASS + barrel 経由 import の export 実在を `grep "from \"./_layout/<Component>\"" .../components/index.ts` で確認。
+- 参照: aiworkflow-requirements [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-057 を唯一の正本。
+
+### SP-DEVSYNC-042: add-add で **異なる名前の独立 interface/type を同 module の同位置に追加** したら両方保持が default（2026-05-29 追加）
+
+- 事象: 2026-05-29 `feat/fix-admin-fetch-cf-1042-service-binding` ← origin/dev sync-merge で `apps/web/src/lib/env.ts` の同位置に HEAD が `AdminFetchEnv` interface、dev が `ApiBaseEnv` interface を独立追加した add-add semantic conflict（同 module 下部で各々 `getAdminFetchEnv()` / `getApiBaseEnv()` が両 interface を referenced）。`pnpm sync:resolve` の汎用 union は `.ts` を対象外にしているため手動解消必須。
+- Why: 名前空間が衝突しておらず、両 interface とも **同 module 内の別 getter で同時に referenced** されている。片側 take すると referencing getter が compile error。SP-DEVSYNC-038 の「新 variant 追加 vs 簡素化」とは別軸の **直交シンボル並列追加**パターン。
+- How to apply（task 仕様書での逐語化）:
+  - Phase 9 sync-merge 節に「**直交 export 並列追加の safe-union 判定**」を SP-DEVSYNC-038 step 3 の派生として追記:
+    1. conflict block の HEAD/dev で **異なる名前** の `export interface` / `export type` / `export function` を確認
+    2. 各シンボルを `grep -n "<シンボル名>" <module>` し、定義 1 件 + 他箇所 reference 1 件以上が両方に存在することを確認
+    3. 全条件を満たすなら **conflict marker のみ撤去して両ブロックを縦に並べる**（HEAD → dev 順）
+    4. `pnpm typecheck` で referencing 全 getter green を確認
+  - Phase 4 risk に「`apps/web/src/lib/env.ts` 等の env accessor module は並列 wave で異なる context (admin / public / member) 用 interface が独立追加されやすい」を登録し、merge 前に `git log origin/dev ^HEAD -- apps/web/src/lib/env.ts` で並列追加 commit を事前確認するチェックを加える。
+- 適用範囲外: 同名 interface への両側 field 追加は SP-DEVSYNC-041 系の field hybridize に分岐。barrel re-export の name collision がある場合は per-symbol 解消が必要。
+- 検証: `grep -nE '^(<<<<<<<|=======|>>>>>>>|\|\|\|\|\|\|\|)' <module>` 0 件 + `pnpm typecheck` PASS + `pnpm lint` PASS + 両 referencing getter が両 interface を import せず inline 参照で green。
+- 参照: aiworkflow-requirements [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-059 を唯一の正本。

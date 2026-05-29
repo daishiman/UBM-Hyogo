@@ -111,7 +111,7 @@ TypeScript 側の API Worker Env 型は `apps/api/src/env.ts` の `Env` interfac
 | `PUBLIC_API_BASE_URL` | public API host。apps/web var。local fallback、Workers では service-binding 優先で host 不要。`apps/web/src/lib/fetch/public.ts` は direct env read を持たず `getPublicFetchEnv()` 経由で解決する |
 | `INTERNAL_API_BASE_URL` | internal endpoint host。apps/web var。service-binding 配下で host 不要、local 互換のみ |
 
-`apps/web/src/lib/env.ts` の公開アクセサは用途別に分離する。`getEnv()` は data/server fetch 境界で必須 schema を throw させる。`getPublicEnv()` は public metadata / CSP 等の公開値のみを返す。`getAuthEnv()` は auth 境界専用で safeParse partial + `API_SERVICE` binding 同梱により invariant #11 fail-closed を維持する。`getPublicFetchEnv()` は public fetch の service-binding / local HTTP fallback 判定を env.ts に閉じ、`fetch/public.ts` 側の `process.env` / `getCloudflareContext` 直接参照を禁止する。
+`apps/web/src/lib/env.ts` の公開アクセサは用途別に分離する。`getEnv()` は full data/server fetch 境界で必須 schema を throw させる。`getApiBaseEnv()` は member SSR の authenticated API base URL 境界専用で、`INTERNAL_API_BASE_URL` / `PUBLIC_API_BASE_URL` だけを部分取得し、呼び出し側が INTERNAL -> PUBLIC -> fail-fast を判定できるようにする。`getPublicEnv()` は public metadata / CSP 等の公開値のみを返す。`getAuthEnv()` は auth 境界専用で safeParse partial + `API_SERVICE` binding 同梱により invariant #11 fail-closed を維持する。`getPublicFetchEnv()` は public fetch の service-binding / local HTTP fallback 判定を env.ts に閉じ、`fetch/public.ts` 側の `process.env` / `getCloudflareContext` 直接参照を禁止する。
 
 ### 機能フラグ
 

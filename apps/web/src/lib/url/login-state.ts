@@ -14,7 +14,7 @@ export interface ReplaceLoginStateOptions {
 
 const buildLoginUrl = (
   state: LoginGateState,
-  redirect: string,
+  redirect: unknown,
   opts: ReplaceLoginStateOptions | undefined,
 ): string => {
   const params = new URLSearchParams();
@@ -31,7 +31,7 @@ const buildLoginUrl = (
  */
 export const replaceLoginState = (
   state: LoginGateState,
-  redirect: string,
+  redirect: unknown,
   opts?: ReplaceLoginStateOptions,
 ): void => {
   const url = buildLoginUrl(state, redirect, opts);

@@ -68,6 +68,11 @@ export interface AdminFetchEnv {
   PLAYWRIGHT_TEST?: string;
 }
 
+export interface ApiBaseEnv {
+  INTERNAL_API_BASE_URL?: string;
+  PUBLIC_API_BASE_URL?: string;
+}
+
 function readCloudflareEnv(): RawEnv | undefined {
   try {
     const ctx = getCloudflareContext();
@@ -128,6 +133,17 @@ export function getAuthEnv(rawEnv: RawEnv = readRawEnv()): AuthEnv {
   const binding = rawEnv["API_SERVICE"];
   if (binding === undefined) return base;
   return { ...base, API_SERVICE: binding as ServiceBinding };
+}
+
+export function getApiBaseEnv(rawEnv: RawEnv = readRawEnv()): ApiBaseEnv {
+  return {
+    ...(typeof rawEnv["INTERNAL_API_BASE_URL"] === "string"
+      ? { INTERNAL_API_BASE_URL: rawEnv["INTERNAL_API_BASE_URL"] }
+      : {}),
+    ...(typeof rawEnv["PUBLIC_API_BASE_URL"] === "string"
+      ? { PUBLIC_API_BASE_URL: rawEnv["PUBLIC_API_BASE_URL"] }
+      : {}),
+  };
 }
 
 export function getPublicFetchEnv(rawEnv: RawEnv = readRawEnv()): PublicFetchEnv {

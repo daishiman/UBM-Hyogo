@@ -31,6 +31,7 @@ import {
 import { FormField } from "../ui/FormField";
 import { Input } from "../ui/Input";
 import { EmptyState } from "../ui/EmptyState";
+import { Chip } from "../ui";
 import { isBrowser } from "../../lib/is-browser";
 import { FetchAuthedError, useAdminMutation } from "../../features/admin/hooks/useAdminMutation";
 
@@ -68,6 +69,12 @@ const TYPE_LABELS: Record<DiffType, string> = {
 const STATUS_LABELS: Record<SchemaDiffItem["status"], string> = {
   queued: "未解決",
   resolved: "解決済み",
+};
+const TYPE_CHIP_TONE: Record<DiffType, "green" | "amber" | "red" | "cool"> = {
+  added: "green",
+  changed: "amber",
+  removed: "red",
+  unresolved: "cool",
 };
 
 const VALIDATION_FEEDBACK_ID = "schema-alias-validation-feedback";
@@ -443,9 +450,15 @@ export interface SchemaDiffPanelProps {
   readonly initial: SchemaDiffListView;
   readonly resolvedAliases?: ReadonlyArray<ResolvedAliasItem>;
   readonly actorEmail?: string | null;
+  readonly hideInlineStats?: boolean;
 }
 
-export function SchemaDiffPanel({ initial, resolvedAliases, actorEmail }: SchemaDiffPanelProps) {
+export function SchemaDiffPanel({
+  initial,
+  resolvedAliases,
+  actorEmail,
+  hideInlineStats = false,
+}: SchemaDiffPanelProps) {
   const router = useRouter();
   const schemaAliasMutation = useAdminMutation<SchemaAliasApplyBody>("/api/admin/schema/aliases", "POST", {
     refreshOnSuccess: false,
@@ -760,9 +773,16 @@ export function SchemaDiffPanel({ initial, resolvedAliases, actorEmail }: Schema
   };
 
   return (
-    <section aria-labelledby="schema-diff-h">
-      <h1 id="schema-diff-h">schema 差分</h1>
-      <p>{initial.total} 件</p>
+    <section aria-labelledby="schema-diff-h" className="ui-card card-pad-lg">
+      <div className="row-between">
+        <div>
+          <div className="eyebrow">DIFF ITEMS</div>
+          <h2 id="schema-diff-h" className="h-section">
+            項目別の差分
+          </h2>
+        </div>
+        {!hideInlineStats && <p className="muted">{initial.total} 件</p>}
+      </div>
       <div>
         <button
           type="button"
@@ -860,56 +880,44 @@ export function SchemaDiffPanel({ initial, resolvedAliases, actorEmail }: Schema
             {grouped[t].length === 0 ? (
               <EmptyState title="なし" role="presentation" />
             ) : (
-              <table>
-                <thead>
-                  <tr>
-                    {showCheckbox && (
-                      <th scope="col">
-                        <label>
-                          <input
-                            type="checkbox"
-                            aria-label={`全選択 ${TYPE_LABELS[t]}`}
-                            checked={allSelectedInCat}
-                            onChange={(e) => {
-                              if (e.target.checked) {
-                                bulk.selectAllInCategory(
-                                  t === "unresolved" ? "unresolved" : "changed",
-                                  eligibleIds,
-                                );
-                              } else {
-                                for (const id of eligibleIds) {
-                                  if (bulk.selectedIds.has(id)) bulk.toggle(id);
-                                }
-                              }
-                            }}
-                          />
-                          <span className="visually-hidden">
-                            全選択 {TYPE_LABELS[t]}
-                          </span>
-                        </label>
-                      </th>
+              <div className="stack-sm">
+                {showCheckbox && (
+                  <label className="schema-field-card">
+                    <input
+                      type="checkbox"
+                      aria-label={`全選択 ${TYPE_LABELS[t]}`}
+                      checked={allSelectedInCat}
+                      onChange={(e) => {
+                        if (e.target.checked) {
+                          bulk.selectAllInCategory(
+                            t === "unresolved" ? "unresolved" : "changed",
+                            eligibleIds,
+                          );
+                        } else {
+                          for (const id of eligibleIds) {
+                            if (bulk.selectedIds.has(id)) bulk.toggle(id);
+                          }
+                        }
+                      }}
+                    />
+                    <span>全選択 {TYPE_LABELS[t]}</span>
+                  </label>
+                )}
+                {grouped[t].map((it) => (
+                  <div key={it.diffId} className={`schema-field-card diff-${it.type}`}>
+                    {showCheckbox && it.questionId && (
+                      <input
+                        type="checkbox"
+                        aria-label={`select diff ${it.questionId}`}
+                        checked={bulk.selectedIds.has(it.diffId)}
+                        onChange={() => bulk.toggle(it.diffId)}
+                      />
                     )}
-                    <th scope="col">質問</th>
-                    <th scope="col">questionId</th>
-                    <th scope="col">状態</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {grouped[t].map((it) => (
-                    <tr key={it.diffId}>
-                      {showCheckbox && (
-                        <td>
-                          {it.questionId && (
-                            <input
-                              type="checkbox"
-                              aria-label={`select diff ${it.questionId}`}
-                              checked={bulk.selectedIds.has(it.diffId)}
-                              onChange={() => bulk.toggle(it.diffId)}
-                            />
-                          )}
-                        </td>
-                      )}
-                      <td>
+                    <div>
+                      <div className="row">
+                        <span className="chip-row">
+                          <Chip tone={TYPE_CHIP_TONE[it.type]}>{TYPE_LABELS[it.type]}</Chip>
+                        </span>
                         <button
                           type="button"
                           onClick={() => onSelect(it)}
@@ -917,13 +925,16 @@ export function SchemaDiffPanel({ initial, resolvedAliases, actorEmail }: Schema
                         >
                           {it.label}
                         </button>
-                      </td>
-                      <td>{it.questionId ?? "(no questionId)"}</td>
-                      <td>{STATUS_LABELS[it.status]}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+                      </div>
+                      <p className="muted mono">
+                        questionId: {it.questionId ?? "(no questionId)"}
+                        {it.stableKey ? ` · stableKey: ${it.stableKey}` : ""}
+                      </p>
+                      <p className="muted">{STATUS_LABELS[it.status]}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
             )}
           </div>
           );
