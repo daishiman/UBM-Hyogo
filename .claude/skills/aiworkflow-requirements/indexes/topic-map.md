@@ -8065,14 +8065,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L3060 |
-| フェーズ構造（概要） | L3069 |
-| 品質ゲート（概要） | L3100 |
-| 出力テンプレート | L3111 |
-| 実行時のコマンド・エージェント・スキル | L3134 |
-| 昇格パターン集 | L3158 |
-| Current Active / Spec Created Tasks | L3160 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L3322 |
+| ドキュメント構成 | L3075 |
+| フェーズ構造（概要） | L3084 |
+| 品質ゲート（概要） | L3115 |
+| 出力テンプレート | L3126 |
+| 実行時のコマンド・エージェント・スキル | L3149 |
+| 昇格パターン集 | L3173 |
+| Current Active / Spec Created Tasks | L3175 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L3337 |
 
 ### references/task-workflow-backlog-part2.md
 
