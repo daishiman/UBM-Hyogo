@@ -10,37 +10,48 @@ const NAV_ITEMS = [
 ];
 
 export interface PublicHeaderProps {
-  readonly currentPath?: string;
-  readonly authView?: AuthView;
+  currentPath?: string;
+  authView?: AuthView;
 }
 
-function AuthSlot({ authView }: { readonly authView: AuthView }) {
+function renderAuthSlot(authView: AuthView) {
   if (authView.kind === "guest") {
     return (
-      <a href="/login" data-role="auth-cta" aria-label="ログイン">
+      <a href="/login" data-role="auth-cta">
         ログイン
       </a>
     );
   }
+  if (authView.kind === "admin") {
+    return (
+      <div data-role="auth-cta">
+        <a href={authView.profileHref} data-role="member-cta">
+          マイページ
+        </a>
+        <a href={authView.adminHref} data-role="admin-cta">
+          管理画面
+        </a>
+        <SignOutButton />
+      </div>
+    );
+  }
   return (
-    <div data-role="member-actions">
-      <a href={authView.profileHref} data-role="member-cta" aria-label="マイページへ移動">
+    <div data-role="auth-cta">
+      <a href={authView.profileHref} data-role="member-cta">
         マイページ
       </a>
-      {authView.kind === "admin" ? (
-        <a href={authView.adminHref} data-role="admin-cta" aria-label="管理ダッシュボードへ移動">
-          管理
-        </a>
-      ) : null}
-      <SignOutButton redirectTo="/" />
+      <SignOutButton />
     </div>
   );
 }
 
-export async function PublicHeader({ currentPath, authView }: PublicHeaderProps = {}) {
-  const resolvedAuthView = authView ?? (await getAuthView());
+export async function PublicHeader({
+  currentPath,
+  authView: explicitAuthView,
+}: PublicHeaderProps = {}) {
+  const authView = explicitAuthView ?? (await getAuthView());
   return (
-    <header data-component="public-header" data-auth-state={resolvedAuthView.kind}>
+    <header data-component="public-header" data-auth-state={authView.kind}>
       <a href="/" data-role="brand">
         UBM 兵庫支部会
       </a>
@@ -63,7 +74,7 @@ export async function PublicHeader({ currentPath, authView }: PublicHeaderProps 
           })}
         </ul>
       </nav>
-      <AuthSlot authView={resolvedAuthView} />
+      {renderAuthSlot(authView)}
     </header>
   );
 }

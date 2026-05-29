@@ -3,6 +3,8 @@ import type { HTMLAttributes } from "react";
 export interface SegmentedOption {
   value: string;
   label: string;
+  sublabel?: string;
+  describedBy?: string;
 }
 
 export interface SegmentedProps
@@ -28,9 +30,17 @@ export function Segmented({
           type="button"
           role="radio"
           aria-checked={opt.value === value}
+          aria-describedby={opt.describedBy}
+          aria-label={opt.label}
+          data-density={opt.value}
           onClick={() => onChange(opt.value)}
         >
-          {opt.label}
+          <span data-role="segmented-label">{opt.label}</span>
+          {opt.sublabel ? (
+            <span data-role="segmented-sublabel" aria-hidden="true">
+              {opt.sublabel}
+            </span>
+          ) : null}
         </button>
       ))}
     </div>

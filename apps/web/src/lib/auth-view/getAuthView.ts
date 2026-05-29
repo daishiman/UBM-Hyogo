@@ -1,12 +1,13 @@
-import { getSession } from "../session";
-import type { AuthView } from "./types";
+import { getAuth } from "@/lib/auth";
+
+import { resolveAuthView } from "./resolveAuthView";
+import type { AuthView, SessionLike } from "./types";
 
 export async function getAuthView(): Promise<AuthView> {
   try {
-    const session = await getSession();
-    if (!session) return { kind: "guest" };
-    if (session.isAdmin) return { kind: "admin", profileHref: "/profile", adminHref: "/admin" };
-    return { kind: "member", profileHref: "/profile" };
+    const { auth } = await getAuth();
+    const session = (await auth()) as SessionLike | null;
+    return resolveAuthView(session);
   } catch {
     return { kind: "guest" };
   }

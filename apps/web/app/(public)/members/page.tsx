@@ -95,6 +95,8 @@ export default async function MembersPage({ searchParams }: MembersPageProps) {
       <MemberFilters
         initial={search}
         topTags={listResult.ok ? listResult.data.topTags : []}
+        totalCount={listResult.ok ? listResult.data.pagination.total : undefined}
+        displayedCount={listResult.ok ? listResult.data.items.length : undefined}
       />
       {!listResult.ok ? (
         <SectionError
@@ -114,7 +116,7 @@ export default async function MembersPage({ searchParams }: MembersPageProps) {
       ) : (
         <MemberGrid items={listResult.data.items} density={search.density} />
       )}
-      <p data-role="pagination-meta">
+      <p data-role="pagination-meta" aria-hidden="true">
         {listResult.ok
           ? `${listResult.data.pagination.total} 件中 ${listResult.data.items.length} 件表示`
           : "メンバー件数を読み込めませんでした"}

@@ -11,6 +11,8 @@ export default async function PublicLayout({
   readonly children: ReactNode;
 }) {
   const authView = await getAuthView();
+  const publicHeader = await PublicHeader({ authView });
+
   return (
     <div
       className="grid min-h-screen grid-rows-[auto_1fr_auto] bg-[var(--ubm-color-surface-bg)] text-[var(--ubm-color-text-primary)]"
@@ -18,9 +20,9 @@ export default async function PublicLayout({
       data-route-group="public"
       data-testid="public-shell"
     >
-      <header data-shell="topbar">
-        <PublicHeader authView={authView} />
-      </header>
+      <div data-shell="topbar">
+        {publicHeader}
+      </div>
       <main data-route="public" data-section-rhythm="comfortable">{children}</main>
       <footer data-shell="footer">
         <PublicFooter />

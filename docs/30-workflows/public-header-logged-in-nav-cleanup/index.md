@@ -17,15 +17,15 @@
 
 ## スコープ（7 タスク）
 
-| Task | 対象 | 区分 | 仕様書 |
-|------|------|------|--------|
-| A | 公開ヘッダ本体 (`PublicHeader.tsx`) の session 認識化 | 実装仕様書 | `tasks/task-a-public-header-session-aware.md` |
-| B | Root `/` (`app/page.tsx`) で async `PublicHeader` を mount 整合 | 実装仕様書 | `tasks/task-b-root-page-public-header-async.md` |
-| C | `/privacy`, `/terms` を公開シェル (`PublicHeader` + `PublicFooter`) に統一 | 実装仕様書 | `tasks/task-c-privacy-terms-public-shell.md` |
-| D | `/login` でログイン済みなら `/profile` へリダイレクト | 実装仕様書 | `tasks/task-d-login-redirect-when-authenticated.md` |
-| E | `MemberHeader` に管理者リンク + session fail-closed | 実装仕様書 | `tasks/task-e-member-header-admin-link.md` |
-| F | `AdminSidebar` の auth 動線整合（差分なし検証 + 「公開サイトに戻る」追加） | 実装仕様書 | `tasks/task-f-admin-sidebar-public-return.md` |
-| G | 横断 e2e（Playwright で 3 状態 × 7 routes の auth slot 検証） | 実装仕様書 | `tasks/task-g-auth-slot-e2e.md` |
+| Task | 対象 | 区分 | 状態 | 仕様書 |
+|------|------|------|------|--------|
+| A | 公開ヘッダ本体 (`PublicHeader.tsx`) の session 認識化 | 実装仕様書 | Task B standalone wave で前提 surface 実装済み（local evidence captured） | `tasks/task-a-public-header-session-aware.md` |
+| B | Root `/` (`app/page.tsx`) で async `PublicHeader` を mount 整合 | 実装仕様書 | `docs/30-workflows/completed-tasks/task-b-root-page-public-header-async/` で implemented_local_evidence_captured | `tasks/task-b-root-page-public-header-async.md` |
+| C | `/privacy`, `/terms` を公開シェル (`PublicHeader` + `PublicFooter`) に統一 | 実装仕様書 | pending implementation | `tasks/task-c-privacy-terms-public-shell.md` |
+| D | `/login` でログイン済みなら `/profile` へリダイレクト | 実装仕様書 | pending implementation | `tasks/task-d-login-redirect-when-authenticated.md` |
+| E | `MemberHeader` に管理者リンク + session fail-closed | 実装仕様書 | pending implementation | `tasks/task-e-member-header-admin-link.md` |
+| F | `AdminSidebar` の auth 動線整合（差分なし検証 + 「公開サイトに戻る」追加） | 実装仕様書 | pending implementation | `tasks/task-f-admin-sidebar-public-return.md` |
+| G | 横断 e2e（Playwright で 3 状態 × 7 routes の auth slot 検証） | 実装仕様書 | pending implementation | `tasks/task-g-auth-slot-e2e.md` |
 
 > 全タスクは **1 サイクル / 1 PR で完了する** スコープに設計（CONST_007）。先送りなし。
 
@@ -63,7 +63,7 @@
 | 12 | `outputs/phase-12/*` | strict 7 |
 | 13 | `outputs/phase-13/pr-creation-result.md` | user-gated PR 境界 |
 
-Phase 4/6-13 は本改善サイクルで追加済み。現時点では「仕様書作成完了 / 実装未着手」であり、コード実装・runtime visual・commit / push / PR は後続の明示実行時に行う。
+Phase 4/6-13 は本改善サイクルで追加済み。親 workflow 全体は Task C/E-G と横断 Playwright が未実装のため `spec_created` を維持するが、以下の前提 surface は local 実装・focused tests・typecheck/lint/build evidence captured 済み: Task A/B（async `PublicHeader` 基盤 + root `/` async 化、standalone Task B wave）、Task D `/login` redirect（`docs/30-workflows/completed-tasks/login-redirect-when-authenticated/` で `implemented_local_evidence_captured`）。残タスクのコード実装・runtime visual・commit / push / PR は後続の明示実行時に行う。
 
 ## 並列実行戦略
 

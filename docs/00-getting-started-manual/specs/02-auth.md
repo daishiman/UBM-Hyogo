@@ -55,10 +55,21 @@ https://www.googleapis.com/auth/drive.readonly
 ### ログイン判定
 
 1. `member_identities.response_email` を検索
-2. `current_response_id` を取得
-3. `member_status.rules_consent` を確認
-4. `member_status.is_deleted` を確認
-5. 条件を満たしたらセッションを作成
+2. identity が無く `member_responses.response_email` が一致する場合、`apps/api` 内で auto-link を試行する
+3. `current_response_id` を取得
+4. `member_status.rules_consent` を確認
+5. `member_status.is_deleted` を確認
+6. 条件を満たしたらセッションを作成
+
+### H2 identity auto-link
+
+`/auth/session-resolve` は Google OAuth / Magic Link で検証済みの email だけを受け取る internal endpoint なので、`member_identities` が無い場合に限り、同じ email を持つ `member_responses` から `member_identities` を復元する。
+
+- `response_email` は `lower(trim(...))` で正規化する。
+- `current_response_id` は最新 `submitted_at`、`first_response_id` は最古 `submitted_at` を採用する。同時刻では `response_id` で安定化する。
+- `tag_assignment_queue(response_id, member_id)` が残っている場合は、その `member_id` を既存 admin-managed data との bridge として優先する。
+- bridge が無い場合は auto-link 専用の新規 `member_id` を生成する。この場合も `member_status` が無ければ既存契約どおり `rules_declined` に倒し、勝手に同意済み扱いにはしない。
+- 既存 `member_identities` row は上書きしない。再実行・並行実行は `INSERT OR IGNORE` と再 SELECT で冪等にする。
 
 ---
 
@@ -75,6 +86,26 @@ https://www.googleapis.com/auth/drive.readonly
 | `deleted` | `isDeleted = true` | 管理者問い合わせ案内 |
 
 登録・未同意・削除済みを別画面へ飛ばさず、ログイン導線の中で吸収する。
+
+## PublicHeader auth-view contract（2026-05-28）
+
+公開ヘッダは session 本文や PII を DOM に出さず、`AuthView` view model だけで auth CTA を出し分ける。
+
+```ts
+type AuthView =
+  | { kind: "guest" }
+  | { kind: "member"; profileHref: "/profile" }
+  | { kind: "admin"; profileHref: "/profile"; adminHref: "/admin" };
+```
+
+実装正本:
+
+- `apps/web/src/lib/auth-view/resolveAuthView.ts`: pure function。`memberId` 欠落・空文字は `guest`。
+- `apps/web/src/lib/auth-view/getAuthView.ts`: `getAuth().auth()` を呼び、例外時は `guest` に fail-closed。
+- `apps/web/src/components/public/PublicHeader.tsx`: `data-auth-state="guest|member|admin"` のみを出力。
+- `apps/web/app/(public)/layout.tsx`: server boundary で `authView` を解決して `PublicHeader` へ注入。
+
+`apps/web` 公開層では、この contract に伴う新 API endpoint / D1 schema / Google Form schema 変更は発生しない。
 
 ### Magic Link web proxy env contract（2026-05-26）
 

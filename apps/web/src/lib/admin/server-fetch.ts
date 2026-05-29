@@ -7,15 +7,54 @@ import {
   AdminMemberListViewZ,
   ListIdentityConflictsResponseZ,
 } from "@ubm-hyogo/shared";
-import { getEnv } from "../env";
+import { getAdminFetchEnv, getEnv } from "../env";
 import type { AdminAuditListResponse } from "./types";
 
 const resolveApiBase = (): string => {
-  return getEnv().INTERNAL_API_BASE_URL.replace(/\/$/, "");
+  return (
+    getAdminFetchEnv().INTERNAL_API_BASE_URL ?? getEnv().INTERNAL_API_BASE_URL
+  ).replace(/\/$/, "");
 };
 
 const resolveInternalSecret = (): string =>
   getEnv().INTERNAL_AUTH_SECRET ?? "";
+
+function isTestOrPlaywright(): boolean {
+  const env = getAdminFetchEnv();
+  return env.NODE_ENV === "test" || env.PLAYWRIGHT_TEST === "1";
+}
+
+function getAdminServiceBinding(): { fetch: typeof fetch } | undefined {
+  const env = getAdminFetchEnv();
+  if (isTestOrPlaywright() && env.INTERNAL_API_BASE_URL) return undefined;
+  return env.API_SERVICE;
+}
+
+async function buildAdminRequestHeaders(
+  opts: AdminFetchOptions,
+): Promise<Record<string, string>> {
+  const headers: Record<string, string> = {
+    "x-internal-auth": resolveInternalSecret(),
+    accept: "application/json",
+  };
+  const cookieHeader = (await cookies()).toString();
+  if (cookieHeader) headers.cookie = cookieHeader;
+  if (opts.body !== undefined) headers["content-type"] = "application/json";
+  return headers;
+}
+
+function logAdminTransport(
+  transport: "service-binding" | "http-fallback",
+  path: string,
+  status: number,
+): void {
+  console.log({
+    transport,
+    scope: "admin",
+    path: path.split("?")[0],
+    status,
+  });
+}
 
 export interface AdminFetchOptions {
   readonly method?: "GET" | "POST" | "PATCH" | "DELETE";
@@ -451,20 +490,22 @@ export async function fetchAdmin<T>(
     return task17AuditFixture(path) as T;
   }
 
-  const url = `${resolveApiBase()}${path}`;
-  const headers: Record<string, string> = {
-    "x-internal-auth": resolveInternalSecret(),
-    accept: "application/json",
-  };
-  const cookieHeader = (await cookies()).toString();
-  if (cookieHeader) headers.cookie = cookieHeader;
-  if (opts.body !== undefined) headers["content-type"] = "application/json";
-  const res = await fetch(url, {
+  const headers = await buildAdminRequestHeaders(opts);
+  const init: RequestInit = {
     method: opts.method ?? "GET",
     headers,
     cache: "no-store",
     ...(opts.body !== undefined ? { body: JSON.stringify(opts.body) } : {}),
-  });
+  };
+  const binding = getAdminServiceBinding();
+  let res: Response;
+  if (binding) {
+    res = await binding.fetch(`https://service-binding.local${path}`, init);
+    logAdminTransport("service-binding", path, res.status);
+  } else {
+    res = await fetch(`${resolveApiBase()}${path}`, init);
+    logAdminTransport("http-fallback", path, res.status);
+  }
   if (!res.ok) {
     let bodySnippet = "";
     try {

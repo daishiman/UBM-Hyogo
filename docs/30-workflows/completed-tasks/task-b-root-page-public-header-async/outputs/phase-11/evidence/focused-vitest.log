@@ -1,0 +1,15 @@
+Command:
+mise exec -- pnpm exec vitest run apps/web/src/lib/auth-view/__tests__/resolveAuthView.spec.ts apps/web/src/components/public/__tests__/PublicHeader.spec.tsx apps/web/app/__tests__/page.spec.tsx
+
+Result:
+PASS
+
+Summary:
+- apps/web/app/__tests__/page.spec.tsx: 2 tests passed
+- apps/web/src/lib/auth-view/__tests__/resolveAuthView.spec.ts: 3 tests passed
+- apps/web/src/components/public/__tests__/PublicHeader.spec.tsx: 4 tests passed
+- Total: 3 test files, 9 tests
+
+Notes:
+- `mise` warned that `.mise.toml` is not trusted in this worktree.
+- Vite emitted the existing CJS Node API deprecation warning.
