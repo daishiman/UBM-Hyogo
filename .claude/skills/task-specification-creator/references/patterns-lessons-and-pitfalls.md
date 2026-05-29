@@ -1260,3 +1260,13 @@ Next.js App Router で公開層 (`/`, `/(public)/*`) の auth-state 出し分け
 - **SP-DEVSYNC-059-D (検証ゲートの順序固定)**: resolver 完結後の検証は **`git diff --check` 空 → `pnpm typecheck` Done × 6 packages → `pnpm lint` Done × 全 packages → `git push`** の 4 step を Phase 12 implementation-guide に明記。stablekey-literal-lint が mode=warning の場合は block 対象外として扱う。
 - **SP-DEVSYNC-059-E (lesson 再現の SSOT)**: 同形再現が 2 連続 (a98fd67bb / 2026-05-29 merge) で確認済みのため、admin-ui modernization wave 終息までは Phase 12 implementation-guide の sync-merge 節で本 lesson を **default reference** として 1 行記載する（L-DEVSYNC-056/057/058 は分岐先として 1 行併記）。
 - 参照: [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-059、L-DEVSYNC-055 (resolver 単独完結 happy-path)、L-DEVSYNC-056/057/058 (手動 hybridize 分岐先)、L-DEVSYNC-046 (UNION_TARGETS)。
+
+
+## SP-DEVSYNC-063 skill-only 3 ファイル variant の resolver 単独完結を再々確認 — conflict marker grep の `====` 誤検知に備え実 conflict 判定は `git status` unmerged を一次ソースに（dev sync-merge / 2026-05-30 再現）
+
+`feat/admin-sidebar-public-return-link` ← `origin/dev` (HEAD `7b2bf0537`) sync-merge で conflict 3 件（`indexes/{resource-map,topic-map}.md` + `references/task-workflow-active.md`）、page-level `.ts/.tsx` 0 件。SP-DEVSYNC-059 の default path がそのまま適用でき、`pnpm sync:resolve` 単発で `all skill / index conflicts resolved` まで完走。merge commit `02b7f00eb` / typecheck 6 packages Done / lint exit 0 / indexes no drift。
+
+- **SP-DEVSYNC-063-A (ファイル数は可変・shape 判定は path regex)**: skill-only shape は 5 件固定ではない（今回は 3 件、`keywords.json`/`quick-reference.md`/`SKILL-changelog.md` が auto-merge 成功で conflict に上がらなかった）。Phase 12 の shape 判定は「件数」ではなく「unmerged 全件が `.claude/skills/**` path regex に match するか」で行う（SP-DEVSYNC-059-B の grep gate を件数非依存で適用）。
+- **SP-DEVSYNC-063-B (conflict marker grep の偽陽性回避)**: 残 conflict 確認に `git grep -E '^(<<<<<<<|=======|>>>>>>>)'` を補助で使う場合、committed docs 内の 60 桁 `====` セパレータ等を `=======` が誤検知する。実 conflict 判定は **`git status --porcelain` の unmerged エントリ (`UU`/`AA`/`DD` 等) を一次ソース**にし、grep マーカーヒットは必ず該当ファイルの `git status` と marker 周辺行で実 conflict か再確認する（リテラル `====`/`<<<<` を未解消と誤認して `git commit` を躊躇しない）。
+- **SP-DEVSYNC-063-C (lessons ID 採番衝突の進行)**: aiworkflow 側 lessons-learned に L-DEVSYNC-063 が 3 つ累積したため本 variant は L-DEVSYNC-064 を採番。SP-DEVSYNC-062-C の「最大採番 +1 / 旧重複は title 識別で据え置き」運用を継続。
+- 参照: [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-064、L-DEVSYNC-059/061 (skill-only shape resolver-only path)、SP-DEVSYNC-059 (default path)、SP-DEVSYNC-062-C (採番運用)。
