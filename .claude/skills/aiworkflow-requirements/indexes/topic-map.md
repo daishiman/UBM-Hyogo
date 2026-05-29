@@ -3323,6 +3323,15 @@ node scripts/list-specs.js --topics
 |------------|----|
 | Boundary | L17 |
 
+### references/workflow-issue-956-h1-ingest-recovery-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Required Artifacts | L11 |
+| Runtime Evidence Pending User Approval | L28 |
+| Invariants | L41 |
+| Lessons Learned | L47 |
+
 ### references/workflow-issue-958-h3-public-filter-ux-artifact-inventory.md
 
 | セクション | 行 |
@@ -7996,14 +8005,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L2945 |
-| フェーズ構造（概要） | L2954 |
-| 品質ゲート（概要） | L2985 |
-| 出力テンプレート | L2996 |
-| 実行時のコマンド・エージェント・スキル | L3019 |
-| 昇格パターン集 | L3043 |
-| Current Active / Spec Created Tasks | L3045 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L3207 |
+| ドキュメント構成 | L2961 |
+| フェーズ構造（概要） | L2970 |
+| 品質ゲート（概要） | L3001 |
+| 出力テンプレート | L3012 |
+| 実行時のコマンド・エージェント・スキル | L3035 |
+| 昇格パターン集 | L3059 |
+| Current Active / Spec Created Tasks | L3061 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L3223 |
 
 ### references/task-workflow-backlog-part2.md
 
