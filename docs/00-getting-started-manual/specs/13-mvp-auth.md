@@ -29,6 +29,17 @@
 
 ---
 
+## Issue #958 publicConsent update boundary
+
+`issue-958-h3-public-filter-ux` keeps the MVP auth/update boundary unchanged.
+
+- `publicConsent` の正式更新経路は Google Form 再回答または edit URL であり、member self-service toggle API は追加しない。
+- `/profile` は `publicConsent` 状態を説明し、Google Form CTA を出すだけにする。
+- `/admin/members` は `publishState` の republish のみ扱い、`publicConsent` を直接変更しない。
+- Phase 11 local static visual evidence is present; staging visual capture remains pending.
+
+---
+
 ## MVP ログイン条件
 
 1. `responseEmail` が登録済み
