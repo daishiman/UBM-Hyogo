@@ -11,6 +11,16 @@ slug: ui-ux-admin-dashboard
 > 詳細出典: `docs/30-workflows/06c-parallel-admin-dashboard-members-tags-schema-meetings-pages/outputs/phase-02/admin-pages-design.md`, `phase-07/ac-matrix.md`, `phase-12/implementation-guide.md`
 > 06c-A follow-up: `/admin` dashboard は既存 04c/06c baseline（`総会員 / 同意保留 / 削除済み / 未タグ件数` + `recentSubmissions`）から、`総会員数 / 公開中人数 / 未タグ人数 / スキーマ未解決件数` + `audit_log` recent actions へ差分是正する。詳細は `docs/30-workflows/06c-A-admin-dashboard/`。
 
+## Issue #958 /admin/members bulk republish UX
+
+`issue-958-h3-public-filter-ux` implements an admin members UX repair for the H3 public visibility failure mode.
+
+- Hidden / member-only selected members can be republished through a bulk drawer.
+- The drawer must show target count, per-member progress, success count, and failure list.
+- Each member update must call existing `PATCH /admin/members/:memberId/status`; no new bulk endpoint is added in this workflow.
+- Admin mutations must remain behind the established admin mutation boundary and must not directly write D1 from `apps/web`.
+- Phase 11 local static screenshots are present; staging visual capture remains pending.
+
 ---
 
 ## 1. 全体構成

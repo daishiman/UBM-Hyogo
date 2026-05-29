@@ -44,6 +44,26 @@ export const HypothesisFlagsSchema = z.object({
   H4_aliasPendingNonZero: z.boolean(),
 });
 
+export const PublicConsentBreakdownSchema = z.object({
+  consented: z.number().int().nonnegative(),
+  declined: z.number().int().nonnegative(),
+  unknown: z.number().int().nonnegative(),
+});
+
+export const PublishStateBreakdownSchema = z.object({
+  public: z.number().int().nonnegative(),
+  member_only: z.number().int().nonnegative(),
+  hidden: z.number().int().nonnegative(),
+  legacy_published: z.number().int().nonnegative(),
+  legacy_private: z.number().int().nonnegative(),
+});
+
+export const TotalsSchema = z.object({
+  memberIdentities: z.number().int().nonnegative(),
+  memberResponses: z.number().int().nonnegative(),
+  memberStatus: z.number().int().nonnegative(),
+});
+
 export const FormsPipelineSnapshotSchema = z.object({
   capturedAt: z.string().datetime(),
   counts: z.object({
@@ -58,6 +78,12 @@ export const FormsPipelineSnapshotSchema = z.object({
   publicVisibility: PublicVisibilityCountsSchema,
   identityHealth: IdentityHealthSchema,
   hypothesisFlags: HypothesisFlagsSchema,
+  publicConsentBreakdown: PublicConsentBreakdownSchema,
+  publishStateBreakdown: PublishStateBreakdownSchema,
+  visiblePublicCount: z.number().int().nonnegative(),
+  lastSuccessfulSyncAt: z.string().nullable(),
+  totals: TotalsSchema,
+  diagnosis: z.string(),
 });
 
 export type FormsPipelineSnapshot = z.infer<

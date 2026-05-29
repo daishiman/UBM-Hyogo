@@ -1,0 +1,49 @@
+{
+  "workflow_id": "issue-976-admin-fetch-service-binding",
+  "mirrors": "../artifacts.json",
+  "workflow_state": "implemented_local_runtime_pending",
+  "state": "implemented_local_runtime_pending",
+  "metadata": {
+    "workflow_state": "implemented_local_runtime_pending",
+    "taskType": "implementation",
+    "visualEvidence": "NON_VISUAL",
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-05-28T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-976-admin-fetch-service-binding/outputs/phase-12/phase12-task-spec-compliance-check.md",
+        "approver": "daishiman",
+        "notes": "spec_review: Phase 1-13 workflow package and strict Phase 12 outputs completed"
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "passed",
+        "passed_at": "2026-05-28T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-976-admin-fetch-service-binding/outputs/phase-11/local-verification.md",
+        "approver": "daishiman",
+        "notes": "implementation_review: admin fetch Service Binding transport and focused Vitest evidence completed"
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-976-admin-fetch-service-binding/phase-13-pr.md",
+        "approver": "daishiman",
+        "notes": "external_ops: staging deploy, authenticated admin route proof, wrangler tail evidence, and PR review"
+      }
+    ]
+  },
+  "phase11": {
+    "local": "outputs/phase-11/local-verification.md",
+    "staging": "pending_user_approval"
+  },
+  "phase12": {
+    "implementation_guide": "outputs/phase-12/implementation-guide.md",
+    "system_spec_update_summary": "outputs/phase-12/system-spec-update-summary.md",
+    "documentation_changelog": "outputs/phase-12/documentation-changelog.md",
+    "unassigned_task_detection": "outputs/phase-12/unassigned-task-detection.md",
+    "skill_feedback_report": "outputs/phase-12/skill-feedback-report.md",
+    "compliance_check": "outputs/phase-12/phase12-task-spec-compliance-check.md"
+  }
+}
