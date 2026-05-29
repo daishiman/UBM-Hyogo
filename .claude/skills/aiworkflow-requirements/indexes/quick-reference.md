@@ -1,9 +1,36 @@
 # クイックリファレンス
 
-## admin-identity-conflicts-prototype-alignment-and-404-fix（2026-05-27）
+## issue-956-h1-ingest-recovery（2026-05-27）
 
 | 項目 | 値 |
 | --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-956-h1-ingest-recovery/` |
+| status | `spec_created / docs-only / NON_VISUAL / runtime_pending_user_approval` |
+| issue | #956 CLOSED。PR / commit 文脈は `Refs #956` のみ |
+| parent | `docs/30-workflows/completed-tasks/google-form-reflection-diagnostics/` |
+| source | `docs/30-workflows/completed-tasks/issue-956-h1-ingest-recovery/unassigned-task-specs/google-form-reflection-diagnostics-followup-001-h1-ingest-recovery.md` consumed |
+| purpose | production Google Forms → D1 ingest の H1（未稼働・全 error）を、Cloudflare secrets readiness、cron tail、stale `sync_jobs` reset、diagnostics snapshot で復旧確認する runtime ops runbook |
+| runtime ops | `bash scripts/cf.sh secret put/list --config apps/api/wrangler.toml --env production`, `cf.sh tail`, `cf.sh d1 execute ubm-hyogo-db-prod --env production`, authenticated `/admin/diagnostics/forms-pipeline` snapshot |
+| invariant | secret values are never recorded; runtime PASS is not claimed until `snapshot-after.json` and `snapshot-diff.md` exist |
+| Phase 12 | strict 7 present; root/output artifacts mirror present; 30-method compact evidence included |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-956-h1-ingest-recovery-artifact-inventory.md` |
+| user gate | production secret mutation, production D1 SELECT/UPDATE, authenticated snapshot capture, cron tail, commit, push, PR |
+
+## admin-identity-conflicts-prototype-alignment-and-404-fix（2026-05-27）
+## admin-audit-prototype-alignment（2026-05-27）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/admin-audit-prototype-alignment/` |
+| status | `implemented_local_runtime_pending / implementation / VISUAL` |
+| purpose | `/admin/audit` を admin prototype design language に整え、staging `admin api /admin/audit?limit=50 failed: 404` を H1〜H5 で切り分けて復旧する |
+| implementation targets | `apps/web/app/(admin)/admin/audit/page.tsx`, `apps/web/src/components/admin/AuditLogPanel.tsx`, `apps/web/src/lib/admin/safe-server-fetch.ts`, `apps/api/src/routes/admin/audit.ts` |
+| contract | `AdminAuditListResponseZ` / D1 schema / auth middleware は変更しない。`Button` は `polymorphic link rendering` 非対応のため reset link は `buttonVariants` を使う。`Banner` は `tone="warning"`。 |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-audit-prototype-alignment-artifact-inventory.md` |
+| local evidence | web suite 158 files / 1158 tests PASS; api suite 66 files / 415 tests PASS; D1 audit contract 10 PASS; Phase 11 screenshots `admin-audit-{default,filtered,empty}.png` |
+| user gate | staging deploy, secret mutation, authenticated staging visual baseline, commit, push, PR |
+
+## admin-identity-conflicts-prototype-alignment-and-404-fix（2026-05-27）
 | workflow root | `docs/30-workflows/completed-tasks/admin-identity-conflicts-prototype-alignment-and-404-fix/` |
 | status | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION / staging_runtime_pending_user_gate` |
 | purpose | `/admin/identity-conflicts` を admin prototype primitives に整合し、staging `ADMIN_FETCH_404` を deploy/env/runtime 境界で切り分ける |
@@ -12,7 +39,6 @@
 | evidence | web typecheck PASS, web Vitest 159 files / 1154 tests PASS, root/output artifacts parity present |
 | inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-identity-conflicts-prototype-alignment-and-404-fix-artifact-inventory.md` |
 | user gate | staging deploy/env verification, authenticated runtime curl, visual screenshots, commit, push, PR |
-
 ## unified-sidebar-shell-public-and-admin（2026-05-28）
 
 | 項目 | 値 |
@@ -190,6 +216,20 @@
 | Phase 11 | screenshots and manual evaluation are pending, not PASS |
 | inventory | `.claude/skills/aiworkflow-requirements/references/workflow-public-dashboard-prototype-alignment-artifact-inventory.md` |
 | user gate | implementation, local visual capture, staging refresh, commit, push, PR |
+
+## login-stale-link-and-profile-me-safe-fetch（2026-05-27）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/login-stale-link-and-profile-me-safe-fetch/` |
+| status | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION` |
+| purpose | `/login` stale `[object Object]` link guard and `/profile` leading `/me` safe fetch degradation |
+| implementation | `apps/web/app/(member)/profile/page.tsx`, `apps/web/src/lib/url/safe-redirect.ts`, `apps/web/src/lib/url/login-query.ts`, `apps/web/app/login/page.tsx` |
+| tests | `apps/web/app/(member)/profile/page.spec.tsx`, `apps/web/src/lib/url/login-query.spec.ts`, `apps/web/src/lib/url/login-redirect.spec.ts`, `apps/web/src/lib/url/login-state.spec.ts` |
+| contract | non-string redirect values fall back to `/profile`; `/me` 401 redirects, non-auth failures render member `SectionError`; `/me/profile` 404 remains `notFound()` |
+| Phase 12 | strict 7 present under `outputs/phase-12/`; root/output artifacts parity present |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-login-stale-link-and-profile-me-safe-fetch-artifact-inventory.md` |
+| user gate | staging deploy, authenticated profile/login screenshots, commit, push, PR |
 
 ## login-ui-balance-and-runtime-fix（2026-05-26）
 

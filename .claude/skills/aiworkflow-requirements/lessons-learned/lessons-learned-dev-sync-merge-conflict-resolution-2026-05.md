@@ -1152,6 +1152,35 @@
 - 留意: HEAD と dev で **同一画面の構造を双方が積極的に書き換える**パターンは、admin-ui プロトタイプ整合が wave 単位で並列実装されている期間は構造的に発生する。`pnpm sync:resolve` は `.ts/.tsx` ソースを対象外なので、手動 hybridize 必須。resolver 拡張ではなく lesson + 仕様 Phase 4 risk への記載で対処するのが正（L-DEVSYNC-054 と同じ判断）。
 - 事例: 2026-05-28 commit `c2a2bfc4e` (merge: sync feat/admin-schema-page-prototype-alignment-and-diff-fetch-fix with dev)。`pnpm sync:resolve` で skill md 1 union + keywords.json `--ours + rebuild` 成功、残り 3 `.tsx` を上記手順で hybridize。`grep -nE '^(<<<<<<<|=======|>>>>>>>|\|\|\|\|\|\|\|)' ...` 0 件 → `pnpm typecheck` Done × 6 packages → `pnpm lint` Done × 全 packages。
 
+## L-DEVSYNC-057: feature が AdminPageHeader を barrel 経由 import × dev が _layout 直 import で 3-way（2026-05-28 確認）
+
+- 事象: `feat/admin-audit-prototype-alignment` ← `origin/dev` sync-merge で `pnpm sync:resolve` 後、`apps/web/app/(admin)/admin/audit/page.tsx` と `apps/web/src/components/admin/AuditLogPanel.tsx` の 2 ソースが残る。
+  1. `audit/page.tsx` — HEAD: `import { AdminPageHeader } from "../../../../src/features/admin/components";`（barrel index 経由）+ AdminPageHeader props は `title/description/breadcrumbs`。dev: `import { AdminPageHeader } from ".../components/_layout/AdminPageHeader";`（直接 path）+ `eyebrow` prop を追加。
+  2. `AuditLogPanel.tsx` — HEAD: section に `className="flex flex-col gap-4"` + `<Card>` + `<form>` (FormField/Input/Select/Button) で prototype 整合の検索 UI を full 実装。dev: `showHeading` prop で `<header><h1>` を出し分け、section に `aria-labelledby`/`aria-label` を切替。HEAD 側は filter UI 追加に集中、dev 側は heading 出し分け契約に集中。
+- Why: barrel `index.ts` は `export * from "./_layout/AdminPageHeader"` を既に持っており、両 import 形は同一実体を指す（型・実装差なし）。`eyebrow` prop は AdminPageHeader が既に optional として受けるため両側統合可能。`showHeading` 出し分けと filter Card 追加は構造上 orthogonal で、`<section>` ラッパに両者を同時適用できる（section 属性は dev 側、その内部に dev の header 条件分岐 + HEAD の Card を順次配置）。
+- How to apply:
+  1. **import paths の HEAD vs dev**: barrel 経由（HEAD）を **default 採用**。理由は (a) `_layout/` 直接 path への依存は internal layout の private path に lock-in されるが barrel は安定 API、(b) barrel が当該 export を再 export 済みなら結果は同一。確認は `grep "from \"./_layout/<Component>\"" <feature>/components/index.ts` 1 行で完結。
+  2. **props 追加 (eyebrow など)**: HEAD と dev の両側の props 列を **union** で 1 つの JSX に統合（同 prop 名が異なる値で衝突する場合のみ「prototype alignment の意図に近い側」を優先）。本件は dev `eyebrow="ADMIN / AUDIT"` を残し、HEAD の richer `description` を採用。
+  3. **section ラッパ属性の HEAD vs dev**: HEAD `className="flex flex-col gap-4"` と dev `aria-labelledby={showHeading ? ... : undefined}` / `aria-label={showHeading ? undefined : ...}` は orthogonal なので両方付ける。section opening tag を 1 つに統合し全 attribute を列挙する形にする。
+  4. **section 内子要素の合成順序**: dev 側の条件付き `<header><h1>` を先頭に置き、HEAD 側の `<Card>` 以降を続けて配置。残りの共通 children（error Banner / empty state など）はコンフリクトしていないので triple-marker の外側がそのまま残る。
+  5. 検証: `grep -nE '^(<<<<<<<|=======|>>>>>>>|\|\|\|\|\|\|\|)' <file>` 0 件 → `pnpm typecheck` (props 不整合があれば即 fail) → `pnpm lint`。
+- 留意: barrel 経由 import を default にするポリシーは「feature 側で既存 barrel が export 済み」が前提。barrel に未掲載の component を直接 path で取り込んでいる場合は、まず barrel に export を追加してから本 lesson を適用する。`feat/admin-audit-prototype-alignment` のように feature ブランチが UI prototype 整合（structural primitive 化と独立な path 整理）を主目的とする場合、両側の意図は orthogonal で hybridize は機械的に成立する。
+- 事例: 2026-05-28 sync-merge (HEAD=`feat/admin-audit-prototype-alignment`, base=`bf6efe49f`). `pnpm sync:resolve` が aiworkflow indexes 4 件を自動解消 (3 md union + keywords.json --ours + rebuild)、残り 2 `.tsx` を上記手順で hybridize。コンフリクトマーカー 0 件確認後に merge commit。
+
+
+## L-DEVSYNC-057: 両 branch が同一 Server Component に safe-fetch + SectionError を独立追加した parallel-degrade コンフリクトは branch-owning 側 take（2026-05-28 確認）
+
+- 事象: `fix/login-stale-link-and-profile-me-safefetch` ← origin/dev sync-merge で `pnpm sync:resolve` 後に source code 2 件が残った:
+  1. `apps/web/app/(member)/profile/page.tsx` — HEAD と origin/dev (0cc38e84c) が**両方とも**`safeServerFetch(() => fetchAuthed<MeSessionResponse>("/me"), {...})` ラップと `if (!meResult.ok) return <SectionError .../>;` 早期 return を独立に導入。差分は (a) 変数型注釈 `SafeResult<MeSessionResponse>` vs `Awaited<ReturnType<typeof safeServerFetch<MeSessionResponse>>>` (b) error title `"セッション情報を取得できませんでした"` vs `"マイページを読み込めませんでした"` の 2 点のみで、構造・retryHref・MemberHeader/SectionError prop は完全同一。three-way base には `meResult` 概念自体が無く、両側 add-add の semantic conflict。
+  2. `apps/web/app/(member)/profile/page.spec.tsx` — 同様に `degrades /me fetch failures …` の `it` block を両側が追加。HEAD は `FetchAuthedError(503, "down")` で「セッション情報を取得できませんでした」を assert、dev は generic `Error("fetchAuthed failed: 503")` で「マイページを読み込めませんでした」を assert。テスト対象シナリオは同一だが期待文字列が page.tsx の title と pair で異なる。
+- Why: parallel feature wave で `/profile` の Server Component error boundary 強化（safe-fetch degrade）が二系統で同時に進んでいた。L-DEVSYNC-056 のような「dev が新 primitive を導入し HEAD が旧構造のまま」とは異なり、**両側が同方向の改良を独立に実装**しているため、構造採用ではなく「どちらの文言/型が branch の責務 (responsibility) を正確に表しているか」で判定する。本 branch の責務は「`/profile` ページの `/me` 取得失敗を安全に降格する」ことであり、`/me` 取得失敗時は「セッション情報を取得できませんでした」の方が原因事象を正確に示す。dev 側の「マイページを読み込めませんでした」は profile fetch 失敗側 (`MEMBER_FETCH`) と区別が付かないので情報損失。型注釈も `SafeResult<T>` 直接の方が読みやすい。
+- How to apply:
+  1. add-add の semantic conflict は、まず両側の hunk が **構造的に同一か** (`git diff :2:<path> :3:<path>` で確認) を判定。同一構造で差分が文字列/型注釈のみなら、**branch slug が示す責務に合致する側**を `git checkout --ours <path>` または `--theirs <path>` で一括採用する（hybridize 不要）。spec も page と pair で同じ側を採用する（assert 文字列が page.tsx の title と束で一致しないと test fail）。
+  2. branch 責務の判定は `git log --oneline <merge-base>..HEAD -- <該当 path>` で「この branch が何を変えたか」を確認し、コミットメッセージの主語（`fix(profile)`, `fix(login,profile)` 等）が一致する側を ours とみなす。本ケースでは `3a0988f4d fix(login,profile): stale login redirect link と /profile /me fetch safe wrap` が HEAD の責務を明示している。
+  3. resolver 後の手順: `git checkout --ours <page.tsx> <page.spec.tsx>` → `git add <両 path>` → `git diff --diff-filter=U --name-only` 0 件確認 → `pnpm typecheck && pnpm lint` → `git commit --no-edit` で merge commit を確定。
+- 留意: 両側が **同 endpoint の error boundary を独立追加** するパターンは、`/profile`・`/login`・admin section root 等の Server Component で wave 並列実装期間に頻発する。`pnpm sync:resolve` 拡張で取り込むには branch context (slug / commit message) が必要なので resolver 化は不適。本 lesson で対処するのが正。
+- 事例: 2026-05-28 `fix/login-stale-link-and-profile-me-safefetch` ← `origin/dev` merge。`pnpm sync:resolve` で skill indexes 2 件 (`topic-map.md` union + `keywords.json` ours+rebuild) 完結、残 `.tsx` 2 件を `git checkout --ours` で採用。`pnpm typecheck` Done × 全 packages → `pnpm lint` 通過後に merge commit 確定。
+
 
 ## L-DEVSYNC-058: 同一 page を両 branch が独立に prototype 整合した結果の 2-way feature × modernization hybridize（2026-05-28 admin/identity-conflicts/page.tsx）
 

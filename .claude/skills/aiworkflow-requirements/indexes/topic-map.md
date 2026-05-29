@@ -2131,6 +2131,14 @@ node scripts/list-specs.js --topics
 | Artifacts | L13 |
 | Boundary | L31 |
 
+### references/workflow-admin-audit-prototype-alignment-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Contract | L20 |
+| Lessons Learned | L32 |
+| Unassigned tasks (filed at Phase 12 close-out) | L42 |
+
 ### references/workflow-admin-dashboard-recovery-and-byZone-artifact-inventory.md
 
 | セクション | 行 |
@@ -3314,6 +3322,15 @@ node scripts/list-specs.js --topics
 |------------|----|
 | Boundary | L17 |
 
+### references/workflow-issue-956-h1-ingest-recovery-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Required Artifacts | L11 |
+| Runtime Evidence Pending User Approval | L28 |
+| Invariants | L41 |
+| Lessons Learned | L47 |
+
 ### references/workflow-light-theme-contrast-regression-guard.md
 
 | セクション | 行 |
@@ -3353,6 +3370,12 @@ node scripts/list-specs.js --topics
 | Implementation Targets | L12 |
 | Skill Compliance | L28 |
 | Boundaries | L36 |
+
+### references/workflow-login-stale-link-and-profile-me-safe-fetch-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Status | L18 |
 
 ### references/workflow-login-ui-balance-and-runtime-fix-artifact-inventory.md
 
@@ -7974,14 +7997,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L2927 |
-| フェーズ構造（概要） | L2936 |
-| 品質ゲート（概要） | L2967 |
-| 出力テンプレート | L2978 |
-| 実行時のコマンド・エージェント・スキル | L3001 |
-| 昇格パターン集 | L3025 |
-| Current Active / Spec Created Tasks | L3027 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L3188 |
+| ドキュメント構成 | L2944 |
+| フェーズ構造（概要） | L2953 |
+| 品質ゲート（概要） | L2984 |
+| 出力テンプレート | L2995 |
+| 実行時のコマンド・エージェント・スキル | L3018 |
+| 昇格パターン集 | L3042 |
+| Current Active / Spec Created Tasks | L3044 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L3206 |
 
 ### references/task-workflow-backlog-part2.md
 
@@ -8485,4 +8508,3 @@ node scripts/list-specs.js --topics
 | SkillLifecyclePanel 責務別props分離パターン | L82 |
 
 ---
-
