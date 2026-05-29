@@ -1,0 +1,22 @@
+{
+  "status": "complete_local_static_runtime_pending",
+  "visualEvidence": "VISUAL_ON_EXECUTION",
+  "outputDir": "outputs/phase-11/screenshots",
+  "canonicalScreenshots": [
+    "member-avatar-photo.png",
+    "member-avatar-placeholder.png",
+    "member-drawer-photo-upload.png",
+    "member-drawer-photo-deleted.png",
+    "member-avatar-upload-loading.png",
+    "member-avatar-img-error-fallback.png"
+  ],
+  "captureGate": [
+    "local implementation complete",
+    "local static screenshots captured",
+    "R2 bucket provisioned",
+    "R2 presign secrets injected",
+    "D1 migration applied",
+    "staging deployed",
+    "authenticated staging admin session available"
+  ]
+}

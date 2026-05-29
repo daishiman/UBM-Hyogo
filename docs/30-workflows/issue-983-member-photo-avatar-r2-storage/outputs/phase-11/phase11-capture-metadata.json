@@ -1,0 +1,9 @@
+{
+  "status": "local_static_visual_captured",
+  "workflow": "issue-983-member-photo-avatar-r2-storage",
+  "visualEvidence": "VISUAL_ON_EXECUTION",
+  "createdAt": "2026-05-29",
+  "environment": "local_static_playwright",
+  "capturedAt": "2026-05-29T19:14:00+09:00",
+  "reason": "local implementation cycle captured canonical static component states; staging runtime capture remains user-gated"
+}

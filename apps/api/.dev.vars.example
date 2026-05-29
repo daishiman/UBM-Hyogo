@@ -14,3 +14,9 @@ OPS_NOTIFICATION_EMAIL=ops@local.ubm-hyogo.example
 # Secrets: keep real values in 1Password / Cloudflare Secrets, never in git.
 # Resend API key (mail fallback の送信に使用)。
 MAIL_PROVIDER_KEY=op://UBM-Hyogo/Resend API/key
+
+# issue-983: R2 member photo presign secrets (op:// 参照のみ。実値を書かないこと)。
+# R2 API token は Object Read and Write 権限・対象 bucket 限定の scoped token を発行する。
+R2_ACCOUNT_ID=op://UBM-Hyogo/R2-member-photos/account_id
+R2_ACCESS_KEY_ID=op://UBM-Hyogo/R2-member-photos/access_key_id
+R2_SECRET_ACCESS_KEY=op://UBM-Hyogo/R2-member-photos/secret_access_key

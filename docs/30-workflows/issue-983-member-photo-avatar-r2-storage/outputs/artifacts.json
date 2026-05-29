@@ -1,0 +1,48 @@
+{
+  "title": "issue-983-member-photo-avatar-r2-storage",
+  "type": "implementation",
+  "status": "implemented_local_runtime_pending",
+  "feature": "issue-983-member-photo-avatar-r2-storage",
+  "created": "2026-05-29",
+  "lastUpdated": "2026-05-29",
+  "branch": "feat/issue-983-member-photo-avatar-r2-storage",
+  "base": "dev",
+  "metadata": {
+    "taskType": "implementation",
+    "implementationDivision": "実装仕様書",
+    "implementation_mode": "new",
+    "visualEvidence": "VISUAL_ON_EXECUTION",
+    "scope": "admin member photo-backed avatar via R2 + presigned URL + D1 member_photos (local implementation complete; staging runtime pending)",
+    "workflow_state": "implemented_local_runtime_pending",
+    "githubIssue": 983,
+    "githubIssueState": "CLOSED",
+    "parentWorkflow": "docs/30-workflows/completed-tasks/admin-ui-prototype-alignment-followup-003-admin-members-prototype-redesign/",
+    "investigationConclusion": "Local implementation is present in apps/ and packages/: D1 migration 0022, MEMBER_PHOTOS R2 binding, presigned photoUrl route extension, upload/delete endpoints, shared schema, Avatar src fallback, MemberDrawer controls, and focused tests. Runtime provisioning/deploy remains user-gated.",
+    "userGated": [
+      "R2 bucket provisioning (ubm-hyogo-member-photos-staging/prod)",
+      "R2 presign secret put (R2_ACCOUNT_ID / R2_ACCESS_KEY_ID / R2_SECRET_ACCESS_KEY)",
+      "remote D1 migration 0022 apply",
+      "staging deploy",
+      "authenticated staging screenshot capture (Phase 11)",
+      "commit",
+      "push",
+      "PR creation",
+      "issue #983 comment/reopen mutation"
+    ]
+  },
+  "phases": {
+    "phase-1": { "name": "Requirements", "file": "phase-1.md", "status": "implemented_local_runtime_pending" },
+    "phase-2": { "name": "Design", "file": "phase-2.md", "status": "implemented_local_runtime_pending" },
+    "phase-3": { "name": "Design Review", "file": "phase-3.md", "status": "implemented_local_runtime_pending" },
+    "phase-4": { "name": "Test Creation", "file": "phase-4.md", "status": "implemented_local_runtime_pending" },
+    "phase-5": { "name": "Implementation", "file": "phase-5.md", "status": "implemented_local_runtime_pending" },
+    "phase-6": { "name": "Test Expansion", "file": "phase-6.md", "status": "implemented_local_runtime_pending" },
+    "phase-7": { "name": "Coverage Check", "file": "phase-7.md", "status": "implemented_local_runtime_pending" },
+    "phase-8": { "name": "Refactoring", "file": "phase-8.md", "status": "implemented_local_runtime_pending" },
+    "phase-9": { "name": "Quality Assurance", "file": "phase-9.md", "status": "implemented_local_runtime_pending" },
+    "phase-10": { "name": "Final Review", "file": "phase-10.md", "status": "implemented_local_runtime_pending" },
+    "phase-11": { "name": "Manual Test", "file": "phase-11.md", "status": "local_static_visual_captured" },
+    "phase-12": { "name": "Documentation", "file": "phase-12.md", "status": "implemented_local_runtime_pending" },
+    "phase-13": { "name": "PR Creation", "file": "phase-13.md", "status": "spec_created" }
+  }
+}

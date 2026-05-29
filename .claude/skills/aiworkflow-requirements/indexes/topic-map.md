@@ -3361,6 +3361,15 @@ node scripts/list-specs.js --topics
 | User-Gated | L13 |
 | Lessons Learned | L17 |
 
+### references/workflow-issue-983-member-photo-avatar-r2-storage-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| State | L12 |
+| Implemented Local Targets | L16 |
+| User-Gated Operations | L26 |
+| Lessons Learned | L30 |
+
 ### references/workflow-light-theme-contrast-regression-guard.md
 
 | セクション | 行 |
@@ -8032,14 +8041,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L3017 |
-| フェーズ構造（概要） | L3026 |
-| 品質ゲート（概要） | L3057 |
-| 出力テンプレート | L3068 |
-| 実行時のコマンド・エージェント・スキル | L3091 |
-| 昇格パターン集 | L3115 |
-| Current Active / Spec Created Tasks | L3117 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L3279 |
+| ドキュメント構成 | L3031 |
+| フェーズ構造（概要） | L3040 |
+| 品質ゲート（概要） | L3071 |
+| 出力テンプレート | L3082 |
+| 実行時のコマンド・エージェント・スキル | L3105 |
+| 昇格パターン集 | L3129 |
+| Current Active / Spec Created Tasks | L3131 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L3293 |
 
 ### references/task-workflow-backlog-part2.md
 
