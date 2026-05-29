@@ -28,6 +28,32 @@
       "push",
       "PR creation",
       "issue #983 comment/reopen mutation"
+    ],
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-05-29T00:00:00Z",
+        "evidence_path": "docs/30-workflows/issue-983-member-photo-avatar-r2-storage/outputs/phase-12/main.md",
+        "approver": "daishiman",
+        "notes": "spec_review: Phase 1-13 spec authored; admin member photo avatar via R2 + presigned URL + D1 member_photos"
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "passed",
+        "passed_at": "2026-05-29T00:00:00Z",
+        "evidence_path": "docs/30-workflows/issue-983-member-photo-avatar-r2-storage/outputs/phase-12/implementation-guide.md",
+        "approver": "daishiman",
+        "notes": "implementation_review: migration 0022 + lib/r2 presign + memberPhotos repo + upload route + Avatar fallback + focused tests; typecheck/lint green"
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/issue-983-member-photo-avatar-r2-storage/phase-13.md",
+        "approver": "daishiman",
+        "notes": "external_ops: R2 bucket provisioning, presign secret put, remote D1 migration 0022 apply, staging deploy, authenticated Phase-11 screenshot capture"
+      }
     ]
   },
   "phases": {
