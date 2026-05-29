@@ -95,7 +95,7 @@ Root page も `<PublicHeader />` を直接 mount しているため、async 化�
 
 - 先頭で `await getSession()` を呼ぶ
 - session が non-null かつ `memberId` 非空なら `redirect(safeNext(searchParams.next) ?? "/profile")`
-- `safeNext` は `/` 始まり・`//` で始まらない・`http(s)://` を含まないパスのみ通す純関数（新規 `apps/web/src/lib/url/safeNext.ts`）
+- `safeNext` は `/` 始まり・`//` で始まらない・`http(s)://` を含まないパスのみ通す純関数（新規 `apps/web/src/lib/url/safe-next.ts`）
 
 ### 2.5 `MemberHeader`
 
