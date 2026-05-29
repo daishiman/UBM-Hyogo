@@ -46,6 +46,19 @@
 
 ## Phase 12 関連失敗パターン
 
+### 親 workflow skeleton と現行 route topology の乖離
+
+- **状況**: 親 workflow の Task を子 workflow へ切り出す際、元 skeleton が想定する route 配置・削除対象・package 名が現行 codebase とずれる場合
+- **問題**: skeleton をそのまま Phase 5 に流すと、存在しない component の削除、存在しない path の test 追加、誤 package 名の verify command が仕様書に残る
+- **原因**: 親 task は設計時点の抽象 skeleton であり、子 workflow 作成時点の `apps/web/app` / `apps/web/src/components` 実態とは独立に stale 化しうる
+- **教訓**:
+  1. Phase 1 で `rg --files` / `ls` による current topology 実測を先に行う
+  2. `元 skeleton の前提 / 実コードベースの実態 / 是正方針` の3列表を index と Phase 1 に置く
+  3. route group 移動など user decision が必要な分岐は、Phase 2 以降へ曖昧な候補を残さず、選択済み方針だけを実装手順化する
+  4. 実コード未実装の依存がある場合でも、aiworkflow の active ledger / quick-reference / artifact inventory へ `spec_created / implementation_pending` として同 wave 登録する
+- **発見日**: 2026-05-29
+- **関連タスク**: `task-c-public-member-sidebar-shell-integration`
+
 ### 未タスク検出後のtask-workflow.md登録漏れ（TASK-9B-G）
 
 - **状況**: Phase 12で5件の未タスクを検出し、指示書を作成した

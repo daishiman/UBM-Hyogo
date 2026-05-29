@@ -22,7 +22,6 @@ import { ProfileFields } from "./_components/ProfileFields";
 import { EditCta } from "./_components/EditCta";
 import { AttendanceList } from "./_components/AttendanceList";
 import { RequestActionPanel } from "./_components/RequestActionPanel";
-import { MemberHeader } from "@/components/layout/MemberHeader";
 import { SectionError } from "@/components/member/SectionError";
 import type { SafeResult } from "@/lib/result";
 import { safeServerFetch } from "@/lib/server-fetch/safe-fetch";
@@ -47,16 +46,13 @@ export default async function ProfilePage() {
 
   if (!meResult.ok) {
     return (
-      <>
-        <MemberHeader />
-        <main data-route="member" data-section-rhythm="comfortable">
-          <SectionError
-            title="セッション情報を取得できませんでした"
-            detail={meResult.error.message}
-            retryHref="/profile"
-          />
-        </main>
-      </>
+      <main data-route="member" data-section-rhythm="comfortable">
+        <SectionError
+          title="セッション情報を取得できませんでした"
+          detail={meResult.error.message}
+          retryHref="/profile"
+        />
+      </main>
     );
   }
 
@@ -73,22 +69,19 @@ export default async function ProfilePage() {
     }
 
     return (
-      <>
-        <MemberHeader />
-        <main data-route="member" data-section-rhythm="comfortable">
-          <ProfileHeader
-            memberId={me.user.memberId}
-            publishState="hidden"
-            editResponseUrl={null}
-            fallbackResponderUrl=""
-          />
-          <SectionError
-            title="プロフィールを読み込めませんでした"
-            detail={profileResult.error.message}
-            retryHref="/profile"
-          />
-        </main>
-      </>
+      <main data-route="member" data-section-rhythm="comfortable">
+        <ProfileHeader
+          memberId={me.user.memberId}
+          publishState="hidden"
+          editResponseUrl={null}
+          fallbackResponderUrl=""
+        />
+        <SectionError
+          title="プロフィールを読み込めませんでした"
+          detail={profileResult.error.message}
+          retryHref="/profile"
+        />
+      </main>
     );
   }
 
