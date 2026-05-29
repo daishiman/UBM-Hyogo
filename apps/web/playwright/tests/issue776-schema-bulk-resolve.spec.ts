@@ -19,7 +19,7 @@ async function capture(page: import('@playwright/test').Page, name: string) {
 
 async function openBulkModal(page: import('@playwright/test').Page) {
   await page.goto('/admin/schema')
-  await expect(page.getByRole('heading', { name: 'schema 差分' })).toBeVisible()
+  await expect(page.getByRole('heading', { name: '項目別の差分' })).toBeVisible()
   await page.getByRole('button', { name: 'Bulk Resolve' }).click()
   await page.getByLabel('全選択 未解決').click()
   await page.getByLabel('全選択 変更').click()
@@ -45,7 +45,7 @@ test.describe('Issue #776 schema alias bulk resolve evidence', () => {
     })
 
     await adminPage.goto('/admin/schema')
-    await expect(adminPage.getByRole('heading', { name: 'schema 差分' })).toBeVisible()
+    await expect(adminPage.getByRole('heading', { name: '項目別の差分' })).toBeVisible()
     await adminPage.getByRole('button', { name: 'Bulk Resolve' }).click()
     await adminPage.getByLabel('全選択 未解決').click()
     await adminPage.getByLabel('全選択 変更').click()
@@ -126,7 +126,7 @@ test.describe('Issue #776 schema alias bulk resolve evidence', () => {
   test('mobile select and modal screenshots', async ({ adminPage }) => {
     await adminPage.setViewportSize({ width: 375, height: 667 })
     await adminPage.goto('/admin/schema')
-    await expect(adminPage.getByRole('heading', { name: 'schema 差分' })).toBeVisible()
+    await expect(adminPage.getByRole('heading', { name: '項目別の差分' })).toBeVisible()
     await adminPage.getByRole('button', { name: 'Bulk Resolve' }).click()
     await adminPage.getByLabel('全選択 未解決').click()
     await capture(adminPage, 'bulk-select-mobile-375.png')

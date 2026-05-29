@@ -1,2 +1,0 @@
-og:image=https://ubm-hyogo-web.daishimanju.workers.dev/members/playwright-public-member/opengraph-image
-twitter:image=https://ubm-hyogo-web.daishimanju.workers.dev/members/playwright-public-member/opengraph-image
