@@ -28,6 +28,20 @@
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-unified-sidebar-shell-public-and-admin-artifact-inventory.md` |
 | user gate | apps/web implementation, local visual capture, CI baseline, commit, push, PR |
 
+### Task B sub-workflow: user menu and role handling
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/unified-sidebar-shell-task-b-user-menu-and-role-handling/` |
+| status | `spec_created / implementation / VISUAL / implementation_pending` |
+| parent | `docs/30-workflows/unified-sidebar-shell-public-and-admin/` |
+| source task | `docs/30-workflows/unified-sidebar-shell-public-and-admin/tasks/task-B-user-menu-and-role-handling.md` |
+| purpose | Sidebar left-bottom user menu actions for `viewer` / `member` / `admin` |
+| action contract | viewer=login、member=profile/edit-request/signout、admin=profile/edit-request/admin-dashboard/signout |
+| strict 7 | parent root owns strict 7; sub owns only `outputs/phase-12/phase12-task-spec-compliance-check.md` |
+| artifact parity | root/output `artifacts.json` present |
+| user gate | apps/web implementation, focused vitest, local/staging visual, commit, push, PR |
+
 ## profile-server-components-render-error（2026-05-27）
 
 | 項目 | 値 |

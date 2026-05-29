@@ -4162,7 +4162,8 @@
       "directory-structure-core.md",
       "lessons-learned-ut-cicd-drift-impl-observability-matrix-sync-2026-05.md",
       "workflow-governance-design-category.md",
-      "workflow-ui-prototype-design-system-foundation-artifact-inventory.md"
+      "workflow-ui-prototype-design-system-foundation-artifact-inventory.md",
+      "workflow-unified-sidebar-shell-public-and-admin-artifact-inventory.md"
     ],
     "テーブル設計": [
       "architecture-database.md"
@@ -5114,6 +5115,7 @@
       "workflow-task-12-member-detail-register-legal-artifact-inventory.md",
       "workflow-task-13-login-rebuild-artifact-inventory.md",
       "workflow-task-issue-494-09a-A-exec-staging-smoke-runtime-artifact-inventory.md",
+      "workflow-unified-sidebar-shell-public-and-admin-artifact-inventory.md",
       "workflow-ut-07a-01-member-tags-assign-cleanup-artifact-inventory.md",
       "workflow-ut-07b-fu-01-schema-alias-backfill-queue-cron-split-artifact-inventory.md",
       "workflow-ut-07c-followup-001-attendance-csv-import-artifact-inventory.md"
@@ -10949,6 +10951,7 @@
       "workflow-profile-server-components-render-error-artifact-inventory.md",
       "workflow-task-12-member-detail-register-legal-artifact-inventory.md",
       "workflow-task-13-login-rebuild-artifact-inventory.md",
+      "workflow-unified-sidebar-shell-public-and-admin-artifact-inventory.md",
       "workflow-ut-07a-01-member-tags-assign-cleanup-artifact-inventory.md",
       "workflow-ut-07b-fu-01-schema-alias-backfill-queue-cron-split-artifact-inventory.md"
     ],
@@ -26615,7 +26618,8 @@
       "workflow-task-verify-indexes-up-to-date-ci-artifact-inventory.md"
     ],
     "Sub": [
-      "workflow-ui-prototype-design-system-foundation-artifact-inventory.md"
+      "workflow-ui-prototype-design-system-foundation-artifact-inventory.md",
+      "workflow-unified-sidebar-shell-public-and-admin-artifact-inventory.md"
     ],
     "AppShell": [
       "workflow-ui-prototype-design-system-foundation-artifact-inventory.md"
