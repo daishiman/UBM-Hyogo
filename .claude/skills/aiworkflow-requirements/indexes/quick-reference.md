@@ -263,6 +263,19 @@
 | user gate | Playwright visual screenshots, staging deploy/smoke, commit, push, PR |
 
 ## google-form-reflection-diagnostics（2026-05-26）
+## members-not-displaying-form-sync-investigation（2026-05-28）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/members-not-displaying-form-sync-investigation/` |
+| status | `implemented_local_runtime_pending / implementation / VISUAL_ON_EXECUTION` |
+| purpose | staging `/members` 0 件問題の原因特定と local repair implementation |
+| API | existing `GET /admin/diagnostics/forms-pipeline`; implemented CLI-safe `GET /admin/sync/diagnostics/forms-pipeline`; implemented `POST /admin/sync/backfill-publish-state` |
+| key rules | canonical publish state is `public/member_only/hidden`; public directory requires strict `publish_state='public'`; no `member_status_history` dependency |
+| evidence | `docs/30-workflows/completed-tasks/members-not-displaying-form-sync-investigation/outputs/phase-11/local-verification.md` |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-members-not-displaying-form-sync-investigation-artifact-inventory.md` |
+| user gate | staging deploy, diagnostics, backfill apply, browser smoke, commit, push, PR |
+
 ## Issue #924 style-src-attr retirement（2026-05-25）
 ## admin-visual-baseline-admin-routes-task-e（2026-05-27）
 

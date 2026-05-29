@@ -67,6 +67,9 @@ SYNC_MAX_RETRIES = "3"
 SYNC_RANGE = "Form Responses 1!A1:ZZ10000"
 RETENTION_PURGE_MODE = "dry-run"
 TAG_QUEUE_PAUSED = "false"
+# members-not-displaying-form-sync-investigation Task B:
+# production は default OFF。staging で安全性が確認できたら user-gated で切替。
+MEMBERS_AUTO_PUBLISH_ON_CONSENT = "false"
 
 # Issue #553 — live audit-correlation endpoint (vars only; secrets are CLI-injected)
 # AUDIT_CORRELATION_RUNBOOK_BASE_URL: 公開 runbook URL (#anchor を notify-slack で付与)
@@ -154,6 +157,9 @@ SYNC_MAX_RETRIES = "3"
 SYNC_RANGE = "Form Responses 1!A1:ZZ10000"
 RETENTION_PURGE_MODE = "dry-run"
 TAG_QUEUE_PAUSED = "false"
+# members-not-displaying-form-sync-investigation Task B:
+# staging で consent 反映時の publish_state auto-publish policy を有効化する。
+MEMBERS_AUTO_PUBLISH_ON_CONSENT = "true"
 
 # Issue #553 — live audit-correlation endpoint (vars only; secrets are CLI-injected)
 AUDIT_CORRELATION_RUNBOOK_BASE_URL = "https://github.com/daishiman/UBM-Hyogo/blob/main/docs/runbooks/audit-correlation.md"

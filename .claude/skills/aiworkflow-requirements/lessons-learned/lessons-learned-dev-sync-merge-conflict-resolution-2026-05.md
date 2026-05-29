@@ -1202,6 +1202,18 @@
 - 参照: L-DEVSYNC-056 (single-side primitive 移行 hybridize)、L-DEVSYNC-046 (UNION_TARGETS)、task-specification-creator [[patterns-lessons-and-pitfalls#dev-sync-merge-conflict-resolution]]。
 
 
+## L-DEVSYNC-059: `pnpm sync:resolve` 中断による stale `index.lock` の検出と除去（2026-05-29 確認）
+
+- 事象: `feat/members-not-displaying-form-sync-investigation` ← `origin/dev` sync-merge で 5 件 conflict（aiworkflow indexes 4 件 + source 0 件 + admin layer 0 件）。`pnpm sync:resolve` 起動中にラッパー（bash の `sleep 30` 待機）が exit 143 (SIGTERM) で外側から打ち切られ、`union-resolved` 3 件 (`resource-map.md` / `topic-map.md` / `task-workflow-active.md`) は成功したが、最終 `git add` 段階で `fatal: Unable to create '...worktrees/<wt>/index.lock': File exists.` が発生。直後 `git status` で `.git/worktrees/<wt>/index.lock` が残留。
+- Why: `scripts/sync/resolve-skill-merge-conflicts.sh` は union-resolve 後に `git add` を逐次実行する。SIGTERM で stage 中の `git add` が殺されると lockfile が orphan 化する。git は他 process 動作中と誤認し以降の操作を全 block する。
+- How to apply:
+  1. `pnpm sync:resolve` を background や timeout 短すぎる sleep 越しで wait する運用を避ける（resolve 自身は数秒で完了する）。やむを得ず timeout を挟む場合は最低 60s。
+  2. lockfile 残留検出時の復旧: `git rev-parse --git-dir` で worktree git dir を取得 → `ls -la "$GITDIR/index.lock"` で stale 確認（mtime が直近で他 git process がいないこと） → `rm -f "$GITDIR/index.lock"` で除去 → 中断時点の resolve は `--ours` 等の手動 fallback で個別解消 → `git add` を改めて発行。
+  3. lockfile 存在のみで自動 `rm` は危険（実 process との race を排除できない）。直前の `pnpm sync:resolve` ログで「git add 段階で SIGTERM/exit 143」が確認できた場合のみ stale 判定する。
+- 留意: 本ケースの conflict 5 件のうち union 3 + `--ours+rebuild` 1 (`keywords.json`) で全自動解消、`.tsx` / `.ts` の hybridize は 0 件だった。 1062 file の merge 規模に対して conflict 5 件は wave 並列実装の構造的下限であり、indexes 4 + keywords 1 のパターンは L-DEVSYNC-046〜058 系の継続再現。本 lesson は **lock 復旧手順** のみを独立化する意義として追加（hybridize 系は既存 lesson でカバー）。
+- 事例: 2026-05-29 sync-merge (HEAD=`feat/members-not-displaying-form-sync-investigation`, base merge target=`f063d29dc`)。`pnpm sync:resolve` 中断 → `index.lock` 残留 → `rm -f` 後 `git checkout --ours .claude/skills/aiworkflow-requirements/indexes/keywords.json` → `git add` → `pnpm indexes:rebuild` で 5195 keywords 再生成 → `git add -A` で merge commit 待機。
+
+
 ## L-DEVSYNC-059: 同一 module で HEAD/dev が **独立した interface を並列追加** → union resolve でなく「両方保持」が正解（2026-05-29 apps/web/src/lib/env.ts）
 
 - 事象: `feat/fix-admin-fetch-cf-1042-service-binding` ← origin/dev sync-merge で `pnpm sync:resolve` 後に `apps/web/src/lib/env.ts` 1 件が unresolved。HEAD と dev が **異なる名前の interface を同じファイルの同位置に独立追加** していた:

@@ -66,6 +66,17 @@ describe("GET /admin/diagnostics/forms-pipeline", () => {
       googleFormId: true,
       authSecret: true,
     });
+    // members-not-displaying Task A: 新フィールドが parse される
+    expect(body["publicConsentBreakdown"]).toMatchObject({ consented: 1 });
+    expect(body["publishStateBreakdown"]).toMatchObject({ public: 1 });
+    expect(body["visiblePublicCount"]).toBe(1);
+    expect(typeof body["lastSuccessfulSyncAt"]).toBe("string");
+    expect(body["totals"]).toMatchObject({
+      memberIdentities: 1,
+      memberResponses: 1,
+      memberStatus: 1,
+    });
+    expect(typeof body["diagnosis"]).toBe("string");
   });
 
   it("counts status rows without identity as H2 mismatch candidates", async () => {
