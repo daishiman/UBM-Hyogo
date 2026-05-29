@@ -27,6 +27,18 @@
 
 ---
 
+## Issue #958 H3 public filter UX
+
+`docs/30-workflows/issue-958-h3-public-filter-ux/` は `implemented_local_runtime_pending / implementation / VISUAL` の実装。
+
+- `/profile`: `PublicConsentCalloutProps` を追加。`publicConsent`, `editResponseUrl`, `fallbackResponderUrl` を受け取り、Google Form 再回答 CTA を表示する。直接 `publicConsent` を mutate しない。
+- `/admin/members`: `BulkRepublishTarget`, `BulkRepublishProgress`, `UseBulkRepublishReturn` を追加。hidden / member_only の選択メンバーを既存 `PATCH /admin/members/:memberId/status` で1件ずつ public 化する。
+- `/members`: `AllHiddenFallbackProps` を追加。`publicMemberCount === 0 && memberCount > 0` のとき、通常の検索 empty と区別して説明とログイン導線を表示する。
+
+Phase 11 local static screenshots are present; staging visual capture remains pending.
+
+---
+
 ## 画面ごとの責務
 
 ### 公開レイヤ
