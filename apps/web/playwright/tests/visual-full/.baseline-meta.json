@@ -1,10 +1,9 @@
 {
   "$schema": "../../../../docs/30-workflows/task-709-visual-baseline-runtime-capture/schemas/baseline-meta.schema.json",
-  "captured_at_commit_sha": "88f2933d101b991e79c2eed761c303a0c7fd55ad",
-  "captured_at": "2026-05-28T14:42:31Z",
+  "captured_at_commit_sha": "6771525d52df32ecb4729a14b0c4572028c3b0b3",
+  "captured_at": "2026-05-29T03:42:53Z",
   "captured_via": "playwright-visual-baseline-update.yml#workflow_dispatch",
   "captured_run_ids": [
-    "26491992893",
     "26492039712",
     "26493400023",
     "26503855446",
@@ -13,7 +12,8 @@
     "26549206362",
     "26552141298",
     "26552192908",
-    "26581231613"
+    "26581231613",
+    "26616303516"
   ],
   "viewport_dimensions": {
     "desktop": {
@@ -41,5 +41,5 @@
   "refresh_workflow": ".github/workflows/playwright-visual-baseline-update.yml",
   "refresh_command_hint": "gh workflow run playwright-visual-baseline-update.yml -f reason=\"<why>\" -r <feature-branch>",
   "notes": "captured_at_commit_sha からの rendering_relevant_paths diff が空でない場合、baseline は stale。scripts/visual-baseline-status.sh で診断可能。",
-  "last_refresh_reason": "issue-958 PR #1000: /profile に PublicConsentCallout 追加で baseline 高さが 1612px→1688px (smoke) / 1800px→1896px (visual-full tablet) に変動。意図的な機能追加で baseline 再キャプチャが必要"
+  "last_refresh_reason": "members list UX clarity 反映後の baseline 再生成 (PR #1009 visual-full / visual chromium 4 screens drift解消)"
 }

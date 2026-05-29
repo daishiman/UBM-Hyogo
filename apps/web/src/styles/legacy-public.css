@@ -1237,8 +1237,25 @@
     font-size: var(--ubm-text-base);
     margin-top: var(--ubm-space-2);
   }
+  .visually-hidden,
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
 
   /* === density toggle (Segmented) === */
+  [data-component="density-toggle-control"] {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--ubm-space-2);
+  }
   [data-component="density-toggle"] {
     display: inline-flex;
     padding: 3px;
@@ -1247,6 +1264,8 @@
     border-radius: 10px;
   }
   [data-component="density-toggle"] [role="radio"] {
+    display: grid;
+    gap: 2px;
     padding: 6px 12px;
     font-size: var(--ubm-text-sm);
     font-weight: 500;
@@ -1261,6 +1280,52 @@
     color: var(--ubm-color-text-primary);
     box-shadow: var(--ubm-shadow-xs);
   }
+  [data-component="density-toggle"] [data-role="segmented-sublabel"] {
+    color: var(--ubm-color-text-muted);
+    font-size: var(--ubm-text-xs);
+    font-weight: 400;
+  }
+  [data-component="help-hint"] {
+    position: relative;
+  }
+  [data-component="help-hint"] summary {
+    display: grid;
+    place-items: center;
+    width: 28px;
+    height: 28px;
+    border: 1px solid var(--ubm-color-border-default);
+    border-radius: 999px;
+    color: var(--ubm-color-text-secondary);
+    cursor: pointer;
+    list-style: none;
+  }
+  [data-component="help-hint"] summary::-webkit-details-marker {
+    display: none;
+  }
+  [data-component="help-hint"] dl {
+    position: absolute;
+    right: 0;
+    z-index: 2;
+    width: min(280px, 80vw);
+    margin: var(--ubm-space-2) 0 0;
+    padding: var(--ubm-space-3);
+    background: var(--ubm-color-surface-panel);
+    border: 1px solid var(--ubm-color-border-default);
+    border-radius: var(--ubm-radius-md);
+    box-shadow: var(--ubm-shadow-md);
+  }
+  [data-component="help-hint"] div {
+    display: grid;
+    gap: 2px;
+  }
+  [data-component="help-hint"] div + div {
+    margin-top: var(--ubm-space-2);
+  }
+  [data-component="help-hint"] dd {
+    margin: 0;
+    color: var(--ubm-color-text-secondary);
+    font-size: var(--ubm-text-sm);
+  }
 
   /* === member filters === */
   [data-component="member-filters"] {
@@ -1273,10 +1338,21 @@
   [data-component="member-filters"] [data-role="filter-grid"] {
     display: grid;
     gap: var(--ubm-space-3);
-    grid-template-columns: 1.5fr 1fr 1fr 1fr auto;
+    grid-template-columns: 1.5fr 1fr 1fr 1fr;
     align-items: end;
   }
-  [data-component="member-filters"] [data-role="clear"] {
+  [data-component="member-filters"] [data-role="live-filter-hint"],
+  [data-component="member-filters"] [data-role="result-count"] {
+    display: block;
+    margin-top: var(--ubm-space-2);
+    color: var(--ubm-color-text-muted);
+    font-size: var(--ubm-text-xs);
+  }
+  [data-component="member-filters"] [data-role="result-count"] {
+    font-weight: 600;
+  }
+  [data-component="member-filters"] [data-role="clear"],
+  [data-component="member-filters"] [data-role="clear-all"] {
     height: 40px;
     padding: 0 var(--ubm-space-4);
     background: transparent;
@@ -1289,13 +1365,36 @@
     opacity: 0.5;
     cursor: not-allowed;
   }
-  [data-component="member-filters"] [data-role="active-tags"] {
+  [data-component="member-filters"] [data-role="clear-all"] {
+    border-color: var(--ubm-color-accent);
+    background: var(--ubm-color-accent-soft);
+    color: var(--ubm-color-accent-ink);
+    opacity: 1;
+    cursor: pointer;
+  }
+  [data-component="selected-filters-bar"] {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--ubm-space-3);
+    margin-top: var(--ubm-space-3);
+  }
+  [data-component="member-filters"] [data-role="active-filters"] {
     display: flex;
     flex-wrap: wrap;
     gap: var(--ubm-space-2);
     list-style: none;
     padding: 0;
-    margin: var(--ubm-space-3) 0 0;
+    margin: 0;
+  }
+  [data-component="member-filters"] [data-component="filter-chip"] {
+    border: 1px solid var(--ubm-color-border-default);
+    border-radius: 999px;
+    background: var(--ubm-color-surface-bg);
+    color: var(--ubm-color-text-secondary);
+    cursor: pointer;
+    padding: 5px var(--ubm-space-3);
+    font-size: var(--ubm-text-sm);
   }
   [data-component="member-filters"] [data-component="tag-picker"] {
     border-top: 1px solid var(--ubm-color-border-default);

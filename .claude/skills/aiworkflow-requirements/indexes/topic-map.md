@@ -3423,6 +3423,12 @@ node scripts/list-specs.js --topics
 | State | L18 |
 | Boundary | L24 |
 
+### references/workflow-members-list-ux-clarity-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Lessons Learned | L13 |
+
 ### references/workflow-members-not-displaying-form-sync-investigation-artifact-inventory.md
 
 | セクション | 行 |

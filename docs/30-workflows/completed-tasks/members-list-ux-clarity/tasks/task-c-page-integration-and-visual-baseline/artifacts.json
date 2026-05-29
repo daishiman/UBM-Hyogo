@@ -1,0 +1,72 @@
+{
+  "task_id": "members-list-ux-clarity-task-c-page-integration-and-visual-baseline",
+  "parent_task_id": "members-list-ux-clarity",
+  "created_at": "2026-05-28",
+  "status": "spec_created",
+  "task_type": "implementation",
+  "visual_category": "VISUAL",
+  "implementation_mode": "ux-enhancement",
+  "metadata": {
+    "workflow_state": "spec_created",
+    "implementation_status": "spec_created",
+    "taskType": "implementation",
+    "visualEvidence": "VISUAL",
+    "implementationCategory": "ui_alignment",
+    "spec_classification": "implementation_spec",
+    "canonical_workflow": "docs/30-workflows/completed-tasks/members-list-ux-clarity/tasks/task-c-page-integration-and-visual-baseline/",
+    "parent_workflow": "docs/30-workflows/completed-tasks/members-list-ux-clarity/",
+    "branch": "feat/members-list-ux-clarity",
+    "scope_routes": ["/members"],
+    "depends_on": [
+      "members-list-ux-clarity-task-a-density-toggle-ux-clarity",
+      "members-list-ux-clarity-task-b-member-filters-live-affordance"
+    ],
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/members-list-ux-clarity/tasks/task-c-page-integration-and-visual-baseline/phase-3-design-review.md",
+        "approver": "daishiman",
+        "notes": "spec_review: Task C Phase 1-3 (requirements / design / design-review) を作成"
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/members-list-ux-clarity/tasks/task-c-page-integration-and-visual-baseline/outputs/phase-11/manual-test-result.md",
+        "approver": "daishiman",
+        "notes": "implementation_review: Task A/B 完了後の統合実装と visual baseline 撮影"
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/members-list-ux-clarity/tasks/task-c-page-integration-and-visual-baseline/outputs/phase-13/pr-creation-result.md",
+        "approver": "daishiman",
+        "notes": "external_ops: commit / push / PR (dev base, Task A/B/C 合流) / staging visual baseline — user-gated"
+      }
+    ]
+  },
+  "phases": [
+    { "phase": 1, "name": "要件定義", "status": "pending", "output": "phase-1-requirements.md" },
+    { "phase": 2, "name": "設計", "status": "pending", "output": "phase-2-design.md" },
+    { "phase": 3, "name": "設計レビュー", "status": "pending", "output": "phase-3-design-review.md" },
+    { "phase": 4, "name": "テスト計画", "status": "pending", "output": "phase-4-test-plan.md" },
+    { "phase": 5, "name": "実装手順", "status": "pending", "output": "phase-5-implementation.md" },
+    { "phase": 6, "name": "テスト追加", "status": "pending", "output": "phase-6-test-additions.md" },
+    { "phase": 7, "name": "カバレッジ", "status": "pending", "output": "phase-7-coverage.md" },
+    { "phase": 8, "name": "リファクタ", "status": "pending", "output": "phase-8-refactor.md" },
+    { "phase": 9, "name": "QA", "status": "pending", "output": "phase-9-qa.md" },
+    { "phase": 10, "name": "最終レビュー", "status": "pending", "output": "phase-10-final-review.md" },
+    { "phase": 11, "name": "手動テスト", "status": "pending", "output": "phase-11-manual-test.md" },
+    { "phase": 12, "name": "ドキュメント同期", "status": "pending", "output": "../../outputs/phase-12/main.md" },
+    { "phase": 13, "name": "commit-pr-release", "status": "pending", "output": "outputs/phase-13/main.md" }
+  ],
+  "implementation_targets": [
+    "apps/web/app/(public)/members/page.tsx",
+    "apps/web/app/(public)/members/page.spec.tsx",
+    "apps/web/playwright/tests/members-ux-clarity.spec.ts",
+    "apps/web/playwright/tests/members-prototype-alignment.spec.ts"
+  ]
+}

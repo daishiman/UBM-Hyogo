@@ -1,0 +1,14 @@
+Focused component/type/token verification (2026-05-28)
+
+Commands:
+- pnpm exec vitest run apps/web/src/components/public/__tests__/DensityToggle.client.spec.tsx apps/web/src/components/public/__tests__/MemberFilters.client.spec.tsx apps/web/src/components/public/__tests__/SelectedTagsBar.client.spec.tsx apps/web/src/components/public/__tests__/SelectedFiltersBar.client.spec.tsx apps/web/app/\(public\)/members/page.spec.tsx
+- pnpm --filter @ubm-hyogo/web typecheck
+- pnpm --filter @ubm-hyogo/web verify-design-tokens
+
+Results:
+- Vitest: 5 files passed, 22 tests passed.
+- Typecheck: passed.
+- Design tokens: 1 file passed, 9 tests passed.
+
+Notes:
+- Initial Vitest run exposed stale SelectedTagsBar wrapper expectations after accessible label improvements; tests were updated and rerun green.

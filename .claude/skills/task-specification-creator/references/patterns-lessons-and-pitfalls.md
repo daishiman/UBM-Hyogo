@@ -1144,6 +1144,24 @@ admin route prototype-alignment 系 branch を `origin/dev` に sync-merge す�
 - **SP-DEVSYNC-056-E (検証 4 step 必達)**: hybridize 後の検証は **`git diff --diff-filter=U --name-only` 0 件 → `pnpm typecheck` Done × 全 packages → `pnpm lint` Done × 全 packages → `git commit -m "merge: sync <branch> with dev"`** の 4 step を Phase 12 implementation-guide に明記。typecheck が undefined ref を即 fail させるため、`sections.map` 等の前提変数撤去漏れを早期検出できる。
 - 参照: [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-056、L-DEVSYNC-054 (`.ts` 手動 union)、L-DEVSYNC-055 (resolver 単独完結 happy-path との対比)。
 
+## L-PARSUB-001..006 parent + sub-workflow 構造での Phase 12 strict 7 集約と verifier 整合パターン（2026-05-28 / members-list-ux-clarity 由来）
+
+`docs/30-workflows/<workflow>/tasks/<task-id>/` 形式で sub-task を切る workflow では、Phase 12 strict 7 を親 root へ集約しても sub-task root に `index.md` / `artifacts.json` がある限り `verify:phase12-compliance` は sub-task を独立 root として扱う。集約方針と verifier 実装の乖離を吸収する標準パターンとして固定する。
+
+- **L-PARSUB-001 (sub-task 側 compliance-check 必達)**: sub-task root にも `outputs/phase-12/phase12-task-spec-compliance-check.md` を canonical 9 heading 準拠で配置すること。Phase 12 strict 7 行は `status=n/a (parent root 集約)`、自身の compliance-check 行のみ `status=present` とする。本ファイル不在で `missing-file` reject される。
+- **L-PARSUB-002 (Phase 11 evidence status enum 固定)**: Phase 11 evidence inventory の Status 列は `present` / `pending` / `n/a` の 3 値固定（`scripts/lib/phase12-compliance/verify-phase11-evidence-existence.ts` の `VALID_STATUSES`）。`present: 24 PNGs` 等の自由記述は `invalid status` で reject される。件数・注釈は Classification か Path 列に書く。
+- **L-PARSUB-003 (Phase 11 evidence path = workflow root 配下の file)**: Path はディレクトリ不可・workflow root 配下の物理ファイル必須。`..` で root 外に抜けるパスも reject。sub-task から親 evidence を参照したい場合は `status=n/a` で path 検査を skip させる。代表 PNG 1 枚を Path に書いて `status=present` でも可。
+- **L-PARSUB-004 (sub-task 側 Phase 12 strict 7 表記)**: sub-task `phase12-task-spec-compliance-check.md` の §5 は parent root 集約済の 6 ファイルを `status=n/a (parent root 集約)`、自身の compliance-check を `status=present` で表す。Path は workflow root からの相対（`outputs/phase-12/...`）で書き、`..` で抜けない。
+- **L-PARSUB-005 (artifact-inventory に Lessons Learned 節)**: 親 workflow 用 `workflow-<name>-artifact-inventory.md` には `## Lessons Learned` 節を必ず設け、L-<short>-001..NNN 形式で named lesson を記録する。inventory の存在＝同 wave 同期完了の signal にする。
+- **L-PARSUB-006 (unassigned-task spec の併合移動)**: workflow を `completed-tasks/` へ移動する際、`docs/30-workflows/unassigned-task/` 配下の関連 follow-up spec も `completed-tasks/<workflow>/unassigned-task-specs/` へ移動し、`outputs/phase-12/unassigned-task-detection.md` の path を sed 補修する。`docs/30-workflows/unassigned-task/` は active staging 用。
+
+### Anti-pattern
+
+- 集約方針を理由に sub-task の compliance-check を省略 → `verify:phase12-compliance` が `missing-file` で fail し、CI gate 通過不能。
+- Phase 11 evidence の Status に件数や注釈を併記（`present: 24 PNGs` 等）→ `invalid status` reject。Status は 3 値 enum 固定。
+- sub-task から `../../../../outputs/phase-11/` のような root 外 path を `status=present` で書く → path traversal で reject。`n/a` 化するか root 内 file に差し替える。
+- workflow を completed-tasks へ移動しても unassigned-task spec を `docs/30-workflows/unassigned-task/` に残置 → 親 detection report の path が stale 化し、close-out の正本順位が破綻する。
+
 
 ## L-DEVSYNC-057 add-add semantic conflict（両 branch が同 Server Component に safe-fetch + SectionError を独立追加）の branch-owning take パターン（dev sync-merge / 2026-05-28）
 
@@ -1178,6 +1196,17 @@ admin route prototype-alignment 系 branch を `origin/dev` に sync-merge す�
 - **SP-DEVSYNC-059-D (`--no-verify` 禁止)**: merge / commit 失敗時に `--no-verify` で hooks を skip する誘惑が出るが、CLAUDE.md「--no-verify の使用は引き続き避け、hook が誤検知する場合は本セクションの方針に沿って hook 自体を改善すること」に反する。Phase 12 implementation-guide で `--no-verify` 禁止を明示し、未コミット変更を SP-DEVSYNC-059-B の 3 commit 反復で処理してから再 `git merge dev` する経路を SSOT とする。
 - **SP-DEVSYNC-059-E (検証 4 step)**: `pnpm sync:resolve` 後は L-DEVSYNC-056 と同じ `git diff --diff-filter=U --name-only` 0 件 → `git commit --no-edit`（merge commit、pre-commit hooks 通過）→ `pnpm typecheck` 全 packages → `pnpm lint` 全 packages の 4 step を Phase 12 implementation-guide に明記。今回 2026-05-28 task-c 検証では `.tsx` conflict なし、skill index 2 ファイル（`keywords.json` `--ours+rebuild` / `topic-map.md` union）のみで L-DEVSYNC-055 happy-path 経路と同一。
 - 参照: [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-059、L-DEVSYNC-055 (skill indexes 2 件 happy-path)、L-DEVSYNC-054 (auth.ts / barrel 並列追加)、CONST_003 (stash 順次・並列禁止)、CONST_019 (全変更包含)。
+
+
+## L-DEVSYNC-060 skill-only conflict shape の再現 — resolver 単独完結 happy-path（dev sync-merge / 2026-05-29）
+
+- 事象: `feat/members-list-ux-clarity` ← `origin/dev` (HEAD `746721996`) sync-merge で発生したコンフリクトが skill md 2 件 (`aiworkflow-requirements/indexes/topic-map.md`, `task-specification-creator/references/patterns-lessons-and-pitfalls.md`) + derived 1 件 (`aiworkflow-requirements/indexes/keywords.json`) のみ。`.ts/.tsx` page-level の手動 hybridize は 0 件で、L-DEVSYNC-055 / L-DEVSYNC-059 と同型 shape の再現確認。
+- Why: feature 改修範囲（public members list の UX 整合）と dev 7 commits（admin-ui 系 + google-form-reflection + dev-sync skill 反映）の path 重複が skill 索引行と patterns-lessons 追記行のみで、resolver 対象範囲に完全一致するため。
+- How to apply:
+  - **SP-DEVSYNC-060-A (resolver 単発判定)**: `git ls-files -u` 列挙が `pnpm sync:resolve` 対象（SKILL.md / indexes md / task-workflow-active.md / keywords.json）に閉じている場合は resolver 単発で完結し、L-DEVSYNC-056/058 の手動 hybridize lesson は invoke しない（不要複雑性回避）。
+  - **SP-DEVSYNC-060-B (sync-merge hook policy)**: CLAUDE.md `## sync-merge (main 取り込み) 時の hook 挙動` に従い `MERGE_HEAD` 検出時の `staged-task-dir-guard` / `coverage-guard` は自動スキップされる → sync-merge commit に `--no-verify` を付けない（付けても害は出ないが CONST_017 ポリシー違反になる）。
+  - **SP-DEVSYNC-060-C (検証 4 step)**: `git ls-files -u | wc -l` = 0 → `git commit -m "merge: sync <branch> with dev"` → `pnpm typecheck` 6 packages Done → `pnpm lint` Done × 全 packages。
+- 参照: [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-060、L-DEVSYNC-059 (skill-only shape の前回確認)、L-DEVSYNC-055 (resolver 単独完結 happy-path)。
 
 
 ## L-DEVSYNC-059 skill-only conflict shape の resolver 単独完結を仕様 Phase 12 の default path に固定（dev sync-merge / 2026-05-29 再現）
