@@ -27,7 +27,8 @@ const screenshotPath = (name: string) => {
 async function expandFiltersIfCollapsed(page: import("@playwright/test").Page) {
   const summary = page.locator('[data-role="filters-summary-mobile"]');
   if ((await summary.count()) === 0) return;
-  await expect(summary).toBeVisible();
+  // tablet/desktop viewport では CSS で display:none となるため visible 判定で skip。
+  if (!(await summary.isVisible())) return;
   if ((await summary.getAttribute("aria-expanded")) === "false") {
     await summary.click();
     await expect(summary).toHaveAttribute("aria-expanded", "true");
