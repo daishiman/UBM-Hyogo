@@ -8,6 +8,16 @@
 
 ---
 
+## Server Fetch / Service Binding
+
+### Admin server-fetch service-binding symmetry
+
+- **状況**: public fetch は Cloudflare `API_SERVICE` service-binding 優先なのに、admin server-fetch だけ `${INTERNAL_API_BASE_URL}` HTTP fetch のみで実装されていた。
+- **問題**: 同一 Cloudflare account の `workers.dev -> workers.dev` 外向き fetch が loopback 404 になり、staging `/admin/*` が `ADMIN_FETCH_404` で degrade した。
+- **解決策**: production/staging は `API_SERVICE.fetch()` を優先し、`NODE_ENV=test` / `PLAYWRIGHT_TEST=1` では HTTP fallback を維持する。`x-internal-auth` / `cookie` / body / error snippet 契約は focused spec で固定する。
+- **教訓**: fetch 経路の root cause は per-route fixture や narrow warn では解消しない。public/admin の transport symmetry を Phase 2/4 gate に入れる。
+- **発見日**: 2026-05-28
+
 ## スクリプト・正規表現関連
 
 ### Markdown見出しレベルの誤検出
@@ -1177,3 +1187,15 @@ Next.js App Router で公開層 (`/`, `/(public)/*`) の auth-state 出し分け
 - **SP-DEVSYNC-058-F (Phase 4 risk への登録)**: admin-ui prototype alignment 系 task の Phase 4 risk に「同一 page を両 branch が異軸で prototype 整合した場合、import 経路 / wrapper attrs / primitive props axes / EmptyState variant / list pattern / Pagination の 6 軸で hybridize 必須」を登録し、L-DEVSYNC-058 を mitigation reference として参照。
 - **SP-DEVSYNC-058-G (検証 4 step)**: L-DEVSYNC-056 と同じ `git diff --diff-filter=U --name-only` 0 件 → `pnpm typecheck` 全 packages → `pnpm lint` 全 packages → `git commit -m "merge: sync <branch> with dev"` の 4 step を Phase 12 implementation-guide に明記。
 - 参照: [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-058、L-DEVSYNC-056 (single-side primitive 移行 hybridize)、L-DEVSYNC-046 (UNION_TARGETS)。
+
+
+## L-DEVSYNC-059 skill-only conflict shape の resolver 単独完結を仕様 Phase 12 の default path に固定（dev sync-merge / 2026-05-29 再現）
+
+`feat/issue-958-h3-public-filter-ux`（2026-05-28）と `feat/issue-976-admin-fetch-service-binding`（2026-05-29）の 2 連続で、`origin/dev` sync-merge 時のコンフリクトが **skill md 5 件 (SKILL.md / indexes/{quick-reference,resource-map,topic-map}.md / references/task-workflow-active.md) + derived keywords.json 1 件** の完全同形に収束した。feature branch のコード接触面が dev 側並列実装（admin-ui modernization 等）と orthogonal な期間は、この shape が反復発生する。
+
+- **SP-DEVSYNC-059-A (Phase 12 implementation-guide の default path)**: sync-merge 工程は **「`git merge dev` → 残 unresolved が skill md + keywords.json のみなら `pnpm sync:resolve` 単発 → resolver stdout で `union-resolved` 5 行 + `ours:` 1 行 (`keywords.json`) + `running pnpm indexes:rebuild` 完走 + `all skill / index conflicts resolved` 行を確認 → `git status --porcelain | grep -E '^(UU|AA|DD)'` 空 → `git add -A && git commit -m "merge: sync <branch> with dev"`」** を default 手順として明記する。
+- **SP-DEVSYNC-059-B (shape 判定の grep gate)**: resolver 実行の **前** に `git status --porcelain | grep -E '^(UU|AA|DD)'` で unresolved 一覧を取り、全件が `.claude/skills/(aiworkflow-requirements|task-specification-creator)/(SKILL\.md|indexes/.+\.(md|json)|references/task-workflow-active\.md)` regex に match するかを 1 行 grep で確認する。1 件でも外れたら **L-DEVSYNC-056/057/058 の手動 hybridize path に分岐**するよう Phase 12 に分岐表記を残す。
+- **SP-DEVSYNC-059-C (resolver 不適 shape の明示)**: `apps/web/**/*.tsx` / `apps/api/**/*.ts` の unresolved が含まれる shape は branch context（slug / commit 主語）依存の hybridize が必須なので resolver を **呼ばない**。Phase 4 risk に「resolver 単独完結を前提とせず、`.tsx/.ts` conflict 発生時は L-DEVSYNC-056/057/058 を mitigation として参照」を 1 行登録する。
+- **SP-DEVSYNC-059-D (検証ゲートの順序固定)**: resolver 完結後の検証は **`git diff --check` 空 → `pnpm typecheck` Done × 6 packages → `pnpm lint` Done × 全 packages → `git push`** の 4 step を Phase 12 implementation-guide に明記。stablekey-literal-lint が mode=warning の場合は block 対象外として扱う。
+- **SP-DEVSYNC-059-E (lesson 再現の SSOT)**: 同形再現が 2 連続 (a98fd67bb / 2026-05-29 merge) で確認済みのため、admin-ui modernization wave 終息までは Phase 12 implementation-guide の sync-merge 節で本 lesson を **default reference** として 1 行記載する（L-DEVSYNC-056/057/058 は分岐先として 1 行併記）。
+- 参照: [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-059、L-DEVSYNC-055 (resolver 単独完結 happy-path)、L-DEVSYNC-056/057/058 (手動 hybridize 分岐先)、L-DEVSYNC-046 (UNION_TARGETS)。

@@ -22,6 +22,20 @@
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-task-b-root-page-public-header-async-artifact-inventory.md` |
 | user gate | Cloudflare staging deploy、authenticated `/` curl、wrangler tail clean evidence、commit、push、PR |
 
+### issue-976-admin-fetch-service-binding（2026-05-28）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_runtime_pending / implementation / NON_VISUAL` |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-976-admin-fetch-service-binding/` |
+| Issue | #976 OPEN |
+| 目的 | staging `/admin/meetings` の `ADMIN_FETCH_404` 根本原因である admin server-fetch の HTTP-only worker-to-worker transport を service-binding 優先へ修正 |
+| implementation targets | `apps/web/src/lib/admin/server-fetch.ts`, `apps/web/src/lib/admin/__tests__/server-fetch-service-binding.spec.ts`, `apps/web/src/lib/admin/__tests__/server-fetch-url.spec.ts` |
+| invariant | API endpoint / D1 schema / UI route contract は変更なし。`fetchAdmin` signature と error body snippet 契約を維持 |
+| evidence | focused Vitest 3 files / 9 tests PASS; Phase 12 strict outputs present |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-976-admin-fetch-service-binding-artifact-inventory.md` |
+| user gate | staging deploy, authenticated `/admin/meetings` evidence, `wrangler tail` ADMIN_FETCH_404 absence, commit, push, PR |
+
 ### fix-admin-fetch-cf-1042-service-binding（2026-05-28）
 
 | 項目 | 値 |
