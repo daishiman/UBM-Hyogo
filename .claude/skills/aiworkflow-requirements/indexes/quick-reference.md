@@ -1,5 +1,22 @@
 # クイックリファレンス
 
+## issue-958-h3-public-filter-ux（2026-05-28）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-958-h3-public-filter-ux/` |
+| status | `implemented_local_runtime_pending / implementation / VISUAL` |
+| issue | #958 CLOSED。PR 文脈は `Refs #958` のみ |
+| parent | `google-form-reflection-diagnostics` H3 visibility follow-up |
+| purpose | `publicConsent=false` / `publishState!=public` による public members 全 hidden 状態を、profile / admin / public の3面で理解・修復可能にする |
+| local implementation | `PublicConsentCallout`, `BulkRepublishDrawer`, `useBulkRepublish`, `AllHiddenFallback` |
+| API boundary | 新 endpoint なし。`GET /me/profile`, `GET /public/stats`, `PATCH /admin/members/:memberId/status` を利用 |
+| Phase 11 | 10 local static visual screenshots present; staging visual pending |
+| Phase 12 | strict 7 files present under `outputs/phase-12/`; root/output artifacts parity present |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-958-h3-public-filter-ux-artifact-inventory.md` |
+| user gate | staging verification, commit, push, PR |
+
+## admin-identity-conflicts-prototype-alignment-and-404-fix（2026-05-27）
 ## issue-956-h1-ingest-recovery（2026-05-27）
 
 | 項目 | 値 |
@@ -371,6 +388,20 @@
 | invariant | secret readiness は boolean のみ。`GOOGLE_SERVICE_ACCOUNT_EMAIL` / `GOOGLE_PRIVATE_KEY` / `GOOGLE_FORM_ID` / `AUTH_SECRET` の実値・末尾・hash は返さない |
 | inventory | `.claude/skills/aiworkflow-requirements/references/workflow-google-form-reflection-diagnostics-artifact-inventory.md` |
 | user gate | staging deploy, authenticated screenshots, Spec-B issue filing, commit, push, PR |
+
+## google-form-reflection-diagnostics-fu-002-h2-identity-rebuild（2026-05-27）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/google-form-reflection-diagnostics-fu-002-h2-identity-rebuild/` |
+| status | `implemented_local_runtime_pending / implementation / NON_VISUAL` |
+| parent | `docs/30-workflows/completed-tasks/google-form-reflection-diagnostics/` |
+| purpose | H2 identity gap: verified Form email exists in `member_responses` but `member_identities` is missing, causing login to fall through as unregistered |
+| implementation | migration `0021_backfill_member_identities.sql`, identity auto-link repository helpers, `/auth/session-resolve` integration |
+| invariant | `response_email` is matched by `lower(trim(...))`; `tag_assignment_queue(response_id, member_id)` is the only existing member-id bridge; bridge-less auto-link creates `autolink:<uuid>` and still requires `member_status` gates |
+| tests | `identities.autolink.spec.ts`, `session-resolve.contract.spec.ts` |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-google-form-reflection-diagnostics-fu-002-h2-identity-rebuild-artifact-inventory.md` |
+| user gate | staging/prod D1 backup, migration apply, deployed diagnostics capture, commit, push, PR |
 
 ## Issue #901 authenticated profile/admin staging visual（2026-05-25）
 
