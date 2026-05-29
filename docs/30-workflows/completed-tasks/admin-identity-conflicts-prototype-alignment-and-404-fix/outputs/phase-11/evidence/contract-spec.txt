@@ -1,0 +1,131 @@
+mise WARN  Config files in ~/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260527-120825-wt-2/.mise.toml are not trusted.
+Trust them with `mise trust`. See https://mise.jdx.dev/cli/trust.html for more information.
+
+> @ubm-hyogo/api@0.1.0 test /Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260527-120825-wt-2/apps/api
+> vitest run --passWithNoTests --root=../.. --config=vitest.config.ts apps/api -- identity-conflicts.contract
+
+[33mThe CJS build of Vite's Node API is deprecated. See https://vite.dev/guide/troubleshooting.html#vite-cjs-node-api-deprecated for more details.[39m
+
+ RUN  v2.1.9 /Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260527-120825-wt-2
+
+ ✓ apps/api/src/middleware/__tests__/security-headers.spec.ts (15 tests) 23ms
+ ✓ apps/api/src/services/aliasRecommendation.spec.ts (20 tests) 3ms
+ ✓ apps/api/src/audit-correlation/__tests__/redact.spec.ts (15 tests) 6ms
+ ✓ apps/api/src/audit-correlation/__tests__/correlate.spec.ts (7 tests) 7ms
+ ✓ apps/api/src/audit-correlation/__tests__/rotation.spec.ts (9 tests) 23ms
+ ✓ apps/api/src/scheduled/sheets-auth-healthcheck.contract.spec.ts (8 tests) 8ms
+ ✓ apps/api/src/use-cases/public/__tests__/get-form-preview.spec.ts (9 tests) 13ms
+ ✓ apps/api/src/use-cases/public/__tests__/get-public-member-profile.spec.ts (6 tests) 19ms
+ ✓ apps/api/src/scheduled/__tests__/healthcheck.spec.ts (4 tests) 26ms
+ ✓ apps/api/src/lib/__tests__/slack-sender.spec.ts (7 tests) 13ms
+ ✓ apps/api/src/services/mail/__tests__/magic-link-mailer.spec.ts (4 tests) 5ms
+ ✓ apps/api/src/view-models/public/__tests__/public-member-profile-view.spec.ts (6 tests) 10ms
+ ✓ apps/api/src/use-cases/public/__tests__/list-public-members.spec.ts (4 tests) 6ms
+stderr | apps/api/src/audit-correlation/__tests__/notify-slack.spec.ts > notifyHighFindingsToSlack > counts non-ok response as not succeeded but does not throw
+audit-correlation slack notify non-ok { status: 429 }
+
+ ✓ apps/api/src/audit-correlation/__tests__/notify-slack.spec.ts (6 tests) 16ms
+ ✓ apps/api/src/audit-correlation/__tests__/github-fetch.spec.ts (4 tests) 31ms
+ ✓ apps/api/src/audit-correlation/__tests__/run-route.contract.spec.ts (5 tests) 9ms
+ ✓ apps/api/src/middleware/__tests__/edge-rate-limit-headers.spec.ts (6 tests) 14ms
+ ✓ apps/api/src/lib/__tests__/cloudflare-alert-formatter.spec.ts (11 tests) 91ms
+ ✓ apps/api/src/use-cases/public/__tests__/get-public-stats.spec.ts (3 tests) 22ms
+ ✓ apps/api/src/lib/audit/__tests__/redact.spec.ts (9 tests) 5ms
+ ✓ apps/api/src/_shared/__tests__/search-query-parser.spec.ts (9 tests) 22ms
+ ✓ apps/api/src/__tests__/authz-matrix.authz.spec.ts (4 tests) 14ms
+ ✓ apps/api/src/jobs/mappers/normalize-response.spec.ts (3 tests) 3ms
+ ✓ apps/api/src/services/admin/identity-conflict-detector.spec.ts (5 tests) 3ms
+ ✓ apps/api/src/routes/internal/__tests__/alert-relay.spec.ts (28 tests) 598ms
+ ✓ apps/api/src/jobs/sheets-auth-classifier.spec.ts (7 tests) 7ms
+ ✓ apps/api/src/utils/with-retry.spec.ts (6 tests) 3ms
+stderr | apps/api/src/lib/__tests__/healthcheck-mail-fallback.spec.ts > sendHealthcheckFailureMail > skips safely when fallback mail config is absent
+[alertRelayHealthcheck] mail fallback skipped { reason: 'mail_config_not_ready' }
+
+ ✓ apps/api/src/lib/__tests__/healthcheck-mail-fallback.spec.ts (3 tests) 10ms
+ ✓ apps/api/src/jobs/mappers/sheets-to-members.spec.ts (5 tests) 3ms
+ ✓ apps/api/src/jobs/sheets-auth-logger.spec.ts (3 tests) 4ms
+ ✓ apps/api/src/audit-correlation/__tests__/runbook-url.spec.ts (4 tests) 2ms
+ ✓ apps/api/src/view-models/public/__tests__/public-member-list-view.spec.ts (2 tests) 45ms
+ ✓ apps/api/src/jobs/_shared/sync-jobs-schema.spec.ts (5 tests) 5ms
+ ✓ apps/api/src/view-models/public/__tests__/public-stats-view.spec.ts (5 tests) 4ms
+ ✓ apps/api/src/diagnostics/forms-pipeline.spec.ts (2 tests) 2ms
+ ✓ apps/api/src/__tests__/brand-type.spec.ts (3 tests) 1ms
+ ✓ apps/api/src/jobs/mappers/extract-consent.spec.ts (3 tests) 2ms
+ ✓ apps/api/src/_shared/__tests__/visibility-filter.spec.ts (2 tests) 2ms
+ ✓ apps/api/src/scheduled/sheets-auth-healthcheck.binding.spec.ts (3 tests) 2ms
+ ✓ apps/api/src/view-models/public/__tests__/form-preview-view.spec.ts (1 test) 6ms
+ ✓ apps/api/src/audit-correlation/__tests__/contract.contract.spec.ts (5 tests) 1ms
+ ✓ apps/api/src/lib/__tests__/cf-webhook-auth.spec.ts (5 tests) 3ms
+ ✓ apps/api/src/jobs/_shared/__tests__/sync-error.spec.ts (5 tests) 11ms
+ ✓ apps/api/src/schemas/tagQueueResolve.spec.ts (6 tests) 3ms
+ ✓ apps/api/src/_shared/__tests__/public-filter.spec.ts (7 tests) 3ms
+ ✓ apps/api/src/utils/write-queue.spec.ts (2 tests) 25ms
+ ✓ apps/api/src/services/notification/registry.spec.ts (4 tests) 3ms
+ ✓ apps/api/src/workflows/notificationDispatchTick.spec.ts (8 tests) 5ms
+ ✓ apps/api/src/_shared/__tests__/pagination.spec.ts (5 tests) 2ms
+ ✓ apps/api/src/services/notification/channel.spec.ts (1 test) 9ms
+ ✓ apps/api/src/jobs/_shared/__tests__/ledger.spec.ts (2 tests) 5ms
+ ✓ apps/api/src/workflows/schemaAliasRollbackNotification.spec.ts (6 tests) 26ms
+ ✓ apps/api/src/services/notification/__tests__/dispatcher.spec.ts (5 tests) 3ms
+ ✓ apps/api/src/routes/admin/__tests__/contract-stage-2.spec.ts (23 tests) 9ms
+ ✓ apps/api/src/middleware/require-admin.authz.spec.ts (10 tests) 308ms
+ ✓ apps/api/src/services/notification/__tests__/templates.spec.ts (8 tests) 2ms
+ ✓ apps/api/migrations/seed/__tests__/issue-399-seed-syntax.spec.ts (5 tests) 6885ms
+ ✓ apps/api/src/notification-mail-config.spec.ts (2 tests) 1ms
+ ✓ apps/api/src/diagnostics/member-diagnosis.contract.spec.ts (2 tests) 6659ms
+   ✓ GET /admin/diagnostics/member/:memberId > returns member diagnosis without exposing profile values 3691ms
+   ✓ GET /admin/diagnostics/member/:memberId > returns H2 identity missing for a member status row without identity 2967ms
+ ✓ apps/api/src/diagnostics/forms-pipeline.contract.spec.ts (2 tests) 7003ms
+   ✓ GET /admin/diagnostics/forms-pipeline > returns read-only H1-H4 snapshot with boolean-only secret readiness 3950ms
+   ✓ GET /admin/diagnostics/forms-pipeline > counts status rows without identity as H2 mismatch candidates 3053ms
+ ✓ apps/api/src/repository/__tests__/auditLog-export.spec.ts (7 tests) 21523ms
+   ✓ auditLog cold storage export > TC-REP-01: listForExport は範囲内のみ返却 6409ms
+   ✓ auditLog cold storage export > TC-REP-02: insertExportManifest は (yyyy,mm,dd) UNIQUE 違反で throw 2087ms
+   ✓ auditLog cold storage export > TC-REP-03: completeExportManifest で status=completed に遷移 2716ms
+   ✓ auditLog cold storage export > TC-REP-04: failExportManifest で status=failed + error_message 記録 3348ms
+   ✓ auditLog cold storage export > TC-REP-05: purgeExportedOlderThan は completed 被覆日のみ DELETE 2756ms
+   ✓ auditLog cold storage export > TC-REP-06: failed 日付の purge は 0 件 1958ms
+   ✓ auditLog cold storage export > TC-REP-07: findExportManifestByPartition は未作成 partition を null にする 2248ms
+ ✓ apps/api/src/routes/admin/__tests__/schema.recompute.spec.ts (6 tests) 21849ms
+   ✓ admin schema recompute route > T-06: POST happy → 200 で recompute result を返す 6985ms
+   ✓ admin schema recompute route > T-07: 同 alias へ 2 回 POST → 同一 jobId・__extra__ 件数不変 3065ms
+   ✓ admin schema recompute route > T-08: 存在しない aliasId → 404 not_found 3061ms
+   ✓ admin schema recompute route > T-09: 未 rollback（deleted_at IS NULL）の alias → 409 not_rolled_back 2991ms
+   ✓ admin schema recompute route > T-10: GET status は job を返し、job 不在 alias は body null 2487ms
+   ✓ admin schema recompute route > T-11: recompute 200 後に audit_log へ schema_alias.recompute 行が記録される 3259ms
+ ✓ apps/api/src/routes/admin/__tests__/schema.rollback.spec.ts (8 tests) 27845ms
+   ✓ admin schema rollback route > 401 when unauthenticated 7060ms
+   ✓ admin schema rollback route > 400 when If-Match header missing 2036ms
+   ✓ admin schema rollback route > 404 when alias not found 3043ms
+   ✓ admin schema rollback route > 404 already_deleted when alias already soft-deleted 3326ms
+   ✓ admin schema rollback route > 409 version_mismatch when expectedVersion differs 2575ms
+   ✓ admin schema rollback route > 200 successful rollback: soft-deletes alias, restores diff queue, writes audit_log 2436ms
+   ✓ admin schema rollback route > 200 successful rollback records skipped notification audit without breaking rollback 2665ms
+   ✓ admin schema rollback route > impact: response_fields の件数を返す 4704ms
+ ✓ apps/api/src/workflows/schemaAliasRecompute.spec.ts (6 tests) 28693ms
+   ✓ schemaAliasRecompute workflow > T-01: rollback 済み alias の stable_key を __extra__:{qid} に整復する 7809ms
+   ✓ schemaAliasRecompute workflow > T-02: 同一 triggerKey の 2 回呼び出しは冪等（jobId / auditId 一致・件数不変） 3578ms
+   ✓ schemaAliasRecompute workflow > T-03: 既に __extra__ 行が存在する response は stable_key 行を DELETE し衝突回避する 3887ms
+   ✓ schemaAliasRecompute workflow > T-03B: 衝突削除と UPDATE は選択済み batch の response_id だけを処理する 2761ms
+   ✓ schemaAliasRecompute workflow > T-04: CPU budget exhausted で running 継続し、再呼び出しで completed になる 8212ms
+   ✓ schemaAliasRecompute workflow > T-05: 未 rollback（deleted_at IS NULL）の alias は not_rolled_back を throw し無変更 2446ms
+ ✓ apps/api/src/use-cases/admin/__tests__/import-attendance-bulk.spec.ts (13 tests) 34271ms
+   ✓ importAttendanceBulk > case#6: duplicate 行検出 8100ms
+   ✓ importAttendanceBulk > case#7: deleted_member 検出 (D1 insert なし) 2214ms
+   ✓ importAttendanceBulk > case#8: unknown_member 検出 3059ms
+   ✓ importAttendanceBulk > case#9: invalid (memberId/email どちらも無し) 3180ms
+   ✓ importAttendanceBulk > case#9b: memberId と email が別 member を指す → invalid + mismatch 2594ms
+   ✓ importAttendanceBulk > case#10: 成功行数 == audit_log 件数 2264ms
+   ✓ importAttendanceBulk > case#11: dry-run で副作用なし 2288ms
+   ✓ importAttendanceBulk > session 未存在は SessionNotFoundError 4846ms
+   ✓ importAttendanceBulk > F4: 同一 email 重複行は 2 行目以降 duplicate (commit 後の preview 想定) 1432ms
+   ✓ importAttendanceBulk > F4b: 同一 CSV 内で同じ member を 2 回指定した場合は 2 行目以降 duplicate 1026ms
+   ✓ importAttendanceBulk > F5: 全角 email も NFKC 正規化でマッチ 894ms
+   ✓ importAttendanceBulk > F11: classifyImportRow 単体 — memberId_email_mismatch 739ms
+   ✓ importAttendanceBulk > F6: D1 batch 例外時は attendance / audit_log ともに追加されない 1634ms
+
+ Test Files  65 passed (65)
+      Tests  414 passed (414)
+   Start at  14:05:50
+   Duration  59.97s (transform 15.72s, setup 0ms, collect 70.27s, tests 156.24s, environment 102.43s, prepare 15.84s)
+

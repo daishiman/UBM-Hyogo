@@ -8,7 +8,7 @@ import { normalizeRedirectPath } from "./safe-redirect";
  *
  * @example toLoginRedirect("/profile") -> "/login?redirect=%2Fprofile"
  */
-export const toLoginRedirect = (currentPath: string): string => {
+export const toLoginRedirect = (currentPath: unknown): string => {
   const safe = normalizeRedirectPath(currentPath);
   return `/login?redirect=${encodeURIComponent(safe)}`;
 };

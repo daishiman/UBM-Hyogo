@@ -40,10 +40,12 @@ const DEFAULTS: LoginQueryDefaults = {
 };
 
 const pickFirst = (
-  value: string | string[] | undefined,
+  value: unknown,
 ): string | undefined => {
-  if (Array.isArray(value)) return value[0];
-  return value;
+  if (Array.isArray(value)) {
+    return typeof value[0] === "string" ? value[0] : undefined;
+  }
+  return typeof value === "string" ? value : undefined;
 };
 
 /**
@@ -53,7 +55,7 @@ const pickFirst = (
  * 不正値は `input` fallback。email が壊れていても優雅に input に落とす。
  */
 export const parseLoginQuery = (
-  searchParams: Record<string, string | string[] | undefined> | undefined,
+  searchParams: Record<string, unknown> | undefined,
 ): LoginQuery => {
   const raw: Record<string, string | undefined> = {};
   if (searchParams) {

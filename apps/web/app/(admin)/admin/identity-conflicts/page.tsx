@@ -4,16 +4,16 @@
 //   - admin gate は (admin)/layout.tsx で済 / API 呼び出しは fetchAdmin proxy
 //   - 不変条件 #3: responseEmail は API 側で既に部分マスク済 (raw email を表示しない)
 //   - 不変条件 #5: D1 直接アクセスなし
-import Link from "next/link";
 import { safeServerFetch } from "../../../../src/lib/admin/safe-server-fetch";
+import { EmptyState } from "../../../../src/components/ui/EmptyState";
+import { Pagination } from "../../../../src/components/ui/Pagination";
+import { AdminPageHeader } from "../../../../src/features/admin/components";
 import {
   AdminSectionCard,
   AdminSectionErrorClient,
 } from "../../../../src/features/admin/components/_shared";
-import { AdminPageHeader } from "../../../../src/features/admin/components/_layout/AdminPageHeader";
 import type { ListIdentityConflictsResponse } from "@ubm-hyogo/shared";
 import { IdentityConflictRow } from "../../../../src/components/admin/IdentityConflictRow";
-import { EmptyState } from "../../../../src/components/ui/EmptyState";
 
 export const dynamic = "force-dynamic";
 
@@ -29,13 +29,18 @@ export default async function AdminIdentityConflictsPage({
   const cursor = toSingle(sp["cursor"]);
   const path = `/admin/identity-conflicts${cursor ? `?cursor=${encodeURIComponent(cursor)}` : ""}`;
   const result = await safeServerFetch<ListIdentityConflictsResponse>(path);
+  const page = cursor ? 2 : 1;
 
   return (
     <section className="flex flex-col gap-4" data-route="admin" data-section-rhythm="compact">
       <AdminPageHeader
         eyebrow="ADMIN / IDENTITY"
         title="Identity 重複候補"
-        description="name + 所属が完全一致する identity 候補。merge は二段階確認"
+        description={
+          result.ok
+            ? `name + 所属が一致した候補 ${result.data.items.length} 件`
+            : "候補の読み込みに失敗"
+        }
         breadcrumbs={[{ label: "管理", href: "/admin" }, { label: "Identity 重複候補" }]}
       />
 
@@ -65,24 +70,25 @@ export default async function AdminIdentityConflictsPage({
       ) : (
         <AdminSectionCard
           title="候補一覧"
-          description="候補ごとに merge または別人マークを判断します。"
+          description="merge は二段階確認、別人確定は理由入力後に実行します。"
+          density="compact"
         >
-          <ul className="divide-y divide-[var(--ubm-color-border-default)] rounded-md border border-[var(--ubm-color-border-default)]">
+          <ul className="flex flex-col gap-3" aria-label="Identity 重複候補一覧">
             {result.data.items.map((item) => (
-              <li key={item.conflictId} className="px-4 py-3">
+              <li key={item.conflictId}>
                 <IdentityConflictRow item={item} />
               </li>
             ))}
           </ul>
           {result.data.nextCursor && (
-            <div className="mt-6 text-right">
-              <Link
-                href={`?cursor=${encodeURIComponent(result.data.nextCursor)}`}
-                className="text-sm text-[var(--ubm-color-link-default)] underline-offset-2 hover:underline"
-              >
-                次のページ →
-              </Link>
-            </div>
+            <Pagination
+              current={page}
+              hasPrev={Boolean(cursor)}
+              hasNext
+              prevHref={cursor ? "/admin/identity-conflicts" : undefined}
+              nextHref={`?cursor=${encodeURIComponent(result.data.nextCursor)}`}
+              className="mt-4 [&_a]:text-[var(--ubm-color-link-default)]"
+            />
           )}
         </AdminSectionCard>
       )}
