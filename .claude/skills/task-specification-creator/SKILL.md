@@ -31,6 +31,7 @@ allowed-tools:
 
 | Version | Date | Changes |
 | --- | --- | --- |
+| v2026.05.28-cloudflare-worker-loopback-service-binding | 2026-05-28 | `fix-admin-fetch-cf-1042-service-binding` feedback を反映。Worker-to-Worker raw HTTP loopback 404 / `error code: 1042` は Service Binding first、implementation target 明確時は同一 wave でコード・tests・Phase 11 boundary・Phase 12 strict 7 を揃える lesson を追加。 |
 | v2026.05.28-issue958-spec-created-implementation-ux-boundary | 2026-05-28 | `issue-958-h3-public-filter-ux` の automation-30 改善を反映。implementation / VISUAL workflow を仕様作成のみで close-out する場合は `workflow_state=spec_created` と `implementation_state=implementation_pending` を併記する一方、後続同 branch で実コード差分が入った場合は `implemented_local_runtime_pending` へ同波再分類する lesson を追加。 |
 | v2026.05.26-skill-feedback-noop-truthfulness | 2026-05-26 | `admin-attendance-analytics-redesign` の Phase 12 監査を反映。skill-feedback no-op は workflow state / implementation diff / Phase 11 evidence / system spec summary が一致する場合のみ有効とする gate を `references/phase12-skill-feedback-promotion.md` に追加。 |
 | v2026.05.26-spec-created-followup-same-wave-sync | 2026-05-26 | `admin-ui-prototype-alignment-followup-001` の automation-30 改善を反映。`implementation / VISUAL` follow-up では AC 表、root/output artifacts parity、Phase 12 strict 7、aiworkflow-requirements same-wave sync を完了させ、実コード差分が入った場合は `implemented_local_runtime_pending` へ再分類し、staging runtime/commit/PR のみ user-gated とする lesson を追加。 |

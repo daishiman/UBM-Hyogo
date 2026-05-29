@@ -61,6 +61,13 @@ export interface PublicFetchEnv {
   PLAYWRIGHT_TEST?: string;
 }
 
+export interface AdminFetchEnv {
+  API_SERVICE?: ServiceBinding;
+  INTERNAL_API_BASE_URL?: string;
+  NODE_ENV?: string;
+  PLAYWRIGHT_TEST?: string;
+}
+
 export interface ApiBaseEnv {
   INTERNAL_API_BASE_URL?: string;
   PUBLIC_API_BASE_URL?: string;
@@ -151,6 +158,25 @@ export function getPublicFetchEnv(rawEnv: RawEnv = readRawEnv()): PublicFetchEnv
   return {
     ...(binding === undefined ? {} : { API_SERVICE: binding as ServiceBinding }),
     ...(baseUrl === undefined ? {} : { PUBLIC_API_BASE_URL: baseUrl }),
+    ...(typeof processEnv["NODE_ENV"] === "string" ? { NODE_ENV: processEnv["NODE_ENV"] } : {}),
+    ...(typeof processEnv["PLAYWRIGHT_TEST"] === "string"
+      ? { PLAYWRIGHT_TEST: processEnv["PLAYWRIGHT_TEST"] }
+      : {}),
+  };
+}
+
+export function getAdminFetchEnv(rawEnv: RawEnv = readRawEnv()): AdminFetchEnv {
+  const processEnv = readProcessEnv();
+  const baseUrl =
+    typeof processEnv["INTERNAL_API_BASE_URL"] === "string"
+      ? processEnv["INTERNAL_API_BASE_URL"]
+      : typeof rawEnv["INTERNAL_API_BASE_URL"] === "string"
+        ? rawEnv["INTERNAL_API_BASE_URL"]
+        : undefined;
+  const binding = rawEnv["API_SERVICE"];
+  return {
+    ...(binding === undefined ? {} : { API_SERVICE: binding as ServiceBinding }),
+    ...(baseUrl === undefined ? {} : { INTERNAL_API_BASE_URL: baseUrl }),
     ...(typeof processEnv["NODE_ENV"] === "string" ? { NODE_ENV: processEnv["NODE_ENV"] } : {}),
     ...(typeof processEnv["PLAYWRIGHT_TEST"] === "string"
       ? { PLAYWRIGHT_TEST: processEnv["PLAYWRIGHT_TEST"] }
