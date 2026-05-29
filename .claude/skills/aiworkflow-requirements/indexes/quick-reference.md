@@ -4496,3 +4496,11 @@ UT-17 Cloudflare Notifications → alert-relay → Slack 経路を、既存 API 
 | system spec | `docs/00-getting-started-manual/specs/09g-screen-blueprints-admin.md` §`/admin/schema` |
 | inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-schema-page-prototype-alignment-and-diff-fetch-fix-artifact-inventory.md` |
 | evidence | web Vitest 158 files / 1147 tests PASS; local Playwright schema visual 7 PASS + Phase 11 screenshots; staging deploy and authenticated screenshots are user-gated |
+
+# members-list-ux-clarity
+
+| item | value |
+| --- | --- |
+| status | implemented_local_runtime_pending / implementation / VISUAL / 2026-05-28 |
+| workflow | `docs/30-workflows/completed-tasks/members-list-ux-clarity/` |
+| summary | `/members` の密度切替説明、即時反映ヒント、適用中filter chip、件数live regionを追加。API/schema/query正本は不変。 |
