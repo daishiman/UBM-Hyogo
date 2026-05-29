@@ -22,6 +22,21 @@
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-sidebar-public-return-link-artifact-inventory.md` |
 | user gate | authenticated browser screenshots、staging runtime visual、commit、push、PR |
 
+### public-header-session-aware-auth-view-base（2026-05-28）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / VISUAL / Phase 13 pending_user_approval` |
+| 成果物 | `docs/30-workflows/completed-tasks/public-header-session-aware-auth-view-base/` |
+| 親 workflow | `docs/30-workflows/public-header-logged-in-nav-cleanup/` |
+| 目的 | `AuthView` 型、`resolveAuthView()`、`getAuthView()`、`PublicHeader` auth slot、`(public)/layout.tsx` injection を Task A 基盤として実装する |
+| implementation targets | `apps/web/src/lib/auth-view/*`, `apps/web/src/components/public/PublicHeader.tsx`, `apps/web/app/(public)/layout.tsx` |
+| tests | `resolveAuthView.spec.ts`, `getAuthView.spec.ts`, `PublicHeader.spec.tsx`, `(public)/layout.spec.tsx` focused 24 PASS |
+| invariant | 新 API endpoint / D1 schema / Google Form 変更なし。DOM に PII を出さず `data-auth-state=guest/member/admin` のみ |
+| Phase 11/12 | Phase 11 local component screenshots present、strict 7 present、root/output artifacts parity present、30-method compact evidence present |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-public-header-session-aware-auth-view-base-artifact-inventory.md` |
+| user gate | staging authenticated runtime visual, commit, push, PR |
+
 ### login-redirect-when-authenticated（2026-05-28）
 
 | 項目 | 値 |
