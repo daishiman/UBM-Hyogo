@@ -3380,6 +3380,7 @@
       "workflow-parallel-i06-root-error-focus-artifact-inventory.md",
       "workflow-profile-server-components-render-error-artifact-inventory.md",
       "workflow-public-header-logged-in-nav-cleanup-artifact-inventory.md",
+      "workflow-public-header-session-aware-auth-view-base-artifact-inventory.md",
       "workflow-step-05-dashboard-chart-implementation-artifact-inventory.md",
       "workflow-step-07-requests-approve-reject-artifact-inventory.md",
       "workflow-step-08-audit-filter-paging-verify-artifact-inventory.md",
@@ -4013,6 +4014,7 @@
       "logs-archive-2026-03-auth-mode-migration-sync.md",
       "logs-archive-2026-03-ipc-fallback-phase12-sync.md",
       "workflow-fix-admin-scr-err-stg-fu-001-auth-env-via-getenv-artifact-inventory.md",
+      "workflow-public-header-session-aware-auth-view-base-artifact-inventory.md",
       "workflow-task-05b-parallel-magic-link-provider-and-auth-gate-state-artifact-inventory.md",
       "workflow-task-staging-auth-secret-binding-recovery-001-artifact-inventory.md"
     ],
@@ -5281,7 +5283,8 @@
       "lessons-learned-05a-authjs-admin-gate-2026-04.md",
       "lessons-learned-06b-b-profile-self-service-request-ui-2026-05.md",
       "lessons-learned-issue-372-attendance-pagination-2026-05.md",
-      "lessons-learned-ut-coverage-2026-05-wave.md"
+      "lessons-learned-ut-coverage-2026-05-wave.md",
+      "workflow-public-header-session-aware-auth-view-base-artifact-inventory.md"
     ],
     "resolve": [
       "auth-google-oauth-cf-integration.md",
@@ -12939,6 +12942,7 @@
       "workflow-issue-958-h3-public-filter-ux-artifact-inventory.md",
       "workflow-public-dashboard-prototype-alignment-artifact-inventory.md",
       "workflow-public-header-logged-in-nav-cleanup-artifact-inventory.md",
+      "workflow-public-header-session-aware-auth-view-base-artifact-inventory.md",
       "workflow-task-04a-parallel-public-directory-api-endpoints-artifact-inventory.md",
       "workflow-task-06a-followup-001-real-workers-d1-smoke-artifact-inventory.md",
       "workflow-task-20-w2-screen-blueprints-public-and-member-artifact-inventory.md",
@@ -13381,7 +13385,8 @@
     "view": [
       "lessons-learned-06c-A-admin-dashboard-2026-05.md",
       "skill-ledger-overview.md",
-      "task-workflow-completed-agent-view-line-budget.md"
+      "task-workflow-completed-agent-view-line-budget.md",
+      "workflow-public-header-session-aware-auth-view-base-artifact-inventory.md"
     ],
     "recent": [
       "lessons-learned-06c-A-admin-dashboard-2026-05.md",
@@ -17257,6 +17262,7 @@
       "workflow-parallel-i06-root-error-focus-artifact-inventory.md",
       "workflow-profile-server-components-render-error-artifact-inventory.md",
       "workflow-public-header-logged-in-nav-cleanup-artifact-inventory.md",
+      "workflow-public-header-session-aware-auth-view-base-artifact-inventory.md",
       "workflow-runtime-smoke-staging-mint-recurrence-fix-artifact-inventory.md",
       "workflow-skill-lifecycle-created-skill-usage-journey.md",
       "workflow-skill-md-codex-validation-fix-artifact-inventory.md",
@@ -19876,7 +19882,8 @@
       "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md"
     ],
     "base": [
-      "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md"
+      "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md",
+      "workflow-public-header-session-aware-auth-view-base-artifact-inventory.md"
     ],
     "のみ保持し": [
       "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md"
@@ -25301,6 +25308,7 @@
       "workflow-parallel-i06-root-error-focus-artifact-inventory.md",
       "workflow-profile-server-components-render-error-artifact-inventory.md",
       "workflow-public-header-logged-in-nav-cleanup-artifact-inventory.md",
+      "workflow-public-header-session-aware-auth-view-base-artifact-inventory.md",
       "workflow-runtime-smoke-staging-mint-recurrence-fix-artifact-inventory.md",
       "workflow-skill-lifecycle-created-skill-usage-journey.md",
       "workflow-skill-md-codex-validation-fix-artifact-inventory.md",
@@ -26487,10 +26495,14 @@
     ],
     "header": [
       "workflow-public-header-logged-in-nav-cleanup-artifact-inventory.md",
+      "workflow-public-header-session-aware-auth-view-base-artifact-inventory.md",
       "workflow-task-b-root-page-public-header-async-artifact-inventory.md"
     ],
     "nav": [
       "workflow-public-header-logged-in-nav-cleanup-artifact-inventory.md"
+    ],
+    "aware": [
+      "workflow-public-header-session-aware-auth-view-base-artifact-inventory.md"
     ],
     "Ownership": [
       "workflow-regression-evidence-ci-gate-foundation-artifact-inventory.md"
