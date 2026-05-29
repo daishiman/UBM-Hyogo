@@ -65,6 +65,11 @@ describe("parseLoginQuery / U-02 fallback", () => {
     expect(q.state).toBe("sent");
   });
 
+  it("object redirect は /profile に正規化して [object Object] を URL に出さない", () => {
+    const q = parseLoginQuery({ redirect: { pathname: "/admin" } });
+    expect(q.redirect).toBe("/profile");
+  });
+
   it("state=error と error メッセージが保持される（task-13）", () => {
     const q = parseLoginQuery({ state: "error", error: "送信失敗" });
     expect(q.state).toBe("error");

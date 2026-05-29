@@ -1,0 +1,81 @@
+{
+  "workflow": "login-stale-link-and-profile-me-safe-fetch",
+  "workflow_state": "implemented_local_evidence_captured",
+  "implementation_mode": "new",
+  "task_classification": "ui_task_with_runtime_evidence",
+  "metadata": {
+    "workflow_state": "implemented_local_evidence_captured",
+    "taskType": "implementation",
+    "visualEvidence": "VISUAL_ON_EXECUTION",
+    "implementation_status": "local_code_and_tests_updated",
+    "runtime_boundary": "staging_deploy_and_authenticated_screenshots_user_gated",
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-05-27T14:19:52+09:00",
+        "evidence_path": "docs/30-workflows/completed-tasks/login-stale-link-and-profile-me-safe-fetch/outputs/phase-12/phase12-task-spec-compliance-check.md",
+        "approver": "codex",
+        "notes": "spec_review: Phase 1-12 spec + local code/focused tests complete"
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/login-stale-link-and-profile-me-safe-fetch/outputs/phase-11/manual-test-result.md",
+        "approver": "user",
+        "notes": "runtime_smoke: staging deploy + authenticated screenshots user-gated"
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/login-stale-link-and-profile-me-safe-fetch/outputs/phase-12/main.md",
+        "approver": "user",
+        "notes": "commit/push/PR user-gated"
+      }
+    ]
+  },
+  "phases": {
+    "phase-1": { "status": "spec_created" },
+    "phase-2": { "status": "spec_created" },
+    "phase-3": { "status": "spec_created" },
+    "phase-4": { "status": "implemented_local_evidence_captured" },
+    "phase-5": { "status": "implemented_local_evidence_captured" },
+    "phase-6": { "status": "implemented_local_evidence_captured" },
+    "phase-7": { "status": "implemented_local_evidence_captured" },
+    "phase-8": { "status": "implemented_local_evidence_captured" },
+    "phase-9": { "status": "implemented_local_evidence_captured" },
+    "phase-10": { "status": "implemented_local_evidence_captured" },
+    "phase-11": {
+      "status": "runtime_pending",
+      "mode": "VISUAL_ON_EXECUTION",
+      "reason": "staging_deploy_and_authenticated_screenshots_user_gated"
+    },
+    "phase-12": { "status": "implemented_local_evidence_captured" },
+    "phase-13": { "status": "blocked", "reason": "pending_user_approval" }
+  },
+  "outputs": {
+    "phase-1": ["requirements.md"],
+    "phase-2": ["design.md"],
+    "phase-3": ["design-review.md"],
+    "phase-4": ["test-plan.md"],
+    "phase-5": ["implementation-plan.md"],
+    "phase-6": ["expanded-tests.md"],
+    "phase-7": ["coverage-report.md"],
+    "phase-8": ["refactor-notes.md"],
+    "phase-9": ["qa-summary.md"],
+    "phase-10": ["final-review.md"],
+    "phase-11": ["manual-test-result.md", "screenshot-plan.json"],
+    "phase-12": [
+      "main.md",
+      "implementation-guide.md",
+      "system-spec-update-summary.md",
+      "documentation-changelog.md",
+      "unassigned-task-detection.md",
+      "skill-feedback-report.md",
+      "phase12-task-spec-compliance-check.md"
+    ],
+    "phase-13": []
+  }
+}
