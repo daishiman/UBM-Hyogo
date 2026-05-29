@@ -1262,3 +1262,16 @@ Next.js App Router で公開層 (`/`, `/(public)/*`) の auth-state 出し分け
 - **SP-DEVSYNC-059-D (検証ゲートの順序固定)**: resolver 完結後の検証は **`git diff --check` 空 → `pnpm typecheck` Done × 6 packages → `pnpm lint` Done × 全 packages → `git push`** の 4 step を Phase 12 implementation-guide に明記。stablekey-literal-lint が mode=warning の場合は block 対象外として扱う。
 - **SP-DEVSYNC-059-E (lesson 再現の SSOT)**: 同形再現が 2 連続 (a98fd67bb / 2026-05-29 merge) で確認済みのため、admin-ui modernization wave 終息までは Phase 12 implementation-guide の sync-merge 節で本 lesson を **default reference** として 1 行記載する（L-DEVSYNC-056/057/058 は分岐先として 1 行併記）。
 - 参照: [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-059、L-DEVSYNC-055 (resolver 単独完結 happy-path)、L-DEVSYNC-056/057/058 (手動 hybridize 分岐先)、L-DEVSYNC-046 (UNION_TARGETS)。
+
+
+## L-DEVSYNC-064 sync-merge の add/add ソースコンフリクト — 「進化段階差」は行マージ禁止・上位版を丸ごと採用（dev sync-merge / 2026-05-30）
+
+`feat/member-header-admin-link` ← `origin/dev`（`7b2bf0537`）sync-merge で、`pnpm sync:resolve` が `WARN unhandled conflict` を出した `apps/web/src/lib/auth-view/index.ts` と `__tests__/resolveAuthView.spec.ts` が **add/add (`AA`) コンフリクト**で残った。両 side は同一 auth-view 機能だが、HEAD は分割モジュール構造（`index.ts` は re-export のみ・`resolveAuthView(SessionLike)`）で dev の旧 Task A インライン基盤版の上位互換だった。L-DEVSYNC-059 の skill-only shape を超え、resolver 不可の source 混在 shape の判定／解消手順を Phase 12 仕様に固定する。
+
+- **SP-DEVSYNC-064-A (add/add 進化段階差の判定)**: sync-merge task の Phase 12 implementation-guide / 検証手順に「`git status --porcelain` の `AA` 行を見たら `git show :2:<path>`（ours/HEAD）と `git show :3:<path>`（theirs/dev）の構造差を読む。同一 export 名・同一責務で片側が他方を包含するなら *進化段階差* と判定し、自律判断ルール B-3 の行マージを適用しない」を明記。別機能が同名衝突なら従来どおり hybridize（L-DEVSYNC-056/057/058）へ分岐。
+- **SP-DEVSYNC-064-B (上位版の特定基準を仕様に列挙)**: 「分割モジュール化済み / 型を literal 固定 / ガード条件がより厳密 / 周辺ファイルが既に片側に存在」の側を上位版と定義し、`git checkout --ours <path> && git add` で丸ごと採用 → 旧基盤版を破棄。Phase 12 の risk 表に「進化段階差を行マージすると実装が壊れる」を 1 行登録。
+- **SP-DEVSYNC-064-C (テスト追従の整合ゲート)**: 実装とテスト（`*.spec.ts`）は必ず同じ side を採る。採用実装の signature と不整合なテストを採ると typecheck fail する旨を Phase 12 検証手順に明記（実装=HEAD・テスト=dev の混在を禁止）。
+- **SP-DEVSYNC-064-D (resolver WARN ハンドリング)**: `pnpm sync:resolve` の `WARN unhandled conflict: <path>` 行が出たら、その列挙ファイルのみ手動解消し resolver 済の skill 系は再処理しない。最後に `git grep -l '^<<<<<<< '` = 空で全 marker 消滅を確認してから `git commit`。
+- **SP-DEVSYNC-064-E (検証ゲート)**: `git diff --check` 空 → `pnpm typecheck` Done × 全 packages → `pnpm lint` Done → `git push` の順を固定。
+- anti-pattern: ① add/add を機械的に行マージし旧版コードを残す ② 実装は HEAD・テストは dev を採り signature 不整合で CI fail ③ resolver WARN を無視して skill 系まで手で触り union 結果を壊す ④ 上位版判定をせず `--theirs` で dev 旧基盤版に巻き戻す ⑤ marker 残存確認を省略して conflict marker をコミット。
+- 参照: [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-064、L-DEVSYNC-059 (skill-only resolver-only path)、L-DEVSYNC-056/057/058 (別機能 add/add hybridize 分岐先)。

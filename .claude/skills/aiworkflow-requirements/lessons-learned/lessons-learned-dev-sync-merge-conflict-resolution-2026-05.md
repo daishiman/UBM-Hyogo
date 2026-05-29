@@ -1285,3 +1285,17 @@
 - 留意: 本 lessons ファイルは union merge の累積で **同一 L-DEVSYNC-NNN ID が複数存在する**（057×2 / 059×3 / 060×2）。L-DEVSYNC-060 が予言した「重複節 ID は人手で採番ずらし」が現実化しており、本サイクルで末尾 060（members-list）を 061 へ補正した。ただし 057/059 系の旧重複は採番カスケードを避けるため未補正のまま据え置き（参照は title で識別する運用）。ID 衝突 detector の自動化は ROI 次第で L-DEVSYNC-063 以降に委ねる。
 - 事例: 2026-05-29 再同期。dev=`37fe488e8`、branch HEAD=`374f5e04a`（既存 sync-merge）。conflict/CI 失敗 0、`origin/feat/public-header-logged-in-nav-cleanup-pr-20260528` へ 2 commit push。
 - 参照: L-DEVSYNC-059 (skill-only shape resolver-only path), L-DEVSYNC-061 (skill-only 再現), task-specification-creator [[patterns-lessons-and-pitfalls#dev-sync-merge-conflict-resolution]]。
+
+
+## L-DEVSYNC-064 add/add コンフリクトが「同一機能の進化段階差」のときは行マージせず上位版を丸ごと採用（dev sync-merge / 2026-05-30）
+
+- 事象: `feat/member-header-admin-link` ← `origin/dev`（`7b2bf0537`）sync-merge で、`pnpm sync:resolve` が処理する skill md 3 件（resource-map / topic-map / task-workflow-active）+ derived keywords.json 1 件に加え、**resolver が `WARN unhandled conflict` を出したソース 2 件 `apps/web/src/lib/auth-view/index.ts` と `__tests__/resolveAuthView.spec.ts` が add/add (`AA`) コンフリクト**で残った。両 side は同一 auth-view 機能だが、HEAD は分割モジュール構造（`getAuthView.ts` / `resolveAuthView.ts` / `types.ts` + `index.ts` は re-export のみ、`resolveAuthView(SessionLike)` で `memberId` string ガード + literal 型 `profileHref: "/profile"`）、dev は旧 Task A 基盤のインライン実装（`index.ts` に全部入り、`resolveAuthView(SessionUser|null)`）。
+- Why: add/add コンフリクトは両 side が同名ファイルを独立追加したときに発生する。自律判断ルール B-3「ソースは両側の変更意図を保持」を機械適用すると **インライン版と分割版を行単位で混ぜて壊す**。だが本件は両者が *同じ機能の異なる進化段階* であり、HEAD の分割モジュールが dev インライン版の上位互換（superset）。この場合の正解は行マージではなく **上位版を丸ごと採用（`git checkout --ours`）** し、旧基盤版を破棄すること。
+- How to apply:
+  - **L-DEVSYNC-064-A (進化段階差の判定)**: add/add (`AA`) ソースコンフリクトを見たら、まず `git show :2:<path>`（ours/HEAD）と `git show :3:<path>`（theirs/dev）の **構造差** を読む。同一 export 名・同一責務で *片側がもう片側を包含する* なら「進化段階差」と判定し行マージしない。別機能が同名で衝突しているなら従来どおり hybridize（L-DEVSYNC-056/057/058）。
+  - **L-DEVSYNC-064-B (上位版の特定基準)**: 「分割モジュール化済み / 型を literal で固定 / ガード条件がより厳密（`memberId` length チェック等）/ 周辺ファイル（`getAuthView.ts` 等）が既に HEAD 側に存在」の側が上位版。本件は HEAD。`git checkout --ours <index.ts> <spec.ts> && git add` で確定。
+  - **L-DEVSYNC-064-C (テストの追従)**: spec.ts も同じ side を採る。採用した実装の signature（HEAD は `resolveAuthView({ user: {...} })`）と整合するテストでなければならない。誤って実装は HEAD・テストは dev を採ると型不整合で typecheck fail する。
+  - **L-DEVSYNC-064-D (resolver WARN の扱い)**: `pnpm sync:resolve` の `WARN unhandled conflict: <path>` 行はソースコンフリクトを resolver が触らず残したサイン。WARN 列挙ファイルだけを手動解消し、resolver が `union-resolved` / `ours:` した skill 系は再処理しない。最後に `git grep -l '^<<<<<<< '` = 空 で全 marker 消滅を確認してから merge commit。
+- 検証: `git diff --check` 空 → `pnpm typecheck` Done × 全 packages → `pnpm lint` Done。
+- 事例: 2026-05-30。dev=`7b2bf0537`、branch HEAD=`da14debd1` → merge commit `2a9e5611c`。skill 3 union + keywords.json ours + auth-view source 2 件 HEAD 採用。conflict 6 件 → 解消後 CI green。
+- 参照: [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-059 (skill-only resolver-only path・本件はそれを超える source 混在 shape), L-DEVSYNC-056/057/058 (別機能 add/add の hybridize 分岐先), task-specification-creator [[patterns-lessons-and-pitfalls]] L-DEVSYNC-064 汎化節。
