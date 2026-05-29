@@ -268,6 +268,22 @@ function runMutation(db: FakeD1, sql: string, b: unknown[]): number {
     }
     return 1;
   }
+  // members-not-displaying-form-sync-investigation Task B:
+  // auto-publish policy が発行する `UPDATE member_status SET publish_state = ...`
+  if (/UPDATE member_status/i.test(s) && /publish_state = \?1/i.test(s)) {
+    const idx = db.status.findIndex((r) => r["member_id"] === b[1]);
+    if (idx >= 0) {
+      db.status[idx] = {
+        ...db.status[idx],
+        publish_state: b[0],
+        updated_by: "system:sync",
+        updated_at: new Date().toISOString(),
+      };
+      return 1;
+    }
+    return 0;
+  }
+
   if (/UPDATE member_identities/i.test(s)) {
     const memberId = b[0];
     const r = db.identities.find((r) => r["member_id"] === memberId);

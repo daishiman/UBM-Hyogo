@@ -565,6 +565,16 @@
 - 検証: `grep -nE '^(<<<<<<<|=======|>>>>>>>|\|\|\|\|\|\|\|)' <path>` 0 件 + `pnpm typecheck` PASS + `pnpm lint` PASS + barrel 経由 import の export 実在を `grep "from \"./_layout/<Component>\"" .../components/index.ts` で確認。
 - 参照: aiworkflow-requirements [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-057 を唯一の正本。
 
+
+## SP-DEVSYNC-039: `pnpm sync:resolve` 中断による stale `index.lock` 復旧手順（2026-05-29）
+
+- 事象: sync-merge 中の `pnpm sync:resolve` がラッパー timeout で SIGTERM 受信、union-resolve 後の `git add` 段階で `.git/worktrees/<wt>/index.lock` が残留、以降の git 操作が「Another git process seems to be running」で全 block。
+- How to apply（Phase 9 risk + Phase 10 verification 記載手順）:
+  1. Phase 9 risk に「sync-merge wrapper timeout < 60s で `pnpm sync:resolve` を呼ぶと git index.lock orphan が確率的に発生」を登録。
+  2. Phase 10 verification に lockfile 復旧手順を明記: `GITDIR=$(git rev-parse --git-dir)` → `ls -la "$GITDIR/index.lock"`（mtime と PID 列が空 / 他 git process 不在を確認）→ `rm -f "$GITDIR/index.lock"` → 中断時点の resolve 残件を `git checkout --ours <path>` / `git add <path>` で個別終端 → `pnpm indexes:rebuild` で keywords.json 整合性回復 → `git status --diff-filter=U` 0 件確認 → merge commit。
+  3. lockfile の自動除去スクリプト化は禁止。SIGTERM 受信ログ等の明示的根拠なしに `rm -f index.lock` を流すと並走 git process との race を招く。
+- 参照: aiworkflow-requirements [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-059 を唯一の正本。
+
 ### SP-DEVSYNC-042: add-add で **異なる名前の独立 interface/type を同 module の同位置に追加** したら両方保持が default（2026-05-29 追加）
 
 - 事象: 2026-05-29 `feat/fix-admin-fetch-cf-1042-service-binding` ← origin/dev sync-merge で `apps/web/src/lib/env.ts` の同位置に HEAD が `AdminFetchEnv` interface、dev が `ApiBaseEnv` interface を独立追加した add-add semantic conflict（同 module 下部で各々 `getAdminFetchEnv()` / `getApiBaseEnv()` が両 interface を referenced）。`pnpm sync:resolve` の汎用 union は `.ts` を対象外にしているため手動解消必須。
@@ -579,3 +589,11 @@
 - 適用範囲外: 同名 interface への両側 field 追加は SP-DEVSYNC-041 系の field hybridize に分岐。barrel re-export の name collision がある場合は per-symbol 解消が必要。
 - 検証: `grep -nE '^(<<<<<<<|=======|>>>>>>>|\|\|\|\|\|\|\|)' <module>` 0 件 + `pnpm typecheck` PASS + `pnpm lint` PASS + 両 referencing getter が両 interface を import せず inline 参照で green。
 - 参照: aiworkflow-requirements [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-059 を唯一の正本。
+
+### SP-DEVSYNC-043: 4 index 派生物の同時 conflict でも resolver 単発で収束する（2026-05-29 確認）
+
+- 事象: 2026-05-29 `feat/public-header-logged-login-redirect-when-authenticated` ← origin/dev sync-merge で conflict 7 件 = 両 skill の `SKILL.md` 2 + aiworkflow `indexes/{keywords.json,quick-reference.md,resource-map.md,topic-map.md}` 4 + `references/task-workflow-active.md` 1。本 branch の実装ファイル `apps/web/app/login/page.tsx` は `Auto-merging` で textual conflict なし（直交接触面）。
+- Why: index 派生 4 件が一度に衝突しても、union-merge 対象（SKILL/quick-ref/resource-map/topic-map/task-workflow-active）と `--ours + rebuild` 対象（keywords.json）に綺麗に分かれるため、resolver の決定的 rebuild が 4 件同時でも単発で収束する。SP-DEVSYNC-042 の `.ts` 手動 hybridize 経路は **発火しない**（page-level 接触面が無い skill-only shape）。
+- How to apply（task 仕様書での逐語化）: Phase 9 sync-merge 節の事前見積で「conflict 全件が skill index/SKILL/task-workflow-active/keywords.json に限定されるなら、index が複数同時衝突していても追加工数を見込まない（`pnpm sync:resolve` 単発）」を明記。`.tsx`/`.ts` の conflict が 1 件でも混在する場合のみ SP-DEVSYNC-038/042 の手動 hybridize 工数を Phase 11/13 に積む。
+- 検証: `pnpm sync:resolve` stdout `union-resolved 6 files` + `ours: keywords.json` + `indexes:rebuild` 完走 → `git ls-files -u` 0 → `pnpm typecheck` 6 packages Done → `pnpm lint` Done → `pnpm indexes:rebuild` 再実行 no drift。merge commit `0ad9e3555`。
+- 参照: aiworkflow-requirements [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-060 再現事例（2026-05-29 第3例）。
