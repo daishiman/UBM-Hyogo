@@ -1,0 +1,20 @@
+Command:
+mise exec -- pnpm lint
+
+Result:
+PASS
+
+Summary:
+- dependency-cruiser: no dependency violations
+- stablekey literal lint: OK
+- stable-key update lint: OK
+- verify-no-inline-style: OK
+- packages/contracts lint: Done
+- packages/shared lint: Done
+- packages/integrations lint: Done
+- packages/integrations/google lint: Done
+- apps/web lint: Done
+- apps/api lint: Done
+
+Note:
+`mise` warned that `.mise.toml` is not trusted in this worktree.

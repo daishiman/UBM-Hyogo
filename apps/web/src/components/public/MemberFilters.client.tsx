@@ -16,7 +16,7 @@ import {
   type MembersSearch,
 } from "../../lib/url/members-search";
 import { TagPicker, type TagPickerOption } from "./TagPicker.client";
-import { SelectedTagsBar } from "./SelectedTagsBar.client";
+import { SelectedFiltersBar } from "./SelectedFiltersBar.client";
 import { FiltersSummaryMobile } from "./FiltersSummaryMobile.client";
 
 type Patch = Partial<MembersSearch>;
@@ -43,9 +43,16 @@ const SORT_OPTIONS = [
 export interface MemberFiltersProps {
   initial: MembersSearch;
   topTags?: TagPickerOption[];
+  totalCount?: number | undefined;
+  displayedCount?: number | undefined;
 }
 
-export function MemberFilters({ initial, topTags = [] }: MemberFiltersProps) {
+export function MemberFilters({
+  initial,
+  topTags = [],
+  totalCount,
+  displayedCount,
+}: MemberFiltersProps) {
   const router = useRouter();
   const sp = useSearchParams();
   const [expanded, setExpanded] = useState(false);
@@ -59,7 +66,15 @@ export function MemberFilters({ initial, topTags = [] }: MemberFiltersProps) {
           for (const v of value.slice(0, MEMBERS_SEARCH_LIMITS.TAG_LIMIT)) {
             next.append(key, v);
           }
-        } else if (value === undefined || value === null || value === "") {
+        } else if (
+          value === undefined ||
+          value === null ||
+          value === "" ||
+          (key === "zone" && value === "all") ||
+          (key === "status" && value === "all") ||
+          (key === "sort" && value === "recent") ||
+          (key === "density" && value === "comfy")
+        ) {
           next.delete(key);
         } else {
           next.set(key, String(value));
@@ -86,18 +101,22 @@ export function MemberFilters({ initial, topTags = [] }: MemberFiltersProps) {
     initial.q !== "" ||
     initial.zone !== "all" ||
     initial.status !== "all" ||
-    initial.tag.length > 0 ||
-    initial.sort !== "recent";
+    initial.tag.length > 0;
 
   const onClear = () => {
     router.replace("/members");
   };
 
+  const resultLabel =
+    typeof totalCount === "number" && typeof displayedCount === "number"
+      ? `${totalCount} 件中 ${displayedCount} 件を表示しています`
+      : "条件を変更すると結果が即時に更新されます";
 
   return (
     <form
       role="search"
       aria-label="メンバー絞り込み"
+      aria-describedby="member-search-live-hint member-result-count"
       data-component="member-filters"
       data-expanded={expanded ? "true" : "false"}
       onSubmit={(e) => e.preventDefault()}
@@ -119,6 +138,9 @@ export function MemberFilters({ initial, topTags = [] }: MemberFiltersProps) {
               placeholder="名前・職業・地域で検索"
             />
           </FormField>
+          <span data-role="live-filter-hint" id="member-search-live-hint">
+            入力すると即反映されます
+          </span>
           <FormField name="member-zone" label="UBM区画">
             <Select
               options={ZONE_OPTIONS}
@@ -149,15 +171,16 @@ export function MemberFilters({ initial, topTags = [] }: MemberFiltersProps) {
               aria-label="並び替え"
             />
           </FormField>
-          <button
-            type="button"
-            data-role="clear"
-            disabled={!hasFilters}
-            onClick={onClear}
-          >
-            クリア
-          </button>
         </div>
+        <output
+          id="member-result-count"
+          data-role="result-count"
+          role="status"
+          aria-live="polite"
+          aria-atomic="true"
+        >
+          {resultLabel}
+        </output>
         <TagPicker
           options={topTags}
           selected={initial.tag}
@@ -165,11 +188,13 @@ export function MemberFilters({ initial, topTags = [] }: MemberFiltersProps) {
           onToggle={onTagToggle}
           heading="タグで絞り込み"
         />
-        <SelectedTagsBar
-          selected={initial.tag}
-          onRemove={onTagToggle}
-          onClearAll={onClear}
-        />
+        {hasFilters ? (
+          <SelectedFiltersBar
+            search={initial}
+            onPatch={update}
+            onClearAll={onClear}
+          />
+        ) : null}
       </div>
     </form>
   );
