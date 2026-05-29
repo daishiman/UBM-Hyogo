@@ -1,4 +1,14 @@
+---
+status: consumed
+canonical_workflow: docs/30-workflows/completed-tasks/issue-956-h1-ingest-recovery/
+consumed_at: 2026-05-27
+issue_reference_mode: refs-only
+---
+
 # Google Form 反映 diagnostics FU-001 — H1 ingest 未稼働解消 - タスク指示書
+
+> Canonical workflow: `docs/30-workflows/completed-tasks/issue-956-h1-ingest-recovery/`
+> This proto-spec is retained as the historical source. Do not execute it directly; use the canonical Phase 1-13 workflow and its Phase 11 evidence inventory.
 
 ## メタ情報
 

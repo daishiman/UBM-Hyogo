@@ -15,7 +15,9 @@ import {
   fetchAuthed,
 } from "@/lib/fetch/authed";
 import { ProfileHeader } from "./_components/ProfileHeader";
+import { PublicConsentCallout } from "./_components/PublicConsentCallout";
 import { StatusBanner } from "./_components/StatusSummary";
+import { FORM_RESPONDER_URL } from "@/lib/constants/form";
 import { VisibilitySummary } from "./_components/VisibilitySummary";
 import { ProfilePreview } from "./_components/ProfilePreview";
 import { ProfileFields } from "./_components/ProfileFields";
@@ -108,6 +110,11 @@ export default async function ProfilePage() {
       <StatusBanner
         statusSummary={statusSummary}
         authGateState={me.authGateState}
+      />
+      <PublicConsentCallout
+        publicConsent={statusSummary.publicConsent}
+        editResponseUrl={editResponseUrl}
+        responderUrl={FORM_RESPONDER_URL}
       />
       <VisibilitySummary sections={profile.sections} />
       <ProfilePreview

@@ -1200,3 +1200,15 @@
   - 機械化を試みるなら lesson `--ours + 後付け modernize patch` を resolver 拡張ではなく **L-DEVSYNC-058 を仕様 Phase 4 risk に明記** する方が ROI が高い（admin-ui 整合 wave は有限期間で収束する）。
 - 検証: `git diff --diff-filter=U --name-only` 0 件 → `pnpm typecheck` 全 package green → `pnpm lint` 全 package green → `git commit` (merge commit) 成立。
 - 参照: L-DEVSYNC-056 (single-side primitive 移行 hybridize)、L-DEVSYNC-046 (UNION_TARGETS)、task-specification-creator [[patterns-lessons-and-pitfalls#dev-sync-merge-conflict-resolution]]。
+
+
+## L-DEVSYNC-059: skill-only conflict shape は `pnpm sync:resolve` 単発で 5 union + 1 --ours 完結（2026-05-28 issue-958-h3-public-filter-ux）
+
+- 事象: `feat/issue-958-h3-public-filter-ux` ← `origin/dev` sync-merge で発生したコンフリクトが **skill md 5 件 (SKILL.md / indexes/{quick-reference,resource-map,topic-map}.md / references/task-workflow-active.md) + derived 1 件 (indexes/keywords.json)** のみ。`.tsx`/`.ts` の page-level conflict は 0 件（HEAD 側の実装が dev 側で書き換えられた page と重ならない shape）。
+- Why: H3 public filter UX 系の実装は `apps/web/app/(public)/members/page.tsx` / `BulkRepublishDrawer` / `useBulkRepublish` 等 **新規ファイル中心**で、dev 側並列実装が admin-ui modernization に集中していたため file path 重複が skill 系のみに発生する shape になった。skill md は `.gitattributes` の `merge=union` 未指定（旧契約: SKILL.md は手動 hybridize）だが resolver script の対象範囲（SKILL.md / indexes md / task-workflow-active.md / keywords.json `--ours + rebuild`）に完全一致するため、resolver 単発で機械解消が成立。
+- How to apply:
+  1. sync-merge 後 `git status --porcelain | grep '^UU'` で unresolved 列挙 → 全件が skill resolver 対象範囲なら `pnpm sync:resolve` 単発で完結する（L-DEVSYNC-001/004 系の標準 path）。
+  2. 完結判定: resolver stdout の `union-resolved` 5 件 + `ours:` 1 件 (`keywords.json`) + `running pnpm indexes:rebuild` 完走 + `all skill / index conflicts resolved` 行を確認。
+  3. 検証順: `git status --porcelain | grep -E '^(UU|AA|DD)'` 空 → `git diff --check` 空 → `git add -A && git commit -m "merge: sync <branch> with dev"` → `pnpm typecheck` Done × 6 packages → `pnpm lint` Done × 全 packages → push。
+- 留意: page-level の手動 hybridize（L-DEVSYNC-056/058）は branch の **実装範囲** に依存する。skill-only shape は admin-ui modernization wave の進行中でも feature branch のコード接触面が dev の changed paths と orthogonal なら頻発する。resolver-only path が成立した場合は手動 hybridize lesson（056/058）を**呼び出さない**（不要な複雑性導入を避ける）。
+- 事例: 2026-05-28 commit `a98fd67bb` (merge: sync feat/issue-958-h3-public-filter-ux with dev)。conflict 6 件全件 resolver 完結、typecheck/lint green、stablekey-literal-lint は mode=warning のため block 対象外。

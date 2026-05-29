@@ -872,15 +872,15 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L8 |
-| ドキュメント構成 | L15 |
-| REST API エンドポイント一覧 | L25 |
-| エンドポイント命名規則 | L234 |
-| UBM-Hyogo Admin Sync API（03a） | L255 |
-| UBM-Hyogo Member Self-Service API（04b） | L307 |
-| Admin Dashboard Attendance Analytics API（UT-02A follow-up 002） | L333 |
-| Desktop IPC API サマリー | L347 |
-| 変更履歴 | L378 |
-| 関連ドキュメント | L395 |
+| ドキュメント構成 | L27 |
+| REST API エンドポイント一覧 | L37 |
+| エンドポイント命名規則 | L246 |
+| UBM-Hyogo Admin Sync API（03a） | L267 |
+| UBM-Hyogo Member Self-Service API（04b） | L319 |
+| Admin Dashboard Attendance Analytics API（UT-02A follow-up 002） | L345 |
+| Desktop IPC API サマリー | L359 |
+| 変更履歴 | L390 |
+| 関連ドキュメント | L407 |
 
 ### references/api-internal-chunk-search.md
 
@@ -1095,15 +1095,16 @@ node scripts/list-specs.js --topics
 
 | セクション | 行 |
 |------------|----|
-| 1. 全体構成 | L16 |
-| 2. AdminSidebar | L51 |
-| 3. /admin（Dashboard） | L77 |
-| 4. /admin/members | L130 |
-| 5. /admin/tags | L223 |
-| 6. /admin/schema | L309 |
-| 7. /admin/meetings | L364 |
-| 8. 共通の Server/Client 契約 | L433 |
-| 9. 不変条件サマリ（admin UI） | L451 |
+| Issue #958 /admin/members bulk republish UX | L14 |
+| 1. 全体構成 | L26 |
+| 2. AdminSidebar | L61 |
+| 3. /admin（Dashboard） | L87 |
+| 4. /admin/members | L140 |
+| 5. /admin/tags | L233 |
+| 6. /admin/schema | L319 |
+| 7. /admin/meetings | L374 |
+| 8. 共通の Server/Client 契約 | L443 |
+| 9. 不変条件サマリ（admin UI） | L461 |
 
 ### references/ui-ux-advanced.md
 
@@ -3327,6 +3328,24 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | Boundary | L17 |
+
+### references/workflow-issue-956-h1-ingest-recovery-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Required Artifacts | L11 |
+| Runtime Evidence Pending User Approval | L28 |
+| Invariants | L41 |
+| Lessons Learned | L47 |
+
+### references/workflow-issue-958-h3-public-filter-ux-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Classification | L14 |
+| Local Implementation Targets | L18 |
+| Screenshot Boundary | L28 |
+| Boundary | L32 |
 
 ### references/workflow-light-theme-contrast-regression-guard.md
 
@@ -7992,14 +8011,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L2943 |
-| フェーズ構造（概要） | L2952 |
-| 品質ゲート（概要） | L2983 |
-| 出力テンプレート | L2994 |
-| 実行時のコマンド・エージェント・スキル | L3017 |
-| 昇格パターン集 | L3041 |
-| Current Active / Spec Created Tasks | L3043 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L3205 |
+| ドキュメント構成 | L2976 |
+| フェーズ構造（概要） | L2985 |
+| 品質ゲート（概要） | L3016 |
+| 出力テンプレート | L3027 |
+| 実行時のコマンド・エージェント・スキル | L3050 |
+| 昇格パターン集 | L3074 |
+| Current Active / Spec Created Tasks | L3076 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L3238 |
 
 ### references/task-workflow-backlog-part2.md
 
