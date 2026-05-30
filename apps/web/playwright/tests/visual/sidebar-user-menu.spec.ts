@@ -10,11 +10,13 @@ const screenshotDir = path.resolve(
     ),
 );
 
+// viewer は popover なしの直接ログインリンク（SidebarUserMenu の role === "viewer" 分岐）。
+// member/admin/collapsed は <details><summary> popover を開いてから撮影する。
 const shots = [
-  { id: "user-menu-viewer", selector: '[data-visual="user-menu-viewer"]' },
-  { id: "user-menu-member", selector: '[data-visual="user-menu-member"]' },
-  { id: "user-menu-admin", selector: '[data-visual="user-menu-admin"]' },
-  { id: "user-menu-collapsed", selector: '[data-visual="user-menu-collapsed"]' },
+  { id: "user-menu-viewer", selector: '[data-visual="user-menu-viewer"]', popover: false },
+  { id: "user-menu-member", selector: '[data-visual="user-menu-member"]', popover: true },
+  { id: "user-menu-admin", selector: '[data-visual="user-menu-admin"]', popover: true },
+  { id: "user-menu-collapsed", selector: '[data-visual="user-menu-collapsed"]', popover: true },
 ] as const;
 
 test.describe("SidebarUserMenu visual evidence", () => {
@@ -28,8 +30,13 @@ test.describe("SidebarUserMenu visual evidence", () => {
       await page.goto("/visual-harness/sidebar-user-menu");
       const target = page.locator(shot.selector).first();
       await expect(target).toBeVisible();
-      await target.locator("summary").click();
-      await expect(target.locator('[role="menu"]')).toBeVisible();
+      if (shot.popover) {
+        await target.locator("summary").click();
+        await expect(target.locator('[role="menu"]')).toBeVisible();
+      } else {
+        // viewer: popover を持たず login link を直接描画する。click せずそのまま撮影。
+        await expect(target.locator('[data-action-id="login"]')).toBeVisible();
+      }
       await target.screenshot({ path: path.join(screenshotDir, `${shot.id}.png`) });
     });
   }
