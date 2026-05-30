@@ -1157,3 +1157,14 @@ admin route prototype-alignment 系 branch を `origin/dev` に sync-merge す�
 - **SP-DEVSYNC-058-F (Phase 4 risk への登録)**: admin-ui prototype alignment 系 task の Phase 4 risk に「同一 page を両 branch が異軸で prototype 整合した場合、import 経路 / wrapper attrs / primitive props axes / EmptyState variant / list pattern / Pagination の 6 軸で hybridize 必須」を登録し、L-DEVSYNC-058 を mitigation reference として参照。
 - **SP-DEVSYNC-058-G (検証 4 step)**: L-DEVSYNC-056 と同じ `git diff --diff-filter=U --name-only` 0 件 → `pnpm typecheck` 全 packages → `pnpm lint` 全 packages → `git commit -m "merge: sync <branch> with dev"` の 4 step を Phase 12 implementation-guide に明記。
 - 参照: [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-058、L-DEVSYNC-056 (single-side primitive 移行 hybridize)、L-DEVSYNC-046 (UNION_TARGETS)。
+
+## L-USHELL 複数 route group を 1 共通 server shell へ統合するパターン（unified-sidebar-shell / 2026-05）
+
+公開 / 会員 / 管理の 3 route group を独立 shell ではなく共通 `SidebarShell`（role-driven server shell）へ統合する実装パターン。詳細 lesson は [[lessons-learned-unified-sidebar-shell-2026-05]] L-USHELL-001..006。
+
+- **SP-USHELL-A (role 一本化 + fail-closed)**: role 判定は server boundary（`SidebarShellServer`）の `getSession().isAdmin` 1 箇所。throw 時は最小権限 role（viewer）へ fail-closed。各 layout は guard + shell 呼び出しに縮約する。
+- **SP-USHELL-B (active は client、server activePath 配線禁止)**: nav active は client `usePathname()` で完結。server から `activePath` prop を配線する設計は、middleware の header 注入（`x-pathname`）とセットでない限り dead code（prop が destructure されず・header も注入されず二重に無意味）。配線追加前に「prop が読まれるか / header が注入されるか」を Phase 4 で確認する。
+- **SP-USHELL-C (Playwright anonymous fixture の mockApi)**: auth fixture の anonymous role は mock API を起動しないことがある。public ページを開く anonymous spec は `{ anonymousPage, mockApi }` + `void mockApi` で明示起動する。「手動で mock API を別起動して green」を fixture 完備と誤認しない（CI / 標準実行で落ちる）。
+- **SP-USHELL-D (N layout 一括改修の spec 網羅)**: 複数 layout を async server component 化する際は N 個すべての layout spec を `await Layout({children})` → render パターンへ追従させる。dead mock（`vi.mock("next/headers")` 等）も同 wave で除去。1 つの追従漏れは CI で初めて露見する。
+- **SP-USHELL-E (削除 + route 移動の spec dangling 同 wave 解消)**: コンポーネント削除（PublicHeader / MemberHeader / AdminSidebar）+ route group 移動を伴う実装は `grep -rn "<削除名>" docs/00-getting-started-manual/specs/` で現行仕様書 dangling を検出し同 wave で解消する。`completed-tasks/**` 等の履歴参照は触らない。
+- **anti-pattern**: (1) layer ごとに shell を複製（role-driven 1 shell へ集約すべき）、(2) 使われない server prop の配線、(3) anonymous spec の mockApi 省略、(4) 一括改修での spec 追従漏れ、(5) 実装だけ更新し仕様書 dangling を放置。

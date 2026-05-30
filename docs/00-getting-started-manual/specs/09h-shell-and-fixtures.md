@@ -7,350 +7,128 @@ prototype は `localStorage` / `window.parent.postMessage` 等を直接操作す
 
 ---
 
-## 1. アプリケーションシェル（app.jsx）
+## 1. アプリケーションシェル（unified SidebarShell）
 
-### 1.1 全体レイアウト
+> **実装更新（2026-05）**: prototype（app.jsx）は `Sidebar` / `Topbar` / `MinimalBar` を `tweaks.nav` で切替える設計、
+> 初期 spec は route prefix で `PublicShell` / `MemberShell` / `AdminShell` の 3 layer 独立 shell に分割する案だった。
+> **実装では公開 / 会員 / 管理の 3 層を 1 つの共通 collapsible Sidebar Shell（`SidebarShell`）へ統合した。**
+> 本 §1 は統合後の実装（`apps/web/src/components/shell/`）を正本とする。旧 3 shell 分割案は §1.7 に履歴として残す。
 
-prototype は `Sidebar` / `Topbar` / `MinimalBar` の 3 種類を `tweaks.nav` で切替える 1-shell 設計だったが、本番では route prefix で **3 layer の独立 shell** に分割する。
+### 1.1 全体方針
 
-| layer | 適用 route prefix | shell コンポーネント | nav 形式 | auth |
-|-------|------------------|---------------------|---------|------|
-| PublicShell | `/`, `/members`, `/members/[id]`, `/member-form`, `/login` | `PublicShell` | minimal topbar | 不要（`/login` はさらに bare） |
-| MemberShell | `/my`, `/my/*` | `MemberShell` | topbar + user chip | Auth.js セッション必須 |
-| AdminShell | `/admin/*`, `/admin-dashboard`, `/admin-members`, `/admin-tags`, `/schema-diff` | `AdminShell` | sidebar 272px 固定 | admin role 必須 |
+- 3 層すべてが同一の `SidebarShell`（左 collapsible サイドバー + main + mobile drawer）を共有する。
+- 表示差分は **role**（`viewer` / `member` / `admin`）で決まり、サーバ側 `SidebarShellServer` が `getSession()` の `isAdmin` から role を判定する（`getSession()` throw 時は `viewer` に fail-closed、`02-auth.md` 不変条件 #11）。
+- 各 route group layout（`app/(public|member|admin)/layout.tsx`）は async server component で、`SidebarShellServer` に children と mobile trigger slot を渡すだけ。旧 per-layer header / sidebar（`PublicHeader` / `MemberHeader` / `AdminSidebar`）は撤去・削除済み。
 
-#### shell 切替ロジック（route prefix 駆動）
+| role | session | 適用 route group | nav グループ | nav item 総数 |
+|------|---------|-----------------|------------|--------------|
+| `viewer` | 未ログイン | `(public)` | PUBLIC | 3 |
+| `member` | `isAdmin=false` | `(public)` / `(member)` | PUBLIC + MEMBERS | 4 |
+| `admin`  | `isAdmin=true`  | `(public)` / `(member)` / `(admin)` | PUBLIC + MEMBERS + ADMIN | 13 |
 
-```ts
-// apps/web/app/(shell)/layout-resolver.ts 想定
-export function resolveShell(pathname: string): "public" | "member" | "admin" | "bare" {
-  if (pathname === "/login") return "bare";
-  if (pathname.startsWith("/admin") || pathname === "/schema-diff") return "admin";
-  if (pathname.startsWith("/my")) return "member";
-  return "public";
-}
-```
+> `/login` は認証専用ページのため shell 配下に置かず bare（シェルを被せると認証導線が二重になる）。
 
-prototype の `isBare = route.name === "login"` 判定（app.jsx:84）に対応する。`/member-form` は member 登録フォームだが auth 不要のため Public 扱い。
+### 1.2 role → nav 構成（`buildNavForRole`）
 
-#### viewport breakpoints
+nav は `apps/web/src/components/shell/shell-config.ts` の純関数 `buildNavForRole(role, { schemaDiffCount })` で構築する。
 
-| 名称 | 範囲 | shell 振る舞い |
-|------|------|---------------|
-| mobile | `< 768px` | AdminSidebar は drawer に折り畳み、Public/Member は topbar が hamburger menu |
-| tablet | `768px – 1199px` | AdminSidebar は collapsed (icon only, 64px)、Public/Member は topbar 展開 |
-| desktop | `>= 1200px` | AdminSidebar 272px 展開、Public/Member は通常 topbar |
+| group | item | path | role 可視性 |
+|-------|------|------|-----------|
+| PUBLIC | ホーム | `/` | 全 role |
+| PUBLIC | 会員ディレクトリ | `/members` | 全 role |
+| PUBLIC | 入会登録 | `/register` | 全 role |
+| MEMBERS | マイページ | `/profile` | member / admin |
+| ADMIN | ダッシュボード | `/admin` | admin |
+| ADMIN | 出席管理 | `/admin/meetings` | admin |
+| ADMIN | メンバー管理 | `/admin/members` | admin |
+| ADMIN | タグキュー | `/admin/tags` | admin |
+| ADMIN | スキーマ | `/admin/schema` | admin（warn badge = `GET /admin/schema/diff` の queued 件数） |
+| ADMIN | 申請 | `/admin/requests` | admin |
+| ADMIN | 名寄せ | `/admin/identity-conflicts` | admin |
+| ADMIN | 監査ログ | `/admin/audit` | admin |
 
-prototype は `app-grid` CSS で `nav-sidebar` クラスを切替えていた（app.jsx:101）。本番でも CSS Grid + `data-shell` 属性で同等の挙動を再現する。
+> ADMIN グループは上表のうち admin 専用 9 item（ダッシュボード〜監査ログ）。viewer=PUBLIC 3 / member=PUBLIC+MEMBERS 4 / admin=PUBLIC+MEMBERS+ADMIN 13。
 
-### 1.2 PublicShell 構造
+- active 判定は client の `usePathname()`（`SidebarNavItem`）+ `isNavItemActive(href, pathname)`（`/` と `/admin` は完全一致、他は prefix 一致）。サーバから activePath を渡さない（middleware は `x-pathname` を注入しない）。
+- admin の schema nav には未解決スキーマ差分件数を warn tone badge で表示する（`SidebarShellServer` が admin 時のみ `GET /admin/schema/diff` を await し queued 件数を算出）。
 
-```
-+-- PublicShell ----------------------------+
-|  header                                   |
-|    .brand (logo + ja/en title) | nav | cta|
-|  main                                     |
-|    {children}                             |
-|  footer                                   |
-|    links | copyright                      |
-+-------------------------------------------+
-```
-
-#### nav 項目一覧
-
-| key | path | label | active 判定 |
-|-----|------|-------|-----------|
-| `landing` | `/` | トップ | `pathname === "/"` |
-| `members` | `/members` | メンバー一覧 | `pathname.startsWith("/members")` |
-| `member-form` | `/member-form` | メンバー登録 | `pathname === "/member-form"` |
-| `login` | `/login` | ログイン (cta) | hidden（cta button） |
-
-prototype の `ROUTES` (app.jsx:11-22) のうち `group: "public"` をすべて拾い、`hidden: true` の `member` / `login` は nav 非表示で active 判定のみ流用する。
-
-#### footer links
-
-| label | href | 種別 |
-|-------|------|------|
-| 利用規約 | `/terms` | internal |
-| プライバシーポリシー | `/privacy` | internal |
-| 運営について | `/about` | internal |
-| お問い合わせ | `/contact` | internal |
-| copyright | `© 2026 UBM兵庫支部会` | text |
-
-### 1.3 MemberShell 構造
+### 1.3 SidebarShell レイアウト構造
 
 ```
-+-- MemberShell ----------------------------+
-|  header (topbar)                          |
-|    .brand | spacer | bell | avatar | menu |
-|  main                                     |
-|    {children}                             |
-+-------------------------------------------+
++-- app-shell (data-testid="app-shell", data-role, data-collapsed) ----+
+|  aside shell-sidebar (md+, persistent)   |  main column              |
+|    SidebarBrand + CollapseToggle         |   mobile strip (< md):    |
+|    SidebarNav (shell-nav)                |     SidebarMobileTrigger  |
+|    SidebarUserMenu (shell-user-menu)     |     + SidebarBrand        |
+|                                          |   main (children)         |
++-- SidebarDrawer (shell-drawer, < md, role="dialog", overlay) --------+
 ```
 
-prototype の `Topbar` (app.jsx:166-190) を踏襲しつつ、member 用にナビ項目を縮小。`signout` action は `/api/auth/signout` を叩く。
+| data-testid | 要素 |
+|-------------|------|
+| `app-shell` | shell root（`data-role` / `data-collapsed` 属性） |
+| `shell-sidebar` | persistent サイドバー（md+ 表示） |
+| `shell-nav` | nav 本体（role 別件数: viewer 3 / member 4 / admin 13） |
+| `shell-user-menu` | 左下ユーザーメニュー（viewer=直リンク / member・admin=`<details>` popover） |
+| `shell-drawer-toggle` | hamburger（< md, mobile strip 内） |
+| `shell-drawer` | mobile overlay drawer（`role="dialog"`, Esc / backdrop close, body scroll-lock） |
+| `shell-collapse-toggle` | collapse / expand トグル（md+） |
 
-#### topbar 構造
+### 1.4 collapse / drawer / responsive
 
-| 部位 | 内容 | 出典 |
+| 状態 | 幅 | 表示 |
 |------|------|------|
-| brand-mark | 「兵」1 文字 | app.jsx:128-134 |
-| brand-title | jp `UBM兵庫支部会` / en `Member Portal` | app.jsx:131-133 |
-| topbar-nav | `my` / `members`（公開一覧へ） | app.jsx:167 |
-| bell button | 通知 | app.jsx:185 |
-| avatar | `Avatar size="sm"` + dropdown（profile / signout） | app.jsx:186 |
+| expanded（default） | `--shell-bar-w` | brand + nav（icon + label）+ user menu |
+| collapsed | `--shell-bar-w-collapsed` | icon のみ（label は sr-only）、`data-collapsed="true"` |
+| drawer（< md） | overlay | sidebar 内容を drawer に複製表示。route 遷移で auto-close |
 
-### 1.4 AdminShell 構造
+- collapse 状態は `useSidebarState`（`apps/web/src/components/shell/useSidebarState.ts`）が `localStorage["ubm:shell:collapsed"]`（JSON boolean）へ永続化。SSR 安全のため初期 false → mount で hydrate。`isBrowser()` guard 付き。
+- mobile drawer は hamburger（`SidebarMobileTrigger`）で開き、Esc / backdrop / nav リンク click（`setDrawerOpen(false)`）/ route 変化（`usePathname` 依存）で閉じる。
+- 色・幅は `apps/web/src/styles/tokens.css` の OKLch トークン（`--shell-bar-bg` / `--shell-bar-border` / `--shell-bar-w` / `--shell-bar-w-collapsed` / `--shell-active-bg`）のみを使用し、HEX 直書き / `bg-[#xxx]` はしない（`verify-design-tokens` gate）。
 
-```
-+-- AdminShell --------------------------------+
-|  AdminSidebar (272px)  |  main               |
-|    brand               |   {children}        |
-|    nav-section public  |                     |
-|    nav-section member  |                     |
-|    nav-section admin   |                     |
-|    sidebar-footer      |                     |
-|      user-chip         |                     |
-|      signout           |                     |
-+----------------------------------------------+
-```
+### 1.5 UserMenu（role 別）
 
-#### nav 項目一覧
+左下 `SidebarUserMenu`（`user-menu-config.ts` の `buildUserMenuActions`）は role で内容が変わる。
 
-| group | key | path | label | icon | badge |
-|-------|-----|------|-------|------|-------|
-| Public | `landing` | `/` | トップ | `home` | – |
-| Public | `members` | `/members` | メンバー一覧 | `users` | – |
-| Public | `member-form` | `/member-form` | メンバー登録 | `edit` | – |
-| Members | `my` | `/my` | マイページ | `user` | – |
-| Admin | `admin-dashboard` | `/admin/dashboard` | ダッシュボード | `barChart` | – |
-| Admin | `admin-members` | `/admin/members` | メンバー管理 | `users` | – |
-| Admin | `admin-tags` | `/admin/tags` | タグ割当 | `tag` | – |
-| Admin | `schema-diff` | `/admin/schema-diff` | スキーマ差分 | `gitCompare` | warn `2` |
+| role | 表示 | action |
+|------|------|--------|
+| viewer | 「ログイン」直リンク | `/login` |
+| member | `<details>` popover（avatar + 名前） | プロフィール / プロフィール編集申請 / ログアウト（3） |
+| admin | `<details>` popover（avatar + admin badge dot） | 管理者ダッシュボード / プロフィール / プロフィール編集申請 / ログアウト（4） |
 
-prototype `Sidebar.groups` (app.jsx:120-124) と `ROUTES` (app.jsx:11-22) の合成結果。
-`schema-diff` には未解決件数を warn tone Chip で表示する（app.jsx:143）。実値は `GET /admin/schema/diff` の `unresolvedCount`。
+`SidebarUserAvatar` は initials + admin 時 badge dot。ログアウトは `SignOutButton`（Auth.js `signOut`）を embed。popover は native `<details>` 契約（`summary` click で開閉、route 変化で auto-close）。
 
-#### collapsible / responsive 仕様
+### 1.6 route → shell マッピング
 
-| 状態 | 幅 | 表示要素 |
-|------|------|---------|
-| expanded (default) | 272px | brand / nav (icon+label) / sidebar-footer |
-| collapsed | 64px | brand-mark のみ / nav (icon only, tooltip) / signout icon |
-| drawer (mobile) | 100vw 上層 | full sidebar、背景 dim、close button |
+| route group | route | shell | role 要件 |
+|-------------|-------|-------|----------|
+| `(public)` | `/`・`/members`・`/members/[id]`・`/register`・`/privacy`・`/terms` | SidebarShell | 不要（role で nav 変化） |
+| `(member)` | `/profile` | SidebarShell | session 必須（middleware guard） |
+| `(admin)` | `/admin`・`/admin/{meetings,members,tags,schema,requests,identity-conflicts,audit}` | SidebarShell | `isAdmin=true`（middleware + layout 二段防御） |
+| （shell 外） | `/login` | bare | — |
 
-トグル状態は `localStorage["ubm-admin-sidebar"]` に永続化する（prototype の `localStorage["ubm-tweaks"]` パターン、app.jsx:32-37 を踏襲）。
+- `/`・`/privacy`・`/terms` は旧 `app/` 直下から `(public)` route group へ移動し、シェル layout 配下に収めた。
+- admin layout は `getSession()` で `!session → /login?next=/admin`、`!isAdmin → /login?gate=forbidden` の guard 後に `SidebarShellServer` を呼ぶ。
 
-### 1.5 共通 chrome
+### 1.7 実装出典と旧設計履歴
 
-3 shell すべてに以下を配置可能とする。
+統合シェルの実装正本:
 
-| 要素 | 配置 | 振る舞い |
-|------|------|---------|
-| breadcrumbs | main 直下、page 上端 | route segment の `label` を join、最後は active |
-| page-title | breadcrumbs 直下 | `<h1>` + 任意の subtitle / actions |
-| banner stack | page-title の直下、page top に sticky | warning / info / error の縦積み（dismissible） |
-| toast | viewport 右下 (`top-right` for admin) | `ToastProvider` (app.jsx:88,98) 経由で push |
+| 役割 | ファイル |
+|------|---------|
+| role / nav 純関数 | `apps/web/src/components/shell/shell-config.ts`（`buildNavForRole` / `isNavItemActive`） |
+| server boundary | `SidebarShell.server.tsx`（`getSession` → role → `buildNavForRole` → admin 時 schemaDiff await） |
+| client shell | `SidebarShell.tsx` / `SidebarNav` / `SidebarNavGroup` / `SidebarNavItem` / `SidebarBrand` / `SidebarCollapseToggle` |
+| state | `useSidebarState.ts`（collapse 永続化 / drawer auto-close）/ `SidebarShellContext.tsx` |
+| user menu | `SidebarUserMenu.tsx` / `SidebarUserAvatar.tsx` / `user-menu-config.ts` |
+| mobile | `SidebarMobileTrigger.tsx` / `SidebarDrawer.tsx` |
+| layout | `app/(public|member|admin)/layout.tsx`（async server, `SidebarShellServer` 委譲） |
 
-prototype で `<ToastProvider>` と `<AvatarStoreProvider>` が shell の最外層に置かれていた構造（app.jsx:87-94, 98-114）を踏襲する。本番では `app/layout.tsx` で同等の Provider tree を構築する。
-
-### 1.6 完全 JSX
-
-prototype の `tweaks` 切替を排除し、3 shell を独立コンポーネント化した本番想定 JSX。
-
-```jsx
-// PublicShell.tsx
-export function PublicShell({ children }: { children: React.ReactNode }) {
-  const pathname = usePathname();
-  const navItems = [
-    { key: "landing", path: "/", label: "トップ" },
-    { key: "members", path: "/members", label: "メンバー一覧" },
-    { key: "member-form", path: "/member-form", label: "メンバー登録" },
-  ];
-  return (
-    <ToastProvider>
-      <AvatarStoreProvider>
-        <div className="app shell-public" data-shell="public">
-          <header className="public-topbar">
-            <Link href="/" className="brand">
-              <div className="brand-mark">兵</div>
-              <div className="brand-title">
-                <span className="jp">UBM兵庫支部会</span>
-                <span className="en">Member Portal</span>
-              </div>
-            </Link>
-            <nav className="public-nav">
-              {navItems.map((it) => (
-                <Link
-                  key={it.key}
-                  href={it.path}
-                  className={"nav-item" + (pathname === it.path ? " active" : "")}
-                >
-                  {it.label}
-                </Link>
-              ))}
-            </nav>
-            <div className="public-cta">
-              <Link href="/login" className="btn btn-primary">ログイン</Link>
-            </div>
-          </header>
-          <main className="public-main">{children}</main>
-          <footer className="public-footer">
-            <div className="footer-links">
-              <Link href="/terms">利用規約</Link>
-              <Link href="/privacy">プライバシー</Link>
-              <Link href="/about">運営について</Link>
-              <Link href="/contact">お問い合わせ</Link>
-            </div>
-            <div className="footer-copy">© 2026 UBM兵庫支部会</div>
-          </footer>
-        </div>
-      </AvatarStoreProvider>
-    </ToastProvider>
-  );
-}
-```
-
-```jsx
-// MemberShell.tsx
-export function MemberShell({ children, user }: { children: React.ReactNode; user: SessionUser }) {
-  const pathname = usePathname();
-  return (
-    <ToastProvider>
-      <AvatarStoreProvider>
-        <div className="app shell-member" data-shell="member">
-          <header className="topbar">
-            <Link href="/my" className="brand" style={{ borderBottom: 0, padding: 0 }}>
-              <div className="brand-mark">兵</div>
-              <div className="brand-title">
-                <span className="jp">UBM兵庫支部会</span>
-              </div>
-            </Link>
-            <nav className="topbar-nav" style={{ flex: 1, overflow: "auto" }}>
-              <Link href="/my" className={"nav-item" + (pathname.startsWith("/my") ? " active" : "")}>
-                <Icon name="user" size={13} className="nav-icon" />
-                <span>マイページ</span>
-              </Link>
-              <Link href="/members" className={"nav-item" + (pathname.startsWith("/members") ? " active" : "")}>
-                <Icon name="users" size={13} className="nav-icon" />
-                <span>メンバー一覧</span>
-              </Link>
-            </nav>
-            <div className="row" style={{ gap: 10 }}>
-              <Button variant="ghost" size="sm" icon="bell" />
-              <UserMenu user={user} />
-            </div>
-          </header>
-          <main className="member-main">
-            <Breadcrumbs />
-            <BannerStack />
-            {children}
-          </main>
-        </div>
-      </AvatarStoreProvider>
-    </ToastProvider>
-  );
-}
-```
-
-```jsx
-// AdminShell.tsx
-export function AdminShell({ children, user }: { children: React.ReactNode; user: SessionUser }) {
-  const pathname = usePathname();
-  const groups = [
-    { key: "public", label: "Public", items: [
-      { key: "landing", path: "/", label: "トップ", icon: "home" },
-      { key: "members", path: "/members", label: "メンバー一覧", icon: "users" },
-      { key: "member-form", path: "/member-form", label: "メンバー登録", icon: "edit" },
-    ]},
-    { key: "member", label: "Members", items: [
-      { key: "my", path: "/my", label: "マイページ", icon: "user" },
-    ]},
-    { key: "admin", label: "Admin", items: [
-      { key: "admin-dashboard", path: "/admin/dashboard", label: "ダッシュボード", icon: "barChart" },
-      { key: "admin-members", path: "/admin/members", label: "メンバー管理", icon: "users" },
-      { key: "admin-tags", path: "/admin/tags", label: "タグ割当", icon: "tag" },
-      { key: "schema-diff", path: "/admin/schema-diff", label: "スキーマ差分", icon: "gitCompare", badge: { tone: "warn", value: 2 } },
-    ]},
-  ];
-  return (
-    <ToastProvider>
-      <AvatarStoreProvider>
-        <div className="app shell-admin" data-shell="admin">
-          <div className="app-grid nav-sidebar">
-            <aside className="sidebar">
-              <div className="brand">
-                <div className="brand-mark">兵</div>
-                <div className="brand-title">
-                  <span className="jp">UBM兵庫支部会</span>
-                  <span className="en">Member Portal</span>
-                </div>
-              </div>
-              {groups.map((g) => (
-                <div key={g.key} className="nav-section">
-                  <div className="nav-label">{g.label}</div>
-                  {g.items.map((it) => (
-                    <Link
-                      key={it.key}
-                      href={it.path}
-                      className={"nav-item" + (pathname === it.path ? " active" : "")}
-                    >
-                      <Icon name={it.icon} size={16} className="nav-icon" />
-                      <span>{it.label}</span>
-                      {it.badge && (
-                        <Chip size="sm" tone={it.badge.tone} style={{ marginLeft: "auto" }}>
-                          {it.badge.value}
-                        </Chip>
-                      )}
-                    </Link>
-                  ))}
-                </div>
-              ))}
-              <div className="sidebar-footer">
-                <div className="user-chip">
-                  <Avatar name={user.fullName} size="sm" hue={user.hue ?? 0} />
-                  <div className="user-chip-body">
-                    <div className="user-chip-name">{user.fullName}</div>
-                    <div className="user-chip-email">{user.email}</div>
-                  </div>
-                </div>
-                <form action="/api/auth/signout" method="post">
-                  <button type="submit" className="nav-item">
-                    <Icon name="logOut" size={14} className="nav-icon" />
-                    <span>ログアウト</span>
-                  </button>
-                </form>
-              </div>
-            </aside>
-            <div>
-              <div className="content-area">
-                <Breadcrumbs />
-                <BannerStack />
-                {children}
-              </div>
-            </div>
-          </div>
-        </div>
-      </AvatarStoreProvider>
-    </ToastProvider>
-  );
-}
-```
-
-### 1.7 prototype 出典
-
-| 項目 | prototype 出典 | 行 |
-|------|---------------|-----|
-| ROUTES 定義 | app.jsx | 11–22 |
-| App コンポーネント | app.jsx | 24–116 |
-| Sidebar | app.jsx | 119–163 |
-| Topbar | app.jsx | 166–190 |
-| MinimalBar | app.jsx | 193–210 |
-| TweaksPanel | app.jsx | 213–249 |
-| ToastProvider / AvatarStoreProvider | app.jsx | 88–94, 98–114 |
-| isBare 分岐 | app.jsx | 84–95 |
-
-`TweaksPanel` (app.jsx:213-249) は prototype の design探索用で、本番に移植しない。`MinimalBar` も同様に廃止し、PublicShell に役割を集約する。
+> **旧設計履歴（参考）**: prototype（app.jsx）の `Sidebar` / `Topbar` / `MinimalBar` 切替と、初期 spec の
+> `PublicShell` / `MemberShell` / `AdminShell` 3 layer 独立 shell 分割案は、`unified-sidebar-shell-public-and-admin`
+> ワークフロー（Task A-F）で共通 SidebarShell へ統合された。prototype の `TweaksPanel` / `MinimalBar` は本番非移植。
+> 旧 `localStorage["ubm-admin-sidebar"]` キーは統合後 `ubm:shell:collapsed` に一本化。Playwright の visual baseline /
+> smoke は `sidebar-shell-visual-baseline-smoke-task-f`（Task F）が捕捉する。
 
 ---
 

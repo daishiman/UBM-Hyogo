@@ -48,7 +48,7 @@
 | ステータス | `spec_created / implementation / VISUAL / implementation_pending` |
 | 成果物 | `docs/30-workflows/unified-sidebar-shell-public-and-admin/` |
 | 目的 | public / member / admin の shell を単一 collapsible `SidebarShell` primitive に統合する |
-| planned targets | `apps/web/src/components/shell/**`, `apps/web/app/(public)/layout.tsx`, `apps/web/app/(member)/layout.tsx`, `apps/web/app/(admin)/layout.tsx`, `apps/web/src/styles/tokens.css`, `apps/web/tests/e2e/sidebar-shell-*.spec.ts` |
+| planned targets | `apps/web/src/components/shell/**`, `apps/web/app/(public)/layout.tsx`, `apps/web/app/(member)/layout.tsx`, `apps/web/app/(admin)/layout.tsx`, `apps/web/src/styles/tokens.css`, `apps/web/playwright/tests/sidebar-shell/{sidebar-shell-smoke,sidebar-shell-visual,_helpers}`（補正後実体パス。旧 `tests/e2e/sidebar-shell-*` は誤記。Task F 実装済み） |
 | nav contract | viewer=3 item、member=4 item、admin=13 item（Admin group 9 item） |
 | invariant | API / D1 / Google Form schema / Auth.js middleware 変更なし。role 判定は `SessionUser.isAdmin` のみ |
 | Phase 12 | strict 7 present、root/output artifacts parity present、30-method compact evidence present |

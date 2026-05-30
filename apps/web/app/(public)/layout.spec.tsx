@@ -1,46 +1,39 @@
-// parallel-03 S-01: Public AppShell layout spec
-import { describe, it, expect, afterEach } from "vitest";
-import { render, cleanup } from "@testing-library/react";
-import { axe } from "../../src/test/axe";
+// unified-sidebar-shell / Task C: 公開 layout は SidebarShellServer へ委譲する。
+// SidebarShellServer 自体（role 判定 / nav）は src/components/shell の spec で検証するため、
+// ここでは layout の wrapper 契約（theme / route-group / shell-mode / footer / children）を見る。
+import { describe, it, expect, vi, afterEach } from "vitest";
+import { render, cleanup, screen } from "@testing-library/react";
+import type { ReactNode } from "react";
+
+vi.mock("../../src/components/shell/SidebarShell.server", () => ({
+  SidebarShellServer: ({ children }: { children: ReactNode }) => (
+    <div data-testid="shell-server-stub">{children}</div>
+  ),
+}));
+vi.mock("../../src/components/shell/SidebarMobileTrigger", () => ({
+  SidebarMobileTrigger: () => <button type="button" data-testid="mobile-trigger" />,
+}));
 
 import PublicLayout from "./layout";
 
 afterEach(() => cleanup());
 
 describe("PublicLayout", () => {
-  it("wrapper に data-theme='warm' / data-route-group='public' / data-testid='public-shell' を付与する", () => {
-    const { container } = render(
-      <PublicLayout>
-        <p data-testid="child">child</p>
-      </PublicLayout>,
-    );
-    const shell = container.querySelector('[data-testid="public-shell"]');
-    expect(shell).not.toBeNull();
-    expect(shell?.getAttribute("data-theme")).toBe("warm");
-    expect(shell?.getAttribute("data-route-group")).toBe("public");
+  it("wrapper に data-theme='warm' / data-route-group='public' / data-shell-mode='sidebar' を付与する", async () => {
+    const tree = await PublicLayout({ children: <p data-testid="child">child</p> });
+    const { container } = render(tree);
+    const wrapper = container.querySelector('[data-route-group="public"]');
+    expect(wrapper).not.toBeNull();
+    expect(wrapper?.getAttribute("data-theme")).toBe("warm");
+    expect(wrapper?.getAttribute("data-shell-mode")).toBe("sidebar");
   });
 
-  it("data-shell='topbar' / data-shell='footer' / main[data-route='public'] を含む", () => {
-    const { container } = render(
-      <PublicLayout>
-        <p data-testid="child">child</p>
-      </PublicLayout>,
-    );
-    expect(container.querySelector('[data-shell="topbar"]')).not.toBeNull();
-    expect(container.querySelector('[data-shell="footer"]')).not.toBeNull();
-    const main = container.querySelector('main[data-route="public"]');
-    expect(main).not.toBeNull();
-    expect(main?.querySelector('[data-testid="child"]')).not.toBeNull();
-  });
-
-  it("axe critical 違反 0", async () => {
-    const { container } = render(
-      <PublicLayout>
-        <p>child</p>
-      </PublicLayout>,
-    );
-    const results = await axe(container);
-    const critical = results.violations.filter((v) => v.impact === "critical");
-    expect(critical).toEqual([]);
+  it("SidebarShellServer 経由で children と PublicFooter を描画する", async () => {
+    const tree = await PublicLayout({ children: <p data-testid="child">child</p> });
+    render(tree);
+    expect(screen.getByTestId("shell-server-stub")).toBeTruthy();
+    expect(screen.getByTestId("child")).toBeTruthy();
+    // PublicFooter は footer landmark を持つ
+    expect(document.querySelector("footer")).not.toBeNull();
   });
 });

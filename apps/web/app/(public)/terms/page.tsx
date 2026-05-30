@@ -4,7 +4,7 @@
 
 import type { Metadata } from "next";
 
-import { LegalProse } from "../../src/components/legal/LegalProse";
+import { LegalProse } from "../../../src/components/legal/LegalProse";
 
 export const metadata: Metadata = {
   title: "利用規約 | UBM 兵庫支部会",
