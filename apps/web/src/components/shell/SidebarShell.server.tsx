@@ -1,6 +1,12 @@
+// Task A — SidebarShell の Server entry。
+// session を取得して role を判定し、nav を組み立てて Client の <SidebarShell /> へ渡す。
+// 呼出側 layout（Task C）は role 判定・nav 構築・UserMenu 組み立てを再実装しない。
 import type { ReactNode } from "react";
-import { getSession, type SessionUser } from "@/lib/session";
-import { SidebarShell, type SidebarShellUser } from "./SidebarShell";
+
+import { safeServerFetch } from "../../lib/admin/safe-server-fetch";
+import { getSession, type SessionUser } from "../../lib/session";
+import type { SchemaDiffListView } from "../admin/SchemaDiffPanel";
+import { SidebarShell } from "./SidebarShell";
 import { buildNavForRole, type ShellRole } from "./shell-config";
 
 function resolveRole(session: SessionUser | null): ShellRole {
@@ -8,53 +14,55 @@ function resolveRole(session: SessionUser | null): ShellRole {
   return session.isAdmin ? "admin" : "member";
 }
 
-function deriveInitials(displayName: string, email: string): string {
+function resolveInitials(displayName: string, email: string): string {
   const source = displayName.trim() || email.trim();
   if (!source) return "?";
-  const chars = Array.from(source);
-  return chars.slice(0, 2).join("").toUpperCase();
-}
-
-function toShellUser(session: SessionUser | null): SidebarShellUser {
-  if (!session) return null;
-  const displayName = session.name ?? session.email;
-  return {
-    displayName,
-    email: session.email,
-    initials: deriveInitials(displayName, session.email),
-  };
-}
-
-async function safeGetSession(): Promise<SessionUser | null> {
-  try {
-    return await getSession();
-  } catch {
-    return null;
+  const parts = source.split(/\s+/).filter(Boolean);
+  if (parts.length >= 2) {
+    return (parts[0]!.charAt(0) + parts[1]!.charAt(0)).toUpperCase();
   }
+  return source.charAt(0).toUpperCase();
 }
 
-export type SidebarShellServerProps = {
-  activePath: string;
-  children: ReactNode;
-  mobileTriggerSlot: ReactNode;
-  userMenuSlot?: ReactNode;
-  schemaDiffCount?: number;
-};
+async function loadSchemaDiffCount(): Promise<number> {
+  const result = await safeServerFetch<SchemaDiffListView>("/admin/schema/diff");
+  if (!result.ok) return 0;
+  return result.data.items.filter((item) => item.status === "queued").length;
+}
 
 export async function SidebarShellServer({
   activePath,
   children,
   mobileTriggerSlot,
-  userMenuSlot,
-  schemaDiffCount,
-}: SidebarShellServerProps) {
-  const session = await safeGetSession();
+  routeKey,
+  sectionRhythm,
+}: {
+  readonly activePath: string;
+  readonly children: ReactNode;
+  readonly mobileTriggerSlot: ReactNode;
+  readonly routeKey?: string;
+  readonly sectionRhythm?: string;
+}) {
+  // getSession 失敗時も throw せず viewer へ fall back（不変条件: shell は fail-open に閉じる）。
+  let session: SessionUser | null = null;
+  try {
+    session = await getSession();
+  } catch {
+    session = null;
+  }
+
   const role = resolveRole(session);
-  const navGroups = buildNavForRole(
-    role,
-    role === "admin" ? { schemaDiffCount: schemaDiffCount ?? 0 } : undefined,
-  );
-  const user = toShellUser(session);
+  const schemaDiffCount = role === "admin" ? await loadSchemaDiffCount() : 0;
+  const navGroups = buildNavForRole(role, { schemaDiffCount });
+
+  const user = session
+    ? {
+        displayName: session.name ?? session.email,
+        email: session.email,
+        initials: resolveInitials(session.name ?? "", session.email),
+      }
+    : null;
+
   return (
     <SidebarShell
       role={role}
@@ -62,7 +70,8 @@ export async function SidebarShellServer({
       navGroups={navGroups}
       activePath={activePath}
       mobileTriggerSlot={mobileTriggerSlot}
-      userMenuSlot={userMenuSlot}
+      {...(routeKey !== undefined ? { routeKey } : {})}
+      {...(sectionRhythm !== undefined ? { sectionRhythm } : {})}
     >
       {children}
     </SidebarShell>

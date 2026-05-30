@@ -1,0 +1,25 @@
+{
+  "workflowId": "admin-sidebar-public-return-link",
+  "status": "captured_local_playwright_fixture",
+  "visualEvidence": "VISUAL_ON_EXECUTION",
+  "sourceGuard": "apps/web/src/components/layout/AdminSidebar.tsx",
+  "route": "local-playwright-fixture",
+  "viewport": "1280x800",
+  "screenshots": [
+    {
+      "file": "screenshots/admin-sidebar-overview.png",
+      "state": "overview",
+      "status": "present"
+    },
+    {
+      "file": "screenshots/public-return-hover.png",
+      "state": "hover",
+      "status": "present"
+    },
+    {
+      "file": "screenshots/public-return-focus.png",
+      "state": "focus",
+      "status": "present"
+    }
+  ]
+}

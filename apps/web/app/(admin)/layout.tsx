@@ -34,6 +34,7 @@ export default async function AdminLayout({
       className="ubm-admin-shell grid min-h-screen grid-cols-1 bg-[var(--ubm-color-surface-bg)] text-[var(--ubm-color-text-primary)] md:grid-cols-[272px_1fr]"
       data-theme="cool"
       data-route-group="admin"
+      data-auth-state="admin"
       data-shell-mode="sidebar"
       data-testid="admin-shell"
     >

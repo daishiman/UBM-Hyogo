@@ -46,9 +46,11 @@ test.describe('mypage-prototype-alignment Phase 11 screenshots', () => {
     })
     await screenshot(memberPage.locator('[data-region="status-banner"]'), 'status-banner-public.png')
     await screenshot(memberPage.locator('[data-region="visibility-summary"]'), 'visibility-summary.png')
-    await screenshot(memberPage.getByTestId('member-header'), 'member-header-nav.png')
+    // task-c: 旧 MemberHeader nav は SidebarShell の sidebar へ統合（member-header testid 撤去）。
+    await screenshot(memberPage.locator('[data-shell="sidebar"]'), 'member-header-nav.png')
 
-    await memberPage.locator('[data-cta="edit-cta-header"]').click()
+    // task-c: 旧 header 版 edit CTA は撤去。revalidate dialog は inline CTA から開く。
+    await memberPage.locator('[data-cta="edit-cta-inline"]').click()
     await expect(memberPage.getByRole('dialog', { name: '情報を最新化しますか？' })).toBeVisible()
     await screenshot(memberPage.getByRole('dialog'), 'revalidate-modal-open.png')
 
