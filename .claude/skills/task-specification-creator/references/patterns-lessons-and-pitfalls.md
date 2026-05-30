@@ -1338,3 +1338,14 @@ dev sync-merge で **同一の small public API（`apps/web/src/lib/auth-view/` 
 - **SP-DEVSYNC-063-C (conflict しない consumer の API 互換を typecheck で担保)**: task-c 固有の `app/privacy/page.tsx` / `app/terms/page.tsx` は conflict せず ours 保持だが、theirs 採用した `getAuthView`/`AuthView`/`PublicHeader` の API（async server component を JSX mount する形含む）と整合するかは **必ず typecheck で検証**。conflict marker が無いファイルこそ取込側 API 変更の影響を受けやすい盲点。
 - **SP-DEVSYNC-063-D (unit は部分採用しない)**: component だけ theirs / module だけ ours のような混在採用は import 経路と DOM 契約が割れて typecheck/test が落ちる。canonical unit は component + spec + module + layout + layout.spec を**一括で同じ側**に揃える。
 - 参照: [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-064 / L-DEVSYNC-063（task-c 版 ours / public-header 版 theirs の対比）/ L-PATSEC-001..003（末尾 append + lesson ID prefix 命名）。
+
+
+## SP-DEVSYNC-066 sync-merge task の Phase 12 に「lessons-only conflict → union 解消 → 二重化検証 → indexes:rebuild」の最頻フローを固定（dev sync-merge / 2026-05-30 feat/member-header-admin-link ← dev #1014）
+
+`feat/member-header-admin-link` を再 sync した際、content conflict が `patterns-lessons-and-pitfalls.md` 1 件のみ（前回の auth-view source conflict は取込 dev commit #1014 が orthogonal path だったため再発せず）。lessons/patterns 系の末尾 append 衝突が sync-merge の最頻 shape である一方、union 自動結合は同一 lesson の二重化と indexes drift という 2 つの盲点を残す。sync-merge task を生成する仕様の Phase 4 risk / Phase 12 implementation-guide にこのフローを固定する（aiworkflow-requirements `lessons-learned-dev-sync-merge-conflict-resolution-2026-05.md` L-DEVSYNC-066）。
+
+- **SP-DEVSYNC-066-A (conflict 列挙を最初に分類)**: Phase 12 手順に「`git diff --name-only --diff-filter=U` で content conflict を列挙し、**lessons/patterns/changelog 等の append 系のみ**なら `pnpm sync:resolve` 単発で閉じ、source(`.ts/.tsx`) 0 件を確認したら手動 hybridize を始めない」を明記。前回 sync の conflict ファイル一覧を予測に流用しない（取込 dev commit の触る面で範囲が毎回変わる）。
+- **SP-DEVSYNC-066-B (union 後の二重化検証ゲート)**: union-merge は競合ブロック両 side を連結するため同一 lesson の二重化リスクがある。Phase 12 検証手順に「`git show HEAD:<f>` / `git show MERGE_HEAD:<f>` の `grep -c '^## '` と結合後の見出し数を照合 + `grep '^## ' <f> | sort | uniq -d` 空 + 連続重複行なし」を二重化検証として登録。Phase 4 risk に「union 解消は同一見出しを二重化し得る」を 1 行追加。
+- **SP-DEVSYNC-066-C (merge 後 indexes:rebuild 必須)**: `indexes/*-map.md` / `keywords.json` は `merge=union` で auto-merge されるが正規生成物と一致しないことがあり、CI `verify-indexes-up-to-date` が fail する。Phase 12 検証ゲートを「conflict 解消 → 二重化検証 → `pnpm indexes:rebuild`（drift を別途 stage）→ `pnpm typecheck` → `pnpm lint` → push」の順で固定。`keywords.json` は JSON 妥当性（`node -e 'JSON.parse(...)'`）も確認。
+- anti-pattern: ① append 系のみの conflict で auth-view 等 source 解消手順を反射的に始める ② union 後の二重化検証を省略し同一 lesson を二重 commit ③ merge 直後 clean を信じて `indexes:rebuild` を省き CI gate fail ④ 前回 sync の conflict ファイル一覧を今回の予測に流用する。
+- 参照: [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-066 / L-DEVSYNC-059/060/061（skill-only resolver 単発・conflict 0 shape）/ SP-DEVSYNC-065（再 sync は前提を再評価）。
