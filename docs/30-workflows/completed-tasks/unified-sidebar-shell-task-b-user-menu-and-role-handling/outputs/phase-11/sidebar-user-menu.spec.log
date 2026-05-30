@@ -1,0 +1,15 @@
+[33mThe CJS build of Vite's Node API is deprecated. See https://vite.dev/guide/troubleshooting.html#vite-cjs-node-api-deprecated for more details.[39m
+
+ RUN  v2.1.9 /Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260528-225049-wt-11
+
+ ✓ apps/web/src/components/shell/__tests__/SidebarUserMenu.spec.tsx (8 tests) 3367ms
+   ✓ SidebarUserMenu > viewer: ログイン menuitem のみ、signout DOM が存在しない 501ms
+   ✓ SidebarUserMenu > role=menu container 内に各 action が role=menuitem として存在 963ms
+   ✓ SidebarUserMenu > pathname 変化で details.open が false になる 556ms
+   ✓ SidebarUserMenu > role 表記: admin->管理者, member->会員, viewer は省略 1026ms
+
+ Test Files  1 passed (1)
+      Tests  8 passed (8)
+   Start at  06:19:51
+   Duration  37.73s (transform 1.56s, setup 0ms, collect 10.43s, tests 3.37s, environment 12.45s, prepare 2.02s)
+

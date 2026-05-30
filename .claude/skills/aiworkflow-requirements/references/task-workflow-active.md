@@ -155,6 +155,19 @@
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-unified-sidebar-shell-public-and-admin-artifact-inventory.md` |
 | user gate | apps/web implementation、local visual capture、CI baseline、commit、push、PR |
 
+#### Task B sub-workflow: user menu and role handling
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `spec_created / implementation / VISUAL / implementation_pending` |
+| 成果物 | `docs/30-workflows/completed-tasks/unified-sidebar-shell-task-b-user-menu-and-role-handling/` |
+| source task | `docs/30-workflows/unified-sidebar-shell-public-and-admin/tasks/task-B-user-menu-and-role-handling.md` |
+| 目的 | sidebar left-bottom user menu actions and avatar role display for `viewer` / `member` / `admin` |
+| implementation targets | `apps/web/src/components/shell/{user-menu-config.ts,SidebarUserAvatar.tsx,SidebarUserMenu.tsx}`, focused component specs, optional `SignOutButton` variant |
+| strict 7 | parent root aggregated; sub-workflow owns only `outputs/phase-12/phase12-task-spec-compliance-check.md` |
+| invariant | API / D1 / Google Form schema / Auth.js middleware / npm package 変更なし。role 判定は Task A server props、action 決定は pure config |
+| user gate | apps/web implementation、focused vitest、visual evidence、commit、push、PR |
+
 ### public-header-logged-in-nav-cleanup（2026-05-28）
 
 | 項目 | 値 |
