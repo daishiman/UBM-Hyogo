@@ -614,3 +614,15 @@
 - 適用範囲外: 同一構造で field/variant だけ違う場合は SP-DEVSYNC-038/041 系の hybridize。skill-only conflict は resolver 単発（SP-DEVSYNC-043）。
 - 検証: `git diff --diff-filter=U` 0 件 + `pnpm typecheck` PASS + `pnpm lint` PASS + `vitest run apps/web/src/lib/<feature> apps/web/src/components/<area> apps/web/app`（本例 81 files / 383 tests PASS）。merge commit `060bab6bf`。
 - 参照: aiworkflow-requirements [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-063 を唯一の正本。
+
+### SP-DEVSYNC-045: 同一 branch の N 回目 sync でも conflict 集合は毎回変動 — unmerged を毎回一次取得し、`references/patterns-lessons-and-pitfalls.md`（`merge=union` 対象外）も resolver 対象に含めて見積もる（2026-05-30 追加）
+
+- 事象: 2026-05-30 `feat/admin-sidebar-public-return-link` ← origin/dev（HEAD `51ec9eb06` = PR #1032 Cloudflare Worker サイズ制限修正 = next/og 撤去 + 静的 OG 画像化 + CI サイズ gate）の **4 回目** sync-merge。conflict は 5 件 = aiworkflow `indexes/{quick-reference,resource-map,topic-map}.md` 3 + `references/task-workflow-active.md` 1 + task-specification-creator `references/patterns-lessons-and-pitfalls.md` 1。**3 回目（#1013）は conflict 2 件**だったが、同 branch・同接触面で集合が 2→5 件に変動した。#1032 が取り込む source（OG 画像撤去 + `og-default.png` + size gate script）は admin sidebar branch と path 直交のため全て `Auto-merging`、衝突は skill 同期ログ系のみに収束。
+- Why: dev 側 skill 追記の diff 位置が PR ごとに移動するため、同一 branch を連続 sync しても conflict 集合は固定されない。SP-DEVSYNC-043 の「index 複数同時衝突でも resolver 単発収束」が conflict 件数のレンジ（1〜7 件）で再現する一方、**「前回 N 件だったから今回も N 件」という見積もりは外れる**。加えて `references/patterns-lessons-and-pitfalls.md` は `.gitattributes` の `merge=union` 4 glob（`SKILL-changelog.md`/`LOGS/_legacy.md`/`lessons-learned/*.md`/`docs/30-workflows/LOGS.md`）に**含まれない**ため、append-only history でも git は実 conflict marker を立てる。これは resolver の union 解消対象であり、手動 Edit は不要。
+- How to apply（task 仕様書での逐語化）:
+  - Phase 9 sync-merge 節に「**conflict 集合は sync ごとに変動する**前提を明記。前回 sync の conflict ファイル一覧を見積もりに流用せず、毎回 `git diff --name-only --diff-filter=U` を一次ソースとして取得する」を追記。
+  - 同節の `merge=union` 説明に「**`references/patterns-lessons-and-pitfalls.md` / `references/task-workflow-active.md` は `merge=union` 対象外 → 実 conflict marker が立つが `pnpm sync:resolve` の解消対象**。`lessons-learned/*.md`（auto-merge・marker なし）と区別する」を併記。
+  - Phase 11 見積で「dev が source code を大量取込していても、本 branch の接触 path と直交なら conflict は skill ログ系に収束 → resolver 単発・追加工数ゼロ・取込 source の visual baseline 再取得不要」を判定基準に追加（接触 path が交差する場合のみ SP-DEVSYNC-038/042/044 の手動工数を積む）。
+- 適用範囲外: source `.ts/.tsx` の接触面が 1 件でもあれば SP-DEVSYNC-042（直交 symbol）/ SP-DEVSYNC-044（同一 feature 競合実装 wholesale）へ分岐。
+- 検証: `git diff --diff-filter=U` 0 件 + `pnpm typecheck` 6 packages Done + `pnpm lint` exit 0（`stablekey-literal-lint` warning は mode=warning・既存由来で成否判定外）。merge commit `be5ce59ea`、`pnpm sync:resolve` 単発で 5 件 union 解消（`indexes:rebuild` drift ゼロ）。
+- 参照: aiworkflow-requirements [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-067 を唯一の正本（同 branch 3 回目原型は L-DEVSYNC-065）。
