@@ -58,47 +58,73 @@ const isMembersPrototypeAlignment =
   process.env.PLAYWRIGHT_EVIDENCE_TASK === 'members-list-prototype-alignment' ||
   process.env.PLAYWRIGHT_EVIDENCE_TASK === 'members-page-prototype-alignment' ||
   process.argv.some((arg) => arg.includes('members-prototype-alignment.spec.ts'))
+const isMembersUxClarityBaseline =
+  process.env.PLAYWRIGHT_EVIDENCE_TASK === 'members-ux-clarity-baseline' ||
+  process.env.MEMBERS_UX_CLARITY_BASELINE === '1' ||
+  process.argv.some((arg) => arg.includes('members-ux-clarity'))
 const isPublicDashboardPrototypeAlignment =
   process.env.PLAYWRIGHT_EVIDENCE_TASK === 'public-dashboard-prototype-alignment' ||
   process.argv.some((arg) => arg.includes('public-dashboard-prototype-alignment.spec.ts'))
 
-const EVIDENCE_DIR =
-  process.env.PLAYWRIGHT_EVIDENCE_DIR ??
-  (isAdminRequestsRun
-    ? '../../docs/30-workflows/task-spec-2a-admin-requests-e2e/outputs/phase-11'
-    : isAdminIdentityConflictsRun
-      ? '../../docs/30-workflows/2b-admin-identity-conflicts-spec/outputs/phase-11/evidence'
-      : isAdminMemberDeleteRun
-        ? '../../docs/30-workflows/admin-member-delete-e2e-spec/outputs/phase-11/evidence'
-        : isStagingSmoke
-          ? '../../docs/30-workflows/task-05-error-boundary-and-staging-smoke/outputs/phase-11/evidence'
-          : isAdminStagingVisual
-            ? '../../docs/30-workflows/completed-tasks/admin-visual-baseline-admin-routes-task-e/outputs/phase-11/evidence'
-          : isStagingVisual
-            ? '../../docs/30-workflows/ut-dsf-07-staging-visual-runtime-evidence/outputs/phase-11/evidence'
-            : isTask11PublicSmoke
-            ? '../../docs/30-workflows/task-11-public-top-and-member-list/outputs/phase-11/evidence'
-            : isTask12PublicSmoke || isTask12Evidence
-              ? '../../docs/30-workflows/task-12-member-detail-register-legal/outputs/phase-11/evidence'
-              : isTask13LoginSmoke
-                ? '../../docs/30-workflows/task-13-login-rebuild/outputs/phase-11/evidence'
-                : isTask17AdminEvidence
-                ? '../../docs/30-workflows/task-17-admin-schema-conflicts-audit/outputs/phase-11/evidence'
-                  : isIssue776SchemaBulkEvidence
-                    ? '../../docs/30-workflows/issue-776-schema-alias-bulk-resolve/outputs/phase-11'
-                    : isTask10Followup002Evidence
-                      ? '../../docs/30-workflows/completed-tasks/task-10-followup-002-runtime-visual-axe-evidence/outputs/phase-11/evidence'
-                      : isAttendanceVisualSmoke
-                        ? '../../docs/30-workflows/07c-followup-002-attendance-visual-smoke/outputs/phase-11'
-                        : isMembersPrototypeAlignment
-                          ? '../../docs/30-workflows/members-list-prototype-alignment/outputs/phase-11'
-                        : isPublicDashboardPrototypeAlignment
-                          ? '../../docs/30-workflows/public-dashboard-prototype-alignment/outputs/phase-11'
-                        : isTask18FullVisualEvidence
-                          ? '../../docs/30-workflows/task-18-fu-full-visual-regression-suite/outputs/phase-11/evidence'
-                          : isTask18RegressionGate
-                            ? '../../docs/30-workflows/task-18-w7-verify-tokens-and-playwright-smoke/outputs/phase-11/evidence'
-                            : '../../docs/30-workflows/completed-tasks/08b-A-playwright-e2e-full-execution/outputs/phase-11/evidence')
+function getDefaultEvidenceDir() {
+  if (isAdminRequestsRun) {
+    return '../../docs/30-workflows/task-spec-2a-admin-requests-e2e/outputs/phase-11'
+  }
+  if (isAdminIdentityConflictsRun) {
+    return '../../docs/30-workflows/2b-admin-identity-conflicts-spec/outputs/phase-11/evidence'
+  }
+  if (isAdminMemberDeleteRun) {
+    return '../../docs/30-workflows/admin-member-delete-e2e-spec/outputs/phase-11/evidence'
+  }
+  if (isStagingSmoke) {
+    return '../../docs/30-workflows/task-05-error-boundary-and-staging-smoke/outputs/phase-11/evidence'
+  }
+  if (isAdminStagingVisual) {
+    return '../../docs/30-workflows/completed-tasks/admin-visual-baseline-admin-routes-task-e/outputs/phase-11/evidence'
+  }
+  if (isStagingVisual) {
+    return '../../docs/30-workflows/ut-dsf-07-staging-visual-runtime-evidence/outputs/phase-11/evidence'
+  }
+  if (isTask11PublicSmoke) {
+    return '../../docs/30-workflows/task-11-public-top-and-member-list/outputs/phase-11/evidence'
+  }
+  if (isTask12PublicSmoke || isTask12Evidence) {
+    return '../../docs/30-workflows/task-12-member-detail-register-legal/outputs/phase-11/evidence'
+  }
+  if (isTask13LoginSmoke) {
+    return '../../docs/30-workflows/task-13-login-rebuild/outputs/phase-11/evidence'
+  }
+  if (isTask17AdminEvidence) {
+    return '../../docs/30-workflows/task-17-admin-schema-conflicts-audit/outputs/phase-11/evidence'
+  }
+  if (isIssue776SchemaBulkEvidence) {
+    return '../../docs/30-workflows/issue-776-schema-alias-bulk-resolve/outputs/phase-11'
+  }
+  if (isTask10Followup002Evidence) {
+    return '../../docs/30-workflows/completed-tasks/task-10-followup-002-runtime-visual-axe-evidence/outputs/phase-11/evidence'
+  }
+  if (isAttendanceVisualSmoke) {
+    return '../../docs/30-workflows/07c-followup-002-attendance-visual-smoke/outputs/phase-11'
+  }
+  if (isMembersPrototypeAlignment) {
+    return '../../docs/30-workflows/members-list-prototype-alignment/outputs/phase-11'
+  }
+  if (isMembersUxClarityBaseline) {
+    return '../../docs/30-workflows/completed-tasks/members-list-ux-clarity/outputs/phase-11'
+  }
+  if (isPublicDashboardPrototypeAlignment) {
+    return '../../docs/30-workflows/public-dashboard-prototype-alignment/outputs/phase-11'
+  }
+  if (isTask18FullVisualEvidence) {
+    return '../../docs/30-workflows/task-18-fu-full-visual-regression-suite/outputs/phase-11/evidence'
+  }
+  if (isTask18RegressionGate) {
+    return '../../docs/30-workflows/task-18-w7-verify-tokens-and-playwright-smoke/outputs/phase-11/evidence'
+  }
+  return '../../docs/30-workflows/completed-tasks/08b-A-playwright-e2e-full-execution/outputs/phase-11/evidence'
+}
+
+const EVIDENCE_DIR = process.env.PLAYWRIGHT_EVIDENCE_DIR ?? getDefaultEvidenceDir()
 
 const shouldStartLocalServer =
   !isStagingSmoke && !isStagingVisual && process.env.PLAYWRIGHT_SKIP_WEB_SERVER !== '1'
@@ -107,8 +133,11 @@ const localServerReadyURL =
   isTask18RegressionGate ||
   isAttendanceVisualSmoke ||
   isMembersPrototypeAlignment ||
+  isMembersUxClarityBaseline ||
   isPublicDashboardPrototypeAlignment
-    ? `${localBaseURL}/login`
+    ? isMembersUxClarityBaseline
+      ? `${localBaseURL}/members`
+      : `${localBaseURL}/login`
     : localBaseURL
 const localPort = new URL(localBaseURL).port || '3000'
 const localCoverageDir = `${process.cwd()}/coverage/v8`
@@ -145,6 +174,12 @@ if (!isIssue776SchemaBulkEvidence) {
   // "30 件選択中" assertion が 60s timeout で全 retry fail → job timeout 18m 超過する。
   fixtureGatedTestIgnore.push('**/issue776-schema-bulk-resolve.spec.ts')
 }
+if (!isMembersUxClarityBaseline) {
+  fixtureGatedTestIgnore.push('**/members-ux-clarity.spec.ts')
+}
+const membersUxClarityNonPrimaryIgnore = isMembersUxClarityBaseline
+  ? [/members-ux-clarity\.spec\.ts$/]
+  : []
 
 export default defineConfig({
   testDir: './playwright/tests',
@@ -208,7 +243,7 @@ export default defineConfig({
     },
     {
       name: 'desktop-firefox',
-      testIgnore: [/visual\/.*\.spec\.ts$/, /visual-staging\/.*\.spec\.ts$/, /visual-staging-authenticated\/.*\.(spec|ts)$/, /visual-full\/.*\.spec\.ts$/, /full-smoke\.spec\.ts$/, ...fixtureGatedTestIgnore],
+      testIgnore: [/visual\/.*\.spec\.ts$/, /visual-staging\/.*\.spec\.ts$/, /visual-staging-authenticated\/.*\.(spec|ts)$/, /visual-full\/.*\.spec\.ts$/, /full-smoke\.spec\.ts$/, ...membersUxClarityNonPrimaryIgnore, ...fixtureGatedTestIgnore],
       use: { ...devices['Desktop Firefox'], viewport: { width: 1280, height: 800 } },
     },
     {
@@ -226,6 +261,7 @@ export default defineConfig({
         /admin-pages\.spec\.ts$/,
         /admin-tags-resolve-drawer\.spec\.ts$/,
         /task15-admin-screenshots\.spec\.ts$/,
+        ...membersUxClarityNonPrimaryIgnore,
         ...fixtureGatedTestIgnore,
       ],
       use: { ...devices['iPhone 13'], viewport: { width: 390, height: 844 } },
@@ -252,6 +288,7 @@ export default defineConfig({
         /visual-staging\/.*\.spec\.ts$/,
         /visual-full\/.*\.spec\.ts$/,
         /full-smoke\.spec\.ts$/,
+        ...membersUxClarityNonPrimaryIgnore,
         ...fixtureGatedTestIgnore,
       ],
       use: {
@@ -395,12 +432,14 @@ export default defineConfig({
                         ? `${localEnv} ENABLE_PRIMITIVES_HARNESS=1 pnpm --filter @ubm-hyogo/web dev:webpack`
                         : isMembersPrototypeAlignment
                           ? `${localEnv} pnpm --filter @ubm-hyogo/web exec next dev --webpack -p ${localPort}`
+                          : isMembersUxClarityBaseline
+                            ? `${localEnv} pnpm --filter @ubm-hyogo/web exec next dev --webpack -p ${localPort}`
                         : isTask18RegressionGate
                           ? `${localEnv} PLAYWRIGHT_ADMIN_REQUESTS_FIXTURE=1 PLAYWRIGHT_ADMIN_IDENTITY_CONFLICTS_FIXTURE=1 PLAYWRIGHT_TASK17_ADMIN_FIXTURE=1 pnpm --filter @ubm-hyogo/web dev:webpack`
                           : `${localEnv} pnpm --filter @ubm-hyogo/web dev:webpack`,
             url: localServerReadyURL,
             reuseExistingServer: !process.env.CI,
-            timeout: isAttendanceVisualSmoke ? 180_000 : 120_000,
+            timeout: isAttendanceVisualSmoke || isMembersUxClarityBaseline ? 180_000 : 120_000,
             env: { PORT: localPort },
           },
         ],

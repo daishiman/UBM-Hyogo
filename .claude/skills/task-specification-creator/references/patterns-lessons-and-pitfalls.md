@@ -1322,3 +1322,21 @@ source code を一切触らない **docs/spec 系 feature branch**（`docs/web-w
 - **SP-DEVSYNC-064-B (keywords.json 不発でも resolver は安全)**: `--ours + rebuild` 対象の `keywords.json` が今回 conflict せず（dev/branch の差分が orthogonal）、resolver stdout は `union-resolved 1 files` + `indexes:rebuild` のみ。`ours:` 行が出ないのは異常ではなく shape 依存。resolver 完走判定は **`git ls-files -u` 0** と `all skill / index conflicts resolved` 行で行い、`ours:` 行の有無に依存させない。
 - **SP-DEVSYNC-064-C (取込が visual baseline PNG を含んでも docs branch は再取得不要)**: #1014 は `playwright/.../full-visual-*.png` baseline 更新を含むが、docs branch 側はこれら binary を編集しないため `Auto-merging`（fast 取込）で衝突せず、visual baseline 再取得は不要。Phase 4 risk に「docs branch は取込 PNG を素通し・visual regression リスク無し」を 1 行登録できる。
 - 参照: [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-065 / L-DEVSYNC-059 / L-DEVSYNC-061（skill-only / 最小 shape）/ SP-DEVSYNC-061-A（判定フロー最上段）。
+
+## Playwright visual baseline 安定化 + completed-task path drift 補正パターン（test-stabilization / 2026-05-30 issue-1005-members-ux-playwright-baseline-stabilization）
+
+既存 visual baseline spec が cold start（dev server 新規起動）で flaky になる、または workflow root を `completed-tasks/` へ移動した後に spec/config が旧 active path を参照する場合に適用。`implementation / VISUAL / test-stabilization` として既存 implementation テンプレートで表現する。
+
+- **L-PWBASE-001 (completed-task path drift は双方向)**: dir 移動の close-out では移動 docs だけでなく、その path をハードコードする非ドキュメント資産（`apps/web/playwright/**` の `workflowRoot` 定数 / config `EVIDENCE_DIR` / env default）を `docs/30-workflows/<slug>` リテラルで grep し、移動先 path へ同 wave 補正する。`grep -v` で自分自身を除外する self-ref 見逃しの「参照する側」版。
+- **L-PWBASE-002 (explicit screenshot path は default+override 二段)**: `page.screenshot({ path })` を持つ spec はグローバル env だけで出力先を書き換えられない。spec-local canonical default + task 固有 env override の二段構成にする。
+- **L-PWBASE-003 (cold compile warm-up は3点同時)**: cold compile が 120s を超える route は (1) webServer ready URL を実 route 化、(2) `webServer.timeout` 拡張、(3) `beforeAll` warm-up の hook timeout 明示、を**同時**に行う。task-specific flag（既存 flag と同型）で localize する。
+- **L-PWBASE-004 (evidence-only spec は default matrix 除外)**: 同名 PNG の multi-project 3 重上書きは flake 面を増やす。evidence flag 未設定時は default matrix から除外し、flag/argv 時のみ単一 project 1 回実行に絞る。非 primary project には ignore を入れる。
+- **L-PWBASE-005 (mobile collapsed UI は state 属性 wait + capture-only fallback)**: cold-start hydration 直後の click が state に届かない collapsed UI は `data-expanded=true` を wait し、interaction contract を component test が担保している場合に限り DOM 属性固定の capture-only fallback を許容する。
+
+### Anti-pattern
+- test infra のみの変更だからと `implementation / VISUAL` タスクを spec-only で close する（実 flaky 解消・path drift 補正が未検証のまま完了扱いになる。Phase 11 で cold-start evidence を取り `implemented_local_evidence_captured` に倒す）。
+- 移動 docs の grep だけで dir 移動を完了扱いにし、spec/config の hardcoded path drift を残す。
+- timeout を 1 箇所だけ伸ばし、warm-up hook timeout を default のまま放置する（別箇所で flaky が残る）。
+- グローバル `PLAYWRIGHT_EVIDENCE_DIR` 設定だけで explicit screenshot path の drift を補正したつもりになる。
+- mobile collapsed UI の toggle 機能検証まで visual baseline spec に背負わせる（interaction は component test、baseline は capture-only に責務分離する）。
+- 参照: [[lessons-learned-issue-1005-members-ux-playwright-baseline-stabilization-2026-05]] L-I1005-001..006（aiworkflow-requirements 側 workflow 固有知見）。
