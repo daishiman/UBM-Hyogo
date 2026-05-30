@@ -24,6 +24,13 @@ export const browserHistory = (): History | undefined =>
   isBrowser() ? window.history : undefined;
 
 /**
+ * ブラウザ環境の `window` を返す。SSR / Workers では undefined。
+ * Client Component から browser-only API を使う場合の正規入口。
+ */
+export const browserWindow = (): Window | undefined =>
+  isBrowser() ? window : undefined;
+
+/**
  * ブラウザ環境の `document` を返す。SSR / Workers では undefined。
  * DOM focus trap 等の Client Component から使う。
  */

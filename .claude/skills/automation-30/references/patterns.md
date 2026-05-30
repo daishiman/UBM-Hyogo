@@ -9,6 +9,14 @@
 
 成功した実行から学んだベストプラクティス。
 
+### 既存例外を正本化してから guard を追加する
+- **状況**: 全体品質レビューで、既存状態に historical duplicate や drift があるが、即時リネーム・削除は危険な場合
+- **アプローチ**: 現状の例外を manifest に rationale 付きで明示し、検証スクリプトは「未登録の新規逸脱」と「stale exception」を fail させる
+- **結果**: 現在の挙動を壊さず、次回以降の品質劣化を自動検知できる
+- **適用条件**: DB migration 番号、CI gate 名、運用 workflow など、履歴互換性を保ちながら新規ルールを導入する場合
+- **検証証跡**: guard 本体の green、unit test の undocumented duplicate / stale exception / invalid name / missing rationale coverage、CI workflow 接続をセットで確認する
+- **発見日**: 2026-05-29
+
 <!--
 ### パターン名
 - **状況**: どんな状況で
