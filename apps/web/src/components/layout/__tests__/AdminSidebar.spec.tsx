@@ -31,10 +31,11 @@ describe("AdminSidebar", () => {
     expect(labels).toEqual(["Public", "Members", "Admin"]);
   });
 
-  it("renders all 13 nav items", () => {
+  it("renders the 12 grouped nav items without duplicating the public return link", () => {
     render(<AdminSidebar {...baseProps} />);
     const items = document.querySelectorAll('[data-component="admin-nav-item"]');
-    expect(items.length).toBe(13);
+    expect(items.length).toBe(12);
+    expect(document.querySelectorAll('a[data-role="public-return"]').length).toBe(1);
   });
 
   it("exposes one public-return link to public top", () => {
@@ -89,5 +90,50 @@ describe("AdminSidebar", () => {
     render(<AdminSidebar {...baseProps} />);
     const nav = screen.getByRole("navigation", { name: "管理メニュー" });
     expect(nav).toBeTruthy();
+  });
+
+  it("renders a single public-return link with stable DOM and accessible copy", () => {
+    render(<AdminSidebar {...baseProps} />);
+
+    const link = document.querySelector('a[data-role="public-return"]') as HTMLAnchorElement | null;
+
+    expect(link).not.toBeNull();
+    expect(link?.getAttribute("href")).toBe("/");
+    expect(link?.getAttribute("aria-label")).toBe("公開サイトに戻る");
+    expect(link?.textContent).toContain("公開サイトに戻る");
+    expect(screen.queryByText("ホーム")).toBeNull();
+  });
+
+  it("places public-return immediately before the footer and keeps sign-out below it", () => {
+    render(<AdminSidebar {...baseProps} />);
+
+    const link = document.querySelector('a[data-role="public-return"]');
+    const footer = document.querySelector('[data-component="admin-sidebar-footer"]');
+
+    expect(link).not.toBeNull();
+    expect(footer).not.toBeNull();
+    expect(link?.nextElementSibling).toBe(footer);
+    expect(footer?.querySelector('[data-testid="sign-out-button"]')).not.toBeNull();
+  });
+
+  it("keeps existing admin, public, and member nav labels available", () => {
+    render(<AdminSidebar {...baseProps} />);
+
+    for (const label of [
+      "会員ディレクトリ",
+      "登録",
+      "マイページ",
+      "ダッシュボード",
+      "出席分析",
+      "会員管理",
+      "タグキュー",
+      "スキーマ",
+      "開催日",
+      "依頼キュー",
+      "Identity重複",
+      "監査ログ",
+    ]) {
+      expect(screen.getByText(label)).toBeTruthy();
+    }
   });
 });

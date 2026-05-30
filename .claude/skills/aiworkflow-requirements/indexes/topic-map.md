@@ -1098,13 +1098,13 @@ node scripts/list-specs.js --topics
 | Issue #958 /admin/members bulk republish UX | L14 |
 | 1. 全体構成 | L26 |
 | 2. AdminSidebar | L61 |
-| 3. /admin（Dashboard） | L87 |
-| 4. /admin/members | L140 |
-| 5. /admin/tags | L233 |
-| 6. /admin/schema | L319 |
-| 7. /admin/meetings | L374 |
-| 8. 共通の Server/Client 契約 | L443 |
-| 9. 不変条件サマリ（admin UI） | L461 |
+| 3. /admin（Dashboard） | L97 |
+| 4. /admin/members | L150 |
+| 5. /admin/tags | L243 |
+| 6. /admin/schema | L329 |
+| 7. /admin/meetings | L384 |
+| 8. 共通の Server/Client 契約 | L453 |
+| 9. 不変条件サマリ（admin UI） | L471 |
 
 ### references/ui-ux-advanced.md
 
@@ -2199,6 +2199,12 @@ node scripts/list-specs.js --topics
 |------------|----|
 | Contract | L17 |
 | Lessons Learned | L30 |
+
+### references/workflow-admin-sidebar-public-return-link-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Lessons Learned | L20 |
 
 ### references/workflow-admin-tag-queue-ui-and-404-recovery-artifact-inventory.md
 
@@ -4175,6 +4181,12 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | Lessons Learned | L18 |
+
+### references/workflow-task-c-public-member-sidebar-shell-integration-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Lessons Learned | L16 |
 
 ### references/workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md
 
@@ -8097,14 +8109,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L3150 |
-| フェーズ構造（概要） | L3159 |
-| 品質ゲート（概要） | L3190 |
-| 出力テンプレート | L3201 |
-| 実行時のコマンド・エージェント・スキル | L3224 |
-| 昇格パターン集 | L3248 |
-| Current Active / Spec Created Tasks | L3250 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L3412 |
+| ドキュメント構成 | L3182 |
+| フェーズ構造（概要） | L3191 |
+| 品質ゲート（概要） | L3222 |
+| 出力テンプレート | L3233 |
+| 実行時のコマンド・エージェント・スキル | L3256 |
+| 昇格パターン集 | L3280 |
+| Current Active / Spec Created Tasks | L3282 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L3444 |
 
 ### references/task-workflow-backlog-part2.md
 
