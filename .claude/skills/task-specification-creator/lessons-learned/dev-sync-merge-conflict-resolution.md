@@ -589,3 +589,28 @@
 - 適用範囲外: 同名 interface への両側 field 追加は SP-DEVSYNC-041 系の field hybridize に分岐。barrel re-export の name collision がある場合は per-symbol 解消が必要。
 - 検証: `grep -nE '^(<<<<<<<|=======|>>>>>>>|\|\|\|\|\|\|\|)' <module>` 0 件 + `pnpm typecheck` PASS + `pnpm lint` PASS + 両 referencing getter が両 interface を import せず inline 参照で green。
 - 参照: aiworkflow-requirements [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-059 を唯一の正本。
+
+### SP-DEVSYNC-043: 4 index 派生物の同時 conflict でも resolver 単発で収束する（2026-05-29 確認）
+
+- 事象: 2026-05-29 `feat/public-header-logged-login-redirect-when-authenticated` ← origin/dev sync-merge で conflict 7 件 = 両 skill の `SKILL.md` 2 + aiworkflow `indexes/{keywords.json,quick-reference.md,resource-map.md,topic-map.md}` 4 + `references/task-workflow-active.md` 1。本 branch の実装ファイル `apps/web/app/login/page.tsx` は `Auto-merging` で textual conflict なし（直交接触面）。
+- Why: index 派生 4 件が一度に衝突しても、union-merge 対象（SKILL/quick-ref/resource-map/topic-map/task-workflow-active）と `--ours + rebuild` 対象（keywords.json）に綺麗に分かれるため、resolver の決定的 rebuild が 4 件同時でも単発で収束する。SP-DEVSYNC-042 の `.ts` 手動 hybridize 経路は **発火しない**（page-level 接触面が無い skill-only shape）。
+- How to apply（task 仕様書での逐語化）: Phase 9 sync-merge 節の事前見積で「conflict 全件が skill index/SKILL/task-workflow-active/keywords.json に限定されるなら、index が複数同時衝突していても追加工数を見込まない（`pnpm sync:resolve` 単発）」を明記。`.tsx`/`.ts` の conflict が 1 件でも混在する場合のみ SP-DEVSYNC-038/042 の手動 hybridize 工数を Phase 11/13 に積む。
+- 検証: `pnpm sync:resolve` stdout `union-resolved 6 files` + `ours: keywords.json` + `indexes:rebuild` 完走 → `git ls-files -u` 0 → `pnpm typecheck` 6 packages Done → `pnpm lint` Done → `pnpm indexes:rebuild` 再実行 no drift。merge commit `0ad9e3555`。
+- 参照: aiworkflow-requirements [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-060 再現事例（2026-05-29 第3例）。
+- 再現（2026-05-30 `docs/web-worker-size-limit-fix-spec` ← origin/dev sync-merge）: dev 側 1 コミット（#1013 認証状態別ヘッダー表示基盤）取り込みで conflict 3 件 = aiworkflow `indexes/{resource-map.md,topic-map.md}` 2 + `references/task-workflow-active.md` 1（`SKILL.md`/`quick-reference.md`/`keywords.json` は `Auto-merging` で textual conflict なし）。`.tsx`/`.ts` 接触面ゼロの skill-only shape。`pnpm sync:resolve` で 3 件 union 自動解消 + `keywords.json` rebuild（5200 キーワード）→ `git ls-files -u` 0 → merge commit 単発 → `pnpm indexes:rebuild` 再実行 no drift（後追い chore commit 不要）→ `pnpm typecheck` 6 packages Done / `pnpm lint` Done。SP-DEVSYNC-043 の「index 複数同時衝突でも resolver 単発収束 / 追加工数不要」が conflict 件数 3〜7 のレンジで再現することを確認。merge commit は CLAUDE.md sync-merge ポリシーで `staged-task-dir-guard` が `MERGE_HEAD` 検出 auto-skip するため `--no-verify` 不要。
+
+
+### SP-DEVSYNC-044: 同一 feature の **競合実装**（module 分割 vs inline + 相違 DOM 契約）は canonical branch の coherent unit を wholesale 採用 + consumer 対向契約の grep verify を仕様化（2026-05-30 追加）
+
+- 事象: 2026-05-30 `feat/public-header-session-aware-auth-view-base` ← origin/dev sync-merge で、HEAD（auth-view base 担当 branch）が auth-view を `types.ts`/`getAuthView.ts`/`resolveAuthView.ts` に module 分割 + barrel re-export、dev が同 feature を sibling branch 経由で **index.ts インライン単一実装** として先取りしていた競合。session API（`getAuth()`+`memberId` vs `getSession()`+`SessionUser`）・DOM 契約（`data-component`+`member-cta`/`admin-cta`+`管理画面` vs `data-testid`+`管理`）すべて相違。page-level conflict 6 件（component/spec/module/layout/layout.spec）。
+- Why: SP-DEVSYNC-038（新 variant 追加 vs 簡素化）/ SP-DEVSYNC-042（直交 symbol 並列追加）はいずれも「両側を残す/片側 take」で済む。本パターンは **同一機能を構造・API・契約すべて違う形で両側が完成させた** ため、行単位 hybridize は契約が混線して破綻する。test suite が揃っている canonical branch の coherent unit を丸ごと残す方が regression risk 最小。
+- How to apply（task 仕様書での逐語化）:
+  - Phase 9 sync-merge 節に「**同一 feature 競合実装の wholesale 解消判定**」を追記:
+    1. conflict block の HEAD/dev が **同名 export だが import 元・session/data API・DOM 属性が相違** → 同一 feature の競合実装と判定（add/add も含む）。
+    2. feature の dedicated/canonical branch（= 当該 feature を主題とする branch）側を `git checkout --ours <unit 全ファイル一括>` で wholesale 採用（component + spec + module 群 + layout + layout.spec を 1 単位）。
+    3. **wholesale 採用前に unit 外 consumer の対向契約依存を grep**: `grep -rn '<dev側 DOM 契約 token>' apps/web/app apps/web/src`。mock 化された self-contained spec（`vi.mock(<component>)`）や両契約を併持する shared primitive（例 `SignOutButton` の `data-testid`）は regression 非該当として除外し、実 DOM 依存 consumer のみ残課題化。
+  - Phase 4 risk に「auth/header 等の base feature branch は sibling branch が dev に別構造で先着取り込みしている可能性。merge 前に `git log origin/dev ^HEAD -- <feature dir>` で対向実装 commit を事前確認」を登録。
+  - Phase 11/13 検証に「wholesale `--ours` 後は focused vitest を **unit + consumer route まで広げて実行**（unit のみだと mock 化 consumer の契約乖離を見逃す）」を明記。
+- 適用範囲外: 同一構造で field/variant だけ違う場合は SP-DEVSYNC-038/041 系の hybridize。skill-only conflict は resolver 単発（SP-DEVSYNC-043）。
+- 検証: `git diff --diff-filter=U` 0 件 + `pnpm typecheck` PASS + `pnpm lint` PASS + `vitest run apps/web/src/lib/<feature> apps/web/src/components/<area> apps/web/app`（本例 81 files / 383 tests PASS）。merge commit `060bab6bf`。
+- 参照: aiworkflow-requirements [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-063 を唯一の正本。

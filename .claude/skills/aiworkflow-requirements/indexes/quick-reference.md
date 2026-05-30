@@ -1,5 +1,37 @@
 # クイックリファレンス
 
+## web-worker-size-limit-fix（2026-05-29）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/web-worker-size-limit-fix/` |
+| status | `implemented_local_evidence_captured / implementation / NON_VISUAL` |
+| purpose | OpenNext Worker bundle が gzip 3316KiB > 3072KiB 上限を超過し `[code: 10027]` で deploy fail する問題を、next/og 撤去 + 静的 OG 画像化 + CI size gate で解消する |
+| Task A | `apps/web/app/opengraph-image.tsx`(削除), `apps/web/app/(public)/members/[id]/opengraph-image/route.tsx`(削除), `apps/web/public/og-default.png`(新規 1200×630), `apps/web/src/lib/seo/site-metadata.ts`, `apps/web/playwright/tests/public-metadata.spec.ts` |
+| Task B | `scripts/check-worker-size.sh`(新規), `.github/workflows/web-cd.yml`(両 deploy job に size gate), `apps/web/__tests__/opennext-config-regression.spec.ts`(minify 維持 + next/og 0 件 assert) |
+| 閾値 | hard 3072KiB / warn 2800KiB（script・CI・spec・implementation-guide で一貫） |
+| 計測対象 | `apps/web/.open-next/server-functions/default/apps/web/handler.mjs` 等の gzip 合算（bootstrap `worker.js` ではない）。実測 gzip 2100KiB |
+| OpenNext 注意 | `@opennextjs/cloudflare@1.19.4` に `minify` config key は無く、無効設定を足さず production 既定 minify を維持 |
+| knowledge | `.claude/skills/aiworkflow-requirements/references/deployment-cloudflare-opennext-workers.md`, `docs/00-getting-started-manual/specs/08-free-database.md`（Worker bundle size 制約節） |
+| lessons | `.claude/skills/task-specification-creator/lessons-learned/web-worker-size-limit-fix.md`（L-WWSL-001..004） |
+| unassigned | `docs/30-workflows/unassigned-task/member-dynamic-og-paid-or-worker-split.md`（Issue #1027 / member 個別動的 OG 再導入は有料 or Worker 分離が前提） |
+| user-gated | commit / push / PR / staging deploy / production deploy |
+
+## login-redirect-when-authenticated（2026-05-28）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/login-redirect-when-authenticated/` |
+| status | `implemented_local_evidence_captured / implementation / NON_VISUAL / local_focused_tests_passed` |
+| parent | `docs/30-workflows/public-header-logged-in-nav-cleanup/` Task D |
+| purpose | ログイン済みユーザーが `/login` に到達した場合、server-side で `/profile` または safe な `next` へ redirect する |
+| implementation targets | `apps/web/src/lib/url/safe-next.ts`, `apps/web/app/login/page.tsx` |
+| tests | `apps/web/src/lib/url/__tests__/safe-next.spec.ts`, `apps/web/app/login/__tests__/page.spec.tsx` |
+| evidence | `mise exec -- pnpm exec vitest run apps/web/src/lib/url/__tests__/safe-next.spec.ts apps/web/app/login/__tests__/page.spec.tsx` PASS（2 files / 22 tests） |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-login-redirect-when-authenticated-artifact-inventory.md` |
+| user gate | browser/staging runtime confirmation, commit, push, PR |
+
+## admin-identity-conflicts-prototype-alignment-and-404-fix（2026-05-27）
 ## task-b-root-page-public-header-async（2026-05-28）
 
 | 項目 | 値 |
@@ -1558,6 +1590,20 @@
 | sub-workflow serial-06 Form Response Binding（2026-05-23） | `docs/30-workflows/ui-prototype-design-system-foundation/serial-06-form-response-binding/`、status `spec_created / implementation / VISUAL / strict7-parent-aggregated`、adapter/page/MemberDetail/fixture/spec の実装仕様。standalone `docs/30-workflows/serial-06-form-response-binding/` は禁止 duplicate topology、Phase 12 strict 7 は parent root 集約、sub 側は `phase-12-compliance-check.md` のみ |
 | sub-workflow parallel-03 AppShell Layouts（2026-05-19） | `docs/30-workflows/ui-prototype-design-system-foundation/parallel-03-appshell-layouts/`、status `implemented_local_evidence_captured / implementation / VISUAL (public chrome only; admin/member deferred-to-serial-07)`、`implementation_mode: existing-layout-alignment`、3 layout (`apps/web/app/(public\|member\|admin)/layout.tsx`) に `data-theme` / `data-route-group` / `data-shell` / `data-route` / `data-testid` を付与、OKLch token (`var(--ubm-color-*)`) 経由のみ、既存 primitive 無改変、admin は `getSession()` 2 段防御 + redirect 維持、Phase 11 evidence は `outputs/phase-11/`、lessons-learned `.claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-parallel-03-appshell-layouts-2026-05.md` (L-PAR03-001..005) |
 
+### public-header-session-aware-auth-view-base（2026-05-28）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/public-header-session-aware-auth-view-base/` |
+| 状態 | `implemented_local_evidence_captured / implementation / VISUAL / Phase 13 pending_user_approval` |
+| parent | `docs/30-workflows/public-header-logged-in-nav-cleanup/` Task A |
+| implemented targets | `apps/web/src/lib/auth-view/*`, `apps/web/src/components/public/PublicHeader.tsx`, `apps/web/app/(public)/layout.tsx` |
+| tests | focused Vitest 24 PASS (`resolveAuthView`, `getAuthView`, `PublicHeader`, `PublicLayout`) |
+| Phase 11 | local component screenshots present for guest/member/admin |
+| invariant | no new endpoint / no D1 schema / no Google Form change; `data-auth-state` is only `guest\|member\|admin`; no PII in DOM |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-public-header-session-aware-auth-view-base-artifact-inventory.md` |
+| user gate | staging authenticated runtime visual, commit, push, PR |
+
 ### public-header-logged-in-nav-cleanup（2026-05-28）
 
 | 目的 | 参照先 |
@@ -1570,6 +1616,21 @@
 | invariant | no new endpoint / no D1 schema / no PII in DOM; `data-auth-state` is only `guest\|member\|admin`; route topology stays unchanged |
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-public-header-logged-in-nav-cleanup-artifact-inventory.md` |
 | user gate | apps/web implementation, local focused tests, Playwright auth-slot run, staging runtime visual, commit, push, PR |
+
+### task-c-privacy-terms-public-shell-spec（2026-05-28）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/task-c-privacy-terms-public-shell-spec/` |
+| 状態 | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION / local_verification_passed` |
+| parent | `docs/30-workflows/public-header-logged-in-nav-cleanup/` |
+| source task | `docs/30-workflows/public-header-logged-in-nav-cleanup/tasks/task-c-privacy-terms-public-shell.md` |
+| scope | `/privacy`, `/terms` に `<PublicHeader authView />` + `<PublicFooter />` を mount。metadata と LegalProse 本文は不変 |
+| planned targets | `apps/web/app/privacy/page.tsx`, `apps/web/app/terms/page.tsx`, `apps/web/app/privacy/__tests__/page.spec.tsx`, `apps/web/app/terms/__tests__/page.spec.tsx` |
+| strict Phase 12 | `outputs/phase-12/{main.md,implementation-guide.md,system-spec-update-summary.md,documentation-changelog.md,unassigned-task-detection.md,skill-feedback-report.md,phase12-task-spec-compliance-check.md}` |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-task-c-privacy-terms-public-shell-spec-artifact-inventory.md` |
+| evidence | focused Vitest/typecheck/lint PASS、Phase 11 guest/member/admin screenshots 6 件 present |
+| user gate | commit, push, PR |
 
 ### Issue #749 Primitive Adoption Tracker（2026-05-17）
 

@@ -8,6 +8,48 @@
 
 本ドキュメントは、複雑なタスクを単一責務の原則に基づいて分解し、各サブタスクに最適なスラッシュコマンド・エージェント・スキルの組み合わせを選定するためのガイドラインを定義する。
 
+### web-worker-size-limit-fix（2026-05-29）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / NON_VISUAL` |
+| 成果物 | `docs/30-workflows/completed-tasks/web-worker-size-limit-fix/` |
+| 目的 | `ubm-hyogo-web-staging` Worker gzip 3316KiB > Free 3072KiB 超過を、`next/og` 撤去 + 静的 OG + deploy 前 size gate で解消 |
+| implementation targets | `apps/web/app/opengraph-image.tsx` deleted, `apps/web/app/(public)/members/[id]/opengraph-image/route.tsx` deleted, `apps/web/app/(public)/members/[id]/__tests__/opengraph-image.spec.tsx` deleted, `apps/web/public/og-default.png`, `apps/web/src/lib/seo/site-metadata.ts`, `apps/web/app/(public)/members/[id]/page.tsx`, `apps/web/playwright/tests/public-metadata.spec.ts`, `apps/web/__tests__/opennext-config-regression.spec.ts`, `scripts/check-worker-size.sh`, `.github/workflows/web-cd.yml` |
+| invariant | `@opennextjs/cloudflare@1.19.4` に `minify` config key は無い。無効な `minify:true` ではなく production minify 既定維持 + `OPEN_NEXT_DEBUG` 禁止 + OpenNext worker/handler gzip size gate を正本にする |
+| evidence | web typecheck PASS, web Vitest 188 files / 1293 tests PASS, build:cloudflare PASS, OpenNext worker/handler 5 files gzip 2100KiB, next/og grep 0, wasm/font find 0, lint PASS |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-web-worker-size-limit-fix-artifact-inventory.md` |
+| user gate | staging deploy, production deploy, commit, push, PR |
+
+### public-header-session-aware-auth-view-base（2026-05-28）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / VISUAL / Phase 13 pending_user_approval` |
+| 成果物 | `docs/30-workflows/completed-tasks/public-header-session-aware-auth-view-base/` |
+| 親 workflow | `docs/30-workflows/public-header-logged-in-nav-cleanup/` |
+| 目的 | `AuthView` 型、`resolveAuthView()`、`getAuthView()`、`PublicHeader` auth slot、`(public)/layout.tsx` injection を Task A 基盤として実装する |
+| implementation targets | `apps/web/src/lib/auth-view/*`, `apps/web/src/components/public/PublicHeader.tsx`, `apps/web/app/(public)/layout.tsx` |
+| tests | `resolveAuthView.spec.ts`, `getAuthView.spec.ts`, `PublicHeader.spec.tsx`, `(public)/layout.spec.tsx` focused 24 PASS |
+| invariant | 新 API endpoint / D1 schema / Google Form 変更なし。DOM に PII を出さず `data-auth-state=guest/member/admin` のみ |
+| Phase 11/12 | Phase 11 local component screenshots present、strict 7 present、root/output artifacts parity present、30-method compact evidence present |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-public-header-session-aware-auth-view-base-artifact-inventory.md` |
+| user gate | staging authenticated runtime visual, commit, push, PR |
+
+### login-redirect-when-authenticated（2026-05-28）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / NON_VISUAL / local_focused_tests_passed` |
+| 成果物 | `docs/30-workflows/completed-tasks/login-redirect-when-authenticated/` |
+| 親 workflow | `docs/30-workflows/public-header-logged-in-nav-cleanup/` Task D |
+| 目的 | ログイン済み `/login` 到達時に server-side で `/profile` または safe な `next` へ redirect し、匿名ユーザーの LoginCard 描画は維持する |
+| implementation targets | `apps/web/src/lib/url/safe-next.ts`, `apps/web/app/login/page.tsx` |
+| contract | `safeNext` は `isSafeInternalRedirect` を再利用し、query 固有の長さ 256 / colon guard を追加する。`/login` 自己ループは fallback `/profile` |
+| evidence | focused Vitest 2 files / 22 tests PASS |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-login-redirect-when-authenticated-artifact-inventory.md` |
+| user gate | browser/staging runtime confirmation、commit、push、PR |
+
 ### task-b-root-page-public-header-async（2026-05-28）
 
 | 項目 | 値 |
@@ -124,6 +166,21 @@
 | Phase 12 | strict 7 present、root/output artifacts parity present、30-method compact evidence present |
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-public-header-logged-in-nav-cleanup-artifact-inventory.md` |
 | user gate | apps/web implementation, local focused tests, Playwright auth slot evidence, staging runtime, commit, push, PR |
+
+### task-c-privacy-terms-public-shell-spec（2026-05-28）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION / local_verification_passed` |
+| 成果物 | `docs/30-workflows/task-c-privacy-terms-public-shell-spec/` |
+| parent | `docs/30-workflows/public-header-logged-in-nav-cleanup/` |
+| source task | `docs/30-workflows/public-header-logged-in-nav-cleanup/tasks/task-c-privacy-terms-public-shell.md` |
+| 目的 | `/privacy` と `/terms` に `<PublicHeader authView />` + `<PublicFooter />` を mount し、公開シェルと session-aware CTA を統一する実装仕様 |
+| implementation targets | `apps/web/app/privacy/page.tsx`, `apps/web/app/terms/page.tsx` |
+| tests | `apps/web/app/privacy/__tests__/page.spec.tsx`, `apps/web/app/terms/__tests__/page.spec.tsx` |
+| Phase 12 | strict 7 present、root/output artifacts parity present、30-method compact evidence present、Phase 11 screenshot evidence 6 件 present |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-task-c-privacy-terms-public-shell-spec-artifact-inventory.md` |
+| user gate | commit, push, PR |
 
 ### profile-server-components-render-error（2026-05-27）
 
