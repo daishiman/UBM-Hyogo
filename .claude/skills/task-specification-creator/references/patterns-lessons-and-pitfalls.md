@@ -1303,6 +1303,20 @@ anti-pattern:
 - 参照: [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-064、L-DEVSYNC-059/061 (skill-only shape resolver-only path)、SP-DEVSYNC-059 (default path)、SP-DEVSYNC-062-C (採番運用)。
 
 
+## L-USS-A 親 workflow + nested sub-workflow による単一タスク Phase 1-13 化（2026-05-28）
+
+A-F 等の親 workflow 内で **1 タスクだけを単独サイクル完結** したい時、standalone root を作らず `tasks/<task-id>/` に Phase 1-13 サブworkflow を nest するパターン。`unified-sidebar-shell-public-and-admin` Task A (`SidebarShell` primitive) で検証。
+
+- **L-USS-A-001 (parent + nested topology)**: standalone root (`docs/30-workflows/task-A-...`) を作らず親の `tasks/<task-id>/` 配下に Phase 1-13 を nest。verify:phase12-compliance は `hasCompletedTasksAncestor=true` で許容。standalone を後から `mv` で collapse する場合、artifact-inventory に `collapsed into parent` で吸収。
+- **L-USS-A-002 (Server / Client 境界 slot 固定)**: 3 層 layout 共通 shell primitive では `<...Server>` だけが `getSession()` / counts を解決し、Client component には plain props + `ReactNode` slot を渡す。後追い実装の下流タスクが上流 contract を壊さない。
+- **L-USS-A-003 (SSR-safe persistent UI state)**: collapse / sidebar state 等の client-only state は「初期値 deterministic + `useEffect` で localStorage hydrate」の 2 段。初期 render で localStorage を読むと Cloudflare Workers / Next.js App Router で hydration mismatch。
+- **L-USS-A-004 (`buildNavFor<Role>` pure 関数化)**: nav 構成は component に埋め込まず `<area>-config.ts` 1 箇所に集約。`*-config.spec.ts` で role × ctx 全 branch を網羅し、admin nav drift を CI で防ぐ。
+- **L-USS-A-005 (out-of-order 実装でも上流契約を守る)**: 依存タスク (Task B = UserMenu 等) が先行実装されても、上流 (Task A = primitive) は slot 契約 + plain props を維持。下流の細部を上流に逆流させない。
+- **L-USS-A-006 (tokens は theme variant 同時追加)**: `--shell-bar-*` 等の surface トークンは default + `[data-theme='cool']` を必ず同時追加。片側だけ追加すると `verify-design-tokens` fail + cool theme drift。
+- **anti-pattern**: (a) standalone root を残す (discovery 分裂)、(b) Client に `getSession()` (auth boundary 崩壊)、(c) 初期 render で localStorage 同期読み (SSR mismatch)、(d) nav 構成を component / config の両方に書く (drift 不可避)、(e) tokens を default のみ追加 (theme drift)。
+- 参照: [[lessons-learned-unified-sidebar-shell-task-a-2026-05]] L-USS-001..006、[[admin-shell-topbar-sidebar-integration]] (前例 Task A primitive 分離)。
+
+
 ## L-DEVSYNC-061 conflict 0 件 shape（add-only 取込）を sync-merge 判定フローの最上段に固定（dev sync-merge / 2026-05-29）
 
 `feat/task-c-privacy-terms-public-shell-spec` ← `dev` (取込 1 commit `37fe488e8` #1009) の sync-merge で **conflict 0 件**。dev 側差分が `docs/30-workflows/completed-tasks/members-list-ux-clarity/**` への **新規ファイル追加のみ**で、feature branch の接触面（`(public)/{privacy,terms}` + skill 索引）と path が完全 orthogonal だったため、add-add すら起きず resolver / 手動 hybridize の両方が不要だった（merge commit `fa756f644` を `git merge` が即生成）。L-DEVSYNC-059/060 の "skill-only → resolver 単発" よりさらに 1 段クリーンな最頻 shape。
@@ -1359,3 +1373,12 @@ source code を一切触らない **docs/spec 系 feature branch**（`docs/web-w
 - **SP-DEVSYNC-064-B (keywords.json 不発でも resolver は安全)**: `--ours + rebuild` 対象の `keywords.json` が今回 conflict せず（dev/branch の差分が orthogonal）、resolver stdout は `union-resolved 1 files` + `indexes:rebuild` のみ。`ours:` 行が出ないのは異常ではなく shape 依存。resolver 完走判定は **`git ls-files -u` 0** と `all skill / index conflicts resolved` 行で行い、`ours:` 行の有無に依存させない。
 - **SP-DEVSYNC-064-C (取込が visual baseline PNG を含んでも docs branch は再取得不要)**: #1014 は `playwright/.../full-visual-*.png` baseline 更新を含むが、docs branch 側はこれら binary を編集しないため `Auto-merging`（fast 取込）で衝突せず、visual baseline 再取得は不要。Phase 4 risk に「docs branch は取込 PNG を素通し・visual regression リスク無し」を 1 行登録できる。
 - 参照: [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-065 / L-DEVSYNC-059 / L-DEVSYNC-061（skill-only / 最小 shape）/ SP-DEVSYNC-061-A（判定フロー最上段）。
+
+
+## SP-DEVSYNC-065 dev sync 4 回目 — lessons reference 自身の append-conflict は union、生成物 topic-map は rebuild（2026-05-30 feat/admin-sidebar-public-return-link ← dev #1025 4 回目）
+
+`feat/admin-sidebar-public-return-link` ← `origin/dev` (HEAD `061d22bf5`「統一サイドバーシェル基盤を追加 #1025」) の 4 回目 sync-merge。conflict は 2 件のみ: `.claude/skills/aiworkflow-requirements/indexes/topic-map.md`（生成物・行番号テーブル差分）と `.claude/skills/task-specification-creator/references/patterns-lessons-and-pitfalls.md`（本ファイル自身）。`keywords.json` / `quick-reference.md` / `resource-map.md` / `references/task-workflow-active.md` は git auto-merge 成功で conflict に上がらなかった（SP-DEVSYNC-064-A の「conflict 集合は毎回変わる」を再確認）。
+
+- **SP-DEVSYNC-065-A (lessons reference 自身の append-conflict)**: 本ファイル (`references/patterns-lessons-and-pitfalls.md`) は HEAD（SP-DEVSYNC-063 節）と dev（L-USS-A 節）が末尾近くに独立追記しただけの append-conflict だった。SP-DEVSYNC-012 の「追記型 SSOT は両側採用」を適用し、marker 4 種を除去して HEAD→dev の順で両節を連結（`||||||| <base>` セクションは破棄）。lessons / patterns を集約する reference は並行 wave が末尾に節を足すため、それ自身が conflict 源になることを Phase 5 手順に明記する。
+- **SP-DEVSYNC-065-B (生成物 topic-map は union せず rebuild)**: `indexes/topic-map.md` は `generate-index.js` の生成物。行番号テーブルを手動 union すると行が二重化するため、`git checkout --theirs -- <topic-map>` で valid 化 → `pnpm indexes:rebuild` で source（references/）から再生成して上書き → `git add` が正解（SP-DEVSYNC-029 の rebuild 内包と整合）。
+- 参照: [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-068、SP-DEVSYNC-064（conflict 集合の毎回再確認）、SP-DEVSYNC-012（追記型 SSOT 両側採用）。

@@ -144,7 +144,8 @@
 | 項目 | 値 |
 | --- | --- |
 | ステータス | `spec_created / implementation / VISUAL / implementation_pending` |
-| 成果物 | `docs/30-workflows/unified-sidebar-shell-public-and-admin/` |
+| 成果物 | `docs/30-workflows/completed-tasks/unified-sidebar-shell-public-and-admin/` |
+| sub-workflow | `docs/30-workflows/completed-tasks/unified-sidebar-shell-public-and-admin/tasks/task-A-sidebar-shell-primitive/`（standalone root から親配下へ統合済み） |
 | 目的 | public / member / admin の shell を単一 collapsible `SidebarShell` primitive に統合する |
 | planned targets | `apps/web/src/components/shell/**`, `apps/web/app/(public)/layout.tsx`, `apps/web/app/(member)/layout.tsx`, `apps/web/app/(admin)/layout.tsx`, `apps/web/src/styles/tokens.css`, `apps/web/tests/e2e/sidebar-shell-*.spec.ts` |
 | nav contract | viewer=3 item、member=4 item、admin=13 item（Admin group 9 item） |
