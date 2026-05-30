@@ -2779,3 +2779,9 @@ AC-1〜AC-6 全達成。Phase 10 判定: PASS（MINOR 0件）
 
 - Added `lessons-learned/issue-903-member-runtime-evidence.md`.
 - Captured guidance for delegated evidence validation, URL-stable route group moves, route-move static invariant drift, runtime scrape selector dedupe, and same-wave system-spec path synchronization.
+
+# 2026-05-28 public-header-auth-slot-e2e parent-task promotion + DOM auth-slot pattern
+
+- Appended a new section to `references/patterns-lessons-and-pitfalls.md` (Parent-task promotion + DOM auth-slot 検証パターン) with L-PARENTPROMO-001 and L-AUTHSLOT-001..005 + 4 anti-patterns, generalising the `public-header-auth-slot-e2e` Phase 12 skill-feedback into a reusable template for future DOM-contract verification workflows.
+- Inverse linked aiworkflow-requirements `lessons-learned/lessons-learned-public-header-auth-slot-e2e-2026-05.md` (L-AUTHSL-001..006) and the workflow inventory's new `## Lessons Learned` section so the SSOT chain (lessons → inventory → patterns) stays bi-directional.
+- No template fields were added; the change is doc-side generalisation only.

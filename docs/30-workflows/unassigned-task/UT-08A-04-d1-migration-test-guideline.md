@@ -28,6 +28,9 @@ UT-04 / 02b で初期 migration test は完了済みである一方、**今後�
 
 - 09b runbook に「新規 migration 追加時の test 最低基準」セクションを追加する。
 - 最低基準として以下を記載する: (a) `wrangler d1 migrations apply` がローカル / preview で green、(b) 既存 contract test suite が pass、(c) schema 変更点に対する 1 件以上の repository / use-case test 追加。
+- 新規 migration は `NNNN_description.sql` 形式を守り、重複 prefix は `apps/api/migrations/sequence-exceptions.json` に rationale 付きで登録されている場合のみ許容する。
+- `pnpm verify:d1-migrations` が migration sequence guard として green になる。
+- migration sequence guard の unit test（`node --test scripts/__tests__/verify-d1-migration-sequence.test.mjs`）が CI の D1 migration verify workflow で green になる。
 - pre-commit / CI で migrations 配下に変更があった場合に runbook 参照を促すリマインダ（comment）を仕込む。
 
 ## 苦戦箇所【記入必須】
@@ -41,6 +44,7 @@ UT-04 / 02b で初期 migration test は完了済みである一方、**今後�
 | リスク | 対策 |
 | --- | --- |
 | ガイドラインが守られず migration drift が CI を倒す | CI で migrations 配下変更検知時に runbook link を comment する step を追加 |
+| migration 番号 prefix の重複で適用順・レビュー観点が曖昧になる | `pnpm verify:d1-migrations` で未登録重複 / stale exception / 不正ファイル名を fail させる |
 | ガイドラインが過剰で migration 追加コストが上がる | 「最低基準」3 項目に絞り、それ以上は個別 task の判断に委ねる |
 | 02b suite との責任分担が不透明 | runbook で「02b は initial schema 専用 / 以降は task 個別」と明記する |
 
@@ -51,9 +55,11 @@ UT-04 / 02b で初期 migration test は完了済みである一方、**今後�
 ```bash
 ls apps/api/migrations 2>/dev/null
 rg "migrations" docs/30-workflows/02b-* docs/30-workflows/completed-tasks 2>/dev/null
+pnpm verify:d1-migrations
+node --test scripts/__tests__/verify-d1-migration-sequence.test.mjs
 ```
 
-期待: 既存 migration test suite が確認でき、09b runbook に追加すべき差分が特定できる。
+期待: 既存 migration test suite が確認でき、migration sequence guard が green になる。
 
 ### CI フック確認
 
@@ -70,6 +76,7 @@ rg "migrations" .github/workflows
 - 09b runbook への「migration 追加時 test 最低基準」追記
 - migrations path 変更時の CI リマインダ
 - 02b suite の責任範囲明記
+- migration prefix 重複の guard と documented exception 運用
 
 ### 含まない
 
