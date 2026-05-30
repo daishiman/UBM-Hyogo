@@ -1,10 +1,9 @@
 {
   "$schema": "../../../../docs/30-workflows/task-709-visual-baseline-runtime-capture/schemas/baseline-meta.schema.json",
-  "captured_at_commit_sha": "0d2980f5daeabc2665b6afb20fb578d7721d753d",
-  "captured_at": "2026-05-29T09:25:34Z",
+  "captured_at_commit_sha": "8e1f61f09d24dcb5c64646099cca561caf413771",
+  "captured_at": "2026-05-30T12:27:39Z",
   "captured_via": "playwright-visual-baseline-update.yml#workflow_dispatch",
   "captured_run_ids": [
-    "26493400023",
     "26503855446",
     "26506821722",
     "26540715735",
@@ -13,7 +12,8 @@
     "26552192908",
     "26581231613",
     "26616303516",
-    "26628923374"
+    "26628923374",
+    "26683595362"
   ],
   "viewport_dimensions": {
     "desktop": {
@@ -41,5 +41,5 @@
   "refresh_workflow": ".github/workflows/playwright-visual-baseline-update.yml",
   "refresh_command_hint": "gh workflow run playwright-visual-baseline-update.yml -f reason=\"<why>\" -r <feature-branch>",
   "notes": "captured_at_commit_sha からの rendering_relevant_paths diff が空でない場合、baseline は stale。scripts/visual-baseline-status.sh で診断可能。",
-  "last_refresh_reason": "task-c: privacy/terms ページに PublicHeader/PublicFooter を適用したため visual baseline が新レイアウトと差分。PR #1014 の visual-full(privacy/terms desktop/mobile/tablet) を解消するため baseline 再生成。"
+  "last_refresh_reason": "再実行: viewer user-menu click timeout 修正後。unified-sidebar-shell 統合の visual-full + visual-chromium baseline を Linux で再生成+push"
 }
