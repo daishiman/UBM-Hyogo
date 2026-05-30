@@ -53,6 +53,13 @@ WARN（skip）扱いになるため**手元 PASS だが CI FAIL** が成立す�
 2. dev sync merge 後は単に `pnpm typecheck && pnpm lint` だけでなく、
    差分パスに `apps/web/middleware.ts` または `apps/web/app/(admin)/layout.tsx` が
    含まれている場合は **e2e admin-pages spec を必ず手動 grep 検査** する。
+3. **redirect 連鎖の最終 URL を assert する**: middleware redirect 先（例 `/login?gate=forbidden`）
+   が他の server component（例 `/login` の `getSession()` 認証済 redirect → `/profile`）で
+   さらに redirect される場合、Playwright `goto` は **最終 URL でしか settle しない**。
+   `toHaveURL(/\/login\?.*gate=forbidden/)` は intermediate URL の assert なので fail する。
+   必ず redirect chain の終点（本 case では `/profile`）を assert すること。chain を把握するには
+   `apps/web/app/login/page.tsx` 等の server component で
+   `redirect(next ?? "/profile")` を grep して認証済ユーザーの fallback 先を特定する。
 
 ## L-PHAS-CI-003 — async server component layout を導入した直後の `.spec.tsx` は `vi.mock` + `await Layout({...})` 形に書き換える
 

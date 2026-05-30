@@ -661,7 +661,8 @@
      ```
      `ERROR: 0` を確認するまで push しない。
   2. **async layout 移行 grep**: `git diff origin/dev...HEAD --name-only -- 'apps/web/app/**/layout.tsx'` で async 化された layout の同階層 `.spec.tsx` に `await <Layout>({ children })` パターンと `vi.mock('.../auth-view')` が入っているか手動 grep 確認。
-  3. **認可境界 e2e 整合 grep**: `apps/web/middleware.ts` または `apps/web/app/(admin)/layout.tsx` が diff に含まれる場合は `git grep -nE 'expect\\(res.*\\)\\.toBe\\(403\\)' apps/web/playwright/` で stale assert を検出し、redirect 化 commit と同じ wave で `toHaveURL(/\\/login\\?.*gate=forbidden/)` に書き換える。
+  3. **認可境界 e2e 整合 grep**: `apps/web/middleware.ts` または `apps/web/app/(admin)/layout.tsx` が diff に含まれる場合は `git grep -nE 'expect\\(res.*\\)\\.toBe\\(403\\)' apps/web/playwright/` で stale assert を検出し、redirect 化 commit と同じ wave で書き換える。
+  4. **redirect chain 最終 URL の特定**: middleware redirect 先が更に server-side で redirect される（例: `/login` page の `getSession()` 認証済 ⇒ `/profile`）場合、Playwright `page.goto()` は中間 URL では settle しない。`toHaveURL` の正規表現は **chain 終点**（本 case では `/profile`）に書く。redirect chain は `apps/web/app/<route>/page.tsx` の `redirect(...)` 呼び出しを再帰的に grep して特定する。
 - 適用範囲外: ローカル `pnpm typecheck/lint` で検出される構文系 regression（既存 SP-DEVSYNC-001..045 に集約済み）。
 - 検証: 本 sync-merge では fix commit で 3 修正（`outputs/artifacts.json` metadata.gates 化 / `app/(member)/layout.spec.tsx` async render 化 / `playwright/tests/admin-pages.spec.ts` redirect 期待化）+ pre-push hooks PASS + push 完了で CI 全 green 復帰見込み。
 - 参照: aiworkflow-requirements [[lessons-learned-public-header-auth-slot-e2e-sync-merge-ci-fix-2026-05]] L-PHAS-CI-001..003。

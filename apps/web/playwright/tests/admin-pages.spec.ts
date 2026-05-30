@@ -35,10 +35,13 @@ test.describe('admin pages × 認可境界 (5 画面 × 3 ロール)', () => {
     await meetings.screenshot('admin-meetings', 'desktop')
   })
 
-  test('member: /admin/* は /login?gate=forbidden へ redirect', async ({ memberPage }) => {
+  test('member: /admin/* は最終的に /profile へ redirect（middleware→login server-side redirect chain）', async ({ memberPage }) => {
+    // 期待挙動: middleware が /login?gate=forbidden へ redirect → /login server component が
+    // 認証済 session を検出して safeNext(next) || "/profile" へ redirect。member は
+    // 既に認証済のため最終 URL は /profile に固定される（login-redirect-when-authenticated）。
     for (const path of ADMIN_PATHS) {
       await memberPage.goto(path)
-      await expect(memberPage).toHaveURL(/\/login\?.*gate=forbidden/)
+      await expect(memberPage).toHaveURL(/\/profile/)
     }
   })
 
