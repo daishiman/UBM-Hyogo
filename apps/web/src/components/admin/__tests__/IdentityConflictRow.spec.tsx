@@ -44,6 +44,7 @@ vi.mock("../../../features/admin/hooks", () => ({
 
 import { IdentityConflictRow } from "../IdentityConflictRow";
 import type { IdentityConflictRow as Row } from "@ubm-hyogo/shared";
+import { FetchAuthedError } from "../../../lib/fetch/errors";
 
 const item: Row = {
   conflictId: "c_1",
@@ -95,7 +96,28 @@ describe("IdentityConflictRow", () => {
     expect((exec as HTMLButtonElement).disabled).toBe(true);
   });
 
-  it("merge 実行で trigger に { targetMemberId, reason } を送る (happy)", async () => {
+  it("merge 実行直後に server 応答前でも row を optimistic に非表示にする", async () => {
+    const trigger = vi.fn(() => new Promise(() => {}));
+    setMutationState(mergeEndpoint, { trigger });
+
+    render(<IdentityConflictRow item={item} />);
+    fireEvent.click(screen.getByRole("button", { name: "merge" }));
+    fireEvent.click(screen.getByRole("button", { name: "次へ" }));
+    fireEvent.change(screen.getByLabelText("merge 理由"), {
+      target: { value: "本人確認済" },
+    });
+    fireEvent.click(screen.getByRole("button", { name: "merge 実行" }));
+
+    await waitFor(() =>
+      expect(trigger).toHaveBeenCalledWith(mergeEndpoint, {
+        targetMemberId: "m_dst",
+        reason: "本人確認済",
+      }),
+    );
+    await waitFor(() => expect(screen.queryByText("conflict: c_1")).toBeNull());
+  });
+
+  it("merge 成功後も row は非表示を維持する", async () => {
     const trigger = vi.fn().mockResolvedValue({
       mergedAt: "2026-05-16T00:00:00.000Z",
       targetMemberId: "m_dst",
@@ -118,10 +140,7 @@ describe("IdentityConflictRow", () => {
         reason: "本人確認済",
       }),
     );
-    // success path: onSuccess が走り idle に戻る
-    await waitFor(() =>
-      expect(screen.getByRole("button", { name: "merge" })).toBeTruthy(),
-    );
+    await waitFor(() => expect(screen.queryByText("conflict: c_1")).toBeNull());
   });
 
   it("hook の successMessage は '✓ 統合しました'", () => {
@@ -133,11 +152,15 @@ describe("IdentityConflictRow", () => {
     );
   });
 
-  it("merge 失敗 (409) で modal は閉じず、reason / error が残る", async () => {
-    const trigger = vi.fn().mockRejectedValue(new Error("すでに統合済みです"));
+  it("merge 失敗 (409) で optimistic 非表示を rollback し、reason / error が残る", async () => {
+    const apiError = new FetchAuthedError(
+      409,
+      JSON.stringify({ message: "すでに統合済みです" }),
+    );
+    const trigger = vi.fn().mockRejectedValue(apiError);
     setMutationState(mergeEndpoint, {
       trigger,
-      error: new Error("すでに統合済みです"),
+      error: apiError,
     });
 
     render(<IdentityConflictRow item={item} />);
@@ -149,7 +172,8 @@ describe("IdentityConflictRow", () => {
     fireEvent.click(screen.getByRole("button", { name: "merge 実行" }));
 
     await waitFor(() => expect(trigger).toHaveBeenCalled());
-    // modal は閉じない: 確認2 が表示され、reason textarea が残存する
+    await waitFor(() => expect(screen.getByText("conflict: c_1")).toBeTruthy());
+    // rollback 後も modal は閉じない: 確認2 が表示され、reason textarea が残存する
     expect(screen.getByText(/確認 2\/2/)).toBeTruthy();
     expect(
       (screen.getByLabelText("merge 理由") as HTMLTextAreaElement).value,

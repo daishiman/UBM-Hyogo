@@ -1241,3 +1241,24 @@ Next.js App Router で公開層 (`/`, `/(public)/*`) の auth-state 出し分け
 - **SP-DEVSYNC-059-D (検証ゲートの順序固定)**: resolver 完結後の検証は **`git diff --check` 空 → `pnpm typecheck` Done × 6 packages → `pnpm lint` Done × 全 packages → `git push`** の 4 step を Phase 12 implementation-guide に明記。stablekey-literal-lint が mode=warning の場合は block 対象外として扱う。
 - **SP-DEVSYNC-059-E (lesson 再現の SSOT)**: 同形再現が 2 連続 (a98fd67bb / 2026-05-29 merge) で確認済みのため、admin-ui modernization wave 終息までは Phase 12 implementation-guide の sync-merge 節で本 lesson を **default reference** として 1 行記載する（L-DEVSYNC-056/057/058 は分岐先として 1 行併記）。
 - 参照: [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-059、L-DEVSYNC-055 (resolver 単独完結 happy-path)、L-DEVSYNC-056/057/058 (手動 hybridize 分岐先)、L-DEVSYNC-046 (UNION_TARGETS)。
+
+
+## optimistic row mutation + rollback + API error body surfacing パターン（issue-988 / 2026-05-30 汎化）
+
+admin 系の一覧 row に対する mutation（merge / dismiss / archive 等）を、server round-trip を待たず即 UI 反映し、失敗時のみ巻き戻す UX を component-local state だけで実装するときの設計 AC。API endpoint / shared hook を拡張せず `*Row.tsx` の中で完結させる前提。
+
+- **L-OPTMUT-001 (可視性 state を dialog stage union から分離)**: 確定対象の可視性/有効性は専用 boolean（例 `optimisticMerged`）に切り出し、dialog 段階管理の `stage` union に新値として混ぜない。`if (optimisticMerged) return null` の 1 行 guard で render を止め、rollback は boolean を false に戻すだけにする。Phase 2 design AC に「即時反映対象の可視性は専用 boolean、dialog/フォーム state とは直交」を登録。
+- **L-OPTMUT-002 (API error body を inline alert に surface する pure helper)**: rollback 時の inline error は transport 汎用文言ではなく API レスポンス body の文言を出す。`FetchAuthedError`（`status` / `bodyText`）を JSON.parse し `message ?? error ?? error.message`、parse 失敗時 `bodyText`、非 FetchAuthedError は `.message` を返す副作用なし helper を component 直前に定義。Phase 11 evidence AC に「error 文言が API body と一致すること（generic 文言 drift の検出）」を登録。
+- **L-OPTMUT-003 (success と failure で復帰挙動が非対称)**: reject 時のみ rollback（modal 非閉鎖・入力 reason 保持）。success path では row を `return null` のまま維持し再表示しない（消えたものが戻る flicker を回避）。Phase 2 design AC に「optimistic hide は失敗時のみ巻き戻し、成功時は恒久化」を明記。
+- **L-OPTMUT-004 (focused test を 3 タイミングに分離)**: (1) pending Promise（`new Promise(() => {})`）中に row が消える、(2) resolve 後も消えたまま、(3) reject（業務 status の error）で再表示し reason/error 残存、の 3 it に分ける。既存の「success 後に操作ボタン再表示」assertion は「row 消失維持」へ更新。assertion は DOM 上の row 識別子有無で行い内部 state を覗かない。Phase 6 test AC に登録。
+- **L-OPTMUT-005 (Playwright text locator は exact:true で substring 一致回避)**: 短い ID（`m_src_01`）が長い複合 ID（`m_src_01__m_dst_01`）の prefix になり得る場合は `getByText(id, { exact: true })`。row 特定は `getByText('conflict: <id>').locator('xpath=ancestor::li[1]')` で scope を絞る。Phase 11 e2e AC に登録。
+- **L-OPTMUT-006 (VISUAL evidence は env-gated capture で通常 run と同居)**: screenshot は env（`PLAYWRIGHT_<scope>_SCREENSHOT_DIR`）設定時のみ `mkdirSync`+capture する helper にラップし未設定時 no-op。canonical screenshot 名は Phase 1 spec で先に固定し implementation-guide でも同名参照して name drift を防ぐ。VISUAL_ON_EXECUTION task の Phase 11 evidence AC に登録。
+
+anti-pattern:
+
+- 可視性を `stage` union の新値で表現して rollback 分岐を爆発させる（→ L-OPTMUT-001）。
+- rollback inline alert に `error.message`（transport 汎用文言）だけを出し 409 等の業務メッセージを落とす（→ L-OPTMUT-002）。
+- success 後に optimistic hide を巻き戻して row を一瞬再表示する flicker（→ L-OPTMUT-003）。
+- optimistic / success / rollback を 1 test ケースに混ぜて pending 中の hide を検証しない（→ L-OPTMUT-004）。
+
+- 参照: [[lessons-learned-issue-988-optimistic-merged-2026-05]] L-I988-001..006、[[workflow-issue-988-identity-conflicts-merge-optimistic-update-artifact-inventory]]。
