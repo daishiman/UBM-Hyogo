@@ -1603,6 +1603,21 @@
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-public-header-logged-in-nav-cleanup-artifact-inventory.md` |
 | user gate | apps/web implementation, local focused tests, Playwright auth-slot run, staging runtime visual, commit, push, PR |
 
+### task-c-privacy-terms-public-shell-spec（2026-05-28）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/task-c-privacy-terms-public-shell-spec/` |
+| 状態 | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION / local_verification_passed` |
+| parent | `docs/30-workflows/public-header-logged-in-nav-cleanup/` |
+| source task | `docs/30-workflows/public-header-logged-in-nav-cleanup/tasks/task-c-privacy-terms-public-shell.md` |
+| scope | `/privacy`, `/terms` に `<PublicHeader authView />` + `<PublicFooter />` を mount。metadata と LegalProse 本文は不変 |
+| planned targets | `apps/web/app/privacy/page.tsx`, `apps/web/app/terms/page.tsx`, `apps/web/app/privacy/__tests__/page.spec.tsx`, `apps/web/app/terms/__tests__/page.spec.tsx` |
+| strict Phase 12 | `outputs/phase-12/{main.md,implementation-guide.md,system-spec-update-summary.md,documentation-changelog.md,unassigned-task-detection.md,skill-feedback-report.md,phase12-task-spec-compliance-check.md}` |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-task-c-privacy-terms-public-shell-spec-artifact-inventory.md` |
+| evidence | focused Vitest/typecheck/lint PASS、Phase 11 guest/member/admin screenshots 6 件 present |
+| user gate | commit, push, PR |
+
 ### Issue #749 Primitive Adoption Tracker（2026-05-17）
 
 | 目的 | 参照先 |
