@@ -51,12 +51,8 @@ The workflow now has Phase 1-13 files, root/output `artifacts.json` parity, Phas
 | screenshot plan | `outputs/phase-11/screenshot-plan.json` | present |
 | smoke log | `outputs/phase-11/sidebar-shell-smoke.log` | pending |
 | visual metadata | `outputs/phase-11/sidebar-shell-visual-metadata.json` | pending |
-| Task B focused vitest: config | `../../../completed-tasks/unified-sidebar-shell-task-b-user-menu-and-role-handling/outputs/phase-11/user-menu-config.spec.log` | present |
-| Task B focused vitest: component | `../../../completed-tasks/unified-sidebar-shell-task-b-user-menu-and-role-handling/outputs/phase-11/sidebar-user-menu.spec.log` | present |
-| Task B screenshot: viewer | `../../../completed-tasks/unified-sidebar-shell-task-b-user-menu-and-role-handling/outputs/phase-11/screenshots/user-menu-viewer.png` | present |
-| Task B screenshot: member | `../../../completed-tasks/unified-sidebar-shell-task-b-user-menu-and-role-handling/outputs/phase-11/screenshots/user-menu-member.png` | present |
-| Task B screenshot: admin | `../../../completed-tasks/unified-sidebar-shell-task-b-user-menu-and-role-handling/outputs/phase-11/screenshots/user-menu-admin.png` | present |
-| Task B screenshot: collapsed | `../../../completed-tasks/unified-sidebar-shell-task-b-user-menu-and-role-handling/outputs/phase-11/screenshots/user-menu-collapsed.png` | present |
+
+> Task B-owned Phase 11 evidence (focused vitest 2 logs + 4 role screenshots) は sub-workflow `docs/30-workflows/completed-tasks/unified-sidebar-shell-task-b-user-menu-and-role-handling/outputs/phase-11/` 配下に存在し、sub root の compliance-check が evidence existence を検証する（L-USERMENU-005 / SP-USERMENU-005: sub-workflow Phase 12 ownership boundary）。parent root の verifier は workflow root 外への path 参照を許可しないため、ここでは inventory 行を持たない。
 
 ## 5. Phase 12 strict 7 file inventory
 
