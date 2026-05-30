@@ -1,0 +1,3 @@
+apps/web/app/(member)/layout.tsx:12:  const authView = await getAuthView();
+apps/web/src/components/layout/MemberHeader.tsx:18:      data-auth-state={isAdmin ? "admin" : "member"}
+apps/web/src/components/layout/MemberHeader.tsx:29:            data-role="admin-cta"

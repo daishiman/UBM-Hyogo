@@ -185,6 +185,19 @@ Next.js 16 + React 19 の prerender 経路で `next-auth` の静的 import が `
 
 この規約は Issue #385 の Plan A 実装で導入したもので、Auth.js の意味論（Google OAuth / Magic Link / JWT session / session-resolve）は変更しない。さらに `.mise.toml` が local dev 用に `NODE_ENV=development` を注入するため、`apps/web/package.json` の `build` / `build:cloudflare` は `NODE_ENV=production` を明示し、production build の React dispatcher を安定化する。
 
+### AuthView と MemberHeader admin CTA（2026-05-28）
+
+`apps/web/src/lib/auth-view/` は、Server Component / layout が UI に渡す最小の認証 view 境界である。`resolveAuthView()` は `SessionLike` を `guest | member | admin` に純関数で正規化し、`getAuthView()` は `getSession()` を呼ぶ薄い async helper とする。例外時は `{ kind: "guest" }` に fail-closed する。
+
+```ts
+type AuthView =
+  | { readonly kind: "guest" }
+  | { readonly kind: "member"; readonly profileHref: "/profile" }
+  | { readonly kind: "admin"; readonly profileHref: "/profile"; readonly adminHref: "/admin" };
+```
+
+`apps/web/app/(member)/layout.tsx` は `await getAuthView()` を1回だけ実行し、`<MemberHeader authView={authView} />` へ渡す。`MemberHeader` は `authView.kind === "admin"` のときだけ `href="/admin"` / `data-role="admin-cta"` / `aria-label="管理ダッシュボードへ移動"` の管理リンクを描画する。`guest` / 未指定 / 取得失敗時は `data-auth-state="member"` として扱い、DOM には PII を出さない。
+
 ### 必要な環境変数
 
 | 変数名 | 説明 |

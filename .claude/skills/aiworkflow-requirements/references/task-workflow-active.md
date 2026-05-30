@@ -8,6 +8,21 @@
 
 本ドキュメントは、複雑なタスクを単一責務の原則に基づいて分解し、各サブタスクに最適なスラッシュコマンド・エージェント・スキルの組み合わせを選定するためのガイドラインを定義する。
 
+### member-header-admin-link（2026-05-28）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION / staging_visual_pending_user_gate` |
+| 成果物 | `docs/30-workflows/completed-tasks/member-header-admin-link/` |
+| parent | `docs/30-workflows/public-header-logged-in-nav-cleanup/` Task E |
+| 目的 | `(member)/profile` の `MemberHeader` に admin session のみ `/admin` 動線を復旧する |
+| implementation targets | `apps/web/src/lib/auth-view/*`, `apps/web/src/components/layout/MemberHeader.tsx`, `apps/web/app/(member)/layout.tsx` |
+| tests | `apps/web/src/lib/auth-view/__tests__/resolveAuthView.spec.ts`, `apps/web/src/components/layout/__tests__/MemberHeader.spec.tsx` |
+| evidence | focused Vitest 9 PASS、workspace typecheck PASS、workspace lint PASS、HEX grep PASS、`data-auth-state` / `admin-cta` / `await getAuthView` grep PASS、local header screenshots 2 PNG |
+| invariant | D1 direct accessなし。DOM PIIなし。member header では `guest` / 未指定を `data-auth-state="member"` に fail-closed |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-member-header-admin-link-artifact-inventory.md` |
+| user gate | staging visual smoke, commit, push, PR |
+
 ### web-worker-size-limit-fix（2026-05-29）
 
 | 項目 | 値 |

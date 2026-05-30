@@ -1591,6 +1591,20 @@
 | sub-workflow serial-06 Form Response Binding（2026-05-23） | `docs/30-workflows/ui-prototype-design-system-foundation/serial-06-form-response-binding/`、status `spec_created / implementation / VISUAL / strict7-parent-aggregated`、adapter/page/MemberDetail/fixture/spec の実装仕様。standalone `docs/30-workflows/serial-06-form-response-binding/` は禁止 duplicate topology、Phase 12 strict 7 は parent root 集約、sub 側は `phase-12-compliance-check.md` のみ |
 | sub-workflow parallel-03 AppShell Layouts（2026-05-19） | `docs/30-workflows/ui-prototype-design-system-foundation/parallel-03-appshell-layouts/`、status `implemented_local_evidence_captured / implementation / VISUAL (public chrome only; admin/member deferred-to-serial-07)`、`implementation_mode: existing-layout-alignment`、3 layout (`apps/web/app/(public\|member\|admin)/layout.tsx`) に `data-theme` / `data-route-group` / `data-shell` / `data-route` / `data-testid` を付与、OKLch token (`var(--ubm-color-*)`) 経由のみ、既存 primitive 無改変、admin は `getSession()` 2 段防御 + redirect 維持、Phase 11 evidence は `outputs/phase-11/`、lessons-learned `.claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-parallel-03-appshell-layouts-2026-05.md` (L-PAR03-001..005) |
 
+### member-header-admin-link（2026-05-28）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/member-header-admin-link/` |
+| 状態 | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION / staging_visual_pending_user_gate` |
+| parent | `docs/30-workflows/public-header-logged-in-nav-cleanup/` Task E |
+| scope | MemberHeader admin CTA, member layout authView配信, `auth-view` 最小基盤 |
+| implementation targets | `apps/web/src/lib/auth-view/*`, `apps/web/src/components/layout/MemberHeader.tsx`, `apps/web/app/(member)/layout.tsx` |
+| evidence | focused Vitest 9 PASS、workspace typecheck PASS、workspace lint PASS、HEX grep PASS、member header contract grep PASS、local header screenshots 2 PNG |
+| invariant | no new endpoint / no D1 schema / no PII in DOM; member header maps guest/missing authView to `data-auth-state="member"` fail-closed |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-member-header-admin-link-artifact-inventory.md` |
+| user gate | staging visual smoke, commit, push, PR |
+
 ### public-header-session-aware-auth-view-base（2026-05-28）
 
 | 目的 | 参照先 |
