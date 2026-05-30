@@ -35,10 +35,10 @@ test.describe('admin pages × 認可境界 (5 画面 × 3 ロール)', () => {
     await meetings.screenshot('admin-meetings', 'desktop')
   })
 
-  test('member: /admin/* は 403', async ({ memberPage }) => {
+  test('member: /admin/* は /login?gate=forbidden へ redirect', async ({ memberPage }) => {
     for (const path of ADMIN_PATHS) {
-      const res = await memberPage.goto(path)
-      expect(res?.status()).toBe(403)
+      await memberPage.goto(path)
+      await expect(memberPage).toHaveURL(/\/login\?.*gate=forbidden/)
     }
   })
 

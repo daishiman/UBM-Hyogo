@@ -644,3 +644,24 @@
 - 適用範囲外: page-level `.ts/.tsx` の `UU` が残る場合は SP-DEVSYNC-038/042/044 経路（fallback では救えない）。
 - 検証: merge commit `09d82ca20`、typecheck 6 packages Done、lint exit 0。
 - 参照: aiworkflow-requirements [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-065、`scripts/sync/resolve-skill-merge-conflicts.sh`。
+
+
+### SP-DEVSYNC-046: dev sync merge 後 CI で初めて検出される semantic regression 3 種は仕様書 Phase 9 / Phase 11 pre-push checklist に固定化（2026-05-30 追加）
+
+- 事象: 2026-05-30 `feat/public-header-auth-slot-e2e` ← origin/dev sync-merge 後 `pnpm sync:resolve` + `pnpm typecheck` + `pnpm lint` は PASS だが push 後 CI 5 job fail（verify-gate-metadata / coverage-gate (web) / e2e desktop-chromium / e2e desktop-firefox / e2e-tests-coverage-gate / validate）。ローカル `pnpm gate-metadata:validate`（require オプションなし）は `ERROR: 0` で見逃し、`--require-gates-for-changed` モードで初めて `metadata.gates absent on changed artifacts.json` を検出。
+- Why: sync-merge は構文 conflict（pnpm sync:resolve / `--ours`/`--theirs` wholesale）に閉じてしまい、以下 3 種の semantic regression は CI のみで検出される:
+  1. `outputs/artifacts.json` の gates が top-level（require モードのみ ERROR）
+  2. async server component 化（layout.tsx）と layout.spec.tsx の非同期 render 不整合（jsdom render が Promise を子要素扱いし null）
+  3. middleware 認可境界レスポンス（403 ↔ redirect）と e2e spec assert の semantic 反転
+- How to apply（task 仕様書での逐語化）: Phase 9 sync-merge 節 + Phase 11 pre-push checklist に以下を必須記載:
+  1. **gate-metadata require-mode 事前実行**:
+     ```bash
+     mise exec -- pnpm gate-metadata:validate --require-gates-for-changed \
+       $(git diff --name-only origin/dev...HEAD -- '**/artifacts.json')
+     ```
+     `ERROR: 0` を確認するまで push しない。
+  2. **async layout 移行 grep**: `git diff origin/dev...HEAD --name-only -- 'apps/web/app/**/layout.tsx'` で async 化された layout の同階層 `.spec.tsx` に `await <Layout>({ children })` パターンと `vi.mock('.../auth-view')` が入っているか手動 grep 確認。
+  3. **認可境界 e2e 整合 grep**: `apps/web/middleware.ts` または `apps/web/app/(admin)/layout.tsx` が diff に含まれる場合は `git grep -nE 'expect\\(res.*\\)\\.toBe\\(403\\)' apps/web/playwright/` で stale assert を検出し、redirect 化 commit と同じ wave で `toHaveURL(/\\/login\\?.*gate=forbidden/)` に書き換える。
+- 適用範囲外: ローカル `pnpm typecheck/lint` で検出される構文系 regression（既存 SP-DEVSYNC-001..045 に集約済み）。
+- 検証: 本 sync-merge では fix commit で 3 修正（`outputs/artifacts.json` metadata.gates 化 / `app/(member)/layout.spec.tsx` async render 化 / `playwright/tests/admin-pages.spec.ts` redirect 期待化）+ pre-push hooks PASS + push 完了で CI 全 green 復帰見込み。
+- 参照: aiworkflow-requirements [[lessons-learned-public-header-auth-slot-e2e-sync-merge-ci-fix-2026-05]] L-PHAS-CI-001..003。
