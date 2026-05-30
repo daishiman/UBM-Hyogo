@@ -15,10 +15,14 @@ test.describe('parallel-03 admin AppShell runtime evidence (EV-12)', () => {
     await mockApi.reset()
     await adminPage.goto('/admin')
 
-    const shell = adminPage.getByTestId('admin-shell')
+    // unified-sidebar-shell 統合後: 旧 admin-shell topbar/sidebar は共通 SidebarShell に置換。
+    // theme / route-group は (admin)/layout.tsx の wrapper、role/app-shell は SidebarShell が露出する。
+    const group = adminPage.locator('[data-route-group="admin"]')
+    await expect(group).toBeAttached()
+    await expect(group).toHaveAttribute('data-theme', 'cool')
+    const shell = adminPage.getByTestId('app-shell')
     await expect(shell).toBeVisible()
-    await expect(shell).toHaveAttribute('data-theme', 'cool')
-    await expect(shell).toHaveAttribute('data-route-group', 'admin')
+    await expect(shell).toHaveAttribute('data-role', 'admin')
     const viewportWidth = adminPage.viewportSize()?.width ?? 0
     const sidebar = adminPage.locator('[data-shell="sidebar"]')
     await expect(sidebar).toBeAttached()
@@ -28,13 +32,14 @@ test.describe('parallel-03 admin AppShell runtime evidence (EV-12)', () => {
       await expect(sidebar).toBeHidden()
     }
     await expect(adminPage.locator('[data-shell="topbar"]')).toHaveCount(0)
-    await expect(adminPage.locator('main[data-route="admin"]')).toBeVisible()
+    await expect(adminPage.locator('[data-route="admin"]')).toBeVisible()
 
     const lines = await adminPage.evaluate(() => {
       const selectors = [
-        '[data-testid="admin-shell"]',
+        '[data-route-group="admin"]',
+        '[data-testid="app-shell"]',
         '[data-shell="sidebar"]',
-        'main[data-route="admin"]',
+        '[data-route="admin"]',
       ]
       return selectors.flatMap((selector) =>
         Array.from(document.querySelectorAll<HTMLElement>(selector)).map((element) =>
@@ -48,7 +53,7 @@ test.describe('parallel-03 admin AppShell runtime evidence (EV-12)', () => {
 
     expect(lines.length).toBeGreaterThanOrEqual(3)
     const header = [
-      '# EV-12 admin AppShell DOM scrape (parallel-03-followup-002)',
+      '# EV-12 admin AppShell DOM scrape (parallel-03-followup-002 / unified-sidebar-shell)',
       '# captured via apps/web/playwright/tests/parallel-03-admin-shell-scrape.spec.ts',
       '# route: /admin (admin session fixture, mock API)',
       '',
@@ -56,7 +61,7 @@ test.describe('parallel-03 admin AppShell runtime evidence (EV-12)', () => {
     const scrape = `${header}${lines.join('\n')}`
     expect(scrape).toContain('data-theme="cool"')
     expect(scrape).toContain('data-route-group="admin"')
-    expect(scrape).toContain('data-testid="admin-shell"')
+    expect(scrape).toContain('data-testid="app-shell"')
     expect(scrape).toContain('data-shell="sidebar"')
     expect(scrape).not.toContain('data-shell="topbar"')
     expect(scrape).toContain('data-route="admin"')

@@ -36,7 +36,8 @@ test.describe('mypage-prototype-alignment Phase 11 screenshots', () => {
   test('captures canonical profile screenshots', async ({ memberPage, mockApi }) => {
     void mockApi
     await memberPage.goto('/profile', { waitUntil: 'domcontentloaded', timeout: 90_000 })
-    await expect(memberPage.locator('main[data-route="member"]')).toBeVisible()
+    // unified-sidebar-shell 統合後: data-route は <main> ではなく shell main 内の content div。
+    await expect(memberPage.locator('[data-route="member"]')).toBeVisible()
     await prepare(memberPage)
 
     await mkdir(SCREENSHOT_DIR, { recursive: true })
@@ -46,7 +47,8 @@ test.describe('mypage-prototype-alignment Phase 11 screenshots', () => {
     })
     await screenshot(memberPage.locator('[data-region="status-banner"]'), 'status-banner-public.png')
     await screenshot(memberPage.locator('[data-region="visibility-summary"]'), 'visibility-summary.png')
-    await screenshot(memberPage.getByTestId('member-header'), 'member-header-nav.png')
+    // 旧 member-header は撤去。ナビ証跡は共通 shell の sidebar を撮影する。
+    await screenshot(memberPage.getByTestId('shell-sidebar'), 'member-header-nav.png')
 
     await memberPage.locator('[data-cta="edit-cta-header"]').click()
     await expect(memberPage.getByRole('dialog', { name: '情報を最新化しますか？' })).toBeVisible()

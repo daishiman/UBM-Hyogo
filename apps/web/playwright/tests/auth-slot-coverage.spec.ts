@@ -20,30 +20,38 @@ const ROUTES: readonly Route[] = [
   { path: '/admin', expect: { guest: 'redirect', member: 'redirect', admin: 'admin' } },
 ] as const
 
-const HEADER_LOCATOR =
-  '[data-component="public-header"], [data-testid="member-header"], [data-route-group="admin"]'
+// unified-sidebar-shell 統合後の auth-state 契約:
+// - 旧 PublicHeader / MemberHeader / admin route-group の data-auth-state は廃止。
+// - 共通 SidebarShell の `[data-shell="app-shell"]` が `data-role="viewer|member|admin"` で auth-state を露出する。
+// - role 別 CTA は左下 SidebarUserMenu の action（viewer=login / member=profile / admin=profile+admin-dashboard）。
+//   desktop（>=md）では persistent `[data-shell="sidebar"]` 内に 1 度だけ描画される（mobile drawer は閉時 return null）。
+const SHELL_LOCATOR = '[data-shell="app-shell"]'
+const ROLE_FOR_STATE: Readonly<Record<State, 'viewer' | 'member' | 'admin'>> = {
+  guest: 'viewer',
+  member: 'member',
+  admin: 'admin',
+}
 const SESSION_COOKIE_NAME = 'authjs.session-token'
 const E2E_AUTH_SECRET = process.env.AUTH_SECRET ?? 'playwright-e2e-auth-secret-32-bytes'
 
 async function assertRender(page: Page, expected: State) {
-  const header = page.locator(HEADER_LOCATOR).first()
-  await expect(header).toHaveAttribute('data-auth-state', expected)
+  const shell = page.locator(SHELL_LOCATOR).first()
+  await expect(shell).toHaveAttribute('data-role', ROLE_FOR_STATE[expected])
+  const sidebar = page.locator('[data-shell="sidebar"]').first()
   if (expected === 'guest') {
-    await expect(page.locator('[data-role="auth-cta"]').first()).toBeVisible()
-    await expect(page.locator('[data-role="member-cta"]')).toHaveCount(0)
-    await expect(page.locator('[data-role="admin-cta"]')).toHaveCount(0)
+    // viewer: ログインリンクを直接描画（popover なし）。
+    await expect(sidebar.locator('[data-action-id="login"]').first()).toBeVisible()
+    await expect(page.locator('[data-action-id="profile"]')).toHaveCount(0)
+    await expect(page.locator('[data-action-id="admin-dashboard"]')).toHaveCount(0)
   } else if (expected === 'member') {
-    await expect(
-      page.locator('[data-role="member-cta"], a[href="/profile"]').first(),
-    ).toBeVisible()
-    await expect(page.locator('[data-role="admin-cta"]')).toHaveCount(0)
+    // member/admin: action は <details> popover 内のため存在（attached）を契約とする。
+    await expect(sidebar.locator('[data-action-id="profile"]')).toHaveCount(1)
+    await expect(page.locator('[data-action-id="admin-dashboard"]')).toHaveCount(0)
+    await expect(page.locator('[data-action-id="login"]')).toHaveCount(0)
   } else {
-    await expect(
-      page.locator('[data-role="member-cta"], a[href="/profile"]').first(),
-    ).toBeVisible()
-    await expect(
-      page.locator('[data-role="admin-cta"], a[href="/admin"]').first(),
-    ).toBeVisible()
+    await expect(sidebar.locator('[data-action-id="profile"]')).toHaveCount(1)
+    await expect(sidebar.locator('[data-action-id="admin-dashboard"]')).toHaveCount(1)
+    await expect(page.locator('[data-action-id="login"]')).toHaveCount(0)
   }
 }
 
@@ -62,7 +70,10 @@ for (const state of ['guest', 'member', 'admin'] as const) {
         }
         await assertRender(page, expected)
         if (state === 'admin' && route.path === '/admin') {
-          await expect(page.locator('[data-role="public-return"]').first()).toBeVisible()
+          // 公開サイト復帰導線は shell の「ホーム」nav / brand（href="/"）が担う。
+          await expect(
+            page.locator('[data-shell="sidebar"]').first().locator('a[href="/"]').first(),
+          ).toBeVisible()
         }
       })
     }
@@ -72,17 +83,19 @@ for (const state of ['guest', 'member', 'admin'] as const) {
 test.describe('auth-slot regression', () => {
   test.use({ storageState: 'playwright/.auth/guest.json' })
 
-  test('header data-auth-state literal is one of guest/member/admin', async ({ page, mockApi }) => {
+  test('shell data-role literal is one of viewer/member/admin', async ({ page, mockApi }) => {
     await mockApi.reset()
     await page.goto('/', { waitUntil: 'domcontentloaded' })
-    const value = await page.locator(HEADER_LOCATOR).first().getAttribute('data-auth-state')
-    expect(value).toMatch(/^(guest|member|admin)$/)
+    const value = await page.locator(SHELL_LOCATOR).first().getAttribute('data-role')
+    expect(value).toMatch(/^(viewer|member|admin)$/)
   })
 
-  test('public-return does not exist on public guest route', async ({ page, mockApi }) => {
+  test('admin-only nav action does not exist on public guest route', async ({ page, mockApi }) => {
     await mockApi.reset()
     await page.goto('/', { waitUntil: 'domcontentloaded' })
-    await expect(page.locator('[data-role="public-return"]')).toHaveCount(0)
+    // guest（viewer）shell には admin-dashboard / profile action は出ない。
+    await expect(page.locator('[data-action-id="admin-dashboard"]')).toHaveCount(0)
+    await expect(page.locator('[data-action-id="profile"]')).toHaveCount(0)
   })
 
   test('invalid session cookie redirects from profile', async ({ page, context, mockApi }) => {

@@ -1599,3 +1599,19 @@
   1. baseline push / 空コミット後に `pull_request` チェックが 1 件も出ない → 即 `gh pr view <N> --json mergeable,headRefOid` を確認。`CONFLICTING` なら `git fetch origin <base>` → `git merge origin/<base>` で再 sync し mergeable へ戻してから push（これで初めて `pull_request` workflow が起動）。
   2. 後続 PR が「HEAD で削除済の component」を modify した DU は L-DEVSYNC-069-A で削除採用。加えて **その component の source を `readFile`/import するテスト（contract test / component spec）も同時に `git rm`**。staged 済 add は `git rm -f`。削除後 `git grep -n '<deleted path>' -- 'apps/**'` 0 references を再確認。
 - 留意: merge commit `f2cffb759`。DU 3 + add-only test 1 を削除採用、skill 同期ログ系は全て auto-merge（marker 0）。typecheck 6 packages Done / lint exit 0（stablekey 既存 warning のみ）。`pull_request` 再起動には mergeable 復帰後の push が必須。
+
+### L-DEVSYNC-069-G: shell 統合 branch は「旧 per-layer header/sidebar の DOM 契約を検証する e2e 群」を同 wave で移行しないと PR-only e2e gate が初回 PR で総崩れする（2026-05-31 docs/task-f-visual-baseline-smoke-spec / unified-sidebar-shell）
+
+- 事象: conflict / visual baseline を解消し PR が mergeable へ戻った後、`auth-slot (chromium, 25 cases)` 全敗 + `e2e (mobile-webkit)` 4 敗。いずれも **旧 `[data-component="public-header"]` / `[data-testid="member-header"]` / `[data-testid="admin-shell"]` / `[data-shell="topbar"]` / `main[data-route=...]` / `data-role="auth-cta|member-cta|admin-cta|public-return"` を assert する e2e**（auth-slot-coverage / members-prototype-alignment / mypage-prototype-alignment-screenshots / parallel-03-{admin,member}-shell-scrape）。shell 統合 commit `6f71f2d9f` がこれら DOM を共通 SidebarShell へ置換したのに、e2e 群を未更新だった（spec の最終更新は #969/#973/#948 の旧 wave）。
+- なぜ「初回 PR で総崩れ」か: これらの visual / e2e gate は **dev の `schedule` 実行では skip され `pull_request` でのみ走る**（`gh run view <dev schedule run> --json jobs` で `auth-slot ... skipped` を確認）。よって shell 統合コードに対する検証は **本 PR が初回**で、dev では一度も赤くならず移行漏れが検出されなかった。dev 緑 ≠ shell 統合済みコードの e2e 緑。
+- 新 shell の DOM 契約（移行先）:
+  - app-shell 境界: `[data-shell="app-shell"]` に `data-role="viewer|member|admin"`（旧 per-layer `data-auth-state` の後継。guest→viewer マッピングに注意）+ `data-testid="app-shell"` / `data-collapsed`。
+  - layout wrapper（route group）: `[data-route-group="public|member|admin"]` + `data-theme="warm|cool"` + `data-shell-mode="sidebar"`（admin のみ `data-auth-state="admin"` を別途 port 済）。
+  - sidebar: `[data-shell="sidebar"]`（`hidden md:flex` ＝ mobile では hidden だが attached）。topbar は廃止（`[data-shell="topbar"]` は count 0、mobile は `[data-shell="mobile-strip"]`）。
+  - main: `<main data-shell="main">`。`data-route` / `data-section-rhythm` は **main ではなく内側の content div** に付く（`main[data-route=...]` は不一致 → `[data-route=...]` に直す）。
+  - role 別 CTA: 左下 `SidebarUserMenu`。viewer=`[data-action-id="login"]`（直描画・visible）/ member=`[data-action-id="profile"]` / admin=`[data-action-id="profile"]`+`[data-action-id="admin-dashboard"]`。member/admin は `<details>` popover 内のため **visible ではなく attached（`toHaveCount`）で契約**。`SidebarDrawer` は閉時 `return null` のため desktop では user-menu は persistent `[data-shell="sidebar"]` に 1 度だけ＝ `toHaveCount(1)`。複数 sidebarInner の二重カウントを避けるため CTA locator は `[data-shell="sidebar"].first()` に scope する。
+- How to apply:
+  1. per-layer header/sidebar/AppShell を unified shell へ統合する PR は、**`git grep -rln 'data-component="public-header"\|data-testid="member-header"\|data-testid="admin-shell"\|data-shell="topbar"\|data-role="auth-cta"' apps/web/playwright`** で旧 DOM 依存 e2e を洗い出し、同 wave で上記契約へ移行する。
+  2. 検証は **PR 上**で行う（`pull_request` でしか走らない gate がある）。dev schedule の緑を移行完了の証跡にしない。`gh pr checks <N>` で `auth-slot` / `e2e` / `visual*` を個別確認。
+  3. evidence-capture 系（prototype-alignment / shell-scrape）は削除でなく **selector を新契約へ更新して同等証跡を撮り続ける**（option A）。`getByTestId('member-header')` 等は `getByTestId('shell-sidebar')` / `app-shell` に置換。
+- 留意: 5 spec を shell 契約へ書換（auth-slot-coverage は `data-role` + user-menu action、scrape 系は `app-shell`/`[data-route]`/topbar 廃止、prototype-alignment は login を user-menu へ）。`pnpm --filter @ubm-hyogo/web typecheck` Done。CI は本 PR で初検証。
