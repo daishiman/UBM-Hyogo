@@ -8,6 +8,19 @@
 
 本ドキュメントは、複雑なタスクを単一責務の原則に基づいて分解し、各サブタスクに最適なスラッシュコマンド・エージェント・スキルの組み合わせを選定するためのガイドラインを定義する。
 
+### web-worker-size-limit-fix（2026-05-29）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / NON_VISUAL` |
+| 成果物 | `docs/30-workflows/completed-tasks/web-worker-size-limit-fix/` |
+| 目的 | `ubm-hyogo-web-staging` Worker gzip 3316KiB > Free 3072KiB 超過を、`next/og` 撤去 + 静的 OG + deploy 前 size gate で解消 |
+| implementation targets | `apps/web/app/opengraph-image.tsx` deleted, `apps/web/app/(public)/members/[id]/opengraph-image/route.tsx` deleted, `apps/web/app/(public)/members/[id]/__tests__/opengraph-image.spec.tsx` deleted, `apps/web/public/og-default.png`, `apps/web/src/lib/seo/site-metadata.ts`, `apps/web/app/(public)/members/[id]/page.tsx`, `apps/web/playwright/tests/public-metadata.spec.ts`, `apps/web/__tests__/opennext-config-regression.spec.ts`, `scripts/check-worker-size.sh`, `.github/workflows/web-cd.yml` |
+| invariant | `@opennextjs/cloudflare@1.19.4` に `minify` config key は無い。無効な `minify:true` ではなく production minify 既定維持 + `OPEN_NEXT_DEBUG` 禁止 + OpenNext worker/handler gzip size gate を正本にする |
+| evidence | web typecheck PASS, web Vitest 188 files / 1293 tests PASS, build:cloudflare PASS, OpenNext worker/handler 5 files gzip 2100KiB, next/og grep 0, wasm/font find 0, lint PASS |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-web-worker-size-limit-fix-artifact-inventory.md` |
+| user gate | staging deploy, production deploy, commit, push, PR |
+
 ### public-header-session-aware-auth-view-base（2026-05-28）
 
 | 項目 | 値 |
