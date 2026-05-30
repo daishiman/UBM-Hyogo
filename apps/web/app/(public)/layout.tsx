@@ -25,6 +25,8 @@ export default async function PublicLayout({
       <SidebarShellServer
         activePath={pathname}
         mobileTriggerSlot={<SidebarMobileTrigger />}
+        routeKey="public"
+        sectionRhythm="comfortable"
       >
         {children}
         <PublicFooter />

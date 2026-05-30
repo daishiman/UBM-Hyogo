@@ -21,6 +21,10 @@ export interface SidebarShellProps {
   readonly activePath: string;
   /** Task E が埋める mobile trigger。drawer/collapse setter は context 経由。 */
   readonly mobileTriggerSlot: ReactNode;
+  /** main の data-route 値。呼出側 route group（"member" / "public" 等）を渡す。既定は "shell"。 */
+  readonly routeKey?: string;
+  /** main の data-section-rhythm 値。未指定なら属性を出力しない。 */
+  readonly sectionRhythm?: string;
   readonly children: ReactNode;
 }
 
@@ -30,6 +34,8 @@ export function SidebarShell({
   navGroups,
   activePath,
   mobileTriggerSlot,
+  routeKey = "shell",
+  sectionRhythm,
   children,
 }: SidebarShellProps) {
   const { mode, drawerOpen, toggleCollapsed, setDrawerOpen } = useSidebarState();
@@ -75,7 +81,12 @@ export function SidebarShell({
               UBM兵庫
             </span>
           </div>
-          <main data-shell="main" data-route="shell" className="min-w-0 flex-1">
+          <main
+            data-shell="main"
+            data-route={routeKey}
+            {...(sectionRhythm ? { "data-section-rhythm": sectionRhythm } : {})}
+            className="min-w-0 flex-1"
+          >
             {children}
           </main>
         </div>

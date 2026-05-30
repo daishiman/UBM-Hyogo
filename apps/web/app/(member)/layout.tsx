@@ -23,6 +23,8 @@ export default async function MemberLayout({
       <SidebarShellServer
         activePath={pathname}
         mobileTriggerSlot={<SidebarMobileTrigger />}
+        routeKey="member"
+        sectionRhythm="comfortable"
       >
         {children}
       </SidebarShellServer>

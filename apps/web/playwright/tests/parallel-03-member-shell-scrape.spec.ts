@@ -34,14 +34,23 @@ test.describe('parallel-03 member AppShell runtime evidence (EV-13/EV-16)', () =
     await expect(shell).toBeVisible()
     await expect(shell).toHaveAttribute('data-theme', 'warm')
     await expect(shell).toHaveAttribute('data-route-group', 'member')
-    await expect(memberPage.locator('[data-shell="topbar"]')).toBeVisible()
+    // task-c: 旧 topbar は SidebarShell へ統合され撤去。sidebar は md+ で表示・mobile では hidden。
+    const viewportWidth = memberPage.viewportSize()?.width ?? 0
+    const sidebar = memberPage.locator('[data-shell="sidebar"]')
+    await expect(sidebar).toBeAttached()
+    if (viewportWidth >= 768) {
+      await expect(sidebar).toBeVisible()
+    } else {
+      await expect(sidebar).toBeHidden()
+    }
+    await expect(memberPage.locator('[data-shell="topbar"]')).toHaveCount(0)
     await expect(memberPage.locator('main[data-route="member"]')).toBeVisible()
     await expect(memberPage.locator('main[data-section-rhythm="comfortable"]')).toBeVisible()
 
     const lines = await memberPage.evaluate(() => {
       const selectors = [
         '[data-testid="member-shell"]',
-        '[data-shell="topbar"]',
+        '[data-shell="sidebar"]',
         'main[data-route="member"]',
         'main[data-section-rhythm="comfortable"]',
       ]
@@ -70,7 +79,8 @@ test.describe('parallel-03 member AppShell runtime evidence (EV-13/EV-16)', () =
     expect(scrape).toContain('data-theme="warm"')
     expect(scrape).toContain('data-route-group="member"')
     expect(scrape).toContain('data-testid="member-shell"')
-    expect(scrape).toContain('data-shell="topbar"')
+    expect(scrape).not.toContain('data-shell="topbar"')
+    expect(scrape).toContain('data-shell="sidebar"')
     expect(scrape).toContain('data-route="member"')
     expect(scrape).toContain('data-section-rhythm="comfortable"')
     expect(scrape).not.toMatch(/#[0-9a-fA-F]{3,8}\b/)

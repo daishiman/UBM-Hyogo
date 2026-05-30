@@ -34,10 +34,14 @@ export async function SidebarShellServer({
   activePath,
   children,
   mobileTriggerSlot,
+  routeKey,
+  sectionRhythm,
 }: {
   readonly activePath: string;
   readonly children: ReactNode;
   readonly mobileTriggerSlot: ReactNode;
+  readonly routeKey?: string;
+  readonly sectionRhythm?: string;
 }) {
   // getSession 失敗時も throw せず viewer へ fall back（不変条件: shell は fail-open に閉じる）。
   let session: SessionUser | null = null;
@@ -66,6 +70,8 @@ export async function SidebarShellServer({
       navGroups={navGroups}
       activePath={activePath}
       mobileTriggerSlot={mobileTriggerSlot}
+      {...(routeKey !== undefined ? { routeKey } : {})}
+      {...(sectionRhythm !== undefined ? { sectionRhythm } : {})}
     >
       {children}
     </SidebarShell>
