@@ -4182,7 +4182,8 @@
       "directory-structure-core.md",
       "lessons-learned-ut-cicd-drift-impl-observability-matrix-sync-2026-05.md",
       "workflow-governance-design-category.md",
-      "workflow-ui-prototype-design-system-foundation-artifact-inventory.md"
+      "workflow-ui-prototype-design-system-foundation-artifact-inventory.md",
+      "workflow-unified-sidebar-shell-public-and-admin-artifact-inventory.md"
     ],
     "テーブル設計": [
       "architecture-database.md"
@@ -26832,7 +26833,8 @@
       "workflow-task-verify-indexes-up-to-date-ci-artifact-inventory.md"
     ],
     "Sub": [
-      "workflow-ui-prototype-design-system-foundation-artifact-inventory.md"
+      "workflow-ui-prototype-design-system-foundation-artifact-inventory.md",
+      "workflow-unified-sidebar-shell-public-and-admin-artifact-inventory.md"
     ],
     "AppShell": [
       "workflow-ui-prototype-design-system-foundation-artifact-inventory.md"

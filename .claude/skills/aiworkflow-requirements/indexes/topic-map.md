@@ -4336,10 +4336,11 @@ node scripts/list-specs.js --topics
 |------------|----|
 | Summary | L5 |
 | Canonical workflow | L9 |
-| Planned implementation targets | L23 |
-| Current code anchors | L35 |
-| Gates | L44 |
-| Lessons Learned | L52 |
+| Planned implementation targets | L31 |
+| Current code anchors | L43 |
+| Gates | L52 |
+| Sub-workflows | L60 |
+| Lessons Learned | L69 |
 
 ### references/workflow-ut-02a-attendance-profile-integration-artifact-inventory.md
 
@@ -8075,14 +8076,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L3089 |
-| フェーズ構造（概要） | L3098 |
-| 品質ゲート（概要） | L3129 |
-| 出力テンプレート | L3140 |
-| 実行時のコマンド・エージェント・スキル | L3163 |
-| 昇格パターン集 | L3187 |
-| Current Active / Spec Created Tasks | L3189 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L3351 |
+| ドキュメント構成 | L3102 |
+| フェーズ構造（概要） | L3111 |
+| 品質ゲート（概要） | L3142 |
+| 出力テンプレート | L3153 |
+| 実行時のコマンド・エージェント・スキル | L3176 |
+| 昇格パターン集 | L3200 |
+| Current Active / Spec Created Tasks | L3202 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L3364 |
 
 ### references/task-workflow-backlog-part2.md
 
