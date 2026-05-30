@@ -135,11 +135,12 @@
 
 | 項目 | 値 |
 | --- | --- |
-| workflow root | `docs/30-workflows/unified-sidebar-shell-public-and-admin/` |
+| workflow root | `docs/30-workflows/completed-tasks/unified-sidebar-shell-public-and-admin/` |
 | status | `spec_created / implementation / VISUAL / implementation_pending` |
 | purpose | public / member / admin の shell を単一 collapsible `SidebarShell` primitive に統合する実装仕様 |
 | route scope | public 6 routes、member `/profile`、admin 9 routes |
 | nav contract | viewer=public 3、member=public 3 + members 1、admin=public 3 + members 1 + admin 9 = total 13 |
+| sub-workflow | `docs/30-workflows/completed-tasks/unified-sidebar-shell-public-and-admin/tasks/task-A-sidebar-shell-primitive/`（standalone `docs/30-workflows/task-A-sidebar-shell-primitive/` から親配下へ統合済み） |
 | implementation targets | `apps/web/src/components/shell/**`, `(public)/(member)/(admin)/layout.tsx`, `apps/web/src/styles/tokens.css`, sidebar smoke/visual Playwright specs |
 | invariant | API / D1 / Google Form schema / Auth.js middleware / npm package 変更なし。role 判定は `SessionUser.isAdmin` のみ |
 | Phase 12 | strict 7 present、root/output `artifacts.json` parity present、30-method compact evidence present |

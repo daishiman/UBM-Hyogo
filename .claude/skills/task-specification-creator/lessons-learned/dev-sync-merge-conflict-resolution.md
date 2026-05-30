@@ -631,3 +631,16 @@
 - 適用範囲外: child branch が parent prod code にも踏み込んだ拡張をしている場合（`git diff dev...HEAD --stat -- <parent prod dir>` に modify がある）は SP-DEVSYNC-044（canonical=HEAD wholesale --ours）または hybridize に分岐。
 - 検証: `git diff --diff-filter=U` 0 件 + `pnpm typecheck` PASS + `pnpm lint` PASS（dev 由来の mode=warning は CI 非 fail）+ focused vitest unit/spec PASS。merge commit `fdf2f4a42`。
 - 参照: aiworkflow-requirements [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-064 を唯一の正本。SP-DEVSYNC-044（対称反転パターン）。
+
+
+### SP-DEVSYNC-045: `pnpm sync:resolve` の partial 失敗（`index.lock: File exists`）は手動 fallback で完結 — 仕様書の sync-merge 節に fallback 手順を必須記載（2026-05-30 追加）
+
+- 事象: 2026-05-30 `feat/unified-sidebar-shell-public-admin` ← dev sync-merge で skill-only conflict 3 件（union 2 + derived 1）。`pnpm sync:resolve` が union 解消後の `--ours + rebuild` 段で `fatal: Unable to create '.git/worktrees/.../index.lock': File exists` で exit 128。並行 git プロセスは存在せず、`ls index.lock` も無しの偽陽性。手動 `git checkout --ours -- indexes/keywords.json` + `git add` + `pnpm indexes:rebuild` で 1 分以内に完結。
+- Why: resolver は **idempotent** に設計されているため、partial 失敗時点で union 解消は既に commit-ready で残る（`UU` → `M` に降格済み）。失敗段の処理だけ手動再現すればよく、resolver 全段再走は不要。短時間の fs 競合（IDE auto-fetch、lefthook 他 hook 等）が偽陽性 lock を生むケースを許容する設計。
+- How to apply（task 仕様書での逐語化）: Phase 9 sync-merge 節に「**resolver 失敗時の fallback 経路**」を必須記載:
+  1. resolver が ELIFECYCLE で exit したら panic せず `git status --short` で残コンフリクトを確認。`UU` ファイルが derived（keywords.json 等）のみなら fallback 対象。
+  2. 手動: `git checkout --ours -- <derived files>` → `git add <derived files>` → `pnpm indexes:rebuild`。
+  3. `git diff --cached` で derived が rebuild 結果に差し替わっていること、`git ls-files -u` 0 件を確認。
+- 適用範囲外: page-level `.ts/.tsx` の `UU` が残る場合は SP-DEVSYNC-038/042/044 経路（fallback では救えない）。
+- 検証: merge commit `09d82ca20`、typecheck 6 packages Done、lint exit 0。
+- 参照: aiworkflow-requirements [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-065、`scripts/sync/resolve-skill-merge-conflicts.sh`。
