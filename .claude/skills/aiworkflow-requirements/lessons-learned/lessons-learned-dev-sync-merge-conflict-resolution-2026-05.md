@@ -1368,6 +1368,20 @@
 - 事例: 2026-05-30 merge commit `7ba7e4002`。conflict 9 件（skill resolver + source theirs 全採用）、typecheck 6 packages Done / lint exit 0、privacy/terms page は ours 保持で dev auth-view API と整合。
 - 参照: L-DEVSYNC-063 task-c 版（前回 ours 一択）, L-DEVSYNC-063 public-header 版（canonical wholesale --ours の原型・今回はその theirs 鏡像）, task-specification-creator [[patterns-lessons-and-pitfalls#dev-sync-merge-conflict-resolution]] SP-DEVSYNC-063。
 
+
+## L-DEVSYNC-065: `pnpm sync:resolve` が `--ours` 段で `index.lock: File exists` 失敗 → resolver の union 解消は既成功なので手動 `git checkout --ours` + `git add` + `pnpm indexes:rebuild` で完結する（2026-05-30 feat/unified-sidebar-shell-public-admin）
+
+- 事象: `feat/unified-sidebar-shell-public-admin` ← `dev` sync-merge（HEAD `52c3f3144`）で conflict 3 件: `indexes/keywords.json`（derived・`--ours` 対象）+ `indexes/topic-map.md`（union）+ `references/patterns-lessons-and-pitfalls.md`（union）。`pnpm sync:resolve` 実行で union 2 件は成功 stage 済みだが、続く `git checkout --ours -- indexes/keywords.json` 段で `fatal: Unable to create '.git/worktrees/.../index.lock': File exists` で exit 128。並行 git プロセスは無し（`ps aux | grep git` 0 件、`ls .git/worktrees/.../index.lock` も無し）。**resolver 内部のスクリプト処理が同一 git index に対し短時間で連続書き込みする際の競合**（後段の `git checkout` が走る直前に何らかの fs sync 遅延で lock が「存在判定」に偽陽性した可能性）。
+- Why: resolver が ELIFECYCLE で中断しても、**union 解消は既に index/working tree に commit-ready で残っている**（`git status --short` で `UU` だったファイルが `M` に降格しているのが確認手段）。残るのは `--ours` 対象 1 件 + `indexes:rebuild` の再実行のみ。手動で同等処理を再現すれば resolver を再走させずに完結する。
+- How to apply:
+  1. resolver が `index.lock: File exists` で失敗したら **panic せず** `git status --short` で残コンフリクトを確認。`UU` のままなのが `--ours` 未適用ファイル（典型: `keywords.json`）だけなら fallback 経路へ。
+  2. `git checkout --ours -- <derived files>` → `git add <derived files>`。derived は `keywords.json` 等の生成物に限る（手書き md は union が正）。
+  3. `pnpm indexes:rebuild` を実行（5188〜5200kw 規模で 30-60s）。再実行後 `git diff --cached` で keywords.json が rebuild 結果に差し替わっていることを確認。
+  4. lock file 偽陽性が再現する場合は `ls .git/worktrees/<wt>/index.lock` で本当に物理存在するか確認。存在しなければ単なる短時間競合で、resolver の再実行（`pnpm sync:resolve`）でも復旧可能。
+- 留意: resolver の処理は **idempotent** に設計されているため、partial 失敗後の再走でも害はない。ただし手動 fallback の方が早い（典型 5s 以内 vs resolver 全段 15-30s）。並行 git プロセス（IDE の git extension, lefthook の他 hook, バックグラウンド `git fetch` 等）が真因のケースもあるので、頻発する場合は IDE の auto-fetch 等を疑う。
+- 事例: 2026-05-30 merge commit `09d82ca20`。conflict 3 件、resolver 部分成功 + 手動 fallback 1 ファイル + indexes:rebuild で 1 分以内に完結、typecheck/lint green。
+- 参照: L-DEVSYNC-059..061 (skill-only resolver-only path), `scripts/sync/resolve-skill-merge-conflicts.sh`。
+
 ## L-DEVSYNC-065: docs/spec 系 branch が source commit (#1014) を取り込むと conflict は skill index union **1 件**に縮退 — resolver-only path の最小 shape（2026-05-30 docs/web-worker-size-limit-fix-spec ← dev `52c3f3144` #1014）
 
 - 事象: source code を一切編集しない docs/spec 系 feature branch `docs/web-worker-size-limit-fix-spec`（接触面は `apps/web` の next/og 撤去 spec + skill 反映）を sync-merge。取り込んだ dev HEAD は `52c3f3144`（PR #1014「privacy/terms に PublicHeader/PublicFooter 適用 (public-shell)」= `apps/web/app/{privacy,terms}/**` の source + spec/visual baseline + skill 追記）。`git merge dev --no-edit` 後の unresolved は **`aiworkflow-requirements/indexes/topic-map.md` の union 1 件のみ**。他は全て `Auto-merging`（skill index 4・lessons・task-workflow-active・patterns-lessons・privacy/terms page・visual PNG baseline すべて衝突なし）。`pnpm sync:resolve` 単発（`union-resolving 1 files` → `union-resolved topic-map.md` → `indexes:rebuild`）で `git ls-files -u` 0 まで完結。L-DEVSYNC-059/061 の skill-only resolver-only path のうち **最小規模 shape**（conflict 1 件、`keywords.json` の `--ours` すら不発）。

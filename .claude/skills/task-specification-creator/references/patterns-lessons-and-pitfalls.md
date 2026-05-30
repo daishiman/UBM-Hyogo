@@ -1274,6 +1274,20 @@ anti-pattern:
 - 参照: [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-059、L-DEVSYNC-055 (resolver 単独完結 happy-path)、L-DEVSYNC-056/057/058 (手動 hybridize 分岐先)、L-DEVSYNC-046 (UNION_TARGETS)。
 
 
+## L-USS-A 親 workflow + nested sub-workflow による単一タスク Phase 1-13 化（2026-05-28）
+
+A-F 等の親 workflow 内で **1 タスクだけを単独サイクル完結** したい時、standalone root を作らず `tasks/<task-id>/` に Phase 1-13 サブworkflow を nest するパターン。`unified-sidebar-shell-public-and-admin` Task A (`SidebarShell` primitive) で検証。
+
+- **L-USS-A-001 (parent + nested topology)**: standalone root (`docs/30-workflows/task-A-...`) を作らず親の `tasks/<task-id>/` 配下に Phase 1-13 を nest。verify:phase12-compliance は `hasCompletedTasksAncestor=true` で許容。standalone を後から `mv` で collapse する場合、artifact-inventory に `collapsed into parent` で吸収。
+- **L-USS-A-002 (Server / Client 境界 slot 固定)**: 3 層 layout 共通 shell primitive では `<...Server>` だけが `getSession()` / counts を解決し、Client component には plain props + `ReactNode` slot を渡す。後追い実装の下流タスクが上流 contract を壊さない。
+- **L-USS-A-003 (SSR-safe persistent UI state)**: collapse / sidebar state 等の client-only state は「初期値 deterministic + `useEffect` で localStorage hydrate」の 2 段。初期 render で localStorage を読むと Cloudflare Workers / Next.js App Router で hydration mismatch。
+- **L-USS-A-004 (`buildNavFor<Role>` pure 関数化)**: nav 構成は component に埋め込まず `<area>-config.ts` 1 箇所に集約。`*-config.spec.ts` で role × ctx 全 branch を網羅し、admin nav drift を CI で防ぐ。
+- **L-USS-A-005 (out-of-order 実装でも上流契約を守る)**: 依存タスク (Task B = UserMenu 等) が先行実装されても、上流 (Task A = primitive) は slot 契約 + plain props を維持。下流の細部を上流に逆流させない。
+- **L-USS-A-006 (tokens は theme variant 同時追加)**: `--shell-bar-*` 等の surface トークンは default + `[data-theme='cool']` を必ず同時追加。片側だけ追加すると `verify-design-tokens` fail + cool theme drift。
+- **anti-pattern**: (a) standalone root を残す (discovery 分裂)、(b) Client に `getSession()` (auth boundary 崩壊)、(c) 初期 render で localStorage 同期読み (SSR mismatch)、(d) nav 構成を component / config の両方に書く (drift 不可避)、(e) tokens を default のみ追加 (theme drift)。
+- 参照: [[lessons-learned-unified-sidebar-shell-task-a-2026-05]] L-USS-001..006、[[admin-shell-topbar-sidebar-integration]] (前例 Task A primitive 分離)。
+
+
 ## L-DEVSYNC-061 conflict 0 件 shape（add-only 取込）を sync-merge 判定フローの最上段に固定（dev sync-merge / 2026-05-29）
 
 `feat/task-c-privacy-terms-public-shell-spec` ← `dev` (取込 1 commit `37fe488e8` #1009) の sync-merge で **conflict 0 件**。dev 側差分が `docs/30-workflows/completed-tasks/members-list-ux-clarity/**` への **新規ファイル追加のみ**で、feature branch の接触面（`(public)/{privacy,terms}` + skill 索引）と path が完全 orthogonal だったため、add-add すら起きず resolver / 手動 hybridize の両方が不要だった（merge commit `fa756f644` を `git merge` が即生成）。L-DEVSYNC-059/060 の "skill-only → resolver 単発" よりさらに 1 段クリーンな最頻 shape。
