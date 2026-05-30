@@ -3425,6 +3425,12 @@ node scripts/list-specs.js --topics
 | Code Artifacts | L20 |
 | Evidence Boundary | L36 |
 
+### references/workflow-member-header-admin-link-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Lessons Learned | L19 |
+
 ### references/workflow-members-list-prototype-alignment-artifact-inventory.md
 
 | セクション | 行 |
@@ -8082,14 +8088,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L3120 |
-| フェーズ構造（概要） | L3129 |
-| 品質ゲート（概要） | L3160 |
-| 出力テンプレート | L3171 |
-| 実行時のコマンド・エージェント・スキル | L3194 |
-| 昇格パターン集 | L3218 |
-| Current Active / Spec Created Tasks | L3220 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L3382 |
+| ドキュメント構成 | L3135 |
+| フェーズ構造（概要） | L3144 |
+| 品質ゲート（概要） | L3175 |
+| 出力テンプレート | L3186 |
+| 実行時のコマンド・エージェント・スキル | L3209 |
+| 昇格パターン集 | L3233 |
+| Current Active / Spec Created Tasks | L3235 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L3397 |
 
 ### references/task-workflow-backlog-part2.md
 
