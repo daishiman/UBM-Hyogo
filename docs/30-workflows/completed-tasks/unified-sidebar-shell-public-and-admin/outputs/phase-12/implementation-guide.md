@@ -25,6 +25,22 @@ task_id: unified-sidebar-shell-public-and-admin
 5. Task D: admin layout migration and legacy AdminSidebar deletion
 6. Task F: Playwright smoke / visual baseline
 
+### Task B sub-workflow
+
+Task B is additionally formalized at `docs/30-workflows/completed-tasks/unified-sidebar-shell-task-b-user-menu-and-role-handling/`.
+Its strict 7 content writes through to this parent root; the sub-workflow owns only
+`outputs/phase-12/phase12-task-spec-compliance-check.md` to avoid duplicate Phase 12 SSOT.
+
+Task B local implementation evidence is present:
+
+- Focused Vitest: `docs/30-workflows/completed-tasks/unified-sidebar-shell-task-b-user-menu-and-role-handling/outputs/phase-11/user-menu-config.spec.log`
+- Focused Vitest: `docs/30-workflows/completed-tasks/unified-sidebar-shell-task-b-user-menu-and-role-handling/outputs/phase-11/sidebar-user-menu.spec.log`
+- Visual screenshots:
+  - `docs/30-workflows/completed-tasks/unified-sidebar-shell-task-b-user-menu-and-role-handling/outputs/phase-11/screenshots/user-menu-viewer.png`
+  - `docs/30-workflows/completed-tasks/unified-sidebar-shell-task-b-user-menu-and-role-handling/outputs/phase-11/screenshots/user-menu-member.png`
+  - `docs/30-workflows/completed-tasks/unified-sidebar-shell-task-b-user-menu-and-role-handling/outputs/phase-11/screenshots/user-menu-admin.png`
+  - `docs/30-workflows/completed-tasks/unified-sidebar-shell-task-b-user-menu-and-role-handling/outputs/phase-11/screenshots/user-menu-collapsed.png`
+
 ### 不変条件
 
 - role 判定は `SessionUser.isAdmin` のみ

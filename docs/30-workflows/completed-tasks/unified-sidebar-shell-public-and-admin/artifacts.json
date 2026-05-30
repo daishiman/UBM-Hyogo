@@ -69,6 +69,25 @@
       "outputs/phase-12/skill-feedback-report.md",
       "outputs/phase-12/phase12-task-spec-compliance-check.md"
     ],
+    "sub_workflows": [
+      {
+        "id": "task-B-user-menu-and-role-handling",
+        "task_id": "unified-sidebar-shell-task-b-user-menu-and-role-handling",
+        "path": "docs/30-workflows/completed-tasks/unified-sidebar-shell-task-b-user-menu-and-role-handling/",
+        "source_task": "docs/30-workflows/unified-sidebar-shell-public-and-admin/tasks/task-B-user-menu-and-role-handling.md",
+        "status": "implementation_verified",
+        "taskType": "implementation",
+        "visualEvidence": "VISUAL",
+        "strict7_owner": "docs/30-workflows/unified-sidebar-shell-public-and-admin/outputs/phase-12/",
+        "sub_phase12_artifact": "docs/30-workflows/completed-tasks/unified-sidebar-shell-task-b-user-menu-and-role-handling/outputs/phase-12/phase12-task-spec-compliance-check.md",
+        "local_evidence": [
+          "docs/30-workflows/completed-tasks/unified-sidebar-shell-task-b-user-menu-and-role-handling/outputs/phase-11/user-menu-config.spec.log",
+          "docs/30-workflows/completed-tasks/unified-sidebar-shell-task-b-user-menu-and-role-handling/outputs/phase-11/sidebar-user-menu.spec.log",
+          "docs/30-workflows/completed-tasks/unified-sidebar-shell-task-b-user-menu-and-role-handling/outputs/phase-11/sidebar-user-menu.visual.log",
+          "docs/30-workflows/completed-tasks/unified-sidebar-shell-task-b-user-menu-and-role-handling/outputs/phase-11/screenshots/*.png"
+        ]
+      }
+    ],
     "gates": [
       {
         "gate_id": "Gate-A",
@@ -84,7 +103,7 @@
         "passed_at": null,
         "evidence_path": "docs/30-workflows/completed-tasks/unified-sidebar-shell-public-and-admin/outputs/phase-11/manual-test-result.md",
         "approver": "daishiman",
-        "notes": "implementation_review: apps/web code implementation, local tests, and visual evidence are pending in the execution wave"
+        "notes": "implementation_review: Task B apps/web code, focused tests, grep gate, and local visual evidence are present; remaining parent tasks are pending"
       },
       {
         "gate_id": "Gate-C",

@@ -16,6 +16,7 @@ task_id: unified-sidebar-shell-public-and-admin
 | `artifacts.json` / `outputs/artifacts.json` | root/output parity と gates を追加 |
 | `phase-1-requirements.md` .. `phase-13-pr.md` | Phase 1-13 仕様を追加 |
 | `outputs/phase-11/*` | runtime pending evidence placeholders を追加 |
+| `../../../unified-sidebar-shell-task-b-user-menu-and-role-handling/outputs/phase-11/*` | Task B focused Vitest / grep gate / local Chromium screenshots を present 化 |
 | `outputs/phase-12/*` | strict 7 を追加 |
 | `tasks/task-A-sidebar-shell-primitive/` | standalone `docs/30-workflows/task-A-sidebar-shell-primitive/` から親配下へ統合 |
 | `.claude/skills/aiworkflow-requirements/indexes/quick-reference.md` | workflow entry を追加 |
@@ -23,3 +24,4 @@ task_id: unified-sidebar-shell-public-and-admin
 | `.claude/skills/aiworkflow-requirements/references/task-workflow-active.md` | active workflow entry を追加 |
 | `.claude/skills/aiworkflow-requirements/references/workflow-unified-sidebar-shell-public-and-admin-artifact-inventory.md` | artifact inventory を追加 |
 | `.claude/skills/aiworkflow-requirements/changelog/20260528-unified-sidebar-shell-public-and-admin.md` | changelog を追加 |
+| `docs/30-workflows/completed-tasks/unified-sidebar-shell-task-b-user-menu-and-role-handling/` | Task B sub-workflow root、apps/web 実装、root/output artifacts parity、Phase 11 evidence、sub compliance artifact を追加 |

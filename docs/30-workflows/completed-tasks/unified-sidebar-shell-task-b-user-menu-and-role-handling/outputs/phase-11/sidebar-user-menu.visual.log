@@ -1,0 +1,40 @@
+[MR] clean output dir ...
+
+Running 4 tests using 1 worker
+
+(node:25274) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:25274) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 [visual-chromium] › playwright/tests/visual/sidebar-user-menu.spec.ts:24:5 › SidebarUserMenu visual evidence › user-menu-viewer screenshot (3.6s)
+  ✓  2 [visual-chromium] › playwright/tests/visual/sidebar-user-menu.spec.ts:24:5 › SidebarUserMenu visual evidence › user-menu-member screenshot (801ms)
+  ✓  3 [visual-chromium] › playwright/tests/visual/sidebar-user-menu.spec.ts:24:5 › SidebarUserMenu visual evidence › user-menu-admin screenshot (1.9s)
+  ✓  4 [visual-chromium] › playwright/tests/visual/sidebar-user-menu.spec.ts:24:5 › SidebarUserMenu visual evidence › user-menu-collapsed screenshot (1.7s)
+
+  4 passed (12.0s)
+[MR] generating report data ...
+[MR] generating test report ...
+[MR] UBM-Hyogo E2E
+┌─────────────┬───────────────────────┐
+│ Tests       │ 4                     │
+│ ├ Failed    │ 0 (0.0%)              │
+│ ├ Flaky     │ 0 (0.0%)              │
+│ ├ Skipped   │ 0 (0.0%)              │
+│ └ Passed    │ 4 (100.0%)            │
+│ Steps       │ 58                    │
+│ Suites      │ 1                     │
+│ ├ Projects  │ 1                     │
+│ ├ Files     │ 1                     │
+│ ├ Describes │ 1                     │
+│ └ Shards    │ 0                     │
+│ Errors      │ 0                     │
+│ Retries     │ 0                     │
+│ Logs        │ 0                     │
+│ Attachments │ 0                     │
+│ Artifacts   │ 0                     │
+│ Playwright  │ v1.59.1               │
+│ Date        │ 5/29/2026, 6:31:32 AM │
+│ Duration    │ 12.2s                 │
+└─────────────┴───────────────────────┘
+[MR] json: ../../docs/30-workflows/completed-tasks/unified-sidebar-shell-task-b-user-menu-and-role-handling/outputs/phase-11/evidence/monocart/index.json
+[MR] view report: npx monocart show-report ../../docs/30-workflows/completed-tasks/unified-sidebar-shell-task-b-user-menu-and-role-handling/outputs/phase-11/evidence/monocart/index.html

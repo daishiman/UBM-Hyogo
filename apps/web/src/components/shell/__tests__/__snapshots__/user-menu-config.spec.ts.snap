@@ -1,0 +1,58 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`buildUserMenuActions > 戻り値順序 snapshot（deep-equal） 1`] = `
+{
+  "admin": [
+    {
+      "href": "/profile",
+      "id": "profile",
+      "kind": "link",
+      "label": "プロフィール",
+    },
+    {
+      "href": "/profile#edit-request",
+      "id": "edit-request",
+      "kind": "link",
+      "label": "プロフィール編集申請",
+    },
+    {
+      "href": "/admin",
+      "id": "admin-dashboard",
+      "kind": "link",
+      "label": "管理者ダッシュボード",
+    },
+    {
+      "id": "signout",
+      "kind": "signout",
+      "label": "ログアウト",
+    },
+  ],
+  "member": [
+    {
+      "href": "/profile",
+      "id": "profile",
+      "kind": "link",
+      "label": "プロフィール",
+    },
+    {
+      "href": "/profile#edit-request",
+      "id": "edit-request",
+      "kind": "link",
+      "label": "プロフィール編集申請",
+    },
+    {
+      "id": "signout",
+      "kind": "signout",
+      "label": "ログアウト",
+    },
+  ],
+  "viewer": [
+    {
+      "href": "/login",
+      "id": "login",
+      "kind": "login",
+      "label": "ログイン",
+    },
+  ],
+}
+`;
