@@ -1179,3 +1179,52 @@ admin route prototype-alignment 系 branch を `origin/dev` に sync-merge す�
 - **SP-DEVSYNC-059-D (検証ゲートの順序固定)**: resolver 完結後の検証は **`git diff --check` 空 → `pnpm typecheck` Done × 6 packages → `pnpm lint` Done × 全 packages → `git push`** の 4 step を Phase 12 implementation-guide に明記。stablekey-literal-lint が mode=warning の場合は block 対象外として扱う。
 - **SP-DEVSYNC-059-E (lesson 再現の SSOT)**: 同形再現が 2 連続 (a98fd67bb / 2026-05-29 merge) で確認済みのため、admin-ui modernization wave 終息までは Phase 12 implementation-guide の sync-merge 節で本 lesson を **default reference** として 1 行記載する（L-DEVSYNC-056/057/058 は分岐先として 1 行併記）。
 - 参照: [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-059、L-DEVSYNC-055 (resolver 単独完結 happy-path)、L-DEVSYNC-056/057/058 (手動 hybridize 分岐先)、L-DEVSYNC-046 (UNION_TARGETS)。
+
+
+## CLOSED-issue same-cycle 実装 + admin manual write レーン分離パターン (2026-05-29)
+
+CLOSED 由来 issue を spec_created で close-out した直後に、同一実行サイクルで実コードと focused tests まで進んだ場合の workflow_state 昇格、および 1 テーブルへ複数 source（自動提案 / 人手キュレーション）が write する admin manual write のレーン分離・冪等 DELETE・soft-delete guard・並行 issue decouple・vitest config 分離を、将来の任意タスクで再利用できる汎化原則として記録する。
+
+### L-CLSCYCLE-001: CLOSED issue の same-cycle 実装で workflow_state を昇格
+
+- 状況: CLOSED 由来 issue を `spec_created` で close-out したワークフローが、同一実行サイクル内で実コード実装 + focused tests green まで到達した。
+- 教訓: `spec_created` のまま放置すると system spec / API docs が「target only / not current」と誤読され、docs が現状の local behavior を表さなくなる。実コード差分 + tests green を確認したら速やかに `spec_created` → `implemented_local_runtime_pending` へ再分類し、system spec / API docs を current local behavior として **同一 wave で promote** する（runtime / staging deploy / commit / push / PR は user-gated boundary として分離）。
+- 適用条件: CLOSED issue 由来かつ同一サイクルで実コード差分 + focused tests green が確認できるとき。
+
+### L-MULTILANE-001: 同一テーブルへの複数 source write は source 別 helper + type-level allow list
+
+- 状況: 1 テーブルに「自動提案(AI / Form queue)」と「人手キュレーション(admin manual)」など複数の source から write が入る設計になった。
+- 教訓: write helper を source ごとに分離して SRP を保ち、各 write path を self-document する。readonly `.test-d.ts` の allow list と JSDoc `@internal` guard で「許可された source 以外から呼ばない」ことを型レベル + ドキュメントで固定し、不変条件コメントも「禁止: XX 以外からの呼び出し」を再定義する。
+- 適用条件: 単一テーブルに複数 source（自動 / 手動）から write が入り、source ごとに責務・検証が異なるとき。
+
+### L-HTTP204-001: 冪等 DELETE の 204 No Content を fetch wrapper で吸収
+
+- 状況: REST の冪等 DELETE が body なし 204 No Content を返すのに、汎用 mutation hook が一律で JSON parse して `SyntaxError` を起こした。
+- 教訓: `res.status === 204 ? undefined : await res.json()` の status-based type narrowing を hook 層に入れる。contract spec に「204: no-op or successful deletion」を明記し、regression spec で 204 の挙動を固定する。
+- 適用条件: 冪等 DELETE / 副作用なし系の endpoint を汎用 mutation hook 経由で呼ぶとき。
+
+### L-SOFTDEL-001: soft-delete entity への write は active guard + エラー境界分離
+
+- 状況: `active=1` の論理削除モデルで、inactive(論理削除済み)entity に write が来て zombie 復活の懸念があった。
+- 教訓: write API で active フィルタを検査し、inactive entity への write は 404(not_found) を返して復活を防ぐ。親 entity の削除状態(409 conflict)と子 entity の存在性(404 not_found)はエラーコードを分け、呼び出し側が原因を区別できるようにする。
+- 適用条件: soft-delete(active flag)モデルの entity に write / 子 entity 追加が入るとき。
+
+### L-DECOUPLE-001: 並行タスクの critical path を専用 GET endpoint で decouple
+
+- 状況: 別 issue(list enrichment 等)と並行実装する UI が、相手 issue が返すべき data に依存して進行ブロックされそうになった。
+- 教訓: `GET /.../:id/...` の専用 endpoint を定義し、UI が必要とする data を同時返却することで相手 issue の完了を待たずに進める。critical path を専用 read endpoint で decouple する。
+- 適用条件: 並行 issue 間で data 依存があり、相手の完了待ちが critical path をブロックするとき。
+
+### L-TESTCFG-001: runtime 要件が異なる層は vitest config を分離
+
+- 状況: D1 harness(Miniflare native binding)を jsdom config で動かそうとして失敗した。
+- 教訓: data 層は node env config(`vitest.d1.config.ts` 等)、UI 層は jsdom config に分け、各層を独立 config で緑保証する。`package.json` script 名も `test:api` / `test:web` で明示し、どの config がどの層を走らせるか self-document する。
+- 適用条件: D1 / Miniflare 等 native binding 系 data 層と jsdom UI 層を同一リポジトリで test するとき。
+
+### Anti-patterns
+
+- spec_created のまま放置して current docs と乖離させる(target only と誤読される)。
+- 単一 helper に複数 source(自動 / 手動)の write を詰め込み SRP と write path 検証を曖昧にする。
+- 冪等 DELETE の 204 No Content を無条件 JSON parse して SyntaxError を起こす。
+- soft-delete entity に active guard なしで write し、論理削除済みを zombie 復活させる。
+- 並行 issue の data 依存を専用 read endpoint で decouple せず、相手の完了をブロッキング待ちする。

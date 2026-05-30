@@ -1,5 +1,19 @@
 # クイックリファレンス
 
+## issue-982-drawer-tag-pill-editing（2026-05-29）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-982-drawer-tag-pill-editing/` |
+| status | `implemented_local_runtime_pending / implementation / VISUAL_ON_EXECUTION` |
+| issue | #982 CLOSED。PR 文脈は `Refs #982` のみ |
+| purpose | `/admin/members` の `MemberDrawer` tag pill を disabled 表示から、保存・audit 付きの編集 UI へ昇格する |
+| implementation | `apps/api/src/routes/admin/members.ts`, `apps/api/src/repository/memberTags.ts`, `apps/web/src/features/admin/api/members.ts`, `apps/web/src/features/admin/components/_members/MemberDrawer.tsx`, `apps/web/src/features/admin/hooks/useAdminMutation.ts`, `apps/web/playwright/tests/visual/admin-shell/member-drawer-tag-edit.spec.ts` |
+| contract boundary | `member_tags` / `tag_definitions` が正本。admin manual endpoint は active tag のみ付与可能、DELETE は 204 no-body |
+| Phase 12 | strict 7 present、root/output `artifacts.json` parity present、30-method compact evidence present |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-982-drawer-tag-pill-editing-artifact-inventory.md` |
+| user gate | staging visual baseline, commit, push, PR |
+
 ## issue-976-admin-fetch-service-binding（2026-05-28）
 
 | 項目 | 値 |
@@ -515,7 +529,7 @@
 | status | `spec_created / implementation / VISUAL / runtime_pending` |
 | canonical role | `ui-prototype-design-system-foundation/serial-07-regression-evidence` の top-level execution root |
 | purpose | Playwright visual 4 screens と CI gate 6 件で UI prototype alignment の regression を防ぐ |
-| planned visual specs | `apps/web/playwright/tests/visual/{top,members-list,member-detail,admin-dashboard}.spec.ts` |
+| Gate-B target visual specs | `apps/web/playwright/tests/visual/{top,members-list,member-detail,admin-dashboard}.spec.ts` |
 | Phase 12 | strict 7 files present; root/output artifacts parity present |
 | inventory | `.claude/skills/aiworkflow-requirements/references/workflow-regression-evidence-ci-gate-foundation-artifact-inventory.md` |
 | user gate | Playwright visual run, baseline PNG capture, branch protection mutation, commit, push, PR |
@@ -1536,7 +1550,7 @@
 | workflow root | `docs/30-workflows/public-header-logged-in-nav-cleanup/` |
 | 状態 | `spec_created / implementation / VISUAL_ON_EXECUTION / implementation_spec_ready_pending_code` |
 | scope | PublicHeader session awareness, root/legal public shell consistency, login safe redirect, MemberHeader admin CTA, AdminSidebar public-return, Playwright auth slot coverage |
-| planned targets | `apps/web/src/lib/auth-view/*`, `apps/web/src/components/public/PublicHeader.tsx`, `apps/web/app/(public)/layout.tsx`, `apps/web/app/page.tsx`, `apps/web/app/{privacy,terms,login}/page.tsx`, `apps/web/src/components/layout/{MemberHeader,AdminSidebar}.tsx`, `apps/web/playwright/tests/auth-slot-coverage.spec.ts` |
+| Gate-B target targets | `apps/web/src/lib/auth-view/*`, `apps/web/src/components/public/PublicHeader.tsx`, `apps/web/app/(public)/layout.tsx`, `apps/web/app/page.tsx`, `apps/web/app/{privacy,terms,login}/page.tsx`, `apps/web/src/components/layout/{MemberHeader,AdminSidebar}.tsx`, `apps/web/playwright/tests/auth-slot-coverage.spec.ts` |
 | strict Phase 12 | `outputs/phase-12/{main.md,implementation-guide.md,system-spec-update-summary.md,documentation-changelog.md,unassigned-task-detection.md,skill-feedback-report.md,phase12-task-spec-compliance-check.md}` |
 | invariant | no new endpoint / no D1 schema / no PII in DOM; `data-auth-state` is only `guest\|member\|admin`; route topology stays unchanged |
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-public-header-logged-in-nav-cleanup-artifact-inventory.md` |
@@ -4011,7 +4025,7 @@ packages/
 | dashboard repository | `apps/api/src/repository/dashboard.ts` |
 | 認可境界 | 04c は `SYNC_ADMIN_TOKEN` Bearer gate。05a で Auth.js + `admin_users` active 判定へ差し替える |
 | 不在 endpoint | `PATCH /admin/members/:memberId/profile` / `PATCH /admin/members/:memberId/tags` は作らない |
-| tag 書き込み境界 | `POST /admin/tags/queue/:queueId/resolve` のみ |
+| tag 書き込み境界 | current API は AI/Form 提案の `POST /admin/tags/queue/:queueId/resolve` と、Issue #982 で追加した admin manual lane `GET/POST /admin/members/:memberId/tags` + `DELETE /admin/members/:memberId/tags/:tagId`。`PATCH /admin/members/:memberId/tags` は作らない |
 | schema 書き込み境界 | `/admin/schema/*` のみに集約 |
 | attendance error | duplicate は `409`、deleted member は `422`、session not found は `404` |
 | phase 11 判定 | API-only / NON_VISUAL。スクリーンショット対象外、curl smoke 手順と Vitest を証跡にする |
@@ -4379,7 +4393,7 @@ UT-17 Cloudflare Notifications → alert-relay → Slack 経路を、既存 API 
 | classification | read-only / notification-only monitor. Deploy / rollback / schema apply は行わない |
 | runbook | `docs/00-getting-started-manual/specs/15-infrastructure-runbook.md` Issue #720 section |
 | parent | `docs/30-workflows/completed-tasks/issue-655-d7-recovery-2nd-cycle/` |
-| evidence boundary | Phase 11 planned files are physical `PENDING_USER_GATE` placeholders. Runtime success is not claimed locally |
+| evidence boundary | Phase 11 Gate-B target files are physical `PENDING_USER_GATE` placeholders. Runtime success is not claimed locally |
 | inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-720-cf-audit-monitor-env-protection-fix-artifact-inventory.md` |
 | user gate | repo secret/variable mirror, push, PR, workflow dispatch dry run, six scheduled successes, D'+0 declaration, production env monitor secret cleanup |
 
@@ -4390,7 +4404,7 @@ UT-17 Cloudflare Notifications → alert-relay → Slack 経路を、既存 API 
 | canonical workflow | `docs/30-workflows/ut-17-followup-002-alert-relay-dedup-kv/` |
 | source task | `docs/30-workflows/unassigned-task/ut-17-followup-002-alert-relay-dedup-kv-persistence.md`（transferred_to_workflow） |
 | state | `implemented-local-runtime-pending / implementation / NON_VISUAL / external_ops_pending` |
-| planned binding | `ALERT_DEDUP_KV: KVNamespace` |
+| Gate-B target binding | `ALERT_DEDUP_KV: KVNamespace` |
 | canonical test path | `apps/api/src/routes/internal/__tests__/alert-relay.spec.ts`（historical source used `.test.ts`, superseded by repo `*.spec.ts` invariant） |
 | artifact inventory | `references/workflow-ut-17-followup-002-alert-relay-dedup-kv-artifact-inventory.md` |
 | patterns | `references/patterns-kv-dedup.md`（env binding narrowing / KV stub fixture / persistence ordering / wrangler gating / wording 規律） |

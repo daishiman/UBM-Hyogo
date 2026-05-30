@@ -2,6 +2,7 @@
 // 12-search-tags の検索パラメータ (q / zone / tag(repeated) / sort / density / page)
 // と既存 filter (published|hidden|deleted) を組合せて返す。
 import { Hono } from "hono";
+import { z } from "zod";
 import { requireAdmin, type RequireAuthVariables } from "../../middleware/require-admin";
 import {
   attendanceProviderMiddleware,
@@ -10,7 +11,20 @@ import {
   type WriteTagNoteProviderVariables,
 } from "../../middleware/repository-providers";
 import { ctx } from "../../repository/_shared/db";
-import { asMemberId, asAdminId } from "../../repository/_shared/brand";
+import {
+  asMemberId,
+  asAdminId,
+  adminEmail,
+  auditAction,
+} from "../../repository/_shared/brand";
+import {
+  getTagDefinitionMaster,
+  listAssignedTagsForMember,
+  findTagDefinitionById,
+  assignTagToMemberByAdmin,
+  unassignTagFromMemberByAdmin,
+  getMemberDeletedFlag,
+} from "../../repository/memberTags";
 import { buildAdminMemberDetailView } from "../../repository/_shared/builder";
 import {
   createAttendanceProvider,
@@ -38,6 +52,9 @@ import { logError } from "../../lib/logger";
 const ADMIN_MEMBERS_ERROR_CODE = "UBM-ADMIN-MEMBERS-500";
 
 const FILTER_VALUES = ["published", "hidden", "deleted"] as const;
+
+// issue-982: admin manual tag 付与の request body。
+const AssignTagBodyZ = z.object({ tagId: z.string().min(1) });
 
 type ConsentValue = "consented" | "declined" | "unknown";
 type PublishStateValue = "public" | "member_only" | "hidden";
@@ -466,6 +483,120 @@ export const createAdminMembersRoute = () => {
       },
       200,
     );
+  });
+
+  // ---------------------------------------------------------------------------
+  // issue-982: member tag の admin manual 付与 / 解除 / master 読取
+  //   不変条件 #13 再定義: admin manual 経路は audit 必須で member_tags を直接 write する。
+  // ---------------------------------------------------------------------------
+
+  // GET /admin/members/:memberId/tags → { assigned, available }
+  app.get("/members/:memberId/tags", async (c) => {
+    const memberId = c.req.param("memberId");
+    if (!memberId) return c.json({ ok: false, error: "missing memberId" }, 400);
+    const db = ctx({ DB: c.env.DB });
+    const mid = asMemberId(memberId);
+
+    const deleted = await getMemberDeletedFlag(db, mid);
+    if (deleted === null) {
+      return c.json({ ok: false, error: "member_not_found" }, 404);
+    }
+
+    const [assigned, available] = await Promise.all([
+      listAssignedTagsForMember(db, mid),
+      getTagDefinitionMaster(db),
+    ]);
+    return c.json({ assigned, available }, 200);
+  });
+
+  // POST /admin/members/:memberId/tags  body { tagId } → tag 付与（冪等）
+  app.post("/members/:memberId/tags", async (c) => {
+    const memberId = c.req.param("memberId");
+    if (!memberId) return c.json({ ok: false, error: "missing memberId" }, 400);
+
+    let raw: unknown;
+    try {
+      raw = await c.req.json();
+    } catch {
+      return c.json({ ok: false, error: "invalid json" }, 400);
+    }
+    const parsed = AssignTagBodyZ.safeParse(raw);
+    if (!parsed.success) {
+      return c.json({ ok: false, error: parsed.error.message }, 400);
+    }
+    const { tagId } = parsed.data;
+
+    const db = ctx({ DB: c.env.DB });
+    const mid = asMemberId(memberId);
+
+    const deleted = await getMemberDeletedFlag(db, mid);
+    if (deleted === null) {
+      return c.json({ ok: false, error: "member_not_found" }, 404);
+    }
+    if (deleted) {
+      return c.json({ ok: false, error: "member_is_deleted" }, 409);
+    }
+
+    const tagDef = await findTagDefinitionById(db, tagId);
+    if (!tagDef) {
+      return c.json({ ok: false, error: "tag_not_found" }, 404);
+    }
+
+    const authUser = c.get("authUser");
+    const applied = await assignTagToMemberByAdmin(db, mid, tagId, authUser.email);
+    if (applied) {
+      await requireProvider(c.var.auditLogProvider, "auditLogProvider").append({
+        actorId: asAdminId(authUser.memberId),
+        actorEmail: adminEmail(authUser.email),
+        action: auditAction("admin.member.tag_assigned"),
+        targetType: "member",
+        targetId: memberId,
+        before: null,
+        after: { tagId, source: "manual" },
+      });
+    }
+
+    const [assigned, available] = await Promise.all([
+      listAssignedTagsForMember(db, mid),
+      getTagDefinitionMaster(db),
+    ]);
+    return c.json({ assigned, available }, 200);
+  });
+
+  // DELETE /admin/members/:memberId/tags/:tagId → tag 解除（未存在でも 204 で冪等）
+  app.delete("/members/:memberId/tags/:tagId", async (c) => {
+    const memberId = c.req.param("memberId");
+    const tagId = c.req.param("tagId");
+    if (!memberId || !tagId) {
+      return c.json({ ok: false, error: "missing path params" }, 400);
+    }
+
+    const db = ctx({ DB: c.env.DB });
+    const mid = asMemberId(memberId);
+
+    const deleted = await getMemberDeletedFlag(db, mid);
+    if (deleted === null) {
+      return c.json({ ok: false, error: "member_not_found" }, 404);
+    }
+    if (deleted) {
+      return c.json({ ok: false, error: "member_is_deleted" }, 409);
+    }
+
+    const removed = await unassignTagFromMemberByAdmin(db, mid, tagId);
+    if (removed) {
+      const authUser = c.get("authUser");
+      await requireProvider(c.var.auditLogProvider, "auditLogProvider").append({
+        actorId: asAdminId(authUser.memberId),
+        actorEmail: adminEmail(authUser.email),
+        action: auditAction("admin.member.tag_unassigned"),
+        targetType: "member",
+        targetId: memberId,
+        before: { tagId },
+        after: null,
+      });
+    }
+
+    return c.body(null, 204);
   });
 
   return app;

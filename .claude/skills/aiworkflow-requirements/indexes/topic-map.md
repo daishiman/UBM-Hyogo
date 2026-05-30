@@ -874,13 +874,13 @@ node scripts/list-specs.js --topics
 | 概要 | L8 |
 | ドキュメント構成 | L27 |
 | REST API エンドポイント一覧 | L37 |
-| エンドポイント命名規則 | L246 |
-| UBM-Hyogo Admin Sync API（03a） | L267 |
-| UBM-Hyogo Member Self-Service API（04b） | L319 |
-| Admin Dashboard Attendance Analytics API（UT-02A follow-up 002） | L345 |
-| Desktop IPC API サマリー | L359 |
-| 変更履歴 | L390 |
-| 関連ドキュメント | L407 |
+| エンドポイント命名規則 | L249 |
+| UBM-Hyogo Admin Sync API（03a） | L270 |
+| UBM-Hyogo Member Self-Service API（04b） | L322 |
+| Admin Dashboard Attendance Analytics API（UT-02A follow-up 002） | L348 |
+| Desktop IPC API サマリー | L362 |
+| 変更履歴 | L393 |
+| 関連ドキュメント | L410 |
 
 ### references/api-internal-chunk-search.md
 
@@ -3360,6 +3360,17 @@ node scripts/list-specs.js --topics
 |------------|----|
 | User-Gated | L13 |
 | Lessons Learned | L17 |
+
+### references/workflow-issue-982-drawer-tag-pill-editing-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Summary | L5 |
+| Canonical workflow | L11 |
+| Local implementation targets | L23 |
+| Current code anchors | L35 |
+| Gates | L46 |
+| Lessons Learned | L54 |
 
 ### references/workflow-light-theme-contrast-regression-guard.md
 
@@ -8032,14 +8043,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L3017 |
-| フェーズ構造（概要） | L3026 |
-| 品質ゲート（概要） | L3057 |
-| 出力テンプレート | L3068 |
-| 実行時のコマンド・エージェント・スキル | L3091 |
-| 昇格パターン集 | L3115 |
-| Current Active / Spec Created Tasks | L3117 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L3279 |
+| ドキュメント構成 | L3031 |
+| フェーズ構造（概要） | L3040 |
+| 品質ゲート（概要） | L3071 |
+| 出力テンプレート | L3082 |
+| 実行時のコマンド・エージェント・スキル | L3105 |
+| 昇格パターン集 | L3129 |
+| Current Active / Spec Created Tasks | L3131 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L3293 |
 
 ### references/task-workflow-backlog-part2.md
 

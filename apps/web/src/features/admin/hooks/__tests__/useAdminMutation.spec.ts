@@ -21,6 +21,7 @@ import { useAdminMutation } from "../useAdminMutation";
 afterEach(() => {
   cleanup();
   vi.restoreAllMocks();
+  vi.unstubAllGlobals();
 });
 beforeEach(() => {
   refreshMock.mockClear();
@@ -417,6 +418,31 @@ describe("useAdminMutation", () => {
     expect(refreshMock).toHaveBeenCalledOnce();
     expect(result.current.error).toBeNull();
     vi.useRealTimers();
+  });
+
+  it("TC-13b: DELETE 204 No Content は JSON parse せず成功扱い", async () => {
+    const onSuccess = vi.fn();
+    const fetchMock = vi.fn().mockResolvedValue({
+      ok: true,
+      status: 204,
+      json: vi.fn(async () => {
+        throw new Error("unexpected json parse");
+      }),
+    });
+    vi.stubGlobal("fetch", fetchMock as unknown as typeof fetch);
+    const { result } = renderHook(() =>
+      useAdminMutation<void>("/api/admin/x", "DELETE", {
+        onSuccess,
+        refreshOnSuccess: false,
+      }),
+    );
+    await act(async () => {
+      await expect(result.current.trigger({})).resolves.toBeUndefined();
+    });
+    expect(onSuccess).toHaveBeenCalledWith(undefined);
+    expect(toastMock).toHaveBeenCalledWith("✓ 保存しました");
+    expect(refreshMock).not.toHaveBeenCalled();
+    expect(result.current.error).toBeNull();
   });
 
   it("TC-14: PUT で maxAttempts 到達 → 最終失敗", async () => {

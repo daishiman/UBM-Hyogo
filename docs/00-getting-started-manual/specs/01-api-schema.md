@@ -181,6 +181,50 @@ type ConsentStatus = "consented" | "declined" | "unknown";
 
 cursor は `{ heldOn, sessionId }` を base64url JSON 化した不透明文字列で、sort は `held_on DESC, session_id DESC`。不正 cursor は 400、`limit < 1` は 400、`limit > 200` は 200 に clamp する。既存 `createAttendanceProvider(ctx).findByMemberIds(ids)` は bulk read の後方互換 API として維持し、個人ページングは `findByMemberId(id, { limit, cursor })` を使う。
 
+## Admin Member Tag Write API（issue-982）
+
+管理者が `MemberDrawer` 内で member へ tag を手動付与 / 解除するための専用 endpoint。すべて admin gate 配下で実行し、apps/web は `/api/admin/...` proxy 経由で呼ぶ（D1 直接参照禁止）。
+
+### 正本テーブル
+
+- 中間テーブルは **`member_tags`**（PK `(member_id, tag_id)`、`source`、`assigned_by`）が正本。過去仕様の旧中間テーブル名は使わない。
+- tag master は **`tag_definitions`**（PK `tag_id`、UNIQUE `code`、`label`、`category`、`active`）。`tags` テーブルは存在しない。
+
+### 不変条件 #13（2026-05 再定義）
+
+tag の write 経路を 2 つに正式分離する。
+
+1. **AI / Google Form 由来の tag「提案」** — `tags-queue` の resolve（`tagQueueResolve` workflow）経由で承認する。
+2. **管理者による tag の「手動付与 / 解除」** — `/admin/members/:memberId/tags` 専用 endpoint 経由で行い、必ず audit を記録する。
+
+`member_tags` への直接 write は上記 2 経路に限り許可する。
+
+### Endpoints
+
+| Method | Path | Body | Response | エラー |
+|--------|------|------|----------|--------|
+| GET | `/admin/members/:memberId/tags` | なし | `{ assigned: TagRef[], available: TagRef[] }`（`available` は `tag_definitions WHERE active=1` 全件） | member 不在 → 404 `member_not_found` |
+| POST | `/admin/members/:memberId/tags` | `{ tagId: string }` | `{ assigned, available }`（更新後） | body 不正 → 400 / member 不在 → 404 `member_not_found` / `is_deleted=1` → 409 `member_is_deleted` / active な tag master 不在 → 404 `tag_not_found` |
+| DELETE | `/admin/members/:memberId/tags/:tagId` | なし | 204 No Content | member 不在 → 404 `member_not_found` / `is_deleted=1` → 409 `member_is_deleted` |
+
+`TagRef = { tagId: string; code: string; label: string; category: string }`。`tagId`（= `tag_definitions.tag_id`）を正本識別子とし、`code`（UNIQUE）は表示・既存 detail view との parity 用に併せて返す。
+
+### 冪等性
+
+- POST は PK `(member_id, tag_id)` の `INSERT OR IGNORE` で再送を no-op（200）にする。
+- POST の tag master 検証は `tag_definitions.active = 1` を要求する。非アクティブ tag は UI に出さず、direct API でも `tag_not_found` として扱う。
+- DELETE は対象行が無くても 204（冪等）。
+- client が送る `Idempotency-Key` header は受理するが、現状 server 側は no-op（idempotency middleware 未実装）。状態変化の検出は `meta.changes` で行う。
+
+### audit action（state 変化時のみ 1 行）
+
+| action | targetType | before | after |
+|--------|-----------|--------|-------|
+| `admin.member.tag_assigned` | `member` | `null` | `{ tagId, source: "manual" }` |
+| `admin.member.tag_unassigned` | `member` | `{ tagId }` | `null` |
+
+新規付与 / 削除が実際に発生した（`meta.changes > 0`）ときのみ audit を append する。再送 no-op では audit を増やさない。
+
 ## Admin Dashboard Attendance Analytics API
 
 `ut-02a-followup-002` で導入し、`admin-attendance-analytics-redesign` (2026-05) で UI 全面刷新とともに period / zone フィルタおよび trend / zone-distribution / drilldown / absentees / export を拡張した。すべて既存 admin gate 配下で実行し、apps/web は `/api/admin/...` proxy / `fetchAdmin` 経由で呼ぶ。apps/web から D1 を直接参照しない。
