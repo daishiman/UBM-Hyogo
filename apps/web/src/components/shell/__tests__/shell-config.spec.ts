@@ -1,59 +1,59 @@
-import { describe, it, expect } from "vitest";
+import { describe, expect, it } from "vitest";
 import { buildNavForRole, isNavItemActive } from "../shell-config";
 
 describe("buildNavForRole", () => {
-  it("viewer は公開グループのみ（3 item）", () => {
+  it("viewer returns only public group with 3 items", () => {
     const groups = buildNavForRole("viewer");
     expect(groups.map((g) => g.id)).toEqual(["public"]);
     expect(groups[0]!.items).toHaveLength(3);
   });
 
-  it("member は公開 + 会員（合計 4 item）", () => {
+  it("member returns public + members groups", () => {
     const groups = buildNavForRole("member");
     expect(groups.map((g) => g.id)).toEqual(["public", "members"]);
-    const total = groups.reduce((n, g) => n + g.items.length, 0);
-    expect(total).toBe(4);
+    expect(groups[1]!.items.map((i) => i.id)).toEqual(["profile"]);
   });
 
-  it("admin は 3 グループ全部（合計 13 item）", () => {
-    const groups = buildNavForRole("admin", { schemaDiffCount: 0 });
+  it("admin returns 3 groups with 3+1+9 items", () => {
+    const groups = buildNavForRole("admin");
     expect(groups.map((g) => g.id)).toEqual(["public", "members", "admin"]);
-    const total = groups.reduce((n, g) => n + g.items.length, 0);
+    const total = groups.reduce((sum, g) => sum + g.items.length, 0);
     expect(total).toBe(13);
   });
 
-  it("admin の schema item に schemaDiffCount badge が乗る（正数）", () => {
-    const groups = buildNavForRole("admin", { schemaDiffCount: 5 });
-    const adminGroup = groups.find((g) => g.id === "admin")!;
-    const schema = adminGroup.items.find((i) => i.id === "schema")!;
-    expect(schema.badge).toEqual({ tone: "warn", count: 5 });
-  });
-
-  it("schemaDiffCount=0 でも badge は count:0 で安定（描画側で非表示判定）", () => {
+  it("schemaDiffCount=0 hides schema badge", () => {
     const groups = buildNavForRole("admin", { schemaDiffCount: 0 });
-    const schema = groups.find((g) => g.id === "admin")!.items.find((i) => i.id === "schema")!;
-    expect(schema.badge).toEqual({ tone: "warn", count: 0 });
+    const schema = groups[2]!.items.find((i) => i.id === "schema");
+    expect(schema?.badge).toBeUndefined();
   });
 
-  it("ctx 未指定の admin は schemaDiffCount=0 として扱う", () => {
-    const groups = buildNavForRole("admin");
-    const schema = groups.find((g) => g.id === "admin")!.items.find((i) => i.id === "schema")!;
-    expect(schema.badge?.count).toBe(0);
+  it("schemaDiffCount>0 attaches warn badge with count", () => {
+    const groups = buildNavForRole("admin", { schemaDiffCount: 5 });
+    const schema = groups[2]!.items.find((i) => i.id === "schema");
+    expect(schema?.badge).toEqual({ tone: "warn", count: 5 });
+  });
+
+  it("admin nav snapshot stable across schemaDiffCount=0/2 (only badge differs)", () => {
+    const zero = buildNavForRole("admin", { schemaDiffCount: 0 });
+    const two = buildNavForRole("admin", { schemaDiffCount: 2 });
+    expect(zero.map((g) => g.items.map((i) => i.id))).toEqual(
+      two.map((g) => g.items.map((i) => i.id)),
+    );
   });
 });
 
 describe("isNavItemActive", () => {
-  it("ルート `/` は完全一致のみ active", () => {
+  it("/ matches only exact root", () => {
     expect(isNavItemActive("/", "/")).toBe(true);
     expect(isNavItemActive("/", "/members")).toBe(false);
   });
 
-  it("`/admin` は完全一致のみ active（配下では非 active）", () => {
+  it("/admin matches only exact /admin", () => {
     expect(isNavItemActive("/admin", "/admin")).toBe(true);
     expect(isNavItemActive("/admin", "/admin/members")).toBe(false);
   });
 
-  it("一般 href は prefix 一致で active", () => {
+  it("nested href matches subpaths", () => {
     expect(isNavItemActive("/admin/members", "/admin/members")).toBe(true);
     expect(isNavItemActive("/admin/members", "/admin/members/123")).toBe(true);
     expect(isNavItemActive("/admin/members", "/admin/tags")).toBe(false);

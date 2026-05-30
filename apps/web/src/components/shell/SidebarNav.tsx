@@ -2,17 +2,25 @@
 
 import { SidebarNavGroup } from "./SidebarNavGroup";
 import type { ShellNavGroup } from "./shell-config";
+import type { SidebarStateMode } from "./useSidebarState";
 
-export interface SidebarNavProps {
+export function SidebarNav({
+  navGroups,
+  pathname,
+  mode,
+}: {
   readonly navGroups: ShellNavGroup[];
-  readonly collapsed: boolean;
-}
-
-export function SidebarNav({ navGroups, collapsed }: SidebarNavProps) {
+  readonly pathname: string;
+  readonly mode: SidebarStateMode;
+}) {
   return (
-    <nav aria-label="サイドバー" className="flex flex-col gap-4">
+    <nav
+      aria-label="サイドバー"
+      data-component="shell-nav"
+      className="flex flex-1 flex-col gap-4 overflow-y-auto"
+    >
       {navGroups.map((group) => (
-        <SidebarNavGroup key={group.id} group={group} collapsed={collapsed} />
+        <SidebarNavGroup key={group.id} group={group} pathname={pathname} mode={mode} />
       ))}
     </nav>
   );

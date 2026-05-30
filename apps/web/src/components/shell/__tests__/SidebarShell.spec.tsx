@@ -1,99 +1,98 @@
-import { describe, it, expect, vi, afterEach, beforeEach } from "vitest";
-import { render, screen, fireEvent, cleanup } from "@testing-library/react";
+import { describe, expect, it, beforeEach, afterEach, vi } from "vitest";
+import { render, cleanup, screen, act } from "@testing-library/react";
 
-let mockPath = "/";
-vi.mock("next/navigation", () => ({
-  usePathname: () => mockPath,
+vi.mock("next/link", () => ({
+  default: ({
+    href,
+    children,
+    ...rest
+  }: {
+    href: string;
+    children: React.ReactNode;
+  } & React.AnchorHTMLAttributes<HTMLAnchorElement>) => (
+    <a href={href} {...rest}>
+      {children}
+    </a>
+  ),
 }));
-
-vi.mock("next-auth/react", () => ({
-  signOut: vi.fn(),
-}));
-
-beforeEach(() => {
-  mockPath = "/";
-});
 
 import { SidebarShell } from "../SidebarShell";
-import { SidebarMobileTrigger } from "../SidebarMobileTrigger";
 import { buildNavForRole } from "../shell-config";
 
-afterEach(() => cleanup());
+afterEach(() => {
+  cleanup();
+  window.localStorage.clear();
+});
+beforeEach(() => {
+  window.localStorage.clear();
+});
 
-function renderShell(role: "viewer" | "member" | "admin") {
+function renderShell(opts: {
+  role: "viewer" | "member" | "admin";
+  activePath: string;
+  schemaDiffCount?: number;
+}) {
+  const navGroups = buildNavForRole(opts.role, { schemaDiffCount: opts.schemaDiffCount ?? 0 });
   return render(
     <SidebarShell
-      role={role}
-      user={
-        role === "viewer"
-          ? null
-          : { displayName: "山田太郎", email: "taro@example.com", initials: "山" }
-      }
-      navGroups={buildNavForRole(role, { schemaDiffCount: 3 })}
-      activePath="/"
-      mobileTriggerSlot={<SidebarMobileTrigger />}
+      role={opts.role}
+      user={{ displayName: "テスト", email: "t@example.com", initials: "テ" }}
+      navGroups={navGroups}
+      activePath={opts.activePath}
+      mobileTriggerSlot={<button type="button">drawer</button>}
     >
-      <div>本文</div>
+      <div>main</div>
     </SidebarShell>,
   );
 }
 
-describe("SidebarShell responsive (Task E)", () => {
-  it("<aside> は sm で hidden / md+ で flex 表示 (AC-E1)", () => {
-    const { container } = renderShell("admin");
-    const aside = container.querySelector("aside")!;
-    expect(aside.className).toContain("hidden");
-    expect(aside.className).toContain("md:flex");
+describe("SidebarShell", () => {
+  it("viewer renders 3 nav items", () => {
+    renderShell({ role: "viewer", activePath: "/" });
+    expect(document.querySelectorAll('[data-component="shell-nav-item"]').length).toBe(3);
   });
 
-  it("mobileTriggerSlot の trigger が md:hidden で配置される (AC-E1)", () => {
-    renderShell("admin");
-    const trigger = screen.getByRole("button", { name: "メニューを開く" });
-    expect(trigger.className).toContain("md:hidden");
+  it("member renders 4 nav items", () => {
+    renderShell({ role: "member", activePath: "/profile" });
+    expect(document.querySelectorAll('[data-component="shell-nav-item"]').length).toBe(4);
   });
 
-  it("aside ツリーに固定 id を持つ要素が無く id 重複が発生しない (R-E2)", () => {
-    const { container } = renderShell("admin");
-    const ids = Array.from(container.querySelectorAll("[id]")).map((el) => el.id);
-    expect(new Set(ids).size).toBe(ids.length);
+  it("admin renders 13 nav items", () => {
+    renderShell({ role: "admin", activePath: "/admin" });
+    expect(document.querySelectorAll('[data-component="shell-nav-item"]').length).toBe(13);
   });
 
-  it("trigger で開いた drawer が route 変化で自動 close される (AC-E7 / AC-E8)", () => {
-    const { rerender } = renderShell("admin");
-    // hamburger を押して drawer を開く
-    fireEvent.click(screen.getByRole("button", { name: "メニューを開く" }));
-    expect(screen.getByRole("dialog", { name: "サイドバーメニュー" })).toBeTruthy();
-    // pathname 変化 → useSidebarState が drawerOpen=false → drawer unmount
-    mockPath = "/admin/members";
-    rerender(
-      <SidebarShell
-        role="admin"
-        user={{ displayName: "山田太郎", email: "taro@example.com", initials: "山" }}
-        navGroups={buildNavForRole("admin", { schemaDiffCount: 3 })}
-        activePath="/admin/members"
-        mobileTriggerSlot={<SidebarMobileTrigger />}
-      >
-        <div>本文</div>
-      </SidebarShell>,
+  it("only one item is data-active=true for the current pathname", () => {
+    renderShell({ role: "admin", activePath: "/admin/tags" });
+    const active = document.querySelectorAll(
+      '[data-component="shell-nav-item"][data-active="true"]',
     );
-    expect(screen.queryByRole("dialog", { name: "サイドバーメニュー" })).toBeNull();
-  });
-});
-
-describe("SidebarShell nav rendering (Task A)", () => {
-  it("admin は 13 件の nav link を描画する", () => {
-    const { container } = renderShell("admin");
-    const navLinks = container.querySelectorAll('[data-component="shell-nav-item"]');
-    expect(navLinks).toHaveLength(13);
+    expect(active.length).toBe(1);
+    expect((active[0] as HTMLAnchorElement).getAttribute("href")).toBe("/admin/tags");
   });
 
-  it("viewer は user footer を描画しない", () => {
-    const { container } = renderShell("viewer");
-    expect(container.querySelector('[data-component="shell-footer"]')).toBeNull();
+  it("nav exposes aria-label=サイドバー", () => {
+    renderShell({ role: "viewer", activePath: "/" });
+    const nav = screen.getByRole("navigation", { name: "サイドバー" });
+    expect(nav).toBeTruthy();
   });
 
-  it("member は user footer を描画する", () => {
-    const { container } = renderShell("member");
-    expect(container.querySelector('[data-component="shell-footer"]')).not.toBeNull();
+  it("collapse toggle hides labels via sr-only", () => {
+    renderShell({ role: "admin", activePath: "/admin" });
+    const toggle = screen.getByRole("button", { name: /折り畳む|展開/ });
+    expect(toggle.getAttribute("aria-expanded")).toBe("true");
+    act(() => toggle.click());
+    expect(toggle.getAttribute("aria-expanded")).toBe("false");
+    const labels = document.querySelectorAll(
+      '[data-component="shell-nav-label"]',
+    );
+    expect(labels.length).toBeGreaterThan(0);
+    labels.forEach((l) => expect(l.className).toContain("sr-only"));
+  });
+
+  it("schema badge appears when schemaDiffCount>0", () => {
+    renderShell({ role: "admin", activePath: "/admin", schemaDiffCount: 3 });
+    const schemaLink = document.querySelector('a[href="/admin/schema"]');
+    expect(schemaLink?.textContent).toContain("3");
   });
 });

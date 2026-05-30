@@ -1,17 +1,32 @@
-// unified-sidebar-shell Task A: 純粋 SVG icon 定義。
-// 既存 AdminSidebar の line-icon 形状を踏襲（stroke=currentColor / 16px 基準）。
-// 色は currentColor 経由のみ（HEX 直書き禁止・I-E4）。
-
-import type { SVGProps } from "react";
+import type { ReactNode, SVGProps } from "react";
 import type { ShellNavItemId } from "./shell-config";
 
-const NAV_ICON_PATHS: Record<ShellNavItemId, string> = {
+function I({ d }: { readonly d: string }): ReactNode {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      width="16"
+      height="16"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.75"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <path d={d} />
+    </svg>
+  );
+}
+
+const PATHS: Record<ShellNavItemId, string> = {
   home: "M3 11l9-8 9 8M5 9v11h14V9",
   directory:
     "M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM22 21v-2a4 4 0 0 0-3-3.87M17 3.13a4 4 0 0 1 0 7.75",
   register:
     "M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM20 8v6M23 11h-6",
-  profile: "M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z",
+  profile:
+    "M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z",
   dashboard: "M3 3h7v9H3zM14 3h7v5h-7zM14 12h7v9h-7zM3 16h7v5H3z",
   attendance: "M3 21V10M9 21V4M15 21v-7M21 21V8",
   members:
@@ -26,42 +41,26 @@ const NAV_ICON_PATHS: Record<ShellNavItemId, string> = {
   audit: "M4 4h12l4 4v12H4zM8 4v4h4M8 12h8M8 16h8",
 };
 
-type SvgIconProps = Omit<SVGProps<SVGSVGElement>, "d">;
+export function ShellIcon({ id }: { readonly id: ShellNavItemId }): ReactNode {
+  return I({ d: PATHS[id] });
+}
 
-function Svg({ d, ...rest }: { d: string } & SvgIconProps) {
+/** mobile drawer の hamburger trigger 用アイコン（Task E）。色は currentColor 経由のみ。 */
+export function MenuIcon(props: SVGProps<SVGSVGElement>): ReactNode {
   return (
     <svg
       viewBox="0 0 24 24"
-      width="16"
-      height="16"
+      width="20"
+      height="20"
       fill="none"
       stroke="currentColor"
       strokeWidth="1.75"
       strokeLinecap="round"
       strokeLinejoin="round"
-      {...rest}
+      aria-hidden="true"
+      {...props}
     >
-      <path d={d} />
+      <path d="M3 6h18M3 12h18M3 18h18" />
     </svg>
   );
-}
-
-/** nav item id から対応する line-icon を描画する。 */
-export function NavIcon({ name, ...rest }: { name: ShellNavItemId } & SvgIconProps) {
-  return <Svg {...rest} d={NAV_ICON_PATHS[name]} />;
-}
-
-/** hamburger（mobile drawer trigger 用・Task E）。 */
-export function MenuIcon(props: SvgIconProps) {
-  return <Svg {...props} d="M3 6h18M3 12h18M3 18h18" />;
-}
-
-/** collapse toggle 用の chevron（< 方向 = 折り畳む）。 */
-export function CollapseIcon(props: SvgIconProps) {
-  return <Svg {...props} d="M15 18l-6-6 6-6" />;
-}
-
-/** expand toggle 用の chevron（> 方向 = 展開する）。 */
-export function ExpandIcon(props: SvgIconProps) {
-  return <Svg {...props} d="M9 18l6-6-6-6" />;
 }

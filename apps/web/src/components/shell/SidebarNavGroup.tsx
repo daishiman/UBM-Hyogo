@@ -2,17 +2,26 @@
 
 import { SidebarNavItem } from "./SidebarNavItem";
 import type { ShellNavGroup } from "./shell-config";
+import type { SidebarStateMode } from "./useSidebarState";
 
-export interface SidebarNavGroupProps {
+export function SidebarNavGroup({
+  group,
+  pathname,
+  mode,
+}: {
   readonly group: ShellNavGroup;
-  readonly collapsed: boolean;
-}
-
-export function SidebarNavGroup({ group, collapsed }: SidebarNavGroupProps) {
+  readonly pathname: string;
+  readonly mode: SidebarStateMode;
+}) {
+  const collapsed = mode === "collapsed";
   return (
-    <section data-component="shell-nav-section" className="flex flex-col gap-1">
+    <section
+      data-component="shell-nav-group"
+      data-group-id={group.id}
+      className="flex flex-col gap-1"
+    >
       <div
-        data-component="shell-nav-label"
+        data-component="shell-nav-group-label"
         className={
           collapsed
             ? "sr-only"
@@ -23,7 +32,7 @@ export function SidebarNavGroup({ group, collapsed }: SidebarNavGroupProps) {
       </div>
       <ul className="flex flex-col gap-0.5">
         {group.items.map((item) => (
-          <SidebarNavItem key={item.href} item={item} collapsed={collapsed} />
+          <SidebarNavItem key={item.id} item={item} pathname={pathname} mode={mode} />
         ))}
       </ul>
     </section>

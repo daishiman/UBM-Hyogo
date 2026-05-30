@@ -1,6 +1,3 @@
-// unified-sidebar-shell Task A: nav 構成の純関数 source。
-// role → nav group ツリーの解決と active 判定をここに閉じる（副作用なし）。
-
 export type ShellRole = "viewer" | "member" | "admin";
 
 export type ShellNavItemId =
@@ -38,7 +35,7 @@ export type ShellNavGroup = {
 
 const PUBLIC_GROUP: ShellNavGroup = {
   id: "public",
-  label: "公開",
+  label: "Public",
   items: [
     { id: "home", href: "/", label: "ホーム", icon: "home" },
     { id: "directory", href: "/members", label: "会員ディレクトリ", icon: "directory" },
@@ -48,60 +45,53 @@ const PUBLIC_GROUP: ShellNavGroup = {
 
 const MEMBERS_GROUP: ShellNavGroup = {
   id: "members",
-  label: "会員",
+  label: "Members",
   items: [{ id: "profile", href: "/profile", label: "マイページ", icon: "profile" }],
 };
 
-function buildAdminGroup(schemaDiffCount: number): ShellNavGroup {
-  return {
-    id: "admin",
-    label: "管理",
-    items: [
-      { id: "dashboard", href: "/admin", label: "ダッシュボード", icon: "dashboard" },
-      { id: "attendance", href: "/admin/dashboard/attendance", label: "出席分析", icon: "attendance" },
-      { id: "members", href: "/admin/members", label: "会員管理", icon: "members" },
-      { id: "tag-queue", href: "/admin/tags", label: "タグキュー", icon: "tag-queue" },
-      {
-        id: "schema",
-        href: "/admin/schema",
-        label: "スキーマ",
-        icon: "schema",
-        badge: { tone: "warn", count: schemaDiffCount },
-      },
-      { id: "meeting", href: "/admin/meetings", label: "開催日", icon: "meeting" },
-      { id: "requests", href: "/admin/requests", label: "依頼キュー", icon: "requests" },
-      { id: "identity", href: "/admin/identity-conflicts", label: "Identity重複", icon: "identity" },
-      { id: "audit", href: "/admin/audit", label: "監査ログ", icon: "audit" },
-    ],
-  };
+function buildAdminGroup(ctx?: { schemaDiffCount?: number }): ShellNavGroup {
+  const schemaDiff = ctx?.schemaDiffCount ?? 0;
+  const items: ShellNavItem[] = [
+    { id: "dashboard", href: "/admin", label: "ダッシュボード", icon: "dashboard" },
+    {
+      id: "attendance",
+      href: "/admin/dashboard/attendance",
+      label: "出席分析",
+      icon: "attendance",
+    },
+    { id: "members", href: "/admin/members", label: "会員管理", icon: "members" },
+    { id: "tag-queue", href: "/admin/tags", label: "タグキュー", icon: "tag-queue" },
+    {
+      id: "schema",
+      href: "/admin/schema",
+      label: "スキーマ",
+      icon: "schema",
+      ...(schemaDiff > 0
+        ? { badge: { tone: "warn" as const, count: schemaDiff } }
+        : {}),
+    },
+    { id: "meeting", href: "/admin/meetings", label: "開催日", icon: "meeting" },
+    { id: "requests", href: "/admin/requests", label: "依頼キュー", icon: "requests" },
+    {
+      id: "identity",
+      href: "/admin/identity-conflicts",
+      label: "Identity重複",
+      icon: "identity",
+    },
+    { id: "audit", href: "/admin/audit", label: "監査ログ", icon: "audit" },
+  ];
+  return { id: "admin", label: "Admin", items };
 }
 
-/**
- * role に応じた nav group ツリーを返す。
- *
- * - viewer: 公開のみ（3 item）
- * - member: 公開 + 会員（4 item）
- * - admin : 公開 + 会員 + 管理（13 item / schemaDiffCount badge 付き）
- *
- * badge.count=0 のときの badge 非表示判定は描画側（SidebarNavItem）が担う。
- */
 export function buildNavForRole(
   role: ShellRole,
   ctx?: { schemaDiffCount?: number },
 ): ShellNavGroup[] {
-  if (role === "admin") {
-    return [PUBLIC_GROUP, MEMBERS_GROUP, buildAdminGroup(ctx?.schemaDiffCount ?? 0)];
-  }
-  if (role === "member") {
-    return [PUBLIC_GROUP, MEMBERS_GROUP];
-  }
-  return [PUBLIC_GROUP];
+  if (role === "viewer") return [PUBLIC_GROUP];
+  if (role === "member") return [PUBLIC_GROUP, MEMBERS_GROUP];
+  return [PUBLIC_GROUP, MEMBERS_GROUP, buildAdminGroup(ctx)];
 }
 
-/**
- * nav item の active 判定。既存 `layout/isActive.ts` と同一規約:
- * ルート/ダッシュボードは完全一致、その他は prefix 一致を許容する。
- */
 export function isNavItemActive(itemHref: string, pathname: string): boolean {
   if (itemHref === "/") return pathname === "/";
   if (itemHref === "/admin") return pathname === "/admin";

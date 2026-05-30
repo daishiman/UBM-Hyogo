@@ -1,26 +1,33 @@
 "use client";
 
-import { createContext, useContext } from "react";
-import type { ReactNode } from "react";
-import { useSidebarState, type SidebarState } from "./useSidebarState";
+import { createContext, useContext, type ReactNode } from "react";
+import type { SidebarStateMode } from "./useSidebarState";
 
-// drawer / collapse 操作を子孫（SidebarMobileTrigger / SidebarDrawer / CollapseToggle）へ配る
-// Client context。state owner は useSidebarState 1 系のみ（I-E2）。
-const SidebarShellContext = createContext<SidebarState | null>(null);
+export type SidebarShellContextValue = {
+  mode: SidebarStateMode;
+  drawerOpen: boolean;
+  toggleCollapsed: () => void;
+  setDrawerOpen: (open: boolean) => void;
+};
 
-export function SidebarShellProvider({ children }: { children: ReactNode }) {
-  const state = useSidebarState();
+const SidebarShellContext = createContext<SidebarShellContextValue | null>(null);
+
+export function SidebarShellProvider({
+  value,
+  children,
+}: {
+  readonly value: SidebarShellContextValue;
+  readonly children: ReactNode;
+}) {
   return (
-    <SidebarShellContext.Provider value={state}>{children}</SidebarShellContext.Provider>
+    <SidebarShellContext.Provider value={value}>{children}</SidebarShellContext.Provider>
   );
 }
 
-export function useSidebarShellContext(): SidebarState {
+export function useSidebarShellContext(): SidebarShellContextValue {
   const ctx = useContext(SidebarShellContext);
   if (!ctx) {
-    throw new Error(
-      "useSidebarShellContext must be used within <SidebarShellProvider> (SidebarShell)",
-    );
+    throw new Error("useSidebarShellContext must be used inside <SidebarShellProvider>");
   }
   return ctx;
 }

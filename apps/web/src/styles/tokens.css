@@ -101,15 +101,18 @@
   --ubm-ease-decelerate: cubic-bezier(0, 0, 0, 1);
   --ubm-ease-accelerate: cubic-bezier(0.3, 0, 1, 1);
 
-  /* Shell (unified-sidebar-shell Task A) — collapsible sidebar primitive.
+  /* Shell (unified-sidebar-shell) — collapsible sidebar primitive + Task E mobile drawer.
      09b token set からの派生で、--ubm-* prefix を避けることで
-     verify-design-tokens の missing-in-09b 検査対象から除外する。 */
+     verify-design-tokens の missing-in-09b 検査対象から除外する。
+     基本値は dev 統合基盤（SidebarShell primitive）を正本とし、
+     Task E drawer / mobile trigger が参照する --shell-fg / --shell-active-fg /
+     --shell-overlay を和集合で追加する。 */
   --shell-bar-w: 17rem;          /* 272px (expanded) */
   --shell-bar-w-collapsed: 4rem; /* 64px  (collapsed) */
-  --shell-bar-bg: var(--ubm-color-surface-panel);
+  --shell-bar-bg: var(--ubm-color-surface-bg);
   --shell-bar-border: var(--ubm-color-border-default);
   --shell-fg: var(--ubm-color-text-primary);
-  --shell-active-bg: var(--ubm-color-accent-soft);
+  --shell-active-bg: oklch(96% 0.02 70);
   --shell-active-fg: var(--ubm-color-accent-ink);
   --shell-overlay: oklch(0% 0 0 / 0.4);
 }
@@ -149,6 +152,7 @@
   --ubm-color-accent: oklch(0.52 0.11 240);
   --ubm-color-accent-soft: oklch(0.95 0.03 235);
   --ubm-color-accent-ink: oklch(0.36 0.12 240);
+  --shell-active-bg: oklch(96% 0.02 240);
 }
 
 /* Dark mode placeholder — values intentionally empty (MVP 非対応) */

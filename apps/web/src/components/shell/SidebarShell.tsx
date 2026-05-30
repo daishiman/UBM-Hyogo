@@ -1,114 +1,133 @@
 "use client";
 
-import { useCallback } from "react";
 import type { ReactNode } from "react";
-import { Avatar } from "../ui/Avatar";
-import { SignOutButton } from "../auth/SignOutButton";
 import { SidebarBrand } from "./SidebarBrand";
 import { SidebarCollapseToggle } from "./SidebarCollapseToggle";
 import { SidebarDrawer } from "./SidebarDrawer";
 import { SidebarNav } from "./SidebarNav";
-import { SidebarShellProvider, useSidebarShellContext } from "./SidebarShellContext";
+import { SidebarShellProvider } from "./SidebarShellContext";
 import type { ShellNavGroup, ShellRole } from "./shell-config";
+import { useSidebarState } from "./useSidebarState";
 
 export type SidebarShellUser = {
   displayName: string;
   email: string;
   initials: string;
-};
+} | null;
 
 export type SidebarShellProps = {
   role: ShellRole;
-  user: SidebarShellUser | null;
+  user: SidebarShellUser;
   navGroups: ShellNavGroup[];
   activePath: string;
   /** Task E が `<SidebarMobileTrigger />` を埋める hosting point。 */
   mobileTriggerSlot: ReactNode;
+  userMenuSlot?: ReactNode;
   children: ReactNode;
 };
 
-export function SidebarShell(props: SidebarShellProps) {
-  // state owner（useSidebarState）は provider 1 箇所に閉じ、子孫は context 経由で読む（I-E2）。
+export function SidebarShell({
+  role,
+  user,
+  navGroups,
+  activePath,
+  mobileTriggerSlot,
+  userMenuSlot,
+  children,
+}: SidebarShellProps) {
+  const state = useSidebarState();
+  const collapsed = state.mode === "collapsed";
+
   return (
-    <SidebarShellProvider>
-      <SidebarShellInner {...props} />
+    <SidebarShellProvider value={state}>
+      <div
+        data-component="shell-root"
+        data-role={role}
+        data-collapsed={collapsed ? "true" : "false"}
+        className="flex min-h-screen w-full"
+      >
+        <aside
+          data-component="shell-aside"
+          data-collapsed={collapsed ? "true" : "false"}
+          className="hidden w-[var(--shell-bar-w)] flex-shrink-0 flex-col gap-3 border-r bg-[var(--shell-bar-bg)] p-3 transition-[width] duration-150 data-[collapsed=true]:w-[var(--shell-bar-w-collapsed)] md:flex"
+        >
+          <div className="flex items-center justify-between gap-2">
+            <SidebarBrand mode={state.mode} />
+            <SidebarCollapseToggle />
+          </div>
+          <SidebarNav navGroups={navGroups} pathname={activePath} mode={state.mode} />
+          <footer
+            data-component="shell-sidebar-footer"
+            className="flex flex-col gap-2 border-t border-[var(--shell-bar-border)] pt-3"
+          >
+            {userMenuSlot ?? (user ? <DefaultUserChip user={user} mode={state.mode} /> : null)}
+          </footer>
+        </aside>
+        <div data-component="shell-mobile-trigger" className="md:hidden">
+          {mobileTriggerSlot}
+        </div>
+        <main data-component="shell-main" className="flex flex-1 flex-col">
+          {children}
+        </main>
+      </div>
+
+      {/*
+        Task E: mobile（`< md`）overlay drawer。
+        drawer は常に expanded 表示で nav ツリーを再構成する（mobile はフル幅）。
+        footer は `userMenuSlot` を 2 重配置すると `useId` 衝突を招くため、
+        drawer 側では `DefaultUserChip` のみ表示する（aside 側に userMenuSlot を残す）。
+        開閉 state は単一 owner（useSidebarState）から context 経由で配る（I-E2）。
+      */}
+      <SidebarDrawer open={state.drawerOpen} onClose={() => state.setDrawerOpen(false)}>
+        <div data-component="shell-drawer-body" className="flex h-full flex-col gap-3 p-3">
+          <SidebarBrand mode="expanded" />
+          <SidebarNav navGroups={navGroups} pathname={activePath} mode="expanded" />
+          {user ? (
+            <footer
+              data-component="shell-drawer-footer"
+              className="mt-auto flex flex-col gap-2 border-t border-[var(--shell-bar-border)] pt-3"
+            >
+              <DefaultUserChip user={user} mode="expanded" />
+            </footer>
+          ) : null}
+        </div>
+      </SidebarDrawer>
     </SidebarShellProvider>
   );
 }
 
-function SidebarFooter({ user, collapsed }: { user: SidebarShellUser | null; collapsed: boolean }) {
-  if (!user) return null;
-  return (
-    <footer
-      data-component="shell-footer"
-      className="flex flex-col gap-2 border-t border-[var(--shell-bar-border)] pt-3"
-    >
-      <div data-component="shell-user-chip" className="flex items-center gap-2 px-3">
-        <Avatar size="sm" name={user.displayName} />
-        {!collapsed ? (
-          <div className="flex min-w-0 flex-col leading-tight">
-            <span className="truncate text-sm font-medium text-[var(--shell-fg)]">
-              {user.displayName}
-            </span>
-            <span className="truncate text-xs text-[var(--ubm-color-text-secondary)]">
-              {user.email}
-            </span>
-          </div>
-        ) : null}
-      </div>
-      {!collapsed ? <SignOutButton /> : null}
-    </footer>
-  );
-}
-
-function SidebarShellInner({ user, navGroups, mobileTriggerSlot, children }: SidebarShellProps) {
-  const { mode, drawerOpen, setDrawerOpen } = useSidebarShellContext();
+function DefaultUserChip({
+  user,
+  mode,
+}: {
+  readonly user: NonNullable<SidebarShellUser>;
+  readonly mode: "expanded" | "collapsed";
+}) {
   const collapsed = mode === "collapsed";
-  const closeDrawer = useCallback(() => setDrawerOpen(false), [setDrawerOpen]);
-
-  // <aside> 内と drawer 内で共有する nav ツリー（重複 component 定義を避け、固定 id も置かない・R-E2）。
-  const sidebarTree = (
-    <div className="flex h-full flex-col gap-4 p-3" data-shell-block="sidebar-nav">
-      <div className="flex items-center justify-between">
-        <SidebarBrand collapsed={collapsed} />
-        <div className="hidden md:block">
-          <SidebarCollapseToggle />
-        </div>
-      </div>
-      <div className="flex flex-1 flex-col gap-4 overflow-y-auto">
-        <SidebarNav navGroups={navGroups} collapsed={collapsed} />
-      </div>
-      <SidebarFooter user={user} collapsed={collapsed} />
-    </div>
-  );
-
   return (
-    <div
-      className="flex min-h-screen bg-[var(--ubm-color-surface-bg)] text-[var(--shell-fg)]"
-      data-shell-mode={collapsed ? "collapsed" : "expanded"}
-    >
-      {/* md+: 表示 / sm: hidden（AC-E1）。幅は token で expanded / collapsed を切替。 */}
-      <aside
-        className={`hidden md:flex md:flex-col shrink-0 border-r border-[var(--shell-bar-border)] bg-[var(--shell-bar-bg)] ${
-          collapsed ? "md:w-[var(--shell-bar-w-collapsed)]" : "md:w-[var(--shell-bar-w)]"
-        }`}
-        data-shell="sidebar"
+    <div data-component="shell-user-chip" className="flex items-center gap-2 px-2">
+      <span
+        aria-hidden="true"
+        className="inline-flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-[var(--ubm-color-surface-bg-2)] text-xs font-semibold text-[var(--ubm-color-text-primary)]"
       >
-        {sidebarTree}
-      </aside>
-
-      <div className="flex min-w-0 flex-1 flex-col">
-        {/* sm のみ visible な上部 56px ストリップ（AC-E1） */}
-        <div className="md:hidden flex h-14 items-center gap-2 border-b border-[var(--shell-bar-border)] bg-[var(--shell-bar-bg)] px-2">
-          {mobileTriggerSlot}
+        {user.initials}
+      </span>
+      {!collapsed ? (
+        <div className="flex min-w-0 flex-col leading-tight">
+          <span
+            data-component="shell-user-chip-name"
+            className="truncate text-sm font-medium text-[var(--ubm-color-text-primary)]"
+          >
+            {user.displayName}
+          </span>
+          <span
+            data-component="shell-user-chip-email"
+            className="truncate text-xs text-[var(--ubm-color-text-secondary)]"
+          >
+            {user.email}
+          </span>
         </div>
-        <main className="min-w-0 flex-1">{children}</main>
-      </div>
-
-      {/* overlay drawer（sm のみ・md+ では wrapper の md:hidden + unmount で出さない） */}
-      <SidebarDrawer open={drawerOpen} onClose={closeDrawer}>
-        {sidebarTree}
-      </SidebarDrawer>
+      ) : null}
     </div>
   );
 }
