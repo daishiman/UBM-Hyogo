@@ -1,0 +1,46 @@
+{
+  "duplicates": [
+    {
+      "prefix": "0002",
+      "files": [
+        "0002_admin_managed.sql",
+        "0002_sync_logs_locks.sql"
+      ],
+      "rationale": "Historical parallel migrations already present in the D1 sequence; keep documented and reject new undocumented duplicate prefixes."
+    },
+    {
+      "prefix": "0008",
+      "files": [
+        "0008_create_schema_aliases.sql",
+        "0008_schema_alias_hardening.sql"
+      ],
+      "rationale": "Historical schema-alias split already present in the D1 sequence; keep documented and reject new undocumented duplicate prefixes."
+    },
+    {
+      "prefix": "0014",
+      "files": [
+        "0014_add_deleted_members_purge_metadata.sql",
+        "0014_create_cf_audit_log.sql",
+        "0014_notification_outbox.sql",
+        "0014_schema_diff_queue_dedupe_failure.sql"
+      ],
+      "rationale": "Historical parallel feature migrations already present in the D1 sequence; keep documented and reject new undocumented duplicate prefixes."
+    },
+    {
+      "prefix": "0015",
+      "files": [
+        "0015_add_audit_export_manifest.sql",
+        "0015_attendance_analytics_indexes.sql"
+      ],
+      "rationale": "Historical audit and attendance migrations already present in the D1 sequence; keep documented and reject new undocumented duplicate prefixes."
+    },
+    {
+      "prefix": "0020",
+      "files": [
+        "0020_notification_channel_and_opt_out.sql",
+        "0020_schema_alias_recompute_jobs.sql"
+      ],
+      "rationale": "Historical notification and schema-alias migrations already present in the D1 sequence; keep documented and reject new undocumented duplicate prefixes."
+    }
+  ]
+}

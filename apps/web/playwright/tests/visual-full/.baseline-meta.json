@@ -1,11 +1,9 @@
 {
   "$schema": "../../../../docs/30-workflows/task-709-visual-baseline-runtime-capture/schemas/baseline-meta.schema.json",
-  "captured_at_commit_sha": "6771525d52df32ecb4729a14b0c4572028c3b0b3",
-  "captured_at": "2026-05-29T03:42:53Z",
+  "captured_at_commit_sha": "fb38ce5017b3d7d1614eb5c52a811ea6e5e843af",
+  "captured_at": "2026-05-30T07:31:29Z",
   "captured_via": "playwright-visual-baseline-update.yml#workflow_dispatch",
   "captured_run_ids": [
-    "26492039712",
-    "26493400023",
     "26503855446",
     "26506821722",
     "26540715735",
@@ -13,7 +11,9 @@
     "26552141298",
     "26552192908",
     "26581231613",
-    "26616303516"
+    "26616303516",
+    "26628923374",
+    "26677930770"
   ],
   "viewport_dimensions": {
     "desktop": {
@@ -41,5 +41,5 @@
   "refresh_workflow": ".github/workflows/playwright-visual-baseline-update.yml",
   "refresh_command_hint": "gh workflow run playwright-visual-baseline-update.yml -f reason=\"<why>\" -r <feature-branch>",
   "notes": "captured_at_commit_sha からの rendering_relevant_paths diff が空でない場合、baseline は stale。scripts/visual-baseline-status.sh で診断可能。",
-  "last_refresh_reason": "members list UX clarity 反映後の baseline 再生成 (PR #1009 visual-full / visual chromium 4 screens drift解消)"
+  "last_refresh_reason": "task-c 公開/会員 layout を SidebarShell へ統合（旧 topbar/PublicHeader/MemberHeader 撤去）したことで /, /members, /profile, /login 等の visual baseline が意図的にdrift。playwright-visual-full / visual の baseline を新 sidebar UI へ更新する。"
 }

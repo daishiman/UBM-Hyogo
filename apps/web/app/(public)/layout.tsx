@@ -1,31 +1,36 @@
-// parallel-03 S-01: Public AppShell。data-theme="warm" / data-shell / data-route 契約。
+// task-c-public-member-sidebar-shell-integration:
+// 公開層 shell を SidebarShell へ統一。旧 topbar header は削除し、PublicFooter は shell 配下へ保持。
+// role 判定・nav 構築・UserMenu は SidebarShellServer 内部に閉じる（layout は再実装しない）。
 import type { ReactNode } from "react";
+import { headers } from "next/headers";
 
 import { PublicFooter } from "../../src/components/public/PublicFooter";
-import { PublicHeader } from "../../src/components/public/PublicHeader";
-import { getAuthView } from "../../src/lib/auth-view";
+import { SidebarMobileTrigger } from "../../src/components/shell/SidebarMobileTrigger";
+import { SidebarShellServer } from "../../src/components/shell/SidebarShell.server";
 
 export default async function PublicLayout({
   children,
 }: {
   readonly children: ReactNode;
 }) {
-  const authView = await getAuthView();
-
+  // x-pathname は middleware 未注入のため fallback を持つ。active 確定は client の usePathname。
+  const pathname = (await headers()).get("x-pathname") ?? "/";
   return (
     <div
-      className="grid min-h-screen grid-rows-[auto_1fr_auto] bg-[var(--ubm-color-surface-bg)] text-[var(--ubm-color-text-primary)]"
       data-theme="warm"
       data-route-group="public"
+      data-shell-mode="sidebar"
       data-testid="public-shell"
     >
-      <header data-shell="topbar">
-        <PublicHeader authView={authView} />
-      </header>
-      <main data-route="public" data-section-rhythm="comfortable">{children}</main>
-      <footer data-shell="footer">
+      <SidebarShellServer
+        activePath={pathname}
+        mobileTriggerSlot={<SidebarMobileTrigger />}
+        routeKey="public"
+        sectionRhythm="comfortable"
+      >
+        {children}
         <PublicFooter />
-      </footer>
+      </SidebarShellServer>
     </div>
   );
 }

@@ -97,7 +97,6 @@ export async function generateMetadata({
     }の UBM 兵庫支部会プロフィール`,
     path: `/members/${id}`,
     twitterCard: "summary",
-    ogImage: `/members/${encodeURIComponent(id)}/opengraph-image`,
   });
 }
 

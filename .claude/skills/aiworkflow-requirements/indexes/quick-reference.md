@@ -17,6 +17,36 @@
 | lessons | `.claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-issue-981-admin-members-table-list-enrichment-2026-05.md`（L-I981-001..006） |
 | user gate | staging visual, staging deploy, commit, push, PR |
 
+## admin-sidebar-public-return-link（2026-05-28）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/admin-sidebar-public-return-link/` |
+| status | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION / browser_visual_pending_user_gate` |
+| purpose | AdminSidebar の旧「ホーム」導線を、footer 直前の「公開サイトに戻る」リンクへ意味整理する |
+| implementation | `apps/web/src/components/layout/AdminSidebar.tsx` removes grouped `/` item and adds one `<a data-role="public-return" href="/" aria-label="公開サイトに戻る">` immediately before the footer |
+| tests | `apps/web/src/components/layout/__tests__/AdminSidebar.spec.tsx`, `apps/web/src/components/layout/__tests__/AdminSidebar.component.spec.tsx` |
+| evidence | focused Vitest 11 PASS, grep gate PASS, Phase 12 strict 7 present, root/output artifacts parity present |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-sidebar-public-return-link-artifact-inventory.md` |
+| user gate | authenticated browser screenshots, staging runtime visual, commit, push, PR |
+
+## web-worker-size-limit-fix（2026-05-29）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/web-worker-size-limit-fix/` |
+| status | `implemented_local_evidence_captured / implementation / NON_VISUAL` |
+| purpose | OpenNext Worker bundle が gzip 3316KiB > 3072KiB 上限を超過し `[code: 10027]` で deploy fail する問題を、next/og 撤去 + 静的 OG 画像化 + CI size gate で解消する |
+| Task A | `apps/web/app/opengraph-image.tsx`(削除), `apps/web/app/(public)/members/[id]/opengraph-image/route.tsx`(削除), `apps/web/public/og-default.png`(新規 1200×630), `apps/web/src/lib/seo/site-metadata.ts`, `apps/web/playwright/tests/public-metadata.spec.ts` |
+| Task B | `scripts/check-worker-size.sh`(新規), `.github/workflows/web-cd.yml`(両 deploy job に size gate), `apps/web/__tests__/opennext-config-regression.spec.ts`(minify 維持 + next/og 0 件 assert) |
+| 閾値 | hard 3072KiB / warn 2800KiB（script・CI・spec・implementation-guide で一貫） |
+| 計測対象 | `apps/web/.open-next/server-functions/default/apps/web/handler.mjs` 等の gzip 合算（bootstrap `worker.js` ではない）。実測 gzip 2100KiB |
+| OpenNext 注意 | `@opennextjs/cloudflare@1.19.4` に `minify` config key は無く、無効設定を足さず production 既定 minify を維持 |
+| knowledge | `.claude/skills/aiworkflow-requirements/references/deployment-cloudflare-opennext-workers.md`, `docs/00-getting-started-manual/specs/08-free-database.md`（Worker bundle size 制約節） |
+| lessons | `.claude/skills/task-specification-creator/lessons-learned/web-worker-size-limit-fix.md`（L-WWSL-001..004） |
+| unassigned | `docs/30-workflows/unassigned-task/member-dynamic-og-paid-or-worker-split.md`（Issue #1027 / member 個別動的 OG 再導入は有料 or Worker 分離が前提） |
+| user-gated | commit / push / PR / staging deploy / production deploy |
+
 ## login-redirect-when-authenticated（2026-05-28）
 
 | 項目 | 値 |
@@ -136,15 +166,47 @@
 | 項目 | 値 |
 | --- | --- |
 | workflow root | `docs/30-workflows/unified-sidebar-shell-public-and-admin/` |
+| status | `implemented_local_evidence_captured / implementation / VISUAL / runtime_visual_pending` |
+| workflow root | `docs/30-workflows/completed-tasks/unified-sidebar-shell-public-and-admin/` |
 | status | `spec_created / implementation / VISUAL / implementation_pending` |
 | purpose | public / member / admin の shell を単一 collapsible `SidebarShell` primitive に統合する実装仕様 |
 | route scope | public 6 routes、member `/profile`、admin 9 routes |
 | nav contract | viewer=public 3、member=public 3 + members 1、admin=public 3 + members 1 + admin 9 = total 13 |
+| sub-workflow | `docs/30-workflows/completed-tasks/unified-sidebar-shell-public-and-admin/tasks/task-A-sidebar-shell-primitive/`（standalone `docs/30-workflows/task-A-sidebar-shell-primitive/` から親配下へ統合済み） |
 | implementation targets | `apps/web/src/components/shell/**`, `(public)/(member)/(admin)/layout.tsx`, `apps/web/src/styles/tokens.css`, sidebar smoke/visual Playwright specs |
 | invariant | API / D1 / Google Form schema / Auth.js middleware / npm package 変更なし。role 判定は `SessionUser.isAdmin` のみ |
 | Phase 12 | strict 7 present、root/output `artifacts.json` parity present、30-method compact evidence present |
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-unified-sidebar-shell-public-and-admin-artifact-inventory.md` |
 | user gate | apps/web implementation, local visual capture, CI baseline, commit, push, PR |
+
+## task-c-public-member-sidebar-shell-integration（2026-05-29）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/task-c-public-member-sidebar-shell-integration/` |
+| status | `spec_created / implementation / VISUAL / implementation_pending` |
+| parent | `docs/30-workflows/unified-sidebar-shell-public-and-admin/` Task C |
+| purpose | 公開 6 route と会員 `/profile` を共通 `SidebarShell` へ統合し、旧 `PublicHeader` / `MemberHeader` を削除する実装 |
+| implementation targets | `apps/web/src/components/shell/**`, `(public)/(member)` layouts, root/legal/login route group moves, profile page header removal, old header components and specs, focused specs |
+| dependency boundary | Task A/B/E shell primitives are locally implemented; Task C only mounts `SidebarShellServer` |
+| Phase 12 | strict 7 present、root/output `artifacts.json` parity present |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-task-c-public-member-sidebar-shell-integration-artifact-inventory.md` |
+| lessons | `.claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-task-c-public-member-sidebar-shell-integration-2026-05.md` |
+| user gate | pixel screenshot capture, staging visual baseline, commit, push, PR |
+
+### Task B sub-workflow: user menu and role handling
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/unified-sidebar-shell-task-b-user-menu-and-role-handling/` |
+| status | `spec_created / implementation / VISUAL / implementation_pending` |
+| parent | `docs/30-workflows/unified-sidebar-shell-public-and-admin/` |
+| source task | `docs/30-workflows/unified-sidebar-shell-public-and-admin/tasks/task-B-user-menu-and-role-handling.md` |
+| purpose | Sidebar left-bottom user menu actions for `viewer` / `member` / `admin` |
+| action contract | viewer=login、member=profile/edit-request/signout、admin=profile/edit-request/admin-dashboard/signout |
+| strict 7 | parent root owns strict 7; sub owns only `outputs/phase-12/phase12-task-spec-compliance-check.md` |
+| artifact parity | root/output `artifacts.json` present |
+| user gate | apps/web implementation, focused vitest, local/staging visual, commit, push, PR |
 
 ## profile-server-components-render-error（2026-05-27）
 
@@ -1576,18 +1638,77 @@
 | sub-workflow serial-06 Form Response Binding（2026-05-23） | `docs/30-workflows/ui-prototype-design-system-foundation/serial-06-form-response-binding/`、status `spec_created / implementation / VISUAL / strict7-parent-aggregated`、adapter/page/MemberDetail/fixture/spec の実装仕様。standalone `docs/30-workflows/serial-06-form-response-binding/` は禁止 duplicate topology、Phase 12 strict 7 は parent root 集約、sub 側は `phase-12-compliance-check.md` のみ |
 | sub-workflow parallel-03 AppShell Layouts（2026-05-19） | `docs/30-workflows/ui-prototype-design-system-foundation/parallel-03-appshell-layouts/`、status `implemented_local_evidence_captured / implementation / VISUAL (public chrome only; admin/member deferred-to-serial-07)`、`implementation_mode: existing-layout-alignment`、3 layout (`apps/web/app/(public\|member\|admin)/layout.tsx`) に `data-theme` / `data-route-group` / `data-shell` / `data-route` / `data-testid` を付与、OKLch token (`var(--ubm-color-*)`) 経由のみ、既存 primitive 無改変、admin は `getSession()` 2 段防御 + redirect 維持、Phase 11 evidence は `outputs/phase-11/`、lessons-learned `.claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-parallel-03-appshell-layouts-2026-05.md` (L-PAR03-001..005) |
 
+### member-header-admin-link（2026-05-28）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/member-header-admin-link/` |
+| 状態 | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION / staging_visual_pending_user_gate` |
+| parent | `docs/30-workflows/public-header-logged-in-nav-cleanup/` Task E |
+| scope | MemberHeader admin CTA, member layout authView配信, `auth-view` 最小基盤 |
+| implementation targets | `apps/web/src/lib/auth-view/*`, `apps/web/src/components/layout/MemberHeader.tsx`, `apps/web/app/(member)/layout.tsx` |
+| evidence | focused Vitest 9 PASS、workspace typecheck PASS、workspace lint PASS、HEX grep PASS、member header contract grep PASS、local header screenshots 2 PNG |
+| invariant | no new endpoint / no D1 schema / no PII in DOM; member header maps guest/missing authView to `data-auth-state="member"` fail-closed |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-member-header-admin-link-artifact-inventory.md` |
+| user gate | staging visual smoke, commit, push, PR |
+
+### public-header-session-aware-auth-view-base（2026-05-28）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/public-header-session-aware-auth-view-base/` |
+| 状態 | `implemented_local_evidence_captured / implementation / VISUAL / Phase 13 pending_user_approval` |
+| parent | `docs/30-workflows/public-header-logged-in-nav-cleanup/` Task A |
+| implemented targets | `apps/web/src/lib/auth-view/*`, `apps/web/src/components/public/PublicHeader.tsx`, `apps/web/app/(public)/layout.tsx` |
+| tests | focused Vitest 24 PASS (`resolveAuthView`, `getAuthView`, `PublicHeader`, `PublicLayout`) |
+| Phase 11 | local component screenshots present for guest/member/admin |
+| invariant | no new endpoint / no D1 schema / no Google Form change; `data-auth-state` is only `guest\|member\|admin`; no PII in DOM |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-public-header-session-aware-auth-view-base-artifact-inventory.md` |
+| user gate | staging authenticated runtime visual, commit, push, PR |
+
 ### public-header-logged-in-nav-cleanup（2026-05-28）
 
 | 目的 | 参照先 |
 | --- | --- |
 | workflow root | `docs/30-workflows/public-header-logged-in-nav-cleanup/` |
-| 状態 | `spec_created / implementation / VISUAL_ON_EXECUTION / implementation_spec_ready_pending_code` |
+| 状態 | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION / implementation_complete_pending_pr` |
 | scope | PublicHeader session awareness, root/legal public shell consistency, login safe redirect, MemberHeader admin CTA, AdminSidebar public-return, Playwright auth slot coverage |
-| planned targets | `apps/web/src/lib/auth-view/*`, `apps/web/src/components/public/PublicHeader.tsx`, `apps/web/app/(public)/layout.tsx`, `apps/web/app/page.tsx`, `apps/web/app/{privacy,terms,login}/page.tsx`, `apps/web/src/components/layout/{MemberHeader,AdminSidebar}.tsx`, `apps/web/playwright/tests/auth-slot-coverage.spec.ts` |
+| implementation targets | `apps/web/src/lib/auth-view/*`, `apps/web/src/components/public/PublicHeader.tsx`, `apps/web/app/(public)/layout.tsx`, `apps/web/app/{page,privacy,terms}/page.tsx`, `apps/web/src/components/layout/{MemberHeader,AdminSidebar,AdminSidebarNavItem}.tsx`, `apps/web/middleware.ts`, `apps/web/playwright/tests/auth-slot-coverage.spec.ts` |
+| evidence | focused Vitest 29 PASS, web typecheck PASS, Playwright setup-auth + auth-slot-coverage 28/28 PASS |
 | strict Phase 12 | `outputs/phase-12/{main.md,implementation-guide.md,system-spec-update-summary.md,documentation-changelog.md,unassigned-task-detection.md,skill-feedback-report.md,phase12-task-spec-compliance-check.md}` |
 | invariant | no new endpoint / no D1 schema / no PII in DOM; `data-auth-state` is only `guest\|member\|admin`; route topology stays unchanged |
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-public-header-logged-in-nav-cleanup-artifact-inventory.md` |
-| user gate | apps/web implementation, local focused tests, Playwright auth-slot run, staging runtime visual, commit, push, PR |
+| user gate | remote CI observation, staging runtime visual, commit, push, PR |
+
+### public-header-auth-slot-e2e（2026-05-28）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/public-header-auth-slot-e2e/` |
+| 状態 | `implemented_local_evidence_captured / implementation / NON_VISUAL / implementation_complete_pending_pr` |
+| parent | `docs/30-workflows/public-header-logged-in-nav-cleanup/` |
+| scope | 7 routes x 3 states auth-slot Playwright coverage for parent public-header DOM contract |
+| implementation targets | `apps/web/playwright/tests/setup-auth.spec.ts`, `apps/web/playwright/tests/auth-slot-coverage.spec.ts`, `apps/web/playwright/.auth/.gitignore`, `apps/web/playwright.config.ts`, `.github/workflows/playwright-smoke.yml` |
+| evidence | `setup-auth` 3 PASS + `auth-slot-coverage` 25 PASS（dependency setup 含め 28/28 PASS）、storageState JSON ignored |
+| strict Phase 12 | `outputs/phase-12/{main.md,implementation-guide.md,system-spec-update-summary.md,documentation-changelog.md,unassigned-task-detection.md,skill-feedback-report.md,phase12-task-spec-compliance-check.md}` |
+| invariant | no new API endpoint / no D1 schema / no Google Form schema / no Auth.js config change; cookie/token values never appear in docs, logs, artifacts, or PR body |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-public-header-auth-slot-e2e-artifact-inventory.md` |
+| user gate | remote GitHub Actions observation, commit, push, PR |
+
+### task-c-privacy-terms-public-shell-spec（2026-05-28）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/task-c-privacy-terms-public-shell-spec/` |
+| 状態 | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION / local_verification_passed` |
+| parent | `docs/30-workflows/public-header-logged-in-nav-cleanup/` |
+| source task | `docs/30-workflows/public-header-logged-in-nav-cleanup/tasks/task-c-privacy-terms-public-shell.md` |
+| scope | `/privacy`, `/terms` に `<PublicHeader authView />` + `<PublicFooter />` を mount。metadata と LegalProse 本文は不変 |
+| planned targets | `apps/web/app/privacy/page.tsx`, `apps/web/app/terms/page.tsx`, `apps/web/app/privacy/__tests__/page.spec.tsx`, `apps/web/app/terms/__tests__/page.spec.tsx` |
+| strict Phase 12 | `outputs/phase-12/{main.md,implementation-guide.md,system-spec-update-summary.md,documentation-changelog.md,unassigned-task-detection.md,skill-feedback-report.md,phase12-task-spec-compliance-check.md}` |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-task-c-privacy-terms-public-shell-spec-artifact-inventory.md` |
+| evidence | focused Vitest/typecheck/lint PASS、Phase 11 guest/member/admin screenshots 6 件 present |
+| user gate | commit, push, PR |
 
 ### Issue #749 Primitive Adoption Tracker（2026-05-17）
 
