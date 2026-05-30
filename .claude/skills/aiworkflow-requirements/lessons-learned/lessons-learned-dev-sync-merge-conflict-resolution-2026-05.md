@@ -1446,3 +1446,13 @@
 - 解消実績: merge commit `be5ce59ea`。`pnpm sync:resolve` で 5 件を union 解消（`indexes:rebuild` drift ゼロ）、`git diff --diff-filter=U` 0 件 → `git commit --no-edit`（pre-commit hook 4 種 = main-branch-guard / block-test-suffix / staged-task-dir-guard / block-stable-key-update すべて通過）→ `pnpm typecheck` 6 packages Done / `pnpm lint` exit 0。`stablekey-literal-lint` の `PublicConsentCallout.tsx` `"publicConsent"` warning 2 件は mode=warning・既存由来で成否判定外。
 - 判定フロー（L-DEVSYNC-061 の 3 段 + L-DEVSYNC-065 の補強）: **同 branch の N 回目 sync でも conflict 集合は dev の diff 位置で毎回変動 → unmerged を毎回一次取得 → 全件 skill 配下なら resolver 単発**。`references/*.md`（patterns-lessons / task-workflow-active）は `merge=union` 対象外で実 conflict 化するが resolver 対象である点に注意。
 - 参照: L-DEVSYNC-065（同 branch 3 回目・conflict 集合非依存の原型）, L-DEVSYNC-059 / L-DEVSYNC-061（skill-only resolver-only path）, L-DEVSYNC-001/002（`merge=union` と JSON 派生物の解消方針）, task-specification-creator [[patterns-lessons-and-pitfalls#dev-sync-merge-conflict-resolution]] SP-DEVSYNC-045。
+
+
+## L-DEVSYNC-068 dev sync 4 回目 — 生成物 topic-map（rebuild）と lessons reference 自身（union）の 2 系統に収束（2026-05-30 feat/admin-sidebar-public-return-link ← dev #1025）
+
+`feat/admin-sidebar-public-return-link` ← `origin/dev` (HEAD `061d22bf5`「統一サイドバーシェル基盤を追加 #1025」) の 4 回目 sync-merge。ローカル dev は origin/dev と既に一致（ff no-op）、feature は 1 behind / 11 ahead。`git merge dev --no-edit` で conflict 2 件: `aiworkflow-requirements/indexes/topic-map.md` と `task-specification-creator/references/patterns-lessons-and-pitfalls.md`。`indexes/keywords.json` / `quick-reference.md` / `resource-map.md` / `references/task-workflow-active.md` は auto-merge 成功で conflict に上がらなかった。
+
+- **L-DEVSYNC-068-A (同じ `.claude/skills/**` でも generated と authored で解消法を分ける)**: 生成物 (`indexes/topic-map.md`) は `git checkout --theirs` + `pnpm indexes:rebuild` で再生成上書き。hand-authored reference (`patterns-lessons-and-pitfalls.md`) は末尾の append-conflict を両側 union（marker 除去・HEAD→dev・base 破棄）。path が skill 配下というだけで一律 union すると生成物の行番号テーブルが二重化する。
+- **L-DEVSYNC-068-B (lessons / patterns reference 自身の衝突)**: lessons・patterns を集約する reference は並行 wave が末尾に節を独立追記するため、それ自身が append-conflict 化する。これも追記型 SSOT として両側採用（L-DEVSYNC-012 と整合）。
+- **L-DEVSYNC-068-C (skill-only shape は手動 union でも resolver でも同結果)**: unmerged 全件が `.claude/skills/**` の skill-only shape。`pnpm sync:resolve` 単発でも解けるが、本回は手動 union + topic-map rebuild で同結果に到達。いずれの経路でも merge commit 後に `pnpm indexes:rebuild` が no-drift を返すことを確認する。
+- 参照: L-DEVSYNC-065 / L-DEVSYNC-064 / L-DEVSYNC-061（skill-only resolver-only path）、L-DEVSYNC-001 / L-DEVSYNC-002（`merge=union` と生成物方針）、[[task-specification-creator]] 側 SP-DEVSYNC-065。
