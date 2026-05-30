@@ -1237,6 +1237,26 @@ Next.js App Router で公開層 (`/`, `/(public)/*`) の auth-state 出し分け
 - 参照: [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-059、L-DEVSYNC-055 (skill indexes 2 件 happy-path)、L-DEVSYNC-054 (auth.ts / barrel 並列追加)、CONST_003 (stash 順次・並列禁止)、CONST_019 (全変更包含)。
 
 
+## L-WWSL Worker bundle size-budget regression-gate パターン（implementation / 2026-05-29）
+
+Cloudflare Workers 無料プランの Worker bundle gzip 3072KiB 上限超過（`[code: 10027]` で deploy fail）のような「無料プランのリソース上限超過 fix」型 implementation task の汎化。`web-worker-size-limit-fix`（3316KiB > 3072KiB）で抽出。除去（Task A）と再発防止 gate（Task B）の dual-task 分割が定型化できる。
+
+- **L-WWSL-001（spec-only close 禁止の一般化）**: implementation task が具体的な code target（肥大化依存の特定ファイル等）を持つ場合、制約根拠が確定していても spec-only / docs-only で close しない。同サイクルで安全に実装できる範囲は実装まで完遂し `implemented_local_evidence_captured` とする。Phase 1 で task_type=implementation かつ concrete target ありなら Phase 5 実装を必須 gate に置く。
+- **L-WWSL-002（adapter/library config key は install 済み型定義で検証）**: 「効きそうな」config key（例: OpenNext の `minify`）を推測で spec に書かない。`node -e \"require.resolve\"` / 型定義 grep で実在を確認してから remediation に採用する。存在しない key は無効設定として regression spec で禁止 assert を入れる。
+- **L-WWSL-003（重量依存の除去 + 静的 fallback を第一選択）**: リソース上限が支配的制約のとき、wasm/font を bundle へ焼き込む重量依存（`next/og` 等）は依存撤去 + 静的 asset fallback を優先する。implementation-guide の Part2 に「size-budget 表（依存名 / 焼き込み KB / 削減後 KB）」を必須セクション化すると再現性が上がる。
+- **L-WWSL-004（計測対象の正確な特定 + 閾値の単一 SSOT）**: size gate の計測対象を正確に特定する（OpenNext では bootstrap `worker.js` ではなく `server-functions/.../handler.mjs`）。閾値（hard / warn）は計測 script・CI workflow・正本 spec・implementation-guide で必ず一致させ、ドリフトを禁止する。
+- **L-WWSL-005（dual-task: 除去 + 再発防止 gate）**: 「肥大化原因の依存撤去（Task A）」と「CI に bundle-budget regression gate 新設（Task B）」を 2 サブタスクに分割し、両 deploy job（staging/production）の build 後・deploy 前に gate を挿入する。除去だけで close せず再太り検知を必ず同梱する。
+
+anti-pattern:
+- ❌ 制約根拠が確定済みなのに実装可能な fix を spec-only で先送り。
+- ❌ 存在しない adapter config key を推測で追加。
+- ❌ 計測対象を bootstrap に当てて軽量と誤判定。
+- ❌ 閾値を script だけに書き spec/ドキュメントへ未同期（ドリフト）。
+- ❌ 依存撤去のみで再発防止 CI gate を入れずに close。
+
+- 参照: [[web-worker-size-limit-fix]] L-WWSL-001..004、[[workflow-web-worker-size-limit-fix-artifact-inventory]]、[[deployment-cloudflare-opennext-workers]]。
+
+
 ## L-DEVSYNC-061 skill-only conflict shape の再現 — resolver 単独完結 happy-path（dev sync-merge / 2026-05-29）
 
 > 採番補正: 当初 L-DEVSYNC-060 として追加されたが aiworkflow 側 L-DEVSYNC-060（`patterns-lessons-and-pitfalls.md union 対象`）と ID 衝突していたため 061 へ採番ずらし（aiworkflow [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-062 留意と同期）。
@@ -1330,3 +1350,12 @@ dev sync-merge で **同一の small public API（`apps/web/src/lib/auth-view/` 
 - **SP-DEVSYNC-064-C (skill-only shape の resolver 単発完結)**: unmerged 全件が `.claude/skills/**` 配下なら `pnpm sync:resolve` 単発 → `git diff --diff-filter=U` 0 件 → `git commit --no-edit` → `pnpm typecheck`（6 packages Done）→ `pnpm lint`（exit 0、lefthook pre-push guard 6 種 pass）。手動 hybridize（SP-DEVSYNC-058 等）は invoke しない。本例 conflict 2 件（`indexes/topic-map.md` + 本ファイル）、merge commit `33debc596`。
 - **SP-DEVSYNC-064-D (検証ノイズの一次ソース原則)**: background / 並列 bash の stdout が前後 turn と interleave すると、実在しない commit hash や lesson 採番を誤認しうる。commit/push/ファイル状態の確証は単一 `git log` / `git show <hash>` / `grep -c` を逐次実行して取り直す（並列出力を確証に使わない）。
 - 参照: [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-065 / L-DEVSYNC-061 / L-DEVSYNC-064（skill-only resolver-only path）/ L-DEVSYNC-001/002（`merge=union` と JSON 派生物方針）。
+
+## SP-DEVSYNC-064 docs 系 feature branch が #1014 (公開ページ source) を取り込むと conflict は skill index 1 件 (`topic-map.md` union) のみ — 最小 resolver-only shape（2026-05-30 docs/web-worker-size-limit-fix-spec ← dev #1014）
+
+source code を一切触らない **docs/spec 系 feature branch**（`docs/web-worker-size-limit-fix-spec`）が、dev 側の公開ページ実装 commit（#1014「privacy/terms に PublicHeader/PublicFooter 適用」= `apps/web/app/{privacy,terms}/**` + 関連 skill 追記）を取り込んだケース。branch の接触面が skill 索引のみのため、`git merge dev` 後の unresolved は `aiworkflow-requirements/indexes/topic-map.md` の **union 1 件だけ** に縮退し、`pnpm sync:resolve` 単発（`union-resolved 1 files` + `indexes:rebuild`）で完結した。SP-DEVSYNC-059/061 の resolver-only path のうち **最小規模 shape**（conflict 1 件・keywords.json の `--ours` すら発生せず）。
+
+- **SP-DEVSYNC-064-A (接触面が skill 索引のみの branch は conflict 1 件に縮退する)**: docs/spec 系 branch は `apps/web/**` / `apps/api/**` を編集しないため、dev 側の source commit を取り込んでも source conflict が原理的に発生しない。残るのは skill 索引（`indexes/*.md` / `references/task-workflow-active.md`）の union のみ。Phase 12 implementation-guide の sync-merge 節に「docs branch の取込 conflict は skill 索引 union に閉じる前提」を 1 行記載できる。
+- **SP-DEVSYNC-064-B (keywords.json 不発でも resolver は安全)**: `--ours + rebuild` 対象の `keywords.json` が今回 conflict せず（dev/branch の差分が orthogonal）、resolver stdout は `union-resolved 1 files` + `indexes:rebuild` のみ。`ours:` 行が出ないのは異常ではなく shape 依存。resolver 完走判定は **`git ls-files -u` 0** と `all skill / index conflicts resolved` 行で行い、`ours:` 行の有無に依存させない。
+- **SP-DEVSYNC-064-C (取込が visual baseline PNG を含んでも docs branch は再取得不要)**: #1014 は `playwright/.../full-visual-*.png` baseline 更新を含むが、docs branch 側はこれら binary を編集しないため `Auto-merging`（fast 取込）で衝突せず、visual baseline 再取得は不要。Phase 4 risk に「docs branch は取込 PNG を素通し・visual regression リスク無し」を 1 行登録できる。
+- 参照: [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-065 / L-DEVSYNC-059 / L-DEVSYNC-061（skill-only / 最小 shape）/ SP-DEVSYNC-061-A（判定フロー最上段）。

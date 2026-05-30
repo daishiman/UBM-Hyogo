@@ -13,6 +13,23 @@
 | inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-sidebar-public-return-link-artifact-inventory.md` |
 | user gate | authenticated browser screenshots, staging runtime visual, commit, push, PR |
 
+## web-worker-size-limit-fix（2026-05-29）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/web-worker-size-limit-fix/` |
+| status | `implemented_local_evidence_captured / implementation / NON_VISUAL` |
+| purpose | OpenNext Worker bundle が gzip 3316KiB > 3072KiB 上限を超過し `[code: 10027]` で deploy fail する問題を、next/og 撤去 + 静的 OG 画像化 + CI size gate で解消する |
+| Task A | `apps/web/app/opengraph-image.tsx`(削除), `apps/web/app/(public)/members/[id]/opengraph-image/route.tsx`(削除), `apps/web/public/og-default.png`(新規 1200×630), `apps/web/src/lib/seo/site-metadata.ts`, `apps/web/playwright/tests/public-metadata.spec.ts` |
+| Task B | `scripts/check-worker-size.sh`(新規), `.github/workflows/web-cd.yml`(両 deploy job に size gate), `apps/web/__tests__/opennext-config-regression.spec.ts`(minify 維持 + next/og 0 件 assert) |
+| 閾値 | hard 3072KiB / warn 2800KiB（script・CI・spec・implementation-guide で一貫） |
+| 計測対象 | `apps/web/.open-next/server-functions/default/apps/web/handler.mjs` 等の gzip 合算（bootstrap `worker.js` ではない）。実測 gzip 2100KiB |
+| OpenNext 注意 | `@opennextjs/cloudflare@1.19.4` に `minify` config key は無く、無効設定を足さず production 既定 minify を維持 |
+| knowledge | `.claude/skills/aiworkflow-requirements/references/deployment-cloudflare-opennext-workers.md`, `docs/00-getting-started-manual/specs/08-free-database.md`（Worker bundle size 制約節） |
+| lessons | `.claude/skills/task-specification-creator/lessons-learned/web-worker-size-limit-fix.md`（L-WWSL-001..004） |
+| unassigned | `docs/30-workflows/unassigned-task/member-dynamic-og-paid-or-worker-split.md`（Issue #1027 / member 個別動的 OG 再導入は有料 or Worker 分離が前提） |
+| user-gated | commit / push / PR / staging deploy / production deploy |
+
 ## login-redirect-when-authenticated（2026-05-28）
 
 | 項目 | 値 |
