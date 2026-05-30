@@ -1379,3 +1379,18 @@
 - 判定フロー追補（L-DEVSYNC-061 の 3 段 + L-DEVSYNC-063 の第 4 分岐への第 5 分岐）: **(5) 過去に `--ours` した同一 unit の add/add 再発時は、canonical の dev 昇格を `git log dev -- <dir>` で再確認し、昇格済みなら `--theirs` へ反転**。canonical の所在で wholesale 採用側を決める原則（L-DEVSYNC-063 public-header 版）の時間発展ケース。
 - 事例: 2026-05-30 merge commit `7ba7e4002`。conflict 9 件（skill resolver + source theirs 全採用）、typecheck 6 packages Done / lint exit 0、privacy/terms page は ours 保持で dev auth-view API と整合。
 - 参照: L-DEVSYNC-063 task-c 版（前回 ours 一択）, L-DEVSYNC-063 public-header 版（canonical wholesale --ours の原型・今回はその theirs 鏡像）, task-specification-creator [[patterns-lessons-and-pitfalls#dev-sync-merge-conflict-resolution]] SP-DEVSYNC-063。
+
+
+## L-DEVSYNC-065: page-level の **両側追加（PublicShell wrapper variant）の hybrid マージ** — wholesale `--theirs`/`--ours` ではなく prop 合成で解消（2026-05-30 feat/public-header-auth-slot-e2e ← origin/dev `e7196ab6f` #1013 再 sync）
+
+- 事象: 2 回目の `git merge dev` で `apps/web/app/privacy/page.tsx` / `apps/web/app/terms/page.tsx` が `CONFLICT (content)`。両側とも **PublicShell wrapper を独立に追加**したパターン: HEAD 側 = `<PublicHeader currentPath="/privacy" />` + `<PublicFooter />` を fragment で並べる簡素版（active state 用 `currentPath` prop のみ供給）、dev 側 = `<div data-testid="public-shell" data-route-group="public" data-theme="warm" data-auth-state={authView.kind}>` で 3 行グリッド化 + `<PublicHeader authView={authView} />` + `<footer data-shell="footer">` ラッピング + `getAuthView()` 呼び出し。skill index 系 3 件は `pnpm sync:resolve` で完結、残った page-level 2 件のみ手動解消。
+- Why: `PublicHeader.tsx` は HEAD/dev 両方の prop（`currentPath?: string` と `authView?: AuthView`）を**同時に受け付ける signature**（dev 側で `authView: explicitAuthView` を optional 化 + `currentPath` 維持）になっていた。よって wholesale `--theirs` を採ると HEAD の `currentPath` による active state 表示が消え、wholesale `--ours` を採ると dev の `data-auth-state` DOM 契約（Playwright `auth-slot-coverage.spec.ts` が assert する）が消える。**両側の追加が補完関係**にあり、どちらか単独では regression が出る構造。
+- How to apply:
+  1. **conflict shape を識別**: `<<<<<<< HEAD ... ||||||| <base> ... ======= ... >>>>>>> dev` の 3-way diff で「base に存在しない要素を両側が別形で追加」なら add/add の hybrid 候補。`git show :1:<path>` で base を確認し、両側の追加要素が **同じ component（PublicHeader）に対する別 prop**である場合は wholesale 不可。
+  2. **prop 合成解消**: dev 側の構造（`<div data-testid="public-shell" ...>` wrapper + async `getAuthView()` + `data-auth-state` + footer ラップ）を骨格として採用し、HEAD 側固有の `currentPath="/privacy"` prop を `<PublicHeader>` 呼び出しに **追加**（`<PublicHeader currentPath="/privacy" authView={authView} />`）。HEAD 側固有の本文 indent / 改行は dev 側を採る（typography 影響なし、prettier に追従）。
+  3. **DOM 契約の二重確認**: e2e selector（`data-component="public-header"` 等）が dev 由来 component に存在することと、`currentPath` ベースの active state の unit test (`page.spec.tsx`) が dev API と整合することを `pnpm typecheck` 6 packages Done で検証。
+- 留意:
+  - L-DEVSYNC-063/064 の wholesale 原則は「同一 unit を一方が canonical 実装、他方が陳腐化バリアント」のときに適用。本ケースは **同一 page に対する補完的な追加** なので原則の前提が違う。判断順序: ① skill index → `pnpm sync:resolve`、② source の add/add で片側陳腐化 → wholesale（063/064）、③ source の add/add で **両側補完** → hybrid prop 合成（本 lesson）。
+  - hybrid 解消後は必ず両方の vitest（active state spec + auth-view spec）と Playwright（staging 後に委譲）で regression 確認。`pnpm typecheck`/`pnpm lint`/`bash scripts/verify-pr-ready.sh` を pre-push gate として実行（今回全 PASS, ERROR 0）。
+- 事例: 2026-05-30 merge commit `3d0826b01`。conflict 11 件（skill resolver 3 件 + page hybrid 2 件 + skill 系 6 件は resolver で吸収）、typecheck/lint exit 0, verify-pr-ready ERROR 0。
+- 参照: L-DEVSYNC-063 (wholesale --ours), L-DEVSYNC-064 task-c 版 (wholesale --theirs 反転), task-specification-creator [[patterns-lessons-and-pitfalls#dev-sync-merge-conflict-resolution]] SP-DEVSYNC-046。

@@ -1314,3 +1314,13 @@ dev sync-merge で **同一の small public API（`apps/web/src/lib/auth-view/` 
 - **SP-DEVSYNC-063-C (conflict しない consumer の API 互換を typecheck で担保)**: task-c 固有の `app/privacy/page.tsx` / `app/terms/page.tsx` は conflict せず ours 保持だが、theirs 採用した `getAuthView`/`AuthView`/`PublicHeader` の API（async server component を JSX mount する形含む）と整合するかは **必ず typecheck で検証**。conflict marker が無いファイルこそ取込側 API 変更の影響を受けやすい盲点。
 - **SP-DEVSYNC-063-D (unit は部分採用しない)**: component だけ theirs / module だけ ours のような混在採用は import 経路と DOM 契約が割れて typecheck/test が落ちる。canonical unit は component + spec + module + layout + layout.spec を**一括で同じ側**に揃える。
 - 参照: [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-064 / L-DEVSYNC-063（task-c 版 ours / public-header 版 theirs の対比）/ L-PATSEC-001..003（末尾 append + lesson ID prefix 命名）。
+
+
+## SP-DEVSYNC-046 page-level の **両側補完追加**は wholesale ではなく prop 合成で解消する（2026-05-30 feat/public-header-auth-slot-e2e ← dev #1013 再 sync）
+
+同一 page (`apps/web/app/privacy/page.tsx` / `apps/web/app/terms/page.tsx`) で **両側が独立に PublicShell wrapper を追加**するパターン。HEAD 側 = `currentPath` prop による active state 付与、dev 側 = `data-auth-state` 等の DOM 契約 + `getAuthView()` 配線 + 3 行グリッドラップ。同一 component (`PublicHeader.tsx`) が両方の prop を同時受容できる signature を持っており、片側 wholesale ではどちらか一方の regression が出るため hybrid 採用が必須（aiworkflow-requirements `lessons-learned-dev-sync-merge-conflict-resolution-2026-05.md` L-DEVSYNC-065）。
+
+- **SP-DEVSYNC-046-A (補完 add/add の判定)**: 3-way diff (`<<<<<<< HEAD ... ||||||| <base> ... ======= ... >>>>>>> dev`) で base が空・両側に追加要素が存在し、それらが**同じ component への異なる prop**である場合は wholesale 不可。SP-DEVSYNC-063-A の「canonical 所在で決める」原則の前提（片側陳腐化）が成立しないため判定フローを分岐させる。spec の Phase 4 / Phase 12 に「page-level conflict は `git show :1:<path>` で base 確認 → 両側追加が補完関係なら prop 合成」を判定手順として明記。
+- **SP-DEVSYNC-046-B (合成順序の規約)**: dev 側の wrapper 構造（`data-testid`/`data-route-group`/`data-auth-state` 等の DOM 契約）を骨格として採用し、HEAD 側固有の prop（`currentPath` 等の active state 系）を component 呼び出しに**追加**する形で合成。改行/indent は dev 側（prettier 形）を採る（typography 影響なし）。これにより e2e selector と unit test の active state 両方が temporal regression なしに維持される。
+- **SP-DEVSYNC-046-C (判定フロー全体)**: ① skill index → `pnpm sync:resolve`、② source の add/add で片側陳腐化 → SP-DEVSYNC-063 wholesale、③ source の add/add で **両側補完** → 本 lesson の prop 合成、④ 解消後は `pnpm typecheck` 6 packages + `pnpm lint` + `bash scripts/verify-pr-ready.sh` を必ず pre-push gate として直列実行。
+- 参照: [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-065 / SP-DEVSYNC-063（wholesale 原則との対比）。
