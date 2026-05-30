@@ -1,0 +1,8 @@
+$ rg -n data-role public-return
+120:        data-role="public-return"
+$ rg -n label home
+OK: 0 hits
+$ rg hex
+OK: 0 hits
+$ rg skip/todo
+OK: 0 hits

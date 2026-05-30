@@ -1,0 +1,5 @@
+# 2026-05-28 public-header-auth-slot-e2e
+
+`docs/30-workflows/completed-tasks/public-header-auth-slot-e2e/` を `implemented_local_evidence_captured / implementation / NON_VISUAL / implementation_complete_pending_pr` として同期。親 `public-header-logged-in-nav-cleanup` の Task A-F が確立する `data-auth-state` / `data-role` DOM 契約を、7 routes x 3 states + 4 regressions の Playwright auth-slot coverage として独立 workflow 化し、同一 wave で apps/web 実装まで完了した。
+
+実装対象は `AuthView` resolver、Public/Member/Admin header DOM 契約、`/privacy` / `/terms` の public chrome 付与、non-admin `/admin` の `/login?gate=forbidden` redirect、Playwright setup/auth-slot specs、storageState ignore、CI `auth-slot` job。Phase 11 local Playwright は 28/28 PASS（3 setup + 25 auth-slot）、focused Vitest は 29 PASS、typecheck PASS。Phase 1-13、Phase 12 strict 7、Phase 13 user-gated placeholder、30-method compact evidence、root/output artifacts parity、quick-reference / resource-map / task-workflow-active / artifact inventory / LOGS を同一 wave で反映。commit、push、PR、remote Actions は user-gated。

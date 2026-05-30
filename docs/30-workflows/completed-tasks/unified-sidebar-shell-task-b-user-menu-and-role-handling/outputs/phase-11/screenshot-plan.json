@@ -1,0 +1,26 @@
+{
+  "task_id": "unified-sidebar-shell-task-b-user-menu-and-role-handling",
+  "status": "completed",
+  "screenshots": [
+    {
+      "id": "user-menu-viewer",
+      "path": "outputs/phase-11/screenshots/user-menu-viewer.png",
+      "status": "present"
+    },
+    {
+      "id": "user-menu-member",
+      "path": "outputs/phase-11/screenshots/user-menu-member.png",
+      "status": "present"
+    },
+    {
+      "id": "user-menu-admin",
+      "path": "outputs/phase-11/screenshots/user-menu-admin.png",
+      "status": "present"
+    },
+    {
+      "id": "user-menu-collapsed",
+      "path": "outputs/phase-11/screenshots/user-menu-collapsed.png",
+      "status": "present"
+    }
+  ]
+}
