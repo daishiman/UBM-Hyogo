@@ -35,7 +35,7 @@ describe("SidebarShellServer", () => {
   it("admin session で全 13 nav item を描画する（TC-04 相当）", async () => {
     vi.mocked(getSession).mockResolvedValue(ADMIN);
     const { container } = await renderServer();
-    expect(container.querySelectorAll('[data-component="shell-nav-item"]')).toHaveLength(13);
+    expect(container.querySelectorAll('[data-shell-block="nav-item"]')).toHaveLength(13);
   });
 
   it("schemaDiffCount は queued のみカウントされ schema link に badge 2 が出る（TC-05）", async () => {
@@ -64,6 +64,6 @@ describe("SidebarShellServer", () => {
   it("session=null は viewer にフォールバックし public 3 item のみ", async () => {
     vi.mocked(getSession).mockResolvedValue(null);
     const { container } = await renderServer();
-    expect(container.querySelectorAll('[data-component="shell-nav-item"]')).toHaveLength(3);
+    expect(container.querySelectorAll('[data-shell-block="nav-item"]')).toHaveLength(3);
   });
 });

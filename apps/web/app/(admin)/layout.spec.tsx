@@ -18,8 +18,24 @@ vi.mock("next/navigation", () => ({
 }));
 vi.mock("../../src/lib/session", () => ({ getSession: vi.fn() }));
 vi.mock("../../src/components/shell/SidebarShell.server", () => ({
-  SidebarShellServer: ({ children }: { readonly children: ReactNode }) => (
-    <div data-testid="sidebar-shell-stub">{children}</div>
+  // dev #1028 で SidebarShell が semantic <main data-route=routeKey> を内部描画する統一版へ昇格。
+  // layout は自前 <main> を持たず routeKey/sectionRhythm を shell へ渡すため、stub で受領 props を観測する。
+  SidebarShellServer: ({
+    children,
+    routeKey,
+    sectionRhythm,
+  }: {
+    readonly children: ReactNode;
+    readonly routeKey?: string;
+    readonly sectionRhythm?: string;
+  }) => (
+    <div
+      data-testid="sidebar-shell-stub"
+      data-route-key={routeKey}
+      data-section-rhythm={sectionRhythm}
+    >
+      {children}
+    </div>
   ),
 }));
 
@@ -83,10 +99,13 @@ describe("AdminLayout", () => {
     expect(container.querySelector('[data-component="admin-breadcrumb-slot"]')).toBeNull();
     expect(container.querySelector('[data-component="admin-topbar-actions"]')).toBeNull();
 
-    // children は main[data-route="admin"] 配下に mount され、main は DOM 上に 1 つだけ
-    const mains = container.querySelectorAll('main[data-route="admin"]');
-    expect(mains.length).toBe(1);
-    expect(mains[0]?.querySelector('[data-testid="child"]')).not.toBeNull();
+    // dev #1028 で semantic <main data-route="admin"> 描画は SidebarShell 側責務へ移譲。
+    // layout は routeKey="admin" / sectionRhythm="compact" を shell へ渡し、children を内包する。
+    // （main[data-route] の end-to-end 検証は Task A 側 SidebarShell*.spec へ委譲）
+    const stub = container.querySelector('[data-testid="sidebar-shell-stub"]');
+    expect(stub?.getAttribute("data-route-key")).toBe("admin");
+    expect(stub?.getAttribute("data-section-rhythm")).toBe("compact");
+    expect(stub?.querySelector('[data-testid="child"]')).not.toBeNull();
   });
 
   // TC-07 (AC-7 回帰): layout 直下に裸の「管理」文字列を出さない

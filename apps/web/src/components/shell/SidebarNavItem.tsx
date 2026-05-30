@@ -1,54 +1,52 @@
 "use client";
 
-// unified-sidebar-shell-public-and-admin Task A: 1 nav item。active 判定は client usePathname() 経由。
-// activePath は SSR 初期表示 / test の seed（x-pathname 方式は不採用）。
+// Task A — sidebar の 1 nav item。active 判定は client の usePathname を正本とし、
+// SSR 初期 active は activePath fallback で graceful degradation する。
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Chip } from "../ui/Chip";
-import type { ChipTone } from "../../lib/tones";
-import { ShellIcon } from "./icons";
-import { isNavItemActive, type ShellNavBadgeTone, type ShellNavItem } from "./shell-config";
-import { useSidebarShell } from "./SidebarShellContext";
 
-const TONE_TO_CHIP: Record<ShellNavBadgeTone, ChipTone> = {
-  warn: "amber",
-  danger: "red",
-  info: "cool",
+import { Chip } from "../ui/Chip";
+import { ShellIcon } from "./icons";
+import { isNavItemActive, type ShellNavItem } from "./shell-config";
+
+const TONE_TO_CHIP: Record<"warn" | "danger" | "info", "warning" | "danger" | "info"> = {
+  warn: "warning",
+  danger: "danger",
+  info: "info",
 };
 
-export function SidebarNavItem({
-  item,
-  activePath,
-}: {
+export interface SidebarNavItemProps {
   readonly item: ShellNavItem;
+  readonly collapsed: boolean;
+  /** SSR / context 不在時の active 判定 fallback（layout から渡る x-pathname or 既定値）。 */
   readonly activePath: string;
-}) {
-  const { mode, setDrawerOpen } = useSidebarShell();
+}
+
+export function SidebarNavItem({ item, collapsed, activePath }: SidebarNavItemProps) {
   const pathname = usePathname() ?? activePath;
   const active = isNavItemActive(item.href, pathname);
-  const collapsed = mode === "collapsed";
-  const badge = item.badge && item.badge.count > 0 ? item.badge : null;
-
+  const showBadge = item.badge && item.badge.count > 0;
   return (
     <li>
       <Link
         href={item.href}
+        data-shell-block="nav-item"
         data-active={active ? "true" : "false"}
-        data-component="shell-nav-item"
         aria-current={active ? "page" : undefined}
-        title={collapsed ? item.label : undefined}
-        onClick={() => setDrawerOpen(false)}
-        className="flex items-center gap-2 rounded-sm px-3 py-2 text-sm text-[var(--ubm-color-text-primary)] hover:bg-[var(--ubm-color-surface-hover)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--ubm-color-accent)] data-[active=true]:bg-[var(--ubm-color-surface-active)] data-[active=true]:font-semibold data-[active=true]:text-[var(--ubm-color-accent)]"
+        className="flex items-center gap-3 rounded-sm px-3 py-2 text-sm text-[var(--ubm-color-text-primary)] hover:bg-[var(--shell-active-bg)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--ubm-color-accent)] data-[active=true]:bg-[var(--shell-active-bg)] data-[active=true]:font-semibold data-[active=true]:text-[var(--ubm-color-accent-ink)]"
       >
         <span
-          data-component="shell-nav-icon"
           aria-hidden="true"
-          className="inline-flex h-4 w-4 shrink-0 items-center justify-center"
+          className="inline-flex h-[18px] w-[18px] shrink-0 items-center justify-center text-[var(--ubm-color-text-secondary)]"
         >
           <ShellIcon id={item.icon} />
         </span>
         <span className={collapsed ? "sr-only" : "flex-1"}>{item.label}</span>
-        {badge ? <Chip tone={TONE_TO_CHIP[badge.tone]}>{badge.count}</Chip> : null}
+        {showBadge && item.badge ? (
+          <Chip tone={TONE_TO_CHIP[item.badge.tone]}>
+            <span className={collapsed ? "sr-only" : undefined}>{item.badge.count}</span>
+          </Chip>
+        ) : null}
       </Link>
     </li>
   );

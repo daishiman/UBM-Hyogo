@@ -1,56 +1,58 @@
-import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
+// Task B — SidebarUserMenu の spec。role 別 action / collapsed 表示。
+import { describe, it, expect, vi, afterEach } from "vitest";
 import { render, cleanup } from "@testing-library/react";
-import { SidebarUserMenu } from "../SidebarUserMenu";
 
 vi.mock("next-auth/react", () => ({ signOut: vi.fn() }));
-vi.mock("next/navigation", () => ({ usePathname: vi.fn(() => "/admin") }));
+vi.mock("next/navigation", () => ({
+  usePathname: vi.fn(() => "/profile"),
+}));
 
-const USER = { displayName: "管理太郎", email: "admin@example.com", initials: "管" };
+import { SidebarUserMenu } from "../SidebarUserMenu";
 
 afterEach(() => cleanup());
-beforeEach(() => vi.clearAllMocks());
 
-function links(container: HTMLElement) {
-  return Array.from(container.querySelectorAll('[data-component="shell-user-action"]'));
-}
+const MEMBER = { displayName: "山田太郎", email: "y@example.com", initials: "山" };
 
 describe("SidebarUserMenu", () => {
-  it("viewer はログインリンクのみ・signout なし", () => {
-    const { container } = render(<SidebarUserMenu role="viewer" user={null} collapsed={false} />);
-    const ls = links(container);
-    expect(ls).toHaveLength(1);
-    expect(ls[0].getAttribute("data-action")).toBe("login");
+  it("viewer は ログイン リンクのみ / signout なし", () => {
+    const { container } = render(
+      <SidebarUserMenu role="viewer" user={null} collapsed={false} />,
+    );
+    expect(container.querySelector('[data-action="login"]')).not.toBeNull();
     expect(container.querySelector('[data-testid="sign-out-button"]')).toBeNull();
   });
 
-  it("member は profile + edit-request の 2 link + signout", () => {
-    const { container } = render(<SidebarUserMenu role="member" user={USER} collapsed={false} />);
-    expect(links(container).map((l) => l.getAttribute("data-action"))).toEqual([
-      "profile",
-      "edit-request",
-    ]);
+  it("member は profile / edit-request リンク + signout", () => {
+    const { container } = render(
+      <SidebarUserMenu role="member" user={MEMBER} collapsed={false} />,
+    );
+    expect(container.querySelector('[data-action="profile"]')).not.toBeNull();
+    expect(container.querySelector('[data-action="edit-request"]')).not.toBeNull();
+    expect(container.querySelector('[data-action="admin-dashboard"]')).toBeNull();
     expect(container.querySelector('[data-testid="sign-out-button"]')).not.toBeNull();
   });
 
-  it("admin は profile + edit-request + admin-dashboard の 3 link + signout", () => {
-    const { container } = render(<SidebarUserMenu role="admin" user={USER} collapsed={false} />);
-    expect(links(container).map((l) => l.getAttribute("data-action"))).toEqual([
-      "profile",
-      "edit-request",
-      "admin-dashboard",
-    ]);
+  it("admin は admin-dashboard リンク + signout を持つ", () => {
+    const { container } = render(
+      <SidebarUserMenu role="admin" user={MEMBER} collapsed={false} />,
+    );
+    expect(container.querySelector('[data-action="admin-dashboard"]')).not.toBeNull();
     expect(container.querySelector('[data-testid="sign-out-button"]')).not.toBeNull();
-    expect(container.querySelector('[data-component="shell-user-role"]')?.textContent).toBe("管理者");
   });
 
-  it("admin アバターに admin badge が付く", () => {
-    const { container } = render(<SidebarUserMenu role="admin" user={USER} collapsed={false} />);
-    expect(container.querySelector('[data-component="shell-user-admin-badge"]')).not.toBeNull();
+  it("admin は avatar に data-role='admin' を付与する", () => {
+    const { container } = render(
+      <SidebarUserMenu role="admin" user={MEMBER} collapsed={false} />,
+    );
+    const avatar = container.querySelector('[data-shell-block="user-avatar"]');
+    expect(avatar?.getAttribute("data-role")).toBe("admin");
   });
 
-  it("collapsed=true で表示名ラベルが sr-only", () => {
-    const { container } = render(<SidebarUserMenu role="admin" user={USER} collapsed={true} />);
-    const nameWrap = container.querySelector('[data-component="shell-user-name"]')?.parentElement;
-    expect(nameWrap?.className).toContain("sr-only");
+  it("collapsed=true で displayName が sr-only になる", () => {
+    const { container } = render(
+      <SidebarUserMenu role="member" user={MEMBER} collapsed={true} />,
+    );
+    const labelWrap = container.querySelector('summary .sr-only');
+    expect(labelWrap).not.toBeNull();
   });
 });

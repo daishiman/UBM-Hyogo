@@ -101,12 +101,12 @@
   --ubm-ease-decelerate: cubic-bezier(0, 0, 0, 1);
   --ubm-ease-accelerate: cubic-bezier(0.3, 0, 1, 1);
 
-  /* Shell (unified-sidebar-shell-public-and-admin Task A) */
-  --shell-bar-w: 17rem; /* 272px 展開時 */
-  --shell-bar-w-collapsed: 4rem; /* 64px 折り畳み時 */
-  --shell-bar-bg: var(--ubm-color-surface-bg);
+  /* Sidebar shell (Task A — unified-sidebar-shell-public-and-admin) */
+  --shell-bar-w: 17rem;          /* 272px */
+  --shell-bar-w-collapsed: 4rem; /* 64px  */
+  --shell-bar-bg: var(--ubm-color-surface-panel);
   --shell-bar-border: var(--ubm-color-border-default);
-  --shell-active-bg: oklch(0.96 0.02 70);
+  --shell-active-bg: oklch(96% 0.02 70);
 }
 
 /* Warm theme override (surface / text / border / accent only) */
@@ -144,7 +144,7 @@
   --ubm-color-accent: oklch(0.52 0.11 240);
   --ubm-color-accent-soft: oklch(0.95 0.03 235);
   --ubm-color-accent-ink: oklch(0.36 0.12 240);
-  --shell-active-bg: oklch(0.96 0.02 240);
+  --shell-active-bg: oklch(96% 0.02 240);
 }
 
 /* Dark mode placeholder — values intentionally empty (MVP 非対応) */

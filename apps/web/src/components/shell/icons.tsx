@@ -1,6 +1,26 @@
-// unified-sidebar-shell-public-and-admin Task A: nav item id → 純粋 svg path のマップ。
-// 旧 AdminSidebar の inline svg を id 引きへ移設（feather 系 stroke icon）。
+// Task A — SidebarShell primitive: pure svg icons keyed by ShellNavItemId.
+// 副作用なし・state なしの純粋 presentational コンポーネント。
+import type { ReactElement } from "react";
+
 import type { ShellNavItemId } from "./shell-config";
+
+function Stroke({ d }: { readonly d: string }): ReactElement {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      width="18"
+      height="18"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.75"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <path d={d} />
+    </svg>
+  );
+}
 
 const PATHS: Record<ShellNavItemId, string> = {
   home: "M3 11l9-8 9 8M5 9v11h14V9",
@@ -18,25 +38,10 @@ const PATHS: Record<ShellNavItemId, string> = {
     "M4 6c0-1.66 3.58-3 8-3s8 1.34 8 3-3.58 3-8 3-8-1.34-8-3zM4 6v6c0 1.66 3.58 3 8 3s8-1.34 8-3V6M4 12v6c0 1.66 3.58 3 8 3s8-1.34 8-3v-6",
   meeting: "M3 7h18v14H3zM3 7l2-4h14l2 4M8 3v4M16 3v4",
   requests: "M3 13h5l2 3h4l2-3h5M3 13V5h18v8M3 13v6h18v-6",
-  identity:
-    "M18 18a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM6 21a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM6 3a3 3 0 1 0 0 6 3 3 0 0 0 0-6zM6 9v6M6 15c0-6 12-3 12-9",
+  identity: "M18 18a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM6 21a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM6 3a3 3 0 1 0 0 6 3 3 0 0 0 0-6zM6 9v6M6 15c0-6 12-3 12-9",
   audit: "M4 4h12l4 4v12H4zM8 4v4h4M8 12h8M8 16h8",
 };
 
-export function ShellIcon({ id }: { readonly id: ShellNavItemId }) {
-  return (
-    <svg
-      viewBox="0 0 24 24"
-      width="16"
-      height="16"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.75"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      aria-hidden="true"
-    >
-      <path d={PATHS[id]} />
-    </svg>
-  );
+export function ShellIcon({ id }: { readonly id: ShellNavItemId }): ReactElement {
+  return <Stroke d={PATHS[id]} />;
 }

@@ -3409,6 +3409,7 @@
       "workflow-task-709-visual-baseline-runtime-capture-artifact-inventory.md",
       "workflow-task-761-visual-full-required-status-check-artifact-inventory.md",
       "workflow-task-c-privacy-terms-public-shell-spec-artifact-inventory.md",
+      "workflow-task-c-public-member-sidebar-shell-integration-artifact-inventory.md",
       "workflow-task-issue-299-schema-questions-fallback-retirement-artifact-inventory.md",
       "workflow-task-issue-359-production-d1-out-of-band-apply-audit-001-artifact-inventory.md",
       "workflow-task-issue-494-09a-A-exec-staging-smoke-runtime-artifact-inventory.md",
@@ -4268,6 +4269,7 @@
       "workflow-admin-shell-topbar-sidebar-integration-artifact-inventory.md",
       "workflow-issue-748-jest-axe-primitive-a11y-integration-artifact-inventory.md",
       "workflow-issue-894-admin-topbar-breadcrumb-integration-artifact-inventory.md",
+      "workflow-task-c-public-member-sidebar-shell-integration-artifact-inventory.md",
       "workflow-ut-02a-attendance-profile-integration-artifact-inventory.md"
     ],
     "実装済みコンバーター": [
@@ -5164,6 +5166,7 @@
       "workflow-task-13-login-rebuild-artifact-inventory.md",
       "workflow-task-b-root-page-public-header-async-artifact-inventory.md",
       "workflow-task-c-privacy-terms-public-shell-spec-artifact-inventory.md",
+      "workflow-task-c-public-member-sidebar-shell-integration-artifact-inventory.md",
       "workflow-task-issue-494-09a-A-exec-staging-smoke-runtime-artifact-inventory.md",
       "workflow-unified-sidebar-shell-public-and-admin-artifact-inventory.md",
       "workflow-ut-07a-01-member-tags-assign-cleanup-artifact-inventory.md",
@@ -7290,7 +7293,8 @@
       "workflow-issue-903-parallel-03-followup-005-member-runtime-evidence-artifact-inventory.md",
       "workflow-member-header-admin-link-artifact-inventory.md",
       "workflow-task-12-member-detail-register-legal-artifact-inventory.md",
-      "workflow-task-20-w2-screen-blueprints-public-and-member-artifact-inventory.md"
+      "workflow-task-20-w2-screen-blueprints-public-and-member-artifact-inventory.md",
+      "workflow-task-c-public-member-sidebar-shell-integration-artifact-inventory.md"
     ],
     "self": [
       "database-admin-repository-boundary.md",
@@ -11051,6 +11055,7 @@
       "workflow-task-13-login-rebuild-artifact-inventory.md",
       "workflow-task-b-root-page-public-header-async-artifact-inventory.md",
       "workflow-task-c-privacy-terms-public-shell-spec-artifact-inventory.md",
+      "workflow-task-c-public-member-sidebar-shell-integration-artifact-inventory.md",
       "workflow-unified-sidebar-shell-public-and-admin-artifact-inventory.md",
       "workflow-ut-07a-01-member-tags-assign-cleanup-artifact-inventory.md",
       "workflow-ut-07b-fu-01-schema-alias-backfill-queue-cron-split-artifact-inventory.md",
@@ -12715,6 +12720,7 @@
       "workflow-task-alert-relay-global-scope-fix-001-artifact-inventory.md",
       "workflow-task-b-root-page-public-header-async-artifact-inventory.md",
       "workflow-task-c-privacy-terms-public-shell-spec-artifact-inventory.md",
+      "workflow-task-c-public-member-sidebar-shell-integration-artifact-inventory.md",
       "workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md",
       "workflow-task-issue-191-production-d1-schema-aliases-apply-001-artifact-inventory.md",
       "workflow-task-issue-191-schema-aliases-implementation-001-artifact-inventory.md",
@@ -12984,6 +12990,7 @@
       "workflow-task-20-w2-screen-blueprints-public-and-member-artifact-inventory.md",
       "workflow-task-b-root-page-public-header-async-artifact-inventory.md",
       "workflow-task-c-privacy-terms-public-shell-spec-artifact-inventory.md",
+      "workflow-task-c-public-member-sidebar-shell-integration-artifact-inventory.md",
       "workflow-unified-sidebar-shell-public-and-admin-artifact-inventory.md"
     ],
     "と既存": [
@@ -16531,6 +16538,7 @@
       "workflow-admin-layout-sidebar-shell-migration-artifact-inventory.md",
       "workflow-admin-shell-topbar-sidebar-integration-artifact-inventory.md",
       "workflow-task-c-privacy-terms-public-shell-spec-artifact-inventory.md",
+      "workflow-task-c-public-member-sidebar-shell-integration-artifact-inventory.md",
       "workflow-unified-sidebar-shell-public-and-admin-artifact-inventory.md"
     ],
     "を防ぐ": [
@@ -17355,6 +17363,7 @@
       "workflow-task-709-visual-baseline-runtime-capture-artifact-inventory.md",
       "workflow-task-761-visual-full-required-status-check-artifact-inventory.md",
       "workflow-task-c-privacy-terms-public-shell-spec-artifact-inventory.md",
+      "workflow-task-c-public-member-sidebar-shell-integration-artifact-inventory.md",
       "workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md",
       "workflow-task-issue-191-production-d1-schema-aliases-apply-001-artifact-inventory.md",
       "workflow-task-issue-191-schema-aliases-implementation-001-artifact-inventory.md",
@@ -25407,6 +25416,7 @@
       "workflow-task-709-visual-baseline-runtime-capture-artifact-inventory.md",
       "workflow-task-761-visual-full-required-status-check-artifact-inventory.md",
       "workflow-task-c-privacy-terms-public-shell-spec-artifact-inventory.md",
+      "workflow-task-c-public-member-sidebar-shell-integration-artifact-inventory.md",
       "workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md",
       "workflow-task-issue-191-production-d1-schema-aliases-apply-001-artifact-inventory.md",
       "workflow-task-issue-191-schema-aliases-implementation-001-artifact-inventory.md",
@@ -25696,6 +25706,7 @@
       "workflow-admin-layout-sidebar-shell-migration-artifact-inventory.md",
       "workflow-admin-shell-topbar-sidebar-integration-artifact-inventory.md",
       "workflow-admin-sidebar-public-return-link-artifact-inventory.md",
+      "workflow-task-c-public-member-sidebar-shell-integration-artifact-inventory.md",
       "workflow-unified-sidebar-shell-public-and-admin-artifact-inventory.md"
     ],
     "Implemented": [

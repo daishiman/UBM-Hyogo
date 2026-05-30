@@ -1,27 +1,25 @@
 "use client";
 
-// unified-sidebar-shell-public-and-admin Task A: collapsible sidebar core（client）。
-// 展開 272px / 折り畳み 64px。md 未満は aside hidden + drawer overlay（Task E）。
-// shell は chrome（sidebar + content slot）を描画し、semantic <main> は呼出側 layout が持つ
-//（main の二重化回避・admin-layout-sidebar-shell-migration phase-5 決定）。
-// inline style は禁止（scripts/verify-no-inline-style.sh）のため幅は Tailwind arbitrary value
-//（w-[var(--shell-bar-w)]）で表現する。
+// Task A — collapsible sidebar shell core (Client)。
+// 公開 / 会員 / 管理の 3 層で共有する shell。drawer / collapse state を所有し、
+// brand + nav + user-menu を desktop aside と mobile drawer の両方へ同じツリーで配る。
 import type { ReactNode } from "react";
 import Link from "next/link";
+
 import { SidebarBrand } from "./SidebarBrand";
 import { SidebarCollapseToggle } from "./SidebarCollapseToggle";
+import { SidebarDrawer } from "./SidebarDrawer";
 import { SidebarNav } from "./SidebarNav";
+import { SidebarShellProvider } from "./SidebarShellContext";
 import { SidebarUserMenu } from "./SidebarUserMenu";
 import { ShellIcon } from "./icons";
-import { SidebarShellProvider } from "./SidebarShellContext";
-import { useSidebarState } from "./useSidebarState";
-import { cn } from "../../lib/cn";
 import type { ShellNavGroup, ShellRole } from "./shell-config";
+import { useSidebarState } from "./useSidebarState";
 
 // admin-sidebar-public-return-link (#1021) を統一 shell へ継承。
-// 旧 AdminSidebar の「公開サイトに戻る」導線を admin role 限定で SidebarShell に再実装する。
-// public guest route は (public)/layout が PublicHeader を使い shell 非経由のため、
-// 本リンクは admin shell にのみ現れる（auth-slot-coverage の data-role="public-return" 契約）。
+// 旧 AdminSidebar の「公開サイトに戻る」導線を admin role 限定で再実装する。
+// public/member route は viewer/member role で本リンクを描画せず、auth-slot-coverage の
+// 「public guest route に data-role="public-return" が存在しない」契約を満たす。
 function AdminPublicReturn({ collapsed }: { readonly collapsed: boolean }) {
   return (
     <Link
@@ -30,11 +28,11 @@ function AdminPublicReturn({ collapsed }: { readonly collapsed: boolean }) {
       data-component="admin-sidebar-public-return"
       aria-label="公開サイトに戻る"
       title={collapsed ? "公開サイトに戻る" : undefined}
-      className="flex items-center gap-2 rounded-sm px-3 py-2 text-sm text-[var(--ubm-color-text-secondary)] transition-colors hover:bg-[var(--ubm-color-surface-hover)] hover:text-[var(--ubm-color-text-primary)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--ubm-color-accent)]"
+      className="flex items-center gap-3 rounded-sm px-3 py-2 text-sm text-[var(--ubm-color-text-secondary)] hover:bg-[var(--shell-active-bg)] hover:text-[var(--ubm-color-text-primary)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--ubm-color-accent)]"
     >
       <span
         aria-hidden="true"
-        className="inline-flex h-4 w-4 shrink-0 items-center justify-center"
+        className="inline-flex h-[18px] w-[18px] shrink-0 items-center justify-center text-[var(--ubm-color-text-secondary)]"
       >
         <ShellIcon id="home" />
       </span>
@@ -43,14 +41,19 @@ function AdminPublicReturn({ collapsed }: { readonly collapsed: boolean }) {
   );
 }
 
-export type SidebarShellProps = {
+export interface SidebarShellProps {
   readonly role: ShellRole;
   readonly user: { readonly displayName: string; readonly email: string; readonly initials: string } | null;
   readonly navGroups: ReadonlyArray<ShellNavGroup>;
   readonly activePath: string;
+  /** Task E が埋める mobile trigger。drawer/collapse setter は context 経由。 */
   readonly mobileTriggerSlot: ReactNode;
+  /** main の data-route 値。呼出側 route group（"member" / "public" 等）を渡す。既定は "shell"。 */
+  readonly routeKey?: string;
+  /** main の data-section-rhythm 値。未指定なら属性を出力しない。 */
+  readonly sectionRhythm?: string;
   readonly children: ReactNode;
-};
+}
 
 export function SidebarShell({
   role,
@@ -58,67 +61,64 @@ export function SidebarShell({
   navGroups,
   activePath,
   mobileTriggerSlot,
+  routeKey = "shell",
+  sectionRhythm,
   children,
 }: SidebarShellProps) {
-  const state = useSidebarState();
-  const collapsed = state.mode === "collapsed";
+  const { mode, drawerOpen, toggleCollapsed, setDrawerOpen } = useSidebarState();
+  const collapsed = mode === "collapsed";
+
+  const sidebarContent = (sidebarCollapsed: boolean) => (
+    <>
+      <SidebarBrand collapsed={sidebarCollapsed} />
+      <SidebarNav navGroups={navGroups} collapsed={sidebarCollapsed} activePath={activePath} />
+      {role === "admin" ? <AdminPublicReturn collapsed={sidebarCollapsed} /> : null}
+      <SidebarUserMenu role={role} user={user} collapsed={sidebarCollapsed} />
+    </>
+  );
 
   return (
-    <SidebarShellProvider value={state}>
+    <SidebarShellProvider value={{ mode, drawerOpen, toggleCollapsed, setDrawerOpen }}>
       <div
-        data-component="sidebar-shell"
+        data-shell-root="true"
         data-shell-collapsed={collapsed ? "true" : "false"}
-        data-drawer-open={state.drawerOpen ? "true" : "false"}
-        className="flex min-h-screen w-full"
+        // auth-slot 観測契約: viewer→guest / member / admin（旧 PublicHeader/MemberHeader の data-auth-state を shell へ継承）。
+        data-auth-state={role === "viewer" ? "guest" : role}
+        className="flex min-h-screen w-full bg-[var(--ubm-color-surface-bg)] text-[var(--ubm-color-text-primary)]"
       >
         <aside
           data-shell="sidebar"
-          data-component="shell-sidebar"
-          aria-label="サイドバー"
-          className={cn(
-            "hidden shrink-0 flex-col gap-4 border-r border-[var(--ubm-color-border-default)] bg-[var(--shell-bar-bg)] p-3 md:flex",
-            collapsed ? "md:w-[var(--shell-bar-w-collapsed)]" : "md:w-[var(--shell-bar-w)]",
-          )}
+          data-collapsed={collapsed ? "true" : "false"}
+          className="hidden w-[var(--shell-bar-w)] shrink-0 flex-col gap-3 border-r border-[var(--shell-bar-border)] bg-[var(--shell-bar-bg)] p-3 data-[collapsed=true]:w-[var(--shell-bar-w-collapsed)] md:flex"
         >
-          <div className="flex items-center justify-between gap-2">
-            <SidebarBrand />
+          {sidebarContent(collapsed)}
+          <div className="mt-auto flex justify-end pt-2">
             <SidebarCollapseToggle />
           </div>
-          <SidebarNav navGroups={navGroups} activePath={activePath} />
-          {role === "admin" ? <AdminPublicReturn collapsed={collapsed} /> : null}
-          <SidebarUserMenu role={role} user={user} collapsed={collapsed} />
         </aside>
 
-        {state.drawerOpen ? (
-          <div data-component="shell-drawer" className="fixed inset-0 z-40 md:hidden">
-            <button
-              type="button"
-              aria-label="メニューを閉じる"
-              data-component="shell-drawer-scrim"
-              onClick={() => state.setDrawerOpen(false)}
-              className="absolute inset-0 bg-[var(--ubm-color-text-primary)] opacity-40"
-            />
-            <aside
-              data-component="shell-drawer-panel"
-              aria-label="サイドバー"
-              className="absolute inset-y-0 left-0 flex w-[var(--shell-bar-w)] flex-col gap-4 border-r border-[var(--ubm-color-border-default)] bg-[var(--shell-bar-bg)] p-3"
-            >
-              <SidebarBrand />
-              <SidebarNav navGroups={navGroups} activePath={activePath} />
-              {role === "admin" ? <AdminPublicReturn collapsed={false} /> : null}
-              <SidebarUserMenu role={role} user={user} collapsed={false} />
-            </aside>
-          </div>
-        ) : null}
+        <SidebarDrawer open={drawerOpen} onClose={() => setDrawerOpen(false)}>
+          {sidebarContent(false)}
+        </SidebarDrawer>
 
-        <div data-component="shell-content" className="flex min-w-0 flex-1 flex-col">
+        <div className="flex min-w-0 flex-1 flex-col">
           <div
-            data-component="shell-mobile-bar"
-            className="flex items-center gap-2 border-b border-[var(--ubm-color-border-default)] px-3 py-2 md:hidden"
+            data-shell="mobile-bar"
+            className="flex items-center gap-2 border-b border-[var(--shell-bar-border)] bg-[var(--shell-bar-bg)] px-3 py-2 md:hidden"
           >
             {mobileTriggerSlot}
+            <span className="text-sm font-semibold text-[var(--ubm-color-text-primary)]">
+              UBM兵庫
+            </span>
           </div>
-          {children}
+          <main
+            data-shell="main"
+            data-route={routeKey}
+            {...(sectionRhythm ? { "data-section-rhythm": sectionRhythm } : {})}
+            className="min-w-0 flex-1"
+          >
+            {children}
+          </main>
         </div>
       </div>
     </SidebarShellProvider>

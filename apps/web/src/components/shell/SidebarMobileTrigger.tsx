@@ -1,19 +1,18 @@
 "use client";
 
-// unified-sidebar-shell-public-and-admin Task E（最小）: mobileTriggerSlot に注入する drawer 起動ボタン。
-// SidebarShell の context 内でのみ描画される（drawer open setter を context 経由で叩く）。
-import { useSidebarShell } from "./SidebarShellContext";
+// Task E — モバイル用 hamburger trigger。md+ では hidden。context 経由で drawer を開く。
+import { useSidebarShellContext } from "./SidebarShellContext";
 
 export function SidebarMobileTrigger() {
-  const { drawerOpen, setDrawerOpen } = useSidebarShell();
+  const { setDrawerOpen } = useSidebarShellContext();
   return (
     <button
       type="button"
-      data-component="shell-mobile-trigger"
+      data-shell-block="mobile-trigger"
       aria-label="メニューを開く"
-      aria-expanded={drawerOpen}
+      aria-haspopup="dialog"
       onClick={() => setDrawerOpen(true)}
-      className="inline-flex h-9 w-9 items-center justify-center rounded-sm border border-[var(--ubm-color-border-default)] text-[var(--ubm-color-text-primary)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--ubm-color-accent)]"
+      className="inline-flex items-center justify-center rounded-sm border border-[var(--ubm-color-border-default)] p-2 text-[var(--ubm-color-text-primary)] hover:bg-[var(--shell-active-bg)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--ubm-color-accent)] md:hidden"
     >
       <svg
         viewBox="0 0 24 24"
