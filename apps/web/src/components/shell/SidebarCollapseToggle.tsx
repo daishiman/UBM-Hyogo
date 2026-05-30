@@ -1,24 +1,25 @@
 "use client";
 
+// Task A — sidebar の expanded/collapsed を切り替える toggle。context 経由で操作する。
+// md 未満（drawer 表示時）は不要なため hidden。
 import { useSidebarShellContext } from "./SidebarShellContext";
 
 export function SidebarCollapseToggle() {
   const { mode, toggleCollapsed } = useSidebarShellContext();
-  const expanded = mode === "expanded";
+  const collapsed = mode === "collapsed";
   return (
     <button
       type="button"
-      data-component="shell-collapse-toggle"
-      data-collapsed={expanded ? "false" : "true"}
-      aria-expanded={expanded}
-      aria-label={expanded ? "サイドバーを折り畳む" : "サイドバーを展開する"}
+      data-shell-block="collapse-toggle"
+      aria-label={collapsed ? "サイドバーを展開" : "サイドバーを折りたたむ"}
+      aria-expanded={collapsed ? "false" : "true"}
       onClick={toggleCollapsed}
-      className="inline-flex h-8 w-8 items-center justify-center rounded-md text-[var(--ubm-color-text-secondary)] hover:bg-[var(--ubm-color-surface-bg-2)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--ubm-color-accent)]"
+      className="hidden items-center justify-center rounded-sm border border-[var(--ubm-color-border-default)] p-2 text-[var(--ubm-color-text-secondary)] hover:bg-[var(--shell-active-bg)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--ubm-color-accent)] md:inline-flex"
     >
       <svg
         viewBox="0 0 24 24"
-        width="16"
-        height="16"
+        width="18"
+        height="18"
         fill="none"
         stroke="currentColor"
         strokeWidth="1.75"
@@ -26,7 +27,7 @@ export function SidebarCollapseToggle() {
         strokeLinejoin="round"
         aria-hidden="true"
       >
-        {expanded ? <path d="M15 6l-6 6 6 6" /> : <path d="M9 6l6 6-6 6" />}
+        {collapsed ? <path d="M9 18l6-6-6-6" /> : <path d="M15 18l-6-6 6-6" />}
       </svg>
     </button>
   );

@@ -11,9 +11,9 @@ task_id: unified-sidebar-shell-public-and-admin
 
 ## 1. Summary verdict
 
-Verdict: `PASS_SPEC_CREATED_IMPLEMENTATION_PENDING`.
+Verdict: `PASS_PARTIAL_IMPLEMENTATION_VERIFIED_TASK_B`.
 
-The workflow now has Phase 1-13 files, root/output `artifacts.json` parity, Phase 12 strict 7 outputs, 30-method compact evidence, and aiworkflow-requirements same-wave sync. Apps/web implementation, tests, visual screenshots, commit, push, and PR are not claimed and remain Gate-B/C.
+The workflow now has Phase 1-13 files, root/output `artifacts.json` parity, Phase 12 strict 7 outputs, 30-method compact evidence, and aiworkflow-requirements same-wave sync. Task B apps/web implementation, focused Vitest, grep gate, and local visual screenshots are present. Remaining A/E/C/D/F implementation, CI visual baseline, commit, push, and PR remain Gate-B/C.
 
 ## 2. Changed-files classification
 
@@ -28,6 +28,9 @@ The workflow now has Phase 1-13 files, root/output `artifacts.json` parity, Phas
 | `.claude/skills/aiworkflow-requirements/references/task-workflow-active.md` | active workflow ledger | synced |
 | `.claude/skills/aiworkflow-requirements/references/workflow-unified-sidebar-shell-public-and-admin-artifact-inventory.md` | artifact inventory | added |
 | `.claude/skills/aiworkflow-requirements/changelog/20260528-unified-sidebar-shell-public-and-admin.md` | changelog | added |
+| `docs/30-workflows/completed-tasks/unified-sidebar-shell-task-b-user-menu-and-role-handling/` | Task B sub-workflow | registered |
+| `apps/web/src/components/shell/**` | Task B user menu implementation | synced |
+| `apps/web/playwright/tests/visual/sidebar-user-menu.spec.ts` | Task B local visual evidence | synced |
 
 ## 3. `workflow_state` and phase status consistency
 
@@ -38,7 +41,7 @@ The workflow now has Phase 1-13 files, root/output `artifacts.json` parity, Phas
 | Phase 11 | `runtime_pending` | PASS |
 | Phase 12 | `completed` | PASS |
 | Phase 13 | `pending_user_approval` | PASS |
-| implementation claim | pending, not PASS | PASS |
+| implementation claim | Task B implemented; other parent tasks remain pending | PASS |
 
 ## 4. Phase 11 evidence file inventory
 
@@ -48,6 +51,8 @@ The workflow now has Phase 1-13 files, root/output `artifacts.json` parity, Phas
 | screenshot plan | `outputs/phase-11/screenshot-plan.json` | present |
 | smoke log | `outputs/phase-11/sidebar-shell-smoke.log` | pending |
 | visual metadata | `outputs/phase-11/sidebar-shell-visual-metadata.json` | pending |
+
+> Task B-owned Phase 11 evidence (focused vitest 2 logs + 4 role screenshots) は sub-workflow `docs/30-workflows/completed-tasks/unified-sidebar-shell-task-b-user-menu-and-role-handling/outputs/phase-11/` 配下に存在し、sub root の compliance-check が evidence existence を検証する（L-USERMENU-005 / SP-USERMENU-005: sub-workflow Phase 12 ownership boundary）。parent root の verifier は workflow root 外への path 参照を許可しないため、ここでは inventory 行を持たない。
 
 ## 5. Phase 12 strict 7 file inventory
 
@@ -60,6 +65,14 @@ The workflow now has Phase 1-13 files, root/output `artifacts.json` parity, Phas
 | `outputs/phase-12/unassigned-task-detection.md` | present |
 | `outputs/phase-12/skill-feedback-report.md` | present |
 | `outputs/phase-12/phase12-task-spec-compliance-check.md` | present |
+
+### Parent/sub strict 7 aggregation
+
+| Check | Verdict |
+| --- | --- |
+| Parent root owns strict 7 | PASS |
+| Task B sub-workflow has only `outputs/phase-12/phase12-task-spec-compliance-check.md` for Phase 12 | PASS |
+| Task B root/output `artifacts.json` parity exists | PASS |
 
 ## 6. Skill/reference/system spec same-wave sync
 
@@ -78,7 +91,7 @@ The workflow now has Phase 1-13 files, root/output `artifacts.json` parity, Phas
 
 | Category | Methods | Applied conclusion |
 | --- | --- | --- |
-| 論理分析系 | 批判的思考 / 演繹思考 / 帰納的思考 / アブダクション / 垂直思考 | `spec_created` と実装完了の混同を防ぎ、pending gates を明示 |
+| 論理分析系 | 批判的思考 / 演繹思考 / 帰納的思考 / アブダクション / 垂直思考 | Task B の実装完了と親 A/E/C/D/F の pending gates を分離 |
 | 構造分解系 | 要素分解 / MECE / 2軸思考 / プロセス思考 | Phase 1-13、A-F、strict 7、aiworkflow ledger を網羅 |
 | メタ・抽象系 | メタ思考 / 抽象化思考 / ダブル・ループ思考 | shell 統合を role/navigation contract として再定義 |
 | 発想・拡張系 | ブレインストーミング / 水平思考 / 逆説思考 / 類推思考 / if思考 / 素人思考 | slot-based shell で重複 header/sidebar を避ける |
@@ -88,7 +101,7 @@ The workflow now has Phase 1-13 files, root/output `artifacts.json` parity, Phas
 
 ## 7. Runtime or user-gated boundary
 
-Apps/web implementation, local typecheck/lint/test/playwright smoke, visual screenshots, CI baseline update, commit, push, and PR are pending. They are not claimed as completed in this workflow state.
+Task B apps/web implementation, focused Vitest, grep gate, and local visual screenshots are present. Parent-level A/E/C/D/F implementation, local typecheck/lint/playwright smoke, CI baseline update, commit, push, and PR remain pending and are not claimed as completed.
 
 ## 8. Archive/delete stale-reference gate
 
@@ -98,7 +111,7 @@ No workflow root was archived or deleted. Existing design/detail files remain as
 
 | Condition | Verdict | Evidence |
 | --- | --- | --- |
-| 矛盾なし | PASS | Admin nav count corrected to current 9 admin items / 13 total; standalone task-A root collapsed into parent topology; implementation pending is not claimed complete |
-| 漏れなし | PASS | Phase 1-13, strict 7, artifacts mirror, gates, A-F specs, task-A sub-workflow, aiworkflow ledgers are present |
+| 矛盾なし | PASS | Admin nav count corrected to current 9 admin items / 13 total; standalone task-A root collapsed into parent topology; Task B implemented evidence is separated from remaining parent pending work |
+| 漏れなし | PASS | Phase 1-13, strict 7, artifacts mirror, gates, A-F specs, task-A sub-workflow, Task B runtime evidence, aiworkflow ledgers are present |
 | 整合性あり | PASS | role vocabulary, route scope, taskType, visualEvidence, and workflow_state are unified |
 | 依存関係整合 | PASS | A/B/E -> C/D -> F dependency chain and Gate-B/C user boundaries are explicit |
