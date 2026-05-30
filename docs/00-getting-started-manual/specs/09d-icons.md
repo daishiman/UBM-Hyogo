@@ -51,6 +51,7 @@
 | `google` | Google OAuth ボタン | （ブランドロゴ・自前 SVG として保持） | md(20) | 1.75 | 0 0 24 24 | `<path d="M21.35 11.1H12v3.2h5.35c-.45 2.2-2.45 3.8-5.35 3.8a6 6 0 1 1 0-12c1.57 0 2.95.56 4.05 1.46l2.42-2.42A9.5 9.5 0 0 0 12 2.5a9.5 9.5 0 0 0 0 19c5.5 0 9.5-3.85 9.5-9.5 0-.65-.05-1.25-.15-1.9z" fill="currentColor" stroke="none"/>` |
 | `alertTriangle` | 警告 (Banner warning) | `AlertTriangle` | md(20) | 1.75 | 0 0 24 24 | `<path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><path d="M12 9v4M12 17h0"/>` |
 | `info` | 情報 (Banner info) | `Info` | md(20) | 1.75 | 0 0 24 24 | `<circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h0"/>` |
+| `help` | 補助説明 / HelpHint | `CircleHelp` / 自前 `IconName` | sm(16) | 2 | 0 0 24 24 | `<circle cx="12" cy="12" r="9"/><path d="M9.5 9a2.5 2.5 0 0 1 4.5 1.5c0 1.5-2 2-2 3"/><path d="M12 17h.01"/>` |
 | `checkCircle` | 成功 (Banner success) | `CheckCircle` / `CircleCheck` | md(20) | 1.75 | 0 0 24 24 | `<path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><path d="M22 4L12 14.01l-3-3"/>` |
 | `trash` | 削除 | `Trash2` | md(20) | 1.75 | 0 0 24 24 | `<path d="M3 6h18"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>` |
 | `send` | 送信 | `Send` | md(20) | 1.75 | 0 0 24 24 | `<path d="M22 2L11 13"/><path d="M22 2l-7 20-4-9-9-4z"/>` |

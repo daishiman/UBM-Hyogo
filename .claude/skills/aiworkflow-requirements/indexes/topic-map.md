@@ -2505,6 +2505,12 @@ node scripts/list-specs.js --topics
 | Contract | L24 |
 | Evidence Boundary | L33 |
 
+### references/workflow-issue-1007-density-toggle-help-hint-hardening-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Lessons Learned | L18 |
+
 ### references/workflow-issue-106-admin-member-notes-repository-task-spec-artifact-inventory.md
 
 | セクション | 行 |

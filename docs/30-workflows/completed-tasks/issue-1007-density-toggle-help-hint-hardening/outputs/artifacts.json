@@ -1,0 +1,19 @@
+{
+  "task_id": "issue-1007-density-toggle-help-hint-hardening",
+  "parity_with": "../artifacts.json",
+  "status": "implemented_local_runtime_pending",
+  "phase12_completed": true,
+  "phase13_blocked": true,
+  "outputs": {
+    "phase-11": ["manual-test-result.md", "screenshots/"],
+    "phase-12": [
+      "implementation-guide.md",
+      "system-spec-update-summary.md",
+      "documentation-changelog.md",
+      "unassigned-task-detection.md",
+      "skill-feedback-report.md",
+      "phase12-task-spec-compliance-check.md"
+    ],
+    "phase-13": ["pr-creation-result.md"]
+  }
+}

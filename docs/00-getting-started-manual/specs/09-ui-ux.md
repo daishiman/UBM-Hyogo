@@ -291,7 +291,7 @@ Task-05 implemented-local contract: `app/loading.tsx` uses `role="status"`, `ari
 | MemberCard | member, density | card link label | idle, hover | color, space, radius | 09e | feature-member-card |
 | MemberList | items, total, density | result count live region | loading, empty, success | color, space | 09e | feature-member-list |
 | FilterBar | query, options, topTags, onChange | label for every control; tag chips use switch state and selected tags expose remove controls | idle, dirty, mobile-collapsed, tag-limit-reached | color, space, radius | 09e | feature-filter-bar |
-| DensityToggle | value, onChange | segmented control label | idle, active | color, radius | 09e | feature-density-toggle |
+| DensityToggle | value, onChange | segmented control label + `useId` description ids + HelpHint `summary` label | idle, active, help-open, help-close-by-Escape, help-close-by-outside-click | color, radius, icon=`help` | 09e / 09d | feature-density-toggle |
 | MemberDetail | member | heading hierarchy | loading, success, error | color, space, text | 09e | feature-member-detail |
 | VisibilityBanner | state, pendingRequests | status live region | success, server-pending | color, space, radius | 09f | feature-visibility-banner |
 | VisibilitySummary | counts | section labels | success | color, space, radius | 09f | feature-visibility-summary |
