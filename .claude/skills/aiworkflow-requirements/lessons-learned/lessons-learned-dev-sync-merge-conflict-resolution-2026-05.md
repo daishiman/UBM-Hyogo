@@ -1202,6 +1202,20 @@
 - 参照: L-DEVSYNC-056 (single-side primitive 移行 hybridize)、L-DEVSYNC-046 (UNION_TARGETS)、task-specification-creator [[patterns-lessons-and-pitfalls#dev-sync-merge-conflict-resolution]]。
 
 
+## L-DEVSYNC-059: detached HEAD で working-tree に WIP を抱えた状態で dev sync-merge する場合の手順（2026-05-28 task-c 検証）
+
+- 事象: ワークツリー作成直後にブランチを切らず detached HEAD 上で実装を進めた状態（`task-c-privacy-terms-public-shell-spec`）で `branch-sync-and-push` プロンプトを実行したケース。`git merge dev` が `error: Your local changes to the following files would be overwritten by merge` で abort し、さらに union-merge 対象の `indexes/keywords.json` と `indexes/topic-map.md` が CONFLICT に到達した。L-DEVSYNC-054/055 の happy-path 経路を踏襲できることを再確認した記録。
+- Why: detached HEAD は push 不可・branch-sync-and-push のスコープ既定値（現在ブランチのみ）が確定できないため、まず **WIP を捨てずに feature branch を作成** → **WIP を 3 段階で commit**（実装 / hook が後追い生成した inventory+lessons / `indexes:rebuild` 産物）→ `git merge dev` → `pnpm sync:resolve` の順序が必須。順序を誤ると `git stash` で WIP を退避してから checkout する誘惑が出るが、stash は WT 間共有のため CONST_003（順次・並列禁止）に抵触する。
+- How to apply:
+  1. `git branch --show-current` が空（detached）の場合は **必ず最初に `git checkout -b feat/<subject>`** を発行。subject は workflow root dir 名（`docs/30-workflows/<workflow-name>/`）と一致させる。
+  2. WIP に hook（pre-commit `block-stable-key-update` 等）が後追いで inventory / lessons / indexes を生成する場合、**1 回の `git add -A && git commit` では収まらない**。期待される反復は最大 3 サイクル: (a) 実装本体、(b) hook 生成の inventory+lessons、(c) indexes 再計算差分。各サイクル後に `git status --porcelain | wc -l` が 0 になることを確認してから次に進む。
+  3. `git merge dev` 失敗時は `--no-verify` を使わず、まず未コミット変更を 2 で commit 完了させてから再実行。`git stash` は使わない（CONST_003 + WT 間共有副作用）。
+  4. `pnpm sync:resolve` 後の検証順: `git diff --diff-filter=U --name-only` 0 件 → `git commit --no-edit`（merge commit、pre-commit hooks 通過）→ `pnpm typecheck` → `pnpm lint`。今回は 2 ファイル（`keywords.json` `--ours+rebuild` / `topic-map.md` union）のみで `.tsx` conflict なし、L-DEVSYNC-055 happy-path 経路と同一。
+- 留意: WT 作成スクリプト `bash scripts/new-worktree.sh <branch>` を経由した場合は最初から feature branch がチェックアウトされるためこの問題は発生しない。手動 `git worktree add <path> <commit>` で commit 指定にした場合のみ detached HEAD になる。本 lesson は後者の救済手順。
+- 検証: 2026-05-28 `feat/task-c-privacy-terms-public-shell-spec` 作成 → 3 commit (`f86bd53c6` 実装 / `0a79987f2` inventory+lessons / `685e21680` indexes) → `git merge dev` CONFLICT 2 → `pnpm sync:resolve` → merge commit `caa505eb6` → `pnpm typecheck && pnpm lint` 全 packages green。
+- 参照: L-DEVSYNC-055 (skill indexes 2 件 happy-path)、L-DEVSYNC-054 (auth.ts / barrel 並列追加)、CONST_003 (stash 順次・並列禁止)、CONST_019 (全変更包含)。
+
+
 ## L-DEVSYNC-059: `pnpm sync:resolve` 中断による stale `index.lock` の検出と除去（2026-05-29 確認）
 
 - 事象: `feat/members-not-displaying-form-sync-investigation` ← `origin/dev` sync-merge で 5 件 conflict（aiworkflow indexes 4 件 + source 0 件 + admin layer 0 件）。`pnpm sync:resolve` 起動中にラッパー（bash の `sleep 30` 待機）が exit 143 (SIGTERM) で外側から打ち切られ、`union-resolved` 3 件 (`resource-map.md` / `topic-map.md` / `task-workflow-active.md`) は成功したが、最終 `git add` 段階で `fatal: Unable to create '...worktrees/<wt>/index.lock': File exists.` が発生。直後 `git status` で `.git/worktrees/<wt>/index.lock` が残留。
@@ -1271,6 +1285,21 @@
 - 留意: sync-merge では CLAUDE.md ポリシーに従い `pre-commit/staged-task-dir-guard` と `pre-push/coverage-guard` が `MERGE_HEAD` 検出で自動スキップされるため `--no-verify` 不要（今回 `--no-verify` 付与は本来不要。次回からは付けない）。
 - 事例: 2026-05-29 commit `abe947433` (merge: sync feat/members-list-ux-clarity with dev)。conflict 3 件全件 resolver 完結、typecheck/lint green。
 - 再現事例 2026-05-29 (feat/issue-976-admin-fetch-service-binding ← origin/dev): conflict は同じ skill 5 件 + keywords.json の **完全同形 shape**。`apps/web/src/lib/admin/server-fetch.ts` も `Auto-merging` で textual conflict なし。resolver 完走で `git status` clean、`merge: sync feat/issue-976-admin-fetch-service-binding with dev` で merge commit 成立。**同形再現により本 lesson が "admin-ui modernization wave 中の skill-only shape は resolver 単発で機械解消可" の標準 path として確定**（page-level 接触面のない feature branch では今後も繰り返し発生する見込み）。
+
+
+## L-DEVSYNC-061: dev 取込が completed-tasks 新規ファイル追加のみ → conflict 0 件 → resolver すら起動不要（2026-05-29 feat/task-c-privacy-terms-public-shell-spec）
+
+- 事象: `feat/task-c-privacy-terms-public-shell-spec` ← `dev` (取込 1 commit `37fe488e8` = members 一覧 UX 明確化 #1009) の sync-merge で **conflict 0 件**。`git merge dev --no-edit` が即 merge commit `fa756f644` を生成し、`git status --porcelain` 空・`git ls-files -u` 0 件。dev 側差分は `docs/30-workflows/completed-tasks/members-list-ux-clarity/**` への **新規ファイル追加のみ**（既存ファイルへの edit ゼロ）。
+- Why: 取込対象 commit が「完了済 workflow を `completed-tasks/` 配下へ追加するだけ」の add-only diff で、feature branch 側の接触面（`(public)/{privacy,terms}` page + `(public)/layout.tsx` + skill 索引）と path が完全 orthogonal。add-add すら発生せず（同一 path への両側 add がない）、`.gitattributes merge=union` / `pnpm sync:resolve` の出番が無い最クリーン shape。L-DEVSYNC-059/060 の "skill-only conflict → resolver 単発" よりさらに 1 段クリーン（**conflict marker そのものが 0**）。
+- How to apply:
+  1. `git merge dev --no-edit` 直後に `git ls-files -u | wc -l` を確認。**0 なら resolver も手動 hybridize も一切不要** — そのまま merge commit が出来ているので追加操作なし。
+  2. `pnpm sync:resolve` を反射的に叩かない（merge 中でないと no-op だが、conflict 0 の場合は起動自体が不要な認知ノイズ）。conflict の有無を `git ls-files -u` で先に判定してから resolver 起動を決める。
+  3. 検証は `pnpm typecheck`（6 packages Done）+ `pnpm lint`（exit 0）のみで十分。add-only 取込は既存コードの semantics を変えないため runtime regression リスクは低い。
+- 留意:
+  - `pnpm lint` の `stablekey-literal-lint` warning（例: `PublicConsentCallout.tsx` の `"publicConsent"` literal 2 件）は **mode=warning で block 対象外**。sync-merge で持ち込んだものではなく既存 warning なので、conflict 解消の成否判定に含めない（exit code 0 を正とする）。
+  - sync-merge では CLAUDE.md ポリシーにより `pre-commit/staged-task-dir-guard` / `pre-push/coverage-guard` が `MERGE_HEAD` 検出で自動スキップされる。conflict 0 でも merge commit は `git merge` が自動生成するので `--no-verify` は不要。
+- 判定フロー確定: sync-merge の標準分岐は **(1) `git ls-files -u` 0 → 何もせず検証へ（本 lesson）/ (2) unresolved 全件 skill resolver 対象 → `pnpm sync:resolve` 単発（L-DEVSYNC-059/060）/ (3) source `.ts/.tsx` の意味的 conflict 残 → 手動 hybridize（L-DEVSYNC-056/058）or 独立 interface 両保持（L-DEVSYNC env.ts 系）** の 3 段。最初に (1) を必ず判定し、不要な resolver 起動を避ける。
+- 事例: 2026-05-29 commit `fa756f644` (merge: sync feat/task-c-privacy-terms-public-shell-spec with dev)。conflict 0 件、typecheck 6 packages Done、lint exit 0（stablekey warning 2 件は block 外）、push 前検証 green。
 - 再現事例 2026-05-29 (feat/public-header-logged-login-redirect-when-authenticated ← origin/dev, HEAD 9 ahead / branch 2 ahead): conflict 7 件 = aiworkflow `SKILL.md` + `indexes/{keywords.json,quick-reference.md,resource-map.md,topic-map.md}` + `references/task-workflow-active.md` + task-spec `SKILL.md`。`apps/web/app/login/page.tsx`（本 branch の login-redirect 実装ファイル）も `Auto-merging` で textual conflict なし。`pnpm sync:resolve` で `union-resolved 6 files` + `ours: keywords.json` + `indexes:rebuild`（5199 keywords）完走 → `git ls-files -u` 0 → `git diff --check` clean → merge commit `0ad9e3555` 成立（`MERGE_HEAD` 検出で pre-commit hook 4 件自動 skip、`--no-verify` 不付与）。`pnpm typecheck` 6 packages Done / `pnpm lint` 全 packages Done / `pnpm indexes:rebuild` 再実行 no drift。**index 派生ファイル 4 件が一度に conflict した shape でも resolver 単発で完結**することを確認（L-DEVSYNC-002 の `--ours + rebuild` が 4 index 同時衝突でも決定的に収束）。
 
 
@@ -1301,6 +1330,27 @@
 - 参照: [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-059 (skill-only resolver-only path・本件はそれを超える source 混在 shape), L-DEVSYNC-056/057/058 (別機能 add/add の hybridize 分岐先), task-specification-creator [[patterns-lessons-and-pitfalls]] L-DEVSYNC-064 汎化節。
 
 
+## L-DEVSYNC-063: add/add の `auth-view` index.ts は「dev=inline 全部入り vs branch=モジュラー分割」— inline 採用は分割ファイル群と二重 export 衝突するので branch(ours) 一択（2026-05-30 feat/task-c-privacy-terms-public-shell-spec ← origin/dev HEAD 7b2bf0537）
+
+- 事象: `feat/task-c-privacy-terms-public-shell-spec` ← `dev` (取込後 HEAD `7b2bf0537`) の 2 回目 sync-merge で conflict 8 件。内訳 = skill index 2 件 (`aiworkflow-requirements/indexes/{keywords.json,topic-map.md}`) + source `.ts/.tsx` 6 件 (`apps/web/src/lib/auth-view/{index.ts,__tests__/resolveAuthView.spec.ts}` の **add/add** + `apps/web/src/components/public/PublicHeader.tsx` + `.../__tests__/PublicHeader.spec.tsx` + `apps/web/app/(public)/{layout.tsx,layout.spec.tsx}`)。L-DEVSYNC-061 が記録した同 branch の「conflict 0 add-only」shape とは別物 — dev 側に **競合する auth-view 実装が後から入った**ため意味的 conflict に発展。
+- Why: `apps/web/src/lib/auth-view/` を巡って dev と branch が **並行に別設計の実装を add** した。
+  - branch(ours): `types.ts` / `resolveAuthView.ts` / `getAuthView.ts` に分割し `index.ts` は re-export のみ。`resolveAuthView` の入力は Auth.js 生 session 形 `{ user: { memberId, isAdmin } }`、`getAuthView` は `getAuth().auth()` 経由。
+  - dev(theirs): `index.ts` 1 枚に `AuthView` 型 + `resolveAuthView` + `getAuthView` を inline。入力は flat な `SessionUser` (`{ memberId, isAdmin }`)、`getAuthView` は既存 `getSession()` helper を再利用。
+  - **決定打**: branch 側の分割ファイル (`types.ts`/`resolveAuthView.ts`/`getAuthView.ts`) は add-only で dev のマージでは削除されない。ここで dev の inline `index.ts` を採ると、同じ `resolveAuthView`/`AuthView`/`getAuthView` を **index.ts(inline) と分割ファイルの両方が export** して二重定義コンパイルエラーになる。よって add/add の `index.ts` と `resolveAuthView.spec.ts` は **ours(モジュラー re-export) 一択**で、theirs を選ぶ余地が構造的にない。両 `resolveAuthView` は入力形が違っても **出力 `AuthView` は同一**なので、consumer (PublicHeader/layout) は `AuthView` のみ消費し挙動差は出ない。
+- How to apply:
+  1. add/add (`CONFLICT (add/add)`) を見たら、まず **「片側が分割ファイル構成・もう片側が単一ファイル inline か」** を `ls <dir>` で確認。分割ファイル群が conflict 一覧に **載っていない**（= 片側 add-only で生き残る）なら、その分割側を採らないと二重 export 衝突する。`git checkout --ours <index.ts> <spec>` → `git add`。
+  2. **import 経路の統一**: 解消後の `index.ts` が barrel re-export なら、consumer / spec の mock も barrel (`../../src/lib/auth-view`) に揃える。今回 `layout.tsx` は `getAuthView` を barrel import に統一し、`layout.spec.tsx` の `vi.mock` も barrel を mock（submodule `../auth-view/getAuthView` の mock は削除）。**import 元と mock 対象がズレると test が実体を呼んで落ちる**。
+  3. **interleave された重複 import / 重複関数定義の手当て**: source の 3-way conflict は merge が `AuthSlot` 等を上下 2 箇所に分裂させがち。マーカー外に既に ours の詳細版 (`AuthSlot` member/admin/guest 分岐 + aria-label + `SignOutButton redirectTo/label`) が残っているなら、conflict 内の theirs 簡易版は捨て、import も 1 セットに dedupe して全文を書き直す方が安全（部分 hunk 解消より誤り少ない）。`data-testid="public-header"` など theirs 由来の**加算的属性は取り込む**（test 互換のため）。
+  4. 検証は focused vitest 必須: `pnpm exec vitest run apps/web/src/lib/auth-view/__tests__/resolveAuthView.spec.ts apps/web/src/components/public/__tests__/PublicHeader.spec.tsx "apps/web/app/(public)/layout.spec.tsx"`（root から full path、`(public)` の括弧はクォート）。今回 12 passed。typecheck で二重 export を確実に検出（6 packages Done なら衝突なし）。
+- 留意:
+  - vitest を **apps/web cwd から相対 path で叩くと `No test files found`**（root vitest config の include が `apps/**/...` で cwd 基準だと不一致）。必ず **repo root から `apps/web/...` の full path** で実行する。
+  - `SignOutButton` は `redirectTo` / `label` prop と `data-testid="sign-out-button"` を持つ既存実装。ours の AuthSlot がこれらを使うので prop 互換を `grep` で先に確認してから採用（今回確認済み）。
+  - skill index 2 件は従来どおり `pnpm sync:resolve`（union + keywords `--ours + rebuild`）で機械解消。source 6 件のみ手動。**source conflict が混在する merge では resolver は skill 分だけ解消し source は WARN で残す**ので、resolver stdout の `remaining unresolved files` を source 手動対象リストとして使う。
+- 事例: 2026-05-30 sync-merge。conflict 8 件 = skill 2 (resolver) + source 6 (手動)。`git ls-files -u` 0 後 typecheck 6 Done / lint exit 0 / focused vitest 12 passed / indexes:rebuild no drift。
+- 判定フロー追補 (L-DEVSYNC-061 の 3 段への第 4 分岐): **(4) add/add で片側が分割・片側が inline の同一 API → 生き残る分割ファイルと二重 export しない側 (= 分割側 ours) を機械的に選ぶ。theirs(inline) は構造的に採れない**。L-DEVSYNC-056/058 の「source 意味的 conflict 手動 hybridize」の特殊形で、選択の自由度が無い点が特徴。
+- 参照: L-DEVSYNC-061 (同 branch の conflict-0 先行同期), L-DEVSYNC-056/058 (source 手動 hybridize), task-specification-creator [[patterns-lessons-and-pitfalls#dev-sync-merge-conflict-resolution]]。
+
+
 ## L-DEVSYNC-063: 同一 feature の **競合実装**（HEAD=module 分割 vs dev=inline 単一ファイル）+ 相違 DOM 契約は canonical branch の coherent unit を wholesale `--ours`、ただし unit 外 consumer の対向契約依存を grep verify してから（2026-05-30 feat/public-header-session-aware-auth-view-base）
 
 - 事象: `feat/public-header-session-aware-auth-view-base` ← `origin/dev` (HEAD `7b2bf0537`) sync-merge で conflict 10 件。内訳: skill-only 4 件（aiworkflow `indexes/{keywords.json,resource-map.md,topic-map.md}` + `references/task-workflow-active.md`）は `pnpm sync:resolve` 単発で union/`--ours+rebuild` 完結。**残り 6 件は同一 feature（auth-view + PublicHeader）の競合実装による page-level conflict**: `apps/web/src/lib/auth-view/index.ts`（add/add）, `auth-view/__tests__/resolveAuthView.spec.ts`（add/add）, `components/public/PublicHeader.tsx`, `components/public/__tests__/PublicHeader.spec.tsx`, `app/(public)/layout.tsx`, `app/(public)/layout.spec.tsx`。
@@ -1329,3 +1379,21 @@
 - 検証: `git grep -l '^<<<<<<< '` 空 → `pnpm typecheck` 6 packages Done → `pnpm lint` Done → focused vitest 150 passed/1 skipped → `pnpm indexes:rebuild` drift 0。
 - 事例: 2026-05-30 merge commit `9408ee818`。conflict 9 件（skill 4 resolver + auth-view source 5 `--theirs`）、CI green。前回 `2a9e5611c`(`--ours`) と**逆の結論**だが、dev の進化（`060bab6bf` 経由）により前提が変わったことが根拠。
 - 参照: L-DEVSYNC-063 (canonical branch coherent unit wholesale・dev=inline 時), L-DEVSYNC-064 (進化段階差で HEAD 分割版を `--ours`・dev=inline 時), L-DEVSYNC-024 (import block 両側採用), task-specification-creator [[patterns-lessons-and-pitfalls#dev-sync-merge-conflict-resolution]] SP-DEVSYNC-045。
+
+
+## L-DEVSYNC-064: 競合 feature の **canonical 側が ours→theirs に逆転**する — 同 branch を再 sync して dev に canonical 実装がマージ済みなら、前回 `--ours` だった unit は今度 `--theirs` 一択（2026-05-30 feat/task-c-privacy-terms-public-shell-spec ← dev HEAD `e7196ab6f` #1013）
+
+- 事象: `feat/task-c-privacy-terms-public-shell-spec` を**3 回目**に sync-merge。取り込んだ dev HEAD は `e7196ab6f`（PR #1013「認証状態別ヘッダー表示基盤を追加」= sibling branch `public-header-session-aware-auth-view-base` の auth-view base 実装が dev へ昇格済み）。conflict 9 件: skill index 系（resolver 対象）+ source `.ts/.tsx` 5〜6 件（`apps/web/src/lib/auth-view/{types,resolveAuthView,getAuthView,index}.ts` の add/add + `__tests__/resolveAuthView.spec.ts` + `components/public/PublicHeader.tsx` + `.../__tests__/PublicHeader.spec.tsx` + `app/(public)/{layout.tsx,layout.spec.tsx}`）。**同 unit を L-DEVSYNC-063（task-c 版）では `--ours` で解消したのに、今回は全件 `--theirs`（dev 側）で解消した** — 判断が逆転した。
+- Why: L-DEVSYNC-063（task-c 版）の時点では canonical auth-view 実装が **どの統合 branch にも未マージ**で、branch(ours) 側の module 分割版だけが coherent unit だった（→ ours 一択）。その後 sibling branch `public-header-session-aware-auth-view-base` の auth-view base が L-DEVSYNC-063（public-header 版, merge `060bab6bf`）経由で **dev に昇格**（PR #1013）。よって今 task-c を再 sync すると、**canonical = module 分割版が今度は dev(theirs) 側に存在**し、task-c(ours) 側に残る古い別バリアント（`profileHref` を literal `"/profile"` 型に絞った版、`SessionLike` を `resolveAuthView.ts` にローカル定義した版）は**陳腐化した重複**になる。ours を採ると dev の canonical を巻き戻すので、**theirs 一択に反転**する。
+  - 具体差分: dev(theirs) = `types.ts` に `SessionLike` 集約 + `profileHref: string`（汎用）、`resolveAuthView` は `memberId?.trim()` guard。ours = `profileHref: "/profile"` literal + `SessionLike` を `resolveAuthView.ts` に置く旧版。出力 `AuthView` の kind は同一なので consumer(privacy/terms page)は壊れない。
+- How to apply:
+  1. **「同じ unit を前回 sync で `--ours` した」記憶がある add/add conflict を再び見たら、まず canonical がその後 dev に昇格していないか `git log --oneline -5 dev -- <unit dir>` で確認**する。dev 側に canonical commit（PR 番号付き feat）があれば、前回の ours/theirs 判断は**無効化**されている。canonical が居る側（今回は theirs=dev）を wholesale 採用する。
+  2. 解消は `git checkout --theirs apps/web/src/lib/auth-view/{types,resolveAuthView,getAuthView,index}.ts <spec> apps/web/src/components/public/PublicHeader.tsx <spec> "apps/web/app/(public)/layout.tsx" <spec>` → `git add`。unit を**部分採用しない**（component だけ theirs / module だけ ours のような混ぜ方は import 経路と DOM 契約が割れて typecheck/test が落ちる）。
+  3. **consumer 互換の確認**: task-c 固有の `apps/web/app/privacy/page.tsx` / `app/terms/page.tsx` は conflict せず ours 保持。これらが `<PublicHeader authView={authView} />` + `getAuthView()` を呼ぶので、theirs 採用後の `getAuthView`/`AuthView` 型と整合するか **typecheck で必ず検証**（async server component を JSX で mount する形が dev API で通るか含め）。今回 6 packages Done で整合確認。
+  4. `layout.tsx`(theirs) は `const publicHeader = await PublicHeader({ authView })` で **async component を変数経由 mount**。ours 側は `publicHeader` 変数定義が無いまま `{publicHeader}` を参照しており**単独ではコンパイル不能** → この一点だけでも theirs が構造的に正しいと判定できる（「片側が参照のみで定義欠落」は theirs 確定の決め手）。
+- 留意:
+  - 同 branch の sync 履歴で **ours/theirs 判断は固定ではない**。canonical 実装の所在（どの統合 branch にマージ済みか）が動くたびに反転しうる。L-DEVSYNC-063 を「task-c は常に ours」と誤読しない — lesson の有効期間は「canonical が未昇格の間」だけ。
+  - `pnpm lint` の `stablekey-literal-lint` warning（`PublicConsentCallout.tsx` の `"publicConsent"` literal 2 件）は mode=warning で block 外・既存由来。sync-merge 成否判定に含めない（exit 0 が正）。
+- 判定フロー追補（L-DEVSYNC-061 の 3 段 + L-DEVSYNC-063 の第 4 分岐への第 5 分岐）: **(5) 過去に `--ours` した同一 unit の add/add 再発時は、canonical の dev 昇格を `git log dev -- <dir>` で再確認し、昇格済みなら `--theirs` へ反転**。canonical の所在で wholesale 採用側を決める原則（L-DEVSYNC-063 public-header 版）の時間発展ケース。
+- 事例: 2026-05-30 merge commit `7ba7e4002`。conflict 9 件（skill resolver + source theirs 全採用）、typecheck 6 packages Done / lint exit 0、privacy/terms page は ours 保持で dev auth-view API と整合。
+- 参照: L-DEVSYNC-063 task-c 版（前回 ours 一択）, L-DEVSYNC-063 public-header 版（canonical wholesale --ours の原型・今回はその theirs 鏡像）, task-specification-creator [[patterns-lessons-and-pitfalls#dev-sync-merge-conflict-resolution]] SP-DEVSYNC-063。
