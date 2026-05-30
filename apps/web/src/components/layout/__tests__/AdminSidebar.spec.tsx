@@ -37,6 +37,14 @@ describe("AdminSidebar", () => {
     expect(items.length).toBe(13);
   });
 
+  it("exposes one public-return link to public top", () => {
+    render(<AdminSidebar {...baseProps} />);
+    const publicReturn = document.querySelector('[data-role="public-return"]') as HTMLAnchorElement | null;
+    expect(publicReturn).not.toBeNull();
+    expect(publicReturn?.getAttribute("href")).toBe("/");
+    expect(publicReturn?.getAttribute("aria-label")).toBe("公開サイトに戻る");
+  });
+
   it("schemaDiffCount=0 hides badge; >0 shows it (AC-4)", () => {
     const { unmount } = render(<AdminSidebar {...baseProps} schemaDiffCount={0} />);
     const schemaLinkZero = document.querySelector('a[href="/admin/schema"]');
