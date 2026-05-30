@@ -214,6 +214,143 @@
     height: 24px;
   }
 
+  /* === unified sidebar shell: user menu === */
+  .ui-sidebar-user-menu {
+    position: relative;
+    width: 100%;
+  }
+
+  .ui-sidebar-user-menu-summary {
+    display: flex;
+    width: 100%;
+    min-height: 48px;
+    align-items: center;
+    gap: var(--ubm-space-3);
+    border-radius: var(--ubm-radius-sm);
+    color: var(--ubm-color-text-primary);
+    cursor: pointer;
+    list-style: none;
+    padding: var(--ubm-space-2);
+  }
+
+  .ui-sidebar-user-menu-summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .ui-sidebar-user-menu-summary:hover {
+    background: var(--ubm-color-surface-bg-2);
+  }
+
+  .ui-sidebar-user-avatar {
+    position: relative;
+    display: inline-flex;
+    flex: 0 0 auto;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    border: 1px solid var(--ubm-color-border-default);
+    border-radius: 999px;
+    background: var(--ubm-color-accent-soft);
+    color: var(--ubm-color-accent-ink);
+    font-weight: 700;
+    line-height: 1;
+  }
+
+  .ui-sidebar-user-avatar[data-size="sm"] {
+    width: 32px;
+    height: 32px;
+    font-size: var(--ubm-text-xs);
+  }
+
+  .ui-sidebar-user-avatar[data-size="md"] {
+    width: 40px;
+    height: 40px;
+    font-size: var(--ubm-text-sm);
+  }
+
+  .ui-sidebar-user-avatar[data-role="admin"] {
+    border-color: var(--ubm-color-accent);
+  }
+
+  .ui-sidebar-user-avatar-badge {
+    position: absolute;
+    right: 1px;
+    bottom: 1px;
+    width: 10px;
+    height: 10px;
+    border: 2px solid var(--ubm-color-surface-panel);
+    border-radius: 999px;
+    background: var(--ubm-color-ok);
+  }
+
+  .ui-sidebar-user-menu-name {
+    display: grid;
+    min-width: 0;
+    color: var(--ubm-color-text-primary);
+    font-size: var(--ubm-text-sm);
+    font-weight: 650;
+    line-height: 1.3;
+  }
+
+  .ui-sidebar-user-menu-name small {
+    color: var(--ubm-color-text-muted);
+    font-size: var(--ubm-text-xs);
+    font-weight: 500;
+  }
+
+  .ui-sidebar-user-menu-popover {
+    position: absolute;
+    right: 0;
+    bottom: calc(100% + var(--ubm-space-2));
+    z-index: 20;
+    display: grid;
+    min-width: 208px;
+    gap: 2px;
+    border: 1px solid var(--ubm-color-border-default);
+    border-radius: var(--ubm-radius-sm);
+    background: var(--ubm-color-surface-panel);
+    box-shadow: var(--ubm-shadow-md);
+    padding: var(--ubm-space-2);
+  }
+
+  .ui-sidebar-user-menu:not([open]) .ui-sidebar-user-menu-popover {
+    display: none;
+  }
+
+  .ui-sidebar-user-menu-item {
+    display: flex;
+    width: 100%;
+    min-height: 36px;
+    align-items: center;
+    justify-content: flex-start;
+    border: 0;
+    border-radius: var(--ubm-radius-sm);
+    background: transparent;
+    color: var(--ubm-color-text-primary);
+    font-size: var(--ubm-text-sm);
+    font-weight: 600;
+    line-height: 1.2;
+    padding: 0 var(--ubm-space-3);
+    text-align: left;
+    text-decoration: none;
+    white-space: nowrap;
+  }
+
+  .ui-sidebar-user-menu-item:hover,
+  .ui-sidebar-user-menu-item:focus-visible {
+    background: var(--ubm-color-accent-soft);
+    color: var(--ubm-color-accent-ink);
+    text-decoration: none;
+  }
+
+  @media (min-width: 768px) {
+    .ui-sidebar-user-menu-popover {
+      bottom: 0;
+      left: calc(100% + var(--ubm-space-2));
+      right: auto;
+    }
+  }
+
   /* === shared UI primitives === */
   .ui-button {
     display: inline-flex;
@@ -283,6 +420,43 @@
   .ui-button-danger {
     background: var(--ubm-color-danger);
     color: var(--ubm-color-surface-panel);
+  }
+
+  .ui-button.ui-sidebar-user-menu-item {
+    width: 100%;
+    min-height: 36px;
+    justify-content: flex-start;
+    border: 0;
+    background: transparent;
+    color: var(--ubm-color-text-primary);
+    font-size: var(--ubm-text-sm);
+    padding: 0 var(--ubm-space-3);
+    text-align: left;
+  }
+
+  .ui-button.ui-sidebar-user-menu-item:hover,
+  .ui-button.ui-sidebar-user-menu-item:focus-visible {
+    background: var(--ubm-color-accent-soft);
+    color: var(--ubm-color-accent-ink);
+  }
+
+  .visual-sidebar-user-menu-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(180px, 1fr));
+    gap: var(--ubm-space-8);
+    align-items: end;
+    width: min(960px, 100%);
+    padding: var(--ubm-space-10);
+  }
+
+  .visual-sidebar-user-menu-grid > section {
+    min-height: 184px;
+    display: flex;
+    align-items: end;
+    padding: var(--ubm-space-4);
+    border: 1px solid var(--ubm-color-border-default);
+    border-radius: var(--ubm-radius-sm);
+    background: var(--ubm-color-surface-panel);
   }
 
   .ui-card,

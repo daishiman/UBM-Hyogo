@@ -62,10 +62,11 @@ describe("middleware", () => {
     expect(loc).toMatch(/redirect=%2Fprofile%2Fedit%3Ftab%3Dtags/);
   });
 
-  it("認証済 non-admin で /admin にアクセスすると 403 Forbidden を返す", async () => {
+  it("認証済 non-admin で /admin にアクセスすると /login?gate=forbidden へ redirect する", async () => {
     const res = await middleware(makeRequest("/admin", { cookie: await makeCookie(false) }));
-    expect(res.status).toBe(403);
-    await expect(res.text()).resolves.toBe("Forbidden");
+    expect(res.status).toBe(307);
+    expect(res.headers.get("location")).toContain("/login");
+    expect(res.headers.get("location")).toContain("gate=forbidden");
   });
 
   it("認証済 admin で /admin にアクセスすると NextResponse.next() 相当を返す", async () => {

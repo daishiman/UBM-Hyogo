@@ -16,6 +16,7 @@ interface NavItemDef {
   readonly href: string;
   readonly label: string;
   readonly icon: ReactNode;
+  readonly dataRole?: string;
   readonly badgeKey?: "schemaDiff";
 }
 
@@ -109,6 +110,7 @@ export function AdminSidebar({ schemaDiffCount, userDisplayName, userEmail }: Ad
                   label={item.label}
                   icon={item.icon}
                   badge={resolveBadge(item, schemaDiffCount)}
+                  {...(item.dataRole ? { dataRole: item.dataRole } : {})}
                 />
               ))}
             </ul>
