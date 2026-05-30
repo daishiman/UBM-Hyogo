@@ -52,12 +52,8 @@ test.describe("public pages OGP / sitemap / robots", () => {
     const twitterContent = await twitter.getAttribute("content");
     expect(content).toBeTruthy();
     expect(twitterContent).toBeTruthy();
-    expect(content!).toContain(
-      "/members/playwright-public-member/opengraph-image",
-    );
-    expect(twitterContent!).toContain(
-      "/members/playwright-public-member/opengraph-image",
-    );
+    expect(content!).toContain("/og-default.png");
+    expect(twitterContent!).toContain("/og-default.png");
     await writePhase11Evidence(
       "og-image-meta-grep.txt",
       [
@@ -66,26 +62,6 @@ test.describe("public pages OGP / sitemap / robots", () => {
         "",
       ].join("\n"),
     );
-  });
-
-  test("/members/[id]/opengraph-image returns PNG", async ({ request }) => {
-    const res = await request.get(
-      `${SEEDED_MEMBER_DETAIL_PATH}/opengraph-image`,
-    );
-    expect(res.status()).toBe(200);
-    expect(res.headers()["content-type"]).toContain("image/png");
-    const body = Buffer.from(await res.body());
-    expect(body.subarray(0, 8).toString("hex")).toBe("89504e470d0a1a0a");
-    await writePhase11Evidence("og-image-seeded.png", body);
-  });
-
-  test("/members/<nonexistent>/opengraph-image returns 404", async ({
-    request,
-  }) => {
-    const res = await request.get(
-      "/members/__nonexistent_member_for_og__/opengraph-image",
-    );
-    expect(res.status()).toBe(404);
   });
 
   test("/sitemap.xml returns XML with static routes", async ({ request }) => {
@@ -106,8 +82,8 @@ test.describe("public pages OGP / sitemap / robots", () => {
     expect(body).toContain("Sitemap:");
   });
 
-  test("/opengraph-image returns PNG", async ({ request }) => {
-    const res = await request.get("/opengraph-image");
+  test("/og-default.png returns PNG", async ({ request }) => {
+    const res = await request.get("/og-default.png");
     expect(res.status()).toBe(200);
     expect(res.headers()["content-type"]).toContain("image/png");
   });

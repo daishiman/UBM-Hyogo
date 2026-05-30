@@ -1,0 +1,29 @@
+{
+  "taskId": "TASK-PUBHDR-SESSION-AWARE-AUTHVIEW-BASE-001",
+  "mode": "VISUAL",
+  "capture": "component-level Playwright screenshot with explicit AuthView fixtures",
+  "capturedAt": "2026-05-28T00:00:00+09:00",
+  "screenshots": [
+    {
+      "name": "public-header-guest.png",
+      "state": "guest",
+      "authState": "guest",
+      "text": "UBM 兵庫支部会 ホーム メンバー 登録 ログイン",
+      "html": "public-header-guest.html"
+    },
+    {
+      "name": "public-header-member.png",
+      "state": "member",
+      "authState": "member",
+      "text": "UBM 兵庫支部会 ホーム メンバー 登録 マイページ ログアウト",
+      "html": "public-header-member.html"
+    },
+    {
+      "name": "public-header-admin.png",
+      "state": "admin",
+      "authState": "admin",
+      "text": "UBM 兵庫支部会 ホーム メンバー 登録 マイページ 管理画面 ログアウト",
+      "html": "public-header-admin.html"
+    }
+  ]
+}
