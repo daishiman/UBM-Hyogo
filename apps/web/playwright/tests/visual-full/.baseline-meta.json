@@ -1,10 +1,9 @@
 {
   "$schema": "../../../../docs/30-workflows/task-709-visual-baseline-runtime-capture/schemas/baseline-meta.schema.json",
-  "captured_at_commit_sha": "fb38ce5017b3d7d1614eb5c52a811ea6e5e843af",
-  "captured_at": "2026-05-30T07:31:29Z",
+  "captured_at_commit_sha": "712eb23b097e1d49c7375d581718da808eb34ee8",
+  "captured_at": "2026-05-30T21:40:53Z",
   "captured_via": "playwright-visual-baseline-update.yml#workflow_dispatch",
   "captured_run_ids": [
-    "26503855446",
     "26506821722",
     "26540715735",
     "26549206362",
@@ -13,7 +12,8 @@
     "26581231613",
     "26616303516",
     "26628923374",
-    "26677930770"
+    "26677930770",
+    "26695366830"
   ],
   "viewport_dimensions": {
     "desktop": {
@@ -41,5 +41,5 @@
   "refresh_workflow": ".github/workflows/playwright-visual-baseline-update.yml",
   "refresh_command_hint": "gh workflow run playwright-visual-baseline-update.yml -f reason=\"<why>\" -r <feature-branch>",
   "notes": "captured_at_commit_sha からの rendering_relevant_paths diff が空でない場合、baseline は stale。scripts/visual-baseline-status.sh で診断可能。",
-  "last_refresh_reason": "task-c 公開/会員 layout を SidebarShell へ統合（旧 topbar/PublicHeader/MemberHeader 撤去）したことで /, /members, /profile, /login 等の visual baseline が意図的にdrift。playwright-visual-full / visual の baseline を新 sidebar UI へ更新する。"
+  "last_refresh_reason": "dev #1028 で SidebarShell が 3層統一版へ昇格→admin shell を dev版へ adopt + public-return 再ポート。admin系 visual-full baseline を再生成(3回目 sync 反映)。"
 }
