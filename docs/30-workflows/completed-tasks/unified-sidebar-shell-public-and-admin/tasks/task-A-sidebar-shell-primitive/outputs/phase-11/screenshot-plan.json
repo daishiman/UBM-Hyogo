@@ -1,0 +1,9 @@
+{
+  "mode": "VISUAL",
+  "task_id": "unified-sidebar-shell-public-and-admin--task-A-sidebar-shell-primitive",
+  "screenshots": [
+    { "name": "sidebar-shell-expanded-viewer", "status": "pending" },
+    { "name": "sidebar-shell-collapsed-viewer", "status": "pending" },
+    { "name": "sidebar-shell-expanded-admin", "status": "pending" }
+  ]
+}
