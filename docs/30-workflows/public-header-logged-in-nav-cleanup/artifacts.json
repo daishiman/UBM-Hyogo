@@ -26,7 +26,7 @@
       "apps/web/app/privacy/page.tsx",
       "apps/web/app/terms/page.tsx",
       "apps/web/app/login/page.tsx",
-      "apps/web/src/lib/url/safeNext.ts",
+      "apps/web/src/lib/url/safe-next.ts",
       "apps/web/src/components/layout/MemberHeader.tsx",
       "apps/web/app/(member)/layout.tsx",
       "apps/web/src/components/layout/AdminSidebar.tsx",
@@ -39,7 +39,7 @@
       "apps/web/app/__tests__/page.spec.tsx",
       "apps/web/app/privacy/__tests__/page.spec.tsx",
       "apps/web/app/terms/__tests__/page.spec.tsx",
-      "apps/web/src/lib/url/__tests__/safeNext.spec.ts",
+      "apps/web/src/lib/url/__tests__/safe-next.spec.ts",
       "apps/web/app/login/__tests__/page.spec.tsx",
       "apps/web/src/components/layout/__tests__/MemberHeader.spec.tsx",
       "apps/web/src/components/layout/__tests__/AdminSidebar.spec.tsx",
@@ -49,7 +49,7 @@
     "verify_commands": [
       "mise exec -- pnpm typecheck",
       "mise exec -- pnpm lint",
-      "mise exec -- pnpm --filter @ubm-hyogo/web exec vitest run src/lib/auth-view/__tests__/resolveAuthView.spec.ts src/components/public/__tests__/PublicHeader.spec.tsx app/__tests__/page.spec.tsx app/privacy/__tests__/page.spec.tsx app/terms/__tests__/page.spec.tsx src/lib/url/__tests__/safeNext.spec.ts app/login/__tests__/page.spec.tsx src/components/layout/__tests__/MemberHeader.spec.tsx src/components/layout/__tests__/AdminSidebar.spec.tsx src/components/layout/__tests__/AdminSidebar.component.spec.tsx",
+      "mise exec -- pnpm exec vitest run apps/web/src/lib/auth-view/__tests__/resolveAuthView.spec.ts apps/web/src/components/public/__tests__/PublicHeader.spec.tsx apps/web/app/__tests__/page.spec.tsx apps/web/app/privacy/__tests__/page.spec.tsx apps/web/app/terms/__tests__/page.spec.tsx apps/web/src/lib/url/__tests__/safe-next.spec.ts apps/web/app/login/__tests__/page.spec.tsx apps/web/src/components/layout/__tests__/MemberHeader.spec.tsx apps/web/src/components/layout/__tests__/AdminSidebar.spec.tsx apps/web/src/components/layout/__tests__/AdminSidebar.component.spec.tsx",
       "mise exec -- pnpm --filter @ubm-hyogo/web exec playwright test --project=auth-slot-coverage"
     ],
     "phase12_strict_outputs": [

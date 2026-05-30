@@ -87,6 +87,26 @@ https://www.googleapis.com/auth/drive.readonly
 
 登録・未同意・削除済みを別画面へ飛ばさず、ログイン導線の中で吸収する。
 
+## PublicHeader auth-view contract（2026-05-28）
+
+公開ヘッダは session 本文や PII を DOM に出さず、`AuthView` view model だけで auth CTA を出し分ける。
+
+```ts
+type AuthView =
+  | { kind: "guest" }
+  | { kind: "member"; profileHref: "/profile" }
+  | { kind: "admin"; profileHref: "/profile"; adminHref: "/admin" };
+```
+
+実装正本:
+
+- `apps/web/src/lib/auth-view/resolveAuthView.ts`: pure function。`memberId` 欠落・空文字は `guest`。
+- `apps/web/src/lib/auth-view/getAuthView.ts`: `getAuth().auth()` を呼び、例外時は `guest` に fail-closed。
+- `apps/web/src/components/public/PublicHeader.tsx`: `data-auth-state="guest|member|admin"` のみを出力。
+- `apps/web/app/(public)/layout.tsx`: server boundary で `authView` を解決して `PublicHeader` へ注入。
+
+`apps/web` 公開層では、この contract に伴う新 API endpoint / D1 schema / Google Form schema 変更は発生しない。
+
 ### Magic Link web proxy env contract（2026-05-26）
 
 `apps/web/app/api/auth/magic-link/route.ts`、`verify/route.ts`、`gate-state/route.ts`、`/api/admin/*`、`/api/me/*`、`verifyMagicLink()`、`fetchAuthed()` は `INTERNAL_API_BASE_URL` を `apps/web/src/lib/env.ts` の accessor（`getAuthEnv()` / 必要時 `getPublicFetchEnv()`）経由で解決する。production code の `process.env.INTERNAL_API_BASE_URL` 直参照は禁止し、`scripts/verify-no-process-env-internal-api.sh` で回帰検出する。

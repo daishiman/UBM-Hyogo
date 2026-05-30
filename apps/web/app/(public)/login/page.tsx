@@ -3,7 +3,11 @@
 // 不変条件 #8: searchParams が gate state の正本。
 // 不変条件 #9: `/no-access` ルートを使わず /login が 6 状態を吸収する。
 
+import { redirect } from "next/navigation";
+
+import { getSession } from "../../../src/lib/session";
 import { parseLoginQuery } from "../../../src/lib/url/login-query";
+import { safeNext } from "../../../src/lib/url/safe-next";
 import { LoginCard } from "./_components/LoginCard";
 import { LoginPanel } from "./_components/LoginPanel.client";
 import { LoginShell } from "./_components/LoginShell";
@@ -30,6 +34,14 @@ const TITLES: Record<string, { title: string; subtitle?: string }> = {
 
 export default async function LoginPage({ searchParams }: LoginPageProps) {
   const raw = (await searchParams) ?? {};
+  // #1011: 認証済みユーザーは /login を踏ませず safe next（既定 /profile）へ送る。
+  const session = await getSession();
+  if (session) {
+    const nextRaw = raw["next"];
+    const next = safeNext(Array.isArray(nextRaw) ? nextRaw[0] : nextRaw);
+    redirect(next ?? "/profile");
+  }
+
   const q = parseLoginQuery(raw);
   const meta = TITLES[q.state] ?? TITLES.input!;
   const panelProps = {

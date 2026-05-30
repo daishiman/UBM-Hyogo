@@ -7,7 +7,7 @@ export const SITE = {
   shortName: "UBM Hyogo",
   description:
     "兵庫を拠点に活動する UBM 支部会のメンバーディレクトリと活動紹介",
-  ogImagePath: "/opengraph-image",
+  ogImagePath: "/og-default.png",
   locale: "ja_JP",
 } as const;
 
