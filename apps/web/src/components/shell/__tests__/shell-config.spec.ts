@@ -1,65 +1,60 @@
+// Task A — shell-config 純関数の spec。
 import { describe, it, expect } from "vitest";
-import {
-  buildNavForRole,
-  isNavItemActive,
-  type ShellNavGroup,
-} from "../shell-config";
 
-function flatItems(groups: ShellNavGroup[]) {
-  return groups.flatMap((g) => g.items);
-}
+import { buildNavForRole, isNavItemActive } from "../shell-config";
 
 describe("buildNavForRole", () => {
-  it("viewer は PUBLIC グループのみ（3 item）", () => {
+  it("viewer は public グループのみ（3 item）", () => {
     const groups = buildNavForRole("viewer");
     expect(groups.map((g) => g.id)).toEqual(["public"]);
-    expect(flatItems(groups)).toHaveLength(3);
+    expect(groups[0]!.items.map((i) => i.id)).toEqual(["home", "directory", "register"]);
   });
 
-  it("member は PUBLIC + MEMBERS（4 item）", () => {
+  it("member は public + members（profile を含む）", () => {
     const groups = buildNavForRole("member");
     expect(groups.map((g) => g.id)).toEqual(["public", "members"]);
-    expect(flatItems(groups)).toHaveLength(4);
+    const members = groups.find((g) => g.id === "members");
+    expect(members?.items.map((i) => i.id)).toEqual(["profile"]);
   });
 
-  it("admin は 3 グループ全部（13 item）", () => {
+  it("admin は public + members + admin の 3 グループ", () => {
     const groups = buildNavForRole("admin");
     expect(groups.map((g) => g.id)).toEqual(["public", "members", "admin"]);
-    expect(flatItems(groups)).toHaveLength(13);
+    const admin = groups.find((g) => g.id === "admin");
+    expect(admin?.items).toHaveLength(9);
   });
 
-  it("グループラベルは PUBLIC / MEMBERS / ADMIN（大文字）", () => {
-    const groups = buildNavForRole("admin");
-    expect(groups.map((g) => g.label)).toEqual(["PUBLIC", "MEMBERS", "ADMIN"]);
-  });
-
-  it("admin で schemaDiffCount>0 のとき schema item に warn badge が付く", () => {
+  it("admin の schema は schemaDiffCount>0 のとき warn badge を持つ", () => {
     const groups = buildNavForRole("admin", { schemaDiffCount: 3 });
-    const schema = flatItems(groups).find((i) => i.id === "schema");
+    const schema = groups
+      .find((g) => g.id === "admin")
+      ?.items.find((i) => i.id === "schema");
     expect(schema?.badge).toEqual({ tone: "warn", count: 3 });
   });
 
-  it("admin で schemaDiffCount=0 のとき badge は付かない", () => {
+  it("admin の schema は schemaDiffCount=0 のとき badge を持たない", () => {
     const groups = buildNavForRole("admin", { schemaDiffCount: 0 });
-    const schema = flatItems(groups).find((i) => i.id === "schema");
+    const schema = groups
+      .find((g) => g.id === "admin")
+      ?.items.find((i) => i.id === "schema");
     expect(schema?.badge).toBeUndefined();
   });
 });
 
 describe("isNavItemActive", () => {
-  it("'/' は完全一致のみ", () => {
+  it('"/" は完全一致のみ active', () => {
     expect(isNavItemActive("/", "/")).toBe(true);
     expect(isNavItemActive("/", "/members")).toBe(false);
   });
 
-  it("'/admin'（dashboard）は完全一致のみ（子 path で active にしない）", () => {
+  it('"/admin" は完全一致のみ active（配下では false）', () => {
     expect(isNavItemActive("/admin", "/admin")).toBe(true);
     expect(isNavItemActive("/admin", "/admin/members")).toBe(false);
   });
 
-  it("通常 item は前方一致（子 path も active）", () => {
-    expect(isNavItemActive("/admin/members", "/admin/members")).toBe(true);
-    expect(isNavItemActive("/admin/members", "/admin/members/123")).toBe(true);
-    expect(isNavItemActive("/members", "/register")).toBe(false);
+  it("通常 item は完全一致 or 前方一致で active", () => {
+    expect(isNavItemActive("/members", "/members")).toBe(true);
+    expect(isNavItemActive("/members", "/members/abc")).toBe(true);
+    expect(isNavItemActive("/members", "/membersx")).toBe(false);
   });
 });

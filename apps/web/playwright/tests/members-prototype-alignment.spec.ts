@@ -25,12 +25,11 @@ test.describe("members prototype alignment", () => {
     void mockApi;
     await page.setViewportSize({ width: 1280, height: 800 });
     await page.goto("/members", { waitUntil: "domcontentloaded" });
-    // unified-sidebar-shell 統合後: 公開層は共通 SidebarShell（viewer ロール）。ログインは左下 user-menu。
-    const shell = page.locator('[data-shell="app-shell"]');
-    await expect(shell).toBeVisible();
-    await expect(shell).toHaveAttribute("data-role", "viewer");
-    const sidebar = page.locator('[data-shell="sidebar"]').first();
-    await expect(sidebar.locator('[data-action-id="login"]')).toBeVisible();
+    // task-c: 旧 PublicHeader topbar は SidebarShell へ統合。viewer は sidebar の user-menu から /login へ到達。
+    const userMenu = page.locator('[data-shell="sidebar"] [data-shell-block="user-menu"]');
+    await expect(userMenu).toBeVisible();
+    await userMenu.locator("summary").click();
+    await expect(userMenu.locator('[data-action="login"]')).toBeVisible();
     await expect(page.getByRole("heading", { level: 1, name: "メンバー一覧" })).toBeVisible();
     await expect(page.getByRole("radiogroup", { name: "表示密度" })).toBeVisible();
     await expect(page.getByRole("search", { name: "メンバー絞り込み" })).toBeVisible();
@@ -78,10 +77,10 @@ test.describe("members prototype alignment", () => {
     });
 
     await page.goto("/members", { waitUntil: "domcontentloaded" });
-    const login = page
-      .locator('[data-shell="sidebar"]')
-      .first()
-      .locator('[data-action-id="login"]');
+    // task-c: login は sidebar user-menu popover 内。開いてから focus 可能。
+    const sidebarMenu = page.locator('[data-shell="sidebar"] [data-shell-block="user-menu"]');
+    await sidebarMenu.locator("summary").click();
+    const login = sidebarMenu.locator('[data-action="login"]');
     await login.focus();
     await expect(login).toBeFocused();
     await page.screenshot({

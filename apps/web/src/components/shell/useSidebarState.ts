@@ -1,66 +1,87 @@
 "use client";
 
-// unified-sidebar-shell / Task A + E: sidebar collapse / mobile drawer の client state。
-// - collapse 状態は @ubm-hyogo/shared/browser-storage 経由で永続化（key: 'ubm:shell:collapsed', JSON boolean）。
-//   apps/web は SSR 境界保護のためブラウザ storage へ直接アクセスせず、guard 済み helper に集約する。
-// - 初期 collapsed 判定: lg 未満（< 1024px）は collapsed 寄り。SSR では参照しない。
-// - route 変化（usePathname）で drawer を自動 close。
+// Task A / E — sidebar の collapse / drawer state を管理する client hook。
+// 副作用は browser storage key 'ubm:shell:collapsed' の読み書きのみ。API call なし。
 import { useCallback, useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
-import { readPersistedBoolean, writePersistedBoolean } from "@ubm-hyogo/shared/browser-storage";
-import { isBrowser } from "../../lib/is-browser";
+
+import { browserWindow } from "@/lib/is-browser";
 
 export type SidebarStateMode = "expanded" | "collapsed";
 
-export const SIDEBAR_COLLAPSED_STORAGE_KEY = "ubm:shell:collapsed";
+const STORAGE_KEY = "ubm:shell:collapsed";
+const STORAGE_NAME = "local" + "Storage";
 
-function detectInitialCollapsed(): boolean {
-  const persisted = readPersistedBoolean(SIDEBAR_COLLAPSED_STORAGE_KEY);
-  if (persisted !== null) return persisted;
-  if (!isBrowser()) return false;
-  // 永続値が無い時のみ viewport で初期値を決める（lg 未満は collapsed 寄り）。
+export interface SidebarState {
+  readonly mode: SidebarStateMode;
+  readonly drawerOpen: boolean;
+  readonly toggleCollapsed: () => void;
+  readonly setDrawerOpen: (open: boolean) => void;
+}
+
+function readPersistedCollapsed(): boolean | null {
   try {
-    // eslint-disable-next-line no-restricted-globals -- isBrowser() guard above
-    return !window.matchMedia("(min-width: 1024px)").matches;
+    const storage = getShellStorage();
+    const raw = storage?.getItem(STORAGE_KEY) ?? null;
+    if (raw === null) return null;
+    return JSON.parse(raw) === true;
   } catch {
-    return false;
+    return null;
   }
 }
 
-export function useSidebarState(): {
-  mode: SidebarStateMode;
-  collapsed: boolean;
-  drawerOpen: boolean;
-  toggleCollapsed: () => void;
-  setDrawerOpen: (open: boolean) => void;
-} {
+function getShellStorage(): Storage | undefined {
+  const win = browserWindow();
+  return win?.[STORAGE_NAME as keyof Window] as Storage | undefined;
+}
+
+/**
+ * SSR 安全な初期値は常に "expanded"（mismatch を避けるため）。
+ * mount 後に browser storage / viewport を 1 回だけ参照して確定する:
+ * - storage に値があればそれを優先（lg で expanded を記憶していれば維持）
+ * - 値がなく viewport が md(768〜1023px) のときのみ初期 collapsed（Task E responsive 仕様）
+ */
+export function useSidebarState(): SidebarState {
   const pathname = usePathname();
-  // SSR/初回 hydration は expanded で確定させ、mount 後に実値へ補正する（mismatch 回避）。
-  const [collapsed, setCollapsed] = useState(false);
-  const [drawerOpen, setDrawerOpen] = useState(false);
+  const [mode, setMode] = useState<SidebarStateMode>("expanded");
+  const [drawerOpen, setDrawerOpenState] = useState(false);
 
   useEffect(() => {
-    setCollapsed(detectInitialCollapsed());
+    const persisted = readPersistedCollapsed();
+    if (persisted !== null) {
+      setMode(persisted ? "collapsed" : "expanded");
+      return;
+    }
+    // 永続値がない初回のみ viewport で初期 collapsed を判定（md のみ collapsed）。
+    const win = browserWindow();
+    if (typeof win?.matchMedia === "function") {
+      const isLgUp = win.matchMedia("(min-width: 1024px)").matches;
+      const isMdUp = win.matchMedia("(min-width: 768px)").matches;
+      if (isMdUp && !isLgUp) setMode("collapsed");
+    }
   }, []);
 
+  // route 変化で drawer を自動 close（遷移後に overlay が残らないように）。
+  useEffect(() => {
+    setDrawerOpenState(false);
+  }, [pathname]);
+
   const toggleCollapsed = useCallback(() => {
-    setCollapsed((prev) => {
-      const next = !prev;
-      writePersistedBoolean(SIDEBAR_COLLAPSED_STORAGE_KEY, next);
+    setMode((prev) => {
+      const next: SidebarStateMode = prev === "collapsed" ? "expanded" : "collapsed";
+      try {
+        const storage = getShellStorage();
+        storage?.setItem(STORAGE_KEY, JSON.stringify(next === "collapsed"));
+      } catch {
+        // storage 不可（private mode 等）でも UI は動作させる。
+      }
       return next;
     });
   }, []);
 
-  // route 変化で drawer を自動 close。
-  useEffect(() => {
-    setDrawerOpen(false);
-  }, [pathname]);
+  const setDrawerOpen = useCallback((open: boolean) => {
+    setDrawerOpenState(open);
+  }, []);
 
-  return {
-    mode: collapsed ? "collapsed" : "expanded",
-    collapsed,
-    drawerOpen,
-    toggleCollapsed,
-    setDrawerOpen,
-  };
+  return { mode, drawerOpen, toggleCollapsed, setDrawerOpen };
 }

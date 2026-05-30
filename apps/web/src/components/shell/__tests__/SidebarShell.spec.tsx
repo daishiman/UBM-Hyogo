@@ -1,37 +1,29 @@
-import { describe, it, expect, vi, afterEach, beforeEach } from "vitest";
-import { render, screen, cleanup, within } from "@testing-library/react";
+// Task A — SidebarShell (Client) の spec。role 別 nav 数 / active / collapsed 挙動。
+import { describe, it, expect, vi, afterEach } from "vitest";
+import { render, cleanup } from "@testing-library/react";
 
-vi.mock("next/navigation", () => ({
-  usePathname: vi.fn(() => "/admin"),
-}));
 vi.mock("next-auth/react", () => ({ signOut: vi.fn() }));
+vi.mock("next/navigation", () => ({
+  usePathname: vi.fn(() => "/members"),
+}));
 
-import { usePathname } from "next/navigation";
 import { SidebarShell } from "../SidebarShell";
 import { buildNavForRole } from "../shell-config";
 
-afterEach(() => {
-  cleanup();
-  window.localStorage.clear();
-});
+afterEach(() => cleanup());
 
-beforeEach(() => {
-  vi.mocked(usePathname).mockReturnValue("/admin");
-  vi.stubGlobal(
-    "matchMedia",
-    vi.fn().mockReturnValue({ matches: true, addEventListener: vi.fn(), removeEventListener: vi.fn() }),
-  );
-});
-
-const adminUser = { displayName: "管理太郎", email: "admin@example.com", initials: "管" };
-
-function renderShell(role: "viewer" | "member" | "admin", user = adminUser) {
+function renderShell(role: "viewer" | "member" | "admin") {
   return render(
     <SidebarShell
       role={role}
-      user={role === "viewer" ? null : user}
+      user={
+        role === "viewer"
+          ? null
+          : { displayName: "山田太郎", email: "y@example.com", initials: "山" }
+      }
       navGroups={buildNavForRole(role, { schemaDiffCount: 2 })}
-      mobileTriggerSlot={<button type="button" data-testid="mobile-trigger" />}
+      activePath="/members"
+      mobileTriggerSlot={<button data-testid="trigger" />}
     >
       <p data-testid="child">child</p>
     </SidebarShell>,
@@ -39,36 +31,42 @@ function renderShell(role: "viewer" | "member" | "admin", user = adminUser) {
 }
 
 describe("SidebarShell", () => {
-  it("app-shell / shell-sidebar / shell-nav の testid を持ち children を描画する", () => {
-    renderShell("admin");
-    expect(screen.getByTestId("app-shell")).toBeTruthy();
-    expect(screen.getByTestId("shell-sidebar")).toBeTruthy();
-    expect(screen.getByTestId("shell-nav")).toBeTruthy();
-    expect(screen.getByTestId("child")).toBeTruthy();
+  it("viewer は nav item 3 個", () => {
+    const { container } = renderShell("viewer");
+    expect(container.querySelectorAll('[data-shell-block="nav-item"]')).toHaveLength(3);
   });
 
-  it("viewer は nav link 3 / member は 4 / admin は 13", () => {
-    const { unmount: u1 } = renderShell("viewer", adminUser);
-    expect(within(screen.getByTestId("shell-nav")).getAllByRole("link")).toHaveLength(3);
-    u1();
-    const { unmount: u2 } = renderShell("member");
-    expect(within(screen.getByTestId("shell-nav")).getAllByRole("link")).toHaveLength(4);
-    u2();
-    renderShell("admin");
-    expect(within(screen.getByTestId("shell-nav")).getAllByRole("link")).toHaveLength(13);
+  it("member は nav item 4 個", () => {
+    const { container } = renderShell("member");
+    expect(container.querySelectorAll('[data-shell-block="nav-item"]')).toHaveLength(4);
   });
 
-  it("active path に一致する nav item へ aria-current=page を付与する", () => {
-    renderShell("admin");
-    const nav = screen.getByTestId("shell-nav");
-    const dashboard = within(nav).getByRole("link", { name: /ダッシュボード/ });
-    expect(dashboard.getAttribute("aria-current")).toBe("page");
+  it("admin は nav item 13 個（3+1+9）", () => {
+    const { container } = renderShell("admin");
+    expect(container.querySelectorAll('[data-shell-block="nav-item"]')).toHaveLength(13);
   });
 
-  it("admin schema item に schemaDiff badge（2）が出る", () => {
-    renderShell("admin");
-    const nav = screen.getByTestId("shell-nav");
-    const schema = within(nav).getByRole("link", { name: /スキーマ/ });
-    expect(schema.textContent).toContain("2");
+  it("children と mobileTriggerSlot が shell 配下に render される", () => {
+    const { container } = renderShell("member");
+    expect(container.querySelector('[data-testid="child"]')).not.toBeNull();
+    expect(container.querySelector('[data-testid="trigger"]')).not.toBeNull();
+  });
+
+  it("active path の nav item に aria-current=page が付く", () => {
+    const { container } = renderShell("member");
+    const active = container.querySelector('[data-shell-block="nav-item"][data-active="true"]');
+    expect(active?.getAttribute("aria-current")).toBe("page");
+    expect(active?.getAttribute("href")).toBe("/members");
+  });
+
+  it("初期 expanded では aside が shell-collapsed=false", () => {
+    const { container } = renderShell("member");
+    const root = container.querySelector('[data-shell-root="true"]');
+    expect(root?.getAttribute("data-shell-collapsed")).toBe("false");
+  });
+
+  it("nav landmark に aria-label='サイドバー' が付く", () => {
+    const { container } = renderShell("member");
+    expect(container.querySelector('nav[aria-label="サイドバー"]')).not.toBeNull();
   });
 });

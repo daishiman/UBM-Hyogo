@@ -1,90 +1,97 @@
 "use client";
 
-// unified-sidebar-shell / Task A + E: 3 層共通の collapsible Sidebar Shell（client）。
-// - 左の persistent sidebar（md+、collapsed/expanded）
-// - mobile（< md）は hamburger → overlay drawer
-// - 左下に UserMenu（ロール別 action）
+// Task A — collapsible sidebar shell core (Client)。
+// 公開 / 会員 / 管理の 3 層で共有する shell。drawer / collapse state を所有し、
+// brand + nav + user-menu を desktop aside と mobile drawer の両方へ同じツリーで配る。
 import type { ReactNode } from "react";
+
 import { SidebarBrand } from "./SidebarBrand";
 import { SidebarCollapseToggle } from "./SidebarCollapseToggle";
 import { SidebarDrawer } from "./SidebarDrawer";
 import { SidebarNav } from "./SidebarNav";
 import { SidebarShellProvider } from "./SidebarShellContext";
 import { SidebarUserMenu } from "./SidebarUserMenu";
-import { useSidebarState } from "./useSidebarState";
 import type { ShellNavGroup, ShellRole } from "./shell-config";
+import { useSidebarState } from "./useSidebarState";
 
-export type SidebarShellProps = {
-  role: ShellRole;
-  user: { displayName: string; email: string; initials: string } | null;
-  navGroups: ShellNavGroup[];
-  // active 判定は SidebarNavItem の usePathname（client）が担うため activePath prop は持たない。
-  mobileTriggerSlot: ReactNode;
-  children: ReactNode;
-};
+export interface SidebarShellProps {
+  readonly role: ShellRole;
+  readonly user: { readonly displayName: string; readonly email: string; readonly initials: string } | null;
+  readonly navGroups: ReadonlyArray<ShellNavGroup>;
+  readonly activePath: string;
+  /** Task E が埋める mobile trigger。drawer/collapse setter は context 経由。 */
+  readonly mobileTriggerSlot: ReactNode;
+  /** main の data-route 値。呼出側 route group（"member" / "public" 等）を渡す。既定は "shell"。 */
+  readonly routeKey?: string;
+  /** main の data-section-rhythm 値。未指定なら属性を出力しない。 */
+  readonly sectionRhythm?: string;
+  readonly children: ReactNode;
+}
 
 export function SidebarShell({
   role,
   user,
   navGroups,
+  activePath,
   mobileTriggerSlot,
+  routeKey = "shell",
+  sectionRhythm,
   children,
 }: SidebarShellProps) {
-  const { collapsed, drawerOpen, toggleCollapsed, setDrawerOpen } = useSidebarState();
+  const { mode, drawerOpen, toggleCollapsed, setDrawerOpen } = useSidebarState();
+  const collapsed = mode === "collapsed";
 
-  const sidebarInner = (
+  const sidebarContent = (sidebarCollapsed: boolean) => (
     <>
-      <div className="flex items-center justify-between gap-1 px-1 pt-2">
-        <SidebarBrand collapsed={collapsed} />
-        <span className="hidden md:block">
-          <SidebarCollapseToggle />
-        </span>
-      </div>
-      <SidebarNav navGroups={navGroups} collapsed={collapsed} />
-      <SidebarUserMenu role={role} user={user} collapsed={collapsed} />
+      <SidebarBrand collapsed={sidebarCollapsed} />
+      <SidebarNav navGroups={navGroups} collapsed={sidebarCollapsed} activePath={activePath} />
+      <SidebarUserMenu role={role} user={user} collapsed={sidebarCollapsed} />
     </>
   );
 
   return (
-    <SidebarShellProvider value={{ collapsed, drawerOpen, toggleCollapsed, setDrawerOpen }}>
+    <SidebarShellProvider value={{ mode, drawerOpen, toggleCollapsed, setDrawerOpen }}>
       <div
-        data-testid="app-shell"
-        data-shell="app-shell"
-        data-role={role}
-        data-collapsed={collapsed ? "true" : "false"}
-        className="flex min-h-screen bg-[var(--ubm-color-surface-bg)] text-[var(--ubm-color-text-primary)]"
+        data-shell-root="true"
+        data-shell-collapsed={collapsed ? "true" : "false"}
+        // auth-slot 観測契約: viewer→guest / member / admin（旧 PublicHeader/MemberHeader の data-auth-state を shell へ継承）。
+        data-auth-state={role === "viewer" ? "guest" : role}
+        className="flex min-h-screen w-full bg-[var(--ubm-color-surface-bg)] text-[var(--ubm-color-text-primary)]"
       >
-        {/* persistent sidebar（md+） */}
         <aside
-          data-testid="shell-sidebar"
           data-shell="sidebar"
           data-collapsed={collapsed ? "true" : "false"}
-          className={`hidden shrink-0 flex-col border-r border-[var(--shell-bar-border)] bg-[var(--shell-bar-bg)] md:flex ${
-            collapsed ? "w-[var(--shell-bar-w-collapsed)]" : "w-[var(--shell-bar-w)]"
-          }`}
+          className="hidden w-[var(--shell-bar-w)] shrink-0 flex-col gap-3 border-r border-[var(--shell-bar-border)] bg-[var(--shell-bar-bg)] p-3 data-[collapsed=true]:w-[var(--shell-bar-w-collapsed)] md:flex"
         >
-          {sidebarInner}
+          {sidebarContent(collapsed)}
+          <div className="mt-auto flex justify-end pt-2">
+            <SidebarCollapseToggle />
+          </div>
         </aside>
 
-        {/* main column */}
+        <SidebarDrawer open={drawerOpen} onClose={() => setDrawerOpen(false)}>
+          {sidebarContent(false)}
+        </SidebarDrawer>
+
         <div className="flex min-w-0 flex-1 flex-col">
-          {/* mobile top strip with hamburger（< md） */}
           <div
-            data-shell="mobile-strip"
-            className="flex h-14 items-center gap-2 border-b border-[var(--shell-bar-border)] bg-[var(--shell-bar-bg)] px-3 md:hidden"
+            data-shell="mobile-bar"
+            className="flex items-center gap-2 border-b border-[var(--shell-bar-border)] bg-[var(--shell-bar-bg)] px-3 py-2 md:hidden"
           >
             {mobileTriggerSlot}
-            <SidebarBrand collapsed={false} />
+            <span className="text-sm font-semibold text-[var(--ubm-color-text-primary)]">
+              UBM兵庫
+            </span>
           </div>
-          <main data-shell="main" className="min-w-0 flex-1">
+          <main
+            data-shell="main"
+            data-route={routeKey}
+            {...(sectionRhythm ? { "data-section-rhythm": sectionRhythm } : {})}
+            className="min-w-0 flex-1"
+          >
             {children}
           </main>
         </div>
-
-        {/* mobile overlay drawer */}
-        <SidebarDrawer open={drawerOpen} onClose={() => setDrawerOpen(false)}>
-          <div className="flex flex-1 flex-col">{sidebarInner}</div>
-        </SidebarDrawer>
       </div>
     </SidebarShellProvider>
   );

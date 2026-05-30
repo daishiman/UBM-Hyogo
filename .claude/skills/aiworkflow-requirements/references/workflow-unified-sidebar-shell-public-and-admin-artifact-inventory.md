@@ -61,8 +61,8 @@
 | Gate | Status | Boundary |
 | --- | --- | --- |
 | Gate-A | passed | spec / strict 7 / aiworkflow sync |
-| Gate-B | pending | CI Linux `-linux.png` visual baseline 撮影 + regression dry-run（apps/web 実装・local vitest 45 / smoke 6/6 / visual V1-V3 は landed。Task B focused tests / grep gate / local visual evidence は landed 済） |
-| Gate-C | pending | commit, push, PR, CI visual baseline commit |
+| Gate-B | partial | Task A primitive + Task B user-menu + Task C public/member layout + Task E mobile drawer は dev に landed（#1020/#1025/#1028/#1033）。Task F の CI Linux `-linux.png` visual baseline 撮影は docs/task-f branch で実施。Task D admin layout migration は別 PR #1024 管轄（dev admin は AdminSidebar 維持） |
+| Gate-C | pending | commit, push, PR, CI visual baseline commit（user-gated） |
 
 ## Sub-workflows
 
@@ -70,12 +70,15 @@
 | --- | --- | --- | --- |
 | Task A sidebar shell primitive | `docs/30-workflows/completed-tasks/unified-sidebar-shell-public-and-admin/tasks/task-A-sidebar-shell-primitive/` | `implementation_completed / implementation / VISUAL` | parent root `outputs/phase-12/` |
 | Task B user menu and role handling | `docs/30-workflows/completed-tasks/unified-sidebar-shell-task-b-user-menu-and-role-handling/` | `implementation_verified / implementation / VISUAL` | parent root `outputs/phase-12/` |
+| Task E mobile drawer + responsive | `docs/30-workflows/.../unified-sidebar-shell-task-e-mobile-drawer-responsive/` | `implementation_completed / implementation / VISUAL` | parent root `outputs/phase-12/` |
 
-Sub-workflow Phase 12 rule: Task B owns only `outputs/phase-12/phase12-task-spec-compliance-check.md`. Parent root remains the strict 7 SSOT.
+Sub-workflow Phase 12 rule: 各 sub は `outputs/phase-12/phase12-task-spec-compliance-check.md` のみ所有。Parent root remains the strict 7 SSOT.
 
 ## Lessons Learned
 
-実装 + 本レビューサイクルの知見は `.claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-unified-sidebar-shell-2026-05.md`（L-USHELL-001..007）+ `lessons-learned/lessons-learned-unified-sidebar-shell-task-a-2026-05.md`（L-USS-001..006）+ Task B wave（L-USERMENU-001..005）に体系化。
+実装 + 本レビューサイクルの知見は `.claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-unified-sidebar-shell-2026-05.md`（L-USHELL-001..007）+ `lessons-learned/lessons-learned-unified-sidebar-shell-task-a-2026-05.md`（L-USS-001..006）+ Task B wave（L-USERMENU-001..005）+ Task E wave（[[lessons-learned-unified-sidebar-shell-task-e-focus-trap-responsive-2026-05]]）に体系化。dev sync-merge での shell 収束知見は [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-069-G を参照。
+
+### Task A wave (L-USS-*)
 
 - **L-USHELL-001**: 公開/会員/管理 3 route group を共通 `SidebarShellServer` へ集約し role 判定を `getSession().isAdmin` の 1 箇所に一本化（throw 時 `viewer` fail-closed・不変条件 #11）。
 - **L-USHELL-002**: nav active 判定は client `usePathname()` + `isNavItemActive` 純関数に寄せ、server からの `activePath` 配線は middleware の header 注入とセットでない限り dead code（本実装で削除）。
@@ -87,7 +90,7 @@ Sub-workflow Phase 12 rule: Task B owns only `outputs/phase-12/phase12-task-spec
 - **L-USS-001**: parent workflow + nested sub-workflow の topology — standalone root を作らず `tasks/<task-id>/` に nest し `hasCompletedTasksAncestor=true` を維持
 - **L-USS-002**: Server / Client component の境界を slot で固定 — `SidebarShellServer` のみ session 解決、`SidebarShell` は plain props + `ReactNode` slot
 - **L-USS-003**: `useSidebarState` は SSR 初期値 deterministic — 初期 `collapsed=false`、`useEffect` で localStorage `ubm:shell:collapsed` を hydrate
-- **L-USS-003b**: `apps/web` の `localStorage` lint は substring 検出 — `safe-local-storage` util に集約し path allowlist で抜く (現状 `useSidebarState.ts` は lint fail / Gate-B follow-up)
+- **L-USS-003b**: `apps/web` の `localStorage` lint は substring 検出 — `lib/is-browser.ts` の `browserLocalStorage()` 単一正規参照点に集約し token allowlist で抜く（`useSidebarState.ts` は本 getter 経由で lint green）
 - **L-USS-004**: `buildNavForRole(role, ctx)` を pure 関数化 — viewer=3 / member=4 / admin=13、`shell-config.spec.ts` で全 branch 網羅
 - **L-USS-005**: Task B 先行実装でも Task A 契約は崩さない — UserMenu props は slot に閉じ、上流の test を守る
 - **L-USS-006**: tokens.css は `[data-theme='cool']` variant 同時追加 — `verify-design-tokens` fail と cool theme drift を予防
@@ -101,3 +104,14 @@ Sub-workflow Phase 12 rule: Task B owns only `outputs/phase-12/phase12-task-spec
 | L-USERMENU-003 | SidebarUserMenu は client component、parent layout は server component、橋渡しは props のみで行う | server-only auth resolution と client-side popover state を一つの component に同居させると Next.js App Router の render boundary が壊れる | sidebar shell では `getAuthView()` 等を server で解決し、`role` と `displayName` を client `SidebarUserMenu` に props として渡す。`use client` directive は user menu component に限定する |
 | L-USERMENU-004 | focused vitest + visual harness (`app/visual-harness/[name]`) の 2 段 evidence を Phase 11 の正本にする | Playwright single-spec 実行は CI baseline 整備前でも local で再現でき、focused vitest が role/action 契約を逐語検証する | role バリエーション (viewer/member/admin/collapsed) ごとの screenshot は visual-harness で role を URL param 経由で切替えて撮影し、focused vitest log と並べて Phase 11 evidence に置く |
 | L-USERMENU-005 | sub-workflow の strict 7 は親 root に集約し、sub は `phase12-task-spec-compliance-check.md` のみ所有する | Phase 12 SSOT を sub と parent で二重化すると documentation-changelog / unassigned-task-detection / skill-feedback-report が drift する | parent + sub 構成の workflow では、sub の `outputs/phase-12/` に compliance-check のみ置き、他 6 種は parent root に write-through する。inventory `## Sub-workflows` 節で `strict 7 owner` 列を明示する |
+
+### Task E wave (L-USSTE-*)
+
+- **L-USSTE-001**: dialog focus trap は `apps/web/src/lib/a11y/useFocusTrap.ts` の単一 source に集約。`Drawer.tsx`（内部 refactor・公開 API 不変）と `SidebarDrawer.tsx` が共有し複製ゼロ（Phase 5/8/10/I-E6 の三すくみ解消）。
+- **L-USSTE-002**: scroll lock は `body[data-shell-drawer-open]` 属性 + CSS（`globals.css`）の 1 系統。`body.style` 直書きを避け hydration mismatch を回避。
+- **L-USSTE-003**: breakpoint 表示は Tailwind `md:` を正本、`matchMedia('(min-width:1024px)')` は初回 effect の 1 回限り（初期 collapsed 判定のみ・resize 非追従・SSR no-op）。`useSidebarState` は加えて `usePathname` 変化で drawer を auto-close。
+- **L-USSTE-004**: drawer は `<aside>` とは別ツリーで `mode="expanded"` 固定描画し固定 id を置かない。排他は CSS（`hidden md:flex` / `md:hidden`）と `open=false→null` unmount で担保（R-E2）。
+- **L-USSTE-005**: 実装 landed 後は spec_only 前提の compliance-check / evidence / 数値を実態へ逆流同期し、`state: spec_created`（spec ライフサイクル）と実装完了を明示区別。`aggregated-at-parent` claim は親に実体を置いて真にする。
+- **L-USSTE-006**: 未定義 `--ubm-*` 色トークンの参照は `var(--target,var(--defined-fallback))` 形式で書く。tokens.css へ定義追加すると `verify-design-tokens` の `missing-in-09b` で fail するため、SSOT 追加は 09b 同 wave 更新の独立タスクに切り出す。
+- **L-USSTE-007**: dev 統合基盤（mode prop / userMenuSlot / DefaultUserChip）と並行開発した Task E（collapsed boolean prop / SidebarDrawer）が同一 shell ファイル群で add/add 衝突した場合、**dev 基盤を正本採用 + Task E 固有機能（drawer mount / route auto-close / MenuIcon / overlay token）を新 API へ移植**する。drawer footer に `userMenuSlot` を 2 重配置すると `useId` 衝突を招くため drawer 側は `DefaultUserChip` のみに限定する。
+

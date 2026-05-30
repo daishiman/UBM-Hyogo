@@ -1,7 +1,7 @@
 {
   "$schema": "../../../../docs/30-workflows/task-709-visual-baseline-runtime-capture/schemas/baseline-meta.schema.json",
-  "captured_at_commit_sha": "8e1f61f09d24dcb5c64646099cca561caf413771",
-  "captured_at": "2026-05-30T12:27:39Z",
+  "captured_at_commit_sha": "fb38ce5017b3d7d1614eb5c52a811ea6e5e843af",
+  "captured_at": "2026-05-30T07:31:29Z",
   "captured_via": "playwright-visual-baseline-update.yml#workflow_dispatch",
   "captured_run_ids": [
     "26503855446",
@@ -13,7 +13,7 @@
     "26581231613",
     "26616303516",
     "26628923374",
-    "26683595362"
+    "26677930770"
   ],
   "viewport_dimensions": {
     "desktop": {
@@ -41,5 +41,5 @@
   "refresh_workflow": ".github/workflows/playwright-visual-baseline-update.yml",
   "refresh_command_hint": "gh workflow run playwright-visual-baseline-update.yml -f reason=\"<why>\" -r <feature-branch>",
   "notes": "captured_at_commit_sha からの rendering_relevant_paths diff が空でない場合、baseline は stale。scripts/visual-baseline-status.sh で診断可能。",
-  "last_refresh_reason": "再実行: viewer user-menu click timeout 修正後。unified-sidebar-shell 統合の visual-full + visual-chromium baseline を Linux で再生成+push"
+  "last_refresh_reason": "task-c 公開/会員 layout を SidebarShell へ統合（旧 topbar/PublicHeader/MemberHeader 撤去）したことで /, /members, /profile, /login 等の visual baseline が意図的にdrift。playwright-visual-full / visual の baseline を新 sidebar UI へ更新する。"
 }
