@@ -155,6 +155,21 @@
 | evidence | `setup-auth` 3 PASS + `auth-slot-coverage` 25 PASS（dependency setup 含め 28/28 PASS）、storageState JSON ignored |
 | user gate | remote GitHub Actions observation, commit, push, PR |
 
+### task-c-privacy-terms-public-shell-spec（2026-05-28）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION / local_verification_passed` |
+| 成果物 | `docs/30-workflows/task-c-privacy-terms-public-shell-spec/` |
+| parent | `docs/30-workflows/public-header-logged-in-nav-cleanup/` |
+| source task | `docs/30-workflows/public-header-logged-in-nav-cleanup/tasks/task-c-privacy-terms-public-shell.md` |
+| 目的 | `/privacy` と `/terms` に `<PublicHeader authView />` + `<PublicFooter />` を mount し、公開シェルと session-aware CTA を統一する実装仕様 |
+| implementation targets | `apps/web/app/privacy/page.tsx`, `apps/web/app/terms/page.tsx` |
+| tests | `apps/web/app/privacy/__tests__/page.spec.tsx`, `apps/web/app/terms/__tests__/page.spec.tsx` |
+| Phase 12 | strict 7 present、root/output artifacts parity present、30-method compact evidence present、Phase 11 screenshot evidence 6 件 present |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-task-c-privacy-terms-public-shell-spec-artifact-inventory.md` |
+| user gate | commit, push, PR |
+
 ### profile-server-components-render-error（2026-05-27）
 
 | 項目 | 値 |

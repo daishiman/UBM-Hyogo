@@ -1,27 +1,39 @@
-// serial-05: /privacy — blueprint 09e:561-620
+// serial-05 / task-c: /privacy — blueprint 09e:561-620
 // /privacy 静的ページ。task-12 で LegalProse primitive を経由して typography 統一。
 // 文面は法務確認後に更新する想定（現時点は最小限の暫定版）。
+// task-c で公開シェル（PublicHeader + PublicFooter）を mount し session-aware ナビ復活。
 
 import type { Metadata } from "next";
 
 import { LegalProse } from "../../src/components/legal/LegalProse";
 import { PublicFooter } from "../../src/components/public/PublicFooter";
 import { PublicHeader } from "../../src/components/public/PublicHeader";
+import { getAuthView } from "../../src/lib/auth-view/getAuthView";
 
 export const metadata: Metadata = {
   title: "プライバシーポリシー | UBM 兵庫支部会",
   description: "UBM 兵庫支部会のプライバシーポリシー",
 };
 
-export default function PrivacyPage() {
+export default async function PrivacyPage() {
+  const authView = await getAuthView();
   return (
-    <>
-      <PublicHeader currentPath="/privacy" />
+    <div
+      className="grid min-h-screen grid-rows-[auto_1fr_auto] bg-[var(--ubm-color-surface-bg)] text-[var(--ubm-color-text-primary)]"
+      data-testid="public-shell"
+      data-route-group="public"
+      data-theme="warm"
+      data-auth-state={authView.kind}
+    >
+      <header data-shell="topbar">
+        <PublicHeader currentPath="/privacy" authView={authView} />
+      </header>
       <main data-page="privacy" data-route="public" data-section-rhythm="comfortable">
         <LegalProse>
           <h1>プライバシーポリシー</h1>
           <p>
-            UBM 兵庫支部会（以下「当会」）は、会員管理サイトの運営にあたり、利用者の個人情報を以下の方針に基づいて取り扱います。
+            UBM
+            兵庫支部会（以下「当会」）は、会員管理サイトの運営にあたり、利用者の個人情報を以下の方針に基づいて取り扱います。
           </p>
 
           <h2>1. 取得する情報</h2>
@@ -39,18 +51,18 @@ export default function PrivacyPage() {
           </ul>
 
           <h2>3. 第三者提供</h2>
-          <p>
-            法令に基づく場合を除き、本人の同意なく第三者へ提供することはありません。
-          </p>
+          <p>法令に基づく場合を除き、本人の同意なく第三者へ提供することはありません。</p>
 
           <h2>4. 取得した情報の管理</h2>
           <p>
-            取得した個人情報は Cloudflare のインフラ上で適切に管理し、不正アクセス・漏洩・改ざん等の防止に努めます。
+            取得した個人情報は Cloudflare
+            のインフラ上で適切に管理し、不正アクセス・漏洩・改ざん等の防止に努めます。
           </p>
 
           <h2>5. 開示・訂正・削除</h2>
           <p>
-            会員本人からの求めに応じ、合理的な範囲で個人情報の開示・訂正・削除に対応します。お問い合わせは Google フォームの再回答または管理者宛に直接ご連絡ください。
+            会員本人からの求めに応じ、合理的な範囲で個人情報の開示・訂正・削除に対応します。お問い合わせは
+            Google フォームの再回答または管理者宛に直接ご連絡ください。
           </p>
 
           <h2>6. 本ポリシーの改定</h2>
@@ -65,7 +77,9 @@ export default function PrivacyPage() {
           </p>
         </LegalProse>
       </main>
-      <PublicFooter />
-    </>
+      <footer data-shell="footer">
+        <PublicFooter />
+      </footer>
+    </div>
   );
 }

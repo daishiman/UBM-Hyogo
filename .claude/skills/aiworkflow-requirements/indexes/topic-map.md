@@ -4155,6 +4155,12 @@ node scripts/list-specs.js --topics
 | Boundary | L37 |
 | Lessons Learned | L42 |
 
+### references/workflow-task-c-privacy-terms-public-shell-spec-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Lessons Learned | L18 |
+
 ### references/workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md
 
 | セクション | 行 |
@@ -8065,14 +8071,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L3076 |
-| フェーズ構造（概要） | L3085 |
-| 品質ゲート（概要） | L3116 |
-| 出力テンプレート | L3127 |
-| 実行時のコマンド・エージェント・スキル | L3150 |
-| 昇格パターン集 | L3174 |
-| Current Active / Spec Created Tasks | L3176 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L3338 |
+| ドキュメント構成 | L3091 |
+| フェーズ構造（概要） | L3100 |
+| 品質ゲート（概要） | L3131 |
+| 出力テンプレート | L3142 |
+| 実行時のコマンド・エージェント・スキル | L3165 |
+| 昇格パターン集 | L3189 |
+| Current Active / Spec Created Tasks | L3191 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L3353 |
 
 ### references/task-workflow-backlog-part2.md
 

@@ -1,37 +1,51 @@
-// serial-05: /terms — blueprint 09e:621-680
+// serial-05 / task-c: /terms — blueprint 09e:621-680
 // /terms 静的ページ。task-12 で LegalProse primitive を経由して typography 統一。
 // 文面は法務確認後に更新する想定（現時点は最小限の暫定版）。
+// task-c で公開シェル（PublicHeader + PublicFooter）を mount し session-aware ナビ復活。
 
 import type { Metadata } from "next";
 
 import { LegalProse } from "../../src/components/legal/LegalProse";
 import { PublicFooter } from "../../src/components/public/PublicFooter";
 import { PublicHeader } from "../../src/components/public/PublicHeader";
+import { getAuthView } from "../../src/lib/auth-view/getAuthView";
 
 export const metadata: Metadata = {
   title: "利用規約 | UBM 兵庫支部会",
   description: "UBM 兵庫支部会の利用規約",
 };
 
-export default function TermsPage() {
+export default async function TermsPage() {
+  const authView = await getAuthView();
   return (
-    <>
-      <PublicHeader currentPath="/terms" />
+    <div
+      className="grid min-h-screen grid-rows-[auto_1fr_auto] bg-[var(--ubm-color-surface-bg)] text-[var(--ubm-color-text-primary)]"
+      data-testid="public-shell"
+      data-route-group="public"
+      data-theme="warm"
+      data-auth-state={authView.kind}
+    >
+      <header data-shell="topbar">
+        <PublicHeader currentPath="/terms" authView={authView} />
+      </header>
       <main data-page="terms" data-route="public" data-section-rhythm="comfortable">
         <LegalProse>
           <h1>利用規約</h1>
           <p>
-            本利用規約（以下「本規約」）は、UBM 兵庫支部会（以下「当会」）が提供する会員管理サイト（以下「本サービス」）の利用条件を定めるものです。
+            本利用規約（以下「本規約」）は、UBM
+            兵庫支部会（以下「当会」）が提供する会員管理サイト（以下「本サービス」）の利用条件を定めるものです。
           </p>
 
           <h2>1. 本サービスの目的</h2>
           <p>
-            本サービスは、UBM 兵庫支部会の会員情報の管理および会員間の情報共有を目的として提供されます。
+            本サービスは、UBM
+            兵庫支部会の会員情報の管理および会員間の情報共有を目的として提供されます。
           </p>
 
           <h2>2. 利用資格</h2>
           <p>
-            本サービスは、当会が認める会員のみが利用できます。Google フォームによる会員登録および当会の利用規約への同意が前提となります。
+            本サービスは、当会が認める会員のみが利用できます。Google
+            フォームによる会員登録および当会の利用規約への同意が前提となります。
           </p>
 
           <h2>3. 禁止事項</h2>
@@ -43,9 +57,7 @@ export default function TermsPage() {
           </ul>
 
           <h2>4. 退会</h2>
-          <p>
-            会員は当会に申し出ることで退会できます。退会後は本サービスを利用できなくなります。
-          </p>
+          <p>会員は当会に申し出ることで退会できます。退会後は本サービスを利用できなくなります。</p>
 
           <h2>5. 免責事項</h2>
           <p>
@@ -53,9 +65,7 @@ export default function TermsPage() {
           </p>
 
           <h2>6. 規約の改定</h2>
-          <p>
-            本規約は予告なく改定されることがあります。改定後の内容は本ページにて公開します。
-          </p>
+          <p>本規約は予告なく改定されることがあります。改定後の内容は本ページにて公開します。</p>
 
           <p>
             <a href="/" data-role="back">
@@ -64,7 +74,9 @@ export default function TermsPage() {
           </p>
         </LegalProse>
       </main>
-      <PublicFooter />
-    </>
+      <footer data-shell="footer">
+        <PublicFooter />
+      </footer>
+    </div>
   );
 }
