@@ -1319,6 +1319,20 @@ anti-pattern:
 - 参照: [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-065、L-DEVSYNC-063/064 (dev=inline 時の進化段階差)、SP-DEVSYNC-064 (前回 `--ours` 採用)、L-DEVSYNC-024 (import block 両側採用)。
 
 
+## L-USS-A 親 workflow + nested sub-workflow による単一タスク Phase 1-13 化（2026-05-28）
+
+A-F 等の親 workflow 内で **1 タスクだけを単独サイクル完結** したい時、standalone root を作らず `tasks/<task-id>/` に Phase 1-13 サブworkflow を nest するパターン。`unified-sidebar-shell-public-and-admin` Task A (`SidebarShell` primitive) で検証。
+
+- **L-USS-A-001 (parent + nested topology)**: standalone root (`docs/30-workflows/task-A-...`) を作らず親の `tasks/<task-id>/` 配下に Phase 1-13 を nest。verify:phase12-compliance は `hasCompletedTasksAncestor=true` で許容。standalone を後から `mv` で collapse する場合、artifact-inventory に `collapsed into parent` で吸収。
+- **L-USS-A-002 (Server / Client 境界 slot 固定)**: 3 層 layout 共通 shell primitive では `<...Server>` だけが `getSession()` / counts を解決し、Client component には plain props + `ReactNode` slot を渡す。後追い実装の下流タスクが上流 contract を壊さない。
+- **L-USS-A-003 (SSR-safe persistent UI state)**: collapse / sidebar state 等の client-only state は「初期値 deterministic + `useEffect` で localStorage hydrate」の 2 段。初期 render で localStorage を読むと Cloudflare Workers / Next.js App Router で hydration mismatch。
+- **L-USS-A-004 (`buildNavFor<Role>` pure 関数化)**: nav 構成は component に埋め込まず `<area>-config.ts` 1 箇所に集約。`*-config.spec.ts` で role × ctx 全 branch を網羅し、admin nav drift を CI で防ぐ。
+- **L-USS-A-005 (out-of-order 実装でも上流契約を守る)**: 依存タスク (Task B = UserMenu 等) が先行実装されても、上流 (Task A = primitive) は slot 契約 + plain props を維持。下流の細部を上流に逆流させない。
+- **L-USS-A-006 (tokens は theme variant 同時追加)**: `--shell-bar-*` 等の surface トークンは default + `[data-theme='cool']` を必ず同時追加。片側だけ追加すると `verify-design-tokens` fail + cool theme drift。
+- **anti-pattern**: (a) standalone root を残す (discovery 分裂)、(b) Client に `getSession()` (auth boundary 崩壊)、(c) 初期 render で localStorage 同期読み (SSR mismatch)、(d) nav 構成を component / config の両方に書く (drift 不可避)、(e) tokens を default のみ追加 (theme drift)。
+- 参照: [[lessons-learned-unified-sidebar-shell-task-a-2026-05]] L-USS-001..006、[[admin-shell-topbar-sidebar-integration]] (前例 Task A primitive 分離)。
+
+
 ## L-DEVSYNC-061 conflict 0 件 shape（add-only 取込）を sync-merge 判定フローの最上段に固定（dev sync-merge / 2026-05-29）
 
 `feat/task-c-privacy-terms-public-shell-spec` ← `dev` (取込 1 commit `37fe488e8` #1009) の sync-merge で **conflict 0 件**。dev 側差分が `docs/30-workflows/completed-tasks/members-list-ux-clarity/**` への **新規ファイル追加のみ**で、feature branch の接触面（`(public)/{privacy,terms}` + skill 索引）と path が完全 orthogonal だったため、add-add すら起きず resolver / 手動 hybridize の両方が不要だった（merge commit `fa756f644` を `git merge` が即生成）。L-DEVSYNC-059/060 の "skill-only → resolver 単発" よりさらに 1 段クリーンな最頻 shape。
@@ -1389,3 +1403,13 @@ source code を一切触らない feature branch に dev の skill 反映付き 
 - **SP-DEVSYNC-067-D (merge 後 indexes:rebuild 冪等ゲート)**: `pnpm indexes:rebuild` を 2 回連続実行し 2 回目で working↔index の unstaged drift 0（`git diff --name-only indexes/` 空）を確認してから merge commit を確定。CI `verify-indexes-up-to-date` の fail を予防（SP-DEVSYNC-066 の実行手順固定化・本例 5201 kw 冪等）。
 - 検証: `git diff --diff-filter=U` 0 件 + 二重化切り分け (B/C) + `pnpm indexes:rebuild` ×2 冪等 + `git grep -lE '^(<<<<<<<|>>>>>>>)'` 空 + `pnpm typecheck` PASS + `pnpm lint` PASS。merge commit `e0431ed31`。
 - 参照: [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-067 を唯一の正本。L-DEVSYNC-065/066（同 branch 再 sync は前提を再評価）/ SP-DEVSYNC-043（件数レンジ）/ SP-DEVSYNC-066（最頻フロー）。
+
+## SP-DEVSYNC-068 dev が大量 source を add しても feature が当該 path 未接触なら add-only 素通り — source conflict の有無は「feature の改修 path との交差」と「自 feature の dev landed 有無」で決まり file 数では決まらない、を Phase 4 risk / Phase 12 に固定（dev sync-merge / 2026-05-30 feat/member-header-admin-link ← dev #1025）
+
+source を一切触らない（実態は `MemberHeader` + `lib/auth-view` のみ接触の）feature branch に、dev の **source 大量追加 commit**（#1025「統一サイドバーシェル基盤を追加」= `apps/web/src/components/shell/**` 14 file + `tokens.css` 新規追加）を **4 度目** に取り込んだケース。前回（SP-DEVSYNC-067 / #1032 取込）は content conflict 4 件だったが、今回は `aiworkflow-requirements/indexes/topic-map.md` + `task-specification-creator/references/patterns-lessons-and-pitfalls.md` の **2 件（全 resolver 対象・source `.ts/.tsx` 0 件）** に振れ、**#1025 が追加した 14 source file は全て `A`(add-only) で素通り**した。**「dev が source を多く触った＝source conflict が増える」は誤り**で、conflict は feature の改修 path と dev 取込 path の交差でのみ発生することを 4 度目に確定。
+
+- **SP-DEVSYNC-068-A (source conflict 予測は file 数でなく path 交差で行う)**: sync-merge task の Phase 4 risk 見積りで「dev が source を N file 触ったから source 解消工数を積む」と書かない。`git diff HEAD..dev --name-only` ∩ feature の改修 path（実 diff した `apps/**`）が空なら、dev が新規ディレクトリ群を add しても add/add 衝突に到達せず工数ゼロ。Phase 12 sync-merge 節に「source 解消工数は `git diff --name-only --diff-filter=U` に `.ts/.tsx` が現れた時のみ Phase 11/13 へ積む」を明記。
+- **SP-DEVSYNC-068-B (`sync:resolve` の `WARN unhandled conflict` 行ゼロ＝source 混在ゼロの完走シグナル)**: Phase 12 検証手順に、`pnpm sync:resolve` stdout が `all skill / index conflicts resolved` で終わり **`WARN unhandled conflict` / `AA` 残置警告が 0 行**であることを `git ls-files -u` 0 と並ぶ二重ゲートとして固定。WARN が出た時のみ SP-DEVSYNC-063/064 の auth-view wholesale/hybridize 分岐へ（前回 #1013 取込では WARN が出て AA が残ったのと対照）。
+- **SP-DEVSYNC-068-C (自 feature の dev landed で source conflict は self-resolve する)**: 同一 feature を再 sync するうち、自 branch の source（例 `lib/auth-view`）が別 PR 経由で dev へ merge され戻ると、以前 add/add（`AA`）だった unit は **non-conflict 化**する。SP-DEVSYNC-064（ours→theirs 逆転）の更に先の段階として「landed 済みなら衝突自体が消滅」を Phase 4 に追記。判定は `git log origin/dev --oneline | grep <feature の該当 commit / PR>`。
+- 検証: `git diff --diff-filter=U` 0 件（skill-only 2 件）+ `sync:resolve` WARN 0 行 + `pnpm indexes:rebuild` md5 一致冪等（topic-map `56253ba6…`）+ `git grep -lE '^(<<<<<<<|>>>>>>>)'` 空 + `pnpm typecheck` PASS + `pnpm lint` PASS。
+- 参照: [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-068 を唯一の正本。SP-DEVSYNC-067（前回 #1032・4 件・件数非依存収束）/ SP-DEVSYNC-063/064（source AA が出た対照例＝今回は WARN 0 で不発）/ SP-DEVSYNC-043（件数レンジ）/ SP-DEVSYNC-066（最頻フロー）。
