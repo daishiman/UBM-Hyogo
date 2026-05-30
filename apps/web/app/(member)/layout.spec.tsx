@@ -5,7 +5,7 @@ import { render, cleanup } from "@testing-library/react";
 import { axe } from "../../src/test/axe";
 
 vi.mock("../../src/lib/auth-view", () => ({
-  getAuthView: async () => ({ kind: "member", displayName: "Member" }),
+  getAuthView: async () => ({ kind: "guest" }),
 }));
 
 import MemberLayout from "./layout";

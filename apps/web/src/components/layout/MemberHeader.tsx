@@ -10,17 +10,25 @@ export interface MemberHeaderProps {
 }
 
 export function MemberHeader({ authView }: MemberHeaderProps = {}) {
-  const authState = authView?.kind ?? "member";
+  const isAdmin = authView?.kind === "admin";
   return (
-    <header className="member-header" data-testid="member-header" data-auth-state={authState}>
+    <header
+      className="member-header"
+      data-testid="member-header"
+      data-auth-state={isAdmin ? "admin" : "member"}
+    >
       <span className="brand" aria-label="UBM 兵庫">
         UBM 兵庫
       </span>
       <nav aria-label="member navigation">
-        <a href="/profile" data-role="member-cta">マイページ</a>
+        <a href="/profile">マイページ</a>
         <a href="/members">公開ページ</a>
-        {authState === "admin" ? (
-          <a href="/admin" data-role="admin-cta" aria-label="管理ダッシュボードへ移動">
+        {isAdmin ? (
+          <a
+            href="/admin"
+            data-role="admin-cta"
+            aria-label="管理ダッシュボードへ移動"
+          >
             管理
           </a>
         ) : null}

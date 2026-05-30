@@ -10,6 +10,7 @@ export default async function MemberLayout({
   readonly children: ReactNode;
 }) {
   const authView = await getAuthView();
+
   return (
     <div
       className="grid min-h-screen grid-rows-[auto_1fr] bg-[var(--ubm-color-surface-bg)] text-[var(--ubm-color-text-primary)]"
