@@ -1144,6 +1144,27 @@ admin route prototype-alignment 系 branch を `origin/dev` に sync-merge す�
 - **SP-DEVSYNC-056-E (検証 4 step 必達)**: hybridize 後の検証は **`git diff --diff-filter=U --name-only` 0 件 → `pnpm typecheck` Done × 全 packages → `pnpm lint` Done × 全 packages → `git commit -m "merge: sync <branch> with dev"`** の 4 step を Phase 12 implementation-guide に明記。typecheck が undefined ref を即 fail させるため、`sections.map` 等の前提変数撤去漏れを早期検出できる。
 - 参照: [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-056、L-DEVSYNC-054 (`.ts` 手動 union)、L-DEVSYNC-055 (resolver 単独完結 happy-path との対比)。
 
+## L-PWCO Parent workflow Task 切り出し + auth-view discriminated union 配信パターン（2026-05-28）
+
+親 workflow の単一 Task（本件 `public-header-logged-in-nav-cleanup` Task E）を独立 workflow に切り出し、session-aware UI 配信用の最小基盤を同 cycle で実装するパターン。route group `layout.tsx` の async server component 化 + getter 1 回呼び出し + prop drilling を default 構成とする。
+
+- **L-PWCO-001 (依存最小閉包の同 cycle 実装)**: 親 workflow の Task X を独立 workflow 化する場合、依存基盤（`AuthView` resolver / async adapter 等）の「対象 Task に必要な最小境界」だけを同 cycle で実装する。親 workflow 全体の進行を待たない / 基盤を親で実装するまで `spec_created` 凍結しない。Phase 1 で「親 workflow Task X 独立化」を明示、Phase 5 implementation guide に最小実装範囲を列挙。strict 7 は親（集約）と独立（単一 close-out）の 2 レイヤで両立。
+- **L-PWCO-002 (discriminated union literal 固定)**: 権限ごとに表示要素が増減する session-aware UI は、`{ kind: "guest" } | { kind: "member"; profileHref } | { kind: "admin"; profileHref; adminHref }` 形式の discriminated union を default 選択肢にする。admin-only field (`adminHref`) を admin variant のみに置き、`isAdmin: boolean` flat shape を避ける。href 値も union field に持たせ、call site で template literal を避ける。静的 grep gate (`rg 'kind: "admin"'`) で全 caller を即時検出可能にする。
+- **L-PWCO-003 (`data-<state>` DOM 属性 contract)**: session/state 切替 UI には primitive component に `data-<state-key>` 属性（例 `data-auth-state="member"|"admin"`）を 1 つ用意し、Playwright / Vitest spec は **属性値で assertion する**。TypeScript type を test に import すると union rename で test だけ型エラー化するため、DOM attribute string を contract として固定。属性値リテラルは changelog / inventory に明記して将来の rename を防ぐ。
+- **L-PWCO-004 (route group `layout.tsx` async 化 + getter 1 回呼び出し)**: session を 2 箇所以上で必要とする route group は、route group 直下 `layout.tsx` を async server component 化し、`getAuthView()` / `getSession()` 等の getter を **1 回だけ**呼び、子 component へ prop で配信する。child / page 側で getter 再呼び出しを禁止（N+1 binding cold path 防止 / request-scope cache 相当の保証）。child の prop は optional + default で test injection を props 経由に統一。
+- **L-PWCO-005 (async adapter は fail-closed guest fallback)**: `getAuthView()` 等の auth resolver adapter は内部で getter throw を try/catch し、最小権限（`{ kind: "guest" }` 等）を返す fail-closed 契約にする。layout 側で握り潰さないことで `app/error.tsx` boundary を保ち、後段 middleware の 401/302 gate で UX 破綻を回避（invariant fail-closed と整合）。
+- **L-PWCO-006 (resolver / adapter / consumer の 3 spec 分離)**: discriminated union × server component prop drilling の test は「pure resolver spec」「async adapter spec（getter mock × throw 時 fallback）」「consumer render spec（`authView` injection × `data-*` 属性 assertion）」の 3 focused Vitest 構成を default にする。1 spec 5〜10 test に収め、回帰時の責務切り分けを spec name で即可能にする。
+
+### Anti-pattern
+
+- 親 workflow の進行待ちで独立 workflow を `spec_created` 凍結 → blocker chain で Phase 11 evidence rot
+- `isAdmin: boolean` flat prop + 別 href prop → 「admin だが href 未指定」型違反を補足できずランタイム undefined deref
+- consumer 側で `getAuthView()` 直接呼び出し → server/client 境界の暗黙化、test の getter mock 強要、N+1 binding cold path
+- DOM 属性ではなく TypeScript type export を test に import → UI 契約と test 契約の二重管理、union rename で test だけ型エラー
+- async adapter throw を layout で try/catch して握り潰し → error boundary 機能不全、middleware redirect も発火せず空白画面化
+
+参照: [[lessons-learned-member-header-admin-link-2026-05]] L-MHAL-001..006、[[lessons-learned-public-header-session-aware-auth-view-base-2026-05]] L-PHSAV-001..005（`AuthView` 基盤側の対）、`docs/00-getting-started-manual/specs/02-auth.md` `AuthView` / `MemberHeader` admin CTA 接続契約。
+
 ## L-PARSUB-001..006 parent + sub-workflow 構造での Phase 12 strict 7 集約と verifier 整合パターン（2026-05-28 / members-list-ux-clarity 由来）
 
 `docs/30-workflows/<workflow>/tasks/<task-id>/` 形式で sub-task を切る workflow では、Phase 12 strict 7 を親 root へ集約しても sub-task root に `index.md` / `artifacts.json` がある限り `verify:phase12-compliance` は sub-task を独立 root として扱う。集約方針と verifier 実装の乖離を吸収する標準パターンとして固定する。
@@ -1218,6 +1239,27 @@ Next.js App Router で公開層 (`/`, `/(public)/*`) の auth-state 出し分け
 - 参照: [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-059、L-DEVSYNC-055 (skill indexes 2 件 happy-path)、L-DEVSYNC-054 (auth.ts / barrel 並列追加)、CONST_003 (stash 順次・並列禁止)、CONST_019 (全変更包含)。
 
 
+## Parent-task promotion + DOM auth-slot 検証パターン（2026-05-28）
+
+親 workflow が確立する DOM 契約（`data-auth-state` / `data-role` 系の literal slot 属性）を、横断検証する dependent task が「7+ routes × 3+ states × regression 4+ = 21+ TC」を抱えるとき、親と同一 phase output に同居させると Phase 11 evidence ledger / Gate-A 承認単位 / Phase 12 strict 7 の境界が壊れる。本パターンは「dependent task を独立 workflow に昇格し、契約 owner と検証 owner を 2 workflow に分離する」 + 「3 状態 storageState を setup project + `dependencies` で一括生成する」 + 「DOM literal を型レベルと assertion 両輪で固定する」を組み合わせる。`public-header-auth-slot-e2e` (2026-05-28) が初出。
+
+- **L-PARENTPROMO-001 (昇格判定 3-of-2)**: dependent task の昇格判定は (a) 親実装と独立に test 追加で価値が出る (b) TC 表が親 phase-4 を圧迫する (c) CI matrix 追加が必要、の 3 軸で 2 つ以上 yes なら独立 workflow 化する。spec の Phase 1 §1.X に `parent_workflow:` フィールドで親をリンクし、親側 system-spec-update-summary には `verification_owner:` で子をリンクする双方向参照を必達 AC とする。
+- **L-AUTHSLOT-001 (storageState 一括生成)**: 3+ 状態の auth を持つ e2e は `setup-auth.spec.ts` を独立 project にし、Playwright `projects[i].dependencies: ['setup-auth']` で起動順を固定。`playwright/.auth/{state}.json` を `.gitignore` し CI でも setup project から毎回再生成。spec 内 login を禁止する gate を Phase 4 test plan に書く。
+- **L-AUTHSLOT-002 (DOM literal 型レベル固定)**: `data-auth-state` などの slot 属性 literal は `type AuthView = 'guest' | 'member' | 'admin'` の単一定義を resolver / consumer / spec の Expectation で共有。spec 側は `Expectation = AuthView | 'redirect'` で TC 表を型付けし、`toHaveAttribute('data-auth-state', expected)` で DOM assertion を打つ。Phase 2 design で「type SSOT path」と「consumer / spec の import 経路」を 1 表に集約する。
+- **L-AUTHSLOT-003 (redirect 期待の regex 整合)**: 未認証 redirect 先が middleware / server guard で query 差を持つ場合、assertion は `expect(page).toHaveURL(/\/login(\?|$)/)` で path prefix + regex 化し、query は許容。Phase 4 test plan に「redirect 期待は path prefix + regex で書く」を AC として明記し、middleware 側の redirect 先は単一 query (`?gate=...`) に閉じて 403 直返しを撤去する。
+- **L-AUTHSLOT-004 (CI matrix 非破壊追加)**: 新 e2e job は `needs: <既存 smoke>` で起動順固定、`if: github.event_name != 'schedule'` で schedule trigger 除外、`timeout-minutes: 15` で上限明示。`playwright.config.ts` の既存 project に `testIgnore` を both-or-none preflight で対称追加し、`playwright test --list` で二重実行ゼロを検証する。
+- **L-AUTHSLOT-005 (TC 名 grepability)**: ROUTES 配列を `{ path, expect: Record<State, Expectation> }` でDRY化しつつ、`test('${state} viewing ${path}', ...)` でTC名を生成。CI fail時のprimary lookup keyを保持し、Phase 4 test planのTC IDとtemplateを同waveで更新するルールをspec内コメントに残す。
+
+### Anti-pattern
+
+- 親 workflow Task G として e2e 21+ TC を抱え込み、親側 Phase 11 evidence ledger と artifacts.json gate を圧迫 → Gate-A 承認単位が曖昧化、`completed-tasks/` 移動の境界が壊れる
+- spec 内で個別 login 呼び出しを書き散らし、login API 変更で全 spec を直す → storageState 一括生成パターンを取り入れず、CI 時間と保守コストが線形増
+- `data-auth-state` を `string` で受けて typo を CI で検出できない → 型 SSOT 不在で prod DOM 契約が静かに壊れる
+- redirect 期待を完全一致文字列で書き、middleware/server guard の経路差で flaky → regex 化を怠ると経路統合の自由度を失う
+
+参照: [[lessons-learned-public-header-auth-slot-e2e-2026-05]] L-AUTHSL-001..006、aiworkflow-requirements `references/workflow-public-header-auth-slot-e2e-artifact-inventory.md` Lessons Learned 節。
+
+
 ## L-WWSL Worker bundle size-budget regression-gate パターン（implementation / 2026-05-29）
 
 Cloudflare Workers 無料プランの Worker bundle gzip 3072KiB 上限超過（`[code: 10027]` で deploy fail）のような「無料プランのリソース上限超過 fix」型 implementation task の汎化。`web-worker-size-limit-fix`（3316KiB > 3072KiB）で抽出。除去（Task A）と再発防止 gate（Task B）の dual-task 分割が定型化できる。
@@ -1274,6 +1316,44 @@ anti-pattern:
 - 参照: [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-059、L-DEVSYNC-055 (resolver 単独完結 happy-path)、L-DEVSYNC-056/057/058 (手動 hybridize 分岐先)、L-DEVSYNC-046 (UNION_TARGETS)。
 
 
+## L-DEVSYNC-064 sync-merge の add/add ソースコンフリクト — 「進化段階差」は行マージ禁止・上位版を丸ごと採用（dev sync-merge / 2026-05-30）
+
+`feat/member-header-admin-link` ← `origin/dev`（`7b2bf0537`）sync-merge で、`pnpm sync:resolve` が `WARN unhandled conflict` を出した `apps/web/src/lib/auth-view/index.ts` と `__tests__/resolveAuthView.spec.ts` が **add/add (`AA`) コンフリクト**で残った。両 side は同一 auth-view 機能だが、HEAD は分割モジュール構造（`index.ts` は re-export のみ・`resolveAuthView(SessionLike)`）で dev の旧 Task A インライン基盤版の上位互換だった。L-DEVSYNC-059 の skill-only shape を超え、resolver 不可の source 混在 shape の判定／解消手順を Phase 12 仕様に固定する。
+
+- **SP-DEVSYNC-064-A (add/add 進化段階差の判定)**: sync-merge task の Phase 12 implementation-guide / 検証手順に「`git status --porcelain` の `AA` 行を見たら `git show :2:<path>`（ours/HEAD）と `git show :3:<path>`（theirs/dev）の構造差を読む。同一 export 名・同一責務で片側が他方を包含するなら *進化段階差* と判定し、自律判断ルール B-3 の行マージを適用しない」を明記。別機能が同名衝突なら従来どおり hybridize（L-DEVSYNC-056/057/058）へ分岐。
+- **SP-DEVSYNC-064-B (上位版の特定基準を仕様に列挙)**: 「分割モジュール化済み / 型を literal 固定 / ガード条件がより厳密 / 周辺ファイルが既に片側に存在」の側を上位版と定義し、`git checkout --ours <path> && git add` で丸ごと採用 → 旧基盤版を破棄。Phase 12 の risk 表に「進化段階差を行マージすると実装が壊れる」を 1 行登録。
+- **SP-DEVSYNC-064-C (テスト追従の整合ゲート)**: 実装とテスト（`*.spec.ts`）は必ず同じ side を採る。採用実装の signature と不整合なテストを採ると typecheck fail する旨を Phase 12 検証手順に明記（実装=HEAD・テスト=dev の混在を禁止）。
+- **SP-DEVSYNC-064-D (resolver WARN ハンドリング)**: `pnpm sync:resolve` の `WARN unhandled conflict: <path>` 行が出たら、その列挙ファイルのみ手動解消し resolver 済の skill 系は再処理しない。最後に `git grep -l '^<<<<<<< '` = 空で全 marker 消滅を確認してから `git commit`。
+- **SP-DEVSYNC-064-E (検証ゲート)**: `git diff --check` 空 → `pnpm typecheck` Done × 全 packages → `pnpm lint` Done → `git push` の順を固定。
+- anti-pattern: ① add/add を機械的に行マージし旧版コードを残す ② 実装は HEAD・テストは dev を採り signature 不整合で CI fail ③ resolver WARN を無視して skill 系まで手で触り union 結果を壊す ④ 上位版判定をせず `--theirs` で dev 旧基盤版に巻き戻す（**ただし SP-DEVSYNC-065 の「dev が同構造へ進化済み」ケースは除く**） ⑤ marker 残存確認を省略して conflict marker をコミット。
+- 参照: [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-064、L-DEVSYNC-059 (skill-only resolver-only path)、L-DEVSYNC-056/057/058 (別機能 add/add hybridize 分岐先)、SP-DEVSYNC-065 (再 sync で前提が変わる場合)。
+
+
+## L-DEVSYNC-065 同一 feature の**再 sync** — 「前回 `--ours` 採用」を盲目踏襲せず dev の進化を再評価（dev sync-merge / 2026-05-30）
+
+`feat/member-header-admin-link` ← `origin/dev`（`7b2bf0537`）の **2 度目** の sync-merge で、前回（L-DEVSYNC-064 / SP-DEVSYNC-064、merge `2a9e5611c`）は dev=inline 単一実装だったため HEAD 分割版を `--ours` 採用した auth-view conflict が再発した。だが今回は dev が sibling branch（L-DEVSYNC-063 の `public-header-session-aware-auth-view-base`、merge `060bab6bf`）経由で **同じ分割モジュール構造へ進化済み**。「進化段階差（inline vs module）」フレームは無効化し、「**同構造の細部相違**」フレームへ切り替えて dev 版を `--theirs` 採用した（前回と逆の結論）。sync-merge task を生成する仕様の Phase 4 risk / Phase 12 implementation-guide にこの再評価ステップを固定する。
+
+- **SP-DEVSYNC-065-A (再 sync は前回判断の前提を再評価)**: N 度目の sync で同一 feature が再 conflict したら、Phase 12 手順に「前回 lesson の `--ours`/`--theirs` 結論をそのまま適用せず、`git show :3:<path>`(theirs/dev) の構造を読み dev が前回から進化していないか確認する」を明記。dev が HEAD と同構造へ追いついていたら進化段階差フレーム（SP-DEVSYNC-064 / L-DEVSYNC-063）を捨て、本 lesson の同構造細部相違フレームへ分岐。
+- **SP-DEVSYNC-065-B (同構造細部相違の canonical 判定基準)**: 両 side が同じモジュール構造の場合、上位版判定は構造ではなく品質指標 — ①ガードがより厳密（`trim()` で空白も弾く > `length` のみ）②テストがより網羅的（境界ケース数）③共有型が 1 箇所に集約。これらを多く満たす側を canonical とし `--theirs`/`--ours` を選ぶ。Phase 12 risk に「同構造再 sync では品質指標で canonical を選ぶ」を 1 行登録。
+- **SP-DEVSYNC-065-C (consumer 互換の grep + typecheck が採否の最終根拠)**: `--theirs` 成立条件は「HEAD 固有 consumer が dev 版 API で動く」こと。仕様に「`grep -n '<consumer prop>' <consumer files>` で依存契約を確認 → literal→string 等の契約緩和なら無修正可、契約強化なら型 fail で `--ours` 継続 → `pnpm typecheck` + focused vitest(対象 + consumer 層) で機械確認後 commit」を明記。
+- anti-pattern: ① 前回 lesson の結論を機械転記し dev の進化を見落とす ② 「`--theirs`=旧基盤巻き戻し」と短絡し進化済み canonical を捨てる（SP-DEVSYNC-064 anti-④ の誤適用）③ consumer 互換を grep/typecheck せず型不整合のまま commit ④ 品質指標を見ずに「HEAD が常に上位」と決めつける。
+- 参照: [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-065、L-DEVSYNC-063/064 (dev=inline 時の進化段階差)、SP-DEVSYNC-064 (前回 `--ours` 採用)、L-DEVSYNC-024 (import block 両側採用)。
+
+
+## L-USS-A 親 workflow + nested sub-workflow による単一タスク Phase 1-13 化（2026-05-28）
+
+A-F 等の親 workflow 内で **1 タスクだけを単独サイクル完結** したい時、standalone root を作らず `tasks/<task-id>/` に Phase 1-13 サブworkflow を nest するパターン。`unified-sidebar-shell-public-and-admin` Task A (`SidebarShell` primitive) で検証。
+
+- **L-USS-A-001 (parent + nested topology)**: standalone root (`docs/30-workflows/task-A-...`) を作らず親の `tasks/<task-id>/` 配下に Phase 1-13 を nest。verify:phase12-compliance は `hasCompletedTasksAncestor=true` で許容。standalone を後から `mv` で collapse する場合、artifact-inventory に `collapsed into parent` で吸収。
+- **L-USS-A-002 (Server / Client 境界 slot 固定)**: 3 層 layout 共通 shell primitive では `<...Server>` だけが `getSession()` / counts を解決し、Client component には plain props + `ReactNode` slot を渡す。後追い実装の下流タスクが上流 contract を壊さない。
+- **L-USS-A-003 (SSR-safe persistent UI state)**: collapse / sidebar state 等の client-only state は「初期値 deterministic + `useEffect` で localStorage hydrate」の 2 段。初期 render で localStorage を読むと Cloudflare Workers / Next.js App Router で hydration mismatch。
+- **L-USS-A-004 (`buildNavFor<Role>` pure 関数化)**: nav 構成は component に埋め込まず `<area>-config.ts` 1 箇所に集約。`*-config.spec.ts` で role × ctx 全 branch を網羅し、admin nav drift を CI で防ぐ。
+- **L-USS-A-005 (out-of-order 実装でも上流契約を守る)**: 依存タスク (Task B = UserMenu 等) が先行実装されても、上流 (Task A = primitive) は slot 契約 + plain props を維持。下流の細部を上流に逆流させない。
+- **L-USS-A-006 (tokens は theme variant 同時追加)**: `--shell-bar-*` 等の surface トークンは default + `[data-theme='cool']` を必ず同時追加。片側だけ追加すると `verify-design-tokens` fail + cool theme drift。
+- **anti-pattern**: (a) standalone root を残す (discovery 分裂)、(b) Client に `getSession()` (auth boundary 崩壊)、(c) 初期 render で localStorage 同期読み (SSR mismatch)、(d) nav 構成を component / config の両方に書く (drift 不可避)、(e) tokens を default のみ追加 (theme drift)。
+- 参照: [[lessons-learned-unified-sidebar-shell-task-a-2026-05]] L-USS-001..006、[[admin-shell-topbar-sidebar-integration]] (前例 Task A primitive 分離)。
+
+
 ## L-DEVSYNC-061 conflict 0 件 shape（add-only 取込）を sync-merge 判定フローの最上段に固定（dev sync-merge / 2026-05-29）
 
 `feat/task-c-privacy-terms-public-shell-spec` ← `dev` (取込 1 commit `37fe488e8` #1009) の sync-merge で **conflict 0 件**。dev 側差分が `docs/30-workflows/completed-tasks/members-list-ux-clarity/**` への **新規ファイル追加のみ**で、feature branch の接触面（`(public)/{privacy,terms}` + skill 索引）と path が完全 orthogonal だったため、add-add すら起きず resolver / 手動 hybridize の両方が不要だった（merge commit `fa756f644` を `git merge` が即生成）。L-DEVSYNC-059/060 の "skill-only → resolver 単発" よりさらに 1 段クリーンな最頻 shape。
@@ -1314,6 +1394,27 @@ dev sync-merge で **同一の small public API（`apps/web/src/lib/auth-view/` 
 - **SP-DEVSYNC-063-D (unit は部分採用しない)**: component だけ theirs / module だけ ours のような混在採用は import 経路と DOM 契約が割れて typecheck/test が落ちる。canonical unit は component + spec + module + layout + layout.spec を**一括で同じ側**に揃える。
 - 参照: [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-064 / L-DEVSYNC-063（task-c 版 ours / public-header 版 theirs の対比）/ L-PATSEC-001..003（末尾 append + lesson ID prefix 命名）。
 
+
+## SP-DEVSYNC-046 page-level の **両側補完追加**は wholesale ではなく prop 合成で解消する（2026-05-30 feat/public-header-auth-slot-e2e ← dev #1013 再 sync）
+
+同一 page (`apps/web/app/privacy/page.tsx` / `apps/web/app/terms/page.tsx`) で **両側が独立に PublicShell wrapper を追加**するパターン。HEAD 側 = `currentPath` prop による active state 付与、dev 側 = `data-auth-state` 等の DOM 契約 + `getAuthView()` 配線 + 3 行グリッドラップ。同一 component (`PublicHeader.tsx`) が両方の prop を同時受容できる signature を持っており、片側 wholesale ではどちらか一方の regression が出るため hybrid 採用が必須（aiworkflow-requirements `lessons-learned-dev-sync-merge-conflict-resolution-2026-05.md` L-DEVSYNC-065）。
+
+- **SP-DEVSYNC-046-A (補完 add/add の判定)**: 3-way diff (`<<<<<<< HEAD ... ||||||| <base> ... ======= ... >>>>>>> dev`) で base が空・両側に追加要素が存在し、それらが**同じ component への異なる prop**である場合は wholesale 不可。SP-DEVSYNC-063-A の「canonical 所在で決める」原則の前提（片側陳腐化）が成立しないため判定フローを分岐させる。spec の Phase 4 / Phase 12 に「page-level conflict は `git show :1:<path>` で base 確認 → 両側追加が補完関係なら prop 合成」を判定手順として明記。
+- **SP-DEVSYNC-046-B (合成順序の規約)**: dev 側の wrapper 構造（`data-testid`/`data-route-group`/`data-auth-state` 等の DOM 契約）を骨格として採用し、HEAD 側固有の prop（`currentPath` 等の active state 系）を component 呼び出しに**追加**する形で合成。改行/indent は dev 側（prettier 形）を採る（typography 影響なし）。これにより e2e selector と unit test の active state 両方が temporal regression なしに維持される。
+- **SP-DEVSYNC-046-C (判定フロー全体)**: ① skill index → `pnpm sync:resolve`、② source の add/add で片側陳腐化 → SP-DEVSYNC-063 wholesale、③ source の add/add で **両側補完** → 本 lesson の prop 合成、④ 解消後は `pnpm typecheck` 6 packages + `pnpm lint` + `bash scripts/verify-pr-ready.sh` を必ず pre-push gate として直列実行。
+- 参照: [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-065 / SP-DEVSYNC-063（wholesale 原則との対比）。
+
+
+## SP-DEVSYNC-066 sync-merge task の Phase 12 に「lessons-only conflict → union 解消 → 二重化検証 → indexes:rebuild」の最頻フローを固定（dev sync-merge / 2026-05-30 feat/member-header-admin-link ← dev #1014）
+
+`feat/member-header-admin-link` を再 sync した際、content conflict が `patterns-lessons-and-pitfalls.md` 1 件のみ（前回の auth-view source conflict は取込 dev commit #1014 が orthogonal path だったため再発せず）。lessons/patterns 系の末尾 append 衝突が sync-merge の最頻 shape である一方、union 自動結合は同一 lesson の二重化と indexes drift という 2 つの盲点を残す。sync-merge task を生成する仕様の Phase 4 risk / Phase 12 implementation-guide にこのフローを固定する（aiworkflow-requirements `lessons-learned-dev-sync-merge-conflict-resolution-2026-05.md` L-DEVSYNC-066）。
+
+- **SP-DEVSYNC-066-A (conflict 列挙を最初に分類)**: Phase 12 手順に「`git diff --name-only --diff-filter=U` で content conflict を列挙し、**lessons/patterns/changelog 等の append 系のみ**なら `pnpm sync:resolve` 単発で閉じ、source(`.ts/.tsx`) 0 件を確認したら手動 hybridize を始めない」を明記。前回 sync の conflict ファイル一覧を予測に流用しない（取込 dev commit の触る面で範囲が毎回変わる）。
+- **SP-DEVSYNC-066-B (union 後の二重化検証ゲート)**: union-merge は競合ブロック両 side を連結するため同一 lesson の二重化リスクがある。Phase 12 検証手順に「`git show HEAD:<f>` / `git show MERGE_HEAD:<f>` の `grep -c '^## '` と結合後の見出し数を照合 + `grep '^## ' <f> | sort | uniq -d` 空 + 連続重複行なし」を二重化検証として登録。Phase 4 risk に「union 解消は同一見出しを二重化し得る」を 1 行追加。
+- **SP-DEVSYNC-066-C (merge 後 indexes:rebuild 必須)**: `indexes/*-map.md` / `keywords.json` は `merge=union` で auto-merge されるが正規生成物と一致しないことがあり、CI `verify-indexes-up-to-date` が fail する。Phase 12 検証ゲートを「conflict 解消 → 二重化検証 → `pnpm indexes:rebuild`（drift を別途 stage）→ `pnpm typecheck` → `pnpm lint` → push」の順で固定。`keywords.json` は JSON 妥当性（`node -e 'JSON.parse(...)'`）も確認。
+- anti-pattern: ① append 系のみの conflict で auth-view 等 source 解消手順を反射的に始める ② union 後の二重化検証を省略し同一 lesson を二重 commit ③ merge 直後 clean を信じて `indexes:rebuild` を省き CI gate fail ④ 前回 sync の conflict ファイル一覧を今回の予測に流用する。
+- 参照: [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-066 / L-DEVSYNC-059/060/061（skill-only resolver 単発・conflict 0 shape）/ SP-DEVSYNC-065（再 sync は前提を再評価）。
+
 ## SP-DEVSYNC-064 docs 系 feature branch が #1014 (公開ページ source) を取り込むと conflict は skill index 1 件 (`topic-map.md` union) のみ — 最小 resolver-only shape（2026-05-30 docs/web-worker-size-limit-fix-spec ← dev #1014）
 
 source code を一切触らない **docs/spec 系 feature branch**（`docs/web-worker-size-limit-fix-spec`）が、dev 側の公開ページ実装 commit（#1014「privacy/terms に PublicHeader/PublicFooter 適用」= `apps/web/app/{privacy,terms}/**` + 関連 skill 追記）を取り込んだケース。branch の接触面が skill 索引のみのため、`git merge dev` 後の unresolved は `aiworkflow-requirements/indexes/topic-map.md` の **union 1 件だけ** に縮退し、`pnpm sync:resolve` 単発（`union-resolved 1 files` + `indexes:rebuild`）で完結した。SP-DEVSYNC-059/061 の resolver-only path のうち **最小規模 shape**（conflict 1 件・keywords.json の `--ours` すら発生せず）。
@@ -1322,3 +1423,35 @@ source code を一切触らない **docs/spec 系 feature branch**（`docs/web-w
 - **SP-DEVSYNC-064-B (keywords.json 不発でも resolver は安全)**: `--ours + rebuild` 対象の `keywords.json` が今回 conflict せず（dev/branch の差分が orthogonal）、resolver stdout は `union-resolved 1 files` + `indexes:rebuild` のみ。`ours:` 行が出ないのは異常ではなく shape 依存。resolver 完走判定は **`git ls-files -u` 0** と `all skill / index conflicts resolved` 行で行い、`ours:` 行の有無に依存させない。
 - **SP-DEVSYNC-064-C (取込が visual baseline PNG を含んでも docs branch は再取得不要)**: #1014 は `playwright/.../full-visual-*.png` baseline 更新を含むが、docs branch 側はこれら binary を編集しないため `Auto-merging`（fast 取込）で衝突せず、visual baseline 再取得は不要。Phase 4 risk に「docs branch は取込 PNG を素通し・visual regression リスク無し」を 1 行登録できる。
 - 参照: [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-065 / L-DEVSYNC-059 / L-DEVSYNC-061（skill-only / 最小 shape）/ SP-DEVSYNC-061-A（判定フロー最上段）。
+
+## SP-DEVSYNC-067 同 branch を再々 sync しても conflict shape は取込 dev commit の touch surface で毎回変わる — resolver-only path の件数レンジ追補 + 二重化「既存 vs 当該 merge 由来」切り分けを Phase 12 に固定（dev sync-merge / 2026-05-30 feat/member-header-admin-link ← dev #1032）
+
+source code を一切触らない feature branch に dev の skill 反映付き commit（#1032「Worker サイズ制限超過の修正：next/og 撤去 + 静的 OG 画像化 + CI サイズ gate」）を **3 度目** に取り込んだケース。前回（SP-DEVSYNC-066 / #1014 取込）は content conflict が patterns 1 件のみだったが、今回は `aiworkflow-requirements/indexes/{resource-map.md,topic-map.md}` + `references/task-workflow-active.md` + `task-specification-creator/references/patterns-lessons-and-pitfalls.md` の **4 件（全 resolver 対象・source `.ts/.tsx` 0 件）** に振れた。**同 branch・同種 resolver-only path でも conflict 件数は取込 commit の touch surface で 1→4 と変動する**ことを再確認。
+
+- **SP-DEVSYNC-067-A (resolver-only path の件数非依存収束)**: `git merge dev` 後 `git diff --name-only --diff-filter=U` の全件が `.claude/skills/**`（index/active/lessons/patterns）に閉じるなら、件数が 1 でも 4〜7 でも `pnpm sync:resolve` 単発で `git ls-files -u` 0 まで収束する（SP-DEVSYNC-043 の件数レンジ追補）。Phase 12 sync-merge 節に「resolver 対象のみなら conflict 件数で追加工数を見積もらない」を明記。source `.ts/.tsx` が 1 件でも混在する時のみ SP-DEVSYNC-063/064 の wholesale/hybridize 工数を Phase 11/13 へ積む。
+- **SP-DEVSYNC-067-B (二重化検証は「既存 vs 当該 merge 由来」を切り分ける)**: union 後の lessons/patterns で見出し番号重複が grep に出ても即「union 二重化」と断じない。Phase 12 検証手順に **`git show HEAD:<f>` と `git show MERGE_HEAD:<f>` の見出し数を取り、merged ≈ HEAD + (MERGE_HEAD の純増) かを確認** を固定（本例 HEAD=112 / MERGE_HEAD=110 / merged=113 で純増 1。重複見出しは HEAD 時点で既存＝過去 union 累積で当該 merge 由来でない）。当該 merge が見出しを大量複製していないこと（純増が MERGE_HEAD 固有分に収まる）だけをゲートにし、既存重複の手動 dedup は別タスク扱い（CI に見出し一意性 gate は無い）。
+- **SP-DEVSYNC-067-C (patterns は見出し行限定 grep で締める)**: `grep -oE 'SP-DEVSYNC-[0-9]+'`（参照行込み）は「参照: SP-DEVSYNC-NNN」を拾い誤検出する。**`grep -E '^#+ .*SP-DEVSYNC-[0-9]+'`（見出し行限定）で重複 0** を確認するのが正しい締め方。
+- **SP-DEVSYNC-067-D (merge 後 indexes:rebuild 冪等ゲート)**: `pnpm indexes:rebuild` を 2 回連続実行し 2 回目で working↔index の unstaged drift 0（`git diff --name-only indexes/` 空）を確認してから merge commit を確定。CI `verify-indexes-up-to-date` の fail を予防（SP-DEVSYNC-066 の実行手順固定化・本例 5201 kw 冪等）。
+- 検証: `git diff --diff-filter=U` 0 件 + 二重化切り分け (B/C) + `pnpm indexes:rebuild` ×2 冪等 + `git grep -lE '^(<<<<<<<|>>>>>>>)'` 空 + `pnpm typecheck` PASS + `pnpm lint` PASS。merge commit `e0431ed31`。
+- 参照: [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-067 を唯一の正本。L-DEVSYNC-065/066（同 branch 再 sync は前提を再評価）/ SP-DEVSYNC-043（件数レンジ）/ SP-DEVSYNC-066（最頻フロー）。
+
+## SP-DEVSYNC-068 dev が大量 source を add しても feature が当該 path 未接触なら add-only 素通り — source conflict の有無は「feature の改修 path との交差」と「自 feature の dev landed 有無」で決まり file 数では決まらない、を Phase 4 risk / Phase 12 に固定（dev sync-merge / 2026-05-30 feat/member-header-admin-link ← dev #1025）
+
+source を一切触らない（実態は `MemberHeader` + `lib/auth-view` のみ接触の）feature branch に、dev の **source 大量追加 commit**（#1025「統一サイドバーシェル基盤を追加」= `apps/web/src/components/shell/**` 14 file + `tokens.css` 新規追加）を **4 度目** に取り込んだケース。前回（SP-DEVSYNC-067 / #1032 取込）は content conflict 4 件だったが、今回は `aiworkflow-requirements/indexes/topic-map.md` + `task-specification-creator/references/patterns-lessons-and-pitfalls.md` の **2 件（全 resolver 対象・source `.ts/.tsx` 0 件）** に振れ、**#1025 が追加した 14 source file は全て `A`(add-only) で素通り**した。**「dev が source を多く触った＝source conflict が増える」は誤り**で、conflict は feature の改修 path と dev 取込 path の交差でのみ発生することを 4 度目に確定。
+
+- **SP-DEVSYNC-068-A (source conflict 予測は file 数でなく path 交差で行う)**: sync-merge task の Phase 4 risk 見積りで「dev が source を N file 触ったから source 解消工数を積む」と書かない。`git diff HEAD..dev --name-only` ∩ feature の改修 path（実 diff した `apps/**`）が空なら、dev が新規ディレクトリ群を add しても add/add 衝突に到達せず工数ゼロ。Phase 12 sync-merge 節に「source 解消工数は `git diff --name-only --diff-filter=U` に `.ts/.tsx` が現れた時のみ Phase 11/13 へ積む」を明記。
+- **SP-DEVSYNC-068-B (`sync:resolve` の `WARN unhandled conflict` 行ゼロ＝source 混在ゼロの完走シグナル)**: Phase 12 検証手順に、`pnpm sync:resolve` stdout が `all skill / index conflicts resolved` で終わり **`WARN unhandled conflict` / `AA` 残置警告が 0 行**であることを `git ls-files -u` 0 と並ぶ二重ゲートとして固定。WARN が出た時のみ SP-DEVSYNC-063/064 の auth-view wholesale/hybridize 分岐へ（前回 #1013 取込では WARN が出て AA が残ったのと対照）。
+- **SP-DEVSYNC-068-C (自 feature の dev landed で source conflict は self-resolve する)**: 同一 feature を再 sync するうち、自 branch の source（例 `lib/auth-view`）が別 PR 経由で dev へ merge され戻ると、以前 add/add（`AA`）だった unit は **non-conflict 化**する。SP-DEVSYNC-064（ours→theirs 逆転）の更に先の段階として「landed 済みなら衝突自体が消滅」を Phase 4 に追記。判定は `git log origin/dev --oneline | grep <feature の該当 commit / PR>`。
+- **SP-DEVSYNC-068-D (sync-merge 検証は `typecheck`/`lint` green を test/CI green と混同しない — Phase 12 に `gh pr checks` 確認を固定)**: sync-merge task の Phase 12 検証手順で `typecheck`/`lint` PASS を CI green の代理にしない。**async server component 化（`getAuthView()` 追加等で layout を `async` 化）に伴う spec 追従漏れ**は型エラーにならず test だけ赤になる（`render(<Layout/>)` の同期 render が空 DOM を返す）。修正は canonical `(public)/layout.spec.tsx` パターン（`vi.mock` で `getAuthView` を guest 固定 + `render(await Layout({children}))` + 各 `it` を `async` 化）へ揃える。Phase 12 に「push 後 `gh pr checks <PR>` で `coverage-gate-shard` 等の test gate 含む全 check を確認」を必須ステップとして明記し、既存赤（merge 起因でない潜在 fail）も同列に拾う。
+- 検証: `git diff --diff-filter=U` 0 件（skill-only 2 件）+ `sync:resolve` WARN 0 行 + `pnpm indexes:rebuild` md5 一致冪等（topic-map `56253ba6…`）+ `git grep -lE '^(<<<<<<<|>>>>>>>)'` 空 + `pnpm typecheck` PASS + `pnpm lint` PASS + **`gh pr checks <PR>` 全 check green**。
+- 参照: [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-068 を唯一の正本。SP-DEVSYNC-067（前回 #1032・4 件・件数非依存収束）/ SP-DEVSYNC-063/064（source AA が出た対照例＝今回は WARN 0 で不発）/ SP-DEVSYNC-043（件数レンジ）/ SP-DEVSYNC-066（最頻フロー）。
+
+## SP-DEVSYNC-066 add/add で HEAD が部分定義 + dev がフル実装 → grep で依存側確認 `--theirs`、modify/delete (UD) は workflow root migration 由来なら削除、両側 `## Lessons Learned` は subsection 分割で union 化（2026-05-30 feat/unified-sidebar-shell-user-menu ← dev #1025）
+
+`feat/unified-sidebar-shell-user-menu` ← `dev` の sync-merge で `pnpm sync:resolve` が **5 件 unhandled** を残した混合 shape。SP-DEVSYNC-063（canonical wholesale）の延長で、add/add の正本判定基準を「**他ファイルの import を grep**」に拡張し、UD（modify/delete）の即決ルール、両側 `## Lessons Learned` 節の subsection 分割パターンを追加。
+
+- **SP-DEVSYNC-066-A (AA add/add の正本は grep で決まる)**: shell-config.ts のように HEAD = `export type ShellRole` 1 行のみ、dev = `buildNavForRole`/`isNavItemActive`/フル実装、という非対称 add/add では、`grep -rn buildNavForRole apps/web/src/components/shell/` で `SidebarShell.server.tsx` + `__tests__/shell-config.spec.ts` が dev 側 API に依存していることを確認 → `git checkout --theirs` で機械的に決定。Phase 12 implementation-guide に「add/add は両側 diff を見る前に、まず conflict file が定義する export name で grep」を判定手順として明記。
+- **SP-DEVSYNC-066-B (UD modify/delete は workflow root migration 由来なら削除採用)**: `docs/30-workflows/<name>/...` を dev で削除、HEAD で modify した UD は、dev 側で workflow root が `completed-tasks/<name>/` 配下に migration 済の典型シグナル。`ls docs/30-workflows/<name>/ 2>&1` で stale dir 確認 → `git rm` で即決。HEAD 側の modify は migration 前の旧 path に対する更新で、移動先 path で対応する artifact が dev 側に既存している。
+- **SP-DEVSYNC-066-C (両側 `## Lessons Learned` は subsection 分割で union 化)**: changelog / inventory / compliance-check の `## Lessons Learned`（または `## Lessons`）節が両側に純粋追加（base = 空）された場合、`### Task A wave` + `### Task B wave` 等の subsection 分割で両保持する。base が空であることを `||||||| <SHA>` セクションで確認すれば、意味的競合ではなく純粋な semantic union と確定する。同 ID の上書きなら最終レポート対象。
+- **SP-DEVSYNC-066-D (resolver unhandled 5 件混合 shape の処理順)**: `pnpm sync:resolve` exit 1 後の手動解消は **(1) AA を grep 判定 → (2) UD を dir 存在判定 → (3) UU の見出し節を subsection 分割 → (4) UU の表 row を `;` 結合**の順が最も早い。AA/UD は即決、UU の Lessons/evidence 系のみ手作業時間を要する。typecheck で AA 解消後の自己完結性を、lint で UU 解消後の文法を即検証。
+- 参照: [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-066 / L-DEVSYNC-063 / L-DEVSYNC-064（canonical wholesale ours/theirs 反転の系列）。

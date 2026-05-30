@@ -6,8 +6,8 @@
 import type { Metadata } from "next";
 
 import { LegalProse } from "../../src/components/legal/LegalProse";
-import { PublicHeader } from "../../src/components/public/PublicHeader";
 import { PublicFooter } from "../../src/components/public/PublicFooter";
+import { PublicHeader } from "../../src/components/public/PublicHeader";
 import { getAuthView } from "../../src/lib/auth-view/getAuthView";
 
 export const metadata: Metadata = {
@@ -26,7 +26,7 @@ export default async function PrivacyPage() {
       data-auth-state={authView.kind}
     >
       <header data-shell="topbar">
-        <PublicHeader authView={authView} />
+        <PublicHeader currentPath="/privacy" authView={authView} />
       </header>
       <main data-page="privacy" data-route="public" data-section-rhythm="comfortable">
         <LegalProse>

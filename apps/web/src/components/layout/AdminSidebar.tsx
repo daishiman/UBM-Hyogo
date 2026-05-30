@@ -16,6 +16,7 @@ interface NavItemDef {
   readonly href: string;
   readonly label: string;
   readonly icon: ReactNode;
+  readonly dataRole?: string;
   readonly badgeKey?: "schemaDiff";
 }
 
@@ -49,7 +50,7 @@ const GROUPS: ReadonlyArray<NavGroupDef> = [
   {
     label: "Public",
     items: [
-      { href: "/", label: "ホーム", icon: ICON_HOME },
+      { href: "/", label: "公開サイトに戻る", icon: ICON_HOME, dataRole: "public-return" },
       { href: "/members", label: "会員ディレクトリ", icon: ICON_USERS },
       { href: "/register", label: "登録", icon: ICON_USER_PLUS },
     ],
@@ -110,6 +111,7 @@ export function AdminSidebar({ schemaDiffCount, userDisplayName, userEmail }: Ad
                   label={item.label}
                   icon={item.icon}
                   badge={resolveBadge(item, schemaDiffCount)}
+                  {...(item.dataRole ? { dataRole: item.dataRole } : {})}
                 />
               ))}
             </ul>
