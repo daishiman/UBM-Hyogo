@@ -4595,6 +4595,15 @@ node scripts/list-specs.js --topics
 
 ### references/workflow-web-app-route-bundle-parse-fix-artifact-inventory.md
 
+### references/workflow-web-worker-size-limit-fix-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Implementation Targets | L9 |
+| Evidence | L22 |
+| User-Gated Boundary | L34 |
+| Lessons Learned | L38 |
+
 ### references/workflow-workspace-parent-reference-sweep-guard.md
 
 | セクション | 行 |
@@ -4920,20 +4929,20 @@ node scripts/list-specs.js --topics
 | .assetsignore の役割と運用 | L88 |
 | ビルド・デプロイ手順 | L108 |
 | Worker bundle size ガード | L131 |
-| SPA fallback / 404 ハンドリング | L149 |
-| preview / staging / production の env 分離 | L158 |
-| 旧 Pages プロジェクトの並走方針 | L170 |
-| CLI 経路の徹底 | L182 |
-| R2 incremental cache（任意採用） | L191 |
-| Build mode の不変条件（CI recovery / 2026-05-09） | L199 |
-| 関連リソース | L213 |
-| production route / secret / observability preflight | L234 |
-| analytics read-only token 分離 | L275 |
-| Long-term analytics evidence | L290 |
-| c-A production execution workflow | L296 |
-| CI build-time env injection for OpenNext Workers | L311 |
-| OpenNext config regression guard | L321 |
-| Response security headers via middleware | L334 |
+| SPA fallback / 404 ハンドリング | L161 |
+| preview / staging / production の env 分離 | L170 |
+| 旧 Pages プロジェクトの並走方針 | L182 |
+| CLI 経路の徹底 | L194 |
+| R2 incremental cache（任意採用） | L203 |
+| Build mode の不変条件（CI recovery / 2026-05-09） | L211 |
+| 関連リソース | L225 |
+| production route / secret / observability preflight | L246 |
+| analytics read-only token 分離 | L287 |
+| Long-term analytics evidence | L302 |
+| c-A production execution workflow | L308 |
+| CI build-time env injection for OpenNext Workers | L323 |
+| OpenNext config regression guard | L333 |
+| Response security headers via middleware | L346 |
 
 ### references/deployment-cloudflare-ut06-gate.md
 
@@ -8071,14 +8080,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L3090 |
-| フェーズ構造（概要） | L3099 |
-| 品質ゲート（概要） | L3130 |
-| 出力テンプレート | L3141 |
-| 実行時のコマンド・エージェント・スキル | L3164 |
-| 昇格パターン集 | L3188 |
-| Current Active / Spec Created Tasks | L3190 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L3352 |
+| ドキュメント構成 | L3103 |
+| フェーズ構造（概要） | L3112 |
+| 品質ゲート（概要） | L3143 |
+| 出力テンプレート | L3154 |
+| 実行時のコマンド・エージェント・スキル | L3177 |
+| 昇格パターン集 | L3201 |
+| Current Active / Spec Created Tasks | L3203 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L3365 |
 
 ### references/task-workflow-backlog-part2.md
 
