@@ -597,6 +597,7 @@
 - How to apply（task 仕様書での逐語化）: Phase 9 sync-merge 節の事前見積で「conflict 全件が skill index/SKILL/task-workflow-active/keywords.json に限定されるなら、index が複数同時衝突していても追加工数を見込まない（`pnpm sync:resolve` 単発）」を明記。`.tsx`/`.ts` の conflict が 1 件でも混在する場合のみ SP-DEVSYNC-038/042 の手動 hybridize 工数を Phase 11/13 に積む。
 - 検証: `pnpm sync:resolve` stdout `union-resolved 6 files` + `ours: keywords.json` + `indexes:rebuild` 完走 → `git ls-files -u` 0 → `pnpm typecheck` 6 packages Done → `pnpm lint` Done → `pnpm indexes:rebuild` 再実行 no drift。merge commit `0ad9e3555`。
 - 参照: aiworkflow-requirements [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-060 再現事例（2026-05-29 第3例）。
+- 再現（2026-05-30 `docs/web-worker-size-limit-fix-spec` ← origin/dev sync-merge）: dev 側 1 コミット（#1013 認証状態別ヘッダー表示基盤）取り込みで conflict 3 件 = aiworkflow `indexes/{resource-map.md,topic-map.md}` 2 + `references/task-workflow-active.md` 1（`SKILL.md`/`quick-reference.md`/`keywords.json` は `Auto-merging` で textual conflict なし）。`.tsx`/`.ts` 接触面ゼロの skill-only shape。`pnpm sync:resolve` で 3 件 union 自動解消 + `keywords.json` rebuild（5200 キーワード）→ `git ls-files -u` 0 → merge commit 単発 → `pnpm indexes:rebuild` 再実行 no drift（後追い chore commit 不要）→ `pnpm typecheck` 6 packages Done / `pnpm lint` Done。SP-DEVSYNC-043 の「index 複数同時衝突でも resolver 単発収束 / 追加工数不要」が conflict 件数 3〜7 のレンジで再現することを確認。merge commit は CLAUDE.md sync-merge ポリシーで `staged-task-dir-guard` が `MERGE_HEAD` 検出 auto-skip するため `--no-verify` 不要。
 
 
 ### SP-DEVSYNC-044: 同一 feature の **競合実装**（module 分割 vs inline + 相違 DOM 契約）は canonical branch の coherent unit を wholesale 採用 + consumer 対向契約の grep verify を仕様化（2026-05-30 追加）
@@ -613,3 +614,16 @@
 - 適用範囲外: 同一構造で field/variant だけ違う場合は SP-DEVSYNC-038/041 系の hybridize。skill-only conflict は resolver 単発（SP-DEVSYNC-043）。
 - 検証: `git diff --diff-filter=U` 0 件 + `pnpm typecheck` PASS + `pnpm lint` PASS + `vitest run apps/web/src/lib/<feature> apps/web/src/components/<area> apps/web/app`（本例 81 files / 383 tests PASS）。merge commit `060bab6bf`。
 - 参照: aiworkflow-requirements [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-063 を唯一の正本。
+
+
+### SP-DEVSYNC-045: `pnpm sync:resolve` の partial 失敗（`index.lock: File exists`）は手動 fallback で完結 — 仕様書の sync-merge 節に fallback 手順を必須記載（2026-05-30 追加）
+
+- 事象: 2026-05-30 `feat/unified-sidebar-shell-public-admin` ← dev sync-merge で skill-only conflict 3 件（union 2 + derived 1）。`pnpm sync:resolve` が union 解消後の `--ours + rebuild` 段で `fatal: Unable to create '.git/worktrees/.../index.lock': File exists` で exit 128。並行 git プロセスは存在せず、`ls index.lock` も無しの偽陽性。手動 `git checkout --ours -- indexes/keywords.json` + `git add` + `pnpm indexes:rebuild` で 1 分以内に完結。
+- Why: resolver は **idempotent** に設計されているため、partial 失敗時点で union 解消は既に commit-ready で残る（`UU` → `M` に降格済み）。失敗段の処理だけ手動再現すればよく、resolver 全段再走は不要。短時間の fs 競合（IDE auto-fetch、lefthook 他 hook 等）が偽陽性 lock を生むケースを許容する設計。
+- How to apply（task 仕様書での逐語化）: Phase 9 sync-merge 節に「**resolver 失敗時の fallback 経路**」を必須記載:
+  1. resolver が ELIFECYCLE で exit したら panic せず `git status --short` で残コンフリクトを確認。`UU` ファイルが derived（keywords.json 等）のみなら fallback 対象。
+  2. 手動: `git checkout --ours -- <derived files>` → `git add <derived files>` → `pnpm indexes:rebuild`。
+  3. `git diff --cached` で derived が rebuild 結果に差し替わっていること、`git ls-files -u` 0 件を確認。
+- 適用範囲外: page-level `.ts/.tsx` の `UU` が残る場合は SP-DEVSYNC-038/042/044 経路（fallback では救えない）。
+- 検証: merge commit `09d82ca20`、typecheck 6 packages Done、lint exit 0。
+- 参照: aiworkflow-requirements [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-065、`scripts/sync/resolve-skill-merge-conflicts.sh`。

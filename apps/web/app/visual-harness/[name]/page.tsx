@@ -13,6 +13,7 @@ const allowed = new Set([
   "empty-state",
   "profile-loading",
   "parallel-02-css-rules",
+  "sidebar-user-menu",
 ]);
 
 export default async function Parallel09VisualPage({
