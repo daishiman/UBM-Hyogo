@@ -28,6 +28,7 @@ export default async function AdminLayout({
       data-testid="admin-shell"
       data-theme="cool"
       data-route-group="admin"
+      data-auth-state="admin"
       data-shell-mode="sidebar"
     >
       <SidebarShellServer activePath="/admin" mobileTriggerSlot={<SidebarMobileTrigger />}>

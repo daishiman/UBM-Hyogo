@@ -7,14 +7,41 @@
 // inline style は禁止（scripts/verify-no-inline-style.sh）のため幅は Tailwind arbitrary value
 //（w-[var(--shell-bar-w)]）で表現する。
 import type { ReactNode } from "react";
+import Link from "next/link";
 import { SidebarBrand } from "./SidebarBrand";
 import { SidebarCollapseToggle } from "./SidebarCollapseToggle";
 import { SidebarNav } from "./SidebarNav";
 import { SidebarUserMenu } from "./SidebarUserMenu";
+import { ShellIcon } from "./icons";
 import { SidebarShellProvider } from "./SidebarShellContext";
 import { useSidebarState } from "./useSidebarState";
 import { cn } from "../../lib/cn";
 import type { ShellNavGroup, ShellRole } from "./shell-config";
+
+// admin-sidebar-public-return-link (#1021) を統一 shell へ継承。
+// 旧 AdminSidebar の「公開サイトに戻る」導線を admin role 限定で SidebarShell に再実装する。
+// public guest route は (public)/layout が PublicHeader を使い shell 非経由のため、
+// 本リンクは admin shell にのみ現れる（auth-slot-coverage の data-role="public-return" 契約）。
+function AdminPublicReturn({ collapsed }: { readonly collapsed: boolean }) {
+  return (
+    <Link
+      href="/"
+      data-role="public-return"
+      data-component="admin-sidebar-public-return"
+      aria-label="公開サイトに戻る"
+      title={collapsed ? "公開サイトに戻る" : undefined}
+      className="flex items-center gap-2 rounded-sm px-3 py-2 text-sm text-[var(--ubm-color-text-secondary)] transition-colors hover:bg-[var(--ubm-color-surface-hover)] hover:text-[var(--ubm-color-text-primary)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--ubm-color-accent)]"
+    >
+      <span
+        aria-hidden="true"
+        className="inline-flex h-4 w-4 shrink-0 items-center justify-center"
+      >
+        <ShellIcon id="home" />
+      </span>
+      <span className={collapsed ? "sr-only" : "flex-1"}>公開サイトに戻る</span>
+    </Link>
+  );
+}
 
 export type SidebarShellProps = {
   readonly role: ShellRole;
@@ -58,6 +85,7 @@ export function SidebarShell({
             <SidebarCollapseToggle />
           </div>
           <SidebarNav navGroups={navGroups} activePath={activePath} />
+          {role === "admin" ? <AdminPublicReturn collapsed={collapsed} /> : null}
           <SidebarUserMenu role={role} user={user} collapsed={collapsed} />
         </aside>
 
@@ -77,6 +105,7 @@ export function SidebarShell({
             >
               <SidebarBrand />
               <SidebarNav navGroups={navGroups} activePath={activePath} />
+              {role === "admin" ? <AdminPublicReturn collapsed={false} /> : null}
               <SidebarUserMenu role={role} user={user} collapsed={false} />
             </aside>
           </div>

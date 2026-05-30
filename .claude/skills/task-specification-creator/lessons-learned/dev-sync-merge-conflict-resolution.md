@@ -615,6 +615,35 @@
 - 検証: `git diff --diff-filter=U` 0 件 + `pnpm typecheck` PASS + `pnpm lint` PASS + `vitest run apps/web/src/lib/<feature> apps/web/src/components/<area> apps/web/app`（本例 81 files / 383 tests PASS）。merge commit `060bab6bf`。
 - 参照: aiworkflow-requirements [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-063 を唯一の正本。
 
+### SP-DEVSYNC-045: 同一 branch の N 回目 sync でも conflict 集合は毎回変動 — unmerged を毎回一次取得し、`references/patterns-lessons-and-pitfalls.md`（`merge=union` 対象外）も resolver 対象に含めて見積もる（2026-05-30 追加）
+
+- 事象: 2026-05-30 `feat/admin-sidebar-public-return-link` ← origin/dev（HEAD `51ec9eb06` = PR #1032 Cloudflare Worker サイズ制限修正 = next/og 撤去 + 静的 OG 画像化 + CI サイズ gate）の **4 回目** sync-merge。conflict は 5 件 = aiworkflow `indexes/{quick-reference,resource-map,topic-map}.md` 3 + `references/task-workflow-active.md` 1 + task-specification-creator `references/patterns-lessons-and-pitfalls.md` 1。**3 回目（#1013）は conflict 2 件**だったが、同 branch・同接触面で集合が 2→5 件に変動した。#1032 が取り込む source（OG 画像撤去 + `og-default.png` + size gate script）は admin sidebar branch と path 直交のため全て `Auto-merging`、衝突は skill 同期ログ系のみに収束。
+- Why: dev 側 skill 追記の diff 位置が PR ごとに移動するため、同一 branch を連続 sync しても conflict 集合は固定されない。SP-DEVSYNC-043 の「index 複数同時衝突でも resolver 単発収束」が conflict 件数のレンジ（1〜7 件）で再現する一方、**「前回 N 件だったから今回も N 件」という見積もりは外れる**。加えて `references/patterns-lessons-and-pitfalls.md` は `.gitattributes` の `merge=union` 4 glob（`SKILL-changelog.md`/`LOGS/_legacy.md`/`lessons-learned/*.md`/`docs/30-workflows/LOGS.md`）に**含まれない**ため、append-only history でも git は実 conflict marker を立てる。これは resolver の union 解消対象であり、手動 Edit は不要。
+- How to apply（task 仕様書での逐語化）:
+  - Phase 9 sync-merge 節に「**conflict 集合は sync ごとに変動する**前提を明記。前回 sync の conflict ファイル一覧を見積もりに流用せず、毎回 `git diff --name-only --diff-filter=U` を一次ソースとして取得する」を追記。
+  - 同節の `merge=union` 説明に「**`references/patterns-lessons-and-pitfalls.md` / `references/task-workflow-active.md` は `merge=union` 対象外 → 実 conflict marker が立つが `pnpm sync:resolve` の解消対象**。`lessons-learned/*.md`（auto-merge・marker なし）と区別する」を併記。
+  - Phase 11 見積で「dev が source code を大量取込していても、本 branch の接触 path と直交なら conflict は skill ログ系に収束 → resolver 単発・追加工数ゼロ・取込 source の visual baseline 再取得不要」を判定基準に追加（接触 path が交差する場合のみ SP-DEVSYNC-038/042/044 の手動工数を積む）。
+- 適用範囲外: source `.ts/.tsx` の接触面が 1 件でもあれば SP-DEVSYNC-042（直交 symbol）/ SP-DEVSYNC-044（同一 feature 競合実装 wholesale）へ分岐。
+- 検証: `git diff --diff-filter=U` 0 件 + `pnpm typecheck` 6 packages Done + `pnpm lint` exit 0（`stablekey-literal-lint` warning は mode=warning・既存由来で成否判定外）。merge commit `be5ce59ea`、`pnpm sync:resolve` 単発で 5 件 union 解消（`indexes:rebuild` drift ゼロ）。
+- 参照: aiworkflow-requirements [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-067 を唯一の正本（同 branch 3 回目原型は L-DEVSYNC-065）。
+
+
+### SP-DEVSYNC-045: child-branch (e2e/test coverage 追加) が parent-feature の canonical landing と sync する場合は **dev 側 wholesale `--theirs`** を仕様化（2026-05-30 追加）
+
+- 事象: 2026-05-30 `feat/public-header-auth-slot-e2e` ← origin/dev (PR #1013 = parent base の canonical landed) sync-merge。HEAD は parent base の forked-snapshot を持つだけで、固有貢献は Playwright e2e (`playwright/tests/auth-slot-coverage.spec.ts`) 追加のみ。auth-view + PublicHeader が同 feature の競合実装として 8 件 page-level conflict（types/getAuthView/resolveAuthView/index + spec + PublicHeader + spec + layout）。
+- Why: SP-DEVSYNC-044 は canonical = HEAD 側だったため `--ours` wholesale だが、本パターンは **canonical が dev 側**（parent base が先に PR #NNNN で landing 済み）に反転。child branch の固有貢献が test/coverage 追加のみで prod code 変更を含まない場合、wholesale `--theirs` で固有貢献は失われない（test ファイルは別 path にあるため conflict 対象外）。
+- How to apply（task 仕様書での逐語化）:
+  - Phase 9 sync-merge 節に「**child-branch sync-merge の reverse-canonical 判定**」を追記:
+    1. branch 命名が `feat/<parent-feature>-<child-suffix>` 形（例 `-e2e` / `-coverage` / `-visual` / `-runtime-smoke`）かつ `git diff dev...HEAD --stat -- <parent feature prod dir>` が **0 件または test-only** なら reverse-canonical（dev = canonical）と判定。
+    2. dev 側 `git log -1 --oneline <conflict file>` に **PR 番号付き squash commit** が並んでいたら canonical landing 確定。
+    3. 固有貢献の test/coverage ファイルが dev canonical の DOM/API 契約に依存しているかを `grep -nE 'data-role|data-component|data-testid|data-auth-state' <test files>` で抽出し、dev 側 (`git show :3:<component>`) に該当 attribute が存在するか cross-check。全 satisfy なら wholesale `--theirs` で regression risk なし。
+    4. `git checkout --theirs -- <unit 全ファイル一括>` → `git add` → merge commit。
+  - Phase 4 risk に「child branch が `-e2e`/`-coverage`/`-visual`/`-runtime-smoke` suffix を持つ場合は parent が PR landing 済みの可能性。merge 前に `git log origin/dev --oneline -- <parent feature dir>` で PR squash commit を確認」を登録。
+  - Phase 11/13 検証は **focused vitest（unit + consumer）を中心**にし、e2e Playwright は staging deploy 後実行へ委譲（pre-push gate に e2e は含めない）。
+- 適用範囲外: child branch が parent prod code にも踏み込んだ拡張をしている場合（`git diff dev...HEAD --stat -- <parent prod dir>` に modify がある）は SP-DEVSYNC-044（canonical=HEAD wholesale --ours）または hybridize に分岐。
+- 検証: `git diff --diff-filter=U` 0 件 + `pnpm typecheck` PASS + `pnpm lint` PASS（dev 由来の mode=warning は CI 非 fail）+ focused vitest unit/spec PASS。merge commit `fdf2f4a42`。
+- 参照: aiworkflow-requirements [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-064 を唯一の正本。SP-DEVSYNC-044（対称反転パターン）。
+
 
 ### SP-DEVSYNC-045: `pnpm sync:resolve` の partial 失敗（`index.lock: File exists`）は手動 fallback で完結 — 仕様書の sync-merge 節に fallback 手順を必須記載（2026-05-30 追加）
 
@@ -627,3 +656,25 @@
 - 適用範囲外: page-level `.ts/.tsx` の `UU` が残る場合は SP-DEVSYNC-038/042/044 経路（fallback では救えない）。
 - 検証: merge commit `09d82ca20`、typecheck 6 packages Done、lint exit 0。
 - 参照: aiworkflow-requirements [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-065、`scripts/sync/resolve-skill-merge-conflicts.sh`。
+
+
+### SP-DEVSYNC-046: dev sync merge 後 CI で初めて検出される semantic regression 3 種は仕様書 Phase 9 / Phase 11 pre-push checklist に固定化（2026-05-30 追加）
+
+- 事象: 2026-05-30 `feat/public-header-auth-slot-e2e` ← origin/dev sync-merge 後 `pnpm sync:resolve` + `pnpm typecheck` + `pnpm lint` は PASS だが push 後 CI 5 job fail（verify-gate-metadata / coverage-gate (web) / e2e desktop-chromium / e2e desktop-firefox / e2e-tests-coverage-gate / validate）。ローカル `pnpm gate-metadata:validate`（require オプションなし）は `ERROR: 0` で見逃し、`--require-gates-for-changed` モードで初めて `metadata.gates absent on changed artifacts.json` を検出。
+- Why: sync-merge は構文 conflict（pnpm sync:resolve / `--ours`/`--theirs` wholesale）に閉じてしまい、以下 3 種の semantic regression は CI のみで検出される:
+  1. `outputs/artifacts.json` の gates が top-level（require モードのみ ERROR）
+  2. async server component 化（layout.tsx）と layout.spec.tsx の非同期 render 不整合（jsdom render が Promise を子要素扱いし null）
+  3. middleware 認可境界レスポンス（403 ↔ redirect）と e2e spec assert の semantic 反転
+- How to apply（task 仕様書での逐語化）: Phase 9 sync-merge 節 + Phase 11 pre-push checklist に以下を必須記載:
+  1. **gate-metadata require-mode 事前実行**:
+     ```bash
+     mise exec -- pnpm gate-metadata:validate --require-gates-for-changed \
+       $(git diff --name-only origin/dev...HEAD -- '**/artifacts.json')
+     ```
+     `ERROR: 0` を確認するまで push しない。
+  2. **async layout 移行 grep**: `git diff origin/dev...HEAD --name-only -- 'apps/web/app/**/layout.tsx'` で async 化された layout の同階層 `.spec.tsx` に `await <Layout>({ children })` パターンと `vi.mock('.../auth-view')` が入っているか手動 grep 確認。
+  3. **認可境界 e2e 整合 grep**: `apps/web/middleware.ts` または `apps/web/app/(admin)/layout.tsx` が diff に含まれる場合は `git grep -nE 'expect\\(res.*\\)\\.toBe\\(403\\)' apps/web/playwright/` で stale assert を検出し、redirect 化 commit と同じ wave で書き換える。
+  4. **redirect chain 最終 URL の特定**: middleware redirect 先が更に server-side で redirect される（例: `/login` page の `getSession()` 認証済 ⇒ `/profile`）場合、Playwright `page.goto()` は中間 URL では settle しない。`toHaveURL` の正規表現は **chain 終点**（本 case では `/profile`）に書く。redirect chain は `apps/web/app/<route>/page.tsx` の `redirect(...)` 呼び出しを再帰的に grep して特定する。
+- 適用範囲外: ローカル `pnpm typecheck/lint` で検出される構文系 regression（既存 SP-DEVSYNC-001..045 に集約済み）。
+- 検証: 本 sync-merge では fix commit で 3 修正（`outputs/artifacts.json` metadata.gates 化 / `app/(member)/layout.spec.tsx` async render 化 / `playwright/tests/admin-pages.spec.ts` redirect 期待化）+ pre-push hooks PASS + push 完了で CI 全 green 復帰見込み。
+- 参照: aiworkflow-requirements [[lessons-learned-public-header-auth-slot-e2e-sync-merge-ci-fix-2026-05]] L-PHAS-CI-001..003。

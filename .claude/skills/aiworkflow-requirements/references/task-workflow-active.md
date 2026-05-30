@@ -8,6 +8,20 @@
 
 本ドキュメントは、複雑なタスクを単一責務の原則に基づいて分解し、各サブタスクに最適なスラッシュコマンド・エージェント・スキルの組み合わせを選定するためのガイドラインを定義する。
 
+### admin-sidebar-public-return-link（2026-05-28）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION / browser_visual_pending_user_gate` |
+| 成果物 | `docs/30-workflows/completed-tasks/admin-sidebar-public-return-link/` |
+| 親 workflow | `docs/30-workflows/public-header-logged-in-nav-cleanup/` Task F |
+| 目的 | `AdminSidebar` の旧「ホーム」導線を、管理画面 footer 直前の明示的な「公開サイトに戻る」リンクへ整理する |
+| implementation targets | `apps/web/src/components/layout/AdminSidebar.tsx`, `apps/web/src/components/layout/__tests__/AdminSidebar.spec.tsx`, `apps/web/src/components/layout/__tests__/AdminSidebar.component.spec.tsx` |
+| contract | `AdminSidebarProps` / `AdminSidebarNavItem` は変更しない。`<a data-role="public-return" href="/" aria-label="公開サイトに戻る">` は sidebar 内 1 件のみで、footer の直前に置く |
+| evidence | focused Vitest 11 PASS、grep gate PASS、Phase 11 local evidence、Phase 12 strict 7、root/output artifacts parity |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-sidebar-public-return-link-artifact-inventory.md` |
+| user gate | authenticated browser screenshots、staging runtime visual、commit、push、PR |
+
 ### member-header-admin-link（2026-05-28）
 
 | 項目 | 値 |
@@ -188,14 +202,30 @@
 
 | 項目 | 値 |
 | --- | --- |
-| ステータス | `spec_created / implementation / VISUAL_ON_EXECUTION / implementation_spec_ready_pending_code` |
+| ステータス | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION / implementation_complete_pending_pr` |
 | 成果物 | `docs/30-workflows/public-header-logged-in-nav-cleanup/` |
 | 目的 | ログイン済みユーザーに公開ヘッダが「ログイン」を出し続ける不整合を、PublicHeader / MemberHeader / AdminSidebar / login redirect / legal shell / Playwright coverage で横断解消する |
-| planned targets | `apps/web/src/lib/auth-view/*`, `apps/web/src/components/public/PublicHeader.tsx`, `apps/web/app/{page,privacy/terms/login}/page.tsx`, `apps/web/src/components/layout/{MemberHeader,AdminSidebar}.tsx`, `apps/web/playwright/tests/auth-slot-coverage.spec.ts` |
+| implementation targets | `apps/web/src/lib/auth-view/*`, `apps/web/src/components/public/PublicHeader.tsx`, `apps/web/app/{page,privacy/terms}/page.tsx`, `apps/web/src/components/layout/{MemberHeader,AdminSidebar,AdminSidebarNavItem}.tsx`, `apps/web/middleware.ts`, `apps/web/playwright/tests/auth-slot-coverage.spec.ts` |
 | invariant | 新 API endpoint / D1 schema / Google Form 変更なし。DOM に PII を出さず `data-auth-state=guest/member/admin` のみ |
 | Phase 12 | strict 7 present、root/output artifacts parity present、30-method compact evidence present |
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-public-header-logged-in-nav-cleanup-artifact-inventory.md` |
-| user gate | apps/web implementation, local focused tests, Playwright auth slot evidence, staging runtime, commit, push, PR |
+| evidence | focused Vitest 29 PASS, web typecheck PASS, Playwright setup-auth + auth-slot-coverage 28/28 PASS |
+| user gate | remote CI observation, staging runtime visual, commit, push, PR |
+
+### public-header-auth-slot-e2e（2026-05-28）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / NON_VISUAL / implementation_complete_pending_pr` |
+| 成果物 | `docs/30-workflows/completed-tasks/public-header-auth-slot-e2e/` |
+| parent | `docs/30-workflows/public-header-logged-in-nav-cleanup/` |
+| 目的 | 親 workflow Task A-F の `data-auth-state` / `data-role` DOM 契約を 7 routes x 3 states の Playwright auth-slot coverage で検証する |
+| implementation targets | `apps/web/playwright/tests/{setup-auth,auth-slot-coverage}.spec.ts`, `apps/web/playwright/.auth/.gitignore`, `apps/web/playwright.config.ts`, `.github/workflows/playwright-smoke.yml` |
+| invariant | API / D1 schema / Google Form schema / Auth.js 設定変更なし。cookie/token 値は logs / artifacts / PR body に出さない |
+| Phase 12 | strict 7 present、root/output artifacts parity present、Phase 13 placeholder present、30-method compact evidence present |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-public-header-auth-slot-e2e-artifact-inventory.md` |
+| evidence | `setup-auth` 3 PASS + `auth-slot-coverage` 25 PASS（dependency setup 含め 28/28 PASS）、storageState JSON ignored |
+| user gate | remote GitHub Actions observation, commit, push, PR |
 
 ### task-c-privacy-terms-public-shell-spec（2026-05-28）
 
