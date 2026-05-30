@@ -4,6 +4,10 @@
 
 このファイルは task-specification-creator の運用・改善・Phase 12 close-out 同期履歴を新しい順に記録する。
 
+## 2026-05-28 - task-b-root-page-public-header-async automation-30 close-out
+
+`implementation_files` を列挙する `spec_created` workflow を docs-only close-out せず、実コード・focused tests・Phase 11 evidence・aiworkflow same-wave sync まで完了して `implemented_local_evidence_captured` に再分類。Phase 12 compliance heading は canonical 9 headings に補正し、`PASS` 断定と pending の混在を解消した。
+
 ## 2026-05-28 - Cloudflare Worker loopback Service Binding lesson
 
 `docs/30-workflows/completed-tasks/fix-admin-fetch-cf-1042-service-binding/` の automation-30 改善で、Worker-to-Worker raw HTTP loopback 404 / `error code: 1042` を Service Binding first transport へ補正した。implementation target が明確な workflow は spec-only のまま閉じず、同一 wave で `apps/` 実装、focused tests、Phase 11 evidence boundary、Phase 12 strict 7、aiworkflow 正本同期まで完了させる。
