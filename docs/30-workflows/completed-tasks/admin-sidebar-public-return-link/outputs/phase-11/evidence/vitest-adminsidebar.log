@@ -1,0 +1,20 @@
+mise WARN  Config files in ~/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260528-162632-wt-14/.mise.toml are not trusted.
+Trust them with `mise trust`. See https://mise.jdx.dev/cli/trust.html for more information.
+[33mThe CJS build of Vite's Node API is deprecated. See https://vite.dev/guide/troubleshooting.html#vite-cjs-node-api-deprecated for more details.[39m
+
+ RUN  v2.1.9 /Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260528-162632-wt-14
+
+ ✓ apps/web/src/components/layout/__tests__/AdminSidebar.component.spec.tsx (1 test) 1ms
+ ✓ apps/web/src/components/layout/__tests__/AdminSidebar.spec.tsx (10 tests) 3597ms
+   ✓ AdminSidebar > renders 3 group labels (Public / Members / Admin) (AC-3) 650ms
+   ✓ AdminSidebar > schemaDiffCount=0 hides badge; >0 shows it (AC-4) 334ms
+   ✓ AdminSidebar > footer contains user-chip name, email and sign-out button (AC-5) 529ms
+   ✓ AdminSidebar > pathname /admin/members/123 activates /admin/members only (AC-2) 324ms
+   ✓ AdminSidebar > nav exposes aria-label=管理メニュー (a11y) 610ms
+   ✓ AdminSidebar > renders a single public-return link with stable DOM and accessible copy 348ms
+
+ Test Files  2 passed (2)
+      Tests  11 passed (11)
+   Start at  22:15:10
+   Duration  12.85s (transform 971ms, setup 0ms, collect 4.35s, tests 3.60s, environment 7.36s, prepare 738ms)
+
