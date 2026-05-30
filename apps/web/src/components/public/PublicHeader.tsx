@@ -1,5 +1,8 @@
 // task-11: 公開層共通ヘッダ。Server Component。
 
+import { SignOutButton } from "../auth/SignOutButton";
+import { getAuthView, type AuthView } from "../../lib/auth-view";
+
 const NAV_ITEMS = [
   { href: "/", label: "ホーム" },
   { href: "/members", label: "メンバー" },
@@ -8,11 +11,47 @@ const NAV_ITEMS = [
 
 export interface PublicHeaderProps {
   currentPath?: string;
+  authView?: AuthView;
 }
 
-export function PublicHeader({ currentPath }: PublicHeaderProps = {}) {
+function renderAuthSlot(authView: AuthView) {
+  if (authView.kind === "guest") {
+    return (
+      <a href="/login" data-role="auth-cta">
+        ログイン
+      </a>
+    );
+  }
+  if (authView.kind === "admin") {
+    return (
+      <div data-role="auth-cta">
+        <a href={authView.profileHref} data-role="member-cta">
+          マイページ
+        </a>
+        <a href={authView.adminHref} data-role="admin-cta">
+          管理画面
+        </a>
+        <SignOutButton />
+      </div>
+    );
+  }
   return (
-    <header data-component="public-header">
+    <div data-role="auth-cta">
+      <a href={authView.profileHref} data-role="member-cta">
+        マイページ
+      </a>
+      <SignOutButton />
+    </div>
+  );
+}
+
+export async function PublicHeader({
+  currentPath,
+  authView: explicitAuthView,
+}: PublicHeaderProps = {}) {
+  const authView = explicitAuthView ?? (await getAuthView());
+  return (
+    <header data-component="public-header" data-auth-state={authView.kind}>
       <a href="/" data-role="brand">
         UBM 兵庫支部会
       </a>
@@ -35,9 +74,7 @@ export function PublicHeader({ currentPath }: PublicHeaderProps = {}) {
           })}
         </ul>
       </nav>
-      <a href="/login" data-role="auth-cta">
-        ログイン
-      </a>
+      {renderAuthSlot(authView)}
     </header>
   );
 }
