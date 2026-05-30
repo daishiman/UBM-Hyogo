@@ -3410,3 +3410,16 @@ docs-only / direction-reconciliation で採用方針 A を維持する場合で�
 | scope | `/members` UX clarity: density meaning, live filter affordance, active filter chips, result-count live region |
 | implementation targets | `apps/web/src/components/public/{DensityToggle.client,MemberFilters.client,SelectedFiltersBar.client,SelectedTagsBar.client}.tsx`, `apps/web/src/components/ui/{Segmented,Search}.tsx`, `apps/web/app/(public)/members/page.tsx`, `apps/web/src/styles/legacy-public.css` |
 | evidence | focused component tests local; visual baseline / commit / push / PR user-gated |
+
+## issue-998-members-publish-state-production-rollout
+
+| 項目 | 内容 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-998-members-publish-state-production-rollout/` |
+| status | `implemented_local_runtime_pending / implementation / VISUAL_ON_EXECUTION / Phase 13 pending_user_approval` |
+| Issue | `#998`（CLOSED。PR 文脈は `Refs #998` のみ） |
+| purpose | Google Form 回答済み会員が production `/members` に表示されない問題を、production auto-publish flag enablement と staging→production backfill/smoke runbook で解決する |
+| implementation | `apps/api/wrangler.toml` の production `MEMBERS_AUTO_PUBLISH_ON_CONSENT` を `true` に変更。auto-publish policy / sync job / diagnostics / backfill endpoint / public filter / ops scripts は既実装を再利用 |
+| evidence | Task A local regression は Phase 11 `manual-test-result.md` に記録。staging/production deploy、D1 backfill apply、`/members` browser smoke screenshot は Gate-C user-gated |
+| artifact inventory | `references/workflow-issue-998-members-publish-state-production-rollout-artifact-inventory.md` |
+| user gate | staging deploy, staging backfill apply, production backup/deploy/backfill, browser smoke, commit, push, PR |

@@ -3361,6 +3361,16 @@ node scripts/list-specs.js --topics
 | User-Gated | L13 |
 | Lessons Learned | L17 |
 
+### references/workflow-issue-998-members-publish-state-production-rollout-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Workflow | L3 |
+| Implementation | L14 |
+| Evidence Boundary | L26 |
+| Lessons Learned | L34 |
+| User-Gated Items | L48 |
+
 ### references/workflow-light-theme-contrast-regression-guard.md
 
 | セクション | 行 |
@@ -8073,6 +8083,7 @@ node scripts/list-specs.js --topics
 | 昇格パターン集 | L3173 |
 | Current Active / Spec Created Tasks | L3175 |
 | UT-17 followup-003 alert-relay weekly healthcheck cron | L3337 |
+| issue-998-members-publish-state-production-rollout | L3414 |
 
 ### references/task-workflow-backlog-part2.md
 
