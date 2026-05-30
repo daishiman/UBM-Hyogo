@@ -51,7 +51,7 @@ Verdict: `PASS_IMPLEMENTED_LOCAL_EVIDENCE_SCREENSHOTS_AND_PR_PENDING`.
 | Classification | Path | Status |
 | --- | --- | --- |
 | manual test result | outputs/phase-11/manual-test-result.md | present |
-| focused vitest log | outputs/phase-6/focused-vitest.log | present |
+| focused vitest log | outputs/phase-11/focused-vitest.log | present |
 | screenshot (375 / 768 / 1280) | outputs/phase-11/ | pending |
 
 > manual-test-result.md は `evidence_status: present`（AC-E1〜E11 全 green）。focused vitest log は 67 PASS / 7 files。

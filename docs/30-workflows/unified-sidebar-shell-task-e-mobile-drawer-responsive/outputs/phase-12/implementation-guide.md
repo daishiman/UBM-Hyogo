@@ -66,7 +66,7 @@ Task A → Task E の順で同一サイクル内に実装した（CONST_009 準�
 
 | gate | コマンド | 結果 |
 |------|---------|------|
-| focused vitest | `vitest run apps/web/src/components/shell apps/web/src/lib/a11y` | **44 PASS / 7 files**（新規 Task A+E spec 41 + 既存 `useAutoFocusOnMount` 3）。primitives 回帰込みの focused run は 67 PASS / 7 files = `../phase-6/focused-vitest.log` |
+| focused vitest | `vitest run apps/web/src/components/shell apps/web/src/lib/a11y` | **44 PASS / 7 files**（新規 Task A+E spec 41 + 既存 `useAutoFocusOnMount` 3）。primitives 回帰込みの focused run は 67 PASS / 7 files = `../phase-11/focused-vitest.log` |
 | Drawer 回帰 | `primitives.component.spec` + `MemberDrawer` + `BulkRepublishDrawer` | **33 PASS**（無改修） |
 | typecheck | `pnpm --filter @ubm-hyogo/web typecheck` | **green** |
 | lint | `eslint src/components/shell src/lib/a11y src/components/ui/Drawer.tsx` | **green** |
