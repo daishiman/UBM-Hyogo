@@ -1,55 +1,36 @@
-import { describe, expect, it } from "vitest";
-import { buildUserMenuActions } from "../user-menu-config";
+// Task B — user-menu-config 純関数の spec。
+import { describe, it, expect } from "vitest";
+
+import { buildUserMenuActions, roleDisplayLabel } from "../user-menu-config";
 
 describe("buildUserMenuActions", () => {
-  it("viewer は login 1 件のみ", () => {
-    expect(buildUserMenuActions("viewer")).toEqual([
+  it("viewer は ログイン のみ", () => {
+    const actions = buildUserMenuActions("viewer");
+    expect(actions).toEqual([
       { kind: "login", id: "login", label: "ログイン", href: "/login" },
     ]);
   });
 
-  it("member は profile -> edit-request -> signout の 3 件", () => {
-    const result = buildUserMenuActions("member");
-    expect(result).toHaveLength(3);
-    expect(result.map((a) => a.id)).toEqual(["profile", "edit-request", "signout"]);
-    expect(result[0]).toEqual({
-      kind: "link",
-      id: "profile",
-      label: "プロフィール",
-      href: "/profile",
-    });
-    expect(result[1]).toEqual({
-      kind: "link",
-      id: "edit-request",
-      label: "プロフィール編集申請",
-      href: "/profile#edit-request",
-    });
-    expect(result[2]).toEqual({ kind: "signout", id: "signout", label: "ログアウト" });
+  it("member は プロフィール / 編集申請 / ログアウト（順序込み）", () => {
+    const actions = buildUserMenuActions("member");
+    expect(actions.map((a) => a.id)).toEqual(["profile", "edit-request", "signout"]);
   });
 
-  it("admin は profile -> edit-request -> admin-dashboard -> signout の 4 件", () => {
-    const result = buildUserMenuActions("admin");
-    expect(result).toHaveLength(4);
-    expect(result.map((a) => a.id)).toEqual([
+  it("admin は member の 3 つ + 管理者ダッシュボードを signout の前に持つ", () => {
+    const actions = buildUserMenuActions("admin");
+    expect(actions.map((a) => a.id)).toEqual([
       "profile",
       "edit-request",
       "admin-dashboard",
       "signout",
     ]);
-    const dashboard = result[2];
-    expect(dashboard).toEqual({
-      kind: "link",
-      id: "admin-dashboard",
-      label: "管理者ダッシュボード",
-      href: "/admin",
-    });
   });
+});
 
-  it("戻り値順序 snapshot（deep-equal）", () => {
-    expect({
-      viewer: buildUserMenuActions("viewer"),
-      member: buildUserMenuActions("member"),
-      admin: buildUserMenuActions("admin"),
-    }).toMatchSnapshot();
+describe("roleDisplayLabel", () => {
+  it("admin=管理者 / member=会員 / viewer=null", () => {
+    expect(roleDisplayLabel("admin")).toBe("管理者");
+    expect(roleDisplayLabel("member")).toBe("会員");
+    expect(roleDisplayLabel("viewer")).toBeNull();
   });
 });

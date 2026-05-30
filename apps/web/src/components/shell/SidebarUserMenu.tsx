@@ -1,89 +1,81 @@
 "use client";
 
+// Task B — sidebar 左下の user menu。`<details>` ベースの popover で role 別 action を集約。
+// ログアウトは既存 SignOutButton を embed し挙動を変えない。route 変化で自動 close。
+import { useEffect, useRef } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useRef, type ReactElement, type ReactNode } from "react";
+
 import { SignOutButton } from "../auth/SignOutButton";
-import type { ShellRole } from "./shell-config";
 import { SidebarUserAvatar } from "./SidebarUserAvatar";
-import { buildUserMenuActions, type UserMenuAction } from "./user-menu-config";
+import type { ShellRole } from "./shell-config";
+import { buildUserMenuActions, roleDisplayLabel } from "./user-menu-config";
 
-export type SidebarUserMenuProps = {
+export interface SidebarUserMenuProps {
   readonly role: ShellRole;
-  readonly user: { displayName: string; email: string; initials: string } | null;
+  readonly user: { readonly displayName: string; readonly email: string; readonly initials: string } | null;
   readonly collapsed: boolean;
-};
-
-function roleLabel(role: ShellRole): string | null {
-  if (role === "admin") return "管理者";
-  if (role === "member") return "会員";
-  return null;
 }
 
-function renderAction(action: UserMenuAction): ReactNode {
-  if (action.kind === "signout") {
-    return (
-      <SignOutButton
-        key={action.id}
-        variant="menu-item"
-        label={action.label}
-      />
-    );
-  }
-  return (
-    <Link
-      key={action.id}
-      href={action.href}
-      role="menuitem"
-      data-action-id={action.id}
-      className="ui-sidebar-user-menu-item"
-    >
-      {action.label}
-    </Link>
-  );
-}
-
-export function SidebarUserMenu({
-  role,
-  user,
-  collapsed,
-}: SidebarUserMenuProps): ReactElement {
-  const ref = useRef<HTMLDetailsElement>(null);
+export function SidebarUserMenu({ role, user, collapsed }: SidebarUserMenuProps) {
+  const detailsRef = useRef<HTMLDetailsElement>(null);
   const pathname = usePathname();
-
-  useEffect(() => {
-    if (ref.current) {
-      ref.current.open = false;
-    }
-  }, [pathname]);
-
   const actions = buildUserMenuActions(role);
-  const initials = user ? user.initials : "?";
-  const label = roleLabel(role);
-  const displayName = user ? user.displayName : "ゲスト";
+  const roleLabel = roleDisplayLabel(role);
+  const displayName = user?.displayName || user?.email || "ゲスト";
+
+  // route 変化で popover を自動 close。
+  useEffect(() => {
+    if (detailsRef.current) detailsRef.current.open = false;
+  }, [pathname]);
 
   return (
     <details
-      ref={ref}
-      data-shell-user-menu
-      data-role={role}
-      data-collapsed={collapsed ? "true" : "false"}
-      className="ui-sidebar-user-menu"
+      ref={detailsRef}
+      data-shell-block="user-menu"
+      className="group relative border-t border-[var(--shell-bar-border)] pt-2"
     >
       <summary
         role="button"
         aria-haspopup="menu"
         aria-label="ユーザーメニュー"
-        className="ui-sidebar-user-menu-summary"
+        className="flex cursor-pointer list-none items-center gap-2 rounded-sm px-3 py-2 hover:bg-[var(--shell-active-bg)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--ubm-color-accent)]"
       >
-        <SidebarUserAvatar initials={initials} role={role} size={collapsed ? "sm" : "md"} />
-        <span className={collapsed ? "sr-only" : "ui-sidebar-user-menu-name"}>
-          {displayName}
-          {label ? <small>{label}</small> : null}
+        <SidebarUserAvatar initials={user?.initials ?? ""} role={role} size="md" />
+        <span className={collapsed ? "sr-only" : "flex min-w-0 flex-col leading-tight"}>
+          <span className="truncate text-sm font-medium text-[var(--ubm-color-text-primary)]">
+            {displayName}
+          </span>
+          {roleLabel ? (
+            <span className="truncate text-xs text-[var(--ubm-color-text-secondary)]">
+              {roleLabel}
+            </span>
+          ) : null}
         </span>
       </summary>
-      <div role="menu" className="ui-sidebar-user-menu-popover">
-        {actions.map((a) => renderAction(a))}
+      <div
+        role="menu"
+        data-shell-block="user-menu-popover"
+        className="absolute bottom-full left-0 z-20 mb-2 flex w-56 flex-col gap-1 rounded-md border border-[var(--ubm-color-border-default)] bg-[var(--ubm-color-surface-panel)] p-2 shadow-lg"
+      >
+        {actions.map((action) => {
+          if (action.kind === "signout") {
+            return (
+              <SignOutButton key={action.id} className="ui-button-block" />
+            );
+          }
+          return (
+            <Link
+              key={action.id}
+              role="menuitem"
+              href={action.href}
+              data-action={action.id}
+              className="rounded-sm px-3 py-2 text-sm text-[var(--ubm-color-text-primary)] hover:bg-[var(--shell-active-bg)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--ubm-color-accent)]"
+            >
+              {action.label}
+            </Link>
+          );
+        })}
       </div>
     </details>
   );

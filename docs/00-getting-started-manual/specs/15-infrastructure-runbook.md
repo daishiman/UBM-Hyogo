@@ -29,6 +29,20 @@ Issue #577 で採用した `apps/api/package.json#scripts.test:coverage` の `--
 | staging | `ubm-hyogo-api-staging` | `DB` | `ubm-hyogo-db-staging` |
 | production | `ubm-hyogo-api` | `DB` | `ubm-hyogo-db-prod` |
 
+## D1 migration sequence guard
+
+D1 migration file は `apps/api/migrations/NNNN_description.sql` 形式を正本とし、新規 migration では同じ `NNNN` prefix を再利用しない。既存の historical duplicate prefix は `apps/api/migrations/sequence-exceptions.json` に files と rationale を明示して管理する。
+
+`pnpm verify:d1-migrations` は以下を検証する:
+
+- `NNNN_description.sql` 形式ではない SQL file がないこと
+- `sequence-exceptions.json` に登録されていない重複 prefix がないこと
+- exception に記録された files と実ファイルが一致すること
+- exception に rationale があること
+
+`.github/workflows/d1-migration-verify.yml` は migration 関連 PR でこの guard を実行する。既存の historical duplicate を即時 rename すると D1 適用履歴を壊す可能性があるため、修正方針は「既存例外を正本化し、今後の未登録重複を fail させる」とする。
+同 workflow は verifier 本体だけでなく `node --test scripts/__tests__/verify-d1-migration-sequence.test.mjs` も実行し、未登録重複・stale exception・invalid file name・rationale 欠落の regressions を CI で固定する。
+
 ## Rollback 基準
 
 Rollback は一括実行ではなく、障害種別に応じて最小単位で実行する。

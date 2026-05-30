@@ -56,6 +56,19 @@
 
 ## Phase 12 関連失敗パターン
 
+### 親 workflow skeleton と現行 route topology の乖離
+
+- **状況**: 親 workflow の Task を子 workflow へ切り出す際、元 skeleton が想定する route 配置・削除対象・package 名が現行 codebase とずれる場合
+- **問題**: skeleton をそのまま Phase 5 に流すと、存在しない component の削除、存在しない path の test 追加、誤 package 名の verify command が仕様書に残る
+- **原因**: 親 task は設計時点の抽象 skeleton であり、子 workflow 作成時点の `apps/web/app` / `apps/web/src/components` 実態とは独立に stale 化しうる
+- **教訓**:
+  1. Phase 1 で `rg --files` / `ls` による current topology 実測を先に行う
+  2. `元 skeleton の前提 / 実コードベースの実態 / 是正方針` の3列表を index と Phase 1 に置く
+  3. route group 移動など user decision が必要な分岐は、Phase 2 以降へ曖昧な候補を残さず、選択済み方針だけを実装手順化する
+  4. 実コード未実装の依存がある場合でも、aiworkflow の active ledger / quick-reference / artifact inventory へ `spec_created / implementation_pending` として同 wave 登録する
+- **発見日**: 2026-05-29
+- **関連タスク**: `task-c-public-member-sidebar-shell-integration`
+
 ### 未タスク検出後のtask-workflow.md登録漏れ（TASK-9B-G）
 
 - **状況**: Phase 12で5件の未タスクを検出し、指示書を作成した
@@ -1513,3 +1526,10 @@ source を一切触らない（実態は `MemberHeader` + `lib/auth-view` のみ
 - **SP-DEVSYNC-069-E (slot を 2 箇所 render する時は `useId` 衝突を避ける)**: 同じ `ReactNode` slot（`userMenuSlot`）を aside と drawer の両方に配置すると、slot 内の `useId`/native `<details>` id が二重化する。**drawer 側は `userMenuSlot` を出さず `DefaultUserChip` のみ**に限定し、aside 側に slot を残す（[[patterns-mobile-ui-primitive-3point-sync]] / L-DTHH-001 の id 衝突回避と同根）。
 - 検証: `git diff --diff-filter=U` 0 件 + `git grep -lE '^(<<<<<<<|>>>>>>>)'` 空 + **focused vitest（`apps/web/src/components/shell` 47 PASS）で統合 component の動作を直接確認** + `pnpm typecheck` 6 packages Done + `pnpm lint` exit 0 + `pnpm verify:tokens` 91 tracked。source 大規模 add/add は typecheck/lint だけでなく**該当ディレクトリの focused vitest を必須ゲート**にする（mount 配線ミスは型を通っても test で落ちる）。
 - 参照: [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]]、aiworkflow inventory `workflow-unified-sidebar-shell-public-and-admin-artifact-inventory.md` L-USSTE-007（同知見の workflow 固有版）。SP-DEVSYNC-066-A（部分定義 add/add の grep 判定）/ SP-DEVSYNC-068-A（source conflict は path 交差で決まる）の質的拡張版。
+
+- **SP-DEVSYNC-067-A (両側 API 互換の AA は grep で決まらない → 機能完全性で `--ours`/`--theirs`)**: 同 path の add/add で `grep -rn <export> <dir>` しても **両側が同一の公開 API（例 `SidebarShellServer({activePath, mobileTriggerSlot})`）を持つ**場合、grep-consumer rule（SP-DEVSYNC-066-A）は決着しない。次の tiebreaker は「**どちらが consumer の使う機能を完全に render するか**」。`git show :2:<file> | grep <feature-render>`（例 `import SidebarDrawer` / `<SidebarDrawer open=`）で feature-complete 側を片側 wholesale 採用。**混在採用は dead-code/型不整合を生むので禁止**、片側 wholesale → `pnpm typecheck` で自己完結性検証。SP-DEVSYNC-066-A（型 1 行 vs フル実装で `--theirs`）と**逆の `--ours` になりうる**: 完全集合が HEAD 側のこともある。
+- **SP-DEVSYNC-067-B (route-group 移行 vs 旧 path inline 改修は branch goal が方向の正本)**: `app/x/page.tsx` → `app/(group)/x/page.tsx` への route-group 移行 branch と、dev の旧 path inline 改修（例 page 内 `PublicHeader` mount）が衝突した場合、**branch の commit message の goal（「〜へ統合」「旧〜削除」）が supersede 方向の正本**。新方式 page/layout を `--ours` wholesale、旧方式 source（`PublicHeader.tsx` 等）は UD modify/delete なら `git rm` で削除維持、旧 path 配下の stale test も `git rm`。
+- **SP-DEVSYNC-067-C (dev の独立 feature が HEAD に未取込なら test を捨てず graft)**: dev 側 PR の feature（例 #1011 認証済み `/login` redirect）が HEAD の同名ファイルに未反映で、dev test だけ取り込まれた場合、**test を削除せず feature guard を HEAD 実装へ手で graft**（両 intent 保持 = regression 回避）。`git show dev:<old-path>` で実装取得 → HEAD の対応位置へ移植 → import path を HEAD の階層に合わせる。
+- **SP-DEVSYNC-067-D (file-location conflict で relocate した test は相対 import を route-group 階層分 +1 補正)**: `()` route-group へ relocate した test は 1 階層深くなる。`../page`（同 dir 基準）は不変だが `../../../src/...`（web root 基準）は `../../../../` へ +1 補正。`pnpm exec vitest run <relocated>` で import 解決を即確認。
+- **SP-DEVSYNC-067-E (孤児 snapshot は `grep -c toMatchSnapshot`=0 を根拠に `git rm`)**: `--ours` で勝った spec が snapshot 不使用なのに `--theirs` 由来の `__snapshots__/*.snap` が残ると vitest `N obsolete` 警告 → CI ノイズ。`grep -c "toMatchSnapshot\|MatchInlineSnapshot" <spec>` = 0 を確認して即 `git rm`。
+- 参照: [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-067（同 shell-config.ts AA で L-DEVSYNC-066 と逆の `--ours` を採った対照例 + graft/relocate/snapshot の複合 shape）。

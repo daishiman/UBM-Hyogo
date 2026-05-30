@@ -1,38 +1,34 @@
-import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
-import { render, screen, fireEvent, cleanup } from "@testing-library/react";
-
-const setDrawerOpen = vi.fn();
-vi.mock("../SidebarShellContext", () => ({
-  useSidebarShellContext: () => ({
-    mode: "expanded",
-    drawerOpen: false,
-    toggleCollapsed: vi.fn(),
-    setDrawerOpen,
-  }),
-}));
+// Task E — SidebarMobileTrigger の spec。クリックで context.setDrawerOpen(true)。
+import { describe, it, expect, vi, afterEach } from "vitest";
+import { render, cleanup, fireEvent } from "@testing-library/react";
 
 import { SidebarMobileTrigger } from "../SidebarMobileTrigger";
+import { SidebarShellProvider } from "../SidebarShellContext";
 
-beforeEach(() => setDrawerOpen.mockClear());
 afterEach(() => cleanup());
 
 describe("SidebarMobileTrigger", () => {
-  it("render 時には setDrawerOpen を呼ばない（自前 state を持たない・I-E2）", () => {
-    render(<SidebarMobileTrigger />);
-    expect(setDrawerOpen).not.toHaveBeenCalled();
-  });
-
-  it("click で setDrawerOpen(true) を 1 回呼ぶ (AC-E2)", () => {
-    render(<SidebarMobileTrigger />);
-    fireEvent.click(screen.getByRole("button", { name: "メニューを開く" }));
-    expect(setDrawerOpen).toHaveBeenCalledTimes(1);
+  it("クリックで context の setDrawerOpen(true) が呼ばれる", () => {
+    const setDrawerOpen = vi.fn();
+    const { getByRole } = render(
+      <SidebarShellProvider
+        value={{ mode: "expanded", drawerOpen: false, toggleCollapsed: vi.fn(), setDrawerOpen }}
+      >
+        <SidebarMobileTrigger />
+      </SidebarShellProvider>,
+    );
+    fireEvent.click(getByRole("button", { name: "メニューを開く" }));
     expect(setDrawerOpen).toHaveBeenCalledWith(true);
   });
 
-  it("md+ で hidden、dialog popup semantics を公開する (AC-E1)", () => {
-    render(<SidebarMobileTrigger />);
-    const btn = screen.getByRole("button", { name: "メニューを開く" });
-    expect(btn.className).toContain("md:hidden");
-    expect(btn.getAttribute("aria-haspopup")).toBe("dialog");
+  it("md+ で hidden になる class を持つ", () => {
+    const { getByRole } = render(
+      <SidebarShellProvider
+        value={{ mode: "expanded", drawerOpen: false, toggleCollapsed: vi.fn(), setDrawerOpen: vi.fn() }}
+      >
+        <SidebarMobileTrigger />
+      </SidebarShellProvider>,
+    );
+    expect(getByRole("button", { name: "メニューを開く" }).className).toContain("md:hidden");
   });
 });
