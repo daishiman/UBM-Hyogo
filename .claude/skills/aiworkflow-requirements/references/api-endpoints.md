@@ -10,6 +10,18 @@
 本ドキュメントはAIWorkflowOrchestratorプロジェクトのAPIエンドポイントのインデックスです。
 REST API、Desktop IPC APIの詳細は以下の分割ドキュメントで定義しています。
 
+### Issue #958 H3 public filter UX boundary
+
+Issue #958 (`docs/30-workflows/completed-tasks/issue-958-h3-public-filter-ux/`) is `implemented_local_runtime_pending / implementation / VISUAL`.
+
+It does not add new endpoint surface. The local implementation uses only existing contracts:
+
+- `GET /me/profile` for member-side `publicConsent`, `editResponseUrl`, and `fallbackResponderUrl`.
+- `GET /public/stats` to distinguish all-hidden public member state (`publicMemberCount === 0 && memberCount > 0`) from an actually empty directory.
+- `PATCH /admin/members/:memberId/status` for per-member republish from admin bulk UX.
+
+Direct web mutation of `publicConsent` remains forbidden; Google Form resubmission is the canonical update path.
+
 ---
 
 ## ドキュメント構成
@@ -173,7 +185,7 @@ UT-07A-02 close-out で schema 正本は `packages/shared/src/schemas/admin/tag-
 
 | メソッド | パス | 説明 | 認証 |
 | --- | --- | --- | --- |
-| GET | `/auth/session-resolve?email=<email>` | OAuth email を正規化し、`memberId` / `isAdmin` / `gateReason` を返す | `X-Internal-Auth: INTERNAL_AUTH_SECRET` |
+| GET | `/auth/session-resolve?email=<email>` | OAuth / Magic Link で検証済み email を正規化し、既存 `member_identities` を優先 lookup。無い場合は `member_responses.response_email` から H2 identity auto-link を試行し、`memberId` / `isAdmin` / `gateReason` を返す。auto-link は `member_status` gate を迂回しない | `X-Internal-Auth: INTERNAL_AUTH_SECRET` |
 
 レスポンス:
 

@@ -88,15 +88,15 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 1. 構成図 | L15 |
-| 2. Server-side fetch（`apps/web/src/lib/admin/server-fetch.ts`） | L49 |
-| 3. Client-side mutation（`apps/web/src/lib/admin/api.ts`） | L110 |
-| 4. BFF proxy（`apps/web/app/api/admin/[...path]/route.ts`） | L182 |
-| 5. ステータスコード処理方針 | L239 |
-| 6. 環境変数 | L271 |
-| 7. 不変条件サマリ（admin API client / proxy） | L284 |
-| 8. 関連ドキュメント | L296 |
-| 9. 06c-A Admin Dashboard 契約 (2026-05-02) | L304 |
-| 10. Self-service BFF proxy（`apps/web/app/api/me/[...path]/route.ts`） | L321 |
+| 2. Server-side fetch（`apps/web/src/lib/admin/server-fetch.ts`） | L50 |
+| 3. Client-side mutation（`apps/web/src/lib/admin/api.ts`） | L116 |
+| 4. BFF proxy（`apps/web/app/api/admin/[...path]/route.ts`） | L188 |
+| 5. ステータスコード処理方針 | L245 |
+| 6. 環境変数 | L277 |
+| 7. 不変条件サマリ（admin API client / proxy） | L290 |
+| 8. 関連ドキュメント | L302 |
+| 9. 06c-A Admin Dashboard 契約 (2026-05-02) | L310 |
+| 10. Self-service BFF proxy（`apps/web/app/api/me/[...path]/route.ts`） | L327 |
 
 ### references/architecture-auth-security-core.md
 
@@ -872,15 +872,15 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L8 |
-| ドキュメント構成 | L15 |
-| REST API エンドポイント一覧 | L25 |
-| エンドポイント命名規則 | L234 |
-| UBM-Hyogo Admin Sync API（03a） | L255 |
-| UBM-Hyogo Member Self-Service API（04b） | L307 |
-| Admin Dashboard Attendance Analytics API（UT-02A follow-up 002） | L333 |
-| Desktop IPC API サマリー | L347 |
-| 変更履歴 | L378 |
-| 関連ドキュメント | L395 |
+| ドキュメント構成 | L27 |
+| REST API エンドポイント一覧 | L37 |
+| エンドポイント命名規則 | L246 |
+| UBM-Hyogo Admin Sync API（03a） | L267 |
+| UBM-Hyogo Member Self-Service API（04b） | L319 |
+| Admin Dashboard Attendance Analytics API（UT-02A follow-up 002） | L345 |
+| Desktop IPC API サマリー | L359 |
+| 変更履歴 | L390 |
+| 関連ドキュメント | L407 |
 
 ### references/api-internal-chunk-search.md
 
@@ -1095,15 +1095,16 @@ node scripts/list-specs.js --topics
 
 | セクション | 行 |
 |------------|----|
-| 1. 全体構成 | L16 |
-| 2. AdminSidebar | L51 |
-| 3. /admin（Dashboard） | L77 |
-| 4. /admin/members | L130 |
-| 5. /admin/tags | L223 |
-| 6. /admin/schema | L309 |
-| 7. /admin/meetings | L364 |
-| 8. 共通の Server/Client 契約 | L433 |
-| 9. 不変条件サマリ（admin UI） | L451 |
+| Issue #958 /admin/members bulk republish UX | L14 |
+| 1. 全体構成 | L26 |
+| 2. AdminSidebar | L61 |
+| 3. /admin（Dashboard） | L87 |
+| 4. /admin/members | L140 |
+| 5. /admin/tags | L233 |
+| 6. /admin/schema | L319 |
+| 7. /admin/meetings | L374 |
+| 8. 共通の Server/Client 契約 | L443 |
+| 9. 不変条件サマリ（admin UI） | L461 |
 
 ### references/ui-ux-advanced.md
 
@@ -2416,6 +2417,13 @@ node scripts/list-specs.js --topics
 | Evidence Artifacts | L24 |
 | Boundary | L39 |
 
+### references/workflow-fix-admin-fetch-cf-1042-service-binding-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Status | L15 |
+| Acceptance Criteria Mapping | L21 |
+
 ### references/workflow-fix-admin-scr-err-stg-fu-001-auth-env-via-getenv-artifact-inventory.md
 
 | セクション | 行 |
@@ -2452,7 +2460,13 @@ node scripts/list-specs.js --topics
 
 | セクション | 行 |
 |------------|----|
-| Skill knowledge synced | L15 |
+| Skill knowledge synced | L16 |
+
+### references/workflow-google-form-reflection-diagnostics-fu-002-h2-identity-rebuild-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Skill knowledge synced | L17 |
 
 ### references/workflow-governance-design-category.md
 
@@ -3331,6 +3345,22 @@ node scripts/list-specs.js --topics
 | Invariants | L41 |
 | Lessons Learned | L47 |
 
+### references/workflow-issue-958-h3-public-filter-ux-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Classification | L14 |
+| Local Implementation Targets | L18 |
+| Screenshot Boundary | L28 |
+| Boundary | L32 |
+
+### references/workflow-issue-976-admin-fetch-service-binding-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| User-Gated | L13 |
+| Lessons Learned | L17 |
+
 ### references/workflow-light-theme-contrast-regression-guard.md
 
 | セクション | 行 |
@@ -3371,6 +3401,15 @@ node scripts/list-specs.js --topics
 | Skill Compliance | L28 |
 | Boundaries | L36 |
 
+### references/workflow-login-redirect-when-authenticated-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Implementation | L11 |
+| Evidence | L20 |
+| Boundary | L28 |
+| Lessons Learned | L32 |
+
 ### references/workflow-login-stale-link-and-profile-me-safe-fetch-artifact-inventory.md
 
 | セクション | 行 |
@@ -3392,6 +3431,19 @@ node scripts/list-specs.js --topics
 |------------|----|
 | State | L18 |
 | Boundary | L24 |
+
+### references/workflow-members-list-ux-clarity-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Lessons Learned | L13 |
+
+### references/workflow-members-not-displaying-form-sync-investigation-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Correctness Notes | L17 |
+| Lessons Learned | L25 |
 
 ### references/workflow-members-page-prototype-alignment-artifact-inventory.md
 
@@ -3519,6 +3571,8 @@ node scripts/list-specs.js --topics
 | Lessons | L34 |
 
 ### references/workflow-public-header-logged-in-nav-cleanup-artifact-inventory.md
+
+### references/workflow-public-header-session-aware-auth-view-base-artifact-inventory.md
 
 ### references/workflow-regression-evidence-ci-gate-foundation-artifact-inventory.md
 
@@ -4085,6 +4139,22 @@ node scripts/list-specs.js --topics
 |------------|----|
 | Contract | L17 |
 
+### references/workflow-task-b-root-page-public-header-async-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Implementation Artifacts | L10 |
+| Test Artifacts | L19 |
+| Evidence | L27 |
+| Boundary | L37 |
+| Lessons Learned | L42 |
+
+### references/workflow-task-c-privacy-terms-public-shell-spec-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Lessons Learned | L18 |
+
 ### references/workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md
 
 | セクション | 行 |
@@ -4266,11 +4336,12 @@ node scripts/list-specs.js --topics
 |------------|----|
 | Summary | L5 |
 | Canonical workflow | L9 |
-| Planned implementation targets | L29 |
-| Current code anchors | L41 |
-| Gates | L50 |
-| Sub-workflows | L58 |
-| Lessons Learned | L66 |
+| Planned implementation targets | L49 |
+| Current code anchors | L61 |
+| Gates | L70 |
+| Sub-workflows | L79 |
+| Lessons Learned | L87 |
+| Lessons Learned | L100 |
 
 ### references/workflow-ut-02a-attendance-profile-integration-artifact-inventory.md
 
@@ -4520,6 +4591,15 @@ node scripts/list-specs.js --topics
 | 8. 不変条件 touched | L95 |
 
 ### references/workflow-web-app-route-bundle-parse-fix-artifact-inventory.md
+
+### references/workflow-web-worker-size-limit-fix-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Implementation Targets | L9 |
+| Evidence | L22 |
+| User-Gated Boundary | L34 |
+| Lessons Learned | L38 |
 
 ### references/workflow-workspace-parent-reference-sweep-guard.md
 
@@ -4846,20 +4926,20 @@ node scripts/list-specs.js --topics
 | .assetsignore の役割と運用 | L88 |
 | ビルド・デプロイ手順 | L108 |
 | Worker bundle size ガード | L131 |
-| SPA fallback / 404 ハンドリング | L149 |
-| preview / staging / production の env 分離 | L158 |
-| 旧 Pages プロジェクトの並走方針 | L170 |
-| CLI 経路の徹底 | L182 |
-| R2 incremental cache（任意採用） | L191 |
-| Build mode の不変条件（CI recovery / 2026-05-09） | L199 |
-| 関連リソース | L213 |
-| production route / secret / observability preflight | L234 |
-| analytics read-only token 分離 | L275 |
-| Long-term analytics evidence | L290 |
-| c-A production execution workflow | L296 |
-| CI build-time env injection for OpenNext Workers | L311 |
-| OpenNext config regression guard | L321 |
-| Response security headers via middleware | L334 |
+| SPA fallback / 404 ハンドリング | L161 |
+| preview / staging / production の env 分離 | L170 |
+| 旧 Pages プロジェクトの並走方針 | L182 |
+| CLI 経路の徹底 | L194 |
+| R2 incremental cache（任意採用） | L203 |
+| Build mode の不変条件（CI recovery / 2026-05-09） | L211 |
+| 関連リソース | L225 |
+| production route / secret / observability preflight | L246 |
+| analytics read-only token 分離 | L287 |
+| Long-term analytics evidence | L302 |
+| c-A production execution workflow | L308 |
+| CI build-time env injection for OpenNext Workers | L323 |
+| OpenNext config regression guard | L333 |
+| Response security headers via middleware | L346 |
 
 ### references/deployment-cloudflare-ut06-gate.md
 
@@ -7997,14 +8077,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L2957 |
-| フェーズ構造（概要） | L2966 |
-| 品質ゲート（概要） | L2997 |
-| 出力テンプレート | L3008 |
-| 実行時のコマンド・エージェント・スキル | L3031 |
-| 昇格パターン集 | L3055 |
-| Current Active / Spec Created Tasks | L3057 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L3219 |
+| ドキュメント構成 | L3102 |
+| フェーズ構造（概要） | L3111 |
+| 品質ゲート（概要） | L3142 |
+| 出力テンプレート | L3153 |
+| 実行時のコマンド・エージェント・スキル | L3176 |
+| 昇格パターン集 | L3200 |
+| Current Active / Spec Created Tasks | L3202 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L3364 |
 
 ### references/task-workflow-backlog-part2.md
 

@@ -140,11 +140,23 @@ Cloudflare Workers の bundle size 上限:
 監視:
 - `mise exec -- pnpm --filter @ubm-hyogo/web build:cloudflare` 実行後の `.open-next/worker.js` サイズを確認
 - `wrangler deploy --dry-run` 相当の出力を `scripts/cf.sh` 経由で取得し size を記録
+- deploy 前の CI gate とローカル検証では `bash scripts/check-worker-size.sh` を実行し、OpenNext 出力内の worker/handler 群（`worker.js` / `server-functions/**/handler.mjs` / `middleware/handler.mjs`）の gzip 合算 size が Free 上限 3072KiB 以下であることを確認する。warning threshold は 2800KiB。
 
 超過時の対応:
-- `@opennextjs/cloudflare` の minify を有効化
+- `next/og` / `ImageResponse` など wasm/font を Worker server bundle に焼き込む依存を除去し、静的 asset へ寄せる。`@vercel/og` は `resvg.wasm` / `yoga.wasm` / font binary を伴い、Free plan の 3MiB 上限では最初に疑う。
+- `@opennextjs/cloudflare@1.19.4` には `minify` config key が存在しない。無効な `minify:true` を追加せず、production minify の既定を維持し、`OPEN_NEXT_DEBUG` / `debug:true` を有効化しないことを regression spec で固定する。
 - RSC payload / server-only dependencies の削減
 - それでも収まらない場合は Paid プラン切替判断を文書化（UT-06-FU-A AC-11）
+
+### web-worker-size-limit-fix 実装メモ（2026-05-29）
+
+`web-worker-size-limit-fix` では `apps/web/app/opengraph-image.tsx` と
+`apps/web/app/(public)/members/[id]/opengraph-image/route.tsx` を削除し、
+`apps/web/public/og-default.png` を `SITE.ogImagePath` の単一正本にした。
+`apps/web/__tests__/opennext-config-regression.spec.ts` は `next/og` / `ImageResponse`
+再導入禁止と debug minify 無効化禁止を検証する。`web-cd.yml` は staging / production
+両 deploy job で build 後・deploy 前に `bash scripts/check-worker-size.sh` を実行する。
+ローカル実測: OpenNext worker/handler 5 files gzip 2100KiB、`resvg.wasm` / `yoga.wasm` / `Geist-Regular.ttf.bin` 0 件。
 
 ## SPA fallback / 404 ハンドリング
 

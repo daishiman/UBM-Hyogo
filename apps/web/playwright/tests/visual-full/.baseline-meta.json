@@ -1,22 +1,19 @@
 {
   "$schema": "../../../../docs/30-workflows/task-709-visual-baseline-runtime-capture/schemas/baseline-meta.schema.json",
-  "captured_at_commit_sha": "f4dce7dfe85b60217ef246044cb829567e5f010a",
-  "captured_at": "2026-05-28T03:17:26Z",
+  "captured_at_commit_sha": "0d2980f5daeabc2665b6afb20fb578d7721d753d",
+  "captured_at": "2026-05-29T09:25:34Z",
   "captured_via": "playwright-visual-baseline-update.yml#workflow_dispatch",
   "captured_run_ids": [
-    "26383096067",
-    "26431275613",
-    "26432787256",
-    "26489950912",
-    "26491992893",
-    "26492039712",
     "26493400023",
     "26503855446",
     "26506821722",
     "26540715735",
     "26549206362",
     "26552141298",
-    "26552192908"
+    "26552192908",
+    "26581231613",
+    "26616303516",
+    "26628923374"
   ],
   "viewport_dimensions": {
     "desktop": {
@@ -44,5 +41,5 @@
   "refresh_workflow": ".github/workflows/playwright-visual-baseline-update.yml",
   "refresh_command_hint": "gh workflow run playwright-visual-baseline-update.yml -f reason=\"<why>\" -r <feature-branch>",
   "notes": "captured_at_commit_sha からの rendering_relevant_paths diff が空でない場合、baseline は stale。scripts/visual-baseline-status.sh で診断可能。",
-  "last_refresh_reason": "admin-members redesign + admin-meetings prototype-alignment (#979) baseline drift 合算; HEAD と origin/dev 双方の workflow_dispatch run_ids を結合"
+  "last_refresh_reason": "task-c: privacy/terms ページに PublicHeader/PublicFooter を適用したため visual baseline が新レイアウトと差分。PR #1014 の visual-full(privacy/terms desktop/mobile/tablet) を解消するため baseline 再生成。"
 }
