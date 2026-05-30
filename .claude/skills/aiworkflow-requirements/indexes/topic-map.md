@@ -3361,6 +3361,17 @@ node scripts/list-specs.js --topics
 | User-Gated | L13 |
 | Lessons Learned | L17 |
 
+### references/workflow-issue-991-admin-fetch-error-typed-class-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Summary | L3 |
+| Product Files | L13 |
+| Test Files | L20 |
+| Evidence | L31 |
+| User-Gated Items | L39 |
+| Lessons Learned | L46 |
+
 ### references/workflow-light-theme-contrast-regression-guard.md
 
 | セクション | 行 |
@@ -8066,7 +8077,7 @@ node scripts/list-specs.js --topics
 | 実行時のコマンド・エージェント・スキル | L3134 |
 | 昇格パターン集 | L3158 |
 | Current Active / Spec Created Tasks | L3160 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L3322 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L3323 |
 
 ### references/task-workflow-backlog-part2.md
 

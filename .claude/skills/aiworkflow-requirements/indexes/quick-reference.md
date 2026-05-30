@@ -1,5 +1,21 @@
 # クイックリファレンス
 
+## issue-991-admin-fetch-error-typed-class（2026-05-30）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-991-admin-fetch-error-typed-class/` |
+| status | `implemented_local_evidence_captured / implementation / NON_VISUAL / local_focused_tests_passed` |
+| issue | #991 CLOSED 維持。PR 文脈は `Refs #991` のみ |
+| parent | `docs/30-workflows/completed-tasks/admin-audit-prototype-alignment/` FU-AAUDIT-001 |
+| purpose | admin API 失敗を `AdminFetchError` typed class で表現し、404/500 を message parse 依存ではなく構造化 `status` で切り分ける |
+| implementation | `apps/web/src/lib/admin/server-fetch.ts`, `apps/web/src/lib/server-fetch/safe-fetch.ts` |
+| tests | `apps/web/src/lib/admin/__tests__/admin-fetch-error.spec.ts`, `apps/web/src/lib/server-fetch/__tests__/safe-fetch.spec.ts`, existing admin fetch regression specs |
+| evidence | focused Vitest 6 files / 31 tests PASS, web typecheck PASS, root lint PASS |
+| invariant | message suffix remains 256 chars for non-PII body; `responseBodySnippet` is 500 chars; email / phone shapes are redacted before snippet exposure; common `safe-fetch.ts` does not import admin module |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-991-admin-fetch-error-typed-class-artifact-inventory.md` |
+| user gate | staging runtime observation, commit, push, PR |
+
 ## login-redirect-when-authenticated（2026-05-28）
 
 | 項目 | 値 |

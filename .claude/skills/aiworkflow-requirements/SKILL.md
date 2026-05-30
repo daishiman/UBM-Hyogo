@@ -65,6 +65,7 @@ ubm-hyogo Web アプリプロジェクトの全仕様を管理するスキル。
 
 | Version | Date | Changes |
 | --- | --- | --- |
+| v2026.05.30-issue-991-admin-fetch-error-typed-class | 2026-05-30 | `issue-991-admin-fetch-error-typed-class` を `implemented_local_evidence_captured / implementation / NON_VISUAL` として同期。`AdminFetchError` typed class、structured status priority、snippet PII redaction、focused tests、quick-reference / resource-map / task-workflow-active / artifact inventory を同一 wave 反映。 |
 | v2026.05.28-login-redirect-when-authenticated | 2026-05-28 | `login-redirect-when-authenticated` を `implemented_local_evidence_captured / implementation / NON_VISUAL` として同期。`safe-next.ts` + `/login` server-side redirect、focused Vitest 22 PASS、Phase 12 strict 7、quick-reference / resource-map / task-workflow-active / artifact inventory を同一 wave 反映。 |
 | v2026.05.28-issue-976-admin-fetch-service-binding | 2026-05-28 | `issue-976-admin-fetch-service-binding` を `implemented_local_runtime_pending / implementation / NON_VISUAL` として同期。admin server-fetch service-binding transport、focused tests、Phase 12 strict outputs、indexes を反映。staging deploy / authenticated proof / commit / push / PR は user-gated。 |
 | v2026.05.28-fix-admin-fetch-cf-1042-service-binding | 2026-05-28 | `fix-admin-fetch-cf-1042-service-binding` を `implemented_local_runtime_pending / implementation / NON_VISUAL` として同期。admin Server Component `fetchAdmin` の Service Binding first transport、focused tests、Phase 12 strict 7、quick-reference / resource-map / task-workflow-active / artifact inventory を同一 wave 反映。 |

@@ -1241,3 +1241,16 @@ Next.js App Router で公開層 (`/`, `/(public)/*`) の auth-state 出し分け
 - **SP-DEVSYNC-059-D (検証ゲートの順序固定)**: resolver 完結後の検証は **`git diff --check` 空 → `pnpm typecheck` Done × 6 packages → `pnpm lint` Done × 全 packages → `git push`** の 4 step を Phase 12 implementation-guide に明記。stablekey-literal-lint が mode=warning の場合は block 対象外として扱う。
 - **SP-DEVSYNC-059-E (lesson 再現の SSOT)**: 同形再現が 2 連続 (a98fd67bb / 2026-05-29 merge) で確認済みのため、admin-ui modernization wave 終息までは Phase 12 implementation-guide の sync-merge 節で本 lesson を **default reference** として 1 行記載する（L-DEVSYNC-056/057/058 は分岐先として 1 行併記）。
 - 参照: [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-059、L-DEVSYNC-055 (resolver 単独完結 happy-path)、L-DEVSYNC-056/057/058 (手動 hybridize 分岐先)、L-DEVSYNC-046 (UNION_TARGETS)。
+
+
+## Typed Error class 化 × byte-identical message 互換維持パターン（2026-05-30 / L-I991-001..006 generalization）
+
+`issue-991-admin-fetch-error-typed-class` で、素の `Error` を構造化フィールド付き typed class（`status` / `path` / `responseBodySnippet`）へ昇格しつつ、message を逐語 assert する既存テスト / regex consumer を一切壊さなかった汎化。「中身を仕切るがフタのラベルは変えない」が核。
+
+- **SP-I991-A (message byte-identical 維持を AC に固定 / L-I991-001,006)**: `Error` → typed class 化タスクでは、Phase 2 設計に「現状 message を生成する全コードパス × 出力ケース（body あり / なし / 上限超 / 空 / 読取失敗）」の突合マトリクスを置き、新 class の `super()` 出力が byte-identical になることを AC に固定する。各セルを Phase 6 focused test に 1:1 対応付ける。message 上限値（例 256）は定数化せず既存コードと同値を維持し、構造化フィールドは message と分離して追加する。
+- **SP-I991-B (共通正規化層は下位ドメイン非 import / L-I991-002)**: public/admin など複数ドメイン共通の正規化層から domain 固有 error の構造化フィールドを使うときは `import { DomainError }` / `instanceof DomainError` を入れず、`(err as { status?: unknown }).status` + `Number.isInteger` の duck typing で読む。既存 message parse（regex）は fallback に残し、structured 値を優先順位 1 位にする。Phase 4 risk に「共通層 → 下位ドメイン import を増やさない（`lint-boundaries` / import grep gate）」を 1 行登録する。
+- **SP-I991-C (多段露出する body は redaction 前段 + 独立 slice / L-I991-003)**: error body を message（短）と structured snippet（長）の 2 つ以上の長さで露出する設計では、(1) PII redaction（email / phone 形状）を最前段で適用 → (2) 各上限で **独立** slice（長い方を短い方の再 slice で作らない）の順を Phase 2 で固定。空文字（suffix 抑止だが snippet では null と区別保持）/ null / 上限超を Phase 6 で個別 case 化する。
+- **SP-I991-D (Workers cross-module 想定の二段 type guard / L-I991-004)**: Cloudflare Workers ランタイムの custom Error 判定 helper は `instanceof` 単独に頼らず、`instanceof` OR (`name` literal 一致 + 識別 field の `typeof` チェック) の二段にする。bundle 分割 / cross-module で prototype chain が切れても判定が壊れない。
+- **SP-I991-E (CLOSED follow-up Issue × 現状コード drift の吸収 / L-I991-005)**: CLOSED な follow-up Issue / 古い仕様から着手するときは Phase 1 で対象コードを実測し、Issue 記述と差分があれば index.md 冒頭に「Issue 記述 vs 現状コード」差分表を置き **現状コードを正本** に AC を再定義する。Issue は reopen せず Phase 12 compliance で CLOSED 維持・`Refs #NNN` のみと明記。P50 チェックに「Issue/spec 記述と現状コードの drift 確認」を含める。
+- anti-pattern: typed 化ついでの message 文言整形で逐語 assert を破壊 / 共通層への domain import 漏れ / redaction を slice 後に掛け切れ目に PII 残留 / `instanceof` 単独判定 / CLOSED Issue literal の無検証 AC 化による現状回避策の退行。
+- 参照: [[lessons-learned-issue-991-admin-fetch-error-typed-class-2026-05]] L-I991-001..006 + anti-pattern 5。
