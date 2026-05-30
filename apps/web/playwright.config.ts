@@ -191,7 +191,7 @@ export default defineConfig({
   projects: [
     {
       name: 'desktop-chromium',
-      testIgnore: [/visual\/.*\.spec\.ts$/, /visual-staging\/.*\.spec\.ts$/, /visual-staging-authenticated\/.*\.(spec|ts)$/, /visual-full\/.*\.spec\.ts$/, /full-smoke\.spec\.ts$/, /sidebar-shell\/.*\.spec\.ts$/, ...fixtureGatedTestIgnore],
+      testIgnore: [/visual\/.*\.spec\.ts$/, /visual-staging\/.*\.spec\.ts$/, /visual-staging-authenticated\/.*\.(spec|ts)$/, /visual-full\/.*\.spec\.ts$/, /full-smoke\.spec\.ts$/, /sidebar-shell\/.*\.spec\.ts$/, /setup-auth\.spec\.ts$/, /auth-slot-coverage\.spec\.ts$/, ...fixtureGatedTestIgnore],
       use: { ...devices['Desktop Chrome'], viewport: { width: 1280, height: 800 } },
     },
     {
@@ -207,8 +207,21 @@ export default defineConfig({
       use: { ...devices['Desktop Chrome'], viewport: { width: 1280, height: 800 } },
     },
     {
+      // public-header-auth-slot-e2e: storageState seeder (guest / member / admin).
+      name: 'setup-auth',
+      testMatch: /setup-auth\.spec\.ts$/,
+      use: { ...devices['Desktop Chrome'], viewport: { width: 1280, height: 800 } },
+    },
+    {
+      // public-header-auth-slot-e2e: 7 routes × 3 states + 4 regressions = 25 auth-slot DOM coverage.
+      name: 'auth-slot-coverage',
+      testMatch: /auth-slot-coverage\.spec\.ts$/,
+      dependencies: ['setup-auth'],
+      use: { ...devices['Desktop Chrome'], viewport: { width: 1280, height: 800 } },
+    },
+    {
       name: 'desktop-firefox',
-      testIgnore: [/visual\/.*\.spec\.ts$/, /visual-staging\/.*\.spec\.ts$/, /visual-staging-authenticated\/.*\.(spec|ts)$/, /visual-full\/.*\.spec\.ts$/, /full-smoke\.spec\.ts$/, /sidebar-shell\/.*\.spec\.ts$/, ...fixtureGatedTestIgnore],
+      testIgnore: [/visual\/.*\.spec\.ts$/, /visual-staging\/.*\.spec\.ts$/, /visual-staging-authenticated\/.*\.(spec|ts)$/, /visual-full\/.*\.spec\.ts$/, /full-smoke\.spec\.ts$/, /sidebar-shell\/.*\.spec\.ts$/, /setup-auth\.spec\.ts$/, /auth-slot-coverage\.spec\.ts$/, ...fixtureGatedTestIgnore],
       use: { ...devices['Desktop Firefox'], viewport: { width: 1280, height: 800 } },
     },
     {
@@ -227,6 +240,8 @@ export default defineConfig({
         /admin-tags-resolve-drawer\.spec\.ts$/,
         /task15-admin-screenshots\.spec\.ts$/,
         /sidebar-shell\/.*\.spec\.ts$/,
+        /setup-auth\.spec\.ts$/,
+        /auth-slot-coverage\.spec\.ts$/,
         ...fixtureGatedTestIgnore,
       ],
       use: { ...devices['iPhone 13'], viewport: { width: 390, height: 844 } },
@@ -285,6 +300,8 @@ export default defineConfig({
         /visual-staging\/.*\.spec\.ts$/,
         /visual-full\/.*\.spec\.ts$/,
         /full-smoke\.spec\.ts$/,
+        /setup-auth\.spec\.ts$/,
+        /auth-slot-coverage\.spec\.ts$/,
         ...fixtureGatedTestIgnore,
       ],
       use: {

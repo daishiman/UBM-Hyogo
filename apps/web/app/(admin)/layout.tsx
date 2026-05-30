@@ -20,7 +20,7 @@ export default async function AdminLayout({
   if (!session.isAdmin) redirect("/login?gate=forbidden");
 
   return (
-    <div data-theme="cool" data-route-group="admin" data-shell-mode="sidebar">
+    <div data-theme="cool" data-route-group="admin" data-auth-state="admin" data-shell-mode="sidebar">
       <SidebarShellServer mobileTriggerSlot={<SidebarMobileTrigger />}>
         <div
           className="flex min-w-0 flex-col gap-4 p-4 md:p-6"

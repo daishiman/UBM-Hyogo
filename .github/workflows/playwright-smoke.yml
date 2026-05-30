@@ -106,6 +106,41 @@ jobs:
           path: docs/30-workflows/task-18-w7-verify-tokens-and-playwright-smoke/outputs/phase-11/evidence/test-results
           if-no-files-found: ignore
 
+  # public-header-auth-slot-e2e: 7 routes × 3 states + 4 regressions = 25 DOM 契約検証 (chromium)。
+  # 親 workflow public-header-logged-in-nav-cleanup の Task A-F の data-auth-state /
+  # data-role 契約が実 Auth.js session cookie 経由で成立するかを横断検証する。
+  auth-slot:
+    name: auth-slot (chromium, 25 cases)
+    runs-on: ubuntu-latest
+    needs: smoke
+    if: github.event_name != 'schedule'
+    timeout-minutes: 15
+    env:
+      AUTH_SECRET: playwright-e2e-auth-secret-32-bytes
+    steps:
+      - uses: actions/checkout@v4
+      - uses: jdx/mise-action@v2
+      - name: Install deps
+        run: mise exec -- pnpm install --frozen-lockfile
+      - name: Install Chromium
+        run: mise exec -- pnpm --filter @ubm-hyogo/web exec playwright install --with-deps chromium
+      - name: Preflight (both-or-none storageState targets)
+        run: |
+          test -d apps/web/playwright || (echo "playwright dir missing" >&2; exit 1)
+          test -f apps/web/playwright/tests/setup-auth.spec.ts
+          test -f apps/web/playwright/tests/auth-slot-coverage.spec.ts
+      - name: Run setup-auth + auth-slot-coverage
+        run: |
+          mise exec -- pnpm --filter @ubm-hyogo/web exec playwright test \
+            --project=setup-auth --project=auth-slot-coverage
+      - name: Upload report
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: auth-slot-report
+          path: apps/web/playwright-report
+          if-no-files-found: ignore
+
   # issue-902: production-equivalent runtime (Cloudflare Workers staging) の visual baseline。
   # manual deploy 後に workflow_dispatch で staging URL を渡したときのみ実行する ops gate。
   # baseline 正本は本 job（ubuntu-latest）が生成する -staging-visual-chromium-linux.png。
