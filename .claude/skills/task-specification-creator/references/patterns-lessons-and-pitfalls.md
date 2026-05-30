@@ -1346,3 +1346,15 @@ source code を一切触らない **docs/spec 系 feature branch**（`docs/web-w
 - **SP-DEVSYNC-066-C (両側 `## Lessons Learned` は subsection 分割で union 化)**: changelog / inventory / compliance-check の `## Lessons Learned`（または `## Lessons`）節が両側に純粋追加（base = 空）された場合、`### Task A wave` + `### Task B wave` 等の subsection 分割で両保持する。base が空であることを `||||||| <SHA>` セクションで確認すれば、意味的競合ではなく純粋な semantic union と確定する。同 ID の上書きなら最終レポート対象。
 - **SP-DEVSYNC-066-D (resolver unhandled 5 件混合 shape の処理順)**: `pnpm sync:resolve` exit 1 後の手動解消は **(1) AA を grep 判定 → (2) UD を dir 存在判定 → (3) UU の見出し節を subsection 分割 → (4) UU の表 row を `;` 結合**の順が最も早い。AA/UD は即決、UU の Lessons/evidence 系のみ手作業時間を要する。typecheck で AA 解消後の自己完結性を、lint で UU 解消後の文法を即検証。
 - 参照: [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-066 / L-DEVSYNC-063 / L-DEVSYNC-064（canonical wholesale ours/theirs 反転の系列）。
+
+## SP-STATUS-RECON-001 completed workflow status reconciliation close-out gate（2026-05-30 issue-1008）
+
+実コード、Phase 11 evidence、Phase 12 strict 7 が既に merged / archived 済みでも、root / outputs / sub-task の `artifacts.json` が `spec_created` のまま残ると、dashboard・後続 audit・aiworkflow register が互いに矛盾する。status reconciliation タスクでは「docs-only」でも実ファイルの status 補正を同一 wave で完了させる。
+
+- **SP-STATUS-RECON-001-A (root / outputs parity)**: workflow root と `outputs/artifacts.json` が両方ある場合は target state に補正した後で `diff -u <root> <outputs>` を DoD に入れる。片方だけ補正して PASS にしない。
+- **SP-STATUS-RECON-001-B (sub-task artifacts scan)**: parent workflow が `tasks/*/artifacts.json` を持つ場合、root だけでなく sub-task の `status` / `metadata.workflow_state` / Phase 1-12 / Phase 13 user-gated 境界を同時に走査する。sub-task の `spec_created` / `pending` 混在は同 wave で正規化する。
+- **SP-STATUS-RECON-001-C (Gate evidence path existence)**: Gate-A/B を `passed` に昇格する前に `evidence_path` の実在を `test -e` または `gate-metadata:validate` で確認する。存在しない `outputs/phase-11/manual-test-result.md` などを `passed` 根拠にしない。
+- **SP-STATUS-RECON-001-D (strict 7 physical count)**: Phase 12 strict 7 は `main.md` + 6 補助ファイルの物理存在を確認する。compliance check で `strict 7 present` と書く前に `find <workflow>/outputs/phase-12 -maxdepth 1 -type f` で 7 件を確認する。
+- **SP-STATUS-RECON-001-E (skill feedback promotion)**: `skill-feedback-report.md` に status drift / close-out 漏れを記録した場合は、owning reference へ promote するか、既存 rule の path と no-op reason を `system-spec-update-summary.md` に残す。所見だけで閉じない。
+- **anti-pattern**: (a) root artifacts だけを直す、(b) Phase 12 strict 7 のうち `main.md` を欠いたまま PASS と書く、(c) pending Gate-C の external evidence path 不在を Gate-A/B passed と混同する、(d) `apps/` 差分ゼロを理由に workflow metadata drift を未修正のまま残す。
+- 参照: `docs/30-workflows/completed-tasks/issue-1008-members-list-ux-clarity-artifact-status-reconciliation/outputs/phase-12/skill-feedback-report.md`、`references/phase-12-spec.md` strict 7 rules、`references/phase12-skill-feedback-promotion.md` Skill-feedback No-op Truthfulness Gate。
