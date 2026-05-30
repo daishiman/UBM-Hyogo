@@ -1391,3 +1391,16 @@
 - 判定フロー追補（L-DEVSYNC-061 の 3 段 + L-DEVSYNC-063 の第 4 分岐への第 5 分岐）: **(5) 過去に `--ours` した同一 unit の add/add 再発時は、canonical の dev 昇格を `git log dev -- <dir>` で再確認し、昇格済みなら `--theirs` へ反転**。canonical の所在で wholesale 採用側を決める原則（L-DEVSYNC-063 public-header 版）の時間発展ケース。
 - 事例: 2026-05-30 merge commit `7ba7e4002`。conflict 9 件（skill resolver + source theirs 全採用）、typecheck 6 packages Done / lint exit 0、privacy/terms page は ours 保持で dev auth-view API と整合。
 - 参照: L-DEVSYNC-063 task-c 版（前回 ours 一択）, L-DEVSYNC-063 public-header 版（canonical wholesale --ours の原型・今回はその theirs 鏡像）, task-specification-creator [[patterns-lessons-and-pitfalls#dev-sync-merge-conflict-resolution]] SP-DEVSYNC-063。
+
+
+## L-DEVSYNC-065: conflict 集合は前回 sync 実績に依存しない — 毎回 `git status` unmerged を一次ソースに確認し、`merge=union` 対象は手動 Edit しない（2026-05-30 feat/admin-sidebar-public-return-link ← dev HEAD `e7196ab6f` #1013 3 回目）
+
+- 事象: `feat/admin-sidebar-public-return-link` ← `origin/dev` (HEAD `e7196ab6f` = PR #1013 認証状態別ヘッダー表示基盤) の **3 回目**の sync-merge。git conflict は **2 件のみ** — `aiworkflow-requirements/indexes/topic-map.md`（cross-skill index）と `task-specification-creator/references/patterns-lessons-and-pitfalls.md`（append-only history）。`.ts/.tsx` page-level conflict は 0 件。`SKILL-changelog.md`（両 skill）と `keywords.json` は conflict に上がらず auto-merge / ours+rebuild で解消された。
+- Why: 本 branch の feature（admin sidebar の公開復帰リンク）は PR #1013 のコード（public header auth 基盤）と path 交差が無いため、衝突は skill 同期ログ系のみに収束。`.gitattributes` の `merge=union` 指定により `SKILL-changelog.md` / `LOGS/_legacy.md` / `lessons-learned/*.md` は git が**自動結合**するため conflict marker が発生せず、resolver も touch しない。
+- How to apply:
+  1. **conflict 集合は sync ごとに変動する。前回 sync（同 branch 2 回目では `indexes/{quick-reference,resource-map,topic-map}.md` + `task-workflow-active.md` の 4 件）の実績を記憶ベースで当てにして手動解消対象を決めつけない。** 必ず `git status --porcelain | grep -E '^(UU|AA|DD|AU|UA|DU|UD)'`（= unmerged エントリ）を一次ソースとして毎回確認する。
+  2. `merge=union` 対象ファイル（`SKILL-changelog.md` 等）は git が自動結合済みなので **手動 Edit は不要**。もし「前回はここが conflict した」と推測して手動 Edit しようとすると「String to replace not found」になる — これは失敗ではなく「そもそも conflict していない（auto-merge 済み）」という signal。空振り Edit に時間を使わない。
+  3. unmerged 全件が `.claude/skills/**` 配下なら `pnpm sync:resolve` 単発 → `git diff --diff-filter=U` 0 件確認 → `git commit --no-edit`（`MERGE_HEAD` で pre-commit hook 自動 skip、`--no-verify` 不付与）→ `pnpm typecheck` / `pnpm lint`。L-DEVSYNC-061 / L-DEVSYNC-064(skill-only 版) と同型の resolver 単発完結。
+- 解消実績: merge commit `33debc596`。`pnpm sync:resolve` で topic-map.md + patterns-lessons-and-pitfalls.md を union 解消、keywords.json ours+rebuild、`indexes:rebuild` drift ゼロ。`pnpm typecheck` 6 packages Done / `pnpm lint` exit 0（lefthook pre-push guard 6 種 = coverage / gate-metadata / indexes-drift / inline-style / phase12-compliance / verify-esbuild すべて pass）。push 実施。
+- 留意（運用ノイズ教訓）: backgrounded bash の stdout が前後 turn の出力と interleave すると、存在しない commit hash や採番（実在しない L-DEVSYNC-066/067 等）を誤認しやすい。**commit / push / ファイル状態の確証は必ず単一 `git log` / `git show` / `grep -c` を逐次実行して取り直す**（並列・background 出力を一次ソースにしない）。
+- 参照: L-DEVSYNC-061 / L-DEVSYNC-064(skill-only 3 ファイル版) (skill-only shape resolver-only path), L-DEVSYNC-001/002 (`merge=union` と JSON 派生物の解消方針), task-specification-creator [[patterns-lessons-and-pitfalls#dev-sync-merge-conflict-resolution]] SP-DEVSYNC-064。
