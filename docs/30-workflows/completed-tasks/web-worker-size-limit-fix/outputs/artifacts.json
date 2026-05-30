@@ -1,0 +1,136 @@
+{
+  "task_id": "web-worker-size-limit-fix",
+  "issue": null,
+  "created_at": "2026-05-29",
+  "status": "implemented_local_evidence_captured",
+  "task_type": "implementation",
+  "visual_category": "NON_VISUAL",
+  "metadata": {
+    "workflow_state": "implemented_local_evidence_captured",
+    "implementation_status": "implemented_local_evidence_captured",
+    "taskType": "implementation",
+    "visualEvidence": "NON_VISUAL",
+    "implementationCategory": "standard",
+    "spec_classification": "implementation_spec",
+    "canonical_workflow": "docs/30-workflows/completed-tasks/web-worker-size-limit-fix/",
+    "source_unassigned_tasks": [],
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-05-29T00:00:00+09:00",
+        "evidence_path": "docs/30-workflows/completed-tasks/web-worker-size-limit-fix/outputs/phase-12/phase12-task-spec-compliance-check.md",
+        "approver": "daishiman",
+        "notes": "spec_review: Phase 1-13 implementation spec for Worker size-limit fix verified against task-specification-creator requirements"
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "passed",
+        "passed_at": "2026-05-29T00:00:00+09:00",
+        "evidence_path": "docs/30-workflows/completed-tasks/web-worker-size-limit-fix/outputs/phase-11/manual-smoke-log.md",
+        "approver": "daishiman",
+        "notes": "implementation: next/og removal, static og-default.png, production minify debug-disabled guard, and CI size gate are implemented locally; staging deploy remains user-gated"
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/web-worker-size-limit-fix/outputs/phase-13/pr-creation-result.md",
+        "approver": "daishiman",
+        "notes": "external_ops: commit, push, PR, staging deploy are user-gated"
+      }
+    ]
+  },
+  "phases": [
+    {
+      "phase": 1,
+      "name": "要件定義",
+      "status": "completed",
+      "output": "phase-1-requirements.md"
+    },
+    {
+      "phase": 2,
+      "name": "設計",
+      "status": "completed",
+      "output": "phase-2-design.md"
+    },
+    {
+      "phase": 3,
+      "name": "設計レビュー",
+      "status": "completed",
+      "output": "phase-3-design-review.md"
+    },
+    {
+      "phase": 4,
+      "name": "テスト計画",
+      "status": "completed",
+      "output": "phase-4-test-plan.md"
+    },
+    {
+      "phase": 5,
+      "name": "実装手順",
+      "status": "completed",
+      "output": "phase-5-implementation.md"
+    },
+    {
+      "phase": 6,
+      "name": "テスト追加",
+      "status": "completed",
+      "output": "phase-6-test-additions.md"
+    },
+    {
+      "phase": 7,
+      "name": "カバレッジ",
+      "status": "completed",
+      "output": "phase-7-coverage.md"
+    },
+    {
+      "phase": 8,
+      "name": "リファクタ",
+      "status": "completed",
+      "output": "phase-8-refactor.md"
+    },
+    {
+      "phase": 9,
+      "name": "QA",
+      "status": "completed",
+      "output": "phase-9-qa.md"
+    },
+    {
+      "phase": 10,
+      "name": "最終レビュー",
+      "status": "completed",
+      "output": "phase-10-final-review.md"
+    },
+    {
+      "phase": 11,
+      "name": "手動テスト",
+      "status": "completed",
+      "output": "phase-11-manual-test.md"
+    },
+    {
+      "phase": 12,
+      "name": "ドキュメント同期",
+      "status": "completed",
+      "output": "phase-12-documentation.md"
+    },
+    {
+      "phase": 13,
+      "name": "commit-pr-release",
+      "status": "pending",
+      "output": "phase-13-pr.md"
+    }
+  ],
+  "implementation_targets": [
+    "apps/web/app/opengraph-image.tsx",
+    "apps/web/app/(public)/members/[id]/opengraph-image/route.tsx",
+    "apps/web/app/(public)/members/[id]/__tests__/opengraph-image.spec.tsx",
+    "apps/web/public/og-default.png",
+    "apps/web/src/lib/seo/site-metadata.ts",
+    "apps/web/app/(public)/members/[id]/page.tsx",
+    "apps/web/playwright/tests/public-metadata.spec.ts",
+    "scripts/check-worker-size.sh",
+    ".github/workflows/web-cd.yml",
+    "apps/web/__tests__/opennext-config-regression.spec.ts"
+  ]
+}

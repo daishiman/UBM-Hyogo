@@ -3435,6 +3435,12 @@ node scripts/list-specs.js --topics
 | Code Artifacts | L20 |
 | Evidence Boundary | L36 |
 
+### references/workflow-member-header-admin-link-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Lessons Learned | L19 |
+
 ### references/workflow-members-list-prototype-alignment-artifact-inventory.md
 
 | セクション | 行 |
@@ -3581,6 +3587,8 @@ node scripts/list-specs.js --topics
 | Lessons | L34 |
 
 ### references/workflow-public-header-logged-in-nav-cleanup-artifact-inventory.md
+
+### references/workflow-public-header-session-aware-auth-view-base-artifact-inventory.md
 
 ### references/workflow-regression-evidence-ci-gate-foundation-artifact-inventory.md
 
@@ -4157,6 +4165,12 @@ node scripts/list-specs.js --topics
 | Boundary | L37 |
 | Lessons Learned | L42 |
 
+### references/workflow-task-c-privacy-terms-public-shell-spec-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Lessons Learned | L18 |
+
 ### references/workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md
 
 | セクション | 行 |
@@ -4338,9 +4352,11 @@ node scripts/list-specs.js --topics
 |------------|----|
 | Summary | L5 |
 | Canonical workflow | L9 |
-| Planned implementation targets | L21 |
-| Current code anchors | L33 |
-| Gates | L42 |
+| Planned implementation targets | L31 |
+| Current code anchors | L43 |
+| Gates | L52 |
+| Sub-workflows | L60 |
+| Lessons Learned | L69 |
 
 ### references/workflow-ut-02a-attendance-profile-integration-artifact-inventory.md
 
@@ -4590,6 +4606,15 @@ node scripts/list-specs.js --topics
 | 8. 不変条件 touched | L95 |
 
 ### references/workflow-web-app-route-bundle-parse-fix-artifact-inventory.md
+
+### references/workflow-web-worker-size-limit-fix-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Implementation Targets | L9 |
+| Evidence | L22 |
+| User-Gated Boundary | L34 |
+| Lessons Learned | L38 |
 
 ### references/workflow-workspace-parent-reference-sweep-guard.md
 
@@ -4916,20 +4941,20 @@ node scripts/list-specs.js --topics
 | .assetsignore の役割と運用 | L88 |
 | ビルド・デプロイ手順 | L108 |
 | Worker bundle size ガード | L131 |
-| SPA fallback / 404 ハンドリング | L149 |
-| preview / staging / production の env 分離 | L158 |
-| 旧 Pages プロジェクトの並走方針 | L170 |
-| CLI 経路の徹底 | L182 |
-| R2 incremental cache（任意採用） | L191 |
-| Build mode の不変条件（CI recovery / 2026-05-09） | L199 |
-| 関連リソース | L213 |
-| production route / secret / observability preflight | L234 |
-| analytics read-only token 分離 | L275 |
-| Long-term analytics evidence | L290 |
-| c-A production execution workflow | L296 |
-| CI build-time env injection for OpenNext Workers | L311 |
-| OpenNext config regression guard | L321 |
-| Response security headers via middleware | L334 |
+| SPA fallback / 404 ハンドリング | L161 |
+| preview / staging / production の env 分離 | L170 |
+| 旧 Pages プロジェクトの並走方針 | L182 |
+| CLI 経路の徹底 | L194 |
+| R2 incremental cache（任意採用） | L203 |
+| Build mode の不変条件（CI recovery / 2026-05-09） | L211 |
+| 関連リソース | L225 |
+| production route / secret / observability preflight | L246 |
+| analytics read-only token 分離 | L287 |
+| Long-term analytics evidence | L302 |
+| c-A production execution workflow | L308 |
+| CI build-time env injection for OpenNext Workers | L323 |
+| OpenNext config regression guard | L333 |
+| Response security headers via middleware | L346 |
 
 ### references/deployment-cloudflare-ut06-gate.md
 
@@ -8067,14 +8092,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L3059 |
-| フェーズ構造（概要） | L3068 |
-| 品質ゲート（概要） | L3099 |
-| 出力テンプレート | L3110 |
-| 実行時のコマンド・エージェント・スキル | L3133 |
-| 昇格パターン集 | L3157 |
-| Current Active / Spec Created Tasks | L3159 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L3321 |
+| ドキュメント構成 | L3117 |
+| フェーズ構造（概要） | L3126 |
+| 品質ゲート（概要） | L3157 |
+| 出力テンプレート | L3168 |
+| 実行時のコマンド・エージェント・スキル | L3191 |
+| 昇格パターン集 | L3215 |
+| Current Active / Spec Created Tasks | L3217 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L3379 |
 
 ### references/task-workflow-backlog-part2.md
 
@@ -8578,4 +8603,3 @@ node scripts/list-specs.js --topics
 | SkillLifecyclePanel 責務別props分離パターン | L82 |
 
 ---
-
