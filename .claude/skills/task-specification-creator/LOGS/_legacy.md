@@ -6,6 +6,10 @@
 
 ## 2026-05-28 - task-b-root-page-public-header-async automation-30 close-out
 
+## 2026-05-31 - issue-229 indexes rebuild fail-fast automation-30 close-out
+
+`docs/30-workflows/completed-tasks/issue-229-indexes-rebuild-fail-fast/` の automation-30 改善で、`implementation / NON_VISUAL` かつ `generate-index.js` / focused spec test が明確な workflow を `spec_only` や「後続実装サイクル」で閉じず、同一サイクルで `.claude/skills/aiworkflow-requirements/scripts/generate-index.js` の fail-fast / atomic write / decisive log hardening、`scripts/__tests__/generate-index-fail-fast.spec.ts`、focused Vitest、`pnpm indexes:rebuild` immediate second rebuild idempotency、Phase 11 evidence、Phase 12 strict 7、aiworkflow same-wave sync まで完了して `implemented_local_evidence_captured` へ再分類した。commit / push / PR / Issue mutation のみ user-gated として分離した。
+
 ## 2026-05-30 - issue-988 identity conflicts optimistic update automation-30 close-out
 
 `docs/30-workflows/completed-tasks/issue-988-identity-conflicts-merge-optimistic-update/` の automation-30 改善で、implementation target が明確な `spec_created` workflow を docs-only close-out せず、同一サイクルで `IdentityConflictRow.tsx` の optimistic hide / rollback、API body message の inline alert 補正、focused Vitest、Playwright focused、Phase 11 screenshot 3 PNG、Phase 11 canonical manifest、Phase 12 strict 7、aiworkflow same-wave sync まで完了して `implemented_local_evidence_captured` へ再分類した。commit / push / PR / Issue close のみ user-gated として分離した。

@@ -2555,6 +2555,17 @@ node scripts/list-specs.js --topics
 | Branch-level deletion check | L101 |
 | Downstream task: issue-195-sync-jobs-contract-schema-consolidation-001（2026-05-04） | L105 |
 
+### references/workflow-issue-229-indexes-rebuild-fail-fast-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Metadata | L3 |
+| Implementation Targets | L12 |
+| Workflow Artifacts | L20 |
+| Evidence | L31 |
+| User-Gated | L39 |
+| Lessons | L43 |
+
 ### references/workflow-issue-247-apps-web-opennext-config-regression-tests-artifact-inventory.md
 
 | セクション | 行 |
@@ -8163,14 +8174,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L3240 |
-| フェーズ構造（概要） | L3249 |
-| 品質ゲート（概要） | L3280 |
-| 出力テンプレート | L3291 |
-| 実行時のコマンド・エージェント・スキル | L3314 |
-| 昇格パターン集 | L3338 |
-| Current Active / Spec Created Tasks | L3340 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L3503 |
+| ドキュメント構成 | L3253 |
+| フェーズ構造（概要） | L3262 |
+| 品質ゲート（概要） | L3293 |
+| 出力テンプレート | L3304 |
+| 実行時のコマンド・エージェント・スキル | L3327 |
+| 昇格パターン集 | L3351 |
+| Current Active / Spec Created Tasks | L3353 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L3516 |
 
 ### references/task-workflow-backlog-part2.md
 
