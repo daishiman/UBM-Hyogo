@@ -1,0 +1,40 @@
+apps/web/src/components/shell/user-menu-config.ts:8:export function buildUserMenuActions(role: ShellRole): UserMenuAction[] {
+apps/web/src/components/shell/SidebarUserMenu.tsx:8:import { SidebarUserAvatar } from "./SidebarUserAvatar";
+apps/web/src/components/shell/SidebarUserMenu.tsx:9:import { buildUserMenuActions, type UserMenuAction } from "./user-menu-config";
+apps/web/src/components/shell/SidebarUserMenu.tsx:11:export type SidebarUserMenuProps = {
+apps/web/src/components/shell/SidebarUserMenu.tsx:46:export function SidebarUserMenu({
+apps/web/src/components/shell/SidebarUserMenu.tsx:50:}: SidebarUserMenuProps): ReactElement {
+apps/web/src/components/shell/SidebarUserMenu.tsx:60:  const actions = buildUserMenuActions(role);
+apps/web/src/components/shell/SidebarUserMenu.tsx:79:        <SidebarUserAvatar initials={initials} role={role} size={collapsed ? "sm" : "md"} />
+apps/web/src/components/shell/SidebarUserAvatar.tsx:6:export type SidebarUserAvatarProps = {
+apps/web/src/components/shell/SidebarUserAvatar.tsx:12:export function SidebarUserAvatar({
+apps/web/src/components/shell/SidebarUserAvatar.tsx:16:}: SidebarUserAvatarProps): ReactElement {
+apps/web/src/components/shell/__tests__/user-menu-config.spec.ts:2:import { buildUserMenuActions } from "../user-menu-config";
+apps/web/src/components/shell/__tests__/user-menu-config.spec.ts:4:describe("buildUserMenuActions", () => {
+apps/web/src/components/shell/__tests__/user-menu-config.spec.ts:6:    expect(buildUserMenuActions("viewer")).toEqual([
+apps/web/src/components/shell/__tests__/user-menu-config.spec.ts:12:    const result = buildUserMenuActions("member");
+apps/web/src/components/shell/__tests__/user-menu-config.spec.ts:31:    const result = buildUserMenuActions("admin");
+apps/web/src/components/shell/__tests__/user-menu-config.spec.ts:50:      viewer: buildUserMenuActions("viewer"),
+apps/web/src/components/shell/__tests__/user-menu-config.spec.ts:51:      member: buildUserMenuActions("member"),
+apps/web/src/components/shell/__tests__/user-menu-config.spec.ts:52:      admin: buildUserMenuActions("admin"),
+apps/web/src/components/shell/__tests__/SidebarUserMenu.spec.tsx:14:import { SidebarUserMenu } from "../SidebarUserMenu";
+apps/web/src/components/shell/__tests__/SidebarUserMenu.spec.tsx:24:describe("SidebarUserMenu", () => {
+apps/web/src/components/shell/__tests__/SidebarUserMenu.spec.tsx:26:    render(<SidebarUserMenu role="viewer" user={null} collapsed={false} />);
+apps/web/src/components/shell/__tests__/SidebarUserMenu.spec.tsx:34:    render(<SidebarUserMenu role="member" user={memberUser} collapsed={false} />);
+apps/web/src/components/shell/__tests__/SidebarUserMenu.spec.tsx:41:      <SidebarUserMenu role="admin" user={adminUser} collapsed={false} />,
+apps/web/src/components/shell/__tests__/SidebarUserMenu.spec.tsx:51:      <SidebarUserMenu role="member" user={memberUser} collapsed={true} />,
+apps/web/src/components/shell/__tests__/SidebarUserMenu.spec.tsx:60:    render(<SidebarUserMenu role="member" user={memberUser} collapsed={false} />);
+apps/web/src/components/shell/__tests__/SidebarUserMenu.spec.tsx:68:      <SidebarUserMenu role="admin" user={adminUser} collapsed={false} />,
+apps/web/src/components/shell/__tests__/SidebarUserMenu.spec.tsx:78:      <SidebarUserMenu role="member" user={memberUser} collapsed={false} />,
+apps/web/src/components/shell/__tests__/SidebarUserMenu.spec.tsx:83:    rerender(<SidebarUserMenu role="member" user={memberUser} collapsed={false} />);
+apps/web/src/components/shell/__tests__/SidebarUserMenu.spec.tsx:89:      <SidebarUserMenu role="admin" user={adminUser} collapsed={false} />,
+apps/web/src/components/shell/__tests__/SidebarUserMenu.spec.tsx:94:      <SidebarUserMenu role="member" user={memberUser} collapsed={false} />,
+apps/web/src/components/shell/__tests__/SidebarUserMenu.spec.tsx:99:      <SidebarUserMenu role="viewer" user={null} collapsed={false} />,
+apps/web/src/components/shell/__tests__/__snapshots__/user-menu-config.spec.ts.snap:3:exports[`buildUserMenuActions > 戻り値順序 snapshot（deep-equal） 1`] = `
+
+--- SignOut embed ---
+apps/web/src/components/shell/SidebarUserMenu.tsx:6:import { SignOutButton } from "../auth/SignOutButton";
+apps/web/src/components/shell/SidebarUserMenu.tsx:26:      <SignOutButton
+apps/web/src/components/shell/__tests__/SidebarUserMenu.spec.tsx:33:  it("member: 3 menuitem + SignOutButton が render される", () => {
+
+--- inline style check shell ---

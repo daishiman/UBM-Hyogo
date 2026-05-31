@@ -1,0 +1,15 @@
+2026-05-28 local visual evidence
+
+Command summary:
+- Generated header-only screenshots with Playwright Chromium `page.setContent()`.
+- Output directory: `docs/30-workflows/completed-tasks/member-header-admin-link/outputs/phase-11/screenshots/`
+
+Captured files:
+- `member-header-member.png` — `data-auth-state="member"`, admin CTA absent
+- `member-header-admin.png` — `data-auth-state="admin"`, admin CTA present
+
+Boundary:
+- These are local header visual sanity screenshots backed by the focused Vitest DOM contract.
+- Full `/profile` runtime screenshot on staging remains user-gated.
+
+Result: PASS

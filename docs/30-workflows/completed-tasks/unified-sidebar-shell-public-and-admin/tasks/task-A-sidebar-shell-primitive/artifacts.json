@@ -1,0 +1,110 @@
+{
+  "task_id": "unified-sidebar-shell-public-and-admin--task-A-sidebar-shell-primitive",
+  "created_at": "2026-05-28",
+  "status": "implementation_completed",
+  "task_type": "implementation",
+  "visual_category": "VISUAL",
+  "implementation_mode": "new",
+  "metadata": {
+    "workflow_state": "implementation_completed",
+    "implementation_status": "implementation_completed",
+    "taskType": "implementation",
+    "visualEvidence": "VISUAL",
+    "implementationCategory": "standard",
+    "spec_classification": "implementation_spec",
+    "canonical_workflow": "docs/30-workflows/completed-tasks/unified-sidebar-shell-public-and-admin/tasks/task-A-sidebar-shell-primitive/",
+    "parent_workflow": "docs/30-workflows/completed-tasks/unified-sidebar-shell-public-and-admin/",
+    "scope_routes": [
+      "/",
+      "/members",
+      "/register",
+      "/privacy",
+      "/terms",
+      "/login",
+      "/profile",
+      "/admin",
+      "/admin/dashboard/attendance",
+      "/admin/members",
+      "/admin/tags",
+      "/admin/schema",
+      "/admin/meetings",
+      "/admin/requests",
+      "/admin/identity-conflicts",
+      "/admin/audit"
+    ],
+    "implementation_files": [
+      "apps/web/src/components/shell/SidebarShell.tsx",
+      "apps/web/src/components/shell/SidebarShell.server.tsx",
+      "apps/web/src/components/shell/SidebarBrand.tsx",
+      "apps/web/src/components/shell/SidebarNav.tsx",
+      "apps/web/src/components/shell/SidebarNavGroup.tsx",
+      "apps/web/src/components/shell/SidebarNavItem.tsx",
+      "apps/web/src/components/shell/SidebarCollapseToggle.tsx",
+      "apps/web/src/components/shell/useSidebarState.ts",
+      "apps/web/src/components/shell/SidebarShellContext.tsx",
+      "apps/web/src/components/shell/shell-config.ts",
+      "apps/web/src/components/shell/icons.tsx",
+      "apps/web/src/components/shell/__tests__/SidebarShell.spec.tsx",
+      "apps/web/src/components/shell/__tests__/shell-config.spec.ts",
+      "apps/web/src/components/shell/__tests__/useSidebarState.spec.tsx",
+      "apps/web/src/styles/tokens.css"
+    ],
+    "verify_commands": [
+      "mise exec -- pnpm typecheck",
+      "mise exec -- pnpm lint",
+      "mise exec -- pnpm --filter @ubm-hyogo/web test --run src/components/shell",
+      "pnpm verify:phase12-compliance",
+      "pnpm gate-metadata:validate --require-gates-for-changed docs/30-workflows/completed-tasks/unified-sidebar-shell-public-and-admin/tasks/task-A-sidebar-shell-primitive/artifacts.json docs/30-workflows/completed-tasks/unified-sidebar-shell-public-and-admin/tasks/task-A-sidebar-shell-primitive/outputs/artifacts.json"
+    ],
+    "phase12_strict_outputs": [
+      "outputs/phase-12/main.md",
+      "outputs/phase-12/implementation-guide.md",
+      "outputs/phase-12/system-spec-update-summary.md",
+      "outputs/phase-12/documentation-changelog.md",
+      "outputs/phase-12/unassigned-task-detection.md",
+      "outputs/phase-12/skill-feedback-report.md",
+      "outputs/phase-12/phase12-task-spec-compliance-check.md"
+    ],
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-05-28T00:00:00+09:00",
+        "evidence_path": "docs/30-workflows/completed-tasks/unified-sidebar-shell-public-and-admin/tasks/task-A-sidebar-shell-primitive/outputs/phase-12/phase12-task-spec-compliance-check.md",
+        "approver": "daishiman",
+        "notes": "spec_review: task-A 単体 Phase 1-13, strict 7, artifacts parity present"
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/unified-sidebar-shell-public-and-admin/tasks/task-A-sidebar-shell-primitive/outputs/phase-11/manual-test-result.md",
+        "approver": "daishiman",
+        "notes": "implementation_review: shell primitive 実装 / typecheck / 3 spec passed; visual screenshot は親 wave で実施"
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/unified-sidebar-shell-public-and-admin/tasks/task-A-sidebar-shell-primitive/outputs/phase-13/pr-creation-result.md",
+        "approver": "daishiman",
+        "notes": "external_ops: commit, push, PR は親 workflow の wave で user-gated"
+      }
+    ]
+  },
+  "phases": [
+    { "phase": 1, "name": "要件定義", "status": "completed", "output": "phase-1-requirements.md" },
+    { "phase": 2, "name": "設計", "status": "completed", "output": "phase-2-design.md" },
+    { "phase": 3, "name": "設計レビュー", "status": "completed", "output": "phase-3-design-review.md" },
+    { "phase": 4, "name": "テスト計画", "status": "completed", "output": "phase-4-test-plan.md" },
+    { "phase": 5, "name": "実装手順", "status": "completed", "output": "phase-5-implementation.md" },
+    { "phase": 6, "name": "テスト追加", "status": "completed", "output": "phase-6-test-additions.md" },
+    { "phase": 7, "name": "カバレッジ", "status": "completed", "output": "phase-7-coverage.md" },
+    { "phase": 8, "name": "リファクタ", "status": "completed", "output": "phase-8-refactor.md" },
+    { "phase": 9, "name": "QA", "status": "completed", "output": "phase-9-qa.md" },
+    { "phase": 10, "name": "最終レビュー", "status": "completed", "output": "phase-10-final-review.md" },
+    { "phase": 11, "name": "手動テスト", "status": "runtime_pending", "output": "phase-11-manual-test.md" },
+    { "phase": 12, "name": "ドキュメント同期", "status": "completed", "output": "phase-12-documentation.md" },
+    { "phase": 13, "name": "commit-pr-release", "status": "pending_user_approval", "output": "phase-13-pr.md" }
+  ]
+}

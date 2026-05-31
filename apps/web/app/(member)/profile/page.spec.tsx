@@ -123,3 +123,36 @@ describe("ProfilePage safe fetch degrade", () => {
     expect(notFound).toHaveBeenCalledTimes(1);
   });
 });
+
+// task-c-public-member-sidebar-shell-integration:
+// shell が header を所有するため、profile page は degrade 分岐でも旧 header を mount しない（AC-C6）。
+describe("ProfilePage は旧 header を mount しない (shell 統合回帰 guard)", () => {
+  beforeEach(() => {
+    notFound.mockReset();
+    redirect.mockReset();
+    mockedFetchAuthed.mockReset();
+  });
+
+  it("PR-2: /me 失敗 degrade 分岐で member-header マーカーが出ない", async () => {
+    mockedFetchAuthed.mockRejectedValueOnce(new FetchAuthedError(503, "down"));
+    const { container } = render(await ProfilePage());
+    expect(container.querySelector('[data-testid="member-header"]')).toBeNull();
+  });
+
+  it("PR-3: profile 失敗 degrade 分岐で member-header マーカーが出ない", async () => {
+    mockedFetchAuthed
+      .mockResolvedValueOnce({
+        user: {
+          memberId: "m_1",
+          responseId: "r_1",
+          email: "member@example.com",
+          isAdmin: false,
+          authGateState: "active",
+        },
+        authGateState: "active",
+      })
+      .mockRejectedValueOnce(new Error("fetchAuthed failed: 503"));
+    const { container } = render(await ProfilePage());
+    expect(container.querySelector('[data-testid="member-header"]')).toBeNull();
+  });
+});

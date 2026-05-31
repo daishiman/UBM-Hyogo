@@ -8,6 +8,49 @@
 
 本ドキュメントは、複雑なタスクを単一責務の原則に基づいて分解し、各サブタスクに最適なスラッシュコマンド・エージェント・スキルの組み合わせを選定するためのガイドラインを定義する。
 
+### issue-983-member-photo-avatar-r2-storage（2026-05-29）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_runtime_pending / implementation / VISUAL_ON_EXECUTION` |
+| 成果物 | `docs/30-workflows/issue-983-member-photo-avatar-r2-storage/` |
+| Issue | #983 CLOSED; PR文脈は `Refs #983` のみ |
+| 親 | `docs/30-workflows/completed-tasks/admin-ui-prototype-alignment-followup-003-admin-members-prototype-redesign/` |
+| 目的 | admin member avatar を R2-backed photo + D1 `member_photos` metadata + presigned `photoUrl` + hue fallback で実装する |
+| 実装済み対象 | `apps/api/migrations/0022_member_photos.sql`, `apps/api/src/lib/r2/member-photo-presign.ts`, `apps/api/src/repository/memberPhotos.ts`, `apps/api/src/routes/admin/members.ts`, `apps/api/wrangler.toml`, `apps/api/src/env.ts`, `packages/shared/src/zod/viewmodel.ts`, `packages/shared/src/types/viewmodel/index.ts`, `apps/web/src/components/ui/Avatar.tsx`, `apps/web/src/features/admin/components/_members/MemberAvatar.tsx`, `apps/web/src/features/admin/components/_members/MemberDrawer.tsx` |
+| evidence | root/output artifacts parity present; Phase 11 local static screenshots present; Phase 12 strict 7 present; focused local tests pass |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-983-member-photo-avatar-r2-storage-artifact-inventory.md` |
+| user gate | R2 bucket creation, R2 presign secrets, remote D1 migration apply, staging deploy, authenticated staging screenshots, commit, push, PR, Issue #983 comment/reopen mutation |
+
+### admin-sidebar-public-return-link（2026-05-28）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION / browser_visual_pending_user_gate` |
+| 成果物 | `docs/30-workflows/completed-tasks/admin-sidebar-public-return-link/` |
+| 親 workflow | `docs/30-workflows/public-header-logged-in-nav-cleanup/` Task F |
+| 目的 | `AdminSidebar` の旧「ホーム」導線を、管理画面 footer 直前の明示的な「公開サイトに戻る」リンクへ整理する |
+| implementation targets | `apps/web/src/components/layout/AdminSidebar.tsx`, `apps/web/src/components/layout/__tests__/AdminSidebar.spec.tsx`, `apps/web/src/components/layout/__tests__/AdminSidebar.component.spec.tsx` |
+| contract | `AdminSidebarProps` / `AdminSidebarNavItem` は変更しない。`<a data-role="public-return" href="/" aria-label="公開サイトに戻る">` は sidebar 内 1 件のみで、footer の直前に置く |
+| evidence | focused Vitest 11 PASS、grep gate PASS、Phase 11 local evidence、Phase 12 strict 7、root/output artifacts parity |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-sidebar-public-return-link-artifact-inventory.md` |
+| user gate | authenticated browser screenshots、staging runtime visual、commit、push、PR |
+
+### member-header-admin-link（2026-05-28）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION / staging_visual_pending_user_gate` |
+| 成果物 | `docs/30-workflows/completed-tasks/member-header-admin-link/` |
+| parent | `docs/30-workflows/public-header-logged-in-nav-cleanup/` Task E |
+| 目的 | `(member)/profile` の `MemberHeader` に admin session のみ `/admin` 動線を復旧する |
+| implementation targets | `apps/web/src/lib/auth-view/*`, `apps/web/src/components/layout/MemberHeader.tsx`, `apps/web/app/(member)/layout.tsx` |
+| tests | `apps/web/src/lib/auth-view/__tests__/resolveAuthView.spec.ts`, `apps/web/src/components/layout/__tests__/MemberHeader.spec.tsx` |
+| evidence | focused Vitest 9 PASS、workspace typecheck PASS、workspace lint PASS、HEX grep PASS、`data-auth-state` / `admin-cta` / `await getAuthView` grep PASS、local header screenshots 2 PNG |
+| invariant | D1 direct accessなし。DOM PIIなし。member header では `guest` / 未指定を `data-auth-state="member"` に fail-closed |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-member-header-admin-link-artifact-inventory.md` |
+| user gate | staging visual smoke, commit, push, PR |
+
 ### web-worker-size-limit-fix（2026-05-29）
 
 | 項目 | 値 |
@@ -144,8 +187,11 @@
 
 | 項目 | 値 |
 | --- | --- |
-| ステータス | `spec_created / implementation / VISUAL / implementation_pending` |
+| ステータス | `implemented_local_evidence_captured / implementation / VISUAL / runtime_visual_pending` |
 | 成果物 | `docs/30-workflows/unified-sidebar-shell-public-and-admin/` |
+| ステータス | `spec_created / implementation / VISUAL / implementation_pending` |
+| 成果物 | `docs/30-workflows/completed-tasks/unified-sidebar-shell-public-and-admin/` |
+| sub-workflow | `docs/30-workflows/completed-tasks/unified-sidebar-shell-public-and-admin/tasks/task-A-sidebar-shell-primitive/`（standalone root から親配下へ統合済み） |
 | 目的 | public / member / admin の shell を単一 collapsible `SidebarShell` primitive に統合する |
 | planned targets | `apps/web/src/components/shell/**`, `apps/web/app/(public)/layout.tsx`, `apps/web/app/(member)/layout.tsx`, `apps/web/app/(admin)/layout.tsx`, `apps/web/src/styles/tokens.css`, `apps/web/tests/e2e/sidebar-shell-*.spec.ts` |
 | nav contract | viewer=3 item、member=4 item、admin=13 item（Admin group 9 item） |
@@ -154,18 +200,79 @@
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-unified-sidebar-shell-public-and-admin-artifact-inventory.md` |
 | user gate | apps/web implementation、local visual capture、CI baseline、commit、push、PR |
 
+### admin-layout-sidebar-shell-migration（2026-05-29）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_runtime_pending / implementation / VISUAL`（2026-05-29 実装完了） |
+| 成果物 | `docs/30-workflows/completed-tasks/admin-layout-sidebar-shell-migration/`（実装記録は `outputs/implementation-summary.md`） |
+| 親 workflow | `docs/30-workflows/unified-sidebar-shell-public-and-admin/` Task D（Task A/B/E も本 wave で実装） |
+| 目的 | Admin layout を `SidebarShellServer` 消費側へ移行し、旧 `AdminSidebar` 系を削除（user 承認で Task A/B/E 一括実装・CONST_009） |
+| implemented targets | added `apps/web/src/components/shell/**`（15 component + 6 spec）, `apps/web/src/lib/admin/schema-diff-count.ts`(+spec); edited `apps/web/app/(admin)/layout.tsx`, `apps/web/app/(admin)/layout.spec.tsx`, `apps/web/src/styles/tokens.css`; deleted old `apps/web/src/components/layout/AdminSidebar*`（grep 0 hit） |
+| invariant | API / D1 / Google Form / Auth.js middleware 変更なし。role 判定は `SessionUser.isAdmin` のみ。未認証 `/login?next=/admin`、非 admin `/login?gate=forbidden` を維持 |
+| local evidence | typecheck 6/6 Done / lint OK / web Vitest 1299 passed・1 skipped / AC-2 grep 0 hit |
+| Phase 12 | strict 7 present（implemented state）、root/output artifacts parity present、30-method compact evidence present |
+| user gate | staging visual capture、commit、push、PR。follow-up FU-ALSSM-001（collapse 永続化 cookie 方式・user 判断待ち） |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-layout-sidebar-shell-migration-artifact-inventory.md` |
+| user gate | Task A/B completion、apps/web implementation、focused tests、local visual capture、commit、push、PR |
+
+### task-c-public-member-sidebar-shell-integration（2026-05-29）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / VISUAL / runtime_visual_pending` |
+| 成果物 | `docs/30-workflows/task-c-public-member-sidebar-shell-integration/` |
+| parent | `docs/30-workflows/unified-sidebar-shell-public-and-admin/` Task C |
+| 目的 | 公開 6 route と会員 `/profile` の layout を共通 `SidebarShell` へ統合し、旧 `PublicHeader` / `MemberHeader` を削除する |
+| implementation targets | `apps/web/src/components/shell/**`, `apps/web/app/(public)/layout.tsx`, `apps/web/app/(member)/layout.tsx`, root/legal/login route group moves, `apps/web/app/(member)/profile/page.tsx`, old header components and specs, focused specs |
+| dependency boundary | Task A/B/E の `apps/web/src/components/shell/**` は本サイクルで先行実装済み。Task C は `SidebarShellServer` を mount するだけで role/session logic を再実装しない |
+| invariant | URL 不変の route group 移動、API / D1 / Google Form schema / Auth.js middleware 変更なし、`PublicFooter` は shell 配下に保持 |
+| Phase 12 | strict 7 present、root/output artifacts parity present、source-level evidence captured、Phase 11 pixel screenshots は Gate-C pending |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-task-c-public-member-sidebar-shell-integration-artifact-inventory.md` |
+| lessons | `.claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-task-c-public-member-sidebar-shell-integration-2026-05.md` |
+| user gate | pixel screenshot capture、staging visual baseline、commit、push、PR |
+
+#### Task B sub-workflow: user menu and role handling
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `spec_created / implementation / VISUAL / implementation_pending` |
+| 成果物 | `docs/30-workflows/completed-tasks/unified-sidebar-shell-task-b-user-menu-and-role-handling/` |
+| source task | `docs/30-workflows/unified-sidebar-shell-public-and-admin/tasks/task-B-user-menu-and-role-handling.md` |
+| 目的 | sidebar left-bottom user menu actions and avatar role display for `viewer` / `member` / `admin` |
+| implementation targets | `apps/web/src/components/shell/{user-menu-config.ts,SidebarUserAvatar.tsx,SidebarUserMenu.tsx}`, focused component specs, optional `SignOutButton` variant |
+| strict 7 | parent root aggregated; sub-workflow owns only `outputs/phase-12/phase12-task-spec-compliance-check.md` |
+| invariant | API / D1 / Google Form schema / Auth.js middleware / npm package 変更なし。role 判定は Task A server props、action 決定は pure config |
+| user gate | apps/web implementation、focused vitest、visual evidence、commit、push、PR |
+
 ### public-header-logged-in-nav-cleanup（2026-05-28）
 
 | 項目 | 値 |
 | --- | --- |
-| ステータス | `spec_created / implementation / VISUAL_ON_EXECUTION / implementation_spec_ready_pending_code` |
+| ステータス | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION / implementation_complete_pending_pr` |
 | 成果物 | `docs/30-workflows/public-header-logged-in-nav-cleanup/` |
 | 目的 | ログイン済みユーザーに公開ヘッダが「ログイン」を出し続ける不整合を、PublicHeader / MemberHeader / AdminSidebar / login redirect / legal shell / Playwright coverage で横断解消する |
-| planned targets | `apps/web/src/lib/auth-view/*`, `apps/web/src/components/public/PublicHeader.tsx`, `apps/web/app/{page,privacy/terms/login}/page.tsx`, `apps/web/src/components/layout/{MemberHeader,AdminSidebar}.tsx`, `apps/web/playwright/tests/auth-slot-coverage.spec.ts` |
+| implementation targets | `apps/web/src/lib/auth-view/*`, `apps/web/src/components/public/PublicHeader.tsx`, `apps/web/app/{page,privacy/terms}/page.tsx`, `apps/web/src/components/layout/{MemberHeader,AdminSidebar,AdminSidebarNavItem}.tsx`, `apps/web/middleware.ts`, `apps/web/playwright/tests/auth-slot-coverage.spec.ts` |
 | invariant | 新 API endpoint / D1 schema / Google Form 変更なし。DOM に PII を出さず `data-auth-state=guest/member/admin` のみ |
 | Phase 12 | strict 7 present、root/output artifacts parity present、30-method compact evidence present |
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-public-header-logged-in-nav-cleanup-artifact-inventory.md` |
-| user gate | apps/web implementation, local focused tests, Playwright auth slot evidence, staging runtime, commit, push, PR |
+| evidence | focused Vitest 29 PASS, web typecheck PASS, Playwright setup-auth + auth-slot-coverage 28/28 PASS |
+| user gate | remote CI observation, staging runtime visual, commit, push, PR |
+
+### public-header-auth-slot-e2e（2026-05-28）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / NON_VISUAL / implementation_complete_pending_pr` |
+| 成果物 | `docs/30-workflows/completed-tasks/public-header-auth-slot-e2e/` |
+| parent | `docs/30-workflows/public-header-logged-in-nav-cleanup/` |
+| 目的 | 親 workflow Task A-F の `data-auth-state` / `data-role` DOM 契約を 7 routes x 3 states の Playwright auth-slot coverage で検証する |
+| implementation targets | `apps/web/playwright/tests/{setup-auth,auth-slot-coverage}.spec.ts`, `apps/web/playwright/.auth/.gitignore`, `apps/web/playwright.config.ts`, `.github/workflows/playwright-smoke.yml` |
+| invariant | API / D1 schema / Google Form schema / Auth.js 設定変更なし。cookie/token 値は logs / artifacts / PR body に出さない |
+| Phase 12 | strict 7 present、root/output artifacts parity present、Phase 13 placeholder present、30-method compact evidence present |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-public-header-auth-slot-e2e-artifact-inventory.md` |
+| evidence | `setup-auth` 3 PASS + `auth-slot-coverage` 25 PASS（dependency setup 含め 28/28 PASS）、storageState JSON ignored |
+| user gate | remote GitHub Actions observation, commit, push, PR |
 
 ### task-c-privacy-terms-public-shell-spec（2026-05-28）
 

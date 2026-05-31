@@ -1,0 +1,62 @@
+{
+  "workflow_id": "member-header-admin-link",
+  "workflow_state": "implemented_local_evidence_captured",
+  "metadata": {
+    "taskType": "implementation",
+    "visualEvidence": "VISUAL_ON_EXECUTION",
+    "implementation_status": "implemented_local_evidence_captured",
+    "parent_workflow": "public-header-logged-in-nav-cleanup",
+    "source_task_spec": "docs/30-workflows/public-header-logged-in-nav-cleanup/tasks/task-e-member-header-admin-link.md",
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-05-28T00:00:00+09:00",
+        "evidence_path": "docs/30-workflows/completed-tasks/member-header-admin-link/outputs/phase-12/phase12-task-spec-compliance-check.md",
+        "approver": "daishiman",
+        "notes": "spec_review: Phase 1-13 implementation spec, strict Phase 12 outputs, and aiworkflow-requirements + task-specification-creator skill sync are present (parent Task E carveout)"
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "passed",
+        "passed_at": "2026-05-28T00:00:00+09:00",
+        "evidence_path": "docs/30-workflows/completed-tasks/member-header-admin-link/outputs/phase-11/manual-test-result.md",
+        "approver": "daishiman",
+        "notes": "implementation_review: auth-view base + MemberHeader admin CTA implemented; local focused Vitest, typecheck, lint, grep gate, and 2 local screenshots captured (implemented_local_evidence_captured)"
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/member-header-admin-link/outputs/phase-13/pr-creation-result.md",
+        "approver": "daishiman",
+        "notes": "external_ops: staging runtime visual evidence, commit, push, and PR are user-gated"
+      }
+    ]
+  },
+  "phases": [
+    { "phase": 1, "file": "phase-1-requirements.md", "status": "completed" },
+    { "phase": 2, "file": "phase-2-design.md", "status": "completed" },
+    { "phase": 3, "file": "phase-3-design-review.md", "status": "completed" },
+    { "phase": 4, "file": "phase-4-test-plan.md", "status": "completed" },
+    { "phase": 5, "file": "phase-5-implementation.md", "status": "completed" },
+    { "phase": 6, "file": "phase-6-test-additions.md", "status": "completed" },
+    { "phase": 7, "file": "phase-7-coverage.md", "status": "completed" },
+    { "phase": 8, "file": "phase-8-refactor.md", "status": "completed" },
+    { "phase": 9, "file": "phase-9-qa.md", "status": "completed" },
+    { "phase": 10, "file": "phase-10-final-review.md", "status": "completed" },
+    { "phase": 11, "file": "outputs/phase-11/manual-test-result.md", "status": "completed" },
+    { "phase": 12, "file": "outputs/phase-12/main.md", "status": "completed" },
+    { "phase": 13, "file": "outputs/phase-13/pr-creation-result.md", "status": "pending" }
+  ],
+  "implementation_files": [
+    "apps/web/src/components/layout/MemberHeader.tsx",
+    "apps/web/src/components/layout/__tests__/MemberHeader.spec.tsx",
+    "apps/web/app/(member)/layout.tsx",
+    "apps/web/src/lib/auth-view/types.ts",
+    "apps/web/src/lib/auth-view/resolveAuthView.ts",
+    "apps/web/src/lib/auth-view/getAuthView.ts",
+    "apps/web/src/lib/auth-view/index.ts",
+    "apps/web/src/lib/auth-view/__tests__/resolveAuthView.spec.ts"
+  ]
+}
