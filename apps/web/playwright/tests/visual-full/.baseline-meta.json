@@ -1,7 +1,7 @@
 {
   "$schema": "../../../../docs/30-workflows/task-709-visual-baseline-runtime-capture/schemas/baseline-meta.schema.json",
-  "captured_at_commit_sha": "216542ef9ce531db884bc8dfd6a02aa209dcc91d",
-  "captured_at": "2026-05-31T00:49:24Z",
+  "captured_at_commit_sha": "fac23f26f477b720e6979c84d3ace5ac3d8d27bc",
+  "captured_at": "2026-05-31T01:29:01Z",
   "captured_via": "playwright-visual-baseline-update.yml#workflow_dispatch",
   "captured_run_ids": [
     "26540715735",
@@ -13,7 +13,7 @@
     "26628923374",
     "26677930770",
     "26695366830",
-    "26699131455"
+    "26699807063"
   ],
   "viewport_dimensions": {
     "desktop": {
@@ -41,5 +41,5 @@
   "refresh_workflow": ".github/workflows/playwright-visual-baseline-update.yml",
   "refresh_command_hint": "gh workflow run playwright-visual-baseline-update.yml -f reason=\"<why>\" -r <feature-branch>",
   "notes": "captured_at_commit_sha からの rendering_relevant_paths diff が空でない場合、baseline は stale。scripts/visual-baseline-status.sh で診断可能。",
-  "last_refresh_reason": "dev #1037 (admin layout を統一 SidebarShell へ移行) 取込で admin-members の chrome が変化し、issue-981 enrichment 列との組合せで full-visual baseline が再 stale 化。新レイアウト+enrichment の正baselineへ更新。"
+  "last_refresh_reason": "viewer popover修正後 再撮影: dev統一シェル(public/member/admin)の visual-full+visual-chromium baseline"
 }
