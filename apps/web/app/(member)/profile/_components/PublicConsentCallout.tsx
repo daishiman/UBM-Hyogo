@@ -3,12 +3,12 @@
 // INV-4 (CLAUDE.md #7): publicConsent の更新経路は Google Form 再回答が正規経路。
 
 import type { JSX } from "react";
-import type { MeProfileStatusSummary } from "@/lib/api/me-types";
+import type { ConsentStatus } from "@ubm-hyogo/shared";
 import { Banner } from "@/components/ui/Banner";
 import { buttonVariants } from "@/components/ui/Button";
 
 export interface PublicConsentCalloutProps {
-  readonly publicConsent: MeProfileStatusSummary["publicConsent"];
+  readonly publicConsent: ConsentStatus;
   /**
    * `/me/profile` レスポンスに含まれる editResponseUrl（個別 Form 再回答 URL）。
    * null のとき responderUrl にフォールバックする。
@@ -29,7 +29,7 @@ type View = {
 };
 
 function derive(
-  publicConsent: MeProfileStatusSummary["publicConsent"],
+  publicConsent: ConsentStatus,
 ): View {
   switch (publicConsent) {
     case "consented":
