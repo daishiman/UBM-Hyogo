@@ -1729,3 +1729,12 @@ resolver 単発で skill-only conflict を解消した後でも、Phase 12/13 �
 - **SP-DEVSYNC-069-C (`.next` は gitignore 成果物・削除前に check-ignore で安全確認)**: 修正は `apps/web/.next/types` 削除 → `pnpm typecheck` 再実行のみ（次 build で再生成）。削除前に `git check-ignore apps/web/.next` が hit する（追跡外）ことを確認し source を巻き込まない。`rm -rf` が権限拒否される環境は `find apps/web/.next/types -type f -delete` → `find ... -type d -empty -delete` で代替。
 - **SP-DEVSYNC-069-D (CI 非再発・ローカル限定として記録し push を止めない)**: CI は clean checkout から build→typecheck するため `.next/types` は常に最新で本エラーは出ない。push ブロック事由にせず、ローカル green を取り戻す cache 掃除として Phase 13 に注記する。
 - 参照: [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-069（skill-only resolver-only path + route-group 移行 stale `.next/types` の切り分け）, L-DEVSYNC-068-D（`.next/types` ではなく spec 追従漏れで test だけ赤になる対照例）。
+
+### dev-sync-merge 残マーカー確認の `git grep '======='` 偽陽性（SP-DEVSYNC-073）
+
+skill-only conflict を `pnpm sync:resolve` で解消した後の「念のための残マーカー確認」を `git grep` ベースで行うと、completed-tasks 配下の evidence/log 文書に頻出する装飾区切り線（`=` 連続行）を conflict marker 中央線 `=======` と誤検知する shape。Phase 12 の解消完了判定を index 状態ベースに固定して偽陽性に振り回されないようにする。
+
+- **SP-DEVSYNC-073-A (解消完了判定は `git ls-files -u` を唯一の正本に)**: `pnpm sync:resolve` 後の残コンフリクト確認は `git ls-files -u | wc -l == 0` を判定基準にする。`git grep -lE '^(<<<<<<<|=======|>>>>>>>)'` は `=======`（7 連以上の `=`）を ASCII 区切り線（例: phase-11 smoke-log の `====...` 60 連）と構造的に区別できず偽陽性を出す。`git ls-files -u` は git index の unmerged stage を直接読むため装飾線に反応しない。
+- **SP-DEVSYNC-073-B (grep を併用するなら U-filter と突き合わせ + path 除外)**: 補助的に marker grep を残す場合、ヒットしたファイルが `git diff --name-only --diff-filter=U` の対象かを必ず照合し、対象外なら文書リテラルとして無視する。除外 path は `.spec`/`.test` に加え `completed-tasks/**` の evidence/log/runbook を含める（装飾区切り線の頻出箇所）。
+- **SP-DEVSYNC-073-C (Phase 12 検証手順への固定)**: dev-sync の解消検証は「`pnpm sync:resolve` exit 0 → `git ls-files -u` 0 → `git commit --no-edit` → `pnpm typecheck`/`pnpm lint`/`pnpm indexes:rebuild` 冪等」の固定列とし、marker grep の生ヒット数を gate にしない。
+- 参照: [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-073（同知見の lessons 版・merge commit `1b662cfad`）, L-DEVSYNC-072-B（`git ls-files -u` 正本則の初出）, [[feedback-grep-head-exit-code-pitfall]]（grep ベース判定のピットフォール一般則）。
