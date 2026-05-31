@@ -1,0 +1,24 @@
+# Phase 11 regression evidence — issue-1017 verify_existing
+# source commit: 278001606 (PR #1028)
+# branch: feat/issue-1017-public-member-sidebar-shell-integration (origin/dev tip)
+# date: 2026-05-31
+
+## focused layout/page specs (mise exec -- pnpm --filter @ubm-hyogo/web test --run)
+  app/(public)/layout.spec.tsx        PASS
+  app/(member)/layout.spec.tsx        PASS
+  app/(public)/page.spec.tsx          PASS
+  app/(member)/profile/page.spec.tsx  PASS
+
+## whole apps/web suite (same run)
+  Test Files  200 passed | 1 skipped (201)
+  Tests       1385 passed | 1 skipped (1386)
+
+## typecheck
+  TYPECHECK_EXIT=0  (apps/web + apps/api + packages/* Done)
+
+## lint
+  LINT_EXIT=0
+
+## old header production import grep (expect 0)
+  git grep -n 'PublicHeader|SessionAwarePublicHeader|PublicHeaderWithPath|MemberHeader' -- apps/web/app apps/web/src
+  -> 0 production imports (1 comment reference in SidebarShell.tsx only)

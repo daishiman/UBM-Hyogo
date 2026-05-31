@@ -4,7 +4,7 @@
 
 ## Summary
 
-`unified-sidebar-shell-public-and-admin` is a `spec_created / implementation / VISUAL` parent workflow. It defines a unified collapsible sidebar shell for public, member, and admin route groups. Task B user menu implementation and local visual evidence are present; remaining parent tasks and CI/staging evidence are pending Gate-B/C.
+`unified-sidebar-shell-public-and-admin` is a `spec_created / implementation / VISUAL` parent workflow. It defines a unified collapsible sidebar shell for public, member, and admin route groups. Task A/B/C/E implementation evidence is present through PR #1028 / commit `278001606`; Task D admin migration and Task F staging visual baseline remain Gate-C/user-gated.
 
 ## Canonical workflow
 
@@ -54,15 +54,16 @@
 | Gate | Status | Boundary |
 | --- | --- | --- |
 | Gate-A | passed | spec / strict 7 / aiworkflow sync |
-| Gate-B | partial | Task B apps/web implementation, focused tests, grep gate, and local visual evidence present; A/E/C/D/F still pending |
+| Gate-B | partial | Task A/B/C/E apps/web implementation, focused tests/typecheck/lint, grep gate, and local source evidence present; Task D and Task F staging visual baseline still pending |
 | Gate-C | pending | commit, push, PR, CI visual baseline |
 
 ## Sub-workflows
 
 | ID | Path | Status | Strict 7 owner |
 | --- | --- | --- | --- |
-| Task A sidebar shell primitive | `docs/30-workflows/completed-tasks/unified-sidebar-shell-public-and-admin/tasks/task-A-sidebar-shell-primitive/` | `implementation_completed / implementation / VISUAL` | parent root `outputs/phase-12/` |
+| Task A sidebar shell primitive | `docs/30-workflows/completed-tasks/unified-sidebar-shell-public-and-admin/tasks/task-A-sidebar-shell-primitive/` | `implemented_local_evidence_captured / implementation / VISUAL` | parent root `outputs/phase-12/` |
 | Task B user menu and role handling | `docs/30-workflows/completed-tasks/unified-sidebar-shell-task-b-user-menu-and-role-handling/` | `implementation_verified / implementation / VISUAL` | parent root `outputs/phase-12/` |
+| Task C public/member layout integration | `docs/30-workflows/task-c-public-member-sidebar-shell-integration/` | `implemented_local_evidence_captured / implementation / VISUAL / runtime_visual_pending` | own root `outputs/phase-12/` |
 
 Sub-workflow Phase 12 rule: Task B owns only `outputs/phase-12/phase12-task-spec-compliance-check.md`. Parent root remains the strict 7 SSOT.
 

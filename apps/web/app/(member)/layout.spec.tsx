@@ -9,12 +9,21 @@ vi.mock("../../src/components/shell/SidebarShell.server", () => ({
     activePath,
     children,
     mobileTriggerSlot,
+    routeKey,
+    sectionRhythm,
   }: {
     activePath: string;
     children: ReactNode;
     mobileTriggerSlot: ReactNode;
+    routeKey?: string;
+    sectionRhythm?: string;
   }) => (
-    <div data-testid="sidebar-shell-stub" data-active-path={activePath}>
+    <div
+      data-testid="sidebar-shell-stub"
+      data-active-path={activePath}
+      data-route-key={routeKey}
+      data-section-rhythm={sectionRhythm}
+    >
       <div data-testid="mobile-trigger-slot">{mobileTriggerSlot}</div>
       {children}
     </div>
@@ -78,17 +87,32 @@ describe("MemberLayout (sidebar shell 統合)", () => {
     expect(container.querySelector('[data-active-path="/profile"]')).not.toBeNull();
   });
 
-  it("M-7: mobileTriggerSlot が渡る", async () => {
+  it("M-7: x-pathname があれば activePath として渡る", async () => {
+    headerStore.get.mockReturnValue("/profile?tab=visibility");
+    const { container } = await renderLayout();
+    expect(
+      container.querySelector('[data-active-path="/profile?tab=visibility"]'),
+    ).not.toBeNull();
+  });
+
+  it("M-8: mobileTriggerSlot が渡る", async () => {
     const { container } = await renderLayout();
     const slot = container.querySelector('[data-testid="mobile-trigger-slot"]');
     expect(slot?.querySelector('[data-testid="mobile-trigger-stub"]')).not.toBeNull();
   });
 
-  it("M-8: async layout を await で render しても throw しない", async () => {
+  it("M-9: routeKey / sectionRhythm が SidebarShellServer へ渡る", async () => {
+    const { container } = await renderLayout();
+    const stub = container.querySelector('[data-testid="sidebar-shell-stub"]');
+    expect(stub?.getAttribute("data-route-key")).toBe("member");
+    expect(stub?.getAttribute("data-section-rhythm")).toBe("comfortable");
+  });
+
+  it("M-10: async layout を await で render しても throw しない", async () => {
     await expect(renderLayout()).resolves.toBeTruthy();
   });
 
-  it("M-9: axe critical 違反 0", async () => {
+  it("M-11: axe critical 違反 0", async () => {
     const { container } = await renderLayout();
     const results = await axe(container);
     const critical = results.violations.filter((v) => v.impact === "critical");

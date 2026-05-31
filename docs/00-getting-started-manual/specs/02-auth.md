@@ -102,8 +102,10 @@ type AuthView =
 
 - `apps/web/src/lib/auth-view/resolveAuthView.ts`: pure function。`memberId` 欠落・空文字は `guest`。
 - `apps/web/src/lib/auth-view/getAuthView.ts`: `getAuth().auth()` を呼び、例外時は `guest` に fail-closed。
-- `apps/web/src/components/public/PublicHeader.tsx`: `data-auth-state="guest|member|admin"` のみを出力。
-- `apps/web/app/(public)/layout.tsx`: server boundary で `authView` を解決して `PublicHeader` へ注入。
+- `apps/web/src/components/shell/SidebarShell.tsx`: shell root に `data-auth-state="guest|member|admin"` を出力する（`viewer` は `guest` へ正規化）。
+- `apps/web/app/(public)/layout.tsx`: server boundary で共通 `SidebarShellServer` を mount し、role 判定・auth CTA 出し分けは shell 内部に閉じる。
+
+> **更新（issue-1017 / PR #1028）**: 旧 `PublicHeader` コンポーネントは SidebarShell 統合に伴い撤去された。`AuthView` view model（`resolveAuthView` / `getAuthView`）と「PII を DOM に出さず `data-auth-state` のみ出力する」観測契約は不変で、出力箇所が `PublicHeader` から共通 `SidebarShell` の shell root へ継承された。
 
 `apps/web` 公開層では、この contract に伴う新 API endpoint / D1 schema / Google Form schema 変更は発生しない。
 
@@ -196,7 +198,9 @@ type AuthView =
   | { readonly kind: "admin"; readonly profileHref: "/profile"; readonly adminHref: "/admin" };
 ```
 
-`apps/web/app/(member)/layout.tsx` は `await getAuthView()` を1回だけ実行し、`<MemberHeader authView={authView} />` へ渡す。`MemberHeader` は `authView.kind === "admin"` のときだけ `href="/admin"` / `data-role="admin-cta"` / `aria-label="管理ダッシュボードへ移動"` の管理リンクを描画する。`guest` / 未指定 / 取得失敗時は `data-auth-state="member"` として扱い、DOM には PII を出さない。
+`apps/web/app/(member)/layout.tsx` は共通 `SidebarShellServer` を mount し、role 判定・nav 構築は shell 内部（`buildNavForRole`）に閉じる。admin role では admin nav グループ（`/admin` ダッシュボード等）が描画され、`SidebarShell` の shell root が `data-auth-state="guest|member|admin"` を出力する。`guest` / 取得失敗時は fail-closed で `member` 相当へ倒し、DOM には PII を出さない。
+
+> **更新（issue-1017 / PR #1028）**: 旧 `MemberHeader` コンポーネントは SidebarShell 統合に伴い撤去された。admin CTA（旧 `data-role="admin-cta"` の `/admin` リンク）は `SidebarShellServer` の admin nav グループへ移管され、`AuthView` 境界と PII 非出力契約は不変。
 
 ### 必要な環境変数
 

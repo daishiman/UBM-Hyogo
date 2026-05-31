@@ -1,0 +1,185 @@
+{
+  "task_id": "issue-1017-public-member-sidebar-shell-integration",
+  "created_at": "2026-05-31",
+  "status": "implemented_local_evidence_captured",
+  "task_type": "implementation",
+  "visual_category": "VISUAL",
+  "implementation_mode": "verify_existing",
+  "metadata": {
+    "workflow_state": "implemented_local_evidence_captured",
+    "implementation_status": "implemented_local_evidence_captured",
+    "taskType": "implementation",
+    "visualEvidence": "VISUAL_ON_EXECUTION",
+    "implementationCategory": "standard",
+    "spec_classification": "implementation_spec",
+    "issue": 1017,
+    "issue_state": "CLOSED",
+    "implementation_source_commit": "278001606",
+    "implementation_source_pr": 1028,
+    "canonical_workflow": "docs/30-workflows/issue-1017-public-member-sidebar-shell-integration/",
+    "parent_workflow": "docs/30-workflows/completed-tasks/unified-sidebar-shell-public-and-admin/",
+    "scope_routes": [
+      "/",
+      "/members",
+      "/register",
+      "/privacy",
+      "/terms",
+      "/login",
+      "/profile"
+    ],
+    "implementation_files": [
+      "apps/web/app/(public)/layout.tsx",
+      "apps/web/app/(member)/layout.tsx",
+      "apps/web/app/(public)/page.tsx",
+      "apps/web/app/(public)/privacy/page.tsx",
+      "apps/web/app/(public)/terms/page.tsx",
+      "apps/web/app/(public)/login/page.tsx",
+      "apps/web/app/(member)/profile/page.tsx",
+      "apps/web/src/components/shell/SidebarShell.server.tsx",
+      "apps/web/src/components/shell/SidebarMobileTrigger.tsx",
+      "apps/web/src/components/shell/SidebarDrawer.tsx",
+      "apps/web/app/(public)/layout.spec.tsx",
+      "apps/web/app/(member)/layout.spec.tsx",
+      "apps/web/app/(public)/page.spec.tsx",
+      "apps/web/app/(member)/profile/page.spec.tsx"
+    ],
+    "deleted_files": [
+      "apps/web/src/components/public/PublicHeader.tsx",
+      "apps/web/src/components/public/__tests__/PublicHeader.spec.tsx",
+      "apps/web/src/components/layout/MemberHeader.tsx",
+      "apps/web/src/components/layout/__tests__/MemberHeader.spec.tsx"
+    ],
+    "verify_commands": [
+      "mise exec -- pnpm typecheck",
+      "mise exec -- pnpm lint",
+      "mise exec -- pnpm --filter @ubm-hyogo/web test --run \"app/(public)/layout.spec.tsx\" \"app/(member)/layout.spec.tsx\" \"app/(public)/page.spec.tsx\" \"app/(member)/profile/page.spec.tsx\"",
+      "git grep -n \"PublicHeader\\|SessionAwarePublicHeader\\|PublicHeaderWithPath\\|MemberHeader\" -- apps/web/app apps/web/src",
+      "pnpm verify:phase12-compliance",
+      "pnpm gate-metadata:validate --require-gates-for-changed docs/30-workflows/issue-1017-public-member-sidebar-shell-integration/artifacts.json docs/30-workflows/issue-1017-public-member-sidebar-shell-integration/outputs/artifacts.json"
+    ],
+    "phase12_strict_outputs": [
+      "outputs/phase-12/main.md",
+      "outputs/phase-12/implementation-guide.md",
+      "outputs/phase-12/system-spec-update-summary.md",
+      "outputs/phase-12/documentation-changelog.md",
+      "outputs/phase-12/unassigned-task-detection.md",
+      "outputs/phase-12/skill-feedback-report.md",
+      "outputs/phase-12/phase12-task-spec-compliance-check.md"
+    ],
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-05-31T00:00:00+09:00",
+        "evidence_path": "docs/30-workflows/issue-1017-public-member-sidebar-shell-integration/outputs/phase-12/phase12-task-spec-compliance-check.md",
+        "approver": "daishiman",
+        "notes": "spec_review: verify_existing 仕様 Phase 1-13, strict 7, artifacts parity present。canonical 9 見出し準拠。"
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "passed",
+        "passed_at": "2026-05-31T00:00:00+09:00",
+        "evidence_path": "docs/30-workflows/issue-1017-public-member-sidebar-shell-integration/outputs/phase-11/manual-test-result.md",
+        "approver": "daishiman",
+        "notes": "implementation_review: 実装は commit 278001606 (PR #1028) として landed 済み。typecheck 6 packages green / lint exit 0 / layout+page focused specs PASS (apps/web 1385 passed) を本ブランチで再確認。local screenshot は public guest / member profile を Playwright で取得済み。"
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/issue-1017-public-member-sidebar-shell-integration/outputs/phase-13/pr-creation-result.md",
+        "approver": "daishiman",
+        "notes": "external_ops: 実装 PR #1028 は dev へマージ済み。本仕様書 docs の commit / push / PR は user-gated。staging visual baseline は Task F (#1019) で実施。"
+      }
+    ],
+    "runtime_visual_state": "visual_runtime_pending",
+    "canonical_implementation_workflow": "docs/30-workflows/task-c-public-member-sidebar-shell-integration/",
+    "verification_root_role": "closed_issue_verify_existing_alias",
+    "aiworkflow_sync": {
+      "status": "already_synced_via_canonical_implementation_workflow",
+      "canonical_entry": "task-c-public-member-sidebar-shell-integration",
+      "reason": "avoid duplicate canonical ledgers for the same landed PR #1028 implementation"
+    },
+    "visualEvidenceBoundary": "VISUAL task; local runtime screenshots are captured in Phase 11; staging visual baseline is deferred to Task F #1019"
+  },
+  "phases": [
+    {
+      "phase": 1,
+      "name": "要件定義",
+      "status": "completed",
+      "output": "phase-1-requirements.md"
+    },
+    {
+      "phase": 2,
+      "name": "設計",
+      "status": "completed",
+      "output": "phase-2-design.md"
+    },
+    {
+      "phase": 3,
+      "name": "設計レビュー",
+      "status": "completed",
+      "output": "phase-3-design-review.md"
+    },
+    {
+      "phase": 4,
+      "name": "テスト計画",
+      "status": "completed",
+      "output": "phase-4-test-plan.md"
+    },
+    {
+      "phase": 5,
+      "name": "実装",
+      "status": "completed",
+      "output": "phase-5-implementation.md"
+    },
+    {
+      "phase": 6,
+      "name": "テスト追加",
+      "status": "completed",
+      "output": "phase-6-test-additions.md"
+    },
+    {
+      "phase": 7,
+      "name": "カバレッジ",
+      "status": "completed",
+      "output": "phase-7-coverage.md"
+    },
+    {
+      "phase": 8,
+      "name": "リファクタ",
+      "status": "completed",
+      "output": "phase-8-refactor.md"
+    },
+    {
+      "phase": 9,
+      "name": "QA",
+      "status": "completed",
+      "output": "phase-9-qa.md"
+    },
+    {
+      "phase": 10,
+      "name": "最終レビュー",
+      "status": "completed",
+      "output": "phase-10-final-review.md"
+    },
+    {
+      "phase": 11,
+      "name": "手動テスト",
+      "status": "runtime_pending",
+      "output": "phase-11-manual-test.md"
+    },
+    {
+      "phase": 12,
+      "name": "ドキュメント同期",
+      "status": "completed",
+      "output": "phase-12-documentation.md"
+    },
+    {
+      "phase": 13,
+      "name": "commit-pr-release",
+      "status": "pending_user_approval",
+      "output": "phase-13-pr.md"
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "taskId": "issue-1017-public-member-sidebar-shell-integration",
+  "mode": "VISUAL",
+  "implementation_mode": "verify_existing",
+  "source_commit": "278001606",
+  "source_pr": 1028,
+  "note": "実装は landed 済み。本 plan は Task F (#1019) staging visual baseline で取得する screen の宣言。ローカル component-harness では SidebarShell の expanded/collapsed 状態を再現可能。",
+  "screens": [
+    { "name": "public-shell-guest", "route": "/", "auth": "guest", "expect": "PUBLIC グループのみ / UserMenu=ログイン", "status": "pending_gate_b" },
+    { "name": "public-shell-member", "route": "/", "auth": "member", "expect": "PUBLIC+MEMBERS / UserMenu=プロフィール等", "status": "pending_gate_b" },
+    { "name": "public-shell-admin", "route": "/", "auth": "admin", "expect": "PUBLIC+MEMBERS+ADMIN (schemaDiff badge)", "status": "pending_gate_b" },
+    { "name": "member-shell-profile", "route": "/profile", "auth": "member", "expect": "公開と同一 sidebar shell が継続表示", "status": "pending_gate_b" }
+  ]
+}

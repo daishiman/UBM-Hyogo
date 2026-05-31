@@ -22,3 +22,4 @@
 - **L-TASKC-003**: route group `git mv` は移動セグメント数ぶんだけ相対 import 深度を補正し、route path assertion spec も同 wave で更新する。
 - **L-TASKC-004**: 旧コンポーネント削除（`PublicHeader` / `MemberHeader`）は `grep` で dangling 参照 0 を確定し、component + spec を 1 wave で削除する。
 - **L-TASKC-005**: shell primitive が依存する utility / token / 不変条件 spec の変更も in-scope とし、root / outputs 両 `artifacts.json` の `implementation_files` に parity を保って列挙する。
+- **L-TASKC-006**: dev sync-merge の shell AA 衝突は grep-consumer でなく機能完全性（superset）で片側採用し、route group 移行 vs page 内 inline header は branch goal の supersede で判定する（merge commit `0facd5e91` / 詳細は L-DEVSYNC-067）。

@@ -10,12 +10,21 @@ vi.mock("../../src/components/shell/SidebarShell.server", () => ({
     activePath,
     children,
     mobileTriggerSlot,
+    routeKey,
+    sectionRhythm,
   }: {
     activePath: string;
     children: ReactNode;
     mobileTriggerSlot: ReactNode;
+    routeKey?: string;
+    sectionRhythm?: string;
   }) => (
-    <div data-testid="sidebar-shell-stub" data-active-path={activePath}>
+    <div
+      data-testid="sidebar-shell-stub"
+      data-active-path={activePath}
+      data-route-key={routeKey}
+      data-section-rhythm={sectionRhythm}
+    >
       <div data-testid="mobile-trigger-slot">{mobileTriggerSlot}</div>
       {children}
     </div>
@@ -99,11 +108,18 @@ describe("PublicLayout (sidebar shell 統合)", () => {
     expect(slot?.querySelector('[data-testid="mobile-trigger-stub"]')).not.toBeNull();
   });
 
-  it("P-10: async layout を await で render しても throw しない", async () => {
+  it("P-10: routeKey / sectionRhythm が SidebarShellServer へ渡る", async () => {
+    const { container } = await renderLayout();
+    const stub = container.querySelector('[data-testid="sidebar-shell-stub"]');
+    expect(stub?.getAttribute("data-route-key")).toBe("public");
+    expect(stub?.getAttribute("data-section-rhythm")).toBe("comfortable");
+  });
+
+  it("P-11: async layout を await で render しても throw しない", async () => {
     await expect(renderLayout()).resolves.toBeTruthy();
   });
 
-  it("P-11: axe critical 違反 0", async () => {
+  it("P-12: axe critical 違反 0", async () => {
     const { container } = await renderLayout();
     const results = await axe(container);
     const critical = results.violations.filter((v) => v.impact === "critical");

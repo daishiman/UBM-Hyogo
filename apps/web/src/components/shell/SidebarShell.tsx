@@ -54,7 +54,7 @@ export function SidebarShell({
       <div
         data-shell-root="true"
         data-shell-collapsed={collapsed ? "true" : "false"}
-        // auth-slot 観測契約: viewer→guest / member / admin（旧 PublicHeader/MemberHeader の data-auth-state を shell へ継承）。
+        // auth-slot 観測契約: viewer→guest / member / admin（旧ヘッダーの data-auth-state を shell へ継承）。
         data-auth-state={role === "viewer" ? "guest" : role}
         className="flex min-h-screen w-full bg-[var(--ubm-color-surface-bg)] text-[var(--ubm-color-text-primary)]"
       >

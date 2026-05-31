@@ -167,12 +167,12 @@
 | 項目 | 値 |
 | --- | --- |
 | workflow root | `docs/30-workflows/task-c-public-member-sidebar-shell-integration/` |
-| status | `spec_created / implementation / VISUAL / implementation_pending` |
+| status | `implemented_local_evidence_captured / implementation / VISUAL / runtime_visual_pending` |
 | parent | `docs/30-workflows/unified-sidebar-shell-public-and-admin/` Task C |
 | purpose | 公開 6 route と会員 `/profile` を共通 `SidebarShell` へ統合し、旧 `PublicHeader` / `MemberHeader` を削除する実装 |
 | implementation targets | `apps/web/src/components/shell/**`, `(public)/(member)` layouts, root/legal/login route group moves, profile page header removal, old header components and specs, focused specs |
 | dependency boundary | Task A/B/E shell primitives are locally implemented; Task C only mounts `SidebarShellServer` |
-| Phase 12 | strict 7 present、root/output `artifacts.json` parity present |
+| Phase 12 | strict 7 present、root/output `artifacts.json` parity present、source-level evidence captured |
 | inventory | `.claude/skills/aiworkflow-requirements/references/workflow-task-c-public-member-sidebar-shell-integration-artifact-inventory.md` |
 | lessons | `.claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-task-c-public-member-sidebar-shell-integration-2026-05.md` |
 | user gate | pixel screenshot capture, staging visual baseline, commit, push, PR |
