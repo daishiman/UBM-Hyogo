@@ -92,6 +92,9 @@ importers:
       '@ubm-hyogo/shared':
         specifier: workspace:*
         version: link:../../packages/shared
+      aws4fetch:
+        specifier: 1.0.20
+        version: 1.0.20
       hono:
         specifier: 4.12.18
         version: 4.12.18

@@ -1348,6 +1348,28 @@ anti-pattern:
 - 参照: [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-059、L-DEVSYNC-055 (resolver 単独完結 happy-path)、L-DEVSYNC-056/057/058 (手動 hybridize 分岐先)、L-DEVSYNC-046 (UNION_TARGETS)。
 
 
+## L-ASSET Admin-managed binary asset（DBメタ + object storage + presigned URL）+ fail-soft presign パターン（issue-983 / 2026-05-29 汎化）
+
+フォーム/正本 schema が**バイナリ資産（写真・添付等）を集めない**が admin が後付けで管理したい場合、正本 schema をバイナリで汚さず、フロントへ storage credential も露出させない 3 層分離で実装する。read endpoint は未 provision / secret 未注入環境でも壊れない fail-soft を default にする。Phase 1 の Ownership 宣言と Phase 4 risk に以下を必ず登録する。
+
+- **L-ASSET-001 (3層分離を Phase 1 で宣言)**: 正本 schema 外の admin-managed バイナリ資産は「**メタデータDB行**（誰がどの資産を持つか）+ **object storage**（バイナリ本体）+ **API が発行する短命 presigned URL**」の 3 層で分離する。フロントは signed URL 文字列のみ受領し `<img src>`/`<a href>` に渡すだけにして、storage / DB へ直接アクセスしない（DB 直アクセス禁止境界と対称）。Phase 1 の Schema / Ownership 宣言で「正本 schema は不変、資産は別テーブル + 別 binding」を明記する。
+- **L-ASSET-002 (presign は fail-soft、read endpoint は成功ステータス維持)**: presign helper は依存値不正 / 対象不在 / 署名ライブラリ throw のいずれでも**例外でなく `null`** を返す。これを利用する read（detail）endpoint は presign 失敗でも**成功ステータス(200)を維持**し optional field を省略する。secret 未注入 / storage 未 provision の local・staging 初期状態で既存 endpoint を壊さないことを AC に含める。
+- **L-ASSET-003 (URL 解決は route 層、ViewModel builder は I/O 非依存)**: ViewModel builder は presign 等の外部 I/O 非依存（純粋）に保ち、URL 解決は route 層の resolve helper に切り出す。route で解決した値を `{ ...view, optionalField }` と**後段マージ**する層分離にする。builder のテスト容易性と再利用性を守る。
+- **L-ASSET-004 (presigned URL 生成契約を定数化)**: object key 規約（例 `{entity}/{id}/{slot}` で 1 entity 1 asset 上書き）、最大サイズ、許可 MIME allowlist、presign TTL を named const として 1 箇所に集約し仕様書に転記する。署名は S3 互換 presigned GET（query 署名）を用い、object key のパス区切りを保つ encode と TTL の expires query を契約として固定する。
+- **L-ASSET-005 (upload 検証順序と HTTP ステータス契約)**: multipart upload は **存在確認(404) → body/field 取得(400) → 型(400) → MIME allowlist(415) → 空(400) → サイズ上限(413)** の順で検証し、各段で正しいステータスを返す。全検証通過後にのみ storage put + DB upsert + audit を行う。この順序を Phase 1 の API 契約に明記する。
+- **L-ASSET-006 (shared schema optional + strict 維持、fallback 保持)**: 共有 ViewModel schema に optional field を追加しても `.strict()`（unknown key 拒否）を維持する。UI は資産優先描画しつつ `onError` 等で**既存 fallback（親タスクの placeholder 等）を保持**し、資産不在・URL 省略・ロード失敗の全経路で fallback が出ることを確認する。
+- **state**: 外部リソース provision / secret 注入 / remote migration apply / deploy に依存する局面は `implemented_local_runtime_pending` + user-gated 境界として明示し、**local 完了を runtime 完了と混同しない**。
+
+### Anti-pattern
+
+- presign 失敗で 500 を返す → 資産と無関係な detail 表示まで巻き込んで壊れる。null 返却 + 200 維持 + field 省略が正
+- ViewModel builder に storage/presign 依存を持ち込む → builder が I/O 依存になりテスト・再利用が難化。route 層 resolve + 後段マージが正
+- フロントに storage credential / DB binding を露出する → 3 層分離の意義が崩壊。signed URL 文字列のみ受領が正
+- secret 未注入環境で read endpoint が壊れる → fail-soft 契約の欠落。未 provision 初期状態でも 200 を AC で保証する
+- shared schema に field を足して `.strict()` を緩める → unknown key 混入を許す退行。strict 維持で optional 追加するのが正
+- 参照: [[lessons-learned-issue-983-member-photo-avatar-r2-storage-2026-05]]（aiworkflow-requirements 側 L-I983-001..006 が具体実装の SSOT）。
+
+
 ## SP-DEVSYNC-063 skill-only 3 ファイル variant の resolver 単独完結を再々確認 — conflict marker grep の `====` 誤検知に備え実 conflict 判定は `git status` unmerged を一次ソースに（dev sync-merge / 2026-05-30 再現）
 
 `feat/admin-sidebar-public-return-link` ← `origin/dev` (HEAD `7b2bf0537`) sync-merge で conflict 3 件（`indexes/{resource-map,topic-map}.md` + `references/task-workflow-active.md`）、page-level `.ts/.tsx` 0 件。SP-DEVSYNC-059 の default path がそのまま適用でき、`pnpm sync:resolve` 単発で `all skill / index conflicts resolved` まで完走。merge commit `02b7f00eb` / typecheck 6 packages Done / lint exit 0 / indexes no drift。
@@ -1545,6 +1567,14 @@ SP-DEVSYNC-069（add/add 両側フル実装 → consumer-API 起点で wholesale
 - **SP-DEVSYNC-071-C (後継が main を内部描画するなら専用 layout の自前 main を撤去)**: 後継 shell が semantic `<main>` を持つ統一版なら、専用 layout（admin）の自前 `<main>` は二重化。`routeKey`/`sectionRhythm` を渡し padding は wrapper div で保持（兄弟 layout = (member)/(public) の消費形を template に）。layout spec の mock stub も渡し props を data 属性で観測する形へ更新（自前 main 撤去で `main[data-route]` assertion が stub 下 0 になるため）。
 - **SP-DEVSYNC-071-D (固有 test の selector を後継 DOM 契約へ unit+e2e 一括追従)**: `--theirs` 後、branch 固有 test が旧 DOM 契約を assert したまま残り push 後 CI で落ちる。`grep -rn '<旧 selector>' apps/web/{src,playwright}` で洗い `perl -i -pe` で後継契約へ一括置換。vitest（`SidebarShell.server.spec.tsx`）+ playwright（`admin-shell-topbar-sidebar-integration.spec.ts`）双方を Phase 12 検証前に揃える。
 - 参照: [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-071（正本）/ L-DEVSYNC-069（反転前 `--ours`）/ L-DEVSYNC-070（public-return porting 初出）/ L-DEVSYNC-068-C（self-resolve 発展形）。
+
+## SP-DEVSYNC-072 skill index/changelog **のみ**の衝突は `pnpm sync:resolve` 単独でゼロ手作業解消＝source-shape 判定を出さない「クリーン基準ケース」（2026-05-31 feat/issue-983-member-photo-avatar-r2-storage ← dev 10 commits）
+
+SP-DEVSYNC-063〜071 の source-shape 判定（wholesale ours/theirs・grep-consumer・graft）が**出番なしになる対照ベースライン**を Phase 12 に固定する。本 branch の変更（admin-managed asset = D1 メタ + R2 バイナリ + presign route）が dev 側 10 commits の touch path と semantic に独立だと、conflict は skill index/changelog 派生物のみに限局し、3 層予防（`.gitattributes` union + resolver + indexes:rebuild 決定性）が単独で吸収する。
+
+- **SP-DEVSYNC-072-A (conflict file の層を最初に仕分ける)**: sync-merge task の Phase 12 implementation-guide に「`git diff --name-only --diff-filter=U` の結果が**全て `.claude/skills/**` 配下なら即 `pnpm sync:resolve`** → `git ls-files -u` 0 確認 → `git commit --no-edit` で完了。source code（`apps/`/`packages/`）が 1 件でも混ざる場合のみ SP-DEVSYNC-063〜071 の shape 判定へ」を固定フローとして記載。無駄な手解析を避ける最上段ゲート。
+- **SP-DEVSYNC-072-B (残存確認は `git ls-files -u` を正本)**: `grep '<<<<<<<'` ではなく `git ls-files -u` が空＝完全解消（[[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-072-B / `git|head` exit-code pitfall と同趣旨）。resolver 内蔵 rebuild が drift を出し切れば merge 後の単独 `chore(indexes)` commit も不要（L-DEVSYNC-012 最良ケース連番）。
+- 参照: [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-072（正本）/ L-DEVSYNC-002（index 派生物 rebuild 決定性）/ L-DEVSYNC-007（3 層予防）/ SP-DEVSYNC-067/071（対照: source code が混ざり shape 判定が要るケース）。
 
 ## SP-DEVSYNC-069 同一ディレクトリを並行実装した大規模 add/add は resolver 不可・dev 基盤採用 + feature 機能移植の 3-way 設計統合になる（2026-05-30 feat/task-spec-unified-sidebar-shell-task-e-mobile-drawer ← dev #1025 系）
 
