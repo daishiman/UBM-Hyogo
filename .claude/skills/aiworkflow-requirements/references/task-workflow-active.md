@@ -8,6 +8,20 @@
 
 本ドキュメントは、複雑なタスクを単一責務の原則に基づいて分解し、各サブタスクに最適なスラッシュコマンド・エージェント・スキルの組み合わせを選定するためのガイドラインを定義する。
 
+### issue-264-cron-schedule-free-tier-guard（2026-05-31）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / NON_VISUAL / Phase 13 pending_user_approval` |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-264-cron-schedule-free-tier-guard/` |
+| Issue | #264 CLOSED（`Refs #264` のみ。GitHub mutation なし） |
+| 目的 | obsolete になった Sheets 24h cron 実測要求を、現行 Forms ベース `apps/api/wrangler.toml` 3-cron schedule の free-tier 回帰ガードへ再スコープする |
+| implementation | `apps/api/src/sync/wrangler-cron-schedule.guard.spec.ts` |
+| invariant | canonical `["0 18 * * *", "*/15 * * * *", "*/5 * * * *"]`、env 3 セクション parity、cron 本数 ≤3、legacy `0 * * * *` 不在、依存追加 0 |
+| evidence | focused Vitest 16 PASS、package-script apps/api suite 76 files / 481 tests PASS、Phase 12 strict 7 present、root/output artifacts parity present |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-264-cron-schedule-free-tier-guard-artifact-inventory.md` |
+| user gate | optional staging cron tail、commit、push、PR、Issue mutation |
+
 ### admin-sidebar-public-return-link（2026-05-28）
 
 | 項目 | 値 |

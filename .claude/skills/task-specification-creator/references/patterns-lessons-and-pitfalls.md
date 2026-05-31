@@ -1533,3 +1533,16 @@ source を一切触らない（実態は `MemberHeader` + `lib/auth-view` のみ
 - **SP-DEVSYNC-067-D (file-location conflict で relocate した test は相対 import を route-group 階層分 +1 補正)**: `()` route-group へ relocate した test は 1 階層深くなる。`../page`（同 dir 基準）は不変だが `../../../src/...`（web root 基準）は `../../../../` へ +1 補正。`pnpm exec vitest run <relocated>` で import 解決を即確認。
 - **SP-DEVSYNC-067-E (孤児 snapshot は `grep -c toMatchSnapshot`=0 を根拠に `git rm`)**: `--ours` で勝った spec が snapshot 不使用なのに `--theirs` 由来の `__snapshots__/*.snap` が残ると vitest `N obsolete` 警告 → CI ノイズ。`grep -c "toMatchSnapshot\|MatchInlineSnapshot" <spec>` = 0 を確認して即 `git rm`。
 - 参照: [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-067（同 shell-config.ts AA で L-DEVSYNC-066 と逆の `--ours` を採った対照例 + graft/relocate/snapshot の複合 shape）。
+
+## SP-CFGUARD zero-dep 設定ファイル invariant を正規表現 guard test で固定するパターン（2026-05-31 issue-264 wrangler cron free-tier guard）
+
+依存追加ゼロで設定ファイル（TOML/INI/YAML/JSON5 等）の section 単位 invariant（値一致・上限・禁止値不在・section 間 parity）を専用パーサなしの正規表現 + 既存 vitest だけで担保する guard test の汎化。CLOSED/obsolete issue の「実測で値を決める」要求を「確定値が drift しない保証」へ再スコープする判定も含む。
+
+- **SP-CFGUARD-001 (section 見出しは `^\[name\]$` 行アンカーで一意化 — substring 一致禁止)**: `"[triggers]"` は `"[env.staging.triggers]"` の suffix。素朴 `text.indexOf("[triggers]")` は他 section を誤ヒットする。`new RegExp('^\\[' + escapeRegExp(name) + '\\]\\s*(?:#.*)?$', 'm')` で行境界に固定し、末尾コメントも許容。設定ファイル系で section 名が他 section の部分文字列になり得る前提を Phase 4 リスクへ登録。
+- **SP-CFGUARD-002 (`match.index === 0` を falsy で absent 扱いしない)**: 見出しがファイル先頭にあると `match.index === 0` → `!index` が `true` で「未発見」分岐に誤入する。存在判定は `match == null`、offset は `match.index ?? 0` で補完する。truthy チェックを位置に使わない。
+- **SP-CFGUARD-003 (動的 RegExp 埋め込み値は escape + 入力正規化の二段)**: section 名の `.`/`[`/`]` は RegExp メタ文字。`escapeRegExp` でエスケープし、bracketed/非 bracketed 両入力を受ける API は `normalizeSectionHeader`（`^\[`/`\]$` 剥がし）で先に正規化してから RegExp を組む。テストで両入力同結果を assert。
+- **SP-CFGUARD-004 (コメント除去 → 値抽出の順序固定 + 配列は `[^\]]*` で改行込みキャプチャ + 次見出しで上界)**: (1) 値抽出前に section body 各行から `#.*$` を除去し commented-out な禁止値を拾わない、(2) 複数行配列は `/key\s*=\s*\[([^\]]*)\]/m` の否定文字クラスで dotAll 不要に改行を跨ぐ、(3) body は `afterHeader.search(/^\s*\[/m)` で次見出し直前までに切り、次 section の値を誤読しない。3 点を個別テストで担保。
+- **SP-CFGUARD-005 (文書ではなく実行可能 guard で enforcement — 予算/上限/一致/禁止値/parity を test 化)**: 予算（free-tier 上限 N に対し M 本）は ADR/spec の解析記述で結論できるが、文書は「N+1 本目混入」「legacy 禁止値の再登録」を検知できない。`it.each` で section ごとに canonical 値一致・上限以下・禁止値不在を、加えて default/staging/production の parity を 1 test で固定。zero-dep を守るなら専用パーサを足さず正規表現 + vitest で閉じる（CONST_004 enforcement 化）。
+- **SP-CFGUARD-006 (CLOSED/obsolete issue は陳腐化 AC と本質課題を分離して再スコープ)**: 「実測で値を決める」が移行・確定で陳腐化した場合、Issue を再 open せず `artifacts.json.metadata.supersedes` に旧 unassigned task を記録（陳腐化部分）、未達の本質課題（確定値の drift 保証）だけを guard test 成果物へ付け替える。Phase 1 調査で「要求自体の陳腐化」と「未達の核」を分けて結論する。
+- **anti-pattern**: (1) substring で section 探索（部分文字列衝突）、(2) `match.index` truthy 判定（先頭 section 落ち）、(3) 動的 RegExp に section 名を素埋め（メタ文字暴発）、(4) コメント除去を値抽出後に回す（commented-out 値混入）、(5) 文書記述だけで「予算 OK」を結論し test を書かない（drift 無検知）。
+- 参照: [[lessons-learned-issue-264-cron-schedule-free-tier-guard-2026-05]] L-I264-001..008。implementation-guide の参照実装は素朴 `indexOf`/`split` 版を残さず shipped のアンカー正規表現/`matchAll` 版に揃える（流用時の罠の再生産を防ぐ）。

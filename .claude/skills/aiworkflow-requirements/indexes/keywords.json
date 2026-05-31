@@ -5138,6 +5138,7 @@
       "workflow-admin-ui-task-d-attendance-primitive-conformance-artifact-inventory.md",
       "workflow-admin-visual-baseline-admin-routes-task-e-artifact-inventory.md",
       "workflow-issue-256-e2e-coverage-baseline-runbook-artifact-inventory.md",
+      "workflow-issue-264-cron-schedule-free-tier-guard-artifact-inventory.md",
       "workflow-issue-276-mobile-filterbar-tag-picker-artifact-inventory.md",
       "workflow-issue-331-cicd-runtime-warning-cleanup-artifact-inventory.md",
       "workflow-issue-504-extended-fixture-50k-artifact-inventory.md",
@@ -5316,6 +5317,7 @@
       "auth-google-oauth-cf-integration.md",
       "database-schema-cf-audit-log.md",
       "deployment-cloudflare-opennext-workers.md",
+      "deployment-cloudflare.md",
       "lessons-learned-06b-b-profile-request-pending-banner-sticky-2026-05.md",
       "lessons-learned-06c-A-admin-dashboard-2026-05.md",
       "lessons-learned-06c-B-admin-members-2026-05.md",
@@ -5974,6 +5976,7 @@
       "workflow-fix-admin-scr-err-stg-fu-001-auth-env-via-getenv-artifact-inventory.md",
       "workflow-fix-admin-server-components-render-error-stg-artifact-inventory.md",
       "workflow-fix-verify-design-tokens-og-route-exclude-artifact-inventory.md",
+      "workflow-issue-264-cron-schedule-free-tier-guard-artifact-inventory.md",
       "workflow-issue-274-public-pages-ogp-sitemap-robots-artifact-inventory.md",
       "workflow-issue-290-workflow-lint-gate-artifact-inventory.md",
       "workflow-issue-351-09c-post-release-dashboard-automation-artifact-inventory.md",
@@ -7172,6 +7175,7 @@
       "workflow-i02-admin-error-type-unify-artifact-inventory.md",
       "workflow-issue-106-admin-member-notes-repository-task-spec-artifact-inventory.md",
       "workflow-issue-247-apps-web-opennext-config-regression-tests-artifact-inventory.md",
+      "workflow-issue-264-cron-schedule-free-tier-guard-artifact-inventory.md",
       "workflow-issue-274-public-pages-ogp-sitemap-robots-artifact-inventory.md",
       "workflow-issue-275-magic-link-429-retry-after-artifact-inventory.md",
       "workflow-issue-277-next-proxy-migration-artifact-inventory.md",
@@ -7774,6 +7778,7 @@
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
       "workflow-issue-247-apps-web-opennext-config-regression-tests-artifact-inventory.md",
       "workflow-issue-255-coverage-threshold-sync-lint-artifact-inventory.md",
+      "workflow-issue-264-cron-schedule-free-tier-guard-artifact-inventory.md",
       "workflow-issue-274-public-pages-ogp-sitemap-robots-artifact-inventory.md",
       "workflow-issue-275-magic-link-429-retry-after-artifact-inventory.md",
       "workflow-issue-276-mobile-filterbar-tag-picker-artifact-inventory.md",
@@ -8468,6 +8473,7 @@
       "lessons-learned-ut-25-deriv-01-sa-key-rotation-2026-05.md",
       "lessons-learned-ut-coverage-2026-05-wave.md",
       "workflow-governance-design-category.md",
+      "workflow-issue-264-cron-schedule-free-tier-guard-artifact-inventory.md",
       "workflow-issue-891-member-detail-kind-exhaustiveness-guard-artifact-inventory.md",
       "workflow-light-theme-contrast-regression-guard.md",
       "workflow-workspace-parent-reference-sweep-guard.md",
@@ -8534,6 +8540,14 @@
       "observability-monitoring.md",
       "workflow-task-09b-parallel-cron-triggers-monitoring-and-release-runbook-artifact-inventory.md",
       "workflow-ut-07b-fu-01-schema-alias-backfill-queue-cron-split-artifact-inventory.md"
+    ],
+    "historical": [
+      "deployment-cloudflare.md"
+    ],
+    "manual": [
+      "deployment-cloudflare.md",
+      "lessons-learned-ut07b-fu-02-admin-schema-alias-retry-label-2026-05.md",
+      "ui-history-integration.md"
     ],
     "Alert": [
       "deployment-cloudflare.md",
@@ -11026,6 +11040,7 @@
       "workflow-admin-ui-task-c-pageheader-token-conformance-artifact-inventory.md",
       "workflow-admin-visual-baseline-admin-routes-task-e-artifact-inventory.md",
       "workflow-issue-256-e2e-coverage-baseline-runbook-artifact-inventory.md",
+      "workflow-issue-264-cron-schedule-free-tier-guard-artifact-inventory.md",
       "workflow-issue-276-mobile-filterbar-tag-picker-artifact-inventory.md",
       "workflow-issue-331-cicd-runtime-warning-cleanup-artifact-inventory.md",
       "workflow-issue-504-extended-fixture-50k-artifact-inventory.md",
@@ -11412,10 +11427,12 @@
     ],
     "free": [
       "lessons-learned-03a-parallel-forms-schema-sync.md",
-      "lessons-learned-issue-290-workflow-lint-gate-2026-05.md"
+      "lessons-learned-issue-290-workflow-lint-gate-2026-05.md",
+      "workflow-issue-264-cron-schedule-free-tier-guard-artifact-inventory.md"
     ],
     "tier": [
-      "lessons-learned-03a-parallel-forms-schema-sync.md"
+      "lessons-learned-03a-parallel-forms-schema-sync.md",
+      "workflow-issue-264-cron-schedule-free-tier-guard-artifact-inventory.md"
     ],
     "Literal": [
       "lessons-learned-03a-stablekey-literal-lint-enforcement-2026-05.md",
@@ -11779,6 +11796,7 @@
       "lessons-learned-ut-17-followup-003-healthcheck-cron-2026-05.md",
       "lessons-learned-ut07b-fu-01-schema-alias-backfill-queue-cron-split-2026-05.md",
       "task-workflow-active.md",
+      "workflow-issue-264-cron-schedule-free-tier-guard-artifact-inventory.md",
       "workflow-ut-17-cloudflare-analytics-alerts-artifact-inventory.md"
     ],
     "周期と実行時間の数学的余裕で固定する": [
@@ -16885,7 +16903,8 @@
       "lessons-learned-issue-518-cf-audit-logs-hold-2026-05.md"
     ],
     "schedule": [
-      "lessons-learned-issue-518-cf-audit-logs-hold-2026-05.md"
+      "lessons-learned-issue-518-cf-audit-logs-hold-2026-05.md",
+      "workflow-issue-264-cron-schedule-free-tier-guard-artifact-inventory.md"
     ],
     "強制": [
       "lessons-learned-issue-518-cf-audit-logs-hold-2026-05.md"
@@ -17214,6 +17233,7 @@
       "workflow-issue-247-apps-web-opennext-config-regression-tests-artifact-inventory.md",
       "workflow-issue-255-coverage-threshold-sync-lint-artifact-inventory.md",
       "workflow-issue-256-e2e-coverage-baseline-runbook-artifact-inventory.md",
+      "workflow-issue-264-cron-schedule-free-tier-guard-artifact-inventory.md",
       "workflow-issue-275-magic-link-429-retry-after-artifact-inventory.md",
       "workflow-issue-276-mobile-filterbar-tag-picker-artifact-inventory.md",
       "workflow-issue-277-next-proxy-migration-artifact-inventory.md",
@@ -20301,10 +20321,6 @@
     ],
     "状態同時": [
       "lessons-learned-ut07b-fu-02-admin-schema-alias-retry-label-2026-05.md"
-    ],
-    "manual": [
-      "lessons-learned-ut07b-fu-02-admin-schema-alias-retry-label-2026-05.md",
-      "ui-history-integration.md"
     ],
     "から分離する": [
       "lessons-learned-ut07b-fu-02-admin-schema-alias-retry-label-2026-05.md"
@@ -25265,6 +25281,7 @@
       "workflow-issue-247-apps-web-opennext-config-regression-tests-artifact-inventory.md",
       "workflow-issue-255-coverage-threshold-sync-lint-artifact-inventory.md",
       "workflow-issue-256-e2e-coverage-baseline-runbook-artifact-inventory.md",
+      "workflow-issue-264-cron-schedule-free-tier-guard-artifact-inventory.md",
       "workflow-issue-275-magic-link-429-retry-after-artifact-inventory.md",
       "workflow-issue-276-mobile-filterbar-tag-picker-artifact-inventory.md",
       "workflow-issue-277-next-proxy-migration-artifact-inventory.md",
