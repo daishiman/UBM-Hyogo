@@ -19,6 +19,11 @@ vi.mock("../../src/components/shell/SidebarMobileTrigger", () => ({
   SidebarMobileTrigger: () => <button type="button" data-testid="mobile-trigger" />,
 }));
 
+const headerStore = { get: vi.fn() };
+vi.mock("next/headers", () => ({
+  headers: vi.fn(async () => headerStore),
+}));
+
 import AdminLayout from "./layout";
 import { getSession } from "../../src/lib/session";
 import { redirect } from "next/navigation";
@@ -27,6 +32,8 @@ afterEach(() => cleanup());
 beforeEach(() => {
   vi.mocked(getSession).mockReset();
   vi.mocked(redirect).mockClear();
+  headerStore.get.mockReset();
+  headerStore.get.mockReturnValue(null);
 });
 
 describe("AdminLayout", () => {
