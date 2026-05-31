@@ -26,6 +26,32 @@
     "local_evidence": [
       "pnpm exec vitest run scripts/__tests__/generate-index-fail-fast.spec.ts: PASS (6 tests)",
       "pnpm indexes:rebuild -- --quiet: PASS exit 0; generated topic-map/keywords updates for new inventory; immediate second rebuild was idempotent (index diff unchanged)"
+    ],
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-05-31T00:00:00+09:00",
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-229-indexes-rebuild-fail-fast/outputs/phase-12/phase12-task-spec-compliance-check.md",
+        "approver": "daishiman",
+        "notes": "spec_review: Phase 1-13 implementation spec and strict 7 are present; canonical 9 headings verbatim; fail-fast / atomic write / decisive log scope confirmed"
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "passed",
+        "passed_at": "2026-05-31T00:00:00+09:00",
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-229-indexes-rebuild-fail-fast/outputs/phase-11/manual-test-result.md",
+        "approver": "daishiman",
+        "notes": "implementation_review: generate-index.js hardening and focused regression spec (6 tests) PASS locally; pnpm indexes:rebuild idempotent (byte-identical drift 0); typecheck and lint green"
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-229-indexes-rebuild-fail-fast/outputs/phase-13/main.md",
+        "approver": "daishiman",
+        "notes": "external_ops: commit, push, PR creation, and GitHub Issue mutation are user-gated"
+      }
     ]
   },
   "phases": [
