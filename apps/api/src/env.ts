@@ -34,6 +34,17 @@ export interface Env extends SyncEnv, ResponseSyncEnv {
   // Issue #315: application audit_log cold storage.
   readonly UBM_AUDIT_APP_COLD_STORAGE?: R2Bucket;
 
+  // wrangler.toml [[env.*.r2_buckets]] binding = "MEMBER_PHOTOS"
+  // issue-983: admin-managed member photo storage（Google Form schema 外 = invariant #4）。
+  // staging で bucket 未作成でも既存 route が壊れないよう optional（fail-soft）。
+  readonly MEMBER_PHOTOS?: R2Bucket;
+
+  // secrets (wrangler secret put) — issue-983: R2 SigV4 presign 用 scoped token。
+  // bash scripts/cf.sh secret put R2_ACCOUNT_ID --env <env> 経由で投入する。
+  readonly R2_ACCOUNT_ID?: string;
+  readonly R2_ACCESS_KEY_ID?: string;
+  readonly R2_SECRET_ACCESS_KEY?: string;
+
   // wrangler.toml [[queues.producers]] binding = "SCHEMA_ALIAS_BACKFILL_QUEUE"
   // UT-07B-FU-01: schema alias back-fill 継続 job の enqueue 先
   readonly SCHEMA_ALIAS_BACKFILL_QUEUE?: Queue<unknown>;

@@ -2,6 +2,7 @@
 // 12-search-tags の検索パラメータ (q / zone / tag(repeated) / sort / density / page)
 // と既存 filter (published|hidden|deleted) を組合せて返す。
 import { Hono } from "hono";
+import { z } from "zod";
 import { requireAdmin, type RequireAuthVariables } from "../../middleware/require-admin";
 import {
   attendanceProviderMiddleware,
@@ -9,9 +10,35 @@ import {
   type RepositoryProviderVariables,
   type WriteTagNoteProviderVariables,
 } from "../../middleware/repository-providers";
-import { ctx } from "../../repository/_shared/db";
-import { asMemberId, asAdminId } from "../../repository/_shared/brand";
+import { ctx, type DbCtx } from "../../repository/_shared/db";
+import {
+  asMemberId,
+  asAdminId,
+  adminEmail,
+  auditAction,
+  type MemberId,
+} from "../../repository/_shared/brand";
+import {
+  getTagDefinitionMaster,
+  listAssignedTagsForMember,
+  findTagDefinitionById,
+  assignTagToMemberByAdmin,
+  unassignTagFromMemberByAdmin,
+  getMemberDeletedFlag,
+} from "../../repository/memberTags";
 import { buildAdminMemberDetailView } from "../../repository/_shared/builder";
+import {
+  getMemberPhoto,
+  upsertMemberPhoto,
+  deleteMemberPhoto,
+} from "../../repository/memberPhotos";
+import {
+  presignMemberPhotoGetUrl,
+  MEMBER_PHOTO_OBJECT_KEY,
+  MEMBER_PHOTO_MAX_BYTES,
+  MEMBER_PHOTO_ALLOWED_MIME,
+  MEMBER_PHOTO_PRESIGN_TTL_SECONDS,
+} from "../../lib/r2/member-photo-presign";
 import {
   createAttendanceProvider,
   decodeAttendanceCursor,
@@ -32,12 +59,15 @@ import {
   type AdminSort,
   type AdminZone,
 } from "@ubm-hyogo/shared";
-import { normalizeIso, type AdminRouteEnv } from "./_shared";
+import { normalizeIso, memberExists, type AdminRouteEnv } from "./_shared";
 import { logError } from "../../lib/logger";
 
 const ADMIN_MEMBERS_ERROR_CODE = "UBM-ADMIN-MEMBERS-500";
 
 const FILTER_VALUES = ["published", "hidden", "deleted"] as const;
+
+// issue-982: admin manual tag 付与の request body。
+const AssignTagBodyZ = z.object({ tagId: z.string().min(1) });
 
 type ConsentValue = "consented" | "declined" | "unknown";
 type PublishStateValue = "public" | "member_only" | "hidden";
@@ -255,6 +285,37 @@ const sortToSql = (sort: AdminSort): string => {
   return "ORDER BY mi.last_submitted_at DESC";
 };
 
+// issue-983: photo row 有 かつ presign 成功時のみ presigned photoUrl を返す（fail-soft）。
+// secret 未設定 / photo 不在 / presign 失敗時は undefined（detail は 200 を維持）。
+const resolvePhotoUrl = async (
+  env: AdminRouteEnv,
+  db: DbCtx,
+  mid: MemberId,
+): Promise<string | undefined> => {
+  if (!env.R2_ACCOUNT_ID || !env.R2_ACCESS_KEY_ID || !env.R2_SECRET_ACCESS_KEY) {
+    return undefined;
+  }
+  const photo = await getMemberPhoto(db, mid);
+  if (!photo) return undefined;
+  const bucketName = env.MEMBER_PHOTOS
+    ? env.ENVIRONMENT === "production"
+      ? "ubm-hyogo-member-photos-prod"
+      : "ubm-hyogo-member-photos-staging"
+    : null;
+  if (!bucketName) return undefined;
+  const url = await presignMemberPhotoGetUrl(
+    {
+      accountId: env.R2_ACCOUNT_ID,
+      accessKeyId: env.R2_ACCESS_KEY_ID,
+      secretAccessKey: env.R2_SECRET_ACCESS_KEY,
+      bucket: bucketName,
+    },
+    photo.objectKey,
+    MEMBER_PHOTO_PRESIGN_TTL_SECONDS,
+  );
+  return url ?? undefined;
+};
+
 export const createAdminMembersRoute = () => {
   const app = new Hono<{
     Bindings: AdminRouteEnv;
@@ -422,7 +483,107 @@ export const createAdminMembersRoute = () => {
     if (!parsed.success) {
       return c.json({ ok: false, error: parsed.error.message }, 500);
     }
+
+    // issue-983: photo row 有 かつ presign 成功時のみ photoUrl を後段マージする（fail-soft）。
+    // builder を R2 非依存に保つため、解決は route 層で行う。
+    const photoUrl = await resolvePhotoUrl(c.env, db, mid);
+    if (photoUrl !== undefined) {
+      return c.json({ ...parsed.data, photoUrl }, 200);
+    }
     return c.json(parsed.data, 200);
+  });
+
+  // issue-983: POST /admin/members/:memberId/photo — multipart upload → R2 put + D1 upsert + audit
+  app.post("/members/:memberId/photo", async (c) => {
+    const memberId = c.req.param("memberId");
+    if (!memberId) return c.json({ ok: false, error: "missing memberId" }, 400);
+    if (!c.env?.DB) return c.json({ ok: false, error: "DB binding missing" }, 503);
+
+    // member 存在確認
+    if (!(await memberExists(c.env.DB, memberId))) {
+      return c.json({ ok: false, error: "member not found" }, 404);
+    }
+
+    // multipart body 取得
+    const formData = await c.req.formData().catch(() => null);
+    const file = formData?.get("file");
+    if (!file || !(file instanceof File)) {
+      return c.json({ ok: false, error: "file field required" }, 400);
+    }
+
+    // MIME 検証（AC-6）
+    if (!(MEMBER_PHOTO_ALLOWED_MIME as readonly string[]).includes(file.type)) {
+      return c.json({ ok: false, error: "unsupported media type" }, 415);
+    }
+
+    // サイズ検証（AC-6）
+    const buf = await file.arrayBuffer();
+    if (buf.byteLength === 0) {
+      return c.json({ ok: false, error: "empty file" }, 400);
+    }
+    if (buf.byteLength > MEMBER_PHOTO_MAX_BYTES) {
+      return c.json({ ok: false, error: "file too large" }, 413);
+    }
+
+    // R2 binding が無い場合は 503（fail-soft では握り潰さず明示）
+    if (!c.env.MEMBER_PHOTOS) {
+      return c.json({ ok: false, error: "R2 binding missing" }, 503);
+    }
+
+    const objectKey = MEMBER_PHOTO_OBJECT_KEY(memberId);
+    await c.env.MEMBER_PHOTOS.put(objectKey, buf, {
+      httpMetadata: { contentType: file.type },
+    });
+
+    const db = ctx({ DB: c.env.DB });
+    const actorEmail = c.var.authUser?.email ?? "unknown";
+    await upsertMemberPhoto(db, {
+      memberId,
+      objectKey,
+      contentType: file.type,
+      byteSize: buf.byteLength,
+      uploadedBy: actorEmail,
+    });
+
+    await requireProvider(c.var.auditLogProvider, "auditLogProvider").append({
+      actorId: null,
+      actorEmail: adminEmail(actorEmail),
+      action: auditAction("admin.member.photo_uploaded"),
+      targetType: "member",
+      targetId: memberId,
+      after: { objectKey, contentType: file.type, byteSize: buf.byteLength },
+    });
+
+    return c.json({ ok: true }, 200);
+  });
+
+  // issue-983: DELETE /admin/members/:memberId/photo — R2 delete + D1 delete + audit
+  app.delete("/members/:memberId/photo", async (c) => {
+    const memberId = c.req.param("memberId");
+    if (!memberId) return c.json({ ok: false, error: "missing memberId" }, 400);
+    if (!c.env?.DB) return c.json({ ok: false, error: "DB binding missing" }, 503);
+
+    const db = ctx({ DB: c.env.DB });
+    const mid = asMemberId(memberId);
+    const photo = await getMemberPhoto(db, mid);
+    if (!photo) return c.json({ ok: false, error: "photo not found" }, 404);
+
+    if (c.env.MEMBER_PHOTOS) {
+      await c.env.MEMBER_PHOTOS.delete(photo.objectKey);
+    }
+    await deleteMemberPhoto(db, mid);
+
+    const actorEmail = c.var.authUser?.email ?? "unknown";
+    await requireProvider(c.var.auditLogProvider, "auditLogProvider").append({
+      actorId: null,
+      actorEmail: adminEmail(actorEmail),
+      action: auditAction("admin.member.photo_deleted"),
+      targetType: "member",
+      targetId: memberId,
+      before: { objectKey: photo.objectKey },
+    });
+
+    return c.json({ ok: true }, 200);
   });
 
   // GET /admin/members/:memberId/attendance — issue-372: ページング継続取得
@@ -466,6 +627,120 @@ export const createAdminMembersRoute = () => {
       },
       200,
     );
+  });
+
+  // ---------------------------------------------------------------------------
+  // issue-982: member tag の admin manual 付与 / 解除 / master 読取
+  //   不変条件 #13 再定義: admin manual 経路は audit 必須で member_tags を直接 write する。
+  // ---------------------------------------------------------------------------
+
+  // GET /admin/members/:memberId/tags → { assigned, available }
+  app.get("/members/:memberId/tags", async (c) => {
+    const memberId = c.req.param("memberId");
+    if (!memberId) return c.json({ ok: false, error: "missing memberId" }, 400);
+    const db = ctx({ DB: c.env.DB });
+    const mid = asMemberId(memberId);
+
+    const deleted = await getMemberDeletedFlag(db, mid);
+    if (deleted === null) {
+      return c.json({ ok: false, error: "member_not_found" }, 404);
+    }
+
+    const [assigned, available] = await Promise.all([
+      listAssignedTagsForMember(db, mid),
+      getTagDefinitionMaster(db),
+    ]);
+    return c.json({ assigned, available }, 200);
+  });
+
+  // POST /admin/members/:memberId/tags  body { tagId } → tag 付与（冪等）
+  app.post("/members/:memberId/tags", async (c) => {
+    const memberId = c.req.param("memberId");
+    if (!memberId) return c.json({ ok: false, error: "missing memberId" }, 400);
+
+    let raw: unknown;
+    try {
+      raw = await c.req.json();
+    } catch {
+      return c.json({ ok: false, error: "invalid json" }, 400);
+    }
+    const parsed = AssignTagBodyZ.safeParse(raw);
+    if (!parsed.success) {
+      return c.json({ ok: false, error: parsed.error.message }, 400);
+    }
+    const { tagId } = parsed.data;
+
+    const db = ctx({ DB: c.env.DB });
+    const mid = asMemberId(memberId);
+
+    const deleted = await getMemberDeletedFlag(db, mid);
+    if (deleted === null) {
+      return c.json({ ok: false, error: "member_not_found" }, 404);
+    }
+    if (deleted) {
+      return c.json({ ok: false, error: "member_is_deleted" }, 409);
+    }
+
+    const tagDef = await findTagDefinitionById(db, tagId);
+    if (!tagDef) {
+      return c.json({ ok: false, error: "tag_not_found" }, 404);
+    }
+
+    const authUser = c.get("authUser");
+    const applied = await assignTagToMemberByAdmin(db, mid, tagId, authUser.email);
+    if (applied) {
+      await requireProvider(c.var.auditLogProvider, "auditLogProvider").append({
+        actorId: asAdminId(authUser.memberId),
+        actorEmail: adminEmail(authUser.email),
+        action: auditAction("admin.member.tag_assigned"),
+        targetType: "member",
+        targetId: memberId,
+        before: null,
+        after: { tagId, source: "manual" },
+      });
+    }
+
+    const [assigned, available] = await Promise.all([
+      listAssignedTagsForMember(db, mid),
+      getTagDefinitionMaster(db),
+    ]);
+    return c.json({ assigned, available }, 200);
+  });
+
+  // DELETE /admin/members/:memberId/tags/:tagId → tag 解除（未存在でも 204 で冪等）
+  app.delete("/members/:memberId/tags/:tagId", async (c) => {
+    const memberId = c.req.param("memberId");
+    const tagId = c.req.param("tagId");
+    if (!memberId || !tagId) {
+      return c.json({ ok: false, error: "missing path params" }, 400);
+    }
+
+    const db = ctx({ DB: c.env.DB });
+    const mid = asMemberId(memberId);
+
+    const deleted = await getMemberDeletedFlag(db, mid);
+    if (deleted === null) {
+      return c.json({ ok: false, error: "member_not_found" }, 404);
+    }
+    if (deleted) {
+      return c.json({ ok: false, error: "member_is_deleted" }, 409);
+    }
+
+    const removed = await unassignTagFromMemberByAdmin(db, mid, tagId);
+    if (removed) {
+      const authUser = c.get("authUser");
+      await requireProvider(c.var.auditLogProvider, "auditLogProvider").append({
+        actorId: asAdminId(authUser.memberId),
+        actorEmail: adminEmail(authUser.email),
+        action: auditAction("admin.member.tag_unassigned"),
+        targetType: "member",
+        targetId: memberId,
+        before: { tagId },
+        after: null,
+      });
+    }
+
+    return c.body(null, 204);
   });
 
   return app;

@@ -874,13 +874,13 @@ node scripts/list-specs.js --topics
 | 概要 | L8 |
 | ドキュメント構成 | L27 |
 | REST API エンドポイント一覧 | L37 |
-| エンドポイント命名規則 | L246 |
-| UBM-Hyogo Admin Sync API（03a） | L267 |
-| UBM-Hyogo Member Self-Service API（04b） | L319 |
-| Admin Dashboard Attendance Analytics API（UT-02A follow-up 002） | L345 |
-| Desktop IPC API サマリー | L359 |
-| 変更履歴 | L390 |
-| 関連ドキュメント | L407 |
+| エンドポイント命名規則 | L249 |
+| UBM-Hyogo Admin Sync API（03a） | L270 |
+| UBM-Hyogo Member Self-Service API（04b） | L322 |
+| Admin Dashboard Attendance Analytics API（UT-02A follow-up 002） | L348 |
+| Desktop IPC API サマリー | L362 |
+| 変更履歴 | L393 |
+| 関連ドキュメント | L410 |
 
 ### references/api-internal-chunk-search.md
 
@@ -2156,6 +2156,18 @@ node scripts/list-specs.js --topics
 | User-Gated Evidence | L40 |
 | Lessons Learned | L49 |
 
+### references/workflow-admin-layout-sidebar-shell-migration-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Summary | L5 |
+| Canonical Workflow | L12 |
+| Implemented Targets | L25 |
+| Dependency Gates | L36 |
+| Current Boundary | L44 |
+| Follow-up | L52 |
+| Lessons Learned | L56 |
+
 ### references/workflow-admin-meetings-prototype-alignment-artifact-inventory.md
 
 | セクション | 行 |
@@ -3367,6 +3379,47 @@ node scripts/list-specs.js --topics
 | User-Gated | L13 |
 | Lessons Learned | L17 |
 
+### references/workflow-issue-981-admin-members-table-list-enrichment-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Summary | L3 |
+| Implementation Artifacts | L12 |
+| Workflow Artifacts | L19 |
+| Evidence | L32 |
+| Lessons Learned | L42 |
+
+### references/workflow-issue-982-drawer-tag-pill-editing-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Summary | L5 |
+| Canonical workflow | L11 |
+| Local implementation targets | L23 |
+| Current code anchors | L35 |
+| Gates | L46 |
+| Lessons Learned | L54 |
+
+### references/workflow-issue-983-member-photo-avatar-r2-storage-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| State | L12 |
+| Implemented Local Targets | L16 |
+| User-Gated Operations | L26 |
+| Lessons Learned | L30 |
+
+### references/workflow-issue-987-identity-conflicts-audit-log-admin-ui-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Summary | L3 |
+| Implementation Artifacts | L12 |
+| Workflow Artifacts | L22 |
+| System Spec Sync | L32 |
+| User-Gated Boundaries | L43 |
+| Lessons Learned | L48 |
+
 ### references/workflow-issue-998-members-publish-state-production-rollout-artifact-inventory.md
 
 | セクション | 行 |
@@ -4183,6 +4236,12 @@ node scripts/list-specs.js --topics
 |------------|----|
 | Lessons Learned | L18 |
 
+### references/workflow-task-c-public-member-sidebar-shell-integration-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Lessons Learned | L16 |
+
 ### references/workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md
 
 | セクション | 行 |
@@ -4365,10 +4424,10 @@ node scripts/list-specs.js --topics
 | Summary | L5 |
 | Canonical workflow | L9 |
 | Planned implementation targets | L31 |
-| Current code anchors | L43 |
-| Gates | L52 |
-| Sub-workflows | L60 |
-| Lessons Learned | L69 |
+| Current code anchors | L44 |
+| Gates | L59 |
+| Sub-workflows | L67 |
+| Lessons Learned | L77 |
 
 ### references/workflow-ut-02a-attendance-profile-integration-artifact-inventory.md
 
@@ -8104,15 +8163,15 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L3147 |
-| フェーズ構造（概要） | L3156 |
-| 品質ゲート（概要） | L3187 |
-| 出力テンプレート | L3198 |
-| 実行時のコマンド・エージェント・スキル | L3221 |
-| 昇格パターン集 | L3245 |
-| Current Active / Spec Created Tasks | L3247 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L3409 |
-| issue-998-members-publish-state-production-rollout | L3486 |
+| ドキュメント構成 | L3226 |
+| フェーズ構造（概要） | L3235 |
+| 品質ゲート（概要） | L3266 |
+| 出力テンプレート | L3277 |
+| 実行時のコマンド・エージェント・スキル | L3300 |
+| 昇格パターン集 | L3324 |
+| Current Active / Spec Created Tasks | L3326 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L3489 |
+| issue-998-members-publish-state-production-rollout | L3566 |
 
 ### references/task-workflow-backlog-part2.md
 

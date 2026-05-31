@@ -1,0 +1,17 @@
+{
+  "mode": "VISUAL",
+  "component": "admin-members-table",
+  "states": [
+    {
+      "state": "enriched",
+      "path": "outputs/phase-11/screenshots/admin-members-table-enriched.png",
+      "covers": ["occupation", "ubmZone", "ubmMembershipType", "tags +N"]
+    },
+    {
+      "state": "untagged",
+      "path": "outputs/phase-11/screenshots/admin-members-table-untagged.png",
+      "covers": ["empty tags", "warning chip"]
+    }
+  ],
+  "stagingAuthenticatedCapture": "pending_user_approval"
+}
