@@ -33,3 +33,17 @@ PR の `playwright-visual-full` が `toHaveScreenshot` diff で fail したと�
   3. `gh pr checks <n> --watch --interval 30` で全 green を待つ（e2e は ~18分かかるので background 実行が無難）。`--watch` は全 pass で exit 0、fail で exit 8。
 - 留意: `workflow_dispatch` 起動の visual-full は「baseline が正しく通る」ことの **実証**には使えるが、PR の required check 反映には使えない。reopen 後に `pull_request` event で再走させること。
 - 事例: 2026-05-29 PR #1014。baseline コミット `02b0d8b03` → close/reopen → `pull_request` 全 workflow 再走 → visual-full(desktop/mobile/tablet) + 必須 5 checks 含む全 check pass（`gh pr checks` exit 0）。
+
+## L-VISBASE-004: snapshot 不一致は pixel diff だけでなく **画像サイズ不一致（`Expected an image WxH, received W'xH'`）** も同じ baseline-update path で解決 — feature が列/要素を増やしページ幅が変わる典型。bot push を待たず **実コミット（skill 反映等）を push** すれば close/reopen と同じく `pull_request` を再発火できる（2026-05-31 PR #1034 / issue-981 admin-members enrichment）
+
+- 事象: PR #1034（`docs/issue-981-admin-members-table-list-enrichment`、MembersTable に occupation/ubmZone/ubmMembershipType/tags を描画）で `visual-full (tablet)` / `visual-full (mobile)` が fail、**desktop は pass**。失敗テストは `visual: admin-members › admin-members` の 1 route のみ。エラーは pixel diff ではなく **`Error: expect(page).toHaveScreenshot(expected) failed / Expected an image 931px by 1024px, received 957px by 1024px`** の **画像サイズ不一致**（tablet viewport 834px に対し enriched table が overflow しページ幅が 931→957px に増加）。
+- 切り分けの要点（L-VISBASE-001 の拡張）:
+  1. **サイズ不一致も snapshot-diff クラス**。`Expected an image WxH, received W'xH'` は pixel 比較以前の dimension mismatch で、`maxDiffPixels` 許容では救えない hard fail。だが真因は「feature がレイアウト寸法を変えた」ことなので、解決は pixel diff と同じく **baseline 再生成**（L-VISBASE-002）。runtime error ではない。
+  2. **失敗が PR の touch surface に限定されるか**で feature 起因か回帰かを判定。本例は admin-members 1 route のみ = issue-981 の enrichment 面に一致 → 機能どおりの正当な変化。
+  3. **dev sync-merge 起因かの切り分け**: merge 前 commit（`38ed52584`）の run でも `playwright-visual-full` は既に failure だった → merge は無罪、feature 実装そのものが baseline を stale 化していた。`gh run list --branch <b> --json headSha,name,conclusion -q '... select(.headSha=="<pre-merge-sha>")'` で過去 commit の結果を引いて確認する。
+- bot push 後の必須 check 再走（L-VISBASE-003 の代替経路）:
+  - L-VISBASE-003 は `gh pr close && gh pr reopen` を推奨するが、**skill 反映や docs 追記など実コミットを push する用事があるなら、その push 自体が `pull_request` を再発火**する（自分の push は GITHUB_TOKEN ではないため再帰防止対象外）。close/reopen と同じ効果を、履歴に意味のあるコミットを足しつつ達成できる。用事が無いときだけ close/reopen を使う。
+  - 手順: baseline-update workflow 完走 → `git fetch && git merge --ff-only @{u}` で bot の baseline コミットをローカル同期 → 反映コミットを baseline コミットの上に積んで push → 最新 head 上で visual-full 含む全 `pull_request` workflow が再走。
+- 留意: 本リポジトリの `visual-baseline-approval` environment は現状 reviewer 未設定のため dispatch 後ほぼ即進行し、`update-baseline` job（build + playwright install + 3 viewport regenerate + smoke regenerate + `.baseline-meta.json` 更新 + 直 push）で約 11 分。完了で `apps/web/playwright/tests/visual-full/` と `.../visual/` に `-linux.png` baseline が add-only 更新される。
+- 事例: 2026-05-31 PR #1034。`gh workflow run playwright-visual-baseline-update.yml -f reason="..." -r docs/issue-981-...` → run `26696416766` success（11m5s）→ baseline コミット `6f781249d` 直 push → ローカル ff 同期 → skill 反映コミットを push して `pull_request` 再走。
+- 参照: L-VISBASE-001（snapshot diff vs runtime error の一次切り分け）, L-VISBASE-002（baseline は Linux CI でしか正しく再生成できない・dispatch 経路）, L-VISBASE-003（bot GITHUB_TOKEN push は pull_request を再トリガーしない）。
