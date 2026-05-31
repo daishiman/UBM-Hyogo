@@ -1813,3 +1813,11 @@ skill-only conflict を `pnpm sync:resolve` で解消した後の「念のため
 - **SP-DEVSYNC-073-B (grep を併用するなら U-filter と突き合わせ + path 除外)**: 補助的に marker grep を残す場合、ヒットしたファイルが `git diff --name-only --diff-filter=U` の対象かを必ず照合し、対象外なら文書リテラルとして無視する。除外 path は `.spec`/`.test` に加え `completed-tasks/**` の evidence/log/runbook を含める（装飾区切り線の頻出箇所）。
 - **SP-DEVSYNC-073-C (Phase 12 検証手順への固定)**: dev-sync の解消検証は「`pnpm sync:resolve` exit 0 → `git ls-files -u` 0 → `git commit --no-edit` → `pnpm typecheck`/`pnpm lint`/`pnpm indexes:rebuild` 冪等」の固定列とし、marker grep の生ヒット数を gate にしない。
 - 参照: [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-073（同知見の lessons 版・merge commit `1b662cfad`）, L-DEVSYNC-072-B（`git ls-files -u` 正本則の初出）, [[feedback-grep-head-exit-code-pitfall]]（grep ベース判定のピットフォール一般則）。
+
+### マージ確定後の `git commit` 偽失敗(RC128)と throwaway commit 混入除去（SP-DEVSYNC-075）
+
+issue-1008 sync（`refactor/issue-1008-members-list-ux-clarity-artifact-status-reconciliation` ← dev）の知見。衝突は task-spec skill 2 file（`SKILL.md` / `references/patterns-lessons-and-pitfalls.md`）のみで `pnpm sync:resolve` union 解消（[[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-075 / merge commit `89ab6af1e`）。仕様書を起草する際、検証手順に以下の harness 運用注意を含める。
+
+- **SP-DEVSYNC-075-A (マージ成否は commit RC でなく ancestor 判定で確認)**: merge が既に確定した後に重ねて `git commit --no-edit` を打つと `fatal: could not read '': No such file or directory`（RC 128）になる。`MERGE_MSG` が消えているだけの benign no-op であり commit 失敗ではない。仕様の Phase 11/13 検証は **`git rev-list --count HEAD..dev == 0` と `git merge-base --is-ancestor dev HEAD`** を成否判定の正本に固定し、commit RC を gate にしない。
+- **SP-DEVSYNC-075-B (throwaway/probe commit の push 前除去)**: 切り分けで probe commit（`test: probe ...` 等）を作ったら、push 前に `git log --oneline` で混入を確認し `git reset --mixed <正しい merge commit>` で HEAD を戻して除去する。`git reset --hard` は使わず mixed/soft で index だけ巻き戻し、残骸ファイルは `rm` → `git status --porcelain` clean を確認する。
+- 参照: [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-075（lessons 版）, SP-DEVSYNC-073（`git ls-files -u` 正本則）, L-DEVSYNC-072（skill-only baseline）。
