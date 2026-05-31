@@ -1814,6 +1814,14 @@ sync-merge task の Phase 12 implementation-guide に、resolver 途中失敗時
 - **SP-DEVSYNC-074-C (sync-merge 手順は dev ff 同期 → merge → resolver の直列を推奨)**: 根因は dev の ff 同期（main worktree 書き込み）と feature 側 resolver（同一 common-dir の index 操作）の近接実行。Phase 13 検証フローでは **dev ff 同期完了 → `git merge dev` → `pnpm sync:resolve`** を直列に並べ、並行させないことで lock 競合を予防。並行してしまった場合は SP-DEVSYNC-074-A/B で復旧できると割り切る。
 - 参照: [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-074（正本）, SP-DEVSYNC-072/073（クリーン基準ケース・段階構造の前提）, SP-DEVSYNC-045（resolver fallback）, L-DEVSYNC-002/007（rebuild 決定性・3 層予防）。
 
+## SP-DEVSYNC-075 docs 系 feature でもクリーン基準が成立し、ローカル dev が origin/dev に一致なら ff 同期不要で resolver 単独ゼロ手作業（2026-05-31 docs/issue-1010-auth-view-session-contract-integration-test ← origin/dev 9 commits）
+
+sync-merge task の Phase 12 implementation-guide に、branch 種別（feature/docs/fix）を問わずクリーン基準ケースを最初に試す手順と、ローカル dev 一致時の ff 同期省略を固定フローとして記載する。本件は `docs/issue-1010-...`（ローカル dev = origin/dev 一致＝独自コミット 0、feature は 2 ahead / 9 behind）で `git merge origin/dev` の content conflict が `indexes/{keywords.json,topic-map.md}` の 2 file のみ、`pnpm sync:resolve` 単独 1 回で収束した実例。
+
+- **SP-DEVSYNC-075-A (branch 種別を問わずクリーン基準を最初に試す)**: `CONFLICT` 行が全て `.claude/skills/**`（典型は `indexes/{keywords.json,topic-map.md}`）かを `git diff --name-only --diff-filter=U` で確認し、source code conflict 0 件なら手動 Edit を試みず `pnpm sync:resolve` 直行。docs/test 系成果物は dev の touch path と semantic 独立になりやすく、衝突は派生 index に集約され 1 回で収束する。
+- **SP-DEVSYNC-075-B (ローカル dev が origin/dev 一致なら ff 同期を別途走らせない)**: Phase 13 検証フローで `git rev-list --left-right --count dev...origin/dev` が `0\t0` なら dev ff 同期は不要。`git merge origin/dev` を直接使うことで resolver と並行する main worktree への git 書き込みが消え、SP-DEVSYNC-074-C の「直列」を構造的に満たして index.lock 競合（SP-DEVSYNC-074-A/B の復旧対象）を最初から回避できる。
+- 参照: [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-075（正本）, SP-DEVSYNC-072/073（クリーン基準・衝突 file 数可変の確立）, SP-DEVSYNC-074（index.lock 中間状態・本件は並行書き込み無で回避）。
+
 ### dev-sync-merge 残マーカー確認の `git grep '======='` 偽陽性（SP-DEVSYNC-073）
 
 skill-only conflict を `pnpm sync:resolve` で解消した後の「念のための残マーカー確認」を `git grep` ベースで行うと、completed-tasks 配下の evidence/log 文書に頻出する装飾区切り線（`=` 連続行）を conflict marker 中央線 `=======` と誤検知する shape。Phase 12 の解消完了判定を index 状態ベースに固定して偽陽性に振り回されないようにする。

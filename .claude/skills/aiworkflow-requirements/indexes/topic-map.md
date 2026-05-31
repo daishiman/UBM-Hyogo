@@ -2539,6 +2539,12 @@ node scripts/list-specs.js --topics
 | Runtime Boundary | L29 |
 | Lessons Learned | L33 |
 
+### references/workflow-issue-1010-auth-view-session-contract-integration-test-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Lessons Learned | L32 |
+
 ### references/workflow-issue-106-admin-member-notes-repository-task-spec-artifact-inventory.md
 
 | セクション | 行 |
@@ -8200,15 +8206,15 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L3257 |
-| フェーズ構造（概要） | L3266 |
-| 品質ゲート（概要） | L3297 |
-| 出力テンプレート | L3308 |
-| 実行時のコマンド・エージェント・スキル | L3331 |
-| 昇格パターン集 | L3355 |
-| Current Active / Spec Created Tasks | L3357 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L3521 |
-| issue-998-members-publish-state-production-rollout | L3598 |
+| ドキュメント構成 | L3274 |
+| フェーズ構造（概要） | L3283 |
+| 品質ゲート（概要） | L3314 |
+| 出力テンプレート | L3325 |
+| 実行時のコマンド・エージェント・スキル | L3348 |
+| 昇格パターン集 | L3372 |
+| Current Active / Spec Created Tasks | L3374 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L3538 |
+| issue-998-members-publish-state-production-rollout | L3615 |
 
 ### references/task-workflow-backlog-part2.md
 
