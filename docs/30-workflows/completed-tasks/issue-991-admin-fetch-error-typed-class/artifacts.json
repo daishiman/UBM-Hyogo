@@ -1,0 +1,107 @@
+{
+  "workflow_id": "issue-991-admin-fetch-error-typed-class",
+  "feature": "issue-991-admin-fetch-error-typed-class",
+  "parent_workflow": "admin-audit-prototype-alignment",
+  "status": "completed",
+  "created": "2026-05-30T00:00:00+09:00",
+  "lastUpdated": "2026-05-30T00:00:00+09:00",
+  "metadata": {
+    "taskId": "TASK-ISSUE-991-ADMIN-FETCH-ERROR-TYPED-CLASS",
+    "taskType": "implementation",
+    "visualEvidence": "NON_VISUAL",
+    "implementationCategory": "standard",
+    "implementationDomain": "observability-error-handling",
+    "implementation_mode": "new",
+    "workflow_state": "implemented_local_evidence_captured",
+    "implementation_status": "implemented_local_focused_tests_passed",
+    "issue": "https://github.com/daishiman/UBM-Hyogo/issues/991",
+    "issue_state": "CLOSED",
+    "scope": "Introduce AdminFetchError (extends Error) in apps/web/src/lib/admin/server-fetch.ts exposing status/path/responseBodySnippet structured fields, while keeping the current Error.message format (including the ' body=' suffix asserted by existing tests) byte-identical. Make the common lib/server-fetch/safe-fetch.ts prefer the structured status field with a regex fallback. No apps/api change, no D1 change, no Google Form change.",
+    "canonical_root": "docs/30-workflows/completed-tasks/issue-991-admin-fetch-error-typed-class",
+    "runtime_boundary": "Local implementation, focused Vitest, typecheck, and lint are complete. Staging/runtime observation, commit, push, and PR remain user-gated.",
+    "issue_optimization_note": "Issue #991 / followup-001 spec states the target message format as 'admin api ${path} failed: ${status}' (no body) and warns about double-read via Response.clone(). Both are STALE versus current code: server-fetch.ts:530 currently throws 'admin api ${path} failed: ${status}${bodySnippet}' where bodySnippet=' body=${text.slice(0,256)}', and server-fetch.binding.spec.ts:89/101 assert that ' body=' suffix. The body is already read once in the error path (line 512), so Response.clone() is unnecessary. This spec re-optimizes the issue to current code: message stays byte-identical (256-char body= suffix preserved), responseBodySnippet field uses <=500 chars, and the already-read text is reused (no double-read).",
+    "implementation_files": [
+      "apps/web/src/lib/admin/server-fetch.ts",
+      "apps/web/src/lib/server-fetch/safe-fetch.ts"
+    ],
+    "test_files": [
+      "apps/web/src/lib/admin/__tests__/admin-fetch-error.spec.ts"
+    ],
+    "regression_test_files": [
+      "apps/web/src/lib/admin/__tests__/server-fetch.binding.spec.ts",
+      "apps/web/src/lib/admin/__tests__/safe-server-fetch.spec.ts",
+      "apps/web/src/lib/admin/__tests__/safe-server-fetch-404-vs-401.spec.ts",
+      "apps/web/src/lib/admin/__tests__/server-fetch.env.spec.ts",
+      "apps/web/src/lib/server-fetch/__tests__/safe-fetch.spec.ts"
+    ],
+    "verify_commands": [
+      "mise exec -- pnpm exec vitest run apps/web/src/lib/admin/__tests__/admin-fetch-error.spec.ts apps/web/src/lib/admin/__tests__/server-fetch.binding.spec.ts apps/web/src/lib/admin/__tests__/safe-server-fetch.spec.ts apps/web/src/lib/admin/__tests__/safe-server-fetch-404-vs-401.spec.ts apps/web/src/lib/admin/__tests__/server-fetch.env.spec.ts apps/web/src/lib/server-fetch/__tests__/safe-fetch.spec.ts",
+      "mise exec -- pnpm --filter @ubm-hyogo/web typecheck",
+      "mise exec -- pnpm lint"
+    ],
+    "phase12_strict_outputs": [
+      "outputs/phase-12/main.md",
+      "outputs/phase-12/implementation-guide.md",
+      "outputs/phase-12/system-spec-update-summary.md",
+      "outputs/phase-12/documentation-changelog.md",
+      "outputs/phase-12/unassigned-task-detection.md",
+      "outputs/phase-12/skill-feedback-report.md",
+      "outputs/phase-12/phase12-task-spec-compliance-check.md"
+    ],
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-05-30T09:37:16+09:00",
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-991-admin-fetch-error-typed-class/outputs/phase-3/phase-3.md",
+        "approver": "daishiman",
+        "notes": "Design review gate passed in this cycle."
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "passed",
+        "passed_at": "2026-05-30T09:37:16+09:00",
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-991-admin-fetch-error-typed-class/outputs/phase-11/manual-test-result.md",
+        "approver": "daishiman",
+        "notes": "Focused Vitest 6 files / 31 tests PASS after PII redaction addition; typecheck and lint PASS."
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "passed",
+        "passed_at": "2026-05-30T09:37:16+09:00",
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-991-admin-fetch-error-typed-class/outputs/phase-12/phase12-task-spec-compliance-check.md",
+        "approver": "daishiman",
+        "notes": "Phase 12 close-out + aiworkflow-requirements sync completed. Commit, push, PR are user-gated. Issue #991 stays CLOSED."
+      }
+    ]
+  },
+  "phases": [
+    { "phase": 1, "name": "要件定義", "status": "completed", "output": "outputs/phase-1/phase-1.md" },
+    { "phase": 2, "name": "設計", "status": "completed", "output": "outputs/phase-2/phase-2.md" },
+    { "phase": 3, "name": "設計レビュー", "status": "completed", "output": "outputs/phase-3/phase-3.md" },
+    { "phase": 4, "name": "テスト作成", "status": "completed", "output": "outputs/phase-4/phase-4.md" },
+    { "phase": 5, "name": "実装", "status": "completed", "output": "outputs/phase-5/phase-5.md" },
+    { "phase": 6, "name": "テスト拡充", "status": "completed", "output": "outputs/phase-6/phase-6.md" },
+    { "phase": 7, "name": "カバレッジ確認", "status": "completed", "output": "outputs/phase-7/phase-7.md" },
+    { "phase": 8, "name": "リファクタリング", "status": "completed", "output": "outputs/phase-8/phase-8.md" },
+    { "phase": 9, "name": "品質保証", "status": "completed", "output": "outputs/phase-9/phase-9.md" },
+    { "phase": 10, "name": "最終レビュー", "status": "completed", "output": "outputs/phase-10/phase-10.md" },
+    { "phase": 11, "name": "手動テスト", "status": "completed", "output": "outputs/phase-11/manual-test-result.md" },
+    { "phase": 12, "name": "ドキュメント同期", "status": "completed", "output": "outputs/phase-12/main.md" },
+    { "phase": 13, "name": "commit-pr-release", "status": "pending", "output": "outputs/phase-13/phase-13.md" }
+  ],
+  "dependencies": {
+    "2": ["1"],
+    "3": ["2"],
+    "4": ["3"],
+    "5": ["4"],
+    "6": ["5"],
+    "7": ["6"],
+    "8": ["7"],
+    "9": ["8"],
+    "10": ["9"],
+    "11": ["10"],
+    "12": ["11"],
+    "13": ["12"]
+  }
+}
