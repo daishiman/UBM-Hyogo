@@ -8,6 +8,20 @@
 
 本ドキュメントは、複雑なタスクを単一責務の原則に基づいて分解し、各サブタスクに最適なスラッシュコマンド・エージェント・スキルの組み合わせを選定するためのガイドラインを定義する。
 
+### issue-988-identity-conflicts-merge-optimistic-update（2026-05-30）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION` |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-988-identity-conflicts-merge-optimistic-update/` |
+| Issue | #988 CLOSED |
+| 目的 | `/admin/identity-conflicts` の merge 二段階 confirm 後、server round-trip を待たず該当 row を optimistic に非表示化し、server error 時のみ rollback で復元する |
+| implementation targets | `apps/web/src/components/admin/IdentityConflictRow.tsx`, `apps/web/src/components/admin/__tests__/IdentityConflictRow.spec.tsx`, `apps/web/playwright/tests/admin-identity-conflicts.spec.ts` |
+| invariant | API endpoint / D1 schema / Server Component page / dismiss behavior は変更なし。`useAdminMutation` hook 拡張なし |
+| evidence | focused Vitest 1 file / 10 tests PASS; Playwright desktop 8 tests PASS; Phase 11 screenshots 3 PNG captured; Phase 11 canonical paths present |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-988-identity-conflicts-merge-optimistic-update-artifact-inventory.md` |
+| user gate | commit, push, PR |
+
 ### issue-982-drawer-tag-pill-editing（2026-05-29）
 
 | 項目 | 値 |
@@ -120,6 +134,21 @@
 | evidence | focused Vitest 3 files / 9 tests PASS、typecheck PASS、lint PASS、web build PASS、Phase 12 strict 7 present |
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-task-b-root-page-public-header-async-artifact-inventory.md` |
 | user gate | Cloudflare staging deploy、authenticated `/` curl、wrangler tail clean evidence、commit、push、PR |
+
+### issue-987-identity-conflicts-audit-log-admin-ui（2026-05-29）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / NON_VISUAL / staging_runtime_pending_user_gate` |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-987-identity-conflicts-audit-log-admin-ui/` |
+| Issue | #987 CLOSED。PR 文脈は `Refs #987` のみ |
+| 目的 | `/admin/identity-conflicts` dismiss 操作を merge と対称化し、`audit_log.action='identity.dismiss'` として既存 `/admin/audit` から時系列閲覧・フィルタ可能にする |
+| implementation targets | `apps/api/src/repository/identity-conflict.ts`, `apps/api/src/routes/admin/identity-conflicts.ts` |
+| tests | `apps/api/src/repository/__tests__/identity-conflict.repository.spec.ts`, `apps/api/src/routes/admin/identity-conflicts.contract.spec.ts`, `apps/api/src/routes/admin/audit.contract.spec.ts` |
+| invariant | API response shape / D1 schema / UI は不変。存在しない source/target は 404 `MEMBER_NOT_FOUND`。`audit_log` 既存テーブルを利用し、dismiss payload は `before_json={sourceMemberId,targetMemberId}` / `after_json={dismissalId,dismissedAt}`、reason 生値は audit payload に含めない |
+| evidence | D1 lane focused Vitest PASS、Phase 12 strict 7 present、root/output artifacts parity present |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-987-identity-conflicts-audit-log-admin-ui-artifact-inventory.md` |
+| user gate | staging deploy、authenticated `/admin/audit?action=identity.dismiss` runtime proof、commit、push、PR |
 
 ### issue-976-admin-fetch-service-binding（2026-05-28）
 

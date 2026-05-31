@@ -1397,6 +1397,27 @@ upstream data layer（別 issue / 別 task が既に実装済の API + zod schem
 - 参照: [[lessons-learned-issue-991-admin-fetch-error-typed-class-2026-05]] L-I991-001..006 + anti-pattern 5。
 
 
+## optimistic row mutation + rollback + API error body surfacing パターン（issue-988 / 2026-05-30 汎化）
+
+admin 系の一覧 row に対する mutation（merge / dismiss / archive 等）を、server round-trip を待たず即 UI 反映し、失敗時のみ巻き戻す UX を component-local state だけで実装するときの設計 AC。API endpoint / shared hook を拡張せず `*Row.tsx` の中で完結させる前提。
+
+- **L-OPTMUT-001 (可視性 state を dialog stage union から分離)**: 確定対象の可視性/有効性は専用 boolean（例 `optimisticMerged`）に切り出し、dialog 段階管理の `stage` union に新値として混ぜない。`if (optimisticMerged) return null` の 1 行 guard で render を止め、rollback は boolean を false に戻すだけにする。Phase 2 design AC に「即時反映対象の可視性は専用 boolean、dialog/フォーム state とは直交」を登録。
+- **L-OPTMUT-002 (API error body を inline alert に surface する pure helper)**: rollback 時の inline error は transport 汎用文言ではなく API レスポンス body の文言を出す。`FetchAuthedError`（`status` / `bodyText`）を JSON.parse し `message ?? error ?? error.message`、parse 失敗時 `bodyText`、非 FetchAuthedError は `.message` を返す副作用なし helper を component 直前に定義。Phase 11 evidence AC に「error 文言が API body と一致すること（generic 文言 drift の検出）」を登録。
+- **L-OPTMUT-003 (success と failure で復帰挙動が非対称)**: reject 時のみ rollback（modal 非閉鎖・入力 reason 保持）。success path では row を `return null` のまま維持し再表示しない（消えたものが戻る flicker を回避）。Phase 2 design AC に「optimistic hide は失敗時のみ巻き戻し、成功時は恒久化」を明記。
+- **L-OPTMUT-004 (focused test を 3 タイミングに分離)**: (1) pending Promise（`new Promise(() => {})`）中に row が消える、(2) resolve 後も消えたまま、(3) reject（業務 status の error）で再表示し reason/error 残存、の 3 it に分ける。既存の「success 後に操作ボタン再表示」assertion は「row 消失維持」へ更新。assertion は DOM 上の row 識別子有無で行い内部 state を覗かない。Phase 6 test AC に登録。
+- **L-OPTMUT-005 (Playwright text locator は exact:true で substring 一致回避)**: 短い ID（`m_src_01`）が長い複合 ID（`m_src_01__m_dst_01`）の prefix になり得る場合は `getByText(id, { exact: true })`。row 特定は `getByText('conflict: <id>').locator('xpath=ancestor::li[1]')` で scope を絞る。Phase 11 e2e AC に登録。
+- **L-OPTMUT-006 (VISUAL evidence は env-gated capture で通常 run と同居)**: screenshot は env（`PLAYWRIGHT_<scope>_SCREENSHOT_DIR`）設定時のみ `mkdirSync`+capture する helper にラップし未設定時 no-op。canonical screenshot 名は Phase 1 spec で先に固定し implementation-guide でも同名参照して name drift を防ぐ。VISUAL_ON_EXECUTION task の Phase 11 evidence AC に登録。
+
+anti-pattern:
+
+- 可視性を `stage` union の新値で表現して rollback 分岐を爆発させる（→ L-OPTMUT-001）。
+- rollback inline alert に `error.message`（transport 汎用文言）だけを出し 409 等の業務メッセージを落とす（→ L-OPTMUT-002）。
+- success 後に optimistic hide を巻き戻して row を一瞬再表示する flicker（→ L-OPTMUT-003）。
+- optimistic / success / rollback を 1 test ケースに混ぜて pending 中の hide を検証しない（→ L-OPTMUT-004）。
+
+- 参照: [[lessons-learned-issue-988-optimistic-merged-2026-05]] L-I988-001..006、[[workflow-issue-988-identity-conflicts-merge-optimistic-update-artifact-inventory]]。
+
+
 ## CLOSED-issue same-cycle 実装 + admin manual write レーン分離パターン (2026-05-29)
 
 CLOSED 由来 issue を spec_created で close-out した直後に、同一実行サイクルで実コードと focused tests まで進んだ場合の workflow_state 昇格、および 1 テーブルへ複数 source（自動提案 / 人手キュレーション）が write する admin manual write のレーン分離・冪等 DELETE・soft-delete guard・並行 issue decouple・vitest config 分離を、将来の任意タスクで再利用できる汎化原則として記録する。
@@ -1687,7 +1708,8 @@ SP-DEVSYNC-063〜071 の source-shape 判定（wholesale ours/theirs・grep-cons
 
 - **SP-DEVSYNC-072-A (conflict file の層を最初に仕分ける)**: sync-merge task の Phase 12 implementation-guide に「`git diff --name-only --diff-filter=U` の結果が**全て `.claude/skills/**` 配下なら即 `pnpm sync:resolve`** → `git ls-files -u` 0 確認 → `git commit --no-edit` で完了。source code（`apps/`/`packages/`）が 1 件でも混ざる場合のみ SP-DEVSYNC-063〜071 の shape 判定へ」を固定フローとして記載。無駄な手解析を避ける最上段ゲート。
 - **SP-DEVSYNC-072-B (残存確認は `git ls-files -u` を正本)**: `grep '<<<<<<<'` ではなく `git ls-files -u` が空＝完全解消（[[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-072-B / `git|head` exit-code pitfall と同趣旨）。resolver 内蔵 rebuild が drift を出し切れば merge 後の単独 `chore(indexes)` commit も不要（L-DEVSYNC-012 最良ケース連番）。
-- 参照: [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-072（正本）/ L-DEVSYNC-002（index 派生物 rebuild 決定性）/ L-DEVSYNC-007（3 層予防）/ SP-DEVSYNC-067/071（対照: source code が混ざり shape 判定が要るケース）。
+- **SP-DEVSYNC-072-C (クリーン基準ケースは branch 非依存・複数回再現する baseline として扱う)**: 2026-05-31 `docs/issue-988-identity-conflicts-merge-optimistic-update` ← dev（ahead 3 / behind 7）でも、issue-983 と**同一の 6 file（同じ skill index/changelog/active 系）のみ衝突** → `pnpm sync:resolve` 単独 → `git ls-files -u` 0 → `git commit --no-edit`（merge commit `af596e806`）でゼロ手作業解消を再現。SP-DEVSYNC-072 は単発でなく「**docs/タスク成果物系 branch が dev の source touch path と semantic 独立な限り常に成立する baseline**」＝Phase 12 では「skill-only conflict は再現性のある既定フロー（resolver 直行）」と明記し、source 混在時のみ shape 判定へ branch する二段ゲートを固定する。
+- 参照: [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-072（正本・再現確認含む）/ L-DEVSYNC-002（index 派生物 rebuild 決定性）/ L-DEVSYNC-007（3 層予防）/ SP-DEVSYNC-067/071（対照: source code が混ざり shape 判定が要るケース）。
 
 ## SP-DEVSYNC-069 同一ディレクトリを並行実装した大規模 add/add は resolver 不可・dev 基盤採用 + feature 機能移植の 3-way 設計統合になる（2026-05-30 feat/task-spec-unified-sidebar-shell-task-e-mobile-drawer ← dev #1025 系）
 
@@ -1707,6 +1729,20 @@ SP-DEVSYNC-063〜071 の source-shape 判定（wholesale ours/theirs・grep-cons
 - **SP-DEVSYNC-067-D (file-location conflict で relocate した test は相対 import を route-group 階層分 +1 補正)**: `()` route-group へ relocate した test は 1 階層深くなる。`../page`（同 dir 基準）は不変だが `../../../src/...`（web root 基準）は `../../../../` へ +1 補正。`pnpm exec vitest run <relocated>` で import 解決を即確認。
 - **SP-DEVSYNC-067-E (孤児 snapshot は `grep -c toMatchSnapshot`=0 を根拠に `git rm`)**: `--ours` で勝った spec が snapshot 不使用なのに `--theirs` 由来の `__snapshots__/*.snap` が残ると vitest `N obsolete` 警告 → CI ノイズ。`grep -c "toMatchSnapshot\|MatchInlineSnapshot" <spec>` = 0 を確認して即 `git rm`。
 - 参照: [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-067（同 shell-config.ts AA で L-DEVSYNC-066 と逆の `--ours` を採った対照例 + graft/relocate/snapshot の複合 shape）。
+
+
+### SP-DEVSYNC-047: skill-index-only クリーン sync の「衝突 file 数は可変」「sub-worktree の `.git` はファイル」2 ナンスを仕様書 Phase 9 sync-merge 節に固定（2026-05-31 追加）
+
+- 事象: 2026-05-31 `docs/issue-987-identity-conflicts-audit-log-admin-ui` ← dev（9 commits 遅れ）sync-merge。`.gitattributes merge=union` 対象は複数あるが CONFLICT マーカーが残ったのは `indexes/keywords.json` と `indexes/topic-map.md` の **2 file のみ**（残り union 対象は Auto-merging で衝突なし結合）。source conflict 0 件で SP-DEVSYNC-045 / L-DEVSYNC-072 の skill-index-only クリーンケースに該当 → `pnpm sync:resolve` 単独でゼロ手作業解消。
+- Why（仕様書に固定すべき 2 点）:
+  1. **衝突 file 数は sync ごとに変動**する。union 対象に挙がっていても両 branch が同じ hunk を触らなければ git は自動結合し CONFLICT を出さない。仕様書の sync-merge 節は「union 対象 N file が必ず衝突する」と書かず「`git diff --name-only --diff-filter=U` に出た file だけを resolver 対象にする」と書く。
+  2. **sub-worktree の `.git` はファイル**（`gitdir: …` ポインタ）。branch-sync の lock/log を `.git/...` に直書きする手順は sub-worktree で `not a directory` 失敗する。lock/log path は `git rev-parse --git-common-dir` 基準で組む（worktree 固有 dir が要る時のみ `git rev-parse --git-dir`）。
+- How to apply（task 仕様書での逐語化）: Phase 9 sync-merge 節に以下を追記:
+  1. **衝突判定の正本**: `git diff --name-only --diff-filter=U` の出力が衝突 file の唯一の正本。全て `.claude/skills/**` 配下なら `pnpm sync:resolve` 単独で完結し `git ls-files -u` 0 を確認して `git commit --no-edit`。`apps/`/`packages/` が 1 件でも混ざる場合のみ SP-DEVSYNC-038/044/067 の shape 判定へ。
+  2. **sync ツーリング path**: lock/log を扱う手順は `GD=$(git rev-parse --git-common-dir)` を起点にする。`.git/...` 直書きは main worktree 専用と注記。
+- 適用範囲外: source code conflict を含む sync（SP-DEVSYNC-038/044/067）、resolver の `index.lock` 偽陽性 fallback（SP-DEVSYNC-045）。
+- 検証: CONFLICT 2 → `pnpm sync:resolve` exit 0 → `git diff --diff-filter=U` 0 → merge commit `93f030d2c` → `pnpm typecheck` 6 packages Done → `pnpm lint` exit 0（`publicConsent` 2 件は mode=warning の既存）→ `pnpm indexes:rebuild` 冪等（5207 keywords・drift 0）。
+- 参照: aiworkflow-requirements [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-073、SP-DEVSYNC-045（resolver fallback）、L-DEVSYNC-072（クリーン基準ケース初出）。
 
 ## SP-DEVSYNC-070 completed-tasks の playwright/monocart evidence は machine-path 焼き込みで content-conflict 化し resolver(union)対象外 → 1 テストラン単位で同一サイド一括採用、phase12 doc は evidence と同サイド（2026-05-30 feat/issue-982-drawer-tag-pill-editing ← dev #1033/#1028/#1023）
 
