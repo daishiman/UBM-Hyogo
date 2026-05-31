@@ -3390,6 +3390,15 @@ node scripts/list-specs.js --topics
 | Gates | L46 |
 | Lessons Learned | L54 |
 
+### references/workflow-issue-983-member-photo-avatar-r2-storage-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| State | L12 |
+| Implemented Local Targets | L16 |
+| User-Gated Operations | L26 |
+| Lessons Learned | L30 |
+
 ### references/workflow-light-theme-contrast-regression-guard.md
 
 | セクション | 行 |
@@ -4384,10 +4393,10 @@ node scripts/list-specs.js --topics
 | Summary | L5 |
 | Canonical workflow | L9 |
 | Planned implementation targets | L31 |
-| Current code anchors | L43 |
-| Gates | L52 |
-| Sub-workflows | L60 |
-| Lessons Learned | L70 |
+| Current code anchors | L44 |
+| Gates | L59 |
+| Sub-workflows | L67 |
+| Lessons Learned | L77 |
 
 ### references/workflow-ut-02a-attendance-profile-integration-artifact-inventory.md
 
@@ -8123,14 +8132,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L3196 |
-| フェーズ構造（概要） | L3205 |
-| 品質ゲート（概要） | L3236 |
-| 出力テンプレート | L3247 |
-| 実行時のコマンド・エージェント・スキル | L3270 |
-| 昇格パターン集 | L3294 |
-| Current Active / Spec Created Tasks | L3296 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L3458 |
+| ドキュメント構成 | L3211 |
+| フェーズ構造（概要） | L3220 |
+| 品質ゲート（概要） | L3251 |
+| 出力テンプレート | L3262 |
+| 実行時のコマンド・エージェント・スキル | L3285 |
+| 昇格パターン集 | L3309 |
+| Current Active / Spec Created Tasks | L3311 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L3473 |
 
 ### references/task-workflow-backlog-part2.md
 

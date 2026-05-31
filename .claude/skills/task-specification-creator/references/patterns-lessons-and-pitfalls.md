@@ -1259,6 +1259,17 @@ Next.js App Router で公開層 (`/`, `/(public)/*`) の auth-state 出し分け
 - **SP-DEVSYNC-058-G (検証 4 step)**: L-DEVSYNC-056 と同じ `git diff --diff-filter=U --name-only` 0 件 → `pnpm typecheck` 全 packages → `pnpm lint` 全 packages → `git commit -m "merge: sync <branch> with dev"` の 4 step を Phase 12 implementation-guide に明記。
 - 参照: [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-058、L-DEVSYNC-056 (single-side primitive 移行 hybridize)、L-DEVSYNC-046 (UNION_TARGETS)。
 
+## L-USHELL 複数 route group を 1 共通 server shell へ統合するパターン（unified-sidebar-shell / 2026-05）
+
+公開 / 会員 / 管理の 3 route group を独立 shell ではなく共通 `SidebarShell`（role-driven server shell）へ統合する実装パターン。詳細 lesson は [[lessons-learned-unified-sidebar-shell-2026-05]] L-USHELL-001..006。
+
+- **SP-USHELL-A (role 一本化 + fail-closed)**: role 判定は server boundary（`SidebarShellServer`）の `getSession().isAdmin` 1 箇所。throw 時は最小権限 role（viewer）へ fail-closed。各 layout は guard + shell 呼び出しに縮約する。
+- **SP-USHELL-B (active は client、server activePath 配線禁止)**: nav active は client `usePathname()` で完結。server から `activePath` prop を配線する設計は、middleware の header 注入（`x-pathname`）とセットでない限り dead code（prop が destructure されず・header も注入されず二重に無意味）。配線追加前に「prop が読まれるか / header が注入されるか」を Phase 4 で確認する。
+- **SP-USHELL-C (Playwright anonymous fixture の mockApi)**: auth fixture の anonymous role は mock API を起動しないことがある。public ページを開く anonymous spec は `{ anonymousPage, mockApi }` + `void mockApi` で明示起動する。「手動で mock API を別起動して green」を fixture 完備と誤認しない（CI / 標準実行で落ちる）。
+- **SP-USHELL-D (N layout 一括改修の spec 網羅)**: 複数 layout を async server component 化する際は N 個すべての layout spec を `await Layout({children})` → render パターンへ追従させる。dead mock（`vi.mock("next/headers")` 等）も同 wave で除去。1 つの追従漏れは CI で初めて露見する。
+- **SP-USHELL-E (削除 + route 移動の spec dangling 同 wave 解消)**: コンポーネント削除（PublicHeader / MemberHeader / AdminSidebar）+ route group 移動を伴う実装は `grep -rn "<削除名>" docs/00-getting-started-manual/specs/` で現行仕様書 dangling を検出し同 wave で解消する。`completed-tasks/**` 等の履歴参照は触らない。
+- **anti-pattern**: (1) layer ごとに shell を複製（role-driven 1 shell へ集約すべき）、(2) 使われない server prop の配線、(3) anonymous spec の mockApi 省略、(4) 一括改修での spec 追従漏れ、(5) 実装だけ更新し仕様書 dangling を放置。
+
 ## L-DEVSYNC-059 detached HEAD で working-tree に WIP を抱えた状態で dev sync-merge する場合の手順（dev sync-merge / 2026-05-28）
 
 `git worktree add <path> <commit>` で commit 指定 worktree を作成した結果 detached HEAD のまま実装が進み、`branch-sync-and-push` プロンプト時に push 不可かつ `git merge dev` が「local changes would be overwritten」で abort するケース。WIP を捨てずに feature branch を切り、hook 連鎖を 3 commit に分けて吸収してから `pnpm sync:resolve` 経路に乗せる happy-path 救済手順。
@@ -1395,6 +1406,28 @@ CLOSED 由来 issue を spec_created で close-out した直後に、同一実�
 - 冪等 DELETE の 204 No Content を無条件 JSON parse して SyntaxError を起こす。
 - soft-delete entity に active guard なしで write し、論理削除済みを zombie 復活させる。
 - 並行 issue の data 依存を専用 read endpoint で decouple せず、相手の完了をブロッキング待ちする。
+
+
+## L-ASSET Admin-managed binary asset（DBメタ + object storage + presigned URL）+ fail-soft presign パターン（issue-983 / 2026-05-29 汎化）
+
+フォーム/正本 schema が**バイナリ資産（写真・添付等）を集めない**が admin が後付けで管理したい場合、正本 schema をバイナリで汚さず、フロントへ storage credential も露出させない 3 層分離で実装する。read endpoint は未 provision / secret 未注入環境でも壊れない fail-soft を default にする。Phase 1 の Ownership 宣言と Phase 4 risk に以下を必ず登録する。
+
+- **L-ASSET-001 (3層分離を Phase 1 で宣言)**: 正本 schema 外の admin-managed バイナリ資産は「**メタデータDB行**（誰がどの資産を持つか）+ **object storage**（バイナリ本体）+ **API が発行する短命 presigned URL**」の 3 層で分離する。フロントは signed URL 文字列のみ受領し `<img src>`/`<a href>` に渡すだけにして、storage / DB へ直接アクセスしない（DB 直アクセス禁止境界と対称）。Phase 1 の Schema / Ownership 宣言で「正本 schema は不変、資産は別テーブル + 別 binding」を明記する。
+- **L-ASSET-002 (presign は fail-soft、read endpoint は成功ステータス維持)**: presign helper は依存値不正 / 対象不在 / 署名ライブラリ throw のいずれでも**例外でなく `null`** を返す。これを利用する read（detail）endpoint は presign 失敗でも**成功ステータス(200)を維持**し optional field を省略する。secret 未注入 / storage 未 provision の local・staging 初期状態で既存 endpoint を壊さないことを AC に含める。
+- **L-ASSET-003 (URL 解決は route 層、ViewModel builder は I/O 非依存)**: ViewModel builder は presign 等の外部 I/O 非依存（純粋）に保ち、URL 解決は route 層の resolve helper に切り出す。route で解決した値を `{ ...view, optionalField }` と**後段マージ**する層分離にする。builder のテスト容易性と再利用性を守る。
+- **L-ASSET-004 (presigned URL 生成契約を定数化)**: object key 規約（例 `{entity}/{id}/{slot}` で 1 entity 1 asset 上書き）、最大サイズ、許可 MIME allowlist、presign TTL を named const として 1 箇所に集約し仕様書に転記する。署名は S3 互換 presigned GET（query 署名）を用い、object key のパス区切りを保つ encode と TTL の expires query を契約として固定する。
+- **L-ASSET-005 (upload 検証順序と HTTP ステータス契約)**: multipart upload は **存在確認(404) → body/field 取得(400) → 型(400) → MIME allowlist(415) → 空(400) → サイズ上限(413)** の順で検証し、各段で正しいステータスを返す。全検証通過後にのみ storage put + DB upsert + audit を行う。この順序を Phase 1 の API 契約に明記する。
+- **L-ASSET-006 (shared schema optional + strict 維持、fallback 保持)**: 共有 ViewModel schema に optional field を追加しても `.strict()`（unknown key 拒否）を維持する。UI は資産優先描画しつつ `onError` 等で**既存 fallback（親タスクの placeholder 等）を保持**し、資産不在・URL 省略・ロード失敗の全経路で fallback が出ることを確認する。
+- **state**: 外部リソース provision / secret 注入 / remote migration apply / deploy に依存する局面は `implemented_local_runtime_pending` + user-gated 境界として明示し、**local 完了を runtime 完了と混同しない**。
+
+### Anti-pattern
+
+- presign 失敗で 500 を返す → 資産と無関係な detail 表示まで巻き込んで壊れる。null 返却 + 200 維持 + field 省略が正
+- ViewModel builder に storage/presign 依存を持ち込む → builder が I/O 依存になりテスト・再利用が難化。route 層 resolve + 後段マージが正
+- フロントに storage credential / DB binding を露出する → 3 層分離の意義が崩壊。signed URL 文字列のみ受領が正
+- secret 未注入環境で read endpoint が壊れる → fail-soft 契約の欠落。未 provision 初期状態でも 200 を AC で保証する
+- shared schema に field を足して `.strict()` を緩める → unknown key 混入を許す退行。strict 維持で optional 追加するのが正
+- 参照: [[lessons-learned-issue-983-member-photo-avatar-r2-storage-2026-05]]（aiworkflow-requirements 側 L-I983-001..006 が具体実装の SSOT）。
 
 
 ## SP-DEVSYNC-063 skill-only 3 ファイル variant の resolver 単独完結を再々確認 — conflict marker grep の `====` 誤検知に備え実 conflict 判定は `git status` unmerged を一次ソースに（dev sync-merge / 2026-05-30 再現）
@@ -1554,6 +1587,21 @@ source を一切触らない（実態は `MemberHeader` + `lib/auth-view` のみ
 - 検証: `git diff --diff-filter=U` 0 件（skill-only 2 件）+ `sync:resolve` WARN 0 行 + `pnpm indexes:rebuild` md5 一致冪等（topic-map `56253ba6…`）+ `git grep -lE '^(<<<<<<<|>>>>>>>)'` 空 + `pnpm typecheck` PASS + `pnpm lint` PASS + **`gh pr checks <PR>` 全 check green**。
 - 参照: [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-068 を唯一の正本。SP-DEVSYNC-067（前回 #1032・4 件・件数非依存収束）/ SP-DEVSYNC-063/064（source AA が出た対照例＝今回は WARN 0 で不発）/ SP-DEVSYNC-043（件数レンジ）/ SP-DEVSYNC-066（最頻フロー）。
 
+## SP-DEVSYNC-069 feature branch が full アーキ移行を先行完了 + dev が個別 PR を landed した非対称マージ — DU は移行先存在で削除採用、AA は OURS-superset、`testIgnore` は union、dev 専用 data 属性は新 shell へ port、孤立 `.snap` は `git rm`（dev sync-merge / 2026-05-30 docs/task-f-visual-baseline-smoke-spec ← dev `9d9884958`）
+
+長命 feature branch が unified-sidebar-shell の **Task A–F を一括 landed**（旧 `AdminSidebar`/`MemberHeader`+spec 削除・`privacy`/`terms` を `(public)/` へ移動・`shell/**` 新規）した一方、dev が同テーマの **細粒度 follow-up PR を別々に landed**（#1020/#1026/#1023）し旧構造を保持したまま、という非対称 sync-merge（content/AA/DU 計 23 件）。SP-DEVSYNC-066 の混合 shape を **production source の modify/delete** と **OURS が superset の add/add** へ拡張する。
+
+- **SP-DEVSYNC-069-A (DU = HEAD 削除 / dev 修正 の production source は移行先実在で削除採用)**: SP-DEVSYNC-066-B（workflow root migration の stale dir 削除）と同ロジックを production source へ適用。Phase 12 implementation-guide に「DU は `git log <merge-base>..HEAD -- <path>` で削除起因 commit を確認 → `git ls-tree -r HEAD --name-only | grep <route/basename>` で移行先（例 `(public)/privacy`・`shell/` 置換）の実在を確認 → 削除後に `git grep -n '<deleted import path>' -- 'apps/**/*.ts(x)'` が 0 references なら `git rm`」を手順化。dev 側の当該ファイル修正（prop 追加等）は新構造の上位 layout に吸収される dead と判定。
+- **SP-DEVSYNC-069-B (AA superset 判定は方向非依存・OURS-superset の鏡像)**: SP-DEVSYNC-066-A の「他 file の import を grep」を方向非依存で適用。`git show :2:<f>`/`:3:<f>` を diff し、追加 export（例 `roleDisplayLabel`）を **どちら側の他 shell file が参照しているか**を grep。OURS が superset なら `--ours`（本例）、dev が superset なら `--theirs`（SP-DEVSYNC-066-A）。型 1 行 vs フル実装の非対称も同じ grep で決まる。
+- **SP-DEVSYNC-069-C (`testIgnore` 等の正規表現/glob 配列 conflict は union)**: 両側が各自の専用 project/test を ignore 配列に足しているだけなら両 entry を残す。片側採用は他方の test を共有 project で二重実行させる。Phase 12 に「playwright.config / vitest config の `testIgnore`/`exclude` 配列 conflict は union 解消」を明記。
+- **SP-DEVSYNC-069-D (architecture 置換 layout でも dev 追加 data 属性は新 wrapper へ port)**: 旧 layout を新 shell へ置換する UU で、dev が追加した `data-auth-state` 等の data 属性は visual baseline / playwright DOM assertion の契約。OURS の新 wrapper 最上位 element へ port して test 赤を予防。`schemaDiffCount`/旧 component import など新構造に不在の依存は採用不能なので OURS 構造を基軸にし、保全するのは「副作用のない data 属性のみ」に限定する。
+- **SP-DEVSYNC-069-E (OURS spec 採用後の孤立 `.snap` は `git rm`・完走判定に vitest obsolete 0 を追加)**: マージで dev が `__snapshots__/*.snap` を add(A) したが採用した spec が `toMatchSnapshot` 不使用なら vitest が `N obsolete` を報告。snapshot file を `git rm`（dir 空なら消す）。Phase 12 検証ゲートに「focused vitest の `obsolete` 0」を `git ls-files -u` 0 と並べる。
+- **SP-DEVSYNC-069-F (PR が `CONFLICTING` だと `pull_request` workflow は走らない / 削除済 component の後続 PR は付随テストごと削除)**: baseline push や 空コミットで CI を再トリガーしても `gh pr checks` が `no checks reported`（`pull_request_target` triage だけ動く）なら、まず `gh pr view <N> --json mergeable` を確認する。`CONFLICTING` だと GitHub は merge ref を作れず `pull_request` workflow を一切起動しない。`git fetch origin <base>` → `git merge origin/<base>` で再 sync し mergeable へ戻してから push する。Phase 12 sync-merge 節に「visual baseline 撮影は『PR mergeable な間に』完結させ、bot push 後に dev が進んだら再 sync してから空コミット」を明記。さらに **後続 PR が HEAD 削除済 component を modify した DU は削除採用 + その component source を `readFile`/import する付随テスト（contract / component spec）も同時に `git rm -f`**（staged 済 add は `-f` 必須）を SP-DEVSYNC-069-A の付帯ルールにする。
+- 検証: `git diff --diff-filter=U` 0 件 + marker 残存 `git grep -nE '^(<<<<<<< |>>>>>>> )'` 空 + 削除 import 残参照 `git grep` 0 + `pnpm typecheck`（6 packages Done）+ `pnpm lint`（exit 0）+ shell/layout focused vitest **38 passed / obsolete 0** + `pnpm indexes:rebuild` 冪等。merge commit `e077de317`（初回）/ `f2cffb759`（#1021 再 sync）、`.snap` 削除は別 docs commit。`pull_request` 再起動には mergeable 復帰後の push が必須。
+- **SP-DEVSYNC-069-G (per-layer header/sidebar → unified shell 統合 PR は旧 DOM 契約の e2e を同 wave で移行する)**: shell 統合タスクの Phase 4 risk / Phase 12 に「旧 `[data-component="public-header"]` / `[data-testid="member-header"|"admin-shell"]` / `[data-shell="topbar"]` / `main[data-route]` / `data-role="auth-cta|member-cta|admin-cta|public-return"` を assert する e2e 群（auth-slot-coverage / prototype-alignment / shell-scrape）を新 shell 契約へ移行する」を必須化。新契約: app-shell 境界 `[data-shell="app-shell"]`+`data-role`(guest→viewer)、wrapper `[data-route-group]`+`data-theme`、`[data-shell="sidebar"]`(mobile hidden/attached・topbar 廃止)、`data-route`/`data-section-rhythm` は **main でなく content div**、role CTA は `SidebarUserMenu` の `[data-action-id="login|profile|admin-dashboard"]`（member/admin は popover 内＝attached 契約・`[data-shell="sidebar"].first()` に scope）。**これら gate は dev `schedule` で skip され `pull_request` のみ実行**されるため dev 緑を移行完了の証跡にせず、必ず PR 上で `gh pr checks` 確認する（SP-DEVSYNC-068-D の `gh pr checks` 必須化を visual/e2e gate へ拡張）。
+- 検証: `git diff --diff-filter=U` 0 件 + marker 残存 `git grep -nE '^(<<<<<<< |>>>>>>> )'` 空 + 削除 import 残参照 `git grep` 0 + `pnpm typecheck`（6 packages Done）+ `pnpm lint`（exit 0）+ shell/layout focused vitest **38 passed / obsolete 0** + `pnpm indexes:rebuild` 冪等。merge commit `e077de317`（初回）/ `f2cffb759`（#1021 再 sync）、`.snap` 削除は別 docs commit。`pull_request` 再起動には mergeable 復帰後の push が必須。
+- 参照: [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-069 を唯一の正本。SP-DEVSYNC-066（add/add superset --theirs / UD stale-dir / Lessons subsection union の原型＝本 SP はその production-source・OURS-superset 鏡像）/ SP-DEVSYNC-068-D（async layout spec 追従 / `gh pr checks` 必須化）。
+
 ## SP-DEVSYNC-066 add/add で HEAD が部分定義 + dev がフル実装 → grep で依存側確認 `--theirs`、modify/delete (UD) は workflow root migration 由来なら削除、両側 `## Lessons Learned` は subsection 分割で union 化（2026-05-30 feat/unified-sidebar-shell-user-menu ← dev #1025）
 
 `feat/unified-sidebar-shell-user-menu` ← `dev` の sync-merge で `pnpm sync:resolve` が **5 件 unhandled** を残した混合 shape。SP-DEVSYNC-063（canonical wholesale）の延長で、add/add の正本判定基準を「**他ファイルの import を grep**」に拡張し、UD（modify/delete）の即決ルール、両側 `## Lessons Learned` 節の subsection 分割パターンを追加。
@@ -1594,6 +1642,14 @@ SP-DEVSYNC-069（add/add 両側フル実装 → consumer-API 起点で wholesale
 - **SP-DEVSYNC-071-C (後継が main を内部描画するなら専用 layout の自前 main を撤去)**: 後継 shell が semantic `<main>` を持つ統一版なら、専用 layout（admin）の自前 `<main>` は二重化。`routeKey`/`sectionRhythm` を渡し padding は wrapper div で保持（兄弟 layout = (member)/(public) の消費形を template に）。layout spec の mock stub も渡し props を data 属性で観測する形へ更新（自前 main 撤去で `main[data-route]` assertion が stub 下 0 になるため）。
 - **SP-DEVSYNC-071-D (固有 test の selector を後継 DOM 契約へ unit+e2e 一括追従)**: `--theirs` 後、branch 固有 test が旧 DOM 契約を assert したまま残り push 後 CI で落ちる。`grep -rn '<旧 selector>' apps/web/{src,playwright}` で洗い `perl -i -pe` で後継契約へ一括置換。vitest（`SidebarShell.server.spec.tsx`）+ playwright（`admin-shell-topbar-sidebar-integration.spec.ts`）双方を Phase 12 検証前に揃える。
 - 参照: [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-071（正本）/ L-DEVSYNC-069（反転前 `--ours`）/ L-DEVSYNC-070（public-return porting 初出）/ L-DEVSYNC-068-C（self-resolve 発展形）。
+
+## SP-DEVSYNC-072 skill index/changelog **のみ**の衝突は `pnpm sync:resolve` 単独でゼロ手作業解消＝source-shape 判定を出さない「クリーン基準ケース」（2026-05-31 feat/issue-983-member-photo-avatar-r2-storage ← dev 10 commits）
+
+SP-DEVSYNC-063〜071 の source-shape 判定（wholesale ours/theirs・grep-consumer・graft）が**出番なしになる対照ベースライン**を Phase 12 に固定する。本 branch の変更（admin-managed asset = D1 メタ + R2 バイナリ + presign route）が dev 側 10 commits の touch path と semantic に独立だと、conflict は skill index/changelog 派生物のみに限局し、3 層予防（`.gitattributes` union + resolver + indexes:rebuild 決定性）が単独で吸収する。
+
+- **SP-DEVSYNC-072-A (conflict file の層を最初に仕分ける)**: sync-merge task の Phase 12 implementation-guide に「`git diff --name-only --diff-filter=U` の結果が**全て `.claude/skills/**` 配下なら即 `pnpm sync:resolve`** → `git ls-files -u` 0 確認 → `git commit --no-edit` で完了。source code（`apps/`/`packages/`）が 1 件でも混ざる場合のみ SP-DEVSYNC-063〜071 の shape 判定へ」を固定フローとして記載。無駄な手解析を避ける最上段ゲート。
+- **SP-DEVSYNC-072-B (残存確認は `git ls-files -u` を正本)**: `grep '<<<<<<<'` ではなく `git ls-files -u` が空＝完全解消（[[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-072-B / `git|head` exit-code pitfall と同趣旨）。resolver 内蔵 rebuild が drift を出し切れば merge 後の単独 `chore(indexes)` commit も不要（L-DEVSYNC-012 最良ケース連番）。
+- 参照: [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-072（正本）/ L-DEVSYNC-002（index 派生物 rebuild 決定性）/ L-DEVSYNC-007（3 層予防）/ SP-DEVSYNC-067/071（対照: source code が混ざり shape 判定が要るケース）。
 
 ## SP-DEVSYNC-069 同一ディレクトリを並行実装した大規模 add/add は resolver 不可・dev 基盤採用 + feature 機能移植の 3-way 設計統合になる（2026-05-30 feat/task-spec-unified-sidebar-shell-task-e-mobile-drawer ← dev #1025 系）
 
