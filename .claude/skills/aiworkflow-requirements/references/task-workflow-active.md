@@ -20,6 +20,37 @@
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-member-publish-recovery-form-ops-and-admin-link-artifact-inventory.md` |
 | user gate | production flag, Cloudflare secret injection, deploy, authenticated screenshots, commit, push, PR |
 
+### issue-1006-members-selected-filters-chip-ux-hardening（2026-05-30）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_runtime_pending / implementation / VISUAL` |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-1006-members-selected-filters-chip-ux-hardening/` |
+| Issue | #1006 CLOSED。PR 文脈は `Refs #1006` のみ |
+| 親 workflow | `docs/30-workflows/completed-tasks/members-list-ux-clarity/` |
+| 目的 | `/members` の selected filter chip を、人間可読 tag label・削除後 focus 復帰・mobile 縦積みで堅牢化する |
+| implementation targets | `apps/web/src/components/public/SelectedFiltersBar.client.tsx`, `apps/web/src/components/public/MemberFilters.client.tsx`, `apps/web/src/styles/legacy-public.css` |
+| tests | `apps/web/src/components/public/__tests__/SelectedFiltersBar.client.spec.tsx`, `apps/web/src/components/public/__tests__/MemberFilters.client.spec.tsx` |
+| invariant | 新 API endpoint / D1 schema / Google Form 変更なし。`topTags` 由来の optional `tagLabels` と fallback `#code` のみ |
+| evidence | focused Vitest 17 PASS、web typecheck PASS、lint PASS、verify-design-tokens PASS、local Playwright mobile CSS sanity PASS |
+| runtime pending | local `/public/members` 500（AUTH_SECRET / backend auth 未設定）により data-backed visual screenshots は staging/user-gated |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1006-members-selected-filters-chip-ux-hardening-artifact-inventory.md` |
+| user gate | staging data-backed visual screenshots、commit、push、PR |
+
+### issue-988-identity-conflicts-merge-optimistic-update（2026-05-30）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION` |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-988-identity-conflicts-merge-optimistic-update/` |
+| Issue | #988 CLOSED |
+| 目的 | `/admin/identity-conflicts` の merge 二段階 confirm 後、server round-trip を待たず該当 row を optimistic に非表示化し、server error 時のみ rollback で復元する |
+| implementation targets | `apps/web/src/components/admin/IdentityConflictRow.tsx`, `apps/web/src/components/admin/__tests__/IdentityConflictRow.spec.tsx`, `apps/web/playwright/tests/admin-identity-conflicts.spec.ts` |
+| invariant | API endpoint / D1 schema / Server Component page / dismiss behavior は変更なし。`useAdminMutation` hook 拡張なし |
+| evidence | focused Vitest 1 file / 10 tests PASS; Playwright desktop 8 tests PASS; Phase 11 screenshots 3 PNG captured; Phase 11 canonical paths present |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-988-identity-conflicts-merge-optimistic-update-artifact-inventory.md` |
+| user gate | commit, push, PR |
+
 ### issue-982-drawer-tag-pill-editing（2026-05-29）
 
 | 項目 | 値 |
@@ -105,6 +136,23 @@
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-public-header-session-aware-auth-view-base-artifact-inventory.md` |
 | user gate | staging authenticated runtime visual, commit, push, PR |
 
+### issue-1010-auth-view-session-contract-integration-test（2026-05-30）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / NON_VISUAL / Phase 13 pending_user_approval` |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-1010-auth-view-session-contract-integration-test/` |
+| Issue | #1010 OPEN（state は変更しない） |
+| 親 workflow | `docs/30-workflows/completed-tasks/public-header-session-aware-auth-view-base/` FU-001 |
+| source task | `docs/30-workflows/completed-tasks/issue-1010-auth-view-session-contract-integration-test/unassigned-task-specs/public-header-auth-view-session-contract-integration-test-001.md`（consumed） |
+| 目的 | 実 `buildAuthConfig().callbacks.session` 出力を `resolveAuthView()` / `getAuthView()` に連鎖し、`memberId` / `isAdmin` session contract drift を local CI で検出する |
+| implementation targets | `apps/web/src/lib/auth-view/__tests__/authViewSessionContract.integration.spec.ts` |
+| tests | focused Vitest 4 files / 61 tests PASS（新規 contract spec 8 + `getAuthView` / `resolveAuthView` / `auth.spec` regression） |
+| evidence | focused Vitest PASS、web typecheck PASS、workspace lint PASS |
+| invariant | production code change なし。D1 直接アクセスなし。`memberId` 欠落時は `guest` fail-closed |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1010-auth-view-session-contract-integration-test-artifact-inventory.md` |
+| user gate | commit, push, PR |
+
 ### login-redirect-when-authenticated（2026-05-28）
 
 | 項目 | 値 |
@@ -132,6 +180,21 @@
 | evidence | focused Vitest 3 files / 9 tests PASS、typecheck PASS、lint PASS、web build PASS、Phase 12 strict 7 present |
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-task-b-root-page-public-header-async-artifact-inventory.md` |
 | user gate | Cloudflare staging deploy、authenticated `/` curl、wrangler tail clean evidence、commit、push、PR |
+
+### issue-987-identity-conflicts-audit-log-admin-ui（2026-05-29）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / NON_VISUAL / staging_runtime_pending_user_gate` |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-987-identity-conflicts-audit-log-admin-ui/` |
+| Issue | #987 CLOSED。PR 文脈は `Refs #987` のみ |
+| 目的 | `/admin/identity-conflicts` dismiss 操作を merge と対称化し、`audit_log.action='identity.dismiss'` として既存 `/admin/audit` から時系列閲覧・フィルタ可能にする |
+| implementation targets | `apps/api/src/repository/identity-conflict.ts`, `apps/api/src/routes/admin/identity-conflicts.ts` |
+| tests | `apps/api/src/repository/__tests__/identity-conflict.repository.spec.ts`, `apps/api/src/routes/admin/identity-conflicts.contract.spec.ts`, `apps/api/src/routes/admin/audit.contract.spec.ts` |
+| invariant | API response shape / D1 schema / UI は不変。存在しない source/target は 404 `MEMBER_NOT_FOUND`。`audit_log` 既存テーブルを利用し、dismiss payload は `before_json={sourceMemberId,targetMemberId}` / `after_json={dismissalId,dismissedAt}`、reason 生値は audit payload に含めない |
+| evidence | D1 lane focused Vitest PASS、Phase 12 strict 7 present、root/output artifacts parity present |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-987-identity-conflicts-audit-log-admin-ui-artifact-inventory.md` |
+| user gate | staging deploy、authenticated `/admin/audit?action=identity.dismiss` runtime proof、commit、push、PR |
 
 ### issue-976-admin-fetch-service-binding（2026-05-28）
 
@@ -3422,7 +3485,8 @@ docs-only / direction-reconciliation で採用方針 A を維持する場合で�
 | issue-377-retry-tick-and-dlq-audit | implemented-local / implementation / NON_VISUAL / Phase 1-12 completed / Phase 13 pending_user_approval / Issue #377 CLOSED | `docs/30-workflows/issue-377-retry-tick-and-dlq-audit/` | UT-02A retry/DLQ primitives を scheduled cron で駆動。`apps/api/src/workflows/tagQueueRetryTick.ts` は retry tick 対象条件（`reason='retry_tick'` / `attempt_count > 0` / `last_error IS NOT NULL` / `next_visible_at IS NOT NULL`）を満たす queued row のみ処理し、plain human-review queued row は skip。default scheduled path でも `incrementRetryWithDlqAudit` を呼び、max retry 超過 / non-retryable error では `status='dlq'` と `admin.tag.queue_dlq_moved` audit (`target_type='tag_queue'`) を D1 batch で同時記録する。`apps/api/wrangler.toml` は top-level / staging / production を3 cron以内に維持し、legacy Sheets hourly は手動限定。Focused evidence: `tagQueueRetryTick.test.ts` 7 tests PASS + api typecheck PASS。Phase 13 は `Refs #377` のみ、commit / push / PR / deploy は user-gated。 |
 | 07c-parallel-meeting-attendance-and-admin-audit-log-workflow | completed / Phase 1-12 完了 / Phase 13 pending_user_approval / NON_VISUAL | `docs/30-workflows/completed-tasks/07c-parallel-meeting-attendance-and-admin-audit-log-workflow/` | apps/api attendance 3 endpoint を 05a `requireAdmin` 配下で実装。`GET /admin/meetings/:sessionId/attendance/candidates` は session 不在 `404 session_not_found`、削除済み・登録済み member 除外。`POST /admin/meetings/:sessionId/attendance` は duplicate `409 attendance_already_recorded` / deleted `422 member_is_deleted` / session 不在 `404 session_not_found`。`DELETE /admin/meetings/:sessionId/attendance/:memberId` は row 不在を `404 attendance_not_found` に集約。add/remove 成功時のみ `audit_log` に `attendance.add` / `attendance.remove` を append（target_type=`meeting`, target_id=sessionId）。Phase 11 は API-only のため Vitest smoke evidence、visual は 08b/09a に委譲。固有教訓 `references/lessons-learned-07c-attendance-audit-2026-04.md`（L-07C-001〜005）。 |
 | 07c-followup-003-audit-log-browsing-ui | completed / Phase 1-12 完了 / Phase 13 blocked_user_approval / VISUAL | `docs/30-workflows/completed-tasks/07c-followup-003-audit-log-browsing-ui/` | `/admin/audit` 監査ログ閲覧 UI と `GET /admin/audit` を実装。API は `requireAdmin`、複合 filter、UTC range、cursor pagination、limit 1-100、maskedBefore/maskedAfter projection、broken JSON parseError を提供し raw `before_json` / `after_json` を返さない。Web は admin proxy 経由の read-only table/filter/disclosure UI、JST 入力・表示、UI 側 PII 再 mask、AdminSidebar 導線を追加。検証: api typecheck PASS / web typecheck PASS / api Vitest 82 files 493 tests PASS / focused web Vitest 2 files 7 tests PASS。web 全体 test は既存 `/no-access` invariant で FAIL（本差分外）。Phase 11 screenshot 7 件を保存。 |
-| admin-audit-prototype-alignment | implemented_local_runtime_pending / implementation / VISUAL / Phase 1-12 local completed / Phase 13 pending_user_approval | `docs/30-workflows/completed-tasks/admin-audit-prototype-alignment/` | `/admin/audit` を existing admin prototype design language (`AdminPageHeader` + Card/filter grid + Button/Select primitives + `tbl`) に整合。API 404 は root mount 回帰（unauth 401 / seeded 200）と `ADMIN_FETCH_404` reason テストで再発検知。`AdminAuditListResponseZ` / D1 schema / auth middleware は変更しない。Local evidence: web suite 158 files / 1158 tests PASS（1 skipped）、api suite 66 files / 415 tests PASS、D1 audit contract 10 PASS、Playwright audit states 1 PASS、Phase 11 screenshots `admin-audit-{default,filtered,empty}.png`。staging deploy / secret mutation / authenticated staging visual baseline / commit / push / PR は user-gated。artifact inventory: `references/workflow-admin-audit-prototype-alignment-artifact-inventory.md`。Unassigned (2): FU-AAUDIT-001 AdminFetchError typed class (#991), FU-AAUDIT-002 `/admin/audit` authenticated staging visual baseline (#992)。 |
+| admin-audit-prototype-alignment | implemented_local_runtime_pending / implementation / VISUAL / Phase 1-12 local completed / Phase 13 pending_user_approval | `docs/30-workflows/completed-tasks/admin-audit-prototype-alignment/` | `/admin/audit` を existing admin prototype design language (`AdminPageHeader` + Card/filter grid + Button/Select primitives + `tbl`) に整合。API 404 は root mount 回帰（unauth 401 / seeded 200）と `ADMIN_FETCH_404` reason テストで再発検知。`AdminAuditListResponseZ` / D1 schema / auth middleware は変更しない。Local evidence: web suite 158 files / 1158 tests PASS（1 skipped）、api suite 66 files / 415 tests PASS、D1 audit contract 10 PASS、Playwright audit states 1 PASS、Phase 11 screenshots `admin-audit-{default,filtered,empty}.png`。staging deploy / secret mutation / authenticated staging visual baseline / commit / push / PR は user-gated。artifact inventory: `references/workflow-admin-audit-prototype-alignment-artifact-inventory.md`。Consumed: FU-AAUDIT-001 AdminFetchError typed class (#991) → `docs/30-workflows/completed-tasks/issue-991-admin-fetch-error-typed-class/`。Unassigned (1): FU-AAUDIT-002 `/admin/audit` authenticated staging visual baseline (#992)。 |
+| issue-991-admin-fetch-error-typed-class | implemented_local_evidence_captured / implementation / NON_VISUAL / local_focused_tests_passed / Phase 13 pending | `docs/30-workflows/completed-tasks/issue-991-admin-fetch-error-typed-class/` | Parent `admin-audit-prototype-alignment` FU-AAUDIT-001 / Issue #991（CLOSED 維持）。`apps/web/src/lib/admin/server-fetch.ts` に `AdminFetchError` / `isAdminFetchError` を追加し、error path を typed throw へ置換。非 PII body の既存 message suffix 256 文字を維持し、`responseBodySnippet` 500 文字を構造化 metadata として提供。email / phone 形状は snippet 化前に redaction。`apps/web/src/lib/server-fetch/safe-fetch.ts` は admin import なしで structured `status` 優先 + regex fallback。Focused Vitest 6 files / 31 tests PASS、web typecheck PASS、root lint PASS。artifact inventory: `references/workflow-issue-991-admin-fetch-error-typed-class-artifact-inventory.md`。staging runtime observation / commit / push / PR は user-gated。 |
 | 08a-parallel-api-contract-repository-and-authorization-tests | member_only / Phase 1-10 completed / Phase 11-12 member_only / Phase 13 pending_user_approval / NON_VISUAL | `docs/30-workflows/08a-parallel-api-contract-repository-and-authorization-tests/` | apps/api の API contract / repository / authz / brand type / invariant tests を整備。Phase 11 実測は 74 files / 442 tests PASS、coverage は Statements 84.18% / Branches 84.13% / Functions 83.37% / Lines 84.18% で AC-6 PARTIAL。代表 authz matrix + route tests で現状を観測し、全 endpoint generated matrix と public use-case coverage 補強は `docs/30-workflows/unassigned-task/UT-08A-01-public-use-case-coverage-hardening.md` に formalize。UI route なしのため screenshot 不要、Phase 11 evidence は `outputs/phase-11/evidence/{test-run.log,coverage-report.txt,ci-workflow.yml}`。Phase 12 close-out: `outputs/phase-12/{main,implementation-guide,documentation-changelog,system-spec-update-summary,unassigned-task-detection,skill-feedback-report,phase12-task-spec-compliance-check}.md`（全 6 + 1 揃い）。Follow-up は UT-08A-01〜06 の計 6 本を `unassigned-task/` に formalize（02 visual regression / 03 production load test / 04 D1 migration test guideline / 05 shared package type test / 06 test suffix rename）。task root path drift（`02-application-implementation/` → `30-workflows/` 直下）を `legacy-ordinal-family-register.md` の Task Root Path Drift Register に記録。 |
 | issue-346-08a-canonical-workflow-tree-restore | spec_created / docs-only / NON_VISUAL / Phase 1-12 completed / Phase 13 pending_user_approval | `docs/30-workflows/issue-346-08a-canonical-workflow-tree-restore/` | 09c production release runbook が参照する 08a upstream contract gate の trace 回復タスク。A restore を採用し、`docs/30-workflows/08a-parallel-api-contract-repository-and-authorization-tests/` を current/member_only canonical root として維持する。08a-A は follow-up であり canonical root の代替ではない。Phase 11 evidence は file existence / aiworkflow state diff / 09c targeted link check / unassigned grep / `pnpm indexes:rebuild` drift 0 / secret hygiene を NON_VISUAL として保存。アプリコード変更なし、screenshot 不要。Issue #346 は仕様作成時点で closed のため Phase 13 は `Refs #346` のみ。artifact inventory: `references/workflow-task-issue-346-08a-canonical-workflow-tree-restore-artifact-inventory.md`。lessons: `references/lessons-learned-issue-346-08a-canonical-workflow-tree-restore-2026-05.md`（L-I346-001〜006）。 |
 | 08a-parallel-api-contract-repository-and-authorization-tests | partial / Phase 1-10 completed / Phase 11-12 partial / Phase 13 pending_user_approval / NON_VISUAL | `docs/30-workflows/08a-parallel-api-contract-repository-and-authorization-tests/` | apps/api の API contract / repository / authz / brand type / invariant tests を整備。Phase 11 実測は 74 files / 442 tests PASS、coverage は Statements 84.18% / Branches 84.13% / Functions 83.37% / Lines 84.18% で AC-6 PARTIAL。代表 authz matrix + route tests で現状を観測し、全 endpoint generated matrix と public use-case coverage 補強は `docs/30-workflows/unassigned-task/UT-08A-01-public-use-case-coverage-hardening.md` に formalize。UI route なしのため screenshot 不要、Phase 11 evidence は `outputs/phase-11/evidence/{test-run.log,coverage-report.txt,ci-workflow.yml}`。Phase 12 close-out: `outputs/phase-12/{main,implementation-guide,documentation-changelog,system-spec-update-summary,unassigned-task-detection,skill-feedback-report,phase12-task-spec-compliance-check}.md`（全 6 + 1 揃い）。Follow-up は UT-08A-01〜06 の計 6 本を `unassigned-task/` に formalize（02 visual regression / 03 production load test / 04 D1 migration test guideline / 05 shared package type test / 06 test suffix rename）。task root path drift（`02-application-implementation/` → `30-workflows/` 直下）を `legacy-ordinal-family-register.md` の Task Root Path Drift Register に記録。 |
@@ -3559,3 +3623,27 @@ docs-only / direction-reconciliation で採用方針 A を維持する場合で�
 | scope | `/members` UX clarity: density meaning, live filter affordance, active filter chips, result-count live region |
 | implementation targets | `apps/web/src/components/public/{DensityToggle.client,MemberFilters.client,SelectedFiltersBar.client,SelectedTagsBar.client}.tsx`, `apps/web/src/components/ui/{Segmented,Search}.tsx`, `apps/web/app/(public)/members/page.tsx`, `apps/web/src/styles/legacy-public.css` |
 | evidence | focused component tests local; visual baseline / commit / push / PR user-gated |
+
+## issue-998-members-publish-state-production-rollout
+
+| 項目 | 内容 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-998-members-publish-state-production-rollout/` |
+| status | `implemented_local_runtime_pending / implementation / VISUAL_ON_EXECUTION / Phase 13 pending_user_approval` |
+| Issue | `#998`（CLOSED。PR 文脈は `Refs #998` のみ） |
+| purpose | Google Form 回答済み会員が production `/members` に表示されない問題を、production auto-publish flag enablement と staging→production backfill/smoke runbook で解決する |
+| implementation | `apps/api/wrangler.toml` の production `MEMBERS_AUTO_PUBLISH_ON_CONSENT` を `true` に変更。auto-publish policy / sync job / diagnostics / backfill endpoint / public filter / ops scripts は既実装を再利用 |
+| evidence | Task A local regression は Phase 11 `manual-test-result.md` に記録。staging/production deploy、D1 backfill apply、`/members` browser smoke screenshot は Gate-C user-gated |
+| artifact inventory | `references/workflow-issue-998-members-publish-state-production-rollout-artifact-inventory.md` |
+| user gate | staging deploy, staging backfill apply, production backup/deploy/backfill, browser smoke, commit, push, PR |
+
+# issue-1005-members-ux-playwright-baseline-stabilization（implemented_local_evidence_captured / implementation / VISUAL / 2026-05-30）
+
+| item | value |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-1005-members-ux-playwright-baseline-stabilization/` |
+| scope | `/members` UX clarity Playwright visual baseline cold-start stabilization and completed-task evidence path drift fix |
+| implementation targets | `apps/web/playwright.config.ts`, `apps/web/playwright/tests/members-ux-clarity.spec.ts` |
+| evidence | TypeScript PASS; `/members` local warm-up 200; Playwright desktop-chromium 12 PASS; 24 PNG in `completed-tasks/members-list-ux-clarity/outputs/phase-11/screenshots`; stale active path not created |
+| user gate | commit, push, PR, staging visual baseline refresh, Issue #1005 state mutation |
+| inventory | `references/workflow-issue-1005-members-ux-playwright-baseline-stabilization-artifact-inventory.md` |

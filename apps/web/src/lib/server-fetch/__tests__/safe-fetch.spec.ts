@@ -24,6 +24,46 @@ describe("safeServerFetch", () => {
     if (!result.ok) expect(result.error.code).toBe("PUBLIC_FETCH_503");
   });
 
+  it("prefers a structured integer status field over message parsing", async () => {
+    const result = await safeServerFetch(
+      async () => {
+        throw Object.assign(new Error("opaque fetch failure"), { status: 404 });
+      },
+      { codePrefix: "ADMIN_FETCH" },
+    );
+
+    expect(result.ok).toBe(false);
+    if (!result.ok) expect(result.error.code).toBe("ADMIN_FETCH_404");
+  });
+
+  it("ignores non-integer status fields and keeps message fallback behavior", async () => {
+    const result = await safeServerFetch(
+      async () => {
+        throw Object.assign(new Error("fetchPublic failed: /public/members 503"), {
+          status: 3.14,
+        });
+      },
+      { codePrefix: "PUBLIC_FETCH" },
+    );
+
+    expect(result.ok).toBe(false);
+    if (!result.ok) expect(result.error.code).toBe("PUBLIC_FETCH_503");
+  });
+
+  it("falls back to *_FAILED when neither structured status nor message status is usable", async () => {
+    const result = await safeServerFetch(
+      async () => {
+        throw Object.assign(new Error("opaque fetch failure"), {
+          status: Number.NaN,
+        });
+      },
+      { codePrefix: "ADMIN_FETCH" },
+    );
+
+    expect(result.ok).toBe(false);
+    if (!result.ok) expect(result.error.code).toBe("ADMIN_FETCH_FAILED");
+  });
+
   it("falls back to *_FAILED for generic Error", async () => {
     const result = await safeServerFetch(
       async () => {
