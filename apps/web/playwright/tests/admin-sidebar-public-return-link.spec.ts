@@ -15,14 +15,16 @@ async function capture(page: import('@playwright/test').Page, file: string): Pro
 }
 
 async function assertImplementationContract(): Promise<void> {
+  // admin-layout-sidebar-shell-migration: 旧 AdminSidebar.tsx を撤去し SidebarShell へ統合。
+  // 公開サイト復帰リンク (#1021) は admin role 限定で SidebarShell に再実装したため source guard を移設。
   const source = await readFile(
-    join(WEB_ROOT, 'src/components/layout/AdminSidebar.tsx'),
+    join(WEB_ROOT, 'src/components/shell/SidebarShell.tsx'),
     'utf8',
   )
   expect(source).toContain('data-role="public-return"')
   expect(source).toContain('aria-label="公開サイトに戻る"')
-  expect(source).toContain('<span>公開サイトに戻る</span>')
-  expect(source).not.toContain('{ href: "/", label: "ホーム"')
+  expect(source).toContain('公開サイトに戻る')
+  expect(source).toContain('role === "admin"')
 }
 
 const fixtureHtml = String.raw`

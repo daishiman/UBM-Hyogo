@@ -1,7 +1,7 @@
 {
   "$schema": "../../../../docs/30-workflows/task-709-visual-baseline-runtime-capture/schemas/baseline-meta.schema.json",
-  "captured_at_commit_sha": "da03cada42575a2b5da9ee6122c0aec1c002c13f",
-  "captured_at": "2026-05-30T22:29:11Z",
+  "captured_at_commit_sha": "712eb23b097e1d49c7375d581718da808eb34ee8",
+  "captured_at": "2026-05-30T21:40:53Z",
   "captured_via": "playwright-visual-baseline-update.yml#workflow_dispatch",
   "captured_run_ids": [
     "26506821722",
@@ -13,7 +13,7 @@
     "26616303516",
     "26628923374",
     "26677930770",
-    "26696416766"
+    "26695366830"
   ],
   "viewport_dimensions": {
     "desktop": {
@@ -41,5 +41,5 @@
   "refresh_workflow": ".github/workflows/playwright-visual-baseline-update.yml",
   "refresh_command_hint": "gh workflow run playwright-visual-baseline-update.yml -f reason=\"<why>\" -r <feature-branch>",
   "notes": "captured_at_commit_sha からの rendering_relevant_paths diff が空でない場合、baseline は stale。scripts/visual-baseline-status.sh で診断可能。",
-  "last_refresh_reason": "issue-981 MembersTable list enrichment (occupation/ubmZone/ubmMembershipType/tags 列追加) で admin-members の tablet/mobile レンダリング幅が変化し full-visual baseline が stale 化（desktop は pass）。dev sync-merge 後も同一の機能差分由来で、機能実装どおりの新ベースラインへ更新。"
+  "last_refresh_reason": "dev #1028 で SidebarShell が 3層統一版へ昇格→admin shell を dev版へ adopt + public-return 再ポート。admin系 visual-full baseline を再生成(3回目 sync 反映)。"
 }
