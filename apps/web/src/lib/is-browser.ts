@@ -29,3 +29,11 @@ export const browserHistory = (): History | undefined =>
  */
 export const browserDocument = (): Document | undefined =>
   isBrowser() ? document : undefined;
+
+/**
+ * ブラウザ環境の `window.matchMedia` を返す。SSR / Workers では undefined。
+ */
+export const browserMatchMedia = (query: string): MediaQueryList | undefined =>
+  isBrowser() && typeof window.matchMedia === "function"
+    ? window.matchMedia(query)
+    : undefined;

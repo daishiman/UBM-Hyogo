@@ -3,6 +3,8 @@
 import type { ReactNode } from "react";
 import { SidebarBrand } from "./SidebarBrand";
 import { SidebarCollapseToggle } from "./SidebarCollapseToggle";
+import { SidebarDrawer } from "./SidebarDrawer";
+import { SidebarMobileTrigger } from "./SidebarMobileTrigger";
 import { SidebarNav } from "./SidebarNav";
 import { SidebarShellProvider } from "./SidebarShellContext";
 import type { ShellNavGroup, ShellRole } from "./shell-config";
@@ -19,7 +21,7 @@ export type SidebarShellProps = {
   user: SidebarShellUser;
   navGroups: ShellNavGroup[];
   activePath: string;
-  mobileTriggerSlot: ReactNode;
+  mobileTriggerSlot?: ReactNode;
   userMenuSlot?: ReactNode;
   children: ReactNode;
 };
@@ -62,11 +64,32 @@ export function SidebarShell({
           </footer>
         </aside>
         <div
-          data-component="shell-mobile-trigger"
-          className="md:hidden"
+          data-component="shell-mobile-trigger-strip"
+          className="fixed left-3 top-3 z-40 md:hidden"
         >
+          <SidebarMobileTrigger />
           {mobileTriggerSlot}
         </div>
+        <SidebarDrawer open={state.drawerOpen} onClose={() => state.setDrawerOpen(false)}>
+          <div className="flex items-center justify-between gap-2">
+            <SidebarBrand mode="expanded" />
+            <button
+              type="button"
+              aria-label="サイドバーを閉じる"
+              className="inline-flex h-9 w-9 items-center justify-center rounded-sm border border-[var(--ubm-color-border-default)] bg-[var(--ubm-color-surface-panel)] text-[var(--ubm-color-text-primary)] hover:bg-[var(--ubm-color-surface-bg-2)]"
+              onClick={() => state.setDrawerOpen(false)}
+            >
+              x
+            </button>
+          </div>
+          <SidebarNav navGroups={navGroups} pathname={activePath} mode="expanded" />
+          <footer
+            data-component="shell-drawer-footer"
+            className="mt-auto flex flex-col gap-2 border-t border-[var(--shell-bar-border)] pt-3"
+          >
+            {userMenuSlot ?? (user ? <DefaultUserChip user={user} mode="expanded" /> : null)}
+          </footer>
+        </SidebarDrawer>
         <main data-component="shell-main" className="flex flex-1 flex-col">
           {children}
         </main>

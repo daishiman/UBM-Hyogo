@@ -2511,6 +2511,16 @@ node scripts/list-specs.js --topics
 | Contract | L24 |
 | Evidence Boundary | L33 |
 
+### references/workflow-issue-1016-sidebar-mobile-drawer-responsive-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Summary | L3 |
+| Implementation Targets | L12 |
+| Evidence | L27 |
+| Boundaries | L38 |
+| Lessons Learned | L44 |
+
 ### references/workflow-issue-106-admin-member-notes-repository-task-spec-artifact-inventory.md
 
 | セクション | 行 |
@@ -8094,14 +8104,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L3147 |
-| フェーズ構造（概要） | L3156 |
-| 品質ゲート（概要） | L3187 |
-| 出力テンプレート | L3198 |
-| 実行時のコマンド・エージェント・スキル | L3221 |
-| 昇格パターン集 | L3245 |
-| Current Active / Spec Created Tasks | L3247 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L3409 |
+| ドキュメント構成 | L3161 |
+| フェーズ構造（概要） | L3170 |
+| 品質ゲート（概要） | L3201 |
+| 出力テンプレート | L3212 |
+| 実行時のコマンド・エージェント・スキル | L3235 |
+| 昇格パターン集 | L3259 |
+| Current Active / Spec Created Tasks | L3261 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L3423 |
 
 ### references/task-workflow-backlog-part2.md
 

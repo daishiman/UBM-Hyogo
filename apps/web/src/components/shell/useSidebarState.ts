@@ -1,7 +1,8 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
-import { isBrowser } from "@/lib/is-browser";
+import { usePathname } from "next/navigation";
+import { browserMatchMedia, isBrowser } from "@/lib/is-browser";
 
 export type SidebarStateMode = "expanded" | "collapsed";
 
@@ -19,14 +20,19 @@ function getBrowserStorage(): Storage | undefined {
 
 function readInitialCollapsed(): boolean {
   const ls = getBrowserStorage();
-  if (!ls) return false;
+  if (!ls) return isMdViewport();
   try {
     const raw = ls.getItem(STORAGE_KEY);
-    if (raw === null) return false;
+    if (raw === null) return isMdViewport();
     return JSON.parse(raw) === true;
   } catch {
-    return false;
+    return isMdViewport();
   }
+}
+
+function isMdViewport(): boolean {
+  const query = browserMatchMedia("(min-width: 768px) and (max-width: 1023.98px)");
+  return query?.matches ?? false;
 }
 
 export function useSidebarState(): {
@@ -35,12 +41,17 @@ export function useSidebarState(): {
   toggleCollapsed: () => void;
   setDrawerOpen: (open: boolean) => void;
 } {
+  const pathname = usePathname();
   const [collapsed, setCollapsed] = useState<boolean>(false);
   const [drawerOpen, setDrawerOpenState] = useState<boolean>(false);
 
   useEffect(() => {
     setCollapsed(readInitialCollapsed());
   }, []);
+
+  useEffect(() => {
+    setDrawerOpenState(false);
+  }, [pathname]);
 
   useEffect(() => {
     const ls = getBrowserStorage();

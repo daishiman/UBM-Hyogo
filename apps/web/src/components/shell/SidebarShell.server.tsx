@@ -36,7 +36,7 @@ async function safeGetSession(): Promise<SessionUser | null> {
 export type SidebarShellServerProps = {
   activePath: string;
   children: ReactNode;
-  mobileTriggerSlot: ReactNode;
+  mobileTriggerSlot?: ReactNode;
   userMenuSlot?: ReactNode;
   schemaDiffCount?: number;
 };

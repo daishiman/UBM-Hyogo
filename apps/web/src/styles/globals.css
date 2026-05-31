@@ -87,6 +87,10 @@
     -webkit-font-smoothing: antialiased;
   }
 
+  body[data-shell-drawer-open="true"] {
+    overflow: hidden;
+  }
+
   a {
     color: var(--ubm-color-accent);
     text-decoration: none;

@@ -1501,3 +1501,16 @@ source を一切触らない（実態は `MemberHeader` + `lib/auth-view` のみ
 - **SP-DEVSYNC-066-C (両側 `## Lessons Learned` は subsection 分割で union 化)**: changelog / inventory / compliance-check の `## Lessons Learned`（または `## Lessons`）節が両側に純粋追加（base = 空）された場合、`### Task A wave` + `### Task B wave` 等の subsection 分割で両保持する。base が空であることを `||||||| <SHA>` セクションで確認すれば、意味的競合ではなく純粋な semantic union と確定する。同 ID の上書きなら最終レポート対象。
 - **SP-DEVSYNC-066-D (resolver unhandled 5 件混合 shape の処理順)**: `pnpm sync:resolve` exit 1 後の手動解消は **(1) AA を grep 判定 → (2) UD を dir 存在判定 → (3) UU の見出し節を subsection 分割 → (4) UU の表 row を `;` 結合**の順が最も早い。AA/UD は即決、UU の Lessons/evidence 系のみ手作業時間を要する。typecheck で AA 解消後の自己完結性を、lint で UU 解消後の文法を即検証。
 - 参照: [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-066 / L-DEVSYNC-063 / L-DEVSYNC-064（canonical wholesale ours/theirs 反転の系列）。
+
+## L-I1016 CLOSED Issue follow-up の implementation target を spec-only close せず先行未消費 state の消費先を実装するパターン（implementation / VISUAL / 2026-05-31 issue-1016 Task E mobile drawer）
+
+`unified-sidebar-shell` の Task E（mobile drawer responsive）が `implementation / VISUAL` でありながら implementation target を列挙したまま `spec_created` で残っていた close-out を、automation-30 review で実装まで閉じた再発防止パターン。L-USS-A（親 nested sub-workflow topology）の続きとして、後続タスクが「先行タスクの未消費 state を消費先実装で閉じる」契約と VISUAL 二段階 status を汎化する。
+
+- **L-I1016-A (Implementation Target Physical Existence Gate)**: `taskType=implementation` の workflow が具体的 `apps/` target を列挙し、当該ワークツリーで実装可能なら、`spec_created` の散文 close を禁止する。実コード + focused test = Gate-B を成立させ、同一 wave で global skill 反映まで行う。spec_created 誠実性より物理存在 Gate を優先。
+- **L-I1016-B (先行未消費 state の消費先実装)**: 親タスクが state（`drawerOpen` / `setDrawerOpen`）や slot を先行実装したが消費先が無い場合、後続タスクは別 backlog を増やさず消費先（Trigger / Drawer）を実装して閉じる。着手時に親 workflow の state / prop surface を grep し未消費 `setX` / slot を scope に組み込む。
+- **L-I1016-C (client-only helper は既存 boundary に集約)**: `window.matchMedia` 等は feature component 直呼びせず既存 browser boundary module（`is-browser.ts` の `browserMatchMedia()`）に追加し、SSR / jsdom fallback を helper 側に閉じて focused test で 1 箇所網羅。Phase 3 MINOR で検出しても新 module を増やさず既存 boundary を拡張（baseline 解消）。
+- **L-I1016-D (VISUAL 二段階 status)**: VISUAL タスクは focused test で Gate-B、視覚証跡は local screenshot `present` / staging visual `pending` を分離追跡。`implemented_local_runtime_pending` を Gate-C 前の正規 state とし、local capture を「VISUAL 完了」と一括表記しない。
+- **L-I1016-E (Phase 3 MINOR の current / baseline 分離)**: unassigned-task-detection で MINOR を current（横展開未タスク）と baseline（本サイクル解消）に必須分離し、各 MINOR の解消手段を 1 行で根拠付け。解消済みを誤って current 未タスク化しない。
+- **L-I1016-F (識別子の逐語引用)**: implementation-guide Part 2 で型 / `data-*` / breakpoint / storage key / dialog id を phase-02-design から逐語引用し手書き drift を禁止（`shell-drawer` id ↔ `aria-controls` 不一致防止）。
+- **anti-pattern**: ① implementation target があるのに no-code spec close ② 未消費 state を別 backlog 化して放置 ③ feature component で `window.*` 直呼び ④ local screenshot を VISUAL 完了扱い ⑤ baseline 解消済 MINOR を current 未タスク化。
+- 参照: [[lessons-learned-issue-1016-sidebar-mobile-drawer-responsive-2026-05]] L-I1016-001..007 / [[lessons-learned-unified-sidebar-shell-task-a-2026-05]] L-USS-001..005。
