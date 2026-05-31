@@ -20,30 +20,32 @@ const ROUTES: readonly Route[] = [
   { path: '/admin', expect: { guest: 'redirect', member: 'redirect', admin: 'admin' } },
 ] as const
 
-const HEADER_LOCATOR =
-  '[data-component="public-header"], [data-testid="member-header"], [data-route-group="admin"]'
+// task-c: 公開/会員は SidebarShell（[data-shell-root] が data-auth-state を保持）、管理は
+// 専用 admin layout（[data-route-group="admin"]）。旧 PublicHeader/MemberHeader は撤去済。
+const HEADER_LOCATOR = '[data-shell-root="true"], [data-route-group="admin"]'
 const SESSION_COOKIE_NAME = 'authjs.session-token'
 const E2E_AUTH_SECRET = process.env.AUTH_SECRET ?? 'playwright-e2e-auth-secret-32-bytes'
+
+// SidebarShell は nav / user-menu を desktop aside と mobile drawer の両方へ二重 render する。
+// よって CTA リンクは viewport / popover 開閉に依らず DOM に attached（hidden のことはある）。
+// 旧 PublicHeader 由来の [data-role="*-cta"] と、shell の href / [data-action] の両方を許容する。
+const AUTH_CTA = '[data-role="auth-cta"], [data-action="login"], a[href="/login"]'
+const MEMBER_CTA = '[data-role="member-cta"], a[href="/profile"]'
+const ADMIN_CTA = '[data-role="admin-cta"], a[href="/admin"]'
 
 async function assertRender(page: Page, expected: State) {
   const header = page.locator(HEADER_LOCATOR).first()
   await expect(header).toHaveAttribute('data-auth-state', expected)
   if (expected === 'guest') {
-    await expect(page.locator('[data-role="auth-cta"]').first()).toBeVisible()
-    await expect(page.locator('[data-role="member-cta"]')).toHaveCount(0)
-    await expect(page.locator('[data-role="admin-cta"]')).toHaveCount(0)
+    await expect(page.locator(AUTH_CTA).first()).toBeAttached()
+    await expect(page.locator(MEMBER_CTA)).toHaveCount(0)
+    await expect(page.locator(ADMIN_CTA)).toHaveCount(0)
   } else if (expected === 'member') {
-    await expect(
-      page.locator('[data-role="member-cta"], a[href="/profile"]').first(),
-    ).toBeVisible()
-    await expect(page.locator('[data-role="admin-cta"]')).toHaveCount(0)
+    await expect(page.locator(MEMBER_CTA).first()).toBeAttached()
+    await expect(page.locator(ADMIN_CTA)).toHaveCount(0)
   } else {
-    await expect(
-      page.locator('[data-role="member-cta"], a[href="/profile"]').first(),
-    ).toBeVisible()
-    await expect(
-      page.locator('[data-role="admin-cta"], a[href="/admin"]').first(),
-    ).toBeVisible()
+    await expect(page.locator(MEMBER_CTA).first()).toBeAttached()
+    await expect(page.locator(ADMIN_CTA).first()).toBeAttached()
   }
 }
 

@@ -19,6 +19,7 @@
     "@ubm-hyogo/contracts": "workspace:*",
     "@ubm-hyogo/integrations-google": "workspace:*",
     "@ubm-hyogo/shared": "workspace:*",
+    "aws4fetch": "1.0.20",
     "hono": "4.12.18"
   },
   "devDependencies": {

@@ -6,6 +6,11 @@ export interface AdminRouteEnv extends AdminGateEnv, RequireAuthEnv {
   readonly DB: D1Database;
   readonly ENVIRONMENT?: "production" | "staging" | "development";
   readonly SCHEMA_ALIAS_BACKFILL_QUEUE?: Queue<unknown>;
+  // issue-983: admin-managed member photo storage（R2 bucket + presign secrets）。
+  readonly MEMBER_PHOTOS?: R2Bucket;
+  readonly R2_ACCOUNT_ID?: string;
+  readonly R2_ACCESS_KEY_ID?: string;
+  readonly R2_SECRET_ACCESS_KEY?: string;
   readonly UT07B_BACKFILL_CPU_BUDGET_MS?: string;
   readonly BACKFILL_CURSOR_MODE?: string;
   readonly SLACK_WEBHOOK_INCIDENT?: string;

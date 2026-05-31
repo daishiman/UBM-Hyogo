@@ -24,6 +24,13 @@ export const browserHistory = (): History | undefined =>
   isBrowser() ? window.history : undefined;
 
 /**
+ * ブラウザ環境の `window` を返す。SSR / Workers では undefined。
+ * Client Component から browser-only API を使う場合の正規入口。
+ */
+export const browserWindow = (): Window | undefined =>
+  isBrowser() ? window : undefined;
+
+/**
  * ブラウザ環境の `document` を返す。SSR / Workers では undefined。
  * DOM focus trap 等の Client Component から使う。
  */
@@ -31,9 +38,17 @@ export const browserDocument = (): Document | undefined =>
   isBrowser() ? document : undefined;
 
 /**
- * ブラウザ環境の `window.matchMedia` を返す。SSR / Workers では undefined。
+ * ブラウザ環境の Web Storage（`localStorage`）を返す。
+ * SSR / Workers / private mode 等で参照不可な場合は undefined。
+ *
+ * Web Storage への唯一の正規参照点とし、Client Component からはこの getter 経由で
+ * のみアクセスする（`scripts/lint-boundaries.mjs` の token allowlist 対象）。
  */
-export const browserMatchMedia = (query: string): MediaQueryList | undefined =>
-  isBrowser() && typeof window.matchMedia === "function"
-    ? window.matchMedia(query)
-    : undefined;
+export const browserLocalStorage = (): Storage | undefined => {
+  if (!isBrowser()) return undefined;
+  try {
+    return window.localStorage;
+  } catch {
+    return undefined;
+  }
+};

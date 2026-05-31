@@ -87,6 +87,9 @@
     -webkit-font-smoothing: antialiased;
   }
 
+  /* unified-sidebar-shell Task E: mobile drawer scroll lock.
+     JS の body.style.overflow 直書き（hydration mismatch の温床）を避け、
+     SidebarDrawer が付与する data 属性 + CSS の 1 系統で実現する（AC-E5 / I-E5）。 */
   body[data-shell-drawer-open="true"] {
     overflow: hidden;
   }
@@ -578,6 +581,20 @@
     font-weight: 700;
     line-height: 1;
     box-shadow: var(--ubm-shadow-sm);
+  }
+
+  /* issue-983: 写真描画時はテキスト hue 背景を隠して <img> で覆う。 */
+  .ui-avatar--photo {
+    overflow: hidden;
+    color: transparent;
+  }
+
+  .ui-avatar__photo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: inherit;
+    display: block;
   }
 
   .ui-avatar[data-size="sm"] {

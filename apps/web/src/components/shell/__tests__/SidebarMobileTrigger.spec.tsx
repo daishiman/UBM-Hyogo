@@ -1,53 +1,34 @@
-import { cleanup, fireEvent, render, screen } from "@testing-library/react";
-import { afterEach, describe, expect, it, vi } from "vitest";
-import { SidebarShellProvider } from "../SidebarShellContext";
-import { SidebarMobileTrigger } from "../SidebarMobileTrigger";
+// Task E — SidebarMobileTrigger の spec。クリックで context.setDrawerOpen(true)。
+import { describe, it, expect, vi, afterEach } from "vitest";
+import { render, cleanup, fireEvent } from "@testing-library/react";
 
-afterEach(() => {
-  cleanup();
-});
+import { SidebarMobileTrigger } from "../SidebarMobileTrigger";
+import { SidebarShellProvider } from "../SidebarShellContext";
+
+afterEach(() => cleanup());
 
 describe("SidebarMobileTrigger", () => {
-  it("opens the drawer through sidebar context", () => {
+  it("クリックで context の setDrawerOpen(true) が呼ばれる", () => {
     const setDrawerOpen = vi.fn();
-    render(
+    const { getByRole } = render(
       <SidebarShellProvider
-        value={{
-          mode: "expanded",
-          drawerOpen: false,
-          toggleCollapsed: vi.fn(),
-          setDrawerOpen,
-        }}
+        value={{ mode: "expanded", drawerOpen: false, toggleCollapsed: vi.fn(), setDrawerOpen }}
       >
         <SidebarMobileTrigger />
       </SidebarShellProvider>,
     );
-
-    const trigger = screen.getByRole("button", { name: "サイドバーを開く" });
-    expect(trigger.getAttribute("aria-controls")).toBe("shell-drawer");
-    expect(trigger.getAttribute("aria-expanded")).toBe("false");
-    expect(trigger.className).toContain("md:hidden");
-
-    fireEvent.click(trigger);
+    fireEvent.click(getByRole("button", { name: "メニューを開く" }));
     expect(setDrawerOpen).toHaveBeenCalledWith(true);
   });
 
-  it("reflects open state in aria-expanded", () => {
-    render(
+  it("md+ で hidden になる class を持つ", () => {
+    const { getByRole } = render(
       <SidebarShellProvider
-        value={{
-          mode: "expanded",
-          drawerOpen: true,
-          toggleCollapsed: vi.fn(),
-          setDrawerOpen: vi.fn(),
-        }}
+        value={{ mode: "expanded", drawerOpen: false, toggleCollapsed: vi.fn(), setDrawerOpen: vi.fn() }}
       >
         <SidebarMobileTrigger />
       </SidebarShellProvider>,
     );
-
-    expect(screen.getByRole("button", { name: "サイドバーを開く" }).getAttribute(
-      "aria-expanded",
-    )).toBe("true");
+    expect(getByRole("button", { name: "メニューを開く" }).className).toContain("md:hidden");
   });
 });

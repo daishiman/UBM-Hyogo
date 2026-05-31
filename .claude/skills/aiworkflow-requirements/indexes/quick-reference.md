@@ -15,6 +15,19 @@
 | inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1016-sidebar-mobile-drawer-responsive-artifact-inventory.md` |
 | user gate | staging visual verification, commit, push, PR |
 
+## issue-983-member-photo-avatar-r2-storage（2026-05-29）
+
+| 項目 | 内容 |
+| --- | --- |
+| workflow root | `docs/30-workflows/issue-983-member-photo-avatar-r2-storage/` |
+| status | `implemented_local_runtime_pending / implementation / VISUAL_ON_EXECUTION` |
+| purpose | admin member drawer の avatar を admin-managed R2 photo + D1 `member_photos` + presigned `photoUrl` で実写真化する |
+| storage contract | private R2 `MEMBER_PHOTOS`, object key `members/{memberId}/avatar`, presigned GET TTL 300s, max 256KB, jpeg/png/webp |
+| API contract | `POST /admin/members/:memberId/photo`, `DELETE /admin/members/:memberId/photo`, `GET /admin/members/:memberId` optional `photoUrl` fail-soft |
+| evidence boundary | Phase 11 local static screenshots captured; Phase 12 strict 7 and root/output artifacts parity are present; staging runtime remains user-gated |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-983-member-photo-avatar-r2-storage-artifact-inventory.md` |
+| user gate | R2 bucket/secrets, remote D1 migration apply, staging deploy, authenticated staging screenshots, commit, push, PR, Issue #983 mutation |
+
 ## admin-sidebar-public-return-link（2026-05-28）
 
 | 項目 | 値 |
@@ -163,6 +176,8 @@
 
 | 項目 | 値 |
 | --- | --- |
+| workflow root | `docs/30-workflows/unified-sidebar-shell-public-and-admin/` |
+| status | `implemented_local_evidence_captured / implementation / VISUAL / runtime_visual_pending` |
 | workflow root | `docs/30-workflows/completed-tasks/unified-sidebar-shell-public-and-admin/` |
 | status | `spec_created / implementation / VISUAL / implementation_pending` |
 | purpose | public / member / admin の shell を単一 collapsible `SidebarShell` primitive に統合する実装仕様 |
@@ -174,6 +189,37 @@
 | Phase 12 | strict 7 present、root/output `artifacts.json` parity present、30-method compact evidence present |
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-unified-sidebar-shell-public-and-admin-artifact-inventory.md` |
 | user gate | apps/web implementation, local visual capture, CI baseline, commit, push, PR |
+
+## admin-layout-sidebar-shell-migration（2026-05-29）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/admin-layout-sidebar-shell-migration/` |
+| status | `implemented_local_runtime_pending / implementation / VISUAL`（2026-05-29 実装完了） |
+| parent | `docs/30-workflows/unified-sidebar-shell-public-and-admin/` Task D（Task A/B/E も本 wave で実装） |
+| purpose | `apps/web/app/(admin)/layout.tsx` を `SidebarShellServer` 消費側へ移行し、旧 `AdminSidebar` ownership を削除（user 承認で Task A/B/E 一括実装・CONST_009） |
+| implemented targets | added `apps/web/src/components/shell/**`（15 component + 6 spec）, `apps/web/src/lib/admin/schema-diff-count.ts`(+spec); edited `apps/web/app/(admin)/layout.tsx`, `apps/web/app/(admin)/layout.spec.tsx`, `apps/web/src/styles/tokens.css`; deleted old `apps/web/src/components/layout/AdminSidebar*`（grep 0 hit） |
+| invariant | API / D1 / Google Form / Auth.js middleware 変更なし。admin auth guard と `/login?next=/admin` / `/login?gate=forbidden` redirect を維持 |
+| local evidence | typecheck 6/6 Done / lint OK / web Vitest 1299 passed・1 skipped / AC-2 grep 0 hit |
+| Phase 12 | strict 7 present（implemented state）、root/output `artifacts.json` parity present、30-method compact evidence present |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-layout-sidebar-shell-migration-artifact-inventory.md` |
+| user gate | staging visual capture, commit, push, PR。follow-up FU-ALSSM-001（collapse 永続化 cookie 方式・user 判断待ち） |
+| user gate | Task A/B completion, apps/web implementation, focused tests, local visual capture, commit, push, PR |
+
+## task-c-public-member-sidebar-shell-integration（2026-05-29）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/task-c-public-member-sidebar-shell-integration/` |
+| status | `spec_created / implementation / VISUAL / implementation_pending` |
+| parent | `docs/30-workflows/unified-sidebar-shell-public-and-admin/` Task C |
+| purpose | 公開 6 route と会員 `/profile` を共通 `SidebarShell` へ統合し、旧 `PublicHeader` / `MemberHeader` を削除する実装 |
+| implementation targets | `apps/web/src/components/shell/**`, `(public)/(member)` layouts, root/legal/login route group moves, profile page header removal, old header components and specs, focused specs |
+| dependency boundary | Task A/B/E shell primitives are locally implemented; Task C only mounts `SidebarShellServer` |
+| Phase 12 | strict 7 present、root/output `artifacts.json` parity present |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-task-c-public-member-sidebar-shell-integration-artifact-inventory.md` |
+| lessons | `.claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-task-c-public-member-sidebar-shell-integration-2026-05.md` |
+| user gate | pixel screenshot capture, staging visual baseline, commit, push, PR |
 
 ### Task B sub-workflow: user menu and role handling
 

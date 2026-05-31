@@ -1,93 +1,67 @@
 "use client";
 
-import { useCallback, useEffect, useId, useRef, type ReactNode } from "react";
+// Task E — モバイル用 overlay drawer。role="dialog" aria-modal。Esc / backdrop で close。
+// open 時に <body> へ data-shell-drawer-open を付与し scroll lock を CSS 側へ委ねる。
+import { useEffect, useRef, type ReactNode } from "react";
+
 import { browserDocument } from "@/lib/is-browser";
 
-export type SidebarDrawerProps = {
+export interface SidebarDrawerProps {
   readonly open: boolean;
   readonly onClose: () => void;
   readonly children: ReactNode;
-};
-
-const FOCUSABLE =
-  'a[href], button:not([disabled]), input:not([disabled]), textarea:not([disabled]), select:not([disabled]), [tabindex]:not([tabindex="-1"])';
+}
 
 export function SidebarDrawer({ open, onClose, children }: SidebarDrawerProps) {
-  const headingId = useId();
-  const dialogRef = useRef<HTMLDivElement>(null);
-  const previousFocusRef = useRef<HTMLElement | null>(null);
+  const panelRef = useRef<HTMLDivElement>(null);
 
+  // Esc で close。
   useEffect(() => {
     if (!open) return;
     const doc = browserDocument();
     if (!doc) return;
-    previousFocusRef.current =
-      doc.activeElement instanceof HTMLElement ? doc.activeElement : null;
-    doc.body.dataset.shellDrawerOpen = "true";
-    const first = dialogRef.current?.querySelector<HTMLElement>(FOCUSABLE);
-    first?.focus();
-
-    const onKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") {
-        event.stopPropagation();
-        onClose();
-      }
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") onClose();
     };
-    doc.addEventListener("keydown", onKeyDown);
-    return () => {
-      doc.removeEventListener("keydown", onKeyDown);
-      delete doc.body.dataset.shellDrawerOpen;
-      previousFocusRef.current?.focus?.();
-    };
+    doc.addEventListener("keydown", onKey);
+    return () => doc.removeEventListener("keydown", onKey);
   }, [open, onClose]);
 
-  const trapFocus = useCallback((event: React.KeyboardEvent<HTMLDivElement>) => {
-    if (event.key !== "Tab") return;
-    const node = dialogRef.current;
+  // open 中だけ body へ scroll-lock マーカーを付与。初期 focus を drawer 内へ。
+  useEffect(() => {
     const doc = browserDocument();
-    if (!node || !doc) return;
-    const focusables = Array.from(node.querySelectorAll<HTMLElement>(FOCUSABLE));
-    if (focusables.length === 0) {
-      event.preventDefault();
-      return;
+    if (!doc) return;
+    if (open) {
+      doc.body.setAttribute("data-shell-drawer-open", "true");
+      const firstLink = panelRef.current?.querySelector<HTMLElement>(
+        'a, button, [tabindex]:not([tabindex="-1"])',
+      );
+      firstLink?.focus();
+    } else {
+      doc.body.removeAttribute("data-shell-drawer-open");
     }
-    const first = focusables[0]!;
-    const last = focusables[focusables.length - 1]!;
-    if (event.shiftKey && doc.activeElement === first) {
-      event.preventDefault();
-      last.focus();
-    } else if (!event.shiftKey && doc.activeElement === last) {
-      event.preventDefault();
-      first.focus();
-    }
-  }, []);
+    return () => doc.body.removeAttribute("data-shell-drawer-open");
+  }, [open]);
 
   if (!open) return null;
 
   return (
-    <div
-      data-component="shell-drawer-backdrop"
-      className="fixed inset-0 z-50 md:hidden"
-    >
+    <div data-shell-block="drawer" className="fixed inset-0 z-40 md:hidden">
       <button
         type="button"
-        aria-label="サイドバーを閉じる"
-        className="absolute inset-0 h-full w-full bg-[var(--ubm-color-text-primary)] opacity-40"
+        data-shell-block="drawer-backdrop"
+        aria-label="メニューを閉じる"
         onClick={onClose}
+        className="absolute inset-0 h-full w-full bg-black/40"
       />
       <div
-        id="shell-drawer"
-        ref={dialogRef}
+        ref={panelRef}
         role="dialog"
         aria-modal="true"
-        aria-labelledby={headingId}
-        data-component="shell-drawer"
-        className="relative flex h-full w-[min(22rem,calc(100vw-3rem))] flex-col gap-3 border-r border-[var(--shell-bar-border)] bg-[var(--shell-bar-bg)] p-3 shadow-lg"
-        onKeyDown={trapFocus}
+        aria-label="サイドバーメニュー"
+        data-shell-block="drawer-panel"
+        className="absolute inset-y-0 left-0 flex w-[17rem] max-w-[85vw] flex-col gap-3 overflow-y-auto border-r border-[var(--shell-bar-border)] bg-[var(--shell-bar-bg)] p-3 shadow-xl"
       >
-        <h2 id={headingId} className="sr-only">
-          サイドバー
-        </h2>
         {children}
       </div>
     </div>

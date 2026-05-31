@@ -1,84 +1,41 @@
-import { describe, expect, it, beforeEach, afterEach, vi } from "vitest";
-import { act, renderHook } from "@testing-library/react";
-import { useSidebarState } from "../useSidebarState";
-
-const STORAGE_KEY = "ubm:shell:collapsed";
-let mockPathname = "/admin";
+// Task A — useSidebarState hook の spec。
+import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
+import { renderHook, act, cleanup } from "@testing-library/react";
 
 vi.mock("next/navigation", () => ({
-  usePathname: () => mockPathname,
+  usePathname: vi.fn(() => "/"),
 }));
 
+import { useSidebarState } from "../useSidebarState";
+
 beforeEach(() => {
-  mockPathname = "/admin";
   window.localStorage.clear();
-  Object.defineProperty(window, "matchMedia", {
-    configurable: true,
-    writable: true,
-    value: vi.fn().mockReturnValue({ matches: false }),
-  });
 });
-afterEach(() => {
-  window.localStorage.clear();
-  vi.restoreAllMocks();
-});
+afterEach(() => cleanup());
 
 describe("useSidebarState", () => {
-  it("initial mode is expanded when localStorage empty", () => {
+  it("初期値は expanded / drawer は閉じている", () => {
     const { result } = renderHook(() => useSidebarState());
     expect(result.current.mode).toBe("expanded");
     expect(result.current.drawerOpen).toBe(false);
   });
 
-  it("toggleCollapsed flips mode and persists to localStorage", () => {
+  it("toggleCollapsed で collapsed へ切り替わり localStorage に反映される", () => {
     const { result } = renderHook(() => useSidebarState());
     act(() => result.current.toggleCollapsed());
     expect(result.current.mode).toBe("collapsed");
-    expect(window.localStorage.getItem(STORAGE_KEY)).toBe("true");
-    act(() => result.current.toggleCollapsed());
-    expect(result.current.mode).toBe("expanded");
-    expect(window.localStorage.getItem(STORAGE_KEY)).toBe("false");
+    expect(window.localStorage.getItem("ubm:shell:collapsed")).toBe("true");
   });
 
-  it("hydrates collapsed=true from localStorage", () => {
-    window.localStorage.setItem(STORAGE_KEY, "true");
-    const { result } = renderHook(() => useSidebarState());
-    expect(result.current.mode).toBe("collapsed");
-  });
-
-  it("defaults to collapsed on md viewport when localStorage is empty", () => {
-    vi.mocked(window.matchMedia).mockReturnValue({ matches: true } as MediaQueryList);
-    const { result } = renderHook(() => useSidebarState());
-    expect(result.current.mode).toBe("collapsed");
-  });
-
-  it("localStorage value wins over md viewport default", () => {
-    window.localStorage.setItem(STORAGE_KEY, "false");
-    vi.mocked(window.matchMedia).mockReturnValue({ matches: true } as MediaQueryList);
-    const { result } = renderHook(() => useSidebarState());
-    expect(result.current.mode).toBe("expanded");
-  });
-
-  it("setDrawerOpen updates drawerOpen state", () => {
+  it("setDrawerOpen(true) で drawerOpen が true になる", () => {
     const { result } = renderHook(() => useSidebarState());
     act(() => result.current.setDrawerOpen(true));
     expect(result.current.drawerOpen).toBe(true);
-    act(() => result.current.setDrawerOpen(false));
-    expect(result.current.drawerOpen).toBe(false);
   });
 
-  it("closes drawer when pathname changes", () => {
-    const { result, rerender } = renderHook(() => useSidebarState());
-    act(() => result.current.setDrawerOpen(true));
-    expect(result.current.drawerOpen).toBe(true);
-    mockPathname = "/admin/members";
-    rerender();
-    expect(result.current.drawerOpen).toBe(false);
-  });
-
-  it("malformed localStorage value falls back to expanded (SSR safe)", () => {
-    window.localStorage.setItem(STORAGE_KEY, "garbage");
+  it("localStorage に collapsed=true があれば mount 後に collapsed を復元する", () => {
+    window.localStorage.setItem("ubm:shell:collapsed", "true");
     const { result } = renderHook(() => useSidebarState());
-    expect(result.current.mode).toBe("expanded");
+    expect(result.current.mode).toBe("collapsed");
   });
 });

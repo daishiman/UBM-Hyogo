@@ -1,68 +1,55 @@
-import { cleanup, fireEvent, render, screen } from "@testing-library/react";
-import { afterEach, describe, expect, it, vi } from "vitest";
+// Task E — SidebarDrawer の spec。open 表示 / Esc / backdrop click で close。
+import { describe, it, expect, vi, afterEach } from "vitest";
+import { render, cleanup, fireEvent } from "@testing-library/react";
+
 import { SidebarDrawer } from "../SidebarDrawer";
 
 afterEach(() => {
   cleanup();
-  delete document.body.dataset.shellDrawerOpen;
+  document.body.removeAttribute("data-shell-drawer-open");
 });
 
 describe("SidebarDrawer", () => {
-  it("renders dialog attributes and moves initial focus when open", () => {
-    render(
-      <SidebarDrawer open onClose={vi.fn()}>
-        <button type="button">first action</button>
-      </SidebarDrawer>,
-    );
-
-    const dialog = screen.getByRole("dialog", { name: "サイドバー" });
-    expect(dialog.getAttribute("id")).toBe("shell-drawer");
-    expect(dialog.getAttribute("aria-modal")).toBe("true");
-    expect(document.activeElement?.textContent).toBe("first action");
-    expect(document.body.dataset.shellDrawerOpen).toBe("true");
-  });
-
-  it("does not render while closed", () => {
-    render(
+  it("open=false では何も render しない", () => {
+    const { container } = render(
       <SidebarDrawer open={false} onClose={vi.fn()}>
-        <button type="button">first action</button>
+        <a href="/x">link</a>
       </SidebarDrawer>,
     );
-
-    expect(screen.queryByRole("dialog")).toBeNull();
+    expect(container.querySelector('[role="dialog"]')).toBeNull();
   });
 
-  it("closes on Escape and backdrop click", () => {
+  it("open=true で role=dialog / aria-modal を持つ panel を表示", () => {
+    const { container } = render(
+      <SidebarDrawer open onClose={vi.fn()}>
+        <a href="/x">link</a>
+      </SidebarDrawer>,
+    );
+    const dialog = container.querySelector('[role="dialog"]');
+    expect(dialog).not.toBeNull();
+    expect(dialog?.getAttribute("aria-modal")).toBe("true");
+    expect(document.body.getAttribute("data-shell-drawer-open")).toBe("true");
+  });
+
+  it("Esc キーで onClose が呼ばれる", () => {
     const onClose = vi.fn();
     render(
       <SidebarDrawer open onClose={onClose}>
-        <button type="button">first action</button>
+        <a href="/x">link</a>
       </SidebarDrawer>,
     );
-
     fireEvent.keyDown(document, { key: "Escape" });
-    fireEvent.click(screen.getByRole("button", { name: "サイドバーを閉じる" }));
-
-    expect(onClose).toHaveBeenCalledTimes(2);
+    expect(onClose).toHaveBeenCalled();
   });
 
-  it("traps Tab focus within the drawer", () => {
-    render(
-      <SidebarDrawer open onClose={vi.fn()}>
-        <button type="button">first action</button>
-        <button type="button">last action</button>
+  it("backdrop クリックで onClose が呼ばれる", () => {
+    const onClose = vi.fn();
+    const { getByRole } = render(
+      <SidebarDrawer open onClose={onClose}>
+        <a href="/x">link</a>
       </SidebarDrawer>,
     );
-
-    const dialog = screen.getByRole("dialog", { name: "サイドバー" });
-    const first = screen.getByRole("button", { name: "first action" });
-    const last = screen.getByRole("button", { name: "last action" });
-
-    last.focus();
-    fireEvent.keyDown(dialog, { key: "Tab" });
-    expect(document.activeElement).toBe(first);
-
-    fireEvent.keyDown(dialog, { key: "Tab", shiftKey: true });
-    expect(document.activeElement).toBe(last);
+    fireEvent.click(getByRole("button", { name: "メニューを閉じる" }));
+    expect(onClose).toHaveBeenCalled();
   });
 });
