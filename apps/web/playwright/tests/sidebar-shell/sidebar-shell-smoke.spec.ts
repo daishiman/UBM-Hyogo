@@ -14,7 +14,9 @@ test("viewer sees public-only sidebar at /", async ({ anonymousPage, mockApi }) 
   await anonymousPage.goto("/");
   await waitShellReady(anonymousPage);
   const sidebar = anonymousPage.locator('[data-shell="sidebar"]');
-  await expect(sidebar.getByRole("link", { name: "ログイン" })).toBeVisible();
+  // viewer の login は user-menu popover（<details>）内。summary を開いてから確認する。
+  await sidebar.locator('[data-shell-block="user-menu"] summary').click();
+  await expect(sidebar.locator('[data-action="login"]')).toBeVisible();
   await expect(sidebar.locator('[data-shell-block="nav-group"][data-group="members"]')).toHaveCount(0);
   await expect(sidebar.locator('[data-shell-block="nav-group"][data-group="admin"]')).toHaveCount(0);
 });
