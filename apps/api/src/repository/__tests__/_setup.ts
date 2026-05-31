@@ -67,6 +67,7 @@ const TABLES = [
   "admin_users",
   "deleted_members",
   "admin_member_notes",
+  "member_photos",
   "tag_assignment_queue",
   "member_tags",
   "tag_definitions",

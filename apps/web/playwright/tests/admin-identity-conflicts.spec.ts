@@ -9,6 +9,9 @@
 //   - merge response は `targetMemberId` 系で固定 (legacy 命名の文字列は禁止 / drift gate G1)
 //   - selector は getByRole / getByText / getByTestId 優先 (Tailwind class / 色値依存禁止)
 import { expect, test } from '../fixtures/auth'
+import { mkdirSync } from 'node:fs'
+import { join } from 'node:path'
+import type { Page } from '@playwright/test'
 import {
   MergeIdentityRequestZ,
   DismissIdentityConflictRequestZ,
@@ -17,6 +20,19 @@ import {
 const MERGE_PATTERN = '**/api/admin/identity-conflicts/*/merge'
 const DISMISS_PATTERN = '**/api/admin/identity-conflicts/*/dismiss'
 const MEMBER_DETAIL_PATTERN = '**/api/admin/members/*'
+const ISSUE_988_SCREENSHOT_DIR = process.env.PLAYWRIGHT_ISSUE988_SCREENSHOT_DIR
+
+async function captureIssue988Screenshot(
+  page: Page,
+  filename: string,
+) {
+  if (!ISSUE_988_SCREENSHOT_DIR) return
+  mkdirSync(ISSUE_988_SCREENSHOT_DIR, { recursive: true })
+  await page.screenshot({
+    path: join(ISSUE_988_SCREENSHOT_DIR, filename),
+    fullPage: true,
+  })
+}
 
 const mergeResponse = {
   mergedAt: '2026-05-09T00:00:00Z',
@@ -40,8 +56,8 @@ test.describe('/admin/identity-conflicts × mutation', () => {
     await expect(adminPage.getByText('conflict: m_src_01__m_dst_01')).toBeVisible()
     await expect(adminPage.getByText('conflict: m_src_02__m_dst_02')).toBeVisible()
 
-    await expect(adminPage.getByText('m_src_01')).toBeVisible()
-    await expect(adminPage.getByText('m_dst_01')).toBeVisible()
+    await expect(adminPage.getByText('m_src_01', { exact: true })).toBeVisible()
+    await expect(adminPage.getByText('m_dst_01', { exact: true })).toBeVisible()
     await expect(adminPage.getByText('t***@example.com')).toBeVisible()
     await expect(adminPage.getByText('h***@example.com')).toBeVisible()
     await expect(adminPage.getByText(/name, affiliation/)).toBeVisible()
@@ -102,6 +118,66 @@ test.describe('/admin/identity-conflicts × mutation', () => {
     expect(actualKeys).not.toContain('memberId')
     // 二段階確認を経ない経路 (確認 1/2 を skip した直接 POST) は 1 回のみ
     expect(postCalls).toBe(1)
+  })
+
+  test('成功系: merge 実行直後に対象 row を optimistic に非表示にする', async ({
+    adminPage,
+  }) => {
+    let postCalls = 0
+    await adminPage.route(MERGE_PATTERN, async (route) => {
+      if (route.request().method() !== 'POST') return route.fallback()
+      postCalls += 1
+      await new Promise((resolve) => setTimeout(resolve, 500))
+      return route.fulfill({
+        status: 200,
+        contentType: 'application/json',
+        body: JSON.stringify(mergeResponse),
+      })
+    })
+
+    await adminPage.goto('/admin/identity-conflicts')
+    const row = adminPage
+      .getByText('conflict: m_src_01__m_dst_01')
+      .locator('xpath=ancestor::li[1]')
+    await row.getByRole('button', { name: 'merge' }).click()
+    await row.getByRole('button', { name: '次へ' }).click()
+    await row.getByRole('textbox', { name: /merge 理由/ }).fill('本人確認済')
+    await captureIssue988Screenshot(adminPage, 'identity-conflict-row-merge-final.png')
+    await row.getByRole('button', { name: 'merge 実行' }).click()
+
+    await expect(row).toHaveCount(0)
+    await captureIssue988Screenshot(
+      adminPage,
+      'identity-conflict-row-optimistic-removed.png',
+    )
+    await expect.poll(() => postCalls).toBeGreaterThanOrEqual(1)
+  })
+
+  test('失敗系: merge error 時は optimistic 非表示を rollback する', async ({
+    adminPage,
+  }) => {
+    await adminPage.route(MERGE_PATTERN, async (route) => {
+      if (route.request().method() !== 'POST') return route.fallback()
+      return route.fulfill({
+        status: 409,
+        contentType: 'application/json',
+        body: JSON.stringify({ message: 'すでに統合済みです' }),
+      })
+    })
+
+    await adminPage.goto('/admin/identity-conflicts')
+    const row = adminPage
+      .getByText('conflict: m_src_01__m_dst_01')
+      .locator('xpath=ancestor::li[1]')
+    await row.getByRole('button', { name: 'merge' }).click()
+    await row.getByRole('button', { name: '次へ' }).click()
+    await row.getByRole('textbox', { name: /merge 理由/ }).fill('本人確認済')
+    await row.getByRole('button', { name: 'merge 実行' }).click()
+
+    await expect(adminPage.getByText('conflict: m_src_01__m_dst_01')).toBeVisible()
+    await expect(row.getByRole('textbox', { name: /merge 理由/ })).toHaveValue('本人確認済')
+    await expect(row.getByRole('alert')).toContainText('すでに統合済みです')
+    await captureIssue988Screenshot(adminPage, 'identity-conflict-row-rollback-error.png')
   })
 
   test('成功系: dismiss', async ({ adminPage }) => {
@@ -178,11 +254,11 @@ test.describe('/admin/identity-conflicts × mutation', () => {
 })
 
 test.describe('/admin/identity-conflicts × authz', () => {
-  test('認可: member は /login redirect (admin 専用要素は不可視)', async ({
+  test('認可: member は 403 (admin 専用要素は不可視)', async ({
     memberPage,
   }) => {
-    await memberPage.goto('/admin/identity-conflicts').catch(() => {})
-    await expect(memberPage).toHaveURL(/\/login/)
+    const response = await memberPage.goto('/admin/identity-conflicts').catch(() => null)
+    expect(response?.status()).toBe(403)
     await expect(
       memberPage.getByRole('heading', { name: /Identity 重複候補/ }),
     ).toHaveCount(0)

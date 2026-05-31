@@ -6,13 +6,27 @@ import type {
   MergeIdentityResponse,
 } from "@ubm-hyogo/shared";
 import { useAdminMutation } from "../../features/admin/hooks";
+import { FetchAuthedError } from "../../lib/fetch/errors";
 import { Badge } from "../ui/Badge";
 import { Button } from "../ui/Button";
 import { Textarea } from "../ui/Textarea";
 
+const errorMessage = (error: Error | null): string | null => {
+  if (!error) return null;
+  if (!(error instanceof FetchAuthedError)) return error.message;
+  if (!error.bodyText) return error.message;
+  try {
+    const body = JSON.parse(error.bodyText) as { message?: string; error?: string };
+    return body.message ?? body.error ?? error.message;
+  } catch {
+    return error.bodyText;
+  }
+};
+
 export function IdentityConflictRow({ item }: { item: Row }) {
   const formId = useId();
   const [stage, setStage] = useState<"idle" | "merge-confirm" | "merge-final" | "dismiss">("idle");
+  const [optimisticMerged, setOptimisticMerged] = useState(false);
   const [mergeReason, setMergeReason] = useState("");
   const [dismissReason, setDismissReason] = useState("");
   const mergeReasonId = `${formId}-merge-reason`;
@@ -44,16 +58,18 @@ export function IdentityConflictRow({ item }: { item: Row }) {
     },
   );
 
-  const mergeError = mergeMutation.error?.message ?? null;
-  const dismissError = dismissMutation.error?.message ?? null;
+  const mergeError = errorMessage(mergeMutation.error);
+  const dismissError = errorMessage(dismissMutation.error);
 
   const onMerge = () => {
+    setOptimisticMerged(true);
     void mergeMutation
       .trigger({
         targetMemberId: item.candidateTargetMemberId,
         reason: mergeReason.trim(),
       })
       .catch(() => {
+        setOptimisticMerged(false);
         // error は mergeMutation.error / toast 経由で surface。modal は閉じず、reason を保持する。
       });
   };
@@ -72,6 +88,8 @@ export function IdentityConflictRow({ item }: { item: Row }) {
     setStage("idle");
     setDismissReason("");
   };
+
+  if (optimisticMerged) return null;
 
   return (
     <div className="flex flex-col gap-3 rounded border border-[var(--ubm-color-border-default)] bg-[var(--ubm-color-surface-panel)] p-4">

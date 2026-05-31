@@ -1,0 +1,30 @@
+{
+  "taskId": "issue-988-identity-conflicts-merge-optimistic-update",
+  "mode": "VISUAL_ON_EXECUTION",
+  "status": "local_visual_evidence_captured",
+  "route": "/admin/identity-conflicts",
+  "targetComponent": "apps/web/src/components/admin/IdentityConflictRow.tsx",
+  "captureGated": "captured locally via Playwright on 2026-05-30",
+  "screenshotDir": "outputs/phase-11/screenshots",
+  "naming": "<component>-<state>.png",
+  "screenshots": [
+    {
+      "file": "identity-conflict-row-merge-final.png",
+      "state": "merge 確認2/2 ダイアログ表示（merge 理由 textarea +「merge 実行」ボタン）",
+      "tc": "TC-VIS-01",
+      "ac": ["AC-1"]
+    },
+    {
+      "file": "identity-conflict-row-optimistic-removed.png",
+      "state": "「merge 実行」click 直後、server 応答前に該当 row が一覧から消えた状態（optimistic update）",
+      "tc": "TC-VIS-02",
+      "ac": ["AC-2"]
+    },
+    {
+      "file": "identity-conflict-row-rollback-error.png",
+      "state": "server error で row が復元し、inline error（role=alert）が表示された状態（rollback）",
+      "tc": "TC-VIS-03",
+      "ac": ["AC-5", "AC-6"]
+    }
+  ]
+}
