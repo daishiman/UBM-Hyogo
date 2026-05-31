@@ -13,6 +13,7 @@ async function renderHarness(page: Page, options: { mobile?: boolean; focused?: 
     <!doctype html>
     <html lang="ja">
       <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
         <style>
           :root {
             --ubm-space-2: 8px;
