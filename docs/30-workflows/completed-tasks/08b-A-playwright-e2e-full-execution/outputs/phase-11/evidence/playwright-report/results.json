@@ -1,7 +1,7 @@
 {
   "config": {
-    "configFile": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260528-164149-wt-17/apps/web/playwright.config.ts",
-    "rootDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260528-164149-wt-17/apps/web/playwright/tests",
+    "configFile": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260529-125308-wt-10/apps/web/playwright.config.ts",
+    "rootDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260529-125308-wt-10/apps/web/playwright/tests",
     "forbidOnly": false,
     "fullyParallel": true,
     "globalSetup": null,
@@ -10,29 +10,23 @@
     "grep": {},
     "grepInvert": null,
     "maxFailures": 0,
-    "metadata": {
-      "actualWorkers": 1
-    },
+    "metadata": {},
     "preserveOutput": "always",
     "projects": [
       {
-        "outputDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260528-164149-wt-17/docs/30-workflows/completed-tasks/08b-A-playwright-e2e-full-execution/outputs/phase-11/evidence/test-results",
+        "outputDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260529-125308-wt-10/docs/30-workflows/completed-tasks/08b-A-playwright-e2e-full-execution/outputs/phase-11/evidence/test-results",
         "repeatEach": 1,
         "retries": 0,
-        "metadata": {
-          "actualWorkers": 1
-        },
+        "metadata": {},
         "id": "desktop-chromium",
         "name": "desktop-chromium",
-        "testDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260528-164149-wt-17/apps/web/playwright/tests",
+        "testDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260529-125308-wt-10/apps/web/playwright/tests",
         "testIgnore": [
           "/visual\\/.*\\.spec\\.ts$/",
           "/visual-staging\\/.*\\.spec\\.ts$/",
           "/visual-staging-authenticated\\/.*\\.(spec|ts)$/",
           "/visual-full\\/.*\\.spec\\.ts$/",
           "/full-smoke\\.spec\\.ts$/",
-          "/setup-auth\\.spec\\.ts$/",
-          "/auth-slot-coverage\\.spec\\.ts$/",
           "**/admin-identity-conflicts.spec.ts",
           "**/admin-requests.spec.ts",
           "**/admin-schema-conflicts-audit.spec.ts",
@@ -45,15 +39,13 @@
         "timeout": 60000
       },
       {
-        "outputDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260528-164149-wt-17/docs/30-workflows/completed-tasks/08b-A-playwright-e2e-full-execution/outputs/phase-11/evidence/test-results",
+        "outputDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260529-125308-wt-10/docs/30-workflows/completed-tasks/08b-A-playwright-e2e-full-execution/outputs/phase-11/evidence/test-results",
         "repeatEach": 1,
         "retries": 0,
-        "metadata": {
-          "actualWorkers": 1
-        },
+        "metadata": {},
         "id": "smoke-chromium",
         "name": "smoke-chromium",
-        "testDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260528-164149-wt-17/apps/web/playwright/tests",
+        "testDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260529-125308-wt-10/apps/web/playwright/tests",
         "testIgnore": [
           "**/admin-identity-conflicts.spec.ts",
           "**/admin-requests.spec.ts",
@@ -67,15 +59,13 @@
         "timeout": 60000
       },
       {
-        "outputDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260528-164149-wt-17/docs/30-workflows/completed-tasks/08b-A-playwright-e2e-full-execution/outputs/phase-11/evidence/test-results",
+        "outputDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260529-125308-wt-10/docs/30-workflows/completed-tasks/08b-A-playwright-e2e-full-execution/outputs/phase-11/evidence/test-results",
         "repeatEach": 1,
         "retries": 0,
-        "metadata": {
-          "actualWorkers": 1
-        },
+        "metadata": {},
         "id": "visual-chromium",
         "name": "visual-chromium",
-        "testDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260528-164149-wt-17/apps/web/playwright/tests",
+        "testDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260529-125308-wt-10/apps/web/playwright/tests",
         "testIgnore": [
           "/visual\\/admin-shell\\/.*\\.spec\\.ts$/"
         ],
@@ -85,67 +75,19 @@
         "timeout": 60000
       },
       {
-        "outputDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260528-164149-wt-17/docs/30-workflows/completed-tasks/08b-A-playwright-e2e-full-execution/outputs/phase-11/evidence/test-results",
+        "outputDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260529-125308-wt-10/docs/30-workflows/completed-tasks/08b-A-playwright-e2e-full-execution/outputs/phase-11/evidence/test-results",
         "repeatEach": 1,
         "retries": 0,
-        "metadata": {
-          "actualWorkers": 1
-        },
-        "id": "setup-auth",
-        "name": "setup-auth",
-        "testDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260528-164149-wt-17/apps/web/playwright/tests",
-        "testIgnore": [
-          "**/admin-identity-conflicts.spec.ts",
-          "**/admin-requests.spec.ts",
-          "**/admin-schema-conflicts-audit.spec.ts",
-          "**/admin-member-delete.spec.ts",
-          "**/issue776-schema-bulk-resolve.spec.ts"
-        ],
-        "testMatch": [
-          "/setup-auth\\.spec\\.ts$/"
-        ],
-        "timeout": 60000
-      },
-      {
-        "outputDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260528-164149-wt-17/docs/30-workflows/completed-tasks/08b-A-playwright-e2e-full-execution/outputs/phase-11/evidence/test-results",
-        "repeatEach": 1,
-        "retries": 0,
-        "metadata": {
-          "actualWorkers": 1
-        },
-        "id": "auth-slot-coverage",
-        "name": "auth-slot-coverage",
-        "testDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260528-164149-wt-17/apps/web/playwright/tests",
-        "testIgnore": [
-          "**/admin-identity-conflicts.spec.ts",
-          "**/admin-requests.spec.ts",
-          "**/admin-schema-conflicts-audit.spec.ts",
-          "**/admin-member-delete.spec.ts",
-          "**/issue776-schema-bulk-resolve.spec.ts"
-        ],
-        "testMatch": [
-          "/auth-slot-coverage\\.spec\\.ts$/"
-        ],
-        "timeout": 60000
-      },
-      {
-        "outputDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260528-164149-wt-17/docs/30-workflows/completed-tasks/08b-A-playwright-e2e-full-execution/outputs/phase-11/evidence/test-results",
-        "repeatEach": 1,
-        "retries": 0,
-        "metadata": {
-          "actualWorkers": 1
-        },
+        "metadata": {},
         "id": "desktop-firefox",
         "name": "desktop-firefox",
-        "testDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260528-164149-wt-17/apps/web/playwright/tests",
+        "testDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260529-125308-wt-10/apps/web/playwright/tests",
         "testIgnore": [
           "/visual\\/.*\\.spec\\.ts$/",
           "/visual-staging\\/.*\\.spec\\.ts$/",
           "/visual-staging-authenticated\\/.*\\.(spec|ts)$/",
           "/visual-full\\/.*\\.spec\\.ts$/",
           "/full-smoke\\.spec\\.ts$/",
-          "/setup-auth\\.spec\\.ts$/",
-          "/auth-slot-coverage\\.spec\\.ts$/",
           "**/admin-identity-conflicts.spec.ts",
           "**/admin-requests.spec.ts",
           "**/admin-schema-conflicts-audit.spec.ts",
@@ -158,15 +100,13 @@
         "timeout": 60000
       },
       {
-        "outputDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260528-164149-wt-17/docs/30-workflows/completed-tasks/08b-A-playwright-e2e-full-execution/outputs/phase-11/evidence/test-results",
+        "outputDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260529-125308-wt-10/docs/30-workflows/completed-tasks/08b-A-playwright-e2e-full-execution/outputs/phase-11/evidence/test-results",
         "repeatEach": 1,
         "retries": 0,
-        "metadata": {
-          "actualWorkers": 1
-        },
+        "metadata": {},
         "id": "mobile-webkit",
         "name": "mobile-webkit",
-        "testDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260528-164149-wt-17/apps/web/playwright/tests",
+        "testDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260529-125308-wt-10/apps/web/playwright/tests",
         "testIgnore": [
           "/visual\\/.*\\.spec\\.ts$/",
           "/visual-staging\\/.*\\.spec\\.ts$/",
@@ -176,8 +116,6 @@
           "/admin-pages\\.spec\\.ts$/",
           "/admin-tags-resolve-drawer\\.spec\\.ts$/",
           "/task15-admin-screenshots\\.spec\\.ts$/",
-          "/setup-auth\\.spec\\.ts$/",
-          "/auth-slot-coverage\\.spec\\.ts$/",
           "**/admin-identity-conflicts.spec.ts",
           "**/admin-requests.spec.ts",
           "**/admin-schema-conflicts-audit.spec.ts",
@@ -190,15 +128,13 @@
         "timeout": 60000
       },
       {
-        "outputDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260528-164149-wt-17/docs/30-workflows/completed-tasks/08b-A-playwright-e2e-full-execution/outputs/phase-11/evidence/test-results",
+        "outputDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260529-125308-wt-10/docs/30-workflows/completed-tasks/08b-A-playwright-e2e-full-execution/outputs/phase-11/evidence/test-results",
         "repeatEach": 1,
         "retries": 0,
-        "metadata": {
-          "actualWorkers": 1
-        },
+        "metadata": {},
         "id": "visual-full-chromium-desktop",
         "name": "visual-full-chromium-desktop",
-        "testDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260528-164149-wt-17/apps/web/playwright/tests/visual-full",
+        "testDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260529-125308-wt-10/apps/web/playwright/tests/visual-full",
         "testIgnore": [
           "**/admin-identity-conflicts.spec.ts",
           "**/admin-requests.spec.ts",
@@ -212,15 +148,13 @@
         "timeout": 60000
       },
       {
-        "outputDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260528-164149-wt-17/docs/30-workflows/completed-tasks/08b-A-playwright-e2e-full-execution/outputs/phase-11/evidence/test-results",
+        "outputDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260529-125308-wt-10/docs/30-workflows/completed-tasks/08b-A-playwright-e2e-full-execution/outputs/phase-11/evidence/test-results",
         "repeatEach": 1,
         "retries": 0,
-        "metadata": {
-          "actualWorkers": 1
-        },
+        "metadata": {},
         "id": "visual-full-chromium-tablet",
         "name": "visual-full-chromium-tablet",
-        "testDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260528-164149-wt-17/apps/web/playwright/tests/visual-full",
+        "testDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260529-125308-wt-10/apps/web/playwright/tests/visual-full",
         "testIgnore": [
           "**/admin-identity-conflicts.spec.ts",
           "**/admin-requests.spec.ts",
@@ -234,15 +168,13 @@
         "timeout": 60000
       },
       {
-        "outputDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260528-164149-wt-17/docs/30-workflows/completed-tasks/08b-A-playwright-e2e-full-execution/outputs/phase-11/evidence/test-results",
+        "outputDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260529-125308-wt-10/docs/30-workflows/completed-tasks/08b-A-playwright-e2e-full-execution/outputs/phase-11/evidence/test-results",
         "repeatEach": 1,
         "retries": 0,
-        "metadata": {
-          "actualWorkers": 1
-        },
+        "metadata": {},
         "id": "visual-full-chromium-mobile",
         "name": "visual-full-chromium-mobile",
-        "testDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260528-164149-wt-17/apps/web/playwright/tests/visual-full",
+        "testDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260529-125308-wt-10/apps/web/playwright/tests/visual-full",
         "testIgnore": [
           "**/admin-identity-conflicts.spec.ts",
           "**/admin-requests.spec.ts",
@@ -256,22 +188,18 @@
         "timeout": 60000
       },
       {
-        "outputDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260528-164149-wt-17/docs/30-workflows/completed-tasks/08b-A-playwright-e2e-full-execution/outputs/phase-11/evidence/test-results",
+        "outputDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260529-125308-wt-10/docs/30-workflows/completed-tasks/08b-A-playwright-e2e-full-execution/outputs/phase-11/evidence/test-results",
         "repeatEach": 1,
         "retries": 0,
-        "metadata": {
-          "actualWorkers": 1
-        },
+        "metadata": {},
         "id": "staging",
         "name": "staging",
-        "testDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260528-164149-wt-17/apps/web/playwright/tests",
+        "testDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260529-125308-wt-10/apps/web/playwright/tests",
         "testIgnore": [
           "/visual\\/.*\\.spec\\.ts$/",
           "/visual-staging\\/.*\\.spec\\.ts$/",
           "/visual-full\\/.*\\.spec\\.ts$/",
           "/full-smoke\\.spec\\.ts$/",
-          "/setup-auth\\.spec\\.ts$/",
-          "/auth-slot-coverage\\.spec\\.ts$/",
           "**/admin-identity-conflicts.spec.ts",
           "**/admin-requests.spec.ts",
           "**/admin-schema-conflicts-audit.spec.ts",
@@ -284,15 +212,13 @@
         "timeout": 60000
       },
       {
-        "outputDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260528-164149-wt-17/docs/30-workflows/completed-tasks/08b-A-playwright-e2e-full-execution/outputs/phase-11/evidence/test-results",
+        "outputDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260529-125308-wt-10/docs/30-workflows/completed-tasks/08b-A-playwright-e2e-full-execution/outputs/phase-11/evidence/test-results",
         "repeatEach": 1,
         "retries": 2,
-        "metadata": {
-          "actualWorkers": 1
-        },
+        "metadata": {},
         "id": "staging-visual",
         "name": "staging-visual",
-        "testDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260528-164149-wt-17/apps/web/playwright/tests/visual-staging",
+        "testDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260529-125308-wt-10/apps/web/playwright/tests/visual-staging",
         "testIgnore": [
           "**/admin-identity-conflicts.spec.ts",
           "**/admin-requests.spec.ts",
@@ -306,15 +232,13 @@
         "timeout": 60000
       },
       {
-        "outputDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260528-164149-wt-17/docs/30-workflows/completed-tasks/08b-A-playwright-e2e-full-execution/outputs/phase-11/evidence/test-results",
+        "outputDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260529-125308-wt-10/docs/30-workflows/completed-tasks/08b-A-playwright-e2e-full-execution/outputs/phase-11/evidence/test-results",
         "repeatEach": 1,
         "retries": 0,
-        "metadata": {
-          "actualWorkers": 1
-        },
+        "metadata": {},
         "id": "setup-authenticated-staging",
         "name": "setup-authenticated-staging",
-        "testDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260528-164149-wt-17/apps/web/playwright/tests/visual-staging-authenticated",
+        "testDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260529-125308-wt-10/apps/web/playwright/tests/visual-staging-authenticated",
         "testIgnore": [
           "**/admin-identity-conflicts.spec.ts",
           "**/admin-requests.spec.ts",
@@ -328,15 +252,13 @@
         "timeout": 60000
       },
       {
-        "outputDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260528-164149-wt-17/docs/30-workflows/completed-tasks/08b-A-playwright-e2e-full-execution/outputs/phase-11/evidence/test-results",
+        "outputDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260529-125308-wt-10/docs/30-workflows/completed-tasks/08b-A-playwright-e2e-full-execution/outputs/phase-11/evidence/test-results",
         "repeatEach": 1,
         "retries": 2,
-        "metadata": {
-          "actualWorkers": 1
-        },
+        "metadata": {},
         "id": "staging-visual-authenticated",
         "name": "staging-visual-authenticated",
-        "testDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260528-164149-wt-17/apps/web/playwright/tests/visual-staging-authenticated",
+        "testDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260529-125308-wt-10/apps/web/playwright/tests/visual-staging-authenticated",
         "testIgnore": [
           "/setup\\.staging-auth\\.ts$/",
           "/teardown\\.staging-auth\\.ts$/"
@@ -347,15 +269,13 @@
         "timeout": 60000
       },
       {
-        "outputDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260528-164149-wt-17/docs/30-workflows/completed-tasks/08b-A-playwright-e2e-full-execution/outputs/phase-11/evidence/test-results",
+        "outputDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260529-125308-wt-10/docs/30-workflows/completed-tasks/08b-A-playwright-e2e-full-execution/outputs/phase-11/evidence/test-results",
         "repeatEach": 1,
         "retries": 0,
-        "metadata": {
-          "actualWorkers": 1
-        },
+        "metadata": {},
         "id": "teardown-authenticated-staging",
         "name": "teardown-authenticated-staging",
-        "testDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260528-164149-wt-17/apps/web/playwright/tests/visual-staging-authenticated",
+        "testDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260529-125308-wt-10/apps/web/playwright/tests/visual-staging-authenticated",
         "testIgnore": [
           "**/admin-identity-conflicts.spec.ts",
           "**/admin-requests.spec.ts",
@@ -369,15 +289,13 @@
         "timeout": 60000
       },
       {
-        "outputDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260528-164149-wt-17/docs/30-workflows/completed-tasks/08b-A-playwright-e2e-full-execution/outputs/phase-11/evidence/test-results",
+        "outputDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260529-125308-wt-10/docs/30-workflows/completed-tasks/08b-A-playwright-e2e-full-execution/outputs/phase-11/evidence/test-results",
         "repeatEach": 1,
         "retries": 2,
-        "metadata": {
-          "actualWorkers": 1
-        },
+        "metadata": {},
         "id": "admin-staging-visual-mobile",
         "name": "admin-staging-visual-mobile",
-        "testDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260528-164149-wt-17/apps/web/playwright/tests/visual/admin-shell",
+        "testDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260529-125308-wt-10/apps/web/playwright/tests/visual/admin-shell",
         "testIgnore": [
           "**/admin-identity-conflicts.spec.ts",
           "**/admin-requests.spec.ts",
@@ -391,15 +309,13 @@
         "timeout": 60000
       },
       {
-        "outputDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260528-164149-wt-17/docs/30-workflows/completed-tasks/08b-A-playwright-e2e-full-execution/outputs/phase-11/evidence/test-results",
+        "outputDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260529-125308-wt-10/docs/30-workflows/completed-tasks/08b-A-playwright-e2e-full-execution/outputs/phase-11/evidence/test-results",
         "repeatEach": 1,
         "retries": 2,
-        "metadata": {
-          "actualWorkers": 1
-        },
+        "metadata": {},
         "id": "admin-staging-visual-tablet",
         "name": "admin-staging-visual-tablet",
-        "testDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260528-164149-wt-17/apps/web/playwright/tests/visual/admin-shell",
+        "testDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260529-125308-wt-10/apps/web/playwright/tests/visual/admin-shell",
         "testIgnore": [
           "**/admin-identity-conflicts.spec.ts",
           "**/admin-requests.spec.ts",
@@ -413,15 +329,13 @@
         "timeout": 60000
       },
       {
-        "outputDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260528-164149-wt-17/docs/30-workflows/completed-tasks/08b-A-playwright-e2e-full-execution/outputs/phase-11/evidence/test-results",
+        "outputDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260529-125308-wt-10/docs/30-workflows/completed-tasks/08b-A-playwright-e2e-full-execution/outputs/phase-11/evidence/test-results",
         "repeatEach": 1,
         "retries": 2,
-        "metadata": {
-          "actualWorkers": 1
-        },
+        "metadata": {},
         "id": "admin-staging-visual-desktop",
         "name": "admin-staging-visual-desktop",
-        "testDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260528-164149-wt-17/apps/web/playwright/tests/visual/admin-shell",
+        "testDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260529-125308-wt-10/apps/web/playwright/tests/visual/admin-shell",
         "testIgnore": [
           "**/admin-identity-conflicts.spec.ts",
           "**/admin-requests.spec.ts",
@@ -435,15 +349,13 @@
         "timeout": 60000
       },
       {
-        "outputDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260528-164149-wt-17/docs/30-workflows/completed-tasks/08b-A-playwright-e2e-full-execution/outputs/phase-11/evidence/test-results",
+        "outputDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260529-125308-wt-10/docs/30-workflows/completed-tasks/08b-A-playwright-e2e-full-execution/outputs/phase-11/evidence/test-results",
         "repeatEach": 1,
         "retries": 2,
-        "metadata": {
-          "actualWorkers": 1
-        },
+        "metadata": {},
         "id": "admin-staging-visual-wide",
         "name": "admin-staging-visual-wide",
-        "testDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260528-164149-wt-17/apps/web/playwright/tests/visual/admin-shell",
+        "testDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260529-125308-wt-10/apps/web/playwright/tests/visual/admin-shell",
         "testIgnore": [
           "**/admin-identity-conflicts.spec.ts",
           "**/admin-requests.spec.ts",
@@ -457,15 +369,13 @@
         "timeout": 60000
       },
       {
-        "outputDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260528-164149-wt-17/docs/30-workflows/completed-tasks/08b-A-playwright-e2e-full-execution/outputs/phase-11/evidence/test-results",
+        "outputDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260529-125308-wt-10/docs/30-workflows/completed-tasks/08b-A-playwright-e2e-full-execution/outputs/phase-11/evidence/test-results",
         "repeatEach": 1,
         "retries": 2,
-        "metadata": {
-          "actualWorkers": 1
-        },
+        "metadata": {},
         "id": "staging-smoke",
         "name": "staging-smoke",
-        "testDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260528-164149-wt-17/apps/web/tests/e2e",
+        "testDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260529-125308-wt-10/apps/web/tests/e2e",
         "testIgnore": [
           "**/admin-identity-conflicts.spec.ts",
           "**/admin-requests.spec.ts",
@@ -499,12 +409,12 @@
         null
       ],
       [
-        "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260528-164149-wt-17/node_modules/monocart-reporter/lib/index.js",
+        "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260529-125308-wt-10/node_modules/monocart-reporter/lib/index.js",
         {
           "name": "UBM-Hyogo E2E",
           "outputFile": "../../docs/30-workflows/completed-tasks/08b-A-playwright-e2e-full-execution/outputs/phase-11/evidence/monocart/index.html",
           "coverage": {
-            "outputDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260528-164149-wt-17/apps/web/coverage",
+            "outputDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260529-125308-wt-10/apps/web/coverage",
             "reports": [
               [
                 "v8",
@@ -538,13 +448,13 @@
   },
   "suites": [
     {
-      "title": "setup-auth.spec.ts",
-      "file": "setup-auth.spec.ts",
+      "title": "visual-staging-authenticated/teardown.staging-auth.ts",
+      "file": "visual-staging-authenticated/teardown.staging-auth.ts",
       "column": 0,
       "line": 0,
       "specs": [
         {
-          "title": "guest storageState",
+          "title": "remove storageState",
           "ok": true,
           "tags": [],
           "tests": [
@@ -552,1041 +462,202 @@
               "timeout": 60000,
               "annotations": [],
               "expectedStatus": "passed",
-              "projectId": "setup-auth",
-              "projectName": "setup-auth",
-              "results": [
-                {
-                  "workerIndex": 0,
-                  "parallelIndex": 0,
-                  "status": "passed",
-                  "duration": 61,
-                  "errors": [],
-                  "stdout": [],
-                  "stderr": [],
-                  "retry": 0,
-                  "startTime": "2026-05-28T22:27:58.505Z",
-                  "annotations": [],
-                  "attachments": []
-                }
-              ],
-              "status": "expected"
+              "projectId": "teardown-authenticated-staging",
+              "projectName": "teardown-authenticated-staging",
+              "results": [],
+              "status": "skipped"
             }
           ],
-          "id": "c6bc1bea345c1a3d8dbc-4cd12b344b2af35d2624",
-          "file": "setup-auth.spec.ts",
-          "line": 4,
-          "column": 1
-        },
-        {
-          "title": "member storageState",
-          "ok": true,
-          "tags": [],
-          "tests": [
-            {
-              "timeout": 60000,
-              "annotations": [],
-              "expectedStatus": "passed",
-              "projectId": "setup-auth",
-              "projectName": "setup-auth",
-              "results": [
-                {
-                  "workerIndex": 0,
-                  "parallelIndex": 0,
-                  "status": "passed",
-                  "duration": 26,
-                  "errors": [],
-                  "stdout": [],
-                  "stderr": [],
-                  "retry": 0,
-                  "startTime": "2026-05-28T22:27:58.954Z",
-                  "annotations": [],
-                  "attachments": []
-                }
-              ],
-              "status": "expected"
-            }
-          ],
-          "id": "c6bc1bea345c1a3d8dbc-00f7a49d2a9c2c256e7f",
-          "file": "setup-auth.spec.ts",
-          "line": 9,
-          "column": 1
-        },
-        {
-          "title": "admin storageState",
-          "ok": true,
-          "tags": [],
-          "tests": [
-            {
-              "timeout": 60000,
-              "annotations": [],
-              "expectedStatus": "passed",
-              "projectId": "setup-auth",
-              "projectName": "setup-auth",
-              "results": [
-                {
-                  "workerIndex": 0,
-                  "parallelIndex": 0,
-                  "status": "passed",
-                  "duration": 8,
-                  "errors": [],
-                  "stdout": [],
-                  "stderr": [],
-                  "retry": 0,
-                  "startTime": "2026-05-28T22:27:58.992Z",
-                  "annotations": [],
-                  "attachments": []
-                }
-              ],
-              "status": "expected"
-            }
-          ],
-          "id": "c6bc1bea345c1a3d8dbc-0d712a99854527f4718b",
-          "file": "setup-auth.spec.ts",
-          "line": 14,
+          "id": "14c2f8c54d5856e38a44-c009d074fe6487b64e4f",
+          "file": "visual-staging-authenticated/teardown.staging-auth.ts",
+          "line": 12,
           "column": 1
         }
       ]
     },
     {
-      "title": "auth-slot-coverage.spec.ts",
-      "file": "auth-slot-coverage.spec.ts",
+      "title": "visual-staging-authenticated/setup.staging-auth.ts",
+      "file": "visual-staging-authenticated/setup.staging-auth.ts",
       "column": 0,
       "line": 0,
-      "specs": [],
-      "suites": [
+      "specs": [
         {
-          "title": "auth-slot @guest",
-          "file": "auth-slot-coverage.spec.ts",
-          "line": 51,
-          "column": 8,
-          "specs": [
+          "title": "mint member storageState",
+          "ok": true,
+          "tags": [],
+          "tests": [
             {
-              "title": "guest viewing /",
-              "ok": true,
-              "tags": [
-                "guest"
-              ],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "auth-slot-coverage",
-                  "projectName": "auth-slot-coverage",
-                  "results": [
-                    {
-                      "workerIndex": 1,
-                      "parallelIndex": 0,
-                      "status": "passed",
-                      "duration": 22480,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-05-28T22:27:59.609Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "a6e165f097f3ea3dc2f9-ef0308e2a514b4036878",
-              "file": "auth-slot-coverage.spec.ts",
-              "line": 56,
-              "column": 7
-            },
-            {
-              "title": "guest viewing /members",
-              "ok": true,
-              "tags": [
-                "guest"
-              ],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "auth-slot-coverage",
-                  "projectName": "auth-slot-coverage",
-                  "results": [
-                    {
-                      "workerIndex": 1,
-                      "parallelIndex": 0,
-                      "status": "passed",
-                      "duration": 3934,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-05-28T22:28:22.231Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "a6e165f097f3ea3dc2f9-7757da0f32937ecffe41",
-              "file": "auth-slot-coverage.spec.ts",
-              "line": 56,
-              "column": 7
-            },
-            {
-              "title": "guest viewing /register",
-              "ok": true,
-              "tags": [
-                "guest"
-              ],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "auth-slot-coverage",
-                  "projectName": "auth-slot-coverage",
-                  "results": [
-                    {
-                      "workerIndex": 1,
-                      "parallelIndex": 0,
-                      "status": "passed",
-                      "duration": 3311,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-05-28T22:28:26.173Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "a6e165f097f3ea3dc2f9-fb7a82a9b97e2e06c66a",
-              "file": "auth-slot-coverage.spec.ts",
-              "line": 56,
-              "column": 7
-            },
-            {
-              "title": "guest viewing /privacy",
-              "ok": true,
-              "tags": [
-                "guest"
-              ],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "auth-slot-coverage",
-                  "projectName": "auth-slot-coverage",
-                  "results": [
-                    {
-                      "workerIndex": 1,
-                      "parallelIndex": 0,
-                      "status": "passed",
-                      "duration": 2670,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-05-28T22:28:29.491Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "a6e165f097f3ea3dc2f9-32c9d7485e1968404c1d",
-              "file": "auth-slot-coverage.spec.ts",
-              "line": 56,
-              "column": 7
-            },
-            {
-              "title": "guest viewing /terms",
-              "ok": true,
-              "tags": [
-                "guest"
-              ],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "auth-slot-coverage",
-                  "projectName": "auth-slot-coverage",
-                  "results": [
-                    {
-                      "workerIndex": 1,
-                      "parallelIndex": 0,
-                      "status": "passed",
-                      "duration": 2474,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-05-28T22:28:32.168Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "a6e165f097f3ea3dc2f9-042e90fef9d9497de00a",
-              "file": "auth-slot-coverage.spec.ts",
-              "line": 56,
-              "column": 7
-            },
-            {
-              "title": "guest viewing /profile",
-              "ok": true,
-              "tags": [
-                "guest"
-              ],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "auth-slot-coverage",
-                  "projectName": "auth-slot-coverage",
-                  "results": [
-                    {
-                      "workerIndex": 1,
-                      "parallelIndex": 0,
-                      "status": "passed",
-                      "duration": 6102,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-05-28T22:28:34.650Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "a6e165f097f3ea3dc2f9-9d7658b98327bd497b83",
-              "file": "auth-slot-coverage.spec.ts",
-              "line": 56,
-              "column": 7
-            },
-            {
-              "title": "guest viewing /admin",
-              "ok": true,
-              "tags": [
-                "guest"
-              ],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "auth-slot-coverage",
-                  "projectName": "auth-slot-coverage",
-                  "results": [
-                    {
-                      "workerIndex": 1,
-                      "parallelIndex": 0,
-                      "status": "passed",
-                      "duration": 2453,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-05-28T22:28:40.762Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "a6e165f097f3ea3dc2f9-f3017d08fa3c35e07323",
-              "file": "auth-slot-coverage.spec.ts",
-              "line": 56,
-              "column": 7
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "setup-authenticated-staging",
+              "projectName": "setup-authenticated-staging",
+              "results": [],
+              "status": "skipped"
             }
-          ]
+          ],
+          "id": "081592e5fe10c060abbe-40d0b2bbea63b2c0d374",
+          "file": "visual-staging-authenticated/setup.staging-auth.ts",
+          "line": 16,
+          "column": 1
         },
         {
-          "title": "auth-slot @member",
-          "file": "auth-slot-coverage.spec.ts",
-          "line": 51,
-          "column": 8,
-          "specs": [
+          "title": "mint admin storageState",
+          "ok": true,
+          "tags": [],
+          "tests": [
             {
-              "title": "member viewing /",
-              "ok": true,
-              "tags": [
-                "member"
-              ],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "auth-slot-coverage",
-                  "projectName": "auth-slot-coverage",
-                  "results": [
-                    {
-                      "workerIndex": 1,
-                      "parallelIndex": 0,
-                      "status": "passed",
-                      "duration": 1950,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-05-28T22:28:43.223Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "a6e165f097f3ea3dc2f9-0605779bcb463a8ba65e",
-              "file": "auth-slot-coverage.spec.ts",
-              "line": 56,
-              "column": 7
-            },
-            {
-              "title": "member viewing /members",
-              "ok": true,
-              "tags": [
-                "member"
-              ],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "auth-slot-coverage",
-                  "projectName": "auth-slot-coverage",
-                  "results": [
-                    {
-                      "workerIndex": 1,
-                      "parallelIndex": 0,
-                      "status": "passed",
-                      "duration": 1836,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-05-28T22:28:45.180Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "a6e165f097f3ea3dc2f9-ae54caec05a3150289b9",
-              "file": "auth-slot-coverage.spec.ts",
-              "line": 56,
-              "column": 7
-            },
-            {
-              "title": "member viewing /register",
-              "ok": true,
-              "tags": [
-                "member"
-              ],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "auth-slot-coverage",
-                  "projectName": "auth-slot-coverage",
-                  "results": [
-                    {
-                      "workerIndex": 1,
-                      "parallelIndex": 0,
-                      "status": "passed",
-                      "duration": 1846,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-05-28T22:28:47.023Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "a6e165f097f3ea3dc2f9-7cf2087d10d492256041",
-              "file": "auth-slot-coverage.spec.ts",
-              "line": 56,
-              "column": 7
-            },
-            {
-              "title": "member viewing /privacy",
-              "ok": true,
-              "tags": [
-                "member"
-              ],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "auth-slot-coverage",
-                  "projectName": "auth-slot-coverage",
-                  "results": [
-                    {
-                      "workerIndex": 1,
-                      "parallelIndex": 0,
-                      "status": "passed",
-                      "duration": 1676,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-05-28T22:28:48.879Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "a6e165f097f3ea3dc2f9-05dc2575b8bc5e89ba80",
-              "file": "auth-slot-coverage.spec.ts",
-              "line": 56,
-              "column": 7
-            },
-            {
-              "title": "member viewing /terms",
-              "ok": true,
-              "tags": [
-                "member"
-              ],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "auth-slot-coverage",
-                  "projectName": "auth-slot-coverage",
-                  "results": [
-                    {
-                      "workerIndex": 1,
-                      "parallelIndex": 0,
-                      "status": "passed",
-                      "duration": 2228,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-05-28T22:28:50.568Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "a6e165f097f3ea3dc2f9-8b17672fd600e7f208c1",
-              "file": "auth-slot-coverage.spec.ts",
-              "line": 56,
-              "column": 7
-            },
-            {
-              "title": "member viewing /profile",
-              "ok": true,
-              "tags": [
-                "member"
-              ],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "auth-slot-coverage",
-                  "projectName": "auth-slot-coverage",
-                  "results": [
-                    {
-                      "workerIndex": 1,
-                      "parallelIndex": 0,
-                      "status": "passed",
-                      "duration": 4972,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-05-28T22:28:52.808Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "a6e165f097f3ea3dc2f9-18f31024c081b4f0ea57",
-              "file": "auth-slot-coverage.spec.ts",
-              "line": 56,
-              "column": 7
-            },
-            {
-              "title": "member viewing /admin",
-              "ok": true,
-              "tags": [
-                "member"
-              ],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "auth-slot-coverage",
-                  "projectName": "auth-slot-coverage",
-                  "results": [
-                    {
-                      "workerIndex": 1,
-                      "parallelIndex": 0,
-                      "status": "passed",
-                      "duration": 1781,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-05-28T22:28:57.794Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "a6e165f097f3ea3dc2f9-4d482e18b21dc8718dae",
-              "file": "auth-slot-coverage.spec.ts",
-              "line": 56,
-              "column": 7
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "setup-authenticated-staging",
+              "projectName": "setup-authenticated-staging",
+              "results": [],
+              "status": "skipped"
             }
-          ]
+          ],
+          "id": "081592e5fe10c060abbe-c0b28a83452a0d6b24b8",
+          "file": "visual-staging-authenticated/setup.staging-auth.ts",
+          "line": 23,
+          "column": 1
+        }
+      ]
+    },
+    {
+      "title": "visual/admin-shell/member-drawer-tag-edit.spec.ts",
+      "file": "visual/admin-shell/member-drawer-tag-edit.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "admin member drawer tag edit baseline",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [
+                {
+                  "type": "skip",
+                  "description": "PLAYWRIGHT_ADMIN_MEMBER_DETAIL_ID is required to open the member drawer",
+                  "location": {
+                    "file": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260529-125308-wt-10/apps/web/playwright/tests/visual/admin-shell/member-drawer-tag-edit.spec.ts",
+                    "line": 7,
+                    "column": 6
+                  }
+                }
+              ],
+              "expectedStatus": "skipped",
+              "projectId": "admin-staging-visual-mobile",
+              "projectName": "admin-staging-visual-mobile",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "13bc872d5f8456f21e30-6f680fbadef80372dd7e",
+          "file": "visual/admin-shell/member-drawer-tag-edit.spec.ts",
+          "line": 12,
+          "column": 1
         },
         {
-          "title": "auth-slot @admin",
-          "file": "auth-slot-coverage.spec.ts",
-          "line": 51,
-          "column": 8,
-          "specs": [
+          "title": "admin member drawer tag edit baseline",
+          "ok": true,
+          "tags": [],
+          "tests": [
             {
-              "title": "admin viewing /",
-              "ok": true,
-              "tags": [
-                "admin"
-              ],
-              "tests": [
+              "timeout": 60000,
+              "annotations": [
                 {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "auth-slot-coverage",
-                  "projectName": "auth-slot-coverage",
-                  "results": [
-                    {
-                      "workerIndex": 1,
-                      "parallelIndex": 0,
-                      "status": "passed",
-                      "duration": 1581,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-05-28T22:28:59.583Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
+                  "type": "skip",
+                  "description": "PLAYWRIGHT_ADMIN_MEMBER_DETAIL_ID is required to open the member drawer",
+                  "location": {
+                    "file": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260529-125308-wt-10/apps/web/playwright/tests/visual/admin-shell/member-drawer-tag-edit.spec.ts",
+                    "line": 7,
+                    "column": 6
+                  }
                 }
               ],
-              "id": "a6e165f097f3ea3dc2f9-a04801121c254077acb2",
-              "file": "auth-slot-coverage.spec.ts",
-              "line": 56,
-              "column": 7
-            },
-            {
-              "title": "admin viewing /members",
-              "ok": true,
-              "tags": [
-                "admin"
-              ],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "auth-slot-coverage",
-                  "projectName": "auth-slot-coverage",
-                  "results": [
-                    {
-                      "workerIndex": 1,
-                      "parallelIndex": 0,
-                      "status": "passed",
-                      "duration": 2390,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-05-28T22:29:01.171Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "a6e165f097f3ea3dc2f9-b7b74e1d96f825259c44",
-              "file": "auth-slot-coverage.spec.ts",
-              "line": 56,
-              "column": 7
-            },
-            {
-              "title": "admin viewing /register",
-              "ok": true,
-              "tags": [
-                "admin"
-              ],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "auth-slot-coverage",
-                  "projectName": "auth-slot-coverage",
-                  "results": [
-                    {
-                      "workerIndex": 1,
-                      "parallelIndex": 0,
-                      "status": "passed",
-                      "duration": 1661,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-05-28T22:29:03.567Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "a6e165f097f3ea3dc2f9-f25a4b1a425346c1a777",
-              "file": "auth-slot-coverage.spec.ts",
-              "line": 56,
-              "column": 7
-            },
-            {
-              "title": "admin viewing /privacy",
-              "ok": true,
-              "tags": [
-                "admin"
-              ],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "auth-slot-coverage",
-                  "projectName": "auth-slot-coverage",
-                  "results": [
-                    {
-                      "workerIndex": 1,
-                      "parallelIndex": 0,
-                      "status": "passed",
-                      "duration": 1931,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-05-28T22:29:05.235Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "a6e165f097f3ea3dc2f9-65254de67c652762039d",
-              "file": "auth-slot-coverage.spec.ts",
-              "line": 56,
-              "column": 7
-            },
-            {
-              "title": "admin viewing /terms",
-              "ok": true,
-              "tags": [
-                "admin"
-              ],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "auth-slot-coverage",
-                  "projectName": "auth-slot-coverage",
-                  "results": [
-                    {
-                      "workerIndex": 1,
-                      "parallelIndex": 0,
-                      "status": "passed",
-                      "duration": 2463,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-05-28T22:29:07.174Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "a6e165f097f3ea3dc2f9-241ceb22b3e43e7bbf63",
-              "file": "auth-slot-coverage.spec.ts",
-              "line": 56,
-              "column": 7
-            },
-            {
-              "title": "admin viewing /profile",
-              "ok": true,
-              "tags": [
-                "admin"
-              ],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "auth-slot-coverage",
-                  "projectName": "auth-slot-coverage",
-                  "results": [
-                    {
-                      "workerIndex": 1,
-                      "parallelIndex": 0,
-                      "status": "passed",
-                      "duration": 1884,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-05-28T22:29:09.645Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "a6e165f097f3ea3dc2f9-56b7cafd66dcbae89c21",
-              "file": "auth-slot-coverage.spec.ts",
-              "line": 56,
-              "column": 7
-            },
-            {
-              "title": "admin viewing /admin",
-              "ok": true,
-              "tags": [
-                "admin"
-              ],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "auth-slot-coverage",
-                  "projectName": "auth-slot-coverage",
-                  "results": [
-                    {
-                      "workerIndex": 1,
-                      "parallelIndex": 0,
-                      "status": "passed",
-                      "duration": 3658,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-05-28T22:29:11.543Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "a6e165f097f3ea3dc2f9-c8eb9380b19be765b658",
-              "file": "auth-slot-coverage.spec.ts",
-              "line": 56,
-              "column": 7
+              "expectedStatus": "skipped",
+              "projectId": "admin-staging-visual-tablet",
+              "projectName": "admin-staging-visual-tablet",
+              "results": [],
+              "status": "skipped"
             }
-          ]
+          ],
+          "id": "13bc872d5f8456f21e30-8cc9cb0bd467375af771",
+          "file": "visual/admin-shell/member-drawer-tag-edit.spec.ts",
+          "line": 12,
+          "column": 1
         },
         {
-          "title": "auth-slot regression",
-          "file": "auth-slot-coverage.spec.ts",
-          "line": 72,
-          "column": 6,
-          "specs": [
+          "title": "admin member drawer tag edit baseline",
+          "ok": true,
+          "tags": [],
+          "tests": [
             {
-              "title": "header data-auth-state literal is one of guest/member/admin",
-              "ok": true,
-              "tags": [],
-              "tests": [
+              "timeout": 60000,
+              "annotations": [
                 {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "auth-slot-coverage",
-                  "projectName": "auth-slot-coverage",
-                  "results": [
-                    {
-                      "workerIndex": 1,
-                      "parallelIndex": 0,
-                      "status": "passed",
-                      "duration": 1617,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-05-28T22:29:15.210Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
+                  "type": "skip",
+                  "description": "PLAYWRIGHT_ADMIN_MEMBER_DETAIL_ID is required to open the member drawer",
+                  "location": {
+                    "file": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260529-125308-wt-10/apps/web/playwright/tests/visual/admin-shell/member-drawer-tag-edit.spec.ts",
+                    "line": 7,
+                    "column": 6
+                  }
                 }
               ],
-              "id": "a6e165f097f3ea3dc2f9-8ab88c58d26e71db1941",
-              "file": "auth-slot-coverage.spec.ts",
-              "line": 75,
-              "column": 3
-            },
-            {
-              "title": "public-return does not exist on public guest route",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "auth-slot-coverage",
-                  "projectName": "auth-slot-coverage",
-                  "results": [
-                    {
-                      "workerIndex": 1,
-                      "parallelIndex": 0,
-                      "status": "passed",
-                      "duration": 1624,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-05-28T22:29:16.834Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "a6e165f097f3ea3dc2f9-b73003743a73cf6b3074",
-              "file": "auth-slot-coverage.spec.ts",
-              "line": 82,
-              "column": 3
-            },
-            {
-              "title": "invalid session cookie redirects from profile",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "auth-slot-coverage",
-                  "projectName": "auth-slot-coverage",
-                  "results": [
-                    {
-                      "workerIndex": 1,
-                      "parallelIndex": 0,
-                      "status": "passed",
-                      "duration": 1626,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-05-28T22:29:18.468Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "a6e165f097f3ea3dc2f9-e66c0373467ebc5b90eb",
-              "file": "auth-slot-coverage.spec.ts",
-              "line": 88,
-              "column": 3
-            },
-            {
-              "title": "expired session cookie redirects from profile",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "auth-slot-coverage",
-                  "projectName": "auth-slot-coverage",
-                  "results": [
-                    {
-                      "workerIndex": 1,
-                      "parallelIndex": 0,
-                      "status": "passed",
-                      "duration": 1657,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-05-28T22:29:20.104Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "a6e165f097f3ea3dc2f9-89dde811b87b1784b579",
-              "file": "auth-slot-coverage.spec.ts",
-              "line": 97,
-              "column": 3
+              "expectedStatus": "skipped",
+              "projectId": "admin-staging-visual-desktop",
+              "projectName": "admin-staging-visual-desktop",
+              "results": [],
+              "status": "skipped"
             }
-          ]
+          ],
+          "id": "13bc872d5f8456f21e30-38d37b334c1e5b281143",
+          "file": "visual/admin-shell/member-drawer-tag-edit.spec.ts",
+          "line": 12,
+          "column": 1
+        },
+        {
+          "title": "admin member drawer tag edit baseline",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [
+                {
+                  "type": "skip",
+                  "description": "PLAYWRIGHT_ADMIN_MEMBER_DETAIL_ID is required to open the member drawer",
+                  "location": {
+                    "file": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260529-125308-wt-10/apps/web/playwright/tests/visual/admin-shell/member-drawer-tag-edit.spec.ts",
+                    "line": 7,
+                    "column": 6
+                  }
+                }
+              ],
+              "expectedStatus": "skipped",
+              "projectId": "admin-staging-visual-wide",
+              "projectName": "admin-staging-visual-wide",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "13bc872d5f8456f21e30-d2f118556178f80c6884",
+          "file": "visual/admin-shell/member-drawer-tag-edit.spec.ts",
+          "line": 12,
+          "column": 1
         }
       ]
     }
   ],
   "errors": [],
   "stats": {
-    "startTime": "2026-05-28T22:27:57.291Z",
-    "duration": 84648.68900000001,
-    "expected": 28,
-    "skipped": 0,
+    "startTime": "2026-05-29T10:53:36.338Z",
+    "duration": 464.64099999999985,
+    "expected": 0,
+    "skipped": 7,
     "unexpected": 0,
     "flaky": 0
   }

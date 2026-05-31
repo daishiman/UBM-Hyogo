@@ -82,13 +82,13 @@ All colors must use OKLch design tokens. Local static visual evidence is present
 |------|--------|---------------|-----|------|----------|------|-------|----------------|--------|
 | public | public layout | Hero, Card, Button | API call なし。外部 `responderUrl` へ遷移 | idle, error | title, responderUrl, publicConsent, rulesConsent | 外部遷移を link 名で説明 | color, space, radius, shadow | 09e | embedded form |
 
-### 2.1.5 `/privacy`
+### 2.1.5 `/(public)/privacy`
 
 | 認可 | layout | 主 component | API | 状態 | 主 props | a11y | token | 視覚詳細 link | 不採用 |
 |------|--------|---------------|-----|------|----------|------|-------|----------------|--------|
 | public | public layout | LegalProse | API call なし | success | title, sections | 文書 heading と landmark | color, space, text | 09e | interactive consent |
 
-### 2.1.6 `/terms`
+### 2.1.6 `/(public)/terms`
 
 | 認可 | layout | 主 component | API | 状態 | 主 props | a11y | token | 視覚詳細 link | 不採用 |
 |------|--------|---------------|-----|------|----------|------|-------|----------------|--------|

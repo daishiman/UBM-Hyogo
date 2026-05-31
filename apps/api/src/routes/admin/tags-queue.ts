@@ -1,5 +1,9 @@
 // 04c + 07a: GET /admin/tags/queue, POST /admin/tags/queue/:queueId/resolve
-// 不変条件 #13: tag は queue resolve 経由のみ。直接更新 endpoint なし。
+// 不変条件 #13（2026-05 再定義 / issue-982）:
+//  - AI / Google Form 由来の tag「提案」は tags-queue の resolve 経由で承認する（このルート）。
+//  - 管理者による tag の「手動付与 / 解除」は /admin/members/:memberId/tags の専用 endpoint
+//    経由で行い、必ず audit (admin.member.tag_assigned / admin.member.tag_unassigned) を記録する。
+//  - member_tags への直接 write は上記 2 経路に限り許可する。
 // resolve の状態遷移ロジックは 07a workflow (tagQueueResolve) に委譲する。
 import { Hono } from "hono";
 import { z } from "zod";

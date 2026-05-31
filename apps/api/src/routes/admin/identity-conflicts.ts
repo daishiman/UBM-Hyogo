@@ -16,6 +16,7 @@ import { ctx } from "../../repository/_shared/db";
 import {
   listIdentityConflicts,
   dismissIdentityConflict,
+  DismissIdentityNotFound,
   parseConflictId,
 } from "../../repository/identity-conflict";
 import {
@@ -99,14 +100,22 @@ export const createAdminIdentityConflictsRoute = () => {
     }
     const claims = c.get("authClaims");
     const user = c.get("authUser");
-    const out = await dismissIdentityConflict(
-      ctx(c.env),
-      ids.source,
-      ids.target,
-      claims.sub ?? user.memberId ?? "unknown-admin",
-      parsed.data.reason,
-    );
-    return c.json(out, 200);
+    try {
+      const out = await dismissIdentityConflict(
+        ctx(c.env),
+        ids.source,
+        ids.target,
+        claims.sub ?? user.memberId ?? "unknown-admin",
+        user.email ?? null,
+        parsed.data.reason,
+      );
+      return c.json(out, 200);
+    } catch (err) {
+      if (err instanceof DismissIdentityNotFound) {
+        return c.json({ error: "MEMBER_NOT_FOUND", memberId: err.memberId }, 404);
+      }
+      throw err;
+    }
   });
 
   return app;

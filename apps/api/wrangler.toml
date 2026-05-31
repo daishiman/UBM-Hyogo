@@ -128,6 +128,12 @@ bucket_name = "ubm-hyogo-audit-cold-storage-prod"
 binding = "UBM_AUDIT_APP_COLD_STORAGE"
 bucket_name = "ubm-audit-cold-storage-app-prod"
 
+# issue-983: admin-managed member photo storage（public list 禁止・presigned GET のみ）。
+# bucket 作成 / presign 用 scoped token 発行は Phase 11 user-gated runtime ops で実行する。
+[[env.production.r2_buckets]]
+binding = "MEMBER_PHOTOS"
+bucket_name = "ubm-hyogo-member-photos-prod"
+
 # ut-17-followup-002: alert-relay dedup state 用 KV namespace は user-gated。
 # namespace 作成後、実 id だけを使って次の block を有効化する。
 # placeholder id を active TOML に残すと deploy validation を壊すため、承認前はコメント化する。
@@ -209,6 +215,13 @@ preview_bucket_name = "ubm-hyogo-audit-cold-storage-staging"
 binding = "UBM_AUDIT_APP_COLD_STORAGE"
 bucket_name = "ubm-audit-cold-storage-app-staging"
 preview_bucket_name = "ubm-audit-cold-storage-app-staging"
+
+# issue-983: admin-managed member photo storage（public list 禁止・presigned GET のみ）。
+# bucket 作成 / presign 用 scoped token 発行は Phase 11 user-gated runtime ops で実行する。
+[[env.staging.r2_buckets]]
+binding = "MEMBER_PHOTOS"
+bucket_name = "ubm-hyogo-member-photos-staging"
+preview_bucket_name = "ubm-hyogo-member-photos-staging"
 
 # ut-17-followup-002: alert-relay dedup state 用 KV namespace は user-gated。
 # namespace 作成後、実 id だけを使って次の block を有効化する。

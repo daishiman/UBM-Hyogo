@@ -258,7 +258,8 @@ export function useAdminMutation<T = unknown>(
               }
               throw err;
             }
-            const data = (await res.json()) as T;
+            const data =
+              res.status === 204 ? (undefined as T) : ((await res.json()) as T);
             await applySuccess(data);
             return data;
           } catch (e) {
