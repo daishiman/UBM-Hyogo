@@ -1,0 +1,88 @@
+{
+  "task_id": "unified-sidebar-shell-task-e-mobile-drawer-responsive",
+  "created_at": "2026-05-29",
+  "status": "spec_created",
+  "task_type": "implementation",
+  "visual_category": "VISUAL",
+  "implementation_mode": "new",
+  "metadata": {
+    "workflow_state": "spec_created",
+    "implementation_status": "spec_created",
+    "taskType": "implementation",
+    "visualEvidence": "VISUAL",
+    "implementationCategory": "ui_responsive_drawer",
+    "spec_classification": "implementation_spec",
+    "canonical_workflow": "docs/30-workflows/unified-sidebar-shell-task-e-mobile-drawer-responsive/",
+    "parent_workflows": [
+      "docs/30-workflows/unified-sidebar-shell-public-and-admin/"
+    ],
+    "source_task": "docs/30-workflows/unified-sidebar-shell-public-and-admin/tasks/task-E-mobile-drawer-responsive.md",
+    "branch": "feat/task-spec-unified-sidebar-shell-task-e-mobile-drawer",
+    "prerequisite_tasks": [
+      "docs/30-workflows/unified-sidebar-shell-public-and-admin/tasks/task-A-sidebar-shell-primitive.md"
+    ],
+    "scope_files": [
+      "apps/web/src/lib/a11y/useFocusTrap.ts",
+      "apps/web/src/lib/a11y/__tests__/useFocusTrap.spec.tsx",
+      "apps/web/src/components/ui/Drawer.tsx",
+      "apps/web/src/components/shell/SidebarMobileTrigger.tsx",
+      "apps/web/src/components/shell/SidebarDrawer.tsx",
+      "apps/web/src/components/shell/__tests__/SidebarMobileTrigger.spec.tsx",
+      "apps/web/src/components/shell/__tests__/SidebarDrawer.spec.tsx",
+      "apps/web/src/components/shell/SidebarShell.tsx",
+      "apps/web/src/components/shell/useSidebarState.ts"
+    ],
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/unified-sidebar-shell-task-e-mobile-drawer-responsive/outputs/phase-12/phase12-task-spec-compliance-check.md",
+        "approver": "daishiman",
+        "notes": "spec_review: Phase 1-13 implementation spec presence and strict 7 outputs"
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/unified-sidebar-shell-task-e-mobile-drawer-responsive/outputs/phase-11/manual-test-result.md",
+        "approver": "daishiman",
+        "notes": "implementation_review: local implementation + focused vitest + manual 375/768/1280 screenshots"
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/unified-sidebar-shell-task-e-mobile-drawer-responsive/outputs/phase-13/pr-creation-result.md",
+        "approver": "daishiman",
+        "notes": "external_ops: commit, push, PR — user-gated"
+      }
+    ]
+  },
+  "phases": [
+    { "phase": 1, "name": "要件定義", "status": "completed", "output": "phase-1-requirements.md" },
+    { "phase": 2, "name": "設計", "status": "completed", "output": "phase-2-design.md" },
+    { "phase": 3, "name": "設計レビュー", "status": "completed", "output": "phase-3-design-review.md" },
+    { "phase": 4, "name": "テスト計画", "status": "completed", "output": "phase-4-test-plan.md" },
+    { "phase": 5, "name": "実装手順", "status": "completed", "output": "phase-5-implementation.md" },
+    { "phase": 6, "name": "テスト追加", "status": "completed", "output": "phase-6-test-additions.md" },
+    { "phase": 7, "name": "カバレッジ", "status": "completed", "output": "phase-7-coverage.md" },
+    { "phase": 8, "name": "リファクタ", "status": "completed", "output": "phase-8-refactor.md" },
+    { "phase": 9, "name": "QA", "status": "completed", "output": "phase-9-qa.md" },
+    { "phase": 10, "name": "最終レビュー", "status": "completed", "output": "phase-10-final-review.md" },
+    { "phase": 11, "name": "手動テスト", "status": "completed", "output": "phase-11-manual-test.md" },
+    { "phase": 12, "name": "ドキュメント同期", "status": "completed", "output": "phase-12-documentation.md" },
+    { "phase": 13, "name": "commit-pr-release", "status": "spec_created", "output": "phase-13-pr.md" }
+  ],
+  "implementation_targets": [
+    "apps/web/src/lib/a11y/useFocusTrap.ts",
+    "apps/web/src/lib/a11y/__tests__/useFocusTrap.spec.tsx",
+    "apps/web/src/components/ui/Drawer.tsx",
+    "apps/web/src/components/shell/SidebarMobileTrigger.tsx",
+    "apps/web/src/components/shell/SidebarDrawer.tsx",
+    "apps/web/src/components/shell/__tests__/SidebarMobileTrigger.spec.tsx",
+    "apps/web/src/components/shell/__tests__/SidebarDrawer.spec.tsx",
+    "apps/web/src/components/shell/SidebarShell.tsx",
+    "apps/web/src/components/shell/useSidebarState.ts"
+  ]
+}

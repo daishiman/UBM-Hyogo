@@ -1,7 +1,7 @@
 // followup-003 Lane C: プロトタイプ準拠 drawer (pages-admin.jsx L278-363)
 "use client";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useState, type ChangeEvent } from "react";
 import type { AdminMemberDetailView, PublishState } from "@ubm-hyogo/shared";
 import { Drawer } from "../../../../components/ui/Drawer";
 import { KVList } from "../../../../components/ui/KVList";
@@ -103,14 +103,20 @@ function MemberDrawerBody({ memberId, detail, onUpdated }: MemberDrawerBodyProps
     <div className="flex flex-col gap-4 text-sm">
       {/* drawer-head */}
       <header className="flex items-center gap-3 border-b border-[var(--ubm-color-border-default)] pb-3">
-        <MemberAvatar memberId={memberId} fullName={fullName} size="md" />
-        <div className="flex min-w-0 flex-1 flex-col">
+        <MemberAvatar
+          memberId={memberId}
+          fullName={fullName}
+          photoUrl={detail.photoUrl}
+          size="md"
+        />
+        <div className="flex min-w-0 flex-1 flex-col gap-1">
           <strong className="truncate text-base text-[var(--ubm-color-text-primary)]">
             {fullName}
           </strong>
           <span className="truncate font-mono text-xs text-[var(--ubm-color-text-muted)]">
             {maskEmail(detail.identityEmail)} · {profile.responseId}
           </span>
+          <PhotoUploadAffordance memberId={memberId} hasPhoto={!!detail.photoUrl} />
         </div>
         <MemberStateChipRow
           publishState={detail.status.publishState}
@@ -306,6 +312,103 @@ function MemberDrawerBody({ memberId, detail, onUpdated }: MemberDrawerBodyProps
       </section>
 
       <MemberDiagnosticsPanel memberId={memberId} />
+    </div>
+  );
+}
+
+interface PhotoUploadAffordanceProps {
+  readonly memberId: string;
+  readonly hasPhoto: boolean;
+}
+
+// issue-983: admin による member 写真の差し替え / 削除 affordance（invariant #10: useAdminMutation 経由）。
+function PhotoUploadAffordance({ memberId, hasPhoto }: PhotoUploadAffordanceProps) {
+  const endpoint = `/api/admin/members/${encodeURIComponent(memberId)}/photo`;
+
+  const { trigger: upload, isLoading: uploading } = useAdminMutation<{ ok: boolean }>(
+    endpoint,
+    "POST",
+    {
+      successMessage: "✓ 写真を更新しました",
+      refreshOnSuccess: true,
+      // multipart/form-data は JSON 既定経路では送れないため mutationFn で送出する。
+      mutationFn: async (payload: unknown) => {
+        const formData = new FormData();
+        formData.append("file", payload as File);
+        const res = await fetch(endpoint, {
+          method: "POST",
+          body: formData,
+          credentials: "same-origin",
+        });
+        if (!res.ok) {
+          const text = await res.text().catch(() => "");
+          throw new Error(`HTTP ${res.status}: ${text}`);
+        }
+        return (await res.json()) as { ok: boolean };
+      },
+    },
+  );
+
+  const { trigger: remove, isLoading: removing } = useAdminMutation<{ ok: boolean }>(
+    endpoint,
+    "DELETE",
+    {
+      successMessage: "✓ 写真を削除しました",
+      refreshOnSuccess: true,
+    },
+  );
+
+  const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const file = e.currentTarget.files?.[0];
+    if (!file) return;
+    upload(file).catch(() => {});
+    e.currentTarget.value = "";
+  };
+
+  const isLoading = uploading || removing;
+
+  return (
+    <div className="flex items-center gap-1">
+      <label
+        className={[
+          "cursor-pointer rounded px-2 py-1 text-xs",
+          "border border-[var(--ubm-color-border-default)]",
+          "bg-[var(--ubm-color-surface-panel-2)] text-[var(--ubm-color-accent)]",
+          "focus-within:outline focus-within:outline-2 focus-within:outline-offset-2 focus-within:outline-[var(--ubm-color-accent)]",
+          isLoading ? "pointer-events-none opacity-50" : "",
+        ]
+          .filter(Boolean)
+          .join(" ")}
+        aria-disabled={isLoading}
+      >
+        {uploading ? "アップロード中…" : "写真を変更"}
+        <input
+          type="file"
+          accept="image/jpeg,image/png,image/webp"
+          className="sr-only"
+          onChange={handleFileChange}
+          disabled={isLoading}
+          data-testid="photo-upload-input"
+        />
+      </label>
+      {hasPhoto ? (
+        <button
+          type="button"
+          onClick={() => remove({}).catch(() => {})}
+          disabled={isLoading}
+          className={[
+            "rounded px-2 py-1 text-xs",
+            "border border-[var(--ubm-color-border-default)]",
+            "text-[var(--ubm-color-danger)]",
+            isLoading ? "opacity-50" : "",
+          ]
+            .filter(Boolean)
+            .join(" ")}
+          aria-label="写真を削除"
+        >
+          {removing ? "削除中…" : "削除"}
+        </button>
+      ) : null}
     </div>
   );
 }

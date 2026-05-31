@@ -36,3 +36,19 @@ export const browserWindow = (): Window | undefined =>
  */
 export const browserDocument = (): Document | undefined =>
   isBrowser() ? document : undefined;
+
+/**
+ * ブラウザ環境の Web Storage（`localStorage`）を返す。
+ * SSR / Workers / private mode 等で参照不可な場合は undefined。
+ *
+ * Web Storage への唯一の正規参照点とし、Client Component からはこの getter 経由で
+ * のみアクセスする（`scripts/lint-boundaries.mjs` の token allowlist 対象）。
+ */
+export const browserLocalStorage = (): Storage | undefined => {
+  if (!isBrowser()) return undefined;
+  try {
+    return window.localStorage;
+  } catch {
+    return undefined;
+  }
+};

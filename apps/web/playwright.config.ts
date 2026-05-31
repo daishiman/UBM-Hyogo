@@ -226,7 +226,7 @@ export default defineConfig({
   projects: [
     {
       name: 'desktop-chromium',
-      testIgnore: [/visual\/.*\.spec\.ts$/, /visual-staging\/.*\.spec\.ts$/, /visual-staging-authenticated\/.*\.(spec|ts)$/, /visual-full\/.*\.spec\.ts$/, /full-smoke\.spec\.ts$/, /setup-auth\.spec\.ts$/, /auth-slot-coverage\.spec\.ts$/, ...fixtureGatedTestIgnore],
+      testIgnore: [/visual\/.*\.spec\.ts$/, /visual-staging\/.*\.spec\.ts$/, /visual-staging-authenticated\/.*\.(spec|ts)$/, /visual-full\/.*\.spec\.ts$/, /full-smoke\.spec\.ts$/, /sidebar-shell\/.*\.spec\.ts$/, /setup-auth\.spec\.ts$/, /auth-slot-coverage\.spec\.ts$/, ...fixtureGatedTestIgnore],
       use: { ...devices['Desktop Chrome'], viewport: { width: 1280, height: 800 } },
     },
     {
@@ -256,7 +256,7 @@ export default defineConfig({
     },
     {
       name: 'desktop-firefox',
-      testIgnore: [/visual\/.*\.spec\.ts$/, /visual-staging\/.*\.spec\.ts$/, /visual-staging-authenticated\/.*\.(spec|ts)$/, /visual-full\/.*\.spec\.ts$/, /full-smoke\.spec\.ts$/, /setup-auth\.spec\.ts$/, /auth-slot-coverage\.spec\.ts$/, ...membersUxClarityNonPrimaryIgnore, ...fixtureGatedTestIgnore],
+      testIgnore: [/visual\/.*\.spec\.ts$/, /visual-staging\/.*\.spec\.ts$/, /visual-staging-authenticated\/.*\.(spec|ts)$/, /visual-full\/.*\.spec\.ts$/, /full-smoke\.spec\.ts$/, /sidebar-shell\/.*\.spec\.ts$/, /setup-auth\.spec\.ts$/, /auth-slot-coverage\.spec\.ts$/, ...membersUxClarityNonPrimaryIgnore, ...fixtureGatedTestIgnore],
       use: { ...devices['Desktop Firefox'], viewport: { width: 1280, height: 800 } },
     },
     {
@@ -274,6 +274,7 @@ export default defineConfig({
         /admin-pages\.spec\.ts$/,
         /admin-tags-resolve-drawer\.spec\.ts$/,
         /task15-admin-screenshots\.spec\.ts$/,
+        /sidebar-shell\/.*\.spec\.ts$/,
         /setup-auth\.spec\.ts$/,
         /auth-slot-coverage\.spec\.ts$/,
         ...membersUxClarityNonPrimaryIgnore,
@@ -295,6 +296,38 @@ export default defineConfig({
       name: 'visual-full-chromium-mobile',
       testDir: './playwright/tests/visual-full',
       use: { ...devices['Desktop Chrome'], viewport: VIEWPORTS.mobile },
+    },
+    // sidebar-shell-visual-baseline-smoke-task-f: local（mockApi + auth fixture）で
+    // 3 viewport の collapsible Sidebar Shell baseline を撮る。staging には依存しない。
+    {
+      name: 'sidebar-shell-visual-desktop',
+      testDir: './playwright/tests/sidebar-shell',
+      testMatch: /sidebar-shell-visual\.spec\.ts$/,
+      use: { ...devices['Desktop Chrome'], viewport: { width: 1280, height: 800 } },
+      snapshotPathTemplate:
+        '{testDir}/{testFileName}-snapshots/{arg}-sidebar-shell-visual-desktop-{platform}{ext}',
+    },
+    {
+      name: 'sidebar-shell-visual-tablet',
+      testDir: './playwright/tests/sidebar-shell',
+      testMatch: /sidebar-shell-visual\.spec\.ts$/,
+      use: { ...devices['Desktop Chrome'], viewport: { width: 768, height: 1024 } },
+      snapshotPathTemplate:
+        '{testDir}/{testFileName}-snapshots/{arg}-sidebar-shell-visual-tablet-{platform}{ext}',
+    },
+    {
+      name: 'sidebar-shell-visual-mobile',
+      testDir: './playwright/tests/sidebar-shell',
+      testMatch: /sidebar-shell-visual\.spec\.ts$/,
+      use: { ...devices['Desktop Chrome'], viewport: { width: 375, height: 812 } },
+      snapshotPathTemplate:
+        '{testDir}/{testFileName}-snapshots/{arg}-sidebar-shell-visual-mobile-{platform}{ext}',
+    },
+    {
+      name: 'sidebar-shell-smoke',
+      testDir: './playwright/tests/sidebar-shell',
+      testMatch: /sidebar-shell-smoke\.spec\.ts$/,
+      use: { ...devices['Desktop Chrome'], viewport: { width: 1280, height: 800 } },
     },
     {
       name: 'staging',

@@ -8,6 +8,20 @@
 
 本ドキュメントは、複雑なタスクを単一責務の原則に基づいて分解し、各サブタスクに最適なスラッシュコマンド・エージェント・スキルの組み合わせを選定するためのガイドラインを定義する。
 
+### issue-983-member-photo-avatar-r2-storage（2026-05-29）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_runtime_pending / implementation / VISUAL_ON_EXECUTION` |
+| 成果物 | `docs/30-workflows/issue-983-member-photo-avatar-r2-storage/` |
+| Issue | #983 CLOSED; PR文脈は `Refs #983` のみ |
+| 親 | `docs/30-workflows/completed-tasks/admin-ui-prototype-alignment-followup-003-admin-members-prototype-redesign/` |
+| 目的 | admin member avatar を R2-backed photo + D1 `member_photos` metadata + presigned `photoUrl` + hue fallback で実装する |
+| 実装済み対象 | `apps/api/migrations/0022_member_photos.sql`, `apps/api/src/lib/r2/member-photo-presign.ts`, `apps/api/src/repository/memberPhotos.ts`, `apps/api/src/routes/admin/members.ts`, `apps/api/wrangler.toml`, `apps/api/src/env.ts`, `packages/shared/src/zod/viewmodel.ts`, `packages/shared/src/types/viewmodel/index.ts`, `apps/web/src/components/ui/Avatar.tsx`, `apps/web/src/features/admin/components/_members/MemberAvatar.tsx`, `apps/web/src/features/admin/components/_members/MemberDrawer.tsx` |
+| evidence | root/output artifacts parity present; Phase 11 local static screenshots present; Phase 12 strict 7 present; focused local tests pass |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-983-member-photo-avatar-r2-storage-artifact-inventory.md` |
+| user gate | R2 bucket creation, R2 presign secrets, remote D1 migration apply, staging deploy, authenticated staging screenshots, commit, push, PR, Issue #983 comment/reopen mutation |
+
 ### admin-sidebar-public-return-link（2026-05-28）
 
 | 項目 | 値 |
@@ -164,12 +178,28 @@
 | 成果物 | `docs/30-workflows/completed-tasks/unified-sidebar-shell-public-and-admin/` |
 | sub-workflow | `docs/30-workflows/completed-tasks/unified-sidebar-shell-public-and-admin/tasks/task-A-sidebar-shell-primitive/`（standalone root から親配下へ統合済み） |
 | 目的 | public / member / admin の shell を単一 collapsible `SidebarShell` primitive に統合する |
-| planned targets | `apps/web/src/components/shell/**`, `apps/web/app/(public)/layout.tsx`, `apps/web/app/(member)/layout.tsx`, `apps/web/app/(admin)/layout.tsx`, `apps/web/src/styles/tokens.css`, `apps/web/tests/e2e/sidebar-shell-*.spec.ts` |
+| planned targets | `apps/web/src/components/shell/**`, `apps/web/app/(public)/layout.tsx`, `apps/web/app/(member)/layout.tsx`, `apps/web/app/(admin)/layout.tsx`, `apps/web/src/styles/tokens.css`, `apps/web/playwright/tests/sidebar-shell/{sidebar-shell-smoke,sidebar-shell-visual,_helpers}`（補正後実体パス。旧 `tests/e2e/sidebar-shell-*` は誤記。Task F 実装済み） |
 | nav contract | viewer=3 item、member=4 item、admin=13 item（Admin group 9 item） |
 | invariant | API / D1 / Google Form schema / Auth.js middleware 変更なし。role 判定は `SessionUser.isAdmin` のみ |
 | Phase 12 | strict 7 present、root/output artifacts parity present、30-method compact evidence present |
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-unified-sidebar-shell-public-and-admin-artifact-inventory.md` |
 | user gate | apps/web implementation、local visual capture、CI baseline、commit、push、PR |
+
+### admin-layout-sidebar-shell-migration（2026-05-29）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_runtime_pending / implementation / VISUAL`（2026-05-29 実装完了） |
+| 成果物 | `docs/30-workflows/completed-tasks/admin-layout-sidebar-shell-migration/`（実装記録は `outputs/implementation-summary.md`） |
+| 親 workflow | `docs/30-workflows/unified-sidebar-shell-public-and-admin/` Task D（Task A/B/E も本 wave で実装） |
+| 目的 | Admin layout を `SidebarShellServer` 消費側へ移行し、旧 `AdminSidebar` 系を削除（user 承認で Task A/B/E 一括実装・CONST_009） |
+| implemented targets | added `apps/web/src/components/shell/**`（15 component + 6 spec）, `apps/web/src/lib/admin/schema-diff-count.ts`(+spec); edited `apps/web/app/(admin)/layout.tsx`, `apps/web/app/(admin)/layout.spec.tsx`, `apps/web/src/styles/tokens.css`; deleted old `apps/web/src/components/layout/AdminSidebar*`（grep 0 hit） |
+| invariant | API / D1 / Google Form / Auth.js middleware 変更なし。role 判定は `SessionUser.isAdmin` のみ。未認証 `/login?next=/admin`、非 admin `/login?gate=forbidden` を維持 |
+| local evidence | typecheck 6/6 Done / lint OK / web Vitest 1299 passed・1 skipped / AC-2 grep 0 hit |
+| Phase 12 | strict 7 present（implemented state）、root/output artifacts parity present、30-method compact evidence present |
+| user gate | staging visual capture、commit、push、PR。follow-up FU-ALSSM-001（collapse 永続化 cookie 方式・user 判断待ち） |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-layout-sidebar-shell-migration-artifact-inventory.md` |
+| user gate | Task A/B completion、apps/web implementation、focused tests、local visual capture、commit、push、PR |
 
 ### task-c-public-member-sidebar-shell-integration（2026-05-29）
 
@@ -3389,6 +3419,7 @@ docs-only / direction-reconciliation で採用方針 A を維持する場合で�
 
 | Task | 状態 | Root | Summary |
 | --- | --- | --- | --- |
+| issue-981-admin-members-table-list-enrichment | implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION / Phase 1-12 local completed / Phase 13 pending_user_approval | `docs/30-workflows/completed-tasks/issue-981-admin-members-table-list-enrichment/` | Issue #981 CLOSED（2026-05-29 GitHub 実確認）。`/admin/members` list row に existing `AdminMemberListItem` fields (`occupation`, `ubmZone`, `ubmMembershipType`, `tags`) を実データ描画。`apps/web/src/features/admin/components/_members/MembersTable.tsx` は既存 `Chip` / `zoneTone` / `statusTone` を再利用し、tag pill は最大2件 + `+N`（全タグ title 付）、空時 `未タグ`。`MembersTableProps` / `apps/api` / `packages/shared` は変更なし。Local evidence: `MembersTable.spec.tsx` 21 tests PASS + local screenshots enriched / untagged present。staging authenticated visual / deploy / commit / push / PR は user-gated。artifact inventory: `references/workflow-issue-981-admin-members-table-list-enrichment-artifact-inventory.md`。 |
 | UT-17 follow-up 005 alert relay KV operation error metrics | implemented_local_evidence_captured / implementation / NON_VISUAL / PASS_BOUNDARY_SYNCED_RUNTIME_PENDING | `docs/30-workflows/completed-tasks/ut-17-followup-005-alert-relay-kv-operation-error-metrics/` | Issue #701. Adds fail-safe structured logging for `ALERT_DEDUP_KV.get` / `.put` failures in `apps/api/src/routes/internal/alert-relay.ts`. `KV.get` now fails open after emitting `event=alert_relay_kv_op_failed`; `KV.put` preserves `dedupPersisted:false`. `dedupeKeyHash` is SHA-256 first 12 hex or `hash_error` if hashing fails; logging sink failure is swallowed. Local evidence: API typecheck / lint / build PASS and API Vitest 48 files / 294 tests PASS with `ESBUILD_BINARY_PATH` pinned to project-local esbuild. Runtime Workers Logs tail, deploy, commit, push, and PR remain user-gated. |
 | task-alert-relay-global-scope-fix-001 | implemented_local_evidence_captured / implementation / NON_VISUAL / staging deploy job pending_user_approval | `docs/30-workflows/task-alert-relay-global-scope-fix-001/` | Fixes PR #505 backend-ci deploy-staging validation error 10021 by replacing module top-level `crypto.randomUUID()` in `apps/api/src/routes/internal/alert-relay.ts` with lazy `getIsolateId()`. Focused regression test in `apps/api/src/routes/internal/__tests__/alert-relay.spec.ts` asserts module import does not call `crypto.randomUUID`; existing structured log tests preserve stable `isolateId` semantics. `scripts/cf.sh` now maps local `deploy --env staging\|production` to `CLOUDFLARE_API_TOKEN_STAGING` / `CLOUDFLARE_API_TOKEN_PRODUCTION` 1Password fields while preserving wrangler's `CLOUDFLARE_API_TOKEN` child env contract. Local Vitest, typecheck, lint, global-scope grep, and staging dry-run evidence are captured; staging deploy job, commit, push, and PR remain user-gated. |
 | step-07-requests-approve-reject | implemented_local_evidence_captured / implementation / NON_VISUAL / Phase 12 strict 7 present | `docs/30-workflows/step-07-requests-approve-reject/` | Canonical Phase 1-13 workflow and local implementation for serial-05 admin mutation UI step-07. Implements `/admin/requests` approve/reject two-step confirmation, `useAdminMutation` + `useConfirmDialog` reuse, 409 `already_resolved` toast + refresh, extracted `RequestQueueDetail` / `RequestConfirmDialog`, and focused component tests. Existing API `POST /admin/requests/:noteId/resolve` is reused; no API/D1 change in this wave. Authenticated runtime/staging evidence, commit, push, and PR remain user-gated. |
