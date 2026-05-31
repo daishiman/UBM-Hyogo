@@ -1,0 +1,128 @@
+{
+  "task_id": "admin-layout-sidebar-shell-migration",
+  "task_type": "implementation",
+  "workflow_state": "implemented_local_runtime_pending",
+  "created_at": "2026-05-29",
+  "implemented_at": "2026-05-29",
+  "canonical_workflow": "docs/30-workflows/completed-tasks/admin-layout-sidebar-shell-migration/",
+  "parent_workflow": "docs/30-workflows/unified-sidebar-shell-public-and-admin/",
+  "source_task": "docs/30-workflows/unified-sidebar-shell-public-and-admin/tasks/task-D-admin-layout-migration.md",
+  "metadata": {
+    "visualEvidence": "VISUAL",
+    "implementation_section": "実装仕様書",
+    "scope_expansion": "Task A/B/D + Task E 最小（SidebarMobileTrigger）を一括実装（ユーザー承認・CONST_009）。詳細は outputs/implementation-summary.md",
+    "coverage_threshold": {
+      "statements": 80,
+      "branches": 80,
+      "functions": 80,
+      "lines": 80
+    },
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-05-29T00:00:00+09:00",
+        "evidence_path": "docs/30-workflows/completed-tasks/admin-layout-sidebar-shell-migration/phase-3.md",
+        "approver": "daishiman",
+        "notes": "spec foundation: Phase 1-3 実装仕様 + source task からの乖離補正（package 名 / x-pathname / getSchemaDiffCount / redirect 契約）完了"
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "passed",
+        "passed_at": "2026-05-29T00:00:00+09:00",
+        "evidence_path": "docs/30-workflows/completed-tasks/admin-layout-sidebar-shell-migration/outputs/implementation-summary.md",
+        "approver": "daishiman",
+        "notes": "implementation + local evidence: typecheck 6/6 Done / lint OK / web Vitest 1299 passed・1 skipped / AC-2 grep gate 0 hit。staging 視覚ベースライン（Phase 11 screenshot）は user-gated"
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/admin-layout-sidebar-shell-migration/outputs/phase-13/pr-info.md",
+        "approver": "daishiman",
+        "notes": "commit / push / PR は user-gated（CONST_001）"
+      }
+    ]
+  },
+  "ui_routes": [
+    "/admin",
+    "/admin/dashboard/attendance",
+    "/admin/members",
+    "/admin/tags",
+    "/admin/schema",
+    "/admin/meetings",
+    "/admin/requests",
+    "/admin/identity-conflicts",
+    "/admin/audit"
+  ],
+  "dependencies": {
+    "blocked_by": [],
+    "resolved_in_this_wave": [
+      "unified-sidebar-shell-public-and-admin/task-A-sidebar-shell-primitive",
+      "unified-sidebar-shell-public-and-admin/task-B-user-menu-and-role-handling",
+      "unified-sidebar-shell-public-and-admin/task-E-mobile-trigger (最小)"
+    ]
+  },
+  "implementation_files": {
+    "added": [
+      "apps/web/src/components/shell/shell-config.ts",
+      "apps/web/src/components/shell/icons.tsx",
+      "apps/web/src/components/shell/useSidebarState.ts",
+      "apps/web/src/components/shell/SidebarShellContext.tsx",
+      "apps/web/src/components/shell/SidebarNavItem.tsx",
+      "apps/web/src/components/shell/SidebarNavGroup.tsx",
+      "apps/web/src/components/shell/SidebarNav.tsx",
+      "apps/web/src/components/shell/SidebarBrand.tsx",
+      "apps/web/src/components/shell/SidebarCollapseToggle.tsx",
+      "apps/web/src/components/shell/SidebarShell.tsx",
+      "apps/web/src/components/shell/SidebarShell.server.tsx",
+      "apps/web/src/components/shell/SidebarUserAvatar.tsx",
+      "apps/web/src/components/shell/SidebarUserMenu.tsx",
+      "apps/web/src/components/shell/user-menu-config.ts",
+      "apps/web/src/components/shell/SidebarMobileTrigger.tsx",
+      "apps/web/src/components/shell/__tests__/shell-config.spec.ts",
+      "apps/web/src/components/shell/__tests__/user-menu-config.spec.ts",
+      "apps/web/src/components/shell/__tests__/useSidebarState.spec.tsx",
+      "apps/web/src/components/shell/__tests__/SidebarShell.spec.tsx",
+      "apps/web/src/components/shell/__tests__/SidebarUserMenu.spec.tsx",
+      "apps/web/src/components/shell/__tests__/SidebarShell.server.spec.tsx",
+      "apps/web/src/lib/admin/schema-diff-count.ts",
+      "apps/web/src/lib/admin/schema-diff-count.spec.ts"
+    ],
+    "edit": [
+      "apps/web/app/(admin)/layout.tsx",
+      "apps/web/app/(admin)/layout.spec.tsx",
+      "apps/web/src/styles/tokens.css"
+    ],
+    "delete": [
+      "apps/web/src/components/layout/AdminSidebar.tsx",
+      "apps/web/src/components/layout/AdminSidebarNavItem.tsx",
+      "apps/web/src/components/layout/AdminBrandBlock.tsx",
+      "apps/web/src/components/layout/__tests__/AdminSidebar.spec.tsx",
+      "apps/web/src/components/layout/__tests__/AdminSidebar.component.spec.tsx",
+      "apps/web/src/components/layout/__tests__/AdminSidebarNavItem.spec.tsx"
+    ]
+  },
+  "verification": {
+    "typecheck": "PASS (6/6 workspaces Done)",
+    "lint": "PASS (boundaries / deps / stablekey / no-inline-style / eslint)",
+    "web_vitest": "PASS (188 files / 1299 passed / 1 skipped)",
+    "ac2_grep_gate": "PASS (git grep components/layout/AdminSidebar = 0 hit)",
+    "verified_at": "2026-05-29"
+  },
+  "phases": [
+    { "phase": 1, "name": "要件定義", "file": "phase-1.md", "state": "completed" },
+    { "phase": 2, "name": "設計", "file": "phase-2.md", "state": "completed" },
+    { "phase": 3, "name": "設計レビュー", "file": "phase-3.md", "state": "completed" },
+    { "phase": 4, "name": "テスト計画", "file": "phase-4.md", "state": "completed" },
+    { "phase": 5, "name": "実装", "file": "phase-5.md", "state": "completed" },
+    { "phase": 6, "name": "回帰確認", "file": "phase-6.md", "state": "completed" },
+    { "phase": 7, "name": "カバレッジ", "file": "phase-7.md", "state": "completed" },
+    { "phase": 8, "name": "リファクタリング", "file": "phase-8.md", "state": "completed" },
+    { "phase": 9, "name": "品質保証", "file": "phase-9.md", "state": "completed" },
+    { "phase": 10, "name": "最終レビュー", "file": "phase-10.md", "state": "completed" },
+    { "phase": 11, "name": "manual test", "file": "phase-11.md", "state": "local_evidence_done_visual_capture_user_gated" },
+    { "phase": 12, "name": "documentation", "file": "phase-12.md", "state": "completed" },
+    { "phase": 13, "name": "PR", "file": "phase-13.md", "state": "pending" }
+  ]
+}

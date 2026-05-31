@@ -92,7 +92,7 @@ Phase 11 local static screenshots are present; staging visual capture remains pe
 - 申請送信後は `pending banner`（RequestPendingBanner）を `role=status` / `aria-live=polite` で表示し、対応する申請ボタンを disabled にする
 - `pending banner` の正本は `GET /me/profile.pendingRequests` が返す server-side pending state とし、ページ reload 後も表示を維持する。client local state は submit 直後の体感補助だけに使う
 - 申請エラーは `RequestErrorMessage` で表示し、409（DUPLICATE_PENDING_REQUEST）は同一 session の pending banner と該当ボタン disabled に接続する
-- ヘッダ系 chrome は共通 `SidebarShell`（route group layout が mount）が提供し、`/profile` 専用ヘッダは持たない。`ログアウト`（Auth.js `signOut({ redirectTo: "/login" })`）は shell の user menu に集約する。runtime screenshot / cookie / session evidence は `ut-05a-auth-ui-logout-button-001` Phase 11 で取得する（issue-1017 / PR #1028 で旧 `MemberHeader` から移管）
+- ヘッダ系 chrome は共通 `SidebarShell`（route group layout が mount）が提供し、`/profile` 専用ヘッダは持たない。ログアウト導線は shell 左下の `SidebarUserMenu`（member popover 内の「ログアウト」= Auth.js `signOut({ redirectTo: "/login" })`）に集約する（旧 `MemberHeader` は撤去・削除済み。`09h-shell-and-fixtures.md` §1 参照。issue-1017 / PR #1028 で移管）。runtime screenshot / cookie / session evidence は `ut-05a-auth-ui-logout-button-001` Phase 11 で取得する
 
 ### 管理レイヤ
 

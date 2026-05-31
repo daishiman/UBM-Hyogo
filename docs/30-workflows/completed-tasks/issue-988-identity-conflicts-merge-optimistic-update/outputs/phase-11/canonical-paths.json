@@ -1,0 +1,43 @@
+{
+  "schemaVersion": "1.0.0",
+  "taskId": "issue-988-identity-conflicts-merge-optimistic-update",
+  "workflowDir": "docs/30-workflows/completed-tasks/issue-988-identity-conflicts-merge-optimistic-update",
+  "evidence": [
+    {
+      "id": "focused-vitest",
+      "kind": "test",
+      "path": "outputs/phase-11/evidence/focused-vitest.log",
+      "command": "pnpm exec vitest run apps/web/src/components/admin/__tests__/IdentityConflictRow.spec.tsx",
+      "acquiredBy": "implementation_cycle",
+      "requiredForCloseout": true,
+      "notes": "Focused component evidence for optimistic hide, success-stays-hidden, rollback, and dismiss regression guard."
+    },
+    {
+      "id": "manual-test-result",
+      "kind": "runtime-observation",
+      "path": "outputs/phase-11/manual-test-result.md",
+      "command": "manual evidence boundary ledger",
+      "acquiredBy": "implementation_cycle",
+      "requiredForCloseout": true,
+      "notes": "Local focused automated evidence and visual screenshots are captured."
+    },
+    {
+      "id": "screenshot-plan",
+      "kind": "runtime-observation",
+      "path": "outputs/phase-11/screenshot-plan.json",
+      "command": "screenshot plan for local or staging visual capture",
+      "acquiredBy": "implementation_cycle",
+      "requiredForCloseout": true,
+      "notes": "VISUAL_ON_EXECUTION canonical screenshot names; PNG capture completed locally."
+    },
+    {
+      "id": "capture-metadata",
+      "kind": "runtime-observation",
+      "path": "outputs/phase-11/phase11-capture-metadata.json",
+      "command": "capture metadata for local visual evidence",
+      "acquiredBy": "implementation_cycle",
+      "requiredForCloseout": true,
+      "notes": "Records local implementation evidence and completed screenshot capture."
+    }
+  ]
+}

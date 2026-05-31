@@ -1,0 +1,38 @@
+{
+  "taskId": "TASK-MEMBERS-SELECTED-FILTERS-CHIP-UX-HARDENING-001",
+  "workflow": "issue-1006-members-selected-filters-chip-ux-hardening",
+  "mode": "VISUAL",
+  "status": "local_component_harness_screenshots_captured_staging_pending",
+  "reason": "Focused Vitest/typecheck/lint/design-token checks passed. Local Playwright component-harness screenshots captured the canonical 3 PNGs without external runtime dependency; staging data-backed verification remains pending.",
+  "route": "/members",
+  "screenshotsDir": "outputs/phase-11/screenshots",
+  "screenshots": [
+    {
+      "tc": "TC-VIS-01",
+      "name": "selected-filters-bar-desktop-labels.png",
+      "state": "desktop / tag chip が topTags の表示名 (#{label}) で描画される",
+      "viewport": "1280x800",
+      "url": "/members?tag=ai&zone=0_to_1&status=member",
+      "captured": true,
+      "captureMode": "local_component_harness"
+    },
+    {
+      "tc": "TC-VIS-02",
+      "name": "selected-filters-bar-mobile-stacked.png",
+      "state": "mobile(<=640px) で chip 群 / クリア / result count が重ならず縦積み",
+      "viewport": "390x844",
+      "url": "/members?tag=ai&tag=startup&zone=1_to_10&status=member",
+      "captured": true,
+      "captureMode": "local_component_harness"
+    },
+    {
+      "tc": "TC-VIS-03",
+      "name": "selected-filters-bar-focus-after-remove.png",
+      "state": "chip 個別削除後に focus が次 chip へ移動した状態",
+      "viewport": "1280x800",
+      "url": "/members?tag=ai&tag=startup&zone=0_to_1",
+      "captured": true,
+      "captureMode": "local_component_harness"
+    }
+  ]
+}

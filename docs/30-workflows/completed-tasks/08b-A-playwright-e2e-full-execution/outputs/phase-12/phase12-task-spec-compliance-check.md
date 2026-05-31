@@ -1,55 +1,54 @@
-# Phase 12 Task Spec Compliance Check
+# Phase 12 task spec compliance check
 
-## 1. Summary verdict
+## Summary verdict
 
-`PASS_BOUNDARY_SYNCED_RUNTIME_PENDING`
+PASS: `spec_created / implementation / VISUAL_ON_EXECUTION`.
 
-Phase 12 spec completeness is PASS. Runtime Playwright execution remains pending explicit user approval and must not be represented as executed evidence.
+Phase 12 spec completeness is PASS. Runtime Playwright execution remains pending explicit user approval and must not be represented as executed evidence. This PASS applies to the task specification package and same-wave registration only.
 
-## 2. Changed-files classification
+## Changed-files classification
 
-| Classification | Path |
-| --- | --- |
-| spec | docs/30-workflows/completed-tasks/08b-A-playwright-e2e-full-execution/phase-{01..13}.md |
-| spec | docs/30-workflows/completed-tasks/08b-A-playwright-e2e-full-execution/outputs/phase-{01..13}/ |
-| spec | docs/30-workflows/completed-tasks/08b-A-playwright-e2e-full-execution/artifacts.json |
-| spec | docs/30-workflows/completed-tasks/08b-A-playwright-e2e-full-execution/outputs/artifacts.json |
-| spec | docs/30-workflows/completed-tasks/08b-A-playwright-e2e-full-execution/index.md |
-
-All changed files are spec/documentation. No runtime code or production artifact mutation in this workflow root.
-
-## 3. `workflow_state` and phase status consistency
-
-- `metadata.workflow_state`: `spec_created`
-- Phase 1-10 and 12: `completed`
-- Phase 11: `contract_ready_runtime_pending`
-- Phase 13: `pending_user_approval`
-
-Root `artifacts.json` and `outputs/artifacts.json` are byte-equivalent on the above fields.
-
-## 4. Phase 11 evidence file inventory
-
-| Classification | Path | Status |
+| Category | Files | Classification |
 | --- | --- | --- |
-| manual test result | outputs/phase-11/manual-test-result.md | n/a |
+| workflow specs | `index.md`, `phase-*.md`, `tasks/*.md` | spec-created implementation package |
+| phase evidence | `outputs/artifacts.json`, `outputs/phase-11/evidence/**`, `outputs/phase-12/*.md` | strict 7 + pending visual ledger |
+| regenerated reports | `outputs/phase-11/evidence/monocart/index.{html,json}`, `outputs/phase-11/evidence/playwright-report/{html/index.html,results.json}` | Playwright/monocart report regeneration drift (no contract change) |
 
-Runtime Playwright evidence (monocart / playwright-report) is contract-ready but pending user-approved execution. Status held at `n/a` per `contract_ready_runtime_pending` until the runtime gate fires.
+## `workflow_state` and phase status consistency
 
-## 5. Phase 12 strict 7 file inventory
+| Source | Value | Result |
+| --- | --- | --- |
+| root `artifacts.json` | `spec_created / implementation / VISUAL_ON_EXECUTION` | PASS |
+| `outputs/artifacts.json` | byte-identical mirror | PASS |
+| Phase 1-10, 12 | `completed` | PASS |
+| Phase 11 | `contract_ready_runtime_pending` | PASS |
+| Phase 13 | `pending_user_approval` | PASS |
 
-| File | Status |
-| --- | --- |
-| `main.md` | present |
-| `implementation-guide.md` | present |
-| `system-spec-update-summary.md` | present |
-| `documentation-changelog.md` | present |
-| `unassigned-task-detection.md` | present |
-| `skill-feedback-report.md` | present |
-| `phase12-task-spec-compliance-check.md` | present |
+## Phase 11 evidence file inventory
 
-## 6. Skill/reference/system spec same-wave sync
+| Evidence | Path | Status |
+| --- | --- | --- |
+| monocart report (html) | `outputs/phase-11/evidence/monocart/index.html` | present |
+| monocart report (json) | `outputs/phase-11/evidence/monocart/index.json` | present |
+| playwright report (html) | `outputs/phase-11/evidence/playwright-report/html/index.html` | present |
+| playwright report (results) | `outputs/phase-11/evidence/playwright-report/results.json` | present |
+| runtime PASS screenshots | `outputs/phase-11/evidence` | pending |
 
-| Skill | Requirement | Status |
+## Phase 12 strict 7 file inventory
+
+| File | Path | Status |
+| --- | --- | --- |
+| main | `outputs/phase-12/main.md` | present |
+| implementation guide | `outputs/phase-12/implementation-guide.md` | present |
+| system spec summary | `outputs/phase-12/system-spec-update-summary.md` | present |
+| documentation changelog | `outputs/phase-12/documentation-changelog.md` | present |
+| unassigned task detection | `outputs/phase-12/unassigned-task-detection.md` | present |
+| skill feedback report | `outputs/phase-12/skill-feedback-report.md` | present |
+| compliance check | `outputs/phase-12/phase12-task-spec-compliance-check.md` | present |
+
+## Skill/reference/system spec same-wave sync
+
+| Skill | Required item | Result |
 | --- | --- | --- |
 | task-specification-creator | Phase 12 strict 7 files | PASS |
 | task-specification-creator | Runtime evidence pending separated from Phase 12 completeness | PASS |
@@ -57,19 +56,19 @@ Runtime Playwright evidence (monocart / playwright-report) is contract-ready but
 | aiworkflow-requirements | Same-wave canonical requirement sync | PASS |
 | automation-30 | 30-method compact review and 4-condition gate | PASS |
 
-## 7. Runtime or user-gated boundary
+## Runtime or user-gated boundary
 
-Runtime Playwright execution (`pnpm exec playwright test`), commit, push, and PR creation are all explicitly user-gated. Phase 12 completeness does not depend on runtime PASS. Phase 11 status `contract_ready_runtime_pending` and Phase 13 status `pending_user_approval` mark the boundary.
+Phase 12 spec completeness is complete. Full Playwright E2E execution, staging visual baseline capture, commit, push, and PR are user-gated. The regenerated monocart / playwright report artifacts are local report drift and do not constitute a runtime PASS claim.
 
-## 8. Archive/delete stale-reference gate
+## Archive/delete stale-reference gate
 
-Old nested path `docs/30-workflows/08b-A-playwright-e2e-full-execution` has been removed from active workflow files. Root now lives under `completed-tasks/`. No active workflow / live inventory / consumed trace references the old path.
+No workflow root was archived or deleted. The old nested 08b-A path was removed from workflow files; 08b scaffold upstream and 09a downstream gate references remain intact.
 
-## 9. Four-condition verdict
+## Four-condition verdict
 
-| Condition | Judgment | Evidence |
+| Condition | Result | Evidence |
 | --- | --- | --- |
-| 矛盾なし | PASS | Old 08b-A nested path removed from workflow files |
+| 矛盾なし | PASS | Old 08b-A nested path removed from workflow files; runtime PASS not inferred from regenerated reports |
 | 漏れなし | PASS | Required Phase 12 outputs and Phase 11 evidence manifest are present |
 | 整合性あり | PASS | Root/outputs artifacts and `index.md` separate Phase 11 contract readiness from runtime PASS |
 | 依存関係整合 | PASS | 08b scaffold upstream and 09a downstream gate are explicitly recorded |
