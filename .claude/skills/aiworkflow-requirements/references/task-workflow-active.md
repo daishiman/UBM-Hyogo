@@ -51,6 +51,23 @@
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-public-header-session-aware-auth-view-base-artifact-inventory.md` |
 | user gate | staging authenticated runtime visual, commit, push, PR |
 
+### issue-1010-auth-view-session-contract-integration-test（2026-05-30）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / NON_VISUAL / Phase 13 pending_user_approval` |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-1010-auth-view-session-contract-integration-test/` |
+| Issue | #1010 OPEN（state は変更しない） |
+| 親 workflow | `docs/30-workflows/completed-tasks/public-header-session-aware-auth-view-base/` FU-001 |
+| source task | `docs/30-workflows/completed-tasks/issue-1010-auth-view-session-contract-integration-test/unassigned-task-specs/public-header-auth-view-session-contract-integration-test-001.md`（consumed） |
+| 目的 | 実 `buildAuthConfig().callbacks.session` 出力を `resolveAuthView()` / `getAuthView()` に連鎖し、`memberId` / `isAdmin` session contract drift を local CI で検出する |
+| implementation targets | `apps/web/src/lib/auth-view/__tests__/authViewSessionContract.integration.spec.ts` |
+| tests | focused Vitest 4 files / 61 tests PASS（新規 contract spec 8 + `getAuthView` / `resolveAuthView` / `auth.spec` regression） |
+| evidence | focused Vitest PASS、web typecheck PASS、workspace lint PASS |
+| invariant | production code change なし。D1 直接アクセスなし。`memberId` 欠落時は `guest` fail-closed |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1010-auth-view-session-contract-integration-test-artifact-inventory.md` |
+| user gate | commit, push, PR |
+
 ### login-redirect-when-authenticated（2026-05-28）
 
 | 項目 | 値 |

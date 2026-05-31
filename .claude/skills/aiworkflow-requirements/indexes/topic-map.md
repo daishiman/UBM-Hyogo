@@ -2505,6 +2505,12 @@ node scripts/list-specs.js --topics
 | Contract | L24 |
 | Evidence Boundary | L33 |
 
+### references/workflow-issue-1010-auth-view-session-contract-integration-test-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Lessons Learned | L32 |
+
 ### references/workflow-issue-106-admin-member-notes-repository-task-spec-artifact-inventory.md
 
 | セクション | 行 |
@@ -8082,14 +8088,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L3117 |
-| フェーズ構造（概要） | L3126 |
-| 品質ゲート（概要） | L3157 |
-| 出力テンプレート | L3168 |
-| 実行時のコマンド・エージェント・スキル | L3191 |
-| 昇格パターン集 | L3215 |
-| Current Active / Spec Created Tasks | L3217 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L3379 |
+| ドキュメント構成 | L3134 |
+| フェーズ構造（概要） | L3143 |
+| 品質ゲート（概要） | L3174 |
+| 出力テンプレート | L3185 |
+| 実行時のコマンド・エージェント・スキル | L3208 |
+| 昇格パターン集 | L3232 |
+| Current Active / Spec Created Tasks | L3234 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L3396 |
 
 ### references/task-workflow-backlog-part2.md
 
