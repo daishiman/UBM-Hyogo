@@ -3379,6 +3379,16 @@ node scripts/list-specs.js --topics
 | User-Gated | L13 |
 | Lessons Learned | L17 |
 
+### references/workflow-issue-981-admin-members-table-list-enrichment-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Summary | L3 |
+| Implementation Artifacts | L12 |
+| Workflow Artifacts | L19 |
+| Evidence | L32 |
+| Lessons Learned | L42 |
+
 ### references/workflow-issue-983-member-photo-avatar-r2-storage-artifact-inventory.md
 
 | セクション | 行 |
@@ -8128,7 +8138,7 @@ node scripts/list-specs.js --topics
 | 実行時のコマンド・エージェント・スキル | L3269 |
 | 昇格パターン集 | L3293 |
 | Current Active / Spec Created Tasks | L3295 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L3457 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L3458 |
 
 ### references/task-workflow-backlog-part2.md
 

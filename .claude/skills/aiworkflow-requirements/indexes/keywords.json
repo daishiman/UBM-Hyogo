@@ -3377,6 +3377,7 @@
       "workflow-issue-924-style-src-attr-retirement-artifact-inventory.md",
       "workflow-issue-956-h1-ingest-recovery-artifact-inventory.md",
       "workflow-issue-976-admin-fetch-service-binding-artifact-inventory.md",
+      "workflow-issue-981-admin-members-table-list-enrichment-artifact-inventory.md",
       "workflow-login-redirect-when-authenticated-artifact-inventory.md",
       "workflow-login-stale-link-and-profile-me-safe-fetch-artifact-inventory.md",
       "workflow-login-ui-balance-and-runtime-fix-artifact-inventory.md",
@@ -3735,6 +3736,7 @@
       "workflow-issue-894-admin-topbar-breadcrumb-integration-artifact-inventory.md",
       "workflow-issue-922-production-admin-runtime-smoke-gate-artifact-inventory.md",
       "workflow-issue-976-admin-fetch-service-binding-artifact-inventory.md",
+      "workflow-issue-981-admin-members-table-list-enrichment-artifact-inventory.md",
       "workflow-member-header-admin-link-artifact-inventory.md",
       "workflow-parallel-i02b-admin-mutation-error-finalize-artifact-inventory.md",
       "workflow-task-04b-followup-001-admin-queue-request-status-metadata-artifact-inventory.md",
@@ -5154,6 +5156,7 @@
       "workflow-issue-770-profile-loading-skeleton-artifact-inventory.md",
       "workflow-issue-956-h1-ingest-recovery-artifact-inventory.md",
       "workflow-issue-976-admin-fetch-service-binding-artifact-inventory.md",
+      "workflow-issue-981-admin-members-table-list-enrichment-artifact-inventory.md",
       "workflow-issue-983-member-photo-avatar-r2-storage-artifact-inventory.md",
       "workflow-login-redirect-when-authenticated-artifact-inventory.md",
       "workflow-member-header-admin-link-artifact-inventory.md",
@@ -6432,6 +6435,7 @@
       "logs-archive-2026-03-skill-views-completed-move.md",
       "logs-archive-index.md",
       "task-workflow-active.md",
+      "workflow-issue-981-admin-members-table-list-enrichment-artifact-inventory.md",
       "workflow-members-list-prototype-alignment-artifact-inventory.md",
       "workflow-members-list-ux-clarity-artifact-inventory.md"
     ],
@@ -7212,6 +7216,7 @@
       "workflow-issue-902-members-staging-visual-baseline-artifact-inventory.md",
       "workflow-issue-903-parallel-03-followup-005-member-runtime-evidence-artifact-inventory.md",
       "workflow-issue-956-h1-ingest-recovery-artifact-inventory.md",
+      "workflow-issue-981-admin-members-table-list-enrichment-artifact-inventory.md",
       "workflow-login-redirect-when-authenticated-artifact-inventory.md",
       "workflow-login-ui-balance-and-runtime-fix-artifact-inventory.md",
       "workflow-mypage-prototype-alignment-artifact-inventory.md",
@@ -7837,6 +7842,7 @@
       "workflow-issue-956-h1-ingest-recovery-artifact-inventory.md",
       "workflow-issue-958-h3-public-filter-ux-artifact-inventory.md",
       "workflow-issue-976-admin-fetch-service-binding-artifact-inventory.md",
+      "workflow-issue-981-admin-members-table-list-enrichment-artifact-inventory.md",
       "workflow-issue-983-member-photo-avatar-r2-storage-artifact-inventory.md",
       "workflow-task-issue-191-production-d1-schema-aliases-apply-001-artifact-inventory.md",
       "workflow-task-issue-191-schema-aliases-implementation-001-artifact-inventory.md",
@@ -10851,6 +10857,7 @@
       "workflow-issue-891-member-detail-kind-exhaustiveness-guard-artifact-inventory.md",
       "workflow-issue-894-admin-topbar-breadcrumb-integration-artifact-inventory.md",
       "workflow-issue-908-staging-rollback-notification-runtime-smoke-artifact-inventory.md",
+      "workflow-issue-981-admin-members-table-list-enrichment-artifact-inventory.md",
       "workflow-mypage-prototype-alignment-artifact-inventory.md",
       "workflow-parallel-04-shared-page-chrome-artifact-inventory.md",
       "workflow-parallel-i02b-admin-mutation-error-finalize-artifact-inventory.md",
@@ -11048,6 +11055,7 @@
       "workflow-issue-770-profile-loading-skeleton-artifact-inventory.md",
       "workflow-issue-956-h1-ingest-recovery-artifact-inventory.md",
       "workflow-issue-976-admin-fetch-service-binding-artifact-inventory.md",
+      "workflow-issue-981-admin-members-table-list-enrichment-artifact-inventory.md",
       "workflow-issue-983-member-photo-avatar-r2-storage-artifact-inventory.md",
       "workflow-login-redirect-when-authenticated-artifact-inventory.md",
       "workflow-member-header-admin-link-artifact-inventory.md",
@@ -13461,6 +13469,7 @@
       "workflow-06c-B-admin-members-artifact-inventory.md",
       "workflow-admin-ui-prototype-alignment-followup-001-members-fetch-and-visual-artifact-inventory.md",
       "workflow-admin-ui-prototype-alignment-followup-003-admin-members-prototype-redesign-artifact-inventory.md",
+      "workflow-issue-981-admin-members-table-list-enrichment-artifact-inventory.md",
       "workflow-members-list-prototype-alignment-artifact-inventory.md",
       "workflow-members-list-ux-clarity-artifact-inventory.md",
       "workflow-members-not-displaying-form-sync-investigation-artifact-inventory.md",
@@ -13573,7 +13582,8 @@
       "lessons-learned-06c-B-admin-members-2026-05.md",
       "lessons-learned-d1-batch-atomicity-and-soft-delete-2026-05.md",
       "lessons-learned-issue-274-public-pages-ogp-sitemap-robots-2026-05.md",
-      "lessons-learned-task-26-error-tsx-token-utility-migration-2026-05.md"
+      "lessons-learned-task-26-error-tsx-token-utility-migration-2026-05.md",
+      "workflow-issue-981-admin-members-table-list-enrichment-artifact-inventory.md"
     ],
     "名は単数形": [
       "lessons-learned-06c-B-admin-members-2026-05.md"
@@ -17308,6 +17318,7 @@
       "workflow-issue-908-staging-rollback-notification-runtime-smoke-artifact-inventory.md",
       "workflow-issue-956-h1-ingest-recovery-artifact-inventory.md",
       "workflow-issue-976-admin-fetch-service-binding-artifact-inventory.md",
+      "workflow-issue-981-admin-members-table-list-enrichment-artifact-inventory.md",
       "workflow-issue-983-member-photo-avatar-r2-storage-artifact-inventory.md",
       "workflow-login-redirect-when-authenticated-artifact-inventory.md",
       "workflow-login-stale-link-and-profile-me-safe-fetch-artifact-inventory.md",
@@ -25364,6 +25375,7 @@
       "workflow-issue-908-staging-rollback-notification-runtime-smoke-artifact-inventory.md",
       "workflow-issue-956-h1-ingest-recovery-artifact-inventory.md",
       "workflow-issue-976-admin-fetch-service-binding-artifact-inventory.md",
+      "workflow-issue-981-admin-members-table-list-enrichment-artifact-inventory.md",
       "workflow-issue-983-member-photo-avatar-r2-storage-artifact-inventory.md",
       "workflow-login-redirect-when-authenticated-artifact-inventory.md",
       "workflow-login-stale-link-and-profile-me-safe-fetch-artifact-inventory.md",
@@ -25524,6 +25536,7 @@
       "workflow-issue-901-authenticated-profile-admin-staging-visual-artifact-inventory.md",
       "workflow-issue-902-members-staging-visual-baseline-artifact-inventory.md",
       "workflow-issue-958-h3-public-filter-ux-artifact-inventory.md",
+      "workflow-issue-981-admin-members-table-list-enrichment-artifact-inventory.md",
       "workflow-login-page-prototype-alignment-artifact-inventory.md",
       "workflow-login-redirect-when-authenticated-artifact-inventory.md",
       "workflow-mypage-prototype-alignment-artifact-inventory.md",
@@ -25585,6 +25598,7 @@
       "workflow-issue-901-authenticated-profile-admin-staging-visual-artifact-inventory.md",
       "workflow-issue-908-staging-rollback-notification-runtime-smoke-artifact-inventory.md",
       "workflow-issue-956-h1-ingest-recovery-artifact-inventory.md",
+      "workflow-issue-981-admin-members-table-list-enrichment-artifact-inventory.md",
       "workflow-login-ui-balance-and-runtime-fix-artifact-inventory.md",
       "workflow-mypage-prototype-alignment-artifact-inventory.md",
       "workflow-step-08-audit-filter-paging-verify-artifact-inventory.md",
@@ -26523,6 +26537,9 @@
     ],
     "Screenshot": [
       "workflow-issue-958-h3-public-filter-ux-artifact-inventory.md"
+    ],
+    "enrichment": [
+      "workflow-issue-981-admin-members-table-list-enrichment-artifact-inventory.md"
     ],
     "photo": [
       "workflow-issue-983-member-photo-avatar-r2-storage-artifact-inventory.md"

@@ -992,6 +992,8 @@ dev merge で legacy CSS の汎用 attribute selector（`[data-size]` 等）に 
 - **L-DOMSWAP-003 (visual baseline 更新は user-gated workflow_dispatch)**: 寸法変動を伴う PR は同一 wave で `playwright-visual-baseline-update.yml` (`workflow_dispatch` + `visual-baseline-approval` environment) を user 承認で trigger する。Phase 12 implementation-guide に「baseline 再生成は別 workflow 実行・本 PR の commit には含めない」と明示する。
 - **L-DOMSWAP-004 (Linux baseline SoT 維持)**: ローカル macOS で `--update-snapshots` を走らせ `-darwin.png` を commit してはならない（Linux runner で再失敗）。baseline は CI runner の `-linux.png` のみが SoT。
 - **L-DOMSWAP-005 (Phase 13 acceptance gate)**: Phase 13 acceptance に `gh pr checks <PR>` 必須化に加え `gh run list --workflow=playwright-visual-baseline-update.yml --branch=<feature> --limit=1` の確認を組み込み、baseline 再生成 run が PR push より新しいことを verify する。
+- **L-DOMSWAP-006 (寸法変動は pixel diff だけでなく画像サイズ不一致でも顕在化・列/要素追加 enrichment が典型)**: DOM 構造を置換しなくても、**列・要素を追加して既存テーブル/レイアウトの幅が変わる enrichment**（例 admin members に occupation/zone/type/tags 列追加）は `playwright-visual-full` で `Error: ... Expected an image WxH, received W'xH'` の **画像サイズ不一致**として fail する（pixel diff 以前の hard fail で `maxDiffPixels` では救えない）。desktop は収まっても tablet/mobile で overflow して幅増 → viewport 別に fail する。Phase 11 で「列追加・要素追加も寸法変動 PR」として L-DOMSWAP-003 の baseline 更新対象に含め、失敗が touch surface route に限定されることを「feature 起因（baseline 更新で解決）vs 回帰（コード修正）」の判定軸として明記する。dev sync-merge 同居時は **merge 前 commit の run conclusion** を引いて merge 無罪を切り分ける。
+- **L-DOMSWAP-007 (bot baseline コミット後の `pull_request` 再発火は実コミット push でも可)**: `playwright-visual-baseline-update.yml` の bot push は GITHUB_TOKEN 由来で `pull_request` を再トリガーしない。Phase 13 で必須 check を最新 head に走らせる手段は `gh pr close && reopen`（[[lessons-learned-visual-baseline-ci-recovery-2026-05]] L-VISBASE-003）だが、**skill 反映・docs 追記など積むべき実コミットがある場合はその push で代替**できる（自分の push は再帰防止対象外）。acceptance には「baseline コミットをローカル ff 同期 → 反映コミットを上に積んで push → 最新 head で visual-full 含む全 pull_request workflow green」を記す。
 
 ### Anti-pattern
 
@@ -1323,6 +1325,29 @@ anti-pattern:
 - 参照: [[web-worker-size-limit-fix]] L-WWSL-001..004、[[workflow-web-worker-size-limit-fix-artifact-inventory]]、[[deployment-cloudflare-opennext-workers]]。
 
 
+## 届いているデータの rendering-only list enrichment パターン（issue-981 / 2026-05-29）
+
+upstream data layer（別 issue / 別 task が既に実装済の API + zod schema）が **prop まで値を供給しているのに UI が描画していない**「rendering-only gap」を埋めるタスクの汎化。一覧テーブル row に既存 response fields（occupation / zone / membership type / tags 等）を表示する典型。API/schema/D1 を一切触らず UI 描画 + focused component spec + local visual で閉じる。
+
+- **L-RENDGAP-001 (gap の層判定を Phase 2 の最初の分岐に置く)**: 「一覧に値が出ない」を受けたら、まず data が UI prop（list view type / item zod）まで届いているかを確認する。届いていれば本タスクは **rendering-only** で、API / schema / D1 / shared を boundary 外として Phase 1 で固定する。届いていなければ data-layer task（別 issue）であり責務が異なる。この層判定を誤ると不要な endpoint / migration 追加（D1 直接アクセス禁止・API 境界 invariant 違反）を招く。Phase 2 design の冒頭に「prop に値が来ているか」分岐を必須化する。
+
+- **L-RENDGAP-002 (既存 primitive / tone helper の再利用・新規生成禁止)**: chip / badge / tone 表現は既存 UI primitive（`Chip` 等）と既存 tone helper（`zoneTone` / `statusTone` 等の `lib/tones`）を再利用し、新規 component / 新規 tone map を生やさない（UI prototype alignment「新規 primitive を生やさない」invariant）。tone helper が未知値を安全な既定 tone に落とす設計なら、enum 化されていない自由入力値でも fallback が効く。Phase 2 で「再利用する既存 primitive / helper の import 元」を列挙する。
+
+- **L-RENDGAP-003 (optional field は「非描画」と「明示 fallback」を使い分ける)**: optional な enrichment field の描画は 2 系統に分ける。(a) 値が無ければ要素ごと描画しない（空 chip / 空行を作らない）── 値の有無が運用上の意味を持たないフィールド（職業・区画等）。(b) 空を明示 fallback chip で示す（例: tags 空 → `未タグ` warning chip）── 「未設定」自体が運用シグナルのフィールド。どちらを選ぶかを Phase 4 test plan で TC（充足行 / 部分欠損行 / 完全空行）に分解する。
+
+- **L-RENDGAP-004 (overflow 集約と tooltip の pass-through 制約)**: 多値フィールド（tags 等）は `slice(0, N)` で上限表示し残りを `+M` に集約。全件は wrapper `<span title="...">` の tooltip で確認可能にする。`title` を集約 chip 自体でなく wrapper に置くのは、primitive が `title` を pass-through しない設計のため。component spec で `+M` の `title` 文字列と overflow 件数境界（N 件=集約なし / N+1 件=`+1`）を固定 assert する。
+
+- **L-RENDGAP-005 (enrichment component の TC granularity と混在行 a11y)**: list row enrichment の component spec は充足行だけでなく **部分欠損の組合せ**を網羅する（field 単独欠損、多値 0/N/N+1 件境界、falsy 値、既存 state chip との共存）。さらに「一部 enriched / 一部空」の混在行を 1 TC として a11y 検証すると、条件描画の取りこぼし（空要素の role 残留・重複 label 等）を検出できる。
+
+- **anti-pattern**:
+  1. data が prop に来ているのに endpoint / migration を追加してしまう（rendering-only を data-layer task と誤判定）。
+  2. 既存 tone helper があるのに描画箇所で色分岐をベタ書きする / 新規 chip component を作る。
+  3. optional field を全て同じ描画にし、「未設定が運用シグナルのフィールド」の空 fallback を省く。
+  4. overflow tooltip を pass-through しない primitive に直接 `title` を渡して効かない（wrapper に置くべき）。
+  5. 充足行だけ TC を書き、部分欠損・境界・混在行 a11y を網羅せず条件描画バグを見逃す。
+- 参照: aiworkflow-requirements [[lessons-learned-issue-981-admin-members-table-list-enrichment-2026-05]] L-I981-001..006。
+
+
 ## L-DEVSYNC-061 skill-only conflict shape の再現 — resolver 単独完結 happy-path（dev sync-merge / 2026-05-29）
 
 > 採番補正: 当初 L-DEVSYNC-060 として追加されたが aiworkflow 側 L-DEVSYNC-060（`patterns-lessons-and-pitfalls.md union 対象`）と ID 衝突していたため 061 へ採番ずらし（aiworkflow [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-062 留意と同期）。
@@ -1620,3 +1645,13 @@ SP-DEVSYNC-063〜071 の source-shape 判定（wholesale ours/theirs・grep-cons
 - **SP-DEVSYNC-067-D (file-location conflict で relocate した test は相対 import を route-group 階層分 +1 補正)**: `()` route-group へ relocate した test は 1 階層深くなる。`../page`（同 dir 基準）は不変だが `../../../src/...`（web root 基準）は `../../../../` へ +1 補正。`pnpm exec vitest run <relocated>` で import 解決を即確認。
 - **SP-DEVSYNC-067-E (孤児 snapshot は `grep -c toMatchSnapshot`=0 を根拠に `git rm`)**: `--ours` で勝った spec が snapshot 不使用なのに `--theirs` 由来の `__snapshots__/*.snap` が残ると vitest `N obsolete` 警告 → CI ノイズ。`grep -c "toMatchSnapshot\|MatchInlineSnapshot" <spec>` = 0 を確認して即 `git rm`。
 - 参照: [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-067（同 shell-config.ts AA で L-DEVSYNC-066 と逆の `--ours` を採った対照例 + graft/relocate/snapshot の複合 shape）。
+
+### dev-sync-merge 後の `.next/types` stale typecheck 失敗（SP-DEVSYNC-069）
+
+resolver 単発で skill-only conflict を解消した後でも、Phase 12/13 の `pnpm typecheck` がローカル build cache 起因で赤になる shape。merge content の型エラーと混同しないための切り分け手順を固定する。
+
+- **SP-DEVSYNC-069-A (sync-merge 後の typecheck 失敗はまず error path で切り分ける)**: `pnpm typecheck` 失敗時、エラー path が **全件 `.next/types/**` かつ TS2307 `Cannot find module '...page.js'/route.js'`** なら merge content は無罪＝ローカル build cache の陳腐化。`packages/*` / `apps/web/src` 側に 1 件でも error があればそちらが本物（spec 追従漏れ等 SP-DEVSYNC-068-D）。判別軸は「error path に `.next/` を含むか」「`src/` 直下 error の有無」の 2 点で、Phase 12 検証手順に固定する。
+- **SP-DEVSYNC-069-B (route-group 移行の取込で `.next/types` は必ず stale 化)**: dev 側 PR が `app/x/page.tsx` → `app/(group)/x/page.tsx` の route-group 移行を含むと、移行前生成の `.next/types/app/x/page.ts` が消えた旧 `.js` を import し続け TS2307 を出す。`find apps/web/app -name page.tsx -not -path '*/.next/*'` で実 route が `(public)` 配下へ移ったことを確認すれば stale 確定。
+- **SP-DEVSYNC-069-C (`.next` は gitignore 成果物・削除前に check-ignore で安全確認)**: 修正は `apps/web/.next/types` 削除 → `pnpm typecheck` 再実行のみ（次 build で再生成）。削除前に `git check-ignore apps/web/.next` が hit する（追跡外）ことを確認し source を巻き込まない。`rm -rf` が権限拒否される環境は `find apps/web/.next/types -type f -delete` → `find ... -type d -empty -delete` で代替。
+- **SP-DEVSYNC-069-D (CI 非再発・ローカル限定として記録し push を止めない)**: CI は clean checkout から build→typecheck するため `.next/types` は常に最新で本エラーは出ない。push ブロック事由にせず、ローカル green を取り戻す cache 掃除として Phase 13 に注記する。
+- 参照: [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-069（skill-only resolver-only path + route-group 移行 stale `.next/types` の切り分け）, L-DEVSYNC-068-D（`.next/types` ではなく spec 追従漏れで test だけ赤になる対照例）。
