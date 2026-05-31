@@ -1594,3 +1594,17 @@ SP-DEVSYNC-063〜071 の source-shape 判定（wholesale ours/theirs・grep-cons
 - **SP-DEVSYNC-067-D (file-location conflict で relocate した test は相対 import を route-group 階層分 +1 補正)**: `()` route-group へ relocate した test は 1 階層深くなる。`../page`（同 dir 基準）は不変だが `../../../src/...`（web root 基準）は `../../../../` へ +1 補正。`pnpm exec vitest run <relocated>` で import 解決を即確認。
 - **SP-DEVSYNC-067-E (孤児 snapshot は `grep -c toMatchSnapshot`=0 を根拠に `git rm`)**: `--ours` で勝った spec が snapshot 不使用なのに `--theirs` 由来の `__snapshots__/*.snap` が残ると vitest `N obsolete` 警告 → CI ノイズ。`grep -c "toMatchSnapshot\|MatchInlineSnapshot" <spec>` = 0 を確認して即 `git rm`。
 - 参照: [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-067（同 shell-config.ts AA で L-DEVSYNC-066 と逆の `--ours` を採った対照例 + graft/relocate/snapshot の複合 shape）。
+
+
+### SP-DEVSYNC-047: skill-index-only クリーン sync の「衝突 file 数は可変」「sub-worktree の `.git` はファイル」2 ナンスを仕様書 Phase 9 sync-merge 節に固定（2026-05-31 追加）
+
+- 事象: 2026-05-31 `docs/issue-987-identity-conflicts-audit-log-admin-ui` ← dev（9 commits 遅れ）sync-merge。`.gitattributes merge=union` 対象は複数あるが CONFLICT マーカーが残ったのは `indexes/keywords.json` と `indexes/topic-map.md` の **2 file のみ**（残り union 対象は Auto-merging で衝突なし結合）。source conflict 0 件で SP-DEVSYNC-045 / L-DEVSYNC-072 の skill-index-only クリーンケースに該当 → `pnpm sync:resolve` 単独でゼロ手作業解消。
+- Why（仕様書に固定すべき 2 点）:
+  1. **衝突 file 数は sync ごとに変動**する。union 対象に挙がっていても両 branch が同じ hunk を触らなければ git は自動結合し CONFLICT を出さない。仕様書の sync-merge 節は「union 対象 N file が必ず衝突する」と書かず「`git diff --name-only --diff-filter=U` に出た file だけを resolver 対象にする」と書く。
+  2. **sub-worktree の `.git` はファイル**（`gitdir: …` ポインタ）。branch-sync の lock/log を `.git/...` に直書きする手順は sub-worktree で `not a directory` 失敗する。lock/log path は `git rev-parse --git-common-dir` 基準で組む（worktree 固有 dir が要る時のみ `git rev-parse --git-dir`）。
+- How to apply（task 仕様書での逐語化）: Phase 9 sync-merge 節に以下を追記:
+  1. **衝突判定の正本**: `git diff --name-only --diff-filter=U` の出力が衝突 file の唯一の正本。全て `.claude/skills/**` 配下なら `pnpm sync:resolve` 単独で完結し `git ls-files -u` 0 を確認して `git commit --no-edit`。`apps/`/`packages/` が 1 件でも混ざる場合のみ SP-DEVSYNC-038/044/067 の shape 判定へ。
+  2. **sync ツーリング path**: lock/log を扱う手順は `GD=$(git rev-parse --git-common-dir)` を起点にする。`.git/...` 直書きは main worktree 専用と注記。
+- 適用範囲外: source code conflict を含む sync（SP-DEVSYNC-038/044/067）、resolver の `index.lock` 偽陽性 fallback（SP-DEVSYNC-045）。
+- 検証: CONFLICT 2 → `pnpm sync:resolve` exit 0 → `git diff --diff-filter=U` 0 → merge commit `93f030d2c` → `pnpm typecheck` 6 packages Done → `pnpm lint` exit 0（`publicConsent` 2 件は mode=warning の既存）→ `pnpm indexes:rebuild` 冪等（5207 keywords・drift 0）。
+- 参照: aiworkflow-requirements [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-073、SP-DEVSYNC-045（resolver fallback）、L-DEVSYNC-072（クリーン基準ケース初出）。
