@@ -1568,6 +1568,14 @@ SP-DEVSYNC-069（add/add 両側フル実装 → consumer-API 起点で wholesale
 - **SP-DEVSYNC-071-D (固有 test の selector を後継 DOM 契約へ unit+e2e 一括追従)**: `--theirs` 後、branch 固有 test が旧 DOM 契約を assert したまま残り push 後 CI で落ちる。`grep -rn '<旧 selector>' apps/web/{src,playwright}` で洗い `perl -i -pe` で後継契約へ一括置換。vitest（`SidebarShell.server.spec.tsx`）+ playwright（`admin-shell-topbar-sidebar-integration.spec.ts`）双方を Phase 12 検証前に揃える。
 - 参照: [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-071（正本）/ L-DEVSYNC-069（反転前 `--ours`）/ L-DEVSYNC-070（public-return porting 初出）/ L-DEVSYNC-068-C（self-resolve 発展形）。
 
+## SP-DEVSYNC-072 skill index/changelog **のみ**の衝突は `pnpm sync:resolve` 単独でゼロ手作業解消＝source-shape 判定を出さない「クリーン基準ケース」（2026-05-31 feat/issue-983-member-photo-avatar-r2-storage ← dev 10 commits）
+
+SP-DEVSYNC-063〜071 の source-shape 判定（wholesale ours/theirs・grep-consumer・graft）が**出番なしになる対照ベースライン**を Phase 12 に固定する。本 branch の変更（admin-managed asset = D1 メタ + R2 バイナリ + presign route）が dev 側 10 commits の touch path と semantic に独立だと、conflict は skill index/changelog 派生物のみに限局し、3 層予防（`.gitattributes` union + resolver + indexes:rebuild 決定性）が単独で吸収する。
+
+- **SP-DEVSYNC-072-A (conflict file の層を最初に仕分ける)**: sync-merge task の Phase 12 implementation-guide に「`git diff --name-only --diff-filter=U` の結果が**全て `.claude/skills/**` 配下なら即 `pnpm sync:resolve`** → `git ls-files -u` 0 確認 → `git commit --no-edit` で完了。source code（`apps/`/`packages/`）が 1 件でも混ざる場合のみ SP-DEVSYNC-063〜071 の shape 判定へ」を固定フローとして記載。無駄な手解析を避ける最上段ゲート。
+- **SP-DEVSYNC-072-B (残存確認は `git ls-files -u` を正本)**: `grep '<<<<<<<'` ではなく `git ls-files -u` が空＝完全解消（[[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-072-B / `git|head` exit-code pitfall と同趣旨）。resolver 内蔵 rebuild が drift を出し切れば merge 後の単独 `chore(indexes)` commit も不要（L-DEVSYNC-012 最良ケース連番）。
+- 参照: [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-072（正本）/ L-DEVSYNC-002（index 派生物 rebuild 決定性）/ L-DEVSYNC-007（3 層予防）/ SP-DEVSYNC-067/071（対照: source code が混ざり shape 判定が要るケース）。
+
 ## SP-DEVSYNC-069 同一ディレクトリを並行実装した大規模 add/add は resolver 不可・dev 基盤採用 + feature 機能移植の 3-way 設計統合になる（2026-05-30 feat/task-spec-unified-sidebar-shell-task-e-mobile-drawer ← dev #1025 系）
 
 `feat/...-task-e-mobile-drawer` ← `dev` で、**両ブランチが同じ `apps/web/src/components/shell/**` を独立実装**していたため `pnpm sync:resolve` 後も **14 source file + `tokens.css` が手動残置**（resolver 対象は index/inventory の 3 件のみ吸収）。SP-DEVSYNC-066-A の grep 判定の延長だが、ここでは「片方が部分定義」でなく「**両方がフル実装で設計が分岐**（ours=`SidebarShellContext`+`SidebarDrawer`+`collapsed` boolean prop、theirs=dev の `useSidebarState`+`userMenuSlot`+`mode` prop）」という質的に重い衝突で、`--ours`/`--theirs` の二択では機能が壊れる。dev 基盤を正本採用しつつ feature 固有機能を新 API へ移植する 3-way 統合が必要になる。
