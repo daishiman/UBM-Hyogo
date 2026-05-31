@@ -1,0 +1,11 @@
+{
+  "mode": "VISUAL_ON_EXECUTION",
+  "taskId": "TASK-ISSUE-998-MEMBERS-PUBLISH-STATE-PRODUCTION-ROLLOUT",
+  "reason": "Browser smoke of /members must be captured against real staging/production after user-gated deploy and D1 backfill apply. Not capturable at spec-authoring time.",
+  "planned_screenshots": [
+    { "name": "staging-members-before.png", "state": "before backfill (staging)", "status": "pending" },
+    { "name": "staging-members-after.png", "state": "after backfill (staging)", "status": "pending" },
+    { "name": "prod-members-before.png", "state": "before backfill (production)", "status": "pending" },
+    { "name": "prod-members-after.png", "state": "after backfill (production)", "status": "pending" }
+  ]
+}

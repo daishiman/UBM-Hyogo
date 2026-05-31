@@ -1115,6 +1115,12 @@ production env monitor secret cleanup は user-gated。
 - Added artifact inventory `references/workflow-admin-ui-prototype-alignment-artifact-inventory.md`.
 - Boundary: no API / D1 schema / Auth.js middleware contract change; runtime screenshots and PR creation are user-gated.
 
+# 2026-05-30 issue-998-members-publish-state-production-rollout
+
+- Synced `docs/30-workflows/completed-tasks/issue-998-members-publish-state-production-rollout/` as `implemented_local_runtime_pending / implementation / VISUAL_ON_EXECUTION`.
+- Applied the in-cycle code change: `apps/api/wrangler.toml` production `MEMBERS_AUTO_PUBLISH_ON_CONSENT` is now `true`; existing auto-publish policy, sync integration, diagnostics, backfill endpoint, public filter, and ops scripts are reused unchanged.
+- Registered quick-reference, resource-map, task-workflow-active, and artifact inventory in the same wave. Issue #998 is CLOSED and PR wording must use `Refs #998` only. Staging/production deploy, D1 backfill apply, `/members` browser smoke, commit, push, and PR remain user-gated.
+
 # 2026-05-24 issue-863-admin-error-alert-policy-iac
 
 - Synced `docs/30-workflows/completed-tasks/issue-863-admin-error-alert-policy-iac/` as `implemented_local_runtime_pending / implementation / NON_VISUAL` (moved to completed-tasks on 2026-05-24 after Phase 12 close-out).
