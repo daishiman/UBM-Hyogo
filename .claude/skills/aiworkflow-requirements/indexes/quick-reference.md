@@ -13,6 +13,50 @@
 | inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-264-cron-schedule-free-tier-guard-artifact-inventory.md` |
 | user gate | optional staging cron tail, commit, push, PR, Issue mutation |
 
+## issue-982-drawer-tag-pill-editing（2026-05-29）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-982-drawer-tag-pill-editing/` |
+| status | `implemented_local_runtime_pending / implementation / VISUAL_ON_EXECUTION` |
+| issue | #982 CLOSED。PR 文脈は `Refs #982` のみ |
+| purpose | `/admin/members` の `MemberDrawer` tag pill を disabled 表示から、保存・audit 付きの編集 UI へ昇格する |
+| implementation | `apps/api/src/routes/admin/members.ts`, `apps/api/src/repository/memberTags.ts`, `apps/web/src/features/admin/api/members.ts`, `apps/web/src/features/admin/components/_members/MemberDrawer.tsx`, `apps/web/src/features/admin/hooks/useAdminMutation.ts`, `apps/web/playwright/tests/visual/admin-shell/member-drawer-tag-edit.spec.ts` |
+| contract boundary | `member_tags` / `tag_definitions` が正本。admin manual endpoint は active tag のみ付与可能、DELETE は 204 no-body |
+| Phase 12 | strict 7 present、root/output `artifacts.json` parity present、30-method compact evidence present |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-982-drawer-tag-pill-editing-artifact-inventory.md` |
+| user gate | staging visual baseline, commit, push, PR |
+
+## issue-981-admin-members-table-list-enrichment（2026-05-29）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-981-admin-members-table-list-enrichment/` |
+| status | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION` |
+| issue | #981 CLOSED（2026-05-29 GitHub 実確認）。Issue state mutation は不要 |
+| parent | `admin-ui-prototype-alignment-followup-003-admin-members-prototype-redesign` |
+| purpose | `/admin/members` list row に existing response fields の occupation / zone / membership type / tags を実データ描画する |
+| implementation | `apps/web/src/features/admin/components/_members/MembersTable.tsx` |
+| tests | `apps/web/src/features/admin/components/__tests__/MembersTable.spec.tsx` |
+| boundary | `apps/api` / `packages/shared` / `MembersTableProps` は変更なし。#968 data enrichment を既存 baseline として利用 |
+| evidence | web Vitest suite 189 files / 1300 tests PASS, 2 skipped |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-981-admin-members-table-list-enrichment-artifact-inventory.md` |
+| lessons | `.claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-issue-981-admin-members-table-list-enrichment-2026-05.md`（L-I981-001..006） |
+| user gate | staging visual, staging deploy, commit, push, PR |
+
+## issue-983-member-photo-avatar-r2-storage（2026-05-29）
+
+| 項目 | 内容 |
+| --- | --- |
+| workflow root | `docs/30-workflows/issue-983-member-photo-avatar-r2-storage/` |
+| status | `implemented_local_runtime_pending / implementation / VISUAL_ON_EXECUTION` |
+| purpose | admin member drawer の avatar を admin-managed R2 photo + D1 `member_photos` + presigned `photoUrl` で実写真化する |
+| storage contract | private R2 `MEMBER_PHOTOS`, object key `members/{memberId}/avatar`, presigned GET TTL 300s, max 256KB, jpeg/png/webp |
+| API contract | `POST /admin/members/:memberId/photo`, `DELETE /admin/members/:memberId/photo`, `GET /admin/members/:memberId` optional `photoUrl` fail-soft |
+| evidence boundary | Phase 11 local static screenshots captured; Phase 12 strict 7 and root/output artifacts parity are present; staging runtime remains user-gated |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-983-member-photo-avatar-r2-storage-artifact-inventory.md` |
+| user gate | R2 bucket/secrets, remote D1 migration apply, staging deploy, authenticated staging screenshots, commit, push, PR, Issue #983 mutation |
+
 ## admin-sidebar-public-return-link（2026-05-28）
 
 | 項目 | 値 |
@@ -174,6 +218,22 @@
 | Phase 12 | strict 7 present、root/output `artifacts.json` parity present、30-method compact evidence present |
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-unified-sidebar-shell-public-and-admin-artifact-inventory.md` |
 | user gate | apps/web implementation, local visual capture, CI baseline, commit, push, PR |
+
+## admin-layout-sidebar-shell-migration（2026-05-29）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/admin-layout-sidebar-shell-migration/` |
+| status | `implemented_local_runtime_pending / implementation / VISUAL`（2026-05-29 実装完了） |
+| parent | `docs/30-workflows/unified-sidebar-shell-public-and-admin/` Task D（Task A/B/E も本 wave で実装） |
+| purpose | `apps/web/app/(admin)/layout.tsx` を `SidebarShellServer` 消費側へ移行し、旧 `AdminSidebar` ownership を削除（user 承認で Task A/B/E 一括実装・CONST_009） |
+| implemented targets | added `apps/web/src/components/shell/**`（15 component + 6 spec）, `apps/web/src/lib/admin/schema-diff-count.ts`(+spec); edited `apps/web/app/(admin)/layout.tsx`, `apps/web/app/(admin)/layout.spec.tsx`, `apps/web/src/styles/tokens.css`; deleted old `apps/web/src/components/layout/AdminSidebar*`（grep 0 hit） |
+| invariant | API / D1 / Google Form / Auth.js middleware 変更なし。admin auth guard と `/login?next=/admin` / `/login?gate=forbidden` redirect を維持 |
+| local evidence | typecheck 6/6 Done / lint OK / web Vitest 1299 passed・1 skipped / AC-2 grep 0 hit |
+| Phase 12 | strict 7 present（implemented state）、root/output `artifacts.json` parity present、30-method compact evidence present |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-layout-sidebar-shell-migration-artifact-inventory.md` |
+| user gate | staging visual capture, commit, push, PR。follow-up FU-ALSSM-001（collapse 永続化 cookie 方式・user 判断待ち） |
+| user gate | Task A/B completion, apps/web implementation, focused tests, local visual capture, commit, push, PR |
 
 ## task-c-public-member-sidebar-shell-integration（2026-05-29）
 
@@ -620,7 +680,7 @@
 | status | `spec_created / implementation / VISUAL / runtime_pending` |
 | canonical role | `ui-prototype-design-system-foundation/serial-07-regression-evidence` の top-level execution root |
 | purpose | Playwright visual 4 screens と CI gate 6 件で UI prototype alignment の regression を防ぐ |
-| planned visual specs | `apps/web/playwright/tests/visual/{top,members-list,member-detail,admin-dashboard}.spec.ts` |
+| Gate-B target visual specs | `apps/web/playwright/tests/visual/{top,members-list,member-detail,admin-dashboard}.spec.ts` |
 | Phase 12 | strict 7 files present; root/output artifacts parity present |
 | inventory | `.claude/skills/aiworkflow-requirements/references/workflow-regression-evidence-ci-gate-foundation-artifact-inventory.md` |
 | user gate | Playwright visual run, baseline PNG capture, branch protection mutation, commit, push, PR |
@@ -1669,6 +1729,7 @@
 | workflow root | `docs/30-workflows/public-header-logged-in-nav-cleanup/` |
 | 状態 | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION / implementation_complete_pending_pr` |
 | scope | PublicHeader session awareness, root/legal public shell consistency, login safe redirect, MemberHeader admin CTA, AdminSidebar public-return, Playwright auth slot coverage |
+| Gate-B target targets | `apps/web/src/lib/auth-view/*`, `apps/web/src/components/public/PublicHeader.tsx`, `apps/web/app/(public)/layout.tsx`, `apps/web/app/page.tsx`, `apps/web/app/{privacy,terms,login}/page.tsx`, `apps/web/src/components/layout/{MemberHeader,AdminSidebar}.tsx`, `apps/web/playwright/tests/auth-slot-coverage.spec.ts` |
 | implementation targets | `apps/web/src/lib/auth-view/*`, `apps/web/src/components/public/PublicHeader.tsx`, `apps/web/app/(public)/layout.tsx`, `apps/web/app/{page,privacy,terms}/page.tsx`, `apps/web/src/components/layout/{MemberHeader,AdminSidebar,AdminSidebarNavItem}.tsx`, `apps/web/middleware.ts`, `apps/web/playwright/tests/auth-slot-coverage.spec.ts` |
 | evidence | focused Vitest 29 PASS, web typecheck PASS, Playwright setup-auth + auth-slot-coverage 28/28 PASS |
 | strict Phase 12 | `outputs/phase-12/{main.md,implementation-guide.md,system-spec-update-summary.md,documentation-changelog.md,unassigned-task-detection.md,skill-feedback-report.md,phase12-task-spec-compliance-check.md}` |
@@ -4175,7 +4236,7 @@ packages/
 | dashboard repository | `apps/api/src/repository/dashboard.ts` |
 | 認可境界 | 04c は `SYNC_ADMIN_TOKEN` Bearer gate。05a で Auth.js + `admin_users` active 判定へ差し替える |
 | 不在 endpoint | `PATCH /admin/members/:memberId/profile` / `PATCH /admin/members/:memberId/tags` は作らない |
-| tag 書き込み境界 | `POST /admin/tags/queue/:queueId/resolve` のみ |
+| tag 書き込み境界 | current API は AI/Form 提案の `POST /admin/tags/queue/:queueId/resolve` と、Issue #982 で追加した admin manual lane `GET/POST /admin/members/:memberId/tags` + `DELETE /admin/members/:memberId/tags/:tagId`。`PATCH /admin/members/:memberId/tags` は作らない |
 | schema 書き込み境界 | `/admin/schema/*` のみに集約 |
 | attendance error | duplicate は `409`、deleted member は `422`、session not found は `404` |
 | phase 11 判定 | API-only / NON_VISUAL。スクリーンショット対象外、curl smoke 手順と Vitest を証跡にする |
@@ -4543,7 +4604,7 @@ UT-17 Cloudflare Notifications → alert-relay → Slack 経路を、既存 API 
 | classification | read-only / notification-only monitor. Deploy / rollback / schema apply は行わない |
 | runbook | `docs/00-getting-started-manual/specs/15-infrastructure-runbook.md` Issue #720 section |
 | parent | `docs/30-workflows/completed-tasks/issue-655-d7-recovery-2nd-cycle/` |
-| evidence boundary | Phase 11 planned files are physical `PENDING_USER_GATE` placeholders. Runtime success is not claimed locally |
+| evidence boundary | Phase 11 Gate-B target files are physical `PENDING_USER_GATE` placeholders. Runtime success is not claimed locally |
 | inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-720-cf-audit-monitor-env-protection-fix-artifact-inventory.md` |
 | user gate | repo secret/variable mirror, push, PR, workflow dispatch dry run, six scheduled successes, D'+0 declaration, production env monitor secret cleanup |
 
@@ -4554,7 +4615,7 @@ UT-17 Cloudflare Notifications → alert-relay → Slack 経路を、既存 API 
 | canonical workflow | `docs/30-workflows/ut-17-followup-002-alert-relay-dedup-kv/` |
 | source task | `docs/30-workflows/unassigned-task/ut-17-followup-002-alert-relay-dedup-kv-persistence.md`（transferred_to_workflow） |
 | state | `implemented-local-runtime-pending / implementation / NON_VISUAL / external_ops_pending` |
-| planned binding | `ALERT_DEDUP_KV: KVNamespace` |
+| Gate-B target binding | `ALERT_DEDUP_KV: KVNamespace` |
 | canonical test path | `apps/api/src/routes/internal/__tests__/alert-relay.spec.ts`（historical source used `.test.ts`, superseded by repo `*.spec.ts` invariant） |
 | artifact inventory | `references/workflow-ut-17-followup-002-alert-relay-dedup-kv-artifact-inventory.md` |
 | patterns | `references/patterns-kv-dedup.md`（env binding narrowing / KV stub fixture / persistence ordering / wrangler gating / wording 規律） |

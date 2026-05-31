@@ -37,25 +37,32 @@
 | `apps/web/app/(member)/layout.tsx` | Member layout integration |
 | `apps/web/app/(admin)/layout.tsx` | Admin layout migration |
 | `apps/web/src/styles/tokens.css` | Shell tokens |
-| `apps/web/tests/e2e/sidebar-shell-smoke.spec.ts` | Role x viewport smoke |
-| `apps/web/tests/e2e/sidebar-shell-visual.spec.ts` | Visual baseline |
+| `apps/web/playwright/tests/sidebar-shell/sidebar-shell-smoke.spec.ts` | Role x viewport smoke (S1-S6, Task F implemented) |
+| `apps/web/playwright/tests/sidebar-shell/sidebar-shell-visual.spec.ts` | Visual baseline (V1-V7, Task F implemented) |
+| `apps/web/playwright/tests/sidebar-shell/_helpers.ts` | Shared shell helpers (Task F) |
 
 ## Current code anchors
 
+> 実装は本ブランチで landed。旧 per-layer shell（`AdminSidebar.tsx` / `PublicHeader.tsx` / `MemberHeader.tsx`）は削除済みで、共通 `SidebarShell` へ統合された。
+
 | Anchor | Path |
 | --- | --- |
-| admin sidebar current nav | `apps/web/src/components/layout/AdminSidebar.tsx` |
-| public header | `apps/web/src/components/public/PublicHeader.tsx` |
-| member header | `apps/web/src/components/layout/MemberHeader.tsx` |
+| unified shell (server) | `apps/web/src/components/shell/SidebarShell.server.tsx` |
+| unified shell (client) | `apps/web/src/components/shell/SidebarShell.tsx` |
+| shell config / nav | `apps/web/src/components/shell/shell-config.ts`, `SidebarNav.tsx`, `SidebarNavItem.tsx` |
+| user menu | `apps/web/src/components/shell/SidebarUserMenu.tsx`, `user-menu-config.ts` |
+| drawer / collapse state | `apps/web/src/components/shell/{SidebarDrawer,useSidebarState}.ts(x)` |
 | sign out | `apps/web/src/components/auth/SignOutButton.tsx` |
+| layouts | `apps/web/app/(public|member|admin)/layout.tsx` |
+| Task F Playwright specs | `apps/web/playwright/tests/sidebar-shell/{sidebar-shell-smoke,sidebar-shell-visual,_helpers}.{ts,spec.ts}` |
 
 ## Gates
 
 | Gate | Status | Boundary |
 | --- | --- | --- |
 | Gate-A | passed | spec / strict 7 / aiworkflow sync |
-| Gate-B | partial | Task A primitive + Task B user-menu + Task E mobile drawer は apps/web 実装 landed（focused vitest / typecheck / lint / verify:tokens green）。Task C/D/F の mount・visual baseline は未実装。ライブ route screenshot は C/D mount 依存で pending |
-| Gate-C | pending | commit, push, PR, CI visual baseline（user-gated） |
+| Gate-B | partial | Task A primitive + Task B user-menu + Task C public/member layout + Task E mobile drawer は dev に landed（#1020/#1025/#1028/#1033）。Task F の CI Linux `-linux.png` visual baseline 撮影は docs/task-f branch で実施。Task D admin layout migration は別 PR #1024 管轄（dev admin は AdminSidebar 維持） |
+| Gate-C | pending | commit, push, PR, CI visual baseline commit（user-gated） |
 
 ## Sub-workflows
 
@@ -69,10 +76,17 @@ Sub-workflow Phase 12 rule: 各 sub は `outputs/phase-12/phase12-task-spec-comp
 
 ## Lessons Learned
 
-参照: `lessons-learned/lessons-learned-unified-sidebar-shell-task-a-2026-05.md`、Task B wave (L-USERMENU-001..005)、Task E wave ([[lessons-learned-unified-sidebar-shell-task-e-focus-trap-responsive-2026-05]])
+実装 + 本レビューサイクルの知見は `.claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-unified-sidebar-shell-2026-05.md`（L-USHELL-001..007）+ `lessons-learned/lessons-learned-unified-sidebar-shell-task-a-2026-05.md`（L-USS-001..006）+ Task B wave（L-USERMENU-001..005）+ Task E wave（[[lessons-learned-unified-sidebar-shell-task-e-focus-trap-responsive-2026-05]]）に体系化。dev sync-merge での shell 収束知見は [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-069-G を参照。
 
 ### Task A wave (L-USS-*)
 
+- **L-USHELL-001**: 公開/会員/管理 3 route group を共通 `SidebarShellServer` へ集約し role 判定を `getSession().isAdmin` の 1 箇所に一本化（throw 時 `viewer` fail-closed・不変条件 #11）。
+- **L-USHELL-002**: nav active 判定は client `usePathname()` + `isNavItemActive` 純関数に寄せ、server からの `activePath` 配線は middleware の header 注入とセットでない限り dead code（本実装で削除）。
+- **L-USHELL-003**: Playwright auth fixture の `anonymousPage` は `mockApi` 非依存。anonymous 系 smoke/visual は `mockApi` を明示注入する（未注入だと public home が error boundary に落ち `waitShellReady` timeout）。
+- **L-USHELL-004**: 複数 layout を同時に async server 化する際は N 個すべての対応 spec を追従更新する（`(member)/layout.spec.tsx` 追従漏れで 2 件 fail を検出）。
+- **L-USHELL-005**: collapse 永続化（`localStorage["ubm:shell:collapsed"]`）と drawer auto-close は client state hook（`useSidebarState`）に閉じ、`isBrowser()` guard で SSR 安全化。
+- **L-USHELL-006**: 旧 per-layer shell 削除 + route group 移動はシステム仕様書 dangling（09h / 05-pages / 00-overview / 09g / 09-ui-ux route group prefix）を同 wave で解消する。
+- **L-USHELL-007**: Phase-12 compliance の「lint green」主張は close-out 時に `pnpm lint` 再実行で検証する。本サイクルで 3 件の landed lint regression を検出・修正（`localStorage` boundary → `@ubm-hyogo/shared/browser-storage` 隔離 / inline `style={` → token-var arbitrary className / `no-restricted-globals` eslint-disable 復元）。lint は `&&` serial chain のため green まで反復（3 iteration）。
 - **L-USS-001**: parent workflow + nested sub-workflow の topology — standalone root を作らず `tasks/<task-id>/` に nest し `hasCompletedTasksAncestor=true` を維持
 - **L-USS-002**: Server / Client component の境界を slot で固定 — `SidebarShellServer` のみ session 解決、`SidebarShell` は plain props + `ReactNode` slot
 - **L-USS-003**: `useSidebarState` は SSR 初期値 deterministic — 初期 `collapsed=false`、`useEffect` で localStorage `ubm:shell:collapsed` を hydrate

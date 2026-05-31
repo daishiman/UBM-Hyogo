@@ -50,6 +50,13 @@
   --ubm-color-zone-d: var(--ubm-color-warn);
   --ubm-color-zone-e: var(--ubm-color-danger);
 
+  /* unified-sidebar-shell (Task A): collapsible sidebar shell tokens */
+  --shell-bar-w: 17rem; /* 272px expanded */
+  --shell-bar-w-collapsed: 4rem; /* 64px collapsed */
+  --shell-bar-bg: var(--ubm-color-surface-panel);
+  --shell-bar-border: var(--ubm-color-border-default);
+  --shell-active-bg: var(--ubm-color-accent-soft);
+
   /* Radius */
   --ubm-radius-sm: 8px;
   --ubm-radius-md: 12px;

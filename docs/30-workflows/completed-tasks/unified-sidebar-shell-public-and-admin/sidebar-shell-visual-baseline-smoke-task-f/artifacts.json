@@ -1,0 +1,81 @@
+{
+  "task_id": "sidebar-shell-visual-baseline-smoke-task-f",
+  "created_at": "2026-05-29",
+  "status": "implemented_local_evidence_captured",
+  "task_type": "implementation",
+  "visual_category": "VISUAL",
+  "implementation_mode": "new",
+  "metadata": {
+    "workflow_state": "implemented_local_evidence_captured",
+    "implementation_status": "implemented",
+    "taskType": "implementation",
+    "visualEvidence": "VISUAL_ON_EXECUTION",
+    "implementationCategory": "visual_baseline_ci",
+    "spec_classification": "implementation_spec",
+    "canonical_workflow": "docs/30-workflows/completed-tasks/unified-sidebar-shell-public-and-admin/sidebar-shell-visual-baseline-smoke-task-f/",
+    "parent_workflows": [
+      "docs/30-workflows/unified-sidebar-shell-public-and-admin/"
+    ],
+    "source_task": "docs/30-workflows/unified-sidebar-shell-public-and-admin/tasks/task-F-visual-baseline-smoke.md",
+    "branch": "docs/task-f-visual-baseline-smoke-spec",
+    "depends_on_tasks": [
+      "task-A-sidebar-shell-primitive",
+      "task-B-user-menu-and-role-handling",
+      "task-C-public-and-member-layout-integration",
+      "task-D-admin-layout-migration",
+      "task-E-mobile-drawer-responsive"
+    ],
+    "scope_roles": ["viewer", "member", "admin"],
+    "scope_viewports": ["desktop-1280x800", "tablet-768x1024", "mobile-375x812"],
+    "smoke_case_count": 6,
+    "visual_screenshot_count": 7,
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-05-29T00:00:00+09:00",
+        "evidence_path": "docs/30-workflows/completed-tasks/unified-sidebar-shell-public-and-admin/sidebar-shell-visual-baseline-smoke-task-f/outputs/phase-12/phase12-task-spec-compliance-check.md",
+        "approver": "daishiman",
+        "notes": "spec_review + implementation + local evidence: Phase 1-13, strict 7 outputs, root/output artifacts parity present. Implementation (shell A-E + Task F playwright/config/CI) landed in branch; local typecheck/lint green, vitest shell+layout 45 passed, smoke 6/6 and visual V1-V3 captured locally"
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/unified-sidebar-shell-public-and-admin/sidebar-shell-visual-baseline-smoke-task-f/outputs/phase-11/manual-test-result.md",
+        "approver": "daishiman",
+        "notes": "runtime_visual: local smoke 6/6 green and local visual V1-V3 captured (macOS, non-commit). CI Linux baseline (-linux.png), regression dry-run, and CI matrix green remain user-gated"
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/unified-sidebar-shell-public-and-admin/sidebar-shell-visual-baseline-smoke-task-f/outputs/phase-13/pr-creation-result.md",
+        "approver": "daishiman",
+        "notes": "external_ops: commit, push, PR, empty retrigger commit, and branch protection PUT are user-gated"
+      }
+    ]
+  },
+  "phases": [
+    { "phase": 1, "name": "要件定義", "status": "completed", "output": "phase-1-requirements.md" },
+    { "phase": 2, "name": "設計", "status": "completed", "output": "phase-2-design.md" },
+    { "phase": 3, "name": "設計レビュー", "status": "completed", "output": "phase-3-design-review.md" },
+    { "phase": 4, "name": "テスト計画", "status": "completed", "output": "phase-4-test-plan.md" },
+    { "phase": 5, "name": "実装", "status": "completed", "output": "phase-5-implementation.md" },
+    { "phase": 6, "name": "テスト追加", "status": "completed", "output": "phase-6-test-additions.md" },
+    { "phase": 7, "name": "カバレッジ", "status": "completed", "output": "phase-7-coverage.md" },
+    { "phase": 8, "name": "リファクタリング", "status": "completed", "output": "phase-8-refactor.md" },
+    { "phase": 9, "name": "QA", "status": "completed", "output": "phase-9-qa.md" },
+    { "phase": 10, "name": "最終レビュー", "status": "completed", "output": "phase-10-final-review.md" },
+    { "phase": 11, "name": "手動テスト / Evidence", "status": "pending_user_gate", "output": "phase-11-manual-test.md" },
+    { "phase": 12, "name": "ドキュメント", "status": "completed", "output": "phase-12-documentation.md" },
+    { "phase": 13, "name": "PR", "status": "pending_user_approval", "output": "phase-13-pr.md" }
+  ],
+  "implementation_targets": [
+    "apps/web/playwright/tests/sidebar-shell/sidebar-shell-smoke.spec.ts",
+    "apps/web/playwright/tests/sidebar-shell/sidebar-shell-visual.spec.ts",
+    "apps/web/playwright/tests/sidebar-shell/_helpers.ts",
+    "apps/web/playwright.config.ts",
+    ".github/workflows/playwright-smoke.yml"
+  ]
+}
