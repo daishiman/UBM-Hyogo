@@ -1621,7 +1621,8 @@ SP-DEVSYNC-063〜071 の source-shape 判定（wholesale ours/theirs・grep-cons
 
 - **SP-DEVSYNC-072-A (conflict file の層を最初に仕分ける)**: sync-merge task の Phase 12 implementation-guide に「`git diff --name-only --diff-filter=U` の結果が**全て `.claude/skills/**` 配下なら即 `pnpm sync:resolve`** → `git ls-files -u` 0 確認 → `git commit --no-edit` で完了。source code（`apps/`/`packages/`）が 1 件でも混ざる場合のみ SP-DEVSYNC-063〜071 の shape 判定へ」を固定フローとして記載。無駄な手解析を避ける最上段ゲート。
 - **SP-DEVSYNC-072-B (残存確認は `git ls-files -u` を正本)**: `grep '<<<<<<<'` ではなく `git ls-files -u` が空＝完全解消（[[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-072-B / `git|head` exit-code pitfall と同趣旨）。resolver 内蔵 rebuild が drift を出し切れば merge 後の単独 `chore(indexes)` commit も不要（L-DEVSYNC-012 最良ケース連番）。
-- 参照: [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-072（正本）/ L-DEVSYNC-002（index 派生物 rebuild 決定性）/ L-DEVSYNC-007（3 層予防）/ SP-DEVSYNC-067/071（対照: source code が混ざり shape 判定が要るケース）。
+- **SP-DEVSYNC-072-C (クリーン基準ケースは branch 非依存・複数回再現する baseline として扱う)**: 2026-05-31 `docs/issue-988-identity-conflicts-merge-optimistic-update` ← dev（ahead 3 / behind 7）でも、issue-983 と**同一の 6 file（同じ skill index/changelog/active 系）のみ衝突** → `pnpm sync:resolve` 単独 → `git ls-files -u` 0 → `git commit --no-edit`（merge commit `af596e806`）でゼロ手作業解消を再現。SP-DEVSYNC-072 は単発でなく「**docs/タスク成果物系 branch が dev の source touch path と semantic 独立な限り常に成立する baseline**」＝Phase 12 では「skill-only conflict は再現性のある既定フロー（resolver 直行）」と明記し、source 混在時のみ shape 判定へ branch する二段ゲートを固定する。
+- 参照: [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-072（正本・再現確認含む）/ L-DEVSYNC-002（index 派生物 rebuild 決定性）/ L-DEVSYNC-007（3 層予防）/ SP-DEVSYNC-067/071（対照: source code が混ざり shape 判定が要るケース）。
 
 ## SP-DEVSYNC-069 同一ディレクトリを並行実装した大規模 add/add は resolver 不可・dev 基盤採用 + feature 機能移植の 3-way 設計統合になる（2026-05-30 feat/task-spec-unified-sidebar-shell-task-e-mobile-drawer ← dev #1025 系）
 
