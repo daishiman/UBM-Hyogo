@@ -1,0 +1,10 @@
+{
+  "status": "pending_implementation",
+  "visualEvidence": "VISUAL_ON_EXECUTION",
+  "reason": "Implementation and authenticated visual capture are user-gated.",
+  "expectedScreenshots": [
+    "screenshots/member-drawer-tag-edit.png",
+    "screenshots/member-drawer-tag-added.png",
+    "screenshots/member-drawer-tag-removed.png"
+  ]
+}

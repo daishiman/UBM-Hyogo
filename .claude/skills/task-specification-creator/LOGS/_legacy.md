@@ -6,11 +6,19 @@
 
 ## 2026-05-28 - task-b-root-page-public-header-async automation-30 close-out
 
+## 2026-05-30 - issue-988 identity conflicts optimistic update automation-30 close-out
+
+`docs/30-workflows/completed-tasks/issue-988-identity-conflicts-merge-optimistic-update/` の automation-30 改善で、implementation target が明確な `spec_created` workflow を docs-only close-out せず、同一サイクルで `IdentityConflictRow.tsx` の optimistic hide / rollback、API body message の inline alert 補正、focused Vitest、Playwright focused、Phase 11 screenshot 3 PNG、Phase 11 canonical manifest、Phase 12 strict 7、aiworkflow same-wave sync まで完了して `implemented_local_evidence_captured` へ再分類した。commit / push / PR / Issue close のみ user-gated として分離した。
+
 `implementation_files` を列挙する `spec_created` workflow を docs-only close-out せず、実コード・focused tests・Phase 11 evidence・aiworkflow same-wave sync まで完了して `implemented_local_evidence_captured` に再分類。Phase 12 compliance heading は canonical 9 headings に補正し、`PASS` 断定と pending の混在を解消した。
 
 ## 2026-05-28 - Cloudflare Worker loopback Service Binding lesson
 
 `docs/30-workflows/completed-tasks/fix-admin-fetch-cf-1042-service-binding/` の automation-30 改善で、Worker-to-Worker raw HTTP loopback 404 / `error code: 1042` を Service Binding first transport へ補正した。implementation target が明確な workflow は spec-only のまま閉じず、同一 wave で `apps/` 実装、focused tests、Phase 11 evidence boundary、Phase 12 strict 7、aiworkflow 正本同期まで完了させる。
+
+## 2026-05-29 - issue-982 drawer tag pill editing spec package correction
+
+`docs/30-workflows/completed-tasks/issue-982-drawer-tag-pill-editing/` の automation-30 改善で、spec-created implementation workflow でも Phase 12 strict 7、root/output artifacts parity、aiworkflow same-wave registration を省略しない運用を適用した。Issue #982 code implementation は user-gated のまま、仕様書パッケージの矛盾（scope 外候補を未タスクへ逃がす表現、deleted member wording、planned API を current behavior と混同するリスク）を補正した。テンプレート変更は不要。
 
 ## 2026-05-27 - admin members prototype redesign implemented-local close-out
 

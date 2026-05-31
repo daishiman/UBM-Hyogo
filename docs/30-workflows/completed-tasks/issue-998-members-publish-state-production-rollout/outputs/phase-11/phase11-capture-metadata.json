@@ -1,0 +1,7 @@
+{
+  "taskId": "TASK-ISSUE-998-MEMBERS-PUBLISH-STATE-PRODUCTION-ROLLOUT",
+  "mode": "VISUAL_ON_EXECUTION",
+  "capturedAt": null,
+  "status": "pending",
+  "note": "Runtime screenshots are user-gated (staging then production). Captured during Gate-C execution, not at spec-authoring time."
+}
