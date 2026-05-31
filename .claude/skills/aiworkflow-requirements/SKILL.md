@@ -65,6 +65,7 @@ ubm-hyogo Web アプリプロジェクトの全仕様を管理するスキル。
 
 | Version | Date | Changes |
 | --- | --- | --- |
+| v2026.05.29-issue-981-admin-members-table-list-enrichment | 2026-05-29 | `issue-981-admin-members-table-list-enrichment` を `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION` として同期。`MembersTable` に existing enrichment fields（occupation / ubmZone / ubmMembershipType / tags）を描画し、focused component assertions、Phase 12 strict 7、quick-reference / resource-map / task-workflow-active / artifact inventory / lessons-learned（L-I981-001..006）を同一 wave 反映。 |
 | v2026.05.29-web-worker-size-limit-fix | 2026-05-29 | `web-worker-size-limit-fix` を `implemented_local_evidence_captured / implementation / NON_VISUAL` として同期。`next/og` 撤去、静的 `og-default.png`、Worker size gate、OpenNext v1.19.4 minify key 不在の正本化を反映。 |
 | v2026.05.28-login-redirect-when-authenticated | 2026-05-28 | `login-redirect-when-authenticated` を `implemented_local_evidence_captured / implementation / NON_VISUAL` として同期。`safe-next.ts` + `/login` server-side redirect、focused Vitest 22 PASS、Phase 12 strict 7、quick-reference / resource-map / task-workflow-active / artifact inventory を同一 wave 反映。 |
 | v2026.05.28-issue-976-admin-fetch-service-binding | 2026-05-28 | `issue-976-admin-fetch-service-binding` を `implemented_local_runtime_pending / implementation / NON_VISUAL` として同期。admin server-fetch service-binding transport、focused tests、Phase 12 strict outputs、indexes を反映。staging deploy / authenticated proof / commit / push / PR は user-gated。 |
