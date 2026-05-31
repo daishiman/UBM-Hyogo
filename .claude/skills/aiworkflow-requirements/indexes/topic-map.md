@@ -874,13 +874,13 @@ node scripts/list-specs.js --topics
 | 概要 | L8 |
 | ドキュメント構成 | L27 |
 | REST API エンドポイント一覧 | L37 |
-| エンドポイント命名規則 | L246 |
-| UBM-Hyogo Admin Sync API（03a） | L267 |
-| UBM-Hyogo Member Self-Service API（04b） | L319 |
-| Admin Dashboard Attendance Analytics API（UT-02A follow-up 002） | L345 |
-| Desktop IPC API サマリー | L359 |
-| 変更履歴 | L390 |
-| 関連ドキュメント | L407 |
+| エンドポイント命名規則 | L249 |
+| UBM-Hyogo Admin Sync API（03a） | L270 |
+| UBM-Hyogo Member Self-Service API（04b） | L322 |
+| Admin Dashboard Attendance Analytics API（UT-02A follow-up 002） | L348 |
+| Desktop IPC API サマリー | L362 |
+| 変更履歴 | L393 |
+| 関連ドキュメント | L410 |
 
 ### references/api-internal-chunk-search.md
 
@@ -3378,6 +3378,27 @@ node scripts/list-specs.js --topics
 |------------|----|
 | User-Gated | L13 |
 | Lessons Learned | L17 |
+
+### references/workflow-issue-981-admin-members-table-list-enrichment-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Summary | L3 |
+| Implementation Artifacts | L12 |
+| Workflow Artifacts | L19 |
+| Evidence | L32 |
+| Lessons Learned | L42 |
+
+### references/workflow-issue-982-drawer-tag-pill-editing-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Summary | L5 |
+| Canonical workflow | L11 |
+| Local implementation targets | L23 |
+| Current code anchors | L35 |
+| Gates | L46 |
+| Lessons Learned | L54 |
 
 ### references/workflow-issue-983-member-photo-avatar-r2-storage-artifact-inventory.md
 
@@ -8131,14 +8152,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L3209 |
-| フェーズ構造（概要） | L3218 |
-| 品質ゲート（概要） | L3249 |
-| 出力テンプレート | L3260 |
-| 実行時のコマンド・エージェント・スキル | L3283 |
-| 昇格パターン集 | L3307 |
-| Current Active / Spec Created Tasks | L3309 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L3471 |
+| ドキュメント構成 | L3225 |
+| フェーズ構造（概要） | L3234 |
+| 品質ゲート（概要） | L3265 |
+| 出力テンプレート | L3276 |
+| 実行時のコマンド・エージェント・スキル | L3299 |
+| 昇格パターン集 | L3323 |
+| Current Active / Spec Created Tasks | L3325 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L3488 |
 
 ### references/task-workflow-backlog-part2.md
 
