@@ -80,6 +80,8 @@ type AdminNavItem = {
 
 AdminSidebar は全 admin 画面の共通入口であり、各画面は Sidebar を再定義せず §1 を参照する。
 
+> **実装更新（2026-05）**: AdminSidebar は `unified-sidebar-shell-public-and-admin`（Task A-F）で公開 / 会員 / 管理 3 層共通の `SidebarShell`（`apps/web/src/components/shell/`）へ統合された。本書の「AdminSidebar」は統合後の **SidebarShell の admin role nav（ADMIN グループ 9 item + PUBLIC 3 + MEMBERS 1 = 計 13）** を指す。nav item / active 判定 / badge / logout 導線の blueprint 契約は §1 を正本として維持し、shell 全体構造（collapse / drawer / data-testid）の正本は `09h-shell-and-fixtures.md` §1 を参照する。
+
 ### 1.1 prototype 由来
 
 - 出典は `docs/00-getting-started-manual/claude-design-prototype/pages-admin.jsx` の sidebar 相当箇所。

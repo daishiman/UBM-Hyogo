@@ -57,6 +57,13 @@ jobs:
         run: mise exec -- pnpm --filter @ubm-hyogo/web exec playwright install --with-deps chromium
       - name: Run 19-route smoke
         run: mise exec -- pnpm --filter @ubm-hyogo/web e2e:smoke
+      - name: Run sidebar-shell smoke
+        env:
+          PLAYWRIGHT_EVIDENCE_TASK: ''
+          PLAYWRIGHT_TASK18_SMOKE: ''
+        run: |
+          mise exec -- pnpm --filter @ubm-hyogo/web exec playwright test \
+            --project=sidebar-shell-smoke
       - name: Run attendance visual smoke
         env:
           PLAYWRIGHT_EVIDENCE_TASK: 07c-followup-002
@@ -226,4 +233,44 @@ jobs:
         with:
           name: admin-visual-diff-${{ matrix.viewport }}
           path: docs/30-workflows/completed-tasks/admin-visual-baseline-admin-routes-task-e/outputs/phase-11/evidence
+          if-no-files-found: ignore
+
+  # sidebar-shell-visual-baseline-smoke-task-f: unified collapsible Sidebar Shell の
+  # 3 viewport baseline。staging に依存せず local（mockApi + auth fixture）で完結する。
+  # baseline 正本は本 job（ubuntu-latest）が生成する *-sidebar-shell-visual-<viewport>-linux.png。
+  sidebar-shell-visual:
+    name: visual (sidebar-shell ${{ matrix.viewport }})
+    runs-on: ubuntu-latest
+    needs: smoke
+    if: github.event_name != 'schedule'
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        viewport: [desktop, tablet, mobile]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: jdx/mise-action@v2
+      - name: Install deps
+        run: mise exec -- pnpm install --frozen-lockfile
+      - name: Install Chromium
+        run: mise exec -- pnpm --filter @ubm-hyogo/web exec playwright install --with-deps chromium
+      - name: Run sidebar-shell visual baseline (${{ matrix.viewport }})
+        run: |
+          mise exec -- pnpm --filter @ubm-hyogo/web exec playwright test \
+            --project=sidebar-shell-visual-${{ matrix.viewport }} \
+            ${{ inputs.staging_visual_update_snapshots && '--update-snapshots' || '' }}
+      - name: Upload sidebar-shell visual baselines
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: sidebar-shell-visual-baselines-${{ matrix.viewport }}
+          path: apps/web/playwright/tests/sidebar-shell/**/*-sidebar-shell-visual-${{ matrix.viewport }}-linux.png
+          if-no-files-found: warn
+      - name: Upload sidebar-shell visual diff artifacts
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: sidebar-shell-visual-diff-${{ matrix.viewport }}
+          path: docs/30-workflows/completed-tasks/08b-A-playwright-e2e-full-execution/outputs/phase-11/evidence/test-results
           if-no-files-found: ignore
