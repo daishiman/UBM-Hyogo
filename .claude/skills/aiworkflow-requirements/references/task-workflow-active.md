@@ -3577,3 +3577,14 @@ docs-only / direction-reconciliation で採用方針 A を維持する場合で�
 | scope | `/members` UX clarity: density meaning, live filter affordance, active filter chips, result-count live region |
 | implementation targets | `apps/web/src/components/public/{DensityToggle.client,MemberFilters.client,SelectedFiltersBar.client,SelectedTagsBar.client}.tsx`, `apps/web/src/components/ui/{Segmented,Search}.tsx`, `apps/web/app/(public)/members/page.tsx`, `apps/web/src/styles/legacy-public.css` |
 | evidence | focused component tests local; visual baseline / commit / push / PR user-gated |
+
+# issue-1005-members-ux-playwright-baseline-stabilization（implemented_local_evidence_captured / implementation / VISUAL / 2026-05-30）
+
+| item | value |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-1005-members-ux-playwright-baseline-stabilization/` |
+| scope | `/members` UX clarity Playwright visual baseline cold-start stabilization and completed-task evidence path drift fix |
+| implementation targets | `apps/web/playwright.config.ts`, `apps/web/playwright/tests/members-ux-clarity.spec.ts` |
+| evidence | TypeScript PASS; `/members` local warm-up 200; Playwright desktop-chromium 12 PASS; 24 PNG in `completed-tasks/members-list-ux-clarity/outputs/phase-11/screenshots`; stale active path not created |
+| user gate | commit, push, PR, staging visual baseline refresh, Issue #1005 state mutation |
+| inventory | `references/workflow-issue-1005-members-ux-playwright-baseline-stabilization-artifact-inventory.md` |

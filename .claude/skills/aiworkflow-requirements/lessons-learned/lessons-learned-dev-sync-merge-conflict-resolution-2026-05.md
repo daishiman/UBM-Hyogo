@@ -1737,6 +1737,21 @@
 - 参照: L-DEVSYNC-072（同型のクリーン基準ケース・本件はその残マーカー確認の偽陽性を追補）, L-DEVSYNC-072-B（`git ls-files -u` 正本則の初出）, [[feedback-grep-head-exit-code-pitfall]]（grep ベース判定のピットフォール一般則）, task-specification-creator [[patterns-lessons-and-pitfalls#dev-sync-merge-conflict-resolution]] SP-DEVSYNC-073。
 - 再現確認 (2026-05-31 `docs/issue-988-identity-conflicts-merge-optimistic-update` ← dev, ahead 3 / behind 7): 別 branch でも**同一の 6 file（同じ skill index/changelog/active 系）のみ衝突**し、`pnpm sync:resolve` 単独（union 5 + keywords.json `--ours`+rebuild 1）→ `git ls-files -u` 0 → `git commit --no-edit` でゼロ手作業解消。merge commit `af596e806`。検証 = `pnpm typecheck` 6 packages Done / indexes:rebuild 後 drift 0（CI `verify-indexes` gate 緑、5208 キーワード）。本 branch の変更（identity-conflicts の optimistic update = docs 系タスク成果物）が dev 7 commits の touch path と semantic 独立だったため。**L-DEVSYNC-072 は issue-983 単発でなく branch 非依存の baseline であることを確認**＝conflict file が全て `.claude/skills/**` 配下なら L-DEVSYNC-072-A の層仕分けで即 resolver 直行が正しい。
 
+## L-DEVSYNC-073: skill 系 resolver + playwright `testIgnore` 「両側が別エントリを追加」型は片側採用でなく **正規表現 union** が正解（2026-05-31 docs/issue-1005-members-ux-playwright-baseline-stabilization ← dev 5 commits）
+
+- 事象: `docs/issue-1005-members-ux-playwright-baseline-stabilization`（dev より 5 commits 遅れ / 2 先行）← `git merge dev`。conflict は 4 file:
+  - skill 系 3 件: `aiworkflow-requirements/SKILL.md`, `aiworkflow-requirements/indexes/keywords.json`, `task-specification-creator/SKILL.md`
+  - source 1 件: `apps/web/playwright.config.ts`（`desktop-firefox` project の `testIgnore` 配列で 3-way diff3）
+- source conflict の shape: base（278001606）に対し **HEAD は `...membersUxClarityNonPrimaryIgnore` を追加**、**dev は `/sidebar-shell\/.*\.spec\.ts$/` を追加**。同一配列の異なる位置への**独立追加**であり「同一行への意味的競合」ではない → 片側採用は他方の testIgnore を喪失させる。**両エントリを保持した union が正解**で、結果は直下の `mobile-webkit` project（既に sidebar-shell + membersUxClarityNonPrimaryIgnore の両方を持つ）の並びと一致＝整合の自己検証になる。
+- 解消: playwright は手動 Edit で両エントリ union（`...full-smoke`, `/sidebar-shell.../`, `...setup-auth`, `...auth-slot-coverage`, `...membersUxClarityNonPrimaryIgnore`, `...fixtureGatedTestIgnore` の順）。skill 3 件は `pnpm sync:resolve` 単独（union 2 + keywords.json `--ours`+rebuild）→ `git ls-files -u` 0 → marker 0。
+- Why: L-DEVSYNC-069 で既出の「playwright `testIgnore` は正規表現 union」原則の単独再現。`testIgnore` は除外パターンの集合であり、両 branch が各自の新規 spec 群を除外対象に足しただけなので和集合が両者の意図を同時に満たす。`.gitattributes` の `merge=union` 対象外（source code）なので resolver は触れず、手動 union が必要。
+- How to apply:
+  - **L-DEVSYNC-073-A (testIgnore/testMatch の配列 conflict は「片側 vs 片側」でなく「両側追加か」を先に判定)**: diff3（`||||||| <base>`）で base 行と両側を並べ、HEAD・dev が**それぞれ base に無いエントリを足している**なら union 確定。一方が他方の superset なら superset 採用（L-DEVSYNC-069 と分岐）。
+  - **L-DEVSYNC-073-B (union 結果は兄弟 project の並びで自己検証)**: 同 config 内の類似 project（`mobile-webkit` 等）が既に両エントリを持つなら、それを template にして順序を揃える。新規に矛盾した順序を作らない。
+  - **L-DEVSYNC-073-C (skill + source 混在は層別に解消経路を分ける)**: skill 系は `pnpm sync:resolve`、source は手動 Edit。両方終えてから `git ls-files -u` 0 を一括確認する（L-DEVSYNC-072-A の混在版）。
+- 検証: playwright 手動 union + skill `sync:resolve` → `git ls-files -u` 0 / `git diff --check` 0 → `pnpm typecheck` → `pnpm lint` → merge commit。
+- 参照: L-DEVSYNC-069（playwright testIgnore 正規表現 union の初出）, L-DEVSYNC-072（skill-only クリーン基準・本件はその source 混在版）, L-DEVSYNC-059（独立 interface 並列追加は union でなく両保持＝対照）, task-specification-creator [[patterns-lessons-and-pitfalls#dev-sync-merge-conflict-resolution]] SP-DEVSYNC-073。
+
 ## L-DEVSYNC-073: L-DEVSYNC-072 の再確認＋2 つの運用ナンス — 「衝突するのは union 候補のうち実マーカーが残った subset のみ（今回 2 件）」「sub-worktree では `.git` がファイルなので branch-sync の lock/log は `git rev-parse --git-common-dir` 配下に置く」（2026-05-31 docs/issue-987-identity-conflicts-audit-log-admin-ui ← dev 9 commits）
 
 - 事象: `docs/issue-987-identity-conflicts-audit-log-admin-ui`（dev より 9 commits 遅れ）← `git merge dev`。`.gitattributes merge=union` 対象は複数あるが、**今回 content conflict マーカーが実際に残ったのは 2 file のみ**: `aiworkflow-requirements/indexes/keywords.json` と `indexes/topic-map.md`。残りの union 対象（`SKILL.md` / `SKILL-changelog.md` / `LOGS/_legacy.md` / `task-workflow-active.md`）は `Auto-merging` の段で git が衝突なく結合済み（出力に `CONFLICT` 行が出ない）。source code（`apps/`/`packages/`）conflict は 0 件 → L-DEVSYNC-072 の「クリーン基準ケース」に合致し、`pnpm sync:resolve` 単独（topic-map union 1 + keywords.json `--ours`+rebuild 1）でゼロ手作業解消 → `git diff --diff-filter=U` 0 → `git commit --no-edit`。

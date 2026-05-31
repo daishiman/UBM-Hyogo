@@ -2523,6 +2523,13 @@ node scripts/list-specs.js --topics
 | Contract | L24 |
 | Evidence Boundary | L33 |
 
+### references/workflow-issue-1005-members-ux-playwright-baseline-stabilization-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Local Evidence | L15 |
+| Lessons Learned | L25 |
+
 ### references/workflow-issue-106-admin-member-notes-repository-task-spec-artifact-inventory.md
 
 | セクション | 行 |

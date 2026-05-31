@@ -4743,3 +4743,13 @@ UT-17 Cloudflare Notifications → alert-relay → Slack 経路を、既存 API 
 | status | implemented_local_runtime_pending / implementation / VISUAL / 2026-05-28 |
 | workflow | `docs/30-workflows/completed-tasks/members-list-ux-clarity/` |
 | summary | `/members` の密度切替説明、即時反映ヒント、適用中filter chip、件数live regionを追加。API/schema/query正本は不変。 |
+
+## issue-1005-members-ux-playwright-baseline-stabilization
+
+| item | value |
+| --- | --- |
+| status | implemented_local_evidence_captured / implementation / VISUAL / 2026-05-30 |
+| workflow | `docs/30-workflows/completed-tasks/issue-1005-members-ux-playwright-baseline-stabilization/` |
+| implementation | `apps/web/playwright.config.ts` adds `isMembersUxClarityBaseline`, `/members` ready URL, completed parent evidence dir, and default matrix exclusion. `apps/web/playwright/tests/members-ux-clarity.spec.ts` uses completed parent path + `MEMBERS_UX_EVIDENCE_DIR` override + beforeAll warm-up. |
+| evidence | TypeScript PASS, `/members` warm-up 200, Playwright desktop-chromium 12 PASS, 24 PNG, stale active path not created |
+| inventory | `references/workflow-issue-1005-members-ux-playwright-baseline-stabilization-artifact-inventory.md` |
