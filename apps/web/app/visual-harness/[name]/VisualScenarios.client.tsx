@@ -2,6 +2,7 @@
 
 import type { ReactNode } from "react";
 import { Breadcrumb } from "@/components/admin/Breadcrumb";
+import { SidebarUserMenu } from "@/components/shell/SidebarUserMenu";
 import { Button, EmptyState, FormField, Icon, Input } from "@/components/ui";
 import { Pagination } from "@/components/ui/Pagination";
 
@@ -133,6 +134,30 @@ export function Parallel09VisualScenario({ name }: { readonly name: string }) {
             <p data-visibility="admin" data-evidence="visibility-admin">
               管理者確認項目
             </p>
+          </section>
+        </div>
+      </VisualShell>
+    );
+  }
+
+  if (name === "sidebar-user-menu") {
+    const memberUser = { displayName: "山田 太郎", email: "taro@example.com", initials: "山" };
+    const adminUser = { displayName: "管理者 A", email: "admin@example.com", initials: "管" };
+
+    return (
+      <VisualShell>
+        <div data-visual="sidebar-user-menu-grid" className="visual-sidebar-user-menu-grid">
+          <section data-visual="user-menu-viewer">
+            <SidebarUserMenu role="viewer" user={null} collapsed={false} />
+          </section>
+          <section data-visual="user-menu-member">
+            <SidebarUserMenu role="member" user={memberUser} collapsed={false} />
+          </section>
+          <section data-visual="user-menu-admin">
+            <SidebarUserMenu role="admin" user={adminUser} collapsed={false} />
+          </section>
+          <section data-visual="user-menu-collapsed">
+            <SidebarUserMenu role="admin" user={adminUser} collapsed />
           </section>
         </div>
       </VisualShell>

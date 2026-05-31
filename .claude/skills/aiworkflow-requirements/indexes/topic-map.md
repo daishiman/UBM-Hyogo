@@ -1098,13 +1098,13 @@ node scripts/list-specs.js --topics
 | Issue #958 /admin/members bulk republish UX | L14 |
 | 1. 全体構成 | L26 |
 | 2. AdminSidebar | L61 |
-| 3. /admin（Dashboard） | L87 |
-| 4. /admin/members | L140 |
-| 5. /admin/tags | L233 |
-| 6. /admin/schema | L319 |
-| 7. /admin/meetings | L374 |
-| 8. 共通の Server/Client 契約 | L443 |
-| 9. 不変条件サマリ（admin UI） | L461 |
+| 3. /admin（Dashboard） | L97 |
+| 4. /admin/members | L150 |
+| 5. /admin/tags | L243 |
+| 6. /admin/schema | L329 |
+| 7. /admin/meetings | L384 |
+| 8. 共通の Server/Client 契約 | L453 |
+| 9. 不変条件サマリ（admin UI） | L471 |
 
 ### references/ui-ux-advanced.md
 
@@ -2156,6 +2156,18 @@ node scripts/list-specs.js --topics
 | User-Gated Evidence | L40 |
 | Lessons Learned | L49 |
 
+### references/workflow-admin-layout-sidebar-shell-migration-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Summary | L5 |
+| Canonical Workflow | L12 |
+| Implemented Targets | L25 |
+| Dependency Gates | L36 |
+| Current Boundary | L44 |
+| Follow-up | L52 |
+| Lessons Learned | L56 |
+
 ### references/workflow-admin-meetings-prototype-alignment-artifact-inventory.md
 
 | セクション | 行 |
@@ -2199,6 +2211,12 @@ node scripts/list-specs.js --topics
 |------------|----|
 | Contract | L17 |
 | Lessons Learned | L30 |
+
+### references/workflow-admin-sidebar-public-return-link-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Lessons Learned | L20 |
 
 ### references/workflow-admin-tag-queue-ui-and-404-recovery-artifact-inventory.md
 
@@ -3434,6 +3452,12 @@ node scripts/list-specs.js --topics
 | Code Artifacts | L20 |
 | Evidence Boundary | L36 |
 
+### references/workflow-member-header-admin-link-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Lessons Learned | L19 |
+
 ### references/workflow-members-list-prototype-alignment-artifact-inventory.md
 
 | セクション | 行 |
@@ -3578,6 +3602,12 @@ node scripts/list-specs.js --topics
 | Planned Implementation Targets | L19 |
 | Boundary | L30 |
 | Lessons | L34 |
+
+### references/workflow-public-header-auth-slot-e2e-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Lessons Learned | L21 |
 
 ### references/workflow-public-header-logged-in-nav-cleanup-artifact-inventory.md
 
@@ -4158,6 +4188,18 @@ node scripts/list-specs.js --topics
 | Boundary | L37 |
 | Lessons Learned | L42 |
 
+### references/workflow-task-c-privacy-terms-public-shell-spec-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Lessons Learned | L18 |
+
+### references/workflow-task-c-public-member-sidebar-shell-integration-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Lessons Learned | L16 |
+
 ### references/workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md
 
 | セクション | 行 |
@@ -4339,9 +4381,11 @@ node scripts/list-specs.js --topics
 |------------|----|
 | Summary | L5 |
 | Canonical workflow | L9 |
-| Planned implementation targets | L21 |
-| Current code anchors | L33 |
-| Gates | L42 |
+| Planned implementation targets | L31 |
+| Current code anchors | L43 |
+| Gates | L52 |
+| Sub-workflows | L60 |
+| Lessons Learned | L70 |
 
 ### references/workflow-ut-02a-attendance-profile-integration-artifact-inventory.md
 
@@ -4591,6 +4635,15 @@ node scripts/list-specs.js --topics
 | 8. 不変条件 touched | L95 |
 
 ### references/workflow-web-app-route-bundle-parse-fix-artifact-inventory.md
+
+### references/workflow-web-worker-size-limit-fix-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Implementation Targets | L9 |
+| Evidence | L22 |
+| User-Gated Boundary | L34 |
+| Lessons Learned | L38 |
 
 ### references/workflow-workspace-parent-reference-sweep-guard.md
 
@@ -4917,20 +4970,20 @@ node scripts/list-specs.js --topics
 | .assetsignore の役割と運用 | L88 |
 | ビルド・デプロイ手順 | L108 |
 | Worker bundle size ガード | L131 |
-| SPA fallback / 404 ハンドリング | L149 |
-| preview / staging / production の env 分離 | L158 |
-| 旧 Pages プロジェクトの並走方針 | L170 |
-| CLI 経路の徹底 | L182 |
-| R2 incremental cache（任意採用） | L191 |
-| Build mode の不変条件（CI recovery / 2026-05-09） | L199 |
-| 関連リソース | L213 |
-| production route / secret / observability preflight | L234 |
-| analytics read-only token 分離 | L275 |
-| Long-term analytics evidence | L290 |
-| c-A production execution workflow | L296 |
-| CI build-time env injection for OpenNext Workers | L311 |
-| OpenNext config regression guard | L321 |
-| Response security headers via middleware | L334 |
+| SPA fallback / 404 ハンドリング | L161 |
+| preview / staging / production の env 分離 | L170 |
+| 旧 Pages プロジェクトの並走方針 | L182 |
+| CLI 経路の徹底 | L194 |
+| R2 incremental cache（任意採用） | L203 |
+| Build mode の不変条件（CI recovery / 2026-05-09） | L211 |
+| 関連リソース | L225 |
+| production route / secret / observability preflight | L246 |
+| analytics read-only token 分離 | L287 |
+| Long-term analytics evidence | L302 |
+| c-A production execution workflow | L308 |
+| CI build-time env injection for OpenNext Workers | L323 |
+| OpenNext config regression guard | L333 |
+| Response security headers via middleware | L346 |
 
 ### references/deployment-cloudflare-ut06-gate.md
 
@@ -8068,14 +8121,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L3074 |
-| フェーズ構造（概要） | L3083 |
-| 品質ゲート（概要） | L3114 |
-| 出力テンプレート | L3125 |
-| 実行時のコマンド・エージェント・スキル | L3148 |
-| 昇格パターン集 | L3172 |
-| Current Active / Spec Created Tasks | L3174 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L3336 |
+| ドキュメント構成 | L3195 |
+| フェーズ構造（概要） | L3204 |
+| 品質ゲート（概要） | L3235 |
+| 出力テンプレート | L3246 |
+| 実行時のコマンド・エージェント・スキル | L3269 |
+| 昇格パターン集 | L3293 |
+| Current Active / Spec Created Tasks | L3295 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L3457 |
 
 ### references/task-workflow-backlog-part2.md
 
