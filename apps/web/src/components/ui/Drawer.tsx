@@ -1,8 +1,8 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useRef } from "react";
 import type { ReactNode } from "react";
-import { browserDocument } from "../../lib/is-browser";
+import { useFocusTrap } from "../../lib/a11y/useFocusTrap";
 
 export interface DrawerProps {
   open: boolean;
@@ -14,48 +14,9 @@ export interface DrawerProps {
 export function Drawer({ open, onClose, title, children }: DrawerProps) {
   const dialogRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    if (!open) return;
-    const doc = browserDocument();
-    if (!doc) return;
-    const previousFocus = doc.activeElement instanceof HTMLElement ? doc.activeElement : null;
-    const dialog = dialogRef.current;
-    const focusable = dialog?.querySelector<HTMLElement>(
-      'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])',
-    );
-    focusable?.focus();
-
-    const handler = (e: KeyboardEvent) => {
-      if (e.key === "Escape") onClose();
-      if (e.key !== "Tab" || !dialog) return;
-
-      const elements = Array.from(
-        dialog.querySelectorAll<HTMLElement>(
-          'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])',
-        ),
-      ).filter((el) => !el.hasAttribute("disabled"));
-
-      if (elements.length === 0) {
-        e.preventDefault();
-        return;
-      }
-
-      const first = elements[0];
-      const last = elements[elements.length - 1];
-      if (e.shiftKey && doc.activeElement === first) {
-        e.preventDefault();
-        last.focus();
-      } else if (!e.shiftKey && doc.activeElement === last) {
-        e.preventDefault();
-        first.focus();
-      }
-    };
-    doc.addEventListener("keydown", handler);
-    return () => {
-      doc.removeEventListener("keydown", handler);
-      previousFocus?.focus();
-    };
-  }, [open, onClose]);
+  // focus trap（初期 focus / Tab ループ / Esc→onClose / previousFocus 復帰）は単一 source へ委譲。
+  // unified-sidebar-shell Task E / I-E6: SidebarDrawer と同一 hook を共有し trap の重複を排す。
+  useFocusTrap(open, onClose, dialogRef);
 
   if (!open) return null;
   return (

@@ -1,22 +1,19 @@
-// admin-shell-topbar-sidebar-integration:
-// - AdminTopbar (固定 breadcrumb 文字列 / 空 aria-hidden actions slot) を撤去し page-head 集約に統一
-// - AdminSidebar に schemaDiffCount / userDisplayName / userEmail を server boundary で注入
-// 不変条件 #11 維持: session.isAdmin !== true は redirect（root proxy.ts と layout 内 auth() の二段防御）。
+// admin-layout-sidebar-shell-migration:
+// - 旧 AdminSidebar（client）を撤去し SidebarShellServer（Task A）へ委譲。
+// - layout の責務を auth guard + shell 呼び出し + admin shell DOM contract 維持へ縮約。
+// 不変条件 #11 維持: session.isAdmin !== true は redirect（root proxy.ts と layout guard の二段防御）。
+// schemaDiffCount は SidebarShellServer が内部算出（apps/web/src/lib/admin/schema-diff-count.ts）。
+// dev #1028 で SidebarShell が semantic <main>（data-shell="main" / data-route=routeKey）を内部描画する
+// 統一版へ昇格したため、main の二重化を避けて routeKey="admin" / sectionRhythm="compact" を渡し、
+// admin 固有 padding は main 内の wrapper div で保持する（(member)/(public) layout と同じ消費形）。
 import type { ReactNode } from "react";
 import { redirect } from "next/navigation";
 
-import { AdminSidebar } from "../../src/components/layout/AdminSidebar";
-import { safeServerFetch } from "../../src/lib/admin/safe-server-fetch";
 import { getSession } from "../../src/lib/session";
-import type { SchemaDiffListView } from "../../src/components/admin/SchemaDiffPanel";
+import { SidebarShellServer } from "../../src/components/shell/SidebarShell.server"; // Task A
+import { SidebarMobileTrigger } from "../../src/components/shell/SidebarMobileTrigger"; // Task E
 
 export const dynamic = "force-dynamic";
-
-async function loadSchemaDiffCount(): Promise<number> {
-  const result = await safeServerFetch<SchemaDiffListView>("/admin/schema/diff");
-  if (!result.ok) return 0;
-  return result.data.items.filter((item) => item.status === "queued").length;
-}
 
 export default async function AdminLayout({
   children,
@@ -24,36 +21,26 @@ export default async function AdminLayout({
   readonly children: ReactNode;
 }) {
   const session = await getSession();
-  if (!session) redirect("/login?next=/admin");
-  if (!session.isAdmin) redirect("/login?gate=forbidden");
-
-  const schemaDiffCount = await loadSchemaDiffCount();
+  if (!session) redirect("/login?next=/admin"); // AC-3: 既存契約維持
+  if (!session.isAdmin) redirect("/login?gate=forbidden"); // AC-4: fail-closed
 
   return (
     <div
-      className="ubm-admin-shell grid min-h-screen grid-cols-1 bg-[var(--ubm-color-surface-bg)] text-[var(--ubm-color-text-primary)] md:grid-cols-[272px_1fr]"
+      className="ubm-admin-shell min-h-screen bg-[var(--ubm-color-surface-bg)] text-[var(--ubm-color-text-primary)]"
+      data-testid="admin-shell"
       data-theme="cool"
       data-route-group="admin"
+      data-auth-state="admin"
       data-shell-mode="sidebar"
-      data-testid="admin-shell"
     >
-      <aside
-        className="hidden border-r border-[var(--ubm-color-border-default)] md:block"
-        data-shell="sidebar"
+      <SidebarShellServer
+        activePath="/admin"
+        mobileTriggerSlot={<SidebarMobileTrigger />}
+        routeKey="admin"
+        sectionRhythm="compact"
       >
-        <AdminSidebar
-          schemaDiffCount={schemaDiffCount}
-          userDisplayName={session.name ?? ""}
-          userEmail={session.email}
-        />
-      </aside>
-      <main
-        className="flex min-w-0 flex-col gap-4 p-4 md:p-6"
-        data-route="admin"
-        data-section-rhythm="compact"
-      >
-        {children}
-      </main>
+        <div className="flex min-w-0 flex-1 flex-col gap-4 p-4 md:p-6">{children}</div>
+      </SidebarShellServer>
     </div>
   );
 }

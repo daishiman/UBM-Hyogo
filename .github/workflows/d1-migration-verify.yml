@@ -4,6 +4,8 @@ on:
   pull_request:
     paths:
       - "apps/api/migrations/**"
+      - "scripts/verify-d1-migration-sequence.mjs"
+      - "scripts/__tests__/verify-d1-migration-sequence.test.mjs"
       - "scripts/d1/**"
       - "scripts/cf.sh"
       - "package.json"
@@ -21,6 +23,12 @@ jobs:
       - uses: actions/checkout@v4
 
       - uses: ./.github/actions/setup-project
+
+      - name: Verify D1 migration sequence
+        run: pnpm verify:d1-migrations
+
+      - name: Run D1 migration sequence unit tests
+        run: node --test scripts/__tests__/verify-d1-migration-sequence.test.mjs
 
       - name: Install bats
         run: sudo apt-get update && sudo apt-get install -y bats
