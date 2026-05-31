@@ -44,9 +44,10 @@
 | --- | --- | --- |
 | manual test result | outputs/phase-11/manual-test-result.md | present |
 | manual smoke log | outputs/phase-11/manual-smoke-log.md | present |
-| focused spec | scripts/__tests__/generate-index-fail-fast.spec.ts | present / PASS |
+| focused spec result | outputs/phase-11/manual-smoke-log.md | present |
 
 > NON_VISUAL tooling のためスクリーンショットは不要。CLI 回帰 smoke + vitest を今回サイクルで実行済み。
+> focused spec の実体は repo-level の `scripts/__tests__/generate-index-fail-fast.spec.ts`（§2 実コード行に記載）であり、その 1 file / 6 tests PASS の実走記録は上表の workflow-local 証跡 `outputs/phase-11/manual-smoke-log.md` / `outputs/phase-11/manual-test-result.md` に集約している。
 
 ## 5. Phase 12 strict 7 file inventory
 
