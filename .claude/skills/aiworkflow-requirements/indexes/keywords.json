@@ -5152,6 +5152,7 @@
       "workflow-admin-ui-task-c-pageheader-token-conformance-artifact-inventory.md",
       "workflow-admin-ui-task-d-attendance-primitive-conformance-artifact-inventory.md",
       "workflow-admin-visual-baseline-admin-routes-task-e-artifact-inventory.md",
+      "workflow-issue-1005-members-ux-playwright-baseline-stabilization-artifact-inventory.md",
       "workflow-issue-256-e2e-coverage-baseline-runbook-artifact-inventory.md",
       "workflow-issue-276-mobile-filterbar-tag-picker-artifact-inventory.md",
       "workflow-issue-331-cicd-runtime-warning-cleanup-artifact-inventory.md",
@@ -5995,6 +5996,7 @@
       "workflow-fix-admin-scr-err-stg-fu-001-auth-env-via-getenv-artifact-inventory.md",
       "workflow-fix-admin-server-components-render-error-stg-artifact-inventory.md",
       "workflow-fix-verify-design-tokens-og-route-exclude-artifact-inventory.md",
+      "workflow-issue-1005-members-ux-playwright-baseline-stabilization-artifact-inventory.md",
       "workflow-issue-274-public-pages-ogp-sitemap-robots-artifact-inventory.md",
       "workflow-issue-290-workflow-lint-gate-artifact-inventory.md",
       "workflow-issue-351-09c-post-release-dashboard-automation-artifact-inventory.md",
@@ -7196,6 +7198,7 @@
       "workflow-fix-verify-design-tokens-og-route-exclude-artifact-inventory.md",
       "workflow-i01-toastprovider-root-mount-artifact-inventory.md",
       "workflow-i02-admin-error-type-unify-artifact-inventory.md",
+      "workflow-issue-1005-members-ux-playwright-baseline-stabilization-artifact-inventory.md",
       "workflow-issue-106-admin-member-notes-repository-task-spec-artifact-inventory.md",
       "workflow-issue-247-apps-web-opennext-config-regression-tests-artifact-inventory.md",
       "workflow-issue-274-public-pages-ogp-sitemap-robots-artifact-inventory.md",
@@ -7799,6 +7802,8 @@
       "lessons-learned-issue-720-cf-audit-monitor-env-protection-fix-2026-05.md",
       "lessons-learned-issue-891-member-detail-kind-exhaustiveness-guard-2026-05.md",
       "release-runbook.md",
+      "task-workflow-active.md",
+      "workflow-issue-1005-members-ux-playwright-baseline-stabilization-artifact-inventory.md",
       "workflow-issue-106-admin-member-notes-repository-task-spec-artifact-inventory.md",
       "workflow-issue-191-schema-aliases-artifact-inventory.md",
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
@@ -8433,6 +8438,7 @@
       "lessons-learned-ut-gov-001-2026-04.md",
       "lessons-learned-ut07b-fu-01-schema-alias-backfill-queue-cron-split-2026-05.md",
       "lessons-learned-ut07b-fu04-production-migration-already-applied-verification-2026-05.md",
+      "task-workflow-active.md",
       "task-workflow-completed-recent-2026-05.md",
       "ui-ux-components.md",
       "workflow-02c-followup-002-fixtures-prod-build-exclusion-artifact-inventory.md",
@@ -11066,6 +11072,7 @@
       "workflow-admin-tag-queue-ui-and-404-recovery-artifact-inventory.md",
       "workflow-admin-ui-task-c-pageheader-token-conformance-artifact-inventory.md",
       "workflow-admin-visual-baseline-admin-routes-task-e-artifact-inventory.md",
+      "workflow-issue-1005-members-ux-playwright-baseline-stabilization-artifact-inventory.md",
       "workflow-issue-256-e2e-coverage-baseline-runbook-artifact-inventory.md",
       "workflow-issue-276-mobile-filterbar-tag-picker-artifact-inventory.md",
       "workflow-issue-331-cicd-runtime-warning-cleanup-artifact-inventory.md",
@@ -13333,6 +13340,7 @@
       "workflow-fix-verify-design-tokens-og-route-exclude-artifact-inventory.md",
       "workflow-google-form-reflection-diagnostics-artifact-inventory.md",
       "workflow-google-form-reflection-diagnostics-fu-002-h2-identity-rebuild-artifact-inventory.md",
+      "workflow-issue-1005-members-ux-playwright-baseline-stabilization-artifact-inventory.md",
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
       "workflow-issue-274-public-pages-ogp-sitemap-robots-artifact-inventory.md",
       "workflow-issue-351-09c-post-release-dashboard-automation-artifact-inventory.md",
@@ -13498,6 +13506,7 @@
       "workflow-06c-B-admin-members-artifact-inventory.md",
       "workflow-admin-ui-prototype-alignment-followup-001-members-fetch-and-visual-artifact-inventory.md",
       "workflow-admin-ui-prototype-alignment-followup-003-admin-members-prototype-redesign-artifact-inventory.md",
+      "workflow-issue-1005-members-ux-playwright-baseline-stabilization-artifact-inventory.md",
       "workflow-issue-981-admin-members-table-list-enrichment-artifact-inventory.md",
       "workflow-members-list-prototype-alignment-artifact-inventory.md",
       "workflow-members-list-ux-clarity-artifact-inventory.md",
@@ -15185,10 +15194,12 @@
       "lessons-learned-skill-ledger-t6-hook-idempotency-2026-04.md",
       "lessons-learned-task-18-w7-verify-tokens-and-playwright-smoke-2026-05.md",
       "lessons-learned-verify-indexes-ci-2026-04.md",
+      "task-workflow-active.md",
       "task-workflow-completed-ui-ux-visual-baseline-drift.md",
       "testing-playwright-e2e.md",
       "ui-ux-components.md",
       "workflow-admin-visual-baseline-admin-routes-task-e-artifact-inventory.md",
+      "workflow-issue-1005-members-ux-playwright-baseline-stabilization-artifact-inventory.md",
       "workflow-task-709-visual-baseline-runtime-capture-artifact-inventory.md",
       "workflow-ui-ux-visual-baseline-drift.md"
     ],
@@ -15586,6 +15597,7 @@
       "workflow-fix-verify-design-tokens-og-route-exclude-artifact-inventory.md",
       "workflow-google-form-reflection-diagnostics-artifact-inventory.md",
       "workflow-google-form-reflection-diagnostics-fu-002-h2-identity-rebuild-artifact-inventory.md",
+      "workflow-issue-1005-members-ux-playwright-baseline-stabilization-artifact-inventory.md",
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
       "workflow-issue-274-public-pages-ogp-sitemap-robots-artifact-inventory.md",
       "workflow-issue-351-09c-post-release-dashboard-automation-artifact-inventory.md",
@@ -18505,6 +18517,7 @@
       "logs-archive-2026-01-skill-selector-todo-scan-template.md",
       "spec-splitting-guidelines.md",
       "task-workflow-active.md",
+      "workflow-issue-1005-members-ux-playwright-baseline-stabilization-artifact-inventory.md",
       "workflow-issue-958-h3-public-filter-ux-artifact-inventory.md",
       "workflow-members-list-ux-clarity-artifact-inventory.md",
       "workflow-task-06-ui-ux-contract-rewrite-artifact-inventory.md"
@@ -18647,6 +18660,8 @@
       "lessons-learned-task-11-public-top-and-member-list-2026-05.md",
       "lessons-learned-task-18-w7-verify-tokens-and-playwright-smoke-2026-05.md",
       "lessons-learned-ut-07c-followup-001-attendance-csv-import-2026-05.md",
+      "task-workflow-active.md",
+      "workflow-issue-1005-members-ux-playwright-baseline-stabilization-artifact-inventory.md",
       "workflow-task-18-w7-verify-tokens-and-playwright-smoke-artifact-inventory.md"
     ],
     "chromium": [
@@ -23993,6 +24008,14 @@
       "task-workflow-active.md",
       "workflow-members-list-ux-clarity-artifact-inventory.md"
     ],
+    "stabilization": [
+      "task-workflow-active.md",
+      "workflow-issue-1005-members-ux-playwright-baseline-stabilization-artifact-inventory.md"
+    ],
+    "captured": [
+      "task-workflow-active.md",
+      "task-workflow-completed-recent-2026-05.md"
+    ],
     "タスクワークフローバックログ": [
       "task-workflow-backlog-part2.md"
     ],
@@ -24084,9 +24107,6 @@
     "Chrome": [
       "task-workflow-completed-recent-2026-05.md",
       "workflow-parallel-04-shared-page-chrome-artifact-inventory.md"
-    ],
-    "captured": [
-      "task-workflow-completed-recent-2026-05.md"
     ],
     "create": [
       "task-workflow-completed-skill-create-ui-integration.md"
@@ -25750,6 +25770,7 @@
     "Local": [
       "workflow-admin-identity-conflicts-prototype-alignment-and-404-fix-artifact-inventory.md",
       "workflow-admin-requests-prototype-alignment-and-404-fix-artifact-inventory.md",
+      "workflow-issue-1005-members-ux-playwright-baseline-stabilization-artifact-inventory.md",
       "workflow-issue-555-audit-correlation-salt-rotation-artifact-inventory.md",
       "workflow-issue-908-staging-rollback-notification-runtime-smoke-artifact-inventory.md",
       "workflow-issue-958-h3-public-filter-ux-artifact-inventory.md",

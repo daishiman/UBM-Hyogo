@@ -169,6 +169,10 @@ local `next dev` で Phase 11 screenshot を取得する場合、以下を spec 
 - `page.screenshot({ path })` は引数 path を絶対視するため、`PLAYWRIGHT_EVIDENCE_DIR` env だけでは保存先を切り替えられない。
 - spec 内で **`const EVIDENCE_DIR = path.resolve(process.env.PLAYWRIGHT_EVIDENCE_DIR ?? '<canonical default>', '...')`** を SSOT として作り、workflow root を `completed-tasks/` 等へ move した際は spec 側の canonical default も同 wave で更新する。
 - artifact inventory に `playwright spec EVIDENCE_DIR` 行を明示し path drift を検知可能にする。
+- completed-task へ workflow root を移動した後は、移動元/移動先 docs だけでなく `apps/web/playwright/**` と `apps/web/playwright.config.ts` を `rg 'docs/30-workflows/<slug>'` で検索し、spec-local `workflowRoot` / config `EVIDENCE_DIR` / env default が旧 active path を指していないことを Phase 12 close-out で確認する。
+- evidence-only visual spec は broad Playwright matrix から default 除外し、task-specific flag または argv match で有効化する。複数 project が同一 `page.screenshot({ path })` を走らせると PNG 上書きと runtime cost が増えるため、非 primary project 側にも explicit ignore を入れる。
+- Next dev の初回 route compile が 60 秒を超える route では、webServer ready URL を対象 route にし、config `webServer.timeout` と spec の warm-up hook timeout をともに `180_000` 等へ明示する。
+- mobile collapsed UI を visual evidence 用に展開する場合は、click 後に表示要素だけでなく `data-expanded="true"` 等の state 属性を待つ。interaction contract が component test で担保済みなら、cold-start hydration race に限って capture-only DOM state fallback を許容する。
 
 ### Next.js dev overlay の非表示
 
