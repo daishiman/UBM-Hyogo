@@ -162,6 +162,22 @@
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-unified-sidebar-shell-public-and-admin-artifact-inventory.md` |
 | user gate | apps/web implementation, local visual capture, CI baseline, commit, push, PR |
 
+## admin-layout-sidebar-shell-migration（2026-05-29）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/admin-layout-sidebar-shell-migration/` |
+| status | `implemented_local_runtime_pending / implementation / VISUAL`（2026-05-29 実装完了） |
+| parent | `docs/30-workflows/unified-sidebar-shell-public-and-admin/` Task D（Task A/B/E も本 wave で実装） |
+| purpose | `apps/web/app/(admin)/layout.tsx` を `SidebarShellServer` 消費側へ移行し、旧 `AdminSidebar` ownership を削除（user 承認で Task A/B/E 一括実装・CONST_009） |
+| implemented targets | added `apps/web/src/components/shell/**`（15 component + 6 spec）, `apps/web/src/lib/admin/schema-diff-count.ts`(+spec); edited `apps/web/app/(admin)/layout.tsx`, `apps/web/app/(admin)/layout.spec.tsx`, `apps/web/src/styles/tokens.css`; deleted old `apps/web/src/components/layout/AdminSidebar*`（grep 0 hit） |
+| invariant | API / D1 / Google Form / Auth.js middleware 変更なし。admin auth guard と `/login?next=/admin` / `/login?gate=forbidden` redirect を維持 |
+| local evidence | typecheck 6/6 Done / lint OK / web Vitest 1299 passed・1 skipped / AC-2 grep 0 hit |
+| Phase 12 | strict 7 present（implemented state）、root/output `artifacts.json` parity present、30-method compact evidence present |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-layout-sidebar-shell-migration-artifact-inventory.md` |
+| user gate | staging visual capture, commit, push, PR。follow-up FU-ALSSM-001（collapse 永続化 cookie 方式・user 判断待ち） |
+| user gate | Task A/B completion, apps/web implementation, focused tests, local visual capture, commit, push, PR |
+
 ## task-c-public-member-sidebar-shell-integration（2026-05-29）
 
 | 項目 | 値 |
