@@ -1384,6 +1384,55 @@ upstream data layer（別 issue / 別 task が既に実装済の API + zod schem
 - 参照: [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-059、L-DEVSYNC-055 (resolver 単独完結 happy-path)、L-DEVSYNC-056/057/058 (手動 hybridize 分岐先)、L-DEVSYNC-046 (UNION_TARGETS)。
 
 
+## CLOSED-issue same-cycle 実装 + admin manual write レーン分離パターン (2026-05-29)
+
+CLOSED 由来 issue を spec_created で close-out した直後に、同一実行サイクルで実コードと focused tests まで進んだ場合の workflow_state 昇格、および 1 テーブルへ複数 source（自動提案 / 人手キュレーション）が write する admin manual write のレーン分離・冪等 DELETE・soft-delete guard・並行 issue decouple・vitest config 分離を、将来の任意タスクで再利用できる汎化原則として記録する。
+
+### L-CLSCYCLE-001: CLOSED issue の same-cycle 実装で workflow_state を昇格
+
+- 状況: CLOSED 由来 issue を `spec_created` で close-out したワークフローが、同一実行サイクル内で実コード実装 + focused tests green まで到達した。
+- 教訓: `spec_created` のまま放置すると system spec / API docs が「target only / not current」と誤読され、docs が現状の local behavior を表さなくなる。実コード差分 + tests green を確認したら速やかに `spec_created` → `implemented_local_runtime_pending` へ再分類し、system spec / API docs を current local behavior として **同一 wave で promote** する（runtime / staging deploy / commit / push / PR は user-gated boundary として分離）。
+- 適用条件: CLOSED issue 由来かつ同一サイクルで実コード差分 + focused tests green が確認できるとき。
+
+### L-MULTILANE-001: 同一テーブルへの複数 source write は source 別 helper + type-level allow list
+
+- 状況: 1 テーブルに「自動提案(AI / Form queue)」と「人手キュレーション(admin manual)」など複数の source から write が入る設計になった。
+- 教訓: write helper を source ごとに分離して SRP を保ち、各 write path を self-document する。readonly `.test-d.ts` の allow list と JSDoc `@internal` guard で「許可された source 以外から呼ばない」ことを型レベル + ドキュメントで固定し、不変条件コメントも「禁止: XX 以外からの呼び出し」を再定義する。
+- 適用条件: 単一テーブルに複数 source（自動 / 手動）から write が入り、source ごとに責務・検証が異なるとき。
+
+### L-HTTP204-001: 冪等 DELETE の 204 No Content を fetch wrapper で吸収
+
+- 状況: REST の冪等 DELETE が body なし 204 No Content を返すのに、汎用 mutation hook が一律で JSON parse して `SyntaxError` を起こした。
+- 教訓: `res.status === 204 ? undefined : await res.json()` の status-based type narrowing を hook 層に入れる。contract spec に「204: no-op or successful deletion」を明記し、regression spec で 204 の挙動を固定する。
+- 適用条件: 冪等 DELETE / 副作用なし系の endpoint を汎用 mutation hook 経由で呼ぶとき。
+
+### L-SOFTDEL-001: soft-delete entity への write は active guard + エラー境界分離
+
+- 状況: `active=1` の論理削除モデルで、inactive(論理削除済み)entity に write が来て zombie 復活の懸念があった。
+- 教訓: write API で active フィルタを検査し、inactive entity への write は 404(not_found) を返して復活を防ぐ。親 entity の削除状態(409 conflict)と子 entity の存在性(404 not_found)はエラーコードを分け、呼び出し側が原因を区別できるようにする。
+- 適用条件: soft-delete(active flag)モデルの entity に write / 子 entity 追加が入るとき。
+
+### L-DECOUPLE-001: 並行タスクの critical path を専用 GET endpoint で decouple
+
+- 状況: 別 issue(list enrichment 等)と並行実装する UI が、相手 issue が返すべき data に依存して進行ブロックされそうになった。
+- 教訓: `GET /.../:id/...` の専用 endpoint を定義し、UI が必要とする data を同時返却することで相手 issue の完了を待たずに進める。critical path を専用 read endpoint で decouple する。
+- 適用条件: 並行 issue 間で data 依存があり、相手の完了待ちが critical path をブロックするとき。
+
+### L-TESTCFG-001: runtime 要件が異なる層は vitest config を分離
+
+- 状況: D1 harness(Miniflare native binding)を jsdom config で動かそうとして失敗した。
+- 教訓: data 層は node env config(`vitest.d1.config.ts` 等)、UI 層は jsdom config に分け、各層を独立 config で緑保証する。`package.json` script 名も `test:api` / `test:web` で明示し、どの config がどの層を走らせるか self-document する。
+- 適用条件: D1 / Miniflare 等 native binding 系 data 層と jsdom UI 層を同一リポジトリで test するとき。
+
+### Anti-patterns
+
+- spec_created のまま放置して current docs と乖離させる(target only と誤読される)。
+- 単一 helper に複数 source(自動 / 手動)の write を詰め込み SRP と write path 検証を曖昧にする。
+- 冪等 DELETE の 204 No Content を無条件 JSON parse して SyntaxError を起こす。
+- soft-delete entity に active guard なしで write し、論理削除済みを zombie 復活させる。
+- 並行 issue の data 依存を専用 read endpoint で decouple せず、相手の完了をブロッキング待ちする。
+
+
 ## L-ASSET Admin-managed binary asset（DBメタ + object storage + presigned URL）+ fail-soft presign パターン（issue-983 / 2026-05-29 汎化）
 
 フォーム/正本 schema が**バイナリ資産（写真・添付等）を集めない**が admin が後付けで管理したい場合、正本 schema をバイナリで汚さず、フロントへ storage credential も露出させない 3 層分離で実装する。read endpoint は未 provision / secret 未注入環境でも壊れない fail-soft を default にする。Phase 1 の Ownership 宣言と Phase 4 risk に以下を必ず登録する。
@@ -1645,6 +1694,18 @@ SP-DEVSYNC-063〜071 の source-shape 判定（wholesale ours/theirs・grep-cons
 - **SP-DEVSYNC-067-D (file-location conflict で relocate した test は相対 import を route-group 階層分 +1 補正)**: `()` route-group へ relocate した test は 1 階層深くなる。`../page`（同 dir 基準）は不変だが `../../../src/...`（web root 基準）は `../../../../` へ +1 補正。`pnpm exec vitest run <relocated>` で import 解決を即確認。
 - **SP-DEVSYNC-067-E (孤児 snapshot は `grep -c toMatchSnapshot`=0 を根拠に `git rm`)**: `--ours` で勝った spec が snapshot 不使用なのに `--theirs` 由来の `__snapshots__/*.snap` が残ると vitest `N obsolete` 警告 → CI ノイズ。`grep -c "toMatchSnapshot\|MatchInlineSnapshot" <spec>` = 0 を確認して即 `git rm`。
 - 参照: [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-067（同 shell-config.ts AA で L-DEVSYNC-066 と逆の `--ours` を採った対照例 + graft/relocate/snapshot の複合 shape）。
+
+## SP-DEVSYNC-070 completed-tasks の playwright/monocart evidence は machine-path 焼き込みで content-conflict 化し resolver(union)対象外 → 1 テストラン単位で同一サイド一括採用、phase12 doc は evidence と同サイド（2026-05-30 feat/issue-982-drawer-tag-pill-editing ← dev #1033/#1028/#1023）
+
+`feat/issue-982-drawer-tag-pill-editing` ← `dev` の sync-merge で `pnpm sync:resolve` が skill index 系 5 件を union 解消した後、`docs/30-workflows/completed-tasks/08b-A-playwright-e2e-full-execution/outputs/` の **playwright evidence 5 件が `WARN unhandled conflict` で残置**した。SP-DEVSYNC-069 は「両ブランチが同じ source を並行実装した AA」だったが、本件は **両ブランチが各自の worktree で同じ evidence を独立再生成しただけ**の質的に軽い衝突で、解消は機械的な片側 wholesale で済む。タスク仕様書作成時に completed-tasks の evidence を同梱・再生成する Phase 11 を持つ workflow は、後続の sync-merge でこの衝突を必ず生むため設計段階で想定する。
+
+- **SP-DEVSYNC-070-A (evidence content-conflict の実体は worktree 絶対パス焼き込み)**: `playwright-report/results.json` の `configFile`/`rootDir`/`outputDir` や monocart の生成物は実行時の worktree 絶対パス（`…/.worktrees/<task-dir>/…`）を焼き込む。HEAD と dev が別 worktree で再生成すれば必ず content-conflict 化する。`git show :2:<results.json> | grep -m1 configFile` と `:3:` を比べて「両側 path 差のみ・意味等価」を裏取りする。
+- **SP-DEVSYNC-070-B (HTML/JSON evidence は 1 ラン単位で同一サイド一括 — 行 union 厳禁)**: monocart `index.{html,json}` と playwright-report `html/index.html`/`results.json` は同一ランの相互参照出力で、`merge=union` で行結合すると壊れた JSON/HTML になる。`sync:resolve` は意図的にこれらを union 対象外（`WARN unhandled conflict`）にしている。解消は **HTML と JSON を別サイドにせず 4 件まとめて `git checkout --ours`（または dev がより完全なら `--theirs`）**。
+- **SP-DEVSYNC-070-C (phase12 compliance doc は evidence と必ず同サイド)**: HEAD が `phase12-*.md` を `canonical 9 見出し準拠`へ更新（evidence 再生成と一体）しているなら、evidence も `--ours` に揃える。doc と evidence をサイド分割すると `verify:phase12-compliance` gate（canonical 9 見出し SSOT）と evidence 参照が不整合になる。解消後は `bash scripts/verify-pr-ready.sh` で gate green を push 前に確認。
+- **SP-DEVSYNC-070-D (`WARN unhandled conflict` の分類で source 混在と自動生成物残置を切り分ける)**: `pnpm sync:resolve` の `WARN unhandled conflict` 行が出たら path を分類する。`.claude/skills/**` 残置は resolver の見落とし疑い、**`docs/30-workflows/**/outputs/phase-11/evidence/**`（playwright/monocart）は machine-path 焼き込みの自動生成物で union 不可が正常**。後者は片側 wholesale で解消し、source `.ts/.tsx` 衝突 0（L-DEVSYNC-068-A の add-only 素通り）と併せて「実質 source 衝突なし」を確認する。`sync:resolve` の exit 1 は残置 WARN による正常終了で、union 解消自体は成功している。
+- **SP-DEVSYNC-070-E (spec 変更 branch は sync-merge 検証に `verify:static-manifest` を追加 — local typecheck/lint/phase12 green でも `ci` が落ちる)**: `docs/00-getting-started-manual/specs/01-api-schema.md` 等の spec を変更する branch は、`apps/api/src/repository/_shared/generated/static-manifest.json` の再生成（`pnpm regenerate:static-manifest`）を伴う。これを忘れると `ci` job の `Verify static manifest (UT-02A-FU-DIAG-001)` が **`reason=sourceSpecHashDrift`** で fail し、`coverage-gate` が `Fail closed on failed shard` で **連鎖 fail**（fail-closed なので root cause は ci 側 1 つ）。typecheck/lint/phase12-compliance では検出されない（生成物 hash の drift は型でも lint でもない）ため、push 後 `gh pr checks` で初めて顕在化する。**対策**: spec を触るタスクは Phase 11/13 の検証コマンドに `pnpm verify:static-manifest` を含め、drift 時は `pnpm regenerate:static-manifest`（diff は `sourceSpecVersion`/`sourceSpecHash`/`generatedAt` のメタ行のみで `sections` 本体不変なら安全）。
+- **SP-DEVSYNC-070-F (PR `mergeable=CONFLICTING` は CI 待ちでなく base conflict — dev を追って再 merge、同一 component file の別 feature add/add は「定義並置」で統合)**: 1 回 sync-merge を push しても `gh pr checks` が `triage` 1 件だけで本体 CI が起動しないときは `gh pr view --json mergeable,mergeStateStatus` を見る。`CONFLICTING/DIRTY` なら **base（dev）が先行して merge commit を作れず `pull_request` workflow が起動していない**（CI 遅延ではない）。最新 `origin/dev` を再 merge して解消する。複数 PR が同じ component file に独立機能を足していると source conflict が出る（例: issue-982 の `MemberTagsEditor` と issue-983 の `PhotoUploadAffordance` が同じ `MemberDrawer.tsx`）。**本体（呼び出し側 JSX）が clean merge で両方を参照済みなら、conflict は 2 つの独立定義の並置のみで解消し、どちらも捨てない**。import 文の衝突は **3-way 和集合**（両 branch が足した named import を全部残す）にして `pnpm typecheck` で未使用 import / 型不整合を検出。sync-merge は **`mergeable=MERGEABLE` で CI 本体が green になるまでが 1 サイクル**で、push 一発で終わりにしない。
+- 参照: [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-069（同知見の lessons 版・merge commit `ec48d08ce`、sourceSpecHashDrift 追補は同節「留意」、CONFLICTING 再 merge は「追補2」）、SP-DEVSYNC-069（両側 source 並行実装の AA との対照）、CLAUDE.md「sync-merge コンフリクト解消の 3 層予防」（`merge=union` 対象に playwright evidence は含まれない点の補足）。
 
 ### dev-sync-merge 後の `.next/types` stale typecheck 失敗（SP-DEVSYNC-069）
 
