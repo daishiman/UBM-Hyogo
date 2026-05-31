@@ -5,6 +5,7 @@
   "type": "module",
   "exports": {
     ".": "./src/index.ts",
+    "./browser-storage": "./src/browser-storage.ts",
     "./errors": "./src/errors.ts",
     "./logging": "./src/logging.ts",
     "./gate-metadata": "./src/gate-metadata/index.ts"
