@@ -69,11 +69,14 @@ describe("MemberFilters", () => {
     const { container } = render(
       <MemberFilters
         initial={{ ...baseInitial, tag: ["foo", "bar"] }}
+        topTags={[{ code: "foo", label: "Foo", count: 3 }]}
       />,
     );
     const tags = container.querySelectorAll('[data-role="active-filters"] li');
     expect(tags).toHaveLength(2);
-    const fooBtn = screen.getByRole("button", { name: "foo タグ絞り込みを解除" });
+    const fooBtn = screen.getByRole("button", { name: "Foo タグ絞り込みを解除" });
+    expect(screen.getByText("#Foo ×")).toBeTruthy();
+    expect(screen.getByText("#bar ×")).toBeTruthy();
     expect(fooBtn.getAttribute("data-component")).toBe("filter-chip");
     fireEvent.click(fooBtn);
     expect(replaceMock).toHaveBeenCalled();
@@ -137,6 +140,19 @@ describe("MemberFilters", () => {
     const clearBtn = screen.getByRole("button", { name: "絞り込みをクリア" });
     fireEvent.click(clearBtn);
     expect(replaceMock).toHaveBeenCalledWith("/members");
+  });
+
+  it("最後の selected filter 削除時は検索入力へ focus を戻す", () => {
+    render(
+      <MemberFilters
+        initial={{ ...baseInitial, tag: ["foo"] }}
+        topTags={[{ code: "foo", label: "Foo", count: 3 }]}
+      />,
+    );
+    fireEvent.click(screen.getByRole("button", { name: "Foo タグ絞り込みを解除" }));
+    expect(screen.getByPlaceholderText("名前・職業・地域で検索")).toBe(
+      document.activeElement,
+    );
   });
 
   it("live-filter hint と結果件数 status を描画する", () => {

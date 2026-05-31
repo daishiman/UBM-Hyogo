@@ -8,6 +8,23 @@
 
 本ドキュメントは、複雑なタスクを単一責務の原則に基づいて分解し、各サブタスクに最適なスラッシュコマンド・エージェント・スキルの組み合わせを選定するためのガイドラインを定義する。
 
+### issue-1006-members-selected-filters-chip-ux-hardening（2026-05-30）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_runtime_pending / implementation / VISUAL` |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-1006-members-selected-filters-chip-ux-hardening/` |
+| Issue | #1006 CLOSED。PR 文脈は `Refs #1006` のみ |
+| 親 workflow | `docs/30-workflows/completed-tasks/members-list-ux-clarity/` |
+| 目的 | `/members` の selected filter chip を、人間可読 tag label・削除後 focus 復帰・mobile 縦積みで堅牢化する |
+| implementation targets | `apps/web/src/components/public/SelectedFiltersBar.client.tsx`, `apps/web/src/components/public/MemberFilters.client.tsx`, `apps/web/src/styles/legacy-public.css` |
+| tests | `apps/web/src/components/public/__tests__/SelectedFiltersBar.client.spec.tsx`, `apps/web/src/components/public/__tests__/MemberFilters.client.spec.tsx` |
+| invariant | 新 API endpoint / D1 schema / Google Form 変更なし。`topTags` 由来の optional `tagLabels` と fallback `#code` のみ |
+| evidence | focused Vitest 17 PASS、web typecheck PASS、lint PASS、verify-design-tokens PASS、local Playwright mobile CSS sanity PASS |
+| runtime pending | local `/public/members` 500（AUTH_SECRET / backend auth 未設定）により data-backed visual screenshots は staging/user-gated |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1006-members-selected-filters-chip-ux-hardening-artifact-inventory.md` |
+| user gate | staging data-backed visual screenshots、commit、push、PR |
+
 ### issue-988-identity-conflicts-merge-optimistic-update（2026-05-30）
 
 | 項目 | 値 |

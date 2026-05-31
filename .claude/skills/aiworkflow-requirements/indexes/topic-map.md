@@ -2530,6 +2530,15 @@ node scripts/list-specs.js --topics
 | Local Evidence | L15 |
 | Lessons Learned | L25 |
 
+### references/workflow-issue-1006-members-selected-filters-chip-ux-hardening-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Implementation Surface | L11 |
+| Evidence | L21 |
+| Runtime Boundary | L29 |
+| Lessons Learned | L33 |
+
 ### references/workflow-issue-106-admin-member-notes-repository-task-spec-artifact-inventory.md
 
 | セクション | 行 |
@@ -8191,15 +8200,15 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L3240 |
-| フェーズ構造（概要） | L3249 |
-| 品質ゲート（概要） | L3280 |
-| 出力テンプレート | L3291 |
-| 実行時のコマンド・エージェント・スキル | L3314 |
-| 昇格パターン集 | L3338 |
-| Current Active / Spec Created Tasks | L3340 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L3504 |
-| issue-998-members-publish-state-production-rollout | L3581 |
+| ドキュメント構成 | L3257 |
+| フェーズ構造（概要） | L3266 |
+| 品質ゲート（概要） | L3297 |
+| 出力テンプレート | L3308 |
+| 実行時のコマンド・エージェント・スキル | L3331 |
+| 昇格パターン集 | L3355 |
+| Current Active / Spec Created Tasks | L3357 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L3521 |
+| issue-998-members-publish-state-production-rollout | L3598 |
 
 ### references/task-workflow-backlog-part2.md
 
