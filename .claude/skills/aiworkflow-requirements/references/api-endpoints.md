@@ -118,6 +118,9 @@ historical 行の close-out は `docs/30-workflows/completed-tasks/task-sync-for
 | GET | `/admin/diagnostics/forms-pipeline` | Google Form 31 項目反映欠落の診断 snapshot。`sync_jobs` / `member_responses` / `response_fields` / `member_identities` / `member_status` / `schema_diff_queue` を read-only 集計し、H1 ingest / H2 identity / H3 visibility / H4 alias の boolean flags と counts を返す。secret は `googleServiceAccountEmail` / `googlePrivateKey` / `googleFormId` / `authSecret` の boolean readiness のみで実値を返さない | Auth.js JWT + `requireAdmin` |
 | GET | `/admin/diagnostics/member/:memberId` | 1 member の診断 snapshot。`current_response_id`、response field count、missing stable keys、consent / publish visibility、H2-H4 個別 flags を返す。PII 値は返さず、ID / key / boolean / count に限定する | Auth.js JWT + `requireAdmin` |
 | PATCH | `/admin/members/:memberId/status` | publish state / hidden reason を更新する | Auth.js JWT + `requireAdmin` |
+| GET | `/admin/members/:memberId/tags` | MemberDrawer 用に `{ assigned: TagRef[], available: TagRef[] }` を返す。`available` は `tag_definitions.active=1` のみ | Auth.js JWT + `requireAdmin` |
+| POST | `/admin/members/:memberId/tags` | body `{ tagId }` で admin manual tag を付与する。active な `tag_definitions` 不在は `404 tag_not_found`、削除済み member は `409 member_is_deleted`。新規付与時のみ `audit_log.action='admin.member.tag_assigned'` を append する。再送は `INSERT OR IGNORE` で 200 no-op | Auth.js JWT + `requireAdmin` |
+| DELETE | `/admin/members/:memberId/tags/:tagId` | admin manual tag を解除する。row 不在でも 204 No Content。削除済み member は `409 member_is_deleted`。削除行がある場合のみ `audit_log.action='admin.member.tag_unassigned'` を append する | Auth.js JWT + `requireAdmin` |
 | POST | `/admin/members/:memberId/notes` | admin note を作成する | Auth.js JWT + `requireAdmin` |
 | PATCH | `/admin/members/:memberId/notes/:noteId` | admin note を更新する | Auth.js JWT + `requireAdmin` |
 | POST | `/admin/members/:memberId/delete` | member を論理削除する。request body は `{ reason: string.trim().min(1).max(500) }`、不足/超過は **422** を返す。成功時 `{ id, isDeleted: true, deletedAt }` を返し、`member_status` upsert / `deleted_members` upsert / `audit_log` insert(`admin.member.deleted`) を `DB.batch()` で同一 workflow 境界に置く。再 delete は `409 member_already_deleted` | Auth.js JWT + `requireAdmin` |
@@ -143,7 +146,7 @@ historical 行の close-out は `docs/30-workflows/completed-tasks/task-sync-for
 04c の構造的不変条件:
 
 - `PATCH /admin/members/:memberId/profile` は作らない。管理者は本人プロフィール本文を直接編集しない。
-- `PATCH /admin/members/:memberId/tags` は作らない。タグ確定は queue resolve 経由に限定する。
+- `PATCH /admin/members/:memberId/tags` は作らない。タグ write 経路は、AI / Google Form 由来の tag 提案を `tags-queue` resolve 経由、管理者による手動付与 / 解除を `GET/POST /admin/members/:memberId/tags` と `DELETE /admin/members/:memberId/tags/:tagId` の admin manual endpoint 経由に分離する。admin manual 経路は active な `tag_definitions` のみ付与可能で、state 変化時に audit を必ず残す。
 - schema 変更は `/admin/schema/*` に集約する。
 - `admin_member_notes` は public/member view model へ混入させない。
 - mutation は `audit_log` append を通す。
