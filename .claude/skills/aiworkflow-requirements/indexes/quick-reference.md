@@ -1,5 +1,17 @@
 # クイックリファレンス
 
+## issue-988-identity-conflicts-merge-optimistic-update（2026-05-30）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-988-identity-conflicts-merge-optimistic-update/` |
+| status | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION` |
+| issue | #988 CLOSED |
+| purpose | `/admin/identity-conflicts` merge confirm 後に row を optimistic に非表示化し、server error 時に rollback する |
+| implementation | `IdentityConflictRow.tsx` component-local `optimisticMerged`; focused component tests; admin identity-conflicts Playwright spec |
+| evidence | focused Vitest 1 file / 10 tests PASS; Playwright desktop 8 tests PASS; Phase 11 screenshots 3 PNG captured |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-988-identity-conflicts-merge-optimistic-update-artifact-inventory.md` |
+
 ## issue-982-drawer-tag-pill-editing（2026-05-29）
 
 | 項目 | 値 |
