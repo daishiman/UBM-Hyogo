@@ -10,6 +10,14 @@ export interface SafeServerFetchOptions {
 
 const STATUS_FROM_MESSAGE = /\bfailed:?\b.*\b(\d{3})\b/;
 
+function statusFromError(err: Error): number | null {
+  const status = (err as { readonly status?: unknown }).status;
+  if (typeof status === "number" && Number.isInteger(status)) return status;
+
+  const match = err.message.match(STATUS_FROM_MESSAGE);
+  return match ? Number(match[1]) : null;
+}
+
 function shouldRethrow(
   err: unknown,
   rethrowOn: ReadonlyArray<RethrowableError>,
@@ -22,9 +30,9 @@ function normalizeError(
   { codePrefix = "SERVER_FETCH", unknownMessage }: SafeServerFetchOptions,
 ): SafeResultError {
   if (err instanceof Error) {
-    const match = err.message.match(STATUS_FROM_MESSAGE);
+    const status = statusFromError(err);
     return {
-      code: match ? `${codePrefix}_${match[1]}` : `${codePrefix}_FAILED`,
+      code: status ? `${codePrefix}_${status}` : `${codePrefix}_FAILED`,
       message: err.message,
     };
   }

@@ -1,0 +1,70 @@
+{
+  "workflow_id": "issue-1008-members-list-ux-clarity-artifact-status-reconciliation",
+  "workflow_state": "implemented_local_evidence_captured",
+  "issue": 1008,
+  "issue_state": "CLOSED",
+  "state": "implemented_local_evidence_captured",
+  "metadata": {
+    "workflow_state": "implemented_local_evidence_captured",
+    "taskType": "docs-only",
+    "visualEvidence": "NON_VISUAL",
+    "spec_classification": "docs_only_spec",
+    "implementation_mode": "verify_existing",
+    "canonical_workflow": "docs/30-workflows/completed-tasks/issue-1008-members-list-ux-clarity-artifact-status-reconciliation/",
+    "target_workflow": "docs/30-workflows/completed-tasks/members-list-ux-clarity/",
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-05-30T15:44:54+09:00",
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-1008-members-list-ux-clarity-artifact-status-reconciliation/outputs/phase-12/phase12-task-spec-compliance-check.md",
+        "approver": "daishiman",
+        "notes": "spec_review: Phase 1-13 workflow package and strict Phase 12 outputs are present."
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "passed",
+        "passed_at": "2026-05-30T15:44:54+09:00",
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-1008-members-list-ux-clarity-artifact-status-reconciliation/outputs/phase-11/manual-test-result.md",
+        "approver": "daishiman",
+        "notes": "implementation_review: members-list-ux-clarity artifacts status reconciliation was executed in this cycle and verified with local NON_VISUAL commands."
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-1008-members-list-ux-clarity-artifact-status-reconciliation/phase-13-pr.md",
+        "approver": "daishiman",
+        "notes": "external_ops: commit / push / PR は user の明示承認後のみ。issue #1008 は CLOSED のまま維持。"
+      }
+    ]
+  },
+  "taskType": "docs-only",
+  "visualEvidence": "NON_VISUAL",
+  "implementation_files": [],
+  "reconciliation_targets": [
+    "docs/30-workflows/completed-tasks/members-list-ux-clarity/artifacts.json",
+    "docs/30-workflows/completed-tasks/members-list-ux-clarity/outputs/artifacts.json",
+    "docs/30-workflows/completed-tasks/members-list-ux-clarity/tasks/task-a-density-toggle-ux-clarity/artifacts.json",
+    "docs/30-workflows/completed-tasks/members-list-ux-clarity/tasks/task-b-member-filters-live-affordance/artifacts.json",
+    "docs/30-workflows/completed-tasks/members-list-ux-clarity/tasks/task-c-page-integration-and-visual-baseline/artifacts.json",
+    "docs/30-workflows/completed-tasks/members-list-ux-clarity/tasks/task-b-member-filters-live-affordance/phase-10-final-review.md"
+  ],
+  "local_evidence": [
+    "docs/30-workflows/completed-tasks/issue-1008-members-list-ux-clarity-artifact-status-reconciliation/outputs/phase-11/manual-test-result.md"
+  ],
+  "phase12_outputs": [
+    "docs/30-workflows/completed-tasks/issue-1008-members-list-ux-clarity-artifact-status-reconciliation/outputs/phase-12/main.md",
+    "docs/30-workflows/completed-tasks/issue-1008-members-list-ux-clarity-artifact-status-reconciliation/outputs/phase-12/implementation-guide.md",
+    "docs/30-workflows/completed-tasks/issue-1008-members-list-ux-clarity-artifact-status-reconciliation/outputs/phase-12/system-spec-update-summary.md",
+    "docs/30-workflows/completed-tasks/issue-1008-members-list-ux-clarity-artifact-status-reconciliation/outputs/phase-12/documentation-changelog.md",
+    "docs/30-workflows/completed-tasks/issue-1008-members-list-ux-clarity-artifact-status-reconciliation/outputs/phase-12/unassigned-task-detection.md",
+    "docs/30-workflows/completed-tasks/issue-1008-members-list-ux-clarity-artifact-status-reconciliation/outputs/phase-12/skill-feedback-report.md",
+    "docs/30-workflows/completed-tasks/issue-1008-members-list-ux-clarity-artifact-status-reconciliation/outputs/phase-12/phase12-task-spec-compliance-check.md"
+  ],
+  "user_gated": [
+    "commit",
+    "push",
+    "PR"
+  ]
+}

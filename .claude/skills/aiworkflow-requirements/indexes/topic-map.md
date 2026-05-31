@@ -2530,6 +2530,21 @@ node scripts/list-specs.js --topics
 | Local Evidence | L15 |
 | Lessons Learned | L25 |
 
+### references/workflow-issue-1006-members-selected-filters-chip-ux-hardening-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Implementation Surface | L11 |
+| Evidence | L21 |
+| Runtime Boundary | L29 |
+| Lessons Learned | L33 |
+
+### references/workflow-issue-1010-auth-view-session-contract-integration-test-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Lessons Learned | L32 |
+
 ### references/workflow-issue-106-admin-member-notes-repository-task-spec-artifact-inventory.md
 
 | セクション | 行 |
@@ -3447,6 +3462,27 @@ node scripts/list-specs.js --topics
 | Evidence | L31 |
 | User-Gated Boundary | L40 |
 | Lessons Learned | L47 |
+
+### references/workflow-issue-991-admin-fetch-error-typed-class-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Summary | L3 |
+| Product Files | L13 |
+| Test Files | L20 |
+| Evidence | L31 |
+| User-Gated Items | L39 |
+| Lessons Learned | L46 |
+
+### references/workflow-issue-998-members-publish-state-production-rollout-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Workflow | L3 |
+| Implementation | L14 |
+| Evidence Boundary | L26 |
+| Lessons Learned | L34 |
+| User-Gated Items | L48 |
 
 ### references/workflow-light-theme-contrast-regression-guard.md
 
@@ -8181,14 +8217,15 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L3255 |
-| フェーズ構造（概要） | L3264 |
-| 品質ゲート（概要） | L3295 |
-| 出力テンプレート | L3306 |
-| 実行時のコマンド・エージェント・スキル | L3329 |
-| 昇格パターン集 | L3353 |
-| Current Active / Spec Created Tasks | L3355 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L3518 |
+| ドキュメント構成 | L3289 |
+| フェーズ構造（概要） | L3298 |
+| 品質ゲート（概要） | L3329 |
+| 出力テンプレート | L3340 |
+| 実行時のコマンド・エージェント・スキル | L3363 |
+| 昇格パターン集 | L3387 |
+| Current Active / Spec Created Tasks | L3389 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L3553 |
+| issue-998-members-publish-state-production-rollout | L3630 |
 
 ### references/task-workflow-backlog-part2.md
 

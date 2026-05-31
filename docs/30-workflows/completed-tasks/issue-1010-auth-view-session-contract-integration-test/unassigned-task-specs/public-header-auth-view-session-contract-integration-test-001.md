@@ -14,7 +14,8 @@ issue_number: 1010
 | 対象機能 | `apps/web/src/lib/auth-view/getAuthView.ts` と Auth.js session contract |
 | 優先度 | 中 |
 | 見積もり規模 | 小規模 |
-| ステータス | 未実施 |
+| ステータス | consumed |
+| canonical_workflow | `docs/30-workflows/completed-tasks/issue-1010-auth-view-session-contract-integration-test/` |
 | 発見元 | `public-header-session-aware-auth-view-base` Phase 10 M-01 / Phase 12 |
 | 発見日 | 2026-05-28 |
 
@@ -196,20 +197,20 @@ AuthView session contract drift を検出する test を追加する。
 
 ### 機能要件
 
-- [ ] member session fixture が member AuthView に解決される
-- [ ] admin session fixture が admin AuthView に解決される
-- [ ] `memberId` 欠落時は guest fail-closed になる
+- [x] member session fixture が member AuthView に解決される
+- [x] admin session fixture が admin AuthView に解決される
+- [x] `memberId` 欠落時は guest fail-closed になる
 
 ### 品質要件
 
-- [ ] focused Vitest が PASS する
-- [ ] `pnpm typecheck` が PASS する
-- [ ] 既存 PublicHeader / resolveAuthView / getAuthView unit test を壊さない
+- [x] focused Vitest が PASS する（4 files / 61 tests）
+- [x] `pnpm typecheck` が PASS する
+- [x] 既存 PublicHeader / resolveAuthView / getAuthView unit test を壊さない
 
 ### ドキュメント要件
 
-- [ ] 親 workflow の FU-001 trace が consumed または linked 状態になる
-- [ ] 実行ログに test command と結果が記録される
+- [x] 親 workflow の FU-001 trace が consumed または linked 状態になる
+- [x] 実行ログに test command と結果が記録される
 
 ---
 
