@@ -13,6 +13,22 @@
 | inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1007-density-toggle-help-hint-hardening-artifact-inventory.md` |
 | user gate | runtime screenshots, staging deploy, commit, push, PR |
 
+## issue-1006-members-selected-filters-chip-ux-hardening（2026-05-30）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-1006-members-selected-filters-chip-ux-hardening/` |
+| status | `implemented_local_runtime_pending / implementation / VISUAL` |
+| issue | #1006 CLOSED。PR 文脈は `Refs #1006` のみ |
+| parent | `docs/30-workflows/completed-tasks/members-list-ux-clarity/` |
+| purpose | `/members` SelectedFiltersBar の tag chip 表示名、chip 削除後 focus 復帰、mobile selected-filters overflow を堅牢化 |
+| implementation targets | `apps/web/src/components/public/SelectedFiltersBar.client.tsx`, `apps/web/src/components/public/MemberFilters.client.tsx`, `apps/web/src/styles/legacy-public.css` |
+| tests | `apps/web/src/components/public/__tests__/SelectedFiltersBar.client.spec.tsx`, `apps/web/src/components/public/__tests__/MemberFilters.client.spec.tsx` |
+| evidence | focused Vitest 2 files / 17 tests PASS, web typecheck PASS, lint PASS, verify-design-tokens PASS, local Playwright mobile CSS sanity PASS |
+| runtime boundary | local `/public/members` returned 500 without AUTH_SECRET/backend auth, so data-backed visual screenshots and staging verification remain runtime pending |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1006-members-selected-filters-chip-ux-hardening-artifact-inventory.md` |
+| user gate | staging data-backed visual screenshots, commit, push, PR |
+
 ## issue-991-admin-fetch-error-typed-class（2026-05-30）
 
 | 項目 | 値 |
