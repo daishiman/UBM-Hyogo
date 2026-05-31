@@ -127,4 +127,66 @@ describe("admin identity-conflicts route", () => {
     expect(second.status).toBe(409);
     await expect(second.json()).resolves.toMatchObject({ error: "ALREADY_MERGED" });
   });
+
+  it("dismiss records identity.dismiss audit log with actor email", async () => {
+    const app = createAdminIdentityConflictsRoute();
+    const res = await app.request(
+      "/identity-conflicts/m_source__m_target/dismiss",
+      {
+        method: "POST",
+        headers: {
+          ...(await adminAuthHeader()),
+          "content-type": "application/json",
+        },
+        body: JSON.stringify({ reason: "different person" }),
+      },
+      makeEnv(env),
+    );
+    expect(res.status).toBe(200);
+    await expect(res.json()).resolves.toMatchObject({ dismissedAt: expect.any(String) });
+
+    const audit = await env.db
+      .prepare(
+        `SELECT actor_email AS actorEmail, action, target_type AS targetType, target_id AS targetId
+         FROM audit_log
+         WHERE action = 'identity.dismiss'`,
+      )
+      .first<{
+        actorEmail: string;
+        action: string;
+        targetType: string;
+        targetId: string;
+      }>();
+    expect(audit).toMatchObject({
+      actorEmail: "admin@example.com",
+      action: "identity.dismiss",
+      targetType: "member",
+      targetId: "m_target",
+    });
+  });
+
+  it("dismiss translates missing member to 404 without audit side effect", async () => {
+    const app = createAdminIdentityConflictsRoute();
+    const res = await app.request(
+      "/identity-conflicts/m_source__missing/dismiss",
+      {
+        method: "POST",
+        headers: {
+          ...(await adminAuthHeader()),
+          "content-type": "application/json",
+        },
+        body: JSON.stringify({ reason: "different person" }),
+      },
+      makeEnv(env),
+    );
+    expect(res.status).toBe(404);
+    await expect(res.json()).resolves.toMatchObject({
+      error: "MEMBER_NOT_FOUND",
+      memberId: "missing",
+    });
+    const audit = await env.db
+      .prepare("SELECT COUNT(*) AS n FROM audit_log WHERE action = 'identity.dismiss'")
+      .first<{ n: number }>();
+    expect(audit?.n).toBe(0);
+  });
 });
