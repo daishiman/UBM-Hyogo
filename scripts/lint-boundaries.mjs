@@ -16,6 +16,13 @@ const forbidden = [
   "sessionStorage",
 ];
 
+// forbidden token を例外的に許可するファイル（正規参照点に集約する用途のみ）。
+// Web Storage は `apps/web/src/lib/is-browser.ts` の getter 経由を唯一の経路とする。
+const tokenAllowlist = {
+  localStorage: ["apps/web/src/lib/is-browser.ts"],
+  sessionStorage: [],
+};
+
 function listFiles(dir) {
   const entries = readdirSync(dir);
   return entries.flatMap((entry) => {
@@ -41,9 +48,11 @@ function isInsidePath(path, dir) {
 
 for (const file of listFiles(webSrc)) {
   const body = readFileSync(file, "utf8");
+  const relativePath = relative(repoRoot, file);
   for (const token of forbidden) {
     if (body.includes(token)) {
-      violations.push(`${relative(repoRoot, file)} contains forbidden token: ${token}`);
+      if (tokenAllowlist[token]?.includes(relativePath)) continue;
+      violations.push(`${relativePath} contains forbidden token: ${token}`);
     }
   }
 

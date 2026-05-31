@@ -874,13 +874,13 @@ node scripts/list-specs.js --topics
 | 概要 | L8 |
 | ドキュメント構成 | L27 |
 | REST API エンドポイント一覧 | L37 |
-| エンドポイント命名規則 | L246 |
-| UBM-Hyogo Admin Sync API（03a） | L267 |
-| UBM-Hyogo Member Self-Service API（04b） | L319 |
-| Admin Dashboard Attendance Analytics API（UT-02A follow-up 002） | L345 |
-| Desktop IPC API サマリー | L359 |
-| 変更履歴 | L390 |
-| 関連ドキュメント | L407 |
+| エンドポイント命名規則 | L249 |
+| UBM-Hyogo Admin Sync API（03a） | L270 |
+| UBM-Hyogo Member Self-Service API（04b） | L322 |
+| Admin Dashboard Attendance Analytics API（UT-02A follow-up 002） | L348 |
+| Desktop IPC API サマリー | L362 |
+| 変更履歴 | L393 |
+| 関連ドキュメント | L410 |
 
 ### references/api-internal-chunk-search.md
 
@@ -1098,13 +1098,13 @@ node scripts/list-specs.js --topics
 | Issue #958 /admin/members bulk republish UX | L14 |
 | 1. 全体構成 | L26 |
 | 2. AdminSidebar | L61 |
-| 3. /admin（Dashboard） | L87 |
-| 4. /admin/members | L140 |
-| 5. /admin/tags | L233 |
-| 6. /admin/schema | L319 |
-| 7. /admin/meetings | L374 |
-| 8. 共通の Server/Client 契約 | L443 |
-| 9. 不変条件サマリ（admin UI） | L461 |
+| 3. /admin（Dashboard） | L97 |
+| 4. /admin/members | L150 |
+| 5. /admin/tags | L243 |
+| 6. /admin/schema | L329 |
+| 7. /admin/meetings | L384 |
+| 8. 共通の Server/Client 契約 | L453 |
+| 9. 不変条件サマリ（admin UI） | L471 |
 
 ### references/ui-ux-advanced.md
 
@@ -2156,6 +2156,18 @@ node scripts/list-specs.js --topics
 | User-Gated Evidence | L40 |
 | Lessons Learned | L49 |
 
+### references/workflow-admin-layout-sidebar-shell-migration-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Summary | L5 |
+| Canonical Workflow | L12 |
+| Implemented Targets | L25 |
+| Dependency Gates | L36 |
+| Current Boundary | L44 |
+| Follow-up | L52 |
+| Lessons Learned | L56 |
+
 ### references/workflow-admin-meetings-prototype-alignment-artifact-inventory.md
 
 | セクション | 行 |
@@ -2199,6 +2211,12 @@ node scripts/list-specs.js --topics
 |------------|----|
 | Contract | L17 |
 | Lessons Learned | L30 |
+
+### references/workflow-admin-sidebar-public-return-link-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Lessons Learned | L20 |
 
 ### references/workflow-admin-tag-queue-ui-and-404-recovery-artifact-inventory.md
 
@@ -3361,6 +3379,36 @@ node scripts/list-specs.js --topics
 | User-Gated | L13 |
 | Lessons Learned | L17 |
 
+### references/workflow-issue-981-admin-members-table-list-enrichment-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Summary | L3 |
+| Implementation Artifacts | L12 |
+| Workflow Artifacts | L19 |
+| Evidence | L32 |
+| Lessons Learned | L42 |
+
+### references/workflow-issue-982-drawer-tag-pill-editing-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Summary | L5 |
+| Canonical workflow | L11 |
+| Local implementation targets | L23 |
+| Current code anchors | L35 |
+| Gates | L46 |
+| Lessons Learned | L54 |
+
+### references/workflow-issue-983-member-photo-avatar-r2-storage-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| State | L12 |
+| Implemented Local Targets | L16 |
+| User-Gated Operations | L26 |
+| Lessons Learned | L30 |
+
 ### references/workflow-issue-991-admin-fetch-error-typed-class-artifact-inventory.md
 
 | セクション | 行 |
@@ -3435,6 +3483,12 @@ node scripts/list-specs.js --topics
 | Workflow Artifacts | L11 |
 | Code Artifacts | L20 |
 | Evidence Boundary | L36 |
+
+### references/workflow-member-header-admin-link-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Lessons Learned | L19 |
 
 ### references/workflow-members-list-prototype-alignment-artifact-inventory.md
 
@@ -3580,6 +3634,12 @@ node scripts/list-specs.js --topics
 | Planned Implementation Targets | L19 |
 | Boundary | L30 |
 | Lessons | L34 |
+
+### references/workflow-public-header-auth-slot-e2e-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Lessons Learned | L21 |
 
 ### references/workflow-public-header-logged-in-nav-cleanup-artifact-inventory.md
 
@@ -4166,6 +4226,12 @@ node scripts/list-specs.js --topics
 |------------|----|
 | Lessons Learned | L18 |
 
+### references/workflow-task-c-public-member-sidebar-shell-integration-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Lessons Learned | L16 |
+
 ### references/workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md
 
 | セクション | 行 |
@@ -4347,10 +4413,11 @@ node scripts/list-specs.js --topics
 |------------|----|
 | Summary | L5 |
 | Canonical workflow | L9 |
-| Planned implementation targets | L23 |
-| Current code anchors | L35 |
-| Gates | L44 |
-| Lessons Learned | L52 |
+| Planned implementation targets | L31 |
+| Current code anchors | L44 |
+| Gates | L59 |
+| Sub-workflows | L67 |
+| Lessons Learned | L77 |
 
 ### references/workflow-ut-02a-attendance-profile-integration-artifact-inventory.md
 
@@ -8086,14 +8153,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L3089 |
-| フェーズ構造（概要） | L3098 |
-| 品質ゲート（概要） | L3129 |
-| 出力テンプレート | L3140 |
-| 実行時のコマンド・エージェント・スキル | L3163 |
-| 昇格パターン集 | L3187 |
-| Current Active / Spec Created Tasks | L3189 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L3352 |
+| ドキュメント構成 | L3211 |
+| フェーズ構造（概要） | L3220 |
+| 品質ゲート（概要） | L3251 |
+| 出力テンプレート | L3262 |
+| 実行時のコマンド・エージェント・スキル | L3285 |
+| 昇格パターン集 | L3309 |
+| Current Active / Spec Created Tasks | L3311 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L3475 |
 
 ### references/task-workflow-backlog-part2.md
 

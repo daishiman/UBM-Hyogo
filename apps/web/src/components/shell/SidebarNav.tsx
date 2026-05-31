@@ -1,26 +1,29 @@
 "use client";
 
+// Task A — sidebar nav 全体。`<nav aria-label="サイドバー">` ランドマークを所有する。
 import { SidebarNavGroup } from "./SidebarNavGroup";
 import type { ShellNavGroup } from "./shell-config";
-import type { SidebarStateMode } from "./useSidebarState";
 
-export function SidebarNav({
-  navGroups,
-  pathname,
-  mode,
-}: {
-  readonly navGroups: ShellNavGroup[];
-  readonly pathname: string;
-  readonly mode: SidebarStateMode;
-}) {
+export interface SidebarNavProps {
+  readonly navGroups: ReadonlyArray<ShellNavGroup>;
+  readonly collapsed: boolean;
+  readonly activePath: string;
+}
+
+export function SidebarNav({ navGroups, collapsed, activePath }: SidebarNavProps) {
   return (
     <nav
       aria-label="サイドバー"
-      data-component="shell-nav"
-      className="flex flex-1 flex-col gap-4 overflow-y-auto"
+      data-shell-block="nav"
+      className="flex flex-1 flex-col gap-3 overflow-y-auto"
     >
       {navGroups.map((group) => (
-        <SidebarNavGroup key={group.id} group={group} pathname={pathname} mode={mode} />
+        <SidebarNavGroup
+          key={group.id}
+          group={group}
+          collapsed={collapsed}
+          activePath={activePath}
+        />
       ))}
     </nav>
   );

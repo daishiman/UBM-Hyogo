@@ -1,0 +1,11 @@
+[33mThe CJS build of Vite's Node API is deprecated. See https://vite.dev/guide/troubleshooting.html#vite-cjs-node-api-deprecated for more details.[39m
+
+ RUN  v2.1.9 /Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260528-225049-wt-11
+
+ ✓ apps/web/src/components/shell/__tests__/user-menu-config.spec.ts (4 tests) 26ms
+
+ Test Files  1 passed (1)
+      Tests  4 passed (4)
+   Start at  06:19:22
+   Duration  10.44s (transform 449ms, setup 0ms, collect 377ms, tests 26ms, environment 2.61s, prepare 675ms)
+

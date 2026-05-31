@@ -1,8 +1,10 @@
 // followup-003 Lane C: プロトタイプ準拠テーブル (pages-admin.jsx L223-276)
 "use client";
 import type { AdminMemberListView } from "@ubm-hyogo/shared";
+import { Chip } from "../../../../components/ui/Chip";
 import { EmptyState } from "../../../../components/ui/EmptyState";
 import { Pagination } from "../../../../components/ui/Pagination";
+import { statusTone, zoneTone } from "../../../../lib/tones";
 import { MemberAvatar } from "./MemberAvatar";
 import { MemberStateChipRow } from "./MemberStateChip";
 import { MemberPublishSwitch } from "./MemberPublishSwitch";
@@ -26,6 +28,34 @@ function maskEmail(email: string): string {
   if (!user || !domain) return email;
   if (user.length <= 1) return `${user}***@${domain}`;
   return `${user[0]}***@${domain}`;
+}
+
+function memberTagPills(tags: Member["tags"]) {
+  if (!tags?.length) {
+    return (
+      <Chip tone="warning" dot>
+        未タグ
+      </Chip>
+    );
+  }
+
+  const visibleTags = tags.slice(0, 2);
+  const remaining = tags.length - visibleTags.length;
+
+  return (
+    <>
+      {visibleTags.map((tag) => (
+        <Chip key={tag.code} tone="neutral">
+          {tag.label}
+        </Chip>
+      ))}
+      {remaining > 0 ? (
+        <span title={tags.map((tag) => tag.label).join(" / ")}>
+          <Chip tone="stone">+{remaining}</Chip>
+        </span>
+      ) : null}
+    </>
+  );
 }
 
 export function MembersTable({
@@ -62,7 +92,7 @@ export function MembersTable({
             </th>
             <th scope="col" className="px-3 py-2">メンバー</th>
             <th scope="col" className="px-3 py-2">メール</th>
-            <th scope="col" className="px-3 py-2">ステータス</th>
+            <th scope="col" className="px-3 py-2">区画 / ステータス</th>
             <th scope="col" className="px-3 py-2">タグ</th>
             <th scope="col" className="px-3 py-2">最終更新</th>
             <th scope="col" className="w-36 px-3 py-2">公開</th>
@@ -96,6 +126,11 @@ export function MembersTable({
                     >
                       {m.fullName}
                     </button>
+                    {m.occupation ? (
+                      <span className="text-xs text-[var(--ubm-color-text-muted)]">
+                        {m.occupation}
+                      </span>
+                    ) : null}
                   </div>
                 </div>
               </td>
@@ -103,13 +138,25 @@ export function MembersTable({
                 {maskEmail(m.responseEmail)}
               </td>
               <td className="px-3 py-2">
-                <MemberStateChipRow
-                  publishState={m.publishState}
-                  isDeleted={m.isDeleted}
-                />
+                <div className="flex flex-wrap gap-1.5">
+                  {m.ubmZone ? (
+                    <Chip tone={zoneTone(m.ubmZone)} dot>
+                      {m.ubmZone}
+                    </Chip>
+                  ) : null}
+                  {m.ubmMembershipType ? (
+                    <Chip tone={statusTone(m.ubmMembershipType)}>
+                      {m.ubmMembershipType}
+                    </Chip>
+                  ) : null}
+                  <MemberStateChipRow
+                    publishState={m.publishState}
+                    isDeleted={m.isDeleted}
+                  />
+                </div>
               </td>
-              <td className="px-3 py-2 text-xs text-[var(--ubm-color-text-muted)]">
-                <span title="詳細は drawer で確認">—</span>
+              <td className="px-3 py-2">
+                <div className="flex flex-wrap gap-1.5">{memberTagPills(m.tags)}</div>
               </td>
               <td className="px-3 py-2 font-mono text-xs text-[var(--ubm-color-text-muted)]">
                 {m.lastSubmittedAt}
