@@ -4744,6 +4744,15 @@ UT-17 Cloudflare Notifications → alert-relay → Slack 経路を、既存 API 
 | workflow | `docs/30-workflows/completed-tasks/members-list-ux-clarity/` |
 | summary | `/members` の密度切替説明、即時反映ヒント、適用中filter chip、件数live regionを追加。API/schema/query正本は不変。 |
 
+# issue-998-members-publish-state-production-rollout
+
+| item | value |
+| --- | --- |
+| status | implemented_local_runtime_pending / implementation / VISUAL_ON_EXECUTION / 2026-05-30 |
+| workflow | `docs/30-workflows/completed-tasks/issue-998-members-publish-state-production-rollout/` |
+| summary | production `MEMBERS_AUTO_PUBLISH_ON_CONSENT=true` を `apps/api/wrangler.toml` に反映し、既実装 auto-publish/backfill/diagnostics で `/members` 復旧を staging→production 順に user-gated rollout する。 |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-998-members-publish-state-production-rollout-artifact-inventory.md` |
+
 ## issue-1005-members-ux-playwright-baseline-stabilization
 
 | item | value |

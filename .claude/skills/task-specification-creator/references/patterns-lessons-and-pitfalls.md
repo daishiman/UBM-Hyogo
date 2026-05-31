@@ -1805,6 +1805,15 @@ resolver 単発で skill-only conflict を解消した後でも、Phase 12/13 �
 - **SP-DEVSYNC-069-D (CI 非再発・ローカル限定として記録し push を止めない)**: CI は clean checkout から build→typecheck するため `.next/types` は常に最新で本エラーは出ない。push ブロック事由にせず、ローカル green を取り戻す cache 掃除として Phase 13 に注記する。
 - 参照: [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-069（skill-only resolver-only path + route-group 移行 stale `.next/types` の切り分け）, L-DEVSYNC-068-D（`.next/types` ではなく spec 追従漏れで test だけ赤になる対照例）。
 
+## SP-DEVSYNC-074 `pnpm sync:resolve` は段階的かつ冪等 — 並行 git 操作由来の `index.lock` で後段だけ落ちても、lock 存在確認後の再実行で残コンフリクトだけ収束する（2026-05-31 feat/issue-998-members-sync-gate-c-task-spec ← dev 8 commits）
+
+sync-merge task の Phase 12 implementation-guide に、resolver 途中失敗時の復旧手順を固定フローとして記載する。`resolve-skill-merge-conflicts.sh` は ①union-resolve 群 → ②`keywords.json` `--ours`+`pnpm indexes:rebuild` の 2 段で進むため、後段で並行 worktree / dev ff 同期が残した `index.lock` に当たると「union だけ済んだ中間状態」で exit する。これを「全やり直し」と誤認しないこと。
+
+- **SP-DEVSYNC-074-A (resolver 途中失敗は残コンフリクトだけ取り直して再実行)**: `pnpm sync:resolve` が `fatal: Unable to create '…/index.lock'` 等で exit したら、まず `git diff --name-only --diff-filter=U` で**残ったコンフリクトだけ**を確定（多くは `keywords.json` 単独）。前段の union 結果は既にステージ済みなので失われない。resolver は冪等なので**そのまま再実行**すれば union 済みをスキップし残件のみ収束する（二重適用・巻き戻しは起きない）。
+- **SP-DEVSYNC-074-B (`index.lock` は `rm` 前に存在確認 — 並行プロセス終了で自然消滅していることが多い)**: stale lock を見ても即 `rm` しない。`git rev-parse --git-path index.lock`（sub-worktree は `…/.git/worktrees/<name>/index.lock`）で正しい path を取り `ls -la` で現存確認。`rm` が権限拒否される環境でも、再確認時点で並行 git が終了し lock が消えていれば削除自体が不要（[[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-074-B / `git|head` exit-code pitfall と同系）。残っている場合のみ除去 → resolver 再実行。
+- **SP-DEVSYNC-074-C (sync-merge 手順は dev ff 同期 → merge → resolver の直列を推奨)**: 根因は dev の ff 同期（main worktree 書き込み）と feature 側 resolver（同一 common-dir の index 操作）の近接実行。Phase 13 検証フローでは **dev ff 同期完了 → `git merge dev` → `pnpm sync:resolve`** を直列に並べ、並行させないことで lock 競合を予防。並行してしまった場合は SP-DEVSYNC-074-A/B で復旧できると割り切る。
+- 参照: [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-074（正本）, SP-DEVSYNC-072/073（クリーン基準ケース・段階構造の前提）, SP-DEVSYNC-045（resolver fallback）, L-DEVSYNC-002/007（rebuild 決定性・3 層予防）。
+
 ### dev-sync-merge 残マーカー確認の `git grep '======='` 偽陽性（SP-DEVSYNC-073）
 
 skill-only conflict を `pnpm sync:resolve` で解消した後の「念のための残マーカー確認」を `git grep` ベースで行うと、completed-tasks 配下の evidence/log 文書に頻出する装飾区切り線（`=` 連続行）を conflict marker 中央線 `=======` と誤検知する shape。Phase 12 の解消完了判定を index 状態ベースに固定して偽陽性に振り回されないようにする。
