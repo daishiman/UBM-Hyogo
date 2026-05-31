@@ -1,0 +1,228 @@
+{
+  "feature": "issue-57-kv-r2-guardrail-degrade-design",
+  "created": "2026-05-31T00:00:00Z",
+  "lastUpdated": "2026-05-31T00:00:00Z",
+  "metadata": {
+    "taskType": "implementation",
+    "taskId": "issue-57-kv-r2-guardrail-degrade-design",
+    "issue": 57,
+    "visualEvidence": "NON_VISUAL",
+    "implementation_mode": "new",
+    "workflow_state": "implemented_local_evidence_captured",
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-05-31T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-57-kv-r2-guardrail-degrade-design/outputs/phase-12/phase12-task-spec-compliance-check.md",
+        "approver": "daishiman",
+        "notes": "spec_structure: Phase 1-13 + Phase 12 strict 7 present"
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "passed",
+        "passed_at": "2026-05-31T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-57-kv-r2-guardrail-degrade-design/outputs/phase-11/main.md",
+        "approver": "daishiman",
+        "notes": "local_evidence: script pause guard, alert-relay KV optional guard, focused tests/typecheck targeted"
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-57-kv-r2-guardrail-degrade-design/phase-13.md",
+        "approver": "daishiman",
+        "notes": "external_ops: commit / push / PR / scheduled workflow production run are user-gated"
+      }
+    ]
+  },
+  "phases": {
+    "1": {
+      "status": "completed",
+      "artifacts": [
+        {
+          "type": "document",
+          "path": "outputs/phase-01/main.md",
+          "description": "要件定義"
+        }
+      ]
+    },
+    "2": {
+      "status": "completed",
+      "artifacts": [
+        {
+          "type": "document",
+          "path": "outputs/phase-02/main.md",
+          "description": "設計"
+        }
+      ]
+    },
+    "3": {
+      "status": "completed",
+      "artifacts": [
+        {
+          "type": "document",
+          "path": "outputs/phase-03/main.md",
+          "description": "設計レビュー"
+        }
+      ]
+    },
+    "4": {
+      "status": "completed",
+      "artifacts": [
+        {
+          "type": "document",
+          "path": "outputs/phase-04/main.md",
+          "description": "テスト作成"
+        }
+      ]
+    },
+    "5": {
+      "status": "completed",
+      "artifacts": [
+        {
+          "type": "document",
+          "path": "outputs/phase-05/main.md",
+          "description": "実装"
+        }
+      ]
+    },
+    "6": {
+      "status": "completed",
+      "artifacts": [
+        {
+          "type": "document",
+          "path": "outputs/phase-06/main.md",
+          "description": "テスト拡充"
+        }
+      ]
+    },
+    "7": {
+      "status": "completed",
+      "artifacts": [
+        {
+          "type": "document",
+          "path": "outputs/phase-07/main.md",
+          "description": "カバレッジ確認"
+        }
+      ]
+    },
+    "8": {
+      "status": "completed",
+      "artifacts": [
+        {
+          "type": "document",
+          "path": "outputs/phase-08/main.md",
+          "description": "リファクタリング"
+        }
+      ]
+    },
+    "9": {
+      "status": "completed",
+      "artifacts": [
+        {
+          "type": "document",
+          "path": "outputs/phase-09/main.md",
+          "description": "品質保証"
+        }
+      ]
+    },
+    "10": {
+      "status": "completed",
+      "artifacts": [
+        {
+          "type": "document",
+          "path": "outputs/phase-10/final-review-result.md",
+          "description": "最終レビュー"
+        }
+      ]
+    },
+    "11": {
+      "status": "completed",
+      "artifacts": [
+        {
+          "type": "document",
+          "path": "outputs/phase-11/main.md",
+          "description": "手動テスト"
+        }
+      ]
+    },
+    "12": {
+      "status": "completed",
+      "artifacts": [
+        {
+          "type": "document",
+          "path": "outputs/phase-12/main.md",
+          "description": "ドキュメント更新サマリ"
+        }
+      ]
+    },
+    "13": {
+      "status": "pending",
+      "artifacts": [
+        {
+          "type": "document",
+          "path": "phase-13.md",
+          "description": "PR作成(user-gated)"
+        }
+      ]
+    }
+  },
+  "dependencies": {
+    "1": [],
+    "2": [
+      "1"
+    ],
+    "3": [
+      "1",
+      "2"
+    ],
+    "4": [
+      "1",
+      "2",
+      "3"
+    ],
+    "5": [
+      "4"
+    ],
+    "6": [
+      "5"
+    ],
+    "7": [
+      "5",
+      "6"
+    ],
+    "8": [
+      "1",
+      "2",
+      "5",
+      "6",
+      "7"
+    ],
+    "9": [
+      "5"
+    ],
+    "10": [
+      "1",
+      "2",
+      "5"
+    ],
+    "11": [
+      "1",
+      "2",
+      "5",
+      "6",
+      "7",
+      "8",
+      "9",
+      "10"
+    ],
+    "12": [
+      "10",
+      "11"
+    ],
+    "13": [
+      "12"
+    ]
+  }
+}

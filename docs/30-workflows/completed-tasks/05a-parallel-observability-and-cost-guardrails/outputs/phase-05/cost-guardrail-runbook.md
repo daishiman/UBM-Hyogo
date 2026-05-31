@@ -17,7 +17,7 @@ Cloudflare / GitHub Actions の無料枠を維持するための手動確認手�
 | 月1回 | GitHub Actions minutes/月 | GitHub → Settings → Billing |
 | 週1回 | Workers requests/日 (直近7日) | CF Dashboard → Workers → Analytics |
 | 週1回 | D1 reads/writes/日, storage | CF Dashboard → D1 → Metrics |
-| 月1回 | KV reads/writes, R2 storage/Class A/Class B | CF Dashboard → KV/R2 → Metrics |
+| 月1回 | KV reads/writes/deletes/list, R2 Standard storage/Class A/Class B | CF Dashboard → KV/R2 → Metrics |
 
 ---
 
@@ -73,12 +73,16 @@ Cloudflare / GitHub Actions の無料枠を維持するための手動確認手�
 
 ### 2-7. KV / R2 operations
 
-| 対象 | 段階 | 対処 |
-| --- | --- | --- |
-| KV reads/writes | 警戒 | 利用開始済みの場合のみ、feature flag / cache key の読み書き頻度を確認 |
-| KV reads/writes | 対処 | 利用開始済みの場合のみ、低優先の読み書きを停止。現行 API に KV binding がない場合はコード変更 task として扱う |
-| R2 storage / Class A / Class B | 警戒 | 利用開始済みの場合のみ、object upload / list / read の発生源を確認 |
-| R2 storage / Class A / Class B | 対処 | 利用開始済みの場合のみ、upload や batch 処理を停止。現行 MVP で未利用なら発生源調査を優先 |
+確認日: 2026-05-31。Cloudflare KV free plan と R2 Standard free tier を基準に、警戒=80%、対処=95%で運用する。
+
+| 対象 | 正常 | 警戒 | 対処 |
+| --- | --- | --- | --- |
+| KV reads | < 80,000/day | 80,000〜94,999/day | >= 95,000/day: 読み取り頻度の高い cache / feature flag を停止 |
+| KV writes/deletes/list | < 800/day | 800〜949/day | >= 950/day: 書き込み系機能を停止。`ALERT_DEDUP_KV` は現行未活性のため ut-17-followup-002 に統合 |
+| KV storage | < 0.8GB/account | 0.8〜0.94GB/account | >= 0.95GB/account: TTL / key prefix 別削除を実施 |
+| R2 Standard storage | < 8GB-month | 8〜9.49GB-month | >= 9.5GB-month: cold-storage retention / object prefix を確認し、有料切替または削除判断 |
+| R2 Class A | < 800,000/month | 800,000〜949,999/month | >= 950,000/month: application audit_log scheduled export を pause |
+| R2 Class B | < 8,000,000/month | 8,000,000〜9,499,999/month | >= 9,500,000/month: restore drill / list / read 系 job を停止 |
 
 ---
 
@@ -120,9 +124,24 @@ app.use('/api/heavy-endpoint', (c) => {
 });
 ```
 
-### 4-2. 機能フラグによる degrade
+### 4-2. audit cold-storage R2 export の degrade
 
-Cloudflare KV の機能フラグで特定機能を無効化する設計は将来拡張である。現行 API に KV binding がない場合は、手動コード変更または後続 task の `task-imp-05a-kv-r2-guardrail-detail-001` で実装する。
+Issue #315 の application audit_log cold storage は `.github/workflows/audit-log-cold-storage.yml` から `scripts/audit-log/export-to-r2.ts` を実行する。R2 Class A / storage が対処閾値に到達した場合は、GitHub repository variable で pause し、D1 SELECT / manifest write / R2 PUT をすべて止める。
+
+```bash
+gh variable set AUDIT_COLD_STORAGE_EXPORT_PAUSED --body "true"
+gh workflow run audit-log-cold-storage.yml -f dry_run=true
+```
+
+期待結果: workflow log の JSON result が `status: "paused"`、`objectKey: null`、`rowCount: 0`。R2 object と `audit_log_export_manifest` は増えない。
+
+復旧時:
+
+```bash
+gh variable set AUDIT_COLD_STORAGE_EXPORT_PAUSED --body "false"
+```
+
+`UBM_AUDIT_COLD_STORAGE`（Cloudflare Audit Logs / Issue #514）と `UBM_AUDIT_APP_COLD_STORAGE`（application audit_log / Issue #315）は production / staging binding 済み。汎用 `R2_BUCKET` と `SESSION_KV` は UT-12 / UT-13 の別 scope であり、本 runbook の即時 degrade 対象ではない。
 
 ---
 
