@@ -1791,7 +1791,7 @@ node scripts/list-specs.js --topics
 | 依存関係管理戦略 | L190 |
 | 無料枠の活用ガイド | L283 |
 | CI/CDツール選定 | L315 |
-| 学習リソースとコミュニティ | L420 |
+| 学習リソースとコミュニティ | L423 |
 
 ### references/technology-devops-details.md
 
@@ -2554,6 +2554,18 @@ node scripts/list-specs.js --topics
 | Validation Chain | L89 |
 | Branch-level deletion check | L101 |
 | Downstream task: issue-195-sync-jobs-contract-schema-consolidation-001（2026-05-04） | L105 |
+
+### references/workflow-issue-230-lefthook-edit-guard-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Summary | L3 |
+| Workflow Files | L13 |
+| Implemented Files | L30 |
+| Evidence Boundary | L41 |
+| Requirement Mapping | L50 |
+| Lessons | L59 |
+| User-Gated Items | L70 |
 
 ### references/workflow-issue-247-apps-web-opennext-config-regression-tests-artifact-inventory.md
 
@@ -5904,6 +5916,14 @@ node scripts/list-specs.js --topics
 | OP-ISSUE195FU002-2: current canonical deletion 検知の運用 | L80 |
 | 再確認・適用記録: issue-195-sync-jobs-contract-schema-consolidation-001（2026-05-04） | L89 |
 
+### references/lessons-learned-issue-230-lefthook-edit-guard-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| 概要 | L11 |
+| 苦戦箇所 | L17 |
+| 同一 wave で正本化した派生・参照 | L47 |
+
 ### references/lessons-learned-issue-274-public-pages-ogp-sitemap-robots-2026-05.md
 
 | セクション | 行 |
@@ -8131,14 +8151,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L3195 |
-| フェーズ構造（概要） | L3204 |
-| 品質ゲート（概要） | L3235 |
-| 出力テンプレート | L3246 |
-| 実行時のコマンド・エージェント・スキル | L3269 |
-| 昇格パターン集 | L3293 |
-| Current Active / Spec Created Tasks | L3295 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L3458 |
+| ドキュメント構成 | L3210 |
+| フェーズ構造（概要） | L3219 |
+| 品質ゲート（概要） | L3250 |
+| 出力テンプレート | L3261 |
+| 実行時のコマンド・エージェント・スキル | L3284 |
+| 昇格パターン集 | L3308 |
+| Current Active / Spec Created Tasks | L3310 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L3473 |
 
 ### references/task-workflow-backlog-part2.md
 
