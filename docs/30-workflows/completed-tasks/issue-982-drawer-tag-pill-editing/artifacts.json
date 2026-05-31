@@ -1,0 +1,131 @@
+{
+  "task_id": "issue-982-drawer-tag-pill-editing",
+  "created_at": "2026-05-29",
+  "status": "implemented_local_runtime_pending",
+  "task_type": "implementation",
+  "visual_category": "VISUAL_ON_EXECUTION",
+  "implementation_mode": "new",
+  "metadata": {
+    "workflow_state": "implemented_local_runtime_pending",
+    "implementation_status": "local_code_tests_passed",
+    "taskType": "implementation",
+    "visualEvidence": "VISUAL_ON_EXECUTION",
+    "implementationCategory": "admin_member_tag_write",
+    "canonical_workflow": "docs/30-workflows/completed-tasks/issue-982-drawer-tag-pill-editing/",
+    "github_issue": 982,
+    "github_issue_state": "CLOSED",
+    "branch": "docs/issue-982-drawer-tag-pill-editing-task-spec",
+    "runtime_boundary": "staging visual baseline, commit, push, PR are user-gated",
+    "source_issue_optimizations": [
+      "tag_assignments -> member_tags (junction) + tag_definitions (master)",
+      "idempotency middleware NOT implemented on API admin; rely on PK INSERT OR IGNORE / DELETE no-op (Idempotency-Key header is client-only/no-op)",
+      "path param :id -> :memberId",
+      "AC-5 -> member_status.is_deleted = 1 for 409 (column exists; detail view uses is_deleted===1)",
+      "invariant #13 redefined: auto-suggest via queue, admin manual via dedicated endpoint with audit"
+    ],
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-05-29T00:00:00+09:00",
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-982-drawer-tag-pill-editing/outputs/phase-12/phase12-task-spec-compliance-check.md",
+        "approver": "daishiman",
+        "notes": "spec authored; strict 7 outputs and aiworkflow registration prepared"
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "passed",
+        "passed_at": "2026-05-29T00:00:00+09:00",
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-982-drawer-tag-pill-editing/outputs/phase-11/manual-test-result.md",
+        "approver": "daishiman",
+        "notes": "local implementation and focused tests passed; staging drawer-tag-edit visual baseline remains user-gated"
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-982-drawer-tag-pill-editing/phase-13-pr.md",
+        "approver": "daishiman",
+        "notes": "commit, push, and PR are user-gated"
+      }
+    ]
+  },
+  "tasks": [
+    {
+      "id": "task-A-tag-write-api-and-repository",
+      "spec": "tasks/task-A-tag-write-api-and-repository.md",
+      "area": "apps/api",
+      "depends_on": []
+    },
+    {
+      "id": "task-B-member-drawer-editable-tags",
+      "spec": "tasks/task-B-member-drawer-editable-tags.md",
+      "area": "apps/web",
+      "depends_on": [
+        "task-A-tag-write-api-and-repository"
+      ]
+    },
+    {
+      "id": "task-C-visual-baseline-and-invariant-doc",
+      "spec": "tasks/task-C-visual-baseline-and-invariant-doc.md",
+      "area": "apps/web/playwright,docs",
+      "depends_on": [
+        "task-B-member-drawer-editable-tags"
+      ]
+    }
+  ],
+  "phases": {
+    "phase-1": {
+      "status": "completed",
+      "file": "phase-1-requirements.md"
+    },
+    "phase-2": {
+      "status": "completed",
+      "file": "phase-2-design.md"
+    },
+    "phase-3": {
+      "status": "completed",
+      "file": "phase-3-design-review.md"
+    },
+    "phase-4": {
+      "status": "completed",
+      "file": "phase-4-test-plan.md"
+    },
+    "phase-5": {
+      "status": "completed",
+      "file": "phase-5-implementation.md"
+    },
+    "phase-6": {
+      "status": "completed",
+      "file": "phase-6-test-additions.md"
+    },
+    "phase-7": {
+      "status": "completed",
+      "file": "phase-7-coverage.md"
+    },
+    "phase-8": {
+      "status": "completed",
+      "file": "phase-8-refactor.md"
+    },
+    "phase-9": {
+      "status": "completed",
+      "file": "phase-9-qa.md"
+    },
+    "phase-10": {
+      "status": "completed",
+      "file": "phase-10-final-review.md"
+    },
+    "phase-11": {
+      "status": "completed_local_visual_pending",
+      "file": "phase-11-manual-test.md"
+    },
+    "phase-12": {
+      "status": "completed",
+      "file": "phase-12-documentation.md"
+    },
+    "phase-13": {
+      "status": "pending_user_approval",
+      "file": "phase-13-pr.md"
+    }
+  }
+}

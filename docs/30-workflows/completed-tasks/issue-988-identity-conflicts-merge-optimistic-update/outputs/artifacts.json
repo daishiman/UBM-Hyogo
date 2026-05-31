@@ -1,0 +1,72 @@
+{
+  "workflow_id": "issue-988-identity-conflicts-merge-optimistic-update",
+  "status": "implemented_local_evidence_captured",
+  "task_type": "implementation",
+  "visual_category": "VISUAL_ON_EXECUTION",
+  "created_at": "2026-05-29",
+  "owner": "daishiman",
+  "branch": "docs/issue-988-identity-conflicts-merge-optimistic-update",
+  "issue": 988,
+  "issue_state": "CLOSED",
+  "metadata": {
+    "workflow_state": "implemented_local_evidence_captured",
+    "taskType": "implementation",
+    "visualEvidence": "VISUAL_ON_EXECUTION",
+    "scope": "apps/web IdentityConflictRow merge optimistic update; API, D1 schema, page Server Component, and dismiss behavior unchanged",
+    "implementation_files": [
+      "apps/web/src/components/admin/IdentityConflictRow.tsx",
+      "apps/web/src/components/admin/__tests__/IdentityConflictRow.spec.tsx",
+      "apps/web/playwright/tests/admin-identity-conflicts.spec.ts"
+    ],
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-05-30T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-988-identity-conflicts-merge-optimistic-update/outputs/phase-12/phase12-task-spec-compliance-check.md",
+        "approver": "daishiman",
+        "notes": "spec_review: Phase 1-13 と Phase 12 strict 7 outputs を作成し、implementation wave へ同一サイクルで再分類"
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "passed",
+        "passed_at": "2026-05-30T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-988-identity-conflicts-merge-optimistic-update/outputs/phase-11/phase-11.md",
+        "approver": "daishiman",
+        "notes": "implementation_review: IdentityConflictRow optimistic update + focused Vitest PASS + Playwright focused spec PASS + Phase 11 screenshots captured"
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-988-identity-conflicts-merge-optimistic-update/outputs/phase-13/phase-13.md",
+        "approver": "daishiman",
+        "notes": "external_ops: commit・push・PR・issue close は user-gated"
+      }
+    ]
+  },
+  "phases": {
+    "phase-1": { "file": "phase-1/phase-1.md", "status": "completed" },
+    "phase-2": { "file": "phase-2/phase-2.md", "status": "completed" },
+    "phase-3": { "file": "phase-3/phase-3.md", "status": "completed" },
+    "phase-4": { "file": "phase-4/phase-4.md", "status": "completed" },
+    "phase-5": { "file": "phase-5/phase-5.md", "status": "completed" },
+    "phase-6": { "file": "phase-6/phase-6.md", "status": "completed" },
+    "phase-7": { "file": "phase-7/phase-7.md", "status": "completed" },
+    "phase-8": { "file": "phase-8/phase-8.md", "status": "completed" },
+    "phase-9": { "file": "phase-9/phase-9.md", "status": "completed" },
+    "phase-10": { "file": "phase-10/phase-10.md", "status": "completed" },
+    "phase-11": { "file": "phase-11/phase-11.md", "status": "completed" },
+    "phase-12": { "file": "phase-12/phase-12.md", "status": "completed" },
+    "phase-13": { "file": "phase-13/phase-13.md", "status": "pending_user_approval" }
+  },
+  "phase_12_outputs": [
+    "phase-12/main.md",
+    "phase-12/implementation-guide.md",
+    "phase-12/system-spec-update-summary.md",
+    "phase-12/documentation-changelog.md",
+    "phase-12/unassigned-task-detection.md",
+    "phase-12/skill-feedback-report.md",
+    "phase-12/phase12-task-spec-compliance-check.md"
+  ]
+}
