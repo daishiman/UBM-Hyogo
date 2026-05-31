@@ -141,7 +141,7 @@ historical 行の close-out は `docs/30-workflows/completed-tasks/task-sync-for
 | POST | `/admin/meetings/:sessionId/attendance` | attendance を追加する。重複は `409 attendance_already_recorded`、削除済み member は `422 member_is_deleted`、session 不在は `404 session_not_found` | Auth.js JWT + `requireAdmin` |
 | POST | `/admin/meetings/:sessionId/attendance/import?dryRun=true\|false` | UT-07C-FU-001 正本: client CSV parse 済み JSON rows を bulk import する。`dryRun=false` 明示時のみ commit、省略 / typo は dry-run。500 行超過は 413、memberId/email 空 row は row status `invalid`、同一 payload 重複は 2 行目以降 `duplicate_in_payload`。commit は全行 ok のみ D1 batch で `member_attendance` insert + `audit_log.action='attendance.import.add'` を同一境界に投入する | Auth.js JWT + `requireAdmin` |
 | DELETE | `/admin/meetings/:sessionId/attendance/:memberId` | attendance を削除する。row 不在は `404 attendance_not_found` に集約する | Auth.js JWT + `requireAdmin` |
-| GET | `/admin/audit` | `audit_log` を read-only に検索する。`action` / `actorEmail` / `targetType` / `targetId` / UTC `from` `to` / cursor / limit を受け、raw JSON ではなく masked view を返す | Auth.js JWT + `requireAdmin` |
+| GET | `/admin/audit` | `audit_log` を read-only に検索する。`action` / `actorEmail` / `targetType` / `targetId` / UTC `from` `to` / cursor / limit を受け、raw JSON ではなく masked view を返す。identity-conflicts は `identity.merge` と `identity.dismiss` を `target_type='member'` で記録し、dismiss reason 生値は audit payload に含めない。dismiss の payload は `before_json={sourceMemberId,targetMemberId}` / `after_json={dismissalId,dismissedAt}` | Auth.js JWT + `requireAdmin` |
 
 04c の構造的不変条件:
 

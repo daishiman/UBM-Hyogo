@@ -135,6 +135,21 @@
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-task-b-root-page-public-header-async-artifact-inventory.md` |
 | user gate | Cloudflare staging deploy、authenticated `/` curl、wrangler tail clean evidence、commit、push、PR |
 
+### issue-987-identity-conflicts-audit-log-admin-ui（2026-05-29）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / NON_VISUAL / staging_runtime_pending_user_gate` |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-987-identity-conflicts-audit-log-admin-ui/` |
+| Issue | #987 CLOSED。PR 文脈は `Refs #987` のみ |
+| 目的 | `/admin/identity-conflicts` dismiss 操作を merge と対称化し、`audit_log.action='identity.dismiss'` として既存 `/admin/audit` から時系列閲覧・フィルタ可能にする |
+| implementation targets | `apps/api/src/repository/identity-conflict.ts`, `apps/api/src/routes/admin/identity-conflicts.ts` |
+| tests | `apps/api/src/repository/__tests__/identity-conflict.repository.spec.ts`, `apps/api/src/routes/admin/identity-conflicts.contract.spec.ts`, `apps/api/src/routes/admin/audit.contract.spec.ts` |
+| invariant | API response shape / D1 schema / UI は不変。存在しない source/target は 404 `MEMBER_NOT_FOUND`。`audit_log` 既存テーブルを利用し、dismiss payload は `before_json={sourceMemberId,targetMemberId}` / `after_json={dismissalId,dismissedAt}`、reason 生値は audit payload に含めない |
+| evidence | D1 lane focused Vitest PASS、Phase 12 strict 7 present、root/output artifacts parity present |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-987-identity-conflicts-audit-log-admin-ui-artifact-inventory.md` |
+| user gate | staging deploy、authenticated `/admin/audit?action=identity.dismiss` runtime proof、commit、push、PR |
+
 ### issue-976-admin-fetch-service-binding（2026-05-28）
 
 | 項目 | 値 |
