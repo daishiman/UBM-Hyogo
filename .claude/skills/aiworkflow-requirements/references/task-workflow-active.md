@@ -8,6 +8,20 @@
 
 本ドキュメントは、複雑なタスクを単一責務の原則に基づいて分解し、各サブタスクに最適なスラッシュコマンド・エージェント・スキルの組み合わせを選定するためのガイドラインを定義する。
 
+### issue-983-member-photo-avatar-r2-storage（2026-05-29）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_runtime_pending / implementation / VISUAL_ON_EXECUTION` |
+| 成果物 | `docs/30-workflows/issue-983-member-photo-avatar-r2-storage/` |
+| Issue | #983 CLOSED; PR文脈は `Refs #983` のみ |
+| 親 | `docs/30-workflows/completed-tasks/admin-ui-prototype-alignment-followup-003-admin-members-prototype-redesign/` |
+| 目的 | admin member avatar を R2-backed photo + D1 `member_photos` metadata + presigned `photoUrl` + hue fallback で実装する |
+| 実装済み対象 | `apps/api/migrations/0022_member_photos.sql`, `apps/api/src/lib/r2/member-photo-presign.ts`, `apps/api/src/repository/memberPhotos.ts`, `apps/api/src/routes/admin/members.ts`, `apps/api/wrangler.toml`, `apps/api/src/env.ts`, `packages/shared/src/zod/viewmodel.ts`, `packages/shared/src/types/viewmodel/index.ts`, `apps/web/src/components/ui/Avatar.tsx`, `apps/web/src/features/admin/components/_members/MemberAvatar.tsx`, `apps/web/src/features/admin/components/_members/MemberDrawer.tsx` |
+| evidence | root/output artifacts parity present; Phase 11 local static screenshots present; Phase 12 strict 7 present; focused local tests pass |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-983-member-photo-avatar-r2-storage-artifact-inventory.md` |
+| user gate | R2 bucket creation, R2 presign secrets, remote D1 migration apply, staging deploy, authenticated staging screenshots, commit, push, PR, Issue #983 comment/reopen mutation |
+
 ### admin-sidebar-public-return-link（2026-05-28）
 
 | 項目 | 値 |

@@ -1649,3 +1649,17 @@
   - **L-DEVSYNC-071-D (固有 test の selector を後継 DOM 契約へ一括追従)**: `--theirs` 後、branch 固有 test が旧 DOM 契約（`data-component="shell-nav-item"`）を assert したまま残る。`grep -rn '<旧 selector>' apps/web/{src,playwright}` で洗い `perl -i -pe` で後継契約（`data-shell-block="nav-item"`）へ一括置換。unit (vitest) + e2e (playwright) 双方を対象に。
 - 検証: shell/** 20 `--theirs` + tokens `--theirs` + skill index/patterns `sync:resolve` → marker 0 → `pnpm typecheck` 6 Done → `pnpm lint` exit 0 → `pnpm verify:tokens` 91 → shell+layout+visual-harness **61 tests pass**（public-return 再ポート後の admin axe critical 0 含む）→ indexes rebuild 冪等。merge commit `fb58de414`。
 - 参照: L-DEVSYNC-069（前回 `--ours` wholesale＝反転前）, L-DEVSYNC-070（public-return porting の初出・本件で後継 shell へ再適用）, L-DEVSYNC-068-C（self-resolve の発展形）, L-DEVSYNC-066（grep-consumer 判定）, task-specification-creator [[patterns-lessons-and-pitfalls#dev-sync-merge-conflict-resolution]] SP-DEVSYNC-071。
+
+## L-DEVSYNC-072: skill index/changelog **のみ**が衝突する「クリーン基準ケース」は `pnpm sync:resolve` 単独でゼロ手作業解消（source 系 0 件・shape 判定不要）（2026-05-31 feat/issue-983-member-photo-avatar-r2-storage ← dev 10 commits）
+
+- 事象: `feat/issue-983-member-photo-avatar-r2-storage`（dev より 10 commits 遅れ）← `git merge dev`。conflict は **6 file 全てが skill index/changelog/active 系**のみで `apps/web/src/**` 等の source code conflict は **0 件**:
+  - `aiworkflow-requirements/indexes/{keywords.json,quick-reference.md,resource-map.md,topic-map.md}`
+  - `aiworkflow-requirements/references/task-workflow-active.md`
+  - `task-specification-creator/references/patterns-lessons-and-pitfalls.md`
+- 解消: `pnpm sync:resolve` 単独で完結（union-resolve 5 + keywords.json `--ours`+rebuild 1）→ `git ls-files -u` 0 → そのまま `git commit --no-edit`。**手動 `--ours`/`--theirs` 判定も grep-consumer 分析も不要**＝L-DEVSYNC-066..071 の source-shape 判定が出番なしのケース。resolver 内蔵 rebuild が drift を出し切ったため merge 後の単独 `chore(indexes)` commit も不要（L-DEVSYNC-012 7・8 度目と同じ最良ケース）。
+- Why: 本 branch の変更が admin-managed asset（D1 メタ + R2 バイナリ + presign route）で dev 側 10 commits の touch path と semantic に独立だったため、衝突は L-DEVSYNC-002/007 が想定する「派生 index の並行再生成」に限局。3 層予防（`.gitattributes` union + resolver + indexes:rebuild 決定性）が**設計通り単独で吸収**した baseline。
+- How to apply:
+  - **L-DEVSYNC-072-A (まず conflict file の層を仕分ける)**: `git diff --name-only --diff-filter=U` の結果が**全て `.claude/skills/**` 配下なら即 `pnpm sync:resolve`**。source code（`apps/`/`packages/`）が 1 件でも混ざる場合のみ L-DEVSYNC-066..071 の shape 判定へ進む。層の仕分けを先にすると無駄な手解析を避けられる。
+  - **L-DEVSYNC-072-B (resolve 後は `git ls-files -u` を正本に残存確認)**: `grep '<<<<<<<'` ではなく `git ls-files -u` が空＝完全解消の判定（[[feedback-grep-head-exit-code-pitfall]] と同趣旨）。空なら `git commit --no-edit` で merge commit を確定。
+- 検証: `pnpm sync:resolve` exit 0（union 5 + keywords.json ours+rebuild）→ `git ls-files -u` 0 → merge commit `12eb797b8` → `pnpm typecheck` 6 packages Done → `pnpm lint` exit 0（`stablekey-literal-lint` の `publicConsent` 2 件は mode=warning の既存・無関係）。
+- 参照: L-DEVSYNC-002（index 派生物は rebuild 決定性で吸収）, L-DEVSYNC-007（3 層予防の設計）, L-DEVSYNC-012（追記型 SSOT 両側採用の最良ケース連番）, L-DEVSYNC-067/071（対照: source code が混ざり shape 判定が要るケース）, task-specification-creator [[patterns-lessons-and-pitfalls#dev-sync-merge-conflict-resolution]] SP-DEVSYNC-072。

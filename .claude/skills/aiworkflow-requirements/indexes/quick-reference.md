@@ -17,6 +17,19 @@
 | lessons | `.claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-issue-981-admin-members-table-list-enrichment-2026-05.md`（L-I981-001..006） |
 | user gate | staging visual, staging deploy, commit, push, PR |
 
+## issue-983-member-photo-avatar-r2-storage（2026-05-29）
+
+| 項目 | 内容 |
+| --- | --- |
+| workflow root | `docs/30-workflows/issue-983-member-photo-avatar-r2-storage/` |
+| status | `implemented_local_runtime_pending / implementation / VISUAL_ON_EXECUTION` |
+| purpose | admin member drawer の avatar を admin-managed R2 photo + D1 `member_photos` + presigned `photoUrl` で実写真化する |
+| storage contract | private R2 `MEMBER_PHOTOS`, object key `members/{memberId}/avatar`, presigned GET TTL 300s, max 256KB, jpeg/png/webp |
+| API contract | `POST /admin/members/:memberId/photo`, `DELETE /admin/members/:memberId/photo`, `GET /admin/members/:memberId` optional `photoUrl` fail-soft |
+| evidence boundary | Phase 11 local static screenshots captured; Phase 12 strict 7 and root/output artifacts parity are present; staging runtime remains user-gated |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-983-member-photo-avatar-r2-storage-artifact-inventory.md` |
+| user gate | R2 bucket/secrets, remote D1 migration apply, staging deploy, authenticated staging screenshots, commit, push, PR, Issue #983 mutation |
+
 ## admin-sidebar-public-return-link（2026-05-28）
 
 | 項目 | 値 |
