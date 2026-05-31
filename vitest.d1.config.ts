@@ -32,6 +32,7 @@ const D1_INCLUDE = [
   "apps/api/src/jobs/**/*.contract.spec.ts",
   "apps/api/src/repository/**/*.repository.spec.ts",
   "apps/api/src/routes/**/*.contract.spec.ts",
+  "apps/api/src/routes/admin/__tests__/member-photo.contract.spec.ts",
   "apps/api/src/sync/**/*.contract.spec.ts",
   "apps/api/src/sync/schema/**/*.spec.ts",
   "apps/api/src/use-cases/auth/__tests__/*.spec.ts",
