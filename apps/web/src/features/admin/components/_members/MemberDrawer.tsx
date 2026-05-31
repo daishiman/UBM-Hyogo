@@ -1,12 +1,18 @@
 // followup-003 Lane C: プロトタイプ準拠 drawer (pages-admin.jsx L278-363)
+// issue-982: TAGS セクションを編集可能化（MemberTagsEditor）。
 "use client";
 import Link from "next/link";
-import { useEffect, useState, type ChangeEvent } from "react";
+import { useEffect, useRef, useState, type ChangeEvent } from "react";
 import type { AdminMemberDetailView, PublishState } from "@ubm-hyogo/shared";
 import { Drawer } from "../../../../components/ui/Drawer";
 import { KVList } from "../../../../components/ui/KVList";
 import { formatJstDateTime } from "../../../../lib/format/datetime";
 import { useAdminMutation } from "../../hooks/useAdminMutation";
+import {
+  fetchMemberTags,
+  type AdminTagRef,
+  type MemberTagsResult,
+} from "../../api/members";
 import { MemberAvatar } from "./MemberAvatar";
 import { MemberPublishSwitch } from "./MemberPublishSwitch";
 import { MemberStateChipRow } from "./MemberStateChip";
@@ -24,24 +30,6 @@ function maskEmail(email: string): string {
   if (user.length <= 1) return `${user}***@${domain}`;
   return `${user[0]}***@${domain}`;
 }
-
-// 仕様書: tags-queue endpoint の write surface 整備が別タスクのため UI のみ
-const ALL_TAGS: ReadonlyArray<string> = [
-  "経営者",
-  "個人事業主",
-  "学生",
-  "新規参加",
-  "アカデミー",
-  "0→1",
-  "1→10",
-  "10→100",
-  "メンター",
-  "若手",
-  "女性経営者",
-  "スタートアップ",
-  "支援機関",
-  "OB",
-];
 
 export function MemberDrawer({ memberId, onClose }: MemberDrawerProps) {
   const [data, setData] = useState<AdminMemberDetailView | null>(null);
@@ -162,38 +150,7 @@ function MemberDrawerBody({ memberId, detail, onUpdated }: MemberDrawerBodyProps
       </section>
 
       {/* TAGS */}
-      <section
-        aria-labelledby="drawer-tags-heading"
-        className="rounded-[var(--ubm-radius-md)] border border-[var(--ubm-color-border-default)] bg-[var(--ubm-color-surface-panel-2)] p-3"
-      >
-        <h3
-          id="drawer-tags-heading"
-          className="text-xs font-semibold uppercase tracking-wide text-[var(--ubm-color-text-muted)]"
-        >
-          タグ
-        </h3>
-        <div className="mt-2 flex flex-wrap gap-2">
-          {ALL_TAGS.map((t) => {
-            const selected = profile.tags.some((mt) => mt.label === t);
-            return (
-              <TagPill
-                key={t}
-                selected={selected}
-                disabled
-                title="タグ編集は別タスクで対応予定"
-              >
-                {t}
-              </TagPill>
-            );
-          })}
-        </div>
-        <Link
-          href={`/admin/tags?memberId=${encodeURIComponent(memberId)}`}
-          className="mt-3 inline-flex items-center text-sm font-medium text-[var(--ubm-color-accent)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--ubm-color-accent)]"
-        >
-          タグ管理へ
-        </Link>
-      </section>
+      <MemberTagsEditor memberId={memberId} />
 
       {/* FORM RESPONSE */}
       <section
@@ -313,6 +270,139 @@ function MemberDrawerBody({ memberId, detail, onUpdated }: MemberDrawerBodyProps
 
       <MemberDiagnosticsPanel memberId={memberId} />
     </div>
+  );
+}
+
+interface MemberTagsEditorProps {
+  readonly memberId: string;
+}
+
+/**
+ * issue-982: drawer 内で tag を追加 / 削除できる編集 UI。
+ *   - drawer open 時に GET /admin/members/:id/tags で { assigned, available } を取得。
+ *   - pill click で楽観更新し、POST / DELETE を useAdminMutation 経由で発火、失敗時は rollback。
+ */
+function MemberTagsEditor({ memberId }: MemberTagsEditorProps) {
+  const [assigned, setAssigned] = useState<AdminTagRef[]>([]);
+  const [available, setAvailable] = useState<AdminTagRef[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
+  const [pendingTagId, setPendingTagId] = useState<string | null>(null);
+  const rollbackRef = useRef<AdminTagRef[]>([]);
+
+  useEffect(() => {
+    let cancelled = false;
+    setLoading(true);
+    setError(null);
+    fetchMemberTags(memberId)
+      .then((res: MemberTagsResult) => {
+        if (cancelled) return;
+        setAssigned(res.assigned);
+        setAvailable(res.available);
+      })
+      .catch((e: unknown) => {
+        if (!cancelled) setError(e instanceof Error ? e.message : "fetch failed");
+      })
+      .finally(() => {
+        if (!cancelled) setLoading(false);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [memberId]);
+
+  const assign = useAdminMutation<MemberTagsResult>(
+    `/api/admin/members/${encodeURIComponent(memberId)}/tags`,
+    "POST",
+    {
+      idempotencyKey: () => crypto.randomUUID(),
+      successMessage: "✓ タグを追加しました",
+      onSuccess: (res) => {
+        if (res?.assigned) setAssigned(res.assigned);
+      },
+      onError: () => setAssigned(rollbackRef.current),
+      refreshOnSuccess: false,
+    },
+  );
+
+  const unassign = useAdminMutation<void>(
+    `/api/admin/members/${encodeURIComponent(memberId)}/tags`,
+    "DELETE",
+    {
+      idempotencyKey: () => crypto.randomUUID(),
+      treat404AsSuccess: "silent",
+      successMessage: "✓ タグを削除しました",
+      onError: () => setAssigned(rollbackRef.current),
+      refreshOnSuccess: false,
+    },
+  );
+
+  const onToggle = (tag: AdminTagRef): void => {
+    if (pendingTagId) return; // 二重発火防止
+    const selected = assigned.some((a) => a.tagId === tag.tagId);
+    rollbackRef.current = assigned;
+    setPendingTagId(tag.tagId);
+    if (selected) {
+      setAssigned((cur) => cur.filter((a) => a.tagId !== tag.tagId));
+      void unassign
+        .trigger(
+          undefined,
+          `/api/admin/members/${encodeURIComponent(memberId)}/tags/${encodeURIComponent(tag.tagId)}`,
+        )
+        .catch(() => {})
+        .finally(() => setPendingTagId(null));
+    } else {
+      setAssigned((cur) => [...cur, tag]);
+      void assign
+        .trigger({ tagId: tag.tagId })
+        .catch(() => {})
+        .finally(() => setPendingTagId(null));
+    }
+  };
+
+  return (
+    <section
+      aria-labelledby="drawer-tags-heading"
+      className="rounded-[var(--ubm-radius-md)] border border-[var(--ubm-color-border-default)] bg-[var(--ubm-color-surface-panel-2)] p-3"
+    >
+      <h3
+        id="drawer-tags-heading"
+        className="text-xs font-semibold uppercase tracking-wide text-[var(--ubm-color-text-muted)]"
+      >
+        タグ
+      </h3>
+      {error ? (
+        <p role="alert" className="mt-2 text-sm text-[var(--ubm-color-danger)]">
+          タグの読み込み失敗: {error}
+        </p>
+      ) : loading ? (
+        <p role="status" className="mt-2 text-sm text-[var(--ubm-color-text-muted)]">
+          読み込み中…
+        </p>
+      ) : (
+        <div className="mt-2 flex flex-wrap gap-2">
+          {available.map((t) => {
+            const selected = assigned.some((a) => a.tagId === t.tagId);
+            return (
+              <TagPill
+                key={t.tagId}
+                selected={selected}
+                disabled={pendingTagId === t.tagId}
+                onClick={() => onToggle(t)}
+              >
+                {t.label}
+              </TagPill>
+            );
+          })}
+        </div>
+      )}
+      <Link
+        href={`/admin/tags?memberId=${encodeURIComponent(memberId)}`}
+        className="mt-3 inline-flex items-center text-sm font-medium text-[var(--ubm-color-accent)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--ubm-color-accent)]"
+      >
+        タグ管理へ
+      </Link>
+    </section>
   );
 }
 
