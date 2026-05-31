@@ -2555,6 +2555,17 @@ node scripts/list-specs.js --topics
 | Branch-level deletion check | L101 |
 | Downstream task: issue-195-sync-jobs-contract-schema-consolidation-001（2026-05-04） | L105 |
 
+### references/workflow-issue-235-sync-audit-tables-necessity-judgement-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Workflow | L3 |
+| Current Facts | L13 |
+| Core Artifacts | L22 |
+| Phase 12 Strict 7 | L35 |
+| Same-Wave Skill Reflection | L45 |
+| Lessons Learned | L57 |
+
 ### references/workflow-issue-247-apps-web-opennext-config-regression-tests-artifact-inventory.md
 
 | セクション | 行 |
@@ -8170,7 +8181,7 @@ node scripts/list-specs.js --topics
 | 実行時のコマンド・エージェント・スキル | L3314 |
 | 昇格パターン集 | L3338 |
 | Current Active / Spec Created Tasks | L3340 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L3503 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L3504 |
 
 ### references/task-workflow-backlog-part2.md
 
@@ -8479,10 +8490,10 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L3 |
-| 仕様書インデックス | L15 |
-| 利用順序 | L44 |
-| 関連ドキュメント | L49 |
-| 2026-04-28 DevEx Conflict Prevention Spec Wave | L53 |
+| 仕様書インデックス | L16 |
+| 利用順序 | L45 |
+| 関連ドキュメント | L50 |
+| 2026-04-28 DevEx Conflict Prevention Spec Wave | L54 |
 
 ### references/testing-accessibility.md
 

@@ -42,7 +42,7 @@
     "AC-1: UT-21 stale 前提 5 項目が差分表として固定",
     "AC-2: 有効な品質要件 4 種の移植先が 03a/03b/04c/09b に一意割当",
     "AC-3: POST /admin/sync / GET /admin/sync/audit を新設しない方針が双方に明記",
-    "AC-4: sync_audit_logs / sync_audit_outbox 新設は U02 判定後まで保留",
+    "AC-4: sync_audit_logs / sync_audit_outbox 新設は U02 判定まで保留（2026-05-31 後続確定: 新設不要）",
     "AC-5: 後続タスク UT21-U02/U04/U05 が別ファイルで存在しリンクされている",
     "AC-6: 03a/03b/04c/09b 受入条件への patch 案が Phase 5 で提示",
     "AC-7: aiworkflow-requirements current facts との矛盾なし",

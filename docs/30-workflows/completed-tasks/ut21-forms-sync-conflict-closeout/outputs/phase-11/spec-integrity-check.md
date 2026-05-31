@@ -57,7 +57,7 @@
 | AC-1 | UT-21 stale 前提 5 項目を差分表として固定 | phase-01.md / phase-02.md / phase-08.md SSOT で 5 項目固定 | OK |
 | AC-2 | 有効品質要件 4 種を 03a/03b/04c/09b に一意割当 | phase-02 migration-matrix-design.md §有効品質要件 | OK |
 | AC-3 | POST /admin/sync / GET /admin/sync/audit を新設しない方針が双方明記 | phase-02 no-new-endpoint-policy.md / UT-21 legacy 状態欄 | OK |
-| AC-4 | sync_audit_logs / sync_audit_outbox は U02 判定後まで保留 | phase-02 no-new-endpoint-policy.md §保留方針 / U02 (`task-ut21-sync-audit-tables-necessity-judgement-001`) | OK |
+| AC-4 | sync_audit_logs / sync_audit_outbox は U02 判定まで保留（2026-05-31 後続確定: 新設不要） | phase-02 no-new-endpoint-policy.md §保留方針 / U02 canonical workflow | OK |
 | AC-5 | 後続 U02/U04/U05 が別ファイルでリンク | unassigned-task/ 配下 3 件存在（manual-smoke-log §3） | OK |
 | AC-6 | 03a/03b/04c/09b 受入条件への patch 案が Phase 5 で提示 | phase-05/implementation-runbook.md §04c §09b 等 | OK |
 | AC-7 | aiworkflow-requirements current facts との矛盾なし | 本ファイル §4（後段の対応表） | OK |

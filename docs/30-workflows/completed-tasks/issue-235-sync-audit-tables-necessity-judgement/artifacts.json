@@ -1,0 +1,62 @@
+{
+  "id": "task-ut21-sync-audit-tables-necessity-judgement-001",
+  "name": "sync_audit_logs / sync_audit_outbox の必要性判定（sync_jobs ledger 不足分析）",
+  "directory": "docs/30-workflows/completed-tasks/issue-235-sync-audit-tables-necessity-judgement",
+  "wave": 1,
+  "executionMode": "serial",
+  "createdAt": "2026-05-31",
+  "owner": "unassigned",
+  "status": "spec_created",
+  "taskType": "docs-only",
+  "visualEvidence": "NON_VISUAL",
+  "metadata": {
+    "taskType": "docs-only",
+    "visualEvidence": "NON_VISUAL",
+    "docsOnly": true,
+    "workflow_state": "spec_created",
+    "implementation_mode": "verify_existing",
+    "scope": "design-judgement",
+    "implementationClassification": "docs-only",
+    "implementationClassificationReason": "判定結論=新設不要のためコード変更ゼロ（CONST_004 例外）",
+    "verdict": "no-new-table-required"
+  },
+  "priority": "MEDIUM",
+  "githubIssue": {
+    "number": 235,
+    "state": "CLOSED",
+    "url": "https://github.com/daishiman/UBM-Hyogo/issues/235"
+  },
+  "phases": [
+    { "id": 1, "file": "phase-01.md", "name": "要件定義", "status": "spec_created", "primaryArtifact": "outputs/phase-01/main.md" },
+    { "id": 2, "file": "phase-02.md", "name": "設計（ギャップ分析・判定）", "status": "spec_created", "primaryArtifact": "outputs/phase-02/gap-analysis-and-verdict.md" },
+    { "id": 3, "file": "phase-03.md", "name": "設計レビュー", "status": "spec_created", "primaryArtifact": "outputs/phase-03/main.md" },
+    { "id": 4, "file": "phase-04.md", "name": "raw evidence 収集", "status": "spec_created", "primaryArtifact": "outputs/phase-04/raw-evidence.md" },
+    { "id": 5, "file": "phase-05.md", "name": "判定確定ランブック", "status": "spec_created", "primaryArtifact": "outputs/phase-05/verdict-runbook.md" },
+    { "id": 6, "file": "phase-06.md", "name": "異常系検証", "status": "spec_created", "primaryArtifact": "outputs/phase-06/failure-cases.md" },
+    { "id": 7, "file": "phase-07.md", "name": "AC マトリクス", "status": "spec_created", "primaryArtifact": "outputs/phase-07/ac-matrix.md" },
+    { "id": 8, "file": "phase-08.md", "name": "正本突合", "status": "spec_created", "primaryArtifact": "outputs/phase-08/main.md" },
+    { "id": 9, "file": "phase-09.md", "name": "品質保証", "status": "spec_created", "primaryArtifact": "outputs/phase-09/main.md" },
+    { "id": 10, "file": "phase-10.md", "name": "最終レビュー", "status": "spec_created", "primaryArtifact": "outputs/phase-10/go-no-go.md" },
+    { "id": 11, "file": "phase-11.md", "name": "再現コマンド手動検証", "status": "spec_created", "primaryArtifact": "outputs/phase-11/manual-test-result.md" },
+    { "id": 12, "file": "phase-12.md", "name": "ドキュメント更新", "status": "spec_created", "primaryArtifact": "outputs/phase-12/main.md" },
+    { "id": 13, "file": "phase-13.md", "name": "PR作成", "status": "spec_created", "primaryArtifact": "outputs/phase-13/pr-info.md" }
+  ],
+  "acceptanceCriteria": [
+    "AC-1: sync_jobs 現行 schema が棚卸し表として記録",
+    "AC-2: sync_job_logs と metrics_json zod schema の現行構造が棚卸し",
+    "AC-3: UT-21 audit 観点 4 種 × 現行 ledger カバー可否のギャップ表",
+    "AC-4: 判定基準 4.3 の 3 条件への該当/非該当判定を記録",
+    "AC-5: 最終判定（新設不要/拡張/新設）を一意記録（結論=新設不要）",
+    "AC-6: 新設不要のため docs-only（コード変更ゼロ）を CONST_004 例外として明記",
+    "AC-7: 解除条件（将来の再検討トリガと受け皿タスク）を明記",
+    "AC-8: 親 close-out §(d) 保留方針・解除条件との整合",
+    "AC-9: sync_audit_logs / sync_audit_outbox 非存在の実測根拠を記録",
+    "AC-10: 不変条件 #4 / #5 違反なし",
+    "AC-11: GitHub Issue #235 CLOSED 状態維持",
+    "AC-12: 4条件（価値性/実現性/整合性/運用性）の最終判定が PASS"
+  ],
+  "invariantsTouched": [4, 5],
+  "upstreamTasks": [
+    "task-ut21-forms-sync-conflict-closeout-001 (Issue #234, CLOSED)"
+  ]
+}

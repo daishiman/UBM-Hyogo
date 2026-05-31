@@ -109,7 +109,7 @@ Phase 1〜11 で得られた移植マトリクス・新設禁止方針・03a/03b
 | `.claude/skills/task-specification-creator/LOGS.md` | task-specification skill 側のフィードバック記録ログ（legacy umbrella close-out 形式の再利用例として記録） |
 | `.claude/skills/aiworkflow-requirements/SKILL.md` | 変更履歴テーブル更新（`task-workflow.md` current facts 追記事項） |
 | `.claude/skills/task-specification-creator/SKILL.md` | 変更履歴テーブル更新（更新事項あれば） |
-| `.claude/skills/aiworkflow-requirements/references/task-workflow.md` | **current facts への追記必須**: 「UT-21（Sheets sync direct 実装）は legacy umbrella として close-out 済。Forms sync（`forms.get` / `forms.responses.list` + `sync_jobs` ledger + `apps/api/src/jobs/sync-forms-responses.ts` / `apps/api/src/sync/schema/*`）が現行正本。`POST /admin/sync` / `GET /admin/sync/audit` / `sync_audit_logs` / `sync_audit_outbox` は新設しない（U02 判定後まで保留）」 |
+| `.claude/skills/aiworkflow-requirements/references/task-workflow.md` | **current facts への追記必須**: 「UT-21（Sheets sync direct 実装）は legacy umbrella として close-out 済。Forms sync（`forms.get` / `forms.responses.list` + `sync_jobs` ledger + `apps/api/src/jobs/sync-forms-responses.ts` / `apps/api/src/sync/schema/*`）が現行正本。`POST /admin/sync` / `GET /admin/sync/audit` / `sync_audit_logs` / `sync_audit_outbox` は新設しない。2026-05-31 に U02 / Issue #235 で audit table 新設不要を確定」 |
 | `.claude/skills/aiworkflow-requirements/indexes/resource-map.md` / `quick-reference.md` / `topic-map.md` / `keywords.json` | 「UT-21 close-out」「Forms sync 正本」「sync_jobs ledger」「legacy umbrella」キーワードへのリンク追加（`generate-index.js` で同期） |
 | 関連 doc リンク | 03a / 03b / 04c / 09b / 02c / 姉妹 close-out（`task-sync-forms-d1-legacy-umbrella-001`）/ 後続 U02 / U04 / U05 への双方向リンク |
 
