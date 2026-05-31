@@ -7,10 +7,6 @@ vi.mock("next/navigation", () => ({
   usePathname: vi.fn(() => "/members"),
 }));
 
-vi.mock("next/navigation", () => ({
-  usePathname: () => "/admin",
-}));
-
 import { SidebarShell } from "../SidebarShell";
 import { buildNavForRole } from "../shell-config";
 

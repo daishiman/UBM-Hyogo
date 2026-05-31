@@ -2,9 +2,7 @@
 
 import type { ReactNode } from "react";
 import { Breadcrumb } from "@/components/admin/Breadcrumb";
-import { SidebarShell } from "@/components/shell/SidebarShell";
 import { SidebarUserMenu } from "@/components/shell/SidebarUserMenu";
-import { buildNavForRole } from "@/components/shell/shell-config";
 import { Button, EmptyState, FormField, Icon, Input } from "@/components/ui";
 import { Pagination } from "@/components/ui/Pagination";
 
@@ -163,29 +161,6 @@ export function Parallel09VisualScenario({ name }: { readonly name: string }) {
           </section>
         </div>
       </VisualShell>
-    );
-  }
-
-  if (name === "sidebar-shell") {
-    return (
-      <SidebarShell
-        role="admin"
-        user={{ displayName: "管理者 A", email: "admin@example.com", initials: "管" }}
-        navGroups={buildNavForRole("admin", { schemaDiffCount: 3 })}
-        activePath="/admin/members"
-      >
-        <section className="flex min-h-screen flex-col gap-4 bg-[var(--ubm-color-surface-bg)] p-6 text-[var(--ubm-color-text-primary)]">
-          <div className="max-w-3xl rounded-sm border border-[var(--ubm-color-border-default)] bg-[var(--ubm-color-surface-panel)] p-4 shadow-xs">
-            <p className="text-xs font-semibold uppercase text-[var(--ubm-color-text-secondary)]">
-              Visual harness
-            </p>
-            <h1 className="mt-1 text-2xl font-semibold">Sidebar shell responsive state</h1>
-            <p className="mt-2 text-sm text-[var(--ubm-color-text-secondary)]">
-              Task E mobile drawer, tablet collapsed, and desktop expanded verification.
-            </p>
-          </div>
-        </section>
-      </SidebarShell>
     );
   }
 
