@@ -2523,6 +2523,28 @@ node scripts/list-specs.js --topics
 | Contract | L24 |
 | Evidence Boundary | L33 |
 
+### references/workflow-issue-1005-members-ux-playwright-baseline-stabilization-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Local Evidence | L15 |
+| Lessons Learned | L25 |
+
+### references/workflow-issue-1006-members-selected-filters-chip-ux-hardening-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Implementation Surface | L11 |
+| Evidence | L21 |
+| Runtime Boundary | L29 |
+| Lessons Learned | L33 |
+
+### references/workflow-issue-1010-auth-view-session-contract-integration-test-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Lessons Learned | L32 |
+
 ### references/workflow-issue-106-admin-member-notes-repository-task-spec-artifact-inventory.md
 
 | セクション | 行 |
@@ -3440,6 +3462,27 @@ node scripts/list-specs.js --topics
 | Evidence | L31 |
 | User-Gated Boundary | L40 |
 | Lessons Learned | L47 |
+
+### references/workflow-issue-991-admin-fetch-error-typed-class-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Summary | L3 |
+| Product Files | L13 |
+| Test Files | L20 |
+| Evidence | L31 |
+| User-Gated Items | L39 |
+| Lessons Learned | L46 |
+
+### references/workflow-issue-998-members-publish-state-production-rollout-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Workflow | L3 |
+| Implementation | L14 |
+| Evidence Boundary | L26 |
+| Lessons Learned | L34 |
+| User-Gated Items | L48 |
 
 ### references/workflow-light-theme-contrast-regression-guard.md
 
@@ -8174,14 +8217,15 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L3253 |
-| フェーズ構造（概要） | L3262 |
-| 品質ゲート（概要） | L3293 |
-| 出力テンプレート | L3304 |
-| 実行時のコマンド・エージェント・スキル | L3327 |
-| 昇格パターン集 | L3351 |
-| Current Active / Spec Created Tasks | L3353 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L3516 |
+| ドキュメント構成 | L3287 |
+| フェーズ構造（概要） | L3296 |
+| 品質ゲート（概要） | L3327 |
+| 出力テンプレート | L3338 |
+| 実行時のコマンド・エージェント・スキル | L3361 |
+| 昇格パターン集 | L3385 |
+| Current Active / Spec Created Tasks | L3387 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L3551 |
+| issue-998-members-publish-state-production-rollout | L3628 |
 
 ### references/task-workflow-backlog-part2.md
 
