@@ -1,0 +1,8 @@
+Coverage command was not run for this UI-only focused cycle.
+
+Focused regression coverage was expanded in:
+apps/web/src/features/admin/components/__tests__/MembersTable.spec.tsx
+
+Latest focused verification:
+pnpm exec vitest run --root=. --config=vitest.config.ts apps/web/src/features/admin/components/__tests__/MembersTable.spec.tsx
+PASS: 21 tests passed.
