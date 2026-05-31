@@ -19,7 +19,33 @@
     "phase12_contract": "strict_7_outputs_present_synced",
     "outputs_artifacts_policy": "root_and_outputs_mirror",
     "free_tier_constraint": "zero_new_dependency_no_paid_cloudflare_feature",
-    "base_branch": "dev"
+    "base_branch": "dev",
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-05-31T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-264-cron-schedule-free-tier-guard/outputs/phase-12/main.md",
+        "approver": "daishiman",
+        "notes": "spec_review: Phase 1-13 spec + zero-dep guard test (wrangler-cron-schedule.guard.spec.ts) local implementation completed"
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "passed",
+        "passed_at": "2026-05-31T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-264-cron-schedule-free-tier-guard/outputs/phase-12/implementation-guide.md",
+        "approver": "daishiman",
+        "notes": "implementation_review: extractCrons regex (zero-dep) + 4 assertion (canonical/<=3/legacy-absent/parity) x 3 sections, vitest run 16 it green, typecheck/lint green"
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-264-cron-schedule-free-tier-guard/outputs/phase-13/phase-13.md",
+        "approver": "daishiman",
+        "notes": "external_ops: optional runtime spot-check is user-gated; no secret injection / no deploy required for this guard test"
+      }
+    ]
   },
   "gates": {
     "G1": "local_guard_test_implemented",
