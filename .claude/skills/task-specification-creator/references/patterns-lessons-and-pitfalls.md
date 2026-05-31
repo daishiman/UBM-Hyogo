@@ -1384,6 +1384,19 @@ upstream data layer（別 issue / 別 task が既に実装済の API + zod schem
 - 参照: [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-059、L-DEVSYNC-055 (resolver 単独完結 happy-path)、L-DEVSYNC-056/057/058 (手動 hybridize 分岐先)、L-DEVSYNC-046 (UNION_TARGETS)。
 
 
+## Typed Error class 化 × byte-identical message 互換維持パターン（2026-05-30 / L-I991-001..006 generalization）
+
+`issue-991-admin-fetch-error-typed-class` で、素の `Error` を構造化フィールド付き typed class（`status` / `path` / `responseBodySnippet`）へ昇格しつつ、message を逐語 assert する既存テスト / regex consumer を一切壊さなかった汎化。「中身を仕切るがフタのラベルは変えない」が核。
+
+- **SP-I991-A (message byte-identical 維持を AC に固定 / L-I991-001,006)**: `Error` → typed class 化タスクでは、Phase 2 設計に「現状 message を生成する全コードパス × 出力ケース（body あり / なし / 上限超 / 空 / 読取失敗）」の突合マトリクスを置き、新 class の `super()` 出力が byte-identical になることを AC に固定する。各セルを Phase 6 focused test に 1:1 対応付ける。message 上限値（例 256）は定数化せず既存コードと同値を維持し、構造化フィールドは message と分離して追加する。
+- **SP-I991-B (共通正規化層は下位ドメイン非 import / L-I991-002)**: public/admin など複数ドメイン共通の正規化層から domain 固有 error の構造化フィールドを使うときは `import { DomainError }` / `instanceof DomainError` を入れず、`(err as { status?: unknown }).status` + `Number.isInteger` の duck typing で読む。既存 message parse（regex）は fallback に残し、structured 値を優先順位 1 位にする。Phase 4 risk に「共通層 → 下位ドメイン import を増やさない（`lint-boundaries` / import grep gate）」を 1 行登録する。
+- **SP-I991-C (多段露出する body は redaction 前段 + 独立 slice / L-I991-003)**: error body を message（短）と structured snippet（長）の 2 つ以上の長さで露出する設計では、(1) PII redaction（email / phone 形状）を最前段で適用 → (2) 各上限で **独立** slice（長い方を短い方の再 slice で作らない）の順を Phase 2 で固定。空文字（suffix 抑止だが snippet では null と区別保持）/ null / 上限超を Phase 6 で個別 case 化する。
+- **SP-I991-D (Workers cross-module 想定の二段 type guard / L-I991-004)**: Cloudflare Workers ランタイムの custom Error 判定 helper は `instanceof` 単独に頼らず、`instanceof` OR (`name` literal 一致 + 識別 field の `typeof` チェック) の二段にする。bundle 分割 / cross-module で prototype chain が切れても判定が壊れない。
+- **SP-I991-E (CLOSED follow-up Issue × 現状コード drift の吸収 / L-I991-005)**: CLOSED な follow-up Issue / 古い仕様から着手するときは Phase 1 で対象コードを実測し、Issue 記述と差分があれば index.md 冒頭に「Issue 記述 vs 現状コード」差分表を置き **現状コードを正本** に AC を再定義する。Issue は reopen せず Phase 12 compliance で CLOSED 維持・`Refs #NNN` のみと明記。P50 チェックに「Issue/spec 記述と現状コードの drift 確認」を含める。
+- anti-pattern: typed 化ついでの message 文言整形で逐語 assert を破壊 / 共通層への domain import 漏れ / redaction を slice 後に掛け切れ目に PII 残留 / `instanceof` 単独判定 / CLOSED Issue literal の無検証 AC 化による現状回避策の退行。
+- 参照: [[lessons-learned-issue-991-admin-fetch-error-typed-class-2026-05]] L-I991-001..006 + anti-pattern 5。
+
+
 ## optimistic row mutation + rollback + API error body surfacing パターン（issue-988 / 2026-05-30 汎化）
 
 admin 系の一覧 row に対する mutation（merge / dismiss / archive 等）を、server round-trip を待たず即 UI 反映し、失敗時のみ巻き戻す UX を component-local state だけで実装するときの設計 AC。API endpoint / shared hook を拡張せず `*Row.tsx` の中で完結させる前提。
@@ -1788,3 +1801,12 @@ sync-merge task の Phase 12 implementation-guide に、resolver 途中失敗時
 - **SP-DEVSYNC-074-B (`index.lock` は `rm` 前に存在確認 — 並行プロセス終了で自然消滅していることが多い)**: stale lock を見ても即 `rm` しない。`git rev-parse --git-path index.lock`（sub-worktree は `…/.git/worktrees/<name>/index.lock`）で正しい path を取り `ls -la` で現存確認。`rm` が権限拒否される環境でも、再確認時点で並行 git が終了し lock が消えていれば削除自体が不要（[[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-074-B / `git|head` exit-code pitfall と同系）。残っている場合のみ除去 → resolver 再実行。
 - **SP-DEVSYNC-074-C (sync-merge 手順は dev ff 同期 → merge → resolver の直列を推奨)**: 根因は dev の ff 同期（main worktree 書き込み）と feature 側 resolver（同一 common-dir の index 操作）の近接実行。Phase 13 検証フローでは **dev ff 同期完了 → `git merge dev` → `pnpm sync:resolve`** を直列に並べ、並行させないことで lock 競合を予防。並行してしまった場合は SP-DEVSYNC-074-A/B で復旧できると割り切る。
 - 参照: [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-074（正本）, SP-DEVSYNC-072/073（クリーン基準ケース・段階構造の前提）, SP-DEVSYNC-045（resolver fallback）, L-DEVSYNC-002/007（rebuild 決定性・3 層予防）。
+
+### dev-sync-merge 残マーカー確認の `git grep '======='` 偽陽性（SP-DEVSYNC-073）
+
+skill-only conflict を `pnpm sync:resolve` で解消した後の「念のための残マーカー確認」を `git grep` ベースで行うと、completed-tasks 配下の evidence/log 文書に頻出する装飾区切り線（`=` 連続行）を conflict marker 中央線 `=======` と誤検知する shape。Phase 12 の解消完了判定を index 状態ベースに固定して偽陽性に振り回されないようにする。
+
+- **SP-DEVSYNC-073-A (解消完了判定は `git ls-files -u` を唯一の正本に)**: `pnpm sync:resolve` 後の残コンフリクト確認は `git ls-files -u | wc -l == 0` を判定基準にする。`git grep -lE '^(<<<<<<<|=======|>>>>>>>)'` は `=======`（7 連以上の `=`）を ASCII 区切り線（例: phase-11 smoke-log の `====...` 60 連）と構造的に区別できず偽陽性を出す。`git ls-files -u` は git index の unmerged stage を直接読むため装飾線に反応しない。
+- **SP-DEVSYNC-073-B (grep を併用するなら U-filter と突き合わせ + path 除外)**: 補助的に marker grep を残す場合、ヒットしたファイルが `git diff --name-only --diff-filter=U` の対象かを必ず照合し、対象外なら文書リテラルとして無視する。除外 path は `.spec`/`.test` に加え `completed-tasks/**` の evidence/log/runbook を含める（装飾区切り線の頻出箇所）。
+- **SP-DEVSYNC-073-C (Phase 12 検証手順への固定)**: dev-sync の解消検証は「`pnpm sync:resolve` exit 0 → `git ls-files -u` 0 → `git commit --no-edit` → `pnpm typecheck`/`pnpm lint`/`pnpm indexes:rebuild` 冪等」の固定列とし、marker grep の生ヒット数を gate にしない。
+- 参照: [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-073（同知見の lessons 版・merge commit `1b662cfad`）, L-DEVSYNC-072-B（`git ls-files -u` 正本則の初出）, [[feedback-grep-head-exit-code-pitfall]]（grep ベース判定のピットフォール一般則）。

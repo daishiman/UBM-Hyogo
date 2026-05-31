@@ -3437,6 +3437,17 @@ node scripts/list-specs.js --topics
 | User-Gated Boundary | L40 |
 | Lessons Learned | L47 |
 
+### references/workflow-issue-991-admin-fetch-error-typed-class-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Summary | L3 |
+| Product Files | L13 |
+| Test Files | L20 |
+| Evidence | L31 |
+| User-Gated Items | L39 |
+| Lessons Learned | L46 |
+
 ### references/workflow-issue-998-members-publish-state-production-rollout-artifact-inventory.md
 
 | セクション | 行 |
@@ -8187,8 +8198,8 @@ node scripts/list-specs.js --topics
 | 実行時のコマンド・エージェント・スキル | L3314 |
 | 昇格パターン集 | L3338 |
 | Current Active / Spec Created Tasks | L3340 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L3503 |
-| issue-998-members-publish-state-production-rollout | L3580 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L3504 |
+| issue-998-members-publish-state-production-rollout | L3581 |
 
 ### references/task-workflow-backlog-part2.md
 
