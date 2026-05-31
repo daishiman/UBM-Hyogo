@@ -2523,6 +2523,28 @@ node scripts/list-specs.js --topics
 | Contract | L24 |
 | Evidence Boundary | L33 |
 
+### references/workflow-issue-1005-members-ux-playwright-baseline-stabilization-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Local Evidence | L15 |
+| Lessons Learned | L25 |
+
+### references/workflow-issue-1006-members-selected-filters-chip-ux-hardening-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Implementation Surface | L11 |
+| Evidence | L21 |
+| Runtime Boundary | L29 |
+| Lessons Learned | L33 |
+
+### references/workflow-issue-1010-auth-view-session-contract-integration-test-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Lessons Learned | L32 |
+
 ### references/workflow-issue-106-admin-member-notes-repository-task-spec-artifact-inventory.md
 
 | セクション | 行 |
@@ -3415,6 +3437,48 @@ node scripts/list-specs.js --topics
 | Implemented Local Targets | L16 |
 | User-Gated Operations | L26 |
 | Lessons Learned | L30 |
+
+### references/workflow-issue-987-identity-conflicts-audit-log-admin-ui-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Summary | L3 |
+| Implementation Artifacts | L12 |
+| Workflow Artifacts | L22 |
+| System Spec Sync | L32 |
+| User-Gated Boundaries | L43 |
+| Lessons Learned | L48 |
+
+### references/workflow-issue-988-identity-conflicts-merge-optimistic-update-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Canonical Workflow | L12 |
+| Implementation Artifacts | L21 |
+| Evidence | L31 |
+| User-Gated Boundary | L40 |
+| Lessons Learned | L47 |
+
+### references/workflow-issue-991-admin-fetch-error-typed-class-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Summary | L3 |
+| Product Files | L13 |
+| Test Files | L20 |
+| Evidence | L31 |
+| User-Gated Items | L39 |
+| Lessons Learned | L46 |
+
+### references/workflow-issue-998-members-publish-state-production-rollout-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Workflow | L3 |
+| Implementation | L14 |
+| Evidence Boundary | L26 |
+| Lessons Learned | L34 |
+| User-Gated Items | L48 |
 
 ### references/workflow-light-theme-contrast-regression-guard.md
 
@@ -8149,14 +8213,15 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L3225 |
-| フェーズ構造（概要） | L3234 |
-| 品質ゲート（概要） | L3265 |
-| 出力テンプレート | L3276 |
-| 実行時のコマンド・エージェント・スキル | L3299 |
-| 昇格パターン集 | L3323 |
-| Current Active / Spec Created Tasks | L3325 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L3488 |
+| ドキュメント構成 | L3288 |
+| フェーズ構造（概要） | L3297 |
+| 品質ゲート（概要） | L3328 |
+| 出力テンプレート | L3339 |
+| 実行時のコマンド・エージェント・スキル | L3362 |
+| 昇格パターン集 | L3386 |
+| Current Active / Spec Created Tasks | L3388 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L3552 |
+| issue-998-members-publish-state-production-rollout | L3629 |
 
 ### references/task-workflow-backlog-part2.md
 

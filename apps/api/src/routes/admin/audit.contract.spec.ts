@@ -62,6 +62,16 @@ const seedAudit = async (env: InMemoryD1) => {
       "2026-04-29T16:00:00.000Z",
     ],
     [
+      "audit_005",
+      "admin@example.com",
+      "identity.dismiss",
+      "member",
+      "m_target",
+      JSON.stringify({ sourceMemberId: "m_source", targetMemberId: "m_target" }),
+      JSON.stringify({ dismissalId: "dismissal_1", dismissedAt: "2026-04-29T15:30:00.000Z" }),
+      "2026-04-29T15:30:00.000Z",
+    ],
+    [
       "audit_003",
       "other@example.com",
       "member.note.created",
@@ -164,6 +174,32 @@ describe("admin audit route", () => {
     expect(JSON.stringify(body)).not.toContain("{broken");
   });
 
+  it("GET /audit: identity.dismiss action filter returns dismiss audit", async () => {
+    const app = createAdminAuditRoute();
+    const res = await app.request(
+      "/audit?action=identity.dismiss&targetType=member&targetId=m_target",
+      { headers: { ...(await adminAuthHeader()) } },
+      makeEnv(env),
+    );
+    expect(res.status).toBe(200);
+    const body = (await res.json()) as {
+      items: Array<{ auditId: string; action: string; targetType: string; targetId: string }>;
+    };
+    expect(body.items.map(({ auditId, action, targetType, targetId }) => ({
+      auditId,
+      action,
+      targetType,
+      targetId,
+    }))).toEqual([
+      {
+        auditId: "audit_005",
+        action: "identity.dismiss",
+        targetType: "member",
+        targetId: "m_target",
+      },
+    ]);
+  });
+
   it("GET /audit: admin_member_note filter は request audit のみを返し legacy member 行は読める", async () => {
     const app = createAdminAuditRoute();
     const headers = { ...(await adminAuthHeader()) };
@@ -198,7 +234,10 @@ describe("admin audit route", () => {
       auditId,
       targetType,
       targetId,
-    }))).toEqual([{ auditId: "audit_003", targetType: "member", targetId: "m1" }]);
+    }))).toEqual([
+      { auditId: "audit_005", targetType: "member", targetId: "m_target" },
+      { auditId: "audit_003", targetType: "member", targetId: "m1" },
+    ]);
   });
 
   it("GET /audit: admin_member_note filter 下でも cursor pagination が壊れない", async () => {
@@ -207,7 +246,7 @@ describe("admin audit route", () => {
         "INSERT INTO audit_log (audit_id, actor_email, action, target_type, target_id, before_json, after_json, created_at) VALUES (?1, ?2, ?3, ?4, ?5, NULL, ?6, ?7)",
       )
       .bind(
-        "audit_005",
+        "audit_006",
         "owner@example.com",
         "admin.request.reject",
         "admin_member_note",
@@ -230,7 +269,7 @@ describe("admin audit route", () => {
       nextCursor: string | null;
     };
     expect(firstBody.items.map(({ auditId, targetType }) => ({ auditId, targetType }))).toEqual([
-      { auditId: "audit_005", targetType: "admin_member_note" },
+      { auditId: "audit_006", targetType: "admin_member_note" },
     ]);
     expect(firstBody.nextCursor).toBeTruthy();
 

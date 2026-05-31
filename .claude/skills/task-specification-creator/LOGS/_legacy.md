@@ -6,6 +6,10 @@
 
 ## 2026-05-28 - task-b-root-page-public-header-async automation-30 close-out
 
+## 2026-05-30 - issue-988 identity conflicts optimistic update automation-30 close-out
+
+`docs/30-workflows/completed-tasks/issue-988-identity-conflicts-merge-optimistic-update/` の automation-30 改善で、implementation target が明確な `spec_created` workflow を docs-only close-out せず、同一サイクルで `IdentityConflictRow.tsx` の optimistic hide / rollback、API body message の inline alert 補正、focused Vitest、Playwright focused、Phase 11 screenshot 3 PNG、Phase 11 canonical manifest、Phase 12 strict 7、aiworkflow same-wave sync まで完了して `implemented_local_evidence_captured` へ再分類した。commit / push / PR / Issue close のみ user-gated として分離した。
+
 `implementation_files` を列挙する `spec_created` workflow を docs-only close-out せず、実コード・focused tests・Phase 11 evidence・aiworkflow same-wave sync まで完了して `implemented_local_evidence_captured` に再分類。Phase 12 compliance heading は canonical 9 headings に補正し、`PASS` 断定と pending の混在を解消した。
 
 ## 2026-05-28 - Cloudflare Worker loopback Service Binding lesson

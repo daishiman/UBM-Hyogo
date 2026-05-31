@@ -406,3 +406,18 @@
   | ResourceLoader | ファイル読み込みはfs.readFile | キャッシュミス時のみI/O実行 |
 - **発見日**: 2026-02-03
 - **関連タスク**: TASK-9B-G
+
+### Producer/Consumer Contract Test パターン
+
+- **状況**: producer 側 callback / builder の出力 shape と consumer 側 resolver / view-model が読む field が別々に unit test され、両方が green のまま結合契約だけ drift し得る。
+- **アプローチ**: production producer を mock せず実行し、その出力を consumer に直接渡す integration-level contract test を 1 ファイル追加する。外部 I/O や framework runtime は最小 stub に閉じ、producer output field 名と consumer input field 名の byte 一致を assertion する。
+- **実装指針**:
+  | Gate | 指針 |
+  | --- | --- |
+  | producer | 実 callback / builder を使う。provider factory や fetch は副作用防止の stub に限定する |
+  | consumer | pure resolver へ直接渡し、必要なら async adapter は partial mock + hoisted mock で同一 output を注入する |
+  | evidence | focused Vitest に producer unit / consumer unit / contract spec を同時指定し、既存 regression と contract spec を同時に green 化する |
+  | state | `taskType=implementation` で test file を implementation target にした場合、spec-only で閉じず同 cycle で実 file + focused evidence へ昇格する |
+- **注意**: static import 済み module へ後段 `vi.doMock()` を当てると mock cache が不安定になる。async adapter を同一 spec で扱う場合は `vi.hoisted()` + partial mock、または adapter unit は既存 focused regression に委譲する。
+- **発見日**: 2026-05-30
+- **関連タスク**: `issue-1010-auth-view-session-contract-integration-test`

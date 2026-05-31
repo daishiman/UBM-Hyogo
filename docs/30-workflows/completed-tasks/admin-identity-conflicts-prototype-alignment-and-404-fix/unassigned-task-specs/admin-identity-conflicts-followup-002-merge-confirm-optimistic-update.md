@@ -10,9 +10,10 @@
 | 対象機能 | `/admin/identity-conflicts` の merge 二段階 confirm |
 | 優先度 | 低 |
 | 見積もり規模 | 小 |
-| ステータス | 未実施 |
+| ステータス | consumed_by_issue_988_workflow / implemented_local_evidence_captured |
 | 発見元 | admin-identity-conflicts-prototype-alignment-and-404-fix Phase 12 unassigned-task-detection (FU-AIDC-004) |
 | 発見日 | 2026-05-27 |
+| canonical workflow | `docs/30-workflows/completed-tasks/issue-988-identity-conflicts-merge-optimistic-update/` |
 
 ---
 
@@ -152,3 +153,4 @@ merge 完了を待たずに該当 row を一覧から非表示にし、server �
 ## 9. 備考
 
 - post-MVP の UX 改善であり、機能要件不変。
+- 2026-05-30: `docs/30-workflows/completed-tasks/issue-988-identity-conflicts-merge-optimistic-update/` へ昇格し、`IdentityConflictRow.tsx` の component-local optimistic state と focused tests で実装済み。commit / push / PR / Issue close は user-gated。

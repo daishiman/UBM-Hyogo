@@ -1,0 +1,22 @@
+Command: pnpm exec vitest run apps/web/src/components/admin/__tests__/IdentityConflictRow.spec.tsx
+Date: 2026-05-30
+Result: PASS
+
+Test Files: 1 passed (1)
+Tests: 10 passed (10)
+
+Covered assertions:
+- merge click hides the row before server response
+- merge success keeps the row hidden
+- merge failure rolls the row back and preserves inline error/reason
+- dismiss behavior remains covered by existing happy/failure tests
+
+Focused Playwright note:
+- Initial webServer-managed run was stopped after prolonged no-output startup; subsequent explicit-server runs below are canonical.
+- Command: pnpm --filter @ubm-hyogo/web exec playwright test playwright/tests/admin-identity-conflicts.spec.ts --list
+- Result: PASS; listed 8 desktop-chromium tests including the optimistic hide and rollback scenarios
+- Command: PLAYWRIGHT_SKIP_WEB_SERVER=1 PLAYWRIGHT_ISSUE988_SCREENSHOT_DIR="$PWD/docs/30-workflows/completed-tasks/issue-988-identity-conflicts-merge-optimistic-update/outputs/phase-11/screenshots" pnpm --filter @ubm-hyogo/web exec playwright test playwright/tests/admin-identity-conflicts.spec.ts --project=desktop-chromium --grep "optimistic|rollback" --reporter=list
+- Result: PASS; 2 tests passed
+- Screenshots: identity-conflict-row-merge-final.png, identity-conflict-row-optimistic-removed.png, identity-conflict-row-rollback-error.png
+- Command: PLAYWRIGHT_SKIP_WEB_SERVER=1 pnpm --filter @ubm-hyogo/web exec playwright test playwright/tests/admin-identity-conflicts.spec.ts --project=desktop-chromium --reporter=list
+- Result: PASS; 8 tests passed

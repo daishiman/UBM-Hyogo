@@ -13,6 +13,50 @@
 | inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-264-cron-schedule-free-tier-guard-artifact-inventory.md` |
 | user gate | optional staging cron tail, commit, push, PR, Issue mutation |
 
+## issue-1006-members-selected-filters-chip-ux-hardening（2026-05-30）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-1006-members-selected-filters-chip-ux-hardening/` |
+| status | `implemented_local_runtime_pending / implementation / VISUAL` |
+| issue | #1006 CLOSED。PR 文脈は `Refs #1006` のみ |
+| parent | `docs/30-workflows/completed-tasks/members-list-ux-clarity/` |
+| purpose | `/members` SelectedFiltersBar の tag chip 表示名、chip 削除後 focus 復帰、mobile selected-filters overflow を堅牢化 |
+| implementation targets | `apps/web/src/components/public/SelectedFiltersBar.client.tsx`, `apps/web/src/components/public/MemberFilters.client.tsx`, `apps/web/src/styles/legacy-public.css` |
+| tests | `apps/web/src/components/public/__tests__/SelectedFiltersBar.client.spec.tsx`, `apps/web/src/components/public/__tests__/MemberFilters.client.spec.tsx` |
+| evidence | focused Vitest 2 files / 17 tests PASS, web typecheck PASS, lint PASS, verify-design-tokens PASS, local Playwright mobile CSS sanity PASS |
+| runtime boundary | local `/public/members` returned 500 without AUTH_SECRET/backend auth, so data-backed visual screenshots and staging verification remain runtime pending |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1006-members-selected-filters-chip-ux-hardening-artifact-inventory.md` |
+| user gate | staging data-backed visual screenshots, commit, push, PR |
+
+## issue-991-admin-fetch-error-typed-class（2026-05-30）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-991-admin-fetch-error-typed-class/` |
+| status | `implemented_local_evidence_captured / implementation / NON_VISUAL / local_focused_tests_passed` |
+| issue | #991 CLOSED 維持。PR 文脈は `Refs #991` のみ |
+| parent | `docs/30-workflows/completed-tasks/admin-audit-prototype-alignment/` FU-AAUDIT-001 |
+| purpose | admin API 失敗を `AdminFetchError` typed class で表現し、404/500 を message parse 依存ではなく構造化 `status` で切り分ける |
+| implementation | `apps/web/src/lib/admin/server-fetch.ts`, `apps/web/src/lib/server-fetch/safe-fetch.ts` |
+| tests | `apps/web/src/lib/admin/__tests__/admin-fetch-error.spec.ts`, `apps/web/src/lib/server-fetch/__tests__/safe-fetch.spec.ts`, existing admin fetch regression specs |
+| evidence | focused Vitest 6 files / 31 tests PASS, web typecheck PASS, root lint PASS |
+| invariant | message suffix remains 256 chars for non-PII body; `responseBodySnippet` is 500 chars; email / phone shapes are redacted before snippet exposure; common `safe-fetch.ts` does not import admin module |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-991-admin-fetch-error-typed-class-artifact-inventory.md` |
+| user gate | staging runtime observation, commit, push, PR |
+
+## issue-988-identity-conflicts-merge-optimistic-update（2026-05-30）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-988-identity-conflicts-merge-optimistic-update/` |
+| status | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION` |
+| issue | #988 CLOSED |
+| purpose | `/admin/identity-conflicts` merge confirm 後に row を optimistic に非表示化し、server error 時に rollback する |
+| implementation | `IdentityConflictRow.tsx` component-local `optimisticMerged`; focused component tests; admin identity-conflicts Playwright spec |
+| evidence | focused Vitest 1 file / 10 tests PASS; Playwright desktop 8 tests PASS; Phase 11 screenshots 3 PNG captured |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-988-identity-conflicts-merge-optimistic-update-artifact-inventory.md` |
+
 ## issue-982-drawer-tag-pill-editing（2026-05-29）
 
 | 項目 | 値 |
@@ -115,6 +159,20 @@
 | evidence | focused Vitest 3 files / 9 tests PASS, typecheck PASS, lint PASS, web build PASS |
 | inventory | `.claude/skills/aiworkflow-requirements/references/workflow-task-b-root-page-public-header-async-artifact-inventory.md` |
 | user gate | Cloudflare staging deploy, authenticated `/` curl, wrangler tail clean evidence, commit, push, PR |
+
+## issue-987-identity-conflicts-audit-log-admin-ui（2026-05-29）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-987-identity-conflicts-audit-log-admin-ui/` |
+| status | `implemented_local_evidence_captured / implementation / NON_VISUAL / staging_runtime_pending_user_gate` |
+| issue | #987 CLOSED。PR 文脈は `Refs #987` |
+| purpose | identity-conflicts dismiss を `audit_log.action='identity.dismiss'` に記録し、既存 `/admin/audit` で閲覧可能にする |
+| implementation | `apps/api/src/repository/identity-conflict.ts`, `apps/api/src/routes/admin/identity-conflicts.ts` |
+| tests | `identity-conflict.repository.spec.ts`, `identity-conflicts.contract.spec.ts`, `audit.contract.spec.ts`（D1 lane） |
+| invariant | response shape / D1 schema / UI 変更なし。存在しない source/target は 404 `MEMBER_NOT_FOUND`。dismiss payload は `before_json={sourceMemberId,targetMemberId}` / `after_json={dismissalId,dismissedAt}`、reason 生値は audit payload に含めない |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-987-identity-conflicts-audit-log-admin-ui-artifact-inventory.md` |
+| user gate | staging deploy, authenticated `/admin/audit?action=identity.dismiss`, commit, push, PR |
 
 ## admin-identity-conflicts-prototype-alignment-and-404-fix（2026-05-27）
 ## issue-976-admin-fetch-service-binding（2026-05-28）
@@ -1721,6 +1779,19 @@
 | invariant | no new endpoint / no D1 schema / no Google Form change; `data-auth-state` is only `guest\|member\|admin`; no PII in DOM |
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-public-header-session-aware-auth-view-base-artifact-inventory.md` |
 | user gate | staging authenticated runtime visual, commit, push, PR |
+
+### issue-1010-auth-view-session-contract-integration-test（2026-05-30）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-1010-auth-view-session-contract-integration-test/` |
+| status | `implemented_local_evidence_captured / implementation / NON_VISUAL / Phase 13 pending_user_approval` |
+| source | `docs/30-workflows/completed-tasks/issue-1010-auth-view-session-contract-integration-test/unassigned-task-specs/public-header-auth-view-session-contract-integration-test-001.md`（consumed） |
+| purpose | 実 `buildAuthConfig().callbacks.session` 出力を `resolveAuthView()` / `getAuthView()` に連鎖し、AuthView session contract drift を検出する |
+| implementation | `apps/web/src/lib/auth-view/__tests__/authViewSessionContract.integration.spec.ts` |
+| evidence | focused Vitest 4 files / 61 tests PASS、web typecheck PASS、workspace lint PASS |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1010-auth-view-session-contract-integration-test-artifact-inventory.md` |
+| user gate | commit, push, PR |
 
 ### public-header-logged-in-nav-cleanup（2026-05-28）
 
@@ -4714,3 +4785,22 @@ UT-17 Cloudflare Notifications → alert-relay → Slack 経路を、既存 API 
 | status | implemented_local_runtime_pending / implementation / VISUAL / 2026-05-28 |
 | workflow | `docs/30-workflows/completed-tasks/members-list-ux-clarity/` |
 | summary | `/members` の密度切替説明、即時反映ヒント、適用中filter chip、件数live regionを追加。API/schema/query正本は不変。 |
+
+# issue-998-members-publish-state-production-rollout
+
+| item | value |
+| --- | --- |
+| status | implemented_local_runtime_pending / implementation / VISUAL_ON_EXECUTION / 2026-05-30 |
+| workflow | `docs/30-workflows/completed-tasks/issue-998-members-publish-state-production-rollout/` |
+| summary | production `MEMBERS_AUTO_PUBLISH_ON_CONSENT=true` を `apps/api/wrangler.toml` に反映し、既実装 auto-publish/backfill/diagnostics で `/members` 復旧を staging→production 順に user-gated rollout する。 |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-998-members-publish-state-production-rollout-artifact-inventory.md` |
+
+## issue-1005-members-ux-playwright-baseline-stabilization
+
+| item | value |
+| --- | --- |
+| status | implemented_local_evidence_captured / implementation / VISUAL / 2026-05-30 |
+| workflow | `docs/30-workflows/completed-tasks/issue-1005-members-ux-playwright-baseline-stabilization/` |
+| implementation | `apps/web/playwright.config.ts` adds `isMembersUxClarityBaseline`, `/members` ready URL, completed parent evidence dir, and default matrix exclusion. `apps/web/playwright/tests/members-ux-clarity.spec.ts` uses completed parent path + `MEMBERS_UX_EVIDENCE_DIR` override + beforeAll warm-up. |
+| evidence | TypeScript PASS, `/members` warm-up 200, Playwright desktop-chromium 12 PASS, 24 PNG, stale active path not created |
+| inventory | `references/workflow-issue-1005-members-ux-playwright-baseline-stabilization-artifact-inventory.md` |
