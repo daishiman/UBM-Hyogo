@@ -3416,6 +3416,17 @@ node scripts/list-specs.js --topics
 | User-Gated Operations | L26 |
 | Lessons Learned | L30 |
 
+### references/workflow-issue-987-identity-conflicts-audit-log-admin-ui-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Summary | L3 |
+| Implementation Artifacts | L12 |
+| Workflow Artifacts | L22 |
+| System Spec Sync | L32 |
+| User-Gated Boundaries | L43 |
+| Lessons Learned | L48 |
+
 ### references/workflow-light-theme-contrast-regression-guard.md
 
 | セクション | 行 |
@@ -8149,14 +8160,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L3211 |
-| フェーズ構造（概要） | L3220 |
-| 品質ゲート（概要） | L3251 |
-| 出力テンプレート | L3262 |
-| 実行時のコマンド・エージェント・スキル | L3285 |
-| 昇格パターン集 | L3309 |
-| Current Active / Spec Created Tasks | L3311 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L3474 |
+| ドキュメント構成 | L3226 |
+| フェーズ構造（概要） | L3235 |
+| 品質ゲート（概要） | L3266 |
+| 出力テンプレート | L3277 |
+| 実行時のコマンド・エージェント・スキル | L3300 |
+| 昇格パターン集 | L3324 |
+| Current Active / Spec Created Tasks | L3326 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L3489 |
 
 ### references/task-workflow-backlog-part2.md
 

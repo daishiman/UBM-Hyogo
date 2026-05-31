@@ -17,12 +17,27 @@ import {
 } from "@ubm-hyogo/shared";
 import { detectConflictCandidates } from "../services/admin/identity-conflict-detector";
 import { redactIdentityReason } from "./identity-merge";
+import type { AdminEmail, AdminId, AuditAction } from "./_shared/brand";
 
 // stableKey は supply module (FieldByStableKeyZ) から派生。
 // fullName を identity の name、occupation を affiliation として使う。
 type StableKey = keyof typeof FieldByStableKeyZ;
 const NAME_KEY: StableKey = STABLE_KEY.fullName;
 const AFFILIATION_KEY: StableKey = STABLE_KEY.occupation;
+
+export class DismissAtomicBatchUnavailable extends Error {
+  readonly name = "DismissAtomicBatchUnavailable";
+  constructor() {
+    super("D1 batch is required for atomic identity conflict dismiss");
+  }
+}
+
+export class DismissIdentityNotFound extends Error {
+  readonly name = "DismissIdentityNotFound";
+  constructor(readonly memberId: string) {
+    super(`member identity not found: ${memberId}`);
+  }
+}
 
 interface IdentitySnapshotRow {
   memberId: string;
@@ -80,6 +95,14 @@ const fetchLatestSyncJobIdForEmailConflict = async (
     )
     .first<{ jobId: string }>();
   return r?.jobId ?? null;
+};
+
+const memberExists = async (c: DbCtx, memberId: string): Promise<boolean> => {
+  const row = await c.db
+    .prepare("SELECT 1 AS ok FROM member_identities WHERE member_id = ?1 LIMIT 1")
+    .bind(memberId)
+    .first<{ ok: number }>();
+  return row !== null;
 };
 
 export async function listIdentityConflicts(
@@ -181,23 +204,62 @@ export async function dismissIdentityConflict(
   source: string,
   target: string,
   actorAdminId: string,
+  actorAdminEmail: string | null,
   reason: string,
 ): Promise<{ dismissedAt: string }> {
+  if (!(await memberExists(c, source))) {
+    throw new DismissIdentityNotFound(source);
+  }
+  if (!(await memberExists(c, target))) {
+    throw new DismissIdentityNotFound(target);
+  }
+
   const dismissalId = crypto.randomUUID();
+  const auditLogId = crypto.randomUUID();
   const dismissedAt = new Date().toISOString();
-  await c.db
-    .prepare(
-      `INSERT INTO identity_conflict_dismissals
-        (dismissal_id, source_member_id, candidate_target_member_id,
-         dismissed_by, reason, dismissed_at)
-       VALUES (?1,?2,?3,?4,?5,?6)
-       ON CONFLICT(source_member_id, candidate_target_member_id)
-         DO UPDATE SET dismissed_by = excluded.dismissed_by,
-                       reason = excluded.reason,
-                       dismissed_at = excluded.dismissed_at`,
-    )
-    .bind(dismissalId, source, target, actorAdminId, redactIdentityReason(reason), dismissedAt)
-    .run();
+  const reasonRedacted = redactIdentityReason(reason);
+  const auditBefore = JSON.stringify({ sourceMemberId: source, targetMemberId: target });
+  const auditAfter = JSON.stringify({ dismissalId, dismissedAt });
+  const db = c.db;
+
+  const stmts = [
+    db
+      .prepare(
+        `INSERT INTO identity_conflict_dismissals
+          (dismissal_id, source_member_id, candidate_target_member_id,
+           dismissed_by, reason, dismissed_at)
+         VALUES (?1,?2,?3,?4,?5,?6)
+         ON CONFLICT(source_member_id, candidate_target_member_id)
+           DO UPDATE SET dismissal_id = excluded.dismissal_id,
+                         dismissed_by = excluded.dismissed_by,
+                         reason = excluded.reason,
+                         dismissed_at = excluded.dismissed_at`,
+      )
+      .bind(dismissalId, source, target, actorAdminId, reasonRedacted, dismissedAt),
+    db
+      .prepare(
+        `INSERT INTO audit_log
+           (audit_id, actor_id, actor_email, action, target_type, target_id,
+            before_json, after_json, created_at)
+         VALUES (?1,?2,?3,?4,?5,?6,?7,?8,?9)`,
+      )
+      .bind(
+        auditLogId,
+        actorAdminId as AdminId,
+        (actorAdminEmail ?? null) as AdminEmail | null,
+        "identity.dismiss" as AuditAction,
+        "member",
+        target,
+        auditBefore,
+        auditAfter,
+        dismissedAt,
+      ),
+  ];
+
+  if (typeof db.batch !== "function") {
+    throw new DismissAtomicBatchUnavailable();
+  }
+  await db.batch(stmts);
   return { dismissedAt };
 }
 
