@@ -10,6 +10,60 @@ import {
 import { getAdminFetchEnv, getEnv } from "../env";
 import type { AdminAuditListResponse } from "./types";
 
+interface AdminFetchErrorOptions {
+  readonly path: string;
+  readonly status: number;
+  readonly responseBody?: string | null;
+}
+
+const RESPONSE_BODY_EMAIL_PATTERN =
+  /[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}/gi;
+const RESPONSE_BODY_PHONE_PATTERN =
+  /(?:\+?\d[\d\s().-]{7,}\d)/g;
+
+function redactAdminFetchResponseBody(body: string): string {
+  return body
+    .replace(RESPONSE_BODY_EMAIL_PATTERN, "[masked-email]")
+    .replace(RESPONSE_BODY_PHONE_PATTERN, "[masked-phone]");
+}
+
+export class AdminFetchError extends Error {
+  readonly path: string;
+  readonly status: number;
+  readonly responseBodySnippet: string | null;
+
+  constructor({ path, status, responseBody }: AdminFetchErrorOptions) {
+    const safeResponseBody =
+      responseBody === null || responseBody === undefined
+        ? null
+        : redactAdminFetchResponseBody(responseBody);
+    const messageBody = safeResponseBody
+      ? ` body=${safeResponseBody.slice(0, 256)}`
+      : "";
+    super(`admin api ${path} failed: ${status}${messageBody}`);
+    this.name = "AdminFetchError";
+    this.path = path;
+    this.status = status;
+    this.responseBodySnippet =
+      safeResponseBody === null ? null : safeResponseBody.slice(0, 500);
+  }
+}
+
+export function isAdminFetchError(error: unknown): error is AdminFetchError {
+  const candidate = error as {
+    readonly name?: unknown;
+    readonly path?: unknown;
+    readonly status?: unknown;
+  };
+  return (
+    error instanceof AdminFetchError ||
+    (error instanceof Error &&
+      candidate.name === "AdminFetchError" &&
+      typeof candidate.path === "string" &&
+      typeof candidate.status === "number")
+  );
+}
+
 const resolveApiBase = (): string => {
   return (
     getAdminFetchEnv().INTERNAL_API_BASE_URL ?? getEnv().INTERNAL_API_BASE_URL
@@ -507,10 +561,9 @@ export async function fetchAdmin<T>(
     logAdminTransport("http-fallback", path, res.status);
   }
   if (!res.ok) {
-    let bodySnippet = "";
+    let responseBody: string | null = null;
     try {
-      const text = await res.text();
-      if (text) bodySnippet = ` body=${text.slice(0, 256)}`;
+      responseBody = await res.text();
     } catch {
       // body 読み取り失敗は致命的でない（status だけで切り分け可能）
     }
@@ -527,7 +580,7 @@ export async function fetchAdmin<T>(
         status: res.status,
       });
     }
-    throw new Error(`admin api ${path} failed: ${res.status}${bodySnippet}`);
+    throw new AdminFetchError({ path, status: res.status, responseBody });
   }
   return (await res.json()) as T;
 }

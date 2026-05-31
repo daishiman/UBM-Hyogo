@@ -1,8 +1,9 @@
 // ut-02a-tag-assignment-queue-management:
 //   02a memberTags.ts read-only 制約の type-level test (AC-5)。
 //   `insert*` / `update*` / `delete*` / `upsert*` 接頭辞の export を新規追加することを禁止する。
-//   `assign*` 接頭辞は既存 `assignTagsToMember` のみ 07a tagQueueResolve workflow 専用 helper として
-//   allow list で許可し、派生 helper の追加を禁止する。
+//   `assign*` 接頭辞は (1) 既存 `assignTagsToMember`（07a tagQueueResolve workflow 専用 helper）と
+//   (2) `assignTagToMemberByAdmin`（issue-982 で再定義した admin manual 経路の audit 付き helper）の
+//   2 つのみ allow list で許可し、それ以外の派生 helper の追加を禁止する。
 //
 //   このファイルは vitest typecheck（`pnpm test -- --typecheck`）で評価される。
 //   ts-expect-error コメントが想定通り発火しなければ test 失敗となる。
@@ -34,7 +35,14 @@ type AssignExports = {
   [K in ExportKey]: K extends string ? AssignKeyword<K> : never;
 }[ExportKey];
 
-type UnauthorizedAssignExports = Exclude<AssignExports, "assignTagsToMember">;
+// 不変条件 #13 再定義（issue-982）: admin manual 経路 `assignTagToMemberByAdmin` は
+// audit 付き専用 endpoint からのみ呼ばれる例外として allow list 化する。
+// （`unassignTagFromMemberByAdmin` は `assign*` 接頭辞に該当しないため allow list 不要だが、
+//   同じ admin manual 経路の対として認識すること。）
+type UnauthorizedAssignExports = Exclude<
+  AssignExports,
+  "assignTagsToMember" | "assignTagToMemberByAdmin"
+>;
 
 describe("memberTags.ts read-only 規約 (ut-02a / AC-5)", () => {
   it("insert* / update* / delete* / upsert* 接頭辞の export を持たない", () => {
@@ -52,7 +60,12 @@ describe("memberTags.ts read-only 規約 (ut-02a / AC-5)", () => {
     expectTypeOf<ModuleExports["assignTagsToMember"]>().not.toBeAny();
   });
 
-  it("assign* 接頭辞の export は assignTagsToMember 以外に増やさない", () => {
+  it("assign* 接頭辞の export は allow list（assignTagsToMember / assignTagToMemberByAdmin）以外に増やさない", () => {
     expectTypeOf<UnauthorizedAssignExports>().toEqualTypeOf<never>();
+  });
+
+  it("admin manual 経路 assignTagToMemberByAdmin / unassignTagFromMemberByAdmin が export として存在する", () => {
+    expectTypeOf<ModuleExports["assignTagToMemberByAdmin"]>().not.toBeAny();
+    expectTypeOf<ModuleExports["unassignTagFromMemberByAdmin"]>().not.toBeAny();
   });
 });

@@ -220,6 +220,8 @@ export interface AdminMemberDetailView {
     occurredAt: string;
     note: string | null;
   }>;
+  // issue-983 AC-2: admin-managed member photo の presigned GET URL（TTL 300s）。
+  readonly photoUrl?: string;
 }
 
 export interface AuthGateState {

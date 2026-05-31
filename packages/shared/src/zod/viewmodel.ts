@@ -319,6 +319,9 @@ export const AdminMemberDetailViewZ = z
         note: z.string().nullable(),
       }),
     ),
+    // issue-983 AC-2: admin-managed member photo の presigned GET URL（TTL 300s）。
+    // optional のため既存 parse は壊れない。.strict() は維持。
+    photoUrl: z.string().url().optional(),
   })
   .strict();
 

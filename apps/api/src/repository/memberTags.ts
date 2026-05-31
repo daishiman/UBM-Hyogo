@@ -1,12 +1,30 @@
-// member_tags + tag_definitions テーブルへの読み取り（read-only）。
-// 書き込み API は新規追加禁止（不変条件 #13: タグ書き込みは tagQueueResolve workflow 経由のみ）。
-// 例外として `assignTagsToMember` のみ 07a tagQueueResolve workflow 専用 helper として残置している。
-// `assignTagsToMember` を tagQueueResolve workflow 以外の新規 caller から呼ぶことを禁止する。
-// 直接 INSERT 経路を追加したい場合は不変条件 #13 のレビューを経ること。
+// member_tags + tag_definitions テーブルへのアクセス。
+//
+// 不変条件 #13（2026-05 再定義 / issue-982）:
+//   - AI / Google Form 由来の tag「提案」は tagQueueResolve workflow の resolve 経由で承認する
+//     （`assignTagsToMember` がその専用 helper。tagQueueResolve workflow 以外からの呼び出し禁止）。
+//   - 管理者による tag の「手動付与 / 解除」は admin manual 経路として
+//     `assignTagToMemberByAdmin` / `unassignTagFromMemberByAdmin` を使い、必ず audit
+//     （admin.member.tag_assigned / admin.member.tag_unassigned）を記録する。
+//   - member_tags への直接 write は上記 2 経路に限り許可する。それ以外の新規 write 経路を
+//     生やす場合は不変条件 #13 自体の変更レビューを経ること。
+//
+// read 関数（list* / get* / find*）は read-only であり gate 対象外。
 
 import type { DbCtx } from "./_shared/db";
 import type { MemberId, TagId } from "./_shared/brand";
 import { placeholders } from "./_shared/sql";
+
+/**
+ * drawer / admin manual 経路が扱う tag 参照。`tagId`（tag_definitions.tag_id）を正本識別子とし、
+ * `code`（UNIQUE）は表示・既存 detail view との parity 用に併せて返す。
+ */
+export interface TagRef {
+  tagId: string;
+  code: string;
+  label: string;
+  category: string;
+}
 
 export interface MemberTagWithDefinition {
   member_id: string;
@@ -101,6 +119,134 @@ export async function assignTagsToMember(
     if (result.success) applied += 1;
   }
   return applied;
+}
+
+// ---------------------------------------------------------------------------
+// admin manual 経路（不変条件 #13 再定義 / issue-982）
+//   `assignTagToMemberByAdmin` / `unassignTagFromMemberByAdmin` は管理者の手動
+//   キュレーション専用。route 側（/admin/members/:memberId/tags）から audit 付きで呼ぶ。
+//   tagQueueResolve workflow から呼ぶことは禁止（提案承認は `assignTagsToMember`）。
+// ---------------------------------------------------------------------------
+
+const tagRefFromRow = (r: {
+  tag_id: string;
+  code: string;
+  label: string;
+  category: string;
+}): TagRef => ({
+  tagId: r.tag_id,
+  code: r.code,
+  label: r.label,
+  category: r.category,
+});
+
+/**
+ * drawer の選択肢となる active な tag master 全件を返す（`ALL_TAGS` ハードコード置換用 read 経路）。
+ */
+export async function getTagDefinitionMaster(c: DbCtx): Promise<TagRef[]> {
+  const result = await c.db
+    .prepare(
+      `SELECT tag_id, code, label, category
+       FROM tag_definitions
+       WHERE active = 1
+       ORDER BY category ASC, label ASC`,
+    )
+    .all<{ tag_id: string; code: string; label: string; category: string }>();
+  return result.results.map(tagRefFromRow);
+}
+
+/**
+ * 当該 member に付与済みの active な tag 一覧を返す。
+ */
+export async function listAssignedTagsForMember(
+  c: DbCtx,
+  mid: MemberId,
+): Promise<TagRef[]> {
+  const result = await c.db
+    .prepare(
+      `SELECT td.tag_id, td.code, td.label, td.category
+       FROM member_tags mt
+       JOIN tag_definitions td ON td.tag_id = mt.tag_id
+       WHERE mt.member_id = ?1 AND td.active = 1
+       ORDER BY td.category ASC, td.label ASC`,
+    )
+    .bind(mid)
+    .all<{ tag_id: string; code: string; label: string; category: string }>();
+  return result.results.map(tagRefFromRow);
+}
+
+/**
+ * tag master を tag_id で 1 件取得する。存在しなければ null。
+ */
+export async function findTagDefinitionById(
+  c: DbCtx,
+  tagId: string,
+): Promise<TagRef | null> {
+  const row = await c.db
+    .prepare(
+      `SELECT tag_id, code, label, category
+       FROM tag_definitions
+       WHERE tag_id = ?1 AND active = 1`,
+    )
+    .bind(tagId)
+    .first<{ tag_id: string; code: string; label: string; category: string }>();
+  return row ? tagRefFromRow(row) : null;
+}
+
+/**
+ * 管理者による手動付与。PK `(member_id, tag_id)` の `INSERT OR IGNORE` で冪等。
+ * 新規付与なら true（`meta.changes > 0`）、既存（no-op）なら false を返す。
+ * 呼び出し側はこの戻り値で audit を増やすか判定する。
+ */
+export async function assignTagToMemberByAdmin(
+  c: DbCtx,
+  mid: MemberId,
+  tagId: string,
+  assignedBy: string,
+): Promise<boolean> {
+  const result = await c.db
+    .prepare(
+      `INSERT OR IGNORE INTO member_tags (member_id, tag_id, source, confidence, assigned_by)
+       VALUES (?1, ?2, 'manual', NULL, ?3)`,
+    )
+    .bind(mid, tagId, assignedBy)
+    .run();
+  return (result.meta?.changes ?? 0) > 0;
+}
+
+/**
+ * 管理者による手動解除。削除行があれば true、無ければ false（冪等。`meta.changes > 0`）。
+ */
+export async function unassignTagFromMemberByAdmin(
+  c: DbCtx,
+  mid: MemberId,
+  tagId: string,
+): Promise<boolean> {
+  const result = await c.db
+    .prepare(`DELETE FROM member_tags WHERE member_id = ?1 AND tag_id = ?2`)
+    .bind(mid, tagId)
+    .run();
+  return (result.meta?.changes ?? 0) > 0;
+}
+
+/**
+ * member_status.is_deleted を返す。member 不在（member_identities にも無い）なら null、
+ * member_status 行が無い（在籍だが status 未設定）場合は false 扱い。
+ */
+export async function getMemberDeletedFlag(
+  c: DbCtx,
+  mid: MemberId,
+): Promise<boolean | null> {
+  const identity = await c.db
+    .prepare(`SELECT 1 AS found FROM member_identities WHERE member_id = ?1`)
+    .bind(mid)
+    .first<{ found: number }>();
+  if (identity === null) return null;
+  const status = await c.db
+    .prepare(`SELECT is_deleted FROM member_status WHERE member_id = ?1`)
+    .bind(mid)
+    .first<{ is_deleted: number }>();
+  return status?.is_deleted === 1;
 }
 
 // 型エクスポート

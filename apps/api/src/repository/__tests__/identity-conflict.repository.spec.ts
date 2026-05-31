@@ -1,10 +1,12 @@
 // @vitest-environment node
 // issue-194-03b-followup-001-email-conflict-identity-merge
 // listIdentityConflicts / dismissIdentityConflict integration test
-import { describe, it, expect, beforeEach } from "vitest";
+import { describe, it, expect, beforeEach, vi } from "vitest";
 import { setupD1, type InMemoryD1 } from "./_setup";
 import {
   listIdentityConflicts,
+  DismissAtomicBatchUnavailable,
+  DismissIdentityNotFound,
   dismissIdentityConflict,
   isConflictDismissed,
   parseConflictId,
@@ -76,7 +78,7 @@ describe("listIdentityConflicts", () => {
     const out1 = await listIdentityConflicts(env.ctx, null, 50);
     const id = out1.items[0]!.conflictId;
     const ids = parseConflictId(id)!;
-    await dismissIdentityConflict(env.ctx, ids.source, ids.target, "admin_1", "別人");
+    await dismissIdentityConflict(env.ctx, ids.source, ids.target, "admin_1", null, "別人");
     const dismissed = await isConflictDismissed(env.ctx, ids.source, ids.target);
     expect(dismissed).toBe(true);
     const out2 = await listIdentityConflicts(env.ctx, null, 50);
@@ -91,6 +93,7 @@ describe("listIdentityConflicts", () => {
       ids.source,
       ids.target,
       "admin_1",
+      null,
       "別人 user@example.com 090-1234-5678 で確認済み",
     );
     const row = await env.db
@@ -102,6 +105,181 @@ describe("listIdentityConflicts", () => {
       .first<{ reason: string }>();
     expect(row?.reason).not.toContain("user@example.com");
     expect(row?.reason).toContain("[redacted]");
+  });
+
+  it("dismiss 成功時に identity.dismiss を audit_log へ append する", async () => {
+    const out1 = await listIdentityConflicts(env.ctx, null, 50);
+    const ids = parseConflictId(out1.items[0]!.conflictId)!;
+    const out = await dismissIdentityConflict(
+      env.ctx,
+      ids.source,
+      ids.target,
+      "admin_1",
+      "owner@example.com",
+      "別人 user@example.com で確認済み",
+    );
+    const row = await env.db
+      .prepare(
+        `SELECT actor_id AS actorId, actor_email AS actorEmail, action, target_type AS targetType,
+                target_id AS targetId, before_json AS beforeJson, after_json AS afterJson
+         FROM audit_log
+         WHERE action = 'identity.dismiss'`,
+      )
+      .first<{
+        actorId: string;
+        actorEmail: string;
+        action: string;
+        targetType: string;
+        targetId: string;
+        beforeJson: string;
+        afterJson: string;
+      }>();
+    expect(row).toMatchObject({
+      actorId: "admin_1",
+      actorEmail: "owner@example.com",
+      action: "identity.dismiss",
+      targetType: "member",
+      targetId: ids.target,
+    });
+    expect(JSON.parse(row!.beforeJson)).toEqual({
+      sourceMemberId: ids.source,
+      targetMemberId: ids.target,
+    });
+    expect(JSON.parse(row!.afterJson)).toMatchObject({ dismissedAt: out.dismissedAt });
+    expect(row!.afterJson).not.toContain("user@example.com");
+  });
+
+  it("再 dismiss 時は dismissal_id と audit payload の dismissalId を同じ最新値へ更新する", async () => {
+    const out1 = await listIdentityConflicts(env.ctx, null, 50);
+    const ids = parseConflictId(out1.items[0]!.conflictId)!;
+    await dismissIdentityConflict(env.ctx, ids.source, ids.target, "admin_1", null, "一回目");
+    const second = await dismissIdentityConflict(
+      env.ctx,
+      ids.source,
+      ids.target,
+      "admin_2",
+      "owner@example.com",
+      "二回目",
+    );
+    const dismissal = await env.db
+      .prepare(
+        `SELECT dismissal_id AS dismissalId, dismissed_by AS dismissedBy, dismissed_at AS dismissedAt
+         FROM identity_conflict_dismissals
+         WHERE source_member_id = ?1 AND candidate_target_member_id = ?2`,
+      )
+      .bind(ids.source, ids.target)
+      .first<{ dismissalId: string; dismissedBy: string; dismissedAt: string }>();
+    const auditRows = await env.db
+      .prepare(
+        `SELECT after_json AS afterJson FROM audit_log
+         WHERE action = 'identity.dismiss'
+         ORDER BY created_at DESC, audit_id DESC`,
+      )
+      .all<{ afterJson: string }>();
+    expect(auditRows.results).toHaveLength(2);
+    const latestAfter = JSON.parse(auditRows.results![0]!.afterJson) as {
+      dismissalId: string;
+      dismissedAt: string;
+    };
+    expect(dismissal).toMatchObject({
+      dismissalId: latestAfter.dismissalId,
+      dismissedBy: "admin_2",
+      dismissedAt: second.dismissedAt,
+    });
+    expect(latestAfter.dismissedAt).toBe(second.dismissedAt);
+  });
+
+  it("存在しない source/target は dismissal と audit_log を書かず DismissIdentityNotFound", async () => {
+    await expect(
+      dismissIdentityConflict(
+        env.ctx,
+        "missing_source",
+        "m_target",
+        "admin_1",
+        "owner@example.com",
+        "別人",
+      ),
+    ).rejects.toMatchObject({ memberId: "missing_source" });
+    await expect(
+      dismissIdentityConflict(
+        env.ctx,
+        "m_source",
+        "missing_target",
+        "admin_1",
+        "owner@example.com",
+        "別人",
+      ),
+    ).rejects.toBeInstanceOf(DismissIdentityNotFound);
+    const dismissal = await env.db
+      .prepare("SELECT COUNT(*) AS n FROM identity_conflict_dismissals")
+      .first<{ n: number }>();
+    const audit = await env.db
+      .prepare("SELECT COUNT(*) AS n FROM audit_log WHERE action = 'identity.dismiss'")
+      .first<{ n: number }>();
+    expect(dismissal?.n).toBe(0);
+    expect(audit?.n).toBe(0);
+  });
+
+  it("db.batch 非対応時は部分書き込みせず fail-fast する", async () => {
+    const out1 = await listIdentityConflicts(env.ctx, null, 50);
+    const ids = parseConflictId(out1.items[0]!.conflictId)!;
+    const dbWithoutBatch = Object.create(env.ctx.db) as typeof env.ctx.db;
+    Object.defineProperty(dbWithoutBatch, "batch", { value: undefined });
+    const ctxWithoutBatch = { ...env.ctx, db: dbWithoutBatch } as typeof env.ctx;
+    await expect(
+      dismissIdentityConflict(
+        ctxWithoutBatch,
+        ids.source,
+        ids.target,
+        "admin_1",
+        "owner@example.com",
+        "別人",
+      ),
+    ).rejects.toBeInstanceOf(DismissAtomicBatchUnavailable);
+    const audit = await env.db
+      .prepare("SELECT COUNT(*) AS n FROM audit_log WHERE action = 'identity.dismiss'")
+      .first<{ n: number }>();
+    expect(audit?.n).toBe(0);
+    await expect(isConflictDismissed(env.ctx, ids.source, ids.target)).resolves.toBe(false);
+  });
+
+  it("audit_log INSERT が失敗した場合は batch rollback で dismissal も残らない", async () => {
+    const out1 = await listIdentityConflicts(env.ctx, null, 50);
+    const ids = parseConflictId(out1.items[0]!.conflictId)!;
+    const duplicateAuditId =
+      "00000000-0000-4000-8000-000000000001" as ReturnType<typeof crypto.randomUUID>;
+    await env.db
+      .prepare(
+        `INSERT INTO audit_log (audit_id, actor_email, action, target_type, target_id, created_at)
+         VALUES (?1, 'owner@example.com', 'identity.dismiss', 'member', 'm_target', '2026-01-01T00:00:00.000Z')`,
+      )
+      .bind(duplicateAuditId)
+      .run();
+
+    const uuidSpy = vi
+      .spyOn(crypto, "randomUUID")
+      .mockReturnValueOnce("00000000-0000-4000-8000-000000000002")
+      .mockReturnValueOnce(duplicateAuditId);
+    try {
+      await expect(
+        dismissIdentityConflict(
+          env.ctx,
+          ids.source,
+          ids.target,
+          "admin_1",
+          "owner@example.com",
+          "別人",
+        ),
+      ).rejects.toThrow();
+    } finally {
+      uuidSpy.mockRestore();
+    }
+
+    await expect(isConflictDismissed(env.ctx, ids.source, ids.target)).resolves.toBe(false);
+    const audit = await env.db
+      .prepare("SELECT COUNT(*) AS n FROM audit_log WHERE action = 'identity.dismiss'")
+      .first<{ n: number }>();
+    expect(audit?.n).toBe(1);
   });
 
   it("identity_aliases に登録済の source は候補から除外される", async () => {
