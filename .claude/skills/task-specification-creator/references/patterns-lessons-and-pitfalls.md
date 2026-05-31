@@ -1689,6 +1689,18 @@ source を一切触らない（実態は `MemberHeader` + `lib/auth-view` のみ
 - **SP-DEVSYNC-066-D (resolver unhandled 5 件混合 shape の処理順)**: `pnpm sync:resolve` exit 1 後の手動解消は **(1) AA を grep 判定 → (2) UD を dir 存在判定 → (3) UU の見出し節を subsection 分割 → (4) UU の表 row を `;` 結合**の順が最も早い。AA/UD は即決、UU の Lessons/evidence 系のみ手作業時間を要する。typecheck で AA 解消後の自己完結性を、lint で UU 解消後の文法を即検証。
 - 参照: [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-066 / L-DEVSYNC-063 / L-DEVSYNC-064（canonical wholesale ours/theirs 反転の系列）。
 
+## SP-STATUS-RECON-001 completed workflow status reconciliation close-out gate（2026-05-30 issue-1008）
+
+実コード、Phase 11 evidence、Phase 12 strict 7 が既に merged / archived 済みでも、root / outputs / sub-task の `artifacts.json` が `spec_created` のまま残ると、dashboard・後続 audit・aiworkflow register が互いに矛盾する。status reconciliation タスクでは「docs-only」でも実ファイルの status 補正を同一 wave で完了させる。
+
+- **SP-STATUS-RECON-001-A (root / outputs parity)**: workflow root と `outputs/artifacts.json` が両方ある場合は target state に補正した後で `diff -u <root> <outputs>` を DoD に入れる。片方だけ補正して PASS にしない。
+- **SP-STATUS-RECON-001-B (sub-task artifacts scan)**: parent workflow が `tasks/*/artifacts.json` を持つ場合、root だけでなく sub-task の `status` / `metadata.workflow_state` / Phase 1-12 / Phase 13 user-gated 境界を同時に走査する。sub-task の `spec_created` / `pending` 混在は同 wave で正規化する。
+- **SP-STATUS-RECON-001-C (Gate evidence path existence)**: Gate-A/B を `passed` に昇格する前に `evidence_path` の実在を `test -e` または `gate-metadata:validate` で確認する。存在しない `outputs/phase-11/manual-test-result.md` などを `passed` 根拠にしない。
+- **SP-STATUS-RECON-001-D (strict 7 physical count)**: Phase 12 strict 7 は `main.md` + 6 補助ファイルの物理存在を確認する。compliance check で `strict 7 present` と書く前に `find <workflow>/outputs/phase-12 -maxdepth 1 -type f` で 7 件を確認する。
+- **SP-STATUS-RECON-001-E (skill feedback promotion)**: `skill-feedback-report.md` に status drift / close-out 漏れを記録した場合は、owning reference へ promote するか、既存 rule の path と no-op reason を `system-spec-update-summary.md` に残す。所見だけで閉じない。
+- **anti-pattern**: (a) root artifacts だけを直す、(b) Phase 12 strict 7 のうち `main.md` を欠いたまま PASS と書く、(c) pending Gate-C の external evidence path 不在を Gate-A/B passed と混同する、(d) `apps/` 差分ゼロを理由に workflow metadata drift を未修正のまま残す。
+- 参照: `docs/30-workflows/completed-tasks/issue-1008-members-list-ux-clarity-artifact-status-reconciliation/outputs/phase-12/skill-feedback-report.md`、`references/phase-12-spec.md` strict 7 rules、`references/phase12-skill-feedback-promotion.md` Skill-feedback No-op Truthfulness Gate。
+
 ## SP-DEVSYNC-069 add/add で **両側ともフル実装** → 「新しさ・ファイル数」でなく merge 後 consumer が依存する API 側を `--ours` wholesale、token content conflict は block 手編集、`typecheck`（全 consumer compile）+ consumer spec で機械検証（2026-05-30 feat/admin-layout-sidebar-shell-migration ← dev #1020/#1025）
 
 `feat/admin-layout-sidebar-shell-migration` ← `dev` の sync-merge で `apps/web/src/components/shell/**` 19 file + `tokens.css` が add/add (AA)。SP-DEVSYNC-066（非対称 add/add → `--theirs`）の**鏡像**として、両側ともフル実装のケースの正本判定基準を確立する。merge-base に shell/ は無く、dev = 未配線の基盤コンポーネント（#1025/#1020）、ours = admin layout に実配線した統合版（phase-5 で shell は `<main>` 非描画）。
@@ -1810,3 +1822,11 @@ skill-only conflict を `pnpm sync:resolve` で解消した後の「念のため
 - **SP-DEVSYNC-073-B (grep を併用するなら U-filter と突き合わせ + path 除外)**: 補助的に marker grep を残す場合、ヒットしたファイルが `git diff --name-only --diff-filter=U` の対象かを必ず照合し、対象外なら文書リテラルとして無視する。除外 path は `.spec`/`.test` に加え `completed-tasks/**` の evidence/log/runbook を含める（装飾区切り線の頻出箇所）。
 - **SP-DEVSYNC-073-C (Phase 12 検証手順への固定)**: dev-sync の解消検証は「`pnpm sync:resolve` exit 0 → `git ls-files -u` 0 → `git commit --no-edit` → `pnpm typecheck`/`pnpm lint`/`pnpm indexes:rebuild` 冪等」の固定列とし、marker grep の生ヒット数を gate にしない。
 - 参照: [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-073（同知見の lessons 版・merge commit `1b662cfad`）, L-DEVSYNC-072-B（`git ls-files -u` 正本則の初出）, [[feedback-grep-head-exit-code-pitfall]]（grep ベース判定のピットフォール一般則）。
+
+### マージ確定後の `git commit` 偽失敗(RC128)と throwaway commit 混入除去（SP-DEVSYNC-075）
+
+issue-1008 sync（`refactor/issue-1008-members-list-ux-clarity-artifact-status-reconciliation` ← dev）の知見。衝突は task-spec skill 2 file（`SKILL.md` / `references/patterns-lessons-and-pitfalls.md`）のみで `pnpm sync:resolve` union 解消（[[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-075 / merge commit `89ab6af1e`）。仕様書を起草する際、検証手順に以下の harness 運用注意を含める。
+
+- **SP-DEVSYNC-075-A (マージ成否は commit RC でなく ancestor 判定で確認)**: merge が既に確定した後に重ねて `git commit --no-edit` を打つと `fatal: could not read '': No such file or directory`（RC 128）になる。`MERGE_MSG` が消えているだけの benign no-op であり commit 失敗ではない。仕様の Phase 11/13 検証は **`git rev-list --count HEAD..dev == 0` と `git merge-base --is-ancestor dev HEAD`** を成否判定の正本に固定し、commit RC を gate にしない。
+- **SP-DEVSYNC-075-B (throwaway/probe commit の push 前除去)**: 切り分けで probe commit（`test: probe ...` 等）を作ったら、push 前に `git log --oneline` で混入を確認し `git reset --mixed <正しい merge commit>` で HEAD を戻して除去する。`git reset --hard` は使わず mixed/soft で index だけ巻き戻し、残骸ファイルは `rm` → `git status --porcelain` clean を確認する。
+- 参照: [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-075（lessons 版）, SP-DEVSYNC-073（`git ls-files -u` 正本則）, L-DEVSYNC-072（skill-only baseline）。
