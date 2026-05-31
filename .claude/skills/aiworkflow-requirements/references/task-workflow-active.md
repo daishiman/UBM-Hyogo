@@ -8,6 +8,20 @@
 
 本ドキュメントは、複雑なタスクを単一責務の原則に基づいて分解し、各サブタスクに最適なスラッシュコマンド・エージェント・スキルの組み合わせを選定するためのガイドラインを定義する。
 
+### issue-988-identity-conflicts-merge-optimistic-update（2026-05-30）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION` |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-988-identity-conflicts-merge-optimistic-update/` |
+| Issue | #988 CLOSED |
+| 目的 | `/admin/identity-conflicts` の merge 二段階 confirm 後、server round-trip を待たず該当 row を optimistic に非表示化し、server error 時のみ rollback で復元する |
+| implementation targets | `apps/web/src/components/admin/IdentityConflictRow.tsx`, `apps/web/src/components/admin/__tests__/IdentityConflictRow.spec.tsx`, `apps/web/playwright/tests/admin-identity-conflicts.spec.ts` |
+| invariant | API endpoint / D1 schema / Server Component page / dismiss behavior は変更なし。`useAdminMutation` hook 拡張なし |
+| evidence | focused Vitest 1 file / 10 tests PASS; Playwright desktop 8 tests PASS; Phase 11 screenshots 3 PNG captured; Phase 11 canonical paths present |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-988-identity-conflicts-merge-optimistic-update-artifact-inventory.md` |
+| user gate | commit, push, PR |
+
 ### issue-982-drawer-tag-pill-editing（2026-05-29）
 
 | 項目 | 値 |
@@ -3575,3 +3589,14 @@ docs-only / direction-reconciliation で採用方針 A を維持する場合で�
 | evidence | Task A local regression は Phase 11 `manual-test-result.md` に記録。staging/production deploy、D1 backfill apply、`/members` browser smoke screenshot は Gate-C user-gated |
 | artifact inventory | `references/workflow-issue-998-members-publish-state-production-rollout-artifact-inventory.md` |
 | user gate | staging deploy, staging backfill apply, production backup/deploy/backfill, browser smoke, commit, push, PR |
+
+# issue-1005-members-ux-playwright-baseline-stabilization（implemented_local_evidence_captured / implementation / VISUAL / 2026-05-30）
+
+| item | value |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-1005-members-ux-playwright-baseline-stabilization/` |
+| scope | `/members` UX clarity Playwright visual baseline cold-start stabilization and completed-task evidence path drift fix |
+| implementation targets | `apps/web/playwright.config.ts`, `apps/web/playwright/tests/members-ux-clarity.spec.ts` |
+| evidence | TypeScript PASS; `/members` local warm-up 200; Playwright desktop-chromium 12 PASS; 24 PNG in `completed-tasks/members-list-ux-clarity/outputs/phase-11/screenshots`; stale active path not created |
+| user gate | commit, push, PR, staging visual baseline refresh, Issue #1005 state mutation |
+| inventory | `references/workflow-issue-1005-members-ux-playwright-baseline-stabilization-artifact-inventory.md` |

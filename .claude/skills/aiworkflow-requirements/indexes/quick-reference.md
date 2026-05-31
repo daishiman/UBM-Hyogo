@@ -1,5 +1,17 @@
 # クイックリファレンス
 
+## issue-988-identity-conflicts-merge-optimistic-update（2026-05-30）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-988-identity-conflicts-merge-optimistic-update/` |
+| status | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION` |
+| issue | #988 CLOSED |
+| purpose | `/admin/identity-conflicts` merge confirm 後に row を optimistic に非表示化し、server error 時に rollback する |
+| implementation | `IdentityConflictRow.tsx` component-local `optimisticMerged`; focused component tests; admin identity-conflicts Playwright spec |
+| evidence | focused Vitest 1 file / 10 tests PASS; Playwright desktop 8 tests PASS; Phase 11 screenshots 3 PNG captured |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-988-identity-conflicts-merge-optimistic-update-artifact-inventory.md` |
+
 ## issue-982-drawer-tag-pill-editing（2026-05-29）
 
 | 項目 | 値 |
@@ -4724,3 +4736,13 @@ UT-17 Cloudflare Notifications → alert-relay → Slack 経路を、既存 API 
 | workflow | `docs/30-workflows/completed-tasks/issue-998-members-publish-state-production-rollout/` |
 | summary | production `MEMBERS_AUTO_PUBLISH_ON_CONSENT=true` を `apps/api/wrangler.toml` に反映し、既実装 auto-publish/backfill/diagnostics で `/members` 復旧を staging→production 順に user-gated rollout する。 |
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-998-members-publish-state-production-rollout-artifact-inventory.md` |
+
+## issue-1005-members-ux-playwright-baseline-stabilization
+
+| item | value |
+| --- | --- |
+| status | implemented_local_evidence_captured / implementation / VISUAL / 2026-05-30 |
+| workflow | `docs/30-workflows/completed-tasks/issue-1005-members-ux-playwright-baseline-stabilization/` |
+| implementation | `apps/web/playwright.config.ts` adds `isMembersUxClarityBaseline`, `/members` ready URL, completed parent evidence dir, and default matrix exclusion. `apps/web/playwright/tests/members-ux-clarity.spec.ts` uses completed parent path + `MEMBERS_UX_EVIDENCE_DIR` override + beforeAll warm-up. |
+| evidence | TypeScript PASS, `/members` warm-up 200, Playwright desktop-chromium 12 PASS, 24 PNG, stale active path not created |
+| inventory | `references/workflow-issue-1005-members-ux-playwright-baseline-stabilization-artifact-inventory.md` |
