@@ -1564,3 +1564,16 @@ SP-DEVSYNC-069（add/add 両側フル実装 → consumer-API 起点で wholesale
 - **SP-DEVSYNC-067-D (file-location conflict で relocate した test は相対 import を route-group 階層分 +1 補正)**: `()` route-group へ relocate した test は 1 階層深くなる。`../page`（同 dir 基準）は不変だが `../../../src/...`（web root 基準）は `../../../../` へ +1 補正。`pnpm exec vitest run <relocated>` で import 解決を即確認。
 - **SP-DEVSYNC-067-E (孤児 snapshot は `grep -c toMatchSnapshot`=0 を根拠に `git rm`)**: `--ours` で勝った spec が snapshot 不使用なのに `--theirs` 由来の `__snapshots__/*.snap` が残ると vitest `N obsolete` 警告 → CI ノイズ。`grep -c "toMatchSnapshot\|MatchInlineSnapshot" <spec>` = 0 を確認して即 `git rm`。
 - 参照: [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-067（同 shell-config.ts AA で L-DEVSYNC-066 と逆の `--ours` を採った対照例 + graft/relocate/snapshot の複合 shape）。
+
+---
+
+## SP-I224: batch fetch 再利用と公開 API opt-in 拡張（Issue #224 / 2026-05-31）
+
+> 公開一覧などで「既存 batch helper を再利用して N+1 を防ぎつつ、後方互換の response shape を維持して項目を増やす」タスクの汎化パターン。
+
+- **SP-I224-A (層責務)**: batch helper はフラット配列を返し、`member_id` 等のキーで Map に整形する groupBy は use-case 層に置く。repository は最小の純粋 I/O に保ち、Map / 配列の整形責務を repository に持ち込まない。
+- **SP-I224-B (IN 句安全性)**: `col IN (...)` の placeholder は入力件数から動的生成（`ids.map(() => '?').join(',')`）して `.bind(...ids)` で展開。入力が空配列なら早期 return で query 自体を発行しない（空 IN 句の SQL エラー / 無駄な往復を防ぐ）。
+- **SP-I224-C (opt-in 拡張)**: 公開 response の項目追加は `expand` 等の whitelist による opt-in。repeated / comma-separated を両対応で正規化し未知値は黙殺・常に配列化。未指定時は既存 `appliedQuery` の key 集合を厳密維持し query も増やさない。
+- **SP-I224-D (fail-close + schema 連動)**: 公開向け値は内部 row をそのまま流さず allow-list で再構成し、`strict()` zod で nested extra field を reject。shared zod・型・test を同一サイクルで連動更新し片側 drift を作らない。
+- **anti-pattern**: 再利用する helper の返り値 shape（配列 / Map / null 許容）を実コード未確認のまま Phase 2 設計へ書く（groupBy 配線が破綻する）。Phase 1 で対象 helper / 型の signature を verbatim 引用して固定する（`phase-template-phase1.md` 参照）。
+- 参照: [[lessons-learned-issue-224-public-members-tags-batch-fetch-2026-05]] L-I224-001..010。

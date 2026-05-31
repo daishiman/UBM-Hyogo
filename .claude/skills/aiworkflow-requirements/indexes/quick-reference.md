@@ -1,5 +1,20 @@
 # クイックリファレンス
 
+## issue-224-public-members-tags-batch-fetch（2026-05-31）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/issue-224-public-members-tags-batch-fetch/` |
+| status | `implemented_local_evidence_captured / implementation / NON_VISUAL` |
+| purpose | 公開 `GET /public/members?expand=tags` を既存 batch helper `listTagsByMemberIds`（フラット配列）+ use-case 層 `member_id` groupBy で取得し tags の N+1 回帰を防止 |
+| implementation | `apps/api/src/_shared/search-query-parser.ts`（`EXPAND_WHITELIST` opt-in）, `apps/api/src/use-cases/public/list-public-members.ts`（groupBy）, `apps/api/src/repository/memberTags.ts`, `apps/api/src/view-models/public/public-member-list-view.ts`, `packages/shared/src/zod/viewmodel.ts`（`PublicMemberTagZ`/`PublicMemberListItemZ` strict）, `packages/shared/src/types/viewmodel/index.ts` |
+| tests | `apps/api/src/_shared/__tests__/search-query-parser.spec.ts`, `apps/api/src/routes/public/index.contract.spec.ts`, `apps/api/src/use-cases/public/__tests__/list-public-members.spec.ts`, `apps/api/src/repository/__tests__/memberTags.repository.spec.ts`, `packages/shared/src/zod/viewmodel.spec.ts` |
+| evidence | NON_VISUAL local test 証跡（contract / use-case / parser / repository / shared zod）, Phase 12 strict 7, root/output artifacts parity |
+| lessons | `.claude/skills/aiworkflow-requirements/references/lessons-learned-issue-224-public-members-tags-batch-fetch-2026-05.md`（L-I224-001..010） |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-224-public-members-tags-batch-fetch-artifact-inventory.md` |
+| unassigned | `docs/30-workflows/unassigned-task/issue-224-followup-001-public-members-fields-batch-fetch-n1-prevention.md`（U-2 fields N+1）/ U-1 UI tags 表示 = #1006 委譲 |
+| user gate | commit / push / PR / Gate-C |
+
 ## admin-sidebar-public-return-link（2026-05-28）
 
 | 項目 | 値 |
