@@ -3,7 +3,7 @@
 //
 // /admin 配下:
 //   - 未ログイン → /login?gate=admin_required
-//   - ログイン済 + isAdmin=false → 403 Forbidden
+//   - ログイン済 + isAdmin=false → /login?gate=forbidden
 //   - ログイン済 + isAdmin=true → next()
 // /profile 配下（06b 追加）:
 //   - 未ログイン → /login?redirect=<元path>
@@ -33,6 +33,13 @@ const buildAdminLoginRedirect = (req: NextRequest): NextResponse => {
   const url = req.nextUrl.clone();
   url.pathname = "/login";
   url.searchParams.set("gate", "admin_required");
+  return NextResponse.redirect(url);
+};
+
+const buildAdminForbiddenRedirect = (req: NextRequest): NextResponse => {
+  const url = req.nextUrl.clone();
+  url.pathname = "/login";
+  url.searchParams.set("gate", "forbidden");
   return NextResponse.redirect(url);
 };
 
@@ -105,10 +112,7 @@ const guardedMiddleware = async (
       return buildAdminLoginRedirect(req);
     }
     if (!claims.isAdmin) {
-      return new NextResponse("Forbidden", {
-        status: 403,
-        headers: { "content-type": "text/plain; charset=utf-8" },
-      });
+      return buildAdminForbiddenRedirect(req);
     }
     return nextWithRequestHeaders(requestHeaders);
   }

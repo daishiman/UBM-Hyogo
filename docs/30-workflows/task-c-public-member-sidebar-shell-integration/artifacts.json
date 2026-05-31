@@ -1,0 +1,105 @@
+{
+  "task_id": "task-c-public-member-sidebar-shell-integration",
+  "created_at": "2026-05-29",
+  "status": "implemented_local_evidence_captured",
+  "task_type": "implementation",
+  "visual_category": "VISUAL",
+  "implementation_mode": "new",
+  "metadata": {
+    "workflow_state": "implemented_local_evidence_captured",
+    "implementation_status": "local_implementation_complete",
+    "taskType": "implementation",
+    "visualEvidence": "VISUAL",
+    "implementationCategory": "ui_shell_integration",
+    "spec_classification": "implementation_spec",
+    "canonical_workflow": "docs/30-workflows/task-c-public-member-sidebar-shell-integration/",
+    "parent_workflow": "docs/30-workflows/unified-sidebar-shell-public-and-admin/",
+    "source_task": "docs/30-workflows/unified-sidebar-shell-public-and-admin/tasks/task-C-public-and-member-layout-integration.md",
+    "scope_routes": [
+      "/",
+      "/members",
+      "/register",
+      "/privacy",
+      "/terms",
+      "/login",
+      "/profile"
+    ],
+    "depends_on": [
+      "task-A-sidebar-shell-primitive",
+      "task-B-user-menu-and-role-handling",
+      "task-E-mobile-drawer-responsive"
+    ],
+    "implementation_files": [
+      "apps/web/app/(public)/layout.tsx",
+      "apps/web/app/(member)/layout.tsx",
+      "apps/web/app/(public)/page.tsx",
+      "apps/web/app/(public)/privacy/page.tsx",
+      "apps/web/app/(public)/terms/page.tsx",
+      "apps/web/app/(public)/login/**",
+      "apps/web/app/(member)/profile/page.tsx",
+      "apps/web/src/components/public/PublicHeader.tsx",
+      "apps/web/src/components/layout/MemberHeader.tsx",
+      "apps/web/src/lib/is-browser.ts",
+      "apps/web/src/styles/tokens.css",
+      "apps/web/src/__tests__/static-invariants.runtime.spec.ts"
+    ],
+    "verify_commands": [
+      "mise exec -- pnpm typecheck",
+      "mise exec -- pnpm lint",
+      "mise exec -- pnpm --filter @ubm-hyogo/web test --run \"apps/web/app/(public)\" \"apps/web/app/(member)\"",
+      "git grep -n \"PublicHeader\\|MemberHeader\" -- apps/web",
+      "pnpm verify:phase12-compliance",
+      "pnpm gate-metadata:validate --require-gates-for-changed docs/30-workflows/task-c-public-member-sidebar-shell-integration/artifacts.json docs/30-workflows/task-c-public-member-sidebar-shell-integration/outputs/artifacts.json"
+    ],
+    "phase12_strict_outputs": [
+      "outputs/phase-12/main.md",
+      "outputs/phase-12/implementation-guide.md",
+      "outputs/phase-12/system-spec-update-summary.md",
+      "outputs/phase-12/documentation-changelog.md",
+      "outputs/phase-12/unassigned-task-detection.md",
+      "outputs/phase-12/skill-feedback-report.md",
+      "outputs/phase-12/phase12-task-spec-compliance-check.md"
+    ],
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-05-29T00:00:00+09:00",
+        "evidence_path": "docs/30-workflows/task-c-public-member-sidebar-shell-integration/outputs/phase-12/phase12-task-spec-compliance-check.md",
+        "approver": "daishiman",
+        "notes": "spec_review: Phase 1-13 implementation spec and strict 7 are present; route-group consolidation scope confirmed with user"
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "passed",
+        "passed_at": "2026-05-29T00:00:00+09:00",
+        "evidence_path": "docs/30-workflows/task-c-public-member-sidebar-shell-integration/outputs/phase-11/manual-test-result.md",
+        "approver": "daishiman",
+        "notes": "implementation_review: apps/web layout migration, header removal, Task A/B/E shell primitives, focused tests, typecheck, and lint are locally complete; pixel screenshots and staging visual baseline remain runtime user-gated"
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/task-c-public-member-sidebar-shell-integration/outputs/phase-13/pr-creation-result.md",
+        "approver": "daishiman",
+        "notes": "external_ops: commit, push, PR, and CI visual baseline update are user-gated"
+      }
+    ]
+  },
+  "phases": [
+    { "phase": 1, "name": "要件定義", "status": "completed", "output": "phase-1-requirements.md" },
+    { "phase": 2, "name": "設計", "status": "completed", "output": "phase-2-design.md" },
+    { "phase": 3, "name": "設計レビュー", "status": "completed", "output": "phase-3-design-review.md" },
+    { "phase": 4, "name": "テスト計画", "status": "completed", "output": "phase-4-test-plan.md" },
+    { "phase": 5, "name": "実装手順", "status": "completed", "output": "phase-5-implementation.md" },
+    { "phase": 6, "name": "テスト追加", "status": "completed", "output": "phase-6-test-additions.md" },
+    { "phase": 7, "name": "カバレッジ", "status": "completed", "output": "phase-7-coverage.md" },
+    { "phase": 8, "name": "リファクタ", "status": "completed", "output": "phase-8-refactor.md" },
+    { "phase": 9, "name": "QA", "status": "completed", "output": "phase-9-qa.md" },
+    { "phase": 10, "name": "最終レビュー", "status": "completed", "output": "phase-10-final-review.md" },
+    { "phase": 11, "name": "手動テスト", "status": "local_evidence_captured_runtime_visual_pending", "output": "phase-11-manual-test.md" },
+    { "phase": 12, "name": "ドキュメント同期", "status": "completed", "output": "phase-12-documentation.md" },
+    { "phase": 13, "name": "commit-pr-release", "status": "pending_user_approval", "output": "phase-13-pr.md" }
+  ]
+}
