@@ -1934,6 +1934,15 @@ issue-1008 sync（`refactor/issue-1008-members-list-ux-clarity-artifact-status-r
 - **SP-DEVSYNC-079-C (`sync:resolve` 後検証は JSON 妥当性 + マーカー残存 0 の 2 点)**: 仕様の検証コマンドに `node -e "JSON.parse(readFileSync('.../keywords.json'))"` の妥当性確認と `git grep -c '^<<<<<<<\|^>>>>>>>\|^=======' -- .claude/skills/` の残存マーカー 0 を含める。両 PASS を commit 前ゲートにする。
 - 参照: [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-080（正本）, SP-DEVSYNC-077（map md 衝突・keywords 非衝突の逆組）, SP-DEVSYNC-074/076-B（keywords は `--ours`+rebuild）, SP-DEVSYNC-047（衝突 file 数可変）。
 
+### 衝突集合は「数同じ・メンバー入替」もする — resolver を集合非依存の単一経路として使う（SP-DEVSYNC-078）
+
+`feat/issue-230-lefthook-edit-guard` ← dev（6 behind / 3 ahead・ローカル dev は origin/dev に既一致で ff 同期不要）の **2 回目**の sync 知見（[[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-079）。`git merge dev` の conflict は **3 file**＝aiworkflow `indexes/keywords.json` + `indexes/topic-map.md` + `references/task-workflow-active.md`。直前の SP-DEVSYNC-077 ケース（keywords 非衝突・map 3 本）と**数は同じ 3 のまま中身が真逆に入れ替わった**（keywords が衝突に戻り、map は topic-map 1 本のみ・quick-reference/resource-map は非衝突）。`apps/**`/`packages/**` source conflict 0 → `pnpm sync:resolve` 1 回で full resolve（resolver ログ `union-resolving 2 files` + `taking --ours for 1 derived files`）。仕様書を起草する際の sync-merge 検証手順に以下を含める。
+
+- **SP-DEVSYNC-078-A (衝突集合は縮小/拡大だけでなくメンバー入替もする)**: SP-DEVSYNC-047/076-C/077-C の「衝突 file 数は可変」を一歩進め、**数が同じでも中身（derived の keywords.json と manual map のどれが衝突するか）が dev 側 touch 範囲依存で入れ替わる**。Phase 11 見積りで「keywords は毎回衝突／非衝突」のどちらも固定前提にしない。毎回 `git diff --name-only --diff-filter=U` で実集合を取り直す。
+- **SP-DEVSYNC-078-B (resolver は衝突集合のメンバー構成に依らず単独収束)**: keywords.json が衝突する回（`--ours`+rebuild 段が実働）も、しない回（no-op）も、map が 1 本でも 3 本でも `pnpm sync:resolve` の手順は不変。仕様の検証コマンドは集合の中身で分岐させず、resolver → `git ls-files -u` 0 の単一経路に固定する。
+- **SP-DEVSYNC-078-C (pre-commit hook 本数は branch 主題で変わる — 本数で異常判定しない)**: lefthook 正本ガード branch（issue-230）では sync-merge の pre-commit が 5 hook（`lefthook-edit-guard` 追加）。他 branch では 4 hook。`lefthook.yml` 未編集の sync では `lefthook-edit-guard` は ack 不要で素通りする。仕様の検証セクションに「hook 本数差 = branch 固有設定の反映であり sync 異常ではない」を明記する。
+- 参照: [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-079（lessons 版）, SP-DEVSYNC-077（直前 sync・keywords 非衝突 / map 3 本の真逆ケース）, SP-DEVSYNC-047/076-C（衝突 file 数可変）, SP-DEVSYNC-074（keywords は `--ours`+rebuild）, L-DEVSYNC-002（keywords union 対象外）。
+
 ### sub-worktree の lock/log は git-common-dir 起点／新番号 union 流入の新規 duplicate 判定は after==dev で確定（SP-DEVSYNC-078）
 
 > 採番補正: 本節は当初 SP-DEVSYNC-077 として起草したが、`feat/issue-224 ← dev` の 2 回目 sync-merge（merge 後）で dev 側が独立に SP-DEVSYNC-077（「union 解消後は重複混入ゼロをヘッダ数 three-way 照合で検証する」）を採番済みと判明し duplicate-heading 化した。SP-DEVSYNC-076-B の runbook（今回 sync で連結された側を次の空き番号へ renumber）に従い、本ローカル追加分を **SP-DEVSYNC-078** へ採番補正（dev 側 077 を canonical として残置）。論点は dev 077-A/B（three-way 照合）と一部重なるが、本節は sub-worktree の lock/log path 解決と新番号 union 流入判定を独立に補強する。
