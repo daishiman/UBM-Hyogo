@@ -1,0 +1,31 @@
+{
+  "status": "runtime_visual_pending",
+  "captureCommand": "PLAYWRIGHT_MEMBER_PUBLISH_RECOVERY=1 pnpm --filter @ubm-hyogo/web exec playwright test playwright/tests/member-publish-recovery-form-ops-and-admin-link.spec.ts --project=desktop-chromium",
+  "screenshots": [
+    {
+      "task": "A",
+      "path": "outputs/phase-11/screenshots/a-backfill-panel.png",
+      "status": "pending"
+    },
+    {
+      "task": "B",
+      "path": "outputs/phase-11/screenshots/b-manual-resync-panel.png",
+      "status": "pending"
+    },
+    {
+      "task": "C",
+      "path": "outputs/phase-11/screenshots/c-members-reflection-note.png",
+      "status": "pending"
+    },
+    {
+      "task": "C",
+      "path": "outputs/phase-11/screenshots/c-profile-publish-state.png",
+      "status": "pending"
+    },
+    {
+      "task": "D",
+      "path": "outputs/phase-11/screenshots/d-admin-form-link.png",
+      "status": "pending"
+    }
+  ]
+}

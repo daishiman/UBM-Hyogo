@@ -23,6 +23,61 @@
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1031-member-self-photo-upload-artifact-inventory.md` |
 | user gate | remote D1 migration apply, staging deploy, authenticated visual evidence, commit, push, PR |
 
+### issue-264-cron-schedule-free-tier-guard（2026-05-31）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / NON_VISUAL / Phase 13 pending_user_approval` |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-264-cron-schedule-free-tier-guard/` |
+| Issue | #264 CLOSED（`Refs #264` のみ。GitHub mutation なし） |
+| 目的 | obsolete になった Sheets 24h cron 実測要求を、現行 Forms ベース `apps/api/wrangler.toml` 3-cron schedule の free-tier 回帰ガードへ再スコープする |
+| implementation | `apps/api/src/sync/wrangler-cron-schedule.guard.spec.ts` |
+| invariant | canonical `["0 18 * * *", "*/15 * * * *", "*/5 * * * *"]`、env 3 セクション parity、cron 本数 ≤3、legacy `0 * * * *` 不在、依存追加 0 |
+| evidence | focused Vitest 16 PASS、package-script apps/api suite 76 files / 481 tests PASS、Phase 12 strict 7 present、root/output artifacts parity present |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-264-cron-schedule-free-tier-guard-artifact-inventory.md` |
+| user gate | optional staging cron tail、commit、push、PR、Issue mutation |
+
+### member-publish-recovery-form-ops-and-admin-link（2026-05-31）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION` |
+| 成果物 | `docs/30-workflows/member-publish-recovery-form-ops-and-admin-link/` |
+| 目的 | `/members` 公開0件の運用復旧、既存 Form 回答の手動反映、反映 SLA 可視化、admin sidebar から Google Form 回答編集画面への導線を 4 責務で実装 |
+| implementation targets | `apps/web/app/(admin)/admin/sync-status/page.tsx`, `apps/web/app/api/admin/[...path]/route.ts`, `apps/web/src/features/admin/components/_sync/`, `apps/web/src/features/admin/diagnostics/{backfill,manual-sync}.ts`, `apps/web/src/components/public/ReflectionTimingNote.tsx`, `apps/web/app/(public)/members/page.tsx`, `apps/web/app/(member)/profile/page.tsx`, `apps/web/src/components/shell/{shell-config,SidebarNavItem,icons}.tsx`, `apps/web/src/lib/constants/form.ts`, `apps/web/src/lib/env.ts` |
+| evidence | `pnpm --filter @ubm-hyogo/web typecheck` PASS; focused Vitest 7 files / 20 tests PASS |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-member-publish-recovery-form-ops-and-admin-link-artifact-inventory.md` |
+| user gate | production flag, Cloudflare secret injection, deploy, authenticated screenshots, commit, push, PR |
+
+### issue-1016-sidebar-mobile-drawer-responsive（2026-05-31）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_runtime_pending / implementation / VISUAL` |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-1016-sidebar-mobile-drawer-responsive/` |
+| Issue | #1016 CLOSED。PR 文脈は `Refs #1016` のみ |
+| 親 workflow | `docs/30-workflows/completed-tasks/unified-sidebar-shell-public-and-admin/` Task E |
+| 目的 | `SidebarMobileTrigger` と `SidebarDrawer` を実装し、`useSidebarState` の `drawerOpen` を mobile drawer responsive の実 UI に接続する |
+| implementation targets | `apps/web/src/components/shell/SidebarMobileTrigger.tsx`, `apps/web/src/components/shell/SidebarDrawer.tsx`, `apps/web/src/components/shell/useSidebarState.ts`, `apps/web/src/components/shell/SidebarShell.tsx`, `apps/web/src/lib/is-browser.ts`, `apps/web/src/styles/globals.css` |
+| evidence | focused Vitest 4 files / 21 tests PASS（`docs/30-workflows/completed-tasks/issue-1016-sidebar-mobile-drawer-responsive/outputs/phase-11/evidence/focused-vitest.log`）+ local screenshots 4 PNG（`outputs/phase-11/screenshots/`） |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1016-sidebar-mobile-drawer-responsive-artifact-inventory.md` |
+| user gate | staging visual verification、commit、push、PR |
+
+### issue-57-kv-r2-guardrail-degrade-design（2026-05-31）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / NON_VISUAL` |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-57-kv-r2-guardrail-degrade-design/` |
+| 目的 | 05a が予防しようとした KV/R2 ドリフト（Issue #514 / #315 の R2 audit cold-storage binding 追加で現実化）を正本仕様・runbook に同期し、実稼働中の R2 export を env フラグで停止できる executable kill-switch を実装する |
+| implementation targets | `scripts/audit-log/export-to-r2.ts`（`AUDIT_COLD_STORAGE_EXPORT_PAUSED` kill-switch / `paused` short-circuit + `status: "paused"`）, `scripts/audit-log/__tests__/export-to-r2.spec.ts`, `apps/api/src/env.ts`（`ALERT_DEDUP_KV` required→optional）, `apps/api/src/routes/internal/alert-relay.ts`（KV optional fail-open）, `apps/api/src/routes/internal/__tests__/alert-relay.spec.ts`, `apps/api/src/routes/internal/__tests__/alert-relay.sheets-auth.contract.spec.ts`, `.github/workflows/audit-log-cold-storage.yml`, `docs/00-getting-started-manual/specs/08-free-database.md`, `.claude/skills/aiworkflow-requirements/references/deployment-cloudflare.md`, `docs/30-workflows/completed-tasks/05a-parallel-observability-and-cost-guardrails/outputs/phase-05/cost-guardrail-runbook.md` |
+| invariant | degrade は env フラグ kill-switch（`=== "true"` 厳密一致 + GHA `vars.* || 'false'` fallback）で executable 化。`paused` short-circuit は外部 I/O 開始前に置く。補助層 KV は fail-open（dedup を諦め配信継続）。新規 binding 追加（UT-12/UT-13/ut-17-followup-002）は scope 外として分離 |
+| evidence | export-to-r2 + alert-relay focused Vitest PASS（root config 2 files / 43 tests）, sheets-auth contract `--config vitest.d1.config.ts` PASS（1 file / 4 tests）, api typecheck PASS, lint PASS, validate-phase-output 0 errors |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-57-kv-r2-guardrail-degrade-artifact-inventory.md` |
+| lessons | `.claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-issue-57-kv-r2-guardrail-degrade-2026-05.md`（L-I57-001..006） |
+| follow-ups | `docs/30-workflows/unassigned-task/issue-57-followup-001..003`（binding drift CI gate / d1-backup pause linkage / KV alert policy drift detection） |
+| user gate | commit, push, PR（`Refs #57`）, GitHub variable mutation（`AUDIT_COLD_STORAGE_EXPORT_PAUSED`）, production scheduled export |
+
 ### issue-1006-members-selected-filters-chip-ux-hardening（2026-05-30）
 
 | 項目 | 値 |
@@ -3474,6 +3529,7 @@ docs-only / direction-reconciliation で採用方針 A を維持する場合で�
 | 09c-production-deploy-execution-001 | implemented-local / implementation / VISUAL_ON_EXECUTION / Phase 12 strict outputs present / production runtime evidence pending_user_approval | `docs/30-workflows/completed-tasks/09c-A-production-deploy-execution/`（issue mirror: `docs/30-workflows/issue-353-09c-production-deploy-execution/`） | 親 09c docs-only runbook から分離した production execution workflow。Phase 1/5/10 の production approval G1-G3、Phase 6 D1 backup + migration apply、API/Web deploy、release tag、production smoke、24h post-release verification、Phase 12 strict 7 files を固定。Phase 13 は PR 作成承認であり production approval には数えない。実 Cloudflare mutation / tag push / PR 作成は未実行。artifact inventory: `references/workflow-task-09c-production-deploy-execution-001-artifact-inventory.md` / 固有教訓: `references/lessons-learned-09c-production-deploy-execution-001-2026-05.md`（L-09C-EXEC-001〜006）。Issue #353 は CLOSED のまま `Refs #353` で追跡し、production execution 未完了状態は workflow runtime evidence pending として管理する。 |
 | issue-348-09c-github-release-tag-automation | implemented-local / implementation / NON_VISUAL / Phase 12 strict outputs present / release apply user-gated / Phase 13 blocked_pending_user_approval | `docs/30-workflows/issue-348-09c-github-release-tag-automation/` | Issue #348。`scripts/release/generate-release-notes.sh` は Phase 12 changelog + Phase 11 evidence URL + template から release note を stdout 生成し、`scripts/release/create-github-release.sh` は `--dry-run` と `--apply --draft` の境界を担う。`.github/workflows/release-create.yml` は `workflow_dispatch` dry-run / tag push draft release 作成。artifact inventory: `references/workflow-issue-348-09c-github-release-tag-automation-artifact-inventory.md`。SSOT: `references/release-runbook.md`。元 unassigned task は consumed。 |
 | issue-352-postmortem-template-automation | implemented-local / implementation / NON_VISUAL / Phase 1-12 completed / Phase 13 blocked_pending_user_approval | `docs/30-workflows/completed-tasks/issue-352-postmortem-template-automation/` | Issue #352。09c Phase 11 evidence と release metadata から postmortem markdown を生成する CLI / template / runbook を追加。`generatePostmortem(input, template)` は pure、CLI が template read / evidence directory `main.md` check / rollback evidence file check（0 byte warning）/ stdout or `--out` write を担当。`docs/00-getting-started-manual/specs/15-infrastructure-runbook.md` に rollback 後 24h postmortem 生成運用を追記。artifact inventory: `references/workflow-issue-352-postmortem-template-automation-artifact-inventory.md`。固有教訓: `lessons-learned/lessons-learned-issue-352-postmortem-template-automation-2026-05.md`（L-352-001 同一 wave 5 点同期 / L-352-002 NON_VISUAL でも宣言済 evidence 必須 / L-352-003 TS CLI は `node --experimental-strip-types`）。元 unassigned stub は `docs/30-workflows/completed-tasks/task-09c-postmortem-template-automation-001.md` に close-out 移動済み。commit / push / PR は user approval 待ち。 |
+| issue-224-public-members-tags-batch-fetch | implemented_local_evidence_captured / implementation / NON_VISUAL / Phase 12 strict 7 present / Phase 13 blocked_pending_user_approval | `docs/30-workflows/issue-224-public-members-tags-batch-fetch/` | Issue #224。公開 `GET /public/members?expand=tags` を実装し、visibility filter 通過後 memberId に対して `listTagsByMemberIds` を 1 batch 取得、use-case 層で `member_id` groupBy、response は `code` / `label` / `category` のみを opt-in 付与する。`expand` 未指定時は `tags` key と tags query を出さず、`appliedQuery` は既存 6 キー固定。`PublicMemberTagZ.strict()` と helper SQL `ORDER BY mt.member_id ASC, td.category ASC, td.label ASC, td.code ASC` で leak / flake を防止。Phase 11 evidence: API suite 75 files / 473 tests PASS、api/shared typecheck PASS。artifact inventory: `references/workflow-issue-224-public-members-tags-batch-fetch-artifact-inventory.md`。lessons: `references/lessons-learned-issue-224-public-members-tags-batch-fetch-2026-05.md`。commit / push / PR / Issue mutation は user-gated。 |
 | issue-274-public-pages-ogp-sitemap-robots | implemented_local_evidence_captured / implementation / VISUAL / Phase 12 strict 7 present / Phase 13 blocked_pending_user_approval | `docs/30-workflows/issue-274-public-pages-ogp-sitemap-robots/` | Issue #274 public pages OGP / sitemap / robots canonical root。06a/task-11 SEO follow-upsを統合し、公開 4 route（`/`, `/members`, `/members/[id]`, `/register`）の metadata、root OG image、sitemap、robots を実装済み。現行 contract は `/public/members?limit=100&page=N` paginated fetch、list item `memberId` / `fullName`、Playwright `apps/web/playwright/tests/public-metadata.spec.ts`、package filter `@ubm-hyogo/web`、site URL host は `AUTH_URL` 整合。Phase 11 typecheck/lint/test/build/curl/Playwright PASS と `og-image.png` を取得済み。source unassigned 2 件は consumed trace 化済み。commit / push / PR / Issue mutation は user-gated。 |
 | 06c-parallel-admin-dashboard-members-tags-schema-meetings-pages | completed / Phase 1-12 完了 / Phase 13 pending_user_approval / VISUAL screenshot deferred to 08b/09a | `docs/30-workflows/02-application-implementation/06c-parallel-admin-dashboard-members-tags-schema-meetings-pages/` | apps/web `/admin` 5画面（dashboard / members / tags / schema / meetings）を App Router `(admin)` 配下に実装。04c admin API と 05a admin gate を接続し、`AdminSidebar`、`MemberDrawer`、`TagQueuePanel`、`SchemaDiffPanel`、`MeetingPanel`、`/api/admin/[...path]` proxy、Server Component `fetchAdmin` を追加。profile本文直接編集なし、tag直接編集なし、schema解消は`/admin/schema`のみ、deleted attendance除外、duplicate attendance disabled + 409/422 toast。検証: web typecheck PASS / Vitest 7 files 36 tests PASS。Phase 11 screenshot は D1 fixture・staging admin 前提のため 08b Playwright / 09a staging smoke に委譲。固有教訓 `references/lessons-learned-06c-admin-ui-2026-04.md`（L-06C-001〜005） |
 | 06c-A-admin-dashboard | spec_created / docs-only / remaining-only / VISUAL_ON_EXECUTION / Phase 12 strict 7 files present / Phase 13 pending_user_approval | `docs/30-workflows/06c-A-admin-dashboard/` | 06c 親タスクを復活させず、admin dashboard の既存 04c/06c contract 差分だけを formalize。正本 KPI は `総会員数 / 公開中人数 / 未タグ人数 / スキーマ未解決件数`、endpoint は apps/api `GET /admin/dashboard` + apps/web proxy `GET /api/admin/dashboard` の単一 dashboard contract。recent actions は `audit_log` 直近7日 max20 で `dashboard.view` を除外し、dashboard read は audit に `dashboard.view` として記録する。Phase 12 evidence: `outputs/phase-12/phase12-task-spec-compliance-check.md`。runtime visual evidence は implementation execution / 08b / 09a へ委譲。 |
@@ -3626,6 +3682,7 @@ docs-only / direction-reconciliation で採用方針 A を維持する場合で�
 | scope | `/members` UX clarity: density meaning, live filter affordance, active filter chips, result-count live region |
 | implementation targets | `apps/web/src/components/public/{DensityToggle.client,MemberFilters.client,SelectedFiltersBar.client,SelectedTagsBar.client}.tsx`, `apps/web/src/components/ui/{Segmented,Search}.tsx`, `apps/web/app/(public)/members/page.tsx`, `apps/web/src/styles/legacy-public.css` |
 | evidence | focused component tests local; visual baseline / commit / push / PR user-gated |
+| issue-1007-density-toggle-help-hint-hardening | implemented_local_runtime_pending / implementation / VISUAL / Phase 12 strict outputs present / runtime visual pending_user_approval | `docs/30-workflows/completed-tasks/issue-1007-density-toggle-help-hint-hardening/` | Issue #1007. `/members` `DensityToggle` HelpHint hardening: `useId` description ids, non-controlled `<details>` Escape/outside close, `IconName` `help` glyph, pointer target guard, focused component tests 15 PASS. System specs `09-ui-ux.md` and `09d-icons.md`, Phase 11 local evidence, Phase 12 strict 7, quick-reference/resource-map/artifact inventory synchronized. Runtime screenshots, staging deploy, commit, push, PR are user-gated. Inventory: `references/workflow-issue-1007-density-toggle-help-hint-hardening-artifact-inventory.md`. |
 
 ## issue-998-members-publish-state-production-rollout
 

@@ -21,6 +21,8 @@ export interface PublicMemberListItemSource {
   location: string;
   ubmZone: string | null;
   ubmMembershipType: string | null;
+  // issue-224: expand=tags 指定時のみ use-case が付与。stripForbidden は素通し。
+  tags?: ReadonlyArray<{ code: string; label: string; category: string }>;
   // 以下は意図的に含めない (forbidden keys)。
   // responseEmail / rulesConsent / adminNotes
 }

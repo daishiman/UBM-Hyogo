@@ -37,6 +37,7 @@ jobs:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CF_AUDIT_R2_TOKEN_PROD }}
           DRY_RUN: ${{ github.event_name == 'schedule' && 'false' || inputs.dry_run || 'true' }}
           TARGET_DATE: ${{ inputs.target_date || '' }}
+          AUDIT_COLD_STORAGE_EXPORT_PAUSED: ${{ vars.AUDIT_COLD_STORAGE_EXPORT_PAUSED || 'false' }}
         run: |
           set -euo pipefail
           args=(--env production)
