@@ -2530,6 +2530,37 @@ node scripts/list-specs.js --topics
 | Local Evidence | L15 |
 | Lessons Learned | L25 |
 
+### references/workflow-issue-1006-members-selected-filters-chip-ux-hardening-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Implementation Surface | L11 |
+| Evidence | L21 |
+| Runtime Boundary | L29 |
+| Lessons Learned | L33 |
+
+### references/workflow-issue-1007-density-toggle-help-hint-hardening-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Lessons Learned | L18 |
+
+### references/workflow-issue-1010-auth-view-session-contract-integration-test-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Lessons Learned | L32 |
+
+### references/workflow-issue-1016-sidebar-mobile-drawer-responsive-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Summary | L3 |
+| Implementation Targets | L12 |
+| Evidence | L27 |
+| Boundaries | L38 |
+| Lessons Learned | L44 |
+
 ### references/workflow-issue-1029-public-member-photo-display-artifact-inventory.md
 
 | セクション | 行 |
@@ -2599,6 +2630,13 @@ node scripts/list-specs.js --topics
 | Runtime Boundary | L41 |
 | Consumed / Superseded Trace | L47 |
 | Lessons Learned | L53 |
+
+### references/workflow-issue-264-cron-schedule-free-tier-guard-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Evidence | L20 |
+| Lessons Learned | L26 |
 
 ### references/workflow-issue-274-public-pages-ogp-sitemap-robots-artifact-inventory.md
 
@@ -2953,6 +2991,17 @@ node scripts/list-specs.js --topics
 | Phase 12 Required Artifacts | L16 |
 | Implemented Artifacts | L28 |
 | State Classification | L38 |
+
+### references/workflow-issue-57-kv-r2-guardrail-degrade-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| 背景 | L10 |
+| Implementation Targets | L17 |
+| Evidence | L30 |
+| Unassigned follow-ups | L38 |
+| User-Gated Boundary | L44 |
+| Lessons Learned | L49 |
 
 ### references/workflow-issue-572-attendance-provider-production-runtime-smoke-artifact-inventory.md
 
@@ -3536,6 +3585,13 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | Lessons Learned | L19 |
+
+### references/workflow-member-publish-recovery-form-ops-and-admin-link-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Status | L13 |
+| Lessons Learned | L21 |
 
 ### references/workflow-members-list-prototype-alignment-artifact-inventory.md
 
@@ -5079,22 +5135,22 @@ node scripts/list-specs.js --topics
 | 概要 | L6 |
 | サービス構成 | L13 |
 | 現行 canonical: UT-06 実行前ゲート（2026-04-27） | L25 |
-| API Worker Cron（u-04 Sheets → D1 sync） | L51 |
-| Cloudflare Alert Policy IaC（UT-17 follow-up 004 / 006） | L87 |
-| D1 Backup Long-Term Storage（UT-06-FU-E / 2026-05-01） | L102 |
-| Cloudflare Workers デプロイ（Next.js / OpenNext） | L121 |
-| Cloudflare Workers デプロイ（APIバックエンド） | L209 |
-| Cloudflare D1 データベース | L357 |
-| Cloudflare KV セッションキャッシュ（UT-13 / SESSION_KV） | L390 |
-| GitHub Actions CI/CD | L502 |
-| プレビューデプロイメント | L533 |
-| カスタムドメイン設定 | L549 |
-| 環境分離 | L562 |
-| ロールバック戦略 | L572 |
-| モニタリング/アラート（UT-08 連携） | L593 |
-| per-sync write cap 連続到達アラート（03b-followup-006 / Issue #199） | L610 |
-| Long-term Analytics Evidence（Issue #347 / 2026-05-05） | L645 |
-| 変更履歴 | L694 |
+| API Worker Cron（u-04 Sheets → D1 sync / historical manual-only） | L51 |
+| Cloudflare Alert Policy IaC（UT-17 follow-up 004 / 006） | L90 |
+| D1 Backup Long-Term Storage（UT-06-FU-E / 2026-05-01） | L105 |
+| Cloudflare Workers デプロイ（Next.js / OpenNext） | L124 |
+| Cloudflare Workers デプロイ（APIバックエンド） | L212 |
+| Cloudflare D1 データベース | L378 |
+| Cloudflare KV セッションキャッシュ（UT-13 / SESSION_KV） | L411 |
+| GitHub Actions CI/CD | L523 |
+| プレビューデプロイメント | L554 |
+| カスタムドメイン設定 | L570 |
+| 環境分離 | L583 |
+| ロールバック戦略 | L593 |
+| モニタリング/アラート（UT-08 連携） | L614 |
+| per-sync write cap 連続到達アラート（03b-followup-006 / Issue #199） | L631 |
+| Long-term Analytics Evidence（Issue #347 / 2026-05-05） | L666 |
+| 変更履歴 | L715 |
 
 ### references/deployment-core.md
 
@@ -6476,6 +6532,14 @@ node scripts/list-specs.js --topics
 | 結論 | L22 |
 | 教訓 (Lesson IDs) | L30 |
 | 関連 | L39 |
+
+### references/lessons-learned-member-publish-recovery-form-ops-and-admin-link-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| 教訓一覧 | L19 |
+| skill-feedback 申し送り | L63 |
+| 確認パス | L67 |
 
 ### references/lessons-learned-parallel-i03-dialog-refresh-order-2026-05.md
 
@@ -8200,15 +8264,15 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L3255 |
-| フェーズ構造（概要） | L3264 |
-| 品質ゲート（概要） | L3295 |
-| 出力テンプレート | L3306 |
-| 実行時のコマンド・エージェント・スキル | L3329 |
-| 昇格パターン集 | L3353 |
-| Current Active / Spec Created Tasks | L3355 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L3519 |
-| issue-998-members-publish-state-production-rollout | L3596 |
+| ドキュメント構成 | L3344 |
+| フェーズ構造（概要） | L3353 |
+| 品質ゲート（概要） | L3384 |
+| 出力テンプレート | L3395 |
+| 実行時のコマンド・エージェント・スキル | L3418 |
+| 昇格パターン集 | L3442 |
+| Current Active / Spec Created Tasks | L3444 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L3608 |
+| issue-998-members-publish-state-production-rollout | L3686 |
 
 ### references/task-workflow-backlog-part2.md
 

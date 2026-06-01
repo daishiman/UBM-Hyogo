@@ -6,7 +6,7 @@
 // AC-1 〜 AC-6 (issue-276) と AC-3 / AC-4 / AC-5 (task-11) を担保。
 
 import { useRouter, useSearchParams } from "next/navigation";
-import { useCallback, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 
 import { FormField } from "../ui/FormField";
 import { Search } from "../ui/Search";
@@ -15,6 +15,7 @@ import {
   MEMBERS_SEARCH_LIMITS,
   type MembersSearch,
 } from "../../lib/url/members-search";
+import { isBrowser } from "../../lib/is-browser";
 import { TagPicker, type TagPickerOption } from "./TagPicker.client";
 import { SelectedFiltersBar } from "./SelectedFiltersBar.client";
 import { FiltersSummaryMobile } from "./FiltersSummaryMobile.client";
@@ -56,6 +57,14 @@ export function MemberFilters({
   const router = useRouter();
   const sp = useSearchParams();
   const [expanded, setExpanded] = useState(false);
+  const tagLabels = useMemo(
+    () =>
+      Object.fromEntries(topTags.map((tag) => [tag.code, tag.label])) as Record<
+        string,
+        string
+      >,
+    [topTags],
+  );
 
   const update = useCallback(
     (patch: Patch) => {
@@ -133,6 +142,8 @@ export function MemberFilters({
         <div data-role="filter-grid">
           <FormField name="member-search" label="キーワード検索">
             <Search
+              id="member-search-input"
+              name="member-search"
               value={initial.q}
               onChange={(v) => update({ q: v })}
               placeholder="名前・職業・地域で検索"
@@ -193,6 +204,12 @@ export function MemberFilters({
             search={initial}
             onPatch={update}
             onClearAll={onClear}
+            tagLabels={tagLabels}
+            onEmpty={() => {
+              if (!isBrowser()) return;
+              // eslint-disable-next-line no-restricted-globals -- isBrowser() guard above ensures document is defined.
+              document.getElementById("member-search-input")?.focus();
+            }}
           />
         ) : null}
       </div>

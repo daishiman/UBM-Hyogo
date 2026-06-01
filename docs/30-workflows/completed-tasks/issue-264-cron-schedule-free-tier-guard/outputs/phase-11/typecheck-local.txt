@@ -1,0 +1,13 @@
+Command:
+mise exec -- pnpm typecheck
+
+Result:
+PASS
+
+Summary:
+- packages/contracts typecheck: Done
+- packages/shared typecheck: Done
+- packages/integrations typecheck: Done
+- packages/integrations/google typecheck: Done
+- apps/web typecheck: Done
+- apps/api typecheck: Done
