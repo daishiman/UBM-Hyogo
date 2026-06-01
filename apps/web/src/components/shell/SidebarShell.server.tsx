@@ -2,12 +2,14 @@
 // session を取得して role を判定し、nav を組み立てて Client の <SidebarShell /> へ渡す。
 // 呼出側 layout（Task C）は role 判定・nav 構築・UserMenu 組み立てを再実装しない。
 import type { ReactNode } from "react";
+import { cookies } from "next/headers";
 
 import { safeServerFetch } from "../../lib/admin/safe-server-fetch";
 import { getSession, type SessionUser } from "../../lib/session";
 import type { SchemaDiffListView } from "../admin/SchemaDiffPanel";
 import { SidebarShell } from "./SidebarShell";
 import { buildNavForRole, type ShellRole } from "./shell-config";
+import { parseShellCollapsedCookie, SHELL_COLLAPSE_COOKIE_NAME } from "./shell-collapse-cookie";
 
 function resolveRole(session: SessionUser | null): ShellRole {
   if (!session) return "viewer";
@@ -28,6 +30,15 @@ async function loadSchemaDiffCount(): Promise<number> {
   const result = await safeServerFetch<SchemaDiffListView>("/admin/schema/diff");
   if (!result.ok) return 0;
   return result.data.items.filter((item) => item.status === "queued").length;
+}
+
+async function readInitialCollapsed(): Promise<boolean | null> {
+  try {
+    const store = await cookies();
+    return parseShellCollapsedCookie(store.get(SHELL_COLLAPSE_COOKIE_NAME)?.value ?? null);
+  } catch {
+    return null;
+  }
 }
 
 export async function SidebarShellServer({
@@ -54,6 +65,7 @@ export async function SidebarShellServer({
   const role = resolveRole(session);
   const schemaDiffCount = role === "admin" ? await loadSchemaDiffCount() : 0;
   const navGroups = buildNavForRole(role, { schemaDiffCount });
+  const initialCollapsed = await readInitialCollapsed();
 
   const user = session
     ? {
@@ -70,6 +82,7 @@ export async function SidebarShellServer({
       navGroups={navGroups}
       activePath={activePath}
       mobileTriggerSlot={mobileTriggerSlot}
+      initialCollapsed={initialCollapsed}
       {...(routeKey !== undefined ? { routeKey } : {})}
       {...(sectionRhythm !== undefined ? { sectionRhythm } : {})}
     >
