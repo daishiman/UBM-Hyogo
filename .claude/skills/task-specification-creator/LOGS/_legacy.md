@@ -4,6 +4,10 @@
 
 このファイルは task-specification-creator の運用・改善・Phase 12 close-out 同期履歴を新しい順に記録する。
 
+## 2026-06-01 - issue-1035 tag master write endpoints automation-30 close-out
+
+`docs/30-workflows/completed-tasks/issue-1035-tag-master-write-endpoints/` の automation-30 改善で、`taskType=implementation` かつ実装対象が明確な workflow を spec-only に下げず、同一サイクルで `apps/api` 実装、focused D1 Vitest 4 files / 32 tests PASS、API typecheck PASS、repo lint PASS、正本 API spec 同期、aiworkflow same-wave sync まで完了して `implemented_local_evidence_captured` へ再分類した。read-only repository へ write を追加する場合の不変条件再定義、readonly type-d gate 事前確認、prefix route regression を SP-I1035 として汎化した。
+
 ## 2026-05-28 - task-b-root-page-public-header-async automation-30 close-out
 
 ## 2026-05-30 - issue-988 identity conflicts optimistic update automation-30 close-out

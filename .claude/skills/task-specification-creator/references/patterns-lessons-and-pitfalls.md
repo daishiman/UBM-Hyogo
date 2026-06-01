@@ -1795,6 +1795,15 @@ SP-DEVSYNC-072 の「skill-only クリーン基準」に source 1 件（`apps/we
 - **SP-DEVSYNC-070-F (PR `mergeable=CONFLICTING` は CI 待ちでなく base conflict — dev を追って再 merge、同一 component file の別 feature add/add は「定義並置」で統合)**: 1 回 sync-merge を push しても `gh pr checks` が `triage` 1 件だけで本体 CI が起動しないときは `gh pr view --json mergeable,mergeStateStatus` を見る。`CONFLICTING/DIRTY` なら **base（dev）が先行して merge commit を作れず `pull_request` workflow が起動していない**（CI 遅延ではない）。最新 `origin/dev` を再 merge して解消する。複数 PR が同じ component file に独立機能を足していると source conflict が出る（例: issue-982 の `MemberTagsEditor` と issue-983 の `PhotoUploadAffordance` が同じ `MemberDrawer.tsx`）。**本体（呼び出し側 JSX）が clean merge で両方を参照済みなら、conflict は 2 つの独立定義の並置のみで解消し、どちらも捨てない**。import 文の衝突は **3-way 和集合**（両 branch が足した named import を全部残す）にして `pnpm typecheck` で未使用 import / 型不整合を検出。sync-merge は **`mergeable=MERGEABLE` で CI 本体が green になるまでが 1 サイクル**で、push 一発で終わりにしない。
 - 参照: [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-069（同知見の lessons 版・merge commit `ec48d08ce`、sourceSpecHashDrift 追補は同節「留意」、CONFLICTING 再 merge は「追補2」）、SP-DEVSYNC-069（両側 source 並行実装の AA との対照）、CLAUDE.md「sync-merge コンフリクト解消の 3 層予防」（`merge=union` 対象に playwright evidence は含まれない点の補足）。
 
+## SP-I1035 read-only repository への write 経路追加は「コード不変条件 + 正本 spec + prefix regression」を同 wave で固定する（2026-06-01 issue-1035-tag-master-write-endpoints）
+
+- **SP-I1035-A (implementation target 明確時は spec-only close しない)**: `taskType=implementation` かつ `implementation_files` / `test_files` が具体化している場合、Phase 12 で「follow-up 実装サイクル」として閉じると CONST_004/005 と衝突する。実コード、focused tests、typecheck/lint、正本 spec 同期まで同 wave で完了し、staging runtime / commit / push / PR だけを user-gated に残す。
+- **SP-I1035-B (read-only コメントを緩める変更は二重正本同期)**: repository に「write API は提供しない」等の不変条件コメントがある場合、write 関数追加だけで終えず、同じ wave で正本 spec（例 `docs/00-getting-started-manual/specs/01-api-schema.md`）にも新 write 経路・audit・削除/immutable 境界を同期する。片方だけ更新すると drift する。
+- **SP-I1035-C (readonly type-d gate 事前確認)**: write 関数を追加する repository では Phase 3 で `rg "readonly|@ts-expect-error|create|update|delete" apps/api/src/repository/**/*.test-d.ts` 等により type-level write 禁止 gate の有無を確認する。gate がある場合は不変条件変更レビューと test 更新を同 wave に含める。
+- **SP-I1035-D (prefix route 追加は既存 route regression を必須化)**: `/tags` と `/tags/queue` のように prefix が重なる route を追加する場合、mount 順の設計だけでなく、既存 route が従来通り 200 を返す contract test を新 route の test に含める。
+- 検証: focused D1 Vitest 4 files / 32 tests PASS、`@ubm-hyogo/api` typecheck PASS、repo lint PASS、root/outputs artifacts parity PASS、Phase 12 strict 7 PASS。
+- 参照: aiworkflow-requirements `workflow-issue-1035-tag-master-write-endpoints-artifact-inventory.md`、workflow `docs/30-workflows/completed-tasks/issue-1035-tag-master-write-endpoints/outputs/phase-12/phase12-task-spec-compliance-check.md`。
+
 ### dev-sync-merge 後の `.next/types` stale typecheck 失敗（SP-DEVSYNC-069）
 
 resolver 単発で skill-only conflict を解消した後でも、Phase 12/13 の `pnpm typecheck` がローカル build cache 起因で赤になる shape。merge content の型エラーと混同しないための切り分け手順を固定する。
