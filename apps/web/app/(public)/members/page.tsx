@@ -14,6 +14,7 @@ import { EmptyState } from "../../../src/components/feedback/EmptyState";
 import { DensityToggle } from "../../../src/components/public/DensityToggle.client";
 import { MemberFilters } from "../../../src/components/public/MemberFilters.client";
 import { MemberGrid } from "../../../src/components/public/MemberGrid";
+import { ReflectionTimingNote } from "../../../src/components/public/ReflectionTimingNote";
 import { SectionError } from "../../../src/components/public/SectionError";
 import {
   PUBLIC_API_REVALIDATE,
@@ -97,6 +98,13 @@ export default async function MembersPage({ searchParams }: MembersPageProps) {
         topTags={listResult.ok ? listResult.data.topTags : []}
         totalCount={listResult.ok ? listResult.data.pagination.total : undefined}
         displayedCount={listResult.ok ? listResult.data.items.length : undefined}
+      />
+      <ReflectionTimingNote
+        surface="members"
+        lastSyncAt={
+          statsResult.ok ? statsResult.data.lastSync.responseSyncFinishedAt : null
+        }
+        statsUnavailable={!statsResult.ok}
       />
       {!listResult.ok ? (
         <SectionError

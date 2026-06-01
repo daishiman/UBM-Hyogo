@@ -228,3 +228,24 @@ admin view
 3. current response と旧 response を上書き破壊しない
 4. GAS prototype の `localStorage` を本番保存方式にしない
 5. `meeting_sessions` / `member_attendance` を form schema に押し込まない
+
+---
+
+## 反映 SLA（フォーム送信から表示までのレイテンシ）
+
+Google Form 回答は直接 Web UI に表示されず、Forms sync が D1 へ保存した後に表示される。
+
+| 段階 | 処理 | レイテンシ目安 |
+| --- | --- | --- |
+| 1 | Google Form 送信 | 即時 |
+| 2 | response sync cron `*/15 * * * *` が D1 へ upsert | 最大約 15 分 |
+| 3 | `/members` 公開一覧の ISR cache 更新 | 最大 30 秒 |
+| 4 | `/profile` 本人マイページの再取得 | cache なし。sync 完了後ただちに反映 |
+
+通常運用では、公開一覧は送信後最大約 15 分 + cache 最大 30 秒で反映される。
+互換経路の毎時 scheduled sync を待つ運用時は、最悪ケースを約 15〜45 分として扱う。
+
+`/members` に表示されるのは、`public_consent = consented`、`publish_state = public`、`is_deleted = false` の 3 条件をすべて満たすメンバーのみ。
+`/profile` は本人認証後の表示であり、公開状態に関係なく本人の最新回答を表示する。
+
+Web UI は `GET /public/stats` の `lastSync.responseSyncFinishedAt` を使い、`/members` と `/profile` に最終同期時刻（JST）と反映目安を表示する。
