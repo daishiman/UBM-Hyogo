@@ -23,6 +23,19 @@
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1029-public-member-photo-display-artifact-inventory.md` |
 | user gate | R2 secrets, staging deploy, real R2 URL capture, commit, push, PR, Issue mutation |
 
+### issue-229-indexes-rebuild-fail-fast（2026-05-31）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / NON_VISUAL` |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-229-indexes-rebuild-fail-fast/` |
+| Issue | #229 CLOSED（reopen / mutation は user-gated） |
+| 目的 | `pnpm indexes:rebuild` が途中失敗時に decisive に fail-fast し、部分 index 書き込みを残さず、失敗 index / step を特定できる状態にする |
+| implementation targets | `.claude/skills/aiworkflow-requirements/scripts/generate-index.js`, `scripts/__tests__/generate-index-fail-fast.spec.ts` |
+| evidence | focused Vitest 1 file / 6 tests PASS、`pnpm indexes:rebuild -- --quiet` PASS、immediate second rebuild idempotent、Phase 12 strict 7 present |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-229-indexes-rebuild-fail-fast-artifact-inventory.md` |
+| user gate | commit, push, PR, Issue #229 mutation |
+
 ### issue-230-lefthook-edit-guard（2026-05-31）
 
 | 項目 | 値 |

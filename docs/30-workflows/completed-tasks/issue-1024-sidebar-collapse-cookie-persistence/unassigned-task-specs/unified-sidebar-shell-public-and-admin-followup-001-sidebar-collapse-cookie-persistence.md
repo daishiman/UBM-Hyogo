@@ -1,3 +1,13 @@
+---
+title: followup-001 sidebar collapse cookie persistence
+status: consumed
+canonical_workflow: docs/30-workflows/completed-tasks/issue-1024-sidebar-collapse-cookie-persistence/
+consumed_at: 2026-05-31
+consumed_state: implemented_local_evidence_captured
+---
+
+> ✅ 実装完了: issue-1024（`feat/issue-1024-sidebar-collapse-cookie-persistence`）で対応済み。canonical workflow は `docs/30-workflows/completed-tasks/issue-1024-sidebar-collapse-cookie-persistence/`。commit / push / PR は user-gated。
+
 # sidebar collapse 状態の cookie 永続化（lint-boundaries storage 禁止回避） - タスク指示書
 
 ## メタ情報
@@ -10,14 +20,17 @@
 | 対象機能     | `apps/web/src/components/shell/` SidebarShell の collapse 状態（現状 in-memory・リロードでリセット） |
 | 優先度       | 低                                                                                                |
 | 見積もり規模 | 小規模                                                                                            |
-| ステータス   | pending (Issue 起票済み・実装未着手)                                                               |
+| ステータス   | consumed（canonical workflow で実装済み・commit/PR は user-gated）                                  |
 | 発見元       | admin-layout-sidebar-shell-migration Phase 12 (FU-ALSSM-001)                                       |
 | 発見日       | 2026-05-29                                                                                         |
 | GitHub Issue | [#1024](https://github.com/daishiman/UBM-Hyogo/issues/1024)                                       |
 
 ## Canonical Workflow Status
 
-- 親 workflow（所有者）: `docs/30-workflows/unified-sidebar-shell-public-and-admin/`（shell primitive の所有 workflow）
+- 親 workflow（所有者）: `docs/30-workflows/completed-tasks/unified-sidebar-shell-public-and-admin/`（shell primitive の所有 workflow）
+- canonical_workflow: `docs/30-workflows/completed-tasks/issue-1024-sidebar-collapse-cookie-persistence/`
+- consumed_at: 2026-05-31
+- consumed_state: `implemented_local_evidence_captured / implementation / NON_VISUAL`
 - 検知元 workflow: `docs/30-workflows/completed-tasks/admin-layout-sidebar-shell-migration/`（Task A/B/D/E 一括実装で検出）
 - 検知元 outputs: `docs/30-workflows/completed-tasks/admin-layout-sidebar-shell-migration/outputs/phase-12/unassigned-task-detection.md`（FU-ALSSM-001）
 - 実装記録: `docs/30-workflows/completed-tasks/admin-layout-sidebar-shell-migration/outputs/implementation-summary.md`（補正 #1）
@@ -90,6 +103,7 @@
 - `SidebarShell.server.tsx` の server 側 cookie 読み取り差分
 - focused Vitest spec
 - 親 workflow `unified-sidebar-shell-public-and-admin` Phase 12 / 検知元 `admin-layout-sidebar-shell-migration` の FU-ALSSM-001 を consumed に更新
+- canonical workflow `docs/30-workflows/completed-tasks/issue-1024-sidebar-collapse-cookie-persistence/` に実装・focused tests・Phase 12 strict outputs・aiworkflow artifact inventory を集約
 
 ---
 

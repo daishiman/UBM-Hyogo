@@ -2562,6 +2562,12 @@ node scripts/list-specs.js --topics
 | Boundaries | L38 |
 | Lessons Learned | L44 |
 
+### references/workflow-issue-1024-sidebar-collapse-cookie-persistence-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Lessons Learned | L23 |
+
 ### references/workflow-issue-1029-public-member-photo-display-artifact-inventory.md
 
 | セクション | 行 |
@@ -2608,6 +2614,17 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | Lessons | L13 |
+
+### references/workflow-issue-229-indexes-rebuild-fail-fast-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Metadata | L3 |
+| Implementation Targets | L12 |
+| Workflow Artifacts | L20 |
+| Evidence | L31 |
+| User-Gated | L39 |
+| Lessons | L43 |
 
 ### references/workflow-issue-230-lefthook-edit-guard-artifact-inventory.md
 
@@ -6018,6 +6035,14 @@ node scripts/list-specs.js --topics
 | 苦戦箇所と知見 | L7 |
 | 運用知見 | L73 |
 
+### references/lessons-learned-issue-1024-sidebar-collapse-cookie-persistence-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| L-I1024-001: First-paint UI state needs a server-readable seed | L3 |
+| L-I1024-002: Split-token lint bypasses are not an acceptable boundary pattern | L7 |
+| L-I1024-003: Seed the existing state owner instead of adding a second store | L11 |
+
 ### references/lessons-learned-issue-106-admin-notes-repository-2026-05.md
 
 | セクション | 行 |
@@ -8317,15 +8342,15 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L3359 |
-| フェーズ構造（概要） | L3368 |
-| 品質ゲート（概要） | L3399 |
-| 出力テンプレート | L3410 |
-| 実行時のコマンド・エージェント・スキル | L3433 |
-| 昇格パターン集 | L3457 |
-| Current Active / Spec Created Tasks | L3459 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L3625 |
-| issue-998-members-publish-state-production-rollout | L3703 |
+| ドキュメント構成 | L3372 |
+| フェーズ構造（概要） | L3381 |
+| 品質ゲート（概要） | L3412 |
+| 出力テンプレート | L3423 |
+| 実行時のコマンド・エージェント・スキル | L3446 |
+| 昇格パターン集 | L3470 |
+| Current Active / Spec Created Tasks | L3472 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L3638 |
+| issue-998-members-publish-state-production-rollout | L3716 |
 
 ### references/task-workflow-backlog-part2.md
 
