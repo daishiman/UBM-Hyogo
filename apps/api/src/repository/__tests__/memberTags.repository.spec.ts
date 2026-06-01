@@ -101,6 +101,21 @@ describe("memberTags repository", () => {
       const result = await listTagsByMemberIds(ctx, []);
       expect(result).toHaveLength(0);
     });
+
+    it("batch SQL orders public tag responses deterministically", async () => {
+      const seenSql: string[] = [];
+      const originalPrepare = ctx.db.prepare.bind(ctx.db);
+      ctx.db.prepare = (sql: string) => {
+        seenSql.push(sql);
+        return originalPrepare(sql);
+      };
+
+      await listTagsByMemberIds(ctx, [asMemberId("m_001")]);
+      const sql = seenSql.at(-1) ?? "";
+      expect(sql).toContain(
+        "ORDER BY mt.member_id ASC, td.category ASC, td.label ASC, td.code ASC",
+      );
+    });
   });
 
   describe("assignTagsToMember boundary", () => {

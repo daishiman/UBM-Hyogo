@@ -974,10 +974,11 @@ node scripts/list-specs.js --topics
 | テスト戦略 | L160 |
 | UBM-Hyogo D1 Repository 契約（02b） | L190 |
 | Schema Drift ADR Gate | L223 |
-| エラーハンドリング | L242 |
-| Conversation DB 初期化パターン | L273 |
-| UBM-Hyogo Schema Sync Contract（03a） | L275 |
-| ベクトル検索実装（DiskANN） | L395 |
+| Public member tags batch helper boundary（Issue #224） | L232 |
+| エラーハンドリング | L254 |
+| Conversation DB 初期化パターン | L285 |
+| UBM-Hyogo Schema Sync Contract（03a） | L287 |
+| ベクトル検索実装（DiskANN） | L407 |
 
 ### references/database-implementation-details.md
 
@@ -1791,7 +1792,7 @@ node scripts/list-specs.js --topics
 | 依存関係管理戦略 | L190 |
 | 無料枠の活用ガイド | L283 |
 | CI/CDツール選定 | L315 |
-| 学習リソースとコミュニティ | L420 |
+| 学習リソースとコミュニティ | L423 |
 
 ### references/technology-devops-details.md
 
@@ -2602,6 +2603,24 @@ node scripts/list-specs.js --topics
 | Branch-level deletion check | L101 |
 | Downstream task: issue-195-sync-jobs-contract-schema-consolidation-001（2026-05-04） | L105 |
 
+### references/workflow-issue-224-public-members-tags-batch-fetch-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Lessons | L13 |
+
+### references/workflow-issue-230-lefthook-edit-guard-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Summary | L3 |
+| Workflow Files | L13 |
+| Implemented Files | L30 |
+| Evidence Boundary | L41 |
+| Requirement Mapping | L50 |
+| Lessons | L59 |
+| User-Gated Items | L70 |
+
 ### references/workflow-issue-247-apps-web-opennext-config-regression-tests-artifact-inventory.md
 
 | セクション | 行 |
@@ -2630,6 +2649,13 @@ node scripts/list-specs.js --topics
 | Runtime Boundary | L41 |
 | Consumed / Superseded Trace | L47 |
 | Lessons Learned | L53 |
+
+### references/workflow-issue-264-cron-schedule-free-tier-guard-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Evidence | L20 |
+| Lessons Learned | L26 |
 
 ### references/workflow-issue-274-public-pages-ogp-sitemap-robots-artifact-inventory.md
 
@@ -3578,6 +3604,13 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | Lessons Learned | L19 |
+
+### references/workflow-member-publish-recovery-form-ops-and-admin-link-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Status | L13 |
+| Lessons Learned | L21 |
 
 ### references/workflow-members-list-prototype-alignment-artifact-inventory.md
 
@@ -5121,22 +5154,22 @@ node scripts/list-specs.js --topics
 | 概要 | L6 |
 | サービス構成 | L13 |
 | 現行 canonical: UT-06 実行前ゲート（2026-04-27） | L25 |
-| API Worker Cron（u-04 Sheets → D1 sync） | L51 |
-| Cloudflare Alert Policy IaC（UT-17 follow-up 004 / 006） | L87 |
-| D1 Backup Long-Term Storage（UT-06-FU-E / 2026-05-01） | L102 |
-| Cloudflare Workers デプロイ（Next.js / OpenNext） | L121 |
-| Cloudflare Workers デプロイ（APIバックエンド） | L209 |
-| Cloudflare D1 データベース | L375 |
-| Cloudflare KV セッションキャッシュ（UT-13 / SESSION_KV） | L408 |
-| GitHub Actions CI/CD | L520 |
-| プレビューデプロイメント | L551 |
-| カスタムドメイン設定 | L567 |
-| 環境分離 | L580 |
-| ロールバック戦略 | L590 |
-| モニタリング/アラート（UT-08 連携） | L611 |
-| per-sync write cap 連続到達アラート（03b-followup-006 / Issue #199） | L628 |
-| Long-term Analytics Evidence（Issue #347 / 2026-05-05） | L663 |
-| 変更履歴 | L712 |
+| API Worker Cron（u-04 Sheets → D1 sync / historical manual-only） | L51 |
+| Cloudflare Alert Policy IaC（UT-17 follow-up 004 / 006） | L90 |
+| D1 Backup Long-Term Storage（UT-06-FU-E / 2026-05-01） | L105 |
+| Cloudflare Workers デプロイ（Next.js / OpenNext） | L124 |
+| Cloudflare Workers デプロイ（APIバックエンド） | L212 |
+| Cloudflare D1 データベース | L378 |
+| Cloudflare KV セッションキャッシュ（UT-13 / SESSION_KV） | L411 |
+| GitHub Actions CI/CD | L523 |
+| プレビューデプロイメント | L554 |
+| カスタムドメイン設定 | L570 |
+| 環境分離 | L583 |
+| ロールバック戦略 | L593 |
+| モニタリング/アラート（UT-08 連携） | L614 |
+| per-sync write cap 連続到達アラート（03b-followup-006 / Issue #199） | L631 |
+| Long-term Analytics Evidence（Issue #347 / 2026-05-05） | L666 |
+| 変更履歴 | L715 |
 
 ### references/deployment-core.md
 
@@ -6024,6 +6057,29 @@ node scripts/list-specs.js --topics
 | OP-ISSUE195FU002-2: current canonical deletion 検知の運用 | L80 |
 | 再確認・適用記録: issue-195-sync-jobs-contract-schema-consolidation-001（2026-05-04） | L89 |
 
+### references/lessons-learned-issue-224-public-members-tags-batch-fetch-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| L-I224-001: helper return shape は Phase 1 で verbatim 固定する | L3 |
+| L-I224-002: expand は opt-in response 拡張として扱う | L7 |
+| L-I224-003: public tag response は再構成して fail-close する | L11 |
+| L-I224-004: batch response は SQL order を持たせる | L15 |
+| L-I224-005: IN 句の placeholder はメンバー数から動的生成し bind で渡す | L19 |
+| L-I224-006: 空配列時は batch query を発行しない | L23 |
+| L-I224-007: expand whitelist は repeated / comma 両形式を受け unknown は黙殺する | L27 |
+| L-I224-008: repository はフラット配列のまま返し groupBy は use-case 層に置く | L31 |
+| L-I224-009: contract test は appliedQuery の key 集合を固定して shape 回帰を防ぐ | L35 |
+| L-I224-010: zod schema と type 導出を同一サイクルで連動更新する | L39 |
+
+### references/lessons-learned-issue-230-lefthook-edit-guard-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| 概要 | L11 |
+| 苦戦箇所 | L17 |
+| 同一 wave で正本化した派生・参照 | L47 |
+
 ### references/lessons-learned-issue-274-public-pages-ogp-sitemap-robots-2026-05.md
 
 | セクション | 行 |
@@ -6527,6 +6583,14 @@ node scripts/list-specs.js --topics
 | 結論 | L22 |
 | 教訓 (Lesson IDs) | L30 |
 | 関連 | L39 |
+
+### references/lessons-learned-member-publish-recovery-form-ops-and-admin-link-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| 教訓一覧 | L19 |
+| skill-feedback 申し送り | L63 |
+| 確認パス | L67 |
 
 ### references/lessons-learned-parallel-i03-dialog-refresh-order-2026-05.md
 
@@ -7113,8 +7177,8 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 概要 | L3 |
 | 仕様書インデックス | L7 |
-| 利用順序 | L124 |
-| 関連ドキュメント | L129 |
+| 利用順序 | L125 |
+| 関連ドキュメント | L130 |
 
 ### references/llm-embedding.md
 
@@ -8251,15 +8315,15 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L3318 |
-| フェーズ構造（概要） | L3327 |
-| 品質ゲート（概要） | L3358 |
-| 出力テンプレート | L3369 |
-| 実行時のコマンド・エージェント・スキル | L3392 |
-| 昇格パターン集 | L3416 |
-| Current Active / Spec Created Tasks | L3418 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L3582 |
-| issue-998-members-publish-state-production-rollout | L3660 |
+| ドキュメント構成 | L3359 |
+| フェーズ構造（概要） | L3368 |
+| 品質ゲート（概要） | L3399 |
+| 出力テンプレート | L3410 |
+| 実行時のコマンド・エージェント・スキル | L3433 |
+| 昇格パターン集 | L3457 |
+| Current Active / Spec Created Tasks | L3459 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L3624 |
+| issue-998-members-publish-state-production-rollout | L3702 |
 
 ### references/task-workflow-backlog-part2.md
 

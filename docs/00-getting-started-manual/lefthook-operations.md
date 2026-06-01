@@ -136,6 +136,38 @@ main を feature ブランチへ取り込む sync-merge では、`staged-task-di
 
 これにより `git commit` / `git push` で `--no-verify` を付ける必要がなくなる。feature コミット/push は従来通り hook が機能する。Claude Code を含む AI エージェントは `--no-verify` の常用を避け、誤検知が発生する場合は本ポリシーに沿って hook 自体を改善する。
 
+## lefthook.yml 編集ガード / hook 整合性 gate（issue-230）
+
+`lefthook.yml` は Git hook の唯一の正本である（[構成ファイル](#構成ファイル) / CLAUDE.md「Git hook の方針」）。この正本からの逸脱 ——
+手書き `.git/hooks/*` の混入や `lefthook.yml` への偶発的直編集 —— を機械検知するため、以下 2 層の guard を設けている。
+
+### 一次防衛: pre-commit hook (lefthook-edit-guard)
+
+`lefthook.yml` の `pre-commit.commands.lefthook-edit-guard`（実体: `scripts/hooks/lefthook-edit-guard.sh`）が commit 時に次を検査する。read-only でファイル変更は行わない。
+
+| 検査 | 内容 | block 条件 |
+|------|------|-----------|
+| lefthook.yml 直編集 ack ゲート | staged 対象に `lefthook.yml` が含まれるか | `LEFTHOOK_EDIT_ACK=1` が無ければ block |
+| 手書き .git/hooks 検知 | `.git/hooks/` 配下の手書きファイル（`*.sample`・lefthook 注入署名を含む managed hook を除く） | offender が 1 件でもあれば block |
+
+- **`lefthook.yml` を意図的に編集する場合**: `LEFTHOOK_EDIT_ACK=1 git commit ...` で 1 step の明示 ack を付けて通過する。
+- **手書き hook を検知された場合**: 当該ファイルを削除し、必要な hook は `lefthook.yml` に定義する（`rm <path> && mise exec -- pnpm install` で lefthook install が再配置）。
+- **false positive 抑制**: `.git/hooks/*.sample` と lefthook 注入署名（`LEFTHOOK`/`lefthook` 文字列）を含む hook は除外。merge / rebase / cherry-pick / revert 進行中（`$GIT_DIR/MERGE_HEAD` 等）は全 guard を skip する。
+
+### 二次防衛: CI gate (verify-hook-integrity)
+
+`.github/workflows/verify-hook-integrity.yml`（push / PR → `main`, `dev`）が `scripts/verify-hook-integrity.sh` を実行する。`.git/hooks/` は repo 管理外で CI checkout に現れないため、CI では **repo に observe 可能な SSOT 整合** を検証する。
+
+| 検査 | 内容 |
+|------|------|
+| A. 参照整合 | `lefthook.yml` の `run: bash\|node <path>` が参照するスクリプトが実在するか |
+| B. tracked stray hook | git 管理下に手書き hook の shadow（`hooks/pre-commit` 等）が commit されていないか |
+| C. 構造健全性 | `lefthook.yml` に `min_version:` 行が存在するか |
+
+local 実行は `bash scripts/verify-hook-integrity.sh`（exit 0=ok / 1=fail、`::error::` 行で fail 箇所を annotation 表示）。
+
+> テスト: `scripts/hooks/__tests__/lefthook-edit-guard.spec.ts` / `scripts/__tests__/verify-hook-integrity.spec.ts`（一時 git repo fixture で child_process 実行検証）。
+
 ## トラブルシューティング
 
 | 症状 | 原因 | 対処 |

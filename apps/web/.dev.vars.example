@@ -14,3 +14,6 @@ NEXT_PUBLIC_SENTRY_TRACES_SAMPLE_RATE=1.0
 SENTRY_DSN_WEB=op://UBM-Hyogo/Sentry Web DSN (local)/dsn
 NEXT_PUBLIC_SENTRY_DSN=op://UBM-Hyogo/Sentry Web DSN (local)/public_dsn
 AUTH_SECRET=op://Personal/UBM Auth/secret
+# admin sync proxy が server-only に Authorization: Bearer として注入する。
+# apps/api 側 SYNC_ADMIN_TOKEN と同一値（Cloudflare Secrets で投入、toml には書かない）。
+SYNC_ADMIN_TOKEN=op://Personal/UBM Sync Admin/token

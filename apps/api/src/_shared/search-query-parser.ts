@@ -7,6 +7,10 @@ import { z } from "zod";
 export const SortZ = z.enum(["recent", "name"]);
 export const DensityZ = z.enum(["comfy", "dense", "list"]);
 
+// expand whitelist。現時点で受理する値は "tags" のみ。未知値は黙って除外する。
+const EXPAND_WHITELIST = ["tags"] as const;
+type ExpandKey = (typeof EXPAND_WHITELIST)[number];
+
 export const DEFAULT_PUBLIC_MEMBER_QUERY: ParsedPublicMemberQuery = {
   q: "",
   zone: "all",
@@ -16,6 +20,7 @@ export const DEFAULT_PUBLIC_MEMBER_QUERY: ParsedPublicMemberQuery = {
   density: "comfy",
   page: 1,
   limit: 24,
+  expand: [],
 };
 
 const RawZ = z.object({
@@ -27,6 +32,7 @@ const RawZ = z.object({
   density: DensityZ.catch("comfy"),
   page: z.coerce.number().int().catch(1),
   limit: z.coerce.number().int().catch(24),
+  expand: z.array(z.string()).default([]),
 });
 
 export type ParsedPublicMemberQuery = {
@@ -38,6 +44,7 @@ export type ParsedPublicMemberQuery = {
   density: z.infer<typeof DensityZ>;
   page: number;
   limit: number;
+  expand: ExpandKey[];
 };
 
 const LIMIT_MAX = 100;
@@ -67,6 +74,18 @@ export const parsePublicMemberQuery = (
     : tagRaw
       ? [tagRaw]
       : [];
+  // expand は tags と同じ流儀（repeated param / カンマ区切り両対応）で前処理し、
+  // whitelist filter 済みの値だけを RawZ に渡す（未知値・空文字は黙って除外）。
+  const expandRaw = raw.expand;
+  const expandList = (
+    Array.isArray(expandRaw) ? expandRaw : expandRaw ? [expandRaw] : []
+  )
+    .filter((e): e is string => typeof e === "string")
+    .flatMap((e) => e.split(","))
+    .map((e) => e.trim())
+    .filter((e): e is ExpandKey =>
+      (EXPAND_WHITELIST as readonly string[]).includes(e),
+    );
   const result = RawZ.safeParse({
     q: typeof raw.q === "string" ? raw.q : "",
     zone: typeof raw.zone === "string" ? raw.zone : "all",
@@ -76,6 +95,7 @@ export const parsePublicMemberQuery = (
     density: typeof raw.density === "string" ? raw.density : "comfy",
     page: raw.page ?? 1,
     limit: raw.limit ?? 24,
+    expand: expandList,
   });
   const data = result.success ? result.data : DEFAULT_PUBLIC_MEMBER_QUERY;
   return {
@@ -87,5 +107,6 @@ export const parsePublicMemberQuery = (
     density: data.density,
     page: Math.max(1, Math.trunc(data.page)),
     limit: clampLimit(data.limit),
+    expand: Array.from(new Set(data.expand as ExpandKey[])),
   };
 };
