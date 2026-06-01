@@ -1,0 +1,32 @@
+Command:
+mise exec -- pnpm exec vitest run --root=. --config=vitest.config.ts apps/web/src/components/shell/__tests__/SidebarMobileTrigger.spec.tsx apps/web/src/components/shell/__tests__/SidebarDrawer.spec.tsx apps/web/src/components/shell/__tests__/useSidebarState.spec.tsx apps/web/src/components/shell/__tests__/SidebarShell.spec.tsx
+
+Result:
+PASS
+
+Files:
+- apps/web/src/components/shell/__tests__/useSidebarState.spec.tsx: 8 tests passed
+- apps/web/src/components/shell/__tests__/SidebarMobileTrigger.spec.tsx: 2 tests passed
+- apps/web/src/components/shell/__tests__/SidebarDrawer.spec.tsx: 4 tests passed
+- apps/web/src/components/shell/__tests__/SidebarShell.spec.tsx: 7 tests passed
+
+Summary:
+Test Files 4 passed
+Tests 21 passed
+
+Additional verification:
+- `mise exec -- pnpm --filter @ubm-hyogo/web typecheck`: PASS
+- `mise exec -- pnpm --filter @ubm-hyogo/web lint`: PASS
+- `mise exec -- pnpm --filter @ubm-hyogo/web verify-design-tokens`: PASS (1 file / 9 tests)
+
+Browser/dev-server check:
+- Dev server started at `http://127.0.0.1:3014`.
+- Opening `/` did not complete because the current app baseline fails before rendering root content:
+  - Auth.js `MissingSecret`
+  - `PublicMemberListViewZ.parse` failed because `topTags` was undefined in `/public/members` response.
+- This is outside the sidebar drawer change; focused component tests remain the primary Gate-B evidence.
+
+Notes:
+- Initial run failed because jsdom did not provide window.matchMedia.
+- Fix: browserMatchMedia now guards typeof window.matchMedia === "function".
+- Re-run passed with 21/21 tests.
