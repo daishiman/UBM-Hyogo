@@ -15,7 +15,33 @@
     "docsOnly": true,
     "workflow_state": "spec_created",
     "scope": "specification-cleanup",
-    "closeOutType": "legacy-umbrella"
+    "closeOutType": "legacy-umbrella",
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-05-31T00:00:00+09:00",
+        "evidence_path": "docs/30-workflows/completed-tasks/ut21-forms-sync-conflict-closeout/outputs/phase-12/phase12-task-spec-compliance-check.md",
+        "approver": "daishiman",
+        "notes": "spec_review: UT-21 Forms sync close-out の Phase 1-13 仕様書一式と strict Phase 12 成果物が揃い、canonical 9 見出し compliance check が pass"
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "waived",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/ut21-forms-sync-conflict-closeout/outputs/phase-11/main.md",
+        "approver": "daishiman",
+        "notes": "implementation_review: docs-only close-out（仕様正本整合・current facts 追記）でコード変更ゼロ。実装ウェーブなしのため waived"
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/ut21-forms-sync-conflict-closeout/outputs/phase-13/pr-info.md",
+        "approver": "daishiman",
+        "notes": "external_ops: commit / push / PR / GitHub Issue 操作は user-gated"
+      }
+    ]
   },
   "priority": "HIGH",
   "githubIssue": {
