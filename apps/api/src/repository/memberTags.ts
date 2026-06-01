@@ -1,18 +1,25 @@
 // member_tags + tag_definitions テーブルへのアクセス。
 //
-// 不変条件 #13（2026-05 再定義 / issue-982）:
-//   - AI / Google Form 由来の tag「提案」は tagQueueResolve workflow の resolve 経由で承認する
-//     （`assignTagsToMember` がその専用 helper。tagQueueResolve workflow 以外からの呼び出し禁止）。
-//   - 管理者による tag の「手動付与 / 解除」は admin manual 経路として
+// 不変条件 #13（2026-06 第3経路追加 / issue-1036。2026-05 再定義 / issue-982）:
+//   - 第1経路: AI / Google Form 由来の tag「提案」は tagQueueResolve workflow の resolve 経由で
+//     承認する（`assignTagsToMember` がその専用 helper。tagQueueResolve workflow 以外からの
+//     呼び出し禁止）。
+//   - 第2経路: 管理者による単一 member の tag「手動付与 / 解除」は admin manual 経路として
 //     `assignTagToMemberByAdmin` / `unassignTagFromMemberByAdmin` を使い、必ず audit
 //     （admin.member.tag_assigned / admin.member.tag_unassigned）を記録する。
-//   - member_tags への直接 write は上記 2 経路に限り許可する。それ以外の新規 write 経路を
-//     生やす場合は不変条件 #13 自体の変更レビューを経ること。
+//   - 第3経路: 管理者による bulk（複数 member × 複数 tag）の「手動付与 / 解除」は
+//     `bulkApplyMemberTagsByAdmin` を使う。実 mutation した member×tag 単位で必ず audit
+//     （admin.member.tag_assigned / tag_unassigned・第2経路と action 名 parity）を記録し、
+//     after_json / before_json に batchId を埋めて bulk 相関を残す（audit_log に correlation_id
+//     列は無いため）。
+//   - member_tags への直接 write は上記 3 経路に限り許可する。それ以外の新規 write 経路を
+//     生やす場合は不変条件 #13 自体の変更レビューと type-level gate
+//     （`memberTags.readonly.test-d.ts`）allow list 更新を経ること。
 //
 // read 関数（list* / get* / find*）は read-only であり gate 対象外。
 
 import type { DbCtx } from "./_shared/db";
-import type { MemberId, TagId } from "./_shared/brand";
+import type { MemberId, TagId, AdminId, AdminEmail } from "./_shared/brand";
 import { placeholders } from "./_shared/sql";
 
 /**
@@ -246,6 +253,109 @@ export async function getMemberDeletedFlag(
     .bind(mid)
     .first<{ is_deleted: number }>();
   return status?.is_deleted === 1;
+}
+
+// ---------------------------------------------------------------------------
+// 不変条件 #13 第3経路（bulk admin manual write / issue-1036）
+//   複数 member × 複数 tag を直積で assign/unassign する。route 側（POST /admin/members/tags/bulk）
+//   から呼び、実 mutation（assigned/unassigned）した item ごとに audit を append する。
+// ---------------------------------------------------------------------------
+
+export type BulkTagOp = "assign" | "unassign";
+
+export type BulkTagItemStatus =
+  | "assigned" // assign で新規 INSERT（meta.changes > 0）
+  | "unassigned" // unassign で実 DELETE（meta.changes > 0）
+  | "noop" // assign で既存 / unassign で未存在（changes = 0・冪等・AC-5）
+  | "skipped_deleted" // member が書き込み対象外（is_deleted=1 または member 不在・AC-4）
+  | "tag_not_found"; // tag_definitions.active = 1 に該当なし（AC-2）
+
+export interface BulkTagOpResultItem {
+  readonly memberId: string;
+  readonly tagId: string;
+  readonly status: BulkTagItemStatus;
+}
+
+export interface BulkApplyMemberTagsResult {
+  readonly batchId: string;
+  readonly results: ReadonlyArray<BulkTagOpResultItem>;
+}
+
+/**
+ * 不変条件 #13 第3経路（bulk admin manual write）。
+ * 複数 member × 複数 tag を直積で assign/unassign する。
+ * - 書き込み対象外 member（is_deleted=1 / 不在）は skipped_deleted で skip し他 member は継続（AC-4）
+ * - 未登録 / inactive tag は tag_not_found（AC-2）
+ * - assign は INSERT OR IGNORE（複合 PK 自然冪等）、unassign は DELETE
+ * - changes=0 は noop（再送冪等・AC-5・#913 非依存）
+ * - audit は route 側で実 mutation（assigned/unassigned）した item だけ append する（AC-3）。
+ *   bulk 相関のため戻り値の batchId を audit after_json/before_json に埋める。
+ *
+ * tag master active set と member 書き込み可否を事前に 1 クエリずつ一括取得して N+1 を回避する。
+ * 部分成功レポート（AC-2）と「実 mutation のみ audit」（AC-3）を両立するため D1 `db.batch()`
+ * （all-or-nothing）は使わず、既存 `assignTagToMemberByAdmin` と同じ逐次 loop で実装する。
+ */
+export async function bulkApplyMemberTagsByAdmin(
+  c: DbCtx,
+  input: { memberIds: MemberId[]; tagIds: string[]; op: BulkTagOp },
+  actor: { id: AdminId | null; email: AdminEmail | null },
+): Promise<BulkApplyMemberTagsResult> {
+  const batchId = crypto.randomUUID();
+  const results: BulkTagOpResultItem[] = [];
+
+  // 重複 memberId / tagId は dedupe（同一 item の二重評価を防ぐ）
+  const memberIds = [...new Set(input.memberIds)];
+  const tagIds = [...new Set(input.tagIds)];
+  if (memberIds.length === 0 || tagIds.length === 0) {
+    return { batchId, results };
+  }
+
+  // (1) active tag master set を 1 クエリで取得
+  const master = await getTagDefinitionMaster(c);
+  const activeTagIds = new Set(master.map((t) => t.tagId));
+
+  // (2) member 存在 + is_deleted を 1 クエリ一括取得 → 書き込み可能 member の Set
+  const ph = placeholders(memberIds.length);
+  const rows = await c.db
+    .prepare(
+      `SELECT mi.member_id AS member_id,
+              COALESCE(ms.is_deleted, 0) AS is_deleted
+       FROM member_identities mi
+       LEFT JOIN member_status ms ON ms.member_id = mi.member_id
+       WHERE mi.member_id IN (${ph})`,
+    )
+    .bind(...memberIds)
+    .all<{ member_id: string; is_deleted: number }>();
+  const writable = new Set(
+    rows.results.filter((r) => r.is_deleted !== 1).map((r) => r.member_id),
+  );
+
+  const assignedBy: string = actor.email ?? "system";
+
+  // (3) memberId × tagId 直積 loop。member skip を tag 評価より先に判定する。
+  for (const memberId of memberIds) {
+    if (!writable.has(memberId)) {
+      for (const tagId of tagIds) {
+        results.push({ memberId, tagId, status: "skipped_deleted" });
+      }
+      continue;
+    }
+    for (const tagId of tagIds) {
+      if (!activeTagIds.has(tagId)) {
+        results.push({ memberId, tagId, status: "tag_not_found" });
+        continue;
+      }
+      if (input.op === "assign") {
+        const changed = await assignTagToMemberByAdmin(c, memberId, tagId, assignedBy);
+        results.push({ memberId, tagId, status: changed ? "assigned" : "noop" });
+      } else {
+        const changed = await unassignTagFromMemberByAdmin(c, memberId, tagId);
+        results.push({ memberId, tagId, status: changed ? "unassigned" : "noop" });
+      }
+    }
+  }
+
+  return { batchId, results };
 }
 
 // 型エクスポート
