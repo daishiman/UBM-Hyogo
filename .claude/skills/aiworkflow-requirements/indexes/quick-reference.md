@@ -13,6 +13,17 @@
 | inventory | `.claude/skills/aiworkflow-requirements/references/workflow-member-publish-recovery-form-ops-and-admin-link-artifact-inventory.md` |
 | user gate | production flag, Cloudflare secret injection, deploy, authenticated screenshots, commit, push, PR |
 
+## issue-57-kv-r2-guardrail-degrade-design（2026-05-31）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-57-kv-r2-guardrail-degrade-design/` |
+| status | `implemented_local_evidence_captured / implementation / NON_VISUAL / external_ops_pending_user_gate` |
+| purpose | KV/R2 free-tier guardrail drift を正本化し、application audit_log R2 export を repository variable で即時 pause 可能にする |
+| implementation | `scripts/audit-log/export-to-r2.ts` adds `paused` short-circuit; `.github/workflows/audit-log-cold-storage.yml` forwards `AUDIT_COLD_STORAGE_EXPORT_PAUSED`; `apps/api/src/env.ts` / `alert-relay.ts` make `ALERT_DEDUP_KV` optional fail-open |
+| specs | `docs/00-getting-started-manual/specs/08-free-database.md`, `.claude/skills/aiworkflow-requirements/references/deployment-cloudflare.md`, `docs/30-workflows/completed-tasks/05a-parallel-observability-and-cost-guardrails/outputs/phase-05/cost-guardrail-runbook.md` |
+| user gate | GitHub variable mutation, production scheduled export, commit, push, PR |
+
 ## issue-1007-density-toggle-help-hint-hardening（2026-05-30）
 
 | 項目 | 値 |

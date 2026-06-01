@@ -20,6 +20,21 @@
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-member-publish-recovery-form-ops-and-admin-link-artifact-inventory.md` |
 | user gate | production flag, Cloudflare secret injection, deploy, authenticated screenshots, commit, push, PR |
 
+### issue-57-kv-r2-guardrail-degrade-design（2026-05-31）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / NON_VISUAL` |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-57-kv-r2-guardrail-degrade-design/` |
+| 目的 | 05a が予防しようとした KV/R2 ドリフト（Issue #514 / #315 の R2 audit cold-storage binding 追加で現実化）を正本仕様・runbook に同期し、実稼働中の R2 export を env フラグで停止できる executable kill-switch を実装する |
+| implementation targets | `scripts/audit-log/export-to-r2.ts`（`AUDIT_COLD_STORAGE_EXPORT_PAUSED` kill-switch / `paused` short-circuit + `status: "paused"`）, `scripts/audit-log/__tests__/export-to-r2.spec.ts`, `apps/api/src/env.ts`（`ALERT_DEDUP_KV` required→optional）, `apps/api/src/routes/internal/alert-relay.ts`（KV optional fail-open）, `apps/api/src/routes/internal/__tests__/alert-relay.spec.ts`, `apps/api/src/routes/internal/__tests__/alert-relay.sheets-auth.contract.spec.ts`, `.github/workflows/audit-log-cold-storage.yml`, `docs/00-getting-started-manual/specs/08-free-database.md`, `.claude/skills/aiworkflow-requirements/references/deployment-cloudflare.md`, `docs/30-workflows/completed-tasks/05a-parallel-observability-and-cost-guardrails/outputs/phase-05/cost-guardrail-runbook.md` |
+| invariant | degrade は env フラグ kill-switch（`=== "true"` 厳密一致 + GHA `vars.* || 'false'` fallback）で executable 化。`paused` short-circuit は外部 I/O 開始前に置く。補助層 KV は fail-open（dedup を諦め配信継続）。新規 binding 追加（UT-12/UT-13/ut-17-followup-002）は scope 外として分離 |
+| evidence | export-to-r2 + alert-relay focused Vitest PASS（root config 2 files / 43 tests）, sheets-auth contract `--config vitest.d1.config.ts` PASS（1 file / 4 tests）, api typecheck PASS, lint PASS, validate-phase-output 0 errors |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-57-kv-r2-guardrail-degrade-artifact-inventory.md` |
+| lessons | `.claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-issue-57-kv-r2-guardrail-degrade-2026-05.md`（L-I57-001..006） |
+| follow-ups | `docs/30-workflows/unassigned-task/issue-57-followup-001..003`（binding drift CI gate / d1-backup pause linkage / KV alert policy drift detection） |
+| user gate | commit, push, PR（`Refs #57`）, GitHub variable mutation（`AUDIT_COLD_STORAGE_EXPORT_PAUSED`）, production scheduled export |
+
 ### issue-1006-members-selected-filters-chip-ux-hardening（2026-05-30）
 
 | 項目 | 値 |
