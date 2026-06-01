@@ -115,8 +115,8 @@ export interface Env extends SyncEnv, ResponseSyncEnv {
   readonly CF_ALERT_RUNBOOK_URL?: string;
 
   // ut-17-followup-002: alert-relay dedup を isolate 跨ぎで永続化する KV namespace。
-  // wrangler.toml の `[[env.{staging,production}.kv_namespaces]]` で binding = "ALERT_DEDUP_KV" を割当てる。
-  readonly ALERT_DEDUP_KV: KVNamespace;
+  // 現行 wrangler.toml では user-gated のためコメントアウト。未活性時は alert delivery を優先し dedup は fail-open。
+  readonly ALERT_DEDUP_KV?: KVNamespace;
 
   // UT-25-DERIV-02 / issue-857: SA key 失効監視 health check → alert-relay 内部 POST 用。
   // API_INTERNAL_BASE_URL は wrangler.toml の各 env vars で自 Worker public URL に固定する。
