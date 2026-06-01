@@ -2976,6 +2976,17 @@ node scripts/list-specs.js --topics
 | Implemented Artifacts | L28 |
 | State Classification | L38 |
 
+### references/workflow-issue-57-kv-r2-guardrail-degrade-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| 背景 | L10 |
+| Implementation Targets | L17 |
+| Evidence | L30 |
+| Unassigned follow-ups | L38 |
+| User-Gated Boundary | L44 |
+| Lessons Learned | L49 |
+
 ### references/workflow-issue-572-attendance-provider-production-runtime-smoke-artifact-inventory.md
 
 | セクション | 行 |
@@ -5106,17 +5117,17 @@ node scripts/list-specs.js --topics
 | D1 Backup Long-Term Storage（UT-06-FU-E / 2026-05-01） | L102 |
 | Cloudflare Workers デプロイ（Next.js / OpenNext） | L121 |
 | Cloudflare Workers デプロイ（APIバックエンド） | L209 |
-| Cloudflare D1 データベース | L357 |
-| Cloudflare KV セッションキャッシュ（UT-13 / SESSION_KV） | L390 |
-| GitHub Actions CI/CD | L502 |
-| プレビューデプロイメント | L533 |
-| カスタムドメイン設定 | L549 |
-| 環境分離 | L562 |
-| ロールバック戦略 | L572 |
-| モニタリング/アラート（UT-08 連携） | L593 |
-| per-sync write cap 連続到達アラート（03b-followup-006 / Issue #199） | L610 |
-| Long-term Analytics Evidence（Issue #347 / 2026-05-05） | L645 |
-| 変更履歴 | L694 |
+| Cloudflare D1 データベース | L375 |
+| Cloudflare KV セッションキャッシュ（UT-13 / SESSION_KV） | L408 |
+| GitHub Actions CI/CD | L520 |
+| プレビューデプロイメント | L551 |
+| カスタムドメイン設定 | L567 |
+| 環境分離 | L580 |
+| ロールバック戦略 | L590 |
+| モニタリング/アラート（UT-08 連携） | L611 |
+| per-sync write cap 連続到達アラート（03b-followup-006 / Issue #199） | L628 |
+| Long-term Analytics Evidence（Issue #347 / 2026-05-05） | L663 |
+| 変更履歴 | L712 |
 
 ### references/deployment-core.md
 
@@ -8222,15 +8233,15 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L3288 |
-| フェーズ構造（概要） | L3297 |
-| 品質ゲート（概要） | L3328 |
-| 出力テンプレート | L3339 |
-| 実行時のコマンド・エージェント・スキル | L3362 |
-| 昇格パターン集 | L3386 |
-| Current Active / Spec Created Tasks | L3388 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L3552 |
-| issue-998-members-publish-state-production-rollout | L3630 |
+| ドキュメント構成 | L3303 |
+| フェーズ構造（概要） | L3312 |
+| 品質ゲート（概要） | L3343 |
+| 出力テンプレート | L3354 |
+| 実行時のコマンド・エージェント・スキル | L3377 |
+| 昇格パターン集 | L3401 |
+| Current Active / Spec Created Tasks | L3403 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L3567 |
+| issue-998-members-publish-state-production-rollout | L3645 |
 
 ### references/task-workflow-backlog-part2.md
 

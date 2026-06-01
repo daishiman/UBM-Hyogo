@@ -63,10 +63,12 @@ async function handleSheetsAuthAlert(
   const dedupeKey = `alert:sheets-auth:${payload.code}:${windowKey}`;
 
   let seen: string | null = null;
-  try {
-    seen = await c.env.ALERT_DEDUP_KV.get(dedupeKey);
-  } catch (error) {
-    await logKvOperationError("get", error, dedupeKey);
+  if (c.env.ALERT_DEDUP_KV) {
+    try {
+      seen = await c.env.ALERT_DEDUP_KV.get(dedupeKey);
+    } catch (error) {
+      await logKvOperationError("get", error, dedupeKey);
+    }
   }
   const seenCount = parseSheetsAuthSeenCount(seen);
   if (seenCount >= 2) {
@@ -120,6 +122,9 @@ async function handleSheetsAuthAlert(
       502,
     );
   }
+  if (!c.env.ALERT_DEDUP_KV) {
+    return c.json({ ok: true, attempts: result.attempts, dedupPersisted: false });
+  }
   try {
     await c.env.ALERT_DEDUP_KV.put(dedupeKey, String(seenCount + 1), {
       expirationTtl: Math.ceil(Math.max(dedupeTtlMs, 10 * 60 * 1000) / 1000),
@@ -150,7 +155,7 @@ export interface AlertRelayEnv extends VerifyCfWebhookAuthEnv {
   // ut-17-followup-002: isolate 跨ぎ dedup を永続化する Cloudflare KV namespace。
   // generic alert は value "1"、sheets-auth は同一 10 分窓の送信 count。
   // metadata 不使用、TTL は dedupeTtlMs を秒換算した expirationTtl。
-  readonly ALERT_DEDUP_KV: KVNamespace;
+  readonly ALERT_DEDUP_KV?: KVNamespace;
 }
 
 export interface AlertRelayDeps {
@@ -250,10 +255,12 @@ export function createAlertRelayRoute(deps: AlertRelayDeps = {}): Hono<{ Binding
     // ut-17-followup-002: dedup state は KV 永続化。eventual consistency により
     // 同一リクエスト内 race（複数 isolate からの同時 read→put）は許容スコープ外。
     let seen: string | null = null;
-    try {
-      seen = await c.env.ALERT_DEDUP_KV.get(dedupeKey);
-    } catch (error) {
-      await logKvOperationError("get", error, dedupeKey);
+    if (c.env.ALERT_DEDUP_KV) {
+      try {
+        seen = await c.env.ALERT_DEDUP_KV.get(dedupeKey);
+      } catch (error) {
+        await logKvOperationError("get", error, dedupeKey);
+      }
     }
     if (seen !== null) {
       return c.json({ ok: true, deduped: true });
@@ -280,6 +287,9 @@ export function createAlertRelayRoute(deps: AlertRelayDeps = {}): Hono<{ Binding
         { ok: false, attempts: result.attempts, status: result.status, error: "slack delivery failed" },
         502,
       );
+    }
+    if (!c.env.ALERT_DEDUP_KV) {
+      return c.json({ ok: true, attempts: result.attempts, dedupPersisted: false });
     }
     try {
       await c.env.ALERT_DEDUP_KV.put(dedupeKey, "1", {
