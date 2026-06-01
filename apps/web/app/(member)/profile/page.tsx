@@ -18,6 +18,7 @@ import { ProfileHeader } from "./_components/ProfileHeader";
 import { PublicConsentCallout } from "./_components/PublicConsentCallout";
 import { StatusBanner } from "./_components/StatusSummary";
 import { FORM_RESPONDER_URL } from "@/lib/constants/form";
+import { ReflectionTimingNote } from "@/components/public/ReflectionTimingNote";
 import { VisibilitySummary } from "./_components/VisibilitySummary";
 import { ProfilePreview } from "./_components/ProfilePreview";
 import { ProfileFields } from "./_components/ProfileFields";
@@ -26,6 +27,7 @@ import { AttendanceList } from "./_components/AttendanceList";
 import { RequestActionPanel } from "./_components/RequestActionPanel";
 import { SectionError } from "@/components/member/SectionError";
 import type { SafeResult } from "@/lib/result";
+import { getStats } from "@/lib/api/public";
 import { safeServerFetch } from "@/lib/server-fetch/safe-fetch";
 import { pickProfileSummary } from "./_lib/profile-summary";
 
@@ -60,10 +62,16 @@ export default async function ProfilePage() {
 
   const me = meResult.data;
 
-  const profileResult = await safeServerFetch(
-    () => fetchAuthed<MeProfileResponse>("/me/profile"),
-    { codePrefix: "MEMBER_FETCH", rethrowOn: [AuthRequiredError] },
-  );
+  const [profileResult, statsResult] = await Promise.all([
+    safeServerFetch(
+      () => fetchAuthed<MeProfileResponse>("/me/profile"),
+      { codePrefix: "MEMBER_FETCH", rethrowOn: [AuthRequiredError] },
+    ),
+    safeServerFetch(
+      () => getStats({ revalidate: 60 }),
+      { codePrefix: "PUBLIC_STATS" },
+    ),
+  ]);
 
   if (!profileResult.ok) {
     if (profileResult.error.code === "MEMBER_FETCH_404") {
@@ -108,6 +116,13 @@ export default async function ProfilePage() {
         publicConsent={statusSummary.publicConsent}
         editResponseUrl={editResponseUrl}
         responderUrl={FORM_RESPONDER_URL}
+      />
+      <ReflectionTimingNote
+        surface="profile"
+        lastSyncAt={
+          statsResult.ok ? statsResult.data.lastSync.responseSyncFinishedAt : null
+        }
+        statsUnavailable={!statsResult.ok}
       />
       <VisibilitySummary sections={profile.sections} />
       <ProfilePreview
