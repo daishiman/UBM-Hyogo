@@ -1,0 +1,71 @@
+{
+  "title": "issue-230-lefthook-edit-guard",
+  "type": "implementation",
+  "status": "implemented_local_runtime_pending",
+  "feature": "issue-230-lefthook-edit-guard",
+  "created": "2026-05-31",
+  "lastUpdated": "2026-05-31",
+  "branch": "feat/issue-230-lefthook-edit-guard-spec",
+  "base": "dev",
+  "metadata": {
+    "taskType": "implementation",
+    "implementationDivision": "実装仕様書",
+    "implementation_mode": "new",
+    "visualEvidence": "NON_VISUAL",
+    "scope": "lefthook.yml direct-edit ack gate + hand-written .git/hooks detection (pre-commit local) + lefthook<->scripts/hooks integrity CI gate; implemented locally (8 files), focused vitest 12 PASS, typecheck/lint green; CI run + commit/push/PR user-gated",
+    "workflow_state": "implemented_local_runtime_pending",
+    "implementation_state": "implemented",
+    "githubIssue": 230,
+    "githubIssueState": "OPEN",
+    "parentWorkflow": "docs/30-workflows/completed-tasks/skill-ledger-t6-hook-idempotency/",
+    "investigationConclusion": "Issue #230 was unresolved in current code: no .git/hooks hand-write guard, no lefthook.yml direct-edit guard, no hook-integrity CI gate, and lefthook.yml not in CODEOWNERS. AC-1 'CI fail on .git/hooks hand-write' is structurally infeasible (.git is untracked, absent from CI checkout); re-mapped to a local pre-commit enforcement point plus a CI-observable lefthook<->scripts/hooks integrity gate. Implemented 2026-05-31: 8 files (5 new + 3 edits), focused vitest 12 PASS, typecheck/lint/shellcheck/YAML green. During implementation the hand-written hook exclusion was generalized from '*.sample only' to 'any dotted filename (*.*)' after a real-repo false positive on .git/hooks/*.old backups (git never executes dotted hook names). Commit/push/PR and issue #230 mutation are user-gated.",
+    "userGated": [
+      "CI run of verify-hook-integrity workflow (lands on push)",
+      "commit",
+      "push",
+      "PR creation",
+      "issue #230 comment/close mutation"
+    ],
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-05-31T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-230-lefthook-edit-guard/outputs/phase-12/main.md",
+        "approver": "daishiman",
+        "notes": "spec_review: Phase 1-13 spec authored for lefthook-edit-guard (pre-commit) + verify-hook-integrity (CI); AC-1..AC-4 mapped to observable enforcement surfaces"
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "passed",
+        "passed_at": "2026-05-31T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-230-lefthook-edit-guard/outputs/phase-11/manual-test-result.md",
+        "approver": "daishiman",
+        "notes": "implementation_review: 8 files implemented; focused vitest 12 PASS (lefthook-edit-guard 8 + verify-hook-integrity 4); typecheck/lint (6 pkg) + shellcheck + YAML parse green; guard/integrity run clean against real repo. Phase 2 design corrected: *.sample-only exclusion generalized to *.* (dotted) to fix real-repo .old backup false positive (LG-h added)"
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-230-lefthook-edit-guard/phase-13.md",
+        "approver": "daishiman",
+        "notes": "pr_review: pending — CI run of verify-hook-integrity, commit/push/PR and issue mutation are user-gated"
+      }
+    ]
+  },
+  "phases": {
+    "phase-1": { "name": "Requirements", "file": "phase-1.md", "status": "implemented" },
+    "phase-2": { "name": "Design", "file": "phase-2.md", "status": "implemented" },
+    "phase-3": { "name": "Design Review", "file": "phase-3.md", "status": "implemented" },
+    "phase-4": { "name": "Test Creation", "file": "phase-4.md", "status": "implemented" },
+    "phase-5": { "name": "Implementation", "file": "phase-5.md", "status": "implemented" },
+    "phase-6": { "name": "Test Expansion", "file": "phase-6.md", "status": "implemented" },
+    "phase-7": { "name": "Coverage Check", "file": "phase-7.md", "status": "implemented" },
+    "phase-8": { "name": "Refactoring", "file": "phase-8.md", "status": "implemented" },
+    "phase-9": { "name": "Quality Assurance", "file": "phase-9.md", "status": "implemented" },
+    "phase-10": { "name": "Final Review", "file": "phase-10.md", "status": "implemented" },
+    "phase-11": { "name": "Manual Test", "file": "phase-11.md", "status": "implemented" },
+    "phase-12": { "name": "Documentation", "file": "phase-12.md", "status": "implemented" },
+    "phase-13": { "name": "PR Creation", "file": "phase-13.md", "status": "spec_created" }
+  }
+}

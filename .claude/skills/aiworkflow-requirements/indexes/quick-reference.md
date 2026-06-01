@@ -15,6 +15,19 @@
 | inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1030-member-photo-transcode-resize-variant-pipeline-artifact-inventory.md` |
 | user gate | remote D1 migration apply、staging deploy、authenticated screenshots、commit、push、PR |
 
+## issue-229-indexes-rebuild-fail-fast（2026-05-31）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-229-indexes-rebuild-fail-fast/` |
+| status | `implemented_local_evidence_captured / implementation / NON_VISUAL` |
+| issue | #229 CLOSED（reopen / mutation は user-gated） |
+| purpose | `pnpm indexes:rebuild` の単一経路 `generate-index.js` に fail-fast / atomic write / decisive log を実装する |
+| implementation | `.claude/skills/aiworkflow-requirements/scripts/generate-index.js`, `scripts/__tests__/generate-index-fail-fast.spec.ts` |
+| evidence | focused Vitest 1 file / 6 tests PASS; `pnpm indexes:rebuild -- --quiet` PASS; immediate second rebuild idempotent |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-229-indexes-rebuild-fail-fast-artifact-inventory.md` |
+| user gate | commit, push, PR, Issue mutation |
+
 ## issue-224-public-members-tags-batch-fetch（2026-05-31）
 ## issue-264-cron-schedule-free-tier-guard（2026-05-31）
 
@@ -2836,6 +2849,7 @@
 | legacy UT-21 の扱い（Sheets→D1 単一 endpoint / audit table は新設しない） | `docs/30-workflows/ut21-forms-sync-conflict-closeout/outputs/phase-12/implementation-guide.md`, `references/task-workflow.md` |
 | 現行 Forms sync 正本 | `apps/api/src/jobs/sync-forms-responses.ts`, `apps/api/src/sync/schema/`, `references/task-workflow.md` |
 | 後続判断 | `docs/30-workflows/unassigned-task/task-ut21-sync-audit-tables-necessity-judgement-001.md`, `docs/30-workflows/unassigned-task/task-ut21-phase11-smoke-rerun-real-env-001.md`, `docs/30-workflows/unassigned-task/task-ut21-impl-path-boundary-realignment-001.md` |
+| UT21-U02 確定判定 | `docs/30-workflows/completed-tasks/issue-235-sync-audit-tables-necessity-judgement/`（Issue #235 CLOSED）。`sync_audit_logs` / `sync_audit_outbox` は新設不要。現行 `sync_jobs` + `sync_job_logs` + `metrics_json` で充足し、コード変更 0。 |
 | 旧仕様の状態欄 | `docs/30-workflows/unassigned-task/UT-21-sheets-d1-sync-endpoint-and-audit-implementation.md` |
 
 ---
@@ -4515,6 +4529,22 @@ packages/
 | トリガー | `pull_request`（push / merge 経路で indexes drift を pre-merge ブロック） |
 | 失敗時の対処 | ローカルで `pnpm indexes:rebuild` を実行 → 差分をコミット → 再 push（ジェネレータ `scripts/generate-index.js` が正本） |
 | 関連未タスク | `docs/30-workflows/unassigned-task/U-VIDX-01-verify-indexes-actions-smoke-and-branch-protection.md`（実 PR での smoke / required status 登録） |
+
+### Issue #230 lefthook edit guard 早見（2026-05-31）
+
+| 観点 | 値 / 参照先 |
+| --- | --- |
+| canonical workflow root | `docs/30-workflows/completed-tasks/issue-230-lefthook-edit-guard/` |
+| state | `implemented_local_runtime_pending / implementation / NON_VISUAL / implementation_complete_pending_pr` |
+| Issue | #230 OPEN; PR 文脈は `Refs #230` |
+| 目的 | `lefthook.yml` を Git hook 正本とし、手書き `.git/hooks/*` と無 ack の `lefthook.yml` 直編集を検知する |
+| local enforcement | implemented `scripts/hooks/lefthook-edit-guard.sh`。`.git/hooks` は CI で観測不能なため pre-commit で検知 |
+| CI enforcement | implemented `scripts/verify-hook-integrity.sh` + `.github/workflows/verify-hook-integrity.yml`。`lefthook.yml` 参照先 script 実在 / tracked stray hook 不在 / `min_version` を検証 |
+| worktree 注意 | marker は `--git-dir`（per-worktree）、hooks dir は `git rev-parse --git-common-dir`（共有）で解決する |
+| false positive 抑制 | dotted ファイル名（`*.*`: `.sample`/`.old`/`.bak` 等）除外 + lefthook 署名除外 + merge/rebase/cherry-pick/revert skip |
+| lessons | `references/lessons-learned-issue-230-lefthook-edit-guard-2026-05.md`（L-I230-001..004） |
+| artifact inventory | `references/workflow-issue-230-lefthook-edit-guard-artifact-inventory.md` |
+| user gate | GitHub Actions runtime, commit, push, PR, Issue mutation |
 
 ### GitHub Governance / branch protection apply（solo 運用 / UT-GOV-001 / 2026-04-28）
 

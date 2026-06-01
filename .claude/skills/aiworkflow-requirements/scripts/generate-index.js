@@ -14,15 +14,15 @@
  *   - indexes/keywords.json   キーワード索引
  */
 
-import { readdir, readFile, writeFile } from "fs/promises";
+import { readdir, readFile, rename, rm, writeFile } from "fs/promises";
 import { existsSync } from "fs";
-import { join, dirname } from "path";
-import { fileURLToPath } from "url";
+import { join, dirname, basename } from "path";
+import { fileURLToPath, pathToFileURL } from "url";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const REFS_DIR = join(__dirname, "..", "references");
 const INDEXES_DIR = join(__dirname, "..", "indexes");
-const QUIET = process.argv.includes("--quiet");
+const SKILL_NAME = "aiworkflow-requirements";
 
 // prefix → トピック名のマッピング
 const PREFIX_TO_TOPIC = {
@@ -135,6 +135,17 @@ async function categorizeFiles() {
   return topics;
 }
 
+function getErrorMessage(error) {
+  return error instanceof Error ? error.message : String(error);
+}
+
+function withIndexContext(indexFile, step, error) {
+  const message = `[generate-index] ${SKILL_NAME} / ${indexFile} ${step} 失敗: ${getErrorMessage(error)}`;
+  const wrapped = new Error(message);
+  wrapped.cause = error;
+  return wrapped;
+}
+
 async function extractHeadings(filePath) {
   try {
     const content = await readFile(filePath, "utf-8");
@@ -172,8 +183,11 @@ async function extractHeadings(filePath) {
     }
 
     return headings;
-  } catch {
-    return [];
+  } catch (error) {
+    if (error && error.code === "ENOENT") {
+      return [];
+    }
+    throw withIndexContext("topic-map.md", `heading-read:${filePath}`, error);
   }
 }
 
@@ -312,9 +326,69 @@ async function generateKeywordIndex() {
   return { keywords };
 }
 
-async function main() {
+function createIndexWritePlan(topicMap, keywordIndex) {
+  return [
+    {
+      fileName: "topic-map.md",
+      content: topicMap,
+    },
+    {
+      fileName: "keywords.json",
+      content: JSON.stringify(keywordIndex, null, 2),
+    },
+  ];
+}
+
+async function writeIndexFilesAtomically(indexesDir, plan, fsOps = {}) {
+  const write = fsOps.writeFile ?? writeFile;
+  const move = fsOps.rename ?? rename;
+  const remove = fsOps.rm ?? rm;
+  const read = fsOps.readFile ?? readFile;
+  const staged = [];
+  const committed = [];
+
+  try {
+    for (const entry of plan) {
+      const targetPath = join(indexesDir, entry.fileName);
+      const tmpPath = join(indexesDir, `.${basename(entry.fileName)}.tmp`);
+      await write(tmpPath, entry.content);
+      staged.push({ ...entry, targetPath, tmpPath });
+    }
+
+    for (const entry of staged) {
+      let previousContent = null;
+      try {
+        previousContent = await read(entry.targetPath, "utf-8");
+      } catch (error) {
+        if (!error || error.code !== "ENOENT") {
+          throw error;
+        }
+      }
+
+      await move(entry.tmpPath, entry.targetPath);
+      committed.push({ targetPath: entry.targetPath, previousContent });
+    }
+  } catch (error) {
+    for (const entry of staged) {
+      await remove(entry.tmpPath, { force: true }).catch(() => {});
+    }
+
+    for (const entry of committed.reverse()) {
+      if (entry.previousContent !== null) {
+        await write(entry.targetPath, entry.previousContent).catch(() => {});
+      } else {
+        await remove(entry.targetPath, { force: true }).catch(() => {});
+      }
+    }
+
+    throw error;
+  }
+}
+
+async function main(argv = process.argv.slice(2)) {
+  const quiet = argv.includes("--quiet");
   const log = (...args) => {
-    if (!QUIET) {
+    if (!quiet) {
       console.log(...args);
     }
   };
@@ -332,19 +406,32 @@ async function main() {
   }
   log("");
 
-  // トピックマップ生成
-  log("1. トピックマップ生成...");
-  const topicMap = await generateTopicMap();
-  await writeFile(join(INDEXES_DIR, "topic-map.md"), topicMap);
-  log("   ✅ indexes/topic-map.md");
+  let topicMap;
+  try {
+    log("1. トピックマップ生成...");
+    topicMap = await generateTopicMap();
+    log("   ✅ indexes/topic-map.md");
+  } catch (error) {
+    throw withIndexContext("topic-map.md", "generate", error);
+  }
 
-  // キーワード索引生成
-  log("2. キーワード索引生成...");
-  const keywordIndex = await generateKeywordIndex();
-  await writeFile(
-    join(INDEXES_DIR, "keywords.json"),
-    JSON.stringify(keywordIndex, null, 2),
-  );
+  let keywordIndex;
+  try {
+    log("2. キーワード索引生成...");
+    keywordIndex = await generateKeywordIndex();
+  } catch (error) {
+    throw withIndexContext("keywords.json", "generate", error);
+  }
+
+  try {
+    await writeIndexFilesAtomically(
+      INDEXES_DIR,
+      createIndexWritePlan(topicMap, keywordIndex),
+    );
+  } catch (error) {
+    throw withIndexContext("topic-map.md,keywords.json", "atomic-write", error);
+  }
+
   log(
     `   ✅ indexes/keywords.json (${Object.keys(keywordIndex.keywords).length}キーワード)`,
   );
@@ -352,7 +439,21 @@ async function main() {
   log("\n✅ インデックス生成完了");
 }
 
-main().catch((err) => {
-  console.error("エラー:", err.message);
-  process.exit(1);
-});
+const isCli = import.meta.url === pathToFileURL(process.argv[1] || "").href;
+
+if (isCli) {
+  main().catch((err) => {
+    console.error(getErrorMessage(err));
+    process.exit(1);
+  });
+}
+
+export {
+  createIndexWritePlan,
+  extractHeadings,
+  generateKeywordIndex,
+  generateTopicMap,
+  main,
+  withIndexContext,
+  writeIndexFilesAtomically,
+};
