@@ -1689,6 +1689,18 @@ source を一切触らない（実態は `MemberHeader` + `lib/auth-view` のみ
 - **SP-DEVSYNC-066-D (resolver unhandled 5 件混合 shape の処理順)**: `pnpm sync:resolve` exit 1 後の手動解消は **(1) AA を grep 判定 → (2) UD を dir 存在判定 → (3) UU の見出し節を subsection 分割 → (4) UU の表 row を `;` 結合**の順が最も早い。AA/UD は即決、UU の Lessons/evidence 系のみ手作業時間を要する。typecheck で AA 解消後の自己完結性を、lint で UU 解消後の文法を即検証。
 - 参照: [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-066 / L-DEVSYNC-063 / L-DEVSYNC-064（canonical wholesale ours/theirs 反転の系列）。
 
+## SP-STATUS-RECON-001 completed workflow status reconciliation close-out gate（2026-05-30 issue-1008）
+
+実コード、Phase 11 evidence、Phase 12 strict 7 が既に merged / archived 済みでも、root / outputs / sub-task の `artifacts.json` が `spec_created` のまま残ると、dashboard・後続 audit・aiworkflow register が互いに矛盾する。status reconciliation タスクでは「docs-only」でも実ファイルの status 補正を同一 wave で完了させる。
+
+- **SP-STATUS-RECON-001-A (root / outputs parity)**: workflow root と `outputs/artifacts.json` が両方ある場合は target state に補正した後で `diff -u <root> <outputs>` を DoD に入れる。片方だけ補正して PASS にしない。
+- **SP-STATUS-RECON-001-B (sub-task artifacts scan)**: parent workflow が `tasks/*/artifacts.json` を持つ場合、root だけでなく sub-task の `status` / `metadata.workflow_state` / Phase 1-12 / Phase 13 user-gated 境界を同時に走査する。sub-task の `spec_created` / `pending` 混在は同 wave で正規化する。
+- **SP-STATUS-RECON-001-C (Gate evidence path existence)**: Gate-A/B を `passed` に昇格する前に `evidence_path` の実在を `test -e` または `gate-metadata:validate` で確認する。存在しない `outputs/phase-11/manual-test-result.md` などを `passed` 根拠にしない。
+- **SP-STATUS-RECON-001-D (strict 7 physical count)**: Phase 12 strict 7 は `main.md` + 6 補助ファイルの物理存在を確認する。compliance check で `strict 7 present` と書く前に `find <workflow>/outputs/phase-12 -maxdepth 1 -type f` で 7 件を確認する。
+- **SP-STATUS-RECON-001-E (skill feedback promotion)**: `skill-feedback-report.md` に status drift / close-out 漏れを記録した場合は、owning reference へ promote するか、既存 rule の path と no-op reason を `system-spec-update-summary.md` に残す。所見だけで閉じない。
+- **anti-pattern**: (a) root artifacts だけを直す、(b) Phase 12 strict 7 のうち `main.md` を欠いたまま PASS と書く、(c) pending Gate-C の external evidence path 不在を Gate-A/B passed と混同する、(d) `apps/` 差分ゼロを理由に workflow metadata drift を未修正のまま残す。
+- 参照: `docs/30-workflows/completed-tasks/issue-1008-members-list-ux-clarity-artifact-status-reconciliation/outputs/phase-12/skill-feedback-report.md`、`references/phase-12-spec.md` strict 7 rules、`references/phase12-skill-feedback-promotion.md` Skill-feedback No-op Truthfulness Gate。
+
 ## SP-DEVSYNC-069 add/add で **両側ともフル実装** → 「新しさ・ファイル数」でなく merge 後 consumer が依存する API 側を `--ours` wholesale、token content conflict は block 手編集、`typecheck`（全 consumer compile）+ consumer spec で機械検証（2026-05-30 feat/admin-layout-sidebar-shell-migration ← dev #1020/#1025）
 
 `feat/admin-layout-sidebar-shell-migration` ← `dev` の sync-merge で `apps/web/src/components/shell/**` 19 file + `tokens.css` が add/add (AA)。SP-DEVSYNC-066（非対称 add/add → `--theirs`）の**鏡像**として、両側ともフル実装のケースの正本判定基準を確立する。merge-base に shell/ は無く、dev = 未配線の基盤コンポーネント（#1025/#1020）、ours = admin layout に実配線した統合版（phase-5 で shell は `<main>` 非描画）。
@@ -1727,6 +1739,7 @@ SP-DEVSYNC-063〜071 の source-shape 判定（wholesale ours/theirs・grep-cons
 - **SP-DEVSYNC-072-A (conflict file の層を最初に仕分ける)**: sync-merge task の Phase 12 implementation-guide に「`git diff --name-only --diff-filter=U` の結果が**全て `.claude/skills/**` 配下なら即 `pnpm sync:resolve`** → `git ls-files -u` 0 確認 → `git commit --no-edit` で完了。source code（`apps/`/`packages/`）が 1 件でも混ざる場合のみ SP-DEVSYNC-063〜071 の shape 判定へ」を固定フローとして記載。無駄な手解析を避ける最上段ゲート。
 - **SP-DEVSYNC-072-B (残存確認は `git ls-files -u` を正本)**: `grep '<<<<<<<'` ではなく `git ls-files -u` が空＝完全解消（[[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-072-B / `git|head` exit-code pitfall と同趣旨）。resolver 内蔵 rebuild が drift を出し切れば merge 後の単独 `chore(indexes)` commit も不要（L-DEVSYNC-012 最良ケース連番）。
 - **SP-DEVSYNC-072-C (クリーン基準ケースは branch 非依存・複数回再現する baseline として扱う)**: 2026-05-31 `docs/issue-988-identity-conflicts-merge-optimistic-update` ← dev（ahead 3 / behind 7）でも、issue-983 と**同一の 6 file（同じ skill index/changelog/active 系）のみ衝突** → `pnpm sync:resolve` 単独 → `git ls-files -u` 0 → `git commit --no-edit`（merge commit `af596e806`）でゼロ手作業解消を再現。SP-DEVSYNC-072 は単発でなく「**docs/タスク成果物系 branch が dev の source touch path と semantic 独立な限り常に成立する baseline**」＝Phase 12 では「skill-only conflict は再現性のある既定フロー（resolver 直行）」と明記し、source 混在時のみ shape 判定へ branch する二段ゲートを固定する。
+- **SP-DEVSYNC-072-D (feat 系 branch + 衝突 file 数可変でも baseline は不変)**: 2026-05-31 `feat/issue-1007-density-toggle-help-hint-hardening` ← dev（behind 8）の 4 例目再現。衝突は **5 file 全て `aiworkflow-requirements` の index/reference 系のみ**（`indexes/{keywords.json,quick-reference.md,resource-map.md,topic-map.md}` + `references/task-workflow-active.md`）で source 0 件 → `pnpm sync:resolve` 単独（union 4 + keywords.json `--ours`+rebuild 1）→ `git ls-files -u` 0 → `git commit --no-edit`（merge commit `c6d2ed07c`）。衝突 file 数は sync ごとに可変（6→6→2→5）だが「**全て `.claude/skills/**` 配下なら resolver 直行**」の層仕分けは不変。docs 系 branch だけでなく feat 系（DensityToggle help-hint hardening）でも、変更 path が dev の source touch path と独立なら成立することを確認。判定は「衝突したか」を `git diff --name-only --diff-filter=U` で取り、出た file の層だけ見る（union 対象でも CONFLICT が出なければ触らない）。
 - 参照: [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-072（正本・再現確認含む）/ L-DEVSYNC-002（index 派生物 rebuild 決定性）/ L-DEVSYNC-007（3 層予防）/ SP-DEVSYNC-067/071（対照: source code が混ざり shape 判定が要るケース）。
 
 ## SP-DEVSYNC-073 playwright `testIgnore`/`testMatch` の「両側が別エントリを追加」型 conflict は片側採用でなく正規表現 union（2026-05-31 docs/issue-1005-members-ux-playwright-baseline-stabilization ← dev 5 commits）
@@ -1815,6 +1828,14 @@ sync-merge task の Phase 12 implementation-guide に、resolver 途中失敗時
 - **SP-DEVSYNC-074-C (sync-merge 手順は dev ff 同期 → merge → resolver の直列を推奨)**: 根因は dev の ff 同期（main worktree 書き込み）と feature 側 resolver（同一 common-dir の index 操作）の近接実行。Phase 13 検証フローでは **dev ff 同期完了 → `git merge dev` → `pnpm sync:resolve`** を直列に並べ、並行させないことで lock 競合を予防。並行してしまった場合は SP-DEVSYNC-074-A/B で復旧できると割り切る。
 - 参照: [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-074（正本）, SP-DEVSYNC-072/073（クリーン基準ケース・段階構造の前提）, SP-DEVSYNC-045（resolver fallback）, L-DEVSYNC-002/007（rebuild 決定性・3 層予防）。
 
+## SP-DEVSYNC-075 docs 系 feature でもクリーン基準が成立し、ローカル dev が origin/dev に一致なら ff 同期不要で resolver 単独ゼロ手作業（2026-05-31 docs/issue-1010-auth-view-session-contract-integration-test ← origin/dev 9 commits）
+
+sync-merge task の Phase 12 implementation-guide に、branch 種別（feature/docs/fix）を問わずクリーン基準ケースを最初に試す手順と、ローカル dev 一致時の ff 同期省略を固定フローとして記載する。本件は `docs/issue-1010-...`（ローカル dev = origin/dev 一致＝独自コミット 0、feature は 2 ahead / 9 behind）で `git merge origin/dev` の content conflict が `indexes/{keywords.json,topic-map.md}` の 2 file のみ、`pnpm sync:resolve` 単独 1 回で収束した実例。
+
+- **SP-DEVSYNC-075-A (branch 種別を問わずクリーン基準を最初に試す)**: `CONFLICT` 行が全て `.claude/skills/**`（典型は `indexes/{keywords.json,topic-map.md}`）かを `git diff --name-only --diff-filter=U` で確認し、source code conflict 0 件なら手動 Edit を試みず `pnpm sync:resolve` 直行。docs/test 系成果物は dev の touch path と semantic 独立になりやすく、衝突は派生 index に集約され 1 回で収束する。
+- **SP-DEVSYNC-075-B (ローカル dev が origin/dev 一致なら ff 同期を別途走らせない)**: Phase 13 検証フローで `git rev-list --left-right --count dev...origin/dev` が `0\t0` なら dev ff 同期は不要。`git merge origin/dev` を直接使うことで resolver と並行する main worktree への git 書き込みが消え、SP-DEVSYNC-074-C の「直列」を構造的に満たして index.lock 競合（SP-DEVSYNC-074-A/B の復旧対象）を最初から回避できる。
+- 参照: [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-075（正本）, SP-DEVSYNC-072/073（クリーン基準・衝突 file 数可変の確立）, SP-DEVSYNC-074（index.lock 中間状態・本件は並行書き込み無で回避）。
+
 ### dev-sync-merge 残マーカー確認の `git grep '======='` 偽陽性（SP-DEVSYNC-073）
 
 skill-only conflict を `pnpm sync:resolve` で解消した後の「念のための残マーカー確認」を `git grep` ベースで行うと、completed-tasks 配下の evidence/log 文書に頻出する装飾区切り線（`=` 連続行）を conflict marker 中央線 `=======` と誤検知する shape。Phase 12 の解消完了判定を index 状態ベースに固定して偽陽性に振り回されないようにする。
@@ -1823,3 +1844,20 @@ skill-only conflict を `pnpm sync:resolve` で解消した後の「念のため
 - **SP-DEVSYNC-073-B (grep を併用するなら U-filter と突き合わせ + path 除外)**: 補助的に marker grep を残す場合、ヒットしたファイルが `git diff --name-only --diff-filter=U` の対象かを必ず照合し、対象外なら文書リテラルとして無視する。除外 path は `.spec`/`.test` に加え `completed-tasks/**` の evidence/log/runbook を含める（装飾区切り線の頻出箇所）。
 - **SP-DEVSYNC-073-C (Phase 12 検証手順への固定)**: dev-sync の解消検証は「`pnpm sync:resolve` exit 0 → `git ls-files -u` 0 → `git commit --no-edit` → `pnpm typecheck`/`pnpm lint`/`pnpm indexes:rebuild` 冪等」の固定列とし、marker grep の生ヒット数を gate にしない。
 - 参照: [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-073（同知見の lessons 版・merge commit `1b662cfad`）, L-DEVSYNC-072-B（`git ls-files -u` 正本則の初出）, [[feedback-grep-head-exit-code-pitfall]]（grep ベース判定のピットフォール一般則）。
+
+### マージ確定後の `git commit` 偽失敗(RC128)と throwaway commit 混入除去（SP-DEVSYNC-075）
+
+issue-1008 sync（`refactor/issue-1008-members-list-ux-clarity-artifact-status-reconciliation` ← dev）の知見。衝突は task-spec skill 2 file（`SKILL.md` / `references/patterns-lessons-and-pitfalls.md`）のみで `pnpm sync:resolve` union 解消（[[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-075 / merge commit `89ab6af1e`）。仕様書を起草する際、検証手順に以下の harness 運用注意を含める。
+
+- **SP-DEVSYNC-075-A (マージ成否は commit RC でなく ancestor 判定で確認)**: merge が既に確定した後に重ねて `git commit --no-edit` を打つと `fatal: could not read '': No such file or directory`（RC 128）になる。`MERGE_MSG` が消えているだけの benign no-op であり commit 失敗ではない。仕様の Phase 11/13 検証は **`git rev-list --count HEAD..dev == 0` と `git merge-base --is-ancestor dev HEAD`** を成否判定の正本に固定し、commit RC を gate にしない。
+- **SP-DEVSYNC-075-B (throwaway/probe commit の push 前除去)**: 切り分けで probe commit（`test: probe ...` 等）を作ったら、push 前に `git log --oneline` で混入を確認し `git reset --mixed <正しい merge commit>` で HEAD を戻して除去する。`git reset --hard` は使わず mixed/soft で index だけ巻き戻し、残骸ファイルは `rm` → `git status --porcelain` clean を確認する。
+- 参照: [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-075（lessons 版）, SP-DEVSYNC-073（`git ls-files -u` 正本則）, L-DEVSYNC-072（skill-only baseline）。
+
+### sync-merge 後 duplicate-ID 検査は見出し限定 grep が正本／同 branch 再 sync は衝突集合を再評価（SP-DEVSYNC-076）
+
+`docs/issue-57-kv-r2-guardrail-degrade-task-spec` の **2 回目 sync-merge**（前回 = L-DEVSYNC-077 / SP-DEVSYNC-047 系の merge `03a0e88ff`、今回 = merge `3a0efc3d5` ← dev 1 commit `#1007`）で得た 2 知見を、sync-merge task の Phase 11/13 検証手順に固定する。前回 4 file 衝突（map 系 3 + `task-workflow-active.md`）→ 今回 3 file 衝突（map 系 3 のみ、`task-workflow-active.md`/`keywords.json` は非衝突）と縮小し、`pnpm sync:resolve` 単独収束・`pnpm typecheck`/`pnpm lint`/`pnpm indexes:rebuild` 冪等（5227 kw）。
+
+- **SP-DEVSYNC-076-A (duplicate-ID 検査は見出し限定 grep — bare grep は過検出)**: L-DEVSYNC-077-A が当初示した `grep -oE 'SP-DEVSYNC-[0-9]+' <file> | sort | uniq -d` は**サブ ID（`-A`/`-B`）・`参照:` 行・自己 xref を含む全言及**を拾い、同一 lesson が自己参照する構造上ほぼ全番号を「重複」と誤検出する。Phase 12/13 の検証コマンドは**見出し行に絞った** `grep -E '^#+.*SP-DEVSYNC-[0-9]+' <file> | grep -oE 'SP-DEVSYNC-[0-9]+' | sort | uniq -d`（aiworkflow は `'^#+ L-DEVSYNC-[0-9]+'`）を正本にする。出力が空＝今回 merge で新規 duplicate-heading なし。
+- **SP-DEVSYNC-076-B (既存 duplicate-heading backlog はルーチン sync で清算しない)**: 見出し限定検査でも歴史的な merge=union 蓄積由来の dup（task-spec で `SP-DEVSYNC-063/064/066/069/070/073/075` 等、aiworkflow で `L-DEVSYNC-010/073` 等 ~37 番）が出る。これらは sync が作るものではなく、ルーチン sync の commit に一括 renumber を混ぜると cross-ref を大量破壊する。**今回 sync で連結された新規 1 件のみ renumber**し、backlog は専用 cleanup タスク（`> 採番補正:` 注記付き段階解消）へ切り出す。
+- **SP-DEVSYNC-076-C (同 branch 再 sync は衝突 file 集合を前提化しない)**: 同一 feature を時間差で再 sync すると dev delta の縮小（本件 5→1 commit）に伴い衝突 file 集合が変わる（前回 4 → 今回 3、`task-workflow-active.md` が非衝突へ転じた）。Phase 11 見積りは前回値を流用せず毎回 `git diff --name-only --diff-filter=U` で確定する（SP-DEVSYNC-047 の「衝突 file 数は可変」を再 sync 軸で補強）。
+- 参照: [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-078（正本・077-A の grep scope 補正）, L-DEVSYNC-077（duplicate-ID 機序）, SP-DEVSYNC-047（衝突 file 数可変）, SP-DEVSYNC-073（`git ls-files -u` 正本則）。

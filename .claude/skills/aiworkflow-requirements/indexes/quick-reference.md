@@ -1,6 +1,47 @@
 # クイックリファレンス
 
 ## issue-224-public-members-tags-batch-fetch（2026-05-31）
+## issue-57-kv-r2-guardrail-degrade-design（2026-05-31）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-57-kv-r2-guardrail-degrade-design/` |
+| status | `implemented_local_evidence_captured / implementation / NON_VISUAL / external_ops_pending_user_gate` |
+| purpose | KV/R2 free-tier guardrail drift を正本化し、application audit_log R2 export を repository variable で即時 pause 可能にする |
+| implementation | `scripts/audit-log/export-to-r2.ts` adds `paused` short-circuit; `.github/workflows/audit-log-cold-storage.yml` forwards `AUDIT_COLD_STORAGE_EXPORT_PAUSED`; `apps/api/src/env.ts` / `alert-relay.ts` make `ALERT_DEDUP_KV` optional fail-open |
+| specs | `docs/00-getting-started-manual/specs/08-free-database.md`, `.claude/skills/aiworkflow-requirements/references/deployment-cloudflare.md`, `docs/30-workflows/completed-tasks/05a-parallel-observability-and-cost-guardrails/outputs/phase-05/cost-guardrail-runbook.md` |
+| user gate | GitHub variable mutation, production scheduled export, commit, push, PR |
+
+## issue-1007-density-toggle-help-hint-hardening（2026-05-30）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-1007-density-toggle-help-hint-hardening/` |
+| status | `implemented_local_runtime_pending / implementation / VISUAL` |
+| purpose | `/members` の `DensityToggle` HelpHint を、複数配置 id 衝突なし・Escape/outside close・Icon system `help` glyph へ堅牢化する |
+| implementation targets | `apps/web/src/components/public/DensityToggle.client.tsx`, `apps/web/src/components/ui/Icon.tsx`, `apps/web/src/components/ui/icons.ts` |
+| tests | `apps/web/src/components/public/__tests__/DensityToggle.client.spec.tsx`（15 passed） |
+| specs | `docs/00-getting-started-manual/specs/09-ui-ux.md`, `docs/00-getting-started-manual/specs/09d-icons.md` |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1007-density-toggle-help-hint-hardening-artifact-inventory.md` |
+| user gate | runtime screenshots, staging deploy, commit, push, PR |
+
+## issue-1006-members-selected-filters-chip-ux-hardening（2026-05-30）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-1006-members-selected-filters-chip-ux-hardening/` |
+| status | `implemented_local_runtime_pending / implementation / VISUAL` |
+| issue | #1006 CLOSED。PR 文脈は `Refs #1006` のみ |
+| parent | `docs/30-workflows/completed-tasks/members-list-ux-clarity/` |
+| purpose | `/members` SelectedFiltersBar の tag chip 表示名、chip 削除後 focus 復帰、mobile selected-filters overflow を堅牢化 |
+| implementation targets | `apps/web/src/components/public/SelectedFiltersBar.client.tsx`, `apps/web/src/components/public/MemberFilters.client.tsx`, `apps/web/src/styles/legacy-public.css` |
+| tests | `apps/web/src/components/public/__tests__/SelectedFiltersBar.client.spec.tsx`, `apps/web/src/components/public/__tests__/MemberFilters.client.spec.tsx` |
+| evidence | focused Vitest 2 files / 17 tests PASS, web typecheck PASS, lint PASS, verify-design-tokens PASS, local Playwright mobile CSS sanity PASS |
+| runtime boundary | local `/public/members` returned 500 without AUTH_SECRET/backend auth, so data-backed visual screenshots and staging verification remain runtime pending |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1006-members-selected-filters-chip-ux-hardening-artifact-inventory.md` |
+| user gate | staging data-backed visual screenshots, commit, push, PR |
+
+## issue-991-admin-fetch-error-typed-class（2026-05-30）
 
 | 項目 | 値 |
 | --- | --- |
@@ -1679,6 +1720,19 @@
 | invariant | no new endpoint / no D1 schema / no Google Form change; `data-auth-state` is only `guest\|member\|admin`; no PII in DOM |
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-public-header-session-aware-auth-view-base-artifact-inventory.md` |
 | user gate | staging authenticated runtime visual, commit, push, PR |
+
+### issue-1010-auth-view-session-contract-integration-test（2026-05-30）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-1010-auth-view-session-contract-integration-test/` |
+| status | `implemented_local_evidence_captured / implementation / NON_VISUAL / Phase 13 pending_user_approval` |
+| source | `docs/30-workflows/completed-tasks/issue-1010-auth-view-session-contract-integration-test/unassigned-task-specs/public-header-auth-view-session-contract-integration-test-001.md`（consumed） |
+| purpose | 実 `buildAuthConfig().callbacks.session` 出力を `resolveAuthView()` / `getAuthView()` に連鎖し、AuthView session contract drift を検出する |
+| implementation | `apps/web/src/lib/auth-view/__tests__/authViewSessionContract.integration.spec.ts` |
+| evidence | focused Vitest 4 files / 61 tests PASS、web typecheck PASS、workspace lint PASS |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1010-auth-view-session-contract-integration-test-artifact-inventory.md` |
+| user gate | commit, push, PR |
 
 ### public-header-logged-in-nav-cleanup（2026-05-28）
 

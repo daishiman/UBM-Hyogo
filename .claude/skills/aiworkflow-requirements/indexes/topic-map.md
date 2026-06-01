@@ -2531,6 +2531,27 @@ node scripts/list-specs.js --topics
 | Local Evidence | L15 |
 | Lessons Learned | L25 |
 
+### references/workflow-issue-1006-members-selected-filters-chip-ux-hardening-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Implementation Surface | L11 |
+| Evidence | L21 |
+| Runtime Boundary | L29 |
+| Lessons Learned | L33 |
+
+### references/workflow-issue-1007-density-toggle-help-hint-hardening-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Lessons Learned | L18 |
+
+### references/workflow-issue-1010-auth-view-session-contract-integration-test-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Lessons Learned | L32 |
+
 ### references/workflow-issue-106-admin-member-notes-repository-task-spec-artifact-inventory.md
 
 | セクション | 行 |
@@ -2951,6 +2972,17 @@ node scripts/list-specs.js --topics
 | Phase 12 Required Artifacts | L16 |
 | Implemented Artifacts | L28 |
 | State Classification | L38 |
+
+### references/workflow-issue-57-kv-r2-guardrail-degrade-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| 背景 | L10 |
+| Implementation Targets | L17 |
+| Evidence | L30 |
+| Unassigned follow-ups | L38 |
+| User-Gated Boundary | L44 |
+| Lessons Learned | L49 |
 
 ### references/workflow-issue-572-attendance-provider-production-runtime-smoke-artifact-inventory.md
 
@@ -5082,17 +5114,17 @@ node scripts/list-specs.js --topics
 | D1 Backup Long-Term Storage（UT-06-FU-E / 2026-05-01） | L102 |
 | Cloudflare Workers デプロイ（Next.js / OpenNext） | L121 |
 | Cloudflare Workers デプロイ（APIバックエンド） | L209 |
-| Cloudflare D1 データベース | L357 |
-| Cloudflare KV セッションキャッシュ（UT-13 / SESSION_KV） | L390 |
-| GitHub Actions CI/CD | L502 |
-| プレビューデプロイメント | L533 |
-| カスタムドメイン設定 | L549 |
-| 環境分離 | L562 |
-| ロールバック戦略 | L572 |
-| モニタリング/アラート（UT-08 連携） | L593 |
-| per-sync write cap 連続到達アラート（03b-followup-006 / Issue #199） | L610 |
-| Long-term Analytics Evidence（Issue #347 / 2026-05-05） | L645 |
-| 変更履歴 | L694 |
+| Cloudflare D1 データベース | L375 |
+| Cloudflare KV セッションキャッシュ（UT-13 / SESSION_KV） | L408 |
+| GitHub Actions CI/CD | L520 |
+| プレビューデプロイメント | L551 |
+| カスタムドメイン設定 | L567 |
+| 環境分離 | L580 |
+| ロールバック戦略 | L590 |
+| モニタリング/アラート（UT-08 連携） | L611 |
+| per-sync write cap 連続到達アラート（03b-followup-006 / Issue #199） | L628 |
+| Long-term Analytics Evidence（Issue #347 / 2026-05-05） | L663 |
+| 変更履歴 | L712 |
 
 ### references/deployment-core.md
 
@@ -8213,15 +8245,15 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L3240 |
-| フェーズ構造（概要） | L3249 |
-| 品質ゲート（概要） | L3280 |
-| 出力テンプレート | L3291 |
-| 実行時のコマンド・エージェント・スキル | L3314 |
-| 昇格パターン集 | L3338 |
-| Current Active / Spec Created Tasks | L3340 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L3505 |
-| issue-998-members-publish-state-production-rollout | L3582 |
+| ドキュメント構成 | L3289 |
+| フェーズ構造（概要） | L3298 |
+| 品質ゲート（概要） | L3329 |
+| 出力テンプレート | L3340 |
+| 実行時のコマンド・エージェント・スキル | L3363 |
+| 昇格パターン集 | L3387 |
+| Current Active / Spec Created Tasks | L3389 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L3554 |
+| issue-998-members-publish-state-production-rollout | L3632 |
 
 ### references/task-workflow-backlog-part2.md
 

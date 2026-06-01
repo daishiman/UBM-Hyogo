@@ -1,0 +1,40 @@
+{
+  "taskId": "TASK-MEMBERS-SELECTED-FILTERS-CHIP-UX-HARDENING-001",
+  "mode": "VISUAL",
+  "status": "local_component_harness_screenshots_captured_staging_pending",
+  "route": "/members",
+  "outputDir": "outputs/phase-11/screenshots",
+  "plan": [
+    {
+      "tc": "TC-VIS-01",
+      "name": "selected-filters-bar-desktop-labels.png",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "url": "/members?tag=ai&zone=0_to_1&status=member",
+      "assertion": "tag chip が #{code} ではなく topTags の表示名 #{label} で描画される（AC-1）"
+    },
+    {
+      "tc": "TC-VIS-02",
+      "name": "selected-filters-bar-mobile-stacked.png",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "url": "/members?tag=ai&tag=startup&zone=1_to_10&status=member",
+      "assertion": "<=640px で chip 群 / クリアボタン / result count が縦積みで重ならない（AC-4）"
+    },
+    {
+      "tc": "TC-VIS-03",
+      "name": "selected-filters-bar-focus-after-remove.png",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "url": "/members?tag=ai&tag=startup&zone=0_to_1",
+      "assertion": "chip 個別削除後 focus が次 chip に移動（AC-3、focus リングが視認できる）"
+    }
+  ],
+  "reason": "Focused Vitest/typecheck/lint/design-token checks passed. Local Playwright component-harness captures write the canonical 3 PNGs under outputs/phase-11/screenshots; staging data-backed verification remains pending."
+}
