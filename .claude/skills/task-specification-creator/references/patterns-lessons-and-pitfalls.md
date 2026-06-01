@@ -1861,3 +1861,12 @@ issue-1008 sync（`refactor/issue-1008-members-list-ux-clarity-artifact-status-r
 - **SP-DEVSYNC-076-B (keywords.json は union 前提に依存しない)**: resolver は keywords.json を derived file として `--ours` 採用 → `pnpm indexes:rebuild` で再生成する（SP-DEVSYNC-074 / L-DEVSYNC-002 と整合）。過去 changelog に「keywords は merge=union で auto-merge」とある版があるが、union auto-merge されるかは dev 側 hunk 位置依存で不確定。仕様の検証手順は「keywords は常に union」前提を置かず、`pnpm sync:resolve` に委譲する。
 - **SP-DEVSYNC-076-C (skill-only なら conflict file 数が増えても単一パス)**: 衝突が 6 file・2 skill 横断でも全て `.claude/skills/**` 配下なら resolver 1 コマンドで完結。手動 hybridize（SP-DEVSYNC-054/056/057/058 等）へ進むのは `apps/**` 等の非 skill conflict が出たときのみ。
 - 参照: [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-076（lessons 版）, SP-DEVSYNC-074（resolver 段階構造・index.lock）, SP-DEVSYNC-075（issue-1008 task-spec 2-file ケース）, L-DEVSYNC-072（skill-only baseline）。
+
+### union 解消後は「重複混入ゼロ」をヘッダ数 three-way 照合で検証する（SP-DEVSYNC-077）
+
+`docs/issue-1016-mobile-drawer-responsive-spec` ← dev の **2 回目**の sync（1 回目は SP-DEVSYNC-076）。今回の conflict は aiworkflow `indexes/{keywords.json,quick-reference.md,resource-map.md,topic-map.md}` の 4 file のみ（前回含まれた本ファイル・task-workflow-active.md は今回 `Auto-merging` で衝突せず）。`pnpm sync:resolve` 1 回で full resolve。仕様書を起草する際、sync-merge 検証手順に以下の**重複検出ステップ**を含める（[[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-077）。
+
+- **SP-DEVSYNC-077-A (`git ls-files -u` 0 だけで union 健全性を結論しない)**: marker 消滅は必要条件にすぎない。`merge=union` は行ベース結合なので、両 branch がそれぞれ追記した同名見出しブロックを二重連結し得る。検証手順には **手動管理 index（`quick-reference.md` / `resource-map.md`）の主要 H1/H2 見出しについて `grep -cF '<見出し>'` の値が `now == HEAD == dev` で一致するか**を必ず入れる。一致＝union が片側 unique 行を足しただけで新規重複なし。topic-map.md / keywords.json は `indexes:rebuild` 再生成のため照合不要。
+- **SP-DEVSYNC-077-B (重複カウントは `grep -cF` の substring count を正本にする)**: `sort | uniq -d` は trailing `\r`・全角/マルチバイトの sort 挙動で実数と乖離する。仕様の検証コマンドには anchor 付き `grep -E '^## '` + `uniq` ではなく `grep -cF '<見出し全文>'` を three-way（now/HEAD/dev）で比較する形を記す。
+- **SP-DEVSYNC-077-C (同一 branch の N 回目 sync でも conflict 集合を前提化しない)**: 前回の conflict file リストを手当て前提に固定せず、毎回 `git diff --name-only --diff-filter=U` で実集合を取り直す（SP-DEVSYNC-076-C / L-DEVSYNC-073 の再確認）。
+- 参照: [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-077（lessons 版）, SP-DEVSYNC-076（同 branch 1 回目・6 file ケース）, SP-DEVSYNC-074（keywords は `--ours`+rebuild）, L-DEVSYNC-002（keywords union 対象外）。
