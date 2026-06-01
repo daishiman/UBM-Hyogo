@@ -47,6 +47,8 @@ Phase 1: 要件定義。
 
 Phase 1 開始時に、対象ファイルの現在の実装状態を確認する。
 
+複数の実装方針がコスト・runtime topology・外部 mutation を分岐させる場合（例: Paid plan 移行 vs 専用 Worker 分離、外部 SaaS 契約変更、production runtime 操作）は、Phase 2 に進む前にユーザー決定を取得し、採用方針を Phase 1 の acceptance criteria に固定する。未決定の複数アーキ分岐を Phase 2 以降へ持ち込まない。
+
 ```bash
 # 対象ファイルの最近のコミット履歴
 git log --oneline -20 -- <対象ファイルパス>

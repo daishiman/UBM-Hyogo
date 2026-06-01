@@ -4,6 +4,10 @@
 
 このファイルは task-specification-creator の運用・改善・Phase 12 close-out 同期履歴を新しい順に記録する。
 
+## 2026-06-01 - issue-1027 dynamic OG Worker split skill feedback
+
+`docs/30-workflows/completed-tasks/issue-1027-member-dynamic-og-worker-split/` の Phase 12 feedback を反映した。Paid plan vs dedicated Worker split のような cost/runtime topology 分岐は Phase 1 で user decision を固定してから Phase 2 へ進む。Worker 分離は新 Worker の build/deploy/size gate まで含めて implementation target とし、main `apps/web` の `next/og` 禁止 guard、`OG_IMAGE_BASE_URL` accessor discipline、fallback PNG evidence を Phase 11/12 の確認点へ昇格した。
+
 ## 2026-05-28 - task-b-root-page-public-header-async automation-30 close-out
 
 ## 2026-05-30 - issue-988 identity conflicts optimistic update automation-30 close-out

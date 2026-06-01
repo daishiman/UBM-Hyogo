@@ -107,6 +107,7 @@
 | --- | --- |
 | `apps/web` | Next.js 16 App Router + `@opennextjs/cloudflare`。`(public)`, `(member)`, `(admin)` route group layout を持つ |
 | `apps/api` | Hono on Workers。Wave 0 では `/healthz`, `/public/healthz`, `/me/healthz`, `/admin/healthz` の health scaffold を提供し、04a で `/public/stats`, `/public/members`, `/public/members/:memberId`, `/public/form-preview` を公開 API として追加 |
+| `apps/og` | Member OG image generation 専用 Worker。`apps/web` は `OG_IMAGE_BASE_URL` のみ参照し、OG PNG 生成は所有しない。member data は `API_SERVICE` first、local/test は `PUBLIC_API_BASE_URL` fallback |
 | `packages/shared` | `MemberId`, `ResponseId`, `ResponseEmail`, `StableKey` の branded ID placeholder を export |
 | `packages/integrations/google` | `FormsClient` interface と `NotImplementedFormsClient` placeholder に加え、UT-03 の `src/sheets/auth.ts` が Sheets API Service Account JSON key 認証を提供する。公開境界は `@ubm-hyogo/integrations-google` の `sheets` namespace export（`sheets.getSheetsAccessToken` / `SheetsAuthEnv`）とし、UT-09 / UT-21 はこの namespace 経由で消費する |
 | boundary guard | `apps/web` から D1/API direct import、`localStorage` / `sessionStorage` 使用を lint guard で禁止 |
