@@ -1,0 +1,125 @@
+{
+  "workflow_id": "issue-998-members-publish-state-production-rollout",
+  "feature": "issue-998-members-publish-state-production-rollout",
+  "status": "implemented_local_runtime_pending",
+  "created": "2026-05-30T09:38:00+09:00",
+  "lastUpdated": "2026-05-30T11:52:00+09:00",
+  "metadata": {
+    "taskId": "TASK-ISSUE-998-MEMBERS-PUBLISH-STATE-PRODUCTION-ROLLOUT",
+    "taskType": "implementation",
+    "visualEvidence": "VISUAL_ON_EXECUTION",
+    "implementationCategory": "bugfix",
+    "implementation_mode": "verify_existing",
+    "workflow_state": "implemented_local_runtime_pending",
+    "implementation_status": "local_flag_applied_runtime_pending",
+    "spec_classification": "implementation_spec",
+    "canonical_root": "docs/30-workflows/completed-tasks/issue-998-members-publish-state-production-rollout",
+    "issue_number": 998,
+    "issue_state": "CLOSED",
+    "scope": "Resolve members-not-displaying root cause to production: enable MEMBERS_AUTO_PUBLISH_ON_CONSENT in production wrangler.toml and run staging then production runtime verification (deploy, backfill apply, /members browser smoke).",
+    "runtime_boundary": "production flag enablement (apps/api/wrangler.toml) is an in-cycle code change completable in 03.実装.md. Staging and production Cloudflare deploy, D1 backfill apply, browser smoke, commit, push, and PR remain explicit user-gated execution gates (governance_mutation_user_gate=true).",
+    "parent_workflow": "docs/30-workflows/completed-tasks/members-not-displaying-form-sync-investigation",
+    "implementation_files": [
+      "apps/api/wrangler.toml"
+    ],
+    "verify_existing_files": [
+      "apps/api/src/lib/policies/auto-publish.ts",
+      "apps/api/src/jobs/sync-forms-responses.ts",
+      "apps/api/src/routes/admin/sync-backfill-publish-state.ts",
+      "apps/api/src/routes/admin/sync-diagnostics.ts",
+      "apps/api/src/_shared/public-filter.ts",
+      "apps/api/src/diagnostics/forms-pipeline.ts",
+      "scripts/diagnose-members-pipeline.sh",
+      "scripts/backfill-publish-state.sh"
+    ],
+    "test_files": [
+      "apps/api/src/lib/policies/auto-publish.spec.ts",
+      "apps/api/src/routes/admin/sync-backfill-publish-state.spec.ts",
+      "apps/api/src/routes/admin/sync-diagnostics.contract.spec.ts",
+      "apps/api/src/jobs/sync-forms-responses.contract.spec.ts"
+    ],
+    "phase12_strict_outputs": [
+      "outputs/phase-12/main.md",
+      "outputs/phase-12/implementation-guide.md",
+      "outputs/phase-12/system-spec-update-summary.md",
+      "outputs/phase-12/documentation-changelog.md",
+      "outputs/phase-12/unassigned-task-detection.md",
+      "outputs/phase-12/skill-feedback-report.md",
+      "outputs/phase-12/phase12-task-spec-compliance-check.md"
+    ],
+    "phase11_runtime_outputs": [
+      "outputs/phase-11/manual-test-result.md"
+    ],
+    "related_workflows": [
+      "docs/30-workflows/completed-tasks/members-not-displaying-form-sync-investigation/"
+    ],
+    "related_issues": [
+      956,
+      957,
+      958,
+      959,
+      998
+    ],
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-05-30T09:38:00+09:00",
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-998-members-publish-state-production-rollout/outputs/phase-12/phase12-task-spec-compliance-check.md",
+        "approver": "daishiman",
+        "notes": "spec_review: Phase 1-13, task specs (A/B/C), and strict 7 Phase 12 outputs are present. Issue #998 optimized to current code (production rollout scope)."
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "passed",
+        "passed_at": "2026-05-30T11:52:00+09:00",
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-998-members-publish-state-production-rollout/outputs/phase-11/manual-test-result.md",
+        "approver": "daishiman",
+        "notes": "implementation_review: apps/api/wrangler.toml production flag is true locally; typecheck/build/API regression suite/script syntax passed. Runtime deploy and backfill remain Gate-C user-gated."
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-998-members-publish-state-production-rollout/outputs/phase-11/manual-test-result.md",
+        "approver": "daishiman",
+        "notes": "runtime_smoke: staging then production deploy, diagnostics, backfill apply, and /members browser smoke are user-gated (governance_mutation_user_gate=true)."
+      }
+    ]
+  },
+  "tasks": [
+    {
+      "id": "task-a",
+      "title": "Production flag enablement and existing-implementation regression check",
+      "path": "tasks/task-a-production-flag-enablement.md",
+      "classification": "implementation"
+    },
+    {
+      "id": "task-b",
+      "title": "Staging runtime verification runbook (issue #998 Gate-C)",
+      "path": "tasks/task-b-staging-runtime-verification.md",
+      "classification": "implementation"
+    },
+    {
+      "id": "task-c",
+      "title": "Production runtime rollout runbook",
+      "path": "tasks/task-c-production-runtime-rollout.md",
+      "classification": "implementation"
+    }
+  ],
+  "phases": [
+    { "phase": 1, "name": "Requirements", "status": "completed", "output": "phase-01-requirements.md" },
+    { "phase": 2, "name": "Architecture", "status": "completed", "output": "phase-02-architecture.md" },
+    { "phase": 3, "name": "Task breakdown", "status": "completed", "output": "phase-03-task-breakdown.md" },
+    { "phase": 4, "name": "Data contract", "status": "completed", "output": "phase-04-data-contract.md" },
+    { "phase": 5, "name": "Implementation guide", "status": "completed", "output": "phase-05-implementation-guide.md" },
+    { "phase": 6, "name": "Test strategy", "status": "completed", "output": "phase-06-test-strategy.md" },
+    { "phase": 7, "name": "Quality gates", "status": "completed", "output": "phase-07-quality-gates.md" },
+    { "phase": 8, "name": "Definition of Done", "status": "completed", "output": "phase-08-dod.md" },
+    { "phase": 9, "name": "Risks", "status": "completed", "output": "phase-09-risks.md" },
+    { "phase": 10, "name": "Local verification", "status": "completed", "output": "phase-10-local-verification.md" },
+    { "phase": 11, "name": "Evidence inventory", "status": "runtime_pending", "output": "phase-11-evidence-inventory.md" },
+    { "phase": 12, "name": "Compliance", "status": "completed", "output": "outputs/phase-12/main.md" },
+    { "phase": 13, "name": "Commit / PR", "status": "blocked_pending_user_approval", "output": "phase-13-commit-pr-draft.md" }
+  ]
+}

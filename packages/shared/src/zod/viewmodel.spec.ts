@@ -122,6 +122,71 @@ describe("viewmodel parsers — 10 種 (AC-4 / 不変条件 #1)", () => {
     expect(tooMany.success).toBe(false);
   });
 
+  it("PublicMemberListView accepts optional item tags and rejects leaked tag fields", () => {
+    const base = {
+      items: [
+        {
+          memberId: "m_1",
+          fullName: "山田 太郎",
+          nickname: "たろ",
+          occupation: "開発者",
+          location: "神戸",
+          ubmZone: null,
+          ubmMembershipType: null,
+        },
+      ],
+      pagination: {
+        total: 1,
+        page: 1,
+        limit: 24,
+        totalPages: 1,
+        hasNext: false,
+        hasPrev: false,
+      },
+      appliedQuery: {
+        q: "",
+        zone: "all",
+        status: "all",
+        tags: [],
+        sort: "recent",
+        density: "comfy",
+      },
+      topTags: [],
+      generatedAt: "2026-04-27T00:00:00Z",
+    } as const;
+
+    expect(PublicMemberListViewZ.safeParse(base).success).toBe(true);
+    expect(
+      PublicMemberListViewZ.safeParse({
+        ...base,
+        items: [
+          {
+            ...base.items[0],
+            tags: [{ code: "web", label: "Web", category: "skill" }],
+          },
+        ],
+      }).success,
+    ).toBe(true);
+    expect(
+      PublicMemberListViewZ.safeParse({
+        ...base,
+        items: [
+          {
+            ...base.items[0],
+            tags: [
+              {
+                code: "web",
+                label: "Web",
+                category: "skill",
+                confidence: 1,
+              },
+            ],
+          },
+        ],
+      }).success,
+    ).toBe(false);
+  });
+
   it("PublicMemberProfile parses minimal valid", () => {
     expect(
       PublicMemberProfileZ.safeParse({

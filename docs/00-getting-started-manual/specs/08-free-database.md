@@ -35,6 +35,8 @@ GAS prototype はこの構成に含めない。`localStorage` ベースの UI �
 | Cloudflare Pages | Web UI ホスティング (apps/web) | 無料枠あり |
 | Cloudflare Workers | API / sync ジョブ (apps/api) + Web UI (apps/web OpenNext bundle) | 100k req/day + Worker bundle gzip 3072KiB 上限 |
 | Cloudflare D1 | 正規化データと運用データ | 5GB / 500k reads/day |
+| Cloudflare KV | 将来の session blacklist / alert dedup（`ALERT_DEDUP_KV` は現行 user-gated で未活性） | Free: reads 100k/day, writes 1k/day, deletes 1k/day, list 1k/day, storage 1GB/account, 1k namespaces（確認日: 2026-05-31、Cloudflare KV Limits） |
+| Cloudflare R2 Standard | audit cold storage（`UBM_AUDIT_COLD_STORAGE` / `UBM_AUDIT_APP_COLD_STORAGE` は production/staging binding 済） | Free: storage 10GB-month, Class A 1M/month, Class B 10M/month, egress free（確認日: 2026-05-31、Cloudflare R2 pricing） |
 | Google Forms API | schema / response 取得 | 無料 |
 
 50 人規模の MVP では無料枠内運用を前提にする。
