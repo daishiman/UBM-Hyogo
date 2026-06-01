@@ -48,14 +48,14 @@ UT-06 canonical 前提・5 ゲート → [`deployment-cloudflare-ut06-gate.md`](
 
 production Worker 名を top-level `name` から分離する場合は、production deploy 前に route / custom domain / secrets / observability の対象 Worker を確認する。`apps/web` の deploy / rollback / tail / secret 操作は `bash scripts/cf.sh ... --config apps/web/wrangler.toml --env <env>` 経由に統一し、`wrangler types` のようなローカル型生成とは分離して扱う。
 
-## API Worker Cron（u-04 Sheets → D1 sync）
+## API Worker Cron（u-04 Sheets → D1 sync / historical manual-only）
 
-u-04 (`docs/30-workflows/completed-tasks/u-04-serial-sheets-to-d1-sync-implementation/`) で、Google Sheets → D1 の scheduled sync を `apps/api` Worker に追加した。
+u-04 (`docs/30-workflows/completed-tasks/u-04-serial-sheets-to-d1-sync-implementation/`) では、Google Sheets → D1 の scheduled sync を `apps/api` Worker に追加した。2026-05-31 時点の現行 runtime cron からは撤回済みで、`runScheduledSync(env)` は互換手動経路としてのみ扱う。
 
 | 項目 | 値 |
 | --- | --- |
-| Cron | `0 * * * *`（毎時 0 分） |
-| 実装 | `apps/api/src/index.ts` `scheduled()` が cron `0 * * * *` の場合のみ `runScheduledSync(env)` を呼ぶ |
+| Historical Cron | `0 * * * *`（毎時 0 分）。現行 `wrangler.toml` には登録しない |
+| 実装 | `apps/api/src/index.ts` の legacy branch / 手動互換経路として `runScheduledSync(env)` を維持 |
 | モジュール | `apps/api/src/sync/scheduled.ts` |
 | audit | `sync_job_logs` (`trigger_type='scheduled'`) |
 | 排他 | `sync_locks` + `withSyncMutex` |
@@ -65,9 +65,12 @@ u-04 (`docs/30-workflows/completed-tasks/u-04-serial-sheets-to-d1-sync-implement
 
 | Cron | 用途 |
 | --- | --- |
-| `*/15 * * * *` | 03b Google Forms response sync |
 | `0 18 * * *` | 03a Google Forms schema sync（03:00 JST） |
-| `0 * * * *` | u-04 Sheets → D1 scheduled sync |
+| `*/15 * * * *` | 03b Google Forms response sync |
+| `*/5 * * * *` | issue-377 tag queue retry tick / notification dispatch tick（D1-only） |
+
+legacy `0 * * * *`（u-04 Sheets → D1 scheduled sync）は runtime cron から撤回済みで、互換手動経路としてのみ扱う。
+この 3-cron 正本は `apps/api/src/sync/wrangler-cron-schedule.guard.spec.ts` が regression guard として enforce する。
 
 実機 staging smoke は 05b、cron 監視と 30 分超 running alert は 09b の責務とする。
 
@@ -237,9 +240,10 @@ database_id = "your-d1-database-id"
 binding = "SESSION_KV"
 id = "your-kv-namespace-id"
 # UT-13 で SESSION_KV に統一。詳細は本ファイル下方「Cloudflare KV セッションキャッシュ」セクション参照
-# 注（UT-CICD-DRIFT / 2026-04-29）: 上記 KV binding 例は UT-13 採用後の構成。
-#                                   現行 `apps/api/wrangler.toml` には KV binding は未追加で、
-#                                   D1 binding のみが配置されている。実適用は UT-13 KV bootstrap 配下。
+# 注（UT-CICD-DRIFT / 2026-04-29、Issue #57 更新 / 2026-05-31）:
+# 上記 `SESSION_KV` binding 例は UT-13 採用後の構成であり、現行未適用。
+# 現行 `apps/api/wrangler.toml` には D1、Analytics Engine、R2 audit cold-storage binding があり、
+# `ALERT_DEDUP_KV` は ut-17-followup-002 user gate のためコメントアウト状態。
 
 [env.staging]
 name = "ubm-hyogo-api-staging"
@@ -260,7 +264,7 @@ name = "ubm-hyogo-api"
 | `*/15 * * * *` | Google Forms response 同期 | `runResponseSync` |
 | `*/5 * * * *` | issue-377 tag queue retry tick。legacy Sheets hourly sync (`0 * * * *`) は runtime cron から撤回済みで、互換経路として手動実行に限定する。 | `runTagQueueRetryTick` |
 
-> **current facts (UT-17 followup-003 review / 2026-05-14)**: 上記 3 件は `apps/api/wrangler.toml` の `[triggers] crons = ["0 18 * * *", "*/15 * * * *", "*/5 * * * *"]`、`[env.production.triggers]`、`[env.staging.triggers]` と完全整合する。`0 * * * *` は current runtime cron ではなく、legacy Sheets hourly sync の互換手動経路としてのみ扱う。
+> **current facts (issue-264 guard / 2026-05-31)**: 上記 3 件は `apps/api/wrangler.toml` の `[triggers] crons = ["0 18 * * *", "*/15 * * * *", "*/5 * * * *"]`、`[env.production.triggers]`、`[env.staging.triggers]` と完全整合する。`0 * * * *` は current runtime cron ではなく、legacy Sheets hourly sync の互換手動経路としてのみ扱う。回帰防止は `apps/api/src/sync/wrangler-cron-schedule.guard.spec.ts`（canonical 一致 / ≤3 本 / legacy 不在 / 3 セクション parity）で enforce する。
 
 Forms response sync は `GOOGLE_FORM_ID` を Cloudflare vars に持ち、`GOOGLE_SERVICE_ACCOUNT_EMAIL` / `GOOGLE_PRIVATE_KEY` を Cloudflare Secrets として扱う。JWT signing は Workers WebCrypto (`RSASSA-PKCS1-v1_5` + SHA-256) で行い、`packages/integrations` の Google Forms client に注入する。
 
@@ -299,7 +303,24 @@ UT-25-DERIV-02 は `GOOGLE_SERVICE_ACCOUNT_JSON` の Google 側 key 失効・権
 
 staging / production では `[triggers]` と `[env.staging.triggers]` の両方に `*/15 * * * *` を明示する。未設定 secret の場合、cron は response sync を開始せずスキップする。
 
-> R2 binding は現行 `apps/api/wrangler.toml` には未適用。UT-12 の下流実装時に、下記 R2 セクションの環境別差分を追加する。
+> 汎用ファイルアップロード用 `R2_BUCKET` は現行 `apps/api/wrangler.toml` には未適用。別系統として、audit cold-storage 用 R2 binding は `UBM_AUDIT_COLD_STORAGE`（Issue #514）と `UBM_AUDIT_APP_COLD_STORAGE`（Issue #315）が production / staging ともに適用済み。
+
+### Current KV/R2 binding inventory（Issue #57 / 2026-05-31）
+
+| Binding | Kind | Current state | Owner / boundary |
+| --- | --- | --- | --- |
+| `UBM_AUDIT_COLD_STORAGE` | R2 bucket | production/staging active in `apps/api/wrangler.toml` | Issue #514 Cloudflare audit log cold storage |
+| `UBM_AUDIT_APP_COLD_STORAGE` | R2 bucket | production/staging active in `apps/api/wrangler.toml` and used by `scripts/audit-log/export-to-r2.ts` | Issue #315 application audit_log cold storage |
+| `ALERT_DEDUP_KV` | Workers KV | `apps/api/src/env.ts` optional; wrangler blocks remain commented until ut-17-followup-002 user gate | alert-relay dedup only, delivery fail-open when absent |
+| `SESSION_KV` | Workers KV | not applied | UT-13 session cache |
+| `R2_BUCKET` | R2 bucket | not applied | UT-12 generic file/image storage |
+
+### KV/R2 free-tier guardrail values（確認日: 2026-05-31）
+
+| Product | Free-tier values | Source |
+| --- | --- | --- |
+| Workers KV | reads 100k/day, writes 1k/day, deletes 1k/day, list 1k/day, storage 1GB/account, namespaces 1k | Cloudflare KV Limits |
+| R2 Standard | storage 10GB-month, Class A 1M/month, Class B 10M/month, egress free | Cloudflare R2 pricing |
 
 ### デプロイコマンド
 

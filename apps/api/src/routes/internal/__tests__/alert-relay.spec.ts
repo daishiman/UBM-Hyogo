@@ -14,15 +14,17 @@ interface BuildEnvOptions {
   readonly CF_ALERT_DASHBOARD_URL?: string;
   readonly CF_ALERT_RUNBOOK_URL?: string;
   readonly kv?: KvStub;
+  readonly omitKv?: boolean;
   readonly omitSlack?: boolean;
   readonly omitAuthSecret?: boolean;
 }
 
 const buildEnv = (overrides: BuildEnvOptions = {}) => {
   const kv = overrides.kv ?? createKvStub();
-  const env: Record<string, unknown> = {
-    ALERT_DEDUP_KV: kv.kv,
-  };
+  const env: Record<string, unknown> = {};
+  if (!overrides.omitKv) {
+    env["ALERT_DEDUP_KV"] = kv.kv;
+  }
   if (!overrides.omitAuthSecret) {
     env["CF_WEBHOOK_AUTH_SECRET"] = overrides.CF_WEBHOOK_AUTH_SECRET ?? SECRET;
   }
@@ -88,6 +90,30 @@ describe("createAlertRelayRoute", () => {
     );
     expect(res.status).toBe(401);
     expect(fetchMock).not.toHaveBeenCalled();
+  });
+
+  it("TC-KV-00: ALERT_DEDUP_KV 未設定でも Slack 送信を fail-open する", async () => {
+    const fetchMock = vi.fn(async () => new Response("ok", { status: 200 }));
+    const app = createAlertRelayRoute({ fetch: fetchMock as unknown as typeof fetch });
+    const res = await app.request(
+      "/",
+      {
+        method: "POST",
+        headers: headers(),
+        body: JSON.stringify({
+          name: "Workers KV reads",
+          alert_type: "billing",
+          ts: Date.UTC(2026, 4, 31, 0, 0, 0),
+        }),
+      },
+      buildEnv({ omitKv: true }),
+    );
+    expect(res.status).toBe(200);
+    expect(await res.json()).toMatchObject({
+      ok: true,
+      dedupPersisted: false,
+    });
+    expect(fetchMock).toHaveBeenCalledTimes(1);
   });
 
   it("ROUTE-02: 不正 JSON は 400", async () => {
