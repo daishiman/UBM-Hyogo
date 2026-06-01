@@ -32,6 +32,7 @@ export function BackfillPublishStatePanel({
 }: BackfillPublishStatePanelProps) {
   const [lastResult, setLastResult] = useState<BackfillResult | null>(null);
   const [mode, setMode] = useState<"dryRun" | "apply" | null>(null);
+  const [activeMode, setActiveMode] = useState<"dryRun" | "apply" | null>(null);
   const [parseError, setParseError] = useState<string | null>(null);
 
   const mutation = useAdminMutation<unknown>(
@@ -55,20 +56,25 @@ export function BackfillPublishStatePanel({
     }
     setParseError(null);
     const dryRun = nextMode === "dryRun";
-    const raw = await mutation.trigger(
-      {},
-      `${BACKFILL_PUBLISH_STATE_PATH}?dryRun=${String(dryRun)}`,
-    );
-    const parsed = BackfillResultSchema.safeParse(raw);
-    if (!parsed.success) {
-      setLastResult(null);
-      setMode(null);
-      setParseError("backfill result schema mismatch");
-      return;
+    setActiveMode(nextMode);
+    try {
+      const raw = await mutation.trigger(
+        {},
+        `${BACKFILL_PUBLISH_STATE_PATH}?dryRun=${String(dryRun)}`,
+      );
+      const parsed = BackfillResultSchema.safeParse(raw);
+      if (!parsed.success) {
+        setLastResult(null);
+        setMode(null);
+        setParseError("backfill result schema mismatch");
+        return;
+      }
+      setLastResult(parsed.data);
+      setMode(nextMode);
+      if (!dryRun) onApplied?.(parsed.data);
+    } finally {
+      setActiveMode(null);
     }
-    setLastResult(parsed.data);
-    setMode(nextMode);
-    if (!dryRun) onApplied?.(parsed.data);
   };
 
   return (
@@ -82,7 +88,7 @@ export function BackfillPublishStatePanel({
           type="button"
           variant="soft"
           disabled={mutation.isLoading}
-          loading={mutation.isLoading && mode !== "apply"}
+          loading={mutation.isLoading && activeMode !== "apply"}
           onClick={() => void run("dryRun").catch(() => {})}
           data-testid="backfill-dry-run"
         >
@@ -92,7 +98,7 @@ export function BackfillPublishStatePanel({
           type="button"
           variant="danger"
           disabled={mutation.isLoading || !canApply}
-          loading={mutation.isLoading && mode === "apply"}
+          loading={mutation.isLoading && activeMode === "apply"}
           onClick={() => void run("apply").catch(() => {})}
           data-testid="backfill-apply"
         >
