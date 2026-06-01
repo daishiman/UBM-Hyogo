@@ -2552,12 +2552,6 @@ node scripts/list-specs.js --topics
 |------------|----|
 | Lessons Learned | L32 |
 
-### references/workflow-issue-1024-sidebar-collapse-cookie-persistence-artifact-inventory.md
-
-| セクション | 行 |
-|------------|----|
-| Lessons Learned | L23 |
-
 ### references/workflow-issue-1016-sidebar-mobile-drawer-responsive-artifact-inventory.md
 
 | セクション | 行 |
@@ -2567,6 +2561,12 @@ node scripts/list-specs.js --topics
 | Evidence | L27 |
 | Boundaries | L38 |
 | Lessons Learned | L44 |
+
+### references/workflow-issue-1024-sidebar-collapse-cookie-persistence-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Lessons Learned | L23 |
 
 ### references/workflow-issue-106-admin-member-notes-repository-task-spec-artifact-inventory.md
 
