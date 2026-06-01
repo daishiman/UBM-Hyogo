@@ -1779,3 +1779,17 @@ resolver 単発で skill-only conflict を解消した後でも、Phase 12/13 �
 - **SP-DEVSYNC-069-C (`.next` は gitignore 成果物・削除前に check-ignore で安全確認)**: 修正は `apps/web/.next/types` 削除 → `pnpm typecheck` 再実行のみ（次 build で再生成）。削除前に `git check-ignore apps/web/.next` が hit する（追跡外）ことを確認し source を巻き込まない。`rm -rf` が権限拒否される環境は `find apps/web/.next/types -type f -delete` → `find ... -type d -empty -delete` で代替。
 - **SP-DEVSYNC-069-D (CI 非再発・ローカル限定として記録し push を止めない)**: CI は clean checkout から build→typecheck するため `.next/types` は常に最新で本エラーは出ない。push ブロック事由にせず、ローカル green を取り戻す cache 掃除として Phase 13 に注記する。
 - 参照: [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-069（skill-only resolver-only path + route-group 移行 stale `.next/types` の切り分け）, L-DEVSYNC-068-D（`.next/types` ではなく spec 追従漏れで test だけ赤になる対照例）。
+
+## SSR-readable preference seed + cookie persistence パターン（first-paint flicker 回避 / 2026-05-31 issue-1024-sidebar-collapse-cookie-persistence）
+
+- L-SSRSEED-001: SSR 可視 layout を変える UI preference は client-only storage だと first-paint mismatch / flash が出る。first-party cookie を server component が `next/headers` の `cookies()` で読み、`initial*` prop として client state owner へ渡す。
+- L-SSRSEED-002: split-token な lint 回避（`"local" + "Storage"`）は禁止メカニズムを温存するだけ。boundary rule を満たす永続化経路（cookie）へ機構ごと置換する。
+- L-SSRSEED-003: 既存 state owner（`useSidebarState`）に optional initial seed を足す。第 2 のストアを増やさず「server=初期 seed / client=ユーザー操作 + cookie write」の責務分割を保つ。
+- Phase 2 design AC / Phase 6 test AC（server seed + client write + cookie helper の focused test 3 分割）に trigger を提供。
+
+### Anti-pattern
+- client-only storage で SSR layout preference を持つ（flash 発生）
+- substring lint rule を split-token で迂回する
+- server seed のために既存 hook と別のグローバルストアを新設する
+
+> 参照: aiworkflow-requirements 側 [[lessons-learned-issue-1024-sidebar-collapse-cookie-persistence-2026-05]] L-I1024-001..003。
