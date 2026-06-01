@@ -6,7 +6,7 @@
 
 | # | 検出項目 | 種別 | 推奨対応 | 割り当て先候補 / 既起票 |
 | --- | --- | --- | --- | --- |
-| 1 | audit table（`sync_audit_logs` / `sync_audit_outbox`）の最終要否判定 | 設計判断 | `sync_jobs` ledger でカバー可能か精査し新設可否を確定 | UT21-U02 `task-ut21-sync-audit-tables-necessity-judgement-001`（**既起票** / `docs/30-workflows/unassigned-task/`） |
+| 1 | audit table（`sync_audit_logs` / `sync_audit_outbox`）の最終要否判定 | 設計判断 | `sync_jobs` ledger でカバー可能か精査し新設可否を確定 | UT21-U02 `task-ut21-sync-audit-tables-necessity-judgement-001`（2026-05-31 consumed: `docs/30-workflows/completed-tasks/issue-235-sync-audit-tables-necessity-judgement/` で **新設不要** 確定） |
 | 2 | 実 secrets / 実 D1 環境での manual smoke | 検証 | staging 実環境で Bearer / 409 / D1 retry / metrics_json を実測 | UT21-U04 `task-ut21-phase11-smoke-rerun-real-env-001`（**既起票**）+ 09b runbook |
 | 3 | 実装パス境界（UT-21 想定 `apps/api/src/sync/{core,manual,scheduled,audit}` vs 現行 `apps/api/src/jobs/*` + `apps/api/src/sync/schema/*`）と runtime cron / wrangler stale Sheets 設定の整理 | 設計 / リファクタ / runtime configuration | 現行構成を正本確定し、`apps/api/wrangler.toml` と deployment specs の Sheets sync cron / `runSync` / Sheets API v4 表現を撤回・維持・Forms sync 置換に分類 | UT21-U05 `task-ut21-impl-path-boundary-realignment-001`（**既起票** / 本レビューで scope 追補） |
 | 4 | 03a / 03b / 04c / 09b の受入条件への patch 適用（Bearer guard / 409 排他 / D1 retry / manual smoke） | 実作業 | Phase 5 implementation-runbook の patch 案を各タスクに反映 | 既存 03a / 03b / 04c / 09b（**本 close-out では cross-link のみ**。実 patch 適用は各タスクの Phase 内） |
@@ -19,7 +19,7 @@
 
 - 価値要件 4 種（Bearer guard / 409 排他 / D1 retry / manual smoke）は全て既存タスクへ移植先割当済（AC-2 / Phase 2 移植マトリクス参照）
 - audit table / endpoint 新設は禁止方針が成果物そのもの（Phase 2 no-new-endpoint-policy 参照）
-- 実装パス再編 / runtime cron・wrangler stale Sheets 設定整理 / 実環境 smoke / audit 要否判定は U05 / U04 / U02 で既起票
+- 実装パス再編 / runtime cron・wrangler stale Sheets 設定整理 / 実環境 smoke は U05 / U04 で既起票。audit 要否判定 U02 は 2026-05-31 に canonical workflow で新設不要と確定済み
 - したがって本タスクから派生する新規 implementation タスクは **0 件**
 
 ## Phase 13 引き渡し
