@@ -6,6 +6,10 @@
 
 ## 2026-05-28 - task-b-root-page-public-header-async automation-30 close-out
 
+## 2026-05-31 - issue-229 indexes rebuild fail-fast automation-30 close-out
+
+`docs/30-workflows/completed-tasks/issue-229-indexes-rebuild-fail-fast/` の automation-30 改善で、`implementation / NON_VISUAL` かつ `generate-index.js` / focused spec test が明確な workflow を `spec_only` や「後続実装サイクル」で閉じず、同一サイクルで `.claude/skills/aiworkflow-requirements/scripts/generate-index.js` の fail-fast / atomic write / decisive log hardening、`scripts/__tests__/generate-index-fail-fast.spec.ts`、focused Vitest、`pnpm indexes:rebuild` immediate second rebuild idempotency、Phase 11 evidence、Phase 12 strict 7、aiworkflow same-wave sync まで完了して `implemented_local_evidence_captured` へ再分類した。commit / push / PR / Issue mutation のみ user-gated として分離した。
+
 ## 2026-05-31 - issue-235 judgement no-code close-out
 
 `docs/30-workflows/completed-tasks/issue-235-sync-audit-tables-necessity-judgement/` の automation-30 改善で、判定タスクが `sync_audit_logs` / `sync_audit_outbox` 新設不要に着地する場合の docs-only / NON_VISUAL close-out を確認した。CONST_004/005 は「提案だけで終わらせるな」という実反映原則だが、判定成果物そのものが no-new-table-required で、`apps/` / `packages/` の変更が目的に反する場合は、コード変更ゼロを Phase 2 / Phase 5 / Phase 11 / Phase 12 で実測証明し、代わりに aiworkflow current fact・indexes・artifact inventory・LOGS を同一サイクルで反映する。将来トリガ（行単位独立監査 / `sync_jobs` 書込失敗の別経路 / 外部監査分離）が観測されるまでは未タスク化しない。

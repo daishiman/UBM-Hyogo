@@ -1846,6 +1846,20 @@ resolver 単発で skill-only conflict を解消した後でも、Phase 12/13 �
 - **SP-DEVSYNC-069-D (CI 非再発・ローカル限定として記録し push を止めない)**: CI は clean checkout から build→typecheck するため `.next/types` は常に最新で本エラーは出ない。push ブロック事由にせず、ローカル green を取り戻す cache 掃除として Phase 13 に注記する。
 - 参照: [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-069（skill-only resolver-only path + route-group 移行 stale `.next/types` の切り分け）, L-DEVSYNC-068-D（`.next/types` ではなく spec 追従漏れで test だけ赤になる対照例）。
 
+## SSR-readable preference seed + cookie persistence パターン（first-paint flicker 回避 / 2026-05-31 issue-1024-sidebar-collapse-cookie-persistence）
+
+- L-SSRSEED-001: SSR 可視 layout を変える UI preference は client-only storage だと first-paint mismatch / flash が出る。first-party cookie を server component が `next/headers` の `cookies()` で読み、`initial*` prop として client state owner へ渡す。
+- L-SSRSEED-002: split-token な lint 回避（`"local" + "Storage"`）は禁止メカニズムを温存するだけ。boundary rule を満たす永続化経路（cookie）へ機構ごと置換する。
+- L-SSRSEED-003: 既存 state owner（`useSidebarState`）に optional initial seed を足す。第 2 のストアを増やさず「server=初期 seed / client=ユーザー操作 + cookie write」の責務分割を保つ。
+- Phase 2 design AC / Phase 6 test AC（server seed + client write + cookie helper の focused test 3 分割）に trigger を提供。
+
+### Anti-pattern
+- client-only storage で SSR layout preference を持つ（flash 発生）
+- substring lint rule を split-token で迂回する
+- server seed のために既存 hook と別のグローバルストアを新設する
+
+> 参照: aiworkflow-requirements 側 [[lessons-learned-issue-1024-sidebar-collapse-cookie-persistence-2026-05]] L-I1024-001..003。
+
 ## SP-DEVSYNC-074 `pnpm sync:resolve` は段階的かつ冪等 — 並行 git 操作由来の `index.lock` で後段だけ落ちても、lock 存在確認後の再実行で残コンフリクトだけ収束する（2026-05-31 feat/issue-998-members-sync-gate-c-task-spec ← dev 8 commits）
 
 sync-merge task の Phase 12 implementation-guide に、resolver 途中失敗時の復旧手順を固定フローとして記載する。`resolve-skill-merge-conflicts.sh` は ①union-resolve 群 → ②`keywords.json` `--ours`+`pnpm indexes:rebuild` の 2 段で進むため、後段で並行 worktree / dev ff 同期が残した `index.lock` に当たると「union だけ済んだ中間状態」で exit する。これを「全やり直し」と誤認しないこと。
@@ -1953,3 +1967,12 @@ issue-1008 sync（`refactor/issue-1008-members-list-ux-clarity-artifact-status-r
 - **SP-DEVSYNC-078-B (新番号 union 流入の新規 duplicate 判定)**: feature が dev の新 lesson 番号（本件 L-DEVSYNC-077/078 を feature 先端が未保持）を取り込む sync では、見出し限定 dup 数を `git show feature先端:F` / `git show dev:F` / merge 後 F の 3 点で比較し **after==dev なら新規衝突ゼロ**と判定（本件 feature 37 / dev 38 / after 38）。git 3-way union が共通祖先考慮で二重連結を避けるため「dup が大量に出た」だけで誤警報しない。backlog は触らず別 cleanup（SP-DEVSYNC-076-B）。dev 077-A/B の three-way 照合則と同型。
 - **SP-DEVSYNC-078-C (conflict file 集合は keywords.json も含め毎回 `--diff-filter=U` 確定)**: SP-DEVSYNC-076-C/047 の「衝突 file 集合は可変」を keywords.json についても再確認。L-DEVSYNC-078 では非衝突だった keywords.json が本件で衝突したが `pnpm sync:resolve` が `--ours`+`indexes:rebuild` で機械収束。固定集合を Phase 11 見積りに流用しない。
 - 参照: [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-079（正本）, L-DEVSYNC-078（見出し限定 grep・backlog 別管理）, SP-DEVSYNC-077（dev 側・union 健全性の three-way 照合）, SP-DEVSYNC-076（duplicate-ID 検査）, SP-DEVSYNC-047/073（衝突 file 数可変・`git ls-files -u` 正本則）。
+
+### 残コンフリクト判定は `git ls-files -u` を正本に — `=======` grep は装飾区切り線を誤検出／衝突 file はフルセット 5 file もある（SP-DEVSYNC-079）
+
+`feat/issue-229-indexes-rebuild-fail-fast-spec-clean ← dev`（sub-worktree wt-8・6 behind / 4 ahead）の sync-merge で確立。content conflict は **5 file フルセット**＝`aiworkflow-requirements/indexes/{keywords.json, quick-reference, resource-map, topic-map}` + `references/task-workflow-active.md`（**keywords.json と task-workflow-active.md が同時衝突**＝SP-DEVSYNC-078 の組合せの真逆）。source conflict 0 → `pnpm sync:resolve` 単独収束（5257 kw 再生成）→ merge commit `50b0a4f73`。typecheck/lint exit 0。
+
+- **SP-DEVSYNC-079-A (残コンフリクト判定は `git ls-files -u` を正本に・`=======` grep を単独根拠にしない)**: resolver / 手動解消の後、残コンフリクトの有無は `git ls-files -u`（空＝収束）で確定する。`git grep -lE '^(<<<<<<<|=======|>>>>>>>)'` は **diff3 の `=======`（7 個）に ASCII アート区切り（`=` 60 個）や Markdown 見出し下線が前方一致して false positive を出す**（本件は `ut-08-monitoring-alert-design/.../manual-smoke-log.md` の装飾区切り線を誤検出したが unmerged 0）。grep を使うなら `^=======$` 等の行末 anchor か `git diff --check`。SP-DEVSYNC-047/073 の「`git ls-files -u` 正本則」を marker 走査の文脈で再確認。[[feedback-grep-head-exit-code-pitfall]] と同系の grep 過検出ピットフォール。Phase 11 の「コンフリクト解消検証」手順には `git ls-files -u` を必須記載する。
+- **SP-DEVSYNC-079-B (衝突 file 集合は keywords.json + task-workflow-active のフルセットもある)**: SP-DEVSYNC-078-C の「集合可変」を再々確認。078=両非衝突 / 079(L-DEVSYNC)=keywords のみ / 本件=両方同時衝突、と組合せは sync 毎に変わる。固定 file 名リストを Phase 11 見積りに焼き込まず `git diff --name-only --diff-filter=U` で都度確定し `pnpm sync:resolve` に委譲する。
+- **SP-DEVSYNC-079-C (push-race — push 後に PR mergeable を再確認し base 前進なら即再 sync)**: branch-sync task の Phase 4（push）の完了条件に「PR mergeable 確認」を含める。クリーン push（pre-push gate 全緑）でも 9+ WT 並列運用では base `dev` が同時前進し PR が `CONFLICTING / DIRTY` 化する（本件: push 直後に別 PR #1061 が `ba8bbff0c` として dev 着地 → PR #1066 が CONFLICTING、CI は 29 checks 全 success）。push 後に `gh pr view <n> --json mergeable,mergeStateStatus,statusCheckRollup`（read-only・PR mutation ではない）か `git fetch --prune && git merge-base --is-ancestor origin/dev HEAD`（NO=base 前進）で確認し、CONFLICTING なら `git merge origin/dev` → `pnpm sync:resolve` → typecheck/lint → 再 push をもう 1 周。**CI 全 success と mergeable は独立軸**であり「CI 緑＝完了」と早合点しない（Phase 4 検証手順に明記）。
+- 参照: [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-080（正本・80-C が push-race）, L-DEVSYNC-079（sub-worktree path・keywords 可変）, SP-DEVSYNC-078（前回フルセット組合せ）, SP-DEVSYNC-047/073（`git ls-files -u` 正本則の初出）, [[feedback-grep-head-exit-code-pitfall]]。
