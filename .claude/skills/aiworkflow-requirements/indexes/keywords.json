@@ -707,6 +707,7 @@
       "workflow-awshh-followup-003-csp-reporting-endpoints-artifact-inventory.md",
       "workflow-i01-toastprovider-root-mount-artifact-inventory.md",
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
+      "workflow-issue-235-sync-audit-tables-necessity-judgement-artifact-inventory.md",
       "workflow-issue-247-apps-web-opennext-config-regression-tests-artifact-inventory.md",
       "workflow-issue-352-postmortem-template-automation-artifact-inventory.md",
       "workflow-issue-378-tag-queue-paused-flag-artifact-inventory.md",
@@ -2463,6 +2464,7 @@
       "workflow-google-form-reflection-diagnostics-artifact-inventory.md",
       "workflow-google-form-reflection-diagnostics-fu-002-h2-identity-rebuild-artifact-inventory.md",
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
+      "workflow-issue-235-sync-audit-tables-necessity-judgement-artifact-inventory.md",
       "workflow-issue-526-ci-actionlint-shellcheck-gate-artifact-inventory.md",
       "workflow-issue-531-runtime-smoke-attendance-provider-artifact-inventory.md",
       "workflow-issue-616-miniflare-undici-upstream-tracking-artifact-inventory.md",
@@ -3328,6 +3330,7 @@
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
       "workflow-issue-229-indexes-rebuild-fail-fast-artifact-inventory.md",
       "workflow-issue-230-lefthook-edit-guard-artifact-inventory.md",
+      "workflow-issue-235-sync-audit-tables-necessity-judgement-artifact-inventory.md",
       "workflow-issue-247-apps-web-opennext-config-regression-tests-artifact-inventory.md",
       "workflow-issue-255-coverage-threshold-sync-lint-artifact-inventory.md",
       "workflow-issue-256-e2e-coverage-baseline-runbook-artifact-inventory.md",
@@ -4622,6 +4625,7 @@
       "lessons-learned-issue-720-cf-audit-monitor-env-protection-fix-2026-05.md",
       "observability-monitoring.md",
       "ui-ux-feature-components-reference-organisms-history-surfaces.md",
+      "workflow-issue-235-sync-audit-tables-necessity-judgement-artifact-inventory.md",
       "workflow-issue-377-retry-tick-and-dlq-audit-artifact-inventory.md",
       "workflow-issue-515-cf-audit-logs-ml-anomaly-artifact-inventory.md",
       "workflow-issue-546-cf-audit-logs-90day-baseline-observation-artifact-inventory.md",
@@ -4732,6 +4736,7 @@
       "ui-ux-admin-dashboard.md",
       "ui-ux-feature-components-advanced.md",
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
+      "workflow-issue-235-sync-audit-tables-necessity-judgement-artifact-inventory.md",
       "workflow-issue-256-e2e-coverage-baseline-runbook-artifact-inventory.md",
       "workflow-issue-290-workflow-lint-gate-artifact-inventory.md",
       "workflow-issue-291-forms-d1-legacy-followup-cleanup-artifact-inventory.md",
@@ -5193,6 +5198,7 @@
       "workflow-issue-224-public-members-tags-batch-fetch-artifact-inventory.md",
       "workflow-issue-229-indexes-rebuild-fail-fast-artifact-inventory.md",
       "workflow-issue-230-lefthook-edit-guard-artifact-inventory.md",
+      "workflow-issue-235-sync-audit-tables-necessity-judgement-artifact-inventory.md",
       "workflow-issue-256-e2e-coverage-baseline-runbook-artifact-inventory.md",
       "workflow-issue-264-cron-schedule-free-tier-guard-artifact-inventory.md",
       "workflow-issue-276-mobile-filterbar-tag-picker-artifact-inventory.md",
@@ -5907,6 +5913,7 @@
       "workflow-fix-verify-design-tokens-og-route-exclude-artifact-inventory.md",
       "workflow-issue-106-admin-member-notes-repository-task-spec-artifact-inventory.md",
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
+      "workflow-issue-235-sync-audit-tables-necessity-judgement-artifact-inventory.md",
       "workflow-issue-290-workflow-lint-gate-artifact-inventory.md",
       "workflow-issue-377-retry-tick-and-dlq-audit-artifact-inventory.md",
       "workflow-issue-495-09b-A-sentry-slack-runtime-smoke-prod-extension-artifact-inventory.md",
@@ -6223,6 +6230,7 @@
       "workflow-i02-admin-error-type-unify-artifact-inventory.md",
       "workflow-issue-191-schema-aliases-artifact-inventory.md",
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
+      "workflow-issue-235-sync-audit-tables-necessity-judgement-artifact-inventory.md",
       "workflow-issue-290-workflow-lint-gate-artifact-inventory.md",
       "workflow-issue-300-direct-stable-key-update-guard-artifact-inventory.md",
       "workflow-issue-372-attendance-pagination-artifact-inventory.md",
@@ -11319,6 +11327,7 @@
       "workflow-issue-1007-density-toggle-help-hint-hardening-artifact-inventory.md",
       "workflow-issue-1010-auth-view-session-contract-integration-test-artifact-inventory.md",
       "workflow-issue-1016-sidebar-mobile-drawer-responsive-artifact-inventory.md",
+      "workflow-issue-235-sync-audit-tables-necessity-judgement-artifact-inventory.md",
       "workflow-issue-256-e2e-coverage-baseline-runbook-artifact-inventory.md",
       "workflow-issue-264-cron-schedule-free-tier-guard-artifact-inventory.md",
       "workflow-issue-276-mobile-filterbar-tag-picker-artifact-inventory.md",
@@ -17596,6 +17605,7 @@
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
       "workflow-issue-224-public-members-tags-batch-fetch-artifact-inventory.md",
       "workflow-issue-230-lefthook-edit-guard-artifact-inventory.md",
+      "workflow-issue-235-sync-audit-tables-necessity-judgement-artifact-inventory.md",
       "workflow-issue-247-apps-web-opennext-config-regression-tests-artifact-inventory.md",
       "workflow-issue-255-coverage-threshold-sync-lint-artifact-inventory.md",
       "workflow-issue-256-e2e-coverage-baseline-runbook-artifact-inventory.md",
@@ -19892,6 +19902,7 @@
       "lessons-learned-ut-coverage-2026-05-wave.md",
       "task-workflow.md",
       "ui-ux-components.md",
+      "workflow-issue-235-sync-audit-tables-necessity-judgement-artifact-inventory.md",
       "workflow-issue-247-apps-web-opennext-config-regression-tests-artifact-inventory.md",
       "workflow-issue-377-retry-tick-and-dlq-audit-artifact-inventory.md",
       "workflow-issue-502-ut-07b-fu-01-followup-dlq-monitoring-dashboard-artifact-inventory.md",
@@ -20718,6 +20729,7 @@
       "workflow-admin-requests-prototype-alignment-and-404-fix-artifact-inventory.md",
       "workflow-e2e-quality-uplift-stage-0-3-artifact-inventory.md",
       "workflow-fix-verify-design-tokens-og-route-exclude-artifact-inventory.md",
+      "workflow-issue-235-sync-audit-tables-necessity-judgement-artifact-inventory.md",
       "workflow-issue-806-dynamic-member-og-image-artifact-inventory.md",
       "workflow-issue-819-admin-dashboard-runtime-screenshot-artifact-inventory.md",
       "workflow-profile-server-components-render-error-artifact-inventory.md",
@@ -25232,6 +25244,7 @@
     ],
     "Reflection": [
       "ui-ux-feature-components-reference-organisms-history-surfaces.md",
+      "workflow-issue-235-sync-audit-tables-necessity-judgement-artifact-inventory.md",
       "workflow-issue-533-public-profile-builder-attendance-injection-artifact-inventory.md",
       "workflow-task-07c-followup-003-audit-log-browsing-ui-artifact-inventory.md"
     ],
@@ -25674,6 +25687,7 @@
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
       "workflow-issue-224-public-members-tags-batch-fetch-artifact-inventory.md",
       "workflow-issue-230-lefthook-edit-guard-artifact-inventory.md",
+      "workflow-issue-235-sync-audit-tables-necessity-judgement-artifact-inventory.md",
       "workflow-issue-247-apps-web-opennext-config-regression-tests-artifact-inventory.md",
       "workflow-issue-255-coverage-threshold-sync-lint-artifact-inventory.md",
       "workflow-issue-256-e2e-coverage-baseline-runbook-artifact-inventory.md",
@@ -25969,6 +25983,7 @@
       "workflow-e2e-stage-2-2d-contract-artifact-inventory.md",
       "workflow-issue-106-admin-member-notes-repository-task-spec-artifact-inventory.md",
       "workflow-issue-229-indexes-rebuild-fail-fast-artifact-inventory.md",
+      "workflow-issue-235-sync-audit-tables-necessity-judgement-artifact-inventory.md",
       "workflow-issue-352-postmortem-template-automation-artifact-inventory.md",
       "workflow-issue-377-retry-tick-and-dlq-audit-artifact-inventory.md",
       "workflow-issue-378-tag-queue-paused-flag-artifact-inventory.md",
@@ -26034,6 +26049,7 @@
       "workflow-e2e-quality-uplift-stage-0-3-artifact-inventory.md",
       "workflow-i02-admin-error-type-unify-artifact-inventory.md",
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
+      "workflow-issue-235-sync-audit-tables-necessity-judgement-artifact-inventory.md",
       "workflow-issue-526-ci-actionlint-shellcheck-gate-artifact-inventory.md",
       "workflow-issue-616-miniflare-undici-upstream-tracking-artifact-inventory.md",
       "workflow-task-07c-followup-003-audit-log-browsing-ui-artifact-inventory.md",
@@ -26646,7 +26662,22 @@
       "workflow-issue-991-admin-fetch-error-typed-class-artifact-inventory.md",
       "workflow-issue-998-members-publish-state-production-rollout-artifact-inventory.md"
     ],
+    "Tables": [
+      "workflow-issue-235-sync-audit-tables-necessity-judgement-artifact-inventory.md"
+    ],
+    "Necessity": [
+      "workflow-issue-235-sync-audit-tables-necessity-judgement-artifact-inventory.md"
+    ],
+    "Judgement": [
+      "workflow-issue-235-sync-audit-tables-necessity-judgement-artifact-inventory.md"
+    ],
+    "Core": [
+      "workflow-issue-235-sync-audit-tables-necessity-judgement-artifact-inventory.md",
+      "workflow-issue-532-write-tag-note-provider-ctx-injection-artifact-inventory.md",
+      "workflow-task-issue-494-09a-A-exec-staging-smoke-runtime-artifact-inventory.md"
+    ],
     "Same": [
+      "workflow-issue-235-sync-audit-tables-necessity-judgement-artifact-inventory.md",
       "workflow-issue-247-apps-web-opennext-config-regression-tests-artifact-inventory.md",
       "workflow-issue-290-workflow-lint-gate-artifact-inventory.md",
       "workflow-issue-377-retry-tick-and-dlq-audit-artifact-inventory.md",
@@ -26797,10 +26828,6 @@
     ],
     "elegant": [
       "workflow-issue-531-runtime-smoke-attendance-provider-artifact-inventory.md"
-    ],
-    "Core": [
-      "workflow-issue-532-write-tag-note-provider-ctx-injection-artifact-inventory.md",
-      "workflow-task-issue-494-09a-A-exec-staging-smoke-runtime-artifact-inventory.md"
     ],
     "surfaces": [
       "workflow-issue-532-write-tag-note-provider-ctx-injection-artifact-inventory.md"

@@ -56,7 +56,7 @@ rg -n "POST /admin/sync\b|GET /admin/sync/audit|sync_audit_logs|sync_audit_outbo
 
 | 期待出力 | 内容 |
 | --- | --- |
-| 本タスク phase / outputs ヒット | 引用文脈（「新設しない方針」「U02 判定後まで保留」「Before 表」）のみで、推奨表記としてのヒットは 0 |
+| 本タスク phase / outputs ヒット | 引用文脈（「新設しない方針」「U02 / Issue #235 で新設不要確定済み」「Before 表」）のみで、推奨表記としてのヒットは 0 |
 | `02-application-implementation` ヒット | 03a / 03b / 04c の split endpoint 表記のみ。単一 `POST /admin/sync` ヒット 0 |
 | `aiworkflow-requirements/references` ヒット | `task-workflow.md` 内に stale 表記 0、引用なし |
 
@@ -110,7 +110,7 @@ gh issue view 234 --json state,title,url
 | --- | --- | --- | --- |
 | 同期元 | Forms API (`forms.get` / `forms.responses.list`) | 同 | PASS |
 | admin endpoint | `POST /admin/sync/schema` + `POST /admin/sync/responses` の split | 同 | PASS |
-| 監査 ledger | `sync_jobs` 単一 | 同（`sync_audit_logs/outbox` は U02 判定後まで保留） | PASS |
+| 監査 ledger | `sync_jobs` 単一 | 同（`sync_audit_logs/outbox` は U02 / Issue #235 で新設不要確定済み） | PASS |
 | 実装パス | `apps/api/src/jobs/sync-forms-responses.ts` + `apps/api/src/sync/schema/*` | 同 | PASS |
 | Bearer guard | `SYNC_ADMIN_TOKEN` を `/admin/sync/*` に適用 | 同 | PASS |
 | Cron | Workers Cron Triggers | 同（09b runbook 委譲） | PASS |

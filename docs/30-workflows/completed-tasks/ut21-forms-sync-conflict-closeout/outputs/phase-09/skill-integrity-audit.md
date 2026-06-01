@@ -21,7 +21,7 @@
 | --- | --- | --- | --- | --- |
 | 同期元 | Forms API（`forms.get` / `forms.responses.list`）を正本 | 同（Phase 1 §5 / Phase 2 / Phase 8 §3 SSOT） | PASS | Sheets API v4 は legacy 引用のみ |
 | admin endpoint | split: `POST /admin/sync/schema`（03a） + `POST /admin/sync/responses`（03b）。単一 `POST /admin/sync` は新設しない close-out 済 | 同（Phase 1 §5 / Phase 2 no-new-endpoint-policy.md / Phase 8 §3 SSOT） | PASS | F-1 共通フレーズと一致 |
-| 監査 ledger | `sync_jobs` 単一を正本。`sync_audit_logs/outbox` は新設しない（U02 判定後まで保留） | 同（Phase 1 §5 / Phase 8 §4.3 / index.md AC-4） | PASS | F-2 共通フレーズと一致 |
+| 監査 ledger | `sync_jobs` 単一を正本。`sync_audit_logs/outbox` は新設しない（2026-05-31 後続確定: U02 / Issue #235 で新設不要） | 同（Phase 1 §5 / Phase 8 §4.3 / index.md AC-4） | PASS | F-2 共通フレーズと一致 |
 | 実装パス | `apps/api/src/jobs/sync-forms-responses.ts` + `apps/api/src/sync/schema/*` | 同（Phase 1 §5 / Phase 8 §4.4） | PASS | `apps/api/src/sync/{core,manual,scheduled,audit}.ts` は U05 委譲ノートのみ |
 | Bearer guard | `SYNC_ADMIN_TOKEN` を `/admin/sync/*`（split 両方）に適用 | 同（Phase 1 §6 / Phase 5 implementation-runbook.md） | PASS | 04c の patch 案で AC 反映 |
 | Cron | Workers Cron Triggers が scheduled sync 実行基盤 | 同（09b runbook 委譲。本タスクは spec のみ） | PASS | 無料枠運用 |
