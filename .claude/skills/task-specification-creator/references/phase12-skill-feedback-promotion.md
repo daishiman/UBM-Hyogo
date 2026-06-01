@@ -90,6 +90,21 @@ done
 
 実例: `google-form-reflection-diagnostics` では初期状態が `implementation / VISUAL` かつ diagnostics API / `/admin/sync-status` / Member Drawer パネルを implementation_files に列挙していたが、差分は仕様書のみだった。同 wave で `apps/api/src/diagnostics/*`、`apps/web/app/(admin)/admin/sync-status/page.tsx`、`apps/web/src/features/admin/diagnostics/*`、`MemberDiagnosticsPanel` を実装し、存在しない `apps/web/src/app` path と `GOOGLE_FORMS_API_KEY` drift を補正した。
 
+実例: `issue-229-indexes-rebuild-fail-fast` では `taskType=implementation` かつ `generate-index.js` / focused spec test を明示していたにもかかわらず、初期仕様書は `spec_only` と「後続実装サイクル」を併記していた。同 wave で `.claude/skills/aiworkflow-requirements/scripts/generate-index.js` と `scripts/__tests__/generate-index-fail-fast.spec.ts` を実装し、Phase 11 evidence・root/output artifacts・aiworkflow ledgers を `implemented_local_evidence_captured` へ再分類した。CLOSED Issue mutation / commit / push / PR だけを user-gated とし、実装可能な local code は後送りしない。
+
+## Same-Wave Implementation Evidence Reclassification Gate
+
+Phase 12 automation-30 / close-out review 中に local 実装差分が入った場合、既存の Phase 4〜11 が「template_created」「NOT EXECUTED」「後続実装サイクル」として生成済みでも、その文言を残したまま PASS しない。次の同期を同一 wave で完了する。
+
+| Gate | 必須条件 |
+| --- | --- |
+| artifact state | root/output `artifacts.json.metadata.workflow_state` を `implemented_local_evidence_captured` 等の実態へ更新し、Phase 4〜12 を `completed` へ同期する |
+| Phase 11 evidence | 実走した focused test / CLI / grep gate を `outputs/phase-11/*` に実値で記録し、`NOT EXECUTED` を残さない |
+| Phase 12 truthfulness | compliance check / documentation changelog / implementation guide から `spec_created (no impl yet)`、`後続実装`、`実コードなし` を除去する |
+| owning skill sync | 実装対象が skill 正本配下なら quick-reference / resource-map / task-workflow-active / artifact inventory / changelog / LOGS を同期する |
+
+この gate は `skill-feedback-report.md` の提案に留めず、同一 cycle で実ファイルへ反映する。未タスク化できるのは外部承認・外部 runtime・破壊的 mutation など user-gated 境界だけであり、local code / tests / docs sync は対象外。
+
 ## Client Hook Shared Error Contract Gate
 
 Client hook が HTTP / auth error を扱う場合、既存 shared error class と redirect helper を Phase 1-5 で探索し、hook 内に独自 Error class や独自 query 語彙を作らない。Phase 12 では次の 4 点を同一 wave で確認する。
