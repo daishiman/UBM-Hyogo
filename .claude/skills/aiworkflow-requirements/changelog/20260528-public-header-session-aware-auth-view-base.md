@@ -23,7 +23,7 @@
 
 | ID | Path | Source | Issue |
 | --- | --- | --- | --- |
-| FU-001 | `docs/30-workflows/unassigned-task/public-header-auth-view-session-contract-integration-test-001.md` | Phase 10 M-01 / Phase 12 detection | #1010 |
+| FU-001 | `docs/30-workflows/completed-tasks/issue-1010-auth-view-session-contract-integration-test/unassigned-task-specs/public-header-auth-view-session-contract-integration-test-001.md` | Phase 10 M-01 / Phase 12 detection | #1010 |
 
 ## Verification
 

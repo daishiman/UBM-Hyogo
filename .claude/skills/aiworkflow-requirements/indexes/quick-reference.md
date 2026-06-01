@@ -1,5 +1,70 @@
 # クイックリファレンス
 
+## issue-264-cron-schedule-free-tier-guard（2026-05-31）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-264-cron-schedule-free-tier-guard/` |
+| status | `implemented_local_evidence_captured / implementation / NON_VISUAL / Phase 13 pending_user_approval` |
+| purpose | CLOSED Issue #264 の obsolete Sheets 24h 実測要求を、現行 Forms ベース 3-cron free-tier guard へ再スコープ |
+| implementation | `apps/api/src/sync/wrangler-cron-schedule.guard.spec.ts` |
+| invariant | `apps/api/wrangler.toml` の `[triggers]` / `[env.production.triggers]` / `[env.staging.triggers]` は `["0 18 * * *", "*/15 * * * *", "*/5 * * * *"]` で一致し、3 本以下、legacy `0 * * * *` 不在 |
+| evidence | focused Vitest 1 file / 16 tests PASS; package-script apps/api suite 76 files / 481 tests PASS |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-264-cron-schedule-free-tier-guard-artifact-inventory.md` |
+| user gate | optional staging cron tail, commit, push, PR, Issue mutation |
+
+## member-publish-recovery-form-ops-and-admin-link（2026-05-31）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/member-publish-recovery-form-ops-and-admin-link/` |
+| status | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION` |
+| purpose | `/members` 公開0件の運用復旧、既存 Form 回答の手動反映、反映 SLA 可視化、admin sidebar から Google Form 回答編集画面への導線を 4 責務で実装 |
+| implementation | `apps/web/app/(admin)/admin/sync-status/page.tsx`, `apps/web/app/api/admin/[...path]/route.ts`, `apps/web/src/features/admin/components/_sync/`, `apps/web/src/features/admin/diagnostics/{backfill,manual-sync}.ts`, `apps/web/src/components/public/ReflectionTimingNote.tsx`, `apps/web/src/components/shell/{shell-config,SidebarNavItem,icons}.tsx`, `apps/web/src/lib/constants/form.ts`, `apps/web/src/lib/env.ts` |
+| system spec | `docs/00-getting-started-manual/specs/03-data-fetching.md` に反映 SLA を追加 |
+| evidence | web typecheck PASS, focused Vitest 7 files / 20 tests PASS |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-member-publish-recovery-form-ops-and-admin-link-artifact-inventory.md` |
+| user gate | production flag, Cloudflare secret injection, deploy, authenticated screenshots, commit, push, PR |
+
+## issue-1016-sidebar-mobile-drawer-responsive（2026-05-31）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-1016-sidebar-mobile-drawer-responsive/` |
+| status | `implemented_local_runtime_pending / implementation / VISUAL` |
+| issue | #1016 CLOSED。PR 文脈は `Refs #1016` のみ |
+| parent | `docs/30-workflows/completed-tasks/unified-sidebar-shell-public-and-admin/` Task E |
+| purpose | Unified Sidebar Shell の mobile drawer responsive を実装し、スマホ幅で hamburger → dialog drawer を開けるようにする |
+| implementation targets | `apps/web/src/components/shell/SidebarMobileTrigger.tsx`, `SidebarDrawer.tsx`, `useSidebarState.ts`, `SidebarShell.tsx`, `apps/web/src/lib/is-browser.ts`, `apps/web/src/styles/globals.css` |
+| evidence | focused Vitest 4 files / 21 tests PASS（`outputs/phase-11/evidence/focused-vitest.log`）+ local screenshots 4 PNG（`outputs/phase-11/screenshots/`） |
+| Phase 12 | strict 7 present; root/output artifacts parity present |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1016-sidebar-mobile-drawer-responsive-artifact-inventory.md` |
+| user gate | staging visual verification, commit, push, PR |
+
+## issue-57-kv-r2-guardrail-degrade-design（2026-05-31）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-57-kv-r2-guardrail-degrade-design/` |
+| status | `implemented_local_evidence_captured / implementation / NON_VISUAL / external_ops_pending_user_gate` |
+| purpose | KV/R2 free-tier guardrail drift を正本化し、application audit_log R2 export を repository variable で即時 pause 可能にする |
+| implementation | `scripts/audit-log/export-to-r2.ts` adds `paused` short-circuit; `.github/workflows/audit-log-cold-storage.yml` forwards `AUDIT_COLD_STORAGE_EXPORT_PAUSED`; `apps/api/src/env.ts` / `alert-relay.ts` make `ALERT_DEDUP_KV` optional fail-open |
+| specs | `docs/00-getting-started-manual/specs/08-free-database.md`, `.claude/skills/aiworkflow-requirements/references/deployment-cloudflare.md`, `docs/30-workflows/completed-tasks/05a-parallel-observability-and-cost-guardrails/outputs/phase-05/cost-guardrail-runbook.md` |
+| user gate | GitHub variable mutation, production scheduled export, commit, push, PR |
+
+## issue-1007-density-toggle-help-hint-hardening（2026-05-30）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-1007-density-toggle-help-hint-hardening/` |
+| status | `implemented_local_runtime_pending / implementation / VISUAL` |
+| purpose | `/members` の `DensityToggle` HelpHint を、複数配置 id 衝突なし・Escape/outside close・Icon system `help` glyph へ堅牢化する |
+| implementation targets | `apps/web/src/components/public/DensityToggle.client.tsx`, `apps/web/src/components/ui/Icon.tsx`, `apps/web/src/components/ui/icons.ts` |
+| tests | `apps/web/src/components/public/__tests__/DensityToggle.client.spec.tsx`（15 passed） |
+| specs | `docs/00-getting-started-manual/specs/09-ui-ux.md`, `docs/00-getting-started-manual/specs/09d-icons.md` |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1007-density-toggle-help-hint-hardening-artifact-inventory.md` |
+| user gate | runtime screenshots, staging deploy, commit, push, PR |
+
 ## issue-1006-members-selected-filters-chip-ux-hardening（2026-05-30）
 
 | 項目 | 値 |
@@ -1766,6 +1831,19 @@
 | invariant | no new endpoint / no D1 schema / no Google Form change; `data-auth-state` is only `guest\|member\|admin`; no PII in DOM |
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-public-header-session-aware-auth-view-base-artifact-inventory.md` |
 | user gate | staging authenticated runtime visual, commit, push, PR |
+
+### issue-1010-auth-view-session-contract-integration-test（2026-05-30）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-1010-auth-view-session-contract-integration-test/` |
+| status | `implemented_local_evidence_captured / implementation / NON_VISUAL / Phase 13 pending_user_approval` |
+| source | `docs/30-workflows/completed-tasks/issue-1010-auth-view-session-contract-integration-test/unassigned-task-specs/public-header-auth-view-session-contract-integration-test-001.md`（consumed） |
+| purpose | 実 `buildAuthConfig().callbacks.session` 出力を `resolveAuthView()` / `getAuthView()` に連鎖し、AuthView session contract drift を検出する |
+| implementation | `apps/web/src/lib/auth-view/__tests__/authViewSessionContract.integration.spec.ts` |
+| evidence | focused Vitest 4 files / 61 tests PASS、web typecheck PASS、workspace lint PASS |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1010-auth-view-session-contract-integration-test-artifact-inventory.md` |
+| user gate | commit, push, PR |
 
 ### public-header-logged-in-nav-cleanup（2026-05-28）
 

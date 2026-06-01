@@ -1,0 +1,35 @@
+{
+  "task": "issue-1007-density-toggle-help-hint-hardening",
+  "capturedAt": "2026-05-30T08:18:20.026Z",
+  "source": "Playwright setContent fixture using DensityToggle DOM contract and app CSS rules because local Next dev did not return routes before timeout",
+  "targetComponent": "apps/web/src/components/public/DensityToggle.client.tsx",
+  "viewport": {
+    "width": 1280,
+    "height": 900
+  },
+  "screenshots": [
+    {
+      "file": "screenshots/density-toggle-help-closed.png",
+      "tc": [
+        "TC-8"
+      ],
+      "state": "HelpHint closed"
+    },
+    {
+      "file": "screenshots/density-toggle-help-open.png",
+      "tc": [
+        "TC-4",
+        "TC-5"
+      ],
+      "state": "HelpHint open"
+    },
+    {
+      "file": "screenshots/density-toggle-segmented.png",
+      "tc": [
+        "TC-1",
+        "TC-2"
+      ],
+      "state": "Segmented control"
+    }
+  ]
+}

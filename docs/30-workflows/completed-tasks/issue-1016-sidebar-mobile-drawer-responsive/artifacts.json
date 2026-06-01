@@ -1,0 +1,154 @@
+{
+  "workflow_id": "issue-1016-sidebar-mobile-drawer-responsive",
+  "workflow_state": "implemented_local_runtime_pending",
+  "metadata": {
+    "taskType": "implementation",
+    "visualEvidence": "VISUAL",
+    "workflow_state": "implemented_local_runtime_pending",
+    "implementation_state": "local_code_focused_tests_and_screenshots_passed",
+    "phase11_state": "focused_tests_and_local_screenshots_present_staging_pending",
+    "issue": 1016,
+    "issue_state": "CLOSED",
+    "issue_policy": "refs_only",
+    "source_unassigned_task": "docs/30-workflows/completed-tasks/unified-sidebar-shell-public-and-admin/tasks/task-E-mobile-drawer-responsive.md",
+    "parent_workflow": "docs/30-workflows/completed-tasks/unified-sidebar-shell-public-and-admin/",
+    "user_gated": [
+      "staging visual verification",
+      "commit",
+      "push",
+      "PR"
+    ],
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-05-30T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-1016-sidebar-mobile-drawer-responsive/outputs/phase-12/phase12-task-spec-compliance-check.md",
+        "approver": "daishiman",
+        "notes": "spec_review: Phase 1-13 spec + Phase 12 strict 7 outputs created for Task E mobile drawer responsive"
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "passed",
+        "passed_at": "2026-05-31T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-1016-sidebar-mobile-drawer-responsive/outputs/phase-11/evidence/focused-vitest.log",
+        "approver": "daishiman",
+        "notes": "implementation_review: SidebarMobileTrigger + SidebarDrawer + route-close/md-collapsed state + SidebarShell mount implemented; focused Vitest 4 files / 21 tests PASS; typecheck/lint/verify-design-tokens PASS"
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-1016-sidebar-mobile-drawer-responsive/phase-13-pr.md",
+        "approver": "daishiman",
+        "notes": "external_ops: staging visual + commit + push + PR pending user-gated execution"
+      }
+    ]
+  },
+  "branch": "docs/issue-1016-sidebar-mobile-drawer-responsive-spec",
+  "base_branch": "dev",
+  "implementation_mode": "new",
+  "screenshot_mode": "VISUAL",
+  "taskType": "implementation",
+  "visualEvidence": "VISUAL",
+  "phases": {
+    "phase-01": {
+      "status": "spec_created",
+      "artifact": "phase-01-requirements.md"
+    },
+    "phase-02": {
+      "status": "spec_created",
+      "artifact": "phase-02-design.md"
+    },
+    "phase-03": {
+      "status": "spec_created",
+      "artifact": "phase-03-design-review.md"
+    },
+    "phase-04": {
+      "status": "spec_created",
+      "artifact": "phase-04-test-design.md"
+    },
+    "phase-05": {
+      "status": "implemented_local",
+      "artifact": "phase-05-implementation.md"
+    },
+    "phase-06": {
+      "status": "implemented_local",
+      "artifact": "phase-06-test-expansion.md"
+    },
+    "phase-07": {
+      "status": "focused_tests_passed",
+      "artifact": "phase-07-coverage.md"
+    },
+    "phase-08": {
+      "status": "spec_created",
+      "artifact": "phase-08-refactor.md"
+    },
+    "phase-09": {
+      "status": "focused_tests_passed",
+      "artifact": "phase-09-qa.md"
+    },
+    "phase-10": {
+      "status": "spec_created",
+      "artifact": "phase-10-final-review.md"
+    },
+    "phase-11": {
+      "status": "focused_test_and_screenshots_present",
+      "artifact": "phase-11-evidence-inventory.md"
+    },
+    "phase-12": {
+      "status": "updated",
+      "artifact": "phase-12-documentation.md"
+    },
+    "phase-13": {
+      "status": "spec_created",
+      "artifact": "phase-13-pr.md"
+    }
+  },
+  "gates": [],
+  "outputs": {
+    "artifacts_mirror": "outputs/artifacts.json",
+    "phase12": {
+      "main": "outputs/phase-12/main.md",
+      "implementation_guide": "outputs/phase-12/implementation-guide.md",
+      "system_spec_update_summary": "outputs/phase-12/system-spec-update-summary.md",
+      "documentation_changelog": "outputs/phase-12/documentation-changelog.md",
+      "unassigned_task_detection": "outputs/phase-12/unassigned-task-detection.md",
+      "skill_feedback_report": "outputs/phase-12/skill-feedback-report.md",
+      "compliance_check": "outputs/phase-12/phase12-task-spec-compliance-check.md"
+    },
+    "phase11": {
+      "focused_vitest": "outputs/phase-11/evidence/focused-vitest.log",
+      "screenshots": "outputs/phase-11/screenshots/*.png",
+      "screenshot_metadata": "outputs/phase-11/metadata.json"
+    }
+  },
+  "tasks": [
+    {
+      "id": "task-e-mobile-drawer-responsive",
+      "scope": "apps/web/src/components/shell/",
+      "status": "implemented_local_runtime_pending",
+      "new_files": [
+        "apps/web/src/components/shell/SidebarMobileTrigger.tsx",
+        "apps/web/src/components/shell/SidebarDrawer.tsx",
+        "apps/web/src/components/shell/__tests__/SidebarMobileTrigger.spec.tsx",
+        "apps/web/src/components/shell/__tests__/SidebarDrawer.spec.tsx"
+      ],
+      "edited_files": [
+        "apps/web/src/components/shell/useSidebarState.ts",
+        "apps/web/src/components/shell/SidebarShell.tsx",
+        "apps/web/src/components/shell/__tests__/useSidebarState.spec.tsx",
+        "apps/web/src/components/shell/__tests__/SidebarShell.spec.tsx",
+        "apps/web/src/lib/is-browser.ts",
+        "apps/web/src/styles/globals.css",
+        "apps/web/src/components/shell/SidebarShell.server.tsx"
+      ]
+    }
+  ],
+  "issue": {
+    "number": 1016,
+    "state": "CLOSED",
+    "policy": "refs_only",
+    "title": "Unified Sidebar Shell Task E: Mobile drawer responsive"
+  }
+}

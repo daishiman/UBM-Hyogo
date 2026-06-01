@@ -7,6 +7,7 @@ export const EnvSchema = z.object({
   PUBLIC_API_BASE_URL: z.string().url(),
   INTERNAL_API_BASE_URL: z.string().url(),
   INTERNAL_AUTH_SECRET: z.string().min(1).optional(),
+  SYNC_ADMIN_TOKEN: z.string().min(1).optional(),
   AUTH_URL: z.string().url(),
   GOOGLE_CLIENT_ID: z.string().min(1).optional(),
   GOOGLE_CLIENT_SECRET: z.string().min(1).optional(),
@@ -48,6 +49,7 @@ const AuthEnvSchema = EnvSchema.pick({
   AUTH_GOOGLE_SECRET: true,
   INTERNAL_API_BASE_URL: true,
   INTERNAL_AUTH_SECRET: true,
+  SYNC_ADMIN_TOKEN: true,
 }).partial();
 
 export type AuthEnv = z.infer<typeof AuthEnvSchema> & {
