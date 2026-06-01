@@ -2539,6 +2539,16 @@ node scripts/list-specs.js --topics
 | Runtime Boundary | L29 |
 | Lessons Learned | L33 |
 
+### references/workflow-issue-1030-member-photo-transcode-resize-variant-pipeline-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Workflow | L3 |
+| Contract Boundary | L14 |
+| Evidence Boundary | L25 |
+| User-Gated Items | L35 |
+| Lessons | L39 |
+
 ### references/workflow-issue-106-admin-member-notes-repository-task-spec-artifact-inventory.md
 
 | セクション | 行 |
@@ -8200,15 +8210,15 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L3257 |
-| フェーズ構造（概要） | L3266 |
-| 品質ゲート（概要） | L3297 |
-| 出力テンプレート | L3308 |
-| 実行時のコマンド・エージェント・スキル | L3331 |
-| 昇格パターン集 | L3355 |
-| Current Active / Spec Created Tasks | L3357 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L3521 |
-| issue-998-members-publish-state-production-rollout | L3598 |
+| ドキュメント構成 | L3272 |
+| フェーズ構造（概要） | L3281 |
+| 品質ゲート（概要） | L3312 |
+| 出力テンプレート | L3323 |
+| 実行時のコマンド・エージェント・スキル | L3346 |
+| 昇格パターン集 | L3370 |
+| Current Active / Spec Created Tasks | L3372 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L3536 |
+| issue-998-members-publish-state-production-rollout | L3613 |
 
 ### references/task-workflow-backlog-part2.md
 

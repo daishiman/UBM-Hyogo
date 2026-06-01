@@ -311,6 +311,9 @@ export const AdminMemberDetailViewZ = z
     // issue-983 AC-2: admin-managed member photo の presigned GET URL（TTL 300s）。
     // optional のため既存 parse は壊れない。.strict() は維持。
     photoUrl: z.string().url().optional(),
+    // issue-1030: thumb variant の presigned GET URL（保存済 かつ presign 成功時のみ）。
+    // optional・後方互換（thumb 未生成 / 旧行では undefined）。
+    photoThumbUrl: z.string().url().optional(),
   })
   .strict();
 

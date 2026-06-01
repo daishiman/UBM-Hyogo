@@ -9,6 +9,11 @@ export interface MemberPhotoRow {
   readonly objectKey: string;
   readonly contentType: string;
   readonly byteSize: number;
+  // issue-1030: thumb variant メタデータ（後方互換のため null 許容。0023 以前の行は null）。
+  readonly thumbObjectKey: string | null;
+  readonly thumbByteSize: number | null;
+  readonly contentHash: string | null;
+  readonly processingStatus: string;
   readonly uploadedBy: string;
   readonly uploadedAt: string;
 }
@@ -18,6 +23,11 @@ interface RawMemberPhotoRow {
   object_key: string;
   content_type: string;
   byte_size: number;
+  // issue-1030: 0023 で ADD COLUMN。既存行は thumb 系 null / processing_status DEFAULT 'none'。
+  thumb_object_key: string | null;
+  thumb_byte_size: number | null;
+  content_hash: string | null;
+  processing_status: string;
   uploaded_by: string;
   uploaded_at: string;
 }
@@ -29,7 +39,9 @@ export async function getMemberPhoto(
 ): Promise<MemberPhotoRow | null> {
   const row = await c.db
     .prepare(
-      `SELECT member_id, object_key, content_type, byte_size, uploaded_by, uploaded_at
+      `SELECT member_id, object_key, content_type, byte_size,
+              thumb_object_key, thumb_byte_size, content_hash, processing_status,
+              uploaded_by, uploaded_at
        FROM member_photos WHERE member_id = ?1`,
     )
     .bind(memberId)
@@ -40,6 +52,10 @@ export async function getMemberPhoto(
     objectKey: row.object_key,
     contentType: row.content_type,
     byteSize: row.byte_size,
+    thumbObjectKey: row.thumb_object_key ?? null,
+    thumbByteSize: row.thumb_byte_size ?? null,
+    contentHash: row.content_hash ?? null,
+    processingStatus: row.processing_status ?? "none",
     uploadedBy: row.uploaded_by,
     uploadedAt: row.uploaded_at,
   };
@@ -53,10 +69,22 @@ export async function upsertMemberPhoto(
   await c.db
     .prepare(
       `INSERT OR REPLACE INTO member_photos
-       (member_id, object_key, content_type, byte_size, uploaded_by, uploaded_at)
-       VALUES (?1, ?2, ?3, ?4, ?5, datetime('now'))`,
+       (member_id, object_key, content_type, byte_size,
+        thumb_object_key, thumb_byte_size, content_hash, processing_status,
+        uploaded_by, uploaded_at)
+       VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, datetime('now'))`,
     )
-    .bind(row.memberId, row.objectKey, row.contentType, row.byteSize, row.uploadedBy)
+    .bind(
+      row.memberId,
+      row.objectKey,
+      row.contentType,
+      row.byteSize,
+      row.thumbObjectKey,
+      row.thumbByteSize,
+      row.contentHash,
+      row.processingStatus,
+      row.uploadedBy,
+    )
     .run();
 }
 

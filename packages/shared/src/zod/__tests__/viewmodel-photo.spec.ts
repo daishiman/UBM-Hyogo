@@ -93,4 +93,35 @@ describe("AdminMemberDetailViewZ.photoUrl", () => {
     const result = AdminMemberDetailViewZ.safeParse({ ...baseView, photoUrl: 12345 });
     expect(result.success).toBe(false);
   });
+
+  // --- issue-1030: photoThumbUrl 拡張 ---
+  it("SCHEMA-PT-1: photoThumbUrl なしでも parse 成功（後方互換）", () => {
+    const result = AdminMemberDetailViewZ.safeParse(baseView);
+    expect(result.success).toBe(true);
+  });
+
+  it("SCHEMA-PT-2: photoUrl と photoThumbUrl 双方の url を受け入れる", () => {
+    const result = AdminMemberDetailViewZ.safeParse({
+      ...baseView,
+      photoUrl: "https://r2.test/display.webp",
+      photoThumbUrl: "https://r2.test/thumb.webp",
+    });
+    expect(result.success).toBe(true);
+    if (result.success) {
+      expect(result.data.photoThumbUrl).toBe("https://r2.test/thumb.webp");
+    }
+  });
+
+  it("SCHEMA-PT-3: photoThumbUrl が url 形式でないなら reject", () => {
+    const result = AdminMemberDetailViewZ.safeParse({
+      ...baseView,
+      photoThumbUrl: "not-a-url",
+    });
+    expect(result.success).toBe(false);
+  });
+
+  it("SCHEMA-PT-4: photoThumbUrl: null は reject（optional だが型外）", () => {
+    const result = AdminMemberDetailViewZ.safeParse({ ...baseView, photoThumbUrl: null });
+    expect(result.success).toBe(false);
+  });
 });
