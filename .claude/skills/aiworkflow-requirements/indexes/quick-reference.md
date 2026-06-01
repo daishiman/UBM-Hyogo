@@ -13,6 +13,19 @@
 | boundary | API / D1 / Google Form / auth / design tokens unchanged; commit, push, PR, Issue mutation are user-gated |
 | inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1024-sidebar-collapse-cookie-persistence-artifact-inventory.md` |
 
+## issue-229-indexes-rebuild-fail-fast（2026-05-31）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-229-indexes-rebuild-fail-fast/` |
+| status | `implemented_local_evidence_captured / implementation / NON_VISUAL` |
+| issue | #229 CLOSED（reopen / mutation は user-gated） |
+| purpose | `pnpm indexes:rebuild` の単一経路 `generate-index.js` に fail-fast / atomic write / decisive log を実装する |
+| implementation | `.claude/skills/aiworkflow-requirements/scripts/generate-index.js`, `scripts/__tests__/generate-index-fail-fast.spec.ts` |
+| evidence | focused Vitest 1 file / 6 tests PASS; `pnpm indexes:rebuild -- --quiet` PASS; immediate second rebuild idempotent |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-229-indexes-rebuild-fail-fast-artifact-inventory.md` |
+| user gate | commit, push, PR, Issue mutation |
+
 ## issue-224-public-members-tags-batch-fetch（2026-05-31）
 ## issue-264-cron-schedule-free-tier-guard（2026-05-31）
 
