@@ -1,8 +1,10 @@
 "use client";
 
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { useCallback } from "react";
+import { useCallback, useEffect, useId, useRef } from "react";
 
+import { browserDocument } from "../../lib/is-browser";
+import { Icon } from "../ui/Icon";
 import { Segmented } from "../ui/Segmented";
 
 type Density = "comfy" | "dense" | "list";
@@ -42,6 +44,11 @@ export function DensityToggle({ value }: DensityToggleProps) {
   const pathname = usePathname();
   const sp = useSearchParams();
 
+  const uid = useId();
+  const descId = (v: Density) => `${uid}-density-${v}-desc`;
+
+  const detailsRef = useRef<HTMLDetailsElement>(null);
+
   const onChange = useCallback(
     (next: string) => {
       const params = new URLSearchParams(sp ? sp.toString() : "");
@@ -57,11 +64,47 @@ export function DensityToggle({ value }: DensityToggleProps) {
     [router, pathname, sp],
   );
 
+  // <details> は非制御のまま native 標準挙動（summary toggle）を維持し、
+  // close 操作だけを ref 経由で命令的に行う。
+  const closeHelp = useCallback(() => {
+    if (detailsRef.current) detailsRef.current.open = false;
+  }, []);
+
+  // Escape / click-outside による close。listener は mount〜unmount で張り、
+  // ハンドラ内で detailsRef.current.open を直接判定する（open のときだけ作用）。
+  // unmount で必ず解除して event listener leak を防ぐ。
+  useEffect(() => {
+    const doc = browserDocument();
+    if (!doc) return;
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape" && detailsRef.current?.open) {
+        closeHelp();
+        detailsRef.current?.querySelector("summary")?.focus();
+      }
+    };
+    const onPointerDown = (e: PointerEvent) => {
+      const target = e.target;
+      if (
+        detailsRef.current?.open &&
+        target instanceof Node &&
+        !detailsRef.current.contains(target)
+      ) {
+        closeHelp();
+      }
+    };
+    doc.addEventListener("keydown", onKeyDown);
+    doc.addEventListener("pointerdown", onPointerDown);
+    return () => {
+      doc.removeEventListener("keydown", onKeyDown);
+      doc.removeEventListener("pointerdown", onPointerDown);
+    };
+  }, [closeHelp]);
+
   const segmentedOptions = OPTIONS.map((option) => ({
     value: option.value,
     label: option.label,
     sublabel: option.sublabel,
-    describedBy: `density-${option.value}-desc`,
+    describedBy: descId(option.value),
   }));
 
   return (
@@ -74,17 +117,13 @@ export function DensityToggle({ value }: DensityToggleProps) {
         onChange={onChange}
       />
       {OPTIONS.map((option) => (
-        <span
-          key={option.value}
-          id={`density-${option.value}-desc`}
-          className="visually-hidden"
-        >
+        <span key={option.value} id={descId(option.value)} className="visually-hidden">
           {option.description}
         </span>
       ))}
-      <details data-component="help-hint">
+      <details ref={detailsRef} data-component="help-hint">
         <summary aria-label="表示密度の説明を見る">
-          <span aria-hidden="true">?</span>
+          <Icon name="help" size="sm" />
         </summary>
         <dl>
           {OPTIONS.map((option) => (

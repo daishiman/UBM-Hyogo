@@ -24,6 +24,47 @@
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1035-tag-master-write-endpoints-artifact-inventory.md` |
 | user gate | staging runtime smoke、commit、push、PR |
 
+### member-publish-recovery-form-ops-and-admin-link（2026-05-31）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION` |
+| 成果物 | `docs/30-workflows/member-publish-recovery-form-ops-and-admin-link/` |
+| 目的 | `/members` 公開0件の運用復旧、既存 Form 回答の手動反映、反映 SLA 可視化、admin sidebar から Google Form 回答編集画面への導線を 4 責務で実装 |
+| implementation targets | `apps/web/app/(admin)/admin/sync-status/page.tsx`, `apps/web/app/api/admin/[...path]/route.ts`, `apps/web/src/features/admin/components/_sync/`, `apps/web/src/features/admin/diagnostics/{backfill,manual-sync}.ts`, `apps/web/src/components/public/ReflectionTimingNote.tsx`, `apps/web/app/(public)/members/page.tsx`, `apps/web/app/(member)/profile/page.tsx`, `apps/web/src/components/shell/{shell-config,SidebarNavItem,icons}.tsx`, `apps/web/src/lib/constants/form.ts`, `apps/web/src/lib/env.ts` |
+| evidence | `pnpm --filter @ubm-hyogo/web typecheck` PASS; focused Vitest 7 files / 20 tests PASS |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-member-publish-recovery-form-ops-and-admin-link-artifact-inventory.md` |
+| user gate | production flag, Cloudflare secret injection, deploy, authenticated screenshots, commit, push, PR |
+
+### issue-1016-sidebar-mobile-drawer-responsive（2026-05-31）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_runtime_pending / implementation / VISUAL` |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-1016-sidebar-mobile-drawer-responsive/` |
+| Issue | #1016 CLOSED。PR 文脈は `Refs #1016` のみ |
+| 親 workflow | `docs/30-workflows/completed-tasks/unified-sidebar-shell-public-and-admin/` Task E |
+| 目的 | `SidebarMobileTrigger` と `SidebarDrawer` を実装し、`useSidebarState` の `drawerOpen` を mobile drawer responsive の実 UI に接続する |
+| implementation targets | `apps/web/src/components/shell/SidebarMobileTrigger.tsx`, `apps/web/src/components/shell/SidebarDrawer.tsx`, `apps/web/src/components/shell/useSidebarState.ts`, `apps/web/src/components/shell/SidebarShell.tsx`, `apps/web/src/lib/is-browser.ts`, `apps/web/src/styles/globals.css` |
+| evidence | focused Vitest 4 files / 21 tests PASS（`docs/30-workflows/completed-tasks/issue-1016-sidebar-mobile-drawer-responsive/outputs/phase-11/evidence/focused-vitest.log`）+ local screenshots 4 PNG（`outputs/phase-11/screenshots/`） |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1016-sidebar-mobile-drawer-responsive-artifact-inventory.md` |
+| user gate | staging visual verification、commit、push、PR |
+
+### issue-57-kv-r2-guardrail-degrade-design（2026-05-31）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / NON_VISUAL` |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-57-kv-r2-guardrail-degrade-design/` |
+| 目的 | 05a が予防しようとした KV/R2 ドリフト（Issue #514 / #315 の R2 audit cold-storage binding 追加で現実化）を正本仕様・runbook に同期し、実稼働中の R2 export を env フラグで停止できる executable kill-switch を実装する |
+| implementation targets | `scripts/audit-log/export-to-r2.ts`（`AUDIT_COLD_STORAGE_EXPORT_PAUSED` kill-switch / `paused` short-circuit + `status: "paused"`）, `scripts/audit-log/__tests__/export-to-r2.spec.ts`, `apps/api/src/env.ts`（`ALERT_DEDUP_KV` required→optional）, `apps/api/src/routes/internal/alert-relay.ts`（KV optional fail-open）, `apps/api/src/routes/internal/__tests__/alert-relay.spec.ts`, `apps/api/src/routes/internal/__tests__/alert-relay.sheets-auth.contract.spec.ts`, `.github/workflows/audit-log-cold-storage.yml`, `docs/00-getting-started-manual/specs/08-free-database.md`, `.claude/skills/aiworkflow-requirements/references/deployment-cloudflare.md`, `docs/30-workflows/completed-tasks/05a-parallel-observability-and-cost-guardrails/outputs/phase-05/cost-guardrail-runbook.md` |
+| invariant | degrade は env フラグ kill-switch（`=== "true"` 厳密一致 + GHA `vars.* || 'false'` fallback）で executable 化。`paused` short-circuit は外部 I/O 開始前に置く。補助層 KV は fail-open（dedup を諦め配信継続）。新規 binding 追加（UT-12/UT-13/ut-17-followup-002）は scope 外として分離 |
+| evidence | export-to-r2 + alert-relay focused Vitest PASS（root config 2 files / 43 tests）, sheets-auth contract `--config vitest.d1.config.ts` PASS（1 file / 4 tests）, api typecheck PASS, lint PASS, validate-phase-output 0 errors |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-57-kv-r2-guardrail-degrade-artifact-inventory.md` |
+| lessons | `.claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-issue-57-kv-r2-guardrail-degrade-2026-05.md`（L-I57-001..006） |
+| follow-ups | `docs/30-workflows/unassigned-task/issue-57-followup-001..003`（binding drift CI gate / d1-backup pause linkage / KV alert policy drift detection） |
+| user gate | commit, push, PR（`Refs #57`）, GitHub variable mutation（`AUDIT_COLD_STORAGE_EXPORT_PAUSED`）, production scheduled export |
+
 ### issue-1006-members-selected-filters-chip-ux-hardening（2026-05-30）
 
 | 項目 | 値 |
@@ -3627,6 +3668,7 @@ docs-only / direction-reconciliation で採用方針 A を維持する場合で�
 | scope | `/members` UX clarity: density meaning, live filter affordance, active filter chips, result-count live region |
 | implementation targets | `apps/web/src/components/public/{DensityToggle.client,MemberFilters.client,SelectedFiltersBar.client,SelectedTagsBar.client}.tsx`, `apps/web/src/components/ui/{Segmented,Search}.tsx`, `apps/web/app/(public)/members/page.tsx`, `apps/web/src/styles/legacy-public.css` |
 | evidence | focused component tests local; visual baseline / commit / push / PR user-gated |
+| issue-1007-density-toggle-help-hint-hardening | implemented_local_runtime_pending / implementation / VISUAL / Phase 12 strict outputs present / runtime visual pending_user_approval | `docs/30-workflows/completed-tasks/issue-1007-density-toggle-help-hint-hardening/` | Issue #1007. `/members` `DensityToggle` HelpHint hardening: `useId` description ids, non-controlled `<details>` Escape/outside close, `IconName` `help` glyph, pointer target guard, focused component tests 15 PASS. System specs `09-ui-ux.md` and `09d-icons.md`, Phase 11 local evidence, Phase 12 strict 7, quick-reference/resource-map/artifact inventory synchronized. Runtime screenshots, staging deploy, commit, push, PR are user-gated. Inventory: `references/workflow-issue-1007-density-toggle-help-hint-hardening-artifact-inventory.md`. |
 
 ## issue-998-members-publish-state-production-rollout
 
