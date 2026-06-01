@@ -1,6 +1,7 @@
 // Task A — shell-config 純関数の spec。
 import { describe, it, expect } from "vitest";
 
+import { FORM_RESPONSES_EDIT_URL } from "../../../lib/constants/form";
 import { buildNavForRole, isNavItemActive } from "../shell-config";
 
 describe("buildNavForRole", () => {
@@ -21,7 +22,7 @@ describe("buildNavForRole", () => {
     const groups = buildNavForRole("admin");
     expect(groups.map((g) => g.id)).toEqual(["public", "members", "admin"]);
     const admin = groups.find((g) => g.id === "admin");
-    expect(admin?.items).toHaveLength(9);
+    expect(admin?.items).toHaveLength(10);
   });
 
   it("admin の schema は schemaDiffCount>0 のとき warn badge を持つ", () => {
@@ -38,6 +39,18 @@ describe("buildNavForRole", () => {
       .find((g) => g.id === "admin")
       ?.items.find((i) => i.id === "schema");
     expect(schema?.badge).toBeUndefined();
+  });
+
+  it("admin は Google Form 回答 external link を持つ", () => {
+    const groups = buildNavForRole("admin");
+    const item = groups
+      .find((g) => g.id === "admin")
+      ?.items.find((i) => i.id === "form-responses");
+    expect(item).toMatchObject({
+      href: FORM_RESPONSES_EDIT_URL,
+      external: true,
+      label: "Form回答",
+    });
   });
 });
 

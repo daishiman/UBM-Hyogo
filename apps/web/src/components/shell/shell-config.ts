@@ -2,6 +2,8 @@
 // 3 層（公開 / 会員 / 管理）で再利用する nav 構成をロール別に組み立てる純関数群。
 // 不変条件: ここでは role 判定・session 取得は行わない（呼出側 server が解決する）。
 
+import { FORM_RESPONSES_EDIT_URL } from "../../lib/constants/form";
+
 export type ShellRole = "viewer" | "member" | "admin";
 
 export type ShellNavItemId =
@@ -17,7 +19,8 @@ export type ShellNavItemId =
   | "meeting"
   | "requests"
   | "identity"
-  | "audit";
+  | "audit"
+  | "form-responses";
 
 export type ShellNavBadgeTone = "warn" | "danger" | "info";
 
@@ -27,6 +30,7 @@ export interface ShellNavItem {
   readonly label: string;
   readonly icon: ShellNavItemId;
   readonly badge?: { readonly tone: ShellNavBadgeTone; readonly count: number };
+  readonly external?: boolean;
 }
 
 export type ShellNavGroupId = "public" | "members" | "admin";
@@ -86,6 +90,13 @@ function buildAdminGroup(schemaDiffCount: number): ShellNavGroup {
         icon: "identity",
       },
       { id: "audit", href: "/admin/audit", label: "監査ログ", icon: "audit" },
+      {
+        id: "form-responses",
+        href: FORM_RESPONSES_EDIT_URL,
+        label: "Form回答",
+        icon: "form-responses",
+        external: true,
+      },
     ],
   };
 }

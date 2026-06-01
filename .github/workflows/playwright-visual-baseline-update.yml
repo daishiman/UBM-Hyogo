@@ -52,6 +52,13 @@ jobs:
           pnpm --filter @ubm-hyogo/web exec playwright test \
             --project=visual-chromium \
             --update-snapshots
+      - name: Regenerate sidebar-shell visual baselines (3 viewports)
+        run: |
+          pnpm --filter @ubm-hyogo/web exec playwright test \
+            --project=sidebar-shell-visual-desktop \
+            --project=sidebar-shell-visual-tablet \
+            --project=sidebar-shell-visual-mobile \
+            --update-snapshots
       - name: Update .baseline-meta.json
         env:
           REASON: ${{ inputs.reason }}
@@ -100,7 +107,7 @@ jobs:
           set -euo pipefail
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add apps/web/playwright/tests/visual-full/ apps/web/playwright/tests/visual/
+          git add apps/web/playwright/tests/visual-full/ apps/web/playwright/tests/visual/ apps/web/playwright/tests/sidebar-shell/
           if git diff --cached --quiet; then
             echo "No baseline changes to commit."
             exit 0

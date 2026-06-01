@@ -678,3 +678,16 @@
 - 適用範囲外: ローカル `pnpm typecheck/lint` で検出される構文系 regression（既存 SP-DEVSYNC-001..045 に集約済み）。
 - 検証: 本 sync-merge では fix commit で 3 修正（`outputs/artifacts.json` metadata.gates 化 / `app/(member)/layout.spec.tsx` async render 化 / `playwright/tests/admin-pages.spec.ts` redirect 期待化）+ pre-push hooks PASS + push 完了で CI 全 green 復帰見込み。
 - 参照: aiworkflow-requirements [[lessons-learned-public-header-auth-slot-e2e-sync-merge-ci-fix-2026-05]] L-PHAS-CI-001..003。
+
+
+### SP-DEVSYNC-047: merge=union の lessons / changelog 連結は duplicate-ID（同番号 2 本）を silent に生む — sync-merge 後に採番衝突を grep 検出して renumber する（2026-05-31 追加）
+
+- 事象: 2026-05-31 `docs/issue-57-kv-r2-guardrail-degrade-task-spec` ← `git merge dev`（5 behind / 3 ahead）。衝突は `aiworkflow-requirements/indexes/{quick-reference,resource-map,topic-map}.md` + `references/task-workflow-active.md` の 4 file のみ（`keywords.json` は今回非衝突）で `pnpm sync:resolve` 単独収束。ところが取り込み後の aiworkflow lessons ファイルに **`## L-DEVSYNC-075` が 2 本**存在していた（issue-1008 と issue-1010 が各々独立に「次番号」として 075 を採番 → `.gitattributes merge=union` が両方を末尾連結）。
+- Why: skill の lessons / changelog / inventory 連番系は `merge=union` で衝突回避する設計だが、union は**両側の追記を残すだけで採番の一意性を保証しない**。並行ワークツリーが同じ次番号を取ると duplicate-ID が silent に蓄積し、`[[#L-DEVSYNC-NNN]]` 参照が曖昧化する。task-spec 側の `SP-DEVSYNC-NNN` も同機序で衝突しうる。
+- How to apply（task 仕様書 / sync-merge runbook での逐語化）:
+  1. **採番直前に max を取り直す**: 連番を採る前に `grep -oE '(L-DEVSYNC|SP-DEVSYNC)-[0-9]+' <file> | sort -t- -k3 -n | tail -1` で実ファイル上の最大値を確認してから +1。記憶や直前 sync の番号で採らない。
+  2. **sync-merge 後に duplicate-ID を検査**: merge commit 後 `grep -oE '(L-DEVSYNC|SP-DEVSYNC)-[0-9]+' <file> | sort | uniq -d` を両 skill（aiworkflow lessons / task-spec lessons）で実行。出たら**後から連結された側**を次の空き番号へ renumber し、`> 採番補正:` 注記で機械的に辿れるようにする。本体・サブ ID（`-A`/`-B`）・自己参照を一括置換。
+  3. **衝突 file 集合を固定視しない**: `keywords.json` が衝突常連とは限らない（本 sync は map 系 markdown 3 + task-workflow-active）。毎回 `git diff --name-only --diff-filter=U` で確定し、resolver の `--ours`+rebuild 段は衝突 0 なら no-op で素通りする前提で `pnpm sync:resolve` をそのまま使う。
+- 適用範囲外: source code（`apps/`/`packages/`）の `UU`（SP-DEVSYNC-038/042/044 経路）。本件は skill index/lessons のみ。
+- 検証: `git merge dev` CONFLICT 4 → `pnpm sync:resolve` exit 0 → `git ls-files -u` 0 → merge commit `03a0e88ff` → `pnpm typecheck` 6 packages exit 0 / `pnpm lint` exit 0 / `pnpm indexes:rebuild` drift 0 → duplicate-ID 検査で旧 075×2 を検出し issue-1010 側を L-DEVSYNC-076 へ補正、本 sync を L-DEVSYNC-077 として追加。
+- 参照: aiworkflow-requirements [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-077（duplicate-ID 機序）, L-DEVSYNC-073（衝突 file 数可変）, L-DEVSYNC-075/076（duplicate-ID 当事者）。

@@ -149,6 +149,177 @@ describe("createPublicRouter", () => {
     ]);
   });
 
+  // TC-6 (issue-224): expand=tags で公開 member のみ tags を持ち、leak しない
+  it("GET /members?expand=tags は公開 member の tags(code/label/category) を返す", async () => {
+    const app = new Hono();
+    app.onError(errorHandler);
+    app.route("/public", createPublicRouter());
+    const env = buildEnv({
+      DB: createPublicD1Mock({
+        publicMembers: [
+          buildPublicMemberRow({ member_id: "m-1", current_response_id: "r-1" }),
+        ],
+        publicMemberCount: 1,
+        responseFieldsByResponseId: {
+          "r-1": [
+            buildResponseFieldRow({
+              stable_key: "fullName",
+              value_json: JSON.stringify("田中 太郎"),
+            }),
+          ],
+        },
+        // Phase 5 で batch 分岐が参照する fixture（member_id キー）。
+        tagsByMemberId: {
+          "m-1": [
+            {
+              member_id: "m-1",
+              tag_id: "tag-web",
+              source: "forms",
+              confidence: null,
+              assigned_at: "2024-01-01T00:00:00Z",
+              assigned_by: null,
+              code: "web",
+              label: "Web",
+              category: "skill",
+              source_stable_keys_json: "[]",
+              active: 1,
+            },
+          ],
+          // m-9 は publicMembers に含めない＝visibility filter 外。batch には渡らず leak しない。
+          "m-9": [
+            {
+              member_id: "m-9",
+              tag_id: "tag-secret",
+              code: "secret",
+              label: "秘",
+              category: "hidden",
+              source: "forms",
+              confidence: null,
+              assigned_at: "2024-01-01T00:00:00Z",
+              assigned_by: null,
+              source_stable_keys_json: "[]",
+              active: 1,
+            },
+          ],
+        },
+      }),
+    });
+    const res = await app.request("/public/members?expand=tags", {}, env);
+    expect(res.status).toBe(200);
+    const body = (await res.json()) as {
+      items: Array<{ memberId: string; tags?: Array<{ code: string }> }>;
+    };
+    expect(body.items).toHaveLength(1);
+    expect(body.items[0]?.tags).toEqual([
+      { code: "web", label: "Web", category: "skill" },
+    ]);
+    expect(JSON.stringify(body.items).includes("secret")).toBe(false); // leak しない
+  });
+
+  // TC-7 (issue-224): appliedQuery は 6 キー固定（expand を含めない）
+  it("GET /members?expand=tags でも appliedQuery は 6 キー固定（expand を出さない）", async () => {
+    const app = new Hono();
+    app.onError(errorHandler);
+    app.route("/public", createPublicRouter());
+    const env = buildEnv({
+      DB: createPublicD1Mock({
+        publicMembers: [
+          buildPublicMemberRow({ member_id: "m-1", current_response_id: "r-1" }),
+        ],
+        publicMemberCount: 1,
+        responseFieldsByResponseId: { "r-1": [buildResponseFieldRow()] },
+        tagsByMemberId: { "m-1": [] },
+      }),
+    });
+    const res = await app.request("/public/members?expand=tags&q=test", {}, env);
+    expect(res.status).toBe(200);
+    const body = (await res.json()) as { appliedQuery: Record<string, unknown> };
+    expect(Object.keys(body.appliedQuery).sort()).toEqual(
+      ["density", "q", "sort", "status", "tags", "zone"].sort(),
+    );
+    expect(body.appliedQuery).not.toHaveProperty("expand");
+  });
+
+  it("GET /members は expand 未指定なら tags key を出さない", async () => {
+    const app = new Hono();
+    app.onError(errorHandler);
+    app.route("/public", createPublicRouter());
+    const env = buildEnv({
+      DB: createPublicD1Mock({
+        publicMembers: [
+          buildPublicMemberRow({ member_id: "m-1", current_response_id: "r-1" }),
+        ],
+        publicMemberCount: 1,
+        responseFieldsByResponseId: { "r-1": [buildResponseFieldRow()] },
+        tagsByMemberId: {
+          "m-1": [
+            {
+              member_id: "m-1",
+              tag_id: "tag-web",
+              source: "forms",
+              confidence: null,
+              assigned_at: "2024-01-01T00:00:00Z",
+              assigned_by: null,
+              code: "web",
+              label: "Web",
+              category: "skill",
+              source_stable_keys_json: "[]",
+              active: 1,
+            },
+          ],
+        },
+      }),
+    });
+    const res = await app.request("/public/members", {}, env);
+    expect(res.status).toBe(200);
+    const body = (await res.json()) as { items: Array<Record<string, unknown>> };
+    expect(body.items[0]).not.toHaveProperty("tags");
+  });
+
+  it("GET /members normalizes comma and repeated expand values at the route boundary", async () => {
+    const app = new Hono();
+    app.onError(errorHandler);
+    app.route("/public", createPublicRouter());
+    const env = buildEnv({
+      DB: createPublicD1Mock({
+        publicMembers: [
+          buildPublicMemberRow({ member_id: "m-1", current_response_id: "r-1" }),
+        ],
+        publicMemberCount: 1,
+        responseFieldsByResponseId: { "r-1": [buildResponseFieldRow()] },
+        tagsByMemberId: {
+          "m-1": [
+            {
+              member_id: "m-1",
+              tag_id: "tag-web",
+              source: "forms",
+              confidence: null,
+              assigned_at: "2024-01-01T00:00:00Z",
+              assigned_by: null,
+              code: "web",
+              label: "Web",
+              category: "skill",
+              source_stable_keys_json: "[]",
+              active: 1,
+            },
+          ],
+        },
+      }),
+    });
+    const res = await app.request(
+      "/public/members?expand=tags,unknown&expand=tags",
+      {},
+      env,
+    );
+    expect(res.status).toBe(200);
+    const body = (await res.json()) as {
+      items: Array<{ tags?: Array<{ code: string; label: string; category: string }> }>;
+    };
+    expect(body.items[0]?.tags).toEqual([
+      { code: "web", label: "Web", category: "skill" },
+    ]);
+  });
+
   it("GET /members/:memberId は不適格なら 404 (UBM-1404)", async () => {
     const app = new Hono();
     app.onError(errorHandler);

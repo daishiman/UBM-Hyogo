@@ -79,9 +79,10 @@ export async function listTagsByMemberIds(
   const result = await c.db
     .prepare(
       `SELECT mt.*, td.code, td.label, td.category, td.source_stable_keys_json, td.active
-       FROM member_tags mt
-       JOIN tag_definitions td ON td.tag_id = mt.tag_id
-       WHERE mt.member_id IN (${ph}) AND td.active = 1`,
+	       FROM member_tags mt
+	       JOIN tag_definitions td ON td.tag_id = mt.tag_id
+	       WHERE mt.member_id IN (${ph}) AND td.active = 1
+	       ORDER BY mt.member_id ASC, td.category ASC, td.label ASC, td.code ASC`,
     )
     .bind(...mids)
     .all<MemberTagWithDefinition>();
