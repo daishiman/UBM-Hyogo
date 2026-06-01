@@ -356,6 +356,7 @@ Git hook 層の正本は `lefthook.yml` とし、`.git/hooks/*` は worktree ご
 | hook | 正本 | 責務 |
 | --- | --- | --- |
 | `pre-commit` | `lefthook.yml` + `scripts/hooks/staged-task-dir-guard.sh` | ブランチ名と staged task directory の整合チェック |
+| `pre-commit` | `lefthook.yml` + `scripts/hooks/lefthook-edit-guard.sh` | 手書き `.git/hooks/*` と無 ack の `lefthook.yml` 直編集を local で block する |
 | `post-merge` | `lefthook.yml` + `scripts/hooks/stale-worktree-notice.sh post-merge` | stale worktree 通知のみ |
 `post-fetch` は lefthook の supported hook schema に含まれないため、正本 lane として定義しない。origin/main 進行通知が必要な場合は、別の明示コマンドまたは GitHub Actions 側の検出として設計する。
 
@@ -365,6 +366,8 @@ Git hook 層の正本は `lefthook.yml` とし、`.git/hooks/*` は worktree ご
 
 **hook 副作用禁止原則**（T-6 / Issue #161）: post-commit / post-merge hook は `git add` / `git stage` / `git update-index --add` を呼ばず、tracked canonical への書き込み / 派生物の自動再生成を行わない。派生物は明示 `pnpm indexes:rebuild` + CI gate `verify-indexes-up-to-date` の責務とし、4 worktree 並列 smoke は 2 worktree 事前 smoke → 4 worktree full smoke の二段構えで I/O 飽和と true negative を切り分ける。
 関連: `../../../../docs/30-workflows/completed-tasks/skill-ledger-t6-hook-idempotency/index.md` / `lessons-learned-skill-ledger-t6-hook-idempotency-2026-04.md`
+
+**Issue #230 guard**: `.git/hooks/*` の手書き検知は CI では観測できないため、local pre-commit `lefthook-edit-guard` が `.git/hooks` を検査し、CI は `verify-hook-integrity` で `lefthook.yml` 参照スクリプト実在・tracked stray hook 不在・`min_version` 健全性を検証する。worktree では hooks が common dir に共有されるため、guard は `git rev-parse --git-common-dir` を使う。
 
 ### Codecov
 
