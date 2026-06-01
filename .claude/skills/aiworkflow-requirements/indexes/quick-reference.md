@@ -1,5 +1,18 @@
 # クイックリファレンス
 
+## issue-264-cron-schedule-free-tier-guard（2026-05-31）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-264-cron-schedule-free-tier-guard/` |
+| status | `implemented_local_evidence_captured / implementation / NON_VISUAL / Phase 13 pending_user_approval` |
+| purpose | CLOSED Issue #264 の obsolete Sheets 24h 実測要求を、現行 Forms ベース 3-cron free-tier guard へ再スコープ |
+| implementation | `apps/api/src/sync/wrangler-cron-schedule.guard.spec.ts` |
+| invariant | `apps/api/wrangler.toml` の `[triggers]` / `[env.production.triggers]` / `[env.staging.triggers]` は `["0 18 * * *", "*/15 * * * *", "*/5 * * * *"]` で一致し、3 本以下、legacy `0 * * * *` 不在 |
+| evidence | focused Vitest 1 file / 16 tests PASS; package-script apps/api suite 76 files / 481 tests PASS |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-264-cron-schedule-free-tier-guard-artifact-inventory.md` |
+| user gate | optional staging cron tail, commit, push, PR, Issue mutation |
+
 ## member-publish-recovery-form-ops-and-admin-link（2026-05-31）
 
 | 項目 | 値 |
