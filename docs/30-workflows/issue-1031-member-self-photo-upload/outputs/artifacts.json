@@ -17,7 +17,33 @@
     "githubIssue": 1031,
     "githubIssueState": "CLOSED",
     "phase12Strict7": "present",
-    "rootOutputArtifactsParity": "present"
+    "rootOutputArtifactsParity": "present",
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-06-01T00:00:00Z",
+        "evidence_path": "docs/30-workflows/issue-1031-member-self-photo-upload/outputs/phase-12/main.md",
+        "approver": "daishiman",
+        "notes": "spec_review: Phase 1-3 design authored and approved (direct self-write reconciled with /me invariant #4; 4-condition all PASS)"
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "passed",
+        "passed_at": "2026-06-01T00:00:00Z",
+        "evidence_path": "docs/30-workflows/issue-1031-member-self-photo-upload/outputs/phase-12/implementation-guide.md",
+        "approver": "daishiman",
+        "notes": "implementation_local: Phase 4-12 implementation completed locally (migration 0023, /me/photo endpoints, repo source, web PhotoUpload, focused tests, component screenshot)."
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/issue-1031-member-self-photo-upload/phase-13.md",
+        "approver": "daishiman",
+        "notes": "external_ops: remote D1 migration 0023 apply, staging deploy, authenticated Phase-11 screenshot, commit/push/PR — all user-gated"
+      }
+    ]
   },
   "phase12": {
     "strict7": [
