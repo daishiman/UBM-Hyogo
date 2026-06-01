@@ -77,6 +77,20 @@ P50 で対象機能が既に dev / current branch に landed 済みと確認で�
 - 対象の型定義（SkillExecutionStatus 等）の現在の値セットを確認し、設計で前提とする値が実在するか検証する
 - 存在しない場合は「新規追加」として Phase 2 で変更先ファイルパスを明記する（P32 準拠）
 
+#### Helper / 型シグネチャ verbatim 確認（Issue #224 対策）
+
+既存 helper / shared schema / viewmodel type を再利用するタスクでは、Phase 1 で実コードのシグネチャを verbatim に確認し、Map / 配列 / optional / strict などの return shape を誤読しない。
+
+Phase 1 outputs には以下の表を必ず含める:
+
+| 対象 | 実コード anchor | verbatim signature / shape | 設計上の扱い |
+| --- | --- | --- | --- |
+| helper | `apps/api/src/repository/...` | 例: `Promise<MemberTagWithDefinition[]>`（フラット配列） | use-case 層で groupBy |
+| shared zod | `packages/shared/src/zod/...` | optional / strict / nullable の実値 | response contract |
+| shared type | `packages/shared/src/types/...` | public export の有無 | consumer 影響 |
+
+誤読が見つかった場合は Phase 2 以降の設計例を実コードに合わせて補正し、Phase 12 の skill feedback に再発防止を記録する。
+
 ## 統合テスト連携【必須】
 
 統合テストの再実行とゲート判定:

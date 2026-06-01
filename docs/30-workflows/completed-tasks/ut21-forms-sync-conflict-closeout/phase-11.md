@@ -85,8 +85,8 @@ rg -n "POST /admin/sync\b|GET /admin/sync/audit|sync_audit_logs|sync_audit_outbo
    .claude/skills/aiworkflow-requirements/references \
    docs/30-workflows/ut21-forms-sync-conflict-closeout
 
-# 本仕様書では「新設しない」「U02 判定後まで保留」の文脈でのみ出現することを確認
-rg -nC2 "新設しない|U02 判定後まで保留|not introduced" \
+# 本仕様書では「新設しない」「U02 / Issue #235 で新設不要確定済み」の文脈でのみ出現することを確認
+rg -nC2 "新設しない|U02 / Issue #235|not introduced" \
    docs/30-workflows/ut21-forms-sync-conflict-closeout
 ```
 

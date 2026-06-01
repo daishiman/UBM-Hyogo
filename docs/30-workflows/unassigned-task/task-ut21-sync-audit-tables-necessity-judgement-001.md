@@ -9,13 +9,20 @@
 | 分類 | 設計判定 / 仕様精査 |
 | 優先度 | MEDIUM |
 | 推奨Wave | Wave 1（closeout-001 と並走可） |
-| 状態 | 未実施 |
+| 状態 | consumed（2026-05-31: canonical workflow で新設不要判定を確定） |
 | 作成日 | 2026-04-29 |
 | 既存タスク組み込み | 02c-parallel-admin-notes-audit-sync-jobs-and-data-access-boundary（不足が証明された場合に schema 拡張で吸収） |
 | 検出元 | `docs/30-workflows/ut-21-sheets-d1-sync-endpoint-and-audit-implementation/outputs/phase-12/unassigned-task-detection.md` (UT21-U02) |
 | 親タスク | `task-ut21-forms-sync-conflict-closeout-001.md` |
+| canonical_workflow | `docs/30-workflows/completed-tasks/issue-235-sync-audit-tables-necessity-judgement/` |
+| consumed_result | `sync_audit_logs` / `sync_audit_outbox` は新設不要。現行 `sync_jobs` + `sync_job_logs` + `metrics_json` で充足 |
 
 ---
+
+> **Consumed trace (2026-05-31)**: 本 proto-spec は Issue #235 canonical workflow
+> `docs/30-workflows/completed-tasks/issue-235-sync-audit-tables-necessity-judgement/` に昇格済み。
+> 判定結果は **新設不要（NO NEW TABLE REQUIRED）**。将来 T-1〜T-3 の観測があるまで、
+> 新規 migration / audit writer 実装タスクは起票しない。
 
 ## 1. 目的
 

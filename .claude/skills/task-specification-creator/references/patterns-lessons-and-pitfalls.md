@@ -1784,6 +1784,32 @@ SP-DEVSYNC-072 の「skill-only クリーン基準」に source 1 件（`apps/we
 - **SP-DEVSYNC-067-E (孤児 snapshot は `grep -c toMatchSnapshot`=0 を根拠に `git rm`)**: `--ours` で勝った spec が snapshot 不使用なのに `--theirs` 由来の `__snapshots__/*.snap` が残ると vitest `N obsolete` 警告 → CI ノイズ。`grep -c "toMatchSnapshot\|MatchInlineSnapshot" <spec>` = 0 を確認して即 `git rm`。
 - 参照: [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-067（同 shell-config.ts AA で L-DEVSYNC-066 と逆の `--ours` を採った対照例 + graft/relocate/snapshot の複合 shape）。
 
+---
+
+## SP-I224: batch fetch 再利用と公開 API opt-in 拡張（Issue #224 / 2026-05-31）
+
+> 公開一覧などで「既存 batch helper を再利用して N+1 を防ぎつつ、後方互換の response shape を維持して項目を増やす」タスクの汎化パターン。
+
+- **SP-I224-A (層責務)**: batch helper はフラット配列を返し、`member_id` 等のキーで Map に整形する groupBy は use-case 層に置く。repository は最小の純粋 I/O に保ち、Map / 配列の整形責務を repository に持ち込まない。
+- **SP-I224-B (IN 句安全性)**: `col IN (...)` の placeholder は入力件数から動的生成（`ids.map(() => '?').join(',')`）して `.bind(...ids)` で展開。入力が空配列なら早期 return で query 自体を発行しない（空 IN 句の SQL エラー / 無駄な往復を防ぐ）。
+- **SP-I224-C (opt-in 拡張)**: 公開 response の項目追加は `expand` 等の whitelist による opt-in。repeated / comma-separated を両対応で正規化し未知値は黙殺・常に配列化。未指定時は既存 `appliedQuery` の key 集合を厳密維持し query も増やさない。
+- **SP-I224-D (fail-close + schema 連動)**: 公開向け値は内部 row をそのまま流さず allow-list で再構成し、`strict()` zod で nested extra field を reject。shared zod・型・test を同一サイクルで連動更新し片側 drift を作らない。
+- **anti-pattern**: 再利用する helper の返り値 shape（配列 / Map / null 許容）を実コード未確認のまま Phase 2 設計へ書く（groupBy 配線が破綻する）。Phase 1 で対象 helper / 型の signature を verbatim 引用して固定する（`phase-template-phase1.md` 参照）。
+- 参照: [[lessons-learned-issue-224-public-members-tags-batch-fetch-2026-05]] L-I224-001..010。
+
+## SP-CFGUARD zero-dep 設定ファイル invariant を正規表現 guard test で固定するパターン（2026-05-31 issue-264 wrangler cron free-tier guard）
+
+依存追加ゼロで設定ファイル（TOML/INI/YAML/JSON5 等）の section 単位 invariant（値一致・上限・禁止値不在・section 間 parity）を専用パーサなしの正規表現 + 既存 vitest だけで担保する guard test の汎化。CLOSED/obsolete issue の「実測で値を決める」要求を「確定値が drift しない保証」へ再スコープする判定も含む。
+
+- **SP-CFGUARD-001 (section 見出しは `^\[name\]$` 行アンカーで一意化 — substring 一致禁止)**: `"[triggers]"` は `"[env.staging.triggers]"` の suffix。素朴 `text.indexOf("[triggers]")` は他 section を誤ヒットする。`new RegExp('^\\[' + escapeRegExp(name) + '\\]\\s*(?:#.*)?$', 'm')` で行境界に固定し、末尾コメントも許容。設定ファイル系で section 名が他 section の部分文字列になり得る前提を Phase 4 リスクへ登録。
+- **SP-CFGUARD-002 (`match.index === 0` を falsy で absent 扱いしない)**: 見出しがファイル先頭にあると `match.index === 0` → `!index` が `true` で「未発見」分岐に誤入する。存在判定は `match == null`、offset は `match.index ?? 0` で補完する。truthy チェックを位置に使わない。
+- **SP-CFGUARD-003 (動的 RegExp 埋め込み値は escape + 入力正規化の二段)**: section 名の `.`/`[`/`]` は RegExp メタ文字。`escapeRegExp` でエスケープし、bracketed/非 bracketed 両入力を受ける API は `normalizeSectionHeader`（`^\[`/`\]$` 剥がし）で先に正規化してから RegExp を組む。テストで両入力同結果を assert。
+- **SP-CFGUARD-004 (コメント除去 → 値抽出の順序固定 + 配列は `[^\]]*` で改行込みキャプチャ + 次見出しで上界)**: (1) 値抽出前に section body 各行から `#.*$` を除去し commented-out な禁止値を拾わない、(2) 複数行配列は `/key\s*=\s*\[([^\]]*)\]/m` の否定文字クラスで dotAll 不要に改行を跨ぐ、(3) body は `afterHeader.search(/^\s*\[/m)` で次見出し直前までに切り、次 section の値を誤読しない。3 点を個別テストで担保。
+- **SP-CFGUARD-005 (文書ではなく実行可能 guard で enforcement — 予算/上限/一致/禁止値/parity を test 化)**: 予算（free-tier 上限 N に対し M 本）は ADR/spec の解析記述で結論できるが、文書は「N+1 本目混入」「legacy 禁止値の再登録」を検知できない。`it.each` で section ごとに canonical 値一致・上限以下・禁止値不在を、加えて default/staging/production の parity を 1 test で固定。zero-dep を守るなら専用パーサを足さず正規表現 + vitest で閉じる（CONST_004 enforcement 化）。
+- **SP-CFGUARD-006 (CLOSED/obsolete issue は陳腐化 AC と本質課題を分離して再スコープ)**: 「実測で値を決める」が移行・確定で陳腐化した場合、Issue を再 open せず `artifacts.json.metadata.supersedes` に旧 unassigned task を記録（陳腐化部分）、未達の本質課題（確定値の drift 保証）だけを guard test 成果物へ付け替える。Phase 1 調査で「要求自体の陳腐化」と「未達の核」を分けて結論する。
+- **anti-pattern**: (1) substring で section 探索（部分文字列衝突）、(2) `match.index` truthy 判定（先頭 section 落ち）、(3) 動的 RegExp に section 名を素埋め（メタ文字暴発）、(4) コメント除去を値抽出後に回す（commented-out 値混入）、(5) 文書記述だけで「予算 OK」を結論し test を書かない（drift 無検知）。
+- 参照: [[lessons-learned-issue-264-cron-schedule-free-tier-guard-2026-05]] L-I264-001..008。implementation-guide の参照実装は素朴 `indexOf`/`split` 版を残さず shipped のアンカー正規表現/`matchAll` 版に揃える（流用時の罠の再生産を防ぐ）。
+
 
 ### SP-DEVSYNC-047: skill-index-only クリーン sync の「衝突 file 数は可変」「sub-worktree の `.git` はファイル」2 ナンスを仕様書 Phase 9 sync-merge 節に固定（2026-05-31 追加）
 
@@ -1837,6 +1863,14 @@ sync-merge task の Phase 12 implementation-guide に、branch 種別（feature/
 - **SP-DEVSYNC-075-B (ローカル dev が origin/dev 一致なら ff 同期を別途走らせない)**: Phase 13 検証フローで `git rev-list --left-right --count dev...origin/dev` が `0\t0` なら dev ff 同期は不要。`git merge origin/dev` を直接使うことで resolver と並行する main worktree への git 書き込みが消え、SP-DEVSYNC-074-C の「直列」を構造的に満たして index.lock 競合（SP-DEVSYNC-074-A/B の復旧対象）を最初から回避できる。
 - 参照: [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-075（正本）, SP-DEVSYNC-072/073（クリーン基準・衝突 file 数可変の確立）, SP-DEVSYNC-074（index.lock 中間状態・本件は並行書き込み無で回避）。
 
+## SP-DEVSYNC-076 `*-map.md` 3 file 同時衝突 + keywords.json の 4 file でも resolver 単独 1 回で収束する（union 3 + `--ours`+rebuild 1 の混在解消）（2026-06-01 docs/issue-264-cron-schedule-free-tier-guard-spec ← origin/dev 1 commit）
+
+sync-merge task の Phase 12 implementation-guide に、`*-map.md`（quick-reference / resource-map / topic-map）が複数同時に衝突しても resolver が union 対象と `--ours` 派生を自動振り分けする旨を記載し、「衝突 file 増加＝手動介入」誤認を防ぐ。本件は `docs/issue-264-...`（ローカル dev = origin/dev 一致＝独自コミット 0、feature は 4 ahead / 1 behind）で `git merge dev` の content conflict が `indexes/{keywords.json, quick-reference.md, resource-map.md, topic-map.md}` の 4 file（`*-map.md` 3 種同時 + keywords.json）、`pnpm sync:resolve` 単独 1 回（union 3 + keywords.json ours+rebuild）で収束した実例。SP-DEVSYNC-075（衝突 2 file）に対し `*-map.md` 同時衝突件数の上限を 3 まで実証拡張。
+
+- **SP-DEVSYNC-076-A (`*-map.md` の同時衝突件数に動じずクリーン基準を適用)**: `quick-reference.md` / `resource-map.md` / `topic-map.md` は 3 つ同時衝突でも全て `merge=union` 対象。`git diff --name-only --diff-filter=U` の出力が全て `.claude/skills/**`（`keywords.json` + `*-map.md` 群）なら手動 Edit せず `pnpm sync:resolve` 直行。resolver は union 対象と keywords.json `--ours`+rebuild をファイル種別で自動振り分けする。
+- **SP-DEVSYNC-076-B (resolver 後の冪等確認を CI gate と同条件で先取り)**: 解消後 Phase 13 検証で `pnpm indexes:rebuild` を再実行し drift 0（status clean）を確認すると、CI `verify-indexes-up-to-date` gate（`.claude/skills/aiworkflow-requirements/indexes` drift で fail）を push 前にローカル検証できる。本件 rebuild 後 5224 キーワードで status clean。
+- 参照: [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-076（正本）, SP-DEVSYNC-072/073（クリーン基準・衝突 file 数可変の確立）, SP-DEVSYNC-074（index.lock 中間状態）, SP-DEVSYNC-075（衝突 2 file 前例・本件は `*-map.md` 3 件同時の拡張）。
+
 ### dev-sync-merge 残マーカー確認の `git grep '======='` 偽陽性（SP-DEVSYNC-073）
 
 skill-only conflict を `pnpm sync:resolve` で解消した後の「念のための残マーカー確認」を `git grep` ベースで行うと、completed-tasks 配下の evidence/log 文書に頻出する装飾区切り線（`=` 連続行）を conflict marker 中央線 `=======` と誤検知する shape。Phase 12 の解消完了判定を index 状態ベースに固定して偽陽性に振り回されないようにする。
@@ -1888,3 +1922,34 @@ issue-1008 sync（`refactor/issue-1008-members-list-ux-clarity-artifact-status-r
 - **SP-DEVSYNC-076-B (既存 duplicate-heading backlog はルーチン sync で清算しない)**: 見出し限定検査でも歴史的な merge=union 蓄積由来の dup（task-spec で `SP-DEVSYNC-063/064/066/069/070/073/075` 等、aiworkflow で `L-DEVSYNC-010/073` 等 ~37 番）が出る。これらは sync が作るものではなく、ルーチン sync の commit に一括 renumber を混ぜると cross-ref を大量破壊する。**今回 sync で連結された新規 1 件のみ renumber**し、backlog は専用 cleanup タスク（`> 採番補正:` 注記付き段階解消）へ切り出す。
 - **SP-DEVSYNC-076-C (同 branch 再 sync は衝突 file 集合を前提化しない)**: 同一 feature を時間差で再 sync すると dev delta の縮小（本件 5→1 commit）に伴い衝突 file 集合が変わる（前回 4 → 今回 3、`task-workflow-active.md` が非衝突へ転じた）。Phase 11 見積りは前回値を流用せず毎回 `git diff --name-only --diff-filter=U` で確定する（SP-DEVSYNC-047 の「衝突 file 数は可変」を再 sync 軸で補強）。
 - 参照: [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-078（正本・077-A の grep scope 補正）, L-DEVSYNC-077（duplicate-ID 機序）, SP-DEVSYNC-047（衝突 file 数可変）, SP-DEVSYNC-073（`git ls-files -u` 正本則）。
+
+### 衝突 file 集合は map 系内でも回ごとに別組になる／`sync:resolve` は union 経路と derived `--ours`+rebuild 経路を 1 pass で振り分ける（SP-DEVSYNC-079）
+
+> 採番補正: 本節は当初 SP-DEVSYNC-078 として起草したが、`feat/issue-224 ← dev` 側が独立に SP-DEVSYNC-078（sub-worktree lock/log path）を採番済みで、後続 sync-merge の union 流入で duplicate-heading 化した。SP-DEVSYNC-076-B の runbook（dev 側 canonical 残置・今回連結側を次の空き番号へ renumber）に従い本ローカル追加分を **SP-DEVSYNC-079** へ採番補正。
+
+`docs/issue-235-sync-audit-tables-necessity-judgement` ← dev（merge `b4b249cd5`・dev 7 commit / feature 2 ahead）。今回の conflict は aiworkflow `indexes/keywords.json`（derived）＋ `indexes/topic-map.md`（union）の **2 file のみ**で、SP-DEVSYNC-077 の「map 系 3 md 衝突・keywords 非衝突」とは**別組**（今回 `quick-reference.md`/`resource-map.md`/`task-workflow-active.md`/`_legacy.md` は Auto-merging）。`pnpm sync:resolve` が union 解消と derived 再生成の 2 経路を 1 pass で処理して収束。sync-merge task の Phase 11/13 検証手順に以下を固定する（[[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-080）。
+
+- **SP-DEVSYNC-079-A (derived file の content conflict は手動マージ禁止 — `--ours`+rebuild が常に正)**: `indexes/keywords.json` が CONFLICT に出る回がある（両 branch が異内容で再生成した場合）。両版を手で結合せず `pnpm sync:resolve`（内部 `--ours` → `indexes:rebuild`）に委ね、resolver ログの `ours: ...keywords.json` で経路を確認する。手動 fallback 時も `git checkout --ours <keywords.json>` → `pnpm indexes:rebuild` の順を仕様に明記。
+- **SP-DEVSYNC-079-B (衝突するのが keywords.json か map md かは回ごとに入れ替わる)**: SP-DEVSYNC-077 は map md 衝突・keywords 非衝突、本件は逆。どれが衝突するかは dev delta の hunk 位置依存で不確定なので、Phase 11 見積りで file 名を前回流用せず毎回 `git diff --name-only --diff-filter=U` で確定する（SP-DEVSYNC-076-C / 077-C の再確認）。`sync:resolve` は `.gitattributes` union 対象と derived を自動で別経路へ振り分けるため、衝突集合がどう転んでも追加判断は不要。
+- **SP-DEVSYNC-079-C (`sync:resolve` 後検証は JSON 妥当性 + マーカー残存 0 の 2 点)**: 仕様の検証コマンドに `node -e "JSON.parse(readFileSync('.../keywords.json'))"` の妥当性確認と `git grep -c '^<<<<<<<\|^>>>>>>>\|^=======' -- .claude/skills/` の残存マーカー 0 を含める。両 PASS を commit 前ゲートにする。
+- 参照: [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-080（正本）, SP-DEVSYNC-077（map md 衝突・keywords 非衝突の逆組）, SP-DEVSYNC-074/076-B（keywords は `--ours`+rebuild）, SP-DEVSYNC-047（衝突 file 数可変）。
+
+### 衝突集合は「数同じ・メンバー入替」もする — resolver を集合非依存の単一経路として使う（SP-DEVSYNC-078）
+
+`feat/issue-230-lefthook-edit-guard` ← dev（6 behind / 3 ahead・ローカル dev は origin/dev に既一致で ff 同期不要）の **2 回目**の sync 知見（[[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-079）。`git merge dev` の conflict は **3 file**＝aiworkflow `indexes/keywords.json` + `indexes/topic-map.md` + `references/task-workflow-active.md`。直前の SP-DEVSYNC-077 ケース（keywords 非衝突・map 3 本）と**数は同じ 3 のまま中身が真逆に入れ替わった**（keywords が衝突に戻り、map は topic-map 1 本のみ・quick-reference/resource-map は非衝突）。`apps/**`/`packages/**` source conflict 0 → `pnpm sync:resolve` 1 回で full resolve（resolver ログ `union-resolving 2 files` + `taking --ours for 1 derived files`）。仕様書を起草する際の sync-merge 検証手順に以下を含める。
+
+- **SP-DEVSYNC-078-A (衝突集合は縮小/拡大だけでなくメンバー入替もする)**: SP-DEVSYNC-047/076-C/077-C の「衝突 file 数は可変」を一歩進め、**数が同じでも中身（derived の keywords.json と manual map のどれが衝突するか）が dev 側 touch 範囲依存で入れ替わる**。Phase 11 見積りで「keywords は毎回衝突／非衝突」のどちらも固定前提にしない。毎回 `git diff --name-only --diff-filter=U` で実集合を取り直す。
+- **SP-DEVSYNC-078-B (resolver は衝突集合のメンバー構成に依らず単独収束)**: keywords.json が衝突する回（`--ours`+rebuild 段が実働）も、しない回（no-op）も、map が 1 本でも 3 本でも `pnpm sync:resolve` の手順は不変。仕様の検証コマンドは集合の中身で分岐させず、resolver → `git ls-files -u` 0 の単一経路に固定する。
+- **SP-DEVSYNC-078-C (pre-commit hook 本数は branch 主題で変わる — 本数で異常判定しない)**: lefthook 正本ガード branch（issue-230）では sync-merge の pre-commit が 5 hook（`lefthook-edit-guard` 追加）。他 branch では 4 hook。`lefthook.yml` 未編集の sync では `lefthook-edit-guard` は ack 不要で素通りする。仕様の検証セクションに「hook 本数差 = branch 固有設定の反映であり sync 異常ではない」を明記する。
+- 参照: [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-079（lessons 版）, SP-DEVSYNC-077（直前 sync・keywords 非衝突 / map 3 本の真逆ケース）, SP-DEVSYNC-047/076-C（衝突 file 数可変）, SP-DEVSYNC-074（keywords は `--ours`+rebuild）, L-DEVSYNC-002（keywords union 対象外）。
+
+### sub-worktree の lock/log は git-common-dir 起点／新番号 union 流入の新規 duplicate 判定は after==dev で確定（SP-DEVSYNC-078）
+
+> 採番補正: 本節は当初 SP-DEVSYNC-077 として起草したが、`feat/issue-224 ← dev` の 2 回目 sync-merge（merge 後）で dev 側が独立に SP-DEVSYNC-077（「union 解消後は重複混入ゼロをヘッダ数 three-way 照合で検証する」）を採番済みと判明し duplicate-heading 化した。SP-DEVSYNC-076-B の runbook（今回 sync で連結された側を次の空き番号へ renumber）に従い、本ローカル追加分を **SP-DEVSYNC-078** へ採番補正（dev 側 077 を canonical として残置）。論点は dev 077-A/B（three-way 照合）と一部重なるが、本節は sub-worktree の lock/log path 解決と新番号 union 流入判定を独立に補強する。
+
+`feat/issue-224-public-members-tags-batch-fetch` を sub-worktree（`.worktrees/task-20260531-092816-wt-16`）から sync-merge（merge `b8ee853e6` ← dev 5 commit）して得た 3 知見を branch-sync task の Phase 11/12/13 へ固定する。CONFLICT 4 file（`indexes/{keywords.json, quick-reference, resource-map, topic-map}`、source 衝突 0）→ `pnpm sync:resolve` 単独収束 → `pnpm typecheck`/`pnpm lint` 緑（`stablekey-literal-lint` 2 件は `mode=warning` の既存・非関与）。
+
+- **SP-DEVSYNC-078-A (sub-worktree の lock/log path 解決)**: branch-sync runbook で lock/ログを掘る前に `git rev-parse --git-dir`（worktree 固有）/ `--git-common-dir`（共有）で実 path を解決する。sub-worktree では `.git` が dir でなく `gitdir:` を指すファイルのため `.git/` リテラルは `mkdir: .git: Not a directory` で破綻する。lock=`$GITDIR/.branch-sync.lock`、共有ログ=`$GITCOMMON/branch-sync-logs/`。9+ WT 並列運用の前提条件。
+- **SP-DEVSYNC-078-B (新番号 union 流入の新規 duplicate 判定)**: feature が dev の新 lesson 番号（本件 L-DEVSYNC-077/078 を feature 先端が未保持）を取り込む sync では、見出し限定 dup 数を `git show feature先端:F` / `git show dev:F` / merge 後 F の 3 点で比較し **after==dev なら新規衝突ゼロ**と判定（本件 feature 37 / dev 38 / after 38）。git 3-way union が共通祖先考慮で二重連結を避けるため「dup が大量に出た」だけで誤警報しない。backlog は触らず別 cleanup（SP-DEVSYNC-076-B）。dev 077-A/B の three-way 照合則と同型。
+- **SP-DEVSYNC-078-C (conflict file 集合は keywords.json も含め毎回 `--diff-filter=U` 確定)**: SP-DEVSYNC-076-C/047 の「衝突 file 集合は可変」を keywords.json についても再確認。L-DEVSYNC-078 では非衝突だった keywords.json が本件で衝突したが `pnpm sync:resolve` が `--ours`+`indexes:rebuild` で機械収束。固定集合を Phase 11 見積りに流用しない。
+- 参照: [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-079（正本）, L-DEVSYNC-078（見出し限定 grep・backlog 別管理）, SP-DEVSYNC-077（dev 側・union 健全性の three-way 照合）, SP-DEVSYNC-076（duplicate-ID 検査）, SP-DEVSYNC-047/073（衝突 file 数可変・`git ls-files -u` 正本則）。

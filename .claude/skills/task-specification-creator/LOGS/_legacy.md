@@ -6,6 +6,10 @@
 
 ## 2026-05-28 - task-b-root-page-public-header-async automation-30 close-out
 
+## 2026-05-31 - issue-235 judgement no-code close-out
+
+`docs/30-workflows/completed-tasks/issue-235-sync-audit-tables-necessity-judgement/` の automation-30 改善で、判定タスクが `sync_audit_logs` / `sync_audit_outbox` 新設不要に着地する場合の docs-only / NON_VISUAL close-out を確認した。CONST_004/005 は「提案だけで終わらせるな」という実反映原則だが、判定成果物そのものが no-new-table-required で、`apps/` / `packages/` の変更が目的に反する場合は、コード変更ゼロを Phase 2 / Phase 5 / Phase 11 / Phase 12 で実測証明し、代わりに aiworkflow current fact・indexes・artifact inventory・LOGS を同一サイクルで反映する。将来トリガ（行単位独立監査 / `sync_jobs` 書込失敗の別経路 / 外部監査分離）が観測されるまでは未タスク化しない。
+
 ## 2026-05-30 - issue-988 identity conflicts optimistic update automation-30 close-out
 
 `docs/30-workflows/completed-tasks/issue-988-identity-conflicts-merge-optimistic-update/` の automation-30 改善で、implementation target が明確な `spec_created` workflow を docs-only close-out せず、同一サイクルで `IdentityConflictRow.tsx` の optimistic hide / rollback、API body message の inline alert 補正、focused Vitest、Playwright focused、Phase 11 screenshot 3 PNG、Phase 11 canonical manifest、Phase 12 strict 7、aiworkflow same-wave sync まで完了して `implemented_local_evidence_captured` へ再分類した。commit / push / PR / Issue close のみ user-gated として分離した。
