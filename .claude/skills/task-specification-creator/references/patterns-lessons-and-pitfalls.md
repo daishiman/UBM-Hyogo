@@ -1937,6 +1937,17 @@ issue-1008 sync（`refactor/issue-1008-members-list-ux-clarity-artifact-status-r
 - **SP-DEVSYNC-076-C (同 branch 再 sync は衝突 file 集合を前提化しない)**: 同一 feature を時間差で再 sync すると dev delta の縮小（本件 5→1 commit）に伴い衝突 file 集合が変わる（前回 4 → 今回 3、`task-workflow-active.md` が非衝突へ転じた）。Phase 11 見積りは前回値を流用せず毎回 `git diff --name-only --diff-filter=U` で確定する（SP-DEVSYNC-047 の「衝突 file 数は可変」を再 sync 軸で補強）。
 - 参照: [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-078（正本・077-A の grep scope 補正）, L-DEVSYNC-077（duplicate-ID 機序）, SP-DEVSYNC-047（衝突 file 数可変）, SP-DEVSYNC-073（`git ls-files -u` 正本則）。
 
+### 衝突 file 集合は map 系内でも回ごとに別組になる／`sync:resolve` は union 経路と derived `--ours`+rebuild 経路を 1 pass で振り分ける（SP-DEVSYNC-079）
+
+> 採番補正: 本節は当初 SP-DEVSYNC-078 として起草したが、`feat/issue-224 ← dev` 側が独立に SP-DEVSYNC-078（sub-worktree lock/log path）を採番済みで、後続 sync-merge の union 流入で duplicate-heading 化した。SP-DEVSYNC-076-B の runbook（dev 側 canonical 残置・今回連結側を次の空き番号へ renumber）に従い本ローカル追加分を **SP-DEVSYNC-079** へ採番補正。
+
+`docs/issue-235-sync-audit-tables-necessity-judgement` ← dev（merge `b4b249cd5`・dev 7 commit / feature 2 ahead）。今回の conflict は aiworkflow `indexes/keywords.json`（derived）＋ `indexes/topic-map.md`（union）の **2 file のみ**で、SP-DEVSYNC-077 の「map 系 3 md 衝突・keywords 非衝突」とは**別組**（今回 `quick-reference.md`/`resource-map.md`/`task-workflow-active.md`/`_legacy.md` は Auto-merging）。`pnpm sync:resolve` が union 解消と derived 再生成の 2 経路を 1 pass で処理して収束。sync-merge task の Phase 11/13 検証手順に以下を固定する（[[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-080）。
+
+- **SP-DEVSYNC-079-A (derived file の content conflict は手動マージ禁止 — `--ours`+rebuild が常に正)**: `indexes/keywords.json` が CONFLICT に出る回がある（両 branch が異内容で再生成した場合）。両版を手で結合せず `pnpm sync:resolve`（内部 `--ours` → `indexes:rebuild`）に委ね、resolver ログの `ours: ...keywords.json` で経路を確認する。手動 fallback 時も `git checkout --ours <keywords.json>` → `pnpm indexes:rebuild` の順を仕様に明記。
+- **SP-DEVSYNC-079-B (衝突するのが keywords.json か map md かは回ごとに入れ替わる)**: SP-DEVSYNC-077 は map md 衝突・keywords 非衝突、本件は逆。どれが衝突するかは dev delta の hunk 位置依存で不確定なので、Phase 11 見積りで file 名を前回流用せず毎回 `git diff --name-only --diff-filter=U` で確定する（SP-DEVSYNC-076-C / 077-C の再確認）。`sync:resolve` は `.gitattributes` union 対象と derived を自動で別経路へ振り分けるため、衝突集合がどう転んでも追加判断は不要。
+- **SP-DEVSYNC-079-C (`sync:resolve` 後検証は JSON 妥当性 + マーカー残存 0 の 2 点)**: 仕様の検証コマンドに `node -e "JSON.parse(readFileSync('.../keywords.json'))"` の妥当性確認と `git grep -c '^<<<<<<<\|^>>>>>>>\|^=======' -- .claude/skills/` の残存マーカー 0 を含める。両 PASS を commit 前ゲートにする。
+- 参照: [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-080（正本）, SP-DEVSYNC-077（map md 衝突・keywords 非衝突の逆組）, SP-DEVSYNC-074/076-B（keywords は `--ours`+rebuild）, SP-DEVSYNC-047（衝突 file 数可変）。
+
 ### 衝突集合は「数同じ・メンバー入替」もする — resolver を集合非依存の単一経路として使う（SP-DEVSYNC-078）
 
 `feat/issue-230-lefthook-edit-guard` ← dev（6 behind / 3 ahead・ローカル dev は origin/dev に既一致で ff 同期不要）の **2 回目**の sync 知見（[[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-079）。`git merge dev` の conflict は **3 file**＝aiworkflow `indexes/keywords.json` + `indexes/topic-map.md` + `references/task-workflow-active.md`。直前の SP-DEVSYNC-077 ケース（keywords 非衝突・map 3 本）と**数は同じ 3 のまま中身が真逆に入れ替わった**（keywords が衝突に戻り、map は topic-map 1 本のみ・quick-reference/resource-map は非衝突）。`apps/**`/`packages/**` source conflict 0 → `pnpm sync:resolve` 1 回で full resolve（resolver ログ `union-resolving 2 files` + `taking --ours for 1 derived files`）。仕様書を起草する際の sync-merge 検証手順に以下を含める。

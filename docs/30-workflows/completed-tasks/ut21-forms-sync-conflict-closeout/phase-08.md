@@ -50,7 +50,7 @@ Phase 1〜7 で抽出した「UT-21 stale 前提 5 項目」「有効品質要�
 | 同期元 | Google Sheets API v4 / `spreadsheets.values.get` / `SheetRow` | Google Forms API (`forms.get` / `forms.responses.list`) / Forms `responseId` ベース DTO | `apps/api/src/jobs/sync-forms-responses.ts` + `apps/api/src/sync/schema/` |
 | admin endpoint | 単一 `POST /admin/sync`（job_kind を body で分岐） | split: `POST /admin/sync/schema` + `POST /admin/sync/responses`（job_kind 単一責務） | 04c-parallel-admin-backoffice-api-endpoints |
 | audit / 公開 endpoint | `GET /admin/sync/audit`（公開 read API） | 公開 endpoint なし。`sync_jobs` ledger を admin UI 経由で参照 | `task-workflow.md` current facts |
-| audit table | `sync_audit_logs` + `sync_audit_outbox`（二段監査） | `sync_jobs` ledger 単一（`status` / `job_kind` / `metrics_json` / `started_at` / `finished_at`）。新設は U02 判定後まで保留 | 02c-parallel-admin-notes-audit-sync-jobs-and-data-access-boundary |
+| audit table | `sync_audit_logs` + `sync_audit_outbox`（二段監査） | `sync_jobs` ledger 単一（`status` / `job_type` / `metrics_json` / `started_at` / `finished_at`）。新設は 2026-05-31 に U02 / Issue #235 で不要と確定 | 02c-parallel-admin-notes-audit-sync-jobs-and-data-access-boundary |
 | 実装パス | `apps/api/src/sync/{core,manual,scheduled,audit}.ts` 一式 | `apps/api/src/jobs/sync-forms-responses.ts` + `apps/api/src/sync/schema/*` | repo 実体 |
 
 ## Before / After 比較テーブル
@@ -114,7 +114,7 @@ Phase 1〜7 で抽出した「UT-21 stale 前提 5 項目」「有効品質要�
 
 - 用語: Sheets / Forms 混在禁止。Forms 起源を SSOT、Sheets 表記は legacy 引用文脈でのみ「旧 UT-21 表記」と注記して残す。
 - endpoint: 「split」を強調する文では必ず `POST /admin/sync/schema` + `POST /admin/sync/responses` を併記する。
-- audit: 「`sync_jobs` ledger を正本」と「`sync_audit_logs/outbox` は新設しない（U02 判定後まで保留）」をセットで記述する。
+- audit: 「`sync_jobs` ledger を正本」と「`sync_audit_logs/outbox` は新設しない（U02 / Issue #235 で新設不要確定済み）」をセットで記述する。
 - 4条件: 「価値性 / 実現性 / 整合性 / 運用性」の順序固定。
 - AC ID: `AC-1`〜`AC-11` のハイフン区切りで統一。
 - 不変条件は #1 / #4 / #5 / #7 のみ touched（index.md と整合）。
