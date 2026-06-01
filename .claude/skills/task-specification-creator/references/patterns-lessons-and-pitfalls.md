@@ -1879,3 +1879,12 @@ issue-1008 sync（`refactor/issue-1008-members-list-ux-clarity-artifact-status-r
 - **SP-DEVSYNC-076-B (既存 duplicate-heading backlog はルーチン sync で清算しない)**: 見出し限定検査でも歴史的な merge=union 蓄積由来の dup（task-spec で `SP-DEVSYNC-063/064/066/069/070/073/075` 等、aiworkflow で `L-DEVSYNC-010/073` 等 ~37 番）が出る。これらは sync が作るものではなく、ルーチン sync の commit に一括 renumber を混ぜると cross-ref を大量破壊する。**今回 sync で連結された新規 1 件のみ renumber**し、backlog は専用 cleanup タスク（`> 採番補正:` 注記付き段階解消）へ切り出す。
 - **SP-DEVSYNC-076-C (同 branch 再 sync は衝突 file 集合を前提化しない)**: 同一 feature を時間差で再 sync すると dev delta の縮小（本件 5→1 commit）に伴い衝突 file 集合が変わる（前回 4 → 今回 3、`task-workflow-active.md` が非衝突へ転じた）。Phase 11 見積りは前回値を流用せず毎回 `git diff --name-only --diff-filter=U` で確定する（SP-DEVSYNC-047 の「衝突 file 数は可変」を再 sync 軸で補強）。
 - 参照: [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-078（正本・077-A の grep scope 補正）, L-DEVSYNC-077（duplicate-ID 機序）, SP-DEVSYNC-047（衝突 file 数可変）, SP-DEVSYNC-073（`git ls-files -u` 正本則）。
+
+### native datalist による入力補助は自由入力と query 契約を守る（SP-I1039）
+
+`/admin/audit` action filter のように「よく使う値は提示したいが、任意文字列入力と URL query key は変えられない」場合は、Select 化より native `<datalist>` を優先する。
+
+- **SP-I1039-A (候補提示と自由入力を同時に満たす)**: 既存 `<Input name="...">` に `list="<id>"` を付け、同じ form 近傍に `<datalist id="<id>"><option ... /></datalist>` を置く。`name` と submit path を変えないため deep link / pagination / server restore が壊れない。
+- **SP-I1039-B (primitive 変更前に native prop passthrough を確認)**: UI primitive が `InputHTMLAttributes` を透過しているなら、`list` は新規 component API や shared type なしで通せる。primitive expansion は、複数 consumer や制御ロジックが必要になってから検討する。
+- **SP-I1039-C (VISUAL は local screenshot と staging user-gated を分ける)**: staging/admin session が user-gated でも、local DOM contract を撮れるなら Phase 11 screenshot を `present` にする。staging screenshot だけを `pending_user_approval` として分離し、Phase 12 で pending のまま PASS と書かない。
+- 参照: [[lessons-learned-issue-1039-admin-audit-identity-action-presets-2026-06]] L-I1039-001..003。
