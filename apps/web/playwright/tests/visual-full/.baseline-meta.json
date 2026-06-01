@@ -1,10 +1,9 @@
 {
   "$schema": "../../../../docs/30-workflows/task-709-visual-baseline-runtime-capture/schemas/baseline-meta.schema.json",
-  "captured_at_commit_sha": "fac23f26f477b720e6979c84d3ace5ac3d8d27bc",
-  "captured_at": "2026-05-31T01:29:01Z",
+  "captured_at_commit_sha": "2b0b9ea0192cfcd88ab89d23b3926b813ebc7b0d",
+  "captured_at": "2026-06-01T02:40:14Z",
   "captured_via": "playwright-visual-baseline-update.yml#workflow_dispatch",
   "captured_run_ids": [
-    "26540715735",
     "26549206362",
     "26552141298",
     "26552192908",
@@ -13,7 +12,8 @@
     "26628923374",
     "26677930770",
     "26695366830",
-    "26699807063"
+    "26699807063",
+    "26732057120"
   ],
   "viewport_dimensions": {
     "desktop": {
@@ -41,5 +41,5 @@
   "refresh_workflow": ".github/workflows/playwright-visual-baseline-update.yml",
   "refresh_command_hint": "gh workflow run playwright-visual-baseline-update.yml -f reason=\"<why>\" -r <feature-branch>",
   "notes": "captured_at_commit_sha からの rendering_relevant_paths diff が空でない場合、baseline は stale。scripts/visual-baseline-status.sh で診断可能。",
-  "last_refresh_reason": "viewer popover修正後 再撮影: dev統一シェル(public/member/admin)の visual-full+visual-chromium baseline"
+  "last_refresh_reason": "member-publish-recovery Task C の ReflectionTimingNote(/members・/profile 反映SLA注記)追加でページ高が members 1457→1562px / profile 1839→1944px に伸びたため visual-full baseline を再生成"
 }
