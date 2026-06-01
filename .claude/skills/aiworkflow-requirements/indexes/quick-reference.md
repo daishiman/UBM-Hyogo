@@ -1,5 +1,18 @@
 # クイックリファレンス
 
+## issue-1024-sidebar-collapse-cookie-persistence（2026-05-31）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-1024-sidebar-collapse-cookie-persistence/` |
+| status | `implemented_local_evidence_captured / implementation / NON_VISUAL` |
+| issue | #1024 CLOSED（reopen なし、PR は `Refs #1024` 境界） |
+| purpose | unified `SidebarShell` の collapsed state を `ubm_shell_collapsed` cookie で永続化し、SSR seed で first-paint flicker を防ぐ |
+| implementation | `shell-collapse-cookie.ts`, `useSidebarState.ts`, `SidebarShell.tsx`, `SidebarShell.server.tsx` |
+| tests | `shell-collapse-cookie.spec.ts`, `useSidebarState.spec.tsx`, `SidebarShell.server.spec.tsx` |
+| boundary | API / D1 / Google Form / auth / design tokens unchanged; commit, push, PR, Issue mutation are user-gated |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1024-sidebar-collapse-cookie-persistence-artifact-inventory.md` |
+
 ## issue-229-indexes-rebuild-fail-fast（2026-05-31）
 
 | 項目 | 値 |

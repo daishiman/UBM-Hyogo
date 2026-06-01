@@ -23,7 +23,8 @@
 | 検出元 | `apps/web/src/components/shell/useSidebarState.ts` 実装時 |
 | 内容 | 当初仕様は collapse 状態を Web Storage に永続化する想定だったが、`scripts/lint-boundaries.mjs` が `localStorage`/`sessionStorage` トークンを **forbidden**（apps/web/src 使用例ゼロ）としているため、永続化を撤廃し in-memory（session 単位）に限定した |
 | 分離理由（CONST_008 条件1） | 永続化には storage 禁止制約を回避する **cookie ベースの新方式**（SSR/CSR 両対応・読み取り箇所の追加）が必要で、本タスクの「layout 移行 + 旧 sidebar 削除」とは独立した別スコープ。今 wave で混入すると関心が分裂し DOM contract 検証の焦点がぼやける |
-| 実施時期・場所 | 親 workflow `unified-sidebar-shell-public-and-admin`（shell の所有者）配下。**GitHub Issue #1024 起票済み**（ユーザー承認・2026-05-29） |
+| 実施時期・場所 | canonical workflow `docs/30-workflows/completed-tasks/issue-1024-sidebar-collapse-cookie-persistence/`。GitHub Issue #1024 は CLOSED のまま `Refs #1024` 境界で実装。 |
+| consumed trace | 2026-05-31: cookie helper / SSR seed / focused shell tests / aiworkflow artifact inventory へ反映済み。commit / push / PR は user-gated。 |
 | GitHub Issue | https://github.com/daishiman/UBM-Hyogo/issues/1024（type:followup / area:web,admin-ui / priority:low / wave:2-plus / scale:small） |
 | 影響度 | low（機能上は in-memory で動作。UX 改善のみ） |
 

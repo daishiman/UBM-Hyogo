@@ -1,6 +1,6 @@
 // Task A — useSidebarState hook の spec。
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
-import { renderHook, act, cleanup } from "@testing-library/react";
+import { renderHook, act, cleanup, waitFor } from "@testing-library/react";
 
 vi.mock("next/navigation", () => ({
   usePathname: vi.fn(() => "/"),
@@ -9,7 +9,7 @@ vi.mock("next/navigation", () => ({
 import { useSidebarState } from "../useSidebarState";
 
 beforeEach(() => {
-  window.localStorage.clear();
+  document.cookie = "ubm_shell_collapsed=; Path=/; Max-Age=0; SameSite=Lax";
 });
 afterEach(() => cleanup());
 
@@ -20,11 +20,11 @@ describe("useSidebarState", () => {
     expect(result.current.drawerOpen).toBe(false);
   });
 
-  it("toggleCollapsed で collapsed へ切り替わり localStorage に反映される", () => {
+  it("toggleCollapsed で collapsed へ切り替わり cookie に反映される", () => {
     const { result } = renderHook(() => useSidebarState());
     act(() => result.current.toggleCollapsed());
     expect(result.current.mode).toBe("collapsed");
-    expect(window.localStorage.getItem("ubm:shell:collapsed")).toBe("true");
+    expect(document.cookie).toContain("ubm_shell_collapsed=true");
   });
 
   it("setDrawerOpen(true) で drawerOpen が true になる", () => {
@@ -33,9 +33,42 @@ describe("useSidebarState", () => {
     expect(result.current.drawerOpen).toBe(true);
   });
 
-  it("localStorage に collapsed=true があれば mount 後に collapsed を復元する", () => {
-    window.localStorage.setItem("ubm:shell:collapsed", "true");
-    const { result } = renderHook(() => useSidebarState());
+  it("initialCollapsed=true があれば初回 render から collapsed を復元する", () => {
+    const { result } = renderHook(() => useSidebarState(true));
     expect(result.current.mode).toBe("collapsed");
+  });
+
+  it("initialCollapsed=false があれば初回 render から expanded を維持する", () => {
+    const { result } = renderHook(() => useSidebarState(false));
+    expect(result.current.mode).toBe("expanded");
+  });
+
+  it("cookie seed がない場合は md viewport heuristic で collapsed にする", async () => {
+    const originalMatchMedia = window.matchMedia;
+    Object.defineProperty(window, "matchMedia", {
+      configurable: true,
+      writable: true,
+      value: vi.fn((query: string) => ({
+        matches: query === "(min-width: 768px)",
+        media: query,
+        onchange: null,
+        addEventListener: vi.fn(),
+        removeEventListener: vi.fn(),
+        addListener: vi.fn(),
+        removeListener: vi.fn(),
+        dispatchEvent: vi.fn(),
+      })),
+    });
+
+    try {
+      const { result } = renderHook(() => useSidebarState(null));
+      await waitFor(() => expect(result.current.mode).toBe("collapsed"));
+    } finally {
+      Object.defineProperty(window, "matchMedia", {
+        configurable: true,
+        writable: true,
+        value: originalMatchMedia,
+      });
+    }
   });
 });
