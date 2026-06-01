@@ -2539,6 +2539,12 @@ node scripts/list-specs.js --topics
 | Runtime Boundary | L29 |
 | Lessons Learned | L33 |
 
+### references/workflow-issue-1007-density-toggle-help-hint-hardening-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Lessons Learned | L18 |
+
 ### references/workflow-issue-1010-auth-view-session-contract-integration-test-artifact-inventory.md
 
 | セクション | 行 |
@@ -8221,7 +8227,7 @@ node scripts/list-specs.js --topics
 | 昇格パターン集 | L3386 |
 | Current Active / Spec Created Tasks | L3388 |
 | UT-17 followup-003 alert-relay weekly healthcheck cron | L3552 |
-| issue-998-members-publish-state-production-rollout | L3629 |
+| issue-998-members-publish-state-production-rollout | L3630 |
 
 ### references/task-workflow-backlog-part2.md
 

@@ -13,6 +13,19 @@
 | inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-264-cron-schedule-free-tier-guard-artifact-inventory.md` |
 | user gate | optional staging cron tail, commit, push, PR, Issue mutation |
 
+## issue-1007-density-toggle-help-hint-hardening（2026-05-30）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-1007-density-toggle-help-hint-hardening/` |
+| status | `implemented_local_runtime_pending / implementation / VISUAL` |
+| purpose | `/members` の `DensityToggle` HelpHint を、複数配置 id 衝突なし・Escape/outside close・Icon system `help` glyph へ堅牢化する |
+| implementation targets | `apps/web/src/components/public/DensityToggle.client.tsx`, `apps/web/src/components/ui/Icon.tsx`, `apps/web/src/components/ui/icons.ts` |
+| tests | `apps/web/src/components/public/__tests__/DensityToggle.client.spec.tsx`（15 passed） |
+| specs | `docs/00-getting-started-manual/specs/09-ui-ux.md`, `docs/00-getting-started-manual/specs/09d-icons.md` |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1007-density-toggle-help-hint-hardening-artifact-inventory.md` |
+| user gate | runtime screenshots, staging deploy, commit, push, PR |
+
 ## issue-1006-members-selected-filters-chip-ux-hardening（2026-05-30）
 
 | 項目 | 値 |

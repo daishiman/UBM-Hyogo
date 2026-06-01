@@ -148,6 +148,28 @@ Phase 11 evidence inventory に次を必ず含める。
 > NON_VISUAL hook 単体タスクは screenshot を要求しない（[phase-11-non-visual-alternative-evidence.md](phase-11-non-visual-alternative-evidence.md) L3 in-memory test layer 準拠）。
 > VISUAL（route 統合）タスクは [phase-11-screenshot-guide.md](phase-11-screenshot-guide.md) の screenshot evidence と併用する。
 
+## パターン: 多重配置 description id（`useId`）と native `<details>` disclosure close
+
+> 由来: Issue #1007（`DensityToggle` help-hint hardening — 多重配置時の `aria-describedby` id 衝突 + 非制御 `<details>` の Escape/外側クリック close）
+> 読み込み条件: 同一ページに複数置きうる component が hidden description span を持つ／disclosure（help hint・popover・accordion）を native `<details>` で実装するタスクを書く時。
+> 正本: `apps/web/src/components/public/DensityToggle.client.tsx` / focused test `apps/web/src/components/public/__tests__/DensityToggle.client.spec.tsx`
+> 詳細 lessons: aiworkflow-requirements `lessons-learned/lessons-learned-issue-1007-density-toggle-help-hint-hardening-2026-05.md`（L-DTHH-001..006）
+
+### 契約
+
+| 項目 | 規定 |
+| --- | --- |
+| description id 生成 | `const uid = useId(); const descId = (v) => `${uid}-${scope}-${v}-desc``。固定文字列 id を禁止し、hidden span の `id` と control の `aria-describedby` を同じ `descId(v)` から生成する |
+| disclosure 開閉方式 | 非制御 native `<details ref>`。open は summary native toggle 任せ、**close のみ** `detailsRef.current.open = false` を `useCallback` 化して命令的に行う（controlled state 化しない） |
+| document listener | `browserDocument()`（SSR guard）→ mount〜unmount で 1 本 → handler 内で `detailsRef.current?.open` を直接判定 → cleanup で必ず解除、の 4 点セット。依存配列は安定 `closeHelp` のみ |
+| close UX | Escape は close 後 `summary` へ focus 復帰。外側クリックは `pointerdown` + `target instanceof Node` + `!detailsRef.current.contains(target)` の双方成立時のみ close |
+| icon 追加 | `icons.ts` union + `Icon.tsx` glyph case + `09d-icons.md` spec 行の 3 点を同一 wave で同期（[patterns-mobile-ui-primitive-3point-sync.md](patterns-mobile-ui-primitive-3point-sync.md) と同型の 3-point 同期） |
+
+### Phase 4 / Phase 11 検証規定
+
+- focused vitest で「N 個配置時に description id 全件 unique」「各 control の `aria-describedby` が **自 instance 内** span を指す」を assert（参照崩れ guard）。
+- jsdom は `<details>` summary click を native toggle しないため、test helper で `details.open = true` + `new Event("toggle")` 手動 dispatch の fallback を 1 箇所に集約する。実ブラウザの open/close 見た目は Phase 11 screenshot（help-open / help-closed）で別途担保する。
+
 ## アンチパターン（避ける）
 
 | アンチパターン | なぜ駄目か | 正解 |
@@ -157,6 +179,9 @@ Phase 11 evidence inventory に次を必ず含める。
 | `aria-live="polite"` を error boundary に使う | 重要 error 通知が読み上げ待ち行列で遅延 | error boundary は `assertive` 固定 |
 | `focus()` 引数なしで呼ぶ | scroll jump が発生し layout が暴れる | `{ preventScroll: true }` を default |
 | focused test で `expect(focusSpy).toHaveBeenCalled()` のみ | preventScroll regression を検出できない | 引数完全一致 (`toHaveBeenCalledWith`) |
+| 多重配置 component の description id を `desc-${value}` 固定文字列にする | 2 個目以降で id 衝突し `aria-describedby` が他 instance を指す参照崩れ | `useId()` 接頭辞で instance ごと namespace 化 |
+| disclosure を `useState(open)` で controlled 化 | summary native toggle / keyboard a11y を自前再実装する羽目になり複雑化 | 非制御 native `<details ref>`、close のみ `detailsRef.current.open=false` |
+| `document.addEventListener` を SSR guard 無しで張る | OpenNext Workers SSR で `document` 未定義 throw | `browserDocument()` で `null` 早期 return + unmount 解除 |
 
 ## 参照
 
