@@ -2821,6 +2821,7 @@
 | legacy UT-21 の扱い（Sheets→D1 単一 endpoint / audit table は新設しない） | `docs/30-workflows/ut21-forms-sync-conflict-closeout/outputs/phase-12/implementation-guide.md`, `references/task-workflow.md` |
 | 現行 Forms sync 正本 | `apps/api/src/jobs/sync-forms-responses.ts`, `apps/api/src/sync/schema/`, `references/task-workflow.md` |
 | 後続判断 | `docs/30-workflows/unassigned-task/task-ut21-sync-audit-tables-necessity-judgement-001.md`, `docs/30-workflows/unassigned-task/task-ut21-phase11-smoke-rerun-real-env-001.md`, `docs/30-workflows/unassigned-task/task-ut21-impl-path-boundary-realignment-001.md` |
+| UT21-U02 確定判定 | `docs/30-workflows/completed-tasks/issue-235-sync-audit-tables-necessity-judgement/`（Issue #235 CLOSED）。`sync_audit_logs` / `sync_audit_outbox` は新設不要。現行 `sync_jobs` + `sync_job_logs` + `metrics_json` で充足し、コード変更 0。 |
 | 旧仕様の状態欄 | `docs/30-workflows/unassigned-task/UT-21-sheets-d1-sync-endpoint-and-audit-implementation.md` |
 
 ---
