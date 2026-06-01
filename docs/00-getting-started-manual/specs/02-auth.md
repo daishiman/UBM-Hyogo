@@ -104,6 +104,7 @@ type AuthView =
 - `apps/web/src/lib/auth-view/getAuthView.ts`: `getAuth().auth()` を呼び、例外時は `guest` に fail-closed。
 - `apps/web/src/components/public/PublicHeader.tsx`: `data-auth-state="guest|member|admin"` のみを出力。
 - `apps/web/app/(public)/layout.tsx`: server boundary で `authView` を解決して `PublicHeader` へ注入。
+- drift guard: `apps/web/src/lib/auth-view/__tests__/authViewSessionContract.integration.spec.ts` が実 `buildAuthConfig().callbacks.session` 出力を `resolveAuthView()` / `getAuthView()` に連鎖し、`memberId` / `isAdmin` field contract の変更を focused Vitest で検出する。
 
 `apps/web` 公開層では、この contract に伴う新 API endpoint / D1 schema / Google Form schema 変更は発生しない。
 

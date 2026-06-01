@@ -15,6 +15,19 @@
 | inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1016-sidebar-mobile-drawer-responsive-artifact-inventory.md` |
 | user gate | staging visual verification, commit, push, PR |
 
+## issue-1007-density-toggle-help-hint-hardening（2026-05-30）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-1007-density-toggle-help-hint-hardening/` |
+| status | `implemented_local_runtime_pending / implementation / VISUAL` |
+| purpose | `/members` の `DensityToggle` HelpHint を、複数配置 id 衝突なし・Escape/outside close・Icon system `help` glyph へ堅牢化する |
+| implementation targets | `apps/web/src/components/public/DensityToggle.client.tsx`, `apps/web/src/components/ui/Icon.tsx`, `apps/web/src/components/ui/icons.ts` |
+| tests | `apps/web/src/components/public/__tests__/DensityToggle.client.spec.tsx`（15 passed） |
+| specs | `docs/00-getting-started-manual/specs/09-ui-ux.md`, `docs/00-getting-started-manual/specs/09d-icons.md` |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1007-density-toggle-help-hint-hardening-artifact-inventory.md` |
+| user gate | runtime screenshots, staging deploy, commit, push, PR |
+
 ## issue-1006-members-selected-filters-chip-ux-hardening（2026-05-30）
 
 | 項目 | 値 |
@@ -1781,6 +1794,19 @@
 | invariant | no new endpoint / no D1 schema / no Google Form change; `data-auth-state` is only `guest\|member\|admin`; no PII in DOM |
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-public-header-session-aware-auth-view-base-artifact-inventory.md` |
 | user gate | staging authenticated runtime visual, commit, push, PR |
+
+### issue-1010-auth-view-session-contract-integration-test（2026-05-30）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-1010-auth-view-session-contract-integration-test/` |
+| status | `implemented_local_evidence_captured / implementation / NON_VISUAL / Phase 13 pending_user_approval` |
+| source | `docs/30-workflows/completed-tasks/issue-1010-auth-view-session-contract-integration-test/unassigned-task-specs/public-header-auth-view-session-contract-integration-test-001.md`（consumed） |
+| purpose | 実 `buildAuthConfig().callbacks.session` 出力を `resolveAuthView()` / `getAuthView()` に連鎖し、AuthView session contract drift を検出する |
+| implementation | `apps/web/src/lib/auth-view/__tests__/authViewSessionContract.integration.spec.ts` |
+| evidence | focused Vitest 4 files / 61 tests PASS、web typecheck PASS、workspace lint PASS |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1010-auth-view-session-contract-integration-test-artifact-inventory.md` |
+| user gate | commit, push, PR |
 
 ### public-header-logged-in-nav-cleanup（2026-05-28）
 

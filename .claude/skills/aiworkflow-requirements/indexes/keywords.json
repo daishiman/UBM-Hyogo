@@ -1309,6 +1309,7 @@
       "ui-ux-components.md",
       "workflow-05b-a-auth-mail-env-contract-alignment-artifact-inventory.md",
       "workflow-e2e-stage-2-2d-contract-artifact-inventory.md",
+      "workflow-issue-1010-auth-view-session-contract-integration-test-artifact-inventory.md",
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
       "workflow-issue-399-admin-queue-resolve-staging-visual-evidence-artifact-inventory.md",
       "workflow-task-03-w2-par-sentry-workers-sdk-unify-artifact-inventory.md",
@@ -3318,6 +3319,7 @@
       "workflow-home-page-prototype-alignment-artifact-inventory.md",
       "workflow-i01-toastprovider-root-mount-artifact-inventory.md",
       "workflow-issue-1006-members-selected-filters-chip-ux-hardening-artifact-inventory.md",
+      "workflow-issue-1010-auth-view-session-contract-integration-test-artifact-inventory.md",
       "workflow-issue-1016-sidebar-mobile-drawer-responsive-artifact-inventory.md",
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
       "workflow-issue-247-apps-web-opennext-config-regression-tests-artifact-inventory.md",
@@ -4040,6 +4042,7 @@
       "logs-archive-2026-03-auth-mode-migration-sync.md",
       "logs-archive-2026-03-ipc-fallback-phase12-sync.md",
       "workflow-fix-admin-scr-err-stg-fu-001-auth-env-via-getenv-artifact-inventory.md",
+      "workflow-issue-1010-auth-view-session-contract-integration-test-artifact-inventory.md",
       "workflow-public-header-auth-slot-e2e-artifact-inventory.md",
       "workflow-public-header-session-aware-auth-view-base-artifact-inventory.md",
       "workflow-task-05b-parallel-magic-link-provider-and-auth-gate-state-artifact-inventory.md",
@@ -4281,6 +4284,7 @@
       "task-workflow-completed-skill-create-ui-integration.md",
       "ui-ux-components.md",
       "workflow-admin-shell-topbar-sidebar-integration-artifact-inventory.md",
+      "workflow-issue-1010-auth-view-session-contract-integration-test-artifact-inventory.md",
       "workflow-issue-748-jest-axe-primitive-a11y-integration-artifact-inventory.md",
       "workflow-issue-894-admin-topbar-breadcrumb-integration-artifact-inventory.md",
       "workflow-task-c-public-member-sidebar-shell-integration-artifact-inventory.md",
@@ -5163,6 +5167,8 @@
       "workflow-admin-visual-baseline-admin-routes-task-e-artifact-inventory.md",
       "workflow-issue-1005-members-ux-playwright-baseline-stabilization-artifact-inventory.md",
       "workflow-issue-1006-members-selected-filters-chip-ux-hardening-artifact-inventory.md",
+      "workflow-issue-1007-density-toggle-help-hint-hardening-artifact-inventory.md",
+      "workflow-issue-1010-auth-view-session-contract-integration-test-artifact-inventory.md",
       "workflow-issue-1016-sidebar-mobile-drawer-responsive-artifact-inventory.md",
       "workflow-issue-256-e2e-coverage-baseline-runbook-artifact-inventory.md",
       "workflow-issue-276-mobile-filterbar-tag-picker-artifact-inventory.md",
@@ -5335,6 +5341,7 @@
       "lessons-learned-06b-b-profile-self-service-request-ui-2026-05.md",
       "lessons-learned-issue-372-attendance-pagination-2026-05.md",
       "lessons-learned-ut-coverage-2026-05-wave.md",
+      "workflow-issue-1010-auth-view-session-contract-integration-test-artifact-inventory.md",
       "workflow-public-header-session-aware-auth-view-base-artifact-inventory.md"
     ],
     "resolve": [
@@ -6010,6 +6017,7 @@
       "workflow-fix-admin-server-components-render-error-stg-artifact-inventory.md",
       "workflow-fix-verify-design-tokens-og-route-exclude-artifact-inventory.md",
       "workflow-issue-1005-members-ux-playwright-baseline-stabilization-artifact-inventory.md",
+      "workflow-issue-1007-density-toggle-help-hint-hardening-artifact-inventory.md",
       "workflow-issue-274-public-pages-ogp-sitemap-robots-artifact-inventory.md",
       "workflow-issue-290-workflow-lint-gate-artifact-inventory.md",
       "workflow-issue-351-09c-post-release-dashboard-automation-artifact-inventory.md",
@@ -7824,6 +7832,8 @@
       "task-workflow-active.md",
       "workflow-issue-1005-members-ux-playwright-baseline-stabilization-artifact-inventory.md",
       "workflow-issue-1006-members-selected-filters-chip-ux-hardening-artifact-inventory.md",
+      "workflow-issue-1007-density-toggle-help-hint-hardening-artifact-inventory.md",
+      "workflow-issue-1010-auth-view-session-contract-integration-test-artifact-inventory.md",
       "workflow-issue-1016-sidebar-mobile-drawer-responsive-artifact-inventory.md",
       "workflow-issue-106-admin-member-notes-repository-task-spec-artifact-inventory.md",
       "workflow-issue-191-schema-aliases-artifact-inventory.md",
@@ -11101,6 +11111,8 @@
       "workflow-admin-visual-baseline-admin-routes-task-e-artifact-inventory.md",
       "workflow-issue-1005-members-ux-playwright-baseline-stabilization-artifact-inventory.md",
       "workflow-issue-1006-members-selected-filters-chip-ux-hardening-artifact-inventory.md",
+      "workflow-issue-1007-density-toggle-help-hint-hardening-artifact-inventory.md",
+      "workflow-issue-1010-auth-view-session-contract-integration-test-artifact-inventory.md",
       "workflow-issue-1016-sidebar-mobile-drawer-responsive-artifact-inventory.md",
       "workflow-issue-256-e2e-coverage-baseline-runbook-artifact-inventory.md",
       "workflow-issue-276-mobile-filterbar-tag-picker-artifact-inventory.md",
@@ -11237,6 +11249,7 @@
       "lessons-learned-ut-coverage-2026-05-wave.md",
       "lessons-learned-ut07b-fu-01-schema-alias-backfill-queue-cron-split-2026-05.md",
       "patterns-kv-dedup.md",
+      "workflow-issue-1010-auth-view-session-contract-integration-test-artifact-inventory.md",
       "workflow-issue-617-ci-test-time-reduction-split-artifact-inventory.md"
     ],
     "契約を共有する": [
@@ -13108,7 +13121,8 @@
       "lessons-learned-06a-public-web-2026-04.md"
     ],
     "density": [
-      "lessons-learned-06a-public-web-2026-04.md"
+      "lessons-learned-06a-public-web-2026-04.md",
+      "workflow-issue-1007-density-toggle-help-hint-hardening-artifact-inventory.md"
     ],
     "用語の表記揺れと": [
       "lessons-learned-06a-public-web-2026-04.md"
@@ -13374,6 +13388,7 @@
       "workflow-google-form-reflection-diagnostics-artifact-inventory.md",
       "workflow-google-form-reflection-diagnostics-fu-002-h2-identity-rebuild-artifact-inventory.md",
       "workflow-issue-1005-members-ux-playwright-baseline-stabilization-artifact-inventory.md",
+      "workflow-issue-1007-density-toggle-help-hint-hardening-artifact-inventory.md",
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
       "workflow-issue-274-public-pages-ogp-sitemap-robots-artifact-inventory.md",
       "workflow-issue-351-09c-post-release-dashboard-automation-artifact-inventory.md",
@@ -13516,6 +13531,7 @@
       "lessons-learned-06c-A-admin-dashboard-2026-05.md",
       "skill-ledger-overview.md",
       "task-workflow-completed-agent-view-line-budget.md",
+      "workflow-issue-1010-auth-view-session-contract-integration-test-artifact-inventory.md",
       "workflow-public-header-session-aware-auth-view-base-artifact-inventory.md"
     ],
     "recent": [
@@ -15635,6 +15651,7 @@
       "workflow-google-form-reflection-diagnostics-artifact-inventory.md",
       "workflow-google-form-reflection-diagnostics-fu-002-h2-identity-rebuild-artifact-inventory.md",
       "workflow-issue-1005-members-ux-playwright-baseline-stabilization-artifact-inventory.md",
+      "workflow-issue-1007-density-toggle-help-hint-hardening-artifact-inventory.md",
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
       "workflow-issue-274-public-pages-ogp-sitemap-robots-artifact-inventory.md",
       "workflow-issue-351-09c-post-release-dashboard-automation-artifact-inventory.md",
@@ -17326,6 +17343,7 @@
       "workflow-i01-toastprovider-root-mount-artifact-inventory.md",
       "workflow-i02-admin-error-type-unify-artifact-inventory.md",
       "workflow-issue-1006-members-selected-filters-chip-ux-hardening-artifact-inventory.md",
+      "workflow-issue-1010-auth-view-session-contract-integration-test-artifact-inventory.md",
       "workflow-issue-1016-sidebar-mobile-drawer-responsive-artifact-inventory.md",
       "workflow-issue-106-admin-member-notes-repository-task-spec-artifact-inventory.md",
       "workflow-issue-191-schema-aliases-artifact-inventory.md",
@@ -18210,7 +18228,8 @@
       "lessons-learned-ut07b-fu04-production-migration-already-applied-verification-2026-05.md",
       "logs-archive-2026-03-line-budget-workflow-consolidation.md",
       "workflow-apps-web-security-headers-hardening-artifact-inventory.md",
-      "workflow-issue-1006-members-selected-filters-chip-ux-hardening-artifact-inventory.md"
+      "workflow-issue-1006-members-selected-filters-chip-ux-hardening-artifact-inventory.md",
+      "workflow-issue-1007-density-toggle-help-hint-hardening-artifact-inventory.md"
     ],
     "は失敗観測を待たず先回り適用": [
       "lessons-learned-issue-900-workflow-permissions-least-privilege-2026-05.md"
@@ -25416,6 +25435,7 @@
       "workflow-i01-toastprovider-root-mount-artifact-inventory.md",
       "workflow-i02-admin-error-type-unify-artifact-inventory.md",
       "workflow-issue-1006-members-selected-filters-chip-ux-hardening-artifact-inventory.md",
+      "workflow-issue-1010-auth-view-session-contract-integration-test-artifact-inventory.md",
       "workflow-issue-1016-sidebar-mobile-drawer-responsive-artifact-inventory.md",
       "workflow-issue-106-admin-member-notes-repository-task-spec-artifact-inventory.md",
       "workflow-issue-191-schema-aliases-artifact-inventory.md",
@@ -26314,6 +26334,15 @@
     ],
     "Surface": [
       "workflow-issue-1006-members-selected-filters-chip-ux-hardening-artifact-inventory.md"
+    ],
+    "toggle": [
+      "workflow-issue-1007-density-toggle-help-hint-hardening-artifact-inventory.md"
+    ],
+    "help": [
+      "workflow-issue-1007-density-toggle-help-hint-hardening-artifact-inventory.md"
+    ],
+    "hint": [
+      "workflow-issue-1007-density-toggle-help-hint-hardening-artifact-inventory.md"
     ],
     "responsive": [
       "workflow-issue-1016-sidebar-mobile-drawer-responsive-artifact-inventory.md"
