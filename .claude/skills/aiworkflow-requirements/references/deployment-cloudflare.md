@@ -237,9 +237,10 @@ database_id = "your-d1-database-id"
 binding = "SESSION_KV"
 id = "your-kv-namespace-id"
 # UT-13 で SESSION_KV に統一。詳細は本ファイル下方「Cloudflare KV セッションキャッシュ」セクション参照
-# 注（UT-CICD-DRIFT / 2026-04-29）: 上記 KV binding 例は UT-13 採用後の構成。
-#                                   現行 `apps/api/wrangler.toml` には KV binding は未追加で、
-#                                   D1 binding のみが配置されている。実適用は UT-13 KV bootstrap 配下。
+# 注（UT-CICD-DRIFT / 2026-04-29、Issue #57 更新 / 2026-05-31）:
+# 上記 `SESSION_KV` binding 例は UT-13 採用後の構成であり、現行未適用。
+# 現行 `apps/api/wrangler.toml` には D1、Analytics Engine、R2 audit cold-storage binding があり、
+# `ALERT_DEDUP_KV` は ut-17-followup-002 user gate のためコメントアウト状態。
 
 [env.staging]
 name = "ubm-hyogo-api-staging"
@@ -299,7 +300,24 @@ UT-25-DERIV-02 は `GOOGLE_SERVICE_ACCOUNT_JSON` の Google 側 key 失効・権
 
 staging / production では `[triggers]` と `[env.staging.triggers]` の両方に `*/15 * * * *` を明示する。未設定 secret の場合、cron は response sync を開始せずスキップする。
 
-> R2 binding は現行 `apps/api/wrangler.toml` には未適用。UT-12 の下流実装時に、下記 R2 セクションの環境別差分を追加する。
+> 汎用ファイルアップロード用 `R2_BUCKET` は現行 `apps/api/wrangler.toml` には未適用。別系統として、audit cold-storage 用 R2 binding は `UBM_AUDIT_COLD_STORAGE`（Issue #514）と `UBM_AUDIT_APP_COLD_STORAGE`（Issue #315）が production / staging ともに適用済み。
+
+### Current KV/R2 binding inventory（Issue #57 / 2026-05-31）
+
+| Binding | Kind | Current state | Owner / boundary |
+| --- | --- | --- | --- |
+| `UBM_AUDIT_COLD_STORAGE` | R2 bucket | production/staging active in `apps/api/wrangler.toml` | Issue #514 Cloudflare audit log cold storage |
+| `UBM_AUDIT_APP_COLD_STORAGE` | R2 bucket | production/staging active in `apps/api/wrangler.toml` and used by `scripts/audit-log/export-to-r2.ts` | Issue #315 application audit_log cold storage |
+| `ALERT_DEDUP_KV` | Workers KV | `apps/api/src/env.ts` optional; wrangler blocks remain commented until ut-17-followup-002 user gate | alert-relay dedup only, delivery fail-open when absent |
+| `SESSION_KV` | Workers KV | not applied | UT-13 session cache |
+| `R2_BUCKET` | R2 bucket | not applied | UT-12 generic file/image storage |
+
+### KV/R2 free-tier guardrail values（確認日: 2026-05-31）
+
+| Product | Free-tier values | Source |
+| --- | --- | --- |
+| Workers KV | reads 100k/day, writes 1k/day, deletes 1k/day, list 1k/day, storage 1GB/account, namespaces 1k | Cloudflare KV Limits |
+| R2 Standard | storage 10GB-month, Class A 1M/month, Class B 10M/month, egress free | Cloudflare R2 pricing |
 
 ### デプロイコマンド
 
