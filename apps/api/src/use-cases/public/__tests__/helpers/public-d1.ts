@@ -175,6 +175,24 @@ class MockStmt {
       };
     }
 
+    // issue-224: listTagsByMemberIds の batch query（member_id IN (...)）。
+    // 単一 id 分岐（mt.member_id = ?1）/ tag aggregation（GROUP BY td.code）とは
+    // `member_id IN` の有無で確実に区別される。bindings に渡った member_id のみ返すため
+    // visibility filter 外の member tag は mock レベルでも leak しない。
+    if (
+      sql.includes("FROM member_tags mt") &&
+      sql.includes("JOIN tag_definitions td") &&
+      sql.includes("member_id IN")
+    ) {
+      const byMember = this.options.tagsByMemberId ?? {};
+      const rows: unknown[] = [];
+      for (const mid of this.bindings) {
+        const key = String(mid);
+        for (const r of byMember[key] ?? []) rows.push(r);
+      }
+      return { results: rows as T[] };
+    }
+
     if (
       sql.includes("FROM member_tags mt") &&
       sql.includes("JOIN tag_definitions td") &&
