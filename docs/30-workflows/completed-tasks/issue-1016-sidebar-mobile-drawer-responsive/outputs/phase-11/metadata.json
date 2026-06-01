@@ -1,0 +1,29 @@
+{
+  "source": "http://127.0.0.1:3130/visual-harness/sidebar-shell",
+  "captures": [
+    {
+      "filename": "shell-drawer-mobile-closed.png",
+      "viewport": 375,
+      "state": "hamburger visible, sidebar hidden, drawer closed",
+      "capturedAt": "2026-05-31T00:39:48.602Z"
+    },
+    {
+      "filename": "shell-drawer-mobile-open.png",
+      "viewport": 375,
+      "state": "drawer dialog open with backdrop",
+      "capturedAt": "2026-05-31T00:39:48.737Z"
+    },
+    {
+      "filename": "shell-sidebar-tablet-collapsed.png",
+      "viewport": 768,
+      "state": "sidebar visible collapsed, hamburger hidden",
+      "capturedAt": "2026-05-31T00:39:50.107Z"
+    },
+    {
+      "filename": "shell-sidebar-desktop-expanded.png",
+      "viewport": 1280,
+      "state": "sidebar visible expanded",
+      "capturedAt": "2026-05-31T00:39:51.342Z"
+    }
+  ]
+}

@@ -1,5 +1,20 @@
 # クイックリファレンス
 
+## issue-1016-sidebar-mobile-drawer-responsive（2026-05-31）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-1016-sidebar-mobile-drawer-responsive/` |
+| status | `implemented_local_runtime_pending / implementation / VISUAL` |
+| issue | #1016 CLOSED。PR 文脈は `Refs #1016` のみ |
+| parent | `docs/30-workflows/completed-tasks/unified-sidebar-shell-public-and-admin/` Task E |
+| purpose | Unified Sidebar Shell の mobile drawer responsive を実装し、スマホ幅で hamburger → dialog drawer を開けるようにする |
+| implementation targets | `apps/web/src/components/shell/SidebarMobileTrigger.tsx`, `SidebarDrawer.tsx`, `useSidebarState.ts`, `SidebarShell.tsx`, `apps/web/src/lib/is-browser.ts`, `apps/web/src/styles/globals.css` |
+| evidence | focused Vitest 4 files / 21 tests PASS（`outputs/phase-11/evidence/focused-vitest.log`）+ local screenshots 4 PNG（`outputs/phase-11/screenshots/`） |
+| Phase 12 | strict 7 present; root/output artifacts parity present |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1016-sidebar-mobile-drawer-responsive-artifact-inventory.md` |
+| user gate | staging visual verification, commit, push, PR |
+
 ## issue-57-kv-r2-guardrail-degrade-design（2026-05-31）
 
 | 項目 | 値 |
