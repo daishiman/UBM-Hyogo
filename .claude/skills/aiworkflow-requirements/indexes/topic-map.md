@@ -974,10 +974,11 @@ node scripts/list-specs.js --topics
 | テスト戦略 | L160 |
 | UBM-Hyogo D1 Repository 契約（02b） | L190 |
 | Schema Drift ADR Gate | L223 |
-| エラーハンドリング | L242 |
-| Conversation DB 初期化パターン | L273 |
-| UBM-Hyogo Schema Sync Contract（03a） | L275 |
-| ベクトル検索実装（DiskANN） | L395 |
+| Public member tags batch helper boundary（Issue #224） | L232 |
+| エラーハンドリング | L254 |
+| Conversation DB 初期化パターン | L285 |
+| UBM-Hyogo Schema Sync Contract（03a） | L287 |
+| ベクトル検索実装（DiskANN） | L407 |
 
 ### references/database-implementation-details.md
 
@@ -2592,6 +2593,12 @@ node scripts/list-specs.js --topics
 | Validation Chain | L89 |
 | Branch-level deletion check | L101 |
 | Downstream task: issue-195-sync-jobs-contract-schema-consolidation-001（2026-05-04） | L105 |
+
+### references/workflow-issue-224-public-members-tags-batch-fetch-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Lessons | L13 |
 
 ### references/workflow-issue-247-apps-web-opennext-config-regression-tests-artifact-inventory.md
 
@@ -6020,6 +6027,21 @@ node scripts/list-specs.js --topics
 | OP-ISSUE195FU002-2: current canonical deletion 検知の運用 | L80 |
 | 再確認・適用記録: issue-195-sync-jobs-contract-schema-consolidation-001（2026-05-04） | L89 |
 
+### references/lessons-learned-issue-224-public-members-tags-batch-fetch-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| L-I224-001: helper return shape は Phase 1 で verbatim 固定する | L3 |
+| L-I224-002: expand は opt-in response 拡張として扱う | L7 |
+| L-I224-003: public tag response は再構成して fail-close する | L11 |
+| L-I224-004: batch response は SQL order を持たせる | L15 |
+| L-I224-005: IN 句の placeholder はメンバー数から動的生成し bind で渡す | L19 |
+| L-I224-006: 空配列時は batch query を発行しない | L23 |
+| L-I224-007: expand whitelist は repeated / comma 両形式を受け unknown は黙殺する | L27 |
+| L-I224-008: repository はフラット配列のまま返し groupBy は use-case 層に置く | L31 |
+| L-I224-009: contract test は appliedQuery の key 集合を固定して shape 回帰を防ぐ | L35 |
+| L-I224-010: zod schema と type 導出を同一サイクルで連動更新する | L39 |
+
 ### references/lessons-learned-issue-274-public-pages-ogp-sitemap-robots-2026-05.md
 
 | セクション | 行 |
@@ -7117,8 +7139,8 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 概要 | L3 |
 | 仕様書インデックス | L7 |
-| 利用順序 | L124 |
-| 関連ドキュメント | L129 |
+| 利用順序 | L125 |
+| 関連ドキュメント | L130 |
 
 ### references/llm-embedding.md
 
@@ -8262,8 +8284,8 @@ node scripts/list-specs.js --topics
 | 実行時のコマンド・エージェント・スキル | L3403 |
 | 昇格パターン集 | L3427 |
 | Current Active / Spec Created Tasks | L3429 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L3593 |
-| issue-998-members-publish-state-production-rollout | L3671 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L3594 |
+| issue-998-members-publish-state-production-rollout | L3672 |
 
 ### references/task-workflow-backlog-part2.md
 

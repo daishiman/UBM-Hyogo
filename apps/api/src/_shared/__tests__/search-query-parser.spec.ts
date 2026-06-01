@@ -30,7 +30,27 @@ describe("search-query-parser", () => {
       density: "dense",
       page: 2,
       limit: 30,
+      expand: [],
     });
+  });
+
+  // issue-224: expand whitelist パース
+  it("parses expand=tags into ['tags']", () => {
+    expect(parsePublicMemberQuery({ expand: "tags" }).expand).toEqual(["tags"]);
+  });
+
+  it("accepts comma-separated and repeated expand, dedups, drops unknown values", () => {
+    expect(
+      parsePublicMemberQuery({ expand: "tags,unknown" }).expand,
+    ).toEqual(["tags"]);
+    expect(
+      parsePublicMemberQuery({ expand: ["tags", "tags", "bogus"] }).expand,
+    ).toEqual(["tags"]);
+    expect(parsePublicMemberQuery({ expand: "nope" }).expand).toEqual([]);
+  });
+
+  it("defaults expand to [] when omitted", () => {
+    expect(parsePublicMemberQuery({}).expand).toEqual([]);
   });
 
   it("AC-6: invalid sort falls back to recent", () => {
