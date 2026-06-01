@@ -1836,6 +1836,14 @@ sync-merge task の Phase 12 implementation-guide に、branch 種別（feature/
 - **SP-DEVSYNC-075-B (ローカル dev が origin/dev 一致なら ff 同期を別途走らせない)**: Phase 13 検証フローで `git rev-list --left-right --count dev...origin/dev` が `0\t0` なら dev ff 同期は不要。`git merge origin/dev` を直接使うことで resolver と並行する main worktree への git 書き込みが消え、SP-DEVSYNC-074-C の「直列」を構造的に満たして index.lock 競合（SP-DEVSYNC-074-A/B の復旧対象）を最初から回避できる。
 - 参照: [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-075（正本）, SP-DEVSYNC-072/073（クリーン基準・衝突 file 数可変の確立）, SP-DEVSYNC-074（index.lock 中間状態・本件は並行書き込み無で回避）。
 
+## SP-DEVSYNC-076 `*-map.md` 3 file 同時衝突 + keywords.json の 4 file でも resolver 単独 1 回で収束する（union 3 + `--ours`+rebuild 1 の混在解消）（2026-06-01 docs/issue-264-cron-schedule-free-tier-guard-spec ← origin/dev 1 commit）
+
+sync-merge task の Phase 12 implementation-guide に、`*-map.md`（quick-reference / resource-map / topic-map）が複数同時に衝突しても resolver が union 対象と `--ours` 派生を自動振り分けする旨を記載し、「衝突 file 増加＝手動介入」誤認を防ぐ。本件は `docs/issue-264-...`（ローカル dev = origin/dev 一致＝独自コミット 0、feature は 4 ahead / 1 behind）で `git merge dev` の content conflict が `indexes/{keywords.json, quick-reference.md, resource-map.md, topic-map.md}` の 4 file（`*-map.md` 3 種同時 + keywords.json）、`pnpm sync:resolve` 単独 1 回（union 3 + keywords.json ours+rebuild）で収束した実例。SP-DEVSYNC-075（衝突 2 file）に対し `*-map.md` 同時衝突件数の上限を 3 まで実証拡張。
+
+- **SP-DEVSYNC-076-A (`*-map.md` の同時衝突件数に動じずクリーン基準を適用)**: `quick-reference.md` / `resource-map.md` / `topic-map.md` は 3 つ同時衝突でも全て `merge=union` 対象。`git diff --name-only --diff-filter=U` の出力が全て `.claude/skills/**`（`keywords.json` + `*-map.md` 群）なら手動 Edit せず `pnpm sync:resolve` 直行。resolver は union 対象と keywords.json `--ours`+rebuild をファイル種別で自動振り分けする。
+- **SP-DEVSYNC-076-B (resolver 後の冪等確認を CI gate と同条件で先取り)**: 解消後 Phase 13 検証で `pnpm indexes:rebuild` を再実行し drift 0（status clean）を確認すると、CI `verify-indexes-up-to-date` gate（`.claude/skills/aiworkflow-requirements/indexes` drift で fail）を push 前にローカル検証できる。本件 rebuild 後 5224 キーワードで status clean。
+- 参照: [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-076（正本）, SP-DEVSYNC-072/073（クリーン基準・衝突 file 数可変の確立）, SP-DEVSYNC-074（index.lock 中間状態）, SP-DEVSYNC-075（衝突 2 file 前例・本件は `*-map.md` 3 件同時の拡張）。
+
 ### dev-sync-merge 残マーカー確認の `git grep '======='` 偽陽性（SP-DEVSYNC-073）
 
 skill-only conflict を `pnpm sync:resolve` で解消した後の「念のための残マーカー確認」を `git grep` ベースで行うと、completed-tasks 配下の evidence/log 文書に頻出する装飾区切り線（`=` 連続行）を conflict marker 中央線 `=======` と誤検知する shape。Phase 12 の解消完了判定を index 状態ベースに固定して偽陽性に振り回されないようにする。
