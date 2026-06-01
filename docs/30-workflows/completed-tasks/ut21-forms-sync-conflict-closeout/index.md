@@ -41,7 +41,7 @@ UT-21（`UT-21-sheets-d1-sync-endpoint-and-audit-implementation.md`）を Sheets
 ### 含まない
 
 - Google Sheets API v4 を正本仕様へ復活させること
-- `sync_audit_logs` / `sync_audit_outbox` テーブルの新設（必要性は U02 で別途判定）
+- `sync_audit_logs` / `sync_audit_outbox` テーブルの新設（2026-05-31 に U02 / Issue #235 で **新設不要** と確定）
 - `POST /admin/sync` / `GET /admin/sync/audit` の新設
 - 新規 sync 実装コードの追加（実装は 03a / 03b / 04c / 09b の各 Phase で実施）
 - UT-21 仕様書本体（legacy）の削除・改編
@@ -80,7 +80,7 @@ UT-21（`UT-21-sheets-d1-sync-endpoint-and-audit-implementation.md`）を Sheets
 - AC-1: UT-21 の stale 前提 5 項目（同期元 / 単一 endpoint / `GET /admin/sync/audit` 公開 / audit table（`sync_audit_logs` + `sync_audit_outbox`） / 実装パス）が差分表として固定されている
 - AC-2: 有効な品質要件 4 種（Bearer guard / 409 排他 / D1 retry / manual smoke）の移植先が 03a / 03b / 04c / 09b に一意に割り当てられている
 - AC-3: `POST /admin/sync` / `GET /admin/sync/audit` を新設しない方針が本仕様書と UT-21 仕様書状態欄の双方に明記されている
-- AC-4: `sync_audit_logs` / `sync_audit_outbox` の新設は U02 判定後まで保留する旨が明記されている
+- AC-4: `sync_audit_logs` / `sync_audit_outbox` の新設は U02 判定まで保留する旨が明記されている（2026-05-31 後続追記: U02 / Issue #235 で新設不要と確定）
 - AC-5: 後続タスク UT21-U02 / U04 / U05 が `unassigned-task/` 配下に別ファイルで存在し、本仕様書からリンクされている
 - AC-6: 03a / 03b / 04c / 09b の受入条件への移植 patch 案が Phase 5 で提示されている（実適用は各タスクの Phase 内）
 - AC-7: aiworkflow-requirements skill `task-workflow.md` の current facts と矛盾する記述が本仕様書内に存在しない
@@ -175,7 +175,7 @@ UT-21（`UT-21-sheets-d1-sync-endpoint-and-audit-implementation.md`）を Sheets
 UT-21 は `spreadsheets.values.get` 想定、正本は `forms.get` / `forms.responses.list`。DTO が `SheetRow` から Forms response へ変わり、`SHA-256(response_id)` 冪等キー算出根拠も列インデックスではなく Forms `responseId` ベースになる。Phase 2 で対応表を必ず作成する。
 
 **2. audit table 設計判定の難しさ**
-`sync_audit_logs` + `sync_audit_outbox` の二段監査は Sheets sync の best-effort モデル前提。現行 `sync_jobs` ledger が「実行履歴・実行中ジョブ・metrics_json・失敗詳細」をカバーできるかの判定は本タスクでは行わず、UT21-U02 として切り出す。即新設は過剰実装。
+`sync_audit_logs` + `sync_audit_outbox` の二段監査は Sheets sync の best-effort モデル前提。現行 `sync_jobs` ledger が「実行履歴・実行中ジョブ・metrics_json・失敗詳細」をカバーできるかの判定は本タスクでは行わず、UT21-U02 として切り出した。2026-05-31 に `docs/30-workflows/completed-tasks/issue-235-sync-audit-tables-necessity-judgement/` で **新設不要** と確定済み。即新設は過剰実装。
 
 **3. 実装パス想定ずれ**
 UT-21 は `apps/api/src/sync/{core,manual,scheduled,audit}.ts` を提案するが、現行は `apps/api/src/jobs/sync-forms-responses.ts` + `apps/api/src/sync/schema/*` 構成。仕様だけ追従すると import path / Cron handler 配置が壊れる。UT21-U05 で別途整理する。

@@ -147,7 +147,7 @@ UT-21（`UT-21-sheets-d1-sync-endpoint-and-audit-implementation.md`）を Sheets
 
 - GitHub Issue: #234 (CLOSED) — UT-21 Sheets sync 仕様と現行 Forms sync 正本の二重正本化リスク解消
 - Sheets sync と Forms sync の同期元二重化を防止
-- `sync_jobs` ledger でカバー可能な audit 機能を別 table 新設で重複させない（要否判定は U02 へ）
+- `sync_jobs` ledger でカバー可能な audit 機能を別 table 新設で重複させない（2026-05-31 に U02 / Issue #235 で新設不要確定済み）
 - 旧 UT-09 と同形式の legacy umbrella 処理として閉じる（姉妹 close-out: `task-sync-forms-d1-legacy-umbrella-001`）
 
 #### 変更内容（docs-only）
