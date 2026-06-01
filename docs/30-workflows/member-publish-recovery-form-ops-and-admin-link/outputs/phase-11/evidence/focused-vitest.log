@@ -1,0 +1,44 @@
+$ pnpm --filter @ubm-hyogo/web exec vitest run --root=../.. --config=vitest.config.ts apps/web/src/features/admin/components/_sync apps/web/src/features/admin/diagnostics/__tests__/sync-schemas.spec.ts apps/web/app/api/admin/[...path]/route.spec.ts apps/web/src/components/public/__tests__/ReflectionTimingNote.spec.tsx apps/web/src/components/shell/__tests__/SidebarNavItem.spec.tsx apps/web/src/components/shell/__tests__/shell-config.spec.ts apps/web/src/lib/constants/__tests__/form-responses.spec.ts
+[33mThe CJS build of Vite's Node API is deprecated. See https://vite.dev/guide/troubleshooting.html#vite-cjs-node-api-deprecated for more details.[39m
+
+ RUN  v2.1.9 /Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260531-134250-wt-3
+
+ ✓ apps/web/src/lib/constants/__tests__/form-responses.spec.ts (1 test) 171ms
+ ✓ apps/web/src/components/shell/__tests__/shell-config.spec.ts (9 tests) 166ms
+ ✓ apps/web/src/features/admin/diagnostics/__tests__/sync-schemas.spec.ts (11 tests) 1180ms
+   ✓ manual-sync schemas > TC-S2 200 wrapper — { ok, result } の result 枝で parse する 745ms
+   ✓ manual-sync schemas > TC-S7 ok:false + non-skipped result は reject 360ms
+ ✓ apps/web/app/api/admin/[...path]/route.spec.ts (5 tests) 1178ms
+   ✓ /api/admin/[...path] proxy (T-5.1) > returns 500 when INTERNAL_API_BASE_URL is missing in staging (no 127.0.0.1 fallback) 357ms
+   ✓ /api/admin/[...path] proxy (T-5.1) > forwards Authorization header and propagates upstream 401 unchanged 703ms
+ ✓ apps/web/src/components/shell/__tests__/SidebarNavItem.spec.tsx (3 tests) 4088ms
+   ✓ SidebarNavItem > external item は target/rel 付き anchor で描画し active 扱いにしない 2053ms
+   ✓ SidebarNavItem > 内部 item は pathname 一致時に active（aria-current/data-active）を出す 1137ms
+   ✓ SidebarNavItem > collapsed のとき label は sr-only になる 765ms
+ ✓ apps/web/src/components/public/__tests__/ReflectionTimingNote.spec.tsx (7 tests) 5743ms
+   ✓ ReflectionTimingNote > members surface は最終同期と公開条件を表示する 2441ms
+   ✓ ReflectionTimingNote > profile surface は公開状態に関係なく反映されることを表示する 1105ms
+   ✓ ReflectionTimingNote > statsUnavailable の fallback を表示する 819ms
+   ✓ ReflectionTimingNote > members surface は反映目安に 15分/30秒/45分 を含む 435ms
+   ✓ ReflectionTimingNote > maxDelayMinutes の上書きが反映される 750ms
+ ✓ apps/web/src/features/admin/components/_sync/__tests__/ManualFormResyncPanel.spec.tsx (8 tests) 8994ms
+   ✓ ManualFormResyncPanel > TC-B1 差分 sync を実行し結果（writeCount / 差分モード）を表示する 3562ms
+   ✓ ManualFormResyncPanel > TC-B2 全件 backfill は confirm 承認後に実行する 953ms
+   ✓ ManualFormResyncPanel > TC-B5 409 sync_in_progress を検知して結果テーブルを描画しない 2615ms
+   ✓ ManualFormResyncPanel > TC-B7 schema mismatch 時は parseError を表示しテーブルを描画しない 998ms
+   ✓ ManualFormResyncPanel > TC-B8 差分成功時に onSynced を検証済み結果で呼ぶ 458ms
+ ✓ apps/web/src/features/admin/components/_sync/__tests__/BackfillPublishStatePanel.spec.tsx (9 tests) 9855ms
+   ✓ BackfillPublishStatePanel > TC-A1 dry-run を実行し scanned/candidates と dryRun モードを表示する 3495ms
+   ✓ BackfillPublishStatePanel > TC-A2 apply を実行し applied 件数と apply モードを表示する 1315ms
+   ✓ BackfillPublishStatePanel > TC-A2b dry-run 前は apply が disabled 314ms
+   ✓ BackfillPublishStatePanel > TC-A2c apply は confirm キャンセル時に実行しない 938ms
+   ✓ BackfillPublishStatePanel > TC-A3 skipped 内訳（adminExplicit / deleted）を各行に表示する 1065ms
+   ✓ BackfillPublishStatePanel > TC-A5 HTTP error 時は結果テーブルを描画せず error 文言を表示する 901ms
+   ✓ BackfillPublishStatePanel > TC-A6 schema mismatch 時は parseError を表示し結果テーブルを描画しない 980ms
+   ✓ BackfillPublishStatePanel > TC-A7 apply 成功時に onApplied を検証済み結果で呼ぶ 820ms
+
+ Test Files  8 passed (8)
+      Tests  53 passed (53)
+   Start at  21:06:45
+   Duration  99.97s (transform 91.11s, setup 0ms, collect 150.53s, tests 31.38s, environment 221.32s, prepare 63.40s)
+

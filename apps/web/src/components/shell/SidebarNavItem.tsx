@@ -26,6 +26,45 @@ export function SidebarNavItem({ item, collapsed, activePath }: SidebarNavItemPr
   const pathname = usePathname() ?? activePath;
   const active = isNavItemActive(item.href, pathname);
   const showBadge = item.badge && item.badge.count > 0;
+  const content = (
+    <>
+      <span
+        aria-hidden="true"
+        className="inline-flex h-[18px] w-[18px] shrink-0 items-center justify-center text-[var(--ubm-color-text-secondary)]"
+      >
+        <ShellIcon id={item.icon} />
+      </span>
+      <span className={collapsed ? "sr-only" : "flex-1"}>
+        {item.label}
+        {item.external ? <span className="sr-only">（外部リンク）</span> : null}
+      </span>
+      {item.external && !collapsed ? (
+        <span aria-hidden="true" className="text-xs text-[var(--ubm-color-text-muted)]">
+          ↗
+        </span>
+      ) : null}
+      {showBadge && item.badge ? (
+        <Chip tone={TONE_TO_CHIP[item.badge.tone]}>
+          <span className={collapsed ? "sr-only" : undefined}>{item.badge.count}</span>
+        </Chip>
+      ) : null}
+    </>
+  );
+  if (item.external) {
+    return (
+      <li>
+        <a
+          href={item.href}
+          target="_blank"
+          rel="noopener noreferrer"
+          data-shell-block="nav-item"
+          className="flex items-center gap-3 rounded-sm px-3 py-2 text-sm text-[var(--ubm-color-text-primary)] hover:bg-[var(--shell-active-bg)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--ubm-color-accent)]"
+        >
+          {content}
+        </a>
+      </li>
+    );
+  }
   return (
     <li>
       <Link
@@ -35,18 +74,7 @@ export function SidebarNavItem({ item, collapsed, activePath }: SidebarNavItemPr
         aria-current={active ? "page" : undefined}
         className="flex items-center gap-3 rounded-sm px-3 py-2 text-sm text-[var(--ubm-color-text-primary)] hover:bg-[var(--shell-active-bg)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--ubm-color-accent)] data-[active=true]:bg-[var(--shell-active-bg)] data-[active=true]:font-semibold data-[active=true]:text-[var(--ubm-color-accent-ink)]"
       >
-        <span
-          aria-hidden="true"
-          className="inline-flex h-[18px] w-[18px] shrink-0 items-center justify-center text-[var(--ubm-color-text-secondary)]"
-        >
-          <ShellIcon id={item.icon} />
-        </span>
-        <span className={collapsed ? "sr-only" : "flex-1"}>{item.label}</span>
-        {showBadge && item.badge ? (
-          <Chip tone={TONE_TO_CHIP[item.badge.tone]}>
-            <span className={collapsed ? "sr-only" : undefined}>{item.badge.count}</span>
-          </Chip>
-        ) : null}
+        {content}
       </Link>
     </li>
   );
