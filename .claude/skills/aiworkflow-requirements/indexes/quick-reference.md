@@ -1,5 +1,19 @@
 # クイックリファレンス
 
+## task-d-admin-google-form-responses-link（2026-06-01）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/task-d-admin-google-form-responses-link/` |
+| status | `implemented_local_evidence_captured / implementation / VISUAL` |
+| parent | `member-publish-recovery-form-ops-and-admin-link`（PR #1064 / commit `745c95115` で apps 実装 landed 済み） |
+| purpose | admin sidebar nav に Google Form 回答編集画面を別タブで開く外部リンク「Form回答」を追加した landed 実装の正本検証 |
+| implementation | `apps/web/src/lib/constants/form.ts`, `apps/web/src/components/shell/{shell-config,icons,SidebarNavItem}.tsx` |
+| contract | `ShellNavItem.external?` で `<a target="_blank" rel="noopener noreferrer">` に分岐し、`↗` + sr-only「（外部リンク）」を付与、`aria-current` / `data-active` は付けない |
+| evidence | focused jsdom / pure function / constant tests; screenshots are admin-auth user-gated |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-task-d-admin-google-form-responses-link-artifact-inventory.md` |
+| user gate | staging admin screenshot, external Google Form tab observation, commit, push, PR |
+
 ## issue-224-public-members-tags-batch-fetch（2026-05-31）
 ## issue-264-cron-schedule-free-tier-guard（2026-05-31）
 

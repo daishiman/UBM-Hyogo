@@ -3426,6 +3426,7 @@
       "workflow-task-761-visual-full-required-status-check-artifact-inventory.md",
       "workflow-task-c-privacy-terms-public-shell-spec-artifact-inventory.md",
       "workflow-task-c-public-member-sidebar-shell-integration-artifact-inventory.md",
+      "workflow-task-d-admin-google-form-responses-link-artifact-inventory.md",
       "workflow-task-issue-299-schema-questions-fallback-retirement-artifact-inventory.md",
       "workflow-task-issue-359-production-d1-out-of-band-apply-audit-001-artifact-inventory.md",
       "workflow-task-issue-494-09a-A-exec-staging-smoke-runtime-artifact-inventory.md",
@@ -3764,6 +3765,7 @@
       "workflow-task-15-admin-dashboard-and-members-artifact-inventory.md",
       "workflow-task-16-admin-tags-meetings-requests-artifact-inventory.md",
       "workflow-task-17-admin-schema-conflicts-audit-artifact-inventory.md",
+      "workflow-task-d-admin-google-form-responses-link-artifact-inventory.md",
       "workflow-task-runtime-smoke-admin-members-500-recovery-001-artifact-inventory.md",
       "workflow-unified-sidebar-shell-public-and-admin-artifact-inventory.md"
     ],
@@ -5225,6 +5227,7 @@
       "workflow-task-b-root-page-public-header-async-artifact-inventory.md",
       "workflow-task-c-privacy-terms-public-shell-spec-artifact-inventory.md",
       "workflow-task-c-public-member-sidebar-shell-integration-artifact-inventory.md",
+      "workflow-task-d-admin-google-form-responses-link-artifact-inventory.md",
       "workflow-task-issue-494-09a-A-exec-staging-smoke-runtime-artifact-inventory.md",
       "workflow-unified-sidebar-shell-public-and-admin-artifact-inventory.md",
       "workflow-ut-07a-01-member-tags-assign-cleanup-artifact-inventory.md",
@@ -7617,6 +7620,7 @@
       "workflow-task-08b-A-playwright-e2e-full-execution-artifact-inventory.md",
       "workflow-task-13-login-rebuild-artifact-inventory.md",
       "workflow-task-alert-relay-global-scope-fix-001-artifact-inventory.md",
+      "workflow-task-d-admin-google-form-responses-link-artifact-inventory.md",
       "workflow-task-runtime-smoke-admin-members-500-recovery-001-artifact-inventory.md",
       "workflow-task-staging-auth-secret-binding-recovery-001-artifact-inventory.md",
       "workflow-ut-07a-01-member-tags-assign-cleanup-artifact-inventory.md",
@@ -9686,7 +9690,8 @@
       "workflow-member-publish-recovery-form-ops-and-admin-link-artifact-inventory.md",
       "workflow-parallel-04-shared-page-chrome-artifact-inventory.md",
       "workflow-task-05b-B-magic-link-callback-credentials-provider-artifact-inventory.md",
-      "workflow-task-05b-parallel-magic-link-provider-and-auth-gate-state-artifact-inventory.md"
+      "workflow-task-05b-parallel-magic-link-provider-and-auth-gate-state-artifact-inventory.md",
+      "workflow-task-d-admin-google-form-responses-link-artifact-inventory.md"
     ],
     "hop": [
       "dlq-monitoring.md",
@@ -9936,7 +9941,8 @@
       "workflow-member-publish-recovery-form-ops-and-admin-link-artifact-inventory.md",
       "workflow-task-18-w7-verify-tokens-and-playwright-smoke-artifact-inventory.md",
       "workflow-task-24-ui-mvp-w8-par-invariant-audit-artifact-inventory.md",
-      "workflow-task-25-followup-loading-state-observation-fixture-artifact-inventory.md"
+      "workflow-task-25-followup-loading-state-observation-fixture-artifact-inventory.md",
+      "workflow-task-d-admin-google-form-responses-link-artifact-inventory.md"
     ],
     "Purpose": [
       "gate-metadata.md"
@@ -11343,6 +11349,7 @@
       "workflow-task-b-root-page-public-header-async-artifact-inventory.md",
       "workflow-task-c-privacy-terms-public-shell-spec-artifact-inventory.md",
       "workflow-task-c-public-member-sidebar-shell-integration-artifact-inventory.md",
+      "workflow-task-d-admin-google-form-responses-link-artifact-inventory.md",
       "workflow-unified-sidebar-shell-public-and-admin-artifact-inventory.md",
       "workflow-ut-07a-01-member-tags-assign-cleanup-artifact-inventory.md",
       "workflow-ut-07b-fu-01-schema-alias-backfill-queue-cron-split-artifact-inventory.md",
@@ -12976,6 +12983,7 @@
       "workflow-task-c-privacy-terms-public-shell-spec-artifact-inventory.md",
       "workflow-task-c-public-member-sidebar-shell-integration-artifact-inventory.md",
       "workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md",
+      "workflow-task-d-admin-google-form-responses-link-artifact-inventory.md",
       "workflow-task-issue-191-production-d1-schema-aliases-apply-001-artifact-inventory.md",
       "workflow-task-issue-191-schema-aliases-implementation-001-artifact-inventory.md",
       "workflow-task-issue-359-production-d1-out-of-band-apply-audit-001-artifact-inventory.md",
@@ -13004,7 +13012,8 @@
       "workflow-google-form-reflection-diagnostics-fu-002-h2-identity-rebuild-artifact-inventory.md",
       "workflow-member-publish-recovery-form-ops-and-admin-link-artifact-inventory.md",
       "workflow-members-not-displaying-form-sync-investigation-artifact-inventory.md",
-      "workflow-task-05a-form-preview-503-001-artifact-inventory.md"
+      "workflow-task-05a-form-preview-503-001-artifact-inventory.md",
+      "workflow-task-d-admin-google-form-responses-link-artifact-inventory.md"
     ],
     "column": [
       "lessons-learned-05a-form-preview-503-2026-05.md",
@@ -15616,7 +15625,8 @@
       "lessons-learned-google-form-reflection-diagnostics-2026-05.md",
       "workflow-google-form-reflection-diagnostics-artifact-inventory.md",
       "workflow-google-form-reflection-diagnostics-fu-002-h2-identity-rebuild-artifact-inventory.md",
-      "workflow-issue-872-google-brand-4tone-icon-and-tokens-exempt-artifact-inventory.md"
+      "workflow-issue-872-google-brand-4tone-icon-and-tokens-exempt-artifact-inventory.md",
+      "workflow-task-d-admin-google-form-responses-link-artifact-inventory.md"
     ],
     "reflection": [
       "lessons-learned-google-form-reflection-diagnostics-2026-05.md",
@@ -17733,6 +17743,7 @@
       "workflow-task-c-privacy-terms-public-shell-spec-artifact-inventory.md",
       "workflow-task-c-public-member-sidebar-shell-integration-artifact-inventory.md",
       "workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md",
+      "workflow-task-d-admin-google-form-responses-link-artifact-inventory.md",
       "workflow-task-issue-191-production-d1-schema-aliases-apply-001-artifact-inventory.md",
       "workflow-task-issue-191-schema-aliases-implementation-001-artifact-inventory.md",
       "workflow-task-issue-299-schema-questions-fallback-retirement-artifact-inventory.md",
@@ -25810,6 +25821,7 @@
       "workflow-task-c-privacy-terms-public-shell-spec-artifact-inventory.md",
       "workflow-task-c-public-member-sidebar-shell-integration-artifact-inventory.md",
       "workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md",
+      "workflow-task-d-admin-google-form-responses-link-artifact-inventory.md",
       "workflow-task-issue-191-production-d1-schema-aliases-apply-001-artifact-inventory.md",
       "workflow-task-issue-191-schema-aliases-implementation-001-artifact-inventory.md",
       "workflow-task-issue-299-schema-questions-fallback-retirement-artifact-inventory.md",
@@ -27360,6 +27372,9 @@
     "のため変更は伴わない": [
       "workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md",
       "workflow-task-worktree-environment-isolation-artifact-inventory.md"
+    ],
+    "responses": [
+      "workflow-task-d-admin-google-form-responses-link-artifact-inventory.md"
     ],
     "Reservation": [
       "workflow-task-issue-191-production-d1-schema-aliases-apply-001-artifact-inventory.md"

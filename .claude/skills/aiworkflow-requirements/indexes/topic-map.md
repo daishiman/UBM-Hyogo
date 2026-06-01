@@ -4357,6 +4357,14 @@ node scripts/list-specs.js --topics
 | Follow-up 未タスク | L83 |
 | Validation Chain（spec_created） | L92 |
 
+### references/workflow-task-d-admin-google-form-responses-link-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Status | L16 |
+| Contract | L28 |
+| Lessons Learned | L39 |
+
 ### references/workflow-task-issue-191-production-d1-schema-aliases-apply-001-artifact-inventory.md
 
 | セクション | 行 |
@@ -8297,15 +8305,15 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L3344 |
-| フェーズ構造（概要） | L3353 |
-| 品質ゲート（概要） | L3384 |
-| 出力テンプレート | L3395 |
-| 実行時のコマンド・エージェント・スキル | L3418 |
-| 昇格パターン集 | L3442 |
-| Current Active / Spec Created Tasks | L3444 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L3609 |
-| issue-998-members-publish-state-production-rollout | L3687 |
+| ドキュメント構成 | L3358 |
+| フェーズ構造（概要） | L3367 |
+| 品質ゲート（概要） | L3398 |
+| 出力テンプレート | L3409 |
+| 実行時のコマンド・エージェント・スキル | L3432 |
+| 昇格パターン集 | L3456 |
+| Current Active / Spec Created Tasks | L3458 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L3623 |
+| issue-998-members-publish-state-production-rollout | L3701 |
 
 ### references/task-workflow-backlog-part2.md
 
