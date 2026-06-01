@@ -1,0 +1,10 @@
+[33mThe CJS build of Vite's Node API is deprecated. See https://vite.dev/guide/troubleshooting.html#vite-cjs-node-api-deprecated for more details.[39m
+
+ RUN  v2.1.9 /Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260601-062438-wt-15
+
+ ✓ apps/web/src/components/admin/__tests__/IdentityConflictRow.spec.tsx (14 tests) 1745ms
+
+ Test Files  1 passed (1)
+      Tests  14 passed (14)
+   Start at  11:15:42
+   Duration  11.04s (transform 1.45s, setup 0ms, collect 2.41s, tests 1.75s, environment 2.92s, prepare 679ms)

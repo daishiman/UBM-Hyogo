@@ -8,6 +8,21 @@
 
 本ドキュメントは、複雑なタスクを単一責務の原則に基づいて分解し、各サブタスクに最適なスラッシュコマンド・エージェント・スキルの組み合わせを選定するためのガイドラインを定義する。
 
+### issue-1042-dismiss-confirm-optimistic-update（2026-06-01）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION` |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-1042-dismiss-confirm-optimistic-update/` |
+| Issue | #1042 OPEN。close / state mutation は user-gated |
+| 目的 | `/admin/identity-conflicts` の dismiss confirm 後、server round-trip を待たず該当 row を optimistic に非表示化し、server error 時のみ rollback で復元 + inline error + reason retention する |
+| implementation targets | `apps/web/src/components/admin/IdentityConflictRow.tsx`, `apps/web/src/components/admin/__tests__/IdentityConflictRow.spec.tsx`, `apps/web/playwright/tests/admin-identity-conflicts.spec.ts` |
+| invariant | API endpoint / D1 schema / Server Component page / `useAdminMutation` hook / merge behavior は変更なし |
+| evidence | focused Vitest 1 file / 14 tests PASS; Playwright desktop focused 2 tests PASS; screenshot 2 PNG captured; Phase 11 canonical paths present |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1042-dismiss-confirm-optimistic-update-artifact-inventory.md` |
+| lessons-learned | `.claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-issue-1042-dismiss-optimistic-2026-06.md`（L-I1042-001..004: dual-mirror `\|\|` guard / rollback reason retention 非対称 reset / cross-mirror 非干渉 test / screenshot 名前空間分離。#988 L-I988-001..006 継承） |
+| user gate | commit, push, PR, Issue #1042 close |
+
 ### issue-1006-members-selected-filters-chip-ux-hardening（2026-05-30）
 
 | 項目 | 値 |

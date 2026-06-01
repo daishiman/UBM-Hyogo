@@ -4,6 +4,10 @@
 
 このファイルは task-specification-creator の運用・改善・Phase 12 close-out 同期履歴を新しい順に記録する。
 
+## 2026-06-01 - issue-1042 identity conflicts dismiss optimistic update automation-30 close-out
+
+`docs/30-workflows/completed-tasks/issue-1042-dismiss-confirm-optimistic-update/` の automation-30 改善で、implementation target が明確な `spec_created` workflow を docs-only close-out せず、同一サイクルで `IdentityConflictRow.tsx` の dismiss optimistic hide / rollback、focused Vitest、Playwright focused、Phase 11 screenshot 2 PNG、Phase 11 canonical manifest、Phase 12 strict 7、aiworkflow same-wave sync まで完了して `implemented_local_evidence_captured` へ再分類した。#988 merge optimistic の L-OPTMUT 系で吸収できるため task-specification-creator 本体 rule 追加は no-op。dual-mirror（複数 optimistic boolean の OR 合流）/ rollback reason retention 非対称 reset / cross-mirror 非干渉 test / screenshot 名前空間分離の #1042 固有知見は aiworkflow-requirements の `lessons-learned-issue-1042-dismiss-optimistic-2026-06.md`（L-I1042-001..004）へ same-wave sync した。commit / push / PR / Issue close のみ user-gated として分離した。
+
 ## 2026-05-28 - task-b-root-page-public-header-async automation-30 close-out
 
 ## 2026-05-30 - issue-988 identity conflicts optimistic update automation-30 close-out

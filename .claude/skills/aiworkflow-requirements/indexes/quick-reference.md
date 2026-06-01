@@ -1,5 +1,20 @@
 # クイックリファレンス
 
+## issue-1042-dismiss-confirm-optimistic-update（2026-06-01）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-1042-dismiss-confirm-optimistic-update/` |
+| status | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION` |
+| issue | #1042 OPEN。Issue state mutation は user-gated |
+| purpose | `/admin/identity-conflicts` dismiss confirm 後に row を optimistic に非表示化し、server error 時に rollback + reason retention する |
+| implementation | `apps/web/src/components/admin/IdentityConflictRow.tsx` component-local `optimisticDismissed`; focused component tests; admin identity-conflicts Playwright spec |
+| invariant | API / D1 schema / Server Component page / `useAdminMutation` hook / merge behavior は変更なし |
+| evidence | focused Vitest 1 file / 14 tests PASS; Playwright desktop 2 tests PASS; Phase 11 screenshots 2 PNG captured |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1042-dismiss-confirm-optimistic-update-artifact-inventory.md` |
+| lessons | `.claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-issue-1042-dismiss-optimistic-2026-06.md`（L-I1042-001..004・#988 L-I988-001..006 継承） |
+| user gate | commit, push, PR, Issue #1042 close |
+
 ## issue-1006-members-selected-filters-chip-ux-hardening（2026-05-30）
 
 | 項目 | 値 |
