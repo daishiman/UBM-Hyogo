@@ -1,10 +1,9 @@
 {
   "$schema": "../../../../docs/30-workflows/task-709-visual-baseline-runtime-capture/schemas/baseline-meta.schema.json",
-  "captured_at_commit_sha": "2b0b9ea0192cfcd88ab89d23b3926b813ebc7b0d",
-  "captured_at": "2026-06-01T02:40:14Z",
+  "captured_at_commit_sha": "a636da9f735114c7dfa1b5858b84e8ccb41a5056",
+  "captured_at": "2026-06-01T03:07:12Z",
   "captured_via": "playwright-visual-baseline-update.yml#workflow_dispatch",
   "captured_run_ids": [
-    "26549206362",
     "26552141298",
     "26552192908",
     "26581231613",
@@ -13,7 +12,8 @@
     "26677930770",
     "26695366830",
     "26699807063",
-    "26732057120"
+    "26732057120",
+    "26732700618"
   ],
   "viewport_dimensions": {
     "desktop": {
@@ -41,5 +41,5 @@
   "refresh_workflow": ".github/workflows/playwright-visual-baseline-update.yml",
   "refresh_command_hint": "gh workflow run playwright-visual-baseline-update.yml -f reason=\"<why>\" -r <feature-branch>",
   "notes": "captured_at_commit_sha からの rendering_relevant_paths diff が空でない場合、baseline は stale。scripts/visual-baseline-status.sh で診断可能。",
-  "last_refresh_reason": "member-publish-recovery Task C の ReflectionTimingNote(/members・/profile 反映SLA注記)追加でページ高が members 1457→1562px / profile 1839→1944px に伸びたため visual-full baseline を再生成"
+  "last_refresh_reason": "sidebar-shell-visual baseline(profile-1280/admin-1280) も ReflectionTimingNote + admin nav 14項目化で陳腐化したため、workflow 拡張後に 3 系統(visual-full/visual-chromium/sidebar-shell-visual)を一括再生成"
 }
