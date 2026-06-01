@@ -1792,7 +1792,7 @@ node scripts/list-specs.js --topics
 | 依存関係管理戦略 | L190 |
 | 無料枠の活用ガイド | L283 |
 | CI/CDツール選定 | L315 |
-| 学習リソースとコミュニティ | L420 |
+| 学習リソースとコミュニティ | L423 |
 
 ### references/technology-devops-details.md
 
@@ -2610,6 +2610,18 @@ node scripts/list-specs.js --topics
 | Evidence | L31 |
 | User-Gated | L39 |
 | Lessons | L43 |
+
+### references/workflow-issue-230-lefthook-edit-guard-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Summary | L3 |
+| Workflow Files | L13 |
+| Implemented Files | L30 |
+| Evidence Boundary | L41 |
+| Requirement Mapping | L50 |
+| Lessons | L59 |
+| User-Gated Items | L70 |
 
 ### references/workflow-issue-247-apps-web-opennext-config-regression-tests-artifact-inventory.md
 
@@ -6053,6 +6065,14 @@ node scripts/list-specs.js --topics
 | L-I224-009: contract test は appliedQuery の key 集合を固定して shape 回帰を防ぐ | L35 |
 | L-I224-010: zod schema と type 導出を同一サイクルで連動更新する | L39 |
 
+### references/lessons-learned-issue-230-lefthook-edit-guard-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| 概要 | L11 |
+| 苦戦箇所 | L17 |
+| 同一 wave で正本化した派生・参照 | L47 |
+
 ### references/lessons-learned-issue-274-public-pages-ogp-sitemap-robots-2026-05.md
 
 | セクション | 行 |
@@ -8288,15 +8308,15 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L3342 |
-| フェーズ構造（概要） | L3351 |
-| 品質ゲート（概要） | L3382 |
-| 出力テンプレート | L3393 |
-| 実行時のコマンド・エージェント・スキル | L3416 |
-| 昇格パターン集 | L3440 |
-| Current Active / Spec Created Tasks | L3442 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L3607 |
-| issue-998-members-publish-state-production-rollout | L3685 |
+| ドキュメント構成 | L3357 |
+| フェーズ構造（概要） | L3366 |
+| 品質ゲート（概要） | L3397 |
+| 出力テンプレート | L3408 |
+| 実行時のコマンド・エージェント・スキル | L3431 |
+| 昇格パターン集 | L3455 |
+| Current Active / Spec Created Tasks | L3457 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L3622 |
+| issue-998-members-publish-state-production-rollout | L3700 |
 
 ### references/task-workflow-backlog-part2.md
 

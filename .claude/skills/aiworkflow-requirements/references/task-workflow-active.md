@@ -21,6 +21,21 @@
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-229-indexes-rebuild-fail-fast-artifact-inventory.md` |
 | user gate | commit, push, PR, Issue #229 mutation |
 
+### issue-230-lefthook-edit-guard（2026-05-31）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_runtime_pending / implementation / NON_VISUAL / implementation_complete_pending_pr` |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-230-lefthook-edit-guard/` |
+| Issue | #230 OPEN; PR 文脈は `Refs #230` |
+| 親 | `docs/30-workflows/completed-tasks/skill-ledger-t6-hook-idempotency/` U-6 |
+| 目的 | `lefthook.yml` を hook 正本とし、手書き `.git/hooks/*` と無 ack の `lefthook.yml` 直編集を機械検知する |
+| AC 最適化 | `.git/hooks/*` は CI checkout に現れないため、local pre-commit guard + CI-observable `lefthook.yml` integrity gate へ写像 |
+| 実装 | `scripts/hooks/lefthook-edit-guard.sh`, `scripts/verify-hook-integrity.sh`, `.github/workflows/verify-hook-integrity.yml`, `lefthook.yml`, focused `*.spec.ts`, `CLAUDE.md`, `docs/00-getting-started-manual/lefthook-operations.md` |
+| evidence boundary | Phase 12 strict 7 present; Phase 11 manual-test-result records focused vitest 12 PASS, local guard/integrity exit 0, typecheck/lint/shellcheck/YAML green |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-230-lefthook-edit-guard-artifact-inventory.md` |
+| user gate | GitHub Actions runtime observation, commit, push, PR, Issue #230 mutation |
+
 ### issue-264-cron-schedule-free-tier-guard（2026-05-31）
 
 | 項目 | 値 |

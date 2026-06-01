@@ -75,6 +75,21 @@ Authenticated visual / runtime smoke のように cookie や JWT を一時生成
 
 storageState は `.gitignore` 済みの ephemeral path に限定し、HTML report や artifact upload の対象からも除外する。
 
+## パターン9: 観測不能 AC の enforcement 面写像
+
+Issue の AC が物理的・構造的に観測不能な場所を指定している場合は、AC の目的を保ったまま、観測可能な enforcement 面へ同一 wave で写像する。
+
+| 観点 | ルール |
+| --- | --- |
+| 技術的観測不能の例 | `.git/hooks/*` のローカル手書き hook を CI checkout で検知する要求。`.git/` は repository 管理外のため CI には現れない |
+| 目的の保持 | 「hook 正本逸脱を検知する」などの目的を AC 表で明示し、literal 手段だけを置き換える |
+| local enforcement | local でしか観測できない対象は pre-commit / local script へ寄せる |
+| CI enforcement | CI では repository 上で観測できる SSOT 整合（例: `lefthook.yml` が参照する `scripts/hooks/*.sh` の実在、tracked stray hook 不在）を gate 化する |
+| 未タスク化禁止 | 代替 enforcement で AC 目的を満たせるなら follow-up 化せず、同一 cycle の実装/仕様に閉じる |
+| 証跡 | Phase 1 に「元 AC / 観測不能理由 / 写像後の enforcement 面」表、Phase 10 に AC→R 1:1 trace、Phase 12 compliance に 4 条件 verdict を残す |
+
+Issue #230 `lefthook-edit-guard` では、`.git/hooks/` 手書き追加の CI literal 検知を local pre-commit guard + CI hook-integrity gate に写像した。これは scope split ではなく、観測可能面への要件再配置である。
+
 ## 再利用チェックリスト
 
 - [ ] `quick_validate.js` と `validate_all.js` の結果を分けて記録した
@@ -82,3 +97,4 @@ storageState は `.gitignore` 済みの ephemeral path に限定し、HTML repor
 - [ ] root drift の `rg` 監査を実施した
 - [ ] `current` / `baseline` を分けて記録した
 - [ ] parent / child / archive / mirror の 4 edge を確認した
+- [ ] 観測不能 AC がある場合、目的を保った enforcement 面写像と AC→R trace を記録した
