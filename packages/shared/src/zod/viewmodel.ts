@@ -114,6 +114,13 @@ export const PublicStatsViewZ = z
   })
   .strict();
 
+export const PublicMemberTagZ = z.object({
+  code: z.string(),
+  label: z.string(),
+  category: z.string(),
+}).strict();
+export type PublicMemberTag = z.infer<typeof PublicMemberTagZ>;
+
 export const PublicMemberListItemZ = z
   .object({
     memberId: z.string().min(1),
@@ -125,6 +132,8 @@ export const PublicMemberListItemZ = z
     ubmMembershipType: z.string().nullable(),
     // issue-1029: public-safe presigned photo URL（TTL 300s）。optional のため既存 parse 不変。
     photoUrl: z.string().url().optional(),
+    // issue-224: expand=tags 指定時のみ付与（未指定時 undefined＝キー無し）。
+    tags: z.array(PublicMemberTagZ).optional(),
   })
   .strict();
 

@@ -113,6 +113,8 @@ export interface PublicMemberListItem {
   ubmMembershipType: string | null;
   // issue-1029: public-safe presigned photo URL（TTL 300s）。
   photoUrl?: string;
+  // issue-224: expand=tags 指定時のみ付与。
+  tags?: ReadonlyArray<{ code: string; label: string; category: string }>;
 }
 
 export interface PublicMemberListView {

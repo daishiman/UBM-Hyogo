@@ -35,7 +35,7 @@
 - 「**記録部屋（`GET /admin/sync/audit`）**」を新しく作る
 - 「記録ノート（`sync_audit_logs`）」と「出荷待ち箱（`sync_audit_outbox`）」も追加する
 
-でも、今の校舎にはすでに**書類棚（`sync_jobs` ledger）**があって、いつ・誰が・何を運んだかは全部そこに書いてあります。だから**新しい部屋は建てない**ことにしました。「本当に新しい部屋がいるかな？」というのは別の宿題（**U02**）にして、ゆっくり考えます。
+でも、今の校舎にはすでに**書類棚（`sync_jobs` ledger）**があって、いつ・誰が・何を運んだかは全部そこに書いてあります。だから**新しい部屋は建てない**ことにしました。2026-05-31 に別の宿題（**U02 / Issue #235**）でも、新しい部屋は不要と確定しました。
 
 ### 例え話 3: 残った宿題の引き渡し（大事なメモを誰に渡すか）
 
@@ -70,8 +70,8 @@
 | --- | --- | --- |
 | 1 | 同期元: Google Sheets API direct | **却下**: `forms.get` / `forms.responses.list` を正本（CLAUDE.md 不変条件 #7 と整合） |
 | 2 | 単一 `POST /admin/sync` endpoint | **却下**: `POST /admin/sync/schema` / `POST /admin/sync/responses` 分割を正本 |
-| 3 | `GET /admin/sync/audit` endpoint | **保留**: 必要性は U02 で再判定（`sync_jobs` ledger でカバー可能か精査） |
-| 4 | `sync_audit_logs` + `sync_audit_outbox` テーブル | **保留**: 同上 U02 判定後まで新設しない |
+| 3 | `GET /admin/sync/audit` endpoint | **新設しない**: admin UI / `sync_jobs` 参照で十分 |
+| 4 | `sync_audit_logs` + `sync_audit_outbox` テーブル | **新設不要確定**: 2026-05-31 に U02 / Issue #235 で `sync_jobs` + `sync_job_logs` + `metrics_json` 充足を確認 |
 | 5 | 実装パス `apps/api/src/sync/{core,manual,scheduled,audit}` | **却下**: 現行 `apps/api/src/jobs/sync-forms-responses.ts` + `apps/api/src/sync/schema/*` を正本（境界整理は U05 で formalize） |
 
 ### 2. 抽出キー（rg / grep の検索拠点）

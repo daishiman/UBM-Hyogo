@@ -53,7 +53,7 @@ flowchart TD
 | 1 | 同期元 = Google Sheets API v4 (`spreadsheets.values.get`) | Google Forms API (`forms.get` / `forms.responses.list`) | UT-21 起票時は Google Form を Sheets 出力先で受けて読む構成想定。その後 Forms API 直接読みが正本に昇格し、DTO が `SheetRow` から Forms response object へ変更。`SHA-256(response_id)` 冪等キーは Forms `responseId` ベース | Sheets 経路への復帰なし。Phase 5 で 03a / 03b に「Forms API 経路を正本として再確認する」patch 案を提示 |
 | 2 | 単一 `POST /admin/sync` endpoint | `POST /admin/sync/schema`（03a） + `POST /admin/sync/responses`（03b） の 2 系統 | `job_kind` 単一責務原則による分離。schema 同期と response 同期は失敗ドメインも retry 戦略も異なる | 単一 `POST /admin/sync` を新設しない（no-new-endpoint-policy で固定） |
 | 3 | `GET /admin/sync/audit` 公開 endpoint | `sync_jobs` ledger を admin UI 経由で内部参照（公開 endpoint なし） | 公開 audit endpoint は admin 認可境界を冗長化し、API surface を不必要に拡大する。admin UI 経由なら 04c の Bearer + admin role で完結 | `GET /admin/sync/audit` を新設しない（no-new-endpoint-policy で固定） |
-| 4 | `sync_audit_logs` / `sync_audit_outbox` 二段監査テーブル | `sync_jobs` ledger（`status` / `job_kind` / `metrics_json` / `started_at` / `finished_at`） | Sheets sync の best-effort + outbox モデル前提。Forms sync の retry-from-cursor モデルに対しては `sync_jobs` 単独で「実行履歴 / 実行中 job / 失敗詳細」をカバー可能性が高い | 新設保留。UT21-U02（`task-ut21-sync-audit-tables-necessity-judgement-001`）で sync_jobs の不足分析を行ってから判定 |
+| 4 | `sync_audit_logs` / `sync_audit_outbox` 二段監査テーブル | `sync_jobs` ledger（`status` / `job_type` / `metrics_json` / `started_at` / `finished_at`） | Sheets sync の best-effort + outbox モデル前提。Forms sync の retry-from-cursor モデルに対しては `sync_jobs` + `sync_job_logs` + zod `metrics_json` で「実行履歴 / 実行中 job / 失敗詳細」をカバー可能 | 2026-05-31 に UT21-U02 / Issue #235（`docs/30-workflows/completed-tasks/issue-235-sync-audit-tables-necessity-judgement/`）で **新設不要** と確定 |
 | 5 | 実装パス `apps/api/src/sync/{core,manual,scheduled,audit}.ts` | `apps/api/src/jobs/sync-forms-responses.ts` + `apps/api/src/sync/schema/*` | Cron handler 配置と import path が現行構成と乖離。仕様だけ追従すると import path / Workers Cron バインディング配置が壊れる | 境界整理は UT21-U05（`task-ut21-impl-path-boundary-realignment-001`）に委譲 |
 
 ## (b) 有効品質要件 4 種 → 03a / 03b / 04c / 09b 移植マトリクス（4 行 × 9 列、空セルゼロ）
@@ -78,10 +78,10 @@ flowchart TD
 | 項目 | 内容 |
 | --- | --- |
 | 保留対象 | `sync_audit_logs`（best-effort 監査ログ） / `sync_audit_outbox`（at-least-once 配送 outbox） |
-| 保留条件 | `sync_jobs` ledger（`status` / `job_kind` / `metrics_json` / `started_at` / `finished_at`）の不足分析が未実施。現時点で「不足あり」を裏付けるインシデント / 監査要件のエスカレーションは観測されていない |
-| 解除条件 | UT21-U02（`task-ut21-sync-audit-tables-necessity-judgement-001`）にて `sync_jobs` が「実行履歴 / 実行中 job / 失敗詳細 / outbox 配送」をカバーできない領域を 1 件以上特定し、かつ `sync_jobs` の列拡張では吸収困難であることが論証された場合のみ新設 |
-| 受け皿タスク | UT21-U02 |
-| 本タスク内での扱い | 新設しない。U02 へ委譲する旨を本仕様書 / `outputs/phase-02/no-new-endpoint-policy.md` / UT-21 仕様書状態欄（Phase 12 で legacy ラベル付与時）に記録 |
+| 確定判定 | 2026-05-31 に UT21-U02（Issue #235 canonical workflow）で **新設不要（NO NEW TABLE REQUIRED）** と確定。`sync_jobs` + `sync_job_logs` + `metrics_json` で充足 |
+| 将来再検討条件 | 行単位差分の独立監査、`sync_jobs` 書込失敗の別経路記録、外部監査・コンプラ分離要請のいずれかが実測された場合のみ新設再検討 |
+| canonical workflow | `docs/30-workflows/completed-tasks/issue-235-sync-audit-tables-necessity-judgement/` |
+| 本タスク内での扱い | 新設しない。U02 へ委譲済みであり、後続判定結果は本追記と aiworkflow current fact に反映済み |
 
 ## (e) UT-21 想定実装パス境界整理の UT21-U05 委譲
 
