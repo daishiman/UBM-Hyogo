@@ -1,0 +1,33 @@
+{
+  "title": "issue-1031-member-self-photo-upload",
+  "type": "implementation",
+  "status": "implemented_local_runtime_pending",
+  "feature": "issue-1031-member-self-photo-upload",
+  "created": "2026-06-01",
+  "lastUpdated": "2026-06-01",
+  "branch": "feat/issue-1031-member-self-photo-upload",
+  "base": "dev",
+  "metadata": {
+    "taskType": "implementation",
+    "implementationDivision": "実装仕様書",
+    "implementation_mode": "new",
+    "implementation_state": "implemented_local",
+    "visualEvidence": "VISUAL",
+    "workflow_state": "implemented_local_runtime_pending",
+    "githubIssue": 1031,
+    "githubIssueState": "CLOSED",
+    "phase12Strict7": "present",
+    "rootOutputArtifactsParity": "present"
+  },
+  "phase12": {
+    "strict7": [
+      "outputs/phase-12/main.md",
+      "outputs/phase-12/implementation-guide.md",
+      "outputs/phase-12/system-spec-update-summary.md",
+      "outputs/phase-12/documentation-changelog.md",
+      "outputs/phase-12/unassigned-task-detection.md",
+      "outputs/phase-12/skill-feedback-report.md",
+      "outputs/phase-12/phase12-task-spec-compliance-check.md"
+    ]
+  }
+}

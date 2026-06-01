@@ -15,6 +15,7 @@ import {
   fetchAuthed,
 } from "@/lib/fetch/authed";
 import { ProfileHeader } from "./_components/ProfileHeader";
+import { PhotoUpload } from "./_components/PhotoUpload.client";
 import { PublicConsentCallout } from "./_components/PublicConsentCallout";
 import { StatusBanner } from "./_components/StatusSummary";
 import { FORM_RESPONDER_URL } from "@/lib/constants/form";
@@ -99,6 +100,11 @@ export default async function ProfilePage() {
         publishState={statusSummary.publishState}
         editResponseUrl={editResponseUrl}
         fallbackResponderUrl={fallbackResponderUrl}
+      />
+      <PhotoUpload
+        memberId={me.user.memberId}
+        name={summary.displayName}
+        photoUrl={profileRes.photoUrl}
       />
       <StatusBanner
         statusSummary={statusSummary}

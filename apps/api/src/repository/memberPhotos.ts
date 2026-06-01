@@ -10,6 +10,8 @@ export interface MemberPhotoRow {
   readonly contentType: string;
   readonly byteSize: number;
   readonly uploadedBy: string;
+  // issue-1031: 最後に書き込んだ主体（admin 代行 / member 本人）。監査根拠。
+  readonly source: "admin" | "self";
   readonly uploadedAt: string;
 }
 
@@ -19,6 +21,8 @@ interface RawMemberPhotoRow {
   content_type: string;
   byte_size: number;
   uploaded_by: string;
+  // issue-1031: DB 上は TEXT。"self" 以外は "admin" に正規化する。
+  source: string;
   uploaded_at: string;
 }
 
@@ -29,7 +33,7 @@ export async function getMemberPhoto(
 ): Promise<MemberPhotoRow | null> {
   const row = await c.db
     .prepare(
-      `SELECT member_id, object_key, content_type, byte_size, uploaded_by, uploaded_at
+      `SELECT member_id, object_key, content_type, byte_size, uploaded_by, source, uploaded_at
        FROM member_photos WHERE member_id = ?1`,
     )
     .bind(memberId)
@@ -41,6 +45,8 @@ export async function getMemberPhoto(
     contentType: row.content_type,
     byteSize: row.byte_size,
     uploadedBy: row.uploaded_by,
+    // issue-1031: "self" 以外（未知値・legacy）は "admin" にフォールバック正規化。
+    source: row.source === "self" ? "self" : "admin",
     uploadedAt: row.uploaded_at,
   };
 }
@@ -53,10 +59,17 @@ export async function upsertMemberPhoto(
   await c.db
     .prepare(
       `INSERT OR REPLACE INTO member_photos
-       (member_id, object_key, content_type, byte_size, uploaded_by, uploaded_at)
-       VALUES (?1, ?2, ?3, ?4, ?5, datetime('now'))`,
+       (member_id, object_key, content_type, byte_size, uploaded_by, source, uploaded_at)
+       VALUES (?1, ?2, ?3, ?4, ?5, ?6, datetime('now'))`,
     )
-    .bind(row.memberId, row.objectKey, row.contentType, row.byteSize, row.uploadedBy)
+    .bind(
+      row.memberId,
+      row.objectKey,
+      row.contentType,
+      row.byteSize,
+      row.uploadedBy,
+      row.source,
+    )
     .run();
 }
 

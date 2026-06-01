@@ -129,6 +129,7 @@ Web CD は `pnpm --filter @ubm-hyogo/web build:cloudflare` で OpenNext Workers 
 | `deleted_members` | 削除履歴 |
 | `meeting_sessions` | 開催日 |
 | `member_attendance` | 参加履歴 |
+| `member_photos` | profile 写真 metadata（R2 object key / `source`） |
 | `admin_users` | 管理者 |
 | `admin_member_notes` | 管理メモ / member self-service 申請 queue |
 | `magic_tokens` | Magic Link |
@@ -242,6 +243,22 @@ Analytics index は ranking 用に次の 1 本だけ追加する。session 側�
 CREATE INDEX IF NOT EXISTS idx_member_attendance_member
   ON member_attendance (member_id);
 ```
+
+### member_photos
+
+```sql
+CREATE TABLE IF NOT EXISTS member_photos (
+  member_id TEXT PRIMARY KEY,
+  object_key TEXT NOT NULL,
+  content_type TEXT NOT NULL,
+  byte_size INTEGER NOT NULL,
+  uploaded_by TEXT NOT NULL,
+  source TEXT NOT NULL DEFAULT 'admin',
+  uploaded_at TEXT NOT NULL DEFAULT (datetime('now'))
+);
+```
+
+`object_key` は `members/{memberId}/avatar` の単一スロットを使い、admin upload と member self-upload は last-write-wins で同じ object を上書きする。`source` は最後に書いた主体を `admin` / `self` で表す。D1 には metadata のみを置き、画像 binary は Cloudflare R2 に保存する。
 
 ### admin_member_notes
 
