@@ -26,6 +26,17 @@ const apiBase = (): string | null => {
 };
 
 const internalSecret = (): string => getAuthEnv().INTERNAL_AUTH_SECRET ?? "";
+const syncAdminToken = (): string | undefined => getAuthEnv().SYNC_ADMIN_TOKEN;
+
+function needsSyncAdminBearer(path: readonly string[]): boolean {
+  if (path[0] !== "sync") return false;
+  return (
+    path[1] === "schema" ||
+    path[1] === "responses" ||
+    path[1] === "backfill-publish-state" ||
+    path[1] === "diagnostics"
+  );
+}
 
 async function requireAdmin(): Promise<Response | null> {
   const { auth } = await getAuth();
@@ -65,7 +76,20 @@ async function proxy(req: NextRequest, ctx: { params: Promise<{ path: string[] }
   const cookie = req.headers.get("cookie");
   if (cookie) headers.cookie = cookie;
   const authorization = req.headers.get("authorization");
-  if (authorization) headers.authorization = authorization;
+  if (needsSyncAdminBearer(path)) {
+    const token = syncAdminToken();
+    if (!token) {
+      return new Response(
+        JSON.stringify({
+          ok: false,
+          error: "sync_admin_token_missing",
+          message: "SYNC_ADMIN_TOKEN is not configured for this environment",
+        }),
+        { status: 500, headers: { "content-type": "application/json" } },
+      );
+    }
+    headers.authorization = `Bearer ${token}`;
+  } else if (authorization) headers.authorization = authorization;
   const ct = req.headers.get("content-type");
   if (ct) headers["content-type"] = ct;
 

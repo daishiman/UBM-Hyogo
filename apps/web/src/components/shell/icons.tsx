@@ -40,6 +40,7 @@ const PATHS: Record<ShellNavItemId, string> = {
   requests: "M3 13h5l2 3h4l2-3h5M3 13V5h18v8M3 13v6h18v-6",
   identity: "M18 18a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM6 21a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM6 3a3 3 0 1 0 0 6 3 3 0 0 0 0-6zM6 9v6M6 15c0-6 12-3 12-9",
   audit: "M4 4h12l4 4v12H4zM8 4v4h4M8 12h8M8 16h8",
+  "form-responses": "M7 7h6M7 11h6M7 15h4M5 3h10l4 4v14H5zM15 3v5h5M14 14l6-6M16 8h4v4",
 };
 
 export function ShellIcon({ id }: { readonly id: ShellNavItemId }): ReactElement {

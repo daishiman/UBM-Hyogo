@@ -3582,6 +3582,13 @@ node scripts/list-specs.js --topics
 |------------|----|
 | Lessons Learned | L19 |
 
+### references/workflow-member-publish-recovery-form-ops-and-admin-link-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Status | L13 |
+| Lessons Learned | L21 |
+
 ### references/workflow-members-list-prototype-alignment-artifact-inventory.md
 
 | セクション | 行 |
@@ -6530,6 +6537,14 @@ node scripts/list-specs.js --topics
 | 教訓 (Lesson IDs) | L30 |
 | 関連 | L39 |
 
+### references/lessons-learned-member-publish-recovery-form-ops-and-admin-link-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| 教訓一覧 | L19 |
+| skill-feedback 申し送り | L63 |
+| 確認パス | L67 |
+
 ### references/lessons-learned-parallel-i03-dialog-refresh-order-2026-05.md
 
 | セクション | 行 |
@@ -8253,15 +8268,15 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L3318 |
-| フェーズ構造（概要） | L3327 |
-| 品質ゲート（概要） | L3358 |
-| 出力テンプレート | L3369 |
-| 実行時のコマンド・エージェント・スキル | L3392 |
-| 昇格パターン集 | L3416 |
-| Current Active / Spec Created Tasks | L3418 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L3582 |
-| issue-998-members-publish-state-production-rollout | L3660 |
+| ドキュメント構成 | L3330 |
+| フェーズ構造（概要） | L3339 |
+| 品質ゲート（概要） | L3370 |
+| 出力テンプレート | L3381 |
+| 実行時のコマンド・エージェント・スキル | L3404 |
+| 昇格パターン集 | L3428 |
+| Current Active / Spec Created Tasks | L3430 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L3594 |
+| issue-998-members-publish-state-production-rollout | L3672 |
 
 ### references/task-workflow-backlog-part2.md
 

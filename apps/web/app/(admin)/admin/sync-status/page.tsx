@@ -3,6 +3,8 @@ import { safeServerFetch } from "../../../../src/lib/admin/safe-server-fetch";
 import type { FormsPipelineSnapshot } from "../../../../src/features/admin/diagnostics/types";
 import { FormsPipelineSnapshotSchema } from "../../../../src/features/admin/diagnostics/types";
 import { AdminSectionErrorClient } from "../../../../src/features/admin/components/_shared";
+import { BackfillPublishStatePanel } from "../../../../src/features/admin/components/_sync/BackfillPublishStatePanel.client";
+import { ManualFormResyncPanel } from "../../../../src/features/admin/components/_sync/ManualFormResyncPanel.client";
 
 export const dynamic = "force-dynamic";
 
@@ -122,7 +124,10 @@ function SyncStatusView({ snapshot }: { readonly snapshot: FormsPipelineSnapshot
           </dl>
         </section>
       </div>
+      <div className="grid gap-4 lg:grid-cols-2">
+        <BackfillPublishStatePanel />
+        <ManualFormResyncPanel />
+      </div>
     </div>
   );
 }
-
