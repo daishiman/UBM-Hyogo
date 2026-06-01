@@ -22,6 +22,20 @@
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-264-cron-schedule-free-tier-guard-artifact-inventory.md` |
 | user gate | optional staging cron tail、commit、push、PR、Issue mutation |
 
+### issue-1016-sidebar-mobile-drawer-responsive（2026-05-31）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_runtime_pending / implementation / VISUAL` |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-1016-sidebar-mobile-drawer-responsive/` |
+| Issue | #1016 CLOSED。PR 文脈は `Refs #1016` のみ |
+| 親 workflow | `docs/30-workflows/completed-tasks/unified-sidebar-shell-public-and-admin/` Task E |
+| 目的 | `SidebarMobileTrigger` と `SidebarDrawer` を実装し、`useSidebarState` の `drawerOpen` を mobile drawer responsive の実 UI に接続する |
+| implementation targets | `apps/web/src/components/shell/SidebarMobileTrigger.tsx`, `apps/web/src/components/shell/SidebarDrawer.tsx`, `apps/web/src/components/shell/useSidebarState.ts`, `apps/web/src/components/shell/SidebarShell.tsx`, `apps/web/src/lib/is-browser.ts`, `apps/web/src/styles/globals.css` |
+| evidence | focused Vitest 4 files / 21 tests PASS（`docs/30-workflows/completed-tasks/issue-1016-sidebar-mobile-drawer-responsive/outputs/phase-11/evidence/focused-vitest.log`）+ local screenshots 4 PNG（`outputs/phase-11/screenshots/`） |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1016-sidebar-mobile-drawer-responsive-artifact-inventory.md` |
+| user gate | staging visual verification、commit、push、PR |
+
 ### issue-57-kv-r2-guardrail-degrade-design（2026-05-31）
 
 | 項目 | 値 |

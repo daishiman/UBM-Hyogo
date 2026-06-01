@@ -2,6 +2,22 @@
 
 `origin/dev` を feature ブランチへ取り込む際に、複数 wave の workflow が並行で `.claude/skills/aiworkflow-requirements/` および `.claude/skills/task-specification-creator/` の changelog / index / active workflow / completed-tasks doc に additive 行を書き込むため、merge 時に高頻度で diff3 conflict が発生する。本書はその自律解消ポリシーの正本。
 
+## L-DEVSYNC-076: cross-skill 6-file conflict（aiworkflow indexes 4 + keywords.json + task-spec patterns-lessons-and-pitfalls.md）も `pnpm sync:resolve` 単一パスで full resolve（2026-05-31 docs/issue-1016-mobile-drawer-responsive-spec ← dev 9 behind / 3 ahead）
+
+- 事象: `docs/issue-1016-mobile-drawer-responsive-spec`（ローカル dev は origin/dev に既一致 `bb647c502` → dev 同期は冪等スキップ、feature は dev に 9 behind / 3 ahead）の sync-merge。`git merge dev --no-edit` で `CONFLICT (content)` が **6 件**、しかも **2 skill にまたがった**:
+  - `aiworkflow-requirements/indexes/{keywords.json,quick-reference.md,resource-map.md,topic-map.md}`
+  - `aiworkflow-requirements/references/task-workflow-active.md`
+  - `task-specification-creator/references/patterns-lessons-and-pitfalls.md`
+  - （`SKILL-changelog.md` / `LOGS/_legacy.md` は `.gitattributes merge=union` で Auto-merging・衝突なし）
+  - `apps/**` / `packages/**` の source conflict は 0 件 → L-DEVSYNC-072 の skill-only baseline に合致。
+- 解消: `pnpm sync:resolve` **1 回**で完結。resolver ログは `union-resolving 5 files`（quick-reference / resource-map / topic-map / task-workflow-active / **patterns-lessons-and-pitfalls.md**）→ `taking --ours for 1 derived files`（keywords.json）→ `pnpm indexes:rebuild`。`git ls-files -u` 0 で収束。L-DEVSYNC-074 の index.lock 中間状態は今回**発生せず**（dev ff 同期が既完了済みで時間的に重ならなかった = L-DEVSYNC-074-C の予防が効いた）。
+- How to apply:
+  - **L-DEVSYNC-076-A (resolver の union 対象は task-spec `patterns-lessons-and-pitfalls.md` も含む)**: `resolve-skill-merge-conflicts.sh` の union 対象は aiworkflow indexes 3 map + `task-workflow-active.md` だけでなく、**`task-specification-creator/references/patterns-lessons-and-pitfalls.md` も含む**。SP-DEVSYNC 系を両 skill が並行追記するため衝突しやすいが、append-only なら union で安全結合。「衝突が task-spec 側にも出た = 手動」と誤認せず、まず resolver 直行。
+  - **L-DEVSYNC-076-B (keywords.json は union ではなく必ず `--ours`+rebuild 段で処理される)**: 過去 changelog（issue-1006）に「keywords.json は merge=union で auto-merge」と書かれた版があるが、resolver の正本挙動は **keywords.json を derived file として `--ours` 採用 → `indexes:rebuild` で再生成**（L-DEVSYNC-002 / 074 と整合）。今回も keywords.json は CONFLICT に出て `--ours`+rebuild で解消された。union auto-merge されるかは dev 側 hunk の位置依存で不確定 → 「keywords は常に union」前提に依存しない。
+  - **L-DEVSYNC-076-C (skill-only なら conflict file 数が増えても resolver 単一パスで足りる)**: 衝突が 6 file・2 skill 横断でも、全て `.claude/skills/**` 配下なら `pnpm sync:resolve` 1 コマンドで full resolve。手動編集フェーズ（L-DEVSYNC-003 等）へは `apps/**` 等の非 skill conflict が出たときのみ進む。
+- 検証: `pnpm sync:resolve`（exit 0・`all skill / index conflicts resolved`）→ `git ls-files -u | wc -l` = 0 → merge commit → `pnpm install --force` / `pnpm typecheck` / `pnpm lint` / `pnpm indexes:rebuild` drift 0 で all green。
+- 参照: L-DEVSYNC-072（skill-only baseline）, L-DEVSYNC-074（index.lock 中間状態と段階構造）, L-DEVSYNC-075（issue-1008 task-spec 2-file ケース）, L-DEVSYNC-002（keywords.json は派生物・union 禁止）, [[feedback-grep-head-exit-code-pitfall]]（残存判定は `git ls-files -u`）, task-specification-creator [[patterns-lessons-and-pitfalls#dev-sync-merge-conflict-resolution]] SP-DEVSYNC-076。
+
 ## L-DEVSYNC-001: SKILL.md / SKILL-changelog.md / references/task-workflow-active.md / docs/30-workflows/LOGS.md の changelog 表 conflict
 - 症状: HEAD 側と dev 側が同じ表に**別々の追加行**を入れたために `<<<<<<< / ||||||| base / ======= / >>>>>>>` で囲まれる。
 - 解消: HEAD 側追記行と dev 側追記行を**両方残し**、`||||||| base` セクション（共通祖先）は破棄する。重複行があれば版番号で最新側を採用。
@@ -1806,6 +1822,17 @@
   - **L-DEVSYNC-076-B (resolver 後の冪等確認を CI gate と同条件で行う)**: 解消後に `pnpm indexes:rebuild` を再実行し drift 0（status clean）を確認すると、CI `verify-indexes-up-to-date` gate（`.claude/skills/aiworkflow-requirements/indexes` drift で fail）を push 前にローカルで先取り検証できる。本件は rebuild 後 `5224` キーワードで status clean。
 - 検証: `git merge dev` で CONFLICT 4（keywords.json + quick-reference/resource-map/topic-map）→ `pnpm sync:resolve` exit 0（union 3 + keywords.json ours+rebuild）→ `git ls-files -u` 0 → merge commit `10cf075b3` → `pnpm indexes:rebuild` 冪等（drift 0 / 5224 kw）→ `pnpm typecheck` 6 packages Done → `pnpm lint` exit 0。
 - 参照: L-DEVSYNC-072（クリーン基準の初出＝6 file 実例）, L-DEVSYNC-073（衝突 file 数可変の確立）, L-DEVSYNC-074（index.lock 中間状態・本件は並行書き込み無で回避）, L-DEVSYNC-075（衝突 2 file の docs 系前例・本件は `*-map.md` 3 件同時の拡張）, task-specification-creator [[patterns-lessons-and-pitfalls#dev-sync-merge-conflict-resolution]] SP-DEVSYNC-076。
+
+## L-DEVSYNC-077: union 解消後の「重複混入ゼロ」を **`now == HEAD == dev` のヘッダ数照合**で積極検証する — `git ls-files -u` 0 だけでは union が同名セクションを二重連結していないことを保証できない（2026-06-01 docs/issue-1016-mobile-drawer-responsive-spec ← dev 2 behind / 4 ahead・2 回目の sync）
+
+- 事象: 同 branch の **2 回目**の sync-merge（1 回目は L-DEVSYNC-076 / SP-DEVSYNC-076）。ローカル dev は origin/dev に既一致（独自コミット 0・ff 不要）。`git merge dev --no-edit` で content conflict **4 file**＝`aiworkflow-requirements/indexes/{keywords.json,quick-reference.md,resource-map.md,topic-map.md}`。今回は 1 回目と異なり `task-specification-creator/references/patterns-lessons-and-pitfalls.md` と `references/task-workflow-active.md` は `Auto-merging` で衝突せず、`quick-reference.md` / `resource-map.md` の 2 map が新たに `UU` に出た（L-DEVSYNC-073 の「衝突 file 数は sync ごとに変動」の再々確認）。`apps/**`/`packages/**` source conflict は 0。`pnpm sync:resolve` 1 回で full resolve（resolver ログ `union-resolving 3 files`＝3 map + `taking --ours for 1 derived files`＝keywords.json + `indexes:rebuild`）。
+- 検証の盲点と対処（本 lesson の核心）: `git ls-files -u` 0 と typecheck/lint/indexes-drift は「コンフリクトマーカーが消えた」「生成物が冪等」を保証するが、**union が両親の同名 H1/H2 セクションを二重連結していないか**は別問題。`merge=union` は行ベース結合なので、両 branch がそれぞれ追記した同名見出しブロックがあると重複して残り得る。これを **`grep -cF '<見出し>' <file>` の値が `now == HEAD == dev` で一致するか**で機械判定する。一致＝union は片側 unique 行を追加しただけで新規重複なし、不一致（now > max(HEAD,dev)）＝二重連結の疑い → 該当ブロックを手動 dedup。本件は `## よく使うパターン` / `## 変更履歴` / `## admin-ui-prototype-alignment（2026-05-23）` 等を抽出し全て `now == HEAD == dev`（例: admin-ui = 4/4/4）で一致 → 既存の構造的反復（append-log 内の正常な複数出現）であり union 由来の regression ではないと確定。
+- How to apply:
+  - **L-DEVSYNC-077-A (`git ls-files -u` 0 は必要条件であって union 健全性の十分条件ではない)**: marker 消滅後に「`quick-reference.md` / `resource-map.md`（= 手動管理 index）」が union 解消された場合は、必ずヘッダ数照合まで行う。topic-map.md / keywords.json は `indexes:rebuild` で再生成されるため照合不要、照合対象は **手動管理の 2 map（quick-reference / resource-map）に限定**してよい。
+  - **L-DEVSYNC-077-B (照合は `^# ` anchor でなく `grep -cF '<見出し全文>'` の substring count を正本にする)**: `sort | uniq -d` は trailing `\r`/全角・マルチバイトの sort 挙動で実数と乖離する（本件で `uniq` が 9 と表示した見出しが `grep -cF` では 1 だった）。重複判定は `grep -cF` の substring count を three-way（now/HEAD/dev）で比べるのが安定。
+  - **L-DEVSYNC-077-C (同一 branch の N 回目 sync でも conflict 集合は変わる)**: 1 回目（L-DEVSYNC-076）は patterns-lessons-and-pitfalls.md を含む 6 file、2 回目は map 4 file のみ。前回の conflict 集合を前提に手当てを準備せず、毎回 `git diff --name-only --diff-filter=U` で実集合を取り直す。
+- 検証: `git merge dev` で CONFLICT 4（keywords.json + 3 map）→ `pnpm sync:resolve` exit 0（union 3 + keywords ours+rebuild）→ `git ls-files -u` 0 → ヘッダ数 three-way 照合で union 重複ゼロ確認 → merge commit `eb3835772` → `pnpm typecheck` 6 packages Done → `pnpm lint` exit 0 → `pnpm indexes:rebuild` 冪等（drift 0）。
+- 参照: L-DEVSYNC-076（同 branch 1 回目・6 file ケース）, L-DEVSYNC-073（衝突 file 数可変）, L-DEVSYNC-002（keywords は union 対象外・rebuild 決定性）, L-DEVSYNC-007（rebuild 冪等で drift 0）, task-specification-creator [[patterns-lessons-and-pitfalls#dev-sync-merge-conflict-resolution]] SP-DEVSYNC-077。
 
 ## L-DEVSYNC-077: merge=union の lessons-learned 連結は **duplicate-ID（同じ `L-DEVSYNC-NNN` が 2 本）を silent に生む** — sync-merge 後は採番衝突を grep で検出し renumber する／本 sync は衝突 4 file（map 系 3 + task-workflow-active、keywords.json は非衝突）で resolver 単独収束（2026-05-31 docs/issue-57-kv-r2-guardrail-degrade-task-spec ← dev 5 commits）
 

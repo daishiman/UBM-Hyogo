@@ -1689,6 +1689,19 @@ source を一切触らない（実態は `MemberHeader` + `lib/auth-view` のみ
 - **SP-DEVSYNC-066-D (resolver unhandled 5 件混合 shape の処理順)**: `pnpm sync:resolve` exit 1 後の手動解消は **(1) AA を grep 判定 → (2) UD を dir 存在判定 → (3) UU の見出し節を subsection 分割 → (4) UU の表 row を `;` 結合**の順が最も早い。AA/UD は即決、UU の Lessons/evidence 系のみ手作業時間を要する。typecheck で AA 解消後の自己完結性を、lint で UU 解消後の文法を即検証。
 - 参照: [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-066 / L-DEVSYNC-063 / L-DEVSYNC-064（canonical wholesale ours/theirs 反転の系列）。
 
+## L-I1016 CLOSED Issue follow-up の implementation target を spec-only close せず先行未消費 state の消費先を実装するパターン（implementation / VISUAL / 2026-05-31 issue-1016 Task E mobile drawer）
+
+`unified-sidebar-shell` の Task E（mobile drawer responsive）が `implementation / VISUAL` でありながら implementation target を列挙したまま `spec_created` で残っていた close-out を、automation-30 review で実装まで閉じた再発防止パターン。L-USS-A（親 nested sub-workflow topology）の続きとして、後続タスクが「先行タスクの未消費 state を消費先実装で閉じる」契約と VISUAL 二段階 status を汎化する。
+
+- **L-I1016-A (Implementation Target Physical Existence Gate)**: `taskType=implementation` の workflow が具体的 `apps/` target を列挙し、当該ワークツリーで実装可能なら、`spec_created` の散文 close を禁止する。実コード + focused test = Gate-B を成立させ、同一 wave で global skill 反映まで行う。spec_created 誠実性より物理存在 Gate を優先。
+- **L-I1016-B (先行未消費 state の消費先実装)**: 親タスクが state（`drawerOpen` / `setDrawerOpen`）や slot を先行実装したが消費先が無い場合、後続タスクは別 backlog を増やさず消費先（Trigger / Drawer）を実装して閉じる。着手時に親 workflow の state / prop surface を grep し未消費 `setX` / slot を scope に組み込む。
+- **L-I1016-C (client-only helper は既存 boundary に集約)**: `window.matchMedia` 等は feature component 直呼びせず既存 browser boundary module（`is-browser.ts` の `browserMatchMedia()`）に追加し、SSR / jsdom fallback を helper 側に閉じて focused test で 1 箇所網羅。Phase 3 MINOR で検出しても新 module を増やさず既存 boundary を拡張（baseline 解消）。
+- **L-I1016-D (VISUAL 二段階 status)**: VISUAL タスクは focused test で Gate-B、視覚証跡は local screenshot `present` / staging visual `pending` を分離追跡。`implemented_local_runtime_pending` を Gate-C 前の正規 state とし、local capture を「VISUAL 完了」と一括表記しない。
+- **L-I1016-E (Phase 3 MINOR の current / baseline 分離)**: unassigned-task-detection で MINOR を current（横展開未タスク）と baseline（本サイクル解消）に必須分離し、各 MINOR の解消手段を 1 行で根拠付け。解消済みを誤って current 未タスク化しない。
+- **L-I1016-F (識別子の逐語引用)**: implementation-guide Part 2 で型 / `data-*` / breakpoint / storage key / dialog id を phase-02-design から逐語引用し手書き drift を禁止（`shell-drawer` id ↔ `aria-controls` 不一致防止）。
+- **anti-pattern**: ① implementation target があるのに no-code spec close ② 未消費 state を別 backlog 化して放置 ③ feature component で `window.*` 直呼び ④ local screenshot を VISUAL 完了扱い ⑤ baseline 解消済 MINOR を current 未タスク化。
+- 参照: [[lessons-learned-issue-1016-sidebar-mobile-drawer-responsive-2026-05]] L-I1016-001..007 / [[lessons-learned-unified-sidebar-shell-task-a-2026-05]] L-USS-001..005。
+
 ## SP-STATUS-RECON-001 completed workflow status reconciliation close-out gate（2026-05-30 issue-1008）
 
 実コード、Phase 11 evidence、Phase 12 strict 7 が既に merged / archived 済みでも、root / outputs / sub-task の `artifacts.json` が `spec_created` のまま残ると、dashboard・後続 audit・aiworkflow register が互いに矛盾する。status reconciliation タスクでは「docs-only」でも実ファイルの status 補正を同一 wave で完了させる。
@@ -1860,6 +1873,24 @@ issue-1008 sync（`refactor/issue-1008-members-list-ux-clarity-artifact-status-r
 - **SP-DEVSYNC-075-A (マージ成否は commit RC でなく ancestor 判定で確認)**: merge が既に確定した後に重ねて `git commit --no-edit` を打つと `fatal: could not read '': No such file or directory`（RC 128）になる。`MERGE_MSG` が消えているだけの benign no-op であり commit 失敗ではない。仕様の Phase 11/13 検証は **`git rev-list --count HEAD..dev == 0` と `git merge-base --is-ancestor dev HEAD`** を成否判定の正本に固定し、commit RC を gate にしない。
 - **SP-DEVSYNC-075-B (throwaway/probe commit の push 前除去)**: 切り分けで probe commit（`test: probe ...` 等）を作ったら、push 前に `git log --oneline` で混入を確認し `git reset --mixed <正しい merge commit>` で HEAD を戻して除去する。`git reset --hard` は使わず mixed/soft で index だけ巻き戻し、残骸ファイルは `rm` → `git status --porcelain` clean を確認する。
 - 参照: [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-075（lessons 版）, SP-DEVSYNC-073（`git ls-files -u` 正本則）, L-DEVSYNC-072（skill-only baseline）。
+
+### cross-skill 6-file conflict も `pnpm sync:resolve` 単一パスで full resolve（SP-DEVSYNC-076）
+
+`docs/issue-1016-mobile-drawer-responsive-spec` ← dev（9 behind / 3 ahead・ローカル dev は origin/dev に既一致で同期は冪等スキップ）の sync 知見。`git merge dev` で `CONFLICT (content)` が **6 file・2 skill 横断**で発生（aiworkflow `indexes/{keywords.json,quick-reference.md,resource-map.md,topic-map.md}` + `references/task-workflow-active.md` + 本ファイル `task-specification-creator/references/patterns-lessons-and-pitfalls.md`）。`apps/**`/`packages/**` の source conflict は 0。`pnpm sync:resolve` **1 回**で full resolve（[[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-076）。仕様書を起草する際、検証手順に以下を含める。
+
+- **SP-DEVSYNC-076-A (本ファイルも resolver の UNION_TARGETS)**: 衝突が **task-spec `patterns-lessons-and-pitfalls.md` 側にも出た**としても、SP-DEVSYNC 系の並行追記による append-only conflict は `resolve-skill-merge-conflicts.sh` の union 対象（resolver ログ `union-resolving N files` に本ファイルが含まれる）。「task-spec 側に出た = 手動」と誤認せず resolver 直行（[[patterns-lessons-and-pitfalls#L-PATSEC-003]] / L-DEVSYNC-046 UNION_TARGETS 登録の再確認）。
+- **SP-DEVSYNC-076-B (keywords.json は union 前提に依存しない)**: resolver は keywords.json を derived file として `--ours` 採用 → `pnpm indexes:rebuild` で再生成する（SP-DEVSYNC-074 / L-DEVSYNC-002 と整合）。過去 changelog に「keywords は merge=union で auto-merge」とある版があるが、union auto-merge されるかは dev 側 hunk 位置依存で不確定。仕様の検証手順は「keywords は常に union」前提を置かず、`pnpm sync:resolve` に委譲する。
+- **SP-DEVSYNC-076-C (skill-only なら conflict file 数が増えても単一パス)**: 衝突が 6 file・2 skill 横断でも全て `.claude/skills/**` 配下なら resolver 1 コマンドで完結。手動 hybridize（SP-DEVSYNC-054/056/057/058 等）へ進むのは `apps/**` 等の非 skill conflict が出たときのみ。
+- 参照: [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-076（lessons 版）, SP-DEVSYNC-074（resolver 段階構造・index.lock）, SP-DEVSYNC-075（issue-1008 task-spec 2-file ケース）, L-DEVSYNC-072（skill-only baseline）。
+
+### union 解消後は「重複混入ゼロ」をヘッダ数 three-way 照合で検証する（SP-DEVSYNC-077）
+
+`docs/issue-1016-mobile-drawer-responsive-spec` ← dev の **2 回目**の sync（1 回目は SP-DEVSYNC-076）。今回の conflict は aiworkflow `indexes/{keywords.json,quick-reference.md,resource-map.md,topic-map.md}` の 4 file のみ（前回含まれた本ファイル・task-workflow-active.md は今回 `Auto-merging` で衝突せず）。`pnpm sync:resolve` 1 回で full resolve。仕様書を起草する際、sync-merge 検証手順に以下の**重複検出ステップ**を含める（[[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-077）。
+
+- **SP-DEVSYNC-077-A (`git ls-files -u` 0 だけで union 健全性を結論しない)**: marker 消滅は必要条件にすぎない。`merge=union` は行ベース結合なので、両 branch がそれぞれ追記した同名見出しブロックを二重連結し得る。検証手順には **手動管理 index（`quick-reference.md` / `resource-map.md`）の主要 H1/H2 見出しについて `grep -cF '<見出し>'` の値が `now == HEAD == dev` で一致するか**を必ず入れる。一致＝union が片側 unique 行を足しただけで新規重複なし。topic-map.md / keywords.json は `indexes:rebuild` 再生成のため照合不要。
+- **SP-DEVSYNC-077-B (重複カウントは `grep -cF` の substring count を正本にする)**: `sort | uniq -d` は trailing `\r`・全角/マルチバイトの sort 挙動で実数と乖離する。仕様の検証コマンドには anchor 付き `grep -E '^## '` + `uniq` ではなく `grep -cF '<見出し全文>'` を three-way（now/HEAD/dev）で比較する形を記す。
+- **SP-DEVSYNC-077-C (同一 branch の N 回目 sync でも conflict 集合を前提化しない)**: 前回の conflict file リストを手当て前提に固定せず、毎回 `git diff --name-only --diff-filter=U` で実集合を取り直す（SP-DEVSYNC-076-C / L-DEVSYNC-073 の再確認）。
+- 参照: [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-077（lessons 版）, SP-DEVSYNC-076（同 branch 1 回目・6 file ケース）, SP-DEVSYNC-074（keywords は `--ours`+rebuild）, L-DEVSYNC-002（keywords union 対象外）。
 
 ### sync-merge 後 duplicate-ID 検査は見出し限定 grep が正本／同 branch 再 sync は衝突集合を再評価（SP-DEVSYNC-076）
 
