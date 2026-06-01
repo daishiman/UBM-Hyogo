@@ -20,7 +20,7 @@ const ONE_BY_ONE_PNG = Uint8Array.from([
   0, 73, 69, 78, 68, 174, 66, 96, 130,
 ]);
 
-function escapeHtml(input: string): string {
+export function escapeHtml(input: string): string {
   return input
     .replaceAll("&", "&amp;")
     .replaceAll("<", "&lt;")
@@ -28,14 +28,14 @@ function escapeHtml(input: string): string {
     .replaceAll('"', "&quot;");
 }
 
-function tagLine(summary: MemberSummary): string {
+export function tagLine(summary: MemberSummary): string {
   const parts = [summary.occupation, summary.ubmZone, summary.ubmMembershipType]
     .map((value) => value?.trim())
     .filter((value): value is string => Boolean(value));
   return parts.length ? parts.join(" / ") : "UBM Hyogo member";
 }
 
-function buildHtml(title: string, subtitle: string): string {
+export function buildHtml(title: string, subtitle: string): string {
   return [
     `<div style="display:flex;width:1200px;height:630px;background:${BRAND.surface};font-family:'${FONT_FAMILY}',sans-serif;color:${BRAND.ink};padding:64px;box-sizing:border-box;">`,
     `<div style="display:flex;flex-direction:column;justify-content:space-between;width:100%;border:2px solid ${BRAND.line};border-radius:36px;padding:56px;background:white;">`,
@@ -63,6 +63,9 @@ async function imageResponse(title: string, subtitle: string): Promise<Response>
   if (!("HTMLRewriter" in globalThis)) {
     return renderStaticFallbackOg();
   }
+  /* v8 ignore start -- workers-og の ImageResponse/loadGoogleFont は Cloudflare Workers
+     ランタイム (HTMLRewriter/Satori) 依存で Node/jsdom テスト環境では実行不能。
+     HTML 組成ロジック (buildHtml/tagLine/escapeHtml) は直接 unit test 済み。 */
   const { ImageResponse, loadGoogleFont } = await import("workers-og");
   const text = `${STATIC_TEXT}${title}${subtitle}`;
   const fonts = await Promise.all([
@@ -76,6 +79,7 @@ async function imageResponse(title: string, subtitle: string): Promise<Response>
       { name: FONT_FAMILY, data: fonts[1], weight: 700, style: "normal" },
     ],
   });
+  /* v8 ignore stop */
 }
 
 export async function renderMemberOg(summary: MemberSummary): Promise<Response> {

@@ -4078,6 +4078,7 @@
       "lessons-learned-ci-test-recovery-coverage-80-2026-05-04.md",
       "lessons-learned-coverage-80-enforcement-2026-04.md",
       "lessons-learned-d1-batch-atomicity-and-soft-delete-2026-05.md",
+      "lessons-learned-issue-1027-member-dynamic-og-worker-split-2026-05.md",
       "lessons-learned-issue-290-workflow-lint-gate-2026-05.md",
       "lessons-learned-issue-371-hono-ctx-di-migration-2026-05.md",
       "lessons-learned-issue-401-admin-request-notification-2026-05.md",
@@ -8162,6 +8163,7 @@
       "lessons-learned-admin-ui-prototype-alignment-2026-05.md",
       "lessons-learned-ci-pipeline-recovery-2026-05.md",
       "lessons-learned-ci-test-recovery-coverage-80-2026-05-04.md",
+      "lessons-learned-issue-1027-member-dynamic-og-worker-split-2026-05.md",
       "lessons-learned-issue-290-workflow-lint-gate-2026-05.md",
       "lessons-learned-issue-526-ci-actionlint-shellcheck-gate-2026-05.md",
       "lessons-learned-issue-560-next-standalone-instrumentation-patch-2026-05.md",
@@ -8235,6 +8237,7 @@
       "deployment-cloudflare.md",
       "lessons-learned-06a-public-web-2026-04.md",
       "lessons-learned-07b-schema-alias-assignment-2026-04.md",
+      "lessons-learned-issue-1027-member-dynamic-og-worker-split-2026-05.md",
       "lessons-learned-issue-355-opennext-workers-cd-cutover-2026-05.md",
       "lessons-learned-task-03-w2-par-sentry-workers-sdk-unify-2026-05.md",
       "lessons-learned-task-11-public-top-and-member-list-2026-05.md",
@@ -9601,6 +9604,7 @@
     ],
     "workspace": [
       "directory-structure-details.md",
+      "lessons-learned-issue-1027-member-dynamic-og-worker-split-2026-05.md",
       "logs-archive-2026-01-feature-structure-workspace-chat-edit.md",
       "logs-archive-2026-01-topic-map-remember-choice.md",
       "task-workflow-completed-workspace.md",
@@ -9986,6 +9990,7 @@
     ],
     "新規": [
       "gate-metadata.md",
+      "lessons-learned-issue-1027-member-dynamic-og-worker-split-2026-05.md",
       "workflow-aiworkflow-requirements-line-budget-reform-artifact-inventory.md",
       "workflow-skill-ledger-a3-progressive-disclosure-artifact-inventory.md"
     ],
@@ -11475,6 +11480,7 @@
       "lessons-learned-09b-A-sentry-slack-runtime-smoke-2026-05.md",
       "lessons-learned-admin-ui-prototype-alignment-2026-05.md",
       "lessons-learned-ci-test-recovery-coverage-80-2026-05-04.md",
+      "lessons-learned-issue-1027-member-dynamic-og-worker-split-2026-05.md",
       "lessons-learned-issue-224-public-members-tags-batch-fetch-2026-05.md",
       "lessons-learned-issue-371-hono-ctx-di-migration-2026-05.md",
       "lessons-learned-issue-393-stablekey-literal-legacy-cleanup-2026-05.md",
@@ -12390,6 +12396,7 @@
       "lessons-learned-05a-form-preview-503-2026-05.md",
       "lessons-learned-09b-cron-monitoring-release-runbook-2026-05.md",
       "lessons-learned-09c-incident-runbook-slack-delivery-2026-05.md",
+      "lessons-learned-issue-1027-member-dynamic-og-worker-split-2026-05.md",
       "lessons-learned-issue-224-public-members-tags-batch-fetch-2026-05.md",
       "lessons-learned-issue-274-public-pages-ogp-sitemap-robots-2026-05.md",
       "lessons-learned-issue-408-cf-audit-logs-monitoring-2026-05.md",
@@ -14214,6 +14221,7 @@
     "package": [
       "lessons-learned-07a-tag-queue-resolve-2026-04.md",
       "lessons-learned-coverage-80-enforcement-2026-04.md",
+      "lessons-learned-issue-1027-member-dynamic-og-worker-split-2026-05.md",
       "lessons-learned-issue-532-write-tag-note-provider-ctx-injection-2026-05.md"
     ],
     "引数は対象ファイル選択を保証しない": [
@@ -15337,6 +15345,7 @@
     "coverage": [
       "lessons-learned-ci-test-recovery-coverage-80-2026-05-04.md",
       "lessons-learned-coverage-80-enforcement-2026-04.md",
+      "lessons-learned-issue-1027-member-dynamic-og-worker-split-2026-05.md",
       "lessons-learned-issue-532-write-tag-note-provider-ctx-injection-2026-05.md",
       "lessons-learned-ut-coverage-2026-05-wave.md",
       "logs-archive-2026-03-notification-history-sigterm-guard.md",
@@ -15760,6 +15769,33 @@
       "workflow-issue-531-runtime-smoke-attendance-provider-artifact-inventory.md",
       "workflow-skill-lifecycle-created-skill-usage-journey.md",
       "workflow-task-03-w2-par-sentry-workers-sdk-unify-artifact-inventory.md"
+    ],
+    "aggregate": [
+      "lessons-learned-issue-1027-member-dynamic-og-worker-split-2026-05.md"
+    ],
+    "に明示配線しないと": [
+      "lessons-learned-issue-1027-member-dynamic-og-worker-split-2026-05.md"
+    ],
+    "MISSING": [
+      "lessons-learned-issue-1027-member-dynamic-og-worker-split-2026-05.md"
+    ],
+    "ランタイム専用コードは": [
+      "lessons-learned-issue-1027-member-dynamic-og-worker-split-2026-05.md"
+    ],
+    "ignore": [
+      "lessons-learned-issue-1027-member-dynamic-og-worker-split-2026-05.md",
+      "lessons-learned-issue-393-stablekey-literal-legacy-cleanup-2026-05.md",
+      "lessons-learned-skill-ledger-t6-hook-idempotency-2026-04.md"
+    ],
+    "で除外し": [
+      "lessons-learned-issue-1027-member-dynamic-og-worker-split-2026-05.md"
+    ],
+    "純粋ロジックは抽出して": [
+      "lessons-learned-issue-1027-member-dynamic-og-worker-split-2026-05.md"
+    ],
+    "unit": [
+      "lessons-learned-issue-1027-member-dynamic-og-worker-split-2026-05.md",
+      "lessons-learned-task-spec-2d-contract-stage-2-2026-05.md"
     ],
     "Closed": [
       "lessons-learned-issue-106-admin-notes-repository-2026-05.md"
@@ -16818,10 +16854,6 @@
     ],
     "disable": [
       "lessons-learned-issue-393-stablekey-literal-legacy-cleanup-2026-05.md"
-    ],
-    "ignore": [
-      "lessons-learned-issue-393-stablekey-literal-legacy-cleanup-2026-05.md",
-      "lessons-learned-skill-ledger-t6-hook-idempotency-2026-04.md"
     ],
     "合成を逃げ道にしない不変条件を": [
       "lessons-learned-issue-393-stablekey-literal-legacy-cleanup-2026-05.md"
@@ -19655,9 +19687,6 @@
       "lessons-learned-task-spec-2d-contract-stage-2-2026-05.md"
     ],
     "に昇格させる": [
-      "lessons-learned-task-spec-2d-contract-stage-2-2026-05.md"
-    ],
-    "unit": [
       "lessons-learned-task-spec-2d-contract-stage-2-2026-05.md"
     ],
     "に固定し": [

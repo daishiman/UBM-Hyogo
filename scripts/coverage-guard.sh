@@ -8,7 +8,7 @@
 #   bash scripts/coverage-guard.sh --package <name>           # 単一 package 限定
 #   bash scripts/coverage-guard.sh --threshold 80             # 閾値上書き (default=80)
 #   bash scripts/coverage-guard.sh --no-run     # 既存の coverage-summary.json を集計のみ (テスト/CI 高速化用)
-#   bash scripts/coverage-guard.sh --group <web|api-unit|api-d1|packages>  # CI shard 用に group 単独実行
+#   bash scripts/coverage-guard.sh --group <web|api-unit|api-d1|packages|og>  # CI shard 用に group 単独実行
 #                                                                          # (issue-617: docs/30-workflows/issue-617-ci-test-time-reduction-split/)
 #
 # Exit code:
@@ -44,8 +44,8 @@ while [ $# -gt 0 ]; do
       [ $# -ge 2 ] || { log "ERROR: --group requires a value"; exit 2; }
       GROUP="$2"; shift 2
       case "$GROUP" in
-        web|api-unit|api-d1|packages) ;;
-        *) log "ERROR: --group must be one of: web | api-unit | api-d1 | packages"; exit 2 ;;
+        web|api-unit|api-d1|packages|og) ;;
+        *) log "ERROR: --group must be one of: web | api-unit | api-d1 | packages | og"; exit 2 ;;
       esac
       ;;
     -h|--help)
@@ -204,6 +204,10 @@ run_group() {
       log "running: pnpm --filter @ubm-hyogo/api test:coverage:d1"
       ( cd "$ROOT_DIR" && pnpm --filter @ubm-hyogo/api test:coverage:d1 ) || return 1
       ;;
+    og)
+      log "running: pnpm --filter @ubm-hyogo/og test:coverage"
+      ( cd "$ROOT_DIR" && pnpm --filter @ubm-hyogo/og test:coverage ) || return 1
+      ;;
     packages)
       local failed=0
       for d in "$ROOT_DIR"/packages/*/ "$ROOT_DIR"/packages/integrations/*/; do
@@ -225,6 +229,7 @@ group_summary_paths() {
     web) printf '%s\n' "$ROOT_DIR/apps/web/coverage/coverage-summary.json" ;;
     api-unit) printf '%s\n' "$ROOT_DIR/apps/api/coverage/unit/coverage-summary.json" ;;
     api-d1) printf '%s\n' "$ROOT_DIR/apps/api/coverage/d1/coverage-summary.json" ;;
+    og) printf '%s\n' "$ROOT_DIR/apps/og/coverage/coverage-summary.json" ;;
     packages)
       for d in "$ROOT_DIR"/packages/*/ "$ROOT_DIR"/packages/integrations/*/; do
         [ -d "$d" ] || continue

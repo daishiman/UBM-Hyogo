@@ -6018,6 +6018,8 @@ node scripts/list-specs.js --topics
 | L-I1027-004: OG Worker data fetch should prefer Service Binding | L17 |
 | L-I1027-005: Crawler-facing OG generation must fail soft | L21 |
 | L-I1027-006: Follow-up consumed state must be synchronized same-wave | L25 |
+| L-I1027-007: 新規 workspace package は aggregate coverage-gate に明示配線しないと CI が MISSING で fail する | L29 |
+| L-I1027-008: Workers ランタイム専用コードは `v8 ignore` で除外し、純粋ロジックは抽出して unit test する | L41 |
 
 ### references/lessons-learned-issue-106-admin-notes-repository-2026-05.md
 

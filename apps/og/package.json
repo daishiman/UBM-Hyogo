@@ -8,6 +8,7 @@
     "deploy": "wrangler deploy",
     "lint": "tsc -p tsconfig.json --noEmit",
     "test": "vitest run --passWithNoTests --root=../.. --config=vitest.config.ts apps/og",
+    "test:coverage": "vitest run --passWithNoTests --root=../.. --config=vitest.config.ts --coverage --coverage.reportsDirectory=apps/og/coverage --coverage.include=\"apps/og/src/**/*.{ts,tsx}\" apps/og",
     "typecheck": "tsc -p tsconfig.json --noEmit"
   },
   "dependencies": {
