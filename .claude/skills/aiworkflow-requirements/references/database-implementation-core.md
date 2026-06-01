@@ -228,6 +228,18 @@ Turso の Embedded Replicas は、ローカルの SQLite ファイルとクラ�
 2. **unassigned task formalization**: 同 cycle で ADR まで作れない場合、`docs/30-workflows/unassigned-task/` に判断タスクを作成し、親 workflow の Phase 12 `unassigned-task-detection.md` と root `artifacts.json` から追跡できるようにする。
 
 07a tag assignment queue resolve の `member_tags.assigned_via_queue_id` はこの gate の適用例である。現行判断は「列を追加せず、queue 追跡は `audit_log.target_type='tag_queue'` / `target_id=<queueId>` と `member_tags.source='admin_queue'` で担保する」。この判断は [ADR 0002](../../../../docs/decisions/0002-member-tags-assigned-via-queue-id-decision.md) として正本化されている（再評価トリガ: 監査 UI 1 クエリ要件 / audit retention 短縮 / D1 read 性能問題）。この判断を実行する workflow は `docs/30-workflows/issue-296-ut-07a-04-assigned-via-queue-id-decision/` で、Issue #296 は CLOSED のため PR 文脈は `Refs #296` のみを使う。
+
+## Public member tags batch helper boundary（Issue #224）
+
+`apps/api/src/repository/memberTags.ts` の `listTagsByMemberIds(c, mids)` は `MemberTagWithDefinition[]` の **フラット配列**を返す。Map ではないため、公開 `GET /public/members?expand=tags` の caller は use-case 層で `member_id` groupBy する。
+
+運用ルール:
+
+- visibility filter 通過後の `memberRows.map(member_id)` だけを helper に渡す。
+- `expand=tags` 未指定時は helper を呼ばず、response item に `tags` key を出さない。
+- 公開 response は `code` / `label` / `category` のみ再構成し、`source` / `confidence` / `assigned_by` 等を載せない。
+- helper SQL は `ORDER BY mt.member_id ASC, td.category ASC, td.label ASC, td.code ASC` で公開 tag 配列順を安定化する。
+- `PublicMemberTagZ.strict()` で nested extra field を fail-close する。
 - `attendance.createAttendanceProvider(ctx).findByMemberIds(ids)` は `MemberProfile.attendance` / admin detail `profile.attendance` への read aggregator として実装済み。`member_attendance` と `meeting_sessions` を `session_id` で INNER JOIN し、`member_id IN (...)` は 80 件 chunk で bind 上限を避ける。返却は `held_on DESC`, `session_id ASC` で安定化し、`meeting_sessions` に存在しない session は除外、同一 member + session は 1 件へ正規化する。
 - `attendance.computeAttendanceOverview()` / `listSessionAttendanceStats()` / `listMemberAttendanceRanking()` は admin dashboard analytics 用の GROUP BY aggregate path。80-id chunk pattern は流用せず、active session (`deleted_at IS NULL`) と active member (`is_deleted != 1`) のみを count / rate に含める。ranking 用 index は `idx_member_attendance_member`、session 側は既存 `idx_member_attendance_session` を使う。
 - 07c の attendance audit は `audit_log.target_type='meeting'`, `target_id=sessionId` を正とする。付与時は `after_json`、解除時は `before_json` に attendance row を保存し、DELETE の session/member/row 不在は `attendance_not_found` に集約する。
