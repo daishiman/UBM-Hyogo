@@ -10,16 +10,16 @@
 
 | AC | 検証手段 | 結果記入欄 |
 | -- | -------- | ---------- |
-| AC-B-1 hint + aria-describedby | TC-B-MF-01 | ☐ PASS |
-| AC-B-2 result-count `role=status` + 3 文言分岐 | TC-B-MF-02 | ☐ PASS |
-| AC-B-3 q/zone/status/tag chip 化 (sort 除外) | TC-B-SFB-02/03/05 | ☐ PASS |
-| AC-B-4 個別解除 aria-label / onClearOne | TC-B-SFB-02/03/04 | ☐ PASS |
-| AC-B-5 hasFilters=false で bar 非描画 | TC-B-SFB-01 / TC-B-MF-03 | ☐ PASS |
-| AC-B-6 URL query 互換 | TC-B-MF-06 | ☐ PASS |
-| AC-B-7 既存 7 ケース後方互換 | Phase 4 § 2 修正 | ☐ PASS |
-| AC-B-8 result-count `role=status` 検証 | TC-B-MF-02 | ☐ PASS |
-| AC-B-9 SelectedFiltersBar spec 新規 | TC-B-SFB-01..06 | ☐ PASS |
-| AC-B-10 verify-design-tokens GREEN | Phase 9 § 1 | ☐ PASS |
+| AC-B-1 hint + aria-describedby | TC-B-MF-01 | ☑ PASS |
+| AC-B-2 result-count `role=status` + 3 文言分岐 | TC-B-MF-02 | ☑ PASS |
+| AC-B-3 q/zone/status/tag chip 化 (sort 除外) | TC-B-SFB-02/03/05 | ☑ PASS |
+| AC-B-4 個別解除 aria-label / onClearOne | TC-B-SFB-02/03/04 | ☑ PASS |
+| AC-B-5 hasFilters=false で bar 非描画 | TC-B-SFB-01 / TC-B-MF-03 | ☑ PASS |
+| AC-B-6 URL query 互換 | TC-B-MF-06 | ☑ PASS |
+| AC-B-7 既存 7 ケース後方互換 | Phase 4 § 2 修正 | ☑ PASS |
+| AC-B-8 result-count `role=status` 検証 | TC-B-MF-02 | ☑ PASS |
+| AC-B-9 SelectedFiltersBar spec 新規 | TC-B-SFB-01..06 | ☑ PASS |
+| AC-B-10 verify-design-tokens GREEN | Phase 9 § 1 | ☑ PASS |
 
 ## 2. blocker 判定
 
@@ -42,6 +42,6 @@ Phase 10 で MINOR 指摘が出た場合、Phase 12 の `unassigned-task-detecti
 
 ## 4. DoD
 
-- [ ] AC-B-1..10 が PASS で記入されている
-- [ ] blocker が 0 件
-- [ ] MINOR は Phase 12 § 4 で formalize 候補としてリスト化されている
+- [x] AC-B-1..10 が PASS で記入されている
+- [x] blocker が 0 件
+- [x] MINOR は Phase 12 § 4 で formalize 候補としてリスト化されている
