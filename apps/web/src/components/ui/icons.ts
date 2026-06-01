@@ -11,4 +11,5 @@ export type IconName =
   | "arrow-left"
   | "briefcase"
   | "map-pin"
-  | "chevron-right";
+  | "chevron-right"
+  | "help";
