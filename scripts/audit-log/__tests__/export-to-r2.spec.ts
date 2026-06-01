@@ -46,8 +46,10 @@ interface ManifestRow {
 class FakeD1 implements D1Like {
   auditLog: AuditLogRow[] = [];
   manifests: ManifestRow[] = [];
+  preparedSql: string[] = [];
 
   prepare(sql: string): D1PreparedLike {
+    this.preparedSql.push(sql.replace(/\s+/g, " ").trim());
     return new FakePrepared(this, sql);
   }
 }
@@ -234,6 +236,64 @@ describe("exportAuditLogToR2", () => {
     expect(db.manifests.length).toBe(0);
     expect(res.status).toBe("pending");
     expect(res.rowCount).toBe(1);
+  });
+
+  it("TC-PAUSE-01: paused は D1 SELECT / manifest / R2 PUT をすべて short-circuit する", async () => {
+    seedRow(db, "2026-01-02T05:00:00.000Z", "a");
+    const res = await exportAuditLogToR2(
+      { db, r2 },
+      { targetDate: TARGET, paused: true },
+    );
+    expect(res.status).toBe("paused");
+    expect(res.errorMessage).toBeNull();
+    expect(res.objectKey).toBeNull();
+    expect(res.rowCount).toBe(0);
+    expect(r2.puts.length).toBe(0);
+    expect(db.manifests.length).toBe(0);
+    expect(db.preparedSql).toEqual([]);
+  });
+
+  it("TC-PAUSE-02: paused=false は通常 export path を維持する", async () => {
+    seedRow(db, "2026-01-02T05:00:00.000Z", "a");
+    const res = await exportAuditLogToR2(
+      { db, r2 },
+      { targetDate: TARGET, paused: false },
+    );
+    expect(res.status).toBe("completed");
+    expect(res.rowCount).toBe(1);
+    expect(r2.puts.length).toBe(1);
+    expect(db.manifests[0]!.status).toBe("completed");
+  });
+
+  it("TC-PAUSE-03: paused=true は dry-run より優先して D1/R2 を触らない", async () => {
+    seedRow(db, "2026-01-02T05:00:00.000Z", "a");
+    const res = await exportAuditLogToR2(
+      { db, r2 },
+      { targetDate: TARGET, dryRun: true, paused: true },
+    );
+    expect(res.status).toBe("paused");
+    expect(res.objectKey).toBeNull();
+    expect(res.rowCount).toBe(0);
+    expect(r2.puts.length).toBe(0);
+    expect(db.manifests.length).toBe(0);
+    expect(db.preparedSql).toEqual([]);
+  });
+
+  it("TC-PAUSE-04: paused=true は既存 completed manifest の skip 判定より優先する", async () => {
+    seedRow(db, "2026-01-02T05:00:00.000Z", "a");
+    await exportAuditLogToR2({ db, r2 }, { targetDate: TARGET });
+
+    db.preparedSql = [];
+    const res = await exportAuditLogToR2(
+      { db, r2 },
+      { targetDate: TARGET, paused: true },
+    );
+    expect(res.status).toBe("paused");
+    expect(res.objectKey).toBeNull();
+    expect(res.rowCount).toBe(0);
+    expect(r2.puts.length).toBe(1);
+    expect(db.manifests.length).toBe(1);
+    expect(db.preparedSql).toEqual([]);
   });
 
   it("TC-EXP-02: 正常 path で D1→redact→gzip→R2→manifest completed", async () => {

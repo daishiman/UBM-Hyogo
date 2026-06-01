@@ -18,6 +18,13 @@ function buildEnv() {
   };
 }
 
+function buildEnvWithoutKv() {
+  return {
+    CF_WEBHOOK_AUTH_SECRET: SECRET,
+    SLACK_WEBHOOK_URL: SLACK_URL,
+  } as Record<string, unknown>;
+}
+
 const headers = { "content-type": "application/json", "cf-webhook-auth": SECRET };
 
 const samplePayload = (overrides: Record<string, unknown> = {}) => ({
@@ -48,6 +55,19 @@ describe("alert-relay sheets-auth payload", () => {
     const calls = fetchSpy.mock.calls as unknown as Array<[unknown, RequestInit]>;
     const body = JSON.parse(String(calls[0]![1].body));
     expect(body.text).toContain("SHEETS_AUTH_401_KEY_INVALID");
+  });
+
+  it("ALERT_DEDUP_KV 未設定でも sheets-auth alert を fail-open で送信する", async () => {
+    const fetchSpy = vi.fn(async () => new Response("ok", { status: 200 }));
+    const app = createAlertRelayRoute({ fetch: fetchSpy as unknown as typeof fetch });
+    const res = await app.request(
+      "/",
+      { method: "POST", headers, body: JSON.stringify(samplePayload()) },
+      buildEnvWithoutKv(),
+    );
+    expect(res.status).toBe(200);
+    expect(await res.json()).toMatchObject({ ok: true, dedupPersisted: false });
+    expect(fetchSpy).toHaveBeenCalledTimes(1);
   });
 
   it("dedup KV キーが alert:sheets-auth:<code>:<window> 形式で書かれる", async () => {

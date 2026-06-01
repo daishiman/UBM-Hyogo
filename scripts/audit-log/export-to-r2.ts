@@ -55,7 +55,7 @@ export type ExportManifestStatus = "pending" | "completed" | "failed";
 export interface ExportRunResult {
   exportRunId: string;
   partitionKey: string; // YYYY-MM-DD
-  status: ExportManifestStatus | "skipped";
+  status: ExportManifestStatus | "skipped" | "paused";
   rowCount: number;
   uncompressedBytes: number;
   compressedBytes: number;
@@ -68,6 +68,7 @@ export interface ExportOptions {
   targetDate?: Date; // 既定: 前日 (UTC)
   exportRunId?: string;
   dryRun?: boolean;
+  paused?: boolean;
 }
 
 export interface ExportDeps {
@@ -165,6 +166,20 @@ export async function exportAuditLogToR2(
   const partKey = `${yyyy}-${String(mm).padStart(2, "0")}-${String(dd).padStart(2, "0")}`;
   const exportRunId = opts.exportRunId ?? randomUUID();
   const dryRun = opts.dryRun === true;
+
+  if (opts.paused === true) {
+    return {
+      exportRunId,
+      partitionKey: partKey,
+      status: "paused",
+      rowCount: 0,
+      uncompressedBytes: 0,
+      compressedBytes: 0,
+      sha256: "",
+      objectKey: null,
+      errorMessage: null,
+    };
+  }
 
   // 既存 manifest の冪等 skip
   const existing = await deps.db
@@ -392,6 +407,7 @@ async function runCli(): Promise<void> {
     },
     {
       dryRun: args.dryRun,
+      paused: process.env.AUDIT_COLD_STORAGE_EXPORT_PAUSED === "true",
       ...(args.targetDate ? { targetDate: args.targetDate } : {}),
     },
   );
