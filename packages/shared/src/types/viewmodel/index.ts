@@ -111,6 +111,8 @@ export interface PublicMemberListItem {
   location: string;
   ubmZone: string | null;
   ubmMembershipType: string | null;
+  // issue-1029: public-safe presigned photo URL（TTL 300s）。
+  photoUrl?: string;
 }
 
 export interface PublicMemberListView {
@@ -146,6 +148,8 @@ export interface PublicMemberProfile {
   attendance: AttendanceRecord[];
   attendanceMeta?: AttendanceMeta;
   tags: Array<{ code: string; label: string; category: string }>;
+  // issue-1029: public-safe presigned photo URL（TTL 300s）。
+  photoUrl?: string;
 }
 
 export interface FormPreviewView {

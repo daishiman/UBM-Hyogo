@@ -45,6 +45,25 @@ export async function getMemberPhoto(
   };
 }
 
+/**
+ * issue-1029: 複数 member の object_key を 1 query で取得（public list の N+1 防止）。
+ * 空配列は SQL 非発行で空 Map。未登録 id は Map に含めない。
+ */
+export async function listMemberPhotosByIds(
+  c: DbCtx,
+  memberIds: readonly string[],
+): Promise<Map<string, string>> {
+  if (memberIds.length === 0) return new Map();
+  const ph = memberIds.map(() => "?").join(", ");
+  const r = await c.db
+    .prepare(`SELECT member_id, object_key FROM member_photos WHERE member_id IN (${ph})`)
+    .bind(...memberIds)
+    .all<{ member_id: string; object_key: string }>();
+  const map = new Map<string, string>();
+  for (const row of r.results ?? []) map.set(row.member_id, row.object_key);
+  return map;
+}
+
 /** member_photos を INSERT OR REPLACE（upsert = 1 member 1 photo 上書き保存）する。 */
 export async function upsertMemberPhoto(
   c: DbCtx,

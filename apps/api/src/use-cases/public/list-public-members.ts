@@ -20,6 +20,9 @@ import {
 
 export interface ListPublicMembersDeps {
   ctx: DbCtx;
+  // issue-1029: 公開 gate 通過 member の memberId 群から presigned photoUrl を解決する optional resolver。
+  // route 層が R2 presign batch を構築して DI する。未注入時は photoUrl を付けない（後方互換 / fail-soft）。
+  resolvePhotoUrls?: (memberIds: string[]) => Promise<Map<string, string>>;
 }
 
 const SUMMARY_KEYS = [
@@ -72,6 +75,13 @@ export const listPublicMembersUseCase = async (
     aggregateTopTags(ctx),
   ]);
 
+  // issue-1029: 抽出済み memberId 群で photoUrl を 1 回だけ batch 解決する（N+1 防止）。
+  // resolver 未注入時は空 Map のため全 item photoUrl undefined（後方互換 / fail-soft）。
+  const memberIds = memberRows.map((m) => m.member_id);
+  const photoMap = deps.resolvePhotoUrls
+    ? await deps.resolvePhotoUrls(memberIds)
+    : new Map<string, string>();
+
   // 各 member の summary 用 field を 1 query / member で取得。
   // batch 化は MVP 数百規模で許容範囲（R-2: N+1 リスクは limit 100 で頭打ち）。
   const items: PublicMemberListItemSource[] = [];
@@ -96,6 +106,7 @@ export const listPublicMembersUseCase = async (
       ubmMembershipType: parseJsonNullable(
         byKey.get(STABLE_KEY.ubmMembershipType) ?? null,
       ),
+      photoUrl: photoMap.get(m.member_id),
     });
   }
 

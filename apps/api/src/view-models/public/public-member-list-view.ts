@@ -21,6 +21,9 @@ export interface PublicMemberListItemSource {
   location: string;
   ubmZone: string | null;
   ubmMembershipType: string | null;
+  // issue-1029: route 層 resolver が presign した public-safe photoUrl（無ければ undefined）。
+  // R2 への依存は持たない（presign は route 層 / view-model は値を parse へ通すのみ）。
+  photoUrl?: string | undefined;
   // 以下は意図的に含めない (forbidden keys)。
   // responseEmail / rulesConsent / adminNotes
 }

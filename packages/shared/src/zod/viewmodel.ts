@@ -114,15 +114,19 @@ export const PublicStatsViewZ = z
   })
   .strict();
 
-export const PublicMemberListItemZ = z.object({
-  memberId: z.string().min(1),
-  fullName: z.string(),
-  nickname: z.string(),
-  occupation: z.string(),
-  location: z.string(),
-  ubmZone: z.string().nullable(),
-  ubmMembershipType: z.string().nullable(),
-});
+export const PublicMemberListItemZ = z
+  .object({
+    memberId: z.string().min(1),
+    fullName: z.string(),
+    nickname: z.string(),
+    occupation: z.string(),
+    location: z.string(),
+    ubmZone: z.string().nullable(),
+    ubmMembershipType: z.string().nullable(),
+    // issue-1029: public-safe presigned photo URL（TTL 300s）。optional のため既存 parse 不変。
+    photoUrl: z.string().url().optional(),
+  })
+  .strict();
 
 export const PublicMemberListViewZ = z
   .object({
@@ -170,6 +174,8 @@ export const PublicMemberProfileZ = z
         category: z.string(),
       }),
     ),
+    // issue-1029: public-safe presigned photo URL（TTL 300s）。optional のため既存 parse 不変。.strict() 維持。
+    photoUrl: z.string().url().optional(),
   })
   .strict();
 

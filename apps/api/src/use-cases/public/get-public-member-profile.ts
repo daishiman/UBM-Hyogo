@@ -23,6 +23,9 @@ import {
 export interface GetPublicMemberProfileDeps {
   ctx: RepositoryProviderCtx;
   memberTagsProvider?: MemberTagsProvider;
+  // issue-1029: 公開 gate 通過後にのみ呼ぶ presigned photoUrl resolver（optional）。
+  // route 層が R2 presign を構築して DI する。未注入 / 写真未登録 / presign 失敗時は undefined（fail-soft）。
+  resolvePhotoUrl?: (memberId: string) => Promise<string | undefined>;
 }
 
 const parseJson = (raw: string | null): unknown => {
@@ -61,6 +64,11 @@ export const getPublicMemberProfileUseCase = async (
 
   const response = await findCurrentResponse(ctx, memberId as never);
   if (!response) throw new ApiError({ code: "UBM-1404" });
+
+  // issue-1029: 公開 gate 通過後にのみ photoUrl を解決する（gate 不通過 member の写真漏れ防止 / AC-4・AC-6）。
+  const photoUrl = deps.resolvePhotoUrl
+    ? await deps.resolvePhotoUrl(memberId)
+    : undefined;
 
   const attendanceProvider = requireAttendanceProvider(ctx);
   const [fieldRows, tagRows, schemaRows, attendancePage] = await Promise.all([
@@ -102,5 +110,6 @@ export const getPublicMemberProfileUseCase = async (
       label: t.label,
       category: t.category,
     })),
+    photoUrl,
   });
 };

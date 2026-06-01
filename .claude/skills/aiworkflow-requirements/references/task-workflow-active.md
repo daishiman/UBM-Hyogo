@@ -8,6 +8,21 @@
 
 本ドキュメントは、複雑なタスクを単一責務の原則に基づいて分解し、各サブタスクに最適なスラッシュコマンド・エージェント・スキルの組み合わせを選定するためのガイドラインを定義する。
 
+### issue-1029-public-member-photo-display（2026-05-31）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_runtime_pending / implementation / VISUAL_ON_EXECUTION` |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-1029-public-member-photo-display/` |
+| Issue | #1029 CLOSED; PR 文脈は `Refs #1029` のみ |
+| 親 | `docs/30-workflows/issue-983-member-photo-avatar-r2-storage/` |
+| 目的 | public member list/profile に #983 の admin-managed R2 member photo を optional `photoUrl` として表示する |
+| policy | `docs/00-getting-started-manual/specs/16-member-photo-public-exposure.md`。公開 gate は `public_consent='consented' AND publish_state='public' AND member_photos row exists`。写真専用 consent カラム / D1 migration は追加しない |
+| implemented targets | `packages/shared/src/zod/viewmodel.ts`, `apps/api/src/repository/memberPhotos.ts`, public routes/use-cases/view-models, `MemberCard`, `ProfileHero`, `member-detail` adapter |
+| Phase 11/12 | focused Vitest 51 PASS, public route contract 12 PASS, shared/api/web typecheck PASS; Playwright public photo 1 PASS; Phase 11 screenshots 3 PNG captured; Phase 12 strict 7 present; root/output artifacts parity present |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1029-public-member-photo-display-artifact-inventory.md` |
+| user gate | R2 secrets, staging deploy, real R2 URL capture, commit, push, PR, Issue mutation |
+
 ### issue-988-identity-conflicts-merge-optimistic-update（2026-05-30）
 
 | 項目 | 値 |
