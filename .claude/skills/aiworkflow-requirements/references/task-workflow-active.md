@@ -8,6 +8,46 @@
 
 本ドキュメントは、複雑なタスクを単一責務の原則に基づいて分解し、各サブタスクに最適なスラッシュコマンド・エージェント・スキルの組み合わせを選定するためのガイドラインを定義する。
 
+### issue-264-cron-schedule-free-tier-guard（2026-05-31）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / NON_VISUAL / Phase 13 pending_user_approval` |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-264-cron-schedule-free-tier-guard/` |
+| Issue | #264 CLOSED（`Refs #264` のみ。GitHub mutation なし） |
+| 目的 | obsolete になった Sheets 24h cron 実測要求を、現行 Forms ベース `apps/api/wrangler.toml` 3-cron schedule の free-tier 回帰ガードへ再スコープする |
+| implementation | `apps/api/src/sync/wrangler-cron-schedule.guard.spec.ts` |
+| invariant | canonical `["0 18 * * *", "*/15 * * * *", "*/5 * * * *"]`、env 3 セクション parity、cron 本数 ≤3、legacy `0 * * * *` 不在、依存追加 0 |
+| evidence | focused Vitest 16 PASS、package-script apps/api suite 76 files / 481 tests PASS、Phase 12 strict 7 present、root/output artifacts parity present |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-264-cron-schedule-free-tier-guard-artifact-inventory.md` |
+| user gate | optional staging cron tail、commit、push、PR、Issue mutation |
+
+### member-publish-recovery-form-ops-and-admin-link（2026-05-31）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION` |
+| 成果物 | `docs/30-workflows/member-publish-recovery-form-ops-and-admin-link/` |
+| 目的 | `/members` 公開0件の運用復旧、既存 Form 回答の手動反映、反映 SLA 可視化、admin sidebar から Google Form 回答編集画面への導線を 4 責務で実装 |
+| implementation targets | `apps/web/app/(admin)/admin/sync-status/page.tsx`, `apps/web/app/api/admin/[...path]/route.ts`, `apps/web/src/features/admin/components/_sync/`, `apps/web/src/features/admin/diagnostics/{backfill,manual-sync}.ts`, `apps/web/src/components/public/ReflectionTimingNote.tsx`, `apps/web/app/(public)/members/page.tsx`, `apps/web/app/(member)/profile/page.tsx`, `apps/web/src/components/shell/{shell-config,SidebarNavItem,icons}.tsx`, `apps/web/src/lib/constants/form.ts`, `apps/web/src/lib/env.ts` |
+| evidence | `pnpm --filter @ubm-hyogo/web typecheck` PASS; focused Vitest 7 files / 20 tests PASS |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-member-publish-recovery-form-ops-and-admin-link-artifact-inventory.md` |
+| user gate | production flag, Cloudflare secret injection, deploy, authenticated screenshots, commit, push, PR |
+
+### issue-1016-sidebar-mobile-drawer-responsive（2026-05-31）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_runtime_pending / implementation / VISUAL` |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-1016-sidebar-mobile-drawer-responsive/` |
+| Issue | #1016 CLOSED。PR 文脈は `Refs #1016` のみ |
+| 親 workflow | `docs/30-workflows/completed-tasks/unified-sidebar-shell-public-and-admin/` Task E |
+| 目的 | `SidebarMobileTrigger` と `SidebarDrawer` を実装し、`useSidebarState` の `drawerOpen` を mobile drawer responsive の実 UI に接続する |
+| implementation targets | `apps/web/src/components/shell/SidebarMobileTrigger.tsx`, `apps/web/src/components/shell/SidebarDrawer.tsx`, `apps/web/src/components/shell/useSidebarState.ts`, `apps/web/src/components/shell/SidebarShell.tsx`, `apps/web/src/lib/is-browser.ts`, `apps/web/src/styles/globals.css` |
+| evidence | focused Vitest 4 files / 21 tests PASS（`docs/30-workflows/completed-tasks/issue-1016-sidebar-mobile-drawer-responsive/outputs/phase-11/evidence/focused-vitest.log`）+ local screenshots 4 PNG（`outputs/phase-11/screenshots/`） |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1016-sidebar-mobile-drawer-responsive-artifact-inventory.md` |
+| user gate | staging visual verification、commit、push、PR |
+
 ### issue-57-kv-r2-guardrail-degrade-design（2026-05-31）
 
 | 項目 | 値 |

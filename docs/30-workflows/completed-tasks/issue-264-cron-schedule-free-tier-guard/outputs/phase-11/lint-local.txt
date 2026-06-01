@@ -1,0 +1,19 @@
+Command:
+mise exec -- pnpm lint
+
+Result:
+PASS
+
+Summary:
+- dependency-cruiser: no dependency violations found
+- stable-key-update-lint: OK
+- verify-no-inline-style: OK
+- packages/contracts lint: Done
+- packages/shared lint: Done
+- packages/integrations lint: Done
+- packages/integrations/google lint: Done
+- apps/web lint: Done
+- apps/api lint: Done
+
+Note:
+`lint-stablekey-literal` reported 2 warning-mode pre-existing findings in `apps/web/app/(member)/profile/_components/PublicConsentCallout.tsx`. They are outside this workflow's write scope and did not fail lint.
