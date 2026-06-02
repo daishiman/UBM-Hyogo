@@ -1,0 +1,25 @@
+{
+  "schemaVersion": "1.0.0",
+  "taskId": "issue-1029-public-member-photo-display",
+  "workflowDir": "docs/30-workflows/completed-tasks/issue-1029-public-member-photo-display",
+  "evidence": [
+    {
+      "id": "manual-test-result",
+      "kind": "runtime-observation",
+      "path": "outputs/phase-11/manual-test-result.md",
+      "command": "implemented_local_runtime_pending: record local visual evidence and staging/R2 boundary",
+      "acquiredBy": "local focused tests, typecheck, and Playwright",
+      "requiredForCloseout": true,
+      "notes": "Local runtime screenshots are captured; staging/R2 real presigned URL capture remains user-gated."
+    },
+    {
+      "id": "screenshot-plan",
+      "kind": "runtime-observation",
+      "path": "outputs/phase-11/screenshot-plan.json",
+      "command": "implemented_local_runtime_pending: define captured screenshot contract",
+      "acquiredBy": "local Playwright runtime",
+      "requiredForCloseout": true,
+      "notes": "Three screenshot PNGs are present under outputs/phase-11/screenshots."
+    }
+  ]
+}
