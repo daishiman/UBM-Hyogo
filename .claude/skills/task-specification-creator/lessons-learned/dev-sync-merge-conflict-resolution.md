@@ -719,6 +719,18 @@
 - 参照: aiworkflow-requirements [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-084（本 lesson の正本・keywords 再登場と `--ours` 実発火）, L-DEVSYNC-081-C（keywords 非衝突回は `--ours` no-op）, L-DEVSYNC-082（task-spec SKILL.md 片側衝突）, SP-DEVSYNC-048（3 file 最小セット）, SP-DEVSYNC-047（duplicate-ID backlog 機序）。
 
 
+### SP-DEVSYNC-050: コンフリクトマーカー残存確認は `git diff --diff-filter=U` / `git diff --check` を正本にする — `git grep -E '^=======' ` は docs の区切り線（`=`×N）を誤検知する（2026-06-02 追加）
+
+- 事象: `docs/issue-1029-public-member-photo-display-spec` を sub-worktree（`.worktrees/task-20260531-195607-wt-7`）から sync-merge。ローカル dev = origin/dev（独自コミット 0 / ff 不要）、feature は origin/dev に 2 behind / 5 ahead。`git merge dev --no-edit` の content conflict は **4 file**＝`aiworkflow-requirements/indexes/{quick-reference.md, resource-map.md, topic-map.md}` + `references/task-workflow-active.md`（keywords.json / 両 SKILL.md / SKILL-changelog は Auto-merging）。`pnpm sync:resolve` 単独収束（`union-resolving 4 files`）。残存マーカーの二次確認に `git grep -lE '^(<<<<<<<|=======|>>>>>>>)'` を回したところ `docs/30-workflows/completed-tasks/ut-08-monitoring-alert-design/outputs/phase-11/manual-smoke-log.md` が 1 件ヒットしたが、実体はコードブロック内のログ区切り線 `=`×60 で未解決マーカーではなかった（当該 file は merge 非対象＝`status` に M/A で出ない）。
+- How to apply（仕様書 sync-merge 節での逐語化）:
+  1. **残存マーカー確認の正本は index ベース 2 系統**: ①`git diff --name-only --diff-filter=U`（=0 が未解決ゼロの確定証跡）、②`git diff --check`（git 自身がマーカーを行/桁つきで判定）。この 2 つが緑なら残存ゼロ確定で grep 不要。
+  2. **grep を使うなら厳格パターン＋ status 照合**: `git grep -nE '^(<{7}|={7}|>{7})( |$)'` に絞り（`=`×N≠7 の区切り線を除外）、ヒットしても `git status --porcelain -- <file>` が空（マージ非対象）なら誤検知として棄却する。`^=======`（行頭一致・後続自由）は `=`×60 等の ASCII 罫線/ログ separator を全件誤マッチするため単独では信頼しない。
+  3. 衝突 file 数は 3〜6 で毎回可変（本件 4 = index map 3 + task-workflow-active）。`git diff --name-only --diff-filter=U` の実集合をそのまま `pnpm sync:resolve` に渡す原則は不変。
+- 適用範囲外: source code（`apps/`/`packages/`）の `UU`（SP-DEVSYNC-038/042/044 経路）。本件は skill index/reference のみ。
+- 検証: `git merge dev` CONFLICT 4 → `pnpm sync:resolve` exit 0（`union-resolving 4 files`）→ `git diff --name-only --diff-filter=U` 0 → merge commit `d65f7fbee` → `pnpm typecheck` exit 0 / `pnpm lint` exit 0 / `pnpm indexes:rebuild` drift 0（5275 キーワード）。grep 二次確認のヒット 1 件は status 非 M/A で誤検知と確定。
+- 参照: aiworkflow-requirements [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-085（本 lesson の正本・grep false-positive 機序）, L-DEVSYNC-080-B（衝突集合は `--diff-filter=U` で都度確定）, SP-DEVSYNC-049（keywords 再登場）, SP-DEVSYNC-048（3 file 最小セット）。
+
+
 ### SP-DEVSYNC-050: 衝突集合は 2 file（index map 2 のみ）まで縮退しうる — task-workflow-active.md も Auto-merging に回る新・最小セット／残マーカー検査は厳密パターンで装飾線偽陽性を排除（2026-06-02 追加）
 
 - 事象: `docs/issue-1027-member-dynamic-og-worker-split` を sub-worktree（`.worktrees/task-20260531-173652-wt-10`）から sync-merge。ローカル dev = origin/dev（独自コミット 0 / ff 不要）、feature は origin/dev に 2 behind / 7 ahead。`git merge dev --no-edit` の content conflict は **2 file のみ**＝`aiworkflow-requirements/indexes/{quick-reference.md, resource-map.md}`。`references/task-workflow-active.md` / `indexes/topic-map.md` / `indexes/keywords.json` / `LOGS/_legacy.md` / `task-specification-creator/SKILL-changelog.md` / 両 `SKILL.md` はすべて Auto-merging。SP-DEVSYNC-048（3 file）よりさらに 1 file 縮退し、これまで衝突常連だった `task-workflow-active.md` が Auto-merging に回った最小セット。

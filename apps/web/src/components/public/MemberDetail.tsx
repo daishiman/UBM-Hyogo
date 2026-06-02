@@ -62,6 +62,7 @@ export function MemberDetail({
   linkSections,
   attendance,
   tags,
+  photoUrl,
 }: MemberDetailProps) {
   return (
     <article
@@ -77,6 +78,7 @@ export function MemberDetail({
         location={summary.location}
         ubmZone={summary.ubmZone}
         ubmMembershipType={summary.ubmMembershipType}
+        photoUrl={photoUrl}
       />
       {tags.length > 0 ? <MemberTags tags={tags} /> : null}
       <MemberLinks sections={toLegacySections(linkSections)} />
