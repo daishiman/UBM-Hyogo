@@ -21,6 +21,7 @@ const MERGE_PATTERN = '**/api/admin/identity-conflicts/*/merge'
 const DISMISS_PATTERN = '**/api/admin/identity-conflicts/*/dismiss'
 const MEMBER_DETAIL_PATTERN = '**/api/admin/members/*'
 const ISSUE_988_SCREENSHOT_DIR = process.env.PLAYWRIGHT_ISSUE988_SCREENSHOT_DIR
+const ISSUE_1042_SCREENSHOT_DIR = process.env.PLAYWRIGHT_ISSUE1042_SCREENSHOT_DIR
 
 async function captureIssue988Screenshot(
   page: Page,
@@ -30,6 +31,18 @@ async function captureIssue988Screenshot(
   mkdirSync(ISSUE_988_SCREENSHOT_DIR, { recursive: true })
   await page.screenshot({
     path: join(ISSUE_988_SCREENSHOT_DIR, filename),
+    fullPage: true,
+  })
+}
+
+async function captureIssue1042Screenshot(
+  page: Page,
+  filename: string,
+) {
+  if (!ISSUE_1042_SCREENSHOT_DIR) return
+  mkdirSync(ISSUE_1042_SCREENSHOT_DIR, { recursive: true })
+  await page.screenshot({
+    path: join(ISSUE_1042_SCREENSHOT_DIR, filename),
     fullPage: true,
   })
 }
@@ -210,6 +223,78 @@ test.describe('/admin/identity-conflicts × mutation', () => {
     // request body は DismissIdentityConflictRequestZ shape のみ
     expect(Object.keys(postBody ?? {})).toEqual(['reason'])
     expect(postCalls).toBe(1)
+  })
+
+  test('成功系: dismiss 実行直後に対象 row を optimistic に非表示にする', async ({
+    adminPage,
+  }) => {
+    let postCalls = 0
+    await adminPage.route(DISMISS_PATTERN, async (route) => {
+      if (route.request().method() !== 'POST') return route.fallback()
+      postCalls += 1
+      await new Promise((resolve) => setTimeout(resolve, 500))
+      return route.fulfill({
+        status: 200,
+        contentType: 'application/json',
+        body: JSON.stringify(dismissResponse),
+      })
+    })
+
+    await adminPage.goto('/admin/identity-conflicts')
+    const row = adminPage
+      .getByText('conflict: m_src_02__m_dst_02')
+      .locator('xpath=ancestor::li[1]')
+    await row.getByRole('button', { name: '別人マーク' }).click()
+    await row
+      .getByRole('textbox', { name: /別人マーク理由/ })
+      .fill('同姓同名/別組織')
+    await captureIssue1042Screenshot(
+      adminPage,
+      'identity-conflict-row-dismiss-confirm.png',
+    )
+    await row.getByRole('button', { name: '別人として確定' }).click()
+
+    await expect(row).toHaveCount(0)
+    await captureIssue1042Screenshot(
+      adminPage,
+      'identity-conflict-row-dismiss-optimistic-removed.png',
+    )
+    await expect.poll(() => postCalls).toBeGreaterThanOrEqual(1)
+  })
+
+  test('失敗系: dismiss error 時は optimistic 非表示を rollback する', async ({
+    adminPage,
+  }) => {
+    await adminPage.route(DISMISS_PATTERN, async (route) => {
+      if (route.request().method() !== 'POST') return route.fallback()
+      return route.fulfill({
+        status: 409,
+        contentType: 'application/json',
+        body: JSON.stringify({ message: 'すでに別人として確定済みです' }),
+      })
+    })
+
+    await adminPage.goto('/admin/identity-conflicts')
+    const row = adminPage
+      .getByText('conflict: m_src_02__m_dst_02')
+      .locator('xpath=ancestor::li[1]')
+    await row.getByRole('button', { name: '別人マーク' }).click()
+    await row
+      .getByRole('textbox', { name: /別人マーク理由/ })
+      .fill('同姓同名/別組織')
+    await row.getByRole('button', { name: '別人として確定' }).click()
+
+    await expect(adminPage.getByText('conflict: m_src_02__m_dst_02')).toBeVisible()
+    await expect(row.getByRole('textbox', { name: /別人マーク理由/ })).toHaveValue(
+      '同姓同名/別組織',
+    )
+    await expect(row.getByRole('alert')).toContainText(
+      'すでに別人として確定済みです',
+    )
+    await captureIssue1042Screenshot(
+      adminPage,
+      'identity-conflict-row-dismiss-rollback-error.png',
+    )
   })
 
   test('refresh 境界: merge 後に router.refresh() のみ実行され、members 詳細 fetch は発生しない', async ({

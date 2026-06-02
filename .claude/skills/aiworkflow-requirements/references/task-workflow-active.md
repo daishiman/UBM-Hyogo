@@ -109,6 +109,21 @@
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-988-identity-conflicts-merge-optimistic-update-artifact-inventory.md` |
 | user gate | commit, push, PR |
 
+### issue-1042-identity-conflicts-dismiss-optimistic-update（2026-06-02）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION` |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-1042-identity-conflicts-dismiss-optimistic-update/` |
+| Issue | #1042 CLOSED（`Refs #1042` のみ。Issue mutation なし） |
+| parent workflow | `docs/30-workflows/completed-tasks/issue-988-identity-conflicts-merge-optimistic-update/` |
+| 目的 | `/admin/identity-conflicts` の dismiss（別人マーク）confirm 後、server round-trip を待たず該当 row を optimistic に非表示化し、server error 時のみ rollback で復元する |
+| implementation targets | `apps/web/src/components/admin/IdentityConflictRow.tsx`, `apps/web/src/components/admin/__tests__/IdentityConflictRow.spec.tsx`, `apps/web/playwright/tests/admin-identity-conflicts.spec.ts` |
+| invariant | API endpoint / D1 schema / Server Component page / merge behavior は変更なし。`useAdminMutation` hook 拡張なし。`optimisticMerged` と `optimisticDismissed` は state 分離し、render guard のみ OR 統合 |
+| evidence | focused Vitest `IdentityConflictRow.spec.tsx` 15 tests PASS; Playwright desktop focused 2 tests PASS; Phase 11 screenshots 3 PNG captured; Phase 11 canonical paths present |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1042-identity-conflicts-dismiss-optimistic-update-artifact-inventory.md` |
+| user gate | commit, push, PR |
+
 ### issue-982-drawer-tag-pill-editing（2026-05-29）
 
 | 項目 | 値 |

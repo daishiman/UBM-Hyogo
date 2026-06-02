@@ -1,6 +1,31 @@
 # クイックリファレンス
 
+## issue-1042-identity-conflicts-dismiss-optimistic-update（2026-06-02）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-1042-identity-conflicts-dismiss-optimistic-update/` |
+| status | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION` |
+| purpose | `/admin/identity-conflicts` の dismiss confirm 後、server round-trip 前に row を optimistic 非表示化し、server error 時だけ rollback |
+| implementation | `apps/web/src/components/admin/IdentityConflictRow.tsx`, `apps/web/src/components/admin/__tests__/IdentityConflictRow.spec.tsx`, `apps/web/playwright/tests/admin-identity-conflicts.spec.ts` |
+| invariant | API endpoint / D1 schema / Server Component page / merge behavior は変更なし。`useAdminMutation` hook 拡張なし |
+| evidence | focused Vitest `IdentityConflictRow.spec.tsx` 15 tests PASS; Playwright focused 2 PASS; Phase 11 screenshots 3 PNG |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1042-identity-conflicts-dismiss-optimistic-update-artifact-inventory.md` |
+| user gate | commit, push, PR |
+
 ## issue-224-public-members-tags-batch-fetch（2026-05-31）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/issue-224-public-members-tags-batch-fetch/` |
+| status | `implemented_local_evidence_captured / implementation / NON_VISUAL` |
+| purpose | 公開 `GET /public/members?expand=tags` で tags N+1 回帰を防ぐ batch fetch を実装 |
+| implementation | `apps/api/src/_shared/search-query-parser.ts`, `apps/api/src/use-cases/public/list-public-members.ts`, `apps/api/src/repository/memberTags.ts`, shared public member tag schema/types |
+| invariant | `expand=tags` opt-in 時のみ tags を付与し、未指定時の response shape は不変 |
+| evidence | contract/use-case N+1 regression tests PASS; Gate-C は user-gated |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-224-public-members-tags-batch-fetch-artifact-inventory.md` |
+| user gate | commit, push, PR, Gate-C |
+
 ## issue-264-cron-schedule-free-tier-guard（2026-05-31）
 
 | 項目 | 値 |
