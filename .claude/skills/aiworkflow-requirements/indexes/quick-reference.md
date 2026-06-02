@@ -15,6 +15,20 @@
 | inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1030-member-photo-transcode-resize-variant-pipeline-artifact-inventory.md` |
 | user gate | remote D1 migration apply、staging deploy、authenticated screenshots、commit、push、PR |
 
+## issue-1027-member-dynamic-og-worker-split（2026-05-31）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-1027-member-dynamic-og-worker-split/` |
+| status | `implemented_local_runtime_pending / implementation / VISUAL_ON_EXECUTION` |
+| issue | #1027 OPEN 維持。Issue mutation は user-gated |
+| purpose | member detail の動的 OG PNG を main web Worker へ戻さず、OG 専用 Worker `apps/og` に分離して Free 3MiB 予算を守る |
+| implementation | `apps/og/**`, `apps/web/src/lib/{env.ts,seo/site-metadata.ts}`, `apps/web/app/(public)/members/[id]/page.tsx`, `apps/web/wrangler.toml`, `.github/workflows/og-cd.yml` |
+| evidence | OG typecheck PASS; OG Vitest 3 files / 10 tests PASS; web metadata focused Vitest 3 files / 17 tests PASS; OG Wrangler dry-run build PASS; OG size gate gzip 717KiB / 3072KiB PASS (index.js 170KiB + wasm); web typecheck PASS |
+| invariant | `apps/web` は `next/og` / `ImageResponse` 禁止を維持。OG Worker は existing `GET /public/members/:memberId` を API_SERVICE first で読む。`OG_IMAGE_BASE_URL` は env accessor 経由 |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1027-member-dynamic-og-worker-split-artifact-inventory.md` |
+| user gate | Cloudflare deploy, staging runtime PNG capture, commit, push, PR, Issue #1027 mutation |
+
 ## task-d-admin-google-form-responses-link（2026-06-01）
 
 | 項目 | 値 |

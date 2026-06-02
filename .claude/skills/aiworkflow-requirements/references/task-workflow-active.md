@@ -3790,3 +3790,15 @@ docs-only / direction-reconciliation で採用方針 A を維持する場合で�
 | evidence | TypeScript PASS; `/members` local warm-up 200; Playwright desktop-chromium 12 PASS; 24 PNG in `completed-tasks/members-list-ux-clarity/outputs/phase-11/screenshots`; stale active path not created |
 | user gate | commit, push, PR, staging visual baseline refresh, Issue #1005 state mutation |
 | inventory | `references/workflow-issue-1005-members-ux-playwright-baseline-stabilization-artifact-inventory.md` |
+# issue-1027-member-dynamic-og-worker-split（2026-05-31）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-1027-member-dynamic-og-worker-split/` |
+| status | `implemented_local_runtime_pending / implementation / VISUAL_ON_EXECUTION` |
+| issue | #1027 OPEN 維持。PR 文脈は `Refs #1027` のみ |
+| purpose | member detail dynamic OG PNG を `apps/og` 専用 Worker に分離し、main web Worker の Free 3MiB budget と `next/og` 禁止 guard を維持する |
+| implementation targets | `apps/og/**`, `apps/web/src/lib/env.ts`, `apps/web/src/lib/seo/site-metadata.ts`, `apps/web/app/(public)/members/[id]/page.tsx`, `apps/web/wrangler.toml`, `.github/workflows/og-cd.yml` |
+| evidence | OG typecheck PASS; OG Vitest 10 PASS; web focused Vitest 17 PASS; OG Wrangler dry-run build PASS; OG size gate gzip 717KiB PASS (index.js 170KiB + wasm); web typecheck PASS |
+| source | `docs/30-workflows/unassigned-task/member-dynamic-og-paid-or-worker-split.md` consumed; upstream `web-worker-size-limit-fix` |
+| user gate | Cloudflare deploy, staging runtime PNG capture, commit, push, PR, Issue mutation |

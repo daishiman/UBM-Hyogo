@@ -1893,6 +1893,22 @@ skill-only conflict を `pnpm sync:resolve` で解消した後の「念のため
 - **SP-DEVSYNC-073-B (grep を併用するなら U-filter と突き合わせ + path 除外)**: 補助的に marker grep を残す場合、ヒットしたファイルが `git diff --name-only --diff-filter=U` の対象かを必ず照合し、対象外なら文書リテラルとして無視する。除外 path は `.spec`/`.test` に加え `completed-tasks/**` の evidence/log/runbook を含める（装飾区切り線の頻出箇所）。
 - **SP-DEVSYNC-073-C (Phase 12 検証手順への固定)**: dev-sync の解消検証は「`pnpm sync:resolve` exit 0 → `git ls-files -u` 0 → `git commit --no-edit` → `pnpm typecheck`/`pnpm lint`/`pnpm indexes:rebuild` 冪等」の固定列とし、marker grep の生ヒット数を gate にしない。
 - 参照: [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-073（同知見の lessons 版・merge commit `1b662cfad`）, L-DEVSYNC-072-B（`git ls-files -u` 正本則の初出）, [[feedback-grep-head-exit-code-pitfall]]（grep ベース判定のピットフォール一般則）。
+## SP-I1027 dynamic OG Worker split and size-budget branch gate
+
+Member-specific dynamic OG generation on Cloudflare Free plan exposed a recurring task-design pattern: the real decision is not "add OG route" but "choose the runtime budget owner." Apply this before Phase 2 when a task proposes `next/og`, wasm/font-heavy rendering, or another bundle-heavy feature.
+
+- **SP-I1027-A (architecture branch before design)**: If the options include Paid plan vs dedicated Worker split, ask for and record the user decision in Phase 1. Do not write Phase 2 as if both are still current.
+- **SP-I1027-B (budget owner is an implementation target)**: Treat each Worker bundle (`apps/web`, `apps/api`, `apps/og`) as a separate size-budget owner. A split is not complete until the new Worker has its own build, deploy workflow, and `scripts/check-worker-size.sh <dist>` gate.
+- **SP-I1027-C (main Worker guard remains active)**: Splitting OG generation out does not relax the main web Worker guard. Phase 4/11 must prove `apps/web` still avoids `next/og` / `ImageResponse`.
+- **SP-I1027-D (public metadata envs use accessors)**: Optional public metadata config such as `OG_IMAGE_BASE_URL` must go through the env accessor layer and focused tests. Direct `process.env` reads in SEO helpers are drift.
+- **SP-I1027-E (crawler response fails soft)**: OG runtime tests should cover both named member PNG and default fallback PNG. Upstream API failure or unknown member should not produce a broken crawler response.
+- **SP-I1027-F (新規 workspace package は aggregate coverage-gate へ同一コミットで配線)**: `apps/og` のような新規 package を足す Phase は「テストが緑」では完了にしない。`scripts/coverage-guard.sh` の集約モードは `apps/*`/`packages/*` を機械列挙するため package.json 追加だけで判定対象に自動流入する一方、`.github/workflows/ci.yml` の `coverage-gate-shard` matrix は手動固定で shard が無いと `coverage-summary.json` が未生成→ aggregate だけ `MISSING` で exit 1（shard 全 success でも fail、merge 後 dev 同期 push で顕在化）。Phase の DoD に **(1) package の `test:coverage` script、(2) coverage-guard.sh の `--group` enum/`run_group`/`group_summary_paths` 3 箇所、(3) ci.yml matrix への group 追加** を必須チェックとして書く。「機械列挙で広がる集合 ≠ 手動固定の shard 集合」の非対称が罠。
+- **SP-I1027-G (ランタイム専用コードは `v8 ignore`、純粋ロジックは抽出 unit test で 80% gate を満たす)**: `workers-og`/`ImageResponse` 等 Cloudflare Workers ランタイム依存コードは Node/jsdom で実行不能なため放置すると lines coverage が 80% gate を割る。Phase 設計で「HTML/文字列組成等の純粋関数を export して直接テスト」＋「ランタイム依存ブロックのみ `/* v8 ignore start/stop */` で除外理由コメント付き除外」＋「ルータの catch フォールバックは throw mock でテスト」を指示する。`v8 ignore` は原理的にテスト不能な箇所限定で、純粋ロジックまで握り潰さない（coverage-guard の「exclude は要レビュー」HINT に準拠）。
+
+Anti-patterns:
+- Leaving an unassigned follow-up as `open` after the implementation consumed it.
+- Marking dynamic OG complete while only the main web Worker size gate is checked.
+- Treating local PNG generation as staging runtime evidence when deployment remains user-gated.
 
 ### マージ確定後の `git commit` 偽失敗(RC128)と throwaway commit 混入除去（SP-DEVSYNC-075）
 
