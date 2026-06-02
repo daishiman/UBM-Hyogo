@@ -1,0 +1,78 @@
+# Phase 11 ローカル検証証跡 — issue-1027 member 動的 OG（OG 専用 Worker 分離）
+
+本ファイルは Phase 11（VISUAL_ON_EXECUTION）のうち、Cloudflare staging deploy を伴わない
+ローカル実行で確定できる証跡（unit test / build / size gate / 回帰 / typecheck / lint / local PNG capture）の実出力サマリ。
+staging SNS preview evidence は user-gated runtime evidence として Phase 13 側に pending。
+
+実行環境: Node 24.15.0 / pnpm 10.33.2 / vitest 2.1.9 / wrangler 4.85.0
+
+────────────────────────────────────────────────────────
+## 1. apps/og typecheck
+$ mise exec -- pnpm --filter @ubm-hyogo/og typecheck
+> tsc -p tsconfig.json --noEmit
+EXIT=0  ✅
+
+## 2. apps/og unit test（*.spec.ts のみ）
+$ mise exec -- pnpm --filter @ubm-hyogo/og test
+ ✓ apps/og/src/__tests__/member-source.spec.ts (5 tests)
+ ✓ apps/og/src/__tests__/render-smoke.spec.ts  (1 test)
+ ✓ apps/og/src/__tests__/router.spec.ts        (4 tests)
+ Test Files  3 passed (3)
+      Tests  10 passed (10)
+EXIT=0  ✅
+
+## 3. apps/og build（wrangler dry-run → dist 出力）
+$ mise exec -- pnpm --filter @ubm-hyogo/og build   # wrangler deploy --dry-run --outdir dist
+ Total Upload: 2093.87 KiB / gzip: 718.49 KiB
+ dist/index.js + 2 wasm (yoga / resvg) + index.js.map + README.md を出力
+ビルド成功  ✅
+
+## 4. OG worker bundle size gate（index.js + wasm 合算）
+$ bash scripts/check-worker-size.sh apps/og/dist
+ check-worker-size: files=3 gzip=717KiB limit=3072KiB warn=2800KiB
+EXIT=0  ✅（3072KiB Free 上限に対し 717KiB・余裕）
+内訳(gzip): index.js=170KiB / resvg.wasm=519KiB / yoga.wasm=28KiB
+
+## 4.5 local Wrangler PNG capture（mock API）
+$ wrangler dev --local --port 8789 --var PUBLIC_API_BASE_URL:http://127.0.0.1:8790
+$ curl -fsS -o outputs/phase-11/screenshots/member-og-image-named.png http://127.0.0.1:8789/members/local-member
+$ curl -fsS -o outputs/phase-11/screenshots/member-og-image-default.png http://127.0.0.1:8789/members/missing
+ member-og-image-named.png:   PNG image data, 1200 x 630, 8-bit/color RGBA, non-interlaced
+ member-og-image-default.png: PNG image data, 1200 x 630, 8-bit/color RGBA, non-interlaced
+日本語 member 名 / default OG の表示を目視確認済み  ✅
+
+## 5. apps/web 全テスト（OG 統合含む）
+$ mise exec -- pnpm --filter web test
+ ✓ apps/web/src/lib/seo/__tests__/site-metadata.spec.ts (11 tests)   # buildMemberOgImageUrl
+ ✓ apps/web/app/(public)/members/[id]/page.spec.tsx (3 tests)        # generateMetadata OG URL / twitterCard
+ ✓ apps/web/__tests__/opennext-config-regression.spec.ts (6 tests)   # next/og 非混入回帰ガード
+ Test Files  203 passed | 1 skipped (204)
+      Tests  1426 passed | 1 skipped (1427)
+EXIT=0  ✅
+
+## 6. 回帰 grep（AC-2 / AC-8）
+$ rg -n "next/og|ImageResponse" apps/web/src apps/web/app   → 0 件（clean）  ✅
+$ rg -n "process.env.OG_IMAGE_BASE_URL" apps/web/src        → 0 件（env アクセサ経由）  ✅
+
+## 7. monorepo typecheck / lint
+$ mise exec -- pnpm typecheck   → 全 7 パッケージ Done（apps/og 含む）  ✅
+$ mise exec -- pnpm lint        → boundaries / deps(2197 modules 0 violations) / no-inline-style OK
+                                  pnpm -r lint 全 Done  ✅
+                                  （stablekey-literal は既存 warning 2件・本タスク無関係）
+
+## 8. size gate スクリプト後方互換（shellcheck + 3 モード）
+$ shellcheck scripts/check-worker-size.sh   → OK  ✅
+ - directory mode  : apps/og/dist → files=3 gzip=717KiB EXIT=0
+ - single-file mode: apps/og/dist/index.js → files=1 gzip=170KiB EXIT=0（後方互換）
+ - missing path    : EXIT=1（FAIL 正常）
+ - no-arg (OpenNext): apps/web/.open-next 自動走査（既存パス不変）
+ - WORKER_SIZE_OVERRIDE_KIB: short-circuit 維持
+
+────────────────────────────────────────────────────────
+## AC 対応（ローカル確定分）
+AC-1 web bundle 非膨張（next/og 非混入）/ AC-2 回帰 grep 0 / AC-3 OG bundle 717KiB ≤ 3072KiB /
+AC-4 GET /members/:id 200 image/png（unit）/ AC-5 不明/失敗 default 200（unit）/
+AC-6,7 og:image/twitter:image=OG URL・card=summary_large_image（web 統合 test）/
+AC-8 env アクセサ経由（grep 0）/ AC-9 og-cd.yml build→size gate→deploy（size gate ローカル PASS）。
+
+staging 実 PNG（手順①②③ screenshot）と /health 実 curl（手順④）は user-gated runtime evidence。

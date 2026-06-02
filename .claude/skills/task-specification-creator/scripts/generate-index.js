@@ -110,7 +110,7 @@ function findPhaseFiles(workflowDir) {
   const phaseFiles = {};
 
   for (const file of files) {
-    const match = file.match(/^phase-(\d+)-(.+)\.md$/);
+    const match = file.match(/^phase-(\d+)(?:-(.+))?\.md$/);
     if (match) {
       const phaseNum = parseInt(match[1], 10);
       phaseFiles[phaseNum] = file;

@@ -1,0 +1,14 @@
+Command:
+mise exec -- pnpm exec vitest run --root=. --config=vitest.config.ts apps/api/src/sync/wrangler-cron-schedule.guard.spec.ts
+
+Result:
+PASS
+
+Summary:
+Test Files  1 passed (1)
+Tests       16 passed (16)
+Spec        apps/api/src/sync/wrangler-cron-schedule.guard.spec.ts
+
+Notes:
+- The package-script command `mise exec -- pnpm --filter @ubm-hyogo/api test -- wrangler-cron-schedule` also passed, but it executed the full apps/api Vitest suite because of the existing package script argument behavior.
+- Full apps/api suite result from that command: 76 files passed, 481 tests passed.
