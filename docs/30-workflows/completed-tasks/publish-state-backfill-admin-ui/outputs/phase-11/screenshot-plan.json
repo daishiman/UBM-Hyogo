@@ -1,0 +1,39 @@
+{
+  "feature": "publish-state-backfill-admin-ui",
+  "phase": 11,
+  "visualEvidence": "VISUAL_ON_EXECUTION",
+  "runtimeEvidence": "pending",
+  "gating": "staging-admin-login-user-gated",
+  "note": "本サイクルでは実 png を取得しない。runtime は Task B proxy Authorization 注入完了後の staging で取得する。verdict は PASS_BOUNDARY_SYNCED_RUNTIME_PENDING。",
+  "route": "/admin/sync-status",
+  "screenshots": [
+    {
+      "id": "backfill-panel-initial",
+      "state": "ST-1",
+      "description": "パネル初期状態。dry-run=enabled / apply=disabled、結果 dl 非表示",
+      "file": "screenshots/backfill-panel-initial.png",
+      "status": "pending"
+    },
+    {
+      "id": "backfill-dry-run-result",
+      "state": "ST-2",
+      "description": "dry-run 実行後の結果 dl（scanned/candidates/applied=0/skipped.* x4）",
+      "file": "screenshots/backfill-dry-run-result.png",
+      "status": "pending"
+    },
+    {
+      "id": "backfill-apply-result",
+      "state": "ST-4",
+      "description": "apply 実行後の結果 dl（mode=apply / applied 昇格件数）",
+      "file": "screenshots/backfill-apply-result.png",
+      "status": "pending"
+    },
+    {
+      "id": "backfill-error",
+      "state": "ST-5/ST-6",
+      "description": "HTTP error または schema mismatch 時の role=alert 表示",
+      "file": "screenshots/backfill-error.png",
+      "status": "pending"
+    }
+  ]
+}
