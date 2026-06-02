@@ -3329,6 +3329,7 @@
       "workflow-issue-1010-auth-view-session-contract-integration-test-artifact-inventory.md",
       "workflow-issue-1016-sidebar-mobile-drawer-responsive-artifact-inventory.md",
       "workflow-issue-1024-sidebar-collapse-cookie-persistence-artifact-inventory.md",
+      "workflow-issue-1043-identity-conflicts-row-fade-animation-artifact-inventory.md",
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
       "workflow-issue-229-indexes-rebuild-fail-fast-artifact-inventory.md",
       "workflow-issue-230-lefthook-edit-guard-artifact-inventory.md",
@@ -4837,6 +4838,7 @@
       "workflow-i01-toastprovider-root-mount-artifact-inventory.md",
       "workflow-i02-admin-error-type-unify-artifact-inventory.md",
       "workflow-issue-1006-members-selected-filters-chip-ux-hardening-artifact-inventory.md",
+      "workflow-issue-1043-identity-conflicts-row-fade-animation-artifact-inventory.md",
       "workflow-issue-230-lefthook-edit-guard-artifact-inventory.md",
       "workflow-issue-247-apps-web-opennext-config-regression-tests-artifact-inventory.md",
       "workflow-issue-256-e2e-coverage-baseline-runbook-artifact-inventory.md",
@@ -5201,6 +5203,7 @@
       "workflow-issue-1010-auth-view-session-contract-integration-test-artifact-inventory.md",
       "workflow-issue-1016-sidebar-mobile-drawer-responsive-artifact-inventory.md",
       "workflow-issue-1024-sidebar-collapse-cookie-persistence-artifact-inventory.md",
+      "workflow-issue-1043-identity-conflicts-row-fade-animation-artifact-inventory.md",
       "workflow-issue-224-public-members-tags-batch-fetch-artifact-inventory.md",
       "workflow-issue-229-indexes-rebuild-fail-fast-artifact-inventory.md",
       "workflow-issue-230-lefthook-edit-guard-artifact-inventory.md",
@@ -7213,6 +7216,7 @@
       "workflow-fix-admin-server-components-render-error-stg-artifact-inventory.md",
       "workflow-i01-toastprovider-root-mount-artifact-inventory.md",
       "workflow-issue-1006-members-selected-filters-chip-ux-hardening-artifact-inventory.md",
+      "workflow-issue-1043-identity-conflicts-row-fade-animation-artifact-inventory.md",
       "workflow-issue-256-e2e-coverage-baseline-runbook-artifact-inventory.md",
       "workflow-issue-276-mobile-filterbar-tag-picker-artifact-inventory.md",
       "workflow-issue-290-workflow-lint-gate-artifact-inventory.md",
@@ -7274,6 +7278,7 @@
       "workflow-issue-1005-members-ux-playwright-baseline-stabilization-artifact-inventory.md",
       "workflow-issue-1006-members-selected-filters-chip-ux-hardening-artifact-inventory.md",
       "workflow-issue-1016-sidebar-mobile-drawer-responsive-artifact-inventory.md",
+      "workflow-issue-1043-identity-conflicts-row-fade-animation-artifact-inventory.md",
       "workflow-issue-106-admin-member-notes-repository-task-spec-artifact-inventory.md",
       "workflow-issue-229-indexes-rebuild-fail-fast-artifact-inventory.md",
       "workflow-issue-230-lefthook-edit-guard-artifact-inventory.md",
@@ -7961,6 +7966,7 @@
       "workflow-issue-1010-auth-view-session-contract-integration-test-artifact-inventory.md",
       "workflow-issue-1016-sidebar-mobile-drawer-responsive-artifact-inventory.md",
       "workflow-issue-1024-sidebar-collapse-cookie-persistence-artifact-inventory.md",
+      "workflow-issue-1043-identity-conflicts-row-fade-animation-artifact-inventory.md",
       "workflow-issue-106-admin-member-notes-repository-task-spec-artifact-inventory.md",
       "workflow-issue-191-schema-aliases-artifact-inventory.md",
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
@@ -11342,6 +11348,7 @@
       "workflow-issue-1010-auth-view-session-contract-integration-test-artifact-inventory.md",
       "workflow-issue-1016-sidebar-mobile-drawer-responsive-artifact-inventory.md",
       "workflow-issue-1024-sidebar-collapse-cookie-persistence-artifact-inventory.md",
+      "workflow-issue-1043-identity-conflicts-row-fade-animation-artifact-inventory.md",
       "workflow-issue-235-sync-audit-tables-necessity-judgement-artifact-inventory.md",
       "workflow-issue-256-e2e-coverage-baseline-runbook-artifact-inventory.md",
       "workflow-issue-264-cron-schedule-free-tier-guard-artifact-inventory.md",
@@ -14363,7 +14370,8 @@
     ],
     "row": [
       "lessons-learned-07c-attendance-audit-2026-04.md",
-      "lessons-learned-ut-02a-tag-assignment-queue-2026-05.md"
+      "lessons-learned-ut-02a-tag-assignment-queue-2026-05.md",
+      "workflow-issue-1043-identity-conflicts-row-fade-animation-artifact-inventory.md"
     ],
     "を一緒に返す": [
       "lessons-learned-07c-attendance-audit-2026-04.md"
@@ -15967,6 +15975,7 @@
       "workflow-2b-admin-identity-conflicts-spec-artifact-inventory.md",
       "workflow-admin-identity-conflicts-prototype-alignment-and-404-fix-artifact-inventory.md",
       "workflow-google-form-reflection-diagnostics-fu-002-h2-identity-rebuild-artifact-inventory.md",
+      "workflow-issue-1043-identity-conflicts-row-fade-animation-artifact-inventory.md",
       "workflow-issue-987-identity-conflicts-audit-log-admin-ui-artifact-inventory.md",
       "workflow-issue-988-identity-conflicts-merge-optimistic-update-artifact-inventory.md"
     ],
@@ -17678,6 +17687,7 @@
       "workflow-issue-1010-auth-view-session-contract-integration-test-artifact-inventory.md",
       "workflow-issue-1016-sidebar-mobile-drawer-responsive-artifact-inventory.md",
       "workflow-issue-1024-sidebar-collapse-cookie-persistence-artifact-inventory.md",
+      "workflow-issue-1043-identity-conflicts-row-fade-animation-artifact-inventory.md",
       "workflow-issue-106-admin-member-notes-repository-task-spec-artifact-inventory.md",
       "workflow-issue-191-schema-aliases-artifact-inventory.md",
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
@@ -19261,6 +19271,7 @@
       "lessons-learned-task-17-admin-schema-conflicts-audit-2026-05.md",
       "workflow-2b-admin-identity-conflicts-spec-artifact-inventory.md",
       "workflow-admin-identity-conflicts-prototype-alignment-and-404-fix-artifact-inventory.md",
+      "workflow-issue-1043-identity-conflicts-row-fade-animation-artifact-inventory.md",
       "workflow-issue-987-identity-conflicts-audit-log-admin-ui-artifact-inventory.md",
       "workflow-issue-988-identity-conflicts-merge-optimistic-update-artifact-inventory.md",
       "workflow-task-17-admin-schema-conflicts-audit-artifact-inventory.md"
@@ -25755,6 +25766,7 @@
       "workflow-issue-1010-auth-view-session-contract-integration-test-artifact-inventory.md",
       "workflow-issue-1016-sidebar-mobile-drawer-responsive-artifact-inventory.md",
       "workflow-issue-1024-sidebar-collapse-cookie-persistence-artifact-inventory.md",
+      "workflow-issue-1043-identity-conflicts-row-fade-animation-artifact-inventory.md",
       "workflow-issue-106-admin-member-notes-repository-task-spec-artifact-inventory.md",
       "workflow-issue-191-schema-aliases-artifact-inventory.md",
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
@@ -25967,6 +25979,7 @@
       "workflow-i01-toastprovider-root-mount-artifact-inventory.md",
       "workflow-issue-1006-members-selected-filters-chip-ux-hardening-artifact-inventory.md",
       "workflow-issue-1016-sidebar-mobile-drawer-responsive-artifact-inventory.md",
+      "workflow-issue-1043-identity-conflicts-row-fade-animation-artifact-inventory.md",
       "workflow-issue-229-indexes-rebuild-fail-fast-artifact-inventory.md",
       "workflow-issue-247-apps-web-opennext-config-regression-tests-artifact-inventory.md",
       "workflow-issue-256-e2e-coverage-baseline-runbook-artifact-inventory.md",
@@ -26659,7 +26672,8 @@
       "workflow-issue-1006-members-selected-filters-chip-ux-hardening-artifact-inventory.md"
     ],
     "Surface": [
-      "workflow-issue-1006-members-selected-filters-chip-ux-hardening-artifact-inventory.md"
+      "workflow-issue-1006-members-selected-filters-chip-ux-hardening-artifact-inventory.md",
+      "workflow-issue-1043-identity-conflicts-row-fade-animation-artifact-inventory.md"
     ],
     "toggle": [
       "workflow-issue-1007-density-toggle-help-hint-hardening-artifact-inventory.md"
@@ -26672,6 +26686,15 @@
     ],
     "responsive": [
       "workflow-issue-1016-sidebar-mobile-drawer-responsive-artifact-inventory.md"
+    ],
+    "fade": [
+      "workflow-issue-1043-identity-conflicts-row-fade-animation-artifact-inventory.md"
+    ],
+    "animation": [
+      "workflow-issue-1043-identity-conflicts-row-fade-animation-artifact-inventory.md"
+    ],
+    "Placement": [
+      "workflow-issue-1043-identity-conflicts-row-fade-animation-artifact-inventory.md"
     ],
     "Deferred": [
       "workflow-issue-106-admin-member-notes-repository-task-spec-artifact-inventory.md",

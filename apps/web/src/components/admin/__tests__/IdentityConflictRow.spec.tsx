@@ -1,7 +1,7 @@
 // serial-05-step-02: IdentityConflictRow unit tests
 // useAdminMutation hook を mock し、payload / error 保持 / a11y を focused 検証する。
 import { describe, it, expect, vi, afterEach, beforeEach } from "vitest";
-import { render, screen, fireEvent, cleanup, waitFor } from "@testing-library/react";
+import { render, screen, fireEvent, cleanup, waitFor, act } from "@testing-library/react";
 
 interface MockMutationState {
   trigger: ReturnType<typeof vi.fn>;
@@ -64,7 +64,11 @@ beforeEach(() => {
   lastOptionsByEndpoint.clear();
 });
 
-afterEach(() => cleanup());
+afterEach(() => {
+  cleanup();
+  vi.restoreAllMocks();
+  vi.useRealTimers();
+});
 
 const setMutationState = (
   endpoint: string,
@@ -77,6 +81,8 @@ const setMutationState = (
   };
   mutationByEndpoint.set(endpoint, { ...prev, ...state });
 };
+
+const getRowRoot = () => screen.getByText("conflict: c_1").closest("[data-state]");
 
 describe("IdentityConflictRow", () => {
   it("idle 段階で merge / dismiss ボタンと conflict メタを表示する", () => {
@@ -96,7 +102,7 @@ describe("IdentityConflictRow", () => {
     expect((exec as HTMLButtonElement).disabled).toBe(true);
   });
 
-  it("merge 実行直後に server 応答前でも row を optimistic に非表示にする", async () => {
+  it("merge 実行直後に server 応答前でも row を exiting 相で DOM に残す", async () => {
     const trigger = vi.fn(() => new Promise(() => {}));
     setMutationState(mergeEndpoint, { trigger });
 
@@ -114,7 +120,80 @@ describe("IdentityConflictRow", () => {
         reason: "本人確認済",
       }),
     );
+    expect(screen.getByText("conflict: c_1")).toBeTruthy();
+    expect(getRowRoot()?.getAttribute("data-state")).toBe("exiting");
+    expect(getRowRoot()?.className).toContain("opacity-0");
+  });
+
+  it("transitionend 後に row を removed 相へ移して DOM から除去する", async () => {
+    const trigger = vi.fn(() => new Promise(() => {}));
+    setMutationState(mergeEndpoint, { trigger });
+
+    render(<IdentityConflictRow item={item} />);
+    fireEvent.click(screen.getByRole("button", { name: "merge" }));
+    fireEvent.click(screen.getByRole("button", { name: "次へ" }));
+    fireEvent.change(screen.getByLabelText("merge 理由"), {
+      target: { value: "本人確認済" },
+    });
+    fireEvent.click(screen.getByRole("button", { name: "merge 実行" }));
+
+    await waitFor(() => expect(trigger).toHaveBeenCalled());
+    const rowRoot = getRowRoot();
+    expect(rowRoot).toBeTruthy();
+    fireEvent.transitionEnd(rowRoot!, { propertyName: "opacity" });
+
     await waitFor(() => expect(screen.queryByText("conflict: c_1")).toBeNull());
+  });
+
+  it("transitionend が発火しない環境でも fallback timer で DOM から除去する", async () => {
+    vi.useFakeTimers();
+    const trigger = vi.fn(() => new Promise(() => {}));
+    setMutationState(mergeEndpoint, { trigger });
+
+    render(<IdentityConflictRow item={item} />);
+    fireEvent.click(screen.getByRole("button", { name: "merge" }));
+    fireEvent.click(screen.getByRole("button", { name: "次へ" }));
+    fireEvent.change(screen.getByLabelText("merge 理由"), {
+      target: { value: "本人確認済" },
+    });
+    fireEvent.click(screen.getByRole("button", { name: "merge 実行" }));
+
+    await act(async () => {
+      await vi.runOnlyPendingTimersAsync();
+    });
+    expect(screen.queryByText("conflict: c_1")).toBeNull();
+    vi.useRealTimers();
+  });
+
+  it("prefers-reduced-motion: reduce では delay 0 の timer で DOM から除去する", async () => {
+    vi.useFakeTimers();
+    vi.spyOn(window, "matchMedia").mockReturnValue({
+      matches: true,
+      media: "(prefers-reduced-motion: reduce)",
+      onchange: null,
+      addListener: vi.fn(),
+      removeListener: vi.fn(),
+      addEventListener: vi.fn(),
+      removeEventListener: vi.fn(),
+      dispatchEvent: vi.fn(),
+    } as unknown as MediaQueryList);
+    const trigger = vi.fn(() => new Promise(() => {}));
+    setMutationState(mergeEndpoint, { trigger });
+
+    render(<IdentityConflictRow item={item} />);
+    fireEvent.click(screen.getByRole("button", { name: "merge" }));
+    fireEvent.click(screen.getByRole("button", { name: "次へ" }));
+    fireEvent.change(screen.getByLabelText("merge 理由"), {
+      target: { value: "本人確認済" },
+    });
+    fireEvent.click(screen.getByRole("button", { name: "merge 実行" }));
+
+    expect(screen.getByText("conflict: c_1")).toBeTruthy();
+    await act(async () => {
+      await vi.advanceTimersByTimeAsync(0);
+    });
+    expect(screen.queryByText("conflict: c_1")).toBeNull();
+    vi.useRealTimers();
   });
 
   it("merge 成功後も row は非表示を維持する", async () => {
@@ -140,6 +219,7 @@ describe("IdentityConflictRow", () => {
         reason: "本人確認済",
       }),
     );
+    fireEvent.transitionEnd(getRowRoot()!, { propertyName: "opacity" });
     await waitFor(() => expect(screen.queryByText("conflict: c_1")).toBeNull());
   });
 
@@ -153,6 +233,7 @@ describe("IdentityConflictRow", () => {
   });
 
   it("merge 失敗 (409) で optimistic 非表示を rollback し、reason / error が残る", async () => {
+    const clearTimeoutSpy = vi.spyOn(globalThis, "clearTimeout");
     const apiError = new FetchAuthedError(
       409,
       JSON.stringify({ message: "すでに統合済みです" }),
@@ -173,12 +254,15 @@ describe("IdentityConflictRow", () => {
 
     await waitFor(() => expect(trigger).toHaveBeenCalled());
     await waitFor(() => expect(screen.getByText("conflict: c_1")).toBeTruthy());
+    expect(getRowRoot()?.getAttribute("data-state")).toBe("idle");
     // rollback 後も modal は閉じない: 確認2 が表示され、reason textarea が残存する
     expect(screen.getByText(/確認 2\/2/)).toBeTruthy();
     expect(
       (screen.getByLabelText("merge 理由") as HTMLTextAreaElement).value,
     ).toBe("本人確認済");
     expect(screen.getByRole("alert").textContent).toContain("すでに統合済みです");
+    expect(clearTimeoutSpy).toHaveBeenCalled();
+    expect(getRowRoot()?.getAttribute("data-state")).toBe("idle");
   });
 
   it("merge 失敗 (400) でも modal は閉じず inline error 表示", async () => {

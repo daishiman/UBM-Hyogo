@@ -1,5 +1,19 @@
 # クイックリファレンス
 
+## issue-1043-identity-conflicts-row-fade-animation（2026-06-02）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/issue-1043-identity-conflicts-row-fade-animation/` |
+| status | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION` |
+| issue | #1043 CLOSED（2026-06-02 read-only 再確認。mutation は user-gated） |
+| purpose | `/admin/identity-conflicts` の merge optimistic hide を即時 `return null` から exiting fade/collapse → removed へ変更する |
+| implementation targets | `apps/web/src/components/admin/IdentityConflictRow.tsx`, `apps/web/src/components/admin/__tests__/IdentityConflictRow.spec.tsx`, `apps/web/playwright/tests/admin-identity-conflicts.spec.ts` |
+| evidence | focused Vitest 1 file / 13 tests PASS; web typecheck PASS; web lint PASS; local Playwright desktop 8/8 PASS; Phase 11 screenshots 3 PNG captured |
+| invariant | API endpoint / D1 schema / Server Component page / `useAdminMutation` / design tokens / `globals.css` / dismiss behavior unchanged |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1043-identity-conflicts-row-fade-animation-artifact-inventory.md` |
+| user gate | commit, push, PR, Issue mutation |
+
 ## issue-1024-sidebar-collapse-cookie-persistence（2026-05-31）
 
 | 項目 | 値 |
