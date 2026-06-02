@@ -57,6 +57,8 @@ export interface MeProfileResponse {
   readonly editResponseUrl: string | null;
   readonly fallbackResponderUrl: string;
   readonly pendingRequests: PendingRequests;
+  // issue-1031: self-upload した photo の presigned URL（存在時のみ）。
+  readonly photoUrl?: string;
 }
 
 // issue-372: GET /me/attendance のレスポンス mirror 型。

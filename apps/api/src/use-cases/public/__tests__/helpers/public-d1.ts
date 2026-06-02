@@ -15,6 +15,7 @@ export interface PublicD1MockOptions {
   currentResponseByMemberId?: Record<string, unknown | null>;
   tagsByMemberId?: Record<string, unknown[]>;
   attendanceByMemberId?: Record<string, unknown[]>;
+  memberPhotosById?: Record<string, unknown | null>;
   meetings?: unknown[];
   topTags?: Array<{ code: string; label: string; count: number }>;
   syncJobs?: Partial<Record<"schema_sync" | "response_sync", unknown | null>>;
@@ -113,6 +114,11 @@ class MockStmt {
       return isEligibleStatus(status) ? ({ hit: 1 } as T) : null;
     }
 
+    if (sql.includes("FROM member_photos") && sql.includes("WHERE member_id = ?1")) {
+      const key = String(this.bindings[0]);
+      return (this.options.memberPhotosById?.[key] ?? null) as T | null;
+    }
+
     if (sql.includes("COUNT(DISTINCT mi.member_id) AS cnt")) {
       return ({ cnt: this.options.publicMemberCount ?? 0 } as T);
     }
@@ -175,6 +181,24 @@ class MockStmt {
       };
     }
 
+    // issue-224: listTagsByMemberIds の batch query（member_id IN (...)）。
+    // 単一 id 分岐（mt.member_id = ?1）/ tag aggregation（GROUP BY td.code）とは
+    // `member_id IN` の有無で確実に区別される。bindings に渡った member_id のみ返すため
+    // visibility filter 外の member tag は mock レベルでも leak しない。
+    if (
+      sql.includes("FROM member_tags mt") &&
+      sql.includes("JOIN tag_definitions td") &&
+      sql.includes("member_id IN")
+    ) {
+      const byMember = this.options.tagsByMemberId ?? {};
+      const rows: unknown[] = [];
+      for (const mid of this.bindings) {
+        const key = String(mid);
+        for (const r of byMember[key] ?? []) rows.push(r);
+      }
+      return { results: rows as T[] };
+    }
+
     if (
       sql.includes("FROM member_tags mt") &&
       sql.includes("JOIN tag_definitions td") &&
@@ -186,6 +210,15 @@ class MockStmt {
 
     if (sql.includes("SELECT mi.member_id, mi.current_response_id")) {
       return { results: (this.options.publicMembers ?? []) as T[] };
+    }
+
+    if (sql.includes("FROM member_photos") && sql.includes("member_id IN")) {
+      const photos = this.options.memberPhotosById ?? {};
+      return {
+        results: this.bindings
+          .map((id) => photos[String(id)])
+          .filter((row): row is NonNullable<typeof row> => row != null) as T[],
+      };
     }
 
     if (

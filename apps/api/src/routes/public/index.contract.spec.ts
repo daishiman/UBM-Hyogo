@@ -149,6 +149,220 @@ describe("createPublicRouter", () => {
     ]);
   });
 
+  it("GET /members は写真登録済み member に presigned photoUrl を返す（issue-1029）", async () => {
+    const app = new Hono();
+    app.onError(errorHandler);
+    app.route("/public", createPublicRouter());
+    const env = buildEnv({
+      DB: createPublicD1Mock({
+        publicMembers: [
+          buildPublicMemberRow({ member_id: "m-1", current_response_id: "r-1" }),
+          buildPublicMemberRow({ member_id: "m-2", current_response_id: "r-2" }),
+        ],
+        publicMemberCount: 2,
+        responseFieldsByResponseId: {
+          "r-1": [buildResponseFieldRow({ response_id: "r-1" })],
+          "r-2": [
+            buildResponseFieldRow({
+              response_id: "r-2",
+              value_json: JSON.stringify("写真なし"),
+            }),
+          ],
+        },
+        memberPhotosById: {
+          "m-1": { member_id: "m-1", object_key: "members/m-1/avatar" },
+        },
+      }),
+      R2_ACCOUNT_ID: "account-id",
+      R2_ACCESS_KEY_ID: "access-key-id",
+      R2_SECRET_ACCESS_KEY: "secret-access-key",
+      MEMBER_PHOTOS: {} as R2Bucket,
+      ENVIRONMENT: "staging",
+    });
+    const res = await app.request("/public/members", {}, env);
+    expect(res.status).toBe(200);
+    const body = (await res.json()) as {
+      items: Array<{ memberId: string; photoUrl?: string }>;
+    };
+    const withPhoto = body.items.find((item) => item.memberId === "m-1");
+    const withoutPhoto = body.items.find((item) => item.memberId === "m-2");
+    expect(withPhoto?.photoUrl).toContain(
+      "https://account-id.r2.cloudflarestorage.com/ubm-hyogo-member-photos-staging/members/m-1/avatar",
+    );
+    expect(withoutPhoto?.photoUrl).toBeUndefined();
+  });
+
+  // TC-6 (issue-224): expand=tags で公開 member のみ tags を持ち、leak しない
+  it("GET /members?expand=tags は公開 member の tags(code/label/category) を返す", async () => {
+    const app = new Hono();
+    app.onError(errorHandler);
+    app.route("/public", createPublicRouter());
+    const env = buildEnv({
+      DB: createPublicD1Mock({
+        publicMembers: [
+          buildPublicMemberRow({ member_id: "m-1", current_response_id: "r-1" }),
+        ],
+        publicMemberCount: 1,
+        responseFieldsByResponseId: {
+          "r-1": [
+            buildResponseFieldRow({
+              stable_key: "fullName",
+              value_json: JSON.stringify("田中 太郎"),
+            }),
+          ],
+        },
+        // Phase 5 で batch 分岐が参照する fixture（member_id キー）。
+        tagsByMemberId: {
+          "m-1": [
+            {
+              member_id: "m-1",
+              tag_id: "tag-web",
+              source: "forms",
+              confidence: null,
+              assigned_at: "2024-01-01T00:00:00Z",
+              assigned_by: null,
+              code: "web",
+              label: "Web",
+              category: "skill",
+              source_stable_keys_json: "[]",
+              active: 1,
+            },
+          ],
+          // m-9 は publicMembers に含めない＝visibility filter 外。batch には渡らず leak しない。
+          "m-9": [
+            {
+              member_id: "m-9",
+              tag_id: "tag-secret",
+              code: "secret",
+              label: "秘",
+              category: "hidden",
+              source: "forms",
+              confidence: null,
+              assigned_at: "2024-01-01T00:00:00Z",
+              assigned_by: null,
+              source_stable_keys_json: "[]",
+              active: 1,
+            },
+          ],
+        },
+      }),
+    });
+    const res = await app.request("/public/members?expand=tags", {}, env);
+    expect(res.status).toBe(200);
+    const body = (await res.json()) as {
+      items: Array<{ memberId: string; tags?: Array<{ code: string }> }>;
+    };
+    expect(body.items).toHaveLength(1);
+    expect(body.items[0]?.tags).toEqual([
+      { code: "web", label: "Web", category: "skill" },
+    ]);
+    expect(JSON.stringify(body.items).includes("secret")).toBe(false); // leak しない
+  });
+
+  // TC-7 (issue-224): appliedQuery は 6 キー固定（expand を含めない）
+  it("GET /members?expand=tags でも appliedQuery は 6 キー固定（expand を出さない）", async () => {
+    const app = new Hono();
+    app.onError(errorHandler);
+    app.route("/public", createPublicRouter());
+    const env = buildEnv({
+      DB: createPublicD1Mock({
+        publicMembers: [
+          buildPublicMemberRow({ member_id: "m-1", current_response_id: "r-1" }),
+        ],
+        publicMemberCount: 1,
+        responseFieldsByResponseId: { "r-1": [buildResponseFieldRow()] },
+        tagsByMemberId: { "m-1": [] },
+      }),
+    });
+    const res = await app.request("/public/members?expand=tags&q=test", {}, env);
+    expect(res.status).toBe(200);
+    const body = (await res.json()) as { appliedQuery: Record<string, unknown> };
+    expect(Object.keys(body.appliedQuery).sort()).toEqual(
+      ["density", "q", "sort", "status", "tags", "zone"].sort(),
+    );
+    expect(body.appliedQuery).not.toHaveProperty("expand");
+  });
+
+  it("GET /members は expand 未指定なら tags key を出さない", async () => {
+    const app = new Hono();
+    app.onError(errorHandler);
+    app.route("/public", createPublicRouter());
+    const env = buildEnv({
+      DB: createPublicD1Mock({
+        publicMembers: [
+          buildPublicMemberRow({ member_id: "m-1", current_response_id: "r-1" }),
+        ],
+        publicMemberCount: 1,
+        responseFieldsByResponseId: { "r-1": [buildResponseFieldRow()] },
+        tagsByMemberId: {
+          "m-1": [
+            {
+              member_id: "m-1",
+              tag_id: "tag-web",
+              source: "forms",
+              confidence: null,
+              assigned_at: "2024-01-01T00:00:00Z",
+              assigned_by: null,
+              code: "web",
+              label: "Web",
+              category: "skill",
+              source_stable_keys_json: "[]",
+              active: 1,
+            },
+          ],
+        },
+      }),
+    });
+    const res = await app.request("/public/members", {}, env);
+    expect(res.status).toBe(200);
+    const body = (await res.json()) as { items: Array<Record<string, unknown>> };
+    expect(body.items[0]).not.toHaveProperty("tags");
+  });
+
+  it("GET /members normalizes comma and repeated expand values at the route boundary", async () => {
+    const app = new Hono();
+    app.onError(errorHandler);
+    app.route("/public", createPublicRouter());
+    const env = buildEnv({
+      DB: createPublicD1Mock({
+        publicMembers: [
+          buildPublicMemberRow({ member_id: "m-1", current_response_id: "r-1" }),
+        ],
+        publicMemberCount: 1,
+        responseFieldsByResponseId: { "r-1": [buildResponseFieldRow()] },
+        tagsByMemberId: {
+          "m-1": [
+            {
+              member_id: "m-1",
+              tag_id: "tag-web",
+              source: "forms",
+              confidence: null,
+              assigned_at: "2024-01-01T00:00:00Z",
+              assigned_by: null,
+              code: "web",
+              label: "Web",
+              category: "skill",
+              source_stable_keys_json: "[]",
+              active: 1,
+            },
+          ],
+        },
+      }),
+    });
+    const res = await app.request(
+      "/public/members?expand=tags,unknown&expand=tags",
+      {},
+      env,
+    );
+    expect(res.status).toBe(200);
+    const body = (await res.json()) as {
+      items: Array<{ tags?: Array<{ code: string; label: string; category: string }> }>;
+    };
+    expect(body.items[0]?.tags).toEqual([
+      { code: "web", label: "Web", category: "skill" },
+    ]);
+  });
+
   it("GET /members/:memberId は不適格なら 404 (UBM-1404)", async () => {
     const app = new Hono();
     app.onError(errorHandler);
@@ -193,6 +407,77 @@ describe("createPublicRouter", () => {
       memberId: "m-1",
       attendance: [{ sessionId: "s-1", title: "定例会 1", heldOn: "2026-03-15" }],
     });
+  });
+
+  it("GET /members/:memberId は写真登録済み member に presigned photoUrl を返す（issue-1029）", async () => {
+    const app = new Hono();
+    app.onError(errorHandler);
+    app.route("/public", createPublicRouter());
+    const env = buildEnv({
+      DB: createPublicD1Mock({
+        memberStatusById: { "m-1": buildMemberStatusRow({ member_id: "m-1" }) },
+        currentResponseByMemberId: { "m-1": buildMemberResponseRow() },
+        responseFieldsByResponseId: {
+          "r-1": [buildResponseFieldRow()],
+        },
+        schemaFields: [buildSchemaQuestionRow()],
+        tagsByMemberId: { "m-1": [] },
+        memberPhotosById: {
+          "m-1": {
+            member_id: "m-1",
+            object_key: "members/m-1/avatar",
+            content_type: "image/png",
+            byte_size: 1234,
+            uploaded_by: "admin-1",
+            uploaded_at: "2026-05-31T00:00:00.000Z",
+          },
+        },
+      }),
+      R2_ACCOUNT_ID: "account-id",
+      R2_ACCESS_KEY_ID: "access-key-id",
+      R2_SECRET_ACCESS_KEY: "secret-access-key",
+      MEMBER_PHOTOS: {} as R2Bucket,
+      ENVIRONMENT: "staging",
+    });
+    const res = await app.request("/public/members/m-1", {}, env);
+    expect(res.status).toBe(200);
+    const body = (await res.json()) as { photoUrl?: string };
+    expect(body.photoUrl).toContain(
+      "https://account-id.r2.cloudflarestorage.com/ubm-hyogo-member-photos-staging/members/m-1/avatar",
+    );
+  });
+
+  it("GET /members/:memberId は公開 gate 不通過なら写真行があっても 404（issue-1029）", async () => {
+    const app = new Hono();
+    app.onError(errorHandler);
+    app.route("/public", createPublicRouter());
+    const env = buildEnv({
+      DB: createPublicD1Mock({
+        memberStatusById: {
+          "m-2": buildMemberStatusRow({
+            member_id: "m-2",
+            publish_state: "member_only",
+          }),
+        },
+        memberPhotosById: {
+          "m-2": {
+            member_id: "m-2",
+            object_key: "members/m-2/avatar",
+            content_type: "image/png",
+            byte_size: 1234,
+            uploaded_by: "admin-1",
+            uploaded_at: "2026-05-31T00:00:00.000Z",
+          },
+        },
+      }),
+      R2_ACCOUNT_ID: "account-id",
+      R2_ACCESS_KEY_ID: "access-key-id",
+      R2_SECRET_ACCESS_KEY: "secret-access-key",
+      MEMBER_PHOTOS: {} as R2Bucket,
+      ENVIRONMENT: "staging",
+    });
+    const res = await app.request("/public/members/m-2", {}, env);
+    expect(res.status).toBe(404);
   });
 
   // TC-RED-03 / TC-REG-01: schema_versions 欠落で use-case が UBM-5500 を throw すると

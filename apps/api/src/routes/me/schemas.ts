@@ -73,10 +73,16 @@ export const MeProfileResponseZ = z
     editResponseUrl: z.string().url().nullable(),
     fallbackResponderUrl: z.string().url(),
     pendingRequests: PendingRequestsZ,
+    // issue-1031: 本人 photo の presigned GET URL（presign 成功時のみ fail-soft で同梱）。
+    photoUrl: z.string().url().optional(),
   })
   .strict();
 
 export type MeProfileResponse = z.infer<typeof MeProfileResponseZ>;
+
+// issue-1031: POST /me/photo の成功レスポンス。
+export const MePhotoUploadAcceptedZ = z.object({ ok: z.literal(true) }).strict();
+export type MePhotoUploadAccepted = z.infer<typeof MePhotoUploadAcceptedZ>;
 
 // POST /me/visibility-request
 export const MeVisibilityRequestBodyZ = z

@@ -3,8 +3,9 @@
 // 不変条件 #2 / #3 / #11 を view converter で fail close。
 
 import type { DbCtx } from "../../repository/_shared/db";
-import { STABLE_KEY } from "@ubm-hyogo/shared";
+import { STABLE_KEY, asMemberId } from "@ubm-hyogo/shared";
 import { listFieldsByResponseId } from "../../repository/responseFields";
+import { listTagsByMemberIds } from "../../repository/memberTags";
 import {
   aggregateTopTags,
   countPublicMembers,
@@ -20,6 +21,9 @@ import {
 
 export interface ListPublicMembersDeps {
   ctx: DbCtx;
+  // issue-1029: 公開 gate 通過 member の memberId 群から presigned photoUrl を解決する optional resolver。
+  // route 層が R2 presign batch を構築して DI する。未注入時は photoUrl を付けない（後方互換 / fail-soft）。
+  resolvePhotoUrls?: (memberIds: string[]) => Promise<Map<string, string>>;
 }
 
 const SUMMARY_KEYS = [
@@ -72,6 +76,32 @@ export const listPublicMembersUseCase = async (
     aggregateTopTags(ctx),
   ]);
 
+  // issue-1029: 抽出済み memberId 群で photoUrl を 1 回だけ batch 解決する（N+1 防止）。
+  // resolver 未注入時は空 Map のため全 item photoUrl undefined（後方互換 / fail-soft）。
+  const memberIds = memberRows.map((m) => m.member_id);
+  const photoMap = deps.resolvePhotoUrls
+    ? await deps.resolvePhotoUrls(memberIds)
+    : new Map<string, string>();
+
+  // issue-224: expand=tags のときだけ tags を `member_id IN (...)` の 1 batch query で取得し、
+  // member_id でキー化した Map に groupBy する（N+1 防止）。
+  const wantTags = query.expand.includes("tags");
+  let tagsByMember:
+    | Map<string, { code: string; label: string; category: string }[]>
+    | undefined;
+  if (wantTags && memberRows.length > 0) {
+    const tagMemberIds = memberRows.map((m) => asMemberId(m.member_id));
+    const tagRows = await listTagsByMemberIds(ctx, tagMemberIds); // 1 query・フラット配列
+    tagsByMember = new Map();
+    for (const r of tagRows) {
+      const arr = tagsByMember.get(r.member_id) ?? [];
+      // 公開レスポンスは code/label/category のみ（confidence/source 等は載せない）。
+      arr.push({ code: r.code, label: r.label, category: r.category });
+      tagsByMember.set(r.member_id, arr);
+    }
+  }
+
+
   // 各 member の summary 用 field を 1 query / member で取得。
   // batch 化は MVP 数百規模で許容範囲（R-2: N+1 リスクは limit 100 で頭打ち）。
   const items: PublicMemberListItemSource[] = [];
@@ -96,6 +126,9 @@ export const listPublicMembersUseCase = async (
       ubmMembershipType: parseJsonNullable(
         byKey.get(STABLE_KEY.ubmMembershipType) ?? null,
       ),
+      photoUrl: photoMap.get(m.member_id),
+      // wantTags のときだけ tags を付与（未登録 member は空配列）。
+      ...(wantTags ? { tags: tagsByMember?.get(m.member_id) ?? [] } : {}),
     });
   }
 

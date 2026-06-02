@@ -39,6 +39,14 @@ pre-commit:
       fail_text: |
         direct schema_questions.stable_key mutation is forbidden.
         Use schema_aliases / POST /admin/schema/aliases instead.
+    lefthook-edit-guard:
+      run: bash scripts/hooks/lefthook-edit-guard.sh
+      stage_fixed: false
+      fail_text: |
+        🚫 lefthook.yml の直編集 / 手書き .git/hooks を検知しました（issue-230）。
+        lefthook.yml を意図的に編集する場合: LEFTHOOK_EDIT_ACK=1 git commit ...
+        方針: CLAUDE.md「Git hook の方針」
+        詳細: docs/00-getting-started-manual/lefthook-operations.md
 
 post-merge:
   parallel: false
