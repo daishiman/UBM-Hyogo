@@ -3222,6 +3222,7 @@
       "security-implementation.md",
       "workflow-03a-stablekey-literal-lint-enforcement-artifact-inventory.md",
       "workflow-issue-1029-public-member-photo-display-artifact-inventory.md",
+      "workflow-issue-1031-member-self-photo-upload-artifact-inventory.md",
       "workflow-issue-393-stablekey-literal-legacy-cleanup-artifact-inventory.md",
       "workflow-issue-560-next-standalone-instrumentation-patch-artifact-inventory.md",
       "workflow-issue-626-rb01-share-build-output-lighthouse-pr-build-artifact-inventory.md",
@@ -3334,7 +3335,9 @@
       "workflow-issue-1010-auth-view-session-contract-integration-test-artifact-inventory.md",
       "workflow-issue-1016-sidebar-mobile-drawer-responsive-artifact-inventory.md",
       "workflow-issue-1024-sidebar-collapse-cookie-persistence-artifact-inventory.md",
+      "workflow-issue-1031-member-self-photo-upload-artifact-inventory.md",
       "workflow-issue-1035-tag-master-write-endpoints-artifact-inventory.md",
+      "workflow-issue-1042-dismiss-confirm-optimistic-update-artifact-inventory.md",
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
       "workflow-issue-229-indexes-rebuild-fail-fast-artifact-inventory.md",
       "workflow-issue-230-lefthook-edit-guard-artifact-inventory.md",
@@ -4859,6 +4862,7 @@
       "workflow-issue-1006-members-selected-filters-chip-ux-hardening-artifact-inventory.md",
       "workflow-issue-1027-member-dynamic-og-worker-split-artifact-inventory.md",
       "workflow-issue-1029-public-member-photo-display-artifact-inventory.md",
+      "workflow-issue-1031-member-self-photo-upload-artifact-inventory.md",
       "workflow-issue-230-lefthook-edit-guard-artifact-inventory.md",
       "workflow-issue-247-apps-web-opennext-config-regression-tests-artifact-inventory.md",
       "workflow-issue-256-e2e-coverage-baseline-runbook-artifact-inventory.md",
@@ -5227,7 +5231,9 @@
       "workflow-issue-1016-sidebar-mobile-drawer-responsive-artifact-inventory.md",
       "workflow-issue-1024-sidebar-collapse-cookie-persistence-artifact-inventory.md",
       "workflow-issue-1027-member-dynamic-og-worker-split-artifact-inventory.md",
+      "workflow-issue-1031-member-self-photo-upload-artifact-inventory.md",
       "workflow-issue-1035-tag-master-write-endpoints-artifact-inventory.md",
+      "workflow-issue-1042-dismiss-confirm-optimistic-update-artifact-inventory.md",
       "workflow-issue-224-public-members-tags-batch-fetch-artifact-inventory.md",
       "workflow-issue-229-indexes-rebuild-fail-fast-artifact-inventory.md",
       "workflow-issue-230-lefthook-edit-guard-artifact-inventory.md",
@@ -6956,6 +6962,7 @@
       "claude-code-skills-process.md",
       "lessons-learned-issue-191-schema-aliases-2026-04.md",
       "lessons-learned-ut-gov-004-branch-protection-context-sync.md",
+      "workflow-issue-1042-dismiss-confirm-optimistic-update-artifact-inventory.md",
       "workflow-issue-988-identity-conflicts-merge-optimistic-update-artifact-inventory.md",
       "workflow-ut-gov-004-artifact-inventory.md"
     ],
@@ -7312,6 +7319,7 @@
       "workflow-issue-1027-member-dynamic-og-worker-split-artifact-inventory.md",
       "workflow-issue-1029-public-member-photo-display-artifact-inventory.md",
       "workflow-issue-1035-tag-master-write-endpoints-artifact-inventory.md",
+      "workflow-issue-1042-dismiss-confirm-optimistic-update-artifact-inventory.md",
       "workflow-issue-106-admin-member-notes-repository-task-spec-artifact-inventory.md",
       "workflow-issue-229-indexes-rebuild-fail-fast-artifact-inventory.md",
       "workflow-issue-230-lefthook-edit-guard-artifact-inventory.md",
@@ -7436,6 +7444,7 @@
       "workflow-admin-member-delete-e2e-spec-artifact-inventory.md",
       "workflow-issue-1027-member-dynamic-og-worker-split-artifact-inventory.md",
       "workflow-issue-1029-public-member-photo-display-artifact-inventory.md",
+      "workflow-issue-1031-member-self-photo-upload-artifact-inventory.md",
       "workflow-issue-106-admin-member-notes-repository-task-spec-artifact-inventory.md",
       "workflow-issue-806-dynamic-member-og-image-artifact-inventory.md",
       "workflow-issue-827-member-detail-adapter-and-visibility-defense-artifact-inventory.md",
@@ -7452,7 +7461,8 @@
     "self": [
       "database-admin-repository-boundary.md",
       "lessons-learned-task-24.md",
-      "lessons-learned-ut-07c-followup-001-attendance-csv-import-2026-05.md"
+      "lessons-learned-ut-07c-followup-001-attendance-csv-import-2026-05.md",
+      "workflow-issue-1031-member-self-photo-upload-artifact-inventory.md"
     ],
     "queue": [
       "database-admin-repository-boundary.md",
@@ -8012,7 +8022,9 @@
       "workflow-issue-1024-sidebar-collapse-cookie-persistence-artifact-inventory.md",
       "workflow-issue-1027-member-dynamic-og-worker-split-artifact-inventory.md",
       "workflow-issue-1029-public-member-photo-display-artifact-inventory.md",
+      "workflow-issue-1031-member-self-photo-upload-artifact-inventory.md",
       "workflow-issue-1035-tag-master-write-endpoints-artifact-inventory.md",
+      "workflow-issue-1042-dismiss-confirm-optimistic-update-artifact-inventory.md",
       "workflow-issue-106-admin-member-notes-repository-task-spec-artifact-inventory.md",
       "workflow-issue-191-schema-aliases-artifact-inventory.md",
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
@@ -9967,6 +9979,7 @@
       "workflow-e2e-quality-uplift-stage-0-3-artifact-inventory.md",
       "workflow-i01-toastprovider-root-mount-artifact-inventory.md",
       "workflow-i02-admin-error-type-unify-artifact-inventory.md",
+      "workflow-issue-1042-dismiss-confirm-optimistic-update-artifact-inventory.md",
       "workflow-issue-191-schema-aliases-artifact-inventory.md",
       "workflow-issue-229-indexes-rebuild-fail-fast-artifact-inventory.md",
       "workflow-issue-276-mobile-filterbar-tag-picker-artifact-inventory.md",
@@ -11414,6 +11427,7 @@
       "workflow-issue-1016-sidebar-mobile-drawer-responsive-artifact-inventory.md",
       "workflow-issue-1024-sidebar-collapse-cookie-persistence-artifact-inventory.md",
       "workflow-issue-1027-member-dynamic-og-worker-split-artifact-inventory.md",
+      "workflow-issue-1042-dismiss-confirm-optimistic-update-artifact-inventory.md",
       "workflow-issue-235-sync-audit-tables-necessity-judgement-artifact-inventory.md",
       "workflow-issue-256-e2e-coverage-baseline-runbook-artifact-inventory.md",
       "workflow-issue-264-cron-schedule-free-tier-guard-artifact-inventory.md",
@@ -13311,6 +13325,7 @@
       "ui-ux-prototype-map.md",
       "workflow-07c-followup-002-attendance-visual-smoke-artifact-inventory.md",
       "workflow-issue-1016-sidebar-mobile-drawer-responsive-artifact-inventory.md",
+      "workflow-issue-1042-dismiss-confirm-optimistic-update-artifact-inventory.md",
       "workflow-issue-554-audit-correlation-branch-protection-required-check-artifact-inventory.md",
       "workflow-issue-603-phase12-compliance-check-ci-gate-artifact-inventory.md",
       "workflow-issue-730-phase11-evidence-existence-validator-artifact-inventory.md",
@@ -17876,7 +17891,9 @@
       "workflow-issue-1024-sidebar-collapse-cookie-persistence-artifact-inventory.md",
       "workflow-issue-1027-member-dynamic-og-worker-split-artifact-inventory.md",
       "workflow-issue-1029-public-member-photo-display-artifact-inventory.md",
+      "workflow-issue-1031-member-self-photo-upload-artifact-inventory.md",
       "workflow-issue-1035-tag-master-write-endpoints-artifact-inventory.md",
+      "workflow-issue-1042-dismiss-confirm-optimistic-update-artifact-inventory.md",
       "workflow-issue-106-admin-member-notes-repository-task-spec-artifact-inventory.md",
       "workflow-issue-191-schema-aliases-artifact-inventory.md",
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
@@ -20353,7 +20370,8 @@
       "lessons-learned-ut-07c-followup-001-attendance-csv-import-2026-05.md"
     ],
     "confirm": [
-      "lessons-learned-ut-07c-followup-001-attendance-csv-import-2026-05.md"
+      "lessons-learned-ut-07c-followup-001-attendance-csv-import-2026-05.md",
+      "workflow-issue-1042-dismiss-confirm-optimistic-update-artifact-inventory.md"
     ],
     "有効化条件は": [
       "lessons-learned-ut-07c-followup-001-attendance-csv-import-2026-05.md"
@@ -21009,6 +21027,7 @@
     ],
     "Verification": [
       "lessons-learned-ut07b-fu04-production-migration-already-applied-verification-2026-05.md",
+      "workflow-issue-1031-member-self-photo-upload-artifact-inventory.md",
       "workflow-issue-255-coverage-threshold-sync-lint-artifact-inventory.md",
       "workflow-issue-532-write-tag-note-provider-ctx-injection-artifact-inventory.md",
       "workflow-task-07c-followup-003-audit-log-browsing-ui-artifact-inventory.md",
@@ -24007,6 +24026,7 @@
       "workflow-admin-identity-conflicts-prototype-alignment-and-404-fix-artifact-inventory.md",
       "workflow-admin-layout-sidebar-shell-migration-artifact-inventory.md",
       "workflow-admin-ui-prototype-alignment-followup-001-members-fetch-and-visual-artifact-inventory.md",
+      "workflow-issue-1031-member-self-photo-upload-artifact-inventory.md",
       "workflow-issue-191-schema-aliases-artifact-inventory.md",
       "workflow-issue-256-e2e-coverage-baseline-runbook-artifact-inventory.md",
       "workflow-issue-276-mobile-filterbar-tag-picker-artifact-inventory.md",
@@ -25944,7 +25964,9 @@
       "workflow-issue-1024-sidebar-collapse-cookie-persistence-artifact-inventory.md",
       "workflow-issue-1027-member-dynamic-og-worker-split-artifact-inventory.md",
       "workflow-issue-1029-public-member-photo-display-artifact-inventory.md",
+      "workflow-issue-1031-member-self-photo-upload-artifact-inventory.md",
       "workflow-issue-1035-tag-master-write-endpoints-artifact-inventory.md",
+      "workflow-issue-1042-dismiss-confirm-optimistic-update-artifact-inventory.md",
       "workflow-issue-106-admin-member-notes-repository-task-spec-artifact-inventory.md",
       "workflow-issue-191-schema-aliases-artifact-inventory.md",
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
@@ -26163,6 +26185,7 @@
       "workflow-issue-1016-sidebar-mobile-drawer-responsive-artifact-inventory.md",
       "workflow-issue-1027-member-dynamic-og-worker-split-artifact-inventory.md",
       "workflow-issue-1035-tag-master-write-endpoints-artifact-inventory.md",
+      "workflow-issue-1042-dismiss-confirm-optimistic-update-artifact-inventory.md",
       "workflow-issue-229-indexes-rebuild-fail-fast-artifact-inventory.md",
       "workflow-issue-247-apps-web-opennext-config-regression-tests-artifact-inventory.md",
       "workflow-issue-256-e2e-coverage-baseline-runbook-artifact-inventory.md",
@@ -26252,6 +26275,7 @@
       "workflow-admin-meetings-prototype-alignment-artifact-inventory.md",
       "workflow-admin-schema-page-prototype-alignment-and-diff-fetch-fix-artifact-inventory.md",
       "workflow-e2e-stage-2-2d-contract-artifact-inventory.md",
+      "workflow-issue-1042-dismiss-confirm-optimistic-update-artifact-inventory.md",
       "workflow-issue-106-admin-member-notes-repository-task-spec-artifact-inventory.md",
       "workflow-issue-229-indexes-rebuild-fail-fast-artifact-inventory.md",
       "workflow-issue-235-sync-audit-tables-necessity-judgement-artifact-inventory.md",
@@ -26384,6 +26408,7 @@
       "workflow-admin-identity-conflicts-prototype-alignment-and-404-fix-artifact-inventory.md",
       "workflow-admin-requests-prototype-alignment-and-404-fix-artifact-inventory.md",
       "workflow-issue-1005-members-ux-playwright-baseline-stabilization-artifact-inventory.md",
+      "workflow-issue-1031-member-self-photo-upload-artifact-inventory.md",
       "workflow-issue-555-audit-correlation-salt-rotation-artifact-inventory.md",
       "workflow-issue-908-staging-rollback-notification-runtime-smoke-artifact-inventory.md",
       "workflow-issue-958-h3-public-filter-ux-artifact-inventory.md",
@@ -26428,6 +26453,7 @@
       "workflow-admin-requests-prototype-alignment-and-404-fix-artifact-inventory.md",
       "workflow-admin-ui-prototype-alignment-followup-001-members-fetch-and-visual-artifact-inventory.md",
       "workflow-issue-1029-public-member-photo-display-artifact-inventory.md",
+      "workflow-issue-1031-member-self-photo-upload-artifact-inventory.md",
       "workflow-issue-230-lefthook-edit-guard-artifact-inventory.md",
       "workflow-issue-503-ut-07b-fu-01-followup-cursor-semantics-migration-artifact-inventory.md",
       "workflow-issue-560-next-standalone-instrumentation-patch-artifact-inventory.md",
@@ -26442,6 +26468,8 @@
       "workflow-issue-1016-sidebar-mobile-drawer-responsive-artifact-inventory.md",
       "workflow-issue-1027-member-dynamic-og-worker-split-artifact-inventory.md",
       "workflow-issue-1029-public-member-photo-display-artifact-inventory.md",
+      "workflow-issue-1031-member-self-photo-upload-artifact-inventory.md",
+      "workflow-issue-1042-dismiss-confirm-optimistic-update-artifact-inventory.md",
       "workflow-issue-229-indexes-rebuild-fail-fast-artifact-inventory.md",
       "workflow-issue-256-e2e-coverage-baseline-runbook-artifact-inventory.md",
       "workflow-issue-274-public-pages-ogp-sitemap-robots-artifact-inventory.md",
@@ -26883,7 +26911,11 @@
     ],
     "photo": [
       "workflow-issue-1029-public-member-photo-display-artifact-inventory.md",
+      "workflow-issue-1031-member-self-photo-upload-artifact-inventory.md",
       "workflow-issue-983-member-photo-avatar-r2-storage-artifact-inventory.md"
+    ],
+    "upload": [
+      "workflow-issue-1031-member-self-photo-upload-artifact-inventory.md"
     ],
     "master": [
       "workflow-issue-1035-tag-master-write-endpoints-artifact-inventory.md"
@@ -26892,6 +26924,13 @@
       "workflow-issue-1035-tag-master-write-endpoints-artifact-inventory.md",
       "workflow-parallel-09-ux-cross-cutting-artifact-inventory.md",
       "workflow-ut-17-cloudflare-analytics-alerts-artifact-inventory.md"
+    ],
+    "dismiss": [
+      "workflow-issue-1042-dismiss-confirm-optimistic-update-artifact-inventory.md"
+    ],
+    "optimistic": [
+      "workflow-issue-1042-dismiss-confirm-optimistic-update-artifact-inventory.md",
+      "workflow-issue-988-identity-conflicts-merge-optimistic-update-artifact-inventory.md"
     ],
     "Deferred": [
       "workflow-issue-106-admin-member-notes-repository-task-spec-artifact-inventory.md",
@@ -27314,9 +27353,6 @@
     ],
     "avatar": [
       "workflow-issue-983-member-photo-avatar-r2-storage-artifact-inventory.md"
-    ],
-    "optimistic": [
-      "workflow-issue-988-identity-conflicts-merge-optimistic-update-artifact-inventory.md"
     ],
     "typed": [
       "workflow-issue-991-admin-fetch-error-typed-class-artifact-inventory.md"

@@ -8,6 +8,10 @@
 
 `docs/30-workflows/completed-tasks/issue-1035-tag-master-write-endpoints/` の automation-30 改善で、`taskType=implementation` かつ実装対象が明確な workflow を spec-only に下げず、同一サイクルで `apps/api` 実装、focused D1 Vitest 4 files / 32 tests PASS、API typecheck PASS、repo lint PASS、正本 API spec 同期、aiworkflow same-wave sync まで完了して `implemented_local_evidence_captured` へ再分類した。read-only repository へ write を追加する場合の不変条件再定義、readonly type-d gate 事前確認、prefix route regression を SP-I1035 として汎化した。
 
+## 2026-06-01 - issue-1042 identity conflicts dismiss optimistic update automation-30 close-out
+
+`docs/30-workflows/completed-tasks/issue-1042-dismiss-confirm-optimistic-update/` の automation-30 改善で、implementation target が明確な `spec_created` workflow を docs-only close-out せず、同一サイクルで `IdentityConflictRow.tsx` の dismiss optimistic hide / rollback、focused Vitest、Playwright focused、Phase 11 screenshot 2 PNG、Phase 11 canonical manifest、Phase 12 strict 7、aiworkflow same-wave sync まで完了して `implemented_local_evidence_captured` へ再分類した。#988 merge optimistic の L-OPTMUT 系で吸収できるため task-specification-creator 本体 rule 追加は no-op。dual-mirror（複数 optimistic boolean の OR 合流）/ rollback reason retention 非対称 reset / cross-mirror 非干渉 test / screenshot 名前空間分離の #1042 固有知見は aiworkflow-requirements の `lessons-learned-issue-1042-dismiss-optimistic-2026-06.md`（L-I1042-001..004）へ same-wave sync した。commit / push / PR / Issue close のみ user-gated として分離した。
+
 ## 2026-06-01 - issue-1027 dynamic OG Worker split skill feedback
 
 `docs/30-workflows/completed-tasks/issue-1027-member-dynamic-og-worker-split/` の Phase 12 feedback を反映した。Paid plan vs dedicated Worker split のような cost/runtime topology 分岐は Phase 1 で user decision を固定してから Phase 2 へ進む。Worker 分離は新 Worker の build/deploy/size gate まで含めて implementation target とし、main `apps/web` の `next/og` 禁止 guard、`OG_IMAGE_BASE_URL` accessor discipline、fallback PNG evidence を Phase 11/12 の確認点へ昇格した。

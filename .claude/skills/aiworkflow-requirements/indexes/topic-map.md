@@ -877,10 +877,10 @@ node scripts/list-specs.js --topics
 | エンドポイント命名規則 | L249 |
 | UBM-Hyogo Admin Sync API（03a） | L270 |
 | UBM-Hyogo Member Self-Service API（04b） | L322 |
-| Admin Dashboard Attendance Analytics API（UT-02A follow-up 002） | L348 |
-| Desktop IPC API サマリー | L362 |
-| 変更履歴 | L393 |
-| 関連ドキュメント | L410 |
+| Admin Dashboard Attendance Analytics API（UT-02A follow-up 002） | L350 |
+| Desktop IPC API サマリー | L364 |
+| 変更履歴 | L395 |
+| 関連ドキュメント | L412 |
 
 ### references/api-internal-chunk-search.md
 
@@ -2587,6 +2587,16 @@ node scripts/list-specs.js --topics
 | Evidence | L28 |
 | Boundary | L48 |
 
+### references/workflow-issue-1031-member-self-photo-upload-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Canonical | L3 |
+| State | L12 |
+| Implemented Local Targets | L16 |
+| Verification Boundary | L29 |
+| Lessons | L33 |
+
 ### references/workflow-issue-1035-tag-master-write-endpoints-artifact-inventory.md
 
 | セクション | 行 |
@@ -2597,6 +2607,17 @@ node scripts/list-specs.js --topics
 | Evidence | L26 |
 | User-Gated | L32 |
 | Lessons | L36 |
+
+### references/workflow-issue-1042-dismiss-confirm-optimistic-update-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Metadata | L3 |
+| Workflow Artifacts | L12 |
+| Implementation Targets | L23 |
+| Evidence | L31 |
+| Boundaries | L42 |
+| Lessons Learned | L48 |
 
 ### references/workflow-issue-106-admin-member-notes-repository-task-spec-artifact-inventory.md
 
@@ -8418,15 +8439,15 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L3442 |
-| フェーズ構造（概要） | L3451 |
-| 品質ゲート（概要） | L3482 |
-| 出力テンプレート | L3493 |
-| 実行時のコマンド・エージェント・スキル | L3516 |
-| 昇格パターン集 | L3540 |
-| Current Active / Spec Created Tasks | L3542 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L3708 |
-| issue-998-members-publish-state-production-rollout | L3786 |
+| ドキュメント構成 | L3472 |
+| フェーズ構造（概要） | L3481 |
+| 品質ゲート（概要） | L3512 |
+| 出力テンプレート | L3523 |
+| 実行時のコマンド・エージェント・スキル | L3546 |
+| 昇格パターン集 | L3570 |
+| Current Active / Spec Created Tasks | L3572 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L3738 |
+| issue-998-members-publish-state-production-rollout | L3816 |
 
 ### references/task-workflow-backlog-part2.md
 

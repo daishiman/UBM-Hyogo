@@ -24,6 +24,36 @@
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1035-tag-master-write-endpoints-artifact-inventory.md` |
 | user gate | staging runtime smoke、commit、push、PR |
 
+### issue-1042-dismiss-confirm-optimistic-update（2026-06-01）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION` |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-1042-dismiss-confirm-optimistic-update/` |
+| Issue | #1042 OPEN。close / state mutation は user-gated |
+| 目的 | `/admin/identity-conflicts` の dismiss confirm 後、server round-trip を待たず該当 row を optimistic に非表示化し、server error 時のみ rollback で復元 + inline error + reason retention する |
+| implementation targets | `apps/web/src/components/admin/IdentityConflictRow.tsx`, `apps/web/src/components/admin/__tests__/IdentityConflictRow.spec.tsx`, `apps/web/playwright/tests/admin-identity-conflicts.spec.ts` |
+| invariant | API endpoint / D1 schema / Server Component page / `useAdminMutation` hook / merge behavior は変更なし |
+| evidence | focused Vitest 1 file / 14 tests PASS; Playwright desktop focused 2 tests PASS; screenshot 2 PNG captured; Phase 11 canonical paths present |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1042-dismiss-confirm-optimistic-update-artifact-inventory.md` |
+| lessons-learned | `.claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-issue-1042-dismiss-optimistic-2026-06.md`（L-I1042-001..004: dual-mirror `\|\|` guard / rollback reason retention 非対称 reset / cross-mirror 非干渉 test / screenshot 名前空間分離。#988 L-I988-001..006 継承） |
+| user gate | commit, push, PR, Issue #1042 close |
+
+### issue-1031-member-self-photo-upload（2026-06-01）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_runtime_pending / implementation / VISUAL` |
+| 成果物 | `docs/30-workflows/issue-1031-member-self-photo-upload/` |
+| Issue | #1031 CLOSED（2026-06-01 実確認）。Issue mutation は行わない |
+| 親 workflow | `docs/30-workflows/issue-983-member-photo-avatar-r2-storage/` |
+| 目的 | member 本人が `/profile` から自分の avatar を upload/delete できる self-service 経路を、#983 の R2/D1 photo 基盤に追加する |
+| implemented targets | `apps/api/migrations/0023_member_photos_source.sql`, `apps/api/src/repository/memberPhotos.ts`, `apps/api/src/routes/admin/members.ts`, `apps/api/src/routes/me/index.ts`, `apps/api/src/routes/me/schemas.ts`, `apps/web/app/api/me/photo/route.ts`, `apps/web/src/lib/api/me-photo-client.ts`, `apps/web/app/(member)/profile/_components/PhotoUpload.client.tsx`, `apps/web/app/(member)/profile/page.tsx`, `apps/web/src/lib/api/me-types.ts` |
+| invariant | `/me/photo` は path に `memberId` を出さず session member のみ mutate。D1/R2 は API Worker に閉じ、web は proxy のみ。object key は `members/{memberId}/avatar` single slot last-write-wins |
+| Phase 12 | strict 7 outputs present; root/output artifacts parity present; 30-method compact evidence present |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1031-member-self-photo-upload-artifact-inventory.md` |
+| user gate | remote D1 migration apply, staging deploy, authenticated visual evidence, commit, push, PR |
+
 ### issue-1029-public-member-photo-display（2026-05-31）
 
 | 項目 | 値 |
@@ -3355,7 +3385,7 @@
 | 成果物 | `docs/30-workflows/completed-tasks/task-03b-followup-006-per-sync-cap-alert/` |
 | 目的 | `sync_jobs.metrics_json.writeCapHit?: boolean` を追加し、直近 3 件の response sync が cap hit へ未達から達成へ遷移した時だけ Analytics Engine dataset `sync_alerts` へ `sync_write_cap_consecutive_hit` を emit する |
 | alert 契約 | absent / NULL は false 解釈。event payload は `blobs=["sync_write_cap_consecutive_hit", "response_sync"]`, `doubles=[consecutiveHits, windowSize]`, `indexes=[jobId]`。detector は `ORDER BY started_at DESC, job_id DESC LIMIT 4` で current / previous window を比較し、failed / skipped row を streak reset として扱って重複 emit を抑制 |
-| 境界 | cap 値変更、cron 間隔変更、GitHub / Slack / mail 通知チャネル本体構築、Cloudflare deploy、commit / push / PR は user 明示指示まで実行しない。Issue #199 は OPEN 維持し PR / commit は `Refs #199` のみ |
+| 境界 | cap 値変更、cron 間隔変更、GitHub / Slack / mail 通知チャネル本体構築、Cloudflare deploy、commit / push / PR は user 明示指示まで実行しない。Issue #199 は CLOSED 実状態・mutation なしし PR / commit は `Refs #199` のみ |
 
 
 ### 04b Follow-up 004 Admin Queue Resolve Workflow（2026-05-01）
