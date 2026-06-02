@@ -8,6 +8,33 @@
 
 本ドキュメントは、複雑なタスクを単一責務の原則に基づいて分解し、各サブタスクに最適なスラッシュコマンド・エージェント・スキルの組み合わせを選定するためのガイドラインを定義する。
 
+### task-d-admin-google-form-responses-link（2026-06-01）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / VISUAL` |
+| 成果物 | `docs/30-workflows/completed-tasks/task-d-admin-google-form-responses-link/` |
+| 親 | `member-publish-recovery-form-ops-and-admin-link`（PR #1064 / commit `745c95115` landed） |
+| 目的 | admin sidebar nav に Google Form 回答編集画面を別タブで開く外部リンク「Form回答」を追加した実装の正本検証 |
+| implementation targets | `apps/web/src/lib/constants/form.ts`, `apps/web/src/components/shell/{shell-config,icons,SidebarNavItem}.tsx` |
+| contract | `FORM_RESPONSES_EDIT_URL` 定数、`ShellNavItem.external?`、`target="_blank" rel="noopener noreferrer"`、`↗` + sr-only、active 非付与 |
+| evidence boundary | local focused tests present; staging admin screenshot / external tab observation pending user-gated |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-task-d-admin-google-form-responses-link-artifact-inventory.md` |
+| user gate | staging screenshot, external tab observation, commit, push, PR |
+
+### task-c-reflection-timing-visibility-and-sla-doc（2026-06-01）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `spec_created / implementation / VISUAL / verify_existing` |
+| 成果物 | `docs/30-workflows/completed-tasks/task-c-reflection-timing-visibility-and-sla-doc/` |
+| landed implementation | PR #1064 / commit `745c95115` |
+| 目的 | Google Form 登録内容の反映タイミングを `/members` と `/profile` で可視化し、反映 SLA を `03-data-fetching.md` に恒久化する |
+| implementation anchors | `apps/web/src/components/public/ReflectionTimingNote.tsx`, `apps/web/app/(public)/members/page.tsx`, `apps/web/app/(member)/profile/page.tsx`, `docs/00-getting-started-manual/specs/03-data-fetching.md` |
+| evidence boundary | focused component spec PASS、Phase 11 output present、Phase 12 strict 7 present。authenticated runtime screenshots は user-gated |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-task-c-reflection-timing-visibility-and-sla-doc-artifact-inventory.md` |
+| user gate | authenticated runtime screenshots、commit、push、PR |
+
 ### task-b-manual-form-resync-admin-ui-spec（2026-06-01）
 
 | 項目 | 値 |
