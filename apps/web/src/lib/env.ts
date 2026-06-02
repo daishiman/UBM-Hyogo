@@ -19,6 +19,7 @@ export const EnvSchema = z.object({
   NEXT_PUBLIC_SENTRY_DSN: z.string().url().optional(),
   NEXT_PUBLIC_SENTRY_ENVIRONMENT: z.enum(["local", "staging", "production"]).optional(),
   NEXT_PUBLIC_SENTRY_TRACES_SAMPLE_RATE: z.coerce.number().min(0).max(1).optional(),
+  OG_IMAGE_BASE_URL: z.string().url().optional(),
   AUTH_SECRET: z.string().min(16).optional(),
   CSP_MODE: z.enum(["report-only", "enforce"]).default("report-only"),
 });
@@ -29,6 +30,7 @@ const PublicEnvSchema = EnvSchema.pick({
   ENVIRONMENT: true,
   NEXT_PUBLIC_API_BASE_URL: true,
   NEXT_PUBLIC_SENTRY_DSN: true,
+  OG_IMAGE_BASE_URL: true,
 });
 
 const SecurityHeaderEnvSchema = EnvSchema.pick({
@@ -109,12 +111,14 @@ export function getEnv(rawEnv: RawEnv = readRawEnv()): Env {
 
 export function getPublicEnv(rawEnv: RawEnv = readRawEnv()): Pick<
   Env,
-  "ENVIRONMENT" | "NEXT_PUBLIC_API_BASE_URL" | "NEXT_PUBLIC_SENTRY_DSN"
+  "ENVIRONMENT" | "NEXT_PUBLIC_API_BASE_URL" | "NEXT_PUBLIC_SENTRY_DSN" | "OG_IMAGE_BASE_URL"
 > {
   return PublicEnvSchema.parse(rawEnv);
 }
 
-export function getPublicEnvSafe(rawEnv: RawEnv = readRawEnv()): Pick<Env, "ENVIRONMENT" | "NEXT_PUBLIC_API_BASE_URL"> | undefined {
+export function getPublicEnvSafe(
+  rawEnv: RawEnv = readRawEnv(),
+): Pick<Env, "ENVIRONMENT" | "NEXT_PUBLIC_API_BASE_URL" | "OG_IMAGE_BASE_URL"> | undefined {
   const parsed = PublicEnvSchema.safeParse(rawEnv);
   return parsed.success ? parsed.data : undefined;
 }

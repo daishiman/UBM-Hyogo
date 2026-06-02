@@ -1,0 +1,21 @@
+[33mThe CJS build of Vite's Node API is deprecated. See https://vite.dev/guide/troubleshooting.html#vite-cjs-node-api-deprecated for more details.[39m
+
+ RUN  v2.1.9 /Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260531-195607-wt-7
+
+stderr | apps/api/src/routes/public/index.contract.spec.ts > createPublicRouter > GET /members/:memberId は不適格なら 404 (UBM-1404)
+{"level":"error","timestamp":"2026-06-01T01:48:51.108Z","code":"UBM-1404","status":404,"message":"対象のリソースが見つかりません。","traceId":"urn:uuid:9b9a2dd3-2e2d-4bb1-8859-58b9daffe730","instance":"urn:uuid:9b9a2dd3-2e2d-4bb1-8859-58b9daffe730","requestId":"c83a4d3a-ccfe-4714-b4f6-f5cb95fdffad","method":"GET","path":"/public/members/m-missing","log":{}}
+
+stderr | apps/api/src/routes/public/index.contract.spec.ts > createPublicRouter > GET /members/:memberId は公開 gate 不通過なら写真行があっても 404（issue-1029）
+{"level":"error","timestamp":"2026-06-01T01:48:51.145Z","code":"UBM-1404","status":404,"message":"対象のリソースが見つかりません。","traceId":"urn:uuid:c924c054-69f1-4f73-a9b5-352dee4df0a3","instance":"urn:uuid:c924c054-69f1-4f73-a9b5-352dee4df0a3","requestId":"1c56e519-48dd-4716-9e06-401242701a25","method":"GET","path":"/public/members/m-2","log":{},"env":"staging"}
+
+stderr | apps/api/src/routes/public/index.contract.spec.ts > createPublicRouter > GET /form-preview は schema_versions 欠落時に UBM-5500 (HTTP 503) を返す
+{"level":"warn","timestamp":"2026-06-01T01:48:51.149Z","code":"UBM-5500","message":"schema_versions row missing — returning 503","context":{"where":"getFormPreviewUseCase","formId":"form-test","usedFallback":false}}
+{"level":"error","timestamp":"2026-06-01T01:48:51.149Z","code":"UBM-5500","status":503,"message":"公開可能な schema_versions が未投入です。schema sync 完了後に再実行してください。","traceId":"urn:uuid:8ddd59e0-664f-42ca-8d49-c5aecfe1c3a3","instance":"urn:uuid:8ddd59e0-664f-42ca-8d49-c5aecfe1c3a3","requestId":"a99cbae7-1abc-4b3d-873c-3d97ea9074c0","method":"GET","path":"/public/form-preview","log":{}}
+
+ ✓ apps/api/src/routes/public/index.contract.spec.ts (12 tests) 153ms
+
+ Test Files  1 passed (1)
+      Tests  12 passed (12)
+   Start at  10:48:46
+   Duration  5.03s (transform 2.08s, setup 0ms, collect 3.29s, tests 153ms, environment 688ms, prepare 120ms)
+

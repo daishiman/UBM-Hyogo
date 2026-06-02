@@ -1,5 +1,7 @@
 // UT-08A-01: list-public-members use-case unit test。
 // happy + pagination / empty / D1 failure を担保する。
+// issue-1029 lane C: resolvePhotoUrls DI による photoUrl 出し分けを担保する。
+// issue-224: expand=tags の N+1 防止 batch fetch を担保する。
 import { afterEach, describe, expect, it, vi } from "vitest";
 
 import { aggregateTopTags } from "../../../repository/publicMembers";
@@ -194,6 +196,84 @@ describe("listPublicMembersUseCase", () => {
     expect(sql).toContain("COUNT(DISTINCT mi.member_id) AS count");
     expect(sql).toContain("ORDER BY count DESC, code ASC");
     expect(sql).toContain("LIMIT 20");
+  });
+
+  // --- issue-1029 lane C: resolvePhotoUrls DI ---
+
+  const buildTwoMemberMock = () =>
+    createPublicD1Mock({
+      publicMembers: [
+        buildPublicMemberRow({ member_id: "m1", current_response_id: "r1" }),
+        buildPublicMemberRow({ member_id: "m2", current_response_id: "r2" }),
+      ],
+      publicMemberCount: 2,
+      responseFieldsByResponseId: {
+        r1: [buildResponseFieldRow({ stable_key: "fullName", value_json: JSON.stringify("A") })],
+        r2: [buildResponseFieldRow({ stable_key: "fullName", value_json: JSON.stringify("B") })],
+      },
+    });
+
+  const byId = (
+    items: Array<{ memberId: string; photoUrl?: string | undefined }>,
+    id: string,
+  ) => items.find((i) => i.memberId === id);
+
+  it("C-1: resolver 注入で item に photoUrl", async () => {
+    const db = createPublicD1Mock({
+      publicMembers: [buildPublicMemberRow({ member_id: "m1", current_response_id: "r1" })],
+      publicMemberCount: 1,
+      responseFieldsByResponseId: {
+        r1: [buildResponseFieldRow({ stable_key: "fullName", value_json: JSON.stringify("A") })],
+      },
+    });
+    const result = await listPublicMembersUseCase(baseQuery, {
+      ctx: { db: db as never },
+      resolvePhotoUrls: async () => new Map([["m1", "https://r2/m1?s=x"]]),
+    });
+    expect(result.items[0]?.photoUrl).toBe("https://r2/m1?s=x");
+  });
+
+  it("C-2: resolver 未注入で photoUrl なし（後方互換）", async () => {
+    const db = createPublicD1Mock({
+      publicMembers: [buildPublicMemberRow({ member_id: "m1", current_response_id: "r1" })],
+      publicMemberCount: 1,
+      responseFieldsByResponseId: {
+        r1: [buildResponseFieldRow({ stable_key: "fullName", value_json: JSON.stringify("A") })],
+      },
+    });
+    const result = await listPublicMembersUseCase(baseQuery, { ctx: { db: db as never } });
+    expect(result.items[0]?.photoUrl).toBeUndefined();
+  });
+
+  it("C-3: resolver が一部 member だけ返す", async () => {
+    const db = buildTwoMemberMock();
+    const result = await listPublicMembersUseCase(baseQuery, {
+      ctx: { db: db as never },
+      resolvePhotoUrls: async () => new Map([["m1", "https://r2/m1?s=x"]]),
+    });
+    expect(byId(result.items, "m1")?.photoUrl).toBe("https://r2/m1?s=x");
+    expect(byId(result.items, "m2")?.photoUrl).toBeUndefined();
+  });
+
+  it("C-4: resolver は抽出 memberIds で 1 回だけ呼ばれる（N+1 無し）", async () => {
+    const db = buildTwoMemberMock();
+    const spy = vi.fn(async () => new Map<string, string>());
+    await listPublicMembersUseCase(baseQuery, {
+      ctx: { db: db as never },
+      resolvePhotoUrls: spy,
+    });
+    expect(spy).toHaveBeenCalledTimes(1);
+    expect(spy).toHaveBeenCalledWith(["m1", "m2"]);
+  });
+
+  it("C-5: resolver が空 Map（fail-soft）でも 200 相当を維持", async () => {
+    const db = buildTwoMemberMock();
+    const result = await listPublicMembersUseCase(baseQuery, {
+      ctx: { db: db as never },
+      resolvePhotoUrls: async () => new Map<string, string>(),
+    });
+    expect(result.items).toHaveLength(2);
+    expect(result.items.every((i) => i.photoUrl === undefined)).toBe(true);
   });
 
   // --- issue-224: expand=tags の N+1 防止（batch fetch） ---

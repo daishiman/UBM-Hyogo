@@ -47,13 +47,15 @@ GAS prototype はこの構成に含めない。`localStorage` ベースの UI �
 
 `apps/web` は `@opennextjs/cloudflare`（OpenNext）で Cloudflare Workers 上にデプロイされる。無料プランでは生成される Worker bundle（`worker.js` bootstrap + server functions / middleware）の **gzip 圧縮後サイズが 3MiB（3072KiB）以下** に制限される。超過時は deploy が `[code: 10027]` で失敗する。
 
+同一プロジェクト内に複数 Worker（`apps/web` / `apps/api` / `apps/og`）を持つ場合、3MiB gzip 予算は Worker bundle ごとに独立して管理する。`next/og` / `ImageResponse` は main `apps/web` bundle へ戻さず、member-specific dynamic OG PNG は `apps/og` 専用 Worker に隔離し、`apps/og` 側も `scripts/check-worker-size.sh apps/og/dist` で個別に gate する。
+
 | 項目 | 値 |
 |------|-----|
 | Hard limit | 3072KiB（gzip 後） |
 | Warning threshold | 2800KiB（CI gate で警告のみ） |
 | 事前検知 | `bash scripts/check-worker-size.sh`（gzip 計測 / 閾値超過で `exit 1`） |
 | CI gate | `.github/workflows/web-cd.yml` の staging / production 両 deploy job に、build 後・deploy 前の size gate を挿入 |
-| 肥大化要因の例 | `next/og`（@vercel/og）は `resvg.wasm`（1346KB）+ `yoga.wasm`（70KB）+ Geist フォント（123KB）≒ 1539KB を bundle に焼き込むため、無料プランでは動的 OG を避け静的 PNG（`public/og-default.png`）へ寄せる |
+| 肥大化要因の例 | `next/og`（@vercel/og）は `resvg.wasm`（1346KB）+ `yoga.wasm`（70KB）+ Geist フォント（123KB）≒ 1539KB を bundle に焼き込むため、main `apps/web` では静的 PNG（`public/og-default.png`）または `apps/og` 専用 Worker 分離へ寄せる |
 
 実測の閾値・運用知見の正本は `.claude/skills/aiworkflow-requirements/references/deployment-cloudflare-opennext-workers.md`、適用事例は `docs/30-workflows/completed-tasks/web-worker-size-limit-fix/` を参照。
 
@@ -131,6 +133,7 @@ Web CD は `pnpm --filter @ubm-hyogo/web build:cloudflare` で OpenNext Workers 
 | `deleted_members` | 削除履歴 |
 | `meeting_sessions` | 開催日 |
 | `member_attendance` | 参加履歴 |
+| `member_photos` | profile 写真 metadata（R2 object key / `source`） |
 | `admin_users` | 管理者 |
 | `admin_member_notes` | 管理メモ / member self-service 申請 queue |
 | `magic_tokens` | Magic Link |
@@ -244,6 +247,22 @@ Analytics index は ranking 用に次の 1 本だけ追加する。session 側�
 CREATE INDEX IF NOT EXISTS idx_member_attendance_member
   ON member_attendance (member_id);
 ```
+
+### member_photos
+
+```sql
+CREATE TABLE IF NOT EXISTS member_photos (
+  member_id TEXT PRIMARY KEY,
+  object_key TEXT NOT NULL,
+  content_type TEXT NOT NULL,
+  byte_size INTEGER NOT NULL,
+  uploaded_by TEXT NOT NULL,
+  source TEXT NOT NULL DEFAULT 'admin',
+  uploaded_at TEXT NOT NULL DEFAULT (datetime('now'))
+);
+```
+
+`object_key` は `members/{memberId}/avatar` の単一スロットを使い、admin upload と member self-upload は last-write-wins で同じ object を上書きする。`source` は最後に書いた主体を `admin` / `self` で表す。D1 には metadata のみを置き、画像 binary は Cloudflare R2 に保存する。
 
 ### admin_member_notes
 

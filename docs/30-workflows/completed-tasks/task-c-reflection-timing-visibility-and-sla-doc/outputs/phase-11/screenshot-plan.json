@@ -1,0 +1,18 @@
+{
+  "status": "pending_implementation",
+  "reason": "Runtime screenshot capture is user-gated because /profile requires an authenticated session. In this validator contract, pending_implementation means screenshot capture is pending user approval, not product implementation.",
+  "targets": [
+    {
+      "route": "/members",
+      "surface": "members",
+      "auth": "public",
+      "planned_file": "screenshots/reflection-timing-members.png"
+    },
+    {
+      "route": "/profile",
+      "surface": "profile",
+      "auth": "authenticated",
+      "planned_file": "screenshots/reflection-timing-profile.png"
+    }
+  ]
+}

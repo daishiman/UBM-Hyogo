@@ -1,0 +1,279 @@
+[2m[WebServer] [22m(node:79191) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[2m[WebServer] [22m(Use `node --trace-warnings ...` to show where the warning was created)
+[2m[WebServer] [22m(node:79240) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[2m[WebServer] [22m(Use `node --trace-warnings ...` to show where the warning was created)
+[2m[WebServer] [22m(node:79304) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[2m[WebServer] [22m(Use `node --trace-warnings ...` to show where the warning was created)
+[2m[WebServer] [22m⚠ Mismatching @next/swc version, detected: 16.2.4 while Next.js is on 16.2.6. Please ensure these match
+[2m[WebServer] [22m⚠ The "middleware" file convention is deprecated. Please use "proxy" instead. Learn more: https://nextjs.org/docs/messages/middleware-to-proxy
+[2m[WebServer] [22m⚠ You are using an experimental edge runtime, the API might change.
+[2m[WebServer] [22m⚠ You are using an experimental edge runtime, the API might change.
+[2m[WebServer] [22m⚠ You are using an experimental edge runtime, the API might change.
+[2m[WebServer] [22m⚠ You are using an experimental edge runtime, the API might change.
+[2m[WebServer] [22m⚠ You are using an experimental edge runtime, the API might change.
+[2m[WebServer] [22m⚠ You are using an experimental edge runtime, the API might change.
+[2m[WebServer] [22m⚠ You are using an experimental edge runtime, the API might change.
+[2m[WebServer] [22m⚠ You are using an experimental edge runtime, the API might change.
+[2m[WebServer] [22m⚠ ../../node_modules/@prisma/instrumentation/node_modules/@opentelemetry/instrumentation/build/esm/platform/node/instrumentation.js
+[2m[WebServer] [22mCritical dependency: the request of a dependency is an expression
+[2m[WebServer] [22m
+[2m[WebServer] [22mImport trace for requested module:
+[2m[WebServer] [22m../../node_modules/@prisma/instrumentation/node_modules/@opentelemetry/instrumentation/build/esm/platform/node/instrumentation.js
+[2m[WebServer] [22m../../node_modules/@prisma/instrumentation/node_modules/@opentelemetry/instrumentation/build/esm/platform/node/index.js
+[2m[WebServer] [22m../../node_modules/@prisma/instrumentation/node_modules/@opentelemetry/instrumentation/build/esm/platform/index.js
+[2m[WebServer] [22m../../node_modules/@prisma/instrumentation/node_modules/@opentelemetry/instrumentation/build/esm/index.js
+[2m[WebServer] [22m../../node_modules/@prisma/instrumentation/dist/index.js
+[2m[WebServer] [22m../../node_modules/@sentry/node/build/cjs/integrations/tracing/prisma.js
+[2m[WebServer] [22m../../node_modules/@sentry/node/build/cjs/index.js
+[2m[WebServer] [22m../../node_modules/@sentry/nextjs/build/cjs/index.server.js
+[2m[WebServer] [22m./src/lib/sentry/capture.ts
+[2m[WebServer] [22m./src/lib/logger.ts
+[2m[WebServer] [22m./app/global-error.tsx
+[2m[WebServer] [22m
+[2m[WebServer] [22m../../node_modules/@prisma/instrumentation/node_modules/@opentelemetry/instrumentation/build/esm/platform/node/instrumentation.js
+[2m[WebServer] [22mCritical dependency: the request of a dependency is an expression
+[2m[WebServer] [22m
+[2m[WebServer] [22mImport trace for requested module:
+[2m[WebServer] [22m../../node_modules/@prisma/instrumentation/node_modules/@opentelemetry/instrumentation/build/esm/platform/node/instrumentation.js
+[2m[WebServer] [22m../../node_modules/@prisma/instrumentation/node_modules/@opentelemetry/instrumentation/build/esm/platform/node/index.js
+[2m[WebServer] [22m../../node_modules/@prisma/instrumentation/node_modules/@opentelemetry/instrumentation/build/esm/platform/index.js
+[2m[WebServer] [22m../../node_modules/@prisma/instrumentation/node_modules/@opentelemetry/instrumentation/build/esm/index.js
+[2m[WebServer] [22m../../node_modules/@prisma/instrumentation/dist/index.js
+[2m[WebServer] [22m../../node_modules/@sentry/node/build/cjs/integrations/tracing/prisma.js
+[2m[WebServer] [22m../../node_modules/@sentry/node/build/cjs/index.js
+[2m[WebServer] [22m../../node_modules/@sentry/nextjs/build/cjs/index.server.js
+[2m[WebServer] [22m./src/lib/sentry/capture.ts
+[2m[WebServer] [22m./src/lib/logger.ts
+[2m[WebServer] [22m./src/lib/admin/safe-server-fetch.ts
+[2m[WebServer] [22m./src/components/shell/SidebarShell.server.tsx
+[2m[WebServer] [22m./app/(public)/layout.tsx
+
+Running 1 test using 1 worker
+
+(node:82548) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:82548) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[2m[WebServer] [22m⚠ You are using an experimental edge runtime, the API might change.
+[2m[WebServer] [22m⚠ You are using an experimental edge runtime, the API might change.
+[2m[WebServer] [22m⚠ You are using an experimental edge runtime, the API might change.
+[2m[WebServer] [22m⚠ ../../node_modules/@prisma/instrumentation/node_modules/@opentelemetry/instrumentation/build/esm/platform/node/instrumentation.js
+[2m[WebServer] [22mCritical dependency: the request of a dependency is an expression
+[2m[WebServer] [22m
+[2m[WebServer] [22mImport trace for requested module:
+[2m[WebServer] [22m../../node_modules/@prisma/instrumentation/node_modules/@opentelemetry/instrumentation/build/esm/platform/node/instrumentation.js
+[2m[WebServer] [22m../../node_modules/@prisma/instrumentation/node_modules/@opentelemetry/instrumentation/build/esm/platform/node/index.js
+[2m[WebServer] [22m../../node_modules/@prisma/instrumentation/node_modules/@opentelemetry/instrumentation/build/esm/platform/index.js
+[2m[WebServer] [22m../../node_modules/@prisma/instrumentation/node_modules/@opentelemetry/instrumentation/build/esm/index.js
+[2m[WebServer] [22m../../node_modules/@prisma/instrumentation/dist/index.js
+[2m[WebServer] [22m../../node_modules/@sentry/node/build/cjs/integrations/tracing/prisma.js
+[2m[WebServer] [22m../../node_modules/@sentry/node/build/cjs/index.js
+[2m[WebServer] [22m../../node_modules/@sentry/nextjs/build/cjs/index.server.js
+[2m[WebServer] [22m./src/lib/sentry/capture.ts
+[2m[WebServer] [22m./src/lib/logger.ts
+[2m[WebServer] [22m./app/global-error.tsx
+[2m[WebServer] [22m
+[2m[WebServer] [22m../../node_modules/@prisma/instrumentation/node_modules/@opentelemetry/instrumentation/build/esm/platform/node/instrumentation.js
+[2m[WebServer] [22mCritical dependency: the request of a dependency is an expression
+[2m[WebServer] [22m
+[2m[WebServer] [22mImport trace for requested module:
+[2m[WebServer] [22m../../node_modules/@prisma/instrumentation/node_modules/@opentelemetry/instrumentation/build/esm/platform/node/instrumentation.js
+[2m[WebServer] [22m../../node_modules/@prisma/instrumentation/node_modules/@opentelemetry/instrumentation/build/esm/platform/node/index.js
+[2m[WebServer] [22m../../node_modules/@prisma/instrumentation/node_modules/@opentelemetry/instrumentation/build/esm/platform/index.js
+[2m[WebServer] [22m../../node_modules/@prisma/instrumentation/node_modules/@opentelemetry/instrumentation/build/esm/index.js
+[2m[WebServer] [22m../../node_modules/@prisma/instrumentation/dist/index.js
+[2m[WebServer] [22m../../node_modules/@sentry/node/build/cjs/integrations/tracing/prisma.js
+[2m[WebServer] [22m../../node_modules/@sentry/node/build/cjs/index.js
+[2m[WebServer] [22m../../node_modules/@sentry/nextjs/build/cjs/index.server.js
+[2m[WebServer] [22m./src/lib/sentry/capture.ts
+[2m[WebServer] [22m./src/lib/logger.ts
+[2m[WebServer] [22m./src/lib/admin/safe-server-fetch.ts
+[2m[WebServer] [22m./src/components/shell/SidebarShell.server.tsx
+[2m[WebServer] [22m./app/(public)/layout.tsx
+[2m[WebServer] [22m⚠ ../../node_modules/@prisma/instrumentation/node_modules/@opentelemetry/instrumentation/build/esm/platform/node/instrumentation.js
+[2m[WebServer] [22mCritical dependency: the request of a dependency is an expression
+[2m[WebServer] [22m
+[2m[WebServer] [22mImport trace for requested module:
+[2m[WebServer] [22m../../node_modules/@prisma/instrumentation/node_modules/@opentelemetry/instrumentation/build/esm/platform/node/instrumentation.js
+[2m[WebServer] [22m../../node_modules/@prisma/instrumentation/node_modules/@opentelemetry/instrumentation/build/esm/platform/node/index.js
+[2m[WebServer] [22m../../node_modules/@prisma/instrumentation/node_modules/@opentelemetry/instrumentation/build/esm/platform/index.js
+[2m[WebServer] [22m../../node_modules/@prisma/instrumentation/node_modules/@opentelemetry/instrumentation/build/esm/index.js
+[2m[WebServer] [22m../../node_modules/@prisma/instrumentation/dist/index.js
+[2m[WebServer] [22m../../node_modules/@sentry/node/build/cjs/integrations/tracing/prisma.js
+[2m[WebServer] [22m../../node_modules/@sentry/node/build/cjs/index.js
+[2m[WebServer] [22m../../node_modules/@sentry/nextjs/build/cjs/index.server.js
+[2m[WebServer] [22m./src/lib/sentry/capture.ts
+[2m[WebServer] [22m./src/lib/logger.ts
+[2m[WebServer] [22m./app/error.tsx
+[2m[WebServer] [22m
+[2m[WebServer] [22m../../node_modules/@prisma/instrumentation/node_modules/@opentelemetry/instrumentation/build/esm/platform/node/instrumentation.js
+[2m[WebServer] [22mCritical dependency: the request of a dependency is an expression
+[2m[WebServer] [22m
+[2m[WebServer] [22mImport trace for requested module:
+[2m[WebServer] [22m../../node_modules/@prisma/instrumentation/node_modules/@opentelemetry/instrumentation/build/esm/platform/node/instrumentation.js
+[2m[WebServer] [22m../../node_modules/@prisma/instrumentation/node_modules/@opentelemetry/instrumentation/build/esm/platform/node/index.js
+[2m[WebServer] [22m../../node_modules/@prisma/instrumentation/node_modules/@opentelemetry/instrumentation/build/esm/platform/index.js
+[2m[WebServer] [22m../../node_modules/@prisma/instrumentation/node_modules/@opentelemetry/instrumentation/build/esm/index.js
+[2m[WebServer] [22m../../node_modules/@prisma/instrumentation/dist/index.js
+[2m[WebServer] [22m../../node_modules/@sentry/node/build/cjs/integrations/tracing/prisma.js
+[2m[WebServer] [22m../../node_modules/@sentry/node/build/cjs/index.js
+[2m[WebServer] [22m../../node_modules/@sentry/nextjs/build/cjs/index.server.js
+[2m[WebServer] [22m./src/lib/sentry/capture.ts
+[2m[WebServer] [22m./src/lib/logger.ts
+[2m[WebServer] [22m./src/lib/admin/safe-server-fetch.ts
+[2m[WebServer] [22m./src/components/shell/SidebarShell.server.tsx
+[2m[WebServer] [22m./app/(public)/layout.tsx
+[2m[WebServer] [22m⚠ You are using an experimental edge runtime, the API might change.
+[2m[WebServer] [22m⚠ You are using an experimental edge runtime, the API might change.
+[2m[WebServer] [22m⚠ You are using an experimental edge runtime, the API might change.
+[2m[WebServer] [22m[browser] A tree hydrated but some attributes of the server rendered HTML didn't match the client properties. This won't be patched up. This can happen if a SSR-ed Client Component used:
+[2m[WebServer] [22m
+[2m[WebServer] [22m- A server/client branch `if (typeof window !== 'undefined')`.
+[2m[WebServer] [22m- Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
+[2m[WebServer] [22m- Date formatting in a user's locale which doesn't match the server.
+[2m[WebServer] [22m- External changing data without sending a snapshot of it along with the HTML.
+[2m[WebServer] [22m- Invalid HTML tag nesting.
+[2m[WebServer] [22m
+[2m[WebServer] [22mIt can also happen if the client has a browser extension installed which messes with the HTML before React loaded.
+[2m[WebServer] [22m
+[2m[WebServer] [22mhttps://react.dev/link/hydration-mismatch
+[2m[WebServer] [22m
+[2m[WebServer] [22m  ...
+[2m[WebServer] [22m    <RedirectBoundary>
+[2m[WebServer] [22m      <RedirectErrorBoundary router={{...}}>
+[2m[WebServer] [22m        <InnerLayoutRouter url="/members" tree={[...]} params={{}} cacheNode={{rsc:{...}, ...}} segmentPath={[...]} ...>
+[2m[WebServer] [22m          <SegmentViewNode type="page" pagePath="(public)/m...">
+[2m[WebServer] [22m            <SegmentTrieNode>
+[2m[WebServer] [22m            <MembersPage>
+[2m[WebServer] [22m              <main data-page="members" data-density="comfy" data-route="public" data-section-rhythm="comfortable">
+[2m[WebServer] [22m                <header>
+[2m[WebServer] [22m                <MemberFilters initial={{q:"",zone:"all", ...}} topTags={[...]} totalCount={1} displayedCount={1}>
+[2m[WebServer] [22m                  <form role="search" aria-label="メンバー絞り込み" aria-describedby="member-sea..." ...>
+[2m[WebServer] [22m                    <FiltersSummaryMobile>
+[2m[WebServer] [22m                    <div data-role="filters-body">
+[2m[WebServer] [22m                      <div data-role="filter-grid">
+[2m[WebServer] [22m                        <FormField name="member-search" label="キーワード検索">
+[2m[WebServer] [22m                          <div data-component="form-field" data-invalid={undefined} className="ui-form-field">
+[2m[WebServer] [22m                            <label>
+[2m[WebServer] [22m                            <Search value="" onChange={function onChange} placeholder="名前・職業・地域で検索" id="member-sea..." ...>
+[2m[WebServer] [22m                              <div>
+[2m[WebServer] [22m                                <input
+[2m[WebServer] [22m                                  type="search"
+[2m[WebServer] [22m                                  id="member-search-_R_9iinebmrkndlb_"
+[2m[WebServer] [22m                                  name="member-search"
+[2m[WebServer] [22m                                  value=""
+[2m[WebServer] [22m                                  onChange={function onChange}
+[2m[WebServer] [22m                                  placeholder="名前・職業・地域で検索"
+[2m[WebServer] [22m                                  aria-invalid={undefined}
+[2m[WebServer] [22m                                  aria-describedby={undefined}
+[2m[WebServer] [22m-                                 style={{caret-color:"transparent"}}
+[2m[WebServer] [22m                                >
+[2m[WebServer] [22m                        ...
+[2m[WebServer] [22m                      ...
+[2m[WebServer] [22m                ...
+[2m[WebServer] [22m          ...
+[2m[WebServer] [22m        ...
+[2m[WebServer] [22m 
+[2m[WebServer] [22m⚠ ../../node_modules/@prisma/instrumentation/node_modules/@opentelemetry/instrumentation/build/esm/platform/node/instrumentation.js
+[2m[WebServer] [22mCritical dependency: the request of a dependency is an expression
+[2m[WebServer] [22m
+[2m[WebServer] [22mImport trace for requested module:
+[2m[WebServer] [22m../../node_modules/@prisma/instrumentation/node_modules/@opentelemetry/instrumentation/build/esm/platform/node/instrumentation.js
+[2m[WebServer] [22m../../node_modules/@prisma/instrumentation/node_modules/@opentelemetry/instrumentation/build/esm/platform/node/index.js
+[2m[WebServer] [22m../../node_modules/@prisma/instrumentation/node_modules/@opentelemetry/instrumentation/build/esm/platform/index.js
+[2m[WebServer] [22m../../node_modules/@prisma/instrumentation/node_modules/@opentelemetry/instrumentation/build/esm/index.js
+[2m[WebServer] [22m../../node_modules/@prisma/instrumentation/dist/index.js
+[2m[WebServer] [22m../../node_modules/@sentry/node/build/cjs/integrations/tracing/prisma.js
+[2m[WebServer] [22m../../node_modules/@sentry/node/build/cjs/index.js
+[2m[WebServer] [22m../../node_modules/@sentry/nextjs/build/cjs/index.server.js
+[2m[WebServer] [22m./src/lib/sentry/capture.ts
+[2m[WebServer] [22m./src/lib/logger.ts
+[2m[WebServer] [22m./app/error.tsx
+[2m[WebServer] [22m
+[2m[WebServer] [22m../../node_modules/@prisma/instrumentation/node_modules/@opentelemetry/instrumentation/build/esm/platform/node/instrumentation.js
+[2m[WebServer] [22mCritical dependency: the request of a dependency is an expression
+[2m[WebServer] [22m
+[2m[WebServer] [22mImport trace for requested module:
+[2m[WebServer] [22m../../node_modules/@prisma/instrumentation/node_modules/@opentelemetry/instrumentation/build/esm/platform/node/instrumentation.js
+[2m[WebServer] [22m../../node_modules/@prisma/instrumentation/node_modules/@opentelemetry/instrumentation/build/esm/platform/node/index.js
+[2m[WebServer] [22m../../node_modules/@prisma/instrumentation/node_modules/@opentelemetry/instrumentation/build/esm/platform/index.js
+[2m[WebServer] [22m../../node_modules/@prisma/instrumentation/node_modules/@opentelemetry/instrumentation/build/esm/index.js
+[2m[WebServer] [22m../../node_modules/@prisma/instrumentation/dist/index.js
+[2m[WebServer] [22m../../node_modules/@sentry/node/build/cjs/integrations/tracing/prisma.js
+[2m[WebServer] [22m../../node_modules/@sentry/node/build/cjs/index.js
+[2m[WebServer] [22m../../node_modules/@sentry/nextjs/build/cjs/index.server.js
+[2m[WebServer] [22m./src/lib/sentry/capture.ts
+[2m[WebServer] [22m./src/lib/logger.ts
+[2m[WebServer] [22m./src/lib/admin/safe-server-fetch.ts
+[2m[WebServer] [22m./src/components/shell/SidebarShell.server.tsx
+[2m[WebServer] [22m./app/(public)/layout.tsx
+[2m[WebServer] [22m⚠ ../../node_modules/@prisma/instrumentation/node_modules/@opentelemetry/instrumentation/build/esm/platform/node/instrumentation.js
+[2m[WebServer] [22mCritical dependency: the request of a dependency is an expression
+[2m[WebServer] [22m
+[2m[WebServer] [22mImport trace for requested module:
+[2m[WebServer] [22m../../node_modules/@prisma/instrumentation/node_modules/@opentelemetry/instrumentation/build/esm/platform/node/instrumentation.js
+[2m[WebServer] [22m../../node_modules/@prisma/instrumentation/node_modules/@opentelemetry/instrumentation/build/esm/platform/node/index.js
+[2m[WebServer] [22m../../node_modules/@prisma/instrumentation/node_modules/@opentelemetry/instrumentation/build/esm/platform/index.js
+[2m[WebServer] [22m../../node_modules/@prisma/instrumentation/node_modules/@opentelemetry/instrumentation/build/esm/index.js
+[2m[WebServer] [22m../../node_modules/@prisma/instrumentation/dist/index.js
+[2m[WebServer] [22m../../node_modules/@sentry/node/build/cjs/integrations/tracing/prisma.js
+[2m[WebServer] [22m../../node_modules/@sentry/node/build/cjs/index.js
+[2m[WebServer] [22m../../node_modules/@sentry/nextjs/build/cjs/index.server.js
+[2m[WebServer] [22m./src/lib/sentry/capture.ts
+[2m[WebServer] [22m./src/lib/logger.ts
+[2m[WebServer] [22m./app/error.tsx
+[2m[WebServer] [22m
+[2m[WebServer] [22m../../node_modules/@prisma/instrumentation/node_modules/@opentelemetry/instrumentation/build/esm/platform/node/instrumentation.js
+[2m[WebServer] [22mCritical dependency: the request of a dependency is an expression
+[2m[WebServer] [22m
+[2m[WebServer] [22mImport trace for requested module:
+[2m[WebServer] [22m../../node_modules/@prisma/instrumentation/node_modules/@opentelemetry/instrumentation/build/esm/platform/node/instrumentation.js
+[2m[WebServer] [22m../../node_modules/@prisma/instrumentation/node_modules/@opentelemetry/instrumentation/build/esm/platform/node/index.js
+[2m[WebServer] [22m../../node_modules/@prisma/instrumentation/node_modules/@opentelemetry/instrumentation/build/esm/platform/index.js
+[2m[WebServer] [22m../../node_modules/@prisma/instrumentation/node_modules/@opentelemetry/instrumentation/build/esm/index.js
+[2m[WebServer] [22m../../node_modules/@prisma/instrumentation/dist/index.js
+[2m[WebServer] [22m../../node_modules/@sentry/node/build/cjs/integrations/tracing/prisma.js
+[2m[WebServer] [22m../../node_modules/@sentry/node/build/cjs/index.js
+[2m[WebServer] [22m../../node_modules/@sentry/nextjs/build/cjs/index.server.js
+[2m[WebServer] [22m./src/lib/sentry/capture.ts
+[2m[WebServer] [22m./src/lib/logger.ts
+[2m[WebServer] [22m./src/lib/admin/safe-server-fetch.ts
+[2m[WebServer] [22m./src/components/shell/SidebarShell.server.tsx
+[2m[WebServer] [22m./app/(public)/layout.tsx
+[2m[WebServer] [22m⚠ You are using an experimental edge runtime, the API might change.
+[2m[WebServer] [22m⚠ You are using an experimental edge runtime, the API might change.
+[2m[WebServer] [22m⚠ You are using an experimental edge runtime, the API might change.
+[2m[WebServer] [22m(node:83198) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[2m[WebServer] [22m(Use `node --trace-warnings ...` to show where the warning was created)
+[2m[WebServer] [22m⚠ You are using an experimental edge runtime, the API might change.
+[2m[WebServer] [22m⚠ You are using an experimental edge runtime, the API might change.
+[2m[WebServer] [22m⚠ You are using an experimental edge runtime, the API might change.
+  ✓  1 [desktop-chromium] › playwright/tests/issue-1029-public-member-photo-display.spec.ts:16:3 › issue-1029 public member photo display › captures list and detail screenshots with public-safe photoUrl (14.5s)
+
+  1 passed (1.9m)
+[MR] generating report data ...
+[MR] generating test report ...
+[MR] UBM-Hyogo E2E
+┌─────────────┬───────────────────────┐
+│ Tests       │ 1                     │
+│ ├ Failed    │ 0 (0.0%)              │
+│ ├ Flaky     │ 0 (0.0%)              │
+│ ├ Skipped   │ 0 (0.0%)              │
+│ └ Passed    │ 1 (100.0%)            │
+│ Steps       │ 27                    │
+│ Suites      │ 1                     │
+│ ├ Projects  │ 1                     │
+│ ├ Files     │ 1                     │
+│ ├ Describes │ 1                     │
+│ └ Shards    │ 0                     │
+│ Errors      │ 0                     │
+│ Retries     │ 0                     │
+│ Logs        │ 18                    │
+│ Attachments │ 0                     │
+│ Artifacts   │ 0                     │
+│ Playwright  │ v1.59.1               │
+│ Date        │ 6/1/2026, 11:04:49 AM │
+│ Duration    │ 1m 56s                │
+└─────────────┴───────────────────────┘
+[MR] json: ../../docs/30-workflows/issue-1029-public-member-photo-display/outputs/phase-11/monocart/index.json
+[MR] view report: npx monocart show-report ../../docs/30-workflows/issue-1029-public-member-photo-display/outputs/phase-11/monocart/index.html

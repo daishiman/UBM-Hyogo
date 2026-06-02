@@ -1,0 +1,15 @@
+[33mThe CJS build of Vite's Node API is deprecated. See https://vite.dev/guide/troubleshooting.html#vite-cjs-node-api-deprecated for more details.[39m
+
+ RUN  v2.1.9 /Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260601-152351-wt-14
+
+ ✓ apps/web/app/api/admin/[...path]/route.spec.ts (5 tests) 46ms
+ ✓ apps/web/src/features/admin/diagnostics/__tests__/sync-schemas.spec.ts (11 tests) 49ms
+ ✓ apps/web/src/features/admin/components/_sync/__tests__/ManualFormResyncPanel.spec.tsx (8 tests) 1719ms
+   ✓ ManualFormResyncPanel > TC-B1 差分 sync を実行し結果（writeCount / 差分モード）を表示する 584ms
+   ✓ ManualFormResyncPanel > TC-B5 409 sync_in_progress を検知して結果テーブルを描画しない 715ms
+
+ Test Files  3 passed (3)
+      Tests  24 passed (24)
+   Start at  17:36:29
+   Duration  10.14s (transform 1.42s, setup 0ms, collect 3.34s, tests 1.81s, environment 4.93s, prepare 1.99s)
+
