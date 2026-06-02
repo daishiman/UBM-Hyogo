@@ -874,13 +874,13 @@ node scripts/list-specs.js --topics
 | 概要 | L8 |
 | ドキュメント構成 | L27 |
 | REST API エンドポイント一覧 | L37 |
-| エンドポイント命名規則 | L249 |
-| UBM-Hyogo Admin Sync API（03a） | L270 |
-| UBM-Hyogo Member Self-Service API（04b） | L322 |
-| Admin Dashboard Attendance Analytics API（UT-02A follow-up 002） | L350 |
-| Desktop IPC API サマリー | L364 |
-| 変更履歴 | L395 |
-| 関連ドキュメント | L412 |
+| エンドポイント命名規則 | L251 |
+| UBM-Hyogo Admin Sync API（03a） | L272 |
+| UBM-Hyogo Member Self-Service API（04b） | L324 |
+| Admin Dashboard Attendance Analytics API（UT-02A follow-up 002） | L352 |
+| Desktop IPC API サマリー | L366 |
+| 変更履歴 | L397 |
+| 関連ドキュメント | L414 |
 
 ### references/api-internal-chunk-search.md
 
@@ -2607,6 +2607,17 @@ node scripts/list-specs.js --topics
 | Evidence | L26 |
 | User-Gated | L32 |
 | Lessons | L36 |
+
+### references/workflow-issue-1036-bulk-member-tag-assign-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Summary | L5 |
+| Canonical workflow | L11 |
+| Local implementation targets | L24 |
+| Current code anchors | L34 |
+| Gates | L44 |
+| Lessons Learned | L52 |
 
 ### references/workflow-issue-1042-dismiss-confirm-optimistic-update-artifact-inventory.md
 

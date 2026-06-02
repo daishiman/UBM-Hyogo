@@ -1,0 +1,88 @@
+{
+  "task_id": "issue-1036-bulk-member-tag-assign",
+  "created_at": "2026-06-01",
+  "status": "implemented_local_runtime_pending",
+  "task_type": "implementation",
+  "visual_category": "VISUAL_ON_EXECUTION",
+  "implementation_mode": "new",
+  "metadata": {
+    "workflow_state": "implemented_local_runtime_pending",
+    "implementation_status": "implemented_local_runtime_pending",
+    "taskType": "implementation",
+    "visualEvidence": "VISUAL_ON_EXECUTION",
+    "implementationCategory": "admin_member_tag_bulk_write",
+    "canonical_workflow": "docs/30-workflows/completed-tasks/issue-1036-bulk-member-tag-assign",
+    "github_issue": 1036,
+    "github_issue_state": "CLOSED",
+    "branch": "docs/issue-1036-bulk-member-tag-assign-spec",
+    "parent_workflow": "issue-982-drawer-tag-pill-editing",
+    "runtime_boundary": "Implementation is complete locally. Commit, PR, GitHub issue mutation, and staging authenticated visual baseline are user-gated.",
+    "source_issue_optimizations": [
+      "AC-5 idempotency decoupled from #913 server idempotency store (CLOSED/unimplemented); realized via member_tags composite PK + INSERT OR IGNORE / DELETE meta.changes natural idempotency",
+      "audit bulk correlation via after_json/before_json batchId instead of new correlation_id column (no schema change)",
+      "partial-success report (AC-2) via per-item loop instead of D1 db.batch() all-or-nothing",
+      "tag master read endpoint GET /admin/tags added (responsibility-split from #1035 tag master write)"
+    ],
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-06-01T00:00:00+09:00",
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-1036-bulk-member-tag-assign/phase-3-design-review.md",
+        "approver": "daishiman",
+        "notes": "Spec authoring gate: Phase 1-3 design fixed, AC mapped, #913 decoupled, invariant #13 third write path defined."
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "passed",
+        "passed_at": "2026-06-01T00:00:00+09:00",
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-1036-bulk-member-tag-assign/phase-9-qa.md",
+        "approver": "daishiman",
+        "notes": "Implementation gate: local TDD green, typecheck, contract+repository+component tests, and local visual fixture evidence captured."
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-1036-bulk-member-tag-assign/phase-13-pr.md",
+        "approver": "daishiman",
+        "notes": "PR gate: commit/PR creation only after explicit user approval."
+      }
+    ]
+  },
+  "tasks": [
+    {
+      "id": "task-A-bulk-tag-batch-endpoint-and-repository",
+      "spec": "tasks/task-A-bulk-tag-batch-endpoint-and-repository.md",
+      "area": "apps/api",
+      "depends_on": []
+    },
+    {
+      "id": "task-B-bulk-action-bar-tag-ui",
+      "spec": "tasks/task-B-bulk-action-bar-tag-ui.md",
+      "area": "apps/web",
+      "depends_on": ["task-A-bulk-tag-batch-endpoint-and-repository"]
+    },
+    {
+      "id": "task-C-invariant-doc-and-visual-baseline",
+      "spec": "tasks/task-C-invariant-doc-and-visual-baseline.md",
+      "area": "docs",
+      "depends_on": ["task-A-bulk-tag-batch-endpoint-and-repository", "task-B-bulk-action-bar-tag-ui"]
+    }
+  ],
+  "phases": {
+    "phase-1": { "status": "completed", "file": "phase-1-requirements.md" },
+    "phase-2": { "status": "completed", "file": "phase-2-design.md" },
+    "phase-3": { "status": "completed", "file": "phase-3-design-review.md" },
+    "phase-4": { "status": "completed", "file": "phase-4-test-plan.md" },
+    "phase-5": { "status": "completed", "file": "phase-5-implementation.md" },
+    "phase-6": { "status": "completed", "file": "phase-6-test-additions.md" },
+    "phase-7": { "status": "completed", "file": "phase-7-coverage.md" },
+    "phase-8": { "status": "completed", "file": "phase-8-refactor.md" },
+    "phase-9": { "status": "completed", "file": "phase-9-qa.md" },
+    "phase-10": { "status": "completed", "file": "phase-10-final-review.md" },
+    "phase-11": { "status": "completed", "file": "phase-11-manual-test.md" },
+    "phase-12": { "status": "completed", "file": "phase-12-documentation.md" },
+    "phase-13": { "status": "pending_user_approval", "file": "phase-13-pr.md" }
+  }
+}
