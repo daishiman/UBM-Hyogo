@@ -146,7 +146,7 @@ jobs:
 
   coverage-gate-shard:
     # 仕様: docs/30-workflows/issue-617-ci-test-time-reduction-split/phase-09.md
-    # 目的: apps/web / apps/api(unit) / apps/api(d1) / packages を並列 shard 実行し
+    # 目的: apps/web / apps/api(unit) / apps/api(d1) / packages / apps/og を並列 shard 実行し
     #       wall-clock を短縮する。集約判定は coverage-gate job が行う。
     name: coverage-gate-shard (${{ matrix.group }})
     runs-on: ubuntu-latest
@@ -154,7 +154,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        group: [web, api-unit, api-d1, packages]
+        group: [web, api-unit, api-d1, packages, og]
     steps:
       - uses: actions/checkout@v4
         with:

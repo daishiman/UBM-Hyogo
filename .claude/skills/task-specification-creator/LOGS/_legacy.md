@@ -4,7 +4,19 @@
 
 このファイルは task-specification-creator の運用・改善・Phase 12 close-out 同期履歴を新しい順に記録する。
 
+## 2026-06-01 - issue-1027 dynamic OG Worker split skill feedback
+
+`docs/30-workflows/completed-tasks/issue-1027-member-dynamic-og-worker-split/` の Phase 12 feedback を反映した。Paid plan vs dedicated Worker split のような cost/runtime topology 分岐は Phase 1 で user decision を固定してから Phase 2 へ進む。Worker 分離は新 Worker の build/deploy/size gate まで含めて implementation target とし、main `apps/web` の `next/og` 禁止 guard、`OG_IMAGE_BASE_URL` accessor discipline、fallback PNG evidence を Phase 11/12 の確認点へ昇格した。
+
 ## 2026-05-28 - task-b-root-page-public-header-async automation-30 close-out
+
+## 2026-05-31 - issue-229 indexes rebuild fail-fast automation-30 close-out
+
+`docs/30-workflows/completed-tasks/issue-229-indexes-rebuild-fail-fast/` の automation-30 改善で、`implementation / NON_VISUAL` かつ `generate-index.js` / focused spec test が明確な workflow を `spec_only` や「後続実装サイクル」で閉じず、同一サイクルで `.claude/skills/aiworkflow-requirements/scripts/generate-index.js` の fail-fast / atomic write / decisive log hardening、`scripts/__tests__/generate-index-fail-fast.spec.ts`、focused Vitest、`pnpm indexes:rebuild` immediate second rebuild idempotency、Phase 11 evidence、Phase 12 strict 7、aiworkflow same-wave sync まで完了して `implemented_local_evidence_captured` へ再分類した。commit / push / PR / Issue mutation のみ user-gated として分離した。
+
+## 2026-05-31 - issue-235 judgement no-code close-out
+
+`docs/30-workflows/completed-tasks/issue-235-sync-audit-tables-necessity-judgement/` の automation-30 改善で、判定タスクが `sync_audit_logs` / `sync_audit_outbox` 新設不要に着地する場合の docs-only / NON_VISUAL close-out を確認した。CONST_004/005 は「提案だけで終わらせるな」という実反映原則だが、判定成果物そのものが no-new-table-required で、`apps/` / `packages/` の変更が目的に反する場合は、コード変更ゼロを Phase 2 / Phase 5 / Phase 11 / Phase 12 で実測証明し、代わりに aiworkflow current fact・indexes・artifact inventory・LOGS を同一サイクルで反映する。将来トリガ（行単位独立監査 / `sync_jobs` 書込失敗の別経路 / 外部監査分離）が観測されるまでは未タスク化しない。
 
 ## 2026-05-30 - issue-988 identity conflicts optimistic update automation-30 close-out
 
@@ -2789,3 +2801,10 @@ AC-1〜AC-6 全達成。Phase 10 判定: PASS（MINOR 0件）
 - Appended a new section to `references/patterns-lessons-and-pitfalls.md` (Parent-task promotion + DOM auth-slot 検証パターン) with L-PARENTPROMO-001 and L-AUTHSLOT-001..005 + 4 anti-patterns, generalising the `public-header-auth-slot-e2e` Phase 12 skill-feedback into a reusable template for future DOM-contract verification workflows.
 - Inverse linked aiworkflow-requirements `lessons-learned/lessons-learned-public-header-auth-slot-e2e-2026-05.md` (L-AUTHSL-001..006) and the workflow inventory's new `## Lessons Learned` section so the SSOT chain (lessons → inventory → patterns) stays bi-directional.
 - No template fields were added; the change is doc-side generalisation only.
+
+# 2026-06-01 task-b manual form resync admin UI spec close-out review
+
+- 対象: `docs/30-workflows/completed-tasks/task-b-manual-form-resync-admin-ui-spec/`
+- 種別: implementation / verify_existing / VISUAL_ON_EXECUTION / authenticated runtime user-gated
+- 反映: `references/phase-12-documentation-guide.md` に、landed 実装の再仕様化であっても VISUAL close-out では静的 UI contract PNG と authenticated runtime screenshot pending を二段境界で記録する rule を追加。
+- 検証: workflow 側に 4 PNG (`manual-form-resync-panel-{idle,result,confirm,inprogress}.png`) を追加し、Phase 11 / Phase 12 strict 7 / aiworkflow-requirements / task-specification-creator 履歴を同一 wave で同期。`generate-index.js` が `phase-N.md` を認識しない漏れも同 cycle で修正し、node:test を追加。

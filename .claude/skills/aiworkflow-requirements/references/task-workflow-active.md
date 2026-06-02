@@ -8,6 +8,88 @@
 
 本ドキュメントは、複雑なタスクを単一責務の原則に基づいて分解し、各サブタスクに最適なスラッシュコマンド・エージェント・スキルの組み合わせを選定するためのガイドラインを定義する。
 
+### issue-1029-public-member-photo-display（2026-05-31）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_runtime_pending / implementation / VISUAL_ON_EXECUTION` |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-1029-public-member-photo-display/` |
+| Issue | #1029 CLOSED; PR 文脈は `Refs #1029` のみ |
+| 親 | `docs/30-workflows/issue-983-member-photo-avatar-r2-storage/` |
+| 目的 | public member list/profile に #983 の admin-managed R2 member photo を optional `photoUrl` として表示する |
+| policy | `docs/00-getting-started-manual/specs/16-member-photo-public-exposure.md`。公開 gate は `public_consent='consented' AND publish_state='public' AND member_photos row exists`。写真専用 consent カラム / D1 migration は追加しない |
+| implemented targets | `packages/shared/src/zod/viewmodel.ts`, `apps/api/src/repository/memberPhotos.ts`, public routes/use-cases/view-models, `MemberCard`, `ProfileHero`, `member-detail` adapter |
+| Phase 11/12 | focused Vitest 51 PASS, public route contract 12 PASS, shared/api/web typecheck PASS; Playwright public photo 1 PASS; Phase 11 screenshots 3 PNG captured; Phase 12 strict 7 present; root/output artifacts parity present |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1029-public-member-photo-display-artifact-inventory.md` |
+| user gate | R2 secrets, staging deploy, real R2 URL capture, commit, push, PR, Issue mutation |
+
+### task-d-admin-google-form-responses-link（2026-06-01）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / VISUAL` |
+| 成果物 | `docs/30-workflows/completed-tasks/task-d-admin-google-form-responses-link/` |
+| 親 | `member-publish-recovery-form-ops-and-admin-link`（PR #1064 / commit `745c95115` landed） |
+| 目的 | admin sidebar nav に Google Form 回答編集画面を別タブで開く外部リンク「Form回答」を追加した実装の正本検証 |
+| implementation targets | `apps/web/src/lib/constants/form.ts`, `apps/web/src/components/shell/{shell-config,icons,SidebarNavItem}.tsx` |
+| contract | `FORM_RESPONSES_EDIT_URL` 定数、`ShellNavItem.external?`、`target="_blank" rel="noopener noreferrer"`、`↗` + sr-only、active 非付与 |
+| evidence boundary | local focused tests present; staging admin screenshot / external tab observation pending user-gated |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-task-d-admin-google-form-responses-link-artifact-inventory.md` |
+| user gate | staging screenshot, external tab observation, commit, push, PR |
+
+### task-c-reflection-timing-visibility-and-sla-doc（2026-06-01）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `spec_created / implementation / VISUAL / verify_existing` |
+| 成果物 | `docs/30-workflows/completed-tasks/task-c-reflection-timing-visibility-and-sla-doc/` |
+| landed implementation | PR #1064 / commit `745c95115` |
+| 目的 | Google Form 登録内容の反映タイミングを `/members` と `/profile` で可視化し、反映 SLA を `03-data-fetching.md` に恒久化する |
+| implementation anchors | `apps/web/src/components/public/ReflectionTimingNote.tsx`, `apps/web/app/(public)/members/page.tsx`, `apps/web/app/(member)/profile/page.tsx`, `docs/00-getting-started-manual/specs/03-data-fetching.md` |
+| evidence boundary | focused component spec PASS、Phase 11 output present、Phase 12 strict 7 present。authenticated runtime screenshots は user-gated |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-task-c-reflection-timing-visibility-and-sla-doc-artifact-inventory.md` |
+| user gate | authenticated runtime screenshots、commit、push、PR |
+
+### task-b-manual-form-resync-admin-ui-spec（2026-06-01）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION / runtime_visual_pending_user_gate` |
+| 成果物 | `docs/30-workflows/completed-tasks/task-b-manual-form-resync-admin-ui-spec/` |
+| 親 workflow | `docs/30-workflows/task-member-publish-recovery-form-ops-and-admin-link/` Task B |
+| 目的 | manual Google Form resync admin UI の landed 実装を standalone Phase 1-13 仕様として正本化し、diff-check / regression / user-gated runtime visual 境界を明確化する |
+| implementation targets | `apps/web/src/features/admin/components/_sync/ManualFormResyncPanel.client.tsx`, `apps/web/src/features/admin/diagnostics/manual-sync.ts`, `apps/web/app/api/admin/[...path]/route.ts`, `apps/web/src/lib/env.ts` |
+| evidence | focused Vitest PASS、web typecheck PASS、Phase 11 local evidence、Phase 12 strict 7、root/output artifacts parity |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-task-b-manual-form-resync-admin-ui-spec-artifact-inventory.md` |
+| user gate | `SYNC_ADMIN_TOKEN` secret injection、authenticated runtime screenshots、commit、push、PR |
+
+### publish-state-backfill-admin-ui（2026-06-01）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION / PASS_BOUNDARY_SYNCED_RUNTIME_PENDING` |
+| 成果物 | `docs/30-workflows/completed-tasks/publish-state-backfill-admin-ui/` |
+| 親 workflow | `docs/30-workflows/task-member-publish-recovery-form-ops-and-admin-link/` Task A |
+| 目的 | PR #1064 / commit `745c95115` で landed 済みの公開状態 backfill 管理 UI を Phase 1-13 の正本タスク仕様書として同期する |
+| implementation targets | `apps/web/src/features/admin/diagnostics/backfill.ts`, `apps/web/src/features/admin/components/_sync/BackfillPublishStatePanel.client.tsx`, `apps/web/app/(admin)/admin/sync-status/page.tsx`, `apps/web/src/features/admin/components/_sync/__tests__/BackfillPublishStatePanel.spec.tsx`, `apps/web/src/features/admin/diagnostics/__tests__/sync-schemas.spec.ts` |
+| evidence | Phase 11 deterministic plan evidence（manual-test-plan / interaction-states / screenshot-plan / manual-smoke-log / link-checklist）present; Phase 12 strict 7 present |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-publish-state-backfill-admin-ui-artifact-inventory.md` |
+| system spec | API/D1/Form schema no change; existing `POST /admin/sync/backfill-publish-state` reused |
+| user gate | staging authenticated screenshots, commit, push, PR |
+
+### issue-229-indexes-rebuild-fail-fast（2026-05-31）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / NON_VISUAL` |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-229-indexes-rebuild-fail-fast/` |
+| Issue | #229 CLOSED（reopen / mutation は user-gated） |
+| 目的 | `pnpm indexes:rebuild` が途中失敗時に decisive に fail-fast し、部分 index 書き込みを残さず、失敗 index / step を特定できる状態にする |
+| implementation targets | `.claude/skills/aiworkflow-requirements/scripts/generate-index.js`, `scripts/__tests__/generate-index-fail-fast.spec.ts` |
+| evidence | focused Vitest 1 file / 6 tests PASS、`pnpm indexes:rebuild -- --quiet` PASS、immediate second rebuild idempotent、Phase 12 strict 7 present |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-229-indexes-rebuild-fail-fast-artifact-inventory.md` |
+| user gate | commit, push, PR, Issue #229 mutation |
+
 ### issue-230-lefthook-edit-guard（2026-05-31）
 
 | 項目 | 値 |
@@ -3553,6 +3635,7 @@ docs-only / direction-reconciliation で採用方針 A を維持する場合で�
 | issue-346-08a-canonical-workflow-tree-restore | spec_created / docs-only / NON_VISUAL / Phase 1-12 completed / Phase 13 pending_user_approval | `docs/30-workflows/issue-346-08a-canonical-workflow-tree-restore/` | 09c production release runbook が参照する 08a upstream contract gate の trace 回復タスク。A restore を採用し、`docs/30-workflows/08a-parallel-api-contract-repository-and-authorization-tests/` を current/partial canonical root として維持する。08a-A は follow-up であり canonical root の代替ではない。Phase 11 evidence は file existence / aiworkflow state diff / 09c targeted link check / unassigned grep / `pnpm indexes:rebuild` drift 0 / secret hygiene を NON_VISUAL として保存。アプリコード変更なし、screenshot 不要。Issue #346 は仕様作成時点で closed のため Phase 13 は `Refs #346` のみ。artifact inventory: `references/workflow-task-issue-346-08a-canonical-workflow-tree-restore-artifact-inventory.md`。lessons: `references/lessons-learned-issue-346-08a-canonical-workflow-tree-restore-2026-05.md`（L-I346-001〜006）。 |
 | 06a-parallel-public-landing-directory-and-registration-pages | completed / Phase 1-12 完了 / Phase 13 pending_user_approval / VISUAL | `docs/30-workflows/completed-tasks/06a-parallel-public-landing-directory-and-registration-pages/` | apps/web 公開 4 route（`/`, `/members`, `/members/[id]`, `/register`）を実装。`apps/web/src/lib/url/members-search.ts` は `q` max 200、`zone/status/tag/sort/density` を URL query 正本として parse し、`fetchPublic` 経由で 04a public API のみを呼ぶ。Phase 11 は `wrangler dev` esbuild mismatch のため local mock API で curl + screenshot smoke を PASS、実 Workers + D1 smoke は 08b / 09a に引き継ぎ。follow-up: real Workers/D1 smoke、OGP/sitemap、mobile FilterBar + tag picker、04a shared query parser extraction 継続。固有教訓 `references/lessons-learned-06a-public-web-2026-04.md`（L-06A-001〜005）。 |
 | issue-291-forms-d1-legacy-followup-cleanup | implemented_local / docs-only / NON_VISUAL / Phase 1-12 completed / Phase 13 pending_user_approval / Issue #291 CLOSED | `docs/30-workflows/issue-291-forms-d1-legacy-followup-cleanup/` | Closed issue recovery cleanup for stale current guidance after `task-sync-forms-d1-legacy-umbrella-001`. Current sync guidance is Forms API + `POST /admin/sync/schema` + `POST /admin/sync/responses` + `sync_jobs`; Google Sheets API, single `/admin/sync`, and `sync_audit` are historical or superseded only. References 5 files + backlog 1 file + physical backlinks 03a/03b/02c + ledger fallback backlinks 04c/09b are synchronized. Phase 11 is NON_VISUAL (`manual-test-result.md`, `rg-before-after.md`); Phase 12 strict 7 outputs are present. PR wording must use `Refs #291` only. Artifact inventory: `references/workflow-issue-291-forms-d1-legacy-followup-cleanup-artifact-inventory.md`. |
+| issue-235-sync-audit-tables-necessity-judgement | spec_created / docs-only / NON_VISUAL / judgement complete / Phase 13 pending_user_approval / Issue #235 CLOSED | `docs/30-workflows/completed-tasks/issue-235-sync-audit-tables-necessity-judgement/` | UT21-U02 audit table necessity judgement. `sync_audit_logs` / `sync_audit_outbox` are **not required**: current `sync_jobs` ledger + `sync_job_logs` + zod `metrics_json` satisfy the audit needs; apps/packages code changes are intentionally 0. Future re-evaluation requires a new implementation task only when row-level independent audit, alternate write-failure recording, or external audit/compliance separation is observed. Root/output artifacts parity and Phase 12 strict 7 are present. Artifact inventory: `references/workflow-issue-235-sync-audit-tables-necessity-judgement-artifact-inventory.md`. |
 | task-sync-forms-d1-legacy-umbrella-001 | spec_created / docs-only / NON_VISUAL | `docs/30-workflows/completed-tasks/task-sync-forms-d1-legacy-umbrella-001/` | 旧 UT-09 Sheets→D1 sync を legacy umbrella として close。実装責務は 03a（Forms schema sync）/ 03b（Forms response sync）/ 04c（admin sync endpoints; current canonical は `references/api-endpoints.md`）/ 09b（cron runbook）/ 02c（sync_jobs 排他）へ移管。単一 `/admin/sync`、`sync_audit`、Google Sheets API 前提を stale とし、Forms API / split endpoint / `sync_jobs` を current として固定。**retry/offset canonical（max retry=3 / exponential backoff base 1s/factor 2/cap 32s/jitter ±20% / `processed_offset` chunk index）は U-UT01-09（2026-04-30）にて確定済み**。実装反映時は `references/lessons-learned-u-ut01-09-retry-offset-2026-04.md`（L-UUT0109-001〜003）を参照する。 |
 | issue-194-03b-followup-001-email-conflict-identity-merge | implemented-local / implementation-spec / VISUAL_ON_EXECUTION / Phase 1-12 completed / Phase 11 runtime pending / Phase 13 pending_user_approval | `docs/30-workflows/completed-tasks/issue-194-03b-followup-001-email-conflict-identity-merge/` | 03b の `EMAIL_CONFLICT` follow-up を Phase 1-13 仕様へ再構成し、ローカル実装差分として admin API / D1 migrations / repository / shared schema / web UI を追加済み。候補抽出は `EMAIL_CONFLICT` が存在する運用文脈で `member_identities` 全体から name+affiliation 完全一致を検出し、merge は raw response 移動ではなく `identity_aliases.source_member_id -> target_member_id` と `identity_merge_audit` / `audit_log` の単一 D1 batch で canonical identity を記録する。Phase 11 は VISUAL_ON_EXECUTION helper のみ、Phase 12 strict 7 files と root/outputs `artifacts.json` parity を配置済み。historical source: `completed-tasks/03b-parallel-forms-response-sync-and-current-response-resolver-followups/03b-followup-001-email-conflict-identity-merge.md`。固有教訓: `references/lessons-learned-issue-194-identity-merge-2026-05.md`（L-IDENT-001〜006）。staging D1 migration / screenshots / commit / push / PR は user approval gate。 |
 | 04c-followup-001-email-conflict-merge-api-and-ui | completed_alias / docs-only / NON_VISUAL / Issue #432 trace | `docs/30-workflows/04c-followup-001-email-conflict-merge-api-and-ui/` | 新規 implementation workflow ではなく、Issue #432 / 04c follow-up 名称を issue-194 正本へ誘導する alias。旧 draft の `identity_dismissals` / `admin_audit_log` 拡張 / `sync_jobs.lock_token` 転用 / `GET /admin/identity-conflicts/:id` / screenshot 3枚 / PR 実行文面は撤回。元 unassigned `03b-followup-001-workflow-elevation` と `04c-followup-001-email-conflict-merge-api-and-ui` は consumed stub。runtime evidence と Phase 13 は issue-194 user approval gate に従う。 |
@@ -3707,3 +3790,15 @@ docs-only / direction-reconciliation で採用方針 A を維持する場合で�
 | evidence | TypeScript PASS; `/members` local warm-up 200; Playwright desktop-chromium 12 PASS; 24 PNG in `completed-tasks/members-list-ux-clarity/outputs/phase-11/screenshots`; stale active path not created |
 | user gate | commit, push, PR, staging visual baseline refresh, Issue #1005 state mutation |
 | inventory | `references/workflow-issue-1005-members-ux-playwright-baseline-stabilization-artifact-inventory.md` |
+# issue-1027-member-dynamic-og-worker-split（2026-05-31）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-1027-member-dynamic-og-worker-split/` |
+| status | `implemented_local_runtime_pending / implementation / VISUAL_ON_EXECUTION` |
+| issue | #1027 OPEN 維持。PR 文脈は `Refs #1027` のみ |
+| purpose | member detail dynamic OG PNG を `apps/og` 専用 Worker に分離し、main web Worker の Free 3MiB budget と `next/og` 禁止 guard を維持する |
+| implementation targets | `apps/og/**`, `apps/web/src/lib/env.ts`, `apps/web/src/lib/seo/site-metadata.ts`, `apps/web/app/(public)/members/[id]/page.tsx`, `apps/web/wrangler.toml`, `.github/workflows/og-cd.yml` |
+| evidence | OG typecheck PASS; OG Vitest 10 PASS; web focused Vitest 17 PASS; OG Wrangler dry-run build PASS; OG size gate gzip 717KiB PASS (index.js 170KiB + wasm); web typecheck PASS |
+| source | `docs/30-workflows/unassigned-task/member-dynamic-og-paid-or-worker-split.md` consumed; upstream `web-worker-size-limit-fix` |
+| user gate | Cloudflare deploy, staging runtime PNG capture, commit, push, PR, Issue mutation |

@@ -1,8 +1,9 @@
 ---
 id: member-dynamic-og-paid-or-worker-split
 issue_number: 1027
-status: open
+status: consumed
 source_workflow: docs/30-workflows/completed-tasks/web-worker-size-limit-fix/
+canonical_workflow: docs/30-workflows/completed-tasks/issue-1027-member-dynamic-og-worker-split/
 created_at: 2026-05-29
 task_type: implementation
 visualEvidence: NON_VISUAL
@@ -17,7 +18,7 @@ category: 改善
 target_feature: member detail OGP
 priority: 中
 scale: 小規模
-status: 未実施
+status: consumed
 source_phase: Phase 12
 created_date: 2026-05-29
 dependencies: []
@@ -32,7 +33,7 @@ spec_path: docs/30-workflows/unassigned-task/member-dynamic-og-paid-or-worker-sp
 | タスク名 | member dynamic OG paid plan or Worker split |
 | 優先度 | 中 |
 | 規模 | 小規模 |
-| ステータス | 未実施 |
+| ステータス | consumed（`issue-1027-member-dynamic-og-worker-split` でローカル実装済み / runtime pending） |
 | GitHub Issue | https://github.com/daishiman/UBM-Hyogo/issues/1027 |
 | 発見元 | `docs/30-workflows/completed-tasks/web-worker-size-limit-fix/outputs/phase-12/unassigned-task-detection.md` |
 | 関連Issue | #806（CLOSED、dynamic member OG実装タスク。Free 3MiB制約・Paid/Worker split判断は本タスクへ分離） |
@@ -77,6 +78,14 @@ with the Cloudflare Workers Free 3MiB gzip limit proven in
 含まない:
 - Reintroducing `next/og` into the current main `apps/web` Worker while the Free
   3MiB limit is the governing constraint.
+
+## 消化結果
+
+- 2026-05-31: ユーザー決定により **OG 専用 Worker 分離（Free plan 維持）** を採用。
+- canonical workflow: `docs/30-workflows/completed-tasks/issue-1027-member-dynamic-og-worker-split/`
+- 実装: `apps/og` + `apps/web` metadata integration + `.github/workflows/og-cd.yml`
+- local evidence: OG Worker typecheck/test/build/size gate PASS、web metadata focused tests PASS、web typecheck PASS。
+- 残る境界: Cloudflare deploy、staging runtime PNG capture、commit、push、PR、Issue mutation は user-gated。
 
 ## 受け入れ基準
 

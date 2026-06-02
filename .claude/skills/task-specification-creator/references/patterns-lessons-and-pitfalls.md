@@ -1846,6 +1846,20 @@ resolver 単発で skill-only conflict を解消した後でも、Phase 12/13 �
 - **SP-DEVSYNC-069-D (CI 非再発・ローカル限定として記録し push を止めない)**: CI は clean checkout から build→typecheck するため `.next/types` は常に最新で本エラーは出ない。push ブロック事由にせず、ローカル green を取り戻す cache 掃除として Phase 13 に注記する。
 - 参照: [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-069（skill-only resolver-only path + route-group 移行 stale `.next/types` の切り分け）, L-DEVSYNC-068-D（`.next/types` ではなく spec 追従漏れで test だけ赤になる対照例）。
 
+## SSR-readable preference seed + cookie persistence パターン（first-paint flicker 回避 / 2026-05-31 issue-1024-sidebar-collapse-cookie-persistence）
+
+- L-SSRSEED-001: SSR 可視 layout を変える UI preference は client-only storage だと first-paint mismatch / flash が出る。first-party cookie を server component が `next/headers` の `cookies()` で読み、`initial*` prop として client state owner へ渡す。
+- L-SSRSEED-002: split-token な lint 回避（`"local" + "Storage"`）は禁止メカニズムを温存するだけ。boundary rule を満たす永続化経路（cookie）へ機構ごと置換する。
+- L-SSRSEED-003: 既存 state owner（`useSidebarState`）に optional initial seed を足す。第 2 のストアを増やさず「server=初期 seed / client=ユーザー操作 + cookie write」の責務分割を保つ。
+- Phase 2 design AC / Phase 6 test AC（server seed + client write + cookie helper の focused test 3 分割）に trigger を提供。
+
+### Anti-pattern
+- client-only storage で SSR layout preference を持つ（flash 発生）
+- substring lint rule を split-token で迂回する
+- server seed のために既存 hook と別のグローバルストアを新設する
+
+> 参照: aiworkflow-requirements 側 [[lessons-learned-issue-1024-sidebar-collapse-cookie-persistence-2026-05]] L-I1024-001..003。
+
 ## SP-DEVSYNC-074 `pnpm sync:resolve` は段階的かつ冪等 — 並行 git 操作由来の `index.lock` で後段だけ落ちても、lock 存在確認後の再実行で残コンフリクトだけ収束する（2026-05-31 feat/issue-998-members-sync-gate-c-task-spec ← dev 8 commits）
 
 sync-merge task の Phase 12 implementation-guide に、resolver 途中失敗時の復旧手順を固定フローとして記載する。`resolve-skill-merge-conflicts.sh` は ①union-resolve 群 → ②`keywords.json` `--ours`+`pnpm indexes:rebuild` の 2 段で進むため、後段で並行 worktree / dev ff 同期が残した `index.lock` に当たると「union だけ済んだ中間状態」で exit する。これを「全やり直し」と誤認しないこと。
@@ -1879,6 +1893,22 @@ skill-only conflict を `pnpm sync:resolve` で解消した後の「念のため
 - **SP-DEVSYNC-073-B (grep を併用するなら U-filter と突き合わせ + path 除外)**: 補助的に marker grep を残す場合、ヒットしたファイルが `git diff --name-only --diff-filter=U` の対象かを必ず照合し、対象外なら文書リテラルとして無視する。除外 path は `.spec`/`.test` に加え `completed-tasks/**` の evidence/log/runbook を含める（装飾区切り線の頻出箇所）。
 - **SP-DEVSYNC-073-C (Phase 12 検証手順への固定)**: dev-sync の解消検証は「`pnpm sync:resolve` exit 0 → `git ls-files -u` 0 → `git commit --no-edit` → `pnpm typecheck`/`pnpm lint`/`pnpm indexes:rebuild` 冪等」の固定列とし、marker grep の生ヒット数を gate にしない。
 - 参照: [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-073（同知見の lessons 版・merge commit `1b662cfad`）, L-DEVSYNC-072-B（`git ls-files -u` 正本則の初出）, [[feedback-grep-head-exit-code-pitfall]]（grep ベース判定のピットフォール一般則）。
+## SP-I1027 dynamic OG Worker split and size-budget branch gate
+
+Member-specific dynamic OG generation on Cloudflare Free plan exposed a recurring task-design pattern: the real decision is not "add OG route" but "choose the runtime budget owner." Apply this before Phase 2 when a task proposes `next/og`, wasm/font-heavy rendering, or another bundle-heavy feature.
+
+- **SP-I1027-A (architecture branch before design)**: If the options include Paid plan vs dedicated Worker split, ask for and record the user decision in Phase 1. Do not write Phase 2 as if both are still current.
+- **SP-I1027-B (budget owner is an implementation target)**: Treat each Worker bundle (`apps/web`, `apps/api`, `apps/og`) as a separate size-budget owner. A split is not complete until the new Worker has its own build, deploy workflow, and `scripts/check-worker-size.sh <dist>` gate.
+- **SP-I1027-C (main Worker guard remains active)**: Splitting OG generation out does not relax the main web Worker guard. Phase 4/11 must prove `apps/web` still avoids `next/og` / `ImageResponse`.
+- **SP-I1027-D (public metadata envs use accessors)**: Optional public metadata config such as `OG_IMAGE_BASE_URL` must go through the env accessor layer and focused tests. Direct `process.env` reads in SEO helpers are drift.
+- **SP-I1027-E (crawler response fails soft)**: OG runtime tests should cover both named member PNG and default fallback PNG. Upstream API failure or unknown member should not produce a broken crawler response.
+- **SP-I1027-F (新規 workspace package は aggregate coverage-gate へ同一コミットで配線)**: `apps/og` のような新規 package を足す Phase は「テストが緑」では完了にしない。`scripts/coverage-guard.sh` の集約モードは `apps/*`/`packages/*` を機械列挙するため package.json 追加だけで判定対象に自動流入する一方、`.github/workflows/ci.yml` の `coverage-gate-shard` matrix は手動固定で shard が無いと `coverage-summary.json` が未生成→ aggregate だけ `MISSING` で exit 1（shard 全 success でも fail、merge 後 dev 同期 push で顕在化）。Phase の DoD に **(1) package の `test:coverage` script、(2) coverage-guard.sh の `--group` enum/`run_group`/`group_summary_paths` 3 箇所、(3) ci.yml matrix への group 追加** を必須チェックとして書く。「機械列挙で広がる集合 ≠ 手動固定の shard 集合」の非対称が罠。
+- **SP-I1027-G (ランタイム専用コードは `v8 ignore`、純粋ロジックは抽出 unit test で 80% gate を満たす)**: `workers-og`/`ImageResponse` 等 Cloudflare Workers ランタイム依存コードは Node/jsdom で実行不能なため放置すると lines coverage が 80% gate を割る。Phase 設計で「HTML/文字列組成等の純粋関数を export して直接テスト」＋「ランタイム依存ブロックのみ `/* v8 ignore start/stop */` で除外理由コメント付き除外」＋「ルータの catch フォールバックは throw mock でテスト」を指示する。`v8 ignore` は原理的にテスト不能な箇所限定で、純粋ロジックまで握り潰さない（coverage-guard の「exclude は要レビュー」HINT に準拠）。
+
+Anti-patterns:
+- Leaving an unassigned follow-up as `open` after the implementation consumed it.
+- Marking dynamic OG complete while only the main web Worker size gate is checked.
+- Treating local PNG generation as staging runtime evidence when deployment remains user-gated.
 
 ### マージ確定後の `git commit` 偽失敗(RC128)と throwaway commit 混入除去（SP-DEVSYNC-075）
 
@@ -1923,6 +1953,17 @@ issue-1008 sync（`refactor/issue-1008-members-list-ux-clarity-artifact-status-r
 - **SP-DEVSYNC-076-C (同 branch 再 sync は衝突 file 集合を前提化しない)**: 同一 feature を時間差で再 sync すると dev delta の縮小（本件 5→1 commit）に伴い衝突 file 集合が変わる（前回 4 → 今回 3、`task-workflow-active.md` が非衝突へ転じた）。Phase 11 見積りは前回値を流用せず毎回 `git diff --name-only --diff-filter=U` で確定する（SP-DEVSYNC-047 の「衝突 file 数は可変」を再 sync 軸で補強）。
 - 参照: [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-078（正本・077-A の grep scope 補正）, L-DEVSYNC-077（duplicate-ID 機序）, SP-DEVSYNC-047（衝突 file 数可変）, SP-DEVSYNC-073（`git ls-files -u` 正本則）。
 
+### 衝突 file 集合は map 系内でも回ごとに別組になる／`sync:resolve` は union 経路と derived `--ours`+rebuild 経路を 1 pass で振り分ける（SP-DEVSYNC-079）
+
+> 採番補正: 本節は当初 SP-DEVSYNC-078 として起草したが、`feat/issue-224 ← dev` 側が独立に SP-DEVSYNC-078（sub-worktree lock/log path）を採番済みで、後続 sync-merge の union 流入で duplicate-heading 化した。SP-DEVSYNC-076-B の runbook（dev 側 canonical 残置・今回連結側を次の空き番号へ renumber）に従い本ローカル追加分を **SP-DEVSYNC-079** へ採番補正。
+
+`docs/issue-235-sync-audit-tables-necessity-judgement` ← dev（merge `b4b249cd5`・dev 7 commit / feature 2 ahead）。今回の conflict は aiworkflow `indexes/keywords.json`（derived）＋ `indexes/topic-map.md`（union）の **2 file のみ**で、SP-DEVSYNC-077 の「map 系 3 md 衝突・keywords 非衝突」とは**別組**（今回 `quick-reference.md`/`resource-map.md`/`task-workflow-active.md`/`_legacy.md` は Auto-merging）。`pnpm sync:resolve` が union 解消と derived 再生成の 2 経路を 1 pass で処理して収束。sync-merge task の Phase 11/13 検証手順に以下を固定する（[[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-080）。
+
+- **SP-DEVSYNC-079-A (derived file の content conflict は手動マージ禁止 — `--ours`+rebuild が常に正)**: `indexes/keywords.json` が CONFLICT に出る回がある（両 branch が異内容で再生成した場合）。両版を手で結合せず `pnpm sync:resolve`（内部 `--ours` → `indexes:rebuild`）に委ね、resolver ログの `ours: ...keywords.json` で経路を確認する。手動 fallback 時も `git checkout --ours <keywords.json>` → `pnpm indexes:rebuild` の順を仕様に明記。
+- **SP-DEVSYNC-079-B (衝突するのが keywords.json か map md かは回ごとに入れ替わる)**: SP-DEVSYNC-077 は map md 衝突・keywords 非衝突、本件は逆。どれが衝突するかは dev delta の hunk 位置依存で不確定なので、Phase 11 見積りで file 名を前回流用せず毎回 `git diff --name-only --diff-filter=U` で確定する（SP-DEVSYNC-076-C / 077-C の再確認）。`sync:resolve` は `.gitattributes` union 対象と derived を自動で別経路へ振り分けるため、衝突集合がどう転んでも追加判断は不要。
+- **SP-DEVSYNC-079-C (`sync:resolve` 後検証は JSON 妥当性 + マーカー残存 0 の 2 点)**: 仕様の検証コマンドに `node -e "JSON.parse(readFileSync('.../keywords.json'))"` の妥当性確認と `git grep -c '^<<<<<<<\|^>>>>>>>\|^=======' -- .claude/skills/` の残存マーカー 0 を含める。両 PASS を commit 前ゲートにする。
+- 参照: [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-080（正本）, SP-DEVSYNC-077（map md 衝突・keywords 非衝突の逆組）, SP-DEVSYNC-074/076-B（keywords は `--ours`+rebuild）, SP-DEVSYNC-047（衝突 file 数可変）。
+
 ### 衝突集合は「数同じ・メンバー入替」もする — resolver を集合非依存の単一経路として使う（SP-DEVSYNC-078）
 
 `feat/issue-230-lefthook-edit-guard` ← dev（6 behind / 3 ahead・ローカル dev は origin/dev に既一致で ff 同期不要）の **2 回目**の sync 知見（[[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-079）。`git merge dev` の conflict は **3 file**＝aiworkflow `indexes/keywords.json` + `indexes/topic-map.md` + `references/task-workflow-active.md`。直前の SP-DEVSYNC-077 ケース（keywords 非衝突・map 3 本）と**数は同じ 3 のまま中身が真逆に入れ替わった**（keywords が衝突に戻り、map は topic-map 1 本のみ・quick-reference/resource-map は非衝突）。`apps/**`/`packages/**` source conflict 0 → `pnpm sync:resolve` 1 回で full resolve（resolver ログ `union-resolving 2 files` + `taking --ours for 1 derived files`）。仕様書を起草する際の sync-merge 検証手順に以下を含める。
@@ -1953,3 +1994,40 @@ issue-1008 sync（`refactor/issue-1008-members-list-ux-clarity-artifact-status-r
 - **SP-I1036-D (schema 変更禁止下の横断相関は payload 埋め込み識別子で担保する)**: 「この 1 回の bulk」を後から引きたいが列追加（例 `correlation_id`）が不変条件で禁止のとき、`crypto.randomUUID()` の `batchId` を audit の before/after JSON payload に埋める設計を仕様化する。schema を変えず相関メタを残す常套手段。
 - **SP-I1036-E (新しい write lane は helper 分離 + type-level allow list で self-document し、既存経路を非破壊で温存する)**: 「table への write は限定経路のみ」の不変条件に第 N 経路を足すときは、(1) 専用 helper を SRP で分離、(2) readonly `.test-d.ts` allow list へ追加して type-level 自己文書化、(3) 既存経路のコメント/記述を**削除せず追記**して archive/delete stale-reference gate を壊さない。UI は新規 primitive を生やさず既存 picker primitive と標準 mutation hook を再利用する（prototype 正本順位・admin mutation 不変条件）。
 - 参照: aiworkflow-requirements [[lessons-learned-issue-1036-bulk-member-tag-assign-2026-06]] L-I1036-001..008（正本）, [[lessons-learned-issue-982-drawer-tag-pill-editing-2026-05]]（単一 member 版の親パターン・不変条件 #13 第1/第2経路）。
+
+### source conflict あり sync-merge — 2 feature の別 optional field は併存マージ・変数 shadow 改名・diff3 開始マーカー消し忘れ（SP-DEVSYNC-080）
+
+`docs/issue-1029-public-member-photo-display-spec` ← dev（3 behind）の sync-merge（aiworkflow-requirements [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-081 の task-spec 版）。**skill index 衝突しか起きない従来 sync と異なり、2 つの feature が同一 source に意味的に両立する変更を入れた source conflict** を含むケースの統合則を branch-sync / public API 拡張 task の Phase 11/12 へ固定する。CONFLICT 12 file のうち `pnpm sync:resolve` は skill index 5 file（union 4 + derived ours 1）のみ収束、残り 7 file（source 6 + reference doc 1）は `WARN unhandled conflict` として手動マージ必須。
+
+- **SP-DEVSYNC-080-A (2 feature の別 optional field は併存マージ — 6 層に同パターン適用)**: dev=#224 で `tags`、HEAD=#1029 で `photoUrl` を同一 view model に追加（3-way base はどちらも未保持）。union でも `--ours/--theirs` でもなく**両 field を 1 object に併存**させる。zod schema / TS interface / view-model source interface / use-case の item 組成 / contract spec / unit spec の **6 層すべてで同じ併存** を機械適用する。仕様起草時に「public list/profile の optional field は後方互換追加（`optional()` / `?`）で重ねる」方針を固定しておくと、複数 feature 並走時の merge コストが消える。
+- **SP-DEVSYNC-080-B (両 feature が同名 local を別定義したら一方を改名)**: HEAD `const memberIds`（photo 用・生 string）と dev `const memberIds`（tags 用・`asMemberId` 適用・block scope）が shadow する。dev 側を `tagMemberIds` に**改名して併存**（型も用途も異なり統合不可）。import 衝突は superset 側採用（dev の `afterEach` 追加版が HEAD の `vi` だけ版を包含）。
+- **SP-DEVSYNC-080-C (reference doc の衝突は文章結合 + 編集後 indexes:rebuild)**: `references/api-endpoints.md` 等 skill reference の衝突は両 issue 記述を文レベル結合（table cell は両 optional を 1 セル、prose は両 policy 連結）し、**編集後に `pnpm indexes:rebuild`** で topic-map/keywords drift を解消する。reference を sync:resolve 後に手編集すると index が古くなるため、Phase 12 の indexes drift gate 前に必ず rebuild する。
+- **SP-DEVSYNC-080-D (diff3 開始マーカー消し忘れ — 解消後は 4 種マーカー全走査 + spec は 2 config 実行)**: `merge.conflictStyle=zealous-diff3` の 3 段マーカー（`<<<<<<<`/`|||||||`/`=======`/`>>>>>>>`）を Edit で部分解消すると、中間・終端だけ消して**開始 `<<<<<<< HEAD` を取りこぼす**ことがある（`git diff --diff-filter=U` は空でも `git grep '^<<<<<<<'` で検出）。解消後は `git grep -nE '^(<<<<<<<|\|\|\|\|\|\|\||=======|>>>>>>>)'` で 4 種全走査する。解消した `*.contract.spec.ts` は unit config の exclude のため `--config=vitest.d1.config.ts` で別途実行する（unit/d1 2 config 分離）。
+- Why: skill index 衝突は resolver で機械処理できるが、**2 feature が同一 source に両立変更を入れた衝突は人間の統合判断（field 併存・変数改名・import superset）が必須**で resolver の守備範囲外。ここを機械的に倒すと一方の feature が消える。仕様段階で optional 後方互換追加の方針と 2 config テスト経路を明記しておけば、merge 衝突解消が定型化する。
+- 参照: [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-081（正本）, L-DEVSYNC-080/079/078（skill index は resolver 単独収束・本節は source conflict あり）, SP-DEVSYNC-079（union/derived 1-pass 振り分け）, SP-DEVSYNC-047/073（衝突 file 数可変）。
+
+### 残コンフリクト判定は `git ls-files -u` を正本に — `=======` grep は装飾区切り線を誤検出／衝突 file はフルセット 5 file もある（SP-DEVSYNC-079）
+
+`feat/issue-229-indexes-rebuild-fail-fast-spec-clean ← dev`（sub-worktree wt-8・6 behind / 4 ahead）の sync-merge で確立。content conflict は **5 file フルセット**＝`aiworkflow-requirements/indexes/{keywords.json, quick-reference, resource-map, topic-map}` + `references/task-workflow-active.md`（**keywords.json と task-workflow-active.md が同時衝突**＝SP-DEVSYNC-078 の組合せの真逆）。source conflict 0 → `pnpm sync:resolve` 単独収束（5257 kw 再生成）→ merge commit `50b0a4f73`。typecheck/lint exit 0。
+
+- **SP-DEVSYNC-079-A (残コンフリクト判定は `git ls-files -u` を正本に・`=======` grep を単独根拠にしない)**: resolver / 手動解消の後、残コンフリクトの有無は `git ls-files -u`（空＝収束）で確定する。`git grep -lE '^(<<<<<<<|=======|>>>>>>>)'` は **diff3 の `=======`（7 個）に ASCII アート区切り（`=` 60 個）や Markdown 見出し下線が前方一致して false positive を出す**（本件は `ut-08-monitoring-alert-design/.../manual-smoke-log.md` の装飾区切り線を誤検出したが unmerged 0）。grep を使うなら `^=======$` 等の行末 anchor か `git diff --check`。SP-DEVSYNC-047/073 の「`git ls-files -u` 正本則」を marker 走査の文脈で再確認。[[feedback-grep-head-exit-code-pitfall]] と同系の grep 過検出ピットフォール。Phase 11 の「コンフリクト解消検証」手順には `git ls-files -u` を必須記載する。
+- **SP-DEVSYNC-079-B (衝突 file 集合は keywords.json + task-workflow-active のフルセットもある)**: SP-DEVSYNC-078-C の「集合可変」を再々確認。078=両非衝突 / 079(L-DEVSYNC)=keywords のみ / 本件=両方同時衝突、と組合せは sync 毎に変わる。固定 file 名リストを Phase 11 見積りに焼き込まず `git diff --name-only --diff-filter=U` で都度確定し `pnpm sync:resolve` に委譲する。
+- **SP-DEVSYNC-079-C (push-race — push 後に PR mergeable を再確認し base 前進なら即再 sync)**: branch-sync task の Phase 4（push）の完了条件に「PR mergeable 確認」を含める。クリーン push（pre-push gate 全緑）でも 9+ WT 並列運用では base `dev` が同時前進し PR が `CONFLICTING / DIRTY` 化する（本件: push 直後に別 PR #1061 が `ba8bbff0c` として dev 着地 → PR #1066 が CONFLICTING、CI は 29 checks 全 success）。push 後に `gh pr view <n> --json mergeable,mergeStateStatus,statusCheckRollup`（read-only・PR mutation ではない）か `git fetch --prune && git merge-base --is-ancestor origin/dev HEAD`（NO=base 前進）で確認し、CONFLICTING なら `git merge origin/dev` → `pnpm sync:resolve` → typecheck/lint → 再 push をもう 1 周。**CI 全 success と mergeable は独立軸**であり「CI 緑＝完了」と早合点しない（Phase 4 検証手順に明記）。
+- 参照: [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-080（正本・80-C が push-race）, L-DEVSYNC-079（sub-worktree path・keywords 可変）, SP-DEVSYNC-078（前回フルセット組合せ）, SP-DEVSYNC-047/073（`git ls-files -u` 正本則の初出）, [[feedback-grep-head-exit-code-pitfall]]。
+
+### 衝突集合に SKILL.md（両 skill）が初めて入る 6 file セットもある（keywords.json は逆に非衝突）／重複 H2 は merge 前後 3 点 grep で既存 backlog 判定（SP-DEVSYNC-080）
+
+`docs/task-a-publish-state-backfill-admin-ui-spec ← dev`（sub-worktree wt-3・2 behind / 2 ahead・ローカル dev は origin/dev 一致で ff 不要）の sync-merge で確立（[[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-081）。content conflict は **6 file**＝`aiworkflow-requirements/SKILL.md` + `aiworkflow-requirements/indexes/{quick-reference, resource-map, topic-map}` + `references/task-workflow-active.md` + `task-specification-creator/SKILL.md`。**両 skill の `SKILL.md` が同時に衝突に入った初例**（SP-DEVSYNC-078/079 は keywords/map/task-workflow-active の組合せで SKILL.md は常に Auto-merging）。**今回は逆に keywords.json が非衝突**（`Auto-merging`・161 行差分はあるが conflict ではない）。source conflict 0 → `pnpm sync:resolve` 単独収束（resolver ログ `union-resolving 6 files`＝SKILL.md×2 + map 3 + task-workflow-active、keywords.json は非衝突で `--ours` 段スキップ・`indexes:rebuild` のみ）→ merge commit `078bd0a2e`。typecheck/lint exit 0・indexes 冪等 drift 0。
+
+- **SP-DEVSYNC-080-A (SKILL.md×2 も衝突集合の member になり得る — union 登録済みなら resolver に委ねる)**: 衝突集合に `aiworkflow-requirements/SKILL.md` / `task-specification-creator/SKILL.md` が出ても手動 merge せず `pnpm sync:resolve` に委ねる（`scripts/sync/resolve-skill-merge-conflicts.sh` の union 対象に両 SKILL.md が含まれる）。「SKILL.md は narrative だから手動が要る」という固定観念を捨て、Phase 11 見積りの衝突 member 候補に SKILL.md も加える。毎回 `git diff --name-only --diff-filter=U` で実集合を確定（SP-DEVSYNC-078-C/079-B の再々確認）。
+- **SP-DEVSYNC-080-B (union 解消後の重複 H2 は merge 前後 3 点 grep で backlog 判定)**: union 解消後 `indexes/quick-reference.md` / `resource-map.md` に同一 H2 が複数（例 `## admin-ui-prototype-alignment（2026-05-23）` ×4）見えても即「union 二重連結 artifact」と断じない。`git show dev:F`・`git show HEAD@{1}:F`（merge 前 feature 先端）・作業ツリーの 3 点で `grep -c '^## <heading>'` を比較し、after==dev かつ dev==feature なら既存 backlog（union 無罪）→ 触らず別 cleanup タスク送り（SP-DEVSYNC-078-C / L-DEVSYNC-078-C）。after が両側より増えていれば初めて union artifact を疑う。L-DEVSYNC-079-B の「lessons-file ID dup 3 点照合」を manual map H2 へ適用した変種。spec の Phase 11 検証手順「重複見出し確認」に 3 点 grep 法を明記する。
+- **SP-DEVSYNC-080-C (keywords.json 非衝突回は resolver の `--ours` 段が no-op)**: keywords.json が Auto-merging（非衝突）の回は resolver の `--ours`+rebuild 段がスキップされ `indexes:rebuild` のみ走る。それでも commit 前に `pnpm indexes:rebuild` 冪等（drift 0）を必ず確認し、merge が 3-way 自動結合した keywords.json が rebuild 出力と一致することを検証する（Phase 13 local-check に固定）。
+- 参照: [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-081（正本）, L-DEVSYNC-079-B（dup 3 点照合の原型）, SP-DEVSYNC-079（前回フルセット・push-race）, SP-DEVSYNC-078（衝突集合 member 入替）, SP-DEVSYNC-047/073（`git ls-files -u` 正本則）。
+
+### SKILL.md の衝突は片側だけ入る非対称ケースもある（task-spec/SKILL.md は衝突・aiworkflow/SKILL.md は Auto-merging）／衝突集合は file 単位で可変＝「両 SKILL.md か無か」の二択ではない（SP-DEVSYNC-081）
+
+`docs/task-b-manual-form-resync-admin-ui-spec ← dev`（sub-worktree wt-14・2 behind / 0 ahead・ローカル dev は origin/dev 一致で ff 不要）の sync-merge で確立（[[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-082）。content conflict は **5 file**＝`aiworkflow-requirements/indexes/{quick-reference, resource-map, topic-map}` + `references/task-workflow-active.md` + **`task-specification-creator/SKILL.md` のみ**。**`aiworkflow-requirements/SKILL.md` は Auto-merging（非衝突）**で、SP-DEVSYNC-080 の「両 SKILL.md 同時衝突」とは逆の **片側のみ衝突という非対称**ケース（dev 未取込は #1087 Task A publish-state-backfill・#1067 issue-1024 sidebar collapse cookie）。keywords.json も Auto-merging（SP-DEVSYNC-080 と同傾向）。source conflict 0 → `pnpm sync:resolve` 単独収束（resolver ログ `union-resolving 5 files`）→ `git ls-files -u` 0 → merge commit `7a2fb9b94`。typecheck/lint exit 0・indexes 冪等 drift 0（5272 キーワード）・gate-metadata `--require-gates-for-changed` ERROR 0。
+
+- **SP-DEVSYNC-081-A (SKILL.md の衝突は skill ごとに独立・片側のみもある)**: 衝突集合に片方の SKILL.md しか出なくても異常ではない。dev 側と feature 側の編集行が重なるかで skill 単位に独立に決まるため、「SKILL.md は 2 つセットで衝突する/しない」という対称性を前提にしない。Phase 11 見積りでは「どちらの SKILL.md も衝突し得る／片側だけもある」と幅を持たせ、実集合は `git diff --name-only --diff-filter=U` で確定する。
+- **SP-DEVSYNC-081-B (resolver の処理件数 N は回ごとに変わる — 固定値で見込まない)**: `union-resolving N files` の N は本件 5・SP-DEVSYNC-080 は 6 と回ごとに変動する。件数や member 構成が変わっても標準フロー（`git merge dev` → `pnpm sync:resolve` → `git ls-files -u` 0 → `git commit` → `pnpm typecheck && pnpm lint` → `pnpm indexes:rebuild` 冪等確認 → push）は不変。source conflict 0・keywords 非衝突の回は手動介入ゼロ・CI 修正不要で全ゲート即緑になる（本件がその実例）。spec の Phase 11/13 検証手順は件数を断定せず「`--diff-filter=U` の実集合を resolver に渡す」と記述する。
+- 参照: [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-082（正本）, SP-DEVSYNC-080（両 SKILL.md 衝突の 6 file セット・本 lesson の対比元）, SP-DEVSYNC-078-C/079-B（衝突集合は `--diff-filter=U` で都度確定）, SP-DEVSYNC-047/073（`git ls-files -u` 正本則）。
