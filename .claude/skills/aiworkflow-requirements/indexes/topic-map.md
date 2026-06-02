@@ -3638,8 +3638,8 @@ node scripts/list-specs.js --topics
 
 | セクション | 行 |
 |------------|----|
-| Status | L13 |
-| Lessons Learned | L21 |
+| Status | L14 |
+| Lessons Learned | L22 |
 
 ### references/workflow-members-list-prototype-alignment-artifact-inventory.md
 
@@ -3795,6 +3795,16 @@ node scripts/list-specs.js --topics
 ### references/workflow-public-header-logged-in-nav-cleanup-artifact-inventory.md
 
 ### references/workflow-public-header-session-aware-auth-view-base-artifact-inventory.md
+
+### references/workflow-publish-state-backfill-admin-ui-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Summary | L3 |
+| Workflow Artifacts | L13 |
+| Implementation Targets | L25 |
+| Boundaries | L36 |
+| Lessons Learned | L44 |
 
 ### references/workflow-regression-evidence-ci-gate-foundation-artifact-inventory.md
 
@@ -4360,6 +4370,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | Contract | L17 |
+
+### references/workflow-task-b-manual-form-resync-admin-ui-spec-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Status | L14 |
+| Evidence | L20 |
+| User-Gated | L28 |
 
 ### references/workflow-task-b-root-page-public-header-async-artifact-inventory.md
 
@@ -6642,6 +6660,13 @@ node scripts/list-specs.js --topics
 | L-I06-005: NON_VISUAL タスクの Phase 11 evidence 5 点セット | L77 |
 | 関連 | L93 |
 
+### references/lessons-learned-publish-state-backfill-admin-ui-2026-06.md
+
+| セクション | 行 |
+|------------|----|
+| 教訓一覧 | L19 |
+| 確認パス | L63 |
+
 ### references/lessons-learned-skill-codex-validation-2026-04.md
 
 | セクション | 行 |
@@ -8343,15 +8368,15 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L3372 |
-| フェーズ構造（概要） | L3381 |
-| 品質ゲート（概要） | L3412 |
-| 出力テンプレート | L3423 |
-| 実行時のコマンド・エージェント・スキル | L3446 |
-| 昇格パターン集 | L3470 |
-| Current Active / Spec Created Tasks | L3472 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L3638 |
-| issue-998-members-publish-state-production-rollout | L3716 |
+| ドキュメント構成 | L3399 |
+| フェーズ構造（概要） | L3408 |
+| 品質ゲート（概要） | L3439 |
+| 出力テンプレート | L3450 |
+| 実行時のコマンド・エージェント・スキル | L3473 |
+| 昇格パターン集 | L3497 |
+| Current Active / Spec Created Tasks | L3499 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L3665 |
+| issue-998-members-publish-state-production-rollout | L3743 |
 
 ### references/task-workflow-backlog-part2.md
 

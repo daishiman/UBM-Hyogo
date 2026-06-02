@@ -2797,3 +2797,10 @@ AC-1〜AC-6 全達成。Phase 10 判定: PASS（MINOR 0件）
 - Appended a new section to `references/patterns-lessons-and-pitfalls.md` (Parent-task promotion + DOM auth-slot 検証パターン) with L-PARENTPROMO-001 and L-AUTHSLOT-001..005 + 4 anti-patterns, generalising the `public-header-auth-slot-e2e` Phase 12 skill-feedback into a reusable template for future DOM-contract verification workflows.
 - Inverse linked aiworkflow-requirements `lessons-learned/lessons-learned-public-header-auth-slot-e2e-2026-05.md` (L-AUTHSL-001..006) and the workflow inventory's new `## Lessons Learned` section so the SSOT chain (lessons → inventory → patterns) stays bi-directional.
 - No template fields were added; the change is doc-side generalisation only.
+
+# 2026-06-01 task-b manual form resync admin UI spec close-out review
+
+- 対象: `docs/30-workflows/completed-tasks/task-b-manual-form-resync-admin-ui-spec/`
+- 種別: implementation / verify_existing / VISUAL_ON_EXECUTION / authenticated runtime user-gated
+- 反映: `references/phase-12-documentation-guide.md` に、landed 実装の再仕様化であっても VISUAL close-out では静的 UI contract PNG と authenticated runtime screenshot pending を二段境界で記録する rule を追加。
+- 検証: workflow 側に 4 PNG (`manual-form-resync-panel-{idle,result,confirm,inprogress}.png`) を追加し、Phase 11 / Phase 12 strict 7 / aiworkflow-requirements / task-specification-creator 履歴を同一 wave で同期。`generate-index.js` が `phase-N.md` を認識しない漏れも同 cycle で修正し、node:test を追加。
