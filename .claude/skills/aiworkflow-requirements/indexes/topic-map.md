@@ -3628,8 +3628,8 @@ node scripts/list-specs.js --topics
 
 | セクション | 行 |
 |------------|----|
-| Status | L13 |
-| Lessons Learned | L21 |
+| Status | L14 |
+| Lessons Learned | L22 |
 
 ### references/workflow-members-list-prototype-alignment-artifact-inventory.md
 
@@ -4360,6 +4360,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | Contract | L17 |
+
+### references/workflow-task-b-manual-form-resync-admin-ui-spec-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Status | L14 |
+| Evidence | L20 |
+| User-Gated | L28 |
 
 ### references/workflow-task-b-root-page-public-header-async-artifact-inventory.md
 
@@ -8359,15 +8367,15 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L3384 |
-| フェーズ構造（概要） | L3393 |
-| 品質ゲート（概要） | L3424 |
-| 出力テンプレート | L3435 |
-| 実行時のコマンド・エージェント・スキル | L3458 |
-| 昇格パターン集 | L3482 |
-| Current Active / Spec Created Tasks | L3484 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L3650 |
-| issue-998-members-publish-state-production-rollout | L3728 |
+| ドキュメント構成 | L3397 |
+| フェーズ構造（概要） | L3406 |
+| 品質ゲート（概要） | L3437 |
+| 出力テンプレート | L3448 |
+| 実行時のコマンド・エージェント・スキル | L3471 |
+| 昇格パターン集 | L3495 |
+| Current Active / Spec Created Tasks | L3497 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L3663 |
+| issue-998-members-publish-state-production-rollout | L3741 |
 
 ### references/task-workflow-backlog-part2.md
 

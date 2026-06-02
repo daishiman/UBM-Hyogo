@@ -2972,6 +2972,7 @@
       "workflow-skill-lifecycle-created-skill-usage-journey.md",
       "workflow-task-03b-followup-005-sync-jobs-design-spec-artifact-inventory.md",
       "workflow-task-06a-followup-001-real-workers-d1-smoke-artifact-inventory.md",
+      "workflow-task-b-manual-form-resync-admin-ui-spec-artifact-inventory.md",
       "workflow-task-c-privacy-terms-public-shell-spec-artifact-inventory.md",
       "workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md",
       "workflow-task-spec-2d-contract-stage-2-artifact-inventory.md",
@@ -3431,6 +3432,7 @@
       "workflow-task-26-ui-mvp-w8-par-error-tsx-token-utility-migration-artifact-inventory.md",
       "workflow-task-709-visual-baseline-runtime-capture-artifact-inventory.md",
       "workflow-task-761-visual-full-required-status-check-artifact-inventory.md",
+      "workflow-task-b-manual-form-resync-admin-ui-spec-artifact-inventory.md",
       "workflow-task-c-privacy-terms-public-shell-spec-artifact-inventory.md",
       "workflow-task-c-public-member-sidebar-shell-integration-artifact-inventory.md",
       "workflow-task-c-reflection-timing-visibility-and-sla-doc-artifact-inventory.md",
@@ -3774,6 +3776,7 @@
       "workflow-task-15-admin-dashboard-and-members-artifact-inventory.md",
       "workflow-task-16-admin-tags-meetings-requests-artifact-inventory.md",
       "workflow-task-17-admin-schema-conflicts-audit-artifact-inventory.md",
+      "workflow-task-b-manual-form-resync-admin-ui-spec-artifact-inventory.md",
       "workflow-task-runtime-smoke-admin-members-500-recovery-001-artifact-inventory.md",
       "workflow-unified-sidebar-shell-public-and-admin-artifact-inventory.md"
     ],
@@ -7343,6 +7346,7 @@
       "workflow-task-12-member-detail-register-legal-artifact-inventory.md",
       "workflow-task-13-login-rebuild-artifact-inventory.md",
       "workflow-task-18-w7-verify-tokens-and-playwright-smoke-artifact-inventory.md",
+      "workflow-task-b-manual-form-resync-admin-ui-spec-artifact-inventory.md",
       "workflow-task-b-root-page-public-header-async-artifact-inventory.md",
       "workflow-task-c-reflection-timing-visibility-and-sla-doc-artifact-inventory.md",
       "workflow-task-issue-191-production-d1-schema-aliases-apply-001-artifact-inventory.md",
@@ -8763,7 +8767,8 @@
     "manual": [
       "deployment-cloudflare.md",
       "lessons-learned-ut07b-fu-02-admin-schema-alias-retry-label-2026-05.md",
-      "ui-history-integration.md"
+      "ui-history-integration.md",
+      "workflow-task-b-manual-form-resync-admin-ui-spec-artifact-inventory.md"
     ],
     "Alert": [
       "deployment-cloudflare.md",
@@ -9973,7 +9978,8 @@
       "workflow-member-publish-recovery-form-ops-and-admin-link-artifact-inventory.md",
       "workflow-task-18-w7-verify-tokens-and-playwright-smoke-artifact-inventory.md",
       "workflow-task-24-ui-mvp-w8-par-invariant-audit-artifact-inventory.md",
-      "workflow-task-25-followup-loading-state-observation-fixture-artifact-inventory.md"
+      "workflow-task-25-followup-loading-state-observation-fixture-artifact-inventory.md",
+      "workflow-task-b-manual-form-resync-admin-ui-spec-artifact-inventory.md"
     ],
     "Purpose": [
       "gate-metadata.md"
@@ -13019,6 +13025,7 @@
       "workflow-task-709-visual-baseline-runtime-capture-artifact-inventory.md",
       "workflow-task-761-visual-full-required-status-check-artifact-inventory.md",
       "workflow-task-alert-relay-global-scope-fix-001-artifact-inventory.md",
+      "workflow-task-b-manual-form-resync-admin-ui-spec-artifact-inventory.md",
       "workflow-task-b-root-page-public-header-async-artifact-inventory.md",
       "workflow-task-c-privacy-terms-public-shell-spec-artifact-inventory.md",
       "workflow-task-c-public-member-sidebar-shell-integration-artifact-inventory.md",
@@ -13052,7 +13059,8 @@
       "workflow-google-form-reflection-diagnostics-fu-002-h2-identity-rebuild-artifact-inventory.md",
       "workflow-member-publish-recovery-form-ops-and-admin-link-artifact-inventory.md",
       "workflow-members-not-displaying-form-sync-investigation-artifact-inventory.md",
-      "workflow-task-05a-form-preview-503-001-artifact-inventory.md"
+      "workflow-task-05a-form-preview-503-001-artifact-inventory.md",
+      "workflow-task-b-manual-form-resync-admin-ui-spec-artifact-inventory.md"
     ],
     "column": [
       "lessons-learned-05a-form-preview-503-2026-05.md",
@@ -15228,7 +15236,8 @@
       "workflow-publish-state-backfill-admin-ui-artifact-inventory.md",
       "workflow-task-06-ui-ux-contract-rewrite-artifact-inventory.md",
       "workflow-task-24-ui-mvp-w8-par-invariant-audit-artifact-inventory.md",
-      "workflow-task-25-ui-mvp-w8-par-routes-smoke-coverage-artifact-inventory.md"
+      "workflow-task-25-ui-mvp-w8-par-routes-smoke-coverage-artifact-inventory.md",
+      "workflow-task-b-manual-form-resync-admin-ui-spec-artifact-inventory.md"
     ],
     "苦戦箇所と再利用パターン": [
       "lessons-learned-admin-ui-prototype-alignment-2026-05.md"
@@ -17851,6 +17860,7 @@
       "workflow-task-26-ui-mvp-w8-par-error-tsx-token-utility-migration-artifact-inventory.md",
       "workflow-task-709-visual-baseline-runtime-capture-artifact-inventory.md",
       "workflow-task-761-visual-full-required-status-check-artifact-inventory.md",
+      "workflow-task-b-manual-form-resync-admin-ui-spec-artifact-inventory.md",
       "workflow-task-c-privacy-terms-public-shell-spec-artifact-inventory.md",
       "workflow-task-c-public-member-sidebar-shell-integration-artifact-inventory.md",
       "workflow-task-c-reflection-timing-visibility-and-sla-doc-artifact-inventory.md",
@@ -23955,6 +23965,7 @@
       "workflow-parallel-i03-dialog-refresh-order-artifact-inventory.md",
       "workflow-parallel-i06-root-error-focus-artifact-inventory.md",
       "workflow-task-18-w7-verify-tokens-and-playwright-smoke-artifact-inventory.md",
+      "workflow-task-b-manual-form-resync-admin-ui-spec-artifact-inventory.md",
       "workflow-ut-17-followup-005-alert-relay-kv-operation-error-metrics-artifact-inventory.md",
       "workflow-web-worker-size-limit-fix-artifact-inventory.md"
     ],
@@ -25937,6 +25948,7 @@
       "workflow-task-26-ui-mvp-w8-par-error-tsx-token-utility-migration-artifact-inventory.md",
       "workflow-task-709-visual-baseline-runtime-capture-artifact-inventory.md",
       "workflow-task-761-visual-full-required-status-check-artifact-inventory.md",
+      "workflow-task-b-manual-form-resync-admin-ui-spec-artifact-inventory.md",
       "workflow-task-c-privacy-terms-public-shell-spec-artifact-inventory.md",
       "workflow-task-c-public-member-sidebar-shell-integration-artifact-inventory.md",
       "workflow-task-c-reflection-timing-visibility-and-sla-doc-artifact-inventory.md",
@@ -26250,6 +26262,7 @@
       "workflow-issue-988-identity-conflicts-merge-optimistic-update-artifact-inventory.md",
       "workflow-issue-991-admin-fetch-error-typed-class-artifact-inventory.md",
       "workflow-issue-998-members-publish-state-production-rollout-artifact-inventory.md",
+      "workflow-task-b-manual-form-resync-admin-ui-spec-artifact-inventory.md",
       "workflow-ut-17-followup-005-alert-relay-kv-operation-error-metrics-artifact-inventory.md",
       "workflow-web-worker-size-limit-fix-artifact-inventory.md"
     ],
@@ -27496,6 +27509,9 @@
     ],
     "capture": [
       "workflow-task-709-visual-baseline-runtime-capture-artifact-inventory.md"
+    ],
+    "resync": [
+      "workflow-task-b-manual-form-resync-admin-ui-spec-artifact-inventory.md"
     ],
     "privacy": [
       "workflow-task-c-privacy-terms-public-shell-spec-artifact-inventory.md"
