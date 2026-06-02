@@ -1934,6 +1934,15 @@ issue-1008 sync（`refactor/issue-1008-members-list-ux-clarity-artifact-status-r
 - **SP-DEVSYNC-079-C (`sync:resolve` 後検証は JSON 妥当性 + マーカー残存 0 の 2 点)**: 仕様の検証コマンドに `node -e "JSON.parse(readFileSync('.../keywords.json'))"` の妥当性確認と `git grep -c '^<<<<<<<\|^>>>>>>>\|^=======' -- .claude/skills/` の残存マーカー 0 を含める。両 PASS を commit 前ゲートにする。
 - 参照: [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-080（正本）, SP-DEVSYNC-077（map md 衝突・keywords 非衝突の逆組）, SP-DEVSYNC-074/076-B（keywords は `--ours`+rebuild）, SP-DEVSYNC-047（衝突 file 数可変）。
 
+### VISUAL implementation の local deterministic evidence と pixel screenshot user-gate 分離（SP-SVC-001）
+
+`implementation / VISUAL` task で route topology や shell UI の実コードは同一 wave で完了できるが、認証済み staging screenshot が external runtime に依存する場合、root state は `spec_created` に据え置かず `implemented_local_evidence_captured` へ昇格する。
+
+- **SP-SVC-001-A (local evidence を主証跡化)**: focused Vitest / typecheck / lint / grep gates が PASS したら、Phase 11 `manual-test-result.md` と Phase 12 compliance に実測コマンド・件数・対象を記録する。
+- **SP-SVC-001-B (pixel screenshot は user-gated boundary として分離)**: screenshot canonical names は Phase 11 に固定するが、未取得を PASS 扱いしない。`pixel_screenshot_pending_user_gate` と明記し、commit / push / PR と同じ Gate-C 系に置く。
+- **SP-SVC-001-C (`spec_created` drift 禁止)**: 実コード差分が入った後も artifacts / index / compliance が `spec_created` のままなら FAIL。root/output artifacts、Phase 11 result、Phase 12 compliance、aiworkflow 台帳を同一 wave で `implemented_local_evidence_captured` へ揃える。
+- **Anti-pattern**: 「VISUAL screenshot 未取得」を理由に、実コード・tests が完了した task を `spec_created` のまま提出する。
+
 ### 衝突集合は「数同じ・メンバー入替」もする — resolver を集合非依存の単一経路として使う（SP-DEVSYNC-078）
 
 `feat/issue-230-lefthook-edit-guard` ← dev（6 behind / 3 ahead・ローカル dev は origin/dev に既一致で ff 同期不要）の **2 回目**の sync 知見（[[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-079）。`git merge dev` の conflict は **3 file**＝aiworkflow `indexes/keywords.json` + `indexes/topic-map.md` + `references/task-workflow-active.md`。直前の SP-DEVSYNC-077 ケース（keywords 非衝突・map 3 本）と**数は同じ 3 のまま中身が真逆に入れ替わった**（keywords が衝突に戻り、map は topic-map 1 本のみ・quick-reference/resource-map は非衝突）。`apps/**`/`packages/**` source conflict 0 → `pnpm sync:resolve` 1 回で full resolve（resolver ログ `union-resolving 2 files` + `taking --ours for 1 derived files`）。仕様書を起草する際の sync-merge 検証手順に以下を含める。

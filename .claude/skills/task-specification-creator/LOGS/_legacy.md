@@ -4,6 +4,10 @@
 
 このファイルは task-specification-creator の運用・改善・Phase 12 close-out 同期履歴を新しい順に記録する。
 
+## 2026-06-02 - sidebar-visibility local evidence / pixel gate lesson
+
+`docs/30-workflows/sidebar-visibility-conditional-and-ux/` の automation-30 改善を反映。`implementation / VISUAL` で実コード・focused Vitest・typecheck・lint・grep gates が完了した場合は `spec_created` のままにせず `implemented_local_evidence_captured` へ昇格し、pixel screenshot / staging visual は `pixel_screenshot_pending_user_gate` として Gate-C に分離する SP-SVC-001 を追加した。
+
 ## 2026-05-28 - task-b-root-page-public-header-async automation-30 close-out
 
 ## 2026-05-31 - issue-235 judgement no-code close-out
