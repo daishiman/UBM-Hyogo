@@ -1,10 +1,8 @@
 # 環境変数管理
-
 > 本ドキュメントは統合システム設計仕様書の一部です。
 > 管理: .claude/skills/aiworkflow-requirements/
 
 ## 変更履歴
-
 | バージョン | 日付       | 変更内容                                                       |
 | ---------- | ---------- | -------------------------------------------------------------- |
 | v1.1.0     | 2026-01-26 | spec-guidelines.md準拠: コードブロックを表形式に変換           |
@@ -13,9 +11,7 @@
 ---
 
 ## 環境変数の分類
-
 ### アプリケーション設定
-
 | 変数名      | 用途                | 例                               | 環境   |
 | ----------- | ------------------- | -------------------------------- | ------ |
 | `NODE_ENV`  | 実行環境            | `development`, `production`      | 全環境 |
@@ -24,7 +20,6 @@
 | `APP_URL`   | アプリケーションURL | `https://yourapp.com`            | Web    |
 
 ### データベース接続
-
 | 変数名               | 用途              | 形式                        |
 | -------------------- | ----------------- | --------------------------- |
 | `TURSO_DATABASE_URL` | Turso接続URL      | `libsql://db-name.turso.io` |
@@ -110,8 +105,9 @@ TypeScript 側の API Worker Env 型は `apps/api/src/env.ts` の `Env` interfac
 | `INTERNAL_AUTH_SECRET` | apps/web → apps/api `/auth/session-resolve` 共有秘密。両 worker secret に同値、service-binding 経由 internal-only |
 | `PUBLIC_API_BASE_URL` | public API host。apps/web var。local fallback、Workers では service-binding 優先で host 不要。`apps/web/src/lib/fetch/public.ts` は direct env read を持たず `getPublicFetchEnv()` 経由で解決する |
 | `INTERNAL_API_BASE_URL` | internal endpoint host。apps/web var。service-binding 配下で host 不要、local 互換のみ |
+| `OG_IMAGE_BASE_URL` | apps/web public metadata var。member detail の `og:image` / `twitter:image` を `apps/og` 専用 Worker URL へ向ける任意値。未設定時は既存 static OG fallback を維持し、参照は `getPublicEnv()` 経由に限定する |
 
-`apps/web/src/lib/env.ts` の公開アクセサは用途別に分離する。`getEnv()` は full data/server fetch 境界で必須 schema を throw させる。`getApiBaseEnv()` は member SSR の authenticated API base URL 境界専用で、`INTERNAL_API_BASE_URL` / `PUBLIC_API_BASE_URL` だけを部分取得し、呼び出し側が INTERNAL -> PUBLIC -> fail-fast を判定できるようにする。`getPublicEnv()` は public metadata / CSP 等の公開値のみを返す。`getAuthEnv()` は auth 境界専用で safeParse partial + `API_SERVICE` binding 同梱により invariant #11 fail-closed を維持する。`getPublicFetchEnv()` は public fetch の service-binding / local HTTP fallback 判定を env.ts に閉じ、`fetch/public.ts` 側の `process.env` / `getCloudflareContext` 直接参照を禁止する。
+`apps/web/src/lib/env.ts` の公開アクセサは用途別に分離する。`getEnv()` は full data/server fetch 境界で必須 schema を throw させる。`getApiBaseEnv()` は member SSR の authenticated API base URL 境界専用で、`INTERNAL_API_BASE_URL` / `PUBLIC_API_BASE_URL` だけを部分取得し、呼び出し側が INTERNAL -> PUBLIC -> fail-fast を判定できるようにする。`getPublicEnv()` は public metadata / CSP 等の公開値（`OG_IMAGE_BASE_URL` を含む）のみを返す。`getAuthEnv()` は auth 境界専用で safeParse partial + `API_SERVICE` binding 同梱により invariant #11 fail-closed を維持する。`getPublicFetchEnv()` は public fetch の service-binding / local HTTP fallback 判定を env.ts に閉じ、`fetch/public.ts` 側の `process.env` / `getCloudflareContext` 直接参照を禁止する。
 
 ### 機能フラグ
 
@@ -491,7 +487,6 @@ CD 有効化に必要な GitHub Actions 値は、1Password Environments を正�
 | `CLOUDFLARE_PAGES_PROJECT` | Variable | GitHub repository variable | Deleted by Issue #638 | Issue #331 cleanup 後の `web-cd.yml` では未参照。rollback POST は別途 user approval marker 後のみ。復元値は `ubm-hyogo-web` |
 
 運用ルール:
-
 - 正本は 1Password、GitHub は派生コピー。
 - 同期時は `op read` → 一時環境変数 → `gh secret set --body "$VAR"` → `unset` の順で扱う。
 - 1Password Item Notes には Last-Updated 日時だけを残し、値や値ハッシュは残さない。
