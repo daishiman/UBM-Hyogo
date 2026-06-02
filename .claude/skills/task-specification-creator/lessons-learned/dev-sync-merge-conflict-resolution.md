@@ -704,3 +704,16 @@
 - backlog 注記: 本 sync 時点で aiworkflow lessons 正本に真の duplicate heading（`## L-DEVSYNC-069`×3 等）が dev 由来で蓄積（SP-DEVSYNC-047 指摘事象）。本 sync は lessons 本体非衝突のため触れず、一括 renumber は sync→push タスク範囲外として別 cleanup へ送る。新規採番は実 max +1（SP-DEVSYNC-048 / L-DEVSYNC-083）。
 - 検証: `git merge origin/dev` CONFLICT 3 → `pnpm sync:resolve` exit 0（`union-resolving 3 files`）→ `git ls-files -u` 0 → merge commit `a5789e7cd` → `pnpm typecheck` exit 0 / `pnpm lint` exit 0 / `pnpm indexes:rebuild` drift 0。
 - 参照: aiworkflow-requirements [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-083（本 lesson の正本・3 file 最小セット）, L-DEVSYNC-082（5 file・SKILL.md 片側衝突）, L-DEVSYNC-080-B（衝突集合は `--diff-filter=U` で都度確定）, SP-DEVSYNC-047（duplicate-ID backlog 機序）。
+
+
+### SP-DEVSYNC-049: keywords.json は 3 連続非衝突の後に衝突集合へ再登場しうる — derived ファイルの衝突は意味解決不要で `pnpm sync:resolve` の `--ours`+rebuild に一任（2026-06-02 追加）
+
+- 事象: `feat/task-d-admin-form-responses-link-spec` を sub-worktree（`.worktrees/task-20260601-183057-wt-16`）から sync-merge。ローカル dev = origin/dev（独自コミット 0 / ff 不要）、feature は origin/dev に 2 ahead / 3 behind。`git merge dev --no-edit` の content conflict は **6 file**＝`aiworkflow-requirements/indexes/{keywords.json, quick-reference.md, resource-map.md, topic-map.md}` + `references/task-workflow-active.md` + `task-specification-creator/SKILL.md`。`keywords.json` が衝突に入ったのは直近 3 sync（SP-DEVSYNC-048 系の 081/082/083）が連続非衝突だった後の再登場で、`aiworkflow-requirements/SKILL.md` は今回 Auto-merging（task-spec 側のみ SKILL.md 衝突の非対称・SP-DEVSYNC-048 の対比元 082 と同型）。
+- How to apply（仕様書 sync-merge 節での逐語化）:
+  1. **keywords.json の衝突可否に周期性はない**。直近数回が非衝突でも今回衝突する/しないは feature と dev の生成行の重なりだけで決まる。`git diff --name-only --diff-filter=U` の実集合をそのまま `pnpm sync:resolve` に渡す。
+  2. **derived（生成物）の衝突は手動 3-way 不要**。keywords.json は最大の生成物ゆえ衝突頻度が高いが、resolver が `taking --ours for 1 derived files` → `indexes:rebuild` で正本再生成して機械収束する。意味解決を試みない。
+  3. **衝突回は merge commit 後に独立 `pnpm indexes:rebuild` で drift 0 を再確認**してから push（本件は 5275 キーワードで drift 0）。非衝突回は resolver の `--ours` 段が no-op になるだけで標準フローは不変。
+  4. 最小 3 file（SP-DEVSYNC-048）〜 6 file（本件）まで衝突 file 数は揺れるが、標準フロー（`git merge` → `pnpm sync:resolve` → `--diff-filter=U` 0 → `git commit` → `pnpm typecheck && pnpm lint`）は不変。source conflict 0 の回は CI 修正一切不要で全ゲート即緑。
+- 適用範囲外: source code（`apps/`/`packages/`）の `UU`（SP-DEVSYNC-038/042/044 経路）。本件は skill index/reference/SKILL.md のみ。
+- 検証: `git merge dev` CONFLICT 6（keywords.json + index map 3 + task-workflow-active + task-spec SKILL.md、aiworkflow SKILL.md は Auto-merging）→ `pnpm sync:resolve` exit 0（`union-resolving 5 files` + `taking --ours` keywords.json + `indexes:rebuild`）→ `git diff --diff-filter=U` 0 → merge commit `0931ab9cd` → `pnpm typecheck` exit 0 / `pnpm lint` exit 0 / `pnpm indexes:rebuild` drift 0。
+- 参照: aiworkflow-requirements [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-084（本 lesson の正本・keywords 再登場と `--ours` 実発火）, L-DEVSYNC-081-C（keywords 非衝突回は `--ours` no-op）, L-DEVSYNC-082（task-spec SKILL.md 片側衝突）, SP-DEVSYNC-048（3 file 最小セット）, SP-DEVSYNC-047（duplicate-ID backlog 機序）。
