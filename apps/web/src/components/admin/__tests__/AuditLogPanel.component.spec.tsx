@@ -101,7 +101,15 @@ describe("AuditLogPanel", () => {
     render(<AuditLogPanel values={{ limit: "50" }} data={{ items: [], nextCursor: null }} />);
 
     expect(screen.getByRole("form", { name: "監査ログフィルター" })).toBeTruthy();
-    expect(screen.getByLabelText("action")).toBeTruthy();
+    const actionInput = screen.getByLabelText("action") as HTMLInputElement;
+    expect(actionInput).toBeTruthy();
+    expect(actionInput.getAttribute("name")).toBe("action");
+    expect(actionInput.getAttribute("list")).toBe("audit-action-presets");
+    const actionPresets = document.getElementById("audit-action-presets") as HTMLDataListElement;
+    expect(Array.from(actionPresets.options).map((option) => option.value)).toEqual([
+      "identity.merge",
+      "identity.dismiss",
+    ]);
     expect(screen.getByLabelText("actorEmail")).toBeTruthy();
     expect(screen.getByLabelText("targetType")).toBeTruthy();
     expect(screen.getByLabelText("targetId")).toBeTruthy();
@@ -410,6 +418,28 @@ describe("AuditLogPanel — render 分岐", () => {
     expect((screen.getByLabelText(/targetType/) as HTMLInputElement).value).toBe("meeting");
     expect((screen.getByLabelText(/targetId/) as HTMLInputElement).value).toBe("s1");
     expect((screen.getByLabelText(/limit/) as HTMLSelectElement).value).toBe("100");
+  });
+
+  it("identity action preset でも自由入力値でも action filter を同じ input に復元する", () => {
+    render(
+      <AuditLogPanel
+        values={{ action: "identity.dismiss", limit: "50" }}
+        data={{ items: [], nextCursor: null }}
+      />,
+    );
+
+    const actionInput = screen.getByLabelText(/action/) as HTMLInputElement;
+    expect(actionInput.value).toBe("identity.dismiss");
+    expect(actionInput.getAttribute("list")).toBe("audit-action-presets");
+
+    cleanup();
+    render(
+      <AuditLogPanel
+        values={{ action: "member.delete", limit: "50" }}
+        data={{ items: [], nextCursor: null }}
+      />,
+    );
+    expect((screen.getByLabelText(/action/) as HTMLInputElement).value).toBe("member.delete");
   });
 
   it("values 未指定 (undefined) でも空文字 default で描画", () => {
