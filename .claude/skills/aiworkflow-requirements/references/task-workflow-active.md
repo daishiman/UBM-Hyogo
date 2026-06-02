@@ -8,6 +8,19 @@
 
 本ドキュメントは、複雑なタスクを単一責務の原則に基づいて分解し、各サブタスクに最適なスラッシュコマンド・エージェント・スキルの組み合わせを選定するためのガイドラインを定義する。
 
+### task-c-reflection-timing-visibility-and-sla-doc（2026-06-01）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `spec_created / implementation / VISUAL / verify_existing` |
+| 成果物 | `docs/30-workflows/completed-tasks/task-c-reflection-timing-visibility-and-sla-doc/` |
+| landed implementation | PR #1064 / commit `745c95115` |
+| 目的 | Google Form 登録内容の反映タイミングを `/members` と `/profile` で可視化し、反映 SLA を `03-data-fetching.md` に恒久化する |
+| implementation anchors | `apps/web/src/components/public/ReflectionTimingNote.tsx`, `apps/web/app/(public)/members/page.tsx`, `apps/web/app/(member)/profile/page.tsx`, `docs/00-getting-started-manual/specs/03-data-fetching.md` |
+| evidence boundary | focused component spec PASS、Phase 11 output present、Phase 12 strict 7 present。authenticated runtime screenshots は user-gated |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-task-c-reflection-timing-visibility-and-sla-doc-artifact-inventory.md` |
+| user gate | authenticated runtime screenshots、commit、push、PR |
+
 ### issue-230-lefthook-edit-guard（2026-05-31）
 
 | 項目 | 値 |

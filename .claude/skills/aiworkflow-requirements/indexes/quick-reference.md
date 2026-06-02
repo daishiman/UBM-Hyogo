@@ -1,5 +1,18 @@
 # クイックリファレンス
 
+## task-c-reflection-timing-visibility-and-sla-doc（2026-06-01）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/task-c-reflection-timing-visibility-and-sla-doc/` |
+| status | `spec_created / implementation / VISUAL / verify_existing` |
+| landed implementation | PR #1064 / commit `745c95115` |
+| purpose | Google Form 反映タイミングを `/members` と `/profile` に可視化し、`03-data-fetching.md` に反映 SLA を固定 |
+| implementation anchors | `apps/web/src/components/public/ReflectionTimingNote.tsx`, `apps/web/app/(public)/members/page.tsx`, `apps/web/app/(member)/profile/page.tsx`, `docs/00-getting-started-manual/specs/03-data-fetching.md` |
+| evidence | focused `ReflectionTimingNote.spec.tsx` PASS, Phase 11 output present, Phase 12 strict 7 present |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-task-c-reflection-timing-visibility-and-sla-doc-artifact-inventory.md` |
+| user gate | authenticated runtime screenshots, commit, push, PR |
+
 ## issue-224-public-members-tags-batch-fetch（2026-05-31）
 ## issue-264-cron-schedule-free-tier-guard（2026-05-31）
 
