@@ -89,6 +89,43 @@ Phase 12 を複数の SubAgent で分担する場合、documentation-changelog �
 
 **禁止パターン**: SubAgent が独立して changelog を作成し、他 SubAgent の成果物件数を確認しないまま「完了」と記録する
 
+## パターン10: upstream 資産再利用タスクの Phase 1 anchor 固定
+
+landed 親タスクの table/helper/UI primitive を再利用する implementation task では、新規成果物名を作る前に Phase 1 で upstream anchor 表を固定する。
+
+| Anchor | 必須内容 |
+| --- | --- |
+| parent workflow | 親 workflow root、Issue、landed commit または evidence path |
+| code asset | 再利用する table/helper/component の current path |
+| ownership | 本 task が変更する surface と、変更しない upstream surface |
+| Phase 12 carry-over | artifact inventory と implementation guide で同じ identifier を使う |
+
+実例: issue-1029 public member photo display は #983 の `member_photos` / `presignMemberPhotoGetUrl` / `Avatar src?` を継承し、Phase 1 `spec-extraction-map.md` の anchor を Phase 12 inventory へ転記した。
+
+## パターン11: optional resolver DI で provider 依存フィールドを足す
+
+route/provider 境界に依存する optional response field を use-case に追加する場合、既存テストを provider 必須へ変えない。resolver は optional DI とし、未注入時は従来レスポンス、注入時だけ新フィールド、失敗時は fail-soft を検証する。
+
+| Gate | 必須条件 |
+| --- | --- |
+| default behavior | resolver 未注入で既存 field set が維持される |
+| resolver-present | provider が値を返すと optional field が出る |
+| resolver-failure | provider failure は response 全体を落とさない |
+| N+1 prevention | list では batch helper を使い、member ごとの provider/repository 呼び出しを避ける |
+
+実例: issue-1029 は public list/profile の `photoUrl` を optional resolver DI で配線し、`listMemberPhotosByIds` batch helper と focused Vitest で固定した。
+
+## パターン12: local visual evidence と real provider capture を分ける
+
+VISUAL_ON_EXECUTION task で local mock runtime screenshot は取得済みだが、staging deploy / provider secret / real URL capture が user-gated の場合、Phase 11 inventory は local screenshot を `present` にする。real provider capture は Gate-C user-gated として別行に分ける。
+
+| Evidence | Status rule |
+| --- | --- |
+| local Playwright screenshot | ファイルがあれば `present` |
+| local mock runtime log | ファイルがあれば `present` |
+| real provider URL / staging screenshot | user approval が必要なら `pending_user_approval` |
+| compliance verdict | local implementation は PASS、external ops は Gate-C pending と書く |
+
 ## 再利用チェックリスト
 
 - [ ] Part 1 / Part 2 validator 要件を満たした
@@ -97,3 +134,6 @@ Phase 12 を複数の SubAgent で分担する場合、documentation-changelog �
 - [ ] UI task か docs-only task かで Phase 11 証跡を切り替えた
 - [ ] final sync の順序を守った
 - [ ] 並列 SubAgent を使った場合は documentation-changelog と unassigned-task-detection の件数を照合した（P59 対策）
+- [ ] upstream 資産再利用 task では Phase 1 anchor 表を Phase 12 inventory に継承した
+- [ ] provider 依存 optional field は optional resolver DI / fail-soft / batch helper で検証した
+- [ ] local visual evidence と real provider capture の gate を分離して記録した

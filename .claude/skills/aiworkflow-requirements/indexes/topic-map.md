@@ -258,9 +258,9 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | モノレポアーキテクチャ | L8 |
-| 型エクスポートパターン | L226 |
-| 完了タスク | L296 |
-| 変更履歴 | L328 |
+| 型エクスポートパターン | L227 |
+| 完了タスク | L297 |
+| 変更履歴 | L329 |
 
 ### references/architecture-overview-core.md
 
@@ -877,10 +877,10 @@ node scripts/list-specs.js --topics
 | エンドポイント命名規則 | L249 |
 | UBM-Hyogo Admin Sync API（03a） | L270 |
 | UBM-Hyogo Member Self-Service API（04b） | L322 |
-| Admin Dashboard Attendance Analytics API（UT-02A follow-up 002） | L348 |
-| Desktop IPC API サマリー | L362 |
-| 変更履歴 | L393 |
-| 関連ドキュメント | L410 |
+| Admin Dashboard Attendance Analytics API（UT-02A follow-up 002） | L350 |
+| Desktop IPC API サマリー | L364 |
+| 変更履歴 | L395 |
+| 関連ドキュメント | L412 |
 
 ### references/api-internal-chunk-search.md
 
@@ -2568,6 +2568,46 @@ node scripts/list-specs.js --topics
 |------------|----|
 | Lessons Learned | L23 |
 
+### references/workflow-issue-1027-member-dynamic-og-worker-split-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Implementation Targets | L10 |
+| Evidence | L29 |
+| Contracts | L39 |
+| User-Gated Boundary | L47 |
+| Lessons Learned | L51 |
+
+### references/workflow-issue-1029-public-member-photo-display-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| State | L13 |
+| Implemented Targets | L17 |
+| Evidence | L28 |
+| Boundary | L48 |
+
+### references/workflow-issue-1031-member-self-photo-upload-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Canonical | L3 |
+| State | L12 |
+| Implemented Local Targets | L16 |
+| Verification Boundary | L29 |
+| Lessons | L33 |
+
+### references/workflow-issue-1042-dismiss-confirm-optimistic-update-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Metadata | L3 |
+| Workflow Artifacts | L12 |
+| Implementation Targets | L23 |
+| Evidence | L31 |
+| Boundaries | L42 |
+| Lessons Learned | L48 |
+
 ### references/workflow-issue-1054-wrangler-binding-drift-ci-gate-artifact-inventory.md
 
 | セクション | 行 |
@@ -3639,8 +3679,8 @@ node scripts/list-specs.js --topics
 
 | セクション | 行 |
 |------------|----|
-| Status | L13 |
-| Lessons Learned | L21 |
+| Status | L14 |
+| Lessons Learned | L22 |
 
 ### references/workflow-members-list-prototype-alignment-artifact-inventory.md
 
@@ -4372,6 +4412,14 @@ node scripts/list-specs.js --topics
 |------------|----|
 | Contract | L17 |
 
+### references/workflow-task-b-manual-form-resync-admin-ui-spec-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Status | L14 |
+| Evidence | L20 |
+| User-Gated | L28 |
+
 ### references/workflow-task-b-root-page-public-header-async-artifact-inventory.md
 
 | セクション | 行 |
@@ -4394,6 +4442,15 @@ node scripts/list-specs.js --topics
 |------------|----|
 | Lessons Learned | L16 |
 
+### references/workflow-task-c-reflection-timing-visibility-and-sla-doc-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Metadata | L3 |
+| Artifacts | L12 |
+| Implementation Anchors | L22 |
+| Evidence | L32 |
+
 ### references/workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md
 
 | セクション | 行 |
@@ -4405,6 +4462,14 @@ node scripts/list-specs.js --topics
 | 参照される実装ファイル（spec_created のため変更は伴わない） | L75 |
 | Follow-up 未タスク | L83 |
 | Validation Chain（spec_created） | L92 |
+
+### references/workflow-task-d-admin-google-form-responses-link-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Status | L16 |
+| Contract | L28 |
+| Lessons Learned | L39 |
 
 ### references/workflow-task-issue-191-production-d1-schema-aliases-apply-001-artifact-inventory.md
 
@@ -5164,20 +5229,20 @@ node scripts/list-specs.js --topics
 | .assetsignore の役割と運用 | L88 |
 | ビルド・デプロイ手順 | L108 |
 | Worker bundle size ガード | L131 |
-| SPA fallback / 404 ハンドリング | L161 |
-| preview / staging / production の env 分離 | L170 |
-| 旧 Pages プロジェクトの並走方針 | L182 |
-| CLI 経路の徹底 | L194 |
-| R2 incremental cache（任意採用） | L203 |
-| Build mode の不変条件（CI recovery / 2026-05-09） | L211 |
-| 関連リソース | L225 |
-| production route / secret / observability preflight | L246 |
-| analytics read-only token 分離 | L287 |
-| Long-term analytics evidence | L302 |
-| c-A production execution workflow | L308 |
-| CI build-time env injection for OpenNext Workers | L323 |
-| OpenNext config regression guard | L333 |
-| Response security headers via middleware | L346 |
+| SPA fallback / 404 ハンドリング | L162 |
+| preview / staging / production の env 分離 | L171 |
+| 旧 Pages プロジェクトの並走方針 | L183 |
+| CLI 経路の徹底 | L195 |
+| R2 incremental cache（任意採用） | L204 |
+| Build mode の不変条件（CI recovery / 2026-05-09） | L212 |
+| 関連リソース | L226 |
+| production route / secret / observability preflight | L247 |
+| analytics read-only token 分離 | L288 |
+| Long-term analytics evidence | L303 |
+| c-A production execution workflow | L309 |
+| CI build-time env injection for OpenNext Workers | L324 |
+| OpenNext config regression guard | L334 |
+| Response security headers via middleware | L347 |
 
 ### references/deployment-cloudflare-ut06-gate.md
 
@@ -5398,16 +5463,16 @@ node scripts/list-specs.js --topics
 
 | セクション | 行 |
 |------------|----|
-| 変更履歴 | L6 |
-| 環境変数の分類 | L15 |
-| セキュリティベストプラクティス | L133 |
-| 環境別設定 | L207 |
-| Electron アプリでの環境変数 | L261 |
-| トラブルシューティング | L318 |
-| チーム開発での運用 | L379 |
-| 必須環境変数一覧 | L418 |
-| CI/CD環境（GitHub Secrets / Variables）（UT-27 追加 2026-04-29） | L479 |
-| 関連ドキュメント | L502 |
+| 変更履歴 | L5 |
+| 環境変数の分類 | L13 |
+| セキュリティベストプラクティス | L129 |
+| 環境別設定 | L203 |
+| Electron アプリでの環境変数 | L257 |
+| トラブルシューティング | L314 |
+| チーム開発での運用 | L375 |
+| 必須環境変数一覧 | L414 |
+| CI/CD環境（GitHub Secrets / Variables）（UT-27 追加 2026-04-29） | L475 |
+| 関連ドキュメント | L497 |
 
 ### references/error-handling-core.md
 
@@ -6054,6 +6119,19 @@ node scripts/list-specs.js --topics
 | L-I1024-001: First-paint UI state needs a server-readable seed | L3 |
 | L-I1024-002: Split-token lint bypasses are not an acceptable boundary pattern | L7 |
 | L-I1024-003: Seed the existing state owner instead of adding a second store | L11 |
+
+### references/lessons-learned-issue-1027-member-dynamic-og-worker-split-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| L-I1027-001: Architecture fork requires a user decision before Phase 2 | L5 |
+| L-I1027-002: Cloudflare Worker size budget is per deployed Worker bundle | L9 |
+| L-I1027-003: Public metadata env vars still need accessor discipline | L13 |
+| L-I1027-004: OG Worker data fetch should prefer Service Binding | L17 |
+| L-I1027-005: Crawler-facing OG generation must fail soft | L21 |
+| L-I1027-006: Follow-up consumed state must be synchronized same-wave | L25 |
+| L-I1027-007: 新規 workspace package は aggregate coverage-gate に明示配線しないと CI が MISSING で fail する | L29 |
+| L-I1027-008: Workers ランタイム専用コードは `v8 ignore` で除外し、純粋ロジックは抽出して unit test する | L41 |
 
 ### references/lessons-learned-issue-1054-wrangler-binding-drift-ci-gate-2026-06.md
 
@@ -8369,15 +8447,15 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L3385 |
-| フェーズ構造（概要） | L3394 |
-| 品質ゲート（概要） | L3425 |
-| 出力テンプレート | L3436 |
-| 実行時のコマンド・エージェント・スキル | L3459 |
-| 昇格パターン集 | L3483 |
-| Current Active / Spec Created Tasks | L3485 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L3651 |
-| issue-998-members-publish-state-production-rollout | L3729 |
+| ドキュメント構成 | L3470 |
+| フェーズ構造（概要） | L3479 |
+| 品質ゲート（概要） | L3510 |
+| 出力テンプレート | L3521 |
+| 実行時のコマンド・エージェント・スキル | L3544 |
+| 昇格パターン集 | L3568 |
+| Current Active / Spec Created Tasks | L3570 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L3736 |
+| issue-998-members-publish-state-production-rollout | L3814 |
 
 ### references/task-workflow-backlog-part2.md
 

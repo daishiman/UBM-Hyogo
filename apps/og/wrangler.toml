@@ -1,0 +1,36 @@
+name = "ubm-hyogo-og"
+main = "src/index.ts"
+compatibility_date = "2025-01-01"
+compatibility_flags = ["nodejs_compat"]
+
+[observability]
+enabled = true
+
+[vars]
+PUBLIC_API_BASE_URL = "https://ubm-hyogo-api.daishimanju.workers.dev"
+
+[env.staging]
+name = "ubm-hyogo-og-staging"
+
+[env.staging.vars]
+PUBLIC_API_BASE_URL = "https://ubm-hyogo-api-staging.daishimanju.workers.dev"
+
+[[env.staging.services]]
+binding = "API_SERVICE"
+service = "ubm-hyogo-api-staging"
+
+[env.staging.observability]
+enabled = true
+
+[env.production]
+name = "ubm-hyogo-og-production"
+
+[env.production.vars]
+PUBLIC_API_BASE_URL = "https://ubm-hyogo-api.daishimanju.workers.dev"
+
+[[env.production.services]]
+binding = "API_SERVICE"
+service = "ubm-hyogo-api"
+
+[env.production.observability]
+enabled = true

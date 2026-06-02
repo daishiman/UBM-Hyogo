@@ -80,7 +80,7 @@ type AdminNavItem = {
 
 AdminSidebar は全 admin 画面の共通入口であり、各画面は Sidebar を再定義せず §1 を参照する。
 
-> **実装更新（2026-05）**: AdminSidebar は `unified-sidebar-shell-public-and-admin`（Task A-F）で公開 / 会員 / 管理 3 層共通の `SidebarShell`（`apps/web/src/components/shell/`）へ統合された。本書の「AdminSidebar」は統合後の **SidebarShell の admin role nav（ADMIN グループ 9 item + PUBLIC 3 + MEMBERS 1 = 計 13）** を指す。nav item / active 判定 / badge / logout 導線の blueprint 契約は §1 を正本として維持し、shell 全体構造（collapse / drawer / data-testid）の正本は `09h-shell-and-fixtures.md` §1 を参照する。
+> **実装更新（2026-05 / 2026-06）**: AdminSidebar は `unified-sidebar-shell-public-and-admin`（Task A-F）で公開 / 会員 / 管理 3 層共通の `SidebarShell`（`apps/web/src/components/shell/`）へ統合された。本書の「AdminSidebar」は統合後の **SidebarShell の admin role nav（ADMIN グループ 10 item + PUBLIC 3 + MEMBERS 1 = 計 14）** を指す。nav item / active 判定 / badge / logout 導線の blueprint 契約は §1 と `09h-shell-and-fixtures.md` §1.2 を正本として維持し、shell 全体構造（collapse / drawer / data-testid）は `09h-shell-and-fixtures.md` §1 を参照する。
 
 ### 1.1 prototype 由来
 
@@ -102,11 +102,13 @@ AdminSidebar は全 admin 画面の共通入口であり、各画面は Sidebar 
 | 7 | 依頼キュー | `/(admin)/admin/requests` | `inbox` | pending count |
 | 8 | Identity 重複 | `/(admin)/admin/identity-conflicts` | `userCheck` | conflict count |
 | 9 | 監査ログ | `/(admin)/admin/audit` | `fileText` | none |
+| 10 | Form回答 | `FORM_RESPONSES_EDIT_URL`（Google Form edit URL） | `form-responses` | none |
 
 ### 1.3 active state
 
 - active 判定は route key の完全一致で行う。
 - active item には `aria-current="page"` を付ける。
+- `Form回答` は外部 nav 項目のため active 対象外。`ShellNavItem.external?` で `<a target="_blank" rel="noopener noreferrer">` に分岐し、`↗` + sr-only「（外部リンク）」を付ける。
 - badge が 0 件のときは描画しない。
 - keyboard focus は nav item の DOM 順序に従う。
 - collapsed / drawer 表現は 09h shell 正本に委譲し、本書では nav contract だけを固定する。
