@@ -753,3 +753,14 @@
 - 適用範囲外: source code（`apps/`/`packages/`）の `UU`（SP-DEVSYNC-038/042/044 経路）。本件はそもそもコンフリクトでも型エラーでもなく node_modules 未同期。
 - 検証: `git merge dev` CONFLICT 5 → `pnpm sync:resolve` exit 0（`union-resolving 4 files` + `--ours` keywords.json）→ `git diff --diff-filter=U` 0 → merge commit `0bda41a31` → `pnpm typecheck` exit 2（`apps/og` TS2307）→ `mise exec -- pnpm install`（8 workspace・`+24 -126`）→ `pnpm typecheck` exit 0 → `pnpm lint` exit 0 → `pnpm indexes:rebuild` drift 0（5293 キーワード）。
 - 参照: aiworkflow-requirements [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-086（本 lesson の正本・新規 workspace 依存未取得で typecheck 落ち）, L-DEVSYNC-085（「source 0 → CI 修正不要」を記録・本件はその反例）, SP-DEVSYNC-050（2 file 最小セット）, SP-DEVSYNC-049（keywords 再登場・衝突集合 6 file）。
+
+### SP-DEVSYNC-052: 衝突集合 5 file は dev デルタの大小に依存しない確定形 — 同一ブランチの連続 sync-merge（今回 dev 1 behind）でも前回と同じ 5 file が衝突し、`pnpm install` 先行 preflight の standing 化が有効（2026-06-02 追加）
+
+- 事象: SP-DEVSYNC-051 と**同じ feature ブランチ**（`feat/issue-1035-tag-master-write-endpoints`・sub-worktree `task-20260601-055938-wt-1`）の二度目の sync-merge。前回 dev 11 behind に対し今回は dev が **1 behind**（取込は `a526f1a43 #1074 公開メンバー写真表示` の 1 件のみ）。ローカル dev = origin/dev（独自コミット 0）。それでも `git merge dev` の content conflict は前回と**完全に同一の 5 file**＝`aiworkflow-requirements/indexes/{keywords.json, quick-reference.md, resource-map.md, topic-map.md}` + `references/task-workflow-active.md`。`pnpm sync:resolve` 単独収束 → merge commit `2ca9f45ef` → `pnpm install`（no-op 級 `Done in 3.5s`）→ `pnpm typecheck` exit 0 / `pnpm lint` exit 0 / indexes drift 0。
+- How to apply（仕様書 sync-merge 節での逐語化）:
+  1. **衝突件数を dev 遅れ量から予測しない**: skill index（keywords / index map 3）+ `task-workflow-active.md` は `.gitattributes` `merge=union` 登録済の高頻度共有ファイル。dev が 1 コミットでも skill を触れば 5 file が確定的に衝突する。衝突は「dev 何コミット分か」でなく「skill index が片側で変わったか」で決まる。5 file は想定内なので `pnpm sync:resolve` に一任する。
+  2. **`pnpm install` 先行 preflight を dev デルタの大小に関わらず固定で挟む**: 今回のように新規 workspace を伴わない小デルタでも install を typecheck 前に固定実行する運用が、SP-DEVSYNC-051 の CI 失敗（新規 workspace 依存未取得）を**構造的に予防**する。install は no-op 級で済むのでコストは小さい。小デルタで install をスキップしない。
+  3. 同一ブランチを複数回 sync-merge すると毎回 skill index が衝突するが、これは union-merge 設計の正常動作であり異常ではない。
+- 適用範囲外: source code（`apps/`/`packages/`）の `UU`（SP-DEVSYNC-038/042/044 経路）。本件は skill index union 衝突のみで CI も即緑。
+- 検証: `git fetch --prune origin`（dev=origin/dev・独自 0）→ `git merge dev` CONFLICT 5 → `pnpm sync:resolve` exit 0（union 4 + `--ours` keywords.json + indexes:rebuild）→ `git diff --diff-filter=U` 0 / マーカー 0 → merge commit `2ca9f45ef` → `pnpm install` exit 0 → `pnpm typecheck` exit 0（全 8 package）→ `pnpm lint` exit 0 → indexes drift 0。
+- 参照: aiworkflow-requirements [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-087（本 lesson の正本）, SP-DEVSYNC-051（同一ブランチ前回・dev 11 behind・新規 workspace で typecheck 落ち）, SP-DEVSYNC-049（衝突集合 6 file・keywords 再登場）。
