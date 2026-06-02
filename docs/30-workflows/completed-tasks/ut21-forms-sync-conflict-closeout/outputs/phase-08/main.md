@@ -46,7 +46,7 @@ rg -n "spreadsheets\.values\.get|SheetRow|POST /admin/sync\b|GET /admin/sync/aud
 | 同期元 | Google Sheets API v4 / `spreadsheets.values.get` / `SheetRow` | Google Forms API（`forms.get` / `forms.responses.list`）/ Forms `responseId` ベース DTO | `apps/api/src/jobs/sync-forms-responses.ts` + `apps/api/src/sync/schema/` |
 | admin endpoint | 単一 `POST /admin/sync`（job_kind を body 分岐） | split: `POST /admin/sync/schema`（03a） + `POST /admin/sync/responses`（03b）| 04c-parallel-admin-backoffice-api-endpoints / 03a / 03b |
 | audit / 公開 endpoint | `GET /admin/sync/audit`（公開 read API） | 公開 endpoint なし。`sync_jobs` ledger を admin UI 経由で参照 | `task-workflow.md` current facts |
-| audit table | `sync_audit_logs` + `sync_audit_outbox`（二段監査） | `sync_jobs` ledger 単一（`status` / `job_kind` / `metrics_json` / `started_at` / `finished_at`）。新設は U02 判定後まで保留 | 02c-parallel-admin-notes-audit-sync-jobs-and-data-access-boundary |
+| audit table | `sync_audit_logs` + `sync_audit_outbox`（二段監査） | `sync_jobs` ledger 単一（`status` / `job_type` / `metrics_json` / `started_at` / `finished_at`）。新設は 2026-05-31 に U02 / Issue #235 で不要と確定 | 02c-parallel-admin-notes-audit-sync-jobs-and-data-access-boundary |
 | 実装パス | `apps/api/src/sync/{core,manual,scheduled,audit}.ts` 一式 | `apps/api/src/jobs/sync-forms-responses.ts` + `apps/api/src/sync/schema/*` | repo 実体（Phase 9 で再確認） |
 
 > SSOT 表に空セルなし。5 軸すべてで Before / After / 正本ソースが一意。
@@ -95,7 +95,7 @@ rg -n "spreadsheets\.values\.get|SheetRow|POST /admin/sync\b|GET /admin/sync/aud
 | # | 共通フレーズ | 使用文脈 |
 | --- | --- | --- |
 | F-1 | 「endpoint は split: `POST /admin/sync/schema` + `POST /admin/sync/responses`（job_kind 単一責務）」 | endpoint を語る全文脈 |
-| F-2 | 「audit ledger は `sync_jobs` 単一。`sync_audit_logs/outbox` は U02 判定後まで保留」 | audit を語る全文脈 |
+| F-2 | 「audit ledger は `sync_jobs` 単一。`sync_audit_logs/outbox` は U02 / Issue #235 で新設不要確定済み」 | audit を語る全文脈 |
 | F-3 | 「同期元は Google Forms API（`forms.get` / `forms.responses.list`）。Sheets 系表記は legacy 引用のみ」 | 同期元を語る全文脈 |
 
 ## 6. 共通化テンプレ抽出候補（ステップ 4 後段・legacy umbrella DRY）
@@ -135,7 +135,7 @@ rg -n "spreadsheets\.values\.get|SheetRow|POST /admin/sync\b|GET /admin/sync/aud
 
 - **用語**: Sheets / Forms 混在禁止。Forms 起源を SSOT、Sheets 表記は legacy 引用文脈でのみ「旧 UT-21 表記」と注記して残す。
 - **endpoint**: split を強調する文では必ず `POST /admin/sync/schema` + `POST /admin/sync/responses` を併記する。
-- **audit**: 「`sync_jobs` ledger を正本」と「`sync_audit_logs/outbox` は新設しない（U02 判定後まで保留）」をセットで記述する。
+- **audit**: 「`sync_jobs` ledger を正本」と「`sync_audit_logs/outbox` は新設しない（U02 / Issue #235 で新設不要確定済み）」をセットで記述する。
 - **4条件**: 「価値性 / 実現性 / 整合性 / 運用性」の順序固定。
 - **AC ID**: `AC-1`〜`AC-11` のハイフン区切りで統一。
 - **不変条件**: #1 / #4 / #5 / #7 のみ touched（index.md と整合）。

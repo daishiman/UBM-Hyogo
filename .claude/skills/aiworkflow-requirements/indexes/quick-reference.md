@@ -13,6 +13,46 @@
 | inventory | `.claude/skills/aiworkflow-requirements/references/workflow-task-c-reflection-timing-visibility-and-sla-doc-artifact-inventory.md` |
 | user gate | authenticated runtime screenshots, commit, push, PR |
 
+## publish-state-backfill-admin-ui（2026-06-01）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/publish-state-backfill-admin-ui/` |
+| status | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION / PASS_BOUNDARY_SYNCED_RUNTIME_PENDING` |
+| parent | `docs/30-workflows/task-member-publish-recovery-form-ops-and-admin-link/` Task A |
+| purpose | `/admin/sync-status` に公開状態 backfill 操作パネル（dry-run 確認 → apply 昇格）を正本化し、PR #1064 / commit `745c95115` で landed 済みの実装を Phase 1-13 仕様へ同期 |
+| implementation | `apps/web/src/features/admin/diagnostics/backfill.ts`, `apps/web/src/features/admin/components/_sync/BackfillPublishStatePanel.client.tsx`, `apps/web/app/(admin)/admin/sync-status/page.tsx`, focused specs under `_sync/__tests__` and `diagnostics/__tests__` |
+| system spec | API/D1/Form schema no change; existing endpoint `POST /admin/sync/backfill-publish-state` reused |
+| evidence | Phase 11 deterministic plan evidence present; Phase 12 strict 7 present; staging authenticated screenshots pending user gate |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-publish-state-backfill-admin-ui-artifact-inventory.md` |
+| user gate | staging authenticated screenshots, commit, push, PR |
+
+## issue-1024-sidebar-collapse-cookie-persistence（2026-05-31）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-1024-sidebar-collapse-cookie-persistence/` |
+| status | `implemented_local_evidence_captured / implementation / NON_VISUAL` |
+| issue | #1024 CLOSED（reopen なし、PR は `Refs #1024` 境界） |
+| purpose | unified `SidebarShell` の collapsed state を `ubm_shell_collapsed` cookie で永続化し、SSR seed で first-paint flicker を防ぐ |
+| implementation | `shell-collapse-cookie.ts`, `useSidebarState.ts`, `SidebarShell.tsx`, `SidebarShell.server.tsx` |
+| tests | `shell-collapse-cookie.spec.ts`, `useSidebarState.spec.tsx`, `SidebarShell.server.spec.tsx` |
+| boundary | API / D1 / Google Form / auth / design tokens unchanged; commit, push, PR, Issue mutation are user-gated |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1024-sidebar-collapse-cookie-persistence-artifact-inventory.md` |
+
+## issue-229-indexes-rebuild-fail-fast（2026-05-31）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-229-indexes-rebuild-fail-fast/` |
+| status | `implemented_local_evidence_captured / implementation / NON_VISUAL` |
+| issue | #229 CLOSED（reopen / mutation は user-gated） |
+| purpose | `pnpm indexes:rebuild` の単一経路 `generate-index.js` に fail-fast / atomic write / decisive log を実装する |
+| implementation | `.claude/skills/aiworkflow-requirements/scripts/generate-index.js`, `scripts/__tests__/generate-index-fail-fast.spec.ts` |
+| evidence | focused Vitest 1 file / 6 tests PASS; `pnpm indexes:rebuild -- --quiet` PASS; immediate second rebuild idempotent |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-229-indexes-rebuild-fail-fast-artifact-inventory.md` |
+| user gate | commit, push, PR, Issue mutation |
+
 ## issue-224-public-members-tags-batch-fetch（2026-05-31）
 ## issue-264-cron-schedule-free-tier-guard（2026-05-31）
 
@@ -2834,6 +2874,7 @@
 | legacy UT-21 の扱い（Sheets→D1 単一 endpoint / audit table は新設しない） | `docs/30-workflows/ut21-forms-sync-conflict-closeout/outputs/phase-12/implementation-guide.md`, `references/task-workflow.md` |
 | 現行 Forms sync 正本 | `apps/api/src/jobs/sync-forms-responses.ts`, `apps/api/src/sync/schema/`, `references/task-workflow.md` |
 | 後続判断 | `docs/30-workflows/unassigned-task/task-ut21-sync-audit-tables-necessity-judgement-001.md`, `docs/30-workflows/unassigned-task/task-ut21-phase11-smoke-rerun-real-env-001.md`, `docs/30-workflows/unassigned-task/task-ut21-impl-path-boundary-realignment-001.md` |
+| UT21-U02 確定判定 | `docs/30-workflows/completed-tasks/issue-235-sync-audit-tables-necessity-judgement/`（Issue #235 CLOSED）。`sync_audit_logs` / `sync_audit_outbox` は新設不要。現行 `sync_jobs` + `sync_job_logs` + `metrics_json` で充足し、コード変更 0。 |
 | 旧仕様の状態欄 | `docs/30-workflows/unassigned-task/UT-21-sheets-d1-sync-endpoint-and-audit-implementation.md` |
 
 ---
