@@ -4391,6 +4391,15 @@ node scripts/list-specs.js --topics
 |------------|----|
 | Lessons Learned | L16 |
 
+### references/workflow-task-c-reflection-timing-visibility-and-sla-doc-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Metadata | L3 |
+| Artifacts | L12 |
+| Implementation Anchors | L22 |
+| Evidence | L32 |
+
 ### references/workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md
 
 | セクション | 行 |
@@ -8358,15 +8367,15 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L3384 |
-| フェーズ構造（概要） | L3393 |
-| 品質ゲート（概要） | L3424 |
-| 出力テンプレート | L3435 |
-| 実行時のコマンド・エージェント・スキル | L3458 |
-| 昇格パターン集 | L3482 |
-| Current Active / Spec Created Tasks | L3484 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L3650 |
-| issue-998-members-publish-state-production-rollout | L3728 |
+| ドキュメント構成 | L3397 |
+| フェーズ構造（概要） | L3406 |
+| 品質ゲート（概要） | L3437 |
+| 出力テンプレート | L3448 |
+| 実行時のコマンド・エージェント・スキル | L3471 |
+| 昇格パターン集 | L3495 |
+| Current Active / Spec Created Tasks | L3497 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L3663 |
+| issue-998-members-publish-state-production-rollout | L3741 |
 
 ### references/task-workflow-backlog-part2.md
 

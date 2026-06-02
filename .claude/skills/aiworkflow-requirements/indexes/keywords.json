@@ -3435,6 +3435,7 @@
       "workflow-task-b-manual-form-resync-admin-ui-spec-artifact-inventory.md",
       "workflow-task-c-privacy-terms-public-shell-spec-artifact-inventory.md",
       "workflow-task-c-public-member-sidebar-shell-integration-artifact-inventory.md",
+      "workflow-task-c-reflection-timing-visibility-and-sla-doc-artifact-inventory.md",
       "workflow-task-issue-299-schema-questions-fallback-retirement-artifact-inventory.md",
       "workflow-task-issue-359-production-d1-out-of-band-apply-audit-001-artifact-inventory.md",
       "workflow-task-issue-494-09a-A-exec-staging-smoke-runtime-artifact-inventory.md",
@@ -7347,6 +7348,7 @@
       "workflow-task-18-w7-verify-tokens-and-playwright-smoke-artifact-inventory.md",
       "workflow-task-b-manual-form-resync-admin-ui-spec-artifact-inventory.md",
       "workflow-task-b-root-page-public-header-async-artifact-inventory.md",
+      "workflow-task-c-reflection-timing-visibility-and-sla-doc-artifact-inventory.md",
       "workflow-task-issue-191-production-d1-schema-aliases-apply-001-artifact-inventory.md",
       "workflow-task-issue-346-08a-canonical-workflow-tree-restore-artifact-inventory.md",
       "workflow-ut-06-fu-a-prod-route-secret-001-artifact-inventory.md",
@@ -9941,6 +9943,7 @@
       "workflow-task-21-w2-par-screen-blueprints-admin-artifact-inventory.md",
       "workflow-task-709-visual-baseline-runtime-capture-artifact-inventory.md",
       "workflow-task-761-visual-full-required-status-check-artifact-inventory.md",
+      "workflow-task-c-reflection-timing-visibility-and-sla-doc-artifact-inventory.md",
       "workflow-task-issue-191-production-d1-schema-aliases-apply-001-artifact-inventory.md",
       "workflow-task-issue-191-schema-aliases-implementation-001-artifact-inventory.md",
       "workflow-ut-02a-attendance-profile-integration-artifact-inventory.md",
@@ -13026,6 +13029,7 @@
       "workflow-task-b-root-page-public-header-async-artifact-inventory.md",
       "workflow-task-c-privacy-terms-public-shell-spec-artifact-inventory.md",
       "workflow-task-c-public-member-sidebar-shell-integration-artifact-inventory.md",
+      "workflow-task-c-reflection-timing-visibility-and-sla-doc-artifact-inventory.md",
       "workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md",
       "workflow-task-issue-191-production-d1-schema-aliases-apply-001-artifact-inventory.md",
       "workflow-task-issue-191-schema-aliases-implementation-001-artifact-inventory.md",
@@ -15683,7 +15687,8 @@
       "lessons-learned-google-form-reflection-diagnostics-2026-05.md",
       "workflow-google-form-reflection-diagnostics-artifact-inventory.md",
       "workflow-google-form-reflection-diagnostics-fu-002-h2-identity-rebuild-artifact-inventory.md",
-      "workflow-issue-531-runtime-smoke-attendance-provider-artifact-inventory.md"
+      "workflow-issue-531-runtime-smoke-attendance-provider-artifact-inventory.md",
+      "workflow-task-c-reflection-timing-visibility-and-sla-doc-artifact-inventory.md"
     ],
     "diagnostics": [
       "lessons-learned-google-form-reflection-diagnostics-2026-05.md",
@@ -15850,6 +15855,7 @@
       "workflow-task-14-my-profile-and-requests-artifact-inventory.md",
       "workflow-task-15-admin-dashboard-and-members-artifact-inventory.md",
       "workflow-task-18-w7-verify-tokens-and-playwright-smoke-artifact-inventory.md",
+      "workflow-task-c-reflection-timing-visibility-and-sla-doc-artifact-inventory.md",
       "workflow-task-issue-494-09a-A-exec-staging-smoke-runtime-artifact-inventory.md",
       "workflow-unified-sidebar-shell-public-and-admin-artifact-inventory.md"
     ],
@@ -17857,6 +17863,7 @@
       "workflow-task-b-manual-form-resync-admin-ui-spec-artifact-inventory.md",
       "workflow-task-c-privacy-terms-public-shell-spec-artifact-inventory.md",
       "workflow-task-c-public-member-sidebar-shell-integration-artifact-inventory.md",
+      "workflow-task-c-reflection-timing-visibility-and-sla-doc-artifact-inventory.md",
       "workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md",
       "workflow-task-issue-191-production-d1-schema-aliases-apply-001-artifact-inventory.md",
       "workflow-task-issue-191-schema-aliases-implementation-001-artifact-inventory.md",
@@ -18423,7 +18430,8 @@
     ],
     "visibility": [
       "lessons-learned-issue-827-member-detail-adapter-and-visibility-defense-2026-05.md",
-      "workflow-issue-827-member-detail-adapter-and-visibility-defense-artifact-inventory.md"
+      "workflow-issue-827-member-detail-adapter-and-visibility-defense-artifact-inventory.md",
+      "workflow-task-c-reflection-timing-visibility-and-sla-doc-artifact-inventory.md"
     ],
     "defense": [
       "lessons-learned-issue-827-member-detail-adapter-and-visibility-defense-2026-05.md",
@@ -19012,7 +19020,8 @@
     ],
     "doc": [
       "lessons-learned-task-08-w2-design-tokens-doc-2026-05.md",
-      "workflow-skill-lifecycle-evaluation-scoring-gate.md"
+      "workflow-skill-lifecycle-evaluation-scoring-gate.md",
+      "workflow-task-c-reflection-timing-visibility-and-sla-doc-artifact-inventory.md"
     ],
     "Tailwind": [
       "lessons-learned-task-09-w3-tailwind-v4-setup-2026-05.md",
@@ -20137,7 +20146,8 @@
       "lessons-learned-ut-06-fu-h-2026-04.md"
     ],
     "timing": [
-      "lessons-learned-ut-06-fu-h-2026-04.md"
+      "lessons-learned-ut-06-fu-h-2026-04.md",
+      "workflow-task-c-reflection-timing-visibility-and-sla-doc-artifact-inventory.md"
     ],
     "比較で": [
       "lessons-learned-ut-06-fu-h-2026-04.md"
@@ -25941,6 +25951,7 @@
       "workflow-task-b-manual-form-resync-admin-ui-spec-artifact-inventory.md",
       "workflow-task-c-privacy-terms-public-shell-spec-artifact-inventory.md",
       "workflow-task-c-public-member-sidebar-shell-integration-artifact-inventory.md",
+      "workflow-task-c-reflection-timing-visibility-and-sla-doc-artifact-inventory.md",
       "workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md",
       "workflow-task-issue-191-production-d1-schema-aliases-apply-001-artifact-inventory.md",
       "workflow-task-issue-191-schema-aliases-implementation-001-artifact-inventory.md",
@@ -26065,6 +26076,7 @@
       "workflow-task-18-w7-verify-tokens-and-playwright-smoke-artifact-inventory.md",
       "workflow-task-761-visual-full-required-status-check-artifact-inventory.md",
       "workflow-task-b-root-page-public-header-async-artifact-inventory.md",
+      "workflow-task-c-reflection-timing-visibility-and-sla-doc-artifact-inventory.md",
       "workflow-ui-prototype-design-system-foundation-artifact-inventory.md",
       "workflow-ut-02a-attendance-profile-integration-artifact-inventory.md",
       "workflow-ut-02a-followup-001-attendance-write-operations-artifact-inventory.md",
@@ -26127,6 +26139,7 @@
       "workflow-task-709-visual-baseline-runtime-capture-artifact-inventory.md",
       "workflow-task-761-visual-full-required-status-check-artifact-inventory.md",
       "workflow-task-b-root-page-public-header-async-artifact-inventory.md",
+      "workflow-task-c-reflection-timing-visibility-and-sla-doc-artifact-inventory.md",
       "workflow-task-issue-346-08a-canonical-workflow-tree-restore-artifact-inventory.md",
       "workflow-ut-07a-01-member-tags-assign-cleanup-artifact-inventory.md",
       "workflow-ut-07b-fu-01-schema-alias-backfill-queue-cron-split-artifact-inventory.md",
@@ -27502,6 +27515,12 @@
     ],
     "privacy": [
       "workflow-task-c-privacy-terms-public-shell-spec-artifact-inventory.md"
+    ],
+    "sla": [
+      "workflow-task-c-reflection-timing-visibility-and-sla-doc-artifact-inventory.md"
+    ],
+    "Anchors": [
+      "workflow-task-c-reflection-timing-visibility-and-sla-doc-artifact-inventory.md"
     ],
     "参照される実装ファイル": [
       "workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md",
