@@ -2568,6 +2568,17 @@ node scripts/list-specs.js --topics
 |------------|----|
 | Lessons Learned | L23 |
 
+### references/workflow-issue-1054-wrangler-binding-drift-ci-gate-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Metadata | L3 |
+| Workflow Artifacts | L12 |
+| Implementation Artifacts | L30 |
+| Verification | L40 |
+| Lessons Learned | L48 |
+| User-Gated | L63 |
+
 ### references/workflow-issue-106-admin-member-notes-repository-task-spec-artifact-inventory.md
 
 | セクション | 行 |
@@ -5188,17 +5199,17 @@ node scripts/list-specs.js --topics
 | D1 Backup Long-Term Storage（UT-06-FU-E / 2026-05-01） | L105 |
 | Cloudflare Workers デプロイ（Next.js / OpenNext） | L124 |
 | Cloudflare Workers デプロイ（APIバックエンド） | L212 |
-| Cloudflare D1 データベース | L378 |
-| Cloudflare KV セッションキャッシュ（UT-13 / SESSION_KV） | L411 |
-| GitHub Actions CI/CD | L523 |
-| プレビューデプロイメント | L554 |
-| カスタムドメイン設定 | L570 |
-| 環境分離 | L583 |
-| ロールバック戦略 | L593 |
-| モニタリング/アラート（UT-08 連携） | L614 |
-| per-sync write cap 連続到達アラート（03b-followup-006 / Issue #199） | L631 |
-| Long-term Analytics Evidence（Issue #347 / 2026-05-05） | L666 |
-| 変更履歴 | L715 |
+| Cloudflare D1 データベース | L385 |
+| Cloudflare KV セッションキャッシュ（UT-13 / SESSION_KV） | L418 |
+| GitHub Actions CI/CD | L530 |
+| プレビューデプロイメント | L561 |
+| カスタムドメイン設定 | L577 |
+| 環境分離 | L590 |
+| ロールバック戦略 | L600 |
+| モニタリング/アラート（UT-08 連携） | L621 |
+| per-sync write cap 連続到達アラート（03b-followup-006 / Issue #199） | L638 |
+| Long-term Analytics Evidence（Issue #347 / 2026-05-05） | L673 |
+| 変更履歴 | L722 |
 
 ### references/deployment-core.md
 
@@ -6043,6 +6054,14 @@ node scripts/list-specs.js --topics
 | L-I1024-001: First-paint UI state needs a server-readable seed | L3 |
 | L-I1024-002: Split-token lint bypasses are not an acceptable boundary pattern | L7 |
 | L-I1024-003: Seed the existing state owner instead of adding a second store | L11 |
+
+### references/lessons-learned-issue-1054-wrangler-binding-drift-ci-gate-2026-06.md
+
+| セクション | 行 |
+|------------|----|
+| 教訓一覧 | L21 |
+| 同期した正本 | L79 |
+| 境界 / user gate | L90 |
 
 ### references/lessons-learned-issue-106-admin-notes-repository-2026-05.md
 
@@ -8350,15 +8369,15 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L3371 |
-| フェーズ構造（概要） | L3380 |
-| 品質ゲート（概要） | L3411 |
-| 出力テンプレート | L3422 |
-| 実行時のコマンド・エージェント・スキル | L3445 |
-| 昇格パターン集 | L3469 |
-| Current Active / Spec Created Tasks | L3471 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L3637 |
-| issue-998-members-publish-state-production-rollout | L3715 |
+| ドキュメント構成 | L3385 |
+| フェーズ構造（概要） | L3394 |
+| 品質ゲート（概要） | L3425 |
+| 出力テンプレート | L3436 |
+| 実行時のコマンド・エージェント・スキル | L3459 |
+| 昇格パターン集 | L3483 |
+| Current Active / Spec Created Tasks | L3485 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L3651 |
+| issue-998-members-publish-state-production-rollout | L3729 |
 
 ### references/task-workflow-backlog-part2.md
 
