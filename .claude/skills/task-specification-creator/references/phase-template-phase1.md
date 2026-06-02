@@ -47,6 +47,8 @@ Phase 1: 要件定義。
 
 Phase 1 開始時に、対象ファイルの現在の実装状態を確認する。
 
+複数の実装方針がコスト・runtime topology・外部 mutation を分岐させる場合（例: Paid plan 移行 vs 専用 Worker 分離、外部 SaaS 契約変更、production runtime 操作）は、Phase 2 に進む前にユーザー決定を取得し、採用方針を Phase 1 の acceptance criteria に固定する。未決定の複数アーキ分岐を Phase 2 以降へ持ち込まない。
+
 ```bash
 # 対象ファイルの最近のコミット履歴
 git log --oneline -20 -- <対象ファイルパス>
@@ -54,6 +56,22 @@ git log --oneline -20 -- <対象ファイルパス>
 # 対象関数/機能が既に実装されているか確認
 grep -n "<対象関数名>" <対象ファイルパス>
 ```
+
+#### landed 実装検出時の existing-hardening 分岐（2026-06-01 追加）
+
+P50 で対象機能が既に dev / current branch に landed 済みと確認できた場合、greenfield 新規実装として仕様書を進めない。Phase 1 で `git log` / `rg --files` / `rg -n` の実測結果を表にし、`metadata.implementation_mode` を `existing-hardening`（またはより具体的な `existing-*-hardening`）へ再分類する。
+
+必須記録:
+
+| 項目 | 内容 |
+| --- | --- |
+| landed reference | PR 番号 / commit hash / current branch 上の確認コマンド |
+| current code anchor | 実在する route / component / schema / test / endpoint |
+| source-task drift | 元タスク・旧仕様の path / API / UI wording と現行コードの差分 |
+| canonical decision | 実コードを正本にするか、旧仕様を復元するか |
+| action | no-op documentation / regression test 追加 / adapter 補正 / follow-up escalation |
+
+旧仕様に壊れた endpoint path や古いファイル名が残っている場合は、Phase 1 の「乖離補正」表で現行コードへ補正する。補正を記録せず Phase 2 以降へ旧文字列を持ち込むことは禁止する。
 
 #### Props/型前提条件の確認（P65対策）
 

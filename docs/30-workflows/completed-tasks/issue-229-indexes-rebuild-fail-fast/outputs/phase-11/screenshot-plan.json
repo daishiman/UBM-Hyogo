@@ -1,0 +1,13 @@
+{
+  "mode": "NON_VISUAL",
+  "taskId": "issue-229-indexes-rebuild-fail-fast",
+  "reason": "CLI tooling, no UI",
+  "visualEvidence": "NON_VISUAL",
+  "screenshotsRequired": false,
+  "primaryEvidence": [
+    "manual-smoke-log.md",
+    "manual-test-result.md",
+    "scripts/__tests__/generate-index-fail-fast.spec.ts (TC-01..TC-07)"
+  ],
+  "screenshots": []
+}

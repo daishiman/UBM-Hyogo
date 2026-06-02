@@ -1,0 +1,55 @@
+{
+  "workflow": "issue-1027-member-dynamic-og-worker-split",
+  "task_id": "issue-1027-member-dynamic-og-worker-split",
+  "status": "implemented_local_runtime_pending",
+  "task_type": "implementation",
+  "visualEvidence": "VISUAL_ON_EXECUTION",
+  "implementation_mode": "new",
+  "created_date": "2026-05-31",
+  "issue_number": 1027,
+  "issue_state": "closed",
+  "architecture": "og-dedicated-worker-split-free-plan",
+  "metadata": {
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-05-31T00:00:00+09:00",
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-1027-member-dynamic-og-worker-split/outputs/phase-3/design-review.md",
+        "approver": "local",
+        "notes": "spec_review"
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "passed",
+        "passed_at": "2026-05-31T00:00:00+09:00",
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-1027-member-dynamic-og-worker-split/outputs/phase-11/og-local-verification.log",
+        "approver": "local",
+        "notes": "local_implementation_review"
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-1027-member-dynamic-og-worker-split/phase-13.md",
+        "approver": "daishiman",
+        "notes": "cloudflare_deploy_commit_push_pr_issue_mutation_user_gated"
+      }
+    ]
+  },
+  "phases": {
+    "phase-1": { "status": "completed", "artifact": "outputs/phase-1/requirements.md" },
+    "phase-2": { "status": "completed", "artifact": "outputs/phase-2/design.md" },
+    "phase-3": { "status": "completed", "artifact": "outputs/phase-3/design-review.md" },
+    "phase-4": { "status": "completed", "artifact": "outputs/phase-4/test-design.md" },
+    "phase-5": { "status": "completed", "artifact": "outputs/phase-5/implementation-notes.md" },
+    "phase-6": { "status": "completed", "artifact": "outputs/phase-6/test-expansion.md" },
+    "phase-7": { "status": "completed", "artifact": "outputs/phase-7/coverage-report.md" },
+    "phase-8": { "status": "completed", "artifact": "outputs/phase-8/refactoring.md" },
+    "phase-9": { "status": "completed", "artifact": "outputs/phase-9/quality-assurance.md" },
+    "phase-10": { "status": "completed", "artifact": "outputs/phase-10/final-review-result.md" },
+    "phase-11": { "status": "completed", "artifact": "outputs/phase-11/manual-test-result.md" },
+    "phase-12": { "status": "completed", "artifact": "outputs/phase-12/" },
+    "phase-13": { "status": "blocked", "artifact": null }
+  }
+}

@@ -32,6 +32,7 @@ export function MemberCard({ member, density = "comfy" }: MemberCardProps) {
           <Avatar
             memberId={member.memberId}
             name={member.fullName}
+            src={member.photoUrl}
             size={avatarSize}
           />
         ) : (
@@ -39,6 +40,7 @@ export function MemberCard({ member, density = "comfy" }: MemberCardProps) {
             <Avatar
               memberId={member.memberId}
               name={member.fullName}
+              src={member.photoUrl}
               size={avatarSize}
             />
             <div data-role="identity">

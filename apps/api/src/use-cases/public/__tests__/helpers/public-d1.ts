@@ -15,6 +15,7 @@ export interface PublicD1MockOptions {
   currentResponseByMemberId?: Record<string, unknown | null>;
   tagsByMemberId?: Record<string, unknown[]>;
   attendanceByMemberId?: Record<string, unknown[]>;
+  memberPhotosById?: Record<string, unknown | null>;
   meetings?: unknown[];
   topTags?: Array<{ code: string; label: string; count: number }>;
   syncJobs?: Partial<Record<"schema_sync" | "response_sync", unknown | null>>;
@@ -113,6 +114,11 @@ class MockStmt {
       return isEligibleStatus(status) ? ({ hit: 1 } as T) : null;
     }
 
+    if (sql.includes("FROM member_photos") && sql.includes("WHERE member_id = ?1")) {
+      const key = String(this.bindings[0]);
+      return (this.options.memberPhotosById?.[key] ?? null) as T | null;
+    }
+
     if (sql.includes("COUNT(DISTINCT mi.member_id) AS cnt")) {
       return ({ cnt: this.options.publicMemberCount ?? 0 } as T);
     }
@@ -204,6 +210,15 @@ class MockStmt {
 
     if (sql.includes("SELECT mi.member_id, mi.current_response_id")) {
       return { results: (this.options.publicMembers ?? []) as T[] };
+    }
+
+    if (sql.includes("FROM member_photos") && sql.includes("member_id IN")) {
+      const photos = this.options.memberPhotosById ?? {};
+      return {
+        results: this.bindings
+          .map((id) => photos[String(id)])
+          .filter((row): row is NonNullable<typeof row> => row != null) as T[],
+      };
     }
 
     if (

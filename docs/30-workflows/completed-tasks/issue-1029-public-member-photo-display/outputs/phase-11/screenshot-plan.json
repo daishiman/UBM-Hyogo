@@ -1,0 +1,36 @@
+{
+  "mode": "VISUAL",
+  "taskId": "issue-1029-public-member-photo-display",
+  "visualEvidence": "VISUAL_ON_EXECUTION",
+  "workflowState": "implemented_local_runtime_pending",
+  "outputDir": "outputs/phase-11/screenshots",
+  "status": "present",
+  "screenshots": [
+    {
+      "name": "public-members-photo-list-desktop.png",
+      "status": "present",
+      "description": "public 一覧 desktop で写真あり member の avatar が <img> 表示",
+      "ac": "AC-3",
+      "captureEnv": "local-playwright-mock"
+    },
+    {
+      "name": "public-member-photo-detail-desktop.png",
+      "status": "present",
+      "description": "public 詳細 ProfileHero の写真表示",
+      "ac": "AC-4",
+      "captureEnv": "local-playwright-mock"
+    },
+    {
+      "name": "public-members-photo-list-mobile.png",
+      "status": "present",
+      "description": "public 一覧 mobile で写真 avatar が layout overlap なく表示",
+      "ac": "AC-5",
+      "captureEnv": "local-playwright-mock"
+    }
+  ],
+  "captureGate": [
+    "local implementation complete",
+    "local Playwright mock API can return public-safe photoUrl",
+    "public directory accessible"
+  ]
+}

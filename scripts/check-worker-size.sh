@@ -14,11 +14,29 @@ else
   worker_files=()
 
   if [ -n "$WORKER_FILE" ]; then
-    if [ ! -f "$WORKER_FILE" ]; then
+    if [ -d "$WORKER_FILE" ]; then
+      # ディレクトリ指定時は配下の worker モジュール (*.js / *.mjs / *.wasm) を合算する。
+      # OG worker (apps/og/dist) のように index.js + wasm が分割出力されるバンドルで、
+      # wasm/フォント肥大を含めた実デプロイサイズを測るため (*.map は除外)。
+      while IFS= read -r file; do
+        worker_files+=("$file")
+      done < <(
+        find "$WORKER_FILE" -type f \( \
+          -name '*.js' -o \
+          -name '*.mjs' -o \
+          -name '*.wasm' \
+        \) | sort
+      )
+      if [ "${#worker_files[@]}" -eq 0 ]; then
+        echo "check-worker-size: FAIL: no worker bundle files (*.js/*.mjs/*.wasm) under: $WORKER_FILE" >&2
+        exit 1
+      fi
+    elif [ -f "$WORKER_FILE" ]; then
+      worker_files+=("$WORKER_FILE")
+    else
       echo "check-worker-size: FAIL: worker bundle not found: $WORKER_FILE" >&2
       exit 1
     fi
-    worker_files+=("$WORKER_FILE")
   else
     if [ ! -d "$OPEN_NEXT_DIR" ]; then
       echo "check-worker-size: FAIL: OpenNext output not found: $OPEN_NEXT_DIR" >&2

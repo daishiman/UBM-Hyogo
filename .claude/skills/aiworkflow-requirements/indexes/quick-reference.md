@@ -15,6 +15,144 @@
 | inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1039-admin-audit-identity-action-presets-artifact-inventory.md` |
 | user gate | staging screenshot, commit, push, PR |
 
+## issue-1042-dismiss-confirm-optimistic-update（2026-06-01）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-1042-dismiss-confirm-optimistic-update/` |
+| status | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION` |
+| issue | #1042 OPEN。Issue state mutation は user-gated |
+| purpose | `/admin/identity-conflicts` dismiss confirm 後に row を optimistic に非表示化し、server error 時に rollback + reason retention する |
+| implementation | `apps/web/src/components/admin/IdentityConflictRow.tsx` component-local `optimisticDismissed`; focused component tests; admin identity-conflicts Playwright spec |
+| invariant | API / D1 schema / Server Component page / `useAdminMutation` hook / merge behavior は変更なし |
+| evidence | focused Vitest 1 file / 14 tests PASS; Playwright desktop 2 tests PASS; Phase 11 screenshots 2 PNG captured |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1042-dismiss-confirm-optimistic-update-artifact-inventory.md` |
+| lessons | `.claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-issue-1042-dismiss-optimistic-2026-06.md`（L-I1042-001..004・#988 L-I988-001..006 継承） |
+| user gate | commit, push, PR, Issue #1042 close |
+
+## issue-1031-member-self-photo-upload（2026-06-01）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/issue-1031-member-self-photo-upload/` |
+| status | `implemented_local_runtime_pending / implementation / VISUAL` |
+| issue | #1031 CLOSED（2026-06-01 実確認）。Issue mutation は行わず、PR 文脈は `Refs #1031` のみ |
+| parent | `docs/30-workflows/issue-983-member-photo-avatar-r2-storage/` |
+| purpose | member 本人が `/profile` から自分の avatar を upload/delete できる self-service 経路を実装する |
+| implementation | `member_photos.source` additive migration 0023、`POST/DELETE /me/photo`、`GET /me/profile photoUrl?`、web `/api/me/photo` proxy、`PhotoUpload.client.tsx` |
+| evidence boundary | focused API/repository/web tests and component screenshot evidence present; remote D1 apply, staging deploy, authenticated runtime visual evidence pending |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1031-member-self-photo-upload-artifact-inventory.md` |
+| user gate | remote D1 apply, staging deploy, authenticated screenshots, commit, push, PR |
+
+## issue-1029-public-member-photo-display（2026-05-31）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-1029-public-member-photo-display/` |
+| status | `implemented_local_runtime_pending / implementation / VISUAL_ON_EXECUTION` |
+| issue | #1029 CLOSED 維持。PR 文脈は `Refs #1029` のみ |
+| parent | `docs/30-workflows/issue-983-member-photo-avatar-r2-storage/` |
+| purpose | public member list/profile に optional `photoUrl` を追加し、#983 の `member_photos` + private R2 presign + `Avatar` fallback を再利用する |
+| public policy | `docs/00-getting-started-manual/specs/16-member-photo-public-exposure.md`。gate は `public_consent='consented'` + `publish_state='public'` + `member_photos` row。写真専用 consent / D1 migration は追加しない |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1029-public-member-photo-display-artifact-inventory.md` |
+| implementation | shared `photoUrl?` schema/types、`listMemberPhotosByIds`、public route presign resolver、use-case DI、MemberCard/ProfileHero Avatar src 配線 |
+| evidence | focused Vitest 51 PASS、public route contract 12 PASS、shared/api/web typecheck PASS、Playwright public photo 1 PASS、Phase 11 screenshots 3 PNG captured |
+| user gate | R2 secrets, staging deploy, real R2 URL capture, commit, push, PR, Issue mutation |
+
+## issue-1027-member-dynamic-og-worker-split（2026-05-31）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-1027-member-dynamic-og-worker-split/` |
+| status | `implemented_local_runtime_pending / implementation / VISUAL_ON_EXECUTION` |
+| issue | #1027 OPEN 維持。Issue mutation は user-gated |
+| purpose | member detail の動的 OG PNG を main web Worker へ戻さず、OG 専用 Worker `apps/og` に分離して Free 3MiB 予算を守る |
+| implementation | `apps/og/**`, `apps/web/src/lib/{env.ts,seo/site-metadata.ts}`, `apps/web/app/(public)/members/[id]/page.tsx`, `apps/web/wrangler.toml`, `.github/workflows/og-cd.yml` |
+| evidence | OG typecheck PASS; OG Vitest 3 files / 10 tests PASS; web metadata focused Vitest 3 files / 17 tests PASS; OG Wrangler dry-run build PASS; OG size gate gzip 717KiB / 3072KiB PASS (index.js 170KiB + wasm); web typecheck PASS |
+| invariant | `apps/web` は `next/og` / `ImageResponse` 禁止を維持。OG Worker は existing `GET /public/members/:memberId` を API_SERVICE first で読む。`OG_IMAGE_BASE_URL` は env accessor 経由 |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1027-member-dynamic-og-worker-split-artifact-inventory.md` |
+| user gate | Cloudflare deploy, staging runtime PNG capture, commit, push, PR, Issue #1027 mutation |
+
+## task-d-admin-google-form-responses-link（2026-06-01）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/task-d-admin-google-form-responses-link/` |
+| status | `implemented_local_evidence_captured / implementation / VISUAL` |
+| parent | `member-publish-recovery-form-ops-and-admin-link`（PR #1064 / commit `745c95115` で apps 実装 landed 済み） |
+| purpose | admin sidebar nav に Google Form 回答編集画面を別タブで開く外部リンク「Form回答」を追加した landed 実装の正本検証 |
+| implementation | `apps/web/src/lib/constants/form.ts`, `apps/web/src/components/shell/{shell-config,icons,SidebarNavItem}.tsx` |
+| contract | `ShellNavItem.external?` で `<a target="_blank" rel="noopener noreferrer">` に分岐し、`↗` + sr-only「（外部リンク）」を付与、`aria-current` / `data-active` は付けない |
+| evidence | focused jsdom / pure function / constant tests; screenshots are admin-auth user-gated |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-task-d-admin-google-form-responses-link-artifact-inventory.md` |
+| user gate | staging admin screenshot, external Google Form tab observation, commit, push, PR |
+
+## task-c-reflection-timing-visibility-and-sla-doc（2026-06-01）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/task-c-reflection-timing-visibility-and-sla-doc/` |
+| status | `spec_created / implementation / VISUAL / verify_existing` |
+| landed implementation | PR #1064 / commit `745c95115` |
+| purpose | Google Form 反映タイミングを `/members` と `/profile` に可視化し、`03-data-fetching.md` に反映 SLA を固定 |
+| implementation anchors | `apps/web/src/components/public/ReflectionTimingNote.tsx`, `apps/web/app/(public)/members/page.tsx`, `apps/web/app/(member)/profile/page.tsx`, `docs/00-getting-started-manual/specs/03-data-fetching.md` |
+| evidence | focused `ReflectionTimingNote.spec.tsx` PASS, Phase 11 output present, Phase 12 strict 7 present |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-task-c-reflection-timing-visibility-and-sla-doc-artifact-inventory.md` |
+| user gate | authenticated runtime screenshots, commit, push, PR |
+
+## task-b-manual-form-resync-admin-ui-spec（2026-06-01）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/task-b-manual-form-resync-admin-ui-spec/` |
+| status | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION / runtime_visual_pending_user_gate` |
+| parent | `docs/30-workflows/task-member-publish-recovery-form-ops-and-admin-link/` Task B |
+| purpose | landed 済み manual Google Form resync admin UI を standalone Phase 1-13 正本仕様へ展開し、回帰確認手順と Phase 11/12 証跡を固定 |
+| implementation | `apps/web/src/features/admin/components/_sync/ManualFormResyncPanel.client.tsx`, `apps/web/src/features/admin/diagnostics/manual-sync.ts`, `apps/web/app/api/admin/[...path]/route.ts`, `apps/web/src/lib/env.ts` |
+| evidence | focused Vitest PASS, web typecheck PASS, Phase 11 local bundle, Phase 12 strict 7 present |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-task-b-manual-form-resync-admin-ui-spec-artifact-inventory.md` |
+| user gate | `SYNC_ADMIN_TOKEN` secret injection, authenticated runtime screenshots, commit, push, PR |
+
+## publish-state-backfill-admin-ui（2026-06-01）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/publish-state-backfill-admin-ui/` |
+| status | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION / PASS_BOUNDARY_SYNCED_RUNTIME_PENDING` |
+| parent | `docs/30-workflows/task-member-publish-recovery-form-ops-and-admin-link/` Task A |
+| purpose | `/admin/sync-status` に公開状態 backfill 操作パネル（dry-run 確認 → apply 昇格）を正本化し、PR #1064 / commit `745c95115` で landed 済みの実装を Phase 1-13 仕様へ同期 |
+| implementation | `apps/web/src/features/admin/diagnostics/backfill.ts`, `apps/web/src/features/admin/components/_sync/BackfillPublishStatePanel.client.tsx`, `apps/web/app/(admin)/admin/sync-status/page.tsx`, focused specs under `_sync/__tests__` and `diagnostics/__tests__` |
+| system spec | API/D1/Form schema no change; existing endpoint `POST /admin/sync/backfill-publish-state` reused |
+| evidence | Phase 11 deterministic plan evidence present; Phase 12 strict 7 present; staging authenticated screenshots pending user gate |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-publish-state-backfill-admin-ui-artifact-inventory.md` |
+| user gate | staging authenticated screenshots, commit, push, PR |
+
+## issue-1024-sidebar-collapse-cookie-persistence（2026-05-31）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-1024-sidebar-collapse-cookie-persistence/` |
+| status | `implemented_local_evidence_captured / implementation / NON_VISUAL` |
+| issue | #1024 CLOSED（reopen なし、PR は `Refs #1024` 境界） |
+| purpose | unified `SidebarShell` の collapsed state を `ubm_shell_collapsed` cookie で永続化し、SSR seed で first-paint flicker を防ぐ |
+| implementation | `shell-collapse-cookie.ts`, `useSidebarState.ts`, `SidebarShell.tsx`, `SidebarShell.server.tsx` |
+| tests | `shell-collapse-cookie.spec.ts`, `useSidebarState.spec.tsx`, `SidebarShell.server.spec.tsx` |
+| boundary | API / D1 / Google Form / auth / design tokens unchanged; commit, push, PR, Issue mutation are user-gated |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1024-sidebar-collapse-cookie-persistence-artifact-inventory.md` |
+
+## issue-229-indexes-rebuild-fail-fast（2026-05-31）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-229-indexes-rebuild-fail-fast/` |
+| status | `implemented_local_evidence_captured / implementation / NON_VISUAL` |
+| issue | #229 CLOSED（reopen / mutation は user-gated） |
+| purpose | `pnpm indexes:rebuild` の単一経路 `generate-index.js` に fail-fast / atomic write / decisive log を実装する |
+| implementation | `.claude/skills/aiworkflow-requirements/scripts/generate-index.js`, `scripts/__tests__/generate-index-fail-fast.spec.ts` |
+| evidence | focused Vitest 1 file / 6 tests PASS; `pnpm indexes:rebuild -- --quiet` PASS; immediate second rebuild idempotent |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-229-indexes-rebuild-fail-fast-artifact-inventory.md` |
+| user gate | commit, push, PR, Issue mutation |
+
 ## issue-224-public-members-tags-batch-fetch（2026-05-31）
 ## issue-264-cron-schedule-free-tier-guard（2026-05-31）
 
@@ -2836,6 +2974,7 @@
 | legacy UT-21 の扱い（Sheets→D1 単一 endpoint / audit table は新設しない） | `docs/30-workflows/ut21-forms-sync-conflict-closeout/outputs/phase-12/implementation-guide.md`, `references/task-workflow.md` |
 | 現行 Forms sync 正本 | `apps/api/src/jobs/sync-forms-responses.ts`, `apps/api/src/sync/schema/`, `references/task-workflow.md` |
 | 後続判断 | `docs/30-workflows/unassigned-task/task-ut21-sync-audit-tables-necessity-judgement-001.md`, `docs/30-workflows/unassigned-task/task-ut21-phase11-smoke-rerun-real-env-001.md`, `docs/30-workflows/unassigned-task/task-ut21-impl-path-boundary-realignment-001.md` |
+| UT21-U02 確定判定 | `docs/30-workflows/completed-tasks/issue-235-sync-audit-tables-necessity-judgement/`（Issue #235 CLOSED）。`sync_audit_logs` / `sync_audit_outbox` は新設不要。現行 `sync_jobs` + `sync_job_logs` + `metrics_json` で充足し、コード変更 0。 |
 | 旧仕様の状態欄 | `docs/30-workflows/unassigned-task/UT-21-sheets-d1-sync-endpoint-and-audit-implementation.md` |
 
 ---

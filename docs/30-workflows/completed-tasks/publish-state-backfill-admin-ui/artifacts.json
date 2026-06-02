@@ -1,0 +1,69 @@
+{
+  "title": "publish-state-backfill-admin-ui",
+  "type": "implementation",
+  "status": "implemented_local_evidence_captured",
+  "feature": "publish-state-backfill-admin-ui",
+  "created": "2026-06-01",
+  "lastUpdated": "2026-06-01",
+  "branch": "docs/task-a-publish-state-backfill-admin-ui-spec",
+  "base": "dev",
+  "metadata": {
+    "taskType": "implementation",
+    "implementationDivision": "実装仕様書",
+    "implementation_mode": "existing-hardening",
+    "visualEvidence": "VISUAL_ON_EXECUTION",
+    "scope": "admin/sync-status の公開状態 backfill 操作パネル（dry-run 確認 → apply 昇格）。既存救済 endpoint POST /admin/sync/backfill-publish-state へ UI 導線を付与。API/D1/Form schema は変更しない。",
+    "workflow_state": "implemented_local_evidence_captured",
+    "verdict": "PASS_BOUNDARY_SYNCED_RUNTIME_PENDING",
+    "parentWorkflow": "docs/30-workflows/task-member-publish-recovery-form-ops-and-admin-link/",
+    "sourceTaskFile": "docs/30-workflows/task-member-publish-recovery-form-ops-and-admin-link/tasks/A-publish-state-backfill-admin-ui.md",
+    "investigationConclusion": "Task A は PR #1064 / commit 745c95115 で dev へ実装・テスト済みでマージ済み。backfill.ts / BackfillPublishStatePanel.client.tsx / BackfillPublishStatePanel.spec.tsx / sync-schemas.spec.ts / sync-status page mount / sync-backfill-publish-state endpoint が全て実在。本仕様書は landed 実装を Phase 1-13 の正本タスク仕様書として記述する。元タスクファイルの corrupted endpoint path (?fullSync=true-publish-state) は実コード /api/admin/sync/backfill-publish-state へ補正済み。",
+    "userGated": [
+      "authenticated staging screenshot capture (Phase 11 visual evidence)",
+      "commit",
+      "push",
+      "PR creation"
+    ],
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-06-01T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/publish-state-backfill-admin-ui/outputs/phase-12/main.md",
+        "approver": "daishiman",
+        "notes": "spec_authoring: Phase 1-13 task spec authored for Task A (publish-state backfill admin UI), grounded in landed implementation (#1064)."
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "passed",
+        "passed_at": "2026-06-01T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/publish-state-backfill-admin-ui/outputs/phase-12/implementation-guide.md",
+        "approver": "daishiman",
+        "notes": "implementation_review: backfill.ts + BackfillPublishStatePanel.client.tsx + specs + page mount present and merged; typecheck/lint/test green on dev."
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/publish-state-backfill-admin-ui/phase-13.md",
+        "approver": "daishiman",
+        "notes": "user_gated: authenticated staging Phase-11 screenshot capture, commit, push, PR creation."
+      }
+    ]
+  },
+  "phases": {
+    "phase-1": { "name": "Requirements", "file": "phase-1.md", "status": "completed" },
+    "phase-2": { "name": "Design", "file": "phase-2.md", "status": "completed" },
+    "phase-3": { "name": "Design Review", "file": "phase-3.md", "status": "completed" },
+    "phase-4": { "name": "Test Creation", "file": "phase-4.md", "status": "completed" },
+    "phase-5": { "name": "Implementation", "file": "phase-5.md", "status": "completed" },
+    "phase-6": { "name": "Test Expansion", "file": "phase-6.md", "status": "completed" },
+    "phase-7": { "name": "Coverage Check", "file": "phase-7.md", "status": "completed" },
+    "phase-8": { "name": "Refactoring", "file": "phase-8.md", "status": "completed" },
+    "phase-9": { "name": "Quality Assurance", "file": "phase-9.md", "status": "completed" },
+    "phase-10": { "name": "Final Review", "file": "phase-10.md", "status": "completed" },
+    "phase-11": { "name": "Manual Test", "file": "phase-11.md", "status": "PASS_BOUNDARY_SYNCED_RUNTIME_PENDING" },
+    "phase-12": { "name": "Documentation", "file": "phase-12.md", "status": "completed" },
+    "phase-13": { "name": "PR Creation", "file": "phase-13.md", "status": "pending_user_approval" }
+  }
+}

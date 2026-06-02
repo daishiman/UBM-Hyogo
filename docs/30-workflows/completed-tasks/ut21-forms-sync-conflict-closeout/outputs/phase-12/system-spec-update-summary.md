@@ -32,7 +32,7 @@
 
 ### `task-workflow.md` current facts 追記文言（固定文・コピペ用）
 
-> 「UT-21（Sheets sync direct 実装）は legacy umbrella として close-out 済（2026-04-30）。Forms sync（`forms.get` / `forms.responses.list` + `sync_jobs` ledger + `apps/api/src/jobs/sync-forms-responses.ts` / `apps/api/src/sync/schema/*`）が現行正本。`POST /admin/sync` / `GET /admin/sync/audit` / `sync_audit_logs` / `sync_audit_outbox` は新設しない（要否判定は U02 後まで保留）。close-out 仕様書: `docs/30-workflows/ut21-forms-sync-conflict-closeout/`」
+> 「UT-21（Sheets sync direct 実装）は legacy umbrella として close-out 済（2026-04-30）。Forms sync（`forms.get` / `forms.responses.list` + `sync_jobs` ledger + `apps/api/src/jobs/sync-forms-responses.ts` / `apps/api/src/sync/schema/*`）が現行正本。`POST /admin/sync` / `GET /admin/sync/audit` / `sync_audit_logs` / `sync_audit_outbox` は新設しない。audit table 要否は 2026-05-31 に U02 / Issue #235 で新設不要と確定。close-out 仕様書: `docs/30-workflows/ut21-forms-sync-conflict-closeout/`」
 
 ---
 
@@ -74,7 +74,7 @@
 | 観点 | 状態 |
 | --- | --- |
 | 新規 REST endpoint 追加 | なし（`POST /admin/sync` / `GET /admin/sync/audit` の **新設禁止** が成果物そのもの） |
-| 新規 D1 schema 追加 | なし（`sync_audit_logs` / `sync_audit_outbox` は U02 判定後まで保留） |
+| 新規 D1 schema 追加 | なし（`sync_audit_logs` / `sync_audit_outbox` は U02 / Issue #235 で新設不要確定済み） |
 | 新規 Worker binding 追加 | なし |
 | 新規 IPC / Cron handler 追加 | なし（既存 `apps/api/src/jobs/*` + `apps/api/src/sync/schema/*` 構成を正本確定） |
 | 新規 Secret 導入 | なし（`SYNC_ADMIN_TOKEN` / `GOOGLE_FORMS_API_KEY` は既存 / 参照のみ） |

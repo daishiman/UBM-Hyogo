@@ -18,7 +18,10 @@ import {
 } from "../../../../src/lib/fetch/public";
 import type { SafeResultError } from "../../../../src/lib/result";
 import { safeServerFetch } from "../../../../src/lib/server-fetch/safe-fetch";
-import { buildPageMetadata } from "@/lib/seo/site-metadata";
+import {
+  buildMemberOgImageUrl,
+  buildPageMetadata,
+} from "@/lib/seo/site-metadata";
 
 export const dynamic = "force-dynamic";
 
@@ -76,7 +79,7 @@ export async function generateMetadata({
       description:
         "指定された UBM 兵庫支部会メンバーは公開されていません",
       path: `/members/${id}`,
-      twitterCard: "summary",
+      ogImage: buildMemberOgImageUrl(id),
     });
   }
   if (!profileResult.ok) {
@@ -85,7 +88,7 @@ export async function generateMetadata({
       description:
         "UBM 兵庫支部会メンバー情報の読み込みに失敗しました",
       path: `/members/${id}`,
-      twitterCard: "summary",
+      ogImage: buildMemberOgImageUrl(id),
     });
   }
   const profile = profileResult.data;
@@ -96,7 +99,7 @@ export async function generateMetadata({
       occ ? `(${occ})` : ""
     }の UBM 兵庫支部会プロフィール`,
     path: `/members/${id}`,
-    twitterCard: "summary",
+    ogImage: buildMemberOgImageUrl(id),
   });
 }
 
