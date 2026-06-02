@@ -25,6 +25,7 @@ import {
   assignTagToMemberByAdmin,
   unassignTagFromMemberByAdmin,
   getMemberDeletedFlag,
+  bulkApplyMemberTagsByAdmin,
 } from "../../repository/memberTags";
 import { buildAdminMemberDetailView } from "../../repository/_shared/builder";
 import {
@@ -68,6 +69,13 @@ const FILTER_VALUES = ["published", "hidden", "deleted"] as const;
 
 // issue-982: admin manual tag 付与の request body。
 const AssignTagBodyZ = z.object({ tagId: z.string().min(1) });
+
+// issue-1036 / 不変条件 #13 第3経路: bulk member tag assign/unassign の body。
+const BulkTagBodyZ = z.object({
+  memberIds: z.array(z.string().min(1)).min(1).max(200),
+  tagIds: z.array(z.string().min(1)).min(1).max(50),
+  op: z.enum(["assign", "unassign"]),
+});
 
 type ConsentValue = "consented" | "declined" | "unknown";
 type PublishStateValue = "public" | "member_only" | "hidden";
@@ -543,6 +551,8 @@ export const createAdminMembersRoute = () => {
       contentType: file.type,
       byteSize: buf.byteLength,
       uploadedBy: actorEmail,
+      // issue-1031: admin 代行 upload は source='admin' を明示（source 列追加後も既存挙動維持・backfill）。
+      source: "admin",
     });
 
     await requireProvider(c.var.auditLogProvider, "auditLogProvider").append({
@@ -632,7 +642,71 @@ export const createAdminMembersRoute = () => {
   // ---------------------------------------------------------------------------
   // issue-982: member tag の admin manual 付与 / 解除 / master 読取
   //   不変条件 #13 再定義: admin manual 経路は audit 必須で member_tags を直接 write する。
+  // issue-1036: bulk（複数 member × 複数 tag）の付与 / 解除（第3経路）+ tag master read。
   // ---------------------------------------------------------------------------
+
+  // GET /admin/tags → { available }（tag master read。bulk UI の tag picker 用）
+  app.get("/tags", async (c) => {
+    const db = ctx({ DB: c.env.DB });
+    const available = await getTagDefinitionMaster(db);
+    return c.json({ available }, 200);
+  });
+
+  // POST /admin/members/tags/bulk  body { memberIds, tagIds, op }
+  //   → 200 + { batchId, results }（部分失敗も 200・AC-1/AC-2）
+  //   ※ `:memberId` 系より前に登録すること（Hono 登録順マッチ・路 "/members/tags/bulk" の誤マッチ回避）
+  app.post("/members/tags/bulk", async (c) => {
+    let raw: unknown;
+    try {
+      raw = await c.req.json();
+    } catch {
+      return c.json({ ok: false, error: "invalid json" }, 400);
+    }
+    const parsed = BulkTagBodyZ.safeParse(raw);
+    if (!parsed.success) {
+      return c.json({ ok: false, error: "invalid_body" }, 400);
+    }
+
+    const db = ctx({ DB: c.env.DB });
+    const authUser = c.get("authUser");
+    const result = await bulkApplyMemberTagsByAdmin(
+      db,
+      {
+        memberIds: parsed.data.memberIds.map(asMemberId),
+        tagIds: parsed.data.tagIds,
+        op: parsed.data.op,
+      },
+      { id: asAdminId(authUser.memberId), email: adminEmail(authUser.email) },
+    );
+
+    // 実 mutation した member×tag 単位で audit 1 件（AC-3・既存単一 endpoint と action 名 parity）
+    const audit = requireProvider(c.var.auditLogProvider, "auditLogProvider");
+    for (const item of result.results) {
+      if (item.status === "assigned") {
+        await audit.append({
+          actorId: asAdminId(authUser.memberId),
+          actorEmail: adminEmail(authUser.email),
+          action: auditAction("admin.member.tag_assigned"),
+          targetType: "member",
+          targetId: item.memberId,
+          before: null,
+          after: { tagId: item.tagId, source: "manual", batchId: result.batchId },
+        });
+      } else if (item.status === "unassigned") {
+        await audit.append({
+          actorId: asAdminId(authUser.memberId),
+          actorEmail: adminEmail(authUser.email),
+          action: auditAction("admin.member.tag_unassigned"),
+          targetType: "member",
+          targetId: item.memberId,
+          before: { tagId: item.tagId, batchId: result.batchId },
+          after: null,
+        });
+      }
+    }
+
+    return c.json(result, 200);
+  });
 
   // GET /admin/members/:memberId/tags → { assigned, available }
   app.get("/members/:memberId/tags", async (c) => {

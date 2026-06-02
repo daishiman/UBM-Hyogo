@@ -14,6 +14,8 @@ const PORT = Number(process.env.E2E_MOCK_API_PORT ?? 8787);
 const NOW = "2026-05-09T00:00:00.000Z";
 
 const primaryMember = fixtures.public.memberList.items[0];
+const publicPhotoUrl =
+  "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA5NiA5NiI+PHJlY3Qgd2lkdGg9Ijk2IiBoZWlnaHQ9Ijk2IiByeD0iNDgiIGZpbGw9IiMwMDY0N0EiLz48Y2lyY2xlIGN4PSI0OCIgY3k9IjM2IiByPSIxOCIgZmlsbD0iI0ZGRjNGMCIvPjxwYXRoIGQ9Ik0xOCA4NGMwLTE5IDEzLTM0IDMwLTM0czMwIDE1IDMwIDM0IiBmaWxsPSIjRkZGM0YwIi8+PC9zdmc+";
 
 const CORS_HEADERS = {
   "access-control-allow-origin": "*",
@@ -152,6 +154,7 @@ const buildPublicProfile = (id) => ({
   ],
   attendanceMeta: { hasMore: false, nextCursor: null },
   tags: [{ code: "kobe", label: "Kobe", category: "zone" }],
+  photoUrl: publicPhotoUrl,
 });
 
 const publicList = (url) => {
@@ -161,7 +164,9 @@ const publicList = (url) => {
   const items =
     state.publicHomeEmpty || q === fixtures.public.negativeQuery
       ? []
-      : fixtures.public.memberList.items;
+      : fixtures.public.memberList.items.map((item, index) =>
+          index === 0 ? { ...item, photoUrl: publicPhotoUrl } : item,
+        );
   return {
     items,
     pagination: {

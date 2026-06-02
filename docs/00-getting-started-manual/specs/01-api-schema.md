@@ -158,6 +158,7 @@ type ConsentStatus = "consented" | "declined" | "unknown";
 | `isDeleted` | D1 `member_status` | アプリ上の論理削除 |
 | `meetingSessions` | D1 `meeting_sessions` | 開催日 |
 | `attendance` | D1 `member_attendance` | 参加履歴 |
+| `photo` | D1 `member_photos` + R2 `members/{memberId}/avatar` | profile 写真。`source` は `admin` / `self` |
 | `tags` | D1 `member_tags` | 付与済みタグ |
 | `tagSource` | D1 `member_tags` | `rule` / `ai` / `manual` |
 | `tagAssignmentStatus` | D1 `tag_assignment_queue` | 手動確認待ち状態 |
@@ -165,6 +166,8 @@ type ConsentStatus = "consented" | "declined" | "unknown";
 ---
 
 `MemberProfile.attendance` と `PublicMemberProfile.attendance` は `member_attendance` と active `meeting_sessions`（`meeting_sessions.deleted_at IS NULL`）を `session_id` で INNER JOIN して返す。API contract は `AttendanceRecord[]`（`sessionId`, `title`, `heldOn`）を維持し、`GET /me/profile`、admin member detail、`GET /public/members/:memberId` は `attendanceProviderMiddleware` が Hono context に bind した `c.var.attendanceProvider` から provider を解決する。builder call site へ optional `deps?.attendanceProvider` を渡す方式は使わない。大量履歴向けに `attendanceMeta?: { hasMore: boolean; nextCursor: string | null }` を optional 追加し、`GET /me/profile`、admin member detail、public member detail は default 50 件の先頭ページを返す。先頭ページの limit 指定は builder の optional `deps?.attendancePage` または use-case の default page request 経由でのみ渡す。public member detail は公開適格判定（`public_consent='consented'`, `publish_state='public'`, `is_deleted=0`）が成立した後に attendance を読む。非公開 member の attendance 有無や soft-deleted meeting を 404 / 除外経路で漏らさない。
+
+`GET /me/profile` は本人の `member_photos` 行が存在し、R2 presign secrets が揃う場合だけ `photoUrl?: string` を同梱する。presign 失敗・secret 不足・写真未登録では `photoUrl` を省略し、profile response は 200 を維持する。`photoUrl` は `members/{memberId}/avatar` の presigned GET URL であり、D1/R2 read は `apps/api` に閉じる。
 
 ### Public Profile Attendance Contract
 

@@ -45,4 +45,25 @@ describe("MemberCard", () => {
     expect(screen.getByText("エンジニア")).toBeTruthy();
     expect(container.querySelector('[data-role="chip-row"]')).toBeTruthy();
   });
+
+  // --- issue-1029 lane E: photoUrl → <Avatar src> 配線 ---
+
+  const PHOTO = "https://r2/m1?s=x";
+
+  it.each(["comfy", "dense", "list"] as const)(
+    "E-1/2/3: photoUrl 有・%s で img src が photoUrl と一致",
+    (density) => {
+      const member = buildMember({ memberId: "mem-201", photoUrl: PHOTO });
+      const { container } = render(<MemberCard member={member} density={density} />);
+      const img = container.querySelector("img");
+      expect(img).not.toBeNull();
+      expect(img?.getAttribute("src")).toBe(PHOTO);
+    },
+  );
+
+  it("E-4: photoUrl 無で img なし（hue placeholder へ fallback）", () => {
+    const member = buildMember({ memberId: "mem-202" });
+    const { container } = render(<MemberCard member={member} density="comfy" />);
+    expect(container.querySelector("img")).toBeNull();
+  });
 });

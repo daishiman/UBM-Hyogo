@@ -89,6 +89,29 @@ scheduled GitHub Actions の D+7 / D+30 / 90日観測のように、複数 run �
 runtime pending 内訳を G1-G4 単位で表記する。runtime evidence が後続タスクで取得される場合は、
 `unassigned-task-detection.md` の formalize 先と evidence path を併記する。
 
+### 認証必須 VISUAL の two-tier evidence（2026-06-01 / Task D admin Form回答リンク）
+
+`taskType=implementation` かつ `visualEvidence=VISUAL` でも、対象 UI が admin 認証や外部 SaaS 認可の内側にあり、runtime screenshot 取得が user-gated の場合は、screenshot 未取得だけで Phase 11 を false red にしない。代わりに Phase 11 を two-tier evidence として記録する。
+
+| tier | Status | 必須証跡 |
+| --- | --- | --- |
+| tier 1: local primary | `present` | jsdom render unit / pure function unit / constant unit など、AC を DOM・属性・設定値で機械検証する focused test |
+| tier 2: runtime visual | `pending` | staging screenshot / external tab observation / authenticated browser smoke の取得計画と user approval gate |
+
+適用条件:
+
+- UI 変更そのものは実装済みで、AC が local test で検証できる。
+- screenshot 取得に admin login、OAuth、Cloudflare/Google などの user-gated 操作が必要。
+- `outputs/phase-11/main.md` の evidence inventory は local test を `present`、screenshot を `pending` と分け、`workflow_state` は `implemented_local_evidence_captured` または `implemented_local_runtime_pending` のどちらか実態に合う語彙を使う。
+
+禁止:
+
+- `VISUAL` を `NON_VISUAL` に再分類して screenshot 要件を隠すこと。
+- screenshot pending を書くだけで local DOM/設定テストの主証跡を置かないこと。
+- `pending` の runtime visual を `present` や runtime PASS と表現すること。
+
+Phase 12 compliance では `Phase 11 evidence file inventory` に tier ごとの Status をそのまま載せ、`pending` 行は user-gated 理由と取得予定 path を記録する。
+
 ## Runtime smoke manual-command promotion gate（2026-05-24 / Issue #864）
 
 NON_VISUAL / runtime smoke / CI gate タスクで Phase 11 に手動 `curl`、`bash scripts/cf.sh tail`、独自 smoke runner などを記載する場合、その手順を「将来実装予定」として残して PASS しない。Phase 11 close-out 前に次を同一 wave で確認する。

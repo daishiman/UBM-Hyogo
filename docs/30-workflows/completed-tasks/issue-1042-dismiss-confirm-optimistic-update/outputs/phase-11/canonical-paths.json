@@ -1,0 +1,37 @@
+{
+  "workflow_id": "issue-1042-dismiss-confirm-optimistic-update",
+  "phase": "phase-11",
+  "status": "present",
+  "evidence": [
+    {
+      "type": "focused-vitest",
+      "path": "docs/30-workflows/completed-tasks/issue-1042-dismiss-confirm-optimistic-update/outputs/phase-11/evidence/focused-vitest.log",
+      "status": "present"
+    },
+    {
+      "type": "playwright-focused",
+      "path": "docs/30-workflows/completed-tasks/issue-1042-dismiss-confirm-optimistic-update/outputs/phase-11/evidence/playwright-dismiss.log",
+      "status": "present"
+    },
+    {
+      "type": "screenshot",
+      "path": "docs/30-workflows/completed-tasks/issue-1042-dismiss-confirm-optimistic-update/outputs/phase-11/screenshots/identity-conflict-row-dismiss-optimistic-removed.png",
+      "status": "present"
+    },
+    {
+      "type": "screenshot",
+      "path": "docs/30-workflows/completed-tasks/issue-1042-dismiss-confirm-optimistic-update/outputs/phase-11/screenshots/identity-conflict-row-dismiss-rollback-error.png",
+      "status": "present"
+    },
+    {
+      "type": "playwright-results",
+      "path": "docs/30-workflows/completed-tasks/issue-1042-dismiss-confirm-optimistic-update/outputs/phase-11/evidence/playwright-report/results.json",
+      "status": "present"
+    },
+    {
+      "type": "monocart-report",
+      "path": "docs/30-workflows/completed-tasks/issue-1042-dismiss-confirm-optimistic-update/outputs/phase-11/evidence/monocart/index.html",
+      "status": "present"
+    }
+  ]
+}
