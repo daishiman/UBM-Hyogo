@@ -100,6 +100,23 @@ KV 2 policy は Workers KV account quota guard であり、namespace filter は�
 `infra/cloudflare-alerts/schema/policy.schema.json` は `billing_usage_alert` のままで足りるため
 UT-17 follow-up 006 では verified unchanged。
 
+Issue #1056 以降、KV/R2 binding の活性状態と alert policy `enabled` 状態の整合は
+`bash scripts/cf.sh alerts binding-drift [--json] [--ci]` を正本 gate とする。この gate は
+`apps/api/wrangler.toml` と repo policy JSON だけを読む local-only 検知で、Cloudflare API、
+`CLOUDFLARE_ALERTS_TOKEN_READ`、`alerts apply` を要求しない。PR `validate` job は
+`pnpm cf:alerts:binding-drift --ci` を実行し、drift なしは exit 0、drift 検出は exit 2、
+usage error は exit 64 とする。
+
+| Binding kind | Active 判定 | Required policy enabled state | Policy names | Drift labels |
+| --- | --- | --- | --- | --- |
+| Workers KV | `apps/api/wrangler.toml` の uncommented `[[*.kv_namespaces]]` が 1 つ以上 | active なら `enabled:true`、inactive なら `enabled:false` | `workers-kv-writes-per-day`, `workers-kv-stored-bytes` | `MONITORING_GAP` / `STALE_MONITORING` |
+| R2 bucket | `apps/api/wrangler.toml` の uncommented `[[*.r2_buckets]]` が 1 つ以上 | active なら `enabled:true`、inactive なら `enabled:false` | `r2-class-a` | `MONITORING_GAP` / `STALE_MONITORING` |
+
+責務境界: #1056 は「binding 活性 ↔ policy enabled」整合の検知のみを実装する。
+KV policy の `enabled:true` 化判断、実 apply、5 営業日 baseline、Slack delivery smoke は
+UT-17-followup-006 の運用判断に委譲する。#85 / #75 / #77 は監視運用・通知経路の責務を持ち、
+本 gate はそれらを変更しない。
+
 ---
 
 ## D1 Backup Long-Term Storage（UT-06-FU-E / 2026-05-01）
@@ -314,6 +331,11 @@ staging / production では `[triggers]` と `[env.staging.triggers]` の両方�
 | `ALERT_DEDUP_KV` | Workers KV | `apps/api/src/env.ts` optional; wrangler blocks remain commented until ut-17-followup-002 user gate | alert-relay dedup only, delivery fail-open when absent |
 | `SESSION_KV` | Workers KV | not applied | UT-13 session cache |
 | `R2_BUCKET` | R2 bucket | not applied | UT-12 generic file/image storage |
+
+Issue #1056 binding-policy drift baseline（2026-06-02）: Workers KV は `ALERT_DEDUP_KV`
+commented / `SESSION_KV` not applied のため inactive で、KV policy 2 件は `enabled:false`。
+R2 は `MEMBER_PHOTOS` / `UBM_AUDIT_COLD_STORAGE` / `UBM_AUDIT_APP_COLD_STORAGE` が
+production/staging active で、`r2-class-a` は `enabled:true`。現状 drift は 0 件。
 
 ### KV/R2 free-tier guardrail values（確認日: 2026-05-31）
 

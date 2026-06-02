@@ -60,6 +60,7 @@
     "skill:logs:append": "tsx scripts/skill-logs-append.ts",
     "cf:alerts:list": "bash scripts/cf.sh alerts list",
     "cf:alerts:diff": "bash scripts/cf.sh alerts diff",
+    "cf:alerts:binding-drift": "bash scripts/cf.sh alerts binding-drift",
     "cf:alerts:apply": "bash scripts/cf.sh alerts apply",
     "test:alerts": "vitest run infra/cloudflare-alerts/lib/__tests__ scripts/__tests__/cf-alerts-cli.spec.ts",
     "sentry-alerts:list": "bash scripts/with-env.sh tsx infra/sentry-alerts/lib/cli.ts list",
