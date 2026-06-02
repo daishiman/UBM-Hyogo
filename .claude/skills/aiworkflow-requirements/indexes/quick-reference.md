@@ -204,6 +204,22 @@
 | inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1007-density-toggle-help-hint-hardening-artifact-inventory.md` |
 | user gate | runtime screenshots, staging deploy, commit, push, PR |
 
+## issue-1036-bulk-member-tag-assign（2026-06-01）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-1036-bulk-member-tag-assign/` |
+| status | `implemented_local_runtime_pending / implementation / VISUAL_ON_EXECUTION` |
+| issue | #1036 CLOSED。PR 文脈は `Refs #1036` のみ（reopen 禁止）。parent #982（CLOSED）followup-003 |
+| purpose | `/admin/members` の BulkActionBar から複数 member × 複数 tag を一括 assign/unassign する（不変条件 #13 第3経路 = bulk admin write） |
+| implementation | `apps/api/src/repository/memberTags.ts`（`bulkApplyMemberTagsByAdmin`）, `apps/api/src/routes/admin/members.ts`（`POST /admin/members/tags/bulk` + `GET /admin/tags`）, `apps/api/src/repository/__tests__/memberTags.readonly.test-d.ts`, `apps/web/src/features/admin/api/members.ts`, `apps/web/src/features/admin/components/_members/BulkActionBar.tsx` |
+| contract boundary | 部分失敗も 200 + `{ batchId, results }`。status 5 値（assigned/unassigned/noop/skipped_deleted/tag_not_found）。bulk 冪等は `member_tags` 複合 PK 自然冪等で #913 非依存、`batchId` を audit payload に埋めて相関（`correlation_id` 列なし）。`GET /admin/tags` は read のみで #1035 write と責務分離。route 順序: bulk を `:memberId` route より前に登録 |
+| tests | focused API 17（contract 11 + repository 6）+ web 18（component 10 + 既存 8）+ type-level 6 = 41 PASS。typecheck / lint PASS |
+| Phase 12 | strict 7 present、root/output `artifacts.json` parity present（共に `implemented_local_runtime_pending`）、Phase 11 local fixture screenshot 4 枚 present、30-method compact evidence present |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1036-bulk-member-tag-assign-artifact-inventory.md` |
+| lessons | `.claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-issue-1036-bulk-member-tag-assign-2026-06.md`（L-I1036-001..008） |
+| user gate | staging authenticated visual baseline, commit, push, PR |
+
 ## issue-1006-members-selected-filters-chip-ux-hardening（2026-05-30）
 
 | 項目 | 値 |
