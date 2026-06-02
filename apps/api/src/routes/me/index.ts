@@ -19,11 +19,28 @@ import {
   MeAttendancePageResponseZ,
   MeVisibilityRequestBodyZ,
   MeDeleteRequestBodyZ,
+  MePhotoUploadAcceptedZ,
   type MeSessionResponse,
   type MeProfileResponse,
   type MeQueueAcceptedResponse,
   type MeAttendancePageResponse,
 } from "./schemas";
+// issue-1031: member self photo upload/delete
+import {
+  getMemberPhoto,
+  upsertMemberPhoto,
+  deleteMemberPhoto,
+} from "../../repository/memberPhotos";
+import {
+  MEMBER_PHOTO_ALLOWED_MIME,
+  MEMBER_PHOTO_MAX_BYTES,
+  MEMBER_PHOTO_OBJECT_KEY,
+  MEMBER_PHOTO_PRESIGN_TTL_SECONDS,
+  presignMemberPhotoGetUrl,
+} from "../../lib/r2/member-photo-presign";
+import type { DbCtx } from "../../repository/_shared/db";
+import type { MemberId } from "../../repository/_shared/brand";
+import { adminEmail as toAdminEmail, auditAction } from "../../repository/_shared/brand";
 import { buildMemberProfile } from "../../repository/_shared/builder";
 import {
   createAttendanceProvider,
@@ -50,6 +67,11 @@ export interface MeRouteEnv extends SessionGuardEnv {
   readonly ENVIRONMENT?: "production" | "staging" | "development";
   readonly GOOGLE_FORM_RESPONDER_URL?: string;
   readonly RESPONDER_URL?: string;
+  // issue-1031: self-upload 用 R2 binding / presign secrets（admin route と同名キー）。
+  readonly MEMBER_PHOTOS?: R2Bucket;
+  readonly R2_ACCOUNT_ID?: string;
+  readonly R2_ACCESS_KEY_ID?: string;
+  readonly R2_SECRET_ACCESS_KEY?: string;
 }
 
 export interface MeRouteDeps {
@@ -61,6 +83,38 @@ const RESPONDER_URL_FALLBACK =
 
 const pickResponderUrl = (env: MeRouteEnv): string =>
   env.RESPONDER_URL ?? env.GOOGLE_FORM_RESPONDER_URL ?? RESPONDER_URL_FALLBACK;
+
+// issue-1031: /me/profile の photoUrl fail-soft 解決（admin route の resolvePhotoUrl と同ロジック）。
+// invariant #4 整合: member_photos は admin-managed data（Google Form schema 外）であり、
+// invariant #4「Form 本文編集禁止」の対象外。photo は本人直接 mutate を許容する（Phase 2 §2.2）。
+const resolveMyPhotoUrl = async (
+  env: MeRouteEnv,
+  db: DbCtx,
+  memberId: MemberId,
+): Promise<string | undefined> => {
+  if (!env.R2_ACCOUNT_ID || !env.R2_ACCESS_KEY_ID || !env.R2_SECRET_ACCESS_KEY) {
+    return undefined;
+  }
+  const photo = await getMemberPhoto(db, memberId);
+  if (!photo) return undefined;
+  const bucketName = env.MEMBER_PHOTOS
+    ? env.ENVIRONMENT === "production"
+      ? "ubm-hyogo-member-photos-prod"
+      : "ubm-hyogo-member-photos-staging"
+    : null;
+  if (!bucketName) return undefined;
+  const url = await presignMemberPhotoGetUrl(
+    {
+      accountId: env.R2_ACCOUNT_ID,
+      accessKeyId: env.R2_ACCESS_KEY_ID,
+      secretAccessKey: env.R2_SECRET_ACCESS_KEY,
+      bucket: bucketName,
+    },
+    photo.objectKey,
+    MEMBER_PHOTO_PRESIGN_TTL_SECONDS,
+  );
+  return url ?? undefined;
+};
 
 export const createMeRoute = (deps: MeRouteDeps) => {
   const app = new Hono<{
@@ -125,6 +179,10 @@ export const createMeRoute = (deps: MeRouteDeps) => {
     }
     const editUrl = await resolveEditResponseUrl(ctx, user.memberId);
     const pendingRequests = await getPendingRequestsForMember(providerCtx, user.memberId);
+    // issue-1031: presign で photoUrl を fail-soft 同梱（失敗・row 無なら省略・200 維持）。
+    const photoUrl = await resolveMyPhotoUrl(c.env, ctx, user.memberId).catch(
+      () => undefined,
+    );
     const body: MeProfileResponse = {
       profile,
       statusSummary: {
@@ -137,6 +195,7 @@ export const createMeRoute = (deps: MeRouteDeps) => {
       editResponseUrl: editUrl,
       fallbackResponderUrl: pickResponderUrl(c.env),
       pendingRequests,
+      ...(photoUrl !== undefined ? { photoUrl } : {}),
     };
     return c.json(MeProfileResponseZ.parse(body));
   });
@@ -287,6 +346,103 @@ export const createMeRoute = (deps: MeRouteDeps) => {
       return c.json(MeQueueAcceptedResponseZ.parse(body), 202);
     },
   );
+
+  // POST /me/photo — member self-upload
+  // invariant #11: path に :memberId を含めず session.user.memberId のみで R2 key / D1 row を解決。
+  // invariant #4: member_photos は admin-managed data（Form 本文外）→ 本人直接 mutate を許容（Phase 2 §2.2）。
+  // middleware: sessionGuard（/me/* 全体）→ requireRulesConsent（AC-7）→ rateLimitSelfRequest（AC-8）。
+  app.post("/photo", requireRulesConsent, rateLimitSelfRequest, async (c) => {
+    const user = c.get("user");
+    const memberId = user.memberId;
+    const ctx = c.get("ctx");
+
+    // multipart body（query / body に他人の memberId を混ぜても一切参照しない＝AC-2）。
+    const formData = await c.req.formData().catch(() => null);
+    const file = formData?.get("file");
+    if (!file || !(file instanceof File)) {
+      return c.json({ ok: false, error: "file field required" }, 400);
+    }
+
+    // MIME 検証（AC-6・server 側が最終判定）。
+    if (!(MEMBER_PHOTO_ALLOWED_MIME as readonly string[]).includes(file.type)) {
+      return c.json({ ok: false, error: "unsupported media type" }, 415);
+    }
+
+    // バイト数検証（AC-6）。
+    const buf = await file.arrayBuffer();
+    if (buf.byteLength === 0) {
+      return c.json({ ok: false, error: "empty file" }, 400);
+    }
+    if (buf.byteLength > MEMBER_PHOTO_MAX_BYTES) {
+      return c.json({ ok: false, error: "file too large" }, 413);
+    }
+
+    // R2 binding が無い場合は明示的に 503（D1 を触る前に返す）。
+    if (!c.env.MEMBER_PHOTOS) {
+      return c.json({ ok: false, error: "R2 binding missing" }, 503);
+    }
+
+    const objectKey = MEMBER_PHOTO_OBJECT_KEY(memberId);
+    await c.env.MEMBER_PHOTOS.put(objectKey, buf, {
+      httpMetadata: { contentType: file.type },
+    });
+
+    // D1 upsert（source='self'）。
+    await upsertMemberPhoto(ctx, {
+      memberId,
+      objectKey,
+      contentType: file.type,
+      byteSize: buf.byteLength,
+      uploadedBy: user.email,
+      source: "self",
+    });
+
+    // audit（actor = session email。admin 系 "admin.member.photo_*" とは別 action 名で区別）。
+    await requireProvider(c.var.auditLogProvider, "auditLogProvider").append({
+      actorId: null,
+      actorEmail: toAdminEmail(user.email),
+      action: auditAction("member.photo_uploaded"),
+      targetType: "member",
+      targetId: memberId,
+      after: {
+        objectKey,
+        contentType: file.type,
+        byteSize: buf.byteLength,
+        source: "self",
+      },
+    });
+
+    return c.json(MePhotoUploadAcceptedZ.parse({ ok: true }));
+  });
+
+  // DELETE /me/photo — member self-delete（同意ゲート不要＝自分の写真撤去は自由・sessionGuard のみ）。
+  app.delete("/photo", async (c) => {
+    const user = c.get("user");
+    const memberId = user.memberId;
+    const ctx = c.get("ctx");
+
+    const photo = await getMemberPhoto(ctx, memberId);
+    if (!photo) {
+      return c.json({ ok: false, error: "photo not found" }, 404);
+    }
+
+    // R2 delete（binding 有時のみ。無くても D1 は削除する）。
+    if (c.env.MEMBER_PHOTOS) {
+      await c.env.MEMBER_PHOTOS.delete(photo.objectKey);
+    }
+    await deleteMemberPhoto(ctx, memberId);
+
+    await requireProvider(c.var.auditLogProvider, "auditLogProvider").append({
+      actorId: null,
+      actorEmail: toAdminEmail(user.email),
+      action: auditAction("member.photo_deleted"),
+      targetType: "member",
+      targetId: memberId,
+      before: { objectKey: photo.objectKey },
+    });
+
+    return c.json({ ok: true });
+  });
 
   return app;
 };
