@@ -777,6 +777,16 @@
 - 検証: `git fetch --prune origin`（dev=origin/dev・独自 0）→ `git merge dev` CONFLICT 5 → `pnpm sync:resolve` exit 0（union 4 + `--ours` keywords.json + indexes:rebuild）→ `git diff --diff-filter=U` 0 / マーカー 0 → merge commit `2ca9f45ef` → `pnpm install` exit 0 → `pnpm typecheck` exit 0（全 8 package）→ `pnpm lint` exit 0 → indexes drift 0。
 - 参照: aiworkflow-requirements [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-087（本 lesson の正本）, SP-DEVSYNC-051（同一ブランチ前回・dev 11 behind・新規 workspace で typecheck 落ち）, SP-DEVSYNC-049（衝突集合 6 file・keywords 再登場）。
 
+### SP-DEVSYNC-053: 生成 source 成果物（`static-manifest.json`）の衝突も `pnpm sync:resolve` の deterministic-regenerate 段で自動解消され、再生成のメタ drift は再コミット不要 — resolver は skill index 専用ではなく「決定論再生成可能な生成物」も対象（2026-06-02 追加）
+
+- 事象: `feat/issue-1035-tag-master-write-endpoints` ← `dev`（#1042 dismiss楽観更新 + #1083 会員写真アップロードの 2 件取込）三度目 sync-merge。conflict は skill 5 file に加え **`apps/api/src/repository/_shared/generated/static-manifest.json`（生成物）が初登場**。`pnpm sync:resolve` が skill 5 件解消後にログ `deterministic-regenerating 1 generated artifacts ... via: pnpm regenerate:static-manifest` を出して manifest を再生成で解消（merge commit `e416fc3f5`）。merge 後に手で `regenerate:static-manifest` を再実行すると `sourceSpecVersion`（git ref）/`generatedAt`（timestamp）のみ変わり `sourceSpecHash` 不変・`verify:static-manifest` は両版 exit 0。
+- How to apply（仕様書 sync-merge 節での逐語化）:
+  1. **生成物の衝突は手動 3-way でなく resolver 一任**: `static-manifest.json` 等が衝突しても `pnpm sync:resolve` の deterministic-regenerate 段が再生成で解消する。resolver ログの `deterministic-regenerating N generated artifacts` 行で対象を確認。SP-DEVSYNC-080（別 optional field の手動併存）は「再生成できない source」の話で、生成物は別カテゴリ。
+  2. **再生成の metadata-only drift は再コミットしない**: merge 後 `regenerate:*` で manifest が `M` 表示されても `git diff` が `sourceSpecVersion`/`generatedAt` のみで `sourceSpecHash` 不変なら CI 無問題（`verify:static-manifest` は hash 検証）。`git checkout -- <manifest>` で resolver 版へ戻し clean 維持。再生成版をコミットすると timestamp が毎回変わり無限 churn。
+- 適用範囲外: 手動マージ必須の非生成 source conflict（SP-DEVSYNC-080 経路）。本件は決定論再生成で自動解消される生成物。
+- 検証: `git merge dev` CONFLICT 6（skill 5 + static-manifest.json）→ `pnpm sync:resolve` exit 0（union 4 + keywords.json `--ours` + static-manifest deterministic-regenerate）→ `git ls-files -u` 0 / `git diff --check` 0 → merge commit `e416fc3f5` → `pnpm install` Done 37.1s → `pnpm typecheck` exit 0（全 8 package）→ `pnpm lint` exit 0 → indexes 冪等（5295 kw）→ `verify:static-manifest` exit 0。
+- 参照: aiworkflow-requirements [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-088（本 lesson の正本）, SP-DEVSYNC-052（同一ブランチ前回・衝突集合 5 file 確定形）, SP-DEVSYNC-080（手動 source 併存の対比）。
+
 
 ### SP-DEVSYNC-051: dev マージで新規 workspace package が入ると merge 後 typecheck が `Cannot find module` で落ち `pnpm install` が CI 失敗解消の前提になる — 衝突集合は 5 file（index map 3 + keywords 再衝突 + task-workflow-active）まで再拡大しうる（2026-06-02 追加）
 
