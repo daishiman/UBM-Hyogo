@@ -1,0 +1,22 @@
+{
+  "workflow": "task-b-manual-form-resync-admin-ui-spec",
+  "phase": 11,
+  "visualEvidence": "VISUAL_ON_EXECUTION",
+  "status": "static_contract_captured_runtime_visual_pending_user_gate",
+  "localEvidence": {
+    "focusedVitest": "outputs/phase-11/evidence/focused-vitest.log",
+    "typecheck": "outputs/phase-11/evidence/typecheck.log",
+    "lint": "outputs/phase-11/evidence/lint.log",
+    "staticScreenshots": [
+      "outputs/phase-11/manual-form-resync-panel-idle.png",
+      "outputs/phase-11/manual-form-resync-panel-result.png",
+      "outputs/phase-11/manual-form-resync-panel-confirm.png",
+      "outputs/phase-11/manual-form-resync-panel-inprogress.png"
+    ]
+  },
+  "runtimeEvidence": {
+    "screenshots": [],
+    "pending": true,
+    "reason": "admin authentication and SYNC_ADMIN_TOKEN runtime provisioning are user-gated"
+  }
+}

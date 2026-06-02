@@ -15,6 +15,33 @@
 | evidence | focused Vitest 51 PASS、public route contract 12 PASS、shared/api/web typecheck PASS、Playwright public photo 1 PASS、Phase 11 screenshots 3 PNG captured |
 | user gate | R2 secrets, staging deploy, real R2 URL capture, commit, push, PR, Issue mutation |
 
+## task-b-manual-form-resync-admin-ui-spec（2026-06-01）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/task-b-manual-form-resync-admin-ui-spec/` |
+| status | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION / runtime_visual_pending_user_gate` |
+| parent | `docs/30-workflows/task-member-publish-recovery-form-ops-and-admin-link/` Task B |
+| purpose | landed 済み manual Google Form resync admin UI を standalone Phase 1-13 正本仕様へ展開し、回帰確認手順と Phase 11/12 証跡を固定 |
+| implementation | `apps/web/src/features/admin/components/_sync/ManualFormResyncPanel.client.tsx`, `apps/web/src/features/admin/diagnostics/manual-sync.ts`, `apps/web/app/api/admin/[...path]/route.ts`, `apps/web/src/lib/env.ts` |
+| evidence | focused Vitest PASS, web typecheck PASS, Phase 11 local bundle, Phase 12 strict 7 present |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-task-b-manual-form-resync-admin-ui-spec-artifact-inventory.md` |
+| user gate | `SYNC_ADMIN_TOKEN` secret injection, authenticated runtime screenshots, commit, push, PR |
+
+## publish-state-backfill-admin-ui（2026-06-01）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/publish-state-backfill-admin-ui/` |
+| status | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION / PASS_BOUNDARY_SYNCED_RUNTIME_PENDING` |
+| parent | `docs/30-workflows/task-member-publish-recovery-form-ops-and-admin-link/` Task A |
+| purpose | `/admin/sync-status` に公開状態 backfill 操作パネル（dry-run 確認 → apply 昇格）を正本化し、PR #1064 / commit `745c95115` で landed 済みの実装を Phase 1-13 仕様へ同期 |
+| implementation | `apps/web/src/features/admin/diagnostics/backfill.ts`, `apps/web/src/features/admin/components/_sync/BackfillPublishStatePanel.client.tsx`, `apps/web/app/(admin)/admin/sync-status/page.tsx`, focused specs under `_sync/__tests__` and `diagnostics/__tests__` |
+| system spec | API/D1/Form schema no change; existing endpoint `POST /admin/sync/backfill-publish-state` reused |
+| evidence | Phase 11 deterministic plan evidence present; Phase 12 strict 7 present; staging authenticated screenshots pending user gate |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-publish-state-backfill-admin-ui-artifact-inventory.md` |
+| user gate | staging authenticated screenshots, commit, push, PR |
+
 ## issue-1024-sidebar-collapse-cookie-persistence（2026-05-31）
 
 | 項目 | 値 |

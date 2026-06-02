@@ -1,0 +1,32 @@
+{
+  "mode": "VISUAL_ON_EXECUTION",
+  "status": "static_contract_captured_runtime_visual_pending_user_gate",
+  "route": "/admin/sync-status",
+  "prerequisites": [
+    "authenticated admin browser session",
+    "SYNC_ADMIN_TOKEN configured for web proxy and API",
+    "runtime or controlled fixture capable of producing success and 409 skipped states"
+  ],
+  "screenshots": [
+    {
+      "name": "manual-form-resync-panel-idle.png",
+      "state": "panel before operation",
+      "status": "present_static_contract_runtime_pending"
+    },
+    {
+      "name": "manual-form-resync-panel-result.png",
+      "state": "differential sync success result table",
+      "status": "present_static_contract_runtime_pending"
+    },
+    {
+      "name": "manual-form-resync-panel-confirm.png",
+      "state": "full backfill confirm prompt",
+      "status": "present_static_contract_runtime_pending"
+    },
+    {
+      "name": "manual-form-resync-panel-inprogress.png",
+      "state": "409 sync in progress message",
+      "status": "present_static_contract_runtime_pending"
+    }
+  ]
+}

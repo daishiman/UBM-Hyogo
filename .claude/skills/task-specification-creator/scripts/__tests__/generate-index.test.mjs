@@ -50,6 +50,12 @@ function createPhaseFiles(root) {
   }
 }
 
+function createCompactPhaseFiles(root) {
+  for (let phase = 1; phase <= 13; phase += 1) {
+    writeWorkflowFile(root, `phase-${phase}.md`, `# Phase ${phase}: compact naming\n`);
+  }
+}
+
 function createArrayPhases() {
   return Array.from({ length: 13 }, (_, index) => {
     const phase = index + 1;
@@ -98,7 +104,7 @@ test("phases が配列でも Phase 12/13 の status を正しく出力する", (
 
   assert.equal(result.status, 0, result.stderr);
   assert.match(indexContent, /\| 12 \| ドキュメント更新 \| \[phase-12-documentation\.md\]\(phase-12-documentation\.md\) \| 完了 \|/);
-  assert.match(indexContent, /\| 13 \| PR作成 \| \[phase-13-pr-creation\.md\]\(phase-13-pr-creation\.md\) \| blocked \|/);
+  assert.match(indexContent, /\| 13 \| PR作成 \| \[phase-13-pr-creation\.md\]\(phase-13-pr-creation\.md\) \| ユーザー指示待ち（blocked） \|/);
   assert.match(indexContent, /\| ステータス \| Phase 12 完了（PR未着手） \|/);
 });
 
@@ -126,6 +132,33 @@ test("phases がオブジェクトでも従来どおり index を生成できる
   assert.equal(result.status, 0, result.stderr);
   assert.match(indexContent, /\| ステータス \| 完了 \|/);
   assert.match(indexContent, /\| 1 \| 要件定義 \| \[phase-1-requirements\.md\]\(phase-1-requirements\.md\) \| 完了 \|/);
+});
+
+test("phase-N.md の compact naming も Phase file として認識する", () => {
+  const root = makeTempDir();
+  createCompactPhaseFiles(root);
+  writeWorkflowFile(
+    root,
+    "artifacts.json",
+    JSON.stringify(
+      {
+        taskName: "sample-compact-workflow",
+        status: "implemented_local_evidence_captured",
+        created: "2026-06-01",
+        phases: createObjectPhases(),
+      },
+      null,
+      2,
+    ),
+  );
+
+  const result = runGenerateIndex(root);
+  const indexContent = readFileSync(join(root, "index.md"), "utf8");
+
+  assert.equal(result.status, 0, result.stderr);
+  assert.match(result.stdout, /Phase files found: 13\/13/);
+  assert.match(indexContent, /\| 1 \| 要件定義 \| \[phase-1\.md\]\(phase-1\.md\) \| 完了 \|/);
+  assert.match(indexContent, /\| 13 \| PR作成 \| \[phase-13\.md\]\(phase-13\.md\) \| ユーザー指示待ち（blocked） \|/);
 });
 
 test.after(() => {
