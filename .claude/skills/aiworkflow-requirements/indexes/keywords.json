@@ -2929,6 +2929,7 @@
       "lessons-learned-07a-tag-queue-resolve-2026-04.md",
       "lessons-learned-09c-incident-runbook-slack-delivery-2026-05.md",
       "lessons-learned-admin-meetings-prototype-alignment-2026-05.md",
+      "lessons-learned-issue-1059-public-members-fields-batch-fetch-n1-prevention-2026-06.md",
       "lessons-learned-issue-191-schema-aliases-2026-04.md",
       "lessons-learned-issue-372-attendance-pagination-2026-05.md",
       "lessons-learned-issue-502-dlq-monitoring-dashboard-2026-05.md",
@@ -3260,6 +3261,7 @@
       "lessons-learned-03b-response-sync-2026-04.md",
       "lessons-learned-07a-tag-queue-resolve-2026-04.md",
       "lessons-learned-admin-tags-queue-resolver-drawer-2026-05.md",
+      "lessons-learned-issue-1059-public-members-fields-batch-fetch-n1-prevention-2026-06.md",
       "lessons-learned-issue-106-admin-notes-repository-2026-05.md",
       "lessons-learned-issue-195-03b-followup-sync-shared-modules-owner-2026-05.md",
       "lessons-learned-issue-379-schema-diff-current-green-2026-05.md",
@@ -3329,6 +3331,7 @@
       "workflow-issue-1010-auth-view-session-contract-integration-test-artifact-inventory.md",
       "workflow-issue-1016-sidebar-mobile-drawer-responsive-artifact-inventory.md",
       "workflow-issue-1024-sidebar-collapse-cookie-persistence-artifact-inventory.md",
+      "workflow-issue-1059-public-members-fields-batch-fetch-n1-prevention-artifact-inventory.md",
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
       "workflow-issue-229-indexes-rebuild-fail-fast-artifact-inventory.md",
       "workflow-issue-230-lefthook-edit-guard-artifact-inventory.md",
@@ -3677,6 +3680,7 @@
     "fetch": [
       "architecture-admin-api-client.md",
       "lessons-learned-06c-admin-ui-2026-04.md",
+      "lessons-learned-issue-1059-public-members-fields-batch-fetch-n1-prevention-2026-06.md",
       "lessons-learned-issue-224-public-members-tags-batch-fetch-2026-05.md",
       "lessons-learned-issue-408-cf-audit-logs-monitoring-2026-05.md",
       "lessons-learned-task-17-admin-schema-conflicts-audit-2026-05.md",
@@ -3686,6 +3690,7 @@
       "workflow-admin-schema-page-prototype-alignment-and-diff-fetch-fix-artifact-inventory.md",
       "workflow-admin-ui-prototype-alignment-followup-001-members-fetch-and-visual-artifact-inventory.md",
       "workflow-fix-admin-fetch-cf-1042-service-binding-artifact-inventory.md",
+      "workflow-issue-1059-public-members-fields-batch-fetch-n1-prevention-artifact-inventory.md",
       "workflow-issue-224-public-members-tags-batch-fetch-artifact-inventory.md",
       "workflow-issue-976-admin-fetch-service-binding-artifact-inventory.md",
       "workflow-issue-991-admin-fetch-error-typed-class-artifact-inventory.md",
@@ -4683,6 +4688,7 @@
       "lessons-learned-03a-stablekey-literal-lint-enforcement-2026-05.md",
       "lessons-learned-09c-incident-runbook-slack-delivery-2026-05.md",
       "lessons-learned-09c-production-deploy-execution-001-2026-05.md",
+      "lessons-learned-issue-1059-public-members-fields-batch-fetch-n1-prevention-2026-06.md",
       "lessons-learned-issue-194-identity-merge-2026-05.md",
       "lessons-learned-issue-195-03b-followup-sync-shared-modules-owner-2026-05.md",
       "lessons-learned-issue-224-public-members-tags-batch-fetch-2026-05.md",
@@ -4842,6 +4848,7 @@
       "workflow-i01-toastprovider-root-mount-artifact-inventory.md",
       "workflow-i02-admin-error-type-unify-artifact-inventory.md",
       "workflow-issue-1006-members-selected-filters-chip-ux-hardening-artifact-inventory.md",
+      "workflow-issue-1059-public-members-fields-batch-fetch-n1-prevention-artifact-inventory.md",
       "workflow-issue-230-lefthook-edit-guard-artifact-inventory.md",
       "workflow-issue-247-apps-web-opennext-config-regression-tests-artifact-inventory.md",
       "workflow-issue-256-e2e-coverage-baseline-runbook-artifact-inventory.md",
@@ -5084,6 +5091,7 @@
       "lessons-learned-fix-verify-design-tokens-og-route-exclude-2026-05.md",
       "lessons-learned-google-form-reflection-diagnostics-2026-05.md",
       "lessons-learned-issue-1024-sidebar-collapse-cookie-persistence-2026-05.md",
+      "lessons-learned-issue-1059-public-members-fields-batch-fetch-n1-prevention-2026-06.md",
       "lessons-learned-issue-106-admin-notes-repository-2026-05.md",
       "lessons-learned-issue-191-schema-aliases-2026-04.md",
       "lessons-learned-issue-194-identity-merge-2026-05.md",
@@ -5207,6 +5215,7 @@
       "workflow-issue-1010-auth-view-session-contract-integration-test-artifact-inventory.md",
       "workflow-issue-1016-sidebar-mobile-drawer-responsive-artifact-inventory.md",
       "workflow-issue-1024-sidebar-collapse-cookie-persistence-artifact-inventory.md",
+      "workflow-issue-1059-public-members-fields-batch-fetch-n1-prevention-artifact-inventory.md",
       "workflow-issue-224-public-members-tags-batch-fetch-artifact-inventory.md",
       "workflow-issue-229-indexes-rebuild-fail-fast-artifact-inventory.md",
       "workflow-issue-230-lefthook-edit-guard-artifact-inventory.md",
@@ -5414,6 +5423,7 @@
       "lessons-learned-09b-cron-monitoring-release-runbook-2026-05.md",
       "lessons-learned-09c-production-deploy-execution-001-2026-05.md",
       "lessons-learned-docs-only-lifecycle.md",
+      "lessons-learned-issue-1059-public-members-fields-batch-fetch-n1-prevention-2026-06.md",
       "lessons-learned-issue-191-schema-aliases-2026-04.md",
       "lessons-learned-issue-195-03b-followup-sync-shared-modules-owner-2026-05.md",
       "lessons-learned-issue-325-test-suffix-rename-migration-2026-05.md",
@@ -5853,6 +5863,7 @@
       "lessons-learned-ci-test-recovery-coverage-80-2026-05-04.md",
       "lessons-learned-coverage-80-enforcement-2026-04.md",
       "lessons-learned-d1-batch-atomicity-and-soft-delete-2026-05.md",
+      "lessons-learned-issue-1059-public-members-fields-batch-fetch-n1-prevention-2026-06.md",
       "lessons-learned-issue-195-03b-followup-sync-shared-modules-owner-2026-05.md",
       "lessons-learned-issue-224-public-members-tags-batch-fetch-2026-05.md",
       "lessons-learned-issue-371-hono-ctx-di-migration-2026-05.md",
@@ -7281,6 +7292,7 @@
       "workflow-issue-1005-members-ux-playwright-baseline-stabilization-artifact-inventory.md",
       "workflow-issue-1006-members-selected-filters-chip-ux-hardening-artifact-inventory.md",
       "workflow-issue-1016-sidebar-mobile-drawer-responsive-artifact-inventory.md",
+      "workflow-issue-1059-public-members-fields-batch-fetch-n1-prevention-artifact-inventory.md",
       "workflow-issue-106-admin-member-notes-repository-task-spec-artifact-inventory.md",
       "workflow-issue-229-indexes-rebuild-fail-fast-artifact-inventory.md",
       "workflow-issue-230-lefthook-edit-guard-artifact-inventory.md",
@@ -7390,6 +7402,7 @@
       "lessons-learned-04b-member-self-service.md",
       "lessons-learned-04c-admin-backoffice-2026-04.md",
       "lessons-learned-05a-auth-ui-logout-button-2026-05.md",
+      "lessons-learned-issue-1059-public-members-fields-batch-fetch-n1-prevention-2026-06.md",
       "lessons-learned-issue-106-admin-notes-repository-2026-05.md",
       "lessons-learned-issue-401-admin-request-notification-2026-05.md",
       "lessons-learned-issue-827-member-detail-adapter-and-visibility-defense-2026-05.md",
@@ -7547,17 +7560,20 @@
       "lessons-learned-07a-tag-queue-resolve-2026-04.md",
       "lessons-learned-07b-schema-alias-assignment-2026-04.md",
       "lessons-learned-d1-batch-atomicity-and-soft-delete-2026-05.md",
+      "lessons-learned-issue-1059-public-members-fields-batch-fetch-n1-prevention-2026-06.md",
       "lessons-learned-issue-191-schema-aliases-2026-04.md",
       "lessons-learned-issue-224-public-members-tags-batch-fetch-2026-05.md",
       "lessons-learned-ut-07c-followup-001-attendance-csv-import-2026-05.md",
       "lessons-learned-ut07b-fu-01-schema-alias-backfill-queue-cron-split-2026-05.md",
       "pattern-d1-soft-delete-optimistic-lock-batch.md",
+      "workflow-issue-1059-public-members-fields-batch-fetch-n1-prevention-artifact-inventory.md",
       "workflow-issue-224-public-members-tags-batch-fetch-artifact-inventory.md"
     ],
     "helper": [
       "database-implementation-core.md",
       "lessons-learned-05a-form-preview-503-2026-05.md",
       "lessons-learned-admin-tags-queue-resolver-drawer-2026-05.md",
+      "lessons-learned-issue-1059-public-members-fields-batch-fetch-n1-prevention-2026-06.md",
       "lessons-learned-issue-224-public-members-tags-batch-fetch-2026-05.md",
       "lessons-learned-issue-546-cf-audit-logs-90day-baseline-observation-2026-05.md",
       "lessons-learned-ut-25-deriv-01-sa-key-rotation-2026-05.md",
@@ -7850,6 +7866,7 @@
       "deployment-cloudflare-opennext-workers.md",
       "lessons-learned-03b-followup-005-sync-jobs-design-spec-2026-05.md",
       "lessons-learned-06b-b-profile-request-pending-banner-sticky-2026-05.md",
+      "lessons-learned-issue-1059-public-members-fields-batch-fetch-n1-prevention-2026-06.md",
       "lessons-learned-task-24.md",
       "lessons-learned-ut-02a-attendance-profile-integration-2026-05.md",
       "lessons-learned-ut-02a-tag-assignment-queue-2026-05.md"
@@ -7968,6 +7985,7 @@
       "workflow-issue-1010-auth-view-session-contract-integration-test-artifact-inventory.md",
       "workflow-issue-1016-sidebar-mobile-drawer-responsive-artifact-inventory.md",
       "workflow-issue-1024-sidebar-collapse-cookie-persistence-artifact-inventory.md",
+      "workflow-issue-1059-public-members-fields-batch-fetch-n1-prevention-artifact-inventory.md",
       "workflow-issue-106-admin-member-notes-repository-task-spec-artifact-inventory.md",
       "workflow-issue-191-schema-aliases-artifact-inventory.md",
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
@@ -8596,6 +8614,7 @@
       "lessons-learned-09c-incident-runbook-slack-delivery-2026-05.md",
       "lessons-learned-09c-production-deploy-execution-001-2026-05.md",
       "lessons-learned-admin-attendance-analytics-redesign-2026-05.md",
+      "lessons-learned-issue-1059-public-members-fields-batch-fetch-n1-prevention-2026-06.md",
       "lessons-learned-issue-372-attendance-pagination-2026-05.md",
       "lessons-learned-issue-377-retry-tick-dlq-audit-2026-05.md",
       "lessons-learned-issue-399-admin-queue-visual-evidence-2026-05.md",
@@ -11008,6 +11027,7 @@
       "lessons-learned-06c-B-admin-members-2026-05.md",
       "lessons-learned-07c-attendance-audit-2026-04.md",
       "lessons-learned-09b-A-sentry-slack-runtime-smoke-2026-05.md",
+      "lessons-learned-issue-1059-public-members-fields-batch-fetch-n1-prevention-2026-06.md",
       "lessons-learned-issue-224-public-members-tags-batch-fetch-2026-05.md",
       "lessons-learned-issue-401-admin-request-notification-2026-05.md",
       "lessons-learned-task-spec-2d-contract-stage-2-2026-05.md"
@@ -11245,6 +11265,7 @@
       "lessons-learned-fix-verify-design-tokens-og-route-exclude-2026-05.md",
       "lessons-learned-google-form-reflection-diagnostics-2026-05.md",
       "lessons-learned-issue-1024-sidebar-collapse-cookie-persistence-2026-05.md",
+      "lessons-learned-issue-1059-public-members-fields-batch-fetch-n1-prevention-2026-06.md",
       "lessons-learned-issue-106-admin-notes-repository-2026-05.md",
       "lessons-learned-issue-191-schema-aliases-2026-04.md",
       "lessons-learned-issue-194-identity-merge-2026-05.md",
@@ -12276,7 +12297,8 @@
       "lessons-learned-03b-response-sync-2026-04.md"
     ],
     "ではない": [
-      "lessons-learned-03b-response-sync-2026-04.md"
+      "lessons-learned-03b-response-sync-2026-04.md",
+      "lessons-learned-issue-1059-public-members-fields-batch-fetch-n1-prevention-2026-06.md"
     ],
     "submittedAt": [
       "lessons-learned-03b-response-sync-2026-04.md"
@@ -12346,7 +12368,9 @@
       "workflow-ut-gov-004-artifact-inventory.md"
     ],
     "fields": [
-      "lessons-learned-03b-response-sync-2026-04.md"
+      "lessons-learned-03b-response-sync-2026-04.md",
+      "lessons-learned-issue-1059-public-members-fields-batch-fetch-n1-prevention-2026-06.md",
+      "workflow-issue-1059-public-members-fields-batch-fetch-n1-prevention-artifact-inventory.md"
     ],
     "には保存しない": [
       "lessons-learned-03b-response-sync-2026-04.md"
@@ -12700,6 +12724,7 @@
     "query": [
       "lessons-learned-04c-admin-backoffice-2026-04.md",
       "lessons-learned-07c-audit-log-browsing-ui-2026-05.md",
+      "lessons-learned-issue-1059-public-members-fields-batch-fetch-n1-prevention-2026-06.md",
       "lessons-learned-issue-224-public-members-tags-batch-fetch-2026-05.md",
       "lessons-learned-issue-399-admin-queue-visual-evidence-2026-05.md"
     ],
@@ -13267,6 +13292,7 @@
     ],
     "public": [
       "lessons-learned-06a-public-web-2026-04.md",
+      "lessons-learned-issue-1059-public-members-fields-batch-fetch-n1-prevention-2026-06.md",
       "lessons-learned-issue-224-public-members-tags-batch-fetch-2026-05.md",
       "lessons-learned-issue-827-member-detail-adapter-and-visibility-defense-2026-05.md",
       "lessons-learned-task-11-public-top-and-member-list-2026-05.md",
@@ -13275,6 +13301,7 @@
       "lessons-learned-task-25-followup-loading-state-observation-fixture-2026-05.md",
       "lessons-learned-ut-coverage-2026-05-wave.md",
       "workflow-admin-sidebar-public-return-link-artifact-inventory.md",
+      "workflow-issue-1059-public-members-fields-batch-fetch-n1-prevention-artifact-inventory.md",
       "workflow-issue-224-public-members-tags-batch-fetch-artifact-inventory.md",
       "workflow-issue-274-public-pages-ogp-sitemap-robots-artifact-inventory.md",
       "workflow-issue-879-safe-server-fetch-member-public-horizontal-expansion-artifact-inventory.md",
@@ -13511,6 +13538,7 @@
     "shape": [
       "lessons-learned-06b-b-profile-request-pending-banner-sticky-2026-05.md",
       "lessons-learned-06c-B-admin-members-2026-05.md",
+      "lessons-learned-issue-1059-public-members-fields-batch-fetch-n1-prevention-2026-06.md",
       "lessons-learned-issue-224-public-members-tags-batch-fetch-2026-05.md",
       "lessons-learned-task-24.md",
       "lessons-learned-task-spec-2d-contract-stage-2-2026-05.md"
@@ -13593,6 +13621,7 @@
       "workflow-google-form-reflection-diagnostics-fu-002-h2-identity-rebuild-artifact-inventory.md",
       "workflow-issue-1005-members-ux-playwright-baseline-stabilization-artifact-inventory.md",
       "workflow-issue-1007-density-toggle-help-hint-hardening-artifact-inventory.md",
+      "workflow-issue-1059-public-members-fields-batch-fetch-n1-prevention-artifact-inventory.md",
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
       "workflow-issue-229-indexes-rebuild-fail-fast-artifact-inventory.md",
       "workflow-issue-274-public-pages-ogp-sitemap-robots-artifact-inventory.md",
@@ -13754,6 +13783,7 @@
     ],
     "members": [
       "lessons-learned-06c-B-admin-members-2026-05.md",
+      "lessons-learned-issue-1059-public-members-fields-batch-fetch-n1-prevention-2026-06.md",
       "lessons-learned-issue-224-public-members-tags-batch-fetch-2026-05.md",
       "lessons-learned-task-11-public-top-and-member-list-2026-05.md",
       "lessons-learned-task-15-admin-dashboard-and-members-2026-05.md",
@@ -13764,6 +13794,7 @@
       "workflow-admin-ui-prototype-alignment-followup-003-admin-members-prototype-redesign-artifact-inventory.md",
       "workflow-issue-1005-members-ux-playwright-baseline-stabilization-artifact-inventory.md",
       "workflow-issue-1006-members-selected-filters-chip-ux-hardening-artifact-inventory.md",
+      "workflow-issue-1059-public-members-fields-batch-fetch-n1-prevention-artifact-inventory.md",
       "workflow-issue-224-public-members-tags-batch-fetch-artifact-inventory.md",
       "workflow-issue-981-admin-members-table-list-enrichment-artifact-inventory.md",
       "workflow-issue-998-members-publish-state-production-rollout-artifact-inventory.md",
@@ -13854,6 +13885,7 @@
     ],
     "id": [
       "lessons-learned-06c-B-admin-members-2026-05.md",
+      "lessons-learned-issue-1059-public-members-fields-batch-fetch-n1-prevention-2026-06.md",
       "lessons-learned-issue-401-admin-request-notification-2026-05.md"
     ],
     "は作らない": [
@@ -15768,6 +15800,134 @@
       "lessons-learned-issue-1024-sidebar-collapse-cookie-persistence-2026-05.md",
       "logs-archive-2026-02-env-infra-ipc-auth-ui.md"
     ],
+    "prevention": [
+      "lessons-learned-issue-1059-public-members-fields-batch-fetch-n1-prevention-2026-06.md"
+    ],
+    "return": [
+      "lessons-learned-issue-1059-public-members-fields-batch-fetch-n1-prevention-2026-06.md",
+      "lessons-learned-issue-224-public-members-tags-batch-fetch-2026-05.md",
+      "workflow-admin-sidebar-public-return-link-artifact-inventory.md"
+    ],
+    "verbatim": [
+      "lessons-learned-issue-1059-public-members-fields-batch-fetch-n1-prevention-2026-06.md",
+      "lessons-learned-issue-224-public-members-tags-batch-fetch-2026-05.md"
+    ],
+    "固定する": [
+      "lessons-learned-issue-1059-public-members-fields-batch-fetch-n1-prevention-2026-06.md",
+      "lessons-learned-issue-224-public-members-tags-batch-fetch-2026-05.md"
+    ],
+    "groupBy": [
+      "lessons-learned-issue-1059-public-members-fields-batch-fetch-n1-prevention-2026-06.md",
+      "lessons-learned-issue-224-public-members-tags-batch-fetch-2026-05.md"
+    ],
+    "キーは": [
+      "lessons-learned-issue-1059-public-members-fields-batch-fetch-n1-prevention-2026-06.md"
+    ],
+    "であり": [
+      "lessons-learned-issue-1059-public-members-fields-batch-fetch-n1-prevention-2026-06.md"
+    ],
+    "最大の落とし穴": [
+      "lessons-learned-issue-1059-public-members-fields-batch-fetch-n1-prevention-2026-06.md"
+    ],
+    "化と同時に": [
+      "lessons-learned-issue-1059-public-members-fields-batch-fetch-n1-prevention-2026-06.md"
+    ],
+    "as": [
+      "lessons-learned-issue-1059-public-members-fields-batch-fetch-n1-prevention-2026-06.md",
+      "lessons-learned-issue-891-member-detail-kind-exhaustiveness-guard-2026-05.md"
+    ],
+    "never": [
+      "lessons-learned-issue-1059-public-members-fields-batch-fetch-n1-prevention-2026-06.md"
+    ],
+    "branded": [
+      "lessons-learned-issue-1059-public-members-fields-batch-fetch-n1-prevention-2026-06.md",
+      "lessons-learned-issue-393-stablekey-literal-legacy-cleanup-2026-05.md"
+    ],
+    "cast": [
+      "lessons-learned-issue-1059-public-members-fields-batch-fetch-n1-prevention-2026-06.md"
+    ],
+    "asResponseId": [
+      "lessons-learned-issue-1059-public-members-fields-batch-fetch-n1-prevention-2026-06.md"
+    ],
+    "へ是正する": [
+      "lessons-learned-issue-1059-public-members-fields-batch-fetch-n1-prevention-2026-06.md"
+    ],
+    "SUMMARY": [
+      "lessons-learned-issue-1059-public-members-fields-batch-fetch-n1-prevention-2026-06.md"
+    ],
+    "KEYS": [
+      "lessons-learned-issue-1059-public-members-fields-batch-fetch-n1-prevention-2026-06.md"
+    ],
+    "フィルタを": [
+      "lessons-learned-issue-1059-public-members-fields-batch-fetch-n1-prevention-2026-06.md"
+    ],
+    "ループ内に保持して出力を不変に保つ": [
+      "lessons-learned-issue-1059-public-members-fields-batch-fetch-n1-prevention-2026-06.md"
+    ],
+    "回数": [
+      "lessons-learned-issue-1059-public-members-fields-batch-fetch-n1-prevention-2026-06.md"
+    ],
+    "の回帰": [
+      "lessons-learned-issue-1059-public-members-fields-batch-fetch-n1-prevention-2026-06.md"
+    ],
+    "防止をロックする": [
+      "lessons-learned-issue-1059-public-members-fields-batch-fetch-n1-prevention-2026-06.md"
+    ],
+    "空配列時は": [
+      "lessons-learned-issue-1059-public-members-fields-batch-fetch-n1-prevention-2026-06.md",
+      "lessons-learned-issue-224-public-members-tags-batch-fetch-2026-05.md"
+    ],
+    "を発行しない": [
+      "lessons-learned-issue-1059-public-members-fields-batch-fetch-n1-prevention-2026-06.md",
+      "lessons-learned-issue-224-public-members-tags-batch-fetch-2026-05.md"
+    ],
+    "監査": [
+      "lessons-learned-issue-1059-public-members-fields-batch-fetch-n1-prevention-2026-06.md"
+    ],
+    "Explore": [
+      "lessons-learned-issue-1059-public-members-fields-batch-fetch-n1-prevention-2026-06.md"
+    ],
+    "エージェントは": [
+      "lessons-learned-issue-1059-public-members-fields-batch-fetch-n1-prevention-2026-06.md"
+    ],
+    "Bash": [
+      "lessons-learned-issue-1059-public-members-fields-batch-fetch-n1-prevention-2026-06.md"
+    ],
+    "を持ち": [
+      "lessons-learned-issue-1059-public-members-fields-batch-fetch-n1-prevention-2026-06.md"
+    ],
+    "mover": [
+      "lessons-learned-issue-1059-public-members-fields-batch-fetch-n1-prevention-2026-06.md"
+    ],
+    "を実行しうる": [
+      "lessons-learned-issue-1059-public-members-fields-batch-fetch-n1-prevention-2026-06.md"
+    ],
+    "RED": [
+      "lessons-learned-issue-1059-public-members-fields-batch-fetch-n1-prevention-2026-06.md",
+      "lessons-learned-issue-560-next-standalone-instrumentation-patch-2026-05.md"
+    ],
+    "前提": [
+      "lessons-learned-issue-1059-public-members-fields-batch-fetch-n1-prevention-2026-06.md",
+      "workflow-issue-515-cf-audit-logs-ml-anomaly-artifact-inventory.md",
+      "workflow-issue-548-ml-model-selection-artifact-inventory.md"
+    ],
+    "記述は実装が同一サイクルで": [
+      "lessons-learned-issue-1059-public-members-fields-batch-fetch-n1-prevention-2026-06.md"
+    ],
+    "landed": [
+      "lessons-learned-issue-1059-public-members-fields-batch-fetch-n1-prevention-2026-06.md"
+    ],
+    "した時点で": [
+      "lessons-learned-issue-1059-public-members-fields-batch-fetch-n1-prevention-2026-06.md"
+    ],
+    "captured": [
+      "lessons-learned-issue-1059-public-members-fields-batch-fetch-n1-prevention-2026-06.md",
+      "task-workflow-active.md",
+      "task-workflow-completed-recent-2026-05.md"
+    ],
+    "へ同期する": [
+      "lessons-learned-issue-1059-public-members-fields-batch-fetch-n1-prevention-2026-06.md"
+    ],
     "Closed": [
       "lessons-learned-issue-106-admin-notes-repository-2026-05.md"
     ],
@@ -15909,6 +16069,7 @@
       "workflow-google-form-reflection-diagnostics-fu-002-h2-identity-rebuild-artifact-inventory.md",
       "workflow-issue-1005-members-ux-playwright-baseline-stabilization-artifact-inventory.md",
       "workflow-issue-1007-density-toggle-help-hint-hardening-artifact-inventory.md",
+      "workflow-issue-1059-public-members-fields-batch-fetch-n1-prevention-artifact-inventory.md",
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
       "workflow-issue-229-indexes-rebuild-fail-fast-artifact-inventory.md",
       "workflow-issue-274-public-pages-ogp-sitemap-robots-artifact-inventory.md",
@@ -16098,16 +16259,6 @@
       "logs-archive-2026-03-line-budget-workflow-consolidation.md",
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md"
     ],
-    "return": [
-      "lessons-learned-issue-224-public-members-tags-batch-fetch-2026-05.md",
-      "workflow-admin-sidebar-public-return-link-artifact-inventory.md"
-    ],
-    "verbatim": [
-      "lessons-learned-issue-224-public-members-tags-batch-fetch-2026-05.md"
-    ],
-    "固定する": [
-      "lessons-learned-issue-224-public-members-tags-batch-fetch-2026-05.md"
-    ],
     "expand": [
       "lessons-learned-issue-224-public-members-tags-batch-fetch-2026-05.md"
     ],
@@ -16138,12 +16289,6 @@
     "で渡す": [
       "lessons-learned-issue-224-public-members-tags-batch-fetch-2026-05.md"
     ],
-    "空配列時は": [
-      "lessons-learned-issue-224-public-members-tags-batch-fetch-2026-05.md"
-    ],
-    "を発行しない": [
-      "lessons-learned-issue-224-public-members-tags-batch-fetch-2026-05.md"
-    ],
     "repeated": [
       "lessons-learned-issue-224-public-members-tags-batch-fetch-2026-05.md"
     ],
@@ -16157,9 +16302,6 @@
       "lessons-learned-issue-224-public-members-tags-batch-fetch-2026-05.md"
     ],
     "はフラット配列のまま返し": [
-      "lessons-learned-issue-224-public-members-tags-batch-fetch-2026-05.md"
-    ],
-    "groupBy": [
       "lessons-learned-issue-224-public-members-tags-batch-fetch-2026-05.md"
     ],
     "層に置く": [
@@ -16759,9 +16901,6 @@
       "workflow-issue-291-forms-d1-legacy-followup-cleanup-artifact-inventory.md",
       "workflow-issue-331-cicd-runtime-warning-cleanup-artifact-inventory.md",
       "workflow-ut-07a-01-member-tags-assign-cleanup-artifact-inventory.md"
-    ],
-    "branded": [
-      "lessons-learned-issue-393-stablekey-literal-legacy-cleanup-2026-05.md"
     ],
     "と命名衝突するため": [
       "lessons-learned-issue-393-stablekey-literal-legacy-cleanup-2026-05.md"
@@ -17905,9 +18044,6 @@
     "Placeholder": [
       "lessons-learned-issue-560-next-standalone-instrumentation-patch-2026-05.md"
     ],
-    "RED": [
-      "lessons-learned-issue-560-next-standalone-instrumentation-patch-2026-05.md"
-    ],
     "With": [
       "lessons-learned-issue-560-next-standalone-instrumentation-patch-2026-05.md"
     ],
@@ -18490,9 +18626,6 @@
       "lessons-learned-issue-891-member-detail-kind-exhaustiveness-guard-2026-05.md",
       "workflow-issue-883-adapter-dev-warn-unknown-kind-artifact-inventory.md",
       "workflow-issue-891-member-detail-kind-exhaustiveness-guard-artifact-inventory.md"
-    ],
-    "as": [
-      "lessons-learned-issue-891-member-detail-kind-exhaustiveness-guard-2026-05.md"
     ],
     "const": [
       "lessons-learned-issue-891-member-detail-kind-exhaustiveness-guard-2026-05.md"
@@ -24423,10 +24556,6 @@
       "task-workflow-active.md",
       "workflow-issue-1005-members-ux-playwright-baseline-stabilization-artifact-inventory.md"
     ],
-    "captured": [
-      "task-workflow-active.md",
-      "task-workflow-completed-recent-2026-05.md"
-    ],
     "タスクワークフローバックログ": [
       "task-workflow-backlog-part2.md"
     ],
@@ -25988,6 +26117,7 @@
       "workflow-i01-toastprovider-root-mount-artifact-inventory.md",
       "workflow-issue-1006-members-selected-filters-chip-ux-hardening-artifact-inventory.md",
       "workflow-issue-1016-sidebar-mobile-drawer-responsive-artifact-inventory.md",
+      "workflow-issue-1059-public-members-fields-batch-fetch-n1-prevention-artifact-inventory.md",
       "workflow-issue-229-indexes-rebuild-fail-fast-artifact-inventory.md",
       "workflow-issue-247-apps-web-opennext-config-regression-tests-artifact-inventory.md",
       "workflow-issue-256-e2e-coverage-baseline-runbook-artifact-inventory.md",
@@ -26896,10 +27026,6 @@
       "workflow-ut-07b-fu-01-schema-alias-backfill-queue-cron-split-artifact-inventory.md"
     ],
     "Conditions": [
-      "workflow-issue-515-cf-audit-logs-ml-anomaly-artifact-inventory.md",
-      "workflow-issue-548-ml-model-selection-artifact-inventory.md"
-    ],
-    "前提": [
       "workflow-issue-515-cf-audit-logs-ml-anomaly-artifact-inventory.md",
       "workflow-issue-548-ml-model-selection-artifact-inventory.md"
     ],

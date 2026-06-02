@@ -3,8 +3,8 @@
 // 不変条件 #2 / #3 / #11 を view converter で fail close。
 
 import type { DbCtx } from "../../repository/_shared/db";
-import { STABLE_KEY, asMemberId } from "@ubm-hyogo/shared";
-import { listFieldsByResponseId } from "../../repository/responseFields";
+import { STABLE_KEY, asMemberId, asResponseId } from "@ubm-hyogo/shared";
+import { listFieldsByResponseIds } from "../../repository/responseFields";
 import { listTagsByMemberIds } from "../../repository/memberTags";
 import {
   aggregateTopTags,
@@ -91,20 +91,23 @@ export const listPublicMembersUseCase = async (
     }
   }
 
-  // 各 member の summary 用 field を 1 query / member で取得。
-  // batch 化は MVP 数百規模で許容範囲（R-2: N+1 リスクは limit 100 で頭打ち）。
+  // summary 用 field も response_id IN (...) の 1 batch query で取得する。
+  const responseIds = memberRows.map((m) =>
+    asResponseId(m.current_response_id),
+  );
+  const fieldRows =
+    responseIds.length > 0 ? await listFieldsByResponseIds(ctx, responseIds) : [];
+  const fieldsByResponseId = new Map<string, Map<string, string | null>>();
+  for (const f of fieldRows) {
+    if (!(SUMMARY_KEYS as readonly string[]).includes(f.stable_key)) continue;
+    const fields = fieldsByResponseId.get(f.response_id) ?? new Map();
+    fields.set(f.stable_key, f.value_json);
+    fieldsByResponseId.set(f.response_id, fields);
+  }
+
   const items: PublicMemberListItemSource[] = [];
   for (const m of memberRows) {
-    const fields = await listFieldsByResponseId(
-      ctx,
-      m.current_response_id as never,
-    );
-    const byKey = new Map<string, string | null>();
-    for (const f of fields) {
-      if ((SUMMARY_KEYS as readonly string[]).includes(f.stable_key)) {
-        byKey.set(f.stable_key, f.value_json);
-      }
-    }
+    const byKey = fieldsByResponseId.get(m.current_response_id) ?? new Map();
     items.push({
       memberId: m.member_id,
       fullName: parseJsonString(byKey.get(STABLE_KEY.fullName) ?? null),
