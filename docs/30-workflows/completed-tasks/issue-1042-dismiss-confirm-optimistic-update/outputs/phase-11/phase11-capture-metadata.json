@@ -1,0 +1,25 @@
+{
+  "workflow_id": "issue-1042-dismiss-confirm-optimistic-update",
+  "captured_at": "2026-06-01T00:17:18Z",
+  "base_url": "http://localhost:3000",
+  "project": "desktop-chromium",
+  "fixture": "PLAYWRIGHT_ADMIN_IDENTITY_CONFLICTS_FIXTURE=1",
+  "screenshots": [
+    {
+      "file": "identity-conflict-row-dismiss-optimistic-removed.png",
+      "state": "dismiss click immediately hides the target row before server response",
+      "width": 1280,
+      "height": 880
+    },
+    {
+      "file": "identity-conflict-row-dismiss-rollback-error.png",
+      "state": "server error restores the row, keeps dismiss reason, and shows inline alert",
+      "width": 1280,
+      "height": 902
+    }
+  ],
+  "commands": [
+    "pnpm exec vitest run apps/web/src/components/admin/__tests__/IdentityConflictRow.spec.tsx",
+    "PLAYWRIGHT_SKIP_WEB_SERVER=1 PLAYWRIGHT_BASE_URL=http://localhost:3000 PLAYWRIGHT_ADMIN_IDENTITY_CONFLICTS_FIXTURE=1 PLAYWRIGHT_ISSUE1042_SCREENSHOT_DIR=$PWD/docs/30-workflows/completed-tasks/issue-1042-dismiss-confirm-optimistic-update/outputs/phase-11/screenshots PLAYWRIGHT_EVIDENCE_DIR=../../docs/30-workflows/completed-tasks/issue-1042-dismiss-confirm-optimistic-update/outputs/phase-11/evidence pnpm --filter @ubm-hyogo/web exec playwright test apps/web/playwright/tests/admin-identity-conflicts.spec.ts --project=desktop-chromium --grep \"dismiss.*optimistic|dismiss error\""
+  ]
+}

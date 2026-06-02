@@ -15,6 +15,51 @@
 | inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1030-member-photo-transcode-resize-variant-pipeline-artifact-inventory.md` |
 | user gate | remote D1 migration apply、staging deploy、authenticated screenshots、commit、push、PR |
 
+## issue-1035-tag-master-write-endpoints（2026-06-01）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-1035-tag-master-write-endpoints/` |
+| status | `implemented_local_evidence_captured / implementation / NON_VISUAL` |
+| issue | #1035 CLOSED。PR 文脈は `Refs #1035` のみ |
+| parent | `issue-982-drawer-tag-pill-editing` |
+| purpose | tag master (`tag_definitions`) の admin CRUD endpoint と pagination/search を追加する |
+| implementation | `apps/api/src/repository/tagDefinitions.ts`, `apps/api/src/repository/auditLog.ts`, `apps/api/src/routes/admin/tags.ts`, `apps/api/src/index.ts`, `docs/00-getting-started-manual/specs/01-api-schema.md` |
+| tests | `apps/api/src/routes/admin/tags.contract.spec.ts`, `apps/api/src/repository/__tests__/tagDefinitions.write.repository.spec.ts`, `apps/api/src/routes/admin/members.tags.contract.spec.ts`, `apps/api/src/repository/__tests__/auditLog.repository.spec.ts` |
+| evidence | focused D1 Vitest 4 files / 32 tests PASS, API typecheck PASS, repo lint PASS |
+| invariant | 不変条件 #13 を第3経路へ再々定義。`code` immutable、DELETE は `active=0`、member_tags row 保持、audit `admin.tag.*` |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1035-tag-master-write-endpoints-artifact-inventory.md` |
+| user gate | staging runtime smoke, commit, push, PR |
+
+## issue-1042-dismiss-confirm-optimistic-update（2026-06-01）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-1042-dismiss-confirm-optimistic-update/` |
+| status | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION` |
+| issue | #1042 OPEN。Issue state mutation は user-gated |
+| purpose | `/admin/identity-conflicts` dismiss confirm 後に row を optimistic に非表示化し、server error 時に rollback + reason retention する |
+| implementation | `apps/web/src/components/admin/IdentityConflictRow.tsx` component-local `optimisticDismissed`; focused component tests; admin identity-conflicts Playwright spec |
+| invariant | API / D1 schema / Server Component page / `useAdminMutation` hook / merge behavior は変更なし |
+| evidence | focused Vitest 1 file / 14 tests PASS; Playwright desktop 2 tests PASS; Phase 11 screenshots 2 PNG captured |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1042-dismiss-confirm-optimistic-update-artifact-inventory.md` |
+| lessons | `.claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-issue-1042-dismiss-optimistic-2026-06.md`（L-I1042-001..004・#988 L-I988-001..006 継承） |
+| user gate | commit, push, PR, Issue #1042 close |
+
+## issue-1031-member-self-photo-upload（2026-06-01）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/issue-1031-member-self-photo-upload/` |
+| status | `implemented_local_runtime_pending / implementation / VISUAL` |
+| issue | #1031 CLOSED（2026-06-01 実確認）。Issue mutation は行わず、PR 文脈は `Refs #1031` のみ |
+| parent | `docs/30-workflows/issue-983-member-photo-avatar-r2-storage/` |
+| purpose | member 本人が `/profile` から自分の avatar を upload/delete できる self-service 経路を実装する |
+| implementation | `member_photos.source` additive migration 0023、`POST/DELETE /me/photo`、`GET /me/profile photoUrl?`、web `/api/me/photo` proxy、`PhotoUpload.client.tsx` |
+| evidence boundary | focused API/repository/web tests and component screenshot evidence present; remote D1 apply, staging deploy, authenticated runtime visual evidence pending |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1031-member-self-photo-upload-artifact-inventory.md` |
+| user gate | remote D1 apply, staging deploy, authenticated screenshots, commit, push, PR |
+
 ## issue-1029-public-member-photo-display（2026-05-31）
 
 | 項目 | 値 |
@@ -189,6 +234,22 @@
 | specs | `docs/00-getting-started-manual/specs/09-ui-ux.md`, `docs/00-getting-started-manual/specs/09d-icons.md` |
 | inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1007-density-toggle-help-hint-hardening-artifact-inventory.md` |
 | user gate | runtime screenshots, staging deploy, commit, push, PR |
+
+## issue-1036-bulk-member-tag-assign（2026-06-01）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-1036-bulk-member-tag-assign/` |
+| status | `implemented_local_runtime_pending / implementation / VISUAL_ON_EXECUTION` |
+| issue | #1036 CLOSED。PR 文脈は `Refs #1036` のみ（reopen 禁止）。parent #982（CLOSED）followup-003 |
+| purpose | `/admin/members` の BulkActionBar から複数 member × 複数 tag を一括 assign/unassign する（不変条件 #13 第3経路 = bulk admin write） |
+| implementation | `apps/api/src/repository/memberTags.ts`（`bulkApplyMemberTagsByAdmin`）, `apps/api/src/routes/admin/members.ts`（`POST /admin/members/tags/bulk` + `GET /admin/tags`）, `apps/api/src/repository/__tests__/memberTags.readonly.test-d.ts`, `apps/web/src/features/admin/api/members.ts`, `apps/web/src/features/admin/components/_members/BulkActionBar.tsx` |
+| contract boundary | 部分失敗も 200 + `{ batchId, results }`。status 5 値（assigned/unassigned/noop/skipped_deleted/tag_not_found）。bulk 冪等は `member_tags` 複合 PK 自然冪等で #913 非依存、`batchId` を audit payload に埋めて相関（`correlation_id` 列なし）。`GET /admin/tags` は read のみで #1035 write と責務分離。route 順序: bulk を `:memberId` route より前に登録 |
+| tests | focused API 17（contract 11 + repository 6）+ web 18（component 10 + 既存 8）+ type-level 6 = 41 PASS。typecheck / lint PASS |
+| Phase 12 | strict 7 present、root/output `artifacts.json` parity present（共に `implemented_local_runtime_pending`）、Phase 11 local fixture screenshot 4 枚 present、30-method compact evidence present |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1036-bulk-member-tag-assign-artifact-inventory.md` |
+| lessons | `.claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-issue-1036-bulk-member-tag-assign-2026-06.md`（L-I1036-001..008） |
+| user gate | staging authenticated visual baseline, commit, push, PR |
 
 ## issue-1006-members-selected-filters-chip-ux-hardening（2026-05-30）
 

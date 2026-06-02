@@ -1,10 +1,9 @@
 {
   "$schema": "../../../../docs/30-workflows/task-709-visual-baseline-runtime-capture/schemas/baseline-meta.schema.json",
-  "captured_at_commit_sha": "a636da9f735114c7dfa1b5858b84e8ccb41a5056",
-  "captured_at": "2026-06-01T03:07:12Z",
+  "captured_at_commit_sha": "9b708db1170a5987f6863416575b32edd46f37f6",
+  "captured_at": "2026-06-02T02:18:57Z",
   "captured_via": "playwright-visual-baseline-update.yml#workflow_dispatch",
   "captured_run_ids": [
-    "26552141298",
     "26552192908",
     "26581231613",
     "26616303516",
@@ -13,7 +12,8 @@
     "26695366830",
     "26699807063",
     "26732057120",
-    "26732700618"
+    "26732700618",
+    "26793911803"
   ],
   "viewport_dimensions": {
     "desktop": {
@@ -41,5 +41,5 @@
   "refresh_workflow": ".github/workflows/playwright-visual-baseline-update.yml",
   "refresh_command_hint": "gh workflow run playwright-visual-baseline-update.yml -f reason=\"<why>\" -r <feature-branch>",
   "notes": "captured_at_commit_sha からの rendering_relevant_paths diff が空でない場合、baseline は stale。scripts/visual-baseline-status.sh で診断可能。",
-  "last_refresh_reason": "sidebar-shell-visual baseline(profile-1280/admin-1280) も ReflectionTimingNote + admin nav 14項目化で陳腐化したため、workflow 拡張後に 3 系統(visual-full/visual-chromium/sidebar-shell-visual)を一括再生成"
+  "last_refresh_reason": "issue-1031: /profile に会員本人の写真アップロードUI(PhotoUpload.client.tsx)を追加したことによる full-visual / smoke-visual / sidebar-shell-visual の正当な見た目変更に追従するため baseline を再生成"
 }

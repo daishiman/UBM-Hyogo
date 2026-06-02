@@ -15,6 +15,8 @@ export interface MemberPhotoRow {
   readonly contentHash: string | null;
   readonly processingStatus: string;
   readonly uploadedBy: string;
+  // issue-1031: 最後に書き込んだ主体（admin 代行 / member 本人）。監査根拠。
+  readonly source: "admin" | "self";
   readonly uploadedAt: string;
 }
 
@@ -29,6 +31,8 @@ interface RawMemberPhotoRow {
   content_hash: string | null;
   processing_status: string;
   uploaded_by: string;
+  // issue-1031: DB 上は TEXT。"self" 以外は "admin" に正規化する。
+  source: string;
   uploaded_at: string;
 }
 
@@ -41,7 +45,7 @@ export async function getMemberPhoto(
     .prepare(
       `SELECT member_id, object_key, content_type, byte_size,
               thumb_object_key, thumb_byte_size, content_hash, processing_status,
-              uploaded_by, uploaded_at
+              uploaded_by, source, uploaded_at
        FROM member_photos WHERE member_id = ?1`,
     )
     .bind(memberId)
@@ -57,6 +61,8 @@ export async function getMemberPhoto(
     contentHash: row.content_hash ?? null,
     processingStatus: row.processing_status ?? "none",
     uploadedBy: row.uploaded_by,
+    // issue-1031: "self" 以外（未知値・legacy）は "admin" にフォールバック正規化。
+    source: row.source === "self" ? "self" : "admin",
     uploadedAt: row.uploaded_at,
   };
 }
@@ -90,8 +96,8 @@ export async function upsertMemberPhoto(
       `INSERT OR REPLACE INTO member_photos
        (member_id, object_key, content_type, byte_size,
         thumb_object_key, thumb_byte_size, content_hash, processing_status,
-        uploaded_by, uploaded_at)
-       VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, datetime('now'))`,
+        uploaded_by, source, uploaded_at)
+       VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, datetime('now'))`,
     )
     .bind(
       row.memberId,
@@ -103,6 +109,7 @@ export async function upsertMemberPhoto(
       row.contentHash,
       row.processingStatus,
       row.uploadedBy,
+      row.source,
     )
     .run();
 }

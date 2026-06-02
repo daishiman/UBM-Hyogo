@@ -158,6 +158,7 @@ type ConsentStatus = "consented" | "declined" | "unknown";
 | `isDeleted` | D1 `member_status` | アプリ上の論理削除 |
 | `meetingSessions` | D1 `meeting_sessions` | 開催日 |
 | `attendance` | D1 `member_attendance` | 参加履歴 |
+| `photo` | D1 `member_photos` + R2 `members/{memberId}/avatar` | profile 写真。`source` は `admin` / `self` |
 | `tags` | D1 `member_tags` | 付与済みタグ |
 | `tagSource` | D1 `member_tags` | `rule` / `ai` / `manual` |
 | `tagAssignmentStatus` | D1 `tag_assignment_queue` | 手動確認待ち状態 |
@@ -165,6 +166,8 @@ type ConsentStatus = "consented" | "declined" | "unknown";
 ---
 
 `MemberProfile.attendance` と `PublicMemberProfile.attendance` は `member_attendance` と active `meeting_sessions`（`meeting_sessions.deleted_at IS NULL`）を `session_id` で INNER JOIN して返す。API contract は `AttendanceRecord[]`（`sessionId`, `title`, `heldOn`）を維持し、`GET /me/profile`、admin member detail、`GET /public/members/:memberId` は `attendanceProviderMiddleware` が Hono context に bind した `c.var.attendanceProvider` から provider を解決する。builder call site へ optional `deps?.attendanceProvider` を渡す方式は使わない。大量履歴向けに `attendanceMeta?: { hasMore: boolean; nextCursor: string | null }` を optional 追加し、`GET /me/profile`、admin member detail、public member detail は default 50 件の先頭ページを返す。先頭ページの limit 指定は builder の optional `deps?.attendancePage` または use-case の default page request 経由でのみ渡す。public member detail は公開適格判定（`public_consent='consented'`, `publish_state='public'`, `is_deleted=0`）が成立した後に attendance を読む。非公開 member の attendance 有無や soft-deleted meeting を 404 / 除外経路で漏らさない。
+
+`GET /me/profile` は本人の `member_photos` 行が存在し、R2 presign secrets が揃う場合だけ `photoUrl?: string` を同梱する。presign 失敗・secret 不足・写真未登録では `photoUrl` を省略し、profile response は 200 を維持する。`photoUrl` は `members/{memberId}/avatar` の presigned GET URL であり、D1/R2 read は `apps/api` に閉じる。
 
 ### Public Profile Attendance Contract
 
@@ -190,14 +193,16 @@ cursor は `{ heldOn, sessionId }` を base64url JSON 化した不透明文字�
 - 中間テーブルは **`member_tags`**（PK `(member_id, tag_id)`、`source`、`assigned_by`）が正本。過去仕様の旧中間テーブル名は使わない。
 - tag master は **`tag_definitions`**（PK `tag_id`、UNIQUE `code`、`label`、`category`、`active`）。`tags` テーブルは存在しない。
 
-### 不変条件 #13（2026-05 再定義）
+### 不変条件 #13（2026-06 再々定義）
 
-tag の write 経路を 2 つに正式分離する。
+tag の write 経路を 3 つに正式分離する。
 
 1. **AI / Google Form 由来の tag「提案」** — `tags-queue` の resolve（`tagQueueResolve` workflow）経由で承認する。
 2. **管理者による tag の「手動付与 / 解除」** — `/admin/members/:memberId/tags` 専用 endpoint 経由で行い、必ず audit を記録する。
+3. **管理者による tag master (`tag_definitions`) の CRUD** — `/admin/tags` 専用 endpoint 経由で行い、必ず audit を記録する。
 
 `member_tags` への直接 write は上記 2 経路に限り許可する。
+`tag_definitions` への write は `apps/api/src/repository/tagDefinitions.ts` の `createTagDefinition` / `updateTagDefinition` / `deactivateTagDefinition` だけに限定する。`code` は immutable とし、PATCH の更新対象は `label` / `category` のみ。DELETE は物理削除ではなく `active=0` への論理削除で、既存 `member_tags` row は保持する。
 
 ### Endpoints
 
@@ -206,8 +211,13 @@ tag の write 経路を 2 つに正式分離する。
 | GET | `/admin/members/:memberId/tags` | なし | `{ assigned: TagRef[], available: TagRef[] }`（`available` は `tag_definitions WHERE active=1` 全件） | member 不在 → 404 `member_not_found` |
 | POST | `/admin/members/:memberId/tags` | `{ tagId: string }` | `{ assigned, available }`（更新後） | body 不正 → 400 / member 不在 → 404 `member_not_found` / `is_deleted=1` → 409 `member_is_deleted` / active な tag master 不在 → 404 `tag_not_found` |
 | DELETE | `/admin/members/:memberId/tags/:tagId` | なし | 204 No Content | member 不在 → 404 `member_not_found` / `is_deleted=1` → 409 `member_is_deleted` |
+| GET | `/admin/tags` | query: `q?: string`, `page?: number`, `pageSize?: number` | `{ total, items: TagMasterRef[] }`（inactive 含む） | query 不正 → 400 `invalid_query` |
+| POST | `/admin/tags` | `{ code, label, category }` | `TagMasterRef` | body 不正 → 400 / code 衝突 → 409 `tag_code_conflict` |
+| PATCH | `/admin/tags/:tagId` | `{ label?, category? }` | `TagMasterRef` | body 不正・更新項目なし → 400 `no_update_fields` / tag 不在 → 404 `tag_not_found` |
+| DELETE | `/admin/tags/:tagId` | なし | 204 No Content | tag 不在 → 404 `tag_not_found` |
 
 `TagRef = { tagId: string; code: string; label: string; category: string }`。`tagId`（= `tag_definitions.tag_id`）を正本識別子とし、`code`（UNIQUE）は表示・既存 detail view との parity 用に併せて返す。
+`TagMasterRef = TagRef & { active: boolean }`。master 管理 endpoint は inactive row も一覧対象に含め、検索 `q` は `code` / `label` の部分一致とする。
 
 ### 冪等性
 
@@ -222,8 +232,12 @@ tag の write 経路を 2 つに正式分離する。
 |--------|-----------|--------|-------|
 | `admin.member.tag_assigned` | `member` | `null` | `{ tagId, source: "manual" }` |
 | `admin.member.tag_unassigned` | `member` | `{ tagId }` | `null` |
+| `admin.tag.created` | `tag` | `null` | `{ code, label, category }` |
+| `admin.tag.updated` | `tag` | `{ label, category }` | `{ label, category }` |
+| `admin.tag.deactivated` | `tag` | `{ active: true }` | `{ active: false }` |
 
 新規付与 / 削除が実際に発生した（`meta.changes > 0`）ときのみ audit を append する。再送 no-op では audit を増やさない。
+tag master CRUD でも state 変化時のみ audit を append する。同値 PATCH と既 inactive tag への DELETE 再送では audit を増やさない。
 
 ## Admin Dashboard Attendance Analytics API
 

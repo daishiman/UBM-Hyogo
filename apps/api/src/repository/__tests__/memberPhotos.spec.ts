@@ -22,6 +22,8 @@ const baseRow = (memberId: string): Omit<MemberPhotoRow, "uploadedAt"> => ({
   contentHash: null,
   processingStatus: "original_fallback",
   uploadedBy: "admin@example.com",
+  // issue-1031: source 列追加後の round-trip 既定。admin 代行を既定値とする。
+  source: "admin",
 });
 
 // snake_case 列を直読みして camelCase マッピングと突合するためのヘルパ。

@@ -18,7 +18,7 @@ issue_number: 1042
 | 対象機能 | `/admin/identity-conflicts` の dismiss confirm |
 | 優先度 | 低 |
 | 見積もり規模 | 小規模 |
-| ステータス | 未実施 |
+| ステータス | consumed / canonical workflow 実装完了（canonical: `docs/30-workflows/completed-tasks/issue-1042-dismiss-confirm-optimistic-update/`、Phase 1-12 completed、Phase 13 pending_user_approval） |
 | GitHub Issue | #1042 |
 | 発見元 | `issue-988-identity-conflicts-merge-optimistic-update` Phase 12 unassigned-task-detection 候補 1 |
 | 発見日 | 2026-05-30 |
@@ -27,6 +27,8 @@ issue_number: 1042
 ---
 
 ## 1. なぜこのタスクが必要か（Why）
+
+> 2026-06-01: 本単票は `docs/30-workflows/completed-tasks/issue-1042-dismiss-confirm-optimistic-update/` の Phase 1-13 canonical workflow へ昇格し、同 workflow で実装・focused Vitest・Playwright focused evidence・Phase 12 strict outputs まで完了済み。source trace として completed-tasks 配下に保持する。
 
 ### 1.1 背景
 
