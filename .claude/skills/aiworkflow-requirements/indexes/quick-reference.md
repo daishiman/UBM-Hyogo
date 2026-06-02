@@ -13,6 +13,22 @@
 | inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1042-identity-conflicts-dismiss-optimistic-update-artifact-inventory.md` |
 | user gate | commit, push, PR |
 
+## issue-1035-tag-master-write-endpoints（2026-06-01）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-1035-tag-master-write-endpoints/` |
+| status | `implemented_local_evidence_captured / implementation / NON_VISUAL` |
+| issue | #1035 CLOSED。PR 文脈は `Refs #1035` のみ |
+| parent | `issue-982-drawer-tag-pill-editing` |
+| purpose | tag master (`tag_definitions`) の admin CRUD endpoint と pagination/search を追加する |
+| implementation | `apps/api/src/repository/tagDefinitions.ts`, `apps/api/src/repository/auditLog.ts`, `apps/api/src/routes/admin/tags.ts`, `apps/api/src/index.ts`, `docs/00-getting-started-manual/specs/01-api-schema.md` |
+| tests | `apps/api/src/routes/admin/tags.contract.spec.ts`, `apps/api/src/repository/__tests__/tagDefinitions.write.repository.spec.ts`, `apps/api/src/routes/admin/members.tags.contract.spec.ts`, `apps/api/src/repository/__tests__/auditLog.repository.spec.ts` |
+| evidence | focused D1 Vitest 4 files / 32 tests PASS, API typecheck PASS, repo lint PASS |
+| invariant | 不変条件 #13 を第3経路へ再々定義。`code` immutable、DELETE は `active=0`、member_tags row 保持、audit `admin.tag.*` |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1035-tag-master-write-endpoints-artifact-inventory.md` |
+| user gate | staging runtime smoke, commit, push, PR |
+
 ## issue-1042-dismiss-confirm-optimistic-update（2026-06-01）
 
 | 項目 | 値 |
