@@ -21,6 +21,20 @@
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-task-b-manual-form-resync-admin-ui-spec-artifact-inventory.md` |
 | user gate | `SYNC_ADMIN_TOKEN` secret injection、authenticated runtime screenshots、commit、push、PR |
 
+### publish-state-backfill-admin-ui（2026-06-01）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION / PASS_BOUNDARY_SYNCED_RUNTIME_PENDING` |
+| 成果物 | `docs/30-workflows/completed-tasks/publish-state-backfill-admin-ui/` |
+| 親 workflow | `docs/30-workflows/task-member-publish-recovery-form-ops-and-admin-link/` Task A |
+| 目的 | PR #1064 / commit `745c95115` で landed 済みの公開状態 backfill 管理 UI を Phase 1-13 の正本タスク仕様書として同期する |
+| implementation targets | `apps/web/src/features/admin/diagnostics/backfill.ts`, `apps/web/src/features/admin/components/_sync/BackfillPublishStatePanel.client.tsx`, `apps/web/app/(admin)/admin/sync-status/page.tsx`, `apps/web/src/features/admin/components/_sync/__tests__/BackfillPublishStatePanel.spec.tsx`, `apps/web/src/features/admin/diagnostics/__tests__/sync-schemas.spec.ts` |
+| evidence | Phase 11 deterministic plan evidence（manual-test-plan / interaction-states / screenshot-plan / manual-smoke-log / link-checklist）present; Phase 12 strict 7 present |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-publish-state-backfill-admin-ui-artifact-inventory.md` |
+| system spec | API/D1/Form schema no change; existing `POST /admin/sync/backfill-publish-state` reused |
+| user gate | staging authenticated screenshots, commit, push, PR |
+
 ### issue-229-indexes-rebuild-fail-fast（2026-05-31）
 
 | 項目 | 値 |

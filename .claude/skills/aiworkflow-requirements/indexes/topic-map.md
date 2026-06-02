@@ -2562,6 +2562,12 @@ node scripts/list-specs.js --topics
 | Boundaries | L38 |
 | Lessons Learned | L44 |
 
+### references/workflow-issue-1024-sidebar-collapse-cookie-persistence-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Lessons Learned | L23 |
+
 ### references/workflow-issue-106-admin-member-notes-repository-task-spec-artifact-inventory.md
 
 | セクション | 行 |
@@ -3779,6 +3785,16 @@ node scripts/list-specs.js --topics
 ### references/workflow-public-header-logged-in-nav-cleanup-artifact-inventory.md
 
 ### references/workflow-public-header-session-aware-auth-view-base-artifact-inventory.md
+
+### references/workflow-publish-state-backfill-admin-ui-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Summary | L3 |
+| Workflow Artifacts | L13 |
+| Implementation Targets | L25 |
+| Boundaries | L36 |
+| Lessons Learned | L44 |
 
 ### references/workflow-regression-evidence-ci-gate-foundation-artifact-inventory.md
 
@@ -6028,6 +6044,14 @@ node scripts/list-specs.js --topics
 | 苦戦箇所と知見 | L7 |
 | 運用知見 | L73 |
 
+### references/lessons-learned-issue-1024-sidebar-collapse-cookie-persistence-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| L-I1024-001: First-paint UI state needs a server-readable seed | L3 |
+| L-I1024-002: Split-token lint bypasses are not an acceptable boundary pattern | L7 |
+| L-I1024-003: Seed the existing state owner instead of adding a second store | L11 |
+
 ### references/lessons-learned-issue-106-admin-notes-repository-2026-05.md
 
 | セクション | 行 |
@@ -6625,6 +6649,13 @@ node scripts/list-specs.js --topics
 | L-I06-004: completion 移動時の artifacts.json path drift | L56 |
 | L-I06-005: NON_VISUAL タスクの Phase 11 evidence 5 点セット | L77 |
 | 関連 | L93 |
+
+### references/lessons-learned-publish-state-backfill-admin-ui-2026-06.md
+
+| セクション | 行 |
+|------------|----|
+| 教訓一覧 | L19 |
+| 確認パス | L63 |
 
 ### references/lessons-learned-skill-codex-validation-2026-04.md
 
@@ -8327,15 +8358,15 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L3370 |
-| フェーズ構造（概要） | L3379 |
-| 品質ゲート（概要） | L3410 |
-| 出力テンプレート | L3421 |
-| 実行時のコマンド・エージェント・スキル | L3444 |
-| 昇格パターン集 | L3468 |
-| Current Active / Spec Created Tasks | L3470 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L3636 |
-| issue-998-members-publish-state-production-rollout | L3714 |
+| ドキュメント構成 | L3384 |
+| フェーズ構造（概要） | L3393 |
+| 品質ゲート（概要） | L3424 |
+| 出力テンプレート | L3435 |
+| 実行時のコマンド・エージェント・スキル | L3458 |
+| 昇格パターン集 | L3482 |
+| Current Active / Spec Created Tasks | L3484 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L3650 |
+| issue-998-members-publish-state-production-rollout | L3728 |
 
 ### references/task-workflow-backlog-part2.md
 
