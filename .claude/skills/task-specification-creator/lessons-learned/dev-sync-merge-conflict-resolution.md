@@ -691,3 +691,16 @@
 - 適用範囲外: source code（`apps/`/`packages/`）の `UU`（SP-DEVSYNC-038/042/044 経路）。本件は skill index/lessons のみ。
 - 検証: `git merge dev` CONFLICT 4 → `pnpm sync:resolve` exit 0 → `git ls-files -u` 0 → merge commit `03a0e88ff` → `pnpm typecheck` 6 packages exit 0 / `pnpm lint` exit 0 / `pnpm indexes:rebuild` drift 0 → duplicate-ID 検査で旧 075×2 を検出し issue-1010 側を L-DEVSYNC-076 へ補正、本 sync を L-DEVSYNC-077 として追加。
 - 参照: aiworkflow-requirements [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-077（duplicate-ID 機序）, L-DEVSYNC-073（衝突 file 数可変）, L-DEVSYNC-075/076（duplicate-ID 当事者）。
+
+
+### SP-DEVSYNC-048: 衝突集合は 3 file（index map 2 + task-workflow-active）まで縮退しうる — topic-map / keywords / 両 SKILL.md 全 Auto-merging の最小セットでも標準フロー不変（2026-06-02 追加）
+
+- 事象: `docs/task-c-reflection-timing-sla-spec` を sub-worktree（`.worktrees/task-20260601-172605-wt-12`）から sync-merge。ローカル dev = origin/dev（独自コミット 0 / ff 不要）、feature は origin/dev に 1 behind / 3 ahead。`git merge origin/dev --no-edit` の content conflict は **3 file のみ**＝`aiworkflow-requirements/indexes/{quick-reference.md, resource-map.md}` + `references/task-workflow-active.md`。`indexes/topic-map.md` / `keywords.json` / `_legacy.md` / 両 `SKILL.md` はすべて Auto-merging。SP-DEVSYNC-047（5 file）より縮退した最小セット。
+- How to apply（仕様書 sync-merge 節での逐語化）:
+  1. **衝突 file 数は 3〜6 で毎回可変**。`pnpm sync:resolve` の `union-resolving N files` の N を固定で見込まず、`git diff --name-only --diff-filter=U` の実集合をそのまま resolver に渡す。topic-map / keywords / SKILL.md が衝突に出ないのは正常（欠落ではない）。
+  2. **同種 index 3 兄弟（quick-reference/resource-map/topic-map）でも衝突可否は独立**。各 worktree が別行を触るため「index 系はまとめて衝突する」束ね前提は誤り。
+  3. 最小 3 file でも標準フロー（`git merge` → `pnpm sync:resolve` → `git ls-files -u` 0 → `git commit` → `pnpm typecheck && pnpm lint`）は不変。source conflict 0・keywords 非衝突の回は手動介入ゼロで全自動収束し CI 修正も不要。
+- 適用範囲外: source code（`apps/`/`packages/`）の `UU`（SP-DEVSYNC-038/042/044 経路）。本件は skill index/reference のみ。
+- backlog 注記: 本 sync 時点で aiworkflow lessons 正本に真の duplicate heading（`## L-DEVSYNC-069`×3 等）が dev 由来で蓄積（SP-DEVSYNC-047 指摘事象）。本 sync は lessons 本体非衝突のため触れず、一括 renumber は sync→push タスク範囲外として別 cleanup へ送る。新規採番は実 max +1（SP-DEVSYNC-048 / L-DEVSYNC-083）。
+- 検証: `git merge origin/dev` CONFLICT 3 → `pnpm sync:resolve` exit 0（`union-resolving 3 files`）→ `git ls-files -u` 0 → merge commit `a5789e7cd` → `pnpm typecheck` exit 0 / `pnpm lint` exit 0 / `pnpm indexes:rebuild` drift 0。
+- 参照: aiworkflow-requirements [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-083（本 lesson の正本・3 file 最小セット）, L-DEVSYNC-082（5 file・SKILL.md 片側衝突）, L-DEVSYNC-080-B（衝突集合は `--diff-filter=U` で都度確定）, SP-DEVSYNC-047（duplicate-ID backlog 機序）。
