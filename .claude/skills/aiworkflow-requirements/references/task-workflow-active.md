@@ -8,6 +8,21 @@
 
 本ドキュメントは、複雑なタスクを単一責務の原則に基づいて分解し、各サブタスクに最適なスラッシュコマンド・エージェント・スキルの組み合わせを選定するためのガイドラインを定義する。
 
+### issue-1039-admin-audit-identity-action-presets（2026-06-01）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION` |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-1039-admin-audit-identity-action-presets/` |
+| Issue | #1039 CLOSED。Issue mutation なし、PR 文脈は `Refs #1039` のみ |
+| 親 workflow | `docs/30-workflows/completed-tasks/issue-987-identity-conflicts-audit-log-admin-ui/` |
+| 目的 | `/admin/audit` の action filter に `identity.merge` / `identity.dismiss` の入力補助を追加し、operator の正確な文字列記憶依存を減らす |
+| implementation targets | `apps/web/src/components/admin/AuditLogPanel.tsx`, `apps/web/src/components/admin/__tests__/AuditLogPanel.component.spec.tsx`, `apps/web/app/(admin)/admin/audit/page.page.spec.ts` |
+| invariant | 既存 `Input name="action"` と URL query key `action` を維持。`buildAuditHref` / API endpoint / D1 schema は変更しない |
+| evidence | focused component/page regressions PASS; Phase 11 local screenshot evidence present (`audit-action-filter-datalist-open.png`, `audit-action-filter-restored.png`) |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1039-admin-audit-identity-action-presets-artifact-inventory.md` |
+| user gate | staging authenticated screenshot, commit, push, PR |
+
 ### issue-1035-tag-master-write-endpoints（2026-06-01）
 
 | 項目 | 値 |
