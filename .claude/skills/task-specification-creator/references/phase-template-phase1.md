@@ -57,6 +57,22 @@ git log --oneline -20 -- <対象ファイルパス>
 grep -n "<対象関数名>" <対象ファイルパス>
 ```
 
+#### landed 実装検出時の existing-hardening 分岐（2026-06-01 追加）
+
+P50 で対象機能が既に dev / current branch に landed 済みと確認できた場合、greenfield 新規実装として仕様書を進めない。Phase 1 で `git log` / `rg --files` / `rg -n` の実測結果を表にし、`metadata.implementation_mode` を `existing-hardening`（またはより具体的な `existing-*-hardening`）へ再分類する。
+
+必須記録:
+
+| 項目 | 内容 |
+| --- | --- |
+| landed reference | PR 番号 / commit hash / current branch 上の確認コマンド |
+| current code anchor | 実在する route / component / schema / test / endpoint |
+| source-task drift | 元タスク・旧仕様の path / API / UI wording と現行コードの差分 |
+| canonical decision | 実コードを正本にするか、旧仕様を復元するか |
+| action | no-op documentation / regression test 追加 / adapter 補正 / follow-up escalation |
+
+旧仕様に壊れた endpoint path や古いファイル名が残っている場合は、Phase 1 の「乖離補正」表で現行コードへ補正する。補正を記録せず Phase 2 以降へ旧文字列を持ち込むことは禁止する。
+
 #### Props/型前提条件の確認（P65対策）
 
 - 対象コンポーネントの Props 型定義を確認し、設計で前提とする Props が実在するか検証する
