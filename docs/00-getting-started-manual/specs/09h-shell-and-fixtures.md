@@ -47,12 +47,13 @@ nav は `apps/web/src/components/shell/shell-config.ts` の純関数 `buildNavFo
 | ADMIN | 申請 | `/admin/requests` | admin |
 | ADMIN | 名寄せ | `/admin/identity-conflicts` | admin |
 | ADMIN | 監査ログ | `/admin/audit` | admin |
-| ADMIN | Form回答 | `FORM_RESPONSES_EDIT_URL` | admin（外部リンク） |
+| ADMIN | Form回答 | `FORM_RESPONSES_EDIT_URL`（Google Form edit URL） | admin（外部リンク） |
 
-> ADMIN グループは上表のうち admin 専用 10 item（ダッシュボード〜Form回答）。viewer=PUBLIC 3 / member=PUBLIC+MEMBERS 4 / admin=PUBLIC+MEMBERS+ADMIN 14。
+> ADMIN グループは上表のうち admin 専用 10 item（ダッシュボード〜監査ログ + Form回答）。viewer=PUBLIC 3 / member=PUBLIC+MEMBERS 4 / admin=PUBLIC+MEMBERS+ADMIN 14。
 
 - active 判定は client の `usePathname()`（`SidebarNavItem`）+ `isNavItemActive(href, pathname)`（`/` と `/admin` は完全一致、他は prefix 一致）を主とし、SSR 初期表示では middleware が注入する `x-pathname` を layout から `activePath` として渡す。
 - admin の schema nav には未解決スキーマ差分件数を warn tone badge で表示する（`SidebarShellServer` が admin 時のみ `GET /admin/schema/diff` を await し queued 件数を算出）。
+- 外部 nav 項目は `ShellNavItem.external?` で判定する。`external: true` の項目は `<a target="_blank" rel="noopener noreferrer">` で描画し、`↗`（`aria-hidden`）+ sr-only「（外部リンク）」を付与する。外部項目は app 内 current route ではないため `aria-current` / `data-active` を付けない。href は `apps/web/src/lib/constants/form.ts` の `FORM_RESPONSES_EDIT_URL` を参照し、URL を nav config / component に直書きしない。
 
 ### 1.3 SidebarShell レイアウト構造
 

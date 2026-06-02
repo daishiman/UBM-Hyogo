@@ -1,0 +1,8 @@
+Command:
+git diff --name-only -- apps packages docs/00-getting-started-manual docs/30-workflows/issue-1029-public-member-photo-display | sort | xargs rg -n "TODO|FIXME|describe\\.skip|test\\.skip|it\\.skip"
+
+Result:
+exit code 1, no matches.
+
+Interpretation:
+No TODO/FIXME/describe.skip/test.skip/it.skip entries were introduced in the files touched by issue-1029-public-member-photo-display. Existing repository-wide TODO/skip entries outside this workflow are unrelated baseline and are not counted as current new unassigned tasks.

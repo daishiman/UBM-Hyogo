@@ -150,7 +150,7 @@ rg -n "#[0-9a-fA-F]{3,8}|style=\\{\\{" apps/web/src/components/admin/IdentityCon
 
 - API / D1 schema / shared schema の変更。
 - merge / dismiss の mutation contract 変更。
-- dismiss optimistic update そのもの（別タスク `admin-identity-conflicts-followup-004-dismiss-optimistic-update` に分離）。
+- dismiss optimistic update そのもの（完了済み canonical workflow `docs/30-workflows/completed-tasks/issue-1042-dismiss-confirm-optimistic-update/` に分離・実装済み）。
 - production / staging deploy、commit、push、PR、Issue close。
 
 ---

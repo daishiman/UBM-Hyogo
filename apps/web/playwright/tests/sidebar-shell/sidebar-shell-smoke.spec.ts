@@ -58,8 +58,9 @@ test("mobile hides sidebar and opens drawer on hamburger", async ({ anonymousPag
   await expect(anonymousPage.locator('[data-shell-block="drawer"]')).toBeVisible();
 });
 
-// S5: viewer / 1024 — collapse toggle + localStorage reflection
-test("collapse toggle collapses sidebar and persists to localStorage", async ({
+// S5: viewer / 1024 — collapse toggle + cookie reflection
+// issue-1024: 永続化先は localStorage から cookie(ubm_shell_collapsed) へ移行。
+test("collapse toggle collapses sidebar and persists to cookie", async ({
   anonymousPage,
   mockApi,
 }) => {
@@ -72,10 +73,13 @@ test("collapse toggle collapses sidebar and persists to localStorage", async ({
     "data-collapsed",
     "true",
   );
+  // collapse 状態は cookie(ubm_shell_collapsed=true) へ永続化される。
   const persisted = await anonymousPage.evaluate(() =>
-    window.localStorage.getItem("ubm:shell:collapsed"),
+    document.cookie
+      .split("; ")
+      .find((entry) => entry.startsWith("ubm_shell_collapsed=")),
   );
-  expect(persisted).toBeTruthy();
+  expect(persisted).toBe("ubm_shell_collapsed=true");
 });
 
 // S6: viewer / mobile 375 — drawer auto-close on route navigation

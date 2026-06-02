@@ -1,0 +1,95 @@
+{
+  "workflow_id": "task-d-admin-google-form-responses-link",
+  "feature": "task-d-admin-google-form-responses-link",
+  "status": "implemented_local_evidence_captured",
+  "created": "2026-06-01T18:30:57+09:00",
+  "lastUpdated": "2026-06-01T18:30:57+09:00",
+  "metadata": {
+    "taskId": "TASK-D-ADMIN-GOOGLE-FORM-RESPONSES-LINK",
+    "parentWorkflow": "member-publish-recovery-form-ops-and-admin-link",
+    "taskType": "implementation",
+    "visualEvidence": "VISUAL",
+    "implementationCategory": "standard",
+    "implementation_mode": "implemented-local",
+    "workflow_state": "implemented_local_evidence_captured",
+    "implementation_status": "implemented_local_evidence_captured",
+    "scope": "Add a Google Form responses (edit view) external link to the admin sidebar nav via ShellNavItem.external?, rendering target=_blank rel=noopener noreferrer and excluding it from active highlighting; href referenced through the FORM_RESPONSES_EDIT_URL constant.",
+    "canonical_root": "docs/30-workflows/completed-tasks/task-d-admin-google-form-responses-link",
+    "runtime_boundary": "This workflow is a canonical record of an implementation already landed on dev via PR #1064 (commit 745c95115). git diff origin/dev...HEAD -- apps/web is empty; no new apps diff is produced this wave. Screenshots are staging-auth user-gated; local jsdom render/unit tests are the primary evidence. commit, push, PR, staging deploy, and external issue mutation remain user-gated.",
+    "implementation_files": [
+      "apps/web/src/lib/constants/form.ts",
+      "apps/web/src/components/shell/shell-config.ts",
+      "apps/web/src/components/shell/icons.tsx",
+      "apps/web/src/components/shell/SidebarNavItem.tsx"
+    ],
+    "reused_unchanged_files": [
+      "apps/web/src/components/public/RegisterCallout.tsx",
+      "apps/web/src/components/ui/Chip.tsx"
+    ],
+    "test_files": [
+      "apps/web/src/lib/constants/__tests__/form-responses.spec.ts",
+      "apps/web/src/components/shell/__tests__/SidebarNavItem.spec.tsx",
+      "apps/web/src/components/shell/__tests__/shell-config.spec.ts"
+    ],
+    "verify_commands": [
+      "mise exec -- pnpm typecheck",
+      "mise exec -- pnpm lint",
+      "mise exec -- pnpm exec vitest run apps/web/src/components/shell/__tests__/SidebarNavItem.spec.tsx apps/web/src/components/shell/__tests__/shell-config.spec.ts apps/web/src/lib/constants/__tests__/form-responses.spec.ts",
+      "mise exec -- pnpm --filter @ubm-hyogo/web verify-design-tokens"
+    ],
+    "phase12_strict_outputs": [
+      "outputs/phase-12/main.md",
+      "outputs/phase-12/implementation-guide.md",
+      "outputs/phase-12/system-spec-update-summary.md",
+      "outputs/phase-12/documentation-changelog.md",
+      "outputs/phase-12/unassigned-task-detection.md",
+      "outputs/phase-12/skill-feedback-report.md",
+      "outputs/phase-12/phase12-task-spec-compliance-check.md"
+    ],
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "approver": "codex",
+        "status": "passed",
+        "passed_at": "2026-06-01T18:30:57+09:00",
+        "evidence_path": "docs/30-workflows/completed-tasks/task-d-admin-google-form-responses-link/outputs/phase-12/phase12-task-spec-compliance-check.md",
+        "notes": "spec_review: Phase 1-13 implementation spec for the landed admin sidebar external link, strict Phase 12 outputs, and skill/system spec sync are present."
+      },
+      {
+        "gate_id": "Gate-B",
+        "approver": "codex",
+        "status": "passed",
+        "passed_at": "2026-06-01T18:30:57+09:00",
+        "evidence_path": "docs/30-workflows/completed-tasks/task-d-admin-google-form-responses-link/outputs/phase-11/main.md",
+        "notes": "implementation_review: apps/web shell external-link implementation already landed on dev; local jsdom render and pure-function unit tests are the captured VISUAL-boundary evidence (screenshots user-gated)."
+      },
+      {
+        "gate_id": "Gate-C",
+        "approver": "daishiman",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/task-d-admin-google-form-responses-link/phase-13.md",
+        "notes": "external_ops: commit, push, PR, and staging screenshot capture are user-gated."
+      }
+    ]
+  },
+  "phases": [
+    { "phase": 1, "name": "要件定義", "status": "completed", "output": "outputs/phase-1/requirements.md" },
+    { "phase": 2, "name": "設計", "status": "completed", "output": "phase-2.md" },
+    { "phase": 3, "name": "設計レビュー", "status": "completed", "output": "phase-3.md" },
+    { "phase": 4, "name": "テスト作成", "status": "completed", "output": "phase-4.md" },
+    { "phase": 5, "name": "実装手順", "status": "completed", "output": "phase-5.md" },
+    { "phase": 6, "name": "テスト拡充", "status": "completed", "output": "phase-6.md" },
+    { "phase": 7, "name": "カバレッジ確認", "status": "completed", "output": "phase-7.md" },
+    { "phase": 8, "name": "リファクタリング", "status": "completed", "output": "phase-8.md" },
+    { "phase": 9, "name": "品質保証", "status": "completed", "output": "phase-9.md" },
+    { "phase": 10, "name": "最終レビュー", "status": "completed", "output": "outputs/phase-10/final-review-result.md" },
+    { "phase": 11, "name": "証跡取得", "status": "completed", "output": "outputs/phase-11/main.md" },
+    { "phase": 12, "name": "ドキュメント同期", "status": "completed", "output": "outputs/phase-12/main.md" },
+    { "phase": 13, "name": "PR作成", "status": "blocked", "output": "phase-13.md", "user_approval_required": true }
+  ],
+  "dependencies": {
+    "2": ["1"], "3": ["2"], "4": ["3"], "5": ["4"], "6": ["5"], "7": ["6"],
+    "8": ["7"], "9": ["8"], "10": ["9"], "11": ["10"], "12": ["11"], "13": ["12"]
+  }
+}

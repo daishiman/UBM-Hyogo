@@ -10,12 +10,19 @@ export interface ProfileHeroProps {
   location: string;
   ubmZone: string | null;
   ubmMembershipType: string | null;
+  // issue-1029: public-safe presigned photo URL（無ければ hue placeholder へ fallback）。
+  photoUrl?: string | undefined;
 }
 
 export function ProfileHero(props: ProfileHeroProps) {
   return (
     <header data-component="profile-hero">
-      <Avatar memberId={props.memberId} name={props.fullName} size="lg" />
+      <Avatar
+        memberId={props.memberId}
+        name={props.fullName}
+        src={props.photoUrl}
+        size="lg"
+      />
       <div data-role="meta">
         <h1>{props.fullName}</h1>
         {props.nickname ? <p data-role={STABLE_KEY.nickname}>@{props.nickname}</p> : null}
