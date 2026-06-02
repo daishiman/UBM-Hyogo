@@ -14,6 +14,35 @@
 | inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1031-member-self-photo-upload-artifact-inventory.md` |
 | user gate | remote D1 apply, staging deploy, authenticated screenshots, commit, push, PR |
 
+## issue-1029-public-member-photo-display（2026-05-31）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-1029-public-member-photo-display/` |
+| status | `implemented_local_runtime_pending / implementation / VISUAL_ON_EXECUTION` |
+| issue | #1029 CLOSED 維持。PR 文脈は `Refs #1029` のみ |
+| parent | `docs/30-workflows/issue-983-member-photo-avatar-r2-storage/` |
+| purpose | public member list/profile に optional `photoUrl` を追加し、#983 の `member_photos` + private R2 presign + `Avatar` fallback を再利用する |
+| public policy | `docs/00-getting-started-manual/specs/16-member-photo-public-exposure.md`。gate は `public_consent='consented'` + `publish_state='public'` + `member_photos` row。写真専用 consent / D1 migration は追加しない |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1029-public-member-photo-display-artifact-inventory.md` |
+| implementation | shared `photoUrl?` schema/types、`listMemberPhotosByIds`、public route presign resolver、use-case DI、MemberCard/ProfileHero Avatar src 配線 |
+| evidence | focused Vitest 51 PASS、public route contract 12 PASS、shared/api/web typecheck PASS、Playwright public photo 1 PASS、Phase 11 screenshots 3 PNG captured |
+| user gate | R2 secrets, staging deploy, real R2 URL capture, commit, push, PR, Issue mutation |
+
+## issue-1027-member-dynamic-og-worker-split（2026-05-31）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-1027-member-dynamic-og-worker-split/` |
+| status | `implemented_local_runtime_pending / implementation / VISUAL_ON_EXECUTION` |
+| issue | #1027 OPEN 維持。Issue mutation は user-gated |
+| purpose | member detail の動的 OG PNG を main web Worker へ戻さず、OG 専用 Worker `apps/og` に分離して Free 3MiB 予算を守る |
+| implementation | `apps/og/**`, `apps/web/src/lib/{env.ts,seo/site-metadata.ts}`, `apps/web/app/(public)/members/[id]/page.tsx`, `apps/web/wrangler.toml`, `.github/workflows/og-cd.yml` |
+| evidence | OG typecheck PASS; OG Vitest 3 files / 10 tests PASS; web metadata focused Vitest 3 files / 17 tests PASS; OG Wrangler dry-run build PASS; OG size gate gzip 717KiB / 3072KiB PASS (index.js 170KiB + wasm); web typecheck PASS |
+| invariant | `apps/web` は `next/og` / `ImageResponse` 禁止を維持。OG Worker は existing `GET /public/members/:memberId` を API_SERVICE first で読む。`OG_IMAGE_BASE_URL` は env accessor 経由 |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1027-member-dynamic-og-worker-split-artifact-inventory.md` |
+| user gate | Cloudflare deploy, staging runtime PNG capture, commit, push, PR, Issue #1027 mutation |
+
 ## task-d-admin-google-form-responses-link（2026-06-01）
 
 | 項目 | 値 |

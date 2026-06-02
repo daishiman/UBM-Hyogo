@@ -23,6 +23,21 @@
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1031-member-self-photo-upload-artifact-inventory.md` |
 | user gate | remote D1 migration apply, staging deploy, authenticated visual evidence, commit, push, PR |
 
+### issue-1029-public-member-photo-display（2026-05-31）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_runtime_pending / implementation / VISUAL_ON_EXECUTION` |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-1029-public-member-photo-display/` |
+| Issue | #1029 CLOSED; PR 文脈は `Refs #1029` のみ |
+| 親 | `docs/30-workflows/issue-983-member-photo-avatar-r2-storage/` |
+| 目的 | public member list/profile に #983 の admin-managed R2 member photo を optional `photoUrl` として表示する |
+| policy | `docs/00-getting-started-manual/specs/16-member-photo-public-exposure.md`。公開 gate は `public_consent='consented' AND publish_state='public' AND member_photos row exists`。写真専用 consent カラム / D1 migration は追加しない |
+| implemented targets | `packages/shared/src/zod/viewmodel.ts`, `apps/api/src/repository/memberPhotos.ts`, public routes/use-cases/view-models, `MemberCard`, `ProfileHero`, `member-detail` adapter |
+| Phase 11/12 | focused Vitest 51 PASS, public route contract 12 PASS, shared/api/web typecheck PASS; Playwright public photo 1 PASS; Phase 11 screenshots 3 PNG captured; Phase 12 strict 7 present; root/output artifacts parity present |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1029-public-member-photo-display-artifact-inventory.md` |
+| user gate | R2 secrets, staging deploy, real R2 URL capture, commit, push, PR, Issue mutation |
+
 ### task-d-admin-google-form-responses-link（2026-06-01）
 
 | 項目 | 値 |
@@ -3790,3 +3805,15 @@ docs-only / direction-reconciliation で採用方針 A を維持する場合で�
 | evidence | TypeScript PASS; `/members` local warm-up 200; Playwright desktop-chromium 12 PASS; 24 PNG in `completed-tasks/members-list-ux-clarity/outputs/phase-11/screenshots`; stale active path not created |
 | user gate | commit, push, PR, staging visual baseline refresh, Issue #1005 state mutation |
 | inventory | `references/workflow-issue-1005-members-ux-playwright-baseline-stabilization-artifact-inventory.md` |
+# issue-1027-member-dynamic-og-worker-split（2026-05-31）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-1027-member-dynamic-og-worker-split/` |
+| status | `implemented_local_runtime_pending / implementation / VISUAL_ON_EXECUTION` |
+| issue | #1027 OPEN 維持。PR 文脈は `Refs #1027` のみ |
+| purpose | member detail dynamic OG PNG を `apps/og` 専用 Worker に分離し、main web Worker の Free 3MiB budget と `next/og` 禁止 guard を維持する |
+| implementation targets | `apps/og/**`, `apps/web/src/lib/env.ts`, `apps/web/src/lib/seo/site-metadata.ts`, `apps/web/app/(public)/members/[id]/page.tsx`, `apps/web/wrangler.toml`, `.github/workflows/og-cd.yml` |
+| evidence | OG typecheck PASS; OG Vitest 10 PASS; web focused Vitest 17 PASS; OG Wrangler dry-run build PASS; OG size gate gzip 717KiB PASS (index.js 170KiB + wasm); web typecheck PASS |
+| source | `docs/30-workflows/unassigned-task/member-dynamic-og-paid-or-worker-split.md` consumed; upstream `web-worker-size-limit-fix` |
+| user gate | Cloudflare deploy, staging runtime PNG capture, commit, push, PR, Issue mutation |

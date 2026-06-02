@@ -1,0 +1,4 @@
+
+> @ubm-hyogo/shared@0.1.0 lint /Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260531-195607-wt-7/packages/shared
+> tsc -p tsconfig.json --noEmit
+

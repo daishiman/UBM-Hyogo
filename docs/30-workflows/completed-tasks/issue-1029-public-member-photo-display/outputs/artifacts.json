@@ -1,0 +1,123 @@
+{
+  "title": "issue-1029-public-member-photo-display",
+  "type": "implementation",
+  "status": "implemented_local_runtime_pending",
+  "feature": "issue-1029-public-member-photo-display",
+  "created": "2026-05-31",
+  "lastUpdated": "2026-06-01",
+  "branch": "docs/issue-1029-public-member-photo-display-spec",
+  "base": "dev",
+  "metadata": {
+    "taskType": "implementation",
+    "implementationDivision": "実装仕様書",
+    "implementation_mode": "new",
+    "visualEvidence": "VISUAL_ON_EXECUTION",
+    "scope": "public member directory photo display: shared public photoUrl schema/types, API presigned photoUrl via #983 member_photos + R2 presign helper, batch repository lookup, public use-case resolver DI, and public UI Avatar src wiring are implemented locally; gated by existing public_consent+publish_state; no D1 schema change. Staging deploy, runtime screenshots, commit, push, PR remain user-gated.",
+    "workflow_state": "implemented_local_runtime_pending",
+    "githubIssue": 1029,
+    "githubIssueState": "CLOSED",
+    "parentWorkflow": "docs/30-workflows/issue-983-member-photo-avatar-r2-storage/",
+    "investigationConclusion": "Initial baseline showed public member photo display was unimplemented. This branch now implements the full local data flow using #983 assets: member_photos, presignMemberPhotoGetUrl, and Avatar src/onError support. Local focused tests cover schema optionality, repository batch lookup, use-case resolver DI/gate safety, and web Avatar wiring. Staging deploy and visual runtime screenshot capture remain user-gated.",
+    "userGated": [
+      "staging deploy",
+      "public staging screenshot capture (Phase 11 visual runtime evidence)",
+      "commit",
+      "push",
+      "PR creation",
+      "issue #1029 comment/reopen mutation"
+    ],
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-05-31T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-1029-public-member-photo-display/outputs/phase-12/main.md",
+        "approver": "daishiman",
+        "notes": "spec_review: Phase 1-13 spec authored for public member photo display; gate reuses public_consent+publish_state; no D1 schema change; #983 member_photos/presign reused"
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "passed",
+        "passed_at": "2026-06-01T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-1029-public-member-photo-display/outputs/phase-12/implementation-execution-record.md",
+        "approver": "daishiman",
+        "notes": "implementation_review: local implementation and focused tests completed. Runtime visual evidence remains Gate-C user-gated."
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-1029-public-member-photo-display/phase-13.md",
+        "approver": "daishiman",
+        "notes": "external_ops: staging deploy + public Phase-11 screenshot capture + PR. All user-gated."
+      }
+    ]
+  },
+  "phases": {
+    "phase-1": {
+      "name": "Requirements",
+      "file": "phase-1.md",
+      "status": "completed"
+    },
+    "phase-2": {
+      "name": "Design",
+      "file": "phase-2.md",
+      "status": "completed"
+    },
+    "phase-3": {
+      "name": "Design Review",
+      "file": "phase-3.md",
+      "status": "completed"
+    },
+    "phase-4": {
+      "name": "Test Creation",
+      "file": "phase-4.md",
+      "status": "completed"
+    },
+    "phase-5": {
+      "name": "Implementation",
+      "file": "phase-5.md",
+      "status": "completed"
+    },
+    "phase-6": {
+      "name": "Test Expansion",
+      "file": "phase-6.md",
+      "status": "completed"
+    },
+    "phase-7": {
+      "name": "Coverage Check",
+      "file": "phase-7.md",
+      "status": "completed"
+    },
+    "phase-8": {
+      "name": "Refactoring",
+      "file": "phase-8.md",
+      "status": "completed"
+    },
+    "phase-9": {
+      "name": "Quality Assurance",
+      "file": "phase-9.md",
+      "status": "completed"
+    },
+    "phase-10": {
+      "name": "Final Review",
+      "file": "phase-10.md",
+      "status": "completed"
+    },
+    "phase-11": {
+      "name": "Manual Test",
+      "file": "phase-11.md",
+      "status": "completed"
+    },
+    "phase-12": {
+      "name": "Documentation",
+      "file": "phase-12.md",
+      "status": "completed"
+    },
+    "phase-13": {
+      "name": "PR Creation",
+      "file": "phase-13.md",
+      "status": "pending_user_approval"
+    }
+  }
+}
