@@ -1,0 +1,38 @@
+[MR] clean output dir ...
+
+Running 2 tests using 1 worker
+
+(node:65668) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:65668) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 [desktop-chromium] › playwright/tests/admin-identity-conflicts.spec.ts:228:3 › /admin/identity-conflicts × mutation › 成功系: dismiss 実行直後に対象 row を optimistic に非表示にする (32.5s)
+  ✓  2 [desktop-chromium] › playwright/tests/admin-identity-conflicts.spec.ts:261:3 › /admin/identity-conflicts × mutation › 失敗系: dismiss error 時は optimistic 非表示を rollback する (3.5s)
+
+  2 passed (59.6s)
+[MR] generating report data ...
+[MR] generating test report ...
+[MR] UBM-Hyogo E2E
+┌─────────────┬──────────────────────┐
+│ Tests       │ 2                    │
+│ ├ Failed    │ 0 (0.0%)             │
+│ ├ Flaky     │ 0 (0.0%)             │
+│ ├ Skipped   │ 0 (0.0%)             │
+│ └ Passed    │ 2 (100.0%)           │
+│ Steps       │ 40                   │
+│ Suites      │ 1                    │
+│ ├ Projects  │ 1                    │
+│ ├ Files     │ 1                    │
+│ ├ Describes │ 1                    │
+│ └ Shards    │ 0                    │
+│ Errors      │ 0                    │
+│ Retries     │ 0                    │
+│ Logs        │ 0                    │
+│ Attachments │ 0                    │
+│ Artifacts   │ 0                    │
+│ Playwright  │ v1.59.1              │
+│ Date        │ 6/1/2026, 9:16:32 AM │
+│ Duration    │ 59.9s                │
+└─────────────┴──────────────────────┘
+[MR] json: ../../docs/30-workflows/completed-tasks/issue-1042-dismiss-confirm-optimistic-update/outputs/phase-11/evidence/monocart/index.json
+[MR] view report: npx monocart show-report ../../docs/30-workflows/completed-tasks/issue-1042-dismiss-confirm-optimistic-update/outputs/phase-11/evidence/monocart/index.html
