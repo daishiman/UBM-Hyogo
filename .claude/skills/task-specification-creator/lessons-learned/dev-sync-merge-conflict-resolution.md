@@ -717,3 +717,15 @@
 - 適用範囲外: source code（`apps/`/`packages/`）の `UU`（SP-DEVSYNC-038/042/044 経路）。本件は skill index/reference/SKILL.md のみ。
 - 検証: `git merge dev` CONFLICT 6（keywords.json + index map 3 + task-workflow-active + task-spec SKILL.md、aiworkflow SKILL.md は Auto-merging）→ `pnpm sync:resolve` exit 0（`union-resolving 5 files` + `taking --ours` keywords.json + `indexes:rebuild`）→ `git diff --diff-filter=U` 0 → merge commit `0931ab9cd` → `pnpm typecheck` exit 0 / `pnpm lint` exit 0 / `pnpm indexes:rebuild` drift 0。
 - 参照: aiworkflow-requirements [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-084（本 lesson の正本・keywords 再登場と `--ours` 実発火）, L-DEVSYNC-081-C（keywords 非衝突回は `--ours` no-op）, L-DEVSYNC-082（task-spec SKILL.md 片側衝突）, SP-DEVSYNC-048（3 file 最小セット）, SP-DEVSYNC-047（duplicate-ID backlog 機序）。
+
+
+### SP-DEVSYNC-050: index map 3 兄弟（quick-reference/resource-map/topic-map）が揃って衝突しうる — keywords.json / 両 SKILL.md 全 Auto-merging の 4 file セットで衝突可否は兄弟独立（2026-06-02 追加）
+
+- 事象: `feat/issue-1031-member-self-photo-upload` を sub-worktree（`.worktrees/task-20260601-055711-wt-2`）から sync-merge。ローカル dev = origin/dev（独自コミット 0 / ff 不要）、feature は dev に 6 ahead / 2 behind。`git merge dev --no-edit` の content conflict は **4 file**＝`aiworkflow-requirements/indexes/{quick-reference.md, resource-map.md, topic-map.md}`（index map 3 兄弟すべて）+ `references/task-workflow-active.md`。`keywords.json` / `task-specification-creator/SKILL.md` / `aiworkflow-requirements/SKILL.md` / `SKILL-changelog.md` / `_legacy.md` はすべて Auto-merging。SP-DEVSYNC-048（3 file・topic-map 非衝突）の逆相＝3 兄弟全衝突の実例。
+- How to apply（仕様書 sync-merge 節での逐語化）:
+  1. **index map 3 兄弟の衝突可否は完全独立**。SP-DEVSYNC-048 は quick/resource 衝突・topic-map 非衝突、本件は 3 兄弟全衝突。「3 つまとめて衝突 or まとめて非衝突」の束ね前提は両方向で誤り。`git diff --name-only --diff-filter=U` の実集合をそのまま `pnpm sync:resolve` に渡す。
+  2. **衝突 file 数は 3〜6 で毎回可変**（3=SP-DEVSYNC-048 / 4=本件 / 5=SP-DEVSYNC-047 / 6=SP-DEVSYNC-049）。`union-resolving N files` の N を固定で見込まない。
+  3. **keywords.json / SKILL.md が全非衝突の回も標準フロー不変**。resolver の `--ours`+rebuild 段は keywords に対し no-op で素通りするだけ。`git merge` → `pnpm sync:resolve` → `git diff --diff-filter=U` 0 → `git commit` → `pnpm typecheck && pnpm lint` は不変で、source conflict 0 の回は CI 修正一切不要・全ゲート即緑。
+- 適用範囲外: source code（`apps/`/`packages/`）の `UU`（SP-DEVSYNC-038/042/044 経路）。本件は skill index/reference のみ。
+- 検証: `git merge dev` CONFLICT 4（quick-reference/resource-map/topic-map + task-workflow-active、keywords.json/両 SKILL.md/SKILL-changelog/_legacy は Auto-merging）→ `pnpm sync:resolve` exit 0（`union-resolving 4 files`）→ `git diff --diff-filter=U` 0 → merge commit `f10a71d61` → `pnpm typecheck` 6 packages exit 0 / `pnpm lint` exit 0 / `pnpm indexes:rebuild` drift 0。
+- 参照: aiworkflow-requirements [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-085（本 lesson の正本・index 3 兄弟全衝突）, L-DEVSYNC-083（topic-map のみ非衝突・逆相）, L-DEVSYNC-084（keywords 衝突回・6 file 最大）, SP-DEVSYNC-048（3 file 最小セット）, SP-DEVSYNC-047（duplicate-ID backlog 機序）。
