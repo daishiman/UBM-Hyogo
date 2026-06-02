@@ -3,6 +3,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import * as envMod from "../../env";
 import {
   buildBaseMetadata,
+  buildMemberOgImageUrl,
   buildPageMetadata,
   getSiteUrl,
   SITE,
@@ -27,6 +28,7 @@ describe("site-metadata", () => {
       publicEnvSpy.mockReturnValue({
         ENVIRONMENT: "production",
         NEXT_PUBLIC_API_BASE_URL: "https://x.example.com",
+        OG_IMAGE_BASE_URL: "https://og.example.com",
       });
       expect(getSiteUrl().toString()).toBe(
         "https://ubm-hyogo-web-production.daishimanju.workers.dev/",
@@ -37,6 +39,7 @@ describe("site-metadata", () => {
       publicEnvSpy.mockReturnValue({
         ENVIRONMENT: "staging",
         NEXT_PUBLIC_API_BASE_URL: "https://x.example.com",
+        OG_IMAGE_BASE_URL: "https://og.example.com",
       });
       expect(getSiteUrl().toString()).toBe(
         "https://ubm-hyogo-web-staging.daishimanju.workers.dev/",
@@ -47,6 +50,7 @@ describe("site-metadata", () => {
       publicEnvSpy.mockReturnValue({
         ENVIRONMENT: "local",
         NEXT_PUBLIC_API_BASE_URL: "http://x.example.com",
+        OG_IMAGE_BASE_URL: "https://og.example.com",
       });
       expect(getSiteUrl().toString()).toContain("localhost:3000");
     });
@@ -62,6 +66,7 @@ describe("site-metadata", () => {
       publicEnvSpy.mockReturnValue({
         ENVIRONMENT: "staging",
         NEXT_PUBLIC_API_BASE_URL: "https://x.example.com",
+        OG_IMAGE_BASE_URL: "https://og.example.com",
       });
       const md = buildBaseMetadata();
       expect(md.robots).toEqual({ index: false, follow: false });
@@ -75,6 +80,7 @@ describe("site-metadata", () => {
       publicEnvSpy.mockReturnValue({
         ENVIRONMENT: "production",
         NEXT_PUBLIC_API_BASE_URL: "https://x.example.com",
+        OG_IMAGE_BASE_URL: "https://og.example.com",
       });
       expect(buildBaseMetadata().robots).toEqual({
         index: true,
@@ -96,6 +102,7 @@ describe("site-metadata", () => {
       publicEnvSpy.mockReturnValue({
         ENVIRONMENT: "local",
         NEXT_PUBLIC_API_BASE_URL: "http://x.example.com",
+        OG_IMAGE_BASE_URL: "https://og.example.com",
       });
 
     it("includes title and OG image", () => {
@@ -121,6 +128,25 @@ describe("site-metadata", () => {
       });
       const tw = md.twitter as { card?: string };
       expect(tw.card).toBe("summary");
+    });
+  });
+
+  describe("buildMemberOgImageUrl", () => {
+    it("builds an absolute OG worker member image URL", () => {
+      publicEnvSpy.mockReturnValue({
+        ENVIRONMENT: "production",
+        NEXT_PUBLIC_API_BASE_URL: "https://x.example.com",
+        OG_IMAGE_BASE_URL: "https://og.example.com/",
+      });
+      expect(buildMemberOgImageUrl("m 1")).toBe("https://og.example.com/members/m%201");
+    });
+
+    it("returns undefined when OG_IMAGE_BASE_URL is not configured", () => {
+      publicEnvSpy.mockReturnValue({
+        ENVIRONMENT: "production",
+        NEXT_PUBLIC_API_BASE_URL: "https://x.example.com",
+      });
+      expect(buildMemberOgImageUrl("m-1")).toBeUndefined();
     });
   });
 });
