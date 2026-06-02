@@ -31,6 +31,7 @@ allowed-tools:
 
 | Version | Date | Changes |
 | --- | --- | --- |
+| v2026.06.01-task-d-external-nav-and-two-tier-evidence | 2026-06-01 | `task-d-admin-google-form-responses-link`（landed verify_existing）の汎化を反映。`references/patterns-testing-and-implementation.md` に Shell nav 外部リンク項目パターン（`external?` フラグ → `<a target="_blank" rel="noopener noreferrer">` / active 非付与 / `↗`+`sr-only` / URL 定数化 / 網羅型 icon Record 型強制）、`references/phase-template-phase11.md` に認証必須 VISUAL の two-tier evidence（tier1 local primary `present` / tier2 runtime visual `pending`）を追加。 |
 | v2026.06.01-task-b-manual-form-resync-admin-ui-spec | 2026-06-01 | `verify_existing + VISUAL_ON_EXECUTION + authenticated admin route` の close-out で、静的 UI contract PNG と authenticated runtime screenshot pending を分離し、compact `phase-N.md` index 生成漏れも修正。 |
 | v2026.06.01-existing-hardening-p50-drift-table | 2026-06-01 | `publish-state-backfill-admin-ui` Phase 12 skill feedback を反映。P50 で landed 済み実装を検出した場合は `existing-hardening` へ再分類し、PR/commit/current code anchor/source-task drift/canonical decision/action の表を Phase 1 に必須記録する rule を追加。 |
 | v2026.05.31-issue229-same-wave-implementation-reclassification | 2026-05-31 | `issue-229-indexes-rebuild-fail-fast` feedback を反映。implementation target が明確な workflow を `spec_only` / 後続実装送りで閉じず、同一 wave で local code・focused tests・Phase 11 evidence・aiworkflow ledgers まで実装して `implemented_local_evidence_captured` へ再分類する gate を `references/phase12-skill-feedback-promotion.md` に追加。 |

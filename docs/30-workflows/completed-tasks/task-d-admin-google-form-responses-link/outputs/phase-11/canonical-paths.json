@@ -1,0 +1,34 @@
+{
+  "taskId": "TASK-D-ADMIN-GOOGLE-FORM-RESPONSES-LINK",
+  "workflowDir": "docs/30-workflows/completed-tasks/task-d-admin-google-form-responses-link",
+  "schemaVersion": "1.0.0",
+  "evidence": [
+    {
+      "id": "phase11-main",
+      "kind": "test",
+      "path": "outputs/phase-11/main.md",
+      "command": "mise exec -- pnpm exec vitest run apps/web/src/components/shell/__tests__/SidebarNavItem.spec.tsx apps/web/src/components/shell/__tests__/shell-config.spec.ts apps/web/src/lib/constants/__tests__/form-responses.spec.ts",
+      "acquiredBy": "implementation_cycle",
+      "requiredForCloseout": true,
+      "notes": "Primary two-tier local evidence record; authenticated screenshot remains pending/user-gated."
+    },
+    {
+      "id": "manual-smoke-log",
+      "kind": "runtime-observation",
+      "path": "outputs/phase-11/manual-smoke-log.md",
+      "command": "manual staging admin smoke after user approval",
+      "acquiredBy": "implementation_cycle",
+      "requiredForCloseout": false,
+      "notes": "Manual smoke plan and current user-gated status."
+    },
+    {
+      "id": "link-checklist",
+      "kind": "grep-gate",
+      "path": "outputs/phase-11/link-checklist.md",
+      "command": "link and constant consistency checklist",
+      "acquiredBy": "implementation_cycle",
+      "requiredForCloseout": true,
+      "notes": "Reference consistency evidence for FORM_RESPONSES_EDIT_URL and workflow links."
+    }
+  ]
+}

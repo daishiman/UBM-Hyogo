@@ -179,6 +179,15 @@
 
 ## React/Zustand 設計パターン
 
+### Shell nav 外部リンク項目パターン
+
+- **状況**: app 内部 route を前提にした sidebar/nav primitive に、Google Form や外部管理画面などの外部リンクを 1 項目だけ混ぜる場合。
+- **パターン**: nav item 型に optional `external?: boolean` を追加し、`true` の item だけ `next/link` ではなく素の `<a target="_blank" rel="noopener noreferrer">` で描画する。外部項目は `aria-current` / `data-active` を付けず、`↗`（`aria-hidden`）と `sr-only` の「外部リンク」文言で視覚・支援技術の両方に告知する。href は `lib/constants` の定数を単一参照点にし、コンポーネントや nav config に URL を直書きしない。
+- **型強制**: icon key は `ShellNavIcon` などの union と `Record<ShellNavIcon, ...>` を組み合わせ、nav id 追加時に icon 追加漏れを `pnpm typecheck` で検出する。
+- **検証**: jsdom render test で `target` / `rel` / `href` / `aria-current=null` / `data-active=null` / `sr-only` を assert し、pure function test で role 別 nav group に external item が含まれることを assert する。
+- **発見日**: 2026-06-01
+- **関連タスク**: `task-d-admin-google-form-responses-link`
+
 ### Zustand Store Hooks無限ループ対策パターン
 
 - **根本原因**: 合成Store Hookは毎回新しいオブジェクト参照を返すため、`useEffect`の依存配列に関数を含めると毎レンダリングで再実行される
