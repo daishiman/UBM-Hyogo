@@ -551,6 +551,8 @@ export const createAdminMembersRoute = () => {
       contentType: file.type,
       byteSize: buf.byteLength,
       uploadedBy: actorEmail,
+      // issue-1031: admin 代行 upload は source='admin' を明示（source 列追加後も既存挙動維持・backfill）。
+      source: "admin",
     });
 
     await requireProvider(c.var.auditLogProvider, "auditLogProvider").append({

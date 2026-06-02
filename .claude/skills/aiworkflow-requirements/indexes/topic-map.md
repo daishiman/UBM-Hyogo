@@ -877,10 +877,10 @@ node scripts/list-specs.js --topics
 | エンドポイント命名規則 | L251 |
 | UBM-Hyogo Admin Sync API（03a） | L272 |
 | UBM-Hyogo Member Self-Service API（04b） | L324 |
-| Admin Dashboard Attendance Analytics API（UT-02A follow-up 002） | L350 |
-| Desktop IPC API サマリー | L364 |
-| 変更履歴 | L395 |
-| 関連ドキュメント | L412 |
+| Admin Dashboard Attendance Analytics API（UT-02A follow-up 002） | L352 |
+| Desktop IPC API サマリー | L366 |
+| 変更履歴 | L397 |
+| 関連ドキュメント | L414 |
 
 ### references/api-internal-chunk-search.md
 
@@ -2586,6 +2586,16 @@ node scripts/list-specs.js --topics
 | Implemented Targets | L17 |
 | Evidence | L28 |
 | Boundary | L48 |
+
+### references/workflow-issue-1031-member-self-photo-upload-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Canonical | L3 |
+| State | L12 |
+| Implemented Local Targets | L16 |
+| Verification Boundary | L29 |
+| Lessons | L33 |
 
 ### references/workflow-issue-1036-bulk-member-tag-assign-artifact-inventory.md
 
@@ -8418,15 +8428,15 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L3426 |
-| フェーズ構造（概要） | L3435 |
-| 品質ゲート（概要） | L3466 |
-| 出力テンプレート | L3477 |
-| 実行時のコマンド・エージェント・スキル | L3500 |
-| 昇格パターン集 | L3524 |
-| Current Active / Spec Created Tasks | L3526 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L3692 |
-| issue-998-members-publish-state-production-rollout | L3770 |
+| ドキュメント構成 | L3441 |
+| フェーズ構造（概要） | L3450 |
+| 品質ゲート（概要） | L3481 |
+| 出力テンプレート | L3492 |
+| 実行時のコマンド・エージェント・スキル | L3515 |
+| 昇格パターン集 | L3539 |
+| Current Active / Spec Created Tasks | L3541 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L3707 |
+| issue-998-members-publish-state-production-rollout | L3785 |
 
 ### references/task-workflow-backlog-part2.md
 

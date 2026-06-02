@@ -329,10 +329,12 @@ UT-07B-FU-01（schema alias back-fill queue/cron split）以降、apply mode の
 | Method | Path | 認可 | 用途 |
 | ------ | ---- | ---- | ---- |
 | GET | `/me` | session 必須 | `SessionUser` と `authGateState` (`active` / `rules_declined` / `deleted`) を返す |
-| GET | `/me/profile` | session 必須 | `MemberProfile`、status summary、`editResponseUrl`、`fallbackResponderUrl` を返す。`MemberProfile.attendance` は `attendanceProviderMiddleware` が Hono context に bind した `c.var.attendanceProvider` 経由で `member_attendance` + `meeting_sessions` から取得する。Issue #372 以後、`MemberProfile.attendance` は default 50 件の先頭ページで、`attendanceMeta?: { hasMore, nextCursor }` を返す |
+| GET | `/me/profile` | session 必須 | `MemberProfile`、status summary、`editResponseUrl`、`fallbackResponderUrl` を返す。`MemberProfile.attendance` は `attendanceProviderMiddleware` が Hono context に bind した `c.var.attendanceProvider` 経由で `member_attendance` + `meeting_sessions` から取得する。Issue #372 以後、`MemberProfile.attendance` は default 50 件の先頭ページで、`attendanceMeta?: { hasMore, nextCursor }` を返す。Issue #1031 以後、本人の `member_photos` 行があり presign secrets が揃う場合だけ `photoUrl?: string` を fail-soft に同梱する |
 | GET | `/me/attendance` | session 必須 | Issue #372 正本: 本人 attendance 継続取得。`limit?: 1..200`、`cursor?: base64url({ heldOn, sessionId })`。不正 cursor / `limit < 1` は 400、`limit > 200` は 200 に silent clamp。response は `{ records, hasMore, nextCursor }` |
 | POST | `/me/visibility-request` | session + `authGateState=active` | `admin_member_notes.note_type='visibility_request'` として admin queue に投入。投入時 `request_status='pending'` で記録され、admin が resolve / reject 後は pending 行が無くなるため再申請可能。**重複ガード**: 同 member に `note_type='visibility_request'` かつ `request_status='pending'` の行が既に存在する場合は `409 Conflict` を返す（クライアントは `SelfRequestError(code:'duplicate-pending')` で扱う）|
 | POST | `/me/delete-request` | session + `authGateState=active` | `admin_member_notes.note_type='delete_request'` として admin queue に投入。投入時 `request_status='pending'` で記録され、admin が resolve / reject 後は pending 行が無くなるため再申請可能。**重複ガード**: 同 member に `note_type='delete_request'` かつ `request_status='pending'` の行が既に存在する場合は `409 Conflict` を返す（クライアントは `SelfRequestError(code:'duplicate-pending')` で扱う）|
+| POST | `/me/photo` | session + `authGateState=active` + rate limit | multipart `file` を受け、jpeg/png/webp・256KB 上限を server 側で検証し、R2 `members/{memberId}/avatar` へ put、`member_photos.source='self'` で upsert、`audit_log.action='member.photo_uploaded'` を記録する |
+| DELETE | `/me/photo` | session 必須 | session member の写真だけを R2 / D1 から削除し、`audit_log.action='member.photo_deleted'` を記録する。自分の写真撤去は rules consent gate を要求しない |
 
 禁止: `PATCH /me/profile` は作らない。`/me/*` path に `:memberId` を入れない。GET 系 response に
 `admin_member_notes` 由来の `notes` / `adminNotes` を含めない。

@@ -1,5 +1,19 @@
 # クイックリファレンス
 
+## issue-1031-member-self-photo-upload（2026-06-01）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/issue-1031-member-self-photo-upload/` |
+| status | `implemented_local_runtime_pending / implementation / VISUAL` |
+| issue | #1031 CLOSED（2026-06-01 実確認）。Issue mutation は行わず、PR 文脈は `Refs #1031` のみ |
+| parent | `docs/30-workflows/issue-983-member-photo-avatar-r2-storage/` |
+| purpose | member 本人が `/profile` から自分の avatar を upload/delete できる self-service 経路を実装する |
+| implementation | `member_photos.source` additive migration 0023、`POST/DELETE /me/photo`、`GET /me/profile photoUrl?`、web `/api/me/photo` proxy、`PhotoUpload.client.tsx` |
+| evidence boundary | focused API/repository/web tests and component screenshot evidence present; remote D1 apply, staging deploy, authenticated runtime visual evidence pending |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1031-member-self-photo-upload-artifact-inventory.md` |
+| user gate | remote D1 apply, staging deploy, authenticated screenshots, commit, push, PR |
+
 ## issue-1029-public-member-photo-display（2026-05-31）
 
 | 項目 | 値 |
