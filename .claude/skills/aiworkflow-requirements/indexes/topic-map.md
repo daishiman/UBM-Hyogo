@@ -2578,6 +2578,15 @@ node scripts/list-specs.js --topics
 | User-Gated Boundary | L47 |
 | Lessons Learned | L51 |
 
+### references/workflow-issue-1029-public-member-photo-display-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| State | L13 |
+| Implemented Targets | L17 |
+| Evidence | L28 |
+| Boundary | L48 |
+
 ### references/workflow-issue-1030-member-photo-transcode-resize-variant-pipeline-artifact-inventory.md
 
 | セクション | 行 |
@@ -8408,15 +8417,15 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L3426 |
-| フェーズ構造（概要） | L3435 |
-| 品質ゲート（概要） | L3466 |
-| 出力テンプレート | L3477 |
-| 実行時のコマンド・エージェント・スキル | L3500 |
-| 昇格パターン集 | L3524 |
-| Current Active / Spec Created Tasks | L3526 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L3692 |
-| issue-998-members-publish-state-production-rollout | L3770 |
+| ドキュメント構成 | L3441 |
+| フェーズ構造（概要） | L3450 |
+| 品質ゲート（概要） | L3481 |
+| 出力テンプレート | L3492 |
+| 実行時のコマンド・エージェント・スキル | L3515 |
+| 昇格パターン集 | L3539 |
+| Current Active / Spec Created Tasks | L3541 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L3707 |
+| issue-998-members-publish-state-production-rollout | L3785 |
 
 ### references/task-workflow-backlog-part2.md
 
