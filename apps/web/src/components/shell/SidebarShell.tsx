@@ -52,6 +52,8 @@ export interface SidebarShellProps {
   readonly routeKey?: string;
   /** main の data-section-rhythm 値。未指定なら属性を出力しない。 */
   readonly sectionRhythm?: string;
+  /** Server Component が cookie から読んだ collapse 初期値。cookie が無い場合は null。 */
+  readonly initialCollapsed?: boolean | null;
   readonly children: ReactNode;
 }
 
@@ -63,9 +65,10 @@ export function SidebarShell({
   mobileTriggerSlot,
   routeKey = "shell",
   sectionRhythm,
+  initialCollapsed = null,
   children,
 }: SidebarShellProps) {
-  const { mode, drawerOpen, toggleCollapsed, setDrawerOpen } = useSidebarState();
+  const { mode, drawerOpen, toggleCollapsed, setDrawerOpen } = useSidebarState(initialCollapsed);
   const collapsed = mode === "collapsed";
 
   const sidebarContent = (sidebarCollapsed: boolean) => (

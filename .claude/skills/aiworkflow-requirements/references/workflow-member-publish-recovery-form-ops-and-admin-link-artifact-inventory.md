@@ -9,6 +9,7 @@
 | Phase 12 compliance | `docs/30-workflows/member-publish-recovery-form-ops-and-admin-link/outputs/phase-12/phase12-task-spec-compliance-check.md` |
 | implementation targets | `apps/web/app/(admin)/admin/sync-status/page.tsx`, `apps/web/app/api/admin/[...path]/route.ts`, `apps/web/src/features/admin/components/_sync/`, `apps/web/src/features/admin/diagnostics/{backfill,manual-sync}.ts`, `apps/web/src/components/public/ReflectionTimingNote.tsx`, `apps/web/app/(public)/members/page.tsx`, `apps/web/app/(member)/profile/page.tsx`, `apps/web/src/components/shell/{shell-config,SidebarNavItem,icons}.tsx`, `apps/web/src/lib/constants/form.ts`, `apps/web/src/lib/env.ts` |
 | system spec | `docs/00-getting-started-manual/specs/03-data-fetching.md` |
+| standalone Task B spec | `docs/30-workflows/completed-tasks/task-b-manual-form-resync-admin-ui-spec/` |
 
 ## Status
 

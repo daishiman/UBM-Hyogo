@@ -115,6 +115,35 @@ describe("BackfillPublishStatePanel", () => {
     ).toBe(true);
   });
 
+  it("TC-A4b apply pending 中は apply ボタンだけ busy になる", async () => {
+    let resolveApply: (value: typeof APPLY_RESULT) => void = () => {};
+    triggerMock
+      .mockResolvedValueOnce(DRY_RUN_RESULT)
+      .mockImplementationOnce(
+        () =>
+          new Promise((resolve) => {
+            mutationState.isLoading = true;
+            resolveApply = resolve;
+          }),
+      );
+    render(<BackfillPublishStatePanel />);
+    fireEvent.click(screen.getByTestId("backfill-dry-run"));
+    await screen.findByText("candidates");
+
+    fireEvent.click(screen.getByTestId("backfill-apply"));
+
+    await waitFor(() =>
+      expect(screen.getByTestId("backfill-apply").getAttribute("aria-busy")).toBe(
+        "true",
+      ),
+    );
+    expect(screen.getByTestId("backfill-dry-run").getAttribute("aria-busy")).toBeNull();
+
+    mutationState.isLoading = false;
+    resolveApply(APPLY_RESULT);
+    expect(await screen.findByText("applied")).toBeTruthy();
+  });
+
   it("TC-A5 HTTP error 時は結果テーブルを描画せず error 文言を表示する", () => {
     mutationState.error = new Error("backfill failed");
     render(<BackfillPublishStatePanel />);
