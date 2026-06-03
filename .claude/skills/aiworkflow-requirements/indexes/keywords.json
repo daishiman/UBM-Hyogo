@@ -3429,6 +3429,7 @@
       "workflow-public-header-logged-in-nav-cleanup-artifact-inventory.md",
       "workflow-public-header-session-aware-auth-view-base-artifact-inventory.md",
       "workflow-publish-state-backfill-admin-ui-artifact-inventory.md",
+      "workflow-shell-sidebar-tooltip-footer-header-responsive-artifact-inventory.md",
       "workflow-sidebar-footer-pinning-and-account-popover-ux-artifact-inventory.md",
       "workflow-sidebar-visibility-conditional-and-ux-artifact-inventory.md",
       "workflow-step-05-dashboard-chart-implementation-artifact-inventory.md",
@@ -5301,6 +5302,7 @@
       "workflow-public-dashboard-prototype-alignment-artifact-inventory.md",
       "workflow-public-header-auth-slot-e2e-artifact-inventory.md",
       "workflow-publish-state-backfill-admin-ui-artifact-inventory.md",
+      "workflow-shell-sidebar-tooltip-footer-header-responsive-artifact-inventory.md",
       "workflow-sidebar-footer-pinning-and-account-popover-ux-artifact-inventory.md",
       "workflow-sidebar-visibility-conditional-and-ux-artifact-inventory.md",
       "workflow-task-12-member-detail-register-legal-artifact-inventory.md",
@@ -6184,6 +6186,7 @@
       "workflow-public-dashboard-prototype-alignment-artifact-inventory.md",
       "workflow-regression-evidence-ci-gate-foundation-artifact-inventory.md",
       "workflow-serial-05-step-03-schema-diff-resolve-artifact-inventory.md",
+      "workflow-shell-sidebar-tooltip-footer-header-responsive-artifact-inventory.md",
       "workflow-sidebar-footer-pinning-and-account-popover-ux-artifact-inventory.md",
       "workflow-skill-ledger-a3-progressive-disclosure-artifact-inventory.md",
       "workflow-skill-lifecycle-created-skill-usage-journey.md",
@@ -6405,6 +6408,7 @@
       "workflow-issue-378-tag-queue-paused-flag-artifact-inventory.md",
       "workflow-issue-623-vitest-spec-suffix-convergence-artifact-inventory.md",
       "workflow-issue-956-h1-ingest-recovery-artifact-inventory.md",
+      "workflow-shell-sidebar-tooltip-footer-header-responsive-artifact-inventory.md",
       "workflow-sidebar-footer-pinning-and-account-popover-ux-artifact-inventory.md",
       "workflow-task-07-prototype-mapping-table-artifact-inventory.md"
     ],
@@ -7428,6 +7432,7 @@
       "workflow-parallel-i06-root-error-focus-artifact-inventory.md",
       "workflow-profile-server-components-render-error-artifact-inventory.md",
       "workflow-serial-05-step-03-schema-diff-resolve-artifact-inventory.md",
+      "workflow-shell-sidebar-tooltip-footer-header-responsive-artifact-inventory.md",
       "workflow-sidebar-footer-pinning-and-account-popover-ux-artifact-inventory.md",
       "workflow-sidebar-visibility-conditional-and-ux-artifact-inventory.md",
       "workflow-task-06a-A-public-web-real-workers-d1-smoke-execution-artifact-inventory.md",
@@ -10135,6 +10140,7 @@
     ],
     "Purpose": [
       "gate-metadata.md",
+      "workflow-shell-sidebar-tooltip-footer-header-responsive-artifact-inventory.md",
       "workflow-sidebar-footer-pinning-and-account-popover-ux-artifact-inventory.md"
     ],
     "Entry": [
@@ -11556,6 +11562,7 @@
       "workflow-profile-server-components-render-error-artifact-inventory.md",
       "workflow-public-header-auth-slot-e2e-artifact-inventory.md",
       "workflow-publish-state-backfill-admin-ui-artifact-inventory.md",
+      "workflow-shell-sidebar-tooltip-footer-header-responsive-artifact-inventory.md",
       "workflow-sidebar-footer-pinning-and-account-popover-ux-artifact-inventory.md",
       "workflow-sidebar-visibility-conditional-and-ux-artifact-inventory.md",
       "workflow-task-12-member-detail-register-legal-artifact-inventory.md",
@@ -13848,6 +13855,7 @@
       "workflow-public-dashboard-prototype-alignment-artifact-inventory.md",
       "workflow-regression-evidence-ci-gate-foundation-artifact-inventory.md",
       "workflow-serial-05-step-03-schema-diff-resolve-artifact-inventory.md",
+      "workflow-shell-sidebar-tooltip-footer-header-responsive-artifact-inventory.md",
       "workflow-sidebar-footer-pinning-and-account-popover-ux-artifact-inventory.md",
       "workflow-skill-ledger-a3-progressive-disclosure-artifact-inventory.md",
       "workflow-skill-lifecycle-evaluation-scoring-gate.md",
@@ -15943,6 +15951,7 @@
       "workflow-admin-sidebar-public-return-link-artifact-inventory.md",
       "workflow-issue-1016-sidebar-mobile-drawer-responsive-artifact-inventory.md",
       "workflow-issue-1024-sidebar-collapse-cookie-persistence-artifact-inventory.md",
+      "workflow-shell-sidebar-tooltip-footer-header-responsive-artifact-inventory.md",
       "workflow-sidebar-footer-pinning-and-account-popover-ux-artifact-inventory.md",
       "workflow-sidebar-visibility-conditional-and-ux-artifact-inventory.md",
       "workflow-task-c-public-member-sidebar-shell-integration-artifact-inventory.md",
@@ -16493,6 +16502,7 @@
       "workflow-public-dashboard-prototype-alignment-artifact-inventory.md",
       "workflow-regression-evidence-ci-gate-foundation-artifact-inventory.md",
       "workflow-serial-05-step-03-schema-diff-resolve-artifact-inventory.md",
+      "workflow-shell-sidebar-tooltip-footer-header-responsive-artifact-inventory.md",
       "workflow-sidebar-footer-pinning-and-account-popover-ux-artifact-inventory.md",
       "workflow-skill-ledger-a3-progressive-disclosure-artifact-inventory.md",
       "workflow-skill-lifecycle-evaluation-scoring-gate.md",
@@ -17508,6 +17518,7 @@
       "lessons-learned-ut-25-deriv-01-sa-key-rotation-2026-05.md",
       "workflow-admin-layout-sidebar-shell-migration-artifact-inventory.md",
       "workflow-admin-shell-topbar-sidebar-integration-artifact-inventory.md",
+      "workflow-shell-sidebar-tooltip-footer-header-responsive-artifact-inventory.md",
       "workflow-task-c-privacy-terms-public-shell-spec-artifact-inventory.md",
       "workflow-task-c-public-member-sidebar-shell-integration-artifact-inventory.md",
       "workflow-unified-sidebar-shell-public-and-admin-artifact-inventory.md"
@@ -26572,6 +26583,7 @@
       "workflow-parallel-i06-root-error-focus-artifact-inventory.md",
       "workflow-public-dashboard-prototype-alignment-artifact-inventory.md",
       "workflow-publish-state-backfill-admin-ui-artifact-inventory.md",
+      "workflow-shell-sidebar-tooltip-footer-header-responsive-artifact-inventory.md",
       "workflow-sidebar-footer-pinning-and-account-popover-ux-artifact-inventory.md",
       "workflow-sidebar-visibility-conditional-and-ux-artifact-inventory.md",
       "workflow-step-07-requests-approve-reject-artifact-inventory.md",
@@ -26638,6 +26650,7 @@
       "workflow-login-ui-balance-and-runtime-fix-artifact-inventory.md",
       "workflow-mypage-prototype-alignment-artifact-inventory.md",
       "workflow-publish-state-backfill-admin-ui-artifact-inventory.md",
+      "workflow-shell-sidebar-tooltip-footer-header-responsive-artifact-inventory.md",
       "workflow-sidebar-footer-pinning-and-account-popover-ux-artifact-inventory.md",
       "workflow-sidebar-visibility-conditional-and-ux-artifact-inventory.md",
       "workflow-step-08-audit-filter-paging-verify-artifact-inventory.md",
@@ -27249,7 +27262,8 @@
       "workflow-issue-1007-density-toggle-help-hint-hardening-artifact-inventory.md"
     ],
     "responsive": [
-      "workflow-issue-1016-sidebar-mobile-drawer-responsive-artifact-inventory.md"
+      "workflow-issue-1016-sidebar-mobile-drawer-responsive-artifact-inventory.md",
+      "workflow-shell-sidebar-tooltip-footer-header-responsive-artifact-inventory.md"
     ],
     "photo": [
       "workflow-issue-1029-public-member-photo-display-artifact-inventory.md",
@@ -27748,6 +27762,7 @@
       "workflow-public-header-auth-slot-e2e-artifact-inventory.md",
       "workflow-public-header-logged-in-nav-cleanup-artifact-inventory.md",
       "workflow-public-header-session-aware-auth-view-base-artifact-inventory.md",
+      "workflow-shell-sidebar-tooltip-footer-header-responsive-artifact-inventory.md",
       "workflow-task-b-root-page-public-header-async-artifact-inventory.md"
     ],
     "displaying": [
@@ -27792,7 +27807,11 @@
     "recurrence": [
       "workflow-runtime-smoke-staging-mint-recurrence-fix-artifact-inventory.md"
     ],
+    "tooltip": [
+      "workflow-shell-sidebar-tooltip-footer-header-responsive-artifact-inventory.md"
+    ],
     "footer": [
+      "workflow-shell-sidebar-tooltip-footer-header-responsive-artifact-inventory.md",
       "workflow-sidebar-footer-pinning-and-account-popover-ux-artifact-inventory.md"
     ],
     "pinning": [

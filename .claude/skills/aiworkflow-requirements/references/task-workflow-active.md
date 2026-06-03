@@ -8,6 +8,21 @@
 
 本ドキュメントは、複雑なタスクを単一責務の原則に基づいて分解し、各サブタスクに最適なスラッシュコマンド・エージェント・スキルの組み合わせを選定するためのガイドラインを定義する。
 
+### shell-sidebar-tooltip-footer-header-responsive（2026-06-03）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / VISUAL / local_browser_screenshots_present_staging_visual_pending_user_gate` |
+| 成果物 | `docs/30-workflows/shell-sidebar-tooltip-footer-header-responsive/` |
+| 親 workflow | なし |
+| 目的 | collapsed sidebar icon-only controls の tooltip、公開フッター sticky bottom、モバイルヘッダー sticky top を同一 local cycle で実装する |
+| implementation targets | `apps/web/src/components/shell/{SidebarTooltip,SidebarNav,SidebarNavGroup,SidebarNavItem,SidebarShell,SidebarUserMenu,SidebarCollapseToggle}.tsx`, `apps/web/src/styles/{globals,legacy-public}.css` |
+| tests | `apps/web/src/components/shell/__tests__/{SidebarTooltip,SidebarNavItem,SidebarShell,SidebarUserMenu,SidebarCollapseToggle}.spec.tsx` |
+| evidence | focused shell Vitest 5 files / 33 tests PASS; local browser screenshots 3 PNG present |
+| invariant | API / D1 / Google Form schema / auth middleware は変更なし。Tooltip は shell-local primitive、sticky visual は staging user-gated |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-shell-sidebar-tooltip-footer-header-responsive-artifact-inventory.md` |
+| user gate | staging visual screenshots、commit、push、PR |
+
 ### sidebar-footer-pinning-and-account-popover-ux（2026-06-02）
 
 | 項目 | 値 |
