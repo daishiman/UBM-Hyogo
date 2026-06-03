@@ -1,5 +1,5 @@
 "use client";
-import { useId, useState } from "react";
+import { useEffect, useId, useRef, useState } from "react";
 import type {
   DismissIdentityConflictResponse,
   IdentityConflictRow as Row,
@@ -25,8 +25,10 @@ const errorMessage = (error: Error | null): string | null => {
 
 export function IdentityConflictRow({ item }: { item: Row }) {
   const formId = useId();
+  const optimisticStatusRef = useRef<HTMLParagraphElement>(null);
   const [stage, setStage] = useState<"idle" | "merge-confirm" | "merge-final" | "dismiss">("idle");
   const [optimisticMerged, setOptimisticMerged] = useState(false);
+  const [optimisticDismissed, setOptimisticDismissed] = useState(false);
   const [mergeReason, setMergeReason] = useState("");
   const [dismissReason, setDismissReason] = useState("");
   const mergeReasonId = `${formId}-merge-reason`;
@@ -60,6 +62,17 @@ export function IdentityConflictRow({ item }: { item: Row }) {
 
   const mergeError = errorMessage(mergeMutation.error);
   const dismissError = errorMessage(dismissMutation.error);
+  const optimisticStatus =
+    optimisticDismissed
+      ? "別人として確定しました。候補を一覧から非表示にしました。"
+      : optimisticMerged
+        ? "merge を実行しました。候補を一覧から非表示にしました。"
+        : null;
+
+  useEffect(() => {
+    if (!optimisticStatus) return;
+    optimisticStatusRef.current?.focus();
+  }, [optimisticStatus]);
 
   const onMerge = () => {
     setOptimisticMerged(true);
@@ -75,8 +88,10 @@ export function IdentityConflictRow({ item }: { item: Row }) {
   };
 
   const onDismiss = () => {
+    setOptimisticDismissed(true);
     void dismissMutation.trigger({ reason: dismissReason.trim() }).catch(() => {
-      // 同上: 失敗時に modal を閉じない。
+      setOptimisticDismissed(false);
+      // 同上: 失敗時に modal を閉じず、reason を保持する。
     });
   };
 
@@ -89,7 +104,19 @@ export function IdentityConflictRow({ item }: { item: Row }) {
     setDismissReason("");
   };
 
-  if (optimisticMerged) return null;
+  if (optimisticStatus) {
+    return (
+      <p
+        ref={optimisticStatusRef}
+        role="status"
+        aria-live="polite"
+        tabIndex={-1}
+        className="sr-only"
+      >
+        {optimisticStatus}
+      </p>
+    );
+  }
 
   return (
     <div className="flex flex-col gap-3 rounded border border-[var(--ubm-color-border-default)] bg-[var(--ubm-color-surface-panel)] p-4">

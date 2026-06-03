@@ -179,8 +179,17 @@ export function AuditLogPanel({
           className="grid grid-cols-1 items-end gap-3 md:grid-cols-2 lg:grid-cols-4"
         >
           <FormField name="action" label="action">
-            <Input name="action" defaultValue={values.action ?? ""} placeholder="attendance.add" />
+            <Input
+              name="action"
+              defaultValue={values.action ?? ""}
+              placeholder="attendance.add"
+              list="audit-action-presets"
+            />
           </FormField>
+          <datalist id="audit-action-presets">
+            <option value="identity.merge" />
+            <option value="identity.dismiss" />
+          </datalist>
           <FormField name="actorEmail" label="actorEmail">
             <Input name="actorEmail" defaultValue={values.actorEmail ?? ""} inputMode="email" />
           </FormField>

@@ -78,6 +78,20 @@ const setMutationState = (
   mutationByEndpoint.set(endpoint, { ...prev, ...state });
 };
 
+const dismissRollbackCases: Array<[string, Error, string]> = [
+  [
+    "403",
+    new FetchAuthedError(403, JSON.stringify({ message: "権限がありません" })),
+    "権限がありません",
+  ],
+  [
+    "5xx",
+    new FetchAuthedError(500, JSON.stringify({ message: "サーバーエラーです" })),
+    "サーバーエラーです",
+  ],
+  ["network", new Error("network error"), "network error"],
+];
+
 describe("IdentityConflictRow", () => {
   it("idle 段階で merge / dismiss ボタンと conflict メタを表示する", () => {
     render(<IdentityConflictRow item={item} />);
@@ -224,7 +238,46 @@ describe("IdentityConflictRow", () => {
     );
   });
 
-  it("dismiss 失敗 (409) で alert が出て modal は残る", async () => {
+  it("dismiss 実行直後に server 応答前でも row を optimistic に非表示にする", async () => {
+    const trigger = vi.fn(() => new Promise(() => {}));
+    setMutationState(dismissEndpoint, { trigger });
+
+    render(<IdentityConflictRow item={item} />);
+    fireEvent.click(screen.getByRole("button", { name: "別人マーク" }));
+    fireEvent.change(screen.getByLabelText("別人マーク理由"), {
+      target: { value: "別組織で確認済" },
+    });
+    fireEvent.click(screen.getByRole("button", { name: "別人として確定" }));
+
+    await waitFor(() =>
+      expect(trigger).toHaveBeenCalledWith(dismissEndpoint, {
+        reason: "別組織で確認済",
+      }),
+    );
+    await waitFor(() => expect(screen.queryByText("conflict: c_1")).toBeNull());
+    const status = screen.getByRole("status");
+    expect(status.textContent).toContain("候補を一覧から非表示にしました");
+    await waitFor(() => expect(document.activeElement).toBe(status));
+  });
+
+  it("dismiss 成功後も row は非表示を維持する", async () => {
+    const trigger = vi.fn().mockResolvedValue({
+      dismissedAt: "2026-05-16T00:00:00.000Z",
+    });
+    setMutationState(dismissEndpoint, { trigger });
+
+    render(<IdentityConflictRow item={item} />);
+    fireEvent.click(screen.getByRole("button", { name: "別人マーク" }));
+    fireEvent.change(screen.getByLabelText("別人マーク理由"), {
+      target: { value: "別組織で確認済" },
+    });
+    fireEvent.click(screen.getByRole("button", { name: "別人として確定" }));
+
+    await waitFor(() => expect(trigger).toHaveBeenCalled());
+    await waitFor(() => expect(screen.queryByText("conflict: c_1")).toBeNull());
+  });
+
+  it("dismiss 失敗 (409) で optimistic 非表示を rollback し、reason / error が残る", async () => {
     const trigger = vi
       .fn()
       .mockRejectedValue(new Error("すでに別人として確定済みです"));
@@ -240,6 +293,8 @@ describe("IdentityConflictRow", () => {
     });
     fireEvent.click(screen.getByRole("button", { name: "別人として確定" }));
 
+    await waitFor(() => expect(trigger).toHaveBeenCalled());
+    await waitFor(() => expect(screen.getByText("conflict: c_1")).toBeTruthy());
     await waitFor(() =>
       expect(screen.getByRole("alert").textContent).toContain(
         "すでに別人として確定済みです",
@@ -248,6 +303,106 @@ describe("IdentityConflictRow", () => {
     expect(
       (screen.getByLabelText("別人マーク理由") as HTMLTextAreaElement).value,
     ).toBe("別組織で確認済");
+    expect(screen.getByRole("alert").textContent).toContain(
+      "すでに別人として確定済みです",
+    );
+  });
+
+  it.each(dismissRollbackCases)(
+    "dismiss 失敗 (%s) で optimistic 非表示を rollback する",
+    async (_label, error, expectedMessage) => {
+      const trigger = vi.fn().mockRejectedValue(error);
+      setMutationState(dismissEndpoint, {
+        trigger,
+        error,
+      });
+
+      render(<IdentityConflictRow item={item} />);
+      fireEvent.click(screen.getByRole("button", { name: "別人マーク" }));
+      fireEvent.change(screen.getByLabelText("別人マーク理由"), {
+        target: { value: "別組織で確認済" },
+      });
+      fireEvent.click(screen.getByRole("button", { name: "別人として確定" }));
+
+      await waitFor(() => expect(trigger).toHaveBeenCalled());
+      await waitFor(() => expect(screen.getByText("conflict: c_1")).toBeTruthy());
+      expect(
+        (screen.getByLabelText("別人マーク理由") as HTMLTextAreaElement).value,
+      ).toBe("別組織で確認済");
+      expect(screen.getByRole("alert").textContent).toContain(expectedMessage);
+    },
+  );
+
+  it("dismiss rollback 後に再度確定でき、2 回目の trigger が呼ばれる", async () => {
+    const trigger = vi
+      .fn()
+      .mockRejectedValueOnce(new Error("一時的な競合です"))
+      .mockResolvedValueOnce({
+        dismissedAt: "2026-05-16T00:00:00.000Z",
+      });
+    setMutationState(dismissEndpoint, {
+      trigger,
+      error: new Error("一時的な競合です"),
+    });
+
+    render(<IdentityConflictRow item={item} />);
+    fireEvent.click(screen.getByRole("button", { name: "別人マーク" }));
+    fireEvent.change(screen.getByLabelText("別人マーク理由"), {
+      target: { value: "別組織で確認済" },
+    });
+    fireEvent.click(screen.getByRole("button", { name: "別人として確定" }));
+
+    await waitFor(() => expect(trigger).toHaveBeenCalledTimes(1));
+    await waitFor(() => expect(screen.getByText("conflict: c_1")).toBeTruthy());
+    expect(
+      (screen.getByLabelText("別人マーク理由") as HTMLTextAreaElement).value,
+    ).toBe("別組織で確認済");
+
+    fireEvent.click(screen.getByRole("button", { name: "別人として確定" }));
+
+    await waitFor(() => expect(trigger).toHaveBeenCalledTimes(2));
+    expect(trigger).toHaveBeenLastCalledWith(dismissEndpoint, {
+      reason: "別組織で確認済",
+    });
+    await waitFor(() => expect(screen.queryByText("conflict: c_1")).toBeNull());
+  });
+
+  it("dismiss rollback は merge 経路に影響せず、merge optimistic hide が動作する", async () => {
+    const dismissTrigger = vi
+      .fn()
+      .mockRejectedValue(new Error("一時的な競合です"));
+    const mergeTrigger = vi.fn(() => new Promise(() => {}));
+    setMutationState(dismissEndpoint, {
+      trigger: dismissTrigger,
+      error: new Error("一時的な競合です"),
+    });
+    setMutationState(mergeEndpoint, { trigger: mergeTrigger });
+
+    render(<IdentityConflictRow item={item} />);
+    fireEvent.click(screen.getByRole("button", { name: "別人マーク" }));
+    fireEvent.change(screen.getByLabelText("別人マーク理由"), {
+      target: { value: "別組織で確認済" },
+    });
+    fireEvent.click(screen.getByRole("button", { name: "別人として確定" }));
+
+    await waitFor(() => expect(dismissTrigger).toHaveBeenCalledTimes(1));
+    await waitFor(() => expect(screen.getByText("conflict: c_1")).toBeTruthy());
+
+    fireEvent.click(screen.getByRole("button", { name: "キャンセル" }));
+    fireEvent.click(screen.getByRole("button", { name: "merge" }));
+    fireEvent.click(screen.getByRole("button", { name: "次へ" }));
+    fireEvent.change(screen.getByLabelText("merge 理由"), {
+      target: { value: "本人確認済" },
+    });
+    fireEvent.click(screen.getByRole("button", { name: "merge 実行" }));
+
+    await waitFor(() =>
+      expect(mergeTrigger).toHaveBeenCalledWith(mergeEndpoint, {
+        targetMemberId: "m_dst",
+        reason: "本人確認済",
+      }),
+    );
+    await waitFor(() => expect(screen.queryByText("conflict: c_1")).toBeNull());
   });
 
   it("merge-confirm キャンセルで idle に戻り、reason はリセットされる", () => {
