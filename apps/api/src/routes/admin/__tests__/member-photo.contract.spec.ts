@@ -123,10 +123,44 @@ const photoRow = async (env: InMemoryD1, memberId: string) =>
 const auditRowsFor = async (env: InMemoryD1, action: string) =>
   env.db
     .prepare(
-      `SELECT actor_email, target_id FROM audit_log WHERE action = ?1 ORDER BY created_at DESC`,
+      `SELECT actor_email, target_id, after_json FROM audit_log WHERE action = ?1 ORDER BY created_at DESC`,
     )
     .bind(action)
-    .all<{ actor_email: string | null; target_id: string | null }>();
+    .all<{ actor_email: string | null; target_id: string | null; after_json: string | null }>();
+
+// issue-1030: display/thumb/contentHash を任意に組み立てて POST するヘルパ。
+const postVariants = async (
+  env: InMemoryD1,
+  r2: FakeR2Bucket,
+  memberId: string,
+  opts: { display?: File; thumb?: File; contentHash?: string; legacyFile?: File },
+) => {
+  const fd = new FormData();
+  if (opts.display) fd.append("display", opts.display);
+  if (opts.thumb) fd.append("thumb", opts.thumb);
+  if (opts.contentHash !== undefined) fd.append("contentHash", opts.contentHash);
+  if (opts.legacyFile) fd.append("file", opts.legacyFile);
+  return createAdminMembersRoute().request(
+    `/members/${memberId}/photo`,
+    { method: "POST", body: fd, headers: { ...(await adminAuthHeader()) } },
+    makeEnv(env, r2),
+  );
+};
+
+// thumb 系の variant 列を直読みするヘルパ。
+const variantRow = async (env: InMemoryD1, memberId: string) =>
+  env.db
+    .prepare(
+      `SELECT thumb_object_key, thumb_byte_size, content_hash, processing_status
+       FROM member_photos WHERE member_id = ?1`,
+    )
+    .bind(memberId)
+    .first<{
+      thumb_object_key: string | null;
+      thumb_byte_size: number | null;
+      content_hash: string | null;
+      processing_status: string;
+    }>();
 
 describe("POST /admin/members/:memberId/photo", () => {
   let env: InMemoryD1;
@@ -339,5 +373,225 @@ describe("GET /admin/members/:memberId photoUrl 拡張", () => {
     expect(body.identityMemberId).toBe("m_001");
     expect(body.status).toBeTruthy();
     expect(body.profile).toBeTruthy();
+  });
+});
+
+// ---------------------------------------------------------------------------
+// issue-1030: display/thumb variant pipeline contract
+// ---------------------------------------------------------------------------
+describe("POST /admin/members/:memberId/photo (variant)", () => {
+  let env: InMemoryD1;
+  let r2: FakeR2Bucket;
+  beforeEach(async () => {
+    env = await setupD1();
+    r2 = new FakeR2Bucket();
+    presignMock.mockReset();
+  }, 30000);
+
+  it("ROUTE-V-1: display+thumb+contentHash → 200・両 put・client_generated・audit に hasThumb", async () => {
+    await seedMember(env, "m_001");
+    const res = await postVariants(env, r2, "m_001", {
+      display: fileOf(1024, "image/jpeg"),
+      thumb: fileOf(2048, "image/webp"),
+      contentHash: "a".repeat(64),
+    });
+    expect(res.status).toBe(200);
+    expect(await res.json()).toEqual({ ok: true });
+    expect(r2.has("members/m_001/avatar")).toBe(true);
+    expect(r2.has("members/m_001/thumb")).toBe(true);
+    const row = await variantRow(env, "m_001");
+    expect(row?.processing_status).toBe("client_generated");
+    expect(row?.thumb_object_key).toBe("members/m_001/thumb");
+    expect(row?.thumb_byte_size).toBe(2048);
+    expect(row?.content_hash).toBe("a".repeat(64));
+    // audit after に hasThumb=true・signed URL / raw bytes は含まない。
+    const audits = await auditRowsFor(env, "admin.member.photo_uploaded");
+    const after = JSON.parse(audits.results?.[0]?.after_json ?? "{}") as Record<string, unknown>;
+    expect(after.hasThumb).toBe(true);
+    expect(JSON.stringify(after)).not.toContain("X-Amz-");
+  });
+
+  it("ROUTE-V-2: display のみ → 200・avatar のみ・original_fallback・thumb null", async () => {
+    await seedMember(env, "m_001");
+    const res = await postVariants(env, r2, "m_001", { display: fileOf(1024, "image/jpeg") });
+    expect(res.status).toBe(200);
+    expect(r2.has("members/m_001/avatar")).toBe(true);
+    expect(r2.has("members/m_001/thumb")).toBe(false);
+    const row = await variantRow(env, "m_001");
+    expect(row?.processing_status).toBe("original_fallback");
+    expect(row?.thumb_object_key).toBeNull();
+  });
+
+  it("ROUTE-V-3: 後方互換 — 旧 file 単一 → 200・original_fallback・thumb null", async () => {
+    await seedMember(env, "m_001");
+    const res = await postVariants(env, r2, "m_001", { legacyFile: fileOf(1024, "image/png") });
+    expect(res.status).toBe(200);
+    expect(r2.has("members/m_001/avatar")).toBe(true);
+    const row = await variantRow(env, "m_001");
+    expect(row?.processing_status).toBe("original_fallback");
+    expect(row?.thumb_object_key).toBeNull();
+  });
+
+  it("ROUTE-V-4: thumb が 64KB 超過 → 413・副作用なし", async () => {
+    await seedMember(env, "m_001");
+    const res = await postVariants(env, r2, "m_001", {
+      display: fileOf(1024, "image/jpeg"),
+      thumb: fileOf(65537, "image/webp"),
+    });
+    expect(res.status).toBe(413);
+    expect(r2.size).toBe(0);
+    expect(await countPhotoRows(env, "m_001")).toBe(0);
+  });
+
+  it("ROUTE-V-5: display が 256KB 超過 → 413・副作用なし", async () => {
+    await seedMember(env, "m_001");
+    const res = await postVariants(env, r2, "m_001", {
+      display: fileOf(262145, "image/jpeg"),
+    });
+    expect(res.status).toBe(413);
+    expect(r2.size).toBe(0);
+    expect(await countPhotoRows(env, "m_001")).toBe(0);
+  });
+
+  it("ROUTE-V-6: thumb MIME 不許可(image/gif) → 415・副作用なし", async () => {
+    await seedMember(env, "m_001");
+    const res = await postVariants(env, r2, "m_001", {
+      display: fileOf(1024, "image/jpeg"),
+      thumb: fileOf(2048, "image/gif"),
+    });
+    expect(res.status).toBe(415);
+    expect(r2.size).toBe(0);
+    expect(await countPhotoRows(env, "m_001")).toBe(0);
+  });
+
+  it("ROUTE-V-7: display も旧 file も不在 → 400・副作用なし", async () => {
+    await seedMember(env, "m_001");
+    const res = await postVariants(env, r2, "m_001", { contentHash: "x" });
+    expect(res.status).toBe(400);
+    expect(r2.size).toBe(0);
+    expect(await countPhotoRows(env, "m_001")).toBe(0);
+  });
+});
+
+describe("GET /admin/members/:memberId photoThumbUrl 拡張", () => {
+  let env: InMemoryD1;
+  let r2: FakeR2Bucket;
+  beforeEach(async () => {
+    env = await setupD1();
+    r2 = new FakeR2Bucket();
+    presignMock.mockReset();
+  }, 30000);
+
+  const getDetail = async (memberId: string) =>
+    createAdminMembersRoute().request(
+      `/members/${memberId}`,
+      { headers: { ...(await adminAuthHeader()) } },
+      makeEnv(env, r2),
+    );
+
+  it("ROUTE-V-8: display+thumb 保存・presign 両成功 → photoUrl と photoThumbUrl 双方", async () => {
+    await seedMember(env, "m_001");
+    await postVariants(env, r2, "m_001", {
+      display: fileOf(1024, "image/jpeg"),
+      thumb: fileOf(2048, "image/webp"),
+    });
+    presignMock.mockImplementation(async (_deps: unknown, objectKey: string) =>
+      `https://signed.example/${objectKey}?sig=x`,
+    );
+    const res = await getDetail("m_001");
+    expect(res.status).toBe(200);
+    const body = (await res.json()) as { photoUrl?: string; photoThumbUrl?: string };
+    expect(body.photoUrl).toBe("https://signed.example/members/m_001/avatar?sig=x");
+    expect(body.photoThumbUrl).toBe("https://signed.example/members/m_001/thumb?sig=x");
+    expect(presignMock).toHaveBeenCalledTimes(2);
+  });
+
+  it("ROUTE-V-9: display のみ保存 → photoUrl 有・photoThumbUrl undefined・presign 1 回", async () => {
+    await seedMember(env, "m_001");
+    await postVariants(env, r2, "m_001", { display: fileOf(1024, "image/jpeg") });
+    presignMock.mockImplementation(async (_deps: unknown, objectKey: string) =>
+      `https://signed.example/${objectKey}?sig=x`,
+    );
+    const res = await getDetail("m_001");
+    expect(res.status).toBe(200);
+    const body = (await res.json()) as { photoUrl?: string; photoThumbUrl?: string };
+    expect(body.photoUrl).toBe("https://signed.example/members/m_001/avatar?sig=x");
+    expect(body.photoThumbUrl).toBeUndefined();
+    expect(presignMock).toHaveBeenCalledTimes(1);
+  });
+
+  it("ROUTE-V-10: thumb 保存済だが thumb presign が null → photoThumbUrl undefined・fail-soft", async () => {
+    await seedMember(env, "m_001");
+    await postVariants(env, r2, "m_001", {
+      display: fileOf(1024, "image/jpeg"),
+      thumb: fileOf(2048, "image/webp"),
+    });
+    presignMock.mockImplementation(async (_deps: unknown, objectKey: string) =>
+      objectKey.endsWith("/thumb") ? null : `https://signed.example/${objectKey}?sig=x`,
+    );
+    const res = await getDetail("m_001");
+    expect(res.status).toBe(200);
+    const body = (await res.json()) as { photoUrl?: string; photoThumbUrl?: string };
+    expect(body.photoUrl).toBe("https://signed.example/members/m_001/avatar?sig=x");
+    expect(body.photoThumbUrl).toBeUndefined();
+  });
+
+  it("ROUTE-V-11: display presign が null → 両 undefined・detail 200 維持", async () => {
+    await seedMember(env, "m_001");
+    await postVariants(env, r2, "m_001", {
+      display: fileOf(1024, "image/jpeg"),
+      thumb: fileOf(2048, "image/webp"),
+    });
+    presignMock.mockResolvedValue(null);
+    const res = await getDetail("m_001");
+    expect(res.status).toBe(200);
+    const body = (await res.json()) as {
+      photoUrl?: string;
+      photoThumbUrl?: string;
+      identityMemberId?: string;
+    };
+    expect(body.photoUrl).toBeUndefined();
+    expect(body.photoThumbUrl).toBeUndefined();
+    expect(body.identityMemberId).toBe("m_001");
+  });
+});
+
+describe("DELETE /admin/members/:memberId/photo (variant)", () => {
+  let env: InMemoryD1;
+  let r2: FakeR2Bucket;
+  beforeEach(async () => {
+    env = await setupD1();
+    r2 = new FakeR2Bucket();
+    presignMock.mockReset();
+  }, 30000);
+
+  it("ROUTE-V-12: display+thumb 保存後 DELETE → 両 key 削除・D1 行削除", async () => {
+    await seedMember(env, "m_001");
+    await postVariants(env, r2, "m_001", {
+      display: fileOf(1024, "image/jpeg"),
+      thumb: fileOf(2048, "image/webp"),
+    });
+    const res = await createAdminMembersRoute().request(
+      `/members/m_001/photo`,
+      { method: "DELETE", headers: { ...(await adminAuthHeader()) } },
+      makeEnv(env, r2),
+    );
+    expect(res.status).toBe(200);
+    expect(r2.has("members/m_001/avatar")).toBe(false);
+    expect(r2.has("members/m_001/thumb")).toBe(false);
+    expect(await countPhotoRows(env, "m_001")).toBe(0);
+  });
+
+  it("ROUTE-V-13: thumb 不在・display のみ DELETE → 200・avatar 削除・例外なし", async () => {
+    await seedMember(env, "m_001");
+    await postVariants(env, r2, "m_001", { display: fileOf(1024, "image/jpeg") });
+    const res = await createAdminMembersRoute().request(
+      `/members/m_001/photo`,
+      { method: "DELETE", headers: { ...(await adminAuthHeader()) } },
+      makeEnv(env, r2),
+    );
+    expect(res.status).toBe(200);
+    expect(r2.has("members/m_001/avatar")).toBe(false);
+    expect(await countPhotoRows(env, "m_001")).toBe(0);
   });
 });

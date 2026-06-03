@@ -9,6 +9,11 @@ export interface MemberPhotoRow {
   readonly objectKey: string;
   readonly contentType: string;
   readonly byteSize: number;
+  // issue-1030: thumb variant メタデータ（後方互換のため null 許容。0023 以前の行は null）。
+  readonly thumbObjectKey: string | null;
+  readonly thumbByteSize: number | null;
+  readonly contentHash: string | null;
+  readonly processingStatus: string;
   readonly uploadedBy: string;
   // issue-1031: 最後に書き込んだ主体（admin 代行 / member 本人）。監査根拠。
   readonly source: "admin" | "self";
@@ -20,6 +25,11 @@ interface RawMemberPhotoRow {
   object_key: string;
   content_type: string;
   byte_size: number;
+  // issue-1030: 0023 で ADD COLUMN。既存行は thumb 系 null / processing_status DEFAULT 'none'。
+  thumb_object_key: string | null;
+  thumb_byte_size: number | null;
+  content_hash: string | null;
+  processing_status: string;
   uploaded_by: string;
   // issue-1031: DB 上は TEXT。"self" 以外は "admin" に正規化する。
   source: string;
@@ -33,7 +43,9 @@ export async function getMemberPhoto(
 ): Promise<MemberPhotoRow | null> {
   const row = await c.db
     .prepare(
-      `SELECT member_id, object_key, content_type, byte_size, uploaded_by, source, uploaded_at
+      `SELECT member_id, object_key, content_type, byte_size,
+              thumb_object_key, thumb_byte_size, content_hash, processing_status,
+              uploaded_by, source, uploaded_at
        FROM member_photos WHERE member_id = ?1`,
     )
     .bind(memberId)
@@ -44,6 +56,10 @@ export async function getMemberPhoto(
     objectKey: row.object_key,
     contentType: row.content_type,
     byteSize: row.byte_size,
+    thumbObjectKey: row.thumb_object_key ?? null,
+    thumbByteSize: row.thumb_byte_size ?? null,
+    contentHash: row.content_hash ?? null,
+    processingStatus: row.processing_status ?? "none",
     uploadedBy: row.uploaded_by,
     // issue-1031: "self" 以外（未知値・legacy）は "admin" にフォールバック正規化。
     source: row.source === "self" ? "self" : "admin",
@@ -78,14 +94,20 @@ export async function upsertMemberPhoto(
   await c.db
     .prepare(
       `INSERT OR REPLACE INTO member_photos
-       (member_id, object_key, content_type, byte_size, uploaded_by, source, uploaded_at)
-       VALUES (?1, ?2, ?3, ?4, ?5, ?6, datetime('now'))`,
+       (member_id, object_key, content_type, byte_size,
+        thumb_object_key, thumb_byte_size, content_hash, processing_status,
+        uploaded_by, source, uploaded_at)
+       VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, datetime('now'))`,
     )
     .bind(
       row.memberId,
       row.objectKey,
       row.contentType,
       row.byteSize,
+      row.thumbObjectKey,
+      row.thumbByteSize,
+      row.contentHash,
+      row.processingStatus,
       row.uploadedBy,
       row.source,
     )
