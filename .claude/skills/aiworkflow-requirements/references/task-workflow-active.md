@@ -8,6 +8,19 @@
 
 本ドキュメントは、複雑なタスクを単一責務の原則に基づいて分解し、各サブタスクに最適なスラッシュコマンド・エージェント・スキルの組み合わせを選定するためのガイドラインを定義する。
 
+### admin-meetings-attendance-404-fix-and-ux（30種思考法改善反映 / 2026-06-03）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_runtime_pending / implementation / VISUAL_ON_EXECUTION` |
+| 成果物 | `docs/30-workflows/completed-tasks/admin-meetings-attendance-404-fix-and-ux/` |
+| 目的 | staging `/admin/meetings` 開催日追加 404 を admin proxy transport 非対称として修正し、開催日カードから出席管理へ到達しやすくする |
+| implementation targets | `apps/web/app/api/admin/[...path]/route.ts`, `apps/web/app/api/admin/[...path]/route.spec.ts`, `apps/web/src/features/admin/components/_meetings/{MeetingAttendanceDrawer,MeetingTimeline,MeetingsClientShell}.tsx`, `_meetings/__tests__/{MeetingAttendanceDrawer,MeetingTimeline,MeetingsClientShell}.spec.tsx` |
+| invariant | apps/api endpoint / D1 schema / Google Form schema / `api.ts` attendance path / `useAdminMutation` hook unchanged |
+| evidence | focused Vitest 4 files / 15 tests PASS、web typecheck PASS、web lint PASS、verify:phase12-compliance PASS。staging authenticated screenshot は user-gated |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-meetings-attendance-404-fix-and-ux-artifact-inventory.md` |
+| user gate | staging deploy, authenticated `/admin/meetings` POST 201 proof, screenshots, commit, push, PR |
+
 ### admin-member-detail-status-404-fix（2026-06-02）
 
 | 項目 | 値 |
@@ -545,6 +558,7 @@
 | 目的 | root `/` が `getAuthView()` を取得し、`PublicHeader authView` に配線してログイン状態 CTA を整合させる |
 | implementation targets | `apps/web/src/lib/auth-view/index.ts`, `apps/web/src/components/public/PublicHeader.tsx`, `apps/web/app/(public)/layout.tsx`, `apps/web/app/page.tsx` |
 | tests | `apps/web/src/lib/auth-view/__tests__/resolveAuthView.spec.ts`, `apps/web/src/components/public/__tests__/PublicHeader.spec.tsx`, `apps/web/app/__tests__/page.spec.tsx` |
+| evidence | focused Vitest 4 files / 9 tests PASS、typecheck PASS、lint PASS、web build PASS、Phase 12 strict 7 present |
 | evidence | focused Vitest 3 files / 10 tests PASS、typecheck PASS、lint PASS、web build PASS、Phase 12 strict 7 present |
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-task-b-root-page-public-header-async-artifact-inventory.md` |
 | user gate | Cloudflare staging deploy、authenticated `/` curl、wrangler tail clean evidence、commit、push、PR |
@@ -574,6 +588,7 @@
 | 目的 | staging `/admin/meetings` の `ADMIN_FETCH_404` 根本原因である admin server-fetch の HTTP-only worker-to-worker transport を service-binding 優先へ修正 |
 | implementation targets | `apps/web/src/lib/admin/server-fetch.ts`, `apps/web/src/lib/admin/__tests__/server-fetch-service-binding.spec.ts`, `apps/web/src/lib/admin/__tests__/server-fetch-url.spec.ts` |
 | invariant | API endpoint / D1 schema / UI route contract は変更なし。`fetchAdmin` signature と error body snippet 契約を維持 |
+| evidence | focused Vitest 4 files / 9 tests PASS; Phase 12 strict outputs present |
 | evidence | focused Vitest 3 files / 10 tests PASS; Phase 12 strict outputs present |
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-976-admin-fetch-service-binding-artifact-inventory.md` |
 | user gate | staging deploy, authenticated `/admin/meetings` evidence, `wrangler tail` ADMIN_FETCH_404 absence, commit, push, PR |

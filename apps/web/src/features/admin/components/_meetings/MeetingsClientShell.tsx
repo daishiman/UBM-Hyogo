@@ -248,11 +248,15 @@ export function MeetingsClientShell({ initial, candidates }: Props) {
         setToast={setToast}
       />
 
-      <AdminSectionCard title={`開催日一覧 (${meetings.length} 件)`}>
+      <AdminSectionCard
+        title={`開催日一覧 (${meetings.length} 件)`}
+        description="各開催日を選択すると出席を記録・編集できます"
+      >
         <MeetingTimeline
           items={meetings}
           selectedId={selectedId}
           onSelect={(id) => setSelectedId((cur) => (cur === id ? null : id))}
+          getAttendanceCount={(m) => attended[m.sessionId]?.size ?? m.attendance?.length ?? 0}
           renderRowExtra={(m) =>
             selectedId === m.sessionId ? (
               <MeetingAttendanceDrawer
