@@ -2668,6 +2668,17 @@ node scripts/list-specs.js --topics
 | Placement | L31 |
 | Lessons Learned | L37 |
 
+### references/workflow-issue-1054-wrangler-binding-drift-ci-gate-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Metadata | L3 |
+| Workflow Artifacts | L12 |
+| Implementation Artifacts | L30 |
+| Verification | L40 |
+| Lessons Learned | L48 |
+| User-Gated | L63 |
+
 ### references/workflow-issue-106-admin-member-notes-repository-task-spec-artifact-inventory.md
 
 | セクション | 行 |
@@ -5329,17 +5340,17 @@ node scripts/list-specs.js --topics
 | D1 Backup Long-Term Storage（UT-06-FU-E / 2026-05-01） | L105 |
 | Cloudflare Workers デプロイ（Next.js / OpenNext） | L124 |
 | Cloudflare Workers デプロイ（APIバックエンド） | L212 |
-| Cloudflare D1 データベース | L378 |
-| Cloudflare KV セッションキャッシュ（UT-13 / SESSION_KV） | L411 |
-| GitHub Actions CI/CD | L523 |
-| プレビューデプロイメント | L554 |
-| カスタムドメイン設定 | L570 |
-| 環境分離 | L583 |
-| ロールバック戦略 | L593 |
-| モニタリング/アラート（UT-08 連携） | L614 |
-| per-sync write cap 連続到達アラート（03b-followup-006 / Issue #199） | L631 |
-| Long-term Analytics Evidence（Issue #347 / 2026-05-05） | L666 |
-| 変更履歴 | L715 |
+| Cloudflare D1 データベース | L385 |
+| Cloudflare KV セッションキャッシュ（UT-13 / SESSION_KV） | L418 |
+| GitHub Actions CI/CD | L530 |
+| プレビューデプロイメント | L561 |
+| カスタムドメイン設定 | L577 |
+| 環境分離 | L590 |
+| ロールバック戦略 | L600 |
+| モニタリング/アラート（UT-08 連携） | L621 |
+| per-sync write cap 連続到達アラート（03b-followup-006 / Issue #199） | L638 |
+| Long-term Analytics Evidence（Issue #347 / 2026-05-05） | L673 |
+| 変更履歴 | L722 |
 
 ### references/deployment-core.md
 
@@ -6206,6 +6217,14 @@ node scripts/list-specs.js --topics
 | L-I1039-002 Primitive passthrough before primitive expansion | L9 |
 | L-I1039-003 VISUAL local evidence must not be left as pending when a local contract can be captured | L15 |
 | 関連パターン | L21 |
+
+### references/lessons-learned-issue-1054-wrangler-binding-drift-ci-gate-2026-06.md
+
+| セクション | 行 |
+|------------|----|
+| 教訓一覧 | L21 |
+| 同期した正本 | L79 |
+| 境界 / user gate | L90 |
 
 ### references/lessons-learned-issue-106-admin-notes-repository-2026-05.md
 
@@ -8521,15 +8540,15 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L3558 |
-| フェーズ構造（概要） | L3567 |
-| 品質ゲート（概要） | L3598 |
-| 出力テンプレート | L3609 |
-| 実行時のコマンド・エージェント・スキル | L3632 |
-| 昇格パターン集 | L3656 |
-| Current Active / Spec Created Tasks | L3658 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L3824 |
-| issue-998-members-publish-state-production-rollout | L3902 |
+| ドキュメント構成 | L3572 |
+| フェーズ構造（概要） | L3581 |
+| 品質ゲート（概要） | L3612 |
+| 出力テンプレート | L3623 |
+| 実行時のコマンド・エージェント・スキル | L3646 |
+| 昇格パターン集 | L3670 |
+| Current Active / Spec Created Tasks | L3672 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L3838 |
+| issue-998-members-publish-state-production-rollout | L3916 |
 
 ### references/task-workflow-backlog-part2.md
 
