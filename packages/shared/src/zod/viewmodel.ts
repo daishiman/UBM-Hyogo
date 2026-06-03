@@ -130,6 +130,8 @@ export const PublicMemberListItemZ = z
     location: z.string(),
     ubmZone: z.string().nullable(),
     ubmMembershipType: z.string().nullable(),
+    // issue-1029: public-safe presigned photo URL（TTL 300s）。optional のため既存 parse 不変。
+    photoUrl: z.string().url().optional(),
     // issue-224: expand=tags 指定時のみ付与（未指定時 undefined＝キー無し）。
     tags: z.array(PublicMemberTagZ).optional(),
   })
@@ -181,6 +183,8 @@ export const PublicMemberProfileZ = z
         category: z.string(),
       }),
     ),
+    // issue-1029: public-safe presigned photo URL（TTL 300s）。optional のため既存 parse 不変。.strict() 維持。
+    photoUrl: z.string().url().optional(),
   })
   .strict();
 

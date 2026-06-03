@@ -92,6 +92,8 @@ export interface MemberDetailProps {
   linkSections: ReadonlyArray<NormalizedSection>;
   attendance: PublicMemberProfile["attendance"];
   tags: PublicMemberProfile["tags"];
+  // issue-1029: public-safe presigned photo URL（API 正本から写し取る）。
+  photoUrl?: string | undefined;
 }
 
 function normalizeField(
@@ -152,6 +154,7 @@ export function toMemberDetailProps(
     linkSections,
     attendance: profile.attendance,
     tags: profile.tags,
+    photoUrl: profile.photoUrl,
   };
 }
 

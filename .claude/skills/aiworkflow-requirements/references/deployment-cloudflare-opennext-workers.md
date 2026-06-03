@@ -144,6 +144,7 @@ Cloudflare Workers の bundle size 上限:
 
 超過時の対応:
 - `next/og` / `ImageResponse` など wasm/font を Worker server bundle に焼き込む依存を除去し、静的 asset へ寄せる。`@vercel/og` は `resvg.wasm` / `yoga.wasm` / font binary を伴い、Free plan の 3MiB 上限では最初に疑う。
+- 動的 OG を復旧する場合は main `apps/web` Worker へ重量依存を戻さず、`apps/og` のような専用 Worker に分離する。`apps/web` は `OG_IMAGE_BASE_URL` を metadata URL として参照するだけにし、`apps/og` は `API_SERVICE` first で member data を読み、`scripts/check-worker-size.sh apps/og/dist` で index.js + wasm 合算を個別 gate する。
 - `@opennextjs/cloudflare@1.19.4` には `minify` config key が存在しない。無効な `minify:true` を追加せず、production minify の既定を維持し、`OPEN_NEXT_DEBUG` / `debug:true` を有効化しないことを regression spec で固定する。
 - RSC payload / server-only dependencies の削減
 - それでも収まらない場合は Paid プラン切替判断を文書化（UT-06-FU-A AC-11）
