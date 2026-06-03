@@ -31,6 +31,28 @@ afterEach(() => {
 });
 
 describe("/api/me/[...path] proxy", () => {
+  it("空 path は backend /me に転送し末尾スラッシュを生成しない", async () => {
+    authMock.mockResolvedValue({ user: { memberId: "m_1" } });
+    const fetchMock = vi.fn(async () =>
+      new Response(JSON.stringify({ ok: true }), {
+        status: 200,
+        headers: { "content-type": "application/json" },
+      }),
+    );
+    vi.stubGlobal("fetch", fetchMock);
+
+    const res = await GET(
+      makeReq("https://web.test/api/me?include=session", { method: "GET" }),
+      ctx([]),
+    );
+
+    expect(res.status).toBe(200);
+    expect(fetchMock).toHaveBeenCalledWith(
+      "https://api.internal.test/me?include=session",
+      expect.objectContaining({ method: "GET" }),
+    );
+  });
+
   it("session が無い場合は upstream に触らず 401 を返す", async () => {
     authMock.mockResolvedValue(null);
     const fetchMock = vi.fn();

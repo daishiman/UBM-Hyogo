@@ -29,6 +29,9 @@ export async function AttendanceAnalyticsPage({ filterState }: Props) {
 
   return (
     <div data-testid="attendance-analytics-page" className="attendance-analytics-page flex flex-col gap-4">
+      <p className="attendance-page-guide">
+        期間と出席回数帯で絞り込み、出席率の推移、累計出席回数の分布、要フォロー対象を確認します。
+      </p>
       <AttendanceFilterBar initial={filterState} />
 
       {bundle.overview.ok ? (
@@ -44,6 +47,9 @@ export async function AttendanceAnalyticsPage({ filterState }: Props) {
       <div className="attendance-charts-grid">
         <div>
           <h2>出席トレンド</h2>
+          <p className="attendance-section-intro">
+            月別の延べ出席数と開催セッション数の変化を確認します。
+          </p>
           {bundle.trend.ok ? (
             <AttendanceTrendChart trend={bundle.trend.data} />
           ) : (
@@ -55,7 +61,10 @@ export async function AttendanceAnalyticsPage({ filterState }: Props) {
           )}
         </div>
         <div>
-          <h2>区画別分布</h2>
+          <h2>出席回数帯別分布</h2>
+          <p className="attendance-section-intro">
+            メンバーを累計出席回数帯に分け、未出席・低頻度層の偏りを確認します。
+          </p>
           {bundle.zoneDistribution.ok ? (
             <AttendanceZoneDistributionChart data={bundle.zoneDistribution.data} />
           ) : (
@@ -69,6 +78,9 @@ export async function AttendanceAnalyticsPage({ filterState }: Props) {
       </div>
 
       <h2>セッション別出席状況</h2>
+      <p className="attendance-section-intro">
+        各セッションの出席者数と出席率を確認し、詳細から参加者を追跡します。
+      </p>
       {bundle.bySession.ok ? (
         <SessionAttendanceTable rows={bundle.bySession.data} />
       ) : (
@@ -80,6 +92,9 @@ export async function AttendanceAnalyticsPage({ filterState }: Props) {
       )}
 
       <h2>会員別出席率</h2>
+      <p className="attendance-section-intro">
+        メンバーごとの出席数と出席率を比較し、フォロー対象を見つけます。
+      </p>
       {bundle.ranking.ok ? (
         <MemberAttendanceTable rows={bundle.ranking.data} />
       ) : (
@@ -91,11 +106,17 @@ export async function AttendanceAnalyticsPage({ filterState }: Props) {
       )}
 
       <h2>出席ランキング TOP 10</h2>
+      <p className="attendance-section-intro">
+        期間内で出席回数が多いメンバーを上位から確認します。
+      </p>
       {bundle.ranking.ok ? (
         <AttendanceTop10Ranking rows={bundle.ranking.data} />
       ) : null}
 
       <h2>要フォローアップ</h2>
+      <p className="attendance-section-intro">
+        直近セッションで連続欠席しているメンバーを確認します。
+      </p>
       {bundle.absentees.ok ? (
         <AttendanceAbsenteeAlert data={bundle.absentees.data} />
       ) : (

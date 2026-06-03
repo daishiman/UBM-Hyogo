@@ -1231,6 +1231,7 @@ node scripts/list-specs.js --topics
 | Wave 0 UI primitives baseline（2026-04-26） | L22 |
 | task-10 UI primitives integration contract（2026-05-09） | L32 |
 | task-10 follow-up 002 runtime visual + axe evidence（2026-05-11） | L46 |
+| IME-safe input pattern（2026-06-02） | L54 |
 
 ### references/ui-ux-design-principles-core.md
 
@@ -2133,6 +2134,17 @@ node scripts/list-specs.js --topics
 | Artifacts | L13 |
 | Boundary | L31 |
 
+### references/workflow-admin-attendance-dashboard-ux-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Summary | L5 |
+| Workflow Artifacts | L9 |
+| Implementation Targets | L20 |
+| Evidence Boundary | L29 |
+| System Boundary | L40 |
+| Lessons Learned | L44 |
+
 ### references/workflow-admin-audit-prototype-alignment-artifact-inventory.md
 
 | セクション | 行 |
@@ -2184,6 +2196,17 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | Boundary | L16 |
+
+### references/workflow-admin-member-detail-status-404-fix-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Metadata | L3 |
+| Implementation Targets | L12 |
+| Workflow Artifacts | L23 |
+| Evidence | L33 |
+| User-Gated | L42 |
+| Lessons Learned | L46 |
 
 ### references/workflow-admin-requests-prototype-alignment-and-404-fix-artifact-inventory.md
 
@@ -2678,6 +2701,16 @@ node scripts/list-specs.js --topics
 | Lessons Learned | L48 |
 | User-Gated | L63 |
 
+### references/workflow-issue-1056-kv-alert-policy-binding-drift-detection-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Summary | L3 |
+| Implementation | L12 |
+| Boundary | L22 |
+| Evidence | L26 |
+| Lessons Learned | L33 |
+
 ### references/workflow-issue-1059-public-members-fields-batch-fetch-n1-prevention-artifact-inventory.md
 
 | セクション | 行 |
@@ -2695,6 +2728,15 @@ node scripts/list-specs.js --topics
 | Acceptance Evidence | L11 |
 | Phase 12 Artifacts | L21 |
 | Deferred / Blocked | L32 |
+
+### references/workflow-issue-1063-shell-collapse-cookie-secure-attribute-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Workflow Artifacts | L3 |
+| Implementation Artifacts | L13 |
+| System Boundary | L20 |
+| Lessons Learned | L30 |
 
 ### references/workflow-issue-1079-bulk-tag-audit-batch-filter-artifact-inventory.md
 
@@ -3684,6 +3726,13 @@ node scripts/list-specs.js --topics
 | Lessons Learned | L34 |
 | User-Gated Items | L48 |
 
+### references/workflow-japanese-ime-input-composition-search-fix-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Contract | L13 |
+| Lessons Learned | L20 |
+
 ### references/workflow-light-theme-contrast-regression-guard.md
 
 | セクション | 行 |
@@ -3888,6 +3937,17 @@ node scripts/list-specs.js --topics
 |------------|----|
 | Boundary | L19 |
 
+### references/workflow-profile-reload-session-404-fix-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Canonical | L3 |
+| State | L13 |
+| Implemented Local Targets | L17 |
+| Tests | L25 |
+| Verification Boundary | L33 |
+| Notes | L42 |
+
 ### references/workflow-profile-server-components-render-error-artifact-inventory.md
 
 | セクション | 行 |
@@ -3941,6 +4001,17 @@ node scripts/list-specs.js --topics
 |------------|----|
 | Primary files | L11 |
 | Evidence | L22 |
+
+### references/workflow-sidebar-footer-pinning-and-account-popover-ux-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Purpose | L12 |
+| Implementation Artifacts | L23 |
+| Workflow Artifacts | L36 |
+| Evidence | L48 |
+| Invariants | L57 |
+| Lessons Learned | L65 |
 
 ### references/workflow-sidebar-visibility-conditional-and-ux-artifact-inventory.md
 
@@ -5349,20 +5420,20 @@ node scripts/list-specs.js --topics
 | 現行 canonical: UT-06 実行前ゲート（2026-04-27） | L25 |
 | API Worker Cron（u-04 Sheets → D1 sync / historical manual-only） | L51 |
 | Cloudflare Alert Policy IaC（UT-17 follow-up 004 / 006） | L90 |
-| D1 Backup Long-Term Storage（UT-06-FU-E / 2026-05-01） | L105 |
-| Cloudflare Workers デプロイ（Next.js / OpenNext） | L124 |
-| Cloudflare Workers デプロイ（APIバックエンド） | L212 |
-| Cloudflare D1 データベース | L385 |
-| Cloudflare KV セッションキャッシュ（UT-13 / SESSION_KV） | L418 |
-| GitHub Actions CI/CD | L530 |
-| プレビューデプロイメント | L561 |
-| カスタムドメイン設定 | L577 |
-| 環境分離 | L590 |
-| ロールバック戦略 | L600 |
-| モニタリング/アラート（UT-08 連携） | L621 |
-| per-sync write cap 連続到達アラート（03b-followup-006 / Issue #199） | L638 |
-| Long-term Analytics Evidence（Issue #347 / 2026-05-05） | L673 |
-| 変更履歴 | L722 |
+| D1 Backup Long-Term Storage（UT-06-FU-E / 2026-05-01） | L122 |
+| Cloudflare Workers デプロイ（Next.js / OpenNext） | L141 |
+| Cloudflare Workers デプロイ（APIバックエンド） | L229 |
+| Cloudflare D1 データベース | L407 |
+| Cloudflare KV セッションキャッシュ（UT-13 / SESSION_KV） | L440 |
+| GitHub Actions CI/CD | L552 |
+| プレビューデプロイメント | L583 |
+| カスタムドメイン設定 | L599 |
+| 環境分離 | L612 |
+| ロールバック戦略 | L622 |
+| モニタリング/アラート（UT-08 連携） | L643 |
+| per-sync write cap 連続到達アラート（03b-followup-006 / Issue #199） | L660 |
+| Long-term Analytics Evidence（Issue #347 / 2026-05-05） | L695 |
+| 変更履歴 | L744 |
 
 ### references/deployment-core.md
 
@@ -6260,6 +6331,16 @@ node scripts/list-specs.js --topics
 | L-I106-003: `audit_log` と `admin_member_notes` を同一 DTO として扱わない | L15 |
 | L-I106-004: 候補コマンドは実 repo scripts から再解決する | L21 |
 
+### references/lessons-learned-issue-1063-shell-collapse-cookie-secure-attribute-2026-06.md
+
+| セクション | 行 |
+|------------|----|
+| L-I1063-001: CLOSED issue の再スコープは reopen せず frontmatter で表明する | L6 |
+| L-I1063-002: runtime 依存の純粋関数は optional 引数の既定値に runtime 判定を置く | L10 |
+| L-I1063-003: CLOSED issue の「現存するか」は全ローカルブランチ grep で機械判定する | L14 |
+| L-I1063-004: `Secure` / `HttpOnly` は read 値に現れないので serializer 文字列を検証する | L18 |
+| メタ補足: 監査 SubAgent の read-only 逸脱 | L22 |
+
 ### references/lessons-learned-issue-191-schema-aliases-2026-04.md
 
 | セクション | 行 |
@@ -6802,6 +6883,14 @@ node scripts/list-specs.js --topics
 | 苦戦箇所 | L10 |
 | 同様の課題を将来簡潔に解決するための知見 | L25 |
 | 関連リンク | L35 |
+
+### references/lessons-learned-japanese-ime-input-composition-search-fix-2026-06.md
+
+| セクション | 行 |
+|------------|----|
+| L-IME-001: URL 正本検索は IME composition 中の commit を止める | L3 |
+| L-IME-002: Clear ownership is one field, one control | L9 |
+| L-IME-003: IME regression tests need fake timers and composition events | L15 |
 
 ### references/lessons-learned-lefthook-mwr-runbook-2026-04.md
 
@@ -7419,8 +7508,8 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 概要 | L3 |
 | 仕様書インデックス | L7 |
-| 利用順序 | L125 |
-| 関連ドキュメント | L130 |
+| 利用順序 | L126 |
+| 関連ドキュメント | L131 |
 
 ### references/llm-embedding.md
 
@@ -8557,15 +8646,15 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L3573 |
-| フェーズ構造（概要） | L3582 |
-| 品質ゲート（概要） | L3613 |
-| 出力テンプレート | L3624 |
-| 実行時のコマンド・エージェント・スキル | L3647 |
-| 昇格パターン集 | L3671 |
-| Current Active / Spec Created Tasks | L3673 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L3839 |
-| issue-998-members-publish-state-production-rollout | L3918 |
+| ドキュメント構成 | L3654 |
+| フェーズ構造（概要） | L3663 |
+| 品質ゲート（概要） | L3694 |
+| 出力テンプレート | L3705 |
+| 実行時のコマンド・エージェント・スキル | L3728 |
+| 昇格パターン集 | L3752 |
+| Current Active / Spec Created Tasks | L3754 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L3920 |
+| issue-998-members-publish-state-production-rollout | L3999 |
 
 ### references/task-workflow-backlog-part2.md
 
