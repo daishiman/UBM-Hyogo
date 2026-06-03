@@ -58,3 +58,55 @@ export async function unassignMemberTag(
     throw new Error(`HTTP ${res.status}`);
   }
 }
+
+// ---------------------------------------------------------------------------
+// issue-1036 / task-B: bulk member tag assign/unassign の web client（不変条件 #13 第3経路）。
+//   D1 直接アクセス禁止（不変条件 #1）。Next.js の /api/admin プロキシ経由で API worker を叩く。
+//   mutation 実行は BulkActionBar 側で useAdminMutation 経由に配線するが、tag master read と
+//   非 hook 再利用向けに raw helper も併せて export する。
+// ---------------------------------------------------------------------------
+
+export type BulkTagItemStatus =
+  | "assigned"
+  | "unassigned"
+  | "noop"
+  | "skipped_deleted"
+  | "tag_not_found";
+
+export type BulkTagResultItem = {
+  memberId: string;
+  tagId: string;
+  status: BulkTagItemStatus;
+};
+
+export type BulkApplyMemberTagsResult = {
+  batchId: string;
+  results: BulkTagResultItem[];
+};
+
+/** bulk UI の tag picker 用 tag master read。`{ available }` を返す。 */
+export async function fetchTagMaster(): Promise<{ available: AdminTagRef[] }> {
+  const res = await fetch("/api/admin/tags", { cache: "no-store" });
+  if (!res.ok) {
+    throw new Error(`HTTP ${res.status}`);
+  }
+  return (await res.json()) as { available: AdminTagRef[] };
+}
+
+/** 複数 member × 複数 tag を一括 assign/unassign。部分失敗も 200 + results で返す。 */
+export async function bulkApplyMemberTags(
+  memberIds: string[],
+  tagIds: string[],
+  op: "assign" | "unassign",
+): Promise<BulkApplyMemberTagsResult> {
+  const res = await fetch("/api/admin/members/tags/bulk", {
+    method: "POST",
+    headers: { "content-type": "application/json" },
+    body: JSON.stringify({ memberIds, tagIds, op }),
+    credentials: "same-origin",
+  });
+  if (!res.ok) {
+    throw new Error(`HTTP ${res.status}`);
+  }
+  return (await res.json()) as BulkApplyMemberTagsResult;
+}

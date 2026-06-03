@@ -19,6 +19,7 @@ import { adminMemberNotificationPrefRoute } from "./routes/admin/member-notifica
 import { adminMemberNotesRoute } from "./routes/admin/member-notes";
 import { adminMemberDeleteRoute } from "./routes/admin/member-delete";
 import { adminTagsQueueRoute } from "./routes/admin/tags-queue";
+import { adminTagsRoute } from "./routes/admin/tags";
 import { adminSchemaRoute } from "./routes/admin/schema";
 import { adminMeetingsRoute } from "./routes/admin/meetings";
 import { adminAttendanceRoute } from "./routes/admin/attendance";
@@ -274,6 +275,7 @@ app.route("/admin", adminMemberNotificationPrefRoute);
 app.route("/admin", adminMemberNotesRoute);
 app.route("/admin", adminMemberDeleteRoute);
 app.route("/admin", adminTagsQueueRoute);
+app.route("/admin", adminTagsRoute);
 app.route("/admin", adminSchemaRoute);
 app.route("/admin", adminMeetingsRoute);
 app.route("/admin", adminAttendanceRoute);

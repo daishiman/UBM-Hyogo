@@ -1,17 +1,89 @@
 // task-15: 一括操作 (publish / hide / soft-delete)
+// issue-1036: 複数 member × 複数 tag の一括付与 / 解除（不変条件 #13 第3経路）を追加。
 "use client";
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { patchMemberStatus, deleteMember } from "../../../../lib/admin/api";
+import { useAdminMutation } from "../../hooks/useAdminMutation";
+import {
+  fetchTagMaster,
+  type AdminTagRef,
+  type BulkApplyMemberTagsResult,
+  type BulkTagResultItem,
+} from "../../api/members";
+import { TagPill } from "../_shared/TagPill";
 
 type Action = "publish" | "hide" | "soft-delete";
+type TagMode = "assign" | "unassign";
 
 export interface BulkActionBarProps {
   readonly selectedIds: ReadonlyArray<string>;
   readonly onComplete: () => void;
 }
 
+interface BulkTagSummary {
+  assigned: number;
+  unassigned: number;
+  noop: number;
+  skipped: BulkTagResultItem[];
+  notFound: BulkTagResultItem[];
+}
+
+const summarize = (results: readonly BulkTagResultItem[]): BulkTagSummary => {
+  const s: BulkTagSummary = {
+    assigned: 0,
+    unassigned: 0,
+    noop: 0,
+    skipped: [],
+    notFound: [],
+  };
+  for (const r of results) {
+    if (r.status === "assigned") s.assigned += 1;
+    else if (r.status === "unassigned") s.unassigned += 1;
+    else if (r.status === "noop") s.noop += 1;
+    else if (r.status === "skipped_deleted") s.skipped.push(r);
+    else if (r.status === "tag_not_found") s.notFound.push(r);
+  }
+  return s;
+};
+
 export function BulkActionBar({ selectedIds, onComplete }: BulkActionBarProps) {
   const [busy, setBusy] = useState<Action | null>(null);
+  const [tagMode, setTagMode] = useState<TagMode>("assign");
+  const [selectedTagIds, setSelectedTagIds] = useState<Set<string>>(() => new Set());
+  const [available, setAvailable] = useState<AdminTagRef[]>([]);
+  const [bulkResult, setBulkResult] = useState<BulkTagSummary | null>(null);
+
+  // 不変条件 #10: bulk mutation は useAdminMutation 経由で発火する。
+  const bulkMut = useAdminMutation<BulkApplyMemberTagsResult>(
+    "/api/admin/members/tags/bulk",
+    "POST",
+  );
+
+  // tag master を初回ロード（read のみ。失敗時は picker を空にする）。
+  useEffect(() => {
+    let active = true;
+    fetchTagMaster()
+      .then((r) => {
+        if (active) setAvailable(r.available);
+      })
+      .catch(() => {
+        if (active) setAvailable([]);
+      });
+    return () => {
+      active = false;
+    };
+  }, []);
+
+  // category 別にグルーピング（新規 primitive を生やさず TagPill を再利用）。
+  const groupedTags = useMemo(() => {
+    const m = new Map<string, AdminTagRef[]>();
+    for (const t of available) {
+      const arr = m.get(t.category) ?? [];
+      arr.push(t);
+      m.set(t.category, arr);
+    }
+    return [...m.entries()];
+  }, [available]);
 
   if (selectedIds.length === 0) return null;
 
@@ -35,41 +107,181 @@ export function BulkActionBar({ selectedIds, onComplete }: BulkActionBarProps) {
     }
   };
 
+  const toggleTag = (tagId: string) => {
+    setSelectedTagIds((prev) => {
+      const next = new Set(prev);
+      if (next.has(tagId)) next.delete(tagId);
+      else next.add(tagId);
+      return next;
+    });
+  };
+
+  const runBulkTags = async () => {
+    if (selectedIds.length === 0 || selectedTagIds.size === 0) return;
+    try {
+      const res = await bulkMut.trigger({
+        memberIds: [...selectedIds],
+        tagIds: [...selectedTagIds],
+        op: tagMode,
+      });
+      setBulkResult(summarize(res.results));
+      onComplete();
+    } catch {
+      // 失敗時の toast / error は useAdminMutation が処理する。
+    }
+  };
+
+  const tagBusy = bulkMut.isLoading;
+  const tagDisabled = selectedTagIds.size === 0 || tagBusy || busy !== null;
+  const verb = tagMode === "assign" ? "付与" : "解除";
+
   return (
     <div
       role="region"
       aria-label="一括操作"
-      className="sticky bottom-4 z-30 mx-auto flex max-w-3xl flex-wrap items-center justify-between gap-3 rounded-[var(--ubm-radius-md)] border border-[var(--ubm-color-border-strong)] bg-[var(--ubm-color-surface-panel)] p-3 shadow-[var(--ubm-shadow-md,0_4px_12px_rgba(0,0,0,0.08))]"
+      className="sticky bottom-4 z-30 mx-auto flex max-w-3xl flex-col gap-3 rounded-[var(--ubm-radius-md)] border border-[var(--ubm-color-border-strong)] bg-[var(--ubm-color-surface-panel)] p-3 shadow-[var(--ubm-shadow-md,0_4px_12px_rgba(0,0,0,0.08))]"
     >
-      <span aria-live="polite" className="text-sm text-[var(--ubm-color-text-secondary)]">
-        {selectedIds.length} 件選択中
-      </span>
-      <div className="flex flex-wrap gap-2">
-        <button
-          type="button"
-          className="rounded border border-[var(--ubm-color-border-default)] px-3 py-1 text-sm hover:bg-[var(--ubm-color-surface-panel-2)] disabled:opacity-50"
-          disabled={busy !== null}
-          onClick={() => run("publish")}
-        >
-          {busy === "publish" ? "公開中…" : "公開"}
-        </button>
-        <button
-          type="button"
-          className="rounded border border-[var(--ubm-color-border-default)] px-3 py-1 text-sm hover:bg-[var(--ubm-color-surface-panel-2)] disabled:opacity-50"
-          disabled={busy !== null}
-          onClick={() => run("hide")}
-        >
-          {busy === "hide" ? "非公開中…" : "非公開"}
-        </button>
-        <button
-          type="button"
-          className="rounded border border-[var(--ubm-color-danger)] px-3 py-1 text-sm text-[var(--ubm-color-danger)] hover:bg-[var(--ubm-color-danger-soft)] disabled:opacity-50"
-          disabled={busy !== null}
-          onClick={() => run("soft-delete")}
-        >
-          {busy === "soft-delete" ? "削除中…" : "論理削除"}
-        </button>
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        <span aria-live="polite" className="text-sm text-[var(--ubm-color-text-secondary)]">
+          {selectedIds.length} 件選択中
+        </span>
+        <div className="flex flex-wrap gap-2">
+          <button
+            type="button"
+            className="rounded border border-[var(--ubm-color-border-default)] px-3 py-1 text-sm hover:bg-[var(--ubm-color-surface-panel-2)] disabled:opacity-50"
+            disabled={busy !== null}
+            onClick={() => run("publish")}
+          >
+            {busy === "publish" ? "公開中…" : "公開"}
+          </button>
+          <button
+            type="button"
+            className="rounded border border-[var(--ubm-color-border-default)] px-3 py-1 text-sm hover:bg-[var(--ubm-color-surface-panel-2)] disabled:opacity-50"
+            disabled={busy !== null}
+            onClick={() => run("hide")}
+          >
+            {busy === "hide" ? "非公開中…" : "非公開"}
+          </button>
+          <button
+            type="button"
+            className="rounded border border-[var(--ubm-color-danger)] px-3 py-1 text-sm text-[var(--ubm-color-danger)] hover:bg-[var(--ubm-color-danger-soft)] disabled:opacity-50"
+            disabled={busy !== null}
+            onClick={() => run("soft-delete")}
+          >
+            {busy === "soft-delete" ? "削除中…" : "論理削除"}
+          </button>
+        </div>
       </div>
+
+      {/* issue-1036: tag 一括付与 / 解除セクション */}
+      <section
+        aria-label="タグ一括付与・解除"
+        className="flex flex-col gap-2 border-t border-[var(--ubm-color-border-default)] pt-3"
+      >
+        <div className="flex flex-wrap items-center gap-2">
+          <span className="text-sm font-medium text-[var(--ubm-color-text-primary)]">タグ</span>
+          <div role="group" aria-label="付与モード" className="flex gap-1">
+            <button
+              type="button"
+              aria-pressed={tagMode === "assign"}
+              className={[
+                "rounded border px-2 py-0.5 text-xs",
+                tagMode === "assign"
+                  ? "border-[var(--ubm-color-accent)] bg-[var(--ubm-color-accent-soft)] text-[var(--ubm-color-accent-ink)]"
+                  : "border-[var(--ubm-color-border-default)] text-[var(--ubm-color-text-secondary)]",
+              ].join(" ")}
+              onClick={() => setTagMode("assign")}
+            >
+              付与
+            </button>
+            <button
+              type="button"
+              aria-pressed={tagMode === "unassign"}
+              className={[
+                "rounded border px-2 py-0.5 text-xs",
+                tagMode === "unassign"
+                  ? "border-[var(--ubm-color-accent)] bg-[var(--ubm-color-accent-soft)] text-[var(--ubm-color-accent-ink)]"
+                  : "border-[var(--ubm-color-border-default)] text-[var(--ubm-color-text-secondary)]",
+              ].join(" ")}
+              onClick={() => setTagMode("unassign")}
+            >
+              解除
+            </button>
+          </div>
+        </div>
+
+        {groupedTags.length === 0 ? (
+          <p className="text-xs text-[var(--ubm-color-text-secondary)]">
+            付与可能なタグがありません
+          </p>
+        ) : (
+          <div className="flex flex-col gap-2">
+            {groupedTags.map(([category, tags]) => (
+              <div key={category} className="flex flex-wrap items-center gap-1.5">
+                <span className="text-xs text-[var(--ubm-color-text-secondary)]">
+                  {category}
+                </span>
+                {tags.map((t) => (
+                  <TagPill
+                    key={t.tagId}
+                    selected={selectedTagIds.has(t.tagId)}
+                    onClick={() => toggleTag(t.tagId)}
+                    disabled={tagBusy}
+                    title={t.code}
+                  >
+                    {t.label}
+                  </TagPill>
+                ))}
+              </div>
+            ))}
+          </div>
+        )}
+
+        <div className="flex flex-wrap items-center gap-2">
+          <button
+            type="button"
+            className="rounded border border-[var(--ubm-color-accent)] bg-[var(--ubm-color-accent-soft)] px-3 py-1 text-sm text-[var(--ubm-color-accent-ink)] hover:bg-[var(--ubm-color-surface-panel-2)] disabled:opacity-50"
+            disabled={tagDisabled}
+            onClick={runBulkTags}
+          >
+            {tagBusy
+              ? "処理中…"
+              : `${selectedIds.length}人 × ${selectedTagIds.size}タグ を${verb}`}
+          </button>
+        </div>
+
+        {bulkResult && (
+          <div
+            data-testid="bulk-tag-result"
+            aria-live="polite"
+            className="flex flex-col gap-1 text-xs text-[var(--ubm-color-text-secondary)]"
+          >
+            <span data-testid="bulk-tag-result-counts">
+              付与 {bulkResult.assigned} / 解除 {bulkResult.unassigned} / 変更なし{" "}
+              {bulkResult.noop} / 退会済みスキップ {bulkResult.skipped.length} / 未登録タグ{" "}
+              {bulkResult.notFound.length}
+            </span>
+            {bulkResult.skipped.length > 0 && (
+              <ul data-testid="bulk-tag-result-skipped" className="list-disc pl-4">
+                {bulkResult.skipped.map((r) => (
+                  <li key={`skip-${r.memberId}-${r.tagId}`}>
+                    退会済みのためスキップ: {r.memberId}
+                  </li>
+                ))}
+              </ul>
+            )}
+            {bulkResult.notFound.length > 0 && (
+              <ul data-testid="bulk-tag-result-not-found" className="list-disc pl-4">
+                {bulkResult.notFound.map((r) => (
+                  <li key={`nf-${r.memberId}-${r.tagId}`}>
+                    未登録タグのためスキップ: {r.tagId}
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
+        )}
+      </section>
     </div>
   );
 }
