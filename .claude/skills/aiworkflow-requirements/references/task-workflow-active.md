@@ -195,6 +195,21 @@
 | system spec | API/D1/Form schema no change; existing `POST /admin/sync/backfill-publish-state` reused |
 | user gate | staging authenticated screenshots, commit, push, PR |
 
+### issue-1059-public-members-fields-batch-fetch-n1-prevention（2026-06-02）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / NON_VISUAL` |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-1059-public-members-fields-batch-fetch-n1-prevention/` |
+| Issue | #1059 OPEN（mutation は user-gated） |
+| 親 | issue #224 U-2 fields N+1 follow-up |
+| 目的 | public members list の summary fields 取得を `response_id IN (...)` の 1 batch query にして N+1 を防ぐ |
+| implementation targets | `apps/api/src/repository/responseFields.ts`, `apps/api/src/use-cases/public/list-public-members.ts`, `apps/api/src/use-cases/public/__tests__/helpers/public-d1.ts`, focused specs |
+| evidence | use-case 10 PASS, repository 5 PASS, Phase 11 evidence present, Phase 12 strict 7 present |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1059-public-members-fields-batch-fetch-n1-prevention-artifact-inventory.md` |
+| boundary | tags / D1 schema / endpoint / Google Form / apps/web unchanged |
+| user gate | commit, push, PR, Issue #1059 mutation |
+
 ### issue-1054-wrangler-binding-drift-ci-gate（2026-06-02）
 
 | 項目 | 値 |
@@ -3937,6 +3952,17 @@ docs-only / direction-reconciliation で採用方針 A を維持する場合で�
 | evidence | TypeScript PASS; `/members` local warm-up 200; Playwright desktop-chromium 12 PASS; 24 PNG in `completed-tasks/members-list-ux-clarity/outputs/phase-11/screenshots`; stale active path not created |
 | user gate | commit, push, PR, staging visual baseline refresh, Issue #1005 state mutation |
 | inventory | `references/workflow-issue-1005-members-ux-playwright-baseline-stabilization-artifact-inventory.md` |
+# issue-1056-kv-alert-policy-binding-drift-detection（2026-06-02）
+
+| 項目 | 値 |
+| --- | --- |
+| status | `implemented_local_evidence_captured / implementation / NON_VISUAL` |
+| issue | #1056 OPEN at spec creation; Issue mutation is user-gated |
+| purpose | Detect KV/R2 binding active-state to alert policy `enabled` drift with a local-only PR gate |
+| implementation targets | `infra/cloudflare-alerts/lib/binding-policy-drift.ts`, `infra/cloudflare-alerts/lib/cli.ts`, `scripts/cf.sh`, `.github/workflows/cloudflare-alerts-drift.yml`, `package.json` |
+| tests | `infra/cloudflare-alerts/lib/__tests__/binding-policy-drift.spec.ts`, `scripts/__tests__/cf-alerts-cli.spec.ts`, `pnpm test:alerts`, `pnpm cf:alerts:binding-drift --ci` |
+| system spec | `.claude/skills/aiworkflow-requirements/references/deployment-cloudflare.md` |
+| boundary | Cloudflare API/token/apply not used by binding-drift; policy enablement/apply remains UT-17-followup-006/user-gated |
 # issue-1027-member-dynamic-og-worker-split（2026-05-31）
 
 | 項目 | 値 |

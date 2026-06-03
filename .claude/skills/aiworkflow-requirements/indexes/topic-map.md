@@ -2678,6 +2678,26 @@ node scripts/list-specs.js --topics
 | Lessons Learned | L48 |
 | User-Gated | L63 |
 
+### references/workflow-issue-1056-kv-alert-policy-binding-drift-detection-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Summary | L3 |
+| Implementation | L12 |
+| Boundary | L22 |
+| Evidence | L26 |
+| Lessons Learned | L33 |
+
+### references/workflow-issue-1059-public-members-fields-batch-fetch-n1-prevention-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Workflow | L3 |
+| Implementation | L13 |
+| Evidence | L23 |
+| Boundary | L32 |
+| Lessons | L36 |
+
 ### references/workflow-issue-106-admin-member-notes-repository-task-spec-artifact-inventory.md
 
 | セクション | 行 |
@@ -5340,20 +5360,20 @@ node scripts/list-specs.js --topics
 | 現行 canonical: UT-06 実行前ゲート（2026-04-27） | L25 |
 | API Worker Cron（u-04 Sheets → D1 sync / historical manual-only） | L51 |
 | Cloudflare Alert Policy IaC（UT-17 follow-up 004 / 006） | L90 |
-| D1 Backup Long-Term Storage（UT-06-FU-E / 2026-05-01） | L105 |
-| Cloudflare Workers デプロイ（Next.js / OpenNext） | L124 |
-| Cloudflare Workers デプロイ（APIバックエンド） | L212 |
-| Cloudflare D1 データベース | L385 |
-| Cloudflare KV セッションキャッシュ（UT-13 / SESSION_KV） | L418 |
-| GitHub Actions CI/CD | L530 |
-| プレビューデプロイメント | L561 |
-| カスタムドメイン設定 | L577 |
-| 環境分離 | L590 |
-| ロールバック戦略 | L600 |
-| モニタリング/アラート（UT-08 連携） | L621 |
-| per-sync write cap 連続到達アラート（03b-followup-006 / Issue #199） | L638 |
-| Long-term Analytics Evidence（Issue #347 / 2026-05-05） | L673 |
-| 変更履歴 | L722 |
+| D1 Backup Long-Term Storage（UT-06-FU-E / 2026-05-01） | L122 |
+| Cloudflare Workers デプロイ（Next.js / OpenNext） | L141 |
+| Cloudflare Workers デプロイ（APIバックエンド） | L229 |
+| Cloudflare D1 データベース | L407 |
+| Cloudflare KV セッションキャッシュ（UT-13 / SESSION_KV） | L440 |
+| GitHub Actions CI/CD | L552 |
+| プレビューデプロイメント | L583 |
+| カスタムドメイン設定 | L599 |
+| 環境分離 | L612 |
+| ロールバック戦略 | L622 |
+| モニタリング/アラート（UT-08 連携） | L643 |
+| per-sync write cap 連続到達アラート（03b-followup-006 / Issue #199） | L660 |
+| Long-term Analytics Evidence（Issue #347 / 2026-05-05） | L695 |
+| 変更履歴 | L744 |
 
 ### references/deployment-core.md
 
@@ -6228,6 +6248,19 @@ node scripts/list-specs.js --topics
 | 教訓一覧 | L21 |
 | 同期した正本 | L79 |
 | 境界 / user gate | L90 |
+
+### references/lessons-learned-issue-1059-public-members-fields-batch-fetch-n1-prevention-2026-06.md
+
+| セクション | 行 |
+|------------|----|
+| L-I1059-001: fields batch helper の return shape も Phase 1 で verbatim 固定する | L5 |
+| L-I1059-002: groupBy キーは `response_id`（= `current_response_id`）であり `member_id` ではない（最大の落とし穴） | L9 |
+| L-I1059-003: batch 化と同時に `as never` を branded cast `asResponseId` へ是正する | L13 |
+| L-I1059-004: SUMMARY_KEYS フィルタを groupBy ループ内に保持して出力を不変に保つ | L17 |
+| L-I1059-005: fields query 回数 <= 1 の回帰 spec で N+1 防止をロックする | L21 |
+| L-I1059-006: 空配列時は batch query を発行しない | L25 |
+| L-I1059-007: read-only 監査（Explore）エージェントは Bash を持ち、mover を実行しうる | L29 |
+| L-I1059-008: RED 前提 Phase 記述は実装が同一サイクルで landed した時点で evidence-captured へ同期する | L33 |
 
 ### references/lessons-learned-issue-106-admin-notes-repository-2026-05.md
 
@@ -8535,15 +8568,15 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L3573 |
-| フェーズ構造（概要） | L3582 |
-| 品質ゲート（概要） | L3613 |
-| 出力テンプレート | L3624 |
-| 実行時のコマンド・エージェント・スキル | L3647 |
-| 昇格パターン集 | L3671 |
-| Current Active / Spec Created Tasks | L3673 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L3839 |
-| issue-998-members-publish-state-production-rollout | L3917 |
+| ドキュメント構成 | L3588 |
+| フェーズ構造（概要） | L3597 |
+| 品質ゲート（概要） | L3628 |
+| 出力テンプレート | L3639 |
+| 実行時のコマンド・エージェント・スキル | L3662 |
+| 昇格パターン集 | L3686 |
+| Current Active / Spec Created Tasks | L3688 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L3854 |
+| issue-998-members-publish-state-production-rollout | L3932 |
 
 ### references/task-workflow-backlog-part2.md
 
