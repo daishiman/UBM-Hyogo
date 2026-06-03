@@ -71,7 +71,7 @@ export class AdminMeetingsPage extends BasePage {
 
   async openDeleteMeetingDialog(sessionId: string): Promise<void> {
     await this.expandSession(sessionId)
-    await this.listSession(sessionId).getByText('編集').click()
+    await this.listSession(sessionId).getByText('編集', { exact: true }).click()
     await this.listSession(sessionId).getByRole('button', { name: '開催日を削除' }).click()
     await expect(this.page.getByRole('dialog')).toContainText('この開催日を削除しますか？')
   }
