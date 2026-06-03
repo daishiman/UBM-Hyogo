@@ -2629,6 +2629,15 @@ node scripts/list-specs.js --topics
 | Gates | L44 |
 | Lessons Learned | L52 |
 
+### references/workflow-issue-1039-admin-audit-identity-action-presets-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Implementation Targets | L10 |
+| Workflow Artifacts | L18 |
+| Invariants | L31 |
+| Lessons Learned | L38 |
+
 ### references/workflow-issue-1042-dismiss-confirm-optimistic-update-artifact-inventory.md
 
 | セクション | 行 |
@@ -6154,6 +6163,15 @@ node scripts/list-specs.js --topics
 | L-I1027-007: 新規 workspace package は aggregate coverage-gate に明示配線しないと CI が MISSING で fail する | L29 |
 | L-I1027-008: Workers ランタイム専用コードは `v8 ignore` で除外し、純粋ロジックは抽出して unit test する | L41 |
 
+### references/lessons-learned-issue-1039-admin-audit-identity-action-presets-2026-06.md
+
+| セクション | 行 |
+|------------|----|
+| L-I1039-001 Native datalist preserves query and free-text contracts | L3 |
+| L-I1039-002 Primitive passthrough before primitive expansion | L9 |
+| L-I1039-003 VISUAL local evidence must not be left as pending when a local contract can be captured | L15 |
+| 関連パターン | L21 |
+
 ### references/lessons-learned-issue-106-admin-notes-repository-2026-05.md
 
 | セクション | 行 |
@@ -8460,15 +8478,15 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L3487 |
-| フェーズ構造（概要） | L3496 |
-| 品質ゲート（概要） | L3527 |
-| 出力テンプレート | L3538 |
-| 実行時のコマンド・エージェント・スキル | L3561 |
-| 昇格パターン集 | L3585 |
-| Current Active / Spec Created Tasks | L3587 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L3753 |
-| issue-998-members-publish-state-production-rollout | L3831 |
+| ドキュメント構成 | L3502 |
+| フェーズ構造（概要） | L3511 |
+| 品質ゲート（概要） | L3542 |
+| 出力テンプレート | L3553 |
+| 実行時のコマンド・エージェント・スキル | L3576 |
+| 昇格パターン集 | L3600 |
+| Current Active / Spec Created Tasks | L3602 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L3768 |
+| issue-998-members-publish-state-production-rollout | L3846 |
 
 ### references/task-workflow-backlog-part2.md
 

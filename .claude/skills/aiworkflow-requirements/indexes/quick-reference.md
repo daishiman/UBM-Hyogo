@@ -15,6 +15,21 @@
 | inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1030-member-photo-transcode-resize-variant-pipeline-artifact-inventory.md` |
 | user gate | remote D1 migration apply、staging deploy、authenticated screenshots、commit、push、PR |
 
+## issue-1039-admin-audit-identity-action-presets（2026-06-01）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-1039-admin-audit-identity-action-presets/` |
+| status | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION` |
+| issue | #1039 CLOSED。Issue mutation なし、PR 文脈は `Refs #1039` のみ |
+| parent | `docs/30-workflows/completed-tasks/issue-987-identity-conflicts-audit-log-admin-ui/` |
+| purpose | `/admin/audit` action filter に `identity.merge` / `identity.dismiss` の native datalist presets を追加し、自由入力と `action` query contract を維持する |
+| implementation targets | `apps/web/src/components/admin/AuditLogPanel.tsx`, `apps/web/src/components/admin/__tests__/AuditLogPanel.component.spec.tsx`, `apps/web/app/(admin)/admin/audit/page.page.spec.ts` |
+| evidence | focused component/page regressions PASS; Phase 11 local screenshots present; staging authenticated screenshots remain user-gated |
+| Phase 12 | strict 7 present; root/output artifacts parity present |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1039-admin-audit-identity-action-presets-artifact-inventory.md` |
+| user gate | staging screenshot, commit, push, PR |
+
 ## issue-1035-tag-master-write-endpoints（2026-06-01）
 
 | 項目 | 値 |
