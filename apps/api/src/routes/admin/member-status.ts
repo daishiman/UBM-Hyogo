@@ -5,7 +5,13 @@ import { z } from "zod";
 import { requireAdmin } from "../../middleware/require-admin";
 import { ctx } from "../../repository/_shared/db";
 import { asMemberId, asAdminId } from "../../repository/_shared/brand";
-import { getStatus, setPublishState } from "../../repository/status";
+import { findMemberById } from "../../repository/members";
+import {
+  defaultMemberStatusRow,
+  ensureMemberStatusRow,
+  getStatus,
+  setPublishState,
+} from "../../repository/status";
 import { auditAction } from "../../repository/_shared/brand";
 import {
   writeTagNoteProviderMiddleware,
@@ -49,8 +55,10 @@ export const createAdminMemberStatusRoute = () => {
     }
     const db = ctx({ DB: c.env.DB });
     const mid = asMemberId(memberId);
-    const before = await getStatus(db, mid);
-    if (!before) return c.json({ ok: false, error: "not found" }, 404);
+    const identity = await findMemberById(db, mid);
+    if (!identity) return c.json({ ok: false, error: "not found" }, 404);
+    await ensureMemberStatusRow(db, mid);
+    const before = (await getStatus(db, mid)) ?? defaultMemberStatusRow(mid);
 
     if (parsed.data.publishState !== undefined) {
       await setPublishState(db, mid, parsed.data.publishState, SYSTEM_ADMIN);
@@ -63,7 +71,7 @@ export const createAdminMemberStatusRoute = () => {
         .bind(parsed.data.hiddenReason, mid)
         .run();
     }
-    const after = await getStatus(db, mid);
+    const after = (await getStatus(db, mid)) ?? defaultMemberStatusRow(mid);
 
     await requireProvider(c.var.auditLogProvider, "auditLogProvider").append({
       actorId: null,

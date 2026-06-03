@@ -31,25 +31,25 @@ export function KpiPanel({ overview, attendeeCount }: Props) {
       <Card
         label="全体出席率"
         value={formatRate(overview.overallRate)}
-        hint={`前期間比 ${formatDelta(overview.overallRate, overview.previousPeriodRate)}`}
+        hint={`全出席枠に対する延べ出席率 / 前期間比 ${formatDelta(overview.overallRate, overview.previousPeriodRate)}`}
         testId="attendance-kpi-rate"
       />
       <Card
-        label="期間内出席者数"
+        label="期間内延べ出席数"
         value={String(attendeeCount)}
-        hint="期間内 unique 出席者"
+        hint="セッション別出席者数の合計"
         testId="attendance-kpi-attendees"
       />
       <Card
         label="平均出席数"
         value={avgPerSession}
-        hint="セッション平均"
+        hint="1 セッションあたりの延べ出席数"
         testId="attendance-kpi-avg"
       />
       <Card
         label="セッション数"
         value={String(overview.totalSessions)}
-        hint="期間内開催"
+        hint="期間内の開催セッション数"
         testId="attendance-kpi-sessions"
       />
     </section>
