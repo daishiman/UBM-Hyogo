@@ -12,6 +12,22 @@
 | inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-attendance-dashboard-ux-artifact-inventory.md` |
 | follow-up | `docs/30-workflows/admin-attendance-dashboard-ux/unassigned-task-specs/admin-attendance-analytics-calc-correction.md` |
 
+## issue-1056-kv-alert-policy-binding-drift-detection（2026-06-02）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-1056-kv-alert-policy-binding-drift-detection/` |
+| status | `implemented_local_evidence_captured / implementation / NON_VISUAL` |
+| purpose | `apps/api/wrangler.toml` の KV/R2 binding 活性と Cloudflare alert policy `enabled` 状態の drift を local-only で検知 |
+| implementation | `infra/cloudflare-alerts/lib/binding-policy-drift.ts`, `infra/cloudflare-alerts/lib/cli.ts`, `scripts/cf.sh`, `.github/workflows/cloudflare-alerts-drift.yml`, `package.json` |
+| command | `pnpm cf:alerts:binding-drift --ci`（Cloudflare API/token 不要、drift 0 は exit 0、drift は exit 2） |
+| tests | `infra/cloudflare-alerts/lib/__tests__/binding-policy-drift.spec.ts`, `scripts/__tests__/cf-alerts-cli.spec.ts` |
+| system spec | `.claude/skills/aiworkflow-requirements/references/deployment-cloudflare.md` |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1056-kv-alert-policy-binding-drift-detection-artifact-inventory.md` |
+| lessons | `.claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-issue-1056-kv-alert-policy-binding-drift-detection-2026-06.md`（L-I1056-001..006） |
+| issue | #1056 spec 作成時 OPEN → 本サイクル中 CLOSED（`closedAt: 2026-06-02T03:32:56Z`）。docs を実態整合（reopen せず）、workflow は completed-tasks へ close-out 済 |
+| user gate | commit, push, PR, Issue mutation, alert policy apply/enablement |
+
 ## issue-1054-wrangler-binding-drift-ci-gate（2026-06-02）
 
 | 項目 | 値 |

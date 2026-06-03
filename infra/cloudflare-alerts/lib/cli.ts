@@ -22,6 +22,11 @@ import {
 } from "./api-client.ts";
 import { canonicalizePolicy, canonicalizeWebhook } from "./canonicalize.ts";
 import { diffPolicy, diffWebhook, type Drift } from "./diff.ts";
+import {
+  buildBindingPolicyDrift,
+  loadActiveBindings,
+  type BindingPolicyDrift,
+} from "./binding-policy-drift.ts";
 import { resolveWebhookId } from "./resolve.ts";
 import { execFileSync } from "node:child_process";
 import type { CanonicalPolicy, CanonicalWebhook, WebhookListEntry } from "./types.ts";
@@ -143,6 +148,23 @@ function printDrifts(drifts: Drift[], flags: Flags): void {
   }
 }
 
+function printBindingPolicyDrifts(drifts: BindingPolicyDrift[], flags: Flags): void {
+  if (flags.json) {
+    console.log(JSON.stringify(drifts));
+    return;
+  }
+  if (drifts.length === 0) {
+    console.log("no binding-policy drift detected");
+    return;
+  }
+  console.log(`binding-policy drift detected: ${drifts.length} item(s)`);
+  for (const d of drifts) {
+    console.log(
+      `  - ${d.kind}: ${d.bindingKind} policy=${d.policyName} enabled=${d.policyEnabled} activeBindings=${d.activeBindings.join(",") || "(none)"}`,
+    );
+  }
+}
+
 async function loadActual(): Promise<{
   actualPolicies: CanonicalPolicy[];
   actualWebhooksRaw: WebhookListEntry[];
@@ -177,6 +199,20 @@ async function cmdDiff(flags: Flags, isPlan: boolean): Promise<number> {
   ];
   printDrifts(drifts, flags);
   if (isPlan) return 0;
+  return drifts.length === 0 ? 0 : 2;
+}
+
+function cmdBindingDrift(flags: Flags, args: string[]): number {
+  const unknownFlag = args.find((arg) => !["--json", "--ci"].includes(arg));
+  if (unknownFlag) {
+    process.stderr.write(`[cf.sh] unknown binding-drift flag: ${unknownFlag}\n`);
+    usage();
+    return 64;
+  }
+  const { policies } = loadExpected(process.cwd());
+  const activeBindings = loadActiveBindings(process.cwd());
+  const drifts = buildBindingPolicyDrift(activeBindings, policies);
+  printBindingPolicyDrifts(drifts, flags);
   return drifts.length === 0 ? 0 : 2;
 }
 
@@ -229,10 +265,11 @@ async function cmdApply(flags: Flags): Promise<number> {
 function usage(): void {
   process.stderr.write(
     [
-      "usage: cf.sh alerts {list|diff|apply|plan} [--json] [--yes] [--ci]",
+      "usage: cf.sh alerts {list|diff|apply|plan|binding-drift} [--json] [--yes] [--ci]",
       "  list             expected (repo) と actual (Cloudflare) を一覧表示",
       "  diff             expected と actual を比較。drift があれば exit 2",
       "  plan             diff と同じ判定だが exit 常に 0 (CI plan 出力用)",
+      "  binding-drift    wrangler KV/R2 binding 活性と policy enabled を local-only 比較",
       "  apply            webhook destination → policy の順に冪等適用 (dry-run by default)",
       "                   --yes で実適用 / --ci で op run をスキップ",
       "",
@@ -246,7 +283,8 @@ export async function runCli(argv: string[]): Promise<number> {
     return 64;
   }
   const cmd = argv[0];
-  const flags = parseFlags(argv.slice(1));
+  const args = argv.slice(1);
+  const flags = parseFlags(args);
   switch (cmd) {
     case "list":
       return cmdList(flags);
@@ -256,6 +294,8 @@ export async function runCli(argv: string[]): Promise<number> {
       return cmdDiff(flags, true);
     case "apply":
       return cmdApply(flags);
+    case "binding-drift":
+      return cmdBindingDrift(flags, args);
     default:
       process.stderr.write(`[cf.sh] unknown subcommand: ${cmd}\n`);
       usage();
