@@ -2655,6 +2655,18 @@ node scripts/list-specs.js --topics
 | Phase 12 Artifacts | L21 |
 | Deferred / Blocked | L32 |
 
+### references/workflow-issue-1069-tag-code-rename-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Summary | L3 |
+| Workflow Artifacts | L9 |
+| Implementation Targets | L18 |
+| Test Targets | L25 |
+| Evidence | L32 |
+| Contract | L39 |
+| Follow-ups | L48 |
+
 ### references/workflow-issue-191-schema-aliases-artifact-inventory.md
 
 | セクション | 行 |
@@ -8476,15 +8488,15 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L3502 |
-| フェーズ構造（概要） | L3511 |
-| 品質ゲート（概要） | L3542 |
-| 出力テンプレート | L3553 |
-| 実行時のコマンド・エージェント・スキル | L3576 |
-| 昇格パターン集 | L3600 |
-| Current Active / Spec Created Tasks | L3602 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L3768 |
-| issue-998-members-publish-state-production-rollout | L3846 |
+| ドキュメント構成 | L3518 |
+| フェーズ構造（概要） | L3527 |
+| 品質ゲート（概要） | L3558 |
+| 出力テンプレート | L3569 |
+| 実行時のコマンド・エージェント・スキル | L3592 |
+| 昇格パターン集 | L3616 |
+| Current Active / Spec Created Tasks | L3618 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L3784 |
+| issue-998-members-publish-state-production-rollout | L3862 |
 
 ### references/task-workflow-backlog-part2.md
 

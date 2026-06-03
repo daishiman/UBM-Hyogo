@@ -44,6 +44,22 @@ const auditCount = async (env: InMemoryD1, action: string): Promise<number> => {
   return row?.n ?? 0;
 };
 
+const auditPayload = async (
+  env: InMemoryD1,
+  action: string,
+): Promise<{ before: Record<string, unknown> | null; after: Record<string, unknown> | null }> => {
+  const row = await env.db
+    .prepare(
+      "SELECT before_json AS beforeJson, after_json AS afterJson FROM audit_log WHERE target_type='tag' AND action=?1 ORDER BY created_at DESC LIMIT 1",
+    )
+    .bind(action)
+    .first<{ beforeJson: string | null; afterJson: string | null }>();
+  return {
+    before: row?.beforeJson ? JSON.parse(row.beforeJson) as Record<string, unknown> : null,
+    after: row?.afterJson ? JSON.parse(row.afterJson) as Record<string, unknown> : null,
+  };
+};
+
 const appWithQueueFirst = () => {
   const app = new Hono();
   app.route("/admin", createAdminTagsQueueRoute());
@@ -140,7 +156,7 @@ describe("admin tag master CRUD contract (issue-1035)", () => {
       {
         method: "PATCH",
         headers: { ...(await adminAuthHeader()), "content-type": "application/json" },
-        body: JSON.stringify({ label: "Engineer", category: "role", code: "ignored" }),
+        body: JSON.stringify({ label: "Engineer", category: "role" }),
       },
       makeEnv(env),
     );
@@ -164,6 +180,70 @@ describe("admin tag master CRUD contract (issue-1035)", () => {
     );
     expect(noop.status).toBe(200);
     expect(await auditCount(env, "admin.tag.updated")).toBe(1);
+  });
+
+  it("PATCH /admin/tags/:tagId renames code and writes dedicated audit payload", async () => {
+    const app = createAdminTagsRoute();
+    const res = await app.request(
+      "/tags/tag_eng",
+      {
+        method: "PATCH",
+        headers: { ...(await adminAuthHeader()), "content-type": "application/json" },
+        body: JSON.stringify({ code: "software_engineer", expectedCode: "engineer" }),
+      },
+      makeEnv(env),
+    );
+    expect(res.status).toBe(200);
+    expect(await res.json()).toMatchObject({
+      tagId: "tag_eng",
+      code: "software_engineer",
+      label: "エンジニア",
+    });
+    expect(await auditCount(env, "admin.tag.code_renamed")).toBe(1);
+    expect(await auditPayload(env, "admin.tag.code_renamed")).toEqual({
+      before: { code: "engineer" },
+      after: { code: "software_engineer" },
+    });
+    expect(await auditCount(env, "admin.tag.updated")).toBe(0);
+  });
+
+  it("PATCH /admin/tags/:tagId separates code conflict and stale conflicts", async () => {
+    const app = createAdminTagsRoute();
+    const missingExpectedCode = await app.request(
+      "/tags/tag_eng",
+      {
+        method: "PATCH",
+        headers: { ...(await adminAuthHeader()), "content-type": "application/json" },
+        body: JSON.stringify({ code: "software_engineer" }),
+      },
+      makeEnv(env),
+    );
+    expect(missingExpectedCode.status).toBe(400);
+    expect(await missingExpectedCode.json()).toEqual({ ok: false, error: "invalid_body" });
+
+    const codeConflict = await app.request(
+      "/tags/tag_eng",
+      {
+        method: "PATCH",
+        headers: { ...(await adminAuthHeader()), "content-type": "application/json" },
+        body: JSON.stringify({ code: "manager", expectedCode: "engineer" }),
+      },
+      makeEnv(env),
+    );
+    expect(codeConflict.status).toBe(409);
+    expect(await codeConflict.json()).toEqual({ ok: false, error: "tag_code_conflict" });
+
+    const stale = await app.request(
+      "/tags/tag_eng",
+      {
+        method: "PATCH",
+        headers: { ...(await adminAuthHeader()), "content-type": "application/json" },
+        body: JSON.stringify({ code: "software_engineer", expectedCode: "stale_code" }),
+      },
+      makeEnv(env),
+    );
+    expect(stale.status).toBe(409);
+    expect(await stale.json()).toEqual({ ok: false, error: "tag_stale_conflict" });
   });
 
   it("PATCH/DELETE return 404 for missing tag and PATCH rejects empty body", async () => {
