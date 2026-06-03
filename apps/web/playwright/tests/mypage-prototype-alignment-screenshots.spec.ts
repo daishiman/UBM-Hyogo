@@ -50,8 +50,22 @@ test.describe('mypage-prototype-alignment Phase 11 screenshots', () => {
     await screenshot(memberPage.locator('[data-shell="sidebar"]'), 'member-header-nav.png')
 
     // task-c: 旧 header 版 edit CTA は撤去。revalidate dialog は inline CTA から開く。
-    await memberPage.locator('[data-cta="edit-cta-inline"]').click()
-    await expect(memberPage.getByRole('dialog', { name: '情報を最新化しますか？' })).toBeVisible()
+    // EditCta.client の onClick(setOpen) は hydration 完了後にアタッチされるため、
+    // SSR 直後（特に firefox の cold-start で hydration が遅い環境）に click すると
+    // state が動かず dialog が開かない race がある。members-ux-clarity.spec の確立済み
+    // パターンに倣い、dialog が visible になるまで再 click を試行する。
+    const editCtaInline = memberPage.locator('[data-cta="edit-cta-inline"]')
+    const revalidateDialog = memberPage.getByRole('dialog', { name: '情報を最新化しますか？' })
+    for (let attempt = 0; attempt < 5; attempt++) {
+      await editCtaInline.click()
+      try {
+        await expect(revalidateDialog).toBeVisible({ timeout: 3_000 })
+        break
+      } catch {
+        // 次の試行へフォールスルー (hydration がまだの場合)
+      }
+    }
+    await expect(revalidateDialog).toBeVisible()
     await screenshot(memberPage.getByRole('dialog'), 'revalidate-modal-open.png')
 
     await writeFile(
