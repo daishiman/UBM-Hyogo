@@ -107,6 +107,20 @@
 | system spec | API/D1/Form schema no change; existing `POST /admin/sync/backfill-publish-state` reused |
 | user gate | staging authenticated screenshots, commit, push, PR |
 
+### issue-1063-shell-collapse-cookie-secure-attribute（2026-06-03）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / NON_VISUAL / Phase 13 pending_user_approval` |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-1063-shell-collapse-cookie-secure-attribute/` |
+| Issue | #1063 CLOSED（reopen なし、PR は `Refs #1063` 境界） |
+| 目的 | `ubm_shell_collapsed` cookie を HTTPS runtime でのみ `Secure` 付きにし、localhost http の collapse 永続化を維持する |
+| implementation targets | `apps/web/src/components/shell/shell-collapse-cookie.ts`, `apps/web/src/components/shell/__tests__/shell-collapse-cookie.spec.ts` |
+| evidence | focused Vitest `shell-collapse-cookie.spec.ts` 10 tests PASS。Phase 11 NON_VISUAL evidence present |
+| system spec | API / D1 / Google Form schema / auth / CSS token は不変 |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1063-shell-collapse-cookie-secure-attribute-artifact-inventory.md` |
+| user gate | browser DevTools smoke, commit, push, PR, Issue mutation |
+
 ### issue-229-indexes-rebuild-fail-fast（2026-05-31）
 
 | 項目 | 値 |
@@ -347,7 +361,7 @@
 | 目的 | root `/` が `getAuthView()` を取得し、`PublicHeader authView` に配線してログイン状態 CTA を整合させる |
 | implementation targets | `apps/web/src/lib/auth-view/index.ts`, `apps/web/src/components/public/PublicHeader.tsx`, `apps/web/app/(public)/layout.tsx`, `apps/web/app/page.tsx` |
 | tests | `apps/web/src/lib/auth-view/__tests__/resolveAuthView.spec.ts`, `apps/web/src/components/public/__tests__/PublicHeader.spec.tsx`, `apps/web/app/__tests__/page.spec.tsx` |
-| evidence | focused Vitest 3 files / 9 tests PASS、typecheck PASS、lint PASS、web build PASS、Phase 12 strict 7 present |
+| evidence | focused Vitest 3 files / 10 tests PASS、typecheck PASS、lint PASS、web build PASS、Phase 12 strict 7 present |
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-task-b-root-page-public-header-async-artifact-inventory.md` |
 | user gate | Cloudflare staging deploy、authenticated `/` curl、wrangler tail clean evidence、commit、push、PR |
 
@@ -376,7 +390,7 @@
 | 目的 | staging `/admin/meetings` の `ADMIN_FETCH_404` 根本原因である admin server-fetch の HTTP-only worker-to-worker transport を service-binding 優先へ修正 |
 | implementation targets | `apps/web/src/lib/admin/server-fetch.ts`, `apps/web/src/lib/admin/__tests__/server-fetch-service-binding.spec.ts`, `apps/web/src/lib/admin/__tests__/server-fetch-url.spec.ts` |
 | invariant | API endpoint / D1 schema / UI route contract は変更なし。`fetchAdmin` signature と error body snippet 契約を維持 |
-| evidence | focused Vitest 3 files / 9 tests PASS; Phase 12 strict outputs present |
+| evidence | focused Vitest 3 files / 10 tests PASS; Phase 12 strict outputs present |
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-976-admin-fetch-service-binding-artifact-inventory.md` |
 | user gate | staging deploy, authenticated `/admin/meetings` evidence, `wrangler tail` ADMIN_FETCH_404 absence, commit, push, PR |
 

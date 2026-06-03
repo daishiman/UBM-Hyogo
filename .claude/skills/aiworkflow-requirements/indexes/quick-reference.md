@@ -125,6 +125,19 @@
 | boundary | API / D1 / Google Form / auth / design tokens unchanged; commit, push, PR, Issue mutation are user-gated |
 | inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1024-sidebar-collapse-cookie-persistence-artifact-inventory.md` |
 
+## issue-1063-shell-collapse-cookie-secure-attribute（2026-06-03）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-1063-shell-collapse-cookie-secure-attribute/` |
+| status | `implemented_local_evidence_captured / implementation / NON_VISUAL` |
+| issue | #1063 CLOSED（reopen なし、PR は `Refs #1063` 境界） |
+| purpose | `ubm_shell_collapsed` cookie を HTTPS runtime でのみ `Secure` 付きにし、localhost http の collapse 永続化を維持する |
+| implementation | `apps/web/src/components/shell/shell-collapse-cookie.ts`, `apps/web/src/components/shell/__tests__/shell-collapse-cookie.spec.ts` |
+| evidence | focused Vitest `shell-collapse-cookie.spec.ts` 10 tests PASS。browser DevTools smoke / commit / push / PR は user-gated |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1063-shell-collapse-cookie-secure-attribute-artifact-inventory.md` |
+| lessons | `.claude/skills/aiworkflow-requirements/references/lessons-learned-issue-1063-shell-collapse-cookie-secure-attribute-2026-06.md`（L-I1063-001..004: CLOSED再スコープ / runtime依存純粋関数のoptional引数注入 / 全ブランチgrep現存確認 / Secureはread不可・serializer文字列検証） |
+
 ## issue-229-indexes-rebuild-fail-fast（2026-05-31）
 
 | 項目 | 値 |
@@ -306,7 +319,7 @@
 | purpose | root `/` が `getAuthView()` を取得し、`PublicHeader authView` に配線してログイン状態 CTA を正しく出す |
 | implementation | `apps/web/src/lib/auth-view/index.ts`, `apps/web/src/components/public/PublicHeader.tsx`, `apps/web/app/(public)/layout.tsx`, `apps/web/app/page.tsx` |
 | tests | `apps/web/src/lib/auth-view/__tests__/resolveAuthView.spec.ts`, `apps/web/src/components/public/__tests__/PublicHeader.spec.tsx`, `apps/web/app/__tests__/page.spec.tsx` |
-| evidence | focused Vitest 3 files / 9 tests PASS, typecheck PASS, lint PASS, web build PASS |
+| evidence | focused Vitest 3 files / 10 tests PASS, typecheck PASS, lint PASS, web build PASS |
 | inventory | `.claude/skills/aiworkflow-requirements/references/workflow-task-b-root-page-public-header-async-artifact-inventory.md` |
 | user gate | Cloudflare staging deploy, authenticated `/` curl, wrangler tail clean evidence, commit, push, PR |
 
@@ -319,7 +332,7 @@
 | status | `implemented_local_runtime_pending / implementation / NON_VISUAL` |
 | purpose | Admin server-fetch を `API_SERVICE` service-binding 優先へ統一し、同一 Cloudflare account の workers.dev 外向き fetch loopback 404 を回避 |
 | implementation targets | `apps/web/src/lib/admin/server-fetch.ts`, `apps/web/src/lib/admin/__tests__/server-fetch-service-binding.spec.ts`, `apps/web/src/lib/admin/__tests__/server-fetch-url.spec.ts` |
-| local evidence | `outputs/phase-11/local-verification.md` focused Vitest 3 files / 9 tests PASS |
+| local evidence | `outputs/phase-11/local-verification.md` focused Vitest 3 files / 10 tests PASS |
 | Phase 12 | strict outputs + root/output artifacts parity present |
 | inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-976-admin-fetch-service-binding-artifact-inventory.md` |
 | user gate | staging deploy, authenticated route proof, `wrangler tail`, commit, push, PR |
