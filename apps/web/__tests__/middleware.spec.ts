@@ -79,6 +79,12 @@ describe("middleware", () => {
     expect(res.headers.get("x-middleware-next")).toBe("1");
   });
 
+  it("NextResponse.next 経路の request header に x-pathname を注入する", async () => {
+    const res = await middleware(makeRequest("/members?tag=active"));
+    expect(res.headers.get("x-middleware-next")).toBe("1");
+    expect(res.headers.get("x-middleware-request-x-pathname")).toBe("/members");
+  });
+
   it("全レスポンスに request ごとの nonce CSP を付与する", async () => {
     const first = await middleware(makeRequest("/"));
     const second = await middleware(makeRequest("/"));

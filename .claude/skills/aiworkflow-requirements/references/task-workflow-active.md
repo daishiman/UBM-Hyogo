@@ -8,6 +8,33 @@
 
 本ドキュメントは、複雑なタスクを単一責務の原則に基づいて分解し、各サブタスクに最適なスラッシュコマンド・エージェント・スキルの組み合わせを選定するためのガイドラインを定義する。
 
+### issue-1043-identity-conflicts-row-fade-animation（2026-06-02）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION` |
+| 成果物 | `docs/30-workflows/issue-1043-identity-conflicts-row-fade-animation/` |
+| Issue | #1043 CLOSED（2026-06-02 read-only 再確認。mutation は user-gated） |
+| 目的 | `/admin/identity-conflicts` の merge optimistic row 消失を exiting fade/collapse → removed に変更し、rollback で row を復元する |
+| implementation targets | `apps/web/src/components/admin/IdentityConflictRow.tsx`, `apps/web/src/components/admin/__tests__/IdentityConflictRow.spec.tsx`, `apps/web/playwright/tests/admin-identity-conflicts.spec.ts` |
+| invariant | API endpoint / D1 schema / page Server Component / `useAdminMutation` / design tokens / `globals.css` / dismiss behavior は変更なし |
+| evidence | focused Vitest 1 file / 13 tests PASS、web typecheck PASS、web lint PASS、local Playwright desktop 8/8 PASS、Phase 11 screenshots 3 PNG captured、Phase 12 strict 7 present |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1043-identity-conflicts-row-fade-animation-artifact-inventory.md` |
+| user gate | commit、push、PR、Issue mutation |
+
+### sidebar-visibility-conditional-and-ux（2026-06-02）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / VISUAL / pixel_screenshot_pending_user_gate` |
+| 成果物 | `docs/30-workflows/completed-tasks/sidebar-visibility-conditional-and-ux/` |
+| 目的 | `/login` を shell 外 bare route group `(auth)` へ移し、sidebar 表示条件を route group 正本へ揃え、SSR active path と viewer identity を改善する |
+| implementation targets | `apps/web/app/(auth)/layout.tsx`, `apps/web/app/(auth)/login/**`, `apps/web/middleware.ts`, `apps/web/app/(admin)/layout.tsx`, `apps/web/src/components/shell/{SidebarUserMenu,SidebarUserAvatar,SidebarNavItem,user-menu-config}.tsx` |
+| evidence | direct focused Vitest 20 files / 98 tests PASS、web typecheck PASS、web lint PASS、design-token / grep gates PASS、local screenshots 4 PNG |
+| system spec | `docs/00-getting-started-manual/specs/09h-shell-and-fixtures.md` §1.2 / §1.6 |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-sidebar-visibility-conditional-and-ux-artifact-inventory.md` |
+| user gate | pixel screenshots、staging visual baseline、commit、push、PR |
+
 ### issue-1030-member-photo-transcode-resize-variant-pipeline（2026-06-01）
 
 | 項目 | 値 |

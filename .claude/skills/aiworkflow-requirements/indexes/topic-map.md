@@ -2657,6 +2657,16 @@ node scripts/list-specs.js --topics
 | Lessons Learned | L29 |
 | 関連リンク | L41 |
 
+### references/workflow-issue-1043-identity-conflicts-row-fade-animation-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Implementation Surface | L11 |
+| Evidence | L19 |
+| Runtime Boundary | L27 |
+| Placement | L31 |
+| Lessons Learned | L37 |
+
 ### references/workflow-issue-1059-public-members-fields-batch-fetch-n1-prevention-artifact-inventory.md
 
 | セクション | 行 |
@@ -3910,6 +3920,15 @@ node scripts/list-specs.js --topics
 |------------|----|
 | Primary files | L11 |
 | Evidence | L22 |
+
+### references/workflow-sidebar-visibility-conditional-and-ux-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Artifacts | L6 |
+| Implementation | L18 |
+| Evidence | L28 |
+| Lessons Learned | L40 |
 
 ### references/workflow-skill-identifier-branded-type-resolution.md
 
@@ -8509,15 +8528,15 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L3532 |
-| フェーズ構造（概要） | L3541 |
-| 品質ゲート（概要） | L3572 |
-| 出力テンプレート | L3583 |
-| 実行時のコマンド・エージェント・スキル | L3606 |
-| 昇格パターン集 | L3630 |
-| Current Active / Spec Created Tasks | L3632 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L3798 |
-| issue-998-members-publish-state-production-rollout | L3876 |
+| ドキュメント構成 | L3559 |
+| フェーズ構造（概要） | L3568 |
+| 品質ゲート（概要） | L3599 |
+| 出力テンプレート | L3610 |
+| 実行時のコマンド・エージェント・スキル | L3633 |
+| 昇格パターン集 | L3657 |
+| Current Active / Spec Created Tasks | L3659 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L3825 |
+| issue-998-members-publish-state-production-rollout | L3903 |
 
 ### references/task-workflow-backlog-part2.md
 
