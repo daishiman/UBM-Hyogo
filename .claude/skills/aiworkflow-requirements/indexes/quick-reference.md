@@ -353,6 +353,20 @@
 
 | 項目 | 値 |
 | --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-991-admin-fetch-error-typed-class/` |
+| status | `implemented_local_evidence_captured / implementation / NON_VISUAL` |
+| issue | #991 CLOSED（mutation は user-gated） |
+| purpose | admin server-fetch error を `AdminFetchError` typed class へ統一し、structured status priority と PII redacted snippet を提供 |
+| implementation | `apps/web/src/lib/admin/server-fetch.ts`, `apps/web/src/lib/server-fetch/safe-fetch.ts` |
+| tests | `apps/web/src/lib/admin/__tests__/admin-fetch-error.spec.ts`, `apps/web/src/lib/server-fetch/__tests__/safe-fetch.spec.ts`, `server-fetch.binding.spec.ts`, `safe-server-fetch*.spec.ts`, `server-fetch.env.spec.ts` |
+| evidence | focused Vitest 6 files / 31 tests PASS, web typecheck PASS, root lint PASS |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-991-admin-fetch-error-typed-class-artifact-inventory.md` |
+| user gate | staging runtime observation, commit, push, PR |
+
+## issue-224-public-members-tags-batch-fetch（2026-05-31）
+
+| 項目 | 値 |
+| --- | --- |
 | workflow root | `docs/30-workflows/issue-224-public-members-tags-batch-fetch/` |
 | status | `implemented_local_evidence_captured / implementation / NON_VISUAL` |
 | purpose | 公開 `GET /public/members?expand=tags` を既存 batch helper `listTagsByMemberIds`（フラット配列）+ use-case 層 `member_id` groupBy で取得し tags の N+1 回帰を防止 |
@@ -361,8 +375,22 @@
 | evidence | NON_VISUAL local test 証跡（contract / use-case / parser / repository / shared zod）, Phase 12 strict 7, root/output artifacts parity |
 | lessons | `.claude/skills/aiworkflow-requirements/references/lessons-learned-issue-224-public-members-tags-batch-fetch-2026-05.md`（L-I224-001..010） |
 | inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-224-public-members-tags-batch-fetch-artifact-inventory.md` |
-| unassigned | `docs/30-workflows/unassigned-task/issue-224-followup-001-public-members-fields-batch-fetch-n1-prevention.md`（U-2 fields N+1）/ U-1 UI tags 表示 = #1006 委譲 |
+| unassigned | U-2 fields N+1 は `docs/30-workflows/completed-tasks/issue-1059-public-members-fields-batch-fetch-n1-prevention/` で consumed / implemented。U-1 UI tags 表示 = #1006 委譲 |
 | user gate | commit / push / PR / Gate-C |
+
+## issue-1059-public-members-fields-batch-fetch-n1-prevention（2026-06-02）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-1059-public-members-fields-batch-fetch-n1-prevention/` |
+| status | `implemented_local_evidence_captured / implementation / NON_VISUAL` |
+| issue | #1059 OPEN（mutation は user-gated） |
+| purpose | 公開 members list の summary fields 取得を per-member `listFieldsByResponseId` loop から `listFieldsByResponseIds` の `response_id IN (...)` 1 query へ置換し、fields N+1 を防止 |
+| implementation | `apps/api/src/repository/responseFields.ts`, `apps/api/src/use-cases/public/list-public-members.ts`, `apps/api/src/use-cases/public/__tests__/helpers/public-d1.ts` |
+| tests | `apps/api/src/use-cases/public/__tests__/list-public-members.spec.ts` 10 PASS, `apps/api/src/repository/__tests__/responseFields.repository.spec.ts` 5 PASS |
+| evidence | Phase 11 manual-test-result, Phase 12 strict 7, root/output artifacts parity |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1059-public-members-fields-batch-fetch-n1-prevention-artifact-inventory.md` |
+| boundary | tags / D1 schema / endpoint / Google Form / `apps/web` unchanged; commit / push / PR / Issue mutation user-gated |
 
 ## admin-sidebar-public-return-link（2026-05-28）
 
