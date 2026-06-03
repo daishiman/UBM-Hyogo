@@ -335,6 +335,55 @@ describe("builder", () => {
       expect(result?.status.isDeleted).toBe(true);
     });
 
+    it("member_status 欠落会員でも既定 status で admin 詳細を返す", async () => {
+      store.memberStatus = store.memberStatus.filter((r) => r["member_id"] !== "m_001");
+
+      const result = await buildAdminMemberDetailView(
+        withProvider(ctx),
+        asMemberId("m_001"),
+        [],
+      );
+
+      expect(result).not.toBeNull();
+      expect(result?.status.publicConsent).toBe("unknown");
+      expect(result?.status.rulesConsent).toBe("unknown");
+      expect(result?.status.publishState).toBe("member_only");
+      expect(result?.profile.sections.length).toBeGreaterThan(0);
+    });
+
+    it("current_response 欠落会員でも劣化 view で admin 詳細を返す", async () => {
+      store.memberResponses = store.memberResponses.filter((r) => r["response_id"] !== "r_001");
+
+      const result = await buildAdminMemberDetailView(
+        withProvider(ctx),
+        asMemberId("m_001"),
+        [],
+      );
+
+      expect(result).not.toBeNull();
+      expect(result?.profile.responseId).toBe("r_001");
+      expect(result?.profile.summary).toEqual({
+        fullName: "",
+        nickname: "",
+        location: "",
+        occupation: "",
+        ubmZone: null,
+        ubmMembershipType: null,
+      });
+      expect(result?.profile.sections).toEqual([]);
+      expect(result?.profile.lastSubmittedAt).toBe("2026-01-01T00:00:00Z");
+    });
+
+    it("identity 不在は admin 詳細でも null を維持する", async () => {
+      const result = await buildAdminMemberDetailView(
+        withProvider(ctx),
+        asMemberId("m_missing"),
+        [],
+      );
+
+      expect(result).toBeNull();
+    });
+
     it("attendanceProvider 注入時は admin profile.attendance に実データが注入される", async () => {
       const provider = stubProvider({
         m_001: [
