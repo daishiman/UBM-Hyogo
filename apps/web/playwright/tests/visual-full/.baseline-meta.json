@@ -1,11 +1,9 @@
 {
   "$schema": "../../../../docs/30-workflows/task-709-visual-baseline-runtime-capture/schemas/baseline-meta.schema.json",
-  "captured_at_commit_sha": "43bebe11198d5931ae3a8c745fa43ad32dd6e54a",
-  "captured_at": "2026-06-03T01:29:58Z",
+  "captured_at_commit_sha": "0f62b2f273954228d4f131dc510568aca824d531",
+  "captured_at": "2026-06-03T13:59:55Z",
   "captured_via": "playwright-visual-baseline-update.yml#workflow_dispatch",
   "captured_run_ids": [
-    "26581231613",
-    "26616303516",
     "26628923374",
     "26677930770",
     "26695366830",
@@ -13,7 +11,9 @@
     "26732057120",
     "26732700618",
     "26793911803",
-    "26857844535"
+    "26857844535",
+    "26868407587",
+    "26889102142"
   ],
   "viewport_dimensions": {
     "desktop": {
@@ -41,5 +41,5 @@
   "refresh_workflow": ".github/workflows/playwright-visual-baseline-update.yml",
   "refresh_command_hint": "gh workflow run playwright-visual-baseline-update.yml -f reason=\"<why>\" -r <feature-branch>",
   "notes": "captured_at_commit_sha からの rendering_relevant_paths diff が空でない場合、baseline は stale。scripts/visual-baseline-status.sh で診断可能。",
-  "last_refresh_reason": "sidebar-visibility-conditional-and-ux: /login を (auth) bare route group へ移動しサイドバー非表示化したため login(smoke/visual-full) + sidebar-shell の baseline が意図的 drift。CI(Linux)環境で再生成が必要。"
+  "last_refresh_reason": "PR#1115 admin-meetings 出席管理UI/UX改善に伴うvisual-fullベースライン更新（getByText exact修正後）"
 }

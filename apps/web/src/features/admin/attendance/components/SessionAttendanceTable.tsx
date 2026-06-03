@@ -13,7 +13,9 @@ export function SessionAttendanceTable({ rows }: Props) {
 
   if (rows.length === 0) {
     return (
-      <p data-testid="attendance-by-session-empty">セッションデータがありません</p>
+      <p className="attendance-list-empty" data-testid="attendance-by-session-empty">
+        セッションデータがありません
+      </p>
     );
   }
 

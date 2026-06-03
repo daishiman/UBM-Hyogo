@@ -8,7 +8,7 @@ interface Props {
 export function AttendanceAbsenteeAlert({ data }: Props) {
   if (data.rows.length === 0) {
     return (
-      <p data-testid="attendance-absentee-empty">
+      <p className="attendance-list-empty" data-testid="attendance-absentee-empty">
         直近 {data.lastN} セッション連続欠席のメンバーはいません
       </p>
     );

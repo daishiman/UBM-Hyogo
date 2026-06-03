@@ -2,8 +2,12 @@
 import { describe, expect, it, vi, beforeEach, afterEach } from "vitest";
 
 const authMock = vi.fn();
+let authEnv: Record<string, unknown> = {};
 vi.mock("../../../../src/lib/auth", () => ({
   getAuth: async () => ({ auth: authMock }),
+}));
+vi.mock("../../../../src/lib/env", () => ({
+  getAuthEnv: () => authEnv,
 }));
 
 import { GET } from "./route";
@@ -33,6 +37,7 @@ describe("/api/admin/[...path] proxy (T-5.1)", () => {
   beforeEach(() => {
     authMock.mockReset();
     authMock.mockResolvedValue({ user: { isAdmin: true, memberId: "m_1" } });
+    authEnv = {};
     vi.unstubAllGlobals();
     process.env = { ...ORIGINAL_ENV };
   });
@@ -42,7 +47,7 @@ describe("/api/admin/[...path] proxy (T-5.1)", () => {
   });
 
   it("returns 500 when INTERNAL_API_BASE_URL is missing in staging (no 127.0.0.1 fallback)", async () => {
-    delete process.env["INTERNAL_API_BASE_URL"];
+    authEnv = { ENVIRONMENT: "staging" };
     process.env["ENVIRONMENT"] = "staging";
     (process.env as Record<string, string>)["NODE_ENV"] = "production";
     const fetchMock = vi.fn();
@@ -56,8 +61,33 @@ describe("/api/admin/[...path] proxy (T-5.1)", () => {
     expect(fetchMock).not.toHaveBeenCalled();
   });
 
+  it("uses API_SERVICE binding before INTERNAL_API_BASE_URL in staging", async () => {
+    (process.env as Record<string, string>)["NODE_ENV"] = "production";
+    const bindingFetch = vi.fn(async () => new Response(JSON.stringify({ ok: true }), { status: 201 }));
+    const fetchMock = vi.fn();
+    vi.stubGlobal("fetch", fetchMock);
+    authEnv = {
+      ENVIRONMENT: "staging",
+      INTERNAL_API_BASE_URL: "https://stale-api.example.test",
+      INTERNAL_AUTH_SECRET: "internal",
+      API_SERVICE: { fetch: bindingFetch },
+    };
+
+    const { req, ctx } = makeRequest("https://web.test/api/admin/meetings?x=1");
+    const res = await GET(req, ctx);
+    expect(res.status).toBe(201);
+    expect(bindingFetch).toHaveBeenCalledWith(
+      "https://service-binding.local/admin/meetings?x=1",
+      expect.objectContaining({
+        method: "GET",
+        headers: expect.objectContaining({ "x-internal-auth": "internal" }),
+      }),
+    );
+    expect(fetchMock).not.toHaveBeenCalled();
+  });
+
   it("forwards Authorization header and propagates upstream 401 unchanged", async () => {
-    process.env["INTERNAL_API_BASE_URL"] = "https://api.example.test";
+    authEnv = { INTERNAL_API_BASE_URL: "https://api.example.test" };
     const fetchMock = vi.fn(async () => new Response("unauthorized", { status: 401 }));
     vi.stubGlobal("fetch", fetchMock);
 
@@ -76,8 +106,10 @@ describe("/api/admin/[...path] proxy (T-5.1)", () => {
   });
 
   it("injects SYNC_ADMIN_TOKEN for current sync responses endpoint", async () => {
-    process.env["INTERNAL_API_BASE_URL"] = "https://api.example.test";
-    process.env["SYNC_ADMIN_TOKEN"] = "sync-secret";
+    authEnv = {
+      INTERNAL_API_BASE_URL: "https://api.example.test",
+      SYNC_ADMIN_TOKEN: "sync-secret",
+    };
     const fetchMock = vi.fn(async () => new Response(JSON.stringify({ ok: true }), { status: 200 }));
     vi.stubGlobal("fetch", fetchMock);
 
@@ -95,8 +127,7 @@ describe("/api/admin/[...path] proxy (T-5.1)", () => {
   });
 
   it("returns 500 for sync endpoint when SYNC_ADMIN_TOKEN is missing", async () => {
-    process.env["INTERNAL_API_BASE_URL"] = "https://api.example.test";
-    delete process.env["SYNC_ADMIN_TOKEN"];
+    authEnv = { INTERNAL_API_BASE_URL: "https://api.example.test" };
     const fetchMock = vi.fn();
     vi.stubGlobal("fetch", fetchMock);
 

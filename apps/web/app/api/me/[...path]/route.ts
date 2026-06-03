@@ -39,7 +39,8 @@ async function proxy(
 
   const { path } = await ctx.params;
   const url = new URL(req.url);
-  const target = `${apiBase()}/me/${path.join("/")}${url.search}`;
+  const tail = path.join("/");
+  const target = `${apiBase()}/me${tail ? `/${tail}` : ""}${url.search}`;
 
   const headers: Record<string, string> = {};
   const cookie = req.headers.get("cookie");

@@ -1,0 +1,8 @@
+{
+  "mode": "VISUAL",
+  "taskId": "TASK-IME-INPUT-COMPOSITION-SEARCH-FIX",
+  "status": "user_gated_pending",
+  "screenshotsPresent": false,
+  "primaryEvidence": "jsdom render unit (Search.spec.tsx / SelectedFiltersBar.client.spec.tsx / MemberFilters.client.spec.tsx) and pure-logic unit (useImeSafeInput.spec.tsx), generated in the implementation wave.",
+  "reason": "Real IME composition keystrokes + staging auth are required; pixel screenshots are user-gated."
+}

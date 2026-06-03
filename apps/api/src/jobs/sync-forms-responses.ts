@@ -48,7 +48,11 @@ import {
   upsertExtraField,
   upsertKnownField,
 } from "../repository/responseFields";
-import { setConsentSnapshot, getStatus } from "../repository/status";
+import {
+  ensureMemberStatusRow,
+  getStatus,
+  setConsentSnapshot,
+} from "../repository/status";
 import {
   decidePublishState,
   isAdminOverrideStatus,
@@ -307,7 +311,9 @@ export async function processResponse(
       firstResponseId: responseId,
       lastSubmittedAt: resp.submittedAt,
     });
-    writeCount += 1;
+    await ensureMemberStatusRow(dbCtx, memberId);
+    // upsertMember + ensureMemberStatusRow の 2 write
+    writeCount += 2;
   }
 
   // 2. member_responses upsert（responseEmail を system field 列に保存）
@@ -501,9 +507,9 @@ function estimateResponseWrites(
 ): number {
   const knownCount = Object.keys(resp.answersByStableKey).length;
   const unknownCount = resp.unmappedQuestionIds.length;
-  // member/member_response/status の基礎 write + known fields + unknown field/diff。
+  // member/member_response/status ensure/consent/tag candidate の基礎 write + known fields + unknown field/diff。
   // auto-publish policy 有効時は publish_state UPDATE 用に +1 を見込む。
-  return 3 + knownCount + unknownCount * 2 + (autoPublishEnabled ? 1 : 0);
+  return 5 + knownCount + unknownCount * 2 + (autoPublishEnabled ? 1 : 0);
 }
 
 function parseAutoPublishFlag(env: ResponseSyncEnv): boolean {

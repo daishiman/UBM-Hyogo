@@ -39,7 +39,7 @@ export function AttendanceFilterBar({ initial }: Props) {
         ))}
       </fieldset>
       <fieldset className="attendance-zone-filter">
-        <legend>区画</legend>
+        <legend>出席回数帯</legend>
         {SELECTABLE_ZONES.map((zone) => (
           <label key={zone} data-testid={`attendance-zone-${zone}`}>
             <input
