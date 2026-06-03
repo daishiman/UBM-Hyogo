@@ -1,0 +1,250 @@
+// @vitest-environment node
+import { describe, it, expect, beforeEach } from "vitest";
+import { Hono } from "hono";
+import { setupD1, type InMemoryD1 } from "../../repository/__tests__/_setup";
+import { createAdminTagsRoute } from "./tags";
+import { createAdminTagsQueueRoute } from "./tags-queue";
+import { adminAuthHeader, TEST_AUTH_SECRET } from "./_test-auth";
+
+const makeEnv = (env: InMemoryD1) => ({
+  DB: env.db as unknown as D1Database,
+  SYNC_ADMIN_TOKEN: "t",
+  AUTH_SECRET: TEST_AUTH_SECRET,
+});
+
+interface TagBody {
+  tagId: string;
+  code: string;
+  label: string;
+  category: string;
+  active: boolean;
+}
+
+interface TagsListBody {
+  total: number;
+  items: TagBody[];
+}
+
+const seedTags = async (env: InMemoryD1) => {
+  await env.db
+    .prepare(
+      `INSERT INTO tag_definitions (tag_id, code, label, category, source_stable_keys_json, active)
+       VALUES ('tag_eng','engineer','エンジニア','occupation','[]',1),
+              ('tag_mgr','manager','経営者','occupation','[]',1),
+              ('tag_old','old','古いタグ','misc','[]',0)`,
+    )
+    .run();
+};
+
+const auditCount = async (env: InMemoryD1, action: string): Promise<number> => {
+  const row = await env.db
+    .prepare("SELECT COUNT(*) AS n FROM audit_log WHERE target_type='tag' AND action=?1")
+    .bind(action)
+    .first<{ n: number }>();
+  return row?.n ?? 0;
+};
+
+const appWithQueueFirst = () => {
+  const app = new Hono();
+  app.route("/admin", createAdminTagsQueueRoute());
+  app.route("/admin", createAdminTagsRoute());
+  return app;
+};
+
+describe("admin tag master CRUD contract (issue-1035)", () => {
+  let env: InMemoryD1;
+
+  beforeEach(async () => {
+    env = await setupD1();
+    await seedTags(env);
+  }, 30000);
+
+  it("GET /admin/tags supports pagination, search, and inactive rows", async () => {
+    const app = createAdminTagsRoute();
+    const res = await app.request(
+      "/tags?q=MAN&page=1&pageSize=10",
+      { headers: await adminAuthHeader() },
+      makeEnv(env),
+    );
+    expect(res.status).toBe(200);
+    const body = (await res.json()) as TagsListBody;
+    expect(body.total).toBe(1);
+    expect(body.items.map((tag) => tag.code)).toEqual(["manager"]);
+
+    const all = await app.request(
+      "/tags?page=1&pageSize=10",
+      { headers: await adminAuthHeader() },
+      makeEnv(env),
+    );
+    const allBody = (await all.json()) as TagsListBody;
+    expect(allBody.total).toBe(3);
+    expect(allBody.items.map((tag) => tag.code)).toContain("old");
+  });
+
+  it("GET /admin/tags rejects invalid pagination query", async () => {
+    const app = createAdminTagsRoute();
+    const res = await app.request(
+      "/tags?page=0&pageSize=101",
+      { headers: await adminAuthHeader() },
+      makeEnv(env),
+    );
+    expect(res.status).toBe(400);
+    expect(await res.json()).toEqual({ ok: false, error: "invalid_query" });
+  });
+
+  it("POST /admin/tags creates a tag and maps code conflict to 409", async () => {
+    const app = createAdminTagsRoute();
+    const res = await app.request(
+      "/tags",
+      {
+        method: "POST",
+        headers: { ...(await adminAuthHeader()), "content-type": "application/json" },
+        body: JSON.stringify({
+          code: "designer",
+          label: "デザイナー",
+          category: "occupation",
+        }),
+      },
+      makeEnv(env),
+    );
+    expect(res.status).toBe(201);
+    expect(await res.json()).toMatchObject({
+      code: "designer",
+      label: "デザイナー",
+      category: "occupation",
+      active: true,
+    });
+    expect(await auditCount(env, "admin.tag.created")).toBe(1);
+
+    const conflict = await app.request(
+      "/tags",
+      {
+        method: "POST",
+        headers: { ...(await adminAuthHeader()), "content-type": "application/json" },
+        body: JSON.stringify({
+          code: "engineer",
+          label: "重複",
+          category: "occupation",
+        }),
+      },
+      makeEnv(env),
+    );
+    expect(conflict.status).toBe(409);
+    expect(await conflict.json()).toEqual({ ok: false, error: "tag_code_conflict" });
+  });
+
+  it("PATCH /admin/tags/:tagId updates label/category only and audits real changes", async () => {
+    const app = createAdminTagsRoute();
+    const res = await app.request(
+      "/tags/tag_eng",
+      {
+        method: "PATCH",
+        headers: { ...(await adminAuthHeader()), "content-type": "application/json" },
+        body: JSON.stringify({ label: "Engineer", category: "role", code: "ignored" }),
+      },
+      makeEnv(env),
+    );
+    expect(res.status).toBe(200);
+    expect(await res.json()).toMatchObject({
+      tagId: "tag_eng",
+      code: "engineer",
+      label: "Engineer",
+      category: "role",
+    });
+    expect(await auditCount(env, "admin.tag.updated")).toBe(1);
+
+    const noop = await app.request(
+      "/tags/tag_eng",
+      {
+        method: "PATCH",
+        headers: { ...(await adminAuthHeader()), "content-type": "application/json" },
+        body: JSON.stringify({ label: "Engineer" }),
+      },
+      makeEnv(env),
+    );
+    expect(noop.status).toBe(200);
+    expect(await auditCount(env, "admin.tag.updated")).toBe(1);
+  });
+
+  it("PATCH/DELETE return 404 for missing tag and PATCH rejects empty body", async () => {
+    const app = createAdminTagsRoute();
+    const empty = await app.request(
+      "/tags/tag_eng",
+      {
+        method: "PATCH",
+        headers: { ...(await adminAuthHeader()), "content-type": "application/json" },
+        body: JSON.stringify({}),
+      },
+      makeEnv(env),
+    );
+    expect(empty.status).toBe(400);
+    expect(await empty.json()).toEqual({ ok: false, error: "no_update_fields" });
+
+    const patchMissing = await app.request(
+      "/tags/missing",
+      {
+        method: "PATCH",
+        headers: { ...(await adminAuthHeader()), "content-type": "application/json" },
+        body: JSON.stringify({ label: "x" }),
+      },
+      makeEnv(env),
+    );
+    expect(patchMissing.status).toBe(404);
+
+    const deleteMissing = await app.request(
+      "/tags/missing",
+      { method: "DELETE", headers: await adminAuthHeader() },
+      makeEnv(env),
+    );
+    expect(deleteMissing.status).toBe(404);
+  });
+
+  it("DELETE /admin/tags/:tagId deactivates idempotently and keeps member_tags", async () => {
+    await env.db
+      .prepare(
+        "INSERT INTO member_tags (member_id, tag_id, source, assigned_by) VALUES ('m1', 'tag_eng', 'manual', 'admin@example.com')",
+      )
+      .run();
+    const app = createAdminTagsRoute();
+
+    const first = await app.request(
+      "/tags/tag_eng",
+      { method: "DELETE", headers: await adminAuthHeader() },
+      makeEnv(env),
+    );
+    expect(first.status).toBe(204);
+    expect(await auditCount(env, "admin.tag.deactivated")).toBe(1);
+
+    const second = await app.request(
+      "/tags/tag_eng",
+      { method: "DELETE", headers: await adminAuthHeader() },
+      makeEnv(env),
+    );
+    expect(second.status).toBe(204);
+    expect(await auditCount(env, "admin.tag.deactivated")).toBe(1);
+
+    const memberTags = await env.db
+      .prepare("SELECT COUNT(*) AS n FROM member_tags WHERE tag_id='tag_eng'")
+      .first<{ n: number }>();
+    expect(memberTags?.n).toBe(1);
+  });
+
+  it("keeps /admin/tags/queue routed to the queue route when mounted before CRUD", async () => {
+    await env.db
+      .prepare(
+        "INSERT INTO tag_assignment_queue (queue_id, member_id, response_id, status, created_at, updated_at) VALUES ('q1', 'm1', 'r1', 'queued', '2026-06-01T00:00:00Z', '2026-06-01T00:00:00Z')",
+      )
+      .run();
+    const app = appWithQueueFirst();
+
+    const res = await app.request(
+      "/admin/tags/queue",
+      { headers: await adminAuthHeader() },
+      makeEnv(env),
+    );
+    expect(res.status).toBe(200);
+    const body = (await res.json()) as { total: number; items: unknown[] };
+    expect(body.total).toBe(1);
+    expect(body.items).toHaveLength(1);
+  });
+});

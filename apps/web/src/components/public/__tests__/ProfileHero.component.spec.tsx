@@ -58,4 +58,19 @@ describe("ProfileHero", () => {
     );
     expect(container.querySelector('[data-role="nickname"]')).toBeNull();
   });
+
+  // --- issue-1029 lane F: photoUrl → <Avatar src> 配線 ---
+
+  it("F-1: photoUrl 有で img src が photoUrl と一致", () => {
+    const photo = "https://r2/p?s=x";
+    const { container } = render(<ProfileHero {...baseProps} photoUrl={photo} />);
+    const img = container.querySelector("img");
+    expect(img).not.toBeNull();
+    expect(img?.getAttribute("src")).toBe(photo);
+  });
+
+  it("F-2: photoUrl 無で img なし（hue placeholder へ fallback）", () => {
+    const { container } = render(<ProfileHero {...baseProps} />);
+    expect(container.querySelector("img")).toBeNull();
+  });
 });

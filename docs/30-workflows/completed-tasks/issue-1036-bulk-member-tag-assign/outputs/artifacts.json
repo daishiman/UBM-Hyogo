@@ -1,0 +1,57 @@
+{
+  "task_id": "issue-1036-bulk-member-tag-assign",
+  "created_at": "2026-06-01",
+  "status": "implemented_local_runtime_pending",
+  "task_type": "implementation",
+  "visual_category": "VISUAL_ON_EXECUTION",
+  "implementation_mode": "new",
+  "metadata": {
+    "workflow_state": "implemented_local_runtime_pending",
+    "implementation_status": "implemented_local_runtime_pending",
+    "canonical_workflow": "docs/30-workflows/completed-tasks/issue-1036-bulk-member-tag-assign",
+    "github_issue": 1036,
+    "github_issue_state": "CLOSED",
+    "parity_source": "docs/30-workflows/completed-tasks/issue-1036-bulk-member-tag-assign/artifacts.json",
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-06-01T00:00:00+09:00",
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-1036-bulk-member-tag-assign/phase-3-design-review.md",
+        "approver": "daishiman",
+        "notes": "Spec authoring gate."
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "passed",
+        "passed_at": "2026-06-01T00:00:00+09:00",
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-1036-bulk-member-tag-assign/phase-9-qa.md",
+        "approver": "daishiman",
+        "notes": "Implementation gate. Local code, tests, and visual fixture evidence captured."
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-1036-bulk-member-tag-assign/phase-13-pr.md",
+        "approver": "daishiman",
+        "notes": "PR gate. User-gated."
+      }
+    ]
+  },
+  "phases": {
+    "phase-1": { "status": "completed", "file": "phase-1-requirements.md" },
+    "phase-2": { "status": "completed", "file": "phase-2-design.md" },
+    "phase-3": { "status": "completed", "file": "phase-3-design-review.md" },
+    "phase-4": { "status": "completed", "file": "phase-4-test-plan.md" },
+    "phase-5": { "status": "completed", "file": "phase-5-implementation.md" },
+    "phase-6": { "status": "completed", "file": "phase-6-test-additions.md" },
+    "phase-7": { "status": "completed", "file": "phase-7-coverage.md" },
+    "phase-8": { "status": "completed", "file": "phase-8-refactor.md" },
+    "phase-9": { "status": "completed", "file": "phase-9-qa.md" },
+    "phase-10": { "status": "completed", "file": "phase-10-final-review.md" },
+    "phase-11": { "status": "completed", "file": "phase-11-manual-test.md" },
+    "phase-12": { "status": "completed", "file": "phase-12-documentation.md" },
+    "phase-13": { "status": "pending_user_approval", "file": "phase-13-pr.md" }
+  }
+}

@@ -45,6 +45,8 @@ export interface ProfileSource {
   attendance: AttendanceRecord[];
   attendanceMeta?: AttendanceMeta;
   tags: ProfileTagSource[];
+  // issue-1029: route 層 resolver が presign した public-safe photoUrl（公開 gate 通過後のみ）。
+  photoUrl?: string | undefined;
 }
 
 const FORBIDDEN_KEYS = ["responseEmail", STABLE_KEY.rulesConsent, "adminNotes"] as const;
@@ -161,6 +163,8 @@ export const toPublicMemberProfile = (
       label: t.label,
       category: t.category,
     })),
+    // issue-1029: photoUrl は optional。undefined なら zod が省略を許容する。
+    ...(src.photoUrl ? { photoUrl: src.photoUrl } : {}),
   } as Record<string, unknown>;
 
   for (const k of FORBIDDEN_KEYS) delete safe[k];

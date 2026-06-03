@@ -1,0 +1,72 @@
+{
+  "title": "issue-1039-admin-audit-identity-action-presets",
+  "type": "implementation",
+  "status": "implemented_local_evidence_captured",
+  "feature": "issue-1039-admin-audit-identity-action-presets",
+  "created": "2026-06-01",
+  "lastUpdated": "2026-06-01",
+  "branch": "feat/issue-1039-admin-audit-identity-action-presets",
+  "base": "dev",
+  "metadata": {
+    "taskType": "implementation",
+    "implementationDivision": "実装仕様書",
+    "implementation_mode": "new",
+    "visualEvidence": "VISUAL_ON_EXECUTION",
+    "scope": "Add an HTML5 datalist of identity.merge / identity.dismiss presets to the /admin/audit action filter input while preserving free-text entry, the action URL query contract, SSR defaultValue restore, and cursor pagination. Local implementation and focused evidence captured; commit/push/PR/staging runtime screenshot are user-gated.",
+    "workflow_state": "implemented_local_evidence_captured",
+    "githubIssue": 1039,
+    "githubIssueState": "CLOSED",
+    "githubIssueMutation": "none (actual state is CLOSED; no close/reopen/comment performed; PR context uses Refs #1039 only)",
+    "parentIssue": 987,
+    "parentWorkflow": "docs/30-workflows/completed-tasks/issue-987-identity-conflicts-audit-log-admin-ui/",
+    "investigationConclusion": "Preset UI is NOT implemented anywhere: AuditLogPanel.tsx (L181-183) uses a plain free-text action Input; no datalist/combobox/preset exists in apps/web/src/components/admin. The only identity.merge reference (server-fetch.ts:346) is an action-producer branch unrelated to the panel. The issue's preset values (identity.merge / identity.dismiss) match the current API action strings (identity-merge.ts:147 / identity-conflict.ts:250), so the issue core is not stale; only the referenced file paths were stale and are optimized to current App Router paths.",
+    "userGated": [
+      "commit",
+      "push",
+      "PR creation (Refs #1039)",
+      "staging deploy / authenticated Phase-11 screenshot capture",
+      "issue #1039 comment/close/reopen mutation"
+    ],
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-06-01T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-1039-admin-audit-identity-action-presets/phase-3.md",
+        "approver": "daishiman",
+        "notes": "spec_review: Phase 1-13 specs authored; datalist-based action preset design fixed (free-text preserved, URL query contract unchanged)."
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "passed",
+        "passed_at": "2026-06-01T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-1039-admin-audit-identity-action-presets/phase-5.md",
+        "approver": "daishiman",
+        "notes": "implementation_review: local datalist implementation and focused component/page regression tests are in place."
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-1039-admin-audit-identity-action-presets/phase-13.md",
+        "approver": "daishiman",
+        "notes": "external_ops: commit, push, PR creation, staging deploy, authenticated Phase-11 screenshot capture."
+      }
+    ]
+  },
+  "phases": {
+    "phase-1": { "name": "Requirements", "file": "phase-1.md", "status": "completed" },
+    "phase-2": { "name": "Design", "file": "phase-2.md", "status": "completed" },
+    "phase-3": { "name": "Design Review", "file": "phase-3.md", "status": "completed" },
+    "phase-4": { "name": "Test Creation", "file": "phase-4.md", "status": "completed" },
+    "phase-5": { "name": "Implementation", "file": "phase-5.md", "status": "completed" },
+    "phase-6": { "name": "Test Expansion", "file": "phase-6.md", "status": "completed" },
+    "phase-7": { "name": "Coverage Check", "file": "phase-7.md", "status": "completed" },
+    "phase-8": { "name": "Refactoring", "file": "phase-8.md", "status": "completed" },
+    "phase-9": { "name": "Quality Assurance", "file": "phase-9.md", "status": "completed" },
+    "phase-10": { "name": "Final Review", "file": "phase-10.md", "status": "completed" },
+    "phase-11": { "name": "Manual Test", "file": "phase-11.md", "status": "completed" },
+    "phase-12": { "name": "Documentation", "file": "phase-12.md", "status": "completed" },
+    "phase-13": { "name": "PR Creation", "file": "phase-13.md", "status": "pending_user_approval" }
+  }
+}

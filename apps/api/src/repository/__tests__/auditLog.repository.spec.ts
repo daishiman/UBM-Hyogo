@@ -78,6 +78,34 @@ describe("auditLog (append-only)", () => {
     expect(filtered.map((r) => r.auditId)).toEqual([entry.auditId]);
   });
 
+  it("tag target type を append / filter / target lookup で round-trip できる", async () => {
+    const entry = await auditLog.append(env.ctx, {
+      actorId: null,
+      actorEmail: adminEmail("owner@example.com"),
+      action: auditAction("admin.tag.created"),
+      targetType: "tag",
+      targetId: "tag_001",
+      after: { code: "designer" },
+    });
+
+    expect(entry.targetType).toBe("tag");
+
+    const byTarget = await auditLog.listByTarget(env.ctx, "tag", "tag_001", 10);
+    expect(byTarget).toHaveLength(1);
+    expect(byTarget[0]).toMatchObject({
+      targetType: "tag",
+      targetId: "tag_001",
+      after: { code: "designer" },
+    });
+
+    const filtered = await auditLog.listFiltered(env.ctx, {
+      targetType: "tag",
+      targetId: "tag_001",
+      limit: 10,
+    });
+    expect(filtered.map((r) => r.auditId)).toEqual([entry.auditId]);
+  });
+
   it("listFiltered: action / actorEmail / targetType / targetId の複合 filter", async () => {
     const rows = await auditLog.listFiltered(env.ctx, {
       action: "member.note.created",

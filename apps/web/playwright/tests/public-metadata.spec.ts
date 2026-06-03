@@ -5,8 +5,8 @@ import path from "node:path";
 const PUBLIC_ROUTES = ["/", "/members", "/register"] as const;
 const SEEDED_MEMBER_DETAIL_PATH = "/members/playwright-public-member";
 const defaultScreenshotDir = process.cwd().endsWith(`${path.sep}apps${path.sep}web`)
-  ? "../../docs/30-workflows/issue-806-dynamic-member-og-image/outputs/phase-11/screenshots"
-  : "docs/30-workflows/issue-806-dynamic-member-og-image/outputs/phase-11/screenshots";
+  ? "../../docs/30-workflows/completed-tasks/issue-1027-member-dynamic-og-worker-split/outputs/phase-11/screenshots"
+  : "docs/30-workflows/completed-tasks/issue-1027-member-dynamic-og-worker-split/outputs/phase-11/screenshots";
 const SCREENSHOT_DIR =
   process.env.PLAYWRIGHT_SCREENSHOT_DIR ?? defaultScreenshotDir;
 
@@ -52,8 +52,8 @@ test.describe("public pages OGP / sitemap / robots", () => {
     const twitterContent = await twitter.getAttribute("content");
     expect(content).toBeTruthy();
     expect(twitterContent).toBeTruthy();
-    expect(content!).toContain("/og-default.png");
-    expect(twitterContent!).toContain("/og-default.png");
+    expect(content!).toMatch(/\/(?:members\/playwright-public-member|og-default\.png)/);
+    expect(twitterContent!).toMatch(/\/(?:members\/playwright-public-member|og-default\.png)/);
     await writePhase11Evidence(
       "og-image-meta-grep.txt",
       [
