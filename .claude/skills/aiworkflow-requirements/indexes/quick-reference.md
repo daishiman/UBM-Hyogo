@@ -12,6 +12,32 @@
 | inventory | `.claude/skills/aiworkflow-requirements/references/workflow-profile-reload-session-404-fix-artifact-inventory.md` |
 | user gate | staging authenticated screenshot, commit, push, PR |
 
+## admin-attendance-dashboard-ux（2026-06-02）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/admin-attendance-dashboard-ux/` |
+| status | `implemented_local_runtime_pending / implementation / VISUAL` |
+| purpose | admin attendance dashboard UI/UX recovery: `.attendance-*` CSS, fixed SVG bar sizing, attendance-zone labels/help, KPI extended-attendance wording, page guide / section intro / empty-state styling |
+| implementation | `apps/web/src/styles/globals.css`, `apps/web/src/features/admin/attendance/{components,lib,__tests__}/**` |
+| evidence | `outputs/phase-11/manual-test-result.md` records focused Vitest PASS and apps-api unchanged; staging screenshots are user-gated |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-attendance-dashboard-ux-artifact-inventory.md` |
+| follow-up | `docs/30-workflows/admin-attendance-dashboard-ux/unassigned-task-specs/admin-attendance-analytics-calc-correction.md` |
+
+## sidebar-footer-pinning-and-account-popover-ux（2026-06-02）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/sidebar-footer-pinning-and-account-popover-ux/` |
+| status | `implemented_local_evidence_captured / implementation / VISUAL / staging_visual_pending_user_gate` |
+| parent | `docs/30-workflows/completed-tasks/unified-sidebar-shell-public-and-admin/` |
+| purpose | unified sidebar shell の footer 固定、collapsed overflow、account popover outside/Escape close、public footer sticky を同一 local cycle で修正 |
+| implementation | `apps/web/src/components/shell/{SidebarShell,SidebarUserMenu,SidebarNavItem}.tsx`, `apps/web/src/styles/{globals,legacy-public}.css` |
+| tests | `apps/web/src/components/shell/__tests__/{SidebarShell,SidebarUserMenu,SidebarNavItem}.spec.tsx` |
+| evidence | focused Vitest 3 files / 22 tests PASS; web typecheck PASS; web verify-design-tokens PASS; web lint PASS |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-sidebar-footer-pinning-and-account-popover-ux-artifact-inventory.md` |
+| user gate | staging authenticated screenshots, commit, push, PR |
+
 ## issue-1056-kv-alert-policy-binding-drift-detection（2026-06-02）
 
 | 項目 | 値 |

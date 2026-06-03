@@ -8,7 +8,11 @@ interface Props {
 export function AttendanceTop10Ranking({ rows }: Props) {
   const top = rows.slice(0, 10);
   if (top.length === 0) {
-    return <p data-testid="attendance-top10-empty">ランキングデータがありません</p>;
+    return (
+      <p className="attendance-list-empty" data-testid="attendance-top10-empty">
+        ランキングデータがありません
+      </p>
+    );
   }
   const maxCount = Math.max(1, ...top.map((r) => r.attendedCount));
   return (
