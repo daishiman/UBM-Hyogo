@@ -17,8 +17,18 @@ describe("memberPhotos source roundtrip（migration 0023）", () => {
 
   const mid = (s: string) => asMemberId(s);
 
+  // issue-1030: thumb 系 variant 列は本 source テストの対象外。
+  //   merge 後 MemberPhotoRow は thumb 系も必須のため、型を満たす null 既定をここで補う。
+  const VARIANT_DEFAULTS = {
+    thumbObjectKey: null,
+    thumbByteSize: null,
+    contentHash: null,
+    processingStatus: "original_fallback",
+  } as const;
+
   it("REPO-SRC-1: source='self' roundtrip", async () => {
     await upsertMemberPhoto(env.ctx, {
+      ...VARIANT_DEFAULTS,
       memberId: "m_001",
       objectKey: "members/m_001/avatar",
       contentType: "image/jpeg",
@@ -32,6 +42,7 @@ describe("memberPhotos source roundtrip（migration 0023）", () => {
 
   it("REPO-SRC-2: source='admin' roundtrip", async () => {
     await upsertMemberPhoto(env.ctx, {
+      ...VARIANT_DEFAULTS,
       memberId: "m_002",
       objectKey: "members/m_002/avatar",
       contentType: "image/png",
@@ -89,6 +100,7 @@ describe("memberPhotos source roundtrip（migration 0023）", () => {
 
   it("REPO-SRC-6: self upsert → admin upsert で上書きすると source='admin' になる", async () => {
     await upsertMemberPhoto(env.ctx, {
+      ...VARIANT_DEFAULTS,
       memberId: "m_005",
       objectKey: "members/m_005/avatar",
       contentType: "image/jpeg",
@@ -97,6 +109,7 @@ describe("memberPhotos source roundtrip（migration 0023）", () => {
       source: "self",
     });
     await upsertMemberPhoto(env.ctx, {
+      ...VARIANT_DEFAULTS,
       memberId: "m_005",
       objectKey: "members/m_005/avatar",
       contentType: "image/png",
@@ -110,6 +123,7 @@ describe("memberPhotos source roundtrip（migration 0023）", () => {
 
   it("REPO-SRC-7: delete 後は getMemberPhoto が null", async () => {
     await upsertMemberPhoto(env.ctx, {
+      ...VARIANT_DEFAULTS,
       memberId: "m_006",
       objectKey: "members/m_006/avatar",
       contentType: "image/jpeg",
@@ -124,6 +138,7 @@ describe("memberPhotos source roundtrip（migration 0023）", () => {
 
   it("REPO-SRC-8: admin → self upsert（last-write-wins）で source='self'", async () => {
     await upsertMemberPhoto(env.ctx, {
+      ...VARIANT_DEFAULTS,
       memberId: "m_007",
       objectKey: "members/m_007/avatar",
       contentType: "image/png",
@@ -132,6 +147,7 @@ describe("memberPhotos source roundtrip（migration 0023）", () => {
       source: "admin",
     });
     await upsertMemberPhoto(env.ctx, {
+      ...VARIANT_DEFAULTS,
       memberId: "m_007",
       objectKey: "members/m_007/avatar",
       contentType: "image/webp",

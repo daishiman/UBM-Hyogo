@@ -1,0 +1,38 @@
+name: verify-wrangler-binding-drift
+
+on:
+  pull_request:
+    branches: [main, dev]
+    paths:
+      - 'apps/api/wrangler.toml'
+      - 'apps/api/src/env.ts'
+      - '.claude/skills/aiworkflow-requirements/references/deployment-cloudflare.md'
+      - 'scripts/verify-wrangler-binding-drift.mjs'
+      - 'scripts/__tests__/verify-wrangler-binding-drift.spec.ts'
+      - '.github/workflows/verify-wrangler-binding-drift.yml'
+      - 'package.json'
+      - 'pnpm-lock.yaml'
+  push:
+    branches: [main, dev]
+
+concurrency:
+  group: verify-wrangler-binding-drift-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  verify-wrangler-binding-drift:
+    name: verify-wrangler-binding-drift
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: jdx/mise-action@v2
+      - name: Install deps
+        run: mise exec -- pnpm install --frozen-lockfile
+      - name: Unit test verifier
+        run: mise exec -- pnpm exec vitest run scripts/__tests__/verify-wrangler-binding-drift.spec.ts
+      - name: Verify wrangler binding drift
+        run: mise exec -- pnpm verify:wrangler-binding-drift

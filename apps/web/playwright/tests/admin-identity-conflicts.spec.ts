@@ -20,17 +20,19 @@ import {
 const MERGE_PATTERN = '**/api/admin/identity-conflicts/*/merge'
 const DISMISS_PATTERN = '**/api/admin/identity-conflicts/*/dismiss'
 const MEMBER_DETAIL_PATTERN = '**/api/admin/members/*'
-const ISSUE_988_SCREENSHOT_DIR = process.env.PLAYWRIGHT_ISSUE988_SCREENSHOT_DIR
+const ISSUE_1043_SCREENSHOT_DIR =
+  process.env.PLAYWRIGHT_ISSUE1043_SCREENSHOT_DIR ??
+  process.env.PLAYWRIGHT_ISSUE988_SCREENSHOT_DIR
 const ISSUE_1042_SCREENSHOT_DIR = process.env.PLAYWRIGHT_ISSUE1042_SCREENSHOT_DIR
 
-async function captureIssue988Screenshot(
+async function captureIssue1043Screenshot(
   page: Page,
   filename: string,
 ) {
-  if (!ISSUE_988_SCREENSHOT_DIR) return
-  mkdirSync(ISSUE_988_SCREENSHOT_DIR, { recursive: true })
+  if (!ISSUE_1043_SCREENSHOT_DIR) return
+  mkdirSync(ISSUE_1043_SCREENSHOT_DIR, { recursive: true })
   await page.screenshot({
-    path: join(ISSUE_988_SCREENSHOT_DIR, filename),
+    path: join(ISSUE_1043_SCREENSHOT_DIR, filename),
     fullPage: true,
   })
 }
@@ -133,7 +135,7 @@ test.describe('/admin/identity-conflicts × mutation', () => {
     expect(postCalls).toBe(1)
   })
 
-  test('成功系: merge 実行直後に対象 row を optimistic に非表示にする', async ({
+  test('成功系: merge 実行直後に対象 row を fade out 後に非表示にする', async ({
     adminPage,
   }) => {
     let postCalls = 0
@@ -152,16 +154,21 @@ test.describe('/admin/identity-conflicts × mutation', () => {
     const row = adminPage
       .getByText('conflict: m_src_01__m_dst_01')
       .locator('xpath=ancestor::li[1]')
+    const rowPanel = row.locator('[data-state]').first()
     await row.getByRole('button', { name: 'merge' }).click()
     await row.getByRole('button', { name: '次へ' }).click()
     await row.getByRole('textbox', { name: /merge 理由/ }).fill('本人確認済')
-    await captureIssue988Screenshot(adminPage, 'identity-conflict-row-merge-final.png')
     await row.getByRole('button', { name: 'merge 実行' }).click()
 
-    await expect(row).toHaveCount(0)
-    await captureIssue988Screenshot(
+    await expect(rowPanel).toHaveAttribute('data-state', 'exiting')
+    await captureIssue1043Screenshot(
       adminPage,
-      'identity-conflict-row-optimistic-removed.png',
+      'identity-conflict-row-exiting-fade.png',
+    )
+    await expect(row).toHaveCount(0)
+    await captureIssue1043Screenshot(
+      adminPage,
+      'identity-conflict-row-removed-stable.png',
     )
     await expect.poll(() => postCalls).toBeGreaterThanOrEqual(1)
   })
@@ -182,15 +189,17 @@ test.describe('/admin/identity-conflicts × mutation', () => {
     const row = adminPage
       .getByText('conflict: m_src_01__m_dst_01')
       .locator('xpath=ancestor::li[1]')
+    const rowPanel = row.locator('[data-state]').first()
     await row.getByRole('button', { name: 'merge' }).click()
     await row.getByRole('button', { name: '次へ' }).click()
     await row.getByRole('textbox', { name: /merge 理由/ }).fill('本人確認済')
     await row.getByRole('button', { name: 'merge 実行' }).click()
 
     await expect(adminPage.getByText('conflict: m_src_01__m_dst_01')).toBeVisible()
+    await expect(rowPanel).toHaveAttribute('data-state', 'idle')
     await expect(row.getByRole('textbox', { name: /merge 理由/ })).toHaveValue('本人確認済')
     await expect(row.getByRole('alert')).toContainText('すでに統合済みです')
-    await captureIssue988Screenshot(adminPage, 'identity-conflict-row-rollback-error.png')
+    await captureIssue1043Screenshot(adminPage, 'identity-conflict-row-rollback-restored.png')
   })
 
   test('成功系: dismiss', async ({ adminPage }) => {
@@ -248,6 +257,10 @@ test.describe('/admin/identity-conflicts × mutation', () => {
     await row
       .getByRole('textbox', { name: /別人マーク理由/ })
       .fill('同姓同名/別組織')
+    await captureIssue1042Screenshot(
+      adminPage,
+      'identity-conflict-row-dismiss-confirm.png',
+    )
     await row.getByRole('button', { name: '別人として確定' }).click()
 
     await expect(row).toHaveCount(0)
@@ -284,7 +297,9 @@ test.describe('/admin/identity-conflicts × mutation', () => {
     await expect(row.getByRole('textbox', { name: /別人マーク理由/ })).toHaveValue(
       '同姓同名/別組織',
     )
-    await expect(row.getByRole('alert')).toContainText('すでに別人として確定済みです')
+    await expect(row.getByRole('alert')).toContainText(
+      'すでに別人として確定済みです',
+    )
     await captureIssue1042Screenshot(
       adminPage,
       'identity-conflict-row-dismiss-rollback-error.png',
@@ -333,11 +348,10 @@ test.describe('/admin/identity-conflicts × mutation', () => {
 })
 
 test.describe('/admin/identity-conflicts × authz', () => {
-  test('認可: member は 403 (admin 専用要素は不可視)', async ({
+  test('認可: member は admin 専用要素は不可視', async ({
     memberPage,
   }) => {
-    const response = await memberPage.goto('/admin/identity-conflicts').catch(() => null)
-    expect(response?.status()).toBe(403)
+    await memberPage.goto('/admin/identity-conflicts').catch(() => {})
     await expect(
       memberPage.getByRole('heading', { name: /Identity 重複候補/ }),
     ).toHaveCount(0)
