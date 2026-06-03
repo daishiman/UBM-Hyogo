@@ -1,0 +1,103 @@
+{
+  "workflow_id": "japanese-ime-input-composition-search-fix",
+  "feature": "japanese-ime-input-composition-search-fix",
+  "status": "implemented_local_evidence_captured",
+  "created": "2026-06-02T14:55:00+09:00",
+  "lastUpdated": "2026-06-02T14:55:00+09:00",
+  "metadata": {
+    "taskId": "TASK-IME-INPUT-COMPOSITION-SEARCH-FIX",
+    "parentWorkflow": null,
+    "taskType": "implementation",
+    "visualEvidence": "VISUAL",
+    "implementationCategory": "standard",
+    "implementation_mode": "implemented_local",
+    "workflow_state": "implemented_local_evidence_captured",
+    "implementation_status": "implemented_local_evidence_captured",
+    "scope": "Fix Japanese IME composition breakage in the public member directory keyword search by introducing a shared IME-safe debounced-commit hook (useImeSafeInput), refactoring the Search primitive to use it, removing the duplicated clear (x) by dropping the keyword (q) chip from SelectedFiltersBar, verifying MemberFilters wiring, and adding an opt-in imeSafe path to the Input primitive for future reuse.",
+    "canonical_root": "docs/30-workflows/completed-tasks/japanese-ime-input-composition-search-fix",
+    "runtime_boundary": "Local implementation, focused evidence, and local /members screenshots are complete. Staging real-IME screenshot capture, commit, push, and PR are user-gated. Changes are confined to apps/web client components and a new apps/web hook; D1, apps/api, and the Google Form schema are not touched.",
+    "implementation_files": [
+      "apps/web/src/hooks/useImeSafeInput.ts",
+      "apps/web/src/components/ui/Search.tsx",
+      "apps/web/src/components/public/SelectedFiltersBar.client.tsx",
+      "apps/web/src/components/public/MemberFilters.client.tsx",
+      "apps/web/src/components/ui/Input.tsx"
+    ],
+    "reused_unchanged_files": [
+      "apps/web/src/components/ui/FormField.tsx",
+      "apps/web/src/lib/url/members-search.ts",
+      "apps/web/app/(public)/members/page.tsx"
+    ],
+    "test_files": [
+      "apps/web/src/hooks/__tests__/useImeSafeInput.spec.tsx",
+      "apps/web/src/components/ui/__tests__/Search.spec.tsx",
+      "apps/web/src/components/public/__tests__/SelectedFiltersBar.client.spec.tsx",
+      "apps/web/src/components/public/__tests__/MemberFilters.client.spec.tsx",
+      "apps/web/src/components/ui/__tests__/Input.spec.tsx"
+    ],
+    "verify_commands": [
+      "mise exec -- pnpm typecheck",
+      "mise exec -- pnpm lint",
+      "mise exec -- pnpm exec vitest run --root=. --config=vitest.config.ts apps/web/src/hooks/__tests__/useImeSafeInput.spec.tsx apps/web/src/components/ui/__tests__/Search.spec.tsx apps/web/src/components/public/__tests__/SelectedFiltersBar.client.spec.tsx apps/web/src/components/public/__tests__/MemberFilters.client.spec.tsx apps/web/src/components/ui/__tests__/Input.spec.tsx",
+      "bash scripts/coverage-guard.sh"
+    ],
+    "phase12_strict_outputs": [
+      "outputs/phase-12/main.md",
+      "outputs/phase-12/implementation-guide.md",
+      "outputs/phase-12/system-spec-update-summary.md",
+      "outputs/phase-12/documentation-changelog.md",
+      "outputs/phase-12/unassigned-task-detection.md",
+      "outputs/phase-12/skill-feedback-report.md",
+      "outputs/phase-12/phase12-task-spec-compliance-check.md"
+    ],
+    "screenshot_files": [
+      "outputs/phase-11/screenshots/member-search-local-overview.png",
+      "outputs/phase-11/screenshots/member-search-local-keyword-filter.png"
+    ],
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "approver": "codex",
+        "status": "passed",
+        "passed_at": "2026-06-02T14:55:00+09:00",
+        "evidence_path": "docs/30-workflows/completed-tasks/japanese-ime-input-composition-search-fix/outputs/phase-12/phase12-task-spec-compliance-check.md",
+        "notes": "spec_review: Phase 1-13 implementation specification and local implementation evidence are complete for the Japanese IME search fix."
+      },
+      {
+        "gate_id": "Gate-B",
+        "approver": "daishiman",
+        "status": "passed",
+        "passed_at": "2026-06-02T17:53:00+09:00",
+        "evidence_path": "docs/30-workflows/completed-tasks/japanese-ime-input-composition-search-fix/phase-5.md",
+        "notes": "implementation_review: apps/web implementation complete; focused Vitest 5 files / 26 tests PASS; @ubm-hyogo/web typecheck PASS; @ubm-hyogo/web lint PASS."
+      },
+      {
+        "gate_id": "Gate-C",
+        "approver": "daishiman",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/japanese-ime-input-composition-search-fix/phase-13.md",
+        "notes": "external_ops: browser/staging IME screenshot capture, commit, push, and PR are user-gated."
+      }
+    ]
+  },
+  "phases": [
+    { "phase": 1, "name": "要件定義", "status": "completed", "output": "outputs/phase-1/requirements.md" },
+    { "phase": 2, "name": "設計", "status": "completed", "output": "phase-2.md" },
+    { "phase": 3, "name": "設計レビュー", "status": "completed", "output": "phase-3.md" },
+    { "phase": 4, "name": "テスト作成", "status": "completed", "output": "phase-4.md" },
+    { "phase": 5, "name": "実装手順", "status": "completed", "output": "phase-5.md" },
+    { "phase": 6, "name": "テスト拡充", "status": "completed", "output": "phase-6.md" },
+    { "phase": 7, "name": "カバレッジ確認", "status": "completed", "output": "phase-7.md" },
+    { "phase": 8, "name": "リファクタリング", "status": "completed", "output": "phase-8.md" },
+    { "phase": 9, "name": "品質保証", "status": "completed", "output": "phase-9.md" },
+    { "phase": 10, "name": "最終レビュー", "status": "completed", "output": "outputs/phase-10/final-review-result.md" },
+    { "phase": 11, "name": "証跡取得", "status": "completed", "output": "outputs/phase-11/main.md" },
+    { "phase": 12, "name": "ドキュメント同期", "status": "completed", "output": "outputs/phase-12/main.md" },
+    { "phase": 13, "name": "PR作成", "status": "blocked", "output": "phase-13.md", "user_approval_required": true }
+  ],
+  "dependencies": {
+    "2": ["1"], "3": ["2"], "4": ["3"], "5": ["4"], "6": ["5"], "7": ["6"],
+    "8": ["7"], "9": ["8"], "10": ["9"], "11": ["10"], "12": ["11"], "13": ["12"]
+  }
+}

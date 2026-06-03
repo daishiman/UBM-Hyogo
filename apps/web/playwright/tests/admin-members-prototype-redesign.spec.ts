@@ -33,6 +33,21 @@ const STATES = [
   { name: 'hidden', path: '/admin/members?filter=hidden', text: '兵庫 花子' },
 ] as const
 
+// mobile-webkit では前ページの client-side navigation（URL 正規化等）と
+// 競合して "interrupted by another navigation" が発生することがあるため retry する。
+// 機能アサーションには影響しない navigation 安定化のみ。
+async function gotoState(page: import('@playwright/test').Page, path: string): Promise<void> {
+  for (let attempt = 0; attempt < 3; attempt++) {
+    try {
+      await page.goto(path)
+      return
+    } catch (error) {
+      const message = error instanceof Error ? error.message : String(error)
+      if (attempt === 2 || !message.includes('interrupted by another navigation')) throw error
+    }
+  }
+}
+
 test.describe('followup-003 admin members prototype screenshots', () => {
   test('captures four local list states across four viewports', async ({ page, context }) => {
     test.slow()
@@ -43,7 +58,7 @@ test.describe('followup-003 admin members prototype screenshots', () => {
       await page.setViewportSize({ width: viewport.width, height: viewport.height })
 
       for (const state of STATES) {
-        await page.goto(state.path)
+        await gotoState(page, state.path)
         await expect(page.locator('#admin-members-h')).toBeAttached()
         await expect(page.getByText(state.text).first()).toBeVisible()
         screenshots.push({

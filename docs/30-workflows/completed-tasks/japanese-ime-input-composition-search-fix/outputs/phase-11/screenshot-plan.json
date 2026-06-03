@@ -1,0 +1,12 @@
+{
+  "mode": "VISUAL",
+  "status": "user_gated_pending",
+  "taskId": "TASK-IME-INPUT-COMPOSITION-SEARCH-FIX",
+  "reason": "VISUAL task. Screenshots require a running staging stack, authenticated session, and manual Japanese IME keystrokes (composition), so capture is user-gated and deferred to the implementation wave.",
+  "captureRoute": "/(public)/members",
+  "screenshots": [
+    { "name": "member-search-ime-composing", "path": "outputs/phase-11/screenshots/member-search-ime-composing.png", "state": "IME変換中（未確定）に正しく合成表示され、URLが更新されないこと", "status": "pending" },
+    { "name": "member-search-ime-committed", "path": "outputs/phase-11/screenshots/member-search-ime-committed.png", "state": "変換確定+debounce後に確定文字列で検索が反映されること", "status": "pending" },
+    { "name": "member-search-cleared", "path": "outputs/phase-11/screenshots/member-search-cleared.png", "state": "入力欄内の×が1箇所のみ・クリックで即時クリアされること", "status": "pending" }
+  ]
+}

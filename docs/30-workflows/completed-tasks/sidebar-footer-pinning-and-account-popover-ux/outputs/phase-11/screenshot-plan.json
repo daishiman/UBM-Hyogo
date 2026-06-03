@@ -1,0 +1,61 @@
+{
+  "mode": "VISUAL",
+  "taskId": "sidebar-footer-pinning-and-account-popover-ux",
+  "visualCategory": "VISUAL",
+  "implementationMode": "new",
+  "specStatus": "implemented_local_evidence_captured",
+  "captureBlockedReason": "staging (ubm-hyogo-web-staging) authentication required; local component evidence is captured, authenticated visual screenshot remains user-gated",
+  "screenshotDir": "docs/30-workflows/completed-tasks/sidebar-footer-pinning-and-account-popover-ux/screenshots",
+  "captures": [
+    {
+      "name": "sidebar-footer-pinned.png",
+      "component": "sidebar",
+      "state": "footer-pinned",
+      "concern": "C1",
+      "ac": "AC-1",
+      "tc": "TC-C1",
+      "description": "admin で nav 14 項目を表示しても下部 3 要素（公開サイトに戻る / user メニュー / collapse トグル）がスクロールなしで最下部に固定。nav 領域のみ内部スクロール。",
+      "status": "pending_user_gated"
+    },
+    {
+      "name": "sidebar-collapsed-no-overflow.png",
+      "component": "sidebar",
+      "state": "collapsed-no-overflow",
+      "concern": "C2",
+      "ac": "AC-2",
+      "tc": "TC-C2",
+      "description": "collapse 時、アイコンが 4rem 幅に収まり横にはみ出さない。badge はドット表示で中央寄せ。",
+      "status": "pending_user_gated"
+    },
+    {
+      "name": "account-popover-open.png",
+      "component": "account-popover",
+      "state": "open",
+      "concern": "C3",
+      "ac": "AC-3",
+      "tc": "TC-C3a",
+      "description": "user メニュー popover が開いた状態（プロフィール編集 / 申請 / 管理者ダッシュボード等の action 表示）。",
+      "status": "pending_user_gated"
+    },
+    {
+      "name": "account-popover-dismissed-by-outside-click.png",
+      "component": "account-popover",
+      "state": "dismissed-by-outside-click",
+      "concern": "C3",
+      "ac": "AC-3",
+      "tc": "TC-C3b",
+      "description": "popover 開状態で外側をクリック（または Escape）した直後に閉じた状態。route 変化 close も維持。",
+      "status": "pending_user_gated"
+    },
+    {
+      "name": "public-footer-sticky.png",
+      "component": "public-footer",
+      "state": "sticky",
+      "concern": "C4",
+      "ac": "AC-4",
+      "tc": "TC-C4",
+      "description": "短コンテンツの公開ページで PublicFooter（プライバシーポリシー / 利用規約 / コピーライト）が viewport 最下部に sticky 配置。",
+      "status": "pending_user_gated"
+    }
+  ]
+}
