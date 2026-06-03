@@ -123,9 +123,9 @@ describe("static invariants / 06b", () => {
     ).toHaveLength(0);
   });
 
-  it("S-02: app/(public)/login と app/(member)/profile に 'localStorage' が出現しない", async () => {
+  it("S-02: app/(auth)/login と app/(member)/profile に 'localStorage' が出現しない", async () => {
     const files = [
-      ...(await walk(join(WEB_ROOT, "app/(public)/login"))),
+      ...(await walk(join(WEB_ROOT, "app/(auth)/login"))),
       ...(await walk(join(WEB_ROOT, "app/(member)/profile"))),
     ];
     const hits = await findMatches(files, "localStorage", {

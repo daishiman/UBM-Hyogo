@@ -54,7 +54,7 @@ export function SidebarNavItem({ item, collapsed, activePath }: SidebarNavItemPr
       ) : null}
       {showBadge && item.badge && !collapsed ? (
         <Chip tone={TONE_TO_CHIP[item.badge.tone]}>
-          <span>{item.badge.count}</span>
+          <span className="font-semibold">{item.badge.count}</span>
         </Chip>
       ) : null}
     </>
@@ -81,7 +81,7 @@ export function SidebarNavItem({ item, collapsed, activePath }: SidebarNavItemPr
         data-shell-block="nav-item"
         data-active={active ? "true" : "false"}
         aria-current={active ? "page" : undefined}
-        className={`${itemClassName} data-[active=true]:bg-[var(--shell-active-bg)] data-[active=true]:font-semibold data-[active=true]:text-[var(--ubm-color-accent-ink)]`}
+        className={`${itemClassName} border-l-2 border-transparent data-[active=true]:border-[var(--ubm-color-accent)] data-[active=true]:bg-[var(--shell-active-bg)] data-[active=true]:font-semibold data-[active=true]:text-[var(--ubm-color-accent-ink)]`}
       >
         {content}
       </Link>

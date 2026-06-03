@@ -16,21 +16,28 @@ vi.mock("next/navigation", () => ({
   }),
   usePathname: vi.fn(() => "/admin"),
 }));
+const headerStore = { get: vi.fn(() => "/admin/members") };
+vi.mock("next/headers", () => ({
+  headers: vi.fn(async () => headerStore),
+}));
 vi.mock("../../src/lib/session", () => ({ getSession: vi.fn() }));
 vi.mock("../../src/components/shell/SidebarShell.server", () => ({
   // dev #1028 で SidebarShell が semantic <main data-route=routeKey> を内部描画する統一版へ昇格。
   // layout は自前 <main> を持たず routeKey/sectionRhythm を shell へ渡すため、stub で受領 props を観測する。
   SidebarShellServer: ({
     children,
+    activePath,
     routeKey,
     sectionRhythm,
   }: {
     readonly children: ReactNode;
+    readonly activePath?: string;
     readonly routeKey?: string;
     readonly sectionRhythm?: string;
   }) => (
     <div
       data-testid="sidebar-shell-stub"
+      data-active-path={activePath}
       data-route-key={routeKey}
       data-section-rhythm={sectionRhythm}
     >
@@ -54,6 +61,8 @@ afterEach(() => cleanup());
 beforeEach(() => {
   vi.mocked(getSession).mockReset();
   vi.mocked(redirect).mockClear();
+  headerStore.get.mockReset();
+  headerStore.get.mockReturnValue("/admin/members");
 });
 
 describe("AdminLayout", () => {
@@ -105,6 +114,7 @@ describe("AdminLayout", () => {
     const stub = container.querySelector('[data-testid="sidebar-shell-stub"]');
     expect(stub?.getAttribute("data-route-key")).toBe("admin");
     expect(stub?.getAttribute("data-section-rhythm")).toBe("compact");
+    expect(stub?.getAttribute("data-active-path")).toBe("/admin/members");
     expect(stub?.querySelector('[data-testid="child"]')).not.toBeNull();
   });
 

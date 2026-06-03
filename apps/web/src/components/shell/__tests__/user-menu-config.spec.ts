@@ -28,9 +28,9 @@ describe("buildUserMenuActions", () => {
 });
 
 describe("roleDisplayLabel", () => {
-  it("admin=管理者 / member=会員 / viewer=null", () => {
+  it("admin=管理者 / member=会員 / viewer=未ログイン", () => {
     expect(roleDisplayLabel("admin")).toBe("管理者");
     expect(roleDisplayLabel("member")).toBe("会員");
-    expect(roleDisplayLabel("viewer")).toBeNull();
+    expect(roleDisplayLabel("viewer")).toBe("未ログイン");
   });
 });

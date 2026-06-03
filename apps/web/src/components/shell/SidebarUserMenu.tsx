@@ -24,6 +24,7 @@ export function SidebarUserMenu({ role, user, collapsed }: SidebarUserMenuProps)
   const actions = buildUserMenuActions(role);
   const roleLabel = roleDisplayLabel(role);
   const displayName = user?.displayName || user?.email || "ゲスト";
+  const isViewer = role === "viewer";
 
   // route 変化で popover を自動 close。
   useEffect(() => {
@@ -79,6 +80,9 @@ export function SidebarUserMenu({ role, user, collapsed }: SidebarUserMenuProps)
             </span>
           ) : null}
         </span>
+        {isViewer && collapsed ? (
+          <span className="sr-only">ログイン</span>
+        ) : null}
       </summary>
       <div
         role="menu"
@@ -97,7 +101,12 @@ export function SidebarUserMenu({ role, user, collapsed }: SidebarUserMenuProps)
               role="menuitem"
               href={action.href}
               data-action={action.id}
-              className="rounded-sm px-3 py-2 text-sm text-[var(--ubm-color-text-primary)] hover:bg-[var(--shell-active-bg)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--ubm-color-accent)]"
+              data-shell-block={action.kind === "login" ? "login-cta" : undefined}
+              className={
+                action.kind === "login"
+                  ? "rounded-sm border border-[var(--ubm-color-accent)] bg-[var(--ubm-color-accent)] px-3 py-2 text-sm font-semibold text-[var(--ubm-color-accent-ink)] hover:bg-[var(--shell-active-bg)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--ubm-color-accent)]"
+                  : "rounded-sm px-3 py-2 text-sm text-[var(--ubm-color-text-primary)] hover:bg-[var(--shell-active-bg)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--ubm-color-accent)]"
+              }
             >
               {action.label}
             </Link>
