@@ -16,6 +16,21 @@
 | issue | #1056 spec 作成時 OPEN → 本サイクル中 CLOSED（`closedAt: 2026-06-02T03:32:56Z`）。docs を実態整合（reopen せず）、workflow は completed-tasks へ close-out 済 |
 | user gate | commit, push, PR, Issue mutation, alert policy apply/enablement |
 
+## issue-1054-wrangler-binding-drift-ci-gate（2026-06-02）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-1054-wrangler-binding-drift-ci-gate/` |
+| status | `implemented_local_evidence_captured / implementation / NON_VISUAL / implementation_complete_pending_pr` |
+| issue | #1054 CLOSED（reopen / mutation は user-gated、PR 文脈は `Refs #1054`） |
+| purpose | `apps/api/wrangler.toml` binding 宣言、`apps/api/src/env.ts` の `Env` 型、`deployment-cloudflare.md` の Current Cloudflare inventory 表の三者ドリフトを検出する read-only CI gate を追加 |
+| implementation | `scripts/verify-wrangler-binding-drift.mjs`, `scripts/__tests__/verify-wrangler-binding-drift.spec.ts`, `.github/workflows/verify-wrangler-binding-drift.yml`, `package.json#verify:wrangler-binding-drift` |
+| system spec | `.claude/skills/aiworkflow-requirements/references/deployment-cloudflare.md` の Current Cloudflare binding inventory を machine-checked SSOT とし、`DB` / `SYNC_ALERTS` / `MEMBER_PHOTOS` 行を追加 |
+| evidence | `pnpm verify:wrangler-binding-drift` PASS、focused Vitest PASS、read-only grep gate PASS、Phase 12 strict 7 present |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1054-wrangler-binding-drift-ci-gate-artifact-inventory.md` |
+| lessons | `.claude/skills/aiworkflow-requirements/references/lessons-learned-issue-1054-wrangler-binding-drift-ci-gate-2026-06.md`（L-I1054-001..008: 自作行パーサ / state 3 値正規化 / env-prefix upsert / 片方向突合 / secrets 除外 / Kind 一致検証 / 現存 drift 同一 wave 是正 / read-only grep gate） |
+| user gate | commit, push, PR, GitHub Issue mutation |
+
 ## issue-1043-identity-conflicts-row-fade-animation（2026-06-02）
 
 | 項目 | 値 |

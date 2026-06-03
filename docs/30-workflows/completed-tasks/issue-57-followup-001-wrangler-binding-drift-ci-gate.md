@@ -4,6 +4,8 @@
 
 ```yaml
 issue_number: 1054
+status: completed
+canonical_workflow: docs/30-workflows/completed-tasks/issue-1054-wrangler-binding-drift-ci-gate/
 ```
 
 
@@ -17,7 +19,7 @@ issue_number: 1054
 | 対象機能     | CI gate / binding 棚卸しドリフト検出                                                 |
 | 優先度       | 中                                                                                  |
 | 見積もり規模 | 中規模                                                                              |
-| ステータス   | 未実施                                                                              |
+| ステータス   | 完了（canonical workflow: `docs/30-workflows/completed-tasks/issue-1054-wrangler-binding-drift-ci-gate/`） |
 | 発見元       | Issue #57 (issue-57-kv-r2-guardrail-degrade-design) Phase 12 skill-feedback-report + 独立検証 |
 | 発見日       | 2026-05-31                                                                          |
 

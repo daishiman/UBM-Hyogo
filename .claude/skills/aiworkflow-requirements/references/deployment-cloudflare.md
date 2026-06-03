@@ -322,12 +322,19 @@ staging / production では `[triggers]` と `[env.staging.triggers]` の両方�
 
 > 汎用ファイルアップロード用 `R2_BUCKET` は現行 `apps/api/wrangler.toml` には未適用。別系統として、audit cold-storage 用 R2 binding は `UBM_AUDIT_COLD_STORAGE`（Issue #514）と `UBM_AUDIT_APP_COLD_STORAGE`（Issue #315）が production / staging ともに適用済み。
 
-### Current KV/R2 binding inventory（Issue #57 / 2026-05-31）
+### Current Cloudflare binding inventory（Issue #57 / issue #1054 / 2026-06-02）
+
+This table is the machine-checked SSOT for `pnpm verify:wrangler-binding-drift`.
+When Cloudflare bindings are added, removed, activated, or deactivated in `apps/api/wrangler.toml`,
+the corresponding row here must be updated in the same change.
 
 | Binding | Kind | Current state | Owner / boundary |
 | --- | --- | --- | --- |
+| `DB` | D1 database | top-level + production/staging active in `apps/api/wrangler.toml` | core application D1 database |
+| `SYNC_ALERTS` | Analytics Engine dataset | top-level + production/staging active in `apps/api/wrangler.toml` | per-sync write cap / alert metrics |
 | `UBM_AUDIT_COLD_STORAGE` | R2 bucket | production/staging active in `apps/api/wrangler.toml` | Issue #514 Cloudflare audit log cold storage |
 | `UBM_AUDIT_APP_COLD_STORAGE` | R2 bucket | production/staging active in `apps/api/wrangler.toml` and used by `scripts/audit-log/export-to-r2.ts` | Issue #315 application audit_log cold storage |
+| `MEMBER_PHOTOS` | R2 bucket | production/staging active in `apps/api/wrangler.toml` | issue-983 admin-managed member photo storage |
 | `ALERT_DEDUP_KV` | Workers KV | `apps/api/src/env.ts` optional; wrangler blocks remain commented until ut-17-followup-002 user gate | alert-relay dedup only, delivery fail-open when absent |
 | `SESSION_KV` | Workers KV | not applied | UT-13 session cache |
 | `R2_BUCKET` | R2 bucket | not applied | UT-12 generic file/image storage |

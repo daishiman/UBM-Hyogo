@@ -3343,6 +3343,7 @@
       "workflow-issue-1042-dismiss-confirm-optimistic-update-artifact-inventory.md",
       "workflow-issue-1042-identity-conflicts-dismiss-optimistic-update-artifact-inventory.md",
       "workflow-issue-1043-identity-conflicts-row-fade-animation-artifact-inventory.md",
+      "workflow-issue-1054-wrangler-binding-drift-ci-gate-artifact-inventory.md",
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
       "workflow-issue-229-indexes-rebuild-fail-fast-artifact-inventory.md",
       "workflow-issue-230-lefthook-edit-guard-artifact-inventory.md",
@@ -4111,6 +4112,7 @@
       "lessons-learned-coverage-80-enforcement-2026-04.md",
       "lessons-learned-d1-batch-atomicity-and-soft-delete-2026-05.md",
       "lessons-learned-issue-1027-member-dynamic-og-worker-split-2026-05.md",
+      "lessons-learned-issue-1054-wrangler-binding-drift-ci-gate-2026-06.md",
       "lessons-learned-issue-290-workflow-lint-gate-2026-05.md",
       "lessons-learned-issue-371-hono-ctx-di-migration-2026-05.md",
       "lessons-learned-issue-401-admin-request-notification-2026-05.md",
@@ -4130,6 +4132,7 @@
       "pattern-d1-soft-delete-optimistic-lock-batch.md",
       "skill-ledger-gitignore-policy.md",
       "task-workflow-completed-ut-06-safety-gate.md",
+      "workflow-issue-1054-wrangler-binding-drift-ci-gate-artifact-inventory.md",
       "workflow-issue-290-workflow-lint-gate-artifact-inventory.md",
       "workflow-issue-526-ci-actionlint-shellcheck-gate-artifact-inventory.md",
       "workflow-issue-603-phase12-compliance-check-ci-gate-artifact-inventory.md",
@@ -5119,6 +5122,7 @@
       "lessons-learned-google-form-reflection-diagnostics-2026-05.md",
       "lessons-learned-issue-1024-sidebar-collapse-cookie-persistence-2026-05.md",
       "lessons-learned-issue-1027-member-dynamic-og-worker-split-2026-05.md",
+      "lessons-learned-issue-1054-wrangler-binding-drift-ci-gate-2026-06.md",
       "lessons-learned-issue-106-admin-notes-repository-2026-05.md",
       "lessons-learned-issue-191-schema-aliases-2026-04.md",
       "lessons-learned-issue-194-identity-merge-2026-05.md",
@@ -5251,6 +5255,7 @@
       "workflow-issue-1042-dismiss-confirm-optimistic-update-artifact-inventory.md",
       "workflow-issue-1042-identity-conflicts-dismiss-optimistic-update-artifact-inventory.md",
       "workflow-issue-1043-identity-conflicts-row-fade-animation-artifact-inventory.md",
+      "workflow-issue-1054-wrangler-binding-drift-ci-gate-artifact-inventory.md",
       "workflow-issue-1056-kv-alert-policy-binding-drift-detection-artifact-inventory.md",
       "workflow-issue-224-public-members-tags-batch-fetch-artifact-inventory.md",
       "workflow-issue-229-indexes-rebuild-fail-fast-artifact-inventory.md",
@@ -5406,12 +5411,14 @@
       "deployment-cloudflare.md",
       "dlq-monitoring.md",
       "lessons-fetch-service-binding-testing.md",
+      "lessons-learned-issue-1054-wrangler-binding-drift-ci-gate-2026-06.md",
       "lessons-learned-issue-502-dlq-monitoring-dashboard-2026-05.md",
       "lessons-learned-task-spec-2d-contract-stage-2-2026-05.md",
       "lessons-learned-ut-coverage-2026-05-wave.md",
       "patterns-kv-dedup.md",
       "task-workflow-active.md",
       "workflow-fix-admin-fetch-cf-1042-service-binding-artifact-inventory.md",
+      "workflow-issue-1054-wrangler-binding-drift-ci-gate-artifact-inventory.md",
       "workflow-issue-1056-kv-alert-policy-binding-drift-detection-artifact-inventory.md",
       "workflow-issue-857-internal-alert-relay-binding-wiring-artifact-inventory.md",
       "workflow-issue-976-admin-fetch-service-binding-artifact-inventory.md",
@@ -5854,6 +5861,7 @@
       "lessons-learned-09c-production-deploy-execution-001-2026-05.md",
       "lessons-learned-admin-tags-queue-resolver-drawer-2026-05.md",
       "lessons-learned-ci-test-recovery-coverage-80-2026-05-04.md",
+      "lessons-learned-issue-1054-wrangler-binding-drift-ci-gate-2026-06.md",
       "lessons-learned-issue-195-03b-followup-sync-shared-modules-owner-2026-05.md",
       "lessons-learned-issue-623-vitest-spec-suffix-convergence-2026-05.md",
       "lessons-learned-issue-765-1password-vault-restructure-2026-05.md",
@@ -5866,6 +5874,7 @@
       "lessons-learned-ut-07c-followup-001-attendance-csv-import-2026-05.md",
       "task-workflow-active.md",
       "task-workflow-completed-ui-ux-visual-baseline-drift.md",
+      "workflow-issue-1054-wrangler-binding-drift-ci-gate-artifact-inventory.md",
       "workflow-issue-1056-kv-alert-policy-binding-drift-detection-artifact-inventory.md",
       "workflow-ui-ux-visual-baseline-drift.md"
     ],
@@ -7453,7 +7462,8 @@
       "workflow-task-08a-parallel-api-contract-repository-and-authorization-tests-artifact-inventory.md"
     ],
     "境界": [
-      "database-admin-repository-boundary.md"
+      "database-admin-repository-boundary.md",
+      "lessons-learned-issue-1054-wrangler-binding-drift-ci-gate-2026-06.md"
     ],
     "下流連携": [
       "database-admin-repository-boundary.md"
@@ -8042,6 +8052,7 @@
       "lessons-learned-issue-1024-sidebar-collapse-cookie-persistence-2026-05.md",
       "lessons-learned-issue-1027-member-dynamic-og-worker-split-2026-05.md",
       "lessons-learned-issue-1039-admin-audit-identity-action-presets-2026-06.md",
+      "lessons-learned-issue-1054-wrangler-binding-drift-ci-gate-2026-06.md",
       "lessons-learned-issue-106-admin-notes-repository-2026-05.md",
       "lessons-learned-issue-191-schema-aliases-2026-04.md",
       "lessons-learned-issue-195-03b-followup-sync-shared-modules-owner-2026-05.md",
@@ -8068,6 +8079,7 @@
       "workflow-issue-1042-dismiss-confirm-optimistic-update-artifact-inventory.md",
       "workflow-issue-1042-identity-conflicts-dismiss-optimistic-update-artifact-inventory.md",
       "workflow-issue-1043-identity-conflicts-row-fade-animation-artifact-inventory.md",
+      "workflow-issue-1054-wrangler-binding-drift-ci-gate-artifact-inventory.md",
       "workflow-issue-1056-kv-alert-policy-binding-drift-detection-artifact-inventory.md",
       "workflow-issue-106-admin-member-notes-repository-task-spec-artifact-inventory.md",
       "workflow-issue-191-schema-aliases-artifact-inventory.md",
@@ -8373,9 +8385,11 @@
       "dlq-monitoring.md",
       "lessons-learned-02c-fixture-prod-build-exclusion-2026-05.md",
       "lessons-learned-06a-public-web-2026-04.md",
+      "lessons-learned-issue-1054-wrangler-binding-drift-ci-gate-2026-06.md",
       "lessons-learned-issue-408-cf-audit-logs-monitoring-2026-05.md",
       "lessons-learned-issue-502-dlq-monitoring-dashboard-2026-05.md",
-      "patterns-kv-dedup.md"
+      "patterns-kv-dedup.md",
+      "workflow-issue-1054-wrangler-binding-drift-ci-gate-artifact-inventory.md"
     ],
     "toml": [
       "deployment-cloudflare-opennext-workers.md",
@@ -9146,6 +9160,7 @@
       "lessons-learned-05a-authjs-admin-gate-2026-04.md",
       "lessons-learned-05a-form-preview-503-2026-05.md",
       "lessons-learned-issue-1027-member-dynamic-og-worker-split-2026-05.md",
+      "lessons-learned-issue-1054-wrangler-binding-drift-ci-gate-2026-06.md",
       "lessons-learned-issue-515-cf-audit-logs-ml-anomaly-2026-05.md",
       "lessons-learned-u-ut01-09-retry-offset-2026-04.md",
       "lessons-learned-ut-06-fu-h-2026-04.md",
@@ -10028,6 +10043,7 @@
       "workflow-i01-toastprovider-root-mount-artifact-inventory.md",
       "workflow-i02-admin-error-type-unify-artifact-inventory.md",
       "workflow-issue-1042-dismiss-confirm-optimistic-update-artifact-inventory.md",
+      "workflow-issue-1054-wrangler-binding-drift-ci-gate-artifact-inventory.md",
       "workflow-issue-191-schema-aliases-artifact-inventory.md",
       "workflow-issue-229-indexes-rebuild-fail-fast-artifact-inventory.md",
       "workflow-issue-276-mobile-filterbar-tag-picker-artifact-inventory.md",
@@ -11371,6 +11387,7 @@
       "lessons-learned-google-form-reflection-diagnostics-2026-05.md",
       "lessons-learned-issue-1024-sidebar-collapse-cookie-persistence-2026-05.md",
       "lessons-learned-issue-1027-member-dynamic-og-worker-split-2026-05.md",
+      "lessons-learned-issue-1054-wrangler-binding-drift-ci-gate-2026-06.md",
       "lessons-learned-issue-106-admin-notes-repository-2026-05.md",
       "lessons-learned-issue-191-schema-aliases-2026-04.md",
       "lessons-learned-issue-194-identity-merge-2026-05.md",
@@ -11483,6 +11500,7 @@
       "workflow-issue-1042-dismiss-confirm-optimistic-update-artifact-inventory.md",
       "workflow-issue-1042-identity-conflicts-dismiss-optimistic-update-artifact-inventory.md",
       "workflow-issue-1043-identity-conflicts-row-fade-animation-artifact-inventory.md",
+      "workflow-issue-1054-wrangler-binding-drift-ci-gate-artifact-inventory.md",
       "workflow-issue-1056-kv-alert-policy-binding-drift-detection-artifact-inventory.md",
       "workflow-issue-235-sync-audit-tables-necessity-judgement-artifact-inventory.md",
       "workflow-issue-256-e2e-coverage-baseline-runbook-artifact-inventory.md",
@@ -14692,6 +14710,7 @@
       "lessons-learned-08a-B-public-search-filter-coverage-2026-05.md",
       "lessons-learned-claude-code-permissions-apply-2026-04.md",
       "lessons-learned-fix-verify-design-tokens-og-route-exclude-2026-05.md",
+      "lessons-learned-issue-1054-wrangler-binding-drift-ci-gate-2026-06.md",
       "lessons-learned-issue-194-identity-merge-2026-05.md",
       "lessons-learned-issue-276-mobile-filterbar-tag-picker-2026-05.md",
       "lessons-learned-issue-351-post-release-dashboard-2026-05.md",
@@ -15514,8 +15533,10 @@
     ],
     "ci": [
       "lessons-learned-ci-test-recovery-coverage-80-2026-05-04.md",
+      "lessons-learned-issue-1054-wrangler-binding-drift-ci-gate-2026-06.md",
       "workflow-ci-green-recovery-smoke-coverage-shard-artifact-inventory.md",
       "workflow-ci-staging-deploy-failure-fix-artifact-inventory.md",
+      "workflow-issue-1054-wrangler-binding-drift-ci-gate-artifact-inventory.md",
       "workflow-issue-864-admin-staging-runtime-smoke-ci-gate-artifact-inventory.md",
       "workflow-regression-evidence-ci-gate-foundation-artifact-inventory.md",
       "workflow-task-verify-indexes-up-to-date-ci-artifact-inventory.md"
@@ -16156,6 +16177,9 @@
     "関連パターン": [
       "lessons-learned-issue-1039-admin-audit-identity-action-presets-2026-06.md",
       "pattern-d1-soft-delete-optimistic-lock-batch.md"
+    ],
+    "同期した正本": [
+      "lessons-learned-issue-1054-wrangler-binding-drift-ci-gate-2026-06.md"
     ],
     "Closed": [
       "lessons-learned-issue-106-admin-notes-repository-2026-05.md"
@@ -18037,6 +18061,7 @@
       "workflow-issue-1042-dismiss-confirm-optimistic-update-artifact-inventory.md",
       "workflow-issue-1042-identity-conflicts-dismiss-optimistic-update-artifact-inventory.md",
       "workflow-issue-1043-identity-conflicts-row-fade-animation-artifact-inventory.md",
+      "workflow-issue-1054-wrangler-binding-drift-ci-gate-artifact-inventory.md",
       "workflow-issue-106-admin-member-notes-repository-task-spec-artifact-inventory.md",
       "workflow-issue-191-schema-aliases-artifact-inventory.md",
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
@@ -21177,6 +21202,7 @@
     "Verification": [
       "lessons-learned-ut07b-fu04-production-migration-already-applied-verification-2026-05.md",
       "workflow-issue-1031-member-self-photo-upload-artifact-inventory.md",
+      "workflow-issue-1054-wrangler-binding-drift-ci-gate-artifact-inventory.md",
       "workflow-issue-255-coverage-threshold-sync-lint-artifact-inventory.md",
       "workflow-issue-532-write-tag-note-provider-ctx-injection-artifact-inventory.md",
       "workflow-task-07c-followup-003-audit-log-browsing-ui-artifact-inventory.md",
@@ -24246,6 +24272,7 @@
       "workflow-issue-1027-member-dynamic-og-worker-split-artifact-inventory.md",
       "workflow-issue-1030-member-photo-transcode-resize-variant-pipeline-artifact-inventory.md",
       "workflow-issue-1035-tag-master-write-endpoints-artifact-inventory.md",
+      "workflow-issue-1054-wrangler-binding-drift-ci-gate-artifact-inventory.md",
       "workflow-issue-229-indexes-rebuild-fail-fast-artifact-inventory.md",
       "workflow-issue-230-lefthook-edit-guard-artifact-inventory.md",
       "workflow-issue-247-apps-web-opennext-config-regression-tests-artifact-inventory.md",
@@ -26121,6 +26148,7 @@
       "workflow-issue-1042-dismiss-confirm-optimistic-update-artifact-inventory.md",
       "workflow-issue-1042-identity-conflicts-dismiss-optimistic-update-artifact-inventory.md",
       "workflow-issue-1043-identity-conflicts-row-fade-animation-artifact-inventory.md",
+      "workflow-issue-1054-wrangler-binding-drift-ci-gate-artifact-inventory.md",
       "workflow-issue-106-admin-member-notes-repository-task-spec-artifact-inventory.md",
       "workflow-issue-191-schema-aliases-artifact-inventory.md",
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
@@ -26344,6 +26372,7 @@
       "workflow-issue-1042-dismiss-confirm-optimistic-update-artifact-inventory.md",
       "workflow-issue-1042-identity-conflicts-dismiss-optimistic-update-artifact-inventory.md",
       "workflow-issue-1043-identity-conflicts-row-fade-animation-artifact-inventory.md",
+      "workflow-issue-1054-wrangler-binding-drift-ci-gate-artifact-inventory.md",
       "workflow-issue-1056-kv-alert-policy-binding-drift-detection-artifact-inventory.md",
       "workflow-issue-229-indexes-rebuild-fail-fast-artifact-inventory.md",
       "workflow-issue-247-apps-web-opennext-config-regression-tests-artifact-inventory.md",
@@ -26437,6 +26466,7 @@
       "workflow-e2e-stage-2-2d-contract-artifact-inventory.md",
       "workflow-issue-1039-admin-audit-identity-action-presets-artifact-inventory.md",
       "workflow-issue-1042-dismiss-confirm-optimistic-update-artifact-inventory.md",
+      "workflow-issue-1054-wrangler-binding-drift-ci-gate-artifact-inventory.md",
       "workflow-issue-106-admin-member-notes-repository-task-spec-artifact-inventory.md",
       "workflow-issue-229-indexes-rebuild-fail-fast-artifact-inventory.md",
       "workflow-issue-235-sync-audit-tables-necessity-judgement-artifact-inventory.md",
@@ -26588,6 +26618,7 @@
       "workflow-issue-1027-member-dynamic-og-worker-split-artifact-inventory.md",
       "workflow-issue-1030-member-photo-transcode-resize-variant-pipeline-artifact-inventory.md",
       "workflow-issue-1035-tag-master-write-endpoints-artifact-inventory.md",
+      "workflow-issue-1054-wrangler-binding-drift-ci-gate-artifact-inventory.md",
       "workflow-issue-229-indexes-rebuild-fail-fast-artifact-inventory.md",
       "workflow-issue-230-lefthook-edit-guard-artifact-inventory.md",
       "workflow-issue-247-apps-web-opennext-config-regression-tests-artifact-inventory.md",
