@@ -28,7 +28,7 @@ describe("SelectedFiltersBar", () => {
     expect(container.firstChild).toBeNull();
   });
 
-  it("q / zone / status / tag を chip 化し、sort は chip 化しない", () => {
+  it("zone / status / tag を chip 化し、q と sort は chip 化しない", () => {
     const onPatch = vi.fn();
     render(
       <SelectedFiltersBar
@@ -46,7 +46,10 @@ describe("SelectedFiltersBar", () => {
       />,
     );
 
-    expect(screen.getByRole("button", { name: "キーワード絞り込みを解除" })).toBeTruthy();
+    expect(
+      screen.queryByRole("button", { name: "キーワード絞り込みを解除" }),
+    ).toBeNull();
+    expect(screen.queryByText("検索: 山田 ×")).toBeNull();
     expect(screen.getByRole("button", { name: "区画絞り込みを解除" })).toBeTruthy();
     expect(screen.getByRole("button", { name: "種別絞り込みを解除" })).toBeTruthy();
     expect(screen.getByRole("button", { name: "AI タグ絞り込みを解除" })).toBeTruthy();
@@ -61,7 +64,7 @@ describe("SelectedFiltersBar", () => {
     const onClearAll = vi.fn();
     render(
       <SelectedFiltersBar
-        search={{ ...baseSearch, q: "山田" }}
+        search={{ ...baseSearch, zone: "0_to_1" }}
         onPatch={vi.fn()}
         onClearAll={onClearAll}
       />,
@@ -110,6 +113,7 @@ describe("SelectedFiltersBar", () => {
         ...baseSearch,
         q: "山田",
         zone: "0_to_1",
+        status: "member",
         tag: ["ai"],
       });
       return (
@@ -123,15 +127,13 @@ describe("SelectedFiltersBar", () => {
     }
 
     render(<ControlledBar />);
-    fireEvent.click(
-      screen.getByRole("button", { name: "キーワード絞り込みを解除" }),
-    );
-    expect(screen.getByRole("button", { name: "区画絞り込みを解除" })).toBe(
+    fireEvent.click(screen.getByRole("button", { name: "区画絞り込みを解除" }));
+    expect(screen.getByRole("button", { name: "種別絞り込みを解除" })).toBe(
       document.activeElement,
     );
 
     fireEvent.click(screen.getByRole("button", { name: "AI タグ絞り込みを解除" }));
-    expect(screen.getByRole("button", { name: "区画絞り込みを解除" })).toBe(
+    expect(screen.getByRole("button", { name: "種別絞り込みを解除" })).toBe(
       document.activeElement,
     );
   });

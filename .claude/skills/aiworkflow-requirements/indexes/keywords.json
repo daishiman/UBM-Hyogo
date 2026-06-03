@@ -1141,6 +1141,7 @@
       "arch-state-management-core.md",
       "lessons-learned-08a-B-public-search-filter-coverage-2026-05.md",
       "lessons-learned-issue-532-write-tag-note-provider-ctx-injection-2026-05.md",
+      "lessons-learned-japanese-ime-input-composition-search-fix-2026-06.md",
       "ui-ux-feature-components-details.md"
     ],
     "主要クラス": [
@@ -3417,6 +3418,7 @@
       "workflow-issue-987-identity-conflicts-audit-log-admin-ui-artifact-inventory.md",
       "workflow-issue-988-identity-conflicts-merge-optimistic-update-artifact-inventory.md",
       "workflow-issue-998-members-publish-state-production-rollout-artifact-inventory.md",
+      "workflow-japanese-ime-input-composition-search-fix-artifact-inventory.md",
       "workflow-login-redirect-when-authenticated-artifact-inventory.md",
       "workflow-login-stale-link-and-profile-me-safe-fetch-artifact-inventory.md",
       "workflow-login-ui-balance-and-runtime-fix-artifact-inventory.md",
@@ -4074,6 +4076,7 @@
     "ownership": [
       "architecture-auth-security-core.md",
       "lessons-learned-04b-member-self-service.md",
+      "lessons-learned-japanese-ime-input-composition-search-fix-2026-06.md",
       "workflow-05b-a-auth-mail-env-contract-alignment-artifact-inventory.md",
       "workflow-task-21-w2-par-screen-blueprints-admin-artifact-inventory.md"
     ],
@@ -5190,6 +5193,7 @@
       "lessons-learned-issue-900-workflow-permissions-least-privilege-2026-05.md",
       "lessons-learned-issue359-production-d1-apply-2026-05.md",
       "lessons-learned-issue590-phase11-canonical-paths-completed-tasks-move-drift-2026-05.md",
+      "lessons-learned-japanese-ime-input-composition-search-fix-2026-06.md",
       "lessons-learned-lefthook-mwr-runbook-2026-04.md",
       "lessons-learned-member-publish-recovery-form-ops-and-admin-link-2026-05.md",
       "lessons-learned-parallel-i03-dialog-refresh-order-2026-05.md",
@@ -5298,6 +5302,7 @@
       "workflow-issue-988-identity-conflicts-merge-optimistic-update-artifact-inventory.md",
       "workflow-issue-991-admin-fetch-error-typed-class-artifact-inventory.md",
       "workflow-issue-998-members-publish-state-production-rollout-artifact-inventory.md",
+      "workflow-japanese-ime-input-composition-search-fix-artifact-inventory.md",
       "workflow-login-redirect-when-authenticated-artifact-inventory.md",
       "workflow-member-header-admin-link-artifact-inventory.md",
       "workflow-member-publish-recovery-form-ops-and-admin-link-artifact-inventory.md",
@@ -6287,6 +6292,7 @@
       "lessons-learned-task-25-followup-loading-state-observation-fixture-2026-05.md",
       "lessons-learned-ut-gov-001-2026-04.md",
       "pattern-d1-soft-delete-optimistic-lock-batch.md",
+      "ui-ux-components.md",
       "workflow-issue-800-profile-error-focus-transfer-artifact-inventory.md"
     ],
     "との接続": [
@@ -6804,6 +6810,7 @@
       "lessons-learned-06a-public-web-2026-04.md",
       "lessons-learned-09b-A-sentry-slack-runtime-smoke-2026-05.md",
       "lessons-learned-issue-274-public-pages-ogp-sitemap-robots-2026-05.md",
+      "lessons-learned-japanese-ime-input-composition-search-fix-2026-06.md",
       "lessons-learned-task-12-member-detail-register-legal-2026-05.md",
       "lessons-learned-task-18-w7-verify-tokens-and-playwright-smoke-2026-05.md",
       "lessons-learned-ut-15-waf-rate-limiting.md",
@@ -7766,6 +7773,7 @@
       "workflow-issue-863-admin-error-alert-policy-iac-artifact-inventory.md",
       "workflow-issue-871-csp-nonce-migration-artifact-inventory.md",
       "workflow-issue-895-admin-topbar-actions-client-island-artifact-inventory.md",
+      "workflow-japanese-ime-input-composition-search-fix-artifact-inventory.md",
       "workflow-mypage-prototype-alignment-artifact-inventory.md",
       "workflow-task-07-prototype-mapping-table-artifact-inventory.md",
       "workflow-task-08-w2-design-tokens-doc-artifact-inventory.md",
@@ -8816,6 +8824,7 @@
     "regression": [
       "deployment-cloudflare-opennext-workers.md",
       "lessons-learned-issue-106-admin-notes-repository-2026-05.md",
+      "lessons-learned-japanese-ime-input-composition-search-fix-2026-06.md",
       "lessons-learned-ut-coverage-2026-05-wave.md",
       "workflow-issue-247-apps-web-opennext-config-regression-tests-artifact-inventory.md",
       "workflow-light-theme-contrast-regression-guard.md",
@@ -9464,7 +9473,9 @@
     ],
     "input": [
       "deployment-gha.md",
-      "lessons-learned-ut-07c-followup-001-attendance-csv-import-2026-05.md"
+      "lessons-learned-ut-07c-followup-001-attendance-csv-import-2026-05.md",
+      "ui-ux-components.md",
+      "workflow-japanese-ime-input-composition-search-fix-artifact-inventory.md"
     ],
     "residual": [
       "deployment-gha.md"
@@ -11471,6 +11482,7 @@
       "lessons-learned-issue-900-workflow-permissions-least-privilege-2026-05.md",
       "lessons-learned-issue359-production-d1-apply-2026-05.md",
       "lessons-learned-issue590-phase11-canonical-paths-completed-tasks-move-drift-2026-05.md",
+      "lessons-learned-japanese-ime-input-composition-search-fix-2026-06.md",
       "lessons-learned-lefthook-mwr-runbook-2026-04.md",
       "lessons-learned-member-publish-recovery-form-ops-and-admin-link-2026-05.md",
       "lessons-learned-parallel-i03-dialog-refresh-order-2026-05.md",
@@ -11562,6 +11574,7 @@
       "workflow-issue-988-identity-conflicts-merge-optimistic-update-artifact-inventory.md",
       "workflow-issue-991-admin-fetch-error-typed-class-artifact-inventory.md",
       "workflow-issue-998-members-publish-state-production-rollout-artifact-inventory.md",
+      "workflow-japanese-ime-input-composition-search-fix-artifact-inventory.md",
       "workflow-login-redirect-when-authenticated-artifact-inventory.md",
       "workflow-member-header-admin-link-artifact-inventory.md",
       "workflow-member-publish-recovery-form-ops-and-admin-link-artifact-inventory.md",
@@ -12138,6 +12151,7 @@
     ],
     "tests": [
       "lessons-learned-03a-stablekey-literal-lint-enforcement-2026-05.md",
+      "lessons-learned-japanese-ime-input-composition-search-fix-2026-06.md",
       "quality-e2e-testing.md",
       "task-workflow-completed-chat-lifecycle-tests-part2.md",
       "task-workflow-completed-chat-lifecycle-tests.md",
@@ -12515,6 +12529,7 @@
     "field": [
       "lessons-learned-03b-response-sync-2026-04.md",
       "lessons-learned-04b-member-self-service.md",
+      "lessons-learned-japanese-ime-input-composition-search-fix-2026-06.md",
       "lessons-learned-ut-07c-followup-001-attendance-csv-import-2026-05.md"
     ],
     "の重複": [
@@ -14312,6 +14327,7 @@
       "lessons-learned-issue-1027-member-dynamic-og-worker-split-2026-05.md",
       "lessons-learned-issue-290-workflow-lint-gate-2026-05.md",
       "lessons-learned-issue359-production-d1-apply-2026-05.md",
+      "lessons-learned-japanese-ime-input-composition-search-fix-2026-06.md",
       "lessons-learned-ut07b-fu03-production-migration-runbook-2026-05.md"
     ],
     "画面": [
@@ -15378,7 +15394,8 @@
     ],
     "need": [
       "lessons-learned-admin-tags-queue-resolver-drawer-2026-05.md",
-      "lessons-learned-issue-1027-member-dynamic-og-worker-split-2026-05.md"
+      "lessons-learned-issue-1027-member-dynamic-og-worker-split-2026-05.md",
+      "lessons-learned-japanese-ime-input-composition-search-fix-2026-06.md"
     ],
     "labels": [
       "lessons-learned-admin-tags-queue-resolver-drawer-2026-05.md",
@@ -15395,7 +15412,8 @@
     "one": [
       "lessons-learned-admin-tags-queue-resolver-drawer-2026-05.md",
       "lessons-learned-issue-191-schema-aliases-2026-04.md",
-      "lessons-learned-issue-290-workflow-lint-gate-2026-05.md"
+      "lessons-learned-issue-290-workflow-lint-gate-2026-05.md",
+      "lessons-learned-japanese-ime-input-composition-search-fix-2026-06.md"
     ],
     "success": [
       "lessons-learned-admin-tags-queue-resolver-drawer-2026-05.md",
@@ -15904,6 +15922,7 @@
       "workflow-fix-verify-design-tokens-og-route-exclude-artifact-inventory.md",
       "workflow-issue-720-cf-audit-monitor-env-protection-fix-artifact-inventory.md",
       "workflow-issue-882-terms-prefetch-env-validation-fix-artifact-inventory.md",
+      "workflow-japanese-ime-input-composition-search-fix-artifact-inventory.md",
       "workflow-login-ui-balance-and-runtime-fix-artifact-inventory.md",
       "workflow-profile-reload-session-404-fix-artifact-inventory.md",
       "workflow-runtime-smoke-staging-mint-recurrence-fix-artifact-inventory.md",
@@ -16172,6 +16191,7 @@
       "lessons-learned-issue-191-schema-aliases-2026-04.md",
       "lessons-learned-issue-290-workflow-lint-gate-2026-05.md",
       "lessons-learned-issue-827-member-detail-adapter-and-visibility-defense-2026-05.md",
+      "lessons-learned-japanese-ime-input-composition-search-fix-2026-06.md",
       "lessons-learned-member-publish-recovery-form-ops-and-admin-link-2026-05.md",
       "lessons-learned-task-04-w3-window-guard-and-logger-2026-05.md",
       "lessons-learned-task-14-my-profile-and-requests-2026-05.md",
@@ -17768,6 +17788,7 @@
     "safe": [
       "lessons-learned-issue-515-cf-audit-logs-ml-anomaly-2026-05.md",
       "lessons-learned-ut-06-fu-h-2026-04.md",
+      "ui-ux-components.md",
       "workflow-login-stale-link-and-profile-me-safe-fetch-artifact-inventory.md"
     ],
     "破壊的": [
@@ -18321,6 +18342,7 @@
       "workflow-issue-987-identity-conflicts-audit-log-admin-ui-artifact-inventory.md",
       "workflow-issue-988-identity-conflicts-merge-optimistic-update-artifact-inventory.md",
       "workflow-issue-998-members-publish-state-production-rollout-artifact-inventory.md",
+      "workflow-japanese-ime-input-composition-search-fix-artifact-inventory.md",
       "workflow-login-redirect-when-authenticated-artifact-inventory.md",
       "workflow-login-stale-link-and-profile-me-safe-fetch-artifact-inventory.md",
       "workflow-member-header-admin-link-artifact-inventory.md",
@@ -18591,6 +18613,7 @@
     ],
     "Fix": [
       "lessons-learned-issue-720-cf-audit-monitor-env-protection-fix-2026-05.md",
+      "lessons-learned-japanese-ime-input-composition-search-fix-2026-06.md",
       "security-electron-ipc-examples.md",
       "workflow-ai-chat-llm-integration-fix-artifact-inventory.md",
       "workflow-ai-chat-llm-integration-fix.md"
@@ -19159,6 +19182,53 @@
       "lessons-learned-ut-17-followup-003-healthcheck-cron-2026-05.md",
       "workflow-issue-1042-identity-conflicts-dismiss-optimistic-update-artifact-inventory.md",
       "workflow-ut08-monitoring-alert-design-artifact-inventory.md"
+    ],
+    "Japanese": [
+      "lessons-learned-japanese-ime-input-composition-search-fix-2026-06.md"
+    ],
+    "IME": [
+      "lessons-learned-japanese-ime-input-composition-search-fix-2026-06.md",
+      "ui-ux-components.md"
+    ],
+    "Input": [
+      "lessons-learned-japanese-ime-input-composition-search-fix-2026-06.md"
+    ],
+    "Composition": [
+      "lessons-learned-japanese-ime-input-composition-search-fix-2026-06.md"
+    ],
+    "正本検索は": [
+      "lessons-learned-japanese-ime-input-composition-search-fix-2026-06.md"
+    ],
+    "composition": [
+      "lessons-learned-japanese-ime-input-composition-search-fix-2026-06.md",
+      "workflow-japanese-ime-input-composition-search-fix-artifact-inventory.md"
+    ],
+    "中の": [
+      "lessons-learned-japanese-ime-input-composition-search-fix-2026-06.md"
+    ],
+    "commit": [
+      "lessons-learned-japanese-ime-input-composition-search-fix-2026-06.md",
+      "lessons-learned-task-25-followup-loading-state-observation-fixture-2026-05.md"
+    ],
+    "を止める": [
+      "lessons-learned-japanese-ime-input-composition-search-fix-2026-06.md"
+    ],
+    "Clear": [
+      "lessons-learned-japanese-ime-input-composition-search-fix-2026-06.md"
+    ],
+    "control": [
+      "lessons-learned-japanese-ime-input-composition-search-fix-2026-06.md",
+      "workflow-aiworkflow-requirements-line-budget-reform-artifact-inventory.md"
+    ],
+    "fake": [
+      "lessons-learned-japanese-ime-input-composition-search-fix-2026-06.md",
+      "lessons-learned-ut-coverage-2026-05-wave.md"
+    ],
+    "timers": [
+      "lessons-learned-japanese-ime-input-composition-search-fix-2026-06.md"
+    ],
+    "events": [
+      "lessons-learned-japanese-ime-input-composition-search-fix-2026-06.md"
     ],
     "Multi": [
       "lessons-learned-lefthook-mwr-runbook-2026-04.md",
@@ -20115,9 +20185,6 @@
       "task-workflow-completed-skill-lifecycle-design.md",
       "task-workflow-completed-skill-lifecycle-ui-verify.md"
     ],
-    "commit": [
-      "lessons-learned-task-25-followup-loading-state-observation-fixture-2026-05.md"
-    ],
     "を分割しない": [
       "lessons-learned-task-25-followup-loading-state-observation-fixture-2026-05.md"
     ],
@@ -21039,9 +21106,6 @@
       "lessons-learned-ut-coverage-2026-05-wave.md"
     ],
     "が空入力で素通りする": [
-      "lessons-learned-ut-coverage-2026-05-wave.md"
-    ],
-    "fake": [
       "lessons-learned-ut-coverage-2026-05-wave.md"
     ],
     "表面": [
@@ -22466,6 +22530,7 @@
     ],
     "search": [
       "logs-archive-2026-02-env-infra-ipc-auth-ui.md",
+      "workflow-japanese-ime-input-composition-search-fix-artifact-inventory.md",
       "workflow-workspace-preview-search-resilience-guard.md"
     ],
     "検索・置換機能": [
@@ -26411,6 +26476,7 @@
       "workflow-issue-987-identity-conflicts-audit-log-admin-ui-artifact-inventory.md",
       "workflow-issue-988-identity-conflicts-merge-optimistic-update-artifact-inventory.md",
       "workflow-issue-998-members-publish-state-production-rollout-artifact-inventory.md",
+      "workflow-japanese-ime-input-composition-search-fix-artifact-inventory.md",
       "workflow-login-redirect-when-authenticated-artifact-inventory.md",
       "workflow-login-stale-link-and-profile-me-safe-fetch-artifact-inventory.md",
       "workflow-member-header-admin-link-artifact-inventory.md",
@@ -27060,9 +27126,6 @@
       "workflow-skill-ledger-a3-progressive-disclosure-artifact-inventory.md"
     ],
     "更新した": [
-      "workflow-aiworkflow-requirements-line-budget-reform-artifact-inventory.md"
-    ],
-    "control": [
       "workflow-aiworkflow-requirements-line-budget-reform-artifact-inventory.md"
     ],
     "更新した既存": [
@@ -27755,6 +27818,12 @@
     ],
     "Product": [
       "workflow-issue-991-admin-fetch-error-typed-class-artifact-inventory.md"
+    ],
+    "japanese": [
+      "workflow-japanese-ime-input-composition-search-fix-artifact-inventory.md"
+    ],
+    "ime": [
+      "workflow-japanese-ime-input-composition-search-fix-artifact-inventory.md"
     ],
     "ライトテーマ": [
       "workflow-light-theme-contrast-regression-guard.md"

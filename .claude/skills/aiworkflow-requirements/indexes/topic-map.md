@@ -1231,6 +1231,7 @@ node scripts/list-specs.js --topics
 | Wave 0 UI primitives baseline（2026-04-26） | L22 |
 | task-10 UI primitives integration contract（2026-05-09） | L32 |
 | task-10 follow-up 002 runtime visual + axe evidence（2026-05-11） | L46 |
+| IME-safe input pattern（2026-06-02） | L54 |
 
 ### references/ui-ux-design-principles-core.md
 
@@ -3700,6 +3701,13 @@ node scripts/list-specs.js --topics
 | Evidence Boundary | L26 |
 | Lessons Learned | L34 |
 | User-Gated Items | L48 |
+
+### references/workflow-japanese-ime-input-composition-search-fix-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Contract | L13 |
+| Lessons Learned | L20 |
 
 ### references/workflow-light-theme-contrast-regression-guard.md
 
@@ -6842,6 +6850,14 @@ node scripts/list-specs.js --topics
 | 同様の課題を将来簡潔に解決するための知見 | L25 |
 | 関連リンク | L35 |
 
+### references/lessons-learned-japanese-ime-input-composition-search-fix-2026-06.md
+
+| セクション | 行 |
+|------------|----|
+| L-IME-001: URL 正本検索は IME composition 中の commit を止める | L3 |
+| L-IME-002: Clear ownership is one field, one control | L9 |
+| L-IME-003: IME regression tests need fake timers and composition events | L15 |
+
 ### references/lessons-learned-lefthook-mwr-runbook-2026-04.md
 
 | セクション | 行 |
@@ -8596,15 +8612,15 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L3627 |
-| フェーズ構造（概要） | L3636 |
-| 品質ゲート（概要） | L3667 |
-| 出力テンプレート | L3678 |
-| 実行時のコマンド・エージェント・スキル | L3701 |
-| 昇格パターン集 | L3725 |
-| Current Active / Spec Created Tasks | L3727 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L3893 |
-| issue-998-members-publish-state-production-rollout | L3971 |
+| ドキュメント構成 | L3641 |
+| フェーズ構造（概要） | L3650 |
+| 品質ゲート（概要） | L3681 |
+| 出力テンプレート | L3692 |
+| 実行時のコマンド・エージェント・スキル | L3715 |
+| 昇格パターン集 | L3739 |
+| Current Active / Spec Created Tasks | L3741 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L3907 |
+| issue-998-members-publish-state-production-rollout | L3985 |
 
 ### references/task-workflow-backlog-part2.md
 
