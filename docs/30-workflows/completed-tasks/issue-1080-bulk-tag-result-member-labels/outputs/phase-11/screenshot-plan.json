@@ -1,0 +1,14 @@
+{
+  "mode": "VISUAL",
+  "taskId": "issue-1080-bulk-tag-result-member-labels",
+  "screenshots": [
+    {
+      "name": "bulk-tag-result-member-labels.png",
+      "state": "partial-failure-summary-with-labels",
+      "status": "present",
+      "route": "/admin/members",
+      "path": "docs/30-workflows/completed-tasks/issue-1080-bulk-tag-result-member-labels/outputs/phase-11/screenshots/bulk-tag-result-member-labels.png",
+      "capture": "local Playwright fixture screenshot; authenticated staging baseline remains optional user-gated reinforcement."
+    }
+  ]
+}

@@ -2820,3 +2820,6 @@ AC-1〜AC-6 全達成。Phase 10 判定: PASS（MINOR 0件）
 - 種別: implementation / verify_existing / VISUAL_ON_EXECUTION / authenticated runtime user-gated
 - 反映: `references/phase-12-documentation-guide.md` に、landed 実装の再仕様化であっても VISUAL close-out では静的 UI contract PNG と authenticated runtime screenshot pending を二段境界で記録する rule を追加。
 - 検証: workflow 側に 4 PNG (`manual-form-resync-panel-{idle,result,confirm,inprogress}.png`) を追加し、Phase 11 / Phase 12 strict 7 / aiworkflow-requirements / task-specification-creator 履歴を同一 wave で同期。`generate-index.js` が `phase-N.md` を認識しない漏れも同 cycle で修正し、node:test を追加。
+# 2026-06-03
+
+- issue-1080-bulk-tag-result-member-labels: implementation target 明確な VISUAL_ON_EXECUTION workflow を spec-only に留めず、同一サイクルで apps/web 実装・focused component evidence・Phase 11 two-tier evidence・Phase 12 strict 7・aiworkflow sync まで昇格。知見: ID-only result summary は API contract を膨らませず、親保持 list 由来の optional `membersById`（fullName only）+ child-local tag label `Map` + nullish fallback で閉じる。新規 policy 昇格は不要。

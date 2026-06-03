@@ -8,6 +8,22 @@
 
 本ドキュメントは、複雑なタスクを単一責務の原則に基づいて分解し、各サブタスクに最適なスラッシュコマンド・エージェント・スキルの組み合わせを選定するためのガイドラインを定義する。
 
+### issue-1080-bulk-tag-result-member-labels（2026-06-03）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION / staging_visual_pending_user_gate` |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-1080-bulk-tag-result-member-labels/` |
+| Issue | #1080 OPEN（mutation は user-gated） |
+| 親 workflow | `docs/30-workflows/completed-tasks/issue-1036-bulk-member-tag-assign/` |
+| source unassigned | `docs/30-workflows/completed-tasks/issue-1080-bulk-tag-result-member-labels/task-issue-1036-followup-004-bulk-tag-result-member-labels.md`（formalized / implemented local） |
+| 目的 | `/admin/members` の bulk tag 部分失敗結果 summary を raw `memberId` / `tagId` から member `fullName` / tag `label` 表示へ改善する |
+| implementation targets | `apps/web/src/features/admin/components/_members/BulkActionBar.tsx`, `apps/web/src/features/admin/components/_members/MembersClientShell.tsx`, `apps/web/src/features/admin/components/__tests__/BulkActionBar.spec.tsx` |
+| invariant | apps/api / D1 / API response shape `{ memberId, tagId, status }` / design tokens / testid / list key は不変。`membersById` は `fullName` のみで PII 最小化 |
+| evidence | focused `BulkActionBar.spec.tsx` 12 tests PASS。staging authenticated screenshot は user-gated |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1080-bulk-tag-result-member-labels-artifact-inventory.md` |
+| user gate | staging screenshot, commit, push, PR, Issue mutation |
+
 ### issue-1043-identity-conflicts-row-fade-animation（2026-06-02）
 
 | 項目 | 値 |

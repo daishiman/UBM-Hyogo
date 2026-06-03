@@ -18,6 +18,7 @@ type TagMode = "assign" | "unassign";
 export interface BulkActionBarProps {
   readonly selectedIds: ReadonlyArray<string>;
   readonly onComplete: () => void;
+  readonly membersById?: Readonly<Record<string, { readonly fullName: string }>>;
 }
 
 interface BulkTagSummary {
@@ -46,7 +47,7 @@ const summarize = (results: readonly BulkTagResultItem[]): BulkTagSummary => {
   return s;
 };
 
-export function BulkActionBar({ selectedIds, onComplete }: BulkActionBarProps) {
+export function BulkActionBar({ selectedIds, onComplete, membersById }: BulkActionBarProps) {
   const [busy, setBusy] = useState<Action | null>(null);
   const [tagMode, setTagMode] = useState<TagMode>("assign");
   const [selectedTagIds, setSelectedTagIds] = useState<Set<string>>(() => new Set());
@@ -84,6 +85,21 @@ export function BulkActionBar({ selectedIds, onComplete }: BulkActionBarProps) {
     }
     return [...m.entries()];
   }, [available]);
+
+  const tagLabelById = useMemo(() => {
+    const m = new Map<string, string>();
+    for (const t of available) {
+      m.set(t.tagId, t.label);
+    }
+    return m;
+  }, [available]);
+
+  const resolveMemberLabel = (memberId: string) => {
+    const fullName = membersById?.[memberId]?.fullName.trim();
+    return fullName || memberId;
+  };
+
+  const resolveTagLabel = (tagId: string) => tagLabelById.get(tagId)?.trim() || `${tagId}（未登録）`;
 
   if (selectedIds.length === 0) return null;
 
@@ -265,7 +281,7 @@ export function BulkActionBar({ selectedIds, onComplete }: BulkActionBarProps) {
               <ul data-testid="bulk-tag-result-skipped" className="list-disc pl-4">
                 {bulkResult.skipped.map((r) => (
                   <li key={`skip-${r.memberId}-${r.tagId}`}>
-                    退会済みのためスキップ: {r.memberId}
+                    退会済みのためスキップ: {resolveMemberLabel(r.memberId)}
                   </li>
                 ))}
               </ul>
@@ -274,7 +290,7 @@ export function BulkActionBar({ selectedIds, onComplete }: BulkActionBarProps) {
               <ul data-testid="bulk-tag-result-not-found" className="list-disc pl-4">
                 {bulkResult.notFound.map((r) => (
                   <li key={`nf-${r.memberId}-${r.tagId}`}>
-                    未登録タグのためスキップ: {r.tagId}
+                    未登録タグのためスキップ: {resolveTagLabel(r.tagId)}
                   </li>
                 ))}
               </ul>

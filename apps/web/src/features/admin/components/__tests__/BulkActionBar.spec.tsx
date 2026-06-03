@@ -134,6 +134,54 @@ describe("BulkActionBar", () => {
     expect(screen.getByTestId("bulk-tag-result-not-found")).toBeTruthy();
   });
 
+  it("TC-BAB-TAG-06: 部分失敗結果の member / tag を表示名で表示する", async () => {
+    bulkTrigger.mockResolvedValue({
+      batchId: "b1",
+      results: [
+        { memberId: "m_del", tagId: "tag_eng", status: "skipped_deleted" },
+        { memberId: "a", tagId: "tag_mgr", status: "tag_not_found" },
+      ],
+    });
+    render(
+      <BulkActionBar
+        selectedIds={["a", "m_del"]}
+        membersById={{ m_del: { fullName: "退会済み 太郎" } }}
+        onComplete={() => {}}
+      />,
+    );
+    const pill = await screen.findByRole("button", { name: "エンジニア" });
+    fireEvent.click(pill);
+    fireEvent.click(screen.getByRole("button", { name: /を付与$/ }));
+    await waitFor(() =>
+      expect(screen.getByText("退会済みのためスキップ: 退会済み 太郎")).toBeTruthy(),
+    );
+    expect(screen.getByText("未登録タグのためスキップ: 経営者")).toBeTruthy();
+  });
+
+  it("TC-BAB-TAG-07: 表示名が無い member / tag は生 ID fallback で壊れない", async () => {
+    bulkTrigger.mockResolvedValue({
+      batchId: "b1",
+      results: [
+        { memberId: "m_missing", tagId: "tag_eng", status: "skipped_deleted" },
+        { memberId: "a", tagId: "tag_unknown", status: "tag_not_found" },
+      ],
+    });
+    render(
+      <BulkActionBar
+        selectedIds={["a", "m_missing"]}
+        membersById={{ m_missing: { fullName: " " } }}
+        onComplete={() => {}}
+      />,
+    );
+    const pill = await screen.findByRole("button", { name: "エンジニア" });
+    fireEvent.click(pill);
+    fireEvent.click(screen.getByRole("button", { name: /を付与$/ }));
+    await waitFor(() =>
+      expect(screen.getByText("退会済みのためスキップ: m_missing")).toBeTruthy(),
+    );
+    expect(screen.getByText("未登録タグのためスキップ: tag_unknown（未登録）")).toBeTruthy();
+  });
+
   it("TC-BAB-TAG-04: 解除モードで op=unassign を送る", async () => {
     render(<BulkActionBar selectedIds={["a"]} onComplete={() => {}} />);
     const pill = await screen.findByRole("button", { name: "エンジニア" });
