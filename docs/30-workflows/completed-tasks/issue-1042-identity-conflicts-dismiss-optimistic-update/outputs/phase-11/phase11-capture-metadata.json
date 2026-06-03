@@ -1,0 +1,26 @@
+{
+  "taskId": "issue-1042-identity-conflicts-dismiss-optimistic-update",
+  "mode": "VISUAL_ON_EXECUTION",
+  "status": "captured",
+  "route": "/admin/identity-conflicts",
+  "captureGated": "captured locally on 2026-06-02; commit/push/PR remain user-gated",
+  "screenshotDir": "outputs/phase-11/screenshots",
+  "naming": "<component>-<state>.png",
+  "screenshots": [
+    {
+      "file": "identity-conflict-row-dismiss-confirm.png",
+      "state": "「別人マーク」理由 dialog 表示（dismiss 理由 textarea +「別人として確定」ボタン）",
+      "tc": "TC-VIS-D1"
+    },
+    {
+      "file": "identity-conflict-row-dismiss-optimistic-removed.png",
+      "state": "「別人として確定」click 直後、server 応答前に該当 row が一覧から消えた状態（optimistic update）",
+      "tc": "TC-VIS-D2"
+    },
+    {
+      "file": "identity-conflict-row-dismiss-rollback-error.png",
+      "state": "server error で row が復元し、inline error（role=alert）が表示された状態（rollback・dismissReason 保持）",
+      "tc": "TC-VIS-D3"
+    }
+  ]
+}

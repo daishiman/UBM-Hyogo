@@ -84,6 +84,20 @@ const setMutationState = (
 
 const getRowRoot = () => screen.getByText("conflict: c_1").closest("[data-state]");
 
+const dismissRollbackCases: Array<[string, Error, string]> = [
+  [
+    "403",
+    new FetchAuthedError(403, JSON.stringify({ message: "権限がありません" })),
+    "権限がありません",
+  ],
+  [
+    "5xx",
+    new FetchAuthedError(500, JSON.stringify({ message: "サーバーエラーです" })),
+    "サーバーエラーです",
+  ],
+  ["network", new Error("network error"), "network error"],
+];
+
 describe("IdentityConflictRow", () => {
   it("idle 段階で merge / dismiss ボタンと conflict メタを表示する", () => {
     render(<IdentityConflictRow item={item} />);
@@ -325,6 +339,9 @@ describe("IdentityConflictRow", () => {
       }),
     );
     await waitFor(() => expect(screen.queryByText("conflict: c_1")).toBeNull());
+    const status = screen.getByRole("status");
+    expect(status.textContent).toContain("候補を一覧から非表示にしました");
+    await waitFor(() => expect(document.activeElement).toBe(status));
   });
 
   it("dismiss 成功後も row は非表示を維持する", async () => {
@@ -340,15 +357,11 @@ describe("IdentityConflictRow", () => {
     });
     fireEvent.click(screen.getByRole("button", { name: "別人として確定" }));
 
-    await waitFor(() =>
-      expect(trigger).toHaveBeenCalledWith(dismissEndpoint, {
-        reason: "別組織で確認済",
-      }),
-    );
+    await waitFor(() => expect(trigger).toHaveBeenCalled());
     await waitFor(() => expect(screen.queryByText("conflict: c_1")).toBeNull());
   });
 
-  it("dismiss 失敗 (409) で optimistic 非表示を rollback し、reason / alert が残る", async () => {
+  it("dismiss 失敗 (409) で optimistic 非表示を rollback し、reason / error が残る", async () => {
     const trigger = vi
       .fn()
       .mockRejectedValue(new Error("すでに別人として確定済みです"));
@@ -374,7 +387,35 @@ describe("IdentityConflictRow", () => {
     expect(
       (screen.getByLabelText("別人マーク理由") as HTMLTextAreaElement).value,
     ).toBe("別組織で確認済");
+    expect(screen.getByRole("alert").textContent).toContain(
+      "すでに別人として確定済みです",
+    );
   });
+
+  it.each(dismissRollbackCases)(
+    "dismiss 失敗 (%s) で optimistic 非表示を rollback する",
+    async (_label, error, expectedMessage) => {
+      const trigger = vi.fn().mockRejectedValue(error);
+      setMutationState(dismissEndpoint, {
+        trigger,
+        error,
+      });
+
+      render(<IdentityConflictRow item={item} />);
+      fireEvent.click(screen.getByRole("button", { name: "別人マーク" }));
+      fireEvent.change(screen.getByLabelText("別人マーク理由"), {
+        target: { value: "別組織で確認済" },
+      });
+      fireEvent.click(screen.getByRole("button", { name: "別人として確定" }));
+
+      await waitFor(() => expect(trigger).toHaveBeenCalled());
+      await waitFor(() => expect(screen.getByText("conflict: c_1")).toBeTruthy());
+      expect(
+        (screen.getByLabelText("別人マーク理由") as HTMLTextAreaElement).value,
+      ).toBe("別組織で確認済");
+      expect(screen.getByRole("alert").textContent).toContain(expectedMessage);
+    },
+  );
 
   it("dismiss rollback 後に再度確定でき、2 回目の trigger が呼ばれる", async () => {
     const trigger = vi

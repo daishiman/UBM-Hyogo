@@ -32,6 +32,7 @@ const errorMessage = (error: Error | null): string | null => {
 
 export function IdentityConflictRow({ item }: { item: Row }) {
   const formId = useId();
+  const optimisticStatusRef = useRef<HTMLParagraphElement>(null);
   const [stage, setStage] = useState<"idle" | "merge-confirm" | "merge-final" | "dismiss">("idle");
   const [optimisticMerged, setOptimisticMerged] = useState(false);
   const [isExiting, setIsExiting] = useState(false);
@@ -70,6 +71,17 @@ export function IdentityConflictRow({ item }: { item: Row }) {
 
   const mergeError = errorMessage(mergeMutation.error);
   const dismissError = errorMessage(dismissMutation.error);
+  const optimisticStatus =
+    optimisticDismissed
+      ? "別人として確定しました。候補を一覧から非表示にしました。"
+      : optimisticMerged
+        ? "merge を実行しました。候補を一覧から非表示にしました。"
+        : null;
+
+  useEffect(() => {
+    if (!optimisticStatus) return;
+    optimisticStatusRef.current?.focus();
+  }, [optimisticStatus]);
 
   const clearExitTimer = useCallback(() => {
     if (!exitTimerRef.current) return;
@@ -121,7 +133,19 @@ export function IdentityConflictRow({ item }: { item: Row }) {
     setDismissReason("");
   };
 
-  if (optimisticMerged || optimisticDismissed) return null;
+  if (optimisticStatus) {
+    return (
+      <p
+        ref={optimisticStatusRef}
+        role="status"
+        aria-live="polite"
+        tabIndex={-1}
+        className="sr-only"
+      >
+        {optimisticStatus}
+      </p>
+    );
+  }
 
   return (
     <div

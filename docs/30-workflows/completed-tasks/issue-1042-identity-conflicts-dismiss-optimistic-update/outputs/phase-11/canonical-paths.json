@@ -1,0 +1,25 @@
+{
+  "schemaVersion": "1.0.0",
+  "taskId": "issue-1042-identity-conflicts-dismiss-optimistic-update",
+  "workflowDir": "docs/30-workflows/completed-tasks/issue-1042-identity-conflicts-dismiss-optimistic-update",
+  "evidence": [
+    {
+      "id": "focused-vitest",
+      "kind": "test",
+      "path": "outputs/phase-11/evidence/focused-vitest.log",
+      "command": "pnpm --filter @ubm-hyogo/web exec vitest run src/components/admin/__tests__/IdentityConflictRow.spec.tsx",
+      "acquiredBy": "implementation_cycle",
+      "requiredForCloseout": true,
+      "notes": "2026-06-02: focused Vitest（IdentityConflictRow.spec.tsx 15 tests PASS）で dismiss optimistic hide / live status + focus handoff / rollback+理由保持 / 403・409・5xx・network rollback / success-stays-hidden / merge 非回帰を検証。"
+    },
+    {
+      "id": "focused-playwright",
+      "kind": "test",
+      "path": "outputs/phase-11/evidence/focused-playwright.log",
+      "command": "AUTH_SECRET=playwright-e2e-auth-secret-32-bytes PLAYWRIGHT_ADMIN_IDENTITY_CONFLICTS_FIXTURE=1 PLAYWRIGHT_ISSUE1042_SCREENSHOT_DIR=... pnpm --filter @ubm-hyogo/web exec playwright test playwright/tests/admin-identity-conflicts.spec.ts --project=desktop-chromium --grep \"dismiss.*optimistic|dismiss error\" --reporter=list",
+      "acquiredBy": "implementation_cycle",
+      "requiredForCloseout": true,
+      "notes": "2026-06-02: Playwright focused 2 tests PASS。dismiss optimistic removed / rollback error と screenshot 3 PNG capture を検証。"
+    }
+  ]
+}
