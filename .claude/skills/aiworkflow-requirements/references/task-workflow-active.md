@@ -8,6 +8,21 @@
 
 本ドキュメントは、複雑なタスクを単一責務の原則に基づいて分解し、各サブタスクに最適なスラッシュコマンド・エージェント・スキルの組み合わせを選定するためのガイドラインを定義する。
 
+### issue-1076-member-og-design-token-alignment（2026-06-03）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION` |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-1076-member-og-design-token-alignment/` |
+| Issue | #1076 CLOSED（closedAt: 2026-06-03T04:23:12Z。Issue mutation は未実行） |
+| 親 workflow | `docs/30-workflows/completed-tasks/issue-1027-member-dynamic-og-worker-split/` |
+| 目的 | `apps/og` の member/default OG 画像意匠を `apps/web/src/styles/tokens.css` の stone/amber design tokens へ整合し、派生 token drift を test で検出する |
+| implementation targets | `apps/og/src/og-tokens.ts`, `apps/og/src/render.tsx`, `apps/og/src/__tests__/og-tokens.spec.ts`, `apps/og/src/__tests__/render-html.spec.ts`, `apps/og/src/__tests__/render-smoke.spec.ts`, `apps/og/tsconfig.json` |
+| invariant | `apps/web` / `apps/api` / D1 schema / Google Form / OG endpoint surface / `og-cd.yml` は変更なし。Satori 制約により concrete hex は `apps/og` 派生 token に閉じる |
+| evidence | focused OG Vitest 6 files / 23 tests PASS、OG typecheck PASS、OG lint PASS、Wrangler dry-run build PASS、size gate 718KiB / 3072KiB PASS |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1076-member-og-design-token-alignment-artifact-inventory.md` |
+| user gate | staging real PNG screenshots、deploy、commit、push、PR、Issue mutation |
+
 ### issue-1043-identity-conflicts-row-fade-animation（2026-06-02）
 
 | 項目 | 値 |

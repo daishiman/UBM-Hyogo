@@ -1,17 +1,15 @@
 import type { MemberSummary } from "./member-source";
+import {
+  OG_BRAND,
+  OG_LAYOUT,
+  OG_SIZE,
+  OG_TYPO,
+  titleFontSize,
+} from "./og-tokens";
 
-export const OG_SIZE = { width: 1200, height: 630 } as const;
+export { OG_SIZE };
 
-const BRAND = {
-  ink: "#172033",
-  muted: "#526070",
-  surface: "#f8fafc",
-  accent: "#0068a9",
-  line: "#c9d6e2",
-} as const;
-
-const FONT_FAMILY = "Noto Sans JP";
-const STATIC_TEXT = "UBM HyogoMember Directory";
+const STATIC_TEXT = "UBM Hyogo Member Directory";
 
 const ONE_BY_ONE_PNG = Uint8Array.from([
   137, 80, 78, 71, 13, 10, 26, 10, 0, 0, 0, 13, 73, 72, 68, 82, 0, 0, 0, 1, 0,
@@ -36,18 +34,25 @@ export function tagLine(summary: MemberSummary): string {
 }
 
 export function buildHtml(title: string, subtitle: string): string {
+  const escapedTitle = escapeHtml(title);
+  const escapedSubtitle = escapeHtml(subtitle);
+  const computedTitleFontSize = titleFontSize(title);
+
   return [
-    `<div style="display:flex;width:1200px;height:630px;background:${BRAND.surface};font-family:'${FONT_FAMILY}',sans-serif;color:${BRAND.ink};padding:64px;box-sizing:border-box;">`,
-    `<div style="display:flex;flex-direction:column;justify-content:space-between;width:100%;border:2px solid ${BRAND.line};border-radius:36px;padding:56px;background:white;">`,
-    `<div style="display:flex;align-items:center;gap:18px;font-size:30px;color:${BRAND.accent};font-weight:700;">`,
-    `<div style="display:flex;width:18px;height:18px;border-radius:999px;background:${BRAND.accent};"></div>`,
+    `<div style="display:flex;width:${OG_LAYOUT.width}px;height:${OG_LAYOUT.height}px;background:${OG_BRAND.surface};font-family:'${OG_TYPO.fontFamily}',sans-serif;color:${OG_BRAND.ink};padding:${OG_LAYOUT.outerPadPx}px;box-sizing:border-box;">`,
+    `<div style="display:flex;flex-direction:column;justify-content:space-between;width:100%;border:${OG_LAYOUT.cardBorderPx}px solid ${OG_BRAND.line};border-radius:${OG_LAYOUT.cardRadiusPx}px;padding:${OG_LAYOUT.cardPadPx}px;background:${OG_BRAND.panel};box-shadow:0 20px 48px rgba(24,23,20,0.10);">`,
+    `<div style="display:flex;align-items:center;gap:20px;font-size:${OG_TYPO.eyebrowFontPx}px;color:${OG_BRAND.accentInk};font-weight:700;letter-spacing:${OG_TYPO.eyebrowTracking};text-transform:uppercase;">`,
+    `<div style="display:flex;width:${OG_LAYOUT.dotPx}px;height:${OG_LAYOUT.dotPx}px;border-radius:999px;background:${OG_BRAND.accent};box-shadow:0 0 0 10px ${OG_BRAND.accentSoft};"></div>`,
     `<div style="display:flex;">UBM Hyogo</div>`,
     `</div>`,
-    `<div style="display:flex;flex-direction:column;gap:28px;">`,
-    `<div style="display:flex;font-size:76px;line-height:1.08;font-weight:800;letter-spacing:0;">${escapeHtml(title)}</div>`,
-    `<div style="display:flex;font-size:34px;line-height:1.35;color:${BRAND.muted};">${escapeHtml(subtitle)}</div>`,
+    `<div style="display:flex;flex-direction:column;gap:${OG_LAYOUT.stackGapPx}px;max-width:920px;">`,
+    `<div style="display:flex;font-size:${computedTitleFontSize}px;line-height:1.08;font-weight:800;letter-spacing:0;">${escapedTitle}</div>`,
+    `<div style="display:flex;font-size:${OG_TYPO.subtitleFontPx}px;line-height:1.35;color:${OG_BRAND.body};">${escapedSubtitle}</div>`,
     `</div>`,
-    `<div style="display:flex;font-size:26px;color:${BRAND.muted};">Member Directory</div>`,
+    `<div style="display:flex;align-items:center;justify-content:space-between;font-size:${OG_TYPO.footerFontPx}px;color:${OG_BRAND.muted};">`,
+    `<div style="display:flex;">Member Directory</div>`,
+    `<div style="display:flex;width:160px;height:6px;border-radius:999px;background:${OG_BRAND.accentSoft};"><div style="display:flex;width:58px;height:6px;border-radius:999px;background:${OG_BRAND.accent};"></div></div>`,
+    `</div>`,
     `</div>`,
     `</div>`,
   ].join("");
@@ -69,14 +74,14 @@ async function imageResponse(title: string, subtitle: string): Promise<Response>
   const { ImageResponse, loadGoogleFont } = await import("workers-og");
   const text = `${STATIC_TEXT}${title}${subtitle}`;
   const fonts = await Promise.all([
-    loadGoogleFont({ family: FONT_FAMILY, weight: 400, text }),
-    loadGoogleFont({ family: FONT_FAMILY, weight: 700, text }),
+    loadGoogleFont({ family: OG_TYPO.fontFamily, weight: 400, text }),
+    loadGoogleFont({ family: OG_TYPO.fontFamily, weight: 700, text }),
   ]);
   return new ImageResponse(buildHtml(title, subtitle), {
     ...OG_SIZE,
     fonts: [
-      { name: FONT_FAMILY, data: fonts[0], weight: 400, style: "normal" },
-      { name: FONT_FAMILY, data: fonts[1], weight: 700, style: "normal" },
+      { name: OG_TYPO.fontFamily, data: fonts[0], weight: 400, style: "normal" },
+      { name: OG_TYPO.fontFamily, data: fonts[1], weight: 700, style: "normal" },
     ],
   });
   /* v8 ignore stop */

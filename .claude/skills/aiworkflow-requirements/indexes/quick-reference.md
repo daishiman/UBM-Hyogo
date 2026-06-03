@@ -1,5 +1,19 @@
 # クイックリファレンス
 
+## issue-1076-member-og-design-token-alignment（2026-06-03）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-1076-member-og-design-token-alignment/` |
+| status | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION` |
+| issue | #1076 CLOSED（closedAt: 2026-06-03T04:23:12Z。Issue mutation は未実行） |
+| purpose | `apps/og` member/default OG image design-token alignment to `apps/web/src/styles/tokens.css` stone/amber source values |
+| implementation | `apps/og/src/og-tokens.ts`, `apps/og/src/render.tsx`, `apps/og/src/__tests__/og-tokens.spec.ts`, `apps/og/src/__tests__/render-html.spec.ts`, `apps/og/src/__tests__/render-smoke.spec.ts`, `apps/og/tsconfig.json` |
+| evidence | OG Vitest 6 files / 23 tests PASS; typecheck/lint PASS; Wrangler dry-run build PASS; size gate 718KiB / 3072KiB PASS |
+| invariant | `apps/web`, `apps/api`, D1 schema, Google Form, OG endpoint surface, and `og-cd.yml` unchanged |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1076-member-og-design-token-alignment-artifact-inventory.md` |
+| user gate | staging real PNG screenshots, deploy, commit, push, PR, Issue mutation |
+
 ## issue-1043-identity-conflicts-row-fade-animation（2026-06-02）
 
 | 項目 | 値 |
