@@ -1708,7 +1708,9 @@
   [data-shell="sidebar"] {
     position: sticky;
     top: 0;
-    min-height: 100vh;
+    height: 100dvh;
+    max-height: 100dvh;
+    overflow: hidden;
     border-right: 1px solid var(--ubm-color-border-default);
     background: var(--ubm-color-surface-panel);
   }
@@ -1838,7 +1840,9 @@
   [data-shell="sidebar"] {
     position: sticky;
     top: 0;
-    min-height: 100vh;
+    height: 100dvh;
+    max-height: 100dvh;
+    overflow: hidden;
     border-right: 1px solid var(--ubm-color-border-default);
     background: var(--ubm-color-surface-panel);
   }

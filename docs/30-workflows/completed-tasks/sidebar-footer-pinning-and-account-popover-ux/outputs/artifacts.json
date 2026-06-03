@@ -1,0 +1,85 @@
+{
+  "task_id": "sidebar-footer-pinning-and-account-popover-ux",
+  "created_at": "2026-06-02",
+  "status": "implemented_local_evidence_captured",
+  "task_type": "implementation",
+  "visual_category": "VISUAL",
+  "implementation_mode": "new",
+  "metadata": {
+    "workflow_state": "implemented_local_evidence_captured",
+    "implementation_status": "implemented_local_evidence_captured",
+    "taskType": "implementation",
+    "visualEvidence": "VISUAL",
+    "implementationCategory": "standard",
+    "spec_classification": "implementation_spec",
+    "issue": null,
+    "issue_state": "none",
+    "canonical_workflow": "docs/30-workflows/completed-tasks/sidebar-footer-pinning-and-account-popover-ux/",
+    "parent_workflows": [
+      "docs/30-workflows/completed-tasks/unified-sidebar-shell-public-and-admin/"
+    ],
+    "source_task": "ユーザー報告（2026-06-02 staging スクリーンショット: 公開ホームページ / を admin 閲覧時の sidebar / footer UI/UX 不具合）",
+    "branch": "feat/sidebar-footer-pinning-and-account-popover-ux",
+    "scope_files": [
+      "apps/web/src/styles/globals.css",
+      "apps/web/src/styles/legacy-public.css",
+      "apps/web/src/components/shell/SidebarShell.tsx",
+      "apps/web/src/components/shell/SidebarUserMenu.tsx",
+      "apps/web/src/components/shell/SidebarNavItem.tsx",
+      "apps/web/src/components/shell/__tests__/SidebarShell.spec.tsx",
+      "apps/web/src/components/shell/__tests__/SidebarUserMenu.spec.tsx",
+      "apps/web/src/components/shell/__tests__/SidebarNavItem.spec.tsx"
+    ],
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-06-02T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/sidebar-footer-pinning-and-account-popover-ux/outputs/phase-12/phase12-task-spec-compliance-check.md",
+        "approver": "daishiman",
+        "notes": "spec_review: Phase 1-13 implementation spec presence and strict outputs"
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/sidebar-footer-pinning-and-account-popover-ux/outputs/phase-11/manual-test-result.md",
+        "approver": "daishiman",
+        "notes": "implementation_review: local code and component evidence captured; staging visual remains user-gated"
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/sidebar-footer-pinning-and-account-popover-ux/outputs/phase-13/pr-creation-result.md",
+        "approver": "daishiman",
+        "notes": "external_ops: commit, push, PR — user-gated"
+      }
+    ]
+  },
+  "phases": [
+    { "phase": 1, "name": "要件定義", "status": "completed", "output": "phase-1-requirements.md" },
+    { "phase": 2, "name": "設計", "status": "completed", "output": "phase-2-design.md" },
+    { "phase": 3, "name": "設計レビュー", "status": "completed", "output": "phase-3-design-review.md" },
+    { "phase": 4, "name": "テスト計画", "status": "completed", "output": "phase-4-test-plan.md" },
+    { "phase": 5, "name": "実装手順", "status": "completed", "output": "phase-5-implementation.md" },
+    { "phase": 6, "name": "テスト追加", "status": "completed", "output": "phase-6-test-additions.md" },
+    { "phase": 7, "name": "カバレッジ", "status": "completed", "output": "phase-7-coverage.md" },
+    { "phase": 8, "name": "リファクタ", "status": "completed", "output": "phase-8-refactor.md" },
+    { "phase": 9, "name": "QA", "status": "completed", "output": "phase-9-qa.md" },
+    { "phase": 10, "name": "最終レビュー", "status": "completed", "output": "phase-10-final-review.md" },
+    { "phase": 11, "name": "手動テスト", "status": "completed", "output": "phase-11-manual-test.md" },
+    { "phase": 12, "name": "ドキュメント同期", "status": "completed", "output": "phase-12-documentation.md" },
+    { "phase": 13, "name": "commit-pr-release", "status": "blocked", "blockedReason": "commit, push, PR are user-gated", "output": "phase-13-pr.md" }
+  ],
+  "implementation_targets": [
+    "apps/web/src/styles/globals.css",
+    "apps/web/src/styles/legacy-public.css",
+    "apps/web/src/components/shell/SidebarShell.tsx",
+    "apps/web/src/components/shell/SidebarUserMenu.tsx",
+    "apps/web/src/components/shell/SidebarNavItem.tsx",
+    "apps/web/src/components/shell/__tests__/SidebarShell.spec.tsx",
+    "apps/web/src/components/shell/__tests__/SidebarUserMenu.spec.tsx",
+    "apps/web/src/components/shell/__tests__/SidebarNavItem.spec.tsx"
+  ]
+}
