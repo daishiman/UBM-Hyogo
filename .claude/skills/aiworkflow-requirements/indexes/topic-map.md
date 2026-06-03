@@ -1231,6 +1231,7 @@ node scripts/list-specs.js --topics
 | Wave 0 UI primitives baseline（2026-04-26） | L22 |
 | task-10 UI primitives integration contract（2026-05-09） | L32 |
 | task-10 follow-up 002 runtime visual + axe evidence（2026-05-11） | L46 |
+| IME-safe input pattern（2026-06-02） | L54 |
 
 ### references/ui-ux-design-principles-core.md
 
@@ -2133,6 +2134,17 @@ node scripts/list-specs.js --topics
 | Artifacts | L13 |
 | Boundary | L31 |
 
+### references/workflow-admin-attendance-dashboard-ux-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Summary | L5 |
+| Workflow Artifacts | L9 |
+| Implementation Targets | L20 |
+| Evidence Boundary | L29 |
+| System Boundary | L40 |
+| Lessons Learned | L44 |
+
 ### references/workflow-admin-audit-prototype-alignment-artifact-inventory.md
 
 | セクション | 行 |
@@ -2184,6 +2196,17 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | Boundary | L16 |
+
+### references/workflow-admin-member-detail-status-404-fix-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Metadata | L3 |
+| Implementation Targets | L12 |
+| Workflow Artifacts | L23 |
+| Evidence | L33 |
+| User-Gated | L42 |
+| Lessons Learned | L46 |
 
 ### references/workflow-admin-requests-prototype-alignment-and-404-fix-artifact-inventory.md
 
@@ -2705,6 +2728,15 @@ node scripts/list-specs.js --topics
 | Acceptance Evidence | L11 |
 | Phase 12 Artifacts | L21 |
 | Deferred / Blocked | L32 |
+
+### references/workflow-issue-1063-shell-collapse-cookie-secure-attribute-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Workflow Artifacts | L3 |
+| Implementation Artifacts | L13 |
+| System Boundary | L20 |
+| Lessons Learned | L30 |
 
 ### references/workflow-issue-1069-tag-code-rename-artifact-inventory.md
 
@@ -3696,6 +3728,13 @@ node scripts/list-specs.js --topics
 | Lessons Learned | L34 |
 | User-Gated Items | L48 |
 
+### references/workflow-japanese-ime-input-composition-search-fix-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Contract | L13 |
+| Lessons Learned | L20 |
+
 ### references/workflow-light-theme-contrast-regression-guard.md
 
 | セクション | 行 |
@@ -3899,6 +3938,17 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | Boundary | L19 |
+
+### references/workflow-profile-reload-session-404-fix-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Canonical | L3 |
+| State | L13 |
+| Implemented Local Targets | L17 |
+| Tests | L25 |
+| Verification Boundary | L33 |
+| Notes | L42 |
 
 ### references/workflow-profile-server-components-render-error-artifact-inventory.md
 
@@ -6283,6 +6333,16 @@ node scripts/list-specs.js --topics
 | L-I106-003: `audit_log` と `admin_member_notes` を同一 DTO として扱わない | L15 |
 | L-I106-004: 候補コマンドは実 repo scripts から再解決する | L21 |
 
+### references/lessons-learned-issue-1063-shell-collapse-cookie-secure-attribute-2026-06.md
+
+| セクション | 行 |
+|------------|----|
+| L-I1063-001: CLOSED issue の再スコープは reopen せず frontmatter で表明する | L6 |
+| L-I1063-002: runtime 依存の純粋関数は optional 引数の既定値に runtime 判定を置く | L10 |
+| L-I1063-003: CLOSED issue の「現存するか」は全ローカルブランチ grep で機械判定する | L14 |
+| L-I1063-004: `Secure` / `HttpOnly` は read 値に現れないので serializer 文字列を検証する | L18 |
+| メタ補足: 監査 SubAgent の read-only 逸脱 | L22 |
+
 ### references/lessons-learned-issue-191-schema-aliases-2026-04.md
 
 | セクション | 行 |
@@ -6825,6 +6885,14 @@ node scripts/list-specs.js --topics
 | 苦戦箇所 | L10 |
 | 同様の課題を将来簡潔に解決するための知見 | L25 |
 | 関連リンク | L35 |
+
+### references/lessons-learned-japanese-ime-input-composition-search-fix-2026-06.md
+
+| セクション | 行 |
+|------------|----|
+| L-IME-001: URL 正本検索は IME composition 中の commit を止める | L3 |
+| L-IME-002: Clear ownership is one field, one control | L9 |
+| L-IME-003: IME regression tests need fake timers and composition events | L15 |
 
 ### references/lessons-learned-lefthook-mwr-runbook-2026-04.md
 
@@ -7442,8 +7510,8 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 概要 | L3 |
 | 仕様書インデックス | L7 |
-| 利用順序 | L125 |
-| 関連ドキュメント | L130 |
+| 利用順序 | L126 |
+| 関連ドキュメント | L131 |
 
 ### references/llm-embedding.md
 
@@ -8580,15 +8648,15 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L3604 |
-| フェーズ構造（概要） | L3613 |
-| 品質ゲート（概要） | L3644 |
-| 出力テンプレート | L3655 |
-| 実行時のコマンド・エージェント・スキル | L3678 |
-| 昇格パターン集 | L3702 |
-| Current Active / Spec Created Tasks | L3704 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L3870 |
-| issue-998-members-publish-state-production-rollout | L3948 |
+| ドキュメント構成 | L3670 |
+| フェーズ構造（概要） | L3679 |
+| 品質ゲート（概要） | L3710 |
+| 出力テンプレート | L3721 |
+| 実行時のコマンド・エージェント・スキル | L3744 |
+| 昇格パターン集 | L3768 |
+| Current Active / Spec Created Tasks | L3770 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L3936 |
+| issue-998-members-publish-state-production-rollout | L4014 |
 
 ### references/task-workflow-backlog-part2.md
 

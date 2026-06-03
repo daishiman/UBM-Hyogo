@@ -91,6 +91,8 @@ const state = {
   adminDashboardByStatus: undefined,
   meetingsSeed: defaultMeetingsSeed(),
   publicHomeEmpty: false,
+  // admin attendance dashboard fixture scenario（auth.ts in-process mock と同一契約）
+  attendanceDashboardScenario: "all-ok",
 };
 
 const resetState = () => {
@@ -101,6 +103,7 @@ const resetState = () => {
   state.adminDashboardByStatus = undefined;
   state.meetingsSeed = defaultMeetingsSeed();
   state.publicHomeEmpty = false;
+  state.attendanceDashboardScenario = "all-ok";
 };
 
 const defaultAdminDashboardByZone = () => [
@@ -108,6 +111,61 @@ const defaultAdminDashboardByZone = () => [
   { key: "1to10", label: "1→10", hint: "拡大", count: 7, total: 11, tone: "accent" },
   { key: "10to100", label: "10→100", hint: "組織化", count: 1, total: 11, tone: "ok" },
 ];
+
+// ---- admin attendance dashboard fixtures（auth.ts in-process mock と同一契約）----
+const attendanceFilterEcho = () => ({
+  periodFrom: null,
+  periodTo: null,
+  zoneFilter: null,
+});
+const attendanceOverviewBody = () => ({
+  totalSessions: 12,
+  totalMembers: 30,
+  overallRate: 0.75,
+  filter: attendanceFilterEcho(),
+  previousPeriodRate: 0.68,
+});
+const attendanceBySessionBody = () => {
+  if (state.attendanceDashboardScenario === "by-session-empty") return [];
+  return [
+    {
+      sessionId: "session-2026-04",
+      title: "2026年4月 定例会",
+      heldOn: "2026-04-10",
+      attendeeCount: 24,
+      rate: 0.8,
+    },
+    {
+      sessionId: "session-2026-05",
+      title: "2026年5月 定例会",
+      heldOn: "2026-05-10",
+      attendeeCount: 18,
+      rate: 0.6,
+    },
+  ];
+};
+const attendanceRankingBody = () => [
+  { memberId: "mem_alpha", displayName: "青木 太郎", attendedCount: 9, rate: 0.9 },
+  { memberId: "mem_beta", displayName: "兵庫 花子", attendedCount: 7, rate: 0.7 },
+  { memberId: "mem_gamma", displayName: "神戸 次郎", attendedCount: 5, rate: 0.5 },
+];
+const attendanceTrendBody = () => ({
+  granularity: "month",
+  buckets: [
+    { period: "2026-04", attendeeCount: 24, sessionCount: 1, uniqueMemberCount: 24 },
+    { period: "2026-05", attendeeCount: 18, sessionCount: 1, uniqueMemberCount: 18 },
+  ],
+  filter: attendanceFilterEcho(),
+});
+const attendanceZoneDistributionBody = () => ({
+  rows: [
+    { zone: "0→1", attendeeCount: 6, rate: 0.2 },
+    { zone: "1→10", attendeeCount: 21, rate: 0.7 },
+    { zone: "10→100", attendeeCount: 3, rate: 0.1 },
+    { zone: "unknown", attendeeCount: 0, rate: 0 },
+  ],
+  filter: attendanceFilterEcho(),
+});
 
 const publicStats = () => ({
   ...fixtures.public.stats,
@@ -453,6 +511,19 @@ const server = createServer(async (req, res) => {
       adminDashboardByStatus: state.adminDashboardByStatus ?? null,
     });
   }
+  if (req.method === "POST" && pathname === "/__test__/attendance-dashboard") {
+    const body = await readBody(req);
+    const scenario = body && body.scenario;
+    if (
+      scenario !== "all-ok" &&
+      scenario !== "overview-error" &&
+      scenario !== "by-session-empty"
+    ) {
+      return writeJson(res, 400, { error: "invalid_attendance_dashboard_scenario" });
+    }
+    state.attendanceDashboardScenario = scenario;
+    return writeJson(res, 200, { ok: true });
+  }
 
   // /health: status field を含む（contract test の string match 対象）
   if (req.method === "GET" && pathname === "/health") {
@@ -551,6 +622,25 @@ const server = createServer(async (req, res) => {
       },
       schemas.AdminDashboardZ,
     );
+  }
+  // admin attendance dashboard GET endpoints（auth.ts in-process mock と同一契約）
+  if (req.method === "GET" && pathname === "/admin/dashboard/attendance/overview") {
+    if (state.attendanceDashboardScenario === "overview-error") {
+      return writeJson(res, 500, { error: "fixture_overview_error" });
+    }
+    return writeJson(res, 200, attendanceOverviewBody());
+  }
+  if (req.method === "GET" && pathname === "/admin/dashboard/attendance/by-session") {
+    return writeJson(res, 200, attendanceBySessionBody());
+  }
+  if (req.method === "GET" && pathname === "/admin/dashboard/attendance/ranking") {
+    return writeJson(res, 200, attendanceRankingBody());
+  }
+  if (req.method === "GET" && pathname === "/admin/dashboard/attendance/trend") {
+    return writeJson(res, 200, attendanceTrendBody());
+  }
+  if (req.method === "GET" && pathname === "/admin/dashboard/attendance/zone-distribution") {
+    return writeJson(res, 200, attendanceZoneDistributionBody());
   }
   if (req.method === "GET" && pathname === "/admin/members") {
     return safeJson(res, 200, adminMembersResponse(url.searchParams), schemas.AdminMemberListZ);
