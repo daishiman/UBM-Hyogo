@@ -64,7 +64,7 @@ Issue 前提の陳腐化（「in-memory に限定」）を現行 HEAD で再調�
 | 6 | `outputs/phase-12/phase12-task-spec-compliance-check.md` | present（本ファイル） |
 | 7 | `outputs/phase-11/manual-test-result.md` | present（NON_VISUAL evidence） |
 
-implementation-guide.md 品質: `## Part 1`（cookie=「小さなメモ」比喩・`たとえば`）/ `## Part 2`（`SHELL_COLLAPSE_COOKIE` / `readCollapsedFromCookieString` / `readCollapsedFromDocument` / `writeCollapsedCookie` / `useSidebarState(initialCollapsed)` / `SidebarShellProps.initialCollapsed` のシグネチャ・データフロー・cookie 属性・エラーハンドリング・設定値）/ `## 視覚証跡`（screenshot 不要明記）を充足。
+implementation-guide.md 品質: `## Part 1`（cookie=「小さなメモ」比喩・`たとえば`）/ `## Part 2`（`SHELL_COLLAPSE_COOKIE_NAME` / `parseShellCollapsedCookie` / `readCollapsedFromDocument` / `writeShellCollapsedCookie` / `useSidebarState(initialCollapsed)` / `SidebarShellProps.initialCollapsed` のシグネチャ・データフロー・cookie 属性・エラーハンドリング・設定値）/ `## 視覚証跡`（screenshot 不要明記）を充足。
 
 追加証跡: `outputs/phase-12/elegant-review-result.md` に 30種思考法 compact evidence と 4条件 verdict を保存。
 
