@@ -225,6 +225,16 @@ function attendanceOverviewBody() {
     totalSessions: 12,
     totalMembers: 30,
     overallRate: 0.75,
+    filter: attendanceFilterEcho(),
+    previousPeriodRate: 0.68,
+  }
+}
+
+function attendanceFilterEcho() {
+  return {
+    periodFrom: null,
+    periodTo: null,
+    zoneFilter: null,
   }
 }
 
@@ -254,6 +264,45 @@ function attendanceRankingBody() {
     { memberId: 'mem_beta', displayName: '兵庫 花子', attendedCount: 7, rate: 0.7 },
     { memberId: 'mem_gamma', displayName: '神戸 次郎', attendedCount: 5, rate: 0.5 },
   ]
+}
+
+function attendanceTrendBody() {
+  return {
+    granularity: 'month',
+    buckets: [
+      { period: '2026-04', attendeeCount: 24, sessionCount: 1, uniqueMemberCount: 24 },
+      { period: '2026-05', attendeeCount: 18, sessionCount: 1, uniqueMemberCount: 18 },
+    ],
+    filter: attendanceFilterEcho(),
+  }
+}
+
+function attendanceZoneDistributionBody() {
+  return {
+    rows: [
+      { zone: '0→1', attendeeCount: 6, rate: 0.2 },
+      { zone: '1→10', attendeeCount: 21, rate: 0.7 },
+      { zone: '10→100', attendeeCount: 3, rate: 0.1 },
+      { zone: 'unknown', attendeeCount: 0, rate: 0 },
+    ],
+    filter: attendanceFilterEcho(),
+  }
+}
+
+function attendanceAbsenteesBody() {
+  return {
+    rows: [
+      {
+        memberId: 'mem_delta',
+        displayName: '西宮 三郎',
+        zone: '0→1',
+        lastAttendedAt: null,
+        missedCount: 3,
+      },
+    ],
+    lastN: 3,
+    filter: attendanceFilterEcho(),
+  }
 }
 
 function adminSchemaDiffBody() {
@@ -802,6 +851,18 @@ async function ensureMockApi(): Promise<void> {
       }
       if (req.method === 'GET' && url.pathname === '/admin/dashboard/attendance/ranking') {
         response(res, 200, attendanceRankingBody())
+        return
+      }
+      if (req.method === 'GET' && url.pathname === '/admin/dashboard/attendance/trend') {
+        response(res, 200, attendanceTrendBody())
+        return
+      }
+      if (req.method === 'GET' && url.pathname === '/admin/dashboard/attendance/zone-distribution') {
+        response(res, 200, attendanceZoneDistributionBody())
+        return
+      }
+      if (req.method === 'GET' && url.pathname === '/admin/dashboard/attendance/absentees') {
+        response(res, 200, attendanceAbsenteesBody())
         return
       }
       if (req.method === 'GET' && url.pathname === '/admin/schema/diff') {

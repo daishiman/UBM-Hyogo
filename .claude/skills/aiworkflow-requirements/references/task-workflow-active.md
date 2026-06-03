@@ -8,6 +8,19 @@
 
 本ドキュメントは、複雑なタスクを単一責務の原則に基づいて分解し、各サブタスクに最適なスラッシュコマンド・エージェント・スキルの組み合わせを選定するためのガイドラインを定義する。
 
+### admin-attendance-dashboard-ux（2026-06-02）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_runtime_pending / implementation / VISUAL` |
+| 成果物 | `docs/30-workflows/admin-attendance-dashboard-ux/` |
+| 目的 | admin 出席ダッシュボードの CSS 崩れ、SVG バー楕円化、出席回数帯ラベル、KPI 延べ表記、見方ガイド/空状態を apps/web のみで是正する |
+| implementation targets | `apps/web/src/styles/globals.css`, `apps/web/src/features/admin/attendance/**` |
+| evidence | focused attendance Vitest PASS / apps-api diff empty recorded in `outputs/phase-11/manual-test-result.md`; Phase 12 strict 7 present |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-attendance-dashboard-ux-artifact-inventory.md` |
+| split follow-up | `docs/30-workflows/admin-attendance-dashboard-ux/unassigned-task-specs/admin-attendance-analytics-calc-correction.md` |
+| user gate | staging pixel screenshots, commit, push, PR |
+
 ### task-d-admin-google-form-responses-link（2026-06-01）
 
 | 項目 | 値 |
