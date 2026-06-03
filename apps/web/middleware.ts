@@ -134,6 +134,7 @@ export async function middleware(req: NextRequest) {
   const csp = buildCspDirective(securityHeaderConfig);
   const requestHeaders = new Headers(req.headers);
   requestHeaders.set("x-nonce", nonce);
+  requestHeaders.set("x-pathname", req.nextUrl.pathname);
   requestHeaders.set("Content-Security-Policy", csp);
 
   const response = await guardedMiddleware(req, requestHeaders);
