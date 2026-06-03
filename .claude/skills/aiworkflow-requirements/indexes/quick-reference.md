@@ -3319,6 +3319,19 @@ UT-07B-FU-04 production migration already-applied verification は、`references
 > **検索パターン集・コードパターン早見は [quick-reference-search-patterns.md](quick-reference-search-patterns.md) に分離**
 > 機能・タスク別のキーワード分割、読む順番、IPC/Zustand/Result 等のコードスニペットを収録
 
+### Japanese IME Input Composition Search Fix
+
+| 目的 | 最初に開くファイル |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/japanese-ime-input-composition-search-fix/` |
+| status | `implemented_local_evidence_captured / implementation / VISUAL / PASS_BOUNDARY_SYNCED_RUNTIME_PENDING` |
+| implementation | `apps/web/src/hooks/useImeSafeInput.ts`, `apps/web/src/components/ui/{Search,Input}.tsx`, `apps/web/src/components/public/SelectedFiltersBar.client.tsx` |
+| focused tests | `apps/web/src/hooks/__tests__/useImeSafeInput.spec.tsx`, `apps/web/src/components/ui/__tests__/{Search,Input}.spec.tsx`, `apps/web/src/components/public/__tests__/{SelectedFiltersBar.client,MemberFilters.client}.spec.tsx` |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-japanese-ime-input-composition-search-fix-artifact-inventory.md` |
+| lessons | `.claude/skills/aiworkflow-requirements/references/lessons-learned-japanese-ime-input-composition-search-fix-2026-06.md`（L-IME-001..003: URL 正本 + composition guard / clear ownership 一本化 / IME regression は fake timers + composition events） |
+
+Public `/members` keyword search keeps URL query as canonical state, but `Search` now buffers draft text during IME composition and commits only after `compositionend + debounce`. `SelectedFiltersBar` excludes the `q` chip so the keyword has one clear owner: the input-local clear button. `Input` exposes `imeSafe` + `onValueChange` as opt-in; default behavior remains unchanged. Local screenshots are present under `outputs/phase-11/screenshots/`; staging real-IME screenshots, commit, push, and PR are user-gated.
+
 ### 08a-B Public Members Search Filter
 
 | 目的 | 最初に開くファイル |
