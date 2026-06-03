@@ -12,6 +12,7 @@ import { spawnSync } from "node:child_process";
 import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
+import { runCli } from "../../infra/cloudflare-alerts/lib/cli.ts";
 
 const REPO_ROOT = path.resolve(__dirname, "../..");
 const CF_SH = path.join(REPO_ROOT, "scripts/cf.sh");
@@ -21,6 +22,7 @@ interface RunOptions {
   mockDir?: string;
   driftMock?: boolean;
   extraEnv?: Record<string, string | undefined>;
+  skipWithEnv?: boolean;
 }
 
 function makeIsolatedMockDir(useDriftPolicies = false): string {
@@ -40,13 +42,17 @@ function makeIsolatedMockDir(useDriftPolicies = false): string {
 function runCf(args: string[], opts: RunOptions = {}) {
   const env: Record<string, string> = {
     ...process.env,
-    // Bypass `op` / `mise` dependency requirement when running tests
-    CF_SH_SKIP_WITH_ENV: "1",
     // Avoid leaking real alert tokens by setting stable dummies
     CLOUDFLARE_ALERTS_TOKEN_READ: process.env.CLOUDFLARE_ALERTS_TOKEN_READ ?? "test-read-token",
     CLOUDFLARE_ALERTS_TOKEN_APPLY: process.env.CLOUDFLARE_ALERTS_TOKEN_APPLY ?? "test-apply-token",
     CLOUDFLARE_ACCOUNT_ID: process.env.CLOUDFLARE_ACCOUNT_ID ?? "test-account",
   };
+  if (opts.skipWithEnv !== false) {
+    // Bypass `op` / `mise` dependency requirement when running tests
+    env.CF_SH_SKIP_WITH_ENV = "1";
+  } else {
+    delete env.CF_SH_SKIP_WITH_ENV;
+  }
   if (opts.mockDir) env.CF_ALERTS_MOCK_DIR = opts.mockDir;
   if (opts.extraEnv) {
     for (const [k, v] of Object.entries(opts.extraEnv)) {
@@ -73,7 +79,7 @@ describe("cf.sh alerts subcommand", () => {
   it("S1: サブコマンドなしで usage 表示 (exit 64)", () => {
     const r = runCf([]);
     expect(r.status).toBe(64);
-    expect(r.stderr).toMatch(/usage: cf\.sh alerts \{list\|diff\|apply\|plan\}/);
+    expect(r.stderr).toMatch(/usage: cf\.sh alerts \{list\|diff\|apply\|plan\|binding-drift\}/);
   });
 
   it("S2: 未知サブコマンドで usage 表示 (exit 64)", () => {
@@ -198,5 +204,91 @@ describe("cf.sh alerts subcommand", () => {
     });
     expect(r.stdout).not.toContain(sentinel);
     expect(r.stderr).not.toContain(sentinel);
+  });
+
+  it("S14: binding-drift は現行 repo baseline で exit 0", () => {
+    const r = runCf(["binding-drift", "--ci"], {
+      extraEnv: { CLOUDFLARE_ALERTS_TOKEN_READ: undefined },
+    });
+    expect(r.status).toBe(0);
+    expect(r.stdout).toContain("no binding-policy drift detected");
+    expect(r.stderr).toContain("CI mode: skipping op run");
+  });
+
+  it("S14b: binding-drift は non-CI でも op/token なしの local-only 経路で exit 0", () => {
+    const r = runCf(["binding-drift"], {
+      skipWithEnv: false,
+      extraEnv: {
+        CLOUDFLARE_ALERTS_TOKEN_READ: undefined,
+        CLOUDFLARE_ALERTS_TOKEN_APPLY: undefined,
+      },
+    });
+    expect(r.status).toBe(0);
+    expect(r.stdout).toContain("no binding-policy drift detected");
+    expect(r.stderr).not.toContain("1Password CLI");
+    expect(r.stderr).not.toContain("CLOUDFLARE_ALERTS_TOKEN_READ is required");
+  });
+
+  it("S15: binding-drift --json は JSON 配列を出す", () => {
+    const r = runCf(["binding-drift", "--json", "--ci"], {
+      extraEnv: { CLOUDFLARE_ALERTS_TOKEN_READ: undefined },
+    });
+    expect(r.status).toBe(0);
+    expect(JSON.parse(r.stdout)).toEqual([]);
+  });
+
+  it("S16: binding-drift の未知 flag は exit 64", () => {
+    const r = runCf(["binding-drift", "--unknown-flag"], {
+      extraEnv: { CLOUDFLARE_ALERTS_TOKEN_READ: undefined },
+    });
+    expect(r.status).toBe(64);
+    expect(r.stderr).toContain("unknown binding-drift flag");
+  });
+
+  it("S17: binding-drift --json は drift ありで exit 2 と policy/message payload を出す", async () => {
+    const tmp = fs.mkdtempSync(path.join(os.tmpdir(), "cf-alerts-binding-drift-repo-"));
+    const originalCwd = process.cwd();
+    const logs: string[] = [];
+    const originalLog = console.log;
+    try {
+      fs.mkdirSync(path.join(tmp, "apps/api"), { recursive: true });
+      fs.mkdirSync(path.join(tmp, "infra"), { recursive: true });
+      fs.cpSync(path.join(REPO_ROOT, "infra/cloudflare-alerts"), path.join(tmp, "infra/cloudflare-alerts"), {
+        recursive: true,
+      });
+      fs.writeFileSync(
+        path.join(tmp, "apps/api/wrangler.toml"),
+        [
+          "[[env.production.kv_namespaces]]",
+          'binding = "ALERT_DEDUP_KV"',
+          'id = "test"',
+          "",
+        ].join("\n"),
+      );
+
+      console.log = (value?: unknown) => {
+        logs.push(String(value));
+      };
+      process.chdir(tmp);
+      const status = await runCli(["binding-drift", "--json", "--ci"]);
+      expect(status).toBe(2);
+      const parsed = JSON.parse(logs.join("\n"));
+      expect(parsed).toEqual(
+        expect.arrayContaining([
+          expect.objectContaining({
+            kind: "MONITORING_GAP",
+            bindingKind: "kv",
+            policy: "workers-kv-writes-per-day",
+            policyName: "workers-kv-writes-per-day",
+            policyEnabled: false,
+            message: expect.stringContaining("enabled:false or missing"),
+          }),
+        ]),
+      );
+    } finally {
+      process.chdir(originalCwd);
+      console.log = originalLog;
+      fs.rmSync(tmp, { recursive: true, force: true });
+    }
   });
 });
