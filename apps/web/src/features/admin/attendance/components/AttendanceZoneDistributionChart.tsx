@@ -1,5 +1,5 @@
 import type { AttendanceZoneDistribution } from "@ubm-hyogo/shared";
-import { ZONE_LABEL, formatRate } from "../lib/format-attendance";
+import { ZONE_HELP, ZONE_LABEL, formatRate } from "../lib/format-attendance";
 
 interface Props {
   readonly data: AttendanceZoneDistribution;
@@ -17,9 +17,10 @@ export function AttendanceZoneDistributionChart({ data }: Props) {
     <div
       className="attendance-zone-distribution"
       role="group"
-      aria-label="区画別出席分布"
+      aria-label="出席回数帯別分布"
       data-testid="attendance-zone-distribution"
     >
+      <p className="attendance-zone-legend">{ZONE_HELP}</p>
       <ul>
         {data.rows.map((row) => (
           <li key={row.zone} className="attendance-zone-row">
@@ -32,7 +33,7 @@ export function AttendanceZoneDistributionChart({ data }: Props) {
             >
               <rect width="100" height="8" rx="4" fill="var(--ubm-color-border-default)" />
               <rect
-                width={Math.max(2, row.rate * 100)}
+                width={Math.max(0, row.rate * 100)}
                 height="8"
                 rx="4"
                 fill="var(--ubm-color-accent)"

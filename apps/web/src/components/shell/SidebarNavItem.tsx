@@ -26,6 +26,7 @@ export function SidebarNavItem({ item, collapsed, activePath }: SidebarNavItemPr
   const pathname = usePathname() ?? activePath;
   const active = isNavItemActive(item.href, pathname);
   const showBadge = item.badge && item.badge.count > 0;
+  const itemClassName = `relative flex items-center rounded-sm px-3 py-2 text-sm text-[var(--ubm-color-text-primary)] hover:bg-[var(--shell-active-bg)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--ubm-color-accent)] ${collapsed ? "justify-center gap-0" : "gap-3"}`;
   const content = (
     <>
       <span
@@ -43,9 +44,17 @@ export function SidebarNavItem({ item, collapsed, activePath }: SidebarNavItemPr
           ↗
         </span>
       ) : null}
-      {showBadge && item.badge ? (
+      {showBadge && item.badge && collapsed ? (
+        <span
+          data-shell-block="nav-badge-dot"
+          className="absolute right-1 top-1 h-2 w-2 rounded-full bg-[var(--ubm-color-accent-ink)]"
+        >
+          <span className="sr-only">{item.badge.count}</span>
+        </span>
+      ) : null}
+      {showBadge && item.badge && !collapsed ? (
         <Chip tone={TONE_TO_CHIP[item.badge.tone]}>
-          <span className={collapsed ? "sr-only" : undefined}>{item.badge.count}</span>
+          <span className="font-semibold">{item.badge.count}</span>
         </Chip>
       ) : null}
     </>
@@ -58,7 +67,7 @@ export function SidebarNavItem({ item, collapsed, activePath }: SidebarNavItemPr
           target="_blank"
           rel="noopener noreferrer"
           data-shell-block="nav-item"
-          className="flex items-center gap-3 rounded-sm px-3 py-2 text-sm text-[var(--ubm-color-text-primary)] hover:bg-[var(--shell-active-bg)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--ubm-color-accent)]"
+          className={itemClassName}
         >
           {content}
         </a>
@@ -72,7 +81,7 @@ export function SidebarNavItem({ item, collapsed, activePath }: SidebarNavItemPr
         data-shell-block="nav-item"
         data-active={active ? "true" : "false"}
         aria-current={active ? "page" : undefined}
-        className="flex items-center gap-3 rounded-sm px-3 py-2 text-sm text-[var(--ubm-color-text-primary)] hover:bg-[var(--shell-active-bg)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--ubm-color-accent)] data-[active=true]:bg-[var(--shell-active-bg)] data-[active=true]:font-semibold data-[active=true]:text-[var(--ubm-color-accent-ink)]"
+        className={`${itemClassName} border-l-2 border-transparent data-[active=true]:border-[var(--ubm-color-accent)] data-[active=true]:bg-[var(--shell-active-bg)] data-[active=true]:font-semibold data-[active=true]:text-[var(--ubm-color-accent-ink)]`}
       >
         {content}
       </Link>
