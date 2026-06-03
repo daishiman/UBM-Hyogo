@@ -84,13 +84,82 @@ export type BulkApplyMemberTagsResult = {
   results: BulkTagResultItem[];
 };
 
-/** bulk UI の tag picker 用 tag master read。`{ available }` を返す。 */
-export async function fetchTagMaster(): Promise<{ available: AdminTagRef[] }> {
-  const res = await fetch("/api/admin/tags", { cache: "no-store" });
+export const TAG_PAGE_SIZE_MAX = 100;
+
+type TagMasterApiResponse = {
+  total?: number;
+  items?: AdminTagRef[];
+};
+
+export type TagMasterPage = {
+  available: AdminTagRef[];
+  total: number;
+};
+
+export type FetchTagMasterOptions = {
+  q?: string;
+  page?: number;
+  pageSize?: number;
+};
+
+export type TagMasterFullResult = {
+  available: AdminTagRef[];
+  total: number;
+  truncated: boolean;
+};
+
+const tagMasterPath = (opts: FetchTagMasterOptions = {}): string => {
+  const params = new URLSearchParams();
+  const q = opts.q?.trim();
+  if (q) params.set("q", q);
+  params.set("page", String(opts.page ?? 1));
+  params.set("pageSize", String(opts.pageSize ?? TAG_PAGE_SIZE_MAX));
+  return `/api/admin/tags?${params.toString()}`;
+};
+
+/** bulk UI の tag picker 用 tag master read。API `{ total, items }` を UI `{ available, total }` へ正規化する。 */
+export async function fetchTagMaster(
+  opts?: FetchTagMasterOptions,
+): Promise<TagMasterPage> {
+  const res = await fetch(tagMasterPath(opts), { cache: "no-store" });
   if (!res.ok) {
     throw new Error(`HTTP ${res.status}`);
   }
-  return (await res.json()) as { available: AdminTagRef[] };
+  const body = (await res.json()) as TagMasterApiResponse;
+  const available = body.items ?? [];
+  return {
+    available,
+    total: body.total ?? available.length,
+  };
+}
+
+/** tag master を pageSize 上限で周回取得する。cap 超過時は truncated=true。 */
+export async function fetchAllTagMaster(
+  cap = 500,
+): Promise<TagMasterFullResult> {
+  const pageSize = TAG_PAGE_SIZE_MAX;
+  const available: AdminTagRef[] = [];
+  let page = 1;
+  let total = 0;
+  let truncated = false;
+
+  while (available.length < cap) {
+    const current = await fetchTagMaster({ page, pageSize });
+    total = current.total;
+    available.push(...current.available);
+
+    if (current.available.length < pageSize) break;
+    page += 1;
+  }
+
+  if (available.length > cap) {
+    available.length = cap;
+    truncated = true;
+  }
+
+  if (total > available.length) truncated = true;
+
+  return { available, total, truncated };
 }
 
 /** 複数 member × 複数 tag を一括 assign/unassign。部分失敗も 200 + results で返す。 */
