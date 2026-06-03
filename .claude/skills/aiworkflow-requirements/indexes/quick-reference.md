@@ -1,5 +1,20 @@
 # クイックリファレンス
 
+## issue-1030-member-photo-transcode-resize-variant-pipeline（2026-06-01）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/issue-1030-member-photo-transcode-resize-variant-pipeline/` |
+| status | `implemented_local_runtime_pending / implementation / VISUAL_ON_EXECUTION / completed-tasks moved` |
+| issue | #1030 CLOSED 維持。PR 文脈は `Refs #1030` のみ |
+| parent | `docs/30-workflows/issue-983-member-photo-avatar-r2-storage/` |
+| purpose | admin member photo を client-side Canvas で display(512px) + thumb(96px) variant 化し、無料枠を維持したまま小 avatar 配信 bytes を削減する仕様を固定 |
+| implementation targets | `apps/api/migrations/0023_member_photos_variants.sql`, `apps/api/src/lib/r2/member-photo-presign.ts`, `apps/api/src/repository/memberPhotos.ts`, `apps/api/src/routes/admin/members.ts`, `packages/shared`, `apps/web/src/lib/admin/image-resize.ts`, `MemberDrawer.tsx`, `MemberAvatar.tsx` |
+| contract | display は既存 `members/{memberId}/avatar` key を維持、thumb は `members/{memberId}/thumb`、`photoThumbUrl?` は optional、旧 `file` upload と既存 rows は後方互換 |
+| evidence | Phase 1-13 specs present、Phase outputs 1/2/3/4/5/6/7/8/9/10/11/12 present、Phase 12 strict 7 present、root/output artifacts parity present |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1030-member-photo-transcode-resize-variant-pipeline-artifact-inventory.md` |
+| user gate | remote D1 migration apply、staging deploy、authenticated screenshots、commit、push、PR |
+
 ## issue-1042-identity-conflicts-dismiss-optimistic-update（2026-06-02）
 
 | 項目 | 値 |

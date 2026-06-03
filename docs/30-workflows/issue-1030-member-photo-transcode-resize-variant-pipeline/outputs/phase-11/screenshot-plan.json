@@ -1,0 +1,45 @@
+{
+  "taskId": "issue-1030-member-photo-transcode-resize-variant-pipeline",
+  "mode": "VISUAL_ON_EXECUTION",
+  "status": "pending",
+  "reason": "spec_created; implementation user-gated",
+  "captureGate": "post-implementation + migration 0023 apply + staging deploy (user-gated)",
+  "outputDir": "outputs/phase-11/screenshots",
+  "planned": [
+    {
+      "name": "member-avatar-thumb-list",
+      "state": "members list rows render small (sm/md) avatar consuming photoThumbUrl (96px webp)",
+      "layer": "semantic+visual",
+      "ac": "AC-4",
+      "status": "pending"
+    },
+    {
+      "name": "avatar-display-large",
+      "state": "drawer large (lg) avatar renders photoUrl (display, <=512px)",
+      "layer": "visual",
+      "ac": "AC-4",
+      "status": "pending"
+    },
+    {
+      "name": "upload-progress",
+      "state": "PhotoUploadAffordance during client-side Canvas variant build and multipart upload",
+      "layer": "ai-ux",
+      "ac": "AC-2",
+      "status": "pending"
+    },
+    {
+      "name": "thumb-fallback-to-display",
+      "state": "thumb missing (original_fallback row) falls back to display rendering",
+      "layer": "semantic+visual",
+      "ac": "AC-5",
+      "status": "pending"
+    },
+    {
+      "name": "placeholder-fallback",
+      "state": "display also missing; hue placeholder rendered via existing img onError",
+      "layer": "visual",
+      "ac": "AC-5",
+      "status": "pending"
+    }
+  ]
+}
