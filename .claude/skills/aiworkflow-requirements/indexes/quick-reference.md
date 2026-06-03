@@ -15,6 +15,19 @@
 | lessons | `.claude/skills/aiworkflow-requirements/references/lessons-learned-issue-1054-wrangler-binding-drift-ci-gate-2026-06.md`（L-I1054-001..008: 自作行パーサ / state 3 値正規化 / env-prefix upsert / 片方向突合 / secrets 除外 / Kind 一致検証 / 現存 drift 同一 wave 是正 / read-only grep gate） |
 | user gate | commit, push, PR, GitHub Issue mutation |
 
+## sidebar-visibility-conditional-and-ux（2026-06-02）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/sidebar-visibility-conditional-and-ux/` |
+| status | `implemented_local_evidence_captured / implementation / VISUAL / pixel_screenshot_pending_user_gate` |
+| purpose | `/login` を shell 外 bare route group `(auth)` へ移し、sidebar 表示条件を route group 正本へ揃え、SSR active path と viewer identity を改善 |
+| implementation | `apps/web/app/(auth)/layout.tsx`, `apps/web/app/(auth)/login/**`, `apps/web/middleware.ts`, `apps/web/app/(admin)/layout.tsx`, `apps/web/src/components/shell/{SidebarUserMenu,SidebarUserAvatar,SidebarNavItem,user-menu-config}.tsx` |
+| tests | `apps/web/src/__tests__/sidebar-shell-route-topology.spec.ts`, `apps/web/__tests__/middleware.spec.ts`, `apps/web/app/(admin)/layout.spec.tsx`, login/shell focused specs |
+| evidence | direct focused Vitest 20 files / 98 tests PASS; web typecheck PASS; web lint PASS; design-token / grep gates PASS; local screenshots 4 PNG |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-sidebar-visibility-conditional-and-ux-artifact-inventory.md` |
+| user gate | staging/admin visual baseline, commit, push, PR |
+
 ## issue-1030-member-photo-transcode-resize-variant-pipeline（2026-06-01）
 
 | 項目 | 値 |

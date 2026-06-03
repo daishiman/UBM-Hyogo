@@ -1982,6 +1982,15 @@ issue-1008 sync（`refactor/issue-1008-members-list-ux-clarity-artifact-status-r
 - **SP-DEVSYNC-079-C (`sync:resolve` 後検証は JSON 妥当性 + マーカー残存 0 の 2 点)**: 仕様の検証コマンドに `node -e "JSON.parse(readFileSync('.../keywords.json'))"` の妥当性確認と `git grep -c '^<<<<<<<\|^>>>>>>>\|^=======' -- .claude/skills/` の残存マーカー 0 を含める。両 PASS を commit 前ゲートにする。
 - 参照: [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-080（正本）, SP-DEVSYNC-077（map md 衝突・keywords 非衝突の逆組）, SP-DEVSYNC-074/076-B（keywords は `--ours`+rebuild）, SP-DEVSYNC-047（衝突 file 数可変）。
 
+### VISUAL implementation の local deterministic evidence と pixel screenshot user-gate 分離（SP-SVC-001）
+
+`implementation / VISUAL` task で route topology や shell UI の実コードは同一 wave で完了できるが、認証済み staging screenshot が external runtime に依存する場合、root state は `spec_created` に据え置かず `implemented_local_evidence_captured` へ昇格する。
+
+- **SP-SVC-001-A (local evidence を主証跡化)**: focused Vitest / typecheck / lint / grep gates が PASS したら、Phase 11 `manual-test-result.md` と Phase 12 compliance に実測コマンド・件数・対象を記録する。
+- **SP-SVC-001-B (pixel screenshot は user-gated boundary として分離)**: screenshot canonical names は Phase 11 に固定するが、未取得を PASS 扱いしない。`pixel_screenshot_pending_user_gate` と明記し、commit / push / PR と同じ Gate-C 系に置く。
+- **SP-SVC-001-C (`spec_created` drift 禁止)**: 実コード差分が入った後も artifacts / index / compliance が `spec_created` のままなら FAIL。root/output artifacts、Phase 11 result、Phase 12 compliance、aiworkflow 台帳を同一 wave で `implemented_local_evidence_captured` へ揃える。
+- **Anti-pattern**: 「VISUAL screenshot 未取得」を理由に、実コード・tests が完了した task を `spec_created` のまま提出する。
+
 ### 衝突集合は「数同じ・メンバー入替」もする — resolver を集合非依存の単一経路として使う（SP-DEVSYNC-078）
 
 `feat/issue-230-lefthook-edit-guard` ← dev（6 behind / 3 ahead・ローカル dev は origin/dev に既一致で ff 同期不要）の **2 回目**の sync 知見（[[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-079）。`git merge dev` の conflict は **3 file**＝aiworkflow `indexes/keywords.json` + `indexes/topic-map.md` + `references/task-workflow-active.md`。直前の SP-DEVSYNC-077 ケース（keywords 非衝突・map 3 本）と**数は同じ 3 のまま中身が真逆に入れ替わった**（keywords が衝突に戻り、map は topic-map 1 本のみ・quick-reference/resource-map は非衝突）。`apps/**`/`packages/**` source conflict 0 → `pnpm sync:resolve` 1 回で full resolve（resolver ログ `union-resolving 2 files` + `taking --ours for 1 derived files`）。仕様書を起草する際の sync-merge 検証手順に以下を含める。
@@ -2093,6 +2102,15 @@ issue-1008 sync（`refactor/issue-1008-members-list-ux-clarity-artifact-status-r
 - **SP-DEVSYNC-082-A (新規 workspace 兆候の識別)**: sync-merge 後の typecheck 失敗が `TS2307 Cannot find module '<外部 pkg>'` ＋ pnpm `node_modules missing` の併記なら、コード型エラーではなく **dev 側の新規 workspace / 依存追加の未 install** を第一に疑い、まず `pnpm install` を 1 回流す。spec の Phase 11/13 検証手順では「dev 取込後は必ず install→typecheck の順」と明記する。
 - **SP-DEVSYNC-082-B (install は標準フローの前段必須ゲート)**: 仕様の sync-merge フロー（`git merge dev` → `pnpm sync:resolve` → `git diff --diff-filter=U` 0 → `git commit` → **`pnpm install`** → `pnpm typecheck && pnpm lint` → `pnpm indexes:rebuild` 冪等確認 → push）の install を任意手順扱いしない。worktree ごとに `node_modules` 独立のため、workspace 構成や依存が 1 つでも増えた回は install を飛ばすと typecheck が確定で偽失敗する。偽失敗回は CI 修正・revert 不要で install→再 typecheck で収束（`pnpm-lock.yaml` 差分なしなら追加コミットも不要）。
 - 参照: [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-086（正本）, SP-DEVSYNC-081-B（resolver 件数 N は可変・標準フロー不変の系列）, SP-DEVSYNC-078-C/079-B（衝突集合は `--diff-filter=U` で都度確定）。
+
+### install 要否は dev デルタの新規 workspace 有無だけで決まる — 既存 package 内のコード追加のみなら `pnpm install` 不要で typecheck 緑（SP-DEVSYNC-082 の対偶）／衝突 4 file・keywords 非衝突なら resolver は union 段のみで完結（SP-DEVSYNC-085・番号衝突で 083→085 リナンバー）
+
+`docs/sidebar-visibility-conditional-and-ux-spec ← dev`（sub-worktree wt-6・1 behind / 2 ahead・ローカル dev は origin/dev 一致で独自コミット 0・ff 不要）の sync-merge で確立（[[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-091）。HEAD は既存の `Merge branch 'dev'` コミットで、dev 側に #1073 tag master write endpoints の 1 コミットが先行。content conflict は **4 file**＝`aiworkflow-requirements/indexes/{quick-reference, resource-map, topic-map}` + `references/task-workflow-active.md`。**`keywords.json` / 両 `SKILL.md` / `_legacy.md` / `SKILL-changelog.md` は Auto-merging（非衝突）**。source conflict 0 → `pnpm sync:resolve` 単独収束（resolver ログ `union-resolving 4 files`・**keywords 非衝突のため `--ours` 段は no-op**・`indexes:rebuild` のみ）→ `git diff --diff-filter=U` 0 → merge commit `3566b51fc`。**SP-DEVSYNC-082 と対照的に `pnpm install` を挟まず `pnpm typecheck` がそのまま 6 package 全 Done で緑**（#1073 は `apps/api` 内のコード/テスト追加のみで新規 workspace package を持ち込まないため）。lint exit 0・indexes 冪等 drift 0（5297 キーワード）。
+
+- **SP-DEVSYNC-085-A (install 要否は新規 workspace 有無だけで判定 — コード追加だけなら install 不要 = 082 の対偶)**: SP-DEVSYNC-082 は「新規 workspace 流入 → install 必須」だが、その対偶として **dev デルタが既存 package 内のコード/テスト追加のみ（新 `apps/*` / `packages/*` の `package.json` なし）なら install を挟まずに typecheck が緑になる**。merge 後に install するか否かは conflict の有無や behind 数ではなく、`git diff --stat origin/dev~N..origin/dev -- '**/package.json'`（または取込コミットの touch path）で **新規 workspace package の有無**だけを見て決める。本件 #1073 は `apps/api/src/routes/admin/tags.ts` 等のコード追加のみ → install 不要で即緑。新 package を含む回（SP-DEVSYNC-082 / issue-1031・1036）のみ install を一段挟む。
+- **SP-DEVSYNC-085-B (衝突 4 file・keywords 非衝突なら resolver は union 段だけで完結)**: 衝突集合が `index map 3 兄弟 + task-workflow-active` の 4 file で `keywords.json` が Auto-merging の回は、resolver の `union-resolving 4 files` で全解消し `--ours`+rebuild 段は no-op（rebuild のみ走る）。SP-DEVSYNC-080-C（keywords 非衝突回の `--ours` no-op）を 4 file 形で再確認。keywords 衝突を前提にした追加手当ては不要で、衝突集合の形は毎回 `git diff --name-only --diff-filter=U` で確定する。
+- **SP-DEVSYNC-085-C (残コンフリクト判定は `--diff-filter=U` 正本・grep `^=======` の装飾線偽陽性に注意)**: マーカー残存確認に `git grep -E '^(<<<<<<<|=======|>>>>>>>)'` を使うと `docs/.../manual-smoke-log.md` の装飾区切り線（`=` 60 文字）を `^=======` が偽陽性検出する（SP-DEVSYNC-079-A/080-A 既出の構造的再発）。残存判定の正本は `git diff --name-only --diff-filter=U`（本件 0）と `git ls-files -u`。spec の Phase 11 検証手順に `git ls-files -u` を唯一の正本として固定する。
+- 参照: [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-091（正本）, SP-DEVSYNC-082（新規 workspace → install 必須・本節はその対偶）, SP-DEVSYNC-080-C（keywords 非衝突回の `--ours` no-op）, SP-DEVSYNC-081-B（resolver 件数 N 可変・標準フロー不変）, SP-DEVSYNC-079-A/080-A（grep `^=======` 偽陽性・`git ls-files -u` 正本則）。
 
 ### 同一 branch の連続 sync-merge は回ごとに重さが激変する — source 衝突 + 型 cascade の重い回の翌回が skill-doc-only 4 file の軽い回になり、衝突 member（topic-map↔patterns-lessons）も入れ替わる（SP-DEVSYNC-084）
 

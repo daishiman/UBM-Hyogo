@@ -39,9 +39,9 @@ export function buildUserMenuActions(role: ShellRole): UserMenuAction[] {
   return [PROFILE_LINK, EDIT_REQUEST_LINK, ADMIN_DASHBOARD_LINK, SIGNOUT];
 }
 
-/** 画面表示用のロールラベル（viewer は省略）。 */
+/** 画面表示用のロールラベル。 */
 export function roleDisplayLabel(role: ShellRole): string | null {
   if (role === "admin") return "管理者";
   if (role === "member") return "会員";
-  return null;
+  return "未ログイン";
 }
