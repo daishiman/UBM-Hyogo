@@ -7,10 +7,16 @@ const SCREENSHOT_DIR = join(PHASE11_DIR, 'screenshots')
 
 const screenshot = async (page: import('@playwright/test').Page, file: string) => {
   await mkdir(SCREENSHOT_DIR, { recursive: true })
-  await page.addStyleTag({
-    content:
-      'nextjs-portal, [data-nextjs-toast], [data-nextjs-dialog-overlay], [data-nextjs-dialog] { display: none !important; }',
-  })
+  // WebKit は Report-Only CSP の style-src でも addStyleTag を reject するため try/catch で許容する。
+  // 注入は dev overlay 抑制目的の cosmetic で機能アサーションには影響しない（login-smoke.spec.ts と同パターン）。
+  try {
+    await page.addStyleTag({
+      content:
+        'nextjs-portal, [data-nextjs-toast], [data-nextjs-dialog-overlay], [data-nextjs-dialog] { display: none !important; }',
+    })
+  } catch {
+    // CSP reject 時は dev overlay 抑制なしで撮影を継続する
+  }
   await page.screenshot({ path: join(SCREENSHOT_DIR, file), fullPage: true })
 }
 
