@@ -17,7 +17,7 @@ prototype は `localStorage` / `window.parent.postMessage` 等を直接操作す
 ### 1.1 全体方針
 
 - 3 層すべてが同一の `SidebarShell`（左 collapsible サイドバー + main + mobile drawer）を共有する。
-- 表示差分は **role**（`viewer` / `member` / `admin`）で決まり、サーバ側 `SidebarShellServer` が `getSession()` の `isAdmin` から role を判定する（`getSession()` throw 時は `viewer` に fail-closed、`02-auth.md` 不変条件 #11）。
+- 表示差分は **role**（`viewer` / `member` / `admin`）で決まり、サーバ側 `SidebarShellServer` が `getSession()` の `isAdmin` から role を判定する（`getSession()` throw 時は shell 表示として `viewer` に fail-open。admin / profile の認可境界は middleware + layout の二段防御で fail-closed、`02-auth.md` 不変条件 #11）。
 - 各 route group layout（`app/(public|member|admin)/layout.tsx`）は async server component で、`SidebarShellServer` に children と mobile trigger slot を渡すだけ。旧 per-layer header / sidebar（`PublicHeader` / `MemberHeader` / `AdminSidebar`）は撤去・削除済み。
 
 | role | session | 適用 route group | nav グループ | nav item 総数 |
@@ -39,18 +39,19 @@ nav は `apps/web/src/components/shell/shell-config.ts` の純関数 `buildNavFo
 | PUBLIC | 入会登録 | `/register` | 全 role |
 | MEMBERS | マイページ | `/profile` | member / admin |
 | ADMIN | ダッシュボード | `/admin` | admin |
-| ADMIN | 出席管理 | `/admin/meetings` | admin |
+| ADMIN | 出席分析 | `/admin/dashboard/attendance` | admin |
 | ADMIN | メンバー管理 | `/admin/members` | admin |
 | ADMIN | タグキュー | `/admin/tags` | admin |
 | ADMIN | スキーマ | `/admin/schema` | admin（warn badge = `GET /admin/schema/diff` の queued 件数） |
+| ADMIN | 開催日 | `/admin/meetings` | admin |
 | ADMIN | 申請 | `/admin/requests` | admin |
 | ADMIN | 名寄せ | `/admin/identity-conflicts` | admin |
 | ADMIN | 監査ログ | `/admin/audit` | admin |
-| ADMIN | Form回答 | `FORM_RESPONSES_EDIT_URL`（Google Form edit URL） | admin |
+| ADMIN | Form回答 | `FORM_RESPONSES_EDIT_URL`（Google Form edit URL） | admin（外部リンク） |
 
 > ADMIN グループは上表のうち admin 専用 10 item（ダッシュボード〜監査ログ + Form回答）。viewer=PUBLIC 3 / member=PUBLIC+MEMBERS 4 / admin=PUBLIC+MEMBERS+ADMIN 14。
 
-- active 判定は client の `usePathname()`（`SidebarNavItem`）+ `isNavItemActive(href, pathname)`（`/` と `/admin` は完全一致、他は prefix 一致）。サーバから activePath を渡さない（middleware は `x-pathname` を注入しない）。
+- active 判定は client の `usePathname()`（`SidebarNavItem`）+ `isNavItemActive(href, pathname)`（`/` と `/admin` は完全一致、他は prefix 一致）を主とし、SSR 初期表示では middleware が注入する `x-pathname` を layout から `activePath` として渡す。
 - admin の schema nav には未解決スキーマ差分件数を warn tone badge で表示する（`SidebarShellServer` が admin 時のみ `GET /admin/schema/diff` を await し queued 件数を算出）。
 - 外部 nav 項目は `ShellNavItem.external?` で判定する。`external: true` の項目は `<a target="_blank" rel="noopener noreferrer">` で描画し、`↗`（`aria-hidden`）+ sr-only「（外部リンク）」を付与する。外部項目は app 内 current route ではないため `aria-current` / `data-active` を付けない。href は `apps/web/src/lib/constants/form.ts` の `FORM_RESPONSES_EDIT_URL` を参照し、URL を nav config / component に直書きしない。
 
@@ -70,7 +71,7 @@ nav は `apps/web/src/components/shell/shell-config.ts` の純関数 `buildNavFo
 |-------------|------|
 | `app-shell` | shell root（`data-role` / `data-collapsed` 属性） |
 | `shell-sidebar` | persistent サイドバー（md+ 表示） |
-| `shell-nav` | nav 本体（role 別件数: viewer 3 / member 4 / admin 13） |
+| `shell-nav` | nav 本体（role 別件数: viewer 3 / member 4 / admin 14） |
 | `shell-user-menu` | 左下ユーザーメニュー（viewer=直リンク / member・admin=`<details>` popover） |
 | `shell-drawer-toggle` | hamburger（< md, mobile strip 内） |
 | `shell-drawer` | mobile overlay drawer（`role="dialog"`, Esc / backdrop close, body scroll-lock） |
@@ -94,7 +95,7 @@ nav は `apps/web/src/components/shell/shell-config.ts` の純関数 `buildNavFo
 
 | role | 表示 | action |
 |------|------|--------|
-| viewer | 「ログイン」直リンク | `/login` |
+| viewer | 「ゲスト」+「未ログイン」表記、強調された「ログイン」CTA | `/login` |
 | member | `<details>` popover（avatar + 名前） | プロフィール / プロフィール編集申請 / ログアウト（3） |
 | admin | `<details>` popover（avatar + admin badge dot） | 管理者ダッシュボード / プロフィール / プロフィール編集申請 / ログアウト（4） |
 
@@ -107,7 +108,7 @@ nav は `apps/web/src/components/shell/shell-config.ts` の純関数 `buildNavFo
 | `(public)` | `/`・`/members`・`/members/[id]`・`/register`・`/privacy`・`/terms` | SidebarShell | 不要（role で nav 変化） |
 | `(member)` | `/profile` | SidebarShell | session 必須（middleware guard） |
 | `(admin)` | `/admin`・`/admin/{meetings,members,tags,schema,requests,identity-conflicts,audit}` | SidebarShell | `isAdmin=true`（middleware + layout 二段防御） |
-| （shell 外） | `/login` | bare | — |
+| `(auth)` | `/login` | bare | — |
 
 - `/`・`/privacy`・`/terms` は旧 `app/` 直下から `(public)` route group へ移動し、シェル layout 配下に収めた。
 - admin layout は `getSession()` で `!session → /login?next=/admin`、`!isAdmin → /login?gate=forbidden` の guard 後に `SidebarShellServer` を呼ぶ。

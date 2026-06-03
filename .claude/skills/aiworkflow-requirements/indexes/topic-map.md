@@ -2587,6 +2587,16 @@ node scripts/list-specs.js --topics
 | Evidence | L28 |
 | Boundary | L48 |
 
+### references/workflow-issue-1030-member-photo-transcode-resize-variant-pipeline-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Workflow | L3 |
+| Contract Boundary | L14 |
+| Evidence Boundary | L25 |
+| User-Gated Items | L35 |
+| Lessons | L39 |
+
 ### references/workflow-issue-1031-member-self-photo-upload-artifact-inventory.md
 
 | セクション | 行 |
@@ -2619,6 +2629,15 @@ node scripts/list-specs.js --topics
 | Gates | L44 |
 | Lessons Learned | L52 |
 
+### references/workflow-issue-1039-admin-audit-identity-action-presets-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Implementation Targets | L10 |
+| Workflow Artifacts | L18 |
+| Invariants | L31 |
+| Lessons Learned | L38 |
+
 ### references/workflow-issue-1042-dismiss-confirm-optimistic-update-artifact-inventory.md
 
 | セクション | 行 |
@@ -2629,6 +2648,45 @@ node scripts/list-specs.js --topics
 | Evidence | L31 |
 | Boundaries | L42 |
 | Lessons Learned | L48 |
+
+### references/workflow-issue-1042-identity-conflicts-dismiss-optimistic-update-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Implementation Summary | L13 |
+| Lessons Learned | L29 |
+| 関連リンク | L41 |
+
+### references/workflow-issue-1043-identity-conflicts-row-fade-animation-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Implementation Surface | L11 |
+| Evidence | L19 |
+| Runtime Boundary | L27 |
+| Placement | L31 |
+| Lessons Learned | L37 |
+
+### references/workflow-issue-1054-wrangler-binding-drift-ci-gate-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Metadata | L3 |
+| Workflow Artifacts | L12 |
+| Implementation Artifacts | L30 |
+| Verification | L40 |
+| Lessons Learned | L48 |
+| User-Gated | L63 |
+
+### references/workflow-issue-1059-public-members-fields-batch-fetch-n1-prevention-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Workflow | L3 |
+| Implementation | L13 |
+| Evidence | L23 |
+| Boundary | L32 |
+| Lessons | L36 |
 
 ### references/workflow-issue-106-admin-member-notes-repository-task-spec-artifact-inventory.md
 
@@ -3873,6 +3931,15 @@ node scripts/list-specs.js --topics
 |------------|----|
 | Primary files | L11 |
 | Evidence | L22 |
+
+### references/workflow-sidebar-visibility-conditional-and-ux-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Artifacts | L6 |
+| Implementation | L18 |
+| Evidence | L28 |
+| Lessons Learned | L40 |
 
 ### references/workflow-skill-identifier-branded-type-resolution.md
 
@@ -5275,17 +5342,17 @@ node scripts/list-specs.js --topics
 | D1 Backup Long-Term Storage（UT-06-FU-E / 2026-05-01） | L105 |
 | Cloudflare Workers デプロイ（Next.js / OpenNext） | L124 |
 | Cloudflare Workers デプロイ（APIバックエンド） | L212 |
-| Cloudflare D1 データベース | L378 |
-| Cloudflare KV セッションキャッシュ（UT-13 / SESSION_KV） | L411 |
-| GitHub Actions CI/CD | L523 |
-| プレビューデプロイメント | L554 |
-| カスタムドメイン設定 | L570 |
-| 環境分離 | L583 |
-| ロールバック戦略 | L593 |
-| モニタリング/アラート（UT-08 連携） | L614 |
-| per-sync write cap 連続到達アラート（03b-followup-006 / Issue #199） | L631 |
-| Long-term Analytics Evidence（Issue #347 / 2026-05-05） | L666 |
-| 変更履歴 | L715 |
+| Cloudflare D1 データベース | L385 |
+| Cloudflare KV セッションキャッシュ（UT-13 / SESSION_KV） | L418 |
+| GitHub Actions CI/CD | L530 |
+| プレビューデプロイメント | L561 |
+| カスタムドメイン設定 | L577 |
+| 環境分離 | L590 |
+| ロールバック戦略 | L600 |
+| モニタリング/アラート（UT-08 連携） | L621 |
+| per-sync write cap 連続到達アラート（03b-followup-006 / Issue #199） | L638 |
+| Long-term Analytics Evidence（Issue #347 / 2026-05-05） | L673 |
+| 変更履歴 | L722 |
 
 ### references/deployment-core.md
 
@@ -6143,6 +6210,36 @@ node scripts/list-specs.js --topics
 | L-I1027-006: Follow-up consumed state must be synchronized same-wave | L25 |
 | L-I1027-007: 新規 workspace package は aggregate coverage-gate に明示配線しないと CI が MISSING で fail する | L29 |
 | L-I1027-008: Workers ランタイム専用コードは `v8 ignore` で除外し、純粋ロジックは抽出して unit test する | L41 |
+
+### references/lessons-learned-issue-1039-admin-audit-identity-action-presets-2026-06.md
+
+| セクション | 行 |
+|------------|----|
+| L-I1039-001 Native datalist preserves query and free-text contracts | L3 |
+| L-I1039-002 Primitive passthrough before primitive expansion | L9 |
+| L-I1039-003 VISUAL local evidence must not be left as pending when a local contract can be captured | L15 |
+| 関連パターン | L21 |
+
+### references/lessons-learned-issue-1054-wrangler-binding-drift-ci-gate-2026-06.md
+
+| セクション | 行 |
+|------------|----|
+| 教訓一覧 | L21 |
+| 同期した正本 | L79 |
+| 境界 / user gate | L90 |
+
+### references/lessons-learned-issue-1059-public-members-fields-batch-fetch-n1-prevention-2026-06.md
+
+| セクション | 行 |
+|------------|----|
+| L-I1059-001: fields batch helper の return shape も Phase 1 で verbatim 固定する | L5 |
+| L-I1059-002: groupBy キーは `response_id`（= `current_response_id`）であり `member_id` ではない（最大の落とし穴） | L9 |
+| L-I1059-003: batch 化と同時に `as never` を branded cast `asResponseId` へ是正する | L13 |
+| L-I1059-004: SUMMARY_KEYS フィルタを groupBy ループ内に保持して出力を不変に保つ | L17 |
+| L-I1059-005: fields query 回数 <= 1 の回帰 spec で N+1 防止をロックする | L21 |
+| L-I1059-006: 空配列時は batch query を発行しない | L25 |
+| L-I1059-007: read-only 監査（Explore）エージェントは Bash を持ち、mover を実行しうる | L29 |
+| L-I1059-008: RED 前提 Phase 記述は実装が同一サイクルで landed した時点で evidence-captured へ同期する | L33 |
 
 ### references/lessons-learned-issue-106-admin-notes-repository-2026-05.md
 
@@ -8450,15 +8547,15 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L3472 |
-| フェーズ構造（概要） | L3481 |
-| 品質ゲート（概要） | L3512 |
-| 出力テンプレート | L3523 |
-| 実行時のコマンド・エージェント・スキル | L3546 |
-| 昇格パターン集 | L3570 |
-| Current Active / Spec Created Tasks | L3572 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L3738 |
-| issue-998-members-publish-state-production-rollout | L3816 |
+| ドキュメント構成 | L3573 |
+| フェーズ構造（概要） | L3582 |
+| 品質ゲート（概要） | L3613 |
+| 出力テンプレート | L3624 |
+| 実行時のコマンド・エージェント・スキル | L3647 |
+| 昇格パターン集 | L3671 |
+| Current Active / Spec Created Tasks | L3673 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L3839 |
+| issue-998-members-publish-state-production-rollout | L3917 |
 
 ### references/task-workflow-backlog-part2.md
 

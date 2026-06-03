@@ -8,6 +8,63 @@
 
 本ドキュメントは、複雑なタスクを単一責務の原則に基づいて分解し、各サブタスクに最適なスラッシュコマンド・エージェント・スキルの組み合わせを選定するためのガイドラインを定義する。
 
+### issue-1043-identity-conflicts-row-fade-animation（2026-06-02）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION` |
+| 成果物 | `docs/30-workflows/issue-1043-identity-conflicts-row-fade-animation/` |
+| Issue | #1043 CLOSED（2026-06-02 read-only 再確認。mutation は user-gated） |
+| 目的 | `/admin/identity-conflicts` の merge optimistic row 消失を exiting fade/collapse → removed に変更し、rollback で row を復元する |
+| implementation targets | `apps/web/src/components/admin/IdentityConflictRow.tsx`, `apps/web/src/components/admin/__tests__/IdentityConflictRow.spec.tsx`, `apps/web/playwright/tests/admin-identity-conflicts.spec.ts` |
+| invariant | API endpoint / D1 schema / page Server Component / `useAdminMutation` / design tokens / `globals.css` / dismiss behavior は変更なし |
+| evidence | focused Vitest 1 file / 13 tests PASS、web typecheck PASS、web lint PASS、local Playwright desktop 8/8 PASS、Phase 11 screenshots 3 PNG captured、Phase 12 strict 7 present |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1043-identity-conflicts-row-fade-animation-artifact-inventory.md` |
+| user gate | commit、push、PR、Issue mutation |
+
+### sidebar-visibility-conditional-and-ux（2026-06-02）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / VISUAL / pixel_screenshot_pending_user_gate` |
+| 成果物 | `docs/30-workflows/completed-tasks/sidebar-visibility-conditional-and-ux/` |
+| 目的 | `/login` を shell 外 bare route group `(auth)` へ移し、sidebar 表示条件を route group 正本へ揃え、SSR active path と viewer identity を改善する |
+| implementation targets | `apps/web/app/(auth)/layout.tsx`, `apps/web/app/(auth)/login/**`, `apps/web/middleware.ts`, `apps/web/app/(admin)/layout.tsx`, `apps/web/src/components/shell/{SidebarUserMenu,SidebarUserAvatar,SidebarNavItem,user-menu-config}.tsx` |
+| evidence | direct focused Vitest 20 files / 98 tests PASS、web typecheck PASS、web lint PASS、design-token / grep gates PASS、local screenshots 4 PNG |
+| system spec | `docs/00-getting-started-manual/specs/09h-shell-and-fixtures.md` §1.2 / §1.6 |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-sidebar-visibility-conditional-and-ux-artifact-inventory.md` |
+| user gate | pixel screenshots、staging visual baseline、commit、push、PR |
+
+### issue-1030-member-photo-transcode-resize-variant-pipeline（2026-06-01）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_runtime_pending / implementation / VISUAL_ON_EXECUTION / completed-tasks moved` |
+| 成果物 | `docs/30-workflows/issue-1030-member-photo-transcode-resize-variant-pipeline/` |
+| Issue | #1030 CLOSED 維持。PR 文脈は `Refs #1030` のみ |
+| 親 workflow | `docs/30-workflows/issue-983-member-photo-avatar-r2-storage/` |
+| 目的 | admin member photo の display/thumb variant pipeline を client-side Canvas + dual R2 key + optional `photoThumbUrl` として設計し、無料枠 invariant と後方互換を両立する |
+| planned targets | `apps/api/migrations/0023_member_photos_variants.sql`, `apps/api/src/lib/r2/member-photo-presign.ts`, `apps/api/src/repository/memberPhotos.ts`, `apps/api/src/routes/admin/members.ts`, `packages/shared`, `apps/web/src/lib/admin/image-resize.ts`, `MemberDrawer.tsx`, `MemberAvatar.tsx` |
+| invariant | Cloudflare Images / Image Resizing は有料のため不採用。display key `members/{memberId}/avatar` と旧 `file` upload を維持。D1/R2 は `apps/api` に閉じる |
+| evidence | Phase 1-13 specs、Phase outputs 1/2/3/4/5/6/7/8/9/10/11/12、Phase 12 strict 7、root/output artifacts parity |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1030-member-photo-transcode-resize-variant-pipeline-artifact-inventory.md` |
+| user gate | remote D1 migration apply、staging deploy、authenticated screenshots、commit、push、PR |
+
+### issue-1039-admin-audit-identity-action-presets（2026-06-01）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION` |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-1039-admin-audit-identity-action-presets/` |
+| Issue | #1039 CLOSED。Issue mutation なし、PR 文脈は `Refs #1039` のみ |
+| 親 workflow | `docs/30-workflows/completed-tasks/issue-987-identity-conflicts-audit-log-admin-ui/` |
+| 目的 | `/admin/audit` の action filter に `identity.merge` / `identity.dismiss` の入力補助を追加し、operator の正確な文字列記憶依存を減らす |
+| implementation targets | `apps/web/src/components/admin/AuditLogPanel.tsx`, `apps/web/src/components/admin/__tests__/AuditLogPanel.component.spec.tsx`, `apps/web/app/(admin)/admin/audit/page.page.spec.ts` |
+| invariant | 既存 `Input name="action"` と URL query key `action` を維持。`buildAuditHref` / API endpoint / D1 schema は変更しない |
+| evidence | focused component/page regressions PASS; Phase 11 local screenshot evidence present (`audit-action-filter-datalist-open.png`, `audit-action-filter-restored.png`) |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1039-admin-audit-identity-action-presets-artifact-inventory.md` |
+| user gate | staging authenticated screenshot, commit, push, PR |
+
 ### issue-1035-tag-master-write-endpoints（2026-06-01）
 
 | 項目 | 値 |
@@ -123,6 +180,35 @@
 | system spec | API/D1/Form schema no change; existing `POST /admin/sync/backfill-publish-state` reused |
 | user gate | staging authenticated screenshots, commit, push, PR |
 
+### issue-1059-public-members-fields-batch-fetch-n1-prevention（2026-06-02）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / NON_VISUAL` |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-1059-public-members-fields-batch-fetch-n1-prevention/` |
+| Issue | #1059 OPEN（mutation は user-gated） |
+| 親 | issue #224 U-2 fields N+1 follow-up |
+| 目的 | public members list の summary fields 取得を `response_id IN (...)` の 1 batch query にして N+1 を防ぐ |
+| implementation targets | `apps/api/src/repository/responseFields.ts`, `apps/api/src/use-cases/public/list-public-members.ts`, `apps/api/src/use-cases/public/__tests__/helpers/public-d1.ts`, focused specs |
+| evidence | use-case 10 PASS, repository 5 PASS, Phase 11 evidence present, Phase 12 strict 7 present |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1059-public-members-fields-batch-fetch-n1-prevention-artifact-inventory.md` |
+| boundary | tags / D1 schema / endpoint / Google Form / apps/web unchanged |
+| user gate | commit, push, PR, Issue #1059 mutation |
+
+### issue-1054-wrangler-binding-drift-ci-gate（2026-06-02）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / NON_VISUAL / implementation_complete_pending_pr` |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-1054-wrangler-binding-drift-ci-gate/` |
+| Issue | #1054 CLOSED（reopen / mutation は user-gated、PR 文脈は `Refs #1054`） |
+| 目的 | `apps/api/wrangler.toml`、`apps/api/src/env.ts`、`deployment-cloudflare.md` Current Cloudflare inventory の三者ドリフトを read-only CLI / CI gate で検出する |
+| implementation targets | `scripts/verify-wrangler-binding-drift.mjs`, `scripts/__tests__/verify-wrangler-binding-drift.spec.ts`, `.github/workflows/verify-wrangler-binding-drift.yml`, `package.json#verify:wrangler-binding-drift` |
+| system spec | `.claude/skills/aiworkflow-requirements/references/deployment-cloudflare.md` Current Cloudflare binding inventory を machine-checked SSOT とし、`DB` / `SYNC_ALERTS` / `MEMBER_PHOTOS` 行を追加 |
+| evidence | `pnpm verify:wrangler-binding-drift` PASS、focused Vitest PASS、read-only grep gate PASS、Phase 12 strict 7 present、root/output artifacts parity present |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1054-wrangler-binding-drift-ci-gate-artifact-inventory.md` |
+| user gate | commit、push、PR、GitHub Issue mutation |
+
 ### issue-229-indexes-rebuild-fail-fast（2026-05-31）
 
 | 項目 | 値 |
@@ -235,6 +321,21 @@
 | invariant | API endpoint / D1 schema / Server Component page / dismiss behavior は変更なし。`useAdminMutation` hook 拡張なし |
 | evidence | focused Vitest 1 file / 10 tests PASS; Playwright desktop 8 tests PASS; Phase 11 screenshots 3 PNG captured; Phase 11 canonical paths present |
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-988-identity-conflicts-merge-optimistic-update-artifact-inventory.md` |
+| user gate | commit, push, PR |
+
+### issue-1042-identity-conflicts-dismiss-optimistic-update（2026-06-02）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION` |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-1042-identity-conflicts-dismiss-optimistic-update/` |
+| Issue | #1042 CLOSED（`Refs #1042` のみ。Issue mutation なし） |
+| parent workflow | `docs/30-workflows/completed-tasks/issue-988-identity-conflicts-merge-optimistic-update/` |
+| 目的 | `/admin/identity-conflicts` の dismiss（別人マーク）confirm 後、server round-trip を待たず該当 row を optimistic に非表示化し、server error 時のみ rollback で復元する |
+| implementation targets | `apps/web/src/components/admin/IdentityConflictRow.tsx`, `apps/web/src/components/admin/__tests__/IdentityConflictRow.spec.tsx`, `apps/web/playwright/tests/admin-identity-conflicts.spec.ts` |
+| invariant | API endpoint / D1 schema / Server Component page / merge behavior は変更なし。`useAdminMutation` hook 拡張なし。`optimisticMerged` と `optimisticDismissed` は state 分離し、render guard のみ OR 統合 |
+| evidence | focused Vitest `IdentityConflictRow.spec.tsx` 15 tests PASS; Playwright desktop focused 2 tests PASS; Phase 11 screenshots 3 PNG captured; Phase 11 canonical paths present |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1042-identity-conflicts-dismiss-optimistic-update-artifact-inventory.md` |
 | user gate | commit, push, PR |
 
 ### issue-982-drawer-tag-pill-editing（2026-05-29）

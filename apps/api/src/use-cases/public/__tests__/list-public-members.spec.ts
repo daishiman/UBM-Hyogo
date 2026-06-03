@@ -6,6 +6,7 @@ import { afterEach, describe, expect, it, vi } from "vitest";
 
 import { aggregateTopTags } from "../../../repository/publicMembers";
 import * as memberTagsModule from "../../../repository/memberTags";
+import * as responseFieldsModule from "../../../repository/responseFields";
 import type { MemberTagWithDefinition } from "../../../repository/memberTags";
 import { listPublicMembersUseCase } from "../list-public-members";
 import { DEFAULT_PUBLIC_MEMBER_QUERY } from "../../../_shared/search-query-parser";
@@ -112,6 +113,60 @@ describe("listPublicMembersUseCase", () => {
     await expect(
       listPublicMembersUseCase(baseQuery, { ctx: { db: db as never } }),
     ).rejects.toThrow(/MockD1Failure/);
+  });
+
+  it("fetches summary fields exactly once for all response ids (no N+1)", async () => {
+    const spy = vi.spyOn(responseFieldsModule, "listFieldsByResponseIds");
+    const queryLog: string[] = [];
+    const db = createPublicD1Mock({
+      queryLog,
+      publicMembers: [
+        buildPublicMemberRow({ member_id: "m-1", current_response_id: "r-1" }),
+        buildPublicMemberRow({ member_id: "m-2", current_response_id: "r-2" }),
+        buildPublicMemberRow({ member_id: "m-3", current_response_id: "r-3" }),
+      ],
+      publicMemberCount: 3,
+      responseFieldsByResponseId: {
+        "r-1": [
+          buildResponseFieldRow({
+            response_id: "r-1",
+            stable_key: "fullName",
+            value_json: JSON.stringify("一郎"),
+          }),
+        ],
+        "r-2": [
+          buildResponseFieldRow({
+            response_id: "r-2",
+            stable_key: "fullName",
+            value_json: JSON.stringify("二郎"),
+          }),
+        ],
+        "r-3": [
+          buildResponseFieldRow({
+            response_id: "r-3",
+            stable_key: "fullName",
+            value_json: JSON.stringify("三郎"),
+          }),
+        ],
+      },
+    });
+
+    const result = await listPublicMembersUseCase(baseQuery, {
+      ctx: { db: db as never },
+    });
+
+    expect(result.items.map((item) => item.fullName)).toEqual([
+      "一郎",
+      "二郎",
+      "三郎",
+    ]);
+    expect(spy).toHaveBeenCalledTimes(1);
+    expect(spy.mock.calls[0]?.[1]).toEqual(["r-1", "r-2", "r-3"]);
+    const responseFieldsQueries = queryLog.filter((sql) =>
+      sql.includes("FROM response_fields"),
+    );
+    expect(responseFieldsQueries).toHaveLength(1);
+    expect(responseFieldsQueries[0]).toContain("response_id IN");
   });
 
   it("topTags 集計 SQL は公開境界、active tag、降順+code tie-break、上限20を固定する", async () => {

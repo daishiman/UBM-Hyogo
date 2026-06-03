@@ -1128,6 +1128,17 @@
     [data-component="hero"][data-variant="card"] {
       padding: 32px 20px;
     }
+    [data-component="about-ubm"] [data-role="zone-row"] {
+      grid-template-columns: minmax(76px, max-content) minmax(0, 1fr);
+      align-items: start;
+    }
+    [data-component="about-ubm"] [data-role="zone-row"] [data-role="label"] {
+      min-width: 0;
+    }
+    [data-component="about-ubm"] [data-role="zone-row"] [data-role="desc"] {
+      grid-column: 2;
+      min-width: 0;
+    }
     [data-component="timeline"] [data-role="tl-row"] {
       grid-template-columns: 56px 1fr;
     }
