@@ -2667,6 +2667,17 @@ node scripts/list-specs.js --topics
 | Placement | L31 |
 | Lessons Learned | L37 |
 
+### references/workflow-issue-1054-wrangler-binding-drift-ci-gate-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Metadata | L3 |
+| Workflow Artifacts | L12 |
+| Implementation Artifacts | L30 |
+| Verification | L40 |
+| Lessons Learned | L48 |
+| User-Gated | L63 |
+
 ### references/workflow-issue-1059-public-members-fields-batch-fetch-n1-prevention-artifact-inventory.md
 
 | セクション | 行 |
@@ -5331,17 +5342,17 @@ node scripts/list-specs.js --topics
 | D1 Backup Long-Term Storage（UT-06-FU-E / 2026-05-01） | L105 |
 | Cloudflare Workers デプロイ（Next.js / OpenNext） | L124 |
 | Cloudflare Workers デプロイ（APIバックエンド） | L212 |
-| Cloudflare D1 データベース | L378 |
-| Cloudflare KV セッションキャッシュ（UT-13 / SESSION_KV） | L411 |
-| GitHub Actions CI/CD | L523 |
-| プレビューデプロイメント | L554 |
-| カスタムドメイン設定 | L570 |
-| 環境分離 | L583 |
-| ロールバック戦略 | L593 |
-| モニタリング/アラート（UT-08 連携） | L614 |
-| per-sync write cap 連続到達アラート（03b-followup-006 / Issue #199） | L631 |
-| Long-term Analytics Evidence（Issue #347 / 2026-05-05） | L666 |
-| 変更履歴 | L715 |
+| Cloudflare D1 データベース | L385 |
+| Cloudflare KV セッションキャッシュ（UT-13 / SESSION_KV） | L418 |
+| GitHub Actions CI/CD | L530 |
+| プレビューデプロイメント | L561 |
+| カスタムドメイン設定 | L577 |
+| 環境分離 | L590 |
+| ロールバック戦略 | L600 |
+| モニタリング/アラート（UT-08 連携） | L621 |
+| per-sync write cap 連続到達アラート（03b-followup-006 / Issue #199） | L638 |
+| Long-term Analytics Evidence（Issue #347 / 2026-05-05） | L673 |
+| 変更履歴 | L722 |
 
 ### references/deployment-core.md
 
@@ -6208,6 +6219,14 @@ node scripts/list-specs.js --topics
 | L-I1039-002 Primitive passthrough before primitive expansion | L9 |
 | L-I1039-003 VISUAL local evidence must not be left as pending when a local contract can be captured | L15 |
 | 関連パターン | L21 |
+
+### references/lessons-learned-issue-1054-wrangler-binding-drift-ci-gate-2026-06.md
+
+| セクション | 行 |
+|------------|----|
+| 教訓一覧 | L21 |
+| 同期した正本 | L79 |
+| 境界 / user gate | L90 |
 
 ### references/lessons-learned-issue-1059-public-members-fields-batch-fetch-n1-prevention-2026-06.md
 
@@ -8528,15 +8547,15 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L3559 |
-| フェーズ構造（概要） | L3568 |
-| 品質ゲート（概要） | L3599 |
-| 出力テンプレート | L3610 |
-| 実行時のコマンド・エージェント・スキル | L3633 |
-| 昇格パターン集 | L3657 |
-| Current Active / Spec Created Tasks | L3659 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L3825 |
-| issue-998-members-publish-state-production-rollout | L3903 |
+| ドキュメント構成 | L3573 |
+| フェーズ構造（概要） | L3582 |
+| 品質ゲート（概要） | L3613 |
+| 出力テンプレート | L3624 |
+| 実行時のコマンド・エージェント・スキル | L3647 |
+| 昇格パターン集 | L3671 |
+| Current Active / Spec Created Tasks | L3673 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L3839 |
+| issue-998-members-publish-state-production-rollout | L3917 |
 
 ### references/task-workflow-backlog-part2.md
 
