@@ -2597,6 +2597,17 @@ node scripts/list-specs.js --topics
 | Verification Boundary | L29 |
 | Lessons | L33 |
 
+### references/workflow-issue-1035-tag-master-write-endpoints-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Workflow | L3 |
+| Implementation | L11 |
+| Tests | L19 |
+| Evidence | L26 |
+| User-Gated | L32 |
+| Lessons | L36 |
+
 ### references/workflow-issue-1036-bulk-member-tag-assign-artifact-inventory.md
 
 | セクション | 行 |
@@ -2607,6 +2618,15 @@ node scripts/list-specs.js --topics
 | Current code anchors | L34 |
 | Gates | L44 |
 | Lessons Learned | L52 |
+
+### references/workflow-issue-1039-admin-audit-identity-action-presets-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Implementation Targets | L10 |
+| Workflow Artifacts | L18 |
+| Invariants | L31 |
+| Lessons Learned | L38 |
 
 ### references/workflow-issue-1042-dismiss-confirm-optimistic-update-artifact-inventory.md
 
@@ -6143,6 +6163,15 @@ node scripts/list-specs.js --topics
 | L-I1027-007: 新規 workspace package は aggregate coverage-gate に明示配線しないと CI が MISSING で fail する | L29 |
 | L-I1027-008: Workers ランタイム専用コードは `v8 ignore` で除外し、純粋ロジックは抽出して unit test する | L41 |
 
+### references/lessons-learned-issue-1039-admin-audit-identity-action-presets-2026-06.md
+
+| セクション | 行 |
+|------------|----|
+| L-I1039-001 Native datalist preserves query and free-text contracts | L3 |
+| L-I1039-002 Primitive passthrough before primitive expansion | L9 |
+| L-I1039-003 VISUAL local evidence must not be left as pending when a local contract can be captured | L15 |
+| 関連パターン | L21 |
+
 ### references/lessons-learned-issue-106-admin-notes-repository-2026-05.md
 
 | セクション | 行 |
@@ -8449,15 +8478,15 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L3470 |
-| フェーズ構造（概要） | L3479 |
-| 品質ゲート（概要） | L3510 |
-| 出力テンプレート | L3521 |
-| 実行時のコマンド・エージェント・スキル | L3544 |
-| 昇格パターン集 | L3568 |
-| Current Active / Spec Created Tasks | L3570 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L3736 |
-| issue-998-members-publish-state-production-rollout | L3814 |
+| ドキュメント構成 | L3501 |
+| フェーズ構造（概要） | L3510 |
+| 品質ゲート（概要） | L3541 |
+| 出力テンプレート | L3552 |
+| 実行時のコマンド・エージェント・スキル | L3575 |
+| 昇格パターン集 | L3599 |
+| Current Active / Spec Created Tasks | L3601 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L3767 |
+| issue-998-members-publish-state-production-rollout | L3845 |
 
 ### references/task-workflow-backlog-part2.md
 

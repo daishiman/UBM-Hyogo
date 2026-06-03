@@ -1836,6 +1836,15 @@ SP-DEVSYNC-072 の「skill-only クリーン基準」に source 1 件（`apps/we
 - **SP-DEVSYNC-070-F (PR `mergeable=CONFLICTING` は CI 待ちでなく base conflict — dev を追って再 merge、同一 component file の別 feature add/add は「定義並置」で統合)**: 1 回 sync-merge を push しても `gh pr checks` が `triage` 1 件だけで本体 CI が起動しないときは `gh pr view --json mergeable,mergeStateStatus` を見る。`CONFLICTING/DIRTY` なら **base（dev）が先行して merge commit を作れず `pull_request` workflow が起動していない**（CI 遅延ではない）。最新 `origin/dev` を再 merge して解消する。複数 PR が同じ component file に独立機能を足していると source conflict が出る（例: issue-982 の `MemberTagsEditor` と issue-983 の `PhotoUploadAffordance` が同じ `MemberDrawer.tsx`）。**本体（呼び出し側 JSX）が clean merge で両方を参照済みなら、conflict は 2 つの独立定義の並置のみで解消し、どちらも捨てない**。import 文の衝突は **3-way 和集合**（両 branch が足した named import を全部残す）にして `pnpm typecheck` で未使用 import / 型不整合を検出。sync-merge は **`mergeable=MERGEABLE` で CI 本体が green になるまでが 1 サイクル**で、push 一発で終わりにしない。
 - 参照: [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-069（同知見の lessons 版・merge commit `ec48d08ce`、sourceSpecHashDrift 追補は同節「留意」、CONFLICTING 再 merge は「追補2」）、SP-DEVSYNC-069（両側 source 並行実装の AA との対照）、CLAUDE.md「sync-merge コンフリクト解消の 3 層予防」（`merge=union` 対象に playwright evidence は含まれない点の補足）。
 
+## SP-I1035 read-only repository への write 経路追加は「コード不変条件 + 正本 spec + prefix regression」を同 wave で固定する（2026-06-01 issue-1035-tag-master-write-endpoints）
+
+- **SP-I1035-A (implementation target 明確時は spec-only close しない)**: `taskType=implementation` かつ `implementation_files` / `test_files` が具体化している場合、Phase 12 で「follow-up 実装サイクル」として閉じると CONST_004/005 と衝突する。実コード、focused tests、typecheck/lint、正本 spec 同期まで同 wave で完了し、staging runtime / commit / push / PR だけを user-gated に残す。
+- **SP-I1035-B (read-only コメントを緩める変更は二重正本同期)**: repository に「write API は提供しない」等の不変条件コメントがある場合、write 関数追加だけで終えず、同じ wave で正本 spec（例 `docs/00-getting-started-manual/specs/01-api-schema.md`）にも新 write 経路・audit・削除/immutable 境界を同期する。片方だけ更新すると drift する。
+- **SP-I1035-C (readonly type-d gate 事前確認)**: write 関数を追加する repository では Phase 3 で `rg "readonly|@ts-expect-error|create|update|delete" apps/api/src/repository/**/*.test-d.ts` 等により type-level write 禁止 gate の有無を確認する。gate がある場合は不変条件変更レビューと test 更新を同 wave に含める。
+- **SP-I1035-D (prefix route 追加は既存 route regression を必須化)**: `/tags` と `/tags/queue` のように prefix が重なる route を追加する場合、mount 順の設計だけでなく、既存 route が従来通り 200 を返す contract test を新 route の test に含める。
+- 検証: focused D1 Vitest 4 files / 32 tests PASS、`@ubm-hyogo/api` typecheck PASS、repo lint PASS、root/outputs artifacts parity PASS、Phase 12 strict 7 PASS。
+- 参照: aiworkflow-requirements `workflow-issue-1035-tag-master-write-endpoints-artifact-inventory.md`、workflow `docs/30-workflows/completed-tasks/issue-1035-tag-master-write-endpoints/outputs/phase-12/phase12-task-spec-compliance-check.md`。
+
 ### dev-sync-merge 後の `.next/types` stale typecheck 失敗（SP-DEVSYNC-069）
 
 resolver 単発で skill-only conflict を解消した後でも、Phase 12/13 の `pnpm typecheck` がローカル build cache 起因で赤になる shape。merge content の型エラーと混同しないための切り分け手順を固定する。
@@ -1953,6 +1962,15 @@ issue-1008 sync（`refactor/issue-1008-members-list-ux-clarity-artifact-status-r
 - **SP-DEVSYNC-076-C (同 branch 再 sync は衝突 file 集合を前提化しない)**: 同一 feature を時間差で再 sync すると dev delta の縮小（本件 5→1 commit）に伴い衝突 file 集合が変わる（前回 4 → 今回 3、`task-workflow-active.md` が非衝突へ転じた）。Phase 11 見積りは前回値を流用せず毎回 `git diff --name-only --diff-filter=U` で確定する（SP-DEVSYNC-047 の「衝突 file 数は可変」を再 sync 軸で補強）。
 - 参照: [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-078（正本・077-A の grep scope 補正）, L-DEVSYNC-077（duplicate-ID 機序）, SP-DEVSYNC-047（衝突 file 数可変）, SP-DEVSYNC-073（`git ls-files -u` 正本則）。
 
+### native datalist による入力補助は自由入力と query 契約を守る（SP-I1039）
+
+`/admin/audit` action filter のように「よく使う値は提示したいが、任意文字列入力と URL query key は変えられない」場合は、Select 化より native `<datalist>` を優先する。
+
+- **SP-I1039-A (候補提示と自由入力を同時に満たす)**: 既存 `<Input name="...">` に `list="<id>"` を付け、同じ form 近傍に `<datalist id="<id>"><option ... /></datalist>` を置く。`name` と submit path を変えないため deep link / pagination / server restore が壊れない。
+- **SP-I1039-B (primitive 変更前に native prop passthrough を確認)**: UI primitive が `InputHTMLAttributes` を透過しているなら、`list` は新規 component API や shared type なしで通せる。primitive expansion は、複数 consumer や制御ロジックが必要になってから検討する。
+- **SP-I1039-C (VISUAL は local screenshot と staging user-gated を分ける)**: staging/admin session が user-gated でも、local DOM contract を撮れるなら Phase 11 screenshot を `present` にする。staging screenshot だけを `pending_user_approval` として分離し、Phase 12 で pending のまま PASS と書かない。
+- 参照: [[lessons-learned-issue-1039-admin-audit-identity-action-presets-2026-06]] L-I1039-001..003。
+
 ### 衝突 file 集合は map 系内でも回ごとに別組になる／`sync:resolve` は union 経路と derived `--ours`+rebuild 経路を 1 pass で振り分ける（SP-DEVSYNC-079）
 
 > 採番補正: 本節は当初 SP-DEVSYNC-078 として起草したが、`feat/issue-224 ← dev` 側が独立に SP-DEVSYNC-078（sub-worktree lock/log path）を採番済みで、後続 sync-merge の union 流入で duplicate-heading 化した。SP-DEVSYNC-076-B の runbook（dev 側 canonical 残置・今回連結側を次の空き番号へ renumber）に従い本ローカル追加分を **SP-DEVSYNC-079** へ採番補正。
@@ -2039,6 +2057,14 @@ issue-1008 sync（`refactor/issue-1008-members-list-ux-clarity-artifact-status-r
 - **SP-DEVSYNC-081-A (SKILL.md の衝突は skill ごとに独立・片側のみもある)**: 衝突集合に片方の SKILL.md しか出なくても異常ではない。dev 側と feature 側の編集行が重なるかで skill 単位に独立に決まるため、「SKILL.md は 2 つセットで衝突する/しない」という対称性を前提にしない。Phase 11 見積りでは「どちらの SKILL.md も衝突し得る／片側だけもある」と幅を持たせ、実集合は `git diff --name-only --diff-filter=U` で確定する。
 - **SP-DEVSYNC-081-B (resolver の処理件数 N は回ごとに変わる — 固定値で見込まない)**: `union-resolving N files` の N は本件 5・SP-DEVSYNC-080 は 6 と回ごとに変動する。件数や member 構成が変わっても標準フロー（`git merge dev` → `pnpm sync:resolve` → `git ls-files -u` 0 → `git commit` → `pnpm typecheck && pnpm lint` → `pnpm indexes:rebuild` 冪等確認 → push）は不変。source conflict 0・keywords 非衝突の回は手動介入ゼロ・CI 修正不要で全ゲート即緑になる（本件がその実例）。spec の Phase 11/13 検証手順は件数を断定せず「`--diff-filter=U` の実集合を resolver に渡す」と記述する。
 - 参照: [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-082（正本）, SP-DEVSYNC-080（両 SKILL.md 衝突の 6 file セット・本 lesson の対比元）, SP-DEVSYNC-078-C/079-B（衝突集合は `--diff-filter=U` で都度確定）, SP-DEVSYNC-047/073（`git ls-files -u` 正本則）。
+
+### 衝突集合 7 file（aiworkflow SKILL.md 衝突 + patterns-lessons-and-pitfalls.md 同時衝突 + keywords 再衝突）の最大級セットでも resolver 単一パス／SKILL.md 非対称は SP-DEVSYNC-081 と逆向きも出る／apps/og install 要件は 3 本目で恒常化（SP-DEVSYNC-082）
+
+`feat/issue-1039-admin-audit-identity-action-presets ← dev`（sub-worktree wt-5・11 behind / 2 ahead・ローカル dev は origin/dev 一致で ff 不要）の sync-merge で確立（[[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-088）。content conflict は **7 file**＝`aiworkflow-requirements/SKILL.md` + `aiworkflow-requirements/indexes/{quick-reference, resource-map, topic-map, keywords.json}` + `references/task-workflow-active.md` + **`task-specification-creator/references/patterns-lessons-and-pitfalls.md`**。**`task-specification-creator/SKILL.md` は Auto-merging（非衝突）**で、SP-DEVSYNC-081（task-spec SKILL.md 衝突・aiworkflow SKILL.md 非衝突）とは **SKILL.md 非対称が逆向き**。`pnpm sync:resolve` 単独収束（resolver ログ `union-resolving 6 files` + keywords `--ours`+rebuild）→ `git ls-files -u` 0 → merge commit `ab0ef6921`。
+
+- **SP-DEVSYNC-082-A (SKILL.md 衝突の非対称は両向き・本ファイル自身も同回に衝突メンバー)**: どちらの SKILL.md が衝突するかは編集行の重なりで回ごと独立決定し、SP-DEVSYNC-081（task-spec 側衝突）とも逆になり得る（本件は aiworkflow 側衝突）。さらに本ファイル（`patterns-lessons-and-pitfalls.md`）自身が SKILL.md 衝突と同回に重なり 7 file の最大級セットになる。仕様の Phase 11 衝突見積りでは file 数も SKILL.md の向きも断定せず、`git diff --name-only --diff-filter=U` の実集合を resolver に委ねると明記する（両 SKILL.md・本ファイルとも union 登録済み）。
+- **SP-DEVSYNC-082-B (sync-merge 後の検証はパイプ禁止で終了コードを直接取る — apps/og install 要件は恒常ルール)**: merge 後の `pnpm typecheck` を `| tail` で見ると pipeline 末尾の exit 0 が前段失敗を隠蔽する（bg タスク通知の "exit code 0" も同根）。`pnpm typecheck > file 2>&1; echo $?` で直接終了コードを取る。本件も `apps/og` 新 package の `Cannot find module 'workers-og'`（node_modules missing）で exit 2 が隠れていた→`mise exec -- pnpm install`（lockfile up to date）で解消。#1031 / #1042 / #1039 と 3 本連続で再発しており、新 workspace package を持ち込む dev 取込のたびに install が前提＝恒常ルール。Phase 13 local-check 手順に「検証はパイプ無し終了コード取得」「新 package 取込時は install を先に当てる」を固定記載する。
+- 参照: [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-088（正本）, L-DEVSYNC-087（パイプ偽陽性・apps/og 再発）, SP-DEVSYNC-081（SKILL.md 片側衝突の逆向き対比元）, SP-DEVSYNC-080（両 SKILL.md 衝突の 6 file セット）, SP-DEVSYNC-078-C/079-B（衝突集合は `--diff-filter=U` で都度確定）, SP-DEVSYNC-047/073（`git ls-files -u` 正本則）。
 
 ### sync-merge で dev から新規 workspace project が流入した回は `pnpm install` を typecheck の前段必須ゲートにする — install 前 typecheck は `Cannot find module` の偽失敗を出す（SP-DEVSYNC-082）
 

@@ -22,6 +22,37 @@
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1043-identity-conflicts-row-fade-animation-artifact-inventory.md` |
 | user gate | commit、push、PR、Issue mutation |
 
+### issue-1039-admin-audit-identity-action-presets（2026-06-01）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION` |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-1039-admin-audit-identity-action-presets/` |
+| Issue | #1039 CLOSED。Issue mutation なし、PR 文脈は `Refs #1039` のみ |
+| 親 workflow | `docs/30-workflows/completed-tasks/issue-987-identity-conflicts-audit-log-admin-ui/` |
+| 目的 | `/admin/audit` の action filter に `identity.merge` / `identity.dismiss` の入力補助を追加し、operator の正確な文字列記憶依存を減らす |
+| implementation targets | `apps/web/src/components/admin/AuditLogPanel.tsx`, `apps/web/src/components/admin/__tests__/AuditLogPanel.component.spec.tsx`, `apps/web/app/(admin)/admin/audit/page.page.spec.ts` |
+| invariant | 既存 `Input name="action"` と URL query key `action` を維持。`buildAuditHref` / API endpoint / D1 schema は変更しない |
+| evidence | focused component/page regressions PASS; Phase 11 local screenshot evidence present (`audit-action-filter-datalist-open.png`, `audit-action-filter-restored.png`) |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1039-admin-audit-identity-action-presets-artifact-inventory.md` |
+| user gate | staging authenticated screenshot, commit, push, PR |
+
+### issue-1035-tag-master-write-endpoints（2026-06-01）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / NON_VISUAL` |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-1035-tag-master-write-endpoints/` |
+| Issue | #1035 CLOSED（PR 文脈は `Refs #1035` のみ） |
+| 親 workflow | `issue-982-drawer-tag-pill-editing` |
+| 目的 | tag master (`tag_definitions`) の admin CRUD endpoint（GET/POST/PATCH/DELETE `/admin/tags`）と pagination/search を追加する |
+| implementation targets | `apps/api/src/repository/tagDefinitions.ts`, `apps/api/src/repository/auditLog.ts`, `apps/api/src/routes/admin/tags.ts`, `apps/api/src/index.ts`, `docs/00-getting-started-manual/specs/01-api-schema.md` |
+| tests | `apps/api/src/routes/admin/tags.contract.spec.ts`, `apps/api/src/repository/__tests__/tagDefinitions.write.repository.spec.ts`, `apps/api/src/routes/admin/members.tags.contract.spec.ts`, `apps/api/src/repository/__tests__/auditLog.repository.spec.ts` |
+| invariant | 不変条件 #13: tag master write は admin CRUD 第3経路に限定。`code` immutable、DELETE は `active=0`、member_tags row 保持、audit `admin.tag.created/updated/deactivated` |
+| evidence | focused D1 Vitest 4 files / 32 tests PASS、API typecheck PASS、repo lint PASS |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1035-tag-master-write-endpoints-artifact-inventory.md` |
+| user gate | staging runtime smoke、commit、push、PR |
+
 ### issue-1042-dismiss-confirm-optimistic-update（2026-06-01）
 
 | 項目 | 値 |
