@@ -2,6 +2,20 @@
 
 `origin/dev` を feature ブランチへ取り込む際に、複数 wave の workflow が並行で `.claude/skills/aiworkflow-requirements/` および `.claude/skills/task-specification-creator/` の changelog / index / active workflow / completed-tasks doc に additive 行を書き込むため、merge 時に高頻度で diff3 conflict が発生する。本書はその自律解消ポリシーの正本。
 
+## L-DEVSYNC-093: 同一ブランチの連続 sync-merge では衝突ファイルセットが**同一に再現**しうる — `resource-map + topic-map + task-workflow-active` の 3-file が前回 sync と完全一致（L-DEVSYNC-092-A「ブランチ間では hunk 位置依存で変動」の対概念＝ブランチ内安定性）（2026-06-03 docs/japanese-ime-input-composition-search-spec ← dev 6 ahead / 4 behind, merge `54dfa4072`）
+
+- 事象: `docs/japanese-ime-input-composition-search-spec`（ローカル dev は origin/dev に既一致 `dad98d2a8` → dev 同期は冪等スキップ、feature は dev に 6 ahead / 4 behind）の sync-merge。`git merge dev --no-edit` で `CONFLICT (content)` が **3 件**、全て `aiworkflow-requirements/` 配下:
+  - `indexes/{resource-map.md, topic-map.md}`, `references/task-workflow-active.md`
+  - `indexes/keywords.json` / `indexes/quick-reference.md` / 両 skill `SKILL.md` / `SKILL-changelog.md` / `LOGS/_legacy.md` / `lessons-learned/*` は **Auto-merging（衝突なし）** = resolver の `--ours` 段はログに出なかった。
+  - `apps/**` / `packages/**` の source conflict は 0 件 → L-DEVSYNC-072 の skill-only baseline に合致。
+- 解消: `pnpm sync:resolve` **1 回**で完結。resolver ログは `union-resolving 3 files`（resource-map.md / topic-map.md / task-workflow-active.md）→ `pnpm indexes:rebuild`。残コンフリクト 0、追加手動編集ゼロ。
+- How to apply:
+  - **L-DEVSYNC-093-A (ブランチ内では衝突集合が安定再現する)**: 本ブランチの前回 sync（merge `44246ab43`, L-DEVSYNC-092 line 2249）も**同一の 3-file 集合**（resource-map + topic-map + task-workflow-active）で衝突した。L-DEVSYNC-092-A は「**異なるブランチ間**では衝突 file が hunk 位置依存で変動する」を述べるが、**同一ブランチの連続 sync** では feature 側の追記 hunk 位置が固定のため衝突集合が同一に再現しうる。どちらの場合も対処は不変＝`pnpm sync:resolve` 直行で全パターンを吸収する（前提の file セットに依存した分岐を書かない）。
+  - **L-DEVSYNC-093-B (merge 後 indexes:rebuild は no-op)**: resolver 内部 rebuild 済のため merge commit 後に再 rebuild しても `git status --porcelain` 空（drift 0）。L-DEVSYNC-077-B / 092-C と同じく独立 chore(indexes) commit 不要、merge commit 1 件で完結。
+  - **L-DEVSYNC-093-C (dev デルタが既存 package 内コード追加のみなら install 不要)**: 今回の dev デルタは `apps/api`（trailing-slash middleware + me-route mount）/ `apps/web`（profile session-404 / OG token）等の既存 workspace 内コード追加で、新 workspace・新依存なし → `pnpm install` を挟まず `pnpm typecheck` / `pnpm lint` が初回 PASS（L-DEVSYNC-091 と整合）。
+- 検証: `pnpm sync:resolve`（`all skill / index conflicts resolved`）→ 残コンフリクト 0（`git diff --diff-filter=U --name-only` 空・marker grep 0）→ merge commit `54dfa4072` → `pnpm typecheck`（全 workspace Done）/ `pnpm lint`（dep-cruiser / stable-key / no-inline-style / 全 tsc 緑）いずれも初回 PASS。
+- 参照: L-DEVSYNC-092（5-file 版・ブランチ間変動の事例）, L-DEVSYNC-091（4-file + keywords Auto-merge + install 不要）, L-DEVSYNC-077（3-file 最小版）, L-DEVSYNC-072（skill-only baseline）, L-DEVSYNC-046（resolver UNION_TARGETS 登録）, task-specification-creator [[dev-sync-merge-conflict-resolution]] SP-DEVSYNC-012 末尾事例。
+
 ## L-DEVSYNC-092: SKILL.md 本体 + resource-map.md を含む 5-file skill-only conflict は `pnpm sync:resolve` 単一パスで完結し、keywords.json は逆に Auto-merge（衝突せず resolver の `--ours` 段に出ない）— 衝突ファイルセットは hunk 位置依存で毎回変動（2026-06-03 feat/admin-attendance-dashboard-ux ← dev 3 ahead / 6 behind）
 
 - 事象: `feat/admin-attendance-dashboard-ux`（ローカル dev は origin/dev に既一致 `4f7fd80fb` → dev 同期は冪等スキップ、feature は dev に 3 ahead / 6 behind）の sync-merge。`git merge origin/dev --no-edit` で `CONFLICT (content)` が **5 件**、全て `aiworkflow-requirements/` 配下:
