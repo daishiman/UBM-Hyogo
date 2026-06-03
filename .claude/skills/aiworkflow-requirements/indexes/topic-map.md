@@ -2185,6 +2185,17 @@ node scripts/list-specs.js --topics
 |------------|----|
 | Boundary | L16 |
 
+### references/workflow-admin-member-detail-status-404-fix-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Metadata | L3 |
+| Implementation Targets | L12 |
+| Workflow Artifacts | L23 |
+| Evidence | L33 |
+| User-Gated | L42 |
+| Lessons Learned | L46 |
+
 ### references/workflow-admin-requests-prototype-alignment-and-404-fix-artifact-inventory.md
 
 | セクション | 行 |
@@ -8417,15 +8428,15 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L3441 |
-| フェーズ構造（概要） | L3450 |
-| 品質ゲート（概要） | L3481 |
-| 出力テンプレート | L3492 |
-| 実行時のコマンド・エージェント・スキル | L3515 |
-| 昇格パターン集 | L3539 |
-| Current Active / Spec Created Tasks | L3541 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L3707 |
-| issue-998-members-publish-state-production-rollout | L3785 |
+| ドキュメント構成 | L3453 |
+| フェーズ構造（概要） | L3462 |
+| 品質ゲート（概要） | L3493 |
+| 出力テンプレート | L3504 |
+| 実行時のコマンド・エージェント・スキル | L3527 |
+| 昇格パターン集 | L3551 |
+| Current Active / Spec Created Tasks | L3553 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L3719 |
+| issue-998-members-publish-state-production-rollout | L3797 |
 
 ### references/task-workflow-backlog-part2.md
 

@@ -20,6 +20,7 @@ const rootReact = fileURLToPath(new URL("./node_modules/react", import.meta.url)
 const rootReactDom = fileURLToPath(new URL("./node_modules/react-dom", import.meta.url));
 
 const D1_INCLUDE = [
+  "apps/api/migrations/__tests__/*.spec.ts",
   "apps/api/migrations/seed/__tests__/issue-399-seed-syntax.test.ts",
   "apps/api/src/__tests__/invariants.spec.ts",
   "apps/api/src/env.spec.ts",
