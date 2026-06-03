@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useId, useRef, useState } from "react";
+import { useCallback, useEffect, useId, useRef, useState } from "react";
 import type {
   DismissIdentityConflictResponse,
   IdentityConflictRow as Row,
@@ -7,9 +7,16 @@ import type {
 } from "@ubm-hyogo/shared";
 import { useAdminMutation } from "../../features/admin/hooks";
 import { FetchAuthedError } from "../../lib/fetch/errors";
+import { browserWindow } from "../../lib/is-browser";
 import { Badge } from "../ui/Badge";
 import { Button } from "../ui/Button";
 import { Textarea } from "../ui/Textarea";
+
+const EXIT_ANIMATION_MS = 200;
+const EXIT_FALLBACK_BUFFER_MS = 50;
+
+const prefersReducedMotion = () =>
+  browserWindow()?.matchMedia?.("(prefers-reduced-motion: reduce)").matches ?? false;
 
 const errorMessage = (error: Error | null): string | null => {
   if (!error) return null;
@@ -28,9 +35,11 @@ export function IdentityConflictRow({ item }: { item: Row }) {
   const optimisticStatusRef = useRef<HTMLParagraphElement>(null);
   const [stage, setStage] = useState<"idle" | "merge-confirm" | "merge-final" | "dismiss">("idle");
   const [optimisticMerged, setOptimisticMerged] = useState(false);
+  const [isExiting, setIsExiting] = useState(false);
   const [optimisticDismissed, setOptimisticDismissed] = useState(false);
   const [mergeReason, setMergeReason] = useState("");
   const [dismissReason, setDismissReason] = useState("");
+  const exitTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const mergeReasonId = `${formId}-merge-reason`;
   const dismissReasonId = `${formId}-dismiss-reason`;
   const mergeErrorId = `${formId}-merge-error`;
@@ -74,14 +83,34 @@ export function IdentityConflictRow({ item }: { item: Row }) {
     optimisticStatusRef.current?.focus();
   }, [optimisticStatus]);
 
-  const onMerge = () => {
+  const clearExitTimer = useCallback(() => {
+    if (!exitTimerRef.current) return;
+    clearTimeout(exitTimerRef.current);
+    exitTimerRef.current = null;
+  }, []);
+
+  const finalizeRemoval = useCallback(() => {
+    clearExitTimer();
     setOptimisticMerged(true);
+  }, [clearExitTimer]);
+
+  useEffect(() => clearExitTimer, [clearExitTimer]);
+
+  const onMerge = () => {
+    setIsExiting(true);
+    clearExitTimer();
+    const delay = prefersReducedMotion()
+      ? 0
+      : EXIT_ANIMATION_MS + EXIT_FALLBACK_BUFFER_MS;
+    exitTimerRef.current = setTimeout(finalizeRemoval, delay);
     void mergeMutation
       .trigger({
         targetMemberId: item.candidateTargetMemberId,
         reason: mergeReason.trim(),
       })
       .catch(() => {
+        clearExitTimer();
+        setIsExiting(false);
         setOptimisticMerged(false);
         // error は mergeMutation.error / toast 経由で surface。modal は閉じず、reason を保持する。
       });
@@ -119,7 +148,19 @@ export function IdentityConflictRow({ item }: { item: Row }) {
   }
 
   return (
-    <div className="flex flex-col gap-3 rounded border border-[var(--ubm-color-border-default)] bg-[var(--ubm-color-surface-panel)] p-4">
+    <div
+      className={[
+        "flex flex-col gap-3 rounded border border-[var(--ubm-color-border-default)] bg-[var(--ubm-color-surface-panel)] p-4",
+        "transition-[opacity,transform] duration-200 ease-out motion-reduce:transition-none",
+        isExiting ? "pointer-events-none scale-[0.99] opacity-0" : "scale-100 opacity-100",
+      ].join(" ")}
+      data-state={isExiting ? "exiting" : "idle"}
+      onTransitionEnd={(event) => {
+        if (!isExiting || event.currentTarget !== event.target) return;
+        if (event.propertyName !== "opacity" && event.propertyName !== "transform") return;
+        finalizeRemoval();
+      }}
+    >
       <div className="flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
         <div className="text-sm">
           <div className="font-mono text-xs text-[var(--ubm-color-text-muted)]">
