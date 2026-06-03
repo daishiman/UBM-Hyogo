@@ -3,15 +3,35 @@ import { browserDocument } from "@/lib/is-browser";
 export const SHELL_COLLAPSE_COOKIE_NAME = "ubm_shell_collapsed";
 const SHELL_COLLAPSE_COOKIE_MAX_AGE_SECONDS = 60 * 60 * 24 * 365;
 
+/**
+ * 現在の client runtime が HTTPS で配信されているかを判定する（private）。
+ * - https:  → true（`Secure` cookie を送信可能な文脈）
+ * - それ以外（http: / file: / SSR・Workers で document 不在） → false
+ * Node 環境変数 (env) を参照せず client runtime のみで完結する（CLAUDE.md env 不変条件）。
+ */
+function isSecureRuntimeContext(): boolean {
+  return browserDocument()?.location.protocol === "https:";
+}
+
 export function parseShellCollapsedCookie(value: string | undefined | null): boolean | null {
   if (value === "true") return true;
   if (value === "false") return false;
   return null;
 }
 
-export function serializeShellCollapsedCookie(collapsed: boolean): string {
+/**
+ * collapse 状態の cookie 文字列を生成する。
+ * @param collapsed sidebar が collapsed か
+ * @param secure `Secure` 属性を付与するか。省略時は client runtime（HTTPS かどうか）で判定する。
+ *               テストは両分岐を決定論的に検証するため明示注入できる。
+ */
+export function serializeShellCollapsedCookie(
+  collapsed: boolean,
+  secure: boolean = isSecureRuntimeContext(),
+): string {
   const value = collapsed ? "true" : "false";
-  return `${SHELL_COLLAPSE_COOKIE_NAME}=${value}; Path=/; Max-Age=${SHELL_COLLAPSE_COOKIE_MAX_AGE_SECONDS}; SameSite=Lax`;
+  const base = `${SHELL_COLLAPSE_COOKIE_NAME}=${value}; Path=/; Max-Age=${SHELL_COLLAPSE_COOKIE_MAX_AGE_SECONDS}; SameSite=Lax`;
+  return secure ? `${base}; Secure` : base;
 }
 
 export function writeShellCollapsedCookie(collapsed: boolean): void {
