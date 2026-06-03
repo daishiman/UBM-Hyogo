@@ -1,5 +1,59 @@
 # クイックリファレンス
 
+## profile-reload-session-404-fix（2026-06-03）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/profile-reload-session-404-fix/` |
+| status | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION` |
+| purpose | `/profile` reload 時の `GET /me` 404 生エラーを API route 正規化・web proxy URL 修正・再ログイン CTA で解消 |
+| implementation | `trailingSlashRedirect()` + API mount test、`/api/me/[...path]` empty-path `/me` fix、`SectionError` action link、`/profile` `MEMBER_SESSION_404` CTA |
+| evidence | API focused Vitest 9 PASS、web focused Vitest 16 PASS |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-profile-reload-session-404-fix-artifact-inventory.md` |
+| user gate | staging authenticated screenshot, commit, push, PR |
+
+## admin-attendance-dashboard-ux（2026-06-02）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/admin-attendance-dashboard-ux/` |
+| status | `implemented_local_runtime_pending / implementation / VISUAL` |
+| purpose | admin attendance dashboard UI/UX recovery: `.attendance-*` CSS, fixed SVG bar sizing, attendance-zone labels/help, KPI extended-attendance wording, page guide / section intro / empty-state styling |
+| implementation | `apps/web/src/styles/globals.css`, `apps/web/src/features/admin/attendance/{components,lib,__tests__}/**` |
+| evidence | `outputs/phase-11/manual-test-result.md` records focused Vitest PASS and apps-api unchanged; staging screenshots are user-gated |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-attendance-dashboard-ux-artifact-inventory.md` |
+| follow-up | `docs/30-workflows/admin-attendance-dashboard-ux/unassigned-task-specs/admin-attendance-analytics-calc-correction.md` |
+
+## sidebar-footer-pinning-and-account-popover-ux（2026-06-02）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/sidebar-footer-pinning-and-account-popover-ux/` |
+| status | `implemented_local_evidence_captured / implementation / VISUAL / staging_visual_pending_user_gate` |
+| parent | `docs/30-workflows/completed-tasks/unified-sidebar-shell-public-and-admin/` |
+| purpose | unified sidebar shell の footer 固定、collapsed overflow、account popover outside/Escape close、public footer sticky を同一 local cycle で修正 |
+| implementation | `apps/web/src/components/shell/{SidebarShell,SidebarUserMenu,SidebarNavItem}.tsx`, `apps/web/src/styles/{globals,legacy-public}.css` |
+| tests | `apps/web/src/components/shell/__tests__/{SidebarShell,SidebarUserMenu,SidebarNavItem}.spec.tsx` |
+| evidence | focused Vitest 3 files / 22 tests PASS; web typecheck PASS; web verify-design-tokens PASS; web lint PASS |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-sidebar-footer-pinning-and-account-popover-ux-artifact-inventory.md` |
+| user gate | staging authenticated screenshots, commit, push, PR |
+
+## issue-1056-kv-alert-policy-binding-drift-detection（2026-06-02）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-1056-kv-alert-policy-binding-drift-detection/` |
+| status | `implemented_local_evidence_captured / implementation / NON_VISUAL` |
+| purpose | `apps/api/wrangler.toml` の KV/R2 binding 活性と Cloudflare alert policy `enabled` 状態の drift を local-only で検知 |
+| implementation | `infra/cloudflare-alerts/lib/binding-policy-drift.ts`, `infra/cloudflare-alerts/lib/cli.ts`, `scripts/cf.sh`, `.github/workflows/cloudflare-alerts-drift.yml`, `package.json` |
+| command | `pnpm cf:alerts:binding-drift --ci`（Cloudflare API/token 不要、drift 0 は exit 0、drift は exit 2） |
+| tests | `infra/cloudflare-alerts/lib/__tests__/binding-policy-drift.spec.ts`, `scripts/__tests__/cf-alerts-cli.spec.ts` |
+| system spec | `.claude/skills/aiworkflow-requirements/references/deployment-cloudflare.md` |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1056-kv-alert-policy-binding-drift-detection-artifact-inventory.md` |
+| lessons | `.claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-issue-1056-kv-alert-policy-binding-drift-detection-2026-06.md`（L-I1056-001..006） |
+| issue | #1056 spec 作成時 OPEN → 本サイクル中 CLOSED（`closedAt: 2026-06-02T03:32:56Z`）。docs を実態整合（reopen せず）、workflow は completed-tasks へ close-out 済 |
+| user gate | commit, push, PR, Issue mutation, alert policy apply/enablement |
+
 ## issue-1054-wrangler-binding-drift-ci-gate（2026-06-02）
 
 | 項目 | 値 |
@@ -3252,6 +3306,19 @@ UT-07B-FU-04 production migration already-applied verification は、`references
 
 > **検索パターン集・コードパターン早見は [quick-reference-search-patterns.md](quick-reference-search-patterns.md) に分離**
 > 機能・タスク別のキーワード分割、読む順番、IPC/Zustand/Result 等のコードスニペットを収録
+
+### Japanese IME Input Composition Search Fix
+
+| 目的 | 最初に開くファイル |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/japanese-ime-input-composition-search-fix/` |
+| status | `implemented_local_evidence_captured / implementation / VISUAL / PASS_BOUNDARY_SYNCED_RUNTIME_PENDING` |
+| implementation | `apps/web/src/hooks/useImeSafeInput.ts`, `apps/web/src/components/ui/{Search,Input}.tsx`, `apps/web/src/components/public/SelectedFiltersBar.client.tsx` |
+| focused tests | `apps/web/src/hooks/__tests__/useImeSafeInput.spec.tsx`, `apps/web/src/components/ui/__tests__/{Search,Input}.spec.tsx`, `apps/web/src/components/public/__tests__/{SelectedFiltersBar.client,MemberFilters.client}.spec.tsx` |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-japanese-ime-input-composition-search-fix-artifact-inventory.md` |
+| lessons | `.claude/skills/aiworkflow-requirements/references/lessons-learned-japanese-ime-input-composition-search-fix-2026-06.md`（L-IME-001..003: URL 正本 + composition guard / clear ownership 一本化 / IME regression は fake timers + composition events） |
+
+Public `/members` keyword search keeps URL query as canonical state, but `Search` now buffers draft text during IME composition and commits only after `compositionend + debounce`. `SelectedFiltersBar` excludes the `q` chip so the keyword has one clear owner: the input-local clear button. `Input` exposes `imeSafe` + `onValueChange` as opt-in; default behavior remains unchanged. Local screenshots are present under `outputs/phase-11/screenshots/`; staging real-IME screenshots, commit, push, and PR are user-gated.
 
 ### 08a-B Public Members Search Filter
 

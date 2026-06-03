@@ -1,6 +1,11 @@
+"use client";
+
+import { useImeSafeInput } from "../../hooks/useImeSafeInput";
+
 export interface SearchProps {
   value: string;
   onChange: (value: string) => void;
+  debounceMs?: number;
   placeholder?: string;
   id?: string;
   name?: string;
@@ -11,26 +16,36 @@ export interface SearchProps {
 export function Search({
   value,
   onChange,
+  debounceMs,
   placeholder,
   id,
   name,
   "aria-invalid": ariaInvalid,
   "aria-describedby": ariaDescribedBy,
 }: SearchProps) {
+  const imeInput = useImeSafeInput({
+    value,
+    onCommit: onChange,
+    debounceMs,
+  });
+
   return (
     <div>
       <input
         type="search"
         id={id}
         name={name}
-        value={value}
-        onChange={(e) => onChange(e.target.value)}
+        {...imeInput.inputProps}
         placeholder={placeholder}
         aria-invalid={ariaInvalid}
         aria-describedby={ariaDescribedBy}
       />
-      {value && (
-        <button type="button" aria-label="クリア" onClick={() => onChange("")}>
+      {imeInput.value && (
+        <button
+          type="button"
+          aria-label="クリア"
+          onClick={() => imeInput.commitNow("")}
+        >
           ×
         </button>
       )}

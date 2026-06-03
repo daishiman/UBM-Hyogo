@@ -19,6 +19,31 @@ describe("member SectionError", () => {
     expect(screen.getByRole("link").getAttribute("href")).toBe("/profile");
   });
 
+  it("renders an optional action link when href and label are provided", () => {
+    render(
+      <SectionError
+        actionHref="/login?redirect=/profile"
+        actionLabel="再ログイン"
+        retryHref="/profile"
+      />,
+    );
+    const links = screen.getAllByRole("link");
+    expect(links.map((link) => link.getAttribute("data-role"))).toEqual([
+      "action",
+      "retry",
+    ]);
+    expect(links[0]?.getAttribute("href")).toBe("/login?redirect=/profile");
+    expect(links[0]?.textContent).toBe("再ログイン");
+  });
+
+  it("does not render an action link unless href and label are both provided", () => {
+    const { rerender, container } = render(<SectionError actionHref="/login" />);
+    expect(container.querySelector('[data-role="action"]')).toBeNull();
+
+    rerender(<SectionError actionLabel="再ログイン" />);
+    expect(container.querySelector('[data-role="action"]')).toBeNull();
+  });
+
   it("does not emit raw hex colors", () => {
     const { container } = render(<SectionError detail="x" />);
     expect(container.innerHTML).not.toMatch(/#[0-9a-f]{3,8}/i);

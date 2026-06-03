@@ -50,11 +50,24 @@ export default async function ProfilePage() {
   }
 
   if (!meResult.ok) {
+    if (meResult.error.code === "MEMBER_SESSION_404") {
+      return (
+        <main data-route="member" data-section-rhythm="comfortable">
+          <SectionError
+            title="セッション情報を取得できませんでした"
+            detail="アカウント情報を確認できませんでした。再ログインしてください。"
+            actionHref="/login?redirect=/profile"
+            actionLabel="再ログイン"
+          />
+        </main>
+      );
+    }
+
     return (
       <main data-route="member" data-section-rhythm="comfortable">
         <SectionError
           title="セッション情報を取得できませんでした"
-          detail={meResult.error.message}
+          detail="時間をおいて再読み込みしてください。"
           retryHref="/profile"
         />
       </main>
