@@ -7,6 +7,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 import { SignOutButton } from "../auth/SignOutButton";
+import { browserDocument } from "../../lib/is-browser";
 import { SidebarUserAvatar } from "./SidebarUserAvatar";
 import type { ShellRole } from "./shell-config";
 import { buildUserMenuActions, roleDisplayLabel } from "./user-menu-config";
@@ -29,6 +30,32 @@ export function SidebarUserMenu({ role, user, collapsed }: SidebarUserMenuProps)
     if (detailsRef.current) detailsRef.current.open = false;
   }, [pathname]);
 
+  useEffect(() => {
+    const doc = browserDocument();
+    if (!doc) return;
+
+    const closeIfOutside = (event: PointerEvent) => {
+      const details = detailsRef.current;
+      if (!details?.open) return;
+      const target = event.target;
+      if (target instanceof Node && details.contains(target)) return;
+      details.open = false;
+    };
+
+    const closeOnEscape = (event: KeyboardEvent) => {
+      const details = detailsRef.current;
+      if (!details?.open || event.key !== "Escape") return;
+      details.open = false;
+    };
+
+    doc.addEventListener("pointerdown", closeIfOutside);
+    doc.addEventListener("keydown", closeOnEscape);
+    return () => {
+      doc.removeEventListener("pointerdown", closeIfOutside);
+      doc.removeEventListener("keydown", closeOnEscape);
+    };
+  }, []);
+
   return (
     <details
       ref={detailsRef}
@@ -39,7 +66,7 @@ export function SidebarUserMenu({ role, user, collapsed }: SidebarUserMenuProps)
         role="button"
         aria-haspopup="menu"
         aria-label="ユーザーメニュー"
-        className="flex cursor-pointer list-none items-center gap-2 rounded-sm px-3 py-2 hover:bg-[var(--shell-active-bg)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--ubm-color-accent)]"
+        className={`flex cursor-pointer list-none items-center rounded-sm px-3 py-2 hover:bg-[var(--shell-active-bg)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--ubm-color-accent)] ${collapsed ? "justify-center gap-0" : "gap-2"}`}
       >
         <SidebarUserAvatar initials={user?.initials ?? ""} role={role} size="md" />
         <span className={collapsed ? "sr-only" : "flex min-w-0 flex-col leading-tight"}>

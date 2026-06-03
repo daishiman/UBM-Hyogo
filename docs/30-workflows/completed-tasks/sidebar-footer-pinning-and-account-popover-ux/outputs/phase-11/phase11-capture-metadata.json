@@ -1,0 +1,15 @@
+{
+  "taskId": "sidebar-footer-pinning-and-account-popover-ux",
+  "mode": "VISUAL",
+  "specStatus": "implemented_local_evidence_captured",
+  "captureStatus": "pending_user_gated",
+  "captureBlockedReason": "staging 認証必須のため screenshot 取得は user-gated。local component evidence は取得済み。",
+  "screenshotDir": "docs/30-workflows/completed-tasks/sidebar-footer-pinning-and-account-popover-ux/screenshots",
+  "screenshots": [
+    { "file": "sidebar-footer-pinned.png", "tc": "TC-C1", "concern": "C1", "ac": "AC-1", "status": "pending_user_gated" },
+    { "file": "sidebar-collapsed-no-overflow.png", "tc": "TC-C2", "concern": "C2", "ac": "AC-2", "status": "pending_user_gated" },
+    { "file": "account-popover-open.png", "tc": "TC-C3a", "concern": "C3", "ac": "AC-3", "status": "pending_user_gated" },
+    { "file": "account-popover-dismissed-by-outside-click.png", "tc": "TC-C3b", "concern": "C3", "ac": "AC-3", "status": "pending_user_gated" },
+    { "file": "public-footer-sticky.png", "tc": "TC-C4", "concern": "C4", "ac": "AC-4", "status": "pending_user_gated" }
+  ]
+}

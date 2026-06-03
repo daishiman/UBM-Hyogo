@@ -3812,6 +3812,17 @@ node scripts/list-specs.js --topics
 | Primary files | L11 |
 | Evidence | L22 |
 
+### references/workflow-sidebar-footer-pinning-and-account-popover-ux-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Purpose | L12 |
+| Implementation Artifacts | L23 |
+| Workflow Artifacts | L36 |
+| Evidence | L48 |
+| Invariants | L57 |
+| Lessons Learned | L65 |
+
 ### references/workflow-skill-identifier-branded-type-resolution.md
 
 | セクション | 行 |
@@ -8375,15 +8386,15 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L3411 |
-| フェーズ構造（概要） | L3420 |
-| 品質ゲート（概要） | L3451 |
-| 出力テンプレート | L3462 |
-| 実行時のコマンド・エージェント・スキル | L3485 |
-| 昇格パターン集 | L3509 |
-| Current Active / Spec Created Tasks | L3511 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L3677 |
-| issue-998-members-publish-state-production-rollout | L3755 |
+| ドキュメント構成 | L3426 |
+| フェーズ構造（概要） | L3435 |
+| 品質ゲート（概要） | L3466 |
+| 出力テンプレート | L3477 |
+| 実行時のコマンド・エージェント・スキル | L3500 |
+| 昇格パターン集 | L3524 |
+| Current Active / Spec Created Tasks | L3526 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L3692 |
+| issue-998-members-publish-state-production-rollout | L3770 |
 
 ### references/task-workflow-backlog-part2.md
 

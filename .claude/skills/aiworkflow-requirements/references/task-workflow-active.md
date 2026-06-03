@@ -8,6 +8,21 @@
 
 本ドキュメントは、複雑なタスクを単一責務の原則に基づいて分解し、各サブタスクに最適なスラッシュコマンド・エージェント・スキルの組み合わせを選定するためのガイドラインを定義する。
 
+### sidebar-footer-pinning-and-account-popover-ux（2026-06-02）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / VISUAL / staging_visual_pending_user_gate` |
+| 成果物 | `docs/30-workflows/completed-tasks/sidebar-footer-pinning-and-account-popover-ux/` |
+| 親 workflow | `docs/30-workflows/completed-tasks/unified-sidebar-shell-public-and-admin/` |
+| 目的 | unified sidebar shell の UI/UX 不具合 4 件（footer 固定 / collapsed overflow / account popover outside+Escape close / public footer sticky）を同一 local cycle で修正する |
+| implementation targets | `apps/web/src/styles/globals.css`, `apps/web/src/styles/legacy-public.css`, `apps/web/src/components/shell/{SidebarShell,SidebarUserMenu,SidebarNavItem}.tsx` |
+| tests | `apps/web/src/components/shell/__tests__/{SidebarShell,SidebarUserMenu,SidebarNavItem}.spec.tsx` |
+| evidence | focused Vitest 3 files / 22 tests PASS、web typecheck PASS、web verify-design-tokens PASS、web lint PASS |
+| invariant | API / D1 / Google Form schema / auth middleware / public component props は変更なし。DOM 観測契約は additive |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-sidebar-footer-pinning-and-account-popover-ux-artifact-inventory.md` |
+| user gate | staging authenticated screenshots、commit、push、PR |
+
 ### task-d-admin-google-form-responses-link（2026-06-01）
 
 | 項目 | 値 |
