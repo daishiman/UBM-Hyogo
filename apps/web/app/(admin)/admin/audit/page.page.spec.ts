@@ -1,6 +1,7 @@
 import { cleanup, render, screen } from "@testing-library/react";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { jstLocalToUtcIso } from "./audit-query";
+import { safeServerFetch } from "../../../../src/lib/admin/safe-server-fetch";
 
 vi.mock("../../../../src/lib/admin/safe-server-fetch", () => ({
   safeServerFetch: vi.fn(async () => ({
@@ -33,5 +34,17 @@ describe("admin audit page helpers", () => {
     expect(screen.getByRole("heading", { level: 1, name: "監査ログ" })).toBeTruthy();
     expect(screen.getByRole("link", { name: "管理" }).getAttribute("href")).toBe("/admin");
     expect(screen.getByText("action / actor / target / 期間で監査ログを絞り込み、PII を保護した形で参照できます。")).toBeTruthy();
+  });
+
+  it("restores identity action presets from searchParams without changing the API query contract", async () => {
+    render(
+      await AdminAuditPage({
+        searchParams: Promise.resolve({ action: "identity.dismiss", limit: "25" }),
+      }),
+    );
+
+    expect((screen.getByLabelText("action") as HTMLInputElement).value).toBe("identity.dismiss");
+    expect(screen.getByLabelText("action").getAttribute("list")).toBe("audit-action-presets");
+    expect(safeServerFetch).toHaveBeenCalledWith("/admin/audit?action=identity.dismiss&limit=25");
   });
 });

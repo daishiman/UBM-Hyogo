@@ -12,7 +12,8 @@ vi.mock("next/navigation", () => ({
 
 // fetchMemberTags を mock（drawer open 時の GET）
 const fetchMemberTagsMock = vi.fn<(memberId: string) => Promise<MemberTagsResult>>();
-vi.mock("../../../api/members", () => ({
+vi.mock("../../../api/members", async (importOriginal) => ({
+  ...(await importOriginal<typeof import("../../../api/members")>()),
   fetchMemberTags: (memberId: string) => fetchMemberTagsMock(memberId),
 }));
 
