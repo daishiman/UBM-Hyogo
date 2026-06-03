@@ -32,7 +32,7 @@ task_name: member_status.member_id への FK 制約導入
 **orphan 会員**で、詳細・status 系のエンドポイントが行の存在を前提とするため
 `return null` → 404 になっていた（`index.md` §1）。
 
-親タスクはこの実害を、migration `0024_backfill_member_status.sql` による既存 orphan の
+親タスクはこの実害を、migration `0025_backfill_member_status.sql` による既存 orphan の
 backfill（`INSERT OR IGNORE`）と、`ensureMemberStatusRow` による予防（ingest 時の既定行保証）で
 止血した。ただしこれはアプリ層・データ層の止血であって、**DB レベルで orphan の発生を
 構造的に禁止する制約（FK）は依然として存在しない**。
@@ -143,7 +143,7 @@ SQLite は `ALTER TABLE ... ADD CONSTRAINT` で FK を後付けできないた�
 
 ```sql
 -- 00xx_member_status_fk_constraint.sql
--- 前提: 0024_backfill_member_status.sql 適用済み（orphan 解消済み）
+-- 前提: 0025_backfill_member_status.sql 適用済み（orphan 解消済み）
 
 PRAGMA foreign_keys = OFF;  -- 再構築中は一時 OFF（移行後に ON で検証）
 
@@ -199,7 +199,7 @@ binding 経由でこの pragma を尊重するか（接続単位での ON 要否
 | --------------------------------------------------------- | ----------------------------------------------------------------- |
 | `apps/api/migrations/0002_admin_managed.sql`              | 現行 `member_status` テーブル定義（FK 不在 / DEFAULT 値の正本）    |
 | `apps/api/migrations/0001_init.sql`                       | `member_identities` 定義（FK 参照先 `member_id` PRIMARY KEY）      |
-| `apps/api/migrations/0024_backfill_member_status.sql`     | orphan backfill（本 FK 導入の前提・適用順序の依存元）             |
+| `apps/api/migrations/0025_backfill_member_status.sql`     | orphan backfill（本 FK 導入の前提・適用順序の依存元）             |
 | `apps/api/migrations/00xx_member_status_fk_constraint.sql`| 新規: FK 付きテーブル再構築 migration（本タスク成果物）           |
 | `apps/api/vitest.d1.config.ts`                            | migration / repository の D1 contract test 設定                   |
 | `docs/30-workflows/completed-tasks/admin-member-detail-status-404-fix/`   | 親ワークフロー（根本原因・採用方針・backfill 0024 の文脈）         |
@@ -227,7 +227,7 @@ binding 経由でこの pragma を尊重するか（接続単位での ON 要否
 - `docs/30-workflows/completed-tasks/admin-member-detail-status-404-fix/phase-10.md`（§10.3 MINOR: MINOR-FUT-2）
 - `apps/api/migrations/0002_admin_managed.sql`（`member_status` 現行定義・DEFAULT 値）
 - `apps/api/migrations/0001_init.sql`（`member_identities` 定義・FK 参照先）
-- `apps/api/migrations/0024_backfill_member_status.sql`（前提となる backfill）
+- `apps/api/migrations/0025_backfill_member_status.sql`（前提となる backfill）
 - `docs/00-getting-started-manual/specs/08-free-database.md`（D1 構成・無料構成）
 
 ### 責務境界（関連 followup）

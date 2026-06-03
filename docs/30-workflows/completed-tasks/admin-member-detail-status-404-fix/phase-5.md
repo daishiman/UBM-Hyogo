@@ -35,7 +35,7 @@ Phase 2 の確定契約に従い、F-1〜F-5 を最小差分で実装し Phase 4
 | F-2 | `apps/api/src/repository/_shared/builder.ts` | 編集 | `buildAdminMemberDetailView` を耐性化（404 は identity 不在のみ・degraded view） |
 | F-3 | `apps/api/src/routes/admin/member-status.ts` | 編集 | 404 判定を identity 存在へ・mutation 前 `ensureMemberStatusRow` |
 | F-4 | `apps/api/src/jobs/sync-forms-responses.ts` | 編集 | 新規 identity 作成直後に `ensureMemberStatusRow` |
-| F-5 | `apps/api/migrations/0024_backfill_member_status.sql` | 新規 | orphan backfill（`INSERT OR IGNORE ... SELECT`） |
+| F-5 | `apps/api/migrations/0025_backfill_member_status.sql` | 新規 | orphan backfill（`INSERT OR IGNORE ... SELECT`） |
 | 補 | `apps/api/src/jobs/__fixtures__/d1-fake.ts` | 編集 | `INSERT OR IGNORE INTO member_status` 分岐追加（AC-5 検証用） |
 | 補 | `apps/api/src/routes/admin/member-status.contract.spec.ts` | 編集 | `beforeEach` で `member_identities` も投入（F-3 後の非回帰維持） |
 
@@ -201,12 +201,12 @@ const after = await getStatus(db, mid);
 - 挿入位置は新規 identity 経路のみ（既存 identity は既に行を持つ前提だが、§6 の consent 経路 `setConsentSnapshot` が ON CONFLICT で補完するため二重保証）。
 - 既存 `setConsentSnapshot`（:385）は維持。順序は `upsertMember → ensureMemberStatusRow → upsertResponse → ... → setConsentSnapshot`。
 
-### 5.6 F-5: `0024_backfill_member_status.sql`（新規）
+### 5.6 F-5: `0025_backfill_member_status.sql`（新規）
 
-ファイル: `apps/api/migrations/0024_backfill_member_status.sql`。
+ファイル: `apps/api/migrations/0025_backfill_member_status.sql`。
 
 ```sql
--- 0024_backfill_member_status.sql
+-- 0025_backfill_member_status.sql
 -- orphan member_identities（member_status 行が無い会員）に既定 member_status 行を補完する。
 -- NOT NULL カラムは全て DEFAULT を持つため member_id のみで安全（0002_admin_managed.sql）。
 -- INSERT OR IGNORE により再適用・部分適用後でも冪等（重複・上書きなし）。

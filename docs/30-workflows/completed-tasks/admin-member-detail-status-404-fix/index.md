@@ -81,7 +81,7 @@ staging（`ubm-hyogo-web-staging.daishimanju.workers.dev`）の admin 会員管�
 | F-2 | 耐性化（詳細） | `buildAdminMemberDetailView`: `if (!identity) return null` のみ残し、`status` 欠落は既定 status で代替、`response` 欠落は劣化 view（profile.summary 空 / sections []、responseId は `current_response_id ?? member_id` フォールバック）を返す | `apps/api/src/repository/_shared/builder.ts`（編集） |
 | F-3 | 耐性化（status PATCH） | 404 判定を「`member_status` 行有無」から「`member_identities` 行有無」へ変更。mutation 前に `ensureMemberStatusRow` で既定行を保証（`hiddenReason` のみ更新時も行が無い問題を解消）。`setPublishState` は既存 `INSERT ... ON CONFLICT` を維持 | `apps/api/src/routes/admin/member-status.ts`（編集） |
 | F-4 | 予防（ingest） | 新規 identity 作成時に `ensureMemberStatusRow` を必ず呼び、orphan 再発を防止 | `apps/api/src/jobs/sync-forms-responses.ts`（編集） |
-| F-5 | backfill（既存修復） | `0024_backfill_member_status.sql`: orphan な `member_identities` に既定 `member_status` 行を INSERT OR IGNORE | `apps/api/migrations/0024_backfill_member_status.sql`（新規） |
+| F-5 | backfill（既存修復） | `0025_backfill_member_status.sql`: orphan な `member_identities` に既定 `member_status` 行を INSERT OR IGNORE | `apps/api/migrations/0025_backfill_member_status.sql`（新規） |
 | F-6 | 回帰テスト | repo / builder / route / job / migration の回帰テスト | `apps/api/src/**/__tests__/*.spec.ts`（新規・編集） |
 
 > **不変条件の遵守**: 既存 endpoint surface（`/admin/members/:memberId`, `/admin/members/:memberId/status`）は変更しない。`apps/web` から D1 への直接アクセスは行わない（不変条件 #5）。挙動是正のみ。

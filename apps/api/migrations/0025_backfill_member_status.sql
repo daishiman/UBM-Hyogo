@@ -1,4 +1,4 @@
--- 0024_backfill_member_status.sql
+-- 0025_backfill_member_status.sql
 -- Backfill default member_status rows for identities created without the
 -- admin-managed status companion row.
 

@@ -43,7 +43,7 @@ mise exec -- pnpm exec vitest run --root=. --config=vitest.config.ts \
 # D1 binding 必須（vitest.d1.config.ts）
 mise exec -- pnpm exec vitest run --config=apps/api/vitest.d1.config.ts \
   apps/api/src/repository/__tests__/status.repository.spec.ts \
-  apps/api/migrations/__tests__/0024_backfill_member_status.spec.ts
+  apps/api/migrations/__tests__/0025_backfill_member_status.spec.ts
 ```
 
 > spec パス・config の正確な所在は Phase 4 で確定したものに従う（builder.repository.spec が D1 binding を要する場合は D1 config 側へ移す）。`builder.repository.spec` は名称が `*.repository.spec` のため D1 config 側で実行する可能性があり、Phase 4 の config 判定を正本とする。

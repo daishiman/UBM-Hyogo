@@ -29,7 +29,7 @@
 | F-2 builder degraded view（builder.ts） | **implemented_local** | status / current_response 欠落で 200 degraded view |
 | F-3 route 404 境界変更（member-status.ts） | **implemented_local** | 404 は identity 不在のみ。欠落 status は ensure |
 | F-4 ingest 予防（sync-forms-responses.ts） | **implemented_local** | 新規 identity 作成時に status 既定行を保証 |
-| F-5 migration 0024（0024_backfill_member_status.sql） | **implemented_local** | orphan status backfill SQL 追加 |
+| F-5 migration 0024（0025_backfill_member_status.sql） | **implemented_local** | orphan status backfill SQL 追加 |
 | 自動テスト（5 spec + FakeD1 / beforeEach 改修） | **PASS** | D1 focused 5 files / 67 tests PASS |
 | Phase 11 evidence（manual-test-result.md の PASS 件数） | **present** | typecheck / lint / focused vitest / apps-web diff 0 |
 

@@ -32,7 +32,7 @@ Phase 5-7 で GREEN 化した実装を、外部から観測可能な挙動（HTT
 |------|------|------|
 | helper 関数名 | 既存 `getStatus` / `setPublishState` / `setConsentSnapshot`（動詞 + 対象, camelCase）に整合 | `ensureMemberStatusRow`（動詞 ensure + 対象 MemberStatusRow）で一貫 |
 | 既定値関数名 | 純関数・副作用なしであることを名前で表現 | `defaultMemberStatusRow`（名詞句・取得系）で副作用関数 `ensure*` と明確に区別 |
-| migration 名 | `NNNN_snake_case.sql` 4 桁連番 | `0024_backfill_member_status.sql`（直近 `0023_member_photos_source.sql` の次） |
+| migration 名 | `NNNN_snake_case.sql` 4 桁連番 | `0025_backfill_member_status.sql`（直近 `0023_member_photos_source.sql` の次） |
 | builder | 新規関数を増やさず `buildAdminMemberDetailView` を拡張 | 関数名・引数 unchanged（§8.4） |
 
 ### 8.3 navigation drift / 参照整合

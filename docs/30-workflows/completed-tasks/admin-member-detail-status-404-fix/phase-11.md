@@ -34,7 +34,7 @@ NON_VISUAL bugfix の正しさを、視覚的証跡ではなく自動テスト�
 | `member-status.route.spec`（status 欠落 → PATCH / unknown id） | AC-3 / AC-4 | status 欠落で PATCH 成功・行生成・反映 / identity 不在で 404 | present |
 | `status.repository.spec`（`ensureMemberStatusRow`） | AC-1/3/5 基盤 | 冪等（再実行で重複なし）・既定値生成 | present |
 | `sync-forms-responses.spec`（ingest） | AC-5 | 新規 identity で member_status 既定行が必ず存在 | present |
-| `0024_backfill_member_status.spec`（migration / D1 config） | AC-6 | orphan 全件補完・再適用冪等 | present |
+| `0025_backfill_member_status.spec`（migration / D1 config） | AC-6 | orphan 全件補完・再適用冪等 | present |
 | 既存 spec 群（正常会員） | AC-7 | 詳細 / status / 一覧の非回帰 | present |
 
 > 件数・spec パスの実行記録（PASS/FAIL 件数）は `outputs/phase-11/manual-test-result.md` に集約済み。

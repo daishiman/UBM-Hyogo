@@ -35,7 +35,7 @@ canonical 9 headings（`.claude/skills/task-specification-creator/references/pha
 | docs（Phase 12 成果物） | `outputs/phase-12/` 配下 6 ファイル（本ファイル含む） | §5 strict 7 inventory |
 | docs（Phase 11 証跡） | `outputs/phase-11/manual-test-result.md` | NON_VISUAL 証跡記録 |
 | docs（metadata） | `artifacts.json`（root / outputs・byte-identical parity） | gate metadata |
-| apps コード | F-1 `apps/api/src/repository/status.ts` / F-2 `apps/api/src/repository/_shared/builder.ts` / F-3 `apps/api/src/routes/admin/member-status.ts` / F-4 `apps/api/src/jobs/sync-forms-responses.ts` / F-5 `apps/api/migrations/0024_backfill_member_status.sql` + focused specs/fixture/config | local implementation completed |
+| apps コード | F-1 `apps/api/src/repository/status.ts` / F-2 `apps/api/src/repository/_shared/builder.ts` / F-3 `apps/api/src/routes/admin/member-status.ts` / F-4 `apps/api/src/jobs/sync-forms-responses.ts` / F-5 `apps/api/migrations/0025_backfill_member_status.sql` + focused specs/fixture/config | local implementation completed |
 | out-of-scope | endpoint surface 追加 / D1 schema 変更 / Google Form schema 変更 / apps/web 変更 | 不変条件・AC-8 |
 
 ## 3. `workflow_state` and phase status consistency
@@ -114,7 +114,7 @@ archive / delete 対象なし。close-out で本 workflow root を `docs/30-work
 | workflow root relocate（non-completed → completed-tasks） | move | 旧パス参照を全 surface で completed-tasks へ補正（STALE 0） |
 | 既存ファイルの削除 | delete | なし（新規追加のみ） |
 
-F-5 で `apps/api/migrations/0024_backfill_member_status.sql` を新規追加し、既存 migration の削除はない。
+F-5 で `apps/api/migrations/0025_backfill_member_status.sql` を新規追加し、既存 migration の削除はない。
 
 ## 9. Four-condition verdict
 

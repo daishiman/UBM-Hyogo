@@ -129,7 +129,7 @@ PATCH /admin/members/:memberId/status:
 ### 2.7 migration 0024（backfill）
 
 ```sql
--- apps/api/migrations/0024_backfill_member_status.sql
+-- apps/api/migrations/0025_backfill_member_status.sql
 -- orphan member_identities（member_status 行が無い会員）に既定 member_status を補完。冪等。
 INSERT OR IGNORE INTO member_status (member_id)
 SELECT mi.member_id

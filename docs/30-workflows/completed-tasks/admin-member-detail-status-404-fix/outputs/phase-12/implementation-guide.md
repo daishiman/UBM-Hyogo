@@ -111,10 +111,10 @@ await ensureMemberStatusRow(dbCtx, memberId);   // identity と同期で既定 m
 - 既存 `setConsentSnapshot`（`:385`・`INSERT ... ON CONFLICT`）は維持。ensure と二重保証。
 - FakeD1 fixture（`apps/api/src/jobs/__fixtures__/d1-fake.ts`）に `INSERT OR IGNORE INTO member_status` 分岐を追加する（AC-5 検証用）。
 
-### 2.6 F-5: migration 0024 DDL 全文（`apps/api/migrations/0024_backfill_member_status.sql`・新規）
+### 2.6 F-5: migration 0024 DDL 全文（`apps/api/migrations/0025_backfill_member_status.sql`・新規）
 
 ```sql
--- 0024_backfill_member_status.sql
+-- 0025_backfill_member_status.sql
 -- orphan member_identities（member_status 行が無い会員）に既定 member_status 行を補完する。
 -- NOT NULL カラムは全て DEFAULT を持つため member_id のみで安全（0002_admin_managed.sql）。
 -- INSERT OR IGNORE により再適用・部分適用後でも冪等（重複・上書きなし）。

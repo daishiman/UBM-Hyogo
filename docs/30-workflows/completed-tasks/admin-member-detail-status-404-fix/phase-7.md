@@ -29,7 +29,7 @@
 | 同上 | degraded 分岐内 `fallbackResponseId`（current_response_id 非空 / 空文字 → member_id）の両側 | 4.2 response 欠落（非空側）/ 6.3 `current_response_id=""`（空文字側） |
 | `apps/api/src/routes/admin/member-status.ts` | `if (!identity) return 404`（両側）/ `ensureMemberStatusRow` 呼出行 / `publishState !== undefined` 分岐 / `hiddenReason !== undefined` 分岐 | 4.3 identity 不在 404（true 側）+ 4.3 status 欠落成功（false 側）/ 6.3 hiddenReason のみ（hiddenReason 側）/ 6.2 publishState 更新（publishState 側） |
 | `apps/api/src/jobs/sync-forms-responses.ts` | 新規 identity ブロック内 `ensureMemberStatusRow` 呼出行（line） | 4.4 / 6.4 新規 identity で行生成 |
-| `apps/api/migrations/0024_backfill_member_status.sql` | backfill SQL の実行（orphan あり / 0 件 / 再適用） | 4.5 backfill + 冪等 / 6.3 orphan 0 件 / identity 0 件 |
+| `apps/api/migrations/0025_backfill_member_status.sql` | backfill SQL の実行（orphan あり / 0 件 / 再適用） | 4.5 backfill + 冪等 / 6.3 orphan 0 件 / identity 0 件 |
 
 ### 7.2 ブランチ網羅チェックリスト（未到達ブランチが無いことの確認）
 

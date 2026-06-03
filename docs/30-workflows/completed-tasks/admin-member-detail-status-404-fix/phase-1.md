@@ -53,7 +53,7 @@ admin 会員管理の `GET /admin/members/:memberId` / `PATCH /admin/members/:me
 |------|---------|------|
 | repo 関数 | `getStatus` / `setPublishState` / `setConsentSnapshot` / `setDeleted`（camelCase, `status.ts`） | `ensureMemberStatusRow`（camelCase・動詞 + 対象） |
 | repo SQL | `INSERT ... ON CONFLICT(member_id) DO UPDATE`（status.ts 既存） | `INSERT OR IGNORE INTO member_status (member_id) VALUES (?1)`（冪等・既定行生成） |
-| migration | `NNNN_snake_case.sql`（4 桁連番） | `0024_backfill_member_status.sql` |
+| migration | `NNNN_snake_case.sql`（4 桁連番） | `0025_backfill_member_status.sql` |
 | builder | `buildAdminMemberDetailView`（PascalView, `_shared/builder.ts`） | 既存関数を拡張（新規関数を増やさない） |
 | 既存判定関数 | `findMemberById`（`members.ts:29`） | 詳細/status の存在判定に再利用（新規 exists 関数は最小限） |
 
@@ -67,7 +67,7 @@ admin 会員管理の `GET /admin/members/:memberId` / `PATCH /admin/members/:me
 | `apps/api/src/repository/_shared/builder.ts` | 編集 | `buildAdminMemberDetailView`: `if (!identity) return null` のみ残し、status 欠落→既定値、response 欠落→劣化 view |
 | `apps/api/src/routes/admin/member-status.ts` | 編集 | 404 判定を `member_identities` 存在へ変更。mutation 前に `ensureMemberStatusRow` |
 | `apps/api/src/jobs/sync-forms-responses.ts` | 編集 | 新規 identity 作成直後に `ensureMemberStatusRow` を呼ぶ（予防） |
-| `apps/api/migrations/0024_backfill_member_status.sql` | 新規 | orphan `member_identities` に既定 `member_status` 行を `INSERT OR IGNORE` |
+| `apps/api/migrations/0025_backfill_member_status.sql` | 新規 | orphan `member_identities` に既定 `member_status` 行を `INSERT OR IGNORE` |
 
 #### tests（回帰）
 
@@ -77,7 +77,7 @@ admin 会員管理の `GET /admin/members/:memberId` / `PATCH /admin/members/:me
 | `apps/api/src/repository/__tests__/builder.repository.spec.ts` | 編集 | status 欠落 / response 欠落で 200 劣化 view（null でない） |
 | `apps/api/src/routes/admin/__tests__/member-status.*.spec.ts` | 編集/新規 | status 欠落で PATCH 成功・行生成 / identity 不存在で 404 |
 | `apps/api/src/jobs/__tests__/sync-forms-responses.*.spec.ts` | 編集/新規 | 新規 identity で member_status 生成 |
-| `apps/api/migrations/__tests__/0024_backfill_member_status.spec.ts`（または migration test 慣例に従う） | 新規 | backfill が orphan を埋め冪等 |
+| `apps/api/migrations/__tests__/0025_backfill_member_status.spec.ts`（または migration test 慣例に従う） | 新規 | backfill が orphan を埋め冪等 |
 
 > **[FB-MSO-002]** repository / migration テストは D1 binding が必要（`vitest.d1.config.ts`）。unit config（`vitest.config.ts`）は repository spec を exclude する慣例のため、対象 spec の config を Phase 4 で明示する。
 

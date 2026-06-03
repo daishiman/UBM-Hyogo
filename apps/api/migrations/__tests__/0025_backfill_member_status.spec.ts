@@ -1,18 +1,21 @@
 // @vitest-environment node
 import { readFileSync } from "node:fs";
-import { join } from "node:path";
+import { dirname, join } from "node:path";
+import { fileURLToPath } from "node:url";
 import { describe, expect, it } from "vitest";
 import { setupD1 } from "../../src/repository/__tests__/_setup";
 
+// cwd に依存せずテストファイル基準で解決する（api-unit シャードは cwd=apps/api で
+// 走るため process.cwd() 起点だとパスが二重化して ENOENT になる）
 const migrationSql = readFileSync(
-  join(process.cwd(), "apps/api/migrations/0024_backfill_member_status.sql"),
+  join(dirname(fileURLToPath(import.meta.url)), "..", "0025_backfill_member_status.sql"),
   "utf8",
 )
   .replace(/^--.*$/gm, "")
   .replace(/\s+/g, " ")
   .trim();
 
-describe("0024_backfill_member_status", () => {
+describe("0025_backfill_member_status", () => {
   it("member_identities に対する orphan member_status を既定値で backfill し冪等", async () => {
     const env = await setupD1();
     await env.db

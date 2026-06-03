@@ -88,7 +88,7 @@ Phase 1 の AC-1〜AC-7 を、実装前に必ず失敗（RED）する具体的�
 | `orphan な member_identities 全件に member_status 行が生成される` | `setupD1()` 後、`member_identities` に 3 件（`a`,`b`,`c`）を INSERT、`member_status` には `a` のみ INSERT。その後 0024 の backfill SQL 全文を `db.exec` で再実行 | `SELECT COUNT(*) FROM member_status` が 3、`b`/`c` 行が存在し `publish_state === "member_only"`・`a` 行は元の値のまま（AC-6） |
 | `再適用しても重複しない（冪等）` | 上記の後、同じ backfill SQL を再度実行 | `SELECT COUNT(*) FROM member_status` が 3 のまま（INSERT OR IGNORE で重複なし）（AC-6 冪等） |
 
-> 検証手法: backfill SQL 本文は migration ファイル `apps/api/migrations/0024_backfill_member_status.sql` から読み込むか、spec 内に同一 SQL 文字列定数として保持して `db.exec` で実行する（`_setup.ts` の migration loader が同 SQL を適用する経路と等価）。`setupD1()` は instance 再利用 + truncate 方式のため、テスト内で `member_identities`/`member_status` を明示 INSERT してから backfill を再実行して観測する。
+> 検証手法: backfill SQL 本文は migration ファイル `apps/api/migrations/0025_backfill_member_status.sql` から読み込むか、spec 内に同一 SQL 文字列定数として保持して `db.exec` で実行する（`_setup.ts` の migration loader が同 SQL を適用する経路と等価）。`setupD1()` は instance 再利用 + truncate 方式のため、テスト内で `member_identities`/`member_status` を明示 INSERT してから backfill を再実行して観測する。
 >
 > RED 根拠: 0024 migration は Phase 5 まで存在しないため、`setupD1()` は 0024 を適用せず、spec 内で backfill SQL 定数を実行しても **0024 ファイルが無いと spec の SQL 定数も未定義**となり、`a` のみで `b`/`c` が埋まらず COUNT が 1 のまま → 期待 3 で RED。
 

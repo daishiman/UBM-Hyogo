@@ -24,7 +24,7 @@
 | `member-status.contract.spec`（status 欠落 PATCH / unknown id） | `vitest.d1.config.ts` | AC-3 / AC-4 | 5 | 0 | 0 | present |
 | `status.repository.spec`（`ensureMemberStatusRow` 冪等・既定値） | `vitest.d1.config.ts` | AC-1/3/5 基盤 | 8 | 0 | 0 | present |
 | `sync-forms-responses.contract.spec`（ingest 予防） | `vitest.d1.config.ts` | AC-5 / AC-7 | 20 | 0 | 0 | present |
-| `0024_backfill_member_status.spec`（migration backfill 冪等） | `vitest.d1.config.ts` | AC-6 | 1 | 0 | 0 | present |
+| `0025_backfill_member_status.spec`（migration backfill 冪等） | `vitest.d1.config.ts` | AC-6 | 1 | 0 | 0 | present |
 | focused total | `vitest.d1.config.ts` | AC-1〜AC-7 | 67 | 0 | 0 | present |
 
 ## 2. source-level PASS と環境ブロッカー（別カテゴリ記録・WEEKGRD-01）
@@ -45,7 +45,7 @@
 | AC-3（status 欠落でも PATCH 成功） | `member-status.route.spec` / `status.repository.spec` | 確認 B（公開トグル成功） |
 | AC-4（identity 不在は 404） | `member-status.route.spec`（unknown id） | 確認 A（存在しない id で 404 維持） |
 | AC-5（ingest 予防） | `sync-forms-responses.spec` | — |
-| AC-6（migration 冪等 backfill） | `0024_backfill_member_status.spec` | apply 後 orphan 0 を D1 で確認 |
+| AC-6（migration 冪等 backfill） | `0025_backfill_member_status.spec` | apply 後 orphan 0 を D1 で確認 |
 | AC-7（非回帰） | 既存 spec 群全 PASS | 確認 C（正常会員 従来どおり） |
 | AC-8（apps/web diff 0） | `git diff --name-only dev...HEAD \| grep '^apps/web/'`（Phase 9 §9.3） | — |
 
