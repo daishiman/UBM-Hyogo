@@ -54,6 +54,8 @@ describe("sidebar shell route topology", () => {
     expect(source).toContain("role 別件数: viewer 3 / member 4 / admin 14");
     expect(source).toContain("| ADMIN | 出席分析 | `/admin/dashboard/attendance` | admin |");
     expect(source).toContain("| ADMIN | 開催日 | `/admin/meetings` | admin |");
-    expect(source).toContain("| ADMIN | Form回答 | `FORM_RESPONSES_EDIT_URL` | admin（外部リンク） |");
+    expect(source).toContain(
+      "| ADMIN | Form回答 | `FORM_RESPONSES_EDIT_URL`（Google Form edit URL） | admin（外部リンク） |",
+    );
   });
 });
