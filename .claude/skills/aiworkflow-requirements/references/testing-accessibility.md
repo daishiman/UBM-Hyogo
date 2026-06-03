@@ -209,6 +209,27 @@ describe("スクリーンリーダー非表示", () => {
 });
 ```
 
+#### 落とし穴: sr-only ラベルが E2E `getByText` 非 exact ロケータを破壊する
+
+`sr-only` ラベルは DOM テキストとして実在し読み上げ対象になる（上記の通り正しい a11y 実装）が、その**テキストが既存の E2E ロケータの検索語を部分文字列として含む**と、Playwright の strict-mode で複数要素マッチになりテストが落ちる。
+
+```typescript
+// ❌ sr-only「出席を記録・編集」が追加された後、これが <summary>編集</summary> と
+//    sr-only span の 2 要素にマッチして strict mode violation
+await listSession(sessionId).getByText('編集').click()
+// strict mode violation: ... resolved to 2 elements:
+//   1) <span class="sr-only">出席を記録・編集</span>  ← 部分一致
+//   2) <summary>編集</summary>                          ← 本来の対象
+
+// ✅ exact: true で完全一致のみへ限定（Playwright のエラーメッセージも `aka getByText('編集', { exact: true })` を提示）
+await listSession(sessionId).getByText('編集', { exact: true }).click()
+```
+
+適用指針:
+- a11y 改善（アイコンのみボタンへ `sr-only` ラベル付与等）を加える PR は、**既存 E2E の `getByText(短い語)` 非 exact ロケータが部分一致で壊れないか**を必ず確認する。a11y 追加自体は正しく、修正は E2E ロケータ側に入れる（`{ exact: true }` または `getByRole`/`data-testid` での明示指定）。
+- この破壊は jsdom unit test では再現せず（`screen.getByText` も同じ曖昧性を持つが単一 render では衝突しにくい）、**Playwright smoke の strict-mode でのみ顕在化**する。sync-merge で a11y 改善 branch と E2E 既存資産が合流した回に CI で初めて発覚しうる。
+- 検証実例: 2026-06-03 `docs/admin-meetings-attendance-404-and-ia-spec`（PR #1115）で `MeetingTimeline` 見出しボタンへ `sr-only`「出席を記録・編集」を追加した結果、`AdminMeetingsPage.openDeleteMeetingDialog` の `getByText('編集')` が `playwright-smoke / smoke (chromium)` で strict-mode 違反。`{ exact: true }` 1 行で解消。
+
 ---
 
 ## 4. 色とコントラスト
