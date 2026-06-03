@@ -1,0 +1,12 @@
+Command:
+pnpm exec vitest run --root=. --config=vitest.config.ts 'apps/web/app/api/admin/[...path]/route.spec.ts' apps/web/src/features/admin/components/_meetings/__tests__/MeetingTimeline.spec.tsx apps/web/src/features/admin/components/_meetings/__tests__/MeetingAttendanceDrawer.spec.tsx apps/web/src/features/admin/components/_meetings/__tests__/MeetingsClientShell.spec.tsx
+
+Result:
+Test Files  4 passed (4)
+Tests       15 passed (15)
+
+Files:
+- apps/web/app/api/admin/[...path]/route.spec.ts: 6 tests passed
+- apps/web/src/features/admin/components/_meetings/__tests__/MeetingTimeline.spec.tsx: 6 tests passed
+- apps/web/src/features/admin/components/_meetings/__tests__/MeetingAttendanceDrawer.spec.tsx: 2 tests passed
+- apps/web/src/features/admin/components/_meetings/__tests__/MeetingsClientShell.spec.tsx: 1 test passed

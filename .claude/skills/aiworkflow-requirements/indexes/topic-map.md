@@ -2169,6 +2169,12 @@ node scripts/list-specs.js --topics
 | Follow-up | L52 |
 | Lessons Learned | L56 |
 
+### references/workflow-admin-meetings-attendance-404-fix-and-ux-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Notes | L13 |
+
 ### references/workflow-admin-meetings-prototype-alignment-artifact-inventory.md
 
 | セクション | 行 |
@@ -8428,15 +8434,15 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L3456 |
-| フェーズ構造（概要） | L3465 |
-| 品質ゲート（概要） | L3496 |
-| 出力テンプレート | L3507 |
-| 実行時のコマンド・エージェント・スキル | L3530 |
-| 昇格パターン集 | L3554 |
-| Current Active / Spec Created Tasks | L3556 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L3722 |
-| issue-998-members-publish-state-production-rollout | L3800 |
+| ドキュメント構成 | L3469 |
+| フェーズ構造（概要） | L3478 |
+| 品質ゲート（概要） | L3509 |
+| 出力テンプレート | L3520 |
+| 実行時のコマンド・エージェント・スキル | L3543 |
+| 昇格パターン集 | L3567 |
+| Current Active / Spec Created Tasks | L3569 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L3735 |
+| issue-998-members-publish-state-production-rollout | L3813 |
 
 ### references/task-workflow-backlog-part2.md
 
