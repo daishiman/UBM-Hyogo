@@ -71,6 +71,9 @@ export class AdminMeetingsPage extends BasePage {
 
   async openDeleteMeetingDialog(sessionId: string): Promise<void> {
     await this.expandSession(sessionId)
+    // exact: true 必須。見出しボタンの sr-only ラベル「出席を記録・編集」が
+    // 「編集」を部分一致で含むため、非 exact だと <summary>編集</summary> と
+    // 2 要素にマッチし strict-mode violation になる。
     await this.listSession(sessionId).getByText('編集', { exact: true }).click()
     await this.listSession(sessionId).getByRole('button', { name: '開催日を削除' }).click()
     await expect(this.page.getByRole('dialog')).toContainText('この開催日を削除しますか？')
