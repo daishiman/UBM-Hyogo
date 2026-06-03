@@ -1231,6 +1231,7 @@ node scripts/list-specs.js --topics
 | Wave 0 UI primitives baseline（2026-04-26） | L22 |
 | task-10 UI primitives integration contract（2026-05-09） | L32 |
 | task-10 follow-up 002 runtime visual + axe evidence（2026-05-11） | L46 |
+| IME-safe input pattern（2026-06-02） | L54 |
 
 ### references/ui-ux-design-principles-core.md
 
@@ -2133,6 +2134,17 @@ node scripts/list-specs.js --topics
 | Artifacts | L13 |
 | Boundary | L31 |
 
+### references/workflow-admin-attendance-dashboard-ux-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Summary | L5 |
+| Workflow Artifacts | L9 |
+| Implementation Targets | L20 |
+| Evidence Boundary | L29 |
+| System Boundary | L40 |
+| Lessons Learned | L44 |
+
 ### references/workflow-admin-audit-prototype-alignment-artifact-inventory.md
 
 | セクション | 行 |
@@ -2184,6 +2196,17 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | Boundary | L16 |
+
+### references/workflow-admin-member-detail-status-404-fix-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Metadata | L3 |
+| Implementation Targets | L12 |
+| Workflow Artifacts | L23 |
+| Evidence | L33 |
+| User-Gated | L42 |
+| Lessons Learned | L46 |
 
 ### references/workflow-admin-requests-prototype-alignment-and-404-fix-artifact-inventory.md
 
@@ -3694,6 +3717,13 @@ node scripts/list-specs.js --topics
 | Lessons Learned | L34 |
 | User-Gated Items | L48 |
 
+### references/workflow-japanese-ime-input-composition-search-fix-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Contract | L13 |
+| Lessons Learned | L20 |
+
 ### references/workflow-light-theme-contrast-regression-guard.md
 
 | セクション | 行 |
@@ -3898,6 +3928,17 @@ node scripts/list-specs.js --topics
 |------------|----|
 | Boundary | L19 |
 
+### references/workflow-profile-reload-session-404-fix-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Canonical | L3 |
+| State | L13 |
+| Implemented Local Targets | L17 |
+| Tests | L25 |
+| Verification Boundary | L33 |
+| Notes | L42 |
+
 ### references/workflow-profile-server-components-render-error-artifact-inventory.md
 
 | セクション | 行 |
@@ -3951,6 +3992,17 @@ node scripts/list-specs.js --topics
 |------------|----|
 | Primary files | L11 |
 | Evidence | L22 |
+
+### references/workflow-sidebar-footer-pinning-and-account-popover-ux-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Purpose | L12 |
+| Implementation Artifacts | L23 |
+| Workflow Artifacts | L36 |
+| Evidence | L48 |
+| Invariants | L57 |
+| Lessons Learned | L65 |
 
 ### references/workflow-sidebar-visibility-conditional-and-ux-artifact-inventory.md
 
@@ -6813,6 +6865,14 @@ node scripts/list-specs.js --topics
 | 同様の課題を将来簡潔に解決するための知見 | L25 |
 | 関連リンク | L35 |
 
+### references/lessons-learned-japanese-ime-input-composition-search-fix-2026-06.md
+
+| セクション | 行 |
+|------------|----|
+| L-IME-001: URL 正本検索は IME composition 中の commit を止める | L3 |
+| L-IME-002: Clear ownership is one field, one control | L9 |
+| L-IME-003: IME regression tests need fake timers and composition events | L15 |
+
 ### references/lessons-learned-lefthook-mwr-runbook-2026-04.md
 
 | セクション | 行 |
@@ -7429,8 +7489,8 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 概要 | L3 |
 | 仕様書インデックス | L7 |
-| 利用順序 | L125 |
-| 関連ドキュメント | L130 |
+| 利用順序 | L126 |
+| 関連ドキュメント | L131 |
 
 ### references/llm-embedding.md
 
@@ -8567,15 +8627,15 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L3589 |
-| フェーズ構造（概要） | L3598 |
-| 品質ゲート（概要） | L3629 |
-| 出力テンプレート | L3640 |
-| 実行時のコマンド・エージェント・スキル | L3663 |
-| 昇格パターン集 | L3687 |
-| Current Active / Spec Created Tasks | L3689 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L3855 |
-| issue-998-members-publish-state-production-rollout | L3933 |
+| ドキュメント構成 | L3656 |
+| フェーズ構造（概要） | L3665 |
+| 品質ゲート（概要） | L3696 |
+| 出力テンプレート | L3707 |
+| 実行時のコマンド・エージェント・スキル | L3730 |
+| 昇格パターン集 | L3754 |
+| Current Active / Spec Created Tasks | L3756 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L3922 |
+| issue-998-members-publish-state-production-rollout | L4000 |
 
 ### references/task-workflow-backlog-part2.md
 

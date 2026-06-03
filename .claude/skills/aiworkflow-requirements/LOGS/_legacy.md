@@ -1221,3 +1221,9 @@ production env monitor secret cleanup は user-gated。
 # 2026-06-01
 
 - `task-b-manual-form-resync-admin-ui-spec` を standalone Task B 正本仕様として同期。Phase 11 local evidence bundle / Phase 12 strict 7 / aiworkflow indexes / artifact inventory を追加し、runtime visual と `SYNC_ADMIN_TOKEN` 投入は user-gated として分離。
+
+# 2026-06-03 profile-reload-session-404-fix
+
+- `docs/30-workflows/profile-reload-session-404-fix/` を `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION` として同期。`/profile` リロード時の `GET /me` 404 生エラーバナーを、T01（apps/api `trailingSlashRedirect()` 308 middleware を securityHeaders/corsFromEnv 後・route mount 前に登録 + フルアプリ・マウント統合テスト `me-route-mount.integration.spec.ts`）/ T02（apps/web `/api/me/[...path]` proxy の空 catch-all path で `/me/` を生成しない URL 組み立て修正）/ T03（`/profile` の `MEMBER_SESSION_404` を再ログイン CTA へ分岐 + `SectionError` の `actionHref`/`actionLabel` optional props 拡張・生 message 非露出）で解消。
+- focused Vitest（API 2 files / 9 tests + web 3 files / 16 tests PASS）、static UI contract screenshot 2 PNG captured、`pnpm typecheck` / `pnpm lint` PASS。`/me` レスポンス shape / D1 schema / Google Form 仕様 / memberId URL 露出は不変、新規 endpoint / primitive / 公開型なし（`SectionError` props は後方互換 optional 追加）。
+- 新規 `lessons-learned-profile-reload-session-404-fix-2026-06.md`（L-PRFR-001..005）/ `references/lessons-learned.md` hub エントリ / `references/workflow-profile-reload-session-404-fix-artifact-inventory.md` / `indexes/{resource-map,quick-reference}.md` / `references/task-workflow-active.md` / `changelog/20260603-profile-reload-session-404-fix.md` / SKILL.md 変更履歴 + SKILL-changelog.md を同一 wave で反映。`indexes/topic-map.md` / `indexes/keywords.json` は `pnpm indexes:rebuild` で後段再生成。task-specification-creator / skill-creator の skill 定義変更は不要（既存パターンで吸収・skill-feedback「緊急改善なし」）。staging authenticated `/profile` screenshot / commit / push / PR は user-gated。

@@ -44,14 +44,6 @@ export function SelectedFiltersBar({
   const resolveTag = (tag: string) =>
     Object.hasOwn(tagLabels, tag) ? tagLabels[tag] : tag;
 
-  if (search.q) {
-    chips.push({
-      key: "q",
-      label: `検索: ${search.q}`,
-      removeLabel: "キーワード絞り込みを解除",
-      onRemove: () => onPatch({ q: "" }),
-    });
-  }
   if (search.zone !== "all" && ZONE_LABELS[search.zone]) {
     chips.push({
       key: "zone",
