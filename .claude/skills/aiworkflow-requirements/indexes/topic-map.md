@@ -2649,6 +2649,14 @@ node scripts/list-specs.js --topics
 | Boundaries | L42 |
 | Lessons Learned | L48 |
 
+### references/workflow-issue-1042-identity-conflicts-dismiss-optimistic-update-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Implementation Summary | L13 |
+| Lessons Learned | L29 |
+| 関連リンク | L41 |
+
 ### references/workflow-issue-106-admin-member-notes-repository-task-spec-artifact-inventory.md
 
 | セクション | 行 |
@@ -8478,15 +8486,15 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L3502 |
-| フェーズ構造（概要） | L3511 |
-| 品質ゲート（概要） | L3542 |
-| 出力テンプレート | L3553 |
-| 実行時のコマンド・エージェント・スキル | L3576 |
-| 昇格パターン集 | L3600 |
-| Current Active / Spec Created Tasks | L3602 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L3768 |
-| issue-998-members-publish-state-production-rollout | L3846 |
+| ドキュメント構成 | L3517 |
+| フェーズ構造（概要） | L3526 |
+| 品質ゲート（概要） | L3557 |
+| 出力テンプレート | L3568 |
+| 実行時のコマンド・エージェント・スキル | L3591 |
+| 昇格パターン集 | L3615 |
+| Current Active / Spec Created Tasks | L3617 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L3783 |
+| issue-998-members-publish-state-production-rollout | L3861 |
 
 ### references/task-workflow-backlog-part2.md
 
