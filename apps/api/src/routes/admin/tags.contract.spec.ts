@@ -44,6 +44,19 @@ const auditCount = async (env: InMemoryD1, action: string): Promise<number> => {
   return row?.n ?? 0;
 };
 
+const latestAudit = async (
+  env: InMemoryD1,
+  action: string,
+): Promise<{ before: string | null; after: string | null } | null> => {
+  const row = await env.db
+    .prepare(
+      "SELECT before_json AS before, after_json AS after FROM audit_log WHERE target_type='tag' AND action=?1 ORDER BY created_at DESC LIMIT 1",
+    )
+    .bind(action)
+    .first<{ before: string | null; after: string | null }>();
+  return row ?? null;
+};
+
 const appWithQueueFirst = () => {
   const app = new Hono();
   app.route("/admin", createAdminTagsQueueRoute());
@@ -227,6 +240,91 @@ describe("admin tag master CRUD contract (issue-1035)", () => {
       .prepare("SELECT COUNT(*) AS n FROM member_tags WHERE tag_id='tag_eng'")
       .first<{ n: number }>();
     expect(memberTags?.n).toBe(1);
+  });
+
+  it("POST /admin/tags/:tagId/reactivate restores inactive tags and audits only state changes", async () => {
+    const app = createAdminTagsRoute();
+
+    const first = await app.request(
+      "/tags/tag_old/reactivate",
+      { method: "POST", headers: await adminAuthHeader() },
+      makeEnv(env),
+    );
+    expect(first.status).toBe(200);
+    expect(await first.json()).toMatchObject({
+      tagId: "tag_old",
+      code: "old",
+      active: true,
+    });
+    expect(await auditCount(env, "admin.tag.reactivated")).toBe(1);
+    const audit = await latestAudit(env, "admin.tag.reactivated");
+    expect(audit?.before).toBe(JSON.stringify({ active: false }));
+    expect(audit?.after).toBe(JSON.stringify({ active: true }));
+
+    const second = await app.request(
+      "/tags/tag_old/reactivate",
+      { method: "POST", headers: await adminAuthHeader() },
+      makeEnv(env),
+    );
+    expect(second.status).toBe(200);
+    expect(await auditCount(env, "admin.tag.reactivated")).toBe(1);
+
+    const missing = await app.request(
+      "/tags/missing/reactivate",
+      { method: "POST", headers: await adminAuthHeader() },
+      makeEnv(env),
+    );
+    expect(missing.status).toBe(404);
+    expect(await missing.json()).toEqual({ ok: false, error: "tag_not_found" });
+  });
+
+  it("DELETE /admin/tags/:tagId/physical refuses references and deletes unreferenced rows", async () => {
+    await env.db
+      .prepare(
+        "INSERT INTO member_tags (member_id, tag_id, source, assigned_by) VALUES ('m1', 'tag_eng', 'manual', 'admin@example.com')",
+      )
+      .run();
+    const app = createAdminTagsRoute();
+
+    const blocked = await app.request(
+      "/tags/tag_eng/physical",
+      { method: "DELETE", headers: await adminAuthHeader() },
+      makeEnv(env),
+    );
+    expect(blocked.status).toBe(409);
+    expect(await blocked.json()).toEqual({
+      ok: false,
+      error: "tag_has_references",
+      referenceCount: 1,
+    });
+    expect(await auditCount(env, "admin.tag.physically_deleted")).toBe(0);
+    const stillThere = await env.db
+      .prepare("SELECT COUNT(*) AS n FROM tag_definitions WHERE tag_id='tag_eng'")
+      .first<{ n: number }>();
+    expect(stillThere?.n).toBe(1);
+
+    const deleted = await app.request(
+      "/tags/tag_old/physical",
+      { method: "DELETE", headers: await adminAuthHeader() },
+      makeEnv(env),
+    );
+    expect(deleted.status).toBe(204);
+    expect(await auditCount(env, "admin.tag.physically_deleted")).toBe(1);
+    const audit = await latestAudit(env, "admin.tag.physically_deleted");
+    expect(audit?.before).toContain("\"tagId\":\"tag_old\"");
+    expect(audit?.after).toBeNull();
+    const gone = await env.db
+      .prepare("SELECT COUNT(*) AS n FROM tag_definitions WHERE tag_id='tag_old'")
+      .first<{ n: number }>();
+    expect(gone?.n).toBe(0);
+
+    const missing = await app.request(
+      "/tags/missing/physical",
+      { method: "DELETE", headers: await adminAuthHeader() },
+      makeEnv(env),
+    );
+    expect(missing.status).toBe(404);
+    expect(await missing.json()).toEqual({ ok: false, error: "tag_not_found" });
   });
 
   it("keeps /admin/tags/queue routed to the queue route when mounted before CRUD", async () => {

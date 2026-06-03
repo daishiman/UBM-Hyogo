@@ -2,10 +2,13 @@
 import { describe, it, expect, beforeEach, vi } from "vitest";
 import { setupD1, type InMemoryD1 } from "./_setup";
 import {
+  countMemberTagReferences,
   createTagDefinition,
   deactivateTagDefinition,
   getTagDefinitionByIdRaw,
   listTagDefinitionsPaged,
+  physicalDeleteTagDefinition,
+  reactivateTagDefinition,
   updateTagDefinition,
 } from "../tagDefinitions";
 
@@ -91,6 +94,58 @@ describe("tagDefinitions write repository (issue-1035)", () => {
       .prepare("SELECT COUNT(*) AS n FROM member_tags WHERE tag_id = 'tag_eng'")
       .first<{ n: number }>();
     expect(memberTags?.n).toBe(1);
+  });
+
+  it("reactivates inactive tags idempotently", async () => {
+    const first = await reactivateTagDefinition(env.ctx, "tag_old");
+    expect(first).toMatchObject({
+      changed: true,
+      row: { tagId: "tag_old", active: true },
+    });
+
+    const second = await reactivateTagDefinition(env.ctx, "tag_old");
+    expect(second).toMatchObject({
+      changed: false,
+      row: { tagId: "tag_old", active: true },
+    });
+    expect(await reactivateTagDefinition(env.ctx, "missing")).toBeNull();
+  });
+
+  it("physically deletes only unreferenced tag definitions and frees code", async () => {
+    await env.db
+      .prepare(
+        "INSERT INTO member_tags (member_id, tag_id, source, assigned_by) VALUES ('m1', 'tag_eng', 'manual', 'admin@example.com')",
+      )
+      .run();
+
+    expect(await countMemberTagReferences(env.ctx, "tag_eng")).toBe(1);
+    const blocked = await physicalDeleteTagDefinition(env.ctx, "tag_eng");
+    expect(blocked).toEqual({
+      ok: false,
+      reason: "has_references",
+      referenceCount: 1,
+    });
+    expect(await getTagDefinitionByIdRaw(env.ctx, "tag_eng")).toMatchObject({
+      tagId: "tag_eng",
+    });
+
+    const deleted = await physicalDeleteTagDefinition(env.ctx, "tag_old");
+    expect(deleted).toEqual({
+      ok: true,
+      row: expect.objectContaining({ tagId: "tag_old", code: "old" }),
+    });
+    expect(await getTagDefinitionByIdRaw(env.ctx, "tag_old")).toBeNull();
+
+    const recreated = await createTagDefinition(env.ctx, {
+      code: "old",
+      label: "Old Again",
+      category: "misc",
+    });
+    expect(recreated).toMatchObject({ ok: true, row: { code: "old" } });
+    expect(await physicalDeleteTagDefinition(env.ctx, "missing")).toEqual({
+      ok: false,
+      reason: "not_found",
+    });
   });
 
   it("lists with pagination, search, inactive rows, and stable total", async () => {

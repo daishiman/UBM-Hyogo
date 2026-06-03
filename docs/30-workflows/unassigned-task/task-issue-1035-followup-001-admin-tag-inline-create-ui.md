@@ -117,7 +117,7 @@ mise exec -- pnpm --filter @ubm-hyogo/web playwright test --project=chromium app
 
 - tag master API の再設計（Issue #1035 で実装済み）
 - tag `code` rename（別タスク `task-issue-1035-followup-002-tag-code-rename-requirements.md`）
-- tag 物理削除 / reactivate（別タスク `task-issue-1035-followup-003-tag-reactivate-physical-delete.md`）
+- tag 物理削除 / reactivate（別タスク `../completed-tasks/task-issue-1035-followup-003-tag-reactivate-physical-delete.md`）
 - staging / production deploy、commit、push、PR 作成
 
 ## 参照

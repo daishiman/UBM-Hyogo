@@ -2665,6 +2665,16 @@ node scripts/list-specs.js --topics
 | Phase 12 Artifacts | L21 |
 | Deferred / Blocked | L32 |
 
+### references/workflow-issue-1070-tag-reactivate-physical-delete-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Summary | L3 |
+| Implementation | L14 |
+| Evidence | L22 |
+| User-Gated | L32 |
+| Lessons Learned | L36 |
+
 ### references/workflow-issue-191-schema-aliases-artifact-inventory.md
 
 | セクション | 行 |
@@ -6189,6 +6199,18 @@ node scripts/list-specs.js --topics
 | L-I106-003: `audit_log` と `admin_member_notes` を同一 DTO として扱わない | L15 |
 | L-I106-004: 候補コマンドは実 repo scripts から再解決する | L21 |
 
+### references/lessons-learned-issue-1070-tag-reactivate-physical-delete-2026-06.md
+
+| セクション | 行 |
+|------------|----|
+| L-I1070-001 DB-FK 不在テーブルへの physical delete は application-level COUNT(*) ガードが唯一の参照防壁 | L5 |
+| L-I1070-002 不可逆 physical delete は「endpoint 実装」と「production mutation」を 2-stage で分離する | L11 |
+| L-I1070-003 lifecycle write は「対称形ペア」で設計すると実現性が上がる | L17 |
+| L-I1070-004 prefix を共有する新 route は静的セグメント優先解決を既存 regression で固定する | L23 |
+| L-I1070-005 physical delete の audit before は「削除前 snapshot」を repository から返す | L29 |
+| L-I1070-006 lessons は references/ 直下に置く（generate-index.js は lessons-learned/ サブdir を scan しない） | L35 |
+| 関連パターン | L41 |
+
 ### references/lessons-learned-issue-191-schema-aliases-2026-04.md
 
 | セクション | 行 |
@@ -8486,15 +8508,15 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L3517 |
-| フェーズ構造（概要） | L3526 |
-| 品質ゲート（概要） | L3557 |
-| 出力テンプレート | L3568 |
-| 実行時のコマンド・エージェント・スキル | L3591 |
-| 昇格パターン集 | L3615 |
-| Current Active / Spec Created Tasks | L3617 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L3783 |
-| issue-998-members-publish-state-production-rollout | L3861 |
+| ドキュメント構成 | L3533 |
+| フェーズ構造（概要） | L3542 |
+| 品質ゲート（概要） | L3573 |
+| 出力テンプレート | L3584 |
+| 実行時のコマンド・エージェント・スキル | L3607 |
+| 昇格パターン集 | L3631 |
+| Current Active / Spec Created Tasks | L3633 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L3799 |
+| issue-998-members-publish-state-production-rollout | L3877 |
 
 ### references/task-workflow-backlog-part2.md
 

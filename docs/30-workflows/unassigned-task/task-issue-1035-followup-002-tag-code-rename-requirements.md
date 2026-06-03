@@ -112,7 +112,7 @@ staging D1 mutation が必要な場合は user approval 後に実行する。事
 ### 含まない
 
 - member drawer inline-create UI（別タスク `task-issue-1035-followup-001-admin-tag-inline-create-ui.md`）
-- tag 物理削除 / reactivate（別タスク `task-issue-1035-followup-003-tag-reactivate-physical-delete.md`）
+- tag 物理削除 / reactivate（別タスク `../completed-tasks/task-issue-1035-followup-003-tag-reactivate-physical-delete.md`）
 - production D1 apply、commit、push、PR 作成
 
 ## 参照

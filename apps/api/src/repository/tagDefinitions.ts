@@ -47,8 +47,9 @@ export async function findByCode(c: DbCtx, code: string): Promise<TagDefinitionR
 
 // 不変条件 #13（2026-06 再々定義 / issue-1035）:
 // tag master (tag_definitions) の write は管理者 tag master CRUD 経路に限定する。
-// create/update/deactivate は /admin/tags から audit 付きで呼び、code は immutable、
-// 論理削除は active=0 とし、member_tags の既存 row は保持する。
+// create/update/deactivate/reactivate/physical delete は /admin/tags から audit 付きで呼ぶ。
+// code は immutable。論理削除は active=0 とし、member_tags の既存 row は保持する。
+// 物理削除は member_tags 参照が 0 件の tag_definitions row にだけ許可する。
 
 export interface CreateTagDefinitionInput {
   code: string;
@@ -151,6 +152,52 @@ export async function deactivateTagDefinition(
   const row = await getTagDefinitionByIdRaw(c, tagId);
   if (!row) throw new Error("deactivated tag definition was not found");
   return { row, changed: (result.meta.changes ?? 0) > 0 };
+}
+
+export async function reactivateTagDefinition(
+  c: DbCtx,
+  tagId: string,
+): Promise<{ row: TagDefinitionRow; changed: boolean } | null> {
+  const current = await getTagDefinitionByIdRaw(c, tagId);
+  if (!current) return null;
+  if (current.active) return { row: current, changed: false };
+
+  const result = await c.db
+    .prepare("UPDATE tag_definitions SET active = 1 WHERE tag_id = ?1 AND active = 0")
+    .bind(tagId)
+    .run();
+  const row = await getTagDefinitionByIdRaw(c, tagId);
+  if (!row) throw new Error("reactivated tag definition was not found");
+  return { row, changed: (result.meta.changes ?? 0) > 0 };
+}
+
+export async function countMemberTagReferences(c: DbCtx, tagId: string): Promise<number> {
+  const row = await c.db
+    .prepare("SELECT COUNT(*) AS n FROM member_tags WHERE tag_id = ?1")
+    .bind(tagId)
+    .first<{ n: number }>();
+  return row?.n ?? 0;
+}
+
+export type PhysicalDeleteTagDefinitionResult =
+  | { ok: true; row: TagDefinitionRow }
+  | { ok: false; reason: "not_found" }
+  | { ok: false; reason: "has_references"; referenceCount: number };
+
+export async function physicalDeleteTagDefinition(
+  c: DbCtx,
+  tagId: string,
+): Promise<PhysicalDeleteTagDefinitionResult> {
+  const current = await getTagDefinitionByIdRaw(c, tagId);
+  if (!current) return { ok: false, reason: "not_found" };
+
+  const referenceCount = await countMemberTagReferences(c, tagId);
+  if (referenceCount > 0) {
+    return { ok: false, reason: "has_references", referenceCount };
+  }
+
+  await c.db.prepare("DELETE FROM tag_definitions WHERE tag_id = ?1").bind(tagId).run();
+  return { ok: true, row: current };
 }
 
 export async function listTagDefinitionsPaged(
