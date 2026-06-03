@@ -103,6 +103,20 @@ describe("runResponseSync", () => {
     expect(db.status[0]?.["rules_consent"]).toBe("consented");
   });
 
+  it("新規 identity 作成時に consent 更新前から member_status 既定行を保証する", async () => {
+    const resp = makeResp({ responseEmail: asResponseEmail("ensured@example.com") });
+    const client = makeClient([{ responses: [resp] }]);
+
+    await runResponseSync(
+      { DB: db as unknown as D1Database, GOOGLE_FORM_ID: "form-1" },
+      { trigger: "admin", client },
+    );
+
+    expect(db.identities).toHaveLength(1);
+    expect(db.status).toHaveLength(1);
+    expect(db.status[0]?.["member_id"]).toBe(db.identities[0]?.["member_id"]);
+  });
+
   it('Issue #378: TAG_QUEUE_PAUSED="true" は Forms sync からの candidate enqueue だけを停止する', async () => {
     const resp = makeResp({
       answersByStableKey: {

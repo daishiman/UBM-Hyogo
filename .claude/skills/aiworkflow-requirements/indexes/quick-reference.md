@@ -12,6 +12,18 @@
 | inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-meetings-attendance-404-fix-and-ux-artifact-inventory.md` |
 | user gate | staging deploy, authenticated POST 201 proof, screenshots, commit, push, PR |
 
+## admin-member-detail-status-404-fix（2026-06-02）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/admin-member-detail-status-404-fix/` |
+| status | `implemented_local_evidence_captured / implementation / NON_VISUAL` |
+| purpose | admin 会員管理の `GET /admin/members/:memberId` / `PATCH /admin/members/:memberId/status` が `member_status` 欠落 orphan で 404 になる非対称性を apps/api 内で修復 |
+| implementation | `ensureMemberStatusRow` / `defaultMemberStatusRow`、builder degraded detail、status PATCH identity-only 404 boundary、Forms sync prevention、migration 0024 backfill |
+| evidence | focused D1 Vitest 5 files / 67 tests PASS、typecheck PASS、lint PASS、apps/web diff 0 |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-member-detail-status-404-fix-artifact-inventory.md` |
+| user gate | remote D1 migration apply, staging deploy, authenticated admin smoke, commit, push, PR |
+
 ## profile-reload-session-404-fix（2026-06-03）
 
 | 項目 | 値 |
