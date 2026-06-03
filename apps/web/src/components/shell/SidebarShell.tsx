@@ -28,7 +28,7 @@ function AdminPublicReturn({ collapsed }: { readonly collapsed: boolean }) {
       data-component="admin-sidebar-public-return"
       aria-label="公開サイトに戻る"
       title={collapsed ? "公開サイトに戻る" : undefined}
-      className="flex items-center gap-3 rounded-sm px-3 py-2 text-sm text-[var(--ubm-color-text-secondary)] hover:bg-[var(--shell-active-bg)] hover:text-[var(--ubm-color-text-primary)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--ubm-color-accent)]"
+      className={`flex items-center rounded-sm px-3 py-2 text-sm text-[var(--ubm-color-text-secondary)] hover:bg-[var(--shell-active-bg)] hover:text-[var(--ubm-color-text-primary)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--ubm-color-accent)] ${collapsed ? "justify-center gap-0" : "gap-3"}`}
     >
       <span
         aria-hidden="true"
@@ -71,10 +71,15 @@ export function SidebarShell({
   const { mode, drawerOpen, toggleCollapsed, setDrawerOpen } = useSidebarState(initialCollapsed);
   const collapsed = mode === "collapsed";
 
-  const sidebarContent = (sidebarCollapsed: boolean) => (
+  const sidebarNavContent = (sidebarCollapsed: boolean) => (
     <>
       <SidebarBrand collapsed={sidebarCollapsed} />
       <SidebarNav navGroups={navGroups} collapsed={sidebarCollapsed} activePath={activePath} />
+    </>
+  );
+
+  const sidebarFooterContent = (sidebarCollapsed: boolean) => (
+    <>
       {role === "admin" ? <AdminPublicReturn collapsed={sidebarCollapsed} /> : null}
       <SidebarUserMenu role={role} user={user} collapsed={sidebarCollapsed} />
     </>
@@ -92,16 +97,23 @@ export function SidebarShell({
         <aside
           data-shell="sidebar"
           data-collapsed={collapsed ? "true" : "false"}
-          className="hidden w-[var(--shell-bar-w)] shrink-0 flex-col gap-3 border-r border-[var(--shell-bar-border)] bg-[var(--shell-bar-bg)] p-3 data-[collapsed=true]:w-[var(--shell-bar-w-collapsed)] md:flex"
+          className="hidden w-[var(--shell-bar-w)] shrink-0 flex-col gap-3 overflow-hidden border-r border-[var(--shell-bar-border)] bg-[var(--shell-bar-bg)] p-3 data-[collapsed=true]:w-[var(--shell-bar-w-collapsed)] md:flex"
         >
-          {sidebarContent(collapsed)}
-          <div className="mt-auto flex justify-end pt-2">
-            <SidebarCollapseToggle />
+          {sidebarNavContent(collapsed)}
+          <div
+            data-shell-block="sidebar-footer"
+            className="mt-auto flex shrink-0 flex-col gap-2 border-t border-[var(--shell-bar-border)] pt-2"
+          >
+            {sidebarFooterContent(collapsed)}
+            <div className={collapsed ? "flex justify-center" : "flex justify-end"}>
+              <SidebarCollapseToggle />
+            </div>
           </div>
         </aside>
 
         <SidebarDrawer open={drawerOpen} onClose={() => setDrawerOpen(false)}>
-          {sidebarContent(false)}
+          {sidebarNavContent(false)}
+          {sidebarFooterContent(false)}
         </SidebarDrawer>
 
         <div className="flex min-w-0 flex-1 flex-col">
@@ -118,7 +130,7 @@ export function SidebarShell({
             data-shell="main"
             data-route={routeKey}
             {...(sectionRhythm ? { "data-section-rhythm": sectionRhythm } : {})}
-            className="min-w-0 flex-1"
+            className="flex min-w-0 flex-1 flex-col"
           >
             {children}
           </main>

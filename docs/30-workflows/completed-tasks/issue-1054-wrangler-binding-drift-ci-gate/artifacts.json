@@ -1,0 +1,91 @@
+{
+  "task_name": "issue-1054-wrangler-binding-drift-ci-gate",
+  "task_path": "docs/30-workflows/completed-tasks/issue-1054-wrangler-binding-drift-ci-gate",
+  "wave": 0,
+  "execution_mode": "serial",
+  "depends_on": [],
+  "blocks": [],
+  "created_at": "2026-06-02",
+  "github_issue": 1054,
+  "metadata": {
+    "taskType": "implementation",
+    "docs_only": false,
+    "spec_only": false,
+    "implementation_mode": "new",
+    "scope": "tooling",
+    "visualEvidence": "NON_VISUAL",
+    "priority": "MEDIUM",
+    "workflow_state": "implemented_local_evidence_captured",
+    "issue_state": "CLOSED",
+    "issue_state_note": "GitHub Issue #1054 は CLOSED のまま維持し、status label は status:completed へ同期済み（再 open・本文更新は user-gated）",
+    "implementation_section_required": true,
+    "implementation_section_note": "CONST_004 default。read-only 解析 gate + 回帰 spec + CI workflow + 棚卸し表更新（MEMBER_PHOTOS / DB / SYNC_ALERTS 行追加）のコード変更を伴う実装仕様書。変更対象=scripts/verify-wrangler-binding-drift.mjs（新規）+ scripts/__tests__/verify-wrangler-binding-drift.spec.ts（新規）+ .github/workflows/verify-wrangler-binding-drift.yml（新規）+ package.json（script 追記）+ .claude/skills/aiworkflow-requirements/references/deployment-cloudflare.md（Current Cloudflare binding inventory 更新）",
+    "artifact_schema_note": "Phase 1-13 task specs and local code implementation were completed in this cycle. Commit, push, PR, and GitHub Issue mutation other than the #1054 status label sync remain user-gated.",
+    "scope_optimization_note": "issue #1054 原文（issue #57 当時の binding 構成前提）を最新コードへ再写像。MEMBER_PHOTOS（issue-983）の R2 binding が wrangler + env.ts に追加済みだが deployment-cloudflare.md 棚卸し表に欠落 = 三者ドリフトが既に現実化。本タスクは検出 gate 新設に加え現存ドリフトの是正（MEMBER_PHOTOS 行追加）と全 applied binding inventory 化（DB / SYNC_ALERTS 行追加）まで 1 サイクルで完了する。",
+    "implementation_state": "implemented_local_evidence_captured",
+    "implementation_status": "implementation_complete_pending_pr",
+    "current_code_drift_found": "初期検証で deployment-cloudflare.md の Current binding inventory 表に MEMBER_PHOTOS（R2・production/staging active）行の欠落を検出。今回サイクルで Current Cloudflare binding inventory へ拡張し、DB / SYNC_ALERTS / MEMBER_PHOTOS を棚卸し表へ追記して AC-10 と R-1 解消を達成済み。",
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-06-02T10:22:07+09:00",
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-1054-wrangler-binding-drift-ci-gate/outputs/phase-03/main.md",
+        "approver": "daishiman",
+        "notes": "spec_review: Phase 1-13 implementation spec authored; AC-1..AC-11 fixed; 3-way drift (wrangler ↔ env.ts ↔ inventory) design and MEMBER_PHOTOS current-drift remediation (AC-10) confirmed in Phase 3 design review."
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "passed",
+        "passed_at": "2026-06-02T10:40:00+09:00",
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-1054-wrangler-binding-drift-ci-gate/outputs/phase-11/main.md",
+        "approver": "daishiman",
+        "notes": "implementation_review: gate script / regression spec / CI workflow / package script / inventory-row remediation were implemented locally; focused regression and gate commands are the Phase 11 evidence."
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-1054-wrangler-binding-drift-ci-gate/outputs/phase-13/main.md",
+        "approver": "daishiman",
+        "notes": "external_ops: commit, push, PR creation, and GitHub Issue mutation are user-gated."
+      }
+    ]
+  },
+  "phases": [
+    { "phase": 1, "name": "要件定義", "file": "phase-01.md", "status": "completed", "outputs": ["outputs/phase-01/main.md"], "depends_on_phases": [], "user_approval_required": false },
+    { "phase": 2, "name": "設計", "file": "phase-02.md", "status": "completed", "outputs": ["outputs/phase-02/main.md"], "depends_on_phases": [1], "user_approval_required": false },
+    { "phase": 3, "name": "設計レビュー", "file": "phase-03.md", "status": "completed", "outputs": ["outputs/phase-03/main.md"], "depends_on_phases": [2], "user_approval_required": false },
+    { "phase": 4, "name": "テスト戦略", "file": "phase-04.md", "status": "completed", "outputs": ["outputs/phase-04/main.md"], "depends_on_phases": [3], "user_approval_required": false },
+    { "phase": 5, "name": "実装ランブック", "file": "phase-05.md", "status": "completed", "outputs": ["outputs/phase-05/main.md"], "depends_on_phases": [4], "user_approval_required": false },
+    { "phase": 6, "name": "異常系・回帰テスト拡充", "file": "phase-06.md", "status": "completed", "outputs": ["outputs/phase-06/main.md"], "depends_on_phases": [5], "user_approval_required": false },
+    { "phase": 7, "name": "AC / カバレッジマトリクス", "file": "phase-07.md", "status": "completed", "outputs": ["outputs/phase-07/main.md"], "depends_on_phases": [6], "user_approval_required": false },
+    { "phase": 8, "name": "DRY 化・リファクタリング", "file": "phase-08.md", "status": "completed", "outputs": ["outputs/phase-08/main.md"], "depends_on_phases": [7], "user_approval_required": false },
+    { "phase": 9, "name": "品質保証", "file": "phase-09.md", "status": "completed", "outputs": ["outputs/phase-09/main.md"], "depends_on_phases": [8], "user_approval_required": false },
+    { "phase": 10, "name": "最終レビュー", "file": "phase-10.md", "status": "completed", "outputs": ["outputs/phase-10/main.md"], "depends_on_phases": [9], "user_approval_required": false },
+    { "phase": 11, "name": "手動 smoke test（CLI 回帰検証）", "file": "phase-11.md", "status": "completed", "outputs": ["outputs/phase-11/main.md", "outputs/phase-11/manual-smoke-log.md", "outputs/phase-11/link-checklist.md"], "depends_on_phases": [10], "user_approval_required": false },
+    { "phase": 12, "name": "ドキュメント更新", "file": "phase-12.md", "status": "completed", "outputs": ["outputs/phase-12/main.md", "outputs/phase-12/implementation-guide.md", "outputs/phase-12/system-spec-update-summary.md", "outputs/phase-12/documentation-changelog.md", "outputs/phase-12/unassigned-task-detection.md", "outputs/phase-12/skill-feedback-report.md", "outputs/phase-12/phase12-task-spec-compliance-check.md"], "depends_on_phases": [11], "user_approval_required": false },
+    { "phase": 13, "name": "PR 作成", "file": "phase-13.md", "status": "pending_user_approval", "outputs": ["outputs/phase-13/main.md"], "depends_on_phases": [12], "user_approval_required": true }
+  ],
+  "specs_referenced": [
+    "apps/api/wrangler.toml",
+    "apps/api/src/env.ts",
+    ".claude/skills/aiworkflow-requirements/references/deployment-cloudflare.md",
+    "scripts/verify-design-tokens.ts",
+    ".github/workflows/verify-design-tokens.yml",
+    "vitest.config.ts",
+    "docs/30-workflows/completed-tasks/issue-57-followup-001-wrangler-binding-drift-ci-gate.md",
+    ".claude/skills/task-specification-creator/SKILL.md"
+  ],
+  "endpoints": [],
+  "d1_tables": [],
+  "ui_routes": [],
+  "secrets_introduced": [],
+  "invariants_touched": [5, 8],
+  "doc_references": [
+    "docs/30-workflows/completed-tasks/issue-57-followup-001-wrangler-binding-drift-ci-gate.md",
+    "docs/30-workflows/completed-tasks/issue-57-kv-r2-guardrail-degrade-design/",
+    "CLAUDE.md",
+    ".claude/skills/aiworkflow-requirements/references/deployment-cloudflare.md"
+  ]
+}

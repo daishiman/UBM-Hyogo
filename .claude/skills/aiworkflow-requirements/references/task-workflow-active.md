@@ -8,6 +8,47 @@
 
 本ドキュメントは、複雑なタスクを単一責務の原則に基づいて分解し、各サブタスクに最適なスラッシュコマンド・エージェント・スキルの組み合わせを選定するためのガイドラインを定義する。
 
+### profile-reload-session-404-fix（2026-06-03）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION` |
+| 成果物 | `docs/30-workflows/profile-reload-session-404-fix/` |
+| 目的 | `/profile` reload 時の `GET /me` 404 生エラーバナーを、API trailing-slash 正規化・web proxy URL 修正・profile 再ログイン CTA で解消する |
+| implemented targets | `apps/api/src/middleware/trailing-slash.ts`, `apps/api/src/index.ts`, `apps/web/app/api/me/[...path]/route.ts`, `apps/web/app/(member)/profile/page.tsx`, `apps/web/src/components/member/SectionError.tsx` |
+| evidence | API focused Vitest 2 files / 9 tests PASS、web focused Vitest 3 files / 16 tests PASS |
+| invariant | `/me` response shape / D1 schema / Google Form schema 不変。web は D1 直接アクセスせず API Worker proxy のみ。path に memberId を出さない |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-profile-reload-session-404-fix-artifact-inventory.md` |
+| user gate | staging authenticated `/profile` screenshot、commit、push、PR |
+
+### admin-attendance-dashboard-ux（2026-06-02）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_runtime_pending / implementation / VISUAL` |
+| 成果物 | `docs/30-workflows/admin-attendance-dashboard-ux/` |
+| 目的 | admin 出席ダッシュボードの CSS 崩れ、SVG バー楕円化、出席回数帯ラベル、KPI 延べ表記、見方ガイド/空状態を apps/web のみで是正する |
+| implementation targets | `apps/web/src/styles/globals.css`, `apps/web/src/features/admin/attendance/**` |
+| evidence | focused attendance Vitest PASS / apps-api diff empty recorded in `outputs/phase-11/manual-test-result.md`; Phase 12 strict 7 present |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-attendance-dashboard-ux-artifact-inventory.md` |
+| split follow-up | `docs/30-workflows/admin-attendance-dashboard-ux/unassigned-task-specs/admin-attendance-analytics-calc-correction.md` |
+| user gate | staging pixel screenshots, commit, push, PR |
+
+### sidebar-footer-pinning-and-account-popover-ux（2026-06-02）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / VISUAL / staging_visual_pending_user_gate` |
+| 成果物 | `docs/30-workflows/completed-tasks/sidebar-footer-pinning-and-account-popover-ux/` |
+| 親 workflow | `docs/30-workflows/completed-tasks/unified-sidebar-shell-public-and-admin/` |
+| 目的 | unified sidebar shell の UI/UX 不具合 4 件（footer 固定 / collapsed overflow / account popover outside+Escape close / public footer sticky）を同一 local cycle で修正する |
+| implementation targets | `apps/web/src/styles/globals.css`, `apps/web/src/styles/legacy-public.css`, `apps/web/src/components/shell/{SidebarShell,SidebarUserMenu,SidebarNavItem}.tsx` |
+| tests | `apps/web/src/components/shell/__tests__/{SidebarShell,SidebarUserMenu,SidebarNavItem}.spec.tsx` |
+| evidence | focused Vitest 3 files / 22 tests PASS、web typecheck PASS、web verify-design-tokens PASS、web lint PASS |
+| invariant | API / D1 / Google Form schema / auth middleware / public component props は変更なし。DOM 観測契約は additive |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-sidebar-footer-pinning-and-account-popover-ux-artifact-inventory.md` |
+| user gate | staging authenticated screenshots、commit、push、PR |
+
 ### issue-1043-identity-conflicts-row-fade-animation（2026-06-02）
 
 | 項目 | 値 |
@@ -193,6 +234,35 @@
 | system spec | API / D1 / Google Form schema / auth / CSS token は不変 |
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1063-shell-collapse-cookie-secure-attribute-artifact-inventory.md` |
 | user gate | browser DevTools smoke, commit, push, PR, Issue mutation |
+
+### issue-1059-public-members-fields-batch-fetch-n1-prevention（2026-06-02）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / NON_VISUAL` |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-1059-public-members-fields-batch-fetch-n1-prevention/` |
+| Issue | #1059 OPEN（mutation は user-gated） |
+| 親 | issue #224 U-2 fields N+1 follow-up |
+| 目的 | public members list の summary fields 取得を `response_id IN (...)` の 1 batch query にして N+1 を防ぐ |
+| implementation targets | `apps/api/src/repository/responseFields.ts`, `apps/api/src/use-cases/public/list-public-members.ts`, `apps/api/src/use-cases/public/__tests__/helpers/public-d1.ts`, focused specs |
+| evidence | use-case 10 PASS, repository 5 PASS, Phase 11 evidence present, Phase 12 strict 7 present |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1059-public-members-fields-batch-fetch-n1-prevention-artifact-inventory.md` |
+| boundary | tags / D1 schema / endpoint / Google Form / apps/web unchanged |
+| user gate | commit, push, PR, Issue #1059 mutation |
+
+### issue-1054-wrangler-binding-drift-ci-gate（2026-06-02）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / NON_VISUAL / implementation_complete_pending_pr` |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-1054-wrangler-binding-drift-ci-gate/` |
+| Issue | #1054 CLOSED（reopen / mutation は user-gated、PR 文脈は `Refs #1054`） |
+| 目的 | `apps/api/wrangler.toml`、`apps/api/src/env.ts`、`deployment-cloudflare.md` Current Cloudflare inventory の三者ドリフトを read-only CLI / CI gate で検出する |
+| implementation targets | `scripts/verify-wrangler-binding-drift.mjs`, `scripts/__tests__/verify-wrangler-binding-drift.spec.ts`, `.github/workflows/verify-wrangler-binding-drift.yml`, `package.json#verify:wrangler-binding-drift` |
+| system spec | `.claude/skills/aiworkflow-requirements/references/deployment-cloudflare.md` Current Cloudflare binding inventory を machine-checked SSOT とし、`DB` / `SYNC_ALERTS` / `MEMBER_PHOTOS` 行を追加 |
+| evidence | `pnpm verify:wrangler-binding-drift` PASS、focused Vitest PASS、read-only grep gate PASS、Phase 12 strict 7 present、root/output artifacts parity present |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1054-wrangler-binding-drift-ci-gate-artifact-inventory.md` |
+| user gate | commit、push、PR、GitHub Issue mutation |
 
 ### issue-229-indexes-rebuild-fail-fast（2026-05-31）
 
@@ -3922,6 +3992,17 @@ docs-only / direction-reconciliation で採用方針 A を維持する場合で�
 | evidence | TypeScript PASS; `/members` local warm-up 200; Playwright desktop-chromium 12 PASS; 24 PNG in `completed-tasks/members-list-ux-clarity/outputs/phase-11/screenshots`; stale active path not created |
 | user gate | commit, push, PR, staging visual baseline refresh, Issue #1005 state mutation |
 | inventory | `references/workflow-issue-1005-members-ux-playwright-baseline-stabilization-artifact-inventory.md` |
+# issue-1056-kv-alert-policy-binding-drift-detection（2026-06-02）
+
+| 項目 | 値 |
+| --- | --- |
+| status | `implemented_local_evidence_captured / implementation / NON_VISUAL` |
+| issue | #1056 OPEN at spec creation; Issue mutation is user-gated |
+| purpose | Detect KV/R2 binding active-state to alert policy `enabled` drift with a local-only PR gate |
+| implementation targets | `infra/cloudflare-alerts/lib/binding-policy-drift.ts`, `infra/cloudflare-alerts/lib/cli.ts`, `scripts/cf.sh`, `.github/workflows/cloudflare-alerts-drift.yml`, `package.json` |
+| tests | `infra/cloudflare-alerts/lib/__tests__/binding-policy-drift.spec.ts`, `scripts/__tests__/cf-alerts-cli.spec.ts`, `pnpm test:alerts`, `pnpm cf:alerts:binding-drift --ci` |
+| system spec | `.claude/skills/aiworkflow-requirements/references/deployment-cloudflare.md` |
+| boundary | Cloudflare API/token/apply not used by binding-drift; policy enablement/apply remains UT-17-followup-006/user-gated |
 # issue-1027-member-dynamic-og-worker-split（2026-05-31）
 
 | 項目 | 値 |

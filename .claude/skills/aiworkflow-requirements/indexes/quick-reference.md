@@ -1,5 +1,74 @@
 # クイックリファレンス
 
+## profile-reload-session-404-fix（2026-06-03）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/profile-reload-session-404-fix/` |
+| status | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION` |
+| purpose | `/profile` reload 時の `GET /me` 404 生エラーを API route 正規化・web proxy URL 修正・再ログイン CTA で解消 |
+| implementation | `trailingSlashRedirect()` + API mount test、`/api/me/[...path]` empty-path `/me` fix、`SectionError` action link、`/profile` `MEMBER_SESSION_404` CTA |
+| evidence | API focused Vitest 9 PASS、web focused Vitest 16 PASS |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-profile-reload-session-404-fix-artifact-inventory.md` |
+| user gate | staging authenticated screenshot, commit, push, PR |
+
+## admin-attendance-dashboard-ux（2026-06-02）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/admin-attendance-dashboard-ux/` |
+| status | `implemented_local_runtime_pending / implementation / VISUAL` |
+| purpose | admin attendance dashboard UI/UX recovery: `.attendance-*` CSS, fixed SVG bar sizing, attendance-zone labels/help, KPI extended-attendance wording, page guide / section intro / empty-state styling |
+| implementation | `apps/web/src/styles/globals.css`, `apps/web/src/features/admin/attendance/{components,lib,__tests__}/**` |
+| evidence | `outputs/phase-11/manual-test-result.md` records focused Vitest PASS and apps-api unchanged; staging screenshots are user-gated |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-attendance-dashboard-ux-artifact-inventory.md` |
+| follow-up | `docs/30-workflows/admin-attendance-dashboard-ux/unassigned-task-specs/admin-attendance-analytics-calc-correction.md` |
+
+## sidebar-footer-pinning-and-account-popover-ux（2026-06-02）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/sidebar-footer-pinning-and-account-popover-ux/` |
+| status | `implemented_local_evidence_captured / implementation / VISUAL / staging_visual_pending_user_gate` |
+| parent | `docs/30-workflows/completed-tasks/unified-sidebar-shell-public-and-admin/` |
+| purpose | unified sidebar shell の footer 固定、collapsed overflow、account popover outside/Escape close、public footer sticky を同一 local cycle で修正 |
+| implementation | `apps/web/src/components/shell/{SidebarShell,SidebarUserMenu,SidebarNavItem}.tsx`, `apps/web/src/styles/{globals,legacy-public}.css` |
+| tests | `apps/web/src/components/shell/__tests__/{SidebarShell,SidebarUserMenu,SidebarNavItem}.spec.tsx` |
+| evidence | focused Vitest 3 files / 22 tests PASS; web typecheck PASS; web verify-design-tokens PASS; web lint PASS |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-sidebar-footer-pinning-and-account-popover-ux-artifact-inventory.md` |
+| user gate | staging authenticated screenshots, commit, push, PR |
+
+## issue-1056-kv-alert-policy-binding-drift-detection（2026-06-02）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-1056-kv-alert-policy-binding-drift-detection/` |
+| status | `implemented_local_evidence_captured / implementation / NON_VISUAL` |
+| purpose | `apps/api/wrangler.toml` の KV/R2 binding 活性と Cloudflare alert policy `enabled` 状態の drift を local-only で検知 |
+| implementation | `infra/cloudflare-alerts/lib/binding-policy-drift.ts`, `infra/cloudflare-alerts/lib/cli.ts`, `scripts/cf.sh`, `.github/workflows/cloudflare-alerts-drift.yml`, `package.json` |
+| command | `pnpm cf:alerts:binding-drift --ci`（Cloudflare API/token 不要、drift 0 は exit 0、drift は exit 2） |
+| tests | `infra/cloudflare-alerts/lib/__tests__/binding-policy-drift.spec.ts`, `scripts/__tests__/cf-alerts-cli.spec.ts` |
+| system spec | `.claude/skills/aiworkflow-requirements/references/deployment-cloudflare.md` |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1056-kv-alert-policy-binding-drift-detection-artifact-inventory.md` |
+| lessons | `.claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-issue-1056-kv-alert-policy-binding-drift-detection-2026-06.md`（L-I1056-001..006） |
+| issue | #1056 spec 作成時 OPEN → 本サイクル中 CLOSED（`closedAt: 2026-06-02T03:32:56Z`）。docs を実態整合（reopen せず）、workflow は completed-tasks へ close-out 済 |
+| user gate | commit, push, PR, Issue mutation, alert policy apply/enablement |
+
+## issue-1054-wrangler-binding-drift-ci-gate（2026-06-02）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-1054-wrangler-binding-drift-ci-gate/` |
+| status | `implemented_local_evidence_captured / implementation / NON_VISUAL / implementation_complete_pending_pr` |
+| issue | #1054 CLOSED（reopen / mutation は user-gated、PR 文脈は `Refs #1054`） |
+| purpose | `apps/api/wrangler.toml` binding 宣言、`apps/api/src/env.ts` の `Env` 型、`deployment-cloudflare.md` の Current Cloudflare inventory 表の三者ドリフトを検出する read-only CI gate を追加 |
+| implementation | `scripts/verify-wrangler-binding-drift.mjs`, `scripts/__tests__/verify-wrangler-binding-drift.spec.ts`, `.github/workflows/verify-wrangler-binding-drift.yml`, `package.json#verify:wrangler-binding-drift` |
+| system spec | `.claude/skills/aiworkflow-requirements/references/deployment-cloudflare.md` の Current Cloudflare binding inventory を machine-checked SSOT とし、`DB` / `SYNC_ALERTS` / `MEMBER_PHOTOS` 行を追加 |
+| evidence | `pnpm verify:wrangler-binding-drift` PASS、focused Vitest PASS、read-only grep gate PASS、Phase 12 strict 7 present |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1054-wrangler-binding-drift-ci-gate-artifact-inventory.md` |
+| lessons | `.claude/skills/aiworkflow-requirements/references/lessons-learned-issue-1054-wrangler-binding-drift-ci-gate-2026-06.md`（L-I1054-001..008: 自作行パーサ / state 3 値正規化 / env-prefix upsert / 片方向突合 / secrets 除外 / Kind 一致検証 / 現存 drift 同一 wave 是正 / read-only grep gate） |
+| user gate | commit, push, PR, GitHub Issue mutation |
+
 ## issue-1043-identity-conflicts-row-fade-animation（2026-06-02）
 
 | 項目 | 値 |
@@ -351,6 +420,20 @@
 
 | 項目 | 値 |
 | --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-991-admin-fetch-error-typed-class/` |
+| status | `implemented_local_evidence_captured / implementation / NON_VISUAL` |
+| issue | #991 CLOSED（mutation は user-gated） |
+| purpose | admin server-fetch error を `AdminFetchError` typed class へ統一し、structured status priority と PII redacted snippet を提供 |
+| implementation | `apps/web/src/lib/admin/server-fetch.ts`, `apps/web/src/lib/server-fetch/safe-fetch.ts` |
+| tests | `apps/web/src/lib/admin/__tests__/admin-fetch-error.spec.ts`, `apps/web/src/lib/server-fetch/__tests__/safe-fetch.spec.ts`, `server-fetch.binding.spec.ts`, `safe-server-fetch*.spec.ts`, `server-fetch.env.spec.ts` |
+| evidence | focused Vitest 6 files / 31 tests PASS, web typecheck PASS, root lint PASS |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-991-admin-fetch-error-typed-class-artifact-inventory.md` |
+| user gate | staging runtime observation, commit, push, PR |
+
+## issue-224-public-members-tags-batch-fetch（2026-05-31）
+
+| 項目 | 値 |
+| --- | --- |
 | workflow root | `docs/30-workflows/issue-224-public-members-tags-batch-fetch/` |
 | status | `implemented_local_evidence_captured / implementation / NON_VISUAL` |
 | purpose | 公開 `GET /public/members?expand=tags` を既存 batch helper `listTagsByMemberIds`（フラット配列）+ use-case 層 `member_id` groupBy で取得し tags の N+1 回帰を防止 |
@@ -359,8 +442,22 @@
 | evidence | NON_VISUAL local test 証跡（contract / use-case / parser / repository / shared zod）, Phase 12 strict 7, root/output artifacts parity |
 | lessons | `.claude/skills/aiworkflow-requirements/references/lessons-learned-issue-224-public-members-tags-batch-fetch-2026-05.md`（L-I224-001..010） |
 | inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-224-public-members-tags-batch-fetch-artifact-inventory.md` |
-| unassigned | `docs/30-workflows/unassigned-task/issue-224-followup-001-public-members-fields-batch-fetch-n1-prevention.md`（U-2 fields N+1）/ U-1 UI tags 表示 = #1006 委譲 |
+| unassigned | U-2 fields N+1 は `docs/30-workflows/completed-tasks/issue-1059-public-members-fields-batch-fetch-n1-prevention/` で consumed / implemented。U-1 UI tags 表示 = #1006 委譲 |
 | user gate | commit / push / PR / Gate-C |
+
+## issue-1059-public-members-fields-batch-fetch-n1-prevention（2026-06-02）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-1059-public-members-fields-batch-fetch-n1-prevention/` |
+| status | `implemented_local_evidence_captured / implementation / NON_VISUAL` |
+| issue | #1059 OPEN（mutation は user-gated） |
+| purpose | 公開 members list の summary fields 取得を per-member `listFieldsByResponseId` loop から `listFieldsByResponseIds` の `response_id IN (...)` 1 query へ置換し、fields N+1 を防止 |
+| implementation | `apps/api/src/repository/responseFields.ts`, `apps/api/src/use-cases/public/list-public-members.ts`, `apps/api/src/use-cases/public/__tests__/helpers/public-d1.ts` |
+| tests | `apps/api/src/use-cases/public/__tests__/list-public-members.spec.ts` 10 PASS, `apps/api/src/repository/__tests__/responseFields.repository.spec.ts` 5 PASS |
+| evidence | Phase 11 manual-test-result, Phase 12 strict 7, root/output artifacts parity |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1059-public-members-fields-batch-fetch-n1-prevention-artifact-inventory.md` |
+| boundary | tags / D1 schema / endpoint / Google Form / `apps/web` unchanged; commit / push / PR / Issue mutation user-gated |
 
 ## admin-sidebar-public-return-link（2026-05-28）
 
