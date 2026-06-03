@@ -3863,3 +3863,21 @@ docs-only / direction-reconciliation で採用方針 A を維持する場合で�
 | evidence | OG typecheck PASS; OG Vitest 10 PASS; web focused Vitest 17 PASS; OG Wrangler dry-run build PASS; OG size gate gzip 717KiB PASS (index.js 170KiB + wasm); web typecheck PASS |
 | source | `docs/30-workflows/unassigned-task/member-dynamic-og-paid-or-worker-split.md` consumed; upstream `web-worker-size-limit-fix` |
 | user gate | Cloudflare deploy, staging runtime PNG capture, commit, push, PR, Issue mutation |
+
+## issue-1068-admin-tag-inline-create-ui
+
+| 項目 | 内容 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-1068-admin-tag-inline-create-ui/` |
+| status | `spec_created / implementation / VISUAL_ON_EXECUTION` |
+| Issue | `#1068`（CLOSED。PR 文脈は `Refs #1068` のみ） |
+| purpose | `/admin/members` drawer `MemberTagsEditor` に tag inline-create 導線を追加する apps/web 実装と evidence を管理する |
+| dependencies | issue-1035 / PR #1073 `POST /admin/tags`; issue-982 `MemberTagsEditor` + member tag assignment |
+| implementation plan | task-A web client helper -> task-B inline-create component/wiring -> task-C desktop/mobile visual evidence |
+| workflow state | `implemented_local_visual_pending` |
+| local implementation | complete (`apps/web` only; `apps/api` unchanged) |
+| remaining user-gated boundary | staging screenshot baseline, commit, push, PR |
+| API boundary | `apps/api` 変更なし。既存 `POST /admin/tags`, `GET/POST /admin/members/:memberId/tags` を利用 |
+| evidence | Phase 12 strict 7 outputs present; root/output artifacts parity present; implementation and runtime screenshots pending |
+| artifact inventory | `references/workflow-issue-1068-admin-tag-inline-create-ui-artifact-inventory.md` |
+| user gate | app implementation, local visual evidence, staging verification, commit, push, PR, Issue mutation |
