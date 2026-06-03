@@ -8,6 +8,18 @@
 
 本ドキュメントは、複雑なタスクを単一責務の原則に基づいて分解し、各サブタスクに最適なスラッシュコマンド・エージェント・スキルの組み合わせを選定するためのガイドラインを定義する。
 
+### admin-member-detail-status-404-fix（2026-06-02）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / NON_VISUAL` |
+| 成果物 | `docs/30-workflows/completed-tasks/admin-member-detail-status-404-fix/` |
+| 目的 | admin 会員管理の detail/status 404 を、`member_identities` は存在するが `member_status` / `current_response` が欠落する orphan 非対称性として修復する |
+| implemented targets | `apps/api/src/repository/status.ts`, `apps/api/src/repository/_shared/builder.ts`, `apps/api/src/routes/admin/member-status.ts`, `apps/api/src/jobs/sync-forms-responses.ts`, `apps/api/migrations/0024_backfill_member_status.sql`, `vitest.d1.config.ts` |
+| Phase 11/12 | focused D1 Vitest 5 files / 67 tests PASS、typecheck PASS、lint PASS、apps/web diff 0。Phase 12 strict 7 present |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-member-detail-status-404-fix-artifact-inventory.md` |
+| user gate | remote D1 migration apply、staging deploy、authenticated admin smoke、commit、push、PR |
+
 ### japanese-ime-input-composition-search-fix（2026-06-02）
 
 | 項目 | 値 |
