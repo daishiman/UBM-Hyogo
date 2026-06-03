@@ -2,6 +2,21 @@
 
 `origin/dev` を feature ブランチへ取り込む際に、複数 wave の workflow が並行で `.claude/skills/aiworkflow-requirements/` および `.claude/skills/task-specification-creator/` の changelog / index / active workflow / completed-tasks doc に additive 行を書き込むため、merge 時に高頻度で diff3 conflict が発生する。本書はその自律解消ポリシーの正本。
 
+## L-DEVSYNC-092: SKILL.md 本体 + resource-map.md を含む 5-file skill-only conflict は `pnpm sync:resolve` 単一パスで完結し、keywords.json は逆に Auto-merge（衝突せず resolver の `--ours` 段に出ない）— 衝突ファイルセットは hunk 位置依存で毎回変動（2026-06-03 feat/admin-attendance-dashboard-ux ← dev 3 ahead / 6 behind）
+
+- 事象: `feat/admin-attendance-dashboard-ux`（ローカル dev は origin/dev に既一致 `4f7fd80fb` → dev 同期は冪等スキップ、feature は dev に 3 ahead / 6 behind）の sync-merge。`git merge origin/dev --no-edit` で `CONFLICT (content)` が **5 件**、全て `aiworkflow-requirements/` 配下:
+  - `SKILL.md`, `indexes/{quick-reference.md, resource-map.md, topic-map.md}`, `references/task-workflow-active.md`
+  - `indexes/keywords.json` は **Auto-merging（衝突せず）** = resolver の `taking --ours for derived files` 段がログに出なかった。
+  - `SKILL-changelog.md` / `LOGS/_legacy.md` / `lessons-learned/*` / `references/deployment-cloudflare.md` は `.gitattributes merge=union` で Auto-merging・衝突なし。
+  - `apps/**` / `packages/**` の source conflict は 0 件 → L-DEVSYNC-072 の skill-only baseline に合致。
+- 解消: `pnpm sync:resolve` **1 回**で完結。resolver ログは `union-resolving 5 files`（**SKILL.md** / quick-reference.md / **resource-map.md** / topic-map.md / task-workflow-active.md）→ `pnpm indexes:rebuild`。残コンフリクト 0 で収束、追加手動編集ゼロ。
+- How to apply:
+  - **L-DEVSYNC-092-A (衝突ファイルセットは hunk 位置依存で毎回変動 = L-DEVSYNC-076-B / 077-A の補強)**: L-DEVSYNC-076/077 では keywords.json が CONFLICT に出て `--ours`+rebuild で処理され、SKILL.md / resource-map.md は Auto-merging だった。本ケースは**逆**で、SKILL.md 本体と resource-map.md が union 対象になり、keywords.json は衝突せず Auto-merge された。どのファイルが衝突するかは dev 側 hunk の挿入位置依存で確定しない → 「SKILL.md が衝突した = 手動」「keywords.json は常に衝突」のいずれの前提にも依存せず、まず `pnpm sync:resolve` 直行で全パターンを吸収する。
+  - **L-DEVSYNC-092-B (SKILL.md 本体の union resolve も resolver が安全に処理)**: SKILL.md は本体 doc だが changelog 表・lessons 参照行を両側が並行追記するため衝突する。resolver の `UNION_TARGETS` に登録済で append-only 結合が安全（L-DEVSYNC-046 の section 命名規約に従う限り semantic conflict なし）。SKILL.md が衝突しても手動編集フェーズへ進まない。
+  - **L-DEVSYNC-092-C (merge 後 indexes:rebuild は no-op)**: resolver 内部で `pnpm indexes:rebuild` 実行済のため、merge commit 後に再度 rebuild しても `git status --porcelain` は空（drift 0）。L-DEVSYNC-077-B と同じく独立 chore(indexes) commit 不要、merge commit 1 件で完結。
+- 検証: `pnpm sync:resolve`（`all skill / index conflicts resolved`）→ 残コンフリクト 0（`git diff --name-only --diff-filter=U` 空）→ merge commit `99682a85c` → `pnpm typecheck` / `pnpm lint` / `pnpm indexes:rebuild` drift 0 で all green（いずれも初回 PASS、CI gate `verify-indexes-up-to-date` 相当の drift 0 を事前確認）。
+- 参照: L-DEVSYNC-077（3-file 最小版）, L-DEVSYNC-076（cross-skill 6-file 版・keywords.json は CONFLICT 側）, L-DEVSYNC-076-B（keywords.json の衝突可否は hunk 位置依存）, L-DEVSYNC-072（skill-only baseline）, L-DEVSYNC-046（resolver UNION_TARGETS 登録）, L-DEVSYNC-002（keywords.json は派生物・`--ours`+rebuild）, task-specification-creator [[patterns-lessons-and-pitfalls#dev-sync-merge-conflict-resolution]] SP-DEVSYNC-086。
+
 ## L-DEVSYNC-077: aiworkflow indexes 3-file（keywords.json + quick-reference.md + topic-map.md）の最小 skill-only conflict は `pnpm sync:resolve` 単一パスで完結し、merge 後 rebuild は no-op（2026-06-03 feat/issue-1059-public-members-fields-batch-n1 ← dev 4 behind / 2 ahead）
 
 - 事象: `feat/issue-1059-public-members-fields-batch-n1`（ローカル dev は origin/dev に既一致 `e47208d06` → dev 同期は冪等スキップ、feature は dev に 4 behind / 2 ahead）の sync-merge。`git merge dev --no-edit` で `CONFLICT (content)` が **3 件**、全て `aiworkflow-requirements/indexes/` 配下:
