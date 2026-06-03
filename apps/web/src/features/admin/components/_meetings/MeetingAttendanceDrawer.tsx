@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { FormField } from "../../../../components/ui/FormField";
 import { Input } from "../../../../components/ui/Input";
 import { Button } from "../../../../components/ui/Button";
@@ -38,6 +38,10 @@ export function MeetingAttendanceDrawer({
   const [editHeldOn, setEditHeldOn] = useState(meeting.heldOn);
   const [editNote, setEditNote] = useState(meeting.note ?? "");
   const pickedAlreadyAttended = picked !== "" && attended.has(picked);
+  const candidateNameById = useMemo(
+    () => new Map(candidates.map((c) => [c.memberId, c.fullName])),
+    [candidates],
+  );
 
   return (
     <div className="admin-meeting-drawer flex flex-col gap-3" role="region" aria-label="出席編集">
@@ -113,14 +117,19 @@ export function MeetingAttendanceDrawer({
         <div>
           <h4 className="text-sm font-semibold">出席者</h4>
           <ul className="flex flex-col gap-1">
-            {[...attended].map((mid) => (
+            {[...attended].sort().map((mid) => {
+              const fullName = candidateNameById.get(mid);
+              return (
               <li
                 key={mid}
                 data-testid={`attendance-attendee-${meeting.sessionId}`}
                 data-member={mid}
                 className="flex items-center gap-2"
               >
-                <span>{mid}</span>
+                <span>
+                  {fullName ?? mid}
+                  {fullName ? <span className="text-xs text-muted"> ({mid})</span> : null}
+                </span>
                 <Button
                   type="button"
                   variant="danger"
@@ -132,7 +141,8 @@ export function MeetingAttendanceDrawer({
                   削除
                 </Button>
               </li>
-            ))}
+              );
+            })}
           </ul>
         </div>
       )}

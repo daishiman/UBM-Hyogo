@@ -2181,6 +2181,12 @@ node scripts/list-specs.js --topics
 | Follow-up | L52 |
 | Lessons Learned | L56 |
 
+### references/workflow-admin-meetings-attendance-404-fix-and-ux-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Notes | L13 |
+
 ### references/workflow-admin-meetings-prototype-alignment-artifact-inventory.md
 
 | セクション | 行 |
@@ -8636,15 +8642,15 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L3654 |
-| フェーズ構造（概要） | L3663 |
-| 品質ゲート（概要） | L3694 |
-| 出力テンプレート | L3705 |
-| 実行時のコマンド・エージェント・スキル | L3728 |
-| 昇格パターン集 | L3752 |
-| Current Active / Spec Created Tasks | L3754 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L3920 |
-| issue-998-members-publish-state-production-rollout | L3998 |
+| ドキュメント構成 | L3669 |
+| フェーズ構造（概要） | L3678 |
+| 品質ゲート（概要） | L3709 |
+| 出力テンプレート | L3720 |
+| 実行時のコマンド・エージェント・スキル | L3743 |
+| 昇格パターン集 | L3767 |
+| Current Active / Spec Created Tasks | L3769 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L3935 |
+| issue-998-members-publish-state-production-rollout | L4013 |
 
 ### references/task-workflow-backlog-part2.md
 
@@ -8966,12 +8972,12 @@ node scripts/list-specs.js --topics
 | 1. ARIA属性テスト | L17 |
 | 2. キーボードナビゲーション | L105 |
 | 3. スクリーンリーダー互換性 | L169 |
-| 4. 色とコントラスト | L214 |
-| 5. 検証チェックリスト | L244 |
-| 6. 自動テストツール | L270 |
-| 7. WCAG 2.1 AAチェックリスト | L306 |
-| 参照 | L333 |
-| 変更履歴 | L341 |
+| 4. 色とコントラスト | L235 |
+| 5. 検証チェックリスト | L265 |
+| 6. 自動テストツール | L291 |
+| 7. WCAG 2.1 AAチェックリスト | L327 |
+| 参照 | L354 |
+| 変更履歴 | L362 |
 
 ### references/testing-component-patterns-advanced.md
 
