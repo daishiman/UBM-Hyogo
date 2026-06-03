@@ -25,6 +25,7 @@ import {
   assignTagToMemberByAdmin,
   unassignTagFromMemberByAdmin,
   getMemberDeletedFlag,
+  bulkApplyMemberTagsByAdmin,
 } from "../../repository/memberTags";
 import { buildAdminMemberDetailView } from "../../repository/_shared/builder";
 import {
@@ -35,9 +36,12 @@ import {
 import {
   presignMemberPhotoGetUrl,
   MEMBER_PHOTO_OBJECT_KEY,
+  MEMBER_PHOTO_THUMB_OBJECT_KEY,
   MEMBER_PHOTO_MAX_BYTES,
+  MEMBER_PHOTO_THUMB_MAX_BYTES,
   MEMBER_PHOTO_ALLOWED_MIME,
   MEMBER_PHOTO_PRESIGN_TTL_SECONDS,
+  type MemberPhotoProcessingStatus,
 } from "../../lib/r2/member-photo-presign";
 import {
   createAttendanceProvider,
@@ -68,6 +72,13 @@ const FILTER_VALUES = ["published", "hidden", "deleted"] as const;
 
 // issue-982: admin manual tag 付与の request body。
 const AssignTagBodyZ = z.object({ tagId: z.string().min(1) });
+
+// issue-1036 / 不変条件 #13 第3経路: bulk member tag assign/unassign の body。
+const BulkTagBodyZ = z.object({
+  memberIds: z.array(z.string().min(1)).min(1).max(200),
+  tagIds: z.array(z.string().min(1)).min(1).max(50),
+  op: z.enum(["assign", "unassign"]),
+});
 
 type ConsentValue = "consented" | "declined" | "unknown";
 type PublishStateValue = "public" | "member_only" | "hidden";
@@ -285,35 +296,48 @@ const sortToSql = (sort: AdminSort): string => {
   return "ORDER BY mi.last_submitted_at DESC";
 };
 
-// issue-983: photo row 有 かつ presign 成功時のみ presigned photoUrl を返す（fail-soft）。
-// secret 未設定 / photo 不在 / presign 失敗時は undefined（detail は 200 を維持）。
-const resolvePhotoUrl = async (
+// issue-983 / issue-1030: photo row 有 かつ presign 成功時のみ presigned URL を返す（fail-soft）。
+// display(photoUrl) と thumb(photoThumbUrl) を独立に presign する（片方失敗でももう片方は返る）。
+// secret 未設定 / photo 不在 / presign 失敗時は当該 URL を undefined（detail は 200 を維持）。
+const resolvePhotoUrls = async (
   env: AdminRouteEnv,
   db: DbCtx,
   mid: MemberId,
-): Promise<string | undefined> => {
+): Promise<{ photoUrl?: string; photoThumbUrl?: string }> => {
   if (!env.R2_ACCOUNT_ID || !env.R2_ACCESS_KEY_ID || !env.R2_SECRET_ACCESS_KEY) {
-    return undefined;
+    return {};
   }
   const photo = await getMemberPhoto(db, mid);
-  if (!photo) return undefined;
+  if (!photo) return {};
   const bucketName = env.MEMBER_PHOTOS
     ? env.ENVIRONMENT === "production"
       ? "ubm-hyogo-member-photos-prod"
       : "ubm-hyogo-member-photos-staging"
     : null;
-  if (!bucketName) return undefined;
-  const url = await presignMemberPhotoGetUrl(
-    {
-      accountId: env.R2_ACCOUNT_ID,
-      accessKeyId: env.R2_ACCESS_KEY_ID,
-      secretAccessKey: env.R2_SECRET_ACCESS_KEY,
-      bucket: bucketName,
-    },
+  if (!bucketName) return {};
+  const deps = {
+    accountId: env.R2_ACCOUNT_ID,
+    accessKeyId: env.R2_ACCESS_KEY_ID,
+    secretAccessKey: env.R2_SECRET_ACCESS_KEY,
+    bucket: bucketName,
+  };
+  const displayUrl = await presignMemberPhotoGetUrl(
+    deps,
     photo.objectKey,
     MEMBER_PHOTO_PRESIGN_TTL_SECONDS,
   );
-  return url ?? undefined;
+  // thumb は保存済（thumbObjectKey 非 null）のときのみ presign する（fail-soft で独立）。
+  const thumbUrl = photo.thumbObjectKey
+    ? await presignMemberPhotoGetUrl(
+        deps,
+        photo.thumbObjectKey,
+        MEMBER_PHOTO_PRESIGN_TTL_SECONDS,
+      )
+    : null;
+  const result: { photoUrl?: string; photoThumbUrl?: string } = {};
+  if (displayUrl) result.photoUrl = displayUrl;
+  if (thumbUrl) result.photoThumbUrl = thumbUrl;
+  return result;
 };
 
 export const createAdminMembersRoute = () => {
@@ -484,13 +508,10 @@ export const createAdminMembersRoute = () => {
       return c.json({ ok: false, error: parsed.error.message }, 500);
     }
 
-    // issue-983: photo row 有 かつ presign 成功時のみ photoUrl を後段マージする（fail-soft）。
-    // builder を R2 非依存に保つため、解決は route 層で行う。
-    const photoUrl = await resolvePhotoUrl(c.env, db, mid);
-    if (photoUrl !== undefined) {
-      return c.json({ ...parsed.data, photoUrl }, 200);
-    }
-    return c.json(parsed.data, 200);
+    // issue-983 / issue-1030: photo row 有 かつ presign 成功時のみ photoUrl / photoThumbUrl を
+    // 後段マージする（fail-soft・各独立）。builder を R2 非依存に保つため解決は route 層で行う。
+    const photoUrls = await resolvePhotoUrls(c.env, db, mid);
+    return c.json({ ...parsed.data, ...photoUrls }, 200);
   });
 
   // issue-983: POST /admin/members/:memberId/photo — multipart upload → R2 put + D1 upsert + audit
@@ -506,23 +527,51 @@ export const createAdminMembersRoute = () => {
 
     // multipart body 取得
     const formData = await c.req.formData().catch(() => null);
-    const file = formData?.get("file");
-    if (!file || !(file instanceof File)) {
-      return c.json({ ok: false, error: "file field required" }, 400);
+    // issue-1030: display(必須) / thumb(任意) / contentHash(任意)。
+    // 後方互換: display 不在で旧 `file` が在れば display 扱い・thumb なし。
+    const displayField = formData?.get("display");
+    const legacyFile = formData?.get("file");
+    const display =
+      displayField instanceof File
+        ? displayField
+        : legacyFile instanceof File
+          ? legacyFile
+          : null;
+    if (!display) {
+      return c.json({ ok: false, error: "file/display field required" }, 400);
     }
+    const thumbField = formData?.get("thumb");
+    const thumb = thumbField instanceof File ? thumbField : null;
+    const contentHashField = formData?.get("contentHash");
+    const contentHash =
+      typeof contentHashField === "string" && contentHashField.length > 0
+        ? contentHashField
+        : null;
 
-    // MIME 検証（AC-6）
-    if (!(MEMBER_PHOTO_ALLOWED_MIME as readonly string[]).includes(file.type)) {
+    // display MIME 検証（AC-6）
+    if (!(MEMBER_PHOTO_ALLOWED_MIME as readonly string[]).includes(display.type)) {
       return c.json({ ok: false, error: "unsupported media type" }, 415);
     }
 
-    // サイズ検証（AC-6）
-    const buf = await file.arrayBuffer();
-    if (buf.byteLength === 0) {
+    // display サイズ検証（AC-6・検証失敗時は副作用ゼロ）
+    const displayBuf = await display.arrayBuffer();
+    if (displayBuf.byteLength === 0) {
       return c.json({ ok: false, error: "empty file" }, 400);
     }
-    if (buf.byteLength > MEMBER_PHOTO_MAX_BYTES) {
+    if (displayBuf.byteLength > MEMBER_PHOTO_MAX_BYTES) {
       return c.json({ ok: false, error: "file too large" }, 413);
+    }
+
+    // thumb 検証（在るときのみ・MIME 415 / サイズ 413・副作用ゼロ）
+    let thumbBuf: ArrayBuffer | null = null;
+    if (thumb) {
+      if (!(MEMBER_PHOTO_ALLOWED_MIME as readonly string[]).includes(thumb.type)) {
+        return c.json({ ok: false, error: "unsupported thumb media type" }, 415);
+      }
+      thumbBuf = await thumb.arrayBuffer();
+      if (thumbBuf.byteLength > MEMBER_PHOTO_THUMB_MAX_BYTES) {
+        return c.json({ ok: false, error: "thumb too large" }, 413);
+      }
     }
 
     // R2 binding が無い場合は 503（fail-soft では握り潰さず明示）
@@ -531,17 +580,33 @@ export const createAdminMembersRoute = () => {
     }
 
     const objectKey = MEMBER_PHOTO_OBJECT_KEY(memberId);
-    await c.env.MEMBER_PHOTOS.put(objectKey, buf, {
-      httpMetadata: { contentType: file.type },
+    await c.env.MEMBER_PHOTOS.put(objectKey, displayBuf, {
+      httpMetadata: { contentType: display.type },
     });
+
+    const hasThumb = thumb !== null && thumbBuf !== null;
+    const thumbObjectKey = hasThumb ? MEMBER_PHOTO_THUMB_OBJECT_KEY(memberId) : null;
+    if (hasThumb && thumbObjectKey && thumbBuf) {
+      await c.env.MEMBER_PHOTOS.put(thumbObjectKey, thumbBuf, {
+        httpMetadata: { contentType: thumb.type },
+      });
+    }
+
+    const processingStatus: MemberPhotoProcessingStatus = hasThumb
+      ? "client_generated"
+      : "original_fallback";
 
     const db = ctx({ DB: c.env.DB });
     const actorEmail = c.var.authUser?.email ?? "unknown";
     await upsertMemberPhoto(db, {
       memberId,
       objectKey,
-      contentType: file.type,
-      byteSize: buf.byteLength,
+      contentType: display.type,
+      byteSize: displayBuf.byteLength,
+      thumbObjectKey,
+      thumbByteSize: hasThumb && thumbBuf ? thumbBuf.byteLength : null,
+      contentHash,
+      processingStatus,
       uploadedBy: actorEmail,
       // issue-1031: admin 代行 upload は source='admin' を明示（source 列追加後も既存挙動維持・backfill）。
       source: "admin",
@@ -553,7 +618,14 @@ export const createAdminMembersRoute = () => {
       action: auditAction("admin.member.photo_uploaded"),
       targetType: "member",
       targetId: memberId,
-      after: { objectKey, contentType: file.type, byteSize: buf.byteLength },
+      // signed URL / raw bytes は残さず、variant 有無のみ記録する。
+      after: {
+        objectKey,
+        contentType: display.type,
+        byteSize: displayBuf.byteLength,
+        hasThumb,
+        processingStatus,
+      },
     });
 
     return c.json({ ok: true }, 200);
@@ -572,6 +644,10 @@ export const createAdminMembersRoute = () => {
 
     if (c.env.MEMBER_PHOTOS) {
       await c.env.MEMBER_PHOTOS.delete(photo.objectKey);
+      // issue-1030: thumb variant も削除（best-effort・例外で 500 にしない）。
+      if (photo.thumbObjectKey) {
+        await c.env.MEMBER_PHOTOS.delete(photo.thumbObjectKey).catch(() => {});
+      }
     }
     await deleteMemberPhoto(db, mid);
 
@@ -634,7 +710,71 @@ export const createAdminMembersRoute = () => {
   // ---------------------------------------------------------------------------
   // issue-982: member tag の admin manual 付与 / 解除 / master 読取
   //   不変条件 #13 再定義: admin manual 経路は audit 必須で member_tags を直接 write する。
+  // issue-1036: bulk（複数 member × 複数 tag）の付与 / 解除（第3経路）+ tag master read。
   // ---------------------------------------------------------------------------
+
+  // GET /admin/tags → { available }（tag master read。bulk UI の tag picker 用）
+  app.get("/tags", async (c) => {
+    const db = ctx({ DB: c.env.DB });
+    const available = await getTagDefinitionMaster(db);
+    return c.json({ available }, 200);
+  });
+
+  // POST /admin/members/tags/bulk  body { memberIds, tagIds, op }
+  //   → 200 + { batchId, results }（部分失敗も 200・AC-1/AC-2）
+  //   ※ `:memberId` 系より前に登録すること（Hono 登録順マッチ・路 "/members/tags/bulk" の誤マッチ回避）
+  app.post("/members/tags/bulk", async (c) => {
+    let raw: unknown;
+    try {
+      raw = await c.req.json();
+    } catch {
+      return c.json({ ok: false, error: "invalid json" }, 400);
+    }
+    const parsed = BulkTagBodyZ.safeParse(raw);
+    if (!parsed.success) {
+      return c.json({ ok: false, error: "invalid_body" }, 400);
+    }
+
+    const db = ctx({ DB: c.env.DB });
+    const authUser = c.get("authUser");
+    const result = await bulkApplyMemberTagsByAdmin(
+      db,
+      {
+        memberIds: parsed.data.memberIds.map(asMemberId),
+        tagIds: parsed.data.tagIds,
+        op: parsed.data.op,
+      },
+      { id: asAdminId(authUser.memberId), email: adminEmail(authUser.email) },
+    );
+
+    // 実 mutation した member×tag 単位で audit 1 件（AC-3・既存単一 endpoint と action 名 parity）
+    const audit = requireProvider(c.var.auditLogProvider, "auditLogProvider");
+    for (const item of result.results) {
+      if (item.status === "assigned") {
+        await audit.append({
+          actorId: asAdminId(authUser.memberId),
+          actorEmail: adminEmail(authUser.email),
+          action: auditAction("admin.member.tag_assigned"),
+          targetType: "member",
+          targetId: item.memberId,
+          before: null,
+          after: { tagId: item.tagId, source: "manual", batchId: result.batchId },
+        });
+      } else if (item.status === "unassigned") {
+        await audit.append({
+          actorId: asAdminId(authUser.memberId),
+          actorEmail: adminEmail(authUser.email),
+          action: auditAction("admin.member.tag_unassigned"),
+          targetType: "member",
+          targetId: item.memberId,
+          before: { tagId: item.tagId, batchId: result.batchId },
+          after: null,
+        });
+      }
+    }
+
+    return c.json(result, 200);
+  });
 
   // GET /admin/members/:memberId/tags → { assigned, available }
   app.get("/members/:memberId/tags", async (c) => {
