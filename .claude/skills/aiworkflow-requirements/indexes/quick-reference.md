@@ -1,5 +1,20 @@
 # クイックリファレンス
 
+## issue-1077-bulk-tag-authenticated-staging-visual（2026-06-03）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-1077-bulk-tag-authenticated-staging-visual/` |
+| status | `implemented_local_runtime_pending / implementation / VISUAL_ON_EXECUTION` |
+| issue | #1077 CLOSED 維持。Issue mutation / reopen は行わず、PR 文脈は `Refs #1077` のみ |
+| parent | `docs/30-workflows/completed-tasks/issue-1036-bulk-member-tag-assign/`（機能本体は PR #1085 / commit `ca3fb9336` で landed 済み） |
+| purpose | landed 済み bulk member tag assign の認証付き staging `/admin/members` 実機で、BulkActionBar tag picker の assign / unassign visual baseline を取得する |
+| implementation target | `apps/web/playwright/tests/visual-staging-authenticated/admin-members-bulk-tag-authenticated.spec.ts`（新規 1 file、config 編集不要） |
+| evidence boundary | Phase 1-13 spec and Phase 12 strict 7 present; runtime staging capture, baseline snapshot generation, commit, push, and PR are user-gated |
+| invariant | read-only capture only。bulk apply mutation は押さず、apps/api / apps/web source（Playwright spec 以外）/ D1 schema / Google Form 仕様は変更しない |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1077-bulk-tag-authenticated-staging-visual-artifact-inventory.md` |
+| user gate | staging deploy/capture, baseline commit, push, PR, Issue mutation |
+
 ## issue-1043-identity-conflicts-row-fade-animation（2026-06-02）
 
 | 項目 | 値 |
