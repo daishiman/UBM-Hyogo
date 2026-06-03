@@ -13,7 +13,7 @@ export default async function PublicLayout({
 }: {
   readonly children: ReactNode;
 }) {
-  // x-pathname は middleware 未注入のため fallback を持つ。active 確定は client の usePathname。
+  // x-pathname は middleware 注入値を優先し、fallback は middleware 未経由のテスト経路を支える。
   const pathname = (await headers()).get("x-pathname") ?? "/";
   return (
     <div

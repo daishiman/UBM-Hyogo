@@ -18,7 +18,11 @@ describe("SidebarUserMenu", () => {
     const { container } = render(
       <SidebarUserMenu role="viewer" user={null} collapsed={false} />,
     );
-    expect(container.querySelector('[data-action="login"]')).not.toBeNull();
+    const login = container.querySelector('[data-shell-block="login-cta"]');
+    expect(login).not.toBeNull();
+    expect(login?.getAttribute("href")).toBe("/login");
+    expect(container.textContent).toContain("ゲスト");
+    expect(container.textContent).toContain("未ログイン");
     expect(container.querySelector('[data-testid="sign-out-button"]')).toBeNull();
   });
 
