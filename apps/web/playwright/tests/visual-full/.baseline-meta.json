@@ -1,11 +1,9 @@
 {
   "$schema": "../../../../docs/30-workflows/task-709-visual-baseline-runtime-capture/schemas/baseline-meta.schema.json",
-  "captured_at_commit_sha": "9b708db1170a5987f6863416575b32edd46f37f6",
-  "captured_at": "2026-06-02T02:18:57Z",
+  "captured_at_commit_sha": "c4e3573282c1076175a46c05055bd674790068b3",
+  "captured_at": "2026-06-03T06:57:46Z",
   "captured_via": "playwright-visual-baseline-update.yml#workflow_dispatch",
   "captured_run_ids": [
-    "26552192908",
-    "26581231613",
     "26616303516",
     "26628923374",
     "26677930770",
@@ -13,7 +11,9 @@
     "26699807063",
     "26732057120",
     "26732700618",
-    "26793911803"
+    "26793911803",
+    "26857844535",
+    "26868407587"
   ],
   "viewport_dimensions": {
     "desktop": {
@@ -41,5 +41,5 @@
   "refresh_workflow": ".github/workflows/playwright-visual-baseline-update.yml",
   "refresh_command_hint": "gh workflow run playwright-visual-baseline-update.yml -f reason=\"<why>\" -r <feature-branch>",
   "notes": "captured_at_commit_sha からの rendering_relevant_paths diff が空でない場合、baseline は stale。scripts/visual-baseline-status.sh で診断可能。",
-  "last_refresh_reason": "issue-1031: /profile に会員本人の写真アップロードUI(PhotoUpload.client.tsx)を追加したことによる full-visual / smoke-visual / sidebar-shell-visual の正当な見た目変更に追従するため baseline を再生成"
+  "last_refresh_reason": "C1-C4 sidebar footer固定 + main footer sticky により page 高さが変化(home 2078→2030px / admin 875→800px)。意図的レイアウト変更につき visual baseline を再生成。dev sync-merge 解消後の確定 layout を正本化する。"
 }

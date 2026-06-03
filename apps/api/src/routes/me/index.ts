@@ -388,11 +388,17 @@ export const createMeRoute = (deps: MeRouteDeps) => {
     });
 
     // D1 upsert（source='self'）。
+    // issue-1030: member 本人 upload は client 側 thumb 生成経路を持たないため
+    //   thumb 系メタは null・processingStatus は original_fallback で保存する（admin の thumb 無しケースと同一扱い）。
     await upsertMemberPhoto(ctx, {
       memberId,
       objectKey,
       contentType: file.type,
       byteSize: buf.byteLength,
+      thumbObjectKey: null,
+      thumbByteSize: null,
+      contentHash: null,
+      processingStatus: "original_fallback",
       uploadedBy: user.email,
       source: "self",
     });

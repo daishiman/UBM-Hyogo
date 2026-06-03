@@ -3,10 +3,11 @@
 // - layout の責務を auth guard + shell 呼び出し + admin shell DOM contract 維持へ縮約。
 // 不変条件 #11 維持: session.isAdmin !== true は redirect（root proxy.ts と layout guard の二段防御）。
 // schemaDiffCount は SidebarShellServer が内部算出（apps/web/src/lib/admin/schema-diff-count.ts）。
-// dev #1028 で SidebarShell が semantic <main>（data-shell="main" / data-route=routeKey）を内部描画する
+// dev issue 1028 で SidebarShell が semantic <main>（data-shell="main" / data-route=routeKey）を内部描画する
 // 統一版へ昇格したため、main の二重化を避けて routeKey="admin" / sectionRhythm="compact" を渡し、
 // admin 固有 padding は main 内の wrapper div で保持する（(member)/(public) layout と同じ消費形）。
 import type { ReactNode } from "react";
+import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 
 import { getSession } from "../../src/lib/session";
@@ -23,6 +24,7 @@ export default async function AdminLayout({
   const session = await getSession();
   if (!session) redirect("/login?next=/admin"); // AC-3: 既存契約維持
   if (!session.isAdmin) redirect("/login?gate=forbidden"); // AC-4: fail-closed
+  const pathname = (await headers()).get("x-pathname") ?? "/admin";
 
   return (
     <div
@@ -34,7 +36,7 @@ export default async function AdminLayout({
       data-shell-mode="sidebar"
     >
       <SidebarShellServer
-        activePath="/admin"
+        activePath={pathname}
         mobileTriggerSlot={<SidebarMobileTrigger />}
         routeKey="admin"
         sectionRhythm="compact"

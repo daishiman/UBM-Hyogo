@@ -28,6 +28,25 @@ export async function listFieldsByResponseId(
 }
 
 /**
+ * response_id 群に紐づくフィールド一覧を 1 query で取得する。
+ */
+export async function listFieldsByResponseIds(
+  c: DbCtx,
+  rids: readonly ResponseId[],
+): Promise<ResponseFieldRow[]> {
+  if (rids.length === 0) return [];
+
+  const placeholders = rids.map((_, i) => `?${i + 1}`).join(", ");
+  const result = await c.db
+    .prepare(
+      `SELECT * FROM response_fields WHERE response_id IN (${placeholders})`,
+    )
+    .bind(...rids)
+    .all<ResponseFieldRow>();
+  return result.results;
+}
+
+/**
  * known stableKey の field を upsert する（03b sync 用）
  */
 export async function upsertKnownField(
