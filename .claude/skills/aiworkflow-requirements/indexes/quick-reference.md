@@ -1,5 +1,17 @@
 # クイックリファレンス
 
+## profile-reload-session-404-fix（2026-06-03）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/profile-reload-session-404-fix/` |
+| status | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION` |
+| purpose | `/profile` reload 時の `GET /me` 404 生エラーを API route 正規化・web proxy URL 修正・再ログイン CTA で解消 |
+| implementation | `trailingSlashRedirect()` + API mount test、`/api/me/[...path]` empty-path `/me` fix、`SectionError` action link、`/profile` `MEMBER_SESSION_404` CTA |
+| evidence | API focused Vitest 9 PASS、web focused Vitest 16 PASS |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-profile-reload-session-404-fix-artifact-inventory.md` |
+| user gate | staging authenticated screenshot, commit, push, PR |
+
 ## issue-1031-member-self-photo-upload（2026-06-01）
 
 | 項目 | 値 |

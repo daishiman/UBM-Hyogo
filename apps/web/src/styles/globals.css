@@ -1737,6 +1737,7 @@
     color: var(--ubm-color-text-secondary);
     font-size: var(--ubm-text-sm);
   }
+  .section-error [data-role="action"],
   .section-error [data-role="retry"] {
     width: fit-content;
     color: var(--ubm-color-accent);
