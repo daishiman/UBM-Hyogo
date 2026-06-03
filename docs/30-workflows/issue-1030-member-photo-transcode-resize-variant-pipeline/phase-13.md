@@ -10,7 +10,7 @@
 |------------|--------|
 | git commit / push | user 明示承認後のみ |
 | `gh pr create --base dev` | user 明示承認後のみ |
-| migration `0023_member_photos_variants.sql` apply | user-gated（`bash scripts/cf.sh d1 migrations apply`） |
+| migration `0024_member_photos_variants.sql` apply | user-gated（`bash scripts/cf.sh d1 migrations apply`） |
 | GitHub Issue #1030 の状態変更 | **行わない**（#1030 は CLOSED 維持・reopen しない） |
 
 ## 1. 調査結論（PR 本文 冒頭に記載）
@@ -36,7 +36,7 @@
 
 | レイヤ | ファイル | 区分 |
 |--------|----------|------|
-| migration | `apps/api/migrations/0023_member_photos_variants.sql` | 新規 |
+| migration | `apps/api/migrations/0024_member_photos_variants.sql` | 新規 |
 | presign | `apps/api/src/lib/r2/member-photo-presign.ts` | 編集（thumb key/定数/型 追加） |
 | repository | `apps/api/src/repository/memberPhotos.ts` | 編集（4 列・upsert 拡張） |
 | route | `apps/api/src/routes/admin/members.ts` | 編集（detail thumb presign / POST multipart 拡張 / DELETE 両 key） |

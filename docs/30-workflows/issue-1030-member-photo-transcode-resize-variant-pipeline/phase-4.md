@@ -8,7 +8,7 @@
 
 Phase 5 実装前は次が未存在のため全ケースが fail する想定:
 
-- `apps/api/migrations/0023_member_photos_variants.sql`（新列なし → variant 列 SELECT/INSERT が SQLITE_ERROR）
+- `apps/api/migrations/0024_member_photos_variants.sql`（新列なし → variant 列 SELECT/INSERT が SQLITE_ERROR）
 - `MEMBER_PHOTO_THUMB_OBJECT_KEY` / `MEMBER_PHOTO_THUMB_MAX_BYTES` / `MemberPhotoVariant` / `MemberPhotoProcessingStatus`（未 export → import 解決失敗）
 - `MemberPhotoRow.thumbObjectKey` 系 4 列（型未定義）
 - route の `display` / `thumb` / `contentHash` multipart 受領（旧 `file` 単一のみ）

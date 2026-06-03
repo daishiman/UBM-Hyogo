@@ -30,7 +30,7 @@
 
 ### 含む
 
-1. migration `0023_member_photos_variants.sql`（後方互換 ADD COLUMN）
+1. migration `0024_member_photos_variants.sql`（後方互換 ADD COLUMN）
 2. `member-photo-presign.ts` の variant key helper 拡張
 3. `memberPhotos.ts` repository の variant メタデータ拡張
 4. `routes/admin/members.ts` のアップロード（multipart 複数 variant 受領）・presign（display+thumb）拡張

@@ -8,7 +8,7 @@
 
 | # | 種別 | パス | 概要 |
 |---|------|------|------|
-| 1 | 新規 | `apps/api/migrations/0023_member_photos_variants.sql` | thumb/hash/status 列を後方互換 ADD COLUMN |
+| 1 | 新規 | `apps/api/migrations/0024_member_photos_variants.sql` | thumb/hash/status 列を後方互換 ADD COLUMN |
 | 2 | 編集 | `apps/api/src/lib/r2/member-photo-presign.ts` | thumb key 定数・thumb 上限・variant/status 型を追加 |
 | 3 | 編集 | `apps/api/src/repository/memberPhotos.ts` | `MemberPhotoRow` 4 列追加・get/upsert SQL 拡張 |
 | 4 | 編集 | `apps/api/src/routes/admin/members.ts` | POST 多 variant 受領・GET で photoThumbUrl・DELETE 両 key |
@@ -21,7 +21,7 @@
 
 ## 2. ファイル別差分方針
 
-### 2-1. migration `0023_member_photos_variants.sql`（新規）
+### 2-1. migration `0024_member_photos_variants.sql`（新規）
 ```sql
 ALTER TABLE member_photos ADD COLUMN thumb_object_key  TEXT;
 ALTER TABLE member_photos ADD COLUMN thumb_byte_size   INTEGER;

@@ -54,10 +54,10 @@ export type MemberPhotoProcessingStatus =
 
 `presignMemberPhotoGetUrl()` 本体は変更しない（key を引数で受ける汎用のまま）。route 層が display/thumb 双方を presign する。
 
-## 2. migration `0023_member_photos_variants.sql`（AC-3）
+## 2. migration `0024_member_photos_variants.sql`（AC-3）
 
 ```sql
--- 0023_member_photos_variants.sql
+-- 0024_member_photos_variants.sql
 -- issue-1030: member photo display/thumb variant metadata（client-side 生成）
 -- invariant #4: Google Form schema 外データを admin-managed として分離。
 -- 後方互換: 全列 nullable / DEFAULT 付きで ADD COLUMN（既存行は NULL/default を維持）。

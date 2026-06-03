@@ -1,9 +1,9 @@
 # DB schema — issue-1030 migration 0023
 
-## 0023_member_photos_variants.sql
+## 0024_member_photos_variants.sql
 
 ```sql
--- 0023_member_photos_variants.sql
+-- 0024_member_photos_variants.sql
 -- issue-1030: member photo display/thumb variant metadata（client-side 生成）
 -- invariant #4: admin-managed として分離。後方互換 ADD COLUMN。
 ALTER TABLE member_photos ADD COLUMN thumb_object_key  TEXT;

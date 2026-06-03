@@ -6,7 +6,7 @@
 
 | # | 種別 | パス | 実装内容 |
 |---|------|------|------|
-| 1 | 新規 | `apps/api/migrations/0023_member_photos_variants.sql` | `thumb_object_key TEXT` / `thumb_byte_size INTEGER` / `content_hash TEXT` / `processing_status TEXT NOT NULL DEFAULT 'none'` を ADD COLUMN |
+| 1 | 新規 | `apps/api/migrations/0024_member_photos_variants.sql` | `thumb_object_key TEXT` / `thumb_byte_size INTEGER` / `content_hash TEXT` / `processing_status TEXT NOT NULL DEFAULT 'none'` を ADD COLUMN |
 | 2 | 編集 | `apps/api/src/lib/r2/member-photo-presign.ts` | `MEMBER_PHOTO_THUMB_OBJECT_KEY` / `MEMBER_PHOTO_THUMB_MAX_BYTES`(64KB) / `MemberPhotoVariant` / `MemberPhotoProcessingStatus` を追加（既存 export は byte-identical 維持）|
 | 3 | 編集 | `apps/api/src/repository/memberPhotos.ts` | `MemberPhotoRow` + `RawMemberPhotoRow` に 4 列、`getMemberPhoto`/`upsertMemberPhoto` の SQL とマップ拡張 |
 | 4 | 編集 | `apps/api/src/routes/admin/members.ts` | POST 多 variant 受領 + 検証 + 両 R2 put + upsert、GET の `photoThumbUrl` マージ、DELETE 両 key |

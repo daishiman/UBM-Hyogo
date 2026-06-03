@@ -2,7 +2,7 @@
 
 ## 含む（1 実装サイクルで完了 / CONST_007）
 
-- migration `0023_member_photos_variants.sql`
+- migration `0024_member_photos_variants.sql`
 - `member-photo-presign.ts`: thumb key helper + variant 定数/型
 - `memberPhotos.ts`: variant メタ列の get/upsert 拡張
 - `routes/admin/members.ts`: multipart 複数 variant 受領 + display/thumb presign + delete 両 key

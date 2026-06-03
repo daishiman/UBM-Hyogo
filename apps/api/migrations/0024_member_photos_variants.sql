@@ -1,4 +1,4 @@
--- 0023_member_photos_variants.sql
+-- 0024_member_photos_variants.sql
 -- issue-1030: member photo の display/thumb variant pipeline（client-side / free-tier）
 -- 後方互換 ADD COLUMN のみ（全列 nullable または DEFAULT 付き）。
 -- SQLite の ALTER TABLE ... ADD COLUMN は既存行を再書き込みせず非破壊。
