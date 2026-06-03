@@ -3910,6 +3910,17 @@ node scripts/list-specs.js --topics
 |------------|----|
 | Boundary | L19 |
 
+### references/workflow-profile-reload-session-404-fix-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Canonical | L3 |
+| State | L13 |
+| Implemented Local Targets | L17 |
+| Tests | L25 |
+| Verification Boundary | L33 |
+| Notes | L42 |
+
 ### references/workflow-profile-server-components-render-error-artifact-inventory.md
 
 | セクション | 行 |
@@ -7452,8 +7463,8 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 概要 | L3 |
 | 仕様書インデックス | L7 |
-| 利用順序 | L125 |
-| 関連ドキュメント | L130 |
+| 利用順序 | L126 |
+| 関連ドキュメント | L131 |
 
 ### references/llm-embedding.md
 
@@ -8590,15 +8601,15 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L3613 |
-| フェーズ構造（概要） | L3622 |
-| 品質ゲート（概要） | L3653 |
-| 出力テンプレート | L3664 |
-| 実行時のコマンド・エージェント・スキル | L3687 |
-| 昇格パターン集 | L3711 |
-| Current Active / Spec Created Tasks | L3713 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L3879 |
-| issue-998-members-publish-state-production-rollout | L3957 |
+| ドキュメント構成 | L3626 |
+| フェーズ構造（概要） | L3635 |
+| 品質ゲート（概要） | L3666 |
+| 出力テンプレート | L3677 |
+| 実行時のコマンド・エージェント・スキル | L3700 |
+| 昇格パターン集 | L3724 |
+| Current Active / Spec Created Tasks | L3726 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L3892 |
+| issue-998-members-publish-state-production-rollout | L3970 |
 
 ### references/task-workflow-backlog-part2.md
 

@@ -20,6 +20,19 @@
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-member-detail-status-404-fix-artifact-inventory.md` |
 | user gate | remote D1 migration apply、staging deploy、authenticated admin smoke、commit、push、PR |
 
+### profile-reload-session-404-fix（2026-06-03）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION` |
+| 成果物 | `docs/30-workflows/profile-reload-session-404-fix/` |
+| 目的 | `/profile` reload 時の `GET /me` 404 生エラーバナーを、API trailing-slash 正規化・web proxy URL 修正・profile 再ログイン CTA で解消する |
+| implemented targets | `apps/api/src/middleware/trailing-slash.ts`, `apps/api/src/index.ts`, `apps/web/app/api/me/[...path]/route.ts`, `apps/web/app/(member)/profile/page.tsx`, `apps/web/src/components/member/SectionError.tsx` |
+| evidence | API focused Vitest 2 files / 9 tests PASS、web focused Vitest 3 files / 16 tests PASS |
+| invariant | `/me` response shape / D1 schema / Google Form schema 不変。web は D1 直接アクセスせず API Worker proxy のみ。path に memberId を出さない |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-profile-reload-session-404-fix-artifact-inventory.md` |
+| user gate | staging authenticated `/profile` screenshot、commit、push、PR |
+
 ### admin-attendance-dashboard-ux（2026-06-02）
 
 | 項目 | 値 |
