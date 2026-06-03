@@ -2696,6 +2696,16 @@ node scripts/list-specs.js --topics
 | Phase 12 Artifacts | L21 |
 | Deferred / Blocked | L32 |
 
+### references/workflow-issue-1079-bulk-tag-audit-batch-filter-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Workflow | L6 |
+| Implementation Artifacts | L16 |
+| Test Artifacts | L27 |
+| Evidence | L37 |
+| Contract Notes | L46 |
+
 ### references/workflow-issue-191-schema-aliases-artifact-inventory.md
 
 | セクション | 行 |
@@ -8555,7 +8565,7 @@ node scripts/list-specs.js --topics
 | 昇格パターン集 | L3671 |
 | Current Active / Spec Created Tasks | L3673 |
 | UT-17 followup-003 alert-relay weekly healthcheck cron | L3839 |
-| issue-998-members-publish-state-production-rollout | L3917 |
+| issue-998-members-publish-state-production-rollout | L3918 |
 
 ### references/task-workflow-backlog-part2.md
 

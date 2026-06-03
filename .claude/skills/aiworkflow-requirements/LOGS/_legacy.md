@@ -1142,6 +1142,13 @@ production env monitor secret cleanup は user-gated。
 - Added artifact inventory `references/workflow-admin-ui-prototype-alignment-artifact-inventory.md`.
 - Boundary: no API / D1 schema / Auth.js middleware contract change; runtime screenshots and PR creation are user-gated.
 
+# 2026-06-03 issue-1079-bulk-tag-audit-batch-filter
+
+- Synced `docs/30-workflows/completed-tasks/issue-1079-bulk-tag-audit-batch-filter/` as `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION`.
+- Implemented `GET /admin/audit?batchId=` filter, after/before JSON `batchId` lookup, Web filter/pagination plumbing, row batchId display, and `BatchIdCopyButton` clipboard interaction.
+- Registered API endpoint contract, task-workflow-active, quick-reference, resource-map, artifact inventory, and Phase 12 compliance updates in the same wave.
+- API D1 targeted PASS: 2 files / 26 tests. Web targeted PASS: 3 files / 54 tests. API/Web typecheck PASS. Authenticated screenshots, staging deploy, commit, push, PR, and Issue mutation remain user-gated.
+
 # 2026-05-30 issue-998-members-publish-state-production-rollout
 
 - Synced `docs/30-workflows/completed-tasks/issue-998-members-publish-state-production-rollout/` as `implemented_local_runtime_pending / implementation / VISUAL_ON_EXECUTION`.
