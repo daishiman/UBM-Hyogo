@@ -2,6 +2,7 @@ import { cleanup, render, screen } from "@testing-library/react";
 import { redirect } from "next/navigation";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
+import AuthLayout from "../../layout";
 import LoginPage from "../page";
 import { getSession } from "../../../../src/lib/session";
 
@@ -24,12 +25,30 @@ beforeEach(() => {
 });
 
 describe("LoginPage authenticated redirect", () => {
+  it("auth layout keeps the login route bare and warm themed", () => {
+    const { container } = render(
+      <AuthLayout>
+        <p data-testid="child">child</p>
+      </AuthLayout>,
+    );
+
+    const shell = screen.getByTestId("auth-shell");
+    expect(shell.getAttribute("data-theme")).toBe("warm");
+    expect(shell.getAttribute("data-route-group")).toBe("auth");
+    expect(shell.getAttribute("data-shell-mode")).toBe("bare");
+    expect(screen.getByTestId("child")).not.toBeNull();
+    expect(container.querySelector('[data-testid="public-shell"]')).toBeNull();
+    expect(container.querySelector("aside")).toBeNull();
+  });
+
   it("renders the existing login card for anonymous users", async () => {
     vi.mocked(getSession).mockResolvedValue(null);
 
     render(await LoginPage({ searchParams: Promise.resolve({}) }));
 
     expect(screen.getByRole("heading", { name: "会員ログイン" })).not.toBeNull();
+    expect(document.querySelector('[data-testid="public-shell"]')).toBeNull();
+    expect(document.querySelector("aside")).toBeNull();
     expect(redirect).not.toHaveBeenCalled();
   });
 
