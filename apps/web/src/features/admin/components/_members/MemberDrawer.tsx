@@ -13,6 +13,7 @@ import {
   type AdminTagRef,
   type MemberTagsResult,
 } from "../../api/members";
+import { buildMemberPhotoVariants } from "../../../../lib/admin/image-resize";
 import { MemberAvatar } from "./MemberAvatar";
 import { MemberPublishSwitch } from "./MemberPublishSwitch";
 import { MemberStateChipRow } from "./MemberStateChip";
@@ -97,6 +98,7 @@ function MemberDrawerBody({ memberId, detail, onUpdated }: MemberDrawerBodyProps
           memberId={memberId}
           fullName={fullName}
           photoUrl={detail.photoUrl}
+          photoThumbUrl={detail.photoThumbUrl}
           size="md"
         />
         <div className="flex min-w-0 flex-1 flex-col gap-1">
@@ -504,8 +506,13 @@ function PhotoUploadAffordance({ memberId, hasPhoto }: PhotoUploadAffordanceProp
       refreshOnSuccess: true,
       // multipart/form-data は JSON 既定経路では送れないため mutationFn で送出する。
       mutationFn: async (payload: unknown) => {
+        // issue-1030: 送信前にブラウザ Canvas で display/thumb variant を生成する（無料枠）。
+        // Canvas 非対応時は original_fallback（display = 原 File・thumb なし）。
+        const variants = await buildMemberPhotoVariants(payload as File);
         const formData = new FormData();
-        formData.append("file", payload as File);
+        formData.append("display", variants.display);
+        if (variants.thumb) formData.append("thumb", variants.thumb);
+        formData.append("contentHash", variants.contentHash);
         const res = await fetch(endpoint, {
           method: "POST",
           body: formData,
