@@ -4,6 +4,8 @@ export interface SectionErrorProps {
   title?: string;
   detail?: string;
   retryHref?: string;
+  actionHref?: string;
+  actionLabel?: string;
   className?: string;
 }
 
@@ -11,6 +13,8 @@ export function SectionError({
   title = "読み込みに失敗しました",
   detail = "時間をおいて再読み込みしてください。",
   retryHref,
+  actionHref,
+  actionLabel,
   className,
 }: SectionErrorProps) {
   return (
@@ -23,6 +27,11 @@ export function SectionError({
     >
       <p data-role="title">{title}</p>
       <p data-role="detail">{detail}</p>
+      {actionHref && actionLabel ? (
+        <a href={actionHref} data-role="action">
+          {actionLabel}
+        </a>
+      ) : null}
       {retryHref ? (
         <a href={retryHref} data-role="retry">
           再読み込み

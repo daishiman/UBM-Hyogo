@@ -20,7 +20,10 @@ on:
   workflow_dispatch:
   pull_request:
     paths:
+      - "apps/api/wrangler.toml"
       - "infra/cloudflare-alerts/**"
+      - "package.json"
+      - "pnpm-lock.yaml"
       - "scripts/cf.sh"
       - "scripts/__tests__/cf-alerts-cli.spec.ts"
       - ".github/workflows/cloudflare-alerts-drift.yml"
@@ -40,6 +43,9 @@ jobs:
 
       - name: Validate alert manifests and CLI
         run: pnpm test:alerts
+
+      - name: Validate binding-policy drift
+        run: pnpm cf:alerts:binding-drift --ci
 
   diff:
     if: github.event_name != 'pull_request'

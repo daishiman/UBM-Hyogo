@@ -82,13 +82,16 @@ describe("MemberFilters", () => {
     expect(replaceMock).toHaveBeenCalled();
   });
 
-  it("フィルタ条件があるときクリアボタンが活性化し、押下で /members に遷移する", () => {
-    const { container } = render(
+  it("q のみの絞り込みでは検索入力のクリアボタンだけを表示し、押下で /members に遷移する", () => {
+    render(
       <MemberFilters
         initial={{ ...baseInitial, q: "山田" }}
       />,
     );
-    const clearBtn = screen.getByRole("button", { name: "絞り込みをクリア" });
+    expect(
+      screen.queryByRole("button", { name: "絞り込みをクリア" }),
+    ).toBeNull();
+    const clearBtn = screen.getByRole("button", { name: "クリア" });
     fireEvent.click(clearBtn);
     expect(replaceMock).toHaveBeenLastCalledWith("/members");
   });

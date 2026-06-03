@@ -181,6 +181,18 @@ class MockStmt {
       };
     }
 
+    if (
+      sql.includes("FROM response_fields") &&
+      sql.includes("response_id IN")
+    ) {
+      const rows: unknown[] = [];
+      for (const rid of this.bindings) {
+        const key = String(rid);
+        rows.push(...(this.options.responseFieldsByResponseId?.[key] ?? []));
+      }
+      return { results: rows as T[] };
+    }
+
     // issue-224: listTagsByMemberIds の batch query（member_id IN (...)）。
     // 単一 id 分岐（mt.member_id = ?1）/ tag aggregation（GROUP BY td.code）とは
     // `member_id IN` の有無で確実に区別される。bindings に渡った member_id のみ返すため

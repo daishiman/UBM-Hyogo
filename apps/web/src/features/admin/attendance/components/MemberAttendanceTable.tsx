@@ -7,7 +7,11 @@ interface Props {
 
 export function MemberAttendanceTable({ rows }: Props) {
   if (rows.length === 0) {
-    return <p data-testid="attendance-ranking-empty">メンバーデータがありません</p>;
+    return (
+      <p className="attendance-list-empty" data-testid="attendance-ranking-empty">
+        メンバーデータがありません
+      </p>
+    );
   }
   return (
     <table
