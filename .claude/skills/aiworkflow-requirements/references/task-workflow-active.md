@@ -21,6 +21,21 @@
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-sidebar-visibility-conditional-and-ux-artifact-inventory.md` |
 | user gate | pixel screenshots、staging visual baseline、commit、push、PR |
 
+### issue-1030-member-photo-transcode-resize-variant-pipeline（2026-06-01）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_runtime_pending / implementation / VISUAL_ON_EXECUTION / completed-tasks moved` |
+| 成果物 | `docs/30-workflows/issue-1030-member-photo-transcode-resize-variant-pipeline/` |
+| Issue | #1030 CLOSED 維持。PR 文脈は `Refs #1030` のみ |
+| 親 workflow | `docs/30-workflows/issue-983-member-photo-avatar-r2-storage/` |
+| 目的 | admin member photo の display/thumb variant pipeline を client-side Canvas + dual R2 key + optional `photoThumbUrl` として設計し、無料枠 invariant と後方互換を両立する |
+| planned targets | `apps/api/migrations/0023_member_photos_variants.sql`, `apps/api/src/lib/r2/member-photo-presign.ts`, `apps/api/src/repository/memberPhotos.ts`, `apps/api/src/routes/admin/members.ts`, `packages/shared`, `apps/web/src/lib/admin/image-resize.ts`, `MemberDrawer.tsx`, `MemberAvatar.tsx` |
+| invariant | Cloudflare Images / Image Resizing は有料のため不採用。display key `members/{memberId}/avatar` と旧 `file` upload を維持。D1/R2 は `apps/api` に閉じる |
+| evidence | Phase 1-13 specs、Phase outputs 1/2/3/4/5/6/7/8/9/10/11/12、Phase 12 strict 7、root/output artifacts parity |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1030-member-photo-transcode-resize-variant-pipeline-artifact-inventory.md` |
+| user gate | remote D1 migration apply、staging deploy、authenticated screenshots、commit、push、PR |
+
 ### issue-1039-admin-audit-identity-action-presets（2026-06-01）
 
 | 項目 | 値 |
