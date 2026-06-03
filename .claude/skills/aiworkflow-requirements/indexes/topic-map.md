@@ -2678,6 +2678,16 @@ node scripts/list-specs.js --topics
 | Lessons Learned | L48 |
 | User-Gated | L63 |
 
+### references/workflow-issue-1056-kv-alert-policy-binding-drift-detection-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Summary | L3 |
+| Implementation | L12 |
+| Boundary | L22 |
+| Evidence | L26 |
+| Lessons Learned | L33 |
+
 ### references/workflow-issue-1059-public-members-fields-batch-fetch-n1-prevention-artifact-inventory.md
 
 | セクション | 行 |
@@ -5339,20 +5349,20 @@ node scripts/list-specs.js --topics
 | 現行 canonical: UT-06 実行前ゲート（2026-04-27） | L25 |
 | API Worker Cron（u-04 Sheets → D1 sync / historical manual-only） | L51 |
 | Cloudflare Alert Policy IaC（UT-17 follow-up 004 / 006） | L90 |
-| D1 Backup Long-Term Storage（UT-06-FU-E / 2026-05-01） | L105 |
-| Cloudflare Workers デプロイ（Next.js / OpenNext） | L124 |
-| Cloudflare Workers デプロイ（APIバックエンド） | L212 |
-| Cloudflare D1 データベース | L385 |
-| Cloudflare KV セッションキャッシュ（UT-13 / SESSION_KV） | L418 |
-| GitHub Actions CI/CD | L530 |
-| プレビューデプロイメント | L561 |
-| カスタムドメイン設定 | L577 |
-| 環境分離 | L590 |
-| ロールバック戦略 | L600 |
-| モニタリング/アラート（UT-08 連携） | L621 |
-| per-sync write cap 連続到達アラート（03b-followup-006 / Issue #199） | L638 |
-| Long-term Analytics Evidence（Issue #347 / 2026-05-05） | L673 |
-| 変更履歴 | L722 |
+| D1 Backup Long-Term Storage（UT-06-FU-E / 2026-05-01） | L122 |
+| Cloudflare Workers デプロイ（Next.js / OpenNext） | L141 |
+| Cloudflare Workers デプロイ（APIバックエンド） | L229 |
+| Cloudflare D1 データベース | L407 |
+| Cloudflare KV セッションキャッシュ（UT-13 / SESSION_KV） | L440 |
+| GitHub Actions CI/CD | L552 |
+| プレビューデプロイメント | L583 |
+| カスタムドメイン設定 | L599 |
+| 環境分離 | L612 |
+| ロールバック戦略 | L622 |
+| モニタリング/アラート（UT-08 連携） | L643 |
+| per-sync write cap 連続到達アラート（03b-followup-006 / Issue #199） | L660 |
+| Long-term Analytics Evidence（Issue #347 / 2026-05-05） | L695 |
+| 変更履歴 | L744 |
 
 ### references/deployment-core.md
 
