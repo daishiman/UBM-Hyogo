@@ -1,5 +1,17 @@
 # クイックリファレンス
 
+## admin-attendance-dashboard-ux（2026-06-02）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/admin-attendance-dashboard-ux/` |
+| status | `implemented_local_runtime_pending / implementation / VISUAL` |
+| purpose | admin attendance dashboard UI/UX recovery: `.attendance-*` CSS, fixed SVG bar sizing, attendance-zone labels/help, KPI extended-attendance wording, page guide / section intro / empty-state styling |
+| implementation | `apps/web/src/styles/globals.css`, `apps/web/src/features/admin/attendance/{components,lib,__tests__}/**` |
+| evidence | `outputs/phase-11/manual-test-result.md` records focused Vitest PASS and apps-api unchanged; staging screenshots are user-gated |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-attendance-dashboard-ux-artifact-inventory.md` |
+| follow-up | `docs/30-workflows/admin-attendance-dashboard-ux/unassigned-task-specs/admin-attendance-analytics-calc-correction.md` |
+
 ## sidebar-footer-pinning-and-account-popover-ux（2026-06-02）
 
 | 項目 | 値 |
