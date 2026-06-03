@@ -3,7 +3,7 @@
 //   create（POST /admin/tags = master write）だけを担う。member への付与（attach）は
 //   親 MemberTagsEditor の既存 assign mutation に委譲する（責務分離・付与経路を一本化）。
 //   不変条件: mutation は useAdminMutation 経由（#10）/ input は FormField 経由（#9）/
-//             色は OKLch token のみ（#2）/ apps/api 変更なし（#7）。
+//             色は OKLch token のみ（#2）/ API バックエンド変更なし（#7）。
 "use client";
 import { useState } from "react";
 import { FormField } from "../../../../components/ui/FormField";

@@ -116,8 +116,8 @@ export async function bulkApplyMemberTags(
 //   利用する API: POST /api/admin/tags { code, label, category }
 //     → 201 { tagId, code, label, category, active }
 //     → 400 invalid_json / invalid_body、409 tag_code_conflict
-//     → error body は { ok:false, error:"<code>" }（apps/api 側 fail(c, code)）。
-//   apps/api は変更しない（既存 endpoint surface の利用のみ・不変条件 #7）。
+//     → error body は { ok:false, error:"<code>" }（API 側 fail(c, code)）。
+//   API バックエンドは変更しない（既存 endpoint surface の利用のみ・不変条件 #7）。
 //   実 mutation 発火は MemberTagInlineCreate（task-B）が useAdminMutation 経由で行うが、
 //   error code 検出には parseTagErrorCode を両経路で共用する。
 // ---------------------------------------------------------------------------
