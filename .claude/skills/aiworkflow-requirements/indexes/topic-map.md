@@ -874,13 +874,13 @@ node scripts/list-specs.js --topics
 | 概要 | L8 |
 | ドキュメント構成 | L27 |
 | REST API エンドポイント一覧 | L37 |
-| エンドポイント命名規則 | L249 |
-| UBM-Hyogo Admin Sync API（03a） | L270 |
-| UBM-Hyogo Member Self-Service API（04b） | L322 |
-| Admin Dashboard Attendance Analytics API（UT-02A follow-up 002） | L348 |
-| Desktop IPC API サマリー | L362 |
-| 変更履歴 | L393 |
-| 関連ドキュメント | L410 |
+| エンドポイント命名規則 | L251 |
+| UBM-Hyogo Admin Sync API（03a） | L272 |
+| UBM-Hyogo Member Self-Service API（04b） | L324 |
+| Admin Dashboard Attendance Analytics API（UT-02A follow-up 002） | L352 |
+| Desktop IPC API サマリー | L366 |
+| 変更履歴 | L397 |
+| 関連ドキュメント | L414 |
 
 ### references/api-internal-chunk-search.md
 
@@ -2133,17 +2133,6 @@ node scripts/list-specs.js --topics
 | Artifacts | L13 |
 | Boundary | L31 |
 
-### references/workflow-admin-attendance-dashboard-ux-artifact-inventory.md
-
-| セクション | 行 |
-|------------|----|
-| Summary | L5 |
-| Workflow Artifacts | L9 |
-| Implementation Targets | L20 |
-| Evidence Boundary | L29 |
-| System Boundary | L40 |
-| Lessons Learned | L44 |
-
 ### references/workflow-admin-audit-prototype-alignment-artifact-inventory.md
 
 | セクション | 行 |
@@ -2588,6 +2577,67 @@ node scripts/list-specs.js --topics
 | Contracts | L39 |
 | User-Gated Boundary | L47 |
 | Lessons Learned | L51 |
+
+### references/workflow-issue-1029-public-member-photo-display-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| State | L13 |
+| Implemented Targets | L17 |
+| Evidence | L28 |
+| Boundary | L48 |
+
+### references/workflow-issue-1031-member-self-photo-upload-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Canonical | L3 |
+| State | L12 |
+| Implemented Local Targets | L16 |
+| Verification Boundary | L29 |
+| Lessons | L33 |
+
+### references/workflow-issue-1035-tag-master-write-endpoints-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Workflow | L3 |
+| Implementation | L11 |
+| Tests | L19 |
+| Evidence | L26 |
+| User-Gated | L32 |
+| Lessons | L36 |
+
+### references/workflow-issue-1036-bulk-member-tag-assign-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Summary | L5 |
+| Canonical workflow | L11 |
+| Local implementation targets | L24 |
+| Current code anchors | L34 |
+| Gates | L44 |
+| Lessons Learned | L52 |
+
+### references/workflow-issue-1039-admin-audit-identity-action-presets-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Implementation Targets | L10 |
+| Workflow Artifacts | L18 |
+| Invariants | L31 |
+| Lessons Learned | L38 |
+
+### references/workflow-issue-1042-dismiss-confirm-optimistic-update-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Metadata | L3 |
+| Workflow Artifacts | L12 |
+| Implementation Targets | L23 |
+| Evidence | L31 |
+| Boundaries | L42 |
+| Lessons Learned | L48 |
 
 ### references/workflow-issue-106-admin-member-notes-repository-task-spec-artifact-inventory.md
 
@@ -6103,6 +6153,15 @@ node scripts/list-specs.js --topics
 | L-I1027-007: 新規 workspace package は aggregate coverage-gate に明示配線しないと CI が MISSING で fail する | L29 |
 | L-I1027-008: Workers ランタイム専用コードは `v8 ignore` で除外し、純粋ロジックは抽出して unit test する | L41 |
 
+### references/lessons-learned-issue-1039-admin-audit-identity-action-presets-2026-06.md
+
+| セクション | 行 |
+|------------|----|
+| L-I1039-001 Native datalist preserves query and free-text contracts | L3 |
+| L-I1039-002 Primitive passthrough before primitive expansion | L9 |
+| L-I1039-003 VISUAL local evidence must not be left as pending when a local contract can be captured | L15 |
+| 関連パターン | L21 |
+
 ### references/lessons-learned-issue-106-admin-notes-repository-2026-05.md
 
 | セクション | 行 |
@@ -8409,15 +8468,15 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L3424 |
-| フェーズ構造（概要） | L3433 |
-| 品質ゲート（概要） | L3464 |
-| 出力テンプレート | L3475 |
-| 実行時のコマンド・エージェント・スキル | L3498 |
-| 昇格パターン集 | L3522 |
-| Current Active / Spec Created Tasks | L3524 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L3690 |
-| issue-998-members-publish-state-production-rollout | L3768 |
+| ドキュメント構成 | L3500 |
+| フェーズ構造（概要） | L3509 |
+| 品質ゲート（概要） | L3540 |
+| 出力テンプレート | L3551 |
+| 実行時のコマンド・エージェント・スキル | L3574 |
+| 昇格パターン集 | L3598 |
+| Current Active / Spec Created Tasks | L3600 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L3766 |
+| issue-998-members-publish-state-production-rollout | L3844 |
 
 ### references/task-workflow-backlog-part2.md
 
@@ -8921,4 +8980,3 @@ node scripts/list-specs.js --topics
 | SkillLifecyclePanel 責務別props分離パターン | L82 |
 
 ---
-

@@ -1,0 +1,20 @@
+[33mThe CJS build of Vite's Node API is deprecated. See https://vite.dev/guide/troubleshooting.html#vite-cjs-node-api-deprecated for more details.[39m
+
+ RUN  v2.1.9 /Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260531-195607-wt-7
+
+ ✓ apps/api/src/repository/__tests__/member-photos.batch.spec.ts (5 tests) 217ms
+ ✓ packages/shared/src/zod/__tests__/viewmodel-photo.spec.ts (16 tests) 604ms
+   ✓ AdminMemberDetailViewZ.photoUrl > SCHEMA-P-1: photoUrl なしでも parse 成功（後方互換 = .strict() 維持） 367ms
+ ✓ apps/api/src/use-cases/public/__tests__/list-public-members.spec.ts (9 tests) 586ms
+ ✓ apps/api/src/use-cases/public/__tests__/get-public-member-profile.spec.ts (10 tests) 36ms
+ ✓ apps/web/src/components/public/__tests__/ProfileHero.component.spec.tsx (5 tests) 2359ms
+   ✓ ProfileHero > renders all fields and badges when zone and membershipType present (happy) 1871ms
+ ✓ apps/web/src/components/public/__tests__/MemberCard.spec.tsx (6 tests) 2286ms
+   ✓ MemberCard > renders the prototype alignment hooks for comfy cards 1401ms
+   ✓ MemberCard > renders list density as a compact row while preserving detail navigation 552ms
+
+ Test Files  6 passed (6)
+      Tests  51 passed (51)
+   Start at  10:47:03
+   Duration  30.11s (transform 22.12s, setup 0ms, collect 68.64s, tests 6.09s, environment 52.11s, prepare 6.17s)
+

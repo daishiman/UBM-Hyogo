@@ -21,6 +21,8 @@ const SESSION_COOKIE_NAME = 'authjs.session-token'
 const E2E_AUTH_SECRET =
   process.env.AUTH_SECRET ?? 'playwright-e2e-auth-secret-32-bytes'
 const MOCK_API_PORT = 8787
+const PUBLIC_PHOTO_URL =
+  'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA5NiA5NiI+PHJlY3Qgd2lkdGg9Ijk2IiBoZWlnaHQ9Ijk2IiByeD0iNDgiIGZpbGw9IiMwMDY0N0EiLz48Y2lyY2xlIGN4PSI0OCIgY3k9IjM2IiByPSIxOCIgZmlsbD0iI0ZGRjNGMCIvPjxwYXRoIGQ9Ik0xOCA4NGMwLTE5IDEzLTM0IDMwLTM0czMwIDE1IDMwIDM0IiBmaWxsPSIjRkZGM0YwIi8+PC9zdmc+'
 
 type PendingRequests = {
   visibility?: {
@@ -345,7 +347,13 @@ function publicMembersBody(params = new URLSearchParams()) {
   }
 
   return {
-    items: [buildMember({ memberId: 'sample-001', fullName: '佐藤 サンプル' })],
+    items: [
+      buildMember({
+        memberId: 'sample-001',
+        fullName: '佐藤 サンプル',
+        photoUrl: PUBLIC_PHOTO_URL,
+      }),
+    ],
     pagination: { total: 1, page: 1, limit: 50, totalPages: 1, hasNext: false, hasPrev: false },
     appliedQuery: { q: '', zone: 'all', status: 'public', tags: [], sort: 'recent', density: 'comfy' },
     topTags: [
@@ -406,6 +414,7 @@ function publicMemberProfileBody() {
     attendance: [{ sessionId: 'session_task18', title: '2026年5月 定例会', heldOn: '2026-05-12' }],
     attendanceMeta: { hasMore: false, nextCursor: null },
     tags: [{ code: 'kobe', label: 'Kobe', category: 'zone' }],
+    photoUrl: PUBLIC_PHOTO_URL,
   }
 }
 

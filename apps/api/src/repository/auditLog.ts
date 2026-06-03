@@ -9,6 +9,7 @@ export type AuditTargetType =
   | "member"
   | "admin_member_note"
   | "tag_queue"
+  | "tag"
   | "schema_diff"
   | "meeting"
   | "system";
