@@ -2,6 +2,22 @@
 
 `origin/dev` を feature ブランチへ取り込む際に、複数 wave の workflow が並行で `.claude/skills/aiworkflow-requirements/` および `.claude/skills/task-specification-creator/` の changelog / index / active workflow / completed-tasks doc に additive 行を書き込むため、merge 時に高頻度で diff3 conflict が発生する。本書はその自律解消ポリシーの正本。
 
+## L-DEVSYNC-093: SKILL.md 本体 + indexes 4-file（keywords.json は今回 CONFLICT 側）+ task-workflow-active.md の 6-file skill-only conflict は `pnpm sync:resolve` 単一パスで完結。`=======` がドキュメント内テキスト（区切り線）に現れるが偽コンフリクトマーカー — 実マーカー判定は `git diff --diff-filter=U` 空 + `<<<<<<< / >>>>>>>` grep で確定（2026-06-03 docs/admin-meetings-attendance-404-and-ia-spec ← feature 1 ahead / dev 12 ahead）
+
+- 事象: `docs/admin-meetings-attendance-404-and-ia-spec`（sub-worktree wt-15・ローカル dev は origin/dev に既一致 → dev 同期は冪等スキップ、`HEAD...origin/dev` = feature 1 ahead / dev 12 ahead）の sync-merge。`git merge dev --no-edit` で `CONFLICT (content)` が **6 件**、全て `aiworkflow-requirements/` 配下:
+  - `SKILL.md`, `indexes/{keywords.json, quick-reference.md, resource-map.md, topic-map.md}`, `references/task-workflow-active.md`
+  - `indexes/keywords.json` は **今回 CONFLICT 側**（resolver の `taking --ours for 1 derived files` 段に出た）= L-DEVSYNC-092 とは**逆**（092 では keywords.json は Auto-merge）。
+  - `docs/30-workflows/LOGS.md` / `SKILL-changelog.md` / `lessons-learned/*` 等は `.gitattributes merge=union` で Auto-merging・衝突なし。
+  - `apps/**` / `packages/**` の source conflict は 0 件 → L-DEVSYNC-072 の skill-only baseline に合致。
+- 解消: `pnpm sync:resolve` **1 回**で完結。resolver ログは `union-resolving 5 files`（SKILL.md / quick-reference.md / resource-map.md / topic-map.md / task-workflow-active.md）→ `taking --ours for 1 derived files`（keywords.json）→ `pnpm indexes:rebuild`。残コンフリクト 0 で収束、追加手動編集ゼロ。
+- How to apply:
+  - **L-DEVSYNC-093-A (keywords.json の衝突可否は hunk 位置依存 = L-DEVSYNC-076-B / 092-A の再確認)**: 同じ 6-file セットでも 092 は keywords.json が Auto-merge、本ケースは CONFLICT 側に出た。どちらに転んでも `pnpm sync:resolve` が union/`--ours` を自動振り分けするため、衝突ファイルを事前予測せず resolver 直行で全パターンを吸収する。
+  - **L-DEVSYNC-093-B (`=======` 偽コンフリクトマーカーの誤検知回避)**: 解消後の検証で `git grep -lE '^(<<<<<<<|>>>>>>>|=======)'` を使うと、`docs/30-workflows/completed-tasks/ut-08-monitoring-alert-design/outputs/phase-11/manual-smoke-log.md` 等の**ドキュメント本文中の区切り線 `=======`** がヒットして偽陽性になる。実コンフリクト残存判定は (1) `git diff --name-only --diff-filter=U` が空 かつ (2) `git grep -nE '^(<<<<<<<|>>>>>>>)'`（実マーカーは `<<<<<<<` と `>>>>>>>` が対で必須）が空、の 2 条件で確定する。`=======` 単独ヒットは無視してよい。
+  - **L-DEVSYNC-093-C (merge 後 indexes:rebuild は no-op)**: resolver 内部で rebuild 実行済のため merge commit 後の再 rebuild は drift 0（L-DEVSYNC-077-B / 092-C と同じ）。独立 chore(indexes) commit 不要、merge commit 1 件で完結。
+  - **L-DEVSYNC-093-D (絶対パス Edit は必ず `.worktrees/<dir>/` prefix を含める)**: sub-worktree 作業中に skill ファイルを絶対パスで編集する際、prefix を欠落させるとメイン WT（dev チェックアウト）の同名ファイルを誤編集し、現在 WT には反映されず（`git status` clean のまま）・メイン WT が dev 上で汚染される。編集前に `git rev-parse --show-toplevel` で WT ルートを取得し、その値を prefix に使う。`git -C <main> status` で混入を検知したら `git -C <main> checkout -- <files>` で破棄してから正しい WT パスで再編集する（MEMORY 既出の path 事故の再発防止）。
+- 検証: `pnpm sync:resolve`（`all skill / index conflicts resolved`）→ 残コンフリクト 0（`git diff --diff-filter=U` 空 + 実マーカー grep 空）→ merge commit `d9900e540` → `pnpm install` / `pnpm typecheck` / `pnpm lint` / `pnpm indexes:rebuild` drift 0（keywords 5344）で all green（いずれも初回 PASS、CI gate `verify-indexes-up-to-date` 相当の drift 0 を事前確認）。
+- 参照: L-DEVSYNC-092（同 6-file・keywords.json は Auto-merge 側）, L-DEVSYNC-076（cross-skill 6-file 版）, L-DEVSYNC-076-B（keywords.json の衝突可否は hunk 位置依存）, L-DEVSYNC-072（skill-only baseline）, L-DEVSYNC-046（resolver UNION_TARGETS 登録）, L-DEVSYNC-002（keywords.json は派生物・`--ours`+rebuild）, task-specification-creator [[patterns-lessons-and-pitfalls#dev-sync-merge-conflict-resolution]] SP-DEVSYNC-087。
+
 ## L-DEVSYNC-092: SKILL.md 本体 + resource-map.md を含む 5-file skill-only conflict は `pnpm sync:resolve` 単一パスで完結し、keywords.json は逆に Auto-merge（衝突せず resolver の `--ours` 段に出ない）— 衝突ファイルセットは hunk 位置依存で毎回変動（2026-06-03 feat/admin-attendance-dashboard-ux ← dev 3 ahead / 6 behind）
 
 - 事象: `feat/admin-attendance-dashboard-ux`（ローカル dev は origin/dev に既一致 `4f7fd80fb` → dev 同期は冪等スキップ、feature は dev に 3 ahead / 6 behind）の sync-merge。`git merge origin/dev --no-edit` で `CONFLICT (content)` が **5 件**、全て `aiworkflow-requirements/` 配下:
