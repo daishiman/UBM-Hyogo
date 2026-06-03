@@ -13,11 +13,14 @@ export const formatDelta = (current: number, previous: number | null): string =>
 };
 
 export const ZONE_LABEL: Record<AttendanceZone, string> = {
-  "0→1": "0→1 区画",
-  "1→10": "1→10 区画",
-  "10→100": "10→100 区画",
-  unknown: "未分類",
+  "0→1": "0 回（未出席）",
+  "1→10": "1〜9 回",
+  "10→100": "10〜99 回",
+  unknown: "100 回以上",
 };
+
+export const ZONE_HELP =
+  "出席回数帯は、各メンバーの累計出席回数を現行の集計境界で分類したものです。";
 
 export const PERIOD_PRESETS = [
   { id: "all", label: "全期間", monthsBack: null as number | null },

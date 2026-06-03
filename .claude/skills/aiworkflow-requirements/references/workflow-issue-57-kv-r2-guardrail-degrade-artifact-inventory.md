@@ -39,7 +39,7 @@ cold-storage bindingï¼ˆ`UBM_AUDIT_COLD_STORAGE` / `UBM_AUDIT_APP_COLD_STORAGE`ï¼
 
 - `docs/30-workflows/completed-tasks/issue-57-followup-001-wrangler-binding-drift-ci-gate.md`
 - `docs/30-workflows/unassigned-task/issue-57-followup-002-d1-backup-pause-linkage.md`
-- `docs/30-workflows/unassigned-task/issue-57-followup-003-kv-alert-policy-drift-detection.md`
+- `docs/30-workflows/completed-tasks/issue-57-followup-003-kv-alert-policy-drift-detection.md`
 
 ## User-Gated Boundary
 
