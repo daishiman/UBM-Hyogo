@@ -14,12 +14,36 @@ export interface PresignDeps {
   readonly bucket: string;
 }
 
-/** 1 member 1 photo（上書き保存）の object key。 */
+/** 1 member 1 photo（上書き保存）の display(canonical) object key。 */
 export const MEMBER_PHOTO_OBJECT_KEY = (memberId: string): string =>
   `members/${memberId}/avatar`;
 
-/** server 側で検証する上限サイズ（256 KB）。 */
+/**
+ * issue-1030: thumb variant の object key（display key と別 segment で 1 member 1 thumb）。
+ * 既存 avatar key は display canonical として不変。
+ */
+export const MEMBER_PHOTO_THUMB_OBJECT_KEY = (memberId: string): string =>
+  `members/${memberId}/thumb`;
+
+/** server 側で検証する display 上限サイズ（256 KB）。 */
 export const MEMBER_PHOTO_MAX_BYTES = 256 * 1024; // 262144
+
+/** issue-1030: thumb variant の上限サイズ（64 KB）。client resize 後の切手サイズ webp を想定。 */
+export const MEMBER_PHOTO_THUMB_MAX_BYTES = 64 * 1024; // 65536
+
+/** issue-1030: variant 識別子（form field 名 / object key segment / 内部分岐で統一）。 */
+export type MemberPhotoVariant = "display" | "thumb";
+
+/**
+ * issue-1030: client-side 画像処理の結果ステータス。
+ * - client_generated: ブラウザ Canvas で display+thumb を生成して送信。
+ * - original_fallback: Canvas 非対応等で原 File を display として送信（thumb なし）。
+ * - none: 0023 以前の既存行（variant 列なし）の既定値。
+ */
+export type MemberPhotoProcessingStatus =
+  | "client_generated"
+  | "original_fallback"
+  | "none";
 
 /** 許可 MIME。これ以外は 415 を返す。 */
 export const MEMBER_PHOTO_ALLOWED_MIME = [

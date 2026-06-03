@@ -248,6 +248,10 @@ test.describe('/admin/identity-conflicts × mutation', () => {
     await row
       .getByRole('textbox', { name: /別人マーク理由/ })
       .fill('同姓同名/別組織')
+    await captureIssue1042Screenshot(
+      adminPage,
+      'identity-conflict-row-dismiss-confirm.png',
+    )
     await row.getByRole('button', { name: '別人として確定' }).click()
 
     await expect(row).toHaveCount(0)
@@ -284,7 +288,9 @@ test.describe('/admin/identity-conflicts × mutation', () => {
     await expect(row.getByRole('textbox', { name: /別人マーク理由/ })).toHaveValue(
       '同姓同名/別組織',
     )
-    await expect(row.getByRole('alert')).toContainText('すでに別人として確定済みです')
+    await expect(row.getByRole('alert')).toContainText(
+      'すでに別人として確定済みです',
+    )
     await captureIssue1042Screenshot(
       adminPage,
       'identity-conflict-row-dismiss-rollback-error.png',

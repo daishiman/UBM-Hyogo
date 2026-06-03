@@ -36,9 +36,12 @@ import {
 import {
   presignMemberPhotoGetUrl,
   MEMBER_PHOTO_OBJECT_KEY,
+  MEMBER_PHOTO_THUMB_OBJECT_KEY,
   MEMBER_PHOTO_MAX_BYTES,
+  MEMBER_PHOTO_THUMB_MAX_BYTES,
   MEMBER_PHOTO_ALLOWED_MIME,
   MEMBER_PHOTO_PRESIGN_TTL_SECONDS,
+  type MemberPhotoProcessingStatus,
 } from "../../lib/r2/member-photo-presign";
 import {
   createAttendanceProvider,
@@ -293,35 +296,48 @@ const sortToSql = (sort: AdminSort): string => {
   return "ORDER BY mi.last_submitted_at DESC";
 };
 
-// issue-983: photo row 有 かつ presign 成功時のみ presigned photoUrl を返す（fail-soft）。
-// secret 未設定 / photo 不在 / presign 失敗時は undefined（detail は 200 を維持）。
-const resolvePhotoUrl = async (
+// issue-983 / issue-1030: photo row 有 かつ presign 成功時のみ presigned URL を返す（fail-soft）。
+// display(photoUrl) と thumb(photoThumbUrl) を独立に presign する（片方失敗でももう片方は返る）。
+// secret 未設定 / photo 不在 / presign 失敗時は当該 URL を undefined（detail は 200 を維持）。
+const resolvePhotoUrls = async (
   env: AdminRouteEnv,
   db: DbCtx,
   mid: MemberId,
-): Promise<string | undefined> => {
+): Promise<{ photoUrl?: string; photoThumbUrl?: string }> => {
   if (!env.R2_ACCOUNT_ID || !env.R2_ACCESS_KEY_ID || !env.R2_SECRET_ACCESS_KEY) {
-    return undefined;
+    return {};
   }
   const photo = await getMemberPhoto(db, mid);
-  if (!photo) return undefined;
+  if (!photo) return {};
   const bucketName = env.MEMBER_PHOTOS
     ? env.ENVIRONMENT === "production"
       ? "ubm-hyogo-member-photos-prod"
       : "ubm-hyogo-member-photos-staging"
     : null;
-  if (!bucketName) return undefined;
-  const url = await presignMemberPhotoGetUrl(
-    {
-      accountId: env.R2_ACCOUNT_ID,
-      accessKeyId: env.R2_ACCESS_KEY_ID,
-      secretAccessKey: env.R2_SECRET_ACCESS_KEY,
-      bucket: bucketName,
-    },
+  if (!bucketName) return {};
+  const deps = {
+    accountId: env.R2_ACCOUNT_ID,
+    accessKeyId: env.R2_ACCESS_KEY_ID,
+    secretAccessKey: env.R2_SECRET_ACCESS_KEY,
+    bucket: bucketName,
+  };
+  const displayUrl = await presignMemberPhotoGetUrl(
+    deps,
     photo.objectKey,
     MEMBER_PHOTO_PRESIGN_TTL_SECONDS,
   );
-  return url ?? undefined;
+  // thumb は保存済（thumbObjectKey 非 null）のときのみ presign する（fail-soft で独立）。
+  const thumbUrl = photo.thumbObjectKey
+    ? await presignMemberPhotoGetUrl(
+        deps,
+        photo.thumbObjectKey,
+        MEMBER_PHOTO_PRESIGN_TTL_SECONDS,
+      )
+    : null;
+  const result: { photoUrl?: string; photoThumbUrl?: string } = {};
+  if (displayUrl) result.photoUrl = displayUrl;
+  if (thumbUrl) result.photoThumbUrl = thumbUrl;
+  return result;
 };
 
 export const createAdminMembersRoute = () => {
@@ -492,13 +508,10 @@ export const createAdminMembersRoute = () => {
       return c.json({ ok: false, error: parsed.error.message }, 500);
     }
 
-    // issue-983: photo row 有 かつ presign 成功時のみ photoUrl を後段マージする（fail-soft）。
-    // builder を R2 非依存に保つため、解決は route 層で行う。
-    const photoUrl = await resolvePhotoUrl(c.env, db, mid);
-    if (photoUrl !== undefined) {
-      return c.json({ ...parsed.data, photoUrl }, 200);
-    }
-    return c.json(parsed.data, 200);
+    // issue-983 / issue-1030: photo row 有 かつ presign 成功時のみ photoUrl / photoThumbUrl を
+    // 後段マージする（fail-soft・各独立）。builder を R2 非依存に保つため解決は route 層で行う。
+    const photoUrls = await resolvePhotoUrls(c.env, db, mid);
+    return c.json({ ...parsed.data, ...photoUrls }, 200);
   });
 
   // issue-983: POST /admin/members/:memberId/photo — multipart upload → R2 put + D1 upsert + audit
@@ -514,23 +527,51 @@ export const createAdminMembersRoute = () => {
 
     // multipart body 取得
     const formData = await c.req.formData().catch(() => null);
-    const file = formData?.get("file");
-    if (!file || !(file instanceof File)) {
-      return c.json({ ok: false, error: "file field required" }, 400);
+    // issue-1030: display(必須) / thumb(任意) / contentHash(任意)。
+    // 後方互換: display 不在で旧 `file` が在れば display 扱い・thumb なし。
+    const displayField = formData?.get("display");
+    const legacyFile = formData?.get("file");
+    const display =
+      displayField instanceof File
+        ? displayField
+        : legacyFile instanceof File
+          ? legacyFile
+          : null;
+    if (!display) {
+      return c.json({ ok: false, error: "file/display field required" }, 400);
     }
+    const thumbField = formData?.get("thumb");
+    const thumb = thumbField instanceof File ? thumbField : null;
+    const contentHashField = formData?.get("contentHash");
+    const contentHash =
+      typeof contentHashField === "string" && contentHashField.length > 0
+        ? contentHashField
+        : null;
 
-    // MIME 検証（AC-6）
-    if (!(MEMBER_PHOTO_ALLOWED_MIME as readonly string[]).includes(file.type)) {
+    // display MIME 検証（AC-6）
+    if (!(MEMBER_PHOTO_ALLOWED_MIME as readonly string[]).includes(display.type)) {
       return c.json({ ok: false, error: "unsupported media type" }, 415);
     }
 
-    // サイズ検証（AC-6）
-    const buf = await file.arrayBuffer();
-    if (buf.byteLength === 0) {
+    // display サイズ検証（AC-6・検証失敗時は副作用ゼロ）
+    const displayBuf = await display.arrayBuffer();
+    if (displayBuf.byteLength === 0) {
       return c.json({ ok: false, error: "empty file" }, 400);
     }
-    if (buf.byteLength > MEMBER_PHOTO_MAX_BYTES) {
+    if (displayBuf.byteLength > MEMBER_PHOTO_MAX_BYTES) {
       return c.json({ ok: false, error: "file too large" }, 413);
+    }
+
+    // thumb 検証（在るときのみ・MIME 415 / サイズ 413・副作用ゼロ）
+    let thumbBuf: ArrayBuffer | null = null;
+    if (thumb) {
+      if (!(MEMBER_PHOTO_ALLOWED_MIME as readonly string[]).includes(thumb.type)) {
+        return c.json({ ok: false, error: "unsupported thumb media type" }, 415);
+      }
+      thumbBuf = await thumb.arrayBuffer();
+      if (thumbBuf.byteLength > MEMBER_PHOTO_THUMB_MAX_BYTES) {
+        return c.json({ ok: false, error: "thumb too large" }, 413);
+      }
     }
 
     // R2 binding が無い場合は 503（fail-soft では握り潰さず明示）
@@ -539,17 +580,33 @@ export const createAdminMembersRoute = () => {
     }
 
     const objectKey = MEMBER_PHOTO_OBJECT_KEY(memberId);
-    await c.env.MEMBER_PHOTOS.put(objectKey, buf, {
-      httpMetadata: { contentType: file.type },
+    await c.env.MEMBER_PHOTOS.put(objectKey, displayBuf, {
+      httpMetadata: { contentType: display.type },
     });
+
+    const hasThumb = thumb !== null && thumbBuf !== null;
+    const thumbObjectKey = hasThumb ? MEMBER_PHOTO_THUMB_OBJECT_KEY(memberId) : null;
+    if (hasThumb && thumbObjectKey && thumbBuf) {
+      await c.env.MEMBER_PHOTOS.put(thumbObjectKey, thumbBuf, {
+        httpMetadata: { contentType: thumb.type },
+      });
+    }
+
+    const processingStatus: MemberPhotoProcessingStatus = hasThumb
+      ? "client_generated"
+      : "original_fallback";
 
     const db = ctx({ DB: c.env.DB });
     const actorEmail = c.var.authUser?.email ?? "unknown";
     await upsertMemberPhoto(db, {
       memberId,
       objectKey,
-      contentType: file.type,
-      byteSize: buf.byteLength,
+      contentType: display.type,
+      byteSize: displayBuf.byteLength,
+      thumbObjectKey,
+      thumbByteSize: hasThumb && thumbBuf ? thumbBuf.byteLength : null,
+      contentHash,
+      processingStatus,
       uploadedBy: actorEmail,
       // issue-1031: admin 代行 upload は source='admin' を明示（source 列追加後も既存挙動維持・backfill）。
       source: "admin",
@@ -561,7 +618,14 @@ export const createAdminMembersRoute = () => {
       action: auditAction("admin.member.photo_uploaded"),
       targetType: "member",
       targetId: memberId,
-      after: { objectKey, contentType: file.type, byteSize: buf.byteLength },
+      // signed URL / raw bytes は残さず、variant 有無のみ記録する。
+      after: {
+        objectKey,
+        contentType: display.type,
+        byteSize: displayBuf.byteLength,
+        hasThumb,
+        processingStatus,
+      },
     });
 
     return c.json({ ok: true }, 200);
@@ -580,6 +644,10 @@ export const createAdminMembersRoute = () => {
 
     if (c.env.MEMBER_PHOTOS) {
       await c.env.MEMBER_PHOTOS.delete(photo.objectKey);
+      // issue-1030: thumb variant も削除（best-effort・例外で 500 にしない）。
+      if (photo.thumbObjectKey) {
+        await c.env.MEMBER_PHOTOS.delete(photo.thumbObjectKey).catch(() => {});
+      }
     }
     await deleteMemberPhoto(db, mid);
 
