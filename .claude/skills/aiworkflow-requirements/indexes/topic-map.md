@@ -2729,6 +2729,15 @@ node scripts/list-specs.js --topics
 | Phase 12 Artifacts | L21 |
 | Deferred / Blocked | L32 |
 
+### references/workflow-issue-1063-shell-collapse-cookie-secure-attribute-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Workflow Artifacts | L3 |
+| Implementation Artifacts | L13 |
+| System Boundary | L20 |
+| Lessons Learned | L30 |
+
 ### references/workflow-issue-1068-admin-tag-inline-create-ui-artifact-inventory.md
 
 | セクション | 行 |
@@ -6322,6 +6331,16 @@ node scripts/list-specs.js --topics
 | L-I106-003: `audit_log` と `admin_member_notes` を同一 DTO として扱わない | L15 |
 | L-I106-004: 候補コマンドは実 repo scripts から再解決する | L21 |
 
+### references/lessons-learned-issue-1063-shell-collapse-cookie-secure-attribute-2026-06.md
+
+| セクション | 行 |
+|------------|----|
+| L-I1063-001: CLOSED issue の再スコープは reopen せず frontmatter で表明する | L6 |
+| L-I1063-002: runtime 依存の純粋関数は optional 引数の既定値に runtime 判定を置く | L10 |
+| L-I1063-003: CLOSED issue の「現存するか」は全ローカルブランチ grep で機械判定する | L14 |
+| L-I1063-004: `Secure` / `HttpOnly` は read 値に現れないので serializer 文字列を検証する | L18 |
+| メタ補足: 監査 SubAgent の read-only 逸脱 | L22 |
+
 ### references/lessons-learned-issue-1068-admin-tag-inline-create-ui-2026-06.md
 
 | セクション | 行 |
@@ -8641,16 +8660,16 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L3640 |
-| フェーズ構造（概要） | L3649 |
-| 品質ゲート（概要） | L3680 |
-| 出力テンプレート | L3691 |
-| 実行時のコマンド・エージェント・スキル | L3714 |
-| 昇格パターン集 | L3738 |
-| Current Active / Spec Created Tasks | L3740 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L3906 |
-| issue-998-members-publish-state-production-rollout | L3984 |
-| issue-1068-admin-tag-inline-create-ui | L4031 |
+| ドキュメント構成 | L3654 |
+| フェーズ構造（概要） | L3663 |
+| 品質ゲート（概要） | L3694 |
+| 出力テンプレート | L3705 |
+| 実行時のコマンド・エージェント・スキル | L3728 |
+| 昇格パターン集 | L3752 |
+| Current Active / Spec Created Tasks | L3754 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L3920 |
+| issue-998-members-publish-state-production-rollout | L3998 |
+| issue-1068-admin-tag-inline-create-ui | L4045 |
 
 ### references/task-workflow-backlog-part2.md
 
