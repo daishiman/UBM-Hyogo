@@ -2,6 +2,19 @@
 
 `origin/dev` を feature ブランチへ取り込む際に、複数 wave の workflow が並行で `.claude/skills/aiworkflow-requirements/` および `.claude/skills/task-specification-creator/` の changelog / index / active workflow / completed-tasks doc に additive 行を書き込むため、merge 時に高頻度で diff3 conflict が発生する。本書はその自律解消ポリシーの正本。
 
+## L-DEVSYNC-077: aiworkflow indexes 3-file（keywords.json + quick-reference.md + topic-map.md）の最小 skill-only conflict は `pnpm sync:resolve` 単一パスで完結し、merge 後 rebuild は no-op（2026-06-03 feat/issue-1059-public-members-fields-batch-n1 ← dev 4 behind / 2 ahead）
+
+- 事象: `feat/issue-1059-public-members-fields-batch-n1`（ローカル dev は origin/dev に既一致 `e47208d06` → dev 同期は冪等スキップ、feature は dev に 4 behind / 2 ahead）の sync-merge。`git merge dev --no-edit` で `CONFLICT (content)` が **3 件**、全て `aiworkflow-requirements/indexes/` 配下:
+  - `indexes/{keywords.json, quick-reference.md, topic-map.md}`
+  - （`SKILL-changelog.md` / `LOGS/_legacy.md` / `resource-map.md` / `references/task-workflow-active.md` は Auto-merging・衝突なし）
+  - `apps/**` / `packages/**` の source conflict は 0 件 → L-DEVSYNC-072 の skill-only baseline に合致。
+- 解消: `pnpm sync:resolve` **1 回**で完結。resolver ログは `union-resolving 2 files`（quick-reference.md / topic-map.md）→ `taking --ours for 1 derived files`（keywords.json）→ `pnpm indexes:rebuild`。残コンフリクト 0 で収束、追加手動編集ゼロ。
+- How to apply:
+  - **L-DEVSYNC-077-A (`quick-reference.md` も resolver の union 対象)**: 従来 docs（L-DEVSYNC-002 等）は keywords.json / resource-map / topic-map を主に挙げていたが、resolver は `indexes/quick-reference.md` も union 対象として扱う（L-DEVSYNC-076-A の patterns-lessons-and-pitfalls.md 同様、衝突対象が増えても resolver 直行で足りる）。
+  - **L-DEVSYNC-077-B (merge 後の `indexes:rebuild` は no-op = chore 分離不要)**: resolver 内部で既に `pnpm indexes:rebuild` を実行済のため、merge commit 後に再度 `pnpm indexes:rebuild` を叩いても `git status --porcelain` は空（drift ゼロ）。SP-DEVSYNC-028 / L-DEVSYNC-005 の独立 chore(indexes) コミットは本ケースでは不要で、merge commit 1 件で完結する。drift が出るのは dev sync を複数回重ねた等で resolver 内部 rebuild と post-merge 状態がずれた場合のみ。
+- 検証: `pnpm sync:resolve`（`all skill / index conflicts resolved`）→ 残コンフリクト 0 → merge commit `eeaa51706` → `pnpm typecheck` / `pnpm lint` / `pnpm indexes:rebuild` drift 0 で all green（いずれも初回 PASS）。
+- 参照: L-DEVSYNC-076（cross-skill 6-file 版・上位互換）, L-DEVSYNC-072（skill-only baseline）, L-DEVSYNC-002（keywords.json は派生物・`--ours`+rebuild）, L-DEVSYNC-005（indexes 二段 commit パターン）, task-specification-creator [[dev-sync-merge-conflict-resolution]] SP-DEVSYNC-012 末尾事例。
+
 ## L-DEVSYNC-076: cross-skill 6-file conflict（aiworkflow indexes 4 + keywords.json + task-spec patterns-lessons-and-pitfalls.md）も `pnpm sync:resolve` 単一パスで full resolve（2026-05-31 docs/issue-1016-mobile-drawer-responsive-spec ← dev 9 behind / 3 ahead）
 
 - 事象: `docs/issue-1016-mobile-drawer-responsive-spec`（ローカル dev は origin/dev に既一致 `bb647c502` → dev 同期は冪等スキップ、feature は dev に 9 behind / 3 ahead）の sync-merge。`git merge dev --no-edit` で `CONFLICT (content)` が **6 件**、しかも **2 skill にまたがった**:
