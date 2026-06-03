@@ -17,9 +17,18 @@ parent_issue: 224
 | 対象機能     | `GET /public/members` use-case の summary fields 取得                         |
 | 優先度       | 低                                                                            |
 | 見積もり規模 | 小規模                                                                        |
-| ステータス   | 未実施                                                                        |
+| ステータス   | consumed / formalized_by_issue_1059                                           |
 | 発見元       | issue-224 Phase 12 unassigned-task-detection U-2                              |
 | 発見日       | 2026-05-31                                                                    |
+
+## Consumed Trace
+
+| 項目 | 値 |
+| --- | --- |
+| canonical_workflow | `docs/30-workflows/completed-tasks/issue-1059-public-members-fields-batch-fetch-n1-prevention/` |
+| consumed_at | 2026-06-02 |
+| result | `implemented_local_evidence_captured / implementation / NON_VISUAL` |
+| evidence | `outputs/phase-11/manual-test-result.md` / `outputs/phase-12/phase12-task-spec-compliance-check.md` |
 
 ---
 

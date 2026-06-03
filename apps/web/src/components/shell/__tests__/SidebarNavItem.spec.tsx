@@ -69,4 +69,27 @@ describe("SidebarNavItem", () => {
     );
     expect(labelSpan?.className).toContain("sr-only");
   });
+
+  it("collapsed のとき link は中央寄せになり badge はドット表示になる", () => {
+    const item: ShellNavItem = {
+      id: "schema",
+      href: "/admin/schema",
+      label: "スキーマ",
+      icon: "schema",
+      badge: { count: 2, tone: "warn" },
+    };
+    const { container } = render(
+      <ul>
+        <SidebarNavItem item={item} collapsed activePath="/admin" />
+      </ul>,
+    );
+    const link = container.querySelector("a");
+    const dot = container.querySelector('[data-shell-block="nav-badge-dot"]');
+    expect(link?.className).toContain("justify-center");
+    expect(link?.className).toContain("gap-0");
+    expect(link?.className).toContain("relative");
+    expect(dot).not.toBeNull();
+    expect(dot?.className).toContain("absolute");
+    expect(dot?.querySelector(".sr-only")?.textContent).toBe("2");
+  });
 });

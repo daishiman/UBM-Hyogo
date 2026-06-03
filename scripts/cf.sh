@@ -25,6 +25,10 @@ if [ "$1" != "alerts" ] && [ -n "${CLOUDFLARE_API_TOKEN:-}" ]; then
   export CF_SH_SKIP_WITH_ENV=1
 fi
 
+if [ "$1" = "alerts" ] && [ "${2:-}" = "binding-drift" ]; then
+  export CF_SH_SKIP_WITH_ENV=1
+fi
+
 if [ "${CF_SH_SKIP_WITH_ENV:-0}" != "1" ]; then
   if ! command -v mise >/dev/null 2>&1; then
     echo "[cf.sh] mise が見つかりません" >&2
@@ -163,13 +167,14 @@ fi
 if [ "$1" = "alerts" ]; then
   shift
   # UT-17-Followup-004: Cloudflare Notification Policy IaC
-  # Subcommands: list / diff / plan / apply
+  # Subcommands: list / diff / plan / apply / binding-drift
   cf_alerts_usage() {
     cat >&2 <<'EOF'
-usage: cf.sh alerts {list|diff|apply|plan} [--json] [--yes] [--ci]
+usage: cf.sh alerts {list|diff|apply|plan|binding-drift} [--json] [--yes] [--ci]
   list             expected (repo) と actual (Cloudflare) を一覧表示
   diff             expected と actual を比較。drift があれば exit 2
   plan             diff と同じ判定だが exit 常に 0 (CI plan 出力用)
+  binding-drift    wrangler KV/R2 binding 活性と policy enabled を local-only 比較
   apply            webhook destination → policy の順に冪等適用 (dry-run by default)
                    --yes で実適用 / --ci で op run をスキップ
 EOF
@@ -180,7 +185,7 @@ EOF
   fi
   alerts_sub="$1"; shift || true
   case "$alerts_sub" in
-    list|diff|plan|apply) ;;
+    list|diff|plan|apply|binding-drift) ;;
     *)
       echo "[cf.sh] unknown subcommand: $alerts_sub" >&2
       cf_alerts_usage
@@ -200,12 +205,22 @@ EOF
       echo "[cf.sh] alerts apply is forbidden in --ci mode; CI drift checks are read-only" >&2
       exit 78
     fi
-    if [ -z "${CLOUDFLARE_ALERTS_TOKEN_READ:-}" ]; then
+    if [ "$alerts_sub" != "binding-drift" ] && [ -z "${CLOUDFLARE_ALERTS_TOKEN_READ:-}" ]; then
       echo "[cf.sh] CLOUDFLARE_ALERTS_TOKEN_READ is required in --ci mode" >&2
       exit 78
     fi
     echo "[cf.sh] CI mode: skipping op run" >&2
     export CF_ALERTS_CI_MODE=1
+    if command -v mise >/dev/null 2>&1; then
+      exec mise exec -- pnpm exec tsx "$alerts_cli" "$alerts_sub" "$@"
+    else
+      exec pnpm exec tsx "$alerts_cli" "$alerts_sub" "$@"
+    fi
+  fi
+
+  # binding-drift is local-only: it reads wrangler.toml and repo policy manifests,
+  # so it must not go through op run or require Cloudflare alert secrets.
+  if [ "$alerts_sub" = "binding-drift" ]; then
     if command -v mise >/dev/null 2>&1; then
       exec mise exec -- pnpm exec tsx "$alerts_cli" "$alerts_sub" "$@"
     else
