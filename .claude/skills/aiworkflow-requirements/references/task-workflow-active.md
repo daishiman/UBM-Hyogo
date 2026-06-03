@@ -194,6 +194,21 @@
 | system spec | API/D1/Form schema no change; existing `POST /admin/sync/backfill-publish-state` reused |
 | user gate | staging authenticated screenshots, commit, push, PR |
 
+### issue-1059-public-members-fields-batch-fetch-n1-prevention（2026-06-02）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / NON_VISUAL` |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-1059-public-members-fields-batch-fetch-n1-prevention/` |
+| Issue | #1059 OPEN（mutation は user-gated） |
+| 親 | issue #224 U-2 fields N+1 follow-up |
+| 目的 | public members list の summary fields 取得を `response_id IN (...)` の 1 batch query にして N+1 を防ぐ |
+| implementation targets | `apps/api/src/repository/responseFields.ts`, `apps/api/src/use-cases/public/list-public-members.ts`, `apps/api/src/use-cases/public/__tests__/helpers/public-d1.ts`, focused specs |
+| evidence | use-case 10 PASS, repository 5 PASS, Phase 11 evidence present, Phase 12 strict 7 present |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1059-public-members-fields-batch-fetch-n1-prevention-artifact-inventory.md` |
+| boundary | tags / D1 schema / endpoint / Google Form / apps/web unchanged |
+| user gate | commit, push, PR, Issue #1059 mutation |
+
 ### issue-1054-wrangler-binding-drift-ci-gate（2026-06-02）
 
 | 項目 | 値 |

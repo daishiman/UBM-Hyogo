@@ -2679,6 +2679,16 @@ node scripts/list-specs.js --topics
 | Lessons Learned | L48 |
 | User-Gated | L63 |
 
+### references/workflow-issue-1059-public-members-fields-batch-fetch-n1-prevention-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Workflow | L3 |
+| Implementation | L13 |
+| Evidence | L23 |
+| Boundary | L32 |
+| Lessons | L36 |
+
 ### references/workflow-issue-106-admin-member-notes-repository-task-spec-artifact-inventory.md
 
 | セクション | 行 |
@@ -6226,6 +6236,19 @@ node scripts/list-specs.js --topics
 | 同期した正本 | L79 |
 | 境界 / user gate | L90 |
 
+### references/lessons-learned-issue-1059-public-members-fields-batch-fetch-n1-prevention-2026-06.md
+
+| セクション | 行 |
+|------------|----|
+| L-I1059-001: fields batch helper の return shape も Phase 1 で verbatim 固定する | L5 |
+| L-I1059-002: groupBy キーは `response_id`（= `current_response_id`）であり `member_id` ではない（最大の落とし穴） | L9 |
+| L-I1059-003: batch 化と同時に `as never` を branded cast `asResponseId` へ是正する | L13 |
+| L-I1059-004: SUMMARY_KEYS フィルタを groupBy ループ内に保持して出力を不変に保つ | L17 |
+| L-I1059-005: fields query 回数 <= 1 の回帰 spec で N+1 防止をロックする | L21 |
+| L-I1059-006: 空配列時は batch query を発行しない | L25 |
+| L-I1059-007: read-only 監査（Explore）エージェントは Bash を持ち、mover を実行しうる | L29 |
+| L-I1059-008: RED 前提 Phase 記述は実装が同一サイクルで landed した時点で evidence-captured へ同期する | L33 |
+
 ### references/lessons-learned-issue-106-admin-notes-repository-2026-05.md
 
 | セクション | 行 |
@@ -8540,15 +8563,15 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L3572 |
-| フェーズ構造（概要） | L3581 |
-| 品質ゲート（概要） | L3612 |
-| 出力テンプレート | L3623 |
-| 実行時のコマンド・エージェント・スキル | L3646 |
-| 昇格パターン集 | L3670 |
-| Current Active / Spec Created Tasks | L3672 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L3838 |
-| issue-998-members-publish-state-production-rollout | L3916 |
+| ドキュメント構成 | L3587 |
+| フェーズ構造（概要） | L3596 |
+| 品質ゲート（概要） | L3627 |
+| 出力テンプレート | L3638 |
+| 実行時のコマンド・エージェント・スキル | L3661 |
+| 昇格パターン集 | L3685 |
+| Current Active / Spec Created Tasks | L3687 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L3853 |
+| issue-998-members-publish-state-production-rollout | L3931 |
 
 ### references/task-workflow-backlog-part2.md
 
