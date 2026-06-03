@@ -16,6 +16,78 @@
 | issue | #1056 spec 作成時 OPEN → 本サイクル中 CLOSED（`closedAt: 2026-06-02T03:32:56Z`）。docs を実態整合（reopen せず）、workflow は completed-tasks へ close-out 済 |
 | user gate | commit, push, PR, Issue mutation, alert policy apply/enablement |
 
+## sidebar-visibility-conditional-and-ux（2026-06-02）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/sidebar-visibility-conditional-and-ux/` |
+| status | `implemented_local_evidence_captured / implementation / VISUAL / pixel_screenshot_pending_user_gate` |
+| purpose | `/login` を shell 外 bare route group `(auth)` へ移し、sidebar 表示条件を route group 正本へ揃え、SSR active path と viewer identity を改善 |
+| implementation | `apps/web/app/(auth)/layout.tsx`, `apps/web/app/(auth)/login/**`, `apps/web/middleware.ts`, `apps/web/app/(admin)/layout.tsx`, `apps/web/src/components/shell/{SidebarUserMenu,SidebarUserAvatar,SidebarNavItem,user-menu-config}.tsx` |
+| tests | `apps/web/src/__tests__/sidebar-shell-route-topology.spec.ts`, `apps/web/__tests__/middleware.spec.ts`, `apps/web/app/(admin)/layout.spec.tsx`, login/shell focused specs |
+| evidence | direct focused Vitest 20 files / 98 tests PASS; web typecheck PASS; web lint PASS; design-token / grep gates PASS; local screenshots 4 PNG |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-sidebar-visibility-conditional-and-ux-artifact-inventory.md` |
+| user gate | staging/admin visual baseline, commit, push, PR |
+
+## issue-1030-member-photo-transcode-resize-variant-pipeline（2026-06-01）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/issue-1030-member-photo-transcode-resize-variant-pipeline/` |
+| status | `implemented_local_runtime_pending / implementation / VISUAL_ON_EXECUTION / completed-tasks moved` |
+| issue | #1030 CLOSED 維持。PR 文脈は `Refs #1030` のみ |
+| parent | `docs/30-workflows/issue-983-member-photo-avatar-r2-storage/` |
+| purpose | admin member photo を client-side Canvas で display(512px) + thumb(96px) variant 化し、無料枠を維持したまま小 avatar 配信 bytes を削減する仕様を固定 |
+| implementation targets | `apps/api/migrations/0023_member_photos_variants.sql`, `apps/api/src/lib/r2/member-photo-presign.ts`, `apps/api/src/repository/memberPhotos.ts`, `apps/api/src/routes/admin/members.ts`, `packages/shared`, `apps/web/src/lib/admin/image-resize.ts`, `MemberDrawer.tsx`, `MemberAvatar.tsx` |
+| contract | display は既存 `members/{memberId}/avatar` key を維持、thumb は `members/{memberId}/thumb`、`photoThumbUrl?` は optional、旧 `file` upload と既存 rows は後方互換 |
+| evidence | Phase 1-13 specs present、Phase outputs 1/2/3/4/5/6/7/8/9/10/11/12 present、Phase 12 strict 7 present、root/output artifacts parity present |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1030-member-photo-transcode-resize-variant-pipeline-artifact-inventory.md` |
+| user gate | remote D1 migration apply、staging deploy、authenticated screenshots、commit、push、PR |
+
+## issue-1042-identity-conflicts-dismiss-optimistic-update（2026-06-02）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-1042-identity-conflicts-dismiss-optimistic-update/` |
+| status | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION` |
+| purpose | `/admin/identity-conflicts` の dismiss confirm 後、server round-trip 前に row を optimistic 非表示化し、server error 時だけ rollback |
+| implementation | `apps/web/src/components/admin/IdentityConflictRow.tsx`, `apps/web/src/components/admin/__tests__/IdentityConflictRow.spec.tsx`, `apps/web/playwright/tests/admin-identity-conflicts.spec.ts` |
+| invariant | API endpoint / D1 schema / Server Component page / merge behavior は変更なし。`useAdminMutation` hook 拡張なし |
+| evidence | focused Vitest `IdentityConflictRow.spec.tsx` 15 tests PASS; Playwright focused 2 PASS; Phase 11 screenshots 3 PNG |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1042-identity-conflicts-dismiss-optimistic-update-artifact-inventory.md` |
+| user gate | commit, push, PR |
+
+## issue-1039-admin-audit-identity-action-presets（2026-06-01）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-1039-admin-audit-identity-action-presets/` |
+| status | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION` |
+| issue | #1039 CLOSED。Issue mutation なし、PR 文脈は `Refs #1039` のみ |
+| parent | `docs/30-workflows/completed-tasks/issue-987-identity-conflicts-audit-log-admin-ui/` |
+| purpose | `/admin/audit` action filter に `identity.merge` / `identity.dismiss` の native datalist presets を追加し、自由入力と `action` query contract を維持する |
+| implementation targets | `apps/web/src/components/admin/AuditLogPanel.tsx`, `apps/web/src/components/admin/__tests__/AuditLogPanel.component.spec.tsx`, `apps/web/app/(admin)/admin/audit/page.page.spec.ts` |
+| evidence | focused component/page regressions PASS; Phase 11 local screenshots present; staging authenticated screenshots remain user-gated |
+| Phase 12 | strict 7 present; root/output artifacts parity present |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1039-admin-audit-identity-action-presets-artifact-inventory.md` |
+| user gate | staging screenshot, commit, push, PR |
+
+## issue-1035-tag-master-write-endpoints（2026-06-01）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-1035-tag-master-write-endpoints/` |
+| status | `implemented_local_evidence_captured / implementation / NON_VISUAL` |
+| issue | #1035 CLOSED。PR 文脈は `Refs #1035` のみ |
+| parent | `issue-982-drawer-tag-pill-editing` |
+| purpose | tag master (`tag_definitions`) の admin CRUD endpoint と pagination/search を追加する |
+| implementation | `apps/api/src/repository/tagDefinitions.ts`, `apps/api/src/repository/auditLog.ts`, `apps/api/src/routes/admin/tags.ts`, `apps/api/src/index.ts`, `docs/00-getting-started-manual/specs/01-api-schema.md` |
+| tests | `apps/api/src/routes/admin/tags.contract.spec.ts`, `apps/api/src/repository/__tests__/tagDefinitions.write.repository.spec.ts`, `apps/api/src/routes/admin/members.tags.contract.spec.ts`, `apps/api/src/repository/__tests__/auditLog.repository.spec.ts` |
+| evidence | focused D1 Vitest 4 files / 32 tests PASS, API typecheck PASS, repo lint PASS |
+| invariant | 不変条件 #13 を第3経路へ再々定義。`code` immutable、DELETE は `active=0`、member_tags row 保持、audit `admin.tag.*` |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1035-tag-master-write-endpoints-artifact-inventory.md` |
+| user gate | staging runtime smoke, commit, push, PR |
+
 ## issue-1042-dismiss-confirm-optimistic-update（2026-06-01）
 
 | 項目 | 値 |
@@ -155,6 +227,18 @@
 | user gate | commit, push, PR, Issue mutation |
 
 ## issue-224-public-members-tags-batch-fetch（2026-05-31）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/issue-224-public-members-tags-batch-fetch/` |
+| status | `implemented_local_evidence_captured / implementation / NON_VISUAL` |
+| purpose | 公開 `GET /public/members?expand=tags` で tags N+1 回帰を防ぐ batch fetch を実装 |
+| implementation | `apps/api/src/_shared/search-query-parser.ts`, `apps/api/src/use-cases/public/list-public-members.ts`, `apps/api/src/repository/memberTags.ts`, shared public member tag schema/types |
+| invariant | `expand=tags` opt-in 時のみ tags を付与し、未指定時の response shape は不変 |
+| evidence | contract/use-case N+1 regression tests PASS; Gate-C は user-gated |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-224-public-members-tags-batch-fetch-artifact-inventory.md` |
+| user gate | commit, push, PR, Gate-C |
+
 ## issue-264-cron-schedule-free-tier-guard（2026-05-31）
 
 | 項目 | 値 |
@@ -219,6 +303,22 @@
 | specs | `docs/00-getting-started-manual/specs/09-ui-ux.md`, `docs/00-getting-started-manual/specs/09d-icons.md` |
 | inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1007-density-toggle-help-hint-hardening-artifact-inventory.md` |
 | user gate | runtime screenshots, staging deploy, commit, push, PR |
+
+## issue-1036-bulk-member-tag-assign（2026-06-01）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-1036-bulk-member-tag-assign/` |
+| status | `implemented_local_runtime_pending / implementation / VISUAL_ON_EXECUTION` |
+| issue | #1036 CLOSED。PR 文脈は `Refs #1036` のみ（reopen 禁止）。parent #982（CLOSED）followup-003 |
+| purpose | `/admin/members` の BulkActionBar から複数 member × 複数 tag を一括 assign/unassign する（不変条件 #13 第3経路 = bulk admin write） |
+| implementation | `apps/api/src/repository/memberTags.ts`（`bulkApplyMemberTagsByAdmin`）, `apps/api/src/routes/admin/members.ts`（`POST /admin/members/tags/bulk` + `GET /admin/tags`）, `apps/api/src/repository/__tests__/memberTags.readonly.test-d.ts`, `apps/web/src/features/admin/api/members.ts`, `apps/web/src/features/admin/components/_members/BulkActionBar.tsx` |
+| contract boundary | 部分失敗も 200 + `{ batchId, results }`。status 5 値（assigned/unassigned/noop/skipped_deleted/tag_not_found）。bulk 冪等は `member_tags` 複合 PK 自然冪等で #913 非依存、`batchId` を audit payload に埋めて相関（`correlation_id` 列なし）。`GET /admin/tags` は read のみで #1035 write と責務分離。route 順序: bulk を `:memberId` route より前に登録 |
+| tests | focused API 17（contract 11 + repository 6）+ web 18（component 10 + 既存 8）+ type-level 6 = 41 PASS。typecheck / lint PASS |
+| Phase 12 | strict 7 present、root/output `artifacts.json` parity present（共に `implemented_local_runtime_pending`）、Phase 11 local fixture screenshot 4 枚 present、30-method compact evidence present |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1036-bulk-member-tag-assign-artifact-inventory.md` |
+| lessons | `.claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-issue-1036-bulk-member-tag-assign-2026-06.md`（L-I1036-001..008） |
+| user gate | staging authenticated visual baseline, commit, push, PR |
 
 ## issue-1006-members-selected-filters-chip-ux-hardening（2026-05-30）
 

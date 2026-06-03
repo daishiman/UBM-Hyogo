@@ -226,6 +226,8 @@ export interface AdminMemberDetailView {
   }>;
   // issue-983 AC-2: admin-managed member photo の presigned GET URL（TTL 300s）。
   readonly photoUrl?: string;
+  // issue-1030: thumb variant の presigned GET URL（後方互換 optional）。
+  readonly photoThumbUrl?: string;
 }
 
 export interface AuthGateState {

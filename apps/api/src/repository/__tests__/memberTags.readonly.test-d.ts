@@ -68,4 +68,11 @@ describe("memberTags.ts read-only 規約 (ut-02a / AC-5)", () => {
     expectTypeOf<ModuleExports["assignTagToMemberByAdmin"]>().not.toBeAny();
     expectTypeOf<ModuleExports["unassignTagFromMemberByAdmin"]>().not.toBeAny();
   });
+
+  // 不変条件 #13 第3経路（issue-1036）: bulk admin manual write helper。
+  // `bulk*` 接頭辞は write keyword（insert/update/delete/upsert）にも `assign*` にも該当しないため
+  // gate に抵触しないが、第3経路の write 入口として allow list に明示参照しておく。
+  it("bulk admin 経路 bulkApplyMemberTagsByAdmin が export として存在する (allow list)", () => {
+    expectTypeOf<ModuleExports["bulkApplyMemberTagsByAdmin"]>().not.toBeAny();
+  });
 });

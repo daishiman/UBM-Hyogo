@@ -45,7 +45,7 @@ export function SidebarNavItem({ item, collapsed, activePath }: SidebarNavItemPr
       ) : null}
       {showBadge && item.badge ? (
         <Chip tone={TONE_TO_CHIP[item.badge.tone]}>
-          <span className={collapsed ? "sr-only" : undefined}>{item.badge.count}</span>
+          <span className={collapsed ? "sr-only" : "font-semibold"}>{item.badge.count}</span>
         </Chip>
       ) : null}
     </>
@@ -72,7 +72,7 @@ export function SidebarNavItem({ item, collapsed, activePath }: SidebarNavItemPr
         data-shell-block="nav-item"
         data-active={active ? "true" : "false"}
         aria-current={active ? "page" : undefined}
-        className="flex items-center gap-3 rounded-sm px-3 py-2 text-sm text-[var(--ubm-color-text-primary)] hover:bg-[var(--shell-active-bg)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--ubm-color-accent)] data-[active=true]:bg-[var(--shell-active-bg)] data-[active=true]:font-semibold data-[active=true]:text-[var(--ubm-color-accent-ink)]"
+        className="flex items-center gap-3 rounded-sm border-l-2 border-transparent px-3 py-2 text-sm text-[var(--ubm-color-text-primary)] hover:bg-[var(--shell-active-bg)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--ubm-color-accent)] data-[active=true]:border-[var(--ubm-color-accent)] data-[active=true]:bg-[var(--shell-active-bg)] data-[active=true]:font-semibold data-[active=true]:text-[var(--ubm-color-accent-ink)]"
       >
         {content}
       </Link>

@@ -874,13 +874,13 @@ node scripts/list-specs.js --topics
 | 概要 | L8 |
 | ドキュメント構成 | L27 |
 | REST API エンドポイント一覧 | L37 |
-| エンドポイント命名規則 | L249 |
-| UBM-Hyogo Admin Sync API（03a） | L270 |
-| UBM-Hyogo Member Self-Service API（04b） | L322 |
-| Admin Dashboard Attendance Analytics API（UT-02A follow-up 002） | L350 |
-| Desktop IPC API サマリー | L364 |
-| 変更履歴 | L395 |
-| 関連ドキュメント | L412 |
+| エンドポイント命名規則 | L251 |
+| UBM-Hyogo Admin Sync API（03a） | L272 |
+| UBM-Hyogo Member Self-Service API（04b） | L324 |
+| Admin Dashboard Attendance Analytics API（UT-02A follow-up 002） | L352 |
+| Desktop IPC API サマリー | L366 |
+| 変更履歴 | L397 |
+| 関連ドキュメント | L414 |
 
 ### references/api-internal-chunk-search.md
 
@@ -2587,6 +2587,16 @@ node scripts/list-specs.js --topics
 | Evidence | L28 |
 | Boundary | L48 |
 
+### references/workflow-issue-1030-member-photo-transcode-resize-variant-pipeline-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Workflow | L3 |
+| Contract Boundary | L14 |
+| Evidence Boundary | L25 |
+| User-Gated Items | L35 |
+| Lessons | L39 |
+
 ### references/workflow-issue-1031-member-self-photo-upload-artifact-inventory.md
 
 | セクション | 行 |
@@ -2596,6 +2606,37 @@ node scripts/list-specs.js --topics
 | Implemented Local Targets | L16 |
 | Verification Boundary | L29 |
 | Lessons | L33 |
+
+### references/workflow-issue-1035-tag-master-write-endpoints-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Workflow | L3 |
+| Implementation | L11 |
+| Tests | L19 |
+| Evidence | L26 |
+| User-Gated | L32 |
+| Lessons | L36 |
+
+### references/workflow-issue-1036-bulk-member-tag-assign-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Summary | L5 |
+| Canonical workflow | L11 |
+| Local implementation targets | L24 |
+| Current code anchors | L34 |
+| Gates | L44 |
+| Lessons Learned | L52 |
+
+### references/workflow-issue-1039-admin-audit-identity-action-presets-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Implementation Targets | L10 |
+| Workflow Artifacts | L18 |
+| Invariants | L31 |
+| Lessons Learned | L38 |
 
 ### references/workflow-issue-1042-dismiss-confirm-optimistic-update-artifact-inventory.md
 
@@ -2607,6 +2648,14 @@ node scripts/list-specs.js --topics
 | Evidence | L31 |
 | Boundaries | L42 |
 | Lessons Learned | L48 |
+
+### references/workflow-issue-1042-identity-conflicts-dismiss-optimistic-update-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Implementation Summary | L13 |
+| Lessons Learned | L29 |
+| 関連リンク | L41 |
 
 ### references/workflow-issue-1056-kv-alert-policy-binding-drift-detection-artifact-inventory.md
 
@@ -3861,6 +3910,15 @@ node scripts/list-specs.js --topics
 |------------|----|
 | Primary files | L11 |
 | Evidence | L22 |
+
+### references/workflow-sidebar-visibility-conditional-and-ux-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Artifacts | L6 |
+| Implementation | L18 |
+| Evidence | L28 |
+| Lessons Learned | L40 |
 
 ### references/workflow-skill-identifier-branded-type-resolution.md
 
@@ -6131,6 +6189,15 @@ node scripts/list-specs.js --topics
 | L-I1027-006: Follow-up consumed state must be synchronized same-wave | L25 |
 | L-I1027-007: 新規 workspace package は aggregate coverage-gate に明示配線しないと CI が MISSING で fail する | L29 |
 | L-I1027-008: Workers ランタイム専用コードは `v8 ignore` で除外し、純粋ロジックは抽出して unit test する | L41 |
+
+### references/lessons-learned-issue-1039-admin-audit-identity-action-presets-2026-06.md
+
+| セクション | 行 |
+|------------|----|
+| L-I1039-001 Native datalist preserves query and free-text contracts | L3 |
+| L-I1039-002 Primitive passthrough before primitive expansion | L9 |
+| L-I1039-003 VISUAL local evidence must not be left as pending when a local contract can be captured | L15 |
+| 関連パターン | L21 |
 
 ### references/lessons-learned-issue-106-admin-notes-repository-2026-05.md
 
@@ -8438,15 +8505,15 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L3456 |
-| フェーズ構造（概要） | L3465 |
-| 品質ゲート（概要） | L3496 |
-| 出力テンプレート | L3507 |
-| 実行時のコマンド・エージェント・スキル | L3530 |
-| 昇格パターン集 | L3554 |
-| Current Active / Spec Created Tasks | L3556 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L3722 |
-| issue-998-members-publish-state-production-rollout | L3800 |
+| ドキュメント構成 | L3530 |
+| フェーズ構造（概要） | L3539 |
+| 品質ゲート（概要） | L3570 |
+| 出力テンプレート | L3581 |
+| 実行時のコマンド・エージェント・スキル | L3604 |
+| 昇格パターン集 | L3628 |
+| Current Active / Spec Created Tasks | L3630 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L3796 |
+| issue-998-members-publish-state-production-rollout | L3874 |
 
 ### references/task-workflow-backlog-part2.md
 
