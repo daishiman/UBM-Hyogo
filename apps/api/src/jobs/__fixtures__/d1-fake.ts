@@ -353,6 +353,18 @@ function runMutation(db: FakeD1, sql: string, b: unknown[]): number {
           updated_at: new Date().toISOString(),
         });
       }
+    } else if (idx < 0) {
+      db.status.push({
+        member_id: b[0],
+        public_consent: "unknown",
+        rules_consent: "unknown",
+        publish_state: "member_only",
+        is_deleted: 0,
+        hidden_reason: null,
+        last_notified_at: null,
+        updated_by: null,
+        updated_at: new Date().toISOString(),
+      });
     }
     return 1;
   }

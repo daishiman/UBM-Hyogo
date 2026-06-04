@@ -22,6 +22,58 @@
 | evidence | local shell test PASS、actionlint PASS、`pnpm smoke:test` PASS。staging real D1 seed/mutation/cleanup evidence は user-gated |
 | user gate | staging deploy、real D1 seed/mutation/cleanup、commit、push、PR |
 
+### admin-meetings-attendance-404-fix-and-ux（30種思考法改善反映 / 2026-06-03）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_runtime_pending / implementation / VISUAL_ON_EXECUTION` |
+| 成果物 | `docs/30-workflows/completed-tasks/admin-meetings-attendance-404-fix-and-ux/` |
+| 目的 | staging `/admin/meetings` 開催日追加 404 を admin proxy transport 非対称として修正し、開催日カードから出席管理へ到達しやすくする |
+| implementation targets | `apps/web/app/api/admin/[...path]/route.ts`, `apps/web/app/api/admin/[...path]/route.spec.ts`, `apps/web/src/features/admin/components/_meetings/{MeetingAttendanceDrawer,MeetingTimeline,MeetingsClientShell}.tsx`, `_meetings/__tests__/{MeetingAttendanceDrawer,MeetingTimeline,MeetingsClientShell}.spec.tsx` |
+| invariant | apps/api endpoint / D1 schema / Google Form schema / `api.ts` attendance path / `useAdminMutation` hook unchanged |
+| evidence | focused Vitest 4 files / 15 tests PASS、web typecheck PASS、web lint PASS、verify:phase12-compliance PASS。staging authenticated screenshot は user-gated |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-meetings-attendance-404-fix-and-ux-artifact-inventory.md` |
+| user gate | staging deploy, authenticated `/admin/meetings` POST 201 proof, screenshots, commit, push, PR |
+
+### admin-member-detail-status-404-fix（2026-06-02）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / NON_VISUAL` |
+| 成果物 | `docs/30-workflows/completed-tasks/admin-member-detail-status-404-fix/` |
+| 目的 | admin 会員管理の detail/status 404 を、`member_identities` は存在するが `member_status` / `current_response` が欠落する orphan 非対称性として修復する |
+| implemented targets | `apps/api/src/repository/status.ts`, `apps/api/src/repository/_shared/builder.ts`, `apps/api/src/routes/admin/member-status.ts`, `apps/api/src/jobs/sync-forms-responses.ts`, `apps/api/migrations/0024_backfill_member_status.sql`, `vitest.d1.config.ts` |
+| Phase 11/12 | focused D1 Vitest 5 files / 67 tests PASS、typecheck PASS、lint PASS、apps/web diff 0。Phase 12 strict 7 present |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-member-detail-status-404-fix-artifact-inventory.md` |
+| user gate | remote D1 migration apply、staging deploy、authenticated admin smoke、commit、push、PR |
+
+### japanese-ime-input-composition-search-fix（2026-06-02）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / VISUAL / PASS_BOUNDARY_SYNCED_RUNTIME_PENDING` |
+| 成果物 | `docs/30-workflows/completed-tasks/japanese-ime-input-composition-search-fix/` |
+| 目的 | Public members keyword search の日本語 IME composition 崩れと keyword clear 重複を修正する |
+| implementation targets | `apps/web/src/hooks/useImeSafeInput.ts`, `apps/web/src/components/ui/{Search,Input}.tsx`, `apps/web/src/components/public/SelectedFiltersBar.client.tsx` |
+| contract | `compositionstart/end` 中は commit 抑止、`compositionend + debounce` で `?q=` 更新、`Input` は `imeSafe` + `onValueChange` opt-in、`commitNow` で即時 clear、`q` chip は summary から除去 |
+| evidence | focused Vitest 5 files / 26 tests PASS、`@ubm-hyogo/web` typecheck PASS、`@ubm-hyogo/web` lint PASS、local `/members` screenshots 2 PNG PASS |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-japanese-ime-input-composition-search-fix-artifact-inventory.md` |
+| lessons | `.claude/skills/aiworkflow-requirements/references/lessons-learned-japanese-ime-input-composition-search-fix-2026-06.md` |
+| user gate | staging real-IME screenshots、commit、push、PR |
+
+### profile-reload-session-404-fix（2026-06-03）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION` |
+| 成果物 | `docs/30-workflows/profile-reload-session-404-fix/` |
+| 目的 | `/profile` reload 時の `GET /me` 404 生エラーバナーを、API trailing-slash 正規化・web proxy URL 修正・profile 再ログイン CTA で解消する |
+| implemented targets | `apps/api/src/middleware/trailing-slash.ts`, `apps/api/src/index.ts`, `apps/web/app/api/me/[...path]/route.ts`, `apps/web/app/(member)/profile/page.tsx`, `apps/web/src/components/member/SectionError.tsx` |
+| evidence | API focused Vitest 2 files / 9 tests PASS、web focused Vitest 3 files / 16 tests PASS |
+| invariant | `/me` response shape / D1 schema / Google Form schema 不変。web は D1 直接アクセスせず API Worker proxy のみ。path に memberId を出さない |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-profile-reload-session-404-fix-artifact-inventory.md` |
+| user gate | staging authenticated `/profile` screenshot、commit、push、PR |
+
 ### admin-attendance-dashboard-ux（2026-06-02）
 
 | 項目 | 値 |
@@ -221,6 +273,20 @@
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-publish-state-backfill-admin-ui-artifact-inventory.md` |
 | system spec | API/D1/Form schema no change; existing `POST /admin/sync/backfill-publish-state` reused |
 | user gate | staging authenticated screenshots, commit, push, PR |
+
+### issue-1063-shell-collapse-cookie-secure-attribute（2026-06-03）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / NON_VISUAL / Phase 13 pending_user_approval` |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-1063-shell-collapse-cookie-secure-attribute/` |
+| Issue | #1063 CLOSED（reopen なし、PR は `Refs #1063` 境界） |
+| 目的 | `ubm_shell_collapsed` cookie を HTTPS runtime でのみ `Secure` 付きにし、localhost http の collapse 永続化を維持する |
+| implementation targets | `apps/web/src/components/shell/shell-collapse-cookie.ts`, `apps/web/src/components/shell/__tests__/shell-collapse-cookie.spec.ts` |
+| evidence | focused Vitest `shell-collapse-cookie.spec.ts` 10 tests PASS。Phase 11 NON_VISUAL evidence present |
+| system spec | API / D1 / Google Form schema / auth / CSS token は不変 |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1063-shell-collapse-cookie-secure-attribute-artifact-inventory.md` |
+| user gate | browser DevTools smoke, commit, push, PR, Issue mutation |
 
 ### issue-1059-public-members-fields-batch-fetch-n1-prevention（2026-06-02）
 
@@ -506,7 +572,8 @@
 | 目的 | root `/` が `getAuthView()` を取得し、`PublicHeader authView` に配線してログイン状態 CTA を整合させる |
 | implementation targets | `apps/web/src/lib/auth-view/index.ts`, `apps/web/src/components/public/PublicHeader.tsx`, `apps/web/app/(public)/layout.tsx`, `apps/web/app/page.tsx` |
 | tests | `apps/web/src/lib/auth-view/__tests__/resolveAuthView.spec.ts`, `apps/web/src/components/public/__tests__/PublicHeader.spec.tsx`, `apps/web/app/__tests__/page.spec.tsx` |
-| evidence | focused Vitest 3 files / 9 tests PASS、typecheck PASS、lint PASS、web build PASS、Phase 12 strict 7 present |
+| evidence | focused Vitest 4 files / 9 tests PASS、typecheck PASS、lint PASS、web build PASS、Phase 12 strict 7 present |
+| evidence | focused Vitest 3 files / 10 tests PASS、typecheck PASS、lint PASS、web build PASS、Phase 12 strict 7 present |
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-task-b-root-page-public-header-async-artifact-inventory.md` |
 | user gate | Cloudflare staging deploy、authenticated `/` curl、wrangler tail clean evidence、commit、push、PR |
 
@@ -535,7 +602,8 @@
 | 目的 | staging `/admin/meetings` の `ADMIN_FETCH_404` 根本原因である admin server-fetch の HTTP-only worker-to-worker transport を service-binding 優先へ修正 |
 | implementation targets | `apps/web/src/lib/admin/server-fetch.ts`, `apps/web/src/lib/admin/__tests__/server-fetch-service-binding.spec.ts`, `apps/web/src/lib/admin/__tests__/server-fetch-url.spec.ts` |
 | invariant | API endpoint / D1 schema / UI route contract は変更なし。`fetchAdmin` signature と error body snippet 契約を維持 |
-| evidence | focused Vitest 3 files / 9 tests PASS; Phase 12 strict outputs present |
+| evidence | focused Vitest 4 files / 9 tests PASS; Phase 12 strict outputs present |
+| evidence | focused Vitest 3 files / 10 tests PASS; Phase 12 strict outputs present |
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-976-admin-fetch-service-binding-artifact-inventory.md` |
 | user gate | staging deploy, authenticated `/admin/meetings` evidence, `wrangler tail` ADMIN_FETCH_404 absence, commit, push, PR |
 
@@ -2418,7 +2486,7 @@
 | 目的 | 2a/2b/2c の UI fixture object と admin route zod schema の同型性を pure unit contract test で検証する |
 | 実装対象 | `apps/api/src/routes/admin/__tests__/contract-stage-2.test.ts`, `apps/api/src/routes/admin/{member-delete,requests,audit}.ts`, `apps/web/src/lib/admin/server-fetch.ts`, `apps/web/playwright/tests/admin-identity-conflicts.spec.ts` |
 | schema boundary | `MergeIdentityResponseZ` は shared schema が正本。2d test 内 `z.object(` は 0 件。requests/audit response envelope は route exported type + `satisfies` で接続 |
-| evidence | focused Vitest 23/23 PASS, `@ubm-hyogo/api` typecheck PASS, `@ubm-hyogo/api` lint PASS, grep gate PASS |
+| evidence | focused Vitest 23/26 PASS, `@ubm-hyogo/api` typecheck PASS, `@ubm-hyogo/api` lint PASS, grep gate PASS |
 | root lint boundary | root `pnpm lint` は既存 `apps/web` `monocart-reporter` type resolution で blocked。本 API contract change の判定には `@ubm-hyogo/api` lint/typecheck を使う |
 | artifact inventory | `references/workflow-e2e-stage-2-2d-contract-artifact-inventory.md` |
 | user gate | commit / push / PR は user approval 後のみ |
@@ -3770,7 +3838,7 @@ docs-only / direction-reconciliation で採用方針 A を維持する場合で�
 | UT-01 Sheets→D1 同期方式定義 | spec_created / docs-only / NON_VISUAL / design_specification | `docs/30-workflows/completed-tasks/ut-01-sheets-d1-sync-design/` | Cron pull 採択、手動 / 定期 / バックフィル 3 フロー、`sync_log` 論理設計、Sheets 優先 SoT を確定。既存 `apps/api` 実装との差分（`sync_job_logs` / `sync_locks`、enum、retry、offset、shared 契約）は U-7〜U-10 として未タスク化。Phase 13 はユーザー承認待ち |
 | U-UT01-09 retry 回数と offset resume 方針の統一 | spec_created / docs-only / NON_VISUAL / Phase 1-12 completed / Phase 13 pending_user_approval | `docs/30-workflows/completed-tasks/u-ut01-09-retry-and-offset-policy-alignment/` | UT-01 U-9 の canonical 設計判断記録。legacy Sheets→D1 sync の retry max=3、backoff base 1s / factor 2 / cap 32s / jitter ±20%、`processed_offset` = chunk index（chunk 100）を採択。実コード反映（`DEFAULT_MAX_RETRIES=3`、withRetry cap/jitter、migration、resume）は UT-09、物理 ledger mapping は U-UT01-07 へ委譲。現行 Forms sync / `sync_jobs.metrics_json.cursor` 契約は上書きしない。 |
 | 03b-followup-005-sync-jobs-design-spec | verified / implementation / NON_VISUAL / implementation_complete_pending_pr / Phase 13 pending_user_approval | `docs/30-workflows/03b-followup-005-sync-jobs-design-spec/` | 03b follow-up #5 を full workflow 化。`sync_jobs` の `job_type` enum、`metrics_json` schema、lock TTL 10分を `docs/30-workflows/_design/sync-jobs-spec.md` と `apps/api/src/jobs/_shared/sync-jobs-schema.ts` へ集約し、`sync-forms-responses.ts` / `cursor-store.ts` / `repository/syncJobs.ts` は TS ランタイム正本参照へ差し替えた。D1 DDL・migration 変更は含めない。NON_VISUAL evidence は targeted Vitest 23 tests / cross-reference / job_type coverage / indexes drift。 |
-| 06b-parallel-member-login-and-profile-pages | completed / Phase 1-12 完了 / Phase 13 pending（user approval 待ち） / VISUAL member_only captured | `docs/30-workflows/completed-tasks/06b-parallel-member-login-and-profile-pages/` | apps/web 会員向け `/login` と `/profile` を実装。`/login` は AuthGateState 5 状態（input / sent / unregistered / rules_declined / deleted）、Magic Link form、Google OAuth button、`/no-access` 不採用、sent email 非表示、`normalizeRedirectPath` による safe redirect を提供。`/profile` は 04b `/me` `/me/profile` を `fetchAuthed` で取得し、read-only `StatusSummary` / `ProfileFields` / 外部 Google Form `EditCta` / `AttendanceList` を表示。Current `apps/web/proxy.ts` は `/profile/:path*` 未ログインを `/login?redirect=...` へ誘導（Issue #277 で legacy `middleware.ts` から移行済み）。検証: `@ubm-hyogo/web typecheck` PASS、06b focused Vitest 23 PASS、Phase 11 local `/login` screenshot M-01〜M-05 + `/profile` redirect curl captured。Follow-up: `UT-06B-PROFILE-VISUAL-EVIDENCE`（logged-in profile / staging screenshot）。Magic Link 429 Retry-After UI 復元は `docs/30-workflows/completed-tasks/issue-275-magic-link-429-retry-after/` で implemented_local_evidence_captured、source `UT-06B-MAGIC-LINK-RETRY-AFTER` は consumed |
+| 06b-parallel-member-login-and-profile-pages | completed / Phase 1-12 完了 / Phase 13 pending（user approval 待ち） / VISUAL member_only captured | `docs/30-workflows/completed-tasks/06b-parallel-member-login-and-profile-pages/` | apps/web 会員向け `/login` と `/profile` を実装。`/login` は AuthGateState 5 状態（input / sent / unregistered / rules_declined / deleted）、Magic Link form、Google OAuth button、`/no-access` 不採用、sent email 非表示、`normalizeRedirectPath` による safe redirect を提供。`/profile` は 04b `/me` `/me/profile` を `fetchAuthed` で取得し、read-only `StatusSummary` / `ProfileFields` / 外部 Google Form `EditCta` / `AttendanceList` を表示。Current `apps/web/proxy.ts` は `/profile/:path*` 未ログインを `/login?redirect=...` へ誘導（Issue #277 で legacy `middleware.ts` から移行済み）。検証: `@ubm-hyogo/web typecheck` PASS、06b focused Vitest 26 PASS、Phase 11 local `/login` screenshot M-01〜M-05 + `/profile` redirect curl captured。Follow-up: `UT-06B-PROFILE-VISUAL-EVIDENCE`（logged-in profile / staging screenshot）。Magic Link 429 Retry-After UI 復元は `docs/30-workflows/completed-tasks/issue-275-magic-link-429-retry-after/` で implemented_local_evidence_captured、source `UT-06B-MAGIC-LINK-RETRY-AFTER` は consumed |
 | 06b-B-profile-self-service-request-ui | implemented-local / implementation / runtime-evidence-blocked / VISUAL_ON_EXECUTION / Phase 1-10・12 completed / Phase 11 blocked_runtime_evidence / Phase 13 pending_user_approval | `docs/30-workflows/completed-tasks/06b-B-profile-self-service-request-ui/` | `/profile` に本人の公開停止/再公開申請 UI と退会申請 UIを追加済み。04b `/me/visibility-request` / `/me/delete-request` と 06b profile page を上流にし、client は同一 origin `/api/me/visibility-request` / `/api/me/delete-request` proxy 経由で API Worker を叩く。実装 component は `RequestActionPanel`、`VisibilityRequestDialog`、`DeleteRequestDialog`、`RequestPendingBanner`、`RequestErrorMessage`、client helper は `apps/web/src/lib/api/me-requests.ts`。本文編集 UI は追加せず、409 duplicate pending request、success/error/pending statesを固定。Phase 11 logged-in screenshot / unskipped E2E は runtime capture pending で、06b-C / 08b / 09a が visual evidence として消費する。pending banner sticky 化は `docs/30-workflows/unassigned-task/task-06b-b-profile-request-pending-banner-sticky-001.md` に分離。 |
 | 06b-b-profile-request-pending-banner-sticky | implemented-local / implementation / VISUAL_ON_EXECUTION / Phase 1-10・12 completed / Phase 11 blocked_runtime_evidence / Phase 13 pending_user_approval | `docs/30-workflows/06b-b-profile-request-pending-banner-sticky/` | 06b-B から分離された pending banner sticky 化 follow-up を local 実装済み。`/profile` reload 後も server-side pending state から `RequestPendingBanner` を表示し、重複申請ボタンを disabled にする。`GET /me/profile.pendingRequests`、`admin_member_notes.request_status='pending'` + `note_type IN ('visibility_request','delete_request')` 読み取り、`apps/web/src/lib/api/me-types.ts` mirror、`RequestActionPanel` props 追加を実装済み。409 は既存 `DUPLICATE_PENDING_REQUEST` を再利用し、新 endpoint / memberId path / apps/web D1 direct access は追加しない。authenticated runtime screenshot / trace は未取得で 06b-C / 08b / 09a capture gate に接続。旧 unassigned task は formalized source として保持。 |
 | 06b-A-me-api-authjs-session-resolver | implemented-local / implementation / NON_VISUAL / Phase 1-12 completed / Phase 13 pending_user_approval | `docs/30-workflows/06b-A-me-api-authjs-session-resolver/` | `/profile` SSR が cookie forwarding で呼ぶ `/me` / `/me/profile` を、apps/api 側で Auth.js session cookie/JWT から解決する follow-up 実装。`apps/api/src/middleware/me-session-resolver.ts` が `authjs.session-token` / `__Secure-authjs.session-token` / next-auth v4 migration cookie / Authorization Bearer JWT を `AUTH_SECRET` で検証し、dev-only `x-ubm-dev-session` は `ENVIRONMENT === "development"` 限定で fail-closed。`apps/api/src/index.ts` の `/me` mount を inline dev-only resolver から `createMeSessionResolver()` に差し替え。Focused tests: `apps/api/src/middleware/me-session-resolver.test.ts` 12 cases（dev path / production rejection / env missing rejection / cookie names / wrong secret / expired / missing / malformed）。staging / production live smoke と deploy は 09a / 09c gate。旧 root `docs/30-workflows/02-application-implementation/06b-A-me-api-authjs-session-resolver/` は legacy mapping に登録。 |

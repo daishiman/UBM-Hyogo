@@ -15,7 +15,7 @@
 ```
 [初回 request]
   cookies() (server, next/headers)
-    → readCollapsedFromCookieString(value)  // pure
+    → parseShellCollapsedCookie(value)  // pure
       → initialCollapsed: boolean | null     // null = cookie 不在
         → <SidebarShell initialCollapsed={...}>
           → useSidebarState(initialCollapsed)
@@ -25,7 +25,7 @@
 [client toggle]
   toggleCollapsed()
     → setMode(next)
-    → writeCollapsedCookie(next === "collapsed")  // document.cookie 書込（browserDocument 経由）
+    → writeShellCollapsedCookie(next === "collapsed")  // document.cookie 書込（browserDocument 経由）
       → 次回 request の cookies() が反映値を返す  ← 永続化ループ
 ```
 
@@ -48,15 +48,15 @@
 ```ts
 // apps/web/src/components/shell/shell-collapse-cookie.ts
 // sidebar collapse 状態の cookie 永続化の単一 source。
-// - server: readCollapsedFromCookieString（pure。next/headers cookies().get().value を渡す）
-// - client: writeCollapsedCookie / readCollapsedFromDocument（browserDocument 経由）
+// - server: parseShellCollapsedCookie（pure。next/headers cookies().get().value を渡す）
+// - client: writeShellCollapsedCookie / readCollapsedFromDocument（browserDocument 経由）
 import { browserDocument } from "@/lib/is-browser";
 
 /** cookie 名。RFC 6265 token として安全な `_` 区切り（localStorage key の `:` は cookie 名に不適）。 */
-export const SHELL_COLLAPSE_COOKIE = "ubm_shell_collapsed";
+export const SHELL_COLLAPSE_COOKIE_NAME = "ubm_shell_collapsed";
 
 /** cookie 有効期間（秒）。1 年。UI 設定のため長期保持で良い。 */
-const COLLAPSE_COOKIE_MAX_AGE = 60 * 60 * 24 * 365;
+const SHELL_COLLAPSE_COOKIE_MAX_AGE_SECONDS = 60 * 60 * 24 * 365;
 
 /**
  * cookie value 文字列を collapsed 真偽へ変換する純粋関数（server / test 共用）。
@@ -64,14 +64,14 @@ const COLLAPSE_COOKIE_MAX_AGE = 60 * 60 * 24 * 365;
  * - "false" → false
  * - 未定義 / 不正値 → null（seed 不在扱い）
  */
-export function readCollapsedFromCookieString(value: string | undefined | null): boolean | null {
+export function parseShellCollapsedCookie(value: string | undefined | null): boolean | null {
   if (value === "true") return true;
   if (value === "false") return false;
   return null;
 }
 
 /**
- * document.cookie 全体から SHELL_COLLAPSE_COOKIE の collapsed 真偽を読む（client）。
+ * document.cookie 全体から SHELL_COLLAPSE_COOKIE_NAME の collapsed 真偽を読む（client）。
  * cookie 不在は null（= seed 未確定。呼び元が viewport heuristic へ委譲できる）。
  */
 export function readCollapsedFromDocument(): boolean | null {
@@ -79,16 +79,16 @@ export function readCollapsedFromDocument(): boolean | null {
   if (!doc) return null;
   const match = doc.cookie
     .split("; ")
-    .find((entry) => entry.startsWith(`${SHELL_COLLAPSE_COOKIE}=`));
+    .find((entry) => entry.startsWith(`${SHELL_COLLAPSE_COOKIE_NAME}=`));
   if (match === undefined) return null;
-  return readCollapsedFromCookieString(match.slice(SHELL_COLLAPSE_COOKIE.length + 1));
+  return parseShellCollapsedCookie(match.slice(SHELL_COLLAPSE_COOKIE_NAME.length + 1));
 }
 
 /** collapsed 状態を cookie へ書く（client）。SSR / 非対応環境では noop。 */
-export function writeCollapsedCookie(collapsed: boolean): void {
+export function writeShellCollapsedCookie(collapsed: boolean): void {
   const doc = browserDocument();
   if (!doc) return;
-  doc.cookie = `${SHELL_COLLAPSE_COOKIE}=${collapsed ? "true" : "false"}; path=/; max-age=${COLLAPSE_COOKIE_MAX_AGE}; samesite=lax`;
+  doc.cookie = `${SHELL_COLLAPSE_COOKIE_NAME}=${collapsed ? "true" : "false"}; path=/; max-age=${SHELL_COLLAPSE_COOKIE_MAX_AGE_SECONDS}; samesite=lax`;
 }
 ```
 
@@ -104,13 +104,13 @@ export function writeCollapsedCookie(collapsed: boolean): void {
 
 | 対象 | Before | After |
 |------|--------|-------|
-| import | `browserWindow` のみ | `browserWindow` + `writeCollapsedCookie`（from `./shell-collapse-cookie`） |
+| import | `browserWindow` のみ | `browserWindow` + `writeShellCollapsedCookie`（from `./shell-collapse-cookie`） |
 | 定数 | `STORAGE_KEY` / `STORAGE_NAME = "local" + "Storage"` | **両方削除** |
 | `getShellStorage()` / `readPersistedCollapsed()` | localStorage 読取り | **削除**（cookie helper へ移管） |
 | signature | `useSidebarState(): SidebarState` | `useSidebarState(initialCollapsed: boolean \| null = null): SidebarState` |
 | initial state | `useState<SidebarStateMode>("expanded")` | `useState<SidebarStateMode>(initialCollapsed === true ? "collapsed" : "expanded")` |
 | mount effect | persisted(localStorage) 復元 → 無ければ md heuristic | **seed が null（cookie 不在）のときだけ** md viewport heuristic を適用。seed が boolean のとき effect は no-op（SSR 値で確定済み・hydration mismatch 回避のため client 再読取りもしない） |
-| `toggleCollapsed` | `storage.setItem(STORAGE_KEY, ...)` | `writeCollapsedCookie(next === "collapsed")` |
+| `toggleCollapsed` | `storage.setItem(STORAGE_KEY, ...)` | `writeShellCollapsedCookie(next === "collapsed")` |
 
 After の hook 骨子:
 
@@ -141,7 +141,7 @@ export function useSidebarState(initialCollapsed: boolean | null = null): Sideba
   const toggleCollapsed = useCallback(() => {
     setMode((prev) => {
       const next: SidebarStateMode = prev === "collapsed" ? "expanded" : "collapsed";
-      writeCollapsedCookie(next === "collapsed");
+      writeShellCollapsedCookie(next === "collapsed");
       return next;
     });
   }, []);
@@ -176,13 +176,13 @@ export function SidebarShell({ /* ...既存..., */ initialCollapsed = null }: Si
 ## 2.7 編集設計: `SidebarShell.server.tsx`
 
 - `import { cookies } from "next/headers";` を追加。
-- `import { SHELL_COLLAPSE_COOKIE, readCollapsedFromCookieString } from "./shell-collapse-cookie";` を追加。
+- `import { SHELL_COLLAPSE_COOKIE_NAME, parseShellCollapsedCookie } from "./shell-collapse-cookie";` を追加。
 - 既存の `getSession()` 直後に cookie 読取りを追加し、`initialCollapsed` を算出して `<SidebarShell>` へ渡す。
 
 ```ts
 const cookieStore = await cookies();
-const collapseRaw = cookieStore.get(SHELL_COLLAPSE_COOKIE)?.value;
-const initialCollapsed = collapseRaw === undefined ? null : readCollapsedFromCookieString(collapseRaw);
+const collapseRaw = cookieStore.get(SHELL_COLLAPSE_COOKIE_NAME)?.value;
+const initialCollapsed = collapseRaw === undefined ? null : parseShellCollapsedCookie(collapseRaw);
 // ...
 return (
   <SidebarShell
