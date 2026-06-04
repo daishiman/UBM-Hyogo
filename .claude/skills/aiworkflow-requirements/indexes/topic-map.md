@@ -2717,6 +2717,17 @@ node scripts/list-specs.js --topics
 | Phase 12 Artifacts | L21 |
 | Deferred / Blocked | L32 |
 
+### references/workflow-issue-1081-bulk-tag-real-d1-runtime-smoke-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Workflow | L3 |
+| Implementation | L13 |
+| Tests | L23 |
+| Evidence | L29 |
+| Boundary | L39 |
+| Lessons | L43 |
+
 ### references/workflow-issue-191-schema-aliases-artifact-inventory.md
 
 | セクション | 行 |
@@ -6282,6 +6293,22 @@ node scripts/list-specs.js --topics
 | L-I106-003: `audit_log` と `admin_member_notes` を同一 DTO として扱わない | L15 |
 | L-I106-004: 候補コマンドは実 repo scripts から再解決する | L21 |
 
+### references/lessons-learned-issue-1081-bulk-tag-real-d1-runtime-smoke-2026-06.md
+
+| セクション | 行 |
+|------------|----|
+| L-I1081-001: issue 本文の contract 記述と実装実態の乖離を Phase 1 で乖離表として固定する | L5 |
+| L-I1081-002: audit 相関に correlation_id 列が無く batchId は json_extract 経由 — prefix count で代替する | L13 |
+| L-I1081-003: seed は前提状態を明示的に DELETE で zero-out して冪等性を確保する | L21 |
+| L-I1081-004: user-gated 境界は「副作用ゆえの実行タイミング分離」であり「先送り」ではない | L29 |
+| L-I1081-005: cleanup SQL の WHERE scope 限定を static check で強制する | L37 |
+| L-I1081-006: secret 欠落は skip ではなく fail-closed（exit 2）にする | L45 |
+| L-I1081-007: production guard を多層化し exit code を区分する | L53 |
+| L-I1081-008: local stub test は PATH-based provider injection で network-free にする | L61 |
+| L-I1081-009: `.test.sh` は invariant #8 非抵触 — 禁止対象は `*.test.{ts,tsx}` のみ | L69 |
+| Anti-patterns | L77 |
+| メモ（user-gated / 横断知見 / close-out 異常） | L84 |
+
 ### references/lessons-learned-issue-191-schema-aliases-2026-04.md
 
 | セクション | 行 |
@@ -8579,15 +8606,15 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L3601 |
-| フェーズ構造（概要） | L3610 |
-| 品質ゲート（概要） | L3641 |
-| 出力テンプレート | L3652 |
-| 実行時のコマンド・エージェント・スキル | L3675 |
-| 昇格パターン集 | L3699 |
-| Current Active / Spec Created Tasks | L3701 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L3867 |
-| issue-998-members-publish-state-production-rollout | L3945 |
+| ドキュメント構成 | L3615 |
+| フェーズ構造（概要） | L3624 |
+| 品質ゲート（概要） | L3655 |
+| 出力テンプレート | L3666 |
+| 実行時のコマンド・エージェント・スキル | L3689 |
+| 昇格パターン集 | L3713 |
+| Current Active / Spec Created Tasks | L3715 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L3881 |
+| issue-998-members-publish-state-production-rollout | L3959 |
 
 ### references/task-workflow-backlog-part2.md
 
