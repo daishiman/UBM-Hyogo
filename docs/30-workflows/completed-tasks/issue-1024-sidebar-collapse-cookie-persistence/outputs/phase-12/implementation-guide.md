@@ -41,7 +41,7 @@
 [server] SidebarShellServer
   └─ await cookies()  (next/headers)
        └─ get("ubm_shell_collapsed")?.value
-            └─ readCollapsedFromCookieString(value): boolean | null
+            └─ parseShellCollapsedCookie(value): boolean | null
                  └─ initialCollapsed: boolean | null
                       │
                       ▼  prop
@@ -50,7 +50,7 @@
        ├─ useState(initialCollapsed === true ? "collapsed" : "expanded")   ← SSR seed（初回 render が cookie と同値）
        ├─ mount effect: initialCollapsed !== null → 早期 return（viewport 判定スキップ）
        │                initialCollapsed === null → md viewport heuristic（Task E 仕様維持）
-       └─ toggleCollapsed() → writeCollapsedCookie(next === "collapsed")
+       └─ toggleCollapsed() → writeShellCollapsedCookie(next === "collapsed")
                                    └─ browserDocument().cookie = "ubm_shell_collapsed=...;path=/;max-age=...;samesite=lax"
 ```
 
@@ -60,17 +60,17 @@
 import { browserDocument } from "@/lib/is-browser";
 
 /** collapse 状態を保持する cookie 名。単一 source（直書き禁止・本定数経由）。 */
-export const SHELL_COLLAPSE_COOKIE = "ubm_shell_collapsed";
+export const SHELL_COLLAPSE_COOKIE_NAME = "ubm_shell_collapsed";
 
 /** cookie 属性。client 読み書きのため httpOnly なし。1 年保持。 */
-const COOKIE_MAX_AGE_SECONDS = 60 * 60 * 24 * 365;
+const SHELL_COLLAPSE_COOKIE_MAX_AGE_SECONDS = 60 * 60 * 24 * 365;
 
 /**
  * pure parser（server / test から呼ぶ）。
  * cookie 値が "true" のとき collapsed=true、"false" のとき collapsed=false。
  * undefined / null / 不正値は null（seed 不在扱い）。
  */
-export function readCollapsedFromCookieString(value: string | undefined | null): boolean | null {
+export function parseShellCollapsedCookie(value: string | undefined | null): boolean | null {
   if (value === "true") return true;
   if (value === "false") return false;
   return null;
@@ -85,25 +85,44 @@ export function readCollapsedFromDocument(): boolean | null {
   if (!doc) return null;
   const match = doc.cookie
     .split("; ")
-    .find((entry) => entry.startsWith(`${SHELL_COLLAPSE_COOKIE}=`));
+    .find((entry) => entry.startsWith(`${SHELL_COLLAPSE_COOKIE_NAME}=`));
   if (!match) return null;
-  const value = match.slice(SHELL_COLLAPSE_COOKIE.length + 1);
-  return readCollapsedFromCookieString(value);
+  const value = match.slice(SHELL_COLLAPSE_COOKIE_NAME.length + 1);
+  return parseShellCollapsedCookie(value);
 }
 
 /** client: collapse 状態を cookie へ書き込む。SSR では noop。 */
-export function writeCollapsedCookie(collapsed: boolean): void {
+export function writeShellCollapsedCookie(collapsed: boolean): void {
   const doc = browserDocument();
   if (!doc) return;
   doc.cookie =
-    `${SHELL_COLLAPSE_COOKIE}=${collapsed ? "true" : "false"}` +
-    `; path=/; max-age=${COOKIE_MAX_AGE_SECONDS}; samesite=lax`;
+    `${SHELL_COLLAPSE_COOKIE_NAME}=${collapsed ? "true" : "false"}` +
+    `; path=/; max-age=${SHELL_COLLAPSE_COOKIE_MAX_AGE_SECONDS}; samesite=lax`;
 }
 ```
 
 > 注: `readCollapsedFromDocument` は client の seed 補完用。SSR seed が確定している経路では
 > `useSidebarState` は引数 `initialCollapsed` を優先し、本関数は seed=null（cookie 未読み取り経路）の
 > fallback として位置づける。実装では SSR seed を正本とし、client での再読込は最小限とする。
+
+### SSOT 正本 API（issue-1065 整合）
+
+`shell-collapse-cookie.ts` の export 名は以下 5 件を唯一の正本（SSOT）とする。
+かつて存在した alias（`SHELL_COLLAPSE_COOKIE` / `readCollapsedFromCookieString` / `writeCollapsedCookie`）は
+0 参照の dead export だったため issue-1065 で削除済み。設計 doc 内のコードブロック・API 表も本表の primary 名へ整合させた。
+
+| 概念 | 正本（primary export） | 契約 |
+|------|----------------------|------|
+| cookie 名定数 | `SHELL_COLLAPSE_COOKIE_NAME` | `"ubm_shell_collapsed"`（直書き禁止・本定数経由） |
+| 値パーサ | `parseShellCollapsedCookie(value)` | **cookie 値のみ**を受け取り `boolean \| null` を返す pure parser（ヘッダ全体ではない） |
+| serialize | `serializeShellCollapsedCookie(collapsed)` | `name=value; Path=/; Max-Age=…; SameSite=Lax` 文字列を生成 |
+| client write | `writeShellCollapsedCookie(collapsed)` | `document.cookie` へ書込（`browserDocument()` 経由・SSR では noop） |
+| client read | `readCollapsedFromDocument()` | `document.cookie` を split し matched value を `parseShellCollapsedCookie` へ委譲 |
+
+> **訂正注記（issue 前提の誤り）**: 元 issue / unassigned-task は `parseShellCollapsedCookie`（旧名
+> `readCollapsedFromCookieString`）が「cookie ヘッダ全体を受け取る」と記述していたが、現行コードでは
+> **cookie 値のみを受け取る value parser** である。ヘッダ全体の split は `readCollapsedFromDocument()` が担い、
+> matched value だけを `parseShellCollapsedCookie` に渡す。両者の契約差（ヘッダ vs 値）は存在しない。
 
 ### 編集: `useSidebarState.ts`（シグネチャ + 振る舞い）
 
@@ -134,7 +153,7 @@ export function useSidebarState(initialCollapsed: boolean | null = null): Sideba
   const toggleCollapsed = useCallback(() => {
     setMode((prev) => {
       const next: SidebarStateMode = prev === "collapsed" ? "expanded" : "collapsed";
-      writeCollapsedCookie(next === "collapsed");
+      writeShellCollapsedCookie(next === "collapsed");
       return next;
     });
   }, []);
@@ -153,7 +172,7 @@ export function useSidebarState(initialCollapsed: boolean | null = null): Sideba
 - `function getShellStorage(): Storage | undefined { ... }`
 - `function readPersistedCollapsed(): boolean | null { ... }`（cookie へ置換）
 - `import { browserWindow }` は viewport heuristic で引き続き使用（残す）。
-- toggle 内の `storage?.setItem(...)` → `writeCollapsedCookie(...)`。
+- toggle 内の `storage?.setItem(...)` → `writeShellCollapsedCookie(...)`。
 
 ### 編集: `SidebarShell.tsx`
 
@@ -176,13 +195,13 @@ export function SidebarShell({ /* ...既存..., */ initialCollapsed = null }: Si
 
 ```ts
 import { cookies } from "next/headers";
-import { SHELL_COLLAPSE_COOKIE, readCollapsedFromCookieString } from "./shell-collapse-cookie";
+import { SHELL_COLLAPSE_COOKIE_NAME, parseShellCollapsedCookie } from "./shell-collapse-cookie";
 
 // SidebarShellServer 内:
 const cookieStore = await cookies();
-const collapsedRaw = cookieStore.get(SHELL_COLLAPSE_COOKIE)?.value;
+const collapsedRaw = cookieStore.get(SHELL_COLLAPSE_COOKIE_NAME)?.value;
 const initialCollapsed: boolean | null =
-  collapsedRaw === undefined ? null : readCollapsedFromCookieString(collapsedRaw);
+  collapsedRaw === undefined ? null : parseShellCollapsedCookie(collapsedRaw);
 
 return (
   <SidebarShell
@@ -200,7 +219,7 @@ return (
 
 | 属性 | 値 | 理由 |
 |------|----|----|
-| name | `ubm_shell_collapsed` | 単一 source（`SHELL_COLLAPSE_COOKIE`） |
+| name | `ubm_shell_collapsed` | 単一 source（`SHELL_COLLAPSE_COOKIE_NAME`） |
 | value | `"true"` / `"false"` | parser は `value === "true"` のみ true |
 | path | `/` | 全 route で共有 |
 | max-age | `31536000`（1年） | UI 設定として長期保持 |
