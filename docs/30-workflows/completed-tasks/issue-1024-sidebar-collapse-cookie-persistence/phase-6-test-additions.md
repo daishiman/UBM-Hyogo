@@ -8,11 +8,11 @@ Phase 4（Red 計画）を Green にした後に積み増す、異常系・回�
 
 | test ID | 観点 | 入力 / 条件 | 期待 | ファイル |
 |---------|------|------------|------|---------|
-| FP-01 | cookie 不正値（"true" 厳密一致以外は false） | `readCollapsedFromCookieString("yes")` / `"1"` / `"True"` / `" true"` | すべて `false` | shell-collapse-cookie.spec.ts |
-| FP-02 | 空文字 value | `readCollapsedFromCookieString("")` | `false` | shell-collapse-cookie.spec.ts |
+| FP-01 | cookie 不正値（"true" 厳密一致以外は false） | `parseShellCollapsedCookie("yes")` / `"1"` / `"True"` / `" true"` | すべて `false` | shell-collapse-cookie.spec.ts |
+| FP-02 | 空文字 value | `parseShellCollapsedCookie("")` | `false` | shell-collapse-cookie.spec.ts |
 | FP-03 | document に該当 cookie 名の prefix 部分一致 trap | `document.cookie = "ubm_shell_collapsed_x=true; ubm_shell_collapsed=false"` | `readCollapsedFromDocument()` は `false`（`startsWith("ubm_shell_collapsed=")` で `=` まで含めて一致） | shell-collapse-cookie.spec.ts |
 | FP-04 | SSR で document 不在 → reader null | `browserDocument()` が `undefined` を返す環境（`isBrowser()` false 相当を mock） | `readCollapsedFromDocument()` が `null` | shell-collapse-cookie.spec.ts |
-| FP-05 | SSR で document 不在 → writer noop | 同上で `writeCollapsedCookie(true)` | throw せず（noop 完了）、副作用なし | shell-collapse-cookie.spec.ts |
+| FP-05 | SSR で document 不在 → writer noop | 同上で `writeShellCollapsedCookie(true)` | throw せず（noop 完了）、副作用なし | shell-collapse-cookie.spec.ts |
 | FP-06 | hook: matchMedia 不在環境（seed=null） | `window.matchMedia` を `undefined` に、`useSidebarState(null)` | `mode === "expanded"`（heuristic skip・throw しない） | useSidebarState.spec.tsx |
 | FP-07 | hook: seed=null かつ cookie も無し（初回訪問・lg） | matchMedia 両 false（mobile）相当 | `mode === "expanded"`（md 帯以外は collapsed にしない） | useSidebarState.spec.tsx |
 
