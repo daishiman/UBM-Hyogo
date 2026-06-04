@@ -2744,6 +2744,16 @@ node scripts/list-specs.js --topics
 | System Boundary | L20 |
 | Lessons Learned | L30 |
 
+### references/workflow-issue-1068-admin-tag-inline-create-ui-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Metadata | L3 |
+| Workflow artifacts | L17 |
+| Implemented files (apps/web only) | L31 |
+| Boundaries | L43 |
+| Lessons Learned | L49 |
+
 ### references/workflow-issue-1069-tag-code-rename-artifact-inventory.md
 
 | セクション | 行 |
@@ -6349,6 +6359,20 @@ node scripts/list-specs.js --topics
 | L-I1063-004: `Secure` / `HttpOnly` は read 値に現れないので serializer 文字列を検証する | L18 |
 | メタ補足: 監査 SubAgent の read-only 逸脱 | L22 |
 
+### references/lessons-learned-issue-1068-admin-tag-inline-create-ui-2026-06.md
+
+| セクション | 行 |
+|------------|----|
+| L-I1068-001: API error の「分類」は transport クラスから独立した純関数に置く | L12 |
+| L-I1068-002: 多段 write の「部分成功」は段ごとの state で保持し、retry は失敗段だけを再実行する | L19 |
+| L-I1068-003: 409 conflict 回収は「ローカルキャッシュ探索」でなく権威ソース再取得を基準にする | L26 |
+| L-I1068-004: server が field 粒度を返さない制約下では client validation をミラーし、400 は粒度を詐称しない包括フォールバックにする | L33 |
+| L-I1068-005: 共有 mutation mock は method だけでなく endpoint まで見て slot を分岐する | L40 |
+| L-I1068-006: hook mock の失敗注入は promise の settle と callback 呼び出しの双方を実装と同じ順序で再現する | L47 |
+| L-I1068-007: 認証必須 visual は env-gate + skip で同梱し、レイアウト不変は構造で担保、screenshot は user-gated に切り出す | L54 |
+| L-I1068-008: apps/web の Vitest 正経路はリポジトリルート config（`apps/web/vitest.config.ts` は不在） | L61 |
+| 横断教訓 | L70 |
+
 ### references/lessons-learned-issue-191-schema-aliases-2026-04.md
 
 | セクション | 行 |
@@ -8663,6 +8687,7 @@ node scripts/list-specs.js --topics
 | Current Active / Spec Created Tasks | L3785 |
 | UT-17 followup-003 alert-relay weekly healthcheck cron | L3951 |
 | issue-998-members-publish-state-production-rollout | L4029 |
+| issue-1068-admin-tag-inline-create-ui | L4076 |
 
 ### references/task-workflow-backlog-part2.md
 
