@@ -23,6 +23,31 @@
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1076-member-og-design-token-alignment-artifact-inventory.md` |
 | user gate | staging real PNG screenshots、deploy、commit、push、PR、Issue mutation |
 
+### admin-meetings-attendance-404-fix-and-ux（30種思考法改善反映 / 2026-06-03）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_runtime_pending / implementation / VISUAL_ON_EXECUTION` |
+| 成果物 | `docs/30-workflows/completed-tasks/admin-meetings-attendance-404-fix-and-ux/` |
+| 目的 | staging `/admin/meetings` 開催日追加 404 を admin proxy transport 非対称として修正し、開催日カードから出席管理へ到達しやすくする |
+| implementation targets | `apps/web/app/api/admin/[...path]/route.ts`, `apps/web/app/api/admin/[...path]/route.spec.ts`, `apps/web/src/features/admin/components/_meetings/{MeetingAttendanceDrawer,MeetingTimeline,MeetingsClientShell}.tsx`, `_meetings/__tests__/{MeetingAttendanceDrawer,MeetingTimeline,MeetingsClientShell}.spec.tsx` |
+| invariant | apps/api endpoint / D1 schema / Google Form schema / `api.ts` attendance path / `useAdminMutation` hook unchanged |
+| evidence | focused Vitest 4 files / 15 tests PASS、web typecheck PASS、web lint PASS、verify:phase12-compliance PASS。staging authenticated screenshot は user-gated |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-meetings-attendance-404-fix-and-ux-artifact-inventory.md` |
+| user gate | staging deploy, authenticated `/admin/meetings` POST 201 proof, screenshots, commit, push, PR |
+
+### admin-member-detail-status-404-fix（2026-06-02）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / NON_VISUAL` |
+| 成果物 | `docs/30-workflows/completed-tasks/admin-member-detail-status-404-fix/` |
+| 目的 | admin 会員管理の detail/status 404 を、`member_identities` は存在するが `member_status` / `current_response` が欠落する orphan 非対称性として修復する |
+| implemented targets | `apps/api/src/repository/status.ts`, `apps/api/src/repository/_shared/builder.ts`, `apps/api/src/routes/admin/member-status.ts`, `apps/api/src/jobs/sync-forms-responses.ts`, `apps/api/migrations/0024_backfill_member_status.sql`, `vitest.d1.config.ts` |
+| Phase 11/12 | focused D1 Vitest 5 files / 67 tests PASS、typecheck PASS、lint PASS、apps/web diff 0。Phase 12 strict 7 present |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-member-detail-status-404-fix-artifact-inventory.md` |
+| user gate | remote D1 migration apply、staging deploy、authenticated admin smoke、commit、push、PR |
+
 ### japanese-ime-input-composition-search-fix（2026-06-02）
 
 | 項目 | 値 |
@@ -249,6 +274,20 @@
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-publish-state-backfill-admin-ui-artifact-inventory.md` |
 | system spec | API/D1/Form schema no change; existing `POST /admin/sync/backfill-publish-state` reused |
 | user gate | staging authenticated screenshots, commit, push, PR |
+
+### issue-1063-shell-collapse-cookie-secure-attribute（2026-06-03）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / NON_VISUAL / Phase 13 pending_user_approval` |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-1063-shell-collapse-cookie-secure-attribute/` |
+| Issue | #1063 CLOSED（reopen なし、PR は `Refs #1063` 境界） |
+| 目的 | `ubm_shell_collapsed` cookie を HTTPS runtime でのみ `Secure` 付きにし、localhost http の collapse 永続化を維持する |
+| implementation targets | `apps/web/src/components/shell/shell-collapse-cookie.ts`, `apps/web/src/components/shell/__tests__/shell-collapse-cookie.spec.ts` |
+| evidence | focused Vitest `shell-collapse-cookie.spec.ts` 10 tests PASS。Phase 11 NON_VISUAL evidence present |
+| system spec | API / D1 / Google Form schema / auth / CSS token は不変 |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1063-shell-collapse-cookie-secure-attribute-artifact-inventory.md` |
+| user gate | browser DevTools smoke, commit, push, PR, Issue mutation |
 
 ### issue-1059-public-members-fields-batch-fetch-n1-prevention（2026-06-02）
 
@@ -534,7 +573,8 @@
 | 目的 | root `/` が `getAuthView()` を取得し、`PublicHeader authView` に配線してログイン状態 CTA を整合させる |
 | implementation targets | `apps/web/src/lib/auth-view/index.ts`, `apps/web/src/components/public/PublicHeader.tsx`, `apps/web/app/(public)/layout.tsx`, `apps/web/app/page.tsx` |
 | tests | `apps/web/src/lib/auth-view/__tests__/resolveAuthView.spec.ts`, `apps/web/src/components/public/__tests__/PublicHeader.spec.tsx`, `apps/web/app/__tests__/page.spec.tsx` |
-| evidence | focused Vitest 3 files / 9 tests PASS、typecheck PASS、lint PASS、web build PASS、Phase 12 strict 7 present |
+| evidence | focused Vitest 4 files / 9 tests PASS、typecheck PASS、lint PASS、web build PASS、Phase 12 strict 7 present |
+| evidence | focused Vitest 3 files / 10 tests PASS、typecheck PASS、lint PASS、web build PASS、Phase 12 strict 7 present |
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-task-b-root-page-public-header-async-artifact-inventory.md` |
 | user gate | Cloudflare staging deploy、authenticated `/` curl、wrangler tail clean evidence、commit、push、PR |
 
@@ -563,7 +603,8 @@
 | 目的 | staging `/admin/meetings` の `ADMIN_FETCH_404` 根本原因である admin server-fetch の HTTP-only worker-to-worker transport を service-binding 優先へ修正 |
 | implementation targets | `apps/web/src/lib/admin/server-fetch.ts`, `apps/web/src/lib/admin/__tests__/server-fetch-service-binding.spec.ts`, `apps/web/src/lib/admin/__tests__/server-fetch-url.spec.ts` |
 | invariant | API endpoint / D1 schema / UI route contract は変更なし。`fetchAdmin` signature と error body snippet 契約を維持 |
-| evidence | focused Vitest 3 files / 9 tests PASS; Phase 12 strict outputs present |
+| evidence | focused Vitest 4 files / 9 tests PASS; Phase 12 strict outputs present |
+| evidence | focused Vitest 3 files / 10 tests PASS; Phase 12 strict outputs present |
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-976-admin-fetch-service-binding-artifact-inventory.md` |
 | user gate | staging deploy, authenticated `/admin/meetings` evidence, `wrangler tail` ADMIN_FETCH_404 absence, commit, push, PR |
 

@@ -22,7 +22,7 @@ import type {
 import { STABLE_KEY } from "@ubm-hyogo/shared";
 import { findMemberById } from "../members";
 import { listMembersByIds } from "../members";
-import { getStatus, listStatusesByMemberIds } from "../status";
+import { defaultMemberStatusRow, getStatus, listStatusesByMemberIds } from "../status";
 import { findCurrentResponse, listResponsesByIds } from "../responses";
 import { listSectionsByResponseId } from "../responseSections";
 import { listFieldsByResponseId } from "../responseFields";
@@ -380,20 +380,23 @@ export async function buildAdminMemberDetailView(
   }>,
   deps?: { attendancePage?: AttendancePageDeps },
 ): Promise<AdminMemberDetailView | null> {
-  const [identity, status] = await Promise.all([
+  const [identity, statusRow] = await Promise.all([
     findMemberById(c, mid),
     getStatus(c, mid),
   ]);
 
-  if (!identity || !status) return null;
+  if (!identity) return null;
 
   const response = await findCurrentResponse(c, mid);
-  if (!response) return null;
-
-  const responseId = asResponseId(response.response_id);
+  const status = statusRow ?? defaultMemberStatusRow(mid);
+  const responseId = asResponseId(
+    response?.response_id ??
+      identity.current_response_id ??
+      identity.member_id,
+  );
   const [sections, fields, visibilityRows, tags, paged] = await Promise.all([
-    listSectionsByResponseId(c, responseId),
-    listFieldsByResponseId(c, responseId),
+    response ? listSectionsByResponseId(c, responseId) : Promise.resolve([]),
+    response ? listFieldsByResponseId(c, responseId) : Promise.resolve([]),
     listVisibilityByMemberId(c, mid),
     listTagsByMemberId(c, mid),
     fetchAttendancePagedFor(mid, c.var.attendanceProvider, deps?.attendancePage),
@@ -402,9 +405,11 @@ export async function buildAdminMemberDetailView(
   const visibilityMap = buildVisibilityMap(visibilityRows);
 
   // admin view には全 visibility のフィールドを含める
-  const adminSections = buildSections(sections, fields, visibilityMap, ["public", "member", "admin"], defaultMetadataResolver);
+  const adminSections = response
+    ? buildSections(sections, fields, visibilityMap, ["public", "member", "admin"], defaultMetadataResolver)
+    : [];
 
-  const summary = extractSummary(response.answers_json);
+  const summary = response ? extractSummary(response.answers_json) : extractSummary("{}");
 
   const profile: MemberProfile = {
     memberId: asMemberId(identity.member_id),
@@ -423,8 +428,8 @@ export async function buildAdminMemberDetailView(
       category: t.category,
       source: t.source as "rule" | "ai" | "manual",
     })),
-    lastSubmittedAt: response.submitted_at,
-    editResponseUrl: response.edit_response_url,
+    lastSubmittedAt: response?.submitted_at ?? identity.last_submitted_at,
+    editResponseUrl: response?.edit_response_url ?? null,
   };
   if (paged.meta) profile.attendanceMeta = paged.meta;
 
