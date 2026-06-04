@@ -5198,3 +5198,8 @@ UT-17 Cloudflare Notifications → alert-relay → Slack 経路を、既存 API 
 | status | implemented_local_runtime_pending / implementation / VISUAL / 2026-05-28 |
 | workflow | `docs/30-workflows/completed-tasks/members-list-ux-clarity/` |
 | summary | `/members` の密度切替説明、即時反映ヒント、適用中filter chip、件数live regionを追加。API/schema/query正本は不変。 |
+## 2026-06-03 Additions
+
+| Topic | References | Notes |
+| --- | --- | --- |
+| issue-1068-admin-tag-inline-create-ui（implemented_local_visual_pending / implementation / VISUAL_ON_EXECUTION） | `docs/30-workflows/completed-tasks/issue-1068-admin-tag-inline-create-ui/index.md`, `docs/30-workflows/completed-tasks/issue-1068-admin-tag-inline-create-ui/artifacts.json`, `docs/30-workflows/completed-tasks/issue-1068-admin-tag-inline-create-ui/outputs/phase-12/phase12-task-spec-compliance-check.md`, `.claude/skills/aiworkflow-requirements/references/workflow-issue-1068-admin-tag-inline-create-ui-artifact-inventory.md` | Issue #1068 admin member drawer tag inline-create UI implemented locally. Uses existing `POST /admin/tags` and member tag assignment endpoints; `apps/api` unchanged. task-A web client helper, task-B component/wiring, and task-C env-gated visual spec are complete. Staging screenshots, commit, push, PR, and Issue mutation are user-gated. |

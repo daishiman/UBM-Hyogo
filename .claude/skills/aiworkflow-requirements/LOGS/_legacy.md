@@ -1223,6 +1223,13 @@ production env monitor secret cleanup は user-gated。
 
 - `task-b-manual-form-resync-admin-ui-spec` を standalone Task B 正本仕様として同期。Phase 11 local evidence bundle / Phase 12 strict 7 / aiworkflow indexes / artifact inventory を追加し、runtime visual と `SYNC_ADMIN_TOKEN` 投入は user-gated として分離。
 
+# 2026-06-03 issue-1068-admin-tag-inline-create-ui
+
+- `docs/30-workflows/completed-tasks/issue-1068-admin-tag-inline-create-ui/` を `implemented_local_visual_pending / implementation / VISUAL_ON_EXECUTION` として同期。
+- apps/web task-A/B/C 実装（createTag helper / MemberTagInlineCreate / MemberDrawer create→attach wiring / focused tests / env-gated Playwright spec）を完了。`apps/api` 変更なし。staging screenshot baseline、commit、push、PR、Issue mutation は user-gated。
+- Phase 12 strict 7 outputs、quick-reference、resource-map、task-workflow-active、artifact inventory、dated changelog を同一 cycle で追加。
+- `apps/api` 変更なし。実装、local visual evidence、staging verification、commit、push、PR、Issue mutation は user-gated。
+
 # 2026-06-03 profile-reload-session-404-fix
 
 - `docs/30-workflows/profile-reload-session-404-fix/` を `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION` として同期。`/profile` リロード時の `GET /me` 404 生エラーバナーを、T01（apps/api `trailingSlashRedirect()` 308 middleware を securityHeaders/corsFromEnv 後・route mount 前に登録 + フルアプリ・マウント統合テスト `me-route-mount.integration.spec.ts`）/ T02（apps/web `/api/me/[...path]` proxy の空 catch-all path で `/me/` を生成しない URL 組み立て修正）/ T03（`/profile` の `MEMBER_SESSION_404` を再ログイン CTA へ分岐 + `SectionError` の `actionHref`/`actionLabel` optional props 拡張・生 message 非露出）で解消。
