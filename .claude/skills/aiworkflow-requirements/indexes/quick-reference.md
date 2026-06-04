@@ -15,6 +15,30 @@
 | inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1077-bulk-tag-authenticated-staging-visual-artifact-inventory.md` |
 | user gate | staging deploy/capture, baseline commit, push, PR, Issue mutation |
 
+## admin-meetings-attendance-404-fix-and-ux（2026-06-03）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/admin-meetings-attendance-404-fix-and-ux/` |
+| status | `implemented_local_runtime_pending / implementation / VISUAL_ON_EXECUTION` |
+| purpose | staging `/admin/meetings` 開催日追加 404 を admin proxy transport 非対称として修正し、出席管理 UI の発見性を改善する |
+| implementation | proxy route `API_SERVICE` service binding first、出席者氏名表示、開催日カード出席人数バッジ、出席記録 aria-label |
+| evidence | focused Vitest 4 files / 15 tests PASS; web typecheck PASS; web lint PASS; verify:phase12-compliance PASS |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-meetings-attendance-404-fix-and-ux-artifact-inventory.md` |
+| user gate | staging deploy, authenticated POST 201 proof, screenshots, commit, push, PR |
+
+## admin-member-detail-status-404-fix（2026-06-02）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/admin-member-detail-status-404-fix/` |
+| status | `implemented_local_evidence_captured / implementation / NON_VISUAL` |
+| purpose | admin 会員管理の `GET /admin/members/:memberId` / `PATCH /admin/members/:memberId/status` が `member_status` 欠落 orphan で 404 になる非対称性を apps/api 内で修復 |
+| implementation | `ensureMemberStatusRow` / `defaultMemberStatusRow`、builder degraded detail、status PATCH identity-only 404 boundary、Forms sync prevention、migration 0024 backfill |
+| evidence | focused D1 Vitest 5 files / 67 tests PASS、typecheck PASS、lint PASS、apps/web diff 0 |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-member-detail-status-404-fix-artifact-inventory.md` |
+| user gate | remote D1 migration apply, staging deploy, authenticated admin smoke, commit, push, PR |
+
 ## profile-reload-session-404-fix（2026-06-03）
 
 | 項目 | 値 |
@@ -223,7 +247,7 @@
 | issue | #1027 OPEN 維持。Issue mutation は user-gated |
 | purpose | member detail の動的 OG PNG を main web Worker へ戻さず、OG 専用 Worker `apps/og` に分離して Free 3MiB 予算を守る |
 | implementation | `apps/og/**`, `apps/web/src/lib/{env.ts,seo/site-metadata.ts}`, `apps/web/app/(public)/members/[id]/page.tsx`, `apps/web/wrangler.toml`, `.github/workflows/og-cd.yml` |
-| evidence | OG typecheck PASS; OG Vitest 3 files / 10 tests PASS; web metadata focused Vitest 3 files / 17 tests PASS; OG Wrangler dry-run build PASS; OG size gate gzip 717KiB / 3072KiB PASS (index.js 170KiB + wasm); web typecheck PASS |
+| evidence | OG typecheck PASS; OG Vitest 3 files / 10 tests PASS; web metadata focused Vitest 4 files / 17 tests PASS; OG Wrangler dry-run build PASS; OG size gate gzip 717KiB / 3072KiB PASS (index.js 170KiB + wasm); web typecheck PASS |
 | invariant | `apps/web` は `next/og` / `ImageResponse` 禁止を維持。OG Worker は existing `GET /public/members/:memberId` を API_SERVICE first で読む。`OG_IMAGE_BASE_URL` は env accessor 経由 |
 | inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1027-member-dynamic-og-worker-split-artifact-inventory.md` |
 | user gate | Cloudflare deploy, staging runtime PNG capture, commit, push, PR, Issue #1027 mutation |
@@ -294,6 +318,19 @@
 | tests | `shell-collapse-cookie.spec.ts`, `useSidebarState.spec.tsx`, `SidebarShell.server.spec.tsx` |
 | boundary | API / D1 / Google Form / auth / design tokens unchanged; commit, push, PR, Issue mutation are user-gated |
 | inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1024-sidebar-collapse-cookie-persistence-artifact-inventory.md` |
+
+## issue-1063-shell-collapse-cookie-secure-attribute（2026-06-03）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-1063-shell-collapse-cookie-secure-attribute/` |
+| status | `implemented_local_evidence_captured / implementation / NON_VISUAL` |
+| issue | #1063 CLOSED（reopen なし、PR は `Refs #1063` 境界） |
+| purpose | `ubm_shell_collapsed` cookie を HTTPS runtime でのみ `Secure` 付きにし、localhost http の collapse 永続化を維持する |
+| implementation | `apps/web/src/components/shell/shell-collapse-cookie.ts`, `apps/web/src/components/shell/__tests__/shell-collapse-cookie.spec.ts` |
+| evidence | focused Vitest `shell-collapse-cookie.spec.ts` 10 tests PASS。browser DevTools smoke / commit / push / PR は user-gated |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1063-shell-collapse-cookie-secure-attribute-artifact-inventory.md` |
+| lessons | `.claude/skills/aiworkflow-requirements/references/lessons-learned-issue-1063-shell-collapse-cookie-secure-attribute-2026-06.md`（L-I1063-001..004: CLOSED再スコープ / runtime依存純粋関数のoptional引数注入 / 全ブランチgrep現存確認 / Secureはread不可・serializer文字列検証） |
 
 ## issue-229-indexes-rebuild-fail-fast（2026-05-31）
 
@@ -516,7 +553,8 @@
 | purpose | root `/` が `getAuthView()` を取得し、`PublicHeader authView` に配線してログイン状態 CTA を正しく出す |
 | implementation | `apps/web/src/lib/auth-view/index.ts`, `apps/web/src/components/public/PublicHeader.tsx`, `apps/web/app/(public)/layout.tsx`, `apps/web/app/page.tsx` |
 | tests | `apps/web/src/lib/auth-view/__tests__/resolveAuthView.spec.ts`, `apps/web/src/components/public/__tests__/PublicHeader.spec.tsx`, `apps/web/app/__tests__/page.spec.tsx` |
-| evidence | focused Vitest 3 files / 9 tests PASS, typecheck PASS, lint PASS, web build PASS |
+| evidence | focused Vitest 4 files / 9 tests PASS, typecheck PASS, lint PASS, web build PASS |
+| evidence | focused Vitest 3 files / 10 tests PASS, typecheck PASS, lint PASS, web build PASS |
 | inventory | `.claude/skills/aiworkflow-requirements/references/workflow-task-b-root-page-public-header-async-artifact-inventory.md` |
 | user gate | Cloudflare staging deploy, authenticated `/` curl, wrangler tail clean evidence, commit, push, PR |
 
@@ -529,7 +567,8 @@
 | status | `implemented_local_runtime_pending / implementation / NON_VISUAL` |
 | purpose | Admin server-fetch を `API_SERVICE` service-binding 優先へ統一し、同一 Cloudflare account の workers.dev 外向き fetch loopback 404 を回避 |
 | implementation targets | `apps/web/src/lib/admin/server-fetch.ts`, `apps/web/src/lib/admin/__tests__/server-fetch-service-binding.spec.ts`, `apps/web/src/lib/admin/__tests__/server-fetch-url.spec.ts` |
-| local evidence | `outputs/phase-11/local-verification.md` focused Vitest 3 files / 9 tests PASS |
+| local evidence | `outputs/phase-11/local-verification.md` focused Vitest 4 files / 9 tests PASS |
+| local evidence | `outputs/phase-11/local-verification.md` focused Vitest 3 files / 10 tests PASS |
 | Phase 12 | strict outputs + root/output artifacts parity present |
 | inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-976-admin-fetch-service-binding-artifact-inventory.md` |
 | user gate | staging deploy, authenticated route proof, `wrangler tail`, commit, push, PR |
@@ -5160,3 +5199,8 @@ UT-17 Cloudflare Notifications → alert-relay → Slack 経路を、既存 API 
 | status | implemented_local_runtime_pending / implementation / VISUAL / 2026-05-28 |
 | workflow | `docs/30-workflows/completed-tasks/members-list-ux-clarity/` |
 | summary | `/members` の密度切替説明、即時反映ヒント、適用中filter chip、件数live regionを追加。API/schema/query正本は不変。 |
+## 2026-06-03 Additions
+
+| Topic | References | Notes |
+| --- | --- | --- |
+| issue-1068-admin-tag-inline-create-ui（implemented_local_visual_pending / implementation / VISUAL_ON_EXECUTION） | `docs/30-workflows/completed-tasks/issue-1068-admin-tag-inline-create-ui/index.md`, `docs/30-workflows/completed-tasks/issue-1068-admin-tag-inline-create-ui/artifacts.json`, `docs/30-workflows/completed-tasks/issue-1068-admin-tag-inline-create-ui/outputs/phase-12/phase12-task-spec-compliance-check.md`, `.claude/skills/aiworkflow-requirements/references/workflow-issue-1068-admin-tag-inline-create-ui-artifact-inventory.md` | Issue #1068 admin member drawer tag inline-create UI implemented locally. Uses existing `POST /admin/tags` and member tag assignment endpoints; `apps/api` unchanged. task-A web client helper, task-B component/wiring, and task-C env-gated visual spec are complete. Staging screenshots, commit, push, PR, and Issue mutation are user-gated. |

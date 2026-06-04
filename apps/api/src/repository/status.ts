@@ -25,6 +25,30 @@ export interface DeletedMemberRow {
   reason: string;
 }
 
+export function defaultMemberStatusRow(id: MemberId): MemberStatusRow {
+  return {
+    member_id: id,
+    public_consent: "unknown",
+    rules_consent: "unknown",
+    publish_state: "member_only",
+    is_deleted: 0,
+    hidden_reason: null,
+    last_notified_at: null,
+    updated_by: null,
+    updated_at: new Date(0).toISOString(),
+  };
+}
+
+export async function ensureMemberStatusRow(
+  c: DbCtx,
+  id: MemberId,
+): Promise<void> {
+  await c.db
+    .prepare("INSERT OR IGNORE INTO member_status (member_id) VALUES (?1)")
+    .bind(id)
+    .run();
+}
+
 /**
  * member_id で status を取得する
  */
