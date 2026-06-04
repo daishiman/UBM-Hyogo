@@ -2820,3 +2820,10 @@ AC-1〜AC-6 全達成。Phase 10 判定: PASS（MINOR 0件）
 - 種別: implementation / verify_existing / VISUAL_ON_EXECUTION / authenticated runtime user-gated
 - 反映: `references/phase-12-documentation-guide.md` に、landed 実装の再仕様化であっても VISUAL close-out では静的 UI contract PNG と authenticated runtime screenshot pending を二段境界で記録する rule を追加。
 - 検証: workflow 側に 4 PNG (`manual-form-resync-panel-{idle,result,confirm,inprogress}.png`) を追加し、Phase 11 / Phase 12 strict 7 / aiworkflow-requirements / task-specification-creator 履歴を同一 wave で同期。`generate-index.js` が `phase-N.md` を認識しない漏れも同 cycle で修正し、node:test を追加。
+
+# 2026-06-03 issue-1068 admin tag inline-create UI spec compliance
+
+- 対象: `docs/30-workflows/completed-tasks/issue-1068-admin-tag-inline-create-ui/`
+- 種別: implementation / spec_created / VISUAL_ON_EXECUTION
+- 反映: workflow-local の Phase 12 strict 7 物理未生成を補正し、`outputs/phase-12/{main,implementation-guide,system-spec-update-summary,documentation-changelog,unassigned-task-detection,skill-feedback-report,phase12-task-spec-compliance-check}.md` を追加。
+- 検証: 既存 task-specification-creator rule で十分なためテンプレ変更は不要。aiworkflow-requirements ledger/index/inventory は同 cycle で同期。
