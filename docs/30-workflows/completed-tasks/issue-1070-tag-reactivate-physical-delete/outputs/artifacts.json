@@ -1,0 +1,213 @@
+{
+  "workflow_id": "issue-1070-tag-reactivate-physical-delete",
+  "feature": "issue-1070-tag-reactivate-physical-delete",
+  "parent_workflow": "issue-1035-tag-master-write-endpoints",
+  "status": "implemented_local_evidence_captured",
+  "created": "2026-06-03T00:00:00+09:00",
+  "lastUpdated": "2026-06-03T12:52:00+09:00",
+  "metadata": {
+    "taskId": "TASK-ISSUE-1070-TAG-REACTIVATE-PHYSICAL-DELETE",
+    "taskType": "implementation",
+    "visualEvidence": "NON_VISUAL",
+    "implementationCategory": "irreversible",
+    "implementationDomain": "admin-api-tag-master-lifecycle",
+    "implementation_mode": "new",
+    "workflow_state": "implemented_local_evidence_captured",
+    "implementation_status": "implemented_local_evidence_captured",
+    "issue": "https://github.com/daishiman/UBM-Hyogo/issues/1070",
+    "issue_state": "CLOSED",
+    "irreversible_task_rules": "references/non-visual-irreversible-task-rules.md",
+    "governance_mutation_user_gate": true,
+    "mutation_commands": [
+      "bash scripts/cf.sh d1 execute ubm-hyogo-db-prod --env production --command \"DELETE FROM tag_definitions WHERE tag_id = '<id>'\"  # physical delete production runtime (user-gated, runbook only)",
+      "git commit",
+      "git push",
+      "gh pr create --base dev"
+    ],
+    "read_only_evidence_allowed_pre_gate": [
+      "mise exec -- pnpm exec vitest run --root=. --config=vitest.d1.config.ts <local focused specs>",
+      "mise exec -- pnpm --filter @ubm-hyogo/api typecheck",
+      "mise exec -- pnpm lint",
+      "bash scripts/cf.sh d1 migrations list ubm-hyogo-db-prod --env production",
+      "rg -n \"member_tags|tag_has_references|admin.tag.(reactivated|physically_deleted)\" apps/api"
+    ],
+    "user_approval_marker": "outputs/phase-13/user-approval-<timestamp>.md",
+    "scope": "Add tag master lifecycle operations to apps/api: (1) POST /admin/tags/:tagId/reactivate flips active=0 -> active=1 (idempotent no-op when already active; 404 tag_not_found when missing) with audit admin.tag.reactivated; (2) DELETE /admin/tags/:tagId/physical hard-deletes a tag_definitions row ONLY when no member_tags references exist, otherwise refuses with 409 tag_has_references (no orphan rows), with audit admin.tag.physically_deleted (before=full row, after=null). Extend tagDefinitions repository with reactivateTagDefinition, countMemberTagReferences, physicalDeleteTagDefinition; extend routes/admin/tags.ts audit action union and ERROR_TO_STATUS (tag_has_references: 409); add focused D1 Vitest specs; preserve the issue-1035 logical delete (DELETE /admin/tags/:tagId -> active=0) regression. No D1 schema migration is required (member_tags has no FK to tag_definitions, so the reference guard is application-level by design). No apps/web change. Physical delete is physical-deletion-2-stage: endpoint code + reference guard + audit + tests are implementable this cycle; only the production tag physical mutation runtime is user-gated via runbook. Issue #1070 stays CLOSED.",
+    "canonical_root": "docs/30-workflows/completed-tasks/issue-1070-tag-reactivate-physical-delete",
+    "runtime_boundary": "Local implementation, focused D1 Vitest, API typecheck, repo lint, and docs/00-getting-started-manual/specs/01-api-schema.md sync are complete in this cycle. Staging runtime smoke, production tag physical delete mutation, commit, push, PR, and Issue state changes remain user-gated. Issue #1070 stays CLOSED.",
+    "issue_optimization_note": "Issue #1070 (= issue-1035 followup-003) frames reactivate + physical delete against the issue-1035 logical-delete contract. That contract is now landed (deactivateTagDefinition / DELETE /admin/tags/:tagId active=0 exist in current code). This spec is optimized to the CURRENT code: (1) reactivate and physical delete are confirmed NOT implemented anywhere (grep for reactivat / physical / 'DELETE FROM tag_definitions' across all branches = 0 hits) — the issue is unresolved and needs work. (2) AC-3 reference integrity: member_tags has NO database FOREIGN KEY to tag_definitions (PRIMARY KEY (member_id, tag_id) only, migrations/0002_admin_managed.sql:43), so physical delete CANNOT rely on ON DELETE cascade/restrict — the guard MUST be an application-level COUNT(*) on member_tags WHERE tag_id, and references>0 must return 409 tag_has_references without deleting (no orphan rows). (3) AC-1 separation: reactivate = POST /admin/tags/:tagId/reactivate (action sub-resource, distinct from PATCH label/category); physical delete = DELETE /admin/tags/:tagId/physical (distinct from logical DELETE /admin/tags/:tagId) so the issue-1035 logical-delete contract regression (AC-6) is preserved. (4) reactivate code-conflict (AC-2) is structurally impossible because reactivate flips active on the SAME row by tag_id and never touches the UNIQUE code column — documented as such rather than adding a spurious 409 path. (5) AuditAction is RepoBrand<string> (no enum) so admin.tag.reactivated / admin.tag.physically_deleted need no brand type change; AuditTargetType already includes 'tag'. The route's appendTagAudit action union ('admin.tag.created'|'updated'|'deactivated') is the only type literal that must be extended. (6) Physical delete frees the UNIQUE code (row gone) whereas logical delete keeps it occupied (active=0 row remains) — this distinction is the operational reason both lifecycle ops are needed.",
+    "implementation_files": [
+      "apps/api/src/repository/tagDefinitions.ts",
+      "apps/api/src/routes/admin/tags.ts",
+      "docs/00-getting-started-manual/specs/01-api-schema.md"
+    ],
+    "test_files": [
+      "apps/api/src/repository/__tests__/tagDefinitions.write.repository.spec.ts",
+      "apps/api/src/routes/admin/tags.contract.spec.ts"
+    ],
+    "regression_test_files": [
+      "apps/api/src/routes/admin/tags.contract.spec.ts",
+      "apps/api/src/repository/__tests__/tagDefinitions.write.repository.spec.ts",
+      "apps/api/src/routes/admin/members.tags.contract.spec.ts"
+    ],
+    "verify_commands": [
+      "mise exec -- pnpm exec vitest run --root=. --config=vitest.d1.config.ts apps/api/src/repository/__tests__/tagDefinitions.write.repository.spec.ts apps/api/src/routes/admin/tags.contract.spec.ts",
+      "mise exec -- pnpm --filter @ubm-hyogo/api typecheck",
+      "mise exec -- pnpm lint",
+      "rg -n \"admin\\\\.tag\\\\.(reactivated|physically_deleted)|tag_has_references|member_tags\" apps/api docs/00-getting-started-manual/specs/01-api-schema.md"
+    ],
+    "phase12_strict_outputs": [
+      "outputs/phase-12/main.md",
+      "outputs/phase-12/implementation-guide.md",
+      "outputs/phase-12/system-spec-update-summary.md",
+      "outputs/phase-12/documentation-changelog.md",
+      "outputs/phase-12/unassigned-task-detection.md",
+      "outputs/phase-12/skill-feedback-report.md",
+      "outputs/phase-12/phase12-task-spec-compliance-check.md"
+    ],
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-06-03T00:00:00+09:00",
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-1070-tag-reactivate-physical-delete/outputs/phase-3/phase-3.md",
+        "approver": "daishiman",
+        "notes": "Design and design-review specs complete (Phase 1-3). Implementation contracts (repository signatures, route paths, audit actions, reference guard) are fixed."
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "passed",
+        "passed_at": "2026-06-03T12:51:28+09:00",
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-1070-tag-reactivate-physical-delete/outputs/phase-11/manual-test-result.md",
+        "approver": "daishiman",
+        "notes": "Local implementation + focused D1 Vitest 2 files / 15 tests PASS, @ubm-hyogo/api typecheck PASS, repo lint PASS."
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "passed",
+        "passed_at": "2026-06-03T12:52:00+09:00",
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-1070-tag-reactivate-physical-delete/outputs/phase-12/phase12-task-spec-compliance-check.md",
+        "approver": "daishiman",
+        "notes": "Phase 12 close-out and system spec sync complete locally. Staging runtime, production physical delete mutation, commit/push/PR, and Issue state changes remain user-gated."
+      }
+    ]
+  },
+  "phases": [
+    {
+      "phase": 1,
+      "name": "要件定義",
+      "status": "completed",
+      "output": "outputs/phase-1/phase-1.md"
+    },
+    {
+      "phase": 2,
+      "name": "設計",
+      "status": "completed",
+      "output": "outputs/phase-2/phase-2.md"
+    },
+    {
+      "phase": 3,
+      "name": "設計レビュー",
+      "status": "completed",
+      "output": "outputs/phase-3/phase-3.md"
+    },
+    {
+      "phase": 4,
+      "name": "テスト作成",
+      "status": "completed",
+      "output": "outputs/phase-4/phase-4.md"
+    },
+    {
+      "phase": 5,
+      "name": "実装",
+      "status": "completed",
+      "output": "outputs/phase-5/phase-5.md"
+    },
+    {
+      "phase": 6,
+      "name": "テスト拡充",
+      "status": "completed",
+      "output": "outputs/phase-6/phase-6.md"
+    },
+    {
+      "phase": 7,
+      "name": "カバレッジ確認",
+      "status": "completed",
+      "output": "outputs/phase-7/phase-7.md"
+    },
+    {
+      "phase": 8,
+      "name": "リファクタリング",
+      "status": "completed",
+      "output": "outputs/phase-8/phase-8.md"
+    },
+    {
+      "phase": 9,
+      "name": "品質保証",
+      "status": "completed",
+      "output": "outputs/phase-9/phase-9.md"
+    },
+    {
+      "phase": 10,
+      "name": "最終レビュー",
+      "status": "completed",
+      "output": "outputs/phase-10/phase-10.md"
+    },
+    {
+      "phase": 11,
+      "name": "手動テスト",
+      "status": "completed",
+      "output": "outputs/phase-11/manual-test-result.md"
+    },
+    {
+      "phase": 12,
+      "name": "ドキュメント同期",
+      "status": "completed",
+      "output": "outputs/phase-12/main.md"
+    },
+    {
+      "phase": 13,
+      "name": "commit-pr-release",
+      "status": "pending_user_approval",
+      "output": "outputs/phase-13/phase-13.md"
+    }
+  ],
+  "dependencies": {
+    "2": [
+      "1"
+    ],
+    "3": [
+      "2"
+    ],
+    "4": [
+      "3"
+    ],
+    "5": [
+      "4"
+    ],
+    "6": [
+      "5"
+    ],
+    "7": [
+      "6"
+    ],
+    "8": [
+      "7"
+    ],
+    "9": [
+      "8"
+    ],
+    "10": [
+      "9"
+    ],
+    "11": [
+      "10"
+    ],
+    "12": [
+      "11"
+    ],
+    "13": [
+      "12"
+    ]
+  }
+}
