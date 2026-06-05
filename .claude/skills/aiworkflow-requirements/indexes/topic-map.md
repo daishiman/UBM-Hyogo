@@ -2787,6 +2787,20 @@ node scripts/list-specs.js --topics
 | Boundary | L38 |
 | Lessons Learned | L44 |
 
+### references/workflow-issue-1077-bulk-tag-authenticated-staging-visual-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Summary | L5 |
+| Canonical workflow | L11 |
+| Implementation targets | L23 |
+| Current code anchors | L29 |
+| Gates | L39 |
+| Runtime visual evidence | L47 |
+| Source unassigned trace | L56 |
+| Lessons Learned | L62 |
+| User-gated actions | L72 |
+
 ### references/workflow-issue-1078-bulk-tag-picker-large-catalog-ux-artifact-inventory.md
 
 | セクション | 行 |
@@ -8741,9 +8755,10 @@ node scripts/list-specs.js --topics
 | 昇格パターン集 | L3814 |
 | Current Active / Spec Created Tasks | L3816 |
 | UT-17 followup-003 alert-relay weekly healthcheck cron | L3982 |
-| issue-998-members-publish-state-production-rollout | L4060 |
-| issue-1078-bulk-tag-picker-large-catalog-ux | L4107 |
-| issue-1068-admin-tag-inline-create-ui | L4121 |
+| issue-1077-bulk-tag-authenticated-staging-visual（implemented_local_runtime_pending / implementation / VISUAL_ON_EXECUTION / 2026-06-03） | L4050 |
+| issue-998-members-publish-state-production-rollout | L4075 |
+| issue-1078-bulk-tag-picker-large-catalog-ux | L4122 |
+| issue-1068-admin-tag-inline-create-ui | L4136 |
 
 ### references/task-workflow-backlog-part2.md
 
