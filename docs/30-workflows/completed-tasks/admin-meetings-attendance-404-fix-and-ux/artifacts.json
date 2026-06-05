@@ -1,0 +1,64 @@
+{
+  "workflow_id": "admin-meetings-attendance-404-fix-and-ux",
+  "status": "implemented_local_runtime_pending",
+  "task_type": "implementation",
+  "visual_category": "VISUAL_ON_EXECUTION",
+  "created_at": "2026-06-02",
+  "owner": "daishiman",
+  "branch": "docs/admin-meetings-attendance-404-and-ia-spec",
+  "issue": null,
+  "issue_state": "n/a",
+  "metadata": {
+    "workflow_state": "implemented_local_runtime_pending",
+    "taskType": "implementation",
+    "visualEvidence": "VISUAL_ON_EXECUTION",
+    "scope": "apps/web only. Task A: admin API proxy route handler を service binding 経由に統一し POST /api/admin/meetings の 404 を解消。Task B: 開催日/出席管理 UI を出席者氏名表示・出席人数バッジ・導線改善。apps/api endpoint, D1 schema, Google Form, useAdminMutation hook, api.ts attendance パスは不変。",
+    "implementation_files": [
+      "apps/web/app/api/admin/[...path]/route.ts",
+      "apps/web/src/features/admin/components/_meetings/MeetingAttendanceDrawer.tsx",
+      "apps/web/src/features/admin/components/_meetings/MeetingTimeline.tsx",
+      "apps/web/src/features/admin/components/_meetings/MeetingsClientShell.tsx"
+    ],
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-06-02T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/admin-meetings-attendance-404-fix-and-ux/outputs/phase-12/phase12-task-spec-compliance-check.md",
+        "approver": "daishiman",
+        "notes": "spec_review: Phase 1-13 と Phase 12 strict 7 outputs を実装可能粒度で作成。404 真因（proxy transport 不整合）と修正方針（service binding 統一）をコードベースで確定後に仕様化。"
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "passed",
+        "passed_at": "2026-06-03T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/admin-meetings-attendance-404-fix-and-ux/outputs/phase-11/phase-11.md",
+        "approver": "daishiman",
+        "notes": "implementation_review: apps/web の proxy service binding first 化、出席者氏名表示、出席人数バッジ、導線改善を実装。focused Vitest 4 files / 15 tests PASS。staging 動作確認・screenshot は user-gated。"
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/admin-meetings-attendance-404-fix-and-ux/outputs/phase-13/phase-13.md",
+        "approver": "daishiman",
+        "notes": "external_ops: commit・push・PR・staging deploy は user-gated。"
+      }
+    ]
+  },
+  "phases": {
+    "phase-1": { "file": "phase-1/phase-1.md", "status": "completed" },
+    "phase-2": { "file": "phase-2/phase-2.md", "status": "completed" },
+    "phase-3": { "file": "phase-3/phase-3.md", "status": "completed" },
+    "phase-4": { "file": "phase-4/phase-4.md", "status": "completed" },
+    "phase-5": { "file": "phase-5/phase-5.md", "status": "completed" },
+    "phase-6": { "file": "phase-6/phase-6.md", "status": "completed" },
+    "phase-7": { "file": "phase-7/phase-7.md", "status": "completed" },
+    "phase-8": { "file": "phase-8/phase-8.md", "status": "completed" },
+    "phase-9": { "file": "phase-9/phase-9.md", "status": "completed" },
+    "phase-10": { "file": "phase-10/phase-10.md", "status": "completed" },
+    "phase-11": { "file": "phase-11/phase-11.md", "status": "completed" },
+    "phase-12": { "file": "phase-12/phase-12.md", "status": "completed" },
+    "phase-13": { "file": "phase-13/phase-13.md", "status": "pending_user_approval" }
+  }
+}

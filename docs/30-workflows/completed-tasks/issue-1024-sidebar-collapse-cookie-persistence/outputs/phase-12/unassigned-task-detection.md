@@ -15,7 +15,7 @@
 | 候補 | 判定 | 理由 |
 |------|------|------|
 | cookie に Secure 属性を付与（本番 HTTPS 限定） | **新規 follow-up 化済み** | localhost dev を阻害しないため本タスクでは付与しない方針を `implementation-guide.md` cookie 属性表に明記済。2回目独立検証で production hardening として仕様書化し、#1063 に起票済み。 |
-| `shell-collapse-cookie.ts` の doc 記載 API と実装 primary export 名の整合 | **新規 follow-up 化済み** | 本体機能は PASS だが、`parseShellCollapsedCookie` と `readCollapsedFromCookieString` の入力契約差が doc から読み取りにくい。#1065 に起票済み。 |
+| `shell-collapse-cookie.ts` の doc 記載 API と実装 primary export 名の整合 | **新規 follow-up 化済み（#1065 で解消）** | 本体機能は PASS だが、設計 doc が dead alias 名（`readCollapsedFromCookieString` 等）で記載され実装 primary export（`parseShellCollapsedCookie`）と命名ドリフトしていた。当時は両者に入力契約差があると誤認していたが、#1065 で dead alias は primary の直接 alias（同一関数）と判明し、alias 削除 + doc 整合で SSOT 確立済み。 |
 | `readCollapsedFromDocument` の client fallback の使用箇所最小化 | **scope 内で解決** | SSR seed を正本とし client 再読込を最小限とする方針を guide に明記。残課題化しない。 |
 | 他の UI 設定（density 等）の cookie 化 | **本タスク射程外・既存別タスク** | density は別 issue（#1007 系）で扱い済。本タスクの collapse 永続化とは独立。 |
 

@@ -14,7 +14,7 @@
 | `STORAGE_NAME` 定数（lint 回避 hack） | `const STORAGE_NAME = "local" + "Storage"` | 削除 | 禁止トークンを文字列連結で隠す hack。設計の根本悪。撤廃が本タスクの核 |
 | `getShellStorage()` | `win?.[STORAGE_NAME ...] as Storage` | 削除 | cookie I/O は `shell-collapse-cookie.ts` へ集約。重複アクセサ排除 |
 | `readPersistedCollapsed()` | localStorage 読取り（try/catch + JSON.parse） | 削除 | 読取りは server seed（`cookies()`）＋ pure parser へ移管 |
-| toggle の書込 | `storage?.setItem(STORAGE_KEY, JSON.stringify(...))` | `writeCollapsedCookie(next === "collapsed")` | 書込を単一 source（cookie module）へ集約 |
+| toggle の書込 | `storage?.setItem(STORAGE_KEY, JSON.stringify(...))` | `writeShellCollapsedCookie(next === "collapsed")` | 書込を単一 source（cookie module）へ集約 |
 | `useSidebarState` signature | `useSidebarState(): SidebarState` | `useSidebarState(initialCollapsed: boolean \| null = null): SidebarState` | SSR seed を hook へ橋渡し。既定引数で後方互換維持 |
 | cookie I/O の所在 | hook 内に散在（読 + 書） | `shell-collapse-cookie.ts` に集約（pure parser + client read/write） | 単一責務・DOM 非依存テスト可能化（duplicate / navigation drift 削減） |
 | ファイル冒頭コメント（`useSidebarState.ts`） | `副作用は browser storage key 'ubm:shell:collapsed' の読み書きのみ` | cookie 書込のみへ更新 | 実装と一致させる（陳腐化コメント除去） |
@@ -35,7 +35,7 @@ Phase 3（D-2 / MINOR）で挙げた `readCollapsedFromDocument` の over-export
 | 項目 | Before（Phase 2 設計時） | After（本サイクル結論） |
 |------|--------------------------|--------------------------|
 | `readCollapsedFromDocument` の export | 「将来の保険として残す」と仮置き | **export を保持する。ただし dead surface にしないため Phase 6/7 で line/branch 100% のテストを必須化する** |
-| 根拠 | 未確定（Phase 8 へ先送り） | parser（`readCollapsedFromCookieString`）と対になる client read が同一 module にあることで cookie I/O の単一 source という責務が完結する。read/write 非対称（write だけ export）は API の見通しを悪くする。テストで全分岐を踏むため dead code 化しない |
+| 根拠 | 未確定（Phase 8 へ先送り） | parser（`parseShellCollapsedCookie`）と対になる client read が同一 module にあることで cookie I/O の単一 source という責務が完結する。read/write 非対称（write だけ export）は API の見通しを悪くする。テストで全分岐を踏むため dead code 化しない |
 
 > 結論: **`readCollapsedFromDocument` は残す**。判断条件は「テストでカバーされ dead surface でないこと」。
 > Phase 7 のカバレッジ表に当該関数の全分岐（SSR null / 不一致 null / true / false）を既に固定済み。

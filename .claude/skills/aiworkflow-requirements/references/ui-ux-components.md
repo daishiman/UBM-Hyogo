@@ -50,3 +50,9 @@ task-10 contract は 11 primitive、Wave 0 baseline は 15 primitive、prototype
 実装対象は `apps/web/app/(dev)/primitives-harness/page.tsx`、`apps/web/app/(dev)/layout.tsx`、`apps/web/playwright/tests/ui-primitives-visual.spec.ts`、`apps/web/playwright.config.ts`。axe で検出した HTML 意味論不整合の同一サイクル修正として `apps/web/src/components/ui/Stat.tsx` と `apps/web/src/components/ui/Sidebar.tsx` も最小更新する。production runtime では `ENABLE_PRIMITIVES_HARNESS=1` なしに harness を到達不能にし、Playwright 実行時のみ `PLAYWRIGHT_EVIDENCE_TASK=task-10-followup-002` で evidence dir を workflow 配下へ向ける。
 
 Phase 11 actual inventory は screenshot 37 件、`axe-report.json` violations 0、Playwright 38 passed。
+
+## IME-safe input pattern（2026-06-02）
+
+Controlled text inputs that feed URL query, router navigation, or other parent re-rendering state must not commit every `onChange` while Japanese IME composition is active. Use a local draft buffer, suppress commits from `compositionstart` until `compositionend`, then commit the finalized value after a short debounce. Provide an immediate `commitNow` path for clear/reset actions.
+
+Canonical implementation: `apps/web/src/hooks/useImeSafeInput.ts`. Current adopters: `Search` (always IME-safe for public keyword search) and `Input` (`imeSafe` + `onValueChange` opt-in only). Tests use fake timers plus `compositionStart` / `compositionEnd` to prove no commit leaks before the finalized value.
