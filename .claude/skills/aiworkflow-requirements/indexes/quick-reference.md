@@ -12,6 +12,35 @@
 | inventory | `.claude/skills/aiworkflow-requirements/references/workflow-test-accounts-seed-spec-artifact-inventory.md` |
 | user gate | actual D1 seed apply, storage-state generation, commit, push, PR |
 
+## issue-1080-bulk-tag-result-member-labels（2026-06-03）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-1080-bulk-tag-result-member-labels/` |
+| status | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION / staging_visual_pending_user_gate` |
+| issue | #1080 OPEN（mutation は user-gated） |
+| parent | `docs/30-workflows/completed-tasks/issue-1036-bulk-member-tag-assign/` |
+| purpose | bulk tag 部分失敗結果 summary の `memberId` / `tagId` 生表示を member `fullName` / tag `label` に改善 |
+| implementation | `apps/web/src/features/admin/components/_members/BulkActionBar.tsx`, `apps/web/src/features/admin/components/_members/MembersClientShell.tsx`, `apps/web/src/features/admin/components/__tests__/BulkActionBar.spec.tsx` |
+| evidence | focused `BulkActionBar.spec.tsx` 12 tests PASS; staging authenticated screenshot pending_user_gate |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1080-bulk-tag-result-member-labels-artifact-inventory.md` |
+| user gate | staging screenshot, commit, push, PR, Issue mutation |
+
+## issue-1077-bulk-tag-authenticated-staging-visual（2026-06-03）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-1077-bulk-tag-authenticated-staging-visual/` |
+| status | `implemented_local_runtime_pending / implementation / VISUAL_ON_EXECUTION` |
+| issue | #1077 CLOSED 維持。Issue mutation / reopen は行わず、PR 文脈は `Refs #1077` のみ |
+| parent | `docs/30-workflows/completed-tasks/issue-1036-bulk-member-tag-assign/`（機能本体は PR #1085 / commit `ca3fb9336` で landed 済み） |
+| purpose | landed 済み bulk member tag assign の認証付き staging `/admin/members` 実機で、BulkActionBar tag picker の assign / unassign visual baseline を取得する |
+| implementation target | `apps/web/playwright/tests/visual-staging-authenticated/admin-members-bulk-tag-authenticated.spec.ts`（新規 1 file、config 編集不要） |
+| evidence boundary | Phase 1-13 spec and Phase 12 strict 7 present; runtime staging capture, baseline snapshot generation, commit, push, and PR are user-gated |
+| invariant | read-only capture only。bulk apply mutation は押さず、apps/api / apps/web source（Playwright spec 以外）/ D1 schema / Google Form 仕様は変更しない |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1077-bulk-tag-authenticated-staging-visual-artifact-inventory.md` |
+| user gate | staging deploy/capture, baseline commit, push, PR, Issue mutation |
+
 ## issue-1076-member-og-design-token-alignment（2026-06-03）
 
 | 項目 | 値 |
@@ -481,6 +510,20 @@
 | inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1036-bulk-member-tag-assign-artifact-inventory.md` |
 | lessons | `.claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-issue-1036-bulk-member-tag-assign-2026-06.md`（L-I1036-001..008） |
 | user gate | staging authenticated visual baseline, commit, push, PR |
+
+## issue-1078-bulk-tag-picker-large-catalog-ux（2026-06-03）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-1078-bulk-tag-picker-large-catalog-ux/` |
+| status | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION / PASS_BOUNDARY_SYNCED_RUNTIME_PENDING` |
+| issue | #1078 OPEN。Issue mutation は user-gated |
+| purpose | `/admin/members` BulkActionBar tag picker を large catalog 対応し、#1035 の `GET /admin/tags` `{ total, items }` contract を正しく読む |
+| implementation | `apps/web/src/features/admin/api/members.ts`, `apps/web/src/features/admin/api/__tests__/members.spec.ts`, `apps/web/src/features/admin/components/_members/BulkActionBar.tsx`, `apps/web/src/features/admin/components/__tests__/BulkActionBar.spec.tsx` |
+| contract boundary | apps/api / D1 schema 変更なし。`fetchTagMaster()` は `{ total, items }` を `{ available, total }` へ正規化し、`fetchAllTagMaster()` は `pageSize=100` で page walk + cap guard |
+| tests | API client 11 PASS + BulkActionBar 20 PASS。repo config 経由 broader web Vitest 216 files / 1587 tests PASS / 1 skipped。typecheck / lint PASS |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1078-bulk-tag-picker-large-catalog-ux-artifact-inventory.md` |
+| user gate | staging authenticated visual baseline, commit, push, PR, GitHub issue mutation |
 
 ## issue-1006-members-selected-filters-chip-ux-hardening（2026-05-30）
 
