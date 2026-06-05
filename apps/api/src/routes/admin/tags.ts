@@ -13,6 +13,8 @@ import {
   deactivateTagDefinition,
   getTagDefinitionByIdRaw,
   listTagDefinitionsPaged,
+  physicalDeleteTagDefinition,
+  reactivateTagDefinition,
   updateTagDefinition,
   type TagDefinitionRow,
 } from "../../repository/tagDefinitions";
@@ -54,6 +56,7 @@ const ERROR_TO_STATUS = {
   no_update_fields: 400,
   tag_not_found: 404,
   tag_code_conflict: 409,
+  tag_has_references: 409,
   tag_stale_conflict: 409,
 } as const;
 
@@ -65,6 +68,12 @@ type AdminTagsContext = Context<{
 
 const fail = (c: AdminTagsContext, code: ErrorCode) =>
   c.json({ ok: false, error: code }, ERROR_TO_STATUS[code]);
+
+const failWithBody = (
+  c: AdminTagsContext,
+  code: ErrorCode,
+  body: Record<string, unknown>,
+) => c.json({ ok: false, error: code, ...body }, ERROR_TO_STATUS[code]);
 
 const rowBody = (row: TagDefinitionRow) => ({
   tagId: row.tagId,
@@ -101,6 +110,8 @@ export const createAdminTagsRoute = () => {
         | "admin.tag.created"
         | "admin.tag.updated"
         | "admin.tag.deactivated"
+        | "admin.tag.reactivated"
+        | "admin.tag.physically_deleted"
         | "admin.tag.code_renamed";
       targetId: string;
       before: Record<string, unknown> | null;
@@ -234,6 +245,41 @@ export const createAdminTagsRoute = () => {
         after: { active: false },
       });
     }
+    return c.body(null, 204);
+  });
+
+  app.post("/tags/:tagId/reactivate", async (c) => {
+    const tagId = c.req.param("tagId");
+    const result = await reactivateTagDefinition(db(c), tagId);
+    if (!result) return fail(c, "tag_not_found");
+
+    if (result.changed) {
+      await appendTagAudit(c, {
+        action: "admin.tag.reactivated",
+        targetId: tagId,
+        before: { active: false },
+        after: { active: true },
+      });
+    }
+    return c.json(rowBody(result.row), 200);
+  });
+
+  app.delete("/tags/:tagId/physical", async (c) => {
+    const tagId = c.req.param("tagId");
+    const result = await physicalDeleteTagDefinition(db(c), tagId);
+    if (!result.ok) {
+      if (result.reason === "not_found") return fail(c, "tag_not_found");
+      return failWithBody(c, "tag_has_references", {
+        referenceCount: result.referenceCount,
+      });
+    }
+
+    await appendTagAudit(c, {
+      action: "admin.tag.physically_deleted",
+      targetId: tagId,
+      before: rowBody(result.row),
+      after: null,
+    });
     return c.body(null, 204);
   });
 

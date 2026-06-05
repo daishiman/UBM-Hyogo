@@ -2766,6 +2766,16 @@ node scripts/list-specs.js --topics
 | Contract | L39 |
 | Follow-ups | L48 |
 
+### references/workflow-issue-1070-tag-reactivate-physical-delete-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Summary | L3 |
+| Implementation | L14 |
+| Evidence | L22 |
+| User-Gated | L32 |
+| Lessons Learned | L36 |
+
 ### references/workflow-issue-1076-member-og-design-token-alignment-artifact-inventory.md
 
 | セクション | 行 |
@@ -6398,6 +6408,18 @@ node scripts/list-specs.js --topics
 | L-I1068-008: apps/web の Vitest 正経路はリポジトリルート config（`apps/web/vitest.config.ts` は不在） | L61 |
 | 横断教訓 | L70 |
 
+### references/lessons-learned-issue-1070-tag-reactivate-physical-delete-2026-06.md
+
+| セクション | 行 |
+|------------|----|
+| L-I1070-001 DB-FK 不在テーブルへの physical delete は application-level COUNT(*) ガードが唯一の参照防壁 | L5 |
+| L-I1070-002 不可逆 physical delete は「endpoint 実装」と「production mutation」を 2-stage で分離する | L11 |
+| L-I1070-003 lifecycle write は「対称形ペア」で設計すると実現性が上がる | L17 |
+| L-I1070-004 prefix を共有する新 route は静的セグメント優先解決を既存 regression で固定する | L23 |
+| L-I1070-005 physical delete の audit before は「削除前 snapshot」を repository から返す | L29 |
+| L-I1070-006 lessons は references/ 直下に置く（generate-index.js は lessons-learned/ サブdir を scan しない） | L35 |
+| 関連パターン | L41 |
+
 ### references/lessons-learned-issue-191-schema-aliases-2026-04.md
 
 | セクション | 行 |
@@ -8703,17 +8725,17 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L3700 |
-| フェーズ構造（概要） | L3709 |
-| 品質ゲート（概要） | L3740 |
-| 出力テンプレート | L3751 |
-| 実行時のコマンド・エージェント・スキル | L3774 |
-| 昇格パターン集 | L3798 |
-| Current Active / Spec Created Tasks | L3800 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L3966 |
-| issue-1077-bulk-tag-authenticated-staging-visual（implemented_local_runtime_pending / implementation / VISUAL_ON_EXECUTION / 2026-06-03） | L4034 |
-| issue-998-members-publish-state-production-rollout | L4059 |
-| issue-1068-admin-tag-inline-create-ui | L4106 |
+| ドキュメント構成 | L3716 |
+| フェーズ構造（概要） | L3725 |
+| 品質ゲート（概要） | L3756 |
+| 出力テンプレート | L3767 |
+| 実行時のコマンド・エージェント・スキル | L3790 |
+| 昇格パターン集 | L3814 |
+| Current Active / Spec Created Tasks | L3816 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L3982 |
+| issue-1077-bulk-tag-authenticated-staging-visual（implemented_local_runtime_pending / implementation / VISUAL_ON_EXECUTION / 2026-06-03） | L4050 |
+| issue-998-members-publish-state-production-rollout | L4075 |
+| issue-1068-admin-tag-inline-create-ui | L4122 |
 
 ### references/task-workflow-backlog-part2.md
 
