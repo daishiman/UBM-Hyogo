@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 
 import { buildHtml, escapeHtml, tagLine } from "../render";
+import { OG_BRAND, titleFontSize } from "../og-tokens";
 
 describe("escapeHtml", () => {
   it("escapes HTML-significant characters", () => {
@@ -51,5 +52,26 @@ describe("buildHtml", () => {
     expect(html).toContain("&quot;Sub&quot;");
     expect(html).toContain("Member Directory");
     expect(html).not.toContain("<Title>");
+  });
+
+  it("uses token-aligned colors and does not keep the old blue palette", () => {
+    const html = buildHtml("山田 太郎", "Engineer / 1_to_10 / regular");
+
+    for (const value of Object.values(OG_BRAND)) {
+      expect(html).toContain(value);
+    }
+    expect(html).not.toContain("#0068a9");
+    expect(html).not.toContain("#172033");
+    expect(html).not.toContain("#f8fafc");
+    expect(html).not.toContain("#c9d6e2");
+  });
+
+  it("keeps member and default layouts legible with adaptive title sizing", () => {
+    expect(buildHtml("UBM 兵庫支部会", "メンバーディレクトリと活動紹介")).toContain(
+      `font-size:${titleFontSize("UBM 兵庫支部会")}px`,
+    );
+    expect(buildHtml("非常に長い氏名を持つメンバー表示テスト", "UBM Hyogo member")).toContain(
+      `font-size:${titleFontSize("非常に長い氏名を持つメンバー表示テスト")}px`,
+    );
   });
 });

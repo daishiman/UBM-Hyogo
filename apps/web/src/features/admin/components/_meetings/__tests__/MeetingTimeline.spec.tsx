@@ -31,4 +31,33 @@ describe("MeetingTimeline", () => {
     render(<MeetingTimeline items={[item]} selectedId={null} onSelect={() => {}} />);
     expect(screen.getByTestId("attendance-list-session-sess-1")).toBeTruthy();
   });
+
+  it("出席人数バッジと出席記録導線を表示する", () => {
+    render(
+      <MeetingTimeline
+        items={[{ ...item, attendance: [{ memberId: "m_1" }, { memberId: "m_2" }] }]}
+        selectedId={null}
+        onSelect={() => {}}
+      />,
+    );
+    expect(screen.getByTestId("meeting-attendance-count-sess-1").textContent).toContain("2 名出席");
+    expect(screen.getByRole("button", { name: /第1回（2025-04-01）の出席を記録・編集/ })).toBeTruthy();
+  });
+
+  it("出席がない場合は未登録バッジを表示する", () => {
+    render(<MeetingTimeline items={[item]} selectedId={null} onSelect={() => {}} />);
+    expect(screen.getByTestId("meeting-attendance-count-sess-1").textContent).toContain("出席 未登録");
+  });
+
+  it("getAttendanceCount がある場合は item.attendance より優先する", () => {
+    render(
+      <MeetingTimeline
+        items={[{ ...item, attendance: [{ memberId: "stale" }] }]}
+        selectedId={null}
+        onSelect={() => {}}
+        getAttendanceCount={() => 3}
+      />,
+    );
+    expect(screen.getByTestId("meeting-attendance-count-sess-1").textContent).toContain("3 名出席");
+  });
 });

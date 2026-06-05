@@ -82,10 +82,11 @@ describe("auditLog (append-only)", () => {
     const entry = await auditLog.append(env.ctx, {
       actorId: null,
       actorEmail: adminEmail("owner@example.com"),
-      action: auditAction("admin.tag.created"),
+      action: auditAction("admin.tag.code_renamed"),
       targetType: "tag",
       targetId: "tag_001",
-      after: { code: "designer" },
+      before: { code: "engineer" },
+      after: { code: "software_engineer" },
     });
 
     expect(entry.targetType).toBe("tag");
@@ -95,7 +96,8 @@ describe("auditLog (append-only)", () => {
     expect(byTarget[0]).toMatchObject({
       targetType: "tag",
       targetId: "tag_001",
-      after: { code: "designer" },
+      before: { code: "engineer" },
+      after: { code: "software_engineer" },
     });
 
     const filtered = await auditLog.listFiltered(env.ctx, {

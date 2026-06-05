@@ -110,3 +110,88 @@ export async function bulkApplyMemberTags(
   }
   return (await res.json()) as BulkApplyMemberTagsResult;
 }
+
+// ---------------------------------------------------------------------------
+// issue-1068 / task-A: drawer 内 inline tag 作成（tag master write）の web client。
+//   利用する API: POST /api/admin/tags { code, label, category }
+//     → 201 { tagId, code, label, category, active }
+//     → 400 invalid_json / invalid_body、409 tag_code_conflict
+//     → error body は { ok:false, error:"<code>" }（API 側 fail(c, code)）。
+//   API バックエンドは変更しない（既存 endpoint surface の利用のみ・不変条件 #7）。
+//   実 mutation 発火は MemberTagInlineCreate（task-B）が useAdminMutation 経由で行うが、
+//   error code 検出には parseTagErrorCode を両経路で共用する。
+// ---------------------------------------------------------------------------
+
+/** 既知の create error code（POST /admin/tags の fail() が返す code）。 */
+export type AdminTagCreateErrorCode =
+  | "tag_code_conflict"
+  | "invalid_body"
+  | "invalid_json";
+
+const KNOWN_TAG_CREATE_ERROR_CODES: readonly AdminTagCreateErrorCode[] = [
+  "tag_code_conflict",
+  "invalid_body",
+  "invalid_json",
+];
+
+/** createTag が !res.ok 時に throw する error。検出した code（不明なら null）と HTTP status を載せる。 */
+export class TagCreateError extends Error {
+  readonly status: number;
+  readonly code: AdminTagCreateErrorCode | null;
+  readonly bodyText: string;
+  constructor(status: number, code: AdminTagCreateErrorCode | null, bodyText: string) {
+    super(`createTag failed: HTTP ${status}${code ? ` (${code})` : ""}`);
+    this.name = "TagCreateError";
+    this.status = status;
+    this.code = code;
+    this.bodyText = bodyText;
+  }
+}
+
+/**
+ * FetchAuthedError.bodyText（{ ok:false, error:"<code>" } の JSON 文字列）から
+ * 既知 create error code を取り出す。不正 JSON / 未知 code / error 欠落 / 非オブジェクトは null。
+ */
+export function parseTagErrorCode(bodyText: string): AdminTagCreateErrorCode | null {
+  let parsed: unknown;
+  try {
+    parsed = JSON.parse(bodyText);
+  } catch {
+    return null;
+  }
+  if (typeof parsed !== "object" || parsed === null) return null;
+  const code = (parsed as { error?: unknown }).error;
+  return KNOWN_TAG_CREATE_ERROR_CODES.includes(code as AdminTagCreateErrorCode)
+    ? (code as AdminTagCreateErrorCode)
+    : null;
+}
+
+/**
+ * POST /api/admin/tags の raw helper（fetch 直叩き・非 hook 再利用 / テスト向け）。
+ * 201 で AdminTagRef を返す（戻り値は付与判定で不要な `active` を除いた 4 項目に絞る）。
+ * !res.ok 時は parseTagErrorCode で検出した code を載せた TagCreateError を throw する
+ * （code が null=不明でも throw）。
+ */
+export async function createTag(input: {
+  code: string;
+  label: string;
+  category: string;
+}): Promise<AdminTagRef> {
+  const res = await fetch("/api/admin/tags", {
+    method: "POST",
+    headers: { "content-type": "application/json" },
+    body: JSON.stringify(input),
+    credentials: "same-origin",
+  });
+  if (!res.ok) {
+    const bodyText = await res.text().catch(() => "");
+    throw new TagCreateError(res.status, parseTagErrorCode(bodyText), bodyText);
+  }
+  const json = (await res.json()) as AdminTagRef & { active?: number };
+  return {
+    tagId: json.tagId,
+    code: json.code,
+    label: json.label,
+    category: json.category,
+  };
+}
