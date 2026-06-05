@@ -1,7 +1,6 @@
 import { browserDocument } from "@/lib/is-browser";
 
 export const SHELL_COLLAPSE_COOKIE_NAME = "ubm_shell_collapsed";
-export const SHELL_COLLAPSE_COOKIE = SHELL_COLLAPSE_COOKIE_NAME;
 const SHELL_COLLAPSE_COOKIE_MAX_AGE_SECONDS = 60 * 60 * 24 * 365;
 
 /**
@@ -50,6 +49,3 @@ export function readCollapsedFromDocument(): boolean | null {
   if (!match) return null;
   return parseShellCollapsedCookie(match.slice(SHELL_COLLAPSE_COOKIE_NAME.length + 1));
 }
-
-export const readCollapsedFromCookieString = parseShellCollapsedCookie;
-export const writeCollapsedCookie = writeShellCollapsedCookie;

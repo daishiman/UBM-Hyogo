@@ -44,14 +44,14 @@ grep -rn "localStorage\|STORAGE_NAME\|getShellStorage\|readPersistedCollapsed" \
 
 cookie 永続化のため以下は **許可** され、grep gate にも引っかからない:
 
-- `document.cookie` / `cookie` / `cookies()`（`next/headers`） / `SHELL_COLLAPSE_COOKIE`
+- `document.cookie` / `cookie` / `cookies()`（`next/headers`） / `SHELL_COLLAPSE_COOKIE_NAME`
 - `browserDocument`（`@/lib/is-browser` の既存 accessor）
 
 ## 9.4 受け入れ条件（AC）との対応
 
 | AC | 検証 |
 |----|------|
-| AC-1 toggle で cookie 書込 | Q-5（toggle → `writeCollapsedCookie` spy が `true`/`false` で呼ばれる spec） |
+| AC-1 toggle で cookie 書込 | Q-5（toggle → `writeShellCollapsedCookie` spy が `true`/`false` で呼ばれる spec） |
 | AC-2 SSR seed でちらつき排除 | Q-4 + Q-5（server が seed を渡し hook 初期値へ反映・`SidebarShell.server.spec` で cookie mock → seed 経路） |
 | AC-3 cookie I/O 単一 source | Q-2 + Phase 8（read/parse/write が `shell-collapse-cookie.ts` に集約） |
 | AC-4 localStorage 撤廃 + lint green + grep 0 件 | Q-3 + Q-6 |

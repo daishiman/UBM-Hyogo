@@ -24,17 +24,17 @@ pnpm exec vitest run --config vitest.config.ts apps/web/src/components/shell/__t
 
 | test ID | 対象 | 入力 | 期待 | ファイル |
 |---------|------|------|------|---------|
-| CK-01 | `readCollapsedFromCookieString` | `"true"` | `true` | shell-collapse-cookie.spec.ts |
-| CK-02 | `readCollapsedFromCookieString` | `"false"` | `false` | shell-collapse-cookie.spec.ts |
-| CK-03 | `readCollapsedFromCookieString` | `undefined` | `false` | shell-collapse-cookie.spec.ts |
-| CK-04 | `readCollapsedFromCookieString` | `"1"` / `"TRUE"` / `""` 等の不正値 | `false`（"true" 厳密一致のみ true） | shell-collapse-cookie.spec.ts |
+| CK-01 | `parseShellCollapsedCookie` | `"true"` | `true` | shell-collapse-cookie.spec.ts |
+| CK-02 | `parseShellCollapsedCookie` | `"false"` | `false` | shell-collapse-cookie.spec.ts |
+| CK-03 | `parseShellCollapsedCookie` | `undefined` | `false` | shell-collapse-cookie.spec.ts |
+| CK-04 | `parseShellCollapsedCookie` | `"1"` / `"TRUE"` / `""` 等の不正値 | `false`（"true" 厳密一致のみ true） | shell-collapse-cookie.spec.ts |
 | CK-05 | `readCollapsedFromDocument` | `document.cookie = "ubm_shell_collapsed=true"` | `true` | shell-collapse-cookie.spec.ts |
 | CK-06 | `readCollapsedFromDocument` | `document.cookie = "ubm_shell_collapsed=false"` | `false` | shell-collapse-cookie.spec.ts |
 | CK-07 | `readCollapsedFromDocument` | cookie 不在（他 cookie のみ） | `null` | shell-collapse-cookie.spec.ts |
 | CK-08 | `readCollapsedFromDocument` | `document.cookie` に複数 cookie（`foo=bar; ubm_shell_collapsed=true; baz=1`） | `true`（該当 entry のみ抽出） | shell-collapse-cookie.spec.ts |
-| CK-09 | `writeCollapsedCookie` | `writeCollapsedCookie(true)` | `document.cookie` に `ubm_shell_collapsed=true` を含む | shell-collapse-cookie.spec.ts |
-| CK-10 | `writeCollapsedCookie` | `writeCollapsedCookie(false)` | `document.cookie` に `ubm_shell_collapsed=false` を含む | shell-collapse-cookie.spec.ts |
-| CK-11 | `SHELL_COLLAPSE_COOKIE` | 定数値 | `"ubm_shell_collapsed"`（`:` を含まない RFC6265 token safe） | shell-collapse-cookie.spec.ts |
+| CK-09 | `writeShellCollapsedCookie` | `writeShellCollapsedCookie(true)` | `document.cookie` に `ubm_shell_collapsed=true` を含む | shell-collapse-cookie.spec.ts |
+| CK-10 | `writeShellCollapsedCookie` | `writeShellCollapsedCookie(false)` | `document.cookie` に `ubm_shell_collapsed=false` を含む | shell-collapse-cookie.spec.ts |
+| CK-11 | `SHELL_COLLAPSE_COOKIE_NAME` | 定数値 | `"ubm_shell_collapsed"`（`:` を含まない RFC6265 token safe） | shell-collapse-cookie.spec.ts |
 
 > [D-6] jsdom の `document.cookie` は `max-age` / `path` / `samesite` 属性を返却 cookie 文字列へ含めない（getter は `name=value` のみ返す実装差がある）。そのため writer（CK-09/CK-10）の assert は **`name=value` 文字列の含有**に限定する（`expect(document.cookie).toContain("ubm_shell_collapsed=true")`）。属性そのものの検証は実装コードの逐語確認（Phase 5 のコードブロック）に委ね、test では行わない。
 
