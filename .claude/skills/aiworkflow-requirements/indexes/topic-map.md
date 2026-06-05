@@ -4720,6 +4720,17 @@ node scripts/list-specs.js --topics
 | Follow-up 未タスク | L81 |
 | Validation Chain（spec_created） | L90 |
 
+### references/workflow-test-accounts-seed-spec-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Summary | L3 |
+| Workflow | L8 |
+| Implementation Artifacts | L18 |
+| Evidence | L33 |
+| User-Gated Boundary | L45 |
+| Lessons Learned | L49 |
+
 ### references/workflow-ui-prototype-design-system-foundation-artifact-inventory.md
 
 | セクション | 行 |
@@ -7117,6 +7128,8 @@ node scripts/list-specs.js --topics
 | 教訓一覧 | L10 |
 | 関連教訓 | L42 |
 
+### references/lessons-learned-test-accounts-seed-spec-2026-06.md
+
 ### references/lessons-learned-u-fix-cf-acct-01-deriv-01-oidc-short-lived-credentials-2026-05.md
 
 | セクション | 行 |
@@ -8590,15 +8603,15 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L3614 |
-| フェーズ構造（概要） | L3623 |
-| 品質ゲート（概要） | L3654 |
-| 出力テンプレート | L3665 |
-| 実行時のコマンド・エージェント・スキル | L3688 |
-| 昇格パターン集 | L3712 |
-| Current Active / Spec Created Tasks | L3714 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L3880 |
-| issue-998-members-publish-state-production-rollout | L3958 |
+| ドキュメント構成 | L3627 |
+| フェーズ構造（概要） | L3636 |
+| 品質ゲート（概要） | L3667 |
+| 出力テンプレート | L3678 |
+| 実行時のコマンド・エージェント・スキル | L3701 |
+| 昇格パターン集 | L3725 |
+| Current Active / Spec Created Tasks | L3727 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L3893 |
+| issue-998-members-publish-state-production-rollout | L3971 |
 
 ### references/task-workflow-backlog-part2.md
 

@@ -8,6 +8,19 @@
 
 本ドキュメントは、複雑なタスクを単一責務の原則に基づいて分解し、各サブタスクに最適なスラッシュコマンド・エージェント・スキルの組み合わせを選定するためのガイドラインを定義する。
 
+### test-accounts-seed-spec（2026-06-03）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / NON_VISUAL` |
+| 成果物 | `docs/30-workflows/test-accounts-seed-spec/` |
+| 目的 | 10 member + 3 admin のテストアカウントを `TEST-` prefix / `.invalid` email / `seed:test-accounts` actor で判別可能にし、SSOT catalog から seed SQL / cleanup SQL / manifest を決定論的に生成する |
+| implementation targets | `apps/api/src/testing/test-accounts/**`, `apps/api/migrations/seed/test-accounts-*`, `scripts/gen-test-accounts-seed.mjs`, `scripts/seed-test-accounts.sh`, `apps/web/playwright/scripts/mint-test-account-storage-state.ts`, `vitest.d1.config.ts` |
+| evidence | generator drift 0、focused Vitest 3 files / 9 tests PASS、API/Web typecheck PASS、API/Web lint PASS |
+| invariant | 新規 D1 schema / API endpoint / secret なし。apps/web は manifest + JWT helper のみで D1 に直接アクセスしない。production seed apply は CLI で拒否 |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-test-accounts-seed-spec-artifact-inventory.md` |
+| user gate | actual local/staging seed apply、storage-state generation against a real target、commit、push、PR |
+
 ### profile-reload-session-404-fix（2026-06-03）
 
 | 項目 | 値 |
