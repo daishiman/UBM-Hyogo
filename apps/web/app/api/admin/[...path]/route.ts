@@ -5,25 +5,8 @@
 
 import type { NextRequest } from "next/server";
 import { getAuth } from "../../../../src/lib/auth";
-import { getAuthEnv } from "../../../../src/lib/env";
-
-// followup-001 T-5.1: INTERNAL_API_BASE_URL fallback を撤去し fail-fast 化する。
-// 旧実装は `http://127.0.0.1:8787` に fallback していたため、staging で env が
-// 漏れると pass-through proxy が localhost に空打ちし `ADMIN_FETCH_404` が発生していた。
-// 未設定なら 500 を明示返却して、UI 側で「設定不備」として表面化させる。
-const LOCAL_DEV_FALLBACK = "http://127.0.0.1:8787";
-
-const apiBase = (): string | null => {
-  const v = getAuthEnv().INTERNAL_API_BASE_URL;
-  if (v && v.length > 0) return v.replace(/\/$/, "");
-  // local dev (`pnpm dev`) で env が無いケースのみ fallback を許可。
-  // staging / production は wrangler.toml で [vars] を必ず注入しているため、
-  // ここに到達したら設定不備として fail-fast する。
-  if (process.env["NODE_ENV"] !== "production" && process.env["ENVIRONMENT"] !== "staging") {
-    return LOCAL_DEV_FALLBACK;
-  }
-  return null;
-};
+import { getAuthEnv, getEnvironment, getTransportRuntimeIsTest } from "../../../../src/lib/env";
+import { fetchViaApiTransport, resolveApiFetch } from "../../../../src/lib/fetch/transport";
 
 const internalSecret = (): string => getAuthEnv().INTERNAL_AUTH_SECRET ?? "";
 const syncAdminToken = (): string | undefined => getAuthEnv().SYNC_ADMIN_TOKEN;
@@ -56,8 +39,16 @@ async function proxy(req: NextRequest, ctx: { params: Promise<{ path: string[] }
   if (denied) return denied;
 
   const { path } = await ctx.params;
-  const base = apiBase();
-  if (base === null) {
+  const authEnv = getAuthEnv();
+  let transport: ReturnType<typeof resolveApiFetch>;
+  try {
+    transport = resolveApiFetch({
+      API_SERVICE: authEnv.API_SERVICE,
+      baseUrl: authEnv.INTERNAL_API_BASE_URL,
+      environment: getEnvironment(),
+      isTest: getTransportRuntimeIsTest(),
+    });
+  } catch {
     return new Response(
       JSON.stringify({
         ok: false,
@@ -68,7 +59,7 @@ async function proxy(req: NextRequest, ctx: { params: Promise<{ path: string[] }
     );
   }
   const url = new URL(req.url);
-  const target = `${base}/admin/${path.join("/")}${url.search}`;
+  const targetPath = `/admin/${path.join("/")}${url.search}`;
 
   const headers: Record<string, string> = {
     "x-internal-auth": internalSecret(),
@@ -97,7 +88,7 @@ async function proxy(req: NextRequest, ctx: { params: Promise<{ path: string[] }
   if (req.method !== "GET" && req.method !== "DELETE") {
     init.body = await req.text();
   }
-  const upstream = await fetch(target, init);
+  const upstream = await fetchViaApiTransport(transport, targetPath, init);
   const text = await upstream.text();
   return new Response(text, {
     status: upstream.status,

@@ -16,12 +16,20 @@
 // (env 参照は env.ts 経由) に従い getPublicFetchEnv() 側に閉じる。
 // 関連先行: task-05a-fetchpublic-service-binding-001 (逆方向 fallback 設計)
 
-import { getPublicFetchEnv } from "../env";
-
-const DEFAULT_BASE_URL = "http://localhost:8787";
+import { getEnvironment, getPublicFetchEnv } from "../env";
+import { fetchViaApiTransport, resolveApiFetch } from "./transport";
 
 function getBaseUrl(): string {
-  return getPublicFetchEnv().PUBLIC_API_BASE_URL ?? DEFAULT_BASE_URL;
+  const env = getPublicFetchEnv();
+  const baseUrl = env.NEXT_PUBLIC_API_BASE_URL ?? env.PUBLIC_API_BASE_URL;
+  if (baseUrl) return baseUrl;
+  if (getEnvironment() === "local") {
+    // localhost-allow:local-fallback
+    return "http://localhost:8787";
+  }
+  throw new Error(
+    "fetchPublic: API base URL unresolved in non-local runtime (NEXT_PUBLIC_API_BASE_URL must be set)",
+  );
 }
 
 function isTestOrPlaywright(): boolean {
@@ -35,7 +43,9 @@ function isTestOrPlaywright(): boolean {
 function getServiceBinding(): { fetch: typeof fetch } | undefined {
   const env = getPublicFetchEnv();
   // test/CI 限定: PUBLIC_API_BASE_URL 明示時に HTTP fallback を優先(mock API 差し替えのため)
-  if (isTestOrPlaywright() && env.PUBLIC_API_BASE_URL) return undefined;
+  if (isTestOrPlaywright() && (env.NEXT_PUBLIC_API_BASE_URL ?? env.PUBLIC_API_BASE_URL)) {
+    return undefined;
+  }
   // production / staging: PUBLIC_API_BASE_URL の有無に関わらず service binding を最優先
   return env.API_SERVICE;
 }
@@ -64,16 +74,14 @@ async function doFetch(path: string, init: RequestInit & { next?: { revalidate: 
     effectiveInit = { ...rest, cache: "no-store" };
   }
   const binding = getServiceBinding();
-  if (binding) {
-    // service-binding 経由: host は worker 側で無視されるが URL parse のために任意の host を使う
-    const url = `https://service-binding.local${path}`;
-    const response = await binding.fetch(url, effectiveInit);
-    logTransport("service-binding", path, response.status);
-    return response;
-  }
-  const url = `${getBaseUrl()}${path}`;
-  const response = await fetch(url, effectiveInit);
-  logTransport("http-fallback", path, response.status);
+  const transport = resolveApiFetch({
+    API_SERVICE: binding,
+    baseUrl: binding ? undefined : getBaseUrl(),
+    environment: getEnvironment(),
+    isTest: isTestOrPlaywright(),
+  });
+  const response = await fetchViaApiTransport(transport, path, effectiveInit);
+  logTransport(transport.kind === "service-binding" ? "service-binding" : "http-fallback", path, response.status);
   return response;
 }
 
