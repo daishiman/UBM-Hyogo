@@ -10,10 +10,13 @@ category: 改善
 target_feature: apps/web BulkActionBar result summary
 priority: 低
 scale: 小規模
-status: 未実施
+status: formalized_as_issue_1080_implemented_local
 source_phase: issue-1036-bulk-member-tag-assign Phase 10 MINOR result UX
 created_date: 2026-06-01
 dependencies: [issue-1036-bulk-member-tag-assign]
+formalized_workflow: docs/30-workflows/completed-tasks/issue-1080-bulk-tag-result-member-labels/
+implementation_state: implemented_local_evidence_captured
+consumed_at: 2026-06-03
 ```
 
 | 項目 | 内容 |
@@ -24,6 +27,8 @@ dependencies: [issue-1036-bulk-member-tag-assign]
 | 優先度 | 低 |
 
 ## 1. 概要
+
+> **消費状態**: 本 unassigned task は `docs/30-workflows/completed-tasks/issue-1080-bulk-tag-result-member-labels/` として formalize され、同サイクルで apps/web 実装・focused component test まで完了した。Issue #1080 は OPEN のまま維持し、commit / PR / Issue mutation / staging visual は user-gated。
 
 Issue #1036 の `BulkActionBar` は部分失敗時に `memberId` / `tagId` をそのまま表示する。これは contract としては十分だが、admin が実運用で「誰が skip されたか」「どの tag が未登録か」を判断するには表示名が不足する。本タスクは selected member の表示名・メール・tag label を使って、結果 summary を人間が読める形に改善する。
 
