@@ -8706,7 +8706,7 @@ node scripts/list-specs.js --topics
 | Current Active / Spec Created Tasks | L3800 |
 | UT-17 followup-003 alert-relay weekly healthcheck cron | L3966 |
 | issue-998-members-publish-state-production-rollout | L4044 |
-| issue-1068-admin-tag-inline-create-ui | L4091 |
+| issue-1068-admin-tag-inline-create-ui | L4103 |
 
 ### references/task-workflow-backlog-part2.md
 
