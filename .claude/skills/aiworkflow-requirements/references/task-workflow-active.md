@@ -8,6 +8,21 @@
 
 本ドキュメントは、複雑なタスクを単一責務の原則に基づいて分解し、各サブタスクに最適なスラッシュコマンド・エージェント・スキルの組み合わせを選定するためのガイドラインを定義する。
 
+### issue-1089-backfill-impact-preview（2026-06-05）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_runtime_pending / implementation / VISUAL_ON_EXECUTION` |
+| 成果物 | `docs/30-workflows/issue-1089-backfill-impact-preview/` |
+| 目的 | 全件 backfill（手動再取込）確定前に実 response 件数を提示し、破壊的書き込みの影響を先に見せる。`POST /admin/sync/responses?dryRun=true&fullSync=true` の read-only count-only 経路と `ManualFormResyncPanel` の staged preview → confirm UI を追加する |
+| implementation targets | `apps/api/src/jobs/sync-forms-responses.ts`（`ResponseSyncPreview` + `previewResponseSync`）, `apps/api/src/routes/admin/responses-sync.ts`（`?dryRun=true` preview 分岐）, `apps/web/src/features/admin/diagnostics/manual-sync.ts`（`SyncPreviewResultSchema` + `SyncPreviewRunResponseSchema`）, `apps/web/src/features/admin/components/_sync/ManualFormResyncPanel.client.tsx`（staged dry-run preview UI + `canBackfill` gate）, focused tests `apps/api/src/jobs/sync-forms-responses.contract.spec.ts`, `apps/api/src/routes/admin/responses-sync.contract.spec.ts`, `apps/web/src/features/admin/components/_sync/__tests__/ManualFormResyncPanel.spec.tsx`, `apps/web/src/features/admin/diagnostics/__tests__/sync-schemas.spec.ts` |
+| invariant | 既存 `?fullSync` run 経路と `SyncResultSchema` 不変。dry-run は read-only（sync lock / `sync_jobs` ledger / D1 write / `processResponse` を実行しない）。apps/web は zod 再宣言のみで apps/api 直接 import なし。新 endpoint / D1 schema / Google Form schema 変更なし |
+| contract | dry-run 応答 `{ ok:true, preview:{ status:"preview", dryRun:true, responseCount, estimatedWrites, pagesScanned, capped } }`。`responseCount` は `forms.responses.list` 実数（AC-2）、`estimatedWrites` は推定ラベル |
+| reference pattern | `BackfillPublishStatePanel.client.tsx` + `diagnostics/backfill.ts` + `sync-backfill-publish-state.ts` の `?dryRun=true|false` staged dry-run pattern |
+| evidence | focused tests 4 files / 71 tests PASS（apps/api 40: sync-forms-responses.contract 30 + responses-sync.contract 10; apps/web 31: ManualFormResyncPanel 13 + sync-schemas 18）、web/api typecheck PASS、lint PASS、HEX なし、verify:phase12-compliance PASS、gate-metadata ERROR 0 |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1089-backfill-impact-preview-artifact-inventory.md` |
+| user gate | `SYNC_ADMIN_TOKEN` Cloudflare Secrets 投入、authenticated runtime screenshot、staging deploy、commit、push、PR。Issue #1089 は CLOSED 維持 |
+
 ### admin-meetings-attendance-404-fix-and-ux（30種思考法改善反映 / 2026-06-03）
 
 | 項目 | 値 |
