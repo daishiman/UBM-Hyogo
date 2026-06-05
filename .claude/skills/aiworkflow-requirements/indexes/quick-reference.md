@@ -498,6 +498,20 @@
 | lessons | `.claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-issue-1036-bulk-member-tag-assign-2026-06.md`（L-I1036-001..008） |
 | user gate | staging authenticated visual baseline, commit, push, PR |
 
+## issue-1078-bulk-tag-picker-large-catalog-ux（2026-06-03）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-1078-bulk-tag-picker-large-catalog-ux/` |
+| status | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION / PASS_BOUNDARY_SYNCED_RUNTIME_PENDING` |
+| issue | #1078 OPEN。Issue mutation は user-gated |
+| purpose | `/admin/members` BulkActionBar tag picker を large catalog 対応し、#1035 の `GET /admin/tags` `{ total, items }` contract を正しく読む |
+| implementation | `apps/web/src/features/admin/api/members.ts`, `apps/web/src/features/admin/api/__tests__/members.spec.ts`, `apps/web/src/features/admin/components/_members/BulkActionBar.tsx`, `apps/web/src/features/admin/components/__tests__/BulkActionBar.spec.tsx` |
+| contract boundary | apps/api / D1 schema 変更なし。`fetchTagMaster()` は `{ total, items }` を `{ available, total }` へ正規化し、`fetchAllTagMaster()` は `pageSize=100` で page walk + cap guard |
+| tests | API client 11 PASS + BulkActionBar 20 PASS。repo config 経由 broader web Vitest 216 files / 1587 tests PASS / 1 skipped。typecheck / lint PASS |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1078-bulk-tag-picker-large-catalog-ux-artifact-inventory.md` |
+| user gate | staging authenticated visual baseline, commit, push, PR, GitHub issue mutation |
+
 ## issue-1006-members-selected-filters-chip-ux-hardening（2026-05-30）
 
 | 項目 | 値 |
