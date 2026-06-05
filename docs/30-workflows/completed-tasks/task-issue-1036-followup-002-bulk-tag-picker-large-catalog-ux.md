@@ -10,11 +10,16 @@ category: 改善
 target_feature: apps/web BulkActionBar tag picker / apps/api GET /admin/tags
 priority: 低
 scale: 中規模
-status: 未実施
+status: 実装済（issue-1078 ワークフローへ昇格・consumed）
+promoted_to: docs/30-workflows/completed-tasks/issue-1078-bulk-tag-picker-large-catalog-ux/
 source_phase: issue-1036-bulk-member-tag-assign Phase 10 MINOR / Phase 12 scope-out
 created_date: 2026-06-01
 dependencies: [issue-1036-bulk-member-tag-assign, issue-1035]
 ```
+
+> **クローズアウト注記（2026-06-03）**: 本 unassigned source は `issue-1078-bulk-tag-picker-large-catalog-ux`
+> ワークフローへ昇格し、Phase 1-12 完了（`implemented_local_evidence_captured`）。close-out で
+> completed-tasks/ へ co-locate 済み。commit / PR / staging visual baseline は user-gated。
 
 | 項目 | 内容 |
 | --- | --- |
