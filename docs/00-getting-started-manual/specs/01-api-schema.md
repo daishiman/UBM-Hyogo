@@ -202,7 +202,7 @@ tag の write 経路を 3 つに正式分離する。
 3. **管理者による tag master (`tag_definitions`) の CRUD** — `/admin/tags` 専用 endpoint 経由で行い、必ず audit を記録する。
 
 `member_tags` への直接 write は上記 2 経路に限り許可する。
-`tag_definitions` への write は `apps/api/src/repository/tagDefinitions.ts` の `createTagDefinition` / `updateTagDefinition` / `deactivateTagDefinition` / `reactivateTagDefinition` / `physicalDeleteTagDefinition` だけに限定する。`code` は immutable とし、PATCH の更新対象は `label` / `category` のみ。通常 DELETE は物理削除ではなく `active=0` への論理削除で、既存 `member_tags` row は保持する。physical delete は専用 endpoint でのみ許可し、`member_tags` 参照が 1 件以上ある場合は 409 `tag_has_references` で拒否して孤児行を作らない。
+`tag_definitions` への write は `apps/api/src/repository/tagDefinitions.ts` の `createTagDefinition` / `updateTagDefinition` / `deactivateTagDefinition` / `reactivateTagDefinition` / `physicalDeleteTagDefinition` だけに限定する。`code` は admin tag master CRUD 経路の PATCH でのみ rename 可能とし、code rename 時は `expectedCode` による optimistic CAS、409 `tag_code_conflict`（衝突）/ 409 `tag_stale_conflict`（expectedCode 不一致）の分離、`admin.tag.code_renamed` audit（before/after code）を必須とする。`member_tags` は `tag_id` 参照なので rename 後も既存 row を保持する。通常 DELETE は物理削除ではなく `active=0` への論理削除で、既存 `member_tags` row は保持する。physical delete は専用 endpoint でのみ許可し、`member_tags` 参照が 1 件以上ある場合は 409 `tag_has_references` で拒否して孤児行を作らない。
 
 ### Endpoints
 
@@ -213,7 +213,7 @@ tag の write 経路を 3 つに正式分離する。
 | DELETE | `/admin/members/:memberId/tags/:tagId` | なし | 204 No Content | member 不在 → 404 `member_not_found` / `is_deleted=1` → 409 `member_is_deleted` |
 | GET | `/admin/tags` | query: `q?: string`, `page?: number`, `pageSize?: number` | `{ total, items: TagMasterRef[] }`（inactive 含む） | query 不正 → 400 `invalid_query` |
 | POST | `/admin/tags` | `{ code, label, category }` | `TagMasterRef` | body 不正 → 400 / code 衝突 → 409 `tag_code_conflict` |
-| PATCH | `/admin/tags/:tagId` | `{ label?, category? }` | `TagMasterRef` | body 不正・更新項目なし → 400 `no_update_fields` / tag 不在 → 404 `tag_not_found` |
+| PATCH | `/admin/tags/:tagId` | `{ code?, label?, category?, expectedCode? }`（`code` 指定時は `expectedCode` 必須） | `TagMasterRef` | body 不正 → 400 / 更新項目なし → 400 `no_update_fields` / tag 不在 → 404 `tag_not_found` / code 衝突 → 409 `tag_code_conflict` / expectedCode 不一致 → 409 `tag_stale_conflict` |
 | DELETE | `/admin/tags/:tagId` | なし | 204 No Content | tag 不在 → 404 `tag_not_found` |
 | POST | `/admin/tags/:tagId/reactivate` | なし | `TagMasterRef` | tag 不在 → 404 `tag_not_found` |
 | DELETE | `/admin/tags/:tagId/physical` | なし | 204 No Content | tag 不在 → 404 `tag_not_found` / `member_tags` 参照あり → 409 `tag_has_references` + `referenceCount` |
@@ -237,6 +237,7 @@ tag の write 経路を 3 つに正式分離する。
 | `admin.member.tag_assigned` | `member` | `null` | `{ tagId, source: "manual" }` |
 | `admin.member.tag_unassigned` | `member` | `{ tagId }` | `null` |
 | `admin.tag.created` | `tag` | `null` | `{ code, label, category }` |
+| `admin.tag.code_renamed` | `tag` | `{ code }` | `{ code }` |
 | `admin.tag.updated` | `tag` | `{ label, category }` | `{ label, category }` |
 | `admin.tag.deactivated` | `tag` | `{ active: true }` | `{ active: false }` |
 | `admin.tag.reactivated` | `tag` | `{ active: false }` | `{ active: true }` |

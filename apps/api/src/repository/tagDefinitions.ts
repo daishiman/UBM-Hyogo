@@ -48,7 +48,8 @@ export async function findByCode(c: DbCtx, code: string): Promise<TagDefinitionR
 // 不変条件 #13（2026-06 再々定義 / issue-1035）:
 // tag master (tag_definitions) の write は管理者 tag master CRUD 経路に限定する。
 // create/update/deactivate/reactivate/physical delete は /admin/tags から audit 付きで呼ぶ。
-// code は immutable。論理削除は active=0 とし、member_tags の既存 row は保持する。
+// code rename は optimistic CAS + dedicated audit action 付きでのみ許可する。
+// 論理削除は active=0 とし、member_tags の既存 row は保持する。
 // 物理削除は member_tags 参照が 0 件の tag_definitions row にだけ許可する。
 
 export interface CreateTagDefinitionInput {
@@ -58,13 +59,22 @@ export interface CreateTagDefinitionInput {
 }
 
 export interface UpdateTagDefinitionInput {
+  code?: string;
   label?: string;
   category?: string;
+  expectedCode?: string;
 }
 
 export type CreateTagDefinitionResult =
   | { ok: true; row: TagDefinitionRow }
   | { ok: false; reason: "code_conflict" };
+
+export type UpdateTagDefinitionResult =
+  | { ok: true; row: TagDefinitionRow }
+  | { ok: false; reason: "not_found" }
+  | { ok: false; reason: "code_conflict" }
+  | { ok: false; reason: "missing_expected_code" }
+  | { ok: false; reason: "stale" };
 
 export interface PagedTagDefinitions {
   total: number;
@@ -112,12 +122,22 @@ export async function updateTagDefinition(
   c: DbCtx,
   tagId: string,
   input: UpdateTagDefinitionInput,
-): Promise<TagDefinitionRow | null> {
+): Promise<UpdateTagDefinitionResult> {
   const current = await getTagDefinitionByIdRaw(c, tagId);
-  if (!current) return null;
+  if (!current) return { ok: false, reason: "not_found" };
+  if (input.code !== undefined && input.expectedCode === undefined) {
+    return { ok: false, reason: "missing_expected_code" };
+  }
+  if (input.expectedCode !== undefined && input.expectedCode !== current.code) {
+    return { ok: false, reason: "stale" };
+  }
 
   const sets: string[] = [];
   const values: Array<string> = [];
+  if (input.code !== undefined) {
+    values.push(input.code);
+    sets.push(`code = ?${values.length}`);
+  }
   if (input.label !== undefined) {
     values.push(input.label);
     sets.push(`label = ?${values.length}`);
@@ -127,14 +147,30 @@ export async function updateTagDefinition(
     sets.push(`category = ?${values.length}`);
   }
 
-  if (sets.length === 0) return current;
+  if (sets.length === 0) return { ok: true, row: current };
 
   values.push(tagId);
-  await c.db
-    .prepare(`UPDATE tag_definitions SET ${sets.join(", ")} WHERE tag_id = ?${values.length}`)
-    .bind(...values)
-    .run();
-  return getTagDefinitionByIdRaw(c, tagId);
+  const where = ["tag_id = ?" + values.length];
+  if (input.code !== undefined) {
+    values.push(input.expectedCode as string);
+    where.push("code = ?" + values.length);
+  }
+  try {
+    const result = await c.db
+      .prepare(`UPDATE tag_definitions SET ${sets.join(", ")} WHERE ${where.join(" AND ")}`)
+      .bind(...values)
+      .run();
+    if (input.code !== undefined && (result.meta.changes ?? 0) === 0) {
+      const latest = await getTagDefinitionByIdRaw(c, tagId);
+      return latest ? { ok: false, reason: "stale" } : { ok: false, reason: "not_found" };
+    }
+  } catch (err) {
+    if (isUniqueError(err)) return { ok: false, reason: "code_conflict" };
+    throw err;
+  }
+  const row = await getTagDefinitionByIdRaw(c, tagId);
+  if (!row) throw new Error("updated tag definition was not found");
+  return { ok: true, row };
 }
 
 export async function deactivateTagDefinition(
