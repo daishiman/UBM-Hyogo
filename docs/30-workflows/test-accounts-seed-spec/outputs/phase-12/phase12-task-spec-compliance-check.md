@@ -39,7 +39,7 @@
 
 | Classification | Path | Status |
 | --- | --- | --- |
-| manual test result | outputs/phase-11/manual-test-result.md | completed |
+| manual test result | outputs/phase-11/manual-test-result.md | present |
 
 > NON_VISUAL 宣言: 本タスクは D1 seed データ・生成スクリプト・CLI・E2E 補助の追加であり UI/UX 変更を伴わない。Phase 11 は実画面操作不可。証跡の主ソースは本 wave で実行した自動テスト（catalog/build/seed の `*.spec.ts`）であり、スクリーンショットは作成しない。
 
