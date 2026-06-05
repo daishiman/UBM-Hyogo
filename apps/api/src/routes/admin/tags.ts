@@ -28,11 +28,17 @@ const CreateTagBodyZ = z.object({
 
 const UpdateTagBodyZ = z
   .object({
+    code: z.string().min(1).max(64).regex(CODE_RE).optional(),
     label: z.string().min(1).max(120).optional(),
     category: z.string().min(1).max(64).optional(),
+    expectedCode: z.string().min(1).max(64).regex(CODE_RE).optional(),
   })
-  .refine((body) => body.label !== undefined || body.category !== undefined, {
+  .refine((body) => body.code !== undefined || body.label !== undefined || body.category !== undefined, {
     message: "no_update_fields",
+  })
+  .refine((body) => body.code === undefined || body.expectedCode !== undefined, {
+    message: "expected_code_required",
+    path: ["expectedCode"],
   });
 
 const ListTagsQueryZ = z.object({
@@ -48,6 +54,7 @@ const ERROR_TO_STATUS = {
   no_update_fields: 400,
   tag_not_found: 404,
   tag_code_conflict: 409,
+  tag_stale_conflict: 409,
 } as const;
 
 type ErrorCode = keyof typeof ERROR_TO_STATUS;
@@ -70,8 +77,9 @@ const rowBody = (row: TagDefinitionRow) => ({
 const samePatchValues = (
   before: TagDefinitionRow,
   after: TagDefinitionRow,
-  input: { label?: string; category?: string },
+  input: { code?: string; label?: string; category?: string },
 ) =>
+  (input.code === undefined || before.code === after.code) &&
   (input.label === undefined || before.label === after.label) &&
   (input.category === undefined || before.category === after.category);
 
@@ -89,7 +97,11 @@ export const createAdminTagsRoute = () => {
   const appendTagAudit = async (
     c: AdminTagsContext,
     input: {
-      action: "admin.tag.created" | "admin.tag.updated" | "admin.tag.deactivated";
+      action:
+        | "admin.tag.created"
+        | "admin.tag.updated"
+        | "admin.tag.deactivated"
+        | "admin.tag.code_renamed";
       targetId: string;
       before: Record<string, unknown> | null;
       after: Record<string, unknown> | null;
@@ -162,26 +174,49 @@ export const createAdminTagsRoute = () => {
       return fail(c, "invalid_json");
     }
     const parsed = UpdateTagBodyZ.safeParse(raw);
-    if (!parsed.success) return fail(c, "no_update_fields");
+    if (!parsed.success) {
+      const isNoUpdateFields = parsed.error.issues.some(
+        (issue) => issue.message === "no_update_fields",
+      );
+      return fail(c, isNoUpdateFields ? "no_update_fields" : "invalid_body");
+    }
 
     const tagId = c.req.param("tagId");
-    const patchInput: { label?: string; category?: string } = {};
+    const patchInput: { code?: string; label?: string; category?: string; expectedCode?: string } = {};
+    if (parsed.data.code !== undefined) patchInput.code = parsed.data.code;
     if (parsed.data.label !== undefined) patchInput.label = parsed.data.label;
     if (parsed.data.category !== undefined) patchInput.category = parsed.data.category;
+    if (parsed.data.expectedCode !== undefined) patchInput.expectedCode = parsed.data.expectedCode;
 
     const before = await getTagDefinitionByIdRaw(db(c), tagId);
     if (!before) return fail(c, "tag_not_found");
 
-    const after = await updateTagDefinition(db(c), tagId, patchInput);
-    if (!after) return fail(c, "tag_not_found");
+    const result = await updateTagDefinition(db(c), tagId, patchInput);
+    if (!result.ok) {
+      if (result.reason === "code_conflict") return fail(c, "tag_code_conflict");
+      if (result.reason === "stale") return fail(c, "tag_stale_conflict");
+      if (result.reason === "missing_expected_code") return fail(c, "invalid_body");
+      return fail(c, "tag_not_found");
+    }
+    const after = result.row;
 
     if (!samePatchValues(before, after, patchInput)) {
-      await appendTagAudit(c, {
-        action: "admin.tag.updated",
-        targetId: tagId,
-        before: { label: before.label, category: before.category },
-        after: { label: after.label, category: after.category },
-      });
+      if (before.code !== after.code) {
+        await appendTagAudit(c, {
+          action: "admin.tag.code_renamed",
+          targetId: tagId,
+          before: { code: before.code },
+          after: { code: after.code },
+        });
+      }
+      if (before.label !== after.label || before.category !== after.category) {
+        await appendTagAudit(c, {
+          action: "admin.tag.updated",
+          targetId: tagId,
+          before: { label: before.label, category: before.category },
+          after: { label: after.label, category: after.category },
+        });
+      }
     }
     return c.json(rowBody(after), 200);
   });

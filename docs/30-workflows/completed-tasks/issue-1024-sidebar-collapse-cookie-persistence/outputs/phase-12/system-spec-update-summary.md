@@ -30,10 +30,10 @@
 
 | 公開要素 | shape | 公開範囲 |
 |----------|-------|----------|
-| `SHELL_COLLAPSE_COOKIE` | `"ubm_shell_collapsed"`（const） | workflow-local（`apps/web/src/components/shell` 内） |
-| `readCollapsedFromCookieString(value: string \| undefined)` | `=> boolean` | workflow-local |
+| `SHELL_COLLAPSE_COOKIE_NAME` | `"ubm_shell_collapsed"`（const） | workflow-local（`apps/web/src/components/shell` 内） |
+| `parseShellCollapsedCookie(value: string \| undefined)` | `=> boolean` | workflow-local |
 | `readCollapsedFromDocument()` | `=> boolean \| null` | workflow-local |
-| `writeCollapsedCookie(collapsed: boolean)` | `=> void` | workflow-local |
+| `writeShellCollapsedCookie(collapsed: boolean)` | `=> void` | workflow-local |
 | `useSidebarState(initialCollapsed?: boolean \| null)` | 戻り値 shape 不変・引数 optional 追加 | workflow-local（既存 hook の後方互換拡張） |
 | `SidebarShellProps.initialCollapsed` | `boolean \| null`（optional） | workflow-local |
 
