@@ -29,18 +29,18 @@
 
 | export | 分岐 | カバーするケース | 期待 |
 |--------|------|------------------|------|
-| `SHELL_COLLAPSE_COOKIE`（定数） | — | 値が `"ubm_shell_collapsed"` であること | 定数 assert |
-| `readCollapsedFromCookieString` | `value === "true"` 真 | `"true"` を渡す | `true` |
-| `readCollapsedFromCookieString` | `value === "true"` 偽（`"false"`） | `"false"` を渡す | `false` |
-| `readCollapsedFromCookieString` | `value === "true"` 偽（`undefined`） | `undefined` を渡す | `false` |
-| `readCollapsedFromCookieString` | `value === "true"` 偽（不正値） | `"1"` 等を渡す | `false` |
+| `SHELL_COLLAPSE_COOKIE_NAME`（定数） | — | 値が `"ubm_shell_collapsed"` であること | 定数 assert |
+| `parseShellCollapsedCookie` | `value === "true"` 真 | `"true"` を渡す | `true` |
+| `parseShellCollapsedCookie` | `value === "true"` 偽（`"false"`） | `"false"` を渡す | `false` |
+| `parseShellCollapsedCookie` | `value === "true"` 偽（`undefined`） | `undefined` を渡す | `false` |
+| `parseShellCollapsedCookie` | `value === "true"` 偽（不正値） | `"1"` 等を渡す | `false` |
 | `readCollapsedFromDocument` | `doc === undefined`（SSR） | `browserDocument()` が undefined を返す環境 | `null` |
 | `readCollapsedFromDocument` | cookie 一致なし | `document.cookie` に当該 cookie 不在 | `null` |
 | `readCollapsedFromDocument` | cookie 一致あり `=true` | `ubm_shell_collapsed=true` をセット | `true` |
 | `readCollapsedFromDocument` | cookie 一致あり `=false` | `ubm_shell_collapsed=false` をセット | `false` |
-| `writeCollapsedCookie` | `doc === undefined`（SSR） | SSR 環境で呼ぶ | noop（throw しない） |
-| `writeCollapsedCookie` | `collapsed === true` | `true` を渡す | `document.cookie` に `ubm_shell_collapsed=true` が含まれる |
-| `writeCollapsedCookie` | `collapsed === false` | `false` を渡す | `document.cookie` に `ubm_shell_collapsed=false` が含まれる |
+| `writeShellCollapsedCookie` | `doc === undefined`（SSR） | SSR 環境で呼ぶ | noop（throw しない） |
+| `writeShellCollapsedCookie` | `collapsed === true` | `true` を渡す | `document.cookie` に `ubm_shell_collapsed=true` が含まれる |
+| `writeShellCollapsedCookie` | `collapsed === false` | `false` を渡す | `document.cookie` に `ubm_shell_collapsed=false` が含まれる |
 
 > 目標: `shell-collapse-cookie.ts` の **statements / lines / functions / branches 全て 100%**。
 > 副作用関数の SSR 早期 return 分岐（`if (!doc) return`）も網羅するため、`browserDocument()` を
@@ -58,8 +58,8 @@ localStorage 系を撤廃した後の分岐は以下。branch カバレッジを
 | mount effect 早期 return | `initialCollapsed !== null` | seed=`true`/`false` → viewport 判定をスキップ（`matchMedia` 不参照） |
 | mount effect viewport | `initialCollapsed === null` かつ md viewport | seed=`null` + md matchMedia → `mode === "collapsed"` |
 | mount effect viewport | `initialCollapsed === null` かつ lg viewport | seed=`null` + lg matchMedia → `mode === "expanded"` 維持 |
-| `toggleCollapsed` | `prev === "collapsed"` → expanded | collapsed から toggle → `writeCollapsedCookie(false)` 呼出 |
-| `toggleCollapsed` | `prev === "expanded"` → collapsed | expanded から toggle → `writeCollapsedCookie(true)` 呼出 |
+| `toggleCollapsed` | `prev === "collapsed"` → expanded | collapsed から toggle → `writeShellCollapsedCookie(false)` 呼出 |
+| `toggleCollapsed` | `prev === "expanded"` → collapsed | expanded から toggle → `writeShellCollapsedCookie(true)` 呼出 |
 
 ### branch 実測の証跡方針
 
@@ -68,7 +68,7 @@ localStorage 系を撤廃した後の分岐は以下。branch カバレッジを
   証跡へ転記する。
 - coverage 設定がファイル単位指定を許さない場合でも、上記分岐をカバーする spec ケースが
   存在することを「テストケース ↔ 分岐」対応表（本 7.2 / 7.3）で担保する。
-- toggle 時の `writeCollapsedCookie` 呼出は spy（`vi.spyOn` / module mock）で引数 `true`/`false` を
+- toggle 時の `writeShellCollapsedCookie` 呼出は spy（`vi.spyOn` / module mock）で引数 `true`/`false` を
   両方アサートし、cookie 書込分岐の両側を踏む。
 
 ## 7.4 カバレッジ判定基準（Phase 9 / Phase 10 へ引き継ぐ）

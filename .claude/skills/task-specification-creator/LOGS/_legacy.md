@@ -2823,3 +2823,10 @@ AC-1〜AC-6 全達成。Phase 10 判定: PASS（MINOR 0件）
 # 2026-06-03
 
 - issue-1080-bulk-tag-result-member-labels: implementation target 明確な VISUAL_ON_EXECUTION workflow を spec-only に留めず、同一サイクルで apps/web 実装・focused component evidence・Phase 11 two-tier evidence・Phase 12 strict 7・aiworkflow sync まで昇格。知見: ID-only result summary は API contract を膨らませず、親保持 list 由来の optional `membersById`（fullName only）+ child-local tag label `Map` + nullish fallback で閉じる。新規 policy 昇格は不要。
+
+# 2026-06-03 issue-1068 admin tag inline-create UI spec compliance
+
+- 対象: `docs/30-workflows/completed-tasks/issue-1068-admin-tag-inline-create-ui/`
+- 種別: implementation / spec_created / VISUAL_ON_EXECUTION
+- 反映: workflow-local の Phase 12 strict 7 物理未生成を補正し、`outputs/phase-12/{main,implementation-guide,system-spec-update-summary,documentation-changelog,unassigned-task-detection,skill-feedback-report,phase12-task-spec-compliance-check}.md` を追加。
+- 検証: 既存 task-specification-creator rule で十分なためテンプレ変更は不要。aiworkflow-requirements ledger/index/inventory は同 cycle で同期。

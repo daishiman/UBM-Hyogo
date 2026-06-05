@@ -93,6 +93,15 @@ Phase 1 outputs には以下の表を必ず含める:
 
 誤読が見つかった場合は Phase 2 以降の設計例を実コードに合わせて補正し、Phase 12 の skill feedback に再発防止を記録する。
 
+#### Issue / unassigned-task 前提の実コード検証（Issue #1065 対策）
+
+Issue / unassigned-task が記述する「現状の挙動・契約・コード構造」は陳腐化している場合がある。Phase 1-2 では、設計前提として引用する関数契約・呼び出し関係・データフローを、必ず現行コードを Read して検証する。
+
+- issue が「関数 A と関数 B は別契約」等と記述していても、現行コードで A が B の直接 alias（同一関数）だったケースがある（issue-1065: `parseShellCollapsedCookie` は cookie **値**のみを受ける value parser で、`readCollapsedFromCookieString` はその直接 alias。issue が主張した「cookie ヘッダ全体 vs 値」の契約差は現行コードに存在しなかった。ヘッダ文字列を split して値を抜く処理は別関数 `readCollapsedFromDocument` が担っていた）。
+- 前提誤りを鵜呑みにすると、存在しない契約差を前提に過剰スコープな設計を生む。
+- 検証で前提誤りを見つけたら、`implementation-guide.md` / `phase-1-requirements.md` に **訂正注記**として残し、次の人が再び drift と誤認しないようにする。Phase 2 以降の設計例も実コードに合わせて補正する。
+- GitHub Issue ラベルが `docs-only` でも、root cause（SSOT 違反 = dead alias / dead code 残存）の解消にコード変更が必要なら、CONST_004（ラベルより実態優先）で **実装仕様書**として分類する。昇格判断は `artifacts.json` の `spec_classification_note` に残し、後続レビューで分類根拠を追えるようにする（[phase12-skill-feedback-promotion.md](phase12-skill-feedback-promotion.md) Applied Examples 参照）。
+
 ## 統合テスト連携【必須】
 
 統合テストの再実行とゲート判定:
