@@ -1198,6 +1198,7 @@
       "lessons-learned-issue-560-next-standalone-instrumentation-patch-2026-05.md",
       "security-skill-ipc-core.md",
       "spec-splitting-guidelines.md",
+      "workflow-issue-1088-manual-form-resync-sync-duration-display-artifact-inventory.md",
       "workflow-issue-504-extended-fixture-50k-artifact-inventory.md",
       "workflow-issue-55-notification-channel-and-optout-artifact-inventory.md",
       "workflow-issue-903-parallel-03-followup-005-member-runtime-evidence-artifact-inventory.md",
@@ -3352,6 +3353,7 @@
       "workflow-issue-1043-identity-conflicts-row-fade-animation-artifact-inventory.md",
       "workflow-issue-1054-wrangler-binding-drift-ci-gate-artifact-inventory.md",
       "workflow-issue-1059-public-members-fields-batch-fetch-n1-prevention-artifact-inventory.md",
+      "workflow-issue-1088-manual-form-resync-sync-duration-display-artifact-inventory.md",
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
       "workflow-issue-229-indexes-rebuild-fail-fast-artifact-inventory.md",
       "workflow-issue-230-lefthook-edit-guard-artifact-inventory.md",
@@ -4896,6 +4898,7 @@
       "workflow-issue-1043-identity-conflicts-row-fade-animation-artifact-inventory.md",
       "workflow-issue-1056-kv-alert-policy-binding-drift-detection-artifact-inventory.md",
       "workflow-issue-1059-public-members-fields-batch-fetch-n1-prevention-artifact-inventory.md",
+      "workflow-issue-1088-manual-form-resync-sync-duration-display-artifact-inventory.md",
       "workflow-issue-230-lefthook-edit-guard-artifact-inventory.md",
       "workflow-issue-247-apps-web-opennext-config-regression-tests-artifact-inventory.md",
       "workflow-issue-256-e2e-coverage-baseline-runbook-artifact-inventory.md",
@@ -5282,6 +5285,7 @@
       "workflow-issue-1054-wrangler-binding-drift-ci-gate-artifact-inventory.md",
       "workflow-issue-1056-kv-alert-policy-binding-drift-detection-artifact-inventory.md",
       "workflow-issue-1059-public-members-fields-batch-fetch-n1-prevention-artifact-inventory.md",
+      "workflow-issue-1088-manual-form-resync-sync-duration-display-artifact-inventory.md",
       "workflow-issue-224-public-members-tags-batch-fetch-artifact-inventory.md",
       "workflow-issue-229-indexes-rebuild-fail-fast-artifact-inventory.md",
       "workflow-issue-230-lefthook-edit-guard-artifact-inventory.md",
@@ -7402,6 +7406,7 @@
       "workflow-issue-1056-kv-alert-policy-binding-drift-detection-artifact-inventory.md",
       "workflow-issue-1059-public-members-fields-batch-fetch-n1-prevention-artifact-inventory.md",
       "workflow-issue-106-admin-member-notes-repository-task-spec-artifact-inventory.md",
+      "workflow-issue-1088-manual-form-resync-sync-duration-display-artifact-inventory.md",
       "workflow-issue-229-indexes-rebuild-fail-fast-artifact-inventory.md",
       "workflow-issue-230-lefthook-edit-guard-artifact-inventory.md",
       "workflow-issue-247-apps-web-opennext-config-regression-tests-artifact-inventory.md",
@@ -8130,6 +8135,7 @@
       "workflow-issue-1056-kv-alert-policy-binding-drift-detection-artifact-inventory.md",
       "workflow-issue-1059-public-members-fields-batch-fetch-n1-prevention-artifact-inventory.md",
       "workflow-issue-106-admin-member-notes-repository-task-spec-artifact-inventory.md",
+      "workflow-issue-1088-manual-form-resync-sync-duration-display-artifact-inventory.md",
       "workflow-issue-191-schema-aliases-artifact-inventory.md",
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
       "workflow-issue-224-public-members-tags-batch-fetch-artifact-inventory.md",
@@ -8233,6 +8239,7 @@
       "logs-archive-2026-03-line-budget-reform-formalize.md",
       "task-workflow-completed-recent-2026-04d.md",
       "workflow-ai-runtime-authmode-unification.md",
+      "workflow-issue-1088-manual-form-resync-sync-duration-display-artifact-inventory.md",
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
       "workflow-issue-255-coverage-threshold-sync-lint-artifact-inventory.md",
       "workflow-issue-495-09b-A-sentry-slack-runtime-smoke-prod-extension-artifact-inventory.md",
@@ -8932,6 +8939,7 @@
       "deployment-cloudflare.md",
       "lessons-learned-ut07b-fu-02-admin-schema-alias-retry-label-2026-05.md",
       "ui-history-integration.md",
+      "workflow-issue-1088-manual-form-resync-sync-duration-display-artifact-inventory.md",
       "workflow-task-b-manual-form-resync-admin-ui-spec-artifact-inventory.md"
     ],
     "Alert": [
@@ -11564,6 +11572,7 @@
       "workflow-issue-1043-identity-conflicts-row-fade-animation-artifact-inventory.md",
       "workflow-issue-1054-wrangler-binding-drift-ci-gate-artifact-inventory.md",
       "workflow-issue-1056-kv-alert-policy-binding-drift-detection-artifact-inventory.md",
+      "workflow-issue-1088-manual-form-resync-sync-duration-display-artifact-inventory.md",
       "workflow-issue-235-sync-audit-tables-necessity-judgement-artifact-inventory.md",
       "workflow-issue-256-e2e-coverage-baseline-runbook-artifact-inventory.md",
       "workflow-issue-264-cron-schedule-free-tier-guard-artifact-inventory.md",
@@ -13289,6 +13298,7 @@
       "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md",
       "workflow-google-form-reflection-diagnostics-artifact-inventory.md",
       "workflow-google-form-reflection-diagnostics-fu-002-h2-identity-rebuild-artifact-inventory.md",
+      "workflow-issue-1088-manual-form-resync-sync-duration-display-artifact-inventory.md",
       "workflow-member-publish-recovery-form-ops-and-admin-link-artifact-inventory.md",
       "workflow-members-not-displaying-form-sync-investigation-artifact-inventory.md",
       "workflow-task-05a-form-preview-503-001-artifact-inventory.md",
@@ -13757,7 +13767,8 @@
     ],
     "display": [
       "lessons-learned-06b-b-profile-request-pending-banner-sticky-2026-05.md",
-      "workflow-issue-1029-public-member-photo-display-artifact-inventory.md"
+      "workflow-issue-1029-public-member-photo-display-artifact-inventory.md",
+      "workflow-issue-1088-manual-form-resync-sync-duration-display-artifact-inventory.md"
     ],
     "shape": [
       "lessons-learned-06b-b-profile-request-pending-banner-sticky-2026-05.md",
@@ -18258,6 +18269,7 @@
       "workflow-issue-1043-identity-conflicts-row-fade-animation-artifact-inventory.md",
       "workflow-issue-1054-wrangler-binding-drift-ci-gate-artifact-inventory.md",
       "workflow-issue-106-admin-member-notes-repository-task-spec-artifact-inventory.md",
+      "workflow-issue-1088-manual-form-resync-sync-duration-display-artifact-inventory.md",
       "workflow-issue-191-schema-aliases-artifact-inventory.md",
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
       "workflow-issue-224-public-members-tags-batch-fetch-artifact-inventory.md",
@@ -26392,6 +26404,7 @@
       "workflow-issue-1043-identity-conflicts-row-fade-animation-artifact-inventory.md",
       "workflow-issue-1054-wrangler-binding-drift-ci-gate-artifact-inventory.md",
       "workflow-issue-106-admin-member-notes-repository-task-spec-artifact-inventory.md",
+      "workflow-issue-1088-manual-form-resync-sync-duration-display-artifact-inventory.md",
       "workflow-issue-191-schema-aliases-artifact-inventory.md",
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
       "workflow-issue-224-public-members-tags-batch-fetch-artifact-inventory.md",
@@ -26718,6 +26731,7 @@
       "workflow-issue-1042-dismiss-confirm-optimistic-update-artifact-inventory.md",
       "workflow-issue-1054-wrangler-binding-drift-ci-gate-artifact-inventory.md",
       "workflow-issue-106-admin-member-notes-repository-task-spec-artifact-inventory.md",
+      "workflow-issue-1088-manual-form-resync-sync-duration-display-artifact-inventory.md",
       "workflow-issue-229-indexes-rebuild-fail-fast-artifact-inventory.md",
       "workflow-issue-235-sync-audit-tables-necessity-judgement-artifact-inventory.md",
       "workflow-issue-352-postmortem-template-automation-artifact-inventory.md",
@@ -27430,6 +27444,13 @@
     "Blocked": [
       "workflow-issue-106-admin-member-notes-repository-task-spec-artifact-inventory.md",
       "workflow-task-issue-346-08a-canonical-workflow-tree-restore-artifact-inventory.md"
+    ],
+    "resync": [
+      "workflow-issue-1088-manual-form-resync-sync-duration-display-artifact-inventory.md",
+      "workflow-task-b-manual-form-resync-admin-ui-spec-artifact-inventory.md"
+    ],
+    "duration": [
+      "workflow-issue-1088-manual-form-resync-sync-duration-display-artifact-inventory.md"
     ],
     "Set": [
       "workflow-issue-191-schema-aliases-artifact-inventory.md",
@@ -28196,9 +28217,6 @@
     ],
     "capture": [
       "workflow-task-709-visual-baseline-runtime-capture-artifact-inventory.md"
-    ],
-    "resync": [
-      "workflow-task-b-manual-form-resync-admin-ui-spec-artifact-inventory.md"
     ],
     "privacy": [
       "workflow-task-c-privacy-terms-public-shell-spec-artifact-inventory.md"

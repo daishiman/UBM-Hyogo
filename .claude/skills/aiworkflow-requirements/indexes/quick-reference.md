@@ -1,5 +1,17 @@
 # クイックリファレンス
 
+## issue-1088-manual-form-resync-sync-duration-display（2026-06-05）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-1088-manual-form-resync-sync-duration-display/` |
+| status | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION / runtime_visual_pending_user_gate` |
+| purpose | 管理画面「フォーム回答の再取込」結果 `<dl>` に取込所要時間 `durationMs` を表示し、backend producer から UI consumer まで同一サイクルで通す |
+| implementation | `apps/api/src/jobs/sync-forms-responses.ts` `ResponseSyncResult.durationMs` + `runResponseSync()` succeeded/failed/skipped 3 経路、`apps/web/src/features/admin/diagnostics/manual-sync.ts` optional schema、`ManualFormResyncPanel.client.tsx` result row |
+| evidence | API job/route contract focused PASS、web schema/panel focused PASS、api/web typecheck PASS、repo lint PASS |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1088-manual-form-resync-sync-duration-display-artifact-inventory.md` |
+| user gate | authenticated runtime screenshot, staging deploy, commit, push, PR, Issue #1088 mutation |
+
 ## admin-member-detail-status-404-fix（2026-06-02）
 
 | 項目 | 値 |

@@ -1,0 +1,18 @@
+{
+  "mode": "VISUAL_ON_EXECUTION",
+  "status": "spec_authored_runtime_visual_pending_user_gate",
+  "route": "/admin/sync-status",
+  "prerequisites": [
+    "durationMs implementation landed (apps/api + apps/web, follow-up cycle)",
+    "authenticated admin browser session",
+    "SYNC_ADMIN_TOKEN configured for web proxy and API",
+    "runtime or controlled fixture capable of producing a succeeded result with durationMs"
+  ],
+  "screenshots": [
+    {
+      "name": "manual-form-resync-panel-result-with-duration.png",
+      "state": "differential sync success result table including the new durationMs row",
+      "status": "pending_runtime_capture_user_gated"
+    }
+  ]
+}

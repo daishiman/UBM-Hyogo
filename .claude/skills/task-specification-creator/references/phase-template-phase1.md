@@ -79,9 +79,11 @@ P50 で対象機能が既に dev / current branch に landed 済みと確認で�
 - 対象の型定義（SkillExecutionStatus 等）の現在の値セットを確認し、設計で前提とする値が実在するか検証する
 - 存在しない場合は「新規追加」として Phase 2 で変更先ファイルパスを明記する（P32 準拠）
 
-#### Helper / 型シグネチャ verbatim 確認（Issue #224 対策）
+#### Helper / 型シグネチャ verbatim 確認（Issue #224 / #1088 対策）
 
 既存 helper / shared schema / viewmodel type を再利用するタスクでは、Phase 1 で実コードのシグネチャを verbatim に確認し、Map / 配列 / optional / strict などの return shape を誤読しない。
+
+**未実装フィールドを既存 producer に足すタスク**（例: 戻り値型へ 1 フィールド追加）では、issue 本文の抽象的な producer 名（「sync use-case」等）を鵜呑みにせず、実体の戻り値型・関数を**行番号レベルで pin** する。似た名前のラッパー（route 層 / 別 use-case の同名処理）へ誤着地すると、本来の producer を素通りして無効な diff になる。
 
 Phase 1 outputs には以下の表を必ず含める:
 
@@ -90,6 +92,7 @@ Phase 1 outputs には以下の表を必ず含める:
 | helper | `apps/api/src/repository/...` | 例: `Promise<MemberTagWithDefinition[]>`（フラット配列） | use-case 層で groupBy |
 | shared zod | `packages/shared/src/zod/...` | optional / strict / nullable の実値 | response contract |
 | shared type | `packages/shared/src/types/...` | public export の有無 | consumer 影響 |
+| producer | `apps/api/src/jobs/...`（行番号付き） | 例: `ResponseSyncResult` + `runResponseSync()` の全 return path | 新規 field 追加先を verbatim に pin（似た名前のラッパーへ誤着地しない） |
 
 誤読が見つかった場合は Phase 2 以降の設計例を実コードに合わせて補正し、Phase 12 の skill feedback に再発防止を記録する。
 

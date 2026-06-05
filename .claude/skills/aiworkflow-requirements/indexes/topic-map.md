@@ -2729,6 +2729,14 @@ node scripts/list-specs.js --topics
 | Phase 12 Artifacts | L21 |
 | Deferred / Blocked | L32 |
 
+### references/workflow-issue-1088-manual-form-resync-sync-duration-display-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Code Artifacts | L15 |
+| Evidence Boundary | L27 |
+| Lessons Learned | L31 |
+
 ### references/workflow-issue-191-schema-aliases-artifact-inventory.md
 
 | セクション | 行 |
@@ -8617,15 +8625,15 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L3640 |
-| フェーズ構造（概要） | L3649 |
-| 品質ゲート（概要） | L3680 |
-| 出力テンプレート | L3691 |
-| 実行時のコマンド・エージェント・スキル | L3714 |
-| 昇格パターン集 | L3738 |
-| Current Active / Spec Created Tasks | L3740 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L3906 |
-| issue-998-members-publish-state-production-rollout | L3984 |
+| ドキュメント構成 | L3654 |
+| フェーズ構造（概要） | L3663 |
+| 品質ゲート（概要） | L3694 |
+| 出力テンプレート | L3705 |
+| 実行時のコマンド・エージェント・スキル | L3728 |
+| 昇格パターン集 | L3752 |
+| Current Active / Spec Created Tasks | L3754 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L3920 |
+| issue-998-members-publish-state-production-rollout | L3998 |
 
 ### references/task-workflow-backlog-part2.md
 
