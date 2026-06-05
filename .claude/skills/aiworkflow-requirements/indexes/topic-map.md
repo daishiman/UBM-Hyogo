@@ -90,13 +90,13 @@ node scripts/list-specs.js --topics
 | 1. 構成図 | L15 |
 | 2. Server-side fetch（`apps/web/src/lib/admin/server-fetch.ts`） | L50 |
 | 3. Client-side mutation（`apps/web/src/lib/admin/api.ts`） | L116 |
-| 4. BFF proxy（`apps/web/app/api/admin/[...path]/route.ts`） | L188 |
-| 5. ステータスコード処理方針 | L245 |
-| 6. 環境変数 | L277 |
-| 7. 不変条件サマリ（admin API client / proxy） | L290 |
-| 8. 関連ドキュメント | L302 |
-| 9. 06c-A Admin Dashboard 契約 (2026-05-02) | L310 |
-| 10. Self-service BFF proxy（`apps/web/app/api/me/[...path]/route.ts`） | L327 |
+| 4. BFF proxy（`apps/web/app/api/admin/[...path]/route.ts`） | L190 |
+| 5. ステータスコード処理方針 | L247 |
+| 6. 環境変数 | L279 |
+| 7. 不変条件サマリ（admin API client / proxy） | L292 |
+| 8. 関連ドキュメント | L304 |
+| 9. 06c-A Admin Dashboard 契約 (2026-05-02) | L312 |
+| 10. Self-service BFF proxy（`apps/web/app/api/me/[...path]/route.ts`） | L329 |
 
 ### references/architecture-auth-security-core.md
 
@@ -2800,6 +2800,16 @@ node scripts/list-specs.js --topics
 | Source unassigned trace | L56 |
 | Lessons Learned | L62 |
 | User-gated actions | L72 |
+
+### references/workflow-issue-1078-bulk-tag-picker-large-catalog-ux-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Workflow Root | L5 |
+| Implementation Artifacts | L14 |
+| Evidence | L23 |
+| Contract Notes | L35 |
+| Lessons Learned | L42 |
 
 ### references/workflow-issue-1079-bulk-tag-audit-batch-filter-artifact-inventory.md
 
@@ -6430,6 +6440,18 @@ node scripts/list-specs.js --topics
 | L-I1070-006 lessons は references/ 直下に置く（generate-index.js は lessons-learned/ サブdir を scan しない） | L35 |
 | 関連パターン | L41 |
 
+### references/lessons-learned-issue-1078-bulk-tag-picker-large-catalog-ux-2026-06.md
+
+| セクション | 行 |
+|------------|----|
+| L-I1078-001 古い issue は依存先 endpoint の応答 shape を実コードで突合する | L5 |
+| L-I1078-002 test mock の shape を実 API response schema と突合する | L11 |
+| L-I1078-003 paginated mode の selected ラベルは known-tag の accumulated Map で保持する | L17 |
+| L-I1078-004 client pagination の default pageSize は API max に合わせ、cap guard で無限ループを防ぐ | L23 |
+| L-I1078-005 並列 SubAgent の backbone Write はワークツリー root 相対／pwd 確認済み絶対パスで行う | L29 |
+| L-I1078-006 artifacts.json の gate `status` は zod enum 4 値のみ（`pending_user_approval` は不可） | L35 |
+| 関連パターン | L41 |
+
 ### references/lessons-learned-issue-191-schema-aliases-2026-04.md
 
 | セクション | 行 |
@@ -8745,7 +8767,8 @@ node scripts/list-specs.js --topics
 | UT-17 followup-003 alert-relay weekly healthcheck cron | L3982 |
 | issue-1077-bulk-tag-authenticated-staging-visual（implemented_local_runtime_pending / implementation / VISUAL_ON_EXECUTION / 2026-06-03） | L4050 |
 | issue-998-members-publish-state-production-rollout | L4076 |
-| issue-1068-admin-tag-inline-create-ui | L4123 |
+| issue-1078-bulk-tag-picker-large-catalog-ux | L4123 |
+| issue-1068-admin-tag-inline-create-ui | L4137 |
 
 ### references/task-workflow-backlog-part2.md
 

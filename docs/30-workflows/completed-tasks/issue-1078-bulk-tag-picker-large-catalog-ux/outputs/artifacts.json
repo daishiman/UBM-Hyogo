@@ -1,0 +1,142 @@
+{
+  "task_id": "issue-1078-bulk-tag-picker-large-catalog-ux",
+  "created_at": "2026-06-03",
+  "status": "implemented_local_evidence_captured",
+  "task_type": "implementation",
+  "visual_category": "VISUAL_ON_EXECUTION",
+  "implementation_mode": "new",
+  "metadata": {
+    "workflow_state": "implemented_local_evidence_captured",
+    "implementation_status": "implementation_complete_pending_pr",
+    "taskType": "implementation",
+    "visualEvidence": "VISUAL_ON_EXECUTION",
+    "implementationCategory": "admin_member_bulk_tag_picker_ux",
+    "canonical_workflow": "docs/30-workflows/completed-tasks/issue-1078-bulk-tag-picker-large-catalog-ux",
+    "github_issue": 1078,
+    "github_issue_state": "CLOSED",
+    "github_issue_state_note": "Actual GitHub state is CLOSED (closedAt 2026-06-03T06:41:03Z, confirmed via gh during close-out). Local fact corrected from a stale OPEN snapshot taken at spec-authoring time; no issue mutation performed (state was already CLOSED).",
+    "branch": "docs/issue-1078-bulk-tag-picker-large-catalog-ux-spec",
+    "parent_workflow": "issue-1036-bulk-member-tag-assign",
+    "runtime_boundary": "Local apps/web implementation, focused Vitest, typecheck, lint, and token grep are complete. Staging authenticated visual screenshots, commit, push, PR, and GitHub issue mutation remain user-gated.",
+    "source_issue_optimizations": [
+      "Promoted from cosmetic 'future UX' to include a P0 correctness fix: fetchTagMaster() reads {available} from a {total,items} response (apps/api GET /admin/tags shape changed by #1035), so r.available is undefined and BulkActionBar groupedTags for-of crashes / shows empty. The bug is masked by BulkActionBar.spec.tsx mocking {available} instead of the real {total,items} shape.",
+      "AC-3 client pagination/search wired to #1035's existing GET /admin/tags ({q,page,pageSize} -> {total,items}); default pageSize raised to API max 100 so >50 tags are no longer silently truncated. No apps/api change needed (read endpoint already landed).",
+      "AC-2 (aria-pressed/keyboard) and AC-4 (selected Set independent of available) confirmed already satisfied structurally; treated as verify_existing regression coverage rather than new build.",
+      "AC-4 paginated-mode persistence realized via accumulated Map<tagId, AdminTagRef> of known tags so selected chips render with labels even when outside the current filtered/fetched result."
+    ],
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-06-03T00:00:00+09:00",
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-1078-bulk-tag-picker-large-catalog-ux/phase-3-design-review.md",
+        "approver": "daishiman",
+        "notes": "Spec authoring gate: Phase 1-3 design fixed, P0 contract bug root-caused, AC-0..AC-5 mapped, all-apps/web one-cycle scope confirmed, apps/api change ruled unnecessary (#1035 read endpoint landed)."
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "passed",
+        "passed_at": "2026-06-03T15:46:00+09:00",
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-1078-bulk-tag-picker-large-catalog-ux/phase-9-qa.md",
+        "approver": "daishiman",
+        "notes": "Implementation gate: apps/web code implemented; focused Vitest, broader Vitest run, typecheck, lint, and token grep passed locally."
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-1078-bulk-tag-picker-large-catalog-ux/phase-13-pr.md",
+        "approver": "daishiman",
+        "notes": "PR gate: commit/PR creation, staging authenticated visual baseline, and GitHub issue mutation only after explicit user approval."
+      }
+    ],
+    "verdict": "PASS_BOUNDARY_SYNCED_RUNTIME_PENDING",
+    "local_evidence": {
+      "focused_api_spec": "apps/web/src/features/admin/api/__tests__/members.spec.ts (11 tests PASS)",
+      "focused_component_spec": "apps/web/src/features/admin/components/__tests__/BulkActionBar.spec.tsx (20 tests PASS)",
+      "broader_web_vitest": "216 files / 1587 tests PASS / 1 skipped (triggered by repo vitest config)",
+      "typecheck": "mise exec -- pnpm typecheck: PASS",
+      "lint": "mise exec -- pnpm lint: PASS",
+      "token_grep": "BulkActionBar.tsx HEX/bg-[#]/text-[#] grep: 0 hits"
+    }
+  },
+  "tasks": [
+    {
+      "id": "task-A-web-tag-master-client-contract-and-pagination",
+      "spec": "tasks/task-A-web-tag-master-client-contract-and-pagination.md",
+      "area": "apps/web",
+      "depends_on": []
+    },
+    {
+      "id": "task-B-bulk-action-bar-large-catalog-ux",
+      "spec": "tasks/task-B-bulk-action-bar-large-catalog-ux.md",
+      "area": "apps/web",
+      "depends_on": [
+        "task-A-web-tag-master-client-contract-and-pagination"
+      ]
+    },
+    {
+      "id": "task-C-tests-and-visual-baseline",
+      "spec": "tasks/task-C-tests-and-visual-baseline.md",
+      "area": "apps/web",
+      "depends_on": [
+        "task-A-web-tag-master-client-contract-and-pagination",
+        "task-B-bulk-action-bar-large-catalog-ux"
+      ]
+    }
+  ],
+  "phases": {
+    "phase-1": {
+      "status": "completed",
+      "file": "phase-1-requirements.md"
+    },
+    "phase-2": {
+      "status": "completed",
+      "file": "phase-2-design.md"
+    },
+    "phase-3": {
+      "status": "completed",
+      "file": "phase-3-design-review.md"
+    },
+    "phase-4": {
+      "status": "completed",
+      "file": "phase-4-test-plan.md"
+    },
+    "phase-5": {
+      "status": "completed",
+      "file": "phase-5-implementation.md"
+    },
+    "phase-6": {
+      "status": "completed",
+      "file": "phase-6-test-additions.md"
+    },
+    "phase-7": {
+      "status": "completed",
+      "file": "phase-7-coverage.md"
+    },
+    "phase-8": {
+      "status": "completed",
+      "file": "phase-8-refactor.md"
+    },
+    "phase-9": {
+      "status": "completed",
+      "file": "phase-9-qa.md"
+    },
+    "phase-10": {
+      "status": "completed",
+      "file": "phase-10-final-review.md"
+    },
+    "phase-11": {
+      "status": "completed",
+      "file": "phase-11-manual-test.md"
+    },
+    "phase-12": {
+      "status": "completed",
+      "file": "phase-12-documentation.md"
+    },
+    "phase-13": {
+      "status": "pending_user_approval",
+      "file": "phase-13-pr.md"
+    }
+  }
+}
