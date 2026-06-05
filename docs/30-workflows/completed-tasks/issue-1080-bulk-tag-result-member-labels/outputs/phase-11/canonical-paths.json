@@ -1,0 +1,16 @@
+{
+  "taskId": "issue-1080-bulk-tag-result-member-labels",
+  "workflowDir": "docs/30-workflows/completed-tasks/issue-1080-bulk-tag-result-member-labels",
+  "schemaVersion": "1.0.0",
+  "evidence": [
+    {
+      "id": "focused-bulkactionbar-vitest",
+      "kind": "test",
+      "path": "outputs/phase-11/evidence/focused-bulkactionbar-vitest.log",
+      "command": "pnpm exec vitest run --root=../.. --config=vitest.config.ts apps/web/src/features/admin/components/__tests__/BulkActionBar.spec.tsx",
+      "acquiredBy": "implementation_cycle",
+      "requiredForCloseout": true,
+      "notes": "Focused component test PASS, 12 tests. Staging authenticated screenshot is tracked separately as pending user-gated visual evidence."
+    }
+  ]
+}

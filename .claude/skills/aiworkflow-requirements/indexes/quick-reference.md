@@ -1,5 +1,19 @@
 # クイックリファレンス
 
+## issue-1080-bulk-tag-result-member-labels（2026-06-03）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-1080-bulk-tag-result-member-labels/` |
+| status | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION / staging_visual_pending_user_gate` |
+| issue | #1080 OPEN（mutation は user-gated） |
+| parent | `docs/30-workflows/completed-tasks/issue-1036-bulk-member-tag-assign/` |
+| purpose | bulk tag 部分失敗結果 summary の `memberId` / `tagId` 生表示を member `fullName` / tag `label` に改善 |
+| implementation | `apps/web/src/features/admin/components/_members/BulkActionBar.tsx`, `apps/web/src/features/admin/components/_members/MembersClientShell.tsx`, `apps/web/src/features/admin/components/__tests__/BulkActionBar.spec.tsx` |
+| evidence | focused `BulkActionBar.spec.tsx` 12 tests PASS; staging authenticated screenshot pending_user_gate |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1080-bulk-tag-result-member-labels-artifact-inventory.md` |
+| user gate | staging screenshot, commit, push, PR, Issue mutation |
+
 ## issue-1077-bulk-tag-authenticated-staging-visual（2026-06-03）
 
 | 項目 | 値 |
