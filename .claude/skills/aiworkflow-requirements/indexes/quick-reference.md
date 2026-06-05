@@ -193,6 +193,22 @@
 | inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1035-tag-master-write-endpoints-artifact-inventory.md` |
 | user gate | staging runtime smoke, commit, push, PR |
 
+## issue-1070-tag-reactivate-physical-delete（2026-06-03）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-1070-tag-reactivate-physical-delete/` |
+| status | `implemented_local_evidence_captured / implementation / NON_VISUAL` |
+| issue | #1070 CLOSED。Issue mutation なし、PR 文脈は `Refs #1070` のみ |
+| parent | `docs/30-workflows/completed-tasks/issue-1035-tag-master-write-endpoints/` |
+| purpose | tag master (`tag_definitions`) に `POST /admin/tags/:tagId/reactivate` と `DELETE /admin/tags/:tagId/physical` を追加する |
+| implementation | `apps/api/src/repository/tagDefinitions.ts`, `apps/api/src/routes/admin/tags.ts`, `docs/00-getting-started-manual/specs/01-api-schema.md` |
+| tests | `apps/api/src/repository/__tests__/tagDefinitions.write.repository.spec.ts`, `apps/api/src/routes/admin/tags.contract.spec.ts` |
+| evidence | focused D1 Vitest 2 files / 15 tests PASS, API typecheck PASS, repo lint PASS |
+| invariant | physical delete は `member_tags` 参照 0 件のみ許可。参照ありは 409 `tag_has_references` + `referenceCount`。logical DELETE の active=0 + member_tags 保持は維持 |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1070-tag-reactivate-physical-delete-artifact-inventory.md` |
+| user gate | staging runtime smoke, production tag physical delete mutation, commit, push, PR, Issue state change |
+
 ## issue-1069-tag-code-rename（2026-06-03）
 
 | 項目 | 値 |
