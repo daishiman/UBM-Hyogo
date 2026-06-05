@@ -2,6 +2,8 @@ import { describe, it, expect, beforeEach } from "vitest";
 import { MockStore, createMockDbCtx } from "../__fixtures__/d1mock";
 import { MEMBER_STATUS_CONSENTED } from "../__fixtures__/members.fixture";
 import {
+  defaultMemberStatusRow,
+  ensureMemberStatusRow,
   getStatus,
   setConsentSnapshot,
   setPublishState,
@@ -31,6 +33,39 @@ describe("status repository", () => {
     it("存在しない member_id では null を返す", async () => {
       const result = await getStatus(ctx, asMemberId("nonexistent"));
       expect(result).toBeNull();
+    });
+  });
+
+  describe("default/ensure member_status", () => {
+    it("defaultMemberStatusRow は 0002 の DEFAULT と同じ admin-safe 既定値を返す", () => {
+      const row = defaultMemberStatusRow(asMemberId("m_new"));
+
+      expect(row).toMatchObject({
+        member_id: "m_new",
+        public_consent: "unknown",
+        rules_consent: "unknown",
+        publish_state: "member_only",
+        is_deleted: 0,
+        hidden_reason: null,
+        last_notified_at: null,
+        updated_by: null,
+      });
+    });
+
+    it("ensureMemberStatusRow は欠落行を既定値で作成し、既存行は壊さない", async () => {
+      store.memberStatus = [];
+
+      await ensureMemberStatusRow(ctx, asMemberId("m_new"));
+      await ensureMemberStatusRow(ctx, asMemberId("m_new"));
+
+      expect(store.memberStatus).toHaveLength(1);
+      expect(store.memberStatus[0]).toMatchObject({
+        member_id: "m_new",
+        public_consent: "unknown",
+        rules_consent: "unknown",
+        publish_state: "member_only",
+        is_deleted: 0,
+      });
     });
   });
 

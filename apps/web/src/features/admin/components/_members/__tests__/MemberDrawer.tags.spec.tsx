@@ -30,10 +30,12 @@ const mut: Record<"POST" | "DELETE", { trigger: ReturnType<typeof vi.fn>; option
   DELETE: { trigger: vi.fn(), options: null },
 };
 vi.mock("../../../hooks/useAdminMutation", () => ({
-  useAdminMutation: (_endpoint: string, method: string, options: MutOptions) => {
-    // POST=assign / DELETE=unassign のみ捕捉。他 method（PATCH 等）は generic stub を返す。
-    if (method === "POST" || method === "DELETE") {
-      const slot = mut[method];
+  useAdminMutation: (endpoint: string, method: string, options: MutOptions) => {
+    // issue-1068: inline-create の create mutation も POST だが endpoint が /api/admin/tags。
+    //   assign（member tags への POST）と区別し、create POST は generic stub を返す（B-T* 非対象）。
+    const isMemberTagsPost = method === "POST" && endpoint !== "/api/admin/tags";
+    if (isMemberTagsPost || method === "DELETE") {
+      const slot = mut[method as "POST" | "DELETE"];
       slot.options = options;
       return { trigger: slot.trigger, isLoading: false, error: null, reset: vi.fn(), abort: vi.fn() };
     }

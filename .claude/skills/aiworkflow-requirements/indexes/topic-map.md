@@ -2181,6 +2181,12 @@ node scripts/list-specs.js --topics
 | Follow-up | L52 |
 | Lessons Learned | L56 |
 
+### references/workflow-admin-meetings-attendance-404-fix-and-ux-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Notes | L13 |
+
 ### references/workflow-admin-meetings-prototype-alignment-artifact-inventory.md
 
 | セクション | 行 |
@@ -2196,6 +2202,17 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | Boundary | L16 |
+
+### references/workflow-admin-member-detail-status-404-fix-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Metadata | L3 |
+| Implementation Targets | L12 |
+| Workflow Artifacts | L23 |
+| Evidence | L33 |
+| User-Gated | L42 |
+| Lessons Learned | L46 |
 
 ### references/workflow-admin-requests-prototype-alignment-and-404-fix-artifact-inventory.md
 
@@ -2717,6 +2734,48 @@ node scripts/list-specs.js --topics
 | Acceptance Evidence | L11 |
 | Phase 12 Artifacts | L21 |
 | Deferred / Blocked | L32 |
+
+### references/workflow-issue-1063-shell-collapse-cookie-secure-attribute-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Workflow Artifacts | L3 |
+| Implementation Artifacts | L13 |
+| System Boundary | L20 |
+| Lessons Learned | L30 |
+
+### references/workflow-issue-1068-admin-tag-inline-create-ui-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Metadata | L3 |
+| Workflow artifacts | L17 |
+| Implemented files (apps/web only) | L31 |
+| Boundaries | L43 |
+| Lessons Learned | L49 |
+
+### references/workflow-issue-1069-tag-code-rename-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Summary | L3 |
+| Workflow Artifacts | L9 |
+| Implementation Targets | L18 |
+| Test Targets | L25 |
+| Evidence | L32 |
+| Contract | L39 |
+| Follow-ups | L48 |
+
+### references/workflow-issue-1076-member-og-design-token-alignment-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Metadata | L3 |
+| Implementation | L12 |
+| Workflow Artifacts | L21 |
+| Evidence | L30 |
+| Boundary | L38 |
+| Lessons Learned | L44 |
 
 ### references/workflow-issue-191-schema-aliases-artifact-inventory.md
 
@@ -6309,6 +6368,30 @@ node scripts/list-specs.js --topics
 | L-I106-003: `audit_log` と `admin_member_notes` を同一 DTO として扱わない | L15 |
 | L-I106-004: 候補コマンドは実 repo scripts から再解決する | L21 |
 
+### references/lessons-learned-issue-1063-shell-collapse-cookie-secure-attribute-2026-06.md
+
+| セクション | 行 |
+|------------|----|
+| L-I1063-001: CLOSED issue の再スコープは reopen せず frontmatter で表明する | L6 |
+| L-I1063-002: runtime 依存の純粋関数は optional 引数の既定値に runtime 判定を置く | L10 |
+| L-I1063-003: CLOSED issue の「現存するか」は全ローカルブランチ grep で機械判定する | L14 |
+| L-I1063-004: `Secure` / `HttpOnly` は read 値に現れないので serializer 文字列を検証する | L18 |
+| メタ補足: 監査 SubAgent の read-only 逸脱 | L22 |
+
+### references/lessons-learned-issue-1068-admin-tag-inline-create-ui-2026-06.md
+
+| セクション | 行 |
+|------------|----|
+| L-I1068-001: API error の「分類」は transport クラスから独立した純関数に置く | L12 |
+| L-I1068-002: 多段 write の「部分成功」は段ごとの state で保持し、retry は失敗段だけを再実行する | L19 |
+| L-I1068-003: 409 conflict 回収は「ローカルキャッシュ探索」でなく権威ソース再取得を基準にする | L26 |
+| L-I1068-004: server が field 粒度を返さない制約下では client validation をミラーし、400 は粒度を詐称しない包括フォールバックにする | L33 |
+| L-I1068-005: 共有 mutation mock は method だけでなく endpoint まで見て slot を分岐する | L40 |
+| L-I1068-006: hook mock の失敗注入は promise の settle と callback 呼び出しの双方を実装と同じ順序で再現する | L47 |
+| L-I1068-007: 認証必須 visual は env-gate + skip で同梱し、レイアウト不変は構造で担保、screenshot は user-gated に切り出す | L54 |
+| L-I1068-008: apps/web の Vitest 正経路はリポジトリルート config（`apps/web/vitest.config.ts` は不在） | L61 |
+| 横断教訓 | L70 |
+
 ### references/lessons-learned-issue-191-schema-aliases-2026-04.md
 
 | セクション | 行 |
@@ -8614,15 +8697,16 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L3628 |
-| フェーズ構造（概要） | L3637 |
-| 品質ゲート（概要） | L3668 |
-| 出力テンプレート | L3679 |
-| 実行時のコマンド・エージェント・スキル | L3702 |
-| 昇格パターン集 | L3726 |
-| Current Active / Spec Created Tasks | L3728 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L3894 |
-| issue-998-members-publish-state-production-rollout | L3972 |
+| ドキュメント構成 | L3700 |
+| フェーズ構造（概要） | L3709 |
+| 品質ゲート（概要） | L3740 |
+| 出力テンプレート | L3751 |
+| 実行時のコマンド・エージェント・スキル | L3774 |
+| 昇格パターン集 | L3798 |
+| Current Active / Spec Created Tasks | L3800 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L3966 |
+| issue-998-members-publish-state-production-rollout | L4044 |
+| issue-1068-admin-tag-inline-create-ui | L4091 |
 
 ### references/task-workflow-backlog-part2.md
 
@@ -8944,12 +9028,12 @@ node scripts/list-specs.js --topics
 | 1. ARIA属性テスト | L17 |
 | 2. キーボードナビゲーション | L105 |
 | 3. スクリーンリーダー互換性 | L169 |
-| 4. 色とコントラスト | L214 |
-| 5. 検証チェックリスト | L244 |
-| 6. 自動テストツール | L270 |
-| 7. WCAG 2.1 AAチェックリスト | L306 |
-| 参照 | L333 |
-| 変更履歴 | L341 |
+| 4. 色とコントラスト | L235 |
+| 5. 検証チェックリスト | L265 |
+| 6. 自動テストツール | L291 |
+| 7. WCAG 2.1 AAチェックリスト | L327 |
+| 参照 | L354 |
+| 変更履歴 | L362 |
 
 ### references/testing-component-patterns-advanced.md
 

@@ -8,8 +8,10 @@ import { getAuth } from "../../../../src/lib/auth";
 import { getAuthEnv, getEnvironment, getTransportRuntimeIsTest } from "../../../../src/lib/env";
 import { fetchViaApiTransport, resolveApiFetch } from "../../../../src/lib/fetch/transport";
 
-const internalSecret = (): string => getAuthEnv().INTERNAL_AUTH_SECRET ?? "";
-const syncAdminToken = (): string | undefined => getAuthEnv().SYNC_ADMIN_TOKEN;
+type AuthEnv = ReturnType<typeof getAuthEnv>;
+
+const internalSecret = (env: AuthEnv): string => env.INTERNAL_AUTH_SECRET ?? "";
+const syncAdminToken = (env: AuthEnv): string | undefined => env.SYNC_ADMIN_TOKEN;
 
 function needsSyncAdminBearer(path: readonly string[]): boolean {
   if (path[0] !== "sync") return false;
@@ -39,12 +41,12 @@ async function proxy(req: NextRequest, ctx: { params: Promise<{ path: string[] }
   if (denied) return denied;
 
   const { path } = await ctx.params;
-  const authEnv = getAuthEnv();
+  const env = getAuthEnv();
   let transport: ReturnType<typeof resolveApiFetch>;
   try {
     transport = resolveApiFetch({
-      API_SERVICE: authEnv.API_SERVICE,
-      baseUrl: authEnv.INTERNAL_API_BASE_URL,
+      API_SERVICE: env.API_SERVICE,
+      baseUrl: env.INTERNAL_API_BASE_URL,
       environment: getEnvironment(),
       isTest: getTransportRuntimeIsTest(),
     });
@@ -62,13 +64,13 @@ async function proxy(req: NextRequest, ctx: { params: Promise<{ path: string[] }
   const targetPath = `/admin/${path.join("/")}${url.search}`;
 
   const headers: Record<string, string> = {
-    "x-internal-auth": internalSecret(),
+    "x-internal-auth": internalSecret(env),
   };
   const cookie = req.headers.get("cookie");
   if (cookie) headers.cookie = cookie;
   const authorization = req.headers.get("authorization");
   if (needsSyncAdminBearer(path)) {
-    const token = syncAdminToken();
+    const token = syncAdminToken(env);
     if (!token) {
       return new Response(
         JSON.stringify({
