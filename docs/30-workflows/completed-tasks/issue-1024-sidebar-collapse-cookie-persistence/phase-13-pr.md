@@ -27,8 +27,8 @@ Refs #1024（CLOSED のまま現行コードへ再スコープ。reopen しな�
 
 ### 新規
 - `apps/web/src/components/shell/shell-collapse-cookie.ts`
-  cookie 名定数 `SHELL_COLLAPSE_COOKIE`（`ubm_shell_collapsed`）+ 純粋 parser
-  `readCollapsedFromCookieString` + client `readCollapsedFromDocument` / `writeCollapsedCookie`
+  cookie 名定数 `SHELL_COLLAPSE_COOKIE_NAME`（`ubm_shell_collapsed`）+ 純粋 parser
+  `parseShellCollapsedCookie` + client `readCollapsedFromDocument` / `writeShellCollapsedCookie`
   （`@/lib/is-browser` の `browserDocument()` 経由）。
 - `apps/web/src/components/shell/__tests__/shell-collapse-cookie.spec.ts`
   parser / reader / writer の focused test（全 export line/branch 100% 目標）。
@@ -39,7 +39,7 @@ Refs #1024（CLOSED のまま現行コードへ再スコープ。reopen しな�
   `useSidebarState(initialCollapsed: boolean | null = null)` へ引数追加。
   `useState(initialCollapsed === true ? "collapsed" : "expanded")` で SSR seed。
   mount effect は seed !== null で早期 return、null 時のみ md viewport heuristic 維持。
-  toggle 時に `writeCollapsedCookie` を呼ぶ。戻り値 shape は不変。
+  toggle 時に `writeShellCollapsedCookie` を呼ぶ。戻り値 shape は不変。
 - `apps/web/src/components/shell/SidebarShell.tsx`
   `initialCollapsed?: boolean | null` prop を追加し hook へ伝播。
 - `apps/web/src/components/shell/SidebarShell.server.tsx`

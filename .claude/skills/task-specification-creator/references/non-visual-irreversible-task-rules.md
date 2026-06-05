@@ -12,6 +12,26 @@ retention purge / production destructive D1 mutation / 物理削除 cron 等、
 
 実例: issue-402 admin request retention 物理削除（`RETENTION_DAYS=180` 以降の `expired` レコードを cron で物理削除）
 
+### 物理削除 endpoint の 2-stage 実装境界（2026-06-03 / issue-1070 由来）
+
+物理削除 endpoint / hard-delete route を追加するタスクでは、不可逆性を理由に **endpoint コード全体を未実装のまま user-gated にしない**。
+次のように local 実装可能部分と production mutation を分離する。
+
+| 区分 | 同一サイクルで実施 | user-gated |
+| --- | --- | --- |
+| endpoint / repository / service code | yes | no |
+| 参照整合ガード / audit / error contract | yes | no |
+| focused D1 / contract tests / typecheck / lint | yes | no |
+| system spec / runbook / artifacts metadata sync | yes | no |
+| production の実データ物理削除 / destructive apply | no | yes |
+
+`member_tags` のように対象テーブルへ DB-level `FOREIGN KEY` が無い参照元を持つ場合、Phase 2/3 で次を必ず明記する。
+
+- `ON DELETE` / DB 制約に依存しない。application-level `COUNT(*)` / existence check を削除前の唯一の防壁として実装する。
+- 参照件数 `> 0` は 409 系 error（例: `tag_has_references`）で拒否し、row を削除しない。
+- 強制移行 / 付け替え / cascade 相当の仕様は、移行先・audit・rollback 方針の合意が無い限り本 endpoint の暗黙挙動にしない。
+- production で実際に物理削除する手順は runbook + `user_approval_marker` + pre-delete backup / read-only verification を要求する。
+
 ---
 
 ## 0. Governance mutation user 明示承認 gate（2026-05-09 stage-3-impl 由来 / 必須）

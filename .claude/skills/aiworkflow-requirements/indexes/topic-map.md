@@ -2181,6 +2181,12 @@ node scripts/list-specs.js --topics
 | Follow-up | L52 |
 | Lessons Learned | L56 |
 
+### references/workflow-admin-meetings-attendance-404-fix-and-ux-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Notes | L13 |
+
 ### references/workflow-admin-meetings-prototype-alignment-artifact-inventory.md
 
 | セクション | 行 |
@@ -2728,6 +2734,72 @@ node scripts/list-specs.js --topics
 | Acceptance Evidence | L11 |
 | Phase 12 Artifacts | L21 |
 | Deferred / Blocked | L32 |
+
+### references/workflow-issue-1063-shell-collapse-cookie-secure-attribute-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Workflow Artifacts | L3 |
+| Implementation Artifacts | L13 |
+| System Boundary | L20 |
+| Lessons Learned | L30 |
+
+### references/workflow-issue-1068-admin-tag-inline-create-ui-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Metadata | L3 |
+| Workflow artifacts | L17 |
+| Implemented files (apps/web only) | L31 |
+| Boundaries | L43 |
+| Lessons Learned | L49 |
+
+### references/workflow-issue-1069-tag-code-rename-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Summary | L3 |
+| Workflow Artifacts | L9 |
+| Implementation Targets | L18 |
+| Test Targets | L25 |
+| Evidence | L32 |
+| Contract | L39 |
+| Follow-ups | L48 |
+
+### references/workflow-issue-1070-tag-reactivate-physical-delete-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Summary | L3 |
+| Implementation | L14 |
+| Evidence | L22 |
+| User-Gated | L32 |
+| Lessons Learned | L36 |
+
+### references/workflow-issue-1076-member-og-design-token-alignment-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Metadata | L3 |
+| Implementation | L12 |
+| Workflow Artifacts | L21 |
+| Evidence | L30 |
+| Boundary | L38 |
+| Lessons Learned | L44 |
+
+### references/workflow-issue-1077-bulk-tag-authenticated-staging-visual-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Summary | L5 |
+| Canonical workflow | L11 |
+| Implementation targets | L23 |
+| Current code anchors | L29 |
+| Gates | L39 |
+| Runtime visual evidence | L47 |
+| Source unassigned trace | L56 |
+| Lessons Learned | L62 |
+| User-gated actions | L72 |
 
 ### references/workflow-issue-1088-manual-form-resync-sync-duration-display-artifact-inventory.md
 
@@ -6320,6 +6392,42 @@ node scripts/list-specs.js --topics
 | L-I106-003: `audit_log` と `admin_member_notes` を同一 DTO として扱わない | L15 |
 | L-I106-004: 候補コマンドは実 repo scripts から再解決する | L21 |
 
+### references/lessons-learned-issue-1063-shell-collapse-cookie-secure-attribute-2026-06.md
+
+| セクション | 行 |
+|------------|----|
+| L-I1063-001: CLOSED issue の再スコープは reopen せず frontmatter で表明する | L6 |
+| L-I1063-002: runtime 依存の純粋関数は optional 引数の既定値に runtime 判定を置く | L10 |
+| L-I1063-003: CLOSED issue の「現存するか」は全ローカルブランチ grep で機械判定する | L14 |
+| L-I1063-004: `Secure` / `HttpOnly` は read 値に現れないので serializer 文字列を検証する | L18 |
+| メタ補足: 監査 SubAgent の read-only 逸脱 | L22 |
+
+### references/lessons-learned-issue-1068-admin-tag-inline-create-ui-2026-06.md
+
+| セクション | 行 |
+|------------|----|
+| L-I1068-001: API error の「分類」は transport クラスから独立した純関数に置く | L12 |
+| L-I1068-002: 多段 write の「部分成功」は段ごとの state で保持し、retry は失敗段だけを再実行する | L19 |
+| L-I1068-003: 409 conflict 回収は「ローカルキャッシュ探索」でなく権威ソース再取得を基準にする | L26 |
+| L-I1068-004: server が field 粒度を返さない制約下では client validation をミラーし、400 は粒度を詐称しない包括フォールバックにする | L33 |
+| L-I1068-005: 共有 mutation mock は method だけでなく endpoint まで見て slot を分岐する | L40 |
+| L-I1068-006: hook mock の失敗注入は promise の settle と callback 呼び出しの双方を実装と同じ順序で再現する | L47 |
+| L-I1068-007: 認証必須 visual は env-gate + skip で同梱し、レイアウト不変は構造で担保、screenshot は user-gated に切り出す | L54 |
+| L-I1068-008: apps/web の Vitest 正経路はリポジトリルート config（`apps/web/vitest.config.ts` は不在） | L61 |
+| 横断教訓 | L70 |
+
+### references/lessons-learned-issue-1070-tag-reactivate-physical-delete-2026-06.md
+
+| セクション | 行 |
+|------------|----|
+| L-I1070-001 DB-FK 不在テーブルへの physical delete は application-level COUNT(*) ガードが唯一の参照防壁 | L5 |
+| L-I1070-002 不可逆 physical delete は「endpoint 実装」と「production mutation」を 2-stage で分離する | L11 |
+| L-I1070-003 lifecycle write は「対称形ペア」で設計すると実現性が上がる | L17 |
+| L-I1070-004 prefix を共有する新 route は静的セグメント優先解決を既存 regression で固定する | L23 |
+| L-I1070-005 physical delete の audit before は「削除前 snapshot」を repository から返す | L29 |
+| L-I1070-006 lessons は references/ 直下に置く（generate-index.js は lessons-learned/ サブdir を scan しない） | L35 |
+| 関連パターン | L41 |
+
 ### references/lessons-learned-issue-191-schema-aliases-2026-04.md
 
 | セクション | 行 |
@@ -8625,15 +8733,17 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L3654 |
-| フェーズ構造（概要） | L3663 |
-| 品質ゲート（概要） | L3694 |
-| 出力テンプレート | L3705 |
-| 実行時のコマンド・エージェント・スキル | L3728 |
-| 昇格パターン集 | L3752 |
-| Current Active / Spec Created Tasks | L3754 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L3920 |
-| issue-998-members-publish-state-production-rollout | L3998 |
+| ドキュメント構成 | L3730 |
+| フェーズ構造（概要） | L3739 |
+| 品質ゲート（概要） | L3770 |
+| 出力テンプレート | L3781 |
+| 実行時のコマンド・エージェント・スキル | L3804 |
+| 昇格パターン集 | L3828 |
+| Current Active / Spec Created Tasks | L3830 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L3996 |
+| issue-1077-bulk-tag-authenticated-staging-visual（implemented_local_runtime_pending / implementation / VISUAL_ON_EXECUTION / 2026-06-03） | L4064 |
+| issue-998-members-publish-state-production-rollout | L4089 |
+| issue-1068-admin-tag-inline-create-ui | L4136 |
 
 ### references/task-workflow-backlog-part2.md
 
@@ -8955,12 +9065,12 @@ node scripts/list-specs.js --topics
 | 1. ARIA属性テスト | L17 |
 | 2. キーボードナビゲーション | L105 |
 | 3. スクリーンリーダー互換性 | L169 |
-| 4. 色とコントラスト | L214 |
-| 5. 検証チェックリスト | L244 |
-| 6. 自動テストツール | L270 |
-| 7. WCAG 2.1 AAチェックリスト | L306 |
-| 参照 | L333 |
-| 変更履歴 | L341 |
+| 4. 色とコントラスト | L235 |
+| 5. 検証チェックリスト | L265 |
+| 6. 自動テストツール | L291 |
+| 7. WCAG 2.1 AAチェックリスト | L327 |
+| 参照 | L354 |
+| 変更履歴 | L362 |
 
 ### references/testing-component-patterns-advanced.md
 

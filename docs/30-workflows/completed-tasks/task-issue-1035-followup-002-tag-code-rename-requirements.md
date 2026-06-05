@@ -10,7 +10,7 @@ category: 要件
 target_feature: tag master code rename
 priority: 低
 scale: 中規模
-status: 未実施
+status: consumed_by_issue_1069
 source_phase: issue-1035 Phase 12 unassigned-task-detection U-2
 created_date: 2026-06-01
 dependencies: [issue-1035-tag-master-write-endpoints]
@@ -24,13 +24,15 @@ dependencies: [issue-1035-tag-master-write-endpoints]
 | 対象機能 | tag master code rename |
 | 優先度 | 低 |
 | 見積もり規模 | 中規模 |
-| ステータス | 未実施 |
+| ステータス | consumed_by_issue_1069 |
 | 発見元 | `docs/30-workflows/completed-tasks/issue-1035-tag-master-write-endpoints/outputs/phase-12/unassigned-task-detection.md` U-2 |
 | 関連 Issue | #1035 |
 
 ---
 
 ## 1. なぜこのタスクが必要か
+
+> **Consumed:** このタスクは `docs/30-workflows/completed-tasks/issue-1069-tag-code-rename/` で formalize され、local implementation / focused evidence / system spec sync まで完了した。今後の参照は Issue #1069 workflow を正本とする。
 
 Issue #1035 では tag `code` を immutable として確定し、PATCH は `label` / `category` のみを更新する設計にした。これは member_tags 参照整合、seed/UI drift、409 churn を避けるための現在の正本仕様である。
 
@@ -67,7 +69,7 @@ tag `code` rename の可否と方式を決め、必要なら admin API と repos
 - 症状: 不変条件 #13 は tag master write 第3経路を正本化している。rename を小さな PATCH 拡張として扱うと、正本仕様と実装が drift しやすい。
 - 参照: `docs/30-workflows/completed-tasks/issue-1035-tag-master-write-endpoints/artifacts.json` の `issue_optimization_note`
 
-## リスクと対策
+## リスクと対策【記入必須】
 
 | リスク | 影響 | 対策 |
 | --- | --- | --- |
@@ -76,7 +78,7 @@ tag `code` rename の可否と方式を決め、必要なら admin API と repos
 | 監査ログに old code が残らず追跡不能になる | 中 | `admin.tag.code_renamed` など専用 action を設け、before/after に old/new code を含める |
 | 実運用 need が弱いのに機能を増やす | 中 | Phase 2 ADR で禁止継続を第一候補とし、具体 need がない場合は runbook のみで閉じる |
 
-## 検証方法
+## 検証方法【記入必須】
 
 ### 単体検証
 
@@ -100,7 +102,7 @@ mise exec -- pnpm lint
 
 staging D1 mutation が必要な場合は user approval 後に実行する。事前 Phase では local D1 focused tests と read-only grep evidence に限定する。
 
-## スコープ
+## スコープ【記入必須】
 
 ### 含む
 
@@ -112,7 +114,7 @@ staging D1 mutation が必要な場合は user approval 後に実行する。事
 ### 含まない
 
 - member drawer inline-create UI（別タスク `task-issue-1035-followup-001-admin-tag-inline-create-ui.md`）
-- tag 物理削除 / reactivate（別タスク `task-issue-1035-followup-003-tag-reactivate-physical-delete.md`）
+- tag 物理削除 / reactivate（別タスク `../completed-tasks/task-issue-1035-followup-003-tag-reactivate-physical-delete.md`）
 - production D1 apply、commit、push、PR 作成
 
 ## 参照

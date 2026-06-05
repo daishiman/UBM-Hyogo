@@ -1,0 +1,30 @@
+{
+  "taskId": "issue-1076-member-og-design-token-alignment",
+  "mode": "VISUAL_ON_EXECUTION",
+  "workflow_state": "implemented_local_evidence_captured",
+  "capturedAt": null,
+  "captures": [
+    {
+      "tc": "TC-OG-01",
+      "file": "screenshots/og-default-token-aligned.png",
+      "status": "pending",
+      "component": "renderDefaultOg",
+      "runtime": "cloudflare-workers (workers-og Satori)"
+    },
+    {
+      "tc": "TC-OG-02",
+      "file": "screenshots/og-member-with-tagline.png",
+      "status": "pending",
+      "component": "renderMemberOg",
+      "runtime": "cloudflare-workers (workers-og Satori)"
+    },
+    {
+      "tc": "TC-OG-03",
+      "file": "screenshots/og-member-fallback-tagline.png",
+      "status": "pending",
+      "component": "renderMemberOg (tagLine fallback)",
+      "runtime": "cloudflare-workers (workers-og Satori)"
+    }
+  ],
+  "note": "implemented_local_evidence_captured のため screenshot は未取得。実 OG 画像はstaging runtime cycleで wrangler dev / staging apps/og から取得する (Phase 13 user-gated)。"
+}

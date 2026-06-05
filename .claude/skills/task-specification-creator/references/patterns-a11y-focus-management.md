@@ -182,6 +182,9 @@ Phase 11 evidence inventory に次を必ず含める。
 | 多重配置 component の description id を `desc-${value}` 固定文字列にする | 2 個目以降で id 衝突し `aria-describedby` が他 instance を指す参照崩れ | `useId()` 接頭辞で instance ごと namespace 化 |
 | disclosure を `useState(open)` で controlled 化 | summary native toggle / keyboard a11y を自前再実装する羽目になり複雑化 | 非制御 native `<details ref>`、close のみ `detailsRef.current.open=false` |
 | `document.addEventListener` を SSR guard 無しで張る | OpenNext Workers SSR で `document` 未定義 throw | `browserDocument()` で `null` 早期 return + unmount 解除 |
+| icon-only ボタンへ `sr-only` ラベルを足す際、既存 E2E が `getByText(短い語)` 非 exact で同領域を触っているか未確認 | sr-only テキストが検索語を部分文字列で含むと Playwright strict-mode で複数要素マッチし smoke が落ちる（jsdom unit では顕在化せず CI smoke でのみ発覚） | E2E ロケータを `{ exact: true }` か `getByRole`/`data-testid` で明示限定。a11y 追加は正しく、修正は E2E 側に入れる |
+
+> **sr-only ラベル × E2E `getByText` strict-mode（Phase 6 / Phase 11 チェック）**: a11y 改善で `sr-only` ラベルを追加するタスクは、Phase 6 test plan で「追加ラベルのテキストが既存 Playwright の `getByText(語)` 非 exact ロケータと部分一致しないか」を確認規定に含める。落とし穴の実例 = 2026-06-03 `docs/admin-meetings-attendance-404-and-ia-spec`（PR #1115）で見出しボタンへ `sr-only`「出席を記録・編集」を追加した結果 `getByText('編集')` が `<summary>編集</summary>` と 2 要素マッチし `playwright-smoke / smoke (chromium)` で strict-mode 違反 → `{ exact: true }` 1 行で解消。Playwright のエラーメッセージ自体が `aka getByText('編集', { exact: true })` を提示するので、strict-mode violation のログから正解ロケータを直読みできる。aiworkflow-requirements [[testing-accessibility]] §3「非表示要素」の落とし穴節が正本。
 
 ## 参照
 
