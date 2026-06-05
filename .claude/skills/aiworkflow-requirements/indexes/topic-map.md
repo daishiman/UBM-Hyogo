@@ -2776,6 +2776,17 @@ node scripts/list-specs.js --topics
 | User-Gated | L32 |
 | Lessons Learned | L36 |
 
+### references/workflow-issue-1076-member-og-design-token-alignment-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Metadata | L3 |
+| Implementation | L12 |
+| Workflow Artifacts | L21 |
+| Evidence | L30 |
+| Boundary | L38 |
+| Lessons Learned | L44 |
+
 ### references/workflow-issue-191-schema-aliases-artifact-inventory.md
 
 | セクション | 行 |
@@ -8700,16 +8711,16 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L3701 |
-| フェーズ構造（概要） | L3710 |
-| 品質ゲート（概要） | L3741 |
-| 出力テンプレート | L3752 |
-| 実行時のコマンド・エージェント・スキル | L3775 |
-| 昇格パターン集 | L3799 |
-| Current Active / Spec Created Tasks | L3801 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L3967 |
-| issue-998-members-publish-state-production-rollout | L4045 |
-| issue-1068-admin-tag-inline-create-ui | L4092 |
+| ドキュメント構成 | L3716 |
+| フェーズ構造（概要） | L3725 |
+| 品質ゲート（概要） | L3756 |
+| 出力テンプレート | L3767 |
+| 実行時のコマンド・エージェント・スキル | L3790 |
+| 昇格パターン集 | L3814 |
+| Current Active / Spec Created Tasks | L3816 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L3982 |
+| issue-998-members-publish-state-production-rollout | L4060 |
+| issue-1068-admin-tag-inline-create-ui | L4107 |
 
 ### references/task-workflow-backlog-part2.md
 
