@@ -950,3 +950,12 @@
   2. **background task で回した resolver / typecheck / lint の成否は出力ファイルでなく task 完了通知 exit 0 が正本**: 前景 `sleep` wrapper の SIGTERM(143)・出力ファイル空は本体成否と無関係。①task 完了通知 exit 0、②resolver は末尾 `all skill / index conflicts resolved`、③`git diff --diff-filter=U` 0 で確定（SP-DEVSYNC-088-3 再現）。出力空に見えたら同期再実行で exit 0 を再確認する。
 - 検証: `git merge dev --no-edit` CONFLICT 3 → `pnpm sync:resolve` exit 0（`union-resolving 2 files` + `--ours`(keywords)）→ `git diff --diff-filter=U` 0 → merge commit `b43d4fed6`（pre-commit hook 全 pass）→ install なしで `pnpm typecheck` = 0 / `pnpm lint` = 0。CI コード修正なしで全緑。
 - 参照: aiworkflow-requirements [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-098（本 lesson の正本）, L-DEVSYNC-096（union 2 初観測）, SP-DEVSYNC-089（同一ブランチ前回・union 4）, SP-DEVSYNC-088（別ブランチ union 2 の対）。
+
+## SP-DEVSYNC-091: 同一ブランチ 3 連続 sync-merge で union コアが 4→2→4 と交替 — member は dev デルタ依存・前回予断禁止
+
+- 事象: `feat/issue-1077-bulk-tag-authenticated-staging-visual` の 3 回目 sync-merge。ローカル dev = origin/dev 一致（`c8919cd75`・独自コミット 0・ff 不要）、feature は 1 behind / 6 ahead。取込 1 コミット（#1132 member OG design token 整合・apps/og）は本 feature と没交渉。`git merge dev --no-edit` の content conflict は 5 file＝`aiworkflow-requirements/SKILL.md` + `indexes/{keywords.json, quick-reference.md, resource-map.md, topic-map.md}`。残り（task-workflow-active / lessons-learned/* / SKILL-changelog / LOGS）は全 Auto-merging。`pnpm sync:resolve` は **`union-resolving 4 files`**（SKILL.md + map 3）+ **`taking --ours`（keywords.json）** + rebuild で exit 0、`git diff --diff-filter=U` 0 で手動解消なし収束。
+- How to apply（仕様書 sync-merge 節での逐語化）:
+  1. **同一ブランチでも union コアは毎回変動 — 4→2→4 の交替を実測**: 本ブランチ 3 連続が union 4（SP-DEVSYNC-089）→ 2（SP-DEVSYNC-090）→ 4（本件）と交替。feature 編集集合が不変でも各 dev コミットが触る index file が変われば union member も変わる。「同一ブランチだから前回と同じ」と予断せず、毎回 resolver の `union-resolving N files` 実数で確認する。
+  2. **前回追記した lesson file は次回 sync の衝突源にならない**: 前 2 回で本 lesson file に追記したが本回は Auto-merging。`.gitattributes merge=union` 登録対象（lessons-learned/*）は連続追記しても自動結合され、ナレッジ追記が次回の手解消コストを増やさない。
+- 検証: `git merge dev --no-edit` CONFLICT 5 → `pnpm sync:resolve` exit 0（`union-resolving 4 files` + `--ours`(keywords)）→ `git diff --diff-filter=U` 0 → merge commit `e3cd7a371`（pre-commit hook 全 pass）→ install なしで `pnpm typecheck` = 0 / `pnpm lint` = 0。CI コード修正なしで全緑。
+- 参照: aiworkflow-requirements [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-099（本 lesson の正本）, SP-DEVSYNC-089（1 回目 union 4）, SP-DEVSYNC-090（2 回目 union 2）。
