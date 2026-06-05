@@ -4047,6 +4047,21 @@ docs-only / direction-reconciliation で採用方針 A を維持する場合で�
 | admin-requests-prototype-alignment-and-404-fix | implemented_local_evidence_captured / implementation / VISUAL / staging runtime pending_user_approval | `docs/30-workflows/completed-tasks/admin-requests-prototype-alignment-and-404-fix/` | Local implementation for `/admin/requests` staging `ADMIN_FETCH_404` recovery guard and admin prototype primitive alignment. Added API mount/list regression coverage, page/panel/detail/dialog primitive alignment, CSS prototype class support, and local authenticated Playwright screenshot evidence. Existing `GET /admin/requests` and `POST /admin/requests/:noteId/resolve` contracts remain canonical; no new endpoint, D1 schema, token, or primitive. Staging deploy, staging curl 200, staging visual baseline, commit, push, and PR are user-gated. Inventory: `references/workflow-admin-requests-prototype-alignment-and-404-fix-artifact-inventory.md`. |
 | admin-schema-page-prototype-alignment-and-diff-fetch-fix | implemented_local_evidence_captured / implementation / VISUAL / runtime_visual_pending | `docs/30-workflows/completed-tasks/admin-schema-page-prototype-alignment-and-diff-fetch-fix/` | `/admin/schema` prototype alignment + observed `/admin/schema/diff` 404 regression guard. Local implementation updates page.tsx, SchemaDiffPanel `hideInlineStats`, sidebar label「スキーマ」, Playwright-only schema diff fixture fallback, schema card CSS, page/panel/sidebar/Playwright specs, and 09g screen blueprint. Web Vitest PASS: 158 files / 1147 tests / 1 skipped. Local Playwright schema visual PASS: 7 tests + Phase 11 screenshots. Staging deploy refresh, authenticated staging screenshots, commit, push, PR are user-gated. |
 
+## issue-1077-bulk-tag-authenticated-staging-visual（implemented_local_runtime_pending / implementation / VISUAL_ON_EXECUTION / 2026-06-03）
+
+| 項目 | 内容 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-1077-bulk-tag-authenticated-staging-visual/` |
+| status | `implemented_local_runtime_pending / implementation / VISUAL_ON_EXECUTION` |
+| issue | `#1077`（CLOSED 維持。Issue mutation / reopen は user-gated かつ本 wave では実行しない） |
+| parent | `docs/30-workflows/completed-tasks/issue-1036-bulk-member-tag-assign/`（bulk member tag assign 本体は PR #1085 / commit `ca3fb9336` で landed 済み） |
+| purpose | landed 済み bulk tag UI について、認証付き staging `/admin/members` 実機で BulkActionBar tag picker の assign / unassign visual baseline を取得する後続実行仕様 |
+| implementation target | `apps/web/playwright/tests/visual-staging-authenticated/admin-members-bulk-tag-authenticated.spec.ts`（新規 Playwright spec 1 file。既存 `staging-visual-authenticated` project を再利用し config 編集不要） |
+| evidence boundary | Phase 1-13 task spec、Phase 12 strict 7、新規 Playwright spec、local verification は present。Phase 11 runtime staging capture / baseline snapshot generation / commit / push / PR は user-gated |
+| invariant | read-only capture only。bulk apply mutation は押さない。apps/api / D1 schema / Google Form 仕様は変更しない |
+| artifact inventory | `references/workflow-issue-1077-bulk-tag-authenticated-staging-visual-artifact-inventory.md` |
+| source unassigned | `docs/30-workflows/unassigned-task/task-issue-1036-followup-001-staging-authenticated-bulk-tag-visual-baseline.md` は picker 2 状態を本 workflow で partially consumed。result 2 状態は mutation 副作用ありのため source 側に pending |
+
 # members-list-ux-clarity（implemented_local_runtime_pending / implementation / VISUAL / 2026-05-28）
 
 | item | value |
