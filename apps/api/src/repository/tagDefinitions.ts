@@ -47,8 +47,10 @@ export async function findByCode(c: DbCtx, code: string): Promise<TagDefinitionR
 
 // 不変条件 #13（2026-06 再々定義 / issue-1035）:
 // tag master (tag_definitions) の write は管理者 tag master CRUD 経路に限定する。
-// create/update/deactivate は /admin/tags から audit 付きで呼び、code は immutable、
+// create/update/deactivate/reactivate/physical delete は /admin/tags から audit 付きで呼ぶ。
+// code rename は optimistic CAS + dedicated audit action 付きでのみ許可する。
 // 論理削除は active=0 とし、member_tags の既存 row は保持する。
+// 物理削除は member_tags 参照が 0 件の tag_definitions row にだけ許可する。
 
 export interface CreateTagDefinitionInput {
   code: string;
@@ -57,13 +59,22 @@ export interface CreateTagDefinitionInput {
 }
 
 export interface UpdateTagDefinitionInput {
+  code?: string;
   label?: string;
   category?: string;
+  expectedCode?: string;
 }
 
 export type CreateTagDefinitionResult =
   | { ok: true; row: TagDefinitionRow }
   | { ok: false; reason: "code_conflict" };
+
+export type UpdateTagDefinitionResult =
+  | { ok: true; row: TagDefinitionRow }
+  | { ok: false; reason: "not_found" }
+  | { ok: false; reason: "code_conflict" }
+  | { ok: false; reason: "missing_expected_code" }
+  | { ok: false; reason: "stale" };
 
 export interface PagedTagDefinitions {
   total: number;
@@ -111,12 +122,22 @@ export async function updateTagDefinition(
   c: DbCtx,
   tagId: string,
   input: UpdateTagDefinitionInput,
-): Promise<TagDefinitionRow | null> {
+): Promise<UpdateTagDefinitionResult> {
   const current = await getTagDefinitionByIdRaw(c, tagId);
-  if (!current) return null;
+  if (!current) return { ok: false, reason: "not_found" };
+  if (input.code !== undefined && input.expectedCode === undefined) {
+    return { ok: false, reason: "missing_expected_code" };
+  }
+  if (input.expectedCode !== undefined && input.expectedCode !== current.code) {
+    return { ok: false, reason: "stale" };
+  }
 
   const sets: string[] = [];
   const values: Array<string> = [];
+  if (input.code !== undefined) {
+    values.push(input.code);
+    sets.push(`code = ?${values.length}`);
+  }
   if (input.label !== undefined) {
     values.push(input.label);
     sets.push(`label = ?${values.length}`);
@@ -126,14 +147,30 @@ export async function updateTagDefinition(
     sets.push(`category = ?${values.length}`);
   }
 
-  if (sets.length === 0) return current;
+  if (sets.length === 0) return { ok: true, row: current };
 
   values.push(tagId);
-  await c.db
-    .prepare(`UPDATE tag_definitions SET ${sets.join(", ")} WHERE tag_id = ?${values.length}`)
-    .bind(...values)
-    .run();
-  return getTagDefinitionByIdRaw(c, tagId);
+  const where = ["tag_id = ?" + values.length];
+  if (input.code !== undefined) {
+    values.push(input.expectedCode as string);
+    where.push("code = ?" + values.length);
+  }
+  try {
+    const result = await c.db
+      .prepare(`UPDATE tag_definitions SET ${sets.join(", ")} WHERE ${where.join(" AND ")}`)
+      .bind(...values)
+      .run();
+    if (input.code !== undefined && (result.meta.changes ?? 0) === 0) {
+      const latest = await getTagDefinitionByIdRaw(c, tagId);
+      return latest ? { ok: false, reason: "stale" } : { ok: false, reason: "not_found" };
+    }
+  } catch (err) {
+    if (isUniqueError(err)) return { ok: false, reason: "code_conflict" };
+    throw err;
+  }
+  const row = await getTagDefinitionByIdRaw(c, tagId);
+  if (!row) throw new Error("updated tag definition was not found");
+  return { ok: true, row };
 }
 
 export async function deactivateTagDefinition(
@@ -151,6 +188,52 @@ export async function deactivateTagDefinition(
   const row = await getTagDefinitionByIdRaw(c, tagId);
   if (!row) throw new Error("deactivated tag definition was not found");
   return { row, changed: (result.meta.changes ?? 0) > 0 };
+}
+
+export async function reactivateTagDefinition(
+  c: DbCtx,
+  tagId: string,
+): Promise<{ row: TagDefinitionRow; changed: boolean } | null> {
+  const current = await getTagDefinitionByIdRaw(c, tagId);
+  if (!current) return null;
+  if (current.active) return { row: current, changed: false };
+
+  const result = await c.db
+    .prepare("UPDATE tag_definitions SET active = 1 WHERE tag_id = ?1 AND active = 0")
+    .bind(tagId)
+    .run();
+  const row = await getTagDefinitionByIdRaw(c, tagId);
+  if (!row) throw new Error("reactivated tag definition was not found");
+  return { row, changed: (result.meta.changes ?? 0) > 0 };
+}
+
+export async function countMemberTagReferences(c: DbCtx, tagId: string): Promise<number> {
+  const row = await c.db
+    .prepare("SELECT COUNT(*) AS n FROM member_tags WHERE tag_id = ?1")
+    .bind(tagId)
+    .first<{ n: number }>();
+  return row?.n ?? 0;
+}
+
+export type PhysicalDeleteTagDefinitionResult =
+  | { ok: true; row: TagDefinitionRow }
+  | { ok: false; reason: "not_found" }
+  | { ok: false; reason: "has_references"; referenceCount: number };
+
+export async function physicalDeleteTagDefinition(
+  c: DbCtx,
+  tagId: string,
+): Promise<PhysicalDeleteTagDefinitionResult> {
+  const current = await getTagDefinitionByIdRaw(c, tagId);
+  if (!current) return { ok: false, reason: "not_found" };
+
+  const referenceCount = await countMemberTagReferences(c, tagId);
+  if (referenceCount > 0) {
+    return { ok: false, reason: "has_references", referenceCount };
+  }
+
+  await c.db.prepare("DELETE FROM tag_definitions WHERE tag_id = ?1").bind(tagId).run();
+  return { ok: true, row: current };
 }
 
 export async function listTagDefinitionsPaged(

@@ -1,0 +1,26 @@
+{
+  "taskId": "issue-1076-member-og-design-token-alignment",
+  "mode": "VISUAL_ON_EXECUTION",
+  "captureStage": "implementation-cycle",
+  "rationale": "OG 画像は Cloudflare Workers ランタイムの Satori でのみ実描画される。implemented_local_evidence_captured 段階では screenshot 未取得 (pending)。",
+  "screenshots": [
+    {
+      "name": "og-default-token-aligned",
+      "scenario": "default OG (member なし)",
+      "expected": "暖色 stone surface (#f5f4f1) + amber accent dot (#b08049) + 'UBM 兵庫支部会' title",
+      "status": "pending"
+    },
+    {
+      "name": "og-member-with-tagline",
+      "scenario": "member with occupation/zone/type",
+      "expected": "fullName title + tagLine subtitle (#57554e)",
+      "status": "pending"
+    },
+    {
+      "name": "og-member-fallback-tagline",
+      "scenario": "member with missing fields -> 'UBM Hyogo member' fallback",
+      "expected": "subtitle 非空 (fallback) で視認性維持",
+      "status": "pending"
+    }
+  ]
+}
