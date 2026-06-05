@@ -1,0 +1,197 @@
+{
+  "workflow_id": "issue-1069-tag-code-rename",
+  "feature": "issue-1069-tag-code-rename",
+  "parent_workflow": "issue-1035-tag-master-write-endpoints",
+  "status": "implemented_local_evidence_captured",
+  "created": "2026-06-03T00:00:00+09:00",
+  "lastUpdated": "2026-06-03T00:00:00+09:00",
+  "metadata": {
+    "taskId": "TASK-ISSUE-1069-TAG-CODE-RENAME",
+    "taskType": "implementation",
+    "visualEvidence": "NON_VISUAL",
+    "implementationCategory": "standard",
+    "implementationDomain": "admin-api-tag-master-code-rename",
+    "implementation_mode": "new",
+    "workflow_state": "implemented_local_evidence_captured",
+    "implementation_status": "implemented_local_evidence_captured",
+    "issue": "https://github.com/daishiman/UBM-Hyogo/issues/1069",
+    "issue_state": "CLOSED",
+    "scope": "Allow renaming a tag master (tag_definitions) `code` via the existing admin PATCH /admin/tags/:tagId endpoint in apps/api. Extend UpdateTagDefinitionInput with optional `code` (new code) and `expectedCode` (required when `code` is present; optimistic compare-and-swap), change updateTagDefinition to return a discriminated union so UNIQUE(code) conflicts surface as `code_conflict` and optimistic mismatches as `stale`, and missing CAS tokens as `missing_expected_code`. The route maps these to 409 tag_code_conflict and 409 tag_stale_conflict respectively, emits a dedicated audit action admin.tag.code_renamed with before {code} / after {code}, and keeps admin.tag.updated for label/category changes. member_tags references tag_id (PRIMARY KEY member_id,tag_id) so rename does NOT break referential integrity; a regression test proves it. auditLog.ts is NOT changed (AuditTargetType already has 'tag'; AuditAction is RepoBrand<string> with no enum). No D1 schema migration (optimistic concurrency uses expectedCode CAS with UPDATE WHERE tag_id AND code, no version column needed). No apps/web change (admin tag master CRUD UI page is not yet built; the code-edit UI wiring is formalized as a separate unassigned task). specs/01-api-schema.md invariant #13 is revised from 'code immutable' to 'code renameable with audit', which SUPERSEDES the issue-1035 issue_optimization_note decision. This workflow implements local code/spec changes and captures deterministic evidence; commit, push, PR, staging deploy and Issue state changes are user-gated. Issue #1069 was closed externally on 2026-06-03; this workflow performed no Issue mutation (PR uses Refs #1069, never Closes).",
+    "canonical_root": "docs/30-workflows/completed-tasks/issue-1069-tag-code-rename",
+    "runtime_boundary": "This workflow implements the local code/spec changes and captures local deterministic evidence. Focused D1 Vitest, API typecheck, repo lint, and verify:static-manifest passed locally. Commit, push, PR, staging deploy/runtime smoke, and Issue mutations remain user-gated. Issue #1069 was closed externally on 2026-06-03; this workflow performed no Issue mutation (PR uses Refs #1069, never Closes).",
+    "issue_optimization_note": "Issue #1069 (task-issue-1035-followup-002) was filed 2026-06-01 framing tag `code` rename as HIGH risk for member_tags referential integrity (AC-3). Re-checked against the CURRENT schema: member_tags is keyed by tag_id (apps/api/migrations/0002_admin_managed.sql:43-51 'PRIMARY KEY (member_id, tag_id)'), NOT code — so rename is referentially SAFE and AC-3 is satisfied by design. The real concern surface narrows to (a) UNIQUE(code) conflict, (b) audit old/new code, (c) seed/static-manifest drift. The parent task issue-1035 explicitly recorded 'code is IMMUTABLE, rename out of scope to avoid seed/UI drift, audit ambiguity, and 409 churn' in its artifacts issue_optimization_note; THIS task SUPERSEDES that decision per user-approved ADR (code rename allowed). seed drift is harmless: 0004_seed_tags.sql uses INSERT OR IGNORE keyed by tag_id (idempotent, insert-only) so a renamed code is neither reverted nor conflicting on re-run. audit ambiguity is resolved by a dedicated admin.tag.code_renamed action carrying before/after code. 409 churn is split into tag_code_conflict (UNIQUE) vs tag_stale_conflict (optimistic CAS). The change is a backward-compatible body extension of the EXISTING PATCH endpoint — no new endpoint, no schema migration, no apps/web change, no auditLog.ts type change.",
+    "supersedes": "issue-1035-tag-master-write-endpoints artifacts.json issue_optimization_note design point (1): tag code immutable",
+    "implementation_files": [
+      "apps/api/src/repository/tagDefinitions.ts",
+      "apps/api/src/routes/admin/tags.ts",
+      "docs/00-getting-started-manual/specs/01-api-schema.md"
+    ],
+    "test_files": [
+      "apps/api/src/repository/__tests__/tagDefinitions.write.repository.spec.ts",
+      "apps/api/src/routes/admin/tags.contract.spec.ts"
+    ],
+    "regression_test_files": [
+      "apps/api/src/routes/admin/members.tags.contract.spec.ts",
+      "apps/api/src/repository/__tests__/auditLog.repository.spec.ts"
+    ],
+    "verify_commands": [
+      "mise exec -- pnpm exec vitest run --root=. --config=vitest.d1.config.ts apps/api/src/repository/__tests__/tagDefinitions.write.repository.spec.ts apps/api/src/routes/admin/tags.contract.spec.ts apps/api/src/routes/admin/members.tags.contract.spec.ts apps/api/src/repository/__tests__/auditLog.repository.spec.ts",
+      "mise exec -- pnpm --filter @ubm-hyogo/api typecheck",
+      "mise exec -- pnpm lint",
+      "mise exec -- pnpm verify:static-manifest"
+    ],
+    "phase12_strict_outputs": [
+      "outputs/phase-12/main.md",
+      "outputs/phase-12/implementation-guide.md",
+      "outputs/phase-12/system-spec-update-summary.md",
+      "outputs/phase-12/documentation-changelog.md",
+      "outputs/phase-12/unassigned-task-detection.md",
+      "outputs/phase-12/skill-feedback-report.md",
+      "outputs/phase-12/phase12-task-spec-compliance-check.md"
+    ],
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-06-03T00:00:00+09:00",
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-1069-tag-code-rename/outputs/phase-3/phase-3.md",
+        "approver": "daishiman",
+        "notes": "Spec design review passed: ADR (code rename allowed) confirmed, file/signature/error-code/audit contracts fixed, member_tags tag_id safety and issue-1035 supersession documented."
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "passed",
+        "passed_at": "2026-06-03T00:00:00+09:00",
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-1069-tag-code-rename/outputs/phase-11/manual-test-result.md",
+        "approver": "daishiman",
+        "notes": "Implementation evidence captured: focused D1 Vitest 4 files / 37 tests PASS, API typecheck PASS, repo lint PASS, verify:static-manifest PASS."
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "passed",
+        "passed_at": "2026-06-03T00:00:00+09:00",
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-1069-tag-code-rename/outputs/phase-12/phase12-task-spec-compliance-check.md",
+        "approver": "daishiman",
+        "notes": "Local close-out complete: system spec, aiworkflow indexes, artifact inventory, strict outputs, and unassigned handling synced. Commit / push / PR / staging runtime remain user-gated. Issue #1069 was closed externally on 2026-06-03; this workflow performed no Issue mutation (PR uses Refs #1069, never Closes)."
+      }
+    ]
+  },
+  "phases": [
+    {
+      "phase": 1,
+      "name": "要件定義",
+      "status": "completed",
+      "output": "outputs/phase-1/phase-1.md"
+    },
+    {
+      "phase": 2,
+      "name": "設計",
+      "status": "completed",
+      "output": "outputs/phase-2/phase-2.md"
+    },
+    {
+      "phase": 3,
+      "name": "設計レビュー",
+      "status": "completed",
+      "output": "outputs/phase-3/phase-3.md"
+    },
+    {
+      "phase": 4,
+      "name": "テスト作成",
+      "status": "completed",
+      "output": "outputs/phase-4/phase-4.md"
+    },
+    {
+      "phase": 5,
+      "name": "実装",
+      "status": "completed",
+      "output": "outputs/phase-5/phase-5.md"
+    },
+    {
+      "phase": 6,
+      "name": "テスト拡充",
+      "status": "completed",
+      "output": "outputs/phase-6/phase-6.md"
+    },
+    {
+      "phase": 7,
+      "name": "カバレッジ確認",
+      "status": "completed",
+      "output": "outputs/phase-7/phase-7.md"
+    },
+    {
+      "phase": 8,
+      "name": "リファクタリング",
+      "status": "completed",
+      "output": "outputs/phase-8/phase-8.md"
+    },
+    {
+      "phase": 9,
+      "name": "品質保証",
+      "status": "completed",
+      "output": "outputs/phase-9/phase-9.md"
+    },
+    {
+      "phase": 10,
+      "name": "最終レビュー",
+      "status": "completed",
+      "output": "outputs/phase-10/phase-10.md"
+    },
+    {
+      "phase": 11,
+      "name": "手動テスト",
+      "status": "completed",
+      "output": "outputs/phase-11/manual-test-result.md"
+    },
+    {
+      "phase": 12,
+      "name": "ドキュメント同期",
+      "status": "completed",
+      "output": "outputs/phase-12/main.md"
+    },
+    {
+      "phase": 13,
+      "name": "commit-pr-release",
+      "status": "pending_user_approval",
+      "output": "outputs/phase-13/phase-13.md"
+    }
+  ],
+  "dependencies": {
+    "2": [
+      "1"
+    ],
+    "3": [
+      "2"
+    ],
+    "4": [
+      "3"
+    ],
+    "5": [
+      "4"
+    ],
+    "6": [
+      "5"
+    ],
+    "7": [
+      "6"
+    ],
+    "8": [
+      "7"
+    ],
+    "9": [
+      "8"
+    ],
+    "10": [
+      "9"
+    ],
+    "11": [
+      "10"
+    ],
+    "12": [
+      "11"
+    ],
+    "13": [
+      "12"
+    ]
+  }
+}
