@@ -256,6 +256,32 @@ describe("admin member tags write contract (issue-982 task-A)", () => {
     });
   });
 
+  it("A-T10b: assigned tags stay linked by tag_id after tag code rename", async () => {
+    await env.db
+      .prepare(
+        "INSERT INTO member_tags (member_id, tag_id, source, assigned_by) VALUES ('m1', 'tag_eng', 'manual', 'admin@example.com')",
+      )
+      .run();
+    await env.db
+      .prepare("UPDATE tag_definitions SET code = 'software_engineer' WHERE tag_id = 'tag_eng'")
+      .run();
+
+    const app = createAdminMembersRoute();
+    const res = await app.request(
+      "/members/m1/tags",
+      { method: "GET", headers: { ...(await adminAuthHeader()) } },
+      makeEnv(env),
+    );
+    expect(res.status).toBe(200);
+    const body = (await res.json()) as MemberTagsResponse;
+    expect(body.assigned).toContainEqual({
+      tagId: "tag_eng",
+      code: "software_engineer",
+      label: "エンジニア",
+      category: "occupation",
+    });
+  });
+
   it("A-T11: regression — GET member 不在は 404（detail GET と整合）", async () => {
     const app = createAdminMembersRoute();
     const res = await app.request(

@@ -161,6 +161,22 @@
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1035-tag-master-write-endpoints-artifact-inventory.md` |
 | user gate | staging runtime smoke、commit、push、PR |
 
+### issue-1069-tag-code-rename（2026-06-03）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / NON_VISUAL` |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-1069-tag-code-rename/` |
+| Issue | #1069 CLOSED（2026-06-03 外部クローズ・mutation なし。PR 文脈は `Refs #1069` のみ） |
+| 親 workflow | `docs/30-workflows/completed-tasks/issue-1035-tag-master-write-endpoints/` |
+| 目的 | tag master (`tag_definitions`) の `code` rename を既存 `PATCH /admin/tags/:tagId` の後方互換 body 拡張で許可する |
+| implementation targets | `apps/api/src/repository/tagDefinitions.ts`, `apps/api/src/routes/admin/tags.ts`, `docs/00-getting-started-manual/specs/01-api-schema.md`, `apps/api/src/repository/_shared/generated/static-manifest.json` |
+| tests | `apps/api/src/repository/__tests__/tagDefinitions.write.repository.spec.ts`, `apps/api/src/routes/admin/tags.contract.spec.ts`, `apps/api/src/routes/admin/members.tags.contract.spec.ts`, `apps/api/src/repository/__tests__/auditLog.repository.spec.ts` |
+| invariant | 不変条件 #13: `code` は admin tag master CRUD 経路で rename 可。code 指定時必須の `expectedCode` atomic CAS、400 `invalid_body` / 409 `tag_code_conflict` / `tag_stale_conflict` 分離、audit `admin.tag.code_renamed`。`member_tags` は tag_id 参照 |
+| evidence | focused D1 Vitest 4 files / 37 tests PASS、API typecheck PASS、repo lint PASS、verify:static-manifest PASS |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1069-tag-code-rename-artifact-inventory.md` |
+| user gate | staging runtime smoke、commit、push、PR、Issue mutation |
+
 ### issue-1042-dismiss-confirm-optimistic-update（2026-06-01）
 
 | 項目 | 値 |
