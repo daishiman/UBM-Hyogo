@@ -2,15 +2,30 @@
 
 `origin/dev` を feature ブランチへ取り込む際に、複数 wave の workflow が並行で `.claude/skills/aiworkflow-requirements/` および `.claude/skills/task-specification-creator/` の changelog / index / active workflow / completed-tasks doc に additive 行を書き込むため、merge 時に高頻度で diff3 conflict が発生する。本書はその自律解消ポリシーの正本。
 
-## L-DEVSYNC-102: 同一ブランチの後続 sync で衝突セットが **`indexes/topic-map.md` 単一ファイル**まで縮小 — quick-reference.md / resource-map.md / keywords.json / SKILL.md は全て Auto-merge 側。`pnpm sync:resolve` 単一パス（`union-resolving 1 files`）で完結し L-DEVSYNC-092-A「衝突セットは hunk 位置依存で変動」を**同一ブランチ内**で実証（直前の L-DEVSYNC-101 は同ブランチで 5-file だった）（2026-06-05 feat/shell-sidebar-tooltip-footer-header-responsive ← HEAD 3 ahead / origin/dev 1 ahead, merge `4f5bbc9fa`）
+## L-DEVSYNC-104: 同一ブランチ **3 回目** sync で衝突セットが 5-file へ復帰 — union コアは `SKILL.md + indexes/{quick-reference, resource-map, topic-map} + task-workflow-active.md`（keywords.json は Auto-merge 側）。同ブランチで **5(L-DEVSYNC-101) → 1(L-DEVSYNC-103) → 5(本節)** と振動し、L-DEVSYNC-103-A「同一ブランチ内でも衝突セットは非再現」を**増減両方向**で確証（2026-06-06 feat/shell-sidebar-tooltip-footer-header-responsive ← HEAD 5 ahead / origin/dev 1 ahead, merge `6f36c6188`）
+
+- 事象: `feat/shell-sidebar-tooltip-footer-header-responsive`（sub-worktree wt-12）の 3 回目 sync-merge。ローカル `dev` = `origin/dev` 一致（`git rev-list dev...origin/dev` = `0 0`・独自コミット 0）→ dev 同期は冪等スキップ。`HEAD...origin/dev` = `5 1`（feature 5 ahead / dev 1 ahead）。取込 dev デルタは **1 コミット `d2c7124b0`（#1133 issue-1080 bulk tag 部分失敗結果の member/tag を表示名表示）**。`git merge dev --no-edit` の `CONFLICT (content)` は **5 件**: `SKILL.md`, `indexes/{quick-reference.md, resource-map.md, topic-map.md}`, `references/task-workflow-active.md`。
+  - `indexes/keywords.json` は **Auto-merging（衝突せず）** = L-DEVSYNC-092 / 101 と同じ resolver の `union-resolving 5 files` のみ・`--ours` 段に出ず。
+  - `apps/web` source は **衝突 0** だが merge 結果として `BulkActionBar.tsx` / `BulkActionBar.spec.tsx` / `MembersClientShell.tsx` の 3 file が dev 側から取り込まれた（issue-1080 の表示名化）→ L-DEVSYNC-072 skill-only baseline（衝突は skill のみ・apps は Auto-merge 取込）継続。
+- 解消: `pnpm sync:resolve` **1 回**（resolver ログ `union-resolving 5 files` → `pnpm indexes:rebuild`）で完結。残コンフリクト 0、手動編集ゼロ。
+- How to apply:
+  - **L-DEVSYNC-104-A (衝突セットは増減両方向に変動 = 予断を完全に捨てる)**: 同一ブランチで前回 1-file（L-DEVSYNC-103）だったから今回も小さい、という予断は誤り。dev デルタが SKILL.md changelog 表 + index map 群に触れる issue-1080 完了同期だったため 5-file へ戻った。「前回の衝突セット」を一切参照せず毎回 `git diff --diff-filter=U` 実集合で確認し resolver 直行する。
+  - **L-DEVSYNC-104-B (SKILL.md changelog union は重複二重化チェックで担保)**: union 後 SKILL.md changelog 表が 255 行（HEAD 254 / dev 254）= dev 新規 1 行（issue-1080）のみ追加でクリーン。`grep -oE '^\| v[0-9]{4}\.[0-9]{2}\.[0-9]{2}-[a-z0-9-]+' | sort | uniq -d` の重複は **HEAD 側に既存**（merge 起因でない）と `git show HEAD:<file>` 比較で確認。union が同一行を二重化していないことは「merged 行数 ≒ max(HEAD, dev) + 新規差分」で検算する。
+  - **L-DEVSYNC-104-C (取込 apps テストは merge 後に実走)**: dev デルタが apps コード/テストを Auto-merge 取込した場合、`git diff --name-only HEAD^1 HEAD | grep apps` で実変化 file を特定し該当 spec を `vitest run <フルパス>` 実走。本件 `BulkActionBar.spec.tsx` 22 passed で CI fail を先取り確認。
+- 検証: `pnpm sync:resolve`（`all skill / index conflicts resolved`）→ 残コンフリクト 0（`git diff --diff-filter=U` 空 + `<<<<<<< / >>>>>>>` grep 空）→ `pnpm indexes:rebuild` drift 0 → `pnpm typecheck`（7 workspace Done）/ `pnpm lint`（全緑）初回 PASS → 取込 `BulkActionBar.spec.tsx` 22 passed。
+- 参照: L-DEVSYNC-103（同ブランチ 2 回目・1-file）, L-DEVSYNC-101（同ブランチ 1 回目・5-file）, L-DEVSYNC-092/092-A（衝突セット hunk 位置依存）, L-DEVSYNC-072（skill-only baseline）, task-specification-creator [[dev-sync-merge-conflict-resolution]] SP-DEVSYNC-094。
+
+## L-DEVSYNC-103: 同一ブランチの後続 sync で衝突セットが **`indexes/topic-map.md` 単一ファイル**まで縮小 — quick-reference.md / resource-map.md / keywords.json / SKILL.md は全て Auto-merge 側。`pnpm sync:resolve` 単一パス（`union-resolving 1 files`）で完結し L-DEVSYNC-092-A「衝突セットは hunk 位置依存で変動」を**同一ブランチ内**で実証（直前の L-DEVSYNC-101 は同ブランチで 5-file だった）（2026-06-05 feat/shell-sidebar-tooltip-footer-header-responsive ← HEAD 3 ahead / origin/dev 1 ahead, merge `4f5bbc9fa`）
+
+> 番号繰り上げ注記: 本節は当初 L-DEVSYNC-102 だったが、別 session（docs/issue-1080）の L-DEVSYNC-102 が先に dev へマージされ番号衝突したため、SP-DEVSYNC-013 衝突ルール（dev 側が番号維持・HEAD 側を繰り上げ）に従い 103 へ繰り上げた。
 
 - 事象: `feat/shell-sidebar-tooltip-footer-header-responsive`（sub-worktree wt-12）の 2 回目 sync-merge。ローカル `dev` は `origin/dev` に既一致（`git rev-list dev...origin/dev` = `0 0`）→ dev 同期は冪等スキップ。`HEAD...origin/dev` = `3 1`（feature 3 ahead / dev 1 ahead）。`git merge dev --no-edit` の `CONFLICT (content)` は **1 件のみ**: `indexes/topic-map.md`。
   - `indexes/{quick-reference.md, resource-map.md, keywords.json}` と `references/task-workflow-active.md`、`SKILL-changelog.md` / `lessons-learned/*` は全て **Auto-merging（衝突せず）**。L-DEVSYNC-101（同ブランチ・5-file）から衝突セットが **topic-map.md 1 件まで縮小**。
   - dev デルタは issue-1078 bulk-tag-picker 完了 doc + `apps/web` admin テスト（members.spec.ts / BulkActionBar.spec.tsx）追加が主。`apps/**` / `packages/**` source conflict 0 件 → L-DEVSYNC-072 skill-only baseline 継続。
 - 解消: `pnpm sync:resolve` **1 回**（resolver ログ `union-resolving 1 files` → `pnpm indexes:rebuild`）で完結。残コンフリクト 0、手動編集ゼロ。
 - How to apply:
-  - **L-DEVSYNC-102-A (同一ブランチ内でも衝突セットは非再現)**: L-DEVSYNC-093（別ブランチで「同一セット再現」）とは逆に、**同じブランチの連続 sync** でも取り込む dev デルタの hunk 位置が変われば衝突ファイル数は変動する（5-file → 1-file）。衝突セットを事前予測せず resolver 直行する方針（L-DEVSYNC-101-B）を同一ブランチ反復にも適用する。
-  - **L-DEVSYNC-102-B (偽マーカー grep は merge 対象に絞る)**: 残マーカー確認の `git grep -nE '^(=======)'` が無関係な完了 doc（`completed-tasks/ut-08-monitoring-alert-design/outputs/phase-11/manual-smoke-log.md` の `====...` 区切り線）を誤検出。**実マーカー判定は `git diff --diff-filter=U` 空 + `<<<<<<< / >>>>>>>` grep 空**で確定し、`=======` 単体や `git diff --name-only HEAD MERGE_HEAD` に含まれないファイルは対象外とする（L-DEVSYNC-093 の偽マーカー知見を再確認）。
+  - **L-DEVSYNC-103-A (同一ブランチ内でも衝突セットは非再現)**: L-DEVSYNC-093（別ブランチで「同一セット再現」）とは逆に、**同じブランチの連続 sync** でも取り込む dev デルタの hunk 位置が変われば衝突ファイル数は変動する（5-file → 1-file）。衝突セットを事前予測せず resolver 直行する方針（L-DEVSYNC-101-B）を同一ブランチ反復にも適用する。
+  - **L-DEVSYNC-103-B (偽マーカー grep は merge 対象に絞る)**: 残マーカー確認の `git grep -nE '^(=======)'` が無関係な完了 doc（`completed-tasks/ut-08-monitoring-alert-design/outputs/phase-11/manual-smoke-log.md` の `====...` 区切り線）を誤検出。**実マーカー判定は `git diff --diff-filter=U` 空 + `<<<<<<< / >>>>>>>` grep 空**で確定し、`=======` 単体や `git diff --name-only HEAD MERGE_HEAD` に含まれないファイルは対象外とする（L-DEVSYNC-093 の偽マーカー知見を再確認）。
 - 検証: `pnpm sync:resolve`（`all skill / index conflicts resolved`）→ 残コンフリクト 0 → `pnpm install`（resolution skip）/ `pnpm typecheck`（7 workspace Done）/ `pnpm lint`（全緑）初回 PASS → `pnpm indexes:rebuild` drift 0（keywords 5443）→ 取り込んだ web admin テスト `vitest run` 31 passed（members 11 + BulkActionBar 20）。
 - 参照: L-DEVSYNC-101（同ブランチ前回 sync・5-file）, L-DEVSYNC-092/092-A（衝突セット hunk 位置依存）, L-DEVSYNC-093（偽マーカー・別ブランチ同一セット再現）, L-DEVSYNC-072（skill-only baseline）, task-specification-creator [[dev-sync-merge-conflict-resolution]] SP-DEVSYNC-093。
 
