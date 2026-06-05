@@ -90,13 +90,13 @@ node scripts/list-specs.js --topics
 | 1. 構成図 | L15 |
 | 2. Server-side fetch（`apps/web/src/lib/admin/server-fetch.ts`） | L50 |
 | 3. Client-side mutation（`apps/web/src/lib/admin/api.ts`） | L116 |
-| 4. BFF proxy（`apps/web/app/api/admin/[...path]/route.ts`） | L188 |
-| 5. ステータスコード処理方針 | L245 |
-| 6. 環境変数 | L277 |
-| 7. 不変条件サマリ（admin API client / proxy） | L290 |
-| 8. 関連ドキュメント | L302 |
-| 9. 06c-A Admin Dashboard 契約 (2026-05-02) | L310 |
-| 10. Self-service BFF proxy（`apps/web/app/api/me/[...path]/route.ts`） | L327 |
+| 4. BFF proxy（`apps/web/app/api/admin/[...path]/route.ts`） | L190 |
+| 5. ステータスコード処理方針 | L247 |
+| 6. 環境変数 | L279 |
+| 7. 不変条件サマリ（admin API client / proxy） | L292 |
+| 8. 関連ドキュメント | L304 |
+| 9. 06c-A Admin Dashboard 契約 (2026-05-02) | L312 |
+| 10. Self-service BFF proxy（`apps/web/app/api/me/[...path]/route.ts`） | L329 |
 
 ### references/architecture-auth-security-core.md
 
@@ -2743,6 +2743,83 @@ node scripts/list-specs.js --topics
 | Implementation Artifacts | L13 |
 | System Boundary | L20 |
 | Lessons Learned | L30 |
+
+### references/workflow-issue-1068-admin-tag-inline-create-ui-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Metadata | L3 |
+| Workflow artifacts | L17 |
+| Implemented files (apps/web only) | L31 |
+| Boundaries | L43 |
+| Lessons Learned | L49 |
+
+### references/workflow-issue-1069-tag-code-rename-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Summary | L3 |
+| Workflow Artifacts | L9 |
+| Implementation Targets | L18 |
+| Test Targets | L25 |
+| Evidence | L32 |
+| Contract | L39 |
+| Follow-ups | L48 |
+
+### references/workflow-issue-1070-tag-reactivate-physical-delete-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Summary | L3 |
+| Implementation | L14 |
+| Evidence | L22 |
+| User-Gated | L32 |
+| Lessons Learned | L36 |
+
+### references/workflow-issue-1076-member-og-design-token-alignment-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Metadata | L3 |
+| Implementation | L12 |
+| Workflow Artifacts | L21 |
+| Evidence | L30 |
+| Boundary | L38 |
+| Lessons Learned | L44 |
+
+### references/workflow-issue-1077-bulk-tag-authenticated-staging-visual-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Summary | L5 |
+| Canonical workflow | L11 |
+| Implementation targets | L23 |
+| Current code anchors | L29 |
+| Gates | L39 |
+| Runtime visual evidence | L47 |
+| Source unassigned trace | L56 |
+| Lessons Learned | L62 |
+| User-gated actions | L72 |
+
+### references/workflow-issue-1078-bulk-tag-picker-large-catalog-ux-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Workflow Root | L5 |
+| Implementation Artifacts | L14 |
+| Evidence | L23 |
+| Contract Notes | L35 |
+| Lessons Learned | L42 |
+
+### references/workflow-issue-1080-bulk-tag-result-member-labels-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Summary | L3 |
+| Implementation Artifacts | L13 |
+| Workflow Artifacts | L21 |
+| Evidence | L31 |
+| Lessons Learned | L38 |
 
 ### references/workflow-issue-1089-backfill-impact-preview-artifact-inventory.md
 
@@ -6344,6 +6421,44 @@ node scripts/list-specs.js --topics
 | L-I1063-004: `Secure` / `HttpOnly` は read 値に現れないので serializer 文字列を検証する | L18 |
 | メタ補足: 監査 SubAgent の read-only 逸脱 | L22 |
 
+### references/lessons-learned-issue-1068-admin-tag-inline-create-ui-2026-06.md
+
+| セクション | 行 |
+|------------|----|
+| L-I1068-001: API error の「分類」は transport クラスから独立した純関数に置く | L12 |
+| L-I1068-002: 多段 write の「部分成功」は段ごとの state で保持し、retry は失敗段だけを再実行する | L19 |
+| L-I1068-003: 409 conflict 回収は「ローカルキャッシュ探索」でなく権威ソース再取得を基準にする | L26 |
+| L-I1068-004: server が field 粒度を返さない制約下では client validation をミラーし、400 は粒度を詐称しない包括フォールバックにする | L33 |
+| L-I1068-005: 共有 mutation mock は method だけでなく endpoint まで見て slot を分岐する | L40 |
+| L-I1068-006: hook mock の失敗注入は promise の settle と callback 呼び出しの双方を実装と同じ順序で再現する | L47 |
+| L-I1068-007: 認証必須 visual は env-gate + skip で同梱し、レイアウト不変は構造で担保、screenshot は user-gated に切り出す | L54 |
+| L-I1068-008: apps/web の Vitest 正経路はリポジトリルート config（`apps/web/vitest.config.ts` は不在） | L61 |
+| 横断教訓 | L70 |
+
+### references/lessons-learned-issue-1070-tag-reactivate-physical-delete-2026-06.md
+
+| セクション | 行 |
+|------------|----|
+| L-I1070-001 DB-FK 不在テーブルへの physical delete は application-level COUNT(*) ガードが唯一の参照防壁 | L5 |
+| L-I1070-002 不可逆 physical delete は「endpoint 実装」と「production mutation」を 2-stage で分離する | L11 |
+| L-I1070-003 lifecycle write は「対称形ペア」で設計すると実現性が上がる | L17 |
+| L-I1070-004 prefix を共有する新 route は静的セグメント優先解決を既存 regression で固定する | L23 |
+| L-I1070-005 physical delete の audit before は「削除前 snapshot」を repository から返す | L29 |
+| L-I1070-006 lessons は references/ 直下に置く（generate-index.js は lessons-learned/ サブdir を scan しない） | L35 |
+| 関連パターン | L41 |
+
+### references/lessons-learned-issue-1078-bulk-tag-picker-large-catalog-ux-2026-06.md
+
+| セクション | 行 |
+|------------|----|
+| L-I1078-001 古い issue は依存先 endpoint の応答 shape を実コードで突合する | L5 |
+| L-I1078-002 test mock の shape を実 API response schema と突合する | L11 |
+| L-I1078-003 paginated mode の selected ラベルは known-tag の accumulated Map で保持する | L17 |
+| L-I1078-004 client pagination の default pageSize は API max に合わせ、cap guard で無限ループを防ぐ | L23 |
+| L-I1078-005 並列 SubAgent の backbone Write はワークツリー root 相対／pwd 確認済み絶対パスで行う | L29 |
+| L-I1078-006 artifacts.json の gate `status` は zod enum 4 値のみ（`pending_user_approval` は不可） | L35 |
+| 関連パターン | L41 |
+
 ### references/lessons-learned-issue-191-schema-aliases-2026-04.md
 
 | セクション | 行 |
@@ -8649,15 +8764,18 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L3684 |
-| フェーズ構造（概要） | L3693 |
-| 品質ゲート（概要） | L3724 |
-| 出力テンプレート | L3735 |
-| 実行時のコマンド・エージェント・スキル | L3758 |
-| 昇格パターン集 | L3782 |
-| Current Active / Spec Created Tasks | L3784 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L3950 |
-| issue-998-members-publish-state-production-rollout | L4028 |
+| ドキュメント構成 | L3747 |
+| フェーズ構造（概要） | L3756 |
+| 品質ゲート（概要） | L3787 |
+| 出力テンプレート | L3798 |
+| 実行時のコマンド・エージェント・スキル | L3821 |
+| 昇格パターン集 | L3845 |
+| Current Active / Spec Created Tasks | L3847 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L4013 |
+| issue-1077-bulk-tag-authenticated-staging-visual（implemented_local_runtime_pending / implementation / VISUAL_ON_EXECUTION / 2026-06-03） | L4081 |
+| issue-998-members-publish-state-production-rollout | L4106 |
+| issue-1078-bulk-tag-picker-large-catalog-ux | L4153 |
+| issue-1068-admin-tag-inline-create-ui | L4167 |
 
 ### references/task-workflow-backlog-part2.md
 
