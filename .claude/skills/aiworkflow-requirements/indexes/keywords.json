@@ -2239,6 +2239,7 @@
       "ui-ux-atoms-patterns-core.md",
       "workflow-apps-web-security-headers-hardening-artifact-inventory.md",
       "workflow-issue-1068-admin-tag-inline-create-ui-artifact-inventory.md",
+      "workflow-issue-1111-proxy-transport-util-unify-artifact-inventory.md",
       "workflow-issue-247-apps-web-opennext-config-regression-tests-artifact-inventory.md",
       "workflow-issue-870-apps-api-security-headers-artifact-inventory.md",
       "workflow-parallel-09-ux-cross-cutting-artifact-inventory.md",
@@ -2264,6 +2265,7 @@
       "quality-e2e-testing.md",
       "workflow-apps-web-security-headers-hardening-artifact-inventory.md",
       "workflow-issue-1068-admin-tag-inline-create-ui-artifact-inventory.md",
+      "workflow-issue-1111-proxy-transport-util-unify-artifact-inventory.md",
       "workflow-issue-247-apps-web-opennext-config-regression-tests-artifact-inventory.md",
       "workflow-parallel-09-ux-cross-cutting-artifact-inventory.md",
       "workflow-task-06a-followup-001-real-workers-d1-smoke-artifact-inventory.md",
@@ -3900,6 +3902,8 @@
       "architecture-admin-api-client.md",
       "auth-google-oauth-cf-integration.md",
       "lessons-learned-06b-b-profile-self-service-request-ui-2026-05.md",
+      "task-workflow-active.md",
+      "workflow-issue-1111-proxy-transport-util-unify-artifact-inventory.md",
       "workflow-issue-277-next-proxy-migration-artifact-inventory.md"
     ],
     "app": [
@@ -5579,7 +5583,8 @@
       "lessons-learned-ut-02a-tag-assignment-queue-2026-05.md",
       "lessons-learned-ut-gov-001-2026-04.md",
       "skill-ledger-gitattributes-policy.md",
-      "workflow-issue-1068-admin-tag-inline-create-ui-artifact-inventory.md"
+      "workflow-issue-1068-admin-tag-inline-create-ui-artifact-inventory.md",
+      "workflow-issue-1111-proxy-transport-util-unify-artifact-inventory.md"
     ],
     "endpoint": [
       "auth-google-oauth-cf-integration.md",
@@ -6987,6 +6992,7 @@
       "workflow-admin-tag-queue-ui-and-404-recovery-artifact-inventory.md",
       "workflow-ai-chat-llm-integration-fix-artifact-inventory.md",
       "workflow-issue-1068-admin-tag-inline-create-ui-artifact-inventory.md",
+      "workflow-issue-1111-proxy-transport-util-unify-artifact-inventory.md",
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
       "workflow-issue-495-09b-A-sentry-slack-runtime-smoke-prod-extension-artifact-inventory.md",
       "workflow-issue-516-github-audit-log-cross-source-correlation-artifact-inventory.md",
@@ -10254,6 +10260,7 @@
       "workflow-issue-1054-wrangler-binding-drift-ci-gate-artifact-inventory.md",
       "workflow-issue-1068-admin-tag-inline-create-ui-artifact-inventory.md",
       "workflow-issue-1076-member-og-design-token-alignment-artifact-inventory.md",
+      "workflow-issue-1111-proxy-transport-util-unify-artifact-inventory.md",
       "workflow-issue-191-schema-aliases-artifact-inventory.md",
       "workflow-issue-229-indexes-rebuild-fail-fast-artifact-inventory.md",
       "workflow-issue-276-mobile-filterbar-tag-picker-artifact-inventory.md",
@@ -11833,7 +11840,9 @@
     ],
     "transport": [
       "lessons-fetch-service-binding-testing.md",
-      "lessons-learned-issue-1068-admin-tag-inline-create-ui-2026-06.md"
+      "lessons-learned-issue-1068-admin-tag-inline-create-ui-2026-06.md",
+      "task-workflow-active.md",
+      "workflow-issue-1111-proxy-transport-util-unify-artifact-inventory.md"
     ],
     "label": [
       "lessons-fetch-service-binding-testing.md",
@@ -12680,6 +12689,7 @@
       "workflow-admin-ui-prototype-alignment-followup-001-members-fetch-and-visual-artifact-inventory.md",
       "workflow-aiworkflow-requirements-line-budget-reform-artifact-inventory.md",
       "workflow-issue-1068-admin-tag-inline-create-ui-artifact-inventory.md",
+      "workflow-issue-1111-proxy-transport-util-unify-artifact-inventory.md",
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
       "workflow-issue-399-admin-queue-resolve-staging-visual-evidence-artifact-inventory.md",
       "workflow-issue-503-ut-07b-fu-01-followup-cursor-semantics-migration-artifact-inventory.md",
@@ -13709,6 +13719,7 @@
       "workflow-issue-1016-sidebar-mobile-drawer-responsive-artifact-inventory.md",
       "workflow-issue-1042-dismiss-confirm-optimistic-update-artifact-inventory.md",
       "workflow-issue-1068-admin-tag-inline-create-ui-artifact-inventory.md",
+      "workflow-issue-1111-proxy-transport-util-unify-artifact-inventory.md",
       "workflow-issue-554-audit-correlation-branch-protection-required-check-artifact-inventory.md",
       "workflow-issue-603-phase12-compliance-check-ci-gate-artifact-inventory.md",
       "workflow-issue-730-phase11-evidence-existence-validator-artifact-inventory.md",
@@ -25724,6 +25735,16 @@
       "workflow-issue-1056-kv-alert-policy-binding-drift-detection-artifact-inventory.md",
       "workflow-issue-57-kv-r2-guardrail-degrade-artifact-inventory.md"
     ],
+    "util": [
+      "task-workflow-active.md",
+      "workflow-issue-1111-proxy-transport-util-unify-artifact-inventory.md"
+    ],
+    "unify": [
+      "task-workflow-active.md",
+      "workflow-i02-admin-error-type-unify-artifact-inventory.md",
+      "workflow-issue-1111-proxy-transport-util-unify-artifact-inventory.md",
+      "workflow-task-03-w2-par-sentry-workers-sdk-unify-artifact-inventory.md"
+    ],
     "タスクワークフローバックログ": [
       "task-workflow-backlog-part2.md"
     ],
@@ -27669,6 +27690,7 @@
       "workflow-issue-1029-public-member-photo-display-artifact-inventory.md",
       "workflow-issue-1031-member-self-photo-upload-artifact-inventory.md",
       "workflow-issue-1068-admin-tag-inline-create-ui-artifact-inventory.md",
+      "workflow-issue-1111-proxy-transport-util-unify-artifact-inventory.md",
       "workflow-issue-230-lefthook-edit-guard-artifact-inventory.md",
       "workflow-issue-503-ut-07b-fu-01-followup-cursor-semantics-migration-artifact-inventory.md",
       "workflow-issue-560-next-standalone-instrumentation-patch-artifact-inventory.md",
@@ -28057,13 +28079,6 @@
     ],
     "toastprovider": [
       "workflow-i01-toastprovider-root-mount-artifact-inventory.md"
-    ],
-    "unify": [
-      "workflow-i02-admin-error-type-unify-artifact-inventory.md",
-      "workflow-task-03-w2-par-sentry-workers-sdk-unify-artifact-inventory.md"
-    ],
-    "selected": [
-      "workflow-issue-1006-members-selected-filters-chip-ux-hardening-artifact-inventory.md"
     ],
     "filters": [
       "workflow-issue-1006-members-selected-filters-chip-ux-hardening-artifact-inventory.md"

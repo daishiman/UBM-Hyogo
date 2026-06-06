@@ -2801,16 +2801,6 @@ node scripts/list-specs.js --topics
 | Lessons Learned | L62 |
 | User-gated actions | L72 |
 
-### references/workflow-issue-1111-proxy-transport-util-unify-artifact-inventory.md
-
-| セクション | 行 |
-|------------|----|
-| Metadata | L3 |
-| Workflow artifacts | L18 |
-| Implemented files (apps/web only) | L33 |
-| Boundaries | L43 |
-| Lessons Learned | L51 |
-
 ### references/workflow-issue-1078-bulk-tag-picker-large-catalog-ux-artifact-inventory.md
 
 | セクション | 行 |
@@ -2851,6 +2841,16 @@ node scripts/list-specs.js --topics
 | Evidence | L29 |
 | Boundary | L39 |
 | Lessons | L43 |
+
+### references/workflow-issue-1111-proxy-transport-util-unify-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Metadata | L3 |
+| Workflow artifacts | L18 |
+| Implemented files (apps/web only) | L33 |
+| Boundaries | L43 |
+| Lessons Learned | L51 |
 
 ### references/workflow-issue-191-schema-aliases-artifact-inventory.md
 
@@ -8827,7 +8827,7 @@ node scripts/list-specs.js --topics
 | issue-998-members-publish-state-production-rollout | L4121 |
 | issue-1078-bulk-tag-picker-large-catalog-ux | L4168 |
 | issue-1068-admin-tag-inline-create-ui | L4182 |
-| issue-1111-proxy-transport-util-unify | L4140 |
+| issue-1111-proxy-transport-util-unify | L4200 |
 
 ### references/task-workflow-backlog-part2.md
 
@@ -9331,3 +9331,4 @@ node scripts/list-specs.js --topics
 | SkillLifecyclePanel 責務別props分離パターン | L82 |
 
 ---
+
