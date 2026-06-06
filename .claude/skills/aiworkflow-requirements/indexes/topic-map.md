@@ -4871,6 +4871,17 @@ node scripts/list-specs.js --topics
 | Follow-up 未タスク | L81 |
 | Validation Chain（spec_created） | L90 |
 
+### references/workflow-test-accounts-seed-spec-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Summary | L3 |
+| Workflow | L8 |
+| Implementation Artifacts | L18 |
+| Evidence | L33 |
+| User-Gated Boundary | L45 |
+| Lessons Learned | L49 |
+
 ### references/workflow-ui-prototype-design-system-foundation-artifact-inventory.md
 
 | セクション | 行 |
@@ -7340,6 +7351,8 @@ node scripts/list-specs.js --topics
 | 教訓一覧 | L10 |
 | 関連教訓 | L42 |
 
+### references/lessons-learned-test-accounts-seed-spec-2026-06.md
+
 ### references/lessons-learned-u-fix-cf-acct-01-deriv-01-oidc-short-lived-credentials-2026-05.md
 
 | セクション | 行 |
@@ -8813,18 +8826,18 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L3775 |
-| フェーズ構造（概要） | L3784 |
-| 品質ゲート（概要） | L3815 |
-| 出力テンプレート | L3826 |
-| 実行時のコマンド・エージェント・スキル | L3849 |
-| 昇格パターン集 | L3873 |
-| Current Active / Spec Created Tasks | L3875 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L4041 |
-| issue-1077-bulk-tag-authenticated-staging-visual（implemented_local_runtime_pending / implementation / VISUAL_ON_EXECUTION / 2026-06-03） | L4109 |
-| issue-998-members-publish-state-production-rollout | L4135 |
-| issue-1078-bulk-tag-picker-large-catalog-ux | L4182 |
-| issue-1068-admin-tag-inline-create-ui | L4196 |
+| ドキュメント構成 | L3788 |
+| フェーズ構造（概要） | L3797 |
+| 品質ゲート（概要） | L3828 |
+| 出力テンプレート | L3839 |
+| 実行時のコマンド・エージェント・スキル | L3862 |
+| 昇格パターン集 | L3886 |
+| Current Active / Spec Created Tasks | L3888 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L4054 |
+| issue-1077-bulk-tag-authenticated-staging-visual（implemented_local_runtime_pending / implementation / VISUAL_ON_EXECUTION / 2026-06-03） | L4122 |
+| issue-998-members-publish-state-production-rollout | L4148 |
+| issue-1078-bulk-tag-picker-large-catalog-ux | L4195 |
+| issue-1068-admin-tag-inline-create-ui | L4209 |
 
 ### references/task-workflow-backlog-part2.md
 

@@ -12,6 +12,18 @@
 | inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1088-manual-form-resync-sync-duration-display-artifact-inventory.md` |
 | user gate | authenticated runtime screenshot, staging deploy, commit, push, PR, Issue #1088 mutation |
 
+## test-accounts-seed-spec（2026-06-03）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/test-accounts-seed-spec/` |
+| status | `implemented_local_evidence_captured / implementation / NON_VISUAL` |
+| purpose | 10 member + 3 admin test accounts を SSOT catalog から seed SQL / cleanup SQL / manifest へ決定論的に生成 |
+| implementation | `apps/api/src/testing/test-accounts/**`, `apps/api/migrations/seed/test-accounts-*`, `scripts/gen-test-accounts-seed.mjs`, `scripts/seed-test-accounts.sh`, `apps/web/playwright/scripts/mint-test-account-storage-state.ts` |
+| evidence | drift check PASS; focused Vitest 9 PASS; API/Web typecheck PASS; API/Web lint PASS |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-test-accounts-seed-spec-artifact-inventory.md` |
+| user gate | actual D1 seed apply, storage-state generation, commit, push, PR |
+
 ## issue-1081-bulk-tag-real-d1-runtime-smoke（2026-06-03）
 
 | 項目 | 値 |
