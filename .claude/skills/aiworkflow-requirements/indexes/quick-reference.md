@@ -12,6 +12,20 @@
 | inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1088-manual-form-resync-sync-duration-display-artifact-inventory.md` |
 | user gate | authenticated runtime screenshot, staging deploy, commit, push, PR, Issue #1088 mutation |
 
+## issue-1080-bulk-tag-result-member-labels（2026-06-03）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-1080-bulk-tag-result-member-labels/` |
+| status | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION / staging_visual_pending_user_gate` |
+| issue | #1080 OPEN（mutation は user-gated） |
+| parent | `docs/30-workflows/completed-tasks/issue-1036-bulk-member-tag-assign/` |
+| purpose | bulk tag 部分失敗結果 summary の `memberId` / `tagId` 生表示を member `fullName` / tag `label` に改善 |
+| implementation | `apps/web/src/features/admin/components/_members/BulkActionBar.tsx`, `apps/web/src/features/admin/components/_members/MembersClientShell.tsx`, `apps/web/src/features/admin/components/__tests__/BulkActionBar.spec.tsx` |
+| evidence | focused `BulkActionBar.spec.tsx` 12 tests PASS; staging authenticated screenshot pending_user_gate |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1080-bulk-tag-result-member-labels-artifact-inventory.md` |
+| user gate | staging screenshot, commit, push, PR, Issue mutation |
+
 ## issue-1077-bulk-tag-authenticated-staging-visual（2026-06-03）
 
 | 項目 | 値 |
@@ -496,6 +510,20 @@
 | inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1036-bulk-member-tag-assign-artifact-inventory.md` |
 | lessons | `.claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-issue-1036-bulk-member-tag-assign-2026-06.md`（L-I1036-001..008） |
 | user gate | staging authenticated visual baseline, commit, push, PR |
+
+## issue-1078-bulk-tag-picker-large-catalog-ux（2026-06-03）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-1078-bulk-tag-picker-large-catalog-ux/` |
+| status | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION / PASS_BOUNDARY_SYNCED_RUNTIME_PENDING` |
+| issue | #1078 OPEN。Issue mutation は user-gated |
+| purpose | `/admin/members` BulkActionBar tag picker を large catalog 対応し、#1035 の `GET /admin/tags` `{ total, items }` contract を正しく読む |
+| implementation | `apps/web/src/features/admin/api/members.ts`, `apps/web/src/features/admin/api/__tests__/members.spec.ts`, `apps/web/src/features/admin/components/_members/BulkActionBar.tsx`, `apps/web/src/features/admin/components/__tests__/BulkActionBar.spec.tsx` |
+| contract boundary | apps/api / D1 schema 変更なし。`fetchTagMaster()` は `{ total, items }` を `{ available, total }` へ正規化し、`fetchAllTagMaster()` は `pageSize=100` で page walk + cap guard |
+| tests | API client 11 PASS + BulkActionBar 20 PASS。repo config 経由 broader web Vitest 216 files / 1587 tests PASS / 1 skipped。typecheck / lint PASS |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1078-bulk-tag-picker-large-catalog-ux-artifact-inventory.md` |
+| user gate | staging authenticated visual baseline, commit, push, PR, GitHub issue mutation |
 
 ## issue-1006-members-selected-filters-chip-ux-hardening（2026-05-30）
 
@@ -5257,6 +5285,17 @@ UT-17 Cloudflare Notifications → alert-relay → Slack 経路を、既存 API 
 | status | implemented_local_runtime_pending / implementation / VISUAL / 2026-05-28 |
 | workflow | `docs/30-workflows/completed-tasks/members-list-ux-clarity/` |
 | summary | `/members` の密度切替説明、即時反映ヒント、適用中filter chip、件数live regionを追加。API/schema/query正本は不変。 |
+
+# issue-1079-bulk-tag-audit-batch-filter
+
+| item | value |
+| --- | --- |
+| status | implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION / 2026-06-03 |
+| workflow | `docs/30-workflows/completed-tasks/issue-1079-bulk-tag-audit-batch-filter/` |
+| API | `GET /admin/audit?batchId=<id>` searches `after_json.$.batchId` and `before_json.$.batchId`; no schema change |
+| Web | `/admin/audit` batchId filter, pagination preservation, row batchId display, copy button |
+| inventory | `references/workflow-issue-1079-bulk-tag-audit-batch-filter-artifact-inventory.md` |
+| user gate | authenticated runtime screenshots, staging deploy, commit, push, PR, Issue mutation |
 ## 2026-06-03 Additions
 
 | Topic | References | Notes |

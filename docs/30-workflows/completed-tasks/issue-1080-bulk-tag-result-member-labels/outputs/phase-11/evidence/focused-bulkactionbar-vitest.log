@@ -1,0 +1,13 @@
+mise WARN  Config files in ~/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260603-160923-wt-17/.mise.toml are not trusted.
+Trust them with `mise trust`. See https://mise.jdx.dev/cli/trust.html for more information.
+[33mThe CJS build of Vite's Node API is deprecated. See https://vite.dev/guide/troubleshooting.html#vite-cjs-node-api-deprecated for more details.[39m
+
+ RUN  v2.1.9 /Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260603-160923-wt-17
+
+ ✓ apps/web/src/features/admin/components/__tests__/BulkActionBar.spec.tsx (12 tests) 267ms
+
+ Test Files  1 passed (1)
+      Tests  12 passed (12)
+   Start at  21:56:02
+   Duration  1.77s (transform 77ms, setup 0ms, collect 273ms, tests 267ms, environment 604ms, prepare 170ms)
+
