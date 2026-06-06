@@ -19,6 +19,7 @@ const SITE_URL_MAP: Record<string, string> = {
 
 const DEFAULT_PUBLIC_ENV = {
   ENVIRONMENT: "local",
+  // localhost-allow:local-fallback
   NEXT_PUBLIC_API_BASE_URL: "http://localhost:8787",
 } as const satisfies Pick<Env, "ENVIRONMENT" | "NEXT_PUBLIC_API_BASE_URL">;
 

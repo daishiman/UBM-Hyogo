@@ -44,6 +44,7 @@ const SUCCESS = {
     processedCount: 3,
     writeCount: 2,
     cursor: "cursor-1",
+    durationMs: 42,
   },
 };
 
@@ -78,6 +79,8 @@ describe("ManualFormResyncPanel", () => {
     expect(await screen.findByText("writeCount")).toBeTruthy();
     expect(screen.getByText("2")).toBeTruthy();
     expect(screen.getByText("run")).toBeTruthy();
+    expect(screen.getByText("durationMs")).toBeTruthy();
+    expect(screen.getByText("42")).toBeTruthy();
   });
 
   it("TC-B2 全件 backfill は confirm 承認後に実行する", async () => {
@@ -151,8 +154,25 @@ describe("ManualFormResyncPanel", () => {
     fireEvent.click(screen.getByTestId("manual-sync-run"));
     await waitFor(() =>
       expect(onSynced).toHaveBeenCalledWith(
-        expect.objectContaining({ status: "succeeded", writeCount: 2 }),
+        expect.objectContaining({ status: "succeeded", writeCount: 2, durationMs: 42 }),
       ),
     );
+  });
+
+  it("TC-B9 durationMs 欠落時は fallback を表示する", async () => {
+    h.runTriggerMock.mockResolvedValueOnce({
+      ok: true,
+      result: {
+        status: "succeeded",
+        jobId: "job-legacy",
+        processedCount: 1,
+        writeCount: 1,
+        cursor: null,
+      },
+    });
+    render(<ManualFormResyncPanel />);
+    fireEvent.click(screen.getByTestId("manual-sync-run"));
+    expect(await screen.findByText("durationMs")).toBeTruthy();
+    expect(screen.getAllByText("-").length).toBeGreaterThanOrEqual(2);
   });
 });

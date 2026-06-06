@@ -14,6 +14,56 @@
 | inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1118-admin-tag-catalog-lifecycle-ui-artifact-inventory.md` |
 | user gate | authenticated runtime/staging screenshots, commit, push, PR |
 
+## issue-1088-manual-form-resync-sync-duration-display（2026-06-05）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-1088-manual-form-resync-sync-duration-display/` |
+| status | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION / runtime_visual_pending_user_gate` |
+| purpose | 管理画面「フォーム回答の再取込」結果 `<dl>` に取込所要時間 `durationMs` を表示し、backend producer から UI consumer まで同一サイクルで通す |
+| implementation | `apps/api/src/jobs/sync-forms-responses.ts` `ResponseSyncResult.durationMs` + `runResponseSync()` succeeded/failed/skipped 3 経路、`apps/web/src/features/admin/diagnostics/manual-sync.ts` optional schema、`ManualFormResyncPanel.client.tsx` result row |
+| evidence | API job/route contract focused PASS、web schema/panel focused PASS、api/web typecheck PASS、repo lint PASS |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1088-manual-form-resync-sync-duration-display-artifact-inventory.md` |
+| user gate | authenticated runtime screenshot, staging deploy, commit, push, PR, Issue #1088 mutation |
+
+## test-accounts-seed-spec（2026-06-03）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/test-accounts-seed-spec/` |
+| status | `implemented_local_evidence_captured / implementation / NON_VISUAL` |
+| purpose | 10 member + 3 admin test accounts を SSOT catalog から seed SQL / cleanup SQL / manifest へ決定論的に生成 |
+| implementation | `apps/api/src/testing/test-accounts/**`, `apps/api/migrations/seed/test-accounts-*`, `scripts/gen-test-accounts-seed.mjs`, `scripts/seed-test-accounts.sh`, `apps/web/playwright/scripts/mint-test-account-storage-state.ts` |
+| evidence | drift check PASS; focused Vitest 9 PASS; API/Web typecheck PASS; API/Web lint PASS |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-test-accounts-seed-spec-artifact-inventory.md` |
+| user gate | actual D1 seed apply, storage-state generation, commit, push, PR |
+
+## issue-1081-bulk-tag-real-d1-runtime-smoke（2026-06-03）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/issue-1081-bulk-tag-real-d1-runtime-smoke/` |
+| status | `implemented_local_evidence_captured / implementation / NON_VISUAL / staging_runtime_pending_user_gate` |
+| purpose | `POST /admin/members/tags/bulk` の staging Workers + real D1 mutation smoke gate を追加し、assign / retry noop / unassign / audit count / cleanup を自動検証する |
+| implementation | `scripts/smoke/runtime-tag-bulk.sh`, `apps/api/migrations/seed/bulk-tag-staging-{seed,cleanup}.sql`, `.github/workflows/runtime-smoke-staging.yml`, `package.json` |
+| tests | `scripts/smoke/__tests__/runtime-tag-bulk.test.sh`; included in `pnpm smoke:test` |
+| evidence | local shell test PASS; actionlint PASS; `pnpm smoke:test` PASS; staging real D1 mutation smoke pending user approval |
+| invariant | endpoint contract and D1 schema unchanged; response is existing `{ batchId, results[] }`; fixture prefix fixed to `e2e_test_issue1081_`; issue #1081 CLOSED state preserved |
+| user gate | Cloudflare staging deploy, real D1 seed/mutation/cleanup, commit, push, PR |
+
+## shell-sidebar-tooltip-footer-header-responsive（2026-06-03）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/shell-sidebar-tooltip-footer-header-responsive/` |
+| status | `implemented_local_evidence_captured / implementation / VISUAL / local_browser_screenshots_present_staging_visual_pending_user_gate` |
+| purpose | collapsed sidebar icon-only controls の tooltip、公開フッター sticky bottom、モバイルヘッダー sticky top を同一 local cycle で実装 |
+| implementation | `apps/web/src/components/shell/{SidebarTooltip,SidebarNav,SidebarNavGroup,SidebarNavItem,SidebarShell,SidebarUserMenu,SidebarCollapseToggle}.tsx`, `apps/web/src/styles/{globals,legacy-public}.css` |
+| tests | `apps/web/src/components/shell/__tests__/{SidebarTooltip,SidebarNavItem,SidebarShell,SidebarUserMenu,SidebarCollapseToggle}.spec.tsx` |
+| evidence | focused shell Vitest 5 files / 33 tests PASS; local browser screenshots 3 PNG present |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-shell-sidebar-tooltip-footer-header-responsive-artifact-inventory.md` |
+| user gate | staging visual screenshots, commit, push, PR |
+
 ## issue-1080-bulk-tag-result-member-labels（2026-06-03）
 
 | 項目 | 値 |
@@ -134,6 +184,17 @@
 | lessons | `.claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-issue-1056-kv-alert-policy-binding-drift-detection-2026-06.md`（L-I1056-001..006） |
 | issue | #1056 spec 作成時 OPEN → 本サイクル中 CLOSED（`closedAt: 2026-06-02T03:32:56Z`）。docs を実態整合（reopen せず）、workflow は completed-tasks へ close-out 済 |
 | user gate | commit, push, PR, Issue mutation, alert policy apply/enablement |
+
+## staging-api-url-and-session-recovery（2026-06-03）
+
+| item | value |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/staging-api-url-and-session-recovery/` |
+| status | `implemented_local_evidence_captured / implementation / NON_VISUAL` |
+| implementation | `apps/web/src/lib/fetch/transport.ts`, `apps/web/src/lib/fetch/authed.ts`, `apps/web/src/lib/fetch/public.ts`, `apps/web/src/lib/env.ts`, `apps/web/app/api/me/[...path]/route.ts`, `apps/web/app/api/admin/[...path]/route.ts`, `apps/web/app/api/auth/**`, `apps/web/src/lib/auth/verify-magic-link.ts` |
+| gates/scripts | `scripts/verify-no-localhost-bake.sh`, `scripts/diagnose-auth-secret-parity.sh`, `scripts/cf-secret-put-auth-secret.sh`, `scripts/smoke-staging-me.sh`, `.github/workflows/verify-no-localhost-bake.yml` |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-staging-api-url-and-session-recovery-artifact-inventory.md` |
+| user gate | commit, push, PR, Cloudflare `AUTH_SECRET` mutation, staging deploy, authenticated staging runtime smoke |
 
 ## issue-1054-wrangler-binding-drift-ci-gate（2026-06-02）
 
@@ -5287,6 +5348,17 @@ UT-17 Cloudflare Notifications → alert-relay → Slack 経路を、既存 API 
 | status | implemented_local_runtime_pending / implementation / VISUAL / 2026-05-28 |
 | workflow | `docs/30-workflows/completed-tasks/members-list-ux-clarity/` |
 | summary | `/members` の密度切替説明、即時反映ヒント、適用中filter chip、件数live regionを追加。API/schema/query正本は不変。 |
+
+# issue-1079-bulk-tag-audit-batch-filter
+
+| item | value |
+| --- | --- |
+| status | implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION / 2026-06-03 |
+| workflow | `docs/30-workflows/completed-tasks/issue-1079-bulk-tag-audit-batch-filter/` |
+| API | `GET /admin/audit?batchId=<id>` searches `after_json.$.batchId` and `before_json.$.batchId`; no schema change |
+| Web | `/admin/audit` batchId filter, pagination preservation, row batchId display, copy button |
+| inventory | `references/workflow-issue-1079-bulk-tag-audit-batch-filter-artifact-inventory.md` |
+| user gate | authenticated runtime screenshots, staging deploy, commit, push, PR, Issue mutation |
 ## 2026-06-03 Additions
 
 | Topic | References | Notes |
