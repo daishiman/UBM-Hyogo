@@ -83,7 +83,7 @@ Direct web mutation of `publicConsent` remains forbidden; Google Form resubmissi
 | POST | /admin/sync/schema | Google Forms `forms.get` の live schema を D1 の `schema_versions` / `schema_questions` に同期し、stableKey 未解決 question を `schema_diff_queue` へ投入する（03a 管轄） | `SYNC_ADMIN_TOKEN` Bearer |
 | POST | /admin/sync/responses | Google Forms `forms.responses.list` を D1 に取り込み、`current_response_id` と consent snapshot を更新する（03b 管轄） | `SYNC_ADMIN_TOKEN` Bearer |
 
-`POST /admin/sync/responses` は `fullSync=true` と `cursor=<submittedAt|responseId>` を query として受け付ける。`cursor` は Google API の `pageToken` ではなく、処理済み response の high-water mark として扱う。二重起動時は `409 Conflict` を返す。両 endpoint の進捗 ledger は `sync_jobs` テーブル（02c 管轄）に集約し、`sync_audit` / `sync_audit_logs` / `sync_audit_outbox` は新設しない。
+`POST /admin/sync/responses` は `fullSync=true` と `cursor=<submittedAt|responseId>` を query として受け付ける。`cursor` は Google API の `pageToken` ではなく、処理済み response の high-water mark として扱う。二重起動時は `409 Conflict` を返す。`dryRun=true` を明示した場合は issue #1089 の backfill impact preview として read-only count-only 経路に入り、`{ ok:true, preview:{ status:"preview", dryRun:true, responseCount, estimatedWrites, pagesScanned, capped } }` を返す。dry-run は `sync_jobs` ledger、sync lock、D1 write、`processResponse` を実行しない。両 endpoint の進捗 ledger は `sync_jobs` テーブル（02c 管轄）に集約し、`sync_audit` / `sync_audit_logs` / `sync_audit_outbox` は新設しない。
 
 #### historical（UT-09 / u-04 legacy、新設禁止）
 
