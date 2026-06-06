@@ -580,6 +580,40 @@ function adminTagsQueueBody(query: URLSearchParams) {
   return { total: filtered.length, items: filtered }
 }
 
+function adminTagMasterBody() {
+  return {
+    total: 3,
+    items: [
+      { tagId: 'tag_mentor', code: 'mentor', label: 'メンター', category: 'role' },
+      { tagId: 'tag_vip', code: 'vip', label: 'VIP会員', category: 'membership' },
+      { tagId: 'tag_kobe', code: 'kobe', label: '神戸', category: 'area' },
+    ],
+  }
+}
+
+function updateAdminTagMasterBody(tagId: string, body: {
+  code?: string
+  label?: string
+  category?: string
+  expectedCode?: string
+}) {
+  if (body.code === 'vip') {
+    return { status: 409, body: { ok: false, error: 'tag_code_conflict' } }
+  }
+  if (body.code === 'mentor_stale' || body.expectedCode === 'stale') {
+    return { status: 409, body: { ok: false, error: 'tag_stale_conflict' } }
+  }
+  return {
+    status: 200,
+    body: {
+      tagId,
+      code: body.code ?? 'mentor',
+      label: body.label ?? 'メンター',
+      category: body.category ?? 'role',
+    },
+  }
+}
+
 function meetingsListBody() {
   return {
     total: state.meetingsSeed.meetings.length,
@@ -906,6 +940,23 @@ async function ensureMockApi(): Promise<void> {
       }
       if (req.method === 'GET' && url.pathname === '/admin/tags/queue') {
         response(res, 200, adminTagsQueueBody(url.searchParams))
+        return
+      }
+      if (req.method === 'GET' && url.pathname === '/admin/tags') {
+        response(res, 200, adminTagMasterBody())
+        return
+      }
+      const tagMasterMatch = url.pathname.match(/^\/admin\/tags\/([^/]+)$/)
+      if (req.method === 'PATCH' && tagMasterMatch?.[1]) {
+        readJson(req)
+          .then((body) => {
+            const result = updateAdminTagMasterBody(
+              decodeURIComponent(tagMasterMatch[1]),
+              body as { code?: string; label?: string; category?: string; expectedCode?: string },
+            )
+            response(res, result.status, result.body)
+          })
+          .catch(() => response(res, 400, { ok: false, error: 'invalid_json' }))
         return
       }
       const meetingDetailMatch = url.pathname.match(/^\/admin\/meetings\/([^/]+)$/)

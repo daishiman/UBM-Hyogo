@@ -1,5 +1,20 @@
 # クイックリファレンス
 
+## issue-1116-admin-tag-master-code-edit-ui（2026-06-06）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-1116-admin-tag-master-code-edit-ui/` |
+| status | `implemented_local_evidence_captured / implementation / VISUAL` |
+| issue | #1116 CLOSED（mutation は user-gated、PR 文脈は `Refs #1116` のみ） |
+| parent | `issue-1069-tag-code-rename` |
+| purpose | admin が tag master の `code` / `label` / `category` を UI から安全に編集できる導線を追加 |
+| implementation | `/admin/tag-master` route、`TagMasterPanel`、`TagMasterEditForm`、`api/tags.ts`、shell nav/icon、token-only CSS |
+| evidence | focused Vitest 3 files / 19 tests PASS; web typecheck PASS; web lint PASS; verify:tokens PASS; verify:no-inline-style PASS |
+| invariant | apps/api / D1 / Google Form unchanged。既存 `PATCH /admin/tags/:tagId` + web catch-all proxyのみ利用。`/admin/tags` tag queueとは sibling routeで分離 |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1116-admin-tag-master-code-edit-ui-artifact-inventory.md` |
+| user gate | authenticated staging screenshots, commit, push, PR, Issue mutation |
+
 ## issue-1080-bulk-tag-result-member-labels（2026-06-03）
 
 | 項目 | 値 |
