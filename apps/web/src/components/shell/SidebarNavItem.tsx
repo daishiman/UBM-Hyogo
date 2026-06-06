@@ -7,6 +7,7 @@ import { usePathname } from "next/navigation";
 
 import { Chip } from "../ui/Chip";
 import { ShellIcon } from "./icons";
+import { SidebarTooltip } from "./SidebarTooltip";
 import { isNavItemActive, type ShellNavItem } from "./shell-config";
 
 const TONE_TO_CHIP: Record<"warn" | "danger" | "info", "warning" | "danger" | "info"> = {
@@ -61,30 +62,34 @@ export function SidebarNavItem({ item, collapsed, activePath }: SidebarNavItemPr
   );
   if (item.external) {
     return (
-      <li>
-        <a
-          href={item.href}
-          target="_blank"
-          rel="noopener noreferrer"
-          data-shell-block="nav-item"
-          className={itemClassName}
-        >
-          {content}
-        </a>
+      <li className="w-full">
+        <SidebarTooltip label={item.label} collapsed={collapsed}>
+          <a
+            href={item.href}
+            target="_blank"
+            rel="noopener noreferrer"
+            data-shell-block="nav-item"
+            className={itemClassName}
+          >
+            {content}
+          </a>
+        </SidebarTooltip>
       </li>
     );
   }
   return (
-    <li>
-      <Link
-        href={item.href}
-        data-shell-block="nav-item"
-        data-active={active ? "true" : "false"}
-        aria-current={active ? "page" : undefined}
-        className={`${itemClassName} border-l-2 border-transparent data-[active=true]:border-[var(--ubm-color-accent)] data-[active=true]:bg-[var(--shell-active-bg)] data-[active=true]:font-semibold data-[active=true]:text-[var(--ubm-color-accent-ink)]`}
-      >
-        {content}
-      </Link>
+    <li className="w-full">
+      <SidebarTooltip label={item.label} collapsed={collapsed}>
+        <Link
+          href={item.href}
+          data-shell-block="nav-item"
+          data-active={active ? "true" : "false"}
+          aria-current={active ? "page" : undefined}
+          className={`${itemClassName} border-l-2 border-transparent data-[active=true]:border-[var(--ubm-color-accent)] data-[active=true]:bg-[var(--shell-active-bg)] data-[active=true]:font-semibold data-[active=true]:text-[var(--ubm-color-accent-ink)]`}
+        >
+          {content}
+        </Link>
+      </SidebarTooltip>
     </li>
   );
 }

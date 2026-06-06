@@ -53,6 +53,15 @@ describe("SidebarShell", () => {
     expect(container.querySelector('[data-testid="trigger"]')).not.toBeNull();
   });
 
+  it("mobile-bar は sticky top-0 z-30 かつ md:hidden を維持する", () => {
+    const { container } = renderShell("member");
+    const mobileBar = container.querySelector('[data-shell="mobile-bar"]');
+    expect(mobileBar?.className).toContain("sticky");
+    expect(mobileBar?.className).toContain("top-0");
+    expect(mobileBar?.className).toContain("z-30");
+    expect(mobileBar?.className).toContain("md:hidden");
+  });
+
   it("active path の nav item に aria-current=page が付く", () => {
     const { container } = renderShell("member");
     const active = container.querySelector('[data-shell-block="nav-item"][data-active="true"]');
@@ -71,12 +80,12 @@ describe("SidebarShell", () => {
     expect(container.querySelector('nav[aria-label="サイドバー"]')).not.toBeNull();
   });
 
-  it("desktop aside は固定高さで nav と footer 固定領域を分離する", () => {
+  it("desktop aside は tooltip をクリップせず nav と footer 固定領域を分離する", () => {
     const { container } = renderShell("admin");
     const aside = container.querySelector('[data-shell="sidebar"]');
     const nav = container.querySelector('[data-shell-block="nav"]');
     const footer = container.querySelector('[data-shell-block="sidebar-footer"]');
-    expect(aside?.className).toContain("overflow-hidden");
+    expect(aside?.className).toContain("overflow-visible");
     expect(nav?.className).toContain("overflow-y-auto");
     expect(footer?.className).toContain("shrink-0");
     expect(footer?.querySelector('[data-role="public-return"]')).not.toBeNull();
@@ -93,10 +102,23 @@ describe("SidebarShell", () => {
   it("collapsed 初期値では aside が collapsed 幅状態になり footer control も残る", () => {
     const { container } = renderShell("admin", true);
     const aside = container.querySelector('[data-shell="sidebar"]');
+    const nav = container.querySelector('[data-shell-block="nav"]');
     expect(aside?.getAttribute("data-collapsed")).toBe("true");
-    expect(aside?.className).toContain("overflow-hidden");
+    expect(aside?.className).toContain("overflow-visible");
+    expect(nav?.className).toContain("overflow-visible");
     expect(container.querySelector('[data-shell-block="sidebar-footer"]')).not.toBeNull();
     const toggle = container.querySelector('[data-shell-block="collapse-toggle"]');
-    expect(toggle?.parentElement?.className).toContain("justify-center");
+    expect(toggle?.closest(".justify-center")).not.toBeNull();
+  });
+
+  it("admin collapsed では公開サイトに戻るリンクに tooltip を接続する", () => {
+    const { container } = renderShell("admin", true);
+    const publicReturn = container.querySelector('[data-role="public-return"]');
+    const tooltip = Array.from(container.querySelectorAll('[role="tooltip"]')).find(
+      (node) => node.textContent === "公開サイトに戻る",
+    );
+    expect(tooltip).not.toBeNull();
+    expect(publicReturn?.getAttribute("title")).toBeNull();
+    expect(publicReturn?.getAttribute("aria-describedby")).toBe(tooltip?.id);
   });
 });
