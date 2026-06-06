@@ -2831,6 +2831,17 @@ node scripts/list-specs.js --topics
 | Evidence | L31 |
 | Lessons Learned | L38 |
 
+### references/workflow-issue-1102-usedismissable-hook-extraction-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Metadata | L3 |
+| Implementation | L13 |
+| Evidence | L24 |
+| Invariants | L32 |
+| User Gate | L39 |
+| Lessons Learned | L43 |
+
 ### references/workflow-issue-191-schema-aliases-artifact-inventory.md
 
 | セクション | 行 |
