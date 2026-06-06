@@ -102,6 +102,30 @@ Issue / unassigned-task が記述する「現状の挙動・契約・コード�
 - 検証で前提誤りを見つけたら、`implementation-guide.md` / `phase-1-requirements.md` に **訂正注記**として残し、次の人が再び drift と誤認しないようにする。Phase 2 以降の設計例も実コードに合わせて補正する。
 - GitHub Issue ラベルが `docs-only` でも、root cause（SSOT 違反 = dead alias / dead code 残存）の解消にコード変更が必要なら、CONST_004（ラベルより実態優先）で **実装仕様書**として分類する。昇格判断は `artifacts.json` の `spec_classification_note` に残し、後続レビューで分類根拠を追えるようにする（[phase12-skill-feedback-promotion.md](phase12-skill-feedback-promotion.md) Applied Examples 参照）。
 
+#### D1 migration 前提の現行再スコープ（Issue #1105 対策）
+
+D1 migration / table rebuild / FK 制約追加を含むタスクでは、Issue 本文や古い未タスクに書かれた migration 番号・既存 schema をそのまま採用しない。Phase 1 で現行 `apps/api/migrations/` を実測し、番号占有・後続 ALTER・消失する dependent object を表に固定する。
+
+必須確認:
+
+```bash
+ls apps/api/migrations/*.sql | sort | tail -10
+rg -n "CREATE TABLE|ALTER TABLE|CREATE INDEX|CREATE TRIGGER|CREATE VIEW|FOREIGN KEY|REFERENCES|PRAGMA foreign_keys" apps/api/migrations
+```
+
+Phase 1 outputs には以下を記録する:
+
+| 項目 | 内容 |
+| --- | --- |
+| issue 記載 migration 番号 | Issue / source task が主張する番号・ファイル名 |
+| current occupied prefix | 現行 migration directory で実際に占有済みの番号 |
+| canonical new prefix | 本タスクで採用する新規番号。重複時は現行 directory を優先 |
+| current table columns | baseline `CREATE TABLE` と後続 `ALTER TABLE` を合成した現行列 |
+| rebuild dependent objects | DROP/RENAME で消失する INDEX / VIEW / TRIGGER と再作成方針 |
+| repository precedent | FK / PRAGMA / rebuild 前例の有無。前例ゼロなら local D1 test と user-gated remote D1 検証境界を分ける |
+
+テーブル再構築 migration では、抽象 NOTE（例: "INDEX/VIEW 棚卸し"）を現行 schema の具体識別子へ落とし込み、消失する INDEX / VIEW / TRIGGER の再作成を AC に昇格する。後続 `ALTER TABLE` で追加された列（例: `notification_opt_out`）をコピー対象から漏らした仕様は Phase 2 へ進めない。
+
 ## 統合テスト連携【必須】
 
 統合テストの再実行とゲート判定:

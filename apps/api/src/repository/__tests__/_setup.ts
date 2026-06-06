@@ -86,6 +86,7 @@ const TABLES = [
 ];
 
 let mfInstance: Miniflare | null = null;
+let migrationsApplied = false;
 
 const ensureMiniflare = async (): Promise<Miniflare> => {
   if (mfInstance) return mfInstance;
@@ -101,18 +102,22 @@ export const setupD1 = async (): Promise<InMemoryD1> => {
   const mf = await ensureMiniflare();
   const db = (await mf.getD1Database("DB")) as unknown as D1Database;
 
-  // migration を idempotent に流す（IF NOT EXISTS / IF EXISTS 前提）
-  const migrations = readMigrations();
-  for (const sql of migrations) {
-    for (const stmt of splitStatements(sql)) {
-      try {
-        await db.exec(stmt.replace(/\n/g, " "));
-      } catch (err) {
-        // 既に存在する場合などは skip（再利用する instance のため）
-        const msg = (err as Error).message ?? "";
-        if (!/already exists|duplicate/i.test(msg)) throw err;
+  // The Miniflare instance is shared within a worker; applying every migration
+  // for every test burns through local D1 fetch sockets on large suites.
+  if (!migrationsApplied) {
+    const migrations = readMigrations();
+    for (const sql of migrations) {
+      for (const stmt of splitStatements(sql)) {
+        try {
+          await db.exec(stmt.replace(/\n/g, " "));
+        } catch (err) {
+          // 既に存在する場合などは skip（再利用する instance のため）
+          const msg = (err as Error).message ?? "";
+          if (!/already exists|duplicate/i.test(msg)) throw err;
+        }
       }
     }
+    migrationsApplied = true;
   }
 
   // 全テーブルを毎回 truncate（in-memory なので速い）
@@ -149,6 +154,7 @@ if (typeof process !== "undefined") {
     if (mfInstance) {
       await mfInstance.dispose();
       mfInstance = null;
+      migrationsApplied = false;
     }
   });
 }
