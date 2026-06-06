@@ -8,6 +8,11 @@ import {
   ListIdentityConflictsResponseZ,
 } from "@ubm-hyogo/shared";
 import { getAdminFetchEnv, getEnv } from "../env";
+import {
+  resolveServiceBinding,
+  selectAndFetch,
+  stripTrailingSlash,
+} from "../fetch/transport-select";
 import type { AdminAuditListResponse } from "./types";
 
 interface AdminFetchErrorOptions {
@@ -65,9 +70,9 @@ export function isAdminFetchError(error: unknown): error is AdminFetchError {
 }
 
 const resolveApiBase = (): string => {
-  return (
-    getAdminFetchEnv().INTERNAL_API_BASE_URL ?? getEnv().INTERNAL_API_BASE_URL
-  ).replace(/\/$/, "");
+  return stripTrailingSlash(
+    getAdminFetchEnv().INTERNAL_API_BASE_URL ?? getEnv().INTERNAL_API_BASE_URL,
+  );
 };
 
 const resolveInternalSecret = (): string =>
@@ -80,8 +85,10 @@ function isTestOrPlaywright(): boolean {
 
 function getAdminServiceBinding(): { fetch: typeof fetch } | undefined {
   const env = getAdminFetchEnv();
-  if (isTestOrPlaywright() && env.INTERNAL_API_BASE_URL) return undefined;
-  return env.API_SERVICE;
+  return resolveServiceBinding({
+    binding: env.API_SERVICE,
+    disableBinding: isTestOrPlaywright() && Boolean(env.INTERNAL_API_BASE_URL),
+  });
 }
 
 async function buildAdminRequestHeaders(
@@ -551,15 +558,19 @@ export async function fetchAdmin<T>(
     cache: "no-store",
     ...(opts.body !== undefined ? { body: JSON.stringify(opts.body) } : {}),
   };
-  const binding = getAdminServiceBinding();
-  let res: Response;
-  if (binding) {
-    res = await binding.fetch(`https://service-binding.local${path}`, init);
-    logAdminTransport("service-binding", path, res.status);
-  } else {
-    res = await fetch(`${resolveApiBase()}${path}`, init);
-    logAdminTransport("http-fallback", path, res.status);
+  const transportResult = await selectAndFetch(
+    {
+      binding: getAdminServiceBinding(),
+      resolveBase: resolveApiBase,
+      log: logAdminTransport,
+    },
+    path,
+    init,
+  );
+  if (transportResult.kind === "base-unavailable") {
+    throw new AdminFetchError({ path, status: 500 });
   }
+  const res = transportResult.response;
   if (!res.ok) {
     let responseBody: string | null = null;
     try {

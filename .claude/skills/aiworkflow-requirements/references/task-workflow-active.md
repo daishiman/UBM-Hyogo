@@ -4136,3 +4136,22 @@ docs-only / direction-reconciliation で採用方針 A を維持する場合で�
 | evidence | Phase 12 strict 7 outputs present; root/output artifacts parity present; implementation and runtime screenshots pending |
 | artifact inventory | `references/workflow-issue-1068-admin-tag-inline-create-ui-artifact-inventory.md` |
 | user gate | app implementation, local visual evidence, staging verification, commit, push, PR, Issue mutation |
+
+## issue-1111-proxy-transport-util-unify
+
+| 項目 | 内容 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-1111-proxy-transport-util-unify/` |
+| status | `implemented_local_evidence_captured / refactoring / NON_VISUAL` |
+| Issue | `#1111`（CLOSED。未実施のまま close、本 WF は closed のまま実装仕様作成・mutation なし。PR 文脈は `Refs #1111` のみ） |
+| parent | `docs/30-workflows/completed-tasks/admin-meetings-attendance-404-fix-and-ux/`（FU-AMA-002） |
+| purpose | admin/public の transport 選択（service-binding 優先 → HTTP fallback）を新規 pure util `apps/web/src/lib/fetch/transport-select.ts` に集約する pure refactor |
+| implementation targets | `apps/web/src/lib/fetch/transport-select.ts`（new）, `apps/web/app/api/admin/[...path]/route.ts`, `apps/web/src/lib/admin/server-fetch.ts`, `apps/web/src/lib/fetch/public.ts` |
+| tests | `apps/web/src/lib/fetch/__tests__/transport-select.spec.ts`（new・9）, `route.spec.ts`, `server-fetch.{binding,http-fallback,env}.spec.ts`, `public.spec.ts`; focused 6 files / 44 tests PASS |
+| system spec | n/a（公開 API / D1 / Google Form 不変。web 内部 util ゆえ本 WF と artifact inventory に記録） |
+| workflow state | `implemented_local_evidence_captured`（apps/web only; `apps/api` unchanged） |
+| invariant | pure refactor（分岐結果 / fallback base 解決 / binding 無効化条件 / transport ログ出力が完全不変）。per-caller 真理値を呼び出し側に保持。`auth.ts` はスコープ外 |
+| evidence | focused Vitest 6 files / 44 tests PASS; web typecheck/lint PASS; verify:phase12-compliance ok:true; gate-metadata ERROR 0 |
+| boundary | commit, push, PR, staging smoke, Issue mutation は user-gated |
+| artifact inventory | `references/workflow-issue-1111-proxy-transport-util-unify-artifact-inventory.md` |
+| user gate | commit, push, PR, staging smoke, Issue state change |

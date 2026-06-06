@@ -2801,6 +2801,16 @@ node scripts/list-specs.js --topics
 | Lessons Learned | L62 |
 | User-gated actions | L72 |
 
+### references/workflow-issue-1111-proxy-transport-util-unify-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Metadata | L3 |
+| Workflow artifacts | L18 |
+| Implemented files (apps/web only) | L33 |
+| Boundaries | L43 |
+| Lessons Learned | L51 |
+
 ### references/workflow-issue-191-schema-aliases-artifact-inventory.md
 
 | セクション | 行 |
@@ -8736,6 +8746,7 @@ node scripts/list-specs.js --topics
 | issue-1077-bulk-tag-authenticated-staging-visual（implemented_local_runtime_pending / implementation / VISUAL_ON_EXECUTION / 2026-06-03） | L4050 |
 | issue-998-members-publish-state-production-rollout | L4075 |
 | issue-1068-admin-tag-inline-create-ui | L4122 |
+| issue-1111-proxy-transport-util-unify | L4140 |
 
 ### references/task-workflow-backlog-part2.md
 
