@@ -2,10 +2,14 @@ import { describe, expect, it } from "vitest";
 import { buildCleanupSql, buildManifest, buildSeedSql } from "../build-seed-sql";
 
 describe("test account seed builder", () => {
-  it("builds transactional idempotent SQL without bare inserts", () => {
+  it("builds non-transactional idempotent SQL without bare inserts", () => {
     const sql = buildSeedSql();
-    expect(sql.startsWith("BEGIN TRANSACTION;")).toBe(true);
-    expect(sql.trimEnd().endsWith("COMMIT;")).toBe(true);
+    // Cloudflare D1 の remote 実行は明示 BEGIN TRANSACTION / COMMIT を拒否する
+    // （wrangler d1 execute --file が全文を暗黙アトミックに実行するため）。
+    // 出力に明示トランザクションが混ざっていないことを退行ガードとして保証する。
+    expect(sql).not.toMatch(/BEGIN TRANSACTION/);
+    expect(sql).not.toMatch(/(^|\n)COMMIT;/);
+    expect(sql.startsWith("INSERT OR REPLACE INTO schema_versions")).toBe(true);
     expect(sql).not.toMatch(/(^|\n)INSERT INTO /);
     expect(sql).toContain("INSERT OR REPLACE INTO member_identities");
     expect(sql).toContain("INSERT OR IGNORE INTO member_tags");
