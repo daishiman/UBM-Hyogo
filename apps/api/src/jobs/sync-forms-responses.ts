@@ -107,8 +107,27 @@ export interface ResponseSyncResult {
   readonly error?: string;
 }
 
+// issue-1089: 全件 backfill 承認前の影響件数プレビュー（dry-run / count-only）。
+// run の "succeeded"/"failed"/"skipped" と区別する固定リテラル status="preview"。
+export interface ResponseSyncPreview {
+  readonly status: "preview";
+  readonly dryRun: true;
+  readonly responseCount: number; // 実数: 処理対象になる response 数
+  readonly estimatedWrites: number; // 推定: 対象 response の estimateResponseWrites 合計
+  readonly pagesScanned: number; // 走査ページ数（capped 判定の根拠）
+  readonly capped: boolean; // safetyCounter 上限(100)で打ち切ったか
+}
+
+export interface ResponseSyncPreviewOptions {
+  readonly fullSync?: boolean;
+  readonly cursor?: string;
+  readonly client: GoogleFormsClient;
+  readonly formId?: string;
+}
+
 const DEFAULT_WRITE_CAP = 200;
 const LOCK_ID = "response-sync";
+const PREVIEW_PAGE_CAP = 100;
 
 export async function runResponseSync(
   env: ResponseSyncEnv,
@@ -277,6 +296,81 @@ export async function runResponseSync(
     writeCount: writes,
     cursor,
     durationMs: durationMs(),
+  };
+}
+
+/**
+ * issue-1089: 全件 backfill の影響件数を read-only で集計する dry-run 経路。
+ *
+ * 不変条件 #3（read-only）を厳守する:
+ *   - acquireSyncLock を呼ばない（preview は二重起動防止対象外）
+ *   - start / succeed / fail（sync_jobs ledger）を呼ばない
+ *   - processResponse を呼ばない（D1 write ゼロ）
+ *   - PII（responseEmail / responseId / questionId）を返さない（件数のみ）
+ *
+ * cursor 決定・highWater フィルタ・estimateResponseWrites は runResponseSync と
+ * 同一ロジックを共有し、「実際に処理対象になる response 数」と整合させる。
+ */
+export async function previewResponseSync(
+  env: ResponseSyncEnv,
+  options: ResponseSyncPreviewOptions,
+): Promise<ResponseSyncPreview> {
+  // 1. formId 解決（runResponseSync と同一・未設定 throw）
+  const formId = options.formId ?? env.GOOGLE_FORM_ID;
+  if (!formId) {
+    throw new Error("GOOGLE_FORM_ID 未設定");
+  }
+
+  // 2. cursor 決定（runResponseSync と同一・読取のみ）
+  let cursor: string | null;
+  if (options.fullSync) {
+    cursor = null;
+  } else if (options.cursor !== undefined) {
+    cursor = options.cursor;
+  } else {
+    cursor = await readLastCursor(env.DB);
+  }
+  const highWater = parseHighWaterCursor(cursor);
+  const autoPublishEnabled = parseAutoPublishFlag(env);
+
+  let responseCount = 0;
+  let estimatedWrites = 0;
+  let pagesScanned = 0;
+  let capped = false;
+  let nextPageToken: string | undefined;
+  let safetyCounter = 0;
+
+  while (true) {
+    safetyCounter += 1;
+    // capped: 100 page 上限で打ち切り（runResponseSync の overflow guard と同値・DD6）
+    if (safetyCounter > PREVIEW_PAGE_CAP) {
+      capped = true;
+      break;
+    }
+    const page = await options.client.listResponses(formId, {
+      ...(nextPageToken !== undefined ? { pageToken: nextPageToken } : {}),
+      ...(highWater !== null ? { since: highWater.submittedAt } : {}),
+    });
+    pagesScanned += 1;
+    for (const resp of page.responses) {
+      // highWater フィルタ（runResponseSync と同条件）
+      if (highWater && !isAfterHighWater(resp, highWater)) continue;
+      // responseEmail 無は processResponse が skip（writeCount 0）→ 数えない（実挙動整合）
+      if (!resp.responseEmail) continue;
+      responseCount += 1;
+      estimatedWrites += estimateResponseWrites(resp, autoPublishEnabled);
+    }
+    nextPageToken = page.nextPageToken;
+    if (!nextPageToken) break;
+  }
+
+  return {
+    status: "preview",
+    dryRun: true,
+    responseCount,
+    estimatedWrites,
+    pagesScanned,
+    capped,
   };
 }
 
