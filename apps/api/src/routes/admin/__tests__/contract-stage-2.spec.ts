@@ -97,6 +97,7 @@ const auditResponse = {
     targetId: "m_001",
     from: null,
     to: null,
+    batchId: null,
     limit: 50,
   },
 } satisfies ListAuditResponse;
@@ -236,6 +237,7 @@ describe("GET /admin/audit", () => {
         action: "admin.member.deleted",
         actorEmail: "admin@example.com",
         targetType: "member",
+        batchId: "batch-1079",
         limit: "50",
       }),
     ).not.toThrow();

@@ -22,6 +22,7 @@ const rootReactDom = fileURLToPath(new URL("./node_modules/react-dom", import.me
 const D1_INCLUDE = [
   "apps/api/migrations/__tests__/*.spec.ts",
   "apps/api/migrations/seed/__tests__/issue-399-seed-syntax.test.ts",
+  "apps/api/migrations/seed/__tests__/test-accounts-seed.contract.spec.ts",
   "apps/api/src/__tests__/invariants.spec.ts",
   "apps/api/src/env.spec.ts",
   "apps/api/src/health-db.contract.spec.ts",
