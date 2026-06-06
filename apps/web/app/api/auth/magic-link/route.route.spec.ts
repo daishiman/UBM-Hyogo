@@ -54,6 +54,6 @@ describe("POST /api/auth/magic-link", () => {
 
     await POST(makeReq({ email: "u@example.com" }));
 
-    expect(fetchMock.mock.calls[0]?.[0]).toBe("http://127.0.0.1:8787/auth/magic-link");
+    expect(fetchMock.mock.calls[0]?.[0]).toBe("http://localhost:8787/auth/magic-link");
   });
 });

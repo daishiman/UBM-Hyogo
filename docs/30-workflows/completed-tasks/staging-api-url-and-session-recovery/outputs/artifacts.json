@@ -1,0 +1,108 @@
+{
+  "workflow_id": "staging-api-url-and-session-recovery",
+  "feature": "staging-api-url-and-session-recovery",
+  "status": "implemented_local_evidence_captured",
+  "created": "2026-06-03T00:00:00+09:00",
+  "lastUpdated": "2026-06-03T23:05:00+09:00",
+  "metadata": {
+    "taskId": "TASK-STAGING-API-URL-AND-SESSION-RECOVERY",
+    "taskType": "implementation",
+    "visualEvidence": "NON_VISUAL",
+    "implementationCategory": "web-api-transport-and-env",
+    "implementation_mode": "new",
+    "workflow_state": "implemented_local_evidence_captured",
+    "implementation_status": "implemented_local",
+    "scope": "Eradicate the staging localhost API fallback and recover member session retrieval by routing all apps/web server-side fetches (fetchAuthed, /api/me, /api/admin, /api/auth/*, magic-link) through the API_SERVICE service binding to avoid same-account workers.dev loopback 404, unifying client API base URL on NEXT_PUBLIC_API_BASE_URL, and adding an AUTH_SECRET parity diagnostic, a localhost-bake grep gate, and a staging runtime smoke.",
+    "canonical_root": "docs/30-workflows/completed-tasks/staging-api-url-and-session-recovery",
+    "runtime_boundary": "Local implementation, focused Vitest, typecheck, and source localhost-bake grep gate are complete. Commit, push, PR, cf.sh secret put, staging deploy, and authenticated staging runtime smoke remain user-gated.",
+    "lanes": [
+      {
+        "id": "A",
+        "title": "server-side fetch service-binding unification",
+        "spec": "tasks/task-a-server-fetch-service-binding.md"
+      },
+      {
+        "id": "B",
+        "title": "client localhost bake eradication",
+        "spec": "tasks/task-b-client-localhost-bake-eradication.md"
+      },
+      {
+        "id": "C",
+        "title": "cf secret parity + localhost grep gate + staging smoke",
+        "spec": "tasks/task-c-cf-secret-parity-and-gates.md"
+      }
+    ],
+    "implementation_files": [
+      ".github/workflows/verify-no-localhost-bake.yml",
+      ".github/workflows/web-cd.yml",
+      "apps/web/app/api/admin/[...path]/route.ts",
+      "apps/web/app/api/auth/gate-state/route.ts",
+      "apps/web/app/api/auth/magic-link/route.ts",
+      "apps/web/app/api/auth/magic-link/verify/route.ts",
+      "apps/web/app/api/me/[...path]/route.ts",
+      "apps/web/src/lib/auth/verify-magic-link.ts",
+      "apps/web/src/lib/env.ts",
+      "apps/web/src/lib/fetch/authed.ts",
+      "apps/web/src/lib/fetch/public.ts",
+      "apps/web/src/lib/fetch/transport.ts",
+      "apps/web/wrangler.toml",
+      "scripts/cf-secret-put-auth-secret.sh",
+      "scripts/diagnose-auth-secret-parity.sh",
+      "scripts/smoke-staging-me.sh",
+      "scripts/verify-no-localhost-bake.sh"
+    ],
+    "test_files": [
+      "apps/web/src/lib/fetch/transport.spec.ts",
+      "apps/web/src/lib/fetch/authed.spec.ts",
+      "apps/web/src/lib/fetch/public.spec.ts",
+      "apps/web/src/lib/__tests__/env.spec.ts",
+      "apps/web/app/api/me/[...path]/route.route.spec.ts",
+      "apps/web/app/api/admin/[...path]/route.spec.ts",
+      "apps/web/app/api/auth/magic-link/route.route.spec.ts",
+      "apps/web/app/api/auth/magic-link/verify/route.route.spec.ts",
+      "apps/web/src/lib/auth/verify-magic-link.spec.ts",
+      "scripts/verify-no-localhost-bake.spec.ts"
+    ],
+    "verify_commands": [
+      "mise exec -- pnpm exec vitest run apps/web/src/lib/fetch/transport.spec.ts apps/web/src/lib/fetch/authed.spec.ts apps/web/src/lib/fetch/public.spec.ts apps/web/src/lib/__tests__/env.spec.ts apps/web/app/api/me/'[...path]'/route.route.spec.ts apps/web/app/api/admin/'[...path]'/route.spec.ts apps/web/app/api/auth/magic-link/route.route.spec.ts apps/web/app/api/auth/magic-link/verify/route.route.spec.ts apps/web/src/lib/auth/verify-magic-link.spec.ts scripts/verify-no-localhost-bake.spec.ts",
+      "bash scripts/verify-no-localhost-bake.sh --src-only",
+      "mise exec -- pnpm typecheck",
+      "mise exec -- pnpm lint"
+    ],
+    "phase12_strict_outputs": [
+      "outputs/phase-12/main.md",
+      "outputs/phase-12/implementation-guide.md",
+      "outputs/phase-12/system-spec-update-summary.md",
+      "outputs/phase-12/documentation-changelog.md",
+      "outputs/phase-12/unassigned-task-detection.md",
+      "outputs/phase-12/skill-feedback-report.md",
+      "outputs/phase-12/phase12-task-spec-compliance-check.md"
+    ],
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-06-03T00:00:00+09:00",
+        "evidence_path": "docs/30-workflows/completed-tasks/staging-api-url-and-session-recovery/outputs/phase-12/phase12-task-spec-compliance-check.md",
+        "approver": "daishiman",
+        "notes": "spec_review: Phase 1-13 implementation specification, three lane task specs with CONST_005 mandatory fields, strict Phase 12 outputs, and artifacts parity are present."
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "passed",
+        "passed_at": "2026-06-03T23:05:00+09:00",
+        "evidence_path": "docs/30-workflows/completed-tasks/staging-api-url-and-session-recovery/outputs/phase-11/manual-test-result.md",
+        "approver": "daishiman",
+        "notes": "implementation: local code changes, focused Vitest 94 PASS, typecheck PASS, and source localhost-bake grep gate PASS. lint rerun recorded in Phase 11 after final docs sync."
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/staging-api-url-and-session-recovery/outputs/phase-13/phase-13.md",
+        "approver": "daishiman",
+        "notes": "pr_and_runtime: commit, push, PR, cf.sh secret put, staging deploy, and runtime smoke are user-gated (CONST_002 / CONST_007 exception)."
+      }
+    ]
+  }
+}
