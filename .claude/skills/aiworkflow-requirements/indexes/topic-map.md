@@ -2766,6 +2766,16 @@ node scripts/list-specs.js --topics
 | Contract | L39 |
 | Follow-ups | L48 |
 
+### references/workflow-issue-1103-globals-css-shell-block-consolidation-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Summary | L3 |
+| Workflow Artifacts | L9 |
+| Implementation Targets | L19 |
+| Evidence | L23 |
+| Boundary | L33 |
+
 ### references/workflow-issue-191-schema-aliases-artifact-inventory.md
 
 | セクション | 行 |
@@ -8678,16 +8688,16 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L3685 |
-| フェーズ構造（概要） | L3694 |
-| 品質ゲート（概要） | L3725 |
-| 出力テンプレート | L3736 |
-| 実行時のコマンド・エージェント・スキル | L3759 |
-| 昇格パターン集 | L3783 |
-| Current Active / Spec Created Tasks | L3785 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L3951 |
-| issue-998-members-publish-state-production-rollout | L4029 |
-| issue-1068-admin-tag-inline-create-ui | L4076 |
+| ドキュメント構成 | L3699 |
+| フェーズ構造（概要） | L3708 |
+| 品質ゲート（概要） | L3739 |
+| 出力テンプレート | L3750 |
+| 実行時のコマンド・エージェント・スキル | L3773 |
+| 昇格パターン集 | L3797 |
+| Current Active / Spec Created Tasks | L3799 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L3965 |
+| issue-998-members-publish-state-production-rollout | L4043 |
+| issue-1068-admin-tag-inline-create-ui | L4090 |
 
 ### references/task-workflow-backlog-part2.md
 

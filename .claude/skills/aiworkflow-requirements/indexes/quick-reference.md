@@ -1,5 +1,18 @@
 # クイックリファレンス
 
+## issue-1103-globals-css-shell-block-consolidation（2026-06-05）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-1103-globals-css-shell-block-consolidation/` |
+| status | `implemented_local_evidence_captured / implementation / NON_VISUAL` |
+| purpose | `apps/web/src/styles/globals.css` の byte-identical `parallel-01 P1-1〜P1-5` 重複ブロックを 1 本化し、shell/page/card/typography token surface の drift risk を下げる |
+| implementation | 後発重複ブロック（132 行）を削除のみ。先発 `parallel-01 P1-1〜P1-5` ブロックと admin scoped responsive override を保持。byte-identical diff + cascade 文脈同一で computed style 不変を二重証明 |
+| evidence | `data-shell="sidebar"` 2 matches、`parallel-01 P1-1 page surface` 1 match、web build PASS、web lint PASS、`verify:tokens` PASS、`tokens.runtime.spec.ts` 9 PASS |
+| invariant | apps/api / D1 / auth / route contract / token definition unchanged |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1103-globals-css-shell-block-consolidation-artifact-inventory.md` |
+| user gate | commit, push, PR, staging screenshot |
+
 ## admin-meetings-attendance-404-fix-and-ux（2026-06-03）
 
 | 項目 | 値 |
