@@ -23,6 +23,7 @@ function buildAuditApiPath(values: AuditSearchValues): string {
   set("targetId", values.targetId);
   set("from", jstLocalToUtcIso(values.fromLocal));
   set("to", jstLocalToUtcIso(values.toLocal));
+  set("batchId", values.batchId);
   set("limit", values.limit);
   set("cursor", values.cursor);
   const qs = params.toString();
@@ -50,6 +51,7 @@ export default async function AdminAuditPage({
   withValue(rawValues, "targetId", toSingle(sp["targetId"]));
   withValue(rawValues, "fromLocal", toSingle(sp["from"]));
   withValue(rawValues, "toLocal", toSingle(sp["to"]));
+  withValue(rawValues, "batchId", toSingle(sp["batchId"]));
   withValue(rawValues, "cursor", toSingle(sp["cursor"]));
   const values = rawValues as AuditSearchValues;
 

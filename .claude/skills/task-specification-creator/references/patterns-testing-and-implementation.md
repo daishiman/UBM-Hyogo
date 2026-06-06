@@ -12,6 +12,32 @@
 
 ## 単体テスト設計パターン
 
+### D1 JSON search SQL binding / full-scan 方針パターン
+
+- **状況**: D1 repository で JSON column 内の同一値を複数 JSON path から検索する場合（例: `after_json.$.batchId` と `before_json.$.batchId` の OR 検索）、既存 helper が単一 `?` placeholder の置換だけを想定していると binding 番号がずれやすい。
+- **パターン**: 1 つの値を複数 predicate で参照する WHERE 句では、単一 placeholder helper を使わず `bindings.push(value)` を 1 回だけ行い、同じ `?N` を複数箇所に明示的に参照する。OR 条件は括弧で閉じ、既存 filter とは `AND` の 1 項として合成する。JSON column に壊れた JSON row が混在し得る場合は、`json_extract` を必ず `json_valid(column) AND ...` で guard する。
+- **実装例**:
+  ```typescript
+  if (filters.batchId) {
+    bindings.push(filters.batchId);
+    where.push(
+      `((json_valid(after_json) AND json_extract(after_json, '$.batchId') = ?${bindings.length}) ` +
+        `OR (json_valid(before_json) AND json_extract(before_json, '$.batchId') = ?${bindings.length}))`,
+    );
+  }
+  ```
+- **Phase 2 必須記録**:
+  | 観点 | 記録すること |
+  | --- | --- |
+  | binding | helper が単一 `?` 専用か、複数 placeholder / 同一 binding 再利用に対応するか |
+  | 検索対象 | JSON path と保存元の非対称性（assign は `after_json`、unassign は `before_json` など） |
+  | JSON validity | 既存 row に破損 JSON が混在し得る場合は `json_valid(column)` guard を入れること |
+  | full scan | JSON index 不在時の scan 特性、keyset cursor + LIMIT、sparse key、plain 列併用誘導 |
+  | schema 化境界 | generated column / dedicated column / index migration を今回 scope に入れるか、運用トリガ付き別関心にするか |
+- **検証**: repository test で両 JSON path の hit、破損 JSON row 混在時に落ちないこと、他 filter との AND 合成、cursor pagination 併用、不一致時 empty 200 を固定する。API/UI がある場合は `appliedFilters` echo と pagination href の query 保持も contract/component test に含める。
+- **発見日**: 2026-06-03
+- **関連タスク**: `issue-1079-bulk-tag-audit-batch-filter`
+
 ### カバレッジ閾値免除判定パターン
 
 - **パターン**: Phase 7仕様の「統合テスト（TASK-8B, TASK-8C）でカバーされる予定のパスは差し戻さない」規定を適用し、条件付PASSとする

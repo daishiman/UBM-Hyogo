@@ -1,5 +1,18 @@
 # クイックリファレンス
 
+## shell-sidebar-tooltip-footer-header-responsive（2026-06-03）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/shell-sidebar-tooltip-footer-header-responsive/` |
+| status | `implemented_local_evidence_captured / implementation / VISUAL / local_browser_screenshots_present_staging_visual_pending_user_gate` |
+| purpose | collapsed sidebar icon-only controls の tooltip、公開フッター sticky bottom、モバイルヘッダー sticky top を同一 local cycle で実装 |
+| implementation | `apps/web/src/components/shell/{SidebarTooltip,SidebarNav,SidebarNavGroup,SidebarNavItem,SidebarShell,SidebarUserMenu,SidebarCollapseToggle}.tsx`, `apps/web/src/styles/{globals,legacy-public}.css` |
+| tests | `apps/web/src/components/shell/__tests__/{SidebarTooltip,SidebarNavItem,SidebarShell,SidebarUserMenu,SidebarCollapseToggle}.spec.tsx` |
+| evidence | focused shell Vitest 5 files / 33 tests PASS; local browser screenshots 3 PNG present |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-shell-sidebar-tooltip-footer-header-responsive-artifact-inventory.md` |
+| user gate | staging visual screenshots, commit, push, PR |
+
 ## issue-1080-bulk-tag-result-member-labels（2026-06-03）
 
 | 項目 | 値 |
@@ -5284,6 +5297,17 @@ UT-17 Cloudflare Notifications → alert-relay → Slack 経路を、既存 API 
 | status | implemented_local_runtime_pending / implementation / VISUAL / 2026-05-28 |
 | workflow | `docs/30-workflows/completed-tasks/members-list-ux-clarity/` |
 | summary | `/members` の密度切替説明、即時反映ヒント、適用中filter chip、件数live regionを追加。API/schema/query正本は不変。 |
+
+# issue-1079-bulk-tag-audit-batch-filter
+
+| item | value |
+| --- | --- |
+| status | implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION / 2026-06-03 |
+| workflow | `docs/30-workflows/completed-tasks/issue-1079-bulk-tag-audit-batch-filter/` |
+| API | `GET /admin/audit?batchId=<id>` searches `after_json.$.batchId` and `before_json.$.batchId`; no schema change |
+| Web | `/admin/audit` batchId filter, pagination preservation, row batchId display, copy button |
+| inventory | `references/workflow-issue-1079-bulk-tag-audit-batch-filter-artifact-inventory.md` |
+| user gate | authenticated runtime screenshots, staging deploy, commit, push, PR, Issue mutation |
 ## 2026-06-03 Additions
 
 | Topic | References | Notes |

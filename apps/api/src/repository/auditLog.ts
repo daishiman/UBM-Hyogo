@@ -56,6 +56,7 @@ export interface AuditLogListFilters {
   targetId?: string;
   fromUtc?: string;
   toUtcExclusive?: string;
+  batchId?: string;
   cursor?: {
     createdAt: string;
     auditId: string;
@@ -196,6 +197,12 @@ export const listFiltered = async (
   if (filters.targetId) add("target_id = ?", filters.targetId);
   if (filters.fromUtc) add("created_at >= ?", filters.fromUtc);
   if (filters.toUtcExclusive) add("created_at < ?", filters.toUtcExclusive);
+  if (filters.batchId) {
+    bindings.push(filters.batchId);
+    where.push(
+      `((json_valid(after_json) AND json_extract(after_json, '$.batchId') = ?${bindings.length}) OR (json_valid(before_json) AND json_extract(before_json, '$.batchId') = ?${bindings.length}))`,
+    );
+  }
   if (filters.cursor) {
     bindings.push(filters.cursor.createdAt, filters.cursor.auditId);
     where.push(

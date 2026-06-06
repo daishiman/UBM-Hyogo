@@ -8,6 +8,21 @@
 
 本ドキュメントは、複雑なタスクを単一責務の原則に基づいて分解し、各サブタスクに最適なスラッシュコマンド・エージェント・スキルの組み合わせを選定するためのガイドラインを定義する。
 
+### shell-sidebar-tooltip-footer-header-responsive（2026-06-03）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / VISUAL / local_browser_screenshots_present_staging_visual_pending_user_gate` |
+| 成果物 | `docs/30-workflows/shell-sidebar-tooltip-footer-header-responsive/` |
+| 親 workflow | なし |
+| 目的 | collapsed sidebar icon-only controls の tooltip、公開フッター sticky bottom、モバイルヘッダー sticky top を同一 local cycle で実装する |
+| implementation targets | `apps/web/src/components/shell/{SidebarTooltip,SidebarNav,SidebarNavGroup,SidebarNavItem,SidebarShell,SidebarUserMenu,SidebarCollapseToggle}.tsx`, `apps/web/src/styles/{globals,legacy-public}.css` |
+| tests | `apps/web/src/components/shell/__tests__/{SidebarTooltip,SidebarNavItem,SidebarShell,SidebarUserMenu,SidebarCollapseToggle}.spec.tsx` |
+| evidence | focused shell Vitest 5 files / 33 tests PASS; local browser screenshots 3 PNG present |
+| invariant | API / D1 / Google Form schema / auth middleware は変更なし。Tooltip は shell-local primitive、sticky visual は staging user-gated |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-shell-sidebar-tooltip-footer-header-responsive-artifact-inventory.md` |
+| user gate | staging visual screenshots、commit、push、PR |
+
 ### issue-1080-bulk-tag-result-member-labels（2026-06-03）
 
 | 項目 | 値 |
@@ -4087,6 +4102,7 @@ docs-only / direction-reconciliation で採用方針 A を維持する場合で�
 | implementation targets | `apps/web/src/components/public/{DensityToggle.client,MemberFilters.client,SelectedFiltersBar.client,SelectedTagsBar.client}.tsx`, `apps/web/src/components/ui/{Segmented,Search}.tsx`, `apps/web/app/(public)/members/page.tsx`, `apps/web/src/styles/legacy-public.css` |
 | evidence | focused component tests local; visual baseline / commit / push / PR user-gated |
 | issue-1007-density-toggle-help-hint-hardening | implemented_local_runtime_pending / implementation / VISUAL / Phase 12 strict outputs present / runtime visual pending_user_approval | `docs/30-workflows/completed-tasks/issue-1007-density-toggle-help-hint-hardening/` | Issue #1007. `/members` `DensityToggle` HelpHint hardening: `useId` description ids, non-controlled `<details>` Escape/outside close, `IconName` `help` glyph, pointer target guard, focused component tests 15 PASS. System specs `09-ui-ux.md` and `09d-icons.md`, Phase 11 local evidence, Phase 12 strict 7, quick-reference/resource-map/artifact inventory synchronized. Runtime screenshots, staging deploy, commit, push, PR are user-gated. Inventory: `references/workflow-issue-1007-density-toggle-help-hint-hardening-artifact-inventory.md`. |
+| issue-1079-bulk-tag-audit-batch-filter | implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION / Phase 13 pending_user_approval | `docs/30-workflows/completed-tasks/issue-1079-bulk-tag-audit-batch-filter/` | Issue #1079. Existing `/admin/audit` now accepts `batchId` query, searches bulk tag audit `after_json.$.batchId` and `before_json.$.batchId` with `json_valid` guard, preserves `batchId` through Web filter/pagination, and displays/copies row batchId via a client-only button. No new endpoint, D1 schema, or write-side change. API D1 targeted PASS 2 files / 26 tests; Web targeted PASS 3 files / 54 tests; API/Web typecheck PASS. Authenticated runtime screenshots, commit, push, PR, Issue mutation are user-gated. Inventory: `references/workflow-issue-1079-bulk-tag-audit-batch-filter-artifact-inventory.md`. |
 
 ## issue-998-members-publish-state-production-rollout
 

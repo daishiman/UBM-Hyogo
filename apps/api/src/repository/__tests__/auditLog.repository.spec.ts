@@ -119,6 +119,119 @@ describe("auditLog (append-only)", () => {
     expect(rows.map((r) => r.auditId)).toEqual(["audit_003"]);
   });
 
+  it("listFiltered: batchId は after_json と before_json の両方を検索する", async () => {
+    await auditLog.append(env.ctx, {
+      actorId: null,
+      actorEmail: adminEmail("owner@example.com"),
+      action: auditAction("admin.member.tag_assigned"),
+      targetType: "member",
+      targetId: "m_bulk_1",
+      after: { tagId: "tag_a", source: "manual", batchId: "batch-1079" },
+      createdAt: "2026-04-30T16:00:00.000Z",
+    });
+    await auditLog.append(env.ctx, {
+      actorId: null,
+      actorEmail: adminEmail("owner@example.com"),
+      action: auditAction("admin.member.tag_unassigned"),
+      targetType: "member",
+      targetId: "m_bulk_2",
+      before: { tagId: "tag_b", batchId: "batch-1079" },
+      createdAt: "2026-04-30T15:59:00.000Z",
+    });
+    await auditLog.append(env.ctx, {
+      actorId: null,
+      actorEmail: adminEmail("owner@example.com"),
+      action: auditAction("admin.member.tag_assigned"),
+      targetType: "member",
+      targetId: "m_bulk_3",
+      after: { tagId: "tag_c", source: "manual", batchId: "batch-other" },
+      createdAt: "2026-04-30T15:58:00.000Z",
+    });
+    await env.db
+      .prepare(
+        "INSERT INTO audit_log (audit_id, actor_email, action, target_type, target_id, before_json, after_json, created_at) VALUES ('audit_broken_batch_json', 'owner@example.com', 'member.note.created', 'member', 'm_broken', '{broken', NULL, '2026-04-30T15:57:00.000Z')",
+      )
+      .run();
+
+    const rows = await auditLog.listFiltered(env.ctx, {
+      batchId: "batch-1079",
+      limit: 10,
+    });
+
+    expect(rows.map((r) => r.action)).toEqual([
+      "admin.member.tag_assigned",
+      "admin.member.tag_unassigned",
+    ]);
+    expect(rows.map((r) => r.targetId)).toEqual(["m_bulk_1", "m_bulk_2"]);
+  });
+
+  it("listFiltered: batchId と action は AND 結合される", async () => {
+    await auditLog.append(env.ctx, {
+      actorId: null,
+      actorEmail: adminEmail("owner@example.com"),
+      action: auditAction("admin.member.tag_assigned"),
+      targetType: "member",
+      targetId: "m_bulk_1",
+      after: { tagId: "tag_a", batchId: "batch-1079" },
+      createdAt: "2026-04-30T16:00:00.000Z",
+    });
+    await auditLog.append(env.ctx, {
+      actorId: null,
+      actorEmail: adminEmail("owner@example.com"),
+      action: auditAction("admin.member.tag_unassigned"),
+      targetType: "member",
+      targetId: "m_bulk_2",
+      before: { tagId: "tag_b", batchId: "batch-1079" },
+      createdAt: "2026-04-30T15:59:00.000Z",
+    });
+
+    const rows = await auditLog.listFiltered(env.ctx, {
+      action: "admin.member.tag_assigned",
+      batchId: "batch-1079",
+      limit: 10,
+    });
+
+    expect(rows.map((r) => r.action)).toEqual(["admin.member.tag_assigned"]);
+    expect(rows.map((r) => r.targetId)).toEqual(["m_bulk_1"]);
+  });
+
+  it("listFiltered: batchId と cursor pagination を併用できる", async () => {
+    await auditLog.append(env.ctx, {
+      actorId: null,
+      actorEmail: adminEmail("owner@example.com"),
+      action: auditAction("admin.member.tag_assigned"),
+      targetType: "member",
+      targetId: "m_bulk_1",
+      after: { tagId: "tag_a", batchId: "batch-1079" },
+      createdAt: "2026-04-30T16:00:00.000Z",
+    });
+    await auditLog.append(env.ctx, {
+      actorId: null,
+      actorEmail: adminEmail("owner@example.com"),
+      action: auditAction("admin.member.tag_unassigned"),
+      targetType: "member",
+      targetId: "m_bulk_2",
+      before: { tagId: "tag_b", batchId: "batch-1079" },
+      createdAt: "2026-04-30T15:59:00.000Z",
+    });
+
+    const firstPage = await auditLog.listFiltered(env.ctx, {
+      batchId: "batch-1079",
+      limit: 1,
+    });
+    expect(firstPage.map((r) => r.targetId)).toEqual(["m_bulk_1"]);
+
+    const secondPage = await auditLog.listFiltered(env.ctx, {
+      batchId: "batch-1079",
+      cursor: {
+        createdAt: firstPage[0]!.createdAt,
+        auditId: firstPage[0]!.auditId,
+      },
+      limit: 1,
+    });
+    expect(secondPage.map((r) => r.targetId)).toEqual(["m_bulk_2"]);
+  });
+
   it("listFiltered: JST 由来 UTC range と cursor で created_at/audit_id 降順 pagination", async () => {
     await env.db
       .prepare(
