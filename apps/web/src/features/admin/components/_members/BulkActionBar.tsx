@@ -1,11 +1,11 @@
 // task-15: 一括操作 (publish / hide / soft-delete)
 // issue-1036: 複数 member × 複数 tag の一括付与 / 解除（不変条件 #13 第3経路）を追加。
 "use client";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { patchMemberStatus, deleteMember } from "../../../../lib/admin/api";
 import { useAdminMutation } from "../../hooks/useAdminMutation";
 import {
-  fetchTagMaster,
+  fetchAllTagMaster,
   type AdminTagRef,
   type BulkApplyMemberTagsResult,
   type BulkTagResultItem,
@@ -15,9 +15,12 @@ import { TagPill } from "../_shared/TagPill";
 type Action = "publish" | "hide" | "soft-delete";
 type TagMode = "assign" | "unassign";
 
+const COLLAPSE_THRESHOLD = 24;
+
 export interface BulkActionBarProps {
   readonly selectedIds: ReadonlyArray<string>;
   readonly onComplete: () => void;
+  readonly membersById?: Readonly<Record<string, { readonly fullName: string }>>;
 }
 
 interface BulkTagSummary {
@@ -46,12 +49,18 @@ const summarize = (results: readonly BulkTagResultItem[]): BulkTagSummary => {
   return s;
 };
 
-export function BulkActionBar({ selectedIds, onComplete }: BulkActionBarProps) {
+export function BulkActionBar({ selectedIds, onComplete, membersById }: BulkActionBarProps) {
   const [busy, setBusy] = useState<Action | null>(null);
   const [tagMode, setTagMode] = useState<TagMode>("assign");
   const [selectedTagIds, setSelectedTagIds] = useState<Set<string>>(() => new Set());
   const [available, setAvailable] = useState<AdminTagRef[]>([]);
+  const [tagTotal, setTagTotal] = useState(0);
+  const [serverSearchMode, setServerSearchMode] = useState(false);
+  const [query, setQuery] = useState("");
+  const [debouncedQuery, setDebouncedQuery] = useState("");
+  const [collapsed, setCollapsed] = useState<Set<string>>(() => new Set());
   const [bulkResult, setBulkResult] = useState<BulkTagSummary | null>(null);
+  const knownTagsRef = useRef<Map<string, AdminTagRef>>(new Map());
 
   // 不変条件 #10: bulk mutation は useAdminMutation 経由で発火する。
   const bulkMut = useAdminMutation<BulkApplyMemberTagsResult>(
@@ -62,28 +71,80 @@ export function BulkActionBar({ selectedIds, onComplete }: BulkActionBarProps) {
   // tag master を初回ロード（read のみ。失敗時は picker を空にする）。
   useEffect(() => {
     let active = true;
-    fetchTagMaster()
+    fetchAllTagMaster()
       .then((r) => {
-        if (active) setAvailable(r.available);
+        if (!active) return;
+        for (const tag of r.available) {
+          knownTagsRef.current.set(tag.tagId, tag);
+        }
+        setAvailable(r.available);
+        setTagTotal(r.total);
+        setServerSearchMode(r.truncated);
       })
       .catch(() => {
-        if (active) setAvailable([]);
+        if (!active) return;
+        setAvailable([]);
+        setTagTotal(0);
+        setServerSearchMode(false);
       });
     return () => {
       active = false;
     };
   }, []);
 
+  useEffect(() => {
+    const id = setTimeout(() => setDebouncedQuery(query.trim()), 250);
+    return () => clearTimeout(id);
+  }, [query]);
+
+  const largeCatalog = available.length > COLLAPSE_THRESHOLD || serverSearchMode;
+
+  const visibleTags = useMemo(() => {
+    if (!largeCatalog || !debouncedQuery) return available;
+    const normalized = debouncedQuery.toLowerCase();
+    return available.filter(
+      (tag) =>
+        tag.label.toLowerCase().includes(normalized) ||
+        tag.code.toLowerCase().includes(normalized) ||
+        tag.category.toLowerCase().includes(normalized),
+    );
+  }, [available, debouncedQuery, largeCatalog]);
+
+  const selectedRefs = useMemo(
+    () =>
+      [...selectedTagIds].map(
+        (tagId) =>
+          knownTagsRef.current.get(tagId) ??
+          ({ tagId, code: tagId, label: tagId, category: "" } satisfies AdminTagRef),
+      ),
+    [selectedTagIds],
+  );
+
   // category 別にグルーピング（新規 primitive を生やさず TagPill を再利用）。
   const groupedTags = useMemo(() => {
     const m = new Map<string, AdminTagRef[]>();
-    for (const t of available) {
+    for (const t of visibleTags) {
       const arr = m.get(t.category) ?? [];
       arr.push(t);
       m.set(t.category, arr);
     }
     return [...m.entries()];
+  }, [visibleTags]);
+
+  const tagLabelById = useMemo(() => {
+    const m = new Map<string, string>();
+    for (const t of available) {
+      m.set(t.tagId, t.label);
+    }
+    return m;
   }, [available]);
+
+  const resolveMemberLabel = (memberId: string) => {
+    const fullName = membersById?.[memberId]?.fullName.trim();
+    return fullName || memberId;
+  };
+
+  const resolveTagLabel = (tagId: string) => tagLabelById.get(tagId)?.trim() || `${tagId}（未登録）`;
 
   if (selectedIds.length === 0) return null;
 
@@ -112,6 +173,15 @@ export function BulkActionBar({ selectedIds, onComplete }: BulkActionBarProps) {
       const next = new Set(prev);
       if (next.has(tagId)) next.delete(tagId);
       else next.add(tagId);
+      return next;
+    });
+  };
+
+  const toggleCategory = (category: string) => {
+    setCollapsed((prev) => {
+      const next = new Set(prev);
+      if (next.has(category)) next.delete(category);
+      else next.add(category);
       return next;
     });
   };
@@ -210,28 +280,92 @@ export function BulkActionBar({ selectedIds, onComplete }: BulkActionBarProps) {
           </div>
         </div>
 
+        {largeCatalog && (
+          <div className="flex flex-col gap-2">
+            {/* client-side filter 用途。mutation form ではないため FormField 不変条件の対象外。 */}
+            <label className="flex flex-col gap-1 text-xs text-[var(--ubm-color-text-secondary)]">
+              <span>タグ検索</span>
+              <input
+                type="search"
+                aria-label="タグを検索"
+                value={query}
+                onChange={(event) => setQuery(event.target.value)}
+                placeholder="タグを検索"
+                className="rounded border border-[var(--ubm-color-border-default)] bg-[var(--ubm-color-surface-panel)] px-2 py-1 text-xs text-[var(--ubm-color-text-primary)]"
+              />
+            </label>
+            <p className="text-xs text-[var(--ubm-color-text-secondary)]">
+              {tagTotal > 0
+                ? `全 ${tagTotal} 件中 ${visibleTags.length} 件表示`
+                : `${visibleTags.length} 件表示`}
+              {serverSearchMode ? "（上限まで取得。必要なら検索で絞り込み）" : ""}
+            </p>
+          </div>
+        )}
+
+        {largeCatalog && selectedRefs.length > 0 && (
+          <div
+            role="group"
+            aria-label="選択中のタグ"
+            className="flex flex-wrap items-center gap-1.5 rounded border border-[var(--ubm-color-border-default)] bg-[var(--ubm-color-surface-panel-2)] p-2"
+          >
+            <span className="text-xs text-[var(--ubm-color-text-secondary)]">選択中</span>
+            {selectedRefs.map((tag) => (
+              <TagPill
+                key={tag.tagId}
+                selected
+                onClick={() => toggleTag(tag.tagId)}
+                disabled={tagBusy}
+                title={tag.code}
+              >
+                {tag.label}
+              </TagPill>
+            ))}
+          </div>
+        )}
+
         {groupedTags.length === 0 ? (
           <p className="text-xs text-[var(--ubm-color-text-secondary)]">
             付与可能なタグがありません
           </p>
         ) : (
-          <div className="flex flex-col gap-2">
+          <div
+            className={[
+              "flex flex-col gap-2",
+              largeCatalog ? "max-h-[40vh] overflow-y-auto pr-1" : "",
+            ].join(" ")}
+          >
             {groupedTags.map(([category, tags]) => (
-              <div key={category} className="flex flex-wrap items-center gap-1.5">
-                <span className="text-xs text-[var(--ubm-color-text-secondary)]">
-                  {category}
-                </span>
-                {tags.map((t) => (
-                  <TagPill
-                    key={t.tagId}
-                    selected={selectedTagIds.has(t.tagId)}
-                    onClick={() => toggleTag(t.tagId)}
-                    disabled={tagBusy}
-                    title={t.code}
+              <div key={category} className="flex flex-col gap-1">
+                {largeCatalog ? (
+                  <button
+                    type="button"
+                    aria-expanded={!collapsed.has(category)}
+                    className="w-fit rounded border border-[var(--ubm-color-border-default)] px-2 py-0.5 text-xs text-[var(--ubm-color-text-secondary)] hover:bg-[var(--ubm-color-surface-panel-2)]"
+                    onClick={() => toggleCategory(category)}
                   >
-                    {t.label}
-                  </TagPill>
-                ))}
+                    {category} ({tags.length})
+                  </button>
+                ) : (
+                  <span className="text-xs text-[var(--ubm-color-text-secondary)]">
+                    {category}
+                  </span>
+                )}
+                {!collapsed.has(category) && (
+                  <div className="flex flex-wrap items-center gap-1.5">
+                    {tags.map((t) => (
+                      <TagPill
+                        key={t.tagId}
+                        selected={selectedTagIds.has(t.tagId)}
+                        onClick={() => toggleTag(t.tagId)}
+                        disabled={tagBusy}
+                        title={t.code}
+                      >
+                        {t.label}
+                      </TagPill>
+                    ))}
+                  </div>
+                )}
               </div>
             ))}
           </div>
@@ -265,7 +399,7 @@ export function BulkActionBar({ selectedIds, onComplete }: BulkActionBarProps) {
               <ul data-testid="bulk-tag-result-skipped" className="list-disc pl-4">
                 {bulkResult.skipped.map((r) => (
                   <li key={`skip-${r.memberId}-${r.tagId}`}>
-                    退会済みのためスキップ: {r.memberId}
+                    退会済みのためスキップ: {resolveMemberLabel(r.memberId)}
                   </li>
                 ))}
               </ul>
@@ -274,7 +408,7 @@ export function BulkActionBar({ selectedIds, onComplete }: BulkActionBarProps) {
               <ul data-testid="bulk-tag-result-not-found" className="list-disc pl-4">
                 {bulkResult.notFound.map((r) => (
                   <li key={`nf-${r.memberId}-${r.tagId}`}>
-                    未登録タグのためスキップ: {r.tagId}
+                    未登録タグのためスキップ: {resolveTagLabel(r.tagId)}
                   </li>
                 ))}
               </ul>

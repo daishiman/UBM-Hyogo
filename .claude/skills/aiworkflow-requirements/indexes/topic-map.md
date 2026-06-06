@@ -90,13 +90,13 @@ node scripts/list-specs.js --topics
 | 1. 構成図 | L15 |
 | 2. Server-side fetch（`apps/web/src/lib/admin/server-fetch.ts`） | L50 |
 | 3. Client-side mutation（`apps/web/src/lib/admin/api.ts`） | L116 |
-| 4. BFF proxy（`apps/web/app/api/admin/[...path]/route.ts`） | L188 |
-| 5. ステータスコード処理方針 | L245 |
-| 6. 環境変数 | L277 |
-| 7. 不変条件サマリ（admin API client / proxy） | L290 |
-| 8. 関連ドキュメント | L302 |
-| 9. 06c-A Admin Dashboard 契約 (2026-05-02) | L310 |
-| 10. Self-service BFF proxy（`apps/web/app/api/me/[...path]/route.ts`） | L327 |
+| 4. BFF proxy（`apps/web/app/api/admin/[...path]/route.ts`） | L190 |
+| 5. ステータスコード処理方針 | L247 |
+| 6. 環境変数 | L279 |
+| 7. 不変条件サマリ（admin API client / proxy） | L292 |
+| 8. 関連ドキュメント | L304 |
+| 9. 06c-A Admin Dashboard 契約 (2026-05-02) | L312 |
+| 10. Self-service BFF proxy（`apps/web/app/api/me/[...path]/route.ts`） | L329 |
 
 ### references/architecture-auth-security-core.md
 
@@ -2811,6 +2811,47 @@ node scripts/list-specs.js --topics
 | Boundaries | L43 |
 | Lessons Learned | L51 |
 
+### references/workflow-issue-1078-bulk-tag-picker-large-catalog-ux-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Workflow Root | L5 |
+| Implementation Artifacts | L14 |
+| Evidence | L23 |
+| Contract Notes | L35 |
+| Lessons Learned | L42 |
+
+### references/workflow-issue-1079-bulk-tag-audit-batch-filter-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Workflow | L6 |
+| Implementation Artifacts | L16 |
+| Test Artifacts | L27 |
+| Evidence | L37 |
+| Contract Notes | L46 |
+
+### references/workflow-issue-1080-bulk-tag-result-member-labels-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Summary | L3 |
+| Implementation Artifacts | L13 |
+| Workflow Artifacts | L21 |
+| Evidence | L31 |
+| Lessons Learned | L38 |
+
+### references/workflow-issue-1081-bulk-tag-real-d1-runtime-smoke-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Workflow | L3 |
+| Implementation | L13 |
+| Tests | L23 |
+| Evidence | L29 |
+| Boundary | L39 |
+| Lessons | L43 |
+
 ### references/workflow-issue-191-schema-aliases-artifact-inventory.md
 
 | セクション | 行 |
@@ -4064,6 +4105,17 @@ node scripts/list-specs.js --topics
 |------------|----|
 | Primary files | L11 |
 | Evidence | L22 |
+
+### references/workflow-shell-sidebar-tooltip-footer-header-responsive-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Purpose | L12 |
+| Implementation Artifacts | L23 |
+| Workflow Artifacts | L40 |
+| Evidence | L55 |
+| Invariants | L65 |
+| Lessons Learned | L73 |
 
 ### references/workflow-sidebar-footer-pinning-and-account-popover-ux-artifact-inventory.md
 
@@ -6430,6 +6482,34 @@ node scripts/list-specs.js --topics
 | L-I1070-006 lessons は references/ 直下に置く（generate-index.js は lessons-learned/ サブdir を scan しない） | L35 |
 | 関連パターン | L41 |
 
+### references/lessons-learned-issue-1078-bulk-tag-picker-large-catalog-ux-2026-06.md
+
+| セクション | 行 |
+|------------|----|
+| L-I1078-001 古い issue は依存先 endpoint の応答 shape を実コードで突合する | L5 |
+| L-I1078-002 test mock の shape を実 API response schema と突合する | L11 |
+| L-I1078-003 paginated mode の selected ラベルは known-tag の accumulated Map で保持する | L17 |
+| L-I1078-004 client pagination の default pageSize は API max に合わせ、cap guard で無限ループを防ぐ | L23 |
+| L-I1078-005 並列 SubAgent の backbone Write はワークツリー root 相対／pwd 確認済み絶対パスで行う | L29 |
+| L-I1078-006 artifacts.json の gate `status` は zod enum 4 値のみ（`pending_user_approval` は不可） | L35 |
+| 関連パターン | L41 |
+
+### references/lessons-learned-issue-1081-bulk-tag-real-d1-runtime-smoke-2026-06.md
+
+| セクション | 行 |
+|------------|----|
+| L-I1081-001: issue 本文の contract 記述と実装実態の乖離を Phase 1 で乖離表として固定する | L5 |
+| L-I1081-002: audit 相関に correlation_id 列が無く batchId は json_extract 経由 — prefix count で代替する | L13 |
+| L-I1081-003: seed は前提状態を明示的に DELETE で zero-out して冪等性を確保する | L21 |
+| L-I1081-004: user-gated 境界は「副作用ゆえの実行タイミング分離」であり「先送り」ではない | L29 |
+| L-I1081-005: cleanup SQL の WHERE scope 限定を static check で強制する | L37 |
+| L-I1081-006: secret 欠落は skip ではなく fail-closed（exit 2）にする | L45 |
+| L-I1081-007: production guard を多層化し exit code を区分する | L53 |
+| L-I1081-008: local stub test は PATH-based provider injection で network-free にする | L61 |
+| L-I1081-009: `.test.sh` は invariant #8 非抵触 — 禁止対象は `*.test.{ts,tsx}` のみ | L69 |
+| Anti-patterns | L77 |
+| メモ（user-gated / 横断知見 / close-out 異常） | L84 |
+
 ### references/lessons-learned-issue-191-schema-aliases-2026-04.md
 
 | セクション | 行 |
@@ -8735,17 +8815,18 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L3716 |
-| フェーズ構造（概要） | L3725 |
-| 品質ゲート（概要） | L3756 |
-| 出力テンプレート | L3767 |
-| 実行時のコマンド・エージェント・スキル | L3790 |
-| 昇格パターン集 | L3814 |
-| Current Active / Spec Created Tasks | L3816 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L3982 |
-| issue-1077-bulk-tag-authenticated-staging-visual（implemented_local_runtime_pending / implementation / VISUAL_ON_EXECUTION / 2026-06-03） | L4050 |
-| issue-998-members-publish-state-production-rollout | L4075 |
-| issue-1068-admin-tag-inline-create-ui | L4122 |
+| ドキュメント構成 | L3761 |
+| フェーズ構造（概要） | L3770 |
+| 品質ゲート（概要） | L3801 |
+| 出力テンプレート | L3812 |
+| 実行時のコマンド・エージェント・スキル | L3835 |
+| 昇格パターン集 | L3859 |
+| Current Active / Spec Created Tasks | L3861 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L4027 |
+| issue-1077-bulk-tag-authenticated-staging-visual（implemented_local_runtime_pending / implementation / VISUAL_ON_EXECUTION / 2026-06-03） | L4095 |
+| issue-998-members-publish-state-production-rollout | L4121 |
+| issue-1078-bulk-tag-picker-large-catalog-ux | L4168 |
+| issue-1068-admin-tag-inline-create-ui | L4182 |
 | issue-1111-proxy-transport-util-unify | L4140 |
 
 ### references/task-workflow-backlog-part2.md
@@ -9250,4 +9331,3 @@ node scripts/list-specs.js --topics
 | SkillLifecyclePanel 責務別props分離パターン | L82 |
 
 ---
-

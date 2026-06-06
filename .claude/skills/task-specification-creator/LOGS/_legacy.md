@@ -4,6 +4,10 @@
 
 このファイルは task-specification-creator の運用・改善・Phase 12 close-out 同期履歴を新しい順に記録する。
 
+## 2026-06-03 - issue-1079 D1 JSON search binding / full-scan pattern
+
+`docs/30-workflows/completed-tasks/issue-1079-bulk-tag-audit-batch-filter/` の automation-30 改善で、D1 repository の JSON column 検索における SQL binding 落とし穴を task-specification-creator へ同一サイクル反映した。`references/patterns-testing-and-implementation.md` に、同一値を after/before JSON path で OR 検索する場合は単一 `?` helper を使わず 1 回だけ bind して同じ `?N` を複数箇所参照すること、破損 JSON row 混在に備えて `json_valid` guard を入れること、JSON index 不在時は Phase 2 で full-scan 緩和と schema 化境界を明記することを追加した。
+
 ## 2026-06-02 - sidebar-visibility local evidence / pixel gate lesson
 
 `docs/30-workflows/sidebar-visibility-conditional-and-ux/` の automation-30 改善を反映。`implementation / VISUAL` で実コード・focused Vitest・typecheck・lint・grep gates が完了した場合は `spec_created` のままにせず `implemented_local_evidence_captured` へ昇格し、pixel screenshot / staging visual は `pixel_screenshot_pending_user_gate` として Gate-C に分離する SP-SVC-001 を追加した。
@@ -2820,6 +2824,9 @@ AC-1〜AC-6 全達成。Phase 10 判定: PASS（MINOR 0件）
 - 種別: implementation / verify_existing / VISUAL_ON_EXECUTION / authenticated runtime user-gated
 - 反映: `references/phase-12-documentation-guide.md` に、landed 実装の再仕様化であっても VISUAL close-out では静的 UI contract PNG と authenticated runtime screenshot pending を二段境界で記録する rule を追加。
 - 検証: workflow 側に 4 PNG (`manual-form-resync-panel-{idle,result,confirm,inprogress}.png`) を追加し、Phase 11 / Phase 12 strict 7 / aiworkflow-requirements / task-specification-creator 履歴を同一 wave で同期。`generate-index.js` が `phase-N.md` を認識しない漏れも同 cycle で修正し、node:test を追加。
+# 2026-06-03
+
+- issue-1080-bulk-tag-result-member-labels: implementation target 明確な VISUAL_ON_EXECUTION workflow を spec-only に留めず、同一サイクルで apps/web 実装・focused component evidence・Phase 11 two-tier evidence・Phase 12 strict 7・aiworkflow sync まで昇格。知見: ID-only result summary は API contract を膨らませず、親保持 list 由来の optional `membersById`（fullName only）+ child-local tag label `Map` + nullish fallback で閉じる。新規 policy 昇格は不要。
 
 # 2026-06-03 issue-1068 admin tag inline-create UI spec compliance
 

@@ -177,6 +177,8 @@ UT-07A-02 以降、`resolveTagQueue` の body 型は `@ubm-hyogo/shared` の `Ta
 
 04b-followup-004 以降、`/admin/requests` page は Server Component で `fetchAdmin("/admin/requests?status=pending&type=...")` を呼び、Client Component `RequestQueuePanel` が `resolveAdminRequest()` を通じて `/api/admin/requests/:noteId/resolve` に mutation する。`nextCursor` がある場合は `cursor` query 付きで次ページへ遷移する。409 は「他の管理者が既に処理済み」として toast + `router.refresh()` に分岐し、delete/visibility approve は confirmation modal で二段確認する。
 
+2026-06-03 issue-1078 以降、`apps/web/src/features/admin/api/members.ts` の tag master read client は #1035 landed の `GET /admin/tags` API response `{ total, items }` を正本として読む。`fetchTagMaster(opts?: { q?: string; page?: number; pageSize?: number })` は `page=1&pageSize=100` を既定送信し、UI 互換のため `{ available: items ?? [], total }` へ正規化する。`fetchAllTagMaster(cap=500)` は `pageSize=100` で最終 partial page まで周回し、cap / `total > available.length` の場合に `truncated=true` を返す。BulkActionBar は `fetchAllTagMaster()` の結果を検索・折りたたみ・選択中固定行に使い、apps/api / D1 schema は変更しない。
+
 ### 3.4 不変条件（api.ts）
 
 - 不変条件 #11: profile 本文（businessOverview 等）の編集 mutation は **意図的に存在させない**。

@@ -1,11 +1,9 @@
 {
   "$schema": "../../../../docs/30-workflows/task-709-visual-baseline-runtime-capture/schemas/baseline-meta.schema.json",
-  "captured_at_commit_sha": "0f62b2f273954228d4f131dc510568aca824d531",
-  "captured_at": "2026-06-03T13:59:55Z",
+  "captured_at_commit_sha": "c635f8fb1549c3146054ac69fba9a682f9531451",
+  "captured_at": "2026-06-06T05:03:05Z",
   "captured_via": "playwright-visual-baseline-update.yml#workflow_dispatch",
   "captured_run_ids": [
-    "26628923374",
-    "26677930770",
     "26695366830",
     "26699807063",
     "26732057120",
@@ -13,7 +11,9 @@
     "26793911803",
     "26857844535",
     "26868407587",
-    "26889102142"
+    "26889102142",
+    "27050525423",
+    "27052918274"
   ],
   "viewport_dimensions": {
     "desktop": {
@@ -41,5 +41,5 @@
   "refresh_workflow": ".github/workflows/playwright-visual-baseline-update.yml",
   "refresh_command_hint": "gh workflow run playwright-visual-baseline-update.yml -f reason=\"<why>\" -r <feature-branch>",
   "notes": "captured_at_commit_sha からの rendering_relevant_paths diff が空でない場合、baseline は stale。scripts/visual-baseline-status.sh で診断可能。",
-  "last_refresh_reason": "PR#1115 admin-meetings 出席管理UI/UX改善に伴うvisual-fullベースライン更新（getByText exact修正後）"
+  "last_refresh_reason": "PR #1140: footer sticky bottom 化で register-mobile が 1199px→1203px に変化 (4px drift / 9469px) し visual-full(mobile) が fail。Linux baseline を再生成して PR を緑化する。"
 }
