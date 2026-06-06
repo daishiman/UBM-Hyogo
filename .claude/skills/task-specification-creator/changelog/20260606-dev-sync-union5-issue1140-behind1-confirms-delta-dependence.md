@@ -1,0 +1,10 @@
+# dev sync: behind 1 でも union member が 5（#1140 が skill core 全体を touch）・同 behind 数で union 2/5 両方を観測し「member = 取込デルタ依存・behind 数非依存」を確定（2026-06-06 3rd pass）
+
+- 日時: 2026-06-06（同日 3 回目の dev 取込）
+- ブランチ: `docs/issue-1081-bulk-tag-real-d1-runtime-smoke-spec` ← `dev`（sub-worktree wt-10・**1 behind / 6 ahead**、ローカル dev = origin/dev 一致（`38da7c254`）で dev 同期は no-op・独自コミット 0）
+- 関連: 同日 [[20260606-dev-sync-union2-issue1079-audit-member-shrink]]（2nd pass・behind 1・union 2）/ [[20260606-dev-sync-union5-issue1081-static-manifest-reconfirm]]（1st pass・behind 7・union 5）/ `task-specification-creator/lessons-learned/dev-sync-merge-conflict-resolution.md` **SP-DEVSYNC-091**
+- 事象: 取込んだ dev 新規コミットは 1 件 = `38da7c254`（#1140 collapsed サイドバー tooltip + 公開フッター sticky + モバイルヘッダー sticky）。content CONFLICT は `aiworkflow-requirements` 配下 5 file（SKILL.md + quick-reference.md + resource-map.md + topic-map.md + task-workflow-active.md・全 union）。`keywords.json` / `SKILL-changelog.md` は git auto-merge。`task-specification-creator` 配下は全て auto-merge（衝突 0）で本 skill 固有の手解消は不要。
+- 解消: `pnpm sync:resolve` exit 0（**`union-resolving 5 files`** + 内部 rebuild + `all skill / index conflicts resolved`・`--ours` 行 0）。`task-specification-creator` に `indexes/` は無く `indexes:rebuild` 非対象。
+- **核心データポイント（SP-DEVSYNC-091 / L-DEVSYNC-097 の決定的確定）**: 本 3rd pass は 2nd pass と同じ behind 1 だが、2nd pass（#1139 audit）は union 2、本 pass（#1140 shell tooltip + footer/header）は union 5。同一 behind 数で union member 2 と 5 の両方を観測 → 「**union member 集合 = 取込デルタが実際に touch する skill ファイルの集合（behind 数非依存）**」が決定的に確定。`union-resolving N files` の N は取込内容のみで決まり behind 数から予測不能、必ずログで実数確認。
+- 検証: `git log HEAD..dev` = #1140 単一 → `git merge dev --no-edit` CONFLICT 5 → `pnpm sync:resolve` exit 0 → `--diff-filter=U` 0 / 実マーカー 0 → merge commit `67ed52618`（pre-commit hook 全 pass・staged-task-dir-guard は MERGE_HEAD で auto-skip）→ `pnpm typecheck` / `pnpm lint` / `pnpm verify:static-manifest` 全 pass。CI failure なし。
+- 反映先: 本 changelog（振動則の決定的確定）。新規 lesson 番号は SSOT インフレ回避のため起こさず、SP-DEVSYNC-091 / L-DEVSYNC-097 の確定データとして記録。
