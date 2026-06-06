@@ -1,0 +1,8 @@
+# dev sync: union 1（topic-map.md 単独）を実測し、仕様書 sync-merge 節へ「union 件数は最小 1 まで縮退しうる・予測子にしない」を再確認（2026-06-06 issue-1094 2nd pass）
+
+- 日時: 2026-06-06（同ブランチ feat/issue-1094 への 2 回目 dev 取込）
+- ブランチ: `feat/issue-1094-identity-conflicts-optimistic-aria-live-announcement` ← `dev`（sub-worktree wt-1・**1 behind / 4 ahead**・ローカル dev = origin/dev 一致・独自コミット 0）
+- 取込: dev 新規 1 コミット = #1147（staging API loopback 404 + session 取得失敗を service-binding 統一で解消・3 lane）
+- 事象 / 解消: content CONFLICT は **1 file のみ**（aiworkflow `indexes/topic-map.md`・union）。他 skill 共有ファイル（`indexes/{keywords.json,quick-reference,resource-map}` / `references/task-workflow-active.md` / 両 `SKILL-changelog.md`）は全て Auto-merging で `--ours` 非発火・本スキル（task-spec）配下衝突 0。`pnpm sync:resolve` 単発収束（`union-resolving 1 files` + rebuild）→ merge commit `45b567896`。
+- Phase 11/12 の sync-merge 節への再確認（SP-DEVSYNC-089/098 の補強）: 「**union 衝突件数は最小 1 file まで縮退しうる**（本件は取込 1 コミットで topic-map.md 単独 union 1。同日 1st pass は 5 コミットで union 4）。下端を 2 と思い込まず、件数・member を前回比や取込量で固定せず毎回 `git diff --name-only --diff-filter=U` と `union-resolving N files` の N を実確認してから `pnpm sync:resolve` 直行／keywords の `--ours` 発火有無・topic-map 以外の index 衝突有無は取込デルタ内容に独立連動し回ごとに入れ替わる／取込が `apps/web` 等のコード変更を含む回（#1147）は `pnpm install` → typecheck/lint を必ず通し CI 失敗を構造予防」を再確認。
+- 検証 = `git rev-list --left-right --count HEAD...origin/dev` = 4/1 → `pnpm sync:resolve` 単発 → `--diff-filter=U` 0 / マーカー 0 → `pnpm install` → `pnpm typecheck` exit 0（7 packages）/ `pnpm lint` exit 0 / `pnpm indexes:rebuild` 冪等（drift 0）。CI コード修正なしで全緑。詳細は aiworkflow-requirements `lessons-learned-dev-sync-merge-conflict-resolution-2026-05.md` L-DEVSYNC-098/107。

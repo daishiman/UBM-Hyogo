@@ -14,6 +14,18 @@
 | inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1102-usedismissable-hook-extraction-artifact-inventory.md` |
 | user gate | commit, push, PR, Issue mutation |
 
+## issue-1094-identity-conflicts-optimistic-aria-live-announcement（2026-06-05）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-1094-identity-conflicts-optimistic-aria-live-announcement/` |
+| status | `implemented_local_evidence_captured / implementation / NON_VISUAL` |
+| purpose | `/admin/identity-conflicts` optimistic merge/dismiss 消失時の screen reader announcement を page-level single live region へ集約し、focus stealing と文言 drift を解消する |
+| implementation | `IdentityConflictAnnouncer`, `identityConflictAnnouncements.ts`, `IdentityConflictRow` context announce wiring, server page wrapper |
+| evidence | focused Vitest 2 files / 26 tests PASS; web typecheck PASS; web lint PASS; verify:tokens PASS; grep 0 |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1094-identity-conflicts-optimistic-aria-live-announcement-artifact-inventory.md` |
+| user gate | commit, push, PR, Issue mutation, staging manual SR |
+
 ## issue-1089-backfill-impact-preview（2026-06-05）
 
 | 項目 | 値 |

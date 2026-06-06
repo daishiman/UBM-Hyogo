@@ -11,6 +11,11 @@ import { browserWindow } from "../../lib/is-browser";
 import { Badge } from "../ui/Badge";
 import { Button } from "../ui/Button";
 import { Textarea } from "../ui/Textarea";
+import { useIdentityConflictAnnounce } from "./IdentityConflictAnnouncer";
+import {
+  announcementFor,
+  type IdentityConflictAction,
+} from "./identityConflictAnnouncements";
 
 const EXIT_ANIMATION_MS = 200;
 const EXIT_FALLBACK_BUFFER_MS = 50;
@@ -32,7 +37,7 @@ const errorMessage = (error: Error | null): string | null => {
 
 export function IdentityConflictRow({ item }: { item: Row }) {
   const formId = useId();
-  const optimisticStatusRef = useRef<HTMLParagraphElement>(null);
+  const announce = useIdentityConflictAnnounce();
   const [stage, setStage] = useState<"idle" | "merge-confirm" | "merge-final" | "dismiss">("idle");
   const [optimisticMerged, setOptimisticMerged] = useState(false);
   const [isExiting, setIsExiting] = useState(false);
@@ -44,6 +49,7 @@ export function IdentityConflictRow({ item }: { item: Row }) {
   const dismissReasonId = `${formId}-dismiss-reason`;
   const mergeErrorId = `${formId}-merge-error`;
   const dismissErrorId = `${formId}-dismiss-error`;
+  const hasAnnouncedRef = useRef(false);
 
   const mergeMutation = useAdminMutation<MergeIdentityResponse>(
     `/api/admin/identity-conflicts/${encodeURIComponent(item.conflictId)}/merge`,
@@ -71,23 +77,21 @@ export function IdentityConflictRow({ item }: { item: Row }) {
 
   const mergeError = errorMessage(mergeMutation.error);
   const dismissError = errorMessage(dismissMutation.error);
-  const optimisticStatus =
-    optimisticDismissed
-      ? "別人として確定しました。候補を一覧から非表示にしました。"
-      : optimisticMerged
-        ? "merge を実行しました。候補を一覧から非表示にしました。"
-        : null;
-
-  useEffect(() => {
-    if (!optimisticStatus) return;
-    optimisticStatusRef.current?.focus();
-  }, [optimisticStatus]);
 
   const clearExitTimer = useCallback(() => {
     if (!exitTimerRef.current) return;
     clearTimeout(exitTimerRef.current);
     exitTimerRef.current = null;
   }, []);
+
+  const announceOnce = useCallback(
+    (action: IdentityConflictAction) => {
+      if (hasAnnouncedRef.current) return;
+      hasAnnouncedRef.current = true;
+      announce(announcementFor(action));
+    },
+    [announce],
+  );
 
   const finalizeRemoval = useCallback(() => {
     clearExitTimer();
@@ -108,20 +112,26 @@ export function IdentityConflictRow({ item }: { item: Row }) {
         targetMemberId: item.candidateTargetMemberId,
         reason: mergeReason.trim(),
       })
+      .then(() => announceOnce("merge"))
       .catch(() => {
         clearExitTimer();
         setIsExiting(false);
         setOptimisticMerged(false);
+        hasAnnouncedRef.current = false;
         // error は mergeMutation.error / toast 経由で surface。modal は閉じず、reason を保持する。
       });
   };
 
   const onDismiss = () => {
     setOptimisticDismissed(true);
-    void dismissMutation.trigger({ reason: dismissReason.trim() }).catch(() => {
-      setOptimisticDismissed(false);
-      // 同上: 失敗時に modal を閉じず、reason を保持する。
-    });
+    void dismissMutation
+      .trigger({ reason: dismissReason.trim() })
+      .then(() => announceOnce("dismiss"))
+      .catch(() => {
+        setOptimisticDismissed(false);
+        hasAnnouncedRef.current = false;
+        // 同上: 失敗時に modal を閉じず、reason を保持する。
+      });
   };
 
   const cancelMerge = () => {
@@ -133,19 +143,7 @@ export function IdentityConflictRow({ item }: { item: Row }) {
     setDismissReason("");
   };
 
-  if (optimisticStatus) {
-    return (
-      <p
-        ref={optimisticStatusRef}
-        role="status"
-        aria-live="polite"
-        tabIndex={-1}
-        className="sr-only"
-      >
-        {optimisticStatus}
-      </p>
-    );
-  }
+  if (optimisticMerged || optimisticDismissed) return null;
 
   return (
     <div
