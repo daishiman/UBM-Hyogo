@@ -19,6 +19,8 @@ import { MemberPublishSwitch } from "./MemberPublishSwitch";
 import { MemberStateChipRow } from "./MemberStateChip";
 import { TagPill } from "../_shared/TagPill";
 import { MemberDiagnosticsPanel } from "./MemberDiagnosticsPanel";
+import { MemberTagInlineCreate } from "./MemberTagInlineCreate";
+import { Button } from "../../../../components/ui/Button";
 
 export interface MemberDrawerProps {
   readonly memberId: string;
@@ -290,6 +292,9 @@ function MemberTagsEditor({ memberId }: MemberTagsEditorProps) {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const [pendingTagId, setPendingTagId] = useState<string | null>(null);
+  // issue-1068: create 201 後に attach（付与）が失敗した tag を保持し、リトライ導線を出す。
+  const [createdPendingAttach, setCreatedPendingAttach] =
+    useState<AdminTagRef | null>(null);
   const rollbackRef = useRef<AdminTagRef[]>([]);
 
   useEffect(() => {
@@ -321,6 +326,8 @@ function MemberTagsEditor({ memberId }: MemberTagsEditorProps) {
       successMessage: "✓ タグを追加しました",
       onSuccess: (res) => {
         if (res?.assigned) setAssigned(res.assigned);
+        // issue-1068: create で新設した tag を含む最新 available も反映する。
+        if (res?.available) setAvailable(res.available);
       },
       onError: () => setAssigned(rollbackRef.current),
       refreshOnSuccess: false,
@@ -362,6 +369,44 @@ function MemberTagsEditor({ memberId }: MemberTagsEditorProps) {
     }
   };
 
+  // issue-1068: tag を付与する共通 attach（pill toggle とは別経路。conflict 選択 / create 後 / retry が利用）。
+  //   trackPending=true（create 経路）のときだけ createdPendingAttach を成功で null / 失敗で保持する。
+  const runAttach = (tag: AdminTagRef, trackPending = false): void => {
+    if (pendingTagId) return; // 二重発火防止
+    rollbackRef.current = assigned;
+    setPendingTagId(tag.tagId);
+    setAssigned((cur) =>
+      cur.some((a) => a.tagId === tag.tagId) ? cur : [...cur, tag],
+    );
+    void assign
+      .trigger({ tagId: tag.tagId })
+      .then(() => {
+        if (trackPending) setCreatedPendingAttach(null);
+      })
+      .catch(() => {
+        if (trackPending) setCreatedPendingAttach(tag);
+      })
+      .finally(() => setPendingTagId(null));
+  };
+
+  // create 201 → available へ追加 → attach（失敗時 createdPendingAttach 保持）。
+  const handleTagCreated = (created: AdminTagRef): void => {
+    setAvailable((cur) =>
+      cur.some((t) => t.tagId === created.tagId) ? cur : [...cur, created],
+    );
+    runAttach(created, true);
+  };
+
+  // 409 conflict → member tags を refetch して available を更新（同 code 既存 tag を子へ提示）。
+  const handleConflict = (): void => {
+    fetchMemberTags(memberId)
+      .then((res: MemberTagsResult) => {
+        setAssigned(res.assigned);
+        setAvailable(res.available);
+      })
+      .catch(() => {});
+  };
+
   return (
     <section
       aria-labelledby="drawer-tags-heading"
@@ -398,6 +443,42 @@ function MemberTagsEditor({ memberId }: MemberTagsEditorProps) {
           })}
         </div>
       )}
+
+      {/* issue-1068: 部分成功（create 成功・attach 失敗）のリトライ導線 */}
+      {createdPendingAttach ? (
+        <div
+          role="alert"
+          data-testid="tag-attach-retry"
+          className="mt-3 flex flex-col gap-2 rounded-[var(--ubm-radius-md)] border border-[var(--ubm-color-danger)] bg-[var(--ubm-color-danger-soft)] p-2 text-sm"
+        >
+          <span className="text-[var(--ubm-color-text-secondary)]">
+            タグ「{createdPendingAttach.label}」を作成しましたが付与に失敗しました。
+          </span>
+          <div>
+            <Button
+              type="button"
+              variant="danger"
+              size="sm"
+              disabled={pendingTagId !== null}
+              onClick={() => runAttach(createdPendingAttach, true)}
+            >
+              付与を再試行
+            </Button>
+          </div>
+        </div>
+      ) : null}
+
+      {/* issue-1068: inline tag create 導線（pill 群と縦方向に分離・AC-6） */}
+      {!error && !loading ? (
+        <MemberTagInlineCreate
+          available={available}
+          pending={pendingTagId !== null}
+          onTagCreated={handleTagCreated}
+          onConflict={handleConflict}
+          onSelectExisting={(tag) => runAttach(tag)}
+        />
+      ) : null}
+
       <Link
         href={`/admin/tags?memberId=${encodeURIComponent(memberId)}`}
         className="mt-3 inline-flex items-center text-sm font-medium text-[var(--ubm-color-accent)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--ubm-color-accent)]"
