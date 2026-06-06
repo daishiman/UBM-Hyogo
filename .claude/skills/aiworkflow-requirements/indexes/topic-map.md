@@ -2811,6 +2811,16 @@ node scripts/list-specs.js --topics
 | Contract Notes | L35 |
 | Lessons Learned | L42 |
 
+### references/workflow-issue-1079-bulk-tag-audit-batch-filter-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Workflow | L6 |
+| Implementation Artifacts | L16 |
+| Test Artifacts | L27 |
+| Evidence | L37 |
+| Contract Notes | L46 |
+
 ### references/workflow-issue-1080-bulk-tag-result-member-labels-artifact-inventory.md
 
 | セクション | 行 |
@@ -2820,6 +2830,17 @@ node scripts/list-specs.js --topics
 | Workflow Artifacts | L21 |
 | Evidence | L31 |
 | Lessons Learned | L38 |
+
+### references/workflow-issue-1081-bulk-tag-real-d1-runtime-smoke-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Workflow | L3 |
+| Implementation | L13 |
+| Tests | L23 |
+| Evidence | L29 |
+| Boundary | L39 |
+| Lessons | L43 |
 
 ### references/workflow-issue-1101-attendance-analytics-calc-correction-artifact-inventory.md
 
@@ -4087,6 +4108,17 @@ node scripts/list-specs.js --topics
 | Primary files | L11 |
 | Evidence | L22 |
 
+### references/workflow-shell-sidebar-tooltip-footer-header-responsive-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Purpose | L12 |
+| Implementation Artifacts | L23 |
+| Workflow Artifacts | L40 |
+| Evidence | L55 |
+| Invariants | L65 |
+| Lessons Learned | L73 |
+
 ### references/workflow-sidebar-footer-pinning-and-account-popover-ux-artifact-inventory.md
 
 | セクション | 行 |
@@ -4201,6 +4233,14 @@ node scripts/list-specs.js --topics
 | Follow-up 未タスク | L81 |
 | Validation Chain | L89 |
 | 関連ドキュメント | L102 |
+
+### references/workflow-staging-api-url-and-session-recovery-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Implementation artifacts | L10 |
+| Local evidence | L19 |
+| Lessons | L27 |
 
 ### references/workflow-step-05-dashboard-chart-implementation-artifact-inventory.md
 
@@ -4842,6 +4882,17 @@ node scripts/list-specs.js --topics
 | 参照される実装ファイル（spec_created のため変更は伴わない） | L74 |
 | Follow-up 未タスク | L81 |
 | Validation Chain（spec_created） | L90 |
+
+### references/workflow-test-accounts-seed-spec-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Summary | L3 |
+| Workflow | L8 |
+| Implementation Artifacts | L18 |
+| Evidence | L33 |
+| User-Gated Boundary | L45 |
+| Lessons Learned | L49 |
 
 ### references/workflow-ui-prototype-design-system-foundation-artifact-inventory.md
 
@@ -6464,6 +6515,22 @@ node scripts/list-specs.js --topics
 | L-I1078-006 artifacts.json の gate `status` は zod enum 4 値のみ（`pending_user_approval` は不可） | L35 |
 | 関連パターン | L41 |
 
+### references/lessons-learned-issue-1081-bulk-tag-real-d1-runtime-smoke-2026-06.md
+
+| セクション | 行 |
+|------------|----|
+| L-I1081-001: issue 本文の contract 記述と実装実態の乖離を Phase 1 で乖離表として固定する | L5 |
+| L-I1081-002: audit 相関に correlation_id 列が無く batchId は json_extract 経由 — prefix count で代替する | L13 |
+| L-I1081-003: seed は前提状態を明示的に DELETE で zero-out して冪等性を確保する | L21 |
+| L-I1081-004: user-gated 境界は「副作用ゆえの実行タイミング分離」であり「先送り」ではない | L29 |
+| L-I1081-005: cleanup SQL の WHERE scope 限定を static check で強制する | L37 |
+| L-I1081-006: secret 欠落は skip ではなく fail-closed（exit 2）にする | L45 |
+| L-I1081-007: production guard を多層化し exit code を区分する | L53 |
+| L-I1081-008: local stub test は PATH-based provider injection で network-free にする | L61 |
+| L-I1081-009: `.test.sh` は invariant #8 非抵触 — 禁止対象は `*.test.{ts,tsx}` のみ | L69 |
+| Anti-patterns | L77 |
+| メモ（user-gated / 横断知見 / close-out 異常） | L84 |
+
 ### references/lessons-learned-issue-191-schema-aliases-2026-04.md
 
 | セクション | 行 |
@@ -7295,6 +7362,8 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 教訓一覧 | L10 |
 | 関連教訓 | L42 |
+
+### references/lessons-learned-test-accounts-seed-spec-2026-06.md
 
 ### references/lessons-learned-u-fix-cf-acct-01-deriv-01-oidc-short-lived-credentials-2026-05.md
 
@@ -8769,18 +8838,18 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L3745 |
-| フェーズ構造（概要） | L3754 |
-| 品質ゲート（概要） | L3785 |
-| 出力テンプレート | L3796 |
-| 実行時のコマンド・エージェント・スキル | L3819 |
-| 昇格パターン集 | L3843 |
-| Current Active / Spec Created Tasks | L3845 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L4011 |
-| issue-1077-bulk-tag-authenticated-staging-visual（implemented_local_runtime_pending / implementation / VISUAL_ON_EXECUTION / 2026-06-03） | L4079 |
-| issue-998-members-publish-state-production-rollout | L4104 |
-| issue-1078-bulk-tag-picker-large-catalog-ux | L4151 |
-| issue-1068-admin-tag-inline-create-ui | L4165 |
+| ドキュメント構成 | L3787 |
+| フェーズ構造（概要） | L3796 |
+| 品質ゲート（概要） | L3827 |
+| 出力テンプレート | L3838 |
+| 実行時のコマンド・エージェント・スキル | L3861 |
+| 昇格パターン集 | L3885 |
+| Current Active / Spec Created Tasks | L3887 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L4053 |
+| issue-1077-bulk-tag-authenticated-staging-visual（implemented_local_runtime_pending / implementation / VISUAL_ON_EXECUTION / 2026-06-03） | L4121 |
+| issue-998-members-publish-state-production-rollout | L4147 |
+| issue-1078-bulk-tag-picker-large-catalog-ux | L4206 |
+| issue-1068-admin-tag-inline-create-ui | L4220 |
 
 ### references/task-workflow-backlog-part2.md
 

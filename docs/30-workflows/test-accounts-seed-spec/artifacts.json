@@ -1,0 +1,196 @@
+{
+  "workflow_id": "test-accounts-seed-spec",
+  "feature": "test-accounts-seed",
+  "status": "implemented_local_evidence_captured",
+  "created": "2026-06-03T19:30:00+09:00",
+  "lastUpdated": "2026-06-03T22:30:00+09:00",
+  "metadata": {
+    "taskId": "TASK-TEST-ACCOUNTS-SEED-001",
+    "taskType": "implementation",
+    "visualEvidence": "NON_VISUAL",
+    "implementationCategory": "test-fixtures-seed",
+    "implementation_mode": "new",
+    "workflow_state": "implemented_local_evidence_captured",
+    "scope": "Implemented a deterministic, idempotent D1 seed for 10 member + 3 admin test accounts from a single TypeScript catalog (SSOT), covering login-gating and public-visibility state space, marked as test via TEST- prefix / .invalid email domain / seed:test-accounts actor, with a build generator, committed seed/cleanup/manifest artifacts + drift guard, an apply CLI (local/staging only, production forbidden), and an E2E storage-state mint helper. Commit, push, PR, and staging seed apply are user-gated.",
+    "canonical_root": "docs/30-workflows/test-accounts-seed-spec",
+    "runtime_boundary": "This wave delivers code implementation, committed generated artifacts, focused unit/D1 evidence, API/web typecheck, API/web lint, strict Phase 12 outputs, and artifacts parity. Commit, push, PR, and actual local/staging D1 seed apply remain user-gated; production seed apply is forbidden by CLI guard.",
+    "implementation_files": [
+      "apps/api/src/testing/test-accounts/catalog.ts",
+      "apps/api/src/testing/test-accounts/build-seed-sql.ts",
+      "apps/api/src/testing/test-accounts/index.ts",
+      "apps/api/migrations/seed/test-accounts-seed.sql",
+      "apps/api/migrations/seed/test-accounts-cleanup.sql",
+      "apps/api/migrations/seed/test-accounts.manifest.json",
+      "scripts/seed-test-accounts.sh",
+      "scripts/gen-test-accounts-seed.mjs",
+      "apps/web/playwright/scripts/mint-test-account-storage-state.ts"
+    ],
+    "test_files": [
+      "apps/api/src/testing/test-accounts/__tests__/catalog.spec.ts",
+      "apps/api/src/testing/test-accounts/__tests__/build-seed-sql.spec.ts",
+      "apps/api/migrations/seed/__tests__/test-accounts-seed.contract.spec.ts"
+    ],
+    "verify_commands": [
+      "node --import tsx scripts/gen-test-accounts-seed.mjs --check",
+      "pnpm exec vitest run apps/api/src/testing/test-accounts --config=vitest.config.ts",
+      "pnpm exec vitest run apps/api/migrations/seed/__tests__/test-accounts-seed.contract.spec.ts --config=vitest.d1.config.ts",
+      "pnpm --filter @ubm-hyogo/api typecheck",
+      "pnpm --filter @ubm-hyogo/web typecheck",
+      "pnpm --filter @ubm-hyogo/api lint",
+      "pnpm --filter @ubm-hyogo/web lint"
+    ],
+    "phase12_strict_outputs": [
+      "outputs/phase-12/main.md",
+      "outputs/phase-12/implementation-guide.md",
+      "outputs/phase-12/system-spec-update-summary.md",
+      "outputs/phase-12/documentation-changelog.md",
+      "outputs/phase-12/unassigned-task-detection.md",
+      "outputs/phase-12/skill-feedback-report.md",
+      "outputs/phase-12/phase12-task-spec-compliance-check.md"
+    ],
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-06-03T19:30:00+09:00",
+        "evidence_path": "docs/30-workflows/test-accounts-seed-spec/outputs/phase-12/phase12-task-spec-compliance-check.md",
+        "approver": "daishiman",
+        "notes": "spec_review: Phase 1-13 implementation specification, strict Phase 12 outputs, and artifacts parity are present for the test-accounts seed task."
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "passed",
+        "passed_at": "2026-06-03T22:30:00+09:00",
+        "evidence_path": "docs/30-workflows/test-accounts-seed-spec/outputs/phase-11/manual-test-result.md",
+        "approver": "daishiman",
+        "notes": "implementation_review: code implementation, generated artifacts, focused unit/D1 tests, typecheck, and lint are complete locally."
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/test-accounts-seed-spec/outputs/phase-13/phase-13.md",
+        "approver": "daishiman",
+        "notes": "external_ops: commit, push, PR, and actual local/staging seed apply are user-gated; production seed apply is forbidden."
+      }
+    ]
+  },
+  "phases": [
+    {
+      "phase": 1,
+      "name": "要件定義",
+      "status": "completed",
+      "output": "outputs/phase-1/phase-1.md"
+    },
+    {
+      "phase": 2,
+      "name": "設計",
+      "status": "completed",
+      "output": "outputs/phase-2/phase-2.md"
+    },
+    {
+      "phase": 3,
+      "name": "設計レビュー",
+      "status": "completed",
+      "output": "outputs/phase-3/phase-3.md"
+    },
+    {
+      "phase": 4,
+      "name": "テスト作成",
+      "status": "completed",
+      "output": "outputs/phase-4/phase-4.md"
+    },
+    {
+      "phase": 5,
+      "name": "実装",
+      "status": "completed",
+      "output": "outputs/phase-5/phase-5.md"
+    },
+    {
+      "phase": 6,
+      "name": "テスト拡充",
+      "status": "completed",
+      "output": "outputs/phase-6/phase-6.md"
+    },
+    {
+      "phase": 7,
+      "name": "カバレッジ確認",
+      "status": "completed",
+      "output": "outputs/phase-7/phase-7.md"
+    },
+    {
+      "phase": 8,
+      "name": "リファクタリング",
+      "status": "completed",
+      "output": "outputs/phase-8/phase-8.md"
+    },
+    {
+      "phase": 9,
+      "name": "品質保証",
+      "status": "completed",
+      "output": "outputs/phase-9/phase-9.md"
+    },
+    {
+      "phase": 10,
+      "name": "最終レビュー",
+      "status": "completed",
+      "output": "outputs/phase-10/phase-10.md"
+    },
+    {
+      "phase": 11,
+      "name": "手動テスト",
+      "status": "completed",
+      "output": "outputs/phase-11/phase-11.md"
+    },
+    {
+      "phase": 12,
+      "name": "ドキュメント更新",
+      "status": "completed",
+      "output": "outputs/phase-12/main.md"
+    },
+    {
+      "phase": 13,
+      "name": "PR作成",
+      "status": "pending_user_approval",
+      "output": "outputs/phase-13/phase-13.md"
+    }
+  ],
+  "dependencies": {
+    "2": [
+      "1"
+    ],
+    "3": [
+      "2"
+    ],
+    "4": [
+      "3"
+    ],
+    "5": [
+      "4"
+    ],
+    "6": [
+      "5"
+    ],
+    "7": [
+      "6"
+    ],
+    "8": [
+      "7"
+    ],
+    "9": [
+      "8"
+    ],
+    "10": [
+      "9"
+    ],
+    "11": [
+      "10"
+    ],
+    "12": [
+      "11"
+    ],
+    "13": [
+      "12"
+    ]
+  }
+}
