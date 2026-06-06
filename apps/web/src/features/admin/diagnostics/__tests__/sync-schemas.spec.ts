@@ -18,6 +18,7 @@ const validSyncResult = {
   processedCount: 3,
   writeCount: 2,
   cursor: "cursor-1",
+  durationMs: 42,
 };
 
 describe("BackfillResultSchema", () => {
@@ -91,6 +92,23 @@ describe("manual-sync schemas", () => {
       skippedReason: "x",
     };
     expect(SyncResultSchema.safeParse(withoutReason).success).toBe(true);
+  });
+
+  it("TC-S8 durationMs optional — 欠落でも success", () => {
+    const { durationMs: _omit, ...withoutDuration } = validSyncResult;
+    expect(SyncResultSchema.safeParse(withoutDuration).success).toBe(true);
+  });
+
+  it("TC-S9 durationMs — 非負整数のみ受理する", () => {
+    expect(SyncResultSchema.safeParse({ ...validSyncResult, durationMs: 0 }).success).toBe(
+      true,
+    );
+    expect(
+      SyncResultSchema.safeParse({ ...validSyncResult, durationMs: -1 }).success,
+    ).toBe(false);
+    expect(
+      SyncResultSchema.safeParse({ ...validSyncResult, durationMs: 1.5 }).success,
+    ).toBe(false);
   });
 
   it("TC-S7 ok:false + non-skipped result は reject", () => {
