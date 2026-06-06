@@ -23,6 +23,20 @@
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1116-admin-tag-master-code-edit-ui-artifact-inventory.md` |
 | user gate | authenticated staging screenshots, commit, push, PR, Issue mutation |
 
+### issue-1088-manual-form-resync-sync-duration-display（2026-06-05）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION / runtime_visual_pending_user_gate` |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-1088-manual-form-resync-sync-duration-display/` |
+| 目的 | 手動 Google Form 再取込結果に `durationMs` を表示し、運用者が処理時間を把握できるようにする |
+| implemented targets | `apps/api/src/jobs/sync-forms-responses.ts`, `apps/web/src/features/admin/diagnostics/manual-sync.ts`, `apps/web/src/features/admin/components/_sync/ManualFormResyncPanel.client.tsx` |
+| tests | `apps/api/src/jobs/sync-forms-responses.contract.spec.ts`, `apps/api/src/routes/admin/responses-sync.contract.spec.ts`, `apps/web/src/features/admin/diagnostics/__tests__/sync-schemas.spec.ts`, `apps/web/src/features/admin/components/_sync/__tests__/ManualFormResyncPanel.spec.tsx` |
+| invariant | route は pass-through のまま。endpoint path / admin auth boundary / D1 schema / Google Form schema は変更なし。UI schema は `.strict()` 維持で `durationMs` optional |
+| Phase 11/12 | local focused tests・typecheck・lint PASS。Phase 12 strict 7 present。runtime screenshot は user-gated |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1088-manual-form-resync-sync-duration-display-artifact-inventory.md` |
+| user gate | authenticated runtime screenshot、staging deploy、commit、push、PR、Issue #1088 mutation |
+
 ### test-accounts-seed-spec（2026-06-03）
 
 | 項目 | 値 |
