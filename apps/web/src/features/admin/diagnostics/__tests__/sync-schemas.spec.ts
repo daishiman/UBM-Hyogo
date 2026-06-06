@@ -1,7 +1,12 @@
 import { describe, expect, it } from "vitest";
 
 import { BackfillResultSchema } from "../backfill";
-import { SyncResultSchema, SyncRunResponseSchema } from "../manual-sync";
+import {
+  SyncPreviewResultSchema,
+  SyncPreviewRunResponseSchema,
+  SyncResultSchema,
+  SyncRunResponseSchema,
+} from "../manual-sync";
 
 const validBackfill = {
   dryRun: true,
@@ -114,6 +119,65 @@ describe("manual-sync schemas", () => {
   it("TC-S7 ok:false + non-skipped result は reject", () => {
     expect(
       SyncRunResponseSchema.safeParse({ ok: false, result: validSyncResult }).success,
+    ).toBe(false);
+  });
+});
+
+const validPreview = {
+  status: "preview" as const,
+  dryRun: true as const,
+  responseCount: 3,
+  estimatedWrites: 4,
+  pagesScanned: 1,
+  capped: false,
+};
+
+describe("SyncPreviewResultSchema / SyncPreviewRunResponseSchema (issue-1089)", () => {
+  it("TC-S8 valid preview — 各値を保持して受理する", () => {
+    const parsed = SyncPreviewResultSchema.parse(validPreview);
+    expect(parsed.responseCount).toBe(3);
+    expect(parsed.estimatedWrites).toBe(4);
+    expect(parsed.capped).toBe(false);
+  });
+
+  it("TC-S9 status 誤り — 'succeeded' は reject", () => {
+    expect(
+      SyncPreviewResultSchema.safeParse({ ...validPreview, status: "succeeded" }).success,
+    ).toBe(false);
+  });
+
+  it("TC-S10 dryRun:false — literal(true) 違反は reject", () => {
+    expect(
+      SyncPreviewResultSchema.safeParse({ ...validPreview, dryRun: false }).success,
+    ).toBe(false);
+  });
+
+  it("TC-S11 余剰キー — .strict() で reject", () => {
+    expect(
+      SyncPreviewResultSchema.safeParse({ ...validPreview, extra: 1 }).success,
+    ).toBe(false);
+  });
+
+  it("TC-S12 nonnegative / int 違反 — 負数・小数は reject", () => {
+    expect(
+      SyncPreviewResultSchema.safeParse({ ...validPreview, responseCount: -1 }).success,
+    ).toBe(false);
+    expect(
+      SyncPreviewResultSchema.safeParse({ ...validPreview, estimatedWrites: 1.5 }).success,
+    ).toBe(false);
+  });
+
+  it("TC-S13 valid wrapper — { ok:true, preview } を parse し preview を取得できる", () => {
+    const parsed = SyncPreviewRunResponseSchema.parse({ ok: true, preview: validPreview });
+    expect(parsed.preview.responseCount).toBe(3);
+  });
+
+  it("TC-S14 wrapper 異常 — ok:false / 内側 invalid は reject", () => {
+    expect(
+      SyncPreviewRunResponseSchema.safeParse({ ok: false, preview: validPreview }).success,
+    ).toBe(false);
+    expect(
+      SyncPreviewRunResponseSchema.safeParse({ ok: true, preview: { foo: 1 } }).success,
     ).toBe(false);
   });
 });
