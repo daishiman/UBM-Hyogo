@@ -5,6 +5,7 @@ export interface AdminAuditFilters {
   readonly targetId?: string;
   readonly from?: string;
   readonly to?: string;
+  readonly batchId?: string;
   readonly limit?: number;
   readonly cursor?: string;
 }
