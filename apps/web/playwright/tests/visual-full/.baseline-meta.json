@@ -1,10 +1,9 @@
 {
   "$schema": "../../../../docs/30-workflows/task-709-visual-baseline-runtime-capture/schemas/baseline-meta.schema.json",
-  "captured_at_commit_sha": "49323ac27369a7dd700a2c37bf11c9dcc7950cb0",
-  "captured_at": "2026-06-06T03:00:43Z",
+  "captured_at_commit_sha": "c635f8fb1549c3146054ac69fba9a682f9531451",
+  "captured_at": "2026-06-06T05:03:05Z",
   "captured_via": "playwright-visual-baseline-update.yml#workflow_dispatch",
   "captured_run_ids": [
-    "26677930770",
     "26695366830",
     "26699807063",
     "26732057120",
@@ -13,7 +12,8 @@
     "26857844535",
     "26868407587",
     "26889102142",
-    "27050525423"
+    "27050525423",
+    "27052918274"
   ],
   "viewport_dimensions": {
     "desktop": {
@@ -41,5 +41,5 @@
   "refresh_workflow": ".github/workflows/playwright-visual-baseline-update.yml",
   "refresh_command_hint": "gh workflow run playwright-visual-baseline-update.yml -f reason=\"<why>\" -r <feature-branch>",
   "notes": "captured_at_commit_sha からの rendering_relevant_paths diff が空でない場合、baseline は stale。scripts/visual-baseline-status.sh で診断可能。",
-  "last_refresh_reason": "issue-1079: admin/audit に batchId 検索フィルタ欄・行表示・copy ボタンを追加した意図的 UI 変更により full-visual-admin-audit-{desktop,mobile} baseline が stale 化 (0.03 ratio diff)。真の回帰ではなく追加要素のため baseline 再生成で対応。"
+  "last_refresh_reason": "PR #1140: footer sticky bottom 化で register-mobile が 1199px→1203px に変化 (4px drift / 9469px) し visual-full(mobile) が fail。Linux baseline を再生成して PR を緑化する。"
 }
