@@ -4178,6 +4178,18 @@ docs-only / direction-reconciliation で採用方針 A を維持する場合で�
 | tests | `infra/cloudflare-alerts/lib/__tests__/binding-policy-drift.spec.ts`, `scripts/__tests__/cf-alerts-cli.spec.ts`, `pnpm test:alerts`, `pnpm cf:alerts:binding-drift --ci` |
 | system spec | `.claude/skills/aiworkflow-requirements/references/deployment-cloudflare.md` |
 | boundary | Cloudflare API/token/apply not used by binding-drift; policy enablement/apply remains UT-17-followup-006/user-gated |
+
+# staging-api-url-and-session-recovery（2026-06-03）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/staging-api-url-and-session-recovery/` |
+| status | `implemented_local_evidence_captured / implementation / NON_VISUAL` |
+| purpose | staging `/profile` session retrieval recovery and client localhost API fallback eradication |
+| implementation targets | `apps/web/src/lib/fetch/transport.ts`, `apps/web/src/lib/fetch/authed.ts`, `apps/web/src/lib/fetch/public.ts`, `apps/web/src/lib/env.ts`, `apps/web/app/api/me/[...path]/route.ts`, `apps/web/app/api/admin/[...path]/route.ts`, `apps/web/app/api/auth/**`, `apps/web/src/lib/auth/verify-magic-link.ts`, `scripts/verify-no-localhost-bake.sh`, `scripts/diagnose-auth-secret-parity.sh`, `scripts/cf-secret-put-auth-secret.sh`, `scripts/smoke-staging-me.sh`, `.github/workflows/verify-no-localhost-bake.yml` |
+| evidence | focused Vitest 10 files / 94 tests PASS; `bash scripts/verify-no-localhost-bake.sh --src-only` PASS; `mise exec -- pnpm typecheck` PASS |
+| inventory | `references/workflow-staging-api-url-and-session-recovery-artifact-inventory.md` |
+| user gate | commit, push, PR, Cloudflare `AUTH_SECRET` mutation, staging deploy, authenticated staging runtime smoke |
 # issue-1027-member-dynamic-og-worker-split（2026-05-31）
 
 | 項目 | 値 |
