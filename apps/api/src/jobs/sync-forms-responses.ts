@@ -102,6 +102,7 @@ export interface ResponseSyncResult {
   readonly processedCount: number;
   readonly writeCount: number;
   readonly cursor: string | null;
+  readonly durationMs: number;
   readonly skippedReason?: string;
   readonly error?: string;
 }
@@ -133,6 +134,8 @@ export async function runResponseSync(
   options: ResponseSyncOptions,
 ): Promise<ResponseSyncResult> {
   const now = options.now ?? (() => new Date());
+  const startedAt = now().getTime();
+  const durationMs = () => Math.max(0, now().getTime() - startedAt);
   const writeCap = parseIntOrDefault(
     env.RESPONSE_SYNC_WRITE_CAP,
     DEFAULT_WRITE_CAP,
@@ -176,6 +179,7 @@ export async function runResponseSync(
       processedCount: 0,
       writeCount: 0,
       cursor: null,
+      durationMs: durationMs(),
       skippedReason: "another response sync is in progress",
     };
   }
@@ -247,6 +251,7 @@ export async function runResponseSync(
       processedCount: processed,
       writeCount: writes,
       cursor,
+      durationMs: durationMs(),
       error: err instanceof Error ? err.message : String(err),
     };
   }
@@ -290,6 +295,7 @@ export async function runResponseSync(
     processedCount: processed,
     writeCount: writes,
     cursor,
+    durationMs: durationMs(),
   };
 }
 

@@ -62,6 +62,7 @@ const SUCCESS = {
     processedCount: 3,
     writeCount: 2,
     cursor: "cursor-1",
+    durationMs: 42,
   },
 };
 
@@ -112,6 +113,8 @@ describe("ManualFormResyncPanel", () => {
     expect(await screen.findByText("writeCount")).toBeTruthy();
     expect(screen.getByText("2")).toBeTruthy();
     expect(screen.getByText("run")).toBeTruthy();
+    expect(screen.getByText("durationMs")).toBeTruthy();
+    expect(screen.getByText("42")).toBeTruthy();
   });
 
   // TC-B2 更新理由（AC-5）: 件数プレビュー導入により backfill は canBackfill gate
@@ -212,7 +215,7 @@ describe("ManualFormResyncPanel", () => {
     fireEvent.click(screen.getByTestId("manual-sync-run"));
     await waitFor(() =>
       expect(onSynced).toHaveBeenCalledWith(
-        expect.objectContaining({ status: "succeeded", writeCount: 2 }),
+        expect.objectContaining({ status: "succeeded", writeCount: 2, durationMs: 42 }),
       ),
     );
   });
@@ -298,5 +301,22 @@ describe("ManualFormResyncPanel", () => {
     expect(
       (screen.getByTestId("manual-sync-backfill") as HTMLButtonElement).disabled,
     ).toBe(true);
+  });
+
+  it("TC-B13 durationMs 欠落時は fallback を表示する", async () => {
+    h.runTriggerMock.mockResolvedValueOnce({
+      ok: true,
+      result: {
+        status: "succeeded",
+        jobId: "job-legacy",
+        processedCount: 1,
+        writeCount: 1,
+        cursor: null,
+      },
+    });
+    render(<ManualFormResyncPanel />);
+    fireEvent.click(screen.getByTestId("manual-sync-run"));
+    expect(await screen.findByText("durationMs")).toBeTruthy();
+    expect(screen.getAllByText("-").length).toBeGreaterThanOrEqual(2);
   });
 });

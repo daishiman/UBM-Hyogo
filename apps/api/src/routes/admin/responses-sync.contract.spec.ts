@@ -50,6 +50,7 @@ describe("admin /sync/responses", () => {
       processedCount: 0,
       writeCount: 0,
       cursor: null,
+      durationMs: 12,
     });
     const res = await route.request(
       "/sync/responses",
@@ -69,6 +70,7 @@ describe("admin /sync/responses", () => {
       processedCount: 0,
       writeCount: 0,
       cursor: null,
+      durationMs: 3,
       skippedReason: "another response sync is in progress",
     });
     const res = await route.request(
@@ -89,6 +91,7 @@ describe("admin /sync/responses", () => {
       processedCount: 0,
       writeCount: 0,
       cursor: null,
+      durationMs: 12,
     });
     await route.request(
       "/sync/responses?fullSync=true",

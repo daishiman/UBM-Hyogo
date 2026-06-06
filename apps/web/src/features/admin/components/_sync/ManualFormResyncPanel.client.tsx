@@ -40,6 +40,7 @@ function resultRows(result: SyncResult) {
     ["processedCount", result.processedCount],
     ["writeCount", result.writeCount],
     ["cursor", result.cursor ?? "-"],
+    ["durationMs", result.durationMs ?? "-"],
   ] as const;
 }
 

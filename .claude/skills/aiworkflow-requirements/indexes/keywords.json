@@ -1200,6 +1200,7 @@
       "lessons-learned-issue-560-next-standalone-instrumentation-patch-2026-05.md",
       "security-skill-ipc-core.md",
       "spec-splitting-guidelines.md",
+      "workflow-issue-1088-manual-form-resync-sync-duration-display-artifact-inventory.md",
       "workflow-issue-504-extended-fixture-50k-artifact-inventory.md",
       "workflow-issue-55-notification-channel-and-optout-artifact-inventory.md",
       "workflow-issue-903-parallel-03-followup-005-member-runtime-evidence-artifact-inventory.md",
@@ -3371,6 +3372,7 @@
       "workflow-issue-1079-bulk-tag-audit-batch-filter-artifact-inventory.md",
       "workflow-issue-1080-bulk-tag-result-member-labels-artifact-inventory.md",
       "workflow-issue-1081-bulk-tag-real-d1-runtime-smoke-artifact-inventory.md",
+      "workflow-issue-1088-manual-form-resync-sync-duration-display-artifact-inventory.md",
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
       "workflow-issue-229-indexes-rebuild-fail-fast-artifact-inventory.md",
       "workflow-issue-230-lefthook-edit-guard-artifact-inventory.md",
@@ -4946,6 +4948,7 @@
       "workflow-issue-1063-shell-collapse-cookie-secure-attribute-artifact-inventory.md",
       "workflow-issue-1076-member-og-design-token-alignment-artifact-inventory.md",
       "workflow-issue-1081-bulk-tag-real-d1-runtime-smoke-artifact-inventory.md",
+      "workflow-issue-1088-manual-form-resync-sync-duration-display-artifact-inventory.md",
       "workflow-issue-230-lefthook-edit-guard-artifact-inventory.md",
       "workflow-issue-247-apps-web-opennext-config-regression-tests-artifact-inventory.md",
       "workflow-issue-256-e2e-coverage-baseline-runbook-artifact-inventory.md",
@@ -5345,6 +5348,7 @@
       "workflow-issue-1078-bulk-tag-picker-large-catalog-ux-artifact-inventory.md",
       "workflow-issue-1080-bulk-tag-result-member-labels-artifact-inventory.md",
       "workflow-issue-1081-bulk-tag-real-d1-runtime-smoke-artifact-inventory.md",
+      "workflow-issue-1088-manual-form-resync-sync-duration-display-artifact-inventory.md",
       "workflow-issue-1089-backfill-impact-preview-artifact-inventory.md",
       "workflow-issue-224-public-members-tags-batch-fetch-artifact-inventory.md",
       "workflow-issue-229-indexes-rebuild-fail-fast-artifact-inventory.md",
@@ -7516,6 +7520,7 @@
       "workflow-issue-1079-bulk-tag-audit-batch-filter-artifact-inventory.md",
       "workflow-issue-1080-bulk-tag-result-member-labels-artifact-inventory.md",
       "workflow-issue-1081-bulk-tag-real-d1-runtime-smoke-artifact-inventory.md",
+      "workflow-issue-1088-manual-form-resync-sync-duration-display-artifact-inventory.md",
       "workflow-issue-229-indexes-rebuild-fail-fast-artifact-inventory.md",
       "workflow-issue-230-lefthook-edit-guard-artifact-inventory.md",
       "workflow-issue-247-apps-web-opennext-config-regression-tests-artifact-inventory.md",
@@ -8272,6 +8277,7 @@
       "workflow-issue-1079-bulk-tag-audit-batch-filter-artifact-inventory.md",
       "workflow-issue-1080-bulk-tag-result-member-labels-artifact-inventory.md",
       "workflow-issue-1081-bulk-tag-real-d1-runtime-smoke-artifact-inventory.md",
+      "workflow-issue-1088-manual-form-resync-sync-duration-display-artifact-inventory.md",
       "workflow-issue-1089-backfill-impact-preview-artifact-inventory.md",
       "workflow-issue-191-schema-aliases-artifact-inventory.md",
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
@@ -8376,6 +8382,7 @@
       "logs-archive-2026-03-line-budget-reform-formalize.md",
       "task-workflow-completed-recent-2026-04d.md",
       "workflow-ai-runtime-authmode-unification.md",
+      "workflow-issue-1088-manual-form-resync-sync-duration-display-artifact-inventory.md",
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
       "workflow-issue-255-coverage-threshold-sync-lint-artifact-inventory.md",
       "workflow-issue-495-09b-A-sentry-slack-runtime-smoke-prod-extension-artifact-inventory.md",
@@ -9095,6 +9102,7 @@
       "deployment-cloudflare.md",
       "lessons-learned-ut07b-fu-02-admin-schema-alias-retry-label-2026-05.md",
       "ui-history-integration.md",
+      "workflow-issue-1088-manual-form-resync-sync-duration-display-artifact-inventory.md",
       "workflow-task-b-manual-form-resync-admin-ui-spec-artifact-inventory.md"
     ],
     "Alert": [
@@ -11760,6 +11768,7 @@
       "workflow-issue-1077-bulk-tag-authenticated-staging-visual-artifact-inventory.md",
       "workflow-issue-1078-bulk-tag-picker-large-catalog-ux-artifact-inventory.md",
       "workflow-issue-1080-bulk-tag-result-member-labels-artifact-inventory.md",
+      "workflow-issue-1088-manual-form-resync-sync-duration-display-artifact-inventory.md",
       "workflow-issue-1089-backfill-impact-preview-artifact-inventory.md",
       "workflow-issue-235-sync-audit-tables-necessity-judgement-artifact-inventory.md",
       "workflow-issue-256-e2e-coverage-baseline-runbook-artifact-inventory.md",
@@ -13538,6 +13547,7 @@
       "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md",
       "workflow-google-form-reflection-diagnostics-artifact-inventory.md",
       "workflow-google-form-reflection-diagnostics-fu-002-h2-identity-rebuild-artifact-inventory.md",
+      "workflow-issue-1088-manual-form-resync-sync-duration-display-artifact-inventory.md",
       "workflow-member-publish-recovery-form-ops-and-admin-link-artifact-inventory.md",
       "workflow-members-not-displaying-form-sync-investigation-artifact-inventory.md",
       "workflow-task-05a-form-preview-503-001-artifact-inventory.md",
@@ -14014,7 +14024,8 @@
     ],
     "display": [
       "lessons-learned-06b-b-profile-request-pending-banner-sticky-2026-05.md",
-      "workflow-issue-1029-public-member-photo-display-artifact-inventory.md"
+      "workflow-issue-1029-public-member-photo-display-artifact-inventory.md",
+      "workflow-issue-1088-manual-form-resync-sync-duration-display-artifact-inventory.md"
     ],
     "shape": [
       "lessons-learned-06b-b-profile-request-pending-banner-sticky-2026-05.md",
@@ -19043,6 +19054,7 @@
       "workflow-issue-1078-bulk-tag-picker-large-catalog-ux-artifact-inventory.md",
       "workflow-issue-1079-bulk-tag-audit-batch-filter-artifact-inventory.md",
       "workflow-issue-1080-bulk-tag-result-member-labels-artifact-inventory.md",
+      "workflow-issue-1088-manual-form-resync-sync-duration-display-artifact-inventory.md",
       "workflow-issue-191-schema-aliases-artifact-inventory.md",
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
       "workflow-issue-224-public-members-tags-batch-fetch-artifact-inventory.md",
@@ -27129,6 +27141,7 @@
       "workflow-issue-1078-bulk-tag-picker-large-catalog-ux-artifact-inventory.md",
       "workflow-issue-1079-bulk-tag-audit-batch-filter-artifact-inventory.md",
       "workflow-issue-1080-bulk-tag-result-member-labels-artifact-inventory.md",
+      "workflow-issue-1088-manual-form-resync-sync-duration-display-artifact-inventory.md",
       "workflow-issue-191-schema-aliases-artifact-inventory.md",
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
       "workflow-issue-224-public-members-tags-batch-fetch-artifact-inventory.md",
@@ -27474,6 +27487,7 @@
       "workflow-issue-1078-bulk-tag-picker-large-catalog-ux-artifact-inventory.md",
       "workflow-issue-1079-bulk-tag-audit-batch-filter-artifact-inventory.md",
       "workflow-issue-1080-bulk-tag-result-member-labels-artifact-inventory.md",
+      "workflow-issue-1088-manual-form-resync-sync-duration-display-artifact-inventory.md",
       "workflow-issue-229-indexes-rebuild-fail-fast-artifact-inventory.md",
       "workflow-issue-235-sync-audit-tables-necessity-judgement-artifact-inventory.md",
       "workflow-issue-352-postmortem-template-automation-artifact-inventory.md",
@@ -28219,6 +28233,13 @@
     ],
     "result": [
       "workflow-issue-1080-bulk-tag-result-member-labels-artifact-inventory.md"
+    ],
+    "resync": [
+      "workflow-issue-1088-manual-form-resync-sync-duration-display-artifact-inventory.md",
+      "workflow-task-b-manual-form-resync-admin-ui-spec-artifact-inventory.md"
+    ],
+    "duration": [
+      "workflow-issue-1088-manual-form-resync-sync-duration-display-artifact-inventory.md"
     ],
     "impact": [
       "workflow-issue-1089-backfill-impact-preview-artifact-inventory.md"
@@ -28977,9 +28998,6 @@
     ],
     "capture": [
       "workflow-task-709-visual-baseline-runtime-capture-artifact-inventory.md"
-    ],
-    "resync": [
-      "workflow-task-b-manual-form-resync-admin-ui-spec-artifact-inventory.md"
     ],
     "privacy": [
       "workflow-task-c-privacy-terms-public-shell-spec-artifact-inventory.md"

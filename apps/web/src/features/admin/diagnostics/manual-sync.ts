@@ -7,6 +7,7 @@ export const SyncResultSchema = z
     processedCount: z.number().int().nonnegative(),
     writeCount: z.number().int().nonnegative(),
     cursor: z.string().nullable(),
+    durationMs: z.number().int().nonnegative().optional(),
     skippedReason: z.string().optional(),
   })
   .strict();
