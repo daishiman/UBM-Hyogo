@@ -6,6 +6,7 @@
 
 import { Hono } from "hono";
 import {
+  previewResponseSync,
   runResponseSync,
   type ResponseSyncEnv,
 } from "../../jobs/sync-forms-responses";
@@ -37,10 +38,28 @@ export function createAdminResponsesSyncRoute(
       return c.json({ ok: false, error: "unauthorized" }, 401);
     }
 
+    const dryRun = c.req.query("dryRun") === "true";
     const fullSync = c.req.query("fullSync") === "true";
     const cursor = c.req.query("cursor");
 
     const client = deps.buildClient(c.env);
+
+    // issue-1089: dry-run 影響件数プレビュー（count-only・read-only）。
+    // 既存 run 経路（?fullSync/?cursor）は不変（後方互換: dryRun 未指定で従来挙動）。
+    if (dryRun) {
+      try {
+        const preview = await previewResponseSync(c.env, {
+          client,
+          ...(fullSync ? { fullSync: true } : {}),
+          ...(cursor !== undefined ? { cursor } : {}),
+        });
+        return c.json({ ok: true, preview }, 200);
+      } catch {
+        // PII を出さない固定文言（不変条件 #7）
+        return c.json({ ok: false, error: "preview_failed" }, 500);
+      }
+    }
+
     const opts = {
       trigger: "admin" as const,
       client,

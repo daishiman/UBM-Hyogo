@@ -12,6 +12,19 @@
 | inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1094-identity-conflicts-optimistic-aria-live-announcement-artifact-inventory.md` |
 | user gate | commit, push, PR, Issue mutation, staging manual SR |
 
+## issue-1089-backfill-impact-preview（2026-06-05）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/issue-1089-backfill-impact-preview/` |
+| status | `implemented_local_runtime_pending / implementation / VISUAL_ON_EXECUTION` |
+| purpose | 全件 backfill（手動再取込）確定前に実 response 件数を提示し、破壊的書き込みの影響を先に見せる |
+| implementation | `POST /admin/sync/responses?dryRun=true&fullSync=true` の read-only count-only 経路（`ResponseSyncPreview` / `previewResponseSync`）、frontend `SyncPreviewResultSchema` / `SyncPreviewRunResponseSchema`、`ManualFormResyncPanel` の preview → count panel → `canBackfill` gate → destructive confirm staged flow |
+| contract | dry-run 応答 `{ ok:true, preview:{ status:"preview", dryRun:true, responseCount, estimatedWrites, pagesScanned, capped } }`。`responseCount` = 実数（AC-2）/ `estimatedWrites` = 推定。dry-run は read-only（lock / `sync_jobs` ledger / D1 write / `processResponse` なし） |
+| evidence | focused tests 4 files / 71 tests PASS（apps/api 40 + apps/web 31）; web/api typecheck PASS; lint PASS; HEX なし; verify:phase12-compliance PASS; gate-metadata ERROR 0 |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1089-backfill-impact-preview-artifact-inventory.md` |
+| user gate | `SYNC_ADMIN_TOKEN` 投入, staging deploy, authenticated runtime screenshot, commit, push, PR。Issue #1089 は CLOSED 維持 |
+
 ## issue-1088-manual-form-resync-sync-duration-display（2026-06-05）
 
 | 項目 | 値 |
