@@ -60,6 +60,19 @@ describe("SidebarUserMenu", () => {
     expect(labelWrap).not.toBeNull();
   });
 
+  it("collapsed=true で summary 内に tooltip を配置し details>summary 構造を保つ", () => {
+    const { container } = render(
+      <SidebarUserMenu role="member" user={MEMBER} collapsed={true} />,
+    );
+    const details = container.querySelector("details");
+    const summary = container.querySelector("summary");
+    const tooltip = container.querySelector('[role="tooltip"]');
+    expect(details?.firstElementChild).toBe(summary);
+    expect(tooltip?.textContent).toBe("ユーザーメニュー");
+    expect(summary?.getAttribute("aria-describedby")).toBe(tooltip?.id);
+    expect(summary?.getAttribute("aria-label")).toBe("ユーザーメニュー");
+  });
+
   it("外側 pointerdown で popover を閉じる", () => {
     const { container } = render(
       <div>

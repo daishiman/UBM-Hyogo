@@ -51,6 +51,11 @@ const makeClient = (
   } as unknown as GoogleFormsClient;
 };
 
+const makeSteppedNow = (...timestamps: number[]): (() => Date) => {
+  let i = 0;
+  return () => new Date(timestamps[Math.min(i++, timestamps.length - 1)] ?? 0);
+};
+
 describe("decideShouldUpdate (AC-1 / T-U-01 / T-U-02)", () => {
   it("submittedAt 最新を採用する", () => {
     expect(
@@ -93,6 +98,7 @@ describe("runResponseSync", () => {
     );
     expect(result.status).toBe("succeeded");
     expect(result.processedCount).toBe(1);
+    expect(result.durationMs).toBeGreaterThanOrEqual(0);
     expect(db.identities).toHaveLength(1);
     expect(db.identities[0]?.["response_email"]).toBe("alice@example.com");
     expect(db.responses).toHaveLength(1);
@@ -245,9 +251,10 @@ describe("runResponseSync", () => {
     const client = makeClient([{ responses: [] }]);
     const result = await runResponseSync(
       { DB: db as unknown as D1Database, GOOGLE_FORM_ID: "form-1" },
-      { trigger: "admin", client },
+      { trigger: "admin", client, now: makeSteppedNow(1000, 1042, 1042) },
     );
     expect(result.status).toBe("skipped");
+    expect(result.durationMs).toBe(42);
     expect(result.skippedReason).toMatch(/another response sync/);
   });
 
@@ -491,9 +498,21 @@ describe("runResponseSync", () => {
     } as unknown as GoogleFormsClient;
     const result = await runResponseSync(
       { DB: db as unknown as D1Database, GOOGLE_FORM_ID: "form-1" },
-      { trigger: "admin", client },
+      { trigger: "admin", client, now: makeSteppedNow(1000, 1000, 1064) },
     );
     expect(result.status).toBe("failed");
+    expect(result.durationMs).toBe(64);
     expect(db.syncJobs[0]?.["status"]).toBe("failed");
+  });
+
+  it("Issue #1088: succeeded path は durationMs を返す", async () => {
+    const resp = makeResp({ responseEmail: asResponseEmail("duration@example.com") });
+    const client = makeClient([{ responses: [resp] }]);
+    const result = await runResponseSync(
+      { DB: db as unknown as D1Database, GOOGLE_FORM_ID: "form-1" },
+      { trigger: "admin", client, now: makeSteppedNow(1000, 1000, 1101) },
+    );
+    expect(result.status).toBe("succeeded");
+    expect(result.durationMs).toBe(101);
   });
 });

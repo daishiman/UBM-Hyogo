@@ -11,6 +11,7 @@ import { SidebarCollapseToggle } from "./SidebarCollapseToggle";
 import { SidebarDrawer } from "./SidebarDrawer";
 import { SidebarNav } from "./SidebarNav";
 import { SidebarShellProvider } from "./SidebarShellContext";
+import { SidebarTooltip } from "./SidebarTooltip";
 import { SidebarUserMenu } from "./SidebarUserMenu";
 import { ShellIcon } from "./icons";
 import type { ShellNavGroup, ShellRole } from "./shell-config";
@@ -22,22 +23,23 @@ import { useSidebarState } from "./useSidebarState";
 // 「public guest route に data-role="public-return" が存在しない」契約を満たす。
 function AdminPublicReturn({ collapsed }: { readonly collapsed: boolean }) {
   return (
-    <Link
-      href="/"
-      data-role="public-return"
-      data-component="admin-sidebar-public-return"
-      aria-label="公開サイトに戻る"
-      title={collapsed ? "公開サイトに戻る" : undefined}
-      className={`flex items-center rounded-sm px-3 py-2 text-sm text-[var(--ubm-color-text-secondary)] hover:bg-[var(--shell-active-bg)] hover:text-[var(--ubm-color-text-primary)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--ubm-color-accent)] ${collapsed ? "justify-center gap-0" : "gap-3"}`}
-    >
-      <span
-        aria-hidden="true"
-        className="inline-flex h-[18px] w-[18px] shrink-0 items-center justify-center text-[var(--ubm-color-text-secondary)]"
+    <SidebarTooltip label="公開サイトに戻る" collapsed={collapsed}>
+      <Link
+        href="/"
+        data-role="public-return"
+        data-component="admin-sidebar-public-return"
+        aria-label="公開サイトに戻る"
+        className={`flex items-center rounded-sm px-3 py-2 text-sm text-[var(--ubm-color-text-secondary)] hover:bg-[var(--shell-active-bg)] hover:text-[var(--ubm-color-text-primary)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--ubm-color-accent)] ${collapsed ? "justify-center gap-0" : "gap-3"}`}
       >
-        <ShellIcon id="home" />
-      </span>
-      <span className={collapsed ? "sr-only" : "flex-1"}>公開サイトに戻る</span>
-    </Link>
+        <span
+          aria-hidden="true"
+          className="inline-flex h-[18px] w-[18px] shrink-0 items-center justify-center text-[var(--ubm-color-text-secondary)]"
+        >
+          <ShellIcon id="home" />
+        </span>
+        <span className={collapsed ? "sr-only" : "flex-1"}>公開サイトに戻る</span>
+      </Link>
+    </SidebarTooltip>
   );
 }
 
@@ -97,7 +99,7 @@ export function SidebarShell({
         <aside
           data-shell="sidebar"
           data-collapsed={collapsed ? "true" : "false"}
-          className="hidden w-[var(--shell-bar-w)] shrink-0 flex-col gap-3 overflow-hidden border-r border-[var(--shell-bar-border)] bg-[var(--shell-bar-bg)] p-3 data-[collapsed=true]:w-[var(--shell-bar-w-collapsed)] md:flex"
+          className="hidden w-[var(--shell-bar-w)] shrink-0 flex-col gap-3 overflow-visible border-r border-[var(--shell-bar-border)] bg-[var(--shell-bar-bg)] p-3 data-[collapsed=true]:w-[var(--shell-bar-w-collapsed)] md:flex"
         >
           {sidebarNavContent(collapsed)}
           <div
@@ -119,7 +121,7 @@ export function SidebarShell({
         <div className="flex min-w-0 flex-1 flex-col">
           <div
             data-shell="mobile-bar"
-            className="flex items-center gap-2 border-b border-[var(--shell-bar-border)] bg-[var(--shell-bar-bg)] px-3 py-2 md:hidden"
+            className="sticky top-0 z-30 flex items-center gap-2 border-b border-[var(--shell-bar-border)] bg-[var(--shell-bar-bg)] px-3 py-2 md:hidden"
           >
             {mobileTriggerSlot}
             <span className="text-sm font-semibold text-[var(--ubm-color-text-primary)]">

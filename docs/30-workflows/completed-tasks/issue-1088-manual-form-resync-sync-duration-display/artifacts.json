@@ -1,0 +1,59 @@
+{
+  "title": "issue-1088-manual-form-resync-sync-duration-display",
+  "type": "implementation",
+  "status": "implemented_local_evidence_captured",
+  "feature": "issue-1088-manual-form-resync-sync-duration-display",
+  "created": "2026-06-03",
+  "lastUpdated": "2026-06-05",
+  "branch": "docs/issue-1088-sync-duration-display-spec",
+  "base": "dev",
+  "metadata": {
+    "taskType": "implementation",
+    "implementationDivision": "実装仕様書",
+    "implementation_mode": "new",
+    "taskClassification": "UI",
+    "visualEvidence": "VISUAL_ON_EXECUTION",
+    "visualEvidenceStatus": "required_pending_runtime_capture",
+    "workflow_state": "implemented_local_evidence_captured",
+    "implementation_status": "implemented_local_tests_green",
+    "sourceIssue": 1088,
+    "sourceIssueState": "OPEN",
+    "consumedUnassignedSpec": "docs/30-workflows/completed-tasks/task-b-manual-form-resync-followup-001-sync-duration-display.md",
+    "scope": "Phase 1-13 implementation specification documents for issue #1088 (Task B manual Google Form resync follow-up: display ingestion duration durationMs). Adds durationMs measurement to apps/api runResponseSync() (succeeded/failed/skipped 3 paths) and ResponseSyncResult, extends apps/web SyncResultSchema (.strict()) and ManualFormResyncPanel result <dl> with a durationMs row + regression tests. Single implementation cycle (CONST_007), both backend and frontend in one PR.",
+    "investigationConclusion": "Codebase investigation confirmed durationMs is NOT implemented anywhere on the manual form resync path and is NOT resolved by any other task. SyncResultSchema (manual-sync.ts:3-12) lacks durationMs; resultRows() (ManualFormResyncPanel.client.tsx:34-42) has no durationMs row; ResponseSyncResult (sync-forms-responses.ts:99-107) and runResponseSync() (3 return paths) do not measure or return durationMs; responses-sync.ts (route) passes result through unchanged. durationMs timing infra exists only on other sync patterns (sync/types.ts DiffSummary, sync/audit.ts withSyncMutex, sync/manual.ts:87 hardcoded 0). Issue text remains aligned with current code; the only optimization is to pin the backend producer to the precise current implementation (sync-forms-responses.ts runResponseSync + ResponseSyncResult) rather than the vague 'sync use-case' wording. implementation_mode = new.",
+    "rootCauseOptimization": "Issue named the backend producer vaguely ('apps/api POST /admin/sync/responses sync use-case'). Optimized to current code: producer = runResponseSync() in apps/api/src/jobs/sync-forms-responses.ts (ResponseSyncResult interface lines 99-107, 3 return paths at lines 154/225/268). The route apps/api/src/routes/admin/responses-sync.ts returns result verbatim so it needs no change once ResponseSyncResult carries durationMs.",
+    "userGated": [
+      "authenticated runtime screenshot capture (Phase 11 runtime visual evidence)",
+      "commit",
+      "push",
+      "PR creation",
+      "GitHub issue #1088 state change (kept OPEN; this workflow does not mutate issue state)"
+    ],
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-06-03T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-1088-manual-form-resync-sync-duration-display/phase-3.md",
+        "approver": "daishiman",
+        "notes": "design_review: Phase 1-3 design backbone authored, 4-condition evaluation passed, both-rails (backend durationMs producer + frontend schema/UI consumer) single-cycle scope fixed; Phase 4 progression approved"
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "passed",
+        "passed_at": "2026-06-04T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-1088-manual-form-resync-sync-duration-display/phase-9.md",
+        "approver": "daishiman",
+        "notes": "implementation_landed_local: durationMs implemented on all 3 ResponseSyncResult paths (sync-forms-responses.ts), SyncResultSchema.durationMs optional (manual-sync.ts), resultRows durationMs row (ManualFormResyncPanel.client.tsx). Tests green — api contract 26/26 (jobs + responses-sync), web 22/22 (sync-schemas 13 + panel 9). typecheck (api+web) and pnpm lint (7 projects) green; no HEX drift. Fixed 2 over-counted stepped-now timestamp arrays in the job contract spec (succeeded/failed paths call now() 3x, not 4x)."
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-1088-manual-form-resync-sync-duration-display/phase-13.md",
+        "approver": "daishiman",
+        "notes": "external_ops (blocked_pending_user_approval): authenticated runtime screenshots, commit/push/PR are user-gated"
+      }
+    ]
+  }
+}
