@@ -19,6 +19,7 @@ export const ListAuditQueryZ = z.object({
   targetId: z.string().min(1).optional(),
   from: z.string().min(1).optional(),
   to: z.string().min(1).optional(),
+  batchId: z.string().min(1).optional(),
   cursor: z.string().min(1).optional(),
   limit: z.coerce.number().int().min(1).max(100).default(50),
 });
@@ -47,6 +48,7 @@ export const AdminAuditListResponseZ = z.object({
     targetId: z.string().nullable(),
     from: z.string().nullable(),
     to: z.string().nullable(),
+    batchId: z.string().nullable(),
     limit: z.number().int().min(1).max(100),
   }).strict(),
 }).strict();
@@ -167,6 +169,7 @@ export interface ListAuditResponse {
     targetId: string | null;
     from: string | null;
     to: string | null;
+    batchId: string | null;
     limit: number;
   };
 }
@@ -187,6 +190,7 @@ export const createAdminAuditRoute = () => {
       targetId: c.req.query("targetId") || undefined,
       from: c.req.query("from") || undefined,
       to: c.req.query("to") || undefined,
+      batchId: c.req.query("batchId") || undefined,
       cursor: c.req.query("cursor") || undefined,
       limit: c.req.query("limit") ?? undefined,
     });
@@ -217,6 +221,7 @@ export const createAdminAuditRoute = () => {
       ...(parsed.data.targetId ? { targetId: parsed.data.targetId } : {}),
       ...(fromUtc ? { fromUtc } : {}),
       ...(toUtcExclusive ? { toUtcExclusive } : {}),
+      ...(parsed.data.batchId ? { batchId: parsed.data.batchId } : {}),
       ...(cursor ? { cursor } : {}),
       limit: limit + 1,
     });
@@ -237,6 +242,7 @@ export const createAdminAuditRoute = () => {
           targetId: parsed.data.targetId ?? null,
           from: parsed.data.from ?? null,
           to: parsed.data.to ?? null,
+          batchId: parsed.data.batchId ?? null,
           limit,
         },
       } satisfies ListAuditResponse,
