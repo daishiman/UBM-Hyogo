@@ -60,6 +60,7 @@ export type AuthEnv = z.infer<typeof AuthEnvSchema> & {
 
 export interface PublicFetchEnv {
   API_SERVICE?: ServiceBinding;
+  NEXT_PUBLIC_API_BASE_URL?: string;
   PUBLIC_API_BASE_URL?: string;
   NODE_ENV?: string;
   PLAYWRIGHT_TEST?: string;
@@ -95,6 +96,7 @@ export function readRawEnv(): RawEnv {
   const cloudflareEnv = readCloudflareEnv();
   if (cloudflareEnv === undefined) return readProcessEnv();
   // Playwright e2e は webServer (`next dev --webpack`) に
+  // localhost-allow:local-fallback
   // INTERNAL_API_BASE_URL=http://127.0.0.1:8787（mock API）等を process.env で注入する。
   // OpenNext dev の cloudflare context は wrangler.toml [vars]（本番 API URL）を返すため、
   // PLAYWRIGHT_TEST=1 のときだけ process.env の上書きを優先し、SSR server-fetch を
@@ -141,6 +143,28 @@ export function getAuthEnv(rawEnv: RawEnv = readRawEnv()): AuthEnv {
   return { ...base, API_SERVICE: binding as ServiceBinding };
 }
 
+export function getEnvironment(rawEnv: RawEnv = readRawEnv()): "local" | "staging" | "production" {
+  const value = rawEnv["ENVIRONMENT"];
+  return value === "staging" || value === "production" ? value : "local";
+}
+
+export function getTransportRuntimeIsTest(rawEnv: RawEnv = readRawEnv()): boolean {
+  const processEnv = readProcessEnv();
+  const nodeEnv =
+    typeof processEnv["NODE_ENV"] === "string"
+      ? processEnv["NODE_ENV"]
+      : typeof rawEnv["NODE_ENV"] === "string"
+        ? rawEnv["NODE_ENV"]
+        : undefined;
+  const playwright =
+    typeof processEnv["PLAYWRIGHT_TEST"] === "string"
+      ? processEnv["PLAYWRIGHT_TEST"]
+      : typeof rawEnv["PLAYWRIGHT_TEST"] === "string"
+        ? rawEnv["PLAYWRIGHT_TEST"]
+        : undefined;
+  return nodeEnv === "test" || playwright === "1";
+}
+
 export function getApiBaseEnv(rawEnv: RawEnv = readRawEnv()): ApiBaseEnv {
   return {
     ...(typeof rawEnv["INTERNAL_API_BASE_URL"] === "string"
@@ -154,6 +178,12 @@ export function getApiBaseEnv(rawEnv: RawEnv = readRawEnv()): ApiBaseEnv {
 
 export function getPublicFetchEnv(rawEnv: RawEnv = readRawEnv()): PublicFetchEnv {
   const processEnv = readProcessEnv();
+  const nextPublicBaseUrl =
+    typeof processEnv["NEXT_PUBLIC_API_BASE_URL"] === "string"
+      ? processEnv["NEXT_PUBLIC_API_BASE_URL"]
+      : typeof rawEnv["NEXT_PUBLIC_API_BASE_URL"] === "string"
+        ? rawEnv["NEXT_PUBLIC_API_BASE_URL"]
+        : undefined;
   const baseUrl =
     typeof processEnv["PUBLIC_API_BASE_URL"] === "string"
       ? processEnv["PUBLIC_API_BASE_URL"]
@@ -163,6 +193,7 @@ export function getPublicFetchEnv(rawEnv: RawEnv = readRawEnv()): PublicFetchEnv
   const binding = rawEnv["API_SERVICE"];
   return {
     ...(binding === undefined ? {} : { API_SERVICE: binding as ServiceBinding }),
+    ...(nextPublicBaseUrl === undefined ? {} : { NEXT_PUBLIC_API_BASE_URL: nextPublicBaseUrl }),
     ...(baseUrl === undefined ? {} : { PUBLIC_API_BASE_URL: baseUrl }),
     ...(typeof processEnv["NODE_ENV"] === "string" ? { NODE_ENV: processEnv["NODE_ENV"] } : {}),
     ...(typeof processEnv["PLAYWRIGHT_TEST"] === "string"
