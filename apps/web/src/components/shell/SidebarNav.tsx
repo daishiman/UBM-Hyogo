@@ -15,7 +15,7 @@ export function SidebarNav({ navGroups, collapsed, activePath }: SidebarNavProps
     <nav
       aria-label="サイドバー"
       data-shell-block="nav"
-      className="flex flex-1 flex-col gap-3 overflow-y-auto"
+      className={`flex flex-1 flex-col gap-3 ${collapsed ? "overflow-visible" : "overflow-y-auto"}`}
     >
       {navGroups.map((group) => (
         <SidebarNavGroup
