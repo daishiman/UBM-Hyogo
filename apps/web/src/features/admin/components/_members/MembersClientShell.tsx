@@ -44,6 +44,19 @@ export function MembersClientShell({ initial, initialFilter, page, pageSize }: M
     [initial.members],
   );
 
+  const membersById = useMemo(
+    () =>
+      Object.fromEntries(
+        initial.members.map((m) => [
+          m.memberId,
+          {
+            fullName: m.fullName,
+          },
+        ]),
+      ),
+    [initial.members],
+  );
+
   const onChangeFilter = (patch: Partial<MembersFilterValue>) => {
     const sp = new URLSearchParams(searchParams?.toString() ?? "");
     for (const [k, v] of Object.entries(patch)) {
@@ -112,7 +125,11 @@ export function MembersClientShell({ initial, initialFilter, page, pageSize }: M
         candidates={republishCandidates}
         onCompleted={() => router.refresh()}
       />
-      <BulkActionBar selectedIds={Array.from(selected)} onComplete={onComplete} />
+      <BulkActionBar
+        selectedIds={Array.from(selected)}
+        membersById={membersById}
+        onComplete={onComplete}
+      />
       <MembersTable
         items={initial.members}
         selected={selected}

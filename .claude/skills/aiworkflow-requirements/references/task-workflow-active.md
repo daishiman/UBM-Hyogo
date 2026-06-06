@@ -22,6 +22,51 @@
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1112-attendance-count-badge-emphasis-artifact-inventory.md` |
 | user gate | staging screenshots, commit, push, PR, Issue mutation |
 
+### issue-1081-bulk-tag-real-d1-runtime-smoke（2026-06-03）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / NON_VISUAL / staging_runtime_pending_user_gate` |
+| 成果物 | `docs/30-workflows/issue-1081-bulk-tag-real-d1-runtime-smoke/` |
+| Issue | #1081 CLOSED 維持。Issue mutation は user-gated |
+| 目的 | bulk tag endpoint `POST /admin/members/tags/bulk` の staging Workers + real D1 mutation smoke gate を追加する |
+| implementation targets | `scripts/smoke/runtime-tag-bulk.sh`, `apps/api/migrations/seed/bulk-tag-staging-seed.sql`, `apps/api/migrations/seed/bulk-tag-staging-cleanup.sql`, `.github/workflows/runtime-smoke-staging.yml`, `package.json` |
+| tests | `scripts/smoke/__tests__/runtime-tag-bulk.test.sh`（`pnpm smoke:test` に追加） |
+| invariant | endpoint contract / D1 schema / UI / auth 方式は変更なし。fixture は `e2e_test_issue1081_` prefix 限定、production guard は staging DB 固定 |
+| evidence | local shell test PASS、actionlint PASS、`pnpm smoke:test` PASS。staging real D1 seed/mutation/cleanup evidence は user-gated |
+| user gate | staging deploy、real D1 seed/mutation/cleanup、commit、push、PR |
+
+### shell-sidebar-tooltip-footer-header-responsive（2026-06-03）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / VISUAL / local_browser_screenshots_present_staging_visual_pending_user_gate` |
+| 成果物 | `docs/30-workflows/shell-sidebar-tooltip-footer-header-responsive/` |
+| 親 workflow | なし |
+| 目的 | collapsed sidebar icon-only controls の tooltip、公開フッター sticky bottom、モバイルヘッダー sticky top を同一 local cycle で実装する |
+| implementation targets | `apps/web/src/components/shell/{SidebarTooltip,SidebarNav,SidebarNavGroup,SidebarNavItem,SidebarShell,SidebarUserMenu,SidebarCollapseToggle}.tsx`, `apps/web/src/styles/{globals,legacy-public}.css` |
+| tests | `apps/web/src/components/shell/__tests__/{SidebarTooltip,SidebarNavItem,SidebarShell,SidebarUserMenu,SidebarCollapseToggle}.spec.tsx` |
+| evidence | focused shell Vitest 5 files / 33 tests PASS; local browser screenshots 3 PNG present |
+| invariant | API / D1 / Google Form schema / auth middleware は変更なし。Tooltip は shell-local primitive、sticky visual は staging user-gated |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-shell-sidebar-tooltip-footer-header-responsive-artifact-inventory.md` |
+| user gate | staging visual screenshots、commit、push、PR |
+
+### issue-1080-bulk-tag-result-member-labels（2026-06-03）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION / staging_visual_pending_user_gate` |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-1080-bulk-tag-result-member-labels/` |
+| Issue | #1080 OPEN（mutation は user-gated） |
+| 親 workflow | `docs/30-workflows/completed-tasks/issue-1036-bulk-member-tag-assign/` |
+| source unassigned | `docs/30-workflows/completed-tasks/issue-1080-bulk-tag-result-member-labels/task-issue-1036-followup-004-bulk-tag-result-member-labels.md`（formalized / implemented local） |
+| 目的 | `/admin/members` の bulk tag 部分失敗結果 summary を raw `memberId` / `tagId` から member `fullName` / tag `label` 表示へ改善する |
+| implementation targets | `apps/web/src/features/admin/components/_members/BulkActionBar.tsx`, `apps/web/src/features/admin/components/_members/MembersClientShell.tsx`, `apps/web/src/features/admin/components/__tests__/BulkActionBar.spec.tsx` |
+| invariant | apps/api / D1 / API response shape `{ memberId, tagId, status }` / design tokens / testid / list key は不変。`membersById` は `fullName` のみで PII 最小化 |
+| evidence | focused `BulkActionBar.spec.tsx` 12 tests PASS。staging authenticated screenshot は user-gated |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1080-bulk-tag-result-member-labels-artifact-inventory.md` |
+| user gate | staging screenshot, commit, push, PR, Issue mutation |
+
 ### issue-1076-member-og-design-token-alignment（2026-06-03）
 
 | 項目 | 値 |
@@ -4085,6 +4130,7 @@ docs-only / direction-reconciliation で採用方針 A を維持する場合で�
 | implementation targets | `apps/web/src/components/public/{DensityToggle.client,MemberFilters.client,SelectedFiltersBar.client,SelectedTagsBar.client}.tsx`, `apps/web/src/components/ui/{Segmented,Search}.tsx`, `apps/web/app/(public)/members/page.tsx`, `apps/web/src/styles/legacy-public.css` |
 | evidence | focused component tests local; visual baseline / commit / push / PR user-gated |
 | issue-1007-density-toggle-help-hint-hardening | implemented_local_runtime_pending / implementation / VISUAL / Phase 12 strict outputs present / runtime visual pending_user_approval | `docs/30-workflows/completed-tasks/issue-1007-density-toggle-help-hint-hardening/` | Issue #1007. `/members` `DensityToggle` HelpHint hardening: `useId` description ids, non-controlled `<details>` Escape/outside close, `IconName` `help` glyph, pointer target guard, focused component tests 15 PASS. System specs `09-ui-ux.md` and `09d-icons.md`, Phase 11 local evidence, Phase 12 strict 7, quick-reference/resource-map/artifact inventory synchronized. Runtime screenshots, staging deploy, commit, push, PR are user-gated. Inventory: `references/workflow-issue-1007-density-toggle-help-hint-hardening-artifact-inventory.md`. |
+| issue-1079-bulk-tag-audit-batch-filter | implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION / Phase 13 pending_user_approval | `docs/30-workflows/completed-tasks/issue-1079-bulk-tag-audit-batch-filter/` | Issue #1079. Existing `/admin/audit` now accepts `batchId` query, searches bulk tag audit `after_json.$.batchId` and `before_json.$.batchId` with `json_valid` guard, preserves `batchId` through Web filter/pagination, and displays/copies row batchId via a client-only button. No new endpoint, D1 schema, or write-side change. API D1 targeted PASS 2 files / 26 tests; Web targeted PASS 3 files / 54 tests; API/Web typecheck PASS. Authenticated runtime screenshots, commit, push, PR, Issue mutation are user-gated. Inventory: `references/workflow-issue-1079-bulk-tag-audit-batch-filter-artifact-inventory.md`. |
 
 ## issue-998-members-publish-state-production-rollout
 

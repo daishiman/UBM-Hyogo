@@ -1,0 +1,100 @@
+{
+  "task_id": "shell-sidebar-tooltip-footer-header-responsive",
+  "created_at": "2026-06-03",
+  "status": "implemented_local_evidence_captured",
+  "task_type": "implementation",
+  "visual_category": "VISUAL",
+  "implementation_mode": "new",
+  "metadata": {
+    "workflow_state": "implemented_local_evidence_captured",
+    "implementation_status": "local_implementation_and_focused_tests_passed",
+    "visual_status": "local_browser_screenshots_present_staging_visual_pending_user_gate",
+    "taskType": "implementation",
+    "visualEvidence": "VISUAL",
+    "implementationCategory": "ui_shell_tooltip_sticky",
+    "spec_classification": "implementation_spec",
+    "canonical_workflow": "docs/30-workflows/shell-sidebar-tooltip-footer-header-responsive/",
+    "parent_workflows": [],
+    "source_request": "ユーザー直接依頼: サイドバー collapsed アイコンのツールチップ / 公開フッター常時表示 / モバイルヘッダー常時表示",
+    "branch": "feat/shell-sidebar-tooltip-footer-header-responsive",
+    "prerequisite_tasks": [],
+    "scope_files": [
+      "apps/web/src/components/shell/SidebarTooltip.tsx",
+      "apps/web/src/components/shell/__tests__/SidebarTooltip.spec.tsx",
+      "apps/web/src/components/shell/SidebarNavItem.tsx",
+      "apps/web/src/components/shell/SidebarUserMenu.tsx",
+      "apps/web/src/components/shell/SidebarCollapseToggle.tsx",
+      "apps/web/src/components/shell/SidebarShell.tsx",
+      "apps/web/src/components/shell/SidebarNav.tsx",
+      "apps/web/src/components/shell/SidebarNavGroup.tsx",
+      "apps/web/src/components/shell/__tests__/SidebarNavItem.spec.tsx",
+      "apps/web/src/components/shell/__tests__/SidebarShell.spec.tsx",
+      "apps/web/src/components/shell/__tests__/SidebarCollapseToggle.spec.tsx",
+      "apps/web/src/components/shell/__tests__/SidebarUserMenu.spec.tsx",
+      "apps/web/src/styles/globals.css",
+      "apps/web/src/styles/legacy-public.css"
+    ],
+    "screenshots_canonical": [
+      "sidebar-collapsed-tooltip.png",
+      "public-footer-sticky-bottom.png",
+      "mobile-header-sticky.png"
+    ],
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-06-03T00:00:00Z",
+        "evidence_path": "docs/30-workflows/shell-sidebar-tooltip-footer-header-responsive/outputs/phase-12/phase12-task-spec-compliance-check.md",
+        "approver": "daishiman",
+        "notes": "spec_review: Phase 1-13 implementation spec presence + strict 7 outputs present, including outputs/phase-12/main.md"
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "passed",
+        "passed_at": "2026-06-03T10:58:47Z",
+        "evidence_path": "docs/30-workflows/shell-sidebar-tooltip-footer-header-responsive/outputs/phase-11/manual-test-result.md",
+        "approver": "daishiman",
+        "notes": "implementation_review: local implementation + focused shell Vitest 5 files / 33 tests PASS; web typecheck PASS; web lint PASS; web verify-design-tokens PASS; root verify:tokens PASS; local browser screenshots 3 PNG present. Staging visual screenshots remain user-gated"
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/shell-sidebar-tooltip-footer-header-responsive/outputs/phase-13/pr-creation-result.md",
+        "approver": "daishiman",
+        "notes": "external_ops: commit, push, PR — user-gated"
+      }
+    ]
+  },
+  "phases": [
+    { "phase": 1, "name": "要件定義", "status": "completed", "output": "phase-1-requirements.md" },
+    { "phase": 2, "name": "設計", "status": "completed", "output": "phase-2-design.md" },
+    { "phase": 3, "name": "設計レビュー", "status": "completed", "output": "phase-3-design-review.md" },
+    { "phase": 4, "name": "テスト計画", "status": "completed", "output": "phase-4-test-plan.md" },
+    { "phase": 5, "name": "実装手順", "status": "completed", "output": "phase-5-implementation.md" },
+    { "phase": 6, "name": "テスト追加", "status": "completed", "output": "phase-6-test-additions.md" },
+    { "phase": 7, "name": "カバレッジ", "status": "completed", "output": "phase-7-coverage.md" },
+    { "phase": 8, "name": "リファクタ", "status": "completed", "output": "phase-8-refactor.md" },
+    { "phase": 9, "name": "QA", "status": "completed", "output": "phase-9-qa.md" },
+    { "phase": 10, "name": "最終レビュー", "status": "completed", "output": "phase-10-final-review.md" },
+    { "phase": 11, "name": "手動テスト", "status": "completed", "output": "phase-11-manual-test.md" },
+    { "phase": 12, "name": "ドキュメント同期", "status": "completed", "output": "phase-12-documentation.md" },
+    { "phase": 13, "name": "commit-pr-release", "status": "spec_created", "output": "phase-13-pr.md" }
+  ],
+  "implementation_targets": [
+    "apps/web/src/components/shell/SidebarTooltip.tsx",
+    "apps/web/src/components/shell/__tests__/SidebarTooltip.spec.tsx",
+    "apps/web/src/components/shell/SidebarNavItem.tsx",
+    "apps/web/src/components/shell/SidebarUserMenu.tsx",
+    "apps/web/src/components/shell/SidebarCollapseToggle.tsx",
+    "apps/web/src/components/shell/SidebarShell.tsx",
+    "apps/web/src/components/shell/SidebarNav.tsx",
+    "apps/web/src/components/shell/SidebarNavGroup.tsx",
+      "apps/web/src/components/shell/__tests__/SidebarNavItem.spec.tsx",
+      "apps/web/src/components/shell/__tests__/SidebarShell.spec.tsx",
+      "apps/web/src/components/shell/__tests__/SidebarCollapseToggle.spec.tsx",
+      "apps/web/src/components/shell/__tests__/SidebarUserMenu.spec.tsx",
+      "apps/web/src/styles/globals.css",
+    "apps/web/src/styles/legacy-public.css"
+  ]
+}

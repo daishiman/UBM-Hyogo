@@ -221,6 +221,51 @@
     height: 24px;
   }
 
+  /* === unified sidebar shell: collapsed tooltip === */
+  .ubm-shell-tooltip-wrap {
+    position: relative;
+    display: inline-block;
+  }
+
+  li > .ubm-shell-tooltip-wrap,
+  [data-shell-block="sidebar-footer"] > .ubm-shell-tooltip-wrap {
+    display: block;
+    width: 100%;
+  }
+
+  .ubm-shell-tooltip {
+    position: absolute;
+    top: 50%;
+    left: calc(100% + var(--ubm-space-3));
+    z-index: 30;
+    min-width: max-content;
+    max-width: 240px;
+    padding: var(--ubm-space-1) var(--ubm-space-2);
+    border: 1px solid var(--ubm-color-border-default);
+    border-radius: var(--ubm-radius-sm);
+    background: var(--ubm-color-surface-panel);
+    box-shadow: var(--ubm-shadow-md);
+    color: var(--ubm-color-text-primary);
+    font-size: var(--ubm-text-xs, 12px);
+    font-weight: 600;
+    line-height: 1.4;
+    opacity: 0;
+    pointer-events: none;
+    transform: translate3d(-2px, -50%, 0);
+    transition:
+      opacity var(--ubm-dur-fast) ease,
+      transform var(--ubm-dur-fast) ease;
+    white-space: nowrap;
+  }
+
+  .ubm-shell-tooltip-wrap:hover .ubm-shell-tooltip,
+  .ubm-shell-tooltip-wrap:focus-within .ubm-shell-tooltip,
+  [data-shell-tooltip-host="true"]:hover .ubm-shell-tooltip,
+  [data-shell-tooltip-host="true"]:focus-within .ubm-shell-tooltip {
+    opacity: 1;
+    transform: translate3d(0, -50%, 0);
+  }
+
   /* === unified sidebar shell: user menu === */
   .ui-sidebar-user-menu {
     position: relative;
