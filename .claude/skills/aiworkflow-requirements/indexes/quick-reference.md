@@ -12,6 +12,19 @@
 | inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1088-manual-form-resync-sync-duration-display-artifact-inventory.md` |
 | user gate | authenticated runtime screenshot, staging deploy, commit, push, PR, Issue #1088 mutation |
 
+## issue-1081-bulk-tag-real-d1-runtime-smoke（2026-06-03）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/issue-1081-bulk-tag-real-d1-runtime-smoke/` |
+| status | `implemented_local_evidence_captured / implementation / NON_VISUAL / staging_runtime_pending_user_gate` |
+| purpose | `POST /admin/members/tags/bulk` の staging Workers + real D1 mutation smoke gate を追加し、assign / retry noop / unassign / audit count / cleanup を自動検証する |
+| implementation | `scripts/smoke/runtime-tag-bulk.sh`, `apps/api/migrations/seed/bulk-tag-staging-{seed,cleanup}.sql`, `.github/workflows/runtime-smoke-staging.yml`, `package.json` |
+| tests | `scripts/smoke/__tests__/runtime-tag-bulk.test.sh`; included in `pnpm smoke:test` |
+| evidence | local shell test PASS; actionlint PASS; `pnpm smoke:test` PASS; staging real D1 mutation smoke pending user approval |
+| invariant | endpoint contract and D1 schema unchanged; response is existing `{ batchId, results[] }`; fixture prefix fixed to `e2e_test_issue1081_`; issue #1081 CLOSED state preserved |
+| user gate | Cloudflare staging deploy, real D1 seed/mutation/cleanup, commit, push, PR |
+
 ## shell-sidebar-tooltip-footer-header-responsive（2026-06-03）
 
 | 項目 | 値 |
