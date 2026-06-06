@@ -12,7 +12,7 @@ export interface SidebarNavGroupProps {
 
 export function SidebarNavGroup({ group, collapsed, activePath }: SidebarNavGroupProps) {
   return (
-    <section data-shell-block="nav-group" data-group={group.id} className="flex flex-col gap-1">
+    <section data-shell-block="nav-group" data-group={group.id} className="flex w-full flex-col gap-1">
       <div
         data-shell-block="nav-group-label"
         className={
@@ -23,7 +23,7 @@ export function SidebarNavGroup({ group, collapsed, activePath }: SidebarNavGrou
       >
         {group.label}
       </div>
-      <ul className="flex flex-col gap-0.5">
+      <ul className="flex w-full flex-col gap-0.5">
         {group.items.map((item) => (
           <SidebarNavItem
             key={item.id}
