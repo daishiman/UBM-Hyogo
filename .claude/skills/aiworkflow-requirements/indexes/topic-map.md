@@ -2811,6 +2811,16 @@ node scripts/list-specs.js --topics
 | Contract Notes | L35 |
 | Lessons Learned | L42 |
 
+### references/workflow-issue-1079-bulk-tag-audit-batch-filter-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Workflow | L6 |
+| Implementation Artifacts | L16 |
+| Test Artifacts | L27 |
+| Evidence | L37 |
+| Contract Notes | L46 |
+
 ### references/workflow-issue-1080-bulk-tag-result-member-labels-artifact-inventory.md
 
 | セクション | 行 |
@@ -8766,9 +8776,9 @@ node scripts/list-specs.js --topics
 | Current Active / Spec Created Tasks | L3832 |
 | UT-17 followup-003 alert-relay weekly healthcheck cron | L3998 |
 | issue-1077-bulk-tag-authenticated-staging-visual（implemented_local_runtime_pending / implementation / VISUAL_ON_EXECUTION / 2026-06-03） | L4066 |
-| issue-998-members-publish-state-production-rollout | L4091 |
-| issue-1078-bulk-tag-picker-large-catalog-ux | L4138 |
-| issue-1068-admin-tag-inline-create-ui | L4152 |
+| issue-998-members-publish-state-production-rollout | L4092 |
+| issue-1078-bulk-tag-picker-large-catalog-ux | L4139 |
+| issue-1068-admin-tag-inline-create-ui | L4153 |
 
 ### references/task-workflow-backlog-part2.md
 

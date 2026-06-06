@@ -8,6 +8,7 @@ import { Input } from "../ui/Input";
 import { EmptyState } from "../ui/EmptyState";
 import { Pagination } from "../ui/Pagination";
 import { Select } from "../ui/Select";
+import { BatchIdCopyButton } from "./BatchIdCopyButton";
 
 export interface AuditSearchValues {
   readonly action?: string;
@@ -16,6 +17,7 @@ export interface AuditSearchValues {
   readonly targetId?: string;
   readonly fromLocal?: string;
   readonly toLocal?: string;
+  readonly batchId?: string;
   readonly limit?: string;
   readonly cursor?: string;
 }
@@ -100,6 +102,7 @@ export function buildAuditHref(values: AuditSearchValues, cursor?: string | null
   set("targetId", values.targetId);
   set("from", values.fromLocal);
   set("to", values.toLocal);
+  set("batchId", values.batchId);
   set("limit", values.limit);
   set("cursor", cursor);
   const qs = params.toString();
@@ -119,9 +122,21 @@ function JsonDisclosure({ label, value }: { readonly label: string; readonly val
   );
 }
 
+export function extractBatchId(item: AdminAuditListItem): string | null {
+  const sources = [item.maskedAfter, item.afterJson, item.maskedBefore, item.beforeJson];
+  for (const source of sources) {
+    if (source && typeof source === "object" && !Array.isArray(source)) {
+      const value = (source as Record<string, unknown>).batchId;
+      if (typeof value === "string" && value.length > 0) return value;
+    }
+  }
+  return null;
+}
+
 function AuditRow({ item }: { readonly item: AdminAuditListItem }) {
   const beforeValue = item.maskedBefore ?? item.beforeJson ?? null;
   const afterValue = item.maskedAfter ?? item.afterJson ?? null;
+  const batchId = extractBatchId(item);
   return (
     <tr>
       <td>
@@ -140,6 +155,12 @@ function AuditRow({ item }: { readonly item: AdminAuditListItem }) {
         <code>{item.targetId ?? "-"}</code>
       </td>
       <td>
+        {batchId ? (
+          <p data-testid="audit-batch-id">
+            batchId: <code>{batchId}</code>
+            <BatchIdCopyButton batchId={batchId} />
+          </p>
+        ) : null}
         <JsonDisclosure label="before" value={beforeValue} />
         <JsonDisclosure label="after" value={afterValue} />
         {item.parseError ? <p role="note">JSON parse warning: {item.parseError}</p> : null}
@@ -204,6 +225,17 @@ export function AuditLogPanel({
           </FormField>
           <FormField name="to" label="to (JST)">
             <Input name="to" type="datetime-local" defaultValue={values.toLocal ?? ""} />
+          </FormField>
+          <FormField
+            name="batchId"
+            label="batchId"
+            helper="batchId は from/to や action と併用推奨（full scan 回避）"
+          >
+            <Input
+              name="batchId"
+              defaultValue={values.batchId ?? ""}
+              placeholder="batch-id (uuid)"
+            />
           </FormField>
           <FormField name="limit" label="limit">
             <Select name="limit" defaultValue={values.limit ?? "50"}>

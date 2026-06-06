@@ -5273,6 +5273,17 @@ UT-17 Cloudflare Notifications → alert-relay → Slack 経路を、既存 API 
 | status | implemented_local_runtime_pending / implementation / VISUAL / 2026-05-28 |
 | workflow | `docs/30-workflows/completed-tasks/members-list-ux-clarity/` |
 | summary | `/members` の密度切替説明、即時反映ヒント、適用中filter chip、件数live regionを追加。API/schema/query正本は不変。 |
+
+# issue-1079-bulk-tag-audit-batch-filter
+
+| item | value |
+| --- | --- |
+| status | implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION / 2026-06-03 |
+| workflow | `docs/30-workflows/completed-tasks/issue-1079-bulk-tag-audit-batch-filter/` |
+| API | `GET /admin/audit?batchId=<id>` searches `after_json.$.batchId` and `before_json.$.batchId`; no schema change |
+| Web | `/admin/audit` batchId filter, pagination preservation, row batchId display, copy button |
+| inventory | `references/workflow-issue-1079-bulk-tag-audit-batch-filter-artifact-inventory.md` |
+| user gate | authenticated runtime screenshots, staging deploy, commit, push, PR, Issue mutation |
 ## 2026-06-03 Additions
 
 | Topic | References | Notes |

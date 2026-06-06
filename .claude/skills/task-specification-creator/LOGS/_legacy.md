@@ -4,6 +4,10 @@
 
 このファイルは task-specification-creator の運用・改善・Phase 12 close-out 同期履歴を新しい順に記録する。
 
+## 2026-06-03 - issue-1079 D1 JSON search binding / full-scan pattern
+
+`docs/30-workflows/completed-tasks/issue-1079-bulk-tag-audit-batch-filter/` の automation-30 改善で、D1 repository の JSON column 検索における SQL binding 落とし穴を task-specification-creator へ同一サイクル反映した。`references/patterns-testing-and-implementation.md` に、同一値を after/before JSON path で OR 検索する場合は単一 `?` helper を使わず 1 回だけ bind して同じ `?N` を複数箇所参照すること、破損 JSON row 混在に備えて `json_valid` guard を入れること、JSON index 不在時は Phase 2 で full-scan 緩和と schema 化境界を明記することを追加した。
+
 ## 2026-06-02 - sidebar-visibility local evidence / pixel gate lesson
 
 `docs/30-workflows/sidebar-visibility-conditional-and-ux/` の automation-30 改善を反映。`implementation / VISUAL` で実コード・focused Vitest・typecheck・lint・grep gates が完了した場合は `spec_created` のままにせず `implemented_local_evidence_captured` へ昇格し、pixel screenshot / staging visual は `pixel_screenshot_pending_user_gate` として Gate-C に分離する SP-SVC-001 を追加した。
