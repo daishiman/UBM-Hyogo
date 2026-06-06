@@ -2811,6 +2811,12 @@ node scripts/list-specs.js --topics
 | Contract Notes | L35 |
 | Lessons Learned | L42 |
 
+### references/workflow-issue-1112-attendance-count-badge-emphasis-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Summary | L14 |
+
 ### references/workflow-issue-191-schema-aliases-artifact-inventory.md
 
 | セクション | 行 |
@@ -5818,15 +5824,15 @@ node scripts/list-specs.js --topics
 
 | セクション | 行 |
 |------------|----|
-| 概要 | L27 |
-| 使い方 | L35 |
-| Current Alias Overrides（個別互換行） | L42 |
-| Family Summary | L88 |
-| Detailed Register | L109 |
-| Section Extract Register (2026-03-17) | L290 |
-| 500-Line Split Register (2026-03-16) | L301 |
-| Fragment Migration Register (2026-04-28) | L323 |
-| Task Root Path Drift Register (2026-04-30 追記) | L350 |
+| 概要 | L28 |
+| 使い方 | L36 |
+| Current Alias Overrides（個別互換行） | L43 |
+| Family Summary | L89 |
+| Detailed Register | L110 |
+| Section Extract Register (2026-03-17) | L291 |
+| 500-Line Split Register (2026-03-16) | L302 |
+| Fragment Migration Register (2026-04-28) | L324 |
+| Task Root Path Drift Register (2026-04-30 追記) | L351 |
 
 ### references/lessons-fetch-service-binding-testing.md
 
@@ -8747,18 +8753,18 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L3716 |
-| フェーズ構造（概要） | L3725 |
-| 品質ゲート（概要） | L3756 |
-| 出力テンプレート | L3767 |
-| 実行時のコマンド・エージェント・スキル | L3790 |
-| 昇格パターン集 | L3814 |
-| Current Active / Spec Created Tasks | L3816 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L3982 |
-| issue-1077-bulk-tag-authenticated-staging-visual（implemented_local_runtime_pending / implementation / VISUAL_ON_EXECUTION / 2026-06-03） | L4050 |
-| issue-998-members-publish-state-production-rollout | L4075 |
-| issue-1078-bulk-tag-picker-large-catalog-ux | L4122 |
-| issue-1068-admin-tag-inline-create-ui | L4136 |
+| ドキュメント構成 | L3730 |
+| フェーズ構造（概要） | L3739 |
+| 品質ゲート（概要） | L3770 |
+| 出力テンプレート | L3781 |
+| 実行時のコマンド・エージェント・スキル | L3804 |
+| 昇格パターン集 | L3828 |
+| Current Active / Spec Created Tasks | L3830 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L3996 |
+| issue-1077-bulk-tag-authenticated-staging-visual（implemented_local_runtime_pending / implementation / VISUAL_ON_EXECUTION / 2026-06-03） | L4064 |
+| issue-998-members-publish-state-production-rollout | L4089 |
+| issue-1078-bulk-tag-picker-large-catalog-ux | L4136 |
+| issue-1068-admin-tag-inline-create-ui | L4150 |
 
 ### references/task-workflow-backlog-part2.md
 
