@@ -13,6 +13,19 @@
 | invariant | endpoint contract and D1 schema unchanged; response is existing `{ batchId, results[] }`; fixture prefix fixed to `e2e_test_issue1081_`; issue #1081 CLOSED state preserved |
 | user gate | Cloudflare staging deploy, real D1 seed/mutation/cleanup, commit, push, PR |
 
+## shell-sidebar-tooltip-footer-header-responsive（2026-06-03）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/shell-sidebar-tooltip-footer-header-responsive/` |
+| status | `implemented_local_evidence_captured / implementation / VISUAL / local_browser_screenshots_present_staging_visual_pending_user_gate` |
+| purpose | collapsed sidebar icon-only controls の tooltip、公開フッター sticky bottom、モバイルヘッダー sticky top を同一 local cycle で実装 |
+| implementation | `apps/web/src/components/shell/{SidebarTooltip,SidebarNav,SidebarNavGroup,SidebarNavItem,SidebarShell,SidebarUserMenu,SidebarCollapseToggle}.tsx`, `apps/web/src/styles/{globals,legacy-public}.css` |
+| tests | `apps/web/src/components/shell/__tests__/{SidebarTooltip,SidebarNavItem,SidebarShell,SidebarUserMenu,SidebarCollapseToggle}.spec.tsx` |
+| evidence | focused shell Vitest 5 files / 33 tests PASS; local browser screenshots 3 PNG present |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-shell-sidebar-tooltip-footer-header-responsive-artifact-inventory.md` |
+| user gate | staging visual screenshots, commit, push, PR |
+
 ## issue-1080-bulk-tag-result-member-labels（2026-06-03）
 
 | 項目 | 値 |

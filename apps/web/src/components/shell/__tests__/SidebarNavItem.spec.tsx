@@ -65,9 +65,43 @@ describe("SidebarNavItem", () => {
       </ul>,
     );
     const labelSpan = Array.from(container.querySelectorAll("span")).find((s) =>
-      s.textContent?.includes("メンバー"),
+      s.textContent === "メンバー" && s.className.includes("sr-only"),
     );
     expect(labelSpan?.className).toContain("sr-only");
+  });
+
+  it("collapsed のとき tooltip を description として接続する", () => {
+    const item: ShellNavItem = {
+      id: "members",
+      href: "/admin/members",
+      label: "メンバー",
+      icon: "members",
+    };
+    const { container } = render(
+      <ul>
+        <SidebarNavItem item={item} collapsed activePath="/admin" />
+      </ul>,
+    );
+    const link = container.querySelector('[data-shell-block="nav-item"]');
+    const tooltip = container.querySelector('[role="tooltip"]');
+    expect(tooltip?.textContent).toBe("メンバー");
+    expect(link?.getAttribute("aria-describedby")).toBe(tooltip?.id);
+    expect(link?.textContent).toContain("メンバー");
+  });
+
+  it("expanded のとき tooltip を描画しない", () => {
+    const item: ShellNavItem = {
+      id: "members",
+      href: "/admin/members",
+      label: "メンバー",
+      icon: "members",
+    };
+    const { container } = render(
+      <ul>
+        <SidebarNavItem item={item} collapsed={false} activePath="/admin" />
+      </ul>,
+    );
+    expect(container.querySelector('[role="tooltip"]')).toBeNull();
   });
 
   it("collapsed のとき link は中央寄せになり badge はドット表示になる", () => {
