@@ -7,6 +7,7 @@ afterEach(() => {
 import {
   AuditLogPanel,
   buildAuditHref,
+  extractBatchId,
   formatJst,
   maskAuditJson,
   maskAuditText,
@@ -73,12 +74,13 @@ describe("AuditLogPanel", () => {
           targetId: "s1",
           fromLocal: "2026-05-01T00:00",
           toLocal: "2026-05-01T23:59",
+          batchId: "batch-1079",
           limit: "25",
         },
         "next",
       ),
     ).toBe(
-      "/admin/audit?action=attendance.add&actorEmail=admin%40example.com&targetType=meeting&targetId=s1&from=2026-05-01T00%3A00&to=2026-05-01T23%3A59&limit=25&cursor=next",
+      "/admin/audit?action=attendance.add&actorEmail=admin%40example.com&targetType=meeting&targetId=s1&from=2026-05-01T00%3A00&to=2026-05-01T23%3A59&batchId=batch-1079&limit=25&cursor=next",
     );
   });
 
@@ -115,6 +117,10 @@ describe("AuditLogPanel", () => {
     expect(screen.getByLabelText("targetId")).toBeTruthy();
     expect(screen.getByLabelText("from (JST)")).toBeTruthy();
     expect(screen.getByLabelText("to (JST)")).toBeTruthy();
+    const batchIdInput = screen.getByLabelText("batchId") as HTMLInputElement;
+    expect(batchIdInput.getAttribute("name")).toBe("batchId");
+    expect(batchIdInput.getAttribute("placeholder")).toBe("batch-id (uuid)");
+    expect(screen.getByText(/併用推奨/)).toBeTruthy();
     expect(screen.getByLabelText("limit").className).toContain("ui-select");
     expect(screen.getByRole("button", { name: "検索" }).className).toContain("ui-button");
     expect(screen.getByRole("link", { name: "リセット" }).className).toContain("ui-button");
@@ -222,6 +228,13 @@ describe("buildAuditHref — 境界", () => {
     expect(buildAuditHref({ action: "  ", actorEmail: "a@b.com" })).toBe(
       "/admin/audit?actorEmail=a%40b.com",
     );
+  });
+
+  it("batchId と cursor を保持し、空白 batchId はスキップ", () => {
+    expect(buildAuditHref({ action: "admin.member.tag_assigned", batchId: "batch-1079" }, "next")).toBe(
+      "/admin/audit?action=admin.member.tag_assigned&batchId=batch-1079&cursor=next",
+    );
+    expect(buildAuditHref({ batchId: "  " })).toBe("/admin/audit");
   });
 });
 
@@ -398,6 +411,37 @@ describe("AuditLogPanel — render 分岐", () => {
     expect(screen.getByRole("note").textContent).toContain("JSON parse warning");
   });
 
+  it("batchId を持つ行だけ batchId 表示と copy ボタンを描画する", () => {
+    const { rerender } = render(
+      <AuditLogPanel
+        values={{ limit: "50" }}
+        data={{
+          nextCursor: null,
+          items: [
+            {
+              ...baseItem,
+              maskedBefore: null,
+              maskedAfter: { tagId: "tag-a", batchId: "batch-1079" },
+            },
+          ],
+        }}
+      />,
+    );
+    expect(screen.getByTestId("audit-batch-id").textContent).toContain("batch-1079");
+    expect(screen.getByRole("button", { name: "batchId batch-1079 をコピー" })).toBeTruthy();
+
+    rerender(
+      <AuditLogPanel
+        values={{ limit: "50" }}
+        data={{
+          nextCursor: null,
+          items: [{ ...baseItem, maskedBefore: null, maskedAfter: { tagId: "tag-a" } }],
+        }}
+      />,
+    );
+    expect(screen.queryByTestId("audit-batch-id")).toBeNull();
+  });
+
   it("values の各フィールドが defaultValue として反映される", () => {
     render(
       <AuditLogPanel
@@ -408,6 +452,7 @@ describe("AuditLogPanel — render 分岐", () => {
           targetId: "s1",
           fromLocal: "2026-05-01T00:00",
           toLocal: "2026-05-01T23:59",
+          batchId: "batch-1079",
           limit: "100",
         }}
         data={{ items: [], nextCursor: null }}
@@ -417,6 +462,7 @@ describe("AuditLogPanel — render 分岐", () => {
     expect((screen.getByLabelText(/actorEmail/) as HTMLInputElement).value).toBe("a@b.com");
     expect((screen.getByLabelText(/targetType/) as HTMLInputElement).value).toBe("meeting");
     expect((screen.getByLabelText(/targetId/) as HTMLInputElement).value).toBe("s1");
+    expect((screen.getByLabelText(/batchId/) as HTMLInputElement).value).toBe("batch-1079");
     expect((screen.getByLabelText(/limit/) as HTMLSelectElement).value).toBe("100");
   });
 
@@ -476,5 +522,37 @@ describe("AuditLogPanel — render 分岐", () => {
       />,
     );
     expect(screen.queryByText("該当する監査ログはありません。")).toBeNull();
+  });
+});
+
+describe("extractBatchId", () => {
+  const baseItem = {
+    auditId: "audit-1",
+    actorEmail: null,
+    action: "admin.member.tag_assigned",
+    targetType: "member",
+    targetId: "m1",
+    createdAt: "2026-04-30T15:00:00.000Z",
+  };
+
+  it("after/before 両方向と fallback source から batchId を抽出する", () => {
+    expect(extractBatchId({ ...baseItem, maskedAfter: { batchId: "after-masked" } })).toBe(
+      "after-masked",
+    );
+    expect(extractBatchId({ ...baseItem, beforeJson: { batchId: "before-json" } })).toBe(
+      "before-json",
+    );
+    expect(extractBatchId({
+      ...baseItem,
+      afterJson: { batchId: "after-json" },
+      maskedBefore: { batchId: "before-masked" },
+    })).toBe("after-json");
+  });
+
+  it("batchId が無い、空文字、配列、非 object のとき null を返す", () => {
+    expect(extractBatchId({ ...baseItem, maskedAfter: { tagId: "tag-a" } })).toBeNull();
+    expect(extractBatchId({ ...baseItem, maskedAfter: { batchId: "" } })).toBeNull();
+    expect(extractBatchId({ ...baseItem, maskedAfter: ["batch-1079"] })).toBeNull();
+    expect(extractBatchId({ ...baseItem, maskedAfter: "batch-1079" })).toBeNull();
   });
 });

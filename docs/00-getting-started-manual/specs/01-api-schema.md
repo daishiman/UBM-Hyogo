@@ -202,7 +202,7 @@ tag の write 経路を 3 つに正式分離する。
 3. **管理者による tag master (`tag_definitions`) の CRUD** — `/admin/tags` 専用 endpoint 経由で行い、必ず audit を記録する。
 
 `member_tags` への直接 write は上記 2 経路に限り許可する。
-`tag_definitions` への write は `apps/api/src/repository/tagDefinitions.ts` の `createTagDefinition` / `updateTagDefinition` / `deactivateTagDefinition` だけに限定する。`code` は admin tag master CRUD 経路の PATCH でのみ rename 可能とし、code rename 時は `expectedCode` による optimistic CAS、409 `tag_code_conflict` / 409 `tag_stale_conflict` の分離、`admin.tag.code_renamed` audit（before/after code）を必須とする。`member_tags` は `tag_id` 参照なので rename 後も既存 row を保持する。DELETE は物理削除ではなく `active=0` への論理削除で、既存 `member_tags` row は保持する。
+`tag_definitions` への write は `apps/api/src/repository/tagDefinitions.ts` の `createTagDefinition` / `updateTagDefinition` / `deactivateTagDefinition` / `reactivateTagDefinition` / `physicalDeleteTagDefinition` だけに限定する。`code` は admin tag master CRUD 経路の PATCH でのみ rename 可能とし、code rename 時は `expectedCode` による optimistic CAS、409 `tag_code_conflict`（衝突）/ 409 `tag_stale_conflict`（expectedCode 不一致）の分離、`admin.tag.code_renamed` audit（before/after code）を必須とする。`member_tags` は `tag_id` 参照なので rename 後も既存 row を保持する。通常 DELETE は物理削除ではなく `active=0` への論理削除で、既存 `member_tags` row は保持する。physical delete は専用 endpoint でのみ許可し、`member_tags` 参照が 1 件以上ある場合は 409 `tag_has_references` で拒否して孤児行を作らない。
 
 ### Endpoints
 
@@ -215,6 +215,8 @@ tag の write 経路を 3 つに正式分離する。
 | POST | `/admin/tags` | `{ code, label, category }` | `TagMasterRef` | body 不正 → 400 / code 衝突 → 409 `tag_code_conflict` |
 | PATCH | `/admin/tags/:tagId` | `{ code?, label?, category?, expectedCode? }`（`code` 指定時は `expectedCode` 必須） | `TagMasterRef` | body 不正 → 400 / 更新項目なし → 400 `no_update_fields` / tag 不在 → 404 `tag_not_found` / code 衝突 → 409 `tag_code_conflict` / expectedCode 不一致 → 409 `tag_stale_conflict` |
 | DELETE | `/admin/tags/:tagId` | なし | 204 No Content | tag 不在 → 404 `tag_not_found` |
+| POST | `/admin/tags/:tagId/reactivate` | なし | `TagMasterRef` | tag 不在 → 404 `tag_not_found` |
+| DELETE | `/admin/tags/:tagId/physical` | なし | 204 No Content | tag 不在 → 404 `tag_not_found` / `member_tags` 参照あり → 409 `tag_has_references` + `referenceCount` |
 
 `TagRef = { tagId: string; code: string; label: string; category: string }`。`tagId`（= `tag_definitions.tag_id`）を正本識別子とし、`code`（UNIQUE）は表示・既存 detail view との parity 用に併せて返す。
 `TagMasterRef = TagRef & { active: boolean }`。master 管理 endpoint は inactive row も一覧対象に含め、検索 `q` は `code` / `label` の部分一致とする。
@@ -224,6 +226,8 @@ tag の write 経路を 3 つに正式分離する。
 - POST は PK `(member_id, tag_id)` の `INSERT OR IGNORE` で再送を no-op（200）にする。
 - POST の tag master 検証は `tag_definitions.active = 1` を要求する。非アクティブ tag は UI に出さず、direct API でも `tag_not_found` として扱う。
 - DELETE は対象行が無くても 204（冪等）。
+- tag master の reactivate は active=0 の row を active=1 に戻す。既に active=1 の場合は 200 no-op とし、audit を増やさない。reactivate は同一 row の active flag だけを戻すため、`code` conflict は構造的に発生しない。
+- tag master の logical delete（`DELETE /admin/tags/:tagId`）は active=0 row を残すため UNIQUE `code` を占有し続ける。physical delete（`DELETE /admin/tags/:tagId/physical`）は row を削除して `code` を解放するが、実行前に `member_tags WHERE tag_id` を count し、参照があれば削除しない。
 - client が送る `Idempotency-Key` header は受理するが、現状 server 側は no-op（idempotency middleware 未実装）。状態変化の検出は `meta.changes` で行う。
 
 ### audit action（state 変化時のみ 1 行）
@@ -236,9 +240,11 @@ tag の write 経路を 3 つに正式分離する。
 | `admin.tag.code_renamed` | `tag` | `{ code }` | `{ code }` |
 | `admin.tag.updated` | `tag` | `{ label, category }` | `{ label, category }` |
 | `admin.tag.deactivated` | `tag` | `{ active: true }` | `{ active: false }` |
+| `admin.tag.reactivated` | `tag` | `{ active: false }` | `{ active: true }` |
+| `admin.tag.physically_deleted` | `tag` | `TagMasterRef` | `null` |
 
 新規付与 / 削除が実際に発生した（`meta.changes > 0`）ときのみ audit を append する。再送 no-op では audit を増やさない。
-tag master CRUD でも state 変化時のみ audit を append する。同値 PATCH と既 inactive tag への DELETE 再送では audit を増やさない。
+tag master CRUD でも state 変化時のみ audit を append する。同値 PATCH、既 inactive tag への DELETE 再送、既 active tag への reactivate 再送、参照あり physical delete 拒否では audit を増やさない。
 
 ## Admin Dashboard Attendance Analytics API
 

@@ -81,6 +81,36 @@ const seedAudit = async (env: InMemoryD1) => {
       "{broken",
       "2026-04-29T15:00:00.000Z",
     ],
+    [
+      "audit_006",
+      "owner@example.com",
+      "admin.member.tag_assigned",
+      "member",
+      "m_bulk_1",
+      null,
+      JSON.stringify({ tagId: "tag_a", source: "manual", batchId: "batch-1079" }),
+      "2026-04-30T16:00:00.000Z",
+    ],
+    [
+      "audit_007",
+      "owner@example.com",
+      "admin.member.tag_unassigned",
+      "member",
+      "m_bulk_2",
+      JSON.stringify({ tagId: "tag_b", batchId: "batch-1079" }),
+      null,
+      "2026-04-30T15:59:00.000Z",
+    ],
+    [
+      "audit_008",
+      "owner@example.com",
+      "admin.member.tag_assigned",
+      "member",
+      "m_bulk_3",
+      null,
+      JSON.stringify({ tagId: "tag_c", source: "manual", batchId: "batch-other" }),
+      "2026-04-30T15:58:00.000Z",
+    ],
   ];
   for (const row of rows) {
     await env.db
@@ -200,6 +230,112 @@ describe("admin audit route", () => {
     ]);
   });
 
+  it("GET /audit: batchId filters assign after_json and unassign before_json rows", async () => {
+    const app = createAdminAuditRoute();
+    const res = await app.request(
+      "/audit?batchId=batch-1079",
+      { headers: { ...(await adminAuthHeader()) } },
+      makeEnv(env),
+    );
+    expect(res.status).toBe(200);
+    const body = (await res.json()) as {
+      items: Array<{
+        auditId: string;
+        action: string;
+        maskedBefore: unknown;
+        maskedAfter: unknown;
+      }>;
+      appliedFilters: { batchId: string | null };
+    };
+    expect(body.appliedFilters.batchId).toBe("batch-1079");
+    expect(body.items.map((item) => item.auditId)).toEqual(["audit_006", "audit_007"]);
+    expect(body.items.map((item) => item.action)).toEqual([
+      "admin.member.tag_assigned",
+      "admin.member.tag_unassigned",
+    ]);
+    expect(JSON.stringify(body.items)).toContain("batch-1079");
+    expect(JSON.stringify(body.items)).not.toContain("batch-other");
+  });
+
+  it("GET /audit: action and batchId filters are combined with AND", async () => {
+    const app = createAdminAuditRoute();
+    const res = await app.request(
+      "/audit?action=admin.member.tag_assigned&batchId=batch-1079",
+      { headers: { ...(await adminAuthHeader()) } },
+      makeEnv(env),
+    );
+    expect(res.status).toBe(200);
+    const body = (await res.json()) as {
+      items: Array<{ auditId: string; action: string }>;
+      appliedFilters: { action: string | null; batchId: string | null };
+    };
+    expect(body.appliedFilters).toMatchObject({
+      action: "admin.member.tag_assigned",
+      batchId: "batch-1079",
+    });
+    expect(body.items.map(({ auditId, action }) => ({ auditId, action }))).toEqual([
+      { auditId: "audit_006", action: "admin.member.tag_assigned" },
+    ]);
+  });
+
+  it("GET /audit: batchId filter is preserved across cursor pagination", async () => {
+    const app = createAdminAuditRoute();
+    const headers = { ...(await adminAuthHeader()) };
+    const first = await app.request(
+      "/audit?batchId=batch-1079&limit=1",
+      { headers },
+      makeEnv(env),
+    );
+    expect(first.status).toBe(200);
+    const firstBody = (await first.json()) as {
+      items: Array<{ auditId: string }>;
+      nextCursor: string | null;
+    };
+    expect(firstBody.items.map((item) => item.auditId)).toEqual(["audit_006"]);
+    expect(firstBody.nextCursor).toBeTruthy();
+
+    const second = await app.request(
+      `/audit?batchId=batch-1079&limit=1&cursor=${encodeURIComponent(firstBody.nextCursor ?? "")}`,
+      { headers },
+      makeEnv(env),
+    );
+    expect(second.status).toBe(200);
+    const secondBody = (await second.json()) as {
+      items: Array<{ auditId: string }>;
+      nextCursor: string | null;
+    };
+    expect(secondBody.items.map((item) => item.auditId)).toEqual(["audit_007"]);
+    expect(secondBody.nextCursor).toBeNull();
+  });
+
+  it("GET /audit: empty and unmatched batchId do not fail", async () => {
+    const app = createAdminAuditRoute();
+    const headers = { ...(await adminAuthHeader()) };
+    const empty = await app.request("/audit?batchId=&limit=100", { headers }, makeEnv(env));
+    expect(empty.status).toBe(200);
+    const emptyBody = (await empty.json()) as {
+      items: Array<{ auditId: string }>;
+      appliedFilters: { batchId: string | null };
+    };
+    expect(emptyBody.appliedFilters.batchId).toBeNull();
+    expect(emptyBody.items.length).toBeGreaterThan(2);
+
+    const unmatched = await app.request(
+      "/audit?batchId=batch-missing",
+      { headers },
+      makeEnv(env),
+    );
+    expect(unmatched.status).toBe(200);
+    const unmatchedBody = (await unmatched.json()) as {
+      items: unknown[];
+      nextCursor: string | null;
+      appliedFilters: { batchId: string | null };
+    };
+    expect(unmatchedBody.items).toEqual([]);
+    expect(unmatchedBody.nextCursor).toBeNull();
+    expect(unmatchedBody.appliedFilters.batchId).toBe("batch-missing");
+  });
+
   it("GET /audit: admin_member_note filter は request audit のみを返し legacy member 行は読める", async () => {
     const app = createAdminAuditRoute();
     const headers = { ...(await adminAuthHeader()) };
@@ -235,6 +371,9 @@ describe("admin audit route", () => {
       targetType,
       targetId,
     }))).toEqual([
+      { auditId: "audit_006", targetType: "member", targetId: "m_bulk_1" },
+      { auditId: "audit_007", targetType: "member", targetId: "m_bulk_2" },
+      { auditId: "audit_008", targetType: "member", targetId: "m_bulk_3" },
       { auditId: "audit_005", targetType: "member", targetId: "m_target" },
       { auditId: "audit_003", targetType: "member", targetId: "m1" },
     ]);
@@ -246,7 +385,7 @@ describe("admin audit route", () => {
         "INSERT INTO audit_log (audit_id, actor_email, action, target_type, target_id, before_json, after_json, created_at) VALUES (?1, ?2, ?3, ?4, ?5, NULL, ?6, ?7)",
       )
       .bind(
-        "audit_006",
+        "audit_note_006",
         "owner@example.com",
         "admin.request.reject",
         "admin_member_note",
@@ -269,7 +408,7 @@ describe("admin audit route", () => {
       nextCursor: string | null;
     };
     expect(firstBody.items.map(({ auditId, targetType }) => ({ auditId, targetType }))).toEqual([
-      { auditId: "audit_006", targetType: "admin_member_note" },
+      { auditId: "audit_note_006", targetType: "admin_member_note" },
     ]);
     expect(firstBody.nextCursor).toBeTruthy();
 

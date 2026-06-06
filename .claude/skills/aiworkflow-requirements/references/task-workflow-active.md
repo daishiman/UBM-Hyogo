@@ -22,6 +22,37 @@
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1103-globals-css-shell-block-consolidation-artifact-inventory.md` |
 | user gate | commit, push, PR, staging screenshot |
 
+### issue-1080-bulk-tag-result-member-labels（2026-06-03）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION / staging_visual_pending_user_gate` |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-1080-bulk-tag-result-member-labels/` |
+| Issue | #1080 OPEN（mutation は user-gated） |
+| 親 workflow | `docs/30-workflows/completed-tasks/issue-1036-bulk-member-tag-assign/` |
+| source unassigned | `docs/30-workflows/completed-tasks/issue-1080-bulk-tag-result-member-labels/task-issue-1036-followup-004-bulk-tag-result-member-labels.md`（formalized / implemented local） |
+| 目的 | `/admin/members` の bulk tag 部分失敗結果 summary を raw `memberId` / `tagId` から member `fullName` / tag `label` 表示へ改善する |
+| implementation targets | `apps/web/src/features/admin/components/_members/BulkActionBar.tsx`, `apps/web/src/features/admin/components/_members/MembersClientShell.tsx`, `apps/web/src/features/admin/components/__tests__/BulkActionBar.spec.tsx` |
+| invariant | apps/api / D1 / API response shape `{ memberId, tagId, status }` / design tokens / testid / list key は不変。`membersById` は `fullName` のみで PII 最小化 |
+| evidence | focused `BulkActionBar.spec.tsx` 12 tests PASS。staging authenticated screenshot は user-gated |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1080-bulk-tag-result-member-labels-artifact-inventory.md` |
+| user gate | staging screenshot, commit, push, PR, Issue mutation |
+
+### issue-1076-member-og-design-token-alignment（2026-06-03）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION` |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-1076-member-og-design-token-alignment/` |
+| Issue | #1076 CLOSED（closedAt: 2026-06-03T04:23:12Z。Issue mutation は未実行） |
+| 親 workflow | `docs/30-workflows/completed-tasks/issue-1027-member-dynamic-og-worker-split/` |
+| 目的 | `apps/og` の member/default OG 画像意匠を `apps/web/src/styles/tokens.css` の stone/amber design tokens へ整合し、派生 token drift を test で検出する |
+| implementation targets | `apps/og/src/og-tokens.ts`, `apps/og/src/render.tsx`, `apps/og/src/__tests__/og-tokens.spec.ts`, `apps/og/src/__tests__/render-html.spec.ts`, `apps/og/src/__tests__/render-smoke.spec.ts`, `apps/og/tsconfig.json` |
+| invariant | `apps/web` / `apps/api` / D1 schema / Google Form / OG endpoint surface / `og-cd.yml` は変更なし。Satori 制約により concrete hex は `apps/og` 派生 token に閉じる |
+| evidence | focused OG Vitest 6 files / 23 tests PASS、OG typecheck PASS、OG lint PASS、Wrangler dry-run build PASS、size gate 718KiB / 3072KiB PASS |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1076-member-og-design-token-alignment-artifact-inventory.md` |
+| user gate | staging real PNG screenshots、deploy、commit、push、PR、Issue mutation |
+
 ### admin-meetings-attendance-404-fix-and-ux（30種思考法改善反映 / 2026-06-03）
 
 | 項目 | 値 |
@@ -174,6 +205,22 @@
 | evidence | focused D1 Vitest 4 files / 32 tests PASS、API typecheck PASS、repo lint PASS |
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1035-tag-master-write-endpoints-artifact-inventory.md` |
 | user gate | staging runtime smoke、commit、push、PR |
+
+### issue-1070-tag-reactivate-physical-delete（2026-06-03）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / NON_VISUAL` |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-1070-tag-reactivate-physical-delete/` |
+| Issue | #1070 CLOSED 維持。PR 文脈は `Refs #1070` のみ |
+| 親 workflow | `docs/30-workflows/completed-tasks/issue-1035-tag-master-write-endpoints/` |
+| 目的 | tag master (`tag_definitions`) に reactivate endpoint と参照ガード付き physical delete endpoint を追加する |
+| implementation targets | `apps/api/src/repository/tagDefinitions.ts`, `apps/api/src/routes/admin/tags.ts`, `docs/00-getting-started-manual/specs/01-api-schema.md` |
+| tests | `apps/api/src/repository/__tests__/tagDefinitions.write.repository.spec.ts`, `apps/api/src/routes/admin/tags.contract.spec.ts` |
+| invariant | reactivate は active=0→1 の idempotent 操作。physical delete は `member_tags` 参照 0 件のみ許可し、参照ありは 409 `tag_has_references` + `referenceCount` で拒否。logical DELETE は active=0 と member_tags 保持を維持 |
+| evidence | focused D1 Vitest 2 files / 15 tests PASS、API typecheck PASS、repo lint PASS |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1070-tag-reactivate-physical-delete-artifact-inventory.md` |
+| user gate | staging runtime smoke、production tag physical delete mutation、commit、push、PR、Issue state change |
 
 ### issue-1069-tag-code-rename（2026-06-03）
 
@@ -4030,6 +4077,21 @@ docs-only / direction-reconciliation で採用方針 A を維持する場合で�
 | admin-requests-prototype-alignment-and-404-fix | implemented_local_evidence_captured / implementation / VISUAL / staging runtime pending_user_approval | `docs/30-workflows/completed-tasks/admin-requests-prototype-alignment-and-404-fix/` | Local implementation for `/admin/requests` staging `ADMIN_FETCH_404` recovery guard and admin prototype primitive alignment. Added API mount/list regression coverage, page/panel/detail/dialog primitive alignment, CSS prototype class support, and local authenticated Playwright screenshot evidence. Existing `GET /admin/requests` and `POST /admin/requests/:noteId/resolve` contracts remain canonical; no new endpoint, D1 schema, token, or primitive. Staging deploy, staging curl 200, staging visual baseline, commit, push, and PR are user-gated. Inventory: `references/workflow-admin-requests-prototype-alignment-and-404-fix-artifact-inventory.md`. |
 | admin-schema-page-prototype-alignment-and-diff-fetch-fix | implemented_local_evidence_captured / implementation / VISUAL / runtime_visual_pending | `docs/30-workflows/completed-tasks/admin-schema-page-prototype-alignment-and-diff-fetch-fix/` | `/admin/schema` prototype alignment + observed `/admin/schema/diff` 404 regression guard. Local implementation updates page.tsx, SchemaDiffPanel `hideInlineStats`, sidebar label「スキーマ」, Playwright-only schema diff fixture fallback, schema card CSS, page/panel/sidebar/Playwright specs, and 09g screen blueprint. Web Vitest PASS: 158 files / 1147 tests / 1 skipped. Local Playwright schema visual PASS: 7 tests + Phase 11 screenshots. Staging deploy refresh, authenticated staging screenshots, commit, push, PR are user-gated. |
 
+## issue-1077-bulk-tag-authenticated-staging-visual（implemented_local_runtime_pending / implementation / VISUAL_ON_EXECUTION / 2026-06-03）
+
+| 項目 | 内容 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-1077-bulk-tag-authenticated-staging-visual/` |
+| status | `implemented_local_runtime_pending / implementation / VISUAL_ON_EXECUTION` |
+| issue | `#1077`（CLOSED 維持。Issue mutation / reopen は user-gated かつ本 wave では実行しない） |
+| parent | `docs/30-workflows/completed-tasks/issue-1036-bulk-member-tag-assign/`（bulk member tag assign 本体は PR #1085 / commit `ca3fb9336` で landed 済み） |
+| purpose | landed 済み bulk tag UI について、認証付き staging `/admin/members` 実機で BulkActionBar tag picker の assign / unassign visual baseline を取得する後続実行仕様 |
+| implementation target | `apps/web/playwright/tests/visual-staging-authenticated/admin-members-bulk-tag-authenticated.spec.ts`（新規 Playwright spec 1 file。既存 `staging-visual-authenticated` project を再利用し config 編集不要） |
+| evidence boundary | Phase 1-13 task spec、Phase 12 strict 7、新規 Playwright spec、local verification は present。Phase 11 runtime staging capture / baseline snapshot generation / commit / push / PR は user-gated |
+| invariant | read-only capture only。bulk apply mutation は押さない。apps/api / D1 schema / Google Form 仕様は変更しない |
+| artifact inventory | `references/workflow-issue-1077-bulk-tag-authenticated-staging-visual-artifact-inventory.md` |
+| source unassigned | `docs/30-workflows/unassigned-task/task-issue-1036-followup-001-staging-authenticated-bulk-tag-visual-baseline.md` は picker 2 状態を本 workflow で partially consumed。result 2 状態は mutation 副作用ありのため source 側に pending |
+
 # members-list-ux-clarity（implemented_local_runtime_pending / implementation / VISUAL / 2026-05-28）
 
 | item | value |
@@ -4039,6 +4101,7 @@ docs-only / direction-reconciliation で採用方針 A を維持する場合で�
 | implementation targets | `apps/web/src/components/public/{DensityToggle.client,MemberFilters.client,SelectedFiltersBar.client,SelectedTagsBar.client}.tsx`, `apps/web/src/components/ui/{Segmented,Search}.tsx`, `apps/web/app/(public)/members/page.tsx`, `apps/web/src/styles/legacy-public.css` |
 | evidence | focused component tests local; visual baseline / commit / push / PR user-gated |
 | issue-1007-density-toggle-help-hint-hardening | implemented_local_runtime_pending / implementation / VISUAL / Phase 12 strict outputs present / runtime visual pending_user_approval | `docs/30-workflows/completed-tasks/issue-1007-density-toggle-help-hint-hardening/` | Issue #1007. `/members` `DensityToggle` HelpHint hardening: `useId` description ids, non-controlled `<details>` Escape/outside close, `IconName` `help` glyph, pointer target guard, focused component tests 15 PASS. System specs `09-ui-ux.md` and `09d-icons.md`, Phase 11 local evidence, Phase 12 strict 7, quick-reference/resource-map/artifact inventory synchronized. Runtime screenshots, staging deploy, commit, push, PR are user-gated. Inventory: `references/workflow-issue-1007-density-toggle-help-hint-hardening-artifact-inventory.md`. |
+| issue-1079-bulk-tag-audit-batch-filter | implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION / Phase 13 pending_user_approval | `docs/30-workflows/completed-tasks/issue-1079-bulk-tag-audit-batch-filter/` | Issue #1079. Existing `/admin/audit` now accepts `batchId` query, searches bulk tag audit `after_json.$.batchId` and `before_json.$.batchId` with `json_valid` guard, preserves `batchId` through Web filter/pagination, and displays/copies row batchId via a client-only button. No new endpoint, D1 schema, or write-side change. API D1 targeted PASS 2 files / 26 tests; Web targeted PASS 3 files / 54 tests; API/Web typecheck PASS. Authenticated runtime screenshots, commit, push, PR, Issue mutation are user-gated. Inventory: `references/workflow-issue-1079-bulk-tag-audit-batch-filter-artifact-inventory.md`. |
 
 ## issue-998-members-publish-state-production-rollout
 
@@ -4086,6 +4149,20 @@ docs-only / direction-reconciliation で採用方針 A を維持する場合で�
 | evidence | OG typecheck PASS; OG Vitest 10 PASS; web focused Vitest 17 PASS; OG Wrangler dry-run build PASS; OG size gate gzip 717KiB PASS (index.js 170KiB + wasm); web typecheck PASS |
 | source | `docs/30-workflows/unassigned-task/member-dynamic-og-paid-or-worker-split.md` consumed; upstream `web-worker-size-limit-fix` |
 | user gate | Cloudflare deploy, staging runtime PNG capture, commit, push, PR, Issue mutation |
+
+## issue-1078-bulk-tag-picker-large-catalog-ux
+
+| 項目 | 内容 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-1078-bulk-tag-picker-large-catalog-ux/` |
+| status | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION / PASS_BOUNDARY_SYNCED_RUNTIME_PENDING` |
+| issue | #1078 OPEN。close/comment mutation は user-gated |
+| purpose | `/admin/members` BulkActionBar tag picker を large catalog 対応し、#1035 `GET /admin/tags` pagination/search response `{ total, items }` を正しく読む |
+| implementation | `apps/web/src/features/admin/api/members.ts`, `apps/web/src/features/admin/api/__tests__/members.spec.ts`, `apps/web/src/features/admin/components/_members/BulkActionBar.tsx`, `apps/web/src/features/admin/components/__tests__/BulkActionBar.spec.tsx` |
+| evidence | API client 11 PASS、BulkActionBar 20 PASS、broader web Vitest 216 files / 1587 tests PASS / 1 skipped、typecheck/lint PASS、BulkActionBar token grep 0 hits |
+| contract boundary | apps/api / D1 schema 変更なし。`fetchTagMaster()` は `{ total, items }` を `{ available, total }` へ正規化し、`fetchAllTagMaster()` は `pageSize=100` で page walk + cap guard |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1078-bulk-tag-picker-large-catalog-ux-artifact-inventory.md` |
+| user gate | staging authenticated visual baseline, commit, push, PR, GitHub issue mutation |
 
 ## issue-1068-admin-tag-inline-create-ui
 
