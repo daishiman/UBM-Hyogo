@@ -183,6 +183,7 @@ describe("admin /sync/responses", () => {
       processedCount: 0,
       writeCount: 0,
       cursor: null,
+      durationMs: 0,
     });
     const res = await route.request(
       "/sync/responses?fullSync=true",
