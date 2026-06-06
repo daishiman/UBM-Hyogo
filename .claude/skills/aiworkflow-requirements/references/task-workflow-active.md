@@ -8,6 +8,19 @@
 
 本ドキュメントは、複雑なタスクを単一責務の原則に基づいて分解し、各サブタスクに最適なスラッシュコマンド・エージェント・スキルの組み合わせを選定するためのガイドラインを定義する。
 
+### issue-1094-identity-conflicts-optimistic-aria-live-announcement（30種思考法改善反映 / 2026-06-05）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / NON_VISUAL / Phase 13 pending_user_approval` |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-1094-identity-conflicts-optimistic-aria-live-announcement/` |
+| 目的 | `/admin/identity-conflicts` の optimistic merge/dismiss 消失時 announcement を focus stealing 非依存・連続処理非競合・文言単一導出へ改善 |
+| implementation targets | `apps/web/src/components/admin/IdentityConflictAnnouncer.tsx`, `apps/web/src/components/admin/identityConflictAnnouncements.ts`, `apps/web/src/components/admin/IdentityConflictRow.tsx`, `apps/web/app/(admin)/admin/identity-conflicts/page.tsx`, `apps/web/src/components/admin/__tests__/IdentityConflict{Announcer,Row}.spec.tsx` |
+| invariant | API / D1 / `useAdminMutation` / rollback `role="alert"` / visual pixels unchanged |
+| evidence | focused Vitest 2 files / 26 tests PASS、web typecheck PASS、web lint PASS、verify:tokens PASS、撤去 grep 0 件 |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1094-identity-conflicts-optimistic-aria-live-announcement-artifact-inventory.md` |
+| user gate | commit / push / PR / Issue mutation / staging manual SR |
+
 ### issue-1089-backfill-impact-preview（2026-06-05）
 
 | 項目 | 値 |
