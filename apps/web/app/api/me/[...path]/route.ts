@@ -7,15 +7,8 @@
 
 import type { NextRequest } from "next/server";
 import { getAuth } from "../../../../src/lib/auth";
-import { getAuthEnv } from "../../../../src/lib/env";
-
-const FALLBACK_INTERNAL_API = "http://127.0.0.1:8787";
-
-const apiBase = (): string => {
-  const v = getAuthEnv().INTERNAL_API_BASE_URL;
-  if (v && v.length > 0) return v.replace(/\/$/, "");
-  return FALLBACK_INTERNAL_API;
-};
+import { getAuthEnv, getEnvironment, getTransportRuntimeIsTest } from "../../../../src/lib/env";
+import { fetchViaApiTransport, resolveApiFetch } from "../../../../src/lib/fetch/transport";
 
 async function requireSession(): Promise<Response | null> {
   const { auth } = await getAuth();
@@ -40,7 +33,7 @@ async function proxy(
   const { path } = await ctx.params;
   const url = new URL(req.url);
   const tail = path.join("/");
-  const target = `${apiBase()}/me${tail ? `/${tail}` : ""}${url.search}`;
+  const targetPath = `/me${tail ? `/${tail}` : ""}${url.search}`;
 
   const headers: Record<string, string> = {};
   const cookie = req.headers.get("cookie");
@@ -56,7 +49,17 @@ async function proxy(
   if (req.method !== "GET" && req.method !== "DELETE") {
     init.body = await req.text();
   }
-  const upstream = await fetch(target, init);
+  const env = getAuthEnv();
+  const upstream = await fetchViaApiTransport(
+    resolveApiFetch({
+      API_SERVICE: env.API_SERVICE,
+      baseUrl: env.INTERNAL_API_BASE_URL,
+      environment: getEnvironment(),
+      isTest: getTransportRuntimeIsTest(),
+    }),
+    targetPath,
+    init,
+  );
   const text = await upstream.text();
   return new Response(text, {
     status: upstream.status,

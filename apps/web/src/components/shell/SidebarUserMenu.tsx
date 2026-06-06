@@ -2,7 +2,7 @@
 
 // Task B — sidebar 左下の user menu。`<details>` ベースの popover で role 別 action を集約。
 // ログアウトは既存 SignOutButton を embed し挙動を変えない。route 変化で自動 close。
-import { useCallback, useEffect, useRef } from "react";
+import { useCallback, useEffect, useId, useRef } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
@@ -30,6 +30,7 @@ export function SidebarUserMenu({ role, user, collapsed }: SidebarUserMenuProps)
     if (!details?.open) return;
     details.open = false;
   }, []);
+  const tooltipId = `shell-user-menu-tooltip-${useId().replace(/:/g, "")}`;
 
   // route 変化で popover を自動 close。
   useEffect(() => {
@@ -48,7 +49,9 @@ export function SidebarUserMenu({ role, user, collapsed }: SidebarUserMenuProps)
         role="button"
         aria-haspopup="menu"
         aria-label="ユーザーメニュー"
-        className={`flex cursor-pointer list-none items-center rounded-sm px-3 py-2 hover:bg-[var(--shell-active-bg)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--ubm-color-accent)] ${collapsed ? "justify-center gap-0" : "gap-2"}`}
+        aria-describedby={collapsed ? tooltipId : undefined}
+        data-shell-tooltip-host={collapsed ? "true" : undefined}
+        className={`relative flex cursor-pointer list-none items-center rounded-sm px-3 py-2 hover:bg-[var(--shell-active-bg)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--ubm-color-accent)] ${collapsed ? "justify-center gap-0" : "gap-2"}`}
       >
         <SidebarUserAvatar initials={user?.initials ?? ""} role={role} size="md" />
         <span className={collapsed ? "sr-only" : "flex min-w-0 flex-col leading-tight"}>
@@ -63,6 +66,11 @@ export function SidebarUserMenu({ role, user, collapsed }: SidebarUserMenuProps)
         </span>
         {isViewer && collapsed ? (
           <span className="sr-only">ログイン</span>
+        ) : null}
+        {collapsed ? (
+          <span id={tooltipId} role="tooltip" className="ubm-shell-tooltip">
+            ユーザーメニュー
+          </span>
         ) : null}
       </summary>
       <div

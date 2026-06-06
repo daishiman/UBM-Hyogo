@@ -7,6 +7,9 @@ import type { NextRequest } from "next/server";
 import { getAuth } from "../../../../src/lib/auth";
 import { getAuthEnv } from "../../../../src/lib/env";
 
+// local dev (`pnpm dev`) で env 未設定時のみ使う fallback。staging/production は
+// `apiBase()` 内で fail-fast するため焼き込みにはならない。
+// localhost-allow:local-fallback
 const LOCAL_DEV_FALLBACK = "http://127.0.0.1:8787";
 
 type AuthEnv = ReturnType<typeof getAuthEnv>;

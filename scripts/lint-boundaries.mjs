@@ -18,9 +18,13 @@ const forbidden = [
 
 // forbidden token を例外的に許可するファイル（正規参照点に集約する用途のみ）。
 // Web Storage は `apps/web/src/lib/is-browser.ts` の getter 経由を唯一の経路とする。
+// playwright のテストアカウント storage-state 生成スクリプトは、apps/api の seed
+// manifest（テストデータの正本）をパス参照で読み込むテスト用ツールであり、ランタイム
+// コードではないため "apps/api" トークンを例外的に許可する。
 const tokenAllowlist = {
   localStorage: ["apps/web/src/lib/is-browser.ts"],
   sessionStorage: [],
+  "apps/api": ["apps/web/playwright/scripts/mint-test-account-storage-state.ts"],
 };
 
 function listFiles(dir) {

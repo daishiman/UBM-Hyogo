@@ -714,12 +714,16 @@
   }
 
   [data-component="public-footer"] {
+    position: sticky;
+    bottom: 0;
+    z-index: 20;
     display: flex;
     flex-direction: column;
     gap: 8px;
     padding: 32px 28px;
     margin-top: auto;
     border-top: 1px solid var(--ubm-color-border-default);
+    background: var(--ubm-color-surface-bg);
     /* footer は [data-shell="footer"] により surface-bg-2 上に乗るため、
        text-muted では WCAG AA 4.5:1 未達（約 4.16:1）。text-secondary（約 5.31:1）を
        採用して copyright (12px) を AA 準拠にする（footer link は既に text-secondary）。 */
@@ -1195,6 +1199,9 @@
   }
 
   [data-component="public-footer"] {
+    position: sticky;
+    bottom: 0;
+    z-index: 20;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -1202,6 +1209,7 @@
     padding: var(--ubm-space-6);
     margin-top: auto;
     border-top: 1px solid var(--ubm-color-border-default);
+    background: var(--ubm-color-surface-bg);
     color: var(--ubm-color-text-muted);
     font-size: var(--ubm-text-sm);
   }
