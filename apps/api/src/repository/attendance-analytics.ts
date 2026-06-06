@@ -32,6 +32,18 @@ const EMPTY_FILTER: AttendanceFilter = {
 
 const ANALYTICS_DEFAULT_LIMIT = 50;
 const ANALYTICS_MAX_LIMIT = 200;
+const ATTENDANCE_ZONE_ORDER = [
+  "zone_0",
+  "zone_1_9",
+  "zone_10_99",
+  "zone_100_plus",
+  "unknown",
+] as const satisfies readonly AttendanceZone[];
+const LEGACY_ATTENDANCE_ZONE_MAP: Record<string, AttendanceZone> = {
+  "0→1": "zone_0",
+  "1→10": "zone_1_9",
+  "10→100": "zone_10_99",
+};
 
 export const clampAnalyticsLimit = (raw: number | undefined): number => {
   const n = raw ?? ANALYTICS_DEFAULT_LIMIT;
@@ -46,15 +58,18 @@ export const clampLastN = (raw: number | undefined): number => {
 };
 
 const zoneFromCount = (count: number): AttendanceZone => {
-  if (count <= 0) return "0→1";
-  if (count <= 9) return "1→10";
-  if (count <= 99) return "10→100";
-  return "unknown";
+  if (!Number.isFinite(count) || count < 0) return "unknown";
+  if (count === 0) return "zone_0";
+  if (count <= 9) return "zone_1_9";
+  if (count <= 99) return "zone_10_99";
+  return "zone_100_plus";
 };
 
 const normalizeZone = (raw: unknown): AttendanceZone => {
-  if (raw === "0→1" || raw === "1→10" || raw === "10→100") return raw;
-  return "unknown";
+  if (ATTENDANCE_ZONE_ORDER.includes(raw as AttendanceZone)) {
+    return raw as AttendanceZone;
+  }
+  return typeof raw === "string" ? LEGACY_ATTENDANCE_ZONE_MAP[raw] ?? "unknown" : "unknown";
 };
 
 const sessionPeriodClause = (
@@ -85,6 +100,7 @@ interface OverviewRow {
   totalSessions: number;
   totalMembers: number;
   attendCount: number;
+  uniqueAttendeeCount: number;
 }
 
 const fetchOverviewRow = async (
@@ -103,15 +119,21 @@ const fetchOverviewRow = async (
             JOIN meeting_sessions s ON s.session_id = ma.session_id
             JOIN member_identities mi ON mi.member_id = ma.member_id
             LEFT JOIN member_status ms ON ms.member_id = mi.member_id
-            WHERE s.deleted_at IS NULL AND COALESCE(ms.is_deleted, 0) = 0${period.sql}) AS attendCount
+            WHERE s.deleted_at IS NULL AND COALESCE(ms.is_deleted, 0) = 0${period.sql}) AS attendCount,
+         (SELECT COUNT(DISTINCT ma.member_id) FROM member_attendance ma
+            JOIN meeting_sessions s ON s.session_id = ma.session_id
+            JOIN member_identities mi ON mi.member_id = ma.member_id
+            LEFT JOIN member_status ms ON ms.member_id = mi.member_id
+            WHERE s.deleted_at IS NULL AND COALESCE(ms.is_deleted, 0) = 0${period.sql}) AS uniqueAttendeeCount
       `,
     )
-    .bind(...period.binds, ...period.binds)
+    .bind(...period.binds, ...period.binds, ...period.binds)
     .first<OverviewRow>();
   return {
     totalSessions: row?.totalSessions ?? 0,
     totalMembers: row?.totalMembers ?? 0,
     attendCount: row?.attendCount ?? 0,
+    uniqueAttendeeCount: row?.uniqueAttendeeCount ?? 0,
   };
 };
 
@@ -122,6 +144,8 @@ export async function computeAttendanceOverviewExt(
   const cur = await fetchOverviewRow(c, f);
   const denom = cur.totalSessions * cur.totalMembers;
   const overallRate = denom > 0 ? cur.attendCount / denom : 0;
+  const uniqueAttendanceRate =
+    cur.totalMembers > 0 ? cur.uniqueAttendeeCount / cur.totalMembers : 0;
 
   let previousPeriodRate: number | null = null;
   if (f.periodFrom && f.periodTo) {
@@ -146,6 +170,8 @@ export async function computeAttendanceOverviewExt(
     totalSessions: cur.totalSessions,
     totalMembers: cur.totalMembers,
     overallRate: Math.min(1, Math.max(0, overallRate)),
+    uniqueAttendeeCount: cur.uniqueAttendeeCount,
+    uniqueAttendanceRate: Math.min(1, Math.max(0, uniqueAttendanceRate)),
     previousPeriodRate,
     filter: filterEcho(f),
   };
@@ -323,20 +349,16 @@ export async function listZoneDistribution(
     .bind(...period.binds)
     .all<MemberAttendDbRow>();
 
-  const counts: Record<AttendanceZone, number> = {
-    "0→1": 0,
-    "1→10": 0,
-    "10→100": 0,
-    unknown: 0,
-  };
+  const counts = Object.fromEntries(
+    ATTENDANCE_ZONE_ORDER.map((zone) => [zone, 0]),
+  ) as Record<AttendanceZone, number>;
   let total = 0;
   for (const row of r.results ?? []) {
     const zone = zoneFromCount(row.attended_count);
     counts[zone] += 1;
     total += 1;
   }
-  const zones: AttendanceZone[] = ["0→1", "1→10", "10→100", "unknown"];
-  const rows = zones
+  const rows = ATTENDANCE_ZONE_ORDER
     .map((zone) => ({
       zone,
       attendeeCount: counts[zone],

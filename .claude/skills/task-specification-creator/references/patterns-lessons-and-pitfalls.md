@@ -2112,6 +2112,15 @@ issue-1008 sync（`refactor/issue-1008-members-list-ux-clarity-artifact-status-r
 - anti-pattern: issue 記述を実コード未確認のまま設計前提に焼き込む / ラベルだけで分類を確定し SSOT 違反（dead alias 残存）を docs-only として放置する / dead alias 削除のついでに cookie 名・属性まで変更し既存利用者の状態を破壊する。
 - 参照: `references/phase-template-phase1.md` §「Issue / unassigned-task 前提の実コード検証（Issue #1065 対策）」, `references/phase12-skill-feedback-promotion.md` Applied Examples（Issue #1065 行）。SSOT-readable cookie 永続化の前身は L-SSRSEED-001..003（issue-1024）。
 
+### 同一表示ラベルが別ドメインに重複する場合は grep gate を所有境界で限定する（issue-1101, 2026-06-05）
+
+`issue-1101-attendance-analytics-calc-correction` で確立。出席回数帯の `AttendanceZone` は旧表示値 `0→1` / `1→10` / `10→100` を snake_case key（`zone_0` / `zone_1_9` / `zone_10_99` / `zone_100_plus`）へ移行したが、同じ視覚ラベルは UBM 事業成長フェーズの別ドメインにも存在していた。
+
+- **SP-I1101-001（grep gate は文字列だけでなく所有境界で定義する）**: 旧表示値残存ゼロ gate は repository 全体に素朴にかけず、`AttendanceZone` を所有・消費する `apps/api/src/repository/attendance-analytics.ts`、`apps/api/src/lib/parse-attendance-filter.ts`、`apps/web/src/features/admin/attendance/**`、`packages/shared/src/zod/admin-attendance.ts` に限定する。別ドメインの `apps/api/src/routes/admin/_shared/byZone.ts` や public member filter は正当残存であり、本タスクで変更しない。
+- **SP-I1101-002（互換値は正当残存箇所を集約してテストする）**: 旧矢印値を互換入力として残す場合は、parser / compatibility map に集約し、schema enum / API output / web label からは除去する。互換 map の残存は FAIL ではないが、テストで新キーへ正規化されることを必須にする。
+- anti-pattern: `rg '0→1'` の全 repo ヒットを一律 FAIL とする / 別ドメインの表示ラベルまで巻き込んで破壊的に変更する / schema enum と互換 parser の残存を区別せずに gate を設計する。
+- 参照: `references/patterns-validation-and-audit.md` §「パターン10: 同一表示ラベルが別ドメインに重複する grep gate」。
+
 ### 残コンフリクト判定 grep の `=======` 罫線 false-positive は 4 本目の branch でも再現／衝突集合が aiworkflow-requirements skill のみ（task-spec 側ゼロ）の回も定型（SP-DEVSYNC-083）
 
 `docs/issue-1043-identity-conflicts-row-fade-animation-spec ← dev`（sub-worktree wt-8・S-SUB・ローカル dev は origin/dev `17a18e1c2` 一致で ff 不要・feature は dev に 2 behind / 2 ahead）の sync-merge。content conflict は **aiworkflow-requirements 6 file のみ**＝`SKILL.md` + index map 3（`quick-reference`/`resource-map`/`topic-map`） + `keywords.json` + `task-workflow-active.md`。`SKILL-changelog.md` / `LOGS/_legacy.md` は `.gitattributes merge=union` で Auto-merging、**本ファイルを含む task-spec 側は衝突 0**、`apps/**`/`packages/**` source 衝突 0（dev 取込分 #1039 + #1035 は source 非重複追加）。`pnpm sync:resolve` 単独収束（union 5 + keywords.json `--ours`+rebuild）→ `git diff --diff-filter=U` 0 → merge commit `f8f75e251` → typecheck/lint exit 0 / `indexes:rebuild` 冪等（5308 kw）。

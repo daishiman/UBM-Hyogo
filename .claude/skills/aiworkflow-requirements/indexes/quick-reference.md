@@ -1,5 +1,17 @@
 # クイックリファレンス
 
+## issue-1101-attendance-analytics-calc-correction（2026-06-05）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-1101-attendance-analytics-calc-correction/` |
+| status | `implemented_local_evidence_captured / implementation / VISUAL / staging_visual_pending_user_gate` |
+| purpose | 出席分析の 100 回以上 zone 誤分類を `zone_100_plus` へ修正し、延べ率と unique 出席率を分離する |
+| implementation | `attendance-analytics.ts`, `parse-attendance-filter.ts`, `admin-attendance.ts`, attendance web labels/filter/KPI, `01-api-schema.md` |
+| evidence | focused Vitest root 6 files / 21 tests PASS; D1 repository 1 file / 13 tests PASS; routes/migrations diff empty |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1101-attendance-analytics-calc-correction-artifact-inventory.md` |
+| user gate | staging authenticated screenshot, commit, push, PR |
+
 ## admin-meetings-attendance-404-fix-and-ux（2026-06-03）
 
 | 項目 | 値 |
