@@ -10,9 +10,10 @@ category: 改善
 target_feature: apps/api POST /admin/members/tags/bulk
 priority: 中
 scale: 小規模
-status: 未実施
+status: formalized_consumed_local_implementation_done
 source_phase: issue-1036-bulk-member-tag-assign runtime evidence boundary
 created_date: 2026-06-01
+resolved_date: 2026-06-03
 dependencies: [issue-1036-bulk-member-tag-assign]
 ```
 
@@ -22,6 +23,10 @@ dependencies: [issue-1036-bulk-member-tag-assign]
 | 実装ガイド | `docs/30-workflows/completed-tasks/issue-1036-bulk-member-tag-assign/outputs/phase-12/implementation-guide.md` |
 | 分類 | follow-up / runtime evidence |
 | 優先度 | 中 |
+| 解決先 workflow | `docs/30-workflows/issue-1081-bulk-tag-real-d1-runtime-smoke/` |
+| 解決状態 | runner / seed-cleanup SQL / CI job / local stub test は実装済み。staging real D1 mutation smoke 実走のみ user-gated |
+
+> **消費済み trace**: 本未タスクは `issue-1081-bulk-tag-real-d1-runtime-smoke` として Phase 1-13 化され、local implementation は完了した。削除せず起票元 trace として残すが、active 未実施タスクではない。
 
 ## 1. 概要
 
