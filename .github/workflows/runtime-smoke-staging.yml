@@ -136,3 +136,82 @@ jobs:
             exit 1
           fi
           bash scripts/smoke/ci-summary-post.sh ci-evidence
+
+  bulk-tag-runtime-smoke:
+    runs-on: ubuntu-latest
+    environment: staging-runtime-smoke
+    timeout-minutes: 10
+    env:
+      STAGING_API_BASE: ${{ secrets.STAGING_API_BASE }}
+      STAGING_ADMIN_BEARER: ${{ secrets.STAGING_ADMIN_BEARER }}
+      STAGING_AUTH_SECRET: ${{ secrets.STAGING_AUTH_SECRET }}
+      CLOUDFLARE_ENV: staging
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: setup project
+        uses: ./.github/actions/setup-project
+
+      - name: mint staging admin bearer
+        if: env.STAGING_AUTH_SECRET != ''
+        env:
+          STAGING_AUTH_SECRET: ${{ secrets.STAGING_AUTH_SECRET }}
+          STAGING_ADMIN_MEMBER_ID: ${{ secrets.STAGING_ADMIN_MEMBER_ID }}
+          STAGING_ADMIN_EMAIL: ${{ secrets.STAGING_ADMIN_EMAIL }}
+          MINT_TTL_SECONDS: '600'
+        run: |
+          mint_out="$(mktemp)"
+          GITHUB_OUTPUT="$mint_out" pnpm exec tsx scripts/smoke/mint-staging-bearers.mts
+          admin="$(grep '^admin_bearer=' "$mint_out" | tail -n1 | cut -d= -f2-)"
+          rm -f "$mint_out"
+          echo "::add-mask::$admin"
+          echo "STAGING_ADMIN_BEARER=$admin" >> "$GITHUB_ENV"
+
+      - name: verify required staging secrets
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          missing=()
+          for name in STAGING_API_BASE STAGING_ADMIN_BEARER CLOUDFLARE_API_TOKEN CLOUDFLARE_ACCOUNT_ID; do
+            if [ -z "${!name:-}" ]; then
+              missing+=("$name")
+            fi
+          done
+
+          if [ "${#missing[@]}" -gt 0 ]; then
+            printf "::error::missing secrets in environment 'staging-runtime-smoke': %s\n" "${missing[*]}"
+            exit 1
+          fi
+
+      - name: mask staging credentials
+        run: |
+          echo "::add-mask::$STAGING_ADMIN_BEARER"
+          echo "::add-mask::$STAGING_API_BASE"
+
+      - name: run bulk tag runtime smoke
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
+          CF_SH_SKIP_WITH_ENV: "1"
+        run: |
+          mkdir -p ci-evidence-bulk-tag
+          bash scripts/smoke/runtime-tag-bulk.sh staging --out-dir ci-evidence-bulk-tag --ci-summary
+
+      - name: redaction grep gate
+        if: always()
+        run: |
+          leak_files="$(grep -rEl 'Cookie:|authorization:|Bearer [A-Za-z0-9_-]{20,}|hooks\.slack\.com/services/[A-Z0-9]|sentry\.io/[0-9]+/[0-9]+|xox[bp]-' ci-evidence-bulk-tag/ || true)"
+          if [ -n "$leak_files" ]; then
+            echo "::error::redaction grep gate failed; leaking content is suppressed"
+            printf '%s\n' "$leak_files" | sed 's#^#leak-candidate-file=#'
+            exit 1
+          fi
+
+      - name: upload evidence artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: bulk-tag-runtime-smoke-staging-${{ github.run_id }}
+          path: ci-evidence-bulk-tag/
+          retention-days: 30

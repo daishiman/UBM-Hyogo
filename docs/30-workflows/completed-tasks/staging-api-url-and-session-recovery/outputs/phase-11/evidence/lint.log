@@ -1,0 +1,3 @@
+PASS 2026-06-03
+Command: mise exec -- pnpm lint
+Result: dependency boundaries, stable key gates, no-inline-style, workspace lint, and TypeScript lint checks completed successfully.
