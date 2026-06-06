@@ -11,6 +11,7 @@ import { requireProvider } from "../../repository/_shared/provider-context";
 import {
   createTagDefinition,
   deactivateTagDefinition,
+  forceMigrateAndPhysicalDeleteTagDefinition,
   getTagDefinitionByIdRaw,
   listTagDefinitionsPaged,
   physicalDeleteTagDefinition,
@@ -58,6 +59,9 @@ const ERROR_TO_STATUS = {
   tag_code_conflict: 409,
   tag_has_references: 409,
   tag_stale_conflict: 409,
+  migration_target_not_found: 404,
+  migration_target_inactive: 409,
+  migration_target_same_as_source: 400,
 } as const;
 
 type ErrorCode = keyof typeof ERROR_TO_STATUS;
@@ -112,6 +116,7 @@ export const createAdminTagsRoute = () => {
         | "admin.tag.deactivated"
         | "admin.tag.reactivated"
         | "admin.tag.physically_deleted"
+        | "admin.tag.references_migrated"
         | "admin.tag.code_renamed";
       targetId: string;
       before: Record<string, unknown> | null;
@@ -266,6 +271,45 @@ export const createAdminTagsRoute = () => {
 
   app.delete("/tags/:tagId/physical", async (c) => {
     const tagId = c.req.param("tagId");
+    const rawMigrateTo = c.req.query("migrateTo");
+    const migrateTo = rawMigrateTo?.trim();
+    if (rawMigrateTo !== undefined && migrateTo?.length === 0) {
+      return fail(c, "migration_target_not_found");
+    }
+    if (migrateTo !== undefined) {
+      const result = await forceMigrateAndPhysicalDeleteTagDefinition(db(c), tagId, migrateTo);
+      if (!result.ok) {
+        if (result.reason === "not_found") return fail(c, "tag_not_found");
+        if (result.reason === "target_not_found") return fail(c, "migration_target_not_found");
+        if (result.reason === "target_inactive") return fail(c, "migration_target_inactive");
+        if (result.reason === "same_as_source") return fail(c, "migration_target_same_as_source");
+        return failWithBody(c, "tag_has_references", {
+          referenceCount: result.referenceCount,
+        });
+      }
+
+      await appendTagAudit(c, {
+        action: "admin.tag.references_migrated",
+        targetId: tagId,
+        before: {
+          tag_id: tagId,
+          dest: migrateTo,
+          referenceCount: result.sourceReferenceCount,
+        },
+        after: {
+          migratedCount: result.migratedCount,
+          deleted: true,
+        },
+      });
+      await appendTagAudit(c, {
+        action: "admin.tag.physically_deleted",
+        targetId: tagId,
+        before: rowBody(result.row),
+        after: null,
+      });
+      return c.body(null, 204);
+    }
+
     const result = await physicalDeleteTagDefinition(db(c), tagId);
     if (!result.ok) {
       if (result.reason === "not_found") return fail(c, "tag_not_found");

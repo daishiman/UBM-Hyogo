@@ -201,8 +201,8 @@ tag の write 経路を 3 つに正式分離する。
 2. **管理者による tag の「手動付与 / 解除」** — `/admin/members/:memberId/tags` 専用 endpoint 経由で行い、必ず audit を記録する。
 3. **管理者による tag master (`tag_definitions`) の CRUD** — `/admin/tags` 専用 endpoint 経由で行い、必ず audit を記録する。
 
-`member_tags` への直接 write は上記 2 経路に限り許可する。
-`tag_definitions` への write は `apps/api/src/repository/tagDefinitions.ts` の `createTagDefinition` / `updateTagDefinition` / `deactivateTagDefinition` / `reactivateTagDefinition` / `physicalDeleteTagDefinition` だけに限定する。`code` は admin tag master CRUD 経路の PATCH でのみ rename 可能とし、code rename 時は `expectedCode` による optimistic CAS、409 `tag_code_conflict`（衝突）/ 409 `tag_stale_conflict`（expectedCode 不一致）の分離、`admin.tag.code_renamed` audit（before/after code）を必須とする。`member_tags` は `tag_id` 参照なので rename 後も既存 row を保持する。通常 DELETE は物理削除ではなく `active=0` への論理削除で、既存 `member_tags` row は保持する。physical delete は専用 endpoint でのみ許可し、`member_tags` 参照が 1 件以上ある場合は 409 `tag_has_references` で拒否して孤児行を作らない。
+`member_tags` への直接 write は上記 1 / 2 と、3 のうち `DELETE /admin/tags/:tagId/physical?migrateTo=<destTagId>` の強制移行付き物理削除経路に限り許可する。
+`tag_definitions` への write は `apps/api/src/repository/tagDefinitions.ts` の `createTagDefinition` / `updateTagDefinition` / `deactivateTagDefinition` / `reactivateTagDefinition` / `physicalDeleteTagDefinition` / `forceMigrateAndPhysicalDeleteTagDefinition` だけに限定する。`code` は admin tag master CRUD 経路の PATCH でのみ rename 可能とし、code rename 時は `expectedCode` による optimistic CAS、409 `tag_code_conflict`（衝突）/ 409 `tag_stale_conflict`（expectedCode 不一致）の分離、`admin.tag.code_renamed` audit（before/after code）を必須とする。`member_tags` は `tag_id` 参照なので rename 後も既存 row を保持する。通常 DELETE は物理削除ではなく `active=0` への論理削除で、既存 `member_tags` row は保持する。physical delete は専用 endpoint でのみ許可し、`member_tags` 参照が 1 件以上ある場合は 409 `tag_has_references` で拒否して孤児行を作らない。強制移行付き physical delete は `migrateTo` で active な移行先 tag を明示した場合だけ、`member_tags` の source tag 参照を destination tag へ集約し、source 参照 0 件を再確認してから既存 physical delete を実行する。
 
 ### Endpoints
 
@@ -216,10 +216,11 @@ tag の write 経路を 3 つに正式分離する。
 | PATCH | `/admin/tags/:tagId` | `{ code?, label?, category?, expectedCode? }`（`code` 指定時は `expectedCode` 必須） | `TagMasterRef` | body 不正 → 400 / 更新項目なし → 400 `no_update_fields` / tag 不在 → 404 `tag_not_found` / code 衝突 → 409 `tag_code_conflict` / expectedCode 不一致 → 409 `tag_stale_conflict` |
 | DELETE | `/admin/tags/:tagId` | なし | 204 No Content | tag 不在 → 404 `tag_not_found` |
 | POST | `/admin/tags/:tagId/reactivate` | なし | `TagMasterRef` | tag 不在 → 404 `tag_not_found` |
-| DELETE | `/admin/tags/:tagId/physical` | なし | 204 No Content | tag 不在 → 404 `tag_not_found` / `member_tags` 参照あり → 409 `tag_has_references` + `referenceCount` |
+| DELETE | `/admin/tags/:tagId/physical` | query: `migrateTo?: tagId` | 204 No Content | tag 不在 → 404 `tag_not_found` / `migrateTo` 未指定かつ `member_tags` 参照あり → 409 `tag_has_references` + `referenceCount` / `migrateTo` 不在 → 404 `migration_target_not_found` / `migrateTo` 非 active → 409 `migration_target_inactive` / `migrateTo` が source と同一 → 400 `migration_target_same_as_source` |
 
 `TagRef = { tagId: string; code: string; label: string; category: string }`。`tagId`（= `tag_definitions.tag_id`）を正本識別子とし、`code`（UNIQUE）は表示・既存 detail view との parity 用に併せて返す。
 `TagMasterRef = TagRef & { active: boolean }`。master 管理 endpoint は inactive row も一覧対象に含め、検索 `q` は `code` / `label` の部分一致とする。
+`DELETE /admin/tags/:tagId/physical` の `migrateTo` は前後空白を trim してから tag id として扱う。trim 後に空文字の場合は移行先不在と同じ 404 `migration_target_not_found` とし、移行・削除・audit は実行しない。
 
 ### 冪等性
 
@@ -227,7 +228,7 @@ tag の write 経路を 3 つに正式分離する。
 - POST の tag master 検証は `tag_definitions.active = 1` を要求する。非アクティブ tag は UI に出さず、direct API でも `tag_not_found` として扱う。
 - DELETE は対象行が無くても 204（冪等）。
 - tag master の reactivate は active=0 の row を active=1 に戻す。既に active=1 の場合は 200 no-op とし、audit を増やさない。reactivate は同一 row の active flag だけを戻すため、`code` conflict は構造的に発生しない。
-- tag master の logical delete（`DELETE /admin/tags/:tagId`）は active=0 row を残すため UNIQUE `code` を占有し続ける。physical delete（`DELETE /admin/tags/:tagId/physical`）は row を削除して `code` を解放するが、実行前に `member_tags WHERE tag_id` を count し、参照があれば削除しない。
+- tag master の logical delete（`DELETE /admin/tags/:tagId`）は active=0 row を残すため UNIQUE `code` を占有し続ける。physical delete（`DELETE /admin/tags/:tagId/physical`）は row を削除して `code` を解放するが、実行前に `member_tags WHERE tag_id` を count し、参照があれば削除しない。`migrateTo` 指定時だけ参照を active な移行先 tag へ集約し、PK `(member_id, tag_id)` 衝突は destination 既存行を保持して source 行を削除することで吸収する。
 - client が送る `Idempotency-Key` header は受理するが、現状 server 側は no-op（idempotency middleware 未実装）。状態変化の検出は `meta.changes` で行う。
 
 ### audit action（state 変化時のみ 1 行）
@@ -241,10 +242,11 @@ tag の write 経路を 3 つに正式分離する。
 | `admin.tag.updated` | `tag` | `{ label, category }` | `{ label, category }` |
 | `admin.tag.deactivated` | `tag` | `{ active: true }` | `{ active: false }` |
 | `admin.tag.reactivated` | `tag` | `{ active: false }` | `{ active: true }` |
+| `admin.tag.references_migrated` | `tag` | `{ tag_id, dest, referenceCount }` | `{ migratedCount, deleted: true }` |
 | `admin.tag.physically_deleted` | `tag` | `TagMasterRef` | `null` |
 
 新規付与 / 削除が実際に発生した（`meta.changes > 0`）ときのみ audit を append する。再送 no-op では audit を増やさない。
-tag master CRUD でも state 変化時のみ audit を append する。同値 PATCH、既 inactive tag への DELETE 再送、既 active tag への reactivate 再送、参照あり physical delete 拒否では audit を増やさない。
+tag master CRUD でも state 変化時のみ audit を append する。同値 PATCH、既 inactive tag への DELETE 再送、既 active tag への reactivate 再送、参照あり physical delete 拒否、強制移行 target 検証拒否では audit を増やさない。強制移行付き physical delete 成功時は `admin.tag.references_migrated` と `admin.tag.physically_deleted` を 1 件ずつ append する。
 
 ## Admin Dashboard Attendance Analytics API
 

@@ -2624,6 +2624,7 @@
       "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md",
       "lessons-learned-ut07b-fu04-production-migration-already-applied-verification-2026-05.md",
       "workflow-admin-layout-sidebar-shell-migration-artifact-inventory.md",
+      "workflow-issue-1117-tag-physical-delete-force-migration-artifact-inventory.md",
       "workflow-issue-277-next-proxy-migration-artifact-inventory.md",
       "workflow-issue-503-ut-07b-fu-01-followup-cursor-semantics-migration-artifact-inventory.md",
       "workflow-issue-871-csp-nonce-migration-artifact-inventory.md",
@@ -5327,6 +5328,7 @@
       "workflow-issue-1077-bulk-tag-authenticated-staging-visual-artifact-inventory.md",
       "workflow-issue-1078-bulk-tag-picker-large-catalog-ux-artifact-inventory.md",
       "workflow-issue-1080-bulk-tag-result-member-labels-artifact-inventory.md",
+      "workflow-issue-1117-tag-physical-delete-force-migration-artifact-inventory.md",
       "workflow-issue-224-public-members-tags-batch-fetch-artifact-inventory.md",
       "workflow-issue-229-indexes-rebuild-fail-fast-artifact-inventory.md",
       "workflow-issue-230-lefthook-edit-guard-artifact-inventory.md",
@@ -6229,6 +6231,7 @@
       "workflow-issue-1036-bulk-member-tag-assign-artifact-inventory.md",
       "workflow-issue-1070-tag-reactivate-physical-delete-artifact-inventory.md",
       "workflow-issue-1077-bulk-tag-authenticated-staging-visual-artifact-inventory.md",
+      "workflow-issue-1117-tag-physical-delete-force-migration-artifact-inventory.md",
       "workflow-issue-229-indexes-rebuild-fail-fast-artifact-inventory.md",
       "workflow-issue-264-cron-schedule-free-tier-guard-artifact-inventory.md",
       "workflow-issue-274-public-pages-ogp-sitemap-robots-artifact-inventory.md",
@@ -7482,6 +7485,7 @@
       "workflow-issue-1076-member-og-design-token-alignment-artifact-inventory.md",
       "workflow-issue-1078-bulk-tag-picker-large-catalog-ux-artifact-inventory.md",
       "workflow-issue-1080-bulk-tag-result-member-labels-artifact-inventory.md",
+      "workflow-issue-1117-tag-physical-delete-force-migration-artifact-inventory.md",
       "workflow-issue-229-indexes-rebuild-fail-fast-artifact-inventory.md",
       "workflow-issue-230-lefthook-edit-guard-artifact-inventory.md",
       "workflow-issue-247-apps-web-opennext-config-regression-tests-artifact-inventory.md",
@@ -8231,6 +8235,7 @@
       "workflow-issue-1077-bulk-tag-authenticated-staging-visual-artifact-inventory.md",
       "workflow-issue-1078-bulk-tag-picker-large-catalog-ux-artifact-inventory.md",
       "workflow-issue-1080-bulk-tag-result-member-labels-artifact-inventory.md",
+      "workflow-issue-1117-tag-physical-delete-force-migration-artifact-inventory.md",
       "workflow-issue-191-schema-aliases-artifact-inventory.md",
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
       "workflow-issue-224-public-members-tags-batch-fetch-artifact-inventory.md",
@@ -11459,6 +11464,7 @@
       "workflow-issue-1070-tag-reactivate-physical-delete-artifact-inventory.md",
       "workflow-issue-1077-bulk-tag-authenticated-staging-visual-artifact-inventory.md",
       "workflow-issue-1080-bulk-tag-result-member-labels-artifact-inventory.md",
+      "workflow-issue-1117-tag-physical-delete-force-migration-artifact-inventory.md",
       "workflow-issue-230-lefthook-edit-guard-artifact-inventory.md",
       "workflow-issue-247-apps-web-opennext-config-regression-tests-artifact-inventory.md",
       "workflow-issue-352-postmortem-template-automation-artifact-inventory.md",
@@ -11697,6 +11703,7 @@
       "workflow-issue-1077-bulk-tag-authenticated-staging-visual-artifact-inventory.md",
       "workflow-issue-1078-bulk-tag-picker-large-catalog-ux-artifact-inventory.md",
       "workflow-issue-1080-bulk-tag-result-member-labels-artifact-inventory.md",
+      "workflow-issue-1117-tag-physical-delete-force-migration-artifact-inventory.md",
       "workflow-issue-235-sync-audit-tables-necessity-judgement-artifact-inventory.md",
       "workflow-issue-256-e2e-coverage-baseline-runbook-artifact-inventory.md",
       "workflow-issue-264-cron-schedule-free-tier-guard-artifact-inventory.md",
@@ -13003,6 +13010,7 @@
       "workflow-issue-1070-tag-reactivate-physical-delete-artifact-inventory.md",
       "workflow-issue-1077-bulk-tag-authenticated-staging-visual-artifact-inventory.md",
       "workflow-issue-1080-bulk-tag-result-member-labels-artifact-inventory.md",
+      "workflow-issue-1117-tag-physical-delete-force-migration-artifact-inventory.md",
       "workflow-issue-276-mobile-filterbar-tag-picker-artifact-inventory.md",
       "workflow-issue-532-write-tag-note-provider-ctx-injection-artifact-inventory.md",
       "workflow-issue-982-drawer-tag-pill-editing-artifact-inventory.md"
@@ -14025,6 +14033,7 @@
       "workflow-issue-1059-public-members-fields-batch-fetch-n1-prevention-artifact-inventory.md",
       "workflow-issue-1070-tag-reactivate-physical-delete-artifact-inventory.md",
       "workflow-issue-1077-bulk-tag-authenticated-staging-visual-artifact-inventory.md",
+      "workflow-issue-1117-tag-physical-delete-force-migration-artifact-inventory.md",
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
       "workflow-issue-229-indexes-rebuild-fail-fast-artifact-inventory.md",
       "workflow-issue-274-public-pages-ogp-sitemap-robots-artifact-inventory.md",
@@ -14339,7 +14348,8 @@
       "lessons-learned-issue-1070-tag-reactivate-physical-delete-2026-06.md",
       "lessons-learned-task-06-ui-ux-contract-rewrite-2026-05.md",
       "workflow-admin-member-delete-e2e-spec-artifact-inventory.md",
-      "workflow-issue-1070-tag-reactivate-physical-delete-artifact-inventory.md"
+      "workflow-issue-1070-tag-reactivate-physical-delete-artifact-inventory.md",
+      "workflow-issue-1117-tag-physical-delete-force-migration-artifact-inventory.md"
     ],
     "restore": [
       "lessons-learned-06c-B-admin-members-2026-05.md",
@@ -16871,7 +16881,8 @@
     ],
     "physical": [
       "lessons-learned-issue-1070-tag-reactivate-physical-delete-2026-06.md",
-      "workflow-issue-1070-tag-reactivate-physical-delete-artifact-inventory.md"
+      "workflow-issue-1070-tag-reactivate-physical-delete-artifact-inventory.md",
+      "workflow-issue-1117-tag-physical-delete-force-migration-artifact-inventory.md"
     ],
     "FK": [
       "lessons-learned-issue-1070-tag-reactivate-physical-delete-2026-06.md"
@@ -17129,6 +17140,7 @@
       "workflow-issue-1059-public-members-fields-batch-fetch-n1-prevention-artifact-inventory.md",
       "workflow-issue-1070-tag-reactivate-physical-delete-artifact-inventory.md",
       "workflow-issue-1077-bulk-tag-authenticated-staging-visual-artifact-inventory.md",
+      "workflow-issue-1117-tag-physical-delete-force-migration-artifact-inventory.md",
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
       "workflow-issue-229-indexes-rebuild-fail-fast-artifact-inventory.md",
       "workflow-issue-274-public-pages-ogp-sitemap-robots-artifact-inventory.md",
@@ -20202,7 +20214,8 @@
       "lessons-learned-task-11-public-top-and-member-list-2026-05.md"
     ],
     "force": [
-      "lessons-learned-task-11-public-top-and-member-list-2026-05.md"
+      "lessons-learned-task-11-public-top-and-member-list-2026-05.md",
+      "workflow-issue-1117-tag-physical-delete-force-migration-artifact-inventory.md"
     ],
     "撤去": [
       "lessons-learned-task-11-public-top-and-member-list-2026-05.md"
@@ -25033,6 +25046,7 @@
       "workflow-issue-1054-wrangler-binding-drift-ci-gate-artifact-inventory.md",
       "workflow-issue-1070-tag-reactivate-physical-delete-artifact-inventory.md",
       "workflow-issue-1077-bulk-tag-authenticated-staging-visual-artifact-inventory.md",
+      "workflow-issue-1117-tag-physical-delete-force-migration-artifact-inventory.md",
       "workflow-issue-229-indexes-rebuild-fail-fast-artifact-inventory.md",
       "workflow-issue-230-lefthook-edit-guard-artifact-inventory.md",
       "workflow-issue-247-apps-web-opennext-config-regression-tests-artifact-inventory.md",
@@ -27149,6 +27163,7 @@
       "workflow-issue-1077-bulk-tag-authenticated-staging-visual-artifact-inventory.md",
       "workflow-issue-1078-bulk-tag-picker-large-catalog-ux-artifact-inventory.md",
       "workflow-issue-1080-bulk-tag-result-member-labels-artifact-inventory.md",
+      "workflow-issue-1117-tag-physical-delete-force-migration-artifact-inventory.md",
       "workflow-issue-229-indexes-rebuild-fail-fast-artifact-inventory.md",
       "workflow-issue-247-apps-web-opennext-config-regression-tests-artifact-inventory.md",
       "workflow-issue-256-e2e-coverage-baseline-runbook-artifact-inventory.md",
@@ -27458,6 +27473,7 @@
       "workflow-issue-1035-tag-master-write-endpoints-artifact-inventory.md",
       "workflow-issue-1054-wrangler-binding-drift-ci-gate-artifact-inventory.md",
       "workflow-issue-1070-tag-reactivate-physical-delete-artifact-inventory.md",
+      "workflow-issue-1117-tag-physical-delete-force-migration-artifact-inventory.md",
       "workflow-issue-229-indexes-rebuild-fail-fast-artifact-inventory.md",
       "workflow-issue-230-lefthook-edit-guard-artifact-inventory.md",
       "workflow-issue-247-apps-web-opennext-config-regression-tests-artifact-inventory.md",
