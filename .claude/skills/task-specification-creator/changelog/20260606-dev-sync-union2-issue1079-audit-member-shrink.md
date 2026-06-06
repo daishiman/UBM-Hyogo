@@ -1,0 +1,10 @@
+# dev sync: behind 1（単一コミット取込）では union member が 5→2 に縮小・member は behind 数でなく「取込デルタが触る skill ファイル集合」で決まる（2026-06-06 2nd pass）
+
+- 日時: 2026-06-06（同日 2 回目の dev 取込）
+- ブランチ: `docs/issue-1081-bulk-tag-real-d1-runtime-smoke-spec` ← `dev`（sub-worktree wt-10・**1 behind / 4 ahead**、ローカル dev = origin/dev 一致（`6e7b3e344`）で dev 同期は no-op・独自コミット 0）
+- 関連: 直前事例 [[20260606-dev-sync-union5-issue1081-static-manifest-reconfirm]]（同日 1st pass・union 5）/ `task-specification-creator/lessons-learned/dev-sync-merge-conflict-resolution.md` **SP-DEVSYNC-091**（振動則の精緻化）
+- 事象: `git merge dev --no-edit` で取込んだ dev 新規コミットは 1 件のみ = `6e7b3e344`（#1139 issue-1079 admin audit bulk tag batchId 検索・行表示・copy 導線）。content CONFLICT は `aiworkflow-requirements` 配下の 2 file のみ（SKILL.md（union）+ topic-map.md（union））。`task-specification-creator` 配下は SKILL-changelog.md を含め全て git auto-merge（衝突 0）で本 skill 固有の手解消は不要。
+- 解消: `pnpm sync:resolve` exit 0（**`union-resolving 2 files`** = SKILL.md + topic-map.md・内部 rebuild・`all skill / index conflicts resolved`）。今回 keywords.json は CONFLICT に上がらず `taking --ours` 行 0（前回 1st pass は `--ours` 1）。`task-specification-creator` に `indexes/` は無く `indexes:rebuild` 非対象。
+- **核心データポイント（SP-DEVSYNC-091 / L-DEVSYNC-097 の精緻化）**: 同日 1st pass（7 コミット取込）は union member 5 + keywords `--ours` だったが、本 2nd pass（1 コミット取込）は union member 2 + `--ours` 0 に縮小。「union member は behind 数に依らず常に skill コア 5 固定」という 1st pass 仮説を修正し、正しくは **union member 集合 = 取込デルタが実際に touch する skill ファイルの集合**（behind 数が小さく取込が skill core の一部しか触らなければ union member もその部分集合に縮小）と境界を明確化。`union-resolving N files` の N は固定値ではなくログで実数確認が必須。
+- 検証: `git log HEAD..dev` = #1139 単一 → `git merge dev --no-edit` CONFLICT 2 → `pnpm sync:resolve` exit 0 → `--diff-filter=U` 0 / 実マーカー 0 → merge commit `1d7f537d9`（pre-commit hook 全 pass・staged-task-dir-guard は MERGE_HEAD で auto-skip）→ `pnpm typecheck` / `pnpm lint` / `pnpm verify:static-manifest` 全 pass。CI failure なし。
+- 反映先: 本 changelog（振動則の境界条件精緻化）。新規 lesson 番号は SSOT インフレ回避のため起こさず、SP-DEVSYNC-091 / L-DEVSYNC-097 の適用範囲明確化として記録。

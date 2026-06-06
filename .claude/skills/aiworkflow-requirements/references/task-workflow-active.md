@@ -21,6 +21,20 @@
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-test-accounts-seed-spec-artifact-inventory.md` |
 | user gate | actual local/staging seed apply、storage-state generation against a real target、commit、push、PR |
 
+### issue-1081-bulk-tag-real-d1-runtime-smoke（2026-06-03）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / NON_VISUAL / staging_runtime_pending_user_gate` |
+| 成果物 | `docs/30-workflows/issue-1081-bulk-tag-real-d1-runtime-smoke/` |
+| Issue | #1081 CLOSED 維持。Issue mutation は user-gated |
+| 目的 | bulk tag endpoint `POST /admin/members/tags/bulk` の staging Workers + real D1 mutation smoke gate を追加する |
+| implementation targets | `scripts/smoke/runtime-tag-bulk.sh`, `apps/api/migrations/seed/bulk-tag-staging-seed.sql`, `apps/api/migrations/seed/bulk-tag-staging-cleanup.sql`, `.github/workflows/runtime-smoke-staging.yml`, `package.json` |
+| tests | `scripts/smoke/__tests__/runtime-tag-bulk.test.sh`（`pnpm smoke:test` に追加） |
+| invariant | endpoint contract / D1 schema / UI / auth 方式は変更なし。fixture は `e2e_test_issue1081_` prefix 限定、production guard は staging DB 固定 |
+| evidence | local shell test PASS、actionlint PASS、`pnpm smoke:test` PASS。staging real D1 seed/mutation/cleanup evidence は user-gated |
+| user gate | staging deploy、real D1 seed/mutation/cleanup、commit、push、PR |
+
 ### shell-sidebar-tooltip-footer-header-responsive（2026-06-03）
 
 | 項目 | 値 |
