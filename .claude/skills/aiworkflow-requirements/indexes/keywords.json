@@ -44,6 +44,7 @@
       "lessons-learned-admin-attendance-analytics-redesign-2026-05.md",
       "lessons-learned-admin-meetings-prototype-alignment-2026-05.md",
       "lessons-learned-issue-1068-admin-tag-inline-create-ui-2026-06.md",
+      "lessons-learned-issue-1078-bulk-tag-picker-large-catalog-ux-2026-06.md",
       "lessons-learned-issue-372-attendance-pagination-2026-05.md",
       "lessons-learned-issue-408-cf-audit-logs-monitoring-2026-05.md",
       "lessons-learned-issue-546-cf-audit-logs-90day-baseline-observation-2026-05.md",
@@ -1512,6 +1513,7 @@
       "lessons-learned-admin-meetings-prototype-alignment-2026-05.md",
       "lessons-learned-issue-399-admin-queue-visual-evidence-2026-05.md",
       "logs-archive-2026-03-mid-lifecycle-governance-improve.md",
+      "task-workflow-active.md",
       "task-workflow-completed-skill-lifecycle-ui-verify.md"
     ],
     "RESPONSIBILITY": [
@@ -3361,6 +3363,10 @@
       "workflow-issue-1063-shell-collapse-cookie-secure-attribute-artifact-inventory.md",
       "workflow-issue-1068-admin-tag-inline-create-ui-artifact-inventory.md",
       "workflow-issue-1069-tag-code-rename-artifact-inventory.md",
+      "workflow-issue-1076-member-og-design-token-alignment-artifact-inventory.md",
+      "workflow-issue-1078-bulk-tag-picker-large-catalog-ux-artifact-inventory.md",
+      "workflow-issue-1079-bulk-tag-audit-batch-filter-artifact-inventory.md",
+      "workflow-issue-1080-bulk-tag-result-member-labels-artifact-inventory.md",
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
       "workflow-issue-229-indexes-rebuild-fail-fast-artifact-inventory.md",
       "workflow-issue-230-lefthook-edit-guard-artifact-inventory.md",
@@ -3862,6 +3868,7 @@
       "lessons-learned-09c-production-deploy-execution-001-2026-05.md",
       "lessons-learned-admin-tags-queue-resolver-drawer-2026-05.md",
       "lessons-learned-issue-1068-admin-tag-inline-create-ui-2026-06.md",
+      "lessons-learned-issue-1070-tag-reactivate-physical-delete-2026-06.md",
       "workflow-parallel-i02b-admin-mutation-error-finalize-artifact-inventory.md"
     ],
     "api": [
@@ -3939,6 +3946,7 @@
       "lessons-learned-d1-batch-atomicity-and-soft-delete-2026-05.md",
       "lessons-learned-docs-only-lifecycle.md",
       "lessons-learned-fix-verify-design-tokens-og-route-exclude-2026-05.md",
+      "lessons-learned-issue-1070-tag-reactivate-physical-delete-2026-06.md",
       "lessons-learned-issue-274-public-pages-ogp-sitemap-robots-2026-05.md",
       "lessons-learned-issue-372-attendance-pagination-2026-05.md",
       "lessons-learned-issue-532-write-tag-note-provider-ctx-injection-2026-05.md",
@@ -3970,6 +3978,7 @@
       "lessons-learned-07a-tag-queue-resolve-2026-04.md",
       "lessons-learned-admin-ui-prototype-alignment-2026-05.md",
       "lessons-learned-issue-1068-admin-tag-inline-create-ui-2026-06.md",
+      "lessons-learned-issue-1078-bulk-tag-picker-large-catalog-ux-2026-06.md",
       "lessons-learned-issue-776-schema-alias-bulk-resolve-2026-05.md",
       "lessons-learned-ut-07c-followup-001-attendance-csv-import-2026-05.md"
     ],
@@ -4148,6 +4157,7 @@
       "lessons-learned-issue-1027-member-dynamic-og-worker-split-2026-05.md",
       "lessons-learned-issue-1054-wrangler-binding-drift-ci-gate-2026-06.md",
       "lessons-learned-issue-1068-admin-tag-inline-create-ui-2026-06.md",
+      "lessons-learned-issue-1078-bulk-tag-picker-large-catalog-ux-2026-06.md",
       "lessons-learned-issue-290-workflow-lint-gate-2026-05.md",
       "lessons-learned-issue-371-hono-ctx-di-migration-2026-05.md",
       "lessons-learned-issue-401-admin-request-notification-2026-05.md",
@@ -4436,6 +4446,7 @@
     ],
     "実装": [
       "architecture-implementation-patterns-reference-agent-view-selector-migration.md",
+      "lessons-learned-issue-1070-tag-reactivate-physical-delete-2026-06.md",
       "logs-archive-2026-01-agent-sdk-deps-renderer-api.md",
       "logs-archive-2026-01-skill-selector-todo-scan-template.md",
       "logs-archive-2026-01-topic-map-remember-choice.md",
@@ -4541,6 +4552,7 @@
       "ui-ux-settings-details.md",
       "ui-ux-settings-history.md",
       "ui-ux-settings.md",
+      "workflow-issue-1078-bulk-tag-picker-large-catalog-ux-artifact-inventory.md",
       "workflow-parallel-09-ux-cross-cutting-artifact-inventory.md",
       "workflow-ui-ux-visual-baseline-drift.md"
     ],
@@ -4665,6 +4677,7 @@
     ],
     "snapshot": [
       "architecture-rag.md",
+      "lessons-learned-issue-1070-tag-reactivate-physical-delete-2026-06.md",
       "lessons-learned-issue-325-test-suffix-rename-migration-2026-05.md",
       "lessons-learned-ut-coverage-2026-05-wave.md"
     ],
@@ -4677,7 +4690,8 @@
       "ui-ux-history-panel.md"
     ],
     "known": [
-      "architecture-rag.md"
+      "architecture-rag.md",
+      "lessons-learned-issue-1078-bulk-tag-picker-large-catalog-ux-2026-06.md"
     ],
     "issues": [
       "architecture-rag.md"
@@ -4918,6 +4932,7 @@
       "workflow-issue-1056-kv-alert-policy-binding-drift-detection-artifact-inventory.md",
       "workflow-issue-1059-public-members-fields-batch-fetch-n1-prevention-artifact-inventory.md",
       "workflow-issue-1063-shell-collapse-cookie-secure-attribute-artifact-inventory.md",
+      "workflow-issue-1076-member-og-design-token-alignment-artifact-inventory.md",
       "workflow-issue-230-lefthook-edit-guard-artifact-inventory.md",
       "workflow-issue-247-apps-web-opennext-config-regression-tests-artifact-inventory.md",
       "workflow-issue-256-e2e-coverage-baseline-runbook-artifact-inventory.md",
@@ -5308,6 +5323,11 @@
       "workflow-issue-1059-public-members-fields-batch-fetch-n1-prevention-artifact-inventory.md",
       "workflow-issue-1063-shell-collapse-cookie-secure-attribute-artifact-inventory.md",
       "workflow-issue-1068-admin-tag-inline-create-ui-artifact-inventory.md",
+      "workflow-issue-1070-tag-reactivate-physical-delete-artifact-inventory.md",
+      "workflow-issue-1076-member-og-design-token-alignment-artifact-inventory.md",
+      "workflow-issue-1077-bulk-tag-authenticated-staging-visual-artifact-inventory.md",
+      "workflow-issue-1078-bulk-tag-picker-large-catalog-ux-artifact-inventory.md",
+      "workflow-issue-1080-bulk-tag-result-member-labels-artifact-inventory.md",
       "workflow-issue-224-public-members-tags-batch-fetch-artifact-inventory.md",
       "workflow-issue-229-indexes-rebuild-fail-fast-artifact-inventory.md",
       "workflow-issue-230-lefthook-edit-guard-artifact-inventory.md",
@@ -5380,6 +5400,8 @@
       "lessons-learned-09c-production-deploy-execution-001-2026-05.md",
       "lessons-learned-admin-ui-prototype-alignment-2026-05.md",
       "lessons-learned-issue-1039-admin-audit-identity-action-presets-2026-06.md",
+      "lessons-learned-issue-1070-tag-reactivate-physical-delete-2026-06.md",
+      "lessons-learned-issue-1078-bulk-tag-picker-large-catalog-ux-2026-06.md",
       "lessons-learned-issue-195-03b-followup-sync-shared-modules-owner-2026-05.md",
       "lessons-learned-issue-346-08a-canonical-workflow-tree-restore-2026-05.md",
       "lessons-learned-issue-379-schema-diff-current-green-2026-05.md",
@@ -5552,6 +5574,8 @@
       "lessons-learned-06c-A-admin-dashboard-2026-05.md",
       "lessons-learned-admin-tags-queue-resolver-drawer-2026-05.md",
       "lessons-learned-issue-1068-admin-tag-inline-create-ui-2026-06.md",
+      "lessons-learned-issue-1070-tag-reactivate-physical-delete-2026-06.md",
+      "lessons-learned-issue-1078-bulk-tag-picker-large-catalog-ux-2026-06.md",
       "lessons-learned-issue-191-schema-aliases-2026-04.md"
     ],
     "OpenNext": [
@@ -5614,6 +5638,7 @@
       "lessons-learned-05a-authjs-admin-gate-2026-04.md",
       "lessons-learned-06a-public-web-2026-04.md",
       "lessons-learned-06b-a-me-api-authjs-session-resolver-2026-05.md",
+      "lessons-learned-issue-1070-tag-reactivate-physical-delete-2026-06.md",
       "lessons-learned-issue-560-next-standalone-instrumentation-patch-2026-05.md",
       "lessons-learned-ut-07c-followup-001-attendance-csv-import-2026-05.md",
       "logs-archive-2026-02-env-infra-ipc-auth-ui.md",
@@ -5700,6 +5725,8 @@
       "lessons-learned-09c-production-deploy-execution-001-2026-05.md",
       "lessons-learned-admin-ui-prototype-alignment-2026-05.md",
       "lessons-learned-issue-1039-admin-audit-identity-action-presets-2026-06.md",
+      "lessons-learned-issue-1070-tag-reactivate-physical-delete-2026-06.md",
+      "lessons-learned-issue-1078-bulk-tag-picker-large-catalog-ux-2026-06.md",
       "lessons-learned-issue-195-03b-followup-sync-shared-modules-owner-2026-05.md",
       "lessons-learned-issue-393-stablekey-literal-legacy-cleanup-2026-05.md",
       "lessons-learned-issue-502-dlq-monitoring-dashboard-2026-05.md",
@@ -5825,6 +5852,7 @@
       "lessons-learned-04c-admin-backoffice-2026-04.md",
       "lessons-learned-07a-tag-queue-resolve-2026-04.md",
       "lessons-learned-07b-schema-alias-assignment-2026-04.md",
+      "lessons-learned-issue-1078-bulk-tag-picker-large-catalog-ux-2026-06.md",
       "lessons-learned-issue-191-schema-aliases-2026-04.md",
       "lessons-learned-issue-195-03b-followup-sync-shared-modules-owner-2026-05.md",
       "lessons-learned-issue-224-public-members-tags-batch-fetch-2026-05.md",
@@ -6122,6 +6150,7 @@
       "testing-playwright-e2e.md",
       "workflow-fix-verify-design-tokens-og-route-exclude-artifact-inventory.md",
       "workflow-governance-design-category.md",
+      "workflow-issue-1076-member-og-design-token-alignment-artifact-inventory.md",
       "workflow-issue-57-kv-r2-guardrail-degrade-artifact-inventory.md",
       "workflow-task-03b-followup-005-sync-jobs-design-spec-artifact-inventory.md"
     ],
@@ -6199,6 +6228,8 @@
       "workflow-issue-1005-members-ux-playwright-baseline-stabilization-artifact-inventory.md",
       "workflow-issue-1007-density-toggle-help-hint-hardening-artifact-inventory.md",
       "workflow-issue-1036-bulk-member-tag-assign-artifact-inventory.md",
+      "workflow-issue-1070-tag-reactivate-physical-delete-artifact-inventory.md",
+      "workflow-issue-1077-bulk-tag-authenticated-staging-visual-artifact-inventory.md",
       "workflow-issue-229-indexes-rebuild-fail-fast-artifact-inventory.md",
       "workflow-issue-264-cron-schedule-free-tier-guard-artifact-inventory.md",
       "workflow-issue-274-public-pages-ogp-sitemap-robots-artifact-inventory.md",
@@ -6375,6 +6406,7 @@
       "workflow-governance-design-category.md",
       "workflow-i02-admin-error-type-unify-artifact-inventory.md",
       "workflow-issue-1036-bulk-member-tag-assign-artifact-inventory.md",
+      "workflow-issue-1077-bulk-tag-authenticated-staging-visual-artifact-inventory.md",
       "workflow-issue-191-schema-aliases-artifact-inventory.md",
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
       "workflow-issue-235-sync-audit-tables-necessity-judgement-artifact-inventory.md",
@@ -6428,6 +6460,7 @@
       "lessons-learned-06c-C-admin-tags-2026-05.md",
       "lessons-learned-07b-schema-alias-assignment-2026-04.md",
       "lessons-learned-07c-attendance-audit-2026-04.md",
+      "lessons-learned-issue-1078-bulk-tag-picker-large-catalog-ux-2026-06.md",
       "lessons-learned-issue-548-ml-model-selection-2026-05.md",
       "lessons-learned-task-18-w7-verify-tokens-and-playwright-smoke-2026-05.md",
       "lessons-learned-u-ut01-08-sync-enum-canonical-2026-04.md",
@@ -6500,11 +6533,13 @@
       "lessons-learned-issue-1068-admin-tag-inline-create-ui-2026-06.md",
       "lessons-learned-issue-372-attendance-pagination-2026-05.md",
       "lessons-learned-task-18-w7-verify-tokens-and-playwright-smoke-2026-05.md",
+      "task-workflow-active.md",
       "task-workflow-completed-ui-ux-visual-baseline-drift.md",
       "testing-playwright-e2e.md",
       "ui-ux-components.md",
       "workflow-admin-ui-prototype-alignment-followup-001-members-fetch-and-visual-artifact-inventory.md",
       "workflow-admin-visual-baseline-admin-routes-task-e-artifact-inventory.md",
+      "workflow-issue-1077-bulk-tag-authenticated-staging-visual-artifact-inventory.md",
       "workflow-issue-874-login-staging-visual-smoke-artifact-inventory.md",
       "workflow-task-18-fu-full-visual-regression-suite-artifact-inventory.md",
       "workflow-task-709-visual-baseline-runtime-capture-artifact-inventory.md",
@@ -6919,6 +6954,7 @@
       "lessons-learned-06c-E-admin-meetings-2026-05.md",
       "lessons-learned-09a-staging-smoke-forms-sync-validation-2026-05.md",
       "lessons-learned-docs-only-lifecycle.md",
+      "lessons-learned-issue-1078-bulk-tag-picker-large-catalog-ux-2026-06.md",
       "lessons-learned-issue-514-cf-audit-logs-cold-storage-r2-export-2026-05.md",
       "lessons-learned-parallel-i06-root-error-focus-2026-05.md",
       "lessons-learned-task-17-admin-schema-conflicts-audit-2026-05.md",
@@ -6956,6 +6992,7 @@
       "lessons-learned-03b-followup-005-sync-jobs-design-spec-2026-05.md",
       "lessons-learned-03b-response-sync-2026-04.md",
       "lessons-learned-09a-staging-smoke-forms-sync-validation-2026-05.md",
+      "lessons-learned-issue-1078-bulk-tag-picker-large-catalog-ux-2026-06.md",
       "lessons-learned-issue-514-cf-audit-logs-cold-storage-r2-export-2026-05.md",
       "lessons-learned-parallel-i06-root-error-focus-2026-05.md",
       "lessons-learned-task-17-admin-schema-conflicts-audit-2026-05.md",
@@ -6970,6 +7007,7 @@
       "claude-code-settings-hierarchy.md",
       "lessons-learned-07b-schema-alias-assignment-2026-04.md",
       "lessons-learned-d1-batch-atomicity-and-soft-delete-2026-05.md",
+      "lessons-learned-issue-1070-tag-reactivate-physical-delete-2026-06.md",
       "lessons-learned-task-06-ui-ux-contract-rewrite-2026-05.md",
       "lessons-learned-task-21-09g-admin-blueprint-2026-05.md",
       "lessons-learned-ut-gov-004-branch-protection-context-sync.md",
@@ -7063,7 +7101,9 @@
       "claude-code-skills-process.md"
     ],
     "large": [
-      "claude-code-skills-process.md"
+      "claude-code-skills-process.md",
+      "lessons-learned-issue-1078-bulk-tag-picker-large-catalog-ux-2026-06.md",
+      "task-workflow-active.md"
     ],
     "update": [
       "claude-code-skills-process.md",
@@ -7094,6 +7134,7 @@
       "claude-code-skills-resources.md",
       "gate-c-external-mutation-pattern.md",
       "lessons-learned-claude-code-permissions-apply-2026-04.md",
+      "lessons-learned-issue-1070-tag-reactivate-physical-delete-2026-06.md",
       "lessons-learned-issue-515-cf-audit-logs-ml-anomaly-2026-05.md",
       "skill-ledger-fragment-spec.md",
       "skill-ledger-gitattributes-policy.md",
@@ -7364,6 +7405,7 @@
       "workflow-i01-toastprovider-root-mount-artifact-inventory.md",
       "workflow-issue-1006-members-selected-filters-chip-ux-hardening-artifact-inventory.md",
       "workflow-issue-1043-identity-conflicts-row-fade-animation-artifact-inventory.md",
+      "workflow-issue-1077-bulk-tag-authenticated-staging-visual-artifact-inventory.md",
       "workflow-issue-256-e2e-coverage-baseline-runbook-artifact-inventory.md",
       "workflow-issue-276-mobile-filterbar-tag-picker-artifact-inventory.md",
       "workflow-issue-290-workflow-lint-gate-artifact-inventory.md",
@@ -7437,6 +7479,11 @@
       "workflow-issue-1059-public-members-fields-batch-fetch-n1-prevention-artifact-inventory.md",
       "workflow-issue-106-admin-member-notes-repository-task-spec-artifact-inventory.md",
       "workflow-issue-1069-tag-code-rename-artifact-inventory.md",
+      "workflow-issue-1070-tag-reactivate-physical-delete-artifact-inventory.md",
+      "workflow-issue-1076-member-og-design-token-alignment-artifact-inventory.md",
+      "workflow-issue-1078-bulk-tag-picker-large-catalog-ux-artifact-inventory.md",
+      "workflow-issue-1079-bulk-tag-audit-batch-filter-artifact-inventory.md",
+      "workflow-issue-1080-bulk-tag-result-member-labels-artifact-inventory.md",
       "workflow-issue-229-indexes-rebuild-fail-fast-artifact-inventory.md",
       "workflow-issue-230-lefthook-edit-guard-artifact-inventory.md",
       "workflow-issue-247-apps-web-opennext-config-regression-tests-artifact-inventory.md",
@@ -7528,6 +7575,7 @@
       "database-admin-repository-boundary.md",
       "lessons-learned-07c-attendance-audit-2026-04.md",
       "lessons-learned-issue-106-admin-notes-repository-2026-05.md",
+      "lessons-learned-issue-1070-tag-reactivate-physical-delete-2026-06.md",
       "lessons-learned-issue-224-public-members-tags-batch-fetch-2026-05.md",
       "lessons-learned-issue-371-hono-ctx-di-migration-2026-05.md",
       "lessons-learned-issue-372-attendance-pagination-2026-05.md",
@@ -7569,6 +7617,8 @@
       "workflow-issue-1031-member-self-photo-upload-artifact-inventory.md",
       "workflow-issue-1036-bulk-member-tag-assign-artifact-inventory.md",
       "workflow-issue-106-admin-member-notes-repository-task-spec-artifact-inventory.md",
+      "workflow-issue-1076-member-og-design-token-alignment-artifact-inventory.md",
+      "workflow-issue-1080-bulk-tag-result-member-labels-artifact-inventory.md",
       "workflow-issue-806-dynamic-member-og-image-artifact-inventory.md",
       "workflow-issue-827-member-detail-adapter-and-visibility-defense-artifact-inventory.md",
       "workflow-issue-879-safe-server-fetch-member-public-horizontal-expansion-artifact-inventory.md",
@@ -7725,6 +7775,7 @@
       "lessons-learned-ut07b-fu-01-schema-alias-backfill-queue-cron-split-2026-05.md",
       "pattern-d1-soft-delete-optimistic-lock-batch.md",
       "workflow-issue-1059-public-members-fields-batch-fetch-n1-prevention-artifact-inventory.md",
+      "workflow-issue-1079-bulk-tag-audit-batch-filter-artifact-inventory.md",
       "workflow-issue-224-public-members-tags-batch-fetch-artifact-inventory.md"
     ],
     "helper": [
@@ -7770,6 +7821,7 @@
       "lessons-learned-07a-tag-queue-resolve-2026-04.md",
       "lessons-learned-07b-schema-alias-assignment-2026-04.md",
       "lessons-learned-admin-meetings-prototype-alignment-2026-05.md",
+      "lessons-learned-issue-1070-tag-reactivate-physical-delete-2026-06.md",
       "lessons-learned-ut-06-fu-h-2026-04.md",
       "lessons-learned-ut07b-fu-01-schema-alias-backfill-queue-cron-split-2026-05.md",
       "task-workflow-completed-ipc-graceful-degradation-lifecycle.md"
@@ -7805,6 +7857,8 @@
       "workflow-i02-admin-error-type-unify-artifact-inventory.md",
       "workflow-issue-1030-member-photo-transcode-resize-variant-pipeline-artifact-inventory.md",
       "workflow-issue-1069-tag-code-rename-artifact-inventory.md",
+      "workflow-issue-1078-bulk-tag-picker-large-catalog-ux-artifact-inventory.md",
+      "workflow-issue-1079-bulk-tag-audit-batch-filter-artifact-inventory.md",
       "workflow-issue-255-coverage-threshold-sync-lint-artifact-inventory.md",
       "workflow-issue-352-postmortem-template-automation-artifact-inventory.md",
       "workflow-issue-378-tag-queue-paused-flag-artifact-inventory.md",
@@ -8126,6 +8180,7 @@
       "lessons-learned-03b-followup-005-sync-jobs-design-spec-2026-05.md",
       "lessons-learned-03b-response-sync-2026-04.md",
       "lessons-learned-issue-1068-admin-tag-inline-create-ui-2026-06.md",
+      "lessons-learned-issue-1070-tag-reactivate-physical-delete-2026-06.md",
       "lessons-learned-issue-191-schema-aliases-2026-04.md",
       "lessons-learned-issue-532-write-tag-note-provider-ctx-injection-2026-05.md",
       "lessons-learned-ut07b-schema-alias-hardening-2026-05.md",
@@ -8141,6 +8196,8 @@
       "lessons-learned-issue-1054-wrangler-binding-drift-ci-gate-2026-06.md",
       "lessons-learned-issue-106-admin-notes-repository-2026-05.md",
       "lessons-learned-issue-1063-shell-collapse-cookie-secure-attribute-2026-06.md",
+      "lessons-learned-issue-1070-tag-reactivate-physical-delete-2026-06.md",
+      "lessons-learned-issue-1078-bulk-tag-picker-large-catalog-ux-2026-06.md",
       "lessons-learned-issue-191-schema-aliases-2026-04.md",
       "lessons-learned-issue-195-03b-followup-sync-shared-modules-owner-2026-05.md",
       "lessons-learned-issue-274-public-pages-ogp-sitemap-robots-2026-05.md",
@@ -8173,6 +8230,12 @@
       "workflow-issue-1063-shell-collapse-cookie-secure-attribute-artifact-inventory.md",
       "workflow-issue-1068-admin-tag-inline-create-ui-artifact-inventory.md",
       "workflow-issue-1069-tag-code-rename-artifact-inventory.md",
+      "workflow-issue-1070-tag-reactivate-physical-delete-artifact-inventory.md",
+      "workflow-issue-1076-member-og-design-token-alignment-artifact-inventory.md",
+      "workflow-issue-1077-bulk-tag-authenticated-staging-visual-artifact-inventory.md",
+      "workflow-issue-1078-bulk-tag-picker-large-catalog-ux-artifact-inventory.md",
+      "workflow-issue-1079-bulk-tag-audit-batch-filter-artifact-inventory.md",
+      "workflow-issue-1080-bulk-tag-result-member-labels-artifact-inventory.md",
       "workflow-issue-191-schema-aliases-artifact-inventory.md",
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
       "workflow-issue-224-public-members-tags-batch-fetch-artifact-inventory.md",
@@ -8296,6 +8359,7 @@
       "database-schema.md",
       "lessons-learned-04b-member-self-service.md",
       "lessons-learned-07c-attendance-audit-2026-04.md",
+      "lessons-learned-issue-1078-bulk-tag-picker-large-catalog-ux-2026-06.md",
       "lessons-learned-u-ut01-08-sync-enum-canonical-2026-04.md"
     ],
     "canonicalization": [
@@ -8621,8 +8685,10 @@
       "lessons-learned-issue-399-admin-queue-visual-evidence-2026-05.md",
       "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md",
       "lessons-learned-ut07b-schema-alias-hardening-2026-05.md",
+      "task-workflow-active.md",
       "workflow-ci-staging-deploy-failure-fix-artifact-inventory.md",
       "workflow-fix-cf-deploy-esbuild-import-source-staging-failure-artifact-inventory.md",
+      "workflow-issue-1077-bulk-tag-authenticated-staging-visual-artifact-inventory.md",
       "workflow-issue-531-runtime-smoke-attendance-provider-artifact-inventory.md",
       "workflow-issue-559-task-03-followup-001-sentry-staging-runtime-evidence-artifact-inventory.md",
       "workflow-issue-864-admin-staging-runtime-smoke-ci-gate-artifact-inventory.md",
@@ -8644,6 +8710,7 @@
       "lessons-learned-06b-b-profile-self-service-request-ui-2026-05.md",
       "lessons-learned-09c-incident-runbook-slack-delivery-2026-05.md",
       "lessons-learned-09c-production-deploy-execution-001-2026-05.md",
+      "lessons-learned-issue-1070-tag-reactivate-physical-delete-2026-06.md",
       "lessons-learned-issue-548-ml-model-selection-2026-05.md",
       "lessons-learned-issue359-production-d1-apply-2026-05.md",
       "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md",
@@ -8693,6 +8760,7 @@
     "mode": [
       "deployment-cloudflare-opennext-workers.md",
       "lessons-learned-03a-stablekey-literal-lint-enforcement-2026-05.md",
+      "lessons-learned-issue-1078-bulk-tag-picker-large-catalog-ux-2026-06.md",
       "logs-archive-2026-03-auth-mode-migration-sync.md",
       "logs-archive-2026-03-ipc-fallback-phase12-sync.md"
     ],
@@ -8775,7 +8843,8 @@
       "lessons-learned-task-26-error-tsx-token-utility-migration-2026-05.md",
       "logs-archive-2026-03-history-search-notification-center.md",
       "testing-playwright-e2e.md",
-      "workflow-admin-ui-task-c-pageheader-token-conformance-artifact-inventory.md"
+      "workflow-admin-ui-task-c-pageheader-token-conformance-artifact-inventory.md",
+      "workflow-issue-1076-member-og-design-token-alignment-artifact-inventory.md"
     ],
     "Long": [
       "deployment-cloudflare-opennext-workers.md",
@@ -8832,6 +8901,7 @@
       "workflow-02c-followup-002-fixtures-prod-build-exclusion-artifact-inventory.md",
       "workflow-06c-C-admin-tags-artifact-inventory.md",
       "workflow-admin-tag-queue-ui-and-404-recovery-artifact-inventory.md",
+      "workflow-issue-1077-bulk-tag-authenticated-staging-visual-artifact-inventory.md",
       "workflow-issue-495-09b-A-sentry-slack-runtime-smoke-prod-extension-artifact-inventory.md",
       "workflow-issue-503-ut-07b-fu-01-followup-cursor-semantics-migration-artifact-inventory.md",
       "workflow-issue-516-github-audit-log-cross-source-correlation-artifact-inventory.md",
@@ -8874,6 +8944,7 @@
     "regression": [
       "deployment-cloudflare-opennext-workers.md",
       "lessons-learned-issue-106-admin-notes-repository-2026-05.md",
+      "lessons-learned-issue-1070-tag-reactivate-physical-delete-2026-06.md",
       "lessons-learned-japanese-ime-input-composition-search-fix-2026-06.md",
       "lessons-learned-ut-coverage-2026-05-wave.md",
       "workflow-issue-247-apps-web-opennext-config-regression-tests-artifact-inventory.md",
@@ -8889,6 +8960,7 @@
       "lessons-learned-04b-member-self-service.md",
       "lessons-learned-06b-b-profile-request-pending-banner-sticky-2026-05.md",
       "lessons-learned-09b-cron-monitoring-release-runbook-2026-05.md",
+      "lessons-learned-issue-1078-bulk-tag-picker-large-catalog-ux-2026-06.md",
       "lessons-learned-issue-195-03b-followup-sync-shared-modules-owner-2026-05.md",
       "lessons-learned-issue-230-lefthook-edit-guard-2026-05.md",
       "lessons-learned-issue-514-cf-audit-logs-cold-storage-r2-export-2026-05.md",
@@ -9177,6 +9249,7 @@
       "lessons-learned-d1-batch-atomicity-and-soft-delete-2026-05.md",
       "lessons-learned-issue-1039-admin-audit-identity-action-presets-2026-06.md",
       "lessons-learned-issue-106-admin-notes-repository-2026-05.md",
+      "lessons-learned-issue-1070-tag-reactivate-physical-delete-2026-06.md",
       "lessons-learned-issue-377-retry-tick-dlq-audit-2026-05.md",
       "lessons-learned-issue-514-cf-audit-logs-cold-storage-r2-export-2026-05.md",
       "lessons-learned-issue-555-audit-correlation-salt-rotation-2026-05.md",
@@ -9186,6 +9259,7 @@
       "lessons-learned-ut-07c-followup-001-attendance-csv-import-2026-05.md",
       "workflow-admin-audit-prototype-alignment-artifact-inventory.md",
       "workflow-issue-1039-admin-audit-identity-action-presets-artifact-inventory.md",
+      "workflow-issue-1079-bulk-tag-audit-batch-filter-artifact-inventory.md",
       "workflow-issue-516-github-audit-log-cross-source-correlation-artifact-inventory.md",
       "workflow-issue-518-cf-audit-logs-monitoring-hold-artifact-inventory.md",
       "workflow-issue-554-audit-correlation-branch-protection-required-check-artifact-inventory.md",
@@ -9256,6 +9330,7 @@
       "lessons-learned-issue-1027-member-dynamic-og-worker-split-2026-05.md",
       "lessons-learned-issue-1054-wrangler-binding-drift-ci-gate-2026-06.md",
       "lessons-learned-issue-1068-admin-tag-inline-create-ui-2026-06.md",
+      "lessons-learned-issue-1078-bulk-tag-picker-large-catalog-ux-2026-06.md",
       "lessons-learned-issue-515-cf-audit-logs-ml-anomaly-2026-05.md",
       "lessons-learned-u-ut01-09-retry-offset-2026-04.md",
       "lessons-learned-ut-06-fu-h-2026-04.md",
@@ -9379,7 +9454,8 @@
       "lessons-learned-issue-1027-member-dynamic-og-worker-split-2026-05.md"
     ],
     "cap": [
-      "deployment-cloudflare.md"
+      "deployment-cloudflare.md",
+      "lessons-learned-issue-1078-bulk-tag-picker-large-catalog-ux-2026-06.md"
     ],
     "連続到達アラート": [
       "deployment-cloudflare.md"
@@ -10144,6 +10220,7 @@
       "workflow-issue-1042-dismiss-confirm-optimistic-update-artifact-inventory.md",
       "workflow-issue-1054-wrangler-binding-drift-ci-gate-artifact-inventory.md",
       "workflow-issue-1068-admin-tag-inline-create-ui-artifact-inventory.md",
+      "workflow-issue-1076-member-og-design-token-alignment-artifact-inventory.md",
       "workflow-issue-191-schema-aliases-artifact-inventory.md",
       "workflow-issue-229-indexes-rebuild-fail-fast-artifact-inventory.md",
       "workflow-issue-276-mobile-filterbar-tag-picker-artifact-inventory.md",
@@ -11250,6 +11327,7 @@
       "lessons-learned-07c-attendance-audit-2026-04.md",
       "lessons-learned-09b-A-sentry-slack-runtime-smoke-2026-05.md",
       "lessons-learned-issue-1059-public-members-fields-batch-fetch-n1-prevention-2026-06.md",
+      "lessons-learned-issue-1078-bulk-tag-picker-large-catalog-ux-2026-06.md",
       "lessons-learned-issue-224-public-members-tags-batch-fetch-2026-05.md",
       "lessons-learned-issue-401-admin-request-notification-2026-05.md",
       "lessons-learned-task-spec-2d-contract-stage-2-2026-05.md"
@@ -11384,6 +11462,9 @@
       "workflow-issue-1042-identity-conflicts-dismiss-optimistic-update-artifact-inventory.md",
       "workflow-issue-1056-kv-alert-policy-binding-drift-detection-artifact-inventory.md",
       "workflow-issue-1069-tag-code-rename-artifact-inventory.md",
+      "workflow-issue-1070-tag-reactivate-physical-delete-artifact-inventory.md",
+      "workflow-issue-1077-bulk-tag-authenticated-staging-visual-artifact-inventory.md",
+      "workflow-issue-1080-bulk-tag-result-member-labels-artifact-inventory.md",
       "workflow-issue-230-lefthook-edit-guard-artifact-inventory.md",
       "workflow-issue-247-apps-web-opennext-config-regression-tests-artifact-inventory.md",
       "workflow-issue-352-postmortem-template-automation-artifact-inventory.md",
@@ -11440,6 +11521,7 @@
       "workflow-admin-meetings-prototype-alignment-artifact-inventory.md",
       "workflow-apps-web-security-headers-hardening-artifact-inventory.md",
       "workflow-awshh-followup-003-csp-reporting-endpoints-artifact-inventory.md",
+      "workflow-issue-1078-bulk-tag-picker-large-catalog-ux-artifact-inventory.md",
       "workflow-issue-331-cicd-runtime-warning-cleanup-artifact-inventory.md",
       "workflow-issue-531-runtime-smoke-attendance-provider-artifact-inventory.md",
       "workflow-issue-560-next-standalone-instrumentation-patch-artifact-inventory.md",
@@ -11616,6 +11698,11 @@
       "workflow-issue-1056-kv-alert-policy-binding-drift-detection-artifact-inventory.md",
       "workflow-issue-1063-shell-collapse-cookie-secure-attribute-artifact-inventory.md",
       "workflow-issue-1068-admin-tag-inline-create-ui-artifact-inventory.md",
+      "workflow-issue-1070-tag-reactivate-physical-delete-artifact-inventory.md",
+      "workflow-issue-1076-member-og-design-token-alignment-artifact-inventory.md",
+      "workflow-issue-1077-bulk-tag-authenticated-staging-visual-artifact-inventory.md",
+      "workflow-issue-1078-bulk-tag-picker-large-catalog-ux-artifact-inventory.md",
+      "workflow-issue-1080-bulk-tag-result-member-labels-artifact-inventory.md",
       "workflow-issue-235-sync-audit-tables-necessity-judgement-artifact-inventory.md",
       "workflow-issue-256-e2e-coverage-baseline-runbook-artifact-inventory.md",
       "workflow-issue-264-cron-schedule-free-tier-guard-artifact-inventory.md",
@@ -11678,6 +11765,7 @@
     "mock": [
       "lessons-fetch-service-binding-testing.md",
       "lessons-learned-issue-1068-admin-tag-inline-create-ui-2026-06.md",
+      "lessons-learned-issue-1078-bulk-tag-picker-large-catalog-ux-2026-06.md",
       "lessons-learned-parallel-i03-dialog-refresh-order-2026-05.md",
       "lessons-learned-task-15-admin-dashboard-and-members-2026-05.md",
       "lessons-learned-task-17-admin-schema-conflicts-audit-2026-05.md",
@@ -11754,6 +11842,7 @@
       "lessons-learned-admin-ui-prototype-alignment-2026-05.md",
       "lessons-learned-ci-test-recovery-coverage-80-2026-05-04.md",
       "lessons-learned-issue-1027-member-dynamic-og-worker-split-2026-05.md",
+      "lessons-learned-issue-1078-bulk-tag-picker-large-catalog-ux-2026-06.md",
       "lessons-learned-issue-224-public-members-tags-batch-fetch-2026-05.md",
       "lessons-learned-issue-371-hono-ctx-di-migration-2026-05.md",
       "lessons-learned-issue-393-stablekey-literal-legacy-cleanup-2026-05.md",
@@ -11803,6 +11892,7 @@
       "lessons-learned-09b-A-sentry-slack-runtime-smoke-2026-05.md",
       "lessons-learned-admin-meetings-prototype-alignment-2026-05.md",
       "lessons-learned-issue-1039-admin-audit-identity-action-presets-2026-06.md",
+      "lessons-learned-issue-1078-bulk-tag-picker-large-catalog-ux-2026-06.md",
       "lessons-learned-issue-401-admin-request-notification-2026-05.md",
       "lessons-learned-issue-546-cf-audit-logs-90day-baseline-observation-2026-05.md",
       "lessons-learned-issue-548-ml-model-selection-2026-05.md",
@@ -11855,6 +11945,7 @@
       "spec-splitting-guidelines.md",
       "workflow-issue-1036-bulk-member-tag-assign-artifact-inventory.md",
       "workflow-issue-1069-tag-code-rename-artifact-inventory.md",
+      "workflow-issue-1077-bulk-tag-authenticated-staging-visual-artifact-inventory.md",
       "workflow-issue-982-drawer-tag-pill-editing-artifact-inventory.md",
       "workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md",
       "workflow-unified-sidebar-shell-public-and-admin-artifact-inventory.md"
@@ -12251,6 +12342,7 @@
     "lifecycle": [
       "lessons-learned-03a-stablekey-literal-lint-enforcement-2026-05.md",
       "lessons-learned-docs-only-lifecycle.md",
+      "lessons-learned-issue-1070-tag-reactivate-physical-delete-2026-06.md",
       "logs-archive-2026-03-mid-lifecycle-governance-improve.md",
       "task-workflow-completed-chat-lifecycle-tests-part2.md",
       "task-workflow-completed-chat-lifecycle-tests.md",
@@ -12512,7 +12604,8 @@
     "before": [
       "lessons-learned-03b-followup-006-per-sync-cap-alert-2026-05.md",
       "lessons-learned-issue-1027-member-dynamic-og-worker-split-2026-05.md",
-      "lessons-learned-issue-1039-admin-audit-identity-action-presets-2026-06.md"
+      "lessons-learned-issue-1039-admin-audit-identity-action-presets-2026-06.md",
+      "lessons-learned-issue-1070-tag-reactivate-physical-delete-2026-06.md"
     ],
     "releasing": [
       "lessons-learned-03b-followup-006-per-sync-cap-alert-2026-05.md"
@@ -12779,6 +12872,7 @@
       "lessons-learned-ut-02a-tag-assignment-queue-2026-05.md",
       "lessons-learned-ut09-direction-reconciliation-2026-04.md",
       "lessons-learned-ut21-forms-sync-conflict-closeout-2026-04.md",
+      "workflow-issue-1077-bulk-tag-authenticated-staging-visual-artifact-inventory.md",
       "workflow-issue-399-admin-queue-resolve-staging-visual-evidence-artifact-inventory.md",
       "workflow-task-20-w2-screen-blueprints-public-and-member-artifact-inventory.md",
       "workflow-ui-prototype-design-system-foundation-artifact-inventory.md",
@@ -12901,6 +12995,8 @@
       "lessons-learned-06c-admin-ui-2026-04.md",
       "lessons-learned-07a-tag-queue-resolve-2026-04.md",
       "lessons-learned-issue-1068-admin-tag-inline-create-ui-2026-06.md",
+      "lessons-learned-issue-1070-tag-reactivate-physical-delete-2026-06.md",
+      "lessons-learned-issue-1078-bulk-tag-picker-large-catalog-ux-2026-06.md",
       "lessons-learned-issue-224-public-members-tags-batch-fetch-2026-05.md",
       "lessons-learned-issue-276-mobile-filterbar-tag-picker-2026-05.md",
       "lessons-learned-issue-377-retry-tick-dlq-audit-2026-05.md",
@@ -12910,6 +13006,10 @@
       "workflow-issue-1036-bulk-member-tag-assign-artifact-inventory.md",
       "workflow-issue-1068-admin-tag-inline-create-ui-artifact-inventory.md",
       "workflow-issue-1069-tag-code-rename-artifact-inventory.md",
+      "workflow-issue-1070-tag-reactivate-physical-delete-artifact-inventory.md",
+      "workflow-issue-1077-bulk-tag-authenticated-staging-visual-artifact-inventory.md",
+      "workflow-issue-1079-bulk-tag-audit-batch-filter-artifact-inventory.md",
+      "workflow-issue-1080-bulk-tag-result-member-labels-artifact-inventory.md",
       "workflow-issue-276-mobile-filterbar-tag-picker-artifact-inventory.md",
       "workflow-issue-532-write-tag-note-provider-ctx-injection-artifact-inventory.md",
       "workflow-issue-982-drawer-tag-pill-editing-artifact-inventory.md"
@@ -12995,6 +13095,7 @@
     "zod": [
       "lessons-learned-04c-admin-backoffice-2026-04.md",
       "lessons-learned-06a-public-web-2026-04.md",
+      "lessons-learned-issue-1078-bulk-tag-picker-large-catalog-ux-2026-06.md",
       "lessons-learned-issue-224-public-members-tags-batch-fetch-2026-05.md",
       "lessons-learned-issue-827-member-detail-adapter-and-visibility-defense-2026-05.md",
       "lessons-learned-task-spec-2d-contract-stage-2-2026-05.md"
@@ -13020,6 +13121,7 @@
     "pagination": [
       "lessons-learned-04c-admin-backoffice-2026-04.md",
       "lessons-learned-07c-audit-log-browsing-ui-2026-05.md",
+      "lessons-learned-issue-1078-bulk-tag-picker-large-catalog-ux-2026-06.md",
       "lessons-learned-issue-372-attendance-pagination-2026-05.md",
       "lessons-learned-issue-408-cf-audit-logs-monitoring-2026-05.md",
       "lessons-learned-ut07b-fu-01-schema-alias-backfill-queue-cron-split-2026-05.md",
@@ -13102,7 +13204,8 @@
     "ON": [
       "lessons-learned-05a-auth-ui-logout-button-2026-05.md",
       "lessons-learned-admin-meetings-prototype-alignment-2026-05.md",
-      "lessons-learned-issue-399-admin-queue-visual-evidence-2026-05.md"
+      "lessons-learned-issue-399-admin-queue-visual-evidence-2026-05.md",
+      "task-workflow-active.md"
     ],
     "upstream": [
       "lessons-learned-05a-auth-ui-logout-button-2026-05.md",
@@ -13401,6 +13504,7 @@
       "lessons-learned-05a-form-preview-503-2026-05.md",
       "lessons-learned-06c-E-admin-meetings-2026-05.md",
       "lessons-learned-09a-staging-smoke-forms-sync-validation-2026-05.md",
+      "lessons-learned-issue-1078-bulk-tag-picker-large-catalog-ux-2026-06.md",
       "lessons-learned-issue-401-admin-request-notification-2026-05.md",
       "lessons-learned-issue-514-cf-audit-logs-cold-storage-r2-export-2026-05.md",
       "lessons-learned-issue-546-cf-audit-logs-90day-baseline-observation-2026-05.md",
@@ -13491,6 +13595,7 @@
     ],
     "approval": [
       "lessons-learned-05a-form-preview-503-2026-05.md",
+      "lessons-learned-issue-1078-bulk-tag-picker-large-catalog-ux-2026-06.md",
       "lessons-learned-u-fix-cf-acct-01-deriv-01-oidc-short-lived-credentials-2026-05.md",
       "lessons-learned-u-ut01-09-retry-offset-2026-04.md",
       "lessons-learned-ut-gov-001-2026-04.md"
@@ -13836,6 +13941,7 @@
       "lessons-learned-06b-b-profile-request-pending-banner-sticky-2026-05.md",
       "lessons-learned-06c-B-admin-members-2026-05.md",
       "lessons-learned-issue-1059-public-members-fields-batch-fetch-n1-prevention-2026-06.md",
+      "lessons-learned-issue-1078-bulk-tag-picker-large-catalog-ux-2026-06.md",
       "lessons-learned-issue-224-public-members-tags-batch-fetch-2026-05.md",
       "lessons-learned-task-24.md",
       "lessons-learned-task-spec-2d-contract-stage-2-2026-05.md"
@@ -13924,6 +14030,8 @@
       "workflow-issue-1036-bulk-member-tag-assign-artifact-inventory.md",
       "workflow-issue-1056-kv-alert-policy-binding-drift-detection-artifact-inventory.md",
       "workflow-issue-1059-public-members-fields-batch-fetch-n1-prevention-artifact-inventory.md",
+      "workflow-issue-1070-tag-reactivate-physical-delete-artifact-inventory.md",
+      "workflow-issue-1077-bulk-tag-authenticated-staging-visual-artifact-inventory.md",
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
       "workflow-issue-229-indexes-rebuild-fail-fast-artifact-inventory.md",
       "workflow-issue-274-public-pages-ogp-sitemap-robots-artifact-inventory.md",
@@ -14059,7 +14167,8 @@
       "lessons-learned-task-18-w7-verify-tokens-and-playwright-smoke-2026-05.md"
     ],
     "しない": [
-      "lessons-learned-06c-A-admin-dashboard-2026-05.md"
+      "lessons-learned-06c-A-admin-dashboard-2026-05.md",
+      "lessons-learned-issue-1070-tag-reactivate-physical-delete-2026-06.md"
     ],
     "表示由来の": [
       "lessons-learned-06c-A-admin-dashboard-2026-05.md"
@@ -14076,7 +14185,8 @@
       "task-workflow-completed-recent-2026-05.md"
     ],
     "actions": [
-      "lessons-learned-06c-A-admin-dashboard-2026-05.md"
+      "lessons-learned-06c-A-admin-dashboard-2026-05.md",
+      "workflow-issue-1077-bulk-tag-authenticated-staging-visual-artifact-inventory.md"
     ],
     "KPI": [
       "lessons-learned-06c-A-admin-dashboard-2026-05.md"
@@ -14133,7 +14243,8 @@
       "workflow-utgov001-second-stage-reapply-artifact-inventory.md"
     ],
     "ラベルは": [
-      "lessons-learned-06c-B-admin-members-2026-05.md"
+      "lessons-learned-06c-B-admin-members-2026-05.md",
+      "lessons-learned-issue-1078-bulk-tag-picker-large-catalog-ux-2026-06.md"
     ],
     "で再判定する": [
       "lessons-learned-06c-B-admin-members-2026-05.md"
@@ -14144,6 +14255,7 @@
       "lessons-learned-issue-827-member-detail-adapter-and-visibility-defense-2026-05.md",
       "logs-archive-2026-02-env-infra-ipc-auth-ui.md",
       "ui-ux-atoms-patterns-core.md",
+      "workflow-issue-1079-bulk-tag-audit-batch-filter-artifact-inventory.md",
       "workflow-issue-958-h3-public-filter-ux-artifact-inventory.md",
       "workflow-step-08-audit-filter-paging-verify-artifact-inventory.md"
     ],
@@ -14173,7 +14285,8 @@
       "lessons-learned-06c-B-admin-members-2026-05.md"
     ],
     "pageSize": [
-      "lessons-learned-06c-B-admin-members-2026-05.md"
+      "lessons-learned-06c-B-admin-members-2026-05.md",
+      "lessons-learned-issue-1078-bulk-tag-picker-large-catalog-ux-2026-06.md"
     ],
     "additive": [
       "lessons-learned-06c-B-admin-members-2026-05.md",
@@ -14231,8 +14344,10 @@
     ],
     "delete": [
       "lessons-learned-06c-B-admin-members-2026-05.md",
+      "lessons-learned-issue-1070-tag-reactivate-physical-delete-2026-06.md",
       "lessons-learned-task-06-ui-ux-contract-rewrite-2026-05.md",
-      "workflow-admin-member-delete-e2e-spec-artifact-inventory.md"
+      "workflow-admin-member-delete-e2e-spec-artifact-inventory.md",
+      "workflow-issue-1070-tag-reactivate-physical-delete-artifact-inventory.md"
     ],
     "restore": [
       "lessons-learned-06c-B-admin-members-2026-05.md",
@@ -14803,6 +14918,7 @@
     ],
     "で固定する": [
       "lessons-learned-07c-audit-log-browsing-ui-2026-05.md",
+      "lessons-learned-issue-1070-tag-reactivate-physical-delete-2026-06.md",
       "lessons-learned-issue-393-stablekey-literal-legacy-cleanup-2026-05.md",
       "lessons-learned-issue-399-admin-queue-visual-evidence-2026-05.md",
       "lessons-learned-issue-502-dlq-monitoring-dashboard-2026-05.md",
@@ -15091,6 +15207,7 @@
     ],
     "level": [
       "lessons-learned-09b-cron-monitoring-release-runbook-2026-05.md",
+      "lessons-learned-issue-1070-tag-reactivate-physical-delete-2026-06.md",
       "lessons-learned-issue-195-03b-followup-sync-shared-modules-owner-2026-05.md",
       "lessons-learned-issue-408-cf-audit-logs-monitoring-2026-05.md",
       "lessons-learned-issue-720-cf-audit-monitor-env-protection-fix-2026-05.md",
@@ -15394,6 +15511,7 @@
       "workflow-admin-ui-prototype-alignment-followup-002-section-error-retry-artifact-inventory.md",
       "workflow-admin-ui-prototype-alignment-followup-003-admin-members-prototype-redesign-artifact-inventory.md",
       "workflow-home-page-prototype-alignment-artifact-inventory.md",
+      "workflow-issue-1076-member-og-design-token-alignment-artifact-inventory.md",
       "workflow-login-page-prototype-alignment-artifact-inventory.md",
       "workflow-members-list-prototype-alignment-artifact-inventory.md",
       "workflow-members-page-prototype-alignment-artifact-inventory.md",
@@ -15483,7 +15601,8 @@
     ],
     "labels": [
       "lessons-learned-admin-tags-queue-resolver-drawer-2026-05.md",
-      "lessons-learned-ut07b-fu03-production-migration-runbook-2026-05.md"
+      "lessons-learned-ut07b-fu03-production-migration-runbook-2026-05.md",
+      "workflow-issue-1080-bulk-tag-result-member-labels-artifact-inventory.md"
     ],
     "idempotent": [
       "lessons-learned-admin-tags-queue-resolver-drawer-2026-05.md",
@@ -15919,11 +16038,16 @@
     ],
     "bulk": [
       "lessons-learned-d1-batch-atomicity-and-soft-delete-2026-05.md",
+      "lessons-learned-issue-1078-bulk-tag-picker-large-catalog-ux-2026-06.md",
       "lessons-learned-issue-372-attendance-pagination-2026-05.md",
       "lessons-learned-issue-776-schema-alias-bulk-resolve-2026-05.md",
       "lessons-learned-ut07b-fu-01-schema-alias-backfill-queue-cron-split-2026-05.md",
+      "task-workflow-active.md",
       "ui-ux-admin-dashboard.md",
       "workflow-issue-1036-bulk-member-tag-assign-artifact-inventory.md",
+      "workflow-issue-1077-bulk-tag-authenticated-staging-visual-artifact-inventory.md",
+      "workflow-issue-1079-bulk-tag-audit-batch-filter-artifact-inventory.md",
+      "workflow-issue-1080-bulk-tag-result-member-labels-artifact-inventory.md",
       "workflow-issue-776-schema-alias-bulk-resolve-artifact-inventory.md",
       "workflow-issue-837-schema-alias-bulk-rollback-artifact-inventory.md"
     ],
@@ -16031,6 +16155,7 @@
       "task-workflow-active.md",
       "workflow-fix-verify-design-tokens-og-route-exclude-artifact-inventory.md",
       "workflow-issue-1027-member-dynamic-og-worker-split-artifact-inventory.md",
+      "workflow-issue-1076-member-og-design-token-alignment-artifact-inventory.md",
       "workflow-issue-806-dynamic-member-og-image-artifact-inventory.md"
     ],
     "関連メモ": [
@@ -16353,6 +16478,8 @@
     ],
     "関連パターン": [
       "lessons-learned-issue-1039-admin-audit-identity-action-presets-2026-06.md",
+      "lessons-learned-issue-1070-tag-reactivate-physical-delete-2026-06.md",
+      "lessons-learned-issue-1078-bulk-tag-picker-large-catalog-ux-2026-06.md",
       "pattern-d1-soft-delete-optimistic-lock-batch.md"
     ],
     "同期した正本": [
@@ -16588,6 +16715,7 @@
     ],
     "SubAgent": [
       "lessons-learned-issue-1063-shell-collapse-cookie-secure-attribute-2026-06.md",
+      "lessons-learned-issue-1078-bulk-tag-picker-large-catalog-ux-2026-06.md",
       "logs-archive-2026-02-auth-callback-lifecycle-guard.md",
       "logs-archive-2026-02-validator-task-9f-task-9b.md",
       "logs-archive-2026-03-task-10a-c-final-audit.md",
@@ -16724,6 +16852,7 @@
       "lessons-learned-task-18-w7-verify-tokens-and-playwright-smoke-2026-05.md",
       "security-web-response-headers.md",
       "workflow-ci-staging-deploy-failure-fix-artifact-inventory.md",
+      "workflow-issue-1077-bulk-tag-authenticated-staging-visual-artifact-inventory.md",
       "workflow-issue-275-magic-link-429-retry-after-artifact-inventory.md",
       "workflow-issue-880-public-segment-error-loading-boundary-artifact-inventory.md",
       "workflow-issue-894-admin-topbar-breadcrumb-integration-artifact-inventory.md",
@@ -16744,6 +16873,193 @@
     ],
     "は不在": [
       "lessons-learned-issue-1068-admin-tag-inline-create-ui-2026-06.md"
+    ],
+    "reactivate": [
+      "lessons-learned-issue-1070-tag-reactivate-physical-delete-2026-06.md",
+      "workflow-issue-1070-tag-reactivate-physical-delete-artifact-inventory.md"
+    ],
+    "physical": [
+      "lessons-learned-issue-1070-tag-reactivate-physical-delete-2026-06.md",
+      "workflow-issue-1070-tag-reactivate-physical-delete-artifact-inventory.md"
+    ],
+    "FK": [
+      "lessons-learned-issue-1070-tag-reactivate-physical-delete-2026-06.md"
+    ],
+    "不在テーブルへの": [
+      "lessons-learned-issue-1070-tag-reactivate-physical-delete-2026-06.md"
+    ],
+    "application": [
+      "lessons-learned-issue-1070-tag-reactivate-physical-delete-2026-06.md"
+    ],
+    "COUNT": [
+      "lessons-learned-issue-1070-tag-reactivate-physical-delete-2026-06.md"
+    ],
+    "ガードが唯一の参照防壁": [
+      "lessons-learned-issue-1070-tag-reactivate-physical-delete-2026-06.md"
+    ],
+    "不可逆": [
+      "lessons-learned-issue-1070-tag-reactivate-physical-delete-2026-06.md"
+    ],
+    "stage": [
+      "lessons-learned-issue-1070-tag-reactivate-physical-delete-2026-06.md",
+      "lessons-learned-task-spec-2d-contract-stage-2-2026-05.md",
+      "workflow-e2e-stage-2-2d-contract-artifact-inventory.md",
+      "workflow-task-spec-2d-contract-stage-2-artifact-inventory.md",
+      "workflow-utgov001-second-stage-reapply-artifact-inventory.md"
+    ],
+    "で分離する": [
+      "lessons-learned-issue-1070-tag-reactivate-physical-delete-2026-06.md"
+    ],
+    "対称形ペア": [
+      "lessons-learned-issue-1070-tag-reactivate-physical-delete-2026-06.md"
+    ],
+    "で設計すると実現性が上がる": [
+      "lessons-learned-issue-1070-tag-reactivate-physical-delete-2026-06.md"
+    ],
+    "prefix": [
+      "lessons-learned-issue-1070-tag-reactivate-physical-delete-2026-06.md",
+      "lessons-learned-issue-399-admin-queue-visual-evidence-2026-05.md",
+      "lessons-learned-ut07b-fu-01-schema-alias-backfill-queue-cron-split-2026-05.md"
+    ],
+    "を共有する新": [
+      "lessons-learned-issue-1070-tag-reactivate-physical-delete-2026-06.md"
+    ],
+    "は静的セグメント優先解決を既存": [
+      "lessons-learned-issue-1070-tag-reactivate-physical-delete-2026-06.md"
+    ],
+    "削除前": [
+      "lessons-learned-issue-1070-tag-reactivate-physical-delete-2026-06.md"
+    ],
+    "から返す": [
+      "lessons-learned-issue-1070-tag-reactivate-physical-delete-2026-06.md"
+    ],
+    "直下に置く": [
+      "lessons-learned-issue-1070-tag-reactivate-physical-delete-2026-06.md"
+    ],
+    "generate": [
+      "lessons-learned-issue-1070-tag-reactivate-physical-delete-2026-06.md"
+    ],
+    "サブ": [
+      "lessons-learned-issue-1070-tag-reactivate-physical-delete-2026-06.md"
+    ],
+    "dir": [
+      "lessons-learned-issue-1070-tag-reactivate-physical-delete-2026-06.md",
+      "lessons-learned-parallel-i03-dialog-refresh-order-2026-05.md",
+      "workflow-task-06-ui-ux-contract-rewrite-artifact-inventory.md"
+    ],
+    "scan": [
+      "lessons-learned-issue-1070-tag-reactivate-physical-delete-2026-06.md",
+      "lessons-learned-ut07b-fu-01-schema-alias-backfill-queue-cron-split-2026-05.md",
+      "lessons-learned-ut07b-schema-alias-hardening-2026-05.md"
+    ],
+    "picker": [
+      "lessons-learned-issue-1078-bulk-tag-picker-large-catalog-ux-2026-06.md",
+      "lessons-learned-issue-276-mobile-filterbar-tag-picker-2026-05.md",
+      "task-workflow-active.md",
+      "workflow-issue-276-mobile-filterbar-tag-picker-artifact-inventory.md"
+    ],
+    "catalog": [
+      "lessons-learned-issue-1078-bulk-tag-picker-large-catalog-ux-2026-06.md",
+      "task-workflow-active.md"
+    ],
+    "ux": [
+      "lessons-learned-issue-1078-bulk-tag-picker-large-catalog-ux-2026-06.md",
+      "lessons-learned-task-06-ui-ux-contract-rewrite-2026-05.md",
+      "logs-archive-2026-01-feature-structure-workspace-chat-edit.md",
+      "logs-archive-2026-01-skill-selector-todo-scan-template.md",
+      "spec-splitting-guidelines.md",
+      "task-workflow-active.md",
+      "workflow-admin-attendance-dashboard-ux-artifact-inventory.md",
+      "workflow-admin-meetings-attendance-404-fix-and-ux-artifact-inventory.md",
+      "workflow-issue-1005-members-ux-playwright-baseline-stabilization-artifact-inventory.md",
+      "workflow-issue-1006-members-selected-filters-chip-ux-hardening-artifact-inventory.md",
+      "workflow-issue-958-h3-public-filter-ux-artifact-inventory.md",
+      "workflow-members-list-ux-clarity-artifact-inventory.md",
+      "workflow-sidebar-footer-pinning-and-account-popover-ux-artifact-inventory.md",
+      "workflow-sidebar-visibility-conditional-and-ux-artifact-inventory.md",
+      "workflow-task-06-ui-ux-contract-rewrite-artifact-inventory.md"
+    ],
+    "古い": [
+      "lessons-learned-issue-1078-bulk-tag-picker-large-catalog-ux-2026-06.md"
+    ],
+    "は依存先": [
+      "lessons-learned-issue-1078-bulk-tag-picker-large-catalog-ux-2026-06.md"
+    ],
+    "の応答": [
+      "lessons-learned-issue-1078-bulk-tag-picker-large-catalog-ux-2026-06.md"
+    ],
+    "を実コードで突合する": [
+      "lessons-learned-issue-1078-bulk-tag-picker-large-catalog-ux-2026-06.md"
+    ],
+    "を実": [
+      "lessons-learned-issue-1078-bulk-tag-picker-large-catalog-ux-2026-06.md"
+    ],
+    "と突合する": [
+      "lessons-learned-issue-1078-bulk-tag-picker-large-catalog-ux-2026-06.md"
+    ],
+    "paginated": [
+      "lessons-learned-issue-1078-bulk-tag-picker-large-catalog-ux-2026-06.md",
+      "lessons-learned-issue-274-public-pages-ogp-sitemap-robots-2026-05.md",
+      "lessons-learned-issue-546-cf-audit-logs-90day-baseline-observation-2026-05.md"
+    ],
+    "selected": [
+      "lessons-learned-issue-1078-bulk-tag-picker-large-catalog-ux-2026-06.md",
+      "workflow-issue-1006-members-selected-filters-chip-ux-hardening-artifact-inventory.md"
+    ],
+    "accumulated": [
+      "lessons-learned-issue-1078-bulk-tag-picker-large-catalog-ux-2026-06.md"
+    ],
+    "Map": [
+      "lessons-learned-issue-1078-bulk-tag-picker-large-catalog-ux-2026-06.md",
+      "workflow-06b-c-profile-logged-in-visual-evidence-artifact-inventory.md",
+      "workflow-e2e-quality-uplift-stage-0-3-artifact-inventory.md"
+    ],
+    "で保持する": [
+      "lessons-learned-issue-1078-bulk-tag-picker-large-catalog-ux-2026-06.md"
+    ],
+    "default": [
+      "lessons-learned-issue-1078-bulk-tag-picker-large-catalog-ux-2026-06.md",
+      "lessons-learned-issue-377-retry-tick-dlq-audit-2026-05.md",
+      "lessons-learned-issue-515-cf-audit-logs-ml-anomaly-2026-05.md"
+    ],
+    "max": [
+      "lessons-learned-issue-1078-bulk-tag-picker-large-catalog-ux-2026-06.md"
+    ],
+    "に合わせ": [
+      "lessons-learned-issue-1078-bulk-tag-picker-large-catalog-ux-2026-06.md"
+    ],
+    "で無限ループを防ぐ": [
+      "lessons-learned-issue-1078-bulk-tag-picker-large-catalog-ux-2026-06.md"
+    ],
+    "並列": [
+      "lessons-learned-issue-1078-bulk-tag-picker-large-catalog-ux-2026-06.md",
+      "lessons-learned-skill-ledger-t6-hook-idempotency-2026-04.md"
+    ],
+    "backbone": [
+      "lessons-learned-issue-1078-bulk-tag-picker-large-catalog-ux-2026-06.md"
+    ],
+    "Write": [
+      "lessons-learned-issue-1078-bulk-tag-picker-large-catalog-ux-2026-06.md",
+      "lessons-learned-issue-532-write-tag-note-provider-ctx-injection-2026-05.md",
+      "lessons-learned-ut-02a-attendance-write-operations-2026-05.md"
+    ],
+    "はワークツリー": [
+      "lessons-learned-issue-1078-bulk-tag-picker-large-catalog-ux-2026-06.md"
+    ],
+    "相対": [
+      "lessons-learned-issue-1078-bulk-tag-picker-large-catalog-ux-2026-06.md"
+    ],
+    "pwd": [
+      "lessons-learned-issue-1078-bulk-tag-picker-large-catalog-ux-2026-06.md"
+    ],
+    "確認済み絶対パスで行う": [
+      "lessons-learned-issue-1078-bulk-tag-picker-large-catalog-ux-2026-06.md"
+    ],
+    "値のみ": [
+      "lessons-learned-issue-1078-bulk-tag-picker-large-catalog-ux-2026-06.md"
+    ],
+    "は不可": [
+      "lessons-learned-issue-1078-bulk-tag-picker-large-catalog-ux-2026-06.md"
     ],
     "closeout": [
       "lessons-learned-issue-191-schema-aliases-2026-04.md"
@@ -16820,6 +17136,8 @@
       "workflow-issue-1036-bulk-member-tag-assign-artifact-inventory.md",
       "workflow-issue-1056-kv-alert-policy-binding-drift-detection-artifact-inventory.md",
       "workflow-issue-1059-public-members-fields-batch-fetch-n1-prevention-artifact-inventory.md",
+      "workflow-issue-1070-tag-reactivate-physical-delete-artifact-inventory.md",
+      "workflow-issue-1077-bulk-tag-authenticated-staging-visual-artifact-inventory.md",
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
       "workflow-issue-229-indexes-rebuild-fail-fast-artifact-inventory.md",
       "workflow-issue-274-public-pages-ogp-sitemap-robots-artifact-inventory.md",
@@ -17099,10 +17417,6 @@
     "に集約した": [
       "lessons-learned-issue-274-public-pages-ogp-sitemap-robots-2026-05.md"
     ],
-    "paginated": [
-      "lessons-learned-issue-274-public-pages-ogp-sitemap-robots-2026-05.md",
-      "lessons-learned-issue-546-cf-audit-logs-90day-baseline-observation-2026-05.md"
-    ],
     "取得は失敗時に静的サブセットで縮退する": [
       "lessons-learned-issue-274-public-pages-ogp-sitemap-robots-2026-05.md"
     ],
@@ -17131,6 +17445,7 @@
       "lessons-learned-issue-770-profile-loading-skeleton-2026-05.md",
       "lessons-learned-issue-891-member-detail-kind-exhaustiveness-guard-2026-05.md",
       "lessons-learned-task-06-ui-ux-contract-rewrite-2026-05.md",
+      "workflow-issue-1077-bulk-tag-authenticated-staging-visual-artifact-inventory.md",
       "workflow-task-06-ui-ux-contract-rewrite-artifact-inventory.md"
     ],
     "として保持する": [
@@ -17160,10 +17475,6 @@
     ],
     "FilterBar": [
       "lessons-learned-issue-276-mobile-filterbar-tag-picker-2026-05.md"
-    ],
-    "picker": [
-      "lessons-learned-issue-276-mobile-filterbar-tag-picker-2026-05.md",
-      "workflow-issue-276-mobile-filterbar-tag-picker-artifact-inventory.md"
     ],
     "公開メンバー一覧": [
       "lessons-learned-issue-276-mobile-filterbar-tag-picker-2026-05.md"
@@ -17204,6 +17515,7 @@
       "lessons-learned-issue-325-test-suffix-rename-migration-2026-05.md",
       "workflow-fix-admin-scr-err-stg-fu-001-auth-env-via-getenv-artifact-inventory.md",
       "workflow-issue-1069-tag-code-rename-artifact-inventory.md",
+      "workflow-issue-1079-bulk-tag-audit-batch-filter-artifact-inventory.md",
       "workflow-issue-325-test-suffix-rename-migration-artifact-inventory.md",
       "workflow-issue-991-admin-fetch-error-typed-class-artifact-inventory.md",
       "workflow-task-b-root-page-public-header-async-artifact-inventory.md"
@@ -17597,10 +17909,6 @@
     "から始める": [
       "lessons-learned-issue-377-retry-tick-dlq-audit-2026-05.md"
     ],
-    "default": [
-      "lessons-learned-issue-377-retry-tick-dlq-audit-2026-05.md",
-      "lessons-learned-issue-515-cf-audit-logs-ml-anomaly-2026-05.md"
-    ],
     "scheduled": [
       "lessons-learned-issue-377-retry-tick-dlq-audit-2026-05.md",
       "lessons-learned-issue-532-write-tag-note-provider-ctx-injection-2026-05.md"
@@ -17705,10 +18013,6 @@
     ],
     "識別は既存": [
       "lessons-learned-issue-399-admin-queue-visual-evidence-2026-05.md"
-    ],
-    "prefix": [
-      "lessons-learned-issue-399-admin-queue-visual-evidence-2026-05.md",
-      "lessons-learned-ut07b-fu-01-schema-alias-backfill-queue-cron-split-2026-05.md"
     ],
     "を優先する": [
       "lessons-learned-issue-399-admin-queue-visual-evidence-2026-05.md"
@@ -18250,13 +18554,10 @@
     "後続タスクへの適用": [
       "lessons-learned-issue-526-ci-actionlint-shellcheck-gate-2026-05.md"
     ],
-    "Write": [
-      "lessons-learned-issue-532-write-tag-note-provider-ctx-injection-2026-05.md",
-      "lessons-learned-ut-02a-attendance-write-operations-2026-05.md"
-    ],
     "Tag": [
       "lessons-learned-issue-532-write-tag-note-provider-ctx-injection-2026-05.md",
       "lessons-learned-ut-02a-tag-assignment-queue-2026-05.md",
+      "workflow-issue-1078-bulk-tag-picker-large-catalog-ux-artifact-inventory.md",
       "workflow-issue-295-tag-queue-resolve-race-smoke-artifact-inventory.md",
       "workflow-issue-348-09c-github-release-tag-automation-artifact-inventory.md",
       "workflow-issue-378-tag-queue-paused-flag-artifact-inventory.md"
@@ -18530,6 +18831,10 @@
       "workflow-issue-1063-shell-collapse-cookie-secure-attribute-artifact-inventory.md",
       "workflow-issue-1068-admin-tag-inline-create-ui-artifact-inventory.md",
       "workflow-issue-1069-tag-code-rename-artifact-inventory.md",
+      "workflow-issue-1076-member-og-design-token-alignment-artifact-inventory.md",
+      "workflow-issue-1078-bulk-tag-picker-large-catalog-ux-artifact-inventory.md",
+      "workflow-issue-1079-bulk-tag-audit-batch-filter-artifact-inventory.md",
+      "workflow-issue-1080-bulk-tag-result-member-labels-artifact-inventory.md",
       "workflow-issue-191-schema-aliases-artifact-inventory.md",
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
       "workflow-issue-224-public-members-tags-batch-fetch-artifact-inventory.md",
@@ -18857,6 +19162,8 @@
     ],
     "authenticated": [
       "lessons-learned-issue-630-authenticated-profile-lhci-a11y-2026-05.md",
+      "task-workflow-active.md",
+      "workflow-issue-1077-bulk-tag-authenticated-staging-visual-artifact-inventory.md",
       "workflow-login-redirect-when-authenticated-artifact-inventory.md"
     ],
     "LHCI": [
@@ -19109,6 +19416,7 @@
       "lessons-learned-issue-770-profile-loading-skeleton-2026-05.md",
       "lessons-learned-issue359-production-d1-apply-2026-05.md",
       "workflow-awshh-followup-003-csp-reporting-endpoints-artifact-inventory.md",
+      "workflow-issue-1077-bulk-tag-authenticated-staging-visual-artifact-inventory.md",
       "workflow-issue-777-schema-diff-resolve-history-view-artifact-inventory.md",
       "workflow-issue-778-schema-alias-rollback-undo-artifact-inventory.md",
       "workflow-issue-874-login-staging-visual-smoke-artifact-inventory.md",
@@ -19171,7 +19479,8 @@
       "workflow-issue-775-serial-05-step-03-runtime-evidence-completion-artifact-inventory.md"
     ],
     "Bulk": [
-      "lessons-learned-issue-776-schema-alias-bulk-resolve-2026-05.md"
+      "lessons-learned-issue-776-schema-alias-bulk-resolve-2026-05.md",
+      "workflow-issue-1078-bulk-tag-picker-large-catalog-ux-artifact-inventory.md"
     ],
     "不変条件下では": [
       "lessons-learned-issue-776-schema-alias-bulk-resolve-2026-05.md"
@@ -19618,10 +19927,6 @@
     "衝突を回避する": [
       "lessons-learned-parallel-i03-dialog-refresh-order-2026-05.md"
     ],
-    "dir": [
-      "lessons-learned-parallel-i03-dialog-refresh-order-2026-05.md",
-      "workflow-task-06-ui-ux-contract-rewrite-artifact-inventory.md"
-    ],
     "自動移送と": [
       "lessons-learned-parallel-i03-dialog-refresh-order-2026-05.md"
     ],
@@ -19671,9 +19976,6 @@
       "workflow-ut08-monitoring-alert-design-artifact-inventory.md"
     ],
     "冪等化と": [
-      "lessons-learned-skill-ledger-t6-hook-idempotency-2026-04.md"
-    ],
-    "並列": [
       "lessons-learned-skill-ledger-t6-hook-idempotency-2026-04.md"
     ],
     "ガード未追加で": [
@@ -19807,22 +20109,6 @@
       "lessons-learned-task-04-w3-window-guard-and-logger-2026-05.md",
       "lessons-learned-task-08-w2-design-tokens-doc-2026-05.md",
       "lessons-learned-task-09-w3-tailwind-v4-setup-2026-05.md"
-    ],
-    "ux": [
-      "lessons-learned-task-06-ui-ux-contract-rewrite-2026-05.md",
-      "logs-archive-2026-01-feature-structure-workspace-chat-edit.md",
-      "logs-archive-2026-01-skill-selector-todo-scan-template.md",
-      "spec-splitting-guidelines.md",
-      "task-workflow-active.md",
-      "workflow-admin-attendance-dashboard-ux-artifact-inventory.md",
-      "workflow-admin-meetings-attendance-404-fix-and-ux-artifact-inventory.md",
-      "workflow-issue-1005-members-ux-playwright-baseline-stabilization-artifact-inventory.md",
-      "workflow-issue-1006-members-selected-filters-chip-ux-hardening-artifact-inventory.md",
-      "workflow-issue-958-h3-public-filter-ux-artifact-inventory.md",
-      "workflow-members-list-ux-clarity-artifact-inventory.md",
-      "workflow-sidebar-footer-pinning-and-account-popover-ux-artifact-inventory.md",
-      "workflow-sidebar-visibility-conditional-and-ux-artifact-inventory.md",
-      "workflow-task-06-ui-ux-contract-rewrite-artifact-inventory.md"
     ],
     "rewrite": [
       "lessons-learned-task-06-ui-ux-contract-rewrite-2026-05.md",
@@ -20527,12 +20813,6 @@
     ],
     "を必須セクション化する": [
       "lessons-learned-task-26-error-tsx-token-utility-migration-2026-05.md"
-    ],
-    "stage": [
-      "lessons-learned-task-spec-2d-contract-stage-2-2026-05.md",
-      "workflow-e2e-stage-2-2d-contract-artifact-inventory.md",
-      "workflow-task-spec-2d-contract-stage-2-artifact-inventory.md",
-      "workflow-utgov001-second-stage-reapply-artifact-inventory.md"
     ],
     "の記述は派生": [
       "lessons-learned-task-spec-2d-contract-stage-2-2026-05.md"
@@ -21586,10 +21866,6 @@
     ],
     "契約境界で明示変換する": [
       "lessons-learned-ut07b-fu-01-schema-alias-backfill-queue-cron-split-2026-05.md"
-    ],
-    "scan": [
-      "lessons-learned-ut07b-fu-01-schema-alias-backfill-queue-cron-split-2026-05.md",
-      "lessons-learned-ut07b-schema-alias-hardening-2026-05.md"
     ],
     "の選定理由": [
       "lessons-learned-ut07b-fu-01-schema-alias-backfill-queue-cron-split-2026-05.md"
@@ -24512,6 +24788,7 @@
       "schema-alias-backfill-runbook.md",
       "workflow-admin-layout-sidebar-shell-migration-artifact-inventory.md",
       "workflow-issue-1036-bulk-member-tag-assign-artifact-inventory.md",
+      "workflow-issue-1077-bulk-tag-authenticated-staging-visual-artifact-inventory.md",
       "workflow-issue-555-audit-correlation-salt-rotation-artifact-inventory.md",
       "workflow-issue-747-vitest-esbuild-arch-and-worktree-isolation-artifact-inventory.md",
       "workflow-issue-982-drawer-tag-pill-editing-artifact-inventory.md",
@@ -24690,6 +24967,7 @@
       "workflow-admin-ui-prototype-alignment-followup-001-members-fetch-and-visual-artifact-inventory.md",
       "workflow-issue-1031-member-self-photo-upload-artifact-inventory.md",
       "workflow-issue-1036-bulk-member-tag-assign-artifact-inventory.md",
+      "workflow-issue-1077-bulk-tag-authenticated-staging-visual-artifact-inventory.md",
       "workflow-issue-191-schema-aliases-artifact-inventory.md",
       "workflow-issue-256-e2e-coverage-baseline-runbook-artifact-inventory.md",
       "workflow-issue-276-mobile-filterbar-tag-picker-artifact-inventory.md",
@@ -24764,6 +25042,8 @@
       "workflow-issue-1030-member-photo-transcode-resize-variant-pipeline-artifact-inventory.md",
       "workflow-issue-1035-tag-master-write-endpoints-artifact-inventory.md",
       "workflow-issue-1054-wrangler-binding-drift-ci-gate-artifact-inventory.md",
+      "workflow-issue-1070-tag-reactivate-physical-delete-artifact-inventory.md",
+      "workflow-issue-1077-bulk-tag-authenticated-staging-visual-artifact-inventory.md",
       "workflow-issue-229-indexes-rebuild-fail-fast-artifact-inventory.md",
       "workflow-issue-230-lefthook-edit-guard-artifact-inventory.md",
       "workflow-issue-247-apps-web-opennext-config-regression-tests-artifact-inventory.md",
@@ -26641,6 +26921,10 @@
       "workflow-issue-1063-shell-collapse-cookie-secure-attribute-artifact-inventory.md",
       "workflow-issue-1068-admin-tag-inline-create-ui-artifact-inventory.md",
       "workflow-issue-1069-tag-code-rename-artifact-inventory.md",
+      "workflow-issue-1076-member-og-design-token-alignment-artifact-inventory.md",
+      "workflow-issue-1078-bulk-tag-picker-large-catalog-ux-artifact-inventory.md",
+      "workflow-issue-1079-bulk-tag-audit-batch-filter-artifact-inventory.md",
+      "workflow-issue-1080-bulk-tag-result-member-labels-artifact-inventory.md",
       "workflow-issue-191-schema-aliases-artifact-inventory.md",
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
       "workflow-issue-224-public-members-tags-batch-fetch-artifact-inventory.md",
@@ -26872,6 +27156,12 @@
       "workflow-issue-1059-public-members-fields-batch-fetch-n1-prevention-artifact-inventory.md",
       "workflow-issue-1063-shell-collapse-cookie-secure-attribute-artifact-inventory.md",
       "workflow-issue-1069-tag-code-rename-artifact-inventory.md",
+      "workflow-issue-1070-tag-reactivate-physical-delete-artifact-inventory.md",
+      "workflow-issue-1076-member-og-design-token-alignment-artifact-inventory.md",
+      "workflow-issue-1077-bulk-tag-authenticated-staging-visual-artifact-inventory.md",
+      "workflow-issue-1078-bulk-tag-picker-large-catalog-ux-artifact-inventory.md",
+      "workflow-issue-1079-bulk-tag-audit-batch-filter-artifact-inventory.md",
+      "workflow-issue-1080-bulk-tag-result-member-labels-artifact-inventory.md",
       "workflow-issue-229-indexes-rebuild-fail-fast-artifact-inventory.md",
       "workflow-issue-247-apps-web-opennext-config-regression-tests-artifact-inventory.md",
       "workflow-issue-256-e2e-coverage-baseline-runbook-artifact-inventory.md",
@@ -26971,6 +27261,10 @@
       "workflow-issue-106-admin-member-notes-repository-task-spec-artifact-inventory.md",
       "workflow-issue-1063-shell-collapse-cookie-secure-attribute-artifact-inventory.md",
       "workflow-issue-1069-tag-code-rename-artifact-inventory.md",
+      "workflow-issue-1076-member-og-design-token-alignment-artifact-inventory.md",
+      "workflow-issue-1078-bulk-tag-picker-large-catalog-ux-artifact-inventory.md",
+      "workflow-issue-1079-bulk-tag-audit-batch-filter-artifact-inventory.md",
+      "workflow-issue-1080-bulk-tag-result-member-labels-artifact-inventory.md",
       "workflow-issue-229-indexes-rebuild-fail-fast-artifact-inventory.md",
       "workflow-issue-235-sync-audit-tables-necessity-judgement-artifact-inventory.md",
       "workflow-issue-352-postmortem-template-automation-artifact-inventory.md",
@@ -27084,10 +27378,6 @@
     "Logged": [
       "workflow-06b-c-profile-logged-in-visual-evidence-artifact-inventory.md"
     ],
-    "Map": [
-      "workflow-06b-c-profile-logged-in-visual-evidence-artifact-inventory.md",
-      "workflow-e2e-quality-uplift-stage-0-3-artifact-inventory.md"
-    ],
     "supplement": [
       "workflow-06c-B-admin-members-artifact-inventory.md"
     ],
@@ -27181,6 +27471,7 @@
       "workflow-issue-1030-member-photo-transcode-resize-variant-pipeline-artifact-inventory.md",
       "workflow-issue-1035-tag-master-write-endpoints-artifact-inventory.md",
       "workflow-issue-1054-wrangler-binding-drift-ci-gate-artifact-inventory.md",
+      "workflow-issue-1070-tag-reactivate-physical-delete-artifact-inventory.md",
       "workflow-issue-229-indexes-rebuild-fail-fast-artifact-inventory.md",
       "workflow-issue-230-lefthook-edit-guard-artifact-inventory.md",
       "workflow-issue-247-apps-web-opennext-config-regression-tests-artifact-inventory.md",
@@ -27223,6 +27514,8 @@
     ],
     "Notes": [
       "workflow-admin-meetings-attendance-404-fix-and-ux-artifact-inventory.md",
+      "workflow-issue-1078-bulk-tag-picker-large-catalog-ux-artifact-inventory.md",
+      "workflow-issue-1079-bulk-tag-audit-batch-filter-artifact-inventory.md",
       "workflow-issue-191-schema-aliases-artifact-inventory.md",
       "workflow-issue-300-direct-stable-key-update-guard-artifact-inventory.md",
       "workflow-issue-533-public-profile-builder-attendance-injection-artifact-inventory.md",
@@ -27273,6 +27566,7 @@
     "targets": [
       "workflow-admin-ui-prototype-alignment-followup-001-members-fetch-and-visual-artifact-inventory.md",
       "workflow-issue-1036-bulk-member-tag-assign-artifact-inventory.md",
+      "workflow-issue-1077-bulk-tag-authenticated-staging-visual-artifact-inventory.md",
       "workflow-issue-617-ci-test-time-reduction-split-artifact-inventory.md",
       "workflow-issue-874-login-staging-visual-smoke-artifact-inventory.md",
       "workflow-issue-880-public-segment-error-loading-boundary-artifact-inventory.md",
@@ -27602,9 +27896,6 @@
       "workflow-i02-admin-error-type-unify-artifact-inventory.md",
       "workflow-task-03-w2-par-sentry-workers-sdk-unify-artifact-inventory.md"
     ],
-    "selected": [
-      "workflow-issue-1006-members-selected-filters-chip-ux-hardening-artifact-inventory.md"
-    ],
     "filters": [
       "workflow-issue-1006-members-selected-filters-chip-ux-hardening-artifact-inventory.md"
     ],
@@ -27667,6 +27958,7 @@
     ],
     "anchors": [
       "workflow-issue-1036-bulk-member-tag-assign-artifact-inventory.md",
+      "workflow-issue-1077-bulk-tag-authenticated-staging-visual-artifact-inventory.md",
       "workflow-issue-982-drawer-tag-pill-editing-artifact-inventory.md",
       "workflow-unified-sidebar-shell-public-and-admin-artifact-inventory.md"
     ],
@@ -27699,6 +27991,18 @@
     ],
     "secure": [
       "workflow-issue-1063-shell-collapse-cookie-secure-attribute-artifact-inventory.md"
+    ],
+    "Picker": [
+      "workflow-issue-1078-bulk-tag-picker-large-catalog-ux-artifact-inventory.md"
+    ],
+    "Large": [
+      "workflow-issue-1078-bulk-tag-picker-large-catalog-ux-artifact-inventory.md"
+    ],
+    "Catalog": [
+      "workflow-issue-1078-bulk-tag-picker-large-catalog-ux-artifact-inventory.md"
+    ],
+    "result": [
+      "workflow-issue-1080-bulk-tag-result-member-labels-artifact-inventory.md"
     ],
     "Set": [
       "workflow-issue-191-schema-aliases-artifact-inventory.md",

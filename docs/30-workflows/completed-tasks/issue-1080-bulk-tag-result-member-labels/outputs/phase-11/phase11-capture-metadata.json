@@ -1,0 +1,18 @@
+{
+  "workflow_id": "issue-1080-bulk-tag-result-member-labels",
+  "route": "/admin/members",
+  "visual_evidence": "VISUAL_ON_EXECUTION",
+  "local_primary": {
+    "status": "present",
+    "command": "pnpm exec vitest run --root=../.. --config=vitest.config.ts apps/web/src/features/admin/components/__tests__/BulkActionBar.spec.tsx",
+    "result": "12 tests passed",
+    "evidence_path": "outputs/phase-11/evidence/focused-bulkactionbar-vitest.log"
+  },
+  "runtime_visual": {
+    "status": "present",
+    "capture": "local Playwright fixture screenshot",
+    "path": "outputs/phase-11/screenshots/bulk-tag-result-member-labels.png",
+    "dimensions": "790x314",
+    "staging_authenticated_baseline": "pending_user_gated_optional_reinforcement"
+  }
+}

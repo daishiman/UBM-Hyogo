@@ -47,4 +47,21 @@ describe("admin audit page helpers", () => {
     expect(screen.getByLabelText("action").getAttribute("list")).toBe("audit-action-presets");
     expect(safeServerFetch).toHaveBeenCalledWith("/admin/audit?action=identity.dismiss&limit=25");
   });
+
+  it("passes batchId searchParams to API path and restores the input value", async () => {
+    render(
+      await AdminAuditPage({
+        searchParams: Promise.resolve({
+          action: "admin.member.tag_assigned",
+          batchId: "batch-1079",
+          limit: "25",
+        }),
+      }),
+    );
+
+    expect((screen.getByLabelText("batchId") as HTMLInputElement).value).toBe("batch-1079");
+    expect(safeServerFetch).toHaveBeenCalledWith(
+      "/admin/audit?action=admin.member.tag_assigned&batchId=batch-1079&limit=25",
+    );
+  });
 });
