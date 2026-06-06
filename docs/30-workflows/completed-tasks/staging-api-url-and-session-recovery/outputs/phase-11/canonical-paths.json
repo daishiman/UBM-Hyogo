@@ -1,0 +1,43 @@
+{
+  "taskId": "TASK-STAGING-API-URL-AND-SESSION-RECOVERY",
+  "workflowDir": "docs/30-workflows/completed-tasks/staging-api-url-and-session-recovery",
+  "schemaVersion": "1.0.0",
+  "evidence": [
+    {
+      "id": "focused-vitest",
+      "kind": "test",
+      "path": "outputs/phase-11/evidence/focused-vitest.log",
+      "command": "mise exec -- pnpm exec vitest run apps/web/src/lib/fetch/transport.spec.ts apps/web/src/lib/fetch/authed.spec.ts apps/web/src/lib/fetch/public.spec.ts apps/web/src/lib/__tests__/env.spec.ts apps/web/app/api/me/'[...path]'/route.route.spec.ts apps/web/app/api/admin/'[...path]'/route.spec.ts apps/web/app/api/auth/magic-link/route.route.spec.ts apps/web/app/api/auth/magic-link/verify/route.route.spec.ts apps/web/src/lib/auth/verify-magic-link.spec.ts scripts/verify-no-localhost-bake.spec.ts",
+      "acquiredBy": "implementation_cycle",
+      "requiredForCloseout": true,
+      "notes": "10 files / 94 tests PASS"
+    },
+    {
+      "id": "typecheck",
+      "kind": "typecheck",
+      "path": "outputs/phase-11/evidence/typecheck.log",
+      "command": "mise exec -- pnpm typecheck",
+      "acquiredBy": "implementation_cycle",
+      "requiredForCloseout": true,
+      "notes": "workspace typecheck PASS"
+    },
+    {
+      "id": "lint",
+      "kind": "lint",
+      "path": "outputs/phase-11/evidence/lint.log",
+      "command": "mise exec -- pnpm lint",
+      "acquiredBy": "implementation_cycle",
+      "requiredForCloseout": true,
+      "notes": "workspace lint PASS"
+    },
+    {
+      "id": "localhost-bake-gate",
+      "kind": "grep-gate",
+      "path": "outputs/phase-11/evidence/localhost-bake-gate.log",
+      "command": "bash scripts/verify-no-localhost-bake.sh --src-only",
+      "acquiredBy": "implementation_cycle",
+      "requiredForCloseout": true,
+      "notes": "source gate PASS"
+    }
+  ]
+}

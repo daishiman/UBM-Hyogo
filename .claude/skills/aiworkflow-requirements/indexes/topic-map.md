@@ -4229,6 +4229,14 @@ node scripts/list-specs.js --topics
 | Validation Chain | L89 |
 | 関連ドキュメント | L102 |
 
+### references/workflow-staging-api-url-and-session-recovery-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Implementation artifacts | L10 |
+| Local evidence | L19 |
+| Lessons | L27 |
+
 ### references/workflow-step-05-dashboard-chart-implementation-artifact-inventory.md
 
 | セクション | 行 |
@@ -8835,8 +8843,8 @@ node scripts/list-specs.js --topics
 | UT-17 followup-003 alert-relay weekly healthcheck cron | L4055 |
 | issue-1077-bulk-tag-authenticated-staging-visual（implemented_local_runtime_pending / implementation / VISUAL_ON_EXECUTION / 2026-06-03） | L4123 |
 | issue-998-members-publish-state-production-rollout | L4149 |
-| issue-1078-bulk-tag-picker-large-catalog-ux | L4196 |
-| issue-1068-admin-tag-inline-create-ui | L4210 |
+| issue-1078-bulk-tag-picker-large-catalog-ux | L4208 |
+| issue-1068-admin-tag-inline-create-ui | L4222 |
 
 ### references/task-workflow-backlog-part2.md
 
