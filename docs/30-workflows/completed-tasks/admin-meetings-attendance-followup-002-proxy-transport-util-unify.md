@@ -18,8 +18,8 @@ issue_number: 1111
 | 対象機能 | admin API proxy（service binding `API_SERVICE` vs HTTP `INTERNAL_API_BASE_URL` fallback の transport 選択） |
 | 優先度 | 低 |
 | 見積もり規模 | 小規模 |
-| ステータス | 未実施 |
-| GitHub Issue | 未起票（後続） |
+| ステータス | 完了（Phase 12 完了条件に基づき completed-tasks へ移動済み） |
+| GitHub Issue | [#1111](https://github.com/daishiman/UBM-Hyogo/issues/1111)（CLOSED / priority:low） |
 | 発見元 | `admin-meetings-attendance-404-fix-and-ux` Phase 10 §10.6 MINOR 候補 + Phase 8.3 の YAGNI 判断 |
 | 発見日 | 2026-06-03 |
 | canonical source | `docs/30-workflows/completed-tasks/admin-meetings-attendance-404-fix-and-ux/outputs/phase-10/phase-10.md` |
