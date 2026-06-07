@@ -7,6 +7,8 @@
     "build": "tsc -p tsconfig.build.json --noEmit",
     "dev": "wrangler dev",
     "deploy": "wrangler deploy",
+    "seed:test-accounts": "bash ../../scripts/seed-test-accounts.sh",
+    "seed:test-accounts:gen": "node --import tsx ../../scripts/gen-test-accounts-seed.mjs",
     "lint": "tsc -p tsconfig.json --noEmit",
     "typecheck": "tsc -p tsconfig.json --noEmit",
     "test": "vitest run --passWithNoTests --root=../.. --config=vitest.config.ts apps/api",
@@ -20,7 +22,7 @@
     "@ubm-hyogo/integrations-google": "workspace:*",
     "@ubm-hyogo/shared": "workspace:*",
     "aws4fetch": "1.0.20",
-    "hono": "4.12.18"
+    "hono": "4.12.21"
   },
   "devDependencies": {
     "@cloudflare/workers-types": "4.20260426.1",

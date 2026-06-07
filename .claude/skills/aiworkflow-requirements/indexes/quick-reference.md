@@ -13,6 +13,166 @@
 | inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1104-member-creation-path-unification-artifact-inventory.md` |
 | user gate | commit, push, PR, staging deploy/authenticated smoke, Issue mutation |
 
+## issue-1105-member-status-fk-constraint（2026-06-05）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-1105-member-status-fk-constraint/` |
+| status | `implemented_local_evidence_captured / implementation / NON_VISUAL / local_verification_pass` |
+| issue | #1105 CLOSED（reopen / mutation なし） |
+| purpose | `member_status.member_id` に `member_identities(member_id)` への FK を導入し、DB レベルで orphan status を禁止する |
+| implementation | `apps/api/migrations/0026_member_status_fk_constraint.sql`, `apps/api/migrations/__tests__/0026_member_status_fk_constraint.spec.ts`, existing D1 test fixtures fixture追従, `apps/api/src/repository/__tests__/_setup.ts` full regression安定化 |
+| evidence | focused D1 Vitest 1 file / 6 tests PASS; apps/api D1 full regression 109 files / 937 tests PASS; API typecheck PASS; `verify:d1-migrations` PASS; `apps/web` diff 0 |
+| invariant | `notification_opt_out` を含む現行 `member_status` カラム保持、`idx_member_status_public` 再作成、apps/web diff 0 |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1105-member-status-fk-constraint-artifact-inventory.md` |
+| user gate | remote D1 apply, commit, push, PR |
+
+## issue-1101-attendance-analytics-calc-correction（2026-06-05）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-1101-attendance-analytics-calc-correction/` |
+| status | `implemented_local_evidence_captured / implementation / VISUAL / staging_visual_pending_user_gate` |
+| purpose | 出席分析の 100 回以上 zone 誤分類を `zone_100_plus` へ修正し、延べ率と unique 出席率を分離する |
+| implementation | `attendance-analytics.ts`, `parse-attendance-filter.ts`, `admin-attendance.ts`, attendance web labels/filter/KPI, `01-api-schema.md` |
+| evidence | focused Vitest root 6 files / 21 tests PASS; D1 repository 1 file / 13 tests PASS; routes/migrations diff empty |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1101-attendance-analytics-calc-correction-artifact-inventory.md` |
+| user gate | staging authenticated screenshot, commit, push, PR |
+
+## issue-1111-proxy-transport-util-unify（2026-06-06）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-1111-proxy-transport-util-unify/` |
+| status | `implemented_local_evidence_captured / refactoring / NON_VISUAL` |
+| issue | #1111 CLOSED（未実施のまま close。本 WF は closed のまま実装仕様作成・mutation なし）。PR 文脈は `Refs #1111` のみ |
+| parent | `docs/30-workflows/completed-tasks/admin-meetings-attendance-404-fix-and-ux/`（FU-AMA-002・route.ts transport 統一を landed 済み） |
+| purpose | admin/public の transport 選択（service-binding 優先 → HTTP fallback）を新規 pure util `apps/web/src/lib/fetch/transport-select.ts` へ集約する pure refactor |
+| implementation | `apps/web/src/lib/fetch/transport-select.ts`（new）, `apps/web/app/api/admin/[...path]/route.ts`, `apps/web/src/lib/admin/server-fetch.ts`, `apps/web/src/lib/fetch/public.ts` |
+| tests | `apps/web/src/lib/fetch/__tests__/transport-select.spec.ts`（new・9）, `route.spec.ts`, `server-fetch.{binding,http-fallback,env}.spec.ts`, `public.spec.ts` |
+| evidence | focused Vitest 6 files / 44 tests PASS, web typecheck PASS, web lint PASS, verify:phase12-compliance ok:true, gate-metadata ERROR 0 |
+| invariant | pure refactor（分岐結果 / fallback base 解決 / binding 無効化条件 / transport ログ出力が完全不変）。per-caller 真理値（`disableBinding` / `resolveBase: () => string \| null` / opt-in `log`）を呼び出し側に保持。`base-unavailable` 分岐は route.ts のみ到達（500）。`LOCAL_DEV_FALLBACK`（127.0.0.1:8787）は route.ts に残し util へ移送しない（task-18 gate） |
+| scope out | `auth.ts` session-resolve（`service ?? { fetch }` 軽量変種）は同型 4 値 idiom でない別形状ゆえスコープ外（baseline 境界・起票しない） |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1111-proxy-transport-util-unify-artifact-inventory.md`（Lessons L-I1111-001..007） |
+| user gate | commit, push, PR, staging smoke, Issue state change |
+
+## issue-1103-globals-css-shell-block-consolidation（2026-06-05）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-1103-globals-css-shell-block-consolidation/` |
+| status | `implemented_local_evidence_captured / implementation / NON_VISUAL` |
+| purpose | `apps/web/src/styles/globals.css` の byte-identical `parallel-01 P1-1〜P1-5` 重複ブロックを 1 本化し、shell/page/card/typography token surface の drift risk を下げる |
+| implementation | 後発重複ブロック（132 行）を削除のみ。先発 `parallel-01 P1-1〜P1-5` ブロックと admin scoped responsive override を保持。byte-identical diff + cascade 文脈同一で computed style 不変を二重証明 |
+| evidence | `data-shell="sidebar"` 2 matches、`parallel-01 P1-1 page surface` 1 match、web build PASS、web lint PASS、`verify:tokens` PASS、`tokens.runtime.spec.ts` 9 PASS |
+| invariant | apps/api / D1 / auth / route contract / token definition unchanged |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1103-globals-css-shell-block-consolidation-artifact-inventory.md` |
+| user gate | commit, push, PR, staging screenshot |
+
+## issue-1094-identity-conflicts-optimistic-aria-live-announcement（2026-06-05）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-1094-identity-conflicts-optimistic-aria-live-announcement/` |
+| status | `implemented_local_evidence_captured / implementation / NON_VISUAL` |
+| purpose | `/admin/identity-conflicts` optimistic merge/dismiss 消失時の screen reader announcement を page-level single live region へ集約し、focus stealing と文言 drift を解消する |
+| implementation | `IdentityConflictAnnouncer`, `identityConflictAnnouncements.ts`, `IdentityConflictRow` context announce wiring, server page wrapper |
+| evidence | focused Vitest 2 files / 26 tests PASS; web typecheck PASS; web lint PASS; verify:tokens PASS; grep 0 |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1094-identity-conflicts-optimistic-aria-live-announcement-artifact-inventory.md` |
+| user gate | commit, push, PR, Issue mutation, staging manual SR |
+
+## issue-1089-backfill-impact-preview（2026-06-05）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/issue-1089-backfill-impact-preview/` |
+| status | `implemented_local_runtime_pending / implementation / VISUAL_ON_EXECUTION` |
+| purpose | 全件 backfill（手動再取込）確定前に実 response 件数を提示し、破壊的書き込みの影響を先に見せる |
+| implementation | `POST /admin/sync/responses?dryRun=true&fullSync=true` の read-only count-only 経路（`ResponseSyncPreview` / `previewResponseSync`）、frontend `SyncPreviewResultSchema` / `SyncPreviewRunResponseSchema`、`ManualFormResyncPanel` の preview → count panel → `canBackfill` gate → destructive confirm staged flow |
+| contract | dry-run 応答 `{ ok:true, preview:{ status:"preview", dryRun:true, responseCount, estimatedWrites, pagesScanned, capped } }`。`responseCount` = 実数（AC-2）/ `estimatedWrites` = 推定。dry-run は read-only（lock / `sync_jobs` ledger / D1 write / `processResponse` なし） |
+| evidence | focused tests 4 files / 71 tests PASS（apps/api 40 + apps/web 31）; web/api typecheck PASS; lint PASS; HEX なし; verify:phase12-compliance PASS; gate-metadata ERROR 0 |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1089-backfill-impact-preview-artifact-inventory.md` |
+| user gate | `SYNC_ADMIN_TOKEN` 投入, staging deploy, authenticated runtime screenshot, commit, push, PR。Issue #1089 は CLOSED 維持 |
+
+## issue-1088-manual-form-resync-sync-duration-display（2026-06-05）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-1088-manual-form-resync-sync-duration-display/` |
+| status | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION / runtime_visual_pending_user_gate` |
+| purpose | 管理画面「フォーム回答の再取込」結果 `<dl>` に取込所要時間 `durationMs` を表示し、backend producer から UI consumer まで同一サイクルで通す |
+| implementation | `apps/api/src/jobs/sync-forms-responses.ts` `ResponseSyncResult.durationMs` + `runResponseSync()` succeeded/failed/skipped 3 経路、`apps/web/src/features/admin/diagnostics/manual-sync.ts` optional schema、`ManualFormResyncPanel.client.tsx` result row |
+| evidence | API job/route contract focused PASS、web schema/panel focused PASS、api/web typecheck PASS、repo lint PASS |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1088-manual-form-resync-sync-duration-display-artifact-inventory.md` |
+| user gate | authenticated runtime screenshot, staging deploy, commit, push, PR, Issue #1088 mutation |
+
+## test-accounts-seed-spec（2026-06-03）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/test-accounts-seed-spec/` |
+| status | `implemented_local_evidence_captured / implementation / NON_VISUAL` |
+| purpose | 10 member + 3 admin test accounts を SSOT catalog から seed SQL / cleanup SQL / manifest へ決定論的に生成 |
+| implementation | `apps/api/src/testing/test-accounts/**`, `apps/api/migrations/seed/test-accounts-*`, `scripts/gen-test-accounts-seed.mjs`, `scripts/seed-test-accounts.sh`, `apps/web/playwright/scripts/mint-test-account-storage-state.ts` |
+| evidence | drift check PASS; focused Vitest 9 PASS; API/Web typecheck PASS; API/Web lint PASS |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-test-accounts-seed-spec-artifact-inventory.md` |
+| user gate | actual D1 seed apply, storage-state generation, commit, push, PR |
+
+## issue-1081-bulk-tag-real-d1-runtime-smoke（2026-06-03）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/issue-1081-bulk-tag-real-d1-runtime-smoke/` |
+| status | `implemented_local_evidence_captured / implementation / NON_VISUAL / staging_runtime_pending_user_gate` |
+| purpose | `POST /admin/members/tags/bulk` の staging Workers + real D1 mutation smoke gate を追加し、assign / retry noop / unassign / audit count / cleanup を自動検証する |
+| implementation | `scripts/smoke/runtime-tag-bulk.sh`, `apps/api/migrations/seed/bulk-tag-staging-{seed,cleanup}.sql`, `.github/workflows/runtime-smoke-staging.yml`, `package.json` |
+| tests | `scripts/smoke/__tests__/runtime-tag-bulk.test.sh`; included in `pnpm smoke:test` |
+| evidence | local shell test PASS; actionlint PASS; `pnpm smoke:test` PASS; staging real D1 mutation smoke pending user approval |
+| invariant | endpoint contract and D1 schema unchanged; response is existing `{ batchId, results[] }`; fixture prefix fixed to `e2e_test_issue1081_`; issue #1081 CLOSED state preserved |
+| user gate | Cloudflare staging deploy, real D1 seed/mutation/cleanup, commit, push, PR |
+
+## shell-sidebar-tooltip-footer-header-responsive（2026-06-03）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/shell-sidebar-tooltip-footer-header-responsive/` |
+| status | `implemented_local_evidence_captured / implementation / VISUAL / local_browser_screenshots_present_staging_visual_pending_user_gate` |
+| purpose | collapsed sidebar icon-only controls の tooltip、公開フッター sticky bottom、モバイルヘッダー sticky top を同一 local cycle で実装 |
+| implementation | `apps/web/src/components/shell/{SidebarTooltip,SidebarNav,SidebarNavGroup,SidebarNavItem,SidebarShell,SidebarUserMenu,SidebarCollapseToggle}.tsx`, `apps/web/src/styles/{globals,legacy-public}.css` |
+| tests | `apps/web/src/components/shell/__tests__/{SidebarTooltip,SidebarNavItem,SidebarShell,SidebarUserMenu,SidebarCollapseToggle}.spec.tsx` |
+| evidence | focused shell Vitest 5 files / 33 tests PASS; local browser screenshots 3 PNG present |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-shell-sidebar-tooltip-footer-header-responsive-artifact-inventory.md` |
+| user gate | staging visual screenshots, commit, push, PR |
+
+## issue-1080-bulk-tag-result-member-labels（2026-06-03）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-1080-bulk-tag-result-member-labels/` |
+| status | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION / staging_visual_pending_user_gate` |
+| issue | #1080 OPEN（mutation は user-gated） |
+| parent | `docs/30-workflows/completed-tasks/issue-1036-bulk-member-tag-assign/` |
+| purpose | bulk tag 部分失敗結果 summary の `memberId` / `tagId` 生表示を member `fullName` / tag `label` に改善 |
+| implementation | `apps/web/src/features/admin/components/_members/BulkActionBar.tsx`, `apps/web/src/features/admin/components/_members/MembersClientShell.tsx`, `apps/web/src/features/admin/components/__tests__/BulkActionBar.spec.tsx` |
+| evidence | focused `BulkActionBar.spec.tsx` 12 tests PASS; staging authenticated screenshot pending_user_gate |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1080-bulk-tag-result-member-labels-artifact-inventory.md` |
+| user gate | staging screenshot, commit, push, PR, Issue mutation |
+
+## issue-1077-bulk-tag-authenticated-staging-visual（2026-06-03）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-1077-bulk-tag-authenticated-staging-visual/` |
+| status | `implemented_local_runtime_pending / implementation / VISUAL_ON_EXECUTION` |
+| issue | #1077 CLOSED 維持。Issue mutation / reopen は行わず、PR 文脈は `Refs #1077` のみ |
+| parent | `docs/30-workflows/completed-tasks/issue-1036-bulk-member-tag-assign/`（機能本体は PR #1085 / commit `ca3fb9336` で landed 済み） |
+| purpose | landed 済み bulk member tag assign の認証付き staging `/admin/members` 実機で、BulkActionBar tag picker の assign / unassign visual baseline を取得する |
+| implementation target | `apps/web/playwright/tests/visual-staging-authenticated/admin-members-bulk-tag-authenticated.spec.ts`（新規 1 file、config 編集不要） |
+| evidence boundary | Phase 1-13 spec and Phase 12 strict 7 present; runtime staging capture, baseline snapshot generation, commit, push, and PR are user-gated |
+| invariant | read-only capture only。bulk apply mutation は押さず、apps/api / apps/web source（Playwright spec 以外）/ D1 schema / Google Form 仕様は変更しない |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1077-bulk-tag-authenticated-staging-visual-artifact-inventory.md` |
+| user gate | staging deploy/capture, baseline commit, push, PR, Issue mutation |
+
 ## issue-1076-member-og-design-token-alignment（2026-06-03）
 
 | 項目 | 値 |
@@ -104,6 +264,17 @@
 | lessons | `.claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-issue-1056-kv-alert-policy-binding-drift-detection-2026-06.md`（L-I1056-001..006） |
 | issue | #1056 spec 作成時 OPEN → 本サイクル中 CLOSED（`closedAt: 2026-06-02T03:32:56Z`）。docs を実態整合（reopen せず）、workflow は completed-tasks へ close-out 済 |
 | user gate | commit, push, PR, Issue mutation, alert policy apply/enablement |
+
+## staging-api-url-and-session-recovery（2026-06-03）
+
+| item | value |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/staging-api-url-and-session-recovery/` |
+| status | `implemented_local_evidence_captured / implementation / NON_VISUAL` |
+| implementation | `apps/web/src/lib/fetch/transport.ts`, `apps/web/src/lib/fetch/authed.ts`, `apps/web/src/lib/fetch/public.ts`, `apps/web/src/lib/env.ts`, `apps/web/app/api/me/[...path]/route.ts`, `apps/web/app/api/admin/[...path]/route.ts`, `apps/web/app/api/auth/**`, `apps/web/src/lib/auth/verify-magic-link.ts` |
+| gates/scripts | `scripts/verify-no-localhost-bake.sh`, `scripts/diagnose-auth-secret-parity.sh`, `scripts/cf-secret-put-auth-secret.sh`, `scripts/smoke-staging-me.sh`, `.github/workflows/verify-no-localhost-bake.yml` |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-staging-api-url-and-session-recovery-artifact-inventory.md` |
+| user gate | commit, push, PR, Cloudflare `AUTH_SECRET` mutation, staging deploy, authenticated staging runtime smoke |
 
 ## issue-1054-wrangler-binding-drift-ci-gate（2026-06-02）
 
@@ -482,6 +653,20 @@
 | inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1036-bulk-member-tag-assign-artifact-inventory.md` |
 | lessons | `.claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-issue-1036-bulk-member-tag-assign-2026-06.md`（L-I1036-001..008） |
 | user gate | staging authenticated visual baseline, commit, push, PR |
+
+## issue-1078-bulk-tag-picker-large-catalog-ux（2026-06-03）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-1078-bulk-tag-picker-large-catalog-ux/` |
+| status | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION / PASS_BOUNDARY_SYNCED_RUNTIME_PENDING` |
+| issue | #1078 OPEN。Issue mutation は user-gated |
+| purpose | `/admin/members` BulkActionBar tag picker を large catalog 対応し、#1035 の `GET /admin/tags` `{ total, items }` contract を正しく読む |
+| implementation | `apps/web/src/features/admin/api/members.ts`, `apps/web/src/features/admin/api/__tests__/members.spec.ts`, `apps/web/src/features/admin/components/_members/BulkActionBar.tsx`, `apps/web/src/features/admin/components/__tests__/BulkActionBar.spec.tsx` |
+| contract boundary | apps/api / D1 schema 変更なし。`fetchTagMaster()` は `{ total, items }` を `{ available, total }` へ正規化し、`fetchAllTagMaster()` は `pageSize=100` で page walk + cap guard |
+| tests | API client 11 PASS + BulkActionBar 20 PASS。repo config 経由 broader web Vitest 216 files / 1587 tests PASS / 1 skipped。typecheck / lint PASS |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1078-bulk-tag-picker-large-catalog-ux-artifact-inventory.md` |
+| user gate | staging authenticated visual baseline, commit, push, PR, GitHub issue mutation |
 
 ## issue-1006-members-selected-filters-chip-ux-hardening（2026-05-30）
 
@@ -5243,6 +5428,17 @@ UT-17 Cloudflare Notifications → alert-relay → Slack 経路を、既存 API 
 | status | implemented_local_runtime_pending / implementation / VISUAL / 2026-05-28 |
 | workflow | `docs/30-workflows/completed-tasks/members-list-ux-clarity/` |
 | summary | `/members` の密度切替説明、即時反映ヒント、適用中filter chip、件数live regionを追加。API/schema/query正本は不変。 |
+
+# issue-1079-bulk-tag-audit-batch-filter
+
+| item | value |
+| --- | --- |
+| status | implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION / 2026-06-03 |
+| workflow | `docs/30-workflows/completed-tasks/issue-1079-bulk-tag-audit-batch-filter/` |
+| API | `GET /admin/audit?batchId=<id>` searches `after_json.$.batchId` and `before_json.$.batchId`; no schema change |
+| Web | `/admin/audit` batchId filter, pagination preservation, row batchId display, copy button |
+| inventory | `references/workflow-issue-1079-bulk-tag-audit-batch-filter-artifact-inventory.md` |
+| user gate | authenticated runtime screenshots, staging deploy, commit, push, PR, Issue mutation |
 ## 2026-06-03 Additions
 
 | Topic | References | Notes |

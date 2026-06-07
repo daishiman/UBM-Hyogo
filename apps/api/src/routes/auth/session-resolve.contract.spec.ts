@@ -193,14 +193,13 @@ describe("GET /auth/session-resolve", () => {
     expect(body.memberId).toBe("m_001");
   });
 
-  it("auto-link: identity 無し / response と status ありなら memberId を返す", async () => {
+  it("auto-link: identity 無し / response と queue あり / status 無しなら rules_declined に倒す", async () => {
     await seedResponse(env, "r_auto", "auto@example.com");
     await env.db
       .prepare(
         "INSERT INTO tag_assignment_queue (queue_id, member_id, response_id) VALUES ('q-auto', 'm_auto', 'r_auto')",
       )
       .run();
-    await seedStatus(env, "m_auto", "consented", 0);
 
     const app = createSessionResolveRoute();
     const res = await app.request(
@@ -212,9 +211,9 @@ describe("GET /auth/session-resolve", () => {
     expect(res.status).toBe(200);
     const body = (await res.json()) as Record<string, unknown>;
     expect(body).toEqual({
-      memberId: "m_auto",
+      memberId: null,
       isAdmin: false,
-      gateReason: null,
+      gateReason: "rules_declined",
     });
   });
 

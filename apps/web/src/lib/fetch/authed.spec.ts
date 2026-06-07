@@ -8,14 +8,18 @@ import { fileURLToPath } from "node:url";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 const cookieList: Array<{ name: string; value: string }> = [];
-const mockGetApiBaseEnv = vi.hoisted(() => vi.fn());
+const mockGetAuthEnv = vi.hoisted(() => vi.fn());
+const mockGetEnvironment = vi.hoisted(() => vi.fn());
+const mockGetTransportRuntimeIsTest = vi.hoisted(() => vi.fn());
 vi.mock("next/headers", () => ({
   cookies: async () => ({
     getAll: () => cookieList,
   }),
 }));
 vi.mock("@/lib/env", () => ({
-  getApiBaseEnv: mockGetApiBaseEnv,
+  getAuthEnv: mockGetAuthEnv,
+  getEnvironment: mockGetEnvironment,
+  getTransportRuntimeIsTest: mockGetTransportRuntimeIsTest,
 }));
 
 import {
@@ -50,11 +54,15 @@ const makeEnv = (
 describe("fetchAuthed", () => {
   beforeEach(() => {
     setCookies();
-    mockGetApiBaseEnv.mockReturnValue(makeEnv());
+    mockGetAuthEnv.mockReturnValue(makeEnv());
+    mockGetEnvironment.mockReturnValue("local");
+    mockGetTransportRuntimeIsTest.mockReturnValue(false);
   });
   afterEach(() => {
     restoreFetch();
-    mockGetApiBaseEnv.mockReset();
+    mockGetAuthEnv.mockReset();
+    mockGetEnvironment.mockReset();
+    mockGetTransportRuntimeIsTest.mockReset();
   });
 
   it("path が / で始まらない場合 throw", async () => {
@@ -118,7 +126,7 @@ describe("fetchAuthed", () => {
   });
 
   it("INTERNAL_API_BASE_URL 末尾 / を取り除く", async () => {
-    mockGetApiBaseEnv.mockReturnValue(
+    mockGetAuthEnv.mockReturnValue(
       makeEnv({ INTERNAL_API_BASE_URL: "https://api.example.com/" }),
     );
     const spy = mockFetchOnce({ status: 200, body: {} });
@@ -126,25 +134,21 @@ describe("fetchAuthed", () => {
     expect(spy.mock.calls[0]?.[0]).toBe("https://api.example.com/x");
   });
 
-  it("INTERNAL 未指定 / PUBLIC 指定で PUBLIC_API_BASE_URL を使う", async () => {
-    mockGetApiBaseEnv.mockReturnValue(
-      makeEnv({
-        INTERNAL_API_BASE_URL: "",
-        PUBLIC_API_BASE_URL: "https://public.example.com",
-      }),
-    );
-    const spy = mockFetchOnce({ status: 200, body: {} });
+  it("INTERNAL 未指定でも service binding があれば binding を使う", async () => {
+    const bindingFetch = vi.fn(async () => new Response("{}", { status: 200 }));
+    mockGetAuthEnv.mockReturnValue({
+      INTERNAL_API_BASE_URL: "",
+      API_SERVICE: { fetch: bindingFetch as unknown as typeof fetch },
+    });
     await fetchAuthed("/x");
-    expect(spy.mock.calls[0]?.[0]).toBe("https://public.example.com/x");
+    const calls = bindingFetch.mock.calls as unknown as Array<[string, RequestInit?]>;
+    expect(calls[0]?.[0]).toBe("https://service-binding.local/x");
   });
 
-  it("いずれも未指定で localhost fallback せず fail-fast", async () => {
-    mockGetApiBaseEnv.mockReturnValue(
-      makeEnv({ INTERNAL_API_BASE_URL: "", PUBLIC_API_BASE_URL: "" }),
-    );
-    await expect(fetchAuthed("/x")).rejects.toThrow(
-      /neither INTERNAL_API_BASE_URL nor PUBLIC_API_BASE_URL/,
-    );
+  it("非 local で transport 未解決なら fail-fast", async () => {
+    mockGetAuthEnv.mockReturnValue({ INTERNAL_API_BASE_URL: "" });
+    mockGetEnvironment.mockReturnValue("staging");
+    await expect(fetchAuthed("/x")).rejects.toThrow(/API transport unresolved/);
   });
 
   it("init.headers をマージする", async () => {

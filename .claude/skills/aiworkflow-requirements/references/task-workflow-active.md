@@ -22,6 +22,148 @@
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1104-member-creation-path-unification-artifact-inventory.md` |
 | user gate | commit, push, PR, staging authenticated smoke, Issue mutation |
 
+### issue-1105-member-status-fk-constraint（2026-06-05）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / NON_VISUAL / local_verification_pass` |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-1105-member-status-fk-constraint/` |
+| Issue | #1105 CLOSED（reopen / mutation なし） |
+| 親 workflow | `docs/30-workflows/completed-tasks/admin-member-detail-status-404-fix/` |
+| 目的 | `member_status.member_id` に `member_identities(member_id)` への FK を導入し、orphan status をDBレベルで禁止する |
+| implementation targets | `apps/api/migrations/0026_member_status_fk_constraint.sql`, `apps/api/migrations/__tests__/0026_member_status_fk_constraint.spec.ts`, existing D1 test fixtures fixture追従, `apps/api/src/repository/__tests__/_setup.ts` full regression安定化 |
+| invariant | endpoint surface / apps web / public response shape unchanged. `notification_opt_out` を含む現行カラムを保持し、`idx_member_status_public` を再作成 |
+| evidence | focused D1 Vitest 1 file / 6 tests PASS、apps/api D1 full regression 109 files / 937 tests PASS、API typecheck PASS、`verify:d1-migrations` PASS、`apps/web` diff 0 |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1105-member-status-fk-constraint-artifact-inventory.md` |
+| user gate | remote D1 apply、commit、push、PR |
+
+### issue-1101-attendance-analytics-calc-correction（2026-06-05）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / VISUAL / staging_visual_pending_user_gate` |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-1101-attendance-analytics-calc-correction/` |
+| 目的 | admin attendance analytics の 100 回以上 zone 誤分類と延べ/unique 指標混同を解消する |
+| implemented targets | `apps/api/src/repository/attendance-analytics.ts`, `apps/api/src/lib/parse-attendance-filter.ts`, `packages/shared/src/zod/admin-attendance.ts`, `apps/web/src/features/admin/attendance/{lib,components,__tests__}/**`, `apps/web/playwright/fixtures/auth.ts`, `docs/00-getting-started-manual/specs/01-api-schema.md` |
+| invariant | D1 migration / endpoint path / HTTP method / Google Form schema / UBM growth-zone domain unchanged |
+| evidence | focused Vitest root 6 files / 21 tests PASS、D1 repository 1 file / 13 tests PASS、routes/migrations diff empty |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1101-attendance-analytics-calc-correction-artifact-inventory.md` |
+| user gate | staging authenticated screenshot、commit、push、PR |
+
+### issue-1103-globals-css-shell-block-consolidation（2026-06-05）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / NON_VISUAL` |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-1103-globals-css-shell-block-consolidation/` |
+| issue | #1103 CLOSED（reopen しない / PR 文脈は Refs のみ） |
+| 目的 | `apps/web/src/styles/globals.css` の byte-identical `parallel-01 P1-1〜P1-5` 重複ブロックを 1 本化し、shell/page/card/typography token surface の drift risk を下げる |
+| implementation target | `apps/web/src/styles/globals.css` |
+| evidence | `data-shell="sidebar"` 2 matches、`parallel-01 P1-1 page surface` 1 match、web build PASS、web lint PASS、`verify:tokens` PASS、`tokens.runtime.spec.ts` 9 PASS |
+| invariant | apps/api / D1 / auth / route contract / token definition unchanged。admin scoped responsive override is retained |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1103-globals-css-shell-block-consolidation-artifact-inventory.md` |
+| user gate | commit, push, PR, staging screenshot |
+
+### issue-1094-identity-conflicts-optimistic-aria-live-announcement（30種思考法改善反映 / 2026-06-05）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / NON_VISUAL / Phase 13 pending_user_approval` |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-1094-identity-conflicts-optimistic-aria-live-announcement/` |
+| 目的 | `/admin/identity-conflicts` の optimistic merge/dismiss 消失時 announcement を focus stealing 非依存・連続処理非競合・文言単一導出へ改善 |
+| implementation targets | `apps/web/src/components/admin/IdentityConflictAnnouncer.tsx`, `apps/web/src/components/admin/identityConflictAnnouncements.ts`, `apps/web/src/components/admin/IdentityConflictRow.tsx`, `apps/web/app/(admin)/admin/identity-conflicts/page.tsx`, `apps/web/src/components/admin/__tests__/IdentityConflict{Announcer,Row}.spec.tsx` |
+| invariant | API / D1 / `useAdminMutation` / rollback `role="alert"` / visual pixels unchanged |
+| evidence | focused Vitest 2 files / 26 tests PASS、web typecheck PASS、web lint PASS、verify:tokens PASS、撤去 grep 0 件 |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1094-identity-conflicts-optimistic-aria-live-announcement-artifact-inventory.md` |
+| user gate | commit / push / PR / Issue mutation / staging manual SR |
+
+### issue-1089-backfill-impact-preview（2026-06-05）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_runtime_pending / implementation / VISUAL_ON_EXECUTION` |
+| 成果物 | `docs/30-workflows/issue-1089-backfill-impact-preview/` |
+| 目的 | 全件 backfill（手動再取込）確定前に実 response 件数を提示し、破壊的書き込みの影響を先に見せる。`POST /admin/sync/responses?dryRun=true&fullSync=true` の read-only count-only 経路と `ManualFormResyncPanel` の staged preview → confirm UI を追加する |
+| implementation targets | `apps/api/src/jobs/sync-forms-responses.ts`（`ResponseSyncPreview` + `previewResponseSync`）, `apps/api/src/routes/admin/responses-sync.ts`（`?dryRun=true` preview 分岐）, `apps/web/src/features/admin/diagnostics/manual-sync.ts`（`SyncPreviewResultSchema` + `SyncPreviewRunResponseSchema`）, `apps/web/src/features/admin/components/_sync/ManualFormResyncPanel.client.tsx`（staged dry-run preview UI + `canBackfill` gate）, focused tests `apps/api/src/jobs/sync-forms-responses.contract.spec.ts`, `apps/api/src/routes/admin/responses-sync.contract.spec.ts`, `apps/web/src/features/admin/components/_sync/__tests__/ManualFormResyncPanel.spec.tsx`, `apps/web/src/features/admin/diagnostics/__tests__/sync-schemas.spec.ts` |
+| invariant | 既存 `?fullSync` run 経路と `SyncResultSchema` 不変。dry-run は read-only（sync lock / `sync_jobs` ledger / D1 write / `processResponse` を実行しない）。apps/web は zod 再宣言のみで apps/api 直接 import なし。新 endpoint / D1 schema / Google Form schema 変更なし |
+| contract | dry-run 応答 `{ ok:true, preview:{ status:"preview", dryRun:true, responseCount, estimatedWrites, pagesScanned, capped } }`。`responseCount` は `forms.responses.list` 実数（AC-2）、`estimatedWrites` は推定ラベル |
+| reference pattern | `BackfillPublishStatePanel.client.tsx` + `diagnostics/backfill.ts` + `sync-backfill-publish-state.ts` の `?dryRun=true|false` staged dry-run pattern |
+| evidence | focused tests 4 files / 71 tests PASS（apps/api 40: sync-forms-responses.contract 30 + responses-sync.contract 10; apps/web 31: ManualFormResyncPanel 13 + sync-schemas 18）、web/api typecheck PASS、lint PASS、HEX なし、verify:phase12-compliance PASS、gate-metadata ERROR 0 |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1089-backfill-impact-preview-artifact-inventory.md` |
+| user gate | `SYNC_ADMIN_TOKEN` Cloudflare Secrets 投入、authenticated runtime screenshot、staging deploy、commit、push、PR。Issue #1089 は CLOSED 維持 |
+
+### issue-1088-manual-form-resync-sync-duration-display（2026-06-05）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION / runtime_visual_pending_user_gate` |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-1088-manual-form-resync-sync-duration-display/` |
+| 目的 | 手動 Google Form 再取込結果に `durationMs` を表示し、運用者が処理時間を把握できるようにする |
+| implemented targets | `apps/api/src/jobs/sync-forms-responses.ts`, `apps/web/src/features/admin/diagnostics/manual-sync.ts`, `apps/web/src/features/admin/components/_sync/ManualFormResyncPanel.client.tsx` |
+| tests | `apps/api/src/jobs/sync-forms-responses.contract.spec.ts`, `apps/api/src/routes/admin/responses-sync.contract.spec.ts`, `apps/web/src/features/admin/diagnostics/__tests__/sync-schemas.spec.ts`, `apps/web/src/features/admin/components/_sync/__tests__/ManualFormResyncPanel.spec.tsx` |
+| invariant | route は pass-through のまま。endpoint path / admin auth boundary / D1 schema / Google Form schema は変更なし。UI schema は `.strict()` 維持で `durationMs` optional |
+| Phase 11/12 | local focused tests・typecheck・lint PASS。Phase 12 strict 7 present。runtime screenshot は user-gated |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1088-manual-form-resync-sync-duration-display-artifact-inventory.md` |
+| user gate | authenticated runtime screenshot、staging deploy、commit、push、PR、Issue #1088 mutation |
+
+### test-accounts-seed-spec（2026-06-03）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / NON_VISUAL` |
+| 成果物 | `docs/30-workflows/test-accounts-seed-spec/` |
+| 目的 | 10 member + 3 admin のテストアカウントを `TEST-` prefix / `.invalid` email / `seed:test-accounts` actor で判別可能にし、SSOT catalog から seed SQL / cleanup SQL / manifest を決定論的に生成する |
+| implementation targets | `apps/api/src/testing/test-accounts/**`, `apps/api/migrations/seed/test-accounts-*`, `scripts/gen-test-accounts-seed.mjs`, `scripts/seed-test-accounts.sh`, `apps/web/playwright/scripts/mint-test-account-storage-state.ts`, `vitest.d1.config.ts` |
+| evidence | generator drift 0、focused Vitest 3 files / 9 tests PASS、API/Web typecheck PASS、API/Web lint PASS |
+| invariant | 新規 D1 schema / API endpoint / secret なし。apps/web は manifest + JWT helper のみで D1 に直接アクセスしない。production seed apply は CLI で拒否 |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-test-accounts-seed-spec-artifact-inventory.md` |
+| user gate | actual local/staging seed apply、storage-state generation against a real target、commit、push、PR |
+
+### issue-1081-bulk-tag-real-d1-runtime-smoke（2026-06-03）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / NON_VISUAL / staging_runtime_pending_user_gate` |
+| 成果物 | `docs/30-workflows/issue-1081-bulk-tag-real-d1-runtime-smoke/` |
+| Issue | #1081 CLOSED 維持。Issue mutation は user-gated |
+| 目的 | bulk tag endpoint `POST /admin/members/tags/bulk` の staging Workers + real D1 mutation smoke gate を追加する |
+| implementation targets | `scripts/smoke/runtime-tag-bulk.sh`, `apps/api/migrations/seed/bulk-tag-staging-seed.sql`, `apps/api/migrations/seed/bulk-tag-staging-cleanup.sql`, `.github/workflows/runtime-smoke-staging.yml`, `package.json` |
+| tests | `scripts/smoke/__tests__/runtime-tag-bulk.test.sh`（`pnpm smoke:test` に追加） |
+| invariant | endpoint contract / D1 schema / UI / auth 方式は変更なし。fixture は `e2e_test_issue1081_` prefix 限定、production guard は staging DB 固定 |
+| evidence | local shell test PASS、actionlint PASS、`pnpm smoke:test` PASS。staging real D1 seed/mutation/cleanup evidence は user-gated |
+| user gate | staging deploy、real D1 seed/mutation/cleanup、commit、push、PR |
+
+### shell-sidebar-tooltip-footer-header-responsive（2026-06-03）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / VISUAL / local_browser_screenshots_present_staging_visual_pending_user_gate` |
+| 成果物 | `docs/30-workflows/shell-sidebar-tooltip-footer-header-responsive/` |
+| 親 workflow | なし |
+| 目的 | collapsed sidebar icon-only controls の tooltip、公開フッター sticky bottom、モバイルヘッダー sticky top を同一 local cycle で実装する |
+| implementation targets | `apps/web/src/components/shell/{SidebarTooltip,SidebarNav,SidebarNavGroup,SidebarNavItem,SidebarShell,SidebarUserMenu,SidebarCollapseToggle}.tsx`, `apps/web/src/styles/{globals,legacy-public}.css` |
+| tests | `apps/web/src/components/shell/__tests__/{SidebarTooltip,SidebarNavItem,SidebarShell,SidebarUserMenu,SidebarCollapseToggle}.spec.tsx` |
+| evidence | focused shell Vitest 5 files / 33 tests PASS; local browser screenshots 3 PNG present |
+| invariant | API / D1 / Google Form schema / auth middleware は変更なし。Tooltip は shell-local primitive、sticky visual は staging user-gated |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-shell-sidebar-tooltip-footer-header-responsive-artifact-inventory.md` |
+| user gate | staging visual screenshots、commit、push、PR |
+
+### issue-1080-bulk-tag-result-member-labels（2026-06-03）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION / staging_visual_pending_user_gate` |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-1080-bulk-tag-result-member-labels/` |
+| Issue | #1080 OPEN（mutation は user-gated） |
+| 親 workflow | `docs/30-workflows/completed-tasks/issue-1036-bulk-member-tag-assign/` |
+| source unassigned | `docs/30-workflows/completed-tasks/issue-1080-bulk-tag-result-member-labels/task-issue-1036-followup-004-bulk-tag-result-member-labels.md`（formalized / implemented local） |
+| 目的 | `/admin/members` の bulk tag 部分失敗結果 summary を raw `memberId` / `tagId` から member `fullName` / tag `label` 表示へ改善する |
+| implementation targets | `apps/web/src/features/admin/components/_members/BulkActionBar.tsx`, `apps/web/src/features/admin/components/_members/MembersClientShell.tsx`, `apps/web/src/features/admin/components/__tests__/BulkActionBar.spec.tsx` |
+| invariant | apps/api / D1 / API response shape `{ memberId, tagId, status }` / design tokens / testid / list key は不変。`membersById` は `fullName` のみで PII 最小化 |
+| evidence | focused `BulkActionBar.spec.tsx` 12 tests PASS。staging authenticated screenshot は user-gated |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1080-bulk-tag-result-member-labels-artifact-inventory.md` |
+| user gate | staging screenshot, commit, push, PR, Issue mutation |
+
 ### issue-1076-member-og-design-token-alignment（2026-06-03）
 
 | 項目 | 値 |
@@ -4061,6 +4203,21 @@ docs-only / direction-reconciliation で採用方針 A を維持する場合で�
 | admin-requests-prototype-alignment-and-404-fix | implemented_local_evidence_captured / implementation / VISUAL / staging runtime pending_user_approval | `docs/30-workflows/completed-tasks/admin-requests-prototype-alignment-and-404-fix/` | Local implementation for `/admin/requests` staging `ADMIN_FETCH_404` recovery guard and admin prototype primitive alignment. Added API mount/list regression coverage, page/panel/detail/dialog primitive alignment, CSS prototype class support, and local authenticated Playwright screenshot evidence. Existing `GET /admin/requests` and `POST /admin/requests/:noteId/resolve` contracts remain canonical; no new endpoint, D1 schema, token, or primitive. Staging deploy, staging curl 200, staging visual baseline, commit, push, and PR are user-gated. Inventory: `references/workflow-admin-requests-prototype-alignment-and-404-fix-artifact-inventory.md`. |
 | admin-schema-page-prototype-alignment-and-diff-fetch-fix | implemented_local_evidence_captured / implementation / VISUAL / runtime_visual_pending | `docs/30-workflows/completed-tasks/admin-schema-page-prototype-alignment-and-diff-fetch-fix/` | `/admin/schema` prototype alignment + observed `/admin/schema/diff` 404 regression guard. Local implementation updates page.tsx, SchemaDiffPanel `hideInlineStats`, sidebar label「スキーマ」, Playwright-only schema diff fixture fallback, schema card CSS, page/panel/sidebar/Playwright specs, and 09g screen blueprint. Web Vitest PASS: 158 files / 1147 tests / 1 skipped. Local Playwright schema visual PASS: 7 tests + Phase 11 screenshots. Staging deploy refresh, authenticated staging screenshots, commit, push, PR are user-gated. |
 
+## issue-1077-bulk-tag-authenticated-staging-visual（implemented_local_runtime_pending / implementation / VISUAL_ON_EXECUTION / 2026-06-03）
+
+| 項目 | 内容 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-1077-bulk-tag-authenticated-staging-visual/` |
+| status | `implemented_local_runtime_pending / implementation / VISUAL_ON_EXECUTION` |
+| issue | `#1077`（CLOSED 維持。Issue mutation / reopen は user-gated かつ本 wave では実行しない） |
+| parent | `docs/30-workflows/completed-tasks/issue-1036-bulk-member-tag-assign/`（bulk member tag assign 本体は PR #1085 / commit `ca3fb9336` で landed 済み） |
+| purpose | landed 済み bulk tag UI について、認証付き staging `/admin/members` 実機で BulkActionBar tag picker の assign / unassign visual baseline を取得する後続実行仕様 |
+| implementation target | `apps/web/playwright/tests/visual-staging-authenticated/admin-members-bulk-tag-authenticated.spec.ts`（新規 Playwright spec 1 file。既存 `staging-visual-authenticated` project を再利用し config 編集不要） |
+| evidence boundary | Phase 1-13 task spec、Phase 12 strict 7、新規 Playwright spec、local verification は present。Phase 11 runtime staging capture / baseline snapshot generation / commit / push / PR は user-gated |
+| invariant | read-only capture only。bulk apply mutation は押さない。apps/api / D1 schema / Google Form 仕様は変更しない |
+| artifact inventory | `references/workflow-issue-1077-bulk-tag-authenticated-staging-visual-artifact-inventory.md` |
+| source unassigned | `docs/30-workflows/unassigned-task/task-issue-1036-followup-001-staging-authenticated-bulk-tag-visual-baseline.md` は picker 2 状態を本 workflow で partially consumed。result 2 状態は mutation 副作用ありのため source 側に pending |
+
 # members-list-ux-clarity（implemented_local_runtime_pending / implementation / VISUAL / 2026-05-28）
 
 | item | value |
@@ -4070,6 +4227,7 @@ docs-only / direction-reconciliation で採用方針 A を維持する場合で�
 | implementation targets | `apps/web/src/components/public/{DensityToggle.client,MemberFilters.client,SelectedFiltersBar.client,SelectedTagsBar.client}.tsx`, `apps/web/src/components/ui/{Segmented,Search}.tsx`, `apps/web/app/(public)/members/page.tsx`, `apps/web/src/styles/legacy-public.css` |
 | evidence | focused component tests local; visual baseline / commit / push / PR user-gated |
 | issue-1007-density-toggle-help-hint-hardening | implemented_local_runtime_pending / implementation / VISUAL / Phase 12 strict outputs present / runtime visual pending_user_approval | `docs/30-workflows/completed-tasks/issue-1007-density-toggle-help-hint-hardening/` | Issue #1007. `/members` `DensityToggle` HelpHint hardening: `useId` description ids, non-controlled `<details>` Escape/outside close, `IconName` `help` glyph, pointer target guard, focused component tests 15 PASS. System specs `09-ui-ux.md` and `09d-icons.md`, Phase 11 local evidence, Phase 12 strict 7, quick-reference/resource-map/artifact inventory synchronized. Runtime screenshots, staging deploy, commit, push, PR are user-gated. Inventory: `references/workflow-issue-1007-density-toggle-help-hint-hardening-artifact-inventory.md`. |
+| issue-1079-bulk-tag-audit-batch-filter | implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION / Phase 13 pending_user_approval | `docs/30-workflows/completed-tasks/issue-1079-bulk-tag-audit-batch-filter/` | Issue #1079. Existing `/admin/audit` now accepts `batchId` query, searches bulk tag audit `after_json.$.batchId` and `before_json.$.batchId` with `json_valid` guard, preserves `batchId` through Web filter/pagination, and displays/copies row batchId via a client-only button. No new endpoint, D1 schema, or write-side change. API D1 targeted PASS 2 files / 26 tests; Web targeted PASS 3 files / 54 tests; API/Web typecheck PASS. Authenticated runtime screenshots, commit, push, PR, Issue mutation are user-gated. Inventory: `references/workflow-issue-1079-bulk-tag-audit-batch-filter-artifact-inventory.md`. |
 
 ## issue-998-members-publish-state-production-rollout
 
@@ -4105,6 +4263,18 @@ docs-only / direction-reconciliation で採用方針 A を維持する場合で�
 | tests | `infra/cloudflare-alerts/lib/__tests__/binding-policy-drift.spec.ts`, `scripts/__tests__/cf-alerts-cli.spec.ts`, `pnpm test:alerts`, `pnpm cf:alerts:binding-drift --ci` |
 | system spec | `.claude/skills/aiworkflow-requirements/references/deployment-cloudflare.md` |
 | boundary | Cloudflare API/token/apply not used by binding-drift; policy enablement/apply remains UT-17-followup-006/user-gated |
+
+# staging-api-url-and-session-recovery（2026-06-03）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/staging-api-url-and-session-recovery/` |
+| status | `implemented_local_evidence_captured / implementation / NON_VISUAL` |
+| purpose | staging `/profile` session retrieval recovery and client localhost API fallback eradication |
+| implementation targets | `apps/web/src/lib/fetch/transport.ts`, `apps/web/src/lib/fetch/authed.ts`, `apps/web/src/lib/fetch/public.ts`, `apps/web/src/lib/env.ts`, `apps/web/app/api/me/[...path]/route.ts`, `apps/web/app/api/admin/[...path]/route.ts`, `apps/web/app/api/auth/**`, `apps/web/src/lib/auth/verify-magic-link.ts`, `scripts/verify-no-localhost-bake.sh`, `scripts/diagnose-auth-secret-parity.sh`, `scripts/cf-secret-put-auth-secret.sh`, `scripts/smoke-staging-me.sh`, `.github/workflows/verify-no-localhost-bake.yml` |
+| evidence | focused Vitest 10 files / 94 tests PASS; `bash scripts/verify-no-localhost-bake.sh --src-only` PASS; `mise exec -- pnpm typecheck` PASS |
+| inventory | `references/workflow-staging-api-url-and-session-recovery-artifact-inventory.md` |
+| user gate | commit, push, PR, Cloudflare `AUTH_SECRET` mutation, staging deploy, authenticated staging runtime smoke |
 # issue-1027-member-dynamic-og-worker-split（2026-05-31）
 
 | 項目 | 値 |
@@ -4117,6 +4287,20 @@ docs-only / direction-reconciliation で採用方針 A を維持する場合で�
 | evidence | OG typecheck PASS; OG Vitest 10 PASS; web focused Vitest 17 PASS; OG Wrangler dry-run build PASS; OG size gate gzip 717KiB PASS (index.js 170KiB + wasm); web typecheck PASS |
 | source | `docs/30-workflows/unassigned-task/member-dynamic-og-paid-or-worker-split.md` consumed; upstream `web-worker-size-limit-fix` |
 | user gate | Cloudflare deploy, staging runtime PNG capture, commit, push, PR, Issue mutation |
+
+## issue-1078-bulk-tag-picker-large-catalog-ux
+
+| 項目 | 内容 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-1078-bulk-tag-picker-large-catalog-ux/` |
+| status | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION / PASS_BOUNDARY_SYNCED_RUNTIME_PENDING` |
+| issue | #1078 OPEN。close/comment mutation は user-gated |
+| purpose | `/admin/members` BulkActionBar tag picker を large catalog 対応し、#1035 `GET /admin/tags` pagination/search response `{ total, items }` を正しく読む |
+| implementation | `apps/web/src/features/admin/api/members.ts`, `apps/web/src/features/admin/api/__tests__/members.spec.ts`, `apps/web/src/features/admin/components/_members/BulkActionBar.tsx`, `apps/web/src/features/admin/components/__tests__/BulkActionBar.spec.tsx` |
+| evidence | API client 11 PASS、BulkActionBar 20 PASS、broader web Vitest 216 files / 1587 tests PASS / 1 skipped、typecheck/lint PASS、BulkActionBar token grep 0 hits |
+| contract boundary | apps/api / D1 schema 変更なし。`fetchTagMaster()` は `{ total, items }` を `{ available, total }` へ正規化し、`fetchAllTagMaster()` は `pageSize=100` で page walk + cap guard |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1078-bulk-tag-picker-large-catalog-ux-artifact-inventory.md` |
+| user gate | staging authenticated visual baseline, commit, push, PR, GitHub issue mutation |
 
 ## issue-1068-admin-tag-inline-create-ui
 
@@ -4135,3 +4319,22 @@ docs-only / direction-reconciliation で採用方針 A を維持する場合で�
 | evidence | Phase 12 strict 7 outputs present; root/output artifacts parity present; implementation and runtime screenshots pending |
 | artifact inventory | `references/workflow-issue-1068-admin-tag-inline-create-ui-artifact-inventory.md` |
 | user gate | app implementation, local visual evidence, staging verification, commit, push, PR, Issue mutation |
+
+## issue-1111-proxy-transport-util-unify
+
+| 項目 | 内容 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-1111-proxy-transport-util-unify/` |
+| status | `implemented_local_evidence_captured / refactoring / NON_VISUAL` |
+| Issue | `#1111`（CLOSED。未実施のまま close、本 WF は closed のまま実装仕様作成・mutation なし。PR 文脈は `Refs #1111` のみ） |
+| parent | `docs/30-workflows/completed-tasks/admin-meetings-attendance-404-fix-and-ux/`（FU-AMA-002） |
+| purpose | admin/public の transport 選択（service-binding 優先 → HTTP fallback）を新規 pure util `apps/web/src/lib/fetch/transport-select.ts` に集約する pure refactor |
+| implementation targets | `apps/web/src/lib/fetch/transport-select.ts`（new）, `apps/web/app/api/admin/[...path]/route.ts`, `apps/web/src/lib/admin/server-fetch.ts`, `apps/web/src/lib/fetch/public.ts` |
+| tests | `apps/web/src/lib/fetch/__tests__/transport-select.spec.ts`（new・9）, `route.spec.ts`, `server-fetch.{binding,http-fallback,env}.spec.ts`, `public.spec.ts`; focused 6 files / 44 tests PASS |
+| system spec | n/a（公開 API / D1 / Google Form 不変。web 内部 util ゆえ本 WF と artifact inventory に記録） |
+| workflow state | `implemented_local_evidence_captured`（apps/web only; `apps/api` unchanged） |
+| invariant | pure refactor（分岐結果 / fallback base 解決 / binding 無効化条件 / transport ログ出力が完全不変）。per-caller 真理値を呼び出し側に保持。`auth.ts` はスコープ外 |
+| evidence | focused Vitest 6 files / 44 tests PASS; web typecheck/lint PASS; verify:phase12-compliance ok:true; gate-metadata ERROR 0 |
+| boundary | commit, push, PR, staging smoke, Issue mutation は user-gated |
+| artifact inventory | `references/workflow-issue-1111-proxy-transport-util-unify-artifact-inventory.md` |
+| user gate | commit, push, PR, staging smoke, Issue state change |
