@@ -1,5 +1,5 @@
 import { test as base, expect, type Page, type BrowserContext } from '@playwright/test'
-import { signSessionJwt, type MemberId } from '@ubm-hyogo/shared'
+import { signSessionJwt, STABLE_KEY, type MemberId } from '@ubm-hyogo/shared'
 import { createServer, type IncomingMessage, type Server, type ServerResponse } from 'node:http'
 import { buildMember, buildPreview, buildStats } from '../../src/test-utils/fixtures/public'
 import {
@@ -56,6 +56,7 @@ type MockApiState = {
   attendanceDashboardScenario: 'all-ok' | 'overview-error' | 'by-session-empty'
   meetingsSeed: MockMeetingsSeed
   publicHomeEmpty?: boolean
+  publicMemberDetailScenario: 'full' | 'sparse' | 'message-hidden'
 }
 
 type MockApi = {
@@ -71,6 +72,9 @@ type MockApi = {
   seedMeetings: (seed?: MockMeetingsSeed) => Promise<void>
   seedUnregisteredMeeting: () => Promise<void>
   setPublicHomeEmpty: (empty: boolean) => Promise<void>
+  setPublicMemberDetailScenario: (
+    scenario: MockApiState['publicMemberDetailScenario'],
+  ) => Promise<void>
 }
 
 const STANDALONE_BASE = `http://127.0.0.1:${MOCK_API_PORT}`
@@ -105,6 +109,7 @@ const state: MockApiState = {
   pendingRequests: {},
   attendanceDashboardScenario: 'all-ok',
   meetingsSeed: defaultAttendanceSeed(),
+  publicMemberDetailScenario: 'full',
 }
 let serverPromise: Promise<void> | null = null
 let server: Server | null = null
@@ -388,6 +393,101 @@ function publicStatsBody() {
 }
 
 function publicMemberProfileBody() {
+  const scenario = state.publicMemberDetailScenario
+  const full = scenario === 'full'
+  const messageHidden = scenario === 'message-hidden'
+  const richFields = full || messageHidden
+    ? [
+        {
+          stableKey: STABLE_KEY.hometown,
+          label: '出身地',
+          value: '兵庫県明石市',
+          kind: 'shortText',
+          visibility: 'public',
+          source: 'forms',
+        },
+        {
+          stableKey: STABLE_KEY.businessOverview,
+          label: 'ビジネス概要',
+          value: '神戸を拠点に、中小企業向けの業務改善とWebサービス開発を支援しています。',
+          kind: 'paragraph',
+          visibility: 'public',
+          source: 'forms',
+        },
+        {
+          stableKey: STABLE_KEY.skills,
+          label: 'スキル',
+          value: 'TypeScript / Cloudflare Workers / 業務フロー設計',
+          kind: 'paragraph',
+          visibility: 'public',
+          source: 'forms',
+        },
+        {
+          stableKey: STABLE_KEY.canProvide,
+          label: '提供できること',
+          value: 'Webアプリの要件整理、業務自動化の壁打ち、地域事業者向けDX相談',
+          kind: 'paragraph',
+          visibility: 'public',
+          source: 'forms',
+        },
+        {
+          stableKey: STABLE_KEY.hobbies,
+          label: '趣味',
+          value: '登山、コーヒー、地域イベント巡り',
+          kind: 'shortText',
+          visibility: 'public',
+          source: 'forms',
+        },
+        {
+          stableKey: STABLE_KEY.recentInterest,
+          label: '最近の関心',
+          value: '地域コミュニティとAI活用',
+          kind: 'shortText',
+          visibility: 'public',
+          source: 'forms',
+        },
+        {
+          stableKey: STABLE_KEY.motto,
+          label: '座右の銘',
+          value: '小さく試して、早く学ぶ',
+          kind: 'shortText',
+          visibility: 'public',
+          source: 'forms',
+        },
+        {
+          stableKey: STABLE_KEY.otherActivities,
+          label: 'その他の活動',
+          value: '商店街の勉強会運営と学生向けプログラミング相談',
+          kind: 'paragraph',
+          visibility: 'public',
+          source: 'forms',
+        },
+        {
+          stableKey: STABLE_KEY.urlWebsite,
+          label: 'Webサイト',
+          value: 'https://example.test/sample-001',
+          kind: 'url',
+          visibility: 'public',
+          source: 'forms',
+        },
+        {
+          stableKey: STABLE_KEY.urlOthers,
+          label: 'その他リンク',
+          value: 'Podcast: https://podcast.example.test/sample-001',
+          kind: 'paragraph',
+          visibility: 'public',
+          source: 'forms',
+        },
+        {
+          stableKey: STABLE_KEY.selfIntroduction,
+          label: '自己紹介',
+          value: messageHidden ? '' : 'UBM兵庫で、地域の事業者同士が実務の知恵を持ち寄れる場を育てたいです。',
+          kind: 'paragraph',
+          visibility: 'public',
+          source: 'forms',
+        },
+      ]
+    : []
   return {
     memberId: 'sample-001',
     summary: {
@@ -404,13 +504,22 @@ function publicMemberProfileBody() {
         title: 'プロフィール',
         fields: [
           {
-            stableKey: 'member_display_name',
-            label: '表示名',
+            stableKey: STABLE_KEY.fullName,
+            label: '氏名',
             value: '佐藤 サンプル',
             kind: 'shortText',
             visibility: 'public',
             source: 'forms',
           },
+          {
+            stableKey: STABLE_KEY.nickname,
+            label: 'ニックネーム',
+            value: 'sample',
+            kind: 'shortText',
+            visibility: 'public',
+            source: 'forms',
+          },
+          ...richFields,
         ],
       },
     ],
@@ -1007,6 +1116,24 @@ async function ensureMockApi(): Promise<void> {
           .catch(() => response(res, 400, { error: 'invalid_json' }))
         return
       }
+      if (req.method === 'POST' && url.pathname === '/__test__/public-member-detail') {
+        readJson(req)
+          .then((body) => {
+            const parsed = body as { scenario?: MockApiState['publicMemberDetailScenario'] }
+            if (
+              parsed.scenario !== 'full' &&
+              parsed.scenario !== 'sparse' &&
+              parsed.scenario !== 'message-hidden'
+            ) {
+              response(res, 400, { error: 'invalid_public_member_detail_scenario' })
+              return
+            }
+            state.publicMemberDetailScenario = parsed.scenario
+            response(res, 200, { ok: true, scenario: state.publicMemberDetailScenario })
+          })
+          .catch(() => response(res, 400, { error: 'invalid_json' }))
+        return
+      }
       if (req.method === 'POST' && url.pathname === '/__test__/reset') {
         state.pendingRequests = {}
         delete state.visibilityPost
@@ -1014,6 +1141,7 @@ async function ensureMockApi(): Promise<void> {
         delete state.adminDashboardByStatus
         state.attendanceDashboardScenario = 'all-ok'
         delete state.publicHomeEmpty
+        state.publicMemberDetailScenario = 'full'
         state.meetingsSeed = defaultAttendanceSeed()
         response(res, 200, { ok: true })
         return
@@ -1153,6 +1281,7 @@ const mockApi: MockApi = {
     delete state.adminDashboardByStatus
     state.attendanceDashboardScenario = 'all-ok'
     delete state.publicHomeEmpty
+    state.publicMemberDetailScenario = 'full'
     state.meetingsSeed = defaultAttendanceSeed()
     await postControl('/__test__/reset')
   },
@@ -1206,6 +1335,10 @@ const mockApi: MockApi = {
   setPublicHomeEmpty: async (empty) => {
     state.publicHomeEmpty = empty
     await postControl('/__test__/public-home', { empty })
+  },
+  setPublicMemberDetailScenario: async (scenario) => {
+    state.publicMemberDetailScenario = scenario
+    await postControl('/__test__/public-member-detail', { scenario })
   },
 }
 

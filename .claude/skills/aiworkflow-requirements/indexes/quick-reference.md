@@ -1,5 +1,18 @@
 # クイックリファレンス
 
+## public-member-detail-survey-fields-richness（2026-06-07）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/public-member-detail-survey-fields-richness/` |
+| status | `implemented_local_visual_present_staging_pending / implementation / VISUAL_ON_EXECUTION` |
+| purpose | 公開メンバー詳細を prototype 準拠の Hero / BUSINESS OVERVIEW / TAGS+SNS / PERSONAL / MESSAGE 構造へ再構成し、`TEST-MEM-01` seed に public survey fields を持たせる |
+| implementation | `member-detail.ts`（stableKey 駆動 section 再構成 + hometown 抽出 + `other` 元構造保持 fallback）、public components（`ProfileHero` / `MemberDetail` / `BusinessOverviewSection` / `PersonalSection` / `MessageCard` / `MemberTags`）、`globals.css` / `legacy-public.css`（sticky footer 重なり修正）、`test-accounts/{catalog,build-seed-sql}.ts` + 生成 seed SQL |
+| evidence | focused Vitest 5 files / 31 tests PASS; web/api typecheck PASS; stableKey lint PASS; Phase 11 local runtime screenshots 3 PNG present |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-public-member-detail-survey-fields-richness-artifact-inventory.md` |
+| invariant | API endpoint / API response contract / D1 migration / Google Form schema 不変; web は D1 直接アクセスなし; stableKey は `STABLE_KEY` 経由 |
+| user gate | staging seed apply, authenticated staging screenshots, commit, push, PR |
+
 ## issue-1101-attendance-analytics-calc-correction（2026-06-05）
 
 | 項目 | 値 |
