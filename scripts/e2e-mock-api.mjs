@@ -122,6 +122,8 @@ const attendanceOverviewBody = () => ({
   totalSessions: 12,
   totalMembers: 30,
   overallRate: 0.75,
+  uniqueAttendeeCount: 24,
+  uniqueAttendanceRate: 0.8,
   filter: attendanceFilterEcho(),
   previousPeriodRate: 0.68,
 });
@@ -159,11 +161,25 @@ const attendanceTrendBody = () => ({
 });
 const attendanceZoneDistributionBody = () => ({
   rows: [
-    { zone: "0→1", attendeeCount: 6, rate: 0.2 },
-    { zone: "1→10", attendeeCount: 21, rate: 0.7 },
-    { zone: "10→100", attendeeCount: 3, rate: 0.1 },
+    { zone: "zone_0", attendeeCount: 6, rate: 0.2 },
+    { zone: "zone_1_9", attendeeCount: 21, rate: 0.7 },
+    { zone: "zone_10_99", attendeeCount: 3, rate: 0.1 },
+    { zone: "zone_100_plus", attendeeCount: 0, rate: 0 },
     { zone: "unknown", attendeeCount: 0, rate: 0 },
   ],
+  filter: attendanceFilterEcho(),
+});
+const attendanceAbsenteesBody = () => ({
+  rows: [
+    {
+      memberId: "mem_delta",
+      displayName: "西宮 三郎",
+      zone: "zone_0",
+      lastAttendedAt: null,
+      missedCount: 3,
+    },
+  ],
+  lastN: 3,
   filter: attendanceFilterEcho(),
 });
 
@@ -641,6 +657,9 @@ const server = createServer(async (req, res) => {
   }
   if (req.method === "GET" && pathname === "/admin/dashboard/attendance/zone-distribution") {
     return writeJson(res, 200, attendanceZoneDistributionBody());
+  }
+  if (req.method === "GET" && pathname === "/admin/dashboard/attendance/absentees") {
+    return writeJson(res, 200, attendanceAbsenteesBody());
   }
   if (req.method === "GET" && pathname === "/admin/members") {
     return safeJson(res, 200, adminMembersResponse(url.searchParams), schemas.AdminMemberListZ);
