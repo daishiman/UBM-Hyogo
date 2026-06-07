@@ -2842,6 +2842,16 @@ node scripts/list-specs.js --topics
 | Boundary | L39 |
 | Lessons | L43 |
 
+### references/workflow-issue-1125-bulk-tag-result-staging-mutation-visual-baseline-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Summary | L3 |
+| Implementation Artifacts | L13 |
+| Workflow Artifacts | L24 |
+| Evidence | L34 |
+| Lessons Learned | L42 |
+
 ### references/workflow-issue-191-schema-aliases-artifact-inventory.md
 
 | セクション | 行 |
@@ -8814,9 +8824,9 @@ node scripts/list-specs.js --topics
 | Current Active / Spec Created Tasks | L3861 |
 | UT-17 followup-003 alert-relay weekly healthcheck cron | L4027 |
 | issue-1077-bulk-tag-authenticated-staging-visual（implemented_local_runtime_pending / implementation / VISUAL_ON_EXECUTION / 2026-06-03） | L4095 |
-| issue-998-members-publish-state-production-rollout | L4121 |
-| issue-1078-bulk-tag-picker-large-catalog-ux | L4168 |
-| issue-1068-admin-tag-inline-create-ui | L4182 |
+| issue-998-members-publish-state-production-rollout | L4122 |
+| issue-1078-bulk-tag-picker-large-catalog-ux | L4169 |
+| issue-1068-admin-tag-inline-create-ui | L4183 |
 
 ### references/task-workflow-backlog-part2.md
 
