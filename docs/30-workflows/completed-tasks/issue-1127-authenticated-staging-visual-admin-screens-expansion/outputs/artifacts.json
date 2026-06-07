@@ -1,0 +1,73 @@
+{
+  "title": "issue-1127-authenticated-staging-visual-admin-screens-expansion",
+  "type": "implementation",
+  "status": "implemented_local_runtime_pending",
+  "feature": "issue-1127-authenticated-staging-visual-admin-screens-expansion",
+  "created": "2026-06-07",
+  "lastUpdated": "2026-06-07",
+  "branch": "docs/issue-1127-authenticated-staging-visual-admin-screens-expansion-spec",
+  "base": "dev",
+  "metadata": {
+    "taskType": "implementation",
+    "implementationDivision": "実装仕様書",
+    "implementation_mode": "new",
+    "taskClassification": "UI",
+    "visualEvidence": "VISUAL_ON_EXECUTION",
+    "visualEvidenceStatus": "implemented_local_runtime_pending",
+    "workflow_state": "implemented_local_runtime_pending",
+    "implementation_status": "implemented_local_runtime_pending",
+    "issueNumber": 1127,
+    "issueState": "CLOSED",
+    "issueReferenceMode": "refs_only",
+    "scope": "Phase 1-13 task specification documents for issue #1127 (authenticated staging visual base horizontal expansion to admin screens). The deliverable is 5 new read-only Playwright visual specs under apps/web/playwright/tests/visual-staging-authenticated/ (admin-audit / admin-requests / admin-identity-conflicts / admin-schema / admin-meetings), each reusing the issue-1077 admin storageState and capturing only the read-only initial render. No product code (apps/web/src, apps/api), D1 schema, playwright.config.ts, or CI workflow is changed. Issue #1127 remains CLOSED per user instruction (refs-only).",
+    "investigationConclusion": "Investigation found issue #1127 PARTIALLY resolved: /admin (dashboard, issue-901), /admin/tags (admin-tag-queue task), and /admin/members bulk-tag (issue-1077) already have authenticated staging visual specs, but the 5 screens listed in the issue (audit, requests, identity-conflicts, schema, meetings) remain uncovered. The horizontal expansion is therefore still needed. The issue is optimized to current code by removing /admin/tags (already done) from scope and focusing on the 5 uncovered screens, capturing read-only initial render only (mutation triggers never clicked) so no staging D1 side effects occur. The base auto-recognizes new specs via testDir + path glob, so no new project/workflow is needed.",
+    "issueOptimizations": [
+      "O1: /admin/tags removed from horizontal-expansion scope (already covered by admin-tag-queue-ui-and-404-recovery/task-C)",
+      "O2: scope narrowed to the 5 genuinely-uncovered screens (audit/requests/identity-conflicts/schema/meetings)",
+      "O3: read-only capture limited to initial render (no mutation click) so schema/meetings forms can be captured safely without staging D1 side effects",
+      "O4: mutation-result baselines kept as a permanent architectural boundary delegated to C-1 family (issue-1125-style seed/cleanup), not a deferral",
+      "O5: existing project (staging-visual-authenticated) and CI reused via testDir + path glob auto-recognition; no new project/workflow"
+    ],
+    "changeTargets": [
+      "apps/web/playwright/tests/visual-staging-authenticated/admin-audit-authenticated.spec.ts (new)",
+      "apps/web/playwright/tests/visual-staging-authenticated/admin-requests-authenticated.spec.ts (new)",
+      "apps/web/playwright/tests/visual-staging-authenticated/admin-identity-conflicts-authenticated.spec.ts (new)",
+      "apps/web/playwright/tests/visual-staging-authenticated/admin-schema-authenticated.spec.ts (new)",
+      "apps/web/playwright/tests/visual-staging-authenticated/admin-meetings-authenticated.spec.ts (new)"
+    ],
+    "referencePattern": "apps/web/playwright/tests/visual-staging-authenticated/admin-tags-authenticated.spec.ts + admin-dashboard-authenticated.spec.ts + setup.staging-auth.ts + apps/web/playwright/scripts/mint-staging-storage-state.ts + .github/workflows/playwright-staging-visual-authenticated.yml",
+    "userGated": [
+      "staging admin storageState mint + authenticated runtime screenshot capture（Phase 11 runtime visual evidence）",
+      "visual baseline 初回生成（--update-snapshots）",
+      "commit",
+      "push",
+      "PR creation"
+    ],
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-06-07T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-1127-authenticated-staging-visual-admin-screens-expansion/phase-3.md",
+        "approver": "daishiman",
+        "notes": "design_review: Phase 1-3 design backbone authored; 5 spec canonical names / selectors / read-only boundary fixed against actual code; 4-condition evaluation passed; Phase 4 progression approved"
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "passed",
+        "passed_at": "2026-06-07T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-1127-authenticated-staging-visual-admin-screens-expansion/phase-9.md",
+        "approver": "daishiman",
+        "notes": "implementation (implemented_local_runtime_pending): Phase 1-13 spec docs complete and 5 Playwright specs are physically created under apps/web/playwright/tests/visual-staging-authenticated/. Baseline generation and staging capture are user-gated (CONST_002)"
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-1127-authenticated-staging-visual-admin-screens-expansion/phase-13.md",
+        "approver": "daishiman",
+        "notes": "external_ops (blocked_pending_user_approval): staging admin storageState mint, authenticated runtime screenshots, --update-snapshots baseline, commit/push/PR are user-gated (CONST_002)"
+      }
+    ]
+  }
+}

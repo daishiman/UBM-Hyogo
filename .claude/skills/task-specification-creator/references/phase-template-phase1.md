@@ -192,6 +192,29 @@ Phase 1 outputs には以下を記録する:
 
 参考実例: task-17 admin schema/conflicts/audit では `apps/web/app/(admin)/admin/{schema,identity-conflicts,audit}/page.tsx` と `apps/web/src/components/admin/*` が既に存在したため、`new` ではなく `existing-admin-contract-hardening` に再分類した。
 
+### Reuse-pattern Expansion Inventory Gate
+
+既存基盤を複数 route / 画面 / workflow へ横展開するタスクでは、候補一覧をそのまま実装対象にしない。
+Phase 1 で「候補 × current 実装状況」の突合表を作り、既に coverage / spec / CI 対応が存在する候補はスコープから除外する。
+元 issue / unassigned-task の候補が陳腐化している場合は、現行コードと既存 spec を正本にして対象を縮約する。
+
+必須確認:
+
+```bash
+rg --files apps/web/playwright apps/web/tests apps/web/src apps/web/app | rg '<route-or-feature-keyword>'
+rg -n '<canonical-screenshot-or-spec-name>|<route>' docs/30-workflows .claude/skills/aiworkflow-requirements
+```
+
+Phase 1 outputs には以下を記録する:
+
+| 候補 | current coverage/spec | 判定 | 根拠 |
+| --- | --- | --- | --- |
+| `/admin/tags` | existing authenticated visual spec | scope-out | 既存 workflow で完了済み |
+| `/admin/audit` | no authenticated visual spec | implement | 横展開対象 |
+
+実装 target が明確な候補は、staging 実走・baseline commit・PR など user-gated な外部操作だけを残し、
+local spec / runner / helper / focused static verification は同一 cycle で実装して `implemented_local_runtime_pending` 等へ昇格する。
+
 ## 1.X 外部 SaaS 無料枠仕様調査（リスク前置き）
 
 監視・分析・認証等の SaaS 連携がある場合、Phase 1 ヒアリングで以下 3 点を必ず確保する:

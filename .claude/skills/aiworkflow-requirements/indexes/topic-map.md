@@ -2857,6 +2857,20 @@ node scripts/list-specs.js --topics
 | Notes | L15 |
 | Lessons Learned | L21 |
 
+### references/workflow-issue-1127-authenticated-staging-visual-admin-screens-expansion-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Summary | L5 |
+| Canonical workflow | L15 |
+| Implementation targets | L27 |
+| Invariants | L37 |
+| Runtime visual evidence | L44 |
+| Gates | L54 |
+| Source unassigned trace | L62 |
+| User-gated actions | L68 |
+| Lessons Learned | L75 |
+
 ### references/workflow-issue-191-schema-aliases-artifact-inventory.md
 
 | セクション | 行 |
@@ -8841,18 +8855,18 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L3803 |
-| フェーズ構造（概要） | L3812 |
-| 品質ゲート（概要） | L3843 |
-| 出力テンプレート | L3854 |
-| 実行時のコマンド・エージェント・スキル | L3877 |
-| 昇格パターン集 | L3901 |
-| Current Active / Spec Created Tasks | L3903 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L4069 |
-| issue-1077-bulk-tag-authenticated-staging-visual（implemented_local_runtime_pending / implementation / VISUAL_ON_EXECUTION / 2026-06-03） | L4137 |
-| issue-998-members-publish-state-production-rollout | L4163 |
-| issue-1078-bulk-tag-picker-large-catalog-ux | L4222 |
-| issue-1068-admin-tag-inline-create-ui | L4236 |
+| ドキュメント構成 | L3816 |
+| フェーズ構造（概要） | L3825 |
+| 品質ゲート（概要） | L3856 |
+| 出力テンプレート | L3867 |
+| 実行時のコマンド・エージェント・スキル | L3890 |
+| 昇格パターン集 | L3914 |
+| Current Active / Spec Created Tasks | L3916 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L4082 |
+| issue-1077-bulk-tag-authenticated-staging-visual（implemented_local_runtime_pending / implementation / VISUAL_ON_EXECUTION / 2026-06-03） | L4150 |
+| issue-998-members-publish-state-production-rollout | L4176 |
+| issue-1078-bulk-tag-picker-large-catalog-ux | L4235 |
+| issue-1068-admin-tag-inline-create-ui | L4249 |
 
 ### references/task-workflow-backlog-part2.md
 

@@ -8,6 +8,19 @@
 
 本ドキュメントは、複雑なタスクを単一責務の原則に基づいて分解し、各サブタスクに最適なスラッシュコマンド・エージェント・スキルの組み合わせを選定するためのガイドラインを定義する。
 
+### issue-1127-authenticated-staging-visual-admin-screens-expansion（2026-06-07）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_runtime_pending / implementation / VISUAL_ON_EXECUTION` |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-1127-authenticated-staging-visual-admin-screens-expansion/` |
+| 目的 | issue-1077 authenticated staging visual 基盤を、未カバー 5 admin 画面（audit / requests / identity-conflicts / schema / meetings）へ read-only 初期表示 baseline として横展開する |
+| implementation targets | `apps/web/playwright/tests/visual-staging-authenticated/admin-audit-authenticated.spec.ts`, `admin-requests-authenticated.spec.ts`, `admin-identity-conflicts-authenticated.spec.ts`, `admin-schema-authenticated.spec.ts`, `admin-meetings-authenticated.spec.ts` |
+| invariant | read-only 初期表示のみ。承認/却下、merge/別人マーク、alias 割当、Bulk Resolve/Rollback、再集計、開催日 CRUD、出席 CRUD はクリックしない。`apps/web/src` / `apps/api` / D1 / `playwright.config.ts` / CI は不変 |
+| evidence | local Playwright spec 5 本追加。`staging-visual-authenticated --list` / typecheck / lint を local evidence とし、authenticated staging capture と baseline 生成は user-gated |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1127-authenticated-staging-visual-admin-screens-expansion-artifact-inventory.md` |
+| user gate | staging admin storageState mint、authenticated runtime screenshot、`--update-snapshots` baseline、commit、push、PR。Issue #1127 は CLOSED 維持 |
+
 ### issue-1089-backfill-impact-preview（2026-06-05）
 
 | 項目 | 値 |
