@@ -43,6 +43,8 @@ vi.mock("../../../features/admin/hooks", () => ({
 }));
 
 import { IdentityConflictRow } from "../IdentityConflictRow";
+import { IdentityConflictAnnouncer } from "../IdentityConflictAnnouncer";
+import { announcementFor } from "../identityConflictAnnouncements";
 import type { IdentityConflictRow as Row } from "@ubm-hyogo/shared";
 import { FetchAuthedError } from "../../../lib/fetch/errors";
 
@@ -84,6 +86,13 @@ const setMutationState = (
 
 const getRowRoot = () => screen.getByText("conflict: c_1").closest("[data-state]");
 
+const renderWithAnnouncer = () =>
+  render(
+    <IdentityConflictAnnouncer>
+      <IdentityConflictRow item={item} />
+    </IdentityConflictAnnouncer>,
+  );
+
 const dismissRollbackCases: Array<[string, Error, string]> = [
   [
     "403",
@@ -100,14 +109,14 @@ const dismissRollbackCases: Array<[string, Error, string]> = [
 
 describe("IdentityConflictRow", () => {
   it("idle 段階で merge / dismiss ボタンと conflict メタを表示する", () => {
-    render(<IdentityConflictRow item={item} />);
+    renderWithAnnouncer();
     expect(screen.getByText("conflict: c_1")).toBeTruthy();
     expect(screen.getByRole("button", { name: "merge" })).toBeTruthy();
     expect(screen.getByRole("button", { name: "別人マーク" })).toBeTruthy();
   });
 
   it("merge → 確認1 → 次へ で確認2 (理由入力) に進み、空理由は実行不可", () => {
-    render(<IdentityConflictRow item={item} />);
+    renderWithAnnouncer();
     fireEvent.click(screen.getByRole("button", { name: "merge" }));
     expect(screen.getByText(/確認 1\/2/)).toBeTruthy();
     fireEvent.click(screen.getByRole("button", { name: "次へ" }));
@@ -120,7 +129,7 @@ describe("IdentityConflictRow", () => {
     const trigger = vi.fn(() => new Promise(() => {}));
     setMutationState(mergeEndpoint, { trigger });
 
-    render(<IdentityConflictRow item={item} />);
+    renderWithAnnouncer();
     fireEvent.click(screen.getByRole("button", { name: "merge" }));
     fireEvent.click(screen.getByRole("button", { name: "次へ" }));
     fireEvent.change(screen.getByLabelText("merge 理由"), {
@@ -143,7 +152,7 @@ describe("IdentityConflictRow", () => {
     const trigger = vi.fn(() => new Promise(() => {}));
     setMutationState(mergeEndpoint, { trigger });
 
-    render(<IdentityConflictRow item={item} />);
+    renderWithAnnouncer();
     fireEvent.click(screen.getByRole("button", { name: "merge" }));
     fireEvent.click(screen.getByRole("button", { name: "次へ" }));
     fireEvent.change(screen.getByLabelText("merge 理由"), {
@@ -164,7 +173,7 @@ describe("IdentityConflictRow", () => {
     const trigger = vi.fn(() => new Promise(() => {}));
     setMutationState(mergeEndpoint, { trigger });
 
-    render(<IdentityConflictRow item={item} />);
+    renderWithAnnouncer();
     fireEvent.click(screen.getByRole("button", { name: "merge" }));
     fireEvent.click(screen.getByRole("button", { name: "次へ" }));
     fireEvent.change(screen.getByLabelText("merge 理由"), {
@@ -194,7 +203,7 @@ describe("IdentityConflictRow", () => {
     const trigger = vi.fn(() => new Promise(() => {}));
     setMutationState(mergeEndpoint, { trigger });
 
-    render(<IdentityConflictRow item={item} />);
+    renderWithAnnouncer();
     fireEvent.click(screen.getByRole("button", { name: "merge" }));
     fireEvent.click(screen.getByRole("button", { name: "次へ" }));
     fireEvent.change(screen.getByLabelText("merge 理由"), {
@@ -219,7 +228,7 @@ describe("IdentityConflictRow", () => {
     });
     setMutationState(mergeEndpoint, { trigger });
 
-    render(<IdentityConflictRow item={item} />);
+    renderWithAnnouncer();
     fireEvent.click(screen.getByRole("button", { name: "merge" }));
     fireEvent.click(screen.getByRole("button", { name: "次へ" }));
     fireEvent.change(screen.getByLabelText("merge 理由"), {
@@ -235,10 +244,15 @@ describe("IdentityConflictRow", () => {
     );
     fireEvent.transitionEnd(getRowRoot()!, { propertyName: "opacity" });
     await waitFor(() => expect(screen.queryByText("conflict: c_1")).toBeNull());
+    await waitFor(() =>
+      expect(screen.getByRole("status").textContent).toContain(
+        announcementFor("merge"),
+      ),
+    );
   });
 
   it("hook の successMessage は '✓ 統合しました'", () => {
-    render(<IdentityConflictRow item={item} />);
+    renderWithAnnouncer();
     fireEvent.click(screen.getByRole("button", { name: "merge" }));
     fireEvent.click(screen.getByRole("button", { name: "次へ" }));
     expect(lastOptionsByEndpoint.get(mergeEndpoint)?.successMessage).toBe(
@@ -258,7 +272,7 @@ describe("IdentityConflictRow", () => {
       error: apiError,
     });
 
-    render(<IdentityConflictRow item={item} />);
+    renderWithAnnouncer();
     fireEvent.click(screen.getByRole("button", { name: "merge" }));
     fireEvent.click(screen.getByRole("button", { name: "次へ" }));
     fireEvent.change(screen.getByLabelText("merge 理由"), {
@@ -288,7 +302,7 @@ describe("IdentityConflictRow", () => {
       error: new Error("対象 ID が一致しません"),
     });
 
-    render(<IdentityConflictRow item={item} />);
+    renderWithAnnouncer();
     fireEvent.click(screen.getByRole("button", { name: "merge" }));
     fireEvent.click(screen.getByRole("button", { name: "次へ" }));
     fireEvent.change(screen.getByLabelText("merge 理由"), {
@@ -308,7 +322,7 @@ describe("IdentityConflictRow", () => {
     });
     setMutationState(dismissEndpoint, { trigger });
 
-    render(<IdentityConflictRow item={item} />);
+    renderWithAnnouncer();
     fireEvent.click(screen.getByRole("button", { name: "別人マーク" }));
     fireEvent.change(screen.getByLabelText("別人マーク理由"), {
       target: { value: "別組織で確認済" },
@@ -322,11 +336,17 @@ describe("IdentityConflictRow", () => {
     );
   });
 
-  it("dismiss 実行直後に server 応答前でも row を optimistic に非表示にする", async () => {
-    const trigger = vi.fn(() => new Promise(() => {}));
+  it("dismiss 実行直後に row を optimistic に非表示にし、成功後に announce する", async () => {
+    let resolveDismiss: (value: { dismissedAt: string }) => void = () => {};
+    const trigger = vi.fn(
+      () =>
+        new Promise<{ dismissedAt: string }>((resolve) => {
+          resolveDismiss = resolve;
+        }),
+    );
     setMutationState(dismissEndpoint, { trigger });
 
-    render(<IdentityConflictRow item={item} />);
+    renderWithAnnouncer();
     fireEvent.click(screen.getByRole("button", { name: "別人マーク" }));
     fireEvent.change(screen.getByLabelText("別人マーク理由"), {
       target: { value: "別組織で確認済" },
@@ -340,8 +360,17 @@ describe("IdentityConflictRow", () => {
     );
     await waitFor(() => expect(screen.queryByText("conflict: c_1")).toBeNull());
     const status = screen.getByRole("status");
-    expect(status.textContent).toContain("候補を一覧から非表示にしました");
-    await waitFor(() => expect(document.activeElement).toBe(status));
+    expect(screen.getAllByRole("status")).toHaveLength(1);
+    expect(status.textContent).not.toContain(announcementFor("dismiss"));
+
+    await act(async () => {
+      resolveDismiss({ dismissedAt: "2026-05-16T00:00:00.000Z" });
+    });
+
+    await waitFor(() =>
+      expect(status.textContent).toContain(announcementFor("dismiss")),
+    );
+    await waitFor(() => expect(document.activeElement).not.toBe(status));
   });
 
   it("dismiss 成功後も row は非表示を維持する", async () => {
@@ -350,7 +379,7 @@ describe("IdentityConflictRow", () => {
     });
     setMutationState(dismissEndpoint, { trigger });
 
-    render(<IdentityConflictRow item={item} />);
+    renderWithAnnouncer();
     fireEvent.click(screen.getByRole("button", { name: "別人マーク" }));
     fireEvent.change(screen.getByLabelText("別人マーク理由"), {
       target: { value: "別組織で確認済" },
@@ -370,7 +399,7 @@ describe("IdentityConflictRow", () => {
       error: new Error("すでに別人として確定済みです"),
     });
 
-    render(<IdentityConflictRow item={item} />);
+    renderWithAnnouncer();
     fireEvent.click(screen.getByRole("button", { name: "別人マーク" }));
     fireEvent.change(screen.getByLabelText("別人マーク理由"), {
       target: { value: "別組織で確認済" },
@@ -383,6 +412,9 @@ describe("IdentityConflictRow", () => {
       expect(screen.getByRole("alert").textContent).toContain(
         "すでに別人として確定済みです",
       ),
+    );
+    expect(screen.getByRole("status").textContent).not.toContain(
+      announcementFor("dismiss"),
     );
     expect(
       (screen.getByLabelText("別人マーク理由") as HTMLTextAreaElement).value,
@@ -401,7 +433,7 @@ describe("IdentityConflictRow", () => {
         error,
       });
 
-      render(<IdentityConflictRow item={item} />);
+      renderWithAnnouncer();
       fireEvent.click(screen.getByRole("button", { name: "別人マーク" }));
       fireEvent.change(screen.getByLabelText("別人マーク理由"), {
         target: { value: "別組織で確認済" },
@@ -429,7 +461,7 @@ describe("IdentityConflictRow", () => {
       error: new Error("一時的な競合です"),
     });
 
-    render(<IdentityConflictRow item={item} />);
+    renderWithAnnouncer();
     fireEvent.click(screen.getByRole("button", { name: "別人マーク" }));
     fireEvent.change(screen.getByLabelText("別人マーク理由"), {
       target: { value: "別組織で確認済" },
@@ -462,7 +494,7 @@ describe("IdentityConflictRow", () => {
     });
     setMutationState(mergeEndpoint, { trigger: mergeTrigger });
 
-    render(<IdentityConflictRow item={item} />);
+    renderWithAnnouncer();
     fireEvent.click(screen.getByRole("button", { name: "別人マーク" }));
     fireEvent.change(screen.getByLabelText("別人マーク理由"), {
       target: { value: "別組織で確認済" },
@@ -490,7 +522,7 @@ describe("IdentityConflictRow", () => {
   });
 
   it("merge-confirm キャンセルで idle に戻り、reason はリセットされる", () => {
-    render(<IdentityConflictRow item={item} />);
+    renderWithAnnouncer();
     fireEvent.click(screen.getByRole("button", { name: "merge" }));
     fireEvent.click(screen.getByRole("button", { name: "次へ" }));
     fireEvent.change(screen.getByLabelText("merge 理由"), {

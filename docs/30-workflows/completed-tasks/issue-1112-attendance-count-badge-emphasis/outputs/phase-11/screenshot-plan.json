@@ -1,0 +1,27 @@
+{
+  "mode": "VISUAL",
+  "taskId": "issue-1112-attendance-count-badge-emphasis",
+  "shots": [
+    {
+      "tc": "TC-BADGE-01",
+      "file": "screenshots/attendance-badge-level-none.png",
+      "scenario": "出席 0 名（未登録）バッジ = neutral",
+      "route": "/admin/meetings",
+      "component": "MeetingTimeline"
+    },
+    {
+      "tc": "TC-BADGE-02",
+      "file": "screenshots/attendance-badge-level-normal.png",
+      "scenario": "出席 1〜9 名 = accent（通常）",
+      "route": "/admin/meetings",
+      "component": "MeetingTimeline"
+    },
+    {
+      "tc": "TC-BADGE-03",
+      "file": "screenshots/attendance-badge-level-high.png",
+      "scenario": "出席 10 名以上 = success（多数出席強調）",
+      "route": "/admin/meetings",
+      "component": "MeetingTimeline"
+    }
+  ]
+}

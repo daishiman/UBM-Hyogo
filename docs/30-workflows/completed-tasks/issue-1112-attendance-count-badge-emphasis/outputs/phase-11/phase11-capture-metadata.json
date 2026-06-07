@@ -1,0 +1,29 @@
+{
+  "taskId": "issue-1112-attendance-count-badge-emphasis",
+  "visualEvidence": "VISUAL_ON_EXECUTION",
+  "capturedAt": "2026-06-06T04:41:16.989Z",
+  "mode": "local-playwright-fixture",
+  "route": "/admin/meetings",
+  "component": "MeetingTimeline",
+  "shots": [
+    {
+      "tc": "TC-BADGE-01",
+      "file": "screenshots/attendance-badge-level-none.png",
+      "capturedAt": "2026-06-06T04:41:16.989Z",
+      "status": "present"
+    },
+    {
+      "tc": "TC-BADGE-02",
+      "file": "screenshots/attendance-badge-level-normal.png",
+      "capturedAt": "2026-06-06T04:41:16.989Z",
+      "status": "present"
+    },
+    {
+      "tc": "TC-BADGE-03",
+      "file": "screenshots/attendance-badge-level-high.png",
+      "capturedAt": "2026-06-06T04:41:16.989Z",
+      "status": "present"
+    }
+  ],
+  "stagingRuntimeBoundary": "staging authenticated screenshots remain user-gated"
+}

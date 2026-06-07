@@ -2850,6 +2850,80 @@ node scripts/list-specs.js --topics
 | Evidence Boundary | L27 |
 | Lessons Learned | L31 |
 
+### references/workflow-issue-1089-backfill-impact-preview-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Notes | L15 |
+| Lessons Learned | L21 |
+
+### references/workflow-issue-1094-identity-conflicts-optimistic-aria-live-announcement-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Summary | L3 |
+| Implementation Artifacts | L12 |
+| Evidence | L23 |
+| Invariants | L34 |
+| Lessons Learned | L42 |
+
+### references/workflow-issue-1101-attendance-analytics-calc-correction-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Summary | L3 |
+| Implementation Targets | L13 |
+| Contract | L25 |
+| Evidence | L33 |
+| Invariants | L43 |
+| Skill Feedback | L50 |
+| Lessons Learned | L54 |
+
+### references/workflow-issue-1102-usedismissable-hook-extraction-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Metadata | L3 |
+| Implementation | L13 |
+| Evidence | L24 |
+| Invariants | L32 |
+| User Gate | L39 |
+| Lessons Learned | L43 |
+
+### references/workflow-issue-1103-globals-css-shell-block-consolidation-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Summary | L3 |
+| Workflow Artifacts | L9 |
+| Implementation Targets | L19 |
+| Evidence | L23 |
+| Boundary | L33 |
+
+### references/workflow-issue-1105-member-status-fk-constraint-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Phase Artifacts | L15 |
+| Implementation Notes | L26 |
+| Lessons Learned | L32 |
+
+### references/workflow-issue-1111-proxy-transport-util-unify-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Metadata | L3 |
+| Workflow artifacts | L18 |
+| Implemented files (apps/web only) | L33 |
+| Boundaries | L43 |
+| Lessons Learned | L51 |
+
+### references/workflow-issue-1112-attendance-count-badge-emphasis-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Summary | L14 |
+
 ### references/workflow-issue-1118-admin-tag-catalog-lifecycle-ui-artifact-inventory.md
 
 | セクション | 行 |
@@ -5898,15 +5972,15 @@ node scripts/list-specs.js --topics
 
 | セクション | 行 |
 |------------|----|
-| 概要 | L27 |
-| 使い方 | L35 |
-| Current Alias Overrides（個別互換行） | L42 |
-| Family Summary | L88 |
-| Detailed Register | L109 |
-| Section Extract Register (2026-03-17) | L290 |
-| 500-Line Split Register (2026-03-16) | L301 |
-| Fragment Migration Register (2026-04-28) | L323 |
-| Task Root Path Drift Register (2026-04-30 追記) | L350 |
+| 概要 | L28 |
+| 使い方 | L36 |
+| Current Alias Overrides（個別互換行） | L43 |
+| Family Summary | L89 |
+| Detailed Register | L110 |
+| Section Extract Register (2026-03-17) | L291 |
+| 500-Line Split Register (2026-03-16) | L302 |
+| Fragment Migration Register (2026-04-28) | L324 |
+| Task Root Path Drift Register (2026-04-30 追記) | L351 |
 
 ### references/lessons-fetch-service-binding-testing.md
 
@@ -8845,18 +8919,19 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L3803 |
-| フェーズ構造（概要） | L3812 |
-| 品質ゲート（概要） | L3843 |
-| 出力テンプレート | L3854 |
-| 実行時のコマンド・エージェント・スキル | L3877 |
-| 昇格パターン集 | L3901 |
-| Current Active / Spec Created Tasks | L3903 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L4069 |
-| issue-1077-bulk-tag-authenticated-staging-visual（implemented_local_runtime_pending / implementation / VISUAL_ON_EXECUTION / 2026-06-03） | L4137 |
-| issue-998-members-publish-state-production-rollout | L4163 |
-| issue-1078-bulk-tag-picker-large-catalog-ux | L4222 |
-| issue-1068-admin-tag-inline-create-ui | L4236 |
+| ドキュメント構成 | L3887 |
+| フェーズ構造（概要） | L3896 |
+| 品質ゲート（概要） | L3927 |
+| 出力テンプレート | L3938 |
+| 実行時のコマンド・エージェント・スキル | L3961 |
+| 昇格パターン集 | L3985 |
+| Current Active / Spec Created Tasks | L3987 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L4153 |
+| issue-1077-bulk-tag-authenticated-staging-visual（implemented_local_runtime_pending / implementation / VISUAL_ON_EXECUTION / 2026-06-03） | L4221 |
+| issue-998-members-publish-state-production-rollout | L4247 |
+| issue-1078-bulk-tag-picker-large-catalog-ux | L4306 |
+| issue-1068-admin-tag-inline-create-ui | L4320 |
+| issue-1111-proxy-transport-util-unify | L4338 |
 
 ### references/task-workflow-backlog-part2.md
 

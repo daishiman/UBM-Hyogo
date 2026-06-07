@@ -4,6 +4,12 @@ import type { AttendanceFilter } from "../repository/attendance-analytics";
 
 const ISO_DATE = /^\d{4}-\d{2}-\d{2}$/;
 
+const LEGACY_ATTENDANCE_ZONE_MAP: Record<string, AttendanceZone> = {
+  "0→1": "zone_0",
+  "1→10": "zone_1_9",
+  "10→100": "zone_10_99",
+};
+
 export const parseIsoDateOrNull = (raw: string | undefined | null): string | null => {
   if (!raw) return null;
   return ISO_DATE.test(raw) ? raw : null;
@@ -16,6 +22,9 @@ export const parseZones = (raw: string | undefined | null): AttendanceZone[] | n
     const trimmed = z.trim();
     const parsed = AttendanceZoneZ.safeParse(trimmed);
     if (parsed.success) out.add(parsed.data);
+    else if (trimmed in LEGACY_ATTENDANCE_ZONE_MAP) {
+      out.add(LEGACY_ATTENDANCE_ZONE_MAP[trimmed]);
+    }
   }
   return out.size > 0 ? [...out] : null;
 };

@@ -13,6 +13,7 @@ import {
   AdminSectionErrorClient,
 } from "../../../../src/features/admin/components/_shared";
 import type { ListIdentityConflictsResponse } from "@ubm-hyogo/shared";
+import { IdentityConflictAnnouncer } from "../../../../src/components/admin/IdentityConflictAnnouncer";
 import { IdentityConflictRow } from "../../../../src/components/admin/IdentityConflictRow";
 
 export const dynamic = "force-dynamic";
@@ -73,13 +74,15 @@ export default async function AdminIdentityConflictsPage({
           description="merge は二段階確認、別人確定は理由入力後に実行します。"
           density="compact"
         >
-          <ul className="flex flex-col gap-3" aria-label="Identity 重複候補一覧">
-            {result.data.items.map((item) => (
-              <li key={item.conflictId}>
-                <IdentityConflictRow item={item} />
-              </li>
-            ))}
-          </ul>
+          <IdentityConflictAnnouncer>
+            <ul className="flex flex-col gap-3" aria-label="Identity 重複候補一覧">
+              {result.data.items.map((item) => (
+                <li key={item.conflictId}>
+                  <IdentityConflictRow item={item} />
+                </li>
+              ))}
+            </ul>
+          </IdentityConflictAnnouncer>
           {result.data.nextCursor && (
             <Pagination
               current={page}
