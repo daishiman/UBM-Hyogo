@@ -41,6 +41,12 @@ export function KpiPanel({ overview, attendeeCount }: Props) {
         testId="attendance-kpi-attendees"
       />
       <Card
+        label="期間内出席者数"
+        value={String(overview.uniqueAttendeeCount)}
+        hint={`1 回以上出席した会員 / 出席者率 ${formatRate(overview.uniqueAttendanceRate)}`}
+        testId="attendance-kpi-unique"
+      />
+      <Card
         label="平均出席数"
         value={avgPerSession}
         hint="1 セッションあたりの延べ出席数"
